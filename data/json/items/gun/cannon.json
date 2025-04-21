@@ -19,10 +19,24 @@
     "dispersion": 855,
     "durability": 5,
     "blackpowder_tolerance": 96,
-    "loudness": 300,
     "clip_size": 1,
-    "reload": 30000,
+    "reload": 3000,
     "valid_mod_locations": [  ],
-    "flags": [ "MOUNTED_GUN", "NEVER_JAMS" ]
+    "flags": [ "MOUNTED_GUN", "NEVER_JAMS", "STR_RELOAD" ]
+  },
+  {
+    "id": "cannon_3in_makeshift",
+    "copy-from": "cannon_3in_ordnance",
+    "type": "GUN",
+    "name": { "str": "makeshift 3-inch cannon" },
+    "description": "A muzzleloading blackpowder cannon made from logs bored for 3-inch shells, reinforced with iron bands.  While lighter and easier to produce, it's not as effective and less durable than the real deal.",
+    "weight": "85 kg",
+    "volume": "100 L",
+    "material": [ "wood", "iron" ],
+    "color": "brown",
+    "ranged_damage": { "damage_type": "bullet", "damage_multiplier": 0.9 },
+    "relative": { "durability": -2 },
+    "proportional": { "bashing": 0.5, "dispersion": 1.25 },
+    "extend": { "flag": [ "NO_REPAIR" ] }
   }
 ]

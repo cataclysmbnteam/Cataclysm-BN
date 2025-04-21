@@ -396,7 +396,7 @@ bool vehicle::player_in_control( const Character &p ) const
 {
     // Debug switch to prevent vehicles from skidding
     // without having to place the player in them.
-    if( tags.count( "IN_CONTROL_OVERRIDE" ) ) {
+    if( tags.contains( "IN_CONTROL_OVERRIDE" ) ) {
         return true;
     }
 
@@ -438,7 +438,7 @@ void vehicle::add_missing_frames()
     //No need to check the same spot more than once
     std::set<point> locations_checked;
     for( auto &i : parts ) {
-        if( locations_checked.count( i.mount ) != 0 ) {
+        if( locations_checked.contains( i.mount ) ) {
             continue;
         }
         locations_checked.insert( i.mount );
@@ -620,11 +620,15 @@ void vehicle::init_state( int init_veh_fuel, int init_veh_status )
         }
 
         for( const vpart_reference &vp : get_parts_including_carried( "FRIDGE" ) ) {
-            vp.part().enabled = true;
+            if( one_in( 2 ) ) {
+                vp.part().enabled = true;
+            }
         }
 
         for( const vpart_reference &vp : get_parts_including_carried( "FREEZER" ) ) {
-            vp.part().enabled = true;
+            if( one_in( 2 ) ) {
+                vp.part().enabled = true;
+            }
         }
 
         for( const vpart_reference &vp : get_parts_including_carried( "WATER_PURIFIER" ) ) {
@@ -637,8 +641,8 @@ void vehicle::init_state( int init_veh_fuel, int init_veh_status )
         const size_t p = vp.part_index();
         vehicle_part &pt = vp.part();
 
-        if( vp.has_feature( VPFLAG_REACTOR ) ) {
-            // De-hardcoded reactors. Should always start active
+        if( vp.has_feature( VPFLAG_REACTOR ) && one_in( 4 ) ) {
+            // De-hardcoded reactors, may or may not start active
             pt.enabled = true;
         }
 
@@ -692,8 +696,9 @@ void vehicle::init_state( int init_veh_fuel, int init_veh_status )
         } else {
             //a bit of initial damage :)
             //clamp 4d8 to the range of [8,20]. 8=broken, 20=undamaged.
-            int broken = 8;
-            int unhurt = 20;
+            const float chance =  get_option<float>( "VEHICLE_DAMAGE" ) ;
+            int broken = 8 * chance;
+            int unhurt = 20 * chance;
             int roll = dice( 4, 8 );
             if( roll < unhurt ) {
                 if( roll <= broken ) {
@@ -733,6 +738,11 @@ void vehicle::init_state( int init_veh_fuel, int init_veh_status )
                 set_hp( pt, 0 );
             }
 
+            // An added 5% chance to bust each windshield
+            if( vp.has_feature( "WINDSHIELD" ) && one_in( 20 ) ) {
+                set_hp( pt, 0 );
+            }
+
             /* Bloodsplatter the front-end parts. Assume anything with x > 0 is
             * the "front" of the vehicle (since the driver's seat is at (0, 0).
             * We'll be generous with the blood, since some may disappear before
@@ -761,6 +771,11 @@ void vehicle::init_state( int init_veh_fuel, int init_veh_status )
                     blood_inside_pos.emplace( vp.mount() );
                 }
             }
+
+            // Potentially bust a single tire if not already wrecking them
+            if( !destroyTires && !wheelcache.empty() && one_in( 20 ) ) {
+                set_hp( parts[random_entry( wheelcache )], 0 );
+            }
         }
         //sets the vehicle to locked, if there is no key and an alarm part exists
         if( vp.has_feature( "SECURITY" ) && has_no_key && pt.is_available() ) {
@@ -772,11 +787,12 @@ void vehicle::init_state( int init_veh_fuel, int init_veh_status )
             }
         }
     }
-    // destroy tires until the vehicle is not drivable
+    // destroy a random number of tires, vehicles with more wheels are more likely to survive
     if( destroyTires && !wheelcache.empty() ) {
         int tries = 0;
-        while( valid_wheel_config() && tries < 100 ) {
-            // wheel config is still valid, destroy the tire.
+        int maxtries = wheelcache.size();
+        while( valid_wheel_config() && tries < maxtries ) {
+            // keep going until either we've ruined all wheels or made one attempt for every wheel
             set_hp( parts[random_entry( wheelcache )], 0 );
             tries++;
         }
@@ -1225,7 +1241,7 @@ bool vehicle::is_alternator_on( const int a ) const
         const auto &eng = parts [ idx ];
         //fuel_left checks that the engine can produce power to be absorbed
         return eng.is_available() && eng.enabled && fuel_left( eng.fuel_current() ) &&
-               eng.mount == alt.mount && !eng.faults().count( fault_belt );
+               eng.mount == alt.mount && !eng.faults().contains( fault_belt );
     } );
 }
 
@@ -1290,20 +1306,24 @@ int vehicle::part_vpower_w( const int index, const bool at_full_hp ) const
         if( vp.info().fuel_type == fuel_type_wind ) {
             const weather_manager &weather = get_weather();
             int windpower = weather.windspeed;
-            rl_vec2d windvec;
-            double raddir = ( ( weather.winddirection + 180 ) % 360 ) * ( M_PI / 180 );
-            windvec = windvec.normalized();
-            windvec.y = -std::cos( raddir );
-            windvec.x = std::sin( raddir );
-            rl_vec2d fv = face_vec();
-            double dot = windvec.dot_product( fv );
-            if( dot <= 0 ) {
-                dot = std::min( -0.1, dot );
+            // We're dead in the water.
+            if( windpower < 1 ) {
+                pwr = 0;
             } else {
-                dot = std::max( 0.1, dot );
+                // For gameplay purposes, permit adjusting sails enough to sail upwind so long as it's blowing at all.
+                rl_vec2d windvec;
+                double raddir = ( ( weather.winddirection + 180 ) % 360 ) * ( M_PI / 180 );
+                windvec = windvec.normalized();
+                windvec.y = -std::cos( raddir );
+                windvec.x = std::sin( raddir );
+                rl_vec2d fv = face_vec();
+                // We want 0.5 multiplier at 90 degrees instead of 0.0, so add 0.5.
+                double dot = windvec.dot_product( fv ) + 0.5;
+                // We don't want negatives or over 100% power, however.
+                dot = std::min( 1.0, std::max( 0.0, dot ) );
+                int windeffectint = static_cast<int>( ( windpower * dot ) * 200 );
+                pwr = pwr + windeffectint;
             }
-            int windeffectint = static_cast<int>( ( windpower * dot ) * 200 );
-            pwr = std::max( 1, pwr + windeffectint );
         }
     }
 
@@ -1490,6 +1510,15 @@ bool vehicle::can_mount( point dp, const vpart_id &id ) const
     if( part.has_flag( "TURRET_MOUNT" ) ) {
         for( const auto &elem : parts_in_square ) {
             if( part_info( elem ).has_flag( "TURRET_MOUNT" ) ) {
+                return false;
+            }
+        }
+    }
+
+    //Don't allow turret controls on manual-only turrets.
+    if( part.has_flag( "TURRET_CONTROLS" ) ) {
+        for( const auto &elem : parts_in_square ) {
+            if( part_info( elem ).has_flag( "MANUAL" ) ) {
                 return false;
             }
         }
@@ -2851,16 +2880,16 @@ vehicle_part_with_feature_range<std::string> vehicle::get_avail_parts( std::stri
 {
     return vehicle_part_with_feature_range<std::string>( const_cast<vehicle &>( *this ),
             std::move( feature ),
-            static_cast<part_status_flag>( part_status_flag::working |
-                                           part_status_flag::available ) );
+            ( part_status_flag::working |
+              part_status_flag::available ) );
 }
 
 vehicle_part_with_feature_range<vpart_bitflags> vehicle::get_avail_parts(
     const vpart_bitflags feature ) const
 {
     return vehicle_part_with_feature_range<vpart_bitflags>( const_cast<vehicle &>( *this ), feature,
-            static_cast<part_status_flag>( part_status_flag::working |
-                                           part_status_flag::available ) );
+            ( part_status_flag::working |
+              part_status_flag::available ) );
 }
 
 vehicle_part_with_feature_range<std::string> vehicle::get_parts_including_carried(
@@ -2894,18 +2923,18 @@ vehicle_part_with_feature_range<std::string> vehicle::get_enabled_parts( std::st
 {
     return vehicle_part_with_feature_range<std::string>( const_cast<vehicle &>( *this ),
             std::move( feature ),
-            static_cast<part_status_flag>( part_status_flag::enabled |
-                                           part_status_flag::working |
-                                           part_status_flag::available ) );
+            ( part_status_flag::enabled |
+              part_status_flag::working |
+              part_status_flag::available ) );
 }
 
 vehicle_part_with_feature_range<vpart_bitflags> vehicle::get_enabled_parts(
     const vpart_bitflags feature ) const
 {
     return vehicle_part_with_feature_range<vpart_bitflags>( const_cast<vehicle &>( *this ), feature,
-            static_cast<part_status_flag>( part_status_flag::enabled |
-                                           part_status_flag::working |
-                                           part_status_flag::available ) );
+            ( part_status_flag::enabled |
+              part_status_flag::working |
+              part_status_flag::available ) );
 }
 
 /**
@@ -3623,7 +3652,7 @@ int vehicle::basic_consumption( const itype_id &ftype ) const
 
             } else if( !is_perpetual_type( e ) ) {
                 fcon += part_vpower_w( engines[e] );
-                if( parts[ e ].faults().count( fault_filter_air ) ) {
+                if( parts[ e ].faults().contains( fault_filter_air ) ) {
                     fcon *= 2;
                 }
             }
@@ -3656,7 +3685,7 @@ int vehicle::total_power_w( const bool fueled, const bool safe ) const
         int p = engines[e];
         if( is_engine_on( e ) && ( !fueled || engine_fuel_left( e ) ) ) {
             int m2c = safe ? part_info( engines[e] ).engine_m2c() : 100;
-            if( parts[ engines[e] ].faults().count( fault_filter_fuel ) ) {
+            if( parts[ engines[e] ].faults().contains( fault_filter_fuel ) ) {
                 m2c *= 0.6;
             }
             pwr += part_vpower_w( p ) * m2c / 100;
@@ -4020,7 +4049,7 @@ void vehicle::noise_and_smoke( int load, time_duration time )
             if( part_info( p ).has_flag( "E_COMBUSTION" ) ) {
                 combustion = true;
                 double health = parts[p].health_percent();
-                if( parts[ p ].base->faults.count( fault_filter_fuel ) ) {
+                if( parts[ p ].base->faults.contains( fault_filter_fuel ) ) {
                     health = 0.0;
                 }
                 if( health < part_info( p ).engine_backfire_threshold() && one_in( 50 + 150 * health ) ) {
@@ -4028,7 +4057,7 @@ void vehicle::noise_and_smoke( int load, time_duration time )
                 }
                 double j = cur_stress * to_turns<int>( time ) * muffle * 1000;
 
-                if( parts[ p ].base->faults.count( fault_filter_air ) ) {
+                if( parts[ p ].base->faults.contains( fault_filter_air ) ) {
                     bad_filter = true;
                     j *= j;
                 }
@@ -4058,7 +4087,7 @@ void vehicle::noise_and_smoke( int load, time_duration time )
     // Cap engine noise to avoid deafening.
     noise = std::min( noise, 100.0 );
     // Even a vehicle with engines off will make noise traveling at high speeds
-    noise = std::max( noise, static_cast<double>( std::fabs( velocity / 500.0 ) ) );
+    noise = std::max( noise, std::fabs( velocity / 500.0 ) );
     int lvl = 0;
     if( one_in( 4 ) && rng( 0, 30 ) < noise ) {
         while( noise > sounds[lvl].second ) {
@@ -4320,7 +4349,7 @@ bool vehicle::can_float() const
 
 double vehicle::total_rotor_area() const
 {
-    return std::accumulate( rotors.begin(), rotors.end(), double{0.0},
+    return std::accumulate( rotors.begin(), rotors.end(), 0.0,
     [&]( double acc, int rotor ) {
         const double radius{ parts[ rotor ].info().rotor_diameter() / 2.0 };
         return acc + M_PI * std::pow( radius, 2 );
@@ -4695,7 +4724,7 @@ std::map<itype_id, int> vehicle::fuel_usage() const
 
         if( !is_perpetual_type( i ) ) {
             int usage = info.energy_consumption;
-            if( parts[ e ].faults().count( fault_filter_air ) ) {
+            if( parts[ e ].faults().contains( fault_filter_air ) ) {
                 usage *= 2;
             }
 
@@ -5397,7 +5426,8 @@ void vehicle::idle( bool on_map )
         engine_on = false;
     }
 
-    if( !warm_enough_to_plant( g->u.pos() ) ) {
+    // Disallow running a planter underground for now
+    if( !warm_enough_to_plant( g->u.pos() ) || global_pos3().z < 0 ) {
         for( const vpart_reference &vp : get_enabled_parts( "PLANTER" ) ) {
             if( g->u.sees( global_pos3() ) ) {
                 add_msg( _( "The %s's planter turns off due to low temperature." ), name );
@@ -5501,6 +5531,15 @@ units::volume vehicle::free_volume( const int part ) const
     return get_items( part ).free_volume();
 }
 
+void vehicle::make_inactive( item &target )
+{
+    auto cargo_parts = get_parts_at( target.position(), "CARGO", part_status_flag::any );
+    if( cargo_parts.empty() ) {
+        return;
+    }
+    active_items.remove( &target );
+}
+
 void vehicle::make_active( item &target )
 {
     if( !target.needs_processing() ) {
@@ -5556,7 +5595,7 @@ detached_ptr<item> vehicle::add_item( int part, detached_ptr<item> &&itm )
     }
 
     if( p.base->is_gun() ) {
-        if( !itm->is_ammo() || !p.base->ammo_types().count( itm->ammo_type() ) ) {
+        if( !itm->is_ammo() || !p.base->ammo_types().contains( itm->ammo_type() ) ) {
             return std::move( itm );
         }
     }
@@ -5845,7 +5884,7 @@ void vehicle::refresh()
     // Used to sort part list so it displays properly when examining
     struct sort_veh_part_vector {
         vehicle *veh;
-        inline bool operator()( const int p1, const int p2 ) {
+        bool operator()( const int p1, const int p2 ) {
             return veh->part_info( p1 ).list_order < veh->part_info( p2 ).list_order;
         }
     } svpv = { this };
@@ -6605,24 +6644,46 @@ void vehicle::damage_all( int dmg1, int dmg2, damage_type type, point impact )
     if( dmg2 < dmg1 ) {
         std::swap( dmg1, dmg2 );
     }
-
     if( dmg1 < 1 ) {
         return;
     }
-
+    const float damage_min = std::abs( dmg1 );
+    const float damage_max = std::abs( dmg2 );
+    add_msg( m_debug, "Shock damage to vehicle of %.2f to %.2f", damage_min, damage_max );
     for( const vpart_reference &vp : get_all_parts() ) {
         const size_t p = vp.part_index();
+        const vpart_info &shockpart = part_info( p );
         int distance = 1 + square_dist( vp.mount(), impact );
         if( distance > 1 ) {
             int net_dmg = rng( dmg1, dmg2 ) / ( distance * distance );
-            if( part_info( p ).location != part_location_structure ||
-                !part_info( p ).has_flag( "PROTRUSION" ) ) {
+            if( shockpart.location != part_location_structure ||
+                !shockpart.has_flag( "PROTRUSION" ) ) {
+                if( shockpart.has_flag( "SHOCK_IMMUNE" ) ) {
+                    net_dmg = 0;
+                    continue;
+                }
                 int shock_absorber = part_with_feature( p, "SHOCK_ABSORBER", true );
                 if( shock_absorber >= 0 ) {
-                    net_dmg = std::max( 0, net_dmg - parts[ shock_absorber ].info().bonus );
+                    net_dmg = std::max( 0.0f, net_dmg - ( parts[ shock_absorber ].info().bonus ) -
+                                        shockpart.damage_reduction.type_resist( type ) );
+                }
+                if( shockpart.has_flag( "SHOCK_RESISTANT" ) ) {
+                    float damage_resist = 0;
+                    for( const int elem : all_parts_at_location( shockpart.location ) ) {
+                        //Original intent was to find the frame that the part was mounted on and grab that objects resistance, but instead we will go with half the largest damage resist in the stack.
+                        damage_resist = std::max( damage_resist, part_info( elem ).damage_reduction.type_resist( type ) );
+                    }
+                    damage_resist = damage_resist / 2;
+
+                    add_msg( m_debug, "%1s inherited %.1f damage resistance!", shockpart.name(), damage_resist );
+                    net_dmg = std::max( 0.0f, net_dmg - damage_resist );
                 }
             }
-            damage_direct( p, net_dmg, type );
+            if( net_dmg > part_info( p ).damage_reduction.type_resist( type ) ) {
+                damage_direct( p, net_dmg, type );
+                add_msg( m_debug, _( "%1s took %.1f damage from shock." ), part_info( p ).name(), 1.0f * net_dmg );
+            }
+
         }
     }
 }
@@ -6787,6 +6848,66 @@ bool vehicle::explode_fuel( int p, damage_type type )
     }
 
     return true;
+}
+
+unsigned int vehicle::hits_to_destroy( int p, int dmg, damage_type type ) const
+{
+    const int armor_part = part_with_feature( p, VPFLAG_ARMOR, true );
+    const bool is_armor_considered = !(
+                                         armor_part < 0 ||
+                                         part_flag( p, VPFLAG_ROOF ) ||
+                                         part_info( p ).location == "on_roof"
+                                     );
+
+
+    const int part_hp = parts[p].hp();
+    const int part_damage_reduction = part_info( p ).damage_reduction.type_resist( type );
+    const int part_threshold_damage = std::clamp( part_info( p ).durability / 10, 1, 20 );
+
+    const int part_dmg_without_armor = dmg - part_damage_reduction;
+
+    // Easiest case: part will not get destroyed, period
+    if( part_dmg_without_armor <= 0 ||
+        ( type != DT_TRUE &&
+          part_dmg_without_armor < part_threshold_damage ) ) {
+        return 0;
+    }
+
+    // Easy case: part unprotected and will be destroyed
+    if( !is_armor_considered ) {
+        const int part_htd = part_hp / part_dmg_without_armor +
+                             ( part_hp % part_dmg_without_armor > 0 );
+        return part_htd;
+    }
+
+    const int armor_hp = parts[armor_part].hp();
+    const int armor_damage_reduction = part_info( armor_part ).damage_reduction.type_resist( type );
+    const int armor_threshold_damage = std::clamp( part_info( armor_part ).durability / 10, 1, 20 );
+    const int armor_dmg = dmg - armor_damage_reduction;
+
+    // First, determine how long armor will remain for
+    const int armor_htd = armor_dmg <= 0 || ( type != DT_TRUE && armor_dmg < armor_threshold_damage ) ?
+                          INT_MAX :
+                          armor_hp / armor_dmg + ( armor_hp % armor_dmg > 0 );
+
+    const int part_dmg_with_armor = part_dmg_without_armor - armor_damage_reduction;
+    // How long will the part remain with armor unbroken?
+    const int part_htd_with_armor = ( part_dmg_with_armor <= 0 ||
+                                      ( type != DT_TRUE && part_dmg_with_armor < part_threshold_damage ) ) ?
+                                    INT_MAX :
+                                    part_hp / part_dmg_with_armor + ( part_hp % part_dmg_with_armor  > 0 );
+
+    // Part gets destroyed before armor does
+    if( part_htd_with_armor <= armor_htd ) {
+        return part_htd_with_armor;
+    }
+
+    // Armor gets destroyed before part does
+    const int part_hp_after_armor = part_hp - armor_htd * std::max( part_dmg_with_armor, 0 );
+    const int part_htd_after_armor = part_hp_after_armor / part_dmg_without_armor +
+                                     ( part_hp_after_armor % part_dmg_without_armor  > 0 );
+
+    return armor_htd + part_htd_after_armor;
 }
 
 int vehicle::damage_direct( int p, int dmg, damage_type type )

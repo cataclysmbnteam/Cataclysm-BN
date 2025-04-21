@@ -18,6 +18,7 @@
     "armor_cut": 4,
     "hp": 120,
     "description": "The shuffling corpse of a medium-sized dinosaur with sharp teeth and two prominent bony crests on its head, with ragged strips of ripped flesh hanging down like a frill.",
+    "harvest": "zed_dino_toothy_feather",
     "burn_into": "mon_zilophosaurus_scorched",
     "fungalize_into": "mon_zilophosaurus_fungus",
     "upgrades": { "half_life": 30, "into_group": "GROUP_zilophosaurus_UPGRADE" }
@@ -40,6 +41,7 @@
     "armor_cut": 5,
     "hp": 135,
     "description": "This zombie is enormous, scaly, and studded with bony spikes; it moves with horrible speed.  Its colorful horns are worn and wet with filth and its bright scales and bone spikes have taken a beating.",
+    "harvest": "zed_dino_feather",
     "burn_into": "mon_zeratosaurus_scorched",
     "fungalize_into": "mon_zeratosaurus_fungus",
     "upgrades": { "half_life": 30, "into_group": "GROUP_zeratosaurus_UPGRADE" },
@@ -89,7 +91,7 @@
       "SWIMS"
     ],
     "vision_night": 3,
-    "harvest": "zed_dino_leather",
+    "harvest": "zed_dino_toothy_leather",
     "categories": [ "DINOSAUR" ]
   },
   {
@@ -124,7 +126,7 @@
     "upgrades": { "half_life": 30, "into_group": "GROUP_zorvosaurus_UPGRADE" },
     "flags": [ "SEES", "SMELLS", "HEARS", "POISON", "STUMBLES", "BASHES", "DESTROYS", "NO_BREATHE", "REVIVES", "FILTHY", "WARM" ],
     "vision_night": 3,
-    "harvest": "zed_dino_leather",
+    "harvest": "zed_dino_toothy_leather",
     "categories": [ "DINOSAUR" ]
   },
   {
@@ -362,7 +364,7 @@
       "WARM"
     ],
     "vision_night": 3,
-    "harvest": "zed_dino_feather",
+    "harvest": "zed_dino_toothy_feather",
     "categories": [ "DINOSAUR" ]
   },
   {
@@ -542,6 +544,7 @@
     "description": "The swaying, hopping corpse of a large bipedal dinosaur with feathered arms, a long tail, and long, sharp scythe-like claws.",
     "burn_into": "mon_zutahraptor_scorched",
     "fungalize_into": "mon_zutahraptor_fungus",
+    "harvest": "zed_dino_toothy_feather",
     "upgrades": { "half_life": 30, "into_group": "GROUP_zutahraptor_UPGRADE" }
   },
   {
@@ -595,6 +598,20 @@
       { "id": "stomp_DinoMod", "cooldown": 20, "damage_max_instance": [ { "damage_type": "bash", "amount": 12 } ] }
     ],
     "flags": [ "SEES", "SMELLS", "HEARS", "BASHES", "POISON", "STUMBLES", "NO_BREATHE", "REVIVES", "FILTHY", "WARM" ]
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zoabosaurus",
+    "name": { "str_sp": "moabosaurus zombie" },
+    "copy-from": "mon_zamarasaurus",
+    "looks_like": "mon_zapatosaurus",
+    "//": "When large weights and volumes are fixed this should be similar to camarasaurus unless a better scientific assessment is available",
+    "speed": 60,
+    "attack_cost": 60,
+    "hp": 440,
+    "burn_into": "mon_zoabosaurus_scorched",
+    "fungalize_into": "mon_zoabosaurus_fungus",
+    "upgrades": { "half_life": 30, "into_group": "GROUP_zoabosaurus_UPGRADE" }
   },
   {
     "type": "MONSTER",
@@ -748,6 +765,22 @@
     "burn_into": "mon_zrachiosaurus_scorched",
     "fungalize_into": "mon_zrachiosaurus_fungus",
     "upgrades": { "half_life": 30, "into_group": "GROUP_zrachiosaurus_UPGRADE" }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zastrodon",
+    "name": { "str": "astrodon zombie" },
+    "copy-from": "mon_zapatosaurus",
+    "looks_like": "mon_apatosaurus",
+    "//": "When large weights and volumes are fixed this should be 20000 L and 20000 kg",
+    "speed": 45,
+    "attack_cost": 45,
+    "melee_dice": 6,
+    "hp": 475,
+    "description": "Gigantic, long-necked, four-legged dinosaur corpse with a round, bloated body.",
+    "burn_into": "mon_zastrodon_scorched",
+    "fungalize_into": "mon_zastrodon_fungus",
+    "upgrades": { "half_life": 30, "into_group": "GROUP_zastrodon_UPGRADE" }
   },
   {
     "type": "MONSTER",
@@ -1653,6 +1686,24 @@
   },
   {
     "type": "MONSTER",
+    "id": "mon_zoabosaurus_juvenile",
+    "name": { "str": "juvenile moabosaurus zombie" },
+    "copy-from": "mon_zapatosaurus_juvenile",
+    "burn_into": "mon_zoabosaurus_scorched",
+    "fungalize_into": "mon_zoabosaurus_fungus",
+    "upgrades": { "half_life": 30, "into": "mon_zoabosaurus" }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zaplocanthosaurus_juvenile",
+    "name": { "str": "juvenile haplocanthosaurus zombie" },
+    "copy-from": "mon_zapatosaurus_juvenile",
+    "burn_into": "mon_zaplocanthosaurus_scorched",
+    "fungalize_into": "mon_zaplocanthosaurus_fungus",
+    "upgrades": { "half_life": 30, "into": "mon_zaplocanthosaurus" }
+  },
+  {
+    "type": "MONSTER",
     "id": "mon_zamargasaurus_juvenile",
     "name": { "str": "juvenile sauropod zombie" },
     "copy-from": "mon_zapatosaurus_juvenile",
@@ -1751,6 +1802,18 @@
     "burn_into": "mon_zrachiosaurus_scorched",
     "fungalize_into": "mon_zrachiosaurus_fungus",
     "upgrades": { "half_life": 30, "into": "mon_zrachiosaurus" }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zastrodon_juvenile",
+    "name": { "str": "juvenile sauropod zombie" },
+    "copy-from": "mon_zapatosaurus_juvenile",
+    "looks_like": "mon_apatosaurus",
+    "speed": 45,
+    "melee_dice": 5,
+    "burn_into": "mon_zastrodon_scorched",
+    "fungalize_into": "mon_zastrodon_fungus",
+    "upgrades": { "half_life": 30, "into": "mon_zastrodon" }
   },
   {
     "type": "MONSTER",

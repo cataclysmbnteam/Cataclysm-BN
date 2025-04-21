@@ -31,6 +31,11 @@
   },
   {
     "type": "construction_group",
+    "id": "weld_shut_metal_door",
+    "name": "Weld Shut Metal Door"
+  },
+  {
+    "type": "construction_group",
     "id": "build_a_bellow",
     "name": "Build a bellow"
   },
@@ -187,7 +192,7 @@
   {
     "type": "construction_group",
     "id": "build_concrete_roof",
-    "name": "Build Concrete Roof"
+    "name": "Build Roof Over Concrete Floor"
   },
   {
     "type": "construction_group",
@@ -301,6 +306,11 @@
   },
   {
     "type": "construction_group",
+    "id": "build_floodlight",
+    "name": "Build floodlight"
+  },
+  {
+    "type": "construction_group",
     "id": "rewire_street_light",
     "name": "Rewire Street Light"
   },
@@ -352,7 +362,7 @@
   {
     "type": "construction_group",
     "id": "build_log_sod_roof",
-    "name": "Build Log & Sod Roof"
+    "name": "Build Roof Over Primitive Floor"
   },
   {
     "type": "construction_group",
@@ -437,12 +447,17 @@
   {
     "type": "construction_group",
     "id": "build_metal_roof",
-    "name": "Build Metal Roof"
+    "name": "Build Roof Over Simple Metal Floor"
   },
   {
     "type": "construction_group",
     "id": "build_metal_wall",
     "name": "Build Metal Wall"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_mushroom_rack",
+    "name": "Build Mushroom Rack"
   },
   {
     "type": "construction_group",
@@ -512,7 +527,7 @@
   {
     "type": "construction_group",
     "id": "build_reinforced_concrete_roof",
-    "name": "Build Reinforced Concrete Roof"
+    "name": "Build Roof Over Reinforced Concrete Floor"
   },
   {
     "type": "construction_group",
@@ -572,7 +587,7 @@
   {
     "type": "construction_group",
     "id": "build_roof",
-    "name": "Build Roof"
+    "name": "Build Roof Over Wooden Floor"
   },
   {
     "type": "construction_group",
@@ -712,7 +727,7 @@
   {
     "type": "construction_group",
     "id": "build_thatched_roof",
-    "name": "Build Thatched Roof"
+    "name": "Build Thatched Roof Over Dirt Floor"
   },
   {
     "type": "construction_group",
@@ -836,6 +851,11 @@
   },
   {
     "type": "construction_group",
+    "id": "build_niter_bed",
+    "name": "Build Niter Bed"
+  },
+  {
+    "type": "construction_group",
     "id": "clean_broken_window",
     "name": "Clean Broken Window"
   },
@@ -881,18 +901,8 @@
   },
   {
     "type": "construction_group",
-    "id": "extract_clay",
-    "name": "Extract Clay"
-  },
-  {
-    "type": "construction_group",
-    "id": "extract_sand",
-    "name": "Extract Sand"
-  },
-  {
-    "type": "construction_group",
-    "id": "extract_bog_iron",
-    "name": "Extract Bog Iron"
+    "id": "dig_shallow_grave",
+    "name": "Fill Shallow Grave"
   },
   {
     "type": "construction_group",
@@ -976,8 +986,18 @@
   },
   {
     "type": "construction_group",
+    "id": "install_industrial_freezer",
+    "name": "Install Industrial Freezer"
+  },
+  {
+    "type": "construction_group",
     "id": "install_glass_freezer",
     "name": "Install Glass Freezer"
+  },
+  {
+    "type": "construction_group",
+    "id": "install_minifridge",
+    "name": "Install Minifridge"
   },
   {
     "type": "construction_group",
@@ -1006,6 +1026,21 @@
   },
   {
     "type": "construction_group",
+    "id": "place_3d_printer_basic",
+    "name": "Place 3D Printer"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_3d_printer_advanced",
+    "name": "Place Advanced 3D Printer"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_ac_unit",
+    "name": "Place Window-Mounted AC Unit"
+  },
+  {
+    "type": "construction_group",
     "id": "place_small_space_heater",
     "name": "Place Small Space Heater"
   },
@@ -1023,6 +1058,16 @@
     "type": "construction_group",
     "id": "install_xl_wind_turbine",
     "name": "Install Large Wind Turbine"
+  },
+  {
+    "type": "construction_group",
+    "id": "install_water_wheel",
+    "name": "Install Water Wheel"
+  },
+  {
+    "type": "construction_group",
+    "id": "install_xl_water_wheel",
+    "name": "Install Large Water Wheel"
   },
   {
     "type": "construction_group",
@@ -1086,6 +1131,16 @@
   },
   {
     "type": "construction_group",
+    "id": "build_steel_target",
+    "name": "Build steel target"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_beehive",
+    "name": "Build Beehive"
+  },
+  {
+    "type": "construction_group",
     "id": "mine_downstair",
     "name": "Mine Downstair"
   },
@@ -1093,6 +1148,21 @@
     "type": "construction_group",
     "id": "mine_upstair",
     "name": "Mine Upstair"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_flagpole",
+    "name": "Build Wooden Flagpole"
+  },
+  {
+    "type": "construction_group",
+    "id": "hoist_us_flag",
+    "name": "Hoist American Flag"
+  },
+  {
+    "type": "construction_group",
+    "id": "hoist_pirate_flag",
+    "name": "Hoist Jolly Roger"
   },
   {
     "type": "construction_group",
@@ -1137,7 +1207,7 @@
   {
     "type": "construction_group",
     "id": "constr_wall_standard",
-    "name": "Build Standard Wall"
+    "name": "Build Plastered Wooden Wall"
   },
   {
     "type": "construction_group",
@@ -1173,6 +1243,11 @@
     "type": "construction_group",
     "id": "place_electric_kiln",
     "name": "Place Electric Kiln"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_adv_butchery",
+    "name": "Place Advanced Butchering Station"
   },
   {
     "type": "construction_group",
@@ -1238,6 +1313,11 @@
     "type": "construction_group",
     "id": "place_craftrig",
     "name": "Place FOODCO Kitchen Buddy"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_reloading_press",
+    "name": "Install Grid Reloading Press"
   },
   {
     "type": "construction_group",
@@ -1312,7 +1392,7 @@
   {
     "type": "construction_group",
     "id": "remove_a_wall",
-    "name": "Remove a wall"
+    "name": "Remove a plastered wooden wall"
   },
   {
     "type": "construction_group",
@@ -1453,5 +1533,30 @@
     "type": "construction_group",
     "id": "wax_floor",
     "name": "Wax Floor"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_concrete_lump",
+    "name": "Remove Mi-Go gas emitter"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_furniture_olight",
+    "name": "Install a ceiling lamp"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_light_switch",
+    "name": "Install a light switch"
+  },
+  {
+    "type": "construction_group",
+    "id": "install_hydraulic_press",
+    "name": "Install Hydraulic Press"
+  },
+  {
+    "type": "construction_group",
+    "id": "install_f_recycler",
+    "name": "Install Metal Compactor"
   }
 ]

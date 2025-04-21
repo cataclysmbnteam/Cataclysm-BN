@@ -61,12 +61,12 @@ void debug_write_lua_backtrace( std::ostream &/*out*/ )
     // Nothing to do here
 }
 
-bool save_world_lua_state( const std::string & )
+bool save_world_lua_state( const world *world, const std::string & )
 {
     return true;
 }
 
-bool load_world_lua_state( const std::string & )
+bool load_world_lua_state( const world *world, const std::string & )
 {
     return true;
 }
@@ -166,7 +166,7 @@ void show_lua_console()
 void reload_lua_code()
 {
     cata::lua_state &state = *DynamicDataLoader::get_instance().lua;
-    const auto &packs = world_generator->active_world->active_mod_order;
+    const auto &packs = world_generator->active_world->info->active_mod_order;
     try {
         init::load_main_lua_scripts( state, packs );
     } catch( std::runtime_error &e ) {
@@ -194,14 +194,14 @@ static sol::table get_mod_storage_table( lua_state &state )
     return state.lua.globals()["game"]["cata_internal"]["mod_storage"];
 }
 
-bool save_world_lua_state( const std::string &path )
+bool save_world_lua_state( const world *world, const std::string &path )
 {
     lua_state &state = *DynamicDataLoader::get_instance().lua;
 
-    const mod_management::t_mod_list &mods = world_generator->active_world->active_mod_order;
+    const mod_management::t_mod_list &mods = world_generator->active_world->info->active_mod_order;
     sol::table t = get_mod_storage_table( state );
     run_on_game_save_hooks( state );
-    bool ret = write_to_file( path, [&]( std::ostream & stream ) {
+    bool ret = world->write_to_file( path, [&]( std::ostream & stream ) {
         JsonOut jsout( stream );
         jsout.start_object();
         for( const mod_id &mod : mods ) {
@@ -217,13 +217,13 @@ bool save_world_lua_state( const std::string &path )
     return ret;
 }
 
-bool load_world_lua_state( const std::string &path )
+bool load_world_lua_state( const world *world, const std::string &path )
 {
     lua_state &state = *DynamicDataLoader::get_instance().lua;
-    const mod_management::t_mod_list &mods = world_generator->active_world->active_mod_order;
+    const mod_management::t_mod_list &mods = world_generator->active_world->info->active_mod_order;
     sol::table t = get_mod_storage_table( state );
 
-    bool ret = read_from_file_optional( path, [&]( std::istream & stream ) {
+    bool ret = world->read_from_file( path, [&]( std::istream & stream ) {
         JsonIn jsin( stream );
         JsonObject jsobj = jsin.get_object();
 
@@ -239,7 +239,7 @@ bool load_world_lua_state( const std::string &path )
             JsonObject mod_obj = jsobj.get_object( mod.str() );
             deserialize_lua_table( t[mod.str()], mod_obj );
         }
-    } );
+    }, true );
 
     run_on_game_load_hooks( state );
     return ret;
@@ -247,8 +247,10 @@ bool load_world_lua_state( const std::string &path )
 
 std::unique_ptr<lua_state, lua_state_deleter> make_wrapped_state()
 {
+    auto state = new lua_state{};
+    state->lua = make_lua_state();
     std::unique_ptr<lua_state, lua_state_deleter> ret(
-        new lua_state{ make_lua_state() },
+        state,
         lua_state_deleter{}
     );
 
@@ -389,19 +391,28 @@ void run_on_every_x_hooks( lua_state &state )
 {
     std::vector<cata::on_every_x_hooks> &master_table =
         state.lua["game"]["cata_internal"]["on_every_x_hooks"];
-    for( const auto &entry : master_table ) {
+    for( auto &entry : master_table ) {
         if( calendar::once_every( entry.interval ) ) {
-            for( auto &func : entry.functions ) {
+            entry.functions.erase(
+                std::remove_if(
+                    entry.functions.begin(), entry.functions.end(),
+            [&entry]( auto & func ) {
                 try {
                     sol::protected_function_result res = func();
                     check_func_result( res );
+                    // erase function only if it returns a boolean AND it's false
+                    return res.get_type() == sol::type::boolean && !res.get<bool>();
                 } catch( std::runtime_error &e ) {
                     debugmsg(
                         "Failed to run hook on_every_x(interval = %s): %s",
                         to_string( entry.interval ), e.what()
                     );
                 }
+                return false;
             }
+                ),
+            entry.functions.end()
+            );
         }
     }
 }

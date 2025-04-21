@@ -48,7 +48,7 @@ static const trait_id trait_OPTIMISTIC( "OPTIMISTIC" );
 static const trait_id trait_ROOTS1( "ROOTS1" );
 static const trait_id trait_ROOTS2( "ROOTS2" );
 static const trait_id trait_ROOTS3( "ROOTS3" );
-static const trait_id trait_STYLISH( "STYLISH" );
+static const trait_id trait_UNSTYLISH( "UNSTYLISH" );
 
 namespace io
 {
@@ -269,7 +269,7 @@ player_morale::player_morale() :
     level_is_valid( false ),
     took_prozac( false ),
     took_prozac_bad( false ),
-    stylish( false ),
+    stylish( true ),
     perceived_pain( 0 )
 {
     using namespace std::placeholders;
@@ -288,9 +288,9 @@ player_morale::player_morale() :
     mutations[trait_BADTEMPER]     = mutation_data(
                                          std::bind( set_badtemper, _1, -9 ),
                                          std::bind( set_badtemper, _1, 0 ) );
-    mutations[trait_STYLISH]       = mutation_data(
-                                         std::bind( set_stylish, _1, true ),
-                                         std::bind( set_stylish, _1, false ) );
+    mutations[trait_UNSTYLISH]       = mutation_data(
+                                           std::bind( set_stylish, _1, false ),
+                                           std::bind( set_stylish, _1, true ) );
     mutations[trait_FLOWERS]       = mutation_data( update_constrained );
     mutations[trait_ROOTS1]         = mutation_data( update_constrained );
     mutations[trait_ROOTS2]        = mutation_data( update_constrained );
@@ -892,7 +892,7 @@ void player_morale::clear()
     }
     took_prozac = false;
     took_prozac_bad = false;
-    stylish = false;
+    stylish = true;
     super_fancy_items.clear();
 
     invalidate();

@@ -1,0 +1,9 @@
+[
+  {
+    "result": "gatlingdrum240",
+    "type": "uncraft",
+    "copy-from": "metal_magazine",
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "sheet_metal", 8 ] ], [ [ "steel_lump", 2 ] ] ]
+  }
+]

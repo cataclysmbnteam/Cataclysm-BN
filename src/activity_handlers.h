@@ -1,9 +1,6 @@
 #pragma once
-#ifndef CATA_SRC_ACTIVITY_HANDLERS_H
-#define CATA_SRC_ACTIVITY_HANDLERS_H
 
 #include <functional>
-#include <list>
 #include <map>
 #include <optional>
 #include <string>
@@ -41,6 +38,7 @@ enum butcher_type : int {
     F_DRESS,        // field dressing a corpse
     SKIN,           // skinning a corpse
     QUARTER,        // quarter a corpse
+    BLEED,          // bleed a corpse
     DISMEMBER,      // destroy a corpse
     DISSECT         // dissect a corpse for CBMs
 };
@@ -61,6 +59,7 @@ enum class do_activity_reason : int {
     NEEDS_PLANTING,         // For farming - tile can be planted
     NEEDS_TILLING,          // For farming - tile can be tilled
     NEEDS_WARM_WEATHER,     // For farming - need warm weather to plant
+    NEEDS_ABOVE_GROUND,     // For farming - can't plant seeds lacking `CAN_PLANT_UNDERGROUND` flag below z-level 0
     BLOCKING_TILE,           // Something has made it's way onto the tile, so the activity cannot proceed
     NEEDS_CHOPPING,         // There is wood there to be chopped
     NEEDS_TREE_CHOPPING,    // There is a tree there that needs to be chopped
@@ -118,8 +117,7 @@ struct butchery_setup {
 };
 
 butchery_setup consider_butchery( const item &corpse_item, player &u, butcher_type action );
-int butcher_time_to_cut( const Character &who, const inventory &inv, const item &corpse_item,
-                         butcher_type action );
+int butcher_time_to_cut( const item &corpse_item, butcher_type action );
 
 // activity_item_handling.cpp
 void activity_on_turn_drop();
@@ -213,7 +211,6 @@ void chop_tree_do_turn( player_activity *act, player *p );
 void jackhammer_do_turn( player_activity *act, player *p );
 void find_mount_do_turn( player_activity *act, player *p );
 void tidy_up_do_turn( player_activity *act, player *p );
-void build_do_turn( player_activity *act, player *p );
 void fill_pit_do_turn( player_activity *act, player *p );
 void fertilize_plot_do_turn( player_activity *act, player *p );
 void try_sleep_do_turn( player_activity *act, player *p );
@@ -313,4 +310,3 @@ void patch_activity_for_furniture( player_activity &activity,
 
 } // namespace activity_handlers
 
-#endif // CATA_SRC_ACTIVITY_HANDLERS_H

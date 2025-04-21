@@ -120,7 +120,8 @@
       { "item": "textbook_biodiesel", "count": [ 1, 2 ], "prob": 50 },
       { "item": "textbook_gaswarfare", "prob": 25 },
       { "item": "textbook_chemistry", "count": [ 1, 2 ], "prob": 50 },
-      { "item": "adv_chemistry", "count": [ 1, 2 ], "prob": 50 }
+      { "item": "adv_chemistry", "count": [ 1, 2 ], "prob": 50 },
+      { "item": "reference_cooking", "prob": 25 }
     ]
   },
   {

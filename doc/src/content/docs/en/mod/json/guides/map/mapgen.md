@@ -750,5 +750,4 @@ Not covered in this document:
 - Advanced terrain tricks for complex floor options.
 - traps, terrain and you.
 - update_mapgen (NPC and player triggered map updates).
-- faction camp expansion maps.
 - field emitting furniture.

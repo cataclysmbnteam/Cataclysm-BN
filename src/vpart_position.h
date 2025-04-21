@@ -1,6 +1,4 @@
 #pragma once
-#ifndef CATA_SRC_VPART_POSITION_H
-#define CATA_SRC_VPART_POSITION_H
 
 #include <cstddef>
 #include <functional>
@@ -104,7 +102,7 @@ class optional_vpart_position : public std::optional<vpart_position>
 {
     public:
         optional_vpart_position( std::optional<vpart_position> p ) : std::optional<vpart_position>
-            ( std::move( p ) ) { }
+            ( p ) { }
 
         std::optional<std::string> get_label() const {
             return has_value() ? value().get_label() : std::nullopt;
@@ -158,4 +156,4 @@ inline vehicle *veh_pointer_or_null( const optional_vpart_position &p )
     return p ? &p->vehicle() : nullptr;
 }
 
-#endif // CATA_SRC_VPART_POSITION_H
+

@@ -40,7 +40,7 @@
         "b": { "item": "bed", "chance": 60 },
         "c": { "item": "kitchen", "chance": 25 },
         "e": { "item": "bedroom", "chance": 60 },
-        "g": { "item": "fridge", "chance": 70 },
+        "g": { "item": "SUS_fridge", "chance": 70 },
         "r": { "item": "produce", "chance": 60 },
         "u": { "item": "cannedfood", "chance": 50 }
       },

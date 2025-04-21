@@ -1,6 +1,4 @@
 #pragma once
-#ifndef CATA_SRC_UNITS_UTILITY_H
-#define CATA_SRC_UNITS_UTILITY_H
 
 #include "units.h"
 
@@ -34,9 +32,9 @@ T divide_round_up( units::quantity<T, U> num, units::quantity<T, U> den )
  */
 units::angle normalize( units::angle, units::angle mod = 360_degrees );
 
-template<typename T, typename U, std::enable_if_t<std::is_floating_point<T>::value>* = nullptr>
+template<typename T, typename U>
 units::quantity<T, U> round_to_multiple_of( units::quantity<T, U> val, units::quantity<T, U> of )
-{
+requires std::is_floating_point_v<T> {
     int multiple = std::lround( val / of );
     return multiple * of;
 }
@@ -115,4 +113,4 @@ double convert_volume( int volume );
  */
 double convert_volume( int volume, int *out_scale );
 
-#endif // CATA_SRC_UNITS_UTILITY_H
+

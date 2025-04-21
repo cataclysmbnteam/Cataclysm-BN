@@ -115,7 +115,7 @@
     "weight": "45 g",
     "bashing": 3,
     "ammo_type": "bolt",
-    "damage": { "damage_type": "stab", "damage_multiplier": 0.75, "armor_penetration": 5, "armor_multiplier": 0.5 },
+    "damage": { "damage_type": "stab", "damage_multiplier": 0.8, "armor_penetration": 10, "armor_multiplier": 0.75 },
     "dispersion": 100,
     "loudness": 0,
     "count": 10,
@@ -141,6 +141,61 @@
     "count": 10,
     "dont_recover_one_in": 35,
     "effects": [ "NOGIB" ]
+  },
+  {
+    "type": "AMMO",
+    "id": "bolt_stinger",
+    "price": "4 USD",
+    "name": { "str": "stinger bolt" },
+    "symbol": "=",
+    "color": "green",
+    "looks_like": "bolt_makeshift",
+    "description": "A simple fletched wooden crossbow bolt with a tip carved from a mutated insect stinger.  It poisons enemies it hits and stands a decent chance of remaining intact once fired.",
+    "material": [ "wood", "chitin" ],
+    "volume": "250 ml",
+    "price_postapoc": "250 cent",
+    "weight": "30 g",
+    "bashing": 6,
+    "cutting": 2,
+    "ammo_type": "bolt",
+    "effects": [ "POISON" ],
+    "dispersion": 150,
+    "loudness": 0,
+    "count": 10,
+    "show_stats": true,
+    "dont_recover_one_in": 25
+  },
+  {
+    "type": "AMMO",
+    "id": "bolt_triffid",
+    "copy-from": "bolt_stinger",
+    "name": { "str": "triffid bolt" },
+    "description": "A simple fletched wooden crossbow bolt with a tip carved from an alien plants stinger.  It paralyzes enemies it hits and stands a decent chance of remaining intact once fired.",
+    "material": [ "wood" ],
+    "effects": [ "PARALYZEPOISON" ]
+  },
+  {
+    "type": "AMMO",
+    "id": "bolt_tooth",
+    "price": "4 USD",
+    "name": { "str": "sharktooth bolt" },
+    "symbol": "=",
+    "color": "green",
+    "looks_like": "bolt_makeshift",
+    "description": "A simple fletched crossbow bolt shaft with a tip carved from a serrated tooth.  It stands a somewhat low chance of remaining intact once fired.",
+    "material": [ "wood", "bone_heavy" ],
+    "volume": "250 ml",
+    "price_postapoc": "250 cent",
+    "weight": "30 g",
+    "bashing": 6,
+    "cutting": 2,
+    "ammo_type": "bolt",
+    "damage": { "damage_type": "stab", "damage_multiplier": 1.15 },
+    "dispersion": 150,
+    "loudness": 0,
+    "count": 10,
+    "show_stats": true,
+    "dont_recover_one_in": 20
   },
   {
     "type": "AMMO",
@@ -198,7 +253,7 @@
     "bashing": 3,
     "cutting": 2,
     "ammo_type": "bolt",
-    "damage": { "damage_type": "stab", "damage_multiplier": 0.75, "armor_penetration": 5, "armor_multiplier": 0.5 },
+    "damage": { "damage_type": "stab", "damage_multiplier": 0.8, "armor_penetration": 10, "armor_multiplier": 0.75 },
     "range": 2,
     "dispersion": 65,
     "loudness": 0,
@@ -236,14 +291,14 @@
     "symbol": "=",
     "color": "green",
     "looks_like": "bolt_steel",
-    "description": "A fletched carbon fiber crossbow bolt shaft with an expanding broadhead tip.  Deals impressive damage to targets.  Stands a good chance of remaining intact once fired.",
-    "material": [ "kevlar_rigid", "steel" ],
+    "description": "A fletched carbon fiber crossbow bolt shaft with an expanding broadhead tip.  Deals impressive damage to targets, but less effective against armor.  Stands a good chance of remaining intact once fired.",
+    "material": [ "carbon_fiber", "steel" ],
     "volume": "250 ml",
     "price_postapoc": "15 USD",
     "weight": "30 g",
     "bashing": 1,
     "ammo_type": "bolt",
-    "damage": { "damage_type": "stab", "damage_multiplier": 1.25 },
+    "damage": { "damage_type": "stab", "damage_multiplier": 1.25, "armor_multiplier": 1.15 },
     "range": 4,
     "dispersion": 60,
     "loudness": 0,
@@ -315,6 +370,7 @@
     "weight": "900 g",
     "volume": "500 ml",
     "bashing": 4,
+    "loudness": 2,
     "ranged_damage": { "damage_type": "stab", "amount": 40 }
   },
   {
@@ -338,7 +394,7 @@
     "dispersion": 375,
     "durability": 6,
     "reload": 800,
-    "valid_mod_locations": [ [ "accessories", 4 ], [ "dampening", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "underbarrel", 1 ], [ "mechanism", 1 ] ]
+    "valid_mod_locations": [ [ "sling", 1 ], [ "dampening", 1 ], [ "accessories", 1 ], [ "mechanism", 1 ] ]
   },
   {
     "id": "compositecrossbow",
@@ -380,7 +436,16 @@
     "loudness": 12,
     "dispersion": 325,
     "durability": 6,
-    "reload": 1000
+    "reload": 1000,
+    "valid_mod_locations": [
+      [ "accessories", 4 ],
+      [ "dampening", 1 ],
+      [ "rail", 1 ],
+      [ "sights", 1 ],
+      [ "sling", 1 ],
+      [ "underbarrel", 1 ],
+      [ "mechanism", 1 ]
+    ]
   },
   {
     "id": "huge_crossbow",
@@ -398,11 +463,12 @@
     "to_hit": -1,
     "ranged_damage": { "damage_type": "stab", "amount": 75 },
     "range": 44,
+    "loudness": 15,
     "dispersion": 300,
     "recoil": 30,
     "durability": 6,
     "reload": 6000,
-    "valid_mod_locations": [ [ "dampening", 1 ] ]
+    "valid_mod_locations": [ [ "sling", 1 ], [ "dampening", 1 ] ]
   },
   {
     "id": "rep_crossbow",
@@ -421,11 +487,31 @@
     "to_hit": -1,
     "ranged_damage": { "damage_type": "stab", "amount": 40 },
     "range": 15,
+    "loudness": 5,
     "dispersion": 500,
     "recoil": 30,
     "durability": 6,
     "clip_size": 10,
     "reload": 200,
-    "valid_mod_locations": [ [ "dampening", 1 ], [ "grip", 1 ], [ "mechanism", 1 ] ]
+    "valid_mod_locations": [ [ "sling", 1 ], [ "dampening", 1 ], [ "grip", 1 ], [ "mechanism", 1 ] ]
+  },
+  {
+    "id": "crossbow_carbon",
+    "type": "GUN",
+    "copy-from": "rep_crossbow",
+    "name": { "str": "carbon fiber repeating crossbow" },
+    "description": "A custom 3D-printed pump-action repeating crossbow made out of carbon fiber and synthetic fabric.  This expensive hunting weapon is surprisingly lightweight thanks to its construction, but it can only be repaired using a 3D printer.",
+    "material": [ "carbon_fiber" ],
+    "valid_mod_locations": [
+      [ "grip", 1 ],
+      [ "mechanism", 4 ],
+      [ "rail", 1 ],
+      [ "sights", 1 ],
+      [ "sling", 1 ],
+      [ "stock", 1 ],
+      [ "underbarrel", 1 ],
+      [ "dampening", 1 ]
+    ],
+    "proportional": { "weight": 0.7, "price": 2, "price_postapoc": 2 }
   }
 ]

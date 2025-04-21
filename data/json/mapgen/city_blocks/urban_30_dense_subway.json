@@ -183,7 +183,7 @@
       "toilets": { "T": {  } },
       "items": {
         "K": { "item": "shoestore_shoes", "chance": 90 },
-        "Q": { "item": "trash", "chance": 50 },
+        "Q": { "item": "trash_dumpster", "chance": 80 },
         "X": { "item": "shoestore_shoes", "chance": 90 },
         "b": { "item": "bed", "chance": 60 },
         "c": { "item": "shoestore_accessories", "chance": 50 },

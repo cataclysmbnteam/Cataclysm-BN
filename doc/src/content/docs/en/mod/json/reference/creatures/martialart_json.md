@@ -20,19 +20,20 @@ title: Martial arts & techniques
     "id" : "debug_elem_resist",
     "heat_arm_per" : 1.0
 ],
-"ondodge_buffs" : []        // List of buffs that are automatically applied on successful dodge
-"onattack_buffs" : []       // List of buffs that are automatically applied after any attack, hit or miss
-"onhit_buffs" : []          // List of buffs that are automatically applied on successful hit
-"onmove_buffs" : []         // List of buffs that are automatically applied on movement
-"onmiss_buffs" : []         // List of buffs that are automatically applied on a miss
-"oncrit_buffs" : []         // List of buffs that are automatically applied on a crit
-"onkill_buffs" : []         // List of buffs that are automatically applied upon killing an enemy
+"ondodge_buffs" : [],        // List of buffs that are automatically applied on successful dodge
+"onattack_buffs" : [],       // List of buffs that are automatically applied after any attack, hit or miss
+"onhit_buffs" : [],          // List of buffs that are automatically applied on successful hit
+"onmove_buffs" : [],         // List of buffs that are automatically applied on movement
+"onmiss_buffs" : [],         // List of buffs that are automatically applied on a miss
+"oncrit_buffs" : [],         // List of buffs that are automatically applied on a crit
+"onkill_buffs" : [],         // List of buffs that are automatically applied upon killing an enemy
 "techniques" : [            // List of techniques available when this martial art is used
     "tec_debug_slow",
     "tec_debug_arpen"
-]
-"weapons": [ "tonfa" ]      // List of weapons usable with this art
+],
+"weapons": [ "tonfa" ],      // List of weapons usable with this art
 "weapon_category": [ "WEAPON_CAT1" ], // Weapons that have one of the categories in here are usable with this art.
+"mutation": [ "UNSTYLISH" ] // A list of mutations, at least 1 of which is needed to use this art
 ```
 
 ### Techniques
@@ -42,6 +43,7 @@ title: Martial arts & techniques
 "name" : "phasing strike",  // In-game name displayed
 "unarmed_allowed" : true,   // Can an unarmed character use this technique
 "unarmed_weapons_allowed" : true,    // Does this technique require the character to be actually unarmed or does it allow unarmed weapons
+"weapon_categories_allowed" : [ "BLADES", "KNIVES" ], // Restrict technique to only these categories of weapons. If omitted, all weapon categories are allowed. Empty hands are always allowed if unarmed_allowed is true.
 "melee_allowed" : true,     // Means that ANY melee weapon can be used, NOT just the martial art's weapons
 "skill_requirements": [ { "name": "melee", "level": 3 } ],     // Skills and their minimum levels required to use this technique. Can be any skill.
 "weapon_damage_requirements": [ { "type": "bash", "min": 5 } ],     // Minimum weapon damage required to use this technique. Can be any damage type.
@@ -65,12 +67,14 @@ title: Martial arts & techniques
 "dodge_counter": true,      // This technique may automatically counterattack on a successful dodge
 "weighting": 2,             // Affects likelihood this technique will be seleted when many are available
 "defensive": true,          // Game won't try to select this technique when attacking
+"wall_adjacent": true,      // You must be adjacent to a wall
 "miss_recovery": true,      // Misses while attacking will use fewer moves
 "messages" : [              // What is printed when this technique is used by the player and by an npc
     "You phase-strike %s",
     "<npcname> phase-strikes %s"
 ]
-"movecost_mult" : 0.3       // Any bonuses, as described below
+"movecost_mult" : 0.3,       // Any bonuses, as described below
+"mutations_required": [ "MASOCHIST" ] // List of mutations, at least 1 of which is required to use the technique
 ```
 
 ### Buffs
@@ -81,7 +85,8 @@ title: Martial arts & techniques
 "description" : "+Strength bash armor, +Dexterity acid armor, +Intelligence electricity armor, +Perception fire armor.",    // In-game description
 "buff_duration": 2,                 // Duration in turns that this buff lasts
 "unarmed_allowed" : true,           // Can this buff be applied to an unarmed character
-"unarmed_allowed" : false,          // Can this buff be applied to an armed character
+"melee_allowed" : false,          // Can this buff be applied to an armed character
+"weapon_categories_allowed" : [ "BLADES", "KNIVES" ], // Restrict buff to only these categories of weapons. If omitted, all weapon categories are allowed. Empty hands are always allowed if unarmed_allowed is true.
 "unarmed_weapons_allowed" : true,          // Does this buff require the character to be actually unarmed. If true, allows unarmed weapons (brass knuckles, punch daggers)
 "max_stacks" : 8,                   // Maximum number of stacks on the buff. Buff bonuses are multiplied by current buff intensity
 "bonus_blocks": 1       // Extra blocks per turn
@@ -129,6 +134,12 @@ All cutting damage dealt is multiplied by `(10% of dexterity)*(damage)`:
 Move cost is decreased by 100% of strength value
 
 - `flat_bonuses : [ { "stat": "movecost", "scaling-stat": "str", "scale": -1.0 } ]`
+
+Additional fields usable in static_bonuses
+
+"stealthy": true, // All movement will make less noise "quiet": true, // Your attacks will be
+completely silent "wall_adjacent": true, // You must be adjacent to a wall "throw_immune": true, //
+You're immune to being thrown
 
 ### Place relevant items in the world and chargen
 

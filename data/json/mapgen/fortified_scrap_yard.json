@@ -24,6 +24,7 @@
         "{": "f_vending_o",
         "%": "f_makeshift_bed"
       },
+      "items": { "D": { "item": "trash_dumpster", "chance": 80 } },
       "place_items": [
         { "chance": 25, "item": "vending_food", "x": 4, "y": 9 },
         { "chance": 25, "item": "trash", "x": 11, "y": 20 },

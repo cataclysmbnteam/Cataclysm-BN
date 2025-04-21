@@ -1,0 +1,46 @@
+[
+  {
+    "type": "snippet",
+    "category": "residential_yard_signs",
+    "//": "Signs you might find in the average residential front yard",
+    "text": [
+      {
+        "id": "residential_sign_01",
+        "text": "There's a picture of a tabby cat and the caption \"Lost Cat - Jonesy - If found, please call 555-3541\""
+      },
+      {
+        "id": "residential_sign_02",
+        "text": "This sign once had a message of some kind, but its now covered up by the crudely graffitied words \"TRAITOR\" and \"DIE\""
+      },
+      { "id": "residential_sign_03", "text": "Vote <given_name> <family_name> For Mayor" },
+      { "id": "residential_sign_04", "text": "Please Keep Off The Grass" },
+      { "id": "residential_sign_05", "text": "Vote \"No!\" on Proposition 725" },
+      { "id": "residential_sign_06", "text": "Atlas Contracting - 555-4212 - Residential Construction Experts" },
+      { "id": "residential_sign_07", "text": "Please Slow Down" },
+      {
+        "id": "residential_sign_08",
+        "text": "It looks like this used to be a welcome sign, but all of the bullet holes make it a little hard to tell"
+      },
+      { "id": "residential_sign_09", "text": "Happy 10th Birthday <given_name>!" },
+      { "id": "residential_sign_10", "text": "Garage Sale - Sunday, April 25th" },
+      { "id": "residential_sign_11", "text": "Clarity Windows and Doors - 555-1932" },
+      { "id": "residential_sign_12", "text": "Full Service Lawn Care - 555-4628 - Tuffy Lawns" },
+      { "id": "residential_sign_13", "text": "Prospect Realty - Open House" },
+      { "id": "residential_sign_14", "text": "Private Property - No Trespassing" },
+      { "id": "residential_sign_15", "text": "Stern Security Group - 555-7612" },
+      { "id": "residential_sign_16", "text": "<family_name> Lawnscaping - 555-2674" },
+      { "id": "residential_sign_17", "text": "Beware of Dog" },
+      { "id": "residential_sign_18", "text": "The <family_name> Residence" },
+      {
+        "id": "residential_sign_19",
+        "text": "This For Sale sign has a printed note stapled over top of it that reads \"<given_name>, tried to text you.  Gone to the cabin with <given_name> and <given_name>.  Meet us there.  Love, Mom\""
+      },
+      { "id": "residential_sign_20", "text": "Another Home Sold - <family_name> Realtors - 555-7481" },
+      { "id": "residential_sign_21", "text": "For Sale - 555-8485 - Sunset Realty" },
+      { "id": "residential_sign_22", "text": "Welcome to Our Home - The <family_name> Family" },
+      { "id": "residential_sign_23", "text": "Re-elect <family_name> for City Council" },
+      { "id": "residential_sign_24", "text": "Roofing Experts - <family_name> Brothers Roofing  - 555-4332" },
+      { "id": "residential_sign_25", "text": "Polyphemus Security - 555-1112-  \"Keeping an Eye Out since 1987\"" }
+    ]
+  }
+]

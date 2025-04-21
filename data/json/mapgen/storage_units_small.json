@@ -200,7 +200,7 @@
         "b": { "item": "bed", "chance": 10 },
         "D": { "item": "jackets", "chance": 35 },
         "t": { "item": "tools_home", "chance": 20 },
-        "I": { "item": "trash", "chance": 70, "repeat": 3 },
+        "I": { "item": "trash_dumpster", "chance": 80 },
         "d": { "item": "dresser", "chance": 50 },
         "L": { "item": "cleaning", "chance": 70 }
       },

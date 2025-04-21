@@ -198,7 +198,7 @@ void spawn_animal( npc &p, const mtype_id &mon )
 {
     if( monster *const mon_ptr = g->place_critter_around( mon, p.pos(), 1 ) ) {
         mon_ptr->friendly = -1;
-        mon_ptr->add_effect( effect_pet, 1_turns, num_bp );
+        mon_ptr->add_effect( effect_pet, 1_turns, bodypart_str_id::NULL_ID() );
     } else {
         // TODO: handle this gracefully (return the money, proper in-character message from npc)
         add_msg( m_debug, "No space to spawn purchased pet" );
@@ -304,11 +304,11 @@ void talk_function::goto_location( npc &p )
     selection_menu.selected = 0;
     selection_menu.query();
     auto index = selection_menu.ret;
-    if( index < 0 || index > static_cast<int>( 2 ) ||
-        index == static_cast<int>( 1 ) ) {
+    if( index < 0 || index > 2 ||
+        index == 1 ) {
         return;
     }
-    if( index == static_cast<int>( 1 ) ) {
+    if( index == 1 ) {
         destination = g->u.global_omt_location();
     }
     p.goal = destination;
@@ -470,27 +470,15 @@ void talk_function::bionic_remove( npc &p )
 void talk_function::give_equipment( npc &p )
 {
     std::vector<item_pricing> giving = npc_trading::init_selling( p );
-    int chosen = -1;
-    while( chosen == -1 && !giving.empty() ) {
-        int index = rng( 0, giving.size() - 1 );
-        if( giving[index].price < p.op_of_u.owed ) {
-            chosen = index;
-        } else {
-            giving.erase( giving.begin() + index );
-        }
-    }
     if( giving.empty() ) {
         popup( _( "%s has nothing to give!" ), p.name );
         return;
     }
-    if( chosen < 0 || static_cast<size_t>( chosen ) >= giving.size() ) {
-        debugmsg( "Chosen index is outside of available item range!" );
-        chosen = 0;
-    }
+    const int chosen = rng( 0, giving.size() - 1 );
     item &it = *giving[chosen].locs.front();
+    it.set_owner( g->u );
     popup( _( "%1$s gives you a %2$s" ), p.name, it.tname() );
     g->u.i_add( giving[chosen].locs.front()->detach() );
-    it.set_owner( g->u );
     p.op_of_u.owed -= giving[chosen].price;
     p.add_effect( effect_asked_for_item, 3_hours );
 }
@@ -618,9 +606,13 @@ void talk_function::morale_chat_activity( npc &p )
 
 void talk_function::buy_10_logs( npc &p )
 {
-    std::vector<tripoint_abs_omt> places =
-        overmap_buffer.find_all( get_player_character().global_omt_location(), "ranch_camp_67", 1,
-                                 false );
+    omt_find_params find_params{};
+    find_params.types.emplace_back( "ranch_camp_67", ot_match_type::type );
+    find_params.search_range = { 0, 1 };
+    find_params.search_layers = { 0, 0 };
+
+    std::vector<tripoint_abs_omt> places = overmap_buffer.find_all(
+            get_player_character().global_omt_location(), find_params );
     if( places.empty() ) {
         debugmsg( "Couldn't find %s", "ranch_camp_67" );
         return;
@@ -645,9 +637,13 @@ void talk_function::buy_10_logs( npc &p )
 
 void talk_function::buy_100_logs( npc &p )
 {
+    omt_find_params find_params{};
+    find_params.types.emplace_back( "ranch_camp_67", ot_match_type::type );
+    find_params.search_range = { 0, 1 };
+    find_params.search_layers = { 0, 0 };
+
     std::vector<tripoint_abs_omt> places =
-        overmap_buffer.find_all( get_player_character().global_omt_location(), "ranch_camp_67", 1,
-                                 false );
+        overmap_buffer.find_all( get_player_character().global_omt_location(), find_params );
     if( places.empty() ) {
         debugmsg( "Couldn't find %s", "ranch_camp_67" );
         return;

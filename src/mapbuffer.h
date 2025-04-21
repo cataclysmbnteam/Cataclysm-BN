@@ -1,6 +1,4 @@
 #pragma once
-#ifndef CATA_SRC_MAPBUFFER_H
-#define CATA_SRC_MAPBUFFER_H
 
 #include <list>
 #include <map>
@@ -62,15 +60,15 @@ class mapbuffer
         using submap_map_t = std::map<tripoint, std::unique_ptr<submap>>;
 
     public:
-        inline submap_map_t::iterator begin() {
+        submap_map_t::iterator begin() {
             return submaps.begin();
         }
-        inline submap_map_t::iterator end() {
+        submap_map_t::iterator end() {
             return submaps.end();
         }
 
         bool is_submap_loaded( const tripoint &p ) const {
-            return submaps.count( p ) > 0;
+            return submaps.contains( p );
         }
 
     private:
@@ -79,12 +77,11 @@ class mapbuffer
         void remove_submap( tripoint addr );
         submap *unserialize_submaps( const tripoint &p );
         void deserialize( JsonIn &jsin );
-        void save_quad( const std::string &dirname, const std::string &filename,
-                        const tripoint &om_addr, std::list<tripoint> &submaps_to_delete,
+        void save_quad( const tripoint &om_addr, std::list<tripoint> &submaps_to_delete,
                         bool delete_after_save );
         submap_map_t submaps;
 };
 
 extern mapbuffer MAPBUFFER;
 
-#endif // CATA_SRC_MAPBUFFER_H
+

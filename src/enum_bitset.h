@@ -1,6 +1,4 @@
 #pragma once
-#ifndef CATA_SRC_ENUM_BITSET_H
-#define CATA_SRC_ENUM_BITSET_H
 
 #include <bitset>
 #include <type_traits>
@@ -10,7 +8,7 @@
 template<typename E>
 class enum_bitset
 {
-        static_assert( std::is_enum<E>::value, "the template argument is not an enum." );
+        static_assert( std::is_enum_v<E>, "the template argument is not an enum." );
         static_assert( has_enum_traits<E>::value,
                        "a specialization of 'enum_traits<E>' template containing 'last' element of the enum must be defined somewhere.  "
                        "The `last` constant must be of the same type as the enum iteslf."
@@ -89,10 +87,10 @@ class enum_bitset
 
     private:
         static constexpr size_t get_pos( E e ) noexcept {
-            return static_cast<size_t>( static_cast<typename std::underlying_type<E>::type>( e ) );
+            return static_cast<size_t>( static_cast<std::underlying_type_t<E>>( e ) );
         }
 
         std::bitset<enum_bitset<E>::size()> bits;
 };
 
-#endif // CATA_SRC_ENUM_BITSET_H
+

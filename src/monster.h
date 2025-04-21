@@ -1,6 +1,4 @@
 #pragma once
-#ifndef CATA_SRC_MONSTER_H
-#define CATA_SRC_MONSTER_H
 
 #include <bitset>
 #include <climits>
@@ -80,6 +78,7 @@ enum monster_effect_cache_fields {
     MOVEMENT_IMPAIRED = 0,
     FLEEING,
     VISION_IMPAIRED,
+    PATHFINDING_OVERRIDE,
     NUM_MEFF
 };
 
@@ -128,7 +127,7 @@ class monster : public Creature, public location_visitable<monster>
         void reproduce();
         void refill_udders();
         void spawn( const tripoint &p );
-        m_size get_size() const override;
+        creature_size get_size() const override;
         units::mass get_weight() const override;
         units::mass weight_capacity() const override;
         units::volume get_volume() const;
@@ -191,7 +190,7 @@ class monster : public Creature, public location_visitable<monster>
         void shift( point sm_shift ); // Shifts the monster to the appropriate submap
         void set_goal( const tripoint &p );
         // Updates current pos AND our plans
-        bool wander(); // Returns true if we have no plans
+        bool is_wandering(); // Returns true if we have no plans
 
         /**
          * Checks whether we can move to/through p. This does not account for bashing.
@@ -327,15 +326,20 @@ class monster : public Creature, public location_visitable<monster>
         bool is_immune_effect( const efftype_id & ) const override;
         bool is_immune_damage( damage_type ) const override;
 
+        resistances resists() const;
         void absorb_hit( const bodypart_id &bp, damage_instance &dam ) override;
         bool block_hit( Creature *source, bodypart_id &bp_hit, damage_instance &d ) override;
         bool block_ranged_hit( Creature *source, bodypart_id &bp_hit, damage_instance &d ) override;
         void melee_attack( Creature &target );
         void melee_attack( Creature &target, float accuracy );
         void melee_attack( Creature &p, bool ) = delete;
+        using Creature::deal_projectile_attack;
         void deal_projectile_attack( Creature *source, dealt_projectile_attack &attack ) override;
-        void deal_damage_handle_type( const damage_unit &du, bodypart_id bp, int &damage,
-                                      int &pain ) override;
+        void apply_damage( Creature *source, item *source_weapon, item *source_projectile, bodypart_id bp,
+                           int dam,
+                           bool bypass_med = false ) override;
+        void apply_damage( Creature *source, item *source_weapon, bodypart_id bp, int dam,
+                           bool bypass_med = false ) override;
         void apply_damage( Creature *source, bodypart_id bp, int dam,
                            bool bypass_med = false ) override;
         // create gibs/meat chunks/blood etc all over the place, does not kill, can be called on a dead monster.
@@ -364,8 +368,10 @@ class monster : public Creature, public location_visitable<monster>
         /** Performs any monster-specific modifications to the arguments before passing to Creature::add_effect(). */
         void add_effect( const efftype_id &eff_id, const time_duration &dur, const bodypart_str_id &bp,
                          int intensity = 0, bool force = false, bool deferred = false ) override;
-        void add_effect( const efftype_id &eff_id, const time_duration &dur, body_part bp = num_bp,
-                         int intensity = 0, bool force = false, bool deferred = false );
+        void add_effect( const efftype_id &eff_id, const time_duration &dur );
+        // Use the bodypart_str_id variant instead
+        void add_effect( const efftype_id &eff_id, const time_duration &dur, body_part bp,
+                         int intensity = 0, bool force = false, bool deferred = false ) = delete;
         /** Returns a std::string containing effects for descriptions */
         std::string get_effect_status() const;
 
@@ -383,7 +389,7 @@ class monster : public Creature, public location_visitable<monster>
 
         float  get_dodge() const override;       // Natural dodge, or 0 if we're occupied
         float  get_melee() const override;
-        float  hit_roll() const override;  // For the purposes of comparing to player::dodge_roll()
+        float  hit_roll() const;  // For the purposes of comparing to player::dodge_roll()
         float  dodge_roll() override;  // For the purposes of comparing to player::hit_roll()
 
         int get_grab_strength() const; // intensity of grabbed effect
@@ -485,8 +491,8 @@ class monster : public Creature, public location_visitable<monster>
         Character *mounted_player = nullptr; // player that is mounting this creature
         character_id mounted_player_id; // id of player that is mounting this creature ( for save/load )
         character_id dragged_foe_id; // id of character being dragged by the monster
-        units::mass get_carried_weight();
-        units::volume get_carried_volume();
+        units::mass get_carried_weight() const;
+        units::volume get_carried_volume() const;
 
         // DEFINING VALUES
         int friendly;
@@ -513,17 +519,20 @@ class monster : public Creature, public location_visitable<monster>
 
         void setpos( const tripoint &p ) override;
         const tripoint &pos() const override;
-        inline int posx() const override {
+        int posx() const override {
             return position.x;
         }
-        inline int posy() const override {
+        int posy() const override {
             return position.y;
         }
-        inline int posz() const override {
+        int posz() const override {
             return position.z;
         }
 
         short ignoring;
+
+        bool aggro_character = true;
+
         std::optional<time_point> lastseen_turn;
 
         // Stair data.
@@ -558,8 +567,11 @@ class monster : public Creature, public location_visitable<monster>
          */
         void on_load();
 
-        const pathfinding_settings &get_pathfinding_settings() const override;
-        std::set<tripoint> get_path_avoid() const override;
+        const pathfinding_settings &get_legacy_pathfinding_settings() const override;
+        std::set<tripoint> get_legacy_path_avoid() const override;
+
+        std::pair<PathfindingSettings, RouteSettings> get_pathfinding_pair() const override;
+
         // summoned monsters via spells
         void set_summon_time( const time_duration &length );
         // handles removing the monster if the timer runs out
@@ -593,6 +605,9 @@ class monster : public Creature, public location_visitable<monster>
         void process_trigger( mon_trigger trig, int amount );
         void process_trigger( mon_trigger trig, const std::function<int()> &amount_func );
 
+        void trigger_character_aggro( const char *reason );
+        void trigger_character_aggro_chance( int chance, const char *reason );
+
         location_vector<item> corpse_components; // Hack to make bionic corpses generate CBMs on death
 
     private:
@@ -613,8 +628,10 @@ class monster : public Creature, public location_visitable<monster>
         monster_horde_attraction horde_attraction;
         /** Found path. Note: Not used by monsters that don't pathfind! **/
         std::vector<tripoint> path;
+        bool repath_requested = false;
         std::bitset<NUM_MEFF> effect_cache;
         std::optional<time_duration> summon_time_limit = std::nullopt;
+
 
         player *find_dragged_foe();
         void nursebot_operate( player *dragged_foe );
@@ -633,4 +650,4 @@ class monster : public Creature, public location_visitable<monster>
         void process_one_effect( effect &it, bool is_new ) override;
 };
 
-#endif // CATA_SRC_MONSTER_H
+

@@ -183,8 +183,6 @@ void print_action( const char *prepend, npc_action action );
 
 bool compare_sound_alert( const dangerous_sound &sound_a, const dangerous_sound &sound_b );
 
-hp_part most_damaged_hp_part( const Character &c );
-
 bool compare_sound_alert( const dangerous_sound &sound_a, const dangerous_sound &sound_b )
 {
     if( sound_a.type != sound_b.type ) {
@@ -1018,7 +1016,7 @@ void npc::execute_action( npc_action action )
                 move_pause();
                 if( !has_effect( effect_lying_down ) ) {
                     activate_bionic_by_id( bio_soporific );
-                    add_effect( effect_lying_down, 30_minutes, num_bp, 1 );
+                    add_effect( effect_lying_down, 30_minutes, bodypart_str_id::NULL_ID(), 1 );
                     if( player_character.sees( *this ) && !player_character.in_sleep_state() ) {
                         add_msg( _( "%s lies down to sleep." ), name );
                     }
@@ -1081,9 +1079,22 @@ void npc::execute_action( npc_action action )
             }
             break;
 
-        case npc_aim:
-            aim();
-            break;
+        case npc_aim: {
+            gun_mode mode = cbm_active.is_null() ? primary_weapon().gun_current_mode() :
+                            cbm_fake_active->gun_current_mode();
+            if( !mode ) {
+                std::string error_weapon = cbm_active.is_null() ? primary_weapon().tname() :
+                                           cbm_fake_active->tname();
+                debugmsg( "NPC tried to aim %s without valid mode.", error_weapon );
+            }
+
+            bool did_aim = aim();
+            if( !did_aim ) {
+                debugmsg( "%s is trying to aim, but failing repeatedly", disp_name().c_str() );
+                set_moves( 0 );
+            }
+        }
+        break;
 
         case npc_shoot: {
             gun_mode mode = cbm_active.is_null() ? primary_weapon().gun_current_mode() :
@@ -1380,7 +1391,7 @@ npc_action npc::method_of_attack()
 
     // if the best mode is within the confident range try for a shot
     if( g_mode && sees( *critter ) && has_los &&
-        confident_gun_mode_range( g_mode, cur_recoil ) >= dist ) {
+        g_mode->gun_range( true ) >= dist && confident_gun_mode_range( g_mode, cur_recoil ) >= dist ) {
         if( wont_hit_friend( tar, *g_mode, false ) ) {
             add_msg( m_debug, "%s is trying to shoot someone", disp_name() );
             return npc_shoot;
@@ -1727,15 +1738,15 @@ healing_options npc::patient_assessment( const Character &c )
 
     for( const std::pair<const bodypart_str_id, bodypart> &elem : c.get_body() ) {
 
-        if( c.has_effect( effect_bleed, elem.first->token ) ) {
+        if( c.has_effect( effect_bleed, elem.first ) ) {
             try_to_fix.bleed = true;
         }
 
-        if( c.has_effect( effect_bite, elem.first->token ) ) {
+        if( c.has_effect( effect_bite, elem.first ) ) {
             try_to_fix.bite = true;
         }
 
-        if( c.has_effect( effect_infected, elem.first->token ) ) {
+        if( c.has_effect( effect_infected, elem.first ) ) {
             try_to_fix.infect = true;
         }
         int part_threshold = 75;
@@ -1748,10 +1759,10 @@ healing_options npc::patient_assessment( const Character &c )
         part_threshold = part_threshold * elem.second.get_hp_max() / 100;
 
         if( elem.second.get_hp_cur() <= part_threshold ) {
-            if( !c.has_effect( effect_bandaged, elem.first->token ) ) {
+            if( !c.has_effect( effect_bandaged, elem.first ) ) {
                 try_to_fix.bandage = true;
             }
-            if( !c.has_effect( effect_disinfected, elem.first->token ) ) {
+            if( !c.has_effect( effect_disinfected, elem.first ) ) {
                 try_to_fix.disinfect = true;
             }
         }
@@ -2081,10 +2092,11 @@ auto item::ideal_ranged_dps( const Character &who, std::optional<gun_mode> &mode
 
     int move_cost = ranged::time_to_attack( who, *this, nullptr );
     if( ammo_remaining() == 0 ) {
-        int reload_cost = get_reload_time() + who.encumb( bp_hand_l ) + who.encumb( bp_hand_r );
+        int reload_cost = get_reload_time() + who.encumb( body_part_hand_l ) + who.encumb(
+                              body_part_hand_r );
         // HACK: Doesn't check how much ammo they'll actually get from the reload. Because we don't know.
         // DPS is less impacted the larger the magazine being swapped.
-        reload_cost /= magazine_integral() ? 1 : ammo_capacity() / burst_size;
+        reload_cost /= magazine_integral() ? 1 : std::max( 1, ammo_capacity() / burst_size );
         move_cost += reload_cost;
     }
     std::vector<ranged::aim_type> aim_types = ranged::get_aim_types( who, *this );
@@ -2179,15 +2191,27 @@ bool npc::enough_time_to_reload( const item &gun ) const
     return turns_til_reloaded < turns_til_reached;
 }
 
-void npc::aim()
+bool npc::aim()
 {
-    double aim_amount = ranged::aim_per_move( *this, primary_weapon(), recoil );
+    gun_mode mode = cbm_active.is_null() ? primary_weapon().gun_current_mode() :
+                    cbm_fake_active->gun_current_mode();
+    if( !mode ) {
+        std::string error_weapon = cbm_active.is_null() ? primary_weapon().tname() :
+                                   cbm_fake_active->tname();
+        debugmsg( "NPC tried to aim %s without valid mode.", error_weapon );
+    }
+
+    bool did_aim = false;
+    double aim_amount = ranged::aim_per_move( *this, *mode.target, recoil );
     while( aim_amount > 0 && recoil > 0 && moves > 0 ) {
+        did_aim = true;
         moves--;
         recoil -= aim_amount;
         recoil = std::max( 0.0, recoil );
-        aim_amount = ranged::aim_per_move( *this, primary_weapon(), recoil );
+        aim_amount = ranged::aim_per_move( *this, *mode.target, recoil );
     }
+
+    return did_aim;
 }
 
 bool npc::update_path( const tripoint &p, const bool no_bashing, bool force )
@@ -2209,8 +2233,8 @@ bool npc::update_path( const tripoint &p, const bool no_bashing, bool force )
         }
     }
 
-    auto new_path = get_map().route( pos(), p, get_pathfinding_settings( no_bashing ),
-                                     get_path_avoid() );
+    auto new_path = get_map().route( pos(), p, get_legacy_pathfinding_settings( no_bashing ),
+                                     get_legacy_path_avoid() );
     if( new_path.empty() ) {
         if( !ai_cache.sound_alerts.empty() ) {
             ai_cache.sound_alerts.erase( ai_cache.sound_alerts.begin() );
@@ -2460,13 +2484,13 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
             }
         }
         if( here.has_flag( "UNSTABLE", pos() ) ) {
-            add_effect( effect_bouldering, 1_turns, num_bp );
+            add_effect( effect_bouldering, 1_turns, bodypart_str_id::NULL_ID() );
         } else if( has_effect( effect_bouldering ) ) {
             remove_effect( effect_bouldering );
         }
 
         if( here.has_flag_ter_or_furn( TFLAG_NO_SIGHT, pos() ) ) {
-            add_effect( effect_no_sight, 1_turns, num_bp );
+            add_effect( effect_no_sight, 1_turns, bodypart_str_id::NULL_ID() );
         } else if( has_effect( effect_no_sight ) ) {
             remove_effect( effect_no_sight );
         }
@@ -3566,7 +3590,7 @@ bool npc::alt_attack()
     }
 
     // Are we going to throw this item?
-    if( !used->active && used->has_flag( flag_NPC_ACTIVATE ) ) {
+    if( !used->is_active() && used->has_flag( flag_NPC_ACTIVATE ) ) {
         activate_item( weapon_index );
         // Note: intentional lack of return here
         // We want to ignore player-centric rules to avoid carrying live explosives
@@ -4119,8 +4143,9 @@ void npc::set_omt_destination()
             // note: no shuffle of `find_params.types` is needed, because `find_closest`
             // disregards `types` order anyway, and already returns random result among
             // those having equal minimal distance
-            find_params.search_range = 75;
-            find_params.existing_only = false;
+            find_params.search_range = { 0, 75 };
+            find_params.search_layers = omt_find_all_layers;
+
             goal = overmap_buffer.find_closest( surface_omt_loc, find_params );
             npc_need_goal_cache &cache = goal_cache[fulfill];
             cache.goal = goal;
@@ -4214,7 +4239,7 @@ void npc::go_to_omt_destination()
             }
         }
     }
-    path = here.route( pos(), centre_sub, get_pathfinding_settings(), get_path_avoid() );
+    path = here.route( pos(), centre_sub, get_legacy_pathfinding_settings(), get_legacy_path_avoid() );
     add_msg( m_debug, "%s going %s->%s", name, omt_pos.to_string(), goal.to_string() );
 
     if( !path.empty() ) {
@@ -4324,14 +4349,14 @@ Creature *npc::current_ally()
 }
 
 // Maybe TODO: Move to Character method and use map methods
-static body_part bp_affected( npc &who, const efftype_id &effect_type )
+static bodypart_str_id bp_affected( npc &who, const efftype_id &effect_type )
 {
-    body_part ret = num_bp;
+    bodypart_str_id ret = bodypart_str_id::NULL_ID();
     int highest_intensity = INT_MIN;
     for( const body_part bp : all_body_parts ) {
-        const auto &eff = who.get_effect( effect_type, bp );
+        const auto &eff = who.get_effect( effect_type, convert_bp( bp ) );
         if( !eff.is_null() && eff.get_intensity() > highest_intensity ) {
-            ret = bp;
+            ret = convert_bp( bp );
             highest_intensity = eff.get_intensity();
         }
     }
@@ -4453,7 +4478,7 @@ bool npc::complain()
     // When infected, complain every (4-intensity) hours
     // At intensity 3, ignore player wanting us to shut up
     if( has_effect( effect_infected ) ) {
-        body_part bp = bp_affected( *this, effect_infected );
+        bodypart_str_id bp = bp_affected( *this, effect_infected );
         const auto &eff = get_effect( effect_infected, bp );
         int intensity = eff.get_intensity();
         const std::string speech = string_format( _( "My %s wound is infected…" ),
@@ -4467,7 +4492,7 @@ bool npc::complain()
 
     // When bitten, complain every hour, but respect restrictions
     if( has_effect( effect_bite ) ) {
-        body_part bp = bp_affected( *this, effect_bite );
+        bodypart_str_id bp = bp_affected( *this, effect_bite );
         const std::string speech = string_format( _( "The bite wound on my %s looks bad." ),
                                    body_part_name( bp ) );
         if( complain_about( bite_string, 1_hours, speech ) ) {
@@ -4511,7 +4536,7 @@ bool npc::complain()
 
     //Bleeding every 5 minutes
     if( has_effect( effect_bleed ) ) {
-        body_part bp = bp_affected( *this, effect_bleed );
+        bodypart_str_id bp = bp_affected( *this, effect_bleed );
         std::string speech = string_format( _( "My %s is bleeding!" ), body_part_name( bp ) );
         if( complain_about( bleed_string, 5_minutes, speech ) ) {
             return true;
@@ -4532,7 +4557,7 @@ void npc::do_reload( item &it )
 
     // Note: we may be reloading the magazine inside, not the gun itself
     // Maybe TODO: allow reload functions to understand such reloads instead of const casts
-    item &target = const_cast<item &>( *reload_opt.target );
+    item &target = ( *reload_opt.target );
     item *usable_ammo = reload_opt.ammo;
 
     // If in danger, don't spend multiple turns reloading a weapon to full one by one.

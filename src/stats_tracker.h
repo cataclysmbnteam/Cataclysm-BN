@@ -1,5 +1,4 @@
-#ifndef CATA_SRC_STATS_TRACKER_H
-#define CATA_SRC_STATS_TRACKER_H
+#pragma once
 
 #include <memory>
 #include <set>
@@ -109,7 +108,7 @@ class event_multiset_watcher : public base_watcher
 template<typename Watcher>
 class watcher_set
 {
-        static_assert( std::is_base_of<base_watcher, Watcher>::value,
+        static_assert( std::is_base_of_v<base_watcher, Watcher>,
                        "Watcher must be derived from base_watcher" );
     public:
         void insert( Watcher *watcher ) {
@@ -194,4 +193,4 @@ class stats_tracker : public event_subscriber
         std::unordered_set<string_id<score>> initial_scores;
 };
 
-#endif // CATA_SRC_STATS_TRACKER_H
+

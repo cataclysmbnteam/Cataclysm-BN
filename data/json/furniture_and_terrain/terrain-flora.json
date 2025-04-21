@@ -8,18 +8,26 @@
     "color": [ "green", "green", "yellow_yellow", "brown" ],
     "move_cost": 0,
     "coverage": 80,
-    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT" ],
+    "roof": "t_treetop",
+    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "CLIMBABLE" ],
     "transforms_into": "t_tree_walnut_harvested",
     "examine_action": "harvest_ter",
     "looks_like": "t_tree_hickory",
-    "harvest_by_season": [ { "seasons": [ "autumn" ], "entries": [ { "drop": "walnut", "base_num": [ 5, 12 ], "scale_num": [ 0, 0.5 ] } ] } ],
+    "harvest_by_season": [
+      {
+        "seasons": [ "autumn" ],
+        "entries": [ { "drop": "walnut", "base_num": [ 5, 12 ], "scale_num": [ 0, 0.5 ] }, { "drop": "stick_long", "base_num": [ 1, 2 ] } ]
+      },
+      { "seasons": [ "spring", "summer", "winter" ], "entries": [ { "drop": "stick_long", "base_num": [ 1, 2 ] } ] }
+    ],
     "bash": {
       "str_min": 80,
       "str_max": 180,
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
+      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
+      "ranged": { "reduction": [ 80, 80 ], "destroy_threshold": 180 }
     }
   },
   {
@@ -31,7 +39,8 @@
     "color": [ "green", "green", "green", "brown" ],
     "move_cost": 0,
     "coverage": 80,
-    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "HARVESTED" ],
+    "roof": "t_treetop",
+    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "HARVESTED", "CLIMBABLE" ],
     "transforms_into": "t_tree_walnut",
     "examine_action": "harvested_plant",
     "looks_like": "t_tree_hickory_harvested",
@@ -41,7 +50,8 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
+      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
+      "ranged": { "reduction": [ 80, 80 ], "destroy_threshold": 180 }
     }
   },
   {
@@ -54,11 +64,15 @@
     "color": "brown",
     "move_cost": 0,
     "coverage": 80,
-    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT" ],
+    "roof": "t_treetop",
+    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "CLIMBABLE" ],
     "transforms_into": "t_tree_blackjack_harvested",
     "examine_action": "harvest_ter",
     "harvest_by_season": [
-      { "seasons": [ "spring", "summer", "autumn", "winter" ], "entries": [ { "drop": "tanbark", "base_num": [ 2, 8 ] } ] }
+      {
+        "seasons": [ "spring", "summer", "autumn", "winter" ],
+        "entries": [ { "drop": "tanbark", "base_num": [ 2, 8 ] }, { "drop": "stick_long", "base_num": [ 1, 2 ] } ]
+      }
     ],
     "bash": {
       "str_min": 80,
@@ -66,7 +80,8 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
+      "items": [ { "item": "stick", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
+      "ranged": { "reduction": [ 80, 80 ], "destroy_threshold": 180 }
     }
   },
   {
@@ -79,7 +94,8 @@
     "color": "green",
     "move_cost": 0,
     "coverage": 80,
-    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT" ],
+    "roof": "t_treetop",
+    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "CLIMBABLE" ],
     "transforms_into": "t_tree_blackjack",
     "bash": {
       "str_min": 80,
@@ -87,7 +103,8 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
+      "items": [ { "item": "stick", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
+      "ranged": { "reduction": [ 80, 80 ], "destroy_threshold": 180 }
     }
   },
   {
@@ -99,18 +116,29 @@
     "color": [ "green", "green", "green_yellow", "brown" ],
     "move_cost": 0,
     "coverage": 80,
-    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT" ],
+    "roof": "t_treetop",
+    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "CLIMBABLE" ],
     "transforms_into": "t_tree_chestnut_harvested",
     "examine_action": "harvest_ter",
     "looks_like": "t_tree_hickory",
-    "harvest_by_season": [ { "seasons": [ "autumn" ], "entries": [ { "drop": "chestnut", "base_num": [ 5, 12 ], "scale_num": [ 0, 0.5 ] } ] } ],
+    "harvest_by_season": [
+      {
+        "seasons": [ "autumn" ],
+        "entries": [
+          { "drop": "chestnut", "base_num": [ 5, 12 ], "scale_num": [ 0, 0.5 ] },
+          { "drop": "stick_long", "base_num": [ 1, 2 ] }
+        ]
+      },
+      { "seasons": [ "spring", "summer", "winter" ], "entries": [ { "drop": "stick_long", "base_num": [ 1, 2 ] } ] }
+    ],
     "bash": {
       "str_min": 80,
       "str_max": 180,
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
+      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
+      "ranged": { "reduction": [ 80, 80 ], "destroy_threshold": 180 }
     }
   },
   {
@@ -122,9 +150,9 @@
     "color": [ "green", "green", "green", "brown" ],
     "move_cost": 0,
     "coverage": 80,
-    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "HARVESTED" ],
+    "roof": "t_treetop",
+    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "HARVESTED", "CLIMBABLE" ],
     "transforms_into": "t_tree_chestnut",
-    "examine_action": "harvested_plant",
     "looks_like": "t_tree_hickory_harvested",
     "bash": {
       "str_min": 80,
@@ -132,7 +160,8 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
+      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
+      "ranged": { "reduction": [ 80, 80 ], "destroy_threshold": 180 }
     }
   },
   {
@@ -144,18 +173,29 @@
     "color": [ "green", "green", "black_green", "brown" ],
     "move_cost": 0,
     "coverage": 80,
-    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT" ],
+    "roof": "t_treetop",
+    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "CLIMBABLE" ],
     "transforms_into": "t_tree_beech_harvested",
     "examine_action": "harvest_ter",
     "looks_like": "t_tree_hickory",
-    "harvest_by_season": [ { "seasons": [ "autumn" ], "entries": [ { "drop": "beech_nuts", "base_num": [ 5, 12 ], "scale_num": [ 0, 0.5 ] } ] } ],
+    "harvest_by_season": [
+      {
+        "seasons": [ "autumn" ],
+        "entries": [
+          { "drop": "beech_nuts", "base_num": [ 5, 12 ], "scale_num": [ 0, 0.5 ] },
+          { "drop": "stick_long", "base_num": [ 1, 2 ] }
+        ]
+      },
+      { "seasons": [ "spring", "summer", "winter" ], "entries": [ { "drop": "stick_long", "base_num": [ 1, 2 ] } ] }
+    ],
     "bash": {
       "str_min": 80,
       "str_max": 180,
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
+      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
+      "ranged": { "reduction": [ 80, 80 ], "destroy_threshold": 180 }
     }
   },
   {
@@ -167,7 +207,8 @@
     "color": [ "green", "green", "green", "brown" ],
     "move_cost": 0,
     "coverage": 80,
-    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "HARVESTED" ],
+    "roof": "t_treetop",
+    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "CLIMBABLE" ],
     "transforms_into": "t_tree_beech",
     "examine_action": "harvested_plant",
     "looks_like": "t_tree_hickory_harvested",
@@ -177,7 +218,8 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
+      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
+      "ranged": { "reduction": [ 80, 80 ], "destroy_threshold": 180 }
     }
   },
   {
@@ -189,18 +231,29 @@
     "color": [ "green", "green", "light_green_yellow", "brown" ],
     "move_cost": 0,
     "coverage": 80,
-    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT" ],
+    "roof": "t_treetop",
+    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "CLIMBABLE" ],
     "transforms_into": "t_tree_hazelnut_harvested",
     "examine_action": "harvest_ter",
     "looks_like": "t_tree_hickory",
-    "harvest_by_season": [ { "seasons": [ "autumn" ], "entries": [ { "drop": "hazelnut", "base_num": [ 5, 12 ], "scale_num": [ 0, 0.5 ] } ] } ],
+    "harvest_by_season": [
+      {
+        "seasons": [ "autumn" ],
+        "entries": [
+          { "drop": "hazelnut", "base_num": [ 5, 12 ], "scale_num": [ 0, 0.5 ] },
+          { "drop": "stick_long", "base_num": [ 1, 2 ] }
+        ]
+      },
+      { "seasons": [ "spring", "summer", "winter" ], "entries": [ { "drop": "stick_long", "base_num": [ 1, 2 ] } ] }
+    ],
     "bash": {
       "str_min": 80,
       "str_max": 180,
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
+      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
+      "ranged": { "reduction": [ 80, 80 ], "destroy_threshold": 180 }
     }
   },
   {
@@ -212,9 +265,9 @@
     "color": [ "green", "green", "green", "brown" ],
     "move_cost": 0,
     "coverage": 80,
-    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "HARVESTED" ],
+    "roof": "t_treetop",
+    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "HARVESTED", "CLIMBABLE" ],
     "transforms_into": "t_tree_hazelnut",
-    "examine_action": "harvested_plant",
     "looks_like": "t_tree_hickory_harvested",
     "bash": {
       "str_min": 80,
@@ -222,7 +275,8 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
+      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
+      "ranged": { "reduction": [ 80, 80 ], "destroy_threshold": 180 }
     }
   },
   {
@@ -235,17 +289,25 @@
     "//": "barren in winter",
     "move_cost": 0,
     "coverage": 80,
-    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT" ],
+    "roof": "t_treetop",
+    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "CLIMBABLE" ],
     "transforms_into": "t_tree_harvested",
     "examine_action": "harvest_ter",
-    "harvest_by_season": [ { "seasons": [ "autumn" ], "entries": [ { "drop": "acorns", "base_num": [ 1, 3 ], "scale_num": [ 0, 0.5 ] } ] } ],
+    "harvest_by_season": [
+      {
+        "seasons": [ "autumn" ],
+        "entries": [ { "drop": "acorns", "base_num": [ 1, 3 ], "scale_num": [ 0, 0.5 ] }, { "drop": "stick_long", "base_num": [ 1, 2 ] } ]
+      },
+      { "seasons": [ "spring", "summer", "winter" ], "entries": [ { "drop": "stick_long", "base_num": [ 1, 2 ] } ] }
+    ],
     "bash": {
       "str_min": 80,
       "str_max": 180,
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
+      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
+      "ranged": { "reduction": [ 80, 80 ], "destroy_threshold": 180 }
     }
   },
   {
@@ -258,7 +320,8 @@
     "color": [ "green", "green", "green", "brown" ],
     "move_cost": 0,
     "coverage": 80,
-    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "HARVESTED" ],
+    "roof": "t_treetop",
+    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "HARVESTED", "CLIMBABLE" ],
     "transforms_into": "t_tree",
     "examine_action": "harvested_plant",
     "bash": {
@@ -267,7 +330,8 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
+      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
+      "ranged": { "reduction": [ 80, 80 ], "destroy_threshold": 180 }
     }
   },
   {
@@ -281,14 +345,16 @@
     "//": "Do something cool with this and have it spread cotton around the area or something.",
     "move_cost": 0,
     "coverage": 80,
-    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT" ],
+    "roof": "t_treetop",
+    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "CLIMBABLE" ],
     "bash": {
       "str_min": 80,
       "str_max": 180,
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
+      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
+      "ranged": { "reduction": [ 80, 80 ], "destroy_threshold": 180 }
     }
   },
   {
@@ -301,14 +367,16 @@
     "color": [ "green", "green", "green", "brown" ],
     "move_cost": 0,
     "coverage": 80,
-    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT" ],
+    "roof": "t_treetop",
+    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "CLIMBABLE" ],
     "bash": {
       "str_min": 80,
       "str_max": 180,
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
+      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
+      "ranged": { "reduction": [ 80, 80 ], "destroy_threshold": 180 }
     }
   },
   {
@@ -321,14 +389,16 @@
     "color": "brown",
     "move_cost": 0,
     "coverage": 80,
-    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT" ],
+    "roof": "t_treetop_dead",
+    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "CLIMBABLE" ],
     "bash": {
       "str_min": 70,
       "str_max": 140,
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
+      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
+      "ranged": { "reduction": [ 70, 70 ], "destroy_threshold": 140 }
     }
   },
   {
@@ -341,7 +411,7 @@
     "color": [ "green", "green", "green", "brown" ],
     "//": "barren in winter",
     "move_cost": 4,
-    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "NOITEM", "YOUNG", "REDUCE_SCENT" ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "NOITEM", "YOUNG", "REDUCE_SCENT", "CLIMBABLE" ],
     "bash": {
       "str_min": 4,
       "str_max": 50,
@@ -356,23 +426,31 @@
     "id": "t_tree_apple",
     "name": "apple tree",
     "looks_like": "t_tree",
-    "description": "This tree is a member of the 'Malus' genus, producing fruit commonly known as apples.  If you examined the branches more closely, you could probably find a few mature ones in autumn.  You could also cut it down with the right tools.",
+    "description": "This tree is a member of the 'Malus' genus, producing fruit commonly known as apples.  If you examined the branches more closely, you could probably find a few mature ones in autumn.",
     "symbol": "7",
     "color": [ "light_green", "light_green", "red_green", "brown" ],
     "//": "barren in winter, fruits in autumn",
     "move_cost": 0,
     "coverage": 80,
-    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT" ],
+    "roof": "t_treetop",
+    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "CLIMBABLE" ],
     "transforms_into": "t_tree_apple_harvested",
     "examine_action": "harvest_ter_nectar",
-    "harvest_by_season": [ { "seasons": [ "autumn" ], "entries": [ { "drop": "apple", "base_num": [ 2, 5 ], "scale_num": [ 0, 0.5 ] } ] } ],
+    "harvest_by_season": [
+      {
+        "seasons": [ "autumn" ],
+        "entries": [ { "drop": "apple", "base_num": [ 2, 5 ], "scale_num": [ 0, 0.5 ] }, { "drop": "stick_long", "base_num": [ 1, 2 ] } ]
+      },
+      { "seasons": [ "spring", "summer", "winter" ], "entries": [ { "drop": "stick_long", "base_num": [ 1, 2 ] } ] }
+    ],
     "bash": {
       "str_min": 80,
       "str_max": 180,
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
+      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
+      "ranged": { "reduction": [ 80, 80 ], "destroy_threshold": 180 }
     }
   },
   {
@@ -386,7 +464,8 @@
     "//": "barren in winter, no fruits anymore",
     "move_cost": 0,
     "coverage": 80,
-    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "HARVESTED" ],
+    "roof": "t_treetop",
+    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "HARVESTED", "CLIMBABLE" ],
     "examine_action": "harvested_plant",
     "transforms_into": "t_tree_apple",
     "bash": {
@@ -395,7 +474,8 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
+      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
+      "ranged": { "reduction": [ 80, 80 ], "destroy_threshold": 180 }
     }
   },
   {
@@ -409,17 +489,25 @@
     "//": "barren in winter, fruits in autumn",
     "move_cost": 0,
     "coverage": 80,
-    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT" ],
+    "roof": "t_treetop",
+    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "CLIMBABLE" ],
     "transforms_into": "t_tree_pear_harvested",
     "examine_action": "harvest_ter_nectar",
-    "harvest_by_season": [ { "seasons": [ "autumn" ], "entries": [ { "drop": "pear", "base_num": [ 2, 5 ], "scale_num": [ 0, 0.5 ] } ] } ],
+    "harvest_by_season": [
+      {
+        "seasons": [ "autumn" ],
+        "entries": [ { "drop": "pear", "base_num": [ 2, 5 ], "scale_num": [ 0, 0.5 ] }, { "drop": "stick_long", "base_num": [ 1, 2 ] } ]
+      },
+      { "seasons": [ "spring", "summer", "winter" ], "entries": [ { "drop": "stick_long", "base_num": [ 1, 2 ] } ] }
+    ],
     "bash": {
       "str_min": 80,
       "str_max": 180,
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
+      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
+      "ranged": { "reduction": [ 80, 80 ], "destroy_threshold": 180 }
     }
   },
   {
@@ -433,7 +521,8 @@
     "//": "barren in winter, no fruits anymore",
     "move_cost": 0,
     "coverage": 80,
-    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "HARVESTED" ],
+    "roof": "t_treetop",
+    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "HARVESTED", "CLIMBABLE" ],
     "examine_action": "harvested_plant",
     "transforms_into": "t_tree_pear",
     "bash": {
@@ -442,7 +531,8 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
+      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
+      "ranged": { "reduction": [ 80, 80 ], "destroy_threshold": 180 }
     }
   },
   {
@@ -455,7 +545,8 @@
     "//": "barren in winter, fruits in autumn",
     "move_cost": 0,
     "coverage": 80,
-    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT" ],
+    "roof": "t_treetop",
+    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "CLIMBABLE" ],
     "transforms_into": "t_tree_coffee_harvested",
     "looks_like": "t_tree_plum",
     "examine_action": "harvest_ter_nectar",
@@ -464,9 +555,11 @@
         "seasons": [ "autumn" ],
         "entries": [
           { "drop": "coffee_pod", "base_num": [ 4, 10 ], "scale_num": [ 0, 0.5 ] },
-          { "drop": "tea_raw", "base_num": [ 1, 3 ], "scale_num": [ 0, 0.5 ] }
+          { "drop": "tea_raw", "base_num": [ 1, 3 ], "scale_num": [ 0, 0.5 ] },
+          { "drop": "stick_long", "base_num": [ 1, 2 ] }
         ]
-      }
+      },
+      { "seasons": [ "spring", "summer", "winter" ], "entries": [ { "drop": "stick_long", "base_num": [ 1, 2 ] } ] }
     ],
     "bash": {
       "str_min": 80,
@@ -474,7 +567,8 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
+      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
+      "ranged": { "reduction": [ 80, 80 ], "destroy_threshold": 180 }
     }
   },
   {
@@ -487,7 +581,8 @@
     "//": "barren in winter, no fruits anymore",
     "move_cost": 0,
     "coverage": 80,
-    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "HARVESTED" ],
+    "roof": "t_treetop",
+    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "HARVESTED", "CLIMBABLE" ],
     "examine_action": "harvested_plant",
     "transforms_into": "t_tree_coffee",
     "looks_like": "t_tree_plum_harvested",
@@ -497,7 +592,8 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
+      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
+      "ranged": { "reduction": [ 80, 80 ], "destroy_threshold": 180 }
     }
   },
   {
@@ -511,17 +607,28 @@
     "//": "barren in winter, fruits in summer",
     "move_cost": 0,
     "coverage": 80,
-    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT" ],
+    "roof": "t_treetop",
+    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "CLIMBABLE" ],
     "transforms_into": "t_tree_cherry_harvested",
     "examine_action": "harvest_ter_nectar",
-    "harvest_by_season": [ { "seasons": [ "spring" ], "entries": [ { "drop": "cherries", "base_num": [ 6, 18 ], "scale_num": [ 0, 0.5 ] } ] } ],
+    "harvest_by_season": [
+      {
+        "seasons": [ "spring" ],
+        "entries": [
+          { "drop": "cherries", "base_num": [ 6, 18 ], "scale_num": [ 0, 0.5 ] },
+          { "drop": "stick_long", "base_num": [ 1, 2 ] }
+        ]
+      },
+      { "seasons": [ "summer", "autumn", "winter" ], "entries": [ { "drop": "stick_long", "base_num": [ 1, 2 ] } ] }
+    ],
     "bash": {
       "str_min": 80,
       "str_max": 180,
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
+      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
+      "ranged": { "reduction": [ 80, 80 ], "destroy_threshold": 180 }
     }
   },
   {
@@ -535,7 +642,8 @@
     "//": "barren in winter, no fruits anymore",
     "move_cost": 0,
     "coverage": 80,
-    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "HARVESTED" ],
+    "roof": "t_treetop",
+    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "HARVESTED", "CLIMBABLE" ],
     "examine_action": "harvested_plant",
     "transforms_into": "t_tree_cherry",
     "bash": {
@@ -544,7 +652,8 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
+      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
+      "ranged": { "reduction": [ 80, 80 ], "destroy_threshold": 180 }
     }
   },
   {
@@ -558,17 +667,28 @@
     "//": "Can be picked at any point in the third year assuming the berries have turned blue. But it takes a long time to regrow.",
     "move_cost": 0,
     "coverage": 80,
-    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT" ],
+    "roof": "t_treetop",
+    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "CLIMBABLE" ],
     "transforms_into": "t_tree_juniper_harvested",
     "examine_action": "harvest_ter_nectar",
-    "harvest_by_season": [ { "seasons": [ "autumn" ], "entries": [ { "drop": "juniper", "base_num": [ 12, 24 ], "scale_num": [ 0, 0.5 ] } ] } ],
+    "harvest_by_season": [
+      {
+        "seasons": [ "autumn", "winter" ],
+        "entries": [
+          { "drop": "juniper", "base_num": [ 12, 24 ], "scale_num": [ 0, 0.5 ] },
+          { "drop": "stick_long", "base_num": [ 1, 2 ] }
+        ]
+      },
+      { "seasons": [ "spring", "summer" ], "entries": [ { "drop": "stick_long", "base_num": [ 1, 2 ] } ] }
+    ],
     "bash": {
       "str_min": 80,
       "str_max": 180,
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
+      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
+      "ranged": { "reduction": [ 80, 80 ], "destroy_threshold": 180 }
     }
   },
   {
@@ -582,7 +702,8 @@
     "//": "Will take three years to regrow, in reality.",
     "move_cost": 0,
     "coverage": 80,
-    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "HARVESTED" ],
+    "roof": "t_treetop",
+    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "HARVESTED", "CLIMBABLE" ],
     "examine_action": "harvested_plant",
     "transforms_into": "t_tree_juniper",
     "bash": {
@@ -591,7 +712,8 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
+      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
+      "ranged": { "reduction": [ 80, 80 ], "destroy_threshold": 180 }
     }
   },
   {
@@ -605,17 +727,25 @@
     "//": "barren in winter, fruits in summer",
     "move_cost": 0,
     "coverage": 80,
-    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT" ],
+    "roof": "t_treetop",
+    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "CLIMBABLE" ],
     "transforms_into": "t_tree_peach_harvested",
     "examine_action": "harvest_ter_nectar",
-    "harvest_by_season": [ { "seasons": [ "summer" ], "entries": [ { "drop": "peach", "base_num": [ 2, 5 ], "scale_num": [ 0, 0.5 ] } ] } ],
+    "harvest_by_season": [
+      {
+        "seasons": [ "summer" ],
+        "entries": [ { "drop": "peach", "base_num": [ 2, 5 ], "scale_num": [ 0, 0.5 ] }, { "drop": "stick_long", "base_num": [ 1, 2 ] } ]
+      },
+      { "seasons": [ "spring", "autumn", "winter" ], "entries": [ { "drop": "stick_long", "base_num": [ 1, 2 ] } ] }
+    ],
     "bash": {
       "str_min": 80,
       "str_max": 180,
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
+      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
+      "ranged": { "reduction": [ 80, 80 ], "destroy_threshold": 180 }
     }
   },
   {
@@ -629,7 +759,8 @@
     "//": "barren in winter, no fruits anymore",
     "move_cost": 0,
     "coverage": 80,
-    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "HARVESTED" ],
+    "roof": "t_treetop",
+    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "HARVESTED", "CLIMBABLE" ],
     "examine_action": "harvested_plant",
     "transforms_into": "t_tree_peach",
     "bash": {
@@ -638,7 +769,8 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
+      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
+      "ranged": { "reduction": [ 80, 80 ], "destroy_threshold": 180 }
     }
   },
   {
@@ -652,17 +784,25 @@
     "//": "barren in winter, fruits in summer",
     "move_cost": 0,
     "coverage": 80,
-    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT" ],
+    "roof": "t_treetop",
+    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "CLIMBABLE" ],
     "transforms_into": "t_tree_apricot_harvested",
     "examine_action": "harvest_ter_nectar",
-    "harvest_by_season": [ { "seasons": [ "summer" ], "entries": [ { "drop": "apricot", "base_num": [ 2, 5 ], "scale_num": [ 0, 0.5 ] } ] } ],
+    "harvest_by_season": [
+      {
+        "seasons": [ "summer" ],
+        "entries": [ { "drop": "apricot", "base_num": [ 2, 5 ], "scale_num": [ 0, 0.5 ] }, { "drop": "stick_long", "base_num": [ 1, 2 ] } ]
+      },
+      { "seasons": [ "spring", "autumn", "winter" ], "entries": [ { "drop": "stick_long", "base_num": [ 1, 2 ] } ] }
+    ],
     "bash": {
       "str_min": 80,
       "str_max": 180,
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
+      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
+      "ranged": { "reduction": [ 80, 80 ], "destroy_threshold": 180 }
     }
   },
   {
@@ -676,7 +816,8 @@
     "//": "barren in winter, no fruits anymore",
     "move_cost": 0,
     "coverage": 80,
-    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "HARVESTED" ],
+    "roof": "t_treetop",
+    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "HARVESTED", "CLIMBABLE" ],
     "examine_action": "harvested_plant",
     "transforms_into": "t_tree_apricot",
     "bash": {
@@ -685,7 +826,8 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
+      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
+      "ranged": { "reduction": [ 80, 80 ], "destroy_threshold": 180 }
     }
   },
   {
@@ -699,17 +841,25 @@
     "//": "barren in winter, fruits in summer",
     "move_cost": 0,
     "coverage": 80,
-    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT" ],
+    "roof": "t_treetop",
+    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "CLIMBABLE" ],
     "transforms_into": "t_tree_plum_harvested",
     "examine_action": "harvest_ter_nectar",
-    "harvest_by_season": [ { "seasons": [ "summer" ], "entries": [ { "drop": "plums", "base_num": [ 2, 5 ], "scale_num": [ 0, 0.5 ] } ] } ],
+    "harvest_by_season": [
+      {
+        "seasons": [ "summer" ],
+        "entries": [ { "drop": "plums", "base_num": [ 2, 5 ], "scale_num": [ 0, 0.5 ] }, { "drop": "stick_long", "base_num": [ 1, 2 ] } ]
+      },
+      { "seasons": [ "spring", "autumn", "winter" ], "entries": [ { "drop": "stick_long", "base_num": [ 1, 2 ] } ] }
+    ],
     "bash": {
       "str_min": 80,
       "str_max": 180,
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
+      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
+      "ranged": { "reduction": [ 80, 80 ], "destroy_threshold": 180 }
     }
   },
   {
@@ -723,7 +873,8 @@
     "//": "barren in winter, no fruits anymore",
     "move_cost": 0,
     "coverage": 80,
-    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "HARVESTED" ],
+    "roof": "t_treetop",
+    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "HARVESTED", "CLIMBABLE" ],
     "examine_action": "harvested_plant",
     "transforms_into": "t_tree_plum",
     "bash": {
@@ -732,7 +883,8 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
+      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
+      "ranged": { "reduction": [ 80, 80 ], "destroy_threshold": 180 }
     }
   },
   {
@@ -745,7 +897,8 @@
     "//": "barren in winter, fruits in summer",
     "move_cost": 0,
     "coverage": 80,
-    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT" ],
+    "roof": "t_treetop",
+    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "CLIMBABLE" ],
     "transforms_into": "t_tree_mulberry_harvested",
     "examine_action": "harvest_ter_nectar",
     "looks_like": "t_tree_apple",
@@ -754,9 +907,11 @@
         "seasons": [ "summer" ],
         "entries": [
           { "drop": "mulberries", "base_num": [ 8, 20 ], "scale_num": [ 0, 0.5 ] },
+          { "drop": "stick_long", "base_num": [ 1, 2 ] },
           { "drop": "seed_mulberries", "base_num": [ 3, 5 ], "scale_num": [ 0, 0.25 ] }
         ]
-      }
+      },
+      { "seasons": [ "spring", "autumn", "winter" ], "entries": [ { "drop": "stick_long", "base_num": [ 1, 2 ] } ] }
     ],
     "bash": {
       "str_min": 80,
@@ -764,7 +919,8 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
+      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
+      "ranged": { "reduction": [ 80, 80 ], "destroy_threshold": 180 }
     }
   },
   {
@@ -777,7 +933,8 @@
     "//": "barren in winter, no fruits anymore",
     "move_cost": 0,
     "coverage": 80,
-    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "HARVESTED" ],
+    "roof": "t_treetop",
+    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "HARVESTED", "CLIMBABLE" ],
     "examine_action": "harvested_plant",
     "transforms_into": "t_tree_mulberry",
     "looks_like": "t_tree_apple_harvested",
@@ -787,7 +944,8 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
+      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
+      "ranged": { "reduction": [ 80, 80 ], "destroy_threshold": 180 }
     }
   },
   {
@@ -800,7 +958,8 @@
     "//": "barren in winter, fruits in summer",
     "move_cost": 0,
     "coverage": 80,
-    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT" ],
+    "roof": "t_treetop",
+    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "CLIMBABLE" ],
     "transforms_into": "t_tree_elderberry_harvested",
     "examine_action": "harvest_ter_nectar",
     "looks_like": "t_tree_plum",
@@ -809,9 +968,11 @@
         "seasons": [ "summer" ],
         "entries": [
           { "drop": "elderberries", "base_num": [ 8, 20 ], "scale_num": [ 0, 0.5 ] },
+          { "drop": "stick_long", "base_num": [ 1, 2 ] },
           { "drop": "seed_elderberries", "base_num": [ 3, 5 ], "scale_num": [ 0, 0.25 ] }
         ]
-      }
+      },
+      { "seasons": [ "spring", "autumn", "winter" ], "entries": [ { "drop": "stick_long", "base_num": [ 1, 2 ] } ] }
     ],
     "bash": {
       "str_min": 80,
@@ -819,7 +980,8 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
+      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
+      "ranged": { "reduction": [ 80, 80 ], "destroy_threshold": 180 }
     }
   },
   {
@@ -832,7 +994,8 @@
     "//": "barren in winter, no fruits anymore",
     "move_cost": 0,
     "coverage": 80,
-    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "HARVESTED" ],
+    "roof": "t_treetop",
+    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "HARVESTED", "CLIMBABLE" ],
     "examine_action": "harvested_plant",
     "transforms_into": "t_tree_elderberry",
     "looks_like": "t_tree_plum_harvested",
@@ -842,7 +1005,8 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
+      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
+      "ranged": { "reduction": [ 80, 80 ], "destroy_threshold": 180 }
     }
   },
   {
@@ -855,13 +1019,18 @@
     "color": "green",
     "move_cost": 0,
     "coverage": 80,
-    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT" ],
+    "roof": "t_treetop_evergreen",
+    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "CLIMBABLE" ],
     "transforms_into": "t_tree_pine_harvested",
     "examine_action": "harvest_ter",
     "harvest_by_season": [
       {
         "seasons": [ "spring", "summer", "autumn", "winter" ],
-        "entries": [ { "drop": "pine_bough", "base_num": [ 2, 8 ] }, { "drop": "pinecone", "base_num": [ 1, 4 ] } ]
+        "entries": [
+          { "drop": "pine_bough", "base_num": [ 2, 8 ] },
+          { "drop": "pinecone", "base_num": [ 1, 4 ] },
+          { "drop": "stick_long", "base_num": [ 1, 2 ] }
+        ]
       }
     ],
     "bash": {
@@ -870,7 +1039,8 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
+      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
+      "ranged": { "reduction": [ 80, 80 ], "destroy_threshold": 180 }
     }
   },
   {
@@ -884,7 +1054,7 @@
     "looks_like": "t_tree_deadpine",
     "transforms_into": "t_tree_pine",
     "examine_action": "harvested_plant",
-    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "HARVESTED" ]
+    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "HARVESTED", "CLIMBABLE" ]
   },
   {
     "type": "terrain",
@@ -896,14 +1066,16 @@
     "color": "brown",
     "move_cost": 0,
     "coverage": 80,
-    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT" ],
+    "roof": "t_treetop_dead",
+    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "CLIMBABLE" ],
     "bash": {
       "str_min": 60,
       "str_max": 120,
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
+      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
+      "ranged": { "reduction": [ 60, 60 ], "destroy_threshold": 120 }
     }
   },
   {
@@ -917,11 +1089,15 @@
     "//": "barren in winter, harvestable all year round",
     "move_cost": 0,
     "coverage": 80,
-    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT" ],
+    "roof": "t_treetop",
+    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "CLIMBABLE" ],
     "examine_action": "harvest_ter",
     "transforms_into": "t_tree_birch_harvested",
     "harvest_by_season": [
-      { "seasons": [ "spring", "summer", "autumn", "winter" ], "entries": [ { "drop": "birchbark", "base_num": [ 2, 8 ] } ] }
+      {
+        "seasons": [ "spring", "summer", "autumn", "winter" ],
+        "entries": [ { "drop": "birchbark", "base_num": [ 2, 8 ] }, { "drop": "stick_long", "base_num": [ 1, 2 ] } ]
+      }
     ],
     "bash": {
       "str_min": 80,
@@ -929,7 +1105,8 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
+      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
+      "ranged": { "reduction": [ 80, 80 ], "destroy_threshold": 180 }
     }
   },
   {
@@ -942,14 +1119,16 @@
     "color": "green",
     "move_cost": 0,
     "coverage": 80,
-    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT" ],
+    "roof": "t_treetop",
+    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "CLIMBABLE" ],
     "bash": {
       "str_min": 80,
       "str_max": 180,
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
+      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
+      "ranged": { "reduction": [ 80, 80 ], "destroy_threshold": 180 }
     }
   },
   {
@@ -963,11 +1142,15 @@
     "//": "barren in winter, harvestable all year round",
     "move_cost": 0,
     "coverage": 80,
-    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT" ],
+    "roof": "t_treetop",
+    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "CLIMBABLE" ],
     "examine_action": "harvest_ter",
     "transforms_into": "t_tree_willow_harvested",
     "harvest_by_season": [
-      { "seasons": [ "spring", "summer", "autumn", "winter" ], "entries": [ { "drop": "willowbark", "base_num": [ 2, 8 ] } ] }
+      {
+        "seasons": [ "spring", "summer", "autumn", "winter" ],
+        "entries": [ { "drop": "willowbark", "base_num": [ 2, 8 ] }, { "drop": "stick_long", "base_num": [ 1, 2 ] } ]
+      }
     ],
     "bash": {
       "str_min": 80,
@@ -975,7 +1158,8 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
+      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
+      "ranged": { "reduction": [ 80, 80 ], "destroy_threshold": 180 }
     }
   },
   {
@@ -988,14 +1172,16 @@
     "color": [ "brown", "brown", "brown", "brown" ],
     "move_cost": 0,
     "coverage": 80,
-    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT" ],
+    "roof": "t_treetop",
+    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "CLIMBABLE" ],
     "bash": {
       "str_min": 80,
       "str_max": 180,
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
+      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
+      "ranged": { "reduction": [ 80, 80 ], "destroy_threshold": 180 }
     }
   },
   {
@@ -1008,7 +1194,8 @@
     "color": [ "red", "light_green", "light_green", "red" ],
     "move_cost": 0,
     "coverage": 80,
-    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT" ],
+    "roof": "t_treetop",
+    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "CLIMBABLE" ],
     "examine_action": "tree_maple",
     "bash": {
       "str_min": 80,
@@ -1016,7 +1203,8 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
+      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
+      "ranged": { "reduction": [ 80, 80 ], "destroy_threshold": 180 }
     }
   },
   {
@@ -1029,7 +1217,8 @@
     "color": [ "red", "light_green", "light_green", "red" ],
     "move_cost": 0,
     "coverage": 80,
-    "flags": [ "FLAMMABLE_ASH", "SEALED", "PLACE_ITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "LIQUIDCONT" ],
+    "roof": "t_treetop",
+    "flags": [ "FLAMMABLE_ASH", "SEALED", "PLACE_ITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "LIQUIDCONT", "CLIMBABLE" ],
     "examine_action": "tree_maple_tapped",
     "bash": {
       "str_min": 80,
@@ -1037,7 +1226,8 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
+      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
+      "ranged": { "reduction": [ 80, 80 ], "destroy_threshold": 180 }
     }
   },
   {
@@ -1051,10 +1241,18 @@
     "//": "barren in winter, harvestable in autumn",
     "move_cost": 0,
     "coverage": 80,
-    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT" ],
+    "roof": "t_treetop",
+    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "CLIMBABLE" ],
     "examine_action": "tree_hickory",
     "harvest_by_season": [
-      { "seasons": [ "autumn" ], "entries": [ { "drop": "hickory_nut", "base_num": [ 5, 12 ], "scale_num": [ 0, 0.5 ] } ] }
+      {
+        "seasons": [ "autumn" ],
+        "entries": [
+          { "drop": "hickory_nut", "base_num": [ 5, 12 ], "scale_num": [ 0, 0.5 ] },
+          { "drop": "stick_long", "base_num": [ 1, 2 ] }
+        ]
+      },
+      { "seasons": [ "spring", "summer", "winter" ], "entries": [ { "drop": "stick_long", "base_num": [ 1, 2 ] } ] }
     ],
     "transforms_into": "t_tree_hickory_harvested",
     "bash": {
@@ -1063,7 +1261,8 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
+      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
+      "ranged": { "reduction": [ 80, 80 ], "destroy_threshold": 180 }
     }
   },
   {
@@ -1077,7 +1276,8 @@
     "//": "barren in winter, kind of harvestable",
     "move_cost": 0,
     "coverage": 80,
-    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "HARVESTED" ],
+    "roof": "t_treetop",
+    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "HARVESTED", "CLIMBABLE" ],
     "examine_action": "tree_hickory",
     "transforms_into": "t_tree_hickory",
     "bash": {
@@ -1086,7 +1286,8 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
+      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
+      "ranged": { "reduction": [ 80, 80 ], "destroy_threshold": 180 }
     }
   },
   {
@@ -1100,9 +1301,19 @@
     "color": [ "light_green", "light_green", "brown_green", "brown" ],
     "move_cost": 0,
     "coverage": 80,
-    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT" ],
+    "roof": "t_treetop",
+    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "CLIMBABLE" ],
     "examine_action": "harvest_ter",
-    "harvest_by_season": [ { "seasons": [ "autumn" ], "entries": [ { "drop": "pistachio", "base_num": [ 5, 12 ], "scale_num": [ 0, 0.5 ] } ] } ],
+    "harvest_by_season": [
+      {
+        "seasons": [ "autumn" ],
+        "entries": [
+          { "drop": "pistachio", "base_num": [ 5, 12 ], "scale_num": [ 0, 0.5 ] },
+          { "drop": "stick_long", "base_num": [ 1, 2 ] }
+        ]
+      },
+      { "seasons": [ "spring", "summer", "winter" ], "entries": [ { "drop": "stick_long", "base_num": [ 1, 2 ] } ] }
+    ],
     "transforms_into": "t_tree_pistachio_harvested",
     "bash": {
       "str_min": 80,
@@ -1110,7 +1321,8 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
+      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
+      "ranged": { "reduction": [ 80, 80 ], "destroy_threshold": 180 }
     }
   },
   {
@@ -1123,7 +1335,8 @@
     "color": [ "light_green", "light_green", "light_green", "brown" ],
     "move_cost": 0,
     "coverage": 80,
-    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "HARVESTED" ],
+    "roof": "t_treetop",
+    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "HARVESTED", "CLIMBABLE" ],
     "examine_action": "harvested_plant",
     "transforms_into": "t_tree_pistachio",
     "bash": {
@@ -1132,7 +1345,8 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
+      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
+      "ranged": { "reduction": [ 80, 80 ], "destroy_threshold": 180 }
     }
   },
   {
@@ -1146,9 +1360,16 @@
     "color": [ "light_green", "light_green", "brown_green", "brown" ],
     "move_cost": 0,
     "coverage": 80,
-    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT" ],
+    "roof": "t_treetop",
+    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "CLIMBABLE" ],
     "examine_action": "harvest_ter",
-    "harvest_by_season": [ { "seasons": [ "autumn" ], "entries": [ { "drop": "almond", "base_num": [ 5, 12 ], "scale_num": [ 0, 0.5 ] } ] } ],
+    "harvest_by_season": [
+      {
+        "seasons": [ "autumn" ],
+        "entries": [ { "drop": "almond", "base_num": [ 5, 12 ], "scale_num": [ 0, 0.5 ] }, { "drop": "stick_long", "base_num": [ 1, 2 ] } ]
+      },
+      { "seasons": [ "spring", "summer", "winter" ], "entries": [ { "drop": "stick_long", "base_num": [ 1, 2 ] } ] }
+    ],
     "transforms_into": "t_tree_almond_harvested",
     "bash": {
       "str_min": 80,
@@ -1156,7 +1377,8 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
+      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
+      "ranged": { "reduction": [ 80, 80 ], "destroy_threshold": 180 }
     }
   },
   {
@@ -1169,7 +1391,8 @@
     "color": [ "light_green", "light_green", "light_green", "brown" ],
     "move_cost": 0,
     "coverage": 80,
-    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "HARVESTED" ],
+    "roof": "t_treetop",
+    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "HARVESTED", "CLIMBABLE" ],
     "examine_action": "harvested_plant",
     "transforms_into": "t_tree_almond",
     "bash": {
@@ -1178,7 +1401,8 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
+      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
+      "ranged": { "reduction": [ 80, 80 ], "destroy_threshold": 180 }
     }
   },
   {
@@ -1192,9 +1416,16 @@
     "color": [ "light_green", "light_green", "brown_green", "brown" ],
     "move_cost": 0,
     "coverage": 80,
-    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT" ],
+    "roof": "t_treetop",
+    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "CLIMBABLE" ],
     "examine_action": "harvest_ter",
-    "harvest_by_season": [ { "seasons": [ "autumn" ], "entries": [ { "drop": "pecan", "base_num": [ 5, 12 ], "scale_num": [ 0, 0.5 ] } ] } ],
+    "harvest_by_season": [
+      {
+        "seasons": [ "autumn" ],
+        "entries": [ { "drop": "pecan", "base_num": [ 5, 12 ], "scale_num": [ 0, 0.5 ] }, { "drop": "stick_long", "base_num": [ 1, 2 ] } ]
+      },
+      { "seasons": [ "spring", "summer", "winter" ], "entries": [ { "drop": "stick_long", "base_num": [ 1, 2 ] } ] }
+    ],
     "transforms_into": "t_tree_pecan_harvested",
     "bash": {
       "str_min": 80,
@@ -1202,7 +1433,8 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
+      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
+      "ranged": { "reduction": [ 80, 80 ], "destroy_threshold": 180 }
     }
   },
   {
@@ -1215,7 +1447,8 @@
     "color": [ "light_green", "light_green", "light_green", "brown" ],
     "move_cost": 0,
     "coverage": 80,
-    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "HARVESTED" ],
+    "roof": "t_treetop",
+    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "HARVESTED", "CLIMBABLE" ],
     "examine_action": "harvested_plant",
     "transforms_into": "t_tree_pecan",
     "bash": {
@@ -1224,7 +1457,8 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
+      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
+      "ranged": { "reduction": [ 80, 80 ], "destroy_threshold": 180 }
     }
   },
   {
@@ -1238,14 +1472,16 @@
     "//": "dead, not usable at all",
     "move_cost": 0,
     "coverage": 80,
-    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT" ],
+    "roof": "t_treetop_dead",
+    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "CLIMBABLE" ],
     "bash": {
       "str_min": 60,
       "str_max": 120,
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
+      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
+      "ranged": { "reduction": [ 60, 60 ], "destroy_threshold": 180 }
     }
   },
   {
@@ -1791,7 +2027,12 @@
     "transforms_into": "t_shrub_rose_harvested",
     "examine_action": "harvest_ter_nectar",
     "looks_like": "t_shrub_strawberry",
-    "harvest_by_season": [ { "seasons": [ "autumn" ], "entries": [ { "drop": "rose_hips", "base_num": [ 2, 5 ], "scale_num": [ 0, 0.5 ] } ] } ],
+    "harvest_by_season": [
+      {
+        "seasons": [ "autumn", "winter" ],
+        "entries": [ { "drop": "rose_hips", "base_num": [ 2, 5 ], "scale_num": [ 0, 0.5 ] } ]
+      }
+    ],
     "//": "Insert rose (flower) harvest in summer once flowers have a use (same for other generic flowers).",
     "bash": {
       "str_min": 4,
@@ -1922,15 +2163,16 @@
     "symbol": "1",
     "color": "brown",
     "move_cost": 4,
-    "coverage": 45,
-    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "DIGGABLE", "REDUCE_SCENT", "MOUNTABLE", "SHORT" ],
+    "coverage": 50,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "DIGGABLE", "REDUCE_SCENT", "MOUNTABLE", "SHORT", "MUSHROOM_PLANTABLE" ],
     "bash": {
       "str_min": 80,
       "str_max": 180,
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "splinter", "count": [ 5, 15 ] } ]
+      "items": [ { "item": "splinter", "count": [ 5, 15 ] } ],
+      "ranged": { "reduction": [ 80, 80 ], "destroy_threshold": 180, "block_unaimed_chance": "50%" }
     }
   },
   {
@@ -1943,14 +2185,15 @@
     "looks_like": "t_trunk",
     "move_cost": 3,
     "coverage": 35,
-    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "DIGGABLE", "REDUCE_SCENT", "MOUNTABLE", "SHORT", "FLAT_SURF" ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "DIGGABLE", "REDUCE_SCENT", "MOUNTABLE", "SHORT", "FLAT_SURF", "MUSHROOM_PLANTABLE" ],
     "bash": {
       "str_min": 80,
       "str_max": 180,
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "splinter", "count": [ 5, 15 ] } ]
+      "items": [ { "item": "splinter", "count": [ 5, 15 ] } ],
+      "ranged": { "reduction": [ 80, 80 ], "destroy_threshold": 180, "block_unaimed_chance": "25%" }
     }
   },
   {
@@ -2119,14 +2362,24 @@
     "transforms_into": "t_tree_cacao_harvested",
     "examine_action": "harvest_ter",
     "looks_like": "t_tree_hickory",
-    "harvest_by_season": [ { "seasons": [ "summer" ], "entries": [ { "drop": "cacao_pod", "base_num": [ 2, 5 ], "scale_num": [ 0, 0.5 ] } ] } ],
+    "harvest_by_season": [
+      {
+        "seasons": [ "summer" ],
+        "entries": [
+          { "drop": "cacao_pod", "base_num": [ 2, 5 ], "scale_num": [ 0, 0.5 ] },
+          { "drop": "stick_long", "base_num": [ 1, 2 ] }
+        ]
+      },
+      { "seasons": [ "spring", "autumn", "winter" ], "entries": [ { "drop": "stick_long", "base_num": [ 1, 2 ] } ] }
+    ],
     "bash": {
       "str_min": 80,
       "str_max": 180,
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
+      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
+      "ranged": { "reduction": [ 80, 80 ], "destroy_threshold": 180 }
     }
   },
   {
@@ -2148,7 +2401,8 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
+      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
+      "ranged": { "reduction": [ 80, 80 ], "destroy_threshold": 180 }
     }
   },
   {

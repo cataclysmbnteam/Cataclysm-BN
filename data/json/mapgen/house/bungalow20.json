@@ -2,7 +2,6 @@
   {
     "type": "mapgen",
     "om_terrain": "bungalow20",
-    "weight": 250,
     "method": "json",
     "object": {
       "palettes": [
@@ -16,7 +15,7 @@
         ".......[...p---.........",
         "............---.........",
         ".###oo####oo#*###oo##...",
-        ".#UU  £| xxx==L|Fn21#...",
+        ".#UU  £| xxxƏ=L|Fn21#...",
         ".oN    |    ===|___5o...",
         ".#q $  |       |_J_O#^..",
         ".#||||+|sHHHs  |_J_4###.",
@@ -25,17 +24,17 @@
         ".orh   +       |||||||#.",
         ".or  ET|y  h   |dd|tS8#.",
         ".#||||||R hffh |  +___o.",
-        ".#B_8ZW|R  ff  |z |8BB#.",
+        ".#B_8ZW|R  ff  |ɸ |8BB#.",
         ".#B____+  hffh ||+|||##.",
         ".#Qw8St|   h   +    b#..",
         "^#||||||       |    ¤o..",
         ".#@¤   + ====  |I  @@o..",
-        ".#@   T|y====VV|I  @@#..",
+        ".#@   T|y===ƏVV|I  @@#..",
         ".o    D###o*o###    ¤#..",
         ".#dd by#GKG,,,,#DD  y#..",
         ".###oo##,,,,,,,####oo#..",
         ".......-,,,,,,,-........",
-        ".......---------...[....",
+        "..[....---------........",
         "........................"
       ],
       "terrain": {
@@ -49,6 +48,7 @@
         "W": "t_linoleum_gray",
         "Z": "t_linoleum_gray",
         "=": "t_carpet_red",
+        "Ə": "t_carpet_red",
         "L": "t_carpet_red"
       },
       "furniture": { "£": "f_exercise", "$": "f_treadmill", "?": "f_bookcase" },
@@ -61,13 +61,13 @@
         { "item": "cookbook_daintydishes", "x": 16, "y": 8, "chance": 25 },
         { "item": "brewing_cookbook", "x": 16, "y": 8, "chance": 10 },
         { "item": "cookbook", "x": 16, "y": 8, "chance": 50 }
-      ]
+      ],
+      "place_nested": [ { "chunks": [ "NC_res_backyard_3X3" ], "x": 17, "y": 21 } ]
     }
   },
   {
     "type": "mapgen",
     "om_terrain": "bungalow20_roof",
-    "weight": 250,
     "method": "json",
     "object": {
       "palettes": [ "roof_palette" ],
@@ -98,7 +98,11 @@
         "                        ",
         "                        "
       ],
-      "terrain": { ".": "t_shingle_flat_roof" }
+      "terrain": { ".": "t_shingle_flat_roof" },
+      "place_nested": [
+        { "chunks": [ "NC_res_roof_solar_4X4" ], "x": 3, "y": 5 },
+        { "chunks": [ "NC_res_roof_chunk_3X3" ], "x": [ 9, 15 ], "y": [ 4, 11 ] }
+      ]
     }
   }
 ]

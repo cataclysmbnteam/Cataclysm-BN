@@ -37,6 +37,7 @@ TEST_CASE( "vehicle power with reactor and solar panels", "[vehicle][power]" )
 
         REQUIRE( !veh_ptr->reactors.empty() );
         vehicle_part &reactor = veh_ptr->part( veh_ptr->reactors.front() );
+        reactor.enabled = true;
 
         GIVEN( "the reactor is empty" ) {
             reactor.ammo_unset();

@@ -61,7 +61,7 @@
       "palettes": [ "swamp_background" ],
       "mapping": {
         "B": { "items": [ { "item": "novels", "chance": 50 }, { "item": "textbooks", "chance": 25 } ] },
-        "C": { "items": [ { "item": "kitchen", "chance": 50 }, { "item": "fridge", "chance": 50 } ] },
+        "C": { "items": [ { "item": "kitchen", "chance": 50 }, { "item": "SUS_fridge", "chance": 50 } ] },
         "D": { "items": { "item": "dresser", "chance": 75 } },
         "X": { "items": [ { "item": "hardware", "chance": 30 }, { "item": "mischw", "chance": 30 } ] },
         "b": { "items": { "item": "bed", "chance": 60 } },
@@ -226,7 +226,7 @@
       "palettes": [ "swamp_background" ],
       "mapping": {
         "B": { "items": [ { "item": "novels", "chance": 50 }, { "item": "textbooks", "chance": 25 } ] },
-        "C": { "items": [ { "item": "kitchen", "chance": 50 }, { "item": "fridge", "chance": 50 } ] },
+        "C": { "items": [ { "item": "kitchen", "chance": 50 }, { "item": "SUS_fridge", "chance": 50 } ] },
         "D": { "items": { "item": "NC_HUNTER_misc", "chance": 50 } },
         "L": { "items": { "item": "NC_HUNTER_misc", "chance": 50 } },
         "N": { "items": { "item": "cleaning", "chance": 60 } },

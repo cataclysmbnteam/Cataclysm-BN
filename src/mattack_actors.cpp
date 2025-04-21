@@ -313,16 +313,18 @@ bool melee_actor::call( monster &z ) const
     }
 
     damage_instance damage = damage_max_instance;
+    damage.add_damage( DT_BASH, z.get_bash_bonus() );
+    damage.add_damage( DT_CUT, z.get_cut_bonus() );
 
     double multiplier = rng_float( min_mul, max_mul );
     damage.mult_damage( multiplier );
 
-    body_part bp_hit = body_parts.empty() ?
-                       target->select_body_part( &z, hitspread ) :
-                       *body_parts.pick();
+    const bodypart_str_id &bp_hit = body_parts.empty() ?
+                                    target->select_body_part( &z, hitspread ) :
+                                    convert_bp( *body_parts.pick() );
 
-    target->on_hit( &z, convert_bp( bp_hit ).id() );
-    dealt_damage_instance dealt_damage = target->deal_damage( &z, convert_bp( bp_hit ).id(), damage );
+    target->on_hit( &z, bp_hit.id() );
+    dealt_damage_instance dealt_damage = target->deal_damage( &z, bp_hit.id(), damage );
     dealt_damage.bp_hit = bp_hit;
 
     int damage_total = dealt_damage.total_damage();
@@ -349,13 +351,13 @@ void melee_actor::on_damage( monster &z, Creature &target, dealt_damage_instance
         sfx::do_player_death_hurt( dynamic_cast<player &>( target ), false );
     }
     auto msg_type = target.attitude_to( g->u ) == Attitude::A_FRIENDLY ? m_bad : m_neutral;
-    const body_part bp = dealt.bp_hit;
+    const bodypart_str_id bp = dealt.bp_hit;
     target.add_msg_player_or_npc( msg_type, hit_dmg_u, hit_dmg_npc, z.name(),
                                   body_part_name_accusative( bp ) );
 
     for( const auto &eff : effects ) {
         if( x_in_y( eff.chance, 100 ) ) {
-            const body_part affected_bp = eff.affect_hit_bp ? bp : eff.bp;
+            const bodypart_str_id &affected_bp = eff.affect_hit_bp ? bp : convert_bp( eff.bp );
             target.add_effect( eff.id, time_duration::from_turns( eff.duration ), affected_bp );
             if( eff.permanent ) {
                 target.get_effect( eff.id, affected_bp ).set_permanent();
@@ -381,7 +383,7 @@ void bite_actor::on_damage( monster &z, Creature &target, dealt_damage_instance 
 {
     melee_actor::on_damage( z, target, dealt );
     if( target.has_effect( effect_grabbed ) && one_in( no_infection_chance - dealt.total_damage() ) ) {
-        const body_part hit = dealt.bp_hit;
+        const bodypart_str_id &hit = dealt.bp_hit;
         if( target.has_effect( effect_bite, hit ) ) {
             target.add_effect( effect_bite, 40_minutes, hit );
         } else if( target.has_effect( effect_infected, hit ) ) {
@@ -577,7 +579,7 @@ bool gun_actor::call( monster &z ) const
         aim_at = target->pos();
     } else {
         target = z.attack_target();
-        if( !target || !z.sees( *target ) ) {
+        if( !target || ( !target->is_monster() && !z.aggro_character ) || !z.sees( *target ) ) {
             if( !target_moving_vehicles ) {
                 return false;
             }

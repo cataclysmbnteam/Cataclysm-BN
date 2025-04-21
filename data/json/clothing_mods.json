@@ -92,5 +92,29 @@
     "destroy_prompt": "Undo resizing for mutated anatomy",
     "restricted": true,
     "mod_value": [ { "type": "encumbrance", "value": 10, "proportion": [ "coverage" ] } ]
+  },
+  {
+    "type": "clothing_mod",
+    "id": "nomex_padded",
+    "flag": "nomex_padded",
+    "item": "nomex",
+    "implement_prompt": "Pad with Nomex",
+    "destroy_prompt": "Destroy Nomex padding",
+    "mod_value": [
+      { "type": "fire", "value": 3, "proportion": [ "thickness" ] },
+      { "type": "encumbrance", "value": 0.5, "round_up": true, "proportion": [ "thickness", "coverage" ] }
+    ]
+  },
+  {
+    "type": "clothing_mod",
+    "id": "pocketed",
+    "flag": "pocketed",
+    "item": "rag",
+    "implement_prompt": "Add pockets",
+    "destroy_prompt": "Remove pockets",
+    "mod_value": [
+      { "type": "encumbrance", "value": 1, "round_up": true, "proportion": [ "volume", "coverage" ] },
+      { "type": "storage", "value": 1, "round_up": true, "proportion": [ "volume" ] }
+    ]
   }
 ]

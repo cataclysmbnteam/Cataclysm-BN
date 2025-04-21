@@ -1,6 +1,4 @@
 ﻿#pragma once
-#ifndef CATA_SRC_STRING_UTILS_H
-#define CATA_SRC_STRING_UTILS_H
 
 #include <string>
 #include <vector>
@@ -38,46 +36,6 @@ bool lcequal( const std::string &str1, const std::string &str2 );
  * @return true if include/exclude rules pass. See Example.
  */
 bool match_include_exclude( const std::string &text, std::string filter );
-
-/**
- * \brief Returns true if s1 starts with s2
- *
- * TODO: Switch to starts_with method of std::string when we move to C++20
- */
-bool string_starts_with( const std::string &s1, const std::string &s2 );
-
-/**
- * Returns true if s1 starts with s2.
- * This version accepts constant string literals and is ≈1.5 times faster than std::string version.
- * Note: N is (size+1) for null-terminated strings.
- *
- * TODO: Maybe switch to std::string::starts_with + std::string_view when we move to C++20
- */
-template <std::size_t N>
-inline bool string_starts_with( const std::string &s1, const char( &s2 )[N] )
-{
-    return s1.compare( 0, N - 1, s2, N - 1 ) == 0;
-}
-
-/**
- * \brief Returns true if s1 ends with s2
- *
- * TODO: Switch to ends_with method of std::string when we move to C++20
- */
-bool string_ends_with( const std::string &s1, const std::string &s2 );
-
-/**
- *  Returns true iff s1 ends with s2.
- *  This version accepts constant string literals and is ≈1.5 times faster than std::string version.
- *  Note: N is (size+1) for null-terminated strings.
- *
- * TODO: Maybe switch to std::string::ends_with + std::string_view when we move to C++20
- */
-template <std::size_t N>
-inline bool string_ends_with( const std::string &s1, const char( &s2 )[N] )
-{
-    return s1.size() >= N - 1 && s1.compare( s1.size() - ( N - 1 ), std::string::npos, s2, N - 1 ) == 0;
-}
 
 /**
  * Joins a vector of `std::string`s into a single string with a delimiter/joiner
@@ -171,4 +129,4 @@ std::string &capitalize_letter( std::string &str, size_t n = 0 );
  */
 std::string trim_whitespaces( const std::string &str );
 
-#endif // CATA_SRC_STRING_UTILS_H
+

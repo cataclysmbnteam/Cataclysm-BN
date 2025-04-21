@@ -1,6 +1,4 @@
 #pragma once
-#ifndef CATA_SRC_IUSE_H
-#define CATA_SRC_IUSE_H
 
 #include <memory>
 #include <string>
@@ -61,12 +59,10 @@ int marloss( player *, item *, bool, const tripoint & );
 int marloss_seed( player *, item *, bool, const tripoint & );
 int marloss_gel( player *, item *, bool, const tripoint & );
 int mycus( player *, item *, bool, const tripoint & );
-int dogfood( player *, item *, bool, const tripoint & );
-int catfood( player *, item *, bool, const tripoint & );
-int feedcattle( player *, item *, bool, const tripoint & );
-int feedbird( player *, item *, bool, const tripoint & );
+int petfood( player *, item *, bool, const tripoint & );
 int antiasthmatic( player *, item *, bool, const tripoint & );
 // TOOLS
+int amputate( player *, item *, bool, const tripoint & );
 int extinguisher( player *, item *, bool, const tripoint & );
 int hammer( player *, item *, bool, const tripoint & );
 int water_purifier( player *, item *, bool, const tripoint & );
@@ -84,23 +80,6 @@ int dig_channel( player *, item *, bool, const tripoint & );
 int fill_pit( player *, item *, bool, const tripoint & );
 int clear_rubble( player *, item *, bool, const tripoint & );
 int siphon( player *, item *, bool, const tripoint & );
-int chainsaw_off( player *, item *, bool, const tripoint & );
-int chainsaw_on( player *, item *, bool, const tripoint & );
-int elec_chainsaw_off( player *, item *, bool, const tripoint & );
-int elec_chainsaw_on( player *, item *, bool, const tripoint & );
-int cs_lajatang_off( player *, item *, bool, const tripoint & );
-int cs_lajatang_on( player *, item *, bool, const tripoint & );
-int ecs_lajatang_off( player *, item *, bool, const tripoint & );
-int ecs_lajatang_on( player *, item *, bool, const tripoint & );
-int carver_off( player *, item *, bool, const tripoint & );
-int carver_on( player *, item *, bool, const tripoint & );
-int trimmer_off( player *, item *, bool, const tripoint & );
-int trimmer_on( player *, item *, bool, const tripoint & );
-int circsaw_on( player *, item *, bool, const tripoint & );
-int combatsaw_off( player *, item *, bool, const tripoint & );
-int combatsaw_on( player *, item *, bool, const tripoint & );
-int e_combatsaw_off( player *, item *, bool, const tripoint & );
-int e_combatsaw_on( player *, item *, bool, const tripoint & );
 int jackhammer( player *, item *, bool, const tripoint & );
 int pickaxe( player *, item *, bool, const tripoint & );
 int burrow( player *, item *, bool, const tripoint & );
@@ -128,15 +107,12 @@ int pick_lock( player *, item *, bool, const tripoint & );
 int portal( player *, item *, bool, const tripoint & );
 int tazer( player *, item *, bool, const tripoint & );
 int tazer2( player *, item *, bool, const tripoint & );
-int shocktonfa_off( player *, item *, bool, const tripoint & );
-int shocktonfa_on( player *, item *, bool, const tripoint & );
 int mp3( player *, item *, bool, const tripoint & );
 int mp3_on( player *, item *, bool, const tripoint & );
 int rpgdie( player *, item *, bool, const tripoint & );
 int dive_tank( player *, item *, bool, const tripoint & );
 int gasmask( player *, item *, bool, const tripoint & );
 int portable_game( player *, item *, bool, const tripoint & );
-int fitness_check( player *p, item *it, bool, const tripoint & );
 int vibe( player *, item *, bool, const tripoint & );
 int hand_crank( player *, item *, bool, const tripoint & );
 int vortex( player *, item *, bool, const tripoint & );
@@ -171,8 +147,6 @@ int gun_clean( player *, item *, bool, const tripoint & );
 int gun_repair( player *, item *, bool, const tripoint & );
 int gunmod_attach( player *, item *, bool, const tripoint & );
 int toolmod_attach( player *, item *, bool, const tripoint & );
-int rm13armor_off( player *, item *, bool, const tripoint & );
-int rm13armor_on( player *, item *, bool, const tripoint & );
 int unpack_item( player *, item *, bool, const tripoint & );
 int pack_cbm( player *p, item *it, bool, const tripoint & );
 int pack_item( player *, item *, bool, const tripoint & );
@@ -202,6 +176,7 @@ int coin_flip( player *, item *, bool, const tripoint & );
 int play_game( player *, item *, bool, const tripoint & );
 int magic_8_ball( player *, item *, bool, const tripoint & );
 int toggle_heats_food( player *, item *, bool, const tripoint & );
+int toggle_ups_charging( player *, item *, bool, const tripoint & );
 int report_grid_charge( player *, item *, bool, const tripoint & );
 int report_grid_connections( player *, item *, bool, const tripoint & );
 int modify_grid_connections( player *, item *, bool, const tripoint & );
@@ -334,4 +309,4 @@ struct use_function {
         void dump_info( const item &, std::vector<iteminfo> & ) const;
 };
 
-#endif // CATA_SRC_IUSE_H
+

@@ -1,6 +1,4 @@
 #pragma once
-#ifndef CATA_SRC_ACTION_H
-#define CATA_SRC_ACTION_H
 
 #include <functional>
 #include <map>
@@ -269,6 +267,11 @@ enum action_id : int {
     ACTION_WORLD_MODS,
     /** Open distraction manager */
     ACTION_DISTRACTION_MANAGER,
+    /**@}*/
+
+    // Additional UI action
+    /**@{*/
+    ACTION_TOGGLE_CHARACTER_PREVIEW_CLOTHES,
     /**@}*/
 
     // Debug Functions
@@ -589,4 +592,3 @@ bool can_move_vertical_at( const tripoint &p, int movez );
  */
 bool can_examine_at( const tripoint &p );
 
-#endif // CATA_SRC_ACTION_H

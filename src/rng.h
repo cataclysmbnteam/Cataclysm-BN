@@ -1,6 +1,4 @@
 #pragma once
-#ifndef CATA_SRC_RNG_H
-#define CATA_SRC_RNG_H
 
 #include <array>
 #include <functional>
@@ -135,7 +133,7 @@ class is_std_array_helper<std::array<T, N>> : public std::true_type
 {
 };
 template<typename T>
-class is_std_array : public is_std_array_helper<typename std::decay<T>::type>
+class is_std_array : public is_std_array_helper<std::decay_t<T>>
 {
 };
 
@@ -202,4 +200,4 @@ std::optional<tripoint> random_point( const tripoint_range<tripoint> &range,
 std::optional<tripoint> random_point( const map &m,
                                       const std::function<bool( const tripoint & )> &predicate );
 
-#endif // CATA_SRC_RNG_H
+

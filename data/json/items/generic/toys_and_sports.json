@@ -14,7 +14,6 @@
     "color": "pink",
     "ammo": "battery",
     "charges_per_use": 1,
-    "turns_per_charge": 20,
     "use_action": "DOLLCHAT",
     "magazines": [
       [
@@ -47,7 +46,6 @@
     "color": "pink",
     "ammo": "battery",
     "charges_per_use": 1,
-    "turns_per_charge": 20,
     "use_action": "DOLLCHAT",
     "magazines": [
       [

@@ -94,6 +94,10 @@ void scenario::load( const JsonObject &jo, const std::string & )
     if( jo.has_string( "vehicle" ) ) {
         _starting_vehicle = vproto_id( jo.get_string( "vehicle" ) );
     }
+
+    for( JsonArray ja : jo.get_array( "surround_groups" ) ) {
+        _surround_groups.emplace_back( mongroup_id( ja.get_string( 0 ) ), ja.get_float( 1 ) );
+    }
 }
 
 const scenario *scenario::generic()
@@ -236,7 +240,7 @@ start_location_id scenario::random_start_location() const
 
 bool scenario::scen_is_blacklisted() const
 {
-    return sc_blacklist.allowed_scenarios.count( id ) == 0;
+    return !sc_blacklist.allowed_scenarios.contains( id );
 }
 
 void scen_blacklist::load_scen_blacklist( const JsonObject &jo, const std::string &src )
@@ -267,12 +271,12 @@ void scen_blacklist::finalize()
         all_scen.insert( scen.ident() );
     }
     for( const string_id<scenario> &sc : blacklist_scenarios ) {
-        if( all_scen.count( sc ) == 0 ) {
+        if( !all_scen.contains( sc ) ) {
             debugmsg( "Scenario blacklist contains invalid scenario" );
         }
     }
     for( const string_id<scenario> &sc : whitelist_scenarios ) {
-        if( all_scen.count( sc ) == 0 ) {
+        if( !all_scen.contains( sc ) ) {
             debugmsg( "Scenario whitelist contains invalid scenario" );
         }
     }
@@ -284,7 +288,7 @@ void scen_blacklist::finalize()
     }
 
     for( auto i = allowed_scenarios.begin(); i != allowed_scenarios.end(); ) {
-        if( blacklist_scenarios.count( *i ) != 0 ) {
+        if( blacklist_scenarios.contains( *i ) ) {
             i = allowed_scenarios.erase( i );
         } else {
             i++;
@@ -416,7 +420,7 @@ vproto_id scenario::vehicle() const
 
 bool scenario::traitquery( const trait_id &trait ) const
 {
-    return _allowed_traits.count( trait ) != 0 || is_locked_trait( trait ) ||
+    return _allowed_traits.contains( trait ) || is_locked_trait( trait ) ||
            ( !is_forbidden_trait( trait ) && trait->startingtrait );
 }
 
@@ -427,17 +431,17 @@ std::set<trait_id> scenario::get_locked_traits() const
 
 bool scenario::is_locked_trait( const trait_id &trait ) const
 {
-    return _forced_traits.count( trait ) != 0;
+    return _forced_traits.contains( trait );
 }
 
 bool scenario::is_forbidden_trait( const trait_id &trait ) const
 {
-    return _forbidden_traits.count( trait ) != 0;
+    return _forbidden_traits.contains( trait );
 }
 
 bool scenario::has_flag( const std::string &flag ) const
 {
-    return flags.count( flag ) != 0;
+    return flags.contains( flag );
 }
 
 bool scenario::allowed_start( const start_location_id &loc ) const
@@ -461,5 +465,9 @@ const std::string &scenario::get_map_extra() const
 const std::vector<mission_type_id> &scenario::missions() const
 {
     return _missions;
+}
+const std::vector<std::pair<mongroup_id, float>> &scenario::surround_groups() const
+{
+    return _surround_groups;
 }
 // vim:ts=4:sw=4:et:tw=0:fdm=marker:

@@ -1,6 +1,4 @@
 #pragma once
-#ifndef CATA_SRC_TRANSLATIONS_H
-#define CATA_SRC_TRANSLATIONS_H
 
 #include <map>
 #include <ostream>
@@ -253,7 +251,7 @@ class translation
         /**
          * Get raw untranslated string for debug purposes.
          */
-        inline std::string_view debug_get_raw() const {
+        std::string_view debug_get_raw() const {
             return raw;
         }
 
@@ -348,4 +346,4 @@ struct localized_comparator {
 
 constexpr localized_comparator localized_compare{};
 
-#endif // CATA_SRC_TRANSLATIONS_H
+

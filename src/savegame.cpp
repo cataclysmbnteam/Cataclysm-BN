@@ -34,6 +34,7 @@
 #include "output.h"
 #include "overmap.h"
 #include "overmap_types.h"
+#include "overmapbuffer.h"
 #include "popup.h"
 #include "regional_settings.h"
 #include "scent_map.h"
@@ -312,7 +313,7 @@ void game::load_shortcuts( std::istream &fin )
             for( const JsonMember &member : data.get_object( "quick_shortcuts" ) ) {
                 std::list<input_event> &qslist = quick_shortcuts_map[member.name()];
                 for( const int i : member.get_array() ) {
-                    qslist.push_back( input_event( i, CATA_INPUT_KEYBOARD ) );
+                    qslist.push_back( input_event( i, input_event_t::keyboard ) );
                 }
             }
         }
@@ -656,6 +657,14 @@ void overmap::unserialize_view( std::istream &fin, const std::string &file_path 
                 jsin.end_array();
             }
             jsin.end_array();
+        } else if( name == "path" ) {
+            jsin.start_array();
+            for( int z = 0; z < OVERMAP_LAYERS; ++z ) {
+                jsin.start_array();
+                unserialize_array_from_compacted_sequence( jsin, layer[z].path );
+                jsin.end_array();
+            }
+            jsin.end_array();
         } else if( name == "notes" ) {
             jsin.start_array();
             for( int z = 0; z < OVERMAP_LAYERS; ++z ) {
@@ -742,6 +751,16 @@ void overmap::serialize_view( std::ostream &fout ) const
     for( int z = 0; z < OVERMAP_LAYERS; ++z ) {
         json.start_array();
         serialize_array_to_compacted_sequence( json, layer[z].explored );
+        json.end_array();
+        fout << '\n';
+    }
+    json.end_array();
+
+    json.member( "path" );
+    json.start_array();
+    for( int z = 0; z < OVERMAP_LAYERS; ++z ) {
+        json.start_array();
+        serialize_array_to_compacted_sequence( json, layer[z].path );
         json.end_array();
         fout << '\n';
     }
@@ -1149,6 +1168,8 @@ void game::unserialize_master( std::istream &fin )
                 jsin.read( *faction_manager_ptr );
             } else if( name == "seed" ) {
                 jsin.read( seed );
+            } else if( name == "placed_unique_specials" ) {
+                overmap_buffer.deserialize_placed_unique_specials( jsin );
             } else if( name == "weather" ) {
                 JsonObject w = jsin.get_object();
                 w.read( "lightning", get_weather().lightning_active );
@@ -1183,6 +1204,9 @@ void game::serialize_master( std::ostream &fout )
 
         json.member( "active_missions" );
         mission::serialize_all( json );
+
+        json.member( "placed_unique_specials" );
+        overmap_buffer.serialize_placed_unique_specials( json );
 
         json.member( "factions", *faction_manager_ptr );
         json.member( "seed", seed );
@@ -1264,4 +1288,18 @@ void Creature_tracker::serialize( JsonOut &jsout ) const
         jsout.write( *monster_ptr );
     }
     jsout.end_array();
+}
+
+void overmapbuffer::serialize_placed_unique_specials( JsonOut &json ) const
+{
+    json.write_as_array( placed_unique_specials );
+}
+
+void overmapbuffer::deserialize_placed_unique_specials( JsonIn &jsin )
+{
+    placed_unique_specials.clear();
+    jsin.start_array();
+    while( !jsin.end_array() ) {
+        placed_unique_specials.emplace( jsin.get_string() );
+    }
 }

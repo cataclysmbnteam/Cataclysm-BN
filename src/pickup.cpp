@@ -24,6 +24,7 @@
 #include "debug.h"
 #include "drop_token.h"
 #include "enums.h"
+#include "faction.h"
 #include "game.h"
 #include "input.h"
 #include "int_id.h"
@@ -93,6 +94,9 @@ static bool select_autopickup_items( const std::vector<std::list<item_stack::ite
 
                 //Check the Pickup Rules
                 if( get_auto_pickup().check_item( item_name ) == RULE_WHITELISTED ) {
+                    do_pickup = true;
+                } else if( begin->is_container() && !begin->is_container_empty() &&
+                           get_auto_pickup().check_item( begin->get_contained().tname( 1, false ) ) == RULE_WHITELISTED ) {
                     do_pickup = true;
                 } else if( get_auto_pickup().check_item( item_name ) != RULE_BLACKLISTED ) {
                     //No prematched pickup rule found
@@ -241,7 +245,8 @@ static bool pick_one_up( pickup::pick_drop_selection &selection, bool &got_water
     item *loc = &*selection.target;
 
     const std::optional<int> &quantity = selection.quantity;
-    if( !loc->is_owned_by( g->u, true ) ) {
+    // If the faction would murder you on sight, we no longer care about stealing from them since it can't make things worse
+    if( !loc->is_owned_by( g->u, true ) && loc->get_owner()->likes_u >= -10 ) {
         // Has the player given input on if stealing is ok?
         if( u.get_value( "THIEF_MODE" ) == "THIEF_ASK" ) {
             pickup::query_thief();
@@ -1061,7 +1066,7 @@ void pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
                                           !selected_stack.pick ) );
                 if( action != "RIGHT" && action != "LEFT" ) {
                     selected = idx;
-                    start = static_cast<int>( idx / maxitems ) * maxitems;
+                    start = ( idx / maxitems ) * maxitems;
                 }
 
                 if( !selected_stack.pick ) {

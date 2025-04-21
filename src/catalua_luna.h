@@ -1,6 +1,4 @@
 #pragma once
-#ifndef CATA_SRC_CATALUA_LUNA_H
-#define CATA_SRC_CATALUA_LUNA_H
 
 #include <array>
 #include <functional>
@@ -87,7 +85,7 @@ struct luna_traits {
 extern std::string_view current_comment;
 
 template<typename T>
-using remove_cv_ref_t = typename std::remove_cv<typename std::remove_reference<T>::type>::type;
+using remove_cv_ref_t = std::remove_cv_t<std::remove_reference_t<T>>;
 
 template<typename Signature>
 using fx_traits = sol::meta::meta_detail::fx_traits<Signature>;
@@ -107,7 +105,7 @@ std::string doc_value_impl()
     if constexpr( luna_traits<Val>::impl ) {
         return std::string( luna_traits<Val>::name );
     } else {
-        using ValNoPtr = typename std::remove_pointer<Val>::type;
+        using ValNoPtr = std::remove_pointer_t<Val>;
         using ValBare = remove_cv_ref_t<ValNoPtr>;
         if constexpr( luna_traits<ValBare>::impl ) {
             return std::string( luna_traits<ValBare>::name );
@@ -281,6 +279,33 @@ inline sol::table get_enum_doctable( sol::state_view &lua )
 
 template<typename Class, typename Value>
 void doc_member( sol::table &dt, sol::types<Value Class::*> && )
+{
+    dt[KEY_MEMBER_TYPE] = MEMBER_IS_VAR;
+    add_comment( dt, KEY_MEMBER_COMMENT );
+    dt[KEY_MEMBER_VARIABLE_TYPE] = doc_value( sol::types<Value>() );
+}
+
+// Olanti! Curse thee for what I must do!
+// NOTE: This only works with read-only properties (for now).
+// It also has some pretty significant issues with intuiting the type of the
+// property it's working with.
+// TODO: Resolve these issues.
+template<typename GetClass, typename GetVal>
+void doc_member( sol::table &dt,
+                 sol::types<sol::property_wrapper<GetVal GetClass::*, sol::detail::no_prop>> && )
+{
+    dt[KEY_MEMBER_TYPE] = MEMBER_IS_VAR;
+    add_comment( dt, KEY_MEMBER_COMMENT );
+    /* TODO: Why does this work HERE but not when it's run in doc_value_impl?!
+     * This may prove problematic in the future. Implementing luna_traits might
+     * help avert it for certain types, but I would much prefer the root problem
+     * solved.
+     */
+    dt[KEY_MEMBER_VARIABLE_TYPE] = doc_value( sol::types<std::remove_const<GetVal>>() );
+}
+
+template<typename Class, typename Value>
+void doc_member( sol::table &dt, sol::types<sol::readonly_wrapper<Value Class::*>> && )
 {
     dt[KEY_MEMBER_TYPE] = MEMBER_IS_VAR;
     add_comment( dt, KEY_MEMBER_COMMENT );
@@ -491,7 +516,7 @@ struct userenum {
     sol::table t;
     bool finalized = false;
 
-    inline ~userenum() {
+    ~userenum() {
         if( !finalized ) {
             debugmsg( "Userenum<%s> has not been finalized!", detail::luna_traits<E>::name );
             std::abort();
@@ -553,7 +578,7 @@ struct userlib {
     sol::table dt;
     bool finalized = false;
 
-    inline ~userlib() {
+    ~userlib() {
         if( !finalized ) {
             debugmsg( "Userlib has not been finalized!" );
             std::abort();
@@ -642,4 +667,4 @@ inline void doc( std::string_view doc )
 
 } // namespace luna
 
-#endif // CATA_SRC_CATALUA_LUNA_H
+

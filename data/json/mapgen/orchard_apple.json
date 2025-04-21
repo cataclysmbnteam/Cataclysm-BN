@@ -174,6 +174,7 @@
         "x": "f_oven",
         "{": "f_sink"
       },
+      "items": { "d": { "item": "trash_dumpster", "chance": 80 } },
       "place_signs": [ { "signage": "Get Apples n Ciders!", "x": 13, "y": 17 } ],
       "place_items": [
         { "item": "fridge", "x": 20, "y": [ 15, 17 ], "chance": 75, "repeat": [ 1, 3 ] },

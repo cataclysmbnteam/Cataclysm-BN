@@ -17,7 +17,7 @@ then
 fi
 
 echo "> Extracting strings from json"
-if ! lang/bn_extract_json_strings.sh --output $TEMP_POT_FROM_JSON
+if ! lang/bn_extract_json_strings.sh "$@" --output $TEMP_POT_FROM_JSON
 then
     echo "Error in extract_json_strings.py. Aborting"
     exit 1

@@ -1,6 +1,4 @@
 #pragma once
-#ifndef CATA_SRC_RET_VAL_H
-#define CATA_SRC_RET_VAL_H
 
 #include <string>
 #include <type_traits>
@@ -19,11 +17,11 @@
 template<typename T>
 class ret_val
 {
-        static_assert( !std::is_convertible<T, std::string>::value, "string values aren't allowed" );
+        static_assert( !std::is_convertible_v<T, std::string>, "string values aren't allowed" );
 
         template<typename S>
-        using is_convertible_to_string = typename
-                                         std::enable_if< std::is_convertible<S, std::string>::value>::type;
+        using is_convertible_to_string =
+            std::enable_if_t< std::is_convertible_v<S, std::string>>;
 
     public:
         /**
@@ -98,4 +96,4 @@ struct ret_val<bool>::default_success : public std::integral_constant<bool, true
 template<>
 struct ret_val<bool>::default_failure : public std::integral_constant<bool, false> {};
 
-#endif // CATA_SRC_RET_VAL_H
+

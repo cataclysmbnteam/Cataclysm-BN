@@ -10,7 +10,7 @@
     "time": "15 m",
     "autolearn": true,
     "book_learn": [ [ "recipe_arrows", 1 ], [ "pocket_survival", 1 ], [ "book_archery", 2 ] ],
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SANDING", "level": 1 } ],
     "components": [
       [ [ "adhesive", 1, "LIST" ], [ "filament", 20, "LIST" ] ],
       [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "bee_sting", 1 ] ],
@@ -45,7 +45,12 @@
     "time": "30 m",
     "autolearn": true,
     "book_learn": [ [ "recipe_arrows", 3 ] ],
-    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "CUT", "level": 1 }, { "id": "ANVIL", "level": 1 } ],
+    "qualities": [
+      { "id": "HAMMER", "level": 2 },
+      { "id": "CUT", "level": 1 },
+      { "id": "ANVIL", "level": 1 },
+      { "id": "SANDING", "level": 1 }
+    ],
     "tools": [ [ [ "tongs", -1 ] ] ],
     "components": [
       [ [ "adhesive", 1, "LIST" ], [ "filament", 20, "LIST" ] ],
@@ -68,7 +73,12 @@
     "time": "30 m",
     "autolearn": true,
     "book_learn": [ [ "recipe_arrows", 3 ] ],
-    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "CUT", "level": 1 }, { "id": "ANVIL", "level": 1 } ],
+    "qualities": [
+      { "id": "HAMMER", "level": 2 },
+      { "id": "CUT", "level": 1 },
+      { "id": "ANVIL", "level": 1 },
+      { "id": "SANDING", "level": 1 }
+    ],
     "tools": [ [ [ "tongs", -1 ] ] ],
     "components": [
       [ [ "adhesive", 1, "LIST" ], [ "filament", 20, "LIST" ] ],
@@ -91,7 +101,12 @@
     "time": "30 m",
     "autolearn": true,
     "book_learn": [ [ "recipe_arrows", 3 ] ],
-    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "CUT", "level": 1 }, { "id": "ANVIL", "level": 1 } ],
+    "qualities": [
+      { "id": "HAMMER", "level": 2 },
+      { "id": "CUT", "level": 1 },
+      { "id": "ANVIL", "level": 1 },
+      { "id": "SANDING", "level": 1 }
+    ],
     "tools": [ [ [ "tongs", -1 ] ] ],
     "components": [
       [ [ "adhesive", 1, "LIST" ], [ "filament", 20, "LIST" ] ],
@@ -113,7 +128,12 @@
     "time": "20 m",
     "autolearn": true,
     "book_learn": [ [ "recipe_arrows", 3 ] ],
-    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CUT", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "qualities": [
+      { "id": "HAMMER", "level": 1 },
+      { "id": "CUT", "level": 1 },
+      { "id": "SAW_M", "level": 1 },
+      { "id": "SANDING", "level": 1 }
+    ],
     "components": [
       [ [ "adhesive", 1, "LIST" ], [ "filament", 10, "LIST" ] ],
       [ [ "wire", 5 ], [ "pipe", 1 ] ],
@@ -132,11 +152,74 @@
     "difficulty": 3,
     "time": "20 m",
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SANDING", "level": 1 } ],
     "tools": [ [ [ "fire", -1 ] ] ],
     "components": [
       [ [ "adhesive", 1, "LIST" ], [ "filament", 10, "LIST" ] ],
       [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "bee_sting", 1 ], [ "arrow_fire_hardened_fletched", 10 ] ],
+      [ [ "fletching", 1, "LIST" ] ]
+    ],
+    "delete_flags": [ "FILTHY" ],
+    "flags": [ "ALLOW_FILTHY" ]
+  },
+  {
+    "type": "recipe",
+    "result": "arrow_stinger",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_ARROWS",
+    "skill_used": "fabrication",
+    "skills_required": [ [ "archery", 3 ], [ "survival", 1 ] ],
+    "difficulty": 4,
+    "time": "30 m",
+    "autolearn": true,
+    "book_learn": [ [ "recipe_arrows", 2 ] ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SANDING", "level": 1 } ],
+    "components": [
+      [ [ "adhesive", 1, "LIST" ], [ "filament", 20, "LIST" ] ],
+      [ [ "bee_sting", 1 ], [ "wasp_sting", 1 ] ],
+      [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "bee_sting", 1 ] ],
+      [ [ "fletching", 1, "LIST" ] ]
+    ],
+    "delete_flags": [ "FILTHY" ],
+    "flags": [ "ALLOW_FILTHY" ]
+  },
+  {
+    "type": "recipe",
+    "result": "arrow_triffid",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_ARROWS",
+    "skill_used": "fabrication",
+    "skills_required": [ [ "archery", 3 ], [ "survival", 1 ] ],
+    "difficulty": 4,
+    "time": "30 m",
+    "autolearn": true,
+    "book_learn": [ [ "recipe_arrows", 2 ] ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SANDING", "level": 1 } ],
+    "components": [
+      [ [ "adhesive", 1, "LIST" ], [ "filament", 20, "LIST" ] ],
+      [ [ "fighter_sting", 1 ] ],
+      [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "bee_sting", 1 ] ],
+      [ [ "fletching", 1, "LIST" ] ]
+    ],
+    "delete_flags": [ "FILTHY" ],
+    "flags": [ "ALLOW_FILTHY" ]
+  },
+  {
+    "type": "recipe",
+    "result": "arrow_tooth",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_ARROWS",
+    "skill_used": "fabrication",
+    "skills_required": [ [ "archery", 3 ], [ "survival", 1 ] ],
+    "difficulty": 4,
+    "time": "30 m",
+    "autolearn": true,
+    "book_learn": [ [ "recipe_arrows", 2 ] ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "HAMMER", "level": 1 }, { "id": "SANDING", "level": 1 } ],
+    "components": [
+      [ [ "adhesive", 1, "LIST" ], [ "filament", 20, "LIST" ] ],
+      [ [ "teeth_serrated", 1 ] ],
+      [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "bee_sting", 1 ] ],
       [ [ "fletching", 1, "LIST" ] ]
     ],
     "delete_flags": [ "FILTHY" ],
@@ -153,7 +236,7 @@
     "time": "20 m",
     "autolearn": true,
     "book_learn": [ [ "recipe_arrows", 2 ], [ "pocket_survival", 2 ] ],
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "HAMMER", "level": 1 }, { "id": "SANDING", "level": 1 } ],
     "components": [
       [ [ "adhesive", 1, "LIST" ], [ "filament", 20, "LIST" ] ],
       [ [ "stick", 2 ], [ "broom", 2 ], [ "2x4", 2 ], [ "bee_sting", 2 ] ],
@@ -161,6 +244,7 @@
         [ "bone", 5 ],
         [ "bone_human", 5 ],
         [ "bone_tainted", 10 ],
+        [ "bone_heavy", 3 ],
         [ "rock", 1 ],
         [ "ceramic_shard", 1 ],
         [ "scrap", 2 ],
@@ -185,7 +269,12 @@
     "time": "30 m",
     "autolearn": true,
     "book_learn": [ [ "recipe_arrows", 3 ] ],
-    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "CUT", "level": 1 }, { "id": "ANVIL", "level": 1 } ],
+    "qualities": [
+      { "id": "HAMMER", "level": 2 },
+      { "id": "CUT", "level": 1 },
+      { "id": "ANVIL", "level": 1 },
+      { "id": "SANDING", "level": 1 }
+    ],
     "tools": [ [ [ "tongs", -1 ] ] ],
     "components": [
       [ [ "adhesive", 1, "LIST" ], [ "filament", 20, "LIST" ] ],
@@ -208,7 +297,12 @@
     "time": "30 m",
     "autolearn": true,
     "book_learn": [ [ "recipe_arrows", 3 ] ],
-    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "CUT", "level": 1 }, { "id": "ANVIL", "level": 1 } ],
+    "qualities": [
+      { "id": "HAMMER", "level": 2 },
+      { "id": "CUT", "level": 1 },
+      { "id": "ANVIL", "level": 1 },
+      { "id": "SANDING", "level": 1 }
+    ],
     "tools": [ [ [ "tongs", -1 ] ] ],
     "components": [
       [ [ "adhesive", 1, "LIST" ], [ "filament", 20, "LIST" ] ],
@@ -231,11 +325,79 @@
     "time": "30 m",
     "autolearn": true,
     "book_learn": [ [ "recipe_arrows", 3 ] ],
-    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "CUT", "level": 1 }, { "id": "ANVIL", "level": 1 } ],
+    "qualities": [
+      { "id": "HAMMER", "level": 2 },
+      { "id": "CUT", "level": 1 },
+      { "id": "ANVIL", "level": 1 },
+      { "id": "SANDING", "level": 1 }
+    ],
     "tools": [ [ [ "tongs", -1 ] ] ],
     "components": [
       [ [ "adhesive", 1, "LIST" ], [ "filament", 20, "LIST" ] ],
       [ [ "steel_tiny", 1, "LIST" ] ],
+      [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "bee_sting", 1 ] ],
+      [ [ "fletching", 1, "LIST" ] ]
+    ],
+    "delete_flags": [ "FILTHY" ],
+    "flags": [ "ALLOW_FILTHY" ]
+  },
+  {
+    "type": "recipe",
+    "result": "bolt_stinger",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_ARROWS",
+    "skill_used": "fabrication",
+    "skills_required": [ [ "survival", 1 ] ],
+    "difficulty": 4,
+    "time": "30 m",
+    "autolearn": true,
+    "book_learn": [ [ "recipe_arrows", 2 ] ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SANDING", "level": 1 } ],
+    "components": [
+      [ [ "adhesive", 1, "LIST" ], [ "filament", 20, "LIST" ] ],
+      [ [ "bee_sting", 1 ], [ "wasp_sting", 1 ] ],
+      [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "bee_sting", 1 ] ],
+      [ [ "fletching", 1, "LIST" ] ]
+    ],
+    "delete_flags": [ "FILTHY" ],
+    "flags": [ "ALLOW_FILTHY" ]
+  },
+  {
+    "type": "recipe",
+    "result": "bolt_triffid",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_ARROWS",
+    "skill_used": "fabrication",
+    "skills_required": [ [ "survival", 1 ] ],
+    "difficulty": 4,
+    "time": "30 m",
+    "autolearn": true,
+    "book_learn": [ [ "recipe_arrows", 2 ] ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SANDING", "level": 1 } ],
+    "components": [
+      [ [ "adhesive", 1, "LIST" ], [ "filament", 20, "LIST" ] ],
+      [ [ "fighter_sting", 1 ] ],
+      [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "bee_sting", 1 ] ],
+      [ [ "fletching", 1, "LIST" ] ]
+    ],
+    "delete_flags": [ "FILTHY" ],
+    "flags": [ "ALLOW_FILTHY" ]
+  },
+  {
+    "type": "recipe",
+    "result": "bolt_tooth",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_ARROWS",
+    "skill_used": "fabrication",
+    "skills_required": [ [ "survival", 1 ] ],
+    "difficulty": 4,
+    "time": "30 m",
+    "autolearn": true,
+    "book_learn": [ [ "recipe_arrows", 2 ] ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "HAMMER", "level": 1 }, { "id": "SANDING", "level": 1 } ],
+    "components": [
+      [ [ "adhesive", 1, "LIST" ], [ "filament", 20, "LIST" ] ],
+      [ [ "teeth_serrated", 1 ] ],
       [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "bee_sting", 1 ] ],
       [ [ "fletching", 1, "LIST" ] ]
     ],
@@ -286,7 +448,7 @@
     "difficulty": 3,
     "time": "20 m",
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SANDING", "level": 1 } ],
     "tools": [ [ [ "fire", -1 ] ] ],
     "components": [
       [ [ "adhesive", 1, "LIST" ], [ "filament", 10, "LIST" ] ],
@@ -307,7 +469,7 @@
     "time": "15 m",
     "autolearn": true,
     "book_learn": [ [ "recipe_arrows", 1 ], [ "pocket_survival", 1 ], [ "book_archery", 2 ] ],
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SANDING", "level": 1 } ],
     "components": [
       [ [ "adhesive", 1, "LIST" ], [ "filament", 20, "LIST" ] ],
       [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "bee_sting", 1 ] ],
@@ -327,7 +489,7 @@
     "time": "20 m",
     "autolearn": true,
     "book_learn": [ [ "recipe_arrows", 2 ], [ "pocket_survival", 2 ] ],
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "HAMMER", "level": 1 }, { "id": "SANDING", "level": 1 } ],
     "components": [
       [ [ "adhesive", 1, "LIST" ], [ "filament", 20, "LIST" ] ],
       [ [ "stick", 2 ], [ "broom", 2 ], [ "2x4", 2 ], [ "bee_sting", 2 ] ],
@@ -335,6 +497,7 @@
         [ "bone", 5 ],
         [ "bone_human", 5 ],
         [ "bone_tainted", 10 ],
+        [ "bone_heavy", 3 ],
         [ "rock", 1 ],
         [ "ceramic_shard", 1 ],
         [ "scrap", 2 ],
@@ -358,7 +521,7 @@
     "time": "1 m",
     "reversible": true,
     "book_learn": [ [ "recipe_arrows", 5 ] ],
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SANDING", "level": 1 } ],
     "components": [
       [
         [ "arrow_field_point_fletched", 1 ],
@@ -448,7 +611,7 @@
     "difficulty": 5,
     "time": "56 m",
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SANDING", "level": 1 } ],
     "tools": [ [ [ "mold_plastic", -1 ] ], [ [ "surface_heat", 15, "LIST" ] ] ],
     "components": [
       [ [ "plastic_chunk", 3 ] ],
@@ -457,5 +620,33 @@
     ],
     "delete_flags": [ "FILTHY" ],
     "flags": [ "ALLOW_FILTHY" ]
+  },
+  {
+    "result": "bolt_cf",
+    "type": "recipe",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_ARROWS",
+    "skill_used": "computer",
+    "difficulty": 2,
+    "skills_required": [ [ "fabrication", 2 ] ],
+    "//": "Increased time since in this case you still have to forge arrowheads",
+    "time": "30 m",
+    "book_learn": [ [ "textbook_computer", 2 ], [ "advanced_electronics", 2 ], [ "reference_fabrication1", 2 ] ],
+    "using": [ [ "3d_printing_standard", 3 ], [ "blacksmithing_standard", 1 ] ],
+    "components": [ [ [ "carbon_fiber_filament", 30 ] ], [ [ "steel_tiny", 1, "LIST" ], [ "scrap_bronze", 1 ] ] ]
+  },
+  {
+    "result": "arrow_cf",
+    "type": "recipe",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_ARROWS",
+    "skill_used": "computer",
+    "difficulty": 2,
+    "skills_required": [ [ "fabrication", 2 ] ],
+    "//": "Increased time since in this case you still have to forge arrowheads",
+    "time": "30 m",
+    "book_learn": [ [ "textbook_computer", 2 ], [ "advanced_electronics", 2 ], [ "reference_fabrication1", 2 ] ],
+    "using": [ [ "3d_printing_standard", 3 ], [ "blacksmithing_standard", 1 ] ],
+    "components": [ [ [ "carbon_fiber_filament", 30 ] ], [ [ "steel_tiny", 1, "LIST" ], [ "scrap_bronze", 1 ] ] ]
   }
 ]

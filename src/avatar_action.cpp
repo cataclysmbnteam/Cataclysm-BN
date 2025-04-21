@@ -92,8 +92,6 @@ static const std::string flag_LADDER( "LADDER" );
 
 #define dbg(x) DebugLog((x), DC::SDL)
 
-bool can_fire_turret( avatar &you, const map &m, const turret_data &turret );
-
 bool avatar_action::move( avatar &you, map &m, const tripoint &d )
 {
     if( ( !g->check_safe_mode_allowed() ) || you.has_active_mutation( trait_SHELL2 ) ) {
@@ -272,7 +270,7 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
         monster &critter = *mon_ptr;
         // Additional checking to make sure we won't take a swing at friendly monsters.
         Character &u = get_player_character();
-        monster_attitude att = critter.attitude( const_cast<Character *>( &u ) );
+        monster_attitude att = critter.attitude( ( &u ) );
         if( critter.friendly == 0 &&
             !critter.has_effect( effect_pet ) && att != MATT_FRIEND ) {
             if( you.is_auto_moving() ) {
@@ -696,12 +694,26 @@ bool avatar_action::can_fire_weapon( avatar &you, const map &m, const item &weap
     return false;
 }
 
-/**
- * Checks if the turret is valid and if the player meets certain conditions for manually firing it.
- * @param turret Turret to check.
- * @return True if all conditions are true, otherwise false.
- */
-bool can_fire_turret( avatar &you, const map &m, const turret_data &turret )
+bool avatar_action::will_fire_turret( avatar &you )
+{
+    if( you.has_trait( trait_BRAWLER ) ) {
+        add_msg( m_bad, _( "You refuse to use this ranged weapon" ) );
+        return false;
+    }
+
+    if( you.has_effect( effect_relax_gas ) ) {
+        if( one_in( 5 ) ) {
+            add_msg( m_good, _( "Your eyes steel, and you aim your weapon!" ) );
+        } else {
+            you.moves -= rng( 2, 5 ) * 10;
+            add_msg( m_bad, _( "You are too pacified to aim the turret…" ) );
+            return false;
+        }
+    }
+    return true;
+}
+
+bool avatar_action::can_fire_turret( avatar &you, const map &m, const turret_data &turret )
 {
     const item &weapon = turret.base();
     if( !weapon.is_gun() ) {
@@ -709,8 +721,7 @@ bool can_fire_turret( avatar &you, const map &m, const turret_data &turret )
         return false;
     }
 
-    if( you.has_trait( trait_BRAWLER ) ) {
-        add_msg( m_bad, _( "You refuse to use the %s." ), turret.name() );
+    if( !will_fire_turret( you ) ) {
         return false;
     }
 
@@ -729,16 +740,6 @@ bool can_fire_turret( avatar &you, const map &m, const turret_data &turret )
         default:
             debugmsg( "Unknown turret status" );
             return false;
-    }
-
-    if( you.has_effect( effect_relax_gas ) ) {
-        if( one_in( 5 ) ) {
-            add_msg( m_good, _( "Your eyes steel, and you aim your weapon!" ) );
-        } else {
-            you.moves -= rng( 2, 5 ) * 10;
-            add_msg( m_bad, _( "You are too pacified to aim the turret…" ) );
-            return false;
-        }
     }
 
     std::vector<std::string> messages;
@@ -767,7 +768,7 @@ void avatar_action::fire_wielded_weapon( avatar &you )
     } else if( !weapon.is_gun() ) {
         return;
     } else if( weapon.ammo_data() && weapon.type->gun &&
-               !weapon.ammo_types().count( weapon.ammo_data()->ammo->type ) ) {
+               !weapon.ammo_types().contains( weapon.ammo_data()->ammo->type ) ) {
         std::string ammoname = weapon.ammo_current()->nname( 1 );
         add_msg( m_info, _( "The %s can't be fired while loaded with incompatible ammunition %s" ),
                  weapon.tname(), ammoname );
@@ -898,7 +899,7 @@ void avatar_action::eat( avatar &you, item *loc )
         loc->attempt_detach( [&you]( detached_ptr<item> &&it ) {
             return you.consume_item( std::move( it ) );
         } );
-        if( loc->is_food_container() || !you.can_consume_as_is( *loc ) ) {
+        if( !loc->is_food_container() && !you.can_consume_as_is( *loc ) ) {
             add_msg( _( "You leave the empty %s." ), loc->tname() );
         }
     }
@@ -987,36 +988,8 @@ void avatar_action::plthrow( avatar &you, item *loc,
                          ( *loc, blind_throw_from_pos ) ), false );
 }
 
-static void make_active( item &loc )
-{
-    map &here = get_map();
-    switch( loc.where() ) {
-        case item_location_type::map:
-            here.make_active( loc );
-            break;
-        case item_location_type::vehicle:
-            here.veh_at( loc.position() )->vehicle().make_active( loc );
-            break;
-        default:
-            break;
-    }
-}
-
-static void update_lum( item &loc, bool add )
-{
-    switch( loc.where() ) {
-        case item_location_type::map:
-            get_map().update_lum( loc, add );
-            break;
-        default:
-            break;
-    }
-}
-
 void avatar_action::use_item( avatar &you, item *loc )
 {
-    // Some items may be used without being picked up first
-    bool use_in_place = false;
 
     if( !loc ) {
         loc = game_menus::inv::use( you );
@@ -1026,9 +999,7 @@ void avatar_action::use_item( avatar &you, item *loc )
             return;
         }
 
-        if( loc->has_flag( flag_ALLOWS_REMOTE_USE ) ) {
-            use_in_place = true;
-        } else {
+        if( !loc->has_flag( flag_ALLOWS_REMOTE_USE ) ) {
             const int obtain_cost = loc->obtain_cost( you );
             loc->obtain( you );
 
@@ -1038,15 +1009,7 @@ void avatar_action::use_item( avatar &you, item *loc )
         }
     }
 
-    if( use_in_place ) {
-        update_lum( *loc, false );
-        avatar_funcs::use_item( you, *loc );
-        update_lum( *loc, true );
-
-        make_active( *loc );
-    } else {
-        avatar_funcs::use_item( you, *loc );
-    }
+    avatar_funcs::use_item( you, *loc );
 
     you.invalidate_crafting_inventory();
 }
@@ -1231,9 +1194,19 @@ void avatar_action::reload( item &loc, bool prompt, bool empty )
         use_loc = false;
     }
 
-    // for holsters and ammo pouches try to reload any contained item
-    if( it->type->can_use( "holster" ) && !it->contents.empty() ) {
-        it = &it->contents.front();
+    if( it->is_holster() ) {
+        auto ptr = dynamic_cast<const holster_actor *>
+                   ( it->type->get_use( "holster" )->get_actor_ptr() );
+        if( static_cast<int>( it->contents.num_item_stacks() ) < ptr->multi ) {
+            item *loc = game_menus::inv::holster( u, *it );
+
+            if( !loc ) {
+                u.add_msg_if_player( _( "Never mind." ) );
+                return;
+            }
+            ptr->store( u, *it, loc->detach() );
+            return;
+        }
     }
 
     // for bandoliers we currently defer to iuse_actor methods
@@ -1321,8 +1294,8 @@ void avatar_action::reload_weapon( bool try_everything )
             return true;
         }
         // Second sort by affiliation with wielded gun
-        const bool mag_ap = compatible_magazines.count( ap->typeId() ) > 0;
-        const bool mag_bp = compatible_magazines.count( bp->typeId() ) > 0;
+        const bool mag_ap = compatible_magazines.contains( ap->typeId() );
+        const bool mag_bp = compatible_magazines.contains( bp->typeId() );
         if( mag_ap != mag_bp ) {
             return mag_ap;
         }

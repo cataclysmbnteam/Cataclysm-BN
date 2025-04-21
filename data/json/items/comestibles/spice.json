@@ -72,8 +72,10 @@
     "volume": "250 ml",
     "calories": 19,
     "flags": [ "NUTRIENT_OVERRIDE" ],
+    "category": "cooking_ingredients",
     "//": "a tbsp is 4.2g of sugar, meaning the volume needed to be adjusted.",
-    "charges": 71
+    "charges": 71,
+    "vitamins": [ [ "junk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -101,12 +103,14 @@
     "description": "A tasty collection of wild herbs including violet, sassafras, mint, clover, purslane, fireweed, and burdock.",
     "price": "190 cent",
     "price_postapoc": "50 cent",
-    "material": "veggy",
+    "material": [ "veggy" ],
     "volume": "250 ml",
     "charges": 20,
     "flags": [ "RAW" ],
+    "category": "cooking_ingredients",
     "stack_size": 100,
-    "fun": -1
+    "fun": -15,
+    "vitamins": [ [ "veggy_allergen", 1 ] ]
   },
   {
     "id": "soysauce",
@@ -123,6 +127,7 @@
     "comestible_type": "DRINK",
     "container": "bottle_glass",
     "primary_material": "water",
+    "category": "cooking_ingredients",
     "quench": -20,
     "charges": 10,
     "healthy": -1,
@@ -136,7 +141,7 @@
     "description": "A stalk of thyme.  Smells delicious.",
     "comestible_type": "FOOD",
     "calories": 9,
-    "fun": -4,
+    "fun": -15,
     "weight": "40 g",
     "to_hit": -3,
     "color": "magenta",
@@ -144,7 +149,9 @@
     "material": [ "veggy" ],
     "volume": "250 ml",
     "price": "0 cent",
-    "price_postapoc": "10 cent"
+    "price_postapoc": "10 cent",
+    "category": "cooking_ingredients",
+    "vitamins": [ [ "veggy_allergen", 1 ] ]
   },
   {
     "id": "mustard_powder",
@@ -153,5 +160,14 @@
     "name": { "str_sp": "mustard powder" },
     "description": "A fragnant yellow powder.  Not edible in this form.",
     "color": "red"
+  },
+  {
+    "id": "gochujang",
+    "copy-from": "spice",
+    "type": "COMESTIBLE",
+    "name": { "str_sp": "gochujang" },
+    "description": "A spicy and sweet Korean condiment, quite often used throughout Korean cooking.",
+    "color": "red",
+    "looks_like": "chilly-p"
   }
 ]

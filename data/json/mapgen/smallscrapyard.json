@@ -29,6 +29,7 @@
         "{": "f_vending_o",
         "|": "f_null"
       },
+      "items": { "d": { "item": "trash_dumpster", "chance": 80 } },
       "place_items": [
         { "chance": 25, "item": "trash", "x": 11, "y": 20 },
         { "chance": 25, "item": "trash", "x": 2, "y": 19 },
@@ -159,6 +160,7 @@
         "{": "f_vending_o",
         "|": "f_null"
       },
+      "items": { "D": { "item": "trash_dumpster", "chance": 80 } },
       "place_items": [
         { "chance": 25, "item": "vending_food", "x": 4, "y": 9 },
         { "chance": 25, "item": "trash", "x": 11, "y": 20 },

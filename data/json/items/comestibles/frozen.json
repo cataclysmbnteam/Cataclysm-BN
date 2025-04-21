@@ -3,6 +3,34 @@
     "type": "COMESTIBLE",
     "id": "milkshake",
     "name": { "str": "milkshake" },
+    "conditional_names": [
+      { "type": "COMPONENT_ID", "condition": "apple", "name": { "str_sp": "apple %s" } },
+      { "type": "COMPONENT_ID", "condition": "apricot", "name": { "str_sp": "apricot %s" } },
+      { "type": "COMPONENT_ID", "condition": "banana", "name": { "str_sp": "banana %s" } },
+      { "type": "COMPONENT_ID", "condition": "blackberries", "name": { "str_sp": "blackberry %s" } },
+      { "type": "COMPONENT_ID", "condition": "blueberries", "name": { "str_sp": "blueberry %s" } },
+      { "type": "COMPONENT_ID", "condition": "cherries", "name": { "str_sp": "cherry %s" } },
+      { "type": "COMPONENT_ID", "condition": "cranberries", "name": { "str_sp": "cranberry %s" } },
+      { "type": "COMPONENT_ID", "condition": "grapefruit", "name": { "str_sp": "grapefruit %s" } },
+      { "type": "COMPONENT_ID", "condition": "grapes", "name": { "str_sp": "grape %s" } },
+      { "type": "COMPONENT_ID", "condition": "kiwi", "name": { "str_sp": "kiwi %s" } },
+      { "type": "COMPONENT_ID", "condition": "mango", "name": { "str_sp": "mango %s" } },
+      { "type": "COMPONENT_ID", "condition": "melon", "name": { "str_sp": "melon %s" } },
+      { "type": "COMPONENT_ID", "condition": "orange", "name": { "str_sp": "orange %s" } },
+      { "type": "COMPONENT_ID", "condition": "papaya", "name": { "str_sp": "papaya %s" } },
+      { "type": "COMPONENT_ID", "condition": "peach", "name": { "str_sp": "peach %s" } },
+      { "type": "COMPONENT_ID", "condition": "pear", "name": { "str_sp": "pear %s" } },
+      { "type": "COMPONENT_ID", "condition": "pineapple", "name": { "str_sp": "pineapple %s" } },
+      { "type": "COMPONENT_ID", "condition": "plums", "name": { "str_sp": "plum %s" } },
+      { "type": "COMPONENT_ID", "condition": "pomegranate", "name": { "str_sp": "pomegranate %s" } },
+      { "type": "COMPONENT_ID", "condition": "raspberries", "name": { "str_sp": "raspberry %s" } },
+      { "type": "COMPONENT_ID", "condition": "rose_hips", "name": { "str_sp": "rose hip %s" } },
+      { "type": "COMPONENT_ID", "condition": "strawberries", "name": { "str_sp": "strawberry %s" } },
+      { "type": "COMPONENT_ID", "condition": "huckleberries", "name": { "str_sp": "huckleberry %s" } },
+      { "type": "COMPONENT_ID", "condition": "mulberries", "name": { "str_sp": "mulberry %s" } },
+      { "type": "COMPONENT_ID", "condition": "elderberries", "name": { "str_sp": "elderberry %s" } },
+      { "type": "COMPONENT_ID", "condition": "watermelon", "name": { "str_sp": "watermelon %s" } }
+    ],
     "//": "they bring the boys to the yard",
     "description": "An all-natural cold beverage made with milk and sweeteners.  Tastes great when frozen.",
     "weight": "160 g",
@@ -18,10 +46,10 @@
     "healthy": -1,
     "price": "250 cent",
     "price_postapoc": "1 USD",
-    "material": "milk",
+    "material": [ "milk" ],
     "phase": "liquid",
     "charges": 2,
-    "vitamins": [ [ "vitA", 1 ], [ "calcium", 12 ] ],
+    "vitamins": [ [ "vitA", 1 ], [ "calcium", 12 ], [ "milk_allergen", 1 ] ],
     "flags": [ "MELTS" ]
   },
   {
@@ -36,12 +64,41 @@
     "price": "275 cent",
     "price_postapoc": "1 USD",
     "material": [ "milk", "junk" ],
-    "primary_material": "milk"
+    "primary_material": "milk",
+    "vitamins": [ [ "junk_allergen", 1 ], [ "milk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
     "copy-from": "milkshake",
     "id": "milkshake_deluxe",
+    "conditional_names": [
+      { "type": "COMPONENT_ID", "condition": "apple", "name": { "str_sp": "apple %s" } },
+      { "type": "COMPONENT_ID", "condition": "apricot", "name": { "str_sp": "apricot %s" } },
+      { "type": "COMPONENT_ID", "condition": "banana", "name": { "str_sp": "banana %s" } },
+      { "type": "COMPONENT_ID", "condition": "blackberries", "name": { "str_sp": "blackberry %s" } },
+      { "type": "COMPONENT_ID", "condition": "blueberries", "name": { "str_sp": "blueberry %s" } },
+      { "type": "COMPONENT_ID", "condition": "cherries", "name": { "str_sp": "cherry %s" } },
+      { "type": "COMPONENT_ID", "condition": "cranberries", "name": { "str_sp": "cranberry %s" } },
+      { "type": "COMPONENT_ID", "condition": "grapefruit", "name": { "str_sp": "grapefruit %s" } },
+      { "type": "COMPONENT_ID", "condition": "grapes", "name": { "str_sp": "grape %s" } },
+      { "type": "COMPONENT_ID", "condition": "kiwi", "name": { "str_sp": "kiwi %s" } },
+      { "type": "COMPONENT_ID", "condition": "mango", "name": { "str_sp": "mango %s" } },
+      { "type": "COMPONENT_ID", "condition": "melon", "name": { "str_sp": "melon %s" } },
+      { "type": "COMPONENT_ID", "condition": "orange", "name": { "str_sp": "orange %s" } },
+      { "type": "COMPONENT_ID", "condition": "papaya", "name": { "str_sp": "papaya %s" } },
+      { "type": "COMPONENT_ID", "condition": "peach", "name": { "str_sp": "peach %s" } },
+      { "type": "COMPONENT_ID", "condition": "pear", "name": { "str_sp": "pear %s" } },
+      { "type": "COMPONENT_ID", "condition": "pineapple", "name": { "str_sp": "pineapple %s" } },
+      { "type": "COMPONENT_ID", "condition": "plums", "name": { "str_sp": "plum %s" } },
+      { "type": "COMPONENT_ID", "condition": "pomegranate", "name": { "str_sp": "pomegranate %s" } },
+      { "type": "COMPONENT_ID", "condition": "raspberries", "name": { "str_sp": "raspberry %s" } },
+      { "type": "COMPONENT_ID", "condition": "rose_hips", "name": { "str_sp": "rose hip %s" } },
+      { "type": "COMPONENT_ID", "condition": "strawberries", "name": { "str_sp": "strawberry %s" } },
+      { "type": "COMPONENT_ID", "condition": "huckleberries", "name": { "str_sp": "huckleberry %s" } },
+      { "type": "COMPONENT_ID", "condition": "mulberries", "name": { "str_sp": "mulberry %s" } },
+      { "type": "COMPONENT_ID", "condition": "elderberries", "name": { "str_sp": "elderberry %s" } },
+      { "type": "COMPONENT_ID", "condition": "watermelon", "name": { "str_sp": "watermelon %s" } }
+    ],
     "name": { "str": "deluxe milkshake" },
     "description": "This milkshake has been enhanced with added sweeteners, and even has a cherry on top.  Tastes great, but is fairly awful for your health.",
     "calories": 265,
@@ -51,7 +108,8 @@
     "price": "4 USD",
     "price_postapoc": "150 cent",
     "material": [ "milk", "junk" ],
-    "primary_material": "milk"
+    "primary_material": "milk",
+    "vitamins": [ [ "junk_allergen", 1 ], [ "milk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -70,12 +128,12 @@
     "healthy": -1,
     "price": "250 cent",
     "price_postapoc": "3 USD",
-    "material": "milk",
+    "material": [ "milk" ],
     "primary_material": "ice_cream",
     "phase": "liquid",
     "//": "not technically a drink, but is quasi-liquid enough that it'd get all over everything if you carried it",
     "charges": 2,
-    "vitamins": [ [ "vitA", 9 ], [ "calcium", 9 ], [ "vitB", 11 ] ],
+    "vitamins": [ [ "vitA", 9 ], [ "calcium", 9 ], [ "vitB", 11 ], [ "milk_allergen", 1 ] ],
     "flags": [ "MELTS", "EATEN_COLD" ]
   },
   {
@@ -88,7 +146,8 @@
     "price": "2 USD",
     "price_postapoc": "1 USD",
     "primary_material": "ice_cream",
-    "material": [ "milk", "junk" ]
+    "material": [ "milk", "junk" ],
+    "vitamins": [ [ "junk_allergen", 1 ], [ "milk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -102,7 +161,7 @@
     "price_postapoc": "3 USD",
     "calories": 330,
     "primary_material": "ice_cream",
-    "vitamins": [ [ "vitA", 9 ], [ "calcium", 8 ], [ "iron", 4 ], [ "vitB", 8 ] ],
+    "vitamins": [ [ "vitA", 9 ], [ "calcium", 8 ], [ "iron", 4 ], [ "vitB", 8 ], [ "junk_allergen", 1 ], [ "milk_allergen", 1 ] ],
     "material": [ "milk", "junk" ]
   },
   {
@@ -117,7 +176,15 @@
     "price": "3 USD",
     "price_postapoc": "3 USD",
     "primary_material": "ice_cream",
-    "vitamins": [ [ "vitA", 8 ], [ "vitC", 6 ], [ "calcium", 8 ], [ "iron", 1 ], [ "vitB", 9 ] ],
+    "vitamins": [
+      [ "vitA", 8 ],
+      [ "vitC", 6 ],
+      [ "calcium", 8 ],
+      [ "iron", 1 ],
+      [ "vitB", 9 ],
+      [ "fruit_allergen", 1 ],
+      [ "milk_allergen", 1 ]
+    ],
     "material": [ "milk", "fruit" ]
   },
   {
@@ -131,7 +198,7 @@
     "price": "3 USD",
     "price_postapoc": "3 USD",
     "primary_material": "ice_cream",
-    "vitamins": [ [ "vitA", 1 ], [ "calcium", 8 ], [ "vitB", 10 ] ],
+    "vitamins": [ [ "vitA", 1 ], [ "calcium", 8 ], [ "vitB", 10 ], [ "egg_allergen", 1 ], [ "milk_allergen", 1 ] ],
     "material": [ "milk", "egg" ]
   },
   {
@@ -145,7 +212,7 @@
     "price_postapoc": "1 USD",
     "weight": "80 g",
     "primary_material": "ice_cream",
-    "vitamins": [ [ "vitC", 4 ], [ "calcium", 10 ] ],
+    "vitamins": [ [ "vitC", 4 ], [ "calcium", 10 ], [ "milk_allergen", 1 ] ],
     "material": [ "milk" ]
   },
   {
@@ -161,7 +228,7 @@
     "price": "175 cent",
     "price_postapoc": "1 USD",
     "weight": "106 g",
-    "vitamins": [  ],
+    "vitamins": [ [ "fruit_allergen", 1 ] ],
     "material": [ "water", "fruit" ]
   },
   {
@@ -175,7 +242,7 @@
     "price_postapoc": "2 USD",
     "weight": "90 g",
     "primary_material": "ice_cream",
-    "vitamins": [ [ "calcium", 2 ], [ "iron", 2 ] ],
+    "vitamins": [ [ "calcium", 2 ], [ "iron", 2 ], [ "milk_allergen", 1 ] ],
     "material": [ "milk" ]
   }
 ]

@@ -76,6 +76,7 @@
       { "item": "five-point_harness", "prob": 2, "count": [ 1, 2 ] },
       [ "metal_tank_little", 8 ],
       [ "cu_pipe", 5 ],
+      [ "exosuit_industrial", 4 ],
       [ "eyedrops", 4 ],
       [ "survnote", 1 ]
     ]

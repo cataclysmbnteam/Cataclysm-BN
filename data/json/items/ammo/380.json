@@ -8,7 +8,6 @@
     "volume": "250 ml",
     "price": "140 cent",
     "price_postapoc": "10 USD",
-    "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
     "material": [ "brass", "powder" ],
     "symbol": "=",
     "color": "yellow",
@@ -40,7 +39,6 @@
     "description": "Overpressure .380 ACP ammunition with a 90gr jacketed hollow point bullet.  These defensive loadings are designed to maximize performance and tend to be more accurate than practice ammo.  One should be careful not to chamber it in 9x18mm Makarov or 9x19mm firearms.",
     "price": "190 cent",
     "price_postapoc": "15 USD",
-    "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
     "count": 25,
     "damage": { "damage_type": "bullet", "amount": 30, "armor_penetration": 0 },
     "relative": { "dispersion": -15 },
@@ -52,13 +50,13 @@
     "type": "AMMO",
     "name": { "str": ".380 ACP FMJ, black powder" },
     "proportional": {
-      "price": 0.3,
-      "damage": { "damage_type": "bullet", "amount": 0.76, "armor_penetration": 0.5 },
+      "price": 0.5,
+      "price_postapoc": 0.5,
+      "damage": { "damage_type": "bullet", "amount": 0.8, "armor_penetration": 0.5 },
       "recoil": 0.76,
       "dispersion": 1.2
     },
-    "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+    "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] }
   },
   {
     "id": "bp_380_JHP",
@@ -66,12 +64,12 @@
     "type": "AMMO",
     "name": { "str": ".380 ACP JHP, black powder" },
     "proportional": {
-      "price": 0.3,
-      "damage": { "damage_type": "bullet", "amount": 0.76, "armor_penetration": 0.5 },
+      "price": 0.5,
+      "price_postapoc": 0.5,
+      "damage": { "damage_type": "bullet", "amount": 0.8, "armor_penetration": 0.5 },
       "recoil": 0.76,
       "dispersion": 1.2
     },
-    "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+    "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] }
   }
 ]

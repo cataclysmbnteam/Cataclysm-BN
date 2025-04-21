@@ -37,7 +37,7 @@
   {
     "type": "AMMO",
     "id": "aluminum_foil",
-    "category": "spare_parts",
+    "category": "scrap_metal",
     "price": "648 cent",
     "price_postapoc": "10 cent",
     "name": { "str": "aluminum foil" },
@@ -66,7 +66,7 @@
   {
     "type": "AMMO",
     "id": "thread",
-    "category": "spare_parts",
+    "category": "scrap_fabric",
     "price": "50 USD",
     "price_postapoc": "25 cent",
     "name": { "str_sp": "thread" },
@@ -84,7 +84,7 @@
   {
     "type": "AMMO",
     "id": "sinew",
-    "category": "spare_parts",
+    "category": "scrap_fabric",
     "price": "0 cent",
     "price_postapoc": "25 cent",
     "name": { "str": "sinew" },
@@ -92,7 +92,7 @@
     "color": "light_red",
     "looks_like": "thread",
     "description": "A tough sinew cut from a corpse, usable as thread.",
-    "material": "flesh",
+    "material": [ "flesh" ],
     "volume": "250 ml",
     "weight": "1 g",
     "ammo_type": "thread",
@@ -102,7 +102,7 @@
   {
     "type": "AMMO",
     "id": "plant_fibre",
-    "category": "spare_parts",
+    "category": "scrap_fabric",
     "price": "0 cent",
     "price_postapoc": "25 cent",
     "name": { "str": "plant fiber" },
@@ -110,7 +110,7 @@
     "color": "light_green",
     "looks_like": "thread",
     "description": "Tough thin fiber, taken from a plant.  Can be used as thread.",
-    "material": "veggy",
+    "material": [ "veggy" ],
     "volume": "250 ml",
     "weight": "1 g",
     "ammo_type": "thread",
@@ -120,7 +120,7 @@
   {
     "type": "AMMO",
     "id": "yarn",
-    "category": "spare_parts",
+    "category": "scrap_fabric",
     "price": "0 cent",
     "price_postapoc": "25 cent",
     "name": { "str_sp": "yarn" },
@@ -155,7 +155,7 @@
   {
     "type": "AMMO",
     "id": "duct_tape",
-    "category": "spare_parts",
+    "category": "other",
     "price": "20 USD",
     "price_postapoc": "250 cent",
     "name": { "str": "duct tape" },
@@ -171,7 +171,7 @@
   },
   {
     "type": "AMMO",
-    "category": "other",
+    "category": "scrap_wood",
     "id": "rolling_paper",
     "symbol": ",",
     "color": "white",
@@ -185,12 +185,12 @@
     "ammo_type": "components",
     "stack_size": 200,
     "count": 30,
-    "flags": [ "UNRECOVERABLE" ]
+    "flags": [ "UNRECOVERABLE", "TINDER" ]
   },
   {
     "type": "AMMO",
     "id": "cable",
-    "category": "spare_parts",
+    "category": "scrap_electronics",
     "price": "20 USD",
     "price_postapoc": "1 USD",
     "name": { "str": "copper wire" },
@@ -225,7 +225,7 @@
   {
     "type": "AMMO",
     "id": "plut_slurry_dense",
-    "category": "spare_parts",
+    "category": "other",
     "price": "250 cent",
     "price_postapoc": "0 cent",
     "name": { "str_sp": "plutonium slurry" },
@@ -243,7 +243,7 @@
   {
     "type": "AMMO",
     "id": "plut_slurry",
-    "category": "spare_parts",
+    "category": "other",
     "price": "250 cent",
     "price_postapoc": "0 cent",
     "name": { "str_sp": "watery plutonium slurry" },
@@ -265,11 +265,11 @@
     "color": "light_gray",
     "name": { "str": "rock" },
     "description": "A rock the size of a baseball.  Makes a decent melee weapon, and is also good for throwing at enemies.",
-    "category": "spare_parts",
+    "category": "rocks",
     "material": "stone",
     "ammo_type": "rock",
     "flags": [ "TRADER_AVOID" ],
-    "weight": "657 g",
+    "weight": "500 g",
     "volume": "250 ml",
     "bashing": 7,
     "damage": { "damage_type": "bash", "amount": 7 },
@@ -277,7 +277,7 @@
     "dispersion": 14,
     "loudness": 0,
     "to_hit": -1,
-    "qualities": [ [ "HAMMER", 1 ] ],
+    "qualities": [ [ "HAMMER", 1 ], [ "SANDING", 1 ] ],
     "dont_recover_one_in": 80,
     "effects": [ "NEVER_MISFIRES", "NON_FOULING" ]
   },
@@ -290,6 +290,7 @@
     "symbol": "=",
     "color": "light_gray",
     "description": "A handful of pebbles, useful as ammunition for slings or slingshots.",
+    "category": "rocks",
     "material": "stone",
     "volume": "250 ml",
     "weight": "5 g",
@@ -320,6 +321,7 @@
     "dispersion": 12,
     "loudness": 0,
     "count": 40,
+    "flags": [ "SHATTERS" ],
     "effects": [ "NEVER_MISFIRES" ]
   },
   {
@@ -332,6 +334,7 @@
     "color": "light_gray",
     "looks_like": "pebble",
     "description": "A handful of glass marbles, useful as ammunition for slings or slingshots.",
+    "category": "scrap_glass",
     "material": "glass",
     "volume": "250 ml",
     "weight": "3 g",
@@ -353,6 +356,7 @@
     "color": "dark_gray",
     "looks_like": "pebble",
     "description": "A box of ball bearings, useful as ammunition for slings or slingshots.",
+    "category": "scrap_metal",
     "material": "steel",
     "volume": "250 ml",
     "weight": "10 g",
@@ -383,7 +387,7 @@
     "dispersion": 100,
     "count": 500,
     "stack_size": 200,
-    "loudness": 9,
+    "loudness": 0,
     "effects": [ "NOGIB", "NEVER_MISFIRES", "NON_FOULING" ]
   },
   {
@@ -397,7 +401,7 @@
     "color": "brown",
     "description": "Feathers from a bird.  Useful for fletching arrows.",
     "material": "cotton",
-    "flags": [ "NO_SALVAGE" ],
+    "flags": [ "NO_SALVAGE", "TINDER" ],
     "volume": "250 ml",
     "weight": "1 g",
     "ammo_type": "components",
@@ -415,7 +419,7 @@
     "color": "brown",
     "description": "Fluffy down feathers from a bird.  Useful for making cozy bedclothes.",
     "material": "cotton",
-    "flags": [ "NO_SALVAGE" ],
+    "flags": [ "NO_SALVAGE", "TINDER" ],
     "volume": "250 ml",
     "weight": "1 g",
     "ammo_type": "components",
@@ -452,18 +456,47 @@
     "description": "A canister of pressurized hydrogen so heavily compressed it has turned solid.  With proper equipment, it could be heated to plasma.",
     "material": [ "steel", "powder" ],
     "volume": "2500 ml",
+    "//": "A good chunk of this mass is the canister.  Would have to be 100 kg per cubic meter for the below energy density to make sense, IRL density tends to top out at 86 kg per cubic meter.",
     "weight": "183 g",
     "ammo_type": "plasma",
     "damage": { "damage_type": "heat", "amount": 35, "armor_penetration": 8 },
     "range": 12,
     "count": 25,
+    "loudness": 60,
     "effects": [ "INCENDIARY" ],
     "flags": [ "UNRECOVERABLE" ],
     "fuel": {
       "//": "Compressed gaseous hydrogen has 9.2 MJ/L.  This stuff has a very high energy density but is also bulky and explosive.",
-      "energy": 4000,
+      "energy": 400,
       "explosion_data": { "chance_hot": 2, "chance_cold": 2, "factor": 1, "fiery": true, "size_factor": 0.15 }
     }
+  },
+  {
+    "id": "c_hydrogen_gas",
+    "type": "AMMO",
+    "name": { "str_sp": "hydrogen gas" },
+    "category": "chems",
+    "description": "A light, flammable gas compressed for use as fuel.  Requires a lot of energy to produce, even moreso without pre-cataclysm industry.  Quite energy dense, though not very volume-efficient.",
+    "//": "25 kg per cubic meter, in the lower half of the range for compressed hydrogen.",
+    "weight": "2500 mg",
+    "volume": "100 ml",
+    "price": "50 cent",
+    "price_postapoc": "5 cent",
+    "symbol": "=",
+    "color": "white",
+    "container": "metal_tank_little",
+    "damage": { "damage_type": "heat", "amount": 9, "armor_penetration": 2 },
+    "range": 6,
+    "dispersion": 120,
+    "phase": "liquid",
+    "ammo_type": "c_hydrogen",
+    "fuel": {
+      "//": "The solid hydrogen canisters have roughly 4 times the density.",
+      "energy": 100,
+      "explosion_data": { "chance_hot": 2, "chance_cold": 2, "factor": 0.5, "fiery": true, "size_factor": 0.1 }
+    },
+    "effects": [ "INCENDIARY" ],
+    "flags": [ "NO_DROP", "IRREMOVABLE" ]
   },
   {
     "type": "AMMO",
@@ -613,17 +646,23 @@
     "name": { "str": "rubber slug" },
     "symbol": "=",
     "color": "dark_gray",
-    "description": "Rubber slugs from a shotgun beanbag round.  You could use them to make new beanbag rounds.",
+    "description": "Rubber slugs from a shotgun beanbag round.  You could use them to make new beanbag rounds, or sling them at people.",
     "material": [ "plastic", "rubber" ],
     "volume": "250 ml",
-    "weight": "2 g",
-    "ammo_type": "components",
-    "count": 25
+    "weight": "8 g",
+    "ammo_type": "pebble",
+    "count": 25,
+    "damage": { "damage_type": "bash", "amount": 2 },
+    "range": 10,
+    "dispersion": 7,
+    "loudness": 0,
+    "dont_recover_one_in": 2,
+    "effects": [ "BEANBAG", "NEVER_MISFIRES", "NON_FOULING" ]
   },
   {
     "type": "AMMO",
     "id": "chunk_rubber",
-    "category": "spare_parts",
+    "category": "scrap_plastic",
     "price": "75 cent",
     "name": { "str": "chunk of rubber", "str_pl": "chunks of rubber" },
     "symbol": "*",
@@ -638,7 +677,7 @@
   {
     "type": "AMMO",
     "id": "copper",
-    "category": "spare_parts",
+    "category": "scrap_metal",
     "price": "10 USD",
     "price_postapoc": "250 cent",
     "name": { "str": "copper" },
@@ -682,7 +721,7 @@
   {
     "type": "AMMO",
     "id": "charcoal",
-    "category": "spare_parts",
+    "category": "fuel",
     "price": "2 USD",
     "price_postapoc": "50 cent",
     "name": { "str_sp": "charcoal" },
@@ -696,12 +735,13 @@
     "ammo_type": "charcoal",
     "count": 50,
     "stack_size": 10,
-    "fuel": { "energy": 1.6 }
+    "fuel": { "energy": 1.6 },
+    "flags": [ "TINDER" ]
   },
   {
     "type": "AMMO",
     "id": "cac2powder",
-    "category": "spare_parts",
+    "category": "chems",
     "price": "2 USD",
     "price_postapoc": "5 USD",
     "name": { "str_sp": "calcium carbide premix" },
@@ -720,7 +760,7 @@
   {
     "type": "AMMO",
     "id": "coal_lump",
-    "category": "spare_parts",
+    "category": "fuel",
     "price": "2 USD",
     "price_postapoc": "1 USD",
     "name": { "str": "coal" },
@@ -734,7 +774,8 @@
     "ammo_type": "charcoal",
     "count": 250,
     "stack_size": 10,
-    "fuel": { "energy": 30 }
+    "fuel": { "energy": 30 },
+    "flags": [ "TINDER" ]
   },
   {
     "type": "AMMO",
@@ -851,7 +892,7 @@
   {
     "id": "fish_bait",
     "type": "AMMO",
-    "category": "spare_parts",
+    "category": "other",
     "name": { "str": "fish bait" },
     "description": "A bait used in traps to lure fish.",
     "weight": "1 g",
@@ -879,6 +920,7 @@
     "range": 18,
     "dispersion": 180,
     "recoil": 130,
+    "loudness": 60,
     "effects": [ "COOKOFF", "TRAIL" ]
   },
   {
@@ -898,6 +940,7 @@
     "range": 23,
     "dispersion": 170,
     "recoil": 130,
+    "loudness": 60,
     "effects": [ "COOKOFF", "TRAIL", "EXPLOSIVE" ]
   },
   {
@@ -917,12 +960,13 @@
     "range": 13,
     "dispersion": 200,
     "recoil": 130,
+    "loudness": 60,
     "effects": [ "COOKOFF", "TRAIL", "NAPALM" ]
   },
   {
     "type": "AMMO",
     "id": "unfinished_charcoal",
-    "category": "spare_parts",
+    "category": "scrap_wood",
     "price": "0 cent",
     "price_postapoc": "0 cent",
     "name": { "str_sp": "unfinished charcoal" },
@@ -937,7 +981,7 @@
   {
     "type": "AMMO",
     "id": "unfinished_cac2",
-    "category": "spare_parts",
+    "category": "rocks",
     "price": "0 cent",
     "price_postapoc": "0 cent",
     "name": { "str_sp": "unfinished calcium carbide" },
@@ -984,7 +1028,7 @@
   {
     "id": "tinder",
     "type": "AMMO",
-    "category": "spare_parts",
+    "category": "scrap_wood",
     "name": { "str_sp": "tinder" },
     "description": "Flammable material, finely divided for easy combustion.",
     "weight": "10 g",
@@ -992,7 +1036,7 @@
     "price": "0 cent",
     "price_postapoc": "0 cent",
     "bashing": 1,
-    "material": "wood",
+    "material": "dry_plant",
     "flags": [ "NO_SALVAGE", "TINDER" ],
     "symbol": "=",
     "color": "brown",
@@ -1047,7 +1091,7 @@
   {
     "id": "scrap_bronze",
     "type": "AMMO",
-    "category": "spare_parts",
+    "category": "scrap_metal",
     "name": { "str_sp": "bronze" },
     "description": "Decent-sized chunks of bronze, for fashioning some old-school items.",
     "//": "Density 7.4-8.9g/cm³ depending on composition ~ 825g/100ml if we use DF's chosen density, scrap stacks at ~25% efficiency",

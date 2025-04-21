@@ -1,6 +1,13 @@
 [
   {
     "type": "SPECIES",
+    "id": "ALL",
+    "name": { "str": "everything (debug)" },
+    "description": "an everything (debug)",
+    "//": "This only exists for special interactions where you want a filter to take all species"
+  },
+  {
+    "type": "SPECIES",
     "id": "MAMMAL",
     "name": { "str": "mammal" },
     "description": "a mammal",

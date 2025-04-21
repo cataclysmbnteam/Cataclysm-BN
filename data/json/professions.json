@@ -12,6 +12,23 @@
   {
     "type": "item_group",
     "subtype": "collection",
+    "id": "hitman_pistol",
+    "entries": [
+      { "item": "walther_ppq_45", "ammo-item": "45_super", "charges": 12, "contents-item": [ "suppressor", "pistol_grip" ] }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "hitman_mags_ppq",
+    "entries": [
+      { "item": "ppq45mag", "ammo-item": "45_super", "charges": 12 },
+      { "item": "ppq45mag", "ammo-item": "45_super", "charges": 12 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
     "id": "army_mags_m14",
     "entries": [
       { "item": "m14mag", "ammo-item": "762_51", "charges": 20 },
@@ -137,6 +154,12 @@
   {
     "type": "item_group",
     "subtype": "collection",
+    "id": "mags_m9_security",
+    "entries": [ { "item": "m9mag", "ammo-item": "9mm", "charges": 15 }, { "item": "m9mag", "ammo-item": "9mm", "charges": 15 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
     "id": "mags_waste_ranger",
     "entries": [ { "item": "blrmag", "ammo-item": "3006", "charges": 4 }, { "item": "blrmag", "ammo-item": "3006", "charges": 4 } ]
   },
@@ -147,6 +170,24 @@
     "entries": [
       { "item": "38_speedloader", "ammo-item": "357mag_jhp", "charges": 7 },
       { "item": "38_speedloader", "ammo-item": "357mag_jhp", "charges": 7 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "speedloaders_44_detective",
+    "entries": [
+      { "item": "44_speedloader6", "ammo-item": "44fmj", "charges": 6 },
+      { "item": "44_speedloader6", "ammo-item": "44fmj", "charges": 6 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "speedloaders_38_archaeologist",
+    "entries": [
+      { "item": "38_speedloader", "ammo-item": "38_special", "charges": 7 },
+      { "item": "38_speedloader", "ammo-item": "38_special", "charges": 7 }
     ]
   },
   {
@@ -212,6 +253,19 @@
   {
     "type": "item_group",
     "subtype": "collection",
+    "id": "pistols_pirate",
+    "entries": [
+      { "item": "pistol_flintlock", "ammo-item": "flintlock_ammo", "charges": 1 },
+      { "item": "pistol_flintlock", "ammo-item": "flintlock_ammo", "charges": 1 },
+      { "item": "pistol_flintlock", "ammo-item": "flintlock_ammo", "charges": 1 },
+      { "item": "pistol_flintlock", "ammo-item": "flintlock_ammo", "charges": 1 },
+      { "item": "pistol_flintlock", "ammo-item": "flintlock_ammo", "charges": 1 },
+      { "item": "pistol_flintlock", "ammo-item": "flintlock_ammo", "charges": 1 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
     "id": "bandolier_ww_gunslinger",
     "entries": [ { "item": "45colt_jhp", "charges": 34 } ]
   },
@@ -232,6 +286,18 @@
     "subtype": "collection",
     "id": "bandolier_roadwarrior",
     "entries": [ { "item": "shot_00", "charges": 18 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "quiver_monster_hunter_1",
+    "entries": [ { "item": "arrow_tooth", "charges": 20 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "quiver_monster_hunter_2",
+    "entries": [ { "item": "arrow_stinger", "charges": 20 } ]
   },
   {
     "type": "profession_item_substitutions",
@@ -673,6 +739,32 @@
   },
   {
     "type": "profession",
+    "id": "bionic_labtech",
+    "name": "Bionic Lab-tech",
+    "description": "You've spent your career keeping up with the latest advances in science, even enrolling as a subject yourself to benefit from cutting-edge bionics that would assist your own studies.  Now however, you're starting to wish they offered courses on xenobiology.",
+    "points": 8,
+    "copy-from": "labtech",
+    "skills": [
+      { "level": 4, "name": "firstaid" },
+      { "level": 4, "name": "electronics" },
+      { "level": 3, "name": "computer" },
+      { "level": 3, "name": "cooking" },
+      { "level": 3, "name": "mechanics" }
+    ],
+    "CBMs": [
+      "bio_geiger",
+      "bio_blood_anal",
+      "bio_faraday",
+      "bio_infolink",
+      "bio_electrosense",
+      "bio_surgical_razor",
+      "bio_batteries",
+      "bio_power_storage_mkII"
+    ],
+    "traits": [ "PROF_AUTODOC" ]
+  },
+  {
+    "type": "profession",
     "id": "mechanic",
     "name": "Home Mechanic",
     "description": "You've always loved working on cars, and have been eager to tune up something special one of these days.  At least now you'll never be wanting for materials.",
@@ -896,6 +988,7 @@
           "boots_combat",
           "wristwatch",
           "canteen",
+          "mag_satchel_leg",
           "molle_pack"
         ],
         "entries": [
@@ -1127,12 +1220,18 @@
     ],
     "items": {
       "both": {
-        "items": [ "power_armor_light", "power_armor_helmet_light", "power_armor_frame" ],
+        "items": [
+          "power_armor_light",
+          "power_armor_helmet_light",
+          "power_armor_frame",
+          "power_armor_back_hardpoint",
+          "power_armor_canteen"
+        ],
         "entries": [
           { "item": "heavy_plus_battery_cell", "charges": 1500, "container-item": "UPS_off" },
           { "item": "two_way_radio", "contents-item": [ "battery_ups" ] },
           { "item": "power_armor_chest_rig", "contents-group": "army_mags_power_armor" },
-          { "item": "knife_combat", "container-item": "power_armor_sheath" },
+          { "item": "knife_combat", "container-item": "power_armor_leg_hardpoint" },
           {
             "item": "stanag100",
             "ammo-item": "556_incendiary",
@@ -1289,8 +1388,7 @@
         "entries": [
           { "group": "charged_flashlight" },
           { "item": "m9", "ammo-item": "9mm", "charges": 15, "container-item": "holster" },
-          { "item": "m9mag", "ammo-item": "9mm", "charges": 15 },
-          { "item": "m9mag", "ammo-item": "9mm", "charges": 15 }
+          { "item": "legpouch_large", "contents-group": "mags_m9_security" }
         ]
       },
       "male": [ "boxer_shorts" ],
@@ -1659,8 +1757,9 @@
         ],
         "entries": [
           { "group": "charged_two_way_radio" },
-          { "item": "sw_619", "ammo-item": "357mag_fmj", "charges": 6, "container-item": "holster" },
-          { "item": "357mag_fmj", "charges": 24 }
+          { "item": "sw629", "ammo-item": "44fmj", "charges": 6, "container-item": "shoulder_holster" },
+          { "item": "legpouch_large", "contents-group": "speedloaders_44_detective" },
+          { "item": "44fmj", "charges": 12 }
         ]
       },
       "male": [ "briefs" ],
@@ -2060,7 +2159,7 @@
     "items": {
       "both": {
         "ammo": 100,
-        "items": [ "jumpsuit", "socks", "smart_phone", "boots", "wristwatch" ],
+        "items": [ "jumpsuit", "socks", "gloves_rubber", "smart_phone", "boots", "wristwatch" ],
         "entries": [ { "item": "tool_belt", "contents-item": [ "voltmeter", "soldering_iron" ] }, { "group": "charged_flashlight" } ]
       },
       "male": [ "boxer_briefs" ],
@@ -2076,11 +2175,7 @@
     "skills": [ { "level": 4, "name": "computer" } ],
     "items": {
       "both": {
-        "items": [ "pants", "tshirt_text", "socks", "sneakers", "mbag", "smart_phone", "caffeine" ],
-        "entries": [
-          { "item": "light_plus_battery_cell", "ammo-item": "battery", "charges": 150, "container-item": "portable_game" },
-          { "item": "medium_battery_cell", "ammo-item": "battery", "charges": 500, "container-item": "laptop" }
-        ]
+        "items": [ "pants", "tshirt_text", "socks", "sneakers", "mbag", "smart_phone", "caffeine", "laptop", "portable_game" ]
       },
       "male": [ "briefs" ],
       "female": [ "panties" ]
@@ -2292,6 +2387,7 @@
       "bio_tools",
       "bio_sunglasses",
       "bio_flashlight",
+      "bio_weight",
       "bio_hydraulics",
       "bio_cable",
       "bio_power_storage_mkII",
@@ -2320,7 +2416,7 @@
     "name": "Bionic Athlete",
     "description": "It's a shame the apocalypse happened; you'll never get a shot at the Cyberolympics.  Now the only thing between you and death by zombie is your freakish cyborg strength.",
     "points": 5,
-    "CBMs": [ "bio_str_enhancer", "bio_adrenaline", "bio_hydraulics", "bio_metabolics", "bio_power_storage_mkII" ],
+    "CBMs": [ "bio_str_enhancer", "bio_weight", "bio_adrenaline", "bio_hydraulics", "bio_metabolics", "bio_power_storage_mkII" ],
     "items": {
       "both": [
         "socks_ankle",
@@ -2758,7 +2854,7 @@
     "description": "All you ever wanted was to make people laugh.  Dropping out of school and performing at kids' parties was a dream come true until the world ended.  There's precious few balloon animals in your future now.",
     "points": -1,
     "items": {
-      "both": { "items": [ "clown_wig", "clown_suit", "smart_phone", "clown_nose", "socks", "clownshoes", "airhorn" ] },
+      "both": { "items": [ "clown_wig", "clown_suit", "smart_phone", "clown_nose", "socks", "clownshoes", "airhorn", "balloon" ] },
       "male": [ "briefs" ],
       "female": [ "bra", "panties" ]
     }
@@ -2813,6 +2909,20 @@
       },
       "male": [ "briefs" ],
       "female": [ "bra", "panties" ]
+    }
+  },
+  {
+    "type": "profession",
+    "id": "prof_fursuiter",
+    "name": "Fursuiter",
+    "description": "You had plans to attend a local convention after your custom order finally arrived, only to find the world is ending.  You're starting to wish the company you bought this from made something armored and scaly instead.",
+    "points": 2,
+    "skills": [ { "level": 2, "name": "fabrication" }, { "level": 2, "name": "tailor" } ],
+    "items": {
+      "both": { "items": [ "socks", "tank_top", "wolfsuit", "mbag", "sewing_kit", "water_clean", "smart_phone" ] },
+      "//": "underarmor-style underwear is more common irl for comfort but warmth management would make that less ideal in-game",
+      "male": [ "briefs" ],
+      "female": [ "sports_bra", "boy_shorts" ]
     }
   },
   {
@@ -3431,7 +3541,8 @@
         ],
         "entries": [
           { "item": "sw_619", "ammo-item": "38_special", "charges": 7, "container-item": "holster" },
-          { "item": "38_special", "charges": 33 }
+          { "item": "legpouch_large", "contents-group": "speedloaders_38_archaeologist" },
+          { "item": "38_special", "charges": 19 }
         ]
       },
       "male": [ "briefs" ],
@@ -3837,6 +3948,87 @@
   },
   {
     "type": "profession",
+    "id": "monster_hunter",
+    "name": "Monster Hunter",
+    "description": "With the fall of civilization, you took to living off the land and grew into a competent hunter.  The abominations that thrive in this new world may not be good eating, but their hides and bones make for quite practical trophies.",
+    "points": 6,
+    "skills": [
+      { "level": 5, "name": "tailor" },
+      { "level": 4, "name": "fabrication" },
+      { "level": 2, "name": "gun" },
+      { "level": 3, "name": "archery" },
+      { "level": 3, "name": "survival" },
+      { "level": 2, "name": "melee" },
+      { "level": 1, "name": "stabbing" },
+      { "level": 3, "name": "dodge" },
+      { "level": 3, "name": "cooking" }
+    ],
+    "items": {
+      "both": {
+        "items": [
+          "armor_scute",
+          "armguard_scute",
+          "backpack_leather",
+          "boots_scute",
+          "gauntlets_scute",
+          "helmet_scute",
+          "clay_pot",
+          "waterskin",
+          "needle_bone",
+          "fire_drill"
+        ],
+        "entries": [
+          { "item": "knife_stinger", "container-item": "sheath" },
+          { "item": "quiver", "contents-group": "quiver_monster_hunter_1" },
+          { "item": "quiver", "contents-group": "quiver_monster_hunter_2" },
+          { "item": "compositebow_short", "custom-flags": [ "auto_wield" ] }
+        ]
+      },
+      "male": [ "chestwrap_fur", "loincloth_fur" ],
+      "female": [ "bikini_top_fur", "hot_pants_fur" ]
+    },
+    "flags": [ "SCEN_ONLY" ]
+  },
+  {
+    "type": "profession",
+    "id": "monster_slayer",
+    "name": "Monster Slayer",
+    "description": "With the fall of civilization, you took to living off the land and honed your skills fending off undead and worse.  You wear the fruits of your labor proudly, bearing weapons and armor made from the bones of great beasts.",
+    "points": 6,
+    "skills": [
+      { "level": 5, "name": "tailor" },
+      { "level": 5, "name": "fabrication" },
+      { "level": 3, "name": "survival" },
+      { "level": 3, "name": "melee" },
+      { "level": 2, "name": "bashing" },
+      { "level": 1, "name": "cutting" },
+      { "level": 2, "name": "dodge" },
+      { "level": 3, "name": "cooking" }
+    ],
+    "items": {
+      "both": {
+        "items": [
+          "greaves_bone",
+          "armguard_bone",
+          "cuirass_bone",
+          "backpack_leather",
+          "footrags_fur",
+          "gloves_wraps_fur",
+          "helmet_bone",
+          "clay_pot",
+          "waterskin",
+          "needle_bone",
+          "fire_drill"
+        ],
+        "entries": [ { "item": "sword_bone", "container-item": "scabbard" }, { "item": "mace_bone", "custom-flags": [ "auto_wield" ] } ]
+      },
+      "male": [ "chestwrap_fur", "loincloth_fur" ],
+      "female": [ "bikini_top_fur", "hot_pants_fur" ]
+    },
+    "flags": [ "SCEN_ONLY" ]
+  },
+  {
+    "type": "profession",
     "id": "mall_cop",
     "name": "Mall Security",
     "description": "A mall security guard.  You don't have any useful skills, other than some basic training for your job.  You do however have your trusty tazer, baton, and pocket knife.",
@@ -4032,6 +4224,83 @@
   },
   {
     "type": "profession",
+    "id": "prof_ninja",
+    "name": "Ninja",
+    "description": "Your cosplay may be more theatrical than historical, less shinobi and more kabuki stagehand, but your weapons are real enough.  Tread lightly, but remember they hunt by scent too.",
+    "points": 4,
+    "skills": [
+      { "level": 2, "name": "dodge" },
+      { "level": 2, "name": "gun" },
+      { "level": 2, "name": "melee" },
+      { "level": 1, "name": "throw" },
+      { "level": 1, "name": "cutting" }
+    ],
+    "items": {
+      "both": {
+        "items": [
+          "zentai",
+          "tabi_dress",
+          "hakama_gi",
+          "haori",
+          "mask_rioter",
+          "bastsandals",
+          "obi_gi",
+          "slingpack",
+          "ragpouch",
+          "scabbard",
+          "grapnel"
+        ],
+        "entries": [
+          { "item": "tanto_inferior", "container-item": "bootsheath" },
+          { "item": "shuriken", "count": 12 },
+          { "item": "katana_inferior", "custom-flags": [ "auto_wield" ] }
+        ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "boy_shorts", "sports_bra" ]
+    }
+  },
+  {
+    "type": "profession",
+    "id": "prof_pirate",
+    "name": "Pirate",
+    "description": "Arr!  Your costume may be shipshape, but the end of the world's scuppered all your plans.  Strike up your Jolly Roger and hoist the Bloody Red, for no quarter shall be given.",
+    "points": 4,
+    "skills": [
+      { "level": 2, "name": "swimming" },
+      { "level": 2, "name": "gun" },
+      { "level": 2, "name": "melee" },
+      { "level": 1, "name": "pistol" },
+      { "level": 1, "name": "cutting" }
+    ],
+    "items": {
+      "both": {
+        "items": [
+          "socks",
+          "breeches",
+          "longshirt",
+          "vest_leather",
+          "bandana_head",
+          "boots",
+          "mbag",
+          "leather_pouch",
+          "scabbard",
+          "gold_ear",
+          "rum"
+        ],
+        "entries": [
+          { "item": "cutlass_inferior", "custom-flags": [ "auto_wield" ] },
+          { "item": "baldric_holster", "contents-group": "pistols_pirate" },
+          { "item": "flintlock_pouch", "contents-group": "flintlock_pouch_reenactor" },
+          { "item": "flintlock_ammo", "charges": 4 }
+        ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "boy_shorts", "sports_bra" ]
+    }
+  },
+  {
+    "type": "profession",
     "id": "drone_op",
     "name": "Drone Operator",
     "description": "You had a job programming machines such as automatic street cleaners, newsbots and pizza delivery drones.  Now all the drones carry guns instead of pizza.",
@@ -4047,10 +4316,10 @@
   {
     "type": "profession",
     "id": "skaterkid",
-    "name": { "male": "Skater Boy", "female": "Skater Girl" },
+    "name": { "male": "Skater Boy (Rollerblades)", "female": "Skater Girl (Rollerblades)" },
     "description": "You love to skate!  At least now the grown-ups aren't telling you where you can't roll.",
     "points": 1,
-    "skills": [ { "level": 1, "name": "dodge" } ],
+    "skills": [ { "level": 1, "name": "dodge" }, { "level": 2, "name": "swimming" } ],
     "traits": [ "PROF_SKATER" ],
     "items": {
       "both": {
@@ -4068,6 +4337,35 @@
           "smart_phone",
           "sports_drink"
         ]
+      },
+      "male": [ "briefs" ],
+      "female": [ "boy_shorts" ]
+    }
+  },
+  {
+    "type": "profession",
+    "id": "skaterkid_board",
+    "name": { "male": "Skater Boy (Skateboard)", "female": "Skater Girl (Skateboard)" },
+    "description": "You love to skate!  You've probably spent more time on a skateboard than off.  Things have gotten pretty bad, but at least the grown-ups aren't telling you where you can't roll.",
+    "points": 1,
+    "skills": [ { "level": 1, "name": "driving" }, { "level": 2, "name": "swimming" } ],
+    "traits": [ "PROF_SKATER" ],
+    "items": {
+      "both": {
+        "items": [
+          "hoodie",
+          "jeans",
+          "socks",
+          "elbow_pads",
+          "knee_pads",
+          "gloves_fingerless",
+          "helmet_skid",
+          "sneakers",
+          "wristwatch",
+          "smart_phone",
+          "sports_drink"
+        ],
+        "entries": [ { "item": "folding_skateboard", "custom-flags": [ "auto_wield" ] } ]
       },
       "male": [ "briefs" ],
       "female": [ "boy_shorts" ]
@@ -4618,7 +4916,7 @@
   {
     "type": "profession",
     "id": "fencer",
-    "name": "Competetive Fencer",
+    "name": "Competitive Fencer",
     "description": "You were an avid sport fencer, always practicing at local clubs and competing in tournaments.  You were on your way to have a few bouts at the club when the world ended.  Now you're in your most important tournament, the refs are all dead, and none of your opponents follow the rules.",
     "points": 5,
     "skills": [ { "level": 2, "name": "melee" }, { "level": 2, "name": "dodge" } ],
@@ -4872,11 +5170,10 @@
     ],
     "items": {
       "both": {
-        "items": [ "fancy_sunglasses", "platinum_watch", "suppressor", "tele_sight_pistol" ],
+        "items": [ "fancy_sunglasses", "platinum_watch" ],
         "entries": [
-          { "item": "glock_19", "ammo-item": "9mm", "container-item": "holster", "charges": 15 },
-          { "item": "glockmag", "ammo-item": "9mm", "charges": 15 },
-          { "item": "glockmag", "ammo-item": "9mm", "charges": 15 }
+          { "item": "shoulder_holster", "contents-group": "hitman_pistol" },
+          { "item": "legpouch_large", "contents-group": "hitman_mags_ppq" }
         ]
       },
       "male": [
@@ -4919,16 +5216,14 @@
     ],
     "items": {
       "both": {
-        "items": [
-          "fancy_sunglasses",
-          "throwing_knife",
-          "throwing_knife",
-          "throwing_knife",
-          "throwing_knife",
-          "throwing_knife",
-          "throwing_knife"
-        ],
-        "entries": [ { "item": "knife_combat", "container-item": "bootsheath" } ]
+        "items": [ "fancy_sunglasses" ],
+        "entries": [
+          {
+            "item": "bandolier_knife",
+            "contents-item": [ "throwing_knife", "throwing_knife", "throwing_knife", "throwing_knife", "throwing_knife", "throwing_knife" ]
+          },
+          { "item": "knife_combat", "container-item": "bootsheath" }
+        ]
       },
       "male": [
         "boxer_briefs",
@@ -5257,6 +5552,7 @@
       "bio_power_storage_mkII",
       "bio_claws",
       "bio_digestion",
+      "bio_weight",
       "bio_hydraulics"
     ],
     "skills": [

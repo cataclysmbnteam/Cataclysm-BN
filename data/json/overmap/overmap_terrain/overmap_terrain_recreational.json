@@ -87,7 +87,7 @@
     "color": "i_blue"
   },
   {
-    "id": "skate_park",
+    "id": [ "skate_park", "skate_park_up", "skate_park_down" ],
     "type": "overmap_terrain",
     "copy-from": "generic_city_building",
     "name": "skate park",

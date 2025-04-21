@@ -133,7 +133,7 @@
       "items": {
         "C": { "item": "dining", "chance": 15 },
         "D": { "item": "allclothes", "chance": 60 },
-        "Q": { "item": "trash_cart", "chance": 70 },
+        "Q": { "item": "trash_dumpster", "chance": 80 },
         "R": { "item": "alcohol", "chance": 60 },
         "X": { "item": "home_hw", "chance": 70 },
         "c": { "item": "tools_home", "chance": 50 },

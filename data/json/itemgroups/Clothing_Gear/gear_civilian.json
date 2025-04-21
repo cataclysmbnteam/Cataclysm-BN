@@ -121,7 +121,8 @@
       [ "frisbee", 10 ],
       { "group": "games", "prob": 10 },
       [ "balloon", 10 ],
-      [ "milkshake_fastfood", 3 ]
+      [ "milkshake_fastfood", 3 ],
+      [ "shark_plush", 1 ]
     ]
   },
   {
@@ -173,6 +174,7 @@
       [ "roadmap", 6 ],
       [ "trailmap", 6 ],
       [ "touristmap", 4 ],
+      [ "regionaltransportmap", 4 ],
       [ "lighter", 60 ],
       [ "cig", 40 ],
       [ "blazer", 15 ],

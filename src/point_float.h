@@ -1,6 +1,4 @@
 #pragma once
-#ifndef CATA_SRC_POINT_FLOAT_H
-#define CATA_SRC_POINT_FLOAT_H
 
 #include "point_traits.h"
 
@@ -92,13 +90,13 @@ struct rl_vec3d {
         ret.z = z + rhs.z;
         return ret;
     }
-    friend inline constexpr bool operator==( const rl_vec3d &a, const rl_vec3d &b ) {
+    friend constexpr bool operator==( const rl_vec3d &a, const rl_vec3d &b ) {
         return a.x == b.x && a.y == b.y && a.z == b.z;
     }
-    friend inline constexpr bool operator!=( const rl_vec3d &a, const rl_vec3d &b ) {
+    friend constexpr bool operator!=( const rl_vec3d &a, const rl_vec3d &b ) {
         return !( a == b );
     }
-    friend inline constexpr bool operator<( const rl_vec3d &a, const rl_vec3d &b ) {
+    friend constexpr bool operator<( const rl_vec3d &a, const rl_vec3d &b ) {
         if( a.x != b.x ) {
             return a.x < b.x;
         }
@@ -112,4 +110,4 @@ struct rl_vec3d {
     }
 };
 
-#endif // CATA_SRC_POINT_FLOAT_H
+

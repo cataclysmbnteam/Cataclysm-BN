@@ -70,6 +70,7 @@
         "r": "f_sink",
         "s": "f_locker"
       },
+      "items": { "n": { "item": "trash_dumpster", "chance": 80 } },
       "toilets": { "q": {  } },
       "place_vehicles": [
         { "vehicle": "car", "x": 9, "y": 2, "chance": 35, "rotation": 270 },

@@ -71,6 +71,7 @@
         "a": "f_water_purifier",
         "L": "f_standing_tank"
       },
+      "items": { "%": { "item": "trash_dumpster", "chance": 80 } },
       "toilets": { "T": {  } },
       "place_items": [
         { "item": "trash", "x": 19, "y": 6, "chance": 80 },

@@ -14,6 +14,7 @@
     "material": [ "flesh" ],
     "symbol": "M",
     "color": "light_green",
+    "aggro_character": false,
     "aggression": 10,
     "morale": 100,
     "melee_skill": 5,
@@ -57,7 +58,7 @@
     "armor_bullet": 6,
     "vision_day": 3,
     "vision_night": 35,
-    "harvest": "animal_large_noskin",
+    "harvest": "animal_toothy_large_scute",
     "path_settings": { "max_dist": 8 },
     "special_attacks": [
       {
@@ -69,7 +70,7 @@
           { "damage_type": "bash", "amount": 27, "armor_multiplier": 0.5 }
         ],
         "effects": [ { "id": "grabbed", "duration": 1000, "bp": "torso" } ],
-        "no_infection_chance": 2
+        "no_infection_chance": 17
       }
     ],
     "anger_triggers": [ "PLAYER_CLOSE", "PLAYER_WEAK" ],
@@ -95,6 +96,7 @@
     "material": [ "flesh" ],
     "symbol": "s",
     "color": "brown",
+    "aggro_character": false,
     "aggression": -50,
     "morale": 60,
     "melee_skill": 5,
@@ -129,6 +131,7 @@
     "material": [ "flesh" ],
     "symbol": "s",
     "color": "brown",
+    "aggro_character": false,
     "aggression": -10,
     "morale": 60,
     "melee_skill": 6,
@@ -141,7 +144,7 @@
     "armor_bullet": 3,
     "vision_day": 30,
     "vision_night": 5,
-    "harvest": "mutant_animal_large_noskin",
+    "harvest": "mutant_animal_large_scute",
     "special_attacks": [
       [ "RATTLE", 6 ],
       {

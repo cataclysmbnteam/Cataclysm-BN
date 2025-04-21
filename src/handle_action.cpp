@@ -127,6 +127,7 @@ static const bionic_id bio_remote( "bio_remote" );
 static const trait_id trait_HIBERNATE( "HIBERNATE" );
 static const trait_id trait_PROF_CHURL( "PROF_CHURL" );
 static const trait_id trait_SHELL2( "SHELL2" );
+static const trait_id trait_BRAWLER( "BRAWLER" );
 
 static const std::string flag_LOCKED( "LOCKED" );
 
@@ -689,8 +690,8 @@ static void smash()
         }
     }
     item &weapon = u.primary_weapon();
-    if( weapon.made_of( material_id( "glass" ) ) &&
-        !query_yn( _( "Are you sure you want to smash with an item made of glass?" ) ) ) {
+    if( weapon.can_shatter() &&
+        !query_yn( _( "Are you sure you want to smash with an item that might shatter?" ) ) ) {
         return;
     }
     const int move_cost = !u.is_armed() ? 80 : weapon.attack_cost() * 0.8;
@@ -794,7 +795,7 @@ static void smash()
                 u.practice( skill_melee, rng( 0, 1 ) * rng( 0, 1 ) );
             }
             const int vol = weapon.volume() / units::legacy_volume_factor;
-            if( weapon.made_of( material_id( "glass" ) ) &&
+            if( weapon.can_shatter() &&
                 rng( 0, vol + 3 ) < vol ) {
                 add_msg( m_bad, _( "Your %s shatters!" ), weapon.tname() );
                 weapon.spill_contents( u.pos() );
@@ -880,7 +881,7 @@ static void wait()
     map &here = get_map();
 
     if( u.controlling_vehicle && ( here.veh_at( u.pos() )->vehicle().velocity ||
-                                   here.veh_at( u.pos() )->vehicle().cruise_velocity ) ) {
+                                   here.veh_at( u.pos() )->vehicle().cruise_velocity ) && u.pos().z < 4 ) {
         popup( _( "You can't pass time while controlling a moving vehicle." ) );
         return;
     }
@@ -921,6 +922,11 @@ static void wait()
         if( g->u.get_stamina() < g->u.get_stamina_max() ) {
             as_m.addentry( 12, true, 'w', _( "Wait until you catch your breath" ) );
             durations.emplace( 12, 15_minutes ); // to hide it from showing
+        }
+        if( u.controlling_vehicle && u.pos().z > 3 ) {
+            add_menu_item( 14, 'x', "", 10_seconds );
+            add_menu_item( 15, 'y', "", 30_seconds );
+            add_menu_item( 16, 'z', "", 1_minutes );
         }
         add_menu_item( 1, '1', "", 5_minutes );
         add_menu_item( 2, '2', "", 30_minutes );
@@ -1034,7 +1040,7 @@ static void sleep()
     std::vector<std::string> active;
     for( auto &it : u.inv_dump() ) {
         if( it->has_flag( flag_LITCIG ) ||
-            ( it->active && ( it->charges > 0 || it->units_remaining( u ) > 0 ) && it->is_tool() &&
+            ( it->is_active() && ( it->charges > 0 || it->units_remaining( u ) > 0 ) && it->is_tool() &&
               !it->has_flag( flag_SLEEP_IGNORE ) ) ) {
             active.push_back( it->tname() );
         }
@@ -1065,10 +1071,10 @@ static void sleep()
 
     // check for deactivating any currently played music instrument.
     for( auto &item : u.inv_dump() ) {
-        if( item->active && item->get_use( "musical_instrument" ) != nullptr ) {
+        if( item->is_active() && item->get_use( "musical_instrument" ) != nullptr ) {
             u.add_msg_if_player( _( "You stop playing your %s before trying to sleep." ), item->tname() );
             // deactivate instrument
-            item->active = false;
+            item->deactivate();
         }
     }
 
@@ -1097,7 +1103,8 @@ static void sleep()
 
     time_duration try_sleep_dur = 24_hours;
     std::string deaf_text;
-    if( g->u.is_deaf() ) {
+    // Infolink alarm is silent and works even if deaf
+    if( g->u.is_deaf() && !g->u.has_bionic( bionic_id( "bio_infolink" ) ) ) {
         deaf_text = _( "<color_c_red> (DEAF!)</color>" );
     }
     if( u.has_alarm_clock() ) {
@@ -1308,7 +1315,7 @@ static void read()
     if( loc ) {
         if( loc->type->can_use( "learn_spell" ) ) {
             item &spell_book = *loc;
-            spell_book.get_use( "learn_spell" )->call( u, spell_book, spell_book.active, u.pos() );
+            spell_book.get_use( "learn_spell" )->call( u, spell_book, spell_book.is_active(), u.pos() );
         } else {
             u.read( loc );
         }
@@ -1347,7 +1354,7 @@ static void fire()
         }
 
         if( vp.part_with_feature( "CONTROLS", true ) ) {
-            if( vp->vehicle().turrets_aim_and_fire_all_manual() ) {
+            if( vp->vehicle().turrets_aim_and_fire_mult( u, turret_filter_types::MANUAL, true ) ) {
                 return;
             }
         }
@@ -1442,6 +1449,12 @@ static void cast_spell()
         }
     }
 
+    if( u.has_trait( trait_BRAWLER ) ) {
+        add_msg( game_message_params{ m_bad, gmf_bypass_cooldown },
+                 _( "Pfft, magic is for COWARDS." ) );
+        return;
+    }
+
     if( !can_cast_spells ) {
         add_msg( game_message_params{ m_bad, gmf_bypass_cooldown },
                  _( "You can't cast any of the spells you know!" ) );
@@ -1455,8 +1468,19 @@ static void cast_spell()
 
     spell &sp = *u.magic->get_spells()[spell_index];
 
+    std::set<trait_id> blockers = sp.get_blocker_muts();
+    if( blockers.size() ) {
+        for( trait_id blocker : blockers ) {
+            if( u.has_trait( blocker ) ) {
+                add_msg( game_message_params{ m_bad, gmf_bypass_cooldown },
+                         _( "Your %s mutation prevents you from casting this spell!" ), blocker->name() );
+                return;
+            }
+        }
+    }
+
     if( u.is_armed() && !sp.has_flag( spell_flag::NO_HANDS ) &&
-        !u.primary_weapon().has_flag( flag_MAGIC_FOCUS ) ) {
+        !u.primary_weapon().has_flag( flag_MAGIC_FOCUS ) && u.primary_weapon().is_two_handed( u ) ) {
         add_msg( game_message_params{ m_bad, gmf_bypass_cooldown },
                  _( "You need your hands free to cast this spell!" ) );
         return;
@@ -1804,8 +1828,8 @@ bool game::handle_action()
                                                               u.posz() );
                             destination_preview = m.route( u.pos(),
                                                            auto_travel_destination,
-                                                           u.get_pathfinding_settings(),
-                                                           u.get_path_avoid() );
+                                                           u.get_legacy_pathfinding_settings(),
+                                                           u.get_legacy_path_avoid() );
                             if( !destination_preview.empty() ) {
                                 destination_preview.erase( destination_preview.begin() + 1, destination_preview.end() );
                                 u.set_destination( destination_preview );
@@ -2379,7 +2403,7 @@ bool game::handle_action()
                 break;
 
             case ACTION_WORLD_MODS:
-                world_generator->show_active_world_mods( world_generator->active_world->active_mod_order );
+                world_generator->show_active_world_mods( world_generator->active_world->info->active_mod_order );
                 break;
 
             case ACTION_DEBUG:

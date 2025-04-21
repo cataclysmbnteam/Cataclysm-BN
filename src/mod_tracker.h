@@ -1,6 +1,4 @@
 #pragma once
-#ifndef CATA_SRC_MOD_TRACKER_H
-#define CATA_SRC_MOD_TRACKER_H
 
 #include <string>
 
@@ -30,21 +28,23 @@ struct has_src_member<T, std::void_t<decltype( std::declval<T &>().src.emplace_b
 std::true_type {};
 
 /** Dummy function, for if those conditions are not satisfied */
-template < typename T, typename std::enable_if_t < !has_src_member<T>::value > * = nullptr >
+template < typename T>
 void assign_src( T &, const std::string & )
+requires( !has_src_member<T>::value )
 {
 }
 
 /** If those conditions are satisfied, keep track of where this item has been modified */
-template<typename T, typename std::enable_if_t<has_src_member<T>::value > * = nullptr>
+template<typename T>
 void assign_src( T &def, const std::string &src )
-{
+requires has_src_member<T>::value {
     // We need to make sure we're keeping where this entity has been loaded
     // If the id this was last loaded with is not this one, discard the history and start again
-    if( !def.src.empty() && def.src.back().first != def.id ) {
+    if( !def.src.empty() && def.src.back().first != def.id )
+    {
         def.src.clear();
     }
     def.src.emplace_back( def.id, mod_id( src ) );
 }
 
-#endif // CATA_SRC_MOD_TRACKER_H
+

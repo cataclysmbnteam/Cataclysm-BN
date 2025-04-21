@@ -78,14 +78,7 @@
       ],
       [ [ "salt", 150 ] ],
       [ [ "leather", 105 ] ],
-      [
-        [ "rag", 18 ],
-        [ "lycra_patch", 18 ],
-        [ "nylon", 18 ],
-        [ "leather", 18 ],
-        [ "nomex", 18 ],
-        [ "neoprene", 18 ]
-      ]
+      [ [ "rag", 18 ], [ "nylon", 18 ], [ "leather", 18 ], [ "nomex", 18 ], [ "neoprene", 18 ] ]
     ]
   },
   {
@@ -95,7 +88,7 @@
     "difficulty": 4,
     "time": "210 m",
     "using": [ [ "sewing_standard", 75 ] ],
-    "components": [ [ [ "bone", 39 ], [ "bone_human", 39 ], [ "bone_tainted", 75 ] ], [ [ "armor_blarmor", 3 ] ] ]
+    "components": [ [ [ "bone", 39 ], [ "bone_human", 39 ], [ "bone_tainted", 75 ], [ "bone_heavy", 18 ] ], [ [ "armor_blarmor", 3 ] ] ]
   },
   {
     "result": "leatherbone_armor_medium_quadruped",
@@ -109,7 +102,10 @@
     "autolearn": true,
     "byproducts": [ [ "rag", 6 ] ],
     "using": [ [ "sewing_standard", 35 ] ],
-    "components": [ [ [ "bone", 39 ], [ "bone_human", 39 ], [ "bone_tainted", 75 ] ], [ [ "leather_armor_medium_quadruped", 1 ] ] ]
+    "components": [
+      [ [ "bone", 39 ], [ "bone_human", 39 ], [ "bone_tainted", 75 ], [ "bone_heavy", 18 ] ],
+      [ [ "leather_armor_medium_quadruped", 1 ] ]
+    ]
   },
   {
     "result": "leatherbone_armor_medium_quadruped",
@@ -136,7 +132,7 @@
       [ [ "water", 30 ], [ "water_clean", 30 ] ],
       [ [ "wax", 6 ], [ "any_tallow", 24, "LIST" ], [ "vinegar", 30 ], [ "pine_bough", 60 ] ],
       [ [ "salt", 150 ] ],
-      [ [ "bone", 39 ], [ "bone_human", 39 ], [ "bone_tainted", 75 ] ],
+      [ [ "bone", 39 ], [ "bone_human", 39 ], [ "bone_tainted", 75 ], [ "bone_heavy", 18 ] ],
       [ [ "leather", 105 ] ]
     ]
   },

@@ -20,7 +20,7 @@ static std::map<vitamin_id, vitamin> vitamins_all;
 template<>
 bool string_id<vitamin>::is_valid() const
 {
-    return vitamins_all.count( *this );
+    return vitamins_all.contains( *this );
 }
 
 /** @relates string_id */

@@ -39,6 +39,7 @@ enum class mutation_menu_mode {
     activating,
     examining,
     reassigning,
+    hiding,
 };
 enum class mutation_tab_mode {
     active,
@@ -78,9 +79,14 @@ static void show_mutations_titlebar( const catacurses::window &window,
                           c_light_blue ) + "  " + shortcut_desc( _( "%s to activate mutation, " ),
                                   ctxt.get_desc( "TOGGLE_EXAMINE" ) );
     }
+    if( menu_mode == mutation_menu_mode::hiding ) {
+        desc += colorize( _( "Hiding" ), c_cyan ) + "  " + shortcut_desc( _( "%s to activate mutation, " ),
+                ctxt.get_desc( "TOGGLE_EXAMINE" ) );
+    }
     if( menu_mode != mutation_menu_mode::reassigning ) {
         desc += shortcut_desc( _( "%s to reassign invlet, " ), ctxt.get_desc( "REASSIGN" ) );
     }
+    desc += shortcut_desc( _( "%s to toggle sprite visibility, " ), ctxt.get_desc( "TOGGLE_SPRITE" ) );
     desc += shortcut_desc( _( "%s to change keybindings." ), ctxt.get_desc( "HELP_KEYBINDINGS" ) );
     // NOLINTNEXTLINE(cata-use-named-point-constants)
     fold_and_print( window, point( 1, 0 ), getmaxx( window ) - 1, c_white, desc );
@@ -234,6 +240,7 @@ detail::mutations_ui_result detail::show_mutations_ui_internal( Character &who )
     ctxt.register_updown();
     ctxt.register_action( "ANY_INPUT" );
     ctxt.register_action( "TOGGLE_EXAMINE" );
+    ctxt.register_action( "TOGGLE_SPRITE" );
     ctxt.register_action( "REASSIGN" );
     ctxt.register_action( "NEXT_TAB" );
     ctxt.register_action( "PREV_TAB" );
@@ -274,7 +281,7 @@ detail::mutations_ui_result detail::show_mutations_ui_internal( Character &who )
             for( int i = scroll_position; static_cast<size_t>( i ) < passive.size(); i++ ) {
                 const mutation_branch &md = passive[i].obj();
                 const char_trait_data &td = who.my_mutations[passive[i]];
-                const bool is_highlighted = cursor == static_cast<int>( i );
+                const bool is_highlighted = cursor == i;
                 if( i - scroll_position == list_height ) {
                     break;
                 }
@@ -285,6 +292,10 @@ detail::mutations_ui_result detail::show_mutations_ui_internal( Character &who )
                 }
                 mvwprintz( wBio, point( 2, list_start_y + i - scroll_position ),
                            type, "%c %s", td.key, md.name() );
+                if( !td.show_sprite ) {
+                    //~ Hint: Letter to show which mutation is Hidden in the mutation menu
+                    wprintz( wBio, c_cyan, _( " H" ) );
+                }
             }
         }
 
@@ -294,7 +305,7 @@ detail::mutations_ui_result detail::show_mutations_ui_internal( Character &who )
             for( int i = scroll_position; static_cast<size_t>( i ) < active.size(); i++ ) {
                 const mutation_branch &md = active[i].obj();
                 const char_trait_data &td = who.my_mutations[active[i]];
-                const bool is_highlighted = cursor == static_cast<int>( i );
+                const bool is_highlighted = cursor == i;
                 if( i - scroll_position == list_height ) {
                     break;
                 }
@@ -354,7 +365,7 @@ detail::mutations_ui_result detail::show_mutations_ui_internal( Character &who )
         bool handled = false;
         const std::string action = ctxt.handle_input();
         const input_event evt = ctxt.get_raw_input();
-        if( evt.type == CATA_INPUT_KEYBOARD && !evt.sequence.empty() ) {
+        if( evt.type == input_event_t::keyboard && !evt.sequence.empty() ) {
             const int ch = evt.get_first_input();
             if( ch == ' ' ) { //skip if space is pressed (space is used as an empty hotkey)
                 continue;
@@ -375,7 +386,7 @@ detail::mutations_ui_result detail::show_mutations_ui_internal( Character &who )
                         while( !pop_exit ) {
                             const query_popup::result ret = pop.query();
                             bool pop_handled = false;
-                            if( ret.evt.type == CATA_INPUT_KEYBOARD && !ret.evt.sequence.empty() ) {
+                            if( ret.evt.type == input_event_t::keyboard && !ret.evt.sequence.empty() ) {
                                 const int newch = ret.evt.get_first_input();
                                 if( mutation_chars.valid( newch ) ) {
                                     const std::optional<trait_id> other_mut_id = trait_by_invlet( who.my_mutations, newch );
@@ -392,7 +403,7 @@ detail::mutations_ui_result detail::show_mutations_ui_internal( Character &who )
                                 if( ret.action == "QUIT" ) {
                                     pop_exit = true;
                                 } else if( ret.action != "HELP_KEYBINDINGS" &&
-                                           ret.evt.type == CATA_INPUT_KEYBOARD ) {
+                                           ret.evt.type == input_event_t::keyboard ) {
                                     popup( _( "Invalid mutation letter.  Only those characters are valid:\n\n%s" ),
                                            mutation_chars.get_allowed_chars() );
                                 }
@@ -439,6 +450,9 @@ detail::mutations_ui_result detail::show_mutations_ui_internal( Character &who )
                     case mutation_menu_mode::examining:
                         // Describing mutations, not activating them!
                         examine_id = mut_id;
+                        break;
+                    case mutation_menu_mode::hiding:
+                        who.my_mutations[*mut_id].show_sprite = !who.my_mutations[*mut_id].show_sprite;
                         break;
                 }
                 handled = true;
@@ -539,7 +553,7 @@ detail::mutations_ui_result detail::show_mutations_ui_internal( Character &who )
                             while( !pop_exit ) {
                                 const query_popup::result ret = pop.query();
                                 bool pop_handled = false;
-                                if( ret.evt.type == CATA_INPUT_KEYBOARD && !ret.evt.sequence.empty() ) {
+                                if( ret.evt.type == input_event_t::keyboard && !ret.evt.sequence.empty() ) {
                                     const int newch = ret.evt.get_first_input();
                                     if( mutation_chars.valid( newch ) ) {
                                         const std::optional<trait_id> other_mut_id = trait_by_invlet( who.my_mutations, newch );
@@ -560,7 +574,7 @@ detail::mutations_ui_result detail::show_mutations_ui_internal( Character &who )
                                     if( ret.action == "QUIT" ) {
                                         pop_exit = true;
                                     } else if( ret.action != "HELP_KEYBINDINGS" &&
-                                               ret.evt.type == CATA_INPUT_KEYBOARD ) {
+                                               ret.evt.type == input_event_t::keyboard ) {
                                         popup( _( "Invalid mutation letter.  Only those characters are valid:\n\n%s" ),
                                                mutation_chars.get_allowed_chars() );
                                     }
@@ -602,6 +616,9 @@ detail::mutations_ui_result detail::show_mutations_ui_internal( Character &who )
                             // Describing mutations, not activating them!
                             examine_id = mut_id;
                             break;
+                        case mutation_menu_mode::hiding:
+                            who.my_mutations[mut_id].show_sprite = !who.my_mutations[mut_id].show_sprite;
+                            break;
                     }
                 }
             } else if( action == "REASSIGN" ) {
@@ -611,6 +628,9 @@ detail::mutations_ui_result detail::show_mutations_ui_internal( Character &who )
                 // switches between activation and examination
                 menu_mode = menu_mode == mutation_menu_mode::activating ?
                             mutation_menu_mode::examining : mutation_menu_mode::activating;
+                examine_id = std::nullopt;
+            } else if( action == "TOGGLE_SPRITE" ) {
+                menu_mode = mutation_menu_mode::hiding;
                 examine_id = std::nullopt;
             } else if( action == "QUIT" ) {
                 ret.cmd = mutations_ui_cmd::exit;

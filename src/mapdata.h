@@ -1,6 +1,4 @@
 #pragma once
-#ifndef CATA_SRC_MAPDATA_H
-#define CATA_SRC_MAPDATA_H
 
 #include <array>
 #include <bitset>
@@ -49,13 +47,7 @@ struct ranged_bash_info {
             return std::tie( reduction, reduction_laser, destroy_threshold, flammable, block_unaimed_chance );
         }
     public:
-
-        // In C++20, this would be = default
-        bool operator==( const ranged_bash_info &rhs ) const {
-            return tie() == rhs.tie();
-        }
-
-
+        bool operator==( const ranged_bash_info &rhs ) const = default;
 };
 
 struct map_bash_info {
@@ -91,7 +83,7 @@ struct map_bash_info {
     // sound  made on fail
     translation sound_fail = to_translation( "thump!" );
     // message upon successfully bashing a field
-    translation field_bash_msg_success = translation();
+    translation field_bash_msg_success;
     // terrain to set (REQUIRED for terrain))
     ter_str_id ter_set = ter_str_id::NULL_ID();
     // terrain to set if bashed from above (defaults to ter_set)
@@ -135,11 +127,7 @@ struct furn_workbench_info {
     furn_workbench_info();
     void deserialize( JsonIn &jsin );
 
-    // In C++20, this would be = default
-    bool operator==( const furn_workbench_info &rhs ) const {
-        return std::tie( multiplier, allowed_mass, allowed_volume )
-               == std::tie( rhs.multiplier, rhs.allowed_mass, rhs.allowed_volume );
-    }
+    bool operator==( const furn_workbench_info &rhs ) const = default;
 };
 struct plant_data {
     // What the furniture turns into when it grows or you plant seeds in it
@@ -154,11 +142,7 @@ struct plant_data {
 
     void deserialize( JsonIn &jsin );
 
-    // In C++20, this would be = default
-    bool operator==( const plant_data &rhs ) const {
-        return std::tie( transform, base, growth_multiplier, harvest_multiplier )
-               == std::tie( rhs.transform, rhs.base, rhs.growth_multiplier, rhs.harvest_multiplier );
-    }
+    bool operator==( const plant_data &rhs ) const = default;
 };
 
 struct pry_result {
@@ -238,6 +222,7 @@ struct pry_result {
  * OPENCLOSE_INSIDE - If it's a door (with an 'open' or 'close' field), it can only be opened or closed if you're inside.
  * PERMEABLE - Allows gases to flow through unimpeded.
  * RAMP - Higher z-levels can be accessed from this tile
+ * ADV_DECONSTRUCT - Player cannot use "Deconstruct (Simple) Furniture"; alternative means are required
  * EASY_DECONSTRUCT - Player can deconstruct this without tools
  * HIDE_PLACE - Creature on this tile can't be seen by other creature not standing on adjacent tiles
  * BLOCK_WIND - This tile will partially block wind
@@ -317,11 +302,17 @@ enum ter_bitflags : int {
     TFLAG_SMALL_PASSAGE,
     TFLAG_Z_TRANSPARENT,
     TFLAG_SUN_ROOF_ABOVE,
+    TFLAG_FUNGUS,
+    TFLAG_FLOWER,
+    TFLAG_ORGANIC,
+    TFLAG_PLANT,
+    TFLAG_SHRUB,
+    TFLAG_TREE,
+    TFLAG_YOUNG,
     TFLAG_SUSPENDED,
     TFLAG_FRIDGE,
     TFLAG_FREEZER,
     TFLAG_ELEVATOR,
-
     NUM_TERFLAGS
 };
 
@@ -338,6 +329,8 @@ enum ter_connects : int {
     TERCONN_WATER,
     TERCONN_PAVEMENT,
     TERCONN_RAIL,
+    TERCONN_GUTTER,
+    TERCONN_COUNTER,
 };
 
 struct activity_byproduct {
@@ -459,6 +452,8 @@ struct map_data_common_t {
         int movecost = 0;
         // The coverage percentage of a furniture piece of terrain. <30 won't cover from sight.
         int coverage = 0;
+        // What itemgroup spawns when digging a shallow pit in this terrain, defaults to standard soil yield
+        std::string digging_result = "digging_soil_loam_200L";
         // Maximal volume of items that can be stored in/on this furniture
         units::volume max_volume = 1000_liter;
 
@@ -493,7 +488,7 @@ struct map_data_common_t {
         }
 
         bool has_flag( const std::string &flag ) const {
-            return flags.count( flag ) > 0;
+            return flags.contains( flag );
         }
 
         bool has_flag( const ter_bitflags flag ) const {
@@ -544,6 +539,7 @@ struct ter_t : map_data_common_t {
     ter_str_id lockpick_result; // Lockpick action: transform when successfully lockpicked
     translation lockpick_message; // Lockpick action: message when successfully lockpicked
 
+
     cata::value_ptr<activity_data_ter> boltcut; // Bolt cutting action data
     cata::value_ptr<activity_data_ter> hacksaw; // Hacksaw action data
     cata::value_ptr<activity_data_ter> oxytorch; // Oxytorch action data
@@ -551,6 +547,9 @@ struct ter_t : map_data_common_t {
     std::string trap_id_str;     // String storing the id string of the trap.
     ter_str_id transforms_into; // Transform into what terrain?
     ter_str_id roof;            // What will be the floor above this terrain
+
+    ter_str_id  nail_pull_result; // Terrain to transform into after pulling out nails
+    std::array<short, 2> nail_pull_items; // Nails and planks given upon pulling nails (respectively).
 
     trap_id trap; // The id of the trap located at this terrain. Limit one trap per tile currently.
 
@@ -646,7 +645,7 @@ t_basalt
 */
 extern ter_id t_null,
        // Ground
-       t_dirt, t_sand, t_clay, t_dirtmound, t_pit_shallow, t_pit, t_grave, t_grave_new,
+       t_dirt, t_sand, t_clay, t_alluvial_deposit, t_dirtmound, t_pit_shallow, t_pit, t_grave, t_grave_new,
        t_pit_corpsed, t_pit_covered, t_pit_spiked, t_pit_spiked_covered, t_pit_glass, t_pit_glass_covered,
        t_rock_floor,
        t_grass, t_grass_long, t_grass_tall, t_grass_golf, t_grass_dead, t_grass_white, t_moss,
@@ -811,4 +810,4 @@ extern furn_id f_null,
 // consistency checking of terlist & furnlist.
 void check_furniture_and_terrain();
 
-#endif // CATA_SRC_MAPDATA_H
+

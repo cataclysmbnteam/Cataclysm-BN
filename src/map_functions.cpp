@@ -47,6 +47,8 @@ void migo_nerve_cage_removal( map &m, const tripoint &p, bool spawn_damaged )
     if( spawn_damaged ) {
         spawn->set_hp( spawn->get_hp_max() / 2 );
     }
+    // Don't give the mi-go free shots against the player
+    spawn->mod_moves( -300 );
     if( get_player_character().sees( p ) ) {
         add_msg( m_bad, _( "Something stirs and clambers out of the ruined mass of flesh and nerves!" ) );
     }

@@ -13,7 +13,6 @@
     "material": [ "graphene_weave" ],
     "weight": "1250 g",
     "volume": "4500 ml",
-    "charges_per_use": 5,
     "ammo": "battery",
     "magazines": [
       [
@@ -28,6 +27,7 @@
       "msg": "You activate your %s.",
       "target": "afs_cryopod_bodyglove_on",
       "active": true,
+      "transform_charges": 1,
       "need_charges": 5,
       "need_charges_msg": "The %s's batteries are dead."
     },

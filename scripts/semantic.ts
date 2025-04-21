@@ -4,17 +4,42 @@
  * 1. collects list of all mod IDs
  * 2. generate list of allowed scopes using mod IDs
  * 3. write to `.github/semantic.yaml` file
+ * 4. write to `doc/src/assets/semantic.json` file
  */
-import type { Config } from "https://raw.githubusercontent.com/Ezard/semantic-prs/d6970fded0b5bcb1a2d55778e5be94a83453a897/functions/src/config.ts"
-import mod from "https://raw.githubusercontent.com/commitizen/conventional-commit-types/c3a9be4c73e47f2e8197de775f41d981701407fb/index.json" with {
-  type: "json",
-}
-import { walk } from "$std/fs/walk.ts"
+
+import { walk } from "@std/fs"
 import { asynciter } from "$asynciter/mod.ts"
 import { SafeParseSuccess, z } from "$zod/mod.ts"
-import * as YAML from "$std/yaml/stringify.ts"
-import type {} from "$ts-reset/entrypoints/filter-boolean.d.ts"
+import * as YAML from "@std/yaml"
 import { outdent } from "$outdent/mod.ts"
+import { resolve } from "@std/path"
+
+type Config = {
+  enabled: boolean
+  titleOnly: boolean
+  commitsOnly: boolean
+  titleAndCommits: boolean
+  anyCommit: boolean
+  scopes: readonly string[] | null
+  types: readonly string[]
+  allowMergeCommits: boolean
+  allowRevertCommits: boolean
+  targetUrl: string
+}
+
+const types = [
+  "feat",
+  "fix",
+  "docs",
+  "style",
+  "refactor",
+  "perf",
+  "test",
+  "build",
+  "ci",
+  "chore",
+  "revert",
+] as const
 
 type Modinfo = z.infer<typeof modinfoSchema>
 
@@ -47,27 +72,27 @@ export const allModIds = await asynciter(walk("data/mods", {
   .map(({ path }) => path)
   .concurrentUnorderedMap(extractModinfo)
   .collect()
-  .then((xs) => xs.filter(Boolean))
+  .then((xs) => xs.filter((x) => x !== undefined))
 
 /**
  * see `changelog_guidelines.md` for list of all allowed scopes.
  */
 export const scopes = {
   /** Default allowed scopes */
-  base: ["content", "UI", "i18n", "balance", "port"],
+  base: ["UI", "i18n", "balance", "port"],
   /** List of `mods/<MOD_ID>` */
   mods: allModIds.toSorted().map((x) => `mods/${x}`),
 }
 
 // https://github.com/Ezard/semantic-prs?tab=readme-ov-file#configuration
-const config = {
+const config: Partial<Config> = {
   enabled: true,
   titleOnly: true,
   targetUrl: "https://docs.cataclysmbn.org/en/contribute/changelog_guidelines/",
 
-  types: Object.keys(mod.types),
+  types,
   scopes: Object.values(scopes).flat(),
-} satisfies Partial<Config>
+}
 
 if (import.meta.main) {
   const setting = YAML.stringify(config)
@@ -80,5 +105,14 @@ if (import.meta.main) {
       # Validate the PR title, and ignore all commit messages
       ${setting}
     `
-  await Deno.writeTextFile(".github/semantic.yml", content)
+
+  const rootPath = resolve(import.meta.dirname!, "..")
+
+  await Promise.all([
+    Deno.writeTextFile(resolve(rootPath, ".github/semantic.yml"), content),
+    Deno.writeTextFile(
+      resolve(rootPath, "doc/src/assets/semantic.json"),
+      JSON.stringify({ types: config.types, scopes: config.scopes }, null, 2) + "\n",
+    ),
+  ])
 }

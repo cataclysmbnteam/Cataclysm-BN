@@ -1,6 +1,4 @@
 #pragma once
-#ifndef CATA_SRC_CURSESDEF_H
-#define CATA_SRC_CURSESDEF_H
 
 #include <memory>
 #include <string>
@@ -89,6 +87,7 @@ enum base_color : short {
 using chtype = int;
 using attr_t = unsigned short;
 
+extern window newscr;
 extern window stdscr;
 
 window newwin( int nlines, int ncols, point begin );
@@ -137,4 +136,4 @@ int getcurx( const window &win );
 int getcury( const window &win );
 } // namespace catacurses
 
-#endif // CATA_SRC_CURSESDEF_H
+

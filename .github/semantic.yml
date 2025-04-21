@@ -6,7 +6,7 @@
 # Validate the PR title, and ignore all commit messages
 enabled: true
 titleOnly: true
-targetUrl: 'https://docs.cataclysmbn.org/en/contribute/changelog_guidelines/'
+targetUrl: "https://docs.cataclysmbn.org/en/contribute/changelog_guidelines/"
 types:
   - feat
   - fix
@@ -20,18 +20,21 @@ types:
   - chore
   - revert
 scopes:
-  - content
   - UI
   - i18n
   - balance
   - port
+  - mods/CheesyInnaWoodFixes
   - mods/DinoMod
   - mods/FujiStruct
   - mods/Graphical_Overmap
   - mods/Graphical_Overmap_Fujistruct
   - mods/Graphical_Overmap_More_Locations
   - mods/Graphical_Overmap_Urban_Development
+  - mods/Item_Category_Overhaul
   - mods/MMA
+  - mods/MagicalNights
+  - mods/MonsterGirls
   - mods/Mundane_Zombies
   - mods/No_Acid_Zombies
   - mods/No_Anthills
@@ -42,9 +45,9 @@ scopes:
   - mods/No_Ferals
   - mods/No_Fungi
   - mods/No_Rail_Stations
+  - mods/No_Wasps
   - mods/Old_Mutations
   - mods/Only_Wildlife
-  - mods/pride_flags
   - mods/RL_Classes
   - mods/StatsThroughSkills
   - mods/UDP_BN_FAKE_SNOW
@@ -56,13 +59,14 @@ scopes:
   - mods/craftgp
   - mods/crazy_cataclysm
   - mods/crt_expansion
+  - mods/dangerous_fungi
   - mods/desertpack
   - mods/disable_lifting
   - mods/elevated_bridges
   - mods/fuji_mpp
   - mods/generic_guns
+  - mods/innawoods
   - mods/limit_fungal_growth
-  - mods/magiclysm
   - mods/manualbionicinstall
   - mods/modular_turrets
   - mods/more_classes_scenarios
@@ -79,7 +83,9 @@ scopes:
   - mods/no_rivtech_guns
   - mods/no_scifi
   - mods/no_survivor_armor
+  - mods/no_zombify
   - mods/novitamins
+  - mods/pride_flags
   - mods/ruralbiome
   - mods/saveload_lua_test
   - mods/sees_player_hitbutton
@@ -89,3 +95,4 @@ scopes:
   - mods/stats_through_kills
   - mods/teleportation_tech
   - mods/test_data
+  - mods/udp_redux

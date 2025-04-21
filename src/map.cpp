@@ -74,7 +74,7 @@
 #include "options.h"
 #include "output.h"
 #include "overmapbuffer.h"
-#include "pathfinding.h"
+#include "legacy_pathfinding.h"
 #include "player.h"
 #include "point_float.h"
 #include "projectile.h"
@@ -109,8 +109,11 @@ static const ammo_effect_str_id ammo_effect_LASER( "LASER" );
 static const ammo_effect_str_id ammo_effect_LIGHTNING( "LIGHTNING" );
 static const ammo_effect_str_id ammo_effect_PLASMA( "PLASMA" );
 
+static const fault_id fault_bionic_nonsterile( "fault_bionic_nonsterile" );
+
 static const itype_id itype_autoclave( "autoclave" );
 static const itype_id itype_battery( "battery" );
+static const itype_id itype_burnt_out_bionic( "burnt_out_bionic" );
 static const itype_id itype_chemistry_set( "chemistry_set" );
 static const itype_id itype_dehydrator( "dehydrator" );
 static const itype_id itype_electrolysis_kit( "electrolysis_kit" );
@@ -122,6 +125,7 @@ static const itype_id itype_press( "press" );
 static const itype_id itype_soldering_iron( "soldering_iron" );
 static const itype_id itype_vac_sealer( "vac_sealer" );
 static const itype_id itype_welder( "welder" );
+static const itype_id itype_butchery( "fake_adv_butchery" );
 
 static const mtype_id mon_zombie( "mon_zombie" );
 
@@ -131,6 +135,9 @@ static const efftype_id effect_boomered( "boomered" );
 static const efftype_id effect_crushed( "crushed" );
 
 static const ter_str_id t_rock_floor_no_roof( "t_rock_floor_no_roof" );
+
+// Conversion constant for 100ths of miles per hour to meters per second
+constexpr float velocity_constant = 0.0044704;
 
 #define dbg(x) DebugLog((x),DC::Map)
 
@@ -293,6 +300,7 @@ maptile map::maptile_at_internal( const tripoint &p )
 }
 
 // Vehicle functions
+
 
 VehicleList map::get_vehicles()
 {
@@ -679,7 +687,19 @@ vehicle *map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &fac
             } else {
                 impulse += coll_dmg;
                 veh.damage( coll.part, coll_dmg, DT_BASH );
-                veh.damage_all( coll_dmg / 2, coll_dmg, DT_BASH, collision_point );
+                // Upper bound of shock damage
+                int shock_max = coll_dmg;
+                // Lower bound of shock damage
+                int shock_min = coll_dmg / 2;
+                float coll_part_bash_resist = veh.part_info( coll.part ).damage_reduction.type_resist(
+                                                  DT_BASH );
+                // Reduce shock damage by collision part DR to prevent bushes from damaging car batteries
+                shock_min = std::max<int>( 0, shock_min - coll_part_bash_resist );
+                shock_max = std::max<int>( 0, shock_max - coll_part_bash_resist );
+                // Shock damage decays exponentially, we only want to track shock damage that would cause meaningful damage.
+                if( shock_min >= 20 ) {
+                    veh.damage_all( shock_min, shock_max, DT_BASH, collision_point );
+                }
             }
         }
 
@@ -846,18 +866,23 @@ float map::vehicle_vehicle_collision( vehicle &veh, vehicle &veh2,
     point epicenter1;
     point epicenter2;
 
-    float dmg;
+    float veh1_impulse = 0;
+    float veh2_impulse = 0;
+    float delta_vel = 0;
+    // A constant to tune how many Ns of impulse are equivalent to 1 point of damage, look in vehicle_move.cpp for the impulse to damage function.
+    const float dmg_adjust = impulse_to_damage( 1 );
+    float dmg_veh1 = 0;
+    float dmg_veh2 = 0;
     // Vertical collisions will be simpler for a while (1D)
     if( !vertical ) {
         // For reference, a cargo truck weighs ~25300, a bicycle 690,
         //  and 38mph is 3800 'velocity'
+        // Converting away from 100*mph, because mixing unit systems is bad.
+        // 1 mph = 0.44704m/s = 100 "velocity". For velocity to m/s, *0.0044704
         rl_vec2d velo_veh1 = veh.velo_vec();
         rl_vec2d velo_veh2 = veh2.velo_vec();
         const float m1 = to_kilogram( veh.total_mass() );
         const float m2 = to_kilogram( veh2.total_mass() );
-        //Energy of vehicle1 and vehicle2 before collision
-        float E = 0.5 * m1 * velo_veh1.magnitude() * velo_veh1.magnitude() +
-                  0.5 * m2 * velo_veh2.magnitude() * velo_veh2.magnitude();
 
         // Collision_axis
         point cof1 = veh .rotated_center_of_mass();
@@ -875,15 +900,18 @@ float map::vehicle_vehicle_collision( vehicle &veh, vehicle &veh2,
         // imp? & delta? & final? reworked:
         // newvel1 =( vel1 * ( mass1 - mass2 ) + ( 2 * mass2 * vel2 ) ) / ( mass1 + mass2 )
         // as per http://en.wikipedia.org/wiki/Elastic_collision
-        //velocity of veh1 before collision in the direction of collision_axis_y
-        float vel1_y = collision_axis_y.dot_product( velo_veh1 );
-        float vel1_x = collision_axis_x.dot_product( velo_veh1 );
-        //velocity of veh2 before collision in the direction of collision_axis_y
-        float vel2_y = collision_axis_y.dot_product( velo_veh2 );
-        float vel2_x = collision_axis_x.dot_product( velo_veh2 );
+        //velocity of veh1 before collision in the direction of collision_axis_y, converting to m/s
+        float vel1_y = velocity_constant * collision_axis_y.dot_product( velo_veh1 );
+        float vel1_x = velocity_constant * collision_axis_x.dot_product( velo_veh1 );
+        //velocity of veh2 before collision in the direction of collision_axis_y, converting to m/s
+        float vel2_y = velocity_constant * collision_axis_y.dot_product( velo_veh2 );
+        float vel2_x = velocity_constant * collision_axis_x.dot_product( velo_veh2 );
+        delta_vel = std::abs( vel1_y - vel2_y );
+        // Keep in mind get_collision_factor is looking for m/s, not m/h.
         // e = 0 -> inelastic collision
         // e = 1 -> elastic collision
-        float e = get_collision_factor( vel1_y / 100 - vel2_y / 100 );
+        float e = get_collision_factor( vel1_y - vel2_y );
+        add_msg( m_debug, "Requested collision factor, received %.2f", e );
 
         // Velocity after collision
         // vel1_x_a = vel1_x, because in x-direction we have no transmission of force
@@ -891,11 +919,11 @@ float map::vehicle_vehicle_collision( vehicle &veh, vehicle &veh2,
         float vel2_x_a = vel2_x;
         // Transmission of force only in direction of collision_axix_y
         // Equation: partially elastic collision
-        float vel1_y_a = ( m2 * vel2_y * ( 1 + e ) + vel1_y * ( m1 - m2 * e ) ) / ( m1 + m2 );
-        float vel2_y_a = ( m1 * vel1_y * ( 1 + e ) + vel2_y * ( m2 - m1 * e ) ) / ( m1 + m2 );
+        float vel1_y_a = ( ( m2 * vel2_y * ( 1 + e ) + vel1_y * ( m1 - m2 * e ) ) / ( m1 + m2 ) );
+        float vel2_y_a = ( ( m1 * vel1_y * ( 1 + e ) + vel2_y * ( m2 - m1 * e ) ) / ( m1 + m2 ) );
         // Add both components; Note: collision_axis is normalized
-        rl_vec2d final1 = collision_axis_y * vel1_y_a + collision_axis_x * vel1_x_a;
-        rl_vec2d final2 = collision_axis_y * vel2_y_a + collision_axis_x * vel2_x_a;
+        rl_vec2d final1 = ( collision_axis_y * vel1_y_a + collision_axis_x * vel1_x_a ) / velocity_constant;
+        rl_vec2d final2 = ( collision_axis_y * vel2_y_a + collision_axis_x * vel2_x_a ) / velocity_constant;
 
         veh.move.init( final1.as_point() );
         if( final1.dot_product( veh.face_vec() ) < 0 ) {
@@ -922,21 +950,28 @@ float map::vehicle_vehicle_collision( vehicle &veh, vehicle &veh2,
         veh.of_turn = avg_of_turn * .9;
         veh2.of_turn = avg_of_turn * 1.1;
 
-        //Energy after collision
-        float E_a = 0.5 * m1 * final1.magnitude() * final1.magnitude() +
-                    0.5 * m2 * final2.magnitude() * final2.magnitude();
-        float d_E = E - E_a;  //Lost energy at collision -> deformation energy
-        dmg = std::abs( d_E / 1000 / 2000 );  //adjust to balance damage
+        // Remember that the impulse on vehicle 1 is techncally negative, slowing it
+        veh1_impulse = std::abs( m1 * ( vel1_y_a - vel1_y ) );
+        veh2_impulse = std::abs( m2 * ( vel2_y_a - vel2_y ) );
     } else {
         const float m1 = to_kilogram( veh.total_mass() );
         // Collision is perfectly inelastic for simplicity
         // Assume veh2 is standing still
-        dmg = std::abs( veh.vertical_velocity / 100 ) * m1 / 10;
+        dmg_veh1 = ( std::abs( vmiph_to_mps( veh.vertical_velocity ) ) * ( m1 / 10 ) ) / 2;
+        dmg_veh2 = dmg_veh1;
         veh.vertical_velocity = 0;
     }
 
-    float dmg_veh1 = dmg * 0.5;
-    float dmg_veh2 = dmg * 0.5;
+    // To facilitate pushing vehicles, because the simulation pretends cars are ping pong balls that get all their velocity in zero starting distance to slam into eachother while touching.
+    // Stay under 6 m/s to push cars without damaging them
+    if( delta_vel >= 6.0f ) {
+        dmg_veh1 = veh1_impulse * dmg_adjust;
+        dmg_veh2 = veh2_impulse * dmg_adjust;
+    } else {
+        dmg_veh1 = 0;
+        dmg_veh2 = 0;
+    }
+
 
     int coll_parts_cnt = 0; //quantity of colliding parts between veh1 and veh2
     for( const auto &veh_veh_coll : collisions ) {
@@ -1628,6 +1663,60 @@ uint8_t map::get_known_connections( const tripoint &p, int connect_group,
     return val;
 }
 
+
+uint8_t map::get_known_connections_f( const tripoint &p, int connect_group,
+                                      const std::map<tripoint, furn_id> &override ) const
+{
+    const level_cache &ch = access_cache( p.z );
+    uint8_t val = 0;
+    std::function<bool( const tripoint & )> is_memorized;
+    avatar &player_character = get_avatar();
+#ifdef TILES
+    if( use_tiles ) {
+        is_memorized = [&]( const tripoint & q ) {
+            return !player_character.get_memorized_tile( getabs( q ) ).tile.empty();
+        };
+    } else {
+#endif
+        is_memorized = [&]( const tripoint & q ) {
+            return player_character.get_memorized_symbol( getabs( q ) );
+        };
+#ifdef TILES
+    }
+#endif
+
+    const bool overridden = override.find( p ) != override.end();
+    const bool is_transparent = ch.transparency_cache[p.x][p.y] > LIGHT_TRANSPARENCY_SOLID;
+
+    // populate connection information
+    for( int i = 0; i < 4; ++i ) {
+        tripoint pt = p + offsets[i];
+        if( !inbounds( pt ) ) {
+            continue;
+        }
+        const auto neighbour_override = override.find( pt );
+        const bool neighbour_overridden = neighbour_override != override.end();
+        // if there's some non-memory terrain to show at the neighboring tile
+        const bool may_connect = neighbour_overridden ||
+                                 get_visibility( ch.visibility_cache[pt.x][pt.y],
+                                         get_visibility_variables_cache() ) ==
+                                 visibility_type::VIS_CLEAR ||
+                                 // or if an actual center tile is transparent or
+                                 // next to a memorized tile
+                                 ( !overridden && ( is_transparent || is_memorized( pt ) ) );
+        if( may_connect ) {
+            const furn_t &neighbour_furn = neighbour_overridden ?
+                                           neighbour_override->second.obj() : furn( pt ).obj();
+            if( neighbour_furn.connects_to( connect_group ) ) {
+                val += 1 << i;
+            }
+        }
+    }
+
+    return val;
+}
+
+
 /*
  * Get the results of harvesting this tile's furniture or terrain
  */
@@ -1763,7 +1852,6 @@ bool map::ter_set( const tripoint &p, const ter_id &new_terrain )
     }
 
     invalidate_max_populated_zlev( p.z );
-
     set_memory_seen_cache_dirty( p );
 
     // TODO: Limit to changes that affect move cost, traps and stairs
@@ -2784,10 +2872,10 @@ void map::decay_fields_and_scent( const time_duration &amount )
 
             if( to_proc > 0 ) {
                 cur_submap->field_count = cur_submap->field_count - to_proc;
-                dbg( DL::Error ) << "map::decay_fields_and_scent: submap at "
-                                 << abs_sub + tripoint( smx, smy, 0 )
-                                 << "has " << cur_submap->field_count - to_proc << "fields, but "
-                                 << cur_submap->field_count << " field_count";
+                dbg( DL::Warn ) << "map::decay_fields_and_scent: submap at "
+                                << abs_sub + tripoint( smx, smy, 0 )
+                                << "has " << cur_submap->field_count - to_proc << "fields, but "
+                                << cur_submap->field_count << " field_count";
             }
         }
     }
@@ -2994,13 +3082,14 @@ void map::collapse_at( const tripoint &p, const bool silent, const bool was_supp
             if( p != t && ( has_flag( TFLAG_SUPPORTS_ROOF, t ) && has_flag( TFLAG_COLLAPSES, t ) ) ) {
                 collapse_at( t, silent );
             }
-            // this tile used to support a roof, now it doesn't, which means there is only
-            // open air above us
-            if( zlevels ) {
-                ter_set( tz, t_open_air );
-                furn_set( tz, f_null );
-                propagate_suspension_check( tz );
-            }
+        }
+        // this tile used to support a roof, now it doesn't, which means there is only
+        // open air above us
+        if( zlevels ) {
+            const tripoint tabove( p.xy(), p.z + 1 );
+            ter_set( tabove, t_open_air );
+            furn_set( tabove, f_null );
+            propagate_suspension_check( tabove );
         }
     }
     // it would be great to check if collapsing ceilings smashed through the floor, but
@@ -3106,7 +3195,7 @@ void map::smash_items( const tripoint &p, const int power, const std::string &ca
                 return std::move( it );
             }
         }
-        bool is_active_explosive = it->active && it->type->get_use( "explosion" ) != nullptr;
+        bool is_active_explosive = it->is_active() && it->type->get_use( "explosion" ) != nullptr;
         if( is_active_explosive && it->charges == 0 ) {
             return std::move( it );
         }
@@ -3329,7 +3418,7 @@ bash_results map::bash_ter_success( const tripoint &p, const bash_params &params
             int down_bash_tries = 10;
             do {
                 const ter_id &ter_now = ter( p );
-                if( encountered_types.count( ter_now ) != 0 ) {
+                if( encountered_types.contains( ter_now ) ) {
                     // We have encountered this type before and destroyed it (didn't block us)
                     ter_set( p, t_open_air );
                     bash_params params_below = params;
@@ -3418,13 +3507,13 @@ bash_results map::bash_furn_success( const tripoint &p, const bash_params &param
 
         // Find the center of the tent
         // First check if we're not currently bashing the center
-        if( centers.count( furn( p ) ) > 0 ) {
+        if( centers.contains( furn( p ) ) ) {
             tentp.emplace( p, furn( p ) );
         } else {
             for( const tripoint &pt : points_in_radius( p, bash.collapse_radius ) ) {
                 const furn_id &f_at = furn( pt );
                 // Check if we found the center of the current tent
-                if( centers.count( f_at ) > 0 ) {
+                if( centers.contains( f_at ) ) {
                     tentp.emplace( pt, f_at );
                     break;
                 }
@@ -3446,7 +3535,7 @@ bash_results map::bash_furn_success( const tripoint &p, const bash_params &param
                 const map_bash_info &recur_bash = frn.obj().bash;
                 // Check if we share a center type and thus a "tent type"
                 for( const auto &cur_id : recur_bash.tent_centers ) {
-                    if( centers.count( cur_id.id() ) > 0 ) {
+                    if( centers.contains( cur_id.id() ) ) {
                         // Found same center, wreck current tile
                         spawn_items( p, item_group::items_from( recur_bash.drop_group, calendar::turn ) );
                         furn_set( pt, recur_bash.furn_set );
@@ -3662,7 +3751,7 @@ bash_results map::bash_items( const tripoint &p, const bash_params &params )
     bool smashed_glass = false;
     for( auto bashed_item = bashed_items.begin(); bashed_item != bashed_items.end(); ) {
         // the check for active suppresses Molotovs smashing themselves with their own explosion
-        if( ( *bashed_item )->made_of( material_id( "glass" ) ) && !( *bashed_item )->active &&
+        if( ( *bashed_item )->can_shatter() && !( *bashed_item )->is_active() &&
             one_in( 2 ) ) {
             result.did_bash = true;
             smashed_glass = true;
@@ -3791,7 +3880,7 @@ void map::crush( const tripoint &p )
                                          dam * .05 ) );
 
             // Pin whoever got hit
-            crushed_player->add_effect( effect_crushed, 1_turns, num_bp );
+            crushed_player->add_effect( effect_crushed, 1_turns, bodypart_str_id::NULL_ID() );
             crushed_player->check_dead_state();
         }
     }
@@ -3801,7 +3890,7 @@ void map::crush( const tripoint &p )
         monhit->deal_damage( nullptr, bodypart_id( "torso" ), damage_instance( DT_BASH, rng( 0, 25 ) ) );
 
         // Pin whoever got hit
-        monhit->add_effect( effect_crushed, 1_turns, num_bp );
+        monhit->add_effect( effect_crushed, 1_turns, bodypart_str_id::NULL_ID() );
         monhit->check_dead_state();
     }
 
@@ -3848,10 +3937,12 @@ void map::shoot( const tripoint &origin, const tripoint &p, projectile &proj, co
 
     if( furn.bash.ranged ) {
         double range = rl_dist( origin, p );
+        const bool point_blank = range <= 1;
         const ranged_bash_info &rfi = *furn.bash.ranged;
-        float destroy_roll = dam * rng_float( 0.9, 1.1 );
+        // Damage obstacles like a crit if we're breaching at point blank range, otherwise randomize like a normal hit.
+        float destroy_roll = point_blank ? dam * 1.5 : dam * rng_float( 0.9, 1.1 );
         if( !hit_items && ( !check( rfi.block_unaimed_chance ) || ( rfi.block_unaimed_chance < 100_pct &&
-                            range <= 1 ) ) ) {
+                            point_blank ) ) ) {
             // Nothing, it's a miss or we're shooting over nearby furniture
         } else if( rfi.reduction_laser && proj.has_effect( ammo_effect_LASER ) ) {
             dam -= std::max( ( rng( rfi.reduction_laser->min,
@@ -3861,7 +3952,7 @@ void map::shoot( const tripoint &origin, const tripoint &p, projectile &proj, co
             dam -= std::max( ( rng( rfi.reduction.min,
                                     rfi.reduction.max ) - initial_arpen ) * initial_armor_mult, 0.0f );
             // Only print if we hit something we can see enemies through, so we know cover did its job
-            if( get_avatar().sees( p ) && rfi.block_unaimed_chance < 100_pct ) {
+            if( get_avatar().sees( p ) ) {
                 if( dam <= 0 ) {
                     add_msg( _( "The shot is stopped by the %s!" ), furnname( p ) );
                 } else {
@@ -3878,10 +3969,12 @@ void map::shoot( const tripoint &origin, const tripoint &p, projectile &proj, co
         }
     } else if( ter.bash.ranged ) {
         double range = rl_dist( origin, p );
+        const bool point_blank = range <= 1;
         const ranged_bash_info &ri = *ter.bash.ranged;
-        float destroy_roll = dam * rng_float( 0.9, 1.1 );
+        // Damage obstacles like a crit if we're breaching at point blank range, otherwise randomize like a normal hit.
+        float destroy_roll = point_blank ? dam * 1.5 : dam * rng_float( 0.9, 1.1 );
         if( !hit_items && ( !check( ri.block_unaimed_chance ) || ( ri.block_unaimed_chance < 100_pct &&
-                            range <= 1 ) ) ) {
+                            point_blank ) ) ) {
             // Nothing, it's a miss or we're shooting over nearby terrain
         } else if( ri.reduction_laser && proj.has_effect( ammo_effect_LASER ) ) {
             dam -= std::max( ( rng( ri.reduction_laser->min,
@@ -3891,7 +3984,7 @@ void map::shoot( const tripoint &origin, const tripoint &p, projectile &proj, co
             dam -= std::max( ( rng( ri.reduction.min,
                                     ri.reduction.max ) - initial_arpen ) * initial_armor_mult, 0.0f );
             // Only print if we hit something we can see enemies through, so we know cover did its job
-            if( get_avatar().sees( p ) && ri.block_unaimed_chance < 100_pct ) {
+            if( get_avatar().sees( p ) ) {
                 if( dam <= 0 ) {
                     add_msg( _( "The shot is stopped by the %s!" ), tername( p ) );
                 } else {
@@ -4539,7 +4632,7 @@ void map::add_item( const tripoint &p, detached_ptr<item> &&new_item )
             new_item->convert( dynamic_cast<const iuse_transform *>
                                ( new_item->type->get_use( "transform" )->get_actor_ptr() )->target );
         }
-        new_item->active = true;
+        new_item->activate();
     }
 
     if( new_item->is_map() && !new_item->has_var( "reveal_map_center_omt" ) ) {
@@ -4611,6 +4704,19 @@ detached_ptr<item> map::water_from( const tripoint &p )
         return item::spawn( furn( p ).obj().provides_liquids, calendar::turn, item::INFINITE_CHARGES );
     }
     return detached_ptr<item>();
+}
+
+void map::make_inactive( item &loc )
+{
+    point l;
+    submap *const current_submap = get_submap_at( loc.position(), l );
+
+    // remove from the active items cache (if it isn't there does nothing)
+    current_submap->active_items.remove( &loc );
+    if( current_submap->active_items.empty() ) {
+        submaps_with_active_items.erase( tripoint( abs_sub.x + loc.position().x / SEEX,
+                                         abs_sub.y + loc.position().y / SEEY, loc.position().z ) );
+    }
 }
 
 void map::make_active( item &loc )
@@ -4739,7 +4845,7 @@ std::vector<tripoint> map::check_submap_active_item_consistency()
                 tripoint p( x, y, z );
                 submap *s = get_submap_at_grid( p );
                 bool has_active_items = !s->active_items.get().empty();
-                bool map_has_active_items = submaps_with_active_items.count( p + abs_sub.xy() );
+                bool map_has_active_items = submaps_with_active_items.contains( p + abs_sub.xy() );
                 if( has_active_items != map_has_active_items ) {
                     result.push_back( p + abs_sub.xy() );
                 }
@@ -5086,6 +5192,9 @@ static void use_charges_from_furn( const furn_t &f, const itype_id &type, int &q
             }
         } else if( itt.tool && !itt.tool->ammo_id.empty() ) {
             const itype_id ammo = ammotype( *itt.tool->ammo_id.begin() )->default_ammotype();
+            if( itt.tool->subtype != type && type != ammo && itt.get_id() != type ) {
+                continue;
+            }
             auto stack = m->i_at( p );
             auto iter = std::find_if( stack.begin(), stack.end(),
             [ammo]( const item * const & i ) {
@@ -5093,9 +5202,9 @@ static void use_charges_from_furn( const furn_t &f, const itype_id &type, int &q
             } );
             if( iter != stack.end() ) {
 
-                ( *iter )->attempt_detach( [&filter, &type, &quantity, &ret, &p]( detached_ptr<item> &&it ) {
+                ( *iter )->attempt_detach( [&filter, &ammo, &quantity, &ret, &p]( detached_ptr<item> &&it ) {
                     if( filter( *it ) ) {
-                        return item::use_charges( std::move( it ), type, quantity, ret, p );
+                        return item::use_charges( std::move( it ), ammo, quantity, ret, p );
                     }
                     return std::move( it );
                 } );
@@ -5153,6 +5262,7 @@ std::vector<detached_ptr<item>> map::use_charges( const tripoint &origin, const 
         const std::optional<vpart_reference> kpart = vp.part_with_feature( "FAUCET", true );
         const std::optional<vpart_reference> weldpart = vp.part_with_feature( "WELDRIG", true );
         const std::optional<vpart_reference> craftpart = vp.part_with_feature( "CRAFTRIG", true );
+        const std::optional<vpart_reference> butcherpart = vp.part_with_feature( "BUTCHER_EQ", true );
         const std::optional<vpart_reference> forgepart = vp.part_with_feature( "FORGE", true );
         const std::optional<vpart_reference> kilnpart = vp.part_with_feature( "KILN", true );
         const std::optional<vpart_reference> chempart = vp.part_with_feature( "CHEMLAB", true );
@@ -5217,6 +5327,24 @@ std::vector<detached_ptr<item>> map::use_charges( const tripoint &origin, const 
             // TODO: add a sane birthday arg
             detached_ptr<item> tmp = item::spawn( type, calendar::start_of_cataclysm );
             tmp->charges = craftpart->vehicle().drain( ftype, quantity );
+            quantity -= tmp->charges;
+            ret.push_back( std::move( tmp ) );
+
+            if( quantity == 0 ) {
+                return ret;
+            }
+        }
+
+        if( butcherpart ) {// we have a butchery station, now to see what to drain
+            itype_id ftype = itype_id::NULL_ID();
+
+            if( type == itype_butchery ) {
+                ftype = itype_battery;
+            }
+
+            // TODO: add a sane birthday arg
+            detached_ptr<item> tmp = item::spawn( type, calendar::start_of_cataclysm );
+            tmp->charges = forgepart->vehicle().drain( ftype, quantity );
             quantity -= tmp->charges;
             ret.push_back( std::move( tmp ) );
 
@@ -7263,14 +7391,86 @@ void map::loadn( const tripoint &grid, const bool update_vehicles )
 template <typename Container>
 void map::remove_rotten_items( Container &items, const tripoint &pnt, temperature_flag temperature )
 {
-    items.remove_with( [this, &pnt, &temperature]( detached_ptr<item> &&it ) {
+    std::vector<item *> corpses_handle;
+    items.remove_with( [this, &pnt, &temperature, &corpses_handle]( detached_ptr<item> &&it ) {
         item &obj = *it;
         it = item::actualize_rot( std::move( it ), pnt, temperature, get_weather() );
-        if( !it && obj.is_comestible() ) {
-            rotten_item_spawn( obj, pnt );
+        // When !it, that means the item was removed from the world, ie: has rotted.
+        if( !it ) {
+            if( obj.is_comestible() ) {
+                rotten_item_spawn( obj, pnt );
+            } else if( obj.is_corpse() ) {
+                // Corpses cannot be handled at this stage, as it causes memory errors by adding
+                // items to the Container that haven't been accounted for.
+                corpses_handle.push_back( &obj );
+            }
         }
         return std::move( it );
     } );
+
+    // Now that all the removing is done, add items from corpse spawns.
+    for( const item *corpse : corpses_handle ) {
+        handle_decayed_corpse( *corpse, pnt );
+    }
+
+}
+
+void map::handle_decayed_corpse( const item &it, const tripoint &pnt )
+{
+    const mtype *dead_monster = it.get_corpse_mon();
+    if( !dead_monster ) {
+        debugmsg( "Corpse at tripoint %s has no associated monster?!", getglobal( pnt ).to_string() );
+        return;
+    }
+
+    int decayed_weight_grams = to_gram( dead_monster->weight ); // corpse might have stuff in it!
+    decayed_weight_grams *= rng_float( 0.5, 0.9 );
+
+    for( const harvest_entry &entry : dead_monster->harvest.obj() ) {
+        if( entry.type != "bionic" && entry.type != "bionic_group" && entry.type != "blood" ) {
+            detached_ptr<item> harvest = item::spawn( entry.drop, it.birthday() );
+            const float random_decay_modifier = rng_float( 0.0f, static_cast<float>( MAX_SKILL ) );
+            const float min_num = entry.scale_num.first * random_decay_modifier + entry.base_num.first;
+            const float max_num = entry.scale_num.second * random_decay_modifier + entry.base_num.second;
+            int roll = 0;
+            if( entry.mass_ratio != 0.00f ) {
+                roll = static_cast<int>( std::round( entry.mass_ratio * decayed_weight_grams ) );
+                roll = std::ceil( static_cast<double>( roll ) / to_gram( harvest->weight() ) );
+            } else {
+                roll = std::min<int>( entry.max, std::round( rng_float( min_num, max_num ) ) );
+            }
+            for( int i = 0; i < roll; i++ ) {
+                // This sanity-checks harvest yields that have a default stack amount, e.g. copper wire from cyborgs
+                if( harvest->charges > 1 ) {
+                    harvest->charges = 1;
+                }
+                if( !harvest->rotten() ) {
+                    add_item_or_charges( pnt, item::spawn( *harvest ) );
+                }
+            }
+        }
+    }
+    for( item * const &comp : it.get_components() ) {
+        if( comp->is_bionic() ) {
+            // If CBM, decay successfully at same minimum as dissection
+            // otherwise, yield burnt-out bionic and remove non-sterile if present
+            if( !one_in( 10 ) ) {
+                comp->convert( itype_burnt_out_bionic );
+                if( comp->has_fault( fault_bionic_nonsterile ) ) {
+                    comp->faults.erase( fault_bionic_nonsterile );
+                }
+            }
+            add_item_or_charges( pnt, item::spawn( *comp ) );
+        } else {
+            // Same odds to spawn at all, clearing non-sterile if needed
+            if( one_in( 10 ) ) {
+                if( comp->has_fault( fault_bionic_nonsterile ) ) {
+                    comp->faults.erase( fault_bionic_nonsterile );
+                }
+                add_item_or_charges( pnt, item::spawn( *comp ) );
+            }
+        }
+    }
 }
 
 void map::rotten_item_spawn( const item &item, const tripoint &pnt )
@@ -7411,14 +7611,20 @@ void map::grow_plant( const tripoint &p )
 void map::restock_fruits( const tripoint &p, const time_duration &time_since_last_actualize )
 {
     const auto &ter = this->ter( p ).obj();
-    if( !ter.has_flag( TFLAG_HARVESTED ) ) {
+    const auto &furn = this->furn( p ).obj();
+    if( !ter.has_flag( TFLAG_HARVESTED ) && !furn.has_flag( TFLAG_HARVESTED ) ) {
         return; // Already harvestable. Do nothing.
     }
     // Make it harvestable again if the last actualization was during a different season or year.
     const time_point last_touched = calendar::turn - time_since_last_actualize;
     if( season_of_year( calendar::turn ) != season_of_year( last_touched ) ||
         time_since_last_actualize >= calendar::season_length() ) {
-        ter_set( p, ter.transforms_into );
+        if( ter.has_flag( TFLAG_HARVESTED ) ) {
+            ter_set( p, ter.transforms_into );
+        }
+        if( furn.has_flag( TFLAG_HARVESTED ) ) {
+            furn_set( p, furn.transforms_into );
+        }
     }
 }
 
@@ -8877,6 +9083,27 @@ std::vector<item *> map::get_active_items_in_radius( const tripoint &center, int
     return result;
 }
 
+std::vector<tripoint> map::find_furnitures_with_flag_in_omt( const tripoint &p,
+        const std::string &flag )
+{
+    // Some stupid code to get to the corner
+    const point omt_diff = ( ms_to_omt_copy( getabs( point( ( p.x + SEEX ),
+                             ( p.y + SEEY ) ) ) ) ) - ( ms_to_omt_copy( getabs( p.xy() ) ) );
+    const point omt_p = omt_to_ms_copy( ( ms_to_omt_copy( p.xy() ) ) ) ;
+    const tripoint omt_o = tripoint( omt_p.x + ( 1 - omt_diff.x ) * SEEX,
+                                     omt_p.y + ( 1 - omt_diff.y ) * SEEY,
+                                     p.z );
+
+    std::vector<tripoint> furn_locs;
+    for( const auto &furn_loc : points_in_rectangle( omt_o,
+            tripoint( omt_o.x + 2 * SEEX - 1, omt_o.y + 2 * SEEY - 1, p.z ) ) ) {
+        if( has_flag_furn( flag, furn_loc ) ) {
+            furn_locs.push_back( furn_loc );
+        }
+    }
+    return furn_locs;
+};
+
 std::list<tripoint> map::find_furnitures_with_flag_in_radius( const tripoint &center,
         size_t radius,
         const std::string &flag,
@@ -9171,11 +9398,11 @@ bool map::is_cornerfloor( const tripoint &p ) const
         //to check if a floor is a corner we first search if any of its diagonal adjacent points is impassable
         std::set< tripoint> diagonals = { p + tripoint_north_east, p + tripoint_north_west, p + tripoint_south_east, p + tripoint_south_west };
         for( const tripoint &impassable_diagonal : diagonals ) {
-            if( impassable_adjacent.count( impassable_diagonal ) != 0 ) {
+            if( impassable_adjacent.contains( impassable_diagonal ) ) {
                 //for every impassable diagonal found, we check if that diagonal terrain has at least two impassable neighbors that also neighbor point p
                 int f = 0;
                 for( const tripoint &l : points_in_radius( impassable_diagonal, 1 ) ) {
-                    if( impassable_adjacent.count( l ) != 0 ) {
+                    if( impassable_adjacent.contains( l ) ) {
                         f++;
                     }
                     if( f > 2 ) {

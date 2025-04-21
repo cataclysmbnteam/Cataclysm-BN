@@ -35,7 +35,7 @@ const harvest_list &string_id<harvest_list>::obj() const
 template<>
 bool string_id<harvest_list>::is_valid() const
 {
-    return harvest_all.count( *this ) > 0;
+    return harvest_all.contains( *this );
 }
 
 harvest_list::harvest_list() : id_( harvest_id::NULL_ID() ) {}
@@ -156,6 +156,7 @@ void harvest_list::check_consistency()
                     }
                     errorlist += "null type";
                 } else if( !( entry.type == "flesh" || entry.type == "bone" || entry.type == "skin" ||
+                              entry.type == "blood" ||
                               entry.type == "offal" || entry.type == "bionic" || entry.type == "bionic_group" ) ) {
                     if( !item_valid ) {
                         errorlist += ", ";

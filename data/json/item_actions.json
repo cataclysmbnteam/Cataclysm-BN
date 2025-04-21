@@ -176,31 +176,6 @@
   },
   {
     "type": "item_action",
-    "id": "CARVER_ON",
-    "name": { "str": "Turn off" }
-  },
-  {
-    "type": "item_action",
-    "id": "TRIMMER_ON",
-    "name": { "str": "Turn off" }
-  },
-  {
-    "type": "item_action",
-    "id": "CIRCSAW_ON",
-    "name": { "str": "Turn off" }
-  },
-  {
-    "type": "item_action",
-    "id": "CHAINSAW_ON",
-    "name": { "str": "Turn off" }
-  },
-  {
-    "type": "item_action",
-    "id": "ELEC_CHAINSAW_ON",
-    "name": { "str": "Turn off" }
-  },
-  {
-    "type": "item_action",
     "id": "transform",
     "name": { "str": "Turn on" }
   },
@@ -351,21 +326,6 @@
   },
   {
     "type": "item_action",
-    "id": "CARVER_OFF",
-    "name": { "str": "Turn on" }
-  },
-  {
-    "type": "item_action",
-    "id": "CATFOOD",
-    "name": { "str": "Place" }
-  },
-  {
-    "type": "item_action",
-    "id": "CHAINSAW_OFF",
-    "name": { "str": "Turn on" }
-  },
-  {
-    "type": "item_action",
     "id": "CHEW",
     "name": { "str": "Chew" }
   },
@@ -381,48 +341,8 @@
   },
   {
     "type": "item_action",
-    "id": "COMBATSAW_OFF",
-    "name": { "str": "Turn on" }
-  },
-  {
-    "type": "item_action",
-    "id": "COMBATSAW_ON",
-    "name": { "str": "Turn off" }
-  },
-  {
-    "type": "item_action",
-    "id": "E_COMBATSAW_OFF",
-    "name": { "str": "Turn on" }
-  },
-  {
-    "type": "item_action",
-    "id": "E_COMBATSAW_ON",
-    "name": { "str": "Turn off" }
-  },
-  {
-    "type": "item_action",
     "id": "CONTACTS",
     "name": { "str": "Apply" }
-  },
-  {
-    "type": "item_action",
-    "id": "CS_LAJATANG_OFF",
-    "name": { "str": "Turn on" }
-  },
-  {
-    "type": "item_action",
-    "id": "CS_LAJATANG_ON",
-    "name": { "str": "Turn off" }
-  },
-  {
-    "type": "item_action",
-    "id": "ECS_LAJATANG_OFF",
-    "name": { "str": "Turn on" }
-  },
-  {
-    "type": "item_action",
-    "id": "ECS_LAJATANG_ON",
-    "name": { "str": "Turn off" }
   },
   {
     "type": "item_action",
@@ -441,7 +361,7 @@
   },
   {
     "type": "item_action",
-    "id": "DOGFOOD",
+    "id": "PETFOOD",
     "name": { "str": "Place" }
   },
   {
@@ -473,11 +393,6 @@
     "type": "item_action",
     "id": "EINKTABLETPC",
     "name": { "str": "Use" }
-  },
-  {
-    "type": "item_action",
-    "id": "ELEC_CHAINSAW_OFF",
-    "name": { "str": "Turn on" }
   },
   {
     "type": "item_action",
@@ -647,7 +562,7 @@
   {
     "type": "item_action",
     "id": "MOLOTOV_LIT",
-    "name": { "str": "Light up" }
+    "name": { "str": "Detonate" }
   },
   {
     "type": "item_action",
@@ -826,16 +741,6 @@
   },
   {
     "type": "item_action",
-    "id": "RM13ARMOR_OFF",
-    "name": { "str": "Turn on" }
-  },
-  {
-    "type": "item_action",
-    "id": "RM13ARMOR_ON",
-    "name": { "str": "Turn off" }
-  },
-  {
-    "type": "item_action",
     "id": "SEED",
     "name": { "str": "Consume" }
   },
@@ -848,16 +753,6 @@
     "type": "item_action",
     "id": "SHAVEKIT",
     "name": { "str": "Shave" }
-  },
-  {
-    "type": "item_action",
-    "id": "SHOCKTONFA_OFF",
-    "name": { "str": "Turn on" }
-  },
-  {
-    "type": "item_action",
-    "id": "SHOCKTONFA_ON",
-    "name": { "str": "Turn off" }
   },
   {
     "type": "item_action",
@@ -906,6 +801,11 @@
   },
   {
     "type": "item_action",
+    "id": "TOGGLE_UPS_CHARGING",
+    "name": { "str": "Enable/disable UPS charging" }
+  },
+  {
+    "type": "item_action",
     "id": "REPORT_GRID_CHARGE",
     "name": { "str": "Check grid charge" }
   },
@@ -923,11 +823,6 @@
     "type": "item_action",
     "id": "TOWEL",
     "name": { "str": "Dry/clean yourself" }
-  },
-  {
-    "type": "item_action",
-    "id": "TRIMMER_OFF",
-    "name": { "str": "Turn on" }
   },
   {
     "type": "item_action",
@@ -1081,16 +976,6 @@
   },
   {
     "type": "item_action",
-    "id": "CATTLEFODDER",
-    "name": { "str": "Place" }
-  },
-  {
-    "type": "item_action",
-    "id": "BIRDFOOD",
-    "name": { "str": "Place" }
-  },
-  {
-    "type": "item_action",
     "id": "install_bionic",
     "name": { "str": "Install bionic" }
   },
@@ -1133,5 +1018,10 @@
     "type": "item_action",
     "id": "NOTE_BIONICS",
     "name": { "str": "Turn off" }
+  },
+  {
+    "type": "item_action",
+    "id": "AMPUTATE",
+    "name": { "str": "(Debug) Amputate body part" }
   }
 ]

@@ -1,6 +1,4 @@
 #pragma once
-#ifndef CATA_SRC_MAGIC_H
-#define CATA_SRC_MAGIC_H
 
 #include <functional>
 #include <map>
@@ -12,6 +10,7 @@
 #include <vector>
 
 #include "bodypart.h"
+#include "catalua_type_operators.h"
 #include "damage.h"
 #include "enum_bitset.h"
 #include "event_bus.h"
@@ -118,6 +117,11 @@ struct fake_spell {
 
     bool operator==( const fake_spell &rhs )const;
 
+    // Borrowed from LUA_TYPE_OPS, catalua_type_operators.h
+    inline bool operator<( const fake_spell &rhs ) const {
+        return ( id ) < rhs.id;
+    }
+
     void load( const JsonObject &jo );
     void serialize( JsonOut &json ) const;
     void deserialize( JsonIn &jsin );
@@ -149,6 +153,9 @@ class spell_type
         // spell sound effect
         translation sound_description;
         skill_id skill;
+
+        // Mutations that block the spell from being cast
+        std::set<trait_id> blocker_mutations;
 
         requirement_id spell_components;
 
@@ -190,6 +197,13 @@ class spell_type
         float range_increment = 0.0f;
         // max range this spell can achieve
         int max_range = 0;
+
+        // minimum "accuracy" of a spell
+        int min_accuracy = 0;
+        // amount of "accuracy" change per level
+        float accuracy_increment = 0.0f;
+        // maximum "accuracy"
+        int max_accuracy = 0;
 
         // minimum area of effect of a spell (radius)
         // 0 means the spell only affects the target
@@ -234,6 +248,14 @@ class spell_type
         float energy_increment = 0.0f;
         // max or min energy cost, based on sign of energy_increment
         int final_energy_cost = 0.0f;
+
+        // base encumbrance value for the spell to be hindered by the caster's
+        // arms. anything over this value will affect the spell.
+        int arm_encumbrance_threshold = 20;
+
+        // base encumerance value for the spell to be hindered by the caster's
+        // legs. anything over this value will affect the spell.
+        int leg_encumbrance_threshold = 20;
 
         // spell is restricted to being cast by only this class
         // if spell_class is empty, spell is unrestricted
@@ -284,14 +306,19 @@ class spell_type
         static void check_consistency();
         static void reset_all();
         bool is_valid() const;
+
+        LUA_TYPE_OPS( spell_type, id );
 };
 
 class spell
 {
+    public:
+        // Here for Lua reasons.
+        spell_id type;
+
     private:
         friend class spell_events;
         // basic spell data
-        spell_id type;
 
         // once you accumulate enough exp you level the spell
         int experience = 0;
@@ -337,6 +364,8 @@ class spell
         bool is_max_level() const;
         // what is the max level of the spell
         int get_max_level() const;
+        // what are the blocker mutations
+        std::set<trait_id> get_blocker_muts() const;
 
         // what is the intensity of the field the spell generates ( 0 if no field )
         int field_intensity() const;
@@ -346,6 +375,8 @@ class spell
         damage_instance get_damage_instance() const;
         // how big is the spell's radius
         int aoe() const;
+        // "accuracy" of spells (used for determining body part hit)
+        int accuracy() const;
         // distance spell can be cast
         int range() const;
         // how much energy does the spell cost
@@ -448,6 +479,8 @@ class spell
         // picks a random valid tripoint from @area
         std::optional<tripoint> random_valid_target( const Creature &caster,
                 const tripoint &caster_pos ) const;
+
+        LUA_TYPE_OPS( spell, type );
 };
 
 class known_magic
@@ -534,6 +567,7 @@ void line_attack( const spell &sp, Creature &caster,
 
 void area_pull( const spell &sp, Creature &caster, const tripoint &center );
 void area_push( const spell &sp, Creature &caster, const tripoint &center );
+void directed_push( const spell &sp, Creature &caster, const tripoint &target );
 
 std::set<tripoint> spell_effect_blast( const spell &, const tripoint &, const tripoint &target,
                                        int aoe_radius, bool ignore_walls );
@@ -562,6 +596,7 @@ void morale( const spell &sp, Creature &caster, const tripoint &target );
 void charm_monster( const spell &sp, Creature &caster, const tripoint &target );
 void mutate( const spell &sp, Creature &caster, const tripoint &target );
 void bash( const spell &sp, Creature &caster, const tripoint &target );
+void dash( const spell &sp, Creature &caster, const tripoint &target );
 void none( const spell &sp, Creature &, const tripoint &target );
 } // namespace spell_effect
 
@@ -626,4 +661,4 @@ struct area_expander {
     void sort_descending();
 };
 
-#endif // CATA_SRC_MAGIC_H
+

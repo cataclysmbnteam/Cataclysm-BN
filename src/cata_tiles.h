@@ -1,6 +1,4 @@
 #pragma once
-#ifndef CATA_SRC_CATA_TILES_H
-#define CATA_SRC_CATA_TILES_H
 
 #include <cstddef>
 #include <map>
@@ -38,6 +36,7 @@ struct tile_type {
     bool multitile = false;
     bool rotates = false;
     bool animated = false;
+    bool has_om_transparency = false;
     int height_3d = 0;
     point offset = point_zero;
 
@@ -69,10 +68,10 @@ class tile_lookup_res
         tile_type *_tile;
     public:
         tile_lookup_res( const std::string &id, tile_type &tile ): _id( &id ), _tile( &tile ) {}
-        inline const std::string &id() {
+        const std::string &id() {
             return *_id;
         }
-        inline tile_type &tile() {
+        tile_type &tile() {
             return *_tile;
         }
 };
@@ -308,7 +307,7 @@ class idle_animation_manager
 
     public:
         /** Set whether idle animations are enabled. */
-        inline void set_enabled( bool enabled ) {
+        void set_enabled( bool enabled ) {
             enabled_ = enabled;
         }
 
@@ -316,22 +315,22 @@ class idle_animation_manager
         void prepare_for_redraw();
 
         /** Whether idle animations are enabled */
-        inline bool enabled() const {
+        bool enabled() const {
             return enabled_;
         }
 
         /** Current animation frame (increments by approx. 60 per second) */
-        inline int current_frame() const {
+        int current_frame() const {
             return frame;
         }
 
         /** Mark presence of an idle animation on screen */
-        inline void mark_present() {
+        void mark_present() {
             present_ = true;
         }
 
         /** Whether there are idle animations on screen */
-        inline bool present() const {
+        bool present() const {
             return present_;
         }
 };
@@ -346,6 +345,11 @@ using color_block_overlay_container = std::pair<SDL_BlendMode, std::multimap<poi
 
 struct tile_render_info;
 
+struct tile_search_result {
+    const tile_type *tt;
+    std::string found_id;
+};
+
 class cata_tiles
 {
     public:
@@ -356,6 +360,12 @@ class cata_tiles
          *  float inaccuracies. */
         void set_draw_scale( int scale );
 
+        /** Tries to find tile with specified parameters and return it if exists **/
+        std::optional<tile_search_result> tile_type_search(
+            const std::string &id, TILE_CATEGORY category, const std::string &subcategory,
+            int subtile, int rota
+        );
+
         void on_options_changed();
 
         /** Draw to screen */
@@ -365,6 +375,9 @@ class cata_tiles
         void draw_om( point dest, const tripoint_abs_omt &center_abs_omt, bool blink );
 
         bool terrain_requires_animation() const;
+
+        /** Simply displays character on a screen with given X,Y position **/
+        void display_character( const Character &ch, const point &p );
 
         /** Minimap functionality */
         void draw_minimap( point dest, const tripoint &center, int width, int height );
@@ -427,11 +440,25 @@ class cata_tiles
          * @param apply_night_vision_goggles use night vision colors?
          * @param height_3d return parameter for height of the sprite
          * @param overlay_count how blue the tile looks for lower z levels
+         * @param as_independent_entity draw tile as single entity to the screen
+         *                              (like if you would to display something unrelated to game map context
+         *                              e.g. character preview tile in character creation screen)
          * @return always true
          */
         bool draw_from_id_string( const std::string &id, TILE_CATEGORY category,
                                   const std::string &subcategory, const tripoint &pos, int subtile, int rota,
-                                  lit_level ll, bool apply_night_vision_goggles, int &height_3d, int overlay_count );
+                                  lit_level ll, bool apply_night_vision_goggles, int &height_3d, int overlay_count,
+                                  bool as_independent_entity = false );
+        /**
+        * @brief Draw overmap tile, if it's transparent, then draw lower tile first
+        *
+        * @param id String id of the tile to draw.
+        * @param rotation { UP = 0, LEFT = 1, DOWN = 2, RIGHT = 3 }
+        * @param subtile variant of the tile
+        * @param base_z_offset Z offset from given position, used to calculate overlay opacity
+        */
+        void draw_om_tile_recursively( const tripoint_abs_omt omp, const std::string &id, int rotation,
+                                       int subtile, int base_z_offset );
 
         /**
          * @brief draw_sprite_at() without height_3d
@@ -451,7 +478,7 @@ class cata_tiles
         bool draw_sprite_at(
             const tile_type &tile, const weighted_int_list<std::vector<int>> &svlist,
             point, unsigned int loc_rand, bool rota_fg, int rota, lit_level ll,
-            bool apply_night_vision_goggles, int &height_3d, int overlay_count );
+            bool apply_night_vision_goggles, int &height_3d, int overlay_alpha );
 
         /**
          * @brief Calls draw_sprite_at() twice each for foreground and background.
@@ -470,13 +497,35 @@ class cata_tiles
         bool draw_tile_at( const tile_type &tile, point, unsigned int loc_rand, int rota,
                            lit_level ll, bool apply_night_vision_goggles, int &height_3d, int overlay_count );
 
+        /**
+         * @brief Draws a colored solid color tile at position, with optional blending
+         *
+         * @param color Color to draw.
+         * @param p Point to draw the tile at.
+         * @param blend_mode Blend mode to draw the tile with
+         * @return always true.
+         */
+        bool draw_color_at( const SDL_Color &color, point p,
+                            SDL_BlendMode blend_mode = SDL_BLENDMODE_NONE );
+
         /** Tile Picking */
         void get_tile_values( int t, const int *tn, int &subtile, int &rotation );
+
+        // as get_tile_values, but for unconnected tiles, infer rotation from surrouding walls
+        void get_tile_values_with_ter( const tripoint &p, int t, const int *tn, int &subtile,
+                                       int &rotation );
+
         void get_connect_values( const tripoint &p, int &subtile, int &rotation, int connect_group,
                                  const std::map<tripoint, ter_id> &ter_override );
+
+        void get_furn_connect_values( const tripoint &p, int &subtile, int &rotation,
+                                      int connect_group,
+                                      const std::map<tripoint, furn_id> &furn_override );
+
         void get_terrain_orientation( const tripoint &p, int &rota, int &subtile,
                                       const std::map<tripoint, ter_id> &ter_override,
                                       const bool ( &invisible )[5] );
+
         void get_rotation_and_subtile( char val, int &rota, int &subtile );
 
         /** Map memory */
@@ -515,7 +564,7 @@ class cata_tiles
         bool draw_zombie_revival_indicators( const tripoint &pos, lit_level ll, int &height_3d,
                                              const bool ( &invisible )[5], int z_drop );
         void draw_entity_with_overlays( const Character &ch, const tripoint &p, lit_level ll,
-                                        int &height_3d );
+                                        int &height_3d, bool as_independent_entity = false );
 
 
         bool draw_item_highlight( const tripoint &pos );
@@ -769,4 +818,4 @@ class cata_tiles
         std::string memory_map_mode = "color_pixel_sepia";
 };
 
-#endif // CATA_SRC_CATA_TILES_H
+

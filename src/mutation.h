@@ -1,6 +1,4 @@
 #pragma once
-#ifndef CATA_SRC_MUTATION_H
-#define CATA_SRC_MUTATION_H
 
 #include <map>
 #include <memory>
@@ -141,6 +139,7 @@ struct mutation_branch {
         float movecost_flatground_modifier = 1.0f;
         float movecost_obstacle_modifier = 1.0f;
         float attackcost_modifier = 1.0f;
+        float falling_damage_multiplier = 1.0f;
         float max_stamina_modifier = 1.0f;
         float weight_capacity_modifier = 1.0f;
         float hearing_modifier = 1.0f;
@@ -227,7 +226,7 @@ struct mutation_branch {
         std::set<bodypart_str_id> no_cbm_on_bp;
 
         // Body size from mutations, e.g. large, small, etc.
-        std::optional<m_size> body_size;
+        std::optional<creature_size> body_size;
 
         // amount of mana added or subtracted from max
         float mana_modifier = 0.0f;
@@ -527,4 +526,4 @@ mutagen_attempt mutagen_common_checks( Character &guy, const item &it, bool stro
 
 void test_crossing_threshold( Character &guy, const mutation_category_trait &m_category );
 
-#endif // CATA_SRC_MUTATION_H
+

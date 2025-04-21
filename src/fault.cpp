@@ -15,7 +15,7 @@ static std::map<fault_id, fault> faults_all;
 template<>
 bool string_id<fault>::is_valid() const
 {
-    return faults_all.count( *this );
+    return faults_all.contains( *this );
 }
 
 /** @relates string_id */

@@ -1,5 +1,4 @@
-#ifndef CATA_SRC_RANGED_H
-#define CATA_SRC_RANGED_H
+#pragma once
 
 #include <map>
 #include <optional>
@@ -107,11 +106,10 @@ float str_draw_range_modifier( const item &it, const Character &p );
 std::optional<shape_factory> get_shape_factory( const item &gun );
 
 /** AoE attack, with area given by shape */
-void execute_shaped_attack( const shape &sh, const projectile &proj, Creature &attacker );
+void execute_shaped_attack( const shape &sh, const projectile &proj, Creature &attacker,
+                            item *source_weapon, const vehicle *in_veh = nullptr );
 
 std::map<tripoint, double> expected_coverage( const shape &sh, const map &here, int bash_power );
-
-dealt_damage_instance hit_with_aoe( Creature &target, Creature *source, const damage_instance &di );
 
 void draw_cone_aoe( const tripoint &origin, const std::map<tripoint, double> &aoe );
 
@@ -129,7 +127,7 @@ void print_dmg_msg( Creature &target, Creature *source, const dealt_damage_insta
  */
 void prompt_select_default_ammo_for( avatar &u, item &w );
 
-/** Returns true if a gun misfires, jams, or has other problems, else returns false. */
+/** Returns false if a gun misfires, jams, or has other problems, else returns true. */
 bool handle_gun_damage( Character &shooter, item &it );
 
 /* Adjusts provided sight dispersion to account for character stats */
@@ -193,16 +191,19 @@ int fire_gun( Character &who, const tripoint &target, int shots = 1 );
 int fire_gun( Character &who, const tripoint &target, int shots, item &gun,
               item *ammo );
 
+/** Expected thrown damage with a given item, given the thrower's effective strength and skill. */
+auto throw_damage( const item &it, const int skill, const int str ) -> int;
+
 /**
  * Execute a throw.
  * @param who Character whose stats to use
  * @param to_throw Item being thrown
  * @param blind_throw_from_pos Position of blind throw (if blind throwing)
  */
-dealt_projectile_attack throw_item( Character &who, const tripoint &target,
-                                    detached_ptr<item> &&to_throw,
-                                    std::optional<tripoint> blind_throw_from_pos );
+auto throw_item( Character &who, const tripoint &target,
+                 detached_ptr<item> &&to_throw,
+                 std::optional<tripoint> blind_throw_from_pos ) -> dealt_projectile_attack;
 
 } // namespace ranged
 
-#endif // CATA_SRC_RANGED_H
+

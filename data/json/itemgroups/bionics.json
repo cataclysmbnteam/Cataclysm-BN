@@ -8,6 +8,7 @@
       [ "bio_ethanol", 10 ],
       [ "bio_torsionratchet", 10 ],
       [ "bio_fuel_cell_gasoline", 10 ],
+      [ "bio_fuel_cell_hydrogen", 10 ],
       [ "bio_tools", 10 ],
       [ "bio_ups", 10 ],
       [ "bio_flashlight", 10 ],
@@ -54,6 +55,7 @@
       [ "bio_heat_absorb", 10 ],
       [ "bio_claws", 10 ],
       [ "bio_blade", 5 ],
+      [ "bio_monowire", 5 ],
       [ "bio_surgical_razor", 10 ],
       [ "bio_razors", 10 ],
       [ "bio_shockwave", 10 ],
@@ -83,6 +85,8 @@
       [ "bio_power_armor_interface_mkII", 5 ],
       [ "bio_remote", 10 ],
       [ "bio_cable", 10 ],
+      [ "bio_cable_mkII", 2 ],
+      [ "bio_cable_upgrade", 2 ],
       [ "bio_syringe", 10 ],
       [ "bio_weight", 10 ],
       [ "bio_shock_absorber", 10 ],
@@ -137,6 +141,7 @@
       [ "bio_faraday", 5 ],
       [ "bio_flashlight", 15 ],
       [ "bio_fuel_cell_gasoline", 10 ],
+      [ "bio_fuel_cell_hydrogen", 5 ],
       [ "bio_geiger", 5 ],
       [ "bio_lighter", 15 ],
       [ "bio_metabolics", 10 ],
@@ -203,11 +208,13 @@
       [ "bio_power_armor_interface", 10 ],
       [ "bio_cqb", 5 ],
       [ "bio_blade", 2 ],
+      [ "bio_monowire", 2 ],
       [ "bio_speed", 2 ],
       [ "bio_adrenaline", 10 ],
       [ "bio_infolink", 20 ],
       [ "bio_power_armor_interface_mkII", 5 ],
       [ "bio_cable", 10 ],
+      [ "bio_cable_mkII", 3 ],
       [ "bio_weight", 10 ],
       [ "bio_jointservo", 10 ],
       [ "bio_shotgun", 10 ],
@@ -225,9 +232,11 @@
       [ "bio_batteries", 10 ],
       [ "bio_blood_anal", 5 ],
       [ "bio_cable", 10 ],
+      [ "bio_cable_mkII", 6 ],
       [ "bio_cqb", 5 ],
       [ "bio_ethanol", 10 ],
       [ "bio_fuel_cell_gasoline", 10 ],
+      [ "bio_fuel_cell_hydrogen", 5 ],
       [ "bio_geiger", 5 ],
       [ "bio_ground_sonar", 5 ],
       [ "bio_heatsink", 10 ],
@@ -295,11 +304,13 @@
       [ "bio_power_armor_interface", 10 ],
       [ "bio_cqb", 5 ],
       [ "bio_blade", 5 ],
+      [ "bio_monowire", 5 ],
       [ "bio_speed", 5 ],
       [ "bio_adrenaline", 15 ],
       [ "bio_infolink", 20 ],
       [ "bio_power_armor_interface_mkII", 5 ],
       [ "bio_cable", 10 ],
+      [ "bio_cable_mkII", 3 ],
       [ "bio_jointservo", 20 ],
       [ "bio_shotgun", 10 ],
       [ "bn_bio_solar", 15 ],
@@ -315,6 +326,7 @@
     "//": "Elite zombie bio-operator offense CBMs.",
     "items": [
       [ "bio_blade", 10 ],
+      [ "bio_monowire", 10 ],
       [ "bio_chain_lightning", 10 ],
       [ "bio_claws", 10 ],
       [ "bio_cqb", 10 ],
@@ -389,7 +401,8 @@
       [ "bio_weight", 20 ],
       [ "bio_shock_absorber", 20 ],
       [ "bio_soporific", 20 ],
-      [ "bio_electrosense", 5 ]
+      [ "bio_electrosense", 5 ],
+      [ "bio_cable_mkII", 5 ]
     ]
   },
   {
@@ -401,6 +414,7 @@
       [ "bio_batteries", 30 ],
       [ "bio_metabolics", 5 ],
       [ "bio_ethanol", 5 ],
+      [ "bio_fuel_cell_hydrogen", 5 ],
       [ "bio_ups", 10 ],
       [ "bio_torsionratchet", 30 ],
       [ "bio_tools", 10 ],
@@ -457,6 +471,7 @@
       [ "bio_weight", 15 ],
       [ "afs_bio_missiles", 10 ],
       [ "afs_bio_dopamine_stimulators", 15 ],
+      [ "bio_cable_mkII", 10 ],
       [ "bio_reactor", 10 ]
     ]
   },
@@ -534,7 +549,9 @@
       [ "afs_bio_linguistic_coprocessor", 10 ],
       [ "afs_bio_dopamine_stimulators", 10 ],
       [ "bio_reactor", 10 ],
-      [ "bio_reactor_upgrade", 10 ]
+      [ "bio_reactor_upgrade", 10 ],
+      [ "bio_cable_mkII", 10 ],
+      [ "bio_cable_upgrade", 10 ]
     ]
   },
   {

@@ -12,6 +12,7 @@
 #include "game.h"
 #include "handle_liquid.h"
 #include "itype.h"
+#include "iuse_actor.h"
 #include "make_static.h"
 #include "map_iterator.h"
 #include "map_selector.h"
@@ -20,6 +21,7 @@
 #include "npc.h"
 #include "output.h"
 #include "player.h"
+#include "ranged.h"
 #include "rng.h"
 #include "skill.h"
 #include "submap.h"
@@ -65,6 +67,8 @@ static const bionic_id bio_uncanny_dodge( "bio_uncanny_dodge" );
 
 static const itype_id itype_battery( "battery" );
 static const itype_id itype_UPS( "UPS" );
+
+static const skill_id skill_throw( "throw" );
 
 namespace character_funcs
 {
@@ -239,12 +243,11 @@ comfort_response_t base_comfort_value( const Character &who, const tripoint &p )
             const std::optional<vpart_reference> board = vp.part_with_feature( "BOARDABLE", true );
             if( carg ) {
                 const vehicle_stack items = vp->vehicle().get_items( carg->part_index() );
-                for( const item *items_it : items ) {
+                for( item *items_it : items ) {
                     if( items_it->has_flag( STATIC( flag_id( "SLEEP_AID" ) ) ) ) {
                         // Note: BED + SLEEP_AID = 9 pts, or 1 pt below very_comfortable
                         comfort += 1 + static_cast<int>( comfort_level::slightly_comfortable );
-                        comfort_response.aid = items_it;
-                        break; // prevents using more than 1 sleep aid
+                        comfort_response.aid.push_back( items_it );
                     }
                 }
             }
@@ -274,14 +277,13 @@ comfort_response_t base_comfort_value( const Character &who, const tripoint &p )
             comfort -= here.move_cost( p );
         }
 
-        if( comfort_response.aid == nullptr ) {
+        if( comfort_response.aid.empty() ) {
             const map_stack items = here.i_at( p );
-            for( const item *items_it : items ) {
+            for( item *items_it : items ) {
                 if( items_it->has_flag( STATIC( flag_id( "SLEEP_AID" ) ) ) ) {
                     // Note: BED + SLEEP_AID = 9 pts, or 1 pt below very_comfortable
                     comfort += 1 + static_cast<int>( comfort_level::slightly_comfortable );
-                    comfort_response.aid = items_it;
-                    break; // prevents using more than 1 sleep aid
+                    comfort_response.aid.push_back( items_it );
                 }
             }
         }
@@ -337,8 +339,8 @@ int rate_sleep_spot( const Character &who, const tripoint &p )
 {
     const int current_stim = who.get_stim();
     const comfort_response_t comfort_info = base_comfort_value( who, p );
-    if( comfort_info.aid != nullptr ) {
-        who.add_msg_if_player( m_info, _( "You use your %s for comfort." ), comfort_info.aid->tname() );
+    for( item *comfort_item : comfort_info.aid ) {
+        who.add_msg_if_player( m_info, _( "You use your %s for comfort." ), comfort_item->tname() );
     }
 
     int sleepy = static_cast<int>( comfort_info.level );
@@ -368,9 +370,9 @@ int rate_sleep_spot( const Character &who, const tripoint &p )
     }
 
     if( who.get_fatigue() < fatigue_levels::tired + 1 ) {
-        sleepy -= static_cast<int>( ( fatigue_levels::tired + 1 - who.get_fatigue() ) / 4 );
+        sleepy -= ( ( fatigue_levels::tired + 1 - who.get_fatigue() ) / 4 );
     } else {
-        sleepy += static_cast<int>( ( who.get_fatigue() - fatigue_levels::tired + 1 ) / 16 );
+        sleepy += ( ( who.get_fatigue() - fatigue_levels::tired + 1 ) / 16 );
     }
 
     if( current_stim > 0 || !who.has_trait( trait_INSOMNIA ) ) {
@@ -437,8 +439,12 @@ std::string fmt_wielded_weapon( const Character &who )
     }
     const item &weapon = who.primary_weapon();
     if( weapon.is_gun() ) {
-        std::string str = string_format( "(%d) [%s] %s", weapon.gun_current_mode()->ammo_remaining(),
-                                         weapon.gun_current_mode().tname(), weapon.type_name() );
+        std::string str = weapon.is_gunmod()
+                          ? string_format( "(%d) %s",
+                                           weapon.ammo_remaining(), weapon.type_name() )
+                          : string_format( "(%d) [%s] %s",
+                                           weapon.gun_current_mode()->ammo_remaining(),
+                                           weapon.gun_current_mode().tname(), weapon.type_name() );
         // Is either the base item or at least one auxiliary gunmod loaded (includes empty magazines)
         bool base = weapon.ammo_capacity() > 0 && !weapon.has_flag( flag_RELOAD_AND_SHOOT );
 
@@ -460,21 +466,21 @@ std::string fmt_wielded_weapon( const Character &who )
         }
         return str;
 
-    } else if( weapon.is_container() && weapon.contents.num_item_stacks() == 1 ) {
-        return string_format( "%s (%d)", weapon.tname(),
-                              weapon.contents.front().charges );
-
+    } else if( ( weapon.is_container() && weapon.contents.num_item_stacks() == 1 ) ||
+               weapon.ammo_capacity() > 0 ) {
+        return string_format( "(%d) %s",
+                              weapon.is_container() ? weapon.contents.front().charges : weapon.ammo_remaining(), weapon.tname() );
     } else {
         return weapon.tname();
     }
 }
 
-void add_pain_msg( const Character &who, int val, body_part bp )
+void add_pain_msg( const Character &who, int val, const bodypart_str_id &bp )
 {
     if( who.has_trait( trait_NOPAIN ) ) {
         return;
     }
-    if( bp == num_bp ) {
+    if( !bp ) {
         if( val > 20 ) {
             who.add_msg_if_player( _( "Your body is wracked with excruciating pain!" ) );
         } else if( val > 10 ) {
@@ -489,19 +495,19 @@ void add_pain_msg( const Character &who, int val, body_part bp )
     } else {
         if( val > 20 ) {
             who.add_msg_if_player( _( "Your %s is wracked with excruciating pain!" ),
-                                   body_part_name_accusative( bp ) );
+                                   body_part_name_accusative( bp.id() ) );
         } else if( val > 10 ) {
             who.add_msg_if_player( _( "Your %s is wracked with terrible pain!" ),
-                                   body_part_name_accusative( bp ) );
+                                   body_part_name_accusative( bp.id() ) );
         } else if( val > 5 ) {
             who.add_msg_if_player( _( "Your %s is wracked with pain!" ),
-                                   body_part_name_accusative( bp ) );
+                                   body_part_name_accusative( bp.id() ) );
         } else if( val > 1 ) {
             who.add_msg_if_player( _( "Your %s pains you!" ),
-                                   body_part_name_accusative( bp ) );
+                                   body_part_name_accusative( bp.id() ) );
         } else {
             who.add_msg_if_player( _( "Your %s aches." ),
-                                   body_part_name_accusative( bp ) );
+                                   body_part_name_accusative( bp.id() ) );
         }
     }
 }
@@ -514,8 +520,11 @@ void normalize( Character &who )
     who.set_body();
     who.recalc_hp();
 
-    who.temp_cur.fill( BODYTEMP_NORM );
-    who.temp_conv.fill( BODYTEMP_NORM );
+    for( auto &pr : who.get_body() ) {
+        pr.second.set_temp_cur( BODYTEMP_NORM );
+        pr.second.set_temp_conv( BODYTEMP_NORM );
+    }
+
     who.set_stamina( who.get_stamina_max() );
 }
 
@@ -571,7 +580,7 @@ bool try_wield_contents( Character &who, item &container, item *internal_item, b
 
     who.set_primary_weapon( internal_item->detach() );
     who.inv_update_invlet( *internal_item );
-    who.inv_update_cache_with_item( *internal_item );
+    who.inv_update_invlet_cache_with_item( *internal_item );
     who.last_item = internal_item->typeId();
 
     /**
@@ -604,19 +613,29 @@ bool try_uncanny_dodge( Character &who )
     who.mod_power_level( -trigger_cost );
     bool is_u = who.is_avatar();
     bool seen = is_u || get_player_character().sees( who );
-    std::optional<tripoint> adjacent = pick_safe_adjacent_tile( who );
-    if( adjacent ) {
+    // If successful, dodge for free. If we already burned bonus dodges this turn then get_dodge fails and we're overwhelmed.
+    if( x_in_y( who.get_dodge(), 10 ) ) {
         if( is_u ) {
-            add_msg( _( "Time seems to slow down and you instinctively dodge!" ) );
+            add_msg( m_good, _( "Time seems to slow down and you effortlessly dodge!" ) );
         } else if( seen ) {
-            add_msg( _( "%s dodges… so fast!" ), who.disp_name() );
+            add_msg( m_good, _( "%s effortlessly dodges… so fast!" ), who.disp_name() );
         }
         return true;
+        // Didn't get a free dodge, burn dodges_left instead. If this zeros them out and there's still more attacks coming this turn the next shot will hit.
+    } else if( who.dodges_left > 0 ) {
+        if( is_u ) {
+            add_msg( m_mixed, _( "Time seems to slow down and you instinctively dodge!" ) );
+        } else if( seen ) {
+            add_msg( m_mixed, _( "%s dodges… so fast!" ), who.disp_name() );
+        }
+        who.dodges_left--;
+        return true;
+        // No dodges left, catch those hands.
     } else {
         if( is_u ) {
-            add_msg( _( "You try to dodge but there's no room!" ) );
+            add_msg( m_bad, _( "You try to dodge but fail!" ) );
         } else if( seen ) {
-            add_msg( _( "%s tries to dodge but there's no room!" ), who.disp_name() );
+            add_msg( m_bad, _( "%s tries to dodge but fails!" ), who.disp_name() );
         }
         return false;
     }
@@ -753,6 +772,19 @@ bool list_ammo( const Character &who, item &base, std::vector<item_reload_option
                       : ammo->typeId();
             const bool can_reload_with = e->can_reload_with( id );
             if( can_reload_with ) {
+                // Skip if is magazine inside gun/mod, but gun/mod can't fire it (e.g 300 Blackout on STANAG on AR-15)
+                if( e->is_magazine() && e->parent_item() ) {
+                    auto ammo_type = ( ammo->is_ammo_container() || ammo->is_container() )
+                                     ? ammo->contents.front().ammo_type()
+                                     : ammo->ammo_type();
+                    const std::set<ammotype> &supported_ammo = e->parent_item()->ammo_types();
+                    const bool gun_supports = std::ranges::any_of( supported_ammo, [&]( const ammotype & at ) {
+                        return at == ammo_type;
+                    } );
+                    if( !gun_supports ) {
+                        continue;
+                    }
+                }
                 // Speedloaders require an empty target.
                 if( include_potential || !ammo->has_flag( flag_SPEEDLOADER ) || e->ammo_remaining() < 1 ) {
                     ammo_match_found = true;
@@ -790,7 +822,7 @@ item_reload_option select_ammo( const Character &who, item &base,
     std::back_inserter( names ), [&]( const item_reload_option & e ) {
         const auto ammo_color = [&]( const std::string & name ) {
             return base.is_gun() && e.ammo->ammo_data() &&
-                   !base.ammo_types().count( e.ammo->ammo_data()->ammo->type ) ?
+                   !base.ammo_types().contains( e.ammo->ammo_data()->ammo->type ) ?
                    colorize( name, c_dark_gray ) : name;
         };
         if( e.ammo->is_magazine() && e.ammo->ammo_data() ) {
@@ -879,7 +911,14 @@ item_reload_option select_ammo( const Character &who, item &base,
                     row += string_format( "| %-3d*%3d%% ", static_cast<int>( dam_amt ),
                                           clamp( static_cast<int>( du.damage_multiplier * 100 ), 0, 999 ) );
                 } else {
-                    float dam_amt = dam.total_damage();
+                    float throw_amt = 0;
+                    if( base.gun_skill() == skill_throw ) {
+                        item &tmp = *item::spawn_temporary( item( ammo ) );
+                        throw_amt += ranged::throw_damage( tmp,
+                                                           who.get_skill_level( skill_throw ),
+                                                           who.get_str() );
+                    }
+                    float dam_amt = std::max( dam.total_damage(), throw_amt );
                     row += string_format( "| %-8d ", static_cast<int>( dam_amt ) );
                 }
                 if( du.res_mult != 1.0f ) {
@@ -1017,7 +1056,7 @@ item_reload_option select_ammo( const Character &who, item &base, bool prompt,
     const bool ammo_match_found = list_ammo( who, base, ammo_list, include_empty_mags,
                                   include_potential );
 
-    if( ammo_list.empty() ) {
+    if( ammo_list.empty() && !base.is_holster() ) {
         if( !who.is_npc() ) {
             if( !base.is_magazine() && !base.magazine_integral() && !base.magazine_current() ) {
                 who.add_msg_if_player( m_info, _( "You need a compatible magazine to reload the %s!" ),
@@ -1133,7 +1172,7 @@ void find_ammo_helper( T &src, const item &obj, bool empty, Output out, bool nes
                 }
             }
             if( node->is_magazine() && node->has_flag( flag_SPEEDLOADER ) ) {
-                if( mags.count( node->typeId() ) && node->ammo_remaining() ) {
+                if( mags.contains( node->typeId() ) && node->ammo_remaining() ) {
                     out = node;
                 }
             }
@@ -1142,13 +1181,24 @@ void find_ammo_helper( T &src, const item &obj, bool empty, Output out, bool nes
     } else {
         // find compatible magazines excluding those already loaded in tools/guns
         const auto mags = obj.magazine_compatible();
+        const std::set<ammotype> &ammo = obj.ammo_types();
 
-        src.visit_items( [&nested, &out, mags, empty]( item * node ) {
+        src.visit_items( [&nested, &out, mags, empty, &ammo]( item * node ) {
             if( node->is_gun() || node->is_tool() ) {
                 return VisitResponse::SKIP;
             }
             if( node->is_magazine() ) {
-                if( mags.count( node->typeId() ) && ( node->ammo_remaining() || empty ) ) {
+
+                if( !node->contents.empty() ) {
+                    const bool match = std::ranges::any_of( ammo, [&]( const ammotype & at ) {
+                        return node->contents.front().ammo_type() == at;
+                    } );
+                    if( !match ) {
+                        return VisitResponse::SKIP;
+                    }
+                }
+
+                if( mags.contains( node->typeId() ) && ( node->ammo_remaining() || empty ) ) {
                     out = node;
                 }
                 return VisitResponse::SKIP;
@@ -1182,9 +1232,6 @@ std::vector<item *> find_reloadables( Character &who )
     std::vector<item *> reloadables;
 
     who.visit_items( [&]( item * node ) {
-        if( node->is_holster() ) {
-            return VisitResponse::NEXT;
-        }
         bool reloadable = false;
         if( node->is_gun() && !node->magazine_compatible().empty() ) {
             reloadable = node->magazine_current() == nullptr ||
@@ -1193,6 +1240,13 @@ std::vector<item *> find_reloadables( Character &who )
             reloadable = ( node->is_magazine() || node->is_bandolier() ||
                            ( node->is_gun() && node->magazine_integral() ) ) &&
                          node->ammo_remaining() < node->ammo_capacity();
+        }
+        if( node->is_holster() ) {
+            const holster_actor *ptr = dynamic_cast<const holster_actor *>
+                                       ( node->get_use( "holster" )->get_actor_ptr() );
+            if( static_cast<int>( node->contents.num_item_stacks() ) < ptr->multi ) {
+                reloadable = true;
+            }
         }
         if( reloadable ) {
             reloadables.push_back( node );

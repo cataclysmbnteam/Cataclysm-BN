@@ -2,7 +2,6 @@
   {
     "type": "mapgen",
     "om_terrain": "house_fence02_1",
-    "weight": 250,
     "method": "json",
     "object": {
       "palettes": [
@@ -14,9 +13,9 @@
       "fill_ter": "t_floor",
       "rows": [
         "}.........)))))))p.....}",
-        "}.......[.))))))).$$$$.}",
-        "}.?...?...))))))).$$$$.}",
-        "}.........)))))))....?.}",
+        "}.......[.)))))))......}",
+        "}.?...?...)))))))......}",
+        "}.........)))))))......}",
         "}.--------)))))))-----.}",
         "}.-.../...)))))))./..-.}",
         "}.-.......)))))))....-.}",
@@ -27,7 +26,7 @@
         "}.-(((#||||    |||++#-.}",
         "}.-(((#t__+    |Q|dd#-.}",
         "}.-(((o8S9|RR  |+|||#-.}",
-        "}.-/((#||||||    b=&o-.}",
+        "}.-/((#||||||    bƏ&o-.}",
         "}.-(((#¤yrrD|       *-.}",
         "}.-(((o@ h  +      L#-.}",
         "}.-(((#@   d|y  x  V#-.}",
@@ -47,25 +46,20 @@
         "Z": "t_linoleum_gray",
         "`": "t_door_locked",
         "(": "t_dirt",
-        "$": "t_dirtmound",
-        "%": [ [ "t_region_tree_nut", 5 ], [ "t_region_tree_shade", 4 ], [ "t_region_tree_fruit", 2 ] ],
         "_": "t_linoleum_gray",
         "Q": "t_null",
         "?": "t_region_groundcover_urban"
       },
-      "furniture": { "?": [ "f_boulder_medium", "f_boulder_large" ], "$": "f_region_flower", "&": "f_rack", "=": "f_table" },
-      "items": {
-        "=": { "item": "table_foyer", "chance": 50 },
-        "&": { "item": "clothing_outdoor_shoes", "chance": 40, "repeat": [ 1, 2 ] }
-      },
+      "furniture": { "?": [ "f_boulder_medium", "f_boulder_large" ], "&": "f_rack" },
+      "items": { "&": { "item": "clothing_outdoor_shoes", "chance": 40, "repeat": [ 1, 2 ] } },
       "place_loot": [ { "item": "television", "x": 16, "y": 17 } ],
-      "place_vehicles": [ { "vehicle": "car", "x": 14, "y": 3, "chance": 20, "rotation": 90 } ]
+      "place_vehicles": [ { "vehicle": "car", "x": 14, "y": 3, "chance": 20, "rotation": 90 } ],
+      "place_nested": [ { "chunks": [ "NC_res_frontlawn_3X3" ], "x": 19, "y": 1 } ]
     }
   },
   {
     "type": "mapgen",
     "om_terrain": "house_fence02_2",
-    "weight": 250,
     "method": "json",
     "object": {
       "palettes": [ "standard_domestic_palette", "standard_domestic_lino_kitchen", "standard_domestic_lino_bathroom" ],
@@ -79,7 +73,7 @@
         "...),,,,,,,,,,,,,,,,)...",
         "...),,,,,qqq,,,,₸$₸,)...",
         "...),,###o##o¶###oo##...",
-        "...),,#xRdd|= Rs l H#...",
+        "...),,#xRdd|Ə Rs l H#...",
         "...),,#    |b RE l H#...",
         "...),,#¤   +  RT l Ho...",
         "...),,o@@ y|i      y#...",
@@ -87,8 +81,8 @@
         "...),,#|||||i  h6__O#...",
         "...),,#8S|RR  ff4__Jo...",
         "...),,o__+   hff31FJ#...",
-        "...),,#t9|y   ||||||#...",
-        "...),,#|||L   |T rrr#...",
+        "...),,#t9|L   ||||||#...",
+        "...),,#|||T  y|ɸ rrr#...",
         "...),,*       +   h o...",
         "...),,#|`|||+||   @@#^..",
         "...)>,#z >|zzz|dd¤@@#...",
@@ -108,15 +102,13 @@
         "q": "t_floor_noroof",
         "A": "t_linoleum_gray"
       },
-      "furniture": { "$": "f_tourist_table", "=": "f_table" },
-      "items": { "=": { "item": "table_foyer", "chance": 50 } },
+      "furniture": { "$": "f_tourist_table" },
       "place_loot": [ { "item": "television", "x": 7, "y": 8 } ]
     }
   },
   {
     "type": "mapgen",
     "om_terrain": "house_fence02_roof",
-    "weight": 250,
     "method": "json",
     "object": {
       "palettes": [ "roof_palette" ],
@@ -147,7 +139,11 @@
         "                        ",
         "                        "
       ],
-      "terrain": { ".": "t_shingle_flat_roof" }
+      "terrain": { ".": "t_shingle_flat_roof" },
+      "place_nested": [
+        { "chunks": [ "NC_res_roof_solar_4X4" ], "x": 9, "y": 10 },
+        { "chunks": [ "NC_res_roof_chunk_3X3" ], "x": [ 13, 17 ], "y": 8 }
+      ]
     }
   }
 ]

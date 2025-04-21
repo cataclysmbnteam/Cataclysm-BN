@@ -76,6 +76,7 @@
         "v": "f_vending_o",
         "{": "f_locker"
       },
+      "items": { "e": { "item": "trash_dumpster", "chance": 80 }, "k": { "item": "trash_dumpster", "chance": 80 } },
       "toilets": { "T": {  } },
       "place_items": [
         { "item": "office", "x": 12, "y": 19, "chance": 50 },

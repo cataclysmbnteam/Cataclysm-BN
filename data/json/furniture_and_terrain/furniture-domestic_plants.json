@@ -148,7 +148,7 @@
     },
     "bash": {
       "str_min": 6,
-      "str_max": 14,
+      "str_max": 20,
       "sound": "crunch.",
       "sound_fail": "whish.",
       "items": [
@@ -156,7 +156,9 @@
         { "item": "nail", "charges": [ 15, 30 ] },
         { "item": "pebble", "charges": [ 150, 200 ] },
         { "item": "material_soil", "count": [ 60, 75 ] }
-      ]
+      ],
+      "//": "reduction equal to str_max, since filled with soil.",
+      "ranged": { "reduction": [ 20, 20 ], "destroy_threshold": 20, "block_unaimed_chance": "25%" }
     },
     "plant_data": { "transform": "f_planter_seed" },
     "examine_action": "dirtmound"
@@ -183,7 +185,7 @@
     },
     "bash": {
       "str_min": 6,
-      "str_max": 14,
+      "str_max": 20,
       "sound": "crunch.",
       "sound_fail": "whish.",
       "items": [
@@ -191,7 +193,9 @@
         { "item": "nail", "charges": [ 15, 30 ] },
         { "item": "pebble", "charges": [ 150, 200 ] },
         { "item": "material_soil", "count": [ 60, 75 ] }
-      ]
+      ],
+      "//": "reduction equal to str_max, since filled with soil.",
+      "ranged": { "reduction": [ 20, 20 ], "destroy_threshold": 20, "block_unaimed_chance": "25%" }
     },
     "plant_data": { "transform": "f_planter", "base": "f_planter" }
   },
@@ -217,7 +221,7 @@
     },
     "bash": {
       "str_min": 6,
-      "str_max": 14,
+      "str_max": 20,
       "sound": "crunch.",
       "sound_fail": "whish.",
       "items": [
@@ -225,7 +229,9 @@
         { "item": "nail", "charges": [ 15, 30 ] },
         { "item": "pebble", "charges": [ 150, 200 ] },
         { "item": "material_soil", "count": [ 60, 75 ] }
-      ]
+      ],
+      "//": "reduction equal to str_max, since filled with soil.",
+      "ranged": { "reduction": [ 20, 20 ], "destroy_threshold": 20, "block_unaimed_chance": "25%" }
     },
     "plant_data": { "transform": "f_planter_harvest", "base": "f_planter" }
   },
@@ -251,7 +257,7 @@
     },
     "bash": {
       "str_min": 6,
-      "str_max": 14,
+      "str_max": 20,
       "sound": "crunch.",
       "sound_fail": "whish.",
       "items": [
@@ -259,7 +265,9 @@
         { "item": "nail", "charges": [ 15, 30 ] },
         { "item": "pebble", "charges": [ 150, 200 ] },
         { "item": "material_soil", "count": [ 60, 75 ] }
-      ]
+      ],
+      "//": "reduction equal to str_max, since filled with soil.",
+      "ranged": { "reduction": [ 20, 20 ], "destroy_threshold": 20, "block_unaimed_chance": "25%" }
     },
     "plant_data": { "transform": "f_planter_seedling", "base": "f_planter" }
   },
@@ -285,7 +293,7 @@
     },
     "bash": {
       "str_min": 6,
-      "str_max": 14,
+      "str_max": 20,
       "sound": "crunch.",
       "sound_fail": "whish.",
       "items": [
@@ -293,8 +301,89 @@
         { "item": "nail", "charges": [ 15, 30 ] },
         { "item": "pebble", "charges": [ 150, 200 ] },
         { "item": "material_soil", "count": [ 60, 75 ] }
-      ]
+      ],
+      "//": "reduction equal to str_max, since filled with soil.",
+      "ranged": { "reduction": [ 20, 20 ], "destroy_threshold": 20, "block_unaimed_chance": "25%" }
     },
     "plant_data": { "transform": "f_planter_mature", "base": "f_planter" }
+  },
+  {
+    "type": "furniture",
+    "id": "f_rack_mushroom",
+    "name": "mushroom rack",
+    "description": "A rack specifically made for raising mushrooms.  You can plant mushroom cultures in here.",
+    "symbol": "}",
+    "color": "brown",
+    "looks_like": "f_planter",
+    "move_cost_mod": 1,
+    "required_str": 10,
+    "flags": [ "TRANSPARENT", "FLAT", "MOUNTABLE", "EASY_DECONSTRUCT", "MUSHROOM_PLANTABLE" ],
+    "deconstruct": { "items": [ { "item": "2x4", "count": 6 }, { "item": "bag_canvas", "count": 1 }, { "item": "nail", "charges": 8 } ] },
+    "bash": {
+      "str_min": 5,
+      "str_max": 15,
+      "sound": "crack.",
+      "sound_fail": "whump.",
+      "items": [ { "item": "2x4", "count": [ 0, 6 ] }, { "item": "nail", "charges": [ 0, 8 ] }, { "item": "rag", "count": [ 0, 12 ] } ],
+      "ranged": { "reduction": [ 5, 5 ], "destroy_threshold": 15, "block_unaimed_chance": "25%" }
+    },
+    "examine_action": "dirtmound",
+    "plant_data": { "transform": "f_rack_mushroom_seed" }
+  },
+  {
+    "type": "furniture",
+    "id": "f_rack_mushroom_seed",
+    "copy-from": "f_rack_mushroom",
+    "name": "freshly-planted mushroom rack",
+    "description": "A rack specifically made for raising mushrooms.  This one contains a mushroom culture that was recently planted.",
+    "symbol": "}",
+    "color": "brown",
+    "looks_like": "f_planter_seed",
+    "required_str": -1,
+    "examine_action": "aggie_plant",
+    "flags": [ "PLANT", "SEALED", "TRANSPARENT", "CONTAINER", "NOITEM", "TINY", "DONT_REMOVE_ROTTEN", "GROWTH_SEED" ],
+    "plant_data": { "transform": "f_rack_mushroom_seedling", "base": "f_rack_mushroom" }
+  },
+  {
+    "type": "furniture",
+    "id": "f_rack_mushroom_seedling",
+    "copy-from": "f_rack_mushroom",
+    "name": "young mushroom rack",
+    "description": "A rack specifically made for raising mushrooms.  This one contains a mushroom culture that's just started to grow.",
+    "symbol": "}",
+    "color": "brown",
+    "looks_like": "f_planter_seedling",
+    "required_str": -1,
+    "examine_action": "aggie_plant",
+    "flags": [ "PLANT", "SEALED", "TRANSPARENT", "CONTAINER", "NOITEM", "TINY", "DONT_REMOVE_ROTTEN", "GROWTH_SEEDLING" ],
+    "plant_data": { "transform": "f_rack_mushroom_mature", "base": "f_rack_mushroom" }
+  },
+  {
+    "type": "furniture",
+    "id": "f_rack_mushroom_mature",
+    "copy-from": "f_rack_mushroom",
+    "name": "maturing mushroom rack",
+    "description": "A rack specifically made for raising mushrooms.  This one contains a growing mushroom culture, that'll be ready to harvest soon.",
+    "symbol": "}",
+    "color": "brown",
+    "looks_like": "f_planter_mature",
+    "required_str": -1,
+    "examine_action": "aggie_plant",
+    "flags": [ "PLANT", "SEALED", "TRANSPARENT", "CONTAINER", "NOITEM", "TINY", "DONT_REMOVE_ROTTEN", "GROWTH_MATURE" ],
+    "plant_data": { "transform": "f_rack_mushroom_harvest", "base": "f_rack_mushroom" }
+  },
+  {
+    "type": "furniture",
+    "id": "f_rack_mushroom_harvest",
+    "copy-from": "f_rack_mushroom",
+    "name": "harvestable mushroom rack",
+    "description": "A rack specifically made for raising mushrooms.  This one has mushrooms ready to be picked growing in it.",
+    "symbol": "}",
+    "color": "brown",
+    "looks_like": "f_planter_harvest",
+    "required_str": -1,
+    "examine_action": "aggie_plant",
+    "flags": [ "PLANT", "SEALED", "TRANSPARENT", "CONTAINER", "NOITEM", "TINY", "DONT_REMOVE_ROTTEN", "GROWTH_HARVEST" ],
+    "plant_data": { "transform": "f_rack_mushroom", "base": "f_rack_mushroom" }
   }
 ]

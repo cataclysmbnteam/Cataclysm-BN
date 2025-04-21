@@ -8,7 +8,6 @@
     "volume": "250 ml",
     "price": "150 cent",
     "price_postapoc": "10 USD",
-    "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
     "material": [ "brass", "powder" ],
     "symbol": "=",
     "color": "yellow",
@@ -40,7 +39,6 @@
     "description": "Overpressure 9x19mm ammunition.  The round's increased velocity results in superior accuracy and stopping power at the cost of higher recoil.",
     "price": "3 USD",
     "price_postapoc": "8 USD",
-    "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
     "count": 25,
     "relative": { "damage": { "damage_type": "bullet", "armor_penetration": 15 }, "dispersion": -15 },
     "proportional": { "recoil": 2 }
@@ -53,7 +51,6 @@
     "description": "A step beyond the high-pressure 9x19mm +P round, the +P+ has even higher internal pressure offering superior damage, accuracy, and penetration.",
     "price": "350 cent",
     "price_postapoc": "4 USD",
-    "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
     "count": 10,
     "relative": { "damage": { "damage_type": "bullet", "amount": 2, "armor_penetration": 2 }, "dispersion": -15 },
     "proportional": { "recoil": 1.5 }
@@ -64,13 +61,13 @@
     "type": "AMMO",
     "name": { "str": "9x19mm JHP, black powder" },
     "proportional": {
-      "price": 0.3,
-      "damage": { "damage_type": "bullet", "amount": 0.76, "armor_penetration": 0.5 },
+      "price": 0.5,
+      "price_postapoc": 0.5,
+      "damage": { "damage_type": "bullet", "amount": 0.8, "armor_penetration": 0.5 },
       "recoil": 0.76,
       "dispersion": 1.2
     },
-    "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+    "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] }
   },
   {
     "id": "bp_9mmfmj",
@@ -78,12 +75,12 @@
     "type": "AMMO",
     "name": { "str": "9x19mm FMJ, black powder" },
     "proportional": {
-      "price": 0.3,
-      "damage": { "damage_type": "bullet", "amount": 0.76, "armor_penetration": 0.5 },
+      "price": 0.5,
+      "price_postapoc": 0.5,
+      "damage": { "damage_type": "bullet", "amount": 0.8, "armor_penetration": 0.5 },
       "recoil": 0.76,
       "dispersion": 1.2
     },
-    "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+    "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] }
   }
 ]

@@ -216,7 +216,7 @@
         ";": { "item": "trash_cart", "chance": 1 },
         "C": { "item": "kitchen", "chance": 25 },
         "L": { "item": "school", "chance": 50 },
-        "Q": { "item": "trash", "chance": 60 },
+        "Q": { "item": "trash_dumpster", "chance": 80 },
         "f": { "item": "fridge", "chance": 70 },
         "o": { "item": "oven", "chance": 30 },
         "r": { "item": "cannedfood", "chance": 60 }

@@ -2,7 +2,7 @@
   {
     "type": "MONSTER",
     "id": "mon_zpinosaurus_bio_op",
-    "name": { "str": "Spinosaurus zombie bio-operator" },
+    "name": { "str": "spinosaurus zombie bio-operator" },
     "copy-from": "mon_zpinosaurus",
     "diff": 5,
     "proportional": { "hp": 2, "speed": 1.2 },
@@ -56,7 +56,7 @@
   {
     "type": "MONSTER",
     "id": "mon_zallimimus_bio_op",
-    "name": { "str": "Gallimimus zombie bio-operator" },
+    "name": { "str": "gallimimus zombie bio-operator" },
     "copy-from": "mon_zallimimus",
     "diff": 5,
     "proportional": { "hp": 1.2, "speed": 1.15 },
@@ -73,7 +73,7 @@
   {
     "type": "MONSTER",
     "id": "mon_zeinonychus_bio_op",
-    "name": { "str": "Deino zombie bio-operator" },
+    "name": { "str": "deinonychus zombie bio-operator" },
     "copy-from": "mon_zeinonychus",
     "diff": 5,
     "proportional": { "hp": 1.2, "speed": 1.15 },
@@ -90,7 +90,7 @@
   {
     "type": "MONSTER",
     "id": "mon_zachycephalosaurus_bio_op",
-    "name": { "str": "Pachy zombie bio-operator" },
+    "name": { "str": "pachycephalosaurus zombie bio-operator" },
     "copy-from": "mon_zachycephalosaurus",
     "diff": 5,
     "proportional": { "hp": 1.2, "speed": 1.15 },
@@ -107,7 +107,7 @@
   {
     "type": "MONSTER",
     "id": "mon_zriceratops_bio_op",
-    "name": { "str": "Triceraterror bio-operator" },
+    "name": { "str": "triceratops zombie bio-operator" },
     "copy-from": "mon_zriceratops",
     "diff": 5,
     "proportional": { "hp": 1.2, "speed": 1.15 },

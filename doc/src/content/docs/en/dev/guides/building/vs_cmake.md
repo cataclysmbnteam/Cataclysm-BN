@@ -148,7 +148,7 @@ side effects.
 
 To start the game, run
 
-- `.\Release\cataclysm-tiles.exe`
+- `.\Release\cataclysm-bn-tiles.exe`
 
 To execute tests, run
 
@@ -157,7 +157,7 @@ To execute tests, run
 ### Visual Studio (Option 1, Recommended)
 
 Close Visual Studio, then navigate to `out\build\<preset>\` and open `CataclysmBN.sln`. Set
-`cataclysm-tiles` as Startup Project (can be done with right click from Solution Explorer), and
+`cataclysm-bn-tiles` as Startup Project (can be done with right click from Solution Explorer), and
 you'll be able to run and debug the game executable without additional issues. It will already be
 preconfigured to look for the data files in the top project directory.
 
@@ -171,9 +171,9 @@ nicely: https://stackoverflow.com/a/62309569 Fortunately, VS allows customizing 
 on individual basis.
 
 Open solution explorer and switch it into CMake Targets mode if you haven't already (can be done
-with a right click). There, right click on the `cataclysm-tiles` target ->
+with a right click). There, right click on the `cataclysm-bn-tiles` target ->
 `Add Debug Configuration`. Visual Studio will open launch configurations file for this project, with
-new configuration for the `cataclysm-tiles` target. Add the following line:
+new configuration for the `cataclysm-bn-tiles` target. Add the following line:
 
 ```
 "currentDir": "${workspaceRoot}",
@@ -192,8 +192,8 @@ The final result should look something like this:
       "currentDir": "${workspaceRoot}",
       "type": "default",
       "project": "CMakeLists.txt",
-      "projectTarget": "cataclysm-tiles.exe (<PATH_TO_SOURCE_FOLDER>\\Debug\\cataclysm-tiles.exe)",
-      "name": "cataclysm-tiles.exe (<PATH_TO_SOURCE_FOLDER>\\Debug\\cataclysm-tiles.exe)"
+      "projectTarget": "cataclysm-bn-tiles.exe (<PATH_TO_SOURCE_FOLDER>\\Debug\\cataclysm-bn-tiles.exe)",
+      "name": "cataclysm-bn-tiles.exe (<PATH_TO_SOURCE_FOLDER>\\Debug\\cataclysm-bn-tiles.exe)"
     }
   ]
 }

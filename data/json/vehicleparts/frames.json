@@ -36,7 +36,7 @@
     "folded_volume": "3750 ml",
     "breaks_into": [ { "item": "splinter", "count": [ 0, 6 ] }, { "item": "nail", "charges": [ 1, 15 ] } ],
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "30 m", "using": [ [ "vehicle_nail_install", 1 ] ] },
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "30 m", "using": [ [ "vehicle_nail_install", 10 ] ] },
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "15 m", "using": [ [ "vehicle_nail_removal", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "30 m", "using": [ [ "adhesive", 2 ], [ "wood_structural_small", 1 ] ] }
     },
@@ -72,7 +72,7 @@
     "description": "A wooden framework.  Other vehicle components can be mounted on it, and it can be attached to other frames to increase the vehicle's size.  Wood and nail construction means it can be constructed and added to the vehicle without welding tools.",
     "breaks_into": [ { "item": "splinter", "count": [ 7, 9 ] }, { "item": "nail", "charges": [ 5, 10 ] } ],
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 0 ] ], "time": "30 m", "using": [ [ "vehicle_nail_install", 1 ] ] },
+      "install": { "skills": [ [ "mechanics", 0 ] ], "time": "30 m", "using": [ [ "vehicle_nail_install", 20 ] ] },
       "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "15 m", "using": [ [ "vehicle_nail_removal", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "adhesive", 2 ], [ "wood_structural_small", 1 ] ] }
     },
@@ -136,6 +136,78 @@
     "damage_reduction": { "all": 28 }
   },
   {
+    "abstract": "frame_plastic",
+    "type": "vehicle_part",
+    "name": { "str": "plastic frame" },
+    "item": "frame_plastic",
+    "location": "structure",
+    "durability": 250,
+    "description": "A plastic framework.  Other vehicle components can be mounted on it, and it can be attached to other frames to increase the vehicle's size.",
+    "breaks_into": "ig_vp_plastic",
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "20 m", "using": [ [ "welding_standard", 10 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "10 m", "using": "vehicle_weld_removal" },
+      "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "5 m", "using": [ [ "soldering_standard", 5 ], [ "plastics", 1 ] ] }
+    },
+    "flags": [ "MOUNTABLE" ],
+    "damage_reduction": { "all": 28 }
+  },
+  {
+    "abstract": "frame_carbon",
+    "type": "vehicle_part",
+    "name": { "str": "carbon fiber frame" },
+    "item": "frame_carbon",
+    "location": "structure",
+    "durability": 500,
+    "description": "A carbon fiber framework.  Other vehicle components can be mounted on it, and it can be attached to other frames to increase the vehicle's size.",
+    "breaks_into": "ig_vp_carbon",
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "20 m", "using": [ [ "welding_standard", 10 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "10 m", "using": "vehicle_weld_removal" },
+      "repair": {
+        "skills": [ [ "mechanics", 1 ] ],
+        "time": "5 m",
+        "using": [ [ "welding_standard", 5 ], [ "vehicle_repair_carbon", 10 ] ]
+      }
+    },
+    "flags": [ "MOUNTABLE" ],
+    "damage_reduction": { "all": 84 }
+  },
+  {
+    "id": "frame_wood_deck",
+    "type": "vehicle_part",
+    "name": { "str": "skateboard deck" },
+    "copy-from": "frame_wood_light",
+    "item": "frame_wood_deck",
+    "symbol": "]",
+    "looks_like": "frame_wood_light",
+    "durability": 100,
+    "fuel_type": "muscle",
+    "power": 140,
+    "muscle_power_factor": 30,
+    "m2c": 45,
+    "description": "A light wooden skateboard deck.  Other skateboard components can be mounted on it.",
+    "breaks_into": [ { "item": "splinter", "count": [ 3, 5 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "fabrication", 0 ] ], "time": "0 m" },
+      "removal": { "skills": [ [ "fabrication", 0 ] ], "time": "0 m" },
+      "repair": { "skills": [ [ "fabrication", 0 ] ], "time": "5 m", "using": [ [ "adhesive", 1 ] ] }
+    },
+    "flags": [
+      "MOUNTABLE",
+      "INITIAL_PART",
+      "SEAT",
+      "ENGINE",
+      "E_STARTS_INSTANTLY",
+      "NONBELTABLE",
+      "MUSCLE_LEGS",
+      "SEAT_REQUIRES_BALANCE",
+      "BOARDABLE",
+      "CONTROLS"
+    ],
+    "damage_reduction": { "all": 2 }
+  },
+  {
     "id": "frame_cover",
     "copy-from": "frame",
     "type": "vehicle_part",
@@ -162,6 +234,18 @@
   {
     "id": "xlframe_cover",
     "copy-from": "xlframe",
+    "type": "vehicle_part",
+    "symbol": "^"
+  },
+  {
+    "id": "frame_plastic_cover",
+    "copy-from": "frame_plastic",
+    "type": "vehicle_part",
+    "symbol": "^"
+  },
+  {
+    "id": "frame_carbon_cover",
+    "copy-from": "frame_carbon",
     "type": "vehicle_part",
     "symbol": "^"
   },
@@ -201,6 +285,20 @@
     "extend": { "flags": [ "INITIAL_PART" ] }
   },
   {
+    "id": "frame_plastic_cross",
+    "copy-from": "frame_plastic",
+    "type": "vehicle_part",
+    "symbol": "c",
+    "extend": { "flags": [ "INITIAL_PART" ] }
+  },
+  {
+    "id": "frame_carbon_cross",
+    "copy-from": "frame_carbon",
+    "type": "vehicle_part",
+    "symbol": "c",
+    "extend": { "flags": [ "INITIAL_PART" ] }
+  },
+  {
     "id": "frame_horizontal",
     "copy-from": "frame",
     "type": "vehicle_part",
@@ -227,6 +325,18 @@
   {
     "id": "xlframe_horizontal",
     "copy-from": "xlframe",
+    "type": "vehicle_part",
+    "symbol": "h"
+  },
+  {
+    "id": "frame_plastic_horizontal",
+    "copy-from": "frame_plastic",
+    "type": "vehicle_part",
+    "symbol": "h"
+  },
+  {
+    "id": "frame_carbon_horizontal",
+    "copy-from": "frame_carbon",
     "type": "vehicle_part",
     "symbol": "h"
   },
@@ -261,6 +371,18 @@
     "symbol": "="
   },
   {
+    "id": "frame_plastic_horizontal_2",
+    "copy-from": "frame_plastic",
+    "type": "vehicle_part",
+    "symbol": "="
+  },
+  {
+    "id": "frame_carbon_horizontal_2",
+    "copy-from": "frame_carbon",
+    "type": "vehicle_part",
+    "symbol": "="
+  },
+  {
     "id": "frame_ne",
     "copy-from": "frame",
     "type": "vehicle_part",
@@ -287,6 +409,18 @@
   {
     "id": "xlframe_ne",
     "copy-from": "xlframe",
+    "type": "vehicle_part",
+    "symbol": "u"
+  },
+  {
+    "id": "frame_plastic_ne",
+    "copy-from": "frame_plastic",
+    "type": "vehicle_part",
+    "symbol": "u"
+  },
+  {
+    "id": "frame_carbon_ne",
+    "copy-from": "frame_carbon",
     "type": "vehicle_part",
     "symbol": "u"
   },
@@ -321,6 +455,18 @@
     "symbol": "y"
   },
   {
+    "id": "frame_plastic_nw",
+    "copy-from": "frame_plastic",
+    "type": "vehicle_part",
+    "symbol": "y"
+  },
+  {
+    "id": "frame_carbon_nw",
+    "copy-from": "frame_carbon",
+    "type": "vehicle_part",
+    "symbol": "y"
+  },
+  {
     "id": "frame_se",
     "copy-from": "frame",
     "type": "vehicle_part",
@@ -347,6 +493,18 @@
   {
     "id": "xlframe_se",
     "copy-from": "xlframe",
+    "type": "vehicle_part",
+    "symbol": "n"
+  },
+  {
+    "id": "frame_plastic_se",
+    "copy-from": "frame_plastic",
+    "type": "vehicle_part",
+    "symbol": "n"
+  },
+  {
+    "id": "frame_carbon_se",
+    "copy-from": "frame_carbon",
     "type": "vehicle_part",
     "symbol": "n"
   },
@@ -381,6 +539,18 @@
     "symbol": "b"
   },
   {
+    "id": "frame_plastic_sw",
+    "copy-from": "frame_plastic",
+    "type": "vehicle_part",
+    "symbol": "b"
+  },
+  {
+    "id": "frame_carbon_sw",
+    "copy-from": "frame_carbon",
+    "type": "vehicle_part",
+    "symbol": "b"
+  },
+  {
     "id": "frame_vertical",
     "copy-from": "frame",
     "type": "vehicle_part",
@@ -411,6 +581,18 @@
     "symbol": "j"
   },
   {
+    "id": "frame_plastic_vertical",
+    "copy-from": "frame_plastic",
+    "type": "vehicle_part",
+    "symbol": "j"
+  },
+  {
+    "id": "frame_carbon_vertical",
+    "copy-from": "frame_carbon",
+    "type": "vehicle_part",
+    "symbol": "j"
+  },
+  {
     "id": "frame_vertical_2",
     "copy-from": "frame",
     "type": "vehicle_part",
@@ -437,6 +619,18 @@
   {
     "id": "xlframe_vertical_2",
     "copy-from": "xlframe",
+    "type": "vehicle_part",
+    "symbol": "H"
+  },
+  {
+    "id": "frame_plastic_vertical_2",
+    "copy-from": "frame_plastic",
+    "type": "vehicle_part",
+    "symbol": "H"
+  },
+  {
+    "id": "frame_carbon_vertical_2",
+    "copy-from": "frame_carbon",
     "type": "vehicle_part",
     "symbol": "H"
   }

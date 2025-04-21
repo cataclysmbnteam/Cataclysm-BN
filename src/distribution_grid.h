@@ -1,6 +1,4 @@
 #pragma once
-#ifndef CATA_SRC_DISTRIBUTION_GRID_H
-#define CATA_SRC_DISTRIBUTION_GRID_H
 
 #include <cstdint>
 #include <vector>
@@ -203,13 +201,13 @@ void traverse( StartPoint &start,
                VehFunc veh_action, GridFunc grid_action );
 
 /* Useful if we want to act only in one type. */
-inline constexpr traverse_visitor_result noop_visitor_grid( const distribution_grid & )
+constexpr traverse_visitor_result noop_visitor_grid( const distribution_grid & )
 {
     return traverse_visitor_result::continue_further;
 }
 
 /* Useful if we want to act only in one type. */
-inline constexpr traverse_visitor_result noop_visitor_veh( const vehicle & )
+constexpr traverse_visitor_result noop_visitor_veh( const vehicle & )
 {
     return traverse_visitor_result::continue_further;
 }
@@ -222,4 +220,4 @@ inline constexpr traverse_visitor_result noop_visitor_veh( const vehicle & )
  */
 distribution_grid_tracker &get_distribution_grid_tracker();
 
-#endif // CATA_SRC_DISTRIBUTION_GRID_H
+

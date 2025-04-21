@@ -47,10 +47,9 @@
     },
     "furniture": { "c": "f_counter", "d": "f_desk", "D": "f_dumpster", "h": "f_chair", "F": "f_filing_cabinet", "%": "f_solar_unit" },
     "items": {
-      "D": { "item": "office", "chance": 45, "repeat": [ 1, 2 ] },
+      "d": { "item": "office", "chance": 45, "repeat": [ 1, 2 ] },
       "Y": { "item": "jackets", "chance": 55, "repeat": [ 1, 6 ] },
-      "l": { "item": "cleaning", "chance": 75, "repeat": [ 1, 3 ] },
-      "r": { "item": "trash", "chance": 60, "repeat": [ 1, 2 ] },
+      "D": { "item": "trash_dumpster", "chance": 80 },
       "F": { "item": "file_room", "chance": 70, "repeat": [ 1, 3 ] }
     },
     "toilets": { "T": {  } }
@@ -91,15 +90,16 @@
       "palettes": [ "parking_palette" ],
       "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 3, 17 ], "y": [ 13, 15 ] } ],
       "place_vehicles": [
-        { "vehicle": "parking_garage", "x": 18, "y": 4, "chance": 25, "status": 0, "rotation": 270 },
-        { "vehicle": "parking_garage", "x": 28, "y": 4, "chance": 25, "status": 0, "rotation": 270 },
-        { "vehicle": "parking_garage", "x": 33, "y": 4, "chance": 25, "status": 0, "rotation": 270 },
-        { "vehicle": "parking_garage", "x": 38, "y": 4, "chance": 25, "status": 0, "rotation": 270 },
-        { "vehicle": "parking_garage", "x": 19, "y": 18, "chance": 25, "status": 0, "rotation": 90 },
-        { "vehicle": "parking_garage", "x": 29, "y": 18, "chance": 25, "status": 0, "rotation": 90 },
-        { "vehicle": "parking_garage", "x": 34, "y": 18, "chance": 25, "status": 0, "rotation": 90 },
-        { "vehicle": "parking_garage", "x": 39, "y": 18, "chance": 25, "status": 0, "rotation": 90 }
-      ]
+        { "vehicle": "parking_garage", "x": 18, "y": 4, "chance": 25, "status": -1, "rotation": 270 },
+        { "vehicle": "parking_garage", "x": 28, "y": 4, "chance": 25, "status": -1, "rotation": 270 },
+        { "vehicle": "parking_garage", "x": 33, "y": 4, "chance": 25, "status": -1, "rotation": 270 },
+        { "vehicle": "parking_garage", "x": 38, "y": 4, "chance": 25, "status": -1, "rotation": 270 },
+        { "vehicle": "parking_garage", "x": 19, "y": 18, "chance": 25, "status": -1, "rotation": 90 },
+        { "vehicle": "parking_garage", "x": 29, "y": 18, "chance": 25, "status": -1, "rotation": 90 },
+        { "vehicle": "parking_garage", "x": 34, "y": 18, "chance": 25, "status": -1, "rotation": 90 },
+        { "vehicle": "parking_garage", "x": 39, "y": 18, "chance": 25, "status": -1, "rotation": 90 }
+      ],
+      "place_loot": [ { "item": "folding_skateboard", "x": [ 10, 21 ], "y": [ 9, 16 ], "chance": 5 } ]
     }
   },
   {
@@ -138,14 +138,15 @@
       "palettes": [ "parking_palette" ],
       "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 3, 17 ], "y": [ 13, 15 ] } ],
       "place_vehicles": [
-        { "vehicle": "parking_garage", "x": 18, "y": 4, "chance": 25, "status": 0, "rotation": 270 },
-        { "vehicle": "parking_garage", "x": 28, "y": 4, "chance": 25, "status": 0, "rotation": 270 },
-        { "vehicle": "parking_garage", "x": 33, "y": 4, "chance": 25, "status": 0, "rotation": 270 },
-        { "vehicle": "parking_garage", "x": 19, "y": 18, "chance": 25, "status": 0, "rotation": 90 },
-        { "vehicle": "parking_garage", "x": 29, "y": 18, "chance": 25, "status": 0, "rotation": 90 },
-        { "vehicle": "parking_garage", "x": 34, "y": 18, "chance": 25, "status": 0, "rotation": 90 },
-        { "vehicle": "parking_garage", "x": 39, "y": 18, "chance": 25, "status": 0, "rotation": 90 }
-      ]
+        { "vehicle": "parking_garage", "x": 18, "y": 4, "chance": 25, "status": -1, "rotation": 270 },
+        { "vehicle": "parking_garage", "x": 28, "y": 4, "chance": 25, "status": -1, "rotation": 270 },
+        { "vehicle": "parking_garage", "x": 33, "y": 4, "chance": 25, "status": -1, "rotation": 270 },
+        { "vehicle": "parking_garage", "x": 19, "y": 18, "chance": 25, "status": -1, "rotation": 90 },
+        { "vehicle": "parking_garage", "x": 29, "y": 18, "chance": 25, "status": -1, "rotation": 90 },
+        { "vehicle": "parking_garage", "x": 34, "y": 18, "chance": 25, "status": -1, "rotation": 90 },
+        { "vehicle": "parking_garage", "x": 39, "y": 18, "chance": 25, "status": -1, "rotation": 90 }
+      ],
+      "place_loot": [ { "item": "folding_skateboard", "x": [ 10, 21 ], "y": [ 9, 16 ], "chance": 5 } ]
     }
   },
   {
@@ -184,15 +185,16 @@
       "palettes": [ "parking_palette" ],
       "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 3, 17 ], "y": [ 13, 15 ] } ],
       "place_vehicles": [
-        { "vehicle": "parking_garage", "x": 18, "y": 4, "chance": 25, "status": 0, "rotation": 270 },
-        { "vehicle": "parking_garage", "x": 28, "y": 4, "chance": 25, "status": 0, "rotation": 270 },
-        { "vehicle": "parking_garage", "x": 33, "y": 4, "chance": 25, "status": 0, "rotation": 270 },
-        { "vehicle": "parking_garage", "x": 38, "y": 4, "chance": 25, "status": 0, "rotation": 270 },
-        { "vehicle": "parking_garage", "x": 19, "y": 18, "chance": 25, "status": 0, "rotation": 90 },
-        { "vehicle": "parking_garage", "x": 29, "y": 18, "chance": 25, "status": 0, "rotation": 90 },
-        { "vehicle": "parking_garage", "x": 34, "y": 18, "chance": 25, "status": 0, "rotation": 90 },
-        { "vehicle": "parking_garage", "x": 39, "y": 18, "chance": 25, "status": 0, "rotation": 90 }
-      ]
+        { "vehicle": "parking_garage", "x": 18, "y": 4, "chance": 25, "status": -1, "rotation": 270 },
+        { "vehicle": "parking_garage", "x": 28, "y": 4, "chance": 25, "status": -1, "rotation": 270 },
+        { "vehicle": "parking_garage", "x": 33, "y": 4, "chance": 25, "status": -1, "rotation": 270 },
+        { "vehicle": "parking_garage", "x": 38, "y": 4, "chance": 25, "status": -1, "rotation": 270 },
+        { "vehicle": "parking_garage", "x": 19, "y": 18, "chance": 25, "status": -1, "rotation": 90 },
+        { "vehicle": "parking_garage", "x": 29, "y": 18, "chance": 25, "status": -1, "rotation": 90 },
+        { "vehicle": "parking_garage", "x": 34, "y": 18, "chance": 25, "status": -1, "rotation": 90 },
+        { "vehicle": "parking_garage", "x": 39, "y": 18, "chance": 25, "status": -1, "rotation": 90 }
+      ],
+      "place_loot": [ { "item": "folding_skateboard", "x": [ 10, 21 ], "y": [ 9, 16 ], "chance": 5 } ]
     }
   },
   {
@@ -231,15 +233,16 @@
       "palettes": [ "parking_palette" ],
       "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 3, 17 ], "y": [ 13, 15 ] } ],
       "place_vehicles": [
-        { "vehicle": "parking_garage", "x": 18, "y": 4, "chance": 25, "status": 0, "rotation": 270 },
-        { "vehicle": "parking_garage", "x": 28, "y": 4, "chance": 25, "status": 0, "rotation": 270 },
-        { "vehicle": "parking_garage", "x": 33, "y": 4, "chance": 25, "status": 0, "rotation": 270 },
-        { "vehicle": "parking_garage", "x": 38, "y": 4, "chance": 25, "status": 0, "rotation": 270 },
-        { "vehicle": "parking_garage", "x": 19, "y": 18, "chance": 25, "status": 0, "rotation": 90 },
-        { "vehicle": "parking_garage", "x": 29, "y": 18, "chance": 25, "status": 0, "rotation": 90 },
-        { "vehicle": "parking_garage", "x": 34, "y": 18, "chance": 25, "status": 0, "rotation": 90 },
-        { "vehicle": "parking_garage", "x": 39, "y": 18, "chance": 25, "status": 0, "rotation": 90 }
-      ]
+        { "vehicle": "parking_garage", "x": 18, "y": 4, "chance": 25, "status": -1, "rotation": 270 },
+        { "vehicle": "parking_garage", "x": 28, "y": 4, "chance": 25, "status": -1, "rotation": 270 },
+        { "vehicle": "parking_garage", "x": 33, "y": 4, "chance": 25, "status": -1, "rotation": 270 },
+        { "vehicle": "parking_garage", "x": 38, "y": 4, "chance": 25, "status": -1, "rotation": 270 },
+        { "vehicle": "parking_garage", "x": 19, "y": 18, "chance": 25, "status": -1, "rotation": 90 },
+        { "vehicle": "parking_garage", "x": 29, "y": 18, "chance": 25, "status": -1, "rotation": 90 },
+        { "vehicle": "parking_garage", "x": 34, "y": 18, "chance": 25, "status": -1, "rotation": 90 },
+        { "vehicle": "parking_garage", "x": 39, "y": 18, "chance": 25, "status": -1, "rotation": 90 }
+      ],
+      "place_item": [ { "item": "folding_skateboard", "x": [ 10, 21 ], "y": [ 9, 16 ], "chance": 5 } ]
     }
   },
   {
@@ -278,15 +281,16 @@
       "palettes": [ "parking_palette" ],
       "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 3, 17 ], "y": [ 13, 15 ] } ],
       "place_vehicles": [
-        { "vehicle": "parking_garage", "x": 18, "y": 4, "chance": 25, "status": 0, "rotation": 270 },
-        { "vehicle": "parking_garage", "x": 28, "y": 4, "chance": 25, "status": 0, "rotation": 270 },
-        { "vehicle": "parking_garage", "x": 33, "y": 4, "chance": 25, "status": 0, "rotation": 270 },
-        { "vehicle": "parking_garage", "x": 38, "y": 4, "chance": 25, "status": 0, "rotation": 270 },
-        { "vehicle": "parking_garage", "x": 19, "y": 18, "chance": 25, "status": 0, "rotation": 90 },
-        { "vehicle": "parking_garage", "x": 29, "y": 18, "chance": 25, "status": 0, "rotation": 90 },
-        { "vehicle": "parking_garage", "x": 34, "y": 18, "chance": 25, "status": 0, "rotation": 90 },
-        { "vehicle": "parking_garage", "x": 39, "y": 18, "chance": 25, "status": 0, "rotation": 90 }
-      ]
+        { "vehicle": "parking_garage", "x": 18, "y": 4, "chance": 25, "status": -1, "rotation": 270 },
+        { "vehicle": "parking_garage", "x": 28, "y": 4, "chance": 25, "status": -1, "rotation": 270 },
+        { "vehicle": "parking_garage", "x": 33, "y": 4, "chance": 25, "status": -1, "rotation": 270 },
+        { "vehicle": "parking_garage", "x": 38, "y": 4, "chance": 25, "status": -1, "rotation": 270 },
+        { "vehicle": "parking_garage", "x": 19, "y": 18, "chance": 25, "status": -1, "rotation": 90 },
+        { "vehicle": "parking_garage", "x": 29, "y": 18, "chance": 25, "status": -1, "rotation": 90 },
+        { "vehicle": "parking_garage", "x": 34, "y": 18, "chance": 25, "status": -1, "rotation": 90 },
+        { "vehicle": "parking_garage", "x": 39, "y": 18, "chance": 25, "status": -1, "rotation": 90 }
+      ],
+      "place_item": [ { "item": "folding_skateboard", "x": [ 10, 21 ], "y": [ 9, 16 ], "chance": 5 } ]
     }
   },
   {

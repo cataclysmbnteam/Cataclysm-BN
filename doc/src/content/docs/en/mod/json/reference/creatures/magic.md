@@ -4,7 +4,7 @@ title: Spells, enchantments and other custom effects
 
 # Spells
 
-In `data/mods/Magiclysm` there is a template spell, copied here for your perusal:
+In `data/json/debug_spells.json` there is a template spell, copied here for your perusal:
 
 ```json
 {
@@ -46,6 +46,9 @@ In `data/mods/Magiclysm` there is a template spell, copied here for your perusal
   "min_range": 1, // range of the spell
   "max_range": 10,
   "range_increment": 2,
+  "min_accuracy": 50, // percentage "accuracy" of the spell. used for determining which body part was hit
+  "max_accuracy": 70,
+  "accuracy_increment": 2,
   "min_dot": 0, // damage over time (currently not implemented)
   "max_dot": 2,
   "dot_increment": 0.1,
@@ -66,6 +69,7 @@ In `data/mods/Magiclysm` there is a template spell, copied here for your perusal
   "sound_ambient": true, // whether or not this is treated as an ambient sound or not
   "sound_id": "misc", // the sound id
   "sound_variant": "shockwave" // the sound variant
+  "learn_spells": { "acid_resistance_greater": 15 } // You learn the specified spell once your level in this spell is greater than or equal to the number shown.
 }
 ```
 
@@ -92,7 +96,8 @@ experience you need to get to a level is below:
 
 - `IGNORE_WALLS` - spell's aoe goes through walls
 
-- `SWAP_POS` - a projectile spell swaps the positions of the caster and target
+- `SWAP_POS` - teleports the caster to the target location when used by a ranged spell, switching
+  places with any creature that might be in the way
 
 - `HOSTILE_SUMMON` - summon spell always spawns a hostile monster
 
@@ -206,6 +211,12 @@ experience you need to get to a level is below:
 
 - `bash` - bashes the terrain at the target. uses damage() as the strength of the bash.
 
+- `dash` - moves the player to the target tile, can leave behind fields.
+
+- `area_push` - pushes things outwards from a single point
+
+- `directed_push` pushes things in a single direction away from you.
+
 - `WONDER` - Unlike the above, this is not an "effect" but a "flag". This alters the behavior of the
   parent spell drastically: The spell itself doesn't cast, but its damage and range information is
   used in order to cast the extra_effects. N of the extra_effects will be chosen at random to be
@@ -217,17 +228,19 @@ experience you need to get to a level is below:
   valid target within range instead of the caster choosing the target. This also affects
   extra_effects.
 
-##### For Spells that have an attack type, these are the available damage types:
+##### For Spells that have an attack type, these are the available damage types (case-insensitive):
 
 - `fire`
 - `acid`
 - `bash`
+- `bullet`
 - `bio` - internal damage such as poison
 - `cold`
 - `cut`
 - `electric`
 - `stab`
-- `none` - this damage type goes through armor altogether. it is the default.
+- `true` - this damage type goes through armor altogether, and thus is very powerful. It is the
+  default damage type when unspecified.
 
 #### Spells that level up
 
@@ -262,10 +275,11 @@ that use a negative 'recover' effect to cause pain or stamina damage. For exampl
 
 ### Learning Spells
 
-There are two ways of granting spells that is implemented: Mutating can grant a spell with the
-"spells_learned" field which also lets you specify the level granted. Otherwise you can learn a
-spell from an item through a use_action, which is also the only way to train a spell other than
-using it. Examples of both are shown below:
+There are three ways of granting spells that are implemented: Mutating can grant a spell with the
+"spells_learned" field which also lets you specify the level granted. Certain spells can also teach
+you spells once they reach an appropriate level via the "learn_spells" variable. Finally, You can
+learn a spell from an item through a use_action, which is also the only way to train a spell other
+than using it. Examples of all three are shown below:
 
 ```json
 {
@@ -282,6 +296,20 @@ using it. Examples of both are shown below:
     "spells": [ "debug_hp", "debug_stamina", "example_template", "debug_bionic", "pain_split", "fireball" ] // this is a list of spells you can learn from the item
   }
 },
+```
+
+For the below example you will learn the spell Greater Acid Resistance once Acid Resistance reaches
+level 15
+
+```json
+{
+    "id": "acid_resistance",
+    "type": "SPELL",
+    "name": { "str": "Acid Resistance" },
+    "description": "Protects the user from acid.",
+    ...
+    "learn_spells": { "acid_resistance_greater": 15 }
+}
 ```
 
 You can study this spellbook for a rate of ~1 experience per turn depending on intelligence,
@@ -347,9 +375,15 @@ Values:
 
 - `ALWAYS` (default) - Always active
 - `UNDERGROUND` - When the owner of the item is below Z-level 0
+- `ABOVEGROUND` - When the owner of the item is at or above Z-level 0
 - `UNDERWATER` - When the owner is in swimmable terrain
+- `NIGHT` - When it is night time
+- `DUSK` - When it is dusk
+- `DAY` - When it is day time
+- `DAWN` - When it is dawn
 - `ACTIVE` - whenever the item, mutation, bionic, or whatever the enchantment is attached to is
   active.
+- `INACTIVE` - the opposite of `ACTIVE`
 
 ### emitter
 

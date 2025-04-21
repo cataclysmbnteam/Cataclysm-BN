@@ -1,6 +1,4 @@
 #pragma once
-#ifndef CATA_SRC_EVENT_H
-#define CATA_SRC_EVENT_H
 
 #include <array>
 #include <cstddef>
@@ -560,7 +558,7 @@ class event
             using Spec = event_detail::event_spec<Type>;
             // Using is_empty mostly just to verify that the type is defined at
             // all, but it so happens that it ought to be empty too.
-            static_assert( std::is_empty<Spec>::value,
+            static_assert( std::is_empty_v<Spec>,
                            "spec for this event type must be defined and empty" );
             static_assert( sizeof...( Args ) == Spec::fields.size(),
                            "wrong number of arguments for event type" );
@@ -627,4 +625,4 @@ struct make_event_helper<Type, std::index_sequence<I...>> {
 
 } // namespace cata
 
-#endif // CATA_SRC_EVENT_H
+

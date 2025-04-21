@@ -20,6 +20,7 @@
 #include "event_bus.h"
 #include "field_type.h"
 #include "game.h"
+#include "handle_liquid.h"
 #include "item.h"
 #include "item_contents.h"
 #include "itype.h"
@@ -100,14 +101,14 @@ std::string enum_to_string<mutagen_technique>( mutagen_technique data )
 
 bool Character::has_trait( const trait_id &b ) const
 {
-    return my_mutations.count( b ) || enchantment_cache->get_mutations().count( b );
+    return my_mutations.count( b ) || enchantment_cache->get_mutations().contains( b );
 }
 
 bool Character::has_trait_flag( const trait_flag_str_id &b ) const
 {
     return std::any_of( cached_mutations.cbegin(), cached_mutations.cend(),
     [&b]( const mutation_branch * mut ) -> bool {
-        return mut->flags.count( b );
+        return mut->flags.contains( b );
     } );
 }
 
@@ -238,7 +239,7 @@ const resistances &mutation_branch::damage_resistance( body_part bp ) const
 
 void Character::recalculate_size()
 {
-    size_class = MS_MEDIUM;
+    size_class = creature_size::medium;
     // Only one size-changing mutation is expected, so it will only use the first one it finds.
     for( const mutation_branch *mut : cached_mutations ) {
         if( mut->body_size ) {
@@ -302,7 +303,11 @@ void Character::mutation_effect( const trait_id &mut )
                                _( "Your %s is pushed off!" ),
                                _( "<npcname>'s %s is pushed off!" ),
                                armor->tname() );
-        get_map().add_item_or_charges( pos(), std::move( armor ) );
+        // It could cause segmentation fault if mutation change will trigger clothes removal on character creation
+        // with preview clothes toggled on. So checking if game started.
+        if( g->w_terrain ) {
+            get_map().add_item_or_charges( pos(), std::move( armor ) );
+        }
         return detached_ptr<item>();
     } );
 
@@ -372,7 +377,7 @@ bool Character::is_category_allowed( const std::vector<mutation_category_id> &ca
             restricted = true;
         }
         for( const mutation_category_id &Mu_cat : category ) {
-            if( mut.obj().allowed_category.count( Mu_cat ) ) {
+            if( mut.obj().allowed_category.contains( Mu_cat ) ) {
                 allowed = true;
                 break;
             }
@@ -425,7 +430,7 @@ bool Character::can_use_heal_item( const item &med ) const
         if( !mut.obj().can_only_heal_with.empty() ) {
             got_restriction = true;
         }
-        if( mut.obj().can_only_heal_with.count( heal_id ) ) {
+        if( mut.obj().can_only_heal_with.contains( heal_id ) ) {
             can_use = true;
             break;
         }
@@ -436,7 +441,7 @@ bool Character::can_use_heal_item( const item &med ) const
 
     if( !can_use ) {
         for( const trait_id &mut : get_mutations() ) {
-            if( mut.obj().can_heal_with.count( heal_id ) ) {
+            if( mut.obj().can_heal_with.contains( heal_id ) ) {
                 can_use = true;
                 break;
             }
@@ -451,7 +456,7 @@ bool Character::can_install_cbm_on_bp( const std::vector<bodypart_id> &bps ) con
     bool can_install = true;
     for( const trait_id &mut : get_mutations() ) {
         for( const bodypart_id &bp : bps ) {
-            if( mut.obj().no_cbm_on_bp.count( bp.id() ) ) {
+            if( mut.obj().no_cbm_on_bp.contains( bp.id() ) ) {
                 can_install = false;
                 break;
             }
@@ -462,6 +467,11 @@ bool Character::can_install_cbm_on_bp( const std::vector<bodypart_id> &bps ) con
 
 void Character::activate_mutation( const trait_id &mut )
 {
+    // Make sure we actually have the mutation, and it's inactive.
+    if( !( has_trait( mut ) && !my_mutations[mut].powered ) ) {
+        return;
+    }
+
     const mutation_branch &mdata = mut.obj();
     char_trait_data &tdata = my_mutations[mut];
     // You can take yourself halfway to Near Death levels of hunger/thirst.
@@ -574,7 +584,12 @@ void Character::activate_mutation( const trait_id &mut )
             return;
         }
     } else if( !mdata.spawn_item.is_empty() ) {
-        i_add_or_drop( item::spawn( mdata.spawn_item ) );
+        detached_ptr<item> granted = item::spawn( mdata.spawn_item );
+        if( granted->made_of( LIQUID ) ) {
+            liquid_handler::consume_liquid( std::move( granted ), 1 );
+        } else {
+            i_add_or_drop( std::move( granted ) );
+        }
         add_msg_if_player( mdata.spawn_item_message() );
         tdata.powered = false;
         return;
@@ -589,6 +604,11 @@ void Character::activate_mutation( const trait_id &mut )
 
 void Character::deactivate_mutation( const trait_id &mut )
 {
+    // No-op if we don't have the required mutation.
+    if( !has_active_mutation( mut ) ) {
+        return;
+    }
+
     my_mutations[mut].powered = false;
 
     // Handle stat changes from deactivation

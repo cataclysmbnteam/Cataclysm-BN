@@ -87,7 +87,7 @@ auto get_vehicle_str_requirement( vehicle *veh ) -> int
     // off-road coefficient (always 1.0 on a road, as low as 0.1 off road.)
     const float traction = veh->k_traction(
                                get_map().vehicle_wheel_traction( *veh ) );
-    return int { 1 + all_movecost / get_effective_wheels( veh ) } / traction;
+    return ( 1 + all_movecost / get_effective_wheels( veh ) ) / traction;
 }
 
 } // namespace

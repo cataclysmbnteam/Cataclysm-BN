@@ -1,6 +1,4 @@
 #pragma once
-#ifndef CATA_SRC_MAP_H
-#define CATA_SRC_MAP_H
 
 #include <array>
 #include <bitset>
@@ -128,7 +126,6 @@ struct visibility_variables {
 };
 
 struct bash_params {
-    bash_params() = default;
     // Initial strength
     int strength;
     // Make a sound?
@@ -529,10 +526,10 @@ class map
 
         maptile maptile_at( const tripoint &p ) const;
         maptile maptile_at( const tripoint &p );
-    private:
-        // Versions of the above that don't do bounds checks
         maptile maptile_at_internal( const tripoint &p ) const;
         maptile maptile_at_internal( const tripoint &p );
+    private:
+        // Versions of the above that don't do bounds checks
         std::pair<tripoint, maptile> maptile_has_bounds( const tripoint &p, bool bounds_checked );
         std::array<std::pair<tripoint, maptile>, 8> get_neighbors( const tripoint &p );
         void spread_gas( field_entry &cur, const tripoint &p, int percent_spread,
@@ -562,6 +559,12 @@ class map
         int move_cost( point p, const vehicle *ignored_vehicle = nullptr ) const {
             return move_cost( tripoint( p, abs_sub.z ), ignored_vehicle );
         }
+        /**
+         * Internal versions of public functions to avoid checking same variables multiple times.
+         * They lack safety checks, because their callers already do those.
+         */
+        int move_cost_internal( const furn_t &furniture, const ter_t &terrain,
+                                const vehicle *veh, int vpart ) const;
         bool impassable( const tripoint &p ) const;
         bool impassable( point p ) const {
             return !passable( p );
@@ -829,6 +832,10 @@ class map
         /**
          * Returns the full harvest list, for spawning.
          */
+        // as above, but for furniture
+        uint8_t get_known_connections_f( const tripoint &p, int connect_group,
+                                         const std::map<tripoint, furn_id> &override = {} ) const;
+
         const harvest_id &get_harvest( const tripoint &p ) const;
         /**
          * Returns names of the items that would be dropped.
@@ -992,6 +999,10 @@ class map
         int bash_rating( const int str, point p ) const {
             return bash_rating( str, tripoint( p, abs_sub.z ) );
         }
+        int bash_rating_internal( int str, const furn_t &furniture,
+                                  const ter_t &terrain, bool allow_floor,
+                                  const vehicle *veh, int part ) const;
+
 
         // Rubble
         /** Generates rubble at the given location, if overwrite is true it just writes on top of what currently exists
@@ -1259,9 +1270,16 @@ class map
             return spawn_an_item( tripoint( p, abs_sub.z ), std::move( new_item ), charges, damlevel );
         }
 
+
+        /**
+         * Remove an item from active item processing queue as necessary
+         */
+        void make_inactive( item &loc );
+
         /**
          * Update an item's active status, for example when adding
          * hot or perishable liquid to a container.
+         * Should be called as part of activate()
          */
         void make_active( item &loc );
 
@@ -1667,6 +1685,13 @@ class map
         void spawn_monsters( bool ignore_sight );
 
         /**
+        * Checks to see if the corpse that is rotting away generates items when it does.
+        * @param it item that is spawning creatures
+        * @param pnt The point on this map where the item is and where bones/etc will be
+        */
+        void handle_decayed_corpse( const item &it, const tripoint &pnt );
+
+        /**
         * Checks to see if the item that is rotting away generates a creature when it does.
         * @param item item that is spawning creatures
         * @param p The point on this map where the item is and creature will be
@@ -1871,16 +1896,6 @@ class map
         void invalidate_max_populated_zlev( int zlev );
 
         /**
-         * Internal versions of public functions to avoid checking same variables multiple times.
-         * They lack safety checks, because their callers already do those.
-         */
-        int move_cost_internal( const furn_t &furniture, const ter_t &terrain,
-                                const vehicle *veh, int vpart ) const;
-        int bash_rating_internal( int str, const furn_t &furniture,
-                                  const ter_t &terrain, bool allow_floor,
-                                  const vehicle *veh, int part ) const;
-
-        /**
          * Internal version of the drawsq. Keeps a cached maptile for less re-getting.
          * Returns false if it has drawn all it should, true if `draw_from_above` should be called after.
          */
@@ -1919,13 +1934,11 @@ class map
         bash_results bash_ter_success( const tripoint &p, const bash_params &params );
         bash_results bash_furn_success( const tripoint &p, const bash_params &params );
 
-    private:
         // Gets the roof type of the tile at p
         // Second argument refers to whether we have to get a roof (we're over an unpassable tile)
         // or can just return air because we bashed down an entire floor tile
         ter_id get_roof( const tripoint &p, bool allow_air ) const;
 
-    public:
         void process_items();
     private:
         // Iterates over every item on the map, passing each item to the provided function.
@@ -2042,6 +2055,10 @@ class map
         std::vector<item *> get_active_items_in_radius( const tripoint &center, int radius,
                 special_item_type type ) const;
 
+        /** returns positions of furnitures with matching flag in the overmap terrain*/
+        std::vector<tripoint> find_furnitures_with_flag_in_omt( const tripoint &p,
+                const std::string &flag );
+
         /**returns positions of furnitures with matching flag in the specified radius*/
         std::list<tripoint> find_furnitures_with_flag_in_radius( const tripoint &center, size_t radius,
                 const std::string &flag,
@@ -2082,4 +2099,4 @@ class fake_map : public tinymap
                   int fake_map_z );
         ~fake_map() override;
 };
-#endif // CATA_SRC_MAP_H
+

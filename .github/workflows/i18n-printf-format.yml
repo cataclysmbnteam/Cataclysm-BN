@@ -8,13 +8,13 @@ on:
 
 jobs:
   check-po-printf:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     steps:
       - name: "Install dependencies"
         run: |
           sudo apt-get update
           sudo apt-get install python3-pip
-          sudo pip3 install polib
+          sudo pip3 install --break-system-packages polib
 
       - uses: actions/checkout@v4
 

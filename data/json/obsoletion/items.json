@@ -60,7 +60,7 @@
     "type": "GUNMOD",
     "name": { "str": "barrel extension" },
     "description": "A longer barrel increases the muzzle velocity of a firearm, contributing to both accuracy and damage but reduces portability and slows aiming.",
-    "weight": "426 g",
+    "weight": "400 g",
     "volume": "1 L",
     "price": "200 USD",
     "to_hit": 2,
@@ -348,7 +348,7 @@
     "type": "GUN",
     "name": { "str": "spraycan flamethrower" },
     "description": "A favorite of hooligans around the world, this lighter duct-taped to a spray can is probably as dangerous to the user as anyone else.  The nozzle has been crudely modified to disperse gasoline, and a small pump attached to the side allows for repressurization, though this process takes a few minutes.",
-    "weight": "451 g",
+    "weight": "500 g",
     "volume": "500 ml",
     "price": "160 USD",
     "material": "steel",
@@ -436,28 +436,8 @@
     "flags": [ "NO_UNLOAD" ]
   },
   {
-    "id": "armguard_bone",
-    "type": "ARMOR",
-    "category": "armor",
-    "name": { "str": "pair of bone arm guards", "str_pl": "pairs of bone arm guards" },
-    "description": "A pair of arm guards made from leather, reinforced with bone.  Light and strong.",
-    "weight": "645 g",
-    "volume": "3 L",
-    "price": "200 USD",
-    "to_hit": 1,
-    "material": [ "bone", "leather" ],
-    "symbol": "[",
-    "color": "white",
-    "covers": [ "arms" ],
-    "coverage": 95,
-    "encumbrance": 22,
-    "warmth": 20,
-    "material_thickness": 4,
-    "environmental_protection": 1,
-    "flags": [ "STURDY", "BELTED", "BLOCK_WHILE_WORN", "WATER_FRIENDLY" ]
-  },
-  {
     "id": "armor_bone",
+    "//": "Bone armguards and helm have been fully de-obsoleted, the remaining stuff here has been replaced with cuirass and greaves.",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "bone body armor" },
@@ -500,34 +480,12 @@
     "flags": [ "STURDY" ]
   },
   {
-    "id": "helmet_bone",
-    "type": "ARMOR",
-    "category": "armor",
-    "name": { "str": "bone armor helmet" },
-    "description": "A grotesque, horned helmet carved from bone.  Covers the entire head; very light and strong.",
-    "weight": "1621 g",
-    "volume": "4250 ml",
-    "price": "420 USD",
-    "to_hit": -2,
-    "bashing": 2,
-    "material": [ "bone" ],
-    "symbol": "[",
-    "color": "white",
-    "covers": [ "head", "eyes", "mouth" ],
-    "coverage": 100,
-    "encumbrance": 25,
-    "warmth": 10,
-    "material_thickness": 5,
-    "environmental_protection": 3,
-    "flags": [ "VARSIZE", "WATERPROOF", "STURDY" ]
-  },
-  {
     "id": "matchbomb",
     "type": "TOOL",
     "category": "weapons",
     "name": { "str": "match head bomb" },
     "description": "This is a homemade bomb consisting of a bottle filled with match heads and equipped with a fuse.  Use this item to light the fuse; you will, of course, need a lighter in your inventory to do this.",
-    "weight": "412 g",
+    "weight": "400 g",
     "volume": "500 ml",
     "price": "0 cent",
     "to_hit": 1,
@@ -553,7 +511,7 @@
     "category": "weapons",
     "name": { "str": "match head bomb (lit)", "str_pl": "match head bombs (lit)" },
     "description": "This is a bottle filled with match heads and equipped with a fuse.  This one has been lit, and its fuse is rapidly burning down.  You may not want to hold onto it much longer.",
-    "weight": "412 g",
+    "weight": "400 g",
     "volume": "500 ml",
     "price": "0 cent",
     "to_hit": 1,
@@ -581,7 +539,7 @@
     "category": "weapons",
     "name": { "str": "active black gunpowder bomb" },
     "description": "This is a tin can filled to the brim with black gunpowder and with a lit fuse stuck inside of it.",
-    "weight": "452 g",
+    "weight": "500 g",
     "volume": "500 ml",
     "price": "0 cent",
     "to_hit": -2,
@@ -904,50 +862,6 @@
       }
     ],
     "flags": [ "LIGHT_3", "ALLOWS_REMOTE_USE" ]
-  },
-  {
-    "id": "40mm_flare",
-    "copy-from": "40x46mm_grenade",
-    "type": "AMMO",
-    "name": { "str": "40mm flare" },
-    "description": "A 40mm signal flare.  It will burn brightly for up to a minute, and will also leave a streak of smoke cover in its wake.",
-    "drop": "handflare_lit",
-    "extend": { "effects": [ "TRAIL", "NO_EMBED" ] }
-  },
-  {
-    "id": "40mm_flashbang",
-    "copy-from": "40x46mm_grenade",
-    "type": "AMMO",
-    "name": { "str": "40x46mm" },
-    "description": "A 40mm grenade with a flashbang load.  It will detonate with a blast of light and sound, designed to blind, deafen, and disorient anyone nearby.",
-    "extend": { "effects": [ "FLASHBANG" ] }
-  },
-  {
-    "id": "40mm_incendiary",
-    "copy-from": "40x46mm_grenade",
-    "type": "AMMO",
-    "name": { "str": "40mm incendiary", "str_pl": "40mm incendiaries" },
-    "description": "A 40mm grenade with a small napalm load, designed to create a burst of flame.",
-    "extend": { "effects": [ "NAPALM" ] }
-  },
-  {
-    "id": "40mm_smoke",
-    "copy-from": "40x46mm_grenade",
-    "type": "AMMO",
-    "name": { "str": "40mm smoke cover" },
-    "description": "A 40mm grenade designed to provide smoke cover.",
-    "drop": "smokebomb_act",
-    "extend": { "effects": [ "TRAIL", "NO_EMBED" ] }
-  },
-  {
-    "id": "40mm_slug",
-    "copy-from": "40x46mm_grenade",
-    "type": "AMMO",
-    "name": { "str": "40mm slug" },
-    "description": "A 40mm shell loaded with a massive bullet.  Say goodbye to your shoulder, I guess.",
-    "damage": { "damage_type": "bullet", "amount": 130 },
-    "recoil": 875,
-    "extend": { "effects": [ "LARGE_BEANBAG" ] }
   },
   {
     "id": "schematics_chickenbot",
@@ -1296,7 +1210,7 @@
     "ammo": "gasoline",
     "charges_per_use": 1,
     "max_charges": 50,
-    "techniques": "WBLOCK_2",
+    "techniques": [ "WBLOCK_2" ],
     "use_action": {
       "type": "fireweapon_off",
       "target_id": "firemachete_on",
@@ -1425,7 +1339,7 @@
     "ammo": "gasoline",
     "charges_per_use": 1,
     "max_charges": 50,
-    "techniques": "WBLOCK_2",
+    "techniques": [ "WBLOCK_2" ],
     "use_action": {
       "type": "fireweapon_off",
       "target_id": "broadfire_on",
@@ -1842,287 +1756,8 @@
     "encumbrance": 20,
     "material_thickness": 1,
     "use_action": "SOLARPACK_OFF",
-    "solar_efficiency": 0.3,
+    "solar_efficiency": 0.24,
     "flags": [ "FRAGILE", "OUTER", "ONLY_ONE", "SOLARPACK_ON" ]
-  },
-  {
-    "id": "pneumatic_shotgun",
-    "looks_like": "pipe_double_shotgun",
-    "type": "GUN",
-    "reload_noise_volume": 10,
-    "symbol": "(",
-    "color": "dark_gray",
-    "name": { "str": "pneumatic shotgun" },
-    "description": "A double-barreled pneumatic air shotgun handcrafted from scrap.  Though it's firepower is lacking compared to more conventional shotguns, this thing can still pack quite a punch.  That is, if your target is directly in front of you.",
-    "price": "2200 USD",
-    "material": [ "steel", "wood" ],
-    "flags": [ "RELOAD_ONE", "STR_RELOAD", "NON_FOULING" ],
-    "skill": "shotgun",
-    "ammo": "shotcanister",
-    "weight": "3410 g",
-    "volume": "2500 ml",
-    "price_postapoc": "120 USD",
-    "bashing": 8,
-    "to_hit": -1,
-    "ranged_damage": { "damage_type": "stab", "amount": 15 },
-    "range": 3,
-    "dispersion": 350,
-    "durability": 7,
-    "modes": [ [ "DEFAULT", "single", 1 ], [ "DOUBLE", "double", 2 ] ],
-    "clip_size": 2,
-    "reload": 6000,
-    "loudness": 22,
-    "valid_mod_locations": [
-      [ "accessories", 4 ],
-      [ "grip", 1 ],
-      [ "mechanism", 4 ],
-      [ "sights", 1 ],
-      [ "sling", 1 ],
-      [ "stock", 1 ],
-      [ "rail", 1 ],
-      [ "underbarrel", 1 ]
-    ]
-  },
-  {
-    "id": "mininuke_launcher",
-    "looks_like": "m79",
-    "type": "GUN",
-    "reload_noise_volume": 10,
-    "symbol": "(",
-    "color": "dark_gray",
-    "name": { "str": "mininuke launcher" },
-    "description": "A powerful handheld launcher handcrafted from scrap.  Made to launch modified handheld nuclear weapons, it is an exceedingly powerful weapon.",
-    "price": "7500 USD",
-    "price_postapoc": "750 cent",
-    "material": [ "aluminum", "wood" ],
-    "flags": [ "STR_RELOAD", "NEVER_JAMS" ],
-    "skill": "launcher",
-    "ammo": "mininuke_mod",
-    "weight": "11260 g",
-    "volume": "2750 ml",
-    "bashing": 12,
-    "to_hit": -1,
-    "range": 40,
-    "dispersion": 600,
-    "durability": 7,
-    "clip_size": 1,
-    "reload": 800,
-    "valid_mod_locations": [ [ "sling", 1 ], [ "grip", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "underbarrel", 1 ] ]
-  },
-  {
-    "id": "coilgun",
-    "copy-from": "gun_base",
-    "looks_like": "ar15",
-    "type": "GUN",
-    "name": { "str": "coilgun" },
-    "//": "Hard to make, plentiful and cheap ammo, and silent - people will want this thing.",
-    "description": "A homemade gun, using electromagnets to accelerate a ferromagnetic projectile to high velocity.  Powered by UPS.",
-    "weight": "3341 g",
-    "volume": "2750 ml",
-    "price": "750 USD",
-    "price_postapoc": "50 USD",
-    "to_hit": -2,
-    "ascii_picture": "coilgun",
-    "bashing": 10,
-    "material": [ "copper", "steel" ],
-    "ammo": "nail",
-    "skill": "rifle",
-    "range": 12,
-    "ranged_damage": { "damage_type": "stab", "amount": 4, "armor_penetration": 20 },
-    "dispersion": 180,
-    "durability": 5,
-    "ups_charges": 5,
-    "valid_mod_locations": [
-      [ "accessories", 4 ],
-      [ "grip", 1 ],
-      [ "sights", 1 ],
-      [ "sling", 1 ],
-      [ "stock", 1 ],
-      [ "rail", 1 ],
-      [ "underbarrel", 1 ]
-    ],
-    "magazines": [ [ "nail", [ "nailmag" ] ] ]
-  },
-  {
-    "id": "nailrifle",
-    "copy-from": "nailgun",
-    "looks_like": "ar15",
-    "type": "GUN",
-    "name": { "str": "nail rifle" },
-    "description": "This is a nailgun that has been extensively modified with the addition of a short barrel, stock and hand guard.  It can be reloaded using detachable magazines and is an overall much more effective weapon.",
-    "to_hit": -1,
-    "bashing": 12,
-    "price_postapoc": "750 cent",
-    "skill": "rifle",
-    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 3 ] ],
-    "clip_size": 0,
-    "valid_mod_locations": [
-      [ "accessories", 4 ],
-      [ "barrel", 1 ],
-      [ "grip", 1 ],
-      [ "sights", 1 ],
-      [ "sling", 1 ],
-      [ "stock", 1 ],
-      [ "rail", 1 ],
-      [ "underbarrel", 1 ]
-    ],
-    "magazines": [ [ "nail", [ "nailmag" ] ] ],
-    "relative": { "weight": 1000, "volume": 6, "range": 3, "ranged_damage": { "damage_type": "stab", "amount": 4 } },
-    "proportional": { "price": 3, "dispersion": 0.5 }
-  },
-  {
-    "id": "nailmag",
-    "looks_like": "stanag30",
-    "type": "MAGAZINE",
-    "name": { "str": "nail rifle magazine" },
-    "description": "An improvised magazine for use with a nail rifle.  Little more than a tin can, spring and some duct tape it is awkward to reload and not especially reliable.",
-    "weight": "60 g",
-    "volume": "250 ml",
-    "price": "1920 cent",
-    "material": "steel",
-    "symbol": "#",
-    "color": "light_gray",
-    "ammo_type": "nail",
-    "capacity": 50,
-    "reliability": 6,
-    "reload_time": 300,
-    "flags": [ "MAG_COMPACT" ]
-  },
-  {
-    "id": "recipe_mininuke_launch",
-    "type": "BOOK",
-    "name": { "str": "238-NK: Practicality Enhancement", "str_pl": "copies of 238-NK: Practicality Enhancement" },
-    "description": "The authors of this thoroughly researched and documented proposal make a very persuasive case for the adoption of spring-driven nuclear shells.  It's stamped \"DENIED\".",
-    "weight": "854 g",
-    "volume": "1500 ml",
-    "price": "300 USD",
-    "price_postapoc": "50 kUSD",
-    "material": [ "paper" ],
-    "symbol": "?",
-    "color": "light_green",
-    "skill": "fabrication",
-    "required_level": 4,
-    "max_level": 5,
-    "intelligence": 9,
-    "time": "10 m"
-  },
-  {
-    "type": "AMMO",
-    "id": "mininuke_mod",
-    "price": "1800 USD",
-    "//": "Never marketed pre-Cataclysm.",
-    "name": { "str": "modified mininuke" },
-    "symbol": "*",
-    "color": "green",
-    "description": "A heavily modified handheld nuclear device on a rocket.  Intended to be fired from a specialized launcher, it has been rigged to explode on impact instead of on a timer.  It can fly further than the explosion will reach, probably.",
-    "material": "plastic",
-    "volume": "97 L",
-    "weight": "34500 g",
-    "bashing": 8,
-    "ammo_type": "mininuke_mod",
-    "damage": { "damage_type": "stab", "amount": 14 },
-    "stack_size": 2,
-    "effects": [ "MININUKE_MOD", "NEVER_MISFIRES" ]
-  },
-  {
-    "type": "ammunition_type",
-    "id": "mininuke_mod",
-    "name": "modified mininuke",
-    "default": "mininuke_mod"
-  },
-  {
-    "type": "AMMO",
-    "id": "shotcanister_scrap",
-    "price": "10 USD",
-    "price_postapoc": "250 cent",
-    "name": { "str": "scrap shotcanister" },
-    "symbol": "=",
-    "color": "green",
-    "description": "This small paper canister resembling a crude shotshell is filled to the brim with assorted pieces of scrap metal.",
-    "material": [ "steel" ],
-    "volume": "250 ml",
-    "weight": "55 g",
-    "bashing": 2,
-    "cutting": 1,
-    "ammo_type": "shotcanister",
-    "looks_like": "shot_scrap",
-    "range": 1,
-    "damage": { "damage_type": "stab", "amount": 10 },
-    "dispersion": 250,
-    "loudness": 0,
-    "count": 10
-  },
-  {
-    "type": "AMMO",
-    "id": "shotcanister_pebble",
-    "price": "10 USD",
-    "price_postapoc": "50 cent",
-    "name": { "str": "pebble shotcanister" },
-    "symbol": "=",
-    "color": "green",
-    "description": "This small paper canister resembling a crude shotshell is filled to the brim with tiny pebbles.  Damage is pathetic but flight is much more stable than scrap.",
-    "material": [ "stone" ],
-    "volume": "250 ml",
-    "weight": "55 g",
-    "bashing": 2,
-    "cutting": 1,
-    "ammo_type": "shotcanister",
-    "looks_like": "shot_scrap",
-    "range": 2,
-    "damage": { "damage_type": "stab", "amount": 7, "armor_penetration": 1 },
-    "dispersion": 80,
-    "loudness": 0,
-    "count": 10
-  },
-  {
-    "type": "AMMO",
-    "id": "shotcanister_flechette",
-    "price": "10 USD",
-    "price_postapoc": "250 cent",
-    "name": { "str": "flechette shotcanister" },
-    "symbol": "=",
-    "color": "green",
-    "description": "This small paper canister resembling a crude shotshell is filled to the brim with handmade flechettes, giving it some armor piercing capabilities.",
-    "material": [ "steel" ],
-    "volume": "250 ml",
-    "weight": "55 g",
-    "bashing": 2,
-    "cutting": 1,
-    "ammo_type": "shotcanister",
-    "looks_like": "shot_scrap",
-    "range": 3,
-    "damage": { "damage_type": "stab", "amount": 13, "armor_penetration": 7 },
-    "dispersion": 50,
-    "loudness": 0,
-    "count": 10
-  },
-  {
-    "type": "AMMO",
-    "id": "shotcanister_bearing",
-    "price": "10 USD",
-    "price_postapoc": "250 cent",
-    "name": { "str": "bearing shotcanister" },
-    "symbol": "=",
-    "color": "green",
-    "description": "This small paper canister resembling a crude shotshell is filled to the brim with handmade bearings, stabilizing its flight pattern a tiny bit.",
-    "material": [ "steel" ],
-    "volume": "250 ml",
-    "weight": "55 g",
-    "bashing": 2,
-    "cutting": 1,
-    "ammo_type": "shotcanister",
-    "looks_like": "shot_scrap",
-    "range": 2,
-    "damage": { "damage_type": "stab", "amount": 12, "armor_penetration": 2 },
-    "dispersion": 100,
-    "loudness": 0,
-    "count": 10
-  },
-  {
-    "type": "ammunition_type",
-    "id": "shotcanister",
-    "name": "shotcanisters",
-    "default": "shotcanister_scrap"
   },
   {
     "type": "TOOL_ARMOR",
@@ -2240,7 +1875,7 @@
     "skill": "archery",
     "min_strength": 8,
     "ammo": "arrow",
-    "weight": "450 g",
+    "weight": "500 g",
     "volume": "2 L",
     "price_postapoc": "60 USD",
     "bashing": 12,
@@ -3021,31 +2656,6 @@
     }
   },
   {
-    "id": "22_cb",
-    "copy-from": "22_lr",
-    "type": "AMMO",
-    "name": { "str": ".22 CB" },
-    "description": "The .22 Conical Ball is a variety of .22 ammunition that propels its bullet using a primer instead of gunpowder.  The end result is a subsonic round that is so weak as to be nearly useless given your predicament.",
-    "price": "1 USD",
-    "price_postapoc": "10 USD",
-    "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
-    "count": 100,
-    "stack_size": 150,
-    "recoil": 39,
-    "proportional": { "range": 0.6, "damage": { "damage_type": "stab", "amount": 0.5 }, "dispersion": 1.2 },
-    "extend": { "effects": [ "NOGIB" ] }
-  },
-  {
-    "result": "22_cb",
-    "type": "uncraft",
-    "skill_used": "gun",
-    "difficulty": 5,
-    "time": "5 s",
-    "qualities": [ { "id": "PULL", "level": 1 } ],
-    "components": [ [ [ "lead", 2 ] ], [ [ "22_casing_new", 1 ] ], [ [ "gunpowder_pistol", 1 ] ] ],
-    "charges": 1
-  },
-  {
     "type": "AMMO",
     "id": "oxygen",
     "category": "spare_parts",
@@ -3073,7 +2683,7 @@
     "type": "TOOL",
     "name": { "str": "stone hand axe" },
     "description": "This is a broad piece of stone with an edge narrow enough to roughly chop wood.",
-    "weight": "453 g",
+    "weight": "500 g",
     "volume": "500 ml",
     "price": "0 cent",
     "price_postapoc": "50 cent",
@@ -3176,7 +2786,8 @@
     "weight": "180 g",
     "charges": 6,
     "calories": 400,
-    "flags": [ "EATEN_HOT" ]
+    "flags": [ "EATEN_HOT" ],
+    "vitamins": [ [ "meat_allergen", 1 ], [ "veggy_allergen", 1 ], [ "wheat_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -3249,7 +2860,7 @@
     "healthy": -25,
     "fun": -25,
     "use_action": "POISON",
-    "vitamins": [  ]
+    "vitamins": [ [ "meat_allergen", 1 ] ]
   },
   {
     "id": "magnetron",
@@ -3411,6 +3022,7 @@
       [ [ "gummy_vitamins", 1 ] ],
       [ [ "coffee_raw", 1 ] ],
       [ [ "lemonade_powder", 1 ] ],
+      [ [ "crackers", 1 ] ],
       [ [ "matches", 1 ] ],
       [ [ "gum", 2 ] ],
       [ [ "paper", 8 ] ],
@@ -3422,7 +3034,7 @@
     "result": "mre_dessert",
     "type": "uncraft",
     "time": "4 s",
-    "components": [ [ [ "dry_fruit", 1 ] ], [ [ "chocolate", 1 ] ], [ [ "candy2", 1 ] ], [ [ "cookies", 1 ] ], [ [ "bag_plastic", 1 ] ] ],
+    "components": [ [ [ "dry_fruit", 1 ] ], [ [ "candy2", 1 ] ], [ [ "cookies", 1 ] ], [ [ "bag_plastic", 1 ] ] ],
     "flags": [ "BLIND_EASY" ]
   },
   {
@@ -3439,13 +3051,14 @@
     "calories": 132,
     "description": "Milk with natural rennet added.  Used for making cheese if left in a fermenting vat for some time.",
     "price": "10 cent",
-    "material": "milk",
+    "material": [ "milk" ],
     "volume": "250 ml",
     "price_postapoc": "10 cent",
     "phase": "liquid",
     "fun": -12,
     "flags": [ "NUTRIENT_OVERRIDE" ],
-    "brewable": { "time": "4 hours", "results": [ "milk_curdled" ] }
+    "brewable": { "time": "4 hours", "results": [ "milk_curdled" ] },
+    "vitamins": [ [ "milk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -3465,29 +3078,8 @@
     "material": [ "milk" ],
     "volume": "250 ml",
     "phase": "liquid",
-    "fun": -4
-  },
-  {
-    "type": "COMESTIBLE",
-    "id": "buttermilk",
-    "name": { "str_sp": "buttermilk" },
-    "weight": "258 g",
-    "color": "white",
-    "spoils_in": "2 d",
-    "container": "bottle_plastic",
-    "comestible_type": "DRINK",
-    "symbol": "~",
-    "quench": 20,
-    "healthy": 2,
-    "calories": 161,
-    "description": "This is cultured milk defatted either due to churning or curdling.  Spoils quickly.",
-    "price": "1 cent",
-    "price_postapoc": "50 cent",
-    "material": [ "milk" ],
-    "volume": "250 ml",
-    "phase": "liquid",
-    "flags": [ "EATEN_COLD" ],
-    "vitamins": [ [ "vitA", 1 ], [ "vitB", 1 ], [ "vitC", 1 ], [ "calcium", 1 ] ]
+    "fun": -4,
+    "vitamins": [ [ "milk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -3504,10 +3096,10 @@
     "price": "70 cent",
     "price_postapoc": "150 cent",
     "looks_like": "milk",
-    "material": "milk",
+    "material": [ "milk" ],
     "volume": "250 ml",
     "phase": "liquid",
-    "vitamins": [ [ "vitA", 2 ], [ "calcium", 7 ] ],
+    "vitamins": [ [ "vitA", 2 ], [ "calcium", 7 ], [ "milk_allergen", 1 ] ],
     "flags": [ "NUTRIENT_OVERRIDE" ],
     "fun": 1
   },
@@ -3552,632 +3144,6 @@
     }
   },
   {
-    "id": "reloaded_5x50dart",
-    "copy-from": "5x50dart",
-    "type": "AMMO",
-    "name": { "str": "5x50mm flechette, reloaded" },
-    "price_postapoc": "12 USD",
-    "description": "Designed to defeat modern body armor, the Rivtech 5x50mm flechette round features a biodegradable sabot and a single, fin-stabilized penetrator.  This one has been hand-reloaded.",
-    "effects": [ "COOKOFF", "RECYCLED" ],
-    "relative": { "range": -15, "dispersion": 40 },
-    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9, "armor_penetration": 0.7 }, "recoil": 0.9 }
-  },
-  {
-    "id": "reloaded_9mm",
-    "copy-from": "9mm",
-    "type": "AMMO",
-    "name": { "str": "9x19mm JHP, reloaded" },
-    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
-    "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
-  },
-  {
-    "id": "reloaded_9mmfmj",
-    "copy-from": "9mmfmj",
-    "type": "AMMO",
-    "name": { "str": "9x19mm FMJ, reloaded" },
-    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
-    "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
-  },
-  {
-    "id": "reloaded_9mmP",
-    "copy-from": "9mmP",
-    "type": "AMMO",
-    "name": { "str": "9x19mm +P, reloaded" },
-    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
-    "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
-  },
-  {
-    "id": "reloaded_9mmP2",
-    "copy-from": "9mmP2",
-    "type": "AMMO",
-    "name": { "str": "9x19mm +P+, reloaded" },
-    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
-    "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
-  },
-  {
-    "id": "reloaded_9x18mm",
-    "copy-from": "9x18mm",
-    "type": "AMMO",
-    "name": { "str": "9x18mm, reloaded" },
-    "description": "9x18 millimeter Makarov, an old Soviet pistol cartridge used mainly by the Makarov PM.  As the designation implies, it is a bit shorter in case length compared to 9mm Parabellum.  This one has been hand-reloaded.",
-    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
-    "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
-  },
-  {
-    "id": "reloaded_9x18mmP2",
-    "copy-from": "9x18mmP2",
-    "type": "AMMO",
-    "name": { "str": "9x18mm +P+, reloaded" },
-    "//": "Rather than give it a military designation, this is simply handmade overpressure ammo.",
-    "description": "9x18 millimeter Makarov, an old Soviet pistol cartridge used mainly by the Makarov PM.  This one has been hand-reloaded to generate higher internal pressure, boosting flight stability and damage.",
-    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
-    "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
-  },
-  {
-    "id": "reloaded_9x18mmfmj",
-    "copy-from": "9x18mmfmj",
-    "type": "AMMO",
-    "name": { "str": "9x18mm FMJ, reloaded" },
-    "description": "9x18 millimeter Makarov, an old Soviet pistol cartridge used mainly by the Makarov PM.  This brass-jacketed round increases penetration slightly, at the cost of reduced expansion.  This one has been hand-reloaded.",
-    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
-    "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
-  },
-  {
-    "id": "reloaded_10mm_fmj",
-    "copy-from": "10mm_fmj",
-    "type": "AMMO",
-    "name": { "str": "10mm Auto FMJ, reloaded" },
-    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
-    "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
-  },
-  {
-    "id": "reloaded_22_lr",
-    "copy-from": "22_lr",
-    "type": "AMMO",
-    "name": { "str": ".22 LR, reloaded" },
-    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
-    "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
-  },
-  {
-    "id": "reloaded_22_cphp",
-    "copy-from": "22_cphp",
-    "type": "AMMO",
-    "name": { "str": ".22 CPHP, reloaded" },
-    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
-    "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
-  },
-  {
-    "id": "reloaded_32_acp",
-    "copy-from": "32_acp",
-    "type": "AMMO",
-    "name": { "str": ".32 ACP, reloaded" },
-    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
-    "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
-  },
-  {
-    "id": "reloaded_38_fmj",
-    "copy-from": "38_fmj",
-    "type": "AMMO",
-    "name": { "str": ".38 FMJ, reloaded" },
-    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
-    "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
-  },
-  {
-    "id": "reloaded_38_special",
-    "copy-from": "38_special",
-    "type": "AMMO",
-    "name": { "str": ".38 Special, reloaded" },
-    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
-    "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
-  },
-  {
-    "id": "reloaded_38super_fmj",
-    "copy-from": "38super_fmj",
-    "type": "AMMO",
-    "name": { "str": ".38 Super FMJ, reloaded" },
-    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
-    "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
-  },
-  {
-    "id": "reloaded_38_super",
-    "copy-from": "38_super",
-    "type": "AMMO",
-    "name": { "str": ".38 Super, reloaded" },
-    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
-    "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
-  },
-  {
-    "id": "reloaded_40fmj",
-    "copy-from": "40fmj",
-    "type": "AMMO",
-    "name": { "str": ".40 S&W FMJ, reloaded" },
-    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
-    "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
-  },
-  {
-    "id": "reloaded_40sw",
-    "copy-from": "40sw",
-    "type": "AMMO",
-    "name": { "str": ".40 S&W JHP, reloaded" },
-    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
-    "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
-  },
-  {
-    "id": "reloaded_44fmj",
-    "copy-from": "44fmj",
-    "type": "AMMO",
-    "name": { "str": ".44 Magnum FMJ, reloaded" },
-    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
-    "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
-  },
-  {
-    "id": "reloaded_44magnum",
-    "copy-from": "44magnum",
-    "type": "AMMO",
-    "name": { "str": ".44 Magnum, reloaded" },
-    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
-    "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
-  },
-  {
-    "id": "reloaded_45_acp",
-    "copy-from": "45_acp",
-    "type": "AMMO",
-    "name": { "str": ".45 FMJ, reloaded" },
-    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
-    "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
-  },
-  {
-    "id": "reloaded_45_jhp",
-    "copy-from": "45_jhp",
-    "type": "AMMO",
-    "name": { "str": ".45 ACP JHP, reloaded" },
-    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
-    "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
-  },
-  {
-    "id": "reloaded_45_super",
-    "copy-from": "45_super",
-    "type": "AMMO",
-    "name": { "str": ".45 ACP +P, reloaded" },
-    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
-    "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
-  },
-  {
-    "id": "reloaded_45colt_jhp",
-    "copy-from": "45colt_jhp",
-    "type": "AMMO",
-    "name": { "str": ".45 Colt JHP, reloaded" },
-    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
-    "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
-  },
-  {
-    "id": "reloaded_46mm",
-    "copy-from": "46mm",
-    "type": "AMMO",
-    "name": { "str": "4.6x30mm, reloaded" },
-    "description": "4.6x30mm ammunition with 31gr copper plated lead bullets.  The 4.6x30mm round was developed by H&K to compete with FN Herstal's 5.7x28mm cartridge.  It has low recoil, but no usual armor penetration due to using simple lead bullets rather than proper factory-made penetrator projectiles.",
-    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9, "armor_penetration": 0.2 }, "dispersion": 1.1 },
-    "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
-  },
-  {
-    "id": "reloaded_50_incendiary",
-    "copy-from": "50_incendiary",
-    "type": "AMMO",
-    "name": { "str": ".50 BMG tracer, reloaded" },
-    "description": "A tracer variant of the powerful .50 BMG round.  Tracer rounds help to keep the weapon they are fired from on target at the risk of igniting flammable substances.  This one has been hand-reloaded.",
-    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
-    "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
-  },
-  {
-    "id": "reloaded_50bmg",
-    "copy-from": "50match",
-    "type": "AMMO",
-    "name": { "str": ".50 BMG Match, reloaded" },
-    "description": ".50 BMG ammunition with lead-cored FMJ bullets.  The .50 BMG is a very powerful rifle round designed for anti-aircraft use, later adapted to anti-vehicular and anti-personnel roles.  Its stupendous energy and armor piercing capabilities make it one of the most deadly rounds available, offset only by its drastic recoil and noise.",
-    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
-    "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
-  },
-  {
-    "id": "reloaded_50ss",
-    "copy-from": "50ss",
-    "type": "AMMO",
-    "name": { "str": ".50 BMG AP, reloaded" },
-    "description": "Variant of the .50 BMG round that uses a core hardened steel.  Penetration is increased, but damage is reduced.  This one has been hand-reloaded.",
-    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
-    "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
-  },
-  {
-    "id": "reloaded_57mm",
-    "copy-from": "57mm",
-    "type": "AMMO",
-    "name": { "str": "5.7x28mm, reloaded" },
-    "description": "5.7x28mm ammunition with 31gr AP FMJ bullets.  The 5.7x28mm cartridge was designed by FN Herstal to replace the 9x19mm round in NATO use.  Although the project to replace 9x19mm Parabellum was effectively canceled the 5.7x28mm round has seen action in many conflicts and has proven to be reliable.  It has very low recoil but no usual armor penetration due to using simple lead bullets rather than proper factory-made penetrator projectiles.",
-    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9, "armor_penetration": 0.2 }, "dispersion": 1.1 },
-    "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
-  },
-  {
-    "id": "reloaded_223",
-    "copy-from": "223",
-    "type": "AMMO",
-    "name": { "str": "5.56x45mm '.223 Remington', reloaded" },
-    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
-    "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
-  },
-  {
-    "id": "reloaded_556",
-    "copy-from": "556",
-    "type": "AMMO",
-    "name": { "str": "5.56x45mm NATO, reloaded" },
-    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
-    "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
-  },
-  {
-    "id": "reloaded_556_incendiary",
-    "copy-from": "556_incendiary",
-    "type": "AMMO",
-    "name": { "str": "5.56x45mm NATO tracer, reloaded" },
-    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
-    "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
-  },
-  {
-    "id": "reloaded_270win_jsp",
-    "copy-from": "270win_jsp",
-    "type": "AMMO",
-    "name": { "str": ".270 Winchester JSP, reloaded" },
-    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
-    "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
-  },
-  {
-    "id": "reloaded_300_winmag",
-    "copy-from": "300_winmag",
-    "type": "AMMO",
-    "name": { "str": ".300 Winchester Magnum, reloaded" },
-    "description": "The .300 Winchester Magnum is extremely versatile and has been adopted by many shooting disciplines.  The cartridge has found use by hunters, military units, and law enforcement departments.  This one has been hand-reloaded.",
-    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
-    "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
-  },
-  {
-    "id": "reloaded_300blk",
-    "copy-from": "300blk",
-    "type": "AMMO",
-    "name": { "str": ".300 AAC Blackout, reloaded" },
-    "description": ".300 AAC Blackout is an intermediate cartridge that achieves ballistics similar to the 7.62x39 but allows use on the AR-15 platform.  The round is necked-up from the 5.56mm NATO, but feeds from a STANAG magazine.  It requires a specific barrel, so will not work in a standard M4 or similar carbine.  This one has been hand-reloaded.",
-    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
-    "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
-  },
-  {
-    "id": "reloaded_308",
-    "copy-from": "308",
-    "type": "AMMO",
-    "name": { "str": "7.62x51mm '.308 Winchester', reloaded" },
-    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
-    "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
-  },
-  {
-    "id": "reloaded_762_51",
-    "copy-from": "762_51",
-    "type": "AMMO",
-    "name": { "str": "7.62x51mm, reloaded" },
-    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
-    "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
-  },
-  {
-    "id": "reloaded_762_51_incendiary",
-    "copy-from": "762_51_incendiary",
-    "type": "AMMO",
-    "name": { "str": "7.62x51mm incendiary, reloaded" },
-    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
-    "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
-  },
-  {
-    "id": "reloaded_357mag_fmj",
-    "copy-from": "357mag_fmj",
-    "type": "AMMO",
-    "name": { "str_sp": ".357 Magnum FMJ, reloaded" },
-    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1, "recoil": 0.9 }
-  },
-  {
-    "id": "reloaded_357mag_jhp",
-    "copy-from": "357mag_jhp",
-    "type": "AMMO",
-    "name": { "str_sp": ".357 Magnum JHP, reloaded" },
-    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1, "recoil": 0.9 }
-  },
-  {
-    "id": "reloaded_357sig_fmj",
-    "copy-from": "357sig_fmj",
-    "type": "AMMO",
-    "name": { "str": ".357 SIG FMJ, reloaded" },
-    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
-    "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
-  },
-  {
-    "id": "reloaded_357sig_jhp",
-    "copy-from": "357sig_jhp",
-    "type": "AMMO",
-    "name": { "str": ".357 SIG JHP, reloaded" },
-    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
-    "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
-  },
-  {
-    "id": "reloaded_380_FMJ",
-    "copy-from": "380_FMJ",
-    "type": "AMMO",
-    "name": { "str": ".380 ACP FMJ, reloaded" },
-    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
-    "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
-  },
-  {
-    "id": "reloaded_380_JHP",
-    "copy-from": "380_JHP",
-    "type": "AMMO",
-    "name": { "str": ".380 ACP JHP, reloaded" },
-    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
-    "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
-  },
-  {
-    "id": "reloaded_380_p",
-    "copy-from": "380_p",
-    "type": "AMMO",
-    "name": { "str": ".380 ACP +P, reloaded" },
-    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
-    "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
-  },
-  {
-    "id": "reloaded_410shot_000",
-    "copy-from": "410shot_000",
-    "type": "AMMO",
-    "name": { "str": ".410 000 shot, reloaded" },
-    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
-    "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
-  },
-  {
-    "id": "reloaded_454_Casull",
-    "copy-from": "454_Casull",
-    "type": "AMMO",
-    "name": { "str": ".454 Casull, reloaded" },
-    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
-    "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
-  },
-  {
-    "id": "reloaded_460_fmj",
-    "copy-from": "460_fmj",
-    "type": "AMMO",
-    "name": { "str": ".460 Rowland FMJ, reloaded" },
-    "description": "A brass-jacketed variant of the .460 Rowland round.  This increases penetration slightly at the cost of reduced damage from expansion.",
-    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
-    "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
-  },
-  {
-    "id": "reloaded_460_rowland",
-    "copy-from": "460_rowland",
-    "type": "AMMO",
-    "name": { "str": ".460 Rowland, reloaded" },
-    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
-    "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
-  },
-  {
-    "id": "reloaded_500_Magnum",
-    "copy-from": "500_Magnum",
-    "type": "AMMO",
-    "name": { "str": ".500 S&W Magnum, reloaded" },
-    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
-    "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
-  },
-  {
-    "id": "reloaded_545",
-    "copy-from": "545",
-    "type": "AMMO",
-    "name": { "str": "5.45x39mm, reloaded" },
-    "description": "The 5.45x39mm was the standard ammunition for the AK series from 1974.  Its designers were inspired by the 5.56x45mm NATO cartridge.  This one has been hand-reloaded.",
-    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
-    "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
-  },
-  {
-    "id": "reloaded_545_ap",
-    "copy-from": "545_ap",
-    "type": "AMMO",
-    "name": { "str": "5.45x39mm AP, reloaded" },
-    "description": "Armor piercing 5.45x39mm ammunition with hand-reloaded bullets containing a steel penetrator.  Developed in 1998 by the Russian military.",
-    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
-    "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
-  },
-  {
-    "id": "reloaded_700nx",
-    "copy-from": "700nx",
-    "type": "AMMO",
-    "name": { "str": ".700 NX, reloaded" },
-    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
-    "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
-  },
-  {
-    "id": "reloaded_762_m43",
-    "copy-from": "762_m43",
-    "type": "AMMO",
-    "name": { "str": "7.62x39mm M43, reloaded" },
-    "description": "7.62x39mm ammunition with 121.9gr bullets.  Developed in WW2 by the Soviet Union the 7.62x39mm round rapidly became extremely popular all over the world.  The bullet has poor wounding potential due to its stability, only beginning to yaw after 26cm.",
-    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
-    "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
-  },
-  {
-    "id": "reloaded_762_m87",
-    "copy-from": "762_m87",
-    "type": "AMMO",
-    "name": { "str": "7.62x39mm M67, reloaded" },
-    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
-    "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
-  },
-  {
-    "id": "reloaded_762_54R",
-    "copy-from": "762_54R",
-    "type": "AMMO",
-    "name": { "str": "7.62x54mmR, reloaded" },
-    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
-    "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
-  },
-  {
-    "id": "reloaded_762_25",
-    "copy-from": "762_25hot",
-    "type": "AMMO",
-    "name": { "str": "7.62x25mm, reloaded" },
-    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9, "armor_penetration": 0.9 }, "dispersion": 1.1 }
-  },
-  {
-    "id": "reloaded_3006",
-    "copy-from": "3006",
-    "type": "AMMO",
-    "name": { "str": ".30-06 Springfield, reloaded" },
-    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
-    "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
-  },
-  {
-    "id": "reloaded_3006_incendiary",
-    "copy-from": "3006_incendiary",
-    "type": "AMMO",
-    "name": { "str": ".30-06 incendiary, reloaded" },
-    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
-    "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
-  },
-  {
-    "id": "reloaded_3006fmj",
-    "copy-from": "3006fmj",
-    "type": "AMMO",
-    "name": { "str": ".30-06 M2 AP, reloaded" },
-    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
-    "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
-  },
-  {
-    "id": "reloaded_4570_sp",
-    "copy-from": "4570_sp",
-    "type": "AMMO",
-    "name": { "str": ".45-70 SP, reloaded" },
-    "description": ".45-70 Government ammunition loaded with a 305 grain soft point round.  One of the oldest cartridges still in use, it is still a favorite for large game hunting at short ranges.  This one has been hand-loaded.",
-    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
-    "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
-  },
-  {
-    "id": "reloaded_4570_pen",
-    "copy-from": "4570_pen",
-    "type": "AMMO",
-    "name": { "str": ".45-70 +P penetrator, reloaded" },
-    "description": ".45-70 Government +P ammunition loaded with a 305 grain solid copper penetrator projectile.  Designed for maximum penetration through thick hide and bone while maintaining ideal wounding characteristics.  This one has been hand-loaded.",
-    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
-    "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
-  },
-  {
-    "id": "reloaded_4570_low",
-    "copy-from": "4570_low",
-    "type": "AMMO",
-    "name": { "str": ".45-70 LFN cowboy, reloaded" },
-    "description": ".45-70 Government ammunition loaded with a 405 grain lead flat nose bullet to original specifications for safe use in antique firearms.  Quite a bit less powerful than modern ammo, but still packs a punch.  This one has been hand-loaded.",
-    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
-    "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
-  },
-  {
-    "id": "reloaded_shot_bird",
-    "copy-from": "shot_bird",
-    "type": "AMMO",
-    "name": { "str": "birdshot, reloaded" },
-    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
-    "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
-  },
-  {
-    "id": "reloaded_shot_dragon",
-    "copy-from": "shot_dragon",
-    "type": "AMMO",
-    "name": { "str": "dragon's breath shell, reloaded" },
-    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
-    "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
-  },
-  {
-    "id": "reloaded_shot_00",
-    "copy-from": "shot_00",
-    "type": "AMMO",
-    "name": { "str": "00 shot, reloaded" },
-    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
-    "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
-  },
-  {
-    "id": "reloaded_shot_flechette",
-    "copy-from": "shot_flechette",
-    "type": "AMMO",
-    "name": { "str": "flechette shell, reloaded" },
-    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
-    "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
-  },
-  {
-    "id": "reloaded_shot_slug",
-    "copy-from": "shot_slug",
-    "type": "AMMO",
-    "name": { "str": "shotgun slug, reloaded" },
-    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
-    "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
-  },
-  {
     "id": "flu_shot",
     "type": "COMESTIBLE",
     "comestible_type": "MED",
@@ -4190,7 +3156,7 @@
     "material": "plastic",
     "symbol": "!",
     "color": "magenta",
-    "flags": [ "NO_INGEST", "NPC_SAFE", "IRREPLACEABLE_CONSUMABLE" ]
+    "flags": [ "NO_INGEST", "NPC_SAFE" ]
   },
   {
     "type": "GENERIC",
@@ -4335,58 +3301,6 @@
     "material": [ "steel", "plastic" ],
     "bashing": 3,
     "to_hit": 1
-  },
-  {
-    "id": "lycra_patch",
-    "type": "TOOL",
-    "category": "spare_parts",
-    "name": { "str": "Lycra patch", "str_pl": "Lycra patches" },
-    "description": "This is a small bolt of a synthetic fabric blended with stretchy Lycra fibers.  It could be used to make flexible yet strong clothing.  Stylish, but bad for the environment; at least you're recycling it.",
-    "weight": "87 g",
-    "volume": "250 ml",
-    "price": "0 cent",
-    "price_postapoc": "10 cent",
-    "material": "lycra",
-    "symbol": ",",
-    "color": "light_blue",
-    "flags": [ "NO_SALVAGE" ]
-  },
-  {
-    "id": "scrap_lycra",
-    "copy-from": "scrap_cotton",
-    "type": "AMMO",
-    "name": { "str_sp": "Lycra scraps" },
-    "description": "Oddly-shaped smallish bits of Lycra, waste material from tailoring projects.  Not useful for much and usually disposed of.",
-    "price": "0 cent",
-    "material": "lycra"
-  },
-  {
-    "id": "sheet_lycra",
-    "type": "AMMO",
-    "category": "spare_parts",
-    "name": { "str": "Lycra sheet" },
-    "description": "A sheet of synthetic fabric blended with stretchy Lycra fibers, suitable for making flexible yet strong clothing.",
-    "weight": "3 g",
-    "volume": "300 ml",
-    "price": "50 USD",
-    "price_postapoc": "1 USD",
-    "material": "lycra",
-    "symbol": "=",
-    "color": "dark_gray",
-    "count": 100,
-    "ammo_type": "components"
-  },
-  {
-    "id": "sheet_lycra_patchwork",
-    "copy-from": "sheet_lycra",
-    "type": "AMMO",
-    "name": { "str_sp": "patchwork Lycra clothing parts" },
-    "description": "A selection of various clothing parts, sewn together from Lycra patches in a patchwork fashion.  Suitable for making most clothing, though it's much less time-efficient than if using proper material sheets.",
-    "weight": "60 g",
-    "volume": "60 ml",
-    "price": "10 USD",
-    "price_postapoc": "50 cent",
-    "count": 1
   },
   {
     "id": "burette",
@@ -5106,8 +4020,9 @@
     "quench": -1,
     "healthy": 1,
     "description": "This is a serving of crisply brined and canned lobster.  Tasty and nutritious.",
-    "material": "flesh",
-    "fun": 7
+    "material": [ "flesh" ],
+    "fun": 7,
+    "vitamins": [ [ "meat_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -5120,10 +4035,11 @@
     "description": "lobster slices cured in brine.  Salty but tasty in a pinch.",
     "price": "5 USD",
     "price_postapoc": "3 USD",
-    "material": "flesh",
+    "material": [ "flesh" ],
     "delete": { "flags": [ "NUTRIENT_OVERRIDE" ] },
     "primary_material": "cured_meat",
-    "fun": 2
+    "fun": 2,
+    "vitamins": [ [ "meat_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -5154,7 +4070,7 @@
     "material": [ "flesh", "wheat" ],
     "volume": "750 ml",
     "fun": 18,
-    "vitamins": [ [ "vitA", 8 ], [ "vitC", 10 ], [ "calcium", 6 ], [ "iron", 15 ] ],
+    "vitamins": [ [ "vitA", 8 ], [ "vitC", 10 ], [ "calcium", 6 ], [ "iron", 15 ], [ "meat_allergen", 1 ], [ "wheat_allergen", 1 ] ],
     "description": "A delicious authentic lobster roll."
   },
   {
@@ -5173,12 +4089,12 @@
     "description": "A nutritious and delicious hearty lobster soup.",
     "price": "4 USD",
     "price_postapoc": "1 USD",
-    "material": "flesh",
+    "material": [ "flesh" ],
     "volume": "500 ml",
     "charges": 2,
     "phase": "liquid",
     "flags": [ "EATEN_HOT", "USE_EAT_VERB" ],
-    "vitamins": [ [ "vitA", 8 ], [ "vitC", 10 ], [ "calcium", 6 ], [ "iron", 15 ], [ "vitB", 20 ] ],
+    "vitamins": [ [ "vitA", 8 ], [ "vitC", 10 ], [ "calcium", 6 ], [ "iron", 15 ], [ "vitB", 20 ], [ "meat_allergen", 1 ] ],
     "fun": 4
   },
   {
@@ -5198,7 +4114,7 @@
     "material": [ "flesh", "wheat" ],
     "volume": "750 ml",
     "fun": 14,
-    "vitamins": [ [ "vitA", 4 ], [ "vitC", 5 ], [ "calcium", 12 ], [ "iron", 24 ] ]
+    "vitamins": [ [ "vitA", 4 ], [ "vitC", 5 ], [ "calcium", 12 ], [ "iron", 24 ], [ "meat_allergen", 1 ], [ "wheat_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -5221,7 +4137,16 @@
     "charges": 2,
     "flags": [ "EATEN_HOT" ],
     "fun": 5,
-    "vitamins": [ [ "vitA", 8 ], [ "vitC", 10 ], [ "calcium", 7 ], [ "iron", 18 ], [ "vitB", 20 ] ]
+    "vitamins": [
+      [ "vitA", 8 ],
+      [ "vitC", 10 ],
+      [ "calcium", 7 ],
+      [ "iron", 18 ],
+      [ "vitB", 20 ],
+      [ "meat_allergen", 1 ],
+      [ "veggy_allergen", 1 ],
+      [ "wheat_allergen", 1 ]
+    ]
   },
   {
     "type": "COMESTIBLE",
@@ -5235,6 +4160,105 @@
     "material": [ "wheat", "veggy" ],
     "flags": [ "EATEN_COLD" ],
     "fun": 8,
-    "vitamins": [ [ "vitC", 9 ], [ "calcium", 16 ], [ "iron", 30 ] ]
+    "vitamins": [ [ "vitC", 9 ], [ "calcium", 16 ], [ "iron", 30 ], [ "veggy_allergen", 1 ], [ "wheat_allergen", 1 ] ]
+  },
+  {
+    "abstract": "seed_mushroom_base",
+    "type": "COMESTIBLE",
+    "copy-from": "seed",
+    "name": { "str_sp": "mushroom spores" },
+    "description": "Some mushroom spores.",
+    "charges": 2,
+    "color": "green"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "seed_mushroom",
+    "copy-from": "seed_mushroom_base",
+    "name": { "str_sp": "mushroom spores" },
+    "seed_data": { "plant_name": "mushroom", "fruit": "mushroom", "grow": "14 days" }
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "seed_mushroom_morel",
+    "copy-from": "seed_mushroom_base",
+    "name": { "str_sp": "morel mushroom spores" },
+    "description": "Some morel mushroom spores.",
+    "seed_data": { "plant_name": "morel mushroom", "fruit": "mushroom_morel", "grow": "14 days" }
+  },
+  {
+    "id": "rosin",
+    "type": "AMMO",
+    "category": "chems",
+    "name": { "str": "rosin" },
+    "description": "This is a chunk of yellowish rosin, usable as a flux for soldering.",
+    "weight": "1 g",
+    "volume": "10 ml",
+    "count": 10,
+    "price": "0 cent",
+    "price_postapoc": "10 cent",
+    "material": "wood",
+    "symbol": "=",
+    "color": "yellow",
+    "ammo_type": "components"
+  },
+  {
+    "id": "thermal_cooling",
+    "type": "TOOL_ARMOR",
+    "copy-from": "thermal_outfit",
+    "name": { "str": "liquid cooling outfit" },
+    "description": "This skintight suit covers you from head to toe and is designed to keep you at an ideal temperature using a number of heatsinks and heating coils tied to a liquid coolant system.  It also includes some handy features such as a built-in thermometer.  Use it to turn it on.",
+    "flags": [ "VARSIZE", "SKINTIGHT", "TRADER_AVOID", "ONLY_ONE", "THERMOMETER" ],
+    "weight": "1652 g",
+    "use_action": {
+      "type": "transform",
+      "msg": "You activate your %s.",
+      "target": "thermal_cooling_on",
+      "active": true,
+      "transform_charges": 1,
+      "need_charges": 1,
+      "need_charges_msg": "The %s's batteries are dead."
+    }
+  },
+  {
+    "id": "thermal_cooling_on",
+    "type": "TOOL_ARMOR",
+    "copy-from": "thermal_cooling",
+    "name": { "str": "liquid cooling outfit (on)", "str_pl": "liquid cooling outfits (on)" },
+    "description": "This skintight suit covers you from head to toe and is designed to keep you at an ideal temperature using a number of heatsinks and heating coils tied to a liquid coolant system.  It also includes some handy features such as a built-in thermometer.  It is currently on, use it to turn it off.",
+    "extend": { "flags": [ "CLIMATE_CONTROL" ] },
+    "power_draw": 130000,
+    "revert_to": "thermal_cooling",
+    "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "Your %s deactivates.", "target": "thermal_cooling" }
+  },
+  {
+    "id": "thermal_cooling_mask",
+    "//": "If at some point item sources of CLIMATE_CONTROL are changed to only affect bodyparts covered by the item, we'll want to bring this back in addition to adding glove and sock variants, but for now a bodysuit is good enough for every part.",
+    "type": "TOOL_ARMOR",
+    "copy-from": "thermal_mask",
+    "name": { "str": "liquid cooling balaclava" },
+    "description": "This face mask is designed to keep your face and head at an ideal temperature using a number of heatsinks and heating coils tied to a liquid coolant system.  It also includes some handy features such as a built-in thermometer.  Use it to turn it on.",
+    "flags": [ "VARSIZE", "SKINTIGHT", "TRADER_AVOID", "ONLY_ONE", "THERMOMETER" ],
+    "weight": "204 g",
+    "use_action": {
+      "type": "transform",
+      "msg": "You activate your %s.",
+      "target": "thermal_cooling_mask_on",
+      "active": true,
+      "transform_charges": 1,
+      "need_charges": 1,
+      "need_charges_msg": "The %s's batteries are dead."
+    }
+  },
+  {
+    "id": "thermal_cooling_mask_on",
+    "type": "TOOL_ARMOR",
+    "copy-from": "thermal_cooling_mask",
+    "name": { "str": "liquid cooling balaclava (on)" },
+    "description": "This face mask is designed to keep your face and head at an ideal temperature using a number of heatsinks and heating coils tied to a liquid coolant system.  It also includes some handy features such as a built-in thermometer.  It is currently on, use it to turn it off.",
+    "extend": { "flags": [ "CLIMATE_CONTROL" ] },
+    "power_draw": 7500,
+    "revert_to": "thermal_cooling_mask",
+    "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "Your %s deactivates.", "target": "thermal_cooling_mask" }
   }
 ]

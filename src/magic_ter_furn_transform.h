@@ -1,6 +1,4 @@
 #pragma once
-#ifndef CATA_SRC_MAGIC_TER_FURN_TRANSFORM_H
-#define CATA_SRC_MAGIC_TER_FURN_TRANSFORM_H
 
 #include <map>
 #include <optional>
@@ -84,4 +82,4 @@ class ter_furn_transform
         bool is_valid() const;
 };
 
-#endif // CATA_SRC_MAGIC_TER_FURN_TRANSFORM_H
+

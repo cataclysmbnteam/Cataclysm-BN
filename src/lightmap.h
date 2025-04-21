@@ -1,6 +1,4 @@
 #pragma once
-#ifndef CATA_SRC_LIGHTMAP_H
-#define CATA_SRC_LIGHTMAP_H
 
 #include <cmath>
 #include <ostream>
@@ -51,19 +49,19 @@ enum class lit_level : int {
 };
 
 template<typename T>
-constexpr inline bool operator>( const T &lhs, const lit_level &rhs )
+constexpr bool operator>( const T &lhs, const lit_level &rhs )
 {
     return lhs > static_cast<T>( rhs );
 }
 
 template<typename T>
-constexpr inline bool operator<=( const T &lhs, const lit_level &rhs )
+constexpr bool operator<=( const T &lhs, const lit_level &rhs )
 {
     return !operator>( lhs, rhs );
 }
 
 template<typename T>
-constexpr inline bool operator!=( const lit_level &lhs, const T &rhs )
+constexpr bool operator!=( const lit_level &lhs, const T &rhs )
 {
     return static_cast<T>( lhs ) != rhs;
 }
@@ -79,4 +77,4 @@ enum vision_adjustment {
     VISION_ADJUST_HIDDEN
 };
 
-#endif // CATA_SRC_LIGHTMAP_H
+

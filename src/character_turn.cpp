@@ -191,12 +191,6 @@ void Character::process_turn()
     // Didn't just pick something up
     last_item = itype_id( "null" );
 
-    visit_items( [this]( item * e ) {
-        e->process_artifact( as_player(), pos() );
-        e->process_relic( *this );
-        return VisitResponse::NEXT;
-    } );
-
     suffer();
 
     // Handle player and NPC morale ticks
@@ -239,8 +233,13 @@ void Character::process_turn()
             }
         }
 
-        //mask from scent altering items;
+        // Mask from scent altering items;
         norm_scent += mask_intensity;
+
+        // Now that all the additions are done, multiply norm_scent by any scent modifiers.
+        for( const trait_id &mut : get_mutations() ) {
+            norm_scent *= mut.obj().scent_modifier;
+        }
 
         // Scent increases fast at first, and slows down as it approaches normal levels.
         // Estimate it will take about norm_scent * 2 turns to go from 0 - norm_scent / 2
@@ -252,10 +251,6 @@ void Character::process_turn()
         // Unusually high scent decreases steadily until it reaches normal levels.
         if( scent > norm_scent ) {
             scent--;
-        }
-
-        for( const trait_id &mut : get_mutations() ) {
-            scent *= mut.obj().scent_modifier;
         }
     }
 
@@ -338,7 +333,7 @@ void Character::process_one_effect( effect &it, bool is_new )
 {
     bool reduced = resists_effect( it );
     double mod = 1;
-    body_part bp = it.get_bp()->token;
+    bodypart_str_id bp = it.get_bp();
     int val = 0;
 
     // Still hardcoded stuff, do this first since some modify their other traits
@@ -456,10 +451,10 @@ void Character::process_one_effect( effect &it, bool is_new )
             if( has_trait( trait_FAT ) ) {
                 mod *= 1.5;
             }
-            if( get_size() == MS_LARGE ) {
+            if( get_size() == creature_size::large ) {
                 mod *= 2;
             }
-            if( get_size() == MS_HUGE ) {
+            if( get_size() == creature_size::huge ) {
                 mod *= 3;
             }
         }
@@ -480,15 +475,15 @@ void Character::process_one_effect( effect &it, bool is_new )
             if( has_trait( trait_FAT ) ) {
                 mod *= 1.5;
             }
-            if( get_size() == MS_LARGE ) {
+            if( get_size() == creature_size::large ) {
                 mod *= 2;
             }
-            if( get_size() == MS_HUGE ) {
+            if( get_size() == creature_size::huge ) {
                 mod *= 3;
             }
         }
         if( is_new || it.activated( calendar::turn, "HURT", val, reduced, mod ) ) {
-            if( bp == num_bp ) {
+            if( !bp ) {
                 if( val > 5 ) {
                     add_msg_if_player( _( "Your %s HURTS!" ), body_part_name_accusative( bp_torso ) );
                 } else {
@@ -501,7 +496,7 @@ void Character::process_one_effect( effect &it, bool is_new )
                 } else {
                     add_msg_if_player( _( "Your %s hurts!" ), body_part_name_accusative( bp ) );
                 }
-                apply_damage( nullptr, convert_bp( bp ).id(), val, true );
+                apply_damage( nullptr, bp.id(), val, true );
             }
         }
     }
@@ -646,11 +641,11 @@ void Character::reset_stats()
         }
 
         if( eff.is_null() && dur > 0_turns ) {
-            add_effect( type, dur, num_bp );
+            add_effect( type, dur, bodypart_str_id::NULL_ID() );
         } else if( dur > 0_turns ) {
             eff.set_duration( dur );
         } else {
-            remove_effect( type, num_bp );
+            remove_effect( type );
         }
     };
     // Painkiller
@@ -710,7 +705,8 @@ void Character::reset_stats()
 
     // Dodge-related effects
     mod_dodge_bonus( mabuff_dodge_bonus() -
-                     ( encumb( bp_leg_l ) + encumb( bp_leg_r ) ) / 20.0f - encumb( bp_torso ) / 10.0f );
+                     ( encumb( body_part_leg_l ) + encumb( body_part_leg_r ) ) / 20.0f - encumb(
+                         body_part_torso ) / 10.0f );
     // Whiskers don't work so well if they're covered
     if( has_trait( trait_WHISKERS ) && !wearing_something_on( bodypart_id( "mouth" ) ) ) {
         mod_dodge_bonus( 1.5 );
@@ -874,7 +870,7 @@ void Character::process_items()
         if( identifier == itype_UPS_off ) {
             ch_UPS += it.ammo_remaining();
         } else if( identifier == itype_adv_UPS_off ) {
-            ch_UPS += it.ammo_remaining() / 0.6;
+            ch_UPS += it.ammo_remaining() / 0.5;
         }
         if( it.has_flag( flag_USE_UPS ) && it.charges < it.type->maximum_charges() ) {
             active_held_items.push_back( index );
@@ -891,7 +887,7 @@ void Character::process_items()
         if( identifier == itype_UPS_off ) {
             ch_UPS += w->ammo_remaining();
         } else if( identifier == itype_adv_UPS_off ) {
-            ch_UPS += w->ammo_remaining() / 0.6;
+            ch_UPS += w->ammo_remaining() / 0.5;
         }
         if( !update_required && w->encumbrance_update_ ) {
             update_required = true;
@@ -969,21 +965,22 @@ void update_body_wetness( Character &who, const w_point &weather )
     // To make drying uniform, make just one roll and reuse it
     const int drying_roll = rng( 1, 80 );
 
-    for( const body_part bp : all_body_parts ) {
-        if( who.body_wetness[bp] == 0 ) {
+    for( std::pair<const bodypart_str_id, bodypart> &pr : who.get_body() ) {
+        if( pr.second.get_wetness() == 0 ) {
             continue;
         }
         // This is to normalize drying times
-        int drying_chance = who.drench_capacity[bp];
+        int drying_chance = pr.second.get_drench_capacity();
         // Body temperature affects duration of wetness
         // Note: Using temp_conv rather than temp_cur, to better approximate environment
-        if( who.temp_conv[bp] >= BODYTEMP_SCORCHING ) {
+        int temp_conv = pr.second.get_temp_conv();
+        if( temp_conv >= BODYTEMP_SCORCHING ) {
             drying_chance *= 2;
-        } else if( who.temp_conv[bp] >= BODYTEMP_VERY_HOT ) {
+        } else if( temp_conv >= BODYTEMP_VERY_HOT ) {
             drying_chance = drying_chance * 3 / 2;
-        } else if( who.temp_conv[bp] >= BODYTEMP_HOT ) {
+        } else if( temp_conv >= BODYTEMP_HOT ) {
             drying_chance = drying_chance * 4 / 3;
-        } else if( who.temp_conv[bp] > BODYTEMP_COLD ) {
+        } else if( temp_conv > BODYTEMP_COLD ) {
             // Comfortable, doesn't need any changes
         } else {
             // Evaporation doesn't change that much at lower temp
@@ -996,10 +993,7 @@ void update_body_wetness( Character &who, const w_point &weather )
 
         // TODO: Make evaporation reduce body heat
         if( drying_chance >= drying_roll ) {
-            who.body_wetness[bp] -= 1;
-            if( who.body_wetness[bp] < 0 ) {
-                who.body_wetness[bp] = 0;
-            }
+            pr.second.set_wetness( std::max( 0, pr.second.get_wetness() - 1 ) );
         }
     }
     // TODO: Make clothing slow down drying
@@ -1043,7 +1037,7 @@ void do_pause( Character &who )
         time_duration total_left = 0_turns;
         bool on_ground = who.has_effect( effect_downed );
         for( const body_part bp : all_body_parts ) {
-            effect &eff = who.get_effect( effect_onfire, bp );
+            effect &eff = who.get_effect( effect_onfire, convert_bp( bp ) );
             if( eff.is_null() ) {
                 continue;
             }
@@ -1058,7 +1052,7 @@ void do_pause( Character &who )
 
         // Don't drop on the ground when the ground is on fire
         if( total_left > 3_turns && !who.is_dangerous_fields( here.field_at( who.pos() ) ) ) {
-            who.add_effect( effect_downed, 2_turns, num_bp, 0, true );
+            who.add_effect( effect_downed, 2_turns, bodypart_str_id::NULL_ID(), 0, true );
             who.add_msg_player_or_npc( m_warning,
                                        _( "You roll on the ground, trying to smother the fire!" ),
                                        _( "<npcname> rolls on the ground!" ) );

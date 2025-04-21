@@ -78,7 +78,7 @@
         "d": { "item": "allclothes", "chance": 55, "repeat": [ 1, 2 ] },
         "D": { "item": "allclothes", "chance": 50, "repeat": [ 2, 3 ] },
         "o": { "item": "oven", "chance": 25, "repeat": [ 1, 2 ] },
-        "f": { "item": "fridge", "chance": 25, "repeat": [ 1, 2 ] },
+        "f": { "item": "SUS_fridge", "chance": 70 },
         "S": { "item": "shower", "chance": 25, "repeat": [ 1, 2 ] },
         "R": { "item": "trash", "chance": 25, "repeat": [ 1, 2 ] },
         "w": { "item": "stash_wood", "chance": 25, "repeat": [ 1, 2 ] },

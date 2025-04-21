@@ -129,7 +129,7 @@
       "toilets": { "T": {  } },
       "items": {
         "C": { "item": "kitchen", "chance": 30 },
-        "Q": { "item": "produce", "chance": 25 },
+        "Q": { "item": "trash_dumpster", "chance": 80 },
         "X": { "item": "produce", "chance": 60 },
         "g": { "item": "forage_spring", "chance": 40 },
         "r": { "item": "produce", "chance": 35 }

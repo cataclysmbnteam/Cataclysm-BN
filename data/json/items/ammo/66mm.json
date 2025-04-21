@@ -11,7 +11,6 @@
     "material": [ "steel", "powder" ],
     "volume": "2 L",
     "price_postapoc": "80 USD",
-    "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
     "weight": "1338 g",
     "ammo_type": "m235",
     "damage": { "damage_type": "bullet", "amount": 60, "armor_penetration": 10 },
@@ -19,6 +18,7 @@
     "dispersion": 150,
     "recoil": 150,
     "count": 4,
+    "loudness": 60,
     "effects": [ "COOKOFF", "PYROPHORIC", "TRAIL", "NEVER_MISFIRES" ]
   },
   {
@@ -32,13 +32,13 @@
     "material": [ "steel", "powder" ],
     "volume": "250 ml",
     "price_postapoc": "80 USD",
-    "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
     "weight": "2100 g",
     "ammo_type": "66mm",
     "damage": { "damage_type": "bullet", "amount": 150, "armor_multiplier": 0.1 },
     "range": 80,
     "dispersion": 30,
     "recoil": 225,
+    "loudness": 75,
     "effects": [ "COOKOFF", "EXPLOSIVE_BIG", "TRAIL" ]
   }
 ]

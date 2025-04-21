@@ -33,7 +33,7 @@
         "________________d__d____"
       ],
       "terrain": {
-        "#": "t_wall_half",
+        "#": "t_wall_half_domestic",
         "+": "t_door_metal_c_peep",
         "-": "t_wall_glass",
         ".": "t_floor",
@@ -52,7 +52,8 @@
         { "chance": 15, "item": "hardware", "x": 2, "y": 11 },
         { "chance": 15, "item": "hardware", "x": 19, "y": 10 },
         { "chance": 25, "item": "hardware_trash", "x": 17, "y": 10 }
-      ]
+      ],
+      "place_vehicles": [ { "vehicle": "os_work_vehicles", "chance": 40, "x": [ 9, 13 ], "y": [ 10, 15 ] } ]
     }
   },
   {
@@ -124,7 +125,8 @@
         { "chance": 25, "item": "hand_tools", "x": 6, "y": 18 },
         { "chance": 25, "item": "hardware_trash", "x": 14, "y": 20 },
         { "chance": 25, "item": "hardware_trash", "x": 16, "y": 10 }
-      ]
+      ],
+      "place_vehicles": [ { "vehicle": "os_work_vehicles", "chance": 40, "x": [ 9, 13 ], "y": [ 10, 15 ] } ]
     }
   }
 ]

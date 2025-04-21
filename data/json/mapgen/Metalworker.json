@@ -73,6 +73,7 @@
         "?": "f_sofa",
         "b": "f_bench"
       },
+      "items": { "U": { "item": "trash_dumpster", "chance": 80 } },
       "toilets": { "t": {  } },
       "place_items": [
         { "item": "car_misc", "x": [ 15, 15 ], "y": [ 3, 5 ], "chance": 70, "repeat": [ 2, 10 ] },

@@ -100,15 +100,15 @@ static float critter_blast_percentage( Creature *c, float range, float distance 
     const float radius_reduction = distance > range ? 0.0f : distance > range / 2 ? 0.5f : 1.0f;
 
     switch( c->get_size() ) {
-        case( m_size::MS_TINY ):
+        case( creature_size::tiny ):
             return 0.5 * radius_reduction;
-        case( m_size::MS_SMALL ):
+        case( creature_size::small ):
             return 0.8 * radius_reduction;
-        case( m_size::MS_MEDIUM ):
+        case( creature_size::medium ):
             return 1.0 * radius_reduction;
-        case( m_size::MS_LARGE ):
+        case( creature_size::large ):
             return 1.5 * radius_reduction;
-        case( m_size::MS_HUGE ):
+        case( creature_size::huge ):
             return 2.0 * radius_reduction;
         default:
             return 1.0 * radius_reduction;
@@ -379,7 +379,7 @@ class ExplosionProcess
             return a.first < b.first;
         };
 
-        inline void update_timings() {
+        void update_timings() {
             if( !is_animated() ) {
                 // Arbitrary large number since for null delays
                 //   we just want to scroll thru events as fast as possible
@@ -401,11 +401,11 @@ class ExplosionProcess
         void init_event_queue();
         inline float generate_fling_angle( const tripoint from, const tripoint to );
         inline bool is_occluded( const tripoint from, const tripoint to );
-        inline void add_event( const float delay, const ExplosionEvent &event ) {
+        void add_event( const float delay, const ExplosionEvent &event ) {
             assert( delay >= 0 );
             event_queue.emplace( cur_relative_time + delay + std::numeric_limits<float>::epsilon(), event );
         }
-        inline bool is_animated() {
+        bool is_animated() {
             return !test_mode && get_option<int>( "ANIMATION_DELAY" ) > 0;
         }
 
@@ -419,7 +419,7 @@ class ExplosionProcess
                           bool is_mob );
 
         // How long should it take for an entity to travel 1 unit of distance at `velocity`?
-        inline float one_tile_at_vel( float velocity ) {
+        float one_tile_at_vel( float velocity ) {
             assert( velocity > 0 );
             return ExplosionConstants::FLING_SLOWDOWN / velocity;
         };
@@ -611,9 +611,6 @@ void ExplosionProcess::project_shrapnel( const tripoint position )
         // Humans get hit in all body parts
         if( critter->is_player() ) {
             for( bodypart_id bp : bps ) {
-                if( Character::bp_to_hp( bp->token ) == num_hp_parts ) {
-                    continue;
-                }
                 // TODO: Apply projectile effects
                 // TODO: Penalize low coverage armor
                 // Halve damage to be closer to what monsters take
@@ -681,7 +678,7 @@ void ExplosionProcess::blast_tile( const tripoint position, const int rl_distanc
         {
             Creature *critter = g->critter_at( position );
 
-            if( critter != nullptr && !mobs_blasted.count( critter ) ) {
+            if( critter != nullptr && !mobs_blasted.contains( critter ) ) {
                 const int blast_damage = blast_power * critter_blast_percentage( critter, blast_radius,
                                          rl_distance );
                 const auto shockwave_dmg = damage_instance::physical( blast_damage, 0, 0, 0.4f );
@@ -731,7 +728,7 @@ void ExplosionProcess::blast_tile( const tripoint position, const int rl_distanc
         {
             Creature *critter = g->critter_at( position );
 
-            if( critter != nullptr && !flung_set.count( critter ) ) {
+            if( critter != nullptr && !flung_set.contains( critter ) ) {
                 const int push_strength = ( blast_radius - rl_distance ) * blast_power;
                 const float move_power = ExplosionConstants::MOB_FLING_FACTOR * push_strength;
 
@@ -1121,10 +1118,6 @@ static std::map<const Creature *, int> legacy_shrapnel( const tripoint &src,
             // Humans get hit in all body parts
             if( critter->is_player() ) {
                 for( bodypart_id bp : bps ) {
-                    // TODO: This shouldn't be needed, get_bps should do it
-                    if( Character::bp_to_hp( bp->token ) == num_hp_parts ) {
-                        continue;
-                    }
                     // TODO: Apply projectile effects
                     // TODO: Penalize low coverage armor
                     // Halve damage to be closer to what monsters take
@@ -1279,7 +1272,7 @@ static std::map<const Creature *, int> legacy_blast( const tripoint &p, const fl
         const tripoint pt = open.top().second;
         open.pop();
 
-        if( closed.count( pt ) != 0 ) {
+        if( closed.contains( pt ) ) {
             continue;
         }
 
@@ -1298,7 +1291,7 @@ static std::map<const Creature *, int> legacy_blast( const tripoint &p, const fl
         // Iterate over all neighbors. Bash all of them, propagate to some
         for( size_t i = 0; i < max_index; i++ ) {
             tripoint dest( pt + tripoint( x_offset[i], y_offset[i], z_offset[i] ) );
-            if( closed.count( dest ) != 0 || !here.inbounds( dest ) ||
+            if( closed.contains( dest ) || !here.inbounds( dest ) ||
                 here.obstructed_by_vehicle_rotation( pt, dest ) ) {
                 continue;
             }
@@ -1325,7 +1318,7 @@ static std::map<const Creature *, int> legacy_blast( const tripoint &p, const fl
                 next_dist += zlev_dist;
             }
 
-            if( dist_map.count( dest ) == 0 || dist_map[dest] > next_dist ) {
+            if( !dist_map.contains( dest ) || dist_map[dest] > next_dist ) {
                 open.emplace( next_dist, dest );
                 dist_map[dest] = next_dist;
             }
@@ -1436,8 +1429,14 @@ void explosion_funcs::regular( const queued_explosion &qe )
 {
     const tripoint &p = qe.pos;
     const explosion_data &ex = qe.exp_data;
+    auto &shr = ex.fragment;
 
-    const int noise = ex.damage / explosion_handler::power_to_dmg_mult * ( ex.fire ? 2 : 10 );
+    int base_noise = ex.damage;
+    if( shr ) {
+        base_noise = shr.value().impact.total_damage();
+    }
+
+    const int noise = base_noise / explosion_handler::power_to_dmg_mult * ( ex.fire ? 2 : 10 );
     if( noise >= 30 ) {
         sounds::sound( p, noise, sounds::sound_t::combat, _( "a huge explosion!" ), false, "explosion",
                        "huge" );
@@ -1450,7 +1449,6 @@ void explosion_funcs::regular( const queued_explosion &qe )
 
     std::map<const Creature *, int> damaged_by_blast;
     std::map<const Creature *, int> damaged_by_shrapnel;
-    auto &shr = ex.fragment;
 
     if( get_option<bool>( "OLD_EXPLOSIONS" ) ) {
         if( shr ) {
@@ -1553,7 +1551,7 @@ void explosion_funcs::flashbang( const queued_explosion &qe )
                        g->u.worn_with_flag( flag_FLASH_PROTECTION ) ) {
                 flash_mod = 3; // Not really proper flash protection, but better than nothing
             }
-            g->u.add_env_effect( effect_blind, bp_eyes, ( 12 - flash_mod - dist ) / 2,
+            g->u.add_env_effect( effect_blind, body_part_eyes, ( 12 - flash_mod - dist ) / 2,
                                  time_duration::from_turns( 10 - dist ) );
         }
     }
@@ -1685,10 +1683,10 @@ void emp_blast( const tripoint &p )
             int deact_chance = 0;
             const auto mon_item_id = critter.type->revert_to_itype;
             switch( critter.get_size() ) {
-                case MS_TINY:
+                case creature_size::tiny:
                     deact_chance = 6;
                     break;
-                case MS_SMALL:
+                case creature_size::small:
                     deact_chance = 3;
                     break;
                 default:
@@ -1752,7 +1750,7 @@ void emp_blast( const tripoint &p )
         if( cuffs.typeId() == itype_e_handcuffs && cuffs.charges > 0 ) {
             cuffs.unset_flag( flag_NO_UNWIELD );
             cuffs.charges = 0;
-            cuffs.active = false;
+            cuffs.deactivate();
             add_msg( m_good, _( "The %s on your wrists spark briefly, then release your hands!" ),
                      cuffs.tname() );
         }
@@ -1876,7 +1874,7 @@ projectile shrapnel_from_legacy( int power, float blast_radius )
     projectile proj;
     proj.speed = 1000;
     proj.range = range;
-    proj.impact.add_damage( DT_CUT, damage, 0.0f, 3.0f );
+    proj.impact.add_damage( DT_BULLET, damage, 0.0f, 3.0f );
 
     return proj;
 }

@@ -1,6 +1,4 @@
 #pragma once
-#ifndef CATA_SRC_MATRIX_MATH_H
-#define CATA_SRC_MATRIX_MATH_H
 
 #include <array>
 #include <cmath>
@@ -21,7 +19,7 @@ struct matrix {
         {}
 
         template<typename Vec, typename Traits = point_traits<Vec>>
-        friend inline constexpr Vec operator*( const matrix &m, const Vec &v ) {
+        friend constexpr Vec operator*( const matrix &m, const Vec &v ) {
             // TODO: std::get equivalent for point_traits?
             static_assert( Vec::dimension == 3, "Currently only vectors of dimension 3 are supported" );
             static_assert( Vec::dimension == w, "Vector dimension must match matrix width" );
@@ -35,7 +33,7 @@ struct matrix {
         }
 
         // NOLINTNEXTLINE(cata-xy): We don't want point dependence in this .h
-        inline constexpr const T &at( size_t x, size_t y ) const {
+        constexpr const T &at( size_t x, size_t y ) const {
             return data.at( y * w + x );
         }
 };
@@ -49,4 +47,4 @@ matrix_3d rotation_z_axis( units::angle angle );
 
 } // namespace matrices
 
-#endif // CATA_SRC_MATRIX_MATH_H
+

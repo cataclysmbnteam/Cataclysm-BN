@@ -1,6 +1,4 @@
 #pragma once
-#ifndef CATA_SRC_ITYPE_H
-#define CATA_SRC_ITYPE_H
 
 #include <array>
 #include <iosfwd>
@@ -109,6 +107,7 @@ struct islot_tool {
     int charge_factor = 1;
     int charges_per_use = 0;
     int turns_per_charge = 0;
+    int turns_active = 0;
     int power_draw = 0;
 
     std::vector<int> rand_charges;
@@ -163,6 +162,9 @@ struct islot_comestible {
 
         /**Amount of radiation you get from this comestible*/
         int radiation = 0;
+
+        //pet food category
+        std::set<std::string> petfood;
 
         /** freezing point in degrees Fahrenheit, below this temperature item can freeze */
         int freeze_point = units::to_fahrenheit( temperatures::freezing );
@@ -558,6 +560,9 @@ struct islot_gun : common_ranged_data {
      *  @note useful for adding recoil effect to guns which otherwise consume no ammo
      */
     int recoil = 0;
+
+    /** How much ammo is consumed per shot. */
+    int ammo_to_fire = 1;
 };
 
 struct islot_gunmod : common_ranged_data {
@@ -591,6 +596,12 @@ struct islot_gunmod : common_ranged_data {
 
     /** Increases base gun UPS consumption by this value per shot */
     int ups_charges_modifier = 0;
+
+    /** Increases base gun ammo to fire by this many times per shot */
+    float ammo_to_fire_multiplier = 1.0f;
+
+    /** Increases base gun ammo to fire by this value per shot */
+    int ammo_to_fire_modifier = 0;
 
     /** Increases gun weight by this many times */
     float weight_multiplier = 1.0f;
@@ -794,8 +805,9 @@ struct islot_artifact {
     int dream_freq_met;
 };
 
-enum condition_type {
+enum class condition_type {
     FLAG,
+    VITAMIN,
     COMPONENT_ID,
     num_condition_types
 };
@@ -821,6 +833,11 @@ class islot_milling
     public:
         itype_id into_;
         int conversion_rate_;
+};
+
+struct attack_statblock {
+    int to_hit = 0;
+    damage_instance damage;
 };
 
 struct itype {
@@ -984,6 +1001,12 @@ struct itype {
 
         /** Damage output in melee for zero or more damage types */
         std::array<int, NUM_DT> melee;
+        /**
+         * Attacks possible to execute with this weapon.
+         * Keys are attack ids (not to be translated).
+         * WIP feature, intended to replace @ref melee and @ref to_hit.
+         */
+        std::map<std::string, attack_statblock> attacks;
         /** Base damage output when thrown */
         damage_instance thrown_damage;
 
@@ -1072,4 +1095,4 @@ struct itype {
         bool is_seed() const;
 };
 
-#endif // CATA_SRC_ITYPE_H
+

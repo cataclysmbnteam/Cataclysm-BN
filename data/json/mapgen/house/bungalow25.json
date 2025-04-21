@@ -2,7 +2,6 @@
   {
     "type": "mapgen",
     "om_terrain": "bungalow25",
-    "weight": 250,
     "method": "json",
     "object": {
       "palettes": [
@@ -19,7 +18,7 @@
         ".#-----|R b|+#oo#Q__So%.",
         ".#-----|R       +__BB#%.",
         ".#-----|R  ||+|||||||#..",
-        ".#-----|R y|b zz|D dd#..",
+        ".#-----|R y|b zɸ|D dd#..",
         ".#-----+  V|    |   ¤#..",
         ".#-----|  V|&  /|  @@o%.",
         ".#||||||   ||||||  @@o%.",
@@ -46,7 +45,6 @@
         "~": "t_concrete",
         ",": "t_floor_noroof",
         "=": "t_floor_noroof",
-        "0": [ [ "t_shrub", 2 ], "t_shrub_strawberry", "t_shrub_blueberry" ],
         "(": "t_railing_v",
         "{": "t_door_metal_locked",
         "?": "t_gates_mech_control",
@@ -65,13 +63,13 @@
         "$": { "item": "clothing_outdoor_shoes", "chance": 50 }
       },
       "place_loot": [ { "item": "television", "x": 9, "y": 12 } ],
-      "place_vehicles": [ { "vehicle": "car", "x": 4, "y": 5, "chance": 15, "status": 80, "rotation": 90 } ]
+      "place_vehicles": [ { "vehicle": "car", "x": 4, "y": 5, "chance": 15, "status": 80, "rotation": 90 } ],
+      "place_nested": [ { "chunks": [ "NC_res_backyard_3X3" ], "x": 20, "y": 20 } ]
     }
   },
   {
     "type": "mapgen",
     "om_terrain": "bungalow25_roof",
-    "weight": 250,
     "method": "json",
     "object": {
       "palettes": [ "roof_palette" ],
@@ -102,7 +100,11 @@
         " --------------         ",
         "                        "
       ],
-      "terrain": { ".": "t_shingle_flat_roof" }
+      "terrain": { ".": "t_shingle_flat_roof" },
+      "place_nested": [
+        { "chunks": [ "NC_res_roof_solar_4X4" ], "x": 14, "y": 5 },
+        { "chunks": [ "NC_res_roof_chunk_3X3" ], "x": [ 7, 11 ], "y": [ 12, 14 ] }
+      ]
     }
   }
 ]

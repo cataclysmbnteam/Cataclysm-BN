@@ -33,8 +33,8 @@ Examples:
     ; limiting memory of process with PID 22764 to 50 MiB.
     $ python windows_limit_memory.py -m 50 pid 22764
 
-    ; starting process "cataclysm-tiles.exe" and limiting its memory to 1GiB.
-    $ python windows_limit_memory.py -m 1024 process z:\CDDA\Cataclysm-tiles.exe
+    ; starting process "cataclysm-bn-tiles.exe" and limiting its memory to 1GiB.
+    $ python windows_limit_memory.py -m 1024 process z:\CDDA\cataclysm-bn-tiles.exe
 """
 
 import argparse

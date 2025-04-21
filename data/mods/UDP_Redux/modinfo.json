@@ -1,0 +1,12 @@
+[
+  {
+    "type": "MOD_INFO",
+    "id": "udp_redux",
+    "name": "UDP Redux",
+    "authors": [ "thedyze" ],
+    "maintainers": [ "thedyze" ],
+    "description": "New default tileset for BN. Work in progress, uses UDP as a base.",
+    "category": "graphical",
+    "dependencies": [ "bn" ]
+  }
+]

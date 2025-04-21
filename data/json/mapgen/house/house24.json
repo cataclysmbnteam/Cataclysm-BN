@@ -126,6 +126,7 @@
         "p": "f_mailbox",
         "{": "f_dumpster"
       },
+      "items": { "{": { "item": "trash_dumpster", "chance": 80 } },
       "place_items": [
         { "chance": 5, "item": "ammo_shotgun_rare", "x": 8, "y": 15 },
         { "chance": 50, "item": "camping", "x": 6, "y": 12 },

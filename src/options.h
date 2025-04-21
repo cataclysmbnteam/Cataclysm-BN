@@ -1,6 +1,4 @@
 #pragma once
-#ifndef CATA_SRC_OPTIONS_H
-#define CATA_SRC_OPTIONS_H
 
 #include <functional>
 #include <map>
@@ -193,6 +191,7 @@ class options_manager
         void add_options_world_default();
         void add_options_android();
         void load();
+        static void cache_balance_options();
         bool save();
         std::string show( bool ingame = false, bool world_options_only = false,
                           const std::function<bool()> &on_quit = nullptr );
@@ -370,4 +369,4 @@ inline T get_option( const std::string &name )
     return get_options().get_option( name ).value_as<T>();
 }
 
-#endif // CATA_SRC_OPTIONS_H
+

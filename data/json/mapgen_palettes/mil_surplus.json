@@ -4,7 +4,7 @@
     "id": "mil_surplus",
     "terrain": {
       ".": "t_region_groundcover_urban",
-      "!": "t_region_groundcover_barren",
+      "!": "t_region_groundcover_urban",
       "~": "t_sidewalk",
       "-": "t_wall_w",
       "|": "t_wall_w",
@@ -14,13 +14,14 @@
       "/": "t_door_curtain_c",
       "Y": "t_concrete",
       "U": "t_concrete",
+      "Ü": "t_concrete",
       "4": "t_gutter_downspout",
       "<": "t_ladder_up"
     },
     "furniture": {
       "!": "f_street_light",
       "#": "f_counter",
-      "U": [ "f_dumpster", "f_recycle_bin" ],
+      "Ü": "f_dumpster",
       "h": "f_chair",
       "%": "f_sink",
       "@": "f_mannequin",
@@ -110,7 +111,8 @@
         "chance": 60
       },
       "L": { "item": "SUS_janitors_closet", "chance": 60 },
-      "U": { "item": "trash" }
+      "Ü": { "item": "trash_dumpster", "chance": 80 },
+      "#": { "item": "mil_surplus", "chance": 30 }
     },
     "toilets": { "&": {  } }
   }

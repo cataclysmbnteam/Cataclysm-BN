@@ -84,11 +84,11 @@ bool file_exist( const std::string &path )
 
 std::string as_norm_dir( const std::string &path )
 {
-    std::filesystem::path dir = std::filesystem::u8path( path ) / std::filesystem::path{};
+    std::filesystem::path dir = std::filesystem::path( path ) / std::filesystem::path{};
     std::filesystem::path norm = dir.lexically_normal();
-    std::string ret = norm.generic_u8string();
-    if( "." == ret ) {
-        ret = "./"; // TODO Change the many places that use strings instead of paths
+    const std::string ret = norm.generic_string();
+    if( ret == "." ) {
+        return "./"; // TODO Change the many places that use strings instead of paths
     }
     return ret;
 }
@@ -134,9 +134,8 @@ bool remove_directory( const std::string &path )
 bool remove_tree( const std::string &path )
 {
     try {
-        // TODO: C++20 - path constructor should be able to take the string as is
-        auto fs_path = std::filesystem::u8path( path );
-        std::filesystem::remove_all( fs_path );
+        // C++20 - path constructor can take the string as is but it fails on windows
+        std::filesystem::remove_all( std::filesystem::path( path ) );
     } catch( std::filesystem::filesystem_error &e ) {
         dbg( DL::Error ) << "remove_tree [" << path << "] failed with \"" << e.what() << "\".";
         return false;
@@ -332,7 +331,7 @@ std::vector<std::string> find_file_if_bfs( const std::string &root_path,
     std::deque<std::string>  directories;
     if( root_path.empty() ) {
         directories.emplace_back( "./" );
-    } else if( string_ends_with( root_path, "/" ) ) {
+    } else if( root_path.ends_with( "/" ) ) {
         directories.emplace_back( root_path );
     } else {
         directories.emplace_back( root_path + "/" );
@@ -469,7 +468,7 @@ bool copy_file( const std::string &source_path, const std::string &dest_path )
     }
     bool res = write_to_file( dest_path, [&]( std::ostream & dest_stream ) {
         dest_stream << source_stream->rdbuf();
-    }, nullptr );
+    }, "" );
     return res && !source_stream.fail();
 }
 
@@ -497,7 +496,7 @@ const char *CBN = "Q2F0YWNseXNtQnJpZ2h0TmlnaHRz";
 bool can_write_to_dir( const std::string &dir_path )
 {
     std::string dummy_file;
-    if( string_ends_with( dir_path, "/" ) ) {
+    if( dir_path.ends_with( "/" ) ) {
         dummy_file = dir_path + CBN;
     } else {
         dummy_file = dir_path + "/" + CBN;
@@ -514,7 +513,7 @@ bool can_write_to_dir( const std::string &dir_path )
         s << CBN << '\n';
     };
 
-    if( !write_to_file( dummy_file, writer, nullptr ) ) {
+    if( !write_to_file( dummy_file, writer, "" ) ) {
         return false;
     }
 

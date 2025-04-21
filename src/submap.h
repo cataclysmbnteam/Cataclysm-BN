@@ -1,6 +1,4 @@
 #pragma once
-#ifndef CATA_SRC_SUBMAP_H
-#define CATA_SRC_SUBMAP_H
 
 #include <cstddef>
 #include <cstdint>
@@ -55,7 +53,7 @@ struct spawn_point {
     // helper function to convert internal disposition into a binary bool value.
     // This is required to preserve save game compatibility because submaps store/load
     // their spawn_points using a boolean flag.
-    bool is_friendly( void ) const {
+    bool is_friendly( ) const {
         return disposition != spawn_disposition::SpawnDisp_Default;
     }
 
@@ -263,7 +261,7 @@ struct maptile {
         submap *const sm;
         point pos_;
 
-        inline point pos() const {
+        point pos() const {
             return pos_;
         }
 
@@ -332,4 +330,4 @@ struct maptile {
         }
 };
 
-#endif // CATA_SRC_SUBMAP_H
+

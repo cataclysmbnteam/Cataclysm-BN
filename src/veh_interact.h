@@ -1,6 +1,4 @@
 #pragma once
-#ifndef CATA_SRC_VEH_INTERACT_H
-#define CATA_SRC_VEH_INTERACT_H
 
 #include <cstddef>
 #include <functional>
@@ -163,7 +161,6 @@ class veh_interact
         void display_mode();
         void display_list( size_t pos, const std::vector<const vpart_info *> &list, int header = 0 );
         void display_details( const vpart_info *part );
-        size_t display_esc( const catacurses::window &win );
 
         struct part_option {
             part_option( const std::string &key, vehicle_part *part, char hotkey,
@@ -269,4 +266,4 @@ class veh_interact
         bool can_self_jack();
 };
 
-#endif // CATA_SRC_VEH_INTERACT_H
+

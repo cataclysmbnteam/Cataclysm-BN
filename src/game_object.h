@@ -1,6 +1,6 @@
 #pragma once
-#ifndef CATA_SRC_GAME_OBJECT_H
-#define CATA_SRC_GAME_OBJECT_H
+
+#include <utility>
 
 #include "detached_ptr.h"
 #include "safe_reference.h"
@@ -26,12 +26,12 @@ class game_object
         friend location_vector<T>;
         friend location_visitable<location_inventory>;
         template<typename U>
-        friend void std::swap( location_vector<U> &, location_vector<U> & );
+        friend void ::std::swap( location_vector<U> &, location_vector<U> & ) noexcept ;
     protected:
         location<T> *saved_loc = nullptr;
         location<T> *loc = nullptr;
 
-        game_object() {}
+        game_object() = default;
 
         game_object( const game_object & ) {}
 
@@ -61,4 +61,4 @@ class game_object
         virtual std::string debug_name() const = 0;
 };
 
-#endif // CATA_SRC_GAME_OBJECT_H
+

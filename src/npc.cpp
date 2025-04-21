@@ -56,7 +56,7 @@
 #include "output.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
-#include "pathfinding.h"
+#include "legacy_pathfinding.h"
 #include "player_activity.h"
 #include "pldata.h"
 #include "ranged.h"
@@ -278,7 +278,7 @@ void npc_template::check_consistency()
 template<>
 bool string_id<npc_template>::is_valid() const
 {
-    return npc_templates.count( *this ) > 0;
+    return npc_templates.contains( *this );
 }
 
 template<>
@@ -320,6 +320,16 @@ void npc::load_npc_template( const string_id<npc_template> &ident )
     set_fac( fac_id );
     attitude = tguy.attitude;
     mission = tguy.mission;
+    // If we're a shopkeeper force spawn of shopkeeper items here
+    if( mission == NPC_MISSION_SHOPKEEP ) {
+        const item_group_id &from = myclass->get_shopkeeper_items();
+        if( from != item_group_id( "EMPTY_GROUP" ) ) {
+            inv_clear();
+            for( detached_ptr<item> &it : item_group::items_from( from ) ) {
+                i_add( std::move( it ) );
+            }
+        }
+    }
     chatbin.first_topic = tguy.chatbin.first_topic;
     for( const mission_type_id &miss_id : tguy.miss_ids ) {
         add_new_mission( mission::reserve_new( miss_id, getID() ) );
@@ -1036,7 +1046,7 @@ void npc::start_read( item &it, player *pl )
     act->targets.emplace_back( it );
     act->str_values.push_back( std::to_string( penalty ) );
     // push an identifier of martial art book to the action handling
-    if( chosen.type->use_methods.count( "MA_MANUAL" ) ) {
+    if( chosen.type->use_methods.contains( "MA_MANUAL" ) ) {
         act->str_values.clear();
         act->str_values.emplace_back( "martial_art" );
     }
@@ -1086,12 +1096,10 @@ detached_ptr<item> npc::wear_if_wanted( detached_ptr<item> &&it, std::string &re
     // TODO: Drop splints when healed
 
     if( it->has_flag( flag_SPLINT ) ) {
-        for( int i = 0; i < num_hp_parts; i++ ) {
-            hp_part hpp = static_cast<hp_part>( i );
-            body_part bp = player::hp_to_bp( hpp );
-            if( is_limb_broken( convert_bp( bp ).id() ) &&
-                !worn_with_flag( flag_SPLINT, convert_bp( bp ).id() ) &&
-                it->covers( convert_bp( bp ).id() ) ) {
+        for( const bodypart_id &bp : get_all_body_parts( true ) ) {
+            if( is_limb_broken( bp.id() ) &&
+                !worn_with_flag( flag_SPLINT, bp.id() ) &&
+                it->covers( bp.id() ) ) {
                 reason = _( "Thanks, I'll wear that now." );
                 return wear_item( std::move( it ), false );
             }
@@ -1233,7 +1241,7 @@ detached_ptr<item> npc::wield( detached_ptr<item> &&target )
 
 
     inv.update_invlet( obj );
-    inv.update_cache_with_item( obj );
+    inv.update_invlet_cache_with_item( obj );
     return detached_ptr<item>();
 }
 
@@ -1766,7 +1774,7 @@ void npc::shop_restock()
         for( map_cursor &cursor : map_selector( pos(), 0 ) ) {
             cursor.remove_top_items_with( [this]( detached_ptr<item> &&it ) {
                 if( it->is_owned_by( *this ) ) {
-                    inv.push_back( std::move( it ) );
+                    inv.add_item( std::move( it ), false );
                     return detached_ptr<item>();
                 } else {
                     return std::move( it );
@@ -1778,7 +1786,7 @@ void npc::shop_restock()
         // clear out inventory and add in restocked items
         has_new_items = true;
         inv.clear();
-        inv.push_back( ret );
+        inv.add_items( ret, false );
     }
 }
 
@@ -1808,7 +1816,7 @@ int npc::value( const item &it ) const
 
 int npc::value( const item &it, int market_price ) const
 {
-    if( it.is_dangerous() || ( it.has_flag( flag_BOMB ) && it.active ) || it.made_of( LIQUID ) ) {
+    if( it.is_dangerous() || ( it.has_flag( flag_BOMB ) && it.is_active() ) || it.made_of( LIQUID ) ) {
         // NPCs won't be interested in buying active explosives or spilled liquids
         return -1000;
     }
@@ -1844,14 +1852,14 @@ int npc::value( const item &it, int market_price ) const
 
     if( it.is_ammo() ) {
         const ammotype &at = it.ammo_type();
-        if( primary_weapon().is_gun() && primary_weapon().ammo_types().count( at ) ) {
+        if( primary_weapon().is_gun() && primary_weapon().ammo_types().contains( at ) ) {
             // TODO: magazines - don't count ammo as usable if the weapon isn't.
             ret += 14;
         }
 
         bool has_gun_for_ammo = has_item_with( [at]( const item & itm ) {
             // item::ammo_type considers the active gunmod.
-            return itm.is_gun() && itm.ammo_types().count( at );
+            return itm.is_gun() && itm.ammo_types().contains( at );
         } );
 
         if( has_gun_for_ammo ) {
@@ -2500,7 +2508,7 @@ void npc::reboot()
     ai_cache.searched_tiles.clear();
     activity = std::make_unique<player_activity>();
     clear_destination();
-    add_effect( effect_npc_suspend, 24_hours, num_bp, 1 );
+    add_effect( effect_npc_suspend, 24_hours, bodypart_str_id::NULL_ID(), 1 );
 }
 
 void npc::die( Creature *nkiller )
@@ -2786,7 +2794,7 @@ void npc::on_load()
 
     // for spawned npcs
     if( g->m.has_flag( "UNSTABLE", pos() ) ) {
-        add_effect( effect_bouldering, 1_turns, num_bp );
+        add_effect( effect_bouldering, 1_turns, bodypart_str_id::NULL_ID() );
     } else if( has_effect( effect_bouldering ) ) {
         remove_effect( effect_bouldering );
     }
@@ -2857,7 +2865,7 @@ bool npc::dispose_item( item &obj, const std::string & )
             item_handling_cost( obj ),
             [this, &obj] {
                 moves -= item_handling_cost( obj );
-                inv.add_item_keep_invlet( obj.detach() );
+                inv.add_item( obj.detach(), true );
                 inv.unsort();
             }
         } );
@@ -3012,12 +3020,12 @@ bool npc::will_accept_from_player( const item &it ) const
     return true;
 }
 
-const pathfinding_settings &npc::get_pathfinding_settings() const
+const pathfinding_settings &npc::get_legacy_pathfinding_settings() const
 {
-    return get_pathfinding_settings( false );
+    return get_legacy_pathfinding_settings( false );
 }
 
-const pathfinding_settings &npc::get_pathfinding_settings( bool no_bashing ) const
+const pathfinding_settings &npc::get_legacy_pathfinding_settings( bool no_bashing ) const
 {
     path_settings->bash_strength = no_bashing ? 0 : smash_ability();
     // TODO: Extract climb skill
@@ -3034,7 +3042,7 @@ const pathfinding_settings &npc::get_pathfinding_settings( bool no_bashing ) con
     return *path_settings;
 }
 
-std::set<tripoint> npc::get_path_avoid() const
+std::set<tripoint> npc::get_legacy_path_avoid() const
 {
     std::set<tripoint> ret;
     for( Creature &critter : g->all_creatures() ) {
@@ -3056,6 +3064,48 @@ std::set<tripoint> npc::get_path_avoid() const
         }
     }
     return ret;
+}
+
+std::pair<PathfindingSettings, RouteSettings> npc::get_pathfinding_pair()
+const
+{
+    return this->get_pathfinding_pair( false );
+}
+
+std::pair<PathfindingSettings, RouteSettings> npc::get_pathfinding_pair(
+    bool no_bashing ) const
+{
+    PathfindingSettings path_settings;
+
+    path_settings.door_open_cost = rules.has_flag( ally_rule::avoid_doors ) ? INFINITY : 2.0;
+    path_settings.mob_presence_penalty = 16.0;
+    path_settings.rough_terrain_cost = 0.0;
+    path_settings.sharp_terrain_cost = INFINITY;
+    path_settings.trap_cost = INFINITY;
+    path_settings.can_climb_stairs = true;
+    path_settings.bash_strength_val = no_bashing ? 0 : smash_ability() /
+                                      path_settings.bash_strength_quanta;
+
+    const int climb = std::min( 20, get_dex() );
+    if( climb <= 1 ) {
+        path_settings.climb_cost = INFINITY;
+    } else {
+        const float climb_success_prob = 1.0 - 1.0 / climb;
+        path_settings.climb_cost = 5 / climb_success_prob;
+    }
+
+    RouteSettings route_settings;
+    // TODO: Make it assign a stockfish preset instead
+    route_settings.alpha = 1.0;
+    route_settings.h_coeff = 1.0;
+    route_settings.max_dist = INFINITY;
+    route_settings.max_f_coeff = INFINITY;
+    route_settings.max_s_coeff = INFINITY;
+    route_settings.f_limit_based_on_max_dist = false;
+    route_settings.search_cone_angle = 180.0;
+    route_settings.search_radius_coeff = INFINITY;
+
+    return { path_settings, route_settings };
 }
 
 mfaction_id npc::get_monster_faction() const
@@ -3260,7 +3310,7 @@ void npc::set_attitude( npc_attitude new_attitude )
         new_attitude = NPCATT_FLEE_TEMP;
     }
     if( new_attitude == NPCATT_FLEE_TEMP && !has_effect( effect_npc_flee_player ) ) {
-        add_effect( effect_npc_flee_player, 24_hours, num_bp );
+        add_effect( effect_npc_flee_player, 24_hours, bodypart_str_id::NULL_ID() );
     }
 
     add_msg( m_debug, "%s changes attitude from %s to %s",
@@ -3423,4 +3473,3 @@ void npc_follower_rules::clear_overrides()
     overrides = ally_rule::DEFAULT;
     override_enable = ally_rule::DEFAULT;
 }
-

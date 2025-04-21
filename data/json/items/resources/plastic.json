@@ -2,7 +2,7 @@
   {
     "id": "plastic_chunk",
     "type": "GENERIC",
-    "category": "spare_parts",
+    "category": "scrap_plastic",
     "name": { "str": "plastic chunk" },
     "description": "This is a piece of plastic.  It could be used to fabricate, repair, or reinforce plastic items.",
     "weight": "50 g",
@@ -16,9 +16,26 @@
     "stackable": true
   },
   {
-    "id": "nylon",
+    "id": "carbon_fiber_filament",
     "type": "GENERIC",
     "category": "spare_parts",
+    "name": { "str_sp": "carbon fiber filament" },
+    "description": "A spool of fine carbon filament, used to make lightweight yet strong items.  Very useful if you can get your hands on a 3D printer, more advanced models might even allow you to make more.",
+    "weight": "5 g",
+    "volume": "10 ml",
+    "price": "1 USD",
+    "price_postapoc": "20 cent",
+    "material": "carbon_fiber",
+    "symbol": "=",
+    "color": "dark_gray",
+    "looks_like": "solder_wire",
+    "flags": [ "NO_SALVAGE" ],
+    "stackable": true
+  },
+  {
+    "id": "nylon",
+    "type": "GENERIC",
+    "category": "scrap_fabric",
     "name": { "str_sp": "synthetic fabric" },
     "description": "This is small bolt of synthetic fabric.  Unlike you and other natural materials, it won't degrade much with age.  Maybe that's less of a bad thing now.",
     "weight": "55 g",
@@ -34,7 +51,7 @@
   {
     "id": "plastic_sheet",
     "type": "GENERIC",
-    "category": "spare_parts",
+    "category": "scrap_plastic",
     "name": { "str": "plastic sheet" },
     "description": "This is a large sheet of heavy flexible plastic, the sort that might have been used for commercial wrapping or for weather-sealing a home.",
     "weight": "1000 g",
@@ -42,7 +59,7 @@
     "price": "0 cent",
     "price_postapoc": "25 cent",
     "material": "plastic",
-    "flags": [ "FLAT_SURFACE" ],
+    "flags": [ "FLAT_SURFACE", "ALLOWS_REMOTE_USE" ],
     "symbol": ")",
     "color": "light_blue",
     "use_action": { "type": "deploy_furn", "furn_type": "f_plastic_groundsheet" }
@@ -50,10 +67,10 @@
   {
     "id": "rigid_plastic_sheet",
     "type": "GENERIC",
-    "category": "spare_parts",
+    "category": "scrap_plastic",
     "name": "rigid plastic sheet",
     "description": "A large, rigid sheet of translucent plastic, useful for all manner of things; from construction to art, or even junior snowboarding.",
-    "weight": "14875 g",
+    "weight": "7500 g",
     "volume": "12500 ml",
     "price": "0 cent",
     "price_postapoc": "25 cent",
@@ -63,8 +80,8 @@
   },
   {
     "id": "plastic_scrap",
-    "type": "TOOL",
-    "category": "spare_parts",
+    "type": "GENERIC",
+    "category": "scrap_plastic",
     "name": { "str": "plastic scrap" },
     "description": "This is a tiny piece of plastic.  Useless on its own, but could be melted down if you gather enough.",
     "weight": "5 g",
@@ -74,6 +91,7 @@
     "material": "plastic",
     "symbol": ",",
     "color": "light_blue",
-    "flags": [ "NO_SALVAGE" ]
+    "flags": [ "NO_SALVAGE" ],
+    "stackable": true
   }
 ]

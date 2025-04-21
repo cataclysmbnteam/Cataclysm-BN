@@ -28,7 +28,8 @@
         "=,X,X,X,,,,,X,X,X,,=",
         "========**=========="
       ],
-      "palettes": [ "FEMA_camp" ]
+      "palettes": [ "FEMA_camp" ],
+      "items": { "X": { "item": "dresser", "chance": 30, "repeat": 3 } }
     }
   },
   {
@@ -60,7 +61,8 @@
         "=,,,,,,,,,,,,,,,,,,=",
         "=========**========="
       ],
-      "palettes": [ "FEMA_camp" ]
+      "palettes": [ "FEMA_camp" ],
+      "items": { "X": { "item": "dresser", "chance": 30, "repeat": 3 } }
     }
   },
   {
@@ -92,7 +94,8 @@
         "====...====...====..",
         "...................."
       ],
-      "palettes": [ "FEMA_camp" ]
+      "palettes": [ "FEMA_camp" ],
+      "items": { "X": { "item": "dresser", "chance": 30, "repeat": 3 } }
     }
   },
   {
@@ -124,7 +127,8 @@
         ".========**========.",
         "...................."
       ],
-      "palettes": [ "FEMA_camp" ]
+      "palettes": [ "FEMA_camp" ],
+      "items": { "X": { "item": "dresser", "chance": 30, "repeat": 3 } }
     }
   },
   {
@@ -139,7 +143,7 @@
         "....................",
         "TTTTTT.....nnnnnnnnn",
         "....................",
-        "....................",
+        "............P.......",
         "----+--+--+---+-----",
         "| 1| 1| 1| 1|   |1 |",
         "+ S| S| S| S|   |S +",
@@ -148,15 +152,15 @@
         "+ S|            |S +",
         "---|            |--|",
         "| S|00        00|S |",
-        "+ 1|00  P    W00|1 +",
+        "+ 1|00       W00|1 +",
         "---|------------|---",
         "|&|&|&|&|&|&|&|&|S1|",
         "| | | | | | | | |  +",
         "-+-+-+-+-+-+-+-+----",
         "...................."
       ],
-      "palettes": [ "FEMA_camp" ],
-      "terrain": { " ": "t_floor", "1": "t_floor", "W": "t_floor" },
+      "palettes": [ "FEMA_camp", "FEMA_camp_interior" ],
+      "terrain": { "n": "t_region_groundcover_barren", "T": "t_region_groundcover_barren" },
       "furniture": { "L": [ "f_rack", "f_utility_shelf" ], "1": "f_rack_coat" },
       "items": { "L": { "item": "tools_general", "chance": 50, "repeat": [ 1, 3 ] } }
     }
@@ -189,11 +193,10 @@
         "|sS|BB    |LL|00|s&|",
         "-------++-----------"
       ],
-      "palettes": [ "FEMA_camp" ],
-      "terrain": { " ": "t_floor", "T": "t_floor", "n": "t_floor" },
+      "palettes": [ "FEMA_camp", "FEMA_camp_interior" ],
       "items": {
-        "L": { "item": "surgery", "chance": 30, "repeat": [ 1, 3 ] },
-        "r": { "item": "drugs_emergency", "chance": 30, "repeat": [ 1, 3 ] },
+        "L": { "item": "surgery", "chance": 50, "repeat": [ 1, 3 ] },
+        "r": { "item": "drugs_emergency", "chance": 50, "repeat": [ 1, 3 ] },
         "X": { "item": "hospital_lab", "chance": 80, "repeat": [ 1, 3 ] }
       },
       "item": { "B": { "item": "rag_bloody", "chance": 80, "amount": [ 0, 5 ] } }
@@ -265,8 +268,9 @@
         "...................."
       ],
       "palettes": [ "FEMA_camp" ],
+      "terrain": { "c": "t_region_soil" },
       "monster": { ",": { "monster": "mon_zombie_fat", "chance": 2 } },
-      "items": { "X": { "item": "stash_food", "chance": 50 }, "T": { "item": "dining", "chance": 50 } }
+      "items": { "X": { "item": "stash_food", "chance": 50, "repeat": 2 }, "T": { "item": "dining", "chance": 50 } }
     }
   },
   {
@@ -301,7 +305,7 @@
       "monster": { ",": { "monster": "mon_zombie_fat", "chance": 2 } },
       "items": {
         "C": { "item": "kitchen", "chance": 30 },
-        "X": { "item": "stash_food", "chance": 50 },
+        "X": { "item": "stash_food", "chance": 50, "repeat": 2 },
         "T": { "item": "dining", "chance": 50 }
       }
     }
@@ -316,10 +320,10 @@
         ".tt.t...............",
         ".--------**========.",
         ".|sCooCC|,,,XX,,XX=.",
-        ".|~~~~~~|,,,XX,,XX=.",
-        ".|~~CC~~C,,,,,,,,,=.",
-        ".+~~CC~~C,,,,,,,XX=.",
-        ".|~~~~~~|,,,,,,,XX=.",
+        ".|      |,,,XX,,XX=.",
+        ".|  CC  C,,,,,,,,,=.",
+        ".+  CC  C,,,,,,,XX=.",
+        ".|      |,,,,,,,XX=.",
         ".|sUUUUR|,,,,,,,,,=.",
         ".---+----,,,,,,,,,=.",
         ".*,,,,,,,,,,,,,,,,*.",
@@ -335,11 +339,11 @@
         "...................."
       ],
       "palettes": [ "FEMA_camp" ],
-      "terrain": { "C": "t_floor", "o": "t_floor", "R": "t_floor", "s": "t_floor", "U": "t_floor" },
+      "terrain": { "c": "t_region_groundcover_barren", "C": "t_floor", "o": "t_floor", "R": "t_floor", "s": "t_floor", "U": "t_floor" },
       "monster": { ",": { "monster": "mon_zombie_fat", "chance": 2 } },
       "items": {
         "C": { "item": "kitchen", "chance": 30 },
-        "X": { "item": "stash_food", "chance": 50 },
+        "X": { "item": "stash_food", "chance": 50, "repeat": 2 },
         "T": { "item": "dining", "chance": 50 }
       }
     }
@@ -353,44 +357,43 @@
       "rows": [
         "....................",
         "....................",
-        "..|-----9[[------|..",
-        "..|,,,,F,,,,f,,,,|..",
-        "..|XXX,ffCfff,,,,|..",
-        "..|XXX,,,,,,,,,,,|..",
-        "..|,,,,,,,,,,ffff|..",
-        "..|,,,,,,,,,,f,,l|..",
-        "..|,,,,,cccc,f,,l|..",
-        "..|YYY,,dddd,F,,l|..",
-        "..|YYY,,dddd,F,,l|..",
-        "..|,,,,,cccc,f,,l|..",
-        "..|,,,,,,,,,,f,,l|..",
-        "..|,,,,,,,,,,ffff|..",
-        "..|ZZZ,,,,,,,,,,,|..",
-        "..|ZZZ,fffCff,,,,|..",
-        "..|,,,,f,,,,F,,,,|..",
-        "..|-----9[[------|..",
+        "..||||||9[[|||||||..",
+        "..|~~~~F~~~~f~~~~|..",
+        "..|XXX~ffCfff~~~~|..",
+        "..|XXX~~~~~~~~~~~|..",
+        "..|~~~~~~~~~~ffff|..",
+        "..|~~~~~~~~~~f~~l|..",
+        "..|~~~~~cccc~f~~l|..",
+        "..|YYY~~dddd~F~~l|..",
+        "..|YYY~~dddd~F~~l|..",
+        "..|~~~~~cccc~f~~l|..",
+        "..|~~~~~~~~~~f~~l|..",
+        "..|~~~~~~~~~~ffff|..",
+        "..|ZZZ~~~~~~~~~~~|..",
+        "..|ZZZ~fffCff~~~~|..",
+        "..|~~~~f~~~~F~~~~|..",
+        "..||||||9[[|||||||..",
         "....................",
         "...................."
       ],
-      "palettes": [ "FEMA_camp" ],
+      "palettes": [ "FEMA_camp", "FEMA_camp_interior" ],
       "terrain": {
         "9": "t_card_military",
         "[": "t_door_metal_locked",
         "l": "t_floor",
         "C": "t_floor",
-        ",": "t_floor",
         "X": "t_floor",
         "Y": "t_floor",
         "Z": "t_floor"
       },
-      "furniture": { ",": "f_null", "d": "f_desk", "Y": "f_crate_c", "Z": "f_crate_c" },
+      "furniture": { "d": "f_desk", "Y": "f_crate_c", "Z": "f_crate_c" },
       "items": {
         "d": { "item": "office", "chance": 50, "repeat": [ 1, 3 ] },
         "X": { "item": "allclothes", "chance": 50, "repeat": [ 1, 3 ] },
         "Y": { "item": "softdrugs", "chance": 50, "repeat": [ 1, 3 ] },
         "Z": { "item": "hardware", "chance": 50, "repeat": [ 1, 3 ] }
       },
-      "monsters": { ",": { "monster": "GROUP_MIL_WEAK", "chance": 1, "density": 0.001 } }
+      "monsters": { "~": { "monster": "GROUP_MIL_WEAK", "chance": 1, "density": 0.001 } }
     }
   },
   {
@@ -421,7 +424,7 @@
         "==*=.====..====.====",
         "...................."
       ],
-      "palettes": [ "FEMA_camp" ],
+      "palettes": [ "FEMA_camp", "FEMA_camp_interior" ],
       "terrain": {
         "9": "t_card_military",
         "[": "t_door_metal_locked",
@@ -461,26 +464,23 @@
         "..|,8*8,C,,,,cc,,|..",
         "..|,8*8,C,,,,,,,,|..",
         "..|,,,,,C,,@@@+@@|..",
-        "..|,,,,,C,,@,,,,,|..",
-        "..|,8*8,C,,@,,,,,|..",
-        "..|,8*8,C,,@,,,,,|..",
-        "..|,,,,,,,,@,,,,,|..",
+        "..|,,,,,C,,@     |..",
+        "..|,8*8,C,,@     |..",
+        "..|,8*8,C,,@     |..",
+        "..|,,,,,,,,@     |..",
         "..|--------------|..",
         "....................",
         "...................."
       ],
-      "palettes": [ "FEMA_camp" ],
+      "palettes": [ "FEMA_camp", "FEMA_camp_interior" ],
       "terrain": {
         "9": "t_card_science",
-        "8": "t_grate",
-        "*": "t_grate",
-        "~": "t_floor",
+        "8": "t_grate_indoor",
+        "*": "t_grate_indoor",
         "[": "t_door_metal_locked",
         "+": "t_door_metal_c",
         "-": "t_concrete_wall",
         "|": "t_concrete_wall",
-        ",": "t_floor",
-        "d": "t_floor",
         "r": "t_floor",
         "C": "t_floor"
       },
@@ -492,7 +492,7 @@
         ],
         "C": { "item": "dissection", "chance": 90, "repeat": [ 0, 3 ] }
       },
-      "monsters": { ",": { "monster": "GROUP_LAB_FEMA", "chance": 1, "density": 0.001 } }
+      "monsters": { ",": { "monster": "GROUP_LAB_FEMA", "chance": 1, "density": 0.002 } }
     }
   }
 ]

@@ -18,14 +18,10 @@
 #include "point.h"
 #include "translations.h"
 #include "ui_manager.h"
+#include "world.h"
 
 namespace auto_notes
 {
-std::string auto_note_settings::build_save_path() const
-{
-    return g->get_player_base_save_path() + ".ano.json";
-}
-
 void auto_note_settings::clear()
 {
     autoNoteEnabled.clear();
@@ -33,11 +29,12 @@ void auto_note_settings::clear()
 
 bool auto_note_settings::save()
 {
-    if( !file_exist( g->get_player_base_save_path() + ".sav" ) ) {
+    world *world = g->get_active_world();
+    if( !world->player_file_exist( ".sav" ) ) {
         return true;
     }
 
-    return write_to_file( build_save_path(), [&]( std::ostream & fstr ) {
+    return world->write_to_player_file( ".ano.json", [&]( std::ostream & fstr ) {
         JsonOut jout{ fstr, true };
 
         jout.start_object();
@@ -92,7 +89,8 @@ void auto_note_settings::load()
         }
     };
 
-    if( !read_from_file_optional_json( build_save_path(), parseJson ) ) {
+    if( !g->get_active_world()->read_from_player_file_json( ".ano.json", parseJson,
+            true ) ) {
         default_initialize();
         save();
     }
@@ -116,7 +114,7 @@ void auto_note_settings::set_discovered( const string_id<map_extra> &mapExtId )
 
 bool auto_note_settings::was_discovered( const string_id<map_extra> &mapExtId ) const
 {
-    return discovered.count( mapExtId ) != 0;
+    return discovered.contains( mapExtId );
 }
 
 void auto_note_settings::show_gui()
@@ -131,7 +129,7 @@ void auto_note_settings::show_gui()
 
 bool auto_note_settings::has_auto_note_enabled( const string_id<map_extra> &mapExtId ) const
 {
-    return autoNoteEnabled.count( mapExtId ) != 0;
+    return autoNoteEnabled.contains( mapExtId );
 }
 
 void auto_note_settings::set_auto_note_status( const string_id<map_extra> &mapExtId,

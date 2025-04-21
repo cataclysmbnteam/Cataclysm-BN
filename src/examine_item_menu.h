@@ -1,6 +1,4 @@
 #pragma once
-#ifndef CATA_SRC_EXAMINE_ITEM_MENU_H
-#define CATA_SRC_EXAMINE_ITEM_MENU_H
 
 #include <functional>
 
@@ -29,7 +27,9 @@ enum class hint_rating : int {
     /** Item should display as red (action impossible at the moment) */
     iffy,
     /** Item should display as green (action possible at the moment) */
-    good
+    good,
+    /** Item should display as bright red (kill list) */
+    blood
 };
 
 hint_rating rate_action_use( const avatar &you, const item &it );
@@ -46,4 +46,4 @@ hint_rating rate_action_disassemble( avatar &you, const item &it );
 
 } // namespace examine_item_menu
 
-#endif // CATA_SRC_EXAMINE_ITEM_MENU_H
+

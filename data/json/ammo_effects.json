@@ -18,7 +18,7 @@
       "damage": 0,
       "radius": 0,
       "fire": false,
-      "fragment": { "impact": { "damage_type": "cut", "amount": 0, "armor_multiplier": 3 }, "range": 0 }
+      "fragment": { "impact": { "damage_type": "bullet", "amount": 0, "armor_multiplier": 3 }, "range": 0 }
     },
     "do_flashbang": false,
     "do_emp_blast": false
@@ -48,8 +48,8 @@
   {
     "id": "PYROPHORIC",
     "type": "ammo_effect",
-    "aoe": { "field_type": "fd_fire", "intensity_min": 2, "intensity_max": 2, "radius": 3 },
-    "explosion": { "damage": 20, "radius": 7, "fire": true }
+    "aoe": { "field_type": "fd_incendiary", "intensity_min": 1, "intensity_max": 3, "radius": 7, "chance": 33 },
+    "explosion": { "damage": 20, "radius": 3 }
   },
   {
     "id": "ACID_TRAIL",
@@ -140,17 +140,35 @@
   {
     "id": "FRAG_BIG",
     "type": "ammo_effect",
-    "explosion": { "fragment": { "impact": { "damage_type": "cut", "amount": 100, "armor_multiplier": 3 }, "range": 7 } }
+    "explosion": { "fragment": { "impact": { "damage_type": "bullet", "amount": 100, "armor_multiplier": 2 }, "range": 7 } }
   },
   {
     "id": "FRAG",
     "type": "ammo_effect",
-    "explosion": { "fragment": { "impact": { "damage_type": "cut", "amount": 50, "armor_multiplier": 3 }, "range": 5 } }
+    "explosion": { "fragment": { "impact": { "damage_type": "bullet", "amount": 50, "armor_multiplier": 2 }, "range": 5 } }
   },
   {
     "id": "FRAG_SMALL",
     "type": "ammo_effect",
-    "explosion": { "fragment": { "impact": { "damage_type": "cut", "amount": 30, "armor_multiplier": 3 }, "range": 3 } }
+    "explosion": { "fragment": { "impact": { "damage_type": "bullet", "amount": 30, "armor_multiplier": 2.5 }, "range": 3 } }
+  },
+  {
+    "id": "EXPLOSIVE_PLUS_FRAG",
+    "type": "ammo_effect",
+    "explosion": {
+      "damage": 50,
+      "radius": 3,
+      "fragment": { "impact": { "damage_type": "bullet", "amount": 50, "armor_multiplier": 2 }, "range": 5 }
+    }
+  },
+  {
+    "id": "EXPLOSIVE_BIG_PLUS_FRAG",
+    "type": "ammo_effect",
+    "explosion": {
+      "damage": 70,
+      "radius": 5,
+      "fragment": { "impact": { "damage_type": "bullet", "amount": 50, "armor_multiplier": 2 }, "range": 5 }
+    }
   },
   {
     "id": "MININUKE_MOD",
@@ -355,6 +373,11 @@
     "id": "NULL_SOURCE",
     "type": "ammo_effect",
     "//": "Origin is a fake critter, replace it with null instead of passing a pointer to it."
+  },
+  {
+    "id": "POISON",
+    "type": "ammo_effect",
+    "//": "Applies poison to hit critter, worse poison on a crit."
   },
   {
     "id": "PARALYZEPOISON",

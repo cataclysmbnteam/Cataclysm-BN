@@ -457,7 +457,7 @@
           { "item": "creepy", "chance": 1 },
           { "item": "misc_smoking", "chance": 1 }
         ],
-        "{": { "item": "trash", "chance": 35, "repeat": 2 },
+        "{": { "item": "trash_dumpster", "chance": 80 },
         "X": { "item": "crate_parts", "chance": 30 }
       },
       "rows": [
@@ -610,7 +610,7 @@
           { "item": "creepy", "chance": 1 },
           { "item": "misc_smoking", "chance": 1 }
         ],
-        "D": { "item": "trash", "chance": 45, "repeat": 2 }
+        "D": { "item": "trash_dumpster", "chance": 80 }
       },
       "place_items": [
         { "chance": 25, "item": "stash_food", "x": 16, "y": [ 14, 15 ] },

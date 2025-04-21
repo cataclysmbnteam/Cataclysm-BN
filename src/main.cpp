@@ -782,6 +782,7 @@ int main( int argc, char *argv[] )
         }
 
         shared_ptr_fast<ui_adaptor> ui = g->create_or_get_main_ui_adaptor();
+        options_manager::cache_balance_options();
         while( !g->do_turn() );
     }
 

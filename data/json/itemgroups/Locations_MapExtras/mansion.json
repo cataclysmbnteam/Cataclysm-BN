@@ -203,7 +203,7 @@
     "subtype": "collection",
     "items": [
       [ "money_bundle", 20 ],
-      { "group": "mansion_ammo", "prob": 60 },
+      { "group": "mansion_ammo", "prob": 100 },
       { "group": "mansion_guns", "prob": 40 },
       { "group": "mansion_guns", "prob": 80 },
       { "group": "mansion_guns", "prob": 95 }
@@ -735,7 +735,8 @@
       [ "bat", 10 ],
       [ "creepy_doll", 3 ],
       [ "portable_game", 5 ],
-      [ "whistle", 3 ]
+      [ "whistle", 3 ],
+      [ "shark_plush", 4 ]
     ]
   },
   {
@@ -811,6 +812,7 @@
       [ "hockey_stick", 45 ],
       [ "golf_club", 80 ],
       [ "roller_blades", 20 ],
+      [ "folding_skateboard", 10 ],
       [ "rollerskates", 10 ],
       [ "longbow", 5 ],
       [ "compositebow", 5 ],
@@ -1171,7 +1173,8 @@
     "subtype": "distribution",
     "items": [
       [ "broom", 40 ],
-      [ "mop", 40 ],
+      [ "mop", 25 ],
+      [ "mop_folded", 15 ],
       { "item": "ammonia", "prob": 24, "charges-min": 1 },
       [ "chem_hydrogen_peroxide", 20 ],
       [ "boots_rubber", 20 ],
@@ -1604,7 +1607,8 @@
       [ "hoe", 50 ],
       [ "straw_hat", 50 ],
       [ "bucket", 40 ],
-      [ "shovel", 40 ],
+      [ "shovel", 35 ],
+      [ "shovel_short", 5 ],
       [ "clay_pot_flower", 40 ],
       [ "plastic_pot_flower", 60 ],
       [ "fertilizer_commercial", 30 ],
@@ -1613,7 +1617,8 @@
       [ "straw_basket", 30 ],
       [ "trimmer_off", 20 ],
       [ "knee_pads", 10 ],
-      [ "fertilizer_liquid", 1 ]
+      [ "fertilizer_liquid", 1 ],
+      [ "beehive_empty", 5 ]
     ]
   },
   {

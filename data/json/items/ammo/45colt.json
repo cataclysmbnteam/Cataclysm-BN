@@ -8,7 +8,6 @@
     "volume": "250 ml",
     "price": "2 USD",
     "price_postapoc": "8 USD",
-    "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
     "material": [ "brass", "powder" ],
     "symbol": "=",
     "color": "yellow",
@@ -27,14 +26,15 @@
     "id": "bp_45colt_jhp",
     "copy-from": "45colt_jhp",
     "type": "AMMO",
-    "name": { "str": ".45 Colt JHP, black powder" },
+    "name": { "str": ".45 Colt, black powder" },
+    "description": ".45 Colt ammunition with 250gr jacketed hollow point bullets.  Originally designed for the Colt Single Action Army, and still used for modern reproduction revolvers.  Originally a black powder cartridge, this load is less powerful and dirtier than modern reproduction loads but still packs a decent punch.",
     "proportional": {
-      "price": 0.3,
-      "damage": { "damage_type": "bullet", "amount": 0.76, "armor_penetration": 0.5 },
+      "price": 0.5,
+      "price_postapoc": 0.5,
+      "damage": { "damage_type": "bullet", "amount": 0.8 },
       "recoil": 0.76,
       "dispersion": 1.2
     },
-    "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+    "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] }
   }
 ]

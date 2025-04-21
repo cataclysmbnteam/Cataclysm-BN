@@ -1,6 +1,4 @@
 #pragma once
-#ifndef CATA_SRC_VITAMIN_H
-#define CATA_SRC_VITAMIN_H
 
 #include <map>
 #include <set>
@@ -50,7 +48,7 @@ class vitamin
         }
 
         bool has_flag( const std::string &flag ) const {
-            return flags_.count( flag ) > 0;
+            return flags_.contains( flag );
         }
 
         /** Disease effect with increasing intensity proportional to vitamin deficiency */
@@ -110,4 +108,4 @@ class vitamin
         std::set<std::string> flags_;
 };
 
-#endif // CATA_SRC_VITAMIN_H
+

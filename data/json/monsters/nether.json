@@ -249,7 +249,12 @@
     "dodge": 3,
     "harvest": "exempt",
     "special_attacks": [ [ "DOGTHING", 40 ] ],
-    "death_function": [ "THING" ],
+    "on_death": { "spawn_mon": "mon_thing" },
+    "petfood": {
+      "food": [ "DOGFOOD" ],
+      "feed": "If you're seeing this message it's a bug.",
+      "pet": "If you're seeing this message it's a bug."
+    },
     "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM" ]
   },
   {
@@ -431,7 +436,7 @@
     "dodge": 4,
     "harvest": "exempt",
     "special_attacks": [ [ "TENTACLE", 5 ] ],
-    "death_function": [ "THING" ],
+    "on_death": { "spawn_mon": "mon_thing" },
     "flags": [ "SEES", "SMELLS", "HEARS", "BASHES" ]
   },
   {
@@ -576,7 +581,7 @@
     "armor_bash": 6,
     "armor_cut": 12,
     "armor_bullet": 10,
-    "harvest": "human",
+    "harvest": "mutant_human_acid",
     "special_attacks": [ [ "ACID", 15 ] ],
     "anger_triggers": [ "PLAYER_WEAK", "FRIEND_DIED" ],
     "death_function": [ "NORMAL" ],
@@ -891,7 +896,7 @@
     "melee_cut": 8,
     "dodge": 1,
     "armor_bash": 6,
-    "harvest": "meatslug",
+    "harvest": "mutant_meatslug",
     "special_attacks": [ [ "GENE_STING", 20 ] ],
     "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "SMELLS", "HEARS", "BASHES", "DESTROYS", "POISON", "VENOM", "NO_BREATHE", "CAN_DIG" ]

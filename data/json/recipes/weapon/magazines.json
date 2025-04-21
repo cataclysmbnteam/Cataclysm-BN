@@ -470,5 +470,63 @@
     "tools": [ [ [ "swage", -1 ] ], [ [ "tongs", -1 ] ] ],
     "using": [ [ "forging_standard", 4 ] ],
     "components": [ [ [ "sheet_metal", 2 ], [ "sheet_metal_small", 48 ] ] ]
+  },
+  {
+    "result": "nailmag",
+    "type": "recipe",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_MAGAZINES",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "skills_required": [ "mechanics", 3 ],
+    "time": "8 m",
+    "autolearn": true,
+    "tools": [ [ [ "nailgun", -1 ], [ "nailrifle", -1 ], [ "coilgun", -1 ] ], [ [ "nail", -1 ], [ "combatnail", -1 ] ] ],
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 }, { "id": "SCREW", "level": 1 } ],
+    "components": [
+      [ [ "can_drink_unsealed", 1 ], [ "can_food_unsealed", 1 ], [ "canister_empty", 1 ] ],
+      [ [ "spring", 1 ] ],
+      [ [ "scrap", 1 ] ],
+      [ [ "duct_tape", 20 ] ]
+    ]
+  },
+  {
+    "result": "glockmag",
+    "type": "recipe",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_MAGAZINES",
+    "skill_used": "computer",
+    "difficulty": 3,
+    "skills_required": [ [ "fabrication", 2 ] ],
+    "time": "3 m",
+    "book_learn": [ [ "textbook_computer", 3 ], [ "advanced_electronics", 3 ], [ "textbook_anarch", 3 ], [ "reference_fabrication1", 3 ] ],
+    "using": [ [ "3d_printing_standard", 3 ] ],
+    "components": [ [ [ "plastic_chunk", 3 ] ] ]
+  },
+  {
+    "result": "glockbigmag",
+    "type": "recipe",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_MAGAZINES",
+    "skill_used": "computer",
+    "difficulty": 3,
+    "skills_required": [ [ "fabrication", 2 ] ],
+    "time": "5 m",
+    "book_learn": [ [ "textbook_computer", 3 ], [ "advanced_electronics", 3 ], [ "textbook_anarch", 3 ], [ "reference_fabrication1", 3 ] ],
+    "using": [ [ "3d_printing_standard", 5 ] ],
+    "components": [ [ [ "plastic_chunk", 5 ] ] ]
+  },
+  {
+    "result": "carbonmag_223",
+    "type": "recipe",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_MAGAZINES",
+    "skill_used": "computer",
+    "difficulty": 3,
+    "skills_required": [ [ "fabrication", 2 ] ],
+    "time": "3 m",
+    "book_learn": [ [ "textbook_computer", 3 ], [ "advanced_electronics", 3 ], [ "textbook_anarch", 3 ], [ "reference_fabrication1", 3 ] ],
+    "using": [ [ "3d_printing_standard", 3 ] ],
+    "components": [ [ [ "carbon_fiber_filament", 30 ] ] ]
   }
 ]

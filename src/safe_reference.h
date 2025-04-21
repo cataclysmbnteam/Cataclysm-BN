@@ -1,6 +1,4 @@
 #pragma once
-#ifndef CATA_SRC_SAFE_REFERENCE_H
-#define CATA_SRC_SAFE_REFERENCE_H
 
 /**
  *
@@ -48,6 +46,7 @@
  */
 
 #include <memory>
+#include <algorithm>
 #include <unordered_map>
 
 #include "debug.h"
@@ -113,7 +112,7 @@ class safe_reference
         inline static rbi_type records_by_id;
         inline static uint32_t next_id = 1;
 
-        inline void fill( T *obj ) {
+        void fill( T *obj ) {
             rbp_it search = records_by_pointer.find( obj );
             if( search != records_by_pointer.end() ) {
                 rec = search->second;
@@ -122,7 +121,7 @@ class safe_reference
                 records_by_pointer.insert( {obj, rec} );
             }
         }
-        inline void fill( id_type id ) {
+        void fill( id_type id ) {
             rbi_it search = records_by_id.find( id );
             if( search != records_by_id.end() ) {
                 rec = search->second;
@@ -133,19 +132,19 @@ class safe_reference
             }
         }
 
-        inline static bool id_is_destroyed( id_type id ) {
+        static bool id_is_destroyed( id_type id ) {
             return ( id & DESTROYED_MASK ) != 0;
         }
 
-        inline static bool id_is_redirected( id_type id ) {
+        static bool id_is_redirected( id_type id ) {
             return ( id & REDIRECTED_MASK ) != 0;
         }
 
-        inline static id_type base_id( id_type id ) {
+        static id_type base_id( id_type id ) {
             return ( id & ~( DESTROYED_MASK | REDIRECTED_MASK ) );
         }
 
-        inline void resolve_redirects() const {
+        void resolve_redirects() const {
             while( rec != nullptr && id_is_redirected( rec->id ) ) {
                 if( rec->mem_count == 1 && rec->json_count == 0 ) {
                     record *old_rec = rec;
@@ -159,7 +158,7 @@ class safe_reference
             }
         }
 
-        inline void remove() {
+        void remove() {
             resolve_redirects();
             if( rec == nullptr ) {
                 return;
@@ -218,15 +217,15 @@ class safe_reference
         ~safe_reference();
         static void cleanup();
 
-        inline bool is_unassigned() const {
+        bool is_unassigned() const {
             return rec == nullptr;
         }
 
-        inline bool is_accessible() const {
+        bool is_accessible() const {
             return rec != nullptr && rec->target.p != nullptr;
         }
 
-        inline bool is_unloaded() const {
+        bool is_unloaded() const {
             resolve_redirects();
             if( is_unassigned() ) {
                 return false;
@@ -238,7 +237,7 @@ class safe_reference
                                                    !rec->target.p->is_detached() ) );
         }
 
-        inline bool is_destroyed() const {
+        bool is_destroyed() const {
             resolve_redirects();
             if( is_unassigned() ) {
                 return false;
@@ -280,7 +279,7 @@ class safe_reference
             return rec->target.p;
         }
 
-        inline T *get() const {
+        T *get() const {
             resolve_redirects();
             if( !*this ) {
                 debugmsg( "Attempted to resolve invalid safe reference" );
@@ -289,29 +288,29 @@ class safe_reference
             return rec->target.p;
         }
 
-        explicit inline operator bool() const {
+        explicit operator bool() const {
             return !!*this;
         }
 
-        inline bool operator!() const {
+        bool operator!() const {
             return is_unassigned() || is_unloaded() || is_destroyed();
         }
 
-        inline T &operator*() const {
+        T &operator*() const {
             return *get();
         }
 
-        inline T *operator->() const {
+        T *operator->() const {
             return get();
         }
 
-        inline bool operator==( const safe_reference<T> &against ) const {
+        bool operator==( const safe_reference<T> &against ) const {
             resolve_redirects();
             against.resolve_redirects();
             return rec == against.rec;
         }
 
-        inline bool operator==( const T &against ) const {
+        bool operator==( const T &against ) const {
             if( !rec ) {
                 return false;
             }
@@ -319,7 +318,7 @@ class safe_reference
             return rec->target.p == &against;
         }
 
-        inline bool operator==( const T *against ) const {
+        bool operator==( const T *against ) const {
             if( !rec ) {
                 return against == nullptr;
             }
@@ -328,7 +327,7 @@ class safe_reference
         }
 
         template <typename U>
-        inline bool operator!=( const U against ) const {
+        bool operator!=( const U against ) const {
             return !( *this == against );
         }
 
@@ -393,11 +392,11 @@ class cache_reference
 
         inline static ref_map reference_map;
 
-        inline void invalidate() {
+        void invalidate() {
             p = nullptr;
         }
 
-        inline void add_to_map() {
+        void add_to_map() {
             if( !p ) {
                 return;
             }
@@ -409,7 +408,7 @@ class cache_reference
             }
         }
 
-        inline void remove_from_map() {
+        void remove_from_map() {
             if( !p ) {
                 return;
             }
@@ -427,7 +426,7 @@ class cache_reference
 
     public:
 
-        inline static void mark_destroyed( T *obj ) {
+        static void mark_destroyed( T *obj ) {
             ref_map_it search = reference_map.find( obj );
             if( search == reference_map.end() ) {
                 return;
@@ -508,7 +507,7 @@ class cache_reference
             remove_from_map();
         }
 
-        inline T *get() const {
+        T *get() const {
             if( !*this ) {
                 debugmsg( "Tried to access invalid safe_reference" );
                 return nullptr;
@@ -516,36 +515,36 @@ class cache_reference
             return p;
         }
 
-        explicit inline operator bool() const {
+        explicit operator bool() const {
             return !!*this;
         }
 
-        inline bool operator!() const {
+        bool operator!() const {
             return p == nullptr;
         }
 
-        inline T &operator*() const {
+        T &operator*() const {
             return *get();
         }
 
-        inline T *operator->() const {
+        T *operator->() const {
             return get();
         }
 
-        inline bool operator==( const cache_reference<T> &against ) const {
+        bool operator==( const cache_reference<T> &against ) const {
             return against.p == p;
         }
 
-        inline bool operator==( const T &against ) const {
+        bool operator==( const T &against ) const {
             return p == &against;
         }
 
-        inline bool operator==( const T *against ) const {
+        bool operator==( const T *against ) const {
             return p == against;
         }
 
         template <typename U>
-        inline bool operator!=( const U against ) const {
+        bool operator!=( const U against ) const {
             return !( *this == against );
         }
 };
@@ -558,4 +557,4 @@ void serialize( const safe_reference<T> &, JsonOut & );
 
 void cleanup_references();
 
-#endif // CATA_SRC_SAFE_REFERENCE_H
+

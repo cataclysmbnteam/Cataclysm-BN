@@ -5,7 +5,7 @@
     "type": "MAGAZINE",
     "name": { "str": "Calico magazine" },
     "description": "A surprisingly compact 50-round helical magazine for use with the Calico M960 SMG.",
-    "weight": "490 g",
+    "weight": "500 g",
     "volume": "500 ml",
     "price": "9920 cent",
     "price_postapoc": "5 USD",

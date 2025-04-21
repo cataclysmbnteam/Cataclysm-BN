@@ -1,6 +1,4 @@
 #pragma once
-#ifndef CATA_SRC_BODYPART_H
-#define CATA_SRC_BODYPART_H
 
 #include <array>
 #include <bitset>
@@ -96,6 +94,8 @@ struct body_part_type {
         bodypart_str_id id;
         bool was_loaded = false;
 
+        int sort_order = 0;
+
         // Those are stored untranslated
         translation name;
         translation name_multiple;
@@ -129,6 +129,8 @@ struct body_part_type {
         bodypart_str_id opposite_part;
         // Parts with no opposites have BOTH here
         side part_side = side::BOTH;
+
+        int drench_capacity = 0;
 
         //Morale parameters
         float hot_morale_mod = 0;
@@ -171,6 +173,13 @@ class wield_status
         location_ptr<item, false> wielded;
 };
 
+enum class water_tolerance : int {
+    WT_IGNORED = 0,
+    WT_NEUTRAL,
+    WT_GOOD,
+    NUM_WATER_TOLERANCE
+};
+
 class bodypart
 {
     private:
@@ -180,9 +189,17 @@ class bodypart
         int hp_max;
 
         int healed_total = 0;
-        /** Not used yet*/
         int damage_bandaged = 0;
         int damage_disinfected = 0;
+
+        // @todo BODYTEMP_NORM
+        int temp_cur = 5000;
+        int temp_conv = 5000;
+        int frostbite_timer = 0;
+
+        int wetness = 0;
+        // Just a cache, don't save/load
+        std::array<int, static_cast<size_t>( water_tolerance::NUM_WATER_TOLERANCE )> mut_drench;
 
     public:
         // TODO: private
@@ -222,6 +239,50 @@ class bodypart
         void mod_healed_total( int mod );
         void mod_damage_bandaged( int mod );
         void mod_damage_disinfected( int mod );
+
+        int get_temp_cur() const {
+            return temp_cur;
+        }
+        void set_temp_cur( int set ) {
+            temp_cur = set;
+        }
+
+        int get_temp_conv() const {
+            return temp_conv;
+        }
+        void set_temp_conv( int set ) {
+            temp_conv = set;
+        }
+
+        int get_frostbite_timer() const {
+            return frostbite_timer;
+        }
+        void set_frostbite_timer( int set ) {
+            frostbite_timer = set;
+        }
+
+        int get_wetness() const {
+            return wetness;
+        }
+
+        void set_wetness( int set ) {
+            wetness = set;
+        }
+
+        int get_drench_capacity() const {
+            return id->drench_capacity;
+        }
+
+
+        std::array<int, static_cast<size_t>( water_tolerance::NUM_WATER_TOLERANCE )> get_mut_drench()
+        const {
+            return mut_drench;
+        }
+
+        void set_mut_drench( std::array<int, static_cast<size_t>( water_tolerance::NUM_WATER_TOLERANCE )>
+                             set ) {
+            mut_drench = set;
+        }
 
         void serialize( JsonOut &json ) const;
         void deserialize( JsonIn &jsin );
@@ -328,7 +389,7 @@ std::string body_part_hp_bar_ui_text( const bodypart_id &bp );
 std::string encumb_text( body_part bp );
 
 /** Returns a random body_part token. main_parts_only will limit it to arms, legs, torso, and head. */
-body_part random_body_part( bool main_parts_only = false );
+bodypart_str_id random_body_part( bool main_parts_only = false );
 
 /** Returns the matching main body_part that corresponds to the input; i.e. returns bp_arm_l from bp_hand_l. */
 body_part mutate_to_main_part( body_part bp );
@@ -338,4 +399,4 @@ body_part opposite_body_part( body_part bp );
 /** Returns the matching body_part token from the corresponding body_part string. */
 body_part get_body_part_token( const std::string &id );
 
-#endif // CATA_SRC_BODYPART_H
+

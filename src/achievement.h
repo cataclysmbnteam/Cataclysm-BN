@@ -1,5 +1,4 @@
-#ifndef CATA_SRC_ACHIEVEMENT_H
-#define CATA_SRC_ACHIEVEMENT_H
+#pragma once
 
 #include <array>
 #include <functional>
@@ -12,7 +11,10 @@
 
 #include "calendar.h"
 #include "cata_variant.h"
+#include "enums.h"
 #include "event_bus.h"
+#include "event_statistics.h"
+#include "json.h"
 #include "string_id.h"
 #include "translations.h"
 
@@ -143,6 +145,20 @@ class achievement
         void add_skill_requirement( const JsonObject &inner, const std::string &src );
 };
 
+
+struct achievement_requirement {
+    string_id<event_statistic> statistic;
+    achievement_comparison comparison;
+    int target;
+    bool becomes_false = false;
+
+    void deserialize( JsonIn &jin );
+    void finalize();
+    void check( const string_id<achievement> &id ) const;
+    bool satisifed_by( const cata_variant &v ) const;
+};
+
+
 template<>
 struct enum_traits<achievement::time_bound::epoch> {
     static constexpr achievement::time_bound::epoch last = achievement::time_bound::epoch::last;
@@ -245,4 +261,3 @@ achievement_completion skill_req_completed( const achievement &ach );
 /** Uses comparator supplied to compare target and supplied value. Only works on integers.*/
 bool ach_compare( const achievement_comparison symbol, const int target, const int to_compare );
 
-#endif // CATA_SRC_ACHIEVEMENT_H

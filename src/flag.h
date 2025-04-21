@@ -1,6 +1,4 @@
 #pragma once
-#ifndef CATA_SRC_FLAG_H
-#define CATA_SRC_FLAG_H
 
 #include <set>
 #include <string>
@@ -52,8 +50,8 @@ extern const flag_id flag_BUTCHER_RACK;
 extern const flag_id flag_BYPRODUCT;
 extern const flag_id flag_CABLE_SPOOL;
 extern const flag_id flag_CAMERA_PRO;
+extern const flag_id flag_CAN_PLANT_UNDERGROUND;
 extern const flag_id flag_CANNIBAL;
-extern const flag_id flag_CANNIBALISM;
 extern const flag_id flag_CANT_HEAL_EVERYONE;
 extern const flag_id flag_CARNIVORE_OK;
 extern const flag_id flag_CASING;
@@ -77,6 +75,7 @@ extern const flag_id flag_CUSTOM_EXPLOSION;
 extern const flag_id flag_CUT_IMMUNE;
 extern const flag_id flag_DANGEROUS;
 extern const flag_id flag_DEAF;
+extern const flag_id flag_DESTROY_ON_DECHARGE;
 extern const flag_id flag_DIAMOND;
 extern const flag_id flag_DIG_TOOL;
 extern const flag_id flag_DIMENSIONAL_ANCHOR;
@@ -163,6 +162,7 @@ extern const flag_id flag_IN_CBM;
 extern const flag_id flag_IRREMOVABLE;
 extern const flag_id flag_IR_EFFECT;
 extern const flag_id flag_IS_ARMOR;
+extern const flag_id flag_IS_BLOOD;
 extern const flag_id flag_IS_EXPLOSION_PROPELLED;
 extern const flag_id flag_IS_PET_ARMOR;
 extern const flag_id flag_IS_UPS;
@@ -208,6 +208,7 @@ extern const flag_id flag_NO_INGEST;
 extern const flag_id flag_NO_PACKED;
 extern const flag_id flag_NO_PARASITES;
 extern const flag_id flag_NO_QUICKDRAW;
+extern const flag_id flag_NO_RECOVER_AMMO;
 extern const flag_id flag_NO_RELOAD;
 extern const flag_id flag_NO_REPAIR;
 extern const flag_id flag_NO_SALVAGE;
@@ -222,6 +223,7 @@ extern const flag_id flag_NPC_THROWN;
 extern const flag_id flag_NPC_THROW_NOW;
 extern const flag_id flag_NUTRIENT_OVERRIDE;
 extern const flag_id flag_ONLY_ONE;
+extern const flag_id flag_EXOSUIT;
 extern const flag_id flag_ORGANIC;
 extern const flag_id flag_OUTER;
 extern const flag_id flag_OVERSIZE;
@@ -247,6 +249,7 @@ extern const flag_id flag_PUMP_ACTION;
 extern const flag_id flag_PUMP_RAIL_COMPATIBLE;
 extern const flag_id flag_PYROMANIAC_WEAPON;
 extern const flag_id flag_QUARTERED;
+extern const flag_id flag_BLED;
 extern const flag_id flag_RADIOACTIVE;
 extern const flag_id flag_RADIOCAR;
 extern const flag_id flag_RADIOCARITEM;
@@ -283,6 +286,9 @@ extern const flag_id flag_ROLLER_ONE;
 extern const flag_id flag_ROLLER_QUAD;
 extern const flag_id flag_SAFECRACK;
 extern const flag_id flag_SEMITANGIBLE;
+extern const flag_id flag_SHATTERS;
+extern const flag_id flag_SHOCKING;
+extern const flag_id flag_ACIDIC;
 extern const flag_id flag_SILENT;
 extern const flag_id flag_SKINNED;
 extern const flag_id flag_SKINTIGHT;
@@ -293,6 +299,7 @@ extern const flag_id flag_SLOWS_THIRST;
 extern const flag_id flag_SLOW_WIELD;
 extern const flag_id flag_SMOKABLE;
 extern const flag_id flag_SMOKED;
+extern const flag_id flag_SNIPPET_NEEDS_LITERACY;
 extern const flag_id flag_SOLARPACK;
 extern const flag_id flag_SOLARPACK_ON;
 extern const flag_id flag_SPAWN_FRIENDLY;
@@ -321,6 +328,7 @@ extern const flag_id flag_TRADER_KEEP;
 extern const flag_id flag_TRADER_KEEP_EQUIPPED;
 extern const flag_id flag_TWO_WAY_RADIO;
 extern const flag_id flag_UNARMED_WEAPON;
+extern const flag_id flag_UNBREAKABLE;
 extern const flag_id flag_UNBREAKABLE_MELEE;
 extern const flag_id flag_UNDERSIZE;
 extern const flag_id flag_UNDERWATER_GUN;
@@ -330,6 +338,7 @@ extern const flag_id flag_URSINE_HONEY;
 extern const flag_id flag_USES_BIONIC_POWER;
 extern const flag_id flag_USES_GRID_POWER;
 extern const flag_id flag_USE_EAT_VERB;
+extern const flag_id flag_USE_PARENT_GUN;
 extern const flag_id flag_USE_PLAYER_ENERGY;
 extern const flag_id flag_USE_UPS;
 extern const flag_id flag_VARSIZE;
@@ -341,6 +350,7 @@ extern const flag_id flag_WATERPROOF;
 extern const flag_id flag_WATERPROOF_GUN;
 extern const flag_id flag_WATER_EXTINGUISH;
 extern const flag_id flag_WATER_FRIENDLY;
+extern const flag_id flag_WATER_DISABLE;
 extern const flag_id flag_WET;
 extern const flag_id flag_WHIP;
 extern const flag_id flag_WIND_EXTINGUISH;
@@ -350,6 +360,8 @@ extern const flag_id flag_ZOOM;
 extern const flag_id flag_wooled;
 extern const flag_id flag_MUTE;
 extern const flag_id flag_NOT_FOOTWEAR;
+extern const flag_id flag_WEATHER_FORECAST;
+extern const flag_id flag_WINDMETER;
 
 /**
  * Flags: json entity with "type": "json_flag", defined in flags.json, vp_flags.json
@@ -444,4 +456,4 @@ class json_flag
         static void reset();
 };
 
-#endif // CATA_SRC_FLAG_H
+

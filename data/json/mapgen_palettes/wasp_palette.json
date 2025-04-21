@@ -12,8 +12,9 @@
       "R": "t_radio_tower",
       "a": "t_railing",
       ",": "t_metal_floor_no_roof",
-      "<": "t_stairs_up",
-      ">": "t_stairs_down",
+      "±": "t_ladder_up_down",
+      "<": "t_ladder_up",
+      ">": "t_ladder_down",
       ":": "t_null",
       "#": "t_metal_floor_no_roof"
     },

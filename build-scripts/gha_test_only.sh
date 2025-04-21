@@ -50,15 +50,27 @@ then
         build_type=Debug
     fi
 
-    # Run regular tests
-    [ -f "${bin_path}cata_test" ] && parallel ${parallel_opts} "run_test $(printf %q "${bin_path}")'/cata_test' '('{}')=> ' --user-dir=test_user_dir_{#} {}" ::: "[slow] ~starting_items" "~[slow] ~[.],starting_items"
-    [ -f "${bin_path}cata_test-tiles" ] && parallel ${parallel_opts} "run_test $(printf %q "${bin_path}")'/cata_test-tiles' '('{}')=> ' --user-dir=test_user_dir_{#} {}" ::: "[slow] ~starting_items" "~[slow] ~[.],starting_items"
+    if [ -f "${bin_path}cata_test" ]
+    then
+        echo "running curses tests"
+        # shellcheck disable=SC2086
+        parallel ${parallel_opts} "run_test $(printf %q "${bin_path}")'/cata_test' '('{}')=> ' --user-dir=test_user_dir_{#} {}" ::: "[slow] ~starting_items" "~[slow] ~[.],starting_items"
+        echo "done running curses tests"
+    elif [ -f "${bin_path}cata_test-tiles" ]
+    then
+        echo "running tiles tests"
+        # shellcheck disable=SC2086
+        parallel ${parallel_opts} "run_test $(printf %q "${bin_path}")'/cata_test-tiles' '('{}')=> ' --user-dir=test_user_dir_{#} {}" ::: "[slow] ~starting_items" "~[slow] ~[.],starting_items"
+        echo "done running tiles tests"
+    fi
 else
     export ASAN_OPTIONS=detect_odr_violation=1
     export UBSAN_OPTIONS=print_stacktrace=1
+    # shellcheck disable=SC2086
     parallel -j "$num_jobs" ${parallel_opts} "run_test './tests/cata_test' '('{}')=> ' --user-dir=test_user_dir_{#} {}" ::: "[slow] ~starting_items" "~[slow] ~[.],starting_items"
     if [ -n "$MODS" ]
     then
+        # shellcheck disable=SC2086
         parallel -j "$num_jobs" ${parallel_opts} "run_test './tests/cata_test' 'Mods-('{}')=> ' $(printf %q "${MODS}") --user-dir=modded_{#} {}" ::: "[slow] ~starting_items" "~[slow] ~[.],starting_items"
     fi
 
@@ -68,7 +80,7 @@ else
         # just to verify that all the mod data can be successfully loaded.
         # Because some mods might be mutually incompatible we might need to run a few times.
         blacklist=build-scripts/mod_test_blacklist
-        if [ "$LUA" == "1"]
+        if [ "$LUA" == "1" ]
         then
             do_lua="1"
         else

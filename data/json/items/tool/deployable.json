@@ -2,7 +2,7 @@
   {
     "id": "brazier",
     "type": "GENERIC",
-    "category": "tools",
+    "category": "deployables",
     "name": { "str": "brazier" },
     "description": "A large metal stand used to contain a fire.  Fires set in a brazier will not spread to surrounding flammable objects.",
     "weight": "5000 g",
@@ -14,13 +14,14 @@
     "material": [ "steel" ],
     "symbol": ";",
     "color": "light_gray",
+    "flags": [ "ALLOWS_REMOTE_USE" ],
     "use_action": { "type": "deploy_furn", "furn_type": "f_brazier" },
     "qualities": [ [ "COOK", 1 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
   },
   {
     "id": "hobo_stove",
     "type": "GENERIC",
-    "category": "tools",
+    "category": "deployables",
     "name": { "str": "hobo stove" },
     "description": "This is a small improvised wood stove, made from a metal can or similar container of the right size.  It's too small to fit anything much larger than splintered wood.  Activate it to Deploy.",
     "weight": "70 g",
@@ -31,12 +32,13 @@
     "material": [ "steel" ],
     "symbol": ",",
     "color": "light_gray",
+    "flags": [ "ALLOWS_REMOTE_USE" ],
     "use_action": { "type": "deploy_furn", "furn_type": "f_hobo_stove" }
   },
   {
     "id": "55gal_firebarrel",
     "type": "GENERIC",
-    "category": "tools",
+    "category": "deployables",
     "name": { "str": "fire barrel (200L)", "str_pl": "fire barrels (200L)" },
     "description": "A large metal barrel used to contain a fire.  It has multiple holes punched in its walls for air supply.  Fires set in a fire barrel will not spread to surrounding flammable objects.",
     "weight": "20000 g",
@@ -49,12 +51,13 @@
     "material": [ "steel" ],
     "symbol": "0",
     "color": "light_gray",
+    "flags": [ "ALLOWS_REMOTE_USE" ],
     "use_action": { "type": "deploy_furn", "furn_type": "f_55gal_firebarrel" }
   },
   {
     "id": "30gal_firebarrel",
     "type": "GENERIC",
-    "category": "tools",
+    "category": "deployables",
     "name": { "str": "fire barrel (100L)", "str_pl": "fire barrels (100L)" },
     "description": "A large metal barrel used to contain a fire.  It has multiple holes punched in its walls for air supply.  Fires set in a fire barrel will not spread to surrounding flammable objects.",
     "weight": "12000 g",
@@ -67,12 +70,13 @@
     "material": [ "steel" ],
     "symbol": "0",
     "color": "light_gray",
+    "flags": [ "ALLOWS_REMOTE_USE" ],
     "use_action": { "type": "deploy_furn", "furn_type": "f_30gal_firebarrel" }
   },
   {
     "id": "camp_chair",
     "type": "GENERIC",
-    "category": "tools",
+    "category": "deployables",
     "name": { "str": "camp chair" },
     "description": "Folded camp chair, deploy to sit down.",
     "weight": "1000 g",
@@ -85,12 +89,13 @@
     "material": [ "steel" ],
     "symbol": "#",
     "color": "light_gray",
+    "flags": [ "ALLOWS_REMOTE_USE" ],
     "use_action": { "type": "deploy_furn", "furn_type": "f_camp_chair" }
   },
   {
     "id": "cot",
     "type": "GENERIC",
-    "category": "tools",
+    "category": "deployables",
     "name": { "str": "cot" },
     "description": "This is a military style fold up cot.  While it may not be quite as comfortable as a bed, it's better than slumming it on the ground.",
     "weight": "6164 g",
@@ -109,12 +114,13 @@
       "moves": 100,
       "practice": 0,
       "done_message": "You unfold the cot and place it on the ground."
-    }
+    },
+    "flags": [ "ALLOWS_REMOTE_USE", "DESTROY_ON_DECHARGE" ]
   },
   {
     "id": "folding_bicycle",
     "type": "TOOL",
-    "category": "tools",
+    "category": "deployables",
     "name": { "str": "folding bicycle" },
     "description": "This is a bicycle folded into a relatively portable package.",
     "weight": "9071 g",
@@ -131,12 +137,36 @@
       "vehicle_name": "bicycle",
       "unfold_msg": "You painstakingly unfold the bicycle and make it ready to ride.",
       "moves": 500
-    }
+    },
+    "flags": [ "ALLOWS_REMOTE_USE", "DESTROY_ON_DECHARGE" ]
+  },
+  {
+    "id": "folding_skateboard",
+    "type": "TOOL",
+    "category": "deployables",
+    "name": { "str": "skateboard" },
+    "description": "This is a skateboard.",
+    "weight": "2898 g",
+    "volume": "3750 ml",
+    "price": "350 USD",
+    "price_postapoc": "20 USD",
+    "to_hit": -5,
+    "bashing": 10,
+    "material": "aluminum",
+    "symbol": "0",
+    "color": "light_gray",
+    "use_action": {
+      "type": "unfold_vehicle",
+      "vehicle_name": "skateboard",
+      "unfold_msg": "You lay the skateboard down on the ground.",
+      "moves": 0
+    },
+    "flags": [ "ALLOWS_REMOTE_USE", "DESTROY_ON_DECHARGE" ]
   },
   {
     "id": "generic_folded_vehicle",
     "type": "TOOL",
-    "category": "tools",
+    "category": "deployables",
     "name": { "str_sp": "seeing this is a bug" },
     "description": "seeing this is a bug",
     "volume": "0 ml",
@@ -144,12 +174,13 @@
     "price_postapoc": "0 cent",
     "symbol": "/",
     "color": "light_gray",
-    "use_action": "UNFOLD_GENERIC"
+    "use_action": "UNFOLD_GENERIC",
+    "flags": [ "ALLOWS_REMOTE_USE", "DESTROY_ON_DECHARGE" ]
   },
   {
     "id": "metal_butcher_rack",
     "type": "GENERIC",
-    "category": "tools",
+    "category": "deployables",
     "name": { "str": "metal butchering rack" },
     "description": "Metal butchering rack designed to hang a carcass in the air.  It is folded for easy transportation.",
     "weight": "5000 g",
@@ -161,13 +192,13 @@
     "material": [ "steel" ],
     "symbol": "=",
     "color": "light_gray",
-    "flags": [ "BUTCHER_RACK" ],
+    "flags": [ "BUTCHER_RACK", "ALLOWS_REMOTE_USE" ],
     "use_action": { "type": "deploy_furn", "furn_type": "f_metal_butcher_rack" }
   },
   {
     "id": "inflatable_boat",
     "type": "TOOL",
-    "category": "tools",
+    "category": "deployables",
     "symbol": "0",
     "color": "light_gray",
     "name": { "str": "inflatable boat" },
@@ -185,12 +216,13 @@
       "tools_needed": { "hand_pump": 1 },
       "unfold_msg": "You painstakingly unfold, inflate, and launch the %s.",
       "moves": 15000
-    }
+    },
+    "flags": [ "ALLOWS_REMOTE_USE", "DESTROY_ON_DECHARGE" ]
   },
   {
     "id": "metal_smoking_rack",
     "type": "GENERIC",
-    "category": "tools",
+    "category": "tools_cooking",
     "name": { "str": "metal smoking rack" },
     "description": "A metal rack designed to smoke food for better preservation and taste.  It is folded for easy transportation.",
     "weight": "5000 g",
@@ -202,12 +234,13 @@
     "material": [ "steel" ],
     "symbol": "=",
     "color": "light_gray",
+    "flags": [ "ALLOWS_REMOTE_USE" ],
     "use_action": { "type": "deploy_furn", "furn_type": "f_metal_smoking_rack" }
   },
   {
     "id": "tourist_table",
     "type": "GENERIC",
-    "category": "tools",
+    "category": "deployables",
     "name": { "str": "tourist table" },
     "description": "Metal tourist table for off-road trips.  It is folded for easy transportation.",
     "weight": "6000 g",
@@ -217,7 +250,7 @@
     "to_hit": -3,
     "bashing": 5,
     "material": [ "steel" ],
-    "flags": [ "FLAT_SURFACE" ],
+    "flags": [ "FLAT_SURFACE", "ALLOWS_REMOTE_USE" ],
     "symbol": "=",
     "color": "light_gray",
     "use_action": { "type": "deploy_furn", "furn_type": "f_tourist_table" }
@@ -225,7 +258,7 @@
   {
     "id": "leather_tarp",
     "type": "GENERIC",
-    "category": "tools",
+    "category": "tools_cooking",
     "name": { "str": "leather tarp" },
     "description": "A large sheet of sewn leather that can be deployed instead of a picnic blanket, but it's more valuable as a butchery appliance as it does not soak in blood.  It's rolled and ready for carrying.",
     "weight": "2000 g",
@@ -235,7 +268,7 @@
     "to_hit": -3,
     "bashing": 2,
     "material": [ "leather" ],
-    "flags": [ "FLAT_SURFACE" ],
+    "flags": [ "FLAT_SURFACE", "ALLOWS_REMOTE_USE" ],
     "symbol": "*",
     "color": "brown",
     "use_action": { "type": "deploy_furn", "furn_type": "f_leather_tarp" }
@@ -243,7 +276,7 @@
   {
     "id": "fiber_mat",
     "type": "GENERIC",
-    "category": "tools",
+    "category": "tools_cooking",
     "name": { "str": "fiber mat" },
     "description": "A large mat woven from fibrous material that can be used instead of a picnic blanket, but it's more valuable as a butchery appliance.  Too thin to be used as a comfortable sleeping place.  It's rolled and ready for carrying.",
     "weight": "1000 g",
@@ -253,7 +286,7 @@
     "to_hit": -3,
     "bashing": 1,
     "material": [ "veggy" ],
-    "flags": [ "FLAT_SURFACE" ],
+    "flags": [ "FLAT_SURFACE", "ALLOWS_REMOTE_USE" ],
     "symbol": "*",
     "color": "yellow",
     "use_action": { "type": "deploy_furn", "furn_type": "f_fiber_mat" }
@@ -261,7 +294,7 @@
   {
     "id": "churn",
     "type": "GENERIC",
-    "category": "tools",
+    "category": "tools_cooking",
     "name": { "str": "folded butter churn" },
     "description": "A large wooden container used to turn raw milk into butter and buttermilk.  This model uses a foot crank and holds three gallons of raw milk.",
     "weight": "6464 g",
@@ -274,6 +307,7 @@
     "looks_like": "f_wood_keg",
     "symbol": "u",
     "color": "light_gray",
+    "flags": [ "ALLOWS_REMOTE_USE" ],
     "use_action": { "type": "deploy_furn", "furn_type": "f_butter_churn" },
     "qualities": [ [ "CONTAIN", 1 ], [ "CHURN", 1 ] ]
   },
@@ -310,5 +344,22 @@
     "symbol": "T",
     "color": "red",
     "flags": [ "DURABLE_MELEE" ]
+  },
+  {
+    "id": "chair_folding",
+    "type": "TOOL",
+    "name": { "str": "folding chair" },
+    "description": "Folded plastic chair on a metal frame, deploy to sit down.",
+    "weight": "2900 g",
+    "volume": "5 L",
+    "price": "23 USD 50 cent",
+    "price_postapoc": "1 USD",
+    "to_hit": -4,
+    "bashing": 10,
+    "material": [ "steel", "plastic" ],
+    "symbol": "#",
+    "color": "light_gray",
+    "use_action": { "type": "deploy_furn", "furn_type": "f_chair_folding" },
+    "flags": [ "FRAGILE_MELEE" ]
   }
 ]

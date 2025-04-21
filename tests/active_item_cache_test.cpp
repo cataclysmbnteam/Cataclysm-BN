@@ -41,7 +41,7 @@ TEST_CASE( "place_active_item_at_various_coordinates", "[item]" )
             detached_ptr<item> n = item::spawn( active );
             item &item_ref = *n;
             g->m.add_item( { x, y, z }, std::move( n ) );
-            REQUIRE( item_ref.active );
+            REQUIRE( item_ref.is_active() );
             REQUIRE_FALSE( g->m.get_submaps_with_active_items().empty() );
             REQUIRE( g->m.get_submaps_with_active_items().find( abs_loc ) !=
                      g->m.get_submaps_with_active_items().end() );

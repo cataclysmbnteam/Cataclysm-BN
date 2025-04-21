@@ -211,6 +211,7 @@
       "ž": "f_home_furnace",
       "ź": "f_water_heater",
       "x": "f_exercise"
-    }
+    },
+    "nested": { "w": { "chunks": [ [ "null", 95 ], [ "house_place_air_conditioner", 5 ] ] } }
   }
 ]

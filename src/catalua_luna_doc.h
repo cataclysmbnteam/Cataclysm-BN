@@ -1,9 +1,8 @@
 #pragma once
-#ifndef CATA_SRC_CATALUA_LUNA_DOC_H
-#define CATA_SRC_CATALUA_LUNA_DOC_H
 
 #include "catalua_luna.h"
 #include "type_id.h"
+#include "concepts_utility.h"
 
 enum Attitude : int;
 enum body_part : int;
@@ -13,7 +12,7 @@ enum color_id : int;
 enum damage_type : int;
 enum game_message_type : int;
 enum m_flag : int;
-enum m_size : int;
+enum creature_size : int;
 enum mf_attitude : int;
 enum monster_attitude : int;
 enum npc_attitude : int;
@@ -21,7 +20,7 @@ enum npc_need : int;
 namespace sfx
 {
 enum class channel : int;
-}
+} // namespace sfx
 
 class avatar;
 class Character;
@@ -43,6 +42,8 @@ class recipe;
 class Skill;
 class SkillLevel;
 class SkillLevelMap;
+class spell_type;
+class spell;
 class time_duration;
 class time_point;
 class tinymap;
@@ -51,7 +52,9 @@ struct body_part_type;
 struct damage_instance;
 struct damage_unit;
 struct dealt_damage_instance;
+struct fake_spell;
 struct field_type;
+struct mutation_branch;
 struct npc_opinion;
 struct npc_personality;
 struct point;
@@ -59,7 +62,7 @@ struct species_type;
 struct tripoint;
 namespace units
 {
-template<typename V, typename U>
+template<Arithmetic V, typename U>
 class quantity;
 
 class angle_in_radians_tag;
@@ -73,7 +76,7 @@ using mass = quantity<std::int64_t, mass_in_milligram_tag>;
 
 class volume_in_milliliter_tag;
 using volume = quantity<int, volume_in_milliliter_tag>;
-}
+} // namespace units
 
 
 // These definitions help the doc generator
@@ -121,6 +124,8 @@ LUNA_VAL( point, "Point" );
 LUNA_VAL( query_popup, "QueryPopup" );
 LUNA_VAL( SkillLevelMap, "SkillLevelMap" );
 LUNA_VAL( SkillLevel, "SkillLevel" );
+LUNA_VAL( fake_spell, "SpellSimple" )
+LUNA_VAL( spell, "Spell" )
 LUNA_VAL( time_duration, "TimeDuration" );
 LUNA_VAL( time_point, "TimePoint" );
 LUNA_VAL( tinymap, "Tinymap" );
@@ -152,6 +157,7 @@ LUNA_ID( mutation_category_trait, "MutationCategoryTrait" )
 LUNA_ID( recipe, "Recipe" )
 LUNA_ID( Skill, "Skill" )
 LUNA_ID( species_type, "SpeciesType" )
+LUNA_ID( spell_type, "SpellType" )
 LUNA_ID( ter_t, "Ter" )
 
 // Enums
@@ -164,10 +170,10 @@ LUNA_ENUM( game_message_type, "MsgType" )
 LUNA_ENUM( mf_attitude, "MonsterFactionAttitude" )
 LUNA_ENUM( m_flag, "MonsterFlag" )
 LUNA_ENUM( monster_attitude, "MonsterAttitude" )
-LUNA_ENUM( m_size, "MonsterSize" )
+LUNA_ENUM( creature_size, "MonsterSize" )
 LUNA_ENUM( npc_attitude, "NpcAttitude" )
 LUNA_ENUM( npc_need, "NpcNeed" )
 LUNA_ENUM( sfx::channel, "SfxChannel" )
 
 
-#endif // CATA_SRC_CATALUA_LUNA_DOC_H
+

@@ -1,6 +1,4 @@
 #pragma once
-#ifndef CATA_SRC_IUSE_ACTOR_H
-#define CATA_SRC_IUSE_ACTOR_H
 
 #include <climits>
 #include <map>
@@ -31,7 +29,6 @@ class player;
 struct iteminfo;
 struct tripoint;
 
-enum hp_part : int;
 enum body_part : int;
 class JsonObject;
 struct furn_t;
@@ -80,6 +77,9 @@ class iuse_transform : public iuse_actor
         /**does the item requires to be wielded to be activable*/
         bool need_wielding = false;
 
+        /**does the item need to be dry to be activable**/
+        bool need_dry = false;
+
         /** subtracted from @ref Creature::moves when transformation is successful */
         int moves = 0;
 
@@ -94,6 +94,9 @@ class iuse_transform : public iuse_actor
 
         /** displayed if item is in player possession with %s replaced by item name */
         translation need_charges_msg;
+
+        /** charges needed for process of transforming item */
+        int transform_charges = 0;
 
         /** Tool qualities needed, e.g. "fine bolt turning 1". **/
         std::map<quality_id, int> qualities_needed;
@@ -486,13 +489,18 @@ class reveal_map_actor : public iuse_actor
          */
         std::vector<std::pair<std::string, ot_match_type>> omt_types;
         /**
+        * Overmap terrain types that get listed (or excluded) on a used map.
+        */
+        std::vector<std::pair<std::string, ot_match_type>> omt_types_view;
+        std::vector<std::pair<std::string, ot_match_type>> omt_types_view_exclude;
+        /**
          * The message displayed after revealing.
          */
         std::string message;
 
-        void reveal_targets(
-            const tripoint_abs_omt &center, const std::pair<std::string, ot_match_type> &target,
-            int reveal_distance ) const;
+        void reveal_targets( const tripoint_abs_omt &map ) const;
+
+        void show_revealed( player &plr, item &, const tripoint_abs_omt &map ) const;
 
         reveal_map_actor( const std::string &type = "reveal_map" ) : iuse_actor( type ) {}
 
@@ -1031,15 +1039,15 @@ class heal_actor : public iuse_actor
         std::set<flag_id> used_up_item_flags;
 
         /** How much hp would `healer` heal using this actor on `healed` body part. */
-        int get_heal_value( const Character &healer, hp_part healed ) const;
+        int get_heal_value( const Character &healer, const bodypart_str_id &healed ) const;
         /** How many intensity levels will be applied using this actor by `healer`. */
         int get_bandaged_level( const Character &healer ) const;
         /** How many intensity levels will be applied using this actor by `healer`. */
         int get_disinfected_level( const Character &healer ) const;
         /** Does the actual healing. Used by both long and short actions. Returns charges used. */
-        int finish_using( player &healer, player &patient, item &it, hp_part healed ) const;
+        int finish_using( player &healer, player &patient, item &it, const bodypart_str_id &healed ) const;
 
-        hp_part use_healing_item( player &healer, player &patient, item &it, bool force ) const;
+        bodypart_str_id use_healing_item( player &healer, player &patient, item &it, bool force ) const;
 
         heal_actor( const std::string &type = "heal" ) : iuse_actor( type ) {}
 
@@ -1263,4 +1271,4 @@ class heat_food_actor : public iuse_actor
         ret_val<bool> can_use( const Character &, const item &, bool, const tripoint & ) const override;
         std::unique_ptr<iuse_actor> clone() const override;
 };
-#endif // CATA_SRC_IUSE_ACTOR_H
+

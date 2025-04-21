@@ -54,6 +54,7 @@
       [ "book_archery", 20 ],
       [ "canteen", 20 ],
       [ "knife_hunting", 30 ],
+      [ "knife_heat", 20 ],
       [ "binoculars", 20 ],
       [ "ref_lighter", 30 ],
       [ "backpack", 30 ],

@@ -1,6 +1,6 @@
 #include "TextStyleCheck.h"
 
-#include <ClangTidy.h>
+#include <clang-tidy/ClangTidy.h>
 #include <clang/AST/ASTContext.h>
 #include <clang/AST/Expr.h>
 #include <clang/AST/ExprCXX.h>
@@ -89,19 +89,19 @@ void TextStyleCheck::check( const MatchFinder::MatchResult &Result )
         const SourceLocation &loc = text.getStrTokenLoc( i );
         if( loc.isInvalid() ) {
             return;
-        } else if( StringRef( SrcMgr.getPresumedLoc( SrcMgr.getSpellingLoc(
-                                  loc ) ).getFilename() ).equals( "<scratch space>" ) ) {
+        } else if( StringRef( SrcMgr.getPresumedLoc( SrcMgr.getSpellingLoc( loc ) ).getFilename() )
+                   .equals_insensitive( "<scratch space>" ) ) {
             return;
         }
     }
 
     // ignore wide/u16/u32 strings
-    if( ( !text.isAscii() && !text.isUTF8() ) || text.getCharByteWidth() != 1 ) {
+    if( ( !text.isWide() && !text.isUTF8() ) || text.getCharByteWidth() != 1 ) {
         return;
     }
 
     // disable fix-its for utf8 strings to avoid removing the u8 prefix
-    bool fixit = text.isAscii();
+    bool fixit = text.isWide();
     for( size_t i = 0; fixit && i < text.getNumConcatenated(); ++i ) {
         const SourceLocation &loc = text.getStrTokenLoc( i );
         if( !loc.isMacroID() && SrcMgr.getCharacterData( loc )[0] == 'R' ) {

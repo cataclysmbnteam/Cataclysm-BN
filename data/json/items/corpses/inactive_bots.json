@@ -24,7 +24,7 @@
       "place_randomly": true,
       "skills": [ "electronics", "computer" ]
     },
-    "flags": [ "ACT_ON_RANGED_HIT" ]
+    "flags": [ "ACT_ON_RANGED_HIT", "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "bot_c4_hack",
@@ -51,7 +51,7 @@
       "place_randomly": true,
       "skills": [ "electronics", "computer" ]
     },
-    "flags": [ "ACT_ON_RANGED_HIT" ]
+    "flags": [ "ACT_ON_RANGED_HIT", "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "bot_flashbang_hack",
@@ -78,7 +78,7 @@
       "place_randomly": true,
       "skills": [ "electronics", "computer" ]
     },
-    "flags": [ "ACT_ON_RANGED_HIT" ]
+    "flags": [ "ACT_ON_RANGED_HIT", "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "bot_gasbomb_hack",
@@ -105,7 +105,7 @@
       "place_randomly": true,
       "skills": [ "electronics", "computer" ]
     },
-    "flags": [ "ACT_ON_RANGED_HIT" ]
+    "flags": [ "ACT_ON_RANGED_HIT", "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "bot_grenade_hack",
@@ -132,7 +132,7 @@
       "place_randomly": true,
       "skills": [ "electronics", "computer" ]
     },
-    "flags": [ "ACT_ON_RANGED_HIT" ]
+    "flags": [ "ACT_ON_RANGED_HIT", "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "bot_laserturret",
@@ -154,7 +154,8 @@
       "difficulty": 6,
       "moves": 100,
       "skills": [ "electronics", "computer" ]
-    }
+    },
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "bot_manhack",
@@ -181,7 +182,7 @@
       "place_randomly": true,
       "skills": [ "electronics", "computer" ]
     },
-    "flags": [ "ACT_ON_RANGED_HIT" ]
+    "flags": [ "ACT_ON_RANGED_HIT", "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "bot_mininuke_hack",
@@ -209,7 +210,7 @@
       "skills": [ "electronics", "computer" ]
     },
     "//": "Good luck tossing this one, but sure why not",
-    "flags": [ "ACT_ON_RANGED_HIT" ]
+    "flags": [ "ACT_ON_RANGED_HIT", "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "bot_turret_riot",
@@ -231,7 +232,8 @@
       "difficulty": 6,
       "moves": 100,
       "skills": [ "electronics", "computer" ]
-    }
+    },
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "bot_secubot",
@@ -255,7 +257,8 @@
       "difficulty": 6,
       "moves": 150,
       "skills": [ "electronics", "computer" ]
-    }
+    },
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "bot_talon_m202a1",
@@ -279,7 +282,8 @@
       "difficulty": 6,
       "moves": 150,
       "skills": [ "electronics", "computer" ]
-    }
+    },
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "bot_nursebot",
@@ -303,7 +307,8 @@
       "difficulty": 6,
       "moves": 150,
       "skills": [ "electronics", "computer" ]
-    }
+    },
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "bot_grocerybot",
@@ -327,7 +332,8 @@
       "difficulty": 6,
       "moves": 150,
       "skills": [ "electronics", "computer" ]
-    }
+    },
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "bot_grocerybot_busted",
@@ -351,7 +357,8 @@
       "difficulty": 4,
       "moves": 150,
       "skills": [ "electronics", "computer" ]
-    }
+    },
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "bot_broken_cyborg",
@@ -377,7 +384,8 @@
       "difficulty": 9,
       "moves": 250,
       "skills": [ "electronics", "computer" ]
-    }
+    },
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "bot_prototype_cyborg",
@@ -403,7 +411,8 @@
       "difficulty": 9,
       "moves": 250,
       "skills": [ "electronics", "computer" ]
-    }
+    },
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "bot_copbot",
@@ -429,7 +438,8 @@
       "difficulty": 3,
       "moves": 100,
       "skills": [ "electronics", "computer" ]
-    }
+    },
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "bot_eyebot",
@@ -458,7 +468,7 @@
       "skills": [ "electronics", "computer" ]
     },
     "//": "Few character will have the strength for this, but allow trying it anyway",
-    "flags": [ "ACT_ON_RANGED_HIT" ]
+    "flags": [ "ACT_ON_RANGED_HIT", "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "bot_hazmatbot",
@@ -482,8 +492,10 @@
       "//": "Currently has no higher functions",
       "difficulty": 1,
       "moves": 100,
+      "is_pet": true,
       "skills": [ "electronics", "computer" ]
-    }
+    },
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "bot_haulerbot",
@@ -509,7 +521,8 @@
       "moves": 100,
       "is_pet": true,
       "skills": [ "electronics", "computer" ]
-    }
+    },
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "bot_molebot",
@@ -535,7 +548,8 @@
       "difficulty": 3,
       "moves": 100,
       "skills": [ "electronics", "computer" ]
-    }
+    },
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "bot_riotbot",
@@ -561,7 +575,8 @@
       "difficulty": 4,
       "moves": 150,
       "skills": [ "electronics", "computer" ]
-    }
+    },
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "bot_skitterbot",
@@ -587,7 +602,8 @@
       "difficulty": 4,
       "moves": 100,
       "skills": [ "electronics", "computer" ]
-    }
+    },
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "bot_science_bot",
@@ -613,7 +629,8 @@
       "difficulty": 6,
       "moves": 100,
       "skills": [ "electronics", "computer" ]
-    }
+    },
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "bot_turret_searchlight",
@@ -638,12 +655,13 @@
       "difficulty": 4,
       "moves": 150,
       "skills": [ "electronics", "computer" ]
-    }
+    },
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "bot_dispatch",
     "type": "TOOL",
-    "name": { "str": "inactive dispatch", "str_pl": "inactive dispatches" },
+    "name": { "str": "inactive riot dispatch", "str_pl": "inactive riot dispatches" },
     "description": "An inactive Northrop Dispatch, guard model, serving as a mobile assembler and deployer of kamikaze manhacks for defense.  Activate it to place it onto the ground; due to a one-way switch triggered during deactivation, however, it will be nonaggressive, and serves only as a distraction.",
     "volume": "95 L",
     "weight": "250 kg",
@@ -662,7 +680,8 @@
       "difficulty": 1,
       "moves": 300,
       "skills": [ "electronics", "computer" ]
-    }
+    },
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "bot_dispatch_military",
@@ -686,7 +705,8 @@
       "difficulty": 1,
       "moves": 300,
       "skills": [ "electronics", "computer" ]
-    }
+    },
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "bot_turret_light",
@@ -708,7 +728,8 @@
       "difficulty": 6,
       "moves": 100,
       "skills": [ "electronics", "computer" ]
-    }
+    },
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "bot_turret_medium",
@@ -730,7 +751,8 @@
       "difficulty": 6,
       "moves": 100,
       "skills": [ "electronics", "computer" ]
-    }
+    },
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "bot_turret_longrange",
@@ -751,6 +773,78 @@
       "monster_id": "mon_turret_longrange",
       "difficulty": 6,
       "moves": 100,
+      "skills": [ "electronics", "computer" ]
+    },
+    "flags": [ "ALLOWS_REMOTE_USE" ]
+  },
+  {
+    "id": "bot_mech_recon",
+    "type": "TOOL",
+    "name": { "str": "inactive recon mech" },
+    "description": "A pilotable RMES (Recon Mechanical Exoskeleton Suit) designed to be used in a scout-recon-sniper role, built for mobility with an integrated laser sniper rifle and advanced suite of optics.  This one has been deactivated for transport.  Using it will deploy and activate it, allowing you to pilot it if it's been successfully reprogrammed or unlocked by a previous operator.",
+    "//": "Uses the same weight as the monster version, but the volume of the broken version since two of the mechs are above the normal tile volume limit.",
+    "volume": "125 L",
+    "weight": "700388 g",
+    "price": "200 kUSD",
+    "price_postapoc": "100 USD",
+    "to_hit": -3,
+    "bashing": 7,
+    "material": [ "superalloy" ],
+    "symbol": ";",
+    "color": "blue",
+    "looks_like": "mon_mech_recon",
+    "use_action": {
+      "//": "Uses same message as carding an already-activated mech.  High-end military programming, not typically obtained outside of packing up an already-deployed bot.",
+      "type": "place_monster",
+      "monster_id": "mon_mech_recon",
+      "friendly_msg": "The X-03: 'Spectre' Recon Mech whirs into life and opens its restraints to accept a pilot.",
+      "hostile_msg": "The X-03: 'Spectre' Recon Mech unfolds but remains unresponsive.",
+      "difficulty": 10,
+      "moves": 400,
+      "is_pet": true,
+      "skills": [ "electronics", "computer" ]
+    },
+    "flags": [ "ALLOWS_REMOTE_USE" ]
+  },
+  {
+    "id": "bot_mech_combat",
+    "copy-from": "bot_mech_recon",
+    "type": "TOOL",
+    "name": { "str": "inactive combat mech" },
+    "description": "A pilotable CMES (Combat Mechanical Exoskeleton Suit) designed to be used in a fire support role and with an integrated gatling laser.  This one has been deactivated for transport.  Using it will deploy and activate it, allowing you to pilot it if it's been successfully reprogrammed or unlocked by a previous operator.",
+    "volume": "250 L",
+    "weight": "1480388 g",
+    "bashing": 8,
+    "color": "red",
+    "looks_like": "mon_mech_combat",
+    "use_action": {
+      "type": "place_monster",
+      "monster_id": "mon_mech_combat",
+      "friendly_msg": "The X-02: 'Grunt' Combat Mech whirs into life and opens its restraints to accept a pilot.",
+      "hostile_msg": "The X-02: 'Grunt' Combat Mech unfolds but remains unresponsive.",
+      "difficulty": 10,
+      "moves": 400,
+      "is_pet": true,
+      "skills": [ "electronics", "computer" ]
+    }
+  },
+  {
+    "id": "bot_mech_lifter",
+    "copy-from": "bot_mech_combat",
+    "type": "TOOL",
+    "name": { "str": "inactive mech lifter" },
+    "description": "A pilotable LMES (Lifting Mechanical Exoskeleton Suit) designed for loading and unloading heavy material, and for limited combat support roles.  Lacks any integral weaponry, but the frame can support heavier firearms fired from the open cockpit.  This one has been deactivated for transport.  Using it will deploy and activate it, allowing you to pilot it if it's been successfully reprogrammed or unlocked by a previous operator.",
+    "weight": "1280388 g",
+    "color": "yellow",
+    "looks_like": "mon_mech_lifter",
+    "use_action": {
+      "type": "place_monster",
+      "monster_id": "mon_mech_lifter",
+      "friendly_msg": "The X-01: 'Jack' Lifting Mech whirs into life and opens its restraints to accept a pilot.",
+      "hostile_msg": "The X-01: 'Jack' Lifting Mech unfolds but remains unresponsive.",
+      "difficulty": 10,
+      "moves": 400,
+      "is_pet": true,
       "skills": [ "electronics", "computer" ]
     }
   }

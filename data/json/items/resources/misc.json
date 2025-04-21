@@ -9,7 +9,7 @@
     "to_hit": -1,
     "color": "white",
     "symbol": ",",
-    "material": [ "flesh" ],
+    "material": [ "chitin" ],
     "volume": "250 ml",
     "cutting": 10,
     "flags": [ "STAB" ],
@@ -41,14 +41,15 @@
     "name": { "str": "ceramic shard" },
     "description": "A broken ceramic shard.  It is heavy and has a somewhat sharp edge, but it's too irregular to cut properly.",
     "material": "ceramic",
-    "flags": [ "TRADER_AVOID" ],
+    "flags": [ "TRADER_AVOID", "SHATTERS" ],
     "weight": "750 g",
     "volume": "250 ml",
     "bashing": 5,
     "cutting": 2,
     "to_hit": -1,
     "qualities": [ [ "BUTCHER", -66 ] ],
-    "stackable": true
+    "stackable": true,
+    "category": "scrap_ceramics"
   },
   {
     "id": "fighter_sting",
@@ -88,7 +89,7 @@
   {
     "id": "mattress",
     "type": "GENERIC",
-    "category": "spare_parts",
+    "category": "deployables",
     "name": { "str": "mattress", "str_pl": "mattresses" },
     "description": "This is a single, or twin, sized mattress.",
     "weight": "20000 g",
@@ -98,13 +99,13 @@
     "material": [ "cotton", "steel" ],
     "symbol": "0",
     "color": "white",
-    "flags": [ "NONCONDUCTIVE" ],
+    "flags": [ "NONCONDUCTIVE", "ALLOWS_REMOTE_USE" ],
     "use_action": { "type": "deploy_furn", "furn_type": "f_floor_mattress" }
   },
   {
     "id": "down_mattress",
     "type": "GENERIC",
-    "category": "spare_parts",
+    "category": "deployables",
     "name": { "str": "down mattress", "str_pl": "down mattresses" },
     "description": "This is a single, or twin, sized down filled mattress.",
     "weight": "6 kg",
@@ -114,6 +115,7 @@
     "material": [ "cotton" ],
     "symbol": "0",
     "color": "white",
+    "flags": [ "ALLOWS_REMOTE_USE" ],
     "use_action": { "type": "deploy_furn", "furn_type": "f_down_mattress" }
   },
   {
@@ -147,7 +149,8 @@
     "bashing": 5,
     "cutting": 3,
     "to_hit": -3,
-    "qualities": [ [ "BUTCHER", -50 ] ]
+    "qualities": [ [ "BUTCHER", -50 ] ],
+    "category": "rocks"
   },
   {
     "id": "ugl_buttstock",
@@ -174,7 +177,7 @@
     "to_hit": -1,
     "color": "dark_gray",
     "symbol": ",",
-    "material": [ "flesh" ],
+    "material": [ "chitin" ],
     "volume": "250 ml",
     "cutting": 8,
     "flags": [ "STAB", "SHEATH_KNIFE" ],
@@ -196,11 +199,7 @@
     "to_hit": -6,
     "flags": [ "TRADER_AVOID" ],
     "bashing": 18,
-    "explosion": {
-      "damage": 50,
-      "radius": 3,
-      "fragment": { "impact": { "damage_type": "cut", "amount": 50, "armor_multiplier": 3 }, "range": 5 }
-    },
+    "explosion": { "damage": 70, "radius": 5 },
     "explode_in_fire": true
   },
   {
@@ -217,5 +216,15 @@
     "to_hit": -5,
     "flags": [ "TRADER_AVOID" ],
     "bashing": 15
+  },
+  {
+    "type": "GENERIC",
+    "id": "wool_mattress",
+    "copy-from": "down_mattress",
+    "looks_like": "down_mattress",
+    "name": { "str": "wool mattress", "str_pl": "wool mattresses" },
+    "description": "A mattress made of wool.  It is quite soft and comfortable.",
+    "material": [ "wool" ],
+    "use_action": { "type": "deploy_furn", "furn_type": "f_wool_mattress" }
   }
 ]

@@ -1,6 +1,4 @@
 #pragma once
-#ifndef CATA_SRC_FAULT_H
-#define CATA_SRC_FAULT_H
 
 #include <map>
 #include <optional>
@@ -59,7 +57,7 @@ class fault
         }
 
         bool has_flag( const std::string &flag ) const {
-            return flags.count( flag );
+            return flags.contains( flag );
         }
 
         /** Load fault from JSON definition */
@@ -82,4 +80,4 @@ class fault
         std::set<std::string> flags;
 };
 
-#endif // CATA_SRC_FAULT_H
+

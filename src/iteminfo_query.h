@@ -1,6 +1,4 @@
 #pragma once
-#ifndef CATA_SRC_ITEMINFO_QUERY_H
-#define CATA_SRC_ITEMINFO_QUERY_H
 
 #include <cstddef>
 #include <bitset>
@@ -117,6 +115,7 @@ enum class iteminfo_parts : size_t {
     GUNMOD_DAMAGE,
     GUNMOD_ARMORPIERCE,
     GUNMOD_HANDLING,
+    GUNMOD_RANGE,
     GUNMOD_AMMO,
     GUNMOD_RELOAD,
     GUNMOD_STRENGTH,
@@ -243,4 +242,4 @@ class iteminfo_query
         static const iteminfo_query no_conditions;
 };
 
-#endif // CATA_SRC_ITEMINFO_QUERY_H
+

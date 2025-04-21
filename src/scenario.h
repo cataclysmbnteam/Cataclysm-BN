@@ -1,6 +1,4 @@
 #pragma once
-#ifndef CATA_SRC_SCENARIO_H
-#define CATA_SRC_SCENARIO_H
 
 #include <set>
 #include <string>
@@ -51,6 +49,8 @@ class scenario
 
         void load( const JsonObject &jo, const std::string &src );
         bool scenario_traits_conflict_with_profession_traits( const profession &p ) const;
+
+        std::vector<std::pair<mongroup_id, float>> _surround_groups;
 
     public:
         //these three aren't meant for external use, but had to be made public regardless
@@ -113,6 +113,7 @@ class scenario
 
         const std::vector<mission_type_id> &missions() const;
 
+        const std::vector<std::pair<mongroup_id, float>> &surround_groups() const;
 };
 
 struct scen_blacklist {
@@ -130,4 +131,4 @@ void reset_scenarios_blacklist();
 const scenario *get_scenario();
 void set_scenario( const scenario *new_scenario );
 
-#endif // CATA_SRC_SCENARIO_H
+

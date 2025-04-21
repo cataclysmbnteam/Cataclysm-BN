@@ -22,8 +22,8 @@
         "s8r...........#......r|_",
         "s|r..rrrrrr...#rr....r|_",
         "s|----------D-------+-|_",
-        "s|#######|<|.|tccEc..^|_",
-        "s|#.c..c#|D|.|t.xEc...w_",
+        "s|######1|<|.|tccEc..^|_",
+        "s|#.c..c2|D|.|t.xEc...w_",
         "sL...c...L...D........w_",
         "_|l.###.l|..^|##FCC...|_",
         "_|l.rrr.l|-L-------D-D|_",
@@ -58,6 +58,8 @@
         "4": "t_gutter_downspout"
       },
       "furniture": {
+        "1": "f_workbench",
+        "2": "f_reloading_station",
         "#": "f_counter",
         "C": "f_sofa",
         "E": "f_desk",

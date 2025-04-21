@@ -2,7 +2,7 @@
   {
     "id": "masonrysaw_off",
     "type": "TOOL",
-    "category": "tools",
+    "category": "tools_workshop",
     "name": { "str": "masonry saw (off)", "str_pl": "masonry saws (off)" },
     "description": "This is a construction tool for cutting through concrete or other surfaces.  It runs on gasoline.  Using this item will cause it to turn on, turning it into a very powerful but unwieldy melee weapon or a terrible chainsaw.",
     "looks_like": "chainsaw_off",
@@ -20,7 +20,15 @@
     "max_charges": 450,
     "techniques": [ "SWEEP" ],
     "qualities": [ [ "AXE", 3 ] ],
-    "use_action": [ "CHAINSAW_OFF" ],
+    "use_action": {
+      "type": "transform",
+      "active": true,
+      "target": "masonrysaw_on",
+      "msg": "You turn on the masonry saw.",
+      "moves": 80,
+      "transform_charges": 5,
+      "need_dry": true
+    },
     "flags": [ "NONCONDUCTIVE", "POWERED", "FRAGILE_MELEE" ]
   },
   {
@@ -37,8 +45,9 @@
     "revert_to": "masonrysaw_off",
     "techniques": [ "SWEEP" ],
     "qualities": [ [ "BUTCHER", -100 ] ],
-    "use_action": [ "CIRCSAW_ON" ],
-    "flags": [ "MESSY", "TRADER_AVOID", "NONCONDUCTIVE", "FRAGILE_MELEE" ]
+    "revert_msg": "Your masonry saw goes quiet",
+    "use_action": { "type": "transform", "target": "masonrysaw_off", "msg": "You turn off the masonry saw." },
+    "flags": [ "MESSY", "TRADER_AVOID", "NONCONDUCTIVE", "FRAGILE_MELEE", "WATER_DISABLE" ]
   },
   {
     "id": "grinder_blade",

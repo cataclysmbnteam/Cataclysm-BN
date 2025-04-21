@@ -1,6 +1,4 @@
 #pragma once
-#ifndef CATA_SRC_VEH_TYPE_H
-#define CATA_SRC_VEH_TYPE_H
 
 #include <array>
 #include <bitset>
@@ -334,7 +332,7 @@ class vpart_info
             return flags;
         }
         bool has_flag( const std::string &flag ) const {
-            return flags.count( flag ) != 0;
+            return flags.contains( flag );
         }
         bool has_flag( const vpart_bitflags flag ) const {
             return bitflags.test( flag );
@@ -401,4 +399,4 @@ struct vehicle_prototype {
     static std::vector<vproto_id> get_all();
 };
 
-#endif // CATA_SRC_VEH_TYPE_H
+

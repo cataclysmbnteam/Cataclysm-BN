@@ -79,6 +79,12 @@
   },
   {
     "type": "ammunition_type",
+    "id": "shotcanister",
+    "name": "shotcanisters",
+    "default": "shotcanister_scrap"
+  },
+  {
+    "type": "ammunition_type",
     "id": "410shot",
     "name": ".410 shot",
     "default": "410shot_000"
@@ -368,6 +374,12 @@
   },
   {
     "type": "ammunition_type",
+    "id": "c_hydrogen",
+    "name": "hydrogen gas",
+    "default": "c_hydrogen_gas"
+  },
+  {
+    "type": "ammunition_type",
     "id": "flammable",
     "name": "flammable liquid",
     "default": "napalm"
@@ -647,5 +659,17 @@
     "type": "ammunition_type",
     "name": "acid",
     "default": "acid"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "mininuke_mod",
+    "name": "modified mininuke",
+    "default": "mininuke_mod"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "pitch_wood",
+    "name": "pitch",
+    "default": "pitch_wood"
   }
 ]

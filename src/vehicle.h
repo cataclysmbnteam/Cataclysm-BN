@@ -1,6 +1,4 @@
 #pragma once
-#ifndef CATA_SRC_VEHICLE_H
-#define CATA_SRC_VEHICLE_H
 
 #include <array>
 #include <climits>
@@ -70,13 +68,19 @@ struct rider_data {
     int prt = -1;
     bool moved = false;
 };
-//collision factor for vehicle-vehicle collision; delta_v in mph
+//collision factor for vehicle-vehicle collision; delta_v in m/s
 float get_collision_factor( float delta_v );
 
 //How far to scatter parts from a vehicle when the part is destroyed (+/-)
 constexpr int SCATTER_DISTANCE = 3;
 //adjust this to balance collision damage
 constexpr int k_mvel = 200;
+
+enum class turret_filter_types : int {
+    MANUAL = 0,
+    AUTOMATIC,
+    BOTH
+};
 
 enum class part_status_flag : int {
     any = 0,
@@ -106,7 +110,7 @@ struct veh_collision {
     //int veh?
     int part  = 0;
     veh_coll_type type = veh_coll_nothing;
-    // impulse
+    // Impulse, in Ns. Call impulse_to_damage or damage_to_impulse from vehicle_move.cpp for conversion to damage.
     int  imp = 0;
     //vehicle
     void *target  = nullptr;
@@ -177,6 +181,8 @@ int mps_to_vmiph( double mps );
 double vmiph_to_mps( int vmiph );
 int cmps_to_vmiph( int cmps );
 int vmiph_to_cmps( int vmiph );
+float impulse_to_damage( float impulse );
+float damage_to_impulse( float damage );
 
 class turret_data
 {
@@ -482,11 +488,11 @@ class vehicle
         void suspend_refresh();
         void enable_refresh();
 
-        inline void attach() {
+        void attach() {
             attached = true;
         }
 
-        inline void detach() {
+        void detach() {
             attached = false;
         }
 
@@ -1187,7 +1193,7 @@ class vehicle
         // turn vehicle left (negative) or right (positive), degrees
         void turn( units::angle deg );
 
-        inline void set_facing( units::angle deg, bool refresh = true ) {
+        void set_facing( units::angle deg, bool refresh = true ) {
             turn_dir = deg;
             face.init( deg );
             pivot_rotation[0] = deg;
@@ -1196,7 +1202,7 @@ class vehicle
             }
         }
 
-        inline void set_pivot( point pivot, bool refresh = true ) {
+        void set_pivot( point pivot, bool refresh = true ) {
             pivot_cache = pivot;
             pivot_anchor[0] = pivot;
             if( refresh ) {
@@ -1204,7 +1210,7 @@ class vehicle
             }
         }
 
-        inline void set_facing_and_pivot( units::angle deg, point pivot, bool refresh = true ) {
+        void set_facing_and_pivot( units::angle deg, point pivot, bool refresh = true ) {
             set_facing( deg, false );
             set_pivot( pivot, refresh );
         }
@@ -1244,6 +1250,11 @@ class vehicle
         units::volume max_volume( int part ) const;
         units::volume free_volume( int part ) const;
         units::volume stored_volume( int part ) const;
+
+        /**
+         * Remove an item from active item processing queue as necessary
+         */
+        void make_inactive( item &target );
         /**
          * Update an item's active status, for example when adding
          * hot or perishable liquid to a container.
@@ -1320,6 +1331,9 @@ class vehicle
         turret_data turret_query( const tripoint &pos );
         turret_data turret_query( const tripoint &pos ) const;
 
+        /** Returns true if any part on the tile the turret is installed on has the MANUAL flag. */
+        bool is_manual_turret( const vehicle_part &pt ) const;
+
         /** Set targeting mode for specific turrets */
         void turrets_set_targeting();
 
@@ -1327,17 +1341,17 @@ class vehicle
         void turrets_set_mode();
 
         /** Select a single ready turret, aim it using the aiming UI and fire. */
-        void turrets_aim_and_fire_single();
+        void turrets_aim_and_fire_single( avatar &you );
 
         /*
-         * Find all ready turrets that are set to manual mode, aim them using the aiming UI and fire.
+         * Find all ready turrets, aim them using aiming UI and fire.
+         * @param turret_filter Decide which filter to use (manual, automatic, both)
          * @param show_msg Show 'no such turrets found' message. Does not affect returned value.
          * @return False if there are no such turrets
          */
-        bool turrets_aim_and_fire_all_manual( bool show_msg = false );
 
-        /** Set target for automatic turrets using the aiming UI */
-        void turrets_override_automatic_aim();
+        bool turrets_aim_and_fire_mult( avatar &you, const turret_filter_types turret_filter,
+                                        const bool show_msg = false );
 
         /*
          * Fire turret at automatically acquired target
@@ -1345,13 +1359,18 @@ class vehicle
          */
         int automatic_fire_turret( vehicle_part &pt );
 
+        // How many hits of damage `dmg` and damage type `type` to part with ID `p` to destroy it is needed?
+        // 0 if it will never destroy.
+        // Be aware this will not consider damage to more outside parts such as inner parts protected by an outer wall, only armor effects are considered
+        unsigned int hits_to_destroy( int p, int dmg, damage_type type ) const;
+
     private:
         /*
          * Find all turrets that are ready to fire.
          * @param manual Include turrets set to 'manual' targeting mode
          * @param automatic Include turrets set to 'automatic' targeting mode
          */
-        std::vector<vehicle_part *> find_all_ready_turrets( bool manual, bool automatic );
+        std::vector<vehicle_part *> find_all_ready_turrets( turret_filter_types filter );
 
         /*
          * Select target using the aiming UI and set turrets to aim at it.
@@ -1764,4 +1783,4 @@ namespace rot
 temperature_flag temperature_flag_for_part( const vehicle &veh, size_t part );
 } // namespace rot
 
-#endif // CATA_SRC_VEHICLE_H
+

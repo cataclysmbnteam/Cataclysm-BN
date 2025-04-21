@@ -1,6 +1,8 @@
 [
   {
     "id": "barb_launcher",
+    "//": "For sound messages",
+    "weapon_category": [ "PNEUMATIC" ],
     "type": "GUN",
     "symbol": "%",
     "color": "red",
@@ -32,6 +34,7 @@
   },
   {
     "id": "feral_human_thrown_rock",
+    "weapon_category": [ "ELASTIC" ],
     "type": "GUN",
     "symbol": "%",
     "color": "red",
@@ -85,6 +88,7 @@
   },
   {
     "id": "emp_frond",
+    "weapon_category": [ "ENERGY_WEAPONS" ],
     "type": "GUN",
     "symbol": "%",
     "color": "red",

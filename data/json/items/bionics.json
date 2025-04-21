@@ -12,7 +12,7 @@
     "color": "yellow",
     "price_postapoc": "10 USD",
     "use_action": "install_bionic",
-    "flags": [ "CBM" ],
+    "flags": [ "CBM", "ALLOWS_REMOTE_USE" ],
     "is_upgrade": false,
     "faults": [ "fault_bionic_nonsterile" ]
   },
@@ -146,6 +146,17 @@
     "difficulty": 8
   },
   {
+    "id": "bio_monowire",
+    "copy-from": "bionic_general_npc_usable",
+    "type": "BIONIC_ITEM",
+    "name": { "str": "Monofilament Whip CBM" },
+    "looks_like": "bio_int_enhancer",
+    "description": "A razor-sharp thread of advanced material that is installed inside the hand, capable of being extended at the cost of a small amount of power.  Though exceptionally sharp, it will prevent the user from holding anything else while extended.",
+    "price": "2000 USD",
+    "weight": "250 g",
+    "difficulty": 8
+  },
+  {
     "id": "bio_shotgun",
     "copy-from": "bionic_general",
     "type": "BIONIC_ITEM",
@@ -186,10 +197,34 @@
     "type": "BIONIC_ITEM",
     "name": { "str": "Cable Charger System CBM" },
     "looks_like": "bio_int_enhancer",
-    "description": "A complex port that is mounted above the hip.  While active, it will recharge bionic power when connected to a battery via jumper cable.",
+    "description": "A complex port that is mounted above the hip.  While active, it will recharge bionic power when connected to a battery via cable.",
     "price": "800 USD",
     "weight": "250 g",
     "difficulty": 4
+  },
+  {
+    "id": "bio_cable_upgrade",
+    "bionic_id": "bio_cable_mkII",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": { "str": "Cable Charger Upgrade CBM" },
+    "description": "A kit for upgrading a pre-installed cable charger with enhanced power throughput.",
+    "price": "4000 USD",
+    "weight": "250 g",
+    "difficulty": 7,
+    "is_upgrade": true
+  },
+  {
+    "id": "bio_cable_mkII",
+    "bionic_id": "bio_cable_mkII",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": { "str": "Cable Charger System CBM Mk. II" },
+    "looks_like": "bio_int_enhancer",
+    "description": "This is a military-grade electronic port and power converter system which are surgically mounted above your hip, it has ten times higher throughput than basic version.  While active, it will recharge bionic power when connected to a power source via cable.",
+    "price": "8000 USD",
+    "weight": "500 g",
+    "difficulty": 9
   },
   {
     "id": "bio_carbon",
@@ -578,7 +613,7 @@
     "type": "BIONIC_ITEM",
     "name": { "str": "Enhanced Memory Banks CBM" },
     "looks_like": "bio_int_enhancer",
-    "description": "A set of highly-advanced quantum storage drives used to enhance memory.  While active, they increase the rate that the user learns skills, and give them near-perfect memory of skills and terrain.",
+    "description": "A set of highly-advanced quantum storage drives used to enhance memory.  While active, they increase the rate that the user learns skills, and give them near-perfect memory of skills.",
     "price": "10 kUSD",
     "weight": "100 g",
     "difficulty": 9
@@ -745,7 +780,7 @@
     "type": "BIONIC_ITEM",
     "name": { "str": "Fingertip Razors CBM" },
     "looks_like": "bio_int_enhancer",
-    "description": "A set of ten double-edged, four centimeter long razor-sharp claws that are implanted underneath the fingernails.  These will deal a small amount of unarmed slashing damage whenever the user's fingertips are uncovered.",
+    "description": "A set of ten double-edged, four centimeter long razor-sharp claws that are implanted underneath the fingernails.  These will deal a fair amount of unarmed slashing damage whenever the user's fingertips are uncovered, and allow the user to somewhat precisely slice things apart.",
     "price": "4500 USD",
     "weight": "5 g",
     "difficulty": 4
@@ -760,6 +795,17 @@
     "price": "4500 USD",
     "weight": "600 g",
     "difficulty": 7
+  },
+  {
+    "id": "bio_fuel_cell_hydrogen",
+    "copy-from": "bionic_general_npc_usable",
+    "type": "BIONIC_ITEM",
+    "name": { "str": "Hydrogen Fuel Cell CBM" },
+    "looks_like": "bio_int_enhancer",
+    "description": "A small hydrogen fuel cell able to generate bionic power at a decent rate of efficiency.  It's connected to a diffuse network of compressors and compact canisters able to hold up to 2 liters of hydrogen.",
+    "price": "7 kUSD",
+    "weight": "600 g",
+    "difficulty": 9
   },
   {
     "id": "bio_reactor",
@@ -978,7 +1024,7 @@
     "type": "BIONIC_ITEM",
     "name": { "str": "Uncanny Dodge CBM" },
     "looks_like": "bio_int_enhancer",
-    "description": "Bionic processors that augment the user's nervous system, allowing them to dodge attacks beyond normal human capability, including bullets.",
+    "description": "Bionic processors that augment the user's nervous system, increasing their ability to dodge while active.  Dodge skill will also allow evading attacks beyond normal human capability, such as bullets.",
     "price": "9500 USD",
     "weight": "1000 g",
     "difficulty": 11

@@ -176,7 +176,7 @@ nc_color inventory_entry::get_invlet_color() const
 {
     if( !is_selectable() ) {
         return c_dark_gray;
-    } else if( g->u.inv_assigned_invlet().count( get_invlet() ) ) {
+    } else if( g->u.inv_assigned_invlet().contains( get_invlet() ) ) {
         return c_yellow;
     } else {
         return c_white;
@@ -238,8 +238,8 @@ bool inventory_selector_preset::sort_compare( const inventory_entry &lhs,
         const inventory_entry &rhs ) const
 {
     // Place items with an assigned inventory letter first, since the player cared enough to assign them
-    const bool left_fav  = g->u.inv_assigned_invlet().count( lhs.any_item()->invlet );
-    const bool right_fav = g->u.inv_assigned_invlet().count( rhs.any_item()->invlet );
+    const bool left_fav  = g->u.inv_assigned_invlet().contains( lhs.any_item()->invlet );
+    const bool right_fav = g->u.inv_assigned_invlet().contains( rhs.any_item()->invlet );
     if( left_fav == right_fav ) {
         return lhs.cached_name.compare( rhs.cached_name ) < 0; // Simple alphabetic order
     } else if( left_fav ) {
@@ -696,6 +696,20 @@ void inventory_column::on_input( const inventory_input &input )
         move_selection_page( scroll_direction::BACKWARD );
     } else if( input.action == "HOME" ) {
         select( 0, scroll_direction::FORWARD );
+    } else if( input.action == "EXAMINE" ) {
+        const auto &highlighed =  get_selected().any_item();
+
+        std::vector<iteminfo> this_item = highlighed->info();
+        item_info_data dummy( highlighed->display_name(), {}, this_item, {} );
+        dummy.handle_scrolling = true;
+        draw_item_info( []() -> catacurses::window {
+            const int width = std::min( TERMX, FULL_SCREEN_WIDTH );
+            const int height = FULL_SCREEN_HEIGHT;
+            return catacurses::newwin( height, width, point( ( TERMX - width ) / 2, ( TERMY - height ) / 2 ) );
+        }, dummy );
+
+        // recalc = true;
+        // keepline = true;
     } else if( input.action == "END" ) {
         select( entries.size() - 1, scroll_direction::BACKWARD );
     } else if( input.action == "TOGGLE_FAVORITE" ) {
@@ -765,7 +779,7 @@ void inventory_column::prepare_paging( const std::string &filter )
             to->update_cache();
             std::advance( to, 1 );
         }
-        if( ordered_categories.count( from->get_category_ptr()->get_id().c_str() ) == 0 ) {
+        if( !ordered_categories.contains( from->get_category_ptr()->get_id().c_str() ) ) {
             std::sort( from, to, [ this ]( const inventory_entry & lhs, const inventory_entry & rhs ) {
                 if( lhs.is_selectable() != rhs.is_selectable() ) {
                     return lhs.is_selectable(); // Disabled items always go last
@@ -1545,7 +1559,7 @@ void inventory_selector::refresh_window() const
 void inventory_selector::set_filter()
 {
     spopup = std::make_unique<string_input_popup>();
-    spopup->max_length( 256 )
+    spopup->max_length( 256 ).identifier( "inventory" )
     .text( filter );
 
     shared_ptr_fast<ui_adaptor> current_ui = ui.lock();
@@ -1709,6 +1723,7 @@ inventory_selector::inventory_selector( player &u, const inventory_selector_pres
     ctxt.register_action( "HELP_KEYBINDINGS" );
     ctxt.register_action( "ANY_INPUT" ); // For invlets
     ctxt.register_action( "INVENTORY_FILTER" );
+    ctxt.register_action( "EXAMINE" );
 
     append_column( own_inv_column );
     append_column( map_column );

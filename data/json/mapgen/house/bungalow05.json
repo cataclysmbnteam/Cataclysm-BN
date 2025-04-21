@@ -2,7 +2,6 @@
   {
     "type": "mapgen",
     "om_terrain": "bungalow05",
-    "weight": 250,
     "method": "json",
     "object": {
       "palettes": [ "standard_domestic_palette", "standard_domestic_lino_bathroom", "standard_domestic_landscaping_palette" ],
@@ -10,27 +9,27 @@
       "rows": [
         "...---..................",
         "...---.......#####oo##..",
-        ".X.---.p)))))#ZW|d   #..",
+        "...---.p)))))#ZW|d  ɸ#..",
         "...---.##oo###__|d  @#..",
         "...---%#@@ b|B_t|   @o..",
         "...---%o@@ D|B_S|D  ¤#..",
         "...---%#¤  d|8_8|||+|#..",
         "...---%#   d||+||y  T#..",
         "...---%#|+|||y    // o..",
-        "...---%o?         //ho..",
+        "...---%oƏ         //ho..",
         "...---##||||||||   rr#..",
         "..#o*o#ffh|xxx     ||#..",
-        "..#? L|ff |/// l   +U#..",
+        "..#Ə L|ff |/// l   +U#..",
         "..#  &|h  |/// E   +q#..",
         "..o      4|HHH   |+||#^.",
         "..oy     7|sssT  |  y#..",
-        "..#F JJA         |  ?#..",
-        "..#J         yRRR|  ?o..",
+        "..#F JJA         |  Ə#..",
+        "..#J         yRRR|  Əo..",
         "..#5JO126  RR#####o¶##..",
         "..###oo##oo###$$$`````..",
-        "........jjjj.-````````..",
+        ".............-````````..",
         "..,,.........-``₸`K`₸`..",
-        ".,[,......u..-````₸```..",
+        ".,[,.........-````₸```..",
         ".,......................"
       ],
       "terrain": {
@@ -48,19 +47,18 @@
         ",": "t_dirt",
         "/": "t_carpet_yellow"
       },
-      "furniture": { "?": "f_table", "$": "f_rack", "&": "f_rack" },
+      "furniture": { "$": "f_rack", "&": "f_rack" },
       "items": {
-        "?": { "item": "table_foyer", "chance": 50 },
         "&": { "item": "clothing_outdoor_shoes", "chance": 40, "repeat": [ 1, 2 ] },
         "$": [ { "item": "sports", "chance": 30 }, { "item": "camping", "chance": 30 } ]
       },
-      "place_loot": [ { "item": "television", "x": 12, "y": 11 } ]
+      "place_loot": [ { "item": "television", "x": 12, "y": 11 } ],
+      "place_nested": [ { "chunks": [ "NC_res_frontlawn_3X3" ], "x": 0, "y": 1 }, { "chunks": [ "NC_res_backyard_3X3" ], "x": 8, "y": 20 } ]
     }
   },
   {
     "type": "mapgen",
     "om_terrain": "bungalow05_roof",
-    "weight": 250,
     "method": "json",
     "object": {
       "palettes": [ "roof_palette" ],
@@ -91,7 +89,11 @@
         ",,,,,,,,,,,,,,,,,,,,,,,,",
         ",,,,,,,,,,,,,,,,,,,,,,,,"
       ],
-      "terrain": { ".": "t_shingle_flat_roof", ",": "t_open_air" }
+      "terrain": { ".": "t_shingle_flat_roof", ",": "t_open_air" },
+      "place_nested": [
+        { "chunks": [ "NC_res_roof_solar_4X4" ], "x": 14, "y": 6 },
+        { "chunks": [ "NC_res_roof_chunk_3X3" ], "x": 8, "y": 5 }
+      ]
     }
   }
 ]

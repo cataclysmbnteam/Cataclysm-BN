@@ -2,37 +2,14 @@
 title: Compatibility with screen readers
 ---
 
-There are people who uses screen readers to play Cataclysm DDA. In order for screen readers to
-announce the most important information in a UI, the terminal cursor has to be placed at the correct
-location. This information may be text such as selected item names in a list, etc, and the cursor
-has to be placed exactly at the beginning of the text for screen readers to announce it.
+There are people who use screen readers to play Cataclysm Bright Nights. In order for screen readers
+to announce the most important information in a UI, the terminal cursor has to be placed at the
+correct location. This information may be text such as selected item names in a list, etc, and the
+cursor has to be placed exactly at the beginning of the text for screen readers to announce it.
 
-`wmove` in `output.h|cpp` is the function to move the cursor to a specific location. After calling
-`wmove` with the target `catacurses::window` and cursor position, `wrefresh` needs to be called
-immediately afterwards for `wmove` to take effect.
-
-Here is an example of placing the cursor explicitly at the beginning of a piece of text:
-
-```cpp
-catacurses::window win = ...; // target window
-
-...
-
-// display code
-point cursor_position = ...; // default cursor position
-
-...
-
-cursor_position = point_zero; // record the start position of the text
-fold_and_print( win, cursor_position, getmaxx( win ), c_white, _( "This text is important" ) );
-
-...
-
-// at the end of display code
-wmove( win, cursor_position );
-wrefresh( win );
-// no output code should follow as they might change the cursor position
-```
-
-As shown in the above example, it is preferable to record the intended cursor position in a variable
-when the text is printed, and move the cursor later using the variable to ensure consisitency.
+The recommended way to place the cursor is to use `ui_adaptor`. This ensures the desired cursor
+position is preserved when subsequent output code changes the cursor position. You can call
+`ui_adaptor::set_cursor` and similar methods at any position in a redrawing callback, and the last
+cursor position of the topmost UI set via the call will be used as the final cursor position. You
+can also call `ui_adaptor::disable_cursor` to prevent a UI's cursor from being used as the final
+cursor position.

@@ -108,10 +108,10 @@ static void drop_or_embed_projectile( dealt_projectile_attack &attack )
                  !proj.has_effect( ammo_effect_TANGLE );
     // Don't embed in small creatures
     if( embed ) {
-        const m_size critter_size = mon->get_size();
+        const creature_size critter_size = mon->get_size();
         const units::volume vol = drop_item.volume();
-        embed = embed && ( critter_size > MS_TINY || vol < 250_ml );
-        embed = embed && ( critter_size > MS_SMALL || vol < 500_ml );
+        embed = embed && ( critter_size > creature_size::tiny || vol < 250_ml );
+        embed = embed && ( critter_size > creature_size::small || vol < 500_ml );
         // And if we deal enough damage
         // Item volume bumps up the required damage too
         embed = embed &&
@@ -201,7 +201,7 @@ projectile_attack_aim projectile_attack_roll( const dispersion_sources &dispersi
 
 dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tripoint &source,
         const tripoint &target_arg, const dispersion_sources &dispersion,
-        Creature *origin, const vehicle *in_veh )
+        Creature *origin, item *source_weapon, const vehicle *in_veh )
 {
     const bool do_animation = get_option<bool>( "ANIMATION_PROJECTILES" );
 
@@ -432,7 +432,7 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
                 continue;
             }
             attack.missed_by = cur_missed_by;
-            critter->deal_projectile_attack( null_source ? nullptr : origin, attack );
+            critter->deal_projectile_attack( null_source ? nullptr : origin, source_weapon, attack );
             // Critter can still dodge the projectile
             // In this case hit_critter won't be set
             if( attack.hit_critter != nullptr ) {
@@ -501,7 +501,7 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
             Creature &z = *mon_ptr;
             add_msg( _( "The attack bounced to %s!" ), z.get_name() );
             z.add_effect( effect_bounced, 1_turns );
-            projectile_attack( proj, tp, z.pos(), dispersion, origin, in_veh );
+            projectile_attack( proj, tp, z.pos(), dispersion, origin, source_weapon, in_veh );
             sfx::play_variant_sound( "fire_gun", "bio_lightning_tail",
                                      sfx::get_heard_volume( z.pos() ), sfx::get_heard_angle( z.pos() ) );
         }

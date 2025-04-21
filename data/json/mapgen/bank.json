@@ -33,8 +33,8 @@
         "                        "
       ],
       "terrain": {
-        " ": [ "t_grass", "t_grass", "t_grass", "t_dirt", "t_shrub" ],
-        "'": "t_dirt",
+        " ": "t_region_groundcover_urban",
+        "'": "t_region_groundcover_urban",
         "#": "t_wall_w",
         "$": "t_metal_floor",
         "%": [ "t_door_c", "t_door_c", "t_door_locked_interior" ],
@@ -45,7 +45,7 @@
         "6": "t_console",
         "A": "t_atm",
         "G": "t_door_glass_c",
-        "I": "t_column",
+        "I": "t_sidewalk",
         "M": "t_door_metal_locked",
         "R": "t_wall_metal",
         "S": "t_sidewalk",
@@ -58,6 +58,7 @@
         "'": "f_street_light",
         "C": "f_chair",
         "T": "f_table",
+        "I": [ "f_us_flag_metal", "f_flagpole_metal" ],
         "c": "f_counter",
         "l": "f_stool",
         "p": [ "f_indoor_plant", "f_null" ],
@@ -65,7 +66,6 @@
         "t": "f_toilet"
       },
       "toilets": { "t": {  } },
-      "place_loot": [ { "item": "american_flag", "x": 20, "y": 0, "chance": 50 } ],
       "place_items": [
         { "item": "office", "x": [ 4, 9 ], "y": 8, "chance": 30 },
         { "item": "office", "x": [ 3, 5 ], "y": 12, "chance": 30 },
@@ -89,6 +89,7 @@
     "method": "json",
     "om_terrain": "bank_roof",
     "object": {
+      "palettes": [ "roof_palette" ],
       "fill_ter": "t_flat_roof",
       "rows": [
         "                        ",
@@ -111,23 +112,12 @@
         " |....................3 ",
         " |............=.......3 ",
         " |....................3 ",
-        " |........>.....&.....3 ",
-        " 5....................3 ",
+        " |..............&.....3 ",
+        " 5..........>.........3 ",
         " ---------------------- ",
         "                        "
       ],
-      "terrain": {
-        ".": "t_flat_roof",
-        " ": "t_open_air",
-        "2": "t_gutter_north",
-        "-": "t_gutter_south",
-        "3": "t_gutter_east",
-        "|": "t_gutter_west",
-        ">": "t_ladder_down",
-        "o": "t_glass_roof",
-        "5": "t_gutter_drop"
-      },
-      "furniture": { "&": "f_roof_turbine_vent", "=": "f_vent_pipe" },
+      "terrain": { ">": "t_ladder_down" },
       "place_nested": [
         {
           "chunks": [ [ "null", 20 ], [ "roof_2x2_utilities_b", 15 ], [ "roof_2x2_utilities_c", 5 ], [ "roof_2x2_utilities_d", 40 ] ],
@@ -171,7 +161,7 @@
         "########4               "
       ],
       "terrain": {
-        " ": [ "t_grass", "t_grass", "t_grass", "t_dirt" ],
+        " ": "t_region_groundcover_urban",
         "'": "t_sidewalk",
         "_": "t_metal_floor",
         "|": [ "t_door_c", "t_wall_w", "t_wall_w", "t_wall_w", "t_wall_w", "t_wall_w", "t_wall_w", "t_wall_w", "t_wall_w" ],
@@ -187,7 +177,7 @@
         "6": "t_console",
         "A": "t_atm",
         "G": "t_door_glass_c",
-        "i": "t_column",
+        "i": "t_sidewalk",
         "M": "t_door_metal_locked",
         "R": "t_wall_metal",
         "S": "t_sidewalk",
@@ -208,6 +198,7 @@
         "C": "f_chair",
         "T": "f_table",
         "c": "f_counter",
+        "i": [ "f_us_flag_metal", "f_flagpole_metal" ],
         "l": "f_stool",
         "p": [ "f_indoor_plant", "f_null" ],
         "s": "f_sink",
@@ -233,7 +224,6 @@
           "failures": [ { "action": "alarm" }, { "action": "damage" }, { "action": "secubots" } ]
         }
       },
-      "place_loot": [ { "item": "american_flag", "x": 21, "y": 0, "chance": 50 } ],
       "place_monster": [ { "monster": "mon_secubot", "x": [ 7, 18 ], "y": [ 7, 18 ], "chance": 30, "repeat": 4 } ]
     }
   },

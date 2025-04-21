@@ -3,7 +3,7 @@
 /**
  * Generates markdown documentation for the game executable.
  */
-import { chunk } from "$std/collections/chunk.ts"
+import { chunk } from "@std/collections"
 
 export type Flag = { option: string; desc: string }
 export type Section = { title: string; flags: Flag[] }
@@ -60,7 +60,7 @@ ${sections}
 }
 
 if (import.meta.main) {
-  const command = new Deno.Command("./cataclysm-tiles", { args: ["--help"] })
+  const command = new Deno.Command("./cataclysm-bn-tiles", { args: ["--help"] })
   const { stdout } = await command.output()
 
   const text = new TextDecoder().decode(stdout)

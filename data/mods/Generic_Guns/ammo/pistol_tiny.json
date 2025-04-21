@@ -23,7 +23,7 @@
     "copy-from": "tiny_pistol_ball",
     "name": { "str_sp": ".22, FMJ (black powder)" },
     "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] },
+    "delete": { "effects": [ "NEVER_MISFIRES" ] },
     "description": "Miniscule pistol and rifle ammunition, for target practice or turn of the century sidearms.  Sold in great quantities preceding the riots.  Full metal jacketed bullets offer reduced fouling, better reliability, and slightly improved penetration compared to plain lead.  This was however handloaded with black powder.",
     "proportional": {
       "price": 0.3,

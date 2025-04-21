@@ -12,18 +12,18 @@ You have three major choices here: GCC, Clang and MXE.
 
 - GCC is almost always the default on Linux systems so it's likely you already have it
 - Clang is usually faster than GCC, so it's worth installing if you plan to keep up with the latest
-  experimentals
+  nightlies.
 - MXE is a cross-compiler, so of any importance only if you plan to compile for Windows on your
   Linux machine
 
 (Note that your distro may have separate packages e.g. `gcc` only includes the C compiler and for
 C++ you'll need to install `g++`.)
 
-Cataclysm is targeting C++17 standard and that means you'll need a compiler that supports it. You
-can easily check if your version of `g++` supports C++17 by running:
+Cataclysm is targeting C++20 standard and that means you'll need a compiler that supports it. You
+can easily check if your version of `g++` supports C++20 by running:
 
 ```sh
-$ g++ --std=c++17
+$ g++ --std=c++20
 g++: fatal error: no input files
 compilation terminated.
 ```
@@ -31,7 +31,7 @@ compilation terminated.
 If you get a line like:
 
 ```sh
-g++: error: unrecognized command line option ‘--std=c++17’
+g++: error: unrecognized command line option ‘--std=c++20’
 ```
 
 This means you'll need a newer version of GCC (`g++`).
@@ -47,8 +47,8 @@ you go (if any).
 
 Besides the essentials you will need `git`.
 
-If you plan on keeping up with experimentals you should also install `ccache`, which will
-considerably speed-up partial builds.
+If you plan on keeping up with nightlies you should also install `ccache`, which will considerably
+speed-up partial builds.
 
 ## Dependencies
 
@@ -58,7 +58,7 @@ your distro packages libraries and their development files separately (e.g. Debi
 
 Rough list based on building on Arch:
 
-- General: `gcc-libs`, `glibc`, `zlib`, `bzip2`
+- General: `gcc-libs`, `glibc`, `zlib`, `bzip2`, `sqlite3`
 - Optional: `intltool`
 - Curses: `ncurses`
 - Tiles: `sdl2`, `sdl2_image`, `sdl2_ttf`, `sdl2_mixer`, `freetype2`
@@ -137,7 +137,7 @@ Dependencies:
 Install:
 
 ```sh
-sudo apt-get install libncurses5-dev libncursesw5-dev build-essential astyle
+sudo apt-get install libncurses5-dev libncursesw5-dev build-essential astyle libsqlite3-dev zlib1g-dev
 ```
 
 ### Building
@@ -377,7 +377,7 @@ builds the SDL version with all features enabled, including tiles, sound and loc
 
 ### Dependencies
 
-- Java JDK 8
+- Java JDK 11
 - SDL2 (tested with 2.0.8, though a custom fork is recommended with project-specific bugfixes)
 - SDL2_ttf (tested with 2.0.14)
 - SDL2_mixer (tested with 2.0.2)
@@ -458,6 +458,33 @@ To build a debug APK and immediately deploy to your connected device over adb ru
 
 To build a signed release APK (ie. one that can be installed on a device),
 [build an unsigned release APK and sign it manually](https://developer.android.com/studio/publish/app-signing#signing-manually).
+
+### Triggering a Nightly Build in a Github Fork
+
+To successfully build an Android APK using a nightly build in your own Github fork, you will need to
+initialize a set of dummy Android signing keys. This is necessary because the Github Actions
+workflow requires a set of keys to sign the APKs with.
+
+1. Make up a >6 character password. Remember it and save it into github secrets as
+   `KEYSTORE_PASSWORD`
+2. Create a key via
+   `keytool -genkey -v -keystore release.keystore -keyalg RSA -keysize 2048 -validity 10000 -alias dummy-key`.
+   When asked for a password, use the password from above.
+3. Create a file called `keystore.properties.asc` with the following contents:
+
+```text
+storeFile=release.keystore
+storePassword=<INSERT PASSWORD FROM STEP 1>
+keyAlias=dummy-key
+keyPassword=<INSERT PASSWORD FROM STEP 1>
+```
+
+4. Encrypt `release.keystore` using the password from step 1 using
+   `gpg --symmetric --cipher-algo AES256 --armor release.keystore`. Save the result into github
+   secrets as `KEYSTORE`
+5. Encrypt `keystore.properties` using the password from step 1 using
+   `gpg --symmetric --cipher-algo AES256 --armor keystore.properties`. Save the result into github
+   secrets as `KEYSTORE_PROPERTIES`
 
 ### Additional notes
 
@@ -569,6 +596,23 @@ this will not work.
 
 Check that `gcc -v` shows the homebrew version you installed.
 
+### brew clang
+
+If you want to use normal clang instead of apple clang, you can install it with Homebrew:
+
+```sh
+brew install llvm
+```
+
+Then you can specify the compiler with `COMPILER=$(brew --prefix llvm)/bin/clang++` in your make
+command.
+
+It's always good to check that the installed compiler is the one you want.
+
+```sh
+$(brew --prefix llvm)/bin/clang++ --version
+```
+
 ### Compiling
 
 The Cataclysm source is compiled using `make`.
@@ -632,7 +676,7 @@ For curses builds:
 For SDL:
 
 ```sh
-./cataclysm-tiles
+./cataclysm-bn-tiles
 ```
 
 For `app` builds, launch Cataclysm.app from Finder.

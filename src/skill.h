@@ -1,6 +1,4 @@
 #pragma once
-#ifndef CATA_SRC_SKILL_H
-#define CATA_SRC_SKILL_H
 
 #include <functional>
 #include <map>
@@ -104,7 +102,7 @@ class Skill
         bool is_weapon_skill() const;
 
         // Required for LUA
-        inline bool operator<( const Skill &rhs ) const {
+        bool operator<( const Skill &rhs ) const {
             return _ident < rhs._ident;
         }
 };
@@ -253,4 +251,4 @@ class SkillDisplayType
 
 double price_adjustment( int );
 
-#endif // CATA_SRC_SKILL_H
+

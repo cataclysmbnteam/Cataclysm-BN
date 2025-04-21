@@ -3,13 +3,31 @@
     "id": "adhesive",
     "type": "requirement",
     "//": "Materials used for joining (typically non-metallic) parts",
-    "components": [ [ [ "duct_tape", 25 ], [ "medical_tape", 25 ], [ "superglue", 1 ], [ "bone_glue", 1 ] ] ]
+    "components": [ [ [ "duct_tape", 25 ], [ "medical_tape", 25 ], [ "adhesive_proper", 5, "LIST" ] ] ]
+  },
+  {
+    "id": "adhesive_proper",
+    "type": "requirement",
+    "//": "Materials used for joining (typically non-metallic) parts, excluding tape",
+    "components": [ [ [ "superglue", 1 ], [ "bone_glue", 2 ], [ "pitch_wood", 2 ] ] ]
+  },
+  {
+    "id": "nail_glue",
+    "type": "requirement",
+    "//": "Materials that connect part together tightly, nails and glue.",
+    "components": [ [ [ "nail", 1 ], [ "adhesive_proper", 1, "LIST" ] ] ]
   },
   {
     "id": "ammo_bullet",
     "type": "requirement",
     "//": "Materials used when forming bullets",
-    "components": [ [ [ "lead", 1 ], [ "bismuth", 3 ] ] ]
+    "components": [ [ [ "lead", 1 ], [ "bismuth", 2 ] ] ]
+  },
+  {
+    "id": "ammo_bullet_birdshot",
+    "type": "requirement",
+    "//": "Materials used when forming bullets for birdshot",
+    "components": [ [ [ "bb", 2 ], [ "lead", 1 ], [ "bismuth", 2 ] ] ]
   },
   {
     "id": "chem_lye",
@@ -27,13 +45,13 @@
     "id": "cordage",
     "type": "requirement",
     "//": "Materials used for tying items, primitive bowstrings, and other uses involving string or makeshift cordage, 36 g/90 cm of cordage per unit.",
-    "components": [ [ [ "string_36", 1 ], [ "cordage_36", 1 ], [ "cordage_short", 6, "LIST" ] ] ]
+    "components": [ [ [ "string_36", 1 ], [ "cordage_36", 1 ], [ "cordage_36_leather", 1 ], [ "cordage_short", 6, "LIST" ] ] ]
   },
   {
     "id": "cordage_short",
     "type": "requirement",
     "//": "Materials used for tying smaller items requiring less string, 6 g/15 cm of cordage per unit.",
-    "components": [ [ [ "string_6", 1 ], [ "cordage_6", 1 ], [ "filament", 50, "LIST" ] ] ]
+    "components": [ [ [ "string_6", 1 ], [ "cordage_6", 1 ], [ "cordage_6_leather", 1 ], [ "filament", 50, "LIST" ] ] ]
   },
   {
     "id": "cordage_superior",
@@ -51,7 +69,7 @@
     "id": "cvd_diamond",
     "type": "requirement",
     "//": "Materials required to apply diamond coating (per 250ml volume)",
-    "components": [ [ [ "plasma", 5 ] ], [ [ "charcoal", 25 ], [ "coal_lump", 25 ] ] ]
+    "components": [ [ [ "plasma", 5 ], [ "c_hydrogen_gas", 20 ] ], [ [ "charcoal", 25 ], [ "coal_lump", 25 ] ] ]
   },
   {
     "id": "autoclave",
@@ -75,7 +93,7 @@
     "id": "fabric_standard",
     "type": "requirement",
     "//": "Any valid fabric material, for when the material used shouldn't impact the material of the end product.  Excludes felt patches, since this may still be worn on skin.",
-    "components": [ [ [ "rag", 1 ], [ "nylon", 1 ], [ "nomex", 1 ], [ "neoprene", 1 ] ] ]
+    "components": [ [ [ "rag", 1 ], [ "nylon", 1 ], [ "neoprene", 1 ] ] ]
   },
   {
     "id": "fabric_hides_any",
@@ -171,7 +189,7 @@
     "id": "waterproofing",
     "type": "requirement",
     "//": "Materials for waterproofing leather and wooden items.",
-    "components": [ [ [ "wax", 1 ], [ "pine_bough", 5 ] ] ]
+    "components": [ [ [ "wax", 1 ], [ "pitch_wood", 10 ] ] ]
   },
   {
     "id": "fletching",
@@ -265,6 +283,12 @@
     "components": [ [ [ "alloy_sheet", 1 ] ] ]
   },
   {
+    "id": "vehicle_repair_carbon",
+    "type": "requirement",
+    "//": "Materials used for repairing carbon fiber parts",
+    "components": [ [ [ "carbon_fiber_filament", 1 ] ] ]
+  },
+  {
     "id": "wood_structural",
     "type": "requirement",
     "//": "Planks, sticks, and long sticks used in recipes, roughly 1:1 by weight.",
@@ -298,6 +322,34 @@
         [ "bandages_makeshift", 1 ],
         [ "bandages_makeshift_bleached", 1 ],
         [ "bandages_makeshift_boiled", 1 ]
+      ]
+    ]
+  },
+  {
+    "id": "varnish",
+    "type": "requirement",
+    "//": "Any kind of item that can be used for the purpose of varnishing wood.",
+    "components": [
+      [
+        [ "any_tallow", 1, "LIST" ],
+        [ "edible_lard", 1, "LIST" ],
+        [ "cooking_oil", 8 ],
+        [ "cooking_oil2", 8 ],
+        [ "lamp_oil", 100 ],
+        [ "motor_oil", 100 ],
+        [ "r_paint", 10 ],
+        [ "b_paint", 10 ],
+        [ "w_paint", 10 ],
+        [ "g_paint", 10 ],
+        [ "p_paint", 10 ],
+        [ "y_paint", 10 ],
+        [ "bone_glue", 1 ],
+        [ "superglue", 1 ],
+        [ "wax", 1 ],
+        [ "soap", 1 ],
+        [ "soap_flakes", 1 ],
+        [ "detergent", 1 ],
+        [ "shimmer", 1 ]
       ]
     ]
   }

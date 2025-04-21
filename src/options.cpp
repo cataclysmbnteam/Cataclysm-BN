@@ -289,7 +289,7 @@ void options_manager::add_external( const std::string &sNameIn, const std::strin
             thisOpt.iSet = 0;
             break;
         case cOpt::CVT_FLOAT:
-            thisOpt.fMin = FLT_MIN;
+            thisOpt.fMin = -FLT_MAX;
             thisOpt.fMax = FLT_MAX;
             thisOpt.fDefault = 0;
             thisOpt.fSet = 0;
@@ -859,7 +859,7 @@ int options_manager::cOpt::getIntPos( const int iSearch ) const
 std::optional< std::tuple<int, std::string> > options_manager::cOpt::findInt(
     const int iSearch ) const
 {
-    int i = static_cast<int>( getIntPos( iSearch ) );
+    int i = getIntPos( iSearch );
     if( i == -1 ) {
         return std::nullopt;
     }
@@ -922,7 +922,7 @@ void options_manager::cOpt::setNext()
 void options_manager::cOpt::setPrev()
 {
     if( sType == "string_select" ) {
-        int iPrev = static_cast<int>( getItemPos( sSet ) ) - 1;
+        int iPrev = getItemPos( sSet ) - 1;
         if( iPrev < 0 ) {
             iPrev = vItems.size() - 1;
         }
@@ -942,7 +942,7 @@ void options_manager::cOpt::setPrev()
         }
 
     } else if( sType == "int_map" ) {
-        int iPrev = static_cast<int>( getIntPos( iSet ) ) - 1;
+        int iPrev = getIntPos( iSet ) - 1;
         if( iPrev < 0 ) {
             iPrev = mIntValues.size() - 1;
         }
@@ -1067,7 +1067,7 @@ static std::vector<options_manager::id_and_option> build_resource_list(
             }
             resource_names.emplace_back( resource_name,
                                          view_name.empty() ? no_translation( resource_name ) : to_translation( view_name ) );
-            if( resource_option.count( resource_name ) != 0 ) {
+            if( resource_option.contains( resource_name ) ) {
                 debugmsg( "Found \"%s\" duplicate with name \"%s\" (new definition will be ignored)",
                           operation_name, resource_name );
             } else {
@@ -1222,7 +1222,7 @@ void options_manager::add_options_general()
     };
 
     add( "PROMPT_ON_CHARACTER_DEATH", general, translate_marker( "Prompt on character death" ),
-         translate_marker( "If enabled, when your character dies, the player is given a prompt that gives the option to cancel savefile deletion and other death effects, returning to the main menu without saving instead." ),
+         translate_marker( "If enabled, when your character dies, the player is given a prompt that gives the option to reload the last saved game instead of dying." ),
          false
        );
 
@@ -1442,6 +1442,14 @@ void options_manager::add_options_general()
        );
 
     get_option( "AUTO_NOTES_MAP_EXTRAS" ).setPrerequisite( "AUTO_NOTES" );
+
+    add( "AUTO_NOTES_DROPPED_FAVORITES", "general",
+         translate_marker( "Auto notes (dropped favorites)" ),
+         translate_marker( "If true, automatically sets notes when player drops favorited items." ),
+         true
+       );
+
+    get_option( "AUTO_NOTES_DROPPED_FAVORITES" ).setPrerequisite( "AUTO_NOTES" );
 
     add_empty_line();
 
@@ -1747,6 +1755,11 @@ void options_manager::add_options_interface()
          false
        );
 
+    add( "AIM_AUTORESET_FILTER", interface,
+         translate_marker( "Advanced Inventory Manager Filter Resets" ),
+         translate_marker( "If true, Advanced Inventory Manager filters will be reset when leaving the menu" ),
+         false );
+
     add_empty_line();
 
     add( "MOVE_VIEW_OFFSET", interface, translate_marker( "Move view offset" ),
@@ -1958,6 +1971,15 @@ void options_manager::add_options_graphics()
 
     get_option( "USE_TILES_OVERMAP" ).setPrerequisite( "USE_TILES" );
 
+    add( "USE_CHARACTER_PREVIEW", graphics, translate_marker( "Enable character preview window" ),
+         translate_marker( "If true, shows character preview window in traits tab on character creation.  "
+                           "While having a window press 'z'/'Z' to perform zoom-in/zoom-out.  "
+                           "Press 'C' to toggle clothes preview" ),
+         true, COPT_CURSES_HIDE
+       );
+
+    get_option( "USE_CHARACTER_PREVIEW" ).setPrerequisite( "USE_TILES" );
+
     add_empty_line();
 
     add( "MEMORY_MAP_MODE", graphics, translate_marker( "Memory map drawing mode" ),
@@ -1970,6 +1992,11 @@ void options_manager::add_options_graphics()
     add( "STATICZEFFECT", graphics, translate_marker( "Static z level effect" ),
          translate_marker( "If true, lower z levels will look the same no matter how far down they are.  Increases rendering performance." ),
          false, COPT_CURSES_HIDE
+       );
+
+    add( "OVERMAP_TRANSPARENCY", graphics, translate_marker( "Overmap air transparent" ),
+         translate_marker( "If true, overmap z levels with air are transparent, lower layers are rendered. Decreases rendering perfomance." ),
+         true, COPT_CURSES_HIDE
        );
 
     add_empty_line();
@@ -2227,9 +2254,9 @@ void options_manager::add_options_debug()
 
     add_empty_line();
 
-    add( "FOV_3D", debug, translate_marker( "Experimental 3D field of vision" ),
-         translate_marker( "If false, vision is limited to current z-level.  If true and the world is in z-level mode, the vision will extend beyond current z-level.  Currently very bugged!" ),
-         false
+    add( "FOV_3D", debug, translate_marker( "3D field of vision" ),
+         translate_marker( "If false, vision is limited to current z-level.  If true and the world is in z-level mode, the vision will extend beyond current z-level." ),
+         true
        );
 
     add( "FOV_3D_Z_RANGE", debug, translate_marker( "Vertical range of 3D field of vision" ),
@@ -2258,6 +2285,27 @@ void options_manager::add_options_debug()
          false );
 
     get_option( "MADE_OF_EXPLODIUM" ).setPrerequisite( "OLD_EXPLOSIONS", "false" );
+
+    add_empty_line();
+
+    add( "MIN_AUTODRIVE_SPEED", debug, translate_marker( "Minimum auto-drive speed" ),
+         translate_marker( "Set the minimum speed for the auto-drive feature.  In tiles/s.  Default is 1 (6 km/h or 4 mph)." ),
+         1, 100, 1 );
+
+    add( "MAX_AUTODRIVE_SPEED", debug, translate_marker( "Maximum auto-drive speed" ),
+         translate_marker( "Set the maximum speed for the auto-drive feature.  In tiles/s.  Default is 9 (57 km/h or 36 mph)." ),
+         1, 100, 9 );
+
+    add( "LIMITED_BAYONETS", debug, translate_marker( "New bayonet system" ),
+         translate_marker( "If true, bayonets replace weapon attack instead of adding to it.  WIP feature, weakens bayonets heavily at the moment." ),
+         false );
+
+    add_empty_line();
+
+    add( "USE_LEGACY_PATHFINDING", debug,
+         translate_marker( "Use legacy pathfinding" ),
+         translate_marker( "If true, opt out of new pathfinding in favor of legacy one. This makes pathfinding mods not work." ),
+         false );
 }
 
 void options_manager::add_options_world_default()
@@ -2295,6 +2343,11 @@ void options_manager::add_options_world_default()
     add( "SPECIALS_SPACING", world_default, translate_marker( "Overmap specials spacing" ),
          translate_marker( "A number determing minimum distance between overmap specials.  -1 allows intersections of specials." ),
          -1, 18, 6
+       );
+
+    add( "VEHICLE_DAMAGE", world_default, translate_marker( "Vehicle damage modifier" ),
+         translate_marker( "A scaling factor that determines how damaged vehicles are." ),
+         0.0, 10.0, 1, 0.1
        );
 
     add( "SPAWN_DENSITY", world_default, translate_marker( "Spawn rate scaling factor" ),
@@ -2707,7 +2760,7 @@ static void refresh_tiles( bool used_tiles_changed, bool pixel_minimap_height_ch
 
             tilecontext->load_tileset(
                 get_option<std::string>( "TILES" ),
-                ingame ? world_generator->active_world->active_mod_order : dummy,
+                ingame ? world_generator->active_world->info->active_mod_order : dummy,
                 /*precheck=*/false,
                 /*force=*/force_tile_change,
                 /*pump_events=*/true
@@ -2752,7 +2805,7 @@ static void draw_borders_external(
 static void draw_borders_internal( const catacurses::window &w, std::set<int> &vert_lines )
 {
     for( int i = 0; i < getmaxx( w ); ++i ) {
-        if( vert_lines.count( i ) != 0 ) {
+        if( vert_lines.contains( i ) ) {
             // intersection
             mvwputch( w, point( i, 0 ), BORDER_COLOR, LINE_OXXX );
         } else {
@@ -3268,8 +3321,8 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
 
             save();
             if( ingame && world_options_changed ) {
-                world_generator->active_world->WORLD_OPTIONS = ACTIVE_WORLD_OPTIONS;
-                world_generator->active_world->save();
+                world_generator->active_world->info->WORLD_OPTIONS = ACTIVE_WORLD_OPTIONS;
+                world_generator->active_world->info->save();
             }
             g->on_options_changed();
         } else {
@@ -3406,6 +3459,7 @@ void options_manager::cache_to_globals()
     fov_3d = ::get_option<bool>( "FOV_3D" );
     fov_3d_z_range = ::get_option<int>( "FOV_3D_Z_RANGE" );
     static_z_effect = ::get_option<bool>( "STATICZEFFECT" );
+    overmap_transparency = ::get_option<bool>( "OVERMAP_TRANSPARENCY" );
     PICKUP_RANGE = ::get_option<int>( "PICKUP_RANGE" );
 
     merge_comestible_mode = ( [] {
@@ -3437,21 +3491,36 @@ bool options_manager::save()
 void options_manager::load()
 {
     const auto file = PATH_INFO::options();
-    read_from_file_optional_json( file, [&]( JsonIn & jsin ) {
+    read_from_file_json( file, [&]( JsonIn & jsin ) {
         deserialize( jsin );
-    } );
+    }, true );
 
     cache_to_globals();
 }
 
+void options_manager::cache_balance_options()
+{
+    fungal_opt.young_allowed = ::get_option<bool>( "MON_FUNGALOID_YOUNG_ALLOWED" );
+    fungal_opt.spread_on_flat_tiles_allowed
+        = ::get_option<bool>( "FUNGUS_SPREAD_ON_FLAT_TILES_ALLOWED" );
+    fungal_opt.young_spawn_base_rate = ::get_option<int>( "MON_FUNGALOID_YOUNG_SPAWN_BASE_RATE" );
+    fungal_opt.young_spawn_bubble_creatures_divider
+        = ::get_option<int>( "MON_FUNGALOID_YOUNG_SPAWN_BUBBLE_CREATURES_DIVIDER" );
+    fungal_opt.spore_chance = ::get_option<float>( "FUNGUS_SPORE_CHANCE" );
+    fungal_opt.advanced_creatures_threshold
+        = ::get_option<int>( "FUNGUS_ADVANCED_CREATURES_THRESHOLD" );
+    fungal_opt.spore_creatures_threshold = ::get_option<int>( "FUNGUS_SPORE_CREATURES_THRESHOLD" );
+}
+
+
 bool options_manager::has_option( const std::string &name ) const
 {
-    return options.count( name );
+    return options.contains( name );
 }
 
 options_manager::cOpt &options_manager::get_option( const std::string &name )
 {
-    if( options.count( name ) == 0 ) {
+    if( !options.contains( name ) ) {
         debugmsg( "requested non-existing option %s", name );
     }
     if( !world_options.has_value() ) {
@@ -3459,7 +3528,7 @@ options_manager::cOpt &options_manager::get_option( const std::string &name )
         return options[name];
     }
     auto &wopts = *world_options.value();
-    if( wopts.count( name ) == 0 ) {
+    if( !wopts.contains( name ) ) {
         auto &opt = options[name];
         if( opt.getPage() != world_default ) {
             // Requested a non-world option, deliver it.

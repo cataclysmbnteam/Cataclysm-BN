@@ -1,11 +1,8 @@
 #pragma once
-#ifndef CATA_SRC_OMDATA_H
-#define CATA_SRC_OMDATA_H
 
 #include <climits>
 #include <cstddef>
 #include <cstdint>
-#include <bitset>
 #include <list>
 #include <optional>
 #include <set>
@@ -18,6 +15,7 @@
 #include "color.h"
 #include "numeric_interval.h"
 #include "coordinates.h"
+#include "enum_bitset.h"
 #include "int_id.h"
 #include "om_direction.h"
 #include "mapgen_parameter.h"
@@ -84,7 +82,7 @@ struct overmap_static_spawns : public overmap_spawns {
 };
 
 //terrain flags enum! this is for tracking the indices of each flag.
-enum oter_flags {
+enum class oter_flags : int {
     known_down = 0,
     known_up,
     no_rotate,    // this tile doesn't have four rotated versions (north, east, south, west)
@@ -123,6 +121,11 @@ enum oter_flags {
     num_oter_flags
 };
 
+template<>
+struct enum_traits<oter_flags> {
+    static constexpr auto last = oter_flags::num_oter_flags;
+};
+
 struct oter_type_t {
     public:
         static const oter_type_t null_type;
@@ -155,7 +158,7 @@ struct oter_type_t {
         }
 
         void set_flag( oter_flags flag, bool value = true ) {
-            flags[flag] = value;
+            flags.set( flag, value );
         }
 
         void load( const JsonObject &jo, const std::string &src );
@@ -163,11 +166,11 @@ struct oter_type_t {
         void finalize();
 
         bool is_rotatable() const {
-            return !has_flag( no_rotate ) && !has_flag( line_drawing );
+            return !has_flag( oter_flags::no_rotate ) && !has_flag( oter_flags::line_drawing );
         }
 
         bool is_linear() const {
-            return has_flag( line_drawing );
+            return has_flag( oter_flags::line_drawing );
         }
 
         bool has_connections() const {
@@ -179,7 +182,7 @@ struct oter_type_t {
         }
 
     private:
-        std::bitset<num_oter_flags> flags;
+        enum_bitset<oter_flags> flags;
         std::vector<oter_id> directional_peers;
         std::string connect_group; // Group for connection when rendering overmap tiles
 
@@ -277,7 +280,7 @@ struct oter_t {
         }
 
         bool is_river() const {
-            return type->has_flag( river_tile );
+            return type->has_flag( oter_flags::river_tile );
         }
 
         bool is_wooded() const {
@@ -288,11 +291,11 @@ struct oter_t {
         }
 
         bool is_lake() const {
-            return type->has_flag( lake );
+            return type->has_flag( oter_flags::lake );
         }
 
         bool is_lake_shore() const {
-            return type->has_flag( lake_shore );
+            return type->has_flag( oter_flags::lake_shore );
         }
 
     private:
@@ -330,4 +333,4 @@ const std::vector<overmap_land_use_code> &get_all();
 
 } // namespace overmap_land_use_codes
 
-#endif // CATA_SRC_OMDATA_H
+

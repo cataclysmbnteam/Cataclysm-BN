@@ -1,6 +1,4 @@
 #pragma once
-#ifndef CATA_SRC_OVERMAP_CONNECTION_H
-#define CATA_SRC_OVERMAP_CONNECTION_H
 
 #include <list>
 #include <vector>
@@ -46,7 +44,7 @@ class overmap_connection
                 }
 
                 bool is_orthogonal() const {
-                    return flags.count( flag::orthogonal );
+                    return flags.contains( flag::orthogonal );
                 }
 
                 void load( const JsonObject &jo );
@@ -103,4 +101,4 @@ overmap_connection_id guess_for( const oter_id &oter );
 
 } // namespace overmap_connections
 
-#endif // CATA_SRC_OVERMAP_CONNECTION_H
+

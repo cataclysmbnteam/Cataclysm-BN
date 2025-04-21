@@ -95,7 +95,7 @@
       "tunnel_to_tunnel"
     ],
     "overmaps": {
-      "surface": { "overmap": "anthill_north", "below": "surface_to_tunnel", "locations": [ "land" ] },
+      "surface": { "overmap": "acid_anthill_north", "below": "surface_to_tunnel", "locations": [ "land" ] },
       "below_entrance": {
         "overmap": "acid_ants_nesw",
         "above": "tunnel_to_surface",

@@ -76,6 +76,7 @@
         "{": "f_rack"
       },
       "mapping": { "g": { "terrain": "t_pavement", "furniture": "f_dumpster" } },
+      "items": { "g": { "item": "trash_dumpster", "chance": 80 } },
       "toilets": { "T": {  } },
       "place_items": [
         { "item": "sugar_house_kitchen_items", "x": 14, "y": 17, "chance": 35 },
@@ -225,6 +226,7 @@
         "g": "f_chamomile",
         "{": "f_rack"
       },
+      "items": { "c": { "item": "trash_dumpster", "chance": 80 } },
       "toilets": { "T": {  } },
       "place_items": [
         { "item": "magazines", "x": 19, "y": 5, "chance": 35 },

@@ -351,7 +351,7 @@
         "{": "f_dumpster"
       },
       "toilets": { ";": {  } },
-      "items": { "Y": { "item": "coat_rack", "chance": 35, "repeat": [ 1, 4 ] } },
+      "items": { "Y": { "item": "coat_rack", "chance": 35, "repeat": [ 1, 4 ] }, "{": { "item": "trash_dumpster", "chance": 80 } },
       "place_items": [
         { "item": "bed", "x": [ 5, 6 ], "y": [ 1, 2 ], "chance": 80 },
         { "item": "bed", "x": [ 8, 9 ], "y": [ 1, 2 ], "chance": 80 },
@@ -1043,6 +1043,7 @@
         "H": "f_sofa",
         "{": "f_dumpster"
       },
+      "items": { "{": { "item": "trash_dumpster", "chance": 80 } },
       "toilets": { ";": {  } },
       "set": [ { "point": "terrain", "id": "t_dirt", "x": [ 0, 23 ], "y": 23, "repeat": [ 5, 8 ] } ],
       "place_items": [
@@ -1387,6 +1388,7 @@
         "H": "f_sofa",
         "{": "f_dumpster"
       },
+      "items": { "{": { "item": "trash_dumpster", "chance": 80 } },
       "toilets": { ";": {  } },
       "set": [ { "point": "terrain", "id": "t_open_air", "x": [ 0, 23 ], "y": 23, "repeat": [ 5, 8 ] } ],
       "place_items": [
@@ -1681,7 +1683,8 @@
         "Y": { "item": "coat_rack", "chance": 15 },
         ":": { "item": "dresser", "chance": 10 },
         "b": { "item": "bed", "chance": 40 },
-        ",": { "item": "trash_forest", "chance": 1 }
+        ",": { "item": "trash_forest", "chance": 1 },
+        "d": { "item": "trash_dumpster", "chance": 80 }
       },
       "place_items": [ { "item": "maps", "x": 4, "y": 3, "chance": 70 } ],
       "place_item": [ { "item": "wheel", "x": 11, "y": 8, "chance": 80 }, { "item": "30gal_drum", "x": [ 29, 30 ], "y": 4, "chance": 80 } ],

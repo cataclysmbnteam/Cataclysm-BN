@@ -49,6 +49,8 @@ def copy_and_rewrite(file):
     if not os.path.isfile(file):
         # raise Exception("{} is not a file.".format(executable))
         return []
+    if os.path.exists(executable_dir + "/" + os.path.basename(file)):
+        return []
     otool_ret = subprocess.run(["otool", "-L", file], capture_output=True)
     if otool_ret.returncode != 0:
         raise Exception("An error occured in calling otool -L:\n {}"

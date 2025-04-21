@@ -5,6 +5,7 @@
 #include <memory>
 
 #include "avatar.h"
+#include "avatar_action.h"
 #include "creature.h"
 #include "debug.h"
 #include "enums.h"
@@ -29,8 +30,6 @@
 static const itype_id fuel_type_battery( "battery" );
 
 static const efftype_id effect_on_roof( "on_roof" );
-
-static const trait_id trait_BRAWLER( "BRAWLER" );
 
 std::vector<vehicle_part *> vehicle::turrets()
 {
@@ -77,6 +76,15 @@ turret_data vehicle::turret_query( const tripoint &pos )
 turret_data vehicle::turret_query( const tripoint &pos ) const
 {
     return const_cast<vehicle *>( this )->turret_query( pos );
+}
+
+bool vehicle::is_manual_turret( const vehicle_part &pt ) const
+{
+    const auto &parts = parts_at_relative( pt.mount, false );
+    return std::any_of( parts.begin(), parts.end(),
+    [this]( int elem ) {
+        return part_info( elem ).has_flag( "MANUAL" );
+    } );
 }
 
 std::string turret_data::name() const
@@ -127,13 +135,13 @@ const itype *turret_data::ammo_data() const
 itype_id turret_data::ammo_current() const
 {
     auto opts = ammo_options();
-    if( opts.count( part->ammo_pref ) ) {
+    if( opts.contains( part->ammo_pref ) ) {
         return part->ammo_pref;
     }
-    if( opts.count( part->info().default_ammo ) ) {
+    if( opts.contains( part->info().default_ammo ) ) {
         return part->info().default_ammo;
     }
-    if( opts.count( part->base->ammo_default() ) ) {
+    if( opts.contains( part->base->ammo_default() ) ) {
         return part->base->ammo_default();
     }
     return opts.empty() ? itype_id::NULL_ID() : *opts.begin();
@@ -155,7 +163,7 @@ std::set<itype_id> turret_data::ammo_options() const
     } else {
         for( const auto &e : veh->fuels_left() ) {
             const itype *fuel = &*e.first;
-            if( fuel->ammo && part->base->ammo_types().count( fuel->ammo->type ) &&
+            if( fuel->ammo && part->base->ammo_types().contains( fuel->ammo->type ) &&
                 e.second >= part->base->ammo_required() ) {
 
                 opts.insert( fuel->get_id() );
@@ -168,7 +176,7 @@ std::set<itype_id> turret_data::ammo_options() const
 
 bool turret_data::ammo_select( const itype_id &ammo )
 {
-    if( !ammo_options().count( ammo ) ) {
+    if( !ammo_options().contains( ammo ) ) {
         return false;
     }
 
@@ -306,15 +314,19 @@ int turret_data::fire( player &p, const tripoint &target )
     return shots;
 }
 
-void vehicle::turrets_aim_and_fire_single()
+void vehicle::turrets_aim_and_fire_single( avatar &you )
 {
     std::vector<std::string> option_names;
     std::vector<vehicle_part *> options;
 
+    if( !avatar_action::will_fire_turret( you ) ) {
+        return;
+    }
+
     // Find all turrets that are ready to fire
     for( auto &t : turrets() ) {
         turret_data data = turret_query( *t );
-        if( data.query() == turret_data::status::ready ) {
+        if( data.query() == turret_data::status::ready && !is_manual_turret( *t ) ) {
             option_names.push_back( t->name() );
             options.push_back( t );
         }
@@ -336,33 +348,35 @@ void vehicle::turrets_aim_and_fire_single()
     turrets_aim_and_fire( turrets );
 }
 
-bool vehicle::turrets_aim_and_fire_all_manual( bool show_msg )
+bool vehicle::turrets_aim_and_fire_mult( avatar &you, const turret_filter_types turret_filter,
+        const bool show_msg )
 {
-    std::vector<vehicle_part *> turrets = find_all_ready_turrets( true, false );
+    if( !avatar_action::will_fire_turret( you ) ) {
+        return false;
+    }
+    std::vector<vehicle_part *> turrets = find_all_ready_turrets( turret_filter );
 
     if( turrets.empty() ) {
         if( show_msg ) {
-            add_msg( m_warning,
-                     _( "Can't aim turrets: all turrets are offline or set to automatic targeting mode." ) );
+            switch( turret_filter ) {
+                case turret_filter_types::BOTH:
+                    add_msg( m_warning,
+                             _( "Can't aim turrets: all turrets are offline." ) );
+                    break;
+                case turret_filter_types::MANUAL:
+                    add_msg( m_warning,
+                             _( "Can't aim turrets: all turrets are offline or set to automatic targeting mode." ) );
+                    break;
+                case turret_filter_types::AUTOMATIC:
+                    add_msg( m_warning,
+                             _( "Can't aim turrets: all turrets are offline or set to manual targeting mode." ) );
+            }
         }
         return false;
     }
 
     turrets_aim_and_fire( turrets );
     return true;
-}
-
-void vehicle::turrets_override_automatic_aim()
-{
-    std::vector<vehicle_part *> turrets = find_all_ready_turrets( false, true );
-
-    if( turrets.empty() ) {
-        add_msg( m_warning,
-                 _( "Can't aim turrets: all turrets are offline or set to manual targeting mode." ) );
-        return;
-    }
-
-    turrets_aim( turrets );
 }
 
 int vehicle::turrets_aim_and_fire( std::vector<vehicle_part *> &turrets )
@@ -393,13 +407,6 @@ bool vehicle::turrets_aim( std::vector<vehicle_part *> &turrets )
         t->reset_target( global_part_pos3( *t ) );
     }
 
-    avatar &player_character = get_avatar();
-    if( player_character.has_trait( trait_BRAWLER ) ) {
-        player_character.add_msg_if_player( ( "You refuse to use this ranged turret weapon." ) );
-
-        return false;
-    }
-
     // Get target
     target_handler::trajectory trajectory = target_handler::mode_turrets( g->u, *this, turrets );
 
@@ -419,11 +426,13 @@ bool vehicle::turrets_aim( std::vector<vehicle_part *> &turrets )
     return got_target;
 }
 
-std::vector<vehicle_part *> vehicle::find_all_ready_turrets( bool manual, bool automatic )
+std::vector<vehicle_part *> vehicle::find_all_ready_turrets( turret_filter_types filter )
 {
     std::vector<vehicle_part *> res;
     for( vehicle_part *t : turrets() ) {
-        if( ( t->enabled && automatic ) || ( !t->enabled && manual ) ) {
+        if( ( t->enabled && filter != turret_filter_types::MANUAL &&
+              !is_manual_turret( *t ) ) || ( !t->enabled &&
+                                             filter != turret_filter_types::AUTOMATIC && !is_manual_turret( *t ) ) ) {
             if( turret_query( *t ).query() == turret_data::status::ready ) {
                 res.push_back( t );
             }
@@ -438,7 +447,7 @@ void vehicle::turrets_set_targeting()
     std::vector<tripoint> locations;
 
     for( auto &p : parts ) {
-        if( p.is_turret() ) {
+        if( p.is_turret() && !is_manual_turret( p ) ) {
             turrets.push_back( &p );
             locations.push_back( global_part_pos3( p ) );
         }
@@ -494,7 +503,7 @@ void vehicle::turrets_set_mode()
     std::vector<tripoint> locations;
 
     for( auto &p : parts ) {
-        if( p.base->is_gun() ) {
+        if( p.base->is_gun() && !is_manual_turret( p ) ) {
             turrets.push_back( &p );
             locations.push_back( global_part_pos3( p ) );
         }

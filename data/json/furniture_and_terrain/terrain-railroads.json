@@ -10,12 +10,13 @@
     "bash": {
       "str_min": 30,
       "str_max": 40,
-      "ter_set": "t_null",
+      "ter_set": "t_dirt",
       "sound": "crunch!",
       "sound_fail": "whump!",
       "items": [ { "item": "pebble", "count": [ 1, 3 ] }, { "item": "sharp_rock", "count": [ 0, 1 ] } ]
     },
-    "flags": [ "BASHABLE", "TRANSPARENT" ]
+    "deconstruct": { "ter_set": "t_dirt", "items": [ { "item": "pebble", "charges": 100 } ] },
+    "flags": [ "BASHABLE", "TRANSPARENT", "EASY_DECONSTRUCT" ]
   },
   {
     "id": "t_railroad_track",

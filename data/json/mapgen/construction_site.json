@@ -12,7 +12,7 @@
         "_|||0||||0||#....##|||__",
         "_|...................|d_",
         "_|...................|__",
-        "_#.....w........W....#d_",
+        "_#.....w........w....#d_",
         "_#.....-........-....#d_",
         "__.....-.......T-....#d_",
         "__.....-.......T-....#d_",
@@ -38,17 +38,17 @@
         "0": "t_window_frame",
         "B": "t_grass",
         "T": "t_concrete",
-        "W": "t_wall_log_half",
         "_": "t_grass",
         "b": "t_dirt",
         "c": "t_concrete",
         "d": "t_dirt",
         "t": "t_thconc_floor",
-        "w": "t_wall_half",
+        "w": "t_wall_half_domestic",
         "{": "t_dirt",
         "|": "t_brick_wall"
       },
       "furniture": { "B": "f_barricade_road", "T": "f_table", "b": "f_barricade_road", "c": "f_chair", "{": "f_dumpster" },
+      "items": { "{": { "item": "trash_dumpster", "chance": 80 } },
       "place_items": [
         { "item": "tools_carpentry", "x": 15, "y": 11, "chance": 30 },
         { "item": "power_tools", "x": 9, "y": 12, "chance": 10 },
@@ -98,7 +98,7 @@
         "________________________"
       ],
       "terrain": {
-        "#": "t_wall_half",
+        "#": "t_wall_half_domestic",
         "&": "t_dirt",
         "-": "t_wall",
         ".": "t_concrete",
@@ -112,6 +112,7 @@
         "|": "t_chainfence_v"
       },
       "furniture": { "&": "f_trashcan", "H": "f_ladder", "c": "f_chair", "t": "f_table", "{": "f_dumpster" },
+      "items": { "{": { "item": "trash_dumpster", "chance": 80 } },
       "place_items": [
         { "item": "tools_carpentry", "x": 6, "y": 14, "chance": 25 },
         { "item": "tools_carpentry", "x": 19, "y": [ 7, 8 ], "chance": 25 },
@@ -179,6 +180,7 @@
         "|": "t_brick_wall"
       },
       "furniture": { "C": "f_chair", "T": "f_table", "b": "f_barricade_road", "t": "f_table", "{": "f_dumpster" },
+      "items": { "{": { "item": "trash_dumpster", "chance": 80 } },
       "place_items": [
         { "item": "tools_common", "x": 10, "y": 14, "chance": 35 },
         { "item": "tools_common", "x": 4, "y": 8, "chance": 35 },
@@ -259,6 +261,7 @@
         "t": "f_table",
         "{": "f_dumpster"
       },
+      "items": { "{": { "item": "trash_dumpster", "chance": 80 } },
       "place_items": [
         { "item": "trash", "x": 10, "y": 15, "chance": 45 },
         { "item": "tools_construction", "x": 10, "y": 9, "chance": 35 },
@@ -308,7 +311,7 @@
         "...._....._____........."
       ],
       "terrain": {
-        "#": "t_wall_half",
+        "#": "t_wall_half_domestic",
         "&": "t_grass",
         "+": "t_door_glass_c",
         "-": "t_wall_glass",
@@ -341,6 +344,7 @@
         "t": "f_table",
         "{": "f_dumpster"
       },
+      "items": { "D": { "item": "trash_dumpster", "chance": 80 }, "{": { "item": "trash_dumpster", "chance": 80 } },
       "place_items": [
         { "item": "tools_carpentry", "x": 18, "y": 13, "chance": 35 },
         { "item": "tools_carpentry", "x": 14, "y": 9, "chance": 35 },
@@ -354,7 +358,8 @@
         { "item": "paint", "x": 6, "y": 12, "chance": 35 },
         { "item": "tools_earthworking", "x": 19, "y": 14, "chance": 25 },
         { "item": "hardware_trash", "x": [ 19, 20 ], "y": 17, "chance": 35 }
-      ]
+      ],
+      "place_vehicles": [ { "vehicle": "small_utility_vehicles", "x": 16, "y": 2, "chance": 50, "fuel": 20, "rotation": 0 } ]
     }
   },
   {
@@ -403,6 +408,7 @@
         "|": "t_brick_wall"
       },
       "furniture": { "#": "f_barricade_road", "T": "f_table", "c": "f_chair", "t": "f_table", "{": "f_dumpster" },
+      "items": { "{": { "item": "trash_dumpster", "chance": 80 } },
       "place_items": [
         { "item": "tools_earthworking", "x": 11, "y": 19, "chance": 45 },
         { "item": "tools_earthworking", "x": 4, "y": 18, "chance": 45 },
@@ -413,16 +419,5 @@
       ],
       "place_vehicles": [ { "vehicle": "small_utility_vehicles", "x": 16, "y": 2, "chance": 50, "fuel": 20, "rotation": 270 } ]
     }
-  },
-  {
-    "id": "small_utility_vehicles",
-    "type": "vehicle_group",
-    "vehicles": [
-      [ "excavator", 100 ],
-      [ "trencher", 80 ],
-      [ "engine_crane", 60 ],
-      [ "welding_cart", 40 ],
-      [ "portable_generator", 20 ]
-    ]
   }
 ]

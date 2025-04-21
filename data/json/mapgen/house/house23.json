@@ -106,7 +106,7 @@
         ".......d................"
       ],
       "terrain": {
-        "#": "t_wall_half",
+        "#": "t_wall_half_domestic",
         ".": "t_grass",
         "_": "t_floor",
         "O": "t_window_frame",

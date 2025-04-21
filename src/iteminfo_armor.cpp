@@ -22,12 +22,7 @@ struct armor_portion_type {
     int max_encumber;
     int coverage;
 
-    // TODO: use default constructor when we can use C++20
-    auto operator==( const armor_portion_type &other ) -> bool {
-        return encumber == other.encumber
-               && max_encumber == other.max_encumber
-               && coverage == other.coverage;
-    };
+    auto operator==( const armor_portion_type &other ) const -> bool  = default;
 };
 
 struct body_part_display_info {
@@ -344,7 +339,7 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                     continue;
                 }
                 for( const bodypart_str_id &covering_id : piece.covers ) {
-                    if( covering_id != bodypart_str_id( "num_bp" ) ) {
+                    if( covering_id ) {
                         const int encumbrance_when_full =
                             get_encumber_when_containing( you, get_total_capacity(), covering_id.id() );
                         to_display_data[covering_id] = { covering_id.obj().name_as_heading, {

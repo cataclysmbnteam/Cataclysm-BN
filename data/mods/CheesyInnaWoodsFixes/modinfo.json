@@ -1,0 +1,12 @@
+[
+  {
+    "type": "MOD_INFO",
+    "id": "CheesyInnaWoodFixes",
+    "name": "CheesyInnaWoodFixes",
+    "authors": [ "CheeseAlmighty", "CleverRaven", "Light-Wave", "Sathra225" ],
+    "description": "CheesyInnaWoodFixes ports CDDA innawoods content and makes industrial age possible.",
+    "version": "BN version, update 05/09/2024",
+    "category": "items",
+    "dependencies": [ "bn" ]
+  }
+]

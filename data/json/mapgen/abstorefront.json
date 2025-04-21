@@ -199,7 +199,7 @@
         "|": "t_wall_w"
       },
       "furniture": { "B": "f_rack", "R": "f_dumpster", "l": "f_locker", "b": "f_bench", "c": "f_counter", "'": "f_street_light" },
-      "items": { ".": { "item": "trash", "chance": 15 } },
+      "items": { ".": { "item": "trash", "chance": 15 }, "R": { "item": "trash_dumpster", "chance": 80 } },
       "vehicles": { ".": { "vehicle": "shopping_cart", "chance": 1, "status": 1 } }
     }
   },

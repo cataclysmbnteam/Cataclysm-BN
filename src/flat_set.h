@@ -1,6 +1,4 @@
 #pragma once
-#ifndef CATA_SRC_FLAT_SET_H
-#define CATA_SRC_FLAT_SET_H
 
 #include <algorithm>
 #include <vector>
@@ -189,7 +187,7 @@ class flat_set : private Compare, Data
             return 0;
         }
 
-        friend void swap( flat_set &l, flat_set &r ) {
+        friend void swap( flat_set &l, flat_set &r )  noexcept {
             using std::swap;
             swap( static_cast<Compare &>( l ), static_cast<Compare &>( r ) );
             swap( static_cast<Data &>( l ), static_cast<Data &>( r ) );
@@ -218,4 +216,4 @@ class flat_set : private Compare, Data
 
 } // namespace cata
 
-#endif // CATA_SRC_FLAT_SET_H
+

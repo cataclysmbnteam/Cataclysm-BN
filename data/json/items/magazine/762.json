@@ -77,7 +77,7 @@
     "type": "MAGAZINE",
     "name": { "str": "AK 40-round magazine" },
     "description": "An extended 40-round magazine for 7.62x39 AK-pattern rifles, made of stamped sheet metal.",
-    "weight": "424 g",
+    "weight": "400 g",
     "volume": "493 ml",
     "price": "45 USD",
     "price_postapoc": "5 USD",

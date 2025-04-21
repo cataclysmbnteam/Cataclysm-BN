@@ -255,7 +255,7 @@
     "category": "other",
     "name": { "str": "Warships", "str_pl": "sets of Warships" },
     "description": "A game where players try to guess where the opponent placed their ships on the board.",
-    "weight": "450 g",
+    "weight": "500 g",
     "volume": "500 ml",
     "price": "20 USD",
     "price_postapoc": "10 USD",

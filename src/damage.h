@@ -1,6 +1,4 @@
 #pragma once
-#ifndef CATA_SRC_DAMAGE_H
-#define CATA_SRC_DAMAGE_H
 
 #include <array>
 #include <map>
@@ -50,6 +48,9 @@ struct damage_unit {
         type( dt ), amount( amt ), res_pen( arpen ), res_mult( armor_mult ), damage_multiplier( dmg_mult ) { }
 
     bool operator==( const damage_unit &other ) const;
+
+    /** Return damage_type as a human-readable string */
+    const std::string get_name() const;
 };
 
 // a single atomic unit of damage from an attack. Can include multiple types
@@ -85,12 +86,27 @@ struct damage_instance {
     void add( const damage_unit &new_du );
     /*@}*/
 
+    /**
+     * Return the armour penetration value for a particular damage type
+     * If the damage_instance has no such damage, return default value of 0
+     */
+    float get_armor_pen( damage_type dt ) const;
+    /**
+     * Return the armour multiplier value for a particular damage type
+     * If the damage_instance has no such damage, return default value of 1
+     */
+    float get_armor_mult( damage_type dt ) const;
+    /**
+     * @return true if at least one damage_unit in this damage_instance has armour penetration or multiplier different from the default
+     */
+    bool has_armor_piercing() const;
+
     void deserialize( JsonIn & );
 };
 
 struct dealt_damage_instance {
     std::array<int, NUM_DT> dealt_dams;
-    body_part bp_hit;
+    bodypart_str_id bp_hit;
 
     dealt_damage_instance();
     void set_damage( damage_type dt, int amount );
@@ -105,7 +121,6 @@ struct resistances {
 
     // If to_self is true, we want armor's own resistance, not one it provides to wearer
     resistances( const item &armor, bool to_self = false );
-    resistances( monster &monster );
     void set_resist( damage_type dt, float amount );
     float type_resist( damage_type dt ) const;
 
@@ -133,4 +148,4 @@ resistances load_resistances_instance( const JsonObject &jo );
 // Handles some shorthands
 std::map<damage_type, float> load_damage_map( const JsonObject &jo );
 
-#endif // CATA_SRC_DAMAGE_H
+

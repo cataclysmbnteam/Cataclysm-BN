@@ -1,6 +1,4 @@
 #pragma once
-#ifndef CATA_SRC_EXPLOSION_QUEUE_H
-#define CATA_SRC_EXPLOSION_QUEUE_H
 
 #include "explosion.h"
 #include "point.h"
@@ -55,13 +53,13 @@ class explosion_queue
         std::deque<queued_explosion> elems;
 
     public:
-        inline void add( queued_explosion &&exp ) {
+        void add( queued_explosion &&exp ) {
             elems.push_back( std::move( exp ) );
         }
 
         void execute();
 
-        inline void clear() {
+        void clear() {
             elems.clear();
         }
 };
@@ -70,4 +68,4 @@ explosion_queue &get_explosion_queue();
 
 } // namespace explosion_handler
 
-#endif // CATA_SRC_EXPLOSION_QUEUE_H
+

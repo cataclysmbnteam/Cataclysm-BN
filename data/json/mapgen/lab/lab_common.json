@@ -21,6 +21,7 @@
       "^": "f_rubble_rock"
     },
     "terrain": {
+      "%": "t_gates_control_concrete_lab",
       "6": "t_console",
       "x": "t_console_broken",
       "g": "t_reinforced_glass",

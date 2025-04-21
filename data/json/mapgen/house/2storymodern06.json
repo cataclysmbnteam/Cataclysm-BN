@@ -81,7 +81,7 @@
         ".........______.........",
         ".%%------______------%%.",
         ".::::::--______--::::::.",
-        ".:JJJJ:--______--:$$$y:.",
+        ".:JJJJ:--______--:ƏƏƏy:.",
         ".#F  5#--______--*    #.",
         ".#F  O#----------#L!  #.",
         ".on  1##---XX---##||  o.",
@@ -112,11 +112,8 @@
         "K": "t_floor_noroof",
         "₸": "t_floor_noroof"
       },
-      "furniture": { "!": "f_rack", "$": "f_table", "&": "f_piano", "?": "f_counter", "]": "f_chair" },
-      "items": {
-        "$": { "item": "table_foyer", "chance": 50 },
-        "!": { "item": "clothing_outdoor_shoes", "chance": 40, "repeat": [ 1, 2 ] }
-      }
+      "furniture": { "!": "f_rack", "&": "f_piano", "?": "f_counter", "]": "f_chair" },
+      "items": { "!": { "item": "clothing_outdoor_shoes", "chance": 40, "repeat": [ 1, 2 ] } }
     }
   },
   {
@@ -138,26 +135,25 @@
         ".o ]] o..........o    o.",
         ".#??  ##........##   ?#.",
         ".#||+||##......##||T ?#.",
-        ".#!!  y #oo#oo##ZW||+|#.",
+        ".#ƏƏ  y #oo#oo##ZW||+|#.",
         ".o      |> |8St___|V yo.",
-        "^#RRRy     |8___BB|V !#^",
-        ".#||||+||  ||||+|||V !#.",
-        ".#D ~  ||            !#.",
+        "^#RRRy     |8___BB|V Ə#^",
+        ".#||||+||  ||||+|||V Ə#.",
+        ".#D ~  ||            Ə#.",
         ".o     |||||+|||||b  yo.",
         ".od @@ |d DD T| v|||+|#.",
-        ".#d @@¤|d     + =|dd  #.",
-        ".##ooo###     ||||    o.",
+        ".#d @@¤|d     + =|d  ɸ#.",
+        ".##ooo###     ||||d   o.",
         "........# @@  |D +   @o.",
         "........#¤@@¤~|==|  ¤@#.",
         "........##ooo#####ooo##.",
         "........................"
       ],
       "terrain": { ".": "t_open_air", "_": "t_linoleum_gray", "w": "t_linoleum_gray", "Q": "t_linoleum_gray", "]": "t_carpet_green" },
-      "furniture": { "!": "f_table", "=": "f_clothing_rail", "~": "f_bigmirror", "?": "f_bookcase" },
+      "furniture": { "=": "f_clothing_rail", "~": "f_bigmirror", "?": "f_bookcase" },
       "items": {
         "=": [ { "item": "dress_shop", "chance": 30, "repeat": [ 1, 2 ] }, { "item": "jackets", "chance": 30, "repeat": [ 1, 2 ] } ],
-        "?": { "item": "homebooks", "chance": 30, "repeat": [ 1, 4 ] },
-        "!": { "item": "table_foyer", "chance": 50 }
+        "?": { "item": "homebooks", "chance": 30, "repeat": [ 1, 4 ] }
       },
       "place_loot": [ { "item": "laptop", "x": [ 20 ], "y": [ 6 ], "chance": 100 } ]
     }
@@ -184,8 +180,8 @@
         " -......--------...=..- ",
         " -....................- ",
         " 5....................5 ",
-        " -........bbbbb.......- ",
-        " -.....~..bbbbb.......- ",
+        " -....................- ",
+        " -.....~..............- ",
         " -....................- ",
         " -....................- ",
         " -..............X.....- ",
@@ -196,7 +192,11 @@
         "                        "
       ],
       "terrain": { ".": "t_shingle_flat_roof" },
-      "furniture": { "b": "f_solar_unit" }
+      "furniture": { "b": "f_solar_unit" },
+      "place_nested": [
+        { "chunks": [ "NC_res_roof_solar_4X4" ], "x": 10, "y": 13 },
+        { "chunks": [ "NC_res_roof_chunk_3X3" ], "x": [ 17, 19 ], "y": [ 12, 14 ] }
+      ]
     }
   }
 ]

@@ -117,6 +117,11 @@
     "conflicts": [ "PARTIAL_DEAF" ]
   },
   {
+    "id": "DESTROY_ON_DECHARGE",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
     "id": "DIAMOND",
     "type": "json_flag",
     "context": [ "GENERIC", "TOOL" ],
@@ -152,9 +157,20 @@
     "context": [ "GENERIC" ]
   },
   {
+    "id": "BLED",
+    "type": "json_flag",
+    "context": [ "GENERIC" ]
+  },
+  {
     "id": "SKINNED",
     "type": "json_flag",
     "context": [ "GENERIC" ]
+  },
+  {
+    "id": "CAN_PLANT_UNDERGROUND",
+    "type": "json_flag",
+    "context": [ "COMESTIBLE" ],
+    "info": "This seed can be <good>planted underground</good>."
   },
   {
     "id": "CANT_HEAL_EVERYONE",
@@ -190,6 +206,12 @@
     "type": "json_flag",
     "context": [  ],
     "info": "This item disappears as soon as its timer runs out whether it is food or not."
+  },
+  {
+    "id": "BIO_IMMUNE",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "type": "json_flag",
+    "info": "This gear <good>completely protects</good> you from <info>biological damage</info>."
   },
   {
     "id": "BASH_IMMUNE",
@@ -245,10 +267,15 @@
     "info": "You can wear <info>only one</info>."
   },
   {
+    "id": "EXOSUIT",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ]
+  },
+  {
     "id": "FANCY",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
-    "//": "Wearing this clothing gives a morale bonus if the player has the Stylish trait.",
+    "//": "Wearing this clothing gives a morale bonus if the player doesn't have the Fashion Deficient trait.",
     "info": "This clothing is <info>fancy</info>.",
     "conflicts": [ "SUPER_FANCY" ]
   },
@@ -268,7 +295,7 @@
     "id": "FIREWOOD",
     "type": "json_flag",
     "context": [ "GENERIC" ],
-    "info": "This item can serve as a firewood."
+    "info": "This item can serve as firewood."
   },
   {
     "id": "FIX_FARSIGHT",
@@ -334,6 +361,12 @@
     "info": "This gear <good>completely protects</good> you from <info>any gas</info>."
   },
   {
+    "id": "HOLSTER_PISTOL",
+    "type": "json_flag",
+    "context": [ "GENERIC", "TOOL" ],
+    "info": "This item can be carried in a <info>holster</info> of the appropriate size."
+  },
+  {
     "id": "HOOD",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
@@ -381,6 +414,11 @@
     "context": [ "GUNMOD" ],
     "info": "This item is a component of the gun it is attached to.  It can't be removed without destroying it.",
     "inherit": false
+  },
+  {
+    "id": "MUSHROOM_PLANTABLE",
+    "context": [  ],
+    "type": "json_flag"
   },
   {
     "id": "NO_CVD",
@@ -482,7 +520,8 @@
     "id": "SPAWN_FRIENDLY",
     "type": "json_flag",
     "context": [ "GENERIC" ],
-    "//": "This item will spawn friendly. Used for pets and such."
+    "//": "This item will spawn friendly. Used for pets and such.",
+    "info": "Any creature spawned from this item will <info>always</info> emerge <good>friendly to you</good>."
   },
   {
     "id": "STAB",
@@ -769,7 +808,7 @@
     "id": "SUPER_FANCY",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
-    "//": "Gives an additional moral bonus over FANCY if the player has the Stylish trait.",
+    "//": "Gives an additional moral bonus over FANCY if the player doesn't have the Fashion Deficient trait.",
     "info": "This clothing is <info>very fancy</info>.",
     "conflicts": [ "FANCY" ]
   },
@@ -884,6 +923,12 @@
     "info": "This gear has certain parts padded with leather to <good>increase protection</good> with moderate <bad>increase to encumbrance</bad>."
   },
   {
+    "id": "nomex_padded",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "info": "This gear has certain parts padded with nomex to <good>increase fire protection</good> with some <bad>increase to encumbrance</bad>."
+  },
+  {
     "id": "steel_padded",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
@@ -894,6 +939,12 @@
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
     "info": "This gear has certain parts padded with superalloy to <good>increase protection</good> with moderate <bad>increase to encumbrance</bad>."
+  },
+  {
+    "id": "pocketed",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "info": "This gear has been modified to <good>increase carry volume</good> with some <bad>increase to encumbrance</bad>."
   },
   {
     "id": "wooled",
@@ -1163,7 +1214,7 @@
     "id": "CANNIBALISM",
     "type": "json_flag",
     "context": [ "COMESTIBLE" ],
-    "craft_inherit": true
+    "//": "Obsoleted"
   },
   {
     "id": "ALLERGEN_EGG",
@@ -1516,6 +1567,11 @@
     "context": [  ]
   },
   {
+    "id": "IS_BLOOD",
+    "type": "json_flag",
+    "context": [ "COMESTIBLE" ]
+  },
+  {
     "id": "IS_EXPLOSION_PROPELLED",
     "type": "json_flag",
     "context": [  ]
@@ -1650,6 +1706,12 @@
     "id": "NO_PACKED",
     "type": "json_flag",
     "context": [  ]
+  },
+  {
+    "id": "NO_RECOVER_AMMO",
+    "type": "json_flag",
+    "context": [  ],
+    "//": "Ammo fired from this weapon is never recovered"
   },
   {
     "id": "NO_RELOAD",
@@ -1812,6 +1874,12 @@
     "context": [  ]
   },
   {
+    "id": "USE_PARENT_GUN",
+    "//": "If this is a gunmod that can be fired, treat it as if the gun it's installed on is firing for relevant behaviors (brass catcher, installed suppressor, etc).  Used for 'second magazine' type gunmods, not just second barrel gunmods in general.",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
     "id": "RELOAD_ONE",
     "type": "json_flag",
     "context": [  ]
@@ -1819,10 +1887,26 @@
   {
     "id": "REQUIRES_TINDER",
     "type": "json_flag",
-    "context": [  ]
+    "context": [  ],
+    "info": "This item <bad>requires adequate tinder</bad> to be provided as fuel when starting a fire."
   },
   {
     "id": "SAFECRACK",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "SHATTERS",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "SHOCKING",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "ACIDIC",
     "type": "json_flag",
     "context": [  ]
   },
@@ -1843,6 +1927,11 @@
   },
   {
     "id": "SMOKED",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "SNIPPET_NEEDS_LITERACY",
     "type": "json_flag",
     "context": [  ]
   },
@@ -1895,7 +1984,8 @@
   {
     "id": "TINDER",
     "type": "json_flag",
-    "context": [  ]
+    "context": [  ],
+    "info": "This item can be used as tinder in a firewood source, <info>automatically being used</info> to light fires if using a a firestarting tool that requires it."
   },
   {
     "id": "TOBACCO",
@@ -1978,6 +2068,12 @@
     "context": [  ]
   },
   {
+    "id": "WATER_DISABLE",
+    "type": "json_flag",
+    "context": [ "TOOL" ],
+    "info": "This item <bad>stops working</bad> when <info>submerged in water</info>."
+  },
+  {
     "id": "WHIP",
     "type": "json_flag",
     "context": [  ]
@@ -2002,11 +2098,6 @@
     "id": "NOT_FOOTWEAR",
     "type": "json_flag",
     "context": [ "TOOL_ARMOR" ]
-  },
-  {
-    "id": "IRREPLACEABLE_CONSUMABLE",
-    "type": "json_flag",
-    "context": [ "AMMO", "CONSUMABLE" ]
   },
   {
     "id": "ACT_IN_FIRE",
@@ -2100,6 +2191,11 @@
     "context": [  ]
   },
   {
+    "id": "UNBREAKABLE",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
     "id": "UNBREAKABLE_MELEE",
     "type": "json_flag",
     "context": [  ]
@@ -2153,5 +2249,22 @@
     "id": "ROOF",
     "type": "json_flag",
     "context": [  ]
+  },
+  {
+    "id": "WEATHER_FORECAST",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "info": "It can show the automated weather forcast."
+  },
+  {
+    "id": "WINDMETER",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "HIDDEN",
+    "type": "json_flag",
+    "info": "You have marked this article to not display a sprite when worn.",
+    "context": [ "ARMOR", "TOOL_ARMOR" ]
   }
 ]

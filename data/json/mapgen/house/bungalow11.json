@@ -2,7 +2,6 @@
   {
     "type": "mapgen",
     "om_terrain": "bungalow11",
-    "weight": 250,
     "method": "json",
     "object": {
       "palettes": [
@@ -17,7 +16,7 @@
         "..........--]]]]]]]]]]].",
         "........%%--??????????].",
         "........%#o*###ooo##??].",
-        ".%%%%%%%%#& |H    s#??].",
+        ".......%%#Ə |H    s#??].",
         ".###oo####L |H ll x#??].",
         ".#@¤II|b//  |H ll s#??].",
         ".o@   +            #?G].",
@@ -35,7 +34,7 @@
         ".#T¤@@¤T|B_8|1_66JJo....",
         ".###oo###___|3_____o....",
         "........#tSY|47F5O2#..[.",
-        "..[.....###o###ooo##....",
+        "..[.....###o####oo##....",
         "........................"
       ],
       "terrain": {
@@ -51,21 +50,18 @@
         "=": "t_carpet_red",
         "h": "t_carpet_red"
       },
-      "furniture": { "=": [ "f_indoor_plant", "f_indoor_plant_y" ], "/": "f_rack", "&": "f_table" },
-      "items": {
-        "/": { "item": "clothing_outdoor_shoes", "chance": 40, "repeat": [ 1, 2 ] },
-        "&": { "item": "table_foyer", "chance": 40 }
-      },
+      "furniture": { "=": [ "f_indoor_plant", "f_indoor_plant_y" ], "/": "f_rack" },
+      "items": { "/": { "item": "clothing_outdoor_shoes", "chance": 40, "repeat": [ 1, 2 ] } },
       "place_loot": [
         { "item": "television", "x": 18, "y": 5 },
         { "group": "child_items", "x": [ 2, 6 ], "y": [ 7, 8 ], "chance": 60, "repeat": [ 3, 4 ] }
-      ]
+      ],
+      "place_nested": [ { "chunks": [ "NC_res_frontlawn_3X3" ], "x": 2, "y": 1 } ]
     }
   },
   {
     "type": "mapgen",
     "om_terrain": "bungalow11_roof",
-    "weight": 250,
     "method": "json",
     "object": {
       "palettes": [ "roof_palette" ],
@@ -102,7 +98,11 @@
         "N": "t_shingle_flat_roof",
         "~": "t_shingle_flat_roof",
         ",": "t_shingle_flat_roof"
-      }
+      },
+      "place_nested": [
+        { "chunks": [ "NC_res_roof_solar_4X4" ], "x": 13, "y": 13 },
+        { "chunks": [ "NC_res_roof_chunk_3X3" ], "x": [ 6, 10 ], "y": [ 7, 10 ] }
+      ]
     }
   }
 ]

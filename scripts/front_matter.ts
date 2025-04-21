@@ -2,8 +2,8 @@
  * Converts first heading into frontmatter.
  */
 
-import * as frontmatter from "$std/front_matter/yaml.ts"
-import { walk } from "$std/fs/walk.ts"
+import * as frontmatter from "@std/front-matter"
+import { walk } from "@std/fs"
 import { asynciter } from "$asynciter/mod.ts"
 
 export const consumeFirstHeading = (lines: string[]): { heading: string; lines: string[] } => {

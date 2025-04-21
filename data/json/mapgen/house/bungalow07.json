@@ -2,20 +2,19 @@
   {
     "type": "mapgen",
     "om_terrain": "bungalow07",
-    "weight": 250,
     "method": "json",
     "object": {
       "palettes": [ "standard_domestic_palette", "standard_domestic_lino_bathroom", "standard_domestic_landscaping_palette" ],
       "fill_ter": "t_floor",
       "rows": [
         ".................---.p..",
-        ".....X...........---....",
-        "..[....%###oo###%---....",
+        ".................---....",
+        ".......%###oo###%---....",
         ".......%#D¤@@¤ #%---....",
         "..##oo###  @@  ##o*###%.",
         "..#¤@@¤D|     d|b  LL#%.",
         "..o @@  |+|    |     #%.",
-        "..o    )|v|  II|V  xy#%.",
+        "..o    ɸ|v|  II|V  xy#%.",
         "..#++|  |||+||||V lllo%.",
         "..#dd|b +    RRy     o%.",
         "..#||||||         HHH#^.",
@@ -30,7 +29,7 @@
         "..##oo###j....j####oo#..",
         "........................",
         ".......[................",
-        "..[..........G.KG.....[.",
+        "..[...................[.",
         "........................"
       ],
       "terrain": {
@@ -41,14 +40,14 @@
         "f": "t_carpet_green",
         "$": "t_carpet_green"
       },
-      "furniture": { ")": "f_treadmill", "$": "f_chair" },
-      "place_loot": [ { "item": "television", "x": 19, "y": 7 } ]
+      "furniture": { "$": "f_chair" },
+      "place_loot": [ { "item": "television", "x": 19, "y": 7 } ],
+      "place_nested": [ { "chunks": [ "NC_res_frontlawn_3X3" ], "x": 1, "y": 1 }, { "chunks": [ "NC_res_backyard_3X3" ], "x": 15, "y": 20 } ]
     }
   },
   {
     "type": "mapgen",
     "om_terrain": "bungalow07_roof",
-    "weight": 250,
     "method": "json",
     "object": {
       "palettes": [ "roof_palette" ],
@@ -79,7 +78,11 @@
         ",,,,,,,,,,,,,,,,,,,,,,,,",
         ",,,,,,,,,,,,,,,,,,,,,,,,"
       ],
-      "terrain": { ".": "t_shingle_flat_roof", ",": "t_open_air" }
+      "terrain": { ".": "t_shingle_flat_roof", ",": "t_open_air" },
+      "place_nested": [
+        { "chunks": [ "NC_res_roof_solar_4X4" ], "x": 5, "y": 13 },
+        { "chunks": [ "NC_res_roof_chunk_3X3" ], "x": [ 9, 16 ], "y": [ 5, 8 ] }
+      ]
     }
   }
 ]

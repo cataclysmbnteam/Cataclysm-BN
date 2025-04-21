@@ -1,6 +1,4 @@
 #pragma once
-#ifndef CATA_SRC_REQUIREMENTS_H
-#define CATA_SRC_REQUIREMENTS_H
 
 #include <list>
 #include <map>
@@ -176,7 +174,7 @@ enum class requirement_display_flags {
     no_unavailable = 1,
 };
 
-inline constexpr requirement_display_flags operator&( requirement_display_flags l,
+constexpr requirement_display_flags operator&( requirement_display_flags l,
         requirement_display_flags r )
 {
     return static_cast<requirement_display_flags>(
@@ -468,4 +466,4 @@ class deduped_requirement_data
         std::vector<requirement_data> alternatives_;
 };
 
-#endif // CATA_SRC_REQUIREMENTS_H
+

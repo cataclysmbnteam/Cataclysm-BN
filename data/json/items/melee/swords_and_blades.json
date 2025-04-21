@@ -69,7 +69,7 @@
   {
     "id": "switchblade",
     "type": "TOOL",
-    "category": "tools",
+    "category": "tools_workshop",
     "weapon_category": [ "KNIVES" ],
     "name": { "str": "switchblade" },
     "description": "This is a long and thin knife with a spring-loaded blade that rests inside the handle while not in use.",
@@ -89,7 +89,7 @@
   {
     "id": "knife_folding",
     "type": "TOOL",
-    "category": "tools",
+    "category": "tools_workshop",
     "weapon_category": [ "KNIVES" ],
     "name": { "str": "folding knife", "str_pl": "folding knives" },
     "description": "This is a small folding knife, with a locking blade and a pocket clip.  Not as good a weapon as a solid fixed-blade knife, but better than a penknife.",
@@ -127,7 +127,7 @@
       "mod_target_category": [ [ "SUBMACHINE_GUNS" ], [ "RIFLES" ], [ "MACHINE_GUNS" ], [ "GATLING_GUNS" ], [ "SHOTGUNS" ], [ "M_XBOWS" ] ],
       "mode_modifier": [ [ "REACH", "bayonet", 2, [ "MELEE", "REACH_ATTACK" ] ] ]
     },
-    "techniques": "RAPID",
+    "techniques": [ "RAPID" ],
     "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 19 ] ],
     "thrown_damage": [ { "damage_type": "stab", "amount": 14 } ],
     "flags": [ "STAB", "DURABLE_MELEE", "SHEATH_KNIFE", "NPC_THROWN" ]
@@ -158,7 +158,7 @@
   {
     "id": "knife_hunting",
     "type": "TOOL",
-    "category": "tools",
+    "category": "tools_workshop",
     "weapon_category": [ "KNIVES" ],
     "name": { "str": "hunting knife", "str_pl": "hunting knives" },
     "//": "Highest non-powertool butchering quality.  It's made for skinning and butchering game, which is what you're generally doing.",
@@ -226,7 +226,7 @@
   {
     "id": "knife_swissarmy",
     "type": "TOOL",
-    "category": "tools",
+    "category": "tools_workshop",
     "name": { "str": "Swiss Army knife", "str_pl": "Swiss Army knives" },
     "//": "The swiss army knife is a bit more of a knife than a toolkit.",
     "description": "An iconic pocket knife imported from Europe.  Its red plastic handle conceals many small tools.",
@@ -266,7 +266,7 @@
   {
     "id": "makeshift_knife",
     "type": "TOOL",
-    "category": "tools",
+    "category": "tools_workshop",
     "weapon_category": [ "KNIVES" ],
     "name": { "str": "makeshift knife", "str_pl": "makeshift knives" },
     "description": "A knife consisting of a long, somewhat sharpened, spike and a tightly wrapped rag as a handle.  It makes a good melee weapon.",
@@ -287,7 +287,7 @@
     "id": "bone_knife",
     "name": { "str": "bone shiv" },
     "type": "TOOL",
-    "category": "tools",
+    "category": "tools_workshop",
     "weapon_category": [ "KNIVES" ],
     "description": "A femur or other bone, at least 30 cm long, which has been broken at one end and sharpened into a cutting tool.  Its jagged edge is wicked but fragile.",
     "symbol": "/",
@@ -299,7 +299,7 @@
     "price_postapoc": "0 cent",
     "bashing": 4,
     "cutting": 20,
-    "material": "bone",
+    "material": [ "bone" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 12 ] ],
     "flags": [ "STAB", "SHEATH_KNIFE", "FRAGILE_MELEE" ]
   },
@@ -310,7 +310,7 @@
     "weapon_category": [ "KNIVES" ],
     "name": { "str": "crude dagger" },
     "description": "A medieval dagger forged from rough iron.  It is not the sharpest tool in the shed, but it is certainly one of the largest.",
-    "weight": "420 g",
+    "weight": "400 g",
     "volume": "750 ml",
     "price": "19590 cent",
     "to_hit": 1,
@@ -339,7 +339,7 @@
     "material": "steel",
     "symbol": "/",
     "color": "dark_gray",
-    "techniques": "WBLOCK_2",
+    "techniques": [ "WBLOCK_2" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 15 ] ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD", "NONCONDUCTIVE" ]
   },
@@ -364,7 +364,7 @@
     "id": "machete_gimmick",
     "name": { "str": "machete multitool" },
     "type": "TOOL",
-    "category": "tools",
+    "category": "weapons",
     "weapon_category": [ "SHORT_SWORDS" ],
     "description": "A thin, wobbly steel blade with sawteeth on one side and a flat chisel tip for digging.  A jack of many trades and a master of none.",
     "symbol": "/",
@@ -407,14 +407,15 @@
     "copy-from": "cavalry_sabre",
     "name": { "str": "cavalry saber fake" },
     "description": "This is a dull, cheap replica of a curved sword associated with cavalry, from the Early Modern period onwards.",
-    "weight": "600 g",
     "price": "97 USD",
     "price_postapoc": "50 cent",
-    "bashing": 9,
-    "cutting": 2,
     "material": "aluminum",
-    "flags": [ "SHEATH_SWORD", "FRAGILE_MELEE" ],
-    "qualities": [  ]
+    "qualities": [  ],
+    "repairs_like": "cavalry_sabre",
+    "proportional": { "weight": 0.6, "bashing": 0.75, "cutting": 0.1 },
+    "relative": { "to_hit": -1 },
+    "extend": { "flags": [ "FRAGILE_MELEE" ] },
+    "delete": { "flags": [ "DURABLE_MELEE" ] }
   },
   {
     "id": "kris",
@@ -446,10 +447,12 @@
     "price": "38 USD",
     "price_postapoc": "10 cent",
     "material": "aluminum",
-    "bashing": 2,
-    "cutting": 2,
-    "flags": [ "SHEATH_SWORD", "FRAGILE_MELEE" ],
-    "qualities": [  ]
+    "qualities": [  ],
+    "repairs_like": "kris",
+    "proportional": { "weight": 0.6, "bashing": 0.75, "cutting": 0.1 },
+    "relative": { "to_hit": -1 },
+    "extend": { "flags": [ "FRAGILE_MELEE" ] },
+    "delete": { "flags": [ "DURABLE_MELEE" ] }
   },
   {
     "id": "kukri",
@@ -458,7 +461,7 @@
     "weapon_category": [ "KNIVES" ],
     "name": { "str": "kukri" },
     "description": "This versatile implement is a modern take on a traditional weapon that originated in Nepal.  Featuring a heavy blade with an inwardly curved edge, it is used as both a tool and as a weapon.",
-    "weight": "450 g",
+    "weight": "500 g",
     "volume": "750 ml",
     "price": "80 USD",
     "price_postapoc": "1250 cent",
@@ -500,9 +503,10 @@
     "description": "This is an ancient Chinese doubled-edged straight sword.  The sword is quite worn, and bent at an odd angle.",
     "price_postapoc": "750 cent",
     "material": "budget_steel",
-    "flags": [ "SHEATH_SWORD" ],
-    "bashing": 7,
-    "cutting": 24
+    "repairs_like": "jian",
+    "proportional": { "weight": 1.2, "cutting": 0.85 },
+    "relative": { "to_hit": -1 },
+    "delete": { "flags": [ "DURABLE_MELEE" ] }
   },
   {
     "id": "jian_fake",
@@ -513,10 +517,12 @@
     "price": "100 USD",
     "price_postapoc": "50 cent",
     "material": "aluminum",
-    "flags": [ "SHEATH_SWORD", "FRAGILE_MELEE" ],
-    "weight": "414 g",
-    "cutting": 2,
-    "qualities": [  ]
+    "qualities": [  ],
+    "repairs_like": "jian",
+    "proportional": { "weight": 0.6, "bashing": 0.75, "cutting": 0.1 },
+    "relative": { "to_hit": -1 },
+    "extend": { "flags": [ "FRAGILE_MELEE" ] },
+    "delete": { "flags": [ "DURABLE_MELEE" ] }
   },
   {
     "id": "scimitar",
@@ -547,9 +553,10 @@
     "description": "This is a curved sword associated with various Middle Eastern and Central Asian countries.  This one seems oddly dull and worn.",
     "price_postapoc": "5 USD",
     "material": "budget_steel",
-    "flags": [ "SHEATH_SWORD" ],
-    "bashing": 5,
-    "cutting": 24
+    "repairs_like": "scimitar",
+    "proportional": { "weight": 1.2, "cutting": 0.85 },
+    "relative": { "to_hit": -1 },
+    "delete": { "flags": [ "DURABLE_MELEE" ] }
   },
   {
     "id": "scimitar_fake",
@@ -560,11 +567,12 @@
     "price": "93 USD",
     "price_postapoc": "50 cent",
     "material": "aluminum",
-    "flags": [ "SHEATH_SWORD", "FRAGILE_MELEE" ],
-    "weight": "586 g",
-    "volume": "2 L",
-    "cutting": 2,
-    "qualities": [  ]
+    "qualities": [  ],
+    "repairs_like": "scimitar",
+    "proportional": { "weight": 0.6, "bashing": 0.75, "cutting": 0.1 },
+    "relative": { "to_hit": -1 },
+    "extend": { "flags": [ "FRAGILE_MELEE" ] },
+    "delete": { "flags": [ "DURABLE_MELEE" ] }
   },
   {
     "id": "estoc",
@@ -594,9 +602,10 @@
     "description": "This is a thin, edgeless thrusting sword, a sort of predecessor to the rapier.  It requires a larger baldric or scabbard, compared to smaller swords.  It seems a bit too bendy.",
     "price_postapoc": "750 cent",
     "material": "budget_steel",
-    "flags": [ "STAB", "SHEATH_SWORD" ],
-    "bashing": 29,
-    "cutting": 10
+    "repairs_like": "estoc",
+    "proportional": { "weight": 1.2, "cutting": 0.85 },
+    "relative": { "to_hit": -1 },
+    "delete": { "flags": [ "DURABLE_MELEE" ] }
   },
   {
     "id": "estoc_fake",
@@ -607,11 +616,11 @@
     "price": "135 USD",
     "price_postapoc": "50 cent",
     "material": "aluminum",
-    "flags": [ "STAB", "SHEATH_SWORD", "FRAGILE_MELEE" ],
-    "weight": "939 g",
-    "bashing": 13,
-    "cutting": 2,
-    "to_hit": 2
+    "repairs_like": "estoc",
+    "proportional": { "weight": 0.6, "bashing": 0.75, "cutting": 0.1 },
+    "relative": { "to_hit": -1 },
+    "extend": { "flags": [ "FRAGILE_MELEE" ] },
+    "delete": { "flags": [ "DURABLE_MELEE" ] }
   },
   {
     "id": "longsword",
@@ -642,9 +651,10 @@
     "description": "This is a classic medieval sword, in between the lighter arming sword and later two-handed swords in size.  You feel like the pommel could just snap off if you used it.",
     "price_postapoc": "750 cent",
     "material": "budget_steel",
-    "flags": [ "SHEATH_SWORD" ],
-    "bashing": 30,
-    "cutting": 9
+    "repairs_like": "longsword",
+    "proportional": { "weight": 1.2, "cutting": 0.85 },
+    "relative": { "to_hit": -1 },
+    "delete": { "flags": [ "DURABLE_MELEE" ] }
   },
   {
     "id": "longsword_fake",
@@ -655,12 +665,12 @@
     "price": "130 USD",
     "price_postapoc": "1 USD",
     "material": "aluminum",
-    "flags": [ "SHEATH_SWORD", "FRAGILE_MELEE" ],
-    "weight": "939 g",
-    "bashing": 15,
-    "cutting": 2,
-    "to_hit": 1,
-    "qualities": [  ]
+    "qualities": [  ],
+    "repairs_like": "longsword",
+    "proportional": { "weight": 0.6, "bashing": 0.75, "cutting": 0.1 },
+    "relative": { "to_hit": -1 },
+    "extend": { "flags": [ "FRAGILE_MELEE" ] },
+    "delete": { "flags": [ "DURABLE_MELEE" ] }
   },
   {
     "id": "arming_sword",
@@ -692,10 +702,10 @@
     "description": "This is a classic medieval sword, just the right size to use one-handed.  This one doesn't seem to have been made right.",
     "price_postapoc": "750 cent",
     "material": "budget_steel",
-    "flags": [ "SHEATH_SWORD" ],
-    "weight": "2721 g",
-    "bashing": 12,
-    "cutting": 25
+    "repairs_like": "arming_sword",
+    "proportional": { "weight": 1.2, "cutting": 0.85 },
+    "relative": { "to_hit": -1 },
+    "delete": { "flags": [ "DURABLE_MELEE" ] }
   },
   {
     "id": "arming_sword_fake",
@@ -707,11 +717,12 @@
     "price": "100 USD",
     "price_postapoc": "50 cent",
     "material": "aluminum",
-    "flags": [ "SHEATH_SWORD", "FRAGILE_MELEE" ],
-    "weight": "704 g",
-    "cutting": 2,
-    "to_hit": 2,
-    "qualities": [  ]
+    "qualities": [  ],
+    "repairs_like": "arming_sword",
+    "proportional": { "weight": 0.6, "bashing": 0.75, "cutting": 0.1 },
+    "relative": { "to_hit": -1 },
+    "extend": { "flags": [ "FRAGILE_MELEE" ] },
+    "delete": { "flags": [ "DURABLE_MELEE" ] }
   },
   {
     "id": "sword_xiphos",
@@ -759,7 +770,7 @@
     "id": "dao",
     "type": "GENERIC",
     "category": "weapons",
-    "weapon_category": [ "1H_SWORDS" ],
+    "weapon_category": [ "SHORT_SWORDS" ],
     "name": { "str_sp": "dao" },
     "description": "An ancient Chinese sword consisting of a curved blade and a guard with a cupped design.  Existing since the Shang dynasty, this one is made of bronze.  One of the four major weapons in folklore, alongside the jian sword, qiang spear, and gun staff.",
     "weight": "850 g",
@@ -778,23 +789,13 @@
   {
     "id": "survivor_machete",
     "type": "GENERIC",
-    "category": "weapons",
-    "weapon_category": [ "SHORT_SWORDS" ],
+    "copy-from": "machete",
     "name": { "str": "survivor machete" },
     "description": "This common gardening tool has been customized and rebalanced to improve its performance as a weapon.",
-    "weight": "565 g",
-    "volume": "1 L",
-    "price": "28 USD",
     "price_postapoc": "25 USD",
-    "to_hit": 1,
-    "bashing": 6,
-    "cutting": 21,
-    "material": "steel",
-    "symbol": "/",
-    "color": "dark_gray",
+    "weight": "525 g",
     "techniques": [ "WBLOCK_2", "RAPID" ],
-    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 10 ] ],
-    "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ]
+    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 10 ] ]
   },
   {
     "id": "sword_bayonet",
@@ -856,7 +857,7 @@
     "material": "steel",
     "symbol": "/",
     "color": "dark_gray",
-    "techniques": "RAPID",
+    "techniques": [ "RAPID" ],
     "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 18 ] ],
     "flags": [ "STAB", "DURABLE_MELEE", "SHEATH_KNIFE", "NONCONDUCTIVE" ]
   },
@@ -865,14 +866,14 @@
     "type": "GENERIC",
     "copy-from": "tanto",
     "name": { "str": "tanto replica" },
-    "description": "Long Japanese knives like this more-modern remake were the samurai's backup weapon, before the advent of the larger wakizashi.  This one doesn't feel well-balanced",
-    "looks_like": "tanto",
-    "weight": "374 g",
+    "description": "Long Japanese knives like this more-modern remake were the samurai's backup weapon, before the advent of the larger wakizashi.  This one doesn't feel well-balanced.",
     "price_postapoc": "25 cent",
-    "cutting": 12,
     "material": "budget_steel",
-    "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 7 ] ],
-    "flags": [ "STAB", "SHEATH_KNIFE" ]
+    "repairs_like": "tanto",
+    "proportional": { "weight": 1.2, "cutting": 0.85 },
+    "relative": { "to_hit": -1 },
+    "delete": { "flags": [ "DURABLE_MELEE" ] },
+    "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 7 ] ]
   },
   {
     "id": "tanto_fake",
@@ -881,14 +882,15 @@
     "name": { "str": "tanto fake" },
     "description": "This is a dull, cheaply made replica of a long Japanese knife, typically used as a samurai's backup weapon.",
     "looks_like": "tanto",
-    "weight": "374 g",
     "price": "18 USD",
     "price_postapoc": "10 cent",
-    "to_hit": 1,
-    "cutting": 7,
     "material": "aluminum",
-    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 5 ] ],
-    "flags": [ "STAB", "SHEATH_KNIFE", "FRAGILE_MELEE" ]
+    "qualities": [  ],
+    "repairs_like": "tanto",
+    "proportional": { "weight": 0.6, "bashing": 0.75, "cutting": 0.1 },
+    "relative": { "to_hit": -1 },
+    "extend": { "flags": [ "FRAGILE_MELEE" ] },
+    "delete": { "flags": [ "DURABLE_MELEE" ] }
   },
   {
     "id": "wakizashi",
@@ -920,9 +922,10 @@
     "price": "178 USD",
     "price_postapoc": "5 USD",
     "material": "budget_steel",
-    "flags": [ "SHEATH_SWORD" ],
-    "bashing": 17,
-    "cutting": 7
+    "repairs_like": "wakizashi",
+    "proportional": { "weight": 1.2, "cutting": 0.85 },
+    "relative": { "to_hit": -1 },
+    "delete": { "flags": [ "DURABLE_MELEE" ] }
   },
   {
     "id": "wakizashi_fake",
@@ -933,11 +936,12 @@
     "price": "78 USD",
     "price_postapoc": "50 cent",
     "material": "aluminum",
-    "flags": [ "SHEATH_SWORD", "FRAGILE_MELEE" ],
-    "weight": "557 g",
-    "bashing": 8,
-    "cutting": 2,
-    "qualities": [  ]
+    "qualities": [  ],
+    "repairs_like": "wakizashi",
+    "proportional": { "weight": 0.6, "bashing": 0.75, "cutting": 0.1 },
+    "relative": { "to_hit": -1 },
+    "extend": { "flags": [ "FRAGILE_MELEE" ] },
+    "delete": { "flags": [ "DURABLE_MELEE" ] }
   },
   {
     "id": "zweihander",
@@ -968,9 +972,10 @@
     "description": "This is a huge two-handed sword from Germany.  You're not quite sure it's supposed to be that bendy.",
     "price_postapoc": "750 cent",
     "material": "budget_steel",
-    "flags": [ "SHEATH_SWORD", "ALWAYS_TWOHAND" ],
-    "bashing": 38,
-    "cutting": 10
+    "repairs_like": "zweihaender",
+    "proportional": { "weight": 1.2, "cutting": 0.85 },
+    "relative": { "to_hit": -1 },
+    "delete": { "flags": [ "DURABLE_MELEE" ] }
   },
   {
     "id": "zweihander_fake",
@@ -981,11 +986,12 @@
     "price": "80 USD",
     "price_postapoc": "50 cent",
     "material": "aluminum",
-    "flags": [ "SHEATH_SWORD", "ALWAYS_TWOHAND", "FRAGILE_MELEE" ],
-    "bashing": 19,
-    "cutting": 3,
-    "to_hit": 1,
-    "qualities": [  ]
+    "qualities": [  ],
+    "repairs_like": "zweihander",
+    "proportional": { "weight": 0.6, "bashing": 0.75, "cutting": 0.1 },
+    "relative": { "to_hit": -1 },
+    "extend": { "flags": [ "FRAGILE_MELEE" ] },
+    "delete": { "flags": [ "DURABLE_MELEE" ] }
   },
   {
     "id": "kirpan",
@@ -1005,7 +1011,7 @@
     "material": "steel",
     "symbol": "/",
     "color": "dark_gray",
-    "techniques": "RAPID",
+    "techniques": [ "RAPID" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ],
     "flags": [ "STAB", "SHEATH_KNIFE" ]
   },
@@ -1018,9 +1024,12 @@
     "looks_like": "kirpan",
     "price": "9 USD",
     "price_postapoc": "50 cent",
-    "cutting": 9,
     "material": "budget_steel",
-    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 4 ] ]
+    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 4 ] ],
+    "repairs_like": "kirpan",
+    "proportional": { "weight": 1.2, "cutting": 0.85 },
+    "relative": { "to_hit": -1 },
+    "delete": { "flags": [ "DURABLE_MELEE" ] }
   },
   {
     "id": "nodachi",
@@ -1052,11 +1061,11 @@
     "price": "150 USD",
     "price_postapoc": "5 USD",
     "material": "budget_steel",
-    "flags": [ "SHEATH_SWORD", "ALWAYS_TWOHAND" ],
-    "techniques": [ "WBLOCK_1", "RAPID", "WIDE" ],
-    "weight": "1882 g",
-    "bashing": 30,
-    "cutting": 12
+    "repairs_like": "nodachi",
+    "proportional": { "weight": 1.2, "cutting": 0.85 },
+    "relative": { "to_hit": -1 },
+    "delete": { "flags": [ "DURABLE_MELEE" ] },
+    "techniques": [ "WBLOCK_1", "RAPID", "WIDE" ]
   },
   {
     "id": "nodachi_fake",
@@ -1067,13 +1076,13 @@
     "price": "150 USD",
     "price_postapoc": "250 cent",
     "material": "aluminum",
-    "flags": [ "SHEATH_SWORD", "ALWAYS_TWOHAND", "FRAGILE_MELEE" ],
     "techniques": [ "WBLOCK_1", "RAPID", "WIDE" ],
-    "weight": "1882 g",
-    "to_hit": 1,
-    "bashing": 15,
-    "cutting": 3,
-    "qualities": [  ]
+    "qualities": [  ],
+    "repairs_like": "nodachi",
+    "proportional": { "weight": 0.6, "bashing": 0.75, "cutting": 0.1 },
+    "relative": { "to_hit": -1 },
+    "extend": { "flags": [ "FRAGILE_MELEE" ] },
+    "delete": { "flags": [ "DURABLE_MELEE" ] }
   },
   {
     "id": "fencing_foil",
@@ -1087,7 +1096,7 @@
     "price": "20 USD",
     "price_postapoc": "10 cent",
     "material": "steel",
-    "weight": "450 g",
+    "weight": "500 g",
     "volume": "1250 ml",
     "bashing": 1,
     "cutting": 2,
@@ -1107,12 +1116,18 @@
     "id": "shock_foil",
     "type": "TOOL",
     "copy-from": "fencing_foil_sharpened",
-    "name": { "str": "electrified foil" },
-    "description": "The modifications made to this fencing foil may not be sporting, but they might give you an edge in this final competition.  Extra effort has been made to insulate the grip and a high voltage stun gun has been attached to the guard, wired through the electronic scoring circuit to the tip.  Thrusting the sharpened tip into a foe and activating the momentary switch will deliver a painful electric shock.",
+    "name": { "str": "electrified foil (off)" },
+    "description": "The modifications made to this fencing foil may not be sporting, but they might give you an edge in this final competition.  Extra effort has been made to insulate the grip and a high voltage stun gun has been attached to the guard, wired through the electronic scoring circuit to the tip.  Activate the switch to elecrocute your foes!",
     "ammo": "battery",
-    "charges_per_use": 100,
     "price_postapoc": "1250 cent",
-    "use_action": "TAZER",
+    "use_action": {
+      "type": "transform",
+      "msg": "You press a button and the foil crackles with electricity.",
+      "active": true,
+      "need_charges": 1,
+      "need_charges_msg": "The %s's batteries are dead.",
+      "target": "shock_foil_on"
+    },
     "extend": { "flags": [ "NONCONDUCTIVE" ] },
     "relative": { "volume": "250 ml", "weight": "151 g" },
     "magazines": [
@@ -1121,6 +1136,19 @@
         [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
       ]
     ],
+    "magazine_well": "500 ml"
+  },
+  {
+    "id": "shock_foil_on",
+    "copy-from": "shock_foil",
+    "type": "TOOL",
+    "name": { "str": "electrified foil (on)", "str_pl": "electrified foils (on)" },
+    "description": "The modifications made to this fencing foil may not be sporting, but they might give you an edge in this final competition.  Extra effort has been made to insulate the grip and a high voltage stun gun has been attached to the guard, wired through the electronic scoring circuit to the tip.  It is currently turned on.",
+    "revert_to": "shock_foil",
+    "revert_msg": "The %s's batteries run dry.",
+    "use_action": { "type": "transform", "msg": "You press a button and the foil turns off.", "target": "shock_foil" },
+    "extend": { "flags": [ "TRADER_AVOID", "SHOCKING" ] },
+    "power_draw": 5000000,
     "magazine_well": "500 ml"
   },
   {
@@ -1148,11 +1176,17 @@
     "copy-from": "fencing_epee_sharpened",
     "looks_like": "fencing_epee",
     "name": { "str": "electrified épée" },
-    "description": "The modifications made to this fencing épée may not be sporting, but they might give you an edge in this final competition.  Extra effort has been made to insulate the grip and a high voltage stun gun has been attached to the guard, wired through the electronic scoring circuit to the tip.  Thrusting the sharpened tip into a foe and activating the momentary switch will deliver a painful electric shock.",
+    "description": "The modifications made to this fencing épée may not be sporting, but they might give you an edge in this final competition.  Extra effort has been made to insulate the grip and a high voltage stun gun has been attached to the guard, wired through the electronic scoring circuit to the tip.  Activate the switch to electrocute your foes!",
     "ammo": "battery",
     "price_postapoc": "1250 cent",
-    "charges_per_use": 100,
-    "use_action": "TAZER",
+    "use_action": {
+      "type": "transform",
+      "msg": "You press a button and the epee crackles with electricity.",
+      "active": true,
+      "need_charges": 1,
+      "need_charges_msg": "The %s's batteries are dead.",
+      "target": "shock_epee_on"
+    },
     "extend": { "flags": [ "NONCONDUCTIVE" ] },
     "relative": { "volume": "250 ml", "weight": "151 g" },
     "magazines": [
@@ -1161,6 +1195,19 @@
         [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
       ]
     ],
+    "magazine_well": "500 ml"
+  },
+  {
+    "id": "shock_epee_on",
+    "copy-from": "shock_epee",
+    "type": "TOOL",
+    "name": { "str": "electrified epee (on)", "str_pl": "electrified epees (on)" },
+    "description": "The modifications made to this fencing épée may not be sporting, but they might give you an edge in this final competition.  Extra effort has been made to insulate the grip and a high voltage stun gun has been attached to the guard, wired through the electronic scoring circuit to the tip.  It is currently turned on.",
+    "revert_to": "shock_epee",
+    "revert_msg": "The %s's batteries run dry.",
+    "use_action": { "type": "transform", "msg": "You press a button and the epee turns off.", "target": "shock_epee" },
+    "extend": { "flags": [ "TRADER_AVOID", "SHOCKING" ] },
+    "power_draw": 5000000,
     "magazine_well": "500 ml"
   },
   {
@@ -1186,12 +1233,18 @@
     "type": "TOOL",
     "copy-from": "fencing_sabre_sharpened",
     "looks_like": "fencing_sabre",
-    "name": { "str": "electrified saber" },
-    "description": "The modifications made to this fencing saber may not be sporting, but they might give you an edge in this final competition.  Extra effort has been made to insulate the grip and a high voltage stun gun has been attached to the guard, wired to the tip along the saber's groove.  Thrusting the sharpened tip into a foe and activating the momentary switch will deliver a painful electric shock.",
+    "name": { "str": "electrified saber (off)", "str_pl": "electrified sabers (off)" },
+    "description": "The modifications made to this fencing saber may not be sporting, but they might give you an edge in this final competition.  Extra effort has been made to insulate the grip and a high voltage stun gun has been attached to the guard, wired to the tip along the saber's groove.  Activate the switch to electrocute your foes!",
     "ammo": "battery",
     "price_postapoc": "1250 cent",
-    "charges_per_use": 100,
-    "use_action": "TAZER",
+    "use_action": {
+      "type": "transform",
+      "msg": "You press a button and the sabre crackles with electricity.",
+      "active": true,
+      "need_charges": 1,
+      "need_charges_msg": "The %s's batteries are dead.",
+      "target": "shock_sabre_on"
+    },
     "extend": { "flags": [ "NONCONDUCTIVE" ] },
     "relative": { "volume": "250 ml", "weight": "151 g" },
     "magazines": [
@@ -1200,6 +1253,19 @@
         [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
       ]
     ],
+    "magazine_well": "500 ml"
+  },
+  {
+    "id": "shock_sabre_on",
+    "copy-from": "shock_sabre",
+    "type": "TOOL",
+    "name": { "str": "electrified saber (on)", "str_pl": "electrified sabers (on)" },
+    "description": "The modifications made to this fencing saber may not be sporting, but they might give you an edge in this final competition.  Extra effort has been made to insulate the grip and a high voltage stun gun has been attached to the guard, wired through the electronic scoring circuit to the tip.  It is currently turned on.",
+    "revert_to": "shock_sabre",
+    "revert_msg": "The %s's batteries run dry.",
+    "use_action": { "type": "transform", "msg": "You press a button and the foil crackles with electricity.", "target": "shock_sabre" },
+    "extend": { "flags": [ "TRADER_AVOID", "SHOCKING" ] },
+    "power_draw": 5000000,
     "magazine_well": "500 ml"
   },
   {
@@ -1251,9 +1317,10 @@
     "description": "This is an early modern sword seeing use in the 16th, 17th, and 18th centuries.  This sword appears to be made very poorly, but it should still stand up to a few swings.",
     "price_postapoc": "750 cent",
     "material": "budget_steel",
-    "flags": [ "SHEATH_SWORD" ],
-    "bashing": 7,
-    "cutting": 29
+    "repairs_like": "broadsword",
+    "proportional": { "weight": 1.2, "cutting": 0.85 },
+    "relative": { "to_hit": -1 },
+    "delete": { "flags": [ "DURABLE_MELEE" ] }
   },
   {
     "id": "broadsword_fake",
@@ -1264,11 +1331,11 @@
     "price": "120 USD",
     "price_postapoc": "50 cent",
     "material": "aluminum",
-    "flags": [ "SHEATH_SWORD", "FRAGILE_MELEE" ],
-    "weight": "753 g",
-    "bashing": 10,
-    "cutting": 2,
-    "to_hit": 1
+    "repairs_like": "broadsword",
+    "proportional": { "weight": 0.6, "bashing": 0.75, "cutting": 0.1 },
+    "relative": { "to_hit": -1 },
+    "extend": { "flags": [ "FRAGILE_MELEE" ] },
+    "delete": { "flags": [ "DURABLE_MELEE" ] }
   },
   {
     "id": "rapier",
@@ -1292,6 +1359,45 @@
     "flags": [ "STAB", "DURABLE_MELEE", "SHEATH_SWORD", "NONCONDUCTIVE" ]
   },
   {
+    "id": "shock_rapier_off",
+    "type": "TOOL",
+    "copy-from": "rapier",
+    "name": { "str": "electrified rapier (off)", "str_pl": "electrified rapiers (off)" },
+    "description": "The modifications made to this rapier may not be sporting, but they might give you an edge in this final competition.  Extra effort has been made to insulate the grip and a high voltage stun gun has been attached to the guard, wired to the tip along the saber's groove.  Activate the switch to electrocute your foes!",
+    "ammo": "battery",
+    "price_postapoc": "1250 cent",
+    "use_action": {
+      "type": "transform",
+      "msg": "You press a button and the rapier crackles with electricity.",
+      "active": true,
+      "need_charges": 1,
+      "need_charges_msg": "The %s's batteries are dead.",
+      "target": "shock_rapier_on"
+    },
+    "extend": { "flags": [ "NONCONDUCTIVE" ] },
+    "relative": { "volume": "250 ml", "weight": "151 g" },
+    "magazines": [
+      [
+        "battery",
+        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+      ]
+    ],
+    "magazine_well": "500 ml"
+  },
+  {
+    "id": "shock_rapier_on",
+    "copy-from": "shock_rapier_off",
+    "type": "TOOL",
+    "name": { "str": "electrified rapier (on)", "str_pl": "electrified rapiers (on)" },
+    "description": "The modifications made to this rapier may not be sporting, but they might give you an edge in this final competition.  Extra effort has been made to insulate the grip and a high voltage stun gun has been attached to the guard, wired through the electronic scoring circuit to the tip.  It is currently turned on.",
+    "revert_to": "shock_rapier_off",
+    "revert_msg": "The %s's batteries run dry.",
+    "use_action": { "type": "transform", "msg": "You press a button and the rapier turns off.", "target": "shock_rapier_off" },
+    "extend": { "flags": [ "TRADER_AVOID", "SHOCKING" ] },
+    "power_draw": 5000000,
+    "magazine_well": "500 ml"
+  },
+  {
     "id": "rapier_fake",
     "type": "GENERIC",
     "copy-from": "rapier",
@@ -1300,17 +1406,17 @@
     "price": "98 USD",
     "price_postapoc": "50 cent",
     "material": "aluminum",
-    "flags": [ "STAB", "SHEATH_SWORD", "FRAGILE_MELEE" ],
-    "weight": "660 g",
-    "bashing": 4,
-    "cutting": 2,
-    "to_hit": 1
+    "repairs_like": "rapier",
+    "proportional": { "weight": 0.6, "bashing": 0.75, "cutting": 0.1 },
+    "relative": { "to_hit": -1 },
+    "extend": { "flags": [ "FRAGILE_MELEE" ] },
+    "delete": { "flags": [ "DURABLE_MELEE" ] }
   },
   {
     "id": "katana",
     "type": "GENERIC",
     "category": "weapons",
-    "weapon_category": [ "1H_SWORDS", "JAPANESE_SWORDS" ],
+    "weapon_category": [ "JAPANESE_SWORDS" ],
     "name": { "str": "katana" },
     "description": "This is a rare sword from Japan.  Deadly against unarmored targets, and still very effective against armor.",
     "weight": "1133 g",
@@ -1332,13 +1438,14 @@
     "type": "GENERIC",
     "copy-from": "katana",
     "name": { "str": "katana replica" },
-    "description": "This is a rare sword from Japan.  While it's got the right edge and weight, the pommel just snaps off, and the blade seems pretty worn.",
+    "description": "This is a rare sword from Japan.  While it's got the right edge and balance, the pommel just snaps off, and the blade seems pretty worn.",
     "price": "980 USD",
     "price_postapoc": "250 cent",
     "material": "budget_steel",
-    "flags": [ "SHEATH_SWORD" ],
-    "bashing": 22,
-    "cutting": 9
+    "repairs_like": "katana",
+    "proportional": { "weight": 1.2, "cutting": 0.85 },
+    "relative": { "to_hit": -1 },
+    "delete": { "flags": [ "DURABLE_MELEE" ] }
   },
   {
     "id": "katana_fake",
@@ -1349,18 +1456,18 @@
     "price": "50 USD",
     "price_postapoc": "50 cent",
     "material": "aluminum",
-    "flags": [ "SHEATH_SWORD", "FRAGILE_MELEE" ],
-    "weight": "753 g",
-    "bashing": 11,
-    "cutting": 2,
-    "to_hit": 1,
-    "qualities": [  ]
+    "qualities": [  ],
+    "repairs_like": "katana",
+    "proportional": { "weight": 0.6, "bashing": 0.75, "cutting": 0.1 },
+    "relative": { "to_hit": -1 },
+    "extend": { "flags": [ "FRAGILE_MELEE" ] },
+    "delete": { "flags": [ "DURABLE_MELEE" ] }
   },
   {
     "id": "butterfly_swords",
     "type": "GENERIC",
     "category": "weapons",
-    "weapon_category": [ "KNIVES" ],
+    "weapon_category": [ "SHORT_SWORDS" ],
     "symbol": "/",
     "color": "light_gray",
     "name": { "str": "pair of butterfly swords", "str_pl": "pairs of butterfly swords" },
@@ -1370,7 +1477,7 @@
     "price_postapoc": "60 USD",
     "material": "steel",
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD", "ALWAYS_TWOHAND", "NONCONDUCTIVE" ],
-    "techniques": [ "WBLOCK_2" ],
+    "techniques": [ "WBLOCK_2", "RAPID" ],
     "weight": "1766 g",
     "volume": "1500 ml",
     "to_hit": 1,
@@ -1399,7 +1506,15 @@
     "charges_per_use": 75,
     "techniques": [ "WBLOCK_1", "SPIN", "SWEEP" ],
     "qualities": [ [ "AXE", 3 ] ],
-    "use_action": "CS_LAJATANG_OFF",
+    "use_action": {
+      "type": "transform",
+      "active": true,
+      "target": "cs_lajatang_on",
+      "msg": "You turn on the chainsaw lajatang.",
+      "moves": 80,
+      "transform_charges": 5,
+      "need_dry": true
+    },
     "flags": [ "NONCONDUCTIVE", "POWERED", "ALWAYS_TWOHAND" ]
   },
   {
@@ -1412,11 +1527,12 @@
     "cutting": 140,
     "to_hit": -1,
     "revert_to": "cs_lajatang_off",
-    "use_action": "CS_LAJATANG_ON",
+    "revert_msg": "Your chainsaw lajatang goes quiet",
+    "use_action": { "type": "transform", "target": "cs_lajatang_off", "msg": "You turn off the chainsaw lajatang." },
     "qualities": [ [ "BUTCHER", -250 ] ],
     "turns_per_charge": 1,
     "charges_per_use": 0,
-    "flags": [ "MESSY", "FRAGILE_MELEE", "TRADER_AVOID", "NONCONDUCTIVE", "ALWAYS_TWOHAND" ]
+    "flags": [ "MESSY", "FRAGILE_MELEE", "TRADER_AVOID", "NONCONDUCTIVE", "ALWAYS_TWOHAND", "WATER_DISABLE" ]
   },
   {
     "id": "ecs_lajatang_off",
@@ -1438,7 +1554,15 @@
     "charges_per_use": 375,
     "techniques": [ "WBLOCK_1", "SPIN", "SWEEP" ],
     "qualities": [ [ "AXE", 3 ] ],
-    "use_action": "ECS_LAJATANG_OFF",
+    "use_action": {
+      "type": "transform",
+      "active": true,
+      "target": "ecs_lajatang_on",
+      "msg": "You turn on the chainsaw lajatang.",
+      "moves": 80,
+      "transform_charges": 5,
+      "need_dry": true
+    },
     "flags": [ "NONCONDUCTIVE", "POWERED", "ALWAYS_TWOHAND" ],
     "magazines": [
       [ "battery", [ "heavy_battery_cell", "heavy_plus_battery_cell", "heavy_atomic_battery_cell", "heavy_disposable_cell" ] ]
@@ -1457,16 +1581,17 @@
     "power_draw": 4000000,
     "charges_per_use": 0,
     "revert_to": "ecs_lajatang_off",
-    "use_action": "ECS_LAJATANG_ON",
+    "revert_msg": "Your chainsaw lajatang goes quiet",
+    "use_action": { "type": "transform", "target": "ecs_lajatang_off", "msg": "You turn off the chainsaw lajatang." },
     "qualities": [ [ "BUTCHER", -250 ] ],
-    "flags": [ "MESSY", "DURABLE_MELEE", "TRADER_AVOID", "NONCONDUCTIVE", "ALWAYS_TWOHAND" ],
+    "flags": [ "MESSY", "DURABLE_MELEE", "TRADER_AVOID", "NONCONDUCTIVE", "ALWAYS_TWOHAND", "WATER_DISABLE" ],
     "magazine_well": "1000 ml"
   },
   {
     "id": "cutlass",
     "type": "GENERIC",
     "category": "weapons",
-    "weapon_category": [ "SHORT_SWORDS", "MEDIEVAL_SWORDS" ],
+    "weapon_category": [ "SHORT_SWORDS", "MEDIEVAL_SWORDS", "DUELING_SWORDS" ],
     "name": { "str": "cutlass", "str_pl": "cutlasses" },
     "description": "This is a broad saber known for its use by sailors and pirates, as its short blade is easy to handle in close quarters.",
     "weight": "955 g",
@@ -1479,7 +1604,7 @@
     "material": "steel",
     "symbol": "/",
     "color": "dark_gray",
-    "techniques": "WBLOCK_2",
+    "techniques": [ "WBLOCK_2" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 9 ] ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD", "NONCONDUCTIVE" ]
   },
@@ -1491,9 +1616,10 @@
     "description": "This is a broad saber known for its use by sailors and pirates.  This sword appears to be made very poorly, but it should still stand up to a few swings.",
     "price_postapoc": "750 cent",
     "material": "budget_steel",
-    "bashing": 23,
-    "cutting": 7,
-    "flags": [ "SHEATH_SWORD" ]
+    "repairs_like": "cutlass",
+    "proportional": { "weight": 1.2, "cutting": 0.85 },
+    "relative": { "to_hit": -1 },
+    "delete": { "flags": [ "DURABLE_MELEE" ] }
   },
   {
     "id": "cutlass_fake",
@@ -1504,12 +1630,12 @@
     "price": "96 USD",
     "price_postapoc": "50 cent",
     "material": "aluminum",
-    "flags": [ "SHEATH_SWORD", "FRAGILE_MELEE" ],
-    "weight": "634 g",
-    "bashing": 12,
-    "cutting": 1,
-    "to_hit": 1,
-    "qualities": [  ]
+    "qualities": [  ],
+    "repairs_like": "cutlass",
+    "proportional": { "weight": 0.6, "bashing": 0.75, "cutting": 0.1 },
+    "relative": { "to_hit": -1 },
+    "extend": { "flags": [ "FRAGILE_MELEE" ] },
+    "delete": { "flags": [ "DURABLE_MELEE" ] }
   },
   {
     "//": "Id retained to avoid breaking anything, same reason as with the makeshift glaive.",
@@ -1529,7 +1655,20 @@
     "volume": "2250 ml",
     "bashing": 7,
     "cutting": 14,
-    "price": "59 USD"
+    "price": "59 USD",
+    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 5 ] ]
+  },
+  {
+    "id": "razor_macuahuitl",
+    "copy-from": "glass_macuahuitl",
+    "type": "GENERIC",
+    "name": { "str": "razorblade macuahuitl" },
+    "description": "A flat wooden club with razor blades set into the edges.  Significantly sharper than using stone blades.",
+    "weight": "900 g",
+    "price_postapoc": "3 USD",
+    "material": [ "wood", "steel" ],
+    "cutting": 21,
+    "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 5 ] ]
   },
   {
     "type": "GENERIC",
@@ -1556,6 +1695,7 @@
     "id": "combatsaw_off",
     "type": "TOOL",
     "category": "weapons",
+    "weapon_category": [ "2H_SWORDS" ],
     "name": { "str": "combat chainsaw (off)", "str_pl": "combat chainsaws (off)" },
     "description": "This is a chainsaw that has been lightened, tuned, and extensively modified to be a more effective weapon.  Unfortunately these modifications have rendered it much less effective as a woodcutting tool.",
     "weight": "5122 g",
@@ -1571,7 +1711,15 @@
     "charges_per_use": 75,
     "max_charges": 450,
     "qualities": [ [ "AXE", 3 ] ],
-    "use_action": "COMBATSAW_OFF",
+    "use_action": {
+      "type": "transform",
+      "active": true,
+      "target": "combatsaw_on",
+      "msg": "You turn on the combat chainsaw.",
+      "moves": 60,
+      "transform_charges": 5,
+      "need_dry": true
+    },
     "techniques": [ "WBLOCK_1", "SWEEP" ],
     "flags": [ "ALWAYS_TWOHAND", "POWERED" ]
   },
@@ -1587,13 +1735,15 @@
     "charges_per_use": 0,
     "revert_to": "combatsaw_off",
     "qualities": [ [ "BUTCHER", -120 ] ],
-    "use_action": "COMBATSAW_ON",
-    "flags": [ "MESSY", "DURABLE_MELEE", "TRADER_AVOID", "ALWAYS_TWOHAND" ]
+    "revert_msg": "Your combat chainsaw goes quiet",
+    "use_action": { "type": "transform", "target": "combatsaw_off", "msg": "You turn off the combat chainsaw." },
+    "flags": [ "MESSY", "DURABLE_MELEE", "TRADER_AVOID", "ALWAYS_TWOHAND", "WATER_DISABLE" ]
   },
   {
     "id": "e_combatsaw_off",
     "type": "TOOL",
     "category": "weapons",
+    "weapon_category": [ "2H_SWORDS" ],
     "name": { "str": "electric combat chainsaw (off)", "str_pl": "electric combat chainsaws (off)" },
     "description": "This is an electric chainsaw that has been lightened, tuned, and extensively modified to be a more effective weapon.  Unfortunately these modifications have rendered it much less effective as a woodcutting tool.",
     "weight": "5122 g",
@@ -1608,7 +1758,15 @@
     "ammo": "battery",
     "charges_per_use": 375,
     "qualities": [ [ "AXE", 3 ] ],
-    "use_action": "E_COMBATSAW_OFF",
+    "use_action": {
+      "type": "transform",
+      "active": true,
+      "target": "e_combatsaw_on",
+      "msg": "You turn on the combat chainsaw.",
+      "moves": 60,
+      "transform_charges": 5,
+      "need_dry": true
+    },
     "techniques": [ "WBLOCK_1", "SWEEP" ],
     "flags": [ "ALWAYS_TWOHAND", "POWERED" ],
     "magazines": [
@@ -1631,8 +1789,9 @@
     "charges_per_use": 0,
     "revert_to": "e_combatsaw_off",
     "qualities": [ [ "BUTCHER", -120 ] ],
-    "use_action": "E_COMBATSAW_ON",
-    "flags": [ "MESSY", "DURABLE_MELEE", "TRADER_AVOID", "ALWAYS_TWOHAND" ],
+    "revert_msg": "Your combat chainsaw goes quiet",
+    "use_action": { "type": "transform", "target": "e_combatsaw_off", "msg": "You turn off the combat chainsaw." },
+    "flags": [ "MESSY", "DURABLE_MELEE", "TRADER_AVOID", "ALWAYS_TWOHAND", "WATER_DISABLE" ],
     "magazine_well": "500 ml"
   },
   {
@@ -1642,7 +1801,7 @@
     "weapon_category": [ "KNIVES" ],
     "name": { "str": "dagger" },
     "description": "A medieval dagger, more finely crafted than a baselard.",
-    "weight": "420 g",
+    "weight": "400 g",
     "volume": "750 ml",
     "price": "19590 cent",
     "to_hit": 1,
@@ -1666,5 +1825,146 @@
     "cutting": 16,
     "material": [ "bronze" ],
     "color": "yellow"
+  },
+  {
+    "type": "TOOL",
+    "id": "knife_heat",
+    "copy-from": "knife_combat",
+    "name": { "str": "thermoblade" },
+    "description": "This is a knife or dagger with an aftermarket modification to heat the blade.  The makeshift atomic battery means it will effectively never run out of power, but it can irradiate the wielder when damaged.",
+    "weight": "588 g",
+    "price_postapoc": "1550 cent",
+    "use_action": "HOTPLATE",
+    "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 30 ] ],
+    "flags": [ "STAB", "SHEATH_KNIFE", "LEAK_DAM", "RADIOACTIVE", "FLAMING" ]
+  },
+  {
+    "id": "knife_carbon",
+    "type": "GENERIC",
+    "copy-from": "knife_combat",
+    "name": { "str": "carbon fiber knife" },
+    "description": "A custom 3D-printed combat knife made out of carbon fiber.  It is more lightweight than a normal knife thanks to its method of manufacturing, but it can only be repaired using a 3D printer.",
+    "weight": "300 g",
+    "material": [ "carbon_fiber" ]
+  },
+  {
+    "id": "sword_carbon",
+    "type": "GENERIC",
+    "copy-from": "katana",
+    "name": { "str": "carbon fiber katana" },
+    "description": "A custom 3D-printed single-bladed sword made out of carbon fiber.  It is more lightweight than a normal sword thanks to its method of manufacturing, but it can only be repaired using a 3D printer.",
+    "material": [ "carbon_fiber" ],
+    "proportional": { "weight": 0.6, "price": 2, "price_postapoc": 2 }
+  },
+  {
+    "id": "broadsword_carbon",
+    "type": "GENERIC",
+    "copy-from": "broadsword",
+    "name": { "str": "carbon fiber sword" },
+    "description": "A custom 3D-printed double-bladed sword made out of carbon fiber.  It is more lightweight than a normal sword thanks to its method of manufacturing, but it can only be repaired using a 3D printer.",
+    "material": [ "carbon_fiber" ],
+    "proportional": { "weight": 0.6, "price": 2, "price_postapoc": 2 }
+  },
+  {
+    "id": "nodachi_carbon",
+    "type": "GENERIC",
+    "copy-from": "nodachi",
+    "name": { "str": "carbon fiber nodachi" },
+    "description": "A custom 3D-printed single-bladed two-handed sword made out of carbon fiber.  It is more lightweight than a normal sword thanks to its method of manufacturing, but it can only be repaired using a 3D printer.",
+    "material": [ "carbon_fiber" ],
+    "proportional": { "weight": 0.6, "price": 2, "price_postapoc": 2 }
+  },
+  {
+    "id": "greatsword_carbon",
+    "type": "GENERIC",
+    "copy-from": "zweihander",
+    "name": { "str": "carbon fiber greatsword" },
+    "description": "A custom 3D-printed two-handed sword made out of carbon fiber.  It is more lightweight than a normal sword thanks to its method of manufacturing, but it can only be repaired using a 3D printer.",
+    "material": [ "carbon_fiber" ],
+    "proportional": { "weight": 0.6, "price": 2, "price_postapoc": 2 }
+  },
+  {
+    "id": "knife_stinger",
+    "type": "GENERIC",
+    "copy-from": "dagger_medieval",
+    "looks_like": "bone_knife",
+    "name": { "str": "stinger dagger" },
+    "description": "A dagger made from a sharpened mutant insect stinger.  It's only natural that the Cataclysm would advent new, creative forms of old weapons.",
+    "material": [ "chitin" ],
+    "proportional": { "weight": 0.8, "cutting": 0.9 },
+    "relic_data": {
+      "passive_effects": [
+        {
+          "has": "WIELD",
+          "condition": "ALWAYS",
+          "hit_you_effect": [
+            {
+              "id": "poison",
+              "once_in": 10,
+              "message": "The stinger injects a small amount of poison into your target.",
+              "npc_message": "%1$s stings their target."
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "id": "knife_triffid",
+    "type": "GENERIC",
+    "copy-from": "knife_stinger",
+    "name": { "str": "triffid dagger" },
+    "description": "A dagger made from the stinger of a strange plant monster.  Fitting that the Cataclysm brings with it a few creative twists on ancient weapons.",
+    "material": [ "wood" ],
+    "relic_data": {
+      "passive_effects": [
+        {
+          "has": "WIELD",
+          "condition": "ALWAYS",
+          "hit_you_effect": [
+            {
+              "id": "poison_paralyze",
+              "once_in": 10,
+              "message": "The stinger injects a small amount of poison into your target.",
+              "npc_message": "%1$s stings their target."
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "id": "knife_tooth",
+    "type": "GENERIC",
+    "copy-from": "dagger_medieval",
+    "looks_like": "bone_knife",
+    "name": { "str": "sharktooth dagger" },
+    "description": "A dagger made from a wooden handle with razor-sharp teeth lining the edge.",
+    "material": [ "bone_heavy", "wood" ],
+    "proportional": { "weight": 0.8 },
+    "//": "Same qualities as all the other daggers but gains fine cutting",
+    "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 20 ] ]
+  },
+  {
+    "id": "tooth_leiomano",
+    "copy-from": "glass_macuahuitl",
+    "type": "GENERIC",
+    "name": { "str": "sharktooth leiomano" },
+    "description": "A flat wooden club with razor-sharp teeth set into the edges.  This was a weapon of various Polynesian peoples, and was used to great effect.",
+    "weight": "850 g",
+    "price_postapoc": "3 USD",
+    "material": [ "wood", "bone_heavy" ],
+    "cutting": 21,
+    "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 5 ] ]
+  },
+  {
+    "id": "sword_bone",
+    "type": "GENERIC",
+    "copy-from": "machete",
+    "looks_like": "makeshift_machete",
+    "name": { "str": "bone cleaver" },
+    "description": "This shortsword is carved from a large chunk of bone set in a wooden haft, and is capable of slicing foes in with swiftness and efficiency.",
+    "material": [ "bone_heavy", "wood" ],
+    "proportional": { "weight": 0.8, "cutting": 0.9 }
   }
 ]

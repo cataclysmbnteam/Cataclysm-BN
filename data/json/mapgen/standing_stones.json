@@ -24,7 +24,13 @@
     "name": "GROUP_STANDING_STONES",
     "type": "monstergroup",
     "default": "mon_null",
-    "monsters": [ { "monster": "mon_darkman", "freq": 100, "cost_multiplier": 1, "conditions": [ "NIGHT" ] } ]
+    "monsters": [
+      { "monster": "mon_dementia", "freq": 100, "cost_multiplier": 1, "starts": 250 },
+      { "monster": "mon_dementia", "freq": 100, "cost_multiplier": 1, "starts": 250, "pack_size": [ 1, 3 ] },
+      { "monster": "mon_flesh_angel", "freq": 25, "cost_multiplier": 1, "starts": 500 },
+      { "monster": "mon_homunculus", "freq": 25, "cost_multiplier": 1, "starts": 500 },
+      { "monster": "mon_darkman", "freq": 100, "cost_multiplier": 1, "conditions": [ "NIGHT" ] }
+    ]
   },
   {
     "type": "mapgen",

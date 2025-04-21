@@ -390,7 +390,7 @@
         "+": "t_door_locked",
         "D": "t_window_domestic",
         "B": "t_window_stained_blue",
-        "_": "t_flat_roof",
+        "_": "t_rock_floor_no_roof",
         ">": "t_stairs_down",
         "G": "t_window_stained_green"
       },

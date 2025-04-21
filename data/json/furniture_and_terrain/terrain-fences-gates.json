@@ -14,8 +14,9 @@
       "str_max": 150,
       "sound": "crunch!",
       "sound_fail": "whump!",
-      "ter_set": "t_null",
-      "items": [ { "item": "splinter", "count": [ 10, 20 ] } ]
+      "ter_set": "t_pit",
+      "items": [ { "item": "splinter", "count": [ 10, 20 ] } ],
+      "ranged": { "reduction": [ 24, 24 ], "destroy_threshold": 150 }
     }
   },
   {
@@ -32,7 +33,7 @@
       "str_max": 150,
       "sound": "crunch!",
       "sound_fail": "whump!",
-      "ter_set": "t_null",
+      "ter_set": "t_pit",
       "items": [ { "item": "splinter", "count": [ 10, 20 ] } ]
     }
   },
@@ -93,7 +94,7 @@
       "str_max_blocked": 175,
       "sound": "metal screeching!",
       "sound_fail": "clang!",
-      "ter_set": "t_null",
+      "ter_set": "t_dirt",
       "items": [ { "item": "wire", "count": [ 8, 20 ] }, { "item": "scrap", "count": [ 0, 12 ] } ]
     }
   },
@@ -126,7 +127,7 @@
       "str_max_blocked": 100,
       "sound": "metal screeching!",
       "sound_fail": "clang!",
-      "ter_set": "t_null",
+      "ter_set": "t_dirt",
       "items": [
         { "item": "wire", "count": [ 6, 15 ] },
         { "item": "pipe", "count": [ 6, 15 ] },
@@ -150,7 +151,7 @@
       "str_max": 150,
       "sound": "metal screeching!",
       "sound_fail": "clang!",
-      "ter_set": "t_null",
+      "ter_set": "t_dirt",
       "items": [
         { "item": "wire", "count": [ 6, 15 ] },
         { "item": "pipe", "count": [ 6, 15 ] },
@@ -166,7 +167,7 @@
     "symbol": "+",
     "color": "brown",
     "move_cost": 3,
-    "coverage": 60,
+    "coverage": 35,
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "DOOR", "MOUNTABLE", "BURROWABLE" ],
     "connects_to": "WOODFENCE",
     "open": "t_fencegate_o",
@@ -186,13 +187,14 @@
       "str_max_blocked": 30,
       "sound": "crack.",
       "sound_fail": "wham.",
-      "ter_set": "t_null",
+      "ter_set": "t_dirt",
       "items": [
         { "item": "2x4", "count": [ 1, 4 ] },
         { "item": "nail", "charges": [ 2, 8 ] },
         { "item": "splinter", "count": [ 1, 2 ] },
         { "item": "hinge", "count": [ 1, 2 ] }
-      ]
+      ],
+      "ranged": { "reduction": [ 4, 4 ], "destroy_threshold": 20, "block_unaimed_chance": "25%" }
     }
   },
   {
@@ -220,7 +222,7 @@
       "str_max": 60,
       "sound": "crash!",
       "sound_fail": "wham!",
-      "ter_set": "t_null",
+      "ter_set": "t_dirt",
       "items": [
         { "item": "2x4", "count": [ 1, 4 ] },
         { "item": "nail", "charges": [ 2, 8 ] },
@@ -327,7 +329,7 @@
       "str_max_blocked": 15,
       "sound": "rattle!",
       "sound_fail": "thump!",
-      "ter_set": "t_null",
+      "ter_set": "t_dirt",
       "items": [ { "item": "wire", "count": [ 4, 6 ] }, { "item": "2x4", "count": [ 2, 4 ] }, { "item": "hinge", "count": [ 1, 2 ] } ]
     }
   },
@@ -357,7 +359,7 @@
       "str_max": 12,
       "sound": "rattle!",
       "sound_fail": "thump!",
-      "ter_set": "t_null",
+      "ter_set": "t_dirt",
       "items": [ { "item": "wire", "count": [ 4, 6 ] }, { "item": "2x4", "count": [ 2, 4 ] }, { "item": "hinge", "count": [ 1, 2 ] } ]
     }
   },
@@ -370,6 +372,7 @@
     "symbol": "LINE_OXOX",
     "color": "brown",
     "move_cost": 3,
+    "coverage": 25,
     "flags": [
       "TRANSPARENT",
       "DIGGABLE",
@@ -382,6 +385,8 @@
       "AUTO_WALL_SYMBOL",
       "BURROWABLE"
     ],
+    "nail_pull_result": "t_fence_post",
+    "nail_pull_items": [ 8, 5 ],
     "connects_to": "WOODFENCE",
     "deconstruct": { "ter_set": "t_fence_post", "items": [ { "item": "2x4", "count": 5 }, { "item": "nail", "charges": 8 } ] },
     "bash": {
@@ -389,8 +394,9 @@
       "str_max": 20,
       "sound": "crack.",
       "sound_fail": "wham.",
-      "ter_set": "t_null",
-      "items": [ { "item": "2x4", "count": [ 1, 3 ] }, { "item": "nail", "charges": [ 2, 6 ] }, { "item": "splinter", "count": 1 } ]
+      "ter_set": "t_fence_post",
+      "items": [ { "item": "2x4", "count": [ 1, 3 ] }, { "item": "nail", "charges": [ 2, 6 ] }, { "item": "splinter", "count": 1 } ],
+      "ranged": { "reduction": [ 4, 4 ], "destroy_threshold": 20, "block_unaimed_chance": "25%" }
     }
   },
   {
@@ -452,7 +458,7 @@
       "str_max": 30,
       "sound": "metal screeching!",
       "sound_fail": "clang!",
-      "ter_set": "t_null",
+      "ter_set": "t_dirt",
       "items": [ { "item": "pipe", "count": [ 1, 4 ] }, { "item": "scrap", "count": [ 3, 6 ] } ]
     }
   },
@@ -526,7 +532,7 @@
       "str_max": 20,
       "sound": "crack.",
       "sound_fail": "whump.",
-      "ter_set": "t_null",
+      "ter_set": "t_dirt",
       "items": [ { "item": "2x4", "count": [ 0, 2 ] }, { "item": "nail", "charges": [ 0, 8 ] } ]
     }
   },
@@ -545,7 +551,7 @@
       "str_max": 20,
       "sound": "crack.",
       "sound_fail": "whump.",
-      "ter_set": "t_null",
+      "ter_set": "t_dirt",
       "items": [ { "item": "pointy_stick", "count": [ 0, 2 ] } ]
     }
   },
@@ -570,7 +576,7 @@
       "str_max": 20,
       "sound": "crack.",
       "sound_fail": "whump.",
-      "ter_set": "t_null",
+      "ter_set": "t_dirt",
       "items": [ { "item": "pointy_stick", "count": [ 0, 2 ] }, { "item": "wire", "count": [ 0, 2 ] } ]
     }
   },
@@ -595,7 +601,7 @@
       "str_max": 20,
       "sound": "crack.",
       "sound_fail": "whump.",
-      "ter_set": "t_null",
+      "ter_set": "t_dirt",
       "items": [ { "item": "pointy_stick", "count": [ 0, 2 ] }, { "item": "wire_barbed", "count": [ 0, 2 ] } ]
     }
   },
@@ -614,7 +620,7 @@
       "str_max": 20,
       "sound": "crack.",
       "sound_fail": "whump.",
-      "ter_set": "t_null",
+      "ter_set": "t_dirt",
       "items": [
         { "item": "pointy_stick", "count": [ 0, 2 ] },
         { "item": "rope_6", "prob": 50 },
@@ -627,11 +633,12 @@
     "id": "t_splitrail_fence",
     "alias": [ "t_splitrail_fence_h", "t_splitrail_fence_v" ],
     "name": "split rail fence",
-    "description": "A rather stout fence made of 2x4s and fence posts, suitable for containing livestock like horses, cows and pigs.",
+    "description": "A rather stout fence made of split logs with notches, held together by gravity and suitable for containing livestock like horses, cows and pigs.",
     "symbol": "LINE_OXOX",
     "color": "brown",
     "looks_like": "t_fence",
     "move_cost": 0,
+    "coverage": 60,
     "examine_action": "chainfence",
     "flags": [
       "TRANSPARENT",
@@ -644,14 +651,15 @@
       "BURROWABLE"
     ],
     "connects_to": "WOODFENCE",
-    "deconstruct": { "ter_set": "t_fence_post", "items": [ { "item": "2x4", "count": 2 }, { "item": "nail", "charges": 20 } ] },
+    "deconstruct": { "ter_set": "t_dirt", "items": [ { "item": "log", "count": 2 } ] },
     "bash": {
       "str_min": 5,
       "str_max": 12,
       "sound": "whump!",
       "sound_fail": "whack!",
-      "ter_set": "t_fence_post",
-      "items": [ { "item": "2x4", "count": [ 1, 2 ] } ]
+      "ter_set": "t_dirt",
+      "items": [ { "item": "log", "count": [ 1, 2 ] } ],
+      "ranged": { "reduction": [ 5, 5 ], "destroy_threshold": 12, "block_unaimed_chance": "50%" }
     }
   },
   {
@@ -683,13 +691,14 @@
       "str_max_blocked": 30,
       "sound": "crack.",
       "sound_fail": "wham.",
-      "ter_set": "t_null",
+      "ter_set": "t_dirt",
       "items": [
         { "item": "2x4", "count": [ 1, 4 ] },
         { "item": "nail", "charges": [ 2, 8 ] },
         { "item": "splinter", "count": [ 1, 2 ] },
         { "item": "hinge", "count": [ 1, 2 ] }
-      ]
+      ],
+      "ranged": { "reduction": [ 4, 4 ], "destroy_threshold": 20, "block_unaimed_chance": "50%" }
     }
   },
   {
@@ -746,7 +755,8 @@
         { "item": "pipe", "count": [ 4, 8 ] },
         { "item": "sheet_metal_small", "count": [ 8, 20 ] },
         { "item": "sheet_metal", "count": [ 0, 2 ] }
-      ]
+      ],
+      "ranged": { "reduction": [ 10, 10 ], "destroy_threshold": 18, "block_unaimed_chance": "50%" }
     }
   },
   {
@@ -785,7 +795,8 @@
         { "item": "sheet_metal_small", "count": [ 8, 20 ] },
         { "item": "sheet_metal", "count": [ 0, 2 ] },
         { "item": "hinge", "count": [ 1, 2 ] }
-      ]
+      ],
+      "ranged": { "reduction": [ 10, 10 ], "destroy_threshold": 20, "block_unaimed_chance": "50%" }
     }
   },
   {
@@ -847,7 +858,8 @@
       "sound": "whump!",
       "sound_fail": "whack!",
       "ter_set": "t_fence_post",
-      "items": [ { "item": "2x4", "count": [ 4, 10 ] } ]
+      "items": [ { "item": "2x4", "count": [ 4, 10 ] } ],
+      "ranged": { "reduction": [ 5, 5 ], "destroy_threshold": 12 }
     }
   },
   {
@@ -879,13 +891,14 @@
       "str_max_blocked": 30,
       "sound": "crack.",
       "sound_fail": "wham.",
-      "ter_set": "t_null",
+      "ter_set": "t_dirt",
       "items": [
         { "item": "2x4", "count": [ 4, 8 ] },
         { "item": "nail", "charges": [ 10, 20 ] },
         { "item": "splinter", "count": [ 4, 6 ] },
         { "item": "hinge", "count": [ 1, 2 ] }
-      ]
+      ],
+      "ranged": { "reduction": [ 4, 4 ], "destroy_threshold": 20 }
     }
   },
   {
@@ -919,6 +932,7 @@
     "symbol": "LINE_OXOX",
     "color": "yellow",
     "move_cost": 3,
+    "coverage": 25,
     "flags": [ "TRANSPARENT", "NOITEM", "THIN_OBSTACLE", "MOUNTABLE", "SHORT", "AUTO_WALL_SYMBOL", "BURROWABLE" ],
     "connects_to": "RAILING",
     "bash": {
@@ -932,7 +946,8 @@
         { "item": "nail", "charges": [ 2, 6 ] },
         { "item": "scrap", "count": [ 1, 3 ] },
         { "item": "splinter", "count": [ 1, 3 ] }
-      ]
+      ],
+      "ranged": { "reduction": [ 20, 20 ], "destroy_threshold": 12, "block_unaimed_chance": "25%" }
     }
   },
   {
@@ -957,7 +972,9 @@
         { "item": "glass_shard", "count": [ 5, 15 ] },
         { "item": "pipe", "charges": [ 1, 2 ] },
         { "item": "scrap", "count": [ 1, 3 ] }
-      ]
+      ],
+      "//": "reduction and destroy_threshold are lower for plain glass",
+      "ranged": { "reduction": [ 1, 10 ], "destroy_threshold": 10, "block_unaimed_chance": "25%" }
     }
   },
   {
@@ -969,6 +986,7 @@
     "symbol": "LINE_OXOX",
     "color": "dark_gray",
     "move_cost": 3,
+    "coverage": 25,
     "flags": [ "TRANSPARENT", "NOITEM", "THIN_OBSTACLE", "MOUNTABLE", "SHORT", "AUTO_WALL_SYMBOL", "BURROWABLE" ],
     "connects_to": "RAILING",
     "deconstruct": { "ter_set": "t_rock_floor", "items": [ { "item": "sheet_metal", "count": 2 }, { "item": "pipe", "count": 4 } ] },
@@ -983,7 +1001,8 @@
         { "item": "sheet_metal", "charges": 1 },
         { "item": "sheet_metal_small", "charges": [ 1, 4 ] },
         { "item": "scrap", "count": [ 1, 3 ] }
-      ]
+      ],
+      "ranged": { "reduction": [ 20, 20 ], "destroy_threshold": 80, "block_unaimed_chance": "25%" }
     }
   },
   {
@@ -999,8 +1018,8 @@
     "flags": [ "TRANSPARENT", "NOITEM", "THIN_OBSTACLE", "MOUNTABLE", "SHORT", "AUTO_WALL_SYMBOL", "MINEABLE", "BURROWABLE" ],
     "connects_to": "RAILING",
     "bash": {
-      "str_min": 100,
-      "str_max": 400,
+      "str_min": 50,
+      "str_max": 250,
       "sound": "crash!",
       "sound_fail": "whump!",
       "ter_set": "t_thconc_floor",
@@ -1008,7 +1027,9 @@
         { "item": "rock", "count": [ 5, 10 ] },
         { "item": "scrap", "count": [ 5, 8 ] },
         { "item": "rebar", "count": [ 0, 2 ] }
-      ]
+      ],
+      "//": "Stone obstacles have double the expected reduction but lower destroy_threshold in return",
+      "ranged": { "reduction": [ 100, 100 ], "destroy_threshold": 100, "block_unaimed_chance": "25%" }
     }
   },
   {
@@ -1020,6 +1041,7 @@
     "color": "light_gray",
     "looks_like": "t_guardrail_bg_dp",
     "move_cost": 3,
+    "coverage": 25,
     "flags": [ "TRANSPARENT", "NOITEM", "REDUCE_SCENT", "MOUNTABLE", "SHORT", "THIN_OBSTACLE", "ROAD", "BURROWABLE" ],
     "bash": {
       "str_min": 8,
@@ -1027,7 +1049,8 @@
       "sound": "crunch!",
       "sound_fail": "clang!",
       "ter_set": "t_pavement_hw_air",
-      "items": [ { "item": "pipe", "count": [ 1, 2 ] }, { "item": "scrap", "count": [ 3, 6 ] } ]
+      "items": [ { "item": "pipe", "count": [ 1, 2 ] }, { "item": "scrap", "count": [ 3, 6 ] } ],
+      "ranged": { "reduction": [ 8, 8 ], "destroy_threshold": 150, "block_unaimed_chance": "25%" }
     }
   },
   {
@@ -1038,6 +1061,7 @@
     "symbol": "#",
     "color": "light_gray",
     "move_cost": 3,
+    "coverage": 25,
     "flags": [ "TRANSPARENT", "NOITEM", "REDUCE_SCENT", "MOUNTABLE", "SHORT", "THIN_OBSTACLE", "ROAD", "BURROWABLE" ],
     "bash": {
       "str_min": 8,
@@ -1045,7 +1069,8 @@
       "sound": "crunch!",
       "sound_fail": "clang!",
       "ter_set": "t_pavement_bg_dp",
-      "items": [ { "item": "pipe", "count": [ 1, 2 ] }, { "item": "scrap", "count": [ 3, 6 ] } ]
+      "items": [ { "item": "pipe", "count": [ 1, 2 ] }, { "item": "scrap", "count": [ 3, 6 ] } ],
+      "ranged": { "reduction": [ 8, 8 ], "destroy_threshold": 150, "block_unaimed_chance": "25%" }
     }
   },
   {
@@ -1056,6 +1081,7 @@
     "symbol": "#",
     "color": "light_gray",
     "move_cost": 3,
+    "coverage": 25,
     "flags": [ "TRANSPARENT", "NOITEM", "REDUCE_SCENT", "MOUNTABLE", "SHORT", "THIN_OBSTACLE", "ROAD", "BURROWABLE" ],
     "looks_like": "t_guardrail_bg_dp",
     "bash": {
@@ -1064,7 +1090,8 @@
       "sound": "crunch!",
       "sound_fail": "clang!",
       "ter_set": "t_pavement",
-      "items": [ { "item": "pipe", "count": [ 1, 2 ] }, { "item": "scrap", "count": [ 3, 6 ] } ]
+      "items": [ { "item": "pipe", "count": [ 1, 2 ] }, { "item": "scrap", "count": [ 3, 6 ] } ],
+      "ranged": { "reduction": [ 8, 8 ], "destroy_threshold": 150, "block_unaimed_chance": "25%" }
     }
   }
 ]

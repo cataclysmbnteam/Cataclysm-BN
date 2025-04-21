@@ -1,6 +1,4 @@
 #pragma once
-#ifndef CATA_SRC_COORDINATES_H
-#define CATA_SRC_COORDINATES_H
 
 #include <algorithm>
 #include <cstdlib>
@@ -178,19 +176,19 @@ class coord_point
             return *this;
         }
 
-        friend inline coord_point operator+( const coord_point &l, point r ) {
+        friend coord_point operator+( const coord_point &l, point r ) {
             return coord_point( l.raw() + r );
         }
 
-        friend inline coord_point operator+( const coord_point &l, const tripoint &r ) {
+        friend coord_point operator+( const coord_point &l, const tripoint &r ) {
             return coord_point( l.raw() + r );
         }
 
-        friend inline coord_point operator-( const coord_point &l, point r ) {
+        friend coord_point operator-( const coord_point &l, point r ) {
             return coord_point( l.raw() - r );
         }
 
-        friend inline coord_point operator-( const coord_point &l, const tripoint &r ) {
+        friend coord_point operator-( const coord_point &l, const tripoint &r ) {
             return coord_point( l.raw() - r );
         }
     private:
@@ -198,28 +196,28 @@ class coord_point
 };
 
 template<typename Point, origin Origin, scale Scale>
-constexpr inline bool operator==( const coord_point<Point, Origin, Scale> &l,
-                                  const coord_point<Point, Origin, Scale> &r )
+constexpr bool operator==( const coord_point<Point, Origin, Scale> &l,
+                           const coord_point<Point, Origin, Scale> &r )
 {
     return l.raw() == r.raw();
 }
 
 template<typename Point, origin Origin, scale Scale>
-constexpr inline bool operator!=( const coord_point<Point, Origin, Scale> &l,
-                                  const coord_point<Point, Origin, Scale> &r )
+constexpr bool operator!=( const coord_point<Point, Origin, Scale> &l,
+                           const coord_point<Point, Origin, Scale> &r )
 {
     return l.raw() != r.raw();
 }
 
 template<typename Point, origin Origin, scale Scale>
-constexpr inline bool operator<( const coord_point<Point, Origin, Scale> &l,
-                                 const coord_point<Point, Origin, Scale> &r )
+constexpr bool operator<( const coord_point<Point, Origin, Scale> &l,
+                          const coord_point<Point, Origin, Scale> &r )
 {
     return l.raw() < r.raw();
 }
 
 template<typename PointL, typename PointR, origin OriginL, scale Scale>
-constexpr inline auto operator+(
+constexpr auto operator+(
     const coord_point<PointL, OriginL, Scale> &l,
     const coord_point<PointR, origin::relative, Scale> &r )
 {
@@ -227,20 +225,18 @@ constexpr inline auto operator+(
     return coord_point<PointResult, OriginL, Scale>( l.raw() + r.raw() );
 }
 
-template < typename PointL, typename PointR, origin OriginR, scale Scale,
-           // enable_if to prevent ambiguity with above when both args are
-           // relative
-           typename = std::enable_if_t < OriginR != origin::relative >>
-constexpr inline auto operator+(
+template < typename PointL, typename PointR, origin OriginR, scale Scale>
+constexpr auto operator+(
     const coord_point<PointL, origin::relative, Scale> &l,
     const coord_point<PointR, OriginR, Scale> &r )
+requires( OriginR != origin::relative )
 {
     using PointResult = decltype( PointL() + PointR() );
     return coord_point<PointResult, OriginR, Scale>( l.raw() + r.raw() );
 }
 
 template<typename PointL, typename PointR, origin OriginL, scale Scale>
-constexpr inline auto operator-(
+constexpr auto operator-(
     const coord_point<PointL, OriginL, Scale> &l,
     const coord_point<PointR, origin::relative, Scale> &r )
 {
@@ -248,13 +244,11 @@ constexpr inline auto operator-(
     return coord_point<PointResult, OriginL, Scale>( l.raw() - r.raw() );
 }
 
-template < typename PointL, typename PointR, origin Origin, scale Scale,
-           // enable_if to prevent ambiguity with above when both args are
-           // relative
-           typename = std::enable_if_t < Origin != origin::relative >>
-constexpr inline auto operator-(
+template < typename PointL, typename PointR, origin Origin, scale Scale>
+constexpr auto operator-(
     const coord_point<PointL, Origin, Scale> &l,
     const coord_point<PointR, Origin, Scale> &r )
+requires( Origin != origin::relative )
 {
     using PointResult = decltype( PointL() + PointR() );
     return coord_point<PointResult, origin::relative, Scale>( l.raw() - r.raw() );
@@ -262,14 +256,14 @@ constexpr inline auto operator-(
 
 // Only relative points can be multiplied by a constant
 template<typename Point, scale Scale>
-constexpr inline coord_point<Point, origin::relative, Scale> operator*(
+constexpr coord_point<Point, origin::relative, Scale> operator*(
     int l, const coord_point<Point, origin::relative, Scale> &r )
 {
     return coord_point<Point, origin::relative, Scale>( l * r.raw() );
 }
 
 template<typename Point, scale Scale>
-constexpr inline coord_point<Point, origin::relative, Scale> operator*(
+constexpr coord_point<Point, origin::relative, Scale> operator*(
     const coord_point<Point, origin::relative, Scale> &r, int l )
 {
     return coord_point<Point, origin::relative, Scale>( r.raw() * l );
@@ -591,28 +585,6 @@ Tripoint midpoint( const half_open_cuboid<Tripoint> &box )
     return midpoint( box.p_min, box.p_max );
 }
 
-template<typename Point, coords::origin Origin, coords::scale Scale>
-std::vector<coords::coord_point<Point, Origin, Scale>>
-        closest_points_first( const coords::coord_point<Point, Origin, Scale> &loc,
-                              int min_dist, int max_dist )
-{
-    std::vector<Point> raw_result = closest_points_first( loc.raw(), min_dist, max_dist );
-    std::vector<coords::coord_point<Point, Origin, Scale>> result;
-    result.reserve( raw_result.size() );
-    std::transform( raw_result.begin(), raw_result.end(), std::back_inserter( result ),
-    []( const Point & p ) {
-        return coords::coord_point<Point, Origin, Scale>( p );
-    } );
-    return result;
-}
-template<typename Point, coords::origin Origin, coords::scale Scale>
-std::vector<coords::coord_point<Point, Origin, Scale>>
-        closest_points_first( const coords::coord_point<Point, Origin, Scale> &loc,
-                              int max_dist )
-{
-    return closest_points_first( loc, 0, max_dist );
-}
-
 /* find appropriate subdivided coordinates for absolute tile coordinate.
  * This is less obvious than one might think, for negative coordinates, so this
  * was created to give a definitive answer.
@@ -668,4 +640,4 @@ struct real_coords {
         return point( abs_om.x * subs_in_om * tiles_in_sub, abs_om.y * subs_in_om * tiles_in_sub );
     }
 };
-#endif // CATA_SRC_COORDINATES_H
+

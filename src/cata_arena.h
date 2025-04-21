@@ -1,6 +1,4 @@
 #pragma once
-#ifndef CATA_SRC_ARENA_H
-#define CATA_SRC_ARENA_H
 
 #include <unordered_map>
 #include <set>
@@ -37,12 +35,12 @@ class cata_arena
             return true;
         }
 
-        cata_arena<T>() = default;
-        cata_arena<T>( const cata_arena<T> & ) = delete;
-        cata_arena<T>( cata_arena<T> && ) = delete;
-
+        cata_arena() = default;
 
     public:
+        cata_arena( const cata_arena<T> & ) = delete;
+        cata_arena( cata_arena<T> && ) = delete;
+
         using value_type = T;
 
         static void mark_for_destruction( T *alloc ) {
@@ -61,4 +59,4 @@ class cata_arena
 
 void cleanup_arenas();
 
-#endif
+

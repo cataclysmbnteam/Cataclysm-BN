@@ -31,6 +31,7 @@
     "max_charges": 10000,
     "use_action": [ "HAMMER", "CROWBAR" ],
     "qualities": [
+      [ "HOSE", 1 ],
       [ "HAMMER", 3 ],
       [ "HAMMER_FINE", 1 ],
       [ "SAW_W", 1 ],
@@ -48,6 +49,16 @@
     ]
   },
   {
+    "id": "voltmeter_bionic",
+    "sub": "voltmeter",
+    "copy-from": "fake_item",
+    "type": "TOOL",
+    "name": { "str": "integrated voltmeter" },
+    "flags": [ "TRADER_AVOID", "USES_BIONIC_POWER" ],
+    "max_charges": 10000,
+    "use_action": [ "REPORT_GRID_CHARGE", "REPORT_GRID_CONNECTIONS", "MODIFY_GRID_CONNECTIONS" ]
+  },
+  {
     "id": "fake_goggles",
     "copy-from": "fake_item",
     "type": "TOOL",
@@ -62,7 +73,7 @@
     "description": "A system of surgical grade scalpels.  They allow you to make precise cuts and can also be used as a high-quality butchering tool.",
     "to_hit": 2,
     "cutting": 8,
-    "techniques": "PRECISE",
+    "techniques": [ "PRECISE" ],
     "flags": [ "TRADER_AVOID", "NO_DROP", "UNBREAKABLE_MELEE", "STAB" ],
     "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 5 ], [ "BUTCHER", 50 ] ]
   },
@@ -71,7 +82,8 @@
     "copy-from": "fake_item",
     "type": "TOOL",
     "name": { "str": "bionic razor" },
-    "qualities": [ [ "BUTCHER", 8 ] ]
+    "//": "Bonus unarmed damage for having Fingertip Razors installed is applied in melee.cpp, see function Character::roll_cut_damage",
+    "qualities": [ [ "BUTCHER", 15 ], [ "CUT", 1 ], [ "CUT_FINE", 2 ] ]
   },
   {
     "id": "clairvoyance_plus_rod",
@@ -90,6 +102,8 @@
   },
   {
     "id": "acid_spit",
+    "//": "For sound messages",
+    "weapon_category": [ "WATER_CANNONS" ],
     "type": "GUN",
     "copy-from": "fake_item",
     "name": { "str": "acid spit gun" },
@@ -156,6 +170,8 @@
   },
   {
     "id": "migo_bio_gun",
+    "//": "For sound messages",
+    "weapon_category": [ "PNEUMATIC" ],
     "type": "GUN",
     "copy-from": "fake_item",
     "name": { "str": "mi-go bio-gun" },
@@ -205,7 +221,20 @@
       {
         "type": "repair_item",
         "item_action_type": "repair_metal",
-        "materials": [ "iron", "steel", "hardsteel", "aluminum", "copper", "bronze", "silver", "gold", "platinum", "superalloy", "glass" ],
+        "materials": [
+          "iron",
+          "steel",
+          "budget_steel",
+          "hardsteel",
+          "aluminum",
+          "copper",
+          "bronze",
+          "silver",
+          "gold",
+          "platinum",
+          "superalloy",
+          "glass"
+        ],
         "skill": "fabrication",
         "tool_quality": 10,
         "cost_scaling": 0.1,
@@ -251,6 +280,7 @@
         "materials": [
           "iron",
           "steel",
+          "budget_steel",
           "hardsteel",
           "aluminum",
           "copper",
@@ -346,5 +376,103 @@
     "sub": "autoclave",
     "max_charges": 1000,
     "flags": [ "USES_GRID_POWER" ]
+  },
+  {
+    "id": "fake_3d_printer",
+    "copy-from": "fake_item",
+    "looks_like": "3d_printer_basic",
+    "type": "TOOL",
+    "name": { "str": "Grid 3D Printer" },
+    "sub": "3d_printer_basic",
+    "max_charges": 2500,
+    "use_action": [
+      {
+        "type": "repair_item",
+        "item_action_type": "repair_metal",
+        "materials": [ "plastic", "carbon_fiber" ],
+        "skill": "computer",
+        "cost_scaling": 0.1,
+        "move_cost": 1500
+      }
+    ],
+    "flags": [ "USES_GRID_POWER" ]
+  },
+  {
+    "id": "fake_3d_printer_advanced",
+    "copy-from": "fake_item",
+    "looks_like": "3d_printer_advanced",
+    "type": "TOOL",
+    "name": { "str": "Advanced Grid 3D Printer" },
+    "sub": "3d_printer_advanced",
+    "charges_per_use": 1,
+    "max_charges": 2500,
+    "use_action": [
+      {
+        "type": "repair_item",
+        "item_action_type": "repair_metal",
+        "materials": [
+          "iron",
+          "steel",
+          "budget_steel",
+          "hardsteel",
+          "aluminum",
+          "copper",
+          "bronze",
+          "silver",
+          "gold",
+          "platinum",
+          "superalloy",
+          "glass",
+          "plastic",
+          "carbon_fiber"
+        ],
+        "skill": "computer",
+        "cost_scaling": 0.1,
+        "move_cost": 1500
+      }
+    ],
+    "flags": [ "USES_GRID_POWER" ]
+  },
+  {
+    "id": "press_workbench",
+    "copy-from": "fake_item",
+    "type": "TOOL",
+    "name": { "str": "installed reloading press" },
+    "//": "Doesn't substitute for hand press because we want to define this tool in crafting requirements separately, due to disassembly code.",
+    "qualities": [ [ "PULL", 2 ] ]
+  },
+  {
+    "id": "grid_hydraulic_press",
+    "copy-from": "fake_item",
+    "type": "TOOL",
+    "name": { "str": "grid hydraulic press" },
+    "sub": "hydraulic_press",
+    "max_charges": 2500,
+    "charges_per_use": 5,
+    "flags": [ "USES_GRID_POWER" ]
+  },
+  {
+    "id": "fake_adv_butchery",
+    "copy-from": "fake_item",
+    "type": "TOOL",
+    "name": { "str": "installed advanced butchering station" },
+    "qualities": [ [ "BUTCHER", 50 ], [ "CUT", 3 ], [ "CUT_FINE", 5 ] ]
+  },
+  {
+    "id": "translocation_caster_spell",
+    "type": "SPELL",
+    "name": { "str": "Translocate Self" },
+    "description": "Translocates the user to an attuned gate.",
+    "message": "",
+    "valid_targets": [ "self" ],
+    "effect": "translocate",
+    "flags": [ "SILENT", "NO_LEGS", "NO_EXPLOSION_VFX", "NO_HANDS" ]
+  },
+  {
+    "id": "translocation_caster",
+    "copy-from": "fake_item",
+    "type": "TOOL",
+    "name": { "str_sp": "local gateway" },
+    "use_action": { "type": "cast_spell", "spell_id": "translocation_caster_spell", "no_fail": true, "level": 0 }
   }
 ]

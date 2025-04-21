@@ -2,7 +2,6 @@
   {
     "type": "mapgen",
     "om_terrain": "bungalow17",
-    "weight": 50,
     "method": "json",
     "object": {
       "palettes": [
@@ -14,11 +13,11 @@
       "fill_ter": "t_floor_waxed",
       "rows": [
         "...........--...........",
-        "...,,,.....--.....,,,...",
-        "...,&,.....--.....,&,...",
-        "...,,,.....--.....,,,...",
+        "..,,,......--......,,,..",
+        "..,&,......--......,&,..",
+        "..,,,......--......,,,..",
         "...........--...........",
-        "..../.?????--?????......",
+        ".?????.....--.....?????.",
         ".##o#######o*#####o#o##.",
         ".#t_|QQ|qU|L iii|R   R#.",
         ".#S_|++|q +     +  h  o.",
@@ -26,7 +25,7 @@
         "^#BB|y         |||||||#.",
         ".#||||||||++|  +     D#.",
         ".:y h   V|WZ|  |++|  @o.",
-        ".:  ff  V||||  |dd| ¤@o.",
+        ".:  ff  V||||  |dd|ɸ¤@o.",
         ".: hffh yRRRR  |||||||#-",
         ".:  ff                *-",
         ".:y h          RR||+||#-",
@@ -35,7 +34,7 @@
         ".o6______|    H| +  @@o.",
         ".#641F5OJ|sHHHs|d|D  ¤#.",
         ".###o##o##:::::####oo##.",
-        ".................^......",
+        "....../..........^......",
         "........................"
       ],
       "terrain": {
@@ -46,13 +45,13 @@
         "&": "t_region_groundcover_urban",
         "Q": "t_floor_waxed"
       },
-      "furniture": { "!": "f_table", "&": "f_boulder_large", "/": [ [ "f_null", 4 ], "f_ladder" ] }
+      "furniture": { "&": "f_boulder_large", "/": [ [ "f_null", 4 ], "f_ladder" ] },
+      "place_nested": [ { "chunks": [ "NC_res_frontlawn_3X3" ], "x": 6, "y": 1 } ]
     }
   },
   {
     "type": "mapgen",
     "om_terrain": "bungalow17_roof",
-    "weight": 50,
     "method": "json",
     "object": {
       "palettes": [ "roof_palette" ],
@@ -83,7 +82,11 @@
         "                        ",
         "                        "
       ],
-      "terrain": { ".": "t_shingle_flat_roof" }
+      "terrain": { ".": "t_shingle_flat_roof" },
+      "place_nested": [
+        { "chunks": [ "NC_res_roof_solar_4X4" ], "x": 3, "y": 14 },
+        { "chunks": [ "NC_res_roof_chunk_3X3" ], "x": [ 5, 17 ], "y": [ 9, 11 ] }
+      ]
     }
   }
 ]

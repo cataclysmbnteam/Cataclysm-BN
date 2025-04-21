@@ -11,11 +11,12 @@
     "price_postapoc": "25 cent",
     "charges": 4,
     "stack_size": 100,
-    "material": "veggy",
+    "material": [ "veggy" ],
     "primary_material": "dried_vegetable",
     "symbol": ".",
     "color": "brown",
-    "flags": [ "NUTRIENT_OVERRIDE", "PLANTABLE_SEED", "UNSAFE_CONSUME" ]
+    "flags": [ "NUTRIENT_OVERRIDE", "PLANTABLE_SEED", "UNSAFE_CONSUME" ],
+    "vitamins": [ [ "veggy_allergen", 1 ] ]
   },
   {
     "abstract": "seed_fruit",
@@ -23,16 +24,8 @@
     "copy-from": "seed",
     "name": { "str_sp": "fruit seeds" },
     "primary_material": "dried_vegetable",
-    "material": "fruit"
-  },
-  {
-    "abstract": "seed_mushroom_base",
-    "type": "COMESTIBLE",
-    "copy-from": "seed",
-    "name": { "str_sp": "mushroom spores" },
-    "description": "Some mushroom spores.",
-    "charges": 2,
-    "color": "green"
+    "material": [ "fruit" ],
+    "vitamins": [ [ "fruit_allergen", 1 ] ]
   },
   {
     "id": "seed_hops",
@@ -40,7 +33,6 @@
     "type": "COMESTIBLE",
     "name": { "str_sp": "hop rhizomes" },
     "description": "Roots of a hop plant, for growing your own.",
-    "weight": "152 g",
     "price": "160 cent",
     "charges": 2,
     "stack_size": 8,
@@ -141,7 +133,6 @@
     "price": "160 cent",
     "name": { "str_sp": "barley seeds" },
     "description": "Some barley seeds.",
-    "weight": "5 g",
     "charges": 2,
     "stack_size": 40,
     "seed_data": { "plant_name": "barley", "fruit": "barley", "byproducts": [ "straw_pile" ], "grow": "11 days" }
@@ -154,7 +145,6 @@
     "name": { "str_sp": "sugar beet seeds" },
     "description": "Some sugar beet seeds.",
     "volume": "1 ml",
-    "weight": "5 g",
     "stack_size": 40,
     "seed_data": { "plant_name": "sugar beet", "fruit": "sugar_beet", "grow": "14 days" }
   },
@@ -193,7 +183,6 @@
     "price": "50 cent",
     "name": { "str_sp": "cotton seeds" },
     "description": "Some cotton seeds.  Can be processed to produce an edible oil.",
-    "weight": "5 g",
     "charges": 8,
     "stack_size": 40,
     "seed_data": { "plant_name": "cotton", "fruit": "cotton_boll", "byproducts": [ "withered" ], "grow": "20 days" }
@@ -320,11 +309,12 @@
     "price": "50 cent",
     "charges": 6,
     "stack_size": 6,
-    "material": "garlic",
+    "material": [ "garlic" ],
     "volume": "150 ml",
     "fun": -3,
     "flags": [ "UNSAFE_CONSUME" ],
-    "seed_data": { "plant_name": "garlic", "fruit": "garlic", "byproducts": [ "withered" ], "grow": "10 days" }
+    "seed_data": { "plant_name": "garlic", "fruit": "garlic", "byproducts": [ "withered" ], "grow": "10 days" },
+    "vitamins": [ [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -386,9 +376,8 @@
     "calories": 17,
     "description": "Seeds of the cannabis plant.  Filled with vitamins, they can be roasted or eaten raw.",
     "price": "1 USD",
-    "weight": "2 g",
     "charges": 2,
-    "flags": [ "RAW", "UNSAFE_CONSUME" ],
+    "flags": [ "NUTRIENT_OVERRIDE", "RAW", "UNSAFE_CONSUME" ],
     "seed_data": { "plant_name": "cannabis", "fruit": "cannabis", "grow": "14 days" }
   },
   {
@@ -420,20 +409,20 @@
     "calories": 174,
     "description": "This looks like a sunflower seed the size of your palm.  It has a strong but delicious aroma, but is clearly either mutated or of alien origin.  You could probably plant it.",
     "price": "0 cent",
-    "material": "fruit",
+    "material": [ "fruit" ],
     "primary_material": "dried_vegetable",
     "volume": "100 ml",
     "stack_size": 10,
     "fun": 30,
-    "flags": [ "UNSAFE_CONSUME" ],
-    "seed_data": { "fruit": "null", "//": "dummy entry, results are hardcoded", "plant_name": "marloss berry", "grow": "14 days" }
+    "flags": [ "UNSAFE_CONSUME", "CAN_PLANT_UNDERGROUND" ],
+    "seed_data": { "fruit": "null", "//": "dummy entry, results are hardcoded", "plant_name": "marloss berry", "grow": "14 days" },
+    "vitamins": [ [ "fruit_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
     "id": "seed_beans",
     "copy-from": "seed",
     "name": { "str_sp": "bean seeds" },
-    "weight": "194 g",
     "symbol": "%",
     "description": "Raw, uncooked beans, ready for planting.",
     "charges": 2,
@@ -445,7 +434,6 @@
     "id": "soybean_seed",
     "copy-from": "seed",
     "name": { "str_sp": "soybean seeds" },
-    "weight": "160 g",
     "symbol": ".",
     "color": "yellow",
     "description": "Some soybean seeds.",
@@ -456,8 +444,7 @@
     "type": "COMESTIBLE",
     "id": "seed_lentils",
     "copy-from": "seed",
-    "name": { "str_sp": "raw lentils" },
-    "weight": "194 g",
+    "name": { "str_sp": "seed lentils" },
     "symbol": "%",
     "description": "Raw, uncooked lentils, ready for planting.",
     "charges": 2,
@@ -490,7 +477,6 @@
     "id": "seed_pumpkin",
     "copy-from": "seed",
     "name": { "str_sp": "pumpkin seeds" },
-    "weight": "2 g",
     "color": "green",
     "use_action": "SEED",
     "calories": 17,
@@ -504,7 +490,6 @@
     "id": "seed_sunflower",
     "copy-from": "seed",
     "name": { "str_sp": "sunflower seeds" },
-    "weight": "2 g",
     "color": "green",
     "use_action": "SEED",
     "calories": 17,
@@ -604,28 +589,12 @@
     "seed_data": { "plant_name": "rhubarb", "fruit": "rhubarb", "byproducts": [ "withered" ], "grow": "14 days" }
   },
   {
-    "type": "COMESTIBLE",
-    "id": "seed_mushroom",
-    "copy-from": "seed_mushroom_base",
-    "name": { "str_sp": "mushroom spores" },
-    "seed_data": { "plant_name": "mushroom", "fruit": "mushroom", "grow": "14 days" }
-  },
-  {
-    "type": "COMESTIBLE",
-    "id": "seed_mushroom_morel",
-    "copy-from": "seed_mushroom_base",
-    "name": { "str_sp": "morel mushroom spores" },
-    "description": "Some morel mushroom spores.",
-    "seed_data": { "plant_name": "morel mushroom", "fruit": "mushroom_morel", "grow": "14 days" }
-  },
-  {
     "id": "datura_seed",
     "type": "COMESTIBLE",
     "copy-from": "seed",
     "comestible_type": "MED",
     "name": { "str_sp": "datura seeds" },
     "description": "Small, dark seeds from the spiny pods of a datura plant.  Full of powerful psychoactive chemicals, these tiny seeds are a potent analgesic and deliriant, and can be deadly in cases of overdose.",
-    "weight": "2 g",
     "price": "0 cent",
     "stim": 6,
     "healthy": -2,
@@ -649,11 +618,11 @@
     "price": "50 cent",
     "name": { "str_sp": "oat seeds" },
     "description": "Some oat seeds.",
-    "material": "wheat",
+    "material": [ "wheat" ],
     "primary_material": "dried_vegetable",
-    "weight": "5 g",
     "stack_size": 40,
-    "seed_data": { "plant_name": "oats", "fruit": "oats", "byproducts": [ "withered" ], "grow": "7 days" }
+    "seed_data": { "plant_name": "oats", "fruit": "oats", "byproducts": [ "withered" ], "grow": "7 days" },
+    "vitamins": [ [ "wheat_allergen", 1 ] ]
   },
   {
     "id": "seed_wheat",
@@ -661,12 +630,12 @@
     "type": "COMESTIBLE",
     "name": { "str_sp": "wheat seeds" },
     "description": "Some wheat seeds.",
-    "weight": "5 g",
     "price": "50 cent",
     "stack_size": 40,
-    "material": "wheat",
+    "material": [ "wheat" ],
     "primary_material": "dried_vegetable",
-    "seed_data": { "plant_name": "wheat", "fruit": "wheat", "byproducts": [ "straw_pile" ], "grow": "19 days" }
+    "seed_data": { "plant_name": "wheat", "fruit": "wheat", "byproducts": [ "straw_pile" ], "grow": "19 days" },
+    "vitamins": [ [ "wheat_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -681,18 +650,19 @@
     "description": "Some fried seeds of a sunflower, pumpkin or other plant.  Quite nutritious and tasty.",
     "price": "80 cent",
     "price_postapoc": "50 cent",
-    "material": "veggy",
+    "material": [ "veggy" ],
     "primary_material": "dried_vegetable",
     "volume": "250 ml",
     "flags": [ "SMOKED" ],
     "charges": 4,
-    "fun": 3
+    "fun": 3,
+    "vitamins": [ [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
     "id": "coffee_pod",
     "name": { "str": "Kentucky coffee pod" },
-    "category": "other",
+    "category": "cooking_ingredients",
     "weight": "26 g",
     "color": "light_green",
     "comestible_type": "FOOD",
@@ -711,7 +681,8 @@
     "fun": -10,
     "flags": [ "HIDDEN_POISON", "RAW" ],
     "use_action": "POISON",
-    "//": "USDA states that the pods of the Kentucky coffeetree contain a toxic alkaloid broken down in the roasting process, so they're poisonous"
+    "//": "USDA states that the pods of the Kentucky coffeetree contain a toxic alkaloid broken down in the roasting process, so they're poisonous",
+    "vitamins": [ [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -719,7 +690,7 @@
     "category": "seeds",
     "container": "bag_plastic",
     "price": "50 cent",
-    "material": "veggy",
+    "material": [ "veggy" ],
     "primary_material": "dried_vegetable",
     "name": { "str_sp": "coffee beans" },
     "symbol": ".",
@@ -730,7 +701,7 @@
     "addiction_potential": 1,
     "calories": 549,
     "volume": "250 ml",
-    "vitamins": [ [ "calcium", 4 ], [ "iron", 8 ] ],
+    "vitamins": [ [ "calcium", 4 ], [ "iron", 8 ], [ "veggy_allergen", 1 ] ],
     "flags": [ "RAW" ],
     "stack_size": 40,
     "weight": "106 g"
@@ -739,7 +710,7 @@
     "type": "COMESTIBLE",
     "id": "roasted_coffee_bean",
     "copy-from": "coffee_bean",
-    "category": "other",
+    "category": "cooking_ingredients",
     "container": "bag_plastic",
     "name": { "str_sp": "roasted coffee beans" },
     "description": "Some roasted coffee beans, can be ground into powder.",
@@ -800,5 +771,65 @@
       "grow": "14 days",
       "required_terrain_flag": "SHALLOW_WATER"
     }
+  },
+  {
+    "type": "COMESTIBLE",
+    "name": { "str_sp": "mushroom culture" },
+    "weight": "100 g",
+    "price": "2 USD",
+    "charges": 1,
+    "primary_material": "mushroom",
+    "color": "light_gray",
+    "id": "mushroom_culture",
+    "copy-from": "seed",
+    "description": "A chunk of compost laden with spores and mycelium, for growing your own mushrooms.  You'll need to \"plant\" these on tree trunks, or dedicated mushroom racks, for it to grow.",
+    "seed_data": { "plant_name": "mushroom", "fruit": "mushroom", "required_terrain_flag": "MUSHROOM_PLANTABLE", "grow": "14 days" },
+    "extend": { "flags": [ "CAN_PLANT_UNDERGROUND" ] }
+  },
+  {
+    "type": "COMESTIBLE",
+    "name": { "str_sp": "morel mushroom culture" },
+    "weight": "100 g",
+    "price": "250 cent",
+    "price_postapoc": "40 cent",
+    "charges": 1,
+    "material": [ "veggy" ],
+    "primary_material": "mushroom",
+    "symbol": ".",
+    "color": "light_gray",
+    "id": "mushroom_morel_culture",
+    "copy-from": "seed",
+    "description": "A chunk of compost laden with spores and mycelium, for growing your own morel mushrooms.  You'll need to \"plant\" these on tree trunks, or dedicated mushroom racks, for it to grow.",
+    "seed_data": {
+      "plant_name": "morel mushroom",
+      "required_terrain_flag": "MUSHROOM_PLANTABLE",
+      "fruit": "mushroom_morel",
+      "grow": "14 days"
+    },
+    "extend": { "flags": [ "CAN_PLANT_UNDERGROUND" ] },
+    "vitamins": [ [ "veggy_allergen", 1 ] ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "seed_mycus_fruit",
+    "copy-from": "seed_fruit",
+    "name": { "str_sp": "mycus fruit seedpod" },
+    "description": "A cluster of stony seeds entangled in a net of fine gray mycelium.  If planted on a tree trunk or dedicated mushroom rack, great things could grow from it.",
+    "color": "light_gray",
+    "calories": 35,
+    "use_action": "MYCUS",
+    "seed_data": { "plant_name": "mycus fruit", "required_terrain_flag": "MUSHROOM_PLANTABLE", "fruit": "mycus_fruit", "grow": "7 days" },
+    "extend": { "flags": [ "MYCUS_OK", "CAN_PLANT_UNDERGROUND" ] }
+  },
+  {
+    "id": "seed_spurge",
+    "copy-from": "seed",
+    "type": "COMESTIBLE",
+    "name": { "str_sp": "spurge seeds" },
+    "description": "Some spurge seeds.",
+    "price": "160 cent",
+    "charges": 2,
+    "stack_size": 8,
+    "seed_data": { "plant_name": "spurge", "fruit": "spurge", "byproducts": [ "withered" ], "grow": "14 days" }
   }
 ]

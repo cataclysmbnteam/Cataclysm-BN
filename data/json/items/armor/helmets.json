@@ -80,7 +80,7 @@
     "price_postapoc": "10 USD",
     "to_hit": -1,
     "bashing": 10,
-    "material": [ "kevlar", "plastic" ],
+    "material": [ "kevlar_rigid", "plastic" ],
     "symbol": "[",
     "looks_like": "helmet_motor",
     "color": "dark_gray",
@@ -88,7 +88,7 @@
     "coverage": 100,
     "encumbrance": 30,
     "warmth": 15,
-    "material_thickness": 5,
+    "material_thickness": 8,
     "environmental_protection": 2,
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "VARSIZE", "STURDY", "SUN_GLASSES" ]
@@ -105,7 +105,7 @@
     "price_postapoc": "750 cent",
     "to_hit": -1,
     "bashing": 10,
-    "material": [ "kevlar", "plastic" ],
+    "material": [ "kevlar_rigid", "plastic" ],
     "symbol": "[",
     "looks_like": "tac_fullhelmet",
     "color": "dark_gray",
@@ -113,7 +113,7 @@
     "coverage": 95,
     "encumbrance": 15,
     "warmth": 10,
-    "material_thickness": 4,
+    "material_thickness": 8,
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "WATER_FRIENDLY", "STURDY" ]
   },
@@ -147,7 +147,7 @@
     "type": "ARMOR",
     "name": { "str": "baseball helmet" },
     "description": "A hard plastic helmet that covers the head and ears.  Designed to protect against a baseball to the head.",
-    "weight": "453 g",
+    "weight": "500 g",
     "volume": "1750 ml",
     "price": "31 USD",
     "price_postapoc": "250 cent",
@@ -274,8 +274,9 @@
     "description": "A helmet crafted from the carefully cleaned and pruned biosilicified exoskeletons of acidic ants.  Covers the entire head; acid-resistant and very durable.",
     "price_postapoc": "1750 cent",
     "material": [ "acidchitin", "leather" ],
-    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25, "encumbrance": 1.5, "warmth": 1.5 },
-    "relative": { "bashing": 1, "material_thickness": 1 }
+    "encumbrance": 15,
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25, "warmth": 1.5 },
+    "relative": { "bashing": 1, "material_thickness": 1, "environmental_protection": 1 }
   },
   {
     "id": "helmet_football",
@@ -349,7 +350,7 @@
     "type": "ARMOR",
     "name": { "str": "leather armor helmet" },
     "description": "A thick leather helmet that provides excellent protection for the head.",
-    "weight": "435 g",
+    "weight": "400 g",
     "volume": "2 L",
     "price": "140 USD",
     "price_postapoc": "20 USD",
@@ -373,8 +374,9 @@
     "description": "A thick leather helmet that has been reinforced with strategically-placed metal plates.  Provides excellent protection for the head.",
     "material": [ "leather", "iron" ],
     "looks_like": "helmet_galea",
+    "encumbrance": 8,
     "proportional": { "price": 4, "price_postapoc": 1.2 },
-    "relative": { "weight": "500 g", "encumbrance": 4 }
+    "relative": { "weight": "500 g" }
   },
   {
     "id": "helmet_skull",
@@ -513,7 +515,7 @@
     "type": "ARMOR",
     "name": { "str": "nomad cowl" },
     "description": "A makeshift cowl with protection for the eyes from rain and sun, designed for long travels.",
-    "weight": "470 g",
+    "weight": "500 g",
     "volume": "2500 ml",
     "price": "250 USD",
     "price_postapoc": "250 cent",
@@ -567,15 +569,15 @@
   },
   {
     "id": "helmet_scavenger",
-    "type": "ARMOR",
+    "type": "TOOL_ARMOR",
     "name": { "str": "scavenger cowl" },
-    "description": "A sturdy protective cowl extending down to the neck, fitted with a respirator and eye protection.  For dangerous scavenging ventures.",
+    "description": "A sturdy protective cowl extending down to the neck, fitted with a respirator, helmet, certain level of glare and eye protection.  For dangerous scavenging ventures.",
     "weight": "695 g",
     "volume": "2500 ml",
     "price": "550 USD",
     "price_postapoc": "35 USD",
     "to_hit": -3,
-    "material": [ "kevlar", "cotton" ],
+    "material": [ "kevlar_rigid", "plastic" ],
     "symbol": "[",
     "looks_like": "mask_gas",
     "color": "white",
@@ -583,9 +585,16 @@
     "coverage": 100,
     "encumbrance": 23,
     "warmth": 30,
-    "material_thickness": 3,
-    "environmental_protection": 7,
+    "material_thickness": 8,
+    "max_charges": 100,
+    "initial_charges": 100,
+    "charges_per_use": 1,
+    "ammo": "gasfilter_m",
+    "use_action": "GASMASK",
+    "environmental_protection": 1,
+    "environmental_protection_with_filter": 15,
     "valid_mods": [ "steel_padded", "alloy_padded" ],
+    "qualities": [ [ "GLARE", 1 ] ],
     "flags": [ "VARSIZE", "STURDY", "WATERPROOF", "SUN_GLASSES" ]
   },
   {
@@ -644,7 +653,7 @@
     "price_postapoc": "20 USD",
     "to_hit": -1,
     "bashing": 10,
-    "material": [ "kevlar", "leather" ],
+    "material": [ "kevlar_rigid", "leather" ],
     "symbol": "[",
     "looks_like": "helmet_army",
     "color": "dark_gray",
@@ -652,7 +661,7 @@
     "coverage": 100,
     "encumbrance": 25,
     "warmth": 15,
-    "material_thickness": 5,
+    "material_thickness": 9,
     "environmental_protection": 3,
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "VARSIZE", "WATERPROOF", "STURDY" ]
@@ -676,7 +685,7 @@
     "coverage": 100,
     "encumbrance": 40,
     "warmth": 25,
-    "material_thickness": 5,
+    "material_thickness": 9,
     "environmental_protection": 5,
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "VARSIZE", "WATERPROOF", "STURDY" ]
@@ -687,7 +696,7 @@
     "type": "ARMOR",
     "name": { "str": "superalloy survivor helmet" },
     "description": "A customized, heavily armored superalloy and Kevlar helmet, modified to provide maximum comfort and protection from harm.  All the added material has made it rather heavy.",
-    "material": [ "kevlar", "superalloy" ],
+    "material": [ "kevlar_rigid", "superalloy" ],
     "color": "light_cyan",
     "encumbrance": 35,
     "proportional": { "weight": 0.6, "price": 2, "price_postapoc": 2 }
@@ -760,5 +769,38 @@
     "material_thickness": 2,
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "OVERSIZE" ]
+  },
+  {
+    "id": "helmet_bone",
+    "copy-from": "helmet_larmor",
+    "type": "ARMOR",
+    "name": { "str": "bone helmet" },
+    "description": "A helmet made from carved bone, laced together into a pattern resembling a Mycenaean boar's tusk helmet.  Tough but stiff, and a bit brittle.",
+    "material": [ "bone_heavy" ],
+    "color": "white",
+    "encumbrance": 12,
+    "warmth": 12,
+    "environmental_protection": 1,
+    "proportional": { "weight": 1.2 },
+    "delete": { "flags": [ "VARSIZE", "WATER_FRIENDLY" ] }
+  },
+  {
+    "id": "carbon_helmet",
+    "type": "ARMOR",
+    "name": { "str": "carbon fiber helmet" },
+    "description": "A custom helmet of layered carbon fiber armor made using a 3D printer.  Its rigid plates are more comparable to a suit of armor than kevlar, but it's very protective and lightweight.",
+    "copy-from": "helmet_barbute",
+    "material": [ "carbon_fiber" ],
+    "proportional": { "weight": 0.6, "price": 2, "price_postapoc": 2 }
+  },
+  {
+    "id": "helmet_scute",
+    "type": "ARMOR",
+    "name": { "str": "scaleskin helmet" },
+    "description": "A helmet made from the hardened scales of large reptiles.",
+    "copy-from": "helmet_larmor",
+    "material": [ "scute" ],
+    "material_thickness": 5,
+    "environmental_protection": 4
   }
 ]

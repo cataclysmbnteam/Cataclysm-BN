@@ -232,7 +232,8 @@
         "x": { "item": "drugs_pharmacy", "chance": 60, "repeat": [ 1, 6 ] },
         "&": { "item": "jackets", "chance": 30 },
         "G": { "item": "behindcounter", "chance": 60 },
-        "S": { "item": "softdrugs", "chance": 60 }
+        "S": { "item": "softdrugs", "chance": 60 },
+        "U": { "item": "trash_dumpster", "chance": 80 }
       }
     }
   },

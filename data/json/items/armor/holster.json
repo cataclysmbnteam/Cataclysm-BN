@@ -49,7 +49,8 @@
       "min_volume": "100 ml",
       "max_weight": "1 kg",
       "draw_cost": 150,
-      "skills": [ "pistol" ]
+      "skills": [ "pistol" ],
+      "flags": [ "HOLSTER_PISTOL" ]
     }
   },
   {
@@ -70,7 +71,14 @@
     "coverage": 5,
     "encumbrance": 1,
     "material_thickness": 1,
-    "use_action": { "type": "holster", "min_volume": "15 ml", "max_volume": "250 ml", "draw_cost": 50, "skills": [ "pistol" ] },
+    "use_action": {
+      "type": "holster",
+      "min_volume": "15 ml",
+      "max_volume": "250 ml",
+      "draw_cost": 50,
+      "skills": [ "pistol" ],
+      "flags": [ "HOLSTER_PISTOL" ]
+    },
     "flags": [ "BELTED", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS", "WATER_FRIENDLY" ]
   },
   {
@@ -91,7 +99,7 @@
     "encumbrance": 4,
     "material_thickness": 1,
     "flags": [ "OVERSIZE", "WAIST", "COMPACT" ],
-    "use_action": { "type": "holster", "max_volume": "5 L", "min_volume": "500 ml", "skills": [ "archery" ] }
+    "use_action": { "type": "holster", "max_volume": "10 L", "min_volume": "500 ml", "skills": [ "archery" ] }
   },
   {
     "id": "holster",
@@ -110,7 +118,13 @@
     "coverage": 2,
     "encumbrance": 2,
     "material_thickness": 1,
-    "use_action": { "type": "holster", "max_volume": "1 L", "min_volume": "250 ml", "skills": [ "pistol", "smg", "shotgun" ] },
+    "use_action": {
+      "type": "holster",
+      "max_volume": "1 L",
+      "min_volume": "250 ml",
+      "skills": [ "pistol", "smg", "shotgun", "rifle" ],
+      "flags": [ "HOLSTER_PISTOL" ]
+    },
     "flags": [ "WAIST", "COMPACT", "OVERSIZE" ]
   },
   {
@@ -121,7 +135,14 @@
     "description": "A comfortable quick draw holster for small guns.  Activate to holster/draw a gun.",
     "price_postapoc": "5 USD",
     "encumbrance": 1,
-    "use_action": { "type": "holster", "max_volume": "500 ml", "min_volume": "100 ml", "draw_cost": 80, "skills": [ "pistol" ] }
+    "use_action": {
+      "type": "holster",
+      "max_volume": "500 ml",
+      "min_volume": "100 ml",
+      "draw_cost": 80,
+      "skills": [ "pistol" ],
+      "flags": [ "HOLSTER_PISTOL" ]
+    }
   },
   {
     "id": "bholster",
@@ -142,7 +163,8 @@
       "min_volume": "100 ml",
       "max_weight": "1 kg",
       "draw_cost": 210,
-      "skills": [ "pistol" ]
+      "skills": [ "pistol" ],
+      "flags": [ "HOLSTER_PISTOL" ]
     },
     "valid_mods": [ "resized_large" ],
     "flags": [ "SKINTIGHT", "COMPACT", "WATER_FRIENDLY" ]
@@ -180,7 +202,35 @@
     "material_thickness": 2,
     "use_action": { "type": "holster", "max_volume": "3750 ml", "min_volume": "1250 ml", "skills": [ "smg", "shotgun", "rifle" ] },
     "valid_mods": [ "steel_padded", "alloy_padded", "resized_large" ],
-    "flags": [ "WATER_FRIENDLY", "STURDY", "WAIST" ]
+    "flags": [ "WATER_FRIENDLY", "STURDY", "WAIST", "COMPACT" ]
+  },
+  {
+    "id": "baldric_holster",
+    "type": "ARMOR",
+    "name": { "str": "baldric holster" },
+    "description": "A leather harness which can hold up to six pistol-sized guns in total, available for quick drawing.  Historically, similar harnesses were used by pirates to carry multiple loaded flintlock pistols at once, as reloading them is a lengthy process.  Activate to holster/draw a gun.",
+    "weight": "1320 g",
+    "volume": "3 L",
+    "price": "200 USD",
+    "price_postapoc": "20 USD",
+    "material": [ "leather" ],
+    "symbol": "[",
+    "looks_like": "tool_belt",
+    "color": "light_gray",
+    "covers": [ "torso" ],
+    "coverage": 15,
+    "encumbrance": 1,
+    "max_encumbrance": 6,
+    "material_thickness": 1,
+    "use_action": {
+      "type": "holster",
+      "max_volume": "500 ml",
+      "min_volume": "100 ml",
+      "multi": 6,
+      "skills": [ "pistol" ],
+      "flags": [ "HOLSTER_PISTOL" ]
+    },
+    "flags": [ "BELTED", "COMPACT" ]
   },
   {
     "id": "XL_holster",
@@ -199,7 +249,13 @@
     "coverage": 10,
     "encumbrance": 4,
     "material_thickness": 1,
-    "use_action": { "type": "holster", "min_volume": "750 ml", "max_volume": "1500 ml", "skills": [ "pistol", "smg", "shotgun" ] },
+    "use_action": {
+      "type": "holster",
+      "min_volume": "750 ml",
+      "max_volume": "1500 ml",
+      "skills": [ "pistol", "smg", "shotgun", "rifle" ],
+      "flags": [ "HOLSTER_PISTOL" ]
+    },
     "flags": [ "WAIST", "COMPACT", "OVERSIZE" ]
   }
 ]

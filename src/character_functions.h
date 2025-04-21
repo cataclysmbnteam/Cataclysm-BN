@@ -1,6 +1,4 @@
 #pragma once
-#ifndef CATA_SRC_CHARACTER_FUNCTIONS_H
-#define CATA_SRC_CHARACTER_FUNCTIONS_H
 
 #include "type_id.h"
 
@@ -96,7 +94,7 @@ enum class comfort_level {
 
 struct comfort_response_t {
     comfort_level level = comfort_level::neutral;
-    const item *aid = nullptr;
+    std::vector<item *> aid;
 };
 
 /** Rate point's ability to serve as a bed. Only takes certain mutations into account, and not fatigue nor stimulants. */
@@ -118,9 +116,9 @@ std::string fmt_wielded_weapon( const Character &who );
  * Add message describing how character feels pain.
  * @param who Character that feels the pain
  * @param val Amount of pain
- * @param bp Target body part, use num_bp if no specific body part.
+ * @param bp Target body part, use bodypart_str_id::NULL_ID() if no specific body part. @todo Consider std::optional?
  */
-void add_pain_msg( const Character &who, int val, body_part bp );
+void add_pain_msg( const Character &who, int val, const bodypart_str_id &bp );
 
 /** Reset Character's weapon and body state (limb hp, stamina, active martial art) */
 void normalize( Character &who );
@@ -235,4 +233,4 @@ void show_skill_capped_notice( const Character &who, const skill_id &id );
 
 } // namespace character_funcs
 
-#endif // CATA_SRC_CHARACTER_FUNCTIONS_H
+

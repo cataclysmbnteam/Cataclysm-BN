@@ -1,6 +1,4 @@
 #pragma once
-#ifndef CATA_SRC_CATA_UTILITY_H
-#define CATA_SRC_CATA_UTILITY_H
 
 #include <algorithm>
 #include <cstddef>
@@ -57,9 +55,9 @@ double round_up( double val, unsigned int dp );
 *
 * @p num must be non-negative, @p den must be positive, and @c num+den must not overflow.
 */
-template<typename T, typename std::enable_if<std::is_integral<T>::value, int>::type = 0>
+template<typename T>
 T divide_round_up( T num, T den )
-{
+requires std::is_integral_v<T> {
     return ( num + den - 1 ) / den;
 }
 
@@ -343,4 +341,4 @@ class restore_on_out_of_scope
 */
 holiday get_holiday_from_time( std::time_t time = 0, bool force_refresh = false );
 
-#endif // CATA_SRC_CATA_UTILITY_H
+

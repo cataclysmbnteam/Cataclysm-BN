@@ -1,6 +1,4 @@
 #pragma once
-#ifndef CATA_SRC_OVERMAP_H
-#define CATA_SRC_OVERMAP_H
 
 #include <algorithm>
 #include <array>
@@ -57,6 +55,9 @@ struct city {
     // location of the city (in overmap terrain coordinates)
     point_om_omt pos;
     int size;
+    int finale_counter;
+    bool finale_placed;
+    bool attempt_finale;
     std::string name;
     city( const point_om_omt &P = point_om_omt(), int S = -1 );
 
@@ -109,46 +110,47 @@ struct map_layer {
     oter_id terrain[OMAPX][OMAPY];
     bool visible[OMAPX][OMAPY];
     bool explored[OMAPX][OMAPY];
+    bool path[OMAPX][OMAPY];
     std::vector<om_note> notes;
     std::vector<om_map_extra> extras;
 };
 
 static const std::map<std::string, oter_flags> oter_flags_map = {
-    { "KNOWN_DOWN", known_down },
-    { "KNOWN_UP", known_up },
-    { "RIVER", river_tile },
-    { "SIDEWALK", has_sidewalk },
-    { "NO_ROTATE", no_rotate },
-    { "IGNORE_ROTATION_FOR_ADJACENCY", ignore_rotation_for_adjacency },
-    { "LINEAR", line_drawing },
-    { "SUBWAY", subway_connection },
-    { "LAKE", lake },
-    { "LAKE_SHORE", lake_shore },
-    { "GENERIC_LOOT", generic_loot },
-    { "RISK_HIGH", risk_high },
-    { "RISK_LOW", risk_low },
-    { "SOURCE_AMMO", source_ammo },
-    { "SOURCE_ANIMALS", source_animals },
-    { "SOURCE_BOOKS", source_books },
-    { "SOURCE_CHEMISTRY", source_chemistry },
-    { "SOURCE_CLOTHING", source_clothing },
-    { "SOURCE_CONSTRUCTION", source_construction },
-    { "SOURCE_COOKING", source_cooking },
-    { "SOURCE_DRINK", source_drink },
-    { "SOURCE_ELECTRONICS", source_electronics },
-    { "SOURCE_FABRICATION", source_fabrication },
-    { "SOURCE_FARMING", source_farming },
-    { "SOURCE_FOOD", source_food },
-    { "SOURCE_FORAGE", source_forage },
-    { "SOURCE_FUEL", source_fuel },
-    { "SOURCE_GUN", source_gun },
-    { "SOURCE_LUXURY", source_luxury },
-    { "SOURCE_MEDICINE", source_medicine },
-    { "SOURCE_PEOPLE", source_people },
-    { "SOURCE_SAFETY", source_safety },
-    { "SOURCE_TAILORING", source_tailoring },
-    { "SOURCE_VEHICLES", source_vehicles },
-    { "SOURCE_WEAPON", source_weapon }
+    { "KNOWN_DOWN", oter_flags::known_down },
+    { "KNOWN_UP", oter_flags::known_up },
+    { "RIVER", oter_flags::river_tile },
+    { "SIDEWALK", oter_flags::has_sidewalk },
+    { "NO_ROTATE", oter_flags::no_rotate },
+    { "IGNORE_ROTATION_FOR_ADJACENCY", oter_flags::ignore_rotation_for_adjacency },
+    { "LINEAR", oter_flags::line_drawing },
+    { "SUBWAY", oter_flags::subway_connection },
+    { "LAKE", oter_flags::lake },
+    { "LAKE_SHORE", oter_flags::lake_shore },
+    { "GENERIC_LOOT", oter_flags::generic_loot },
+    { "RISK_HIGH", oter_flags::risk_high },
+    { "RISK_LOW", oter_flags::risk_low },
+    { "SOURCE_AMMO", oter_flags::source_ammo },
+    { "SOURCE_ANIMALS", oter_flags::source_animals },
+    { "SOURCE_BOOKS", oter_flags::source_books },
+    { "SOURCE_CHEMISTRY", oter_flags::source_chemistry },
+    { "SOURCE_CLOTHING", oter_flags::source_clothing },
+    { "SOURCE_CONSTRUCTION", oter_flags::source_construction },
+    { "SOURCE_COOKING", oter_flags::source_cooking },
+    { "SOURCE_DRINK", oter_flags::source_drink },
+    { "SOURCE_ELECTRONICS", oter_flags::source_electronics },
+    { "SOURCE_FABRICATION", oter_flags::source_fabrication },
+    { "SOURCE_FARMING", oter_flags::source_farming },
+    { "SOURCE_FOOD", oter_flags::source_food },
+    { "SOURCE_FORAGE", oter_flags::source_forage },
+    { "SOURCE_FUEL", oter_flags::source_fuel },
+    { "SOURCE_GUN", oter_flags::source_gun },
+    { "SOURCE_LUXURY", oter_flags::source_luxury },
+    { "SOURCE_MEDICINE", oter_flags::source_medicine },
+    { "SOURCE_PEOPLE", oter_flags::source_people },
+    { "SOURCE_SAFETY", oter_flags::source_safety },
+    { "SOURCE_TAILORING", oter_flags::source_tailoring },
+    { "SOURCE_VEHICLES", oter_flags::source_vehicles },
+    { "SOURCE_WEAPON", oter_flags::source_weapon }
 };
 
 template<typename Tripoint>
@@ -236,6 +238,8 @@ class overmap
         bool seen( const tripoint_om_omt &p ) const;
         bool &explored( const tripoint_om_omt &p );
         bool is_explored( const tripoint_om_omt &p ) const;
+        bool &path( const tripoint_om_omt &p );
+        bool is_path( const tripoint_om_omt &p ) const;
 
         bool has_note( const tripoint_om_omt &p ) const;
         std::optional<int> has_note_with_danger_radius( const tripoint_om_omt &p ) const;
@@ -429,13 +433,14 @@ class overmap
                 const overmap *south, const overmap *west );
 
         // City Building
-        overmap_special_id pick_random_building_to_place( int town_dist ) const;
+        overmap_special_id pick_random_building_to_place( int town_dist, bool attempt_finale_place ) const;
 
         void place_cities();
-        void place_building( const tripoint_om_omt &p, om_direction::type dir, const city &town );
+        bool place_building( const tripoint_om_omt &p, om_direction::type dir, city &town,
+                             bool attempt_finale_place );
 
         void build_city_street( const overmap_connection &connection, const point_om_omt &p, int cs,
-                                om_direction::type dir, const city &town, std::vector<tripoint_om_omt> &sewers,
+                                om_direction::type dir, city &town, std::vector<tripoint_om_omt> &sewers,
                                 int block_width = 2 );
 
         // Connection laying
@@ -552,4 +557,4 @@ const std::string &oter_get_rotation_string( const oter_id &oter );
  * Determine whether provided tile belongs to overmap connection.
  */
 bool belongs_to_connection( const overmap_connection_id &id, const oter_id &oter );
-#endif // CATA_SRC_OVERMAP_H
+

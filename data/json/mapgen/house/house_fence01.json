@@ -136,7 +136,7 @@
         "}..|$$$$$|---.......[..}",
         "}..|$$$$$|---!!!!......}",
         "}..|$$$$$|o*o|||||o||..}",
-        "}..|U$qqq(L  ii(T©©@|..}",
+        "}..|U$qqq(L  ii(ɸ©©@|..}",
         "}..|(+((((y    +©©©@|..}",
         "}.^|6_7O51x l H(R©©©o..}",
         "}..|6____2x l H(R©Dd|..}",
@@ -148,8 +148,8 @@
         "}..|y hff(tS9(©©d¤@@|..}",
         "}..||*oo|||o||||||o||..}",
         "}..~~~~₸K₸~~~*>|^......}",
-        "}..~~~~~~~~~~|||...[...}",
-        "}................u.....}",
+        "}..~~~~~~~~~~|||.......}",
+        "}......................}",
         "}......................}",
         "}}}}}}}}}}}}}}}}}}}}}}}}"
       ],
@@ -184,12 +184,13 @@
         "I": "t_carpet_yellow",
         "R": "t_carpet_yellow",
         "]": "t_carpet_yellow",
-        "T": "t_carpet_yellow"
+        "ɸ": "t_carpet_yellow"
       },
       "furniture": { "0": "f_chair" },
       "items": { "~": { "item": "trash", "chance": 3 }, ")": { "item": "clutter_bathroom", "chance": 5 } },
       "place_loot": [ { "item": "television", "x": 10, "y": 11, "chance": 100 }, { "item": "lawnmower", "x": 2, "y": 3, "chance": 15 } ],
-      "place_vehicles": [ { "vehicle": "beetle", "x": 6, "y": 4, "chance": 20, "fuel": 30, "rotation": 90 } ]
+      "place_vehicles": [ { "vehicle": "beetle", "x": 6, "y": 4, "chance": 20, "fuel": 30, "rotation": 90 } ],
+      "place_nested": [ { "chunks": [ "NC_res_frontlawn_3X3" ], "x": 14, "y": 2 }, { "chunks": [ "NC_res_backyard_3X3" ], "x": 18, "y": 20 } ]
     }
   },
   {
@@ -225,7 +226,11 @@
         "                        "
       ],
       "palettes": [ "roof_palette" ],
-      "terrain": { ".": "t_shingle_flat_roof" }
+      "terrain": { ".": "t_shingle_flat_roof" },
+      "place_nested": [
+        { "chunks": [ "NC_res_roof_solar_4X4" ], "x": 7, "y": 14 },
+        { "chunks": [ "NC_res_roof_chunk_3X3" ], "x": [ 4, 16 ], "y": 8 }
+      ]
     }
   }
 ]

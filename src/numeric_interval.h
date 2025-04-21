@@ -1,15 +1,15 @@
 #pragma once
-#ifndef CATA_SRC_NUMERIC_INTERVAL_H
-#define CATA_SRC_NUMERIC_INTERVAL_H
 
 #include <limits>
 #include <type_traits>
+
+#include "concepts_utility.h"
 
 /**
  * An interval of numeric values between @ref min and @ref max (including both).
  * By default it's [0, 0].
  */
-template<typename T, typename = typename std::enable_if<std::is_arithmetic<T>::value, T>::type>
+template<Arithmetic T>
 struct numeric_interval {
     T min = static_cast<T>( 0 );
     T max = static_cast<T>( 0 );
@@ -46,4 +46,4 @@ struct numeric_interval {
     }
 };
 
-#endif // CATA_SRC_NUMERIC_INTERVAL_H
+

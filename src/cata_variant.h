@@ -1,6 +1,4 @@
 #pragma once
-#ifndef CATA_SRC_CATA_VARIANT_H
-#define CATA_SRC_CATA_VARIANT_H
 
 #include <array>
 #include <cstddef>
@@ -23,7 +21,6 @@ template <typename E> struct enum_traits;
 
 enum body_part : int;
 enum class mutagen_technique : int;
-enum hp_part : int;
 enum character_movemode : int;
 
 // cata_variant is a variant-like type that stores a variety of different cata
@@ -39,7 +36,6 @@ enum class cata_variant_type : int {
     character_movemode,
     efftype_id,
     flag_id,
-    hp_part,
     faction_id,
     field_type_id,
     field_type_str_id,
@@ -95,7 +91,7 @@ constexpr cata_variant_type type_for_impl( std::index_sequence<I...> )
 {
     constexpr size_t num_types = static_cast<size_t>( cata_variant_type::num_types );
     constexpr std::array<bool, num_types> matches = {{
-            std::is_same<T, typename convert<static_cast<cata_variant_type>( I )>::type>::value...
+            std::is_same_v<T, typename convert<static_cast<cata_variant_type>( I )>::type>...
         }
     };
     for( size_t i = 0; i < num_types; ++i ) {
@@ -112,7 +108,7 @@ constexpr cata_variant_type type_for_impl( std::index_sequence<I...> )
 template<typename T>
 struct convert_string {
     using type = T;
-    static_assert( std::is_same<T, std::string>::value,
+    static_assert( std::is_same_v<T, std::string>,
                    "Intended for use only with string typedefs" );
     static std::string to_string( const T &v ) {
         return v;
@@ -174,7 +170,7 @@ struct convert_enum {
 };
 
 // These are the specializations of convert for each value type.
-static_assert( static_cast<int>( cata_variant_type::num_types ) == 38,
+static_assert( static_cast<int>( cata_variant_type::num_types ) == 37,
                "This assert is a reminder to add conversion support for any new types to the "
                "below specializations" );
 
@@ -234,9 +230,6 @@ struct convert<cata_variant_type::efftype_id> : convert_string_id<efftype_id> {}
 
 template<>
 struct convert<cata_variant_type::flag_id> : convert_string_id<flag_id> {};
-
-template<>
-struct convert<cata_variant_type::hp_part> : convert_enum<hp_part> {};
 
 template<>
 struct convert<cata_variant_type::faction_id> : convert_string_id<faction_id> {};
@@ -355,10 +348,9 @@ class cata_variant
 
         // Constructor that attempts to infer the type from the type of the
         // value passed.
-        template < typename Value,
-                   typename = std::enable_if_t <(
-                           cata_variant_type_for<Value>() < cata_variant_type::num_types )>>
-        explicit cata_variant( Value && value ) {
+        template < typename Value>
+        explicit cata_variant( Value &&value ) requires(
+            cata_variant_type_for<Value>() < cata_variant_type::num_types ) {
             constexpr cata_variant_type Type = cata_variant_type_for<Value>();
             type_ = Type;
             value_ =
@@ -372,8 +364,8 @@ class cata_variant
         template<cata_variant_type Type, typename Value>
         static cata_variant make( Value &&value ) {
             return cata_variant(
-                Type, cata_variant_detail::convert<Type>::to_string(
-                    std::forward<Value>( value ) ) );
+                       Type, cata_variant_detail::convert<Type>::to_string(
+                           std::forward<Value>( value ) ) );
         }
 
         // Call this to construct from a type + string.  This should rarely be
@@ -456,4 +448,4 @@ struct hash<cata_variant> {
 
 } // namespace std
 
-#endif // CATA_SRC_CATA_VARIANT_H
+

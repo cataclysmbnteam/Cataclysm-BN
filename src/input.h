@@ -1,6 +1,4 @@
 #pragma once
-#ifndef CATA_SRC_INPUT_H
-#define CATA_SRC_INPUT_H
 
 #include <algorithm>
 #include <cstddef>
@@ -40,21 +38,32 @@ static constexpr int KEY_BACKSPACE  =
     0x107;    /* Backspace */                  //<---------not used
 static constexpr int KEY_DC         = 0x151;    /* Delete Character */
 static constexpr int KEY_F0         = 0x108;
-inline constexpr int KEY_F( const int n )
+constexpr int KEY_F( const int n )
 {
     return KEY_F0 + n;    /* F1, F2, etc*/
 }
 static constexpr int F_KEY_NUM_BEG  = 0;
 static constexpr int F_KEY_NUM_END  = 63;
-inline constexpr int F_KEY_NUM( const int key )
+constexpr int F_KEY_NUM( const int key )
 {
     return key - KEY_F0;
 }
-inline constexpr bool IS_F_KEY( const int key )
+constexpr bool IS_F_KEY( const int key )
 {
     return key >= KEY_F( F_KEY_NUM_BEG ) && key <= KEY_F( F_KEY_NUM_END );
 }
-inline constexpr int KEY_NUM( const int n )
+/** @return true if the given character is in the range of basic ASCII control characters */
+constexpr bool IS_CTRL_CHAR( const int key )
+{
+    // https://en.wikipedia.org/wiki/C0_and_C1_control_codes#Basic_ASCII_control_codes
+    return key >= 0 && key < ' ';
+}
+/** @return true if the given character is an ASCII control char but should not be rendered with "CTRL+" */
+constexpr bool IS_NAMED_CTRL_CHAR( const int key )
+{
+    return key == '\t' || key == '\n' || key == KEY_ESCAPE || key == KEY_BACKSPACE;
+}
+constexpr int KEY_NUM( const int n )
 {
     return 0x30 + n;     /* Numbers 0, 1, ..., 9 */
 }
@@ -72,12 +81,12 @@ std::string get_input_string_from_file( const std::string &fname = "input.txt" )
 
 enum mouse_buttons { MOUSE_BUTTON_LEFT = 1, MOUSE_BUTTON_RIGHT, SCROLLWHEEL_UP, SCROLLWHEEL_DOWN, MOUSE_MOVE };
 
-enum input_event_t {
-    CATA_INPUT_ERROR,
-    CATA_INPUT_TIMEOUT,
-    CATA_INPUT_KEYBOARD,
-    CATA_INPUT_GAMEPAD,
-    CATA_INPUT_MOUSE
+enum class input_event_t : int  {
+    error,
+    timeout,
+    keyboard,
+    gamepad,
+    mouse
 };
 
 /**
@@ -112,7 +121,7 @@ struct input_event {
 #endif
 
     input_event() : edit_refresh( false ) {
-        type = CATA_INPUT_ERROR;
+        type = input_event_t::error;
 #if defined(__ANDROID__)
         shortcut_last_used_action_counter = 0;
 #endif
@@ -396,8 +405,8 @@ class input_context
         }
         // TODO: consider making the curses WINDOW an argument to the constructor, so that mouse input
         // outside that window can be ignored
-        input_context( const std::string &category ) : registered_any_input( false ),
-            category( category ), coordinate_input_received( false ), handling_coordinate_input( false ) {
+        input_context( const std::string &category ) : registered_any_input( false ), category( category ),
+            coordinate_input_received( false ), handling_coordinate_input( false ) {
 #if defined(__ANDROID__)
             input_context_stack.push_back( this );
             allow_text_entry = false;
@@ -574,7 +583,16 @@ class input_context
          * @param text The base text for action description
          *
          * @param evt_filter Only keys satisfying this function will be considered
+         * @param inline_fmt Action description format when a key is found in the
+         *                   text (for example "(a)ctive")
+         * @param separate_fmt Action description format when a key is not found
+         *                     in the text (for example "[X] active" or "[N/A] active")
          */
+        std::string get_desc( const std::string &action_descriptor,
+                              const std::string &text,
+                              const input_event_filter &evt_filter,
+                              const translation &inline_fmt,
+                              const translation &separate_fmt ) const;
         std::string get_desc( const std::string &action_descriptor,
                               const std::string &text,
                               const input_event_filter &evt_filter = allow_all_keys ) const;
@@ -680,7 +698,7 @@ class input_context
          * Sets input polling timeout as appropriate for the current interface system.
          * Use this method to set timeouts when using input_context, rather than calling
          * the old timeout() method or using input_manager::(re)set_timeout, as using
-         * this method will cause CATA_INPUT_TIMEOUT events to be generated correctly,
+         * this method will cause input_event_t::timeout events to be generated correctly,
          * and will reset timeout correctly when a new input context is entered.
          */
         void set_timeout( int val );
@@ -751,4 +769,4 @@ bool gamepad_available();
 // rotate a delta direction clockwise
 void rotate_direction_cw( int &dx, int &dy );
 
-#endif // CATA_SRC_INPUT_H
+

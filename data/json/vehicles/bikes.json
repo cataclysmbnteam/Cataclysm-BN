@@ -208,11 +208,23 @@
     "name": "Electric Scooter",
     "blueprint": [ "o>o" ],
     "parts": [
-      { "x": 0, "y": 0, "parts": [ "frame_handle", "headlight", "saddle_motor", "controls" ] },
-      { "x": 0, "y": 0, "parts": [ "controls_electronic", "horn_car", "motorcycle_kickstand" ] },
-      { "x": 0, "y": 0, "parts": [ "medium_storage_battery", "engine_electric_small" ] },
+      {
+        "x": 0,
+        "y": 0,
+        "parts": [
+          "frame_handle",
+          "headlight",
+          "saddle_motor",
+          "controls",
+          "controls_electronic",
+          "horn_car",
+          "motorcycle_kickstand",
+          "medium_storage_battery",
+          "engine_electric_small"
+        ]
+      },
       { "x": 1, "y": 0, "parts": [ "xlframe_vertical", "wheel_mount_light_steerable", "wheel_small" ] },
-      { "x": -1, "y": 0, "parts": [ "xlframe_vertical", "wheel_mount_light", "wheel_small" ] }
+      { "x": -1, "y": 0, "parts": [ "xlframe_vertical", "wheel_mount_light", "wheel_small", "foldable_solar_panel" ] }
     ]
   },
   {
@@ -262,5 +274,42 @@
     "parts": [
       { "x": 0, "y": 0, "parts": [ "frame_handle", "saddle_pedal", "foot_pedals", "wheel_mount_light", "wheel_unicycle" ] }
     ]
+  },
+  {
+    "id": "bicycle_plastic",
+    "type": "vehicle",
+    "name": "Plastic Bicycle",
+    "blueprint": [ "o#o" ],
+    "parts": [
+      { "x": 0, "y": 0, "parts": [ "frame_plastic_vertical_2", "saddle_pedal", "horn_bicycle", "foot_pedals" ] },
+      { "x": 1, "y": 0, "parts": [ "frame_plastic_vertical", "wheel_mount_light_steerable", "wheel_bicycle" ] },
+      {
+        "x": -1,
+        "y": 0,
+        "parts": [ "frame_plastic_vertical", "wheel_mount_light", "wheel_bicycle_rear", "basketsm_bike_rear" ]
+      }
+    ]
+  },
+  {
+    "id": "bicycle_carbon",
+    "type": "vehicle",
+    "name": "Carbon Fiber Bicycle",
+    "blueprint": [ "o#o" ],
+    "parts": [
+      { "x": 0, "y": 0, "parts": [ "frame_carbon_vertical_2", "saddle_pedal", "horn_bicycle", "foot_pedals" ] },
+      { "x": 1, "y": 0, "parts": [ "frame_carbon_vertical", "wheel_mount_light_steerable", "wheel_bicycle" ] },
+      {
+        "x": -1,
+        "y": 0,
+        "parts": [ "frame_carbon_vertical", "wheel_mount_light", "wheel_bicycle_rear", "basketsm_bike_rear" ]
+      }
+    ]
+  },
+  {
+    "id": "skateboard",
+    "type": "vehicle",
+    "name": "Skateboard",
+    "blueprint": [ "$" ],
+    "parts": [ { "x": 0, "y": 0, "parts": [ "frame_wood_deck", "wheel_mount_skateboard", "wheel_skateboard" ] } ]
   }
 ]

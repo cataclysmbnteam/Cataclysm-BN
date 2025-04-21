@@ -109,7 +109,7 @@ but `CYGWIN=1`, `DYNAMIC_LINKING=1` and `BACKTRACE=0` are required to compile wi
 
 ```bash
 cd /cygdrive/c/dev/Cataclysm-BN
-./cataclysm-tiles
+./cataclysm-bn-tiles
 ```
 
 There is no functionality for running Cygwin-compiled CBN from outside of UXTerm.

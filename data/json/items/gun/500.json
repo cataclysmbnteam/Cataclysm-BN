@@ -14,7 +14,6 @@
     "ammo": "500",
     "ranged_damage": { "damage_type": "bullet", "amount": 2 },
     "dispersion": 180,
-    "blackpowder_tolerance": 32,
     "clip_size": 7,
     "valid_mod_locations": [
       [ "accessories", 2 ],
@@ -47,7 +46,6 @@
     "color": "light_gray",
     "ammo": "500",
     "dispersion": 280,
-    "blackpowder_tolerance": 56,
     "clip_size": 5,
     "magazines": [ [ "500", [ "500_speedloader5" ] ] ],
     "valid_mod_locations": [

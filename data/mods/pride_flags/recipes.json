@@ -119,5 +119,16 @@
     "autolearn": true,
     "using": [ [ "sewing_standard", 20 ], [ "drawing_tool", 40 ] ],
     "components": [ [ [ "rag", 40 ] ] ]
+  },
+  {
+    "result": "autism_flag",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_OTHER",
+    "skill_used": "tailor",
+    "time": "80 m",
+    "autolearn": true,
+    "using": [ [ "sewing_standard", 20 ], [ "drawing_tool", 40 ] ],
+    "components": [ [ [ "rag", 40 ] ] ]
   }
 ]

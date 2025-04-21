@@ -18,6 +18,7 @@
 #include "simplexnoise.h"
 
 #include <cmath>
+#include <numbers>
 
 /* 2D, 3D and 4D Simplex Noise functions return 'random' values in (-1, 1).
 
@@ -187,13 +188,13 @@ float raw_noise_2d( const float x, const float y )
     float n2 = 0;
 
     // Skew the input space to determine which simplex cell we're in
-    static const float F2 = 0.5f * ( std::sqrt( 3.0f ) - 1.0f );
+    static const float F2 = 0.5f * ( std::numbers::sqrt3_v<float> - 1.0f );
     // Hairy factor for 2D
     float s = ( x + y ) * F2;
     int i = fastfloor( x + s );
     int j = fastfloor( y + s );
 
-    static const float G2 = ( 3.0f - std::sqrt( 3.0f ) ) / 6.0f;
+    static const float G2 = ( 3.0f - std::numbers::sqrt3_v<float> ) / 6.0f;
     float t = ( i + j ) * G2;
     // Unskew the cell origin back to (x,y) space
     float X0 = i - t;

@@ -13,7 +13,7 @@
   {
     "id": "nail",
     "type": "AMMO",
-    "category": "spare_parts",
+    "category": "scrap_metal",
     "name": { "str": "nail" },
     "description": "A pin-shaped piece of iron, can be used to construct various things with a hammer.",
     "weight": "4 g",
@@ -29,6 +29,8 @@
     "range": 3,
     "damage": { "damage_type": "stab", "amount": 4, "armor_penetration": 3 },
     "dispersion": 120,
+    "dont_recover_one_in": 800,
+    "loudness": 0,
     "effects": [ "NON_FOULING" ],
     "flags": [ "NO_SALVAGE" ]
   }

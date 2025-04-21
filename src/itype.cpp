@@ -27,6 +27,8 @@ std::string enum_to_string<condition_type>( condition_type data )
     switch( data ) {
         case condition_type::FLAG:
             return "FLAG";
+        case condition_type::VITAMIN:
+            return "VITAMIN";
         case condition_type::COMPONENT_ID:
             return "COMPONENT_ID";
         case condition_type::num_condition_types:
@@ -40,6 +42,7 @@ std::string enum_to_string<condition_type>( condition_type data )
 itype::itype()
 {
     melee.fill( 0 );
+    attacks["DEFAULT"] = attack_statblock();
 }
 
 itype::~itype() = default;
@@ -111,7 +114,7 @@ int itype::charges_default() const
 int itype::charges_to_use() const
 {
     if( tool ) {
-        return static_cast<int>( tool->charges_per_use );
+        return tool->charges_per_use;
     }
     return 1;
 }
@@ -146,7 +149,7 @@ bool itype::has_use() const
 
 bool itype::has_flag( const flag_id &flag ) const
 {
-    return item_tags.count( flag );
+    return item_tags.contains( flag );
 }
 
 const itype::FlagsSetType &itype::get_flags() const

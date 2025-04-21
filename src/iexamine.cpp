@@ -45,7 +45,6 @@
 #include "enums.h"
 #include "event.h"
 #include "event_bus.h"
-#include "flag.h"
 #include "field_type.h"
 #include "flat_set.h"
 #include "fungal_effects.h"
@@ -107,7 +106,6 @@
 #include "weather.h"
 
 static const activity_id ACT_ATM( "ACT_ATM" );
-static const activity_id ACT_BUILD( "ACT_BUILD" );
 static const activity_id ACT_CLEAR_RUBBLE( "ACT_CLEAR_RUBBLE" );
 static const activity_id ACT_CRACKING( "ACT_CRACKING" );
 static const activity_id ACT_FORAGE( "ACT_FORAGE" );
@@ -153,6 +151,7 @@ static const itype_id itype_marloss_seed( "marloss_seed" );
 static const itype_id itype_mycus_fruit( "mycus_fruit" );
 static const itype_id itype_nail( "nail" );
 static const itype_id itype_petrified_eye( "petrified_eye" );
+static const itype_id itype_plut_generator_item( "plut_generator_item" );
 static const itype_id itype_sheet( "sheet" );
 static const itype_id itype_stick( "stick" );
 static const itype_id itype_string_36( "string_36" );
@@ -188,7 +187,6 @@ static const trait_id trait_M_DEPENDENT( "M_DEPENDENT" );
 static const trait_id trait_M_FERTILE( "M_FERTILE" );
 static const trait_id trait_M_SPORES( "M_SPORES" );
 static const trait_id trait_NOPAIN( "NOPAIN" );
-static const trait_id trait_PARKOUR( "PARKOUR" );
 static const trait_id trait_PROBOSCIS( "PROBOSCIS" );
 static const trait_id trait_THRESH_MARLOSS( "THRESH_MARLOSS" );
 static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
@@ -206,7 +204,6 @@ static const mtype_id mon_spider_cellar_giant_s( "mon_spider_cellar_giant_s" );
 static const mtype_id mon_spider_web_s( "mon_spider_web_s" );
 static const mtype_id mon_spider_widow_giant_s( "mon_spider_widow_giant_s" );
 
-static const bionic_id bio_ears( "bio_ears" );
 static const bionic_id bio_fingerhack( "bio_fingerhack" );
 static const bionic_id bio_lighter( "bio_lighter" );
 static const bionic_id bio_lockpick( "bio_lockpick" );
@@ -376,8 +373,19 @@ void iexamine::translocator( player &, const tripoint &examp )
         g->u.translocators->activate_teleporter( omt_loc, examp );
         add_msg( m_info, _( "Translocator gate active." ) );
     } else {
-        if( query_yn( _( "Do you want to deactivate this active Translocator?" ) ) ) {
-            g->u.translocators->deactivate_teleporter( omt_loc, examp );
+        const int choice = uilist( _( "Do what with Translocator?" ), {
+            _( "Visit another gate." ),
+            _( "Deactivate." )
+        } );
+        if( choice == 0 ) {
+            item *vtm = item::spawn_temporary( "translocation_caster", calendar::start_of_cataclysm );
+            player_character.invoke_item( vtm );
+        } else if( choice == 1 ) {
+            if( query_yn( _( "Deactivate this Translocator?" ) ) ) {
+                g->u.translocators->deactivate_teleporter( omt_loc, examp );
+            }
+        } else {
+            add_msg( _( "Never mind." ) );
         }
     }
 }
@@ -857,6 +865,19 @@ void iexamine::toilet( player &p, const tripoint &examp )
     }
 }
 
+/** Toggle the lights in a overmap terrain*/
+void iexamine::toggle_lights( player &/*p*/, const tripoint &examp )
+{
+    map &here = get_map();
+    const auto flag = here.has_flag_furn( "L_OFF", examp ) ? "L_OFF" : "L_ON";
+
+    add_msg( _( here.furn( examp ).obj().message ) );
+
+    for( const auto &light_loc : here.find_furnitures_with_flag_in_omt( examp, flag ) ) {
+        here.furn_set( light_loc, here.get_furn_transforms_into( light_loc ) );
+    };
+}
+
 /**
  * Open or close gate.
  */
@@ -1062,7 +1083,8 @@ void iexamine::chainfence( player &p, const tripoint &examp )
     }
 
     map &here = get_map();
-    if( here.has_flag( flag_CLIMB_SIMPLE, examp ) && p.has_trait( trait_PARKOUR ) ) {
+    if( here.has_flag( flag_CLIMB_SIMPLE, examp ) &&
+        p.mutation_value( "movecost_obstacle_modifier" ) <= 0.5f ) {
         add_msg( _( "You vault over the obstacle with ease." ) );
         p.moves -= 100; // Not tall enough to warrant spider-climbing, so only relevant trait.
     } else if( here.has_flag( flag_CLIMB_SIMPLE, examp ) ) {
@@ -1076,7 +1098,7 @@ void iexamine::chainfence( player &p, const tripoint &examp )
                !p.wearing_something_on( bodypart_id( "torso" ) ) ) {
         add_msg( _( "You quickly scale the fence." ) );
         p.moves -= 90;
-    } else if( p.has_trait( trait_PARKOUR ) ) {
+    } else if( p.mutation_value( "movecost_obstacle_modifier" ) <= 0.5f ) {
         add_msg( _( "This obstacle is no match for your freerunning abilities." ) );
         p.moves -= 100;
     } else {
@@ -1114,9 +1136,10 @@ void iexamine::bars( player &p, const tripoint &examp )
         return;
     }
     map &here = get_map();
-    if( ( ( p.encumb( bp_torso ) ) >= 10 ) && ( ( p.encumb( bp_head ) ) >= 10 ) &&
-        ( p.encumb( bp_foot_l ) >= 10 ||
-          p.encumb( bp_foot_r ) >= 10 ) ) { // Most likely places for rigid gear that would catch on the bars.
+    if( ( ( p.encumb( body_part_torso ) ) >= 10 ) && ( ( p.encumb( body_part_head ) ) >= 10 ) &&
+        ( p.encumb( body_part_foot_l ) >= 10 ||
+          p.encumb( body_part_foot_r ) >=
+          10 ) ) { // Most likely places for rigid gear that would catch on the bars.
         add_msg( m_info,
                  _( "Your amorphous body could slip though the %s, but your cumbersome gear can't." ),
                  here.tername( examp ) );
@@ -1303,64 +1326,6 @@ void iexamine::slot_machine( player &p, const tripoint & )
     }
 }
 
-/**
- * Attempt to crack safe through audio-feedback manual lock manipulation.
- *
- * Try to unlock the safe by moving the dial and listening for the mechanism to "click into place."
- * Time per attempt affected by perception and mechanics. 30 minutes per attempt minimum.
- * Small chance of just guessing the combo without listening device.
- */
-void iexamine::safe( player &p, const tripoint &examp )
-{
-    auto cracking_tool = p.crafting_inventory().items_with( []( const item & it ) -> bool {
-        //Why not just check the item
-        return it.has_flag( flag_SAFECRACK );
-    } );
-
-    if( !( !cracking_tool.empty() || p.has_bionic( bio_ears ) ) ) {
-        p.moves -= to_turns<int>( 10_seconds );
-        // one_in(30^3) chance of guessing
-        if( one_in( 27000 ) ) {
-            p.add_msg_if_player( m_good, _( "You mess with the dial for a little bit… and it opens!" ) );
-            get_map().furn_set( examp, f_safe_o );
-            return;
-        } else {
-            p.add_msg_if_player( m_info, _( "You mess with the dial for a little bit." ) );
-            return;
-        }
-    }
-
-    if( p.is_deaf() ) {
-        add_msg( m_info, _( "You can't crack a safe while deaf!" ) );
-        return;
-    } else if( p.has_effect( effect_earphones ) ) {
-        add_msg( m_info, _( "You can't crack a safe while listening to music!" ) );
-        return;
-    } else if( query_yn( _( "Attempt to crack the safe?" ) ) ) {
-        add_msg( m_info, _( "You start cracking the safe." ) );
-        // 150 minutes +/- 20 minutes per mechanics point away from 3 +/- 10 minutes per
-        // perception point away from 8; capped at 30 minutes minimum. *100 to convert to moves
-        ///\EFFECT_PER speeds up safe cracking
-
-        ///\EFFECT_MECHANICS speeds up safe cracking
-        const time_duration time = std::max( 150_minutes - 20_minutes * ( p.get_skill_level(
-                skill_mechanics ) - 3 ) - 10_minutes * ( p.get_per() - 8 ), 30_minutes );
-
-        p.assign_activity( ACT_CRACKING, to_moves<int>( time ) );
-        p.activity->placement = examp;
-    }
-}
-
-/**
- * Attempt to "hack" the gunsafe's electronic lock and open it.
- */
-void iexamine::gunsafe_el( player &p, const tripoint &examp )
-{
-    if( query_yn( _( "Attempt to hack this safe?" ) ) ) {
-        try_start_hacking( p, examp );
-    }
-}
-
 static item *find_best_prying_tool( player &p )
 {
     std::vector<item *> prying_items = p.items_with( []( const item & it ) {
@@ -1381,6 +1346,110 @@ static item *find_best_prying_tool( player &p )
     return prying_items[0];
 }
 
+static void apply_prying_tool( player &p, item *it, const tripoint &examp )
+{
+    map &here = get_map();
+    //~ %1$s: terrain/furniture name, %2$s: prying tool name
+    p.add_msg_if_player( _( "You attempt to pry open the %1$s using your %2$s…" ),
+                         here.has_furn( examp ) ? here.furnname( examp ) : here.tername( examp ), it->tname() );
+
+    // if crowbar() ever eats charges or otherwise alters the passed item, rewrite this to reflect
+    // changes to the original item.
+    iuse::crowbar( &p, it, false, examp );
+}
+
+/**
+ * Attempt to crack safe through audio-feedback manual lock manipulation.
+ *
+ * Try to unlock the safe by moving the dial and listening for the mechanism to "click into place."
+ *
+ * Time per attempt affected by perception and mechanics. 5 minutes per attempt minimum.
+ * Small chance of just guessing the combo without listening device.
+ */
+void iexamine::safe( player &p, const tripoint &examp )
+{
+
+    map &here = get_map();
+    safe_reference<item> prying_tool = find_best_prying_tool( p );
+    const int target_diff = here.has_furn( examp ) ? here.furn( examp )->pry.pry_quality : here.ter(
+                                examp )->pry.pry_quality;
+    if( target_diff > 0 && prying_tool && !p.movement_mode_is( CMM_CROUCH ) ) {
+        // keep going in case we have a prying tool that can't be used against the target, so we can try lockpicking
+        if( prying_tool->get_quality( quality_id( "PRY" ) ) >= target_diff ) {
+            apply_prying_tool( p, prying_tool.get(), examp );
+            return;
+        }
+    }
+
+    // Requires mutant hearing, Enhanced Hearing CBM, or a stethoscope.
+    bool can_safecrack = p.hearing_ability() > 1.5f || p.has_item_with_flag( flag_SAFECRACK );
+    bool can_decode = p.get_skill_level( skill_mechanics ) >= 5;
+
+    // We can skip worrying about a stethoscope if we're skilled enough.
+    if( !can_decode ) {
+        // Lack both the tools and the skills so fiddle with the dial a bit.
+        if( !can_safecrack ) {
+            p.mod_moves( -to_moves<int>( 10_seconds ) );
+            // one_in(30^3) chance of guessing
+            if( one_in( 27000 ) ) {
+                p.add_msg_if_player( m_good,
+                                     _( "Lacking the skill to crack this without tools, you mess with the dial for a little bit… and it opens!" ) );
+                get_map().furn_set( examp, f_safe_o );
+                return;
+            } else {
+                p.add_msg_if_player( m_info,
+                                     _( "Lacking the skill to crack this without tools, you mess with the dial for a little bit." ) );
+                return;
+            }
+        }
+        // We both need and have hearing enhancement, so here we rule out states that prevent us from using it.
+        if( p.is_deaf() ) {
+            add_msg( m_info, _( "You can't crack a safe while deaf!" ) );
+            return;
+        } else if( p.has_effect( effect_earphones ) ) {
+            add_msg( m_info, _( "You can't crack a safe while listening to music!" ) );
+            return;
+        }
+    }
+
+    if( query_yn(
+            _( "Attempt to crack the safe?\n\nUses a stethoscope, augmented hearing, or mechanics skill of 5 or higher." ) ) ) {
+        std::string safecracking_message = can_decode ?
+                                           _( "You begin to expertly decode the safe." ) :
+                                           _( "You start cracking the safe." );
+        add_msg( m_info, safecracking_message );
+        // 120 minutes - 10 minutes per mechanics point, - 5 per perception point above 10;
+        // capped at 5 minutes minimum.
+        const time_duration time = std::max( 120_minutes - 10_minutes * p.get_skill_level(
+                skill_mechanics ) - 5_minutes * ( std::max( p.get_per(), 10 ) - 10 ), 5_minutes );
+
+        p.assign_activity( ACT_CRACKING, to_moves<int>( time ) );
+        p.activity->placement = examp;
+    }
+}
+
+/**
+ * Attempt to "hack" the gunsafe's electronic lock and open it.
+ * Also allow for trying to pry it open as an alternative.
+ */
+void iexamine::gunsafe_el( player &p, const tripoint &examp )
+{
+    map &here = get_map();
+    safe_reference<item> prying_tool = find_best_prying_tool( p );
+    const int target_diff = here.has_furn( examp ) ? here.furn( examp )->pry.pry_quality : here.ter(
+                                examp )->pry.pry_quality;
+    if( target_diff > 0 && prying_tool && !p.movement_mode_is( CMM_CROUCH ) ) {
+        // keep going in case we have a prying tool that can't be used against the target, so we can try lockpicking
+        if( prying_tool->get_quality( quality_id( "PRY" ) ) >= target_diff ) {
+            apply_prying_tool( p, prying_tool.get(), examp );
+            return;
+        }
+    }
+    if( query_yn( _( "Attempt to hack this safe?" ) ) ) {
+        try_start_hacking( p, examp );
+    }
+}
+
 static item *find_best_lock_picking_tool( player &p )
 {
     std::vector<item *> picklocks = p.items_with( []( const item & it ) {
@@ -1398,18 +1467,6 @@ static item *find_best_lock_picking_tool( player &p )
     }
 
     return picklocks[0];
-}
-
-static void apply_prying_tool( player &p, item *it, const tripoint &examp )
-{
-    map &here = get_map();
-    //~ %1$s: terrain/furniture name, %2$s: prying tool name
-    p.add_msg_if_player( _( "You attempt to pry open the %1$s using your %2$s…" ),
-                         here.has_furn( examp ) ? here.furnname( examp ) : here.tername( examp ), it->tname() );
-
-    // if crowbar() ever eats charges or otherwise alters the passed item, rewrite this to reflect
-    // changes to the original item.
-    iuse::crowbar( &p, it, false, examp );
 }
 
 static void apply_lock_picking_tool( player &p, item *it, const tripoint &examp )
@@ -1462,23 +1519,47 @@ void iexamine::locked_object( player &p, const tripoint &examp )
 {
     map &here = get_map();
 
-    safe_reference<item> prying_tool = find_best_prying_tool( p );
-    if( prying_tool ) {
-        apply_prying_tool( p, prying_tool.get(), examp );
-        return;
+    // if the furniture/terrain is also lockpickable
+    // try lockpicking first if we're crouched
+    if( lockpick_activity_actor::is_pickable( examp ) && p.movement_mode_is( CMM_CROUCH ) ) {
+        if( pick_lock( p, examp ) ) {
+            return;
+        }
     }
 
-    // if the furniture/terrain is also lockpickable
+    safe_reference<item> prying_tool = find_best_prying_tool( p );
+    if( prying_tool ) {
+        const int target_diff = here.has_furn( examp ) ? here.furn( examp )->pry.pry_quality : here.ter(
+                                    examp )->pry.pry_quality;
+        // keep going in case we have a prying tool that can't be used against the target, so we can try lockpicking
+        if( prying_tool->get_quality( quality_id( "PRY" ) ) >= target_diff ) {
+            apply_prying_tool( p, prying_tool.get(), examp );
+            return;
+        }
+    }
+
+    const auto target = here.has_furn( examp ) ? here.furnname( examp ) : here.tername( examp );
     if( lockpick_activity_actor::is_pickable( examp ) ) {
         if( !pick_lock( p, examp ) ) {
-            add_msg( m_info, _( "The %s is locked.  If only you had something to pry it or pick its lock…" ),
-                     here.has_furn( examp ) ? here.furnname( examp ) : here.tername( examp ) );
+            if( prying_tool ) {
+                add_msg( m_info,
+                         _( "The %s is locked.  If only you had something to pick its lock, or a stronger prying tool…" ),
+                         target );
+            } else {
+                add_msg( m_info, _( "The %s is locked.  If only you had something to pry it or pick its lock…" ),
+                         target );
+            }
         }
         return;
     }
 
-    add_msg( m_info, _( "The %s is locked.  If only you had something to pry it…" ),
-             here.has_furn( examp ) ? here.furnname( examp ) : here.tername( examp ) );
+    if( prying_tool ) {
+        add_msg( m_info, _( "The %s is locked, and your tools aren't strong enough to pry it open…" ),
+                 target );
+    } else {
+        add_msg( m_info, _( "The %s is locked.  If only you had something to pry it…" ),
+                 target );
+    }
 }
 
 /**
@@ -1641,20 +1722,25 @@ void iexamine::door_peephole( player &p, const tripoint &examp )
         return;
     }
 
-    // Peek through the peephole, or open the door.
-    const int choice = uilist( _( "Do what with the door?" ), {
-        _( "Peek through peephole." ),
-        _( "Open door." )
-    } );
-    if( choice == 0 ) {
-        // Peek
+    if( here.open_door( examp, true, true ) ) {
         g->peek( examp );
         p.add_msg_if_player( _( "You peek through the peephole." ) );
-    } else if( choice == 1 ) {
-        here.open_door( examp, true, false );
-        p.add_msg_if_player( _( "You open the door." ) );
     } else {
-        p.add_msg_if_player( _( "Never mind." ) );
+        // Peek through the peephole, or open the door.
+        const int choice = uilist( _( "Do what with the door?" ), {
+            _( "Peek through peephole." ),
+            _( "Open door." )
+        } );
+        if( choice == 0 ) {
+            // Peek
+            g->peek( examp );
+            p.add_msg_if_player( _( "You peek through the peephole." ) );
+        } else if( choice == 1 ) {
+            here.open_door( examp, true, false );
+            p.add_msg_if_player( _( "You open the door." ) );
+        } else {
+            p.add_msg_if_player( _( "Never mind." ) );
+        }
     }
 }
 
@@ -1777,7 +1863,8 @@ static bool drink_nectar( player &p )
 static void handle_harvest( player &p, const std::string &itemid, bool force_drop )
 {
     detached_ptr<item> harvest = item::spawn( itemid );
-    if( !force_drop && p.can_pick_volume( *harvest ) &&
+    // Drop items that're exceed available space and things that aren't comestibles
+    if( !force_drop && harvest->get_comestible() && p.can_pick_volume( *harvest ) &&
         p.can_pick_weight( *harvest, !get_option<bool>( "DANGEROUS_PICKUPS" ) ) ) {
 
         p.add_msg_if_player( _( "You harvest: %s." ), harvest->tname() );
@@ -1923,7 +2010,7 @@ static bool harvest_common( player &p, const tripoint &examp, bool furn, bool ne
     const auto hid = here.get_harvest( examp );
     if( hid.is_null() || hid->empty() ) {
         if( !auto_forage ) {
-            p.add_msg_if_player( m_info, _( "Nothing can be harvested from this plant in current season." ) );
+            p.add_msg_if_player( m_info, _( "Nothing can be harvested from this currently." ) );
         }
         if( p.manual_examine ) {
             iexamine::none( p, examp );
@@ -1975,7 +2062,8 @@ void iexamine::harvest_furn_nectar( player &p, const tripoint &examp )
     bool auto_forage = get_option<bool>( "AUTO_FEATURES" ) &&
                        get_option<std::string>( "AUTO_FORAGING" ) == "both";
     if( harvest_common( p, examp, true, true, auto_forage ) ) {
-        get_map().furn_set( examp, f_null );
+        map &here = get_map();
+        get_map().furn_set( examp, here.get_furn_transforms_into( examp ) );
     }
 }
 
@@ -1984,7 +2072,8 @@ void iexamine::harvest_furn( player &p, const tripoint &examp )
     bool auto_forage = get_option<bool>( "AUTO_FEATURES" ) &&
                        get_option<std::string>( "AUTO_FORAGING" ) == "both";
     if( harvest_common( p, examp, true, false, auto_forage ) ) {
-        get_map().furn_set( examp, f_null );
+        map &here = get_map();
+        get_map().furn_set( examp, here.get_furn_transforms_into( examp ) );
     }
 }
 
@@ -2016,7 +2105,7 @@ void iexamine::harvest_ter( player &p, const tripoint &examp )
  */
 void iexamine::harvested_plant( player &p, const tripoint &examp )
 {
-    p.add_msg_if_player( m_info, _( "Nothing can be harvested from this plant in current season" ) );
+    p.add_msg_if_player( m_info, _( "Nothing can be harvested from this currently." ) );
     iexamine::none( p, examp );
 }
 
@@ -2218,6 +2307,13 @@ void iexamine::dirtmound( player &p, const tripoint &examp )
     }
     const auto &seed_id = std::get<0>( seed_entries[seed_index] );
 
+    // Separate temp check because for now we permit growing regular plants underground with artificial heating
+    if( !seed_id.obj().has_flag( flag_CAN_PLANT_UNDERGROUND ) && examp.z < 0 &&
+        get_weather().get_temperature( examp ) < 10_c ) {
+        add_msg( _( "It's too cold down here to plant this type of seed underground." ) );
+        return;
+    }
+
     if( !here.has_flag_ter_or_furn( seed_id->seed->required_terrain_flag, examp ) ) {
         add_msg( _( "This type of seed can not be planted in this location." ) );
         return;
@@ -2380,9 +2476,16 @@ void iexamine::fertilize_plant( player &p, const tripoint &tile, const itype_id 
         return;
     }
 
+    map &here = get_map();
+    // The plant furniture has the NOITEM token which prevents adding items on that square,
+    // spawned items are moved to an adjacent field instead, but the fertilizer token
+    // must be on the square of the plant, therefore this hack:
+    const auto old_furn = here.furn( tile );
+    here.furn_set( tile, f_null );
+    here.spawn_item( tile, itype_fertilizer, 1, 1, calendar::turn );
+    here.furn_set( tile, old_furn );
     std::vector<detached_ptr<item>> planted = p.use_charges( fertilizer, 1 );
 
-    map &here = get_map();
     // Can't use item_stack::only_item() since there might be fertilizer
     map_stack items = here.i_at( tile );
     map_stack::iterator seed_it = std::find_if( items.begin(),
@@ -2401,17 +2504,8 @@ void iexamine::fertilize_plant( player &p, const tripoint &tile, const itype_id 
     // Reduce the amount of time it takes until the next stage of growth
     // by 60% of the seed's stage duration, or 20% of its overall growth time
     const time_duration fertilized_boost = seed->get_plant_epoch() * 0.6;
-
     seed->set_birthday( seed->birthday() - fertilized_boost );
-    // The plant furniture has the NOITEM token which prevents adding items on that square,
-    // spawned items are moved to an adjacent field instead, but the fertilizer token
-    // must be on the square of the plant, therefore this hack:
-    const auto old_furn = here.furn( tile );
-    here.furn_set( tile, f_null );
-    here.spawn_item( tile, itype_fertilizer, 1, 1, calendar::turn );
-    here.furn_set( tile, old_furn );
     p.mod_moves( -to_moves<int>( 10_seconds ) );
-
     //~ %1$s: plant name, %2$s: fertilizer name
     add_msg( m_info, _( "You fertilize the %1$s with the %2$s." ), seed->get_plant_name(),
              planted.front()->tname() );
@@ -2504,7 +2598,7 @@ void iexamine::kiln_empty( player &p, const tripoint &examp )
         return;
     }
 
-    static const std::set<material_id> kilnable{ material_id( "wood" ), material_id( "bone" ) };
+    static const std::set<material_id> kilnable{ material_id( "wood" ), material_id( "bone" ), material_id( "bone_heavy" ) };
     bool fuel_present = false;
     auto items = here.i_at( examp );
     for( const item * const &i : items ) {
@@ -3116,9 +3210,11 @@ void iexamine::fvat_full( player &p, const tripoint &examp )
     }
 
     const std::string booze_name = brew_i.tname();
-    if( liquid_handler::handle_liquid( **items_here.begin() ) ) {
-        here.furn_set( examp, f_fvat_empty );
+    liquid_handler::handle_liquid( **items_here.begin() );
+    if( items_here.empty() ) {
         add_msg( _( "You squeeze the last drops of %s from the vat." ), booze_name );
+        here.furn_set( examp, f_fvat_empty );
+        return;
     }
 }
 
@@ -3764,8 +3860,8 @@ void iexamine::trap( player &p, const tripoint &examp )
                     return;
                 }
             } else {
-                p.assign_activity( ACT_BUILD );
-                p.activity->placement = here.getabs( examp );
+                p.assign_activity( std::make_unique<player_activity>( std::make_unique<construction_activity_actor>
+                                   ( here.getglobal( examp ) ) ) );
                 return;
             }
         } else {
@@ -4680,7 +4776,7 @@ void iexamine::ledge( player &p, const tripoint &examp )
             break;
         }
         default:
-            popup( _( "You decided to step back from the ledge." ) );
+            p.add_msg_if_player( _( "You decided to step back from the ledge." ) );
             break;
     }
 }
@@ -4843,7 +4939,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
     }
     if( &patient == &null_player ) {
         if( cyborg != nullptr ) {
-            if( cyborg->typeId() == itype_corpse && !cyborg->active ) {
+            if( cyborg->typeId() == itype_corpse && !cyborg->is_active() ) {
                 popup( _( "Patient is dead.  Please remove corpse to proceed.  Exiting." ) );
                 return;
             } else if( cyborg->typeId() == itype_bot_broken_cyborg || cyborg->typeId() == itype_corpse ) {
@@ -4946,13 +5042,10 @@ void iexamine::autodoc( player &p, const tripoint &examp )
 
     amenu.query();
 
-    bool needs_anesthesia = true;
+    bool needs_anesthesia = cbm_needs_anesthesia( patient );
     std::vector<tool_comp> anesth_kit;
 
-    if( patient.has_trait( trait_NOPAIN ) || patient.has_bionic( bio_painkiller ) ||
-        amenu.ret > 1 ) {
-        needs_anesthesia = false;
-    } else {
+    if( needs_anesthesia && amenu.ret < 2 ) {
         const inventory &crafting_inv = p.crafting_inventory();
         std::vector<item *> a_filter = crafting_inv.items_with( []( const item & it ) {
             return it.has_quality( qual_ANESTHESIA );
@@ -5089,8 +5182,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
             }
 
             int broken_limbs_count = 0;
-            for( int i = 0; i < num_hp_parts; i++ ) {
-                const bodypart_id &part = convert_bp( player::hp_to_bp( static_cast<hp_part>( i ) ) ).id();
+            for( const bodypart_id &part : patient.get_all_body_parts( true ) ) {
                 const bool broken = patient.is_limb_broken( part );
                 if( !broken ) {
                     continue;
@@ -5162,18 +5254,18 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                 }
             }
 
-            for( int i = 0; i < num_hp_parts; i++ ) {
-                const bodypart_id &bp_healed = convert_bp( player::hp_to_bp( static_cast<hp_part>( i ) ) ).id();
-                if( patient.has_effect( effect_bleed, bp_healed.id() ) ) {
-                    patient.remove_effect( effect_bleed, bp_healed->token );
+            for( const bodypart_id &bp : patient.get_all_body_parts( true ) ) {
+                const bodypart_str_id &bp_healed = bp.id();
+                if( patient.has_effect( effect_bleed, bp_healed ) ) {
+                    patient.remove_effect( effect_bleed, bp_healed );
                     patient.add_msg_player_or_npc( m_good,
                                                    _( "The autodoc detected a bleeding on your %s and applied a hemostatic drug to stop it." ),
                                                    _( "The autodoc detected a bleeding on <npcname>'s %s and applied a hemostatic drug to stop it." ),
                                                    body_part_name( bp_healed ) );
                 }
 
-                if( patient.has_effect( effect_bite, bp_healed.id() ) ) {
-                    patient.remove_effect( effect_bite, bp_healed->token );
+                if( patient.has_effect( effect_bite, bp_healed ) ) {
+                    patient.remove_effect( effect_bite, bp_healed );
                     patient.add_msg_player_or_npc( m_good,
                                                    _( "The autodoc detected an open wound on your %s and applied a disinfectant to clean it." ),
                                                    _( "The autodoc detected an open wound on <npcname>'s %s and applied a disinfectant to clean it." ),
@@ -5181,12 +5273,12 @@ void iexamine::autodoc( player &p, const tripoint &examp )
 
                     // Fixed disinfectant intensity of 4 disinfectant_power + 10 first aid skill level of autodoc.
                     const int disinfectant_intensity = 14;
-                    patient.add_effect( effect_disinfected, 1_turns, bp_healed->token );
-                    effect &e = patient.get_effect( effect_disinfected, bp_healed->token );
+                    patient.add_effect( effect_disinfected, 1_turns, bp_healed );
+                    effect &e = patient.get_effect( effect_disinfected, bp_healed );
                     e.set_duration( e.get_int_dur_factor() * disinfectant_intensity );
-                    hp_part target_part = player::bp_to_hp( bp_healed->token );
-                    patient.damage_disinfected[target_part] =
-                        patient.get_part_hp_max( bp_healed ) - patient.get_part_hp_cur( bp_healed );
+                    bodypart_str_id target_part = player::bp_to_hp( bp_healed );
+                    bodypart &part = patient.get_part( target_part );
+                    part.set_damage_disinfected( part.get_hp_max() - part.get_hp_cur() );
 
                 }
             }
@@ -5237,6 +5329,7 @@ namespace sm_rack
 {
 const int MIN_CHARCOAL = 100;
 const int CHARCOAL_PER_LITER = 25;
+const units::volume MAX_FOOD_VOLUME_MILLING = units::from_liter( 100 );
 const units::volume MAX_FOOD_VOLUME = units::from_liter( 20 );
 const units::volume MAX_FOOD_VOLUME_PORTABLE = units::from_liter( 15 );
 } // namespace sm_rack
@@ -5288,11 +5381,10 @@ static void mill_activate( player &p, const tripoint &examp )
         add_msg( _( "This mill is empty.  Fill it with starchy products such as wheat, barley or oats and try again." ) );
         return;
     }
-    // TODO: currently mill just uses sm_rack defined max volume
-    if( food_volume > sm_rack::MAX_FOOD_VOLUME ) {
+    if( food_volume > sm_rack::MAX_FOOD_VOLUME_MILLING ) {
         add_msg( _( "This mill is overloaded with products, and the millstone can't turn.  Remove some and try again." ) );
         add_msg( pgettext( "volume units", "You think that you can load about %s %s in it." ),
-                 format_volume( sm_rack::MAX_FOOD_VOLUME ), volume_units_long() );
+                 format_volume( sm_rack::MAX_FOOD_VOLUME_MILLING ), volume_units_long() );
         return;
     }
 
@@ -5823,8 +5915,8 @@ void iexamine::quern_examine( player &p, const tripoint &examp )
     }
 
     const bool empty = f_volume == 0_ml;
-    const bool full = f_volume >= sm_rack::MAX_FOOD_VOLUME;
-    const auto remaining_capacity = sm_rack::MAX_FOOD_VOLUME - f_volume;
+    const bool full = f_volume >= sm_rack::MAX_FOOD_VOLUME_MILLING;
+    const auto remaining_capacity = sm_rack::MAX_FOOD_VOLUME_MILLING - f_volume;
 
     uilist smenu;
     smenu.text = _( "What to do with the mill?" );
@@ -6241,6 +6333,24 @@ void iexamine::migo_nerve_cluster( player &p, const tripoint &examp )
     }
 }
 
+void iexamine::cardreader_plutgen( player &p, const tripoint &examp )
+{
+    map &here = get_map();
+    itype_id card_type = itype_id_military;
+    if( p.has_amount( card_type, 1 ) && query_yn( _( "Swipe your ID card?" ) ) ) {
+        // The duration taken may need modification.
+        p.mod_moves( -100 );
+        p.use_amount( card_type, 1 );
+        add_msg( _( "You insert your ID card." ) );
+        add_msg( m_good,
+                 _( "The plutonium generator beeps twice, then disengages from the surrounding conduits with a series of mechanical clunks." ) );
+        here.ter_set( examp, t_concrete );
+        here.add_item_or_charges( examp, item::spawn( itype_plut_generator_item, calendar::turn ) );
+    } else {
+        add_msg( _( "The plutonium generator has significant security measures in place. Without the necessary ID, you'll have to remove it by hand." ) );
+    }
+}
+
 /**
  * Given then name of one of the above functions, returns the matching function
  * pointer. If no match is found, defaults to iexamine::none but prints out a
@@ -6260,6 +6370,7 @@ iexamine_function iexamine_function_from_string( const std::string &function_nam
             { "vending", &iexamine::vending },
             { "toilet", &iexamine::toilet },
             { "elevator", &iexamine::elevator },
+            { "toggle_lights", &iexamine::toggle_lights},
             { "controls_gate", &iexamine::controls_gate },
             { "cardreader", &iexamine::cardreader },
             { "cardreader_robofac", &iexamine::cardreader_robofac },
@@ -6334,6 +6445,7 @@ iexamine_function iexamine_function_from_string( const std::string &function_nam
             { "dimensional_portal", &iexamine::dimensional_portal },
             { "check_power", &iexamine::check_power },
             { "migo_nerve_cluster", &iexamine::migo_nerve_cluster },
+            { "cardreader_plutgen", &iexamine::cardreader_plutgen },
         }
     };
 
@@ -6350,9 +6462,8 @@ iexamine_function iexamine_function_from_string( const std::string &function_nam
 void iexamine::practice_survival_while_foraging( player *p )
 {
     ///\EFFECT_INT Intelligence caps survival skill gains from foraging
-    const int max_forage_skill = p->int_cur / 3 + 1;
-    ///\EFFECT_SURVIVAL decreases survival skill gain from foraging (NEGATIVE)
-    const int max_exp = 2 * ( max_forage_skill - p->get_skill_level( skill_survival ) );
+    const int max_forage_skill = p->int_cur / 2 + 1;
+    const int max_exp = 2 * max_forage_skill;
     // Award experience for foraging attempt regardless of success
     p->practice( skill_survival, rng( 1, max_exp ), max_forage_skill );
 }

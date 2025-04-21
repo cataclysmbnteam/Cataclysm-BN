@@ -22,7 +22,7 @@
     "type": "MAGAZINE",
     "name": { "str": "RMRD400 .22 drum magazine" },
     "description": "A 400 round drum magazine for use with the RM360 rotary carbine.",
-    "weight": "440 g",
+    "weight": "400 g",
     "volume": "750 ml",
     "price": "300 USD",
     "material": [ "superalloy", "plastic" ],

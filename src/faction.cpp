@@ -619,8 +619,7 @@ void faction_manager::display() const
     ui.mark_resize();
 
     enum class tab_mode : int {
-        TAB_MYFACTION = 0,
-        TAB_FOLLOWERS,
+        TAB_FOLLOWERS = 0,
         TAB_OTHERFACTIONS,
         NUM_TABS,
         FIRST_TAB = 0,
@@ -655,7 +654,6 @@ void faction_manager::display() const
         }
 
         const std::vector<std::pair<tab_mode, std::string>> tabs = {
-            { tab_mode::TAB_MYFACTION, _( "YOUR FACTION" ) },
             { tab_mode::TAB_FOLLOWERS, _( "YOUR FOLLOWERS" ) },
             { tab_mode::TAB_OTHERFACTIONS, _( "OTHER FACTIONS" ) },
         };
@@ -671,11 +669,6 @@ void faction_manager::display() const
         const size_t top_of_page = entries_per_page * ( selection / entries_per_page );
 
         switch( tab ) {
-            case tab_mode::TAB_MYFACTION: {
-                const std::string no_camp = _( "You have no camps" );
-                mvwprintz( w_missions, point( 31, 4 ), c_light_red, no_camp );
-            }
-            break;
             case tab_mode::TAB_FOLLOWERS: {
                 const std::string no_ally = _( "You have no followers" );
                 if( !followers.empty() ) {
@@ -760,8 +753,6 @@ void faction_manager::display() const
                 guy = followers[selection];
             }
             active_vec_size = followers.size();
-        } else if( tab == tab_mode::TAB_MYFACTION ) {
-            active_vec_size = 0;
         } else if( tab == tab_mode::TAB_OTHERFACTIONS ) {
             if( selection < valfac.size() ) {
                 cur_fac = valfac[selection];

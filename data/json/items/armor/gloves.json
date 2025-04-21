@@ -27,8 +27,8 @@
     "repairs_like": "gauntlets_larmor",
     "type": "ARMOR",
     "name": { "str": "pair of boxing gloves", "str_pl": "pairs of boxing gloves" },
-    "description": "A pair of big, red, 8 oz. boxing gloves.  They make dexterous tasks near impossible, but provide ample protection.",
-    "weight": "453 g",
+    "description": "A pair of big, red boxing gloves.  They make dexterous tasks near impossible, but provide ample protection.",
+    "weight": "500 g",
     "volume": "1 L",
     "price": "40 USD",
     "price_postapoc": "10 cent",
@@ -120,8 +120,9 @@
     "description": "Gauntlets crafted from the carefully cleaned and pruned biosilicified exoskeletons of acidic ants.  Acid-resistant and very durable.",
     "material": [ "acidchitin", "leather" ],
     "price_postapoc": "1750 cent",
-    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25, "encumbrance": 1.5, "warmth": 1.5 },
-    "relative": { "bashing": 1, "material_thickness": 1 }
+    "encumbrance": 15,
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25, "warmth": 1.5 },
+    "relative": { "bashing": 1, "material_thickness": 1, "environmental_protection": 1 }
   },
   {
     "id": "gauntlet_fencing",
@@ -200,8 +201,9 @@
     "description": "Heavy fingerless leather gloves that have been reinforced with strategically-placed metal plates.  Flexible and tough.",
     "material": [ "leather", "iron" ],
     "looks_like": "gloves_plate",
+    "encumbrance": 8,
     "proportional": { "price": 4, "price_postapoc": 1.2 },
-    "relative": { "weight": "250 g", "encumbrance": 4 }
+    "relative": { "weight": "250 g" }
   },
   {
     "id": "gloves_bag",
@@ -269,7 +271,7 @@
     "type": "ARMOR",
     "name": { "str": "pair of survivor firegloves", "str_pl": "pairs of survivor firegloves" },
     "description": "A pair of customized, Kevlar armored Nomex gloves, modified to be easy to wear while providing maximum protection under extreme conditions.",
-    "weight": "410 g",
+    "weight": "400 g",
     "volume": "1 L",
     "price": "180 USD",
     "price_postapoc": "25 USD",
@@ -291,7 +293,7 @@
     "type": "ARMOR",
     "name": { "str": "pair of fur gloves", "str_pl": "pairs of fur gloves" },
     "description": "A pair of warm fur gloves.  They are somewhat cumbersome.",
-    "weight": "410 g",
+    "weight": "400 g",
     "volume": "1 L",
     "price": "40 USD",
     "price_postapoc": "250 cent",
@@ -319,7 +321,7 @@
     "looks_like": "gloves_fingerless",
     "coverage": 50,
     "warmth": 28,
-    "relative": { "encumbrance": -10 },
+    "encumbrance": 20,
     "extend": { "flags": [ "ALLOWS_NATURAL_ATTACKS" ] }
   },
   {
@@ -432,7 +434,7 @@
     "looks_like": "gloves_fingerless",
     "coverage": 50,
     "warmth": 8,
-    "relative": { "encumbrance": -2 },
+    "encumbrance": 0,
     "extend": { "flags": [ "ALLOWS_NATURAL_ATTACKS" ] }
   },
   {
@@ -526,7 +528,7 @@
     "price": "10 USD",
     "price_postapoc": "10 cent",
     "to_hit": 1,
-    "material": [ "plastic" ],
+    "material": [ "rubber" ],
     "symbol": "[",
     "looks_like": "gloves_light",
     "color": "white",
@@ -576,8 +578,8 @@
     "repairs_like": "gauntlets_larmor",
     "type": "ARMOR",
     "name": { "str": "pair of rubber gloves", "str_pl": "pairs of rubber gloves" },
-    "description": "A pair of rubber gloves, often used while cleaning with caustic materials.",
-    "weight": "20 g",
+    "description": "A pair of rubber gloves, often used while cleaning with caustic materials.  Mandatory for working with high voltage to ensure your safety.",
+    "weight": "150 g",
     "volume": "1 L",
     "price": "13 USD",
     "price_postapoc": "50 cent",
@@ -588,7 +590,7 @@
     "color": "yellow",
     "covers": [ "hands" ],
     "coverage": 100,
-    "encumbrance": 40,
+    "encumbrance": 15,
     "warmth": 10,
     "material_thickness": 3,
     "environmental_protection": 8,
@@ -676,10 +678,10 @@
     "color": "blue",
     "covers": [ "hands" ],
     "coverage": 95,
-    "encumbrance": 20,
+    "encumbrance": 15,
     "warmth": 60,
     "material_thickness": 3,
-    "valid_mods": [ "resized_large" ]
+    "flags": [ "VARSIZE" ]
   },
   {
     "id": "gloves_wool_fingerless",
@@ -693,7 +695,7 @@
     "looks_like": "gloves_fingerless",
     "coverage": 50,
     "warmth": 24,
-    "relative": { "encumbrance": -10 },
+    "encumbrance": 7,
     "extend": { "flags": [ "ALLOWS_NATURAL_ATTACKS" ] }
   },
   {
@@ -712,12 +714,12 @@
     "color": "brown",
     "covers": [ "hands" ],
     "coverage": 95,
-    "encumbrance": 20,
+    "encumbrance": 10,
     "warmth": 25,
     "material_thickness": 3,
     "environmental_protection": 5,
-    "valid_mods": [ "steel_padded", "alloy_padded", "resized_large" ],
-    "flags": [ "WATERPROOF", "STURDY" ]
+    "valid_mods": [ "steel_padded", "alloy_padded" ],
+    "flags": [ "VARSIZE", "WATERPROOF", "STURDY" ]
   },
   {
     "id": "gloves_cut_resistant",
@@ -736,7 +738,7 @@
     "color": "light_gray",
     "covers": [ "hands" ],
     "coverage": 95,
-    "encumbrance": 40,
+    "encumbrance": 15,
     "warmth": 10,
     "material_thickness": 4,
     "environmental_protection": 1,
@@ -760,7 +762,7 @@
     "coverage": 50,
     "warmth": 5,
     "material_thickness": 1,
-    "flags": [ "SKINTIGHT", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS" ]
+    "flags": [ "SKINTIGHT", "OVERSIZE", "COMPACT", "ALLOWS_NATURAL_ATTACKS" ]
   },
   {
     "id": "gloves_wraps_fur",
@@ -778,10 +780,10 @@
     "color": "white",
     "covers": [ "hands" ],
     "coverage": 50,
-    "encumbrance": 5,
+    "encumbrance": 4,
     "warmth": 20,
     "material_thickness": 1,
-    "flags": [ "OVERSIZE", "ALLOWS_NATURAL_ATTACKS" ]
+    "flags": [ "SKINTIGHT", "OVERSIZE", "COMPACT", "ALLOWS_NATURAL_ATTACKS" ]
   },
   {
     "id": "gloves_wraps_leather",
@@ -799,10 +801,10 @@
     "color": "white",
     "covers": [ "hands" ],
     "coverage": 50,
-    "encumbrance": 5,
+    "encumbrance": 3,
     "warmth": 10,
     "material_thickness": 1,
-    "flags": [ "OVERSIZE", "ALLOWS_NATURAL_ATTACKS" ]
+    "flags": [ "SKINTIGHT", "COMPACT", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS" ]
   },
   {
     "id": "gloves_wraps_wool",
@@ -823,7 +825,7 @@
     "encumbrance": 2,
     "warmth": 15,
     "material_thickness": 1,
-    "flags": [ "SKINTIGHT", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS" ]
+    "flags": [ "SKINTIGHT", "COMPACT", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS" ]
   },
   {
     "id": "gloves_wsurvivor",
@@ -841,7 +843,7 @@
     "color": "light_gray",
     "covers": [ "hands" ],
     "coverage": 100,
-    "encumbrance": 37,
+    "encumbrance": 25,
     "warmth": 75,
     "material_thickness": 4,
     "environmental_protection": 5,
@@ -884,7 +886,7 @@
     "color": "blue",
     "covers": [ "hands" ],
     "coverage": 100,
-    "encumbrance": 80,
+    "encumbrance": 30,
     "warmth": 70,
     "material_thickness": 4,
     "flags": [ "OVERSIZE", "OUTER" ]
@@ -993,5 +995,25 @@
     "warmth": 20,
     "material_thickness": 1,
     "flags": [ "VARSIZE", "WATERPROOF", "SKINTIGHT" ]
+  },
+  {
+    "id": "carbon_gloves",
+    "type": "ARMOR",
+    "name": { "str": "carbon fiber gloves" },
+    "description": "A custom pair of fingerless armored gloves made using a 3D printer.  Its rigid plates are more comparable to metal than kevlar, but it's very protective and lightweight.",
+    "copy-from": "gloves_plate",
+    "material": [ "carbon_fiber" ],
+    "extend": { "flags": [ "ALLOWS_NATURAL_ATTACKS" ] },
+    "proportional": { "weight": 0.6, "price": 2, "price_postapoc": 2 }
+  },
+  {
+    "id": "gauntlets_scute",
+    "type": "ARMOR",
+    "name": { "str": "scaleskin gauntlets" },
+    "description": "Gauntlets made from the hardened scales of large reptiles.",
+    "copy-from": "gauntlets_larmor",
+    "material": [ "scute" ],
+    "material_thickness": 5,
+    "environmental_protection": 4
   }
 ]

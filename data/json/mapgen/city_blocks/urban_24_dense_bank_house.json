@@ -273,7 +273,7 @@
         "O": { "item": "office", "chance": 90 },
         "c": { "item": "livingroom", "chance": 25 },
         "d": { "item": "office", "chance": 40 },
-        "f": { "item": "fridge", "chance": 60 },
+        "f": { "item": "SUS_fridge", "chance": 60 },
         "j": { "item": "cannedfood", "chance": 70 },
         "r": { "item": "cleaning", "chance": 60 },
         "t": { "item": "dining", "chance": 60 },

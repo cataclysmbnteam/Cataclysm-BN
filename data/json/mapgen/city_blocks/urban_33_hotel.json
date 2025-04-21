@@ -231,7 +231,7 @@
         "'": { "item": "home_hw", "chance": 1 },
         "(": { "item": "traveler", "chance": 5 },
         "3": { "item": "traveler", "chance": 1 },
-        "Q": { "item": "trash", "chance": 60 },
+        "Q": { "item": "trash_dumpster", "chance": 80 },
         "X": { "item": "home_hw", "chance": 55 },
         "_": { "item": "trash_cart", "chance": 2 },
         "r": { "item": "cleaning", "chance": 55 }

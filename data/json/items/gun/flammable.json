@@ -12,6 +12,7 @@
     "material": "steel",
     "range": 6,
     "dispersion": 300,
+    "loudness": 5,
     "modes": [ [ "DEFAULT", "semi", 1 ], [ "AUTO", "auto", 4 ] ],
     "valid_mod_locations": [
       [ "accessories", 1 ],
@@ -20,7 +21,8 @@
       [ "rail", 1 ],
       [ "stock", 1 ],
       [ "sights", 1 ],
-      [ "underbarrel", 1 ]
+      [ "underbarrel", 1 ],
+      [ "muzzle", 1 ]
     ],
     "magazines": [ [ "flammable", [ "pressurized_tank" ] ] ]
   },
@@ -39,10 +41,19 @@
     "ranged_damage": { "damage_type": "heat", "amount": 10 },
     "dispersion": 240,
     "durability": 9,
+    "loudness": 3,
     "modes": [ [ "DEFAULT", "semi", 1 ], [ "AUTO", "auto", 4 ] ],
-    "valid_mod_locations": [ [ "accessories", 4 ], [ "rail", 1 ], [ "grip", 1 ], [ "sling", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
-    "extend": { "flags": [ "FIRE_20", "MODE_BURST", "NON_FOULING" ] },
-    "delete": { "flags": [ "FIRE_100" ] },
+    "valid_mod_locations": [
+      [ "accessories", 4 ],
+      [ "rail", 1 ],
+      [ "grip", 1 ],
+      [ "sling", 1 ],
+      [ "stock", 1 ],
+      [ "underbarrel", 1 ],
+      [ "muzzle", 1 ]
+    ],
+    "ammo_to_fire": 20,
+    "extend": { "flags": [ "MODE_BURST", "NON_FOULING" ] },
     "magazines": [ [ "flammable", [ "rm4502", "rm4504" ] ] ]
   }
 ]

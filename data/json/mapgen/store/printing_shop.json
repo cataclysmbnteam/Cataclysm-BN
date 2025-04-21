@@ -1,0 +1,179 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "craft_shop_3" ],
+    "weight": 200,
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "  ____________________ '",
+        "  ____________________  ",
+        "  SSSSSSSSSSSSS_______  ",
+        "  SSSSSSSSSSSSS%______  ",
+        " ||++|WWWWWWW|||=====|| ",
+        " |........hhhe|%,,,,,,| ",
+        " W...........h|,,,,,,c| ",
+        " Wdddd.......h|C,,,,,c| ",
+        " W.h.........h|CC,,,,c| ",
+        " |............|C,,,,HR| ",
+        " |||||||+|||+||,,,,,,w| ",
+        " |........|--t|CC,,,,w| ",
+        " |.hhhh...|T-s|CC,,,HD| ",
+        " |.eeee...||||||||+|||| ",
+        " |.hhhh...|s-T|r,,,,,w| ",
+        " |........|t--|r,,,,H6| ",
+        " |||||||+|||+||r,,,,,P| ",
+        " |eee.........|,,,,,,c| ",
+        " |hhh.........+,,,,,,c| ",
+        " |............+,,,,H,,| ",
+        " |...booiiFVV.|,ccP6w,| ",
+        " ||+||||||||||||||||||| ",
+        "  SSSUU             8   ",
+        "                        "
+      ],
+      "terrain": {
+        " ": "t_region_groundcover_urban",
+        "'": "t_region_groundcover_barren",
+        ".": "t_floor",
+        ",": "t_thconc_floor",
+        "_": "t_pavement",
+        "-": "t_linoleum_gray",
+        "|": "t_brick_wall",
+        "=": "t_door_metal_locked",
+        "+": "t_door_c",
+        "%": "t_gates_mech_control",
+        "6": "t_console_broken",
+        "8": "t_gutter_downspout",
+        "C": "t_thconc_floor",
+        "D": "t_thconc_floor",
+        "H": "t_thconc_floor",
+        "P": "t_thconc_floor",
+        "R": "t_thconc_floor",
+        "S": "t_sidewalk",
+        "T": "t_linoleum_gray",
+        "U": "t_region_groundcover_barren",
+        "W": "t_wall_glass",
+        "c": "t_thconc_floor",
+        "s": "t_linoleum_gray",
+        "t": "t_linoleum_gray",
+        "w": "t_thconc_floor"
+      },
+      "furniture": {
+        "'": "f_street_light",
+        "C": [ [ "f_crate_c", 3 ], "f_crate_o", "f_cardboard_box" ],
+        "D": "f_drill_press",
+        "F": "f_fridge",
+        "H": "f_stool",
+        "P": "f_3d_printer",
+        "R": "f_router",
+        "T": "f_toilet",
+        "U": "f_dumpster",
+        "V": "f_vending_c",
+        "b": "f_trashcan",
+        "c": "f_counter",
+        "d": "f_desk",
+        "e": "f_table",
+        "h": "f_chair",
+        "i": "f_sink",
+        "o": "f_counter",
+        "r": "f_utility_shelf",
+        "s": "f_sink",
+        "t": "f_trashcan",
+        "w": "f_workbench"
+      },
+      "toilets": { "T": {  } },
+      "items": {
+        "C": [ { "item": "3d_printing_raw_materials", "chance": 50 }, { "item": "supplies_metal", "chance": 50, "repeat": 2 } ],
+        "F": { "item": "fridgesnacks", "chance": 50, "repeat": 5 },
+        "U": { "item": "trash_dumpster", "chance": 80 },
+        "b": { "item": "trash_cart", "chance": 50, "repeat": 3 },
+        "c": [ { "item": "tools_electronics", "chance": 75 }, { "item": "tools_mechanic", "chance": 75 } ],
+        "d": { "item": "office", "chance": 60, "repeat": 2 },
+        "o": { "item": "office_breakroom", "chance": 50, "repeat": 2 },
+        "t": { "item": "trash_cart", "chance": 50, "repeat": 3 }
+      },
+      "place_loot": [
+        { "group": "vending_drink", "x": 11, "y": 20, "chance": 100 },
+        { "group": "vending_food", "x": 12, "y": 20, "chance": 100 },
+        { "item": "laptop", "x": 5, "y": 5, "chance": 60 }
+      ],
+      "place_monster": [ { "group": "GROUP_ZOMBIE", "x": [ 3, 20 ], "y": [ 6, 19 ], "repeat": [ 1, 5 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "craft_shop_roof_3" ],
+    "weight": 200,
+    "object": {
+      "fill_ter": "t_flat_roof",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        " ---------------------- ",
+        " -....................- ",
+        " -....................- ",
+        " -....................- ",
+        " -....................- ",
+        " -....................- ",
+        " -....................- ",
+        " -....................- ",
+        " -....................- ",
+        " -....................- ",
+        " -....................- ",
+        " -....................- ",
+        " -....................- ",
+        " -....................- ",
+        " -....................- ",
+        " -....................- ",
+        " -....................- ",
+        " -------------------5-- ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "roof_palette" ],
+      "place_nested": [
+        {
+          "chunks": [
+            [ "null", 20 ],
+            [ "roof_2x2_utilities_b", 15 ],
+            [ "roof_2x2_utilities_c", 5 ],
+            [ "roof_2x2_utilities_d", 40 ],
+            [ "roof_2x2_utilities", 50 ],
+            [ "roof_2x2_golf", 20 ],
+            [ "roof_3x3_wine", 30 ]
+          ],
+          "x": 19,
+          "y": 6
+        },
+        {
+          "chunks": [
+            [ "null", 20 ],
+            [ "roof_2x2_utilities_b", 20 ],
+            [ "roof_2x2_utilities_c", 20 ],
+            [ "roof_2x2_utilities_d", 20 ],
+            [ "roof_2x2_utilities", 20 ]
+          ],
+          "x": 19,
+          "y": 12
+        },
+        {
+          "chunks": [
+            [ "null", 20 ],
+            [ "roof_4x4_party", 15 ],
+            [ "roof_4x4_holdout", 5 ],
+            [ "roof_4x4_utility", 40 ],
+            [ "roof_4x4_utility_1", 30 ],
+            [ "roof_6x6_survivor", 20 ],
+            [ "roof_6x6_utility", 20 ]
+          ],
+          "x": [ 3, 6 ],
+          "y": [ 6, 12 ]
+        }
+      ]
+    }
+  }
+]

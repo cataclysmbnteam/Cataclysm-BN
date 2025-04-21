@@ -24,4 +24,4 @@ Cataclysm: BN has more than 46,000 translatable strings (last updated at 2023-09
 be discouraged. The more translators there are, the easier it becomes!
 
 [^1]: Transifex API does not expose a public endpoint (at least without bearer token), so we were
-unable to update the number automatically.)
+    unable to update the number automatically.)

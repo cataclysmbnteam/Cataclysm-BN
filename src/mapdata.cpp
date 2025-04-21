@@ -194,6 +194,12 @@ static const std::unordered_map<std::string, ter_bitflags> ter_bitflags_map = { 
         { "SMALL_PASSAGE",            TFLAG_SMALL_PASSAGE },   // A small passage, that large or huge things cannot pass through
         { "Z_TRANSPARENT",            TFLAG_Z_TRANSPARENT },  // Doesn't block vision passing through the z-level
         { "SUN_ROOF_ABOVE",           TFLAG_SUN_ROOF_ABOVE }, // This furniture has a "fake roof" above, that blocks sunlight (see #44421).
+        { "FUNGUS",                   TFLAG_FUNGUS },         // Marks terrain/furniture as infected with fungus
+        { "FLOWER",                   TFLAG_FLOWER },         // Is flower
+        { "ORGANIC",                  TFLAG_ORGANIC },        // Is organic (e.g. flower)
+        { "PLANT",                    TFLAG_PLANT },          // Is fungal stalk
+        { "SHRUB",                    TFLAG_SHRUB },          // Is shrub
+        { "TREE",                     TFLAG_TREE },           // Is tree
         { "SUSPENDED",                TFLAG_SUSPENDED },      // This furniture is suspended between other terrain, and will cause a cascading failure on break.
         { "FRIDGE",                   TFLAG_FRIDGE },         // This is an active fridge.
         { "FREEZER",                  TFLAG_FREEZER },        // This is an active freezer.
@@ -209,6 +215,8 @@ static const std::unordered_map<std::string, ter_connects> ter_connects_map = { 
         { "WATER",                    TERCONN_WATER },
         { "PAVEMENT",                 TERCONN_PAVEMENT },
         { "RAIL",                     TERCONN_RAIL },
+        { "GUTTER",                     TERCONN_GUTTER },
+        { "COUNTER",                     TERCONN_COUNTER },
     }
 };
 
@@ -628,7 +636,7 @@ bool map_data_common_t::connects( int &ret ) const
 
 ter_id t_null,
        // Ground
-       t_dirt, t_sand, t_clay, t_dirtmound, t_pit_shallow, t_pit, t_grave, t_grave_new,
+       t_dirt, t_sand, t_clay, t_alluvial_deposit, t_dirtmound, t_pit_shallow, t_pit, t_grave, t_grave_new,
        t_pit_corpsed, t_pit_covered, t_pit_spiked, t_pit_spiked_covered, t_pit_glass, t_pit_glass_covered,
        t_rock_floor,
        t_grass, t_grass_long, t_grass_tall, t_grass_golf, t_grass_dead, t_grass_white, t_moss,
@@ -750,6 +758,7 @@ void set_ter_ids()
     t_dirt = ter_id( "t_dirt" );
     t_sand = ter_id( "t_sand" );
     t_clay = ter_id( "t_clay" );
+    t_alluvial_deposit = ter_id( "t_alluvial_deposit" );
     t_dirtmound = ter_id( "t_dirtmound" );
     t_grave = ter_id( "t_grave" );
     t_grave_new = ter_id( "t_grave_new" );
@@ -1314,6 +1323,7 @@ void ter_t::load( const JsonObject &jo, const std::string &src )
     mandatory( jo, was_loaded, "name", name_ );
     mandatory( jo, was_loaded, "move_cost", movecost );
     assign( jo, "coverage", coverage, is_json_check_strict( src ) );
+    assign( jo, "digging_result", digging_result, is_json_check_strict( src ) );
     assign( jo, "max_volume", max_volume, is_json_check_strict( src ) );
     assign( jo, "trap", trap_id_str, is_json_check_strict( src ) );
 
@@ -1338,6 +1348,8 @@ void ter_t::load( const JsonObject &jo, const std::string &src )
 
     optional( jo, was_loaded, "lockpick_result", lockpick_result, ter_str_id::NULL_ID() );
     optional( jo, was_loaded, "lockpick_message", lockpick_message, translation() );
+    optional( jo, was_loaded, "nail_pull_result", nail_pull_result, ter_str_id::NULL_ID() );
+    optional( jo, was_loaded, "nail_pull_items", nail_pull_items, {0, 0} );
 
     oxytorch = cata::make_value<activity_data_ter>();
     if( jo.has_object( "oxytorch" ) ) {
@@ -1525,6 +1537,7 @@ void furn_t::load( const JsonObject &jo, const std::string &src )
     mandatory( jo, was_loaded, "name", name_ );
     mandatory( jo, was_loaded, "move_cost_mod", movecost );
     optional( jo, was_loaded, "coverage", coverage );
+    optional( jo, was_loaded, "digging_result", digging_result );
     optional( jo, was_loaded, "comfort", comfort, 0 );
     optional( jo, was_loaded, "floor_bedding_warmth", floor_bedding_warmth, 0 );
     optional( jo, was_loaded, "emissions", emissions );
@@ -1537,6 +1550,12 @@ void furn_t::load( const JsonObject &jo, const std::string &src )
     load_symbol( jo );
 
     optional( jo, was_loaded, "light_emitted", light_emitted );
+
+    // see the comment in ter_id::load for connect_group handling
+    connect_group = TERCONN_NONE;
+    if( jo.has_member( "connects_to" ) ) {
+        set_connects( jo.get_string( "connects_to" ) );
+    }
 
     optional( jo, was_loaded, "open", open, furn_str_id::NULL_ID() );
     optional( jo, was_loaded, "close", close, furn_str_id::NULL_ID() );

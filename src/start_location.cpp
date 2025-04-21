@@ -198,7 +198,7 @@ static void board_up( map &m, const tripoint_range<tripoint> &range )
 void start_location::prepare_map( tinymap &m ) const
 {
     const int z = m.get_abs_sub().z;
-    if( flags().count( "BOARDED" ) > 0 ) {
+    if( flags().contains( "BOARDED" ) ) {
         m.build_outside_cache( z );
         board_up( m, m.points_on_zlevel( z ) );
     } else {
@@ -250,9 +250,13 @@ tripoint_abs_omt start_location::find_player_initial_location() const
             const tripoint_abs_omt abs_mid = project_combine( omp, om_mid );
             if( overmap_buffer.place_special( special.id, abs_mid, 0, OMAPX / 2 ) ) {
 
+                omt_find_params find_params{};
+                find_params.types.emplace_back( loc.first, loc.second );
+                find_params.search_range = { 0, OMAPX / 2 };
+                find_params.search_layers = omt_find_all_layers;
+
                 // Now try to find what we spawned
-                const tripoint_abs_omt start = overmap_buffer.find_closest( abs_mid, loc.first,
-                                               OMAPX / 2, false, loc.second );
+                const tripoint_abs_omt start = overmap_buffer.find_closest( abs_mid, find_params );
                 if( start != overmap::invalid_tripoint ) {
                     return start;
                 }
@@ -346,7 +350,7 @@ void start_location::place_player( player &u ) const
     u.setz( g->get_levz() );
     m.invalidate_map_cache( m.get_abs_sub().z );
     m.build_map_cache( m.get_abs_sub().z );
-    const bool must_be_inside = flags().count( "ALLOW_OUTSIDE" ) == 0;
+    const bool must_be_inside = !flags().contains( "ALLOW_OUTSIDE" );
     ///\EFFECT_STR allows player to start behind less-bashable furniture and terrain
     // TODO: Allow using items here
     const int bash = u.get_str();
@@ -445,12 +449,12 @@ void start_location::handle_heli_crash( player &u ) const
         if( bp == bodypart_id( "head" ) || bp == bodypart_id( "torso" ) ) {
             continue;// Skip head + torso for balance reasons.
         }
-        const int roll = static_cast<int>( rng( 1, 8 ) );
+        const int roll = rng( 1, 8 );
         switch( roll ) {
             // Damage + Bleed
             case 1:
             case 2:
-                u.add_effect( effect_bleed, 6_minutes, bp->token );
+                u.add_effect( effect_bleed, 6_minutes, bp.id() );
             /* fallthrough */
             case 3:
             case 4:
@@ -458,7 +462,7 @@ void start_location::handle_heli_crash( player &u ) const
             case 5: {
                 const int maxHp = u.get_hp_max( bp );
                 // Body part health will range from 33% to 66% with occasional bleed
-                const int dmg = static_cast<int>( rng( maxHp / 3, maxHp * 2 / 3 ) );
+                const int dmg = rng( maxHp / 3, maxHp * 2 / 3 );
                 u.apply_damage( nullptr, bp, dmg );
                 break;
             }

@@ -20,8 +20,8 @@
         "|5.....................|",
         "|-=-|..|+-|-+|-+--|-+--|",
         "|..1|..|.S|S.|t..c|....|",
-        "|a.1|..|.t|t.|...c|Ccc.|",
-        "|n.1|..|+-|-+|...c|.cc.|",
+        "|..1|..|.t|t.|...c|Ccc.|",
+        "|..1|..|+-|-+|...c|.cc.|",
         "|lll|..|.&|&.|cccc|.C..|",
         "|----**----------------|",
         ",4,,,,,,,,,,,,,,,,,,,,,,",
@@ -43,13 +43,14 @@
         "*": "t_door_locked",
         "+": "t_door_c",
         "=": "t_door_metal_locked",
-        "I": "t_column",
+        "I": "t_sidewalk",
         "w": "t_window",
         "4": "t_gutter_downspout",
         "#": "t_bars"
       },
       "furniture": {
         "'": "f_street_light",
+        "I": [ [ "f_us_flag_metal", 3 ], "f_flagpole_metal" ],
         "c": "f_counter",
         "x": "f_counter",
         "1": "f_locker",
@@ -65,12 +66,9 @@
         "t": { "item": "trash_cart", "chance": 50 },
         "c": { "item": "kitchen", "chance": 40, "repeat": [ 2, 4 ] },
         "1": { "item": "cop_gear", "chance": 70, "repeat": [ 2, 4 ] },
-        "n": { "item": "pwr_armor", "chance": 15, "repeat": [ 2, 4 ] },
-        "a": { "item": "pwr_armor_acc", "chance": 20, "repeat": [ 2, 4 ] },
         "l": { "item": "cop_armory", "chance": 70, "repeat": [ 2, 4 ] },
         "L": { "item": "cop_evidence", "chance": 60, "repeat": [ 2, 4 ] }
       },
-      "place_loot": [ { "item": "american_flag", "x": 3, "y": 1, "chance": 75 } ],
       "toilets": { "&": {  } },
       "computers": {
         "5": {
@@ -183,7 +181,7 @@
         "|L.L|<.*__,,,,,,,,,,,,,,",
         "|L.L|---|_,,,,,,,,,,,,,,",
         "|L.2FFF.|_,,,,,,,,,,,,,,",
-        "|L...an<|_,,,,,,,,,,,,,,",
+        "|L.....<|_,,,,,,,,,,,,,,",
         "|LLLLLL.|_,,,,,,,,,,,,,,",
         "--------|9,,,,,,,,,,,,,,"
       ],
@@ -200,7 +198,7 @@
         "^": "t_reinforced_door_glass_c",
         "+": "t_door_c",
         "=": "t_door_metal_locked",
-        "I": "t_column",
+        "I": "t_sidewalk",
         "w": "t_window",
         "<": "t_stairs_up",
         "9": "t_gutter_downspout",
@@ -208,6 +206,7 @@
       },
       "furniture": {
         "'": "f_street_light",
+        "I": [ [ "f_us_flag_metal", 3 ], "f_flagpole_metal" ],
         "c": "f_counter",
         "x": "f_counter",
         "1": "f_locker",
@@ -229,13 +228,10 @@
         "c": { "item": "kitchen", "chance": 40 },
         "1": { "item": "cop_gear", "chance": 70 },
         "l": { "item": "cop_armory", "chance": 70 },
-        "n": { "item": "pwr_armor", "chance": 10 },
-        "a": { "item": "pwr_armor_acc", "chance": 15 },
         "L": { "item": "cop_evidence", "chance": 60 },
         "N": { "item": "vending_food_items", "chance": 70, "repeat": [ 4, 12 ] },
         "U": { "item": "vending_drink_items", "chance": 70, "repeat": [ 4, 12 ] }
       },
-      "place_loot": [ { "item": "american_flag", "x": 3, "y": 1, "chance": 75 } ],
       "toilets": { "&": {  } },
       "computers": {
         "5": {
@@ -331,14 +327,19 @@
       "place_loot": [ { "item": "television", "x": 14, "y": 12, "chance": 100 }, { "item": "family_photo", "x": 5, "y": 4, "chance": 100 } ],
       "items": {
         "3": [
-          { "item": "ammo_swat", "chance": 50, "repeat": [ 1, 2 ] },
-          { "item": "guns_swat", "chance": 50, "repeat": [ 1, 2 ] },
-          { "item": "ammo_common", "chance": 20, "repeat": [ 1, 2 ] }
+          { "item": "ammo_swat", "chance": 100 },
+          { "item": "guns_swat", "chance": 100 },
+          { "item": "ammo_swat", "chance": 50 },
+          { "item": "guns_swat", "chance": 50 },
+          { "item": "ammo_common", "chance": 100 }
         ],
         "9": [
-          { "item": "guns_cop", "chance": 50, "repeat": [ 1, 3 ] },
-          { "item": "ammo_cop", "chance": 50, "repeat": [ 1, 3 ] },
-          { "item": "guns_common", "chance": 20, "repeat": [ 1, 3 ] }
+          { "item": "guns_cop", "chance": 100 },
+          { "item": "ammo_cop", "chance": 100 },
+          { "item": "guns_cop", "chance": 50 },
+          { "item": "ammo_cop", "chance": 50 },
+          { "item": "guns_common", "chance": 100 },
+          { "item": "guns_common", "chance": 30 }
         ],
         "7": [
           { "item": "jewelry_front", "chance": 50, "repeat": [ 2, 3 ] },
@@ -451,7 +452,7 @@
         "|.................|,,,,,",
         "|--------*------*-|,,,,,",
         "|llll|5......+$|.<|,,,,,",
-        "|na..=..|----|----|%%%%^",
+        "|....=..|----|----|%%%%^",
         "|1111|..|tccf|4_I_,,,,,^",
         "|----|..|C...|,___,,,,,^",
         "|....|..|T..Y|,,,,,,,,,^",
@@ -479,7 +480,7 @@
         "+": "t_door_c",
         "=": "t_door_metal_locked",
         "0": "t_door_glass_frosted_c",
-        "I": "t_column",
+        "I": "t_sidewalk",
         "w": "t_window",
         "<": "t_ladder_up",
         "4": "t_gutter_downspout",
@@ -487,6 +488,7 @@
       },
       "furniture": {
         "'": "f_street_light",
+        "I": [ [ "f_us_flag_metal", 3 ], "f_flagpole_metal" ],
         "c": "f_counter",
         "x": "f_counter",
         "!": "f_safe_l",
@@ -512,8 +514,6 @@
         "t": { "item": "trash_cart", "chance": 50, "repeat": [ 2, 3 ] },
         "1": { "item": "cop_gear", "chance": 70, "repeat": [ 2, 3 ] },
         "l": { "item": "cop_armory", "chance": 70, "repeat": [ 2, 3 ] },
-        "a": { "item": "pwr_armor_acc", "chance": 15, "repeat": [ 2, 4 ] },
-        "n": { "item": "pwr_armor", "chance": 10, "repeat": [ 2, 4 ] },
         "L": { "item": "cop_evidence", "chance": 60, "repeat": [ 2, 3 ] },
         "D": { "item": "office", "chance": 60, "repeat": [ 2, 3 ] },
         "T": { "item": "dining", "chance": 60, "repeat": [ 2, 3 ] },
@@ -540,8 +540,7 @@
         { "group": "fridge", "x": 12, "y": 13, "chance": 70, "repeat": [ 1, 3 ] },
         { "group": "office", "x": [ 15, 16 ], "y": 3, "chance": 70, "repeat": [ 1, 3 ] },
         { "item": "microwave", "x": 10, "y": 13, "chance": 85 },
-        { "item": "laptop", "x": 17, "y": 3, "chance": 85 },
-        { "item": "american_flag", "x": 16, "y": 14, "chance": 75 }
+        { "item": "laptop", "x": 17, "y": 3, "chance": 85 }
       ],
       "place_monsters": [ { "monster": "GROUP_POLICE", "x": [ 1, 22 ], "y": [ 0, 23 ], "repeat": 4 } ],
       "place_vehicles": [ { "chance": 30, "fuel": 15, "vehicle": "policecar", "x": 20, "y": 19, "rotation": 270 } ]

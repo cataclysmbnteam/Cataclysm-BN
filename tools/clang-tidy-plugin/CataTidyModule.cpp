@@ -1,11 +1,10 @@
 #include <clang/Basic/Version.h>
 #include <llvm/ADT/StringRef.h>
 
-#include "ClangTidyModule.h"
-#include "ClangTidyModuleRegistry.h"
+#include <clang-tidy/ClangTidyModule.h>
+#include <clang-tidy/ClangTidyModuleRegistry.h>
 #include "CombineLocalsIntoPointCheck.h"
 #include "DeterminismCheck.h"
-#include "HeaderGuardCheck.h"
 #include "JsonTranslationInputCheck.h"
 #include "NoLongCheck.h"
 #include "NoStaticGettextCheck.h"
@@ -45,7 +44,6 @@ class CataModule : public ClangTidyModule
             CheckFactories.registerCheck<CombineLocalsIntoPointCheck>(
                 "cata-combine-locals-into-point" );
             CheckFactories.registerCheck<DeterminismCheck>( "cata-determinism" );
-            CheckFactories.registerCheck<CataHeaderGuardCheck>( "cata-header-guard" );
             CheckFactories.registerCheck<JsonTranslationInputCheck>( "cata-json-translation-input" );
             CheckFactories.registerCheck<NoLongCheck>( "cata-no-long" );
             CheckFactories.registerCheck<NoStaticGettextCheck>( "cata-no-static-gettext" );

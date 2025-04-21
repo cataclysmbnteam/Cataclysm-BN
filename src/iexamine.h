@@ -1,6 +1,4 @@
 #pragma once
-#ifndef CATA_SRC_IEXAMINE_H
-#define CATA_SRC_IEXAMINE_H
 
 #include <list>
 #include <optional>
@@ -32,6 +30,7 @@ void vending( player &p, const tripoint &examp );
 void toilet( player &p, const tripoint &examp );
 void elevator( player &p, const tripoint &examp );
 void nanofab( player &p, const tripoint &examp );
+void toggle_lights( player &p, const tripoint &examp );
 void controls_gate( player &p, const tripoint &examp );
 void cardreader( player &p, const tripoint &examp );
 void cardreader_robofac( player &p, const tripoint &examp );
@@ -114,6 +113,7 @@ void workbench( player &p, const tripoint &examp );
 void dimensional_portal( player &p, const tripoint &examp );
 void check_power( player &p, const tripoint &examp );
 void migo_nerve_cluster( player &p, const tripoint &examp );
+void cardreader_plutgen( player &p, const tripoint &examp );
 
 detached_ptr<item> pour_into_keg( const tripoint &pos, detached_ptr<item> &&liquid );
 std::optional<tripoint> getGasPumpByNumber( const tripoint &p, int number );
@@ -142,4 +142,4 @@ void practice_survival_while_foraging( player *p );
 using iexamine_function = void ( * )( player &, const tripoint & );
 iexamine_function iexamine_function_from_string( const std::string &function_name );
 
-#endif // CATA_SRC_IEXAMINE_H
+

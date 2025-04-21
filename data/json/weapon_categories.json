@@ -109,21 +109,15 @@
   },
   {
     "type": "weapon_category",
-    "id": "HAND_AXES",
-    "name": "Hand Axes",
-    "//": "Axe with a short handle, typically wielded in one hand, ocassionally thrown."
-  },
-  {
-    "type": "weapon_category",
     "id": "1H_AXES",
     "name": "One-handed Axes",
-    "//": "Axes meant to be wielded with one hand, typically with a handle longer than the handaxe."
+    "//": "Axes meant to be wielded with one hand."
   },
   {
     "type": "weapon_category",
     "id": "2H_AXES",
     "name": "Two-handed Axes",
-    "//": "Axes meant to be wielded with two hands."
+    "//": "Axes with a handle long enough to allow or require wielding with two hands."
   },
   {
     "type": "weapon_category",
@@ -189,13 +183,13 @@
     "type": "weapon_category",
     "id": "M_XBOWS",
     "name": "Crossbows",
-    "//": "Elastic launching device mounted on a frame to be triggered."
+    "//": "Elastic launching device mounted on a frame to be triggered.  Changes firing sound."
   },
   {
     "type": "weapon_category",
     "id": "S_XBOWS",
     "name": "Hand Crossbows",
-    "//": "One-handed crossbows."
+    "//": "One-handed crossbows.  Changes firing sound."
   },
   {
     "type": "weapon_category",
@@ -255,31 +249,31 @@
     "type": "weapon_category",
     "id": "GRENADE_LAUNCHERS",
     "name": "Grenade Launchers",
-    "//": "Firearm designed to propel large caliber projectile typically loaded with warhead of some kind (smoke, gas, explosive, etc)"
+    "//": "Firearm designed to propel large caliber projectile typically loaded with warhead of some kind (smoke, gas, explosive, etc).  Changes firing sound."
   },
   {
     "type": "weapon_category",
     "id": "ROCKET_LAUNCHERS",
     "name": "Rocket Launchers",
-    "//": "Firearm that propels unguided, rocket-propelled projectile."
+    "//": "Firearm that propels unguided, rocket-propelled projectile.  Changes firing sound."
   },
   {
     "type": "weapon_category",
     "id": "FLAMETHROWERS",
     "name": "Flamethrowers",
-    "//": "Ranged incendiary device designed to propel a controllable jet of fire."
+    "//": "Ranged incendiary device designed to propel a controllable jet of fire.  Changes firing sound."
   },
   {
     "type": "weapon_category",
     "id": "WATER_CANNONS",
     "name": "Water Cannons",
-    "//": "It fires water at your enemies."
+    "//": "It fires water at your enemies.  Changes firing sound."
   },
   {
     "type": "weapon_category",
     "id": "SPRAY_GUNS",
     "name": "Spray Guns",
-    "//": "It spews chemicals at your enemies."
+    "//": "It spews chemicals at your enemies.  Changes firing sound."
   },
   {
     "type": "weapon_category",
@@ -303,24 +297,24 @@
     "type": "weapon_category",
     "id": "ENERGY_WEAPONS",
     "name": "Energy Weapons",
-    "//": "Weapon designed to utilize focused energy (sonic, electromagnetic waves, particle beams, etc). Both Ranged/Melee."
+    "//": "Weapon designed to utilize focused energy (sonic, electromagnetic waves, particle beams, etc).  Both Ranged/Melee.  Changes firing sound (for guns)."
   },
   {
     "type": "weapon_category",
     "id": "MAGNETIC",
     "name": "Magnetic Weapons",
-    "//": "Weapon that propels payload via electromagnetism."
+    "//": "Weapon that propels payload via electromagnetism.  Changes firing sound."
   },
   {
     "type": "weapon_category",
     "id": "PNEUMATIC",
     "name": "Pneumatic Weapons",
-    "//": "Ranged weapon that propels payload via compressed air."
+    "//": "Ranged weapon that propels payload via compressed air.  Changes firing sound."
   },
   {
     "type": "weapon_category",
     "id": "ELASTIC",
     "name": "Elastic",
-    "//": "Ranged weapon that propels payload via elastic band."
+    "//": "Ranged weapon that propels payload via elastic band.  Changes firing sound."
   }
 ]

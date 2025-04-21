@@ -84,7 +84,7 @@
     "items": {
       "B": { "item": "bed", "chance": 60 },
       "d": { "item": "dresser", "chance": 70, "repeat": [ 1, 3 ] },
-      "e": { "item": "fridge", "chance": 70, "repeat": [ 1, 10 ] },
+      "e": { "item": "SUS_fridge", "chance": 80 },
       "j": { "item": "trash", "chance": 65, "repeat": [ 1, 3 ] },
       "o": {
         "item": {
@@ -116,7 +116,8 @@
       "2": [ { "item": "SUS_cookware" }, { "item": "SUS_utensils" } ],
       "3": [ { "item": "SUS_junk_drawer" }, { "item": "SUS_kitchen_sink" } ]
     },
-    "item": { "n": { "item": "television", "chance": 70 } }
+    "item": { "n": { "item": "television", "chance": 70 } },
+    "nested": { "w": { "chunks": [ [ "null", 95 ], [ "house_place_air_conditioner", 5 ] ] } }
   },
   {
     "type": "palette",
@@ -175,7 +176,7 @@
       "O": { "item": "oven", "chance": 70 },
       "S": [ { "item": "softdrugs", "chance": 70 }, { "item": "cleaning", "chance": 50 } ],
       "d": { "item": "dresser", "chance": 70 },
-      "e": { "item": "fridge", "chance": 70 },
+      "e": { "item": "SUS_fridge", "chance": 80 },
       "f": [ { "item": "magazines", "chance": 70 }, { "item": "novels", "chance": 50 } ],
       "o": [
         { "item": "magazines", "chance": 30 },

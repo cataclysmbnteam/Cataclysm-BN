@@ -16,6 +16,7 @@
     "dispersion": 180,
     "durability": 9,
     "modes": [ [ "DEFAULT", "semi", 1 ], [ "AUTO", "auto", 4 ] ],
+    "blackpowder_tolerance": 24,
     "valid_mod_locations": [
       [ "accessories", 4 ],
       [ "barrel", 1 ],
@@ -56,7 +57,7 @@
   },
   {
     "id": "sks",
-    "copy-from": "rifle_manual",
+    "copy-from": "rifle_semi",
     "type": "GUN",
     "name": { "str": "SKS" },
     "description": "Developed by the Soviets in 1945, this rifle was quickly replaced by the full-auto AK47.  However, due to its superb accuracy, low recoil and deployable integrated bayonet, this gun maintains immense popularity.",
@@ -72,6 +73,7 @@
     "dispersion": 90,
     "clip_size": 10,
     "barrel_length": "500 ml",
+    "blackpowder_tolerance": 24,
     "built_in_mods": [ "inter_bayonet" ],
     "magazines": [ [ "762", [ "762x39_clip" ] ] ],
     "flags": [ "RELOAD_ONE", "NEVER_JAMS" ]
@@ -80,7 +82,7 @@
     "id": "aksemi",
     "copy-from": "rifle_auto",
     "type": "GUN",
-    "name": { "str": "AK-47" },
+    "name": { "str": "AK-47 semi" },
     "description": "Civilian-legal clones of the iconic Kalashnikov, like this one, were manufactured and imported by many different firms.  Even without full-auto function, their solid firepower and reliability in harsh conditions make them valuable weapons in this new world.",
     "weight": "3402 g",
     "volume": "4414 ml",
@@ -92,6 +94,7 @@
     "ammo": "762",
     "dispersion": 180,
     "modes": [ [ "DEFAULT", "semi", 1 ] ],
+    "blackpowder_tolerance": 24,
     "valid_mod_locations": [
       [ "accessories", 4 ],
       [ "barrel", 1 ],
@@ -126,6 +129,7 @@
     "ranged_damage": { "damage_type": "bullet", "amount": -5 },
     "durability": 7,
     "modes": [ [ "DEFAULT", "semi", 1 ] ],
+    "blackpowder_tolerance": 24,
     "valid_mod_locations": [
       [ "accessories", 4 ],
       [ "barrel", 1 ],

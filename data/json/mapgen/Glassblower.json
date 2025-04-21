@@ -104,6 +104,7 @@
         "?": "f_sofa",
         "u": "f_brazier"
       },
+      "items": { "U": { "item": "trash_dumpster", "chance": 80 } },
       "toilets": { "t": {  } },
       "place_items": [
         { "item": "glass_shop", "x": [ 20, 20 ], "y": [ 4, 4 ], "chance": 70, "repeat": [ 2, 10 ] },
@@ -160,9 +161,9 @@
         "                        ",
         "                        ",
         "       ****%%v%%v%%%    ",
-        "       *y_h%ssscY_Fv    ",
-        "       *y__+__scY_ev4   ",
-        "       *yh_%______Sv    ",
+        "       *y,h%ssscY_Fv    ",
+        "       *y,,+__scY_ev4   ",
+        "       *yh,%______Sv    ",
         "       ****%_wwwKww%    ",
         "           %_+_w__@%    ",
         "           %>wTwDt@%    ",
@@ -180,7 +181,10 @@
         "=": "t_flat_roof",
         "&": "t_flat_roof",
         "A": "t_flat_roof",
-        ">": "t_stairs_down"
+        ">": "t_stairs_down",
+        ",": "t_floor_noroof",
+        "h": "t_floor_noroof",
+        "y": "t_floor_noroof"
       },
       "furniture": { "@": "f_bed", "K": "f_beaded_door", "h": "f_camp_chair", "D": "f_dresser" },
       "items": {
@@ -216,17 +220,16 @@
         "                        ",
         "                        ",
         "           ---------    ",
-        "        BBB-.......-    ",
-        "        BBB-..:....5    ",
-        "        BBB-.......-    ",
+        "           -.......-    ",
+        "           -..:....5    ",
+        "           -.......-    ",
         "           -....&..-    ",
         "           -.......-    ",
         "           -.......-    ",
         "           ---------    ",
         "                        "
       ],
-      "palettes": [ "roof_palette" ],
-      "terrain": { "B": "t_open_air_rooved" }
+      "palettes": [ "roof_palette" ]
     }
   }
 ]

@@ -93,7 +93,7 @@
     "price_postapoc": "750 cent",
     "bashing": 17,
     "to_hit": -1,
-    "material": [ "hardsteel", "ceramic" ],
+    "material": [ "hardsteel", "rubber", "kevlar" ],
     "symbol": "]",
     "color": "green",
     "diameter": 32,
@@ -159,6 +159,39 @@
     "color": "dark_gray",
     "diameter": 4,
     "width": 1
+  },
+  {
+    "id": "wheel_skateboard",
+    "category": "veh_parts",
+    "type": "WHEEL",
+    "name": { "str": "set of skateboard wheels", "str_pl": "sets of skateboard wheels" },
+    "description": "A set of skateboard wheels.",
+    "weight": "1500 g",
+    "volume": "1250 ml",
+    "price": "20 USD",
+    "price_postapoc": "1 USD",
+    "bashing": 6,
+    "to_hit": -1,
+    "material": [ "steel", "plastic" ],
+    "symbol": "]",
+    "color": "dark_gray",
+    "diameter": 2,
+    "width": 1
+  },
+  {
+    "id": "wheel_mount_skateboard",
+    "type": "GENERIC",
+    "category": "veh_parts",
+    "name": { "str": "pair of skateboard trucks", "str_pl": "pairs of skateboard trucks" },
+    "description": "A pair metal skateboard trucks, for attaching wheels to.",
+    "weight": "600 g",
+    "volume": "250 ml",
+    "price": 200,
+    "price_postapoc": 20,
+    "to_hit": -2,
+    "material": [ "steel" ],
+    "symbol": "]",
+    "color": "dark_gray"
   },
   {
     "id": "wheel_10",
@@ -283,7 +316,7 @@
     "price_postapoc": "1 USD",
     "bashing": 10,
     "to_hit": -1,
-    "material": [ "steel", "plastic" ],
+    "material": [ "steel", "rubber" ],
     "symbol": "]",
     "color": "dark_gray",
     "diameter": 10,
@@ -374,5 +407,30 @@
     "name": { "str": "banded wooden cart wheel" },
     "description": "A wooden cart wheel with metal bands for durability, hand made.",
     "relative": { "weight": 500 }
+  },
+  {
+    "id": "wheel_mount_light_wood",
+    "type": "GENERIC",
+    "name": { "str": "light wooden wheel mount" },
+    "description": "A piece of wood with holes suitable for a bike or motorbike wheel.",
+    "copy-from": "wheel_mount_light",
+    "material": [ "wood" ]
+  },
+  {
+    "id": "makeshift_sled_runners_item",
+    "category": "veh_parts",
+    "type": "WHEEL",
+    "name": { "str_sp": "sled runners" },
+    "description": "Simple wooden runners for a hand-pulled sled.  They make it easier to drag a cart across rough terrain, but that's about all they do.",
+    "weight": "2500 g",
+    "volume": "2500 ml",
+    "price": "5 USD",
+    "bashing": 6,
+    "to_hit": -1,
+    "material": [ "wood" ],
+    "symbol": "]",
+    "color": "brown",
+    "diameter": 1,
+    "width": 1
   }
 ]

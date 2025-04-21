@@ -253,20 +253,6 @@ for it, and will prevent anything that isn't completely ready from being merged 
 It is not required to solve or reference an open issue to file a PR, however, if you do so, you need
 to explain the problem your PR is solving in full detail.
 
-### All PRs should have a `"Summary"` line
-
-Summary is a one-line description of your change that will be extracted and added to the
-[project changelog](../game/changelog/index.md)
-
-The format is: `SUMMARY: Category "description"`
-
-The categories to choose from are: Features, Content, Interface, Mods, Balance, Bugfixes,
-Performance, Infrastructure, Build, I18N.
-
-Example: `SUMMARY: Content "Adds new mutation category 'Mouse'"`
-
-See the [Changelog Guidelines](./changelog_guidelines.md) for explanations of the categories.
-
 ### Closing issues using keywords
 
 One more thing: when marking your PR as closing, fixing, or resolving issues, please include this

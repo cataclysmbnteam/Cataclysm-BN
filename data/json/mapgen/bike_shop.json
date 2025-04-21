@@ -36,7 +36,7 @@
       "vendingmachines": { "D": { "item_group": "vending_drink" }, "F": { "item_group": "vending_food" } },
       "items": {
         "&": { "item": "trash", "chance": 70 },
-        "@": { "item": "trash", "chance": 90 },
+        "@": { "item": "trash_dumpster", "chance": 80 },
         "c": { "item": "bikeshop_for_sale", "chance": 60, "repeat": [ 1, 4 ] },
         "r": { "item": "bikeshop_tools", "chance": 80, "repeat": [ 1, 4 ] },
         "l": { "item": "jackets", "chance": 60 }
@@ -144,7 +144,7 @@
       "terrain": { "<": "t_stairs_up" },
       "items": {
         "&": { "item": "trash", "chance": 70 },
-        "@": { "item": "trash", "chance": 90 },
+        "@": { "item": "trash_dumpster", "chance": 80 },
         "c": { "item": "bikeshop_for_sale", "chance": 60, "repeat": [ 1, 4 ] },
         "f": { "item": "fridge", "chance": 70, "repeat": [ 1, 8 ] },
         "l": { "item": "jackets", "chance": 60 },

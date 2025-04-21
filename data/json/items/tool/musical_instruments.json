@@ -41,7 +41,7 @@
     "price": "50 USD",
     "price_postapoc": "1 USD",
     "bashing": 2,
-    "material": "bone",
+    "material": [ "bone" ],
     "symbol": "-",
     "color": "white",
     "initial_charges": 1,
@@ -58,6 +58,29 @@
         "You play a beautiful piece on your flute.",
         "You play a piece on your bone flute that resembles the howling wind through Aurignacian caves.",
         "Your bone flute wails for the fallen during the hunt."
+      ]
+    }
+  },
+  {
+    "id": "wood_flute",
+    "type": "TOOL",
+    "name": { "str": "wooden flute" },
+    "copy-from": "bone_flute",
+    "description": "A simple flute carved from wood with five finger holes.",
+    "material": [ "wood" ],
+    "color": "brown",
+    "use_action": {
+      "type": "musical_instrument",
+      "volume": 12,
+      "fun": -5,
+      "fun_bonus": 2,
+      "speed_penalty": 10,
+      "description_frequency": 20,
+      "player_descriptions": [
+        "You play a little tune on your flute.",
+        "You play a beautiful piece on your flute.",
+        "You play a piece on your flute that resembles the howling wind through Aurignacian caves.",
+        "Your flute wails for the fallen during the hunt."
       ]
     }
   },
