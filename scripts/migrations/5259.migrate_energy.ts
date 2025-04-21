@@ -7,7 +7,7 @@
 
 import { bgBrightYellow } from "@std/fmt/colors"
 import { Command } from "@cliffy/command"
-import { alias, mapMany, omitEmpty, recursivelyReadJSON, writeMany } from "../utils.ts"
+import { alias, mapMany, omitEmpty, oneOrMany, recursivelyReadJSON, writeMany } from "../utils.ts"
 import * as v from "@valibot/valibot"
 import { omit, partition } from "@std/collections"
 
@@ -39,14 +39,13 @@ export const GunsMigrateEnergy = v.pipe(
   v.transform((x) => alias(x, { ups_charges: "power_draw" })),
 )
 
+const Battery = v.literal("battery")
+
 export const ItemMigrateEnergy = v.pipe(
   v.looseObject({
     type: v.pipe(v.string(), v.transform((type) => type === "MAGAZINE" ? "BATTERY" : type)),
-    ammo: v.optional(v.union([
-      v.literal("battery"),
-      v.tuple([v.literal("battery")]),
-    ])),
-    ammo_type: v.optional(v.literal("battery")),
+    ammo: v.optional(oneOrMany(Battery)),
+    ammo_type: v.optional(Battery),
     charges_per_use: v.optional(NatToKJ),
     charges_to_use: v.optional(NatToKJ),
     initial_charges: v.optional(NatToKJ),
@@ -64,7 +63,7 @@ export const ItemMigrateEnergy = v.pipe(
         v.transform((entries) => partition(entries, ([key]) => key === "battery")),
       ),
     ),
-    use_action: v.optional(v.union([ItemTransformMigrateEnergy, v.unknown()])),
+    use_action: v.optional(v.union([oneOrMany(ItemTransformMigrateEnergy), v.unknown()])),
   }),
   v.check(
     (x) => (x.ammo != null || x.ammo_type === "battery" || x.power_draw != null),
