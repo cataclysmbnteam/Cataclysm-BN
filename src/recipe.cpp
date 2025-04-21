@@ -586,7 +586,7 @@ std::function<bool( const item & )> recipe::get_component_filter(
 
 
     return [ rotten_filter, magazine_filter ]( const item & component ) {
-        return is_crafting_component_allow_filthy( component ) &&
+        return is_crafting_component( component ) &&
                rotten_filter( component ) &&
                magazine_filter( component );
     };
