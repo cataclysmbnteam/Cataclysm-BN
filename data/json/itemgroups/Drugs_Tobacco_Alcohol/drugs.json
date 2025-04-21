@@ -197,6 +197,7 @@
       [ "cigar", 10 ],
       [ "handrolled_cig", 10 ],
       [ "ecig", 20 ],
+      [ "dab_pen", 10 ],
       [ "advanced_ecig", 10 ]
     ]
   },

@@ -246,6 +246,8 @@
       [ "seed_weed", 5 ],
       [ "seed_tobacco", 5 ],
       [ "rolling_paper", 45 ],
+      [ "dab_pen", 5 ],
+      [ "thc_liquid", 5 ],
       [ "pipe_glass", 20 ],
       [ "cig", 60 ],
       [ "chaw", 60 ]

@@ -890,6 +890,24 @@
     "count": 50
   },
   {
+    "type": "AMMO",
+    "id": "thc_liquid",
+    "category": "drugs",
+    "price": "40 USD",
+    "looks_like": "honey_gold",
+    "price_postapoc": "10 USD",
+    "name": { "str": "thc distillate" },
+    "symbol": "=",
+    "color": "light_green",
+    "description": "A liquid that is made up of propylene glycol, terpenes, and THC.",
+    "container": "bottle_plastic_small",
+    "phase": "liquid",
+    "volume": "250 ml",
+    "weight": "2 g",
+    "ammo_type": "components",
+    "count": 50
+  },
+  {
     "id": "fish_bait",
     "type": "AMMO",
     "category": "other",
