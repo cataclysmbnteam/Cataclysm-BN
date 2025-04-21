@@ -279,8 +279,7 @@ class activity_actor
          * anything above 0 is a valid number
          * anything below 0 is invalid, promting to use default formula
         */
-        virtual float calc_tools_factor( const std::vector<safe_reference<item>> /*tools*/,
-                                         const std::vector<activity_req<quality_id>> &/*qualities*/,
+        virtual float calc_tools_factor( const std::vector<activity_req<quality_id>> &/*qualities*/,
                                          const inventory &/*inv*/ ) const {
             return -1.0f;
         }
