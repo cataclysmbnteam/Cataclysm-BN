@@ -132,11 +132,6 @@ if (NOT DYNAMIC_LINKING)
     set(CMAKE_SHARED_LIBRARY_CXX_FLAGS)
     set(CMAKE_SHARED_LIBRARY_LINK_C_FLAGS)    # remove -rdynamic
     set(CMAKE_SHARED_LIBRARY_LINK_CXX_FLAGS)
-else ()
-    if (MINGW AND NOT "${CMAKE_CXX_COMPILER_ID}" MATCHES "Clang")
-        # Avoid depending on MinGW runtime DLLs
-        set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -static-libgcc -static-libstdc++")
-    endif ()
 endif ()
 
 message(STATUS "${PROJECT_NAME} build options --")
