@@ -1,24 +1,24 @@
 #include "activity_actor_definitions.h"
 #include "salvage.h"
 
-#include <vector>
 #include <set>
 #include <unordered_map>
+#include <vector>
 
 #include "activity_speed.h"
 #include "character.h"
 #include "flag.h"
-#include "game.h"
+#include "itype.h"
 #include "json.h"
 #include "map.h"
 #include "material.h"
 #include "messages.h"
+#include "options.h"
 #include "output.h"
 #include "player_activity.h"
+#include "popup.h"
 #include "recipe_dictionary.h"
-#include "itype.h"
 #include "type_id.h"
-#include "options.h"
 
 const skill_id skill_fabrication( "fabrication" );
 
@@ -92,8 +92,14 @@ bool yn_ignore_query( const std::string &text, bool &ignore )
     return false;
 }
 
+inline bool try_salvage_silent( Character &who, const item &it )
+{
+    bool mute = true;
+    return try_salvage( who, it, mute, mute );
+}
+
 // It is used to check if an item can be salvaged or not.
-bool try_salvage( Character &who, item &it, bool mute, bool mute_promts )
+bool try_salvage( Character &who, const item &it, bool mute, bool mute_promts )
 {
     if( it.is_null() ) {
         if( !mute ) {
@@ -268,7 +274,7 @@ bool has_salvage_tools( const inventory &inv, const material_id &material )
 //Checks if inventory has tools to salvage an item
 //strict = false - check if atleast one material is salvagable with current tools
 //strict = true - check all materials
-bool has_salvage_tools( const inventory &inv, item &item, bool strict )
+bool has_salvage_tools( const inventory &inv, const item &item, bool strict )
 {
     for( auto &material : item.made_of() ) {
         if( has_salvage_tools( inv, material ) ) {
@@ -322,6 +328,7 @@ bool salvage::salvage_all( Character &who )
         return false;
     }
 }
+
 } // namespace salvage
 
 

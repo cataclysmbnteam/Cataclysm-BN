@@ -4,7 +4,6 @@
 #include <vector>
 
 #include "type_id.h"
-#include "units.h"
 
 class Character;
 class inventory;
@@ -18,12 +17,8 @@ void populate_salvage_materials( quality &q );
 namespace salvage
 {
 
-bool try_salvage( Character &who, item &it, bool mute, bool mute_promts );
-bool try_salvage_silent( Character &who, item &it )
-{
-    bool mute = true;
-    return try_salvage( who, it, mute, mute );
-}
+bool try_salvage_silent( Character &who, const item &it );
+bool try_salvage( Character &who, const item &it, bool mute, bool mute_promts );
 
 std::set<material_id> can_salvage_materials( const item &it );
 

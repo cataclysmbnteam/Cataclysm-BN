@@ -8,7 +8,6 @@
 #include "character_stat.h"
 #include "crafting.h"
 #include "type_id.h"
-#include "safe_reference.h"
 
 class Character;
 class inventory;

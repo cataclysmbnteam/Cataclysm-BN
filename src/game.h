@@ -15,7 +15,6 @@
 #include <utility>
 #include <vector>
 
-#include "action.h"
 #include "calendar.h"
 #include "character_id.h"
 #include "coordinates.h"

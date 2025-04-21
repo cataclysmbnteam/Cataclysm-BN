@@ -11,13 +11,13 @@
 #include "locations.h"
 #include "memory_fast.h"
 #include "pickup_token.h"
-#include "construction_partial.h"
 #include "point.h"
 #include "type_id.h"
 #include "units_energy.h"
 
 class Creature;
 class vehicle;
+class partial_con;
 
 class aim_activity_actor : public activity_actor
 {
