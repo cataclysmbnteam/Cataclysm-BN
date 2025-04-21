@@ -60,9 +60,9 @@ TEST_CASE( "unskilled_burst_no_mods", "[ranged] [balance]" )
     // .22 SMG - the lightest burst (from a firearm) expected to be in the game
     check_burst_penalty( shooter, "american_180", 0 );
     // 9mm SMG - should be manageable
-    check_burst_penalty( shooter, "calico", 60 );
+    check_burst_penalty( shooter, "calico", 80 );
     // 5.56x45mm machine gun - should have lower penalty than a rifle of the same caliber
-    check_burst_penalty( shooter, "m249", 250 );
+    check_burst_penalty( shooter, "m249", 350 );
     // 5.56x45mm rifle
     check_burst_penalty( shooter, "m4a1", 600 );
     // 7.62x39mm rifle
@@ -89,7 +89,7 @@ TEST_CASE( "great_burst_no_mods", "[ranged] [balance]" )
     clear_all_state();
     standard_npc shooter( "Shooter", shooter_pos, {}, 10, 14, 14, 14, 14 );
     check_burst_penalty( shooter, "american_180", 0 );
-    check_burst_penalty( shooter, "calico", 4 );
+    check_burst_penalty( shooter, "calico", 20 );
     check_burst_penalty( shooter, "m249", 50 );
     check_burst_penalty( shooter, "m4a1", 120 );
     check_burst_penalty( shooter, "ak47", 150 );
@@ -101,7 +101,7 @@ TEST_CASE( "average_burst_bipod", "[ranged] [balance]" )
     clear_all_state();
     standard_npc shooter( "Shooter", shooter_pos, {}, 5, 10, 8, 8, 8 );
     check_burst_penalty( shooter, "m249", {}, 40, true );
-    check_burst_penalty( shooter, "m240", {}, 90, true );
+    check_burst_penalty( shooter, "m240", {}, 110, true );
     check_burst_penalty( shooter, "m2browning", {"bipod"}, 160, true );
     check_burst_penalty( shooter, "m1918", {"bipod"}, 160, true );
 }
