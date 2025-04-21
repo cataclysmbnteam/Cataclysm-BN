@@ -157,10 +157,7 @@
   {
     "type": "item_group",
     "id": "vending_items_pet",
-    "items": [
-      { "group": "petstore_misc", "prob": 100 },
-      { "group": "animalshelter_toys", "prob": 100 }
-    ]
+    "items": [ { "group": "petstore_misc", "prob": 100 }, { "group": "animalshelter_toys", "prob": 100 } ]
   },
   {
     "type": "item_group",
