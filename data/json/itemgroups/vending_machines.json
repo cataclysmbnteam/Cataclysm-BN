@@ -148,9 +148,10 @@
     "items": [
       { "item": "umbrella", "prob": 10 },
       { "item": "teleumbrella", "prob": 10 },
-      { "group": "home_hw", "prob": 50 },
-      { "group": "tools_common", "prob": 50 },
-      { "group": "cleaning", "prob": 30 }
+      { "item": "pen", "count": [ 1, 5 ], "prob": 50 },
+      { "item": "usb_drive", "prob": 30 },
+      { "group": "tools_drawer", "prob": 50 },
+      { "group": "tools_cleaning_small", "prob": 30 }
     ]
   },
   {
