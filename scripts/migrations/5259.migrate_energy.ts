@@ -56,7 +56,12 @@ export const ItemMigrateEnergy = v.pipe(
       v.string(),
       v.pipe(Nat, v.transform((x) => x % 1000000 === 0 ? fmtKJ(x / 1000000) : fmtJ(x / 1000))),
     ])),
-    magazine_well: v.optional(v.string()),
+    magazine_well: v.optional(
+      v.union([
+        v.string(),
+        v.pipe(v.number(), v.transform((x) => `${Math.floor(x * 250)} ml`)),
+      ]),
+    ),
     magazines: v.optional(
       v.pipe(
         v.array(v.tuple([v.string(), v.array(v.string())])),
