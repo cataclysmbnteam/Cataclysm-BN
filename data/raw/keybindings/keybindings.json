@@ -3558,5 +3558,37 @@
     "category": "ADVANCED_INVENTORY",
     "//": "Toggles option AIM_AUTORESET_FILTER",
     "bindings": [ { "input_method": "keyboard", "key": "T" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "YES",
+    "category": "YN_IGNORE_QUERY",
+    "name": "Yes",
+    "bindings": [ { "input_method": "keyboard", "key": "Y" }, { "input_method": "keyboard", "key": "y" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "ABORT",
+    "category": "YN_IGNORE_QUERY",
+    "name": "Abort",
+    "bindings": [
+      { "input_method": "keyboard", "key": "A" },
+      { "input_method": "keyboard", "key": "a" },
+      { "input_method": "keyboard", "key": "ESC" }
+    ]
+  },
+  {
+    "type": "keybinding",
+    "id": "SKIP",
+    "category": "YN_IGNORE_QUERY",
+    "name": "Skip",
+    "bindings": [ { "input_method": "keyboard", "key": "S" }, { "input_method": "keyboard", "key": "s" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "IGNORE",
+    "category": "YN_IGNORE_QUERY",
+    "name": "Ignore further promts and finish",
+    "bindings": [ { "input_method": "keyboard", "key": "I" }, { "input_method": "keyboard", "key": "i" } ]
   }
 ]

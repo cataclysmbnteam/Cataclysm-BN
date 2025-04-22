@@ -290,27 +290,35 @@ void activity_speed::calc_morale_factor( const Character &who )
 void activity_speed::find_best_bench( const tripoint &pos, const metric metrics )
 {
     map &here = get_map();
-    std::optional<bench_loc> bench_tmp;
     bench = bench_loc(
                 workbench_info_wrapper(
                     *string_id<furn_t>( "f_ground_crafting_spot" )->workbench ),
                 pos );
     bench_factor_custom_formula( *bench, metrics );
 
+    auto bench_tmp = bench_loc(
+                         workbench_info_wrapper(
+                             *string_id<furn_t>( "f_fake_bench_hands" )->workbench ),
+                         pos );
+    bench_factor_custom_formula( bench_tmp, metrics );
+    if( bench_tmp.wb_info.multiplier_adjusted > bench->wb_info.multiplier_adjusted ) {
+        bench = bench_tmp;
+    }
+
     std::vector<tripoint> reachable( PICKUP_RANGE * PICKUP_RANGE );
     here.reachable_flood_steps( reachable, pos, PICKUP_RANGE, 1, 100 );
     for( const tripoint &adj : reachable ) {
         if( const auto &wb = here.furn( adj )->workbench ) {
             bench_tmp = bench_loc( workbench_info_wrapper( *wb ), adj );
-            bench_factor_custom_formula( *bench_tmp, metrics );
-            if( bench_tmp->wb_info.multiplier_adjusted > bench->wb_info.multiplier_adjusted ) {
+            bench_factor_custom_formula( bench_tmp, metrics );
+            if( bench_tmp.wb_info.multiplier_adjusted > bench->wb_info.multiplier_adjusted ) {
                 bench = bench_tmp;
             }
         } else if( const auto &vp = here.veh_at( adj ).part_with_feature( "WORKBENCH", true ) ) {
             if( const auto &wb_info = vp->part().info().get_workbench_info() ) {
                 bench_tmp = bench_loc( workbench_info_wrapper( *wb_info ), adj );
-                bench_factor_custom_formula( *bench_tmp, metrics );
-                if( bench_tmp->wb_info.multiplier_adjusted > bench->wb_info.multiplier_adjusted ) {
+                bench_factor_custom_formula( bench_tmp, metrics );
+                if( bench_tmp.wb_info.multiplier_adjusted > bench->wb_info.multiplier_adjusted ) {
                     bench = bench_tmp;
                 }
             } else {

@@ -680,8 +680,9 @@ class salvage_activity_actor : public activity_actor
         salvage_activity_actor() = default;
         salvage_activity_actor(
             iuse_locations &&targets,
-            tripoint_abs_ms pos
-        ) : targets( std::move( targets ) ), pos( pos ) {}
+            tripoint_abs_ms pos,
+            bool mute_promts = false
+        ) : targets( std::move( targets ) ), pos( pos ), mute_promts( mute_promts ) {}
 
         ~salvage_activity_actor() = default;
 
@@ -690,10 +691,6 @@ class salvage_activity_actor : public activity_actor
         }
 
         void calc_all_moves( player_activity & /*act*/, Character &/*who*/ ) override;
-        //float calc_tools_factor( const std::vector<safe_reference<item>> tools,
-        //                         const std::vector<activity_req<quality_id>> &/*qualities*/,
-        //                         const inventory &/*inv*/ ) const override;
-
 
         void start( player_activity &act, Character &who ) override;
         void do_turn( player_activity &/*act*/, Character &/*who*/ ) override;

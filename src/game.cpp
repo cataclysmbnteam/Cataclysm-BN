@@ -8629,7 +8629,7 @@ void game::butcher()
         }
         break;
         case BUTCHER_SALVAGE: {
-            item *const target = disassembly_stacks[indexer_index].first;
+            item *const target = salvage_stacks[indexer_index].first;
             salvage::salvage_single( u, *target );
 
         }
