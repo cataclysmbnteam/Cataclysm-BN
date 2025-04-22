@@ -1415,7 +1415,7 @@ class salvage_inventory_preset : public inventory_selector_preset
     public:
         salvage_inventory_preset( const player &p, const inventory &inv ) : p( p ), inv( inv ) {
 
-            append_cell( [this]( const item * loc ) {
+            append_cell( []( const item * loc ) {
                 auto components = salvage::salvage_results( *loc );
                 return enumerate_as_string( components.begin(), components.end(),
                 []( const decltype( components )::value_type & comps ) {

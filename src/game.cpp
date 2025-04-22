@@ -8393,8 +8393,6 @@ static void butcher_submenu( const std::vector<item *> &corpses, int corpse = -1
 
 void game::butcher()
 {
-    map &here = get_map();
-
     if( u.controlling_vehicle ) {
         add_msg( m_info, _( "You can't butcher while driving!" ) );
         return;
