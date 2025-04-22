@@ -477,6 +477,7 @@ void salvage_activity_actor::do_turn( player_activity &act, Character &who )
             debugmsg( "Lost target of ", get_type() );
             act.set_to_null();
         } else {
+            //yes this should NOT be a reference
             inventory inv = who.crafting_inventory();
             switch( salvage::try_salvage( who, *target.loc, inv, false, mute_promts ) ) {
                 case salvage::q_result::ignore:
