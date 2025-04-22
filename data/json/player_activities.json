@@ -124,7 +124,8 @@
     "rooted": true,
     "no_resume": true,
     "refuel_fires": true,
-    "auto_needs": true
+    "auto_needs": true,
+    "verbose_tooltip": false
   },
   {
     "id": "ACT_CRAFT",
@@ -309,7 +310,8 @@
     "verb": "waiting",
     "rooted": true,
     "no_resume": true,
-    "auto_needs": true
+    "auto_needs": true,
+    "verbose_tooltip": false
   },
   {
     "id": "ACT_FIRSTAID",
@@ -614,14 +616,16 @@
     "type": "activity_type",
     "verb": "interacting with the NPC",
     "rooted": true,
-    "no_resume": true
+    "no_resume": true,
+    "verbose_tooltip": false
   },
   {
     "id": "ACT_WAIT_STAMINA",
     "type": "activity_type",
     "verb": "catching breath",
     "rooted": true,
-    "no_resume": true
+    "no_resume": true,
+    "verbose_tooltip": false
   },
   {
     "id": "ACT_CLEAR_RUBBLE",
