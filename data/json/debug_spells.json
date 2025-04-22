@@ -230,5 +230,23 @@
     "energy_source": "MANA",
     "min_duration": 400,
     "max_duration": 400
+  },
+  {
+    "id": "debug_antirat_cheese",
+    "type": "SPELL",
+    "name": "Debug Anti-rat Cheese Spawning",
+    "description": "You summon some cheese, but not if you're a rat.",
+    "message": "Passed the anti-rat test",
+    "blocker_mutations": [ "THRESH_RAT", "CLAWS_RAT" ],
+    "valid_targets": [ "self" ],
+    "effect": "spawn_item",
+    "effect_str": "cheese",
+    "min_range": 1,
+    "max_range": 1,
+    "base_casting_time": 100,
+    "base_energy_cost": 100,
+    "energy_source": "MANA",
+    "min_duration": 400,
+    "max_duration": 400
   }
 ]
