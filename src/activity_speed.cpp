@@ -204,27 +204,6 @@ void activity_speed::calc_stats_factors( const Character &who )
     }
 }
 
-float activity_speed::calc_quality_factor( const activity_req<quality_id> &q, int q_level )
-{
-    q_level = q_level - q.threshold;
-
-    if( q.req == qual_CUT_FINE ) {
-        float cut_fine_f = 2.0f * std::pow( q_level, 3 )
-                           - 10.0f * std::pow( q_level, 2 )
-                           + 32.0f * q_level + q.mod;
-        return cut_fine_f;
-    }
-
-    if( q_level == 0 ) {
-        return 0.0f;
-    }
-
-    if( q.req == qual_BUTCHER ) {
-        return q_level * q.mod;
-    }
-
-    return  q.mod * q_level / ( q_level + 1.75f );
-}
 float activity_speed::get_best_qual_mod( const activity_req<quality_id> &q,
         const inventory &inv )
 {
@@ -236,8 +215,22 @@ float activity_speed::get_best_qual_mod( const activity_req<quality_id> &q,
         }
         return VisitResponse::NEXT;
     } );
+    q_level = q_level - q.threshold;
 
-    return calc_quality_factor( q, q_level );
+    if( q.req == qual_CUT_FINE ) {
+        float cut_fine_f = 2.0f * std::pow( q_level, 3 )
+                           - 10.0f * std::pow( q_level, 2 )
+                           + 32.0f * q_level + q.mod;
+        return cut_fine_f;
+    }
+    if( q_level == 0 ) {
+        return 0.0f;
+    }
+    if( q.req == qual_BUTCHER ) {
+        return q_level * q.mod;
+    }
+
+    return  q.mod * q_level / ( q_level + 1.75f );
 }
 
 void activity_speed::calc_tools_factor( Character &who,

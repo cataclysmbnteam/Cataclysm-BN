@@ -8,7 +8,6 @@
 
 #include "activity_type.h"
 #include "calendar.h"
-#include "safe_reference.h"
 #include "type_id.h"
 #include "units.h"
 

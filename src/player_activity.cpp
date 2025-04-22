@@ -547,6 +547,7 @@ void player_activity::do_turn( player &p )
         type->call_do_turn( this, &p );
     }
 
+
     /*
     * Stamina block
     */

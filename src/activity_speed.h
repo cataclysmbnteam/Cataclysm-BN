@@ -36,8 +36,7 @@ using stat_factors = std::vector<std::pair<character_stat, float>>;
 using skill_reqs = std::vector<activity_req<skill_id>>;
 
 using morale_factor_fn = std::function<float( const Character & )>;
-using tools_factor_fn =
-    std::function<float( const q_reqs &, const inventory & )>;
+using tools_factor_fn = std::function<float( const q_reqs &, const inventory & )>;
 using stats_factor_fn = std::function<stat_factors( const Character &, const stat_reqs & )>;
 using skills_factor_fn = std::function<float( const Character &, const skill_reqs & )>;
 using bench_factor_fn = std::function<void( bench_loc &, const metric & )>;
@@ -121,11 +120,4 @@ class activity_speed
                                 const std::vector<activity_req<quality_id>> &quality_reqs );
         static float get_best_qual_mod( const activity_req<quality_id> &q,
                                         const inventory &inv );
-        static float calc_quality_factor( const activity_req<quality_id> &q, int q_level );
-        static float calc_quality_factor( std::pair<quality_id, int> &q ) {
-            return calc_quality_factor( activity_req<quality_id>( q.first ), q.second );
-        }
-        static float calc_quality_factor( std::pair<const quality_id, int> &q ) {
-            return calc_quality_factor( activity_req<quality_id>( q.first ), q.second );
-        }
 };
