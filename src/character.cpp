@@ -11196,8 +11196,8 @@ const recipe_subset &Character::get_learned_recipes() const
 {
     if( *_skills != *autolearn_skills_stamp ) {
         for( const auto &r : recipe_dict.all_autolearn() ) {
-            if( meets_skill_requirements( r->autolearn_requirements ) ) {
-                learned_recipes->include( r );
+            if( r && meets_skill_requirements( r->autolearn_requirements ) ) {
+                learned_recipes->include( *r );
             }
         }
         *autolearn_skills_stamp = *_skills;
@@ -11760,7 +11760,7 @@ bool Character::studied_all_recipes( const itype &book ) const
         return true;
     }
     for( auto &elem : book.book->recipes ) {
-        if( !knows_recipe( elem.recipe ) ) {
+        if( elem.recipe && !knows_recipe( *elem.recipe ) ) {
             return false;
         }
     }
@@ -11775,9 +11775,9 @@ recipe_subset Character::get_recipes_from_books( const inventory &crafting_inv,
     for( const auto &stack : crafting_inv.const_slice() ) {
         const item &candidate = *stack->front();
 
-        for( std::pair<const recipe *, int> recipe_entry :
+        for( std::pair<const recipe &, int> recipe_entry :
              candidate.get_available_recipes( *this ) ) {
-            if( filter && !filter( *recipe_entry.first ) ) {
+            if( filter && !filter( recipe_entry.first ) ) {
                 continue;
             }
             res.include( recipe_entry.first, recipe_entry.second );
@@ -11835,5 +11835,5 @@ int Character::has_recipe( const recipe &r, const inventory &crafting_inv,
     }
 
     const auto available = get_available_recipes( crafting_inv, &helpers );
-    return available.contains( *r ) ? available.get_custom_difficulty( r ) : -1;
+    return available.contains( r ) ? available.get_custom_difficulty( r ) : -1;
 }

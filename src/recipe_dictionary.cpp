@@ -547,11 +547,11 @@ void recipe_subset::include( const recipe_subset &subset )
     }
 }
 
-int recipe_subset::get_custom_difficulty( const recipe *r ) const
+int recipe_subset::get_custom_difficulty( const recipe &r ) const
 {
-    const auto iter = difficulties.find( r );
+    const auto iter = difficulties.find( &r );
     if( iter != difficulties.end() ) {
         return iter->second;
     }
-    return r->difficulty;
+    return r.difficulty;
 }

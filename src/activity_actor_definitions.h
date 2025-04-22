@@ -112,16 +112,16 @@ class autodrive_activity_actor : public activity_actor
 class crafting_activity_actor : public activity_actor
 {
     private:
-        iuse_location target_;
-        recipe recipe_;
+        iuse_location target;
+        recipe rec;
         bool is_long = false;
 
     public:
         crafting_activity_actor() = default;
         crafting_activity_actor(
-            iuse_location &&target,
+            iuse_location &&target_,
             bool is_long
-        ) : target_( std::move( target ) ), is_long( is_long ) {
+        ) : target( std::move( target_ ) ), is_long( is_long ) {
         }
         ~crafting_activity_actor() = default;
 

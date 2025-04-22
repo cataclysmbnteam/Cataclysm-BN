@@ -109,7 +109,7 @@ class recipe_subset
          * Get custom difficulty for the recipe.
          * @return Either custom difficulty if it was specified, or recipe default difficulty.
          */
-        int get_custom_difficulty( const recipe *r ) const;
+        int get_custom_difficulty( const recipe &r ) const;
 
         /** Check if there is any recipes in given category (optionally restricted to subcategory) */
         bool empty_category(

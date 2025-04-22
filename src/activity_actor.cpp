@@ -460,8 +460,8 @@ std::unique_ptr<activity_actor> autodrive_activity_actor::deserialize( JsonIn & 
 
 inline void crafting_activity_actor::calc_all_moves( player_activity &act, Character &who )
 {
-    auto reqs = activity_reqs_adapter( recipe_ );
-    act.calc_all_moves( who, reqs );
+    auto reqs = activity_reqs_adapter( rec, target.loc->weight(), target.loc->volume() );
+    act.speed.calc_all_moves( who, reqs );
 }
 
 
@@ -473,9 +473,9 @@ inline void crafting_activity_actor::adjust_bench_multiplier( bench_location &be
 
 void crafting_activity_actor::start( player_activity &act, Character &who )
 {
-    item *craft = &*target_.loc;
+    item *craft = &*target.loc;
 
-    int total_time = std::max( 1, recipe_.batch_time() );
+    int total_time = std::max( 1, rec.batch_time( 1 ) );
     int left = craft->item_counter == 0
                ? total_time
                : total_time - craft->item_counter / 10'000'000.0 * total_time;
@@ -509,7 +509,7 @@ void crafting_activity_actor::start( player_activity &act, Character &who )
 
 void crafting_activity_actor::do_turn( player_activity &act, Character &who )
 {
-    item *craft = &*target_.loc;
+    item *craft = &*target.loc;
 
     // item_location::get_item() will return nullptr if the item is lost
     if( !craft ) {
@@ -549,15 +549,15 @@ void crafting_activity_actor::do_turn( player_activity &act, Character &who )
 
 void crafting_activity_actor::finish( player_activity &act, Character &who )
 {
-    item *craft = &*target_.loc;
+    item *craft = &*target.loc;
     //TODO!: CHEEKY check
     item *craft_copy = craft;
     who.cancel_activity();
     complete_craft( who, *craft_copy );
-    target_.loc->detach();
+    target.loc->detach();
     if( is_long ) {
-        if( who.making_would_work( recipe_.ident(), craft_copy->charges ) ) {
-            who.last_craft->execute( bench_pos );
+        if( who.making_would_work( rec.ident(), craft_copy->charges ) ) {
+            who.last_craft->execute();
         }
     }
 }
@@ -572,9 +572,9 @@ float crafting_activity_actor::calc_morale_factor( const Character &who ) const
 
     // Harder jobs are more frustrating, even when skilled
     // For each skill where skill=difficulty, multiply effective morale by 200%
-    float morale_mult = std::max( 1.0f, 2.0f * recipe_.difficulty / std::max( 1,
-                                  who.get_skill_level( recipe_.skill_used ) ) );
-    for( const std::pair<const skill_id, int> &pr : recipe_.required_skills ) {
+    float morale_mult = std::max( 1.0f, 2.0f * rec.difficulty / std::max( 1,
+                                  who.get_skill_level( rec.skill_used ) ) );
+    for( const std::pair<const skill_id, int> &pr : rec.required_skills ) {
         morale_mult *= std::max( 1.0f, 2.0f * pr.second / std::max( 1, who.get_skill_level( pr.first ) ) );
     }
 
@@ -586,7 +586,7 @@ float crafting_activity_actor::calc_morale_factor( const Character &who ) const
 
 bool crafting_activity_actor::assistant_capable( const Character &who ) const
 {
-    return assistant_capable( who, recipe_ );
+    return assistant_capable( who, rec );
 }
 
 bool crafting_activity_actor::assistant_capable( const Character &who, const recipe &recipe )
