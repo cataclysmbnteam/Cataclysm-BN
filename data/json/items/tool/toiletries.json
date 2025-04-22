@@ -98,12 +98,12 @@
     "symbol": ",",
     "color": "light_cyan",
     "name": { "str": "razor blade" },
-    "description": "A double-edged razor blade.",
+    "description": "A double-edged razor blade.  Finnicky to use on its own but after some time spent in prison, it can create wonders.",
     "price": "6 USD",
     "price_postapoc": "1 USD",
     "material": "steel",
     "weight": "10 g",
-    "cutting": 1
+    "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ] ]
   },
   {
     "id": "shavingkit",
