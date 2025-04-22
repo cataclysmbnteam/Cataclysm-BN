@@ -1972,7 +1972,7 @@
     "name": "Salvage items",
     "category": "DEFAULTMODE",
     "id": "salvage",
-    "bindings": []
+    "bindings": [  ]
   },
   {
     "type": "keybinding",
