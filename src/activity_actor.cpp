@@ -87,7 +87,6 @@ inline int simple_task::to_counter() const
 
 inline void progress_counter::pop()
 {
-
     if( empty() ) {
         dbg( DL::Error ) << "task was popped out of empty progress queue";
         return;
@@ -95,7 +94,6 @@ inline void progress_counter::pop()
     moves_left -= targets.front().moves_left;
     targets.pop_front();
     idx++;
-
 }
 
 inline void progress_counter::purge()

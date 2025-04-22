@@ -212,7 +212,6 @@ static std::vector<std::pair< material_id, float>> salvage_result_proportions( c
 //Returns vector of pairs <item id, count>
 std::vector<std::pair< itype_id, float>> salvage_results( const item &target )
 {
-    auto &materials = target.made_of();
     std::vector<std::pair< itype_id, float>> salvagable_materials;
     //For now we assume that proportions for all materials are equal
     for( auto &material : salvage_result_proportions( target ) ) {
@@ -331,7 +330,7 @@ bool has_salvage_tools( inventory &inv, const item &item, bool strict )
     return false;
 }
 
-bool salvage::menu_salvage_single( player &you )
+bool menu_salvage_single( player &you )
 {
     item *target = game_menus::inv::salvage( you );
     if( target ) {
@@ -341,7 +340,7 @@ bool salvage::menu_salvage_single( player &you )
     }
 }
 
-bool salvage::prompt_salvage_single( Character &who, item &target )
+bool prompt_salvage_single( Character &who, item &target )
 {
     map &here = get_map();
     std::string msg;
@@ -370,7 +369,7 @@ bool salvage::prompt_salvage_single( Character &who, item &target )
     return true;
 }
 
-bool salvage::salvage_single( Character &who, item &target )
+bool salvage_single( Character &who, item &target )
 {
     map &here = get_map();
 
@@ -386,7 +385,7 @@ bool salvage::salvage_single( Character &who, item &target )
     return true;
 }
 
-bool salvage::salvage_all( Character &who )
+bool salvage_all( Character &who )
 {
     map &here = get_map();
     tripoint pos = who.pos();
@@ -501,7 +500,7 @@ void salvage_activity_actor::do_turn( player_activity &act, Character &who )
     }
 }
 
-void salvage_activity_actor::finish( player_activity &act, Character &who )
+void salvage_activity_actor::finish( player_activity &act, Character & )
 {
     if( !progress.complete() ) {
         debugmsg( "salvage_activity_actor call finish function while able to start new salvage" );
