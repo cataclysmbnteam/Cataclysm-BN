@@ -342,7 +342,7 @@
     "id": "mon_turret_antimateriel",
     "type": "MONSTER",
     "name": { "str": "anti-materiel milspec turret" },
-    "description": "The General Atomics TX-10 Heavy, an automated milspec turret equipped with a M2HB machine gun.  Designed for light vehicles or enemies behind cover, it utilizes the powerful and ubiquitous .50 BMG.  Its advanced target recognition system and M2HB makes a deadly combination for anything short of a tank out to very long range.",
+    "description": "The General Atomics TX-10 Heavy, an automated milspec turret equipped with a M2HB machine gun.  Designed for light vehicles or enemies behind cover, it utilizes the powerful and ubiquitous .50 BMG.  Its advanced target recognition system and M2HB makes a deadly combination for anything short of an armored vehicle.",
     "default_faction": "military",
     "species": [ "ROBOT" ],
     "looks_like": "mon_turret_bmg",
