@@ -61,7 +61,7 @@
     "blacklist_mod": "emitter",
     "mod_target_category": [ [ "RIFLES" ], [ "SHOTGUNS" ], [ "MACHINE_GUNS" ] ],
     "install_time": "15 m",
-    "handling_modifier": -15,
+    "handling_modifier": -10,
     "range_modifier": 5,
     "dispersion_modifier": 25,
     "loudness_modifier": 15,

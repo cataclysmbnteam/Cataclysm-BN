@@ -22,7 +22,7 @@
       [ "ROCKET_LAUNCHERS" ],
       [ "FLAMETHROWERS" ]
     ],
-    "handling_modifier": 40,
+    "handling_modifier": 20,
     "flags": [ "BIPOD", "SLOW_WIELD" ]
   },
   {
@@ -116,7 +116,7 @@
       [ "ROCKET_LAUNCHERS" ],
       [ "FLAMETHROWERS" ]
     ],
-    "handling_modifier": 10,
+    "handling_modifier": 5,
     "flags": [ "PUMP_RAIL_COMPATIBLE" ]
   },
   {
