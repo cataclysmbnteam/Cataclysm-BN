@@ -554,24 +554,6 @@
     "flags": [ "TRADER_AVOID" ]
   },
   {
-    "type": "GENERIC",
-    "category": "tools",
-    "id": "gasket_plastic",
-    "name": { "str": "plastic gasket" },
-    "description": " A single-use plastic gasket.",
-    "symbol": "(",
-    "color": "dark_gray",
-    "looks_like": "plastic_chunk",
-    "weight": "5 g",
-    "volume": "30 ml",
-    "//": "gasket sizes range from 1in diameter to 6in.",
-    "price": "150 cent",
-    "price_postapoc": "50 cent",
-    "to_hit": 10,
-    "bashing": 1,
-    "material": "plastic"
-  },
-  {
     "id": "permanent_marker",
     "type": "TOOL",
     "category": "tools",

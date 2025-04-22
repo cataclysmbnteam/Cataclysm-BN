@@ -4668,5 +4668,42 @@
     "power_draw": 7500,
     "revert_to": "thermal_cooling_mask",
     "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "Your %s deactivates.", "target": "thermal_cooling_mask" }
+  },
+  {
+    "type": "GENERIC",
+    "category": "tools",
+    "id": "gasket_plastic",
+    "name": { "str": "plastic gasket" },
+    "description": " A single-use plastic gasket.",
+    "symbol": "(",
+    "color": "dark_gray",
+    "looks_like": "plastic_chunk",
+    "weight": "5 g",
+    "volume": "30 ml",
+    "//": "gasket sizes range from 1in diameter to 6in.",
+    "price": "150 cent",
+    "price_postapoc": "50 cent",
+    "to_hit": 10,
+    "bashing": 1,
+    "material": "plastic"
+  },
+  {
+    "id": "textbook_extraction",
+    "type": "BOOK",
+    "copy-from": "base_book",
+    "name": { "str": "The Essential Oil Enthusiasts Handbook", "str_pl": "copies of The Essential Oil Enthusiasts Handbook" },
+    "description": "A heavy hardback book explaining the process of essential oil making, with schematics for the equipment to do it.  Good luck, and don't blow yourself up!",
+    "looks_like": "textbook_chemistry",
+    "weight": "1420 g",
+    "volume": "1 L",
+    "price": "60 USD",
+    "price_postapoc": "100 USD",
+    "bashing": 4,
+    "color": "blue",
+    "skill": "fabrication",
+    "required_level": 5,
+    "max_level": 8,
+    "intelligence": 10,
+    "time": "60 m"
   }
 ]
