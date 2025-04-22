@@ -770,7 +770,7 @@ class item : public location_visitable<item>, public game_object<item>
                                               std::vector<detached_ptr<item>> &used,
                                               const std::function<bool( const item & )> &filter = return_true<item> );
 
-        /** Permits filthy components, should only be used as a helper in creating filters */
+        /** should only be used as a helper in creating filters */
         bool allow_crafting_component() const;
 
         /**
