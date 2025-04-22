@@ -9,7 +9,7 @@
     "to_hit": -1,
     "color": "light_gray",
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
-    "handling": 10
+    "handling": 15
   },
   {
     "abstract": "flamethrower_base",
@@ -101,7 +101,7 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "handling": 5
+    "handling": 20
   },
   {
     "abstract": "pistol_1shot",

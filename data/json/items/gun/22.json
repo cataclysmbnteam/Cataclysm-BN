@@ -13,7 +13,6 @@
     "bashing": 11,
     "material": [ "steel", "wood" ],
     "ammo": "22",
-    "handling": 20,
     "ranged_damage": { "damage_type": "bullet", "amount": 4 },
     "dispersion": 280,
     "durability": 6,
