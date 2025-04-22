@@ -22,7 +22,7 @@
       [ "ROCKET_LAUNCHERS" ],
       [ "FLAMETHROWERS" ]
     ],
-    "handling_modifier": 20,
+    "handling_modifier": 40,
     "flags": [ "BIPOD", "SLOW_WIELD" ]
   },
   {
