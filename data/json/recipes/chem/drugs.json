@@ -295,6 +295,45 @@
   },
   {
     "type": "recipe",
+    "result": "thc_liquid_unrefined",
+    "category": "CC_CHEM",
+    "subcategory": "CSC_DRUGS",
+    "skill_used": "cooking",
+    "skills_required": [ "cooking", 4 ],
+    "difficulty": 5,
+    "time": "30 m",
+    "//": "unfortunately this is a weird process - 30min to actually extract and a few hours to purge the remaining liquid. we'll go with 2h30m for purging",
+    "batch_time_factors": [ 80, 5 ],
+    "autolearn": true,
+    "tools": [ [ [ "chemistry_set", 1 ] ], [ [ "surface_heat", 8, "LIST" ] ] ],
+    "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "CHEM", "level": 3 }, { "id": "BOIL", "level": 1 } ],
+    "components": [
+      [ [ "cannabis", 28 ] ],
+      [ [ "butane_can", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "thc_liquid",
+    "category": "CC_CHEM",
+    "subcategory": "CSC_DRUGS",
+    "skill_used": "cooking",
+    "skills_required": [ "cooking", 4 ],
+    "difficulty": 5,
+    "time": "4 h",
+    "charges": 2,
+    "//": "purging generally can take 24-48 hours, however we don't want to make the player wait that long. 4 will do hopefully. this step encompasses winterization as well as distillation, since we have no freezing for recipes",
+    "batch_time_factors": [ 99, 1 ],
+    "autolearn": true,
+    "tools": [ [ [ "chemistry_set", 1 ] ], [ [ "surface_heat", 32, "LIST" ] ], [ [ "vac_sealer", 1 ] ] ],
+    "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "BOIL", "level": 1 }, { "id": "DISTILL", "level": 1 }, { "id": "VACUUM", "level": 2 } ],
+    "components": [
+      [ [ "thc_liquid_unrefined", 1 ] ],
+      [ [ "chem_ethanol", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
     "result": "diazepam",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_DRUGS",

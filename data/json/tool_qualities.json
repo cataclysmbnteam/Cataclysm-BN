@@ -204,6 +204,11 @@
   },
   {
     "type": "tool_quality",
+    "id": "VACUUM",
+    "name": { "str": "vacuuming" }
+  },
+  {
+    "type": "tool_quality",
     "id": "ANVIL",
     "name": { "str": "anvil" }
   },
