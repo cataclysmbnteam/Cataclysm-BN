@@ -11,7 +11,6 @@
 
 class Character;
 class inventory;
-class item;
 
 using metric = std::pair<units::mass, units::volume>;
 
