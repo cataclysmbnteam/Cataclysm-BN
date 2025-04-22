@@ -1858,6 +1858,8 @@
     "coverage": 95,
     "roof": "t_flat_roof",
     "flags": [ "FLAMMABLE_ASH", "NOITEM", "WALL", "NO_SCENT", "BLOCK_WIND" ],
+    "nail_pull_result": "t_door_c",
+    "nail_pull_items": [ 8, 4 ],
     "bash": {
       "str_min": 15,
       "str_max": 80,
@@ -1887,6 +1889,8 @@
     "coverage": 95,
     "roof": "t_flat_roof",
     "flags": [ "FLAMMABLE_ASH", "NOITEM", "WALL", "REDUCE_SCENT" ],
+    "nail_pull_result": "t_door_b",
+    "nail_pull_items": [ 8, 4 ],
     "bash": {
       "str_min": 10,
       "str_max": 40,
@@ -1917,6 +1921,8 @@
     "roof": "t_flat_roof",
     "examine_action": "door_peephole",
     "flags": [ "FLAMMABLE_ASH", "NOITEM", "WALL", "NO_SCENT", "BLOCK_WIND" ],
+    "nail_pull_result": "t_door_c_peep",
+    "nail_pull_items": [ 8, 4 ],
     "bash": {
       "str_min": 15,
       "str_max": 80,
@@ -1945,6 +1951,8 @@
     "coverage": 95,
     "roof": "t_flat_roof",
     "flags": [ "FLAMMABLE_ASH", "NOITEM", "WALL", "NO_SCENT", "BLOCK_WIND" ],
+    "nail_pull_result": "t_rdoor_c",
+    "nail_pull_items": [ 8, 4 ],
     "bash": {
       "str_min": 25,
       "str_max": 60,
@@ -1974,6 +1982,8 @@
     "coverage": 95,
     "roof": "t_flat_roof",
     "flags": [ "FLAMMABLE_ASH", "NOITEM", "WALL", "NO_SCENT" ],
+    "nail_pull_result": "t_rdoor_b",
+    "nail_pull_items": [ 8, 4 ],
     "bash": {
       "str_min": 20,
       "str_max": 50,
@@ -2004,6 +2014,8 @@
     "roof": "t_flat_roof",
     "examine_action": "door_peephole",
     "flags": [ "FLAMMABLE_ASH", "NOITEM", "WALL", "NO_SCENT" ],
+    "nail_pull_result": "t_door_b_peep",
+    "nail_pull_items": [ 8, 4 ],
     "bash": {
       "str_min": 10,
       "str_max": 40,

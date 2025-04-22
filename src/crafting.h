@@ -1,6 +1,4 @@
 #pragma once
-#ifndef CATA_SRC_CRAFTING_H
-#define CATA_SRC_CRAFTING_H
 
 #include <list>
 #include <set>
@@ -21,6 +19,8 @@ class recipe;
 struct iuse_location;
 struct tool_comp;
 
+using metric = std::pair<units::mass, units::volume>;
+
 enum class cost_adjustment : int;
 
 enum class bench_type : int {
@@ -32,12 +32,12 @@ enum class bench_type : int {
 
 struct workbench_info_wrapper {
     // Base multiplier applied for crafting here
-    float multiplier;
+    float multiplier = 1.0f;
     float multiplier_adjusted = multiplier;
     // Mass/volume allowed before a crafting speed penalty is applied
-    bench_type type;
-    units::mass allowed_mass;
-    units::volume allowed_volume;
+    units::mass allowed_mass = 0_gram;
+    units::volume allowed_volume = 0_ml;
+    bench_type type = bench_type::ground;
     workbench_info_wrapper( furn_workbench_info f_info ) : multiplier( f_info.multiplier ),
         allowed_mass( f_info.allowed_mass ),
         allowed_volume( f_info.allowed_volume ), type( bench_type::furniture ) {
@@ -51,13 +51,15 @@ struct workbench_info_wrapper {
         : multiplier( multiplier ), allowed_mass( allowed_mass ), allowed_volume( allowed_volume ),
           type( type ) {
     }
+
+    void adjust_multiplier( const std::pair<units::mass, units::volume> &metrics );
 };
 
-struct bench_location {
+struct bench_loc {
     workbench_info_wrapper wb_info;
     tripoint position;
 
-    explicit bench_location( workbench_info_wrapper info, tripoint position )
+    explicit bench_loc( workbench_info_wrapper info, tripoint position )
         : wb_info( info ), position( position ) {
     }
 };
@@ -151,5 +153,3 @@ bool disassemble_all( avatar &you, bool recursively );
 void complete_disassemble( Character &who, const iuse_location &target, const tripoint &pos );
 
 } // namespace crafting
-
-#endif // CATA_SRC_CRAFTING_H

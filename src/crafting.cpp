@@ -449,7 +449,7 @@ static void set_item_map_or_vehicle( const Character &p, const tripoint &loc,
 
     } else {
         if( here.has_furn( loc ) ) {
-            const furn_t &workbench = here.furn( loc ).obj();
+            const furn_t &workbench = *here.furn( loc );
             p.add_msg_player_or_npc(
                 pgettext( "item, furniture", "You put the %1$s on the %2$s." ),
                 pgettext( "item, furniture", "<npcname> puts the %1$s on the %2$s." ),
@@ -536,7 +536,7 @@ void Character::craft_skill_gain( const item &craft, const int &multiplier )
         practice( making.skill_used, base_practice, skill_cap, true );
         // Subskills gain half the experience as primary skill
         for( const auto &pr : making.required_skills ) {
-            if( pr.first != making.skill_used && !pr.first.obj().is_combat_skill() ) {
+            if( pr.first != making.skill_used && !pr.first->is_combat_skill() ) {
                 const int secondary_practice = roll_remainder( ( get_skill_level( pr.first ) * 15 + 10 ) *
                                                batch_mult /
                                                20.0 ) * multiplier / 2.0;
@@ -2100,7 +2100,7 @@ void crafting::complete_disassemble( Character &who, const iuse_location &target
                                 0.9f + ( who.int_cur * 0.025f ) );
             if( x_in_y( skill_bonus, 4.0 ) ) {
                 // TODO: change to forward an id or a reference
-                who.learn_recipe( dis.ident().obj() );
+                who.learn_recipe( &*dis.ident() );
                 add_msg( m_good, _( "You learned a recipe for %s from disassembling it!" ),
                          dis_item.tname() );
             } else {
@@ -2165,9 +2165,10 @@ bench_location find_best_bench( const Character &who, const item &craft )
     here.reachable_flood_steps( reachable, who.pos(), PICKUP_RANGE, 1, 100 );
 
     for( const tripoint &adj : reachable ) {
-        if( auto loc_bench = crafting::best_bench_loc( craft, adj ) ) {
-            if( loc_bench->multiplier_adjusted > best_bench.multiplier_adjusted ) {
-                best_bench = *loc_bench;
+        if( const cata::value_ptr<furn_workbench_info> &wb = g->m.furn( adj )->workbench ) {
+            if( wb->multiplier > best_bench_multi ) {
+                best_type = bench_type::furniture;
+                best_bench_multi = wb->multiplier;
                 best_loc = adj;
             }
         }
@@ -2191,19 +2192,13 @@ std::optional<workbench_info_wrapper> best_bench_loc( const item &craft, const t
         veh = make_workbench_info( craft, bench_type::vehicle, loc );
     }
 
-    if( furn ) {
-        if( veh ) {
-            if( furn->multiplier > veh->multiplier ) {
-                return *furn;
-            } else {
-                return *veh;
-            }
-        } else {
-            return *furn;
+    if( g->m.furn( loc )->workbench ) {
+        float furn_mult = workbench_crafting_speed_multiplier( craft, bench_location{ bench_type::furniture, loc } );
+        if( furn_mult > best_mult ) {
+            best_type = bench_type::furniture;
+            best_mult = furn_mult;
         }
     }
-    return std::nullopt;
-}
 
 workbench_info_wrapper best_bench_here( const item &craft, const tripoint &loc,
                                         bool can_lift )
@@ -2265,3 +2260,10 @@ int charges_for_continuing( int full_charges )
 }
 
 } // namespace crafting
+
+void workbench_info_wrapper::adjust_multiplier( const metric
+        &metrics )
+{
+    multiplier_adjusted *= lerped_multiplier( metrics.first, allowed_mass, 1000_kilogram );
+    multiplier_adjusted *= lerped_multiplier( metrics.second, allowed_volume, 1000_liter );
+}

@@ -53,6 +53,7 @@
       { "item": "detergent", "prob": 25, "charges-min": 1 },
       { "item": "bleach", "prob": 15, "charges-min": 1 },
       { "item": "ammonia", "prob": 15, "charges-min": 1 },
+      { "item": "shimmer", "prob": 15, "charges-min": 1 },
       { "item": "vinegar", "prob": 5, "charges-min": 1 },
       { "item": "lye", "prob": 5, "charges-min": 1 },
       { "item": "lye_powder", "prob": 5, "charges-min": 1 },
@@ -262,7 +263,8 @@
       [ "tarp", 15 ],
       [ "tempered_glass_sheet", 25 ],
       [ "rigid_plastic_sheet", 30 ],
-      [ "trash_can_empty", 25 ]
+      [ "trash_can_empty", 25 ],
+      [ "sandpaper", 15 ]
     ]
   },
   {
@@ -273,6 +275,7 @@
       [ "water_clean", 90 ],
       [ "salt_water", 20 ],
       [ "detergent", 10 ],
+      [ "shimmer", 8 ],
       { "item": "bleach", "prob": 10, "charges-min": 10 },
       { "item": "ammonia", "prob": 10, "charges-min": 10 },
       [ "iodine", 10 ],

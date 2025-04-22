@@ -1,6 +1,4 @@
 #pragma once
-#ifndef CATA_SRC_ACTIVITY_ACTOR_DEFINITIONS_H
-#define CATA_SRC_ACTIVITY_ACTOR_DEFINITIONS_H
 
 #include "activity_actor.h"
 
@@ -14,6 +12,7 @@
 #include "locations.h"
 #include "memory_fast.h"
 #include "pickup_token.h"
+#include "construction_partial.h"
 #include "point.h"
 #include "recipe.h"
 #include "type_id.h"
@@ -280,8 +279,7 @@ class disassemble_activity_actor : public activity_actor
         void do_turn( player_activity &, Character & ) override;
         void finish( player_activity &act, Character &who ) override;
 
-        float calc_bench_factor( const Character &who,
-                                 const std::optional<bench_location> &bench ) const override;
+        void adjust_bench_multiplier( bench_loc &bench, const metric &metrics ) const override;
 
         void serialize( JsonOut &jsout ) const override;
         static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
@@ -709,4 +707,3 @@ class assist_activity_actor : public activity_actor
 
 };
 
-#endif // CATA_SRC_ACTIVITY_ACTOR_DEFINITIONS_H

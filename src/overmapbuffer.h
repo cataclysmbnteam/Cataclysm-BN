@@ -1,6 +1,4 @@
 #pragma once
-#ifndef CATA_SRC_OVERMAPBUFFER_H
-#define CATA_SRC_OVERMAPBUFFER_H
 
 #include <array>
 #include <functional>
@@ -143,6 +141,7 @@ struct omt_find_params {
 };
 
 constexpr const std::pair<int, int> omt_find_all_layers = { -OVERMAP_DEPTH, OVERMAP_HEIGHT };
+constexpr const std::pair<int, int> omt_find_above_ground_layer = { 0, OVERMAP_HEIGHT };
 
 /**
  * Standard arguments for finding overmap route
@@ -627,4 +626,4 @@ class overmapbuffer
 
 extern overmapbuffer overmap_buffer;
 
-#endif // CATA_SRC_OVERMAPBUFFER_H
+

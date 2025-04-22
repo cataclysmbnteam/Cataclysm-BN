@@ -1,6 +1,4 @@
 #pragma once
-#ifndef CATA_SRC_IUSE_ACTOR_H
-#define CATA_SRC_IUSE_ACTOR_H
 
 #include <climits>
 #include <map>
@@ -1237,6 +1235,25 @@ class weigh_self_actor : public iuse_actor
 };
 
 /**
+* Weigh yourself on a bathroom scale. or something.
+*/
+class gps_device_actor : public iuse_actor
+{
+    public:
+        float additional_charges_per_tile;
+        int radius;
+
+        gps_device_actor( const std::string &type = "gps_device" ) : iuse_actor( type ) {}
+
+        ~gps_device_actor() override = default;
+        void load( const JsonObject &jo ) override;
+        int use( player &p, item &, bool, const tripoint & ) const override;
+        std::unique_ptr<iuse_actor> clone() const override;
+        void info( const item &, std::vector<iteminfo> & ) const override;
+};
+
+
+/**
  * Modify clothing
  */
 class sew_advanced_actor : public iuse_actor
@@ -1273,4 +1290,4 @@ class heat_food_actor : public iuse_actor
         ret_val<bool> can_use( const Character &, const item &, bool, const tripoint & ) const override;
         std::unique_ptr<iuse_actor> clone() const override;
 };
-#endif // CATA_SRC_IUSE_ACTOR_H
+

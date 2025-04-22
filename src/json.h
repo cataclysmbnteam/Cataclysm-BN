@@ -1,6 +1,4 @@
 #pragma once
-#ifndef CATA_SRC_JSON_H
-#define CATA_SRC_JSON_H
 
 #include <array>
 #include <bitset>
@@ -1548,4 +1546,4 @@ void deserialize( std::optional<T> &obj, JsonIn &jsin )
     }
 }
 
-#endif // CATA_SRC_JSON_H
+

@@ -1,6 +1,4 @@
 #pragma once
-#ifndef CATA_SRC_MORALE_H
-#define CATA_SRC_MORALE_H
 
 #include <functional>
 #include <map>
@@ -285,4 +283,4 @@ class player_morale
         int perceived_pain;
 };
 
-#endif // CATA_SRC_MORALE_H
+

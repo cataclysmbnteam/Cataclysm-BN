@@ -29,6 +29,7 @@
       { "item": "trailmap", "prob": 20 },
       { "item": "file", "prob": 10 },
       { "item": "touristmap", "prob": 20 },
+      { "item": "regionaltransportmap", "prob": 20 },
       { "item": "restaurantmap", "prob": 20 },
       { "item": "money_bundle", "prob": 55 },
       { "item": "gold_watch", "prob": 5 },
@@ -600,6 +601,7 @@
       [ "silver_medal", 2 ],
       [ "gold_medal", 1 ],
       [ "bionic_scanner", 5 ],
+      [ "gps_device", 5 ],
       { "group": "tinware", "prob": 10 },
       [ "shield_riot", 5 ],
       [ "pirate_flag", 5 ]
@@ -804,6 +806,7 @@
       { "item": "roadmap", "prob": 10 },
       { "item": "trailmap", "prob": 20 },
       { "item": "touristmap", "prob": 5 },
+      { "item": "regionaltransportmap", "prob": 5 },
       { "item": "restaurantmap", "prob": 5 },
       { "item": "magnifying_glass", "prob": 25 },
       { "item": "glasses_reading", "prob": 50 },
@@ -1008,6 +1011,7 @@
       { "item": "syringe", "prob": 20 },
       { "item": "meth", "prob": 10 },
       { "item": "heroin", "prob": 5 },
+      { "item": "sizzurp", "prob": 5 },
       { "item": "mag_porn", "prob": 35 },
       { "item": "hairpin", "prob": 5 },
       { "item": "purse", "prob": 15 }

@@ -2354,28 +2354,14 @@ int iuse::hammer( player *p, item *it, bool, const tripoint & )
         p->add_msg_if_player( m_info, _( "You cannot do that while mounted." ) );
         return 0;
     }
-    const std::set<ter_id> allowed_ter_id {
-        t_fence,
-        t_window_reinforced,
-        t_window_reinforced_noglass,
-        t_window_boarded,
-        t_window_boarded_noglass,
-        t_door_boarded,
-        t_door_boarded_damaged,
-        t_door_boarded_peep,
-        t_door_boarded_damaged_peep,
-        t_rdoor_boarded,
-        t_rdoor_boarded_damaged
-    };
 
-    const std::function<bool( const tripoint & )> f = [&allowed_ter_id]( const tripoint & pnt ) {
+    const std::function<bool( const tripoint & )> f = []( const tripoint & pnt ) {
         if( pnt == g->u.pos() ) {
             return false;
         }
         const ter_id ter = g->m.ter( pnt );
 
-        const bool is_allowed = allowed_ter_id.find( ter ) != allowed_ter_id.end();
-        return is_allowed;
+        return ( ter->nail_pull_result != ter_str_id::NULL_ID() );
     };
 
     const std::optional<tripoint> pnt_ = choose_adjacent_highlight(
@@ -2384,7 +2370,6 @@ int iuse::hammer( player *p, item *it, bool, const tripoint & )
         return 0;
     }
     const tripoint &pnt = *pnt_;
-    const ter_id type = g->m.ter( pnt );
     if( !f( pnt ) ) {
         if( pnt == p->pos() ) {
             p->add_msg_if_player( _( "You try to hit yourself with the hammer." ) );
@@ -2393,13 +2378,7 @@ int iuse::hammer( player *p, item *it, bool, const tripoint & )
             p->add_msg_if_player( m_info, _( "You can't pry that." ) );
         }
         return 0;
-    }
-
-    if( type == t_fence || type == t_window_boarded || type == t_window_boarded_noglass ||
-        type == t_window_reinforced || type == t_window_reinforced_noglass ||
-        type == t_door_boarded || type == t_door_boarded_damaged ||
-        type == t_rdoor_boarded || type == t_rdoor_boarded_damaged ||
-        type == t_door_boarded_peep || type == t_door_boarded_damaged_peep ) {
+    } else {
         // pry action
         std::unique_ptr<player_activity> act = std::make_unique<player_activity>( ACT_PRY_NAILS,
                                                to_moves<int>( 30_seconds ),
@@ -2407,8 +2386,6 @@ int iuse::hammer( player *p, item *it, bool, const tripoint & )
         act->placement = pnt;
         p->assign_activity( std::move( act ) );
         return it->type->charges_to_use();
-    } else {
-        return 0;
     }
 }
 
@@ -8425,7 +8402,7 @@ static tripoint_abs_ms process_map_connection( const Character *who, cable_state
 static cable_state cable_menu( Character *who, cable_state &state, cable_state &state_other )
 {
     const bool has_bio_cable = !who->get_remote_fueled_bionic().is_empty();
-    const bool has_solar_pack = who->worn_with_flag( flag_SOLARPACK );
+    // const bool has_solar_pack = who->worn_with_flag( flag_SOLARPACK );
     const bool has_solar_pack_on = who->worn_with_flag( flag_SOLARPACK_ON );
     //const bool wearing_solar_pack = has_solar_pack || has_solar_pack_on;
     const bool has_ups = who->has_charges( itype_UPS_off, 1 ) ||

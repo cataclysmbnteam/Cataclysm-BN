@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <cassert>
 #include <climits>
+#include <cstdint>
 #include <iterator>
 #include <list>
 #include <map>
@@ -1217,7 +1218,7 @@ std::vector<tripoint_abs_omt> overmapbuffer::find_all_async( const tripoint_abs_
                                origin.z() ) );
     const int min_layer = search_layers.first;
     const int max_layer = search_layers.second;
-    const int num_layers = max_layer - min_layer + 1;
+    // const int num_layers = max_layer - min_layer + 1;
 
     find_task_generator gen( origin.raw().xy(), min_dist, max_dist, min_layer, max_layer, 256 );
 
@@ -1234,7 +1235,8 @@ std::vector<tripoint_abs_omt> overmapbuffer::find_all_async( const tripoint_abs_
             if( !params.max_results.has_value() ||
                 dst.size() < static_cast<size_t>( params.max_results.value() ) ) {
                 std::copy( task_result.begin(), task_result.end(), std::back_inserter( dst ) );
-                if( params.max_results.has_value() && dst.size() > params.max_results.value() ) {
+                if( params.max_results.has_value() &&
+                    dst.size() > static_cast<uint64_t>( params.max_results.value() ) ) {
                     dst.resize( params.max_results.value() );
                 }
             }
@@ -1255,7 +1257,7 @@ std::vector<tripoint_abs_omt> overmapbuffer::find_all_async( const tripoint_abs_
                 ++free_tasks;
             }
             if( params.max_results.has_value() &&
-                find_result.size() >= params.max_results.value() ) {
+                find_result.size() >= static_cast<uint64_t>( params.max_results.value() ) ) {
                 break;
             }
         }
@@ -1294,7 +1296,8 @@ std::vector<tripoint_abs_omt> overmapbuffer::find_all_async( const tripoint_abs_
                 if( is_findable_location( q, params ) ) {
                     result.push_back( loc.first );
                 }
-                if( params.max_results.has_value() && result.size() == params.max_results.value() ) {
+                if( params.max_results.has_value() &&
+                    result.size() == static_cast<uint64_t>( params.max_results.value() ) ) {
                     break;
                 }
             }

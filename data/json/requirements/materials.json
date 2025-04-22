@@ -324,5 +324,33 @@
         [ "bandages_makeshift_boiled", 1 ]
       ]
     ]
+  },
+  {
+    "id": "varnish",
+    "type": "requirement",
+    "//": "Any kind of item that can be used for the purpose of varnishing wood.",
+    "components": [
+      [
+        [ "any_tallow", 1, "LIST" ],
+        [ "edible_lard", 1, "LIST" ],
+        [ "cooking_oil", 8 ],
+        [ "cooking_oil2", 8 ],
+        [ "lamp_oil", 100 ],
+        [ "motor_oil", 100 ],
+        [ "r_paint", 10 ],
+        [ "b_paint", 10 ],
+        [ "w_paint", 10 ],
+        [ "g_paint", 10 ],
+        [ "p_paint", 10 ],
+        [ "y_paint", 10 ],
+        [ "bone_glue", 1 ],
+        [ "superglue", 1 ],
+        [ "wax", 1 ],
+        [ "soap", 1 ],
+        [ "soap_flakes", 1 ],
+        [ "detergent", 1 ],
+        [ "shimmer", 1 ]
+      ]
+    ]
   }
 ]

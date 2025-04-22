@@ -1,6 +1,4 @@
 #pragma once
-#ifndef CATA_SRC_ACTIVITY_HANDLERS_H
-#define CATA_SRC_ACTIVITY_HANDLERS_H
 
 #include <functional>
 #include <map>
@@ -311,4 +309,3 @@ void patch_activity_for_furniture( player_activity &activity,
 
 } // namespace activity_handlers
 
-#endif // CATA_SRC_ACTIVITY_HANDLERS_H

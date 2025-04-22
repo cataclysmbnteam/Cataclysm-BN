@@ -567,6 +567,16 @@ butchery_setup consider_butchery( const item &corpse_item, player &u, butcher_ty
             b_rack_present = true;
             break;
         }
+        //vehicle part
+        const optional_vpart_position vp = here.veh_at( pt );
+        if( !vp ) {
+            continue;
+        }
+        vp->vehicle();
+        if( vp.part_with_feature( "BUTCHER_EQ", true ) ) {
+            b_rack_present = true;
+            break;
+        }
     }
     if( !b_rack_present ) {
         b_rack_present = inv.has_item_with( []( const item & it ) {
@@ -716,7 +726,7 @@ static void set_up_butchery_activity( player_activity &act, player &u, const but
 
     print_reasons();
     act.tools.clear();
-    act.calc_all_moves( u );
+    act.speed.calc_all_moves( u );
     act.moves_left = setup.move_cost;
     act.moves_total = setup.move_cost;
     // We have a valid target, so preform the full finish function
@@ -3702,58 +3712,12 @@ void activity_handlers::pry_nails_finish( player_activity *act, player *p )
     map &here = get_map();
     const ter_id type = here.ter( pnt );
 
-    int nails = 0;
-    int boards = 0;
-    ter_id newter;
-    if( type == t_fence ) {
-        nails = 6;
-        boards = 3;
-        newter = t_fence_post;
-        p->add_msg_if_player( _( "You pry out the fence post." ) );
-    } else if( type == t_window_reinforced_noglass ) {
-        nails = 16;
-        boards = 8;
-        newter = t_window_boarded_noglass;
-        p->add_msg_if_player( _( "You pry the boards from the window." ) );
-    } else if( type == t_window_reinforced ) {
-        nails = 16;
-        boards = 8;
-        newter = t_window_boarded;
-        p->add_msg_if_player( _( "You pry the boards from the window." ) );
-    } else if( type == t_window_boarded ) {
-        nails = 8;
-        boards = 4;
-        newter = t_window_frame;
-        p->add_msg_if_player( _( "You pry the boards from the window." ) );
-    } else if( type == t_window_boarded_noglass ) {
-        nails = 8;
-        boards = 4;
-        newter = t_window_empty;
-        p->add_msg_if_player( _( "You pry the boards from the window frame." ) );
-    } else if( type == t_door_boarded || type == t_door_boarded_damaged ||
-               type == t_rdoor_boarded || type == t_rdoor_boarded_damaged ||
-               type == t_door_boarded_peep || type == t_door_boarded_damaged_peep ) {
-        nails = 8;
-        boards = 4;
-        if( type == t_door_boarded ) {
-            newter = t_door_c;
-        } else if( type == t_door_boarded_damaged ) {
-            newter = t_door_b;
-        } else if( type == t_door_boarded_peep ) {
-            newter = t_door_c_peep;
-        } else if( type == t_door_boarded_damaged_peep ) {
-            newter = t_door_b_peep;
-        } else if( type == t_rdoor_boarded ) {
-            newter = t_rdoor_c;
-        } else { // if (type == t_rdoor_boarded_damaged)
-            newter = t_rdoor_b;
-        }
-        p->add_msg_if_player( _( "You pry the boards from the door." ) );
-    }
+    p->add_msg_if_player( _( "You pry out the nails from the terrain." ) );
+
     p->practice( skill_fabrication, 1, 1 );
-    here.spawn_item( p->pos(), itype_nail, 0, nails );
-    here.spawn_item( p->pos(), itype_2x4, boards );
-    here.ter_set( pnt, newter );
+    here.spawn_item( p->pos(), itype_nail, 1, type->nail_pull_items[0] );
+    here.spawn_item( p->pos(), itype_2x4, type->nail_pull_items[1] );
+    here.ter_set( pnt, type->nail_pull_result );
     act->set_to_null();
 }
 

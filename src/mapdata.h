@@ -1,6 +1,4 @@
 #pragma once
-#ifndef CATA_SRC_MAPDATA_H
-#define CATA_SRC_MAPDATA_H
 
 #include <array>
 #include <bitset>
@@ -541,6 +539,7 @@ struct ter_t : map_data_common_t {
     ter_str_id lockpick_result; // Lockpick action: transform when successfully lockpicked
     translation lockpick_message; // Lockpick action: message when successfully lockpicked
 
+
     cata::value_ptr<activity_data_ter> boltcut; // Bolt cutting action data
     cata::value_ptr<activity_data_ter> hacksaw; // Hacksaw action data
     cata::value_ptr<activity_data_ter> oxytorch; // Oxytorch action data
@@ -548,6 +547,9 @@ struct ter_t : map_data_common_t {
     std::string trap_id_str;     // String storing the id string of the trap.
     ter_str_id transforms_into; // Transform into what terrain?
     ter_str_id roof;            // What will be the floor above this terrain
+
+    ter_str_id  nail_pull_result; // Terrain to transform into after pulling out nails
+    std::array<short, 2> nail_pull_items; // Nails and planks given upon pulling nails (respectively).
 
     trap_id trap; // The id of the trap located at this terrain. Limit one trap per tile currently.
 
@@ -808,4 +810,4 @@ extern furn_id f_null,
 // consistency checking of terlist & furnlist.
 void check_furniture_and_terrain();
 
-#endif // CATA_SRC_MAPDATA_H
+

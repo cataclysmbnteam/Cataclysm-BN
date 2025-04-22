@@ -1,5 +1,4 @@
 #include "player_activity.h"
-#include "cata_utility.h"
 #include "player_activity_ptr.h"
 
 #include <algorithm>
@@ -13,31 +12,29 @@
 #include "activity_type.h"
 #include "avatar.h"
 #include "calendar.h"
+#include "cata_utility.h"
 #include "character.h"
 #include "character_turn.h"
 #include "color.h"
 #include "construction_partial.h"
 #include "crafting.h"
 #include "distraction_manager.h"
+#include "game.h"
 #include "item.h"
 #include "itype.h"
 #include "map.h"
+#include "npc.h"
 #include "player.h"
+#include "profile.h"
+#include "recipe.h"
 #include "rng.h"
 #include "skill.h"
 #include "sounds.h"
 #include "string_formatter.h"
 #include "string_id.h"
 #include "translations.h"
-#include "value_ptr.h"
-#include "profile.h"
-#include "veh_type.h"
-#include "vehicle_part.h"
-#include "vpart_position.h"
-#include "character_functions.h"
-#include "game.h"
-#include "npc.h"
 
+using metric = std::pair<units::mass, units::volume>;
 
 static const activity_id ACT_ADV_INVENTORY( "ACT_ADV_INVENTORY" );
 static const activity_id ACT_AIM( "ACT_AIM" );
@@ -65,12 +62,6 @@ static const activity_id ACT_TRAVELLING( "ACT_TRAVELLING" );
 static const activity_id ACT_VEHICLE( "ACT_VEHICLE" );
 static const activity_id ACT_WAIT_STAMINA( "ACT_WAIT_STAMINA" );
 
-
-static const skill_id stat_speech( "speech" );
-
-static const quality_id qual_BUTCHER( "BUTCHER" );
-static const quality_id qual_CUT_FINE( "CUT_FINE" );
-
 player_activity::player_activity() : type( activity_id::NULL_ID() ) { }
 
 player_activity::player_activity( activity_id t, int turns, int Index, int pos,
@@ -82,9 +73,9 @@ player_activity::player_activity( activity_id t, int turns, int Index, int pos,
 {
 }
 
-player_activity::player_activity( std::unique_ptr<activity_actor> &&actor ) : type(
-        actor->get_type() ),
-    actor( std::move( actor ) ), moves_total( 0 ), moves_left( 0 )
+player_activity::player_activity( std::unique_ptr<activity_actor> &&actor_ ) : type(
+        actor_->get_type() ),
+    actor( std::move( actor_ ) ), moves_total( 0 ), moves_left( 0 )
 {
 }
 
@@ -117,25 +108,41 @@ std::string player_activity::get_str_value( size_t index, const std::string &def
     return index < str_values.size() ? str_values[index] : def;
 }
 
-inline static float limit_factor( float factor, float min = 0.25f, float max = 2.0f )
+void player_activity::init_all_moves( Character &who )
 {
-    //constrain speed between min and max
-    factor = std::min( max, factor );
-    factor = std::max( min, factor );
-    return factor;
-}
+    speed = activity_speed();
+    speed.type = type;
+    if( type->assistable() ) {
+        get_assistants( who );
+        speed.assistant_count = assistants().size();
+    }
+    if( type->bench_affected() ) {
+        speed.find_best_bench( who.pos() );
+    }
+    if( actor ) {
+        speed.morale_factor_custom_formula = [&]( const Character & who ) {
+            return actor->calc_morale_factor( who );
+        };
+        speed.tools_factor_custom_formula = [&]( const q_reqs & reqs,
+        const inventory & inv ) {
+            return actor->calc_tools_factor( reqs, inv );
+        };
+        speed.stats_factor_custom_formula = [&]( const Character & who,
+        const stat_reqs & reqs ) {
+            return actor->calc_stats_factors( who, reqs );
+        };
+        speed.skills_factor_custom_formula = [&]( const Character & who,
+        const skill_reqs & reqs ) {
+            return actor->calc_skill_factor( who, reqs );
+        };
+        speed.bench_factor_custom_formula = [&]( bench_loc & bench, const metric & metrics ) {
+            actor->adjust_bench_multiplier( bench, metrics );
+        };
 
-inline static float refine_factor( float speed, int denom = 1, float min = -75.0f,
-                                   float max = 100.0f )
-{
-    speed = limit_factor( speed, min, max );
-    denom = denom < 1.0f
-            ? 1.0f
-            : denom;
-    speed /= denom;
-
-    //speed to factor
-    return speed / 100.0f;
+        actor->calc_all_moves( *this, who );
+    } else {
+        speed.calc_all_moves( who );
+    }
 }
 
 inline std::vector<npc *> &player_activity::assistants()
@@ -150,67 +157,7 @@ inline std::vector<npc *> &player_activity::assistants()
     return assistants_;
 }
 
-void player_activity::calc_moves( const Character &who, activity_speed &speed, activity_id &type )
-{
-    if( type->light_affected() ) {
-        calc_light_factor( who, speed );
-    }
-    if( type->speed_affected() ) {
-        speed.player_speed = who.get_speed() / 100.0f;
-    }
-    if( type->stats_affected() ) {
-        calc_stats_factors( who, speed );
-    }
-    if( type->morale_affected() ) {
-        calc_morale_factor( who, speed );
-    }
-}
-
-void player_activity::calc_all_moves( Character &who )
-{
-    if( is_bench_affected() ) {
-        find_best_bench( who.pos() );
-        calc_bench_factor( who, speed, bench );
-    }
-    if( is_tools_affected() ) {
-        speed.tools = calc_tools_factor( who );
-    }
-    if( is_skill_affected() ) {
-        speed.skills = calc_skill_factor( who );
-    }
-    if( is_assistable() ) {
-        if( assistants().empty() ) {
-            get_assistants( who );
-        }
-        speed.assist = calc_assistants_factor( who );
-    }
-    calc_moves( who );
-}
-
-void player_activity::calc_all_moves( Character &who, activity_reqs_adapter &reqs )
-{
-    if( is_bench_affected() ) {
-        find_best_bench( who.pos() );
-        calc_bench_factor( who, speed, bench );
-    }
-    if( is_tools_affected() ) {
-        speed.tools = calc_tools_factor( who, reqs.qualities );
-    }
-    if( is_skill_affected() ) {
-        speed.skills = calc_skill_factor( who, reqs.skills );
-    }
-    if( is_assistable() ) {
-        if( assistants().empty() ) {
-            get_assistants( who );
-        }
-        speed.assist = calc_assistants_factor( who );
-    }
-    calc_moves( who );
-}
-
-std::vector<npc *> player_activity::get_assistants( const Character &who,
-        const std::function <bool( bool, const npc & )> &filter,
-        unsigned short max )
+std::vector<npc *> player_activity::get_assistants( const Character &who, unsigned short max )
 {
     if( max < 1 ) {
         return {};
@@ -236,20 +183,12 @@ std::vector<npc *> player_activity::get_assistants( const Character &who,
 void player_activity::get_assistants( const Character &who )
 {
     unsigned short max = type->max_assistants();
-    std::function<bool( bool, const npc & )> filter;
-
-    if( actor ) {
-        filter = [&]( bool ok, const npc & guy ) {
-            return ok && actor->assistant_capable( guy );
-        };
-    } else {
-        filter = []( bool ok, const npc & guy ) {
-            return ok;
-        };
+    if( max < 1 ) {
+        assistants_ = {};
+        return;
     }
 
-
-    assistants_ = get_assistants( who, filter, max );
+    assistants_ = get_assistants( who, max );
     for( Character *guy : assistants_ ) {
         guy->assign_activity( std::make_unique<player_activity>
                               ( std::make_unique<assist_activity_actor>() ) );
@@ -257,236 +196,62 @@ void player_activity::get_assistants( const Character &who )
     }
 }
 
-float player_activity::calc_assistants_factor( const Character &who )
+static std::string craft_progress_message( const avatar &u, const player_activity &act )
 {
-    int x = assistants().size();
-    if( x == 0 ) {
-        return 1.0f;
+    const item *craft = &*act.targets.front();
+    if( craft == nullptr ) {
+        // Should never happen (?)
+        return string_format( _( "%s…" ), act.get_verb().translated() );
     }
 
-    float f = 0.5f * std::pow( x, 3 )
-              - 7 * std::pow( x, 2 )
-              + 45 * x;
+    // Horrid copypaste warning! TODO: Functions
+    const recipe &rec = craft->get_making();
+    const tripoint bench_pos = act.coords.front();
+    // Ugly
+    bench_type bench_t = bench_type( act.values[1] );
 
-    // range [0.8:1.2] based on speech
-    f *= 0.8f + 0.04f * who.get_skill_level( stat_speech ) ;
+    const bench_location bench{ bench_t, bench_pos };
 
-    return 1.0f + refine_factor( f, 1, 0.0f, 200.0f );
-}
+    const float light_mult = lighting_crafting_speed_multiplier( u, rec );
+    const float bench_mult = workbench_crafting_speed_multiplier( *craft, bench );
+    const float morale_mult = morale_crafting_speed_multiplier( u, rec );
+    const int assistants = u.available_assistant_count( craft->get_making() );
+    const float base_total_moves = std::max( 1, rec.batch_time( craft->charges, 1.0f, 0 ) );
+    const float assist_total_moves = std::max( 1, rec.batch_time( craft->charges, 1.0f, assistants ) );
+    const float assist_mult = base_total_moves / assist_total_moves;
+    const float speed_mult = u.get_speed() / 100.0f;
+    const float total_mult = light_mult * bench_mult * morale_mult * assist_mult * speed_mult;
 
-void calc_bench_factor( const Character &who, activity_speed &speed,
-                        std::optional<bench_location> bench )
-{
-    speed.bench = bench
-                  ? bench->wb_info.multiplier_adjusted
-                  : 1.0f;
-}
+    const double remaining_percentage = 1.0 - craft->item_counter / 10'000'000.0;
+    int remaining_turns = remaining_percentage * base_total_moves / 100 / std::max( 0.01f, total_mult );
+    std::string time_desc = string_format( _( "Time left: %s" ),
+                                           to_string( time_duration::from_turns( remaining_turns ) ) );
 
-void player_activity::calc_light_factor( const Character &who, activity_speed &speed )
-{
-    if( character_funcs::can_see_fine_details( who ) ) {
-        speed.light = 1.0f;
-        return;
-    }
-
-    // This value whould be within [0,1]
-    const float darkness =
-        (
-            character_funcs::fine_detail_vision_mod( who ) -
-            character_funcs::FINE_VISION_THRESHOLD
-        ) / 7.0f;
-    speed.light = limit_factor( 1.0f - darkness, 0.0f );
-}
-
-float player_activity::calc_skill_factor( const Character &who,
-        const std::vector<activity_req<skill_id>> &skill_req ) const
-{
-    float ac_f = actor ? actor->calc_skill_factor( who, skill_req ) : -1.0f;
-    //Any factor above 0 is valid, else - use default calc
-    if( ac_f > 0 ) {
-        return ac_f;
-    }
-
-    float f = 1.0f;
-    std::vector<float> factors;
-    for( const auto &skill : skill_req ) {
-        int who_eff_skill = who.get_skill_level( skill.req ) - skill.threshold;
-        float bonus = 0;
-        if( who_eff_skill != 0 ) {
-            bonus = 0.02f * std::pow( who_eff_skill, 3 )
-                    -  0.5f * std::pow( who_eff_skill, 2 )
-                    +  6.0f * who_eff_skill + skill.mod;
+    const std::array<std::pair<float, std::string>, 6> mults_with_data = { {
+            { total_mult, _( "Total" ) },
+            { speed_mult, _( "Speed" ) },
+            { light_mult, _( "Light" ) },
+            { bench_mult, _( "Workbench" ) },
+            { morale_mult, _( "Morale" ) },
+            { assist_mult, _( "Assistants" ) },
         }
-
-        factors.push_back( bonus );
-    }
-    std::sort( factors.begin(), factors.end(), std::greater<>() );
-
-    int denom = 0;
-    for( const auto &factor : factors ) {
-        f += refine_factor( factor, ++denom * 0.8f ) ;
-    }
-
-    return limit_factor( f );
-}
-
-std::pair<character_stat, float> player_activity::calc_single_stat( const Character &who,
-        const activity_req<character_stat> &stat ) const
-{
-    int who_stat = 0;
-    switch( stat.req ) {
-        case character_stat::STRENGTH:
-            who_stat = who.get_str();
-            break;
-        case character_stat::DEXTERITY:
-            who_stat = who.get_dex();
-            break;
-        case character_stat::INTELLIGENCE:
-            who_stat = who.get_int();
-            break;
-        case character_stat::PERCEPTION:
-            who_stat = who.get_per();
-            break;
-        default:
-            return std::pair<character_stat, float>( character_stat::DUMMY_STAT, 1.0f );
-    }
-    float f = 1.0f + refine_factor( stat.mod * ( who_stat - stat.threshold ) );
-    return std::pair<character_stat, float>( stat.req, f );
-}
-
-bool player_activity::fails_conditions( player &who )
-{
-    if( type->light_affected() ) {
-        if( speed.light <= 0.0f ) {
-            who.add_msg_if_player( m_bad, _( "You can no longer see well enough to keep crafting." ) );
-            return true;
-        } else if( calendar::once_every( 1_hours ) ) {
-            if( speed.light <= 0.5f ) {
-                who.add_msg_if_player( m_bad, _( "You can't hardly see and are working really slow." ) );
-            } else if( speed.light <= 0.75f ) {
-                who.add_msg_if_player( m_bad, _( "You can't see well and are working slowly." ) );
-            }
+    };
+    std::string mults_desc = _( "Crafting speed multipliers:\n" );
+    // Hack to make sure total always shows
+    bool first = true;
+    for( const std::pair<float, std::string> &p : mults_with_data ) {
+        int percent = static_cast<int>( p.first * 100 );
+        if( first || percent != 100 ) {
+            nc_color col = percent > 100 ? c_green : c_red;
+            std::string colorized = colorize( std::to_string( percent ) + '%', col );
+            mults_desc += string_format( _( "%s: %s\n" ), p.second, colorized );
         }
-    }
-    if( type->bench_affected() ) {
-        if( speed.bench <= 0.33f ) {
-            who.add_msg_if_player( m_bad,
-                                   _( "The %s is too large and/or heavy to work on.  You may want to use a workbench or a smaller batch size" ) );
-            return true;
-        }
-        if( speed.bench <= 0.75f ) {
-            who.add_msg_if_player( m_bad,
-                                   _( "The %s is to large and/or heavy to work on comfortably.  You are working slowly." ) );
-        }
-    }
-    if( type->morale_affected() ) {
-        if( speed.morale <= type->morale_blocked() ) {
-            who.add_msg_if_player( m_bad, _( "You are too frustrated to continue crafting." ) );
-            return true;
-        } else if( calendar::once_every( 1_hours ) ) {
-            if( speed.morale <= 0.5f ) {
-                who.add_msg_if_player( m_bad,
-                                       _( "You hardly can concentrate on your work, due to really bad mood" ) );
-            } else if( speed.morale <= 0.75f ) {
-                who.add_msg_if_player( m_bad, _( "You are working slowly because you are unhappy." ) );
-            }
-        }
+        first = false;
     }
 
-    return false;
-}
-
-
-void player_activity::calc_stats_factors( const Character &who, activity_speed &speed )
-{
-    auto f = actor
-             ? actor->calc_stats_factors( who, type->stats )
-             : std::vector<std::pair<character_stat, float>> {};
-
-    if( !f.empty() ) {
-        return;
-    }
-
-    for( auto &stat : type->stats ) {
-        speed.stats.emplace_back( calc_single_stat( who, stat ) );
-    }
-}
-
-float player_activity::get_best_qual_mod( const activity_req<quality_id> &q,
-        const inventory &inv )
-{
-    int q_level = 0;
-    inv.visit_items( [&q, &q_level]( const item * itm ) {
-        int new_q = itm->get_quality( q.req );
-        if( new_q > q_level ) {
-            q_level = new_q;
-        }
-        return VisitResponse::NEXT;
-    } );
-    q_level = q_level - q.threshold;
-
-    if( q.req == qual_CUT_FINE ) {
-        float cut_fine_f =  2.0f * std::pow( q_level, 3 )
-                            - 10.0f * std::pow( q_level, 2 )
-                            + 32.0f * q_level + q.mod ;
-        return cut_fine_f;
-    }
-
-    if( q_level == 0 ) {
-        return 0.0f;
-    }
-
-    if( q.req == qual_BUTCHER ) {
-        return q_level * q.mod;
-    }
-
-    return  q.mod * q_level / ( q_level + 1.75f );
-}
-
-float player_activity::calc_tools_factor( Character &who,
-        const std::vector<activity_req<quality_id>> &quality_reqs ) const
-{
-    auto &inv = who.crafting_inventory();
-    float ac_f = actor ? actor->calc_tools_factor( quality_reqs, inv ) : -1.0f;
-    //Any factor above 0 is valid, else - use default calc
-    if( ac_f > 0 ) {
-        return ac_f;
-    }
-
-    float f = 1;
-    std::vector<float> factors;
-    for( const auto &q : quality_reqs ) {
-        factors.push_back( get_best_qual_mod( q, inv ) );
-    }
-    std::sort( factors.begin(), factors.end(), std::greater<>() );
-
-    int denom = 0;
-    for( const auto &factor : factors ) {
-        f += refine_factor( factor, ++denom * 0.8f ) ;
-    }
-
-    return limit_factor( f );
-}
-
-void player_activity::calc_morale_factor( const Character &who, activity_speed &speed )
-{
-    const int morale = who.get_morale_level();
-    float ac_morale = actor ? actor->calc_morale_factor( who ) : -1.0f;
-    //Any morale mod above 0 is valid, else - use default morale calc
-    if( ac_morale > 0 ) {
-        speed.morale = ac_morale;
-        return ;
-    }
-
-    //1% per 4 extra morale
-    if( morale > 20 ) {
-        speed.morale = 0.95f + morale / 400.0f;
-    }
-    // 1% per 1 insuff morale
-    else if( morale < -20 ) {
-        speed.morale = 1.20f + morale / 100.0f;
-    }
-    speed.morale = 1.0f;
+    return string_format( _( "%s: %s\n\n%s\n\n%s" ), act.get_verb().translated(), craft->tname(),
+                          time_desc,
+                          mults_desc );
 }
 
 static std::string format_spd( float level, std::string name, int indent = 0,
@@ -509,7 +274,7 @@ std::optional<std::string> player_activity::get_progress_message( const avatar &
     if( !type || get_verb().empty() ) {
         return std::optional<std::string>();
     }
-    if( !type->special() && is_verbose_tooltip() ) {
+    if( !type->special() && type->verbose_tooltip() ) {
 
         /*
         * Progress block
@@ -579,7 +344,7 @@ std::optional<std::string> player_activity::get_progress_message( const avatar &
         mults_desc += format_spd( speed.player_speed, "Speed", 1 );
         mults_desc += format_spd( speed.skills, "Skills", 1 );
         mults_desc += format_spd( speed.tools, "Tools", 1 );
-        mults_desc += format_spd( speed.bench, "Workbench", 1 );
+        mults_desc += format_spd( speed.bench_factor, "Workbench", 1 );
         mults_desc += format_spd( speed.stats_total(), "Stats", 1 );
 
         for( auto &stat : speed.stats ) {
@@ -657,38 +422,6 @@ std::optional<std::string> player_activity::get_progress_message( const avatar &
     return extra_info.empty()
            ? string_format( _( "%s…" ), get_verb().translated() )
            : string_format( _( "%s: %s" ), get_verb().translated(), extra_info );
-}
-
-void player_activity::find_best_bench( const tripoint &pos )
-{
-    map &here = get_map();
-    bench_location best_bench = bench_location(
-                                    workbench_info_wrapper(
-                                        *string_id<furn_t>( "f_ground_crafting_spot" ).obj().workbench.get() ),
-                                    pos );
-    std::vector<tripoint> reachable( PICKUP_RANGE * PICKUP_RANGE );
-    here.reachable_flood_steps( reachable, pos, PICKUP_RANGE, 1, 100 );
-    for( const tripoint &adj : reachable ) {
-        if( auto wb = here.furn( adj ).obj().workbench ) {
-            if( wb->multiplier > best_bench.wb_info.multiplier ) {
-                best_bench = bench_location( workbench_info_wrapper( *wb.get() ), adj );
-            }
-        }
-
-        if( const std::optional<vpart_reference> vp = here.veh_at(
-                    adj ).part_with_feature( "WORKBENCH", true ) ) {
-            if( const std::optional<vpslot_workbench> &wb_info = vp->part().info().get_workbench_info() ) {
-                if( wb_info->multiplier > best_bench.wb_info.multiplier ) {
-                    best_bench = bench_location( workbench_info_wrapper( wb_info.value() ),
-                                                 adj );
-                }
-            } else {
-                debugmsg( "part '%' with WORKBENCH flag has no workbench info", vp->part().name() );
-            }
-        }
-    }
-
-    bench = best_bench;
 }
 
 void player_activity::start_or_resume( Character &who, bool resuming )

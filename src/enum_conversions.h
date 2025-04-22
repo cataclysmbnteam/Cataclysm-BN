@@ -1,6 +1,4 @@
 #pragma once
-#ifndef CATA_SRC_ENUM_CONVERSIONS_H
-#define CATA_SRC_ENUM_CONVERSIONS_H
 
 #include <unordered_map>
 
@@ -115,4 +113,4 @@ bool enum_is_valid( const std::string &data )
 /*@}*/
 } // namespace io
 
-#endif // CATA_SRC_ENUM_CONVERSIONS_H
+

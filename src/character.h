@@ -1,6 +1,4 @@
 #pragma once
-#ifndef CATA_SRC_CHARACTER_H
-#define CATA_SRC_CHARACTER_H
 
 #include <array>
 #include <bitset>
@@ -224,6 +222,17 @@ struct char_trait_data {
 };
 
 struct mutation_collection : std::unordered_map<trait_id, char_trait_data> {};
+
+struct mountable_status {
+    bool mountable;
+    bool skills;
+    bool size;
+    bool carry_weight;
+
+    inline bool can_mount() const {
+        return mountable && skills && size && carry_weight;
+    };
+};
 
 class Character : public Creature, public location_visitable<Character>
 {
@@ -754,6 +763,7 @@ class Character : public Creature, public location_visitable<Character>
         static bodypart_str_id bp_to_hp( const bodypart_str_id &bp );
 
         bool can_mount( const monster &critter ) const;
+        mountable_status get_mountable_status( const monster &critter ) const;
         void mount_creature( monster &z );
         bool is_mounted() const;
         bool check_mount_will_move( const tripoint &dest_loc );
@@ -2511,4 +2521,4 @@ bool has_psy_protection( const Character &c, int partial_chance );
 /** Returns value of speedydex bonus if enabled */
 int get_speedydex_bonus( const int dex );
 
-#endif // CATA_SRC_CHARACTER_H
+

@@ -1,6 +1,4 @@
 #pragma once
-#ifndef CATA_SRC_MONSTER_H
-#define CATA_SRC_MONSTER_H
 
 #include <bitset>
 #include <climits>
@@ -493,8 +491,8 @@ class monster : public Creature, public location_visitable<monster>
         Character *mounted_player = nullptr; // player that is mounting this creature
         character_id mounted_player_id; // id of player that is mounting this creature ( for save/load )
         character_id dragged_foe_id; // id of character being dragged by the monster
-        units::mass get_carried_weight();
-        units::volume get_carried_volume();
+        units::mass get_carried_weight() const;
+        units::volume get_carried_volume() const;
 
         // DEFINING VALUES
         int friendly;
@@ -652,4 +650,4 @@ class monster : public Creature, public location_visitable<monster>
         void process_one_effect( effect &it, bool is_new ) override;
 };
 
-#endif // CATA_SRC_MONSTER_H
+
