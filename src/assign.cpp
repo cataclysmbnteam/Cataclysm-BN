@@ -13,17 +13,12 @@ void report_strict_violation( const JsonObject &jo, const std::string &message,
 }
 
 
-bool assign( const JsonObject &jo, const std::string &name, bool &val, bool strict )
+bool assign( const JsonObject &jo, const std::string &name, bool &val, bool )
 {
     bool out;
 
     if( !jo.read( name, out ) ) {
         return false;
-    }
-
-    if( strict && out == val ) {
-        report_strict_violation( jo, "cannot assign explicit value the same as default or inherited value",
-                                 name );
     }
 
     val = out;
@@ -32,7 +27,7 @@ bool assign( const JsonObject &jo, const std::string &name, bool &val, bool stri
 }
 
 bool assign( const JsonObject &jo, const std::string &name, units::volume &val,
-             bool strict,
+             bool,
              const units::volume lo,
              const units::volume hi )
 {
@@ -82,7 +77,6 @@ bool assign( const JsonObject &jo, const std::string &name, units::volume &val,
         if( !parse( err, tmp ) ) {
             err.throw_error( "invalid relative value specified", name );
         }
-        strict = false;
         out = val + tmp;
 
     } else if( proportional.has_member( name ) ) {
@@ -91,7 +85,6 @@ bool assign( const JsonObject &jo, const std::string &name, units::volume &val,
         if( !err.read( name, scalar ) || scalar <= 0 || scalar == 1 ) {
             err.throw_error( "multiplier must be a positive number other than 1", name );
         }
-        strict = false;
         out = val * scalar;
 
     } else if( !parse( jo, out ) ) {
@@ -102,11 +95,6 @@ bool assign( const JsonObject &jo, const std::string &name, units::volume &val,
         err.throw_error( "value outside supported range", name );
     }
 
-    if( strict && out == val ) {
-        report_strict_violation( err, "cannot assign explicit value the same as default or inherited value",
-                                 name );
-    }
-
     val = out;
 
     return true;
@@ -115,7 +103,7 @@ bool assign( const JsonObject &jo, const std::string &name, units::volume &val,
 bool assign( const JsonObject &jo,
              const std::string &name,
              units::mass &val,
-             bool strict,
+             bool,
              const units::mass lo,
              const units::mass hi )
 {
@@ -152,7 +140,6 @@ bool assign( const JsonObject &jo,
         if( !parse( err, tmp ) ) {
             err.throw_error( "invalid relative value specified", name );
         }
-        strict = false;
         out = val + tmp;
 
     } else if( proportional.has_member( name ) ) {
@@ -162,7 +149,6 @@ bool assign( const JsonObject &jo,
             err.throw_error( "multiplier must be a positive number other than 1",
                              name );
         }
-        strict = false;
         out = val * scalar;
 
     } else if( !parse( jo, out ) ) {
@@ -173,13 +159,6 @@ bool assign( const JsonObject &jo,
         err.throw_error( "value outside supported range", name );
     }
 
-    if( strict && out == val ) {
-        report_strict_violation( err,
-                                 "cannot assign explicit value the same as "
-                                 "default or inherited value",
-                                 name );
-    }
-
     val = out;
 
     return true;
@@ -188,7 +167,7 @@ bool assign( const JsonObject &jo,
 bool assign( const JsonObject &jo,
              const std::string &name,
              units::money &val,
-             bool strict,
+             bool,
              const units::money lo,
              const units::money hi )
 {
@@ -225,7 +204,6 @@ bool assign( const JsonObject &jo,
         if( !parse( err, tmp ) ) {
             err.throw_error( "invalid relative value specified", name );
         }
-        strict = false;
         out = val + tmp;
 
     } else if( proportional.has_member( name ) ) {
@@ -235,7 +213,6 @@ bool assign( const JsonObject &jo,
             err.throw_error( "multiplier must be a positive number other than 1",
                              name );
         }
-        strict = false;
         out = val * scalar;
 
     } else if( !parse( jo, out ) ) {
@@ -246,13 +223,6 @@ bool assign( const JsonObject &jo,
         err.throw_error( "value outside supported range", name );
     }
 
-    if( strict && out == val ) {
-        report_strict_violation( err,
-                                 "cannot assign explicit value the same as "
-                                 "default or inherited value",
-                                 name );
-    }
-
     val = out;
 
     return true;
@@ -261,7 +231,7 @@ bool assign( const JsonObject &jo,
 bool assign( const JsonObject &jo,
              const std::string &name,
              units::energy &val,
-             bool strict,
+             bool,
              const units::energy lo,
              const units::energy hi )
 {
@@ -303,7 +273,6 @@ bool assign( const JsonObject &jo,
         if( !parse( err, tmp ) ) {
             err.throw_error( "invalid relative value specified", name );
         }
-        strict = false;
         out = val + tmp;
 
     } else if( proportional.has_member( name ) ) {
@@ -313,7 +282,6 @@ bool assign( const JsonObject &jo,
             err.throw_error( "multiplier must be a positive number other than 1",
                              name );
         }
-        strict = false;
         out = val * scalar;
 
     } else if( !parse( jo, out ) ) {
@@ -322,13 +290,6 @@ bool assign( const JsonObject &jo,
 
     if( out < lo || out > hi ) {
         err.throw_error( "value outside supported range", name );
-    }
-
-    if( strict && out == val ) {
-        report_strict_violation( err,
-                                 "cannot assign explicit value the same as "
-                                 "default or inherited value",
-                                 name );
     }
 
     val = out;
@@ -412,7 +373,7 @@ bool assign( const JsonObject &jo,
 bool assign( const JsonObject &jo,
              const std::string &name,
              nc_color &val,
-             const bool strict )
+             const bool )
 {
     if( !jo.has_member( name ) ) {
         return false;
@@ -421,12 +382,7 @@ bool assign( const JsonObject &jo,
     if( out == c_unset ) {
         jo.throw_error( "invalid color name", name );
     }
-    if( strict && out == val ) {
-        report_strict_violation( jo,
-                                 "cannot assign explicit value the same as "
-                                 "default or inherited value",
-                                 name );
-    }
+
     val = out;
     return true;
 }

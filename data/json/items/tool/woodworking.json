@@ -355,5 +355,21 @@
     "to_hit": 1,
     "flags": [ "DURABLE_MELEE", "BELT_CLIP", "SHEATH_AXE", "NONCONDUCTIVE" ],
     "qualities": [ [ "AXE", 2 ], [ "CUT", 1 ], [ "BUTCHER", 12 ] ]
+  },
+  {
+    "id": "sandpaper",
+    "type": "GENERIC",
+    "category": "tools_workshop",
+    "symbol": "l",
+    "color": "yellow",
+    "name": { "str": "sandpaper" },
+    "description": "A sheet of cloth or paper with an abrasive material glued to one side, historically glass or sand, modernly aluminum oxide or silicon carbide.  It is commonly used to smooth, roughen, or strip a wooden surface.",
+    "price": "5 USD",
+    "price_postapoc": "10 cent",
+    "material": "paper",
+    "volume": "10 ml",
+    "weight": "1 g",
+    "looks_like": "paper",
+    "qualities": [ [ "SANDING", 2 ] ]
   }
 ]
