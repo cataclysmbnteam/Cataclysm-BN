@@ -1118,6 +1118,7 @@ void Item_factory::init()
     add_actor( std::make_unique<learn_spell_actor>() );
     add_actor( std::make_unique<cast_spell_actor>() );
     add_actor( std::make_unique<weigh_self_actor>() );
+    add_actor( std::make_unique<gps_device_actor>() );
     add_actor( std::make_unique<sew_advanced_actor>() );
 
     // An empty dummy group, it will not spawn anything. However, it makes that item group
