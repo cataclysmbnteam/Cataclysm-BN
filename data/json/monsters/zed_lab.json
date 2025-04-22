@@ -36,7 +36,6 @@
     "flags": [
       "SEES",
       "HEARS",
-      "SMELLS",
       "STUMBLES",
       "WARM",
       "BASHES",
@@ -91,7 +90,6 @@
     "flags": [
       "SEES",
       "HEARS",
-      "SMELLS",
       "STUMBLES",
       "WARM",
       "BASHES",

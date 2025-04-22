@@ -36,7 +36,6 @@
     "upgrades": { "half_life": 28, "into_group": "GROUP_ZOMBIE_UPGRADE" },
     "flags": [
       "HEARS",
-      "SMELLS",
       "STUMBLES",
       "WARM",
       "BASHES",
@@ -82,7 +81,6 @@
     "flags": [
       "SEES",
       "HEARS",
-      "SMELLS",
       "STUMBLES",
       "WARM",
       "BASHES",
@@ -181,7 +179,6 @@
     "flags": [
       "SEES",
       "HEARS",
-      "SMELLS",
       "STUMBLES",
       "WARM",
       "BASHES",
@@ -264,7 +261,6 @@
     "flags": [
       "SEES",
       "HEARS",
-      "SMELLS",
       "STUMBLES",
       "WARM",
       "BASHES",
@@ -409,7 +405,6 @@
     "flags": [
       "SEES",
       "HEARS",
-      "SMELLS",
       "STUMBLES",
       "WARM",
       "BASHES",
@@ -461,7 +456,6 @@
     "flags": [
       "SEES",
       "HEARS",
-      "SMELLS",
       "STUMBLES",
       "WARM",
       "BASHES",
@@ -512,7 +506,6 @@
     "flags": [
       "SEES",
       "HEARS",
-      "SMELLS",
       "STUMBLES",
       "WARM",
       "BASHES",

@@ -31,7 +31,6 @@
     "flags": [
       "SEES",
       "HEARS",
-      "SMELLS",
       "STUMBLES",
       "WARM",
       "BASHES",
@@ -79,7 +78,6 @@
     "flags": [
       "SEES",
       "GOODHEARING",
-      "SMELLS",
       "STUMBLES",
       "WARM",
       "BASHES",
@@ -124,7 +122,6 @@
     "flags": [
       "SEES",
       "HEARS",
-      "SMELLS",
       "STUMBLES",
       "WARM",
       "BASHES",
@@ -204,7 +201,6 @@
     "flags": [
       "SEES",
       "HEARS",
-      "SMELLS",
       "WARM",
       "BASHES",
       "GROUP_BASH",
@@ -256,7 +252,6 @@
     "flags": [
       "SEES",
       "HEARS",
-      "SMELLS",
       "WARM",
       "BASHES",
       "GROUP_BASH",
