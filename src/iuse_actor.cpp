@@ -3306,7 +3306,6 @@ bool repair_item_actor::handle_components( player &pl, const item &fix,
                                             std::ceil( fix.volume() / 250_ml * cost_scaling ) :
                                             roll_remainder( fix.volume() / 250_ml * cost_scaling ) );
 
-    std::function<bool( const item & )> filter = is_crafting_component;
 
     // Go through all discovered repair items and see if we have any of them available
     std::vector<item_comp> comps;
