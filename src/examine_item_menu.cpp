@@ -16,6 +16,7 @@
 #include "itype.h"
 #include "messages.h"
 #include "output.h"
+#include "salvage.h"
 #include "recipe_dictionary.h"
 #include "rot.h"
 #include "ui_manager.h"
@@ -199,6 +200,11 @@ bool run(
 
     add_entry( "MEND", rate_action_mend( you, itm ), [&]() {
         avatar_action::mend( you, &itm );
+        return true;
+    } );
+
+    add_entry( "SALVAGE", rate_action_salvage( you, itm ), [&]() {
+        salvage::salvage_single( you, itm );
         return true;
     } );
 
@@ -454,6 +460,17 @@ hint_rating rate_action_disassemble( avatar &you, const item &it )
     if( crafting::can_disassemble( you, it, you.crafting_inventory() ).success() ) {
         return hint_rating::good; // possible
     } else if( recipe_dictionary::get_uncraft( it.typeId() ) ) {
+        return hint_rating::iffy; // potentially possible but we currently lack requirements
+    } else {
+        return hint_rating::cant; // never possible
+    }
+}
+
+hint_rating rate_action_salvage( avatar &you, const item &it )
+{
+    if( salvage::try_salvage_silent( you, it)) {
+        return hint_rating::good; // possible
+    } else if( it.is_salvageable() ) {
         return hint_rating::iffy; // potentially possible but we currently lack requirements
     } else {
         return hint_rating::cant; // never possible
