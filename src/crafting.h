@@ -55,11 +55,11 @@ struct workbench_info_wrapper {
     void adjust_multiplier( const std::pair<units::mass, units::volume> &metrics );
 };
 
-struct bench_loc {
+struct bench_location {
     workbench_info_wrapper wb_info;
     tripoint position;
 
-    explicit bench_loc( workbench_info_wrapper info, tripoint position )
+    explicit bench_location( workbench_info_wrapper info, tripoint position )
         : wb_info( info ), position( position ) {
     }
 };
@@ -75,8 +75,6 @@ void remove_ammo( item &dis_item, Character &who );
  * @brief Removes any (removable) ammo from each item and stores it in character's inventory.
  */
 void remove_ammo( std::vector<item *> &dis_items, Character &who );
-
-bench_location find_best_bench( const Character &p, const item &craft );
 
 std::optional<workbench_info_wrapper> make_workbench_info( item craft, bench_type type,
         tripoint &location );

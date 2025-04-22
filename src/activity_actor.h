@@ -17,7 +17,7 @@ class JsonIn;
 class JsonOut;
 class player_activity;
 class inventory;
-struct bench_loc;
+struct bench_location;
 
 using metric = std::pair<units::mass, units::volume>;
 

@@ -117,7 +117,7 @@ inline void activity_actor::calc_all_moves( player_activity &act, Character &who
     act.speed.calc_all_moves( who );
 }
 
-inline void activity_actor::adjust_bench_multiplier( bench_loc &bench, const metric & ) const
+inline void activity_actor::adjust_bench_multiplier( bench_location &bench, const metric & ) const
 {
     bench.wb_info.multiplier_adjusted = bench.wb_info.multiplier;
 }
@@ -464,6 +464,13 @@ inline void crafting_activity_actor::calc_all_moves( player_activity &act, Chara
     act.calc_all_moves( who, reqs );
 }
 
+
+inline void crafting_activity_actor::adjust_bench_multiplier( bench_location &bench,
+        const metric &metrics ) const
+{
+    bench.wb_info.adjust_multiplier( metrics );
+}
+
 void crafting_activity_actor::start( player_activity &act, Character &who )
 {
     item *craft = &*target_.loc;
@@ -553,68 +560,6 @@ void crafting_activity_actor::finish( player_activity &act, Character &who )
             who.last_craft->execute( bench_pos );
         }
     }
-}
-
-float crafting_activity_actor::calc_bench_factor( const Character &who,
-        const std::optional<bench_location> &bench ) const
-{
-    float multiplier = 0.0f;
-    units::mass allowed_mass;
-    units::volume allowed_volume;
-
-    auto craft = target_.loc;
-    const units::mass &craft_mass = craft->weight();
-    const units::volume &craft_volume = craft->volume();
-    workbench_info_wrapper wb_info = workbench_info_wrapper(
-                                         *string_id<furn_t>( "f_fake_bench_hands" ).obj().workbench.get() );
-
-    // The whole block below is so ugly because all the benches have different structs with same content
-    map &here = get_map();
-    switch( bench->wb_info.type ) {
-        case bench_type::hands: {
-            wb_info = workbench_info_wrapper(
-                          *string_id<furn_t>( "f_fake_bench_hands" ).obj().workbench.get() );
-        }
-        break;
-        case bench_type::ground: {
-            // Ground - we can always use this, but it's bad
-            wb_info = workbench_info_wrapper(
-                          *string_id<furn_t>( "f_ground_crafting_spot" ).obj().workbench.get() );
-        }
-        break;
-        case bench_type::furniture:
-            if( here.furn( bench->position ).obj().workbench ) {
-                // Furniture workbench
-                wb_info = workbench_info_wrapper( *here.furn( bench->position ).obj().workbench.get() );
-            } else {
-                return 0.0f;
-            }
-            break;
-        case bench_type::vehicle:
-            if( const std::optional<vpart_reference> vp = here.veh_at(
-                        bench->position ).part_with_feature( "WORKBENCH", true ) ) {
-                // Vehicle workbench
-                const vpart_info &vp_info = vp->part().info();
-                if( const std::optional<vpslot_workbench> &v_info = vp_info.get_workbench_info() ) {
-                    wb_info = workbench_info_wrapper( *v_info );
-                } else {
-                    debugmsg( "part '%s' with WORKBENCH flag has no workbench info", vp->part().name() );
-                    return 0.0f;
-                }
-            }
-            break;
-        default:
-            debugmsg( "Invalid workbench type %d", static_cast<int>( bench->wb_info.type ) );
-            return 0.0f;
-    }
-
-    multiplier = wb_info.multiplier;
-    allowed_mass = wb_info.allowed_mass;
-    allowed_volume = wb_info.allowed_volume;
-    multiplier *= lerped_multiplier( craft_mass, allowed_mass, 1000_kilogram );
-    multiplier *= lerped_multiplier( craft_volume, allowed_volume, 1000_liter );
-
-    return multiplier;
 }
 
 float crafting_activity_actor::calc_morale_factor( const Character &who ) const
@@ -927,7 +872,7 @@ void disassemble_activity_actor::finish( player_activity &act, Character &who )
     }
 }
 
-void disassemble_activity_actor::adjust_bench_multiplier( bench_loc &bench,
+void disassemble_activity_actor::adjust_bench_multiplier( bench_location &bench,
         const metric &metrics ) const
 {
     bench.wb_info.adjust_multiplier( metrics );

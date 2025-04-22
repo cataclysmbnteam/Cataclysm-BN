@@ -2154,72 +2154,8 @@ void remove_ammo( item &dis_item, Character &who )
     }
 }
 
-bench_location find_best_bench( const Character &who, const item &craft )
-{
-    map &here = get_map();
-    bool can_lift = who.can_wield( craft ).success() && who.weight_capacity() >= craft.weight();
-    auto best_bench = crafting::best_bench_here( craft, who.pos(), can_lift );
-
-    tripoint best_loc = who.pos();
-    std::vector<tripoint> reachable( PICKUP_RANGE * PICKUP_RANGE );
-    here.reachable_flood_steps( reachable, who.pos(), PICKUP_RANGE, 1, 100 );
-
-    for( const tripoint &adj : reachable ) {
-        if( const cata::value_ptr<furn_workbench_info> &wb = g->m.furn( adj )->workbench ) {
-            if( wb->multiplier > best_bench_multi ) {
-                best_type = bench_type::furniture;
-                best_bench_multi = wb->multiplier;
-                best_loc = adj;
-            }
-        }
-    }
-
-    return bench_location{ best_bench, best_loc};
-}
-
 namespace crafting
 {
-
-std::optional<workbench_info_wrapper> best_bench_loc( const item &craft, const tripoint &loc )
-{
-    std::optional<workbench_info_wrapper> furn;
-    std::optional<workbench_info_wrapper> veh;
-
-    if( const auto info = g->m.furn( loc ).obj().workbench ) {
-        furn = make_workbench_info( craft, bench_type::furniture, loc );
-    }
-    if( const auto vp = g->m.veh_at( loc ).part_with_feature( "WORKBENCH", true ) ) {
-        veh = make_workbench_info( craft, bench_type::vehicle, loc );
-    }
-
-    if( g->m.furn( loc )->workbench ) {
-        float furn_mult = workbench_crafting_speed_multiplier( craft, bench_location{ bench_type::furniture, loc } );
-        if( furn_mult > best_mult ) {
-            best_type = bench_type::furniture;
-            best_mult = furn_mult;
-        }
-    }
-
-workbench_info_wrapper best_bench_here( const item &craft, const tripoint &loc,
-                                        bool can_lift )
-{
-    auto best_bench = *make_workbench_info( craft, bench_type::ground, loc );
-    std::optional<workbench_info_wrapper> tmp;
-
-
-    if( can_lift ) {
-        tmp = make_workbench_info( craft, bench_type::hands, loc );
-        if( tmp && tmp->multiplier_adjusted > best_bench.multiplier_adjusted ) {
-            best_bench = *tmp;
-        }
-    }
-    if( auto best_loc = best_bench_loc( craft, loc ) ) {
-        if( best_loc->multiplier_adjusted > best_bench.multiplier_adjusted ) {
-            best_bench = *best_loc;
-        }
-    }
-    return best_bench;
-}
 
 std::set<itype_id> get_books_for_recipe( const Character &c, const inventory &crafting_inv,
         const recipe *r )

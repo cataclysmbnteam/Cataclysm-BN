@@ -34,7 +34,7 @@ using morale_factor_fn = std::function<float( const Character & )>;
 using tools_factor_fn = std::function<float( const q_reqs &, const inventory & )>;
 using stats_factor_fn = std::function<stat_factors( const Character &, const stat_reqs & )>;
 using skills_factor_fn = std::function<float( const Character &, const skill_reqs & )>;
-using bench_factor_fn = std::function<void( bench_loc &, const metric & )>;
+using bench_factor_fn = std::function<void( bench_location &, const metric & )>;
 
 /*
  * Struct to track activity speed by factors
@@ -43,9 +43,9 @@ class activity_speed
 {
     public:
         activity_id type = activity_id::NULL_ID();
-        std::optional<bench_loc> bench;
+        std::optional<bench_location> bench;
         int assistant_count = 0;
-        bench_factor_fn bench_factor_custom_formula = []( bench_loc &bench, const metric & ) {
+        bench_factor_fn bench_factor_custom_formula = []( bench_location &bench, const metric & ) {
             bench.wb_info.multiplier_adjusted = bench.wb_info.multiplier;
         };
         morale_factor_fn morale_factor_custom_formula = []( const Character & ) {
