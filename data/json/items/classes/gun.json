@@ -100,8 +100,7 @@
       [ "sling", 1 ],
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
-    ],
-    "handling": 20
+    ]
   },
   {
     "abstract": "pistol_1shot",
