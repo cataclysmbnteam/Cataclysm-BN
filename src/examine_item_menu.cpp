@@ -468,7 +468,7 @@ hint_rating rate_action_disassemble( avatar &you, const item &it )
 
 hint_rating rate_action_salvage( avatar &you, const item &it )
 {
-    if( salvage::try_salvage_silent( you, it)) {
+    if( salvage::try_salvage_silent( you, it ) ) {
         return hint_rating::good; // possible
     } else if( it.is_salvageable() ) {
         return hint_rating::iffy; // potentially possible but we currently lack requirements
