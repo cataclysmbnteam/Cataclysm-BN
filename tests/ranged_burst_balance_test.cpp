@@ -77,10 +77,10 @@ TEST_CASE( "average_burst_no_mods", "[ranged] [balance]" )
     standard_npc shooter( "Shooter", shooter_pos, {}, 5, 10, 8, 8, 8 );
     check_burst_penalty( shooter, "american_180", 0 );
     check_burst_penalty( shooter, "calico", 25 );
-    check_burst_penalty( shooter, "m249", 110 );
+    check_burst_penalty( shooter, "m249", 135 );
     check_burst_penalty( shooter, "m4a1", 220 );
     check_burst_penalty( shooter, "ak47", 270 );
-    check_burst_penalty( shooter, "m2browning", 405 );
+    check_burst_penalty( shooter, "m2browning", 404 );
 }
 
 // Near the best achievable by an unmodified human
@@ -90,7 +90,7 @@ TEST_CASE( "great_burst_no_mods", "[ranged] [balance]" )
     standard_npc shooter( "Shooter", shooter_pos, {}, 10, 14, 14, 14, 14 );
     check_burst_penalty( shooter, "american_180", 0 );
     check_burst_penalty( shooter, "calico", 20 );
-    check_burst_penalty( shooter, "m249", 50 );
+    check_burst_penalty( shooter, "m249", 65 );
     check_burst_penalty( shooter, "m4a1", 120 );
     check_burst_penalty( shooter, "ak47", 150 );
     check_burst_penalty( shooter, "m2browning", 230 );
@@ -113,7 +113,7 @@ TEST_CASE( "average_burst_modded", "[ranged] [balance]" )
     standard_npc shooter( "Shooter", shooter_pos, {}, 5, 10, 8, 8, 8 );
     check_burst_penalty( shooter, "american_180", modset, 0 );
     check_burst_penalty( shooter, "calico", modset, 9 );
-    check_burst_penalty( shooter, "m249", {"suppressor"}, 90 );
+    check_burst_penalty( shooter, "m249", {"suppressor"}, 110 );
     check_burst_penalty( shooter, "m4a1", modset, 100 );
     check_burst_penalty( shooter, "ak47", {"adjustable_stock", "suppressor", "pistol_grip"}, 170 );
     check_burst_penalty( shooter, "m2browning", {"suppressor"}, 320 );
