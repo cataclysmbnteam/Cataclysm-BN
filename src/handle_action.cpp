@@ -117,6 +117,7 @@ static const efftype_id effect_relax_gas( "relax_gas" );
 
 static const itype_id itype_radiocontrol( "radiocontrol" );
 static const itype_id itype_shoulder_strap( "shoulder_strap" );
+static const itype_id itype_pistol_lanyard( "pistol_lanyard" );
 
 static const skill_id skill_melee( "melee" );
 
@@ -1376,6 +1377,10 @@ static void fire()
 
             } else if( w->is_gun() && w->gunmod_find( itype_shoulder_strap ) ) {
                 // wield item currently worn using shoulder strap
+                options.push_back( w->display_name() );
+                actions.emplace_back( [&] { u.wield( *w ); } );
+            } else if( w->is_gun() && w->gunmod_find( itype_pistol_lanyard ) ) {
+                // wield item currently worn using pistol lanyard
                 options.push_back( w->display_name() );
                 actions.emplace_back( [&] { u.wield( *w ); } );
             }
