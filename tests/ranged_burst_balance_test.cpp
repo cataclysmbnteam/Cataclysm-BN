@@ -60,7 +60,7 @@ TEST_CASE( "unskilled_burst_no_mods", "[ranged] [balance]" )
     // .22 SMG - the lightest burst (from a firearm) expected to be in the game
     check_burst_penalty( shooter, "american_180", 0 );
     // 9mm SMG - should be manageable
-    check_burst_penalty( shooter, "calico", 100 );
+    check_burst_penalty( shooter, "calico", 60);
     // 5.56x45mm machine gun - should have lower penalty than a rifle of the same caliber
     check_burst_penalty( shooter, "m249", 350 );
     // 5.56x45mm rifle
@@ -76,7 +76,7 @@ TEST_CASE( "average_burst_no_mods", "[ranged] [balance]" )
     clear_all_state();
     standard_npc shooter( "Shooter", shooter_pos, {}, 5, 10, 8, 8, 8 );
     check_burst_penalty( shooter, "american_180", 0 );
-    check_burst_penalty( shooter, "calico", 35 );
+    check_burst_penalty( shooter, "calico", 25);
     check_burst_penalty( shooter, "m249", 135 );
     check_burst_penalty( shooter, "m4a1", 220 );
     check_burst_penalty( shooter, "ak47", 270 );
@@ -89,7 +89,7 @@ TEST_CASE( "great_burst_no_mods", "[ranged] [balance]" )
     clear_all_state();
     standard_npc shooter( "Shooter", shooter_pos, {}, 10, 14, 14, 14, 14 );
     check_burst_penalty( shooter, "american_180", 0 );
-    check_burst_penalty( shooter, "calico", 20 );
+    check_burst_penalty( shooter, "calico", 4 );
     check_burst_penalty( shooter, "m249", 65 );
     check_burst_penalty( shooter, "m4a1", 120 );
     check_burst_penalty( shooter, "ak47", 150 );
@@ -112,7 +112,7 @@ TEST_CASE( "average_burst_modded", "[ranged] [balance]" )
     const std::vector<std::string> modset = {"adjustable_stock", "suppressor", "pistol_grip", "grip_mod"};
     standard_npc shooter( "Shooter", shooter_pos, {}, 5, 10, 8, 8, 8 );
     check_burst_penalty( shooter, "american_180", modset, 0 );
-    check_burst_penalty( shooter, "calico", modset, 9 );
+    check_burst_penalty( shooter, "calico", modset, 3 );
     check_burst_penalty( shooter, "m249", {"suppressor"}, 110 );
     check_burst_penalty( shooter, "m4a1", modset, 100 );
     check_burst_penalty( shooter, "ak47", {"adjustable_stock", "suppressor", "pistol_grip"}, 170 );

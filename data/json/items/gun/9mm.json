@@ -36,7 +36,6 @@
     "material": "steel",
     "color": "dark_gray",
     "ammo": "9mm",
-    "handling": 20,
     "ranged_damage": { "damage_type": "bullet", "amount": 2 },
     "dispersion": 280,
     "durability": 6,
