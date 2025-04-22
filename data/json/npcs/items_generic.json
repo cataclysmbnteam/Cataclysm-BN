@@ -953,6 +953,7 @@
       [ "pills_sleep", 3 ],
       [ "pipe", 4 ],
       [ "pipe_glass", 1 ],
+      [ "nectar_collector", 1 ],
       [ "pipe_tobacco", 1 ],
       [ "improvised_pipebomb", 3 ],
       [ "pistol_bayonet", 1 ],
