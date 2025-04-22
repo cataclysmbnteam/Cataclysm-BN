@@ -1357,8 +1357,8 @@ void mtype::add_special_attack( const JsonObject &obj, const std::string &src )
 
     if( special_attacks.contains( new_attack->id ) ) {
         special_attacks.erase( new_attack->id );
-        const auto iter = std::find( special_attacks_names.begin(), special_attacks_names.end(),
-                                     new_attack->id );
+        const auto iter = std::ranges::find( special_attacks_names,
+                                             new_attack->id );
         if( iter != special_attacks_names.end() ) {
             special_attacks_names.erase( iter );
         }
@@ -1383,7 +1383,7 @@ void mtype::add_special_attack( JsonArray inner, const std::string & )
 
     if( special_attacks.contains( name ) ) {
         special_attacks.erase( name );
-        const auto iter = std::find( special_attacks_names.begin(), special_attacks_names.end(), name );
+        const auto iter = std::ranges::find( special_attacks_names, name );
         if( iter != special_attacks_names.end() ) {
             special_attacks_names.erase( iter );
         }
@@ -1422,7 +1422,7 @@ void mtype::remove_special_attacks( const JsonObject &jo, const std::string &mem
 {
     for( const std::string &name : jo.get_tags( member_name ) ) {
         special_attacks.erase( name );
-        const auto iter = std::find( special_attacks_names.begin(), special_attacks_names.end(), name );
+        const auto iter = std::ranges::find( special_attacks_names, name );
         if( iter != special_attacks_names.end() ) {
             special_attacks_names.erase( iter );
         }

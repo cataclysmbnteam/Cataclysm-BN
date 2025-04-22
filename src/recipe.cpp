@@ -343,7 +343,7 @@ std::string recipe::get_consistency_error() const
         return !elem.first.is_valid();
     };
 
-    if( std::any_of( byproducts.begin(), byproducts.end(), is_invalid_bp ) ) {
+    if( std::ranges::any_of( byproducts, is_invalid_bp ) ) {
         return "defines invalid byproducts";
     }
 
@@ -360,7 +360,7 @@ std::string recipe::get_consistency_error() const
     };
 
     if( ( skill_used && !skill_used.is_valid() ) ||
-        std::any_of( required_skills.begin(), required_skills.end(), is_invalid_skill ) ) {
+        std::ranges::any_of( required_skills, is_invalid_skill ) ) {
         return "uses invalid skill";
     }
 
@@ -368,7 +368,7 @@ std::string recipe::get_consistency_error() const
         return !elem.first->book;
     };
 
-    if( std::any_of( booksets.begin(), booksets.end(), is_invalid_book ) ) {
+    if( std::ranges::any_of( booksets, is_invalid_book ) ) {
         return "defines invalid book";
     }
 
@@ -551,7 +551,7 @@ bool recipe::will_be_blacklisted() const
             return req.first->is_blacklisted();
         };
 
-        return std::any_of( reqs.begin(), reqs.end(), req_is_blacklisted );
+        return std::ranges::any_of( reqs, req_is_blacklisted );
     };
 
     return any_is_blacklisted( reqs_internal ) || any_is_blacklisted( reqs_external );

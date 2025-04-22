@@ -956,7 +956,7 @@ int worldfactory::show_modselection_window( const catacurses::window &win,
                 if( !show_obsolete && mod->obsolete ) {
                     continue;
                 }
-                auto it = std::find( active_mod_order.begin(), active_mod_order.end(), mod );
+                auto it = std::ranges::find( active_mod_order, mod );
                 if( it != active_mod_order.end() ) {
                     continue;
                 }
@@ -1492,8 +1492,8 @@ void worldfactory::draw_worldgen_tabs( const catacurses::window &w, size_t curre
     };
 
     std::vector<std::string> tab_strings_translated( tab_strings );
-    std::for_each( tab_strings_translated.begin(),
-                   tab_strings_translated.end(), []( std::string & str )->void { str = _( str ); } );
+    std::ranges::for_each( tab_strings_translated,
+                           []( std::string & str )->void { str = _( str ); } );
 
     draw_tabs( w, tab_strings_translated, current );
     draw_border_below_tabs( w );
@@ -1545,8 +1545,8 @@ WORLDINFO *worldfactory::get_world( const std::string &name )
 size_t worldfactory::get_world_index( const std::string &name )
 {
     std::vector<std::string> worlds = all_worldnames();
-    size_t world_pos = std::find( worlds.begin(), worlds.end(),
-                                  name ) - worlds.begin();
+    size_t world_pos = std::ranges::find( worlds,
+                                          name ) - worlds.begin();
     if( world_pos >= worlds.size() ) {
         world_pos = 0;
     }
@@ -1572,11 +1572,11 @@ void worldfactory::delete_world( const std::string &worldname, const bool delete
 
     auto file_paths = get_files_from_path( "", worldpath, true, true );
     if( !delete_folder ) {
-        std::vector<std::string>::iterator forbidden = find_if( file_paths.begin(), file_paths.end(),
+        std::vector<std::string>::iterator forbidden = std::ranges::find_if( file_paths,
                 isForbidden );
         while( forbidden != file_paths.end() ) {
             file_paths.erase( forbidden );
-            forbidden = find_if( file_paths.begin(), file_paths.end(), isForbidden );
+            forbidden = std::ranges::find_if( file_paths, isForbidden );
         }
     }
     for( auto &file_path : file_paths ) {

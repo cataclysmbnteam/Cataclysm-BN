@@ -676,7 +676,7 @@ void vpart_info::check()
             }
         };
         if( part.epower != 0 &&
-        std::none_of( handled.begin(), handled.end(), [&part]( const std::string & flag ) {
+        std::ranges::none_of( handled, [&part]( const std::string & flag ) {
         return part.has_flag( flag );
         } ) ) {
             std::string warnings_are_good_docs = enumerate_as_string( handled );

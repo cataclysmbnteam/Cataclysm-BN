@@ -3514,7 +3514,7 @@ void monster::add_item( detached_ptr<item> &&it )
 
 detached_ptr<item> monster::remove_item( item *it )
 {
-    auto iter = std::find( inv.begin(), inv.end(), it );
+    auto iter = std::ranges::find( inv, it );
     detached_ptr<item> ret;
     if( iter != inv.end() ) {
         inv.erase( iter, &ret );

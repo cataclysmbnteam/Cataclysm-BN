@@ -177,8 +177,8 @@ void craft_command::execute( const tripoint &new_loc )
     crafter->last_batch = batch_size;
     crafter->lastrecipe = rec->ident();
 
-    const auto iter = std::find( uistate.recent_recipes.begin(), uistate.recent_recipes.end(),
-                                 rec->ident() );
+    const auto iter = std::ranges::find( uistate.recent_recipes,
+                                         rec->ident() );
     if( iter != uistate.recent_recipes.end() ) {
         uistate.recent_recipes.erase( iter );
     }
@@ -258,8 +258,8 @@ detached_ptr<item> craft_command::create_in_progress_craft()
         comp_used.count *= batch_size;
 
         //Handle duplicate component requirement
-        auto found_it = std::find_if( comps_used.begin(),
-        comps_used.end(), [&comp_used]( const item_comp & c ) {
+        auto found_it = std::ranges::find_if( comps_used,
+        [&comp_used]( const item_comp & c ) {
             return c.type == comp_used.type;
         } );
         if( found_it != comps_used.end() ) {

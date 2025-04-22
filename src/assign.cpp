@@ -1,5 +1,7 @@
 #include "assign.h"
 
+#include <algorithm>
+
 void report_strict_violation( const JsonObject &jo, const std::string &message,
                               const std::string &name )
 {
@@ -349,8 +351,8 @@ bool assign( const JsonObject &jo,
                 obj.throw_error( "syntax error when specifying temperature", name );
             }
             const auto &unit_suffixes = units::temperature_units;
-            auto iter = std::find_if(
-                            unit_suffixes.begin(), unit_suffixes.end(),
+            auto iter = std::ranges::find_if(
+                            unit_suffixes,
                             [&suffix]( const std::pair<std::string, units::temperature> &
             suffix_value ) {
                 return suffix_value.first == suffix;
@@ -529,14 +531,14 @@ void check_assigned_dmg( const JsonObject &err,
                          const damage_instance &hi_inst )
 {
     for( const damage_unit &out_dmg : out.damage_units ) {
-        auto lo_iter = std::find_if(
-                           lo_inst.damage_units.begin(), lo_inst.damage_units.end(),
+        auto lo_iter = std::ranges::find_if(
+                           lo_inst.damage_units,
         [&out_dmg]( const damage_unit & du ) {
             return du.type == out_dmg.type || du.type == DT_NULL;
         } );
 
-        auto hi_iter = std::find_if(
-                           hi_inst.damage_units.begin(), hi_inst.damage_units.end(),
+        auto hi_iter = std::ranges::find_if(
+                           hi_inst.damage_units,
         [&out_dmg]( const damage_unit & du ) {
             return du.type == out_dmg.type || du.type == DT_NULL;
         } );

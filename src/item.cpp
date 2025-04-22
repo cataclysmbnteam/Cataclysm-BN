@@ -709,7 +709,7 @@ void item::ammo_set( const itype_id &ammo, int qty )
                     return;
                 }
                 std::vector<itype_id> opts( iter->second.begin(), iter->second.end() );
-                std::sort( opts.begin(), opts.end(), []( const itype_id & lhs, const itype_id & rhs ) {
+                std::ranges::sort( opts, []( const itype_id & lhs, const itype_id & rhs ) {
                     return lhs->magazine->capacity < rhs->magazine->capacity;
                 } );
                 mag = opts.back();
@@ -2479,7 +2479,7 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
 
     std::map<gun_mode_id, gun_mode> fire_modes = mod->gun_all_modes();
     if( parts->test( iteminfo_parts::GUN_BURST_PENALTY ) ) {
-        if( std::any_of( fire_modes.begin(), fire_modes.end(),
+        if( std::ranges::any_of( fire_modes,
         []( const std::pair<gun_mode_id, gun_mode> &e ) {
         return e.second.qty > 1 && !e.second.melee();
         } ) ) {
@@ -3892,7 +3892,7 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query &parts_
                                    _( "* This item is <info>not rigid</info>.  Its"
                                       " volume and encumbrance increase with contents." ) );
             } else {
-                bool any_encumb_increase = std::any_of( armor->data.begin(), armor->data.end(),
+                bool any_encumb_increase = std::ranges::any_of( armor->data,
                 []( armor_portion_data data ) {
                     return data.encumber != data.max_encumber;
                 } );
@@ -4170,15 +4170,15 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query &parts_
             } else {
                 // Extract item names from recipes and sort them
                 std::vector<std::pair<std::string, bool>> result_names;
-                std::transform(
-                    item_recipes.begin(), item_recipes.end(),
+                std::ranges::transform(
+                    item_recipes,
                     std::back_inserter( result_names ),
                 [&crafting_inv]( const recipe * r ) {
                     bool can_make = r->deduped_requirements().can_make_with_inventory(
                                         crafting_inv, r->get_component_filter() );
                     return std::make_pair( r->result_name(), can_make );
                 } );
-                std::sort( result_names.begin(), result_names.end(), localized_compare );
+                std::ranges::sort( result_names, localized_compare );
                 const std::string recipes =
                     enumerate_as_string( result_names.begin(), result_names.end(),
                 []( const std::pair<std::string, bool> &p ) {
@@ -4832,7 +4832,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
     }
 
     if( !faults.empty() ) {
-        const bool silent = std::any_of( faults.begin(), faults.end(), []( const fault_id & f ) -> bool { return f->has_flag( "SILENT" ); } );
+        const bool silent = std::ranges::any_of( faults, []( const fault_id & f ) -> bool { return f->has_flag( "SILENT" ); } );
         if( silent ) {
             damtext.insert( 0, dirt_symbol );
         } else {
@@ -6275,7 +6275,7 @@ int item::get_encumber_when_containing(
         if( entry.covers.test( bodypart.id() ) ) {
             encumber = entry.encumber;
             // Non-rigid items add additional encumbrance proportional to their volume
-            bool any_encumb_increase = std::any_of( armor->data.begin(), armor->data.end(),
+            bool any_encumb_increase = std::ranges::any_of( armor->data,
             []( armor_portion_data data ) {
                 return data.encumber != data.max_encumber;
             } );
@@ -6929,7 +6929,7 @@ bool item::made_of_any( const std::set<material_id> &mat_idents ) const
         return false;
     }
 
-    return std::any_of( mats.begin(), mats.end(), [&mat_idents]( const material_id & e ) {
+    return std::ranges::any_of( mats, [&mat_idents]( const material_id & e ) {
         return mat_idents.count( e );
     } );
 }
@@ -6941,7 +6941,7 @@ bool item::only_made_of( const std::set<material_id> &mat_idents ) const
         return false;
     }
 
-    return std::all_of( mats.begin(), mats.end(), [&mat_idents]( const material_id & e ) {
+    return std::ranges::all_of( mats, [&mat_idents]( const material_id & e ) {
         return mat_idents.count( e );
     } );
 }
@@ -6949,7 +6949,7 @@ bool item::only_made_of( const std::set<material_id> &mat_idents ) const
 bool item::made_of( const material_id &mat_ident ) const
 {
     const std::vector<material_id> &materials = made_of();
-    return std::find( materials.begin(), materials.end(), mat_ident ) != materials.end();
+    return std::ranges::find( materials, mat_ident ) != materials.end();
 }
 
 bool item::contents_made_of( const phase_id phase ) const
@@ -6981,7 +6981,7 @@ bool item::conductive() const
 
     // If any material has electricity resistance equal to or lower than flesh (1) we are conductive.
     const std::vector<const material_type *> &mats = made_of_types();
-    return std::any_of( mats.begin(), mats.end(), []( const material_type * mt ) {
+    return std::ranges::any_of( mats, []( const material_type * mt ) {
         return mt->elec_resist() <= 1;
     } );
 }
@@ -6994,7 +6994,7 @@ bool item::reinforceable() const
 
     // If a material is reinforceable, so are we
     const std::vector<const material_type *> &mats = made_of_types();
-    return std::any_of( mats.begin(), mats.end(), []( const material_type * mt ) {
+    return std::ranges::any_of( mats, []( const material_type * mt ) {
         return mt->reinforces();
     } );
 }
@@ -7402,7 +7402,7 @@ bool item::is_salvageable() const
         return false;
     }
     const std::vector<material_id> &mats = made_of();
-    if( std::none_of( mats.begin(), mats.end(), []( const material_id & m ) {
+    if( std::ranges::none_of( mats, []( const material_id & m ) {
     return m->salvaged_into().has_value();
     } ) ) {
         return false;
@@ -8240,7 +8240,7 @@ std::vector<const item *> item::gunmods() const
 item *item::gunmod_find( const itype_id &mod )
 {
     std::vector<item *> mods = gunmods();
-    auto it = std::find_if( mods.begin(), mods.end(), [&mod]( item * e ) {
+    auto it = std::ranges::find_if( mods, [&mod]( item * e ) {
         return e->typeId() == mod;
     } );
     return it != mods.end() ? *it : nullptr;
@@ -8284,7 +8284,7 @@ ret_val<bool> item::is_gunmod_compatible( const item &mod ) const
             if( excluded ) {
                 break;
             }
-            if( std::all_of( mod_cat.begin(), mod_cat.end(), [this]( const weapon_category_id & wcid ) {
+            if( std::ranges::all_of( mod_cat, [this]( const weapon_category_id & wcid ) {
             return this->type->weapon_category.count( wcid );
             } ) ) {
                 excluded = true;
@@ -8302,7 +8302,7 @@ ret_val<bool> item::is_gunmod_compatible( const item &mod ) const
             if( usable || excluded ) {
                 break;
             }
-            if( std::all_of( mod_cat.begin(), mod_cat.end(), [this]( const weapon_category_id & wcid ) {
+            if( std::ranges::all_of( mod_cat, [this]( const weapon_category_id & wcid ) {
             return this->type->weapon_category.count( wcid );
             } ) ) {
                 usable = true;
@@ -8369,8 +8369,8 @@ std::map<gun_mode_id, gun_mode> item::gun_all_modes() const
             for( const std::pair<const gun_mode_id, gun_modifier_data> &m : e->type->gun->modes ) {
                 // prefix attached gunmods, e.g. M203_DEFAULT to avoid index key collisions
                 std::string prefix = e->is_gunmod() ? ( std::string( e->typeId() ) += "_" ) : "";
-                std::transform( prefix.begin(), prefix.end(), prefix.begin(),
-                                static_cast<int( * )( int )>( toupper ) );
+                std::ranges::transform( prefix, prefix.begin(),
+                                        static_cast<int( * )( int )>( toupper ) );
 
                 const int qty = m.second.qty();
 
@@ -10416,7 +10416,7 @@ bool item::has_effect_when_wielded( art_effect_passive effect ) const
         return false;
     }
     const std::vector<art_effect_passive> &ew = type->artifact->effects_wielded;
-    return std::find( ew.begin(), ew.end(), effect ) != ew.end();
+    return std::ranges::find( ew, effect ) != ew.end();
 }
 
 bool item::has_effect_when_worn( art_effect_passive effect ) const
@@ -10425,7 +10425,7 @@ bool item::has_effect_when_worn( art_effect_passive effect ) const
         return false;
     }
     const std::vector<art_effect_passive> &ew = type->artifact->effects_worn;
-    return std::find( ew.begin(), ew.end(), effect ) != ew.end();
+    return std::ranges::find( ew, effect ) != ew.end();
 }
 
 bool item::has_effect_when_carried( art_effect_passive effect ) const
@@ -10434,7 +10434,7 @@ bool item::has_effect_when_carried( art_effect_passive effect ) const
         return false;
     }
     const std::vector<art_effect_passive> &ec = type->artifact->effects_carried;
-    if( std::find( ec.begin(), ec.end(), effect ) != ec.end() ) {
+    if( std::ranges::find( ec, effect ) != ec.end() ) {
         return true;
     }
     for( const item *i : contents.all_items_top() ) {
@@ -10501,7 +10501,7 @@ bool item::is_tainted() const
 bool item::is_soft() const
 {
     const std::vector<material_id> mats = made_of();
-    return std::any_of( mats.begin(), mats.end(), []( const material_id & mid ) {
+    return std::ranges::any_of( mats, []( const material_id & mid ) {
         return mid.obj().soft();
     } );
 }
@@ -10753,7 +10753,7 @@ std::vector<item_comp> item::get_uncraft_components() const
     } else {
         //Make a new vector of components from the registered components
         for( const item * const &component : components ) {
-            auto iter = std::find_if( ret.begin(), ret.end(), [component]( item_comp & obj ) {
+            auto iter = std::ranges::find_if( ret, [component]( item_comp & obj ) {
                 return obj.type == component->typeId();
             } );
 

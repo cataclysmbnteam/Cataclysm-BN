@@ -1,5 +1,6 @@
 #include "activity_speed.h"
 
+#include <algorithm>
 #include <optional>
 #include <utility>
 #include <vector>
@@ -134,7 +135,7 @@ void activity_speed::calc_skill_factor( const Character &who,
 
         factors.push_back( bonus );
     }
-    std::sort( factors.begin(), factors.end(), std::greater<>() );
+    std::ranges::sort( factors, std::greater<>() );
 
     int denom = 0;
     for( const auto &factor : factors ) {
@@ -251,7 +252,7 @@ void activity_speed::calc_tools_factor( Character &who,
     for( const auto &q : quality_reqs ) {
         factors.push_back( get_best_qual_mod( q, inv ) );
     }
-    std::sort( factors.begin(), factors.end(), std::greater<>() );
+    std::ranges::sort( factors, std::greater<>() );
 
     int denom = 0;
     for( const auto &factor : factors ) {

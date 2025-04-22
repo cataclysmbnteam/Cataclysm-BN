@@ -377,7 +377,7 @@ void player_morale::set_permanent_typed( const morale_type &type, int bonus,
 
 bool player_morale::has( const morale_type &type ) const
 {
-    return std::any_of( points.begin(), points.end(), [&type]( const morale_point & m ) {
+    return std::ranges::any_of( points, [&type]( const morale_point & m ) {
         return m.type_matches( type );
     } );
 }
@@ -385,7 +385,7 @@ bool player_morale::has( const morale_type &type ) const
 int player_morale::get( const morale_type &type ) const
 {
     // TODO: This should be well defined for multiple bonuses of the same type!
-    auto iter = std::find_if( points.begin(), points.end(), [&type]( const morale_point & m ) {
+    auto iter = std::ranges::find_if( points, [&type]( const morale_point & m ) {
         return m.type_matches( type );
     } );
     return iter != points.end() ? iter->get_net_bonus() : 0;
@@ -527,7 +527,7 @@ void player_morale::decay( const time_duration &ticks )
         m.decay( ticks );
     };
 
-    std::for_each( points.begin(), points.end(), do_decay );
+    std::ranges::for_each( points, do_decay );
     remove_expired();
     update_bodytemp_penalty( ticks );
     invalidate();
@@ -658,8 +658,8 @@ void player_morale::display( int focus_eq, int pain_penalty, int fatigue_cap )
         return localized_compare( std::make_pair( -lhs_percent, lhs.get_name() ),
                                   std::make_pair( -rhs_percent, rhs.get_name() ) );
     };
-    std::sort( positive_morale.begin(), positive_morale.end(), sort_morale );
-    std::sort( negative_morale.begin(), negative_morale.end(), sort_morale );
+    std::ranges::sort( positive_morale, sort_morale );
+    std::ranges::sort( negative_morale, sort_morale );
 
     // Initialize lines
     const std::vector<morale_line> top_lines {
@@ -849,7 +849,7 @@ bool player_morale::consistent_with( const player_morale &morale ) const
                 continue;
             }
 
-            const auto iter = std::find_if( rhs.points.begin(), rhs.points.end(),
+            const auto iter = std::ranges::find_if( rhs.points,
             [ &lhp ]( const morale_point & rhp ) {
                 return lhp.matches( rhp );
             } );
