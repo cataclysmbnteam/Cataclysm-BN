@@ -98,7 +98,8 @@
       [ "sights", 1 ],
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
-    ]
+    ],
+    "handling": 5
   },
   {
     "abstract": "pistol_1shot",
