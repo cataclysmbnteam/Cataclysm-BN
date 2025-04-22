@@ -74,7 +74,6 @@
       [ "muzzle", 1 ],
       [ "rail", 1 ],
       [ "sights", 1 ],
-      [ "sling", 1 ],
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ]
@@ -97,7 +96,6 @@
       [ "muzzle", 1 ],
       [ "rail", 1 ],
       [ "sights", 1 ],
-      [ "sling", 1 ],
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ]
@@ -135,7 +133,6 @@
       [ "mechanism", 4 ],
       [ "sights", 1 ],
       [ "stock", 1 ],
-      [ "sling", 1 ],
       [ "rail", 1 ],
       [ "underbarrel", 1 ]
     ]
@@ -170,7 +167,6 @@
       [ "lens", 1 ],
       [ "rail", 1 ],
       [ "sights", 1 ],
-      [ "sling", 1 ],
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
