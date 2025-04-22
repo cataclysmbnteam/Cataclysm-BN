@@ -48,7 +48,7 @@
     "time": "1 m",
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "string_6", 1], [ "fabric_standard", 1, "LIST" ], [ "cordage", 2, "LIST" ] ] ]
+    "components": [ [ [ "string_6", 1 ], [ "fabric_standard", 1, "LIST" ], [ "cordage", 2, "LIST" ] ] ]
   },
   {
     "type": "recipe",
