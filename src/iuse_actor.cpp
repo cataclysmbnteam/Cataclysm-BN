@@ -77,6 +77,7 @@
 #include "skill.h"
 #include "sounds.h"
 #include "string_formatter.h"
+#include "string_utils.h"
 #include "string_input_popup.h"
 #include "translations.h"
 #include "trap.h"
@@ -4671,6 +4672,166 @@ void weigh_self_actor::load( const JsonObject &jo )
 std::unique_ptr<iuse_actor> weigh_self_actor::clone() const
 {
     return std::make_unique<weigh_self_actor>( *this );
+}
+
+void gps_device_actor::info( const item &, std::vector<iteminfo> &dump ) const
+{
+    dump.emplace_back( "DESCRIPTION",
+                       string_format( _( "This item uses up (%.2f) additional charges per tile revealed." ),
+                                      additional_charges_per_tile ) );
+}
+
+int gps_device_actor::use( player &p, item &it, bool, const tripoint & ) const
+{
+    float charges_built_up = 1.0;
+    const tripoint_abs_omt center = p.global_omt_location();
+
+    std::string query = string_input_popup()
+                        .title( _( "Search for location:" ) )
+                        .width( 40 )
+                        .query_string();
+
+    if( query.size() < 3 ) {
+        p.add_msg_if_player( m_info, _( "Please enter at least 3 characters." ) );
+        return 0;
+    }
+
+    // Exclude natural terrain types. This item should NOT obsolete other items, just be useful for the player.
+    // This helps with that philosophy, since to actually properly survey the area you still need to get to high ground.
+    static const std::vector<std::string> natural_terrains = {
+        "air", "forest", "forest_thick", "forest_water", "field", "lake_surface", "lake_shore",
+        "swamp", "stream", "stream_corner", "stream_end", "river_center", "river_shore", "river_bank", "deep_water", "shallow_water"
+    };
+
+    // Build list of matching terrain IDs whose display name matches the query
+    std::vector<std::string> matching_ids;
+    for( const oter_t &oter : overmap_terrains::get_all() ) {
+        // get_name() returns the human‐readable display name
+        if( lcmatch( oter.get_name(), query ) ) {
+            matching_ids.push_back( oter.get_mapgen_id() );
+        }
+    }
+
+    // Configure search to look only for those matching IDs
+    omt_find_params params{};
+    params.search_range = { 0, radius };
+    params.types.clear();
+    for( const auto &id_str : matching_ids ) {
+        params.types.emplace_back( id_str, ot_match_type::type );
+    }
+    for( const std::string &nt : natural_terrains ) {
+        params.exclude_types.emplace_back( nt, ot_match_type::type );
+    }
+    params.existing_only  = false;
+    params.search_layers  = omt_find_above_ground_layer;
+    params.explored       = false;
+    params.max_results = static_cast<size_t>( 1 + it.ammo_remaining() / additional_charges_per_tile );
+    params.popup          = make_shared_fast<throbber_popup>( _( "Searching…" ) );
+
+    const auto places = overmap_buffer.find_all( center, params );
+    params.popup = nullptr;
+
+    if( places.empty() ) {
+        p.add_msg_if_player( m_info, _( "No locations found for \"%s\"." ), query );
+        return 1;
+    }
+
+    // Group by display name
+    std::multimap<std::string, tripoint_abs_omt> grouped;
+    std::set<std::string> unique_names;
+    for( const auto &pt : places ) {
+        const std::string name = overmap_buffer.ter( pt ).obj().get_name();
+        grouped.insert( { name, pt } );
+        unique_names.insert( name );
+        charges_built_up += additional_charges_per_tile;
+    }
+
+    if( 1 + it.ammo_remaining() < charges_built_up ) {
+        p.add_msg_if_player( m_info, _( "Requires %.1f charges, but only %d remaining." ),
+                             charges_built_up, it.ammo_remaining() - 1 );
+        return 1;
+    }
+
+    // I don't think this will actually ever be called, but we're leaving it here for now
+    if( unique_names.empty() ) {
+        p.add_msg_if_player( m_info, _( "Nothing new to display." ) );
+        return 1;
+    }
+
+    p.add_msg_if_player( m_good, _( "You add the GPS results to your map." ) );
+    // Device has enough charge and nothing has gone wrong, reveal on overmap the locations!
+    for( const auto &pt : places ) {
+        overmap_buffer.reveal( pt, 0 );
+    }
+    uistate.overmap_highlighted_omts.clear();
+
+    // Let the player pick which name to highlight
+    const std::vector<std::string> name_list( unique_names.begin(), unique_names.end() );
+    uilist ui;
+    for( size_t i = 0; i < name_list.size(); ++i ) {
+        ui.addentry( i, true, MENU_AUTOASSIGN,
+                     string_format( "%s (%d)", name_list[i], grouped.count( name_list[i] ) ) );
+    }
+    ui.query();
+    if( ui.ret < 0 ) {
+        return charges_built_up;
+    }
+
+    const tripoint_abs_omt plr_pos = p.global_omt_location();
+    auto range = grouped.equal_range( name_list[ui.ret] );
+    const int count = std::distance( range.first, range.second );
+    if( count == 0 ) {
+        return charges_built_up;
+    }
+
+    // Highlight all matching points
+    std::transform( range.first, range.second,
+                    std::inserter( uistate.overmap_highlighted_omts,
+                                   uistate.overmap_highlighted_omts.end() ),
+    []( const auto & e ) {
+        return e.second;
+    }
+                  );
+
+    if( count == 1 ) {
+        ui::omap::choose_point( range.first->second );
+        return charges_built_up;
+    }
+
+    // If there are multiple, ask for closest vs random
+    ui.reset();
+    ui.addentry( 0, true, 'c', _( "Closest" ) );
+    ui.addentry( 1, true, 'r', _( "Random" ) );
+    ui.query();
+    if( ui.ret < 0 ) {
+        return charges_built_up;
+    }
+
+    if( ui.ret == 1 ) {
+        auto it = range.first;
+        std::advance( it, rng( 0, count - 1 ) );
+        ui::omap::choose_point( it->second );
+    } else {
+        const auto cmp = [&]( const auto & a, const auto & b ) {
+            return trig_dist_squared( plr_pos.raw(), a.second.raw() ) <
+                   trig_dist_squared( plr_pos.raw(), b.second.raw() );
+        };
+        const auto it = std::min_element( range.first, range.second, cmp );
+        ui::omap::choose_point( it->second );
+    }
+
+    return charges_built_up;
+}
+
+void gps_device_actor::load( const JsonObject &jo )
+{
+    assign( jo, "radius", radius );
+    assign( jo, "additional_charges_per_tile", additional_charges_per_tile );
+}
+
+std::unique_ptr<iuse_actor> gps_device_actor::clone() const
+{
+    return std::make_unique<gps_device_actor>( *this );
 }
 
 void sew_advanced_actor::load( const JsonObject &obj )
