@@ -81,10 +81,10 @@
     "material": [ "superalloy", "ceramic" ],
     "color": "dark_gray",
     "ammo": "20x66mm",
-    "handling": 15,
     "dispersion": 400,
     "durability": 9,
     "default_mods": [ "pistol_stock" ],
+    "handling": 25,
     "valid_mod_locations": [
       [ "accessories", 3 ],
       [ "grip", 1 ],
