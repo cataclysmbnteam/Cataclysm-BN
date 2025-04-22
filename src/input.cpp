@@ -420,7 +420,7 @@ int input_manager::get_keycode( const std::string &name ) const
         return a->second;
     }
     // Not found in map, try to parse as int
-    if( name.compare( 0, 8, "UNKNOWN_" ) == 0 ) {
+    if( name.starts_with( "UNKNOWN_" ) ) {
         return str_to_int( name.substr( 8 ) );
     }
     return 0;

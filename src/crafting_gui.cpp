@@ -558,7 +558,7 @@ const recipe *select_crafting_recipe( int &batch_size_out )
             const nc_color color = avail.color( true );
             const std::string qry = trim( filterstring );
             std::string qry_comps;
-            if( qry.compare( 0, 2, "c:" ) == 0 ) {
+            if( qry.starts_with( "c:" ) ) {
                 qry_comps = qry.substr( 2 );
             }
 

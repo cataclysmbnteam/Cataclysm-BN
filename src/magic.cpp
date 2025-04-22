@@ -1709,7 +1709,7 @@ static std::string enumerate_spell_data( const spell &sp )
 static std::string enumerate_traits( const std::set<trait_id> st )
 {
     std::vector<std::string> str_vector;
-    if( st.size() ) {
+    if( !st.empty() ) {
         for( trait_id trait : st ) {
             str_vector.push_back( trait->name() );
         }
