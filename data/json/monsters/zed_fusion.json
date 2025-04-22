@@ -168,7 +168,7 @@
     "harvest": "exempt",
     "special_attacks": [ { "type": "leap", "cooldown": 5, "max_range": 5, "allow_no_target": true }, [ "scratch", 5 ] ],
     "death_function": [ "GAS" ],
-    "flags": [ "SEES", "HEARS",, "WARM", "POISON", "CLIMBS", "NO_BREATHE", "CLIMBS", "HARDTOSHOOT" ]
+    "flags": [ "SEES", "HEARS", "WARM", "POISON", "CLIMBS", "NO_BREATHE", "CLIMBS", "HARDTOSHOOT" ]
   },
   {
     "id": "mon_zombie_gasbag_impaler",
