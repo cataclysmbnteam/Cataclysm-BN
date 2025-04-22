@@ -1969,6 +1969,13 @@
   },
   {
     "type": "keybinding",
+    "name": "Salvage items",
+    "category": "DEFAULTMODE",
+    "id": "salvage",
+    "bindings": []
+  },
+  {
+    "type": "keybinding",
     "name": "Sleep",
     "category": "DEFAULTMODE",
     "id": "sleep",
@@ -3295,6 +3302,13 @@
     "category": "INVENTORY_ITEM",
     "name": "Mend",
     "bindings": [ { "input_method": "keyboard", "key": "m" } ]
+  },
+  {
+    "id": "SALVAGE",
+    "type": "keybinding",
+    "category": "INVENTORY_ITEM",
+    "name": "Salvage",
+    "bindings": [ { "input_method": "keyboard", "key": "S" } ]
   },
   {
     "id": "DISASSEMBLE",

@@ -58,6 +58,7 @@
 #include "units.h"
 #include "units_utility.h"
 #include "value_ptr.h"
+#include "salvage.h"
 
 static const activity_id ACT_EAT_MENU( "ACT_EAT_MENU" );
 static const activity_id ACT_CONSUME_FOOD_MENU( "ACT_CONSUME_FOOD_MENU" );
@@ -1408,6 +1409,44 @@ class saw_stock_inventory_preset : public weapon_inventory_preset
         const item &tool;
         const saw_stock_actor &actor;
 };
+
+class salvage_inventory_preset : public inventory_selector_preset
+{
+    public:
+        salvage_inventory_preset( const player &p, const inventory &inv ) : p( p ), inv( inv ) {
+
+            append_cell( [this]( const item * loc ) {
+                auto components = salvage::salvage_results( *loc );
+                return enumerate_as_string( components.begin(), components.end(),
+                []( const decltype( components )::value_type & comps ) {
+                    int c = std::floor( comps.second );
+                    //%1$s: item name, % 2$d :  count
+                    return string_format( "%1$d %2$s", c, comps.first->nname( c ) );
+                } );
+            }, _( "YIELD" ) );
+
+            append_cell( []( const item * loc ) {
+                return to_string_clipped( time_duration::from_turns( salvage::moves_to_salvage(
+                                              *loc ) / 100 ) );
+            }, _( "TIME" ) );
+        }
+
+        bool is_shown( const item *loc ) const override {
+            return salvage::try_salvage_silent( p, *loc, inv );
+        }
+
+    private:
+        const player &p;
+        inventory inv;
+};
+
+item *game_menus::inv::salvage( player &p )
+{
+
+    return inv_internal( p, salvage_inventory_preset( p, p.crafting_inventory() ),
+                         _( "Salvage what?" ), 1,
+                         _( "You have nothing to salvage." ) );
+}
 
 class repair_inventory_preset: public inventory_selector_preset
 {

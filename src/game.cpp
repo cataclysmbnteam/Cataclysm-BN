@@ -2182,6 +2182,7 @@ input_context get_default_mode_input_context()
     ctxt.register_action( "long_craft" );
     ctxt.register_action( "construct" );
     ctxt.register_action( "disassemble" );
+    ctxt.register_action( "salvage" );
     ctxt.register_action( "sleep" );
     ctxt.register_action( "control_vehicle" );
     ctxt.register_action( "auto_travel_mode" );
@@ -8393,6 +8394,7 @@ static void butcher_submenu( const std::vector<item *> &corpses, int corpse = -1
 void game::butcher()
 {
     map &here = get_map();
+
     if( u.controlling_vehicle ) {
         add_msg( m_info, _( "You can't butcher while driving!" ) );
         return;
@@ -8422,6 +8424,7 @@ void game::butcher()
     std::vector<item *> salvageables;
     map_stack items = m.i_at( u.pos() );
     const inventory &crafting_inv = u.crafting_inventory();
+    inventory inv_changable = u.crafting_inventory();
 
     // Reserve capacity for each to hold entire item set if necessary to prevent
     // reallocations later on
@@ -8436,7 +8439,7 @@ void game::butcher()
         if( ( *it )->is_corpse() ) {
             corpses.push_back( *it );
         } else {
-            if( salvage::try_salvage_silent( u, **it ) ) {
+            if( salvage::try_salvage_silent( u, **it, inv_changable ) ) {
                 salvageables.push_back( *it );
             }
             if( crafting::can_disassemble( u, **it, crafting_inv ).success() ) {

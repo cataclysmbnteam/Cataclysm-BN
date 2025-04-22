@@ -20,6 +20,8 @@
 #include "recipe_dictionary.h"
 #include "type_id.h"
 #include "ui_manager.h"
+#include "game_inventory.h"
+#include "player.h"
 
 const skill_id skill_fabrication( "fabrication" );
 
@@ -31,13 +33,12 @@ namespace salvage
 {
 
 // Helper to visit instances of all the sub-materials of an item.
-void visit_salvage_products( const item &it,
-                             const std::function<void( const item & )> &func )
+static void visit_salvage_products( const item &it,
+                                    const std::function<void( const itype_id & )> &func )
 {
     for( const material_id &material : it.made_of() ) {
         if( const std::optional<itype_id> id = material->salvaged_into() ) {
-            item *tmp = item::spawn_temporary( *id );
-            func( *tmp );
+            func( *id );
         }
     }
 }
@@ -46,8 +47,8 @@ void visit_salvage_products( const item &it,
 units::mass minimal_weight_to_cut( const item &it )
 {
     units::mass min_weight = units::mass_max;
-    visit_salvage_products( it, [&min_weight]( const item & exemplar ) {
-        min_weight = std::min( min_weight, exemplar.weight() );
+    visit_salvage_products( it, [&min_weight]( const itype_id & exemplar ) {
+        min_weight = std::min( min_weight, exemplar->weight );
     } );
     return min_weight;
 }
@@ -89,9 +90,9 @@ static q_result yn_ignore_query( const std::string &text )
     return q_result::abort;
 }
 
-inline bool try_salvage_silent( Character &who, const item &it )
+inline bool try_salvage_silent( const Character &who, const item &it, inventory inv )
 {
-    switch( try_salvage( who, it, true, true ) ) {
+    switch( try_salvage( who, it, inv, true, true ) ) {
         case q_result::yes:
         case q_result::ignore:
             return true;
@@ -104,7 +105,8 @@ inline bool try_salvage_silent( Character &who, const item &it )
 }
 
 // It is used to check if an item can be salvaged or not.
-q_result try_salvage( Character &who, const item &it, bool mute, bool mute_promts )
+q_result try_salvage( const Character &who, const item &it, inventory inv, bool mute,
+                      bool mute_promts )
 {
     if( it.is_null() ) {
         if( !mute ) {
@@ -137,7 +139,6 @@ q_result try_salvage( Character &who, const item &it, bool mute, bool mute_promt
         }
         return q_result::fail;
     }
-    auto inv = who.crafting_inventory();
     if( !has_salvage_tools( inv, it ) ) {
         if( !mute ) {
             add_msg( m_info, _( "You lack proper tools to salvage any material from the %s." ), it.tname() );
@@ -173,23 +174,23 @@ q_result try_salvage( Character &who, const item &it, bool mute, bool mute_promt
                 default:
                     return result;
             }
+        } else if( who.is_wearing( it ) ) {
+            auto result = yn_ignore_query( _( "You're wearing that, salvage anyway?" ) ) ;
+            switch( result ) {
+                case q_result::yes:
+                    break;
+                default:
+                    return result;
+            }
         }
-    } else if( who.is_wearing( it ) ) {
-        auto result = yn_ignore_query( _( "You're wearing that, salvage anyway?" ) ) ;
-        switch( result ) {
-            case q_result::yes:
-                break;
-            default:
-                return result;
-        }
-    }
-    if( it.is_favorite ) {
-        auto result = yn_ignore_query( _( "This item is marked as favorite, salvage anyway?" ) );
-        switch( result ) {
-            case q_result::yes:
-                break;
-            default:
-                return result;
+        if( it.is_favorite ) {
+            auto result = yn_ignore_query( _( "This item is marked as favorite, salvage anyway?" ) );
+            switch( result ) {
+                case q_result::yes:
+                    break;
+                default:
+                    return result;
+            }
         }
     }
 
@@ -197,13 +198,30 @@ q_result try_salvage( Character &who, const item &it, bool mute, bool mute_promt
 }
 
 //Returns vector of pairs <material, fraction>, where fraction = [0.0f, 1.0f]
-std::vector<std::pair< material_id, float>> salvage_result_proportions( const item &target )
+static std::vector<std::pair< material_id, float>> salvage_result_proportions( const item &target )
 {
     auto &materials = target.made_of();
     std::vector<std::pair< material_id, float>> salvagable_materials;
     //For now we assume that proportions for all materials are equal
     for( auto &material : materials ) {
         salvagable_materials.emplace_back( material, 1.0f / materials.size() );
+    }
+    return salvagable_materials;
+}
+
+//Returns vector of pairs <item id, count>
+std::vector<std::pair< itype_id, float>> salvage_results( const item &target )
+{
+    auto &materials = target.made_of();
+    std::vector<std::pair< itype_id, float>> salvagable_materials;
+    //For now we assume that proportions for all materials are equal
+    for( auto &material : salvage_result_proportions( target ) ) {
+        auto res = material.first->salvaged_into();
+        if( all_salvagable_materials.contains( material.first ) && res ) {
+            salvagable_materials.emplace_back( *res,
+                                               //cuz we need actual float here
+                                               target.weight().value() * material.second / ( **res ).weight.value() );
+        }
     }
     return salvagable_materials;
 }
@@ -247,26 +265,23 @@ void complete_salvage( Character &who, item &cut, tripoint_abs_ms pos )
     auto pos_here = here.getlocal( pos );
     const bool filthy = cut.is_filthy();
 
-    for( const auto &salvaged : salvage_result_proportions( cut ) ) {
-        if( all_salvagable_materials.contains( salvaged.first ) ) {
-            auto salvaged_into = salvaged.first->salvaged_into().value();
-            int amount = std::floor( ( cut.weight() * salvaged.second * salvagable_percent ) /
-                                     salvaged_into->weight );
-            if( amount > 0 ) {
-                item &result = *item::spawn_temporary( salvaged_into, calendar::turn );
-                // Time based on number of components.
-                add_msg( m_good, vgettext( "Salvaged %1$i %2$s.", "Salvaged %1$i %2$s.", amount ),
-                         amount, result.display_name( amount ) );
-                if( filthy ) {
-                    result.set_flag( flag_FILTHY );
-                }
-                for( ; amount > 0; --amount ) {
-                    here.add_item_or_charges( pos_here, item::spawn( result ) );
-                }
-            } else {
-                add_msg( m_bad, _( "Could not salvage a %s." ), salvaged_into->nname( 1 ) );
+    for( const auto &salvaged : salvage_results( cut ) ) {
+        int amount = std::floor( salvagable_percent * salvaged.second );
+        if( amount > 0 ) {
+            item &result = *item::spawn_temporary( salvaged.first, calendar::turn );
+            // Time based on number of components.
+            add_msg( m_good, vgettext( "Salvaged %1$i %2$s.", "Salvaged %1$i %2$s.", amount ),
+                     amount, result.display_name( amount ) );
+            if( filthy ) {
+                result.set_flag( flag_FILTHY );
             }
+            for( ; amount > 0; --amount ) {
+                here.add_item_or_charges( pos_here, item::spawn( result ) );
+            }
+        } else {
+            add_msg( m_bad, _( "Could not salvage a %s." ), salvaged.first->nname( 1 ) );
         }
+
     }
 }
 
@@ -277,8 +292,8 @@ int moves_to_salvage( const item &target )
     for( auto &material : salvage_result_proportions( target ) ) {
         if( material.first && all_salvagable_materials.contains( material.first ) ) {
             //based on density, weight and proportion of material
-            auto s = units::to_milligram( target.weight() );
-            time += material.first->density() * material.second * s / 10000.0f;
+            auto w = units::to_milligram( target.weight() );
+            time += material.first->density() * material.second * w / 10000.0f;
         }
     }
     return time;
@@ -305,6 +320,7 @@ bool has_salvage_tools( inventory &inv, const item &item, bool strict )
 {
     //we don't want to try and salvage item with itself
     inv.remove_item( &item );
+    inv.update_quality_cache();
     for( auto &material : item.made_of() ) {
         if( has_salvage_tools( inv, material ) ) {
             return true;
@@ -315,29 +331,58 @@ bool has_salvage_tools( inventory &inv, const item &item, bool strict )
     return false;
 }
 
+bool salvage::menu_salvage_single( player &you )
+{
+    item *target = game_menus::inv::salvage( you );
+    if( target ) {
+        return prompt_salvage_single( you, *target );
+    } else {
+        return false;
+    }
+}
+
+bool salvage::prompt_salvage_single( Character &who, item &target )
+{
+    map &here = get_map();
+    std::string msg;
+    msg += string_format( _( "Salvaging the %s may yield:\n" ),
+                          colorize( target.tname(), target.color_in_inventory() ) );
+    const auto components = salvage_results( target );
+    for( const auto &component : components ) {
+        int c = std::floor( component.second );
+        //%1$s: item name, % 2$d :  count
+        msg += string_format( " - %1$d %2$s\n", c, component.first->nname( c ) );
+    }
+    msg += "\n";
+    msg += _( "Really salvage?\n" );
+    if( !query_yn( msg ) ) {
+        add_msg( _( "Never mind." ) );
+        return false;
+    }
+
+    if( !try_salvage_silent( who, target, who.crafting_inventory() ) ) {
+        return false;
+    }
+    iuse_location loc( target, 0 );
+    who.assign_activity( std::make_unique<player_activity>(
+                             std::make_unique<salvage_activity_actor>(
+                                 iuse_locations{ loc }, here.getglobal( who.pos() ) ) ) );
+    return true;
+}
+
 bool salvage::salvage_single( Character &who, item &target )
 {
     map &here = get_map();
-    bool mute_promts = false;
 
-    switch( try_salvage( who, target, false, mute_promts ) ) {
-        case q_result::ignore:
-            mute_promts = true;
-            [[fallthrough]];
-        case q_result::yes:
-            break;
-        default:
-            add_msg( m_info, _( "Nevermind." ) );
-            [[fallthrough]];
-        case q_result::fail:
-            return false;
+    if( !try_salvage_silent( who, target, who.crafting_inventory() ) ) {
+        return false;
     }
 
     iuse_location loc( target, 0 );
 
     who.assign_activity( std::make_unique<player_activity>(
                              std::make_unique<salvage_activity_actor>(
-                                 iuse_locations{ loc }, here.getglobal( who.pos() ), mute_promts ) ) );
+                                 iuse_locations{ loc }, here.getglobal( who.pos() ) ) ) );
     return true;
 }
 
@@ -346,9 +391,11 @@ bool salvage::salvage_all( Character &who )
     map &here = get_map();
     tripoint pos = who.pos();
     std::vector<iuse_location> targets;
+    //yes this should NOT be a reference
+    inventory inv = who.crafting_inventory();
 
     for( auto target : here.i_at( pos ) ) {
-        if( try_salvage_silent( who, *target ) ) {
+        if( try_salvage_silent( who, *target, inv ) ) {
             iuse_location loc;
             loc.loc = target;
             targets.push_back( std::move( loc ) );
@@ -382,12 +429,14 @@ void salvage_activity_actor::calc_all_moves( player_activity &act, Character &wh
 
 void salvage_activity_actor::start( player_activity &act, Character &who )
 {
+    //yes this should NOT be a reference
+    inventory inv = who.crafting_inventory();
     for( auto &target : targets ) {
         if( !target.loc ) {
             debugmsg( "Lost target of ", get_type() );
         } else {
             if( progress.empty() ) {
-                switch( salvage::try_salvage( who, *target.loc, false, mute_promts ) ) {
+                switch( salvage::try_salvage( who, *target.loc, inv, false, mute_promts ) ) {
                     case salvage::q_result::ignore:
                         mute_promts = true;
                         [[fallthrough]];
@@ -429,7 +478,8 @@ void salvage_activity_actor::do_turn( player_activity &act, Character &who )
             debugmsg( "Lost target of ", get_type() );
             act.set_to_null();
         } else {
-            switch( salvage::try_salvage( who, *target.loc, false, mute_promts ) ) {
+            inventory inv = who.crafting_inventory();
+            switch( salvage::try_salvage( who, *target.loc, inv, false, mute_promts ) ) {
                 case salvage::q_result::ignore:
                     mute_promts = true;
                     [[fallthrough]];
@@ -481,16 +531,23 @@ void populate_salvage_materials( quality &q )
                std::inserter( all_salvagable_materials, all_salvagable_materials.end() ) );
 }
 
-//We check if atleast one material is salvagable
-bool item::is_salvageable() const
+//If strict == false we check if atleast one material is salvagable
+//Else we check all materials
+bool item::is_salvageable( bool strict ) const
 {
     if( is_null() ) {
         return false;
     }
     for( auto &mat : made_of() ) {
         if( all_salvagable_materials.contains( mat ) ) {
-            return !has_flag( flag_NO_SALVAGE );
+            if( !strict ) {
+                return !has_flag( flag_NO_SALVAGE );
+            }
+        } else {
+            if( strict ) {
+                return false;
+            }
         }
     }
-    return false;
+    return strict;
 }
