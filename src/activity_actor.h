@@ -83,8 +83,8 @@ class progress_counter
             } );
             total_tasks++;
         }
-        inline void pop();
-        inline void purge();
+        void pop();
+        void purge();
         inline bool empty() const {
             return targets.empty();
         }
