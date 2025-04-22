@@ -182,10 +182,11 @@
     "use_action": {
       "type": "consume_drug",
       "activation_message": "You heat the nectar collector and hit it. Sooooo smooth...",
+      "//": "duration for pkill2 is decreased because wax extract is 60-90% while distillate is 90-99%",
       "effects": [
         { "id": "weed_high", "duration": "90 m" },
         { "id": "pkill1", "duration": "90 m" },
-        { "id": "pkill2", "duration": "5 m" },
+        { "id": "pkill2", "duration": "1 m" },
         { "id": "smoke", "duration": "30 s" }
       ],
       "stat_adjustments": { "hunger": 3, "thirst": 5 },
