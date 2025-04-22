@@ -40,9 +40,7 @@
     "symbol": ":",
     "color": "green",
     "location": "sling",
-    "mod_target_category": [
-      [ "PISTOLS" ]
-    ],
+    "mod_target_category": [ [ "PISTOLS" ] ],
     "flags": [ "IS_ARMOR", "BELTED", "COMPACT", "OVERSIZE", "WATER_FRIENDLY" ]
   }
 ]
