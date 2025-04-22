@@ -2552,7 +2552,6 @@ Function `( Item ) -> bool`
 
 Function `( Item ) -> bool`
 
-
 #### is_active
 
 Function `( Item ) -> bool`
