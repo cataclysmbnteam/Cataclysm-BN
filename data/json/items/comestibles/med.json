@@ -232,7 +232,7 @@
     "stim": 10,
     "fun": 1,
     "flags": [ "NO_INGEST" ],
-    "use_action": "CHEW"
+    "use_action": { "type": "consume_drug", "activation_message": "You chew your caffeinated chewing gum." }
   },
   {
     "id": "caffeine",
@@ -277,7 +277,12 @@
     "addiction_potential": 40,
     "addiction_type": "nicotine",
     "flags": [ "NO_INGEST" ],
-    "use_action": "CHEW"
+    "use_action": {
+      "type": "consume_drug",
+      "activation_message": "You chew your chewing tobacco.",
+      "effects": [ { "id": "cig", "duration": "10m" } ],
+      "addiction_type_too_much": [ [ "cig", "nicotine" ] ]
+    }
   },
   {
     "id": "chem_hydrogen_peroxide",
@@ -318,7 +323,15 @@
     "addiction_potential": 50,
     "addiction_type": "nicotine",
     "flags": [ "NO_INGEST" ],
-    "use_action": "SMOKING"
+    "use_action": {
+      "type": "consume_drug",
+      "activation_message": "You light up the cigarette.",
+      "lit_item": "cig_lit",
+      "smoking_duration": 4,
+      "charges_needed": { "fire": 1 },
+      "effects": [ { "id": "cig", "duration": "4 m" } ],
+      "addiction_type_too_much": [ [ "cig", "nicotine" ] ]
+    }
   },
   {
     "id": "cigar",
@@ -334,12 +347,20 @@
     "symbol": "!",
     "color": "brown",
     "stim": 1,
-    "healthy": -1,
+    "healthy": -2,
     "fun": 15,
     "addiction_potential": 50,
     "addiction_type": "nicotine",
     "flags": [ "NO_INGEST" ],
-    "use_action": "SMOKING"
+    "use_action": {
+      "type": "consume_drug",
+      "activation_message": "You light up the cigar.",
+      "lit_item": "cigar_lit",
+      "smoking_duration": 12,
+      "charges_needed": { "fire": 1 },
+      "effects": [ { "id": "cig", "duration": "12 m" } ],
+      "addiction_type_too_much": [ [ "cig", "nicotine" ] ]
+    }
   },
   {
     "id": "chloroform_rag",
@@ -577,27 +598,6 @@
     "use_action": "ANTICONVULSANT"
   },
   {
-    "id": "ecig",
-    "type": "COMESTIBLE",
-    "comestible_type": "MED",
-    "name": "electronic cigarette",
-    "description": "This battery-operated device vaporizes a liquid that contains flavorings and nicotine.  A less harmful alternative to traditional cigarettes, but it's still addictive.  It can't be reused once it's empty.",
-    "weight": "1 g",
-    "volume": "250 ml",
-    "price": "30 USD",
-    "price_postapoc": "5 USD",
-    "charges": 40,
-    "stack_size": 40,
-    "symbol": "!",
-    "color": "dark_gray",
-    "stim": 1,
-    "fun": 8,
-    "addiction_potential": 50,
-    "addiction_type": "nicotine",
-    "flags": [ "NO_INGEST" ],
-    "use_action": "ECIG"
-  },
-  {
     "id": "eyedrops",
     "type": "COMESTIBLE",
     "comestible_type": "MED",
@@ -618,7 +618,7 @@
     "type": "COMESTIBLE",
     "comestible_type": "MED",
     "name": { "str_sp": "chewing gum" },
-    "description": "Bright pink sugar-free chewing gum.",
+    "description": "Sugar-free chewing gum wrapped in bright pink packaging, with a question mark on the label.  It's a mystery what flavor it is, but the label claims there's 20 unique flavors.",
     "category": "food",
     "weight": "3 g",
     "volume": "250 ml",
@@ -631,7 +631,12 @@
     "stim": 1,
     "fun": 2,
     "flags": [ "NO_INGEST" ],
-    "use_action": "CHEW"
+    "use_action": {
+      "type": "consume_drug",
+      "activation_message": "You chew your chewing gum.",
+      "snippet_category": "chewing_gum_flavor",
+      "snippet_chance": 1
+    }
   },
   {
     "id": "handrolled_cig",
@@ -653,7 +658,38 @@
     "addiction_potential": 50,
     "addiction_type": "nicotine",
     "flags": [ "NO_INGEST" ],
-    "use_action": "SMOKING"
+    "use_action": {
+      "type": "consume_drug",
+      "activation_message": "You light up the hand-rolled cigarette.",
+      "lit_item": "cig_lit",
+      "smoking_duration": 4,
+      "effects": [ { "id": "cig", "duration": "4 m" } ],
+      "stat_adjustments": { "hunger": -2, "thirst": 1 },
+      "fields_produced": { "fd_cigsmoke": 2 },
+      "charges_needed": { "fire": 1 },
+      "moves": 250
+    }
+  },
+  {
+    "id": "fake_ecig",
+    "type": "COMESTIBLE",
+    "comestible_type": "MED",
+    "name": "phantom vape",
+    "description": "A fake item used for ecig addiction.  This is a bug if you have it.",
+    "weight": "1 g",
+    "volume": "250 ml",
+    "price": "30 USD",
+    "price_postapoc": "5 USD",
+    "charges": 40,
+    "stack_size": 40,
+    "symbol": "!",
+    "color": "dark_gray",
+    "stim": 1,
+    "healthy": -1,
+    "fun": 8,
+    "addiction_potential": 50,
+    "addiction_type": "nicotine",
+    "flags": [ "NO_INGEST" ]
   },
   {
     "id": "heroin",
@@ -726,7 +762,20 @@
     "healthy": -1,
     "addiction_potential": 5,
     "flags": [ "NO_INGEST" ],
-    "use_action": "SMOKING"
+    "use_action": {
+      "type": "consume_drug",
+      "activation_message": "You light up the joint.",
+      "lit_item": "joint_lit",
+      "smoking_duration": 4,
+      "do_weed_msg": true,
+      "charges_needed": { "fire": 1 },
+      "effects": [
+        { "id": "weed_high", "duration": "12 m" },
+        { "id": "pkill1", "duration": "12 m" },
+        { "id": "smoke", "duration": "30 s" }
+      ]
+	}
+  },
   {
     "id": "blunt",
     "type": "COMESTIBLE",
@@ -898,7 +947,12 @@
     "fun": 1,
     "addiction_type": "nicotine",
     "flags": [ "NO_INGEST" ],
-    "use_action": "CHEW"
+    "use_action": {
+      "type": "consume_drug",
+      "activation_message": "You chew your nicotine gum.",
+      "effects": [ { "id": "cig", "duration": "10m" } ],
+      "addiction_type_too_much": [ [ "cig", "nicotine" ] ]
+    }
   },
   {
     "id": "nyquil",
