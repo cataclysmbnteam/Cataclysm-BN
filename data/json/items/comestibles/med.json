@@ -1067,11 +1067,12 @@
     "use_action": {
       "type": "consume_drug",
       "activation_message": "You light up the hand-rolled cigarette.",
+      "lit_item": "cig_lit",
+      "smoking_duration": 4,
       "effects": [ { "id": "cig", "duration": "4 m" } ],
       "stat_adjustments": { "hunger": -2, "thirst": 1 },
       "fields_produced": { "fd_cigsmoke": 2 },
       "charges_needed": { "fire": 1 },
-      "tools_needed": { "apparatus": -1 },
       "moves": 250
     }
   },
@@ -1079,7 +1080,7 @@
     "id": "fake_ecig",
     "type": "COMESTIBLE",
     "comestible_type": "MED",
-    "name": "electronic cigarette",
+    "name": "phantom vape",
     "description": "A fake item used for ecig addiction.  This is a bug if you have it.",
     "weight": "1 g",
     "volume": "250 ml",
