@@ -468,7 +468,7 @@ Guns can be defined like this:
 // aim threshold.
 "sight_dispersion": 10,    // Inaccuracy of gun derived from the sight mechanism, also in quarter-degrees
 "aim_speed": 3,            // A measure of how quickly the player can aim, in moves per point of dispersion.
-"recoil": 0,               // Recoil caused when firing, in quarter-degrees of dispersion. 10% proportional increase for military versions of a round (ie. M885A1) and 20% increase for overpressure ammunition.
+"recoil": 0,               // Recoil caused when firing, in quarter-degrees of dispersion. 10% proportional increase for military versions of a round (ie. M855A1) and 20% increase for overpressure ammunition.
 "durability": 8,           // Resistance to damage/rusting, also determines misfire chance
 "blackpowder_tolerance": 8,// One in X chance to get clogged up (per shot) when firing blackpowder ammunition (higher is better). Optional, default is 8.
 "min_cycle_recoil": 0,     // Minimum ammo recoil for gun to be able to fire more than once per attack.
