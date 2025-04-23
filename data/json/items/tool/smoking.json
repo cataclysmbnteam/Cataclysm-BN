@@ -19,20 +19,15 @@
     "use_action": [
       "PORTABLE_GAME",
       {
-          "type": "consume_drug",
-          "activation_message": "You take a puff from your boxmod vape.",
-          "stat_adjustments": {
-              "thirst": 1,
-              "hunger": -10
-          },
-          "effects": [
-            { "id": "cig", "duration": "10 m" }
-          ],
-          "fields_produced": { "fd_cigsmoke": 3 },
-          "charges_needed" : { "nicotine_liquid" : 1 },
-          "moves": 200,
-          "addiction_type_too_much": [["cig", "nicotine"]],
-          "fake_item": "fake_ecig"
+        "type": "consume_drug",
+        "activation_message": "You take a puff from your boxmod vape.",
+        "stat_adjustments": { "thirst": 1, "hunger": -10 },
+        "effects": [ { "id": "cig", "duration": "10 m" } ],
+        "fields_produced": { "fd_cigsmoke": 3 },
+        "charges_needed": { "nicotine_liquid": 1 },
+        "moves": 200,
+        "addiction_type_too_much": [ [ "cig", "nicotine" ] ],
+        "fake_item": "fake_ecig"
       }
     ],
     "magazines": [
@@ -67,21 +62,15 @@
     "max_charges": 40,
     "initial_charges": 40,
     "charges_per_use": 1,
-    "use_action": 
-      {
-        "type": "consume_drug",
-        "activation_message": "You take a puff from your disposable vape.",
-        "stat_adjustments": {
-            "thirst": 1,
-            "hunger": -10
-        },
-        "effects": [
-          { "id": "cig", "duration": "10 m" }
-        ],
-        "fields_produced": { "fd_cigsmoke": 1 },
-        "moves": 200,
-        "addiction_type_too_much": [["cig", "nicotine"]],
-        "fake_item": "fake_ecig"
+    "use_action": {
+      "type": "consume_drug",
+      "activation_message": "You take a puff from your disposable vape.",
+      "stat_adjustments": { "thirst": 1, "hunger": -10 },
+      "effects": [ { "id": "cig", "duration": "10 m" } ],
+      "fields_produced": { "fd_cigsmoke": 1 },
+      "moves": 200,
+      "addiction_type_too_much": [ [ "cig", "nicotine" ] ],
+      "fake_item": "fake_ecig"
     }
   },
   {

@@ -706,10 +706,7 @@
       "type": "consume_drug",
       "activation_message": "You start scarfing down the delicious cake.  It tastes a little funny though…",
       "do_weed_msg": true,
-      "effects": [
-        { "id": "weed_high", "duration": "12 m" },
-        { "id": "pkill1", "duration": "12 m" }
-      ]
+      "effects": [ { "id": "weed_high", "duration": "12 m" }, { "id": "pkill1", "duration": "12 m" } ]
     }
   },
   {
@@ -735,10 +732,7 @@
       "type": "consume_drug",
       "activation_message": "You start scarfing down the delicious brownie.  It tastes a little funny though…",
       "do_weed_msg": true,
-      "effects": [
-        { "id": "weed_high", "duration": "12 m" },
-        { "id": "pkill1", "duration": "12 m" }
-      ]
+      "effects": [ { "id": "weed_high", "duration": "12 m" }, { "id": "pkill1", "duration": "12 m" } ]
     }
   },
   {

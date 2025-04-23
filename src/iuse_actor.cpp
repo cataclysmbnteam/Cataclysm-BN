@@ -884,6 +884,25 @@ int consume_drug_iuse::use( player &p, item &it, bool, const tripoint & ) const
         }
     }
 
+    // Output message.
+    p.add_msg_if_player( _( activation_message ), it.type_name( 1 ) );
+
+    if (smoking_duration){
+        detached_ptr<item> cig;
+        cig = item::spawn( lit_item, calendar::turn );
+        time_duration converted_time = time_duration::from_minutes(smoking_duration);
+        
+        cig->item_counter = to_turns<int>( converted_time );
+        cig->activate();
+        p.i_add( std::move( cig ) );
+    }
+    
+    if( do_weed_msg ) {
+        if( one_in( snippet_chance ) ) {
+            weed_msg( p );
+        }
+    }
+
     // item used to "fake" addiction (ripped from old ecig iuse)
     if (fake_item.size() != 0){
         item *dummy_item = item::spawn_temporary( fake_item, calendar::turn );
@@ -956,26 +975,6 @@ int consume_drug_iuse::use( player &p, item &it, bool, const tripoint & ) const
                        p.vitamin_rate( v.first ) <= 0_turns );
     }
 
-    if (smoking_duration){
-        detached_ptr<item> cig;
-        cig = item::spawn( lit_item, calendar::turn );
-        time_duration converted_time = time_duration::from_minutes(smoking_duration);
-        
-        cig->item_counter = to_turns<int>( converted_time );
-        cig->activate();
-        p.i_add( std::move( cig ) );
-    }
-
-
-    // Output message.
-    p.add_msg_if_player( _( activation_message ), it.type_name( 1 ) );
-    
-    if( do_weed_msg ) {
-        if( one_in( snippet_chance ) ) {
-            weed_msg( p );
-        }
-    }
-    
     if( snippet_category != "" ) {
         snippet_id snip_id = snippet_id::NULL_ID();
         std::string snippet_string = "";
