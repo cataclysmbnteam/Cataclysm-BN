@@ -797,6 +797,7 @@ void consume_drug_iuse::load( const JsonObject &obj )
     obj.read( "smoking_duration", smoking_duration );
     obj.read( "too_much_threshold", too_much_threshold );
     obj.read( "snippet_category", snippet_category );
+    obj.read( "snippet_chance", snippet_chance );
     obj.read( "do_weed_msg", do_weed_msg ); // i wish i didn't have to do this, but the weed_msg function can't really be easily JSONified
 
     if( obj.has_array( "addiction_type_too_much" ) ) {
@@ -970,16 +971,16 @@ int consume_drug_iuse::use( player &p, item &it, bool, const tripoint & ) const
     p.add_msg_if_player( _( activation_message ), it.type_name( 1 ) );
     
     if( do_weed_msg ) {
-        if( one_in( 5 ) ) {
+        if( one_in( snippet_chance ) ) {
             weed_msg( p );
         }
     }
-
+    
     if( snippet_category != "" ) {
         snippet_id snip_id = snippet_id::NULL_ID();
         std::string snippet_string = "";
         snippet_string = SNIPPET.random_from_category(snippet_category).value_or( translation() ).translated();
-        if( one_in( 5 )){
+        if( one_in( snippet_chance )){
             p.add_msg_if_player( _( "%s" ), snippet_string );
         }
     }

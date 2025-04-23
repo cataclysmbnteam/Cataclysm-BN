@@ -280,8 +280,10 @@ class consume_drug_iuse : public iuse_actor
         int smoking_duration = 0;
         /** Does this item contain THC? Should it make the player think high thoughts? **/
         bool do_weed_msg = false;
-        /** Chance (1 in 5) to make the player think a snippet from this category to themselves. **/
+        /** Make the player think a snippet from this category to themselves. **/
         std::string snippet_category;
+        /** Chance (1 in snippet_chance) to make the player think a snippet. (Default 5)**/
+        int snippet_chance = 5;
 
         /** Modify player vitamin_levels by random amount between min (first) and max (second) */
         std::map<vitamin_id, std::pair<int, int>> vitamins;

@@ -232,7 +232,10 @@
     "stim": 10,
     "fun": 1,
     "flags": [ "NO_INGEST" ],
-    "use_action": "CHEW"
+    "use_action": {
+      "type": "consume_drug",
+      "activation_message": "You chew your caffeinated chewing gum."
+    }
   },
   {
     "id": "caffeine",
@@ -277,7 +280,12 @@
     "addiction_potential": 40,
     "addiction_type": "nicotine",
     "flags": [ "NO_INGEST" ],
-    "use_action": "CHEW"
+    "use_action": {
+      "type": "consume_drug",
+      "activation_message": "You chew your chewing tobacco.",
+      "effects": [ { "id": "cig", "duration": "10m" } ],
+      "addiction_type_too_much": [["cig", "nicotine"]]
+    }
   },
   {
     "id": "chem_hydrogen_peroxide",
@@ -996,27 +1004,6 @@
     }
   },
   {
-    "id": "ecig",
-    "type": "COMESTIBLE",
-    "comestible_type": "MED",
-    "name": "electronic cigarette",
-    "description": "This battery-operated device vaporizes a liquid that contains flavorings and nicotine.  A less harmful alternative to traditional cigarettes, but it's still addictive.  It can't be reused once it's empty.",
-    "weight": "1 g",
-    "volume": "250 ml",
-    "price": "30 USD",
-    "price_postapoc": "5 USD",
-    "charges": 40,
-    "stack_size": 40,
-    "symbol": "!",
-    "color": "dark_gray",
-    "stim": 1,
-    "fun": 8,
-    "addiction_potential": 50,
-    "addiction_type": "nicotine",
-    "flags": [ "NO_INGEST" ],
-    "use_action": "ECIG"
-  },
-  {
     "id": "eyedrops",
     "type": "COMESTIBLE",
     "comestible_type": "MED",
@@ -1037,7 +1024,7 @@
     "type": "COMESTIBLE",
     "comestible_type": "MED",
     "name": { "str_sp": "chewing gum" },
-    "description": "Bright pink sugar-free chewing gum.",
+    "description": "Sugar-free chewing gum wrapped in bright pink packaging, with a question mark on the label. It's a mystery what flavor it is.",
     "category": "food",
     "weight": "3 g",
     "volume": "250 ml",
@@ -1050,7 +1037,12 @@
     "stim": 1,
     "fun": 2,
     "flags": [ "NO_INGEST" ],
-    "use_action": "CHEW"
+    "use_action": {
+      "type": "consume_drug",
+      "activation_message": "You chew your chewing gum.",
+      "snippet_category": "chewing_gum_flavor",
+      "snippet_chance": 1
+    }
   },
   {
     "id": "handrolled_cig",
@@ -1327,7 +1319,7 @@
     "use_action": {
       "type": "consume_drug",
       "activation_message": "You chew your nicotine gum.",
-      "effects": [ { "id": "cig", "duration": 200 } ],
+      "effects": [ { "id": "cig", "duration": "10m" } ],
       "addiction_type_too_much": [["cig", "nicotine"]]
     }
   },

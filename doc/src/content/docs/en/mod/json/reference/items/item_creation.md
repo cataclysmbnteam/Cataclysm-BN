@@ -879,6 +879,7 @@ more structured function.
     "used_up_item": "", // Item to give once used, alternative to lit_item which should be used in tandem with smoking_duration.
     "do_weed_msg": false, // Should weed_msg(player) be called after using the item?
     "snippet_category": "killer_withdrawal", // Chance (1 in 5) to say a random snippet from this category upon use. Like do_weed_msg, but unhardcoded.
+    "snippet_chance": 5, // Chance (1 in snippet_chance) to make the player think a snippet.
     "moves": 50 // Number of moves required in the process, default value is 100.
 },
 "use_action": {
