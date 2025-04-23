@@ -8437,7 +8437,7 @@ void game::butcher()
         if( ( *it )->is_corpse() ) {
             corpses.push_back( *it );
         } else {
-            if( salvage::try_salvage_silent( u, **it, inv_changable ) ) {
+            if( salvage::try_salvage( **it, inv_changable ).success() ) {
                 salvageables.push_back( *it );
             }
             if( crafting::can_disassemble( u, **it, crafting_inv ).success() ) {

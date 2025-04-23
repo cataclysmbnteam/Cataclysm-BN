@@ -1410,10 +1410,11 @@ class saw_stock_inventory_preset : public weapon_inventory_preset
         const saw_stock_actor &actor;
 };
 
-class salvage_inventory_preset : public inventory_selector_preset
+class salvage_inventory_preset : public pickup_inventory_preset
 {
     public:
-        salvage_inventory_preset( const player &p, const inventory &inv ) : p( p ), inv( inv ) {
+        salvage_inventory_preset( const player &p, inventory inv ) : p( p ), inv( inv ),
+            pickup_inventory_preset( p ) {
 
             append_cell( []( const item * loc ) {
                 auto components = salvage::salvage_results( *loc );
@@ -1431,8 +1432,16 @@ class salvage_inventory_preset : public inventory_selector_preset
             }, _( "TIME" ) );
         }
 
+        std::string get_denial( const item *loc ) const override {
+            const ret_val<bool> ret = salvage::try_salvage( *loc, inv );
+            if( !ret.success() ) {
+                return ret.str();
+            }
+            return pickup_inventory_preset::get_denial( loc );
+        }
+
         bool is_shown( const item *loc ) const override {
-            return salvage::try_salvage_silent( p, *loc, inv );
+            return loc->is_salvageable();
         }
 
     private:

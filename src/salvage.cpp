@@ -8,6 +8,8 @@
 #include "activity_speed.h"
 #include "character.h"
 #include "flag.h"
+#include "game_inventory.h"
+#include "item.h"
 #include "itype.h"
 #include "json.h"
 #include "map.h"
@@ -15,13 +17,13 @@
 #include "messages.h"
 #include "options.h"
 #include "output.h"
+#include "player.h"
 #include "player_activity.h"
 #include "popup.h"
 #include "recipe_dictionary.h"
 #include "type_id.h"
 #include "ui_manager.h"
-#include "game_inventory.h"
-#include "player.h"
+#include "visitable.h"
 
 const skill_id skill_fabrication( "fabrication" );
 
@@ -32,24 +34,16 @@ static std::set<material_id> all_salvagable_materials;
 namespace salvage
 {
 
-// Helper to visit instances of all the sub-materials of an item.
-static void visit_salvage_products( const item &it,
-                                    const std::function<void( const itype_id & )> &func )
-{
-    for( const material_id &material : it.made_of() ) {
-        if( const std::optional<itype_id> id = material->salvaged_into() ) {
-            func( *id );
-        }
-    }
-}
-
 // Helper to find smallest sub-component of an item.
 units::mass minimal_weight_to_cut( const item &it )
 {
     units::mass min_weight = units::mass_max;
-    visit_salvage_products( it, [&min_weight]( const itype_id & exemplar ) {
-        min_weight = std::min( min_weight, exemplar->weight );
-    } );
+
+    for( const material_id &material : it.made_of() ) {
+        if( const std::optional<itype_id> id = material->salvaged_into() ) {
+            min_weight = std::min( min_weight, ( *id )->weight );
+        }
+    }
     return min_weight;
 }
 
@@ -90,115 +84,86 @@ static q_result yn_ignore_query( const std::string &text )
     return q_result::abort;
 }
 
-inline bool try_salvage_silent( const Character &who, const item &it, inventory inv )
-{
-    switch( try_salvage( who, it, inv, true, true ) ) {
-        case q_result::yes:
-        case q_result::ignore:
-            return true;
-        case q_result::skip:
-        case q_result::abort:
-        case q_result::fail:
-        default:
-            return false;
-    }
-}
 
 // It is used to check if an item can be salvaged or not.
-q_result try_salvage( const Character &who, const item &it, inventory inv, bool mute,
-                      bool mute_promts )
+ret_val<bool> try_salvage( const item &target, inventory inv )
 {
-    if( it.is_null() ) {
-        if( !mute ) {
-            add_msg( m_info, _( "You do not have that item." ) );
-        }
-        return q_result::fail;
+    if( target.is_null() ) {
+        return ret_val<bool>::make_failure( _( "You do not have that item." ) );
     }
     // There must be some historical significance to these items.
-    if( !it.is_salvageable() ) {
-        if( !mute ) {
-            add_msg( m_info, _( "Can't salvage anything from %s." ), it.tname() );
-            if( recipe_dictionary::get_uncraft( it.typeId() ) ) {
-                add_msg( m_info, _( "Try disassembling the %s instead." ), it.tname() );
-            } else if( !it.only_made_of( all_salvagable_materials ) ) {
-                add_msg( m_info, _( "The %s is made entirely of material that cannot be salvaged up." ),
-                         it.tname() );
-            }
+    if( !target.is_salvageable() ) {
+        auto ret = string_format( _( "Can't salvage anything from %s." ) + '\n', target.tname() );
+        if( recipe_dictionary::get_uncraft( target.typeId() ) ) {
+            ret += string_format( _( "Try disassembling the %s instead." ), target.tname() );
+        } else if( !target.only_made_of( all_salvagable_materials ) ) {
+            ret += string_format( _( "The %s is made entirely of material that cannot be salvaged up." ),
+                                  target.tname() );
         }
-        return q_result::fail;
+        return ret_val<bool>::make_failure( ret );
     }
-    if( !it.contents.empty() ) {
-        if( !mute ) {
-            add_msg( m_info, _( "Please empty the %s before salvaged it up." ), it.tname() );
-        }
-        return q_result::fail;
+    if( !target.contents.empty() ) {
+        return ret_val<bool>::make_failure(
+                   string_format( _( "Please empty the %s before salvaged it up." ), target.tname() ) );
     }
-    if( it.weight() < minimal_weight_to_cut( it ) ) {
-        if( !mute ) {
-            add_msg( m_info, _( "The %s is too small to salvage any material from." ), it.tname() );
-        }
-        return q_result::fail;
+    if( target.weight() < minimal_weight_to_cut( target ) ) {
+        return ret_val<bool>::make_failure(
+                   string_format( _( "The %s is too small to salvage any material from." ), target.tname() ) );
     }
-    if( !has_salvage_tools( inv, it ) ) {
-        if( !mute ) {
-            add_msg( m_info, _( "You lack proper tools to salvage any material from the %s." ), it.tname() );
-        }
-        return q_result::abort;
+    if( !has_salvage_tools( inv, target ) ) {
+        return ret_val<bool>::make_failure(
+                   string_format(
+                       _( "You lack proper tools to salvage any material from the %s." ),
+                       target.tname() ) );
+    }
+    return ret_val<bool>::make_success();
+}
 
+q_result promt_warnings( const Character &who, const item &target, inventory &inv )
+{
+    //we don't want to try and salvage item with itself
+    inv.remove_item( &target );
+    inv.update_quality_cache();
+    auto &madeof = target.made_of();
 
-    } else
-        // Softer warnings at the end so we don't ask permission and then tell them no.
-        if( !( mute_promts && mute ) ) {
-            for( auto &mat : it.made_of() ) {
-                if( !has_salvage_tools( inv, mat ) ) {
-                    auto result = yn_ignore_query(
-                                      string_format(
-                                          _( "You lack proper tools to salvage %s from the %s, meaning output for this material.  Salvage anyway?" ),
-                                          mat->name(), it.tname() ) );
-                    switch( result ) {
-                        case q_result::yes:
-                            break;
-                        default:
-                            return result;
-                    }
-                }
-            }
-        }
-
-    if( !( mute_promts && mute ) ) {
-        if( who.is_wielding( it ) ) {
-            auto result = yn_ignore_query( _( "You are wielding that, salvage anyway?" ) ) ;
-            switch( result ) {
-                case q_result::yes:
-                    break;
-                default:
-                    return result;
-            }
-        } else if( who.is_wearing( it ) ) {
-            auto result = yn_ignore_query( _( "You're wearing that, salvage anyway?" ) ) ;
-            switch( result ) {
-                case q_result::yes:
-                    break;
-                default:
-                    return result;
-            }
-        }
-        if( it.is_favorite ) {
-            auto result = yn_ignore_query( _( "This item is marked as favorite, salvage anyway?" ) );
-            switch( result ) {
-                case q_result::yes:
-                    break;
-                default:
-                    return result;
+    for( auto &mat : madeof ) {
+        auto res = mat->salvaged_into();
+        // do not promt this if resulting material will provide 0 items
+        if( res && res.value()->weight <= target.weight() / madeof.size()
+            && !has_salvage_tools( inv, mat ) ) {
+            auto result = yn_ignore_query(
+                              string_format(
+                                  _( "You lack proper tools to salvage %s from the %s, meaning no output for this material.  Salvage anyway?" ),
+                                  mat->name(), target.tname() ) );
+            if( result != q_result::yes ) {
+                return result;
             }
         }
     }
 
+    if( who.is_wielding( target ) ) {
+        auto result = yn_ignore_query( _( "You are wielding that, salvage anyway?" ) );
+        if( result != q_result::yes ) {
+            return result;
+        }
+    } else if( who.is_wearing( target ) ) {
+        auto result = yn_ignore_query( _( "You're wearing that, salvage anyway?" ) );
+        if( result != q_result::yes ) {
+            return result;
+        }
+    }
+    if( target.is_favorite ) {
+        auto result = yn_ignore_query( _( "This item is marked as favorite, salvage anyway?" ) );
+        if( result != q_result::yes ) {
+            return result;
+        }
+    }
     return q_result::yes;
 }
 
 //Returns vector of pairs <material, fraction>, where fraction = [0.0f, 1.0f]
-static std::vector<std::pair< material_id, float>> salvage_result_proportions( const item &target )
+static std::vector<std::pair< material_id, float>> salvage_result_proportions(
+            const item &target )
 {
     auto &materials = target.made_of();
     std::vector<std::pair< material_id, float>> salvagable_materials;
@@ -359,7 +324,7 @@ bool prompt_salvage_single( Character &who, item &target )
         return false;
     }
 
-    if( !try_salvage_silent( who, target, who.crafting_inventory() ) ) {
+    if( !try_salvage( target, who.crafting_inventory() ).success() ) {
         return false;
     }
     iuse_location loc( target, 0 );
@@ -373,7 +338,7 @@ bool salvage_single( Character &who, item &target )
 {
     map &here = get_map();
 
-    if( !try_salvage_silent( who, target, who.crafting_inventory() ) ) {
+    if( !try_salvage( target, who.crafting_inventory() ).success() ) {
         return false;
     }
 
@@ -394,7 +359,7 @@ bool salvage_all( Character &who )
     inventory inv = who.crafting_inventory();
 
     for( auto target : here.i_at( pos ) ) {
-        if( try_salvage_silent( who, *target, inv ) ) {
+        if( target && try_salvage( *target, inv ).success() ) {
             iuse_location loc;
             loc.loc = target;
             targets.push_back( std::move( loc ) );
@@ -434,8 +399,8 @@ void salvage_activity_actor::start( player_activity &act, Character &who )
         if( !target.loc ) {
             debugmsg( "Lost target of ", get_type() );
         } else {
-            if( progress.empty() ) {
-                switch( salvage::try_salvage( who, *target.loc, inv, false, mute_promts ) ) {
+            if( progress.empty() && !mute_promts ) {
+                switch( salvage::promt_warnings( who, *target.loc, inv ) ) {
                     case salvage::q_result::ignore:
                         mute_promts = true;
                         [[fallthrough]];
@@ -477,25 +442,29 @@ void salvage_activity_actor::do_turn( player_activity &act, Character &who )
             debugmsg( "Lost target of ", get_type() );
             act.set_to_null();
         } else {
-            //yes this should NOT be a reference
-            inventory inv = who.crafting_inventory();
-            switch( salvage::try_salvage( who, *target.loc, inv, false, mute_promts ) ) {
-                case salvage::q_result::ignore:
-                    mute_promts = true;
-                    [[fallthrough]];
-                case salvage::q_result::yes:
-                    calc_all_moves( act, who );
-                    break;
-                case salvage::q_result::fail:
-                case salvage::q_result::skip:
-                    targets.erase( targets.begin() );
-                    progress.pop();
-                    break;
-                case salvage::q_result::abort:
-                    act.set_to_null();
-                    break;
-                default:
-                    break;
+            if( !mute_promts ) {
+                //yes this should NOT be a reference
+                inventory inv = who.crafting_inventory();
+                switch( salvage::promt_warnings( who, *target.loc, inv ) ) {
+                    case salvage::q_result::ignore:
+                        mute_promts = true;
+                        [[fallthrough]];
+                    case salvage::q_result::yes:
+                        calc_all_moves( act, who );
+                        break;
+                    case salvage::q_result::fail:
+                    case salvage::q_result::skip:
+                        targets.erase( targets.begin() );
+                        progress.pop();
+                        break;
+                    case salvage::q_result::abort:
+                        act.set_to_null();
+                        break;
+                    default:
+                        break;
+                }
+            } else {
+                calc_all_moves( act, who );
             }
         }
     }

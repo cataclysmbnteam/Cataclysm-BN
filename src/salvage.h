@@ -24,9 +24,9 @@ enum class q_result {
     fail
 };
 
-bool try_salvage_silent( const Character &who, const item &it, inventory inv );
-q_result try_salvage( const Character &who, const item &it, inventory inv, bool mute,
-                      bool mute_promts );
+ret_val<bool> try_salvage( const item &it, inventory inv );
+
+q_result promt_warnings( const Character &who, const item &it, inventory &inv );
 
 units::mass minimal_weight_to_cut( const item &it );
 

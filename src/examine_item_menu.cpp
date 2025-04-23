@@ -468,12 +468,13 @@ hint_rating rate_action_disassemble( avatar &you, const item &it )
 
 hint_rating rate_action_salvage( avatar &you, const item &it )
 {
-    if( salvage::try_salvage_silent( you, it, you.crafting_inventory() ) ) {
-        return hint_rating::good; // possible
-    } else if( it.is_salvageable() ) {
-        return hint_rating::iffy; // potentially possible but we currently lack requirements
-    } else {
+    //is_salvageable is much cheaper so we do it first
+    if( !it.is_salvageable() ) {
         return hint_rating::cant; // never possible
+    } else if( salvage::try_salvage( it, you.crafting_inventory() ).success() ) {
+        return hint_rating::good; // possible
+    } else {
+        return hint_rating::iffy; // potentially possible but we currently lack requirements
     }
 }
 
