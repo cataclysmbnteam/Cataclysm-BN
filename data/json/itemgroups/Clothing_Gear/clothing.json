@@ -3266,7 +3266,7 @@
       { "group": "dusters", "prob": 60 },
       { "group": "trenchcoats", "prob": 40 },
       { "group": "normal_coats", "prob": 80 },
-      { "group": "nomral_jackets", "prob": 60 },
+      { "group": "normal_jackets", "prob": 60 },
       { "group": "misc_coats", "prob": 30 },
       { "group": "vests", "prob": 40 }
     ]
