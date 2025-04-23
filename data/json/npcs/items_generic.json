@@ -548,7 +548,7 @@
       [ "curry_meat", 1 ],
       [ "curry_powder", 2 ],
       [ "curry_veggy", 1 ],
-      [ "dab_pen", 5 ],
+      { "item": "light_battery_cell", "charges": 100, "container-item": "dab_pen", "prob": 5 },
       [ "dab_pen_disposable", 5 ],
       [ "dayquil", 5 ],
       [ "decoy_anarch", 1 ],

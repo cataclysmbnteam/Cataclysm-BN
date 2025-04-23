@@ -37,8 +37,8 @@
   {
     "id": "stoner",
     "type": "item_group",
-    "//": "Processed weed and weed accessories",
-    "items": [ [ "joint", 100 ], [ "joint_roach", 20 ], [ "pipe_glass", 10 ], [ "pipe_glass_bong", 10 ], [ "thc_liquid", 10 ], [ "thc_wax", 10 ], [ "dab_pen", 10 ], [ "dab_pen_disposable", 10 ], [ "nectar_collector", 10 ] ]
+    "//": "Processed weed and weed accessories found on bodies",
+    "items": [ [ "joint_roach", 50 ], [ "blunt_roach", 50 ], { "group": "weed_accessories", "prob": 200 }, { "group": "dispensary", "prob": 200 } ]
   },
   {
     "id": "silverware",

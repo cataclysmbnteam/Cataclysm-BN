@@ -214,7 +214,7 @@
       [ "sword_cane", 5 ],
       [ "hollow_cane", 5 ],
       [ "advanced_ecig", 5 ],
-      [ "dab_pen", 5 ],
+      { "item": "light_battery_cell", "charges": 100, "container-item": "dab_pen", "prob": 5 },
       [ "television", 10 ],
       [ "microwave", 5 ],
       [ "multi_cooker", 1 ],
