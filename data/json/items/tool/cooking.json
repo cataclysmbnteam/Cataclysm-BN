@@ -687,8 +687,7 @@
         "battery",
         [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
       ]
-    ],
-    "qualities": [ [ "VACUUM", 1 ] ]
+    ]
   },
   {
     "id": "mess_kit",
@@ -1071,8 +1070,7 @@
         [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
       ]
     ],
-    "magazine_well": "500 ml",
-    "qualities": [ [ "VACUUM", 2 ] ]
+    "magazine_well": "500 ml"
   },
   {
     "id": "waffleiron",

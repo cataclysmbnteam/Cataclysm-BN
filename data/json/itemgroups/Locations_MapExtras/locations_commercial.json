@@ -57,6 +57,7 @@
       [ "bottle_glass", 10 ],
       [ "flask_glass", 10 ],
       [ "pipe_glass", 10 ],
+      [ "pipe_glass_bong", 10 ],
       [ "fish_bowl", 1 ],
       [ "glass_sheet", 5 ],
       [ "jar_3l_glass", 15 ],

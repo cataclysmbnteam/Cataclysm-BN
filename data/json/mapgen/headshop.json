@@ -84,10 +84,10 @@
         { "item": "pipe_tobacco", "repeat": [ 1, 4 ], "x": 18, "y": 6 },
         { "item": "pipe_glass", "repeat": [ 1, 4 ], "x": 21, "y": 7 },
         { "item": "crackpipe", "repeat": [ 1, 2 ], "x": 18, "y": 8 },
-        { "item": "pipe_glass", "repeat": [ 1, 4 ], "x": 21, "y": 8 },
+        { "item": "pipe_glass_bong", "repeat": [ 1, 4 ], "x": 21, "y": 8 },
         { "item": "crackpipe", "repeat": [ 1, 2 ], "x": 4, "y": 10 },
         { "item": "pipe_glass", "repeat": [ 1, 4 ], "x": 4, "y": 10 },
-        { "item": "pipe_glass", "repeat": [ 1, 4 ], "x": 7, "y": 10 },
+        { "item": "pipe_glass_bong", "repeat": [ 1, 4 ], "x": 7, "y": 10 },
         { "item": "pipe_glass", "repeat": [ 1, 4 ], "x": 18, "y": 10 },
         { "item": "crackpipe", "repeat": [ 1, 2 ], "x": 21, "y": 10 }
       ],

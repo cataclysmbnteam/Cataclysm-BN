@@ -337,8 +337,8 @@
     "//": "purging generally can take 24-48 hours, however we don't want to make the player wait that long. 4 will do hopefully. this step encompasses winterization, distillation, and purging since we have no freezing for recipes",
     "batch_time_factors": [ 99, 5 ],
     "autolearn": true,
-    "tools": [ [ [ "chemistry_set", 1 ] ], [ [ "surface_heat", 8, "LIST" ] ], [ [ "vac_sealer", 1 ] ] ],
-    "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "BOIL", "level": 1 }, { "id": "DISTILL", "level": 1 }, { "id": "VACUUM", "level": 2 } ],
+    "tools": [ [ [ "surface_heat", 8, "LIST" ] ], [ [ "vac_sealer", 1 ] ] ],
+    "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "BOIL", "level": 1 }, { "id": "DISTILL", "level": 1 } ],
     "components": [
       [ [ "thc_liquid_unrefined", 10 ] ],
       [ [ "chem_ethanol", 1 ] ],
@@ -357,8 +357,8 @@
     "//": "purging generally can take 24-48 hours, however we don't want to make the player wait that long. 4 will do hopefully. this step encompasses whippikng and a long purge under slight heat",
     "batch_time_factors": [ 99, 5 ],
     "autolearn": true,
-    "tools": [ [ [ "chemistry_set", 1 ] ], [ [ "surface_heat", 8, "LIST" ] ], [ [ "vac_sealer", 1 ] ] ],
-    "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "BOIL", "level": 1 }, { "id": "VACUUM", "level": 2 } ],
+    "tools": [ [ [ "surface_heat", 8, "LIST" ] ], [ [ "vac_sealer", 1 ] ] ],
+    "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "BOIL", "level": 1 } ],
     "components": [
       [ [ "thc_liquid_unrefined", 10 ] ]
     ]

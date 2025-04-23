@@ -251,6 +251,7 @@
       [ "thc_liquid", 5 ],
       [ "nectar_collector", 5 ],
       [ "pipe_glass", 20 ],
+      [ "pipe_glass_bong", 20 ],
       [ "cig", 60 ],
       [ "chaw", 60 ]
     ]

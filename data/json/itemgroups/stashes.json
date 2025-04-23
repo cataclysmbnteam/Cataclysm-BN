@@ -59,6 +59,7 @@
       [ "seed_tobacco", 15 ],
       [ "rolling_paper", 9 ],
       [ "pipe_glass", 17 ],
+      [ "pipe_glass_bong", 17 ],
       [ "nectar_collector", 10 ],
       [ "coke", 8 ],
       [ "sizzurp", 4 ],

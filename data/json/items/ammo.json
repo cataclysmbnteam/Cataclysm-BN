@@ -899,7 +899,7 @@
     "name": { "str": "crude cannabis extract" },
     "symbol": "=",
     "color": "brown",
-    "description": "An unrefined cannabis extract.  This slurry consists of butane, terpenes, and THC.  This hasn't been properly purged yet, and can't be safely consumed.",
+    "description": "An unrefined cannabis extract.  This slurry consists of butane, terpenes, and THC and is commonly referred to as BHO or butane hash oil.  This hasn't been properly purged yet, and can't be safely consumed.",
     "container": "bottle_plastic_small",
     "phase": "liquid",
     "volume": "250 ml",

@@ -18,7 +18,17 @@
             "prob": 20
           },
           { "item": "cigar", "prob": 5, "charges": [ 1, 1 ] },
-          { "item": "joint", "prob": 5 }
+          { "item": "joint", "prob": 5 },
+          { "item": "blunt", "prob": 5 },
+          {
+            "collection": [
+              { "item": "weed", "charges-min": 1, "charges-max": 20 },
+              {
+                "distribution": [ { "item": "rolling_paper", "prob": 70, "charges-min": 1, "charges-max": 30 }, { "item": "pipe_glass", "prob": 30 } ]
+              }
+            ],
+            "prob": 20
+          }
         ]
       },
       { "distribution": [ { "item": "lighter" }, { "item": "matches", "charges-min": 1, "charges-max": 20 } ] }
@@ -28,7 +38,7 @@
     "id": "stoner",
     "type": "item_group",
     "//": "Processed weed and weed accessories",
-    "items": [ [ "joint", 100 ], [ "joint_roach", 20 ], [ "pipe_glass", 10 ] ]
+    "items": [ [ "joint", 100 ], [ "joint_roach", 20 ], [ "pipe_glass", 10 ], [ "pipe_glass_bong", 10 ], [ "thc_liquid", 10 ], [ "thc_wax", 10 ], [ "dab_pen", 10 ], [ "dab_pen_disposable", 10 ], [ "nectar_collector", 10 ] ]
   },
   {
     "id": "silverware",
