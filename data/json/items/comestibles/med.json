@@ -992,7 +992,7 @@
     "type": "COMESTIBLE",
     "comestible_type": "MED",
     "name": { "str_sp": "chewing gum" },
-    "description": "Sugar-free chewing gum wrapped in bright pink packaging, with a question mark on the label. It's a mystery what flavor it is.",
+    "description": "Sugar-free chewing gum wrapped in bright pink packaging, with a question mark on the label.  It's a mystery what flavor it is, but the label claims there's 20 unique flavors.",
     "category": "food",
     "weight": "3 g",
     "volume": "250 ml",
