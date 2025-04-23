@@ -727,6 +727,40 @@
     "addiction_potential": 5,
     "flags": [ "NO_INGEST" ],
     "use_action": "SMOKING"
+  {
+    "id": "blunt",
+    "type": "COMESTIBLE",
+    "comestible_type": "MED",
+    "name": "blunt",
+    "looks_like": "cigar",
+    "description": "Marijuana, cannabis, pot.  Whatever you want to call it, it's rolled up in a large tobacco leaf and ready for smokin'.",
+    "weight": "1 g",
+    "volume": "250 ml",
+    "price": "5 USD",
+    "price_postapoc": "50 USD",
+    "stack_size": 100,
+    "symbol": "!",
+    "color": "green",
+    "quench": -5,
+    "stim": -10,
+    "healthy": -1,
+    "addiction_potential": 8,
+    "flags": [ "NO_INGEST" ],
+    "use_action": {
+      "type": "consume_drug",
+      "activation_message": "You light up the blunt.",
+      "lit_item": "blunt_lit",
+      "smoking_duration": 12,
+      "charges_needed": { "fire": 1 },
+      "do_weed_msg": true,
+      "effects": [
+        { "id": "weed_high", "duration": "90 m" },
+        { "id": "cig", "duration": "90 m" },
+        { "id": "pkill1", "duration": "90 m" },
+        { "id": "smoke", "duration": "30 s" }
+      ],
+      "addiction_type_too_much": [["cig", "nicotine"]]
+    }
   },
   {
     "id": "lsd",
