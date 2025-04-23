@@ -318,7 +318,15 @@
     "addiction_potential": 50,
     "addiction_type": "nicotine",
     "flags": [ "NO_INGEST" ],
-    "use_action": "SMOKING"
+    "use_action": {
+      "type": "consume_drug",
+      "activation_message": "You light up the cigarette.",
+      "lit_item": "cig_lit",
+      "smoking_duration": 4,
+      "charges_needed": { "fire": 1 },
+      "effects": [ { "id": "cig", "duration": "4 m" } ],
+      "addiction_type_too_much": [["cig", "nicotine"]]
+    }
   },
   {
     "id": "cigar",
@@ -339,7 +347,44 @@
     "addiction_potential": 50,
     "addiction_type": "nicotine",
     "flags": [ "NO_INGEST" ],
-    "use_action": "SMOKING"
+    "use_action": {
+      "type": "consume_drug",
+      "activation_message": "You light up the cigar.",
+      "lit_item": "cigar_lit",
+      "smoking_duration": 12,
+      "charges_needed": { "fire": 1 },
+      "effects": [ { "id": "cig", "duration": "12 m" } ],
+      "addiction_type_too_much": [["cig", "nicotine"]]
+    }
+  },
+  {
+    "id": "evil_blunt",
+    "type": "COMESTIBLE",
+    "comestible_type": "MED",
+    "name": "evil blunt",
+    "description": "Rolled, cured tobacco leaf, addictive and hazardous to health filled with marijuana.  This blunt is evil.",
+    "weight": "3 g",
+    "volume": "250 ml",
+    "price": "10 USD",
+    "price_postapoc": "5 USD",
+    "charges": 5,
+    "symbol": "!",
+    "color": "brown",
+    "stim": 999,
+    "healthy": -999,
+    "fun": 999,
+    "addiction_potential": 999,
+    "flags": [ "NO_INGEST" ],
+    "use_action": {
+      "type": "consume_drug",
+      "activation_message": "You light up the evil blunt.",
+      "lit_item": "cigar_lit",
+      "smoking_duration": 12,
+      "charges_needed": { "fire": 1 },
+      "effects": [ { "id": "cig", "duration": "12 m" }, { "id": "cocaine_high", "duration": "12 m" }, { "id": "cocaine_high", "duration": "12 m" }, { "id": "cocaine_high", "duration": "12 m" }, { "id": "weed_high", "duration": "12 m" }, { "id": "pkill1", "duration": "12 m" } ],
+      "addiction_type_too_much": [["cig", "nicotine"], ["cocaine_high", "cocaine"]],
+      "snippet_category": "killer_withdrawal"
+    }
   },
   {
     "id": "chloroform_rag",
@@ -1027,7 +1072,36 @@
     "addiction_potential": 50,
     "addiction_type": "nicotine",
     "flags": [ "NO_INGEST" ],
-    "use_action": "SMOKING"
+    "use_action": {
+      "type": "consume_drug",
+      "activation_message": "You light up the hand-rolled cigarette.",
+      "effects": [ { "id": "cig", "duration": "4 m" } ],
+      "stat_adjustments": { "hunger": -2, "thirst": 1 },
+      "fields_produced": { "fd_cigsmoke": 2 },
+      "charges_needed": { "fire": 1 },
+      "tools_needed": { "apparatus": -1 },
+      "moves": 250
+    }
+  },
+  {
+    "id": "fake_ecig",
+    "type": "COMESTIBLE",
+    "comestible_type": "MED",
+    "name": "electronic cigarette",
+    "description": "A fake item used for ecig addiction.  This is a bug if you have it.",
+    "weight": "1 g",
+    "volume": "250 ml",
+    "price": "30 USD",
+    "price_postapoc": "5 USD",
+    "charges": 40,
+    "stack_size": 40,
+    "symbol": "!",
+    "color": "dark_gray",
+    "stim": 1,
+    "fun": 8,
+    "addiction_potential": 50,
+    "addiction_type": "nicotine",
+    "flags": [ "NO_INGEST" ]
   },
   {
     "id": "heroin",
@@ -1100,7 +1174,19 @@
     "healthy": -1,
     "addiction_potential": 5,
     "flags": [ "NO_INGEST" ],
-    "use_action": "SMOKING"
+    "use_action": {
+      "type": "consume_drug",
+      "activation_message": "You light up the joint.",
+      "lit_item": "joint_lit",
+      "smoking_duration": 4,
+      "do_weed_msg": true,
+      "charges_needed": { "fire": 1 },
+      "effects": [
+        { "id": "weed_high", "duration": "12 m" },
+        { "id": "pkill1", "duration": "12 m" },
+        { "id": "smoke", "duration": "30 s" }
+      ]
+    }
   },
   {
     "id": "lsd",
@@ -1238,7 +1324,12 @@
     "fun": 1,
     "addiction_type": "nicotine",
     "flags": [ "NO_INGEST" ],
-    "use_action": "CHEW"
+    "use_action": {
+      "type": "consume_drug",
+      "activation_message": "You chew your nicotine gum.",
+      "effects": [ { "id": "cig", "duration": 200 } ],
+      "addiction_type_too_much": [["cig", "nicotine"]]
+    }
   },
   {
     "id": "nyquil",
