@@ -56,7 +56,7 @@
     "autolearn": true,
     "reversible": true,
     "flags": [ "BLIND_HARD" ],
-    "components": [ [ [ "rolling_paper", 1 ] ], [ [ "weed", 1 ], [ "joint_roach", 5 ] ] ]
+    "components": [ [ [ "rolling_paper", 1 ] ], [ [ "weed", 1 ], [ "joint_roach", 5 ], [ "blunt_roach", 5 ] ] ]
   },
   {
     "type": "recipe",
@@ -68,7 +68,7 @@
     "autolearn": true,
     "reversible": true,
     "flags": [ "BLIND_HARD" ],
-    "components": [ [ [ "tobacco_raw", 2 ] ], [ [ "weed", 2 ] ] ]
+    "components": [ [ [ "tobacco_raw", 2 ] ], [ [ "weed", 2 ], ["blunt_roach", 5], ["joint_roach", 5] ] ]
   },
   {
     "type": "recipe",

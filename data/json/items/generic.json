@@ -2546,7 +2546,7 @@
     "type": "GENERIC",
     "id": "blunt_roach",
     "looks_like": "cigar_butt",
-    "name": { "str": "blunt roach" },
+    "name": { "str": "blunt roach", "str_pl": "blunt roaches" },
     "color": "dark_gray",
     "symbol": "!",
     "weight": "1 g",
