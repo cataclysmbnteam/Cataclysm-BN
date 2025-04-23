@@ -212,10 +212,6 @@ int chop_moves( Character &ch, item &tool );
 
 // LEGACY
 int cauterize_hotplate( player *, item *, bool, const tripoint & );
-int smoking( player *, item *, bool, const tripoint & );
-int ecig( player *, item *, bool, const tripoint & );
-int weed_cake( player *, item *, bool, const tripoint & );
-int chew( player *, item *, bool, const tripoint & );
 
 } // namespace iuse
 

@@ -543,108 +543,6 @@ int iuse::alcohol_strong( player *p, item *it, bool, const tripoint & )
     return alcohol( *p, *it, 2 );
 }
 
-/**
- * Entry point for intentional bodily intake of smoke via paper wrapped one
- * time use items: cigars, cigarettes, etc.
- *
- * @param p Player doing the smoking
- * @param it the item to be smoked.
- * @return Charges used in item smoked
- */
-int iuse::smoking( player *p, item *it, bool, const tripoint & )
-{
-    bool hasFire = ( p->has_charges( itype_fire, 1 ) );
-
-    // make sure we're not already smoking something
-    if( !check_litcig( *p ) ) {
-        return 0;
-    }
-
-    if( !hasFire ) {
-        p->add_msg_if_player( m_info, _( "You don't have anything to light it with!" ) );
-        return 0;
-    }
-
-    detached_ptr<item> cig;
-    if( it->typeId() == itype_cig ) {
-        cig = item::spawn( "cig_lit", calendar::turn );
-        cig->item_counter = to_turns<int>( 4_minutes );
-        p->mod_stored_kcal( 30 );
-        p->mod_thirst( 2 );
-    } else if( it->typeId() == itype_handrolled_cig ) {
-        // This transforms the hand-rolled into a normal cig, which isn't exactly
-        // what I want, but leaving it for now.
-        cig = item::spawn( "cig_lit", calendar::turn );
-        cig->item_counter = to_turns<int>( 4_minutes );
-        p->mod_thirst( 2 );
-        p->mod_stored_kcal( 30 );
-    } else if( it->typeId() == itype_cigar ) {
-        cig = item::spawn( "cigar_lit", calendar::turn );
-        cig->item_counter = to_turns<int>( 12_minutes );
-        p->mod_thirst( 3 );
-        p->mod_stored_kcal( 40 );
-    } else if( it->typeId() == itype_joint ) {
-        cig = item::spawn( "joint_lit", calendar::turn );
-        cig->item_counter = to_turns<int>( 4_minutes );
-        p->mod_stored_kcal( -40 );
-        p->mod_thirst( 6 );
-        if( p->get_painkiller() < 5 ) {
-            p->set_painkiller( ( p->get_painkiller() + 3 ) * 2 );
-        }
-    } else {
-        p->add_msg_if_player( m_bad,
-                              _( "Please let the devs know you should be able to smoke a %s but the smoking code does not know how." ),
-                              it->tname() );
-        return 0;
-    }
-    // If we're here, we better have a cig to light.
-    p->use_charges_if_avail( itype_fire, 1 );
-    cig->activate();
-    p->add_msg_if_player( m_neutral, _( "You light a %s." ), cig->tname() );
-
-    p->i_add( std::move( cig ) );
-    // Parting messages
-    if( it->typeId() == itype_joint ) {
-        // Would group with the joint, but awkward to mutter before lighting up.
-        if( one_in( 5 ) ) {
-            weed_msg( *p );
-        }
-    }
-    if( p->get_effect_dur( effect_cig ) > 10_minutes * ( p->addiction_level(
-                add_type::CIG ) + 1 ) ) {
-        p->add_msg_if_player( m_bad, _( "Ugh, too much smoke… you feel nasty." ) );
-    }
-
-    return it->type->charges_to_use();
-}
-
-int iuse::ecig( player *p, item *it, bool, const tripoint & )
-{
-    if( it->typeId() == itype_ecig ) {
-        p->add_msg_if_player( m_neutral, _( "You take a puff from your electronic cigarette." ) );
-    } else if( it->typeId() == itype_advanced_ecig ) {
-        if( p->has_charges( itype_nicotine_liquid, 1 ) ) {
-            p->add_msg_if_player( m_neutral,
-                                  _( "You inhale some vapor from your advanced electronic cigarette." ) );
-            p->use_charges( itype_nicotine_liquid, 1 );
-            item *dummy_ecig = item::spawn_temporary( "ecig", calendar::turn );
-            p->consume_effects( *dummy_ecig );
-        } else {
-            p->add_msg_if_player( m_info, _( "You don't have any nicotine liquid!" ) );
-            return 0;
-        }
-    }
-
-    p->mod_thirst( 1 );
-    p->mod_stored_kcal( 10 );
-    p->add_effect( effect_cig, 10_minutes );
-    if( p->get_effect_dur( effect_cig ) > 10_minutes * ( p->addiction_level(
-                add_type::CIG ) + 1 ) ) {
-        p->add_msg_if_player( m_bad, _( "Ugh, too much nicotine… you feel nasty." ) );
-    }
-    return it->type->charges_to_use();
-}
-
 int iuse::antibiotic( player *p, item *it, bool, const tripoint & )
 {
     p->add_msg_player_or_npc( m_neutral,
@@ -812,30 +710,6 @@ int iuse::anticonvulsant( player *p, item *it, bool, const tripoint & )
     if( p->has_effect( effect_shakes ) ) {
         p->remove_effect( effect_shakes );
         p->add_msg_if_player( m_good, _( "You stop shaking." ) );
-    }
-    return it->type->charges_to_use();
-}
-
-int iuse::weed_cake( player *p, item *it, bool, const tripoint & )
-{
-    p->add_msg_if_player(
-        _( "You start scarfing down the delicious cake.  It tastes a little funny though…" ) );
-    time_duration duration = 12_minutes;
-    if( p->has_trait( trait_TOLERANCE ) ) {
-        duration = 9_minutes;
-    }
-    if( p->has_trait( trait_LIGHTWEIGHT ) ) {
-        duration = 15_minutes;
-    }
-    p->mod_stored_kcal( -20 );
-    p->mod_thirst( 6 );
-    if( p->get_painkiller() < 5 ) {
-        p->set_painkiller( ( p->get_painkiller() + 3 ) * 2 );
-    }
-    p->add_effect( effect_weed_high, duration );
-    p->moves -= 100;
-    if( one_in( 5 ) ) {
-        weed_msg( *p );
     }
     return it->type->charges_to_use();
 }
@@ -1113,13 +987,6 @@ int iuse::plantblech( player *p, item *it, bool, const tripoint &pos )
     } else {
         return blech( p, it, true, pos );
     }
-}
-
-int iuse::chew( player *p, item *it, bool, const tripoint & )
-{
-    // TODO: Add more effects?
-    p->add_msg_if_player( _( "You chew your %s." ), it->tname() );
-    return it->type->charges_to_use();
 }
 
 // Helper to handle the logic of removing some random mutations.

@@ -1074,10 +1074,6 @@ void Item_factory::init()
     add_iuse( "HOTPLATE", &iuse::toggle_heats_food );
     add_iuse( "HEAT_FOOD", &iuse::toggle_heats_food );
     add_iuse( "HEATPACK", &iuse::toggle_heats_food );
-    add_iuse( "ECIG", &iuse::ecig );
-    add_iuse( "CHEW", &iuse::chew );
-    add_iuse( "SMOKING", &iuse::smoking );
-    add_iuse( "WEED_CAKE", &iuse::weed_cake );
 
     add_actor( std::make_unique<ammobelt_actor>() );
     add_actor( std::make_unique<bandolier_actor>() );
