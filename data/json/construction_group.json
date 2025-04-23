@@ -1216,6 +1216,11 @@
   },
   {
     "type": "construction_group",
+    "id": "place_gunsmith_kit",
+    "name": "Place Gunsmith Kit"
+  },
+  {
+    "type": "construction_group",
     "id": "place_autoclave",
     "name": "Place Autoclave"
   },
