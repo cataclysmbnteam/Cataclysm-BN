@@ -181,7 +181,8 @@ std::string enum_to_string<m_flag>( m_flag data )
         case MF_DROPS_AMMO: return "DROPS_AMMO";
         case MF_CAN_BE_ORDERED: return "CAN_BE_ORDERED";
         // *INDENT-ON*
-        case MF_UNUSED_76: [[fallthrough]];
+        case MF_UNUSED_76:
+            [[fallthrough]];
         case m_flag::MF_MAX:
             break;
     }
