@@ -1738,6 +1738,42 @@
   },
   {
     "type": "furniture",
+    "id": "f_gridsoda_machine",
+    "looks_like": "food_processor",
+    "name": "soda machine",
+    "symbol": "U",
+    "description": "A soda machine connected to a electrical grid.  Capable of creating carbonated drinks.",
+    "color": "blue",
+    "move_cost_mod": -1,
+    "coverage": 10,
+    "required_str": -1,
+    "crafting_pseudo_item": "fake_gridsoda_machine",
+    "flags": [ "TRANSPARENT", "MOUNTABLE", "EASY_DECONSTRUCT" ],
+    "deconstruct": {
+      "items": [
+        { "item": "solder_wire", "charges": 20 },
+        { "item": "soda_machine", "count": 1 },
+        { "item": "cable", "charges": 5 },
+        { "item": "power_supply", "count": 1 }
+      ]
+    },
+    "bash": {
+      "str_min": 8,
+      "str_max": 16,
+      "sound": "crunch!",
+      "sound_fail": "whump.",
+      "items": [
+        { "item": "solder_wire", "charges": [ 10, 20 ] },
+        { "item": "power_supply", "count": [ 1, 4 ] },
+        { "item": "scrap", "count": [ 0, 4 ] },
+        { "item": "plastic_chunk", "count": [ 0, 9 ] },
+        { "item": "cable", "charges": [ 1, 4 ] },
+        { "item": "element", "count": [ 2, 6 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
     "id": "f_gridvac_sealer",
     "looks_like": "vac_sealer",
     "name": "grid vacuum sealer",
