@@ -16,6 +16,9 @@ void populate_salvage_materials( quality &q );
 
 namespace salvage
 {
+
+using quality_cache = std::map<quality_id, std::map<int, int>>;
+
 enum class q_result {
     yes,
     ignore,
@@ -24,9 +27,9 @@ enum class q_result {
     fail
 };
 
-ret_val<bool> try_salvage( const item &it, inventory inv );
+ret_val<bool> try_salvage( const item &, quality_cache & );
 
-q_result promt_warnings( const Character &who, const item &it, inventory &inv );
+q_result promt_warnings( const Character &who, const item &it, quality_cache & );
 
 units::mass minimal_weight_to_cut( const item &it );
 
@@ -36,8 +39,8 @@ void complete_salvage( Character &who, item &cut, tripoint_abs_ms pos );
 
 int moves_to_salvage( const item &target );
 
-bool has_salvage_tools( const inventory &inv, const material_id &material );
-bool has_salvage_tools( inventory &inv, const item &item, bool strict = false );
+bool has_salvage_tools( quality_cache &, const material_id &material );
+bool has_salvage_tools( quality_cache &, const item &item, bool strict = false );
 bool menu_salvage_single( player &you );
 bool prompt_salvage_single( Character &who, item &target );
 bool salvage_single( Character &who, item &target );

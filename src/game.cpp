@@ -8422,7 +8422,7 @@ void game::butcher()
     std::vector<item *> salvageables;
     map_stack items = m.i_at( u.pos() );
     const inventory &crafting_inv = u.crafting_inventory();
-    inventory inv_changable = u.crafting_inventory();
+    auto q_cache = u.crafting_inventory().get_quality_cache();
 
     // Reserve capacity for each to hold entire item set if necessary to prevent
     // reallocations later on
@@ -8437,7 +8437,7 @@ void game::butcher()
         if( ( *it )->is_corpse() ) {
             corpses.push_back( *it );
         } else {
-            if( salvage::try_salvage( **it, inv_changable ).success() ) {
+            if( salvage::try_salvage( **it, q_cache ).success() ) {
                 salvageables.push_back( *it );
             }
             if( crafting::can_disassemble( u, **it, crafting_inv ).success() ) {

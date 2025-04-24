@@ -86,7 +86,7 @@ static q_result yn_ignore_query( const std::string &text )
 
 
 // It is used to check if an item can be salvaged or not.
-ret_val<bool> try_salvage( const item &target, inventory inv )
+ret_val<bool> try_salvage( const item &target, quality_cache &q_cache )
 {
     if( target.is_null() ) {
         return ret_val<bool>::make_failure( _( "You do not have that item." ) );
@@ -110,7 +110,7 @@ ret_val<bool> try_salvage( const item &target, inventory inv )
         return ret_val<bool>::make_failure(
                    string_format( _( "The %s is too small to salvage any material from." ), target.tname() ) );
     }
-    if( !has_salvage_tools( inv, target ) ) {
+    if( !has_salvage_tools( q_cache, target ) ) {
         return ret_val<bool>::make_failure(
                    string_format(
                        _( "You lack proper tools to salvage any material from the %s." ),
@@ -119,18 +119,16 @@ ret_val<bool> try_salvage( const item &target, inventory inv )
     return ret_val<bool>::make_success();
 }
 
-q_result promt_warnings( const Character &who, const item &target, inventory &inv )
+q_result promt_warnings( const Character &who, const item &target,
+                         quality_cache &q_cache )
 {
-    //we don't want to try and salvage item with itself
-    inv.remove_item( &target );
-    inv.update_quality_cache();
     auto &madeof = target.made_of();
 
     for( auto &mat : madeof ) {
         auto res = mat->salvaged_into();
         // do not promt this if resulting material will provide 0 items
         if( res && res.value()->weight <= target.weight() / madeof.size()
-            && !has_salvage_tools( inv, mat ) ) {
+            && !has_salvage_tools( q_cache, mat ) ) {
             auto result = yn_ignore_query(
                               string_format(
                                   _( "You lack proper tools to salvage %s from the %s, meaning no output for this material.  Salvage anyway?" ),
@@ -263,13 +261,24 @@ int moves_to_salvage( const item &target )
     return time;
 }
 
+static void remove_qualities( quality_cache &q_cache, const item &item )
+{
+    for( auto &q : item.get_qualities() ) {
+        if( q_cache[q.first][q.second] <= 1 ) {
+            q_cache[q.first].erase( q.second );
+        } else {
+            q_cache[q.first][q.second]--;
+        }
+    }
+}
+
 //Checks if inventory has tools to salvage material
-bool has_salvage_tools( const inventory &inv, const material_id &material )
+bool has_salvage_tools( quality_cache &q_cache, const material_id &material )
 {
     auto it = salvage_material_quality_dictionary.find( material->id );
     if( it != salvage_material_quality_dictionary.end() ) {
         for( auto &quality : it->second ) {
-            if( inv.has_quality( quality ) ) {
+            if( !q_cache[quality].empty() ) {
                 return true;
             }
         }
@@ -280,13 +289,14 @@ bool has_salvage_tools( const inventory &inv, const material_id &material )
 //Checks if inventory has tools to salvage an item
 //strict = false - check if atleast one material is salvagable with current tools
 //strict = true - check all materials
-bool has_salvage_tools( inventory &inv, const item &item, bool strict )
+bool has_salvage_tools( quality_cache &q_cache, const item &item,
+                        bool strict )
 {
     //we don't want to try and salvage item with itself
-    inv.remove_item( &item );
-    inv.update_quality_cache();
+    remove_qualities( q_cache, item );
+
     for( auto &material : item.made_of() ) {
-        if( has_salvage_tools( inv, material ) ) {
+        if( has_salvage_tools( q_cache, material ) ) {
             return true;
         } else if( strict ) {
             return false;
@@ -324,7 +334,9 @@ bool prompt_salvage_single( Character &who, item &target )
         return false;
     }
 
-    if( !try_salvage( target, who.crafting_inventory() ).success() ) {
+    quality_cache cache = who.crafting_inventory().get_quality_cache();
+
+    if( !try_salvage( target, cache ).success() ) {
         return false;
     }
     iuse_location loc( target, 0 );
@@ -337,8 +349,9 @@ bool prompt_salvage_single( Character &who, item &target )
 bool salvage_single( Character &who, item &target )
 {
     map &here = get_map();
+    quality_cache cache = who.crafting_inventory().get_quality_cache();
 
-    if( !try_salvage( target, who.crafting_inventory() ).success() ) {
+    if( !try_salvage( target, cache ).success() ) {
         return false;
     }
 
@@ -356,10 +369,10 @@ bool salvage_all( Character &who )
     tripoint pos = who.pos();
     std::vector<iuse_location> targets;
     //yes this should NOT be a reference
-    inventory inv = who.crafting_inventory();
+    quality_cache cache = who.crafting_inventory().get_quality_cache();
 
     for( auto target : here.i_at( pos ) ) {
-        if( target && try_salvage( *target, inv ).success() ) {
+        if( target && try_salvage( *target, cache ).success() ) {
             iuse_location loc;
             loc.loc = target;
             targets.push_back( std::move( loc ) );
@@ -394,13 +407,13 @@ void salvage_activity_actor::calc_all_moves( player_activity &act, Character &wh
 void salvage_activity_actor::start( player_activity &act, Character &who )
 {
     //yes this should NOT be a reference
-    inventory inv = who.crafting_inventory();
+    auto cache = who.crafting_inventory().get_quality_cache();
     for( auto &target : targets ) {
         if( !target.loc ) {
             debugmsg( "Lost target of ", get_type() );
         } else {
             if( progress.empty() && !mute_promts ) {
-                switch( salvage::promt_warnings( who, *target.loc, inv ) ) {
+                switch( salvage::promt_warnings( who, *target.loc, cache ) ) {
                     case salvage::q_result::ignore:
                         mute_promts = true;
                         [[fallthrough]];
@@ -444,8 +457,8 @@ void salvage_activity_actor::do_turn( player_activity &act, Character &who )
         } else {
             if( !mute_promts ) {
                 //yes this should NOT be a reference
-                inventory inv = who.crafting_inventory();
-                switch( salvage::promt_warnings( who, *target.loc, inv ) ) {
+                auto cache = who.crafting_inventory().get_quality_cache();
+                switch( salvage::promt_warnings( who, *target.loc, cache ) ) {
                     case salvage::q_result::ignore:
                         mute_promts = true;
                         [[fallthrough]];

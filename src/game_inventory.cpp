@@ -1413,7 +1413,8 @@ class saw_stock_inventory_preset : public weapon_inventory_preset
 class salvage_inventory_preset : public pickup_inventory_preset
 {
     public:
-        salvage_inventory_preset( const player &p, inventory inv ) : p( p ), inv( inv ),
+        salvage_inventory_preset( const player &p, const inventory &inv ) : p( p ),
+            qualities( inv.get_quality_cache() ),
             pickup_inventory_preset( p ) {
 
             append_cell( []( const item * loc ) {
@@ -1433,7 +1434,8 @@ class salvage_inventory_preset : public pickup_inventory_preset
         }
 
         std::string get_denial( const item *loc ) const override {
-            const ret_val<bool> ret = salvage::try_salvage( *loc, inv );
+            auto q_cache = qualities;
+            const ret_val<bool> ret = salvage::try_salvage( *loc, q_cache );
             if( !ret.success() ) {
                 return ret.str();
             }
@@ -1446,7 +1448,7 @@ class salvage_inventory_preset : public pickup_inventory_preset
 
     private:
         const player &p;
-        inventory inv;
+        salvage::quality_cache qualities;
 };
 
 item *game_menus::inv::salvage( player &p )
