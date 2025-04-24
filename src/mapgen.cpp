@@ -3185,7 +3185,8 @@ void mapgen_palette::load( const JsonObject &jo, const std::string &src )
 
     // Emplacement fails if ret.id already exists
     if( !palettes.try_emplace( ret.id, ret ).second ) {
-        jo.throw_error( string_format( "Named palette needs a unique id. Found existing [%s]", ret.id.c_str() ) );
+        jo.throw_error( string_format( "Named palette needs a unique id. Found existing [%s]",
+                                       ret.id.c_str() ) );
     }
 }
 
