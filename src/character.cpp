@@ -3672,6 +3672,9 @@ std::vector<std::string> Character::get_overlay_ids() const
     std::multimap<int, std::string> mutation_sorting;
     int order;
     std::string overlay_id;
+    
+    rval.emplace_back( "effect_" + emote_id.str() );
+
 
     // first get effects
     for( const auto &eff_pr : *effects ) {

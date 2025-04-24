@@ -96,6 +96,16 @@ static const efftype_id effect_pet( "pet" );
 static const efftype_id effect_riding( "riding" );
 static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_under_op( "under_operation" );
+static const efftype_id effect_weed_high( "weed_high" );
+static const efftype_id effect_happy( "happy" );
+static const efftype_id effect_sad( "sad" );
+static const efftype_id effect_drunk( "drunk" );
+static const efftype_id effect_nausea( "nausea" );
+static const efftype_id effect_vomitous( "vomitous" );
+static const efftype_id effect_bleed( "bleed" );
+static const efftype_id effect_poison( "poison" );
+static const efftype_id effect_onfire( "onfire" );
+static const efftype_id effect_evil( "evil" );
 
 static const itype_id fuel_type_animal( "animal" );
 
@@ -198,6 +208,7 @@ enum npc_chat_menu {
     NPC_CHAT_TALK,
     NPC_CHAT_YELL,
     NPC_CHAT_MONOLOGUE,
+    NPC_CHAT_EMOTE_OVERLAY,
     NPC_CHAT_SENTENCE,
     NPC_CHAT_GUARD,
     NPC_CHAT_FOLLOW,
@@ -218,6 +229,18 @@ enum npc_chat_menu {
     NPC_CHAT_ANIMAL_VEHICLE_STOP_FOLLOW,
     NPC_CHAT_COMMAND_MAGIC_VEHICLE_FOLLOW,
     NPC_CHAT_COMMAND_MAGIC_VEHICLE_STOP_FOLLOW
+};
+
+
+enum emote_menu {
+    EMOTE_CLEAR,
+    EMOTE_SLEEPY,
+    EMOTE_EVIL,
+    EMOTE_DRUNK,
+    EMOTE_NAUSEA,
+    EMOTE_BLEED,
+    EMOTE_POISON,
+    EMOTE_ONFIRE
 };
 
 // given a vector of NPCs, presents a menu to allow a player to pick one.
@@ -458,6 +481,7 @@ void game::chat()
                       );
     }
     nmenu.addentry( NPC_CHAT_YELL, true, 'a', _( "Yell" ) );
+    nmenu.addentry( NPC_CHAT_EMOTE_OVERLAY, true, 'S', _( "Status Emote" ) );
     nmenu.addentry( NPC_CHAT_SENTENCE, true, 'b', _( "Yell a sentence" ) );
     nmenu.addentry( NPC_CHAT_MONOLOGUE, true, 'M', _( "Monologue" ) );
     if( !animal_vehicles.empty() ) {
@@ -516,6 +540,82 @@ void game::chat()
                 return;
             }
             available[npcselect]->talk_to_u();
+            break;
+        }
+        case NPC_CHAT_EMOTE_OVERLAY: {
+            uilist emenu;
+            emenu.text = std::string( _( "Emote what status effect?" ) );
+            
+            emenu.addentry( EMOTE_CLEAR, true, 'a', _( "Clear" ) );
+            emenu.addentry( EMOTE_DRUNK, true, 'b', _( "Drunk" ) );
+            emenu.addentry( EMOTE_SLEEPY, true, 'c', _( "Sleepy" ) );
+            emenu.addentry( EMOTE_NAUSEA, true, 'd', _( "Nausea" ) );
+            emenu.addentry( EMOTE_BLEED, true, 'e', _( "Bleed" ) );
+            emenu.addentry( EMOTE_POISON, true, 'f', _( "Poison" ) );
+            emenu.addentry( EMOTE_ONFIRE, true, 'g', _( "On Fire" ) );
+            emenu.addentry( EMOTE_EVIL, true, 'h', _( "Evil" ) );
+            //emenu.addentry( EMOTE_HAPPY, true, 'd', _( "Happy" ) );
+            //emenu.addentry( EMOTE_SAD, true, 'e', _( "Sad" ) );
+            //emenu.addentry( EMOTE_VOMITOUS, true, 'g', _( "Vomitous" ) );
+            //emenu.addentry( EMOTE_WEED_HIGH, true, 'b', _( "Stoned" ) );
+            emenu.query();
+        
+            if( emenu.ret < 0 ) {
+                return;
+            }
+
+            switch( emenu.ret ) {
+                case EMOTE_CLEAR:
+                    u.emote_id = efftype_id::NULL_ID();
+                    break;
+                //case EMOTE_WEED_HIGH:
+                //    u.emote_id = effect_weed_high;
+                //    break;
+                case EMOTE_DRUNK:
+                    u.emote_id = effect_drunk;
+                    break;
+                //case EMOTE_HAPPY:
+                //    u.emote_id = effect_happy;
+                //    break;
+                //case EMOTE_SAD:
+                //    u.emote_id = effect_sad;
+                //    break;
+                case EMOTE_SLEEPY:
+                    u.emote_id = effect_sleep;
+                    break;
+                case EMOTE_NAUSEA:
+                    u.emote_id = effect_nausea;
+                    break;
+                //case EMOTE_VOMITOUS:
+                //    u.emote_id = effect_vomitous;
+                //    break;
+                case EMOTE_BLEED:
+                    u.emote_id = effect_bleed;
+                    break;
+                case EMOTE_POISON:
+                    u.emote_id = effect_poison;
+                    break;
+                case EMOTE_ONFIRE:
+                    u.emote_id = effect_onfire;
+                    break;
+                case EMOTE_EVIL:
+                    u.emote_id = effect_evil;
+                    break;
+            }
+            
+            // we dont *need* this check, but this prevents another check in avatar_action.cpp so might as well include it here where its called less
+            if (!u.emote_id.is_null()){
+                u.emote_start = calendar::turn;
+                u.emote_end = u.emote_start+time_duration::from_seconds(10);
+                add_msg( _( "You start emoting." ) );
+            }
+            else
+            {
+                u.emote_start = calendar::turn_zero;
+                u.emote_end = calendar::turn_zero;
+                add_msg( _( "You stop emoting." ) );
+            }
+
             break;
         }
         case NPC_CHAT_YELL:

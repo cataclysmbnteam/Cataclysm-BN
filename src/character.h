@@ -301,6 +301,10 @@ class Character : public Creature, public location_visitable<Character>
         int int_cur = 0;
         int per_cur = 0;
 
+        efftype_id emote_id = efftype_id::NULL_ID();
+        time_point emote_start;
+        time_point emote_end;
+        
         // The prevalence of getter, setter, and mutator functions here is partially
         // a result of the slow, piece-wise migration of the player class upwards into
         // the character class. As enough logic is moved upwards to fully separate
@@ -677,7 +681,6 @@ class Character : public Creature, public location_visitable<Character>
         int attack_cost( const item &weap ) const;
         /** Gets melee accuracy component from weapon+skills */
         float get_hit_weapon( const item &weap, const attack_statblock &attack ) const;
-
     private:
         /** Check if an area-of-effect technique has valid targets */
         bool valid_aoe_technique( Creature &t, const ma_technique &technique );
