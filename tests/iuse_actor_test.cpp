@@ -1,7 +1,6 @@
 #include "catch/catch.hpp"
 
 #include <climits>
-#include <list>
 #include <memory>
 
 #include "avatar.h"
