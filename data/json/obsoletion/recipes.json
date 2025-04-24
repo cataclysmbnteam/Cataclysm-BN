@@ -1962,11 +1962,6 @@
     "obsolete": true
   },
   {
-    "type": "recipe",
-    "result": "aux_flamer",
-    "obsolete": true
-  },
-  {
     "result": "makeshift_grenade",
     "type": "recipe",
     "obsolete": true

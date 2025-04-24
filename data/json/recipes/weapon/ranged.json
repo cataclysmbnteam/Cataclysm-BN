@@ -516,6 +516,28 @@
   },
   {
     "type": "recipe",
+    "result": "aux_flamer",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_MODS",
+    "skill_used": "mechanics",
+    "skills_required": [ "fabrication", 6 ],
+    "difficulty": 8,
+    "time": "2 h",
+    "reversible": true,
+    "decomp_learn": 5,
+    "autolearn": true,
+    "book_learn": [ [ "book_icef", 4 ], [ "textbook_mechanics", 3 ] ],
+    "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW_FINE", "level": 1 }, { "id": "WRENCH_FINE", "level": 1 } ],
+    "using": [ [ "welding_standard", 15 ] ],
+    "components": [
+      [ [ "pilot_light", 1 ] ],
+      [ [ "pipe", 1 ] ],
+      [ [ "scrap", 3 ] ],
+      [ [ "hose", 2 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
     "result": "rifle_3006",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_RANGED",
