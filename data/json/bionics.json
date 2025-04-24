@@ -100,7 +100,7 @@
     "name": { "str": "Battery System" },
     "description": "You have a battery draining attachment, and thus can make use of the energy contained in normal, everyday batteries.  Use 'E' to drain charge from a battery.  Can be toggled on and off at will.",
     "occupied_bodyparts": [ [ "torso", 25 ] ],
-    "energy_efficiency": 1,
+    "energy_multiplier": 1,
     "energy_capacity": "2000 kJ",
     "max_energy_draw": "1 kJ",
     "time": 1,
