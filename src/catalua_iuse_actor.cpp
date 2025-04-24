@@ -15,13 +15,14 @@ void lua_iuse_actor::load( const JsonObject & )
     // TODO: custom data
 }
 
-int lua_iuse_actor::use( player &who, item &itm, bool tick, const tripoint &pos ) const
+std::pair<int, units::energy> lua_iuse_actor::use( player &who, item &itm, bool tick,
+        const tripoint &pos ) const
 {
     if( !tick ) {
         try {
             sol::protected_function_result res = luafunc( who.as_character(), itm, pos );
             check_func_result( res );
-            int ret = res;
+            std::pair<int, units::energy> ret = res;
             return ret;
         } catch( std::runtime_error &e ) {
             debugmsg( "Failed to run iuse_function k='%s': %s", type, e.what() );
@@ -29,7 +30,7 @@ int lua_iuse_actor::use( player &who, item &itm, bool tick, const tripoint &pos 
     } else {
         // TODO: ticking use
     }
-    return 1;
+    return std::make_pair( 1, 0_J );
 }
 
 ret_val<bool> lua_iuse_actor::can_use( const Character &, const item &, bool,

@@ -2424,7 +2424,7 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
             const double encumb_moves = get_weight() / 4800.0_gram;
             moves -= static_cast<int>( std::ceil( base_moves + encumb_moves ) );
             if( mounted_creature->has_flag( MF_RIDEABLE_MECH ) ) {
-                mounted_creature->use_mech_power( -1 );
+                mounted_creature->use_mech_power( -1_kJ );
             }
         } else {
             moves -= run_cost( here.combined_movecost( pos(), p ), diag );
@@ -3701,8 +3701,9 @@ void npc::heal_player( player &patient )
         return;
     }
     if( !is_hallucination() ) {
-        int charges_used = used.type->invoke( *this, used, patient.pos(), "heal" );
-        consume_charges( used, charges_used );
+        auto [chrg, enrg] = used.type->invoke( *this, used, patient.pos(), "heal" );
+        consume_charges( used, chrg );
+        consume_energy( used, enrg );
     } else {
         pretend_heal( patient, used );
     }
@@ -3750,9 +3751,11 @@ void npc::heal_self()
     }
     warn_about( "heal_self", 1_turns );
 
-    int charges_used = used.type->invoke( *this, used, pos(), "heal" );
+    auto[chrg, enrg] = used.type->invoke( *this, used, pos(), "heal" );
     if( used.is_medication() ) {
-        consume_charges( used, charges_used );
+        consume_charges( used, chrg );
+    } else {
+        consume_energy( used, enrg );
     }
 }
 

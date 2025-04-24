@@ -984,6 +984,12 @@
     "info": "This bionic provides power."
   },
   {
+    "id": "BIONIC_CAPACITOR",
+    "type": "json_flag",
+    "context": [ "BIONIC" ],
+    "info": "This bionic stores battery charges."
+  },
+  {
     "id": "BIONIC_SLEEP_FRIENDLY",
     "type": "json_flag",
     "context": [ "BIONIC" ],

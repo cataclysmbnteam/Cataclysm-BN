@@ -106,6 +106,19 @@ struct vehicle_part {
          */
         int ammo_consume( int qty, const tripoint &pos );
 
+
+        /** Maximum amount of energy that can be contained by a part */
+        units::energy energy_capacity() const;
+
+        /** Amount of fuel, charges or ammunition currently contained by a part */
+        units::energy energy_remaining() const;
+
+        /**
+         * Set energy contained by this part
+         * @param enrg amount of energy to set (vehicle part must be a battery)
+         * @return amount of energy actually set or negative on failure
+         */
+        units::energy energy_set( const units::energy enrg );
         /**
          * Consume fuel by energy content.
          * @param ftype Type of fuel to consume

@@ -69,7 +69,6 @@ static const itype_id fuel_type_muscle( "muscle" );
 static const itype_id fuel_type_none( "null" );
 static const itype_id fuel_type_wind( "wind" );
 
-static const itype_id itype_battery( "battery" );
 static const itype_id itype_detergent( "detergent" );
 static const itype_id itype_fungal_seeds( "fungal_seeds" );
 static const itype_id itype_hotplate( "hotplate" );
@@ -1082,10 +1081,10 @@ bool vehicle::start_engine( const int e )
             return false;
         }
         // TODO: start_moves is in moves, but it's an integer, convert it to some time class
-        const int start_draw_bat = power_to_energy_bat( engine_power *
-                                   ( 1.0 + dmg / 2 + cold_factor / 5 ) * 10,
-                                   1_turns * start_moves / 100 );
-        if( discharge_battery( start_draw_bat, true ) != 0 ) {
+        const units::energy start_draw_bat = power_to_energy_bat( engine_power *
+                                             ( 1.0 + dmg / 2 + cold_factor / 5 ) * 10,
+                                             1_turns * start_moves / 100 );
+        if( discharge_battery( start_draw_bat, true ) != 0_J ) {
             sounds::sound( pos, noise, sounds::sound_t::alarm,
                            string_format( _( "the %s rapidly clicking" ), eng.name() ), true, "vehicle",
                            "engine_multi_click_fail" );
@@ -2059,7 +2058,7 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
     if( curtain_part >= 0 && curtain_closed ) {
         selectmenu.addentry( PEEK_CURTAIN, true, 'p', _( "Peek through the closed curtains" ) );
     }
-    if( ( has_kitchen || has_chemlab ) && fuel_left( itype_battery, true ) > 0 ) {
+    if( ( has_kitchen || has_chemlab ) && energy_left( true ) > 0_J ) {
         selectmenu.addentry( USE_HOTPLATE, true, 'h', _( "Use the hotplate" ) );
     }
     if( has_faucet && fuel_left( itype_water_clean ) > 0 ) {
@@ -2069,12 +2068,11 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
     if( has_towel ) {
         selectmenu.addentry( USE_TOWEL, true, 't', _( "Use a towel" ) );
     }
-    if( has_weldrig && fuel_left( itype_battery, true ) > 0 ) {
+    if( has_weldrig && energy_left( true ) > 0_J ) {
         selectmenu.addentry( USE_WELDER, true, 'w', _( "Use the welding rig" ) );
     }
     if( has_purify ) {
-        bool can_purify = fuel_left( itype_battery, true ) >=
-                          itype_water_purifier->charges_to_use();
+        bool can_purify = energy_left( true ) >= itype_water_purifier->energy_to_use();
         selectmenu.addentry( USE_PURIFIER, can_purify,
                              'p', _( "Purify water in carried container" ) );
         selectmenu.addentry( PURIFY_TANK, can_purify && fuel_left( itype_water ),
@@ -2108,14 +2106,14 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
     }
     auto veh_tool = [&]( const itype_id & obj ) {
         item &pseudo = *item::spawn_temporary( obj );
-        if( fuel_left( itype_battery, true ) < pseudo.ammo_required() ) {
+        if( energy_left( true ) < pseudo.energy_required() ) {
             return false;
         }
-        auto capacity = pseudo.ammo_capacity( true );
-        auto qty = capacity - discharge_battery( capacity );
-        pseudo.ammo_set( itype_battery, qty );
+        auto capacity = pseudo.energy_capacity( true );
+        auto to_charge = capacity - discharge_battery( capacity );
+        pseudo.set_energy( to_charge );
         you.invoke_item( &pseudo );
-        charge_battery( pseudo.ammo_remaining() );
+        charge_battery( pseudo.energy_remaining() );
         return true;
     };
 
@@ -2196,8 +2194,8 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
                              get_all_colors().get_name( itype_water->color ) );
             auto &tank = veh_interact::select_part( *this, sel, title );
             if( tank ) {
-                double cost = itype_water_purifier->charges_to_use();
-                if( fuel_left( itype_battery, true ) < tank.ammo_remaining() * cost ) {
+                units::energy cost = itype_water_purifier->energy_to_use();
+                if( energy_left( true ) < tank.ammo_remaining() * cost ) {
                     //~ $1 - vehicle name, $2 - part name
                     add_msg( m_bad, _( "Insufficient power to purify the contents of the %1$s's %2$s" ),
                              name, tank.name() );

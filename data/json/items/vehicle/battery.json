@@ -1,7 +1,7 @@
 [
   {
     "id": "battery_car",
-    "type": "MAGAZINE",
+    "type": "BATTERY",
     "category": "battery",
     "name": { "str": "car battery", "str_pl": "car batteries" },
     "description": "A 12v lead-acid battery used to power car electrical systems.",
@@ -12,11 +12,10 @@
     "material": [ "plastic", "lead" ],
     "symbol": ":",
     "color": "light_cyan",
-    "ammo_type": "battery",
-    "capacity": 3000,
     "//1": "70Ah @ 12VDC. Could supply ~833 watts for an hour",
     "//2": "Energy density 0.15 MJ/Kg for lead-acid batteries",
-    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "NO_RELOAD", "RECHARGE" ]
+    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "NO_RELOAD", "RECHARGE" ],
+    "max_power": "3000 kJ"
   },
   {
     "id": "battery_motorbike",
@@ -102,7 +101,7 @@
   },
   {
     "id": "storage_battery",
-    "type": "MAGAZINE",
+    "type": "BATTERY",
     "category": "battery",
     "name": { "str": "large storage battery", "str_pl": "large storage batteries" },
     "description": "A large storage battery containing many lithium-ion cells.  Could be installed into a storage battery case for easy removal from a vehicle, or just welded straight in.",
@@ -115,8 +114,7 @@
     "material": [ "plastic", "steel" ],
     "symbol": ":",
     "color": "light_cyan",
-    "ammo_type": "battery",
-    "capacity": 50000,
-    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "NO_RELOAD", "RECHARGE", "NO_REPAIR" ]
+    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "NO_RELOAD", "RECHARGE", "NO_REPAIR" ],
+    "max_power": "50000 kJ"
   }
 ]

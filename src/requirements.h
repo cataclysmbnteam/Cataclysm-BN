@@ -8,6 +8,7 @@
 
 #include "translations.h"
 #include "type_id.h"
+#include "units.h"
 
 class JsonArray;
 class JsonIn;
@@ -101,7 +102,7 @@ struct tool_comp : public component {
     void dump( JsonOut &jsout ) const;
     bool has( const inventory &crafting_inv, const std::function<bool( const item & )> &filter,
               int batch = 1, cost_adjustment = cost_adjustment::none,
-              std::function<void( int )> visitor = std::function<void( int )>() ) const;
+              std::function<void( units::energy )> visitor = std::function<void( units::energy )>() ) const;
     std::string to_string( int batch = 1, int avail = 0 ) const;
     nc_color get_color( bool has_one, const inventory &crafting_inv,
                         const std::function<bool( const item & )> &filter, int batch = 1 ) const;
@@ -119,7 +120,8 @@ struct item_comp : public component {
     void dump( JsonOut &jsout ) const;
     bool has( const inventory &crafting_inv, const std::function<bool( const item & )> &filter,
               int batch = 1, cost_adjustment = cost_adjustment::none,
-              const std::function<void( int )> &visitor = std::function<void( int )>() ) const;
+              const std::function<void( units::energy )> &visitor = std::function<void( units::energy )>() )
+    const;
     std::string to_string( int batch = 1, int avail = 0 ) const;
     nc_color get_color( bool has_one, const inventory &crafting_inv,
                         const std::function<bool( const item & )> &filter, int batch = 1 ) const;
@@ -158,7 +160,8 @@ struct quality_requirement {
     void dump( JsonOut &jsout ) const;
     bool has( const inventory &crafting_inv, const std::function<bool( const item & )> &filter,
               int = 0, cost_adjustment = cost_adjustment::none,
-              const std::function<void( int )> &visitor = std::function<void( int )>() ) const;
+              const std::function<void( units::energy ) > &visitor = std::function<void( units::energy )>() )
+    const;
     std::string to_string( int batch = 1, int avail = 0 ) const;
     std::string to_colored_string() const;
     void check_consistency( const std::string &display_name ) const;
