@@ -115,7 +115,7 @@
     "id": "dispensary",
     "type": "item_group",
     "//": "Processed weed ONLY",
-    "items": [ [ "joint", 50 ], [ "thc_liquid", 20 ], [ "thc_wax", 20 ], { "item": "light_battery_cell", "charges": 100, "container-item": "dab_pen", "prob": 20 }, [ "dab_pen_disposable", 30 ], { "group": "jar_weed", "prob": 100 } ]
+    "items": [ [ "joint", 50 ], [ "thc_liquid", 20 ], [ "thc_wax", 20 ], { "item": "light_battery_cell", "charges": 100, "container-item": "dab_pen", "prob": 20 }, [ "dab_pen_disposable", 30 ], [ "candy3_weed", 20 ], { "group": "jar_weed", "prob": 100 } ]
   },
   {
     "type": "item_group",
