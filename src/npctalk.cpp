@@ -538,7 +538,7 @@ void game::chat()
         case NPC_CHAT_EMOTE: {
             std::string popupdesc =
                 _( "What do you want to emote?  (This will have no in-game effect! Use +, -, or ? at the start to add context.)" );
-                string_input_popup popup;
+            string_input_popup popup;
             popup.title( _( "Emote" ) )
             .width( 64 )
             .description( popupdesc )
