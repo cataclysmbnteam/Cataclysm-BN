@@ -537,7 +537,7 @@ void game::chat()
         }
         case NPC_CHAT_EMOTE: {
             std::string popupdesc =
-                _( "What do you want to emote?  (This will have no in-game effect!)" );
+                _( "What do you want to emote?  (This will have no in-game effect! Use +, -, or ? at the start to add context.)" );
                 string_input_popup popup;
             popup.title( _( "Emote" ) )
             .width( 64 )
@@ -675,7 +675,15 @@ void game::chat()
         u.shout( string_format( _( "%s yelling %s" ), u.disp_name(), message ), is_order );
     }
     if( !emote_msg.empty() ) {
-        add_msg( m_bad, _( "%s" ), emote_msg );
+        if( emote_msg[0] == '-' ) {
+            add_msg( m_bad, _( "%s" ), emote_msg.substr( 1 ) );
+        } else if( emote_msg[0] == '+' ) {
+            add_msg( m_good, _( "%s" ), emote_msg.substr( 1 ) );
+        } else if( emote_msg[0] == '?' ) {
+            add_msg( m_info, _( "%s" ), emote_msg.substr( 1 ) );
+        } else {
+            add_msg( _( "%s" ), emote_msg );
+        }
     }
 
     u.moves -= 100;
