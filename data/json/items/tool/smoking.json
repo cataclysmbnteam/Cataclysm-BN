@@ -3,8 +3,8 @@
     "id": "advanced_ecig",
     "type": "TOOL",
     "category": "drugs",
-    "name": { "str": "advanced electronic cigarette" },
-    "description": "An advanced version of the electronic cigarette.  A less harmful way to get your nicotine fix than regular cigarettes, but still addictive.  It needs batteries and nicotine liquid to function.",
+    "name": { "str": "boxmod vape" },
+    "description": "An advanced version of the electronic cigarette.  A less harmful way to get your nicotine fix than regular cigarettes, but still addictive.  It needs batteries and nicotine liquid to function.  The side has a display showing the battery and amount of nicotine liquid left.  Additionally, it allows you to play simple games on it.",
     "weight": "200 g",
     "volume": "250 ml",
     "price": "50 USD",
@@ -16,7 +16,20 @@
     "ammo": "battery",
     "charges_per_use": 1,
     "power_draw": 7500,
-    "use_action": "ECIG",
+    "use_action": [
+      "PORTABLE_GAME",
+      {
+        "type": "consume_drug",
+        "activation_message": "You take a puff from your boxmod vape.",
+        "stat_adjustments": { "thirst": 1, "hunger": -10 },
+        "effects": [ { "id": "cig", "duration": "10 m" } ],
+        "fields_produced": { "fd_cigsmoke": 3 },
+        "charges_needed": { "nicotine_liquid": 1 },
+        "moves": 200,
+        "addiction_type_too_much": [ [ "cig", "nicotine" ] ],
+        "fake_item": "fake_ecig"
+      }
+    ],
     "magazines": [
       [
         "battery",
@@ -32,6 +45,33 @@
       ]
     ],
     "magazine_well": "250 ml"
+  },
+  {
+    "id": "ecig",
+    "type": "TOOL",
+    "category": "drugs",
+    "name": "disposable vape",
+    "description": "This battery-operated device vaporizes a liquid that contains flavorings and nicotine.  A less harmful alternative to traditional cigarettes, but it's still addictive.  It can't be reused once it's empty.  The side has a display showing the battery and amount of nicotine liquid left.",
+    "weight": "1 g",
+    "volume": "250 ml",
+    "price": "30 USD",
+    "price_postapoc": "5 USD",
+    "symbol": "!",
+    "color": "dark_gray",
+    "flags": [ "NO_INGEST", "NO_RELOAD", "NO_UNLOAD" ],
+    "max_charges": 40,
+    "initial_charges": 40,
+    "charges_per_use": 1,
+    "use_action": {
+      "type": "consume_drug",
+      "activation_message": "You take a puff from your disposable vape.",
+      "stat_adjustments": { "thirst": 1, "hunger": -10 },
+      "effects": [ { "id": "cig", "duration": "10 m" } ],
+      "fields_produced": { "fd_cigsmoke": 1 },
+      "moves": 200,
+      "addiction_type_too_much": [ [ "cig", "nicotine" ] ],
+      "fake_item": "fake_ecig"
+    }
   },
   {
     "id": "crackpipe",
