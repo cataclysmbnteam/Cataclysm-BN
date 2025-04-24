@@ -197,7 +197,7 @@ enum npc_chat_menu {
     NPC_CHAT_DONE,
     NPC_CHAT_TALK,
     NPC_CHAT_YELL,
-    NPC_CHAT_EMOTE,
+    NPC_CHAT_MONOLOGUE,
     NPC_CHAT_SENTENCE,
     NPC_CHAT_GUARD,
     NPC_CHAT_FOLLOW,
@@ -459,7 +459,7 @@ void game::chat()
     }
     nmenu.addentry( NPC_CHAT_YELL, true, 'a', _( "Yell" ) );
     nmenu.addentry( NPC_CHAT_SENTENCE, true, 'b', _( "Yell a sentence" ) );
-    nmenu.addentry( NPC_CHAT_EMOTE, true, 'E', _( "Emote" ) );
+    nmenu.addentry( NPC_CHAT_MONOLOGUE, true, 'M', _( "Monologue" ) );
     if( !animal_vehicles.empty() ) {
         nmenu.addentry( NPC_CHAT_ANIMAL_VEHICLE_FOLLOW, true, 'F',
                         _( "Whistle at your animals pulling vehicles to follow you." ) );
@@ -501,7 +501,7 @@ void game::chat()
     }
     std::string message;
     std::string yell_msg;
-    std::string emote_msg;
+    std::string monologue_msg;
     bool is_order = true;
     nmenu.query();
 
@@ -535,17 +535,17 @@ void game::chat()
             is_order = false;
             break;
         }
-        case NPC_CHAT_EMOTE: {
+        case NPC_CHAT_MONOLOGUE: {
             std::string popupdesc =
-                _( "What do you want to emote?  (This will have no in-game effect! Use +, -, or ? at the start to add context.)" );
+                _( "What do you want to monologue?  (This has no in-game effect! Use +, -, or ? at the start to add context.)" );
             string_input_popup popup;
-            popup.title( _( "Emote" ) )
+            popup.title( _( "Monologue" ) )
             .width( 64 )
             .description( popupdesc )
             .identifier( "sentence" )
             .max_length( 128 )
             .query();
-            emote_msg = popup.text();
+            monologue_msg = popup.text();
             is_order = false;
             break;
         }
@@ -674,15 +674,15 @@ void game::chat()
         add_msg( _( "You yell %s" ), message );
         u.shout( string_format( _( "%s yelling %s" ), u.disp_name(), message ), is_order );
     }
-    if( !emote_msg.empty() ) {
-        if( emote_msg[0] == '-' ) {
-            add_msg( m_bad, _( "%s" ), emote_msg.substr( 1 ) );
-        } else if( emote_msg[0] == '+' ) {
-            add_msg( m_good, _( "%s" ), emote_msg.substr( 1 ) );
-        } else if( emote_msg[0] == '?' ) {
-            add_msg( m_info, _( "%s" ), emote_msg.substr( 1 ) );
+    if( !monologue_msg.empty() ) {
+        if( monologue_msg[0] == '-' ) {
+            add_msg( m_bad, _( "%s" ), monologue_msg.substr( 1 ) );
+        } else if( monologue_msg[0] == '+' ) {
+            add_msg( m_good, _( "%s" ), monologue_msg.substr( 1 ) );
+        } else if( monologue_msg[0] == '?' ) {
+            add_msg( m_info, _( "%s" ), monologue_msg.substr( 1 ) );
         } else {
-            add_msg( _( "%s" ), emote_msg );
+            add_msg( _( "%s" ), monologue_msg );
         }
     }
 
