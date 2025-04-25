@@ -12,6 +12,9 @@ class material_type;
 class tripoint;
 class JsonIn;
 
+static std::unordered_map<material_id, std::set<quality_id>> salvage_material_quality_dictionary;
+static std::set<material_id> all_salvagable_materials;
+
 void populate_salvage_materials( quality &q );
 
 namespace salvage

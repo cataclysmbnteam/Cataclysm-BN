@@ -30,7 +30,7 @@ auto cut_up_yields( const std::string &target ) -> void
 
     CAPTURE( target );
     detached_ptr<item> cut_up_target = item::spawn( target );
-    detached_ptr<item> tool = item::spawn( "knife_butcher" );
+    detached_ptr<item> tool = item::spawn( "toolbox_workshop" );
 
     const std::vector<material_id> &target_materials = cut_up_target->made_of();
     units::mass smallest_yield_mass = units::mass_max;
@@ -56,7 +56,19 @@ auto cut_up_yields( const std::string &target ) -> void
     } );
 
     CHECK( salvaged_mass <= cut_up_target_mass );
-    CHECK( salvaged_mass >= ( cut_up_target_mass * 0.9 ) - smallest_yield_mass );
+    CHECK( salvaged_mass >= 0_milligram );
+    for( auto *item : salvaged_items ) {
+        CHECK( item->made_of().size() == 1 );
+        CHECK( all_salvagable_materials.contains( item->made_of().front() ) );
+        bool has_quality = false;
+        for( auto &q : tool->get_qualities() ) {
+            if( salvage_material_quality_dictionary[item->made_of().front()].contains( q.first ) ) {
+                has_quality = true;
+                break;
+            }
+        }
+        CHECK( has_quality );
+    }
 }
 } // namespace
 

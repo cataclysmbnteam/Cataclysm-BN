@@ -27,9 +27,6 @@
 
 const skill_id skill_fabrication( "fabrication" );
 
-static std::unordered_map<material_id, std::set<quality_id>> salvage_material_quality_dictionary;
-static std::set<material_id> all_salvagable_materials;
-
 
 namespace salvage
 {
@@ -180,9 +177,12 @@ std::vector<std::pair< itype_id, float>> salvage_results( const item &target )
     for( auto &material : salvage_result_proportions( target ) ) {
         auto res = material.first->salvaged_into();
         if( all_salvagable_materials.contains( material.first ) && res ) {
-            salvagable_materials.emplace_back( *res,
-                                               //cuz we need actual float here
-                                               target.weight().value() * material.second / ( **res ).weight.value() );
+            //Simplier to debug
+            auto t_mass = target.weight().value();
+            auto r_mass = ( **res ).weight.value();
+            //cuz we need actual float here
+            auto cnt = t_mass * material.second / r_mass;
+            salvagable_materials.emplace_back( *res, cnt );
         }
     }
     return salvagable_materials;
