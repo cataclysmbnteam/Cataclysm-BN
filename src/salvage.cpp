@@ -28,8 +28,21 @@
 const skill_id skill_fabrication( "fabrication" );
 
 
+std::unordered_map<material_id, std::set<quality_id>> salvage_material_quality_dictionary;
+std::set<material_id> all_salvagable_materials;
+
 namespace salvage
 {
+
+std::set<material_id> &get_all_salvagable_materials()
+{
+    return all_salvagable_materials;
+}
+
+std::unordered_map<material_id, std::set<quality_id>> &get_salvage_material_quality_dictionary()
+{
+    return salvage_material_quality_dictionary;
+}
 
 // Helper to find smallest sub-component of an item.
 units::mass minimal_weight_to_cut( const item &it )

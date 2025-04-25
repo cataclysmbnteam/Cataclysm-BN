@@ -12,9 +12,6 @@ class material_type;
 class tripoint;
 class JsonIn;
 
-static std::unordered_map<material_id, std::set<quality_id>> salvage_material_quality_dictionary;
-static std::set<material_id> all_salvagable_materials;
-
 void populate_salvage_materials( quality &q );
 
 namespace salvage
@@ -33,6 +30,10 @@ enum class q_result {
 ret_val<bool> try_salvage( const item &, quality_cache & );
 
 q_result promt_warnings( const Character &who, const item &it, quality_cache & );
+
+std::set<material_id> &get_all_salvagable_materials();
+
+std::unordered_map<material_id, std::set<quality_id>> &get_salvage_material_quality_dictionary();
 
 units::mass minimal_weight_to_cut( const item &it );
 
