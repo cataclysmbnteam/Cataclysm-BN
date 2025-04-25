@@ -490,9 +490,15 @@ bool display_or_lock_emote(player &u, efftype_id effect, emote_menu emote_choice
     bool did_lock = false;
     if(effect == u.emote_id){
         if(emote_choice != EMOTE_CLEAR){
-            u.emote_locked = true;
-            add_msg( _( "You will keep emoting." ) );
-            did_lock = true;
+            if (!u.emote_locked){
+                u.emote_locked = true;
+                add_msg( _( "You will keep emoting." ) );
+                did_lock = true;
+            }
+            else {
+                u.emote_locked = false;
+                effect = efftype_id::NULL_ID();
+            }
         }
     }
     else{
