@@ -647,6 +647,7 @@
       [ "carver_off", 5 ],
       [ "coffeemaker", 5 ],
       [ "dehydrator", 5 ],
+      [ "soda_machine", 5 ],
       [ "food_processor", 5 ],
       [ "hotplate", 5 ],
       [ "multi_cooker", 5 ],
@@ -1051,6 +1052,7 @@
       [ "morningstar", 2 ],
       [ "morningstar_fake", 3 ],
       [ "morningstar_inferior", 4 ],
+      [ "club_spiked", 3 ],
       [ "warhammer", 2 ],
       [ "scythe_war", 2 ],
       [ "pike", 2 ],
@@ -1454,6 +1456,7 @@
       { "item": "coke", "prob": 8 },
       { "item": "meth", "prob": 2 },
       { "item": "heroin", "prob": 1 },
+      { "item": "sizzurp", "prob": 4 },
       { "item": "syringe", "prob": 8 },
       { "item": "electrohack", "prob": 3 },
       { "item": "textbook_gaswarfare", "prob": 1 },
@@ -1562,6 +1565,7 @@
       { "item": "razor_blade", "prob": 20 },
       { "item": "soap", "prob": 5 },
       { "item": "detergent", "prob": 5 },
+      { "item": "shimmer", "prob": 3 },
       { "item": "knitting_needles", "prob": 1 },
       { "group": "auto_sears", "prob": 5 },
       { "item": "survnote", "prob": 2 }
@@ -1686,6 +1690,7 @@
       [ "coke", 8 ],
       [ "meth", 2 ],
       [ "heroin", 1 ],
+      [ "sizzurp", 3 ],
       [ "sneakers", 40 ],
       [ "mask_hockey", 5 ],
       [ "mask_guy_fawkes", 5 ],
@@ -2719,6 +2724,7 @@
       [ "quiver", 20 ],
       [ "canteen", 20 ],
       [ "knife_hunting", 30 ],
+      [ "gps_device", 5 ],
       [ "shovel", 30 ],
       { "group": "ammo_pocket_batteries_full", "prob": 30 }
     ]

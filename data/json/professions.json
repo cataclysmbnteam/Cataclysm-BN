@@ -1661,7 +1661,13 @@
         "entries": [
           { "group": "charged_two_way_radio" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
-          { "item": "usp_45", "ammo-item": "45_acp", "charges": 12, "container-item": "holster" },
+          {
+            "item": "usp_45",
+            "ammo-item": "45_acp",
+            "charges": 12,
+            "container-item": "holster",
+            "contents-item": "pistol_lanyard"
+          },
           { "item": "legpouch_large", "contents-group": "army_mags_usp45" }
         ]
       },
@@ -1720,7 +1726,13 @@
         "entries": [
           { "group": "charged_two_way_radio" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
-          { "item": "usp_45", "ammo-item": "45_acp", "charges": 12, "container-item": "holster" },
+          {
+            "item": "usp_45",
+            "ammo-item": "45_acp",
+            "charges": 12,
+            "container-item": "holster",
+            "contents-item": "pistol_lanyard"
+          },
           { "item": "legpouch_large", "contents-group": "army_mags_usp45" }
         ]
       },
@@ -1784,7 +1796,13 @@
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "tacvest", "contents-group": [ "army_mags_mp5", "army_mags_usp9" ] },
           { "item": "grenadebandolier", "contents-item": [ "flashbang", "flashbang" ] },
-          { "item": "usp_9mm", "ammo-item": "9mm", "charges": 15, "container-item": "holster" },
+          {
+            "item": "usp_9mm",
+            "ammo-item": "9mm",
+            "charges": 15,
+            "container-item": "holster",
+            "contents-item": "pistol_lanyard"
+          },
           {
             "item": "hk_mp5",
             "ammo-item": "9mm",
@@ -1829,7 +1847,13 @@
           { "item": "bandolier_shotgun", "contents-group": "bandolier_swat_cqc1" },
           { "item": "bandolier_shotgun", "contents-group": "bandolier_swat_cqc2" },
           { "item": "legpouch_large", "contents-group": "army_mags_usp9" },
-          { "item": "usp_9mm", "ammo-item": "9mmfmj", "charges": 15, "container-item": "holster" },
+          {
+            "item": "usp_9mm",
+            "ammo-item": "9mmfmj",
+            "charges": 15,
+            "container-item": "holster",
+            "contents-item": "pistol_lanyard"
+          },
           { "item": "baton-extended", "container-item": "police_belt" },
           { "item": "ksg", "ammo-item": "shot_00", "charges": 7, "contents-item": "shoulder_strap" }
         ]
@@ -1865,7 +1889,13 @@
         ],
         "entries": [
           { "group": "charged_two_way_radio" },
-          { "item": "usp_45", "ammo-item": "45_acp", "charges": 12, "container-item": "holster" },
+          {
+            "item": "usp_45",
+            "ammo-item": "45_acp",
+            "charges": 12,
+            "container-item": "holster",
+            "contents-item": "pistol_lanyard"
+          },
           { "item": "legpouch_large", "contents-group": "army_mags_usp45" },
           { "item": "762_51", "charges": 20 },
           { "item": "M24", "ammo-item": "762_51", "charges": 20, "container-item": "back_holster" }
@@ -1908,7 +1938,13 @@
         ],
         "entries": [
           { "group": "charged_two_way_radio" },
-          { "item": "usp_45", "ammo-item": "45_acp", "charges": 12, "container-item": "holster" },
+          {
+            "item": "usp_45",
+            "ammo-item": "45_acp",
+            "charges": 12,
+            "container-item": "holster",
+            "contents-item": "pistol_lanyard"
+          },
           { "item": "legpouch_large", "contents-group": "army_mags_usp45" },
           { "item": "tonfa", "container-item": "police_belt" },
           { "group": "charged_tazer" }
@@ -2175,11 +2211,7 @@
     "skills": [ { "level": 4, "name": "computer" } ],
     "items": {
       "both": {
-        "items": [ "pants", "tshirt_text", "socks", "sneakers", "mbag", "smart_phone", "caffeine" ],
-        "entries": [
-          { "item": "light_plus_battery_cell", "ammo-item": "battery", "charges": 150, "container-item": "portable_game" },
-          { "item": "medium_battery_cell", "ammo-item": "battery", "charges": 500, "container-item": "laptop" }
-        ]
+        "items": [ "pants", "tshirt_text", "socks", "sneakers", "mbag", "smart_phone", "caffeine", "laptop", "portable_game" ]
       },
       "male": [ "briefs" ],
       "female": [ "panties" ]
@@ -2496,7 +2528,7 @@
         ],
         "entries": [
           { "group": "charged_two_way_radio" },
-          { "item": "glock_18c", "ammo-item": "9mmP", "container-item": "holster" },
+          { "item": "glock_18c", "ammo-item": "9mmP", "container-item": "holster", "contents-item": "pistol_lanyard" },
           { "item": "tacvest", "contents-group": "army_mags_glock17" }
         ]
       },
@@ -5336,7 +5368,13 @@
           { "item": "boots", "damage": [ 0, 3 ] },
           { "item": "police_belt", "damage": [ 0, 3 ] },
           { "item": "legpouch_large", "damage": [ 0, 3 ] },
-          { "item": "m9", "ammo-item": "9mm", "charges": [ 1, 15 ], "container-item": "holster" },
+          {
+            "item": "m9",
+            "ammo-item": "9mm",
+            "charges": [ 1, 15 ],
+            "container-item": "holster",
+            "contents-item": "pistol_lanyard"
+          },
           {
             "item": "light_battery_cell",
             "ammo-item": "battery",

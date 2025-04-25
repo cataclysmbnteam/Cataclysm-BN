@@ -786,7 +786,8 @@
       { "item": "mre_asianbeef_box" },
       { "item": "mre_chickenpesto_box" },
       { "item": "mre_southwestbeef_box" },
-      { "item": "mre_hotdog_box" }
+      { "item": "mre_hotdog_box" },
+      { "item": "mre_omelette_box" }
     ]
   },
   {

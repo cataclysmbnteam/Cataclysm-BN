@@ -154,6 +154,9 @@ class spell_type
         translation sound_description;
         skill_id skill;
 
+        // Mutations that block the spell from being cast
+        std::set<trait_id> blocker_mutations;
+
         requirement_id spell_components;
 
         sounds::sound_t sound_type = sounds::sound_t::_LAST;
@@ -361,6 +364,8 @@ class spell
         bool is_max_level() const;
         // what is the max level of the spell
         int get_max_level() const;
+        // what are the blocker mutations
+        std::set<trait_id> get_blocker_muts() const;
 
         // what is the intensity of the field the spell generates ( 0 if no field )
         int field_intensity() const;

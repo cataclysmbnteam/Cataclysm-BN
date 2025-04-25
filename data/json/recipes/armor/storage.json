@@ -121,7 +121,7 @@
     "time": "40 m",
     "autolearn": true,
     "using": [ [ "adhesive", 1 ] ],
-    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CUT", "level": 1 }, { "id": "SANDING", "level": 1 } ],
     "components": [ [ [ "fabric_hides_any", 12, "LIST" ] ], [ [ "wood_structural", 1, "LIST" ] ], [ [ "nail_glue", 8, "LIST" ] ] ]
   },
   {
@@ -297,7 +297,7 @@
     "time": "40 m",
     "autolearn": true,
     "using": [ [ "adhesive", 1 ] ],
-    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CUT", "level": 1 }, { "id": "SANDING", "level": 1 } ],
     "components": [ [ [ "fabric_hides_any", 15, "LIST" ] ], [ [ "wood_structural", 1, "LIST" ] ], [ [ "nail_glue", 10, "LIST" ] ] ]
   },
   {
@@ -672,7 +672,7 @@
     "time": "40 m",
     "autolearn": true,
     "using": [ [ "adhesive", 1 ] ],
-    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CUT", "level": 1 }, { "id": "SANDING", "level": 1 } ],
     "components": [ [ [ "fabric_hides_any", 10, "LIST" ] ], [ [ "wood_structural", 1, "LIST" ] ], [ [ "nail_glue", 5, "LIST" ] ] ]
   },
   {

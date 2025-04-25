@@ -244,6 +244,31 @@
     "flags": [ "USES_GRID_POWER" ]
   },
   {
+    "id": "fake_gridgunkit",
+    "copy-from": "fake_item",
+    "type": "TOOL",
+    "name": { "str": "grid gunsmith repair kit" },
+    "sub": "large_repairkit",
+    "max_charges": 1000,
+    "charges_per_use": 25,
+    "qualities": [
+      [ "HAMMER_FINE", 1 ],
+      [ "HAMMER", 3 ],
+      [ "PRY", 1 ],
+      [ "SAW_M_FINE", 1 ],
+      [ "SAW_M", 2 ],
+      [ "WRENCH_FINE", 1 ],
+      [ "WRENCH", 2 ],
+      [ "SCREW_FINE", 1 ],
+      [ "SCREW", 1 ],
+      [ "CHISEL", 3 ],
+      [ "DRILL", 3 ],
+      [ "PULL", 2 ]
+    ],
+    "use_action": [ "GUN_CLEAN", "GUN_REPAIR" ],
+    "flags": [ "USES_GRID_POWER" ]
+  },
+  {
     "id": "fake_gridsolderingiron",
     "copy-from": "fake_item",
     "looks_like": "soldering_iron",
@@ -325,6 +350,15 @@
     "type": "TOOL",
     "name": { "str": "grid food processor" },
     "sub": "food_processor",
+    "max_charges": 2500,
+    "flags": [ "USES_GRID_POWER" ]
+  },
+  {
+    "id": "fake_gridsoda_machine",
+    "copy-from": "fake_item",
+    "type": "TOOL",
+    "name": { "str": "grid soda machine" },
+    "sub": "soda_machine",
     "max_charges": 2500,
     "flags": [ "USES_GRID_POWER" ]
   },

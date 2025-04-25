@@ -220,6 +220,7 @@
       { "item": "atomic_lamp", "prob": 5 },
       { "item": "smart_lamp", "prob": 10 },
       { "item": "atomic_coffeepot", "prob": 5 },
+      { "item": "atomic_soda_machine", "prob": 5 },
       { "item": "eink_tablet_pc", "prob": 1 },
       { "item": "mobile_memory_card", "prob": 8 },
       { "item": "mobile_memory_card_science", "prob": 1 },

@@ -117,6 +117,7 @@ static const efftype_id effect_relax_gas( "relax_gas" );
 
 static const itype_id itype_radiocontrol( "radiocontrol" );
 static const itype_id itype_shoulder_strap( "shoulder_strap" );
+static const itype_id itype_pistol_lanyard( "pistol_lanyard" );
 
 static const skill_id skill_melee( "melee" );
 
@@ -127,6 +128,7 @@ static const bionic_id bio_remote( "bio_remote" );
 static const trait_id trait_HIBERNATE( "HIBERNATE" );
 static const trait_id trait_PROF_CHURL( "PROF_CHURL" );
 static const trait_id trait_SHELL2( "SHELL2" );
+static const trait_id trait_BRAWLER( "BRAWLER" );
 
 static const std::string flag_LOCKED( "LOCKED" );
 
@@ -1377,6 +1379,10 @@ static void fire()
                 // wield item currently worn using shoulder strap
                 options.push_back( w->display_name() );
                 actions.emplace_back( [&] { u.wield( *w ); } );
+            } else if( w->is_gun() && w->gunmod_find( itype_pistol_lanyard ) ) {
+                // wield item currently worn using pistol lanyard
+                options.push_back( w->display_name() );
+                actions.emplace_back( [&] { u.wield( *w ); } );
             }
         }
         if( !options.empty() ) {
@@ -1448,6 +1454,12 @@ static void cast_spell()
         }
     }
 
+    if( u.has_trait( trait_BRAWLER ) ) {
+        add_msg( game_message_params{ m_bad, gmf_bypass_cooldown },
+                 _( "Pfft, magic is for COWARDS." ) );
+        return;
+    }
+
     if( !can_cast_spells ) {
         add_msg( game_message_params{ m_bad, gmf_bypass_cooldown },
                  _( "You can't cast any of the spells you know!" ) );
@@ -1460,6 +1472,17 @@ static void cast_spell()
     }
 
     spell &sp = *u.magic->get_spells()[spell_index];
+
+    std::set<trait_id> blockers = sp.get_blocker_muts();
+    if( blockers.size() ) {
+        for( trait_id blocker : blockers ) {
+            if( u.has_trait( blocker ) ) {
+                add_msg( game_message_params{ m_bad, gmf_bypass_cooldown },
+                         _( "Your %s mutation prevents you from casting this spell!" ), blocker->name() );
+                return;
+            }
+        }
+    }
 
     if( u.is_armed() && !sp.has_flag( spell_flag::NO_HANDS ) &&
         !u.primary_weapon().has_flag( flag_MAGIC_FOCUS ) && u.primary_weapon().is_two_handed( u ) ) {

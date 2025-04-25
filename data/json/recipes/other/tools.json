@@ -8,8 +8,8 @@
     "difficulty": 3,
     "time": "8 m",
     "autolearn": true,
-    "qualities": [ { "id": "HAMMER", "level": 2 } ],
-    "components": [ [ [ "nail_glue", 8, "LIST" ] ], [ [ "2x4", 3 ] ] ]
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SANDING", "level": 1 } ],
+    "components": [ [ [ "nail_glue", 8, "LIST" ] ], [ [ "2x4", 3 ] ], [ [ "varnish", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -420,7 +420,7 @@
     "difficulty": 2,
     "time": "40 m",
     "autolearn": true,
-    "qualities": [ { "id": "DRILL", "level": 1 } ],
+    "qualities": [ { "id": "DRILL", "level": 1 }, { "id": "SANDING", "level": 1 } ],
     "components": [ [ [ "stick", 1 ], [ "2x4", 1 ] ] ]
   },
   {
@@ -462,7 +462,7 @@
     "time": "1 h",
     "reversible": true,
     "autolearn": true,
-    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SANDING", "level": 1 } ],
     "components": [
       [ [ "stick", 1 ], [ "2x4", 1 ] ],
       [ [ "rock", 1 ], [ "ceramic_shard", 1 ], [ "sharp_rock", 1 ] ],
@@ -481,10 +481,11 @@
     "reversible": true,
     "autolearn": true,
     "book_learn": [ [ "mag_survival", 1 ], [ "atomic_survival", 1 ], [ "textbook_carpentry", 2 ] ],
-    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SANDING", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
     "components": [
       [ [ "stick", 1 ], [ "2x4", 1 ] ],
+      [ [ "varnish", 1, "LIST" ] ],
       [ [ "copper_scrap_equivalent", 40, "LIST" ] ],
       [ [ "cordage_short", 2, "LIST" ], [ "filament", 100, "LIST" ], [ "duct_tape", 40 ] ]
     ]
@@ -501,7 +502,7 @@
     "reversible": true,
     "autolearn": true,
     "book_learn": [ [ "mag_survival", 1 ], [ "atomic_survival", 1 ], [ "textbook_carpentry", 2 ] ],
-    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SANDING", "level": 1 } ],
     "components": [
       [ [ "stick", 1 ], [ "2x4", 1 ] ],
       [ [ "rock", 1 ], [ "ceramic_shard", 1 ], [ "sharp_rock", 1 ] ],
@@ -519,7 +520,7 @@
     "time": "1 h",
     "reversible": true,
     "autolearn": true,
-    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "CUT", "level": 1 }, { "id": "SANDING", "level": 1 } ],
     "components": [
       [ [ "stick", 1 ], [ "2x4", 1 ] ],
       [ [ "rock", 1 ], [ "ceramic_shard", 1 ], [ "sharp_rock", 1 ] ],
@@ -588,7 +589,7 @@
     "difficulty": 2,
     "time": "6 m",
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SANDING", "level": 1 } ],
     "components": [ [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "pool_cue", 1 ] ] ]
   },
   {
@@ -600,7 +601,7 @@
     "difficulty": 3,
     "time": "9 m",
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SANDING", "level": 1 } ],
     "components": [ [ [ "stick", 2 ], [ "2x4", 1 ] ], [ [ "skewer_bone", 20 ], [ "splinter", 20 ] ] ]
   },
   {
@@ -652,8 +653,8 @@
     "time": "1 h",
     "reversible": true,
     "autolearn": true,
-    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SAW_W", "level": 1 } ],
-    "components": [ [ [ "2x4", 12 ] ], [ [ "nail_glue", 30, "LIST" ] ] ]
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SAW_W", "level": 1 }, { "id": "SANDING", "level": 1 } ],
+    "components": [ [ [ "2x4", 12 ] ], [ [ "varnish", 6, "LIST" ] ], [ [ "nail_glue", 30, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -1066,7 +1067,8 @@
     "time": "2 h",
     "autolearn": true,
     "using": [ [ "blacksmithing_standard", 4 ], [ "steel_standard", 1 ] ],
-    "components": [ [ [ "wood_structural_small", 1, "LIST" ] ] ]
+    "qualities": [ { "id": "SANDING", "level": 1 } ],
+    "components": [ [ [ "wood_structural_small", 1, "LIST" ] ], [ [ "varnish", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -1078,7 +1080,8 @@
     "time": "1 h",
     "autolearn": true,
     "using": [ [ "forging_standard", 9 ], [ "bronzesmithing_tools", 1 ] ],
-    "components": [ [ [ "wood_structural_small", 1, "LIST" ] ], [ [ "scrap_bronze", 3 ] ] ]
+    "qualities": [ { "id": "SANDING", "level": 1 } ],
+    "components": [ [ [ "wood_structural_small", 1, "LIST" ] ], [ [ "varnish", 1, "LIST" ] ], [ [ "scrap_bronze", 3 ] ] ]
   },
   {
     "type": "recipe",
@@ -1090,9 +1093,9 @@
     "time": "2 h 20 m",
     "autolearn": true,
     "using": [ [ "forging_standard", 12 ], [ "steel_standard", 2 ] ],
-    "qualities": [ { "id": "ANVIL", "level": 1 }, { "id": "HAMMER", "level": 2 } ],
+    "qualities": [ { "id": "ANVIL", "level": 1 }, { "id": "HAMMER", "level": 2 }, { "id": "SANDING", "level": 1 } ],
     "tools": [ [ [ "tongs", -1 ] ] ],
-    "components": [ [ [ "2x4", 1 ], [ "stick", 2 ], [ "splinter", 6 ] ] ]
+    "components": [ [ [ "2x4", 1 ], [ "stick", 2 ], [ "splinter", 6 ] ], [ [ "varnish", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -1259,11 +1262,10 @@
     "time": "50 m",
     "autolearn": true,
     "book_learn": [ [ "manual_mechanics", 2 ], [ "manual_fabrication", 2 ] ],
-    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "CUT", "level": 1 }, { "id": "SANDING", "level": 1 } ],
     "components": [
       [ [ "plastic_chunk", 1 ], [ "wood_structural_small", 1, "LIST" ] ],
       [ [ "cable", 10 ], [ "wire", 1 ], [ "string_floss", 1 ] ],
-      [ [ "material_sand", 10 ], [ "salt", 20 ] ],
       [ [ "adhesive_proper", 1, "LIST" ] ]
     ]
   },
@@ -1293,7 +1295,8 @@
     "using": [ [ "blacksmithing_intermediate", 8 ], [ "steel_standard", 2 ] ],
     "book_learn": [ [ "manual_fabrication", 2 ], [ "textbook_fabrication", 3 ] ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
-    "components": [ [ [ "wood_structural", 1, "LIST" ] ] ]
+    "qualities": [ { "id": "SANDING", "level": 1 } ],
+    "components": [ [ [ "wood_structural", 1, "LIST" ] ], [ [ "varnish", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -1305,8 +1308,8 @@
     "time": "2 m",
     "byproducts": [ [ "splinter", 4 ] ],
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "shovel", 1 ] ] ]
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SANDING", "level": 1 } ],
+    "components": [ [ [ "shovel", 1 ] ], [ [ "varnish", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -1321,7 +1324,8 @@
     "using": [ [ "blacksmithing_intermediate", 8 ], [ "steel_standard", 2 ] ],
     "book_learn": [ [ "manual_fabrication", 2 ], [ "textbook_fabrication", 3 ] ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
-    "components": [ [ [ "wood_structural_small", 1, "LIST" ] ] ]
+    "qualities": [ { "id": "SANDING", "level": 1 } ],
+    "components": [ [ [ "wood_structural_small", 1, "LIST" ] ], [ [ "varnish", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -1348,7 +1352,8 @@
     "using": [ [ "blacksmithing_intermediate", 8 ], [ "steel_standard", 2 ] ],
     "book_learn": [ [ "manual_fabrication", 3 ], [ "textbook_fabrication", 3 ] ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
-    "components": [ [ [ "2x4", 2 ], [ "stick", 4 ] ] ]
+    "qualities": [ { "id": "SANDING", "level": 1 } ],
+    "components": [ [ [ "2x4", 2 ], [ "stick", 4 ] ], [ [ "varnish", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -1362,7 +1367,8 @@
     "using": [ [ "blacksmithing_intermediate", 12 ], [ "steel_standard", 3 ] ],
     "book_learn": [ [ "textbook_fabrication", 4 ] ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
-    "components": [ [ [ "wood_structural_small", 3, "LIST" ] ] ]
+    "qualities": [ { "id": "SANDING", "level": 1 } ],
+    "components": [ [ [ "wood_structural_small", 3, "LIST" ] ], [ [ "varnish", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -1375,7 +1381,8 @@
     "autolearn": true,
     "using": [ [ "forging_standard", 15 ], [ "bronzesmithing_tools", 1 ] ],
     "book_learn": [ [ "textbook_fabrication", 4 ], [ "textbook_weapwest", 4 ] ],
-    "components": [ [ [ "wood_structural_small", 3, "LIST" ] ], [ [ "scrap_bronze", 5 ] ] ]
+    "qualities": [ { "id": "SANDING", "level": 1 } ],
+    "components": [ [ [ "wood_structural_small", 3, "LIST" ] ], [ [ "varnish", 1, "LIST" ] ], [ [ "scrap_bronze", 5 ] ] ]
   },
   {
     "type": "recipe",
@@ -1389,7 +1396,8 @@
     "book_learn": [ [ "manual_fabrication", 3 ], [ "textbook_fabrication", 4 ] ],
     "using": [ [ "blacksmithing_intermediate", 8 ], [ "steel_standard", 2 ] ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
-    "components": [ [ [ "wood_structural", 1, "LIST" ] ] ]
+    "qualities": [ { "id": "SANDING", "level": 1 } ],
+    "components": [ [ [ "wood_structural", 1, "LIST" ] ], [ [ "varnish", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -1403,7 +1411,8 @@
     "book_learn": [ [ "manual_fabrication", 3 ], [ "textbook_fabrication", 4 ] ],
     "using": [ [ "blacksmithing_intermediate", 32 ], [ "steel_standard", 8 ] ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
-    "components": [ [ [ "wood_structural_small", 1, "LIST" ] ] ]
+    "qualities": [ { "id": "SANDING", "level": 1 } ],
+    "components": [ [ [ "wood_structural_small", 1, "LIST" ] ], [ [ "varnish", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -1418,7 +1427,8 @@
     "book_learn": [ [ "manual_fabrication", 3 ], [ "textbook_fabrication", 4 ] ],
     "using": [ [ "blacksmithing_intermediate", 32 ], [ "steel_standard", 8 ] ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
-    "components": [ [ [ "wood_structural_small", 1, "LIST" ] ] ]
+    "qualities": [ { "id": "SANDING", "level": 1 } ],
+    "components": [ [ [ "wood_structural_small", 1, "LIST" ] ], [ [ "varnish", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -1446,7 +1456,8 @@
     "book_learn": [ [ "manual_fabrication", 3 ], [ "textbook_fabrication", 4 ] ],
     "using": [ [ "blacksmithing_intermediate", 32 ], [ "steel_standard", 20 ] ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
-    "components": [ [ [ "wood_structural_small", 1, "LIST" ] ] ]
+    "qualities": [ { "id": "SANDING", "level": 1 } ],
+    "components": [ [ [ "wood_structural_small", 1, "LIST" ] ], [ [ "varnish", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -1460,7 +1471,8 @@
     "book_learn": [ [ "manual_fabrication", 3 ], [ "textbook_fabrication", 4 ] ],
     "using": [ [ "blacksmithing_intermediate", 32 ], [ "steel_standard", 4 ] ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
-    "components": [ [ [ "wood_structural_small", 1, "LIST" ] ] ]
+    "qualities": [ { "id": "SANDING", "level": 1 } ],
+    "components": [ [ [ "wood_structural_small", 1, "LIST" ] ], [ [ "varnish", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -1754,7 +1766,7 @@
     "reversible": true,
     "autolearn": true,
     "using": [ [ "cordage", 1 ] ],
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SANDING", "level": 1 } ],
     "components": [ [ [ "stick", 1 ], [ "2x4", 1 ] ], [ [ "rag", 4 ] ] ]
   },
   {
@@ -1925,7 +1937,8 @@
       [ [ "hacksaw", 1 ] ],
       [ [ "wrench", 1 ] ],
       [ [ "saw", 1 ] ],
-      [ [ "hammer", 1 ] ]
+      [ [ "hammer", 1 ] ],
+      [ [ "sandpaper", 1 ] ]
     ]
   },
   {
@@ -2075,7 +2088,7 @@
     "difficulty": 1,
     "time": "8 m",
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SANDING", "level": 1 } ],
     "components": [ [ [ "rag", 1 ] ], [ [ "2x4", 1 ], [ "stick", 1 ], [ "broom", 1 ] ] ]
   },
   {
@@ -2227,7 +2240,7 @@
     "difficulty": 1,
     "time": "1 m",
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SANDING", "level": 1 } ],
     "components": [ [ [ "2x4", 1 ] ] ]
   },
   {
@@ -2455,7 +2468,8 @@
     "time": "1 h",
     "autolearn": true,
     "using": [ [ "blacksmithing_advanced", 1 ], [ "steel_tiny", 1 ] ],
-    "components": [ [ [ "2x4", 1 ], [ "stick", 2 ] ] ]
+    "qualities": [ { "id": "SANDING", "level": 1 } ],
+    "components": [ [ [ "2x4", 1 ], [ "stick", 2 ] ], [ [ "varnish", 1, "LIST" ] ] ]
   },
   {
     "result": "hand_pump",
@@ -2482,7 +2496,8 @@
     "time": "2 h",
     "autolearn": true,
     "using": [ [ "blacksmithing_advanced", 6 ], [ "steel_standard", 1 ] ],
-    "components": [ [ [ "2x4", 1 ], [ "stick", 2 ] ] ]
+    "qualities": [ { "id": "SANDING", "level": 1 } ],
+    "components": [ [ [ "2x4", 1 ], [ "stick", 2 ] ], [ [ "varnish", 1, "LIST" ] ] ]
   },
   {
     "result": "knife_paring",
@@ -2650,7 +2665,8 @@
     "time": "1 h",
     "autolearn": true,
     "using": [ [ "blacksmithing_advanced", 1 ], [ "steel_tiny", 1 ] ],
-    "components": [ [ [ "2x4", 1 ], [ "stick", 1 ] ] ]
+    "qualities": [ { "id": "SANDING", "level": 1 } ],
+    "components": [ [ [ "2x4", 1 ], [ "stick", 1 ] ], [ [ "varnish", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -2691,9 +2707,10 @@
     "time": "3 h",
     "reversible": true,
     "book_learn": [ [ "family_cookbook", 4 ], [ "textbook_survival", 4 ] ],
-    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SCREW", "level": 1 } ],
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SCREW", "level": 1 }, { "id": "SANDING", "level": 1 } ],
     "components": [
       [ [ "2x4", 18 ] ],
+      [ [ "varnish", 9, "LIST" ] ],
       [ [ "nail_glue", 14, "LIST" ] ],
       [ [ "sheet_metal", 1 ] ],
       [ [ "foot_crank", 1 ] ],
@@ -2766,7 +2783,8 @@
     "book_learn": [ [ "textbook_carpentry", 5 ], [ "textbook_fabrication", 6 ] ],
     "using": [ [ "blacksmithing_intermediate", 2 ], [ "steel_standard", 2 ] ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
-    "components": [ [ [ "2x4", 2 ], [ "stick", 4 ] ] ]
+    "qualities": [ { "id": "SANDING", "level": 1 } ],
+    "components": [ [ [ "2x4", 2 ], [ "stick", 4 ] ], [ [ "varnish", 1, "LIST" ] ] ]
   },
   {
     "result": "still",
@@ -3008,7 +3026,7 @@
     "difficulty": 2,
     "time": "20 m",
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "DRILL", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "DRILL", "level": 1 }, { "id": "SANDING", "level": 1 } ],
     "components": [ [ [ "2x4", 1 ], [ "stick", 1 ] ] ]
   },
   {
@@ -3057,7 +3075,7 @@
     "skill_used": "fabrication",
     "time": "20 m",
     "autolearn": true,
-    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CUT", "level": 1 }, { "id": "SANDING", "level": 1 } ],
     "components": [ [ [ "rock", 1 ], [ "sharp_rock", 1 ] ], [ [ "stick", 1 ], [ "2x4", 1 ] ] ]
   },
   {
@@ -3097,6 +3115,22 @@
     "autolearn": true,
     "book_learn": [ [ "textbook_fabrication", 4 ], [ "atomic_survival", 3 ], [ "survival_book", 3 ] ],
     "using": [ [ "wood_structural", 8 ], [ "nail_glue", 10 ] ],
-    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_W", "level": 1 } ]
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_W", "level": 1 }, { "id": "SANDING", "level": 1 } ],
+    "components": [ [ [ "varnish", 1, "LIST" ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "sandpaper",
+    "category": "CC_OTHER",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": "10 m",
+    "autolearn": true,
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "CUT", "level": 1 } ],
+    "components": [
+      [ [ "material_sand", 1 ], [ "glass_shard", 1 ] ],
+      [ [ "paper", 1 ], [ "rag", 1 ] ],
+      [ [ "adhesive_proper", 1, "LIST" ] ]
+    ]
   }
 ]
