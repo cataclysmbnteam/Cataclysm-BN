@@ -3017,7 +3017,7 @@ trait_id newcharacter::random_good_trait()
     std::vector<trait_id> vTraitsGood;
 
     for( auto &traits_iter : mutation_branch::get_all() ) {
-        if( traits_iter.points > 0 && g->scen->traitquery( traits_iter.id ) ) {
+        if( traits_iter.points >= 0 && g->scen->traitquery( traits_iter.id ) ) {
             vTraitsGood.push_back( traits_iter.id );
         }
     }
