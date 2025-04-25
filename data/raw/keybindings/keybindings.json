@@ -3564,44 +3564,34 @@
     "id": "RANDOMIZE",
     "category": "NEW_CHAR_TRAITS",
     "name": "Select random trait",
-    "bindings": [
-      { "input_method": "keyboard", "key": "*" }
-    ]
+    "bindings": [ { "input_method": "keyboard", "key": "*" } ]
   },
   {
     "type": "keybinding",
     "id": "RANDOMIZE",
     "category": "NEW_CHAR_PROFESSIONS",
     "name": "Select random profession",
-    "bindings": [
-      { "input_method": "keyboard", "key": "*" }
-    ]
+    "bindings": [ { "input_method": "keyboard", "key": "*" } ]
   },
   {
     "type": "keybinding",
     "id": "RANDOMIZE",
     "category": "NEW_CHAR_SCENARIOS",
     "name": "Select random scenario",
-    "bindings": [
-      { "input_method": "keyboard", "key": "*" }
-    ]
+    "bindings": [ { "input_method": "keyboard", "key": "*" } ]
   },
   {
     "type": "keybinding",
     "id": "RANDOMIZE",
     "category": "NEW_CHAR_SKILLS",
     "name": "Select random skill",
-    "bindings": [
-      { "input_method": "keyboard", "key": "*" }
-    ]
+    "bindings": [ { "input_method": "keyboard", "key": "*" } ]
   },
   {
     "type": "keybinding",
     "id": "RANDOMIZE",
     "category": "NEW_CHAR_STATS",
     "name": "Select random stat",
-    "bindings": [
-      { "input_method": "keyboard", "key": "*" }
-    ]
+    "bindings": [ { "input_method": "keyboard", "key": "*" } ]
   }
 ]

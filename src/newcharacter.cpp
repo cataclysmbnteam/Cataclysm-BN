@@ -2041,7 +2041,7 @@ tab_direction set_skills( avatar &u, points_left &points )
             cur_pos = modulo( cur_pos - 1, num_skills );
             currentSkill = skill_list[cur_pos].first;
         } else if( action == "RANDOMIZE" ) {
-            cur_pos = modulo( rng( 0, num_skills-1 ), num_skills );
+            cur_pos = modulo( rng( 0, num_skills - 1 ), num_skills );
         } else if( action == "LEFT" ) {
             const int level = u.get_skill_level( currentSkill->ident() );
             if( level > 0 ) {
