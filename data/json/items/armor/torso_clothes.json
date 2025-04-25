@@ -674,6 +674,7 @@
     "description": "A hooded pullover made of a coarse, woven fabric.  Popular among festival-goers and chill backpackers.  Smells faintly of patchouli.",
     "price": "40 USD",
     "price_postapoc": "2 USD",
+    "environmental_protection": 1,
     "snippet_category": [
       {
         "id": "earthtone",
