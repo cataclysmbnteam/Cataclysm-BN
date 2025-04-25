@@ -17,7 +17,7 @@
 
 class Creature;
 class vehicle;
-class partial_con;
+struct partial_con;
 
 class aim_activity_actor : public activity_actor
 {
