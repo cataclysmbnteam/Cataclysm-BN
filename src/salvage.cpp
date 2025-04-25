@@ -93,7 +93,7 @@ ret_val<bool> try_salvage( const item &target, quality_cache &q_cache )
     }
     // There must be some historical significance to these items.
     if( !target.is_salvageable() ) {
-        auto ret = string_format( _( "Can't salvage anything from %s." ) + '\n', target.tname() );
+        auto ret = string_format( _( "Can't salvage anything from %s.\n" ), target.tname() );
         if( recipe_dictionary::get_uncraft( target.typeId() ) ) {
             ret += string_format( _( "Try disassembling the %s instead." ), target.tname() );
         } else if( !target.only_made_of( all_salvagable_materials ) ) {
@@ -127,7 +127,7 @@ q_result promt_warnings( const Character &who, const item &target,
     for( auto &mat : madeof ) {
         auto res = mat->salvaged_into();
         // do not promt this if resulting material will provide 0 items
-        if( res && res.value()->weight <= target.weight() / madeof.size()
+        if( res && res.value()->weight <= target.weight() / static_cast<int16_t>( madeof.size() )
             && !has_salvage_tools( q_cache, mat ) ) {
             auto result = yn_ignore_query(
                               string_format(
