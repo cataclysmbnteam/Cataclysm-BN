@@ -332,7 +332,9 @@
       [ "mess_tin", 10 ],
       [ "survival_kit", 30 ],
       [ "premium_survival_kit", 3 ],
-      [ "wire_saw", 10 ]
+      [ "wire_saw", 10 ],
+      [ "butane_can", 15],
+      [ "butane_tank", 10]
     ]
   },
   {

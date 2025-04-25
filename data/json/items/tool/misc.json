@@ -62,8 +62,9 @@
     "initial_charges": 30,
     "max_charges": 30,
     "charges_per_use": 1,
+    "ammo": "butane",
     "material": [ "steel" ],
-    "flags": [  ],
+    "flags": [ "NO_UNLOAD" ],
     "explosion": {
       "power": 4503,
       "distance_factor": 0.1,
