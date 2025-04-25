@@ -671,13 +671,13 @@
     "type": "ARMOR",
     "copy-from": "wool_hoodie",
     "name": { "str": "drug rug" },
-    "description": "A hooded pullover made of a coarse, woven fabric. Popular among festival-goers and chill backpackers. Smells faintly of patchouli.",
+    "description": "A hooded pullover made of a coarse, woven fabric.  Popular among festival-goers and chill backpackers.  Smells faintly of patchouli.",
     "price": "40 USD",
     "price_postapoc": "2 USD",
     "snippet_category": [
       {
         "id": "earthtone",
-        "text": "A cozy hoodie patterned with thick earth-toned stripes—burnt umber, forest green, and sand. The texture is rough but comforting."
+        "text": "A cozy hoodie patterned with thick earth-toned stripes—burnt umber, forest green, and sand.  The texture is rough but comforting."
       },
       {
         "id": "sunset_trip",
@@ -685,7 +685,7 @@
       },
       {
         "id": "rasta_vibe",
-        "text": "A green, yellow, and red striped drug rug hoodie. Slightly faded, like it's seen a few beach fires and late-night jam sessions."
+        "text": "A green, yellow, and red striped drug rug hoodie.  Slightly faded, like it's seen a few beach fires and late-night jam sessions."
       },
       {
         "id": "mystic_pattern",
