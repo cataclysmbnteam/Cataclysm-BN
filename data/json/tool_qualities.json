@@ -288,5 +288,25 @@
     "type": "tool_quality",
     "id": "SANDING",
     "name": { "str": "sanding" }
+  },
+  {
+    "type": "tool_quality",
+    "id": "HV_INSULATION",
+    "name": { "str": "high voltage insulation" }
+  },
+  {
+    "type": "tool_quality",
+    "id": "VOLT_MEASURE",
+    "name": { "str": "voltage measurement" }
+  },
+  {
+    "type": "tool_quality",
+    "id": "PULL_FINE",
+    "name": { "str": "fine pulling" }
+  },
+  {
+    "type": "tool_quality",
+    "id": "CUT_M",
+    "name": { "str": "metal cutting" }
   }
 ]
