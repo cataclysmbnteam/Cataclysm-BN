@@ -318,8 +318,8 @@
     "//": "unfortunately this is a weird process - 30min to actually extract and a few hours to purge the remaining liquid. we'll go with 2h30m for purging. 28g at 20% yield is 7g unrefined distillate",
     "batch_time_factors": [ 80, 5 ],
     "autolearn": true,
-    "tools": [ [ [ "chemistry_set_basic", 1 ], [ "chemistry_set", 1 ] ], [ [ "surface_heat", 8, "LIST" ] ] ],
-    "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "CHEM", "level": 3 }, { "id": "BOIL", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
+    "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "CHEM", "level": 2 }, { "id": "BOIL", "level": 1 } ],
     "components": [ [ [ "cannabis", 28 ] ], [ [ "butane_can", 1 ] ] ]
   },
   {
@@ -334,7 +334,7 @@
     "//": "purging generally can take 24-48 hours, however we don't want to make the player wait that long. 4 will do hopefully. this step encompasses winterization, distillation, and purging since we have no freezing for recipes",
     "batch_time_factors": [ 99, 5 ],
     "autolearn": true,
-    "tools": [ [ [ "surface_heat", 8, "LIST" ] ], [ [ "still", -1 ] ], [ [ "vac_sealer", 1 ] ] ],
+    "tools": [ [ [ "surface_heat", 8, "LIST" ] ], [ [ "vac_sealer", 1 ] ] ],
     "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "BOIL", "level": 1 }, { "id": "DISTILL", "level": 2 } ],
     "components": [ [ [ "thc_liquid_unrefined", 10 ] ], [ [ "chem_ethanol", 1 ] ], [ [ "paper", 1 ], [ "rag", 1 ] ] ]
   },
