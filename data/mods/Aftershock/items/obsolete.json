@@ -310,5 +310,32 @@
       [ "underbarrel", 1 ]
     ],
     "ammo_effects": [ "TRAIL" ]
+  },
+  {
+    "id": "butane_tank",
+    "type": "TOOL",
+    "category": "tools",
+    "name": { "str": "butane tank", "str_pl": "tanks of butane" },
+    "description": "This is a tank of compressed butane.  It can be used to extract essential oils from organic material.",
+    "weight": "22700 g",
+    "volume": "18950 ml",
+    "price": "250 USD",
+    "to_hit": -4,
+    "bashing": 10,
+    "material": [ "steel", "plastic" ],
+    "symbol": ";",
+    "color": "dark_gray",
+    "initial_charges": 20,
+    "max_charges": 20,
+    "charges_per_use": 1,
+    "looks_like": "oxygen_tank",
+    "flags": [  ],
+    "explosion": {
+      "power": 90100,
+      "distance_factor": 0.5,
+      "fire": true,
+      "shrapnel": { "casing_mass": 200, "fragment_mass": 1, "recovery": 0 }
+    },
+    "explode_in_fire": true
   }
 ]
