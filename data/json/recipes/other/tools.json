@@ -1240,6 +1240,19 @@
   },
   {
     "type": "recipe",
+    "result": "multitool",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": "1 h 30 m",
+    "autolearn": true,
+    "using": [ [ "blacksmithing_advanced", 4 ], [ "steel_standard", 1 ] ],
+    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
+    "components": [ [ [ "plastic_chunk", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
     "result": "hacksaw",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
