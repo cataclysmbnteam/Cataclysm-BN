@@ -318,7 +318,7 @@
     "//": "unfortunately this is a weird process - 30min to actually extract and a few hours to purge the remaining liquid. we'll go with 2h30m for purging. 28g at 20% yield is 7g unrefined distillate",
     "batch_time_factors": [ 80, 5 ],
     "autolearn": true,
-    "tools": [ [ [ "chemistry_set", 1 ] ], [ [ "surface_heat", 8, "LIST" ] ] ],
+    "tools": [ [ [ "basic_chemistry_set", 1], [ "chemistry_set", 1 ] ], [ [ "surface_heat", 8, "LIST" ] ] ],
     "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "CHEM", "level": 3 }, { "id": "BOIL", "level": 1 } ],
     "components": [
       [ [ "cannabis", 28 ] ],

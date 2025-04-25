@@ -161,7 +161,6 @@
     "object": {
       "place_item": [
         { "item": "joint_roach", "repeat": 1, "x": 11, "y": 4 },
-        { "item": "joint", "repeat": [ 1, 4 ], "x": 11, "y": 11 },
         { "item": "pipe_glass", "repeat": [ 1, 4 ], "x": 10, "y": 15 },
         { "item": "withered", "repeat": [ 1, 2 ], "x": 17, "y": 15 },
         { "item": "withered", "repeat": [ 1, 2 ], "x": 8, "y": 17 },
@@ -197,6 +196,7 @@
         { "chance": 75, "item": "dispensary", "x": 15, "y": 15 },
         { "chance": 75, "item": "dispensary", "x": 11, "y": 15 },
         { "chance": 75, "item": "dispensary", "x": 19, "y": 13 },
+        { "chance": 100, "repeat": [ 1, 4 ], "item": "dispensary", "x": [11, 14], "y": 11 },
         { "chance": 75, "item": "dispensary", "x": [ 17, 19 ], "y": 12 }
       ],
       "fill_ter": "t_floor",
