@@ -484,6 +484,50 @@
     "magazine_well": "500 ml"
   },
   {
+    "id": "soda_machine",
+    "type": "TOOL",
+    "category": "tools",
+    "name": { "str": "soda machine" },
+    "looks_like": "coffeemaker",
+    "description": "This is a kitchen appliance capable of creating carbonated beverages.",
+    "weight": "3000 g",
+    "volume": "2 L",
+    "price": "50 USD",
+    "price_postapoc": "1 USD",
+    "to_hit": -2,
+    "bashing": 5,
+    "material": [ "plastic", "aluminum" ],
+    "symbol": "%",
+    "color": "white",
+    "ammo": "battery",
+    "flags": [ "ALLOWS_REMOTE_USE" ],
+    "magazines": [
+      [
+        "battery",
+        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+      ]
+    ],
+    "magazine_well": "500 ml"
+  },
+  {
+    "id": "atomic_soda_machine",
+    "type": "TOOL",
+    "category": "tools",
+    "name": { "str": "atomic soda machine" },
+    "looks_like": "atomic_coffeepot",
+    "description": "This is a Curie-G soda machine, a follow-up to the infamous coffeepot by CuppaTech.  It uses the same miniature RTG core to chill and carbonate beverages.  Normally, it dispenses standard fizzy drinks using stored CO₂ and coolant, but with a twist of the dial, it can cycle irradiated condensation from the RTG chamber into the mix.  Like its predecessor, the atomic soda machine is banned in most regions.",
+    "weight": "3000 g",
+    "volume": "2 L",
+    "price": "1 kUSD",
+    "price_postapoc": "30 USD",
+    "to_hit": -2,
+    "bashing": 5,
+    "material": [ "plastic", "aluminum" ],
+    "symbol": "%",
+    "color": "white",
+    "flags": [ "LEAK_DAM", "RADIOACTIVE", "ALLOWS_REMOTE_USE", "DURABLE_MELEE" ]
+  },
+  {
     "id": "gasoline_cooker",
     "type": "TOOL",
     "category": "tools_cooking",

@@ -30,7 +30,7 @@
     "description": "A high-pressure commercial version of the 7.62x25mm cartridge, loaded with an 85 gr. FMJ bullet.  It is more powerful than the original.",
     "//": "Hollowpoint bonus of 25%, retains armor penetration due to being a +P load.",
     "relative": { "price": 500, "range": 2, "damage": { "damage_type": "bullet", "amount": 6 } },
-    "proportional": { "recoil": 1.4 }
+    "proportional": { "recoil": 1.2 }
   },
   {
     "id": "762_25typeP",

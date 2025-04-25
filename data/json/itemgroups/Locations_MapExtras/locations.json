@@ -647,6 +647,7 @@
       [ "carver_off", 5 ],
       [ "coffeemaker", 5 ],
       [ "dehydrator", 5 ],
+      [ "soda_machine", 5 ],
       [ "food_processor", 5 ],
       [ "hotplate", 5 ],
       [ "multi_cooker", 5 ],
@@ -2723,6 +2724,7 @@
       [ "quiver", 20 ],
       [ "canteen", 20 ],
       [ "knife_hunting", 30 ],
+      [ "gps_device", 5 ],
       [ "shovel", 30 ],
       { "group": "ammo_pocket_batteries_full", "prob": 30 }
     ]

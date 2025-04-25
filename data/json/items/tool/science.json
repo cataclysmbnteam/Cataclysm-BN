@@ -206,6 +206,26 @@
     "use_action": "OXYGEN_BOTTLE"
   },
   {
+    "id": "carbondioxide_tank",
+    "type": "TOOL",
+    "category": "tools",
+    "name": { "str": "carbon dioxide tank" },
+    "description": "This is a tank of compressed carbon dioxide gas.",
+    "weight": "2268 g",
+    "volume": "1500 ml",
+    "price": "10 USD",
+    "price_postapoc": "250 cent",
+    "to_hit": -4,
+    "bashing": 10,
+    "material": [ "steel", "plastic" ],
+    "symbol": ";",
+    "color": "light_gray",
+    "initial_charges": 24,
+    "max_charges": 24,
+    "charges_per_use": 1,
+    "looks_like": "oxygen_tank"
+  },
+  {
     "id": "platinum_grille",
     "type": "GENERIC",
     "category": "tools_chemistry",

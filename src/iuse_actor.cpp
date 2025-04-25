@@ -13,6 +13,7 @@
 
 #include "action.h"
 #include "activity_handlers.h"
+#include "addiction.h"
 #include "ammo.h"
 #include "animation.h"
 #include "assign.h"
@@ -77,7 +78,9 @@
 #include "skill.h"
 #include "sounds.h"
 #include "string_formatter.h"
+#include "string_utils.h"
 #include "string_input_popup.h"
+#include "text_snippets.h"
 #include "translations.h"
 #include "trap.h"
 #include "ui.h"
@@ -105,6 +108,7 @@ static const efftype_id effect_accumulated_mutagen( "accumulated_mutagen" );
 static const efftype_id effect_asthma( "asthma" );
 static const efftype_id effect_bandaged( "bandaged" );
 static const efftype_id effect_bite( "bite" );
+static const efftype_id effect_cig( "cig" );
 static const efftype_id effect_bleed( "bleed" );
 static const efftype_id effect_pet( "pet" );
 static const efftype_id effect_disinfected( "disinfected" );
@@ -785,6 +789,25 @@ void consume_drug_iuse::load( const JsonObject &obj )
     obj.read( "stat_adjustments", stat_adjustments );
     obj.read( "fields_produced", fields_produced );
     obj.read( "moves", moves );
+    obj.read( "fake_item", fake_item );
+    obj.read( "lightweight_mod", lightweight_mod );
+    obj.read( "tolerance_mod", tolerance_mod );
+    obj.read( "tolerance_lightweight_effected", tolerance_lightweight_effected ); // default true
+    lit_item = obj.get_string( "lit_item", lit_item );
+    obj.read( "smoking_duration", smoking_duration );
+    obj.read( "too_much_threshold", too_much_threshold );
+    obj.read( "snippet_category", snippet_category );
+    obj.read( "snippet_chance", snippet_chance );
+    obj.read( "do_weed_msg",
+              do_weed_msg ); // i wish i didn't have to do this, but the weed_msg function can't really be easily JSONified
+
+    if( obj.has_array( "addiction_type_too_much" ) ) {
+        for( const JsonArray pair : obj.get_array( "addiction_type_too_much" ) ) {
+            if( pair.size() >= 2 ) {
+                addiction_type_too_much.emplace_back( pair.get_string( 0 ), pair.get_string( 1 ) );
+            }
+        }
+    }
 
     for( JsonArray vit : obj.get_array( "vitamins" ) ) {
         auto lo = vit.get_int( 1 );
@@ -826,6 +849,7 @@ int consume_drug_iuse::use( player &p, item &it, bool, const tripoint & ) const
     if( need_these.contains( itype_syringe ) && p.has_bionic( bio_syringe ) ) {
         need_these.erase( itype_syringe ); // no need for a syringe with bionics like these!
     }
+
     // Check prerequisites first.
     for( const auto &tool : need_these ) {
         // Amount == -1 means need one, but don't consume it.
@@ -848,19 +872,91 @@ int consume_drug_iuse::use( player &p, item &it, bool, const tripoint & ) const
             return -1;
         }
     }
+
+    // this is a smokeable item, we need to make sure player isnt already smoking (ripped from iuse::smoking)
+    if( lit_item.size() != 0 ) {
+        // make sure we're not already smoking something
+        auto cigs = p.items_with( []( const item & it ) {
+            return it.is_active() && it.has_flag( flag_LITCIG );
+        } );
+        if( !cigs.empty() ) {
+            p.add_msg_if_player( m_info, _( "You're already smoking a %s!" ), cigs[0]->tname() );
+            return 0;
+        }
+    }
+
+    // Output message.
+    p.add_msg_if_player( _( activation_message ), it.type_name( 1 ) );
+
+    if( smoking_duration ) {
+        detached_ptr<item> cig;
+        cig = item::spawn( lit_item, calendar::turn );
+        time_duration converted_time = time_duration::from_minutes( smoking_duration );
+
+        cig->item_counter = to_turns<int>( converted_time );
+        cig->activate();
+        p.i_add( std::move( cig ) );
+    }
+
+    if( do_weed_msg ) {
+        if( one_in( snippet_chance ) ) {
+            weed_msg( p );
+        }
+    }
+
+    // item used to "fake" addiction (ripped from old ecig iuse)
+    if( fake_item.size() != 0 ) {
+        item *dummy_item = item::spawn_temporary( fake_item, calendar::turn );
+        p.consume_effects( *dummy_item );
+    }
+
     // Apply the various effects.
     for( const auto &eff : effects ) {
         time_duration dur = eff.duration;
-        if( p.has_trait( trait_TOLERANCE ) ) {
-            dur *= .8;
-        } else if( p.has_trait( trait_LIGHTWEIGHT ) ) {
-            dur *= 1.2;
+        if( tolerance_lightweight_effected ) {
+            if( p.has_trait( trait_TOLERANCE ) ) {
+                dur *= tolerance_mod;
+            } else if( p.has_trait( trait_LIGHTWEIGHT ) ) {
+                dur *= lightweight_mod;
+            }
         }
-        p.add_effect( eff.id, dur, convert_bp( eff.bp ) );
+
+        // only way i could figure out how to do this
+        std::unordered_map<std::string, efftype_id> effect_map = {
+            {"cig", effect_cig}
+            // Add other mappings as needed. I think cigs are the only thing this applies to at the moment.
+        };
+
+        // check if effect were applying is connected to an addiction type
+        for( const auto &entry : addiction_type_too_much ) {
+            const std::string &attm_effect = entry.first;
+            const std::string &attm_addiction_type = entry.second;
+
+            auto it = effect_map.find( attm_effect );
+            if( it != effect_map.end() ) {
+                const efftype_id &id = it->second;
+                if( id.obj() == eff.id.obj() ) {
+                    if( p.get_effect_dur( id ) > time_duration::from_minutes( too_much_threshold ) *
+                        ( p.addiction_level(
+                              addiction_type( attm_addiction_type ) ) + 1 ) ) {
+                        p.add_msg_if_player( m_bad, _( "Ugh, too much %s… you feel nasty." ), attm_addiction_type );
+                        break;
+                    }
+                }
+            }
+        }
+
+        p.add_effect( eff.id, eff.duration, convert_bp( eff.bp ) );
+        if( eff.permanent ) {
+            p.get_effect( eff.id, convert_bp( eff.bp ) ).set_permanent();
+        }
+
+        p.add_effect( eff.id, eff.duration, convert_bp( eff.bp ) );
         if( eff.permanent ) {
             p.get_effect( eff.id, convert_bp( eff.bp ) ).set_permanent();
         }
     }
+
     for( const auto &stat_adjustment : stat_adjustments ) {
         p.mod_stat( stat_adjustment.first, stat_adjustment.second );
     }
@@ -881,8 +977,16 @@ int consume_drug_iuse::use( player &p, item &it, bool, const tripoint & ) const
                        p.vitamin_rate( v.first ) <= 0_turns );
     }
 
-    // Output message.
-    p.add_msg_if_player( _( activation_message ), it.type_name( 1 ) );
+    if( snippet_category != "" ) {
+        snippet_id snip_id = snippet_id::NULL_ID();
+        std::string snippet_string = "";
+        snippet_string = SNIPPET.random_from_category( snippet_category ).value_or(
+                             translation() ).translated();
+        if( one_in( snippet_chance ) ) {
+            p.add_msg_if_player( _( "%s" ), snippet_string );
+        }
+    }
+
     // Consume charges.
     for( const auto &consumable : charges_needed ) {
         if( consumable.second != -1 ) {
@@ -4932,6 +5036,166 @@ void weigh_self_actor::load( const JsonObject &jo )
 std::unique_ptr<iuse_actor> weigh_self_actor::clone() const
 {
     return std::make_unique<weigh_self_actor>( *this );
+}
+
+void gps_device_actor::info( const item &, std::vector<iteminfo> &dump ) const
+{
+    dump.emplace_back( "DESCRIPTION",
+                       string_format( _( "This item uses up (%.2f) additional charges per tile revealed." ),
+                                      additional_charges_per_tile ) );
+}
+
+int gps_device_actor::use( player &p, item &it, bool, const tripoint & ) const
+{
+    float charges_built_up = 1.0;
+    const tripoint_abs_omt center = p.global_omt_location();
+
+    std::string query = string_input_popup()
+                        .title( _( "Search for location:" ) )
+                        .width( 40 )
+                        .query_string();
+
+    if( query.size() < 3 ) {
+        p.add_msg_if_player( m_info, _( "Please enter at least 3 characters." ) );
+        return 0;
+    }
+
+    // Exclude natural terrain types. This item should NOT obsolete other items, just be useful for the player.
+    // This helps with that philosophy, since to actually properly survey the area you still need to get to high ground.
+    static const std::vector<std::string> natural_terrains = {
+        "air", "forest", "forest_thick", "forest_water", "field", "lake_surface", "lake_shore",
+        "swamp", "stream", "stream_corner", "stream_end", "river_center", "river_shore", "river_bank", "deep_water", "shallow_water"
+    };
+
+    // Build list of matching terrain IDs whose display name matches the query
+    std::vector<std::string> matching_ids;
+    for( const oter_t &oter : overmap_terrains::get_all() ) {
+        // get_name() returns the human‐readable display name
+        if( lcmatch( oter.get_name(), query ) ) {
+            matching_ids.push_back( oter.get_mapgen_id() );
+        }
+    }
+
+    // Configure search to look only for those matching IDs
+    omt_find_params params{};
+    params.search_range = { 0, radius };
+    params.types.clear();
+    for( const auto &id_str : matching_ids ) {
+        params.types.emplace_back( id_str, ot_match_type::type );
+    }
+    for( const std::string &nt : natural_terrains ) {
+        params.exclude_types.emplace_back( nt, ot_match_type::type );
+    }
+    params.existing_only  = false;
+    params.search_layers  = omt_find_above_ground_layer;
+    params.explored       = false;
+    params.max_results = static_cast<size_t>( 1 + it.ammo_remaining() / additional_charges_per_tile );
+    params.popup          = make_shared_fast<throbber_popup>( _( "Searching…" ) );
+
+    const auto places = overmap_buffer.find_all( center, params );
+    params.popup = nullptr;
+
+    if( places.empty() ) {
+        p.add_msg_if_player( m_info, _( "No locations found for \"%s\"." ), query );
+        return 1;
+    }
+
+    // Group by display name
+    std::multimap<std::string, tripoint_abs_omt> grouped;
+    std::set<std::string> unique_names;
+    for( const auto &pt : places ) {
+        const std::string name = overmap_buffer.ter( pt ).obj().get_name();
+        grouped.insert( { name, pt } );
+        unique_names.insert( name );
+        charges_built_up += additional_charges_per_tile;
+    }
+
+    if( 1 + it.ammo_remaining() < charges_built_up ) {
+        p.add_msg_if_player( m_info, _( "Requires %.1f charges, but only %d remaining." ),
+                             charges_built_up, it.ammo_remaining() - 1 );
+        return 1;
+    }
+
+    // I don't think this will actually ever be called, but we're leaving it here for now
+    if( unique_names.empty() ) {
+        p.add_msg_if_player( m_info, _( "Nothing new to display." ) );
+        return 1;
+    }
+
+    p.add_msg_if_player( m_good, _( "You add the GPS results to your map." ) );
+    // Device has enough charge and nothing has gone wrong, reveal on overmap the locations!
+    for( const auto &pt : places ) {
+        overmap_buffer.reveal( pt, 0 );
+    }
+    uistate.overmap_highlighted_omts.clear();
+
+    // Let the player pick which name to highlight
+    const std::vector<std::string> name_list( unique_names.begin(), unique_names.end() );
+    uilist ui;
+    for( size_t i = 0; i < name_list.size(); ++i ) {
+        ui.addentry( i, true, MENU_AUTOASSIGN,
+                     string_format( "%s (%d)", name_list[i], grouped.count( name_list[i] ) ) );
+    }
+    ui.query();
+    if( ui.ret < 0 ) {
+        return charges_built_up;
+    }
+
+    const tripoint_abs_omt plr_pos = p.global_omt_location();
+    auto range = grouped.equal_range( name_list[ui.ret] );
+    const int count = std::distance( range.first, range.second );
+    if( count == 0 ) {
+        return charges_built_up;
+    }
+
+    // Highlight all matching points
+    std::transform( range.first, range.second,
+                    std::inserter( uistate.overmap_highlighted_omts,
+                                   uistate.overmap_highlighted_omts.end() ),
+    []( const auto & e ) {
+        return e.second;
+    }
+                  );
+
+    if( count == 1 ) {
+        ui::omap::choose_point( range.first->second );
+        return charges_built_up;
+    }
+
+    // If there are multiple, ask for closest vs random
+    ui.reset();
+    ui.addentry( 0, true, 'c', _( "Closest" ) );
+    ui.addentry( 1, true, 'r', _( "Random" ) );
+    ui.query();
+    if( ui.ret < 0 ) {
+        return charges_built_up;
+    }
+
+    if( ui.ret == 1 ) {
+        auto it = range.first;
+        std::advance( it, rng( 0, count - 1 ) );
+        ui::omap::choose_point( it->second );
+    } else {
+        const auto cmp = [&]( const auto & a, const auto & b ) {
+            return trig_dist_squared( plr_pos.raw(), a.second.raw() ) <
+                   trig_dist_squared( plr_pos.raw(), b.second.raw() );
+        };
+        const auto it = std::min_element( range.first, range.second, cmp );
+        ui::omap::choose_point( it->second );
+    }
+
+    return charges_built_up;
+}
+
+void gps_device_actor::load( const JsonObject &jo )
+{
+    assign( jo, "radius", radius );
+    assign( jo, "additional_charges_per_tile", additional_charges_per_tile );
+}
+
+std::unique_ptr<iuse_actor> gps_device_actor::clone() const
+{
+    return std::make_unique<gps_device_actor>( *this );
 }
 
 void sew_advanced_actor::load( const JsonObject &obj )
