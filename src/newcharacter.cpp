@@ -806,6 +806,7 @@ tab_direction set_stats( avatar &u, points_left &points )
     ctxt.register_cardinal();
     ctxt.register_action( "PREV_TAB" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
+    ctxt.register_action( "RANDOMIZE" );
     ctxt.register_action( "NEXT_TAB" );
     ctxt.register_action( "QUIT" );
 
@@ -969,6 +970,8 @@ tab_direction set_stats( avatar &u, points_left &points )
             } else {
                 sel = 4;
             }
+        } else if( action == "RANDOMIZE" ) {
+            sel = rng( 1, 4 );
         } else if( action == "LEFT" ) {
             if( sel == 1 && u.str_max > 4 ) {
                 if( u.str_max > HIGH_STAT ) {
@@ -1162,6 +1165,7 @@ tab_direction set_traits( avatar &u, points_left &points )
     ctxt.register_action( "PREV_TAB" );
     ctxt.register_action( "NEXT_TAB" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
+    ctxt.register_action( "RANDOMIZE" );
     ctxt.register_action( "QUIT" );
 #if defined(TILES)
     ctxt.register_action( "zoom_in" );
@@ -1316,6 +1320,8 @@ tab_direction set_traits( avatar &u, points_left &points )
             if( static_cast<size_t>( iCurrentLine[iCurWorkingPage] ) >= traits_size[iCurWorkingPage] ) {
                 iCurrentLine[iCurWorkingPage] = 0;
             }
+        } else if( action == "RANDOMIZE" ) {
+            iCurrentLine[iCurWorkingPage] = rng( 0, traits_size[iCurWorkingPage] - 1 );
         } else if( action == "CONFIRM" ) {
             int inc_type = 0;
             const trait_id cur_trait = vStartingTraits[iCurWorkingPage][iCurrentLine[iCurWorkingPage]].id;
@@ -1467,6 +1473,7 @@ tab_direction set_profession( avatar &u, points_left &points,
     ctxt.register_action( "NEXT_TAB" );
     ctxt.register_action( "SORT" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
+    ctxt.register_action( "RANDOMIZE" );
     ctxt.register_action( "FILTER" );
     ctxt.register_action( "QUIT" );
 
@@ -1763,6 +1770,8 @@ tab_direction set_profession( avatar &u, points_left &points,
             if( desc_offset > 0 ) {
                 desc_offset--;
             }
+        } else if( action == "RANDOMIZE" ) {
+            cur_id = rng( 0, profs_length - 1 );
         } else if( action == "RIGHT" ) {
             if( desc_offset < iheight ) {
                 desc_offset++;
@@ -1863,6 +1872,7 @@ tab_direction set_skills( avatar &u, points_left &points )
     ctxt.register_action( "SCROLL_UP" );
     ctxt.register_action( "PREV_TAB" );
     ctxt.register_action( "NEXT_TAB" );
+    ctxt.register_action( "RANDOMIZE" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
     ctxt.register_action( "QUIT" );
 
@@ -2030,6 +2040,8 @@ tab_direction set_skills( avatar &u, points_left &points )
         } else if( action == "UP" ) {
             cur_pos = modulo( cur_pos - 1, num_skills );
             currentSkill = skill_list[cur_pos].first;
+        } else if( action == "RANDOMIZE" ) {
+            cur_pos = modulo( rng( 0, num_skills-1 ), num_skills );
         } else if( action == "LEFT" ) {
             const int level = u.get_skill_level( currentSkill->ident() );
             if( level > 0 ) {
@@ -2126,6 +2138,7 @@ tab_direction set_scenario( avatar &u, points_left &points,
     ctxt.register_action( "NEXT_TAB" );
     ctxt.register_action( "SORT" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
+    ctxt.register_action( "RANDOMIZE" );
     ctxt.register_action( "FILTER" );
     ctxt.register_action( "QUIT" );
 
@@ -2395,6 +2408,8 @@ tab_direction set_scenario( avatar &u, points_left &points,
             if( cur_id < 0 ) {
                 cur_id = scens_length - 1;
             }
+        } else if( action == "RANDOMIZE" ) {
+            cur_id = rng( 0, scens_length - 1 );
         } else if( action == "CONFIRM" ) {
             if( sorted_scens[cur_id]->has_flag( "CITY_START" ) && !scenario_sorter.cities_enabled ) {
                 continue;
@@ -3002,7 +3017,7 @@ trait_id newcharacter::random_good_trait()
     std::vector<trait_id> vTraitsGood;
 
     for( auto &traits_iter : mutation_branch::get_all() ) {
-        if( traits_iter.points >= 0 && g->scen->traitquery( traits_iter.id ) ) {
+        if( traits_iter.points > 0 && g->scen->traitquery( traits_iter.id ) ) {
             vTraitsGood.push_back( traits_iter.id );
         }
     }
