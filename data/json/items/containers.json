@@ -975,6 +975,25 @@
     "watertight": true
   },
   {
+    "id": "bag_in_a_box",
+    "type": "CONTAINER",
+    "category": "container",
+    "name": { "str": "bag in a box" },
+    "looks_like": "box_large",
+    "description": "A plastic, watertight bag stored inside of a cardboard box with a dispensing port.",
+    "weight": "800 g",
+    "volume": "19 L",
+    "price": "0 cent",
+    "price_postapoc": "10 cent",
+    "to_hit": 1,
+    "material": [ "plastic", "cardboard" ],
+    "symbol": "#",
+    "color": "brown",
+    "contains": "3750 ml",
+    "seals": true,
+    "watertight": true
+  },
+  {
     "id": "keg",
     "type": "CONTAINER",
     "category": "container",

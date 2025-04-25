@@ -432,7 +432,8 @@
       { "item": "electrolaser_conversion", "prob": 1 },
       { "item": "effective_emitter", "prob": 1 },
       { "item": "high_density_capacitor", "prob": 1 },
-      { "item": "emp_gun", "prob": 1 }
+      { "item": "emp_gun", "prob": 1 },
+      { "item": "energy_drink_atomic_syrup", "prob": 5 }
     ]
   },
   {
