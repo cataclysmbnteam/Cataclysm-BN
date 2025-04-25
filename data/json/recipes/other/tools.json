@@ -1938,7 +1938,10 @@
       [ [ "wrench", 1 ] ],
       [ [ "saw", 1 ] ],
       [ [ "hammer", 1 ] ],
-      [ [ "sandpaper", 1 ] ]
+      [ [ "sandpaper", 1 ] ],
+      [ [ "hand_drill", 1 ] ],
+      [ [ "multitool", 1 ] ],
+      [ [ "gloves_rubber", 1 ] ]
     ]
   },
   {
@@ -1963,7 +1966,11 @@
       [ [ "hammer", 1 ] ],
       [ [ "metal_file", 1 ] ],
       [ [ "pin_reamer", 1 ] ],
-      [ [ "clamp", 1 ] ]
+      [ [ "clamp", 1 ] ],
+      [ [ "sandpaper", 1 ] ],
+      [ [ "hand_drill", 1 ] ],
+      [ [ "multitool", 1 ] ],
+      [ [ "gloves_rubber", 1 ] ]
     ]
   },
   {
