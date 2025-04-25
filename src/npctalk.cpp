@@ -96,16 +96,48 @@ static const efftype_id effect_pet( "pet" );
 static const efftype_id effect_riding( "riding" );
 static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_under_op( "under_operation" );
+
+
+// solely used for emoting
 static const efftype_id effect_weed_high( "weed_high" );
+static const efftype_id effect_high( "high" );
 static const efftype_id effect_happy( "happy" );
 static const efftype_id effect_sad( "sad" );
 static const efftype_id effect_drunk( "drunk" );
 static const efftype_id effect_nausea( "nausea" );
-static const efftype_id effect_vomitous( "vomitous" );
+//static const efftype_id effect_vomitous( "vomitous" );
 static const efftype_id effect_bleed( "bleed" );
 static const efftype_id effect_poison( "poison" );
-static const efftype_id effect_onfire( "onfire" );
+//static const efftype_id effect_onfire( "onfire" );
 static const efftype_id effect_evil( "evil" );
+static const efftype_id effect_dazed( "dazed" );
+static const efftype_id effect_stunned( "stunned" );
+static const efftype_id effect_badpoison( "badpoison" );
+static const efftype_id effect_downed( "downed" );
+static const efftype_id effect_shrieking( "shrieking" );
+static const efftype_id effect_hot( "hot" );
+static const efftype_id effect_cold( "cold" );
+static const efftype_id effect_visuals( "visuals" );
+//static const efftype_id effect_grabbed( "grabbed" );
+static const efftype_id effect_flu( "flu" );
+static const efftype_id effect_asthma( "asthma" );
+static const efftype_id effect_common_cold( "common_cold" );
+static const efftype_id effect_paralyzepoison( "paralyzepoison" );
+static const efftype_id effect_teargas( "teargas" );
+//static const efftype_id effect_teleglow( "teleglow" );
+static const efftype_id effect_temp( "temp" );
+//static const efftype_id effect_frostbite( "frostbite" );
+static const efftype_id effect_glare( "glare" );
+static const efftype_id effect_bouldering( "bouldering" );
+static const efftype_id effect_deaf( "deaf" );
+//static const efftype_id effect_slimed( "slimed" );
+static const efftype_id effect_winded( "winded" );
+static const efftype_id effect_glowing( "glowing" );
+//static const efftype_id effect_milked( "milked" ); grey/white water icon
+static const efftype_id effect_playing_instrument( "playing_instrument" );
+static const efftype_id effect_morale_wet( "morale_wet" );
+
+
 
 static const itype_id fuel_type_animal( "animal" );
 
@@ -232,15 +264,48 @@ enum npc_chat_menu {
 };
 
 
+
+// "overlay_effect_docile" is a grey heart we could maybe add
+// "overlay_effect_pacified" looks like nanotrasen rep
 enum emote_menu {
     EMOTE_CLEAR,
+    EMOTE_HAPPY,
+    EMOTE_SAD,
     EMOTE_SLEEPY,
     EMOTE_EVIL,
     EMOTE_DRUNK,
     EMOTE_NAUSEA,
     EMOTE_BLEED,
     EMOTE_POISON,
-    EMOTE_ONFIRE
+    EMOTE_BADPOISON,
+    EMOTE_HIGH,
+    EMOTE_DAZED,
+    EMOTE_STUNNED,
+    EMOTE_DOWNED,
+    EMOTE_SHRIEKING,
+    EMOTE_HOT,
+    EMOTE_COLD,
+    EMOTE_VISUALS,
+    EMOTE_GRABBED,
+    EMOTE_FLU,
+    EMOTE_ASTHMA,
+    EMOTE_COMMON_COLD,
+    EMOTE_PARALYZEPOISON,
+    EMOTE_TEARGAS,
+    EMOTE_TEMP,
+    EMOTE_GLARE,
+    EMOTE_BOULDERING,
+    EMOTE_DEAF,
+    EMOTE_WINDED,
+    EMOTE_GLOWING,
+    EMOTE_PET,
+    EMOTE_MILKED,
+    EMOTE_PLAYING_INSTRUMENT,
+    EMOTE_MORALE_WET
+    //EMOTE_TELEGLOW,
+    //EMOTE_FROSTBITE,
+    //EMOTE_SLIMED,
+    //EMOTE_NARCOSIS
 };
 
 // given a vector of NPCs, presents a menu to allow a player to pick one.
@@ -481,9 +546,9 @@ void game::chat()
                       );
     }
     nmenu.addentry( NPC_CHAT_YELL, true, 'a', _( "Yell" ) );
-    nmenu.addentry( NPC_CHAT_EMOTE_OVERLAY, true, 'S', _( "Status Emote" ) );
     nmenu.addentry( NPC_CHAT_SENTENCE, true, 'b', _( "Yell a sentence" ) );
     nmenu.addentry( NPC_CHAT_MONOLOGUE, true, 'M', _( "Monologue" ) );
+    nmenu.addentry( NPC_CHAT_EMOTE_OVERLAY, true, 'E', _( "Emote" ) );
     if( !animal_vehicles.empty() ) {
         nmenu.addentry( NPC_CHAT_ANIMAL_VEHICLE_FOLLOW, true, 'F',
                         _( "Whistle at your animals pulling vehicles to follow you." ) );
@@ -546,18 +611,60 @@ void game::chat()
             uilist emenu;
             emenu.text = std::string( _( "Emote what status effect?" ) );
             
-            emenu.addentry( EMOTE_CLEAR, true, 'a', _( "Clear" ) );
-            emenu.addentry( EMOTE_DRUNK, true, 'b', _( "Drunk" ) );
-            emenu.addentry( EMOTE_SLEEPY, true, 'c', _( "Sleepy" ) );
-            emenu.addentry( EMOTE_NAUSEA, true, 'd', _( "Nausea" ) );
-            emenu.addentry( EMOTE_BLEED, true, 'e', _( "Bleed" ) );
-            emenu.addentry( EMOTE_POISON, true, 'f', _( "Poison" ) );
-            emenu.addentry( EMOTE_ONFIRE, true, 'g', _( "On Fire" ) );
-            emenu.addentry( EMOTE_EVIL, true, 'h', _( "Evil" ) );
-            //emenu.addentry( EMOTE_HAPPY, true, 'd', _( "Happy" ) );
-            //emenu.addentry( EMOTE_SAD, true, 'e', _( "Sad" ) );
-            //emenu.addentry( EMOTE_VOMITOUS, true, 'g', _( "Vomitous" ) );
-            //emenu.addentry( EMOTE_WEED_HIGH, true, 'b', _( "Stoned" ) );
+
+            
+            // category: utility
+            emenu.addentry( EMOTE_CLEAR, true, 'E', _( "Clear" ) );
+
+            // category: emotional state
+            emenu.addentry( EMOTE_EVIL, true, 'a', _( "Evil" ) );
+            emenu.addentry( EMOTE_PET, true, 'b', _( "Love" ) );
+            emenu.addentry( EMOTE_MORALE_WET, true, 'c', _( "Wet" ) );
+            emenu.addentry( EMOTE_HAPPY, true, 'd', _( "Happy" ) );
+            emenu.addentry( EMOTE_SAD, true, 'e', _( "Sad" ) );
+
+            // category: physical conditions
+            emenu.addentry( EMOTE_BLEED, true, 'f', _( "Bleed" ) );
+            emenu.addentry( EMOTE_DOWNED, true, 'g', _( "Downed" ) );
+            //emenu.addentry( EMOTE_GRABBED, true, 'h', _( "Grabbed" ) );
+            emenu.addentry( EMOTE_SLEEPY, true, 'h', _( "Sleepy" ) );
+            emenu.addentry( EMOTE_STUNNED, true, 'i', _( "Stunned" ) );
+            emenu.addentry( EMOTE_DAZED, true, 'j', _( "Dazed" ) );
+            emenu.addentry( EMOTE_WINDED, true, 'k', _( "Winded" ) );
+            emenu.addentry( EMOTE_HOT, true, 'l', _( "Hot" ) );
+            emenu.addentry( EMOTE_COLD, true, 'm', _( "Cold" ) );
+
+            // category: illness
+            emenu.addentry( EMOTE_NAUSEA, true, 'n', _( "Nausea" ) );
+            emenu.addentry( EMOTE_FLU, true, 'o', _( "Flu" ) );
+            emenu.addentry( EMOTE_ASTHMA, true, 'p', _( "Asthma" ) );
+            emenu.addentry( EMOTE_COMMON_COLD, true, 'q', _( "Common Cold" ) );
+            emenu.addentry( EMOTE_POISON, true, 'r', _( "Poison" ) );
+            emenu.addentry( EMOTE_BADPOISON, true, 's', _( "Bad Poison" ) );
+            emenu.addentry( EMOTE_PARALYZEPOISON, true, 't', _( "Paralyze Poison" ) );
+
+            // category: sensory/mental effects
+            emenu.addentry( EMOTE_HIGH, true, 'u', _( "High" ) );
+            emenu.addentry( EMOTE_DRUNK, true, 'v', _( "Drunk" ) );
+            emenu.addentry( EMOTE_DEAF, true, 'w', _( "Deaf" ) );
+            emenu.addentry( EMOTE_SHRIEKING, true, 'x', _( "Shrieking" ) );
+            emenu.addentry( EMOTE_VISUALS, true, 'y', _( "Visuals" ) );
+            emenu.addentry( EMOTE_GLARE, true, 'z', _( "Glare" ) );
+            emenu.addentry( EMOTE_TEARGAS, true, 'A', _( "Teargas" ) );
+            emenu.addentry( EMOTE_GLOWING, true, 'B', _( "Glowing" ) );
+
+            // category: actions
+            emenu.addentry( EMOTE_PLAYING_INSTRUMENT, true, 'C', _( "Playing Instrument" ) );
+            emenu.addentry( EMOTE_BOULDERING, true, 'D', _( "Bouldering" ) );
+
+            // category: debug
+            //emenu.addentry( EMOTE_TEMP, true, 'F', _( "Temp" ) ); // shows almost all effects at once
+
+            // these work, but we don't want them for our purposes probably
+            //emenu.addentry( EMOTE_MILKED, true, 'B', _( "Milked" ) );
+            //emenu.addentry( EMOTE_SLIMED, true, 'z', _( "Slimed" ) ); // this one is just some weird blue line?
+            //emenu.addentry( EMOTE_TELEGLOW, true, 'x', _( "Teleglow" ) ); // floating eye
+            //emenu.addentry( EMOTE_ONFIRE, true, 'g', _( "On Fire" ) ); // flames
             emenu.query();
         
             if( emenu.ret < 0 ) {
@@ -574,32 +681,105 @@ void game::chat()
                 case EMOTE_DRUNK:
                     u.emote_id = effect_drunk;
                     break;
-                //case EMOTE_HAPPY:
-                //    u.emote_id = effect_happy;
-                //    break;
-                //case EMOTE_SAD:
-                //    u.emote_id = effect_sad;
-                //    break;
                 case EMOTE_SLEEPY:
                     u.emote_id = effect_sleep;
                     break;
                 case EMOTE_NAUSEA:
                     u.emote_id = effect_nausea;
                     break;
-                //case EMOTE_VOMITOUS:
-                //    u.emote_id = effect_vomitous;
-                //    break;
                 case EMOTE_BLEED:
                     u.emote_id = effect_bleed;
                     break;
                 case EMOTE_POISON:
                     u.emote_id = effect_poison;
                     break;
-                case EMOTE_ONFIRE:
-                    u.emote_id = effect_onfire;
+                case EMOTE_HAPPY:
+                    u.emote_id = effect_happy;
                     break;
+                case EMOTE_SAD:
+                    u.emote_id = effect_sad;
+                    break;
+                // this one doesnt really fit with the others, but it can be included
                 case EMOTE_EVIL:
                     u.emote_id = effect_evil;
+                    break;
+                case EMOTE_HIGH:
+                    u.emote_id = effect_high;
+                    break;
+                case EMOTE_DAZED:
+                    u.emote_id = effect_dazed;
+                    break;
+                case EMOTE_STUNNED:
+                    u.emote_id = effect_stunned;
+                    break;
+                case EMOTE_BADPOISON:
+                    u.emote_id = effect_badpoison;
+                    break;
+                case EMOTE_DOWNED:
+                    u.emote_id = effect_downed;
+                    break;
+                case EMOTE_SHRIEKING:
+                    u.emote_id = effect_shrieking;
+                    break;
+                case EMOTE_HOT:
+                    u.emote_id = effect_hot;
+                    break;
+                case EMOTE_COLD:
+                    u.emote_id = effect_cold;
+                    break;
+                case EMOTE_FLU:
+                    u.emote_id = effect_flu;
+                    break;
+                case EMOTE_ASTHMA:
+                    u.emote_id = effect_asthma;
+                    break;
+                case EMOTE_COMMON_COLD:
+                    u.emote_id = effect_common_cold;
+                    break;
+                case EMOTE_PARALYZEPOISON:
+                    u.emote_id = effect_paralyzepoison;
+                    break;
+                case EMOTE_TEARGAS:
+                    u.emote_id = effect_teargas;
+                    break;
+                //case EMOTE_TELEGLOW:
+                //    u.emote_id = effect_teleglow;
+                //    break;
+                case EMOTE_GLARE:
+                    u.emote_id = effect_glare;
+                    break;
+                case EMOTE_BOULDERING:
+                    u.emote_id = effect_bouldering;
+                    break;
+                case EMOTE_DEAF:
+                    u.emote_id = effect_deaf;
+                    break;
+                case EMOTE_WINDED:
+                    u.emote_id = effect_winded;
+                    break;
+                case EMOTE_GLOWING:
+                    u.emote_id = effect_glowing;
+                    break;
+                case EMOTE_PET:
+                    u.emote_id = effect_pet;
+                    break;
+                //case EMOTE_MILKED:
+                //    u.emote_id = effect_milked;
+                //    break;
+                case EMOTE_PLAYING_INSTRUMENT:
+                    u.emote_id = effect_playing_instrument;
+                    break;
+                case EMOTE_VISUALS:
+                    u.emote_id = effect_visuals;
+                    break;
+                //case EMOTE_GRABBED:
+                //    u.emote_id = effect_grabbed;
+                //    break;
+                case EMOTE_MORALE_WET:
+                    u.emote_id = effect_morale_wet;
+                    break;
+                case EMOTE_TEMP:
+                    u.emote_id = effect_temp;
                     break;
             }
             
