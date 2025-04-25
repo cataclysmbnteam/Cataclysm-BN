@@ -607,5 +607,31 @@
     "flags": [ "NUTRIENT_OVERRIDE" ],
     "fun": -15,
     "vitamins": [ [ "mutant_toxin", 2000 ], [ "junk_allergen", 1 ] ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "drink_sewersoda",
+    "name": "sewer soda",
+    "weight": "250 g",
+    "color": "yellow",
+    "addiction_type": "alcohol",
+    "stim": -20,
+    "container": "can_drink",
+    "comestible_type": "DRINK",
+    "symbol": "~",
+    "quench": -5,
+    "healthy": -33,
+    "addiction_potential": 5,
+    "calories": 52,
+    "description": "Improvised, uncontrolled mutagen.  It tastes bearable now that it's been loaded with sugar and carbonated, however still not 'enjoyable.'  It is sewage, after all.",
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
+    "material": [ "alcohol", "junk" ],
+    "volume": "500 ml",
+    "phase": "liquid",
+    "charges": 2,
+    "fun": -2,
+    "flags": [ "NUTRIENT_OVERRIDE" ],
+    "vitamins": [ [ "mutant_toxin", 2000 ], [ "junk_allergen", 3 ] ]
   }
 ]

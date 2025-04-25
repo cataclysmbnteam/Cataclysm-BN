@@ -935,6 +935,14 @@
       [ "lasagne_raw", 20 ],
       [ "macaroni_raw", 20 ],
       [ "foodplace_food", 5 ],
+      [ "cola_syrup", 2 ],
+      [ "colamdew_syrup", 2 ],
+      [ "rootbeer_syrup", 2 ],
+      [ "purple_drink_syrup", 2 ],
+      [ "orangesoda_syrup", 2 ],
+      [ "creamsoda_syrup", 2 ],
+      [ "lemonlime_syrup", 2 ],
+      [ "energy_drink_syrup", 1 ],
       [ "knife_butcher", 10 ]
     ]
   },
