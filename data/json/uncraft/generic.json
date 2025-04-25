@@ -2635,7 +2635,12 @@
     "difficulty": 7,
     "skills_required": [ "electronics", 5 ],
     "time": "1 h 20 m",
-    "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 }, { "id": "CUT_M", "level": 2 } ],
+    "qualities": [
+      { "id": "SAW_M", "level": 1 },
+      { "id": "SCREW", "level": 1 },
+      { "id": "WRENCH", "level": 1 },
+      { "id": "CUT_M", "level": 2 }
+    ],
     "components": [
       [ [ "depowered_armor", 1 ] ],
       [ [ "steel_armor", 8 ] ],
@@ -2653,7 +2658,12 @@
     "difficulty": 8,
     "skills_required": [ "electronics", 4 ],
     "time": "1 h 20 m",
-    "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 }, { "id": "CUT_M", "level": 2 }  ],
+    "qualities": [
+      { "id": "SAW_M", "level": 1 },
+      { "id": "SCREW", "level": 1 },
+      { "id": "WRENCH", "level": 1 },
+      { "id": "CUT_M", "level": 2 }
+    ],
     "components": [
       [ [ "depowered_helmet", 1 ] ],
       [ [ "steel_armor", 2 ] ],
@@ -2671,7 +2681,12 @@
     "difficulty": 6,
     "skills_required": [ "electronics", 4 ],
     "time": "1 h",
-    "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 }, { "id": "CUT_M", "level": 2 }  ],
+    "qualities": [
+      { "id": "SAW_M", "level": 1 },
+      { "id": "SCREW", "level": 1 },
+      { "id": "WRENCH", "level": 1 },
+      { "id": "CUT_M", "level": 2 }
+    ],
     "components": [
       [ [ "depowered_armor", 1 ] ],
       [ [ "alloy_sheet", 5 ] ],
@@ -2689,7 +2704,12 @@
     "difficulty": 7,
     "skills_required": [ "electronics", 3 ],
     "time": "1 h",
-    "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 }, { "id": "CUT_M", "level": 2 }  ],
+    "qualities": [
+      { "id": "SAW_M", "level": 1 },
+      { "id": "SCREW", "level": 1 },
+      { "id": "WRENCH", "level": 1 },
+      { "id": "CUT_M", "level": 2 }
+    ],
     "components": [
       [ [ "depowered_helmet", 1 ] ],
       [ [ "alloy_sheet", 1 ] ],
@@ -2705,7 +2725,12 @@
     "difficulty": 8,
     "skills_required": [ "electronics", 6 ],
     "time": "1 h 40 m",
-    "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 }, { "id": "CUT_M", "level": 2 }  ],
+    "qualities": [
+      { "id": "SAW_M", "level": 1 },
+      { "id": "SCREW", "level": 1 },
+      { "id": "WRENCH", "level": 1 },
+      { "id": "CUT_M", "level": 2 }
+    ],
     "components": [
       [ [ "depowered_armor", 1 ] ],
       [ [ "hard_steel_armor", 12 ] ],
@@ -2724,7 +2749,12 @@
     "difficulty": 9,
     "skills_required": [ "electronics", 5 ],
     "time": "1 h 40 m",
-    "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 }, { "id": "CUT_M", "level": 2 }  ],
+    "qualities": [
+      { "id": "SAW_M", "level": 1 },
+      { "id": "SCREW", "level": 1 },
+      { "id": "WRENCH", "level": 1 },
+      { "id": "CUT_M", "level": 2 }
+    ],
     "components": [
       [ [ "depowered_helmet", 1 ] ],
       [ [ "hard_steel_armor", 2 ] ],

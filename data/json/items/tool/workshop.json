@@ -738,7 +738,17 @@
     "material": "steel",
     "symbol": ";",
     "color": "light_gray",
-    "qualities": [ [ "CUT", 1 ], [ "SAW_W", 1 ], [ "SAW_M", 1 ], [ "WRENCH", 1 ], [ "SCREW", 1 ], [ "SCREW_FINE", 1 ], [ "BUTCHER", 7 ], [ "CUT_M", 1 ], [ "PULL_FINE", 2 ] ],
+    "qualities": [
+      [ "CUT", 1 ],
+      [ "SAW_W", 1 ],
+      [ "SAW_M", 1 ],
+      [ "WRENCH", 1 ],
+      [ "SCREW", 1 ],
+      [ "SCREW_FINE", 1 ],
+      [ "BUTCHER", 7 ],
+      [ "CUT_M", 1 ],
+      [ "PULL_FINE", 2 ]
+    ],
     "flags": [ "STAB", "SHEATH_KNIFE" ]
   },
   {

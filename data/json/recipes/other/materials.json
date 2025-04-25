@@ -269,7 +269,7 @@
     "difficulty": 2,
     "time": "8 m",
     "autolearn": true,
-    "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "CUT_M", "level": 1 }  ],
+    "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "CUT_M", "level": 1 } ],
     "components": [ [ [ "wire", 2 ] ] ]
   },
   {
@@ -1048,9 +1048,7 @@
     "autolearn": [ [ "fabrication", 4 ] ],
     "qualities": [ { "id": "PULL_FINE", "level": 2 }, { "id": "CUT_M", "level": 1 } ],
     "book_learn": [ [ "textbook_armwest", 1 ], [ "textbook_fabrication", 1 ], [ "recipe_melee", 1 ] ],
-    "tools": [
-      [ [ "cu_pipe", -1 ], [ "cudgel", -1 ] ]
-    ],
+    "tools": [ [ [ "cu_pipe", -1 ], [ "cudgel", -1 ] ] ],
     "components": [ [ [ "wire", 1 ] ] ]
   },
   {
@@ -1064,7 +1062,12 @@
     "time": "30 m",
     "autolearn": [ [ "fabrication", 4 ] ],
     "book_learn": [ [ "textbook_armwest", 2 ], [ "textbook_fabrication", 2 ], [ "recipe_melee", 2 ] ],
-    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "ANVIL", "level": 1 }, { "id": "DRILL", "level": 2 }, { "id": "PULL_FINE", "level": 2 } ],
+    "qualities": [
+      { "id": "HAMMER", "level": 2 },
+      { "id": "ANVIL", "level": 1 },
+      { "id": "DRILL", "level": 2 },
+      { "id": "PULL_FINE", "level": 2 }
+    ],
     "components": [ [ [ "chain_link", 900 ] ] ]
   },
   {

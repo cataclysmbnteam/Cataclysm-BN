@@ -1006,9 +1006,7 @@
     "turns_per_charge": 25,
     "revert_to": "phase_immersion_suit",
     "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "Suit shutting down.", "target": "phase_immersion_suit" },
-    "qualities": [
-      [ "HV_INSULATION", 1 ]
-    ],
+    "qualities": [ [ "HV_INSULATION", 1 ] ],
     "covers": [ "head", "mouth", "eyes", "torso", "arms", "hands", "legs", "feet" ],
     "environmental_protection": 80,
     "flags": [

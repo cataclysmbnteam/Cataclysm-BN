@@ -133,9 +133,7 @@
     "id": "cutting_wire_standard",
     "type": "requirement",
     "//": "Metal cutting from bolt cutters and the multi-tool is good enough here, the recipes imply its metal wire.",
-    "qualities": [
-      { "id": "CUT_M", "level": 1 }
-    ]
+    "qualities": [ { "id": "CUT_M", "level": 1 } ]
   },
   {
     "id": "mining_standard",
@@ -213,14 +211,28 @@
     "id": "advanced_electronics_low_voltage",
     "type": "requirement",
     "//": "For electronics and electrical terrain with voltage low enough it's going to mildly inconvenience you, includes wirecutting and pliers",
-    "qualities": [ { "id": "PRY", "level": 2 }, { "id": "SCREW_FINE", "level": 1 }, { "id": "WRENCH_FINE", "level": 1 }, { "id": "PULL_FINE", "level": 1 }, { "id": "CUT_M", "level": 1 } ]
+    "qualities": [
+      { "id": "PRY", "level": 2 },
+      { "id": "SCREW_FINE", "level": 1 },
+      { "id": "WRENCH_FINE", "level": 1 },
+      { "id": "PULL_FINE", "level": 1 },
+      { "id": "CUT_M", "level": 1 }
+    ]
   },
   {
     "id": "advanced_electronics_high_voltage",
     "type": "requirement",
     "//": "For electronics and electrical terrain with voltage so high it kills you just for looking at it funny, includes wirecutting and pliers",
     "//2": "We switched to qualities here, instead of explicit tools. Always avoid direct specification of tools where possible, it damages mod compatibility.",
-    "qualities": [ { "id": "PRY", "level": 2 }, { "id": "SCREW_FINE", "level": 1 }, { "id": "WRENCH_FINE", "level": 1 }, { "id": "PULL_FINE", "level": 1 }, { "id": "CUT_M", "level": 1 }, { "id": "HV_INSULATION", "level": 1 }, { "id": "VOLT_MEASURE", "level": 1 } ]
+    "qualities": [
+      { "id": "PRY", "level": 2 },
+      { "id": "SCREW_FINE", "level": 1 },
+      { "id": "WRENCH_FINE", "level": 1 },
+      { "id": "PULL_FINE", "level": 1 },
+      { "id": "CUT_M", "level": 1 },
+      { "id": "HV_INSULATION", "level": 1 },
+      { "id": "VOLT_MEASURE", "level": 1 }
+    ]
   },
   {
     "id": "tool_flat_press_large",

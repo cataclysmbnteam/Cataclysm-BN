@@ -540,7 +540,12 @@
     "difficulty": 8,
     "time": "95 m",
     "book_learn": [ [ "recipe_lab_elec", 7 ], [ "recipe_mininuke_launch", 5 ] ],
-    "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 }, { "id": "CUT_M", "level": 2 }  ],
+    "qualities": [
+      { "id": "SAW_M", "level": 1 },
+      { "id": "SCREW", "level": 1 },
+      { "id": "WRENCH", "level": 1 },
+      { "id": "CUT_M", "level": 2 }
+    ],
     "components": [
       [ [ "mininuke", 1 ] ],
       [ [ "cable", 2 ] ],
