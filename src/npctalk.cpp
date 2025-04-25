@@ -485,6 +485,28 @@ static void tell_magic_veh_stop_following()
     }
 }
 
+bool display_or_lock_emote(player &u, efftype_id effect, emote_menu emote_choice)
+{
+    bool did_lock = false;
+    if(effect == u.emote_id){
+        if(emote_choice != EMOTE_CLEAR){
+            u.emote_locked = true;
+            add_msg( _( "You will keep emoting." ) );
+            did_lock = true;
+        }
+    }
+    else{
+        u.emote_locked = false;
+    }
+    u.emote_id = effect;
+    if (did_lock){
+        return true;
+    }
+    else{
+        return false;
+    }
+}
+
 void game::chat()
 {
     int volume = u.get_shout_volume();
@@ -611,58 +633,56 @@ void game::chat()
             uilist emenu;
             emenu.text = std::string( _( "Emote what status effect?" ) );
             
-
-            
             // category: utility
-            emenu.addentry( EMOTE_CLEAR, true, 'E', _( "Clear" ) );
+            emenu.addentry( EMOTE_CLEAR, true, 'a', _( "Clear" ) );
 
             // category: emotional state
-            emenu.addentry( EMOTE_EVIL, true, 'a', _( "Evil" ) );
-            emenu.addentry( EMOTE_PET, true, 'b', _( "Love" ) );
-            emenu.addentry( EMOTE_MORALE_WET, true, 'c', _( "Wet" ) );
-            emenu.addentry( EMOTE_HAPPY, true, 'd', _( "Happy" ) );
-            emenu.addentry( EMOTE_SAD, true, 'e', _( "Sad" ) );
+            emenu.addentry( EMOTE_EVIL, true, 'b', _( "Evil" ) );
+            emenu.addentry( EMOTE_PET, true, 'c', _( "Love" ) );
+            emenu.addentry( EMOTE_MORALE_WET, true, 'd', _( "Wet" ) );
+            //emenu.addentry( EMOTE_HAPPY, true, 'd', _( "Happy" ) ); // these have no textures, so we cant use them
+            //emenu.addentry( EMOTE_SAD, true, 'e', _( "Sad" ) );  // these have no textures, so we cant use them
 
             // category: physical conditions
-            emenu.addentry( EMOTE_BLEED, true, 'f', _( "Bleed" ) );
-            emenu.addentry( EMOTE_DOWNED, true, 'g', _( "Downed" ) );
+            emenu.addentry( EMOTE_BLEED, true, 'e', _( "Bleed" ) );
+            emenu.addentry( EMOTE_DOWNED, true, 'f', _( "Downed" ) );
             //emenu.addentry( EMOTE_GRABBED, true, 'h', _( "Grabbed" ) );
-            emenu.addentry( EMOTE_SLEEPY, true, 'h', _( "Sleepy" ) );
-            emenu.addentry( EMOTE_STUNNED, true, 'i', _( "Stunned" ) );
-            emenu.addentry( EMOTE_DAZED, true, 'j', _( "Dazed" ) );
-            emenu.addentry( EMOTE_WINDED, true, 'k', _( "Winded" ) );
-            emenu.addentry( EMOTE_HOT, true, 'l', _( "Hot" ) );
-            emenu.addentry( EMOTE_COLD, true, 'm', _( "Cold" ) );
+            emenu.addentry( EMOTE_SLEEPY, true, 'g', _( "Sleepy" ) );
+            emenu.addentry( EMOTE_STUNNED, true, 'h', _( "Stunned" ) );
+            emenu.addentry( EMOTE_DAZED, true, 'i', _( "Dazed" ) );
+            emenu.addentry( EMOTE_WINDED, true, 'j', _( "Winded" ) );
+            emenu.addentry( EMOTE_HOT, true, 'k', _( "Hot" ) );
+            emenu.addentry( EMOTE_COLD, true, 'l', _( "Cold" ) );
 
             // category: illness
-            emenu.addentry( EMOTE_NAUSEA, true, 'n', _( "Nausea" ) );
-            emenu.addentry( EMOTE_FLU, true, 'o', _( "Flu" ) );
-            emenu.addentry( EMOTE_ASTHMA, true, 'p', _( "Asthma" ) );
-            emenu.addentry( EMOTE_COMMON_COLD, true, 'q', _( "Common Cold" ) );
-            emenu.addentry( EMOTE_POISON, true, 'r', _( "Poison" ) );
-            emenu.addentry( EMOTE_BADPOISON, true, 's', _( "Bad Poison" ) );
-            emenu.addentry( EMOTE_PARALYZEPOISON, true, 't', _( "Paralyze Poison" ) );
+            emenu.addentry( EMOTE_NAUSEA, true, 'm', _( "Nausea" ) );
+            emenu.addentry( EMOTE_FLU, true, 'n', _( "Flu" ) );
+            emenu.addentry( EMOTE_ASTHMA, true, 'o', _( "Asthma" ) );
+            emenu.addentry( EMOTE_COMMON_COLD, true, 'p', _( "Common Cold" ) );
+            emenu.addentry( EMOTE_POISON, true, 'q', _( "Poison" ) );
+            emenu.addentry( EMOTE_BADPOISON, true, 'r', _( "Bad Poison" ) );
+            emenu.addentry( EMOTE_PARALYZEPOISON, true, 's', _( "Paralyze Poison" ) );
 
             // category: sensory/mental effects
-            emenu.addentry( EMOTE_HIGH, true, 'u', _( "High" ) );
-            emenu.addentry( EMOTE_DRUNK, true, 'v', _( "Drunk" ) );
-            emenu.addentry( EMOTE_DEAF, true, 'w', _( "Deaf" ) );
-            emenu.addentry( EMOTE_SHRIEKING, true, 'x', _( "Shrieking" ) );
-            emenu.addentry( EMOTE_VISUALS, true, 'y', _( "Visuals" ) );
-            emenu.addentry( EMOTE_GLARE, true, 'z', _( "Glare" ) );
-            emenu.addentry( EMOTE_TEARGAS, true, 'A', _( "Teargas" ) );
-            emenu.addentry( EMOTE_GLOWING, true, 'B', _( "Glowing" ) );
+            emenu.addentry( EMOTE_HIGH, true, 't', _( "High" ) );
+            emenu.addentry( EMOTE_DRUNK, true, 'u', _( "Drunk" ) );
+            emenu.addentry( EMOTE_DEAF, true, 'v', _( "Deaf" ) );
+            emenu.addentry( EMOTE_SHRIEKING, true, 'w', _( "Shrieking" ) );
+            emenu.addentry( EMOTE_VISUALS, true, 'x', _( "Visuals" ) );
+            emenu.addentry( EMOTE_GLARE, true, 'y', _( "Glare" ) );
+            emenu.addentry( EMOTE_TEARGAS, true, 'z', _( "Teargas" ) );
+            //emenu.addentry( EMOTE_GLOWING, true, 'B', _( "Glowing" ) );
 
             // category: actions
-            emenu.addentry( EMOTE_PLAYING_INSTRUMENT, true, 'C', _( "Playing Instrument" ) );
-            emenu.addentry( EMOTE_BOULDERING, true, 'D', _( "Bouldering" ) );
+            emenu.addentry( EMOTE_PLAYING_INSTRUMENT, true, 'A', _( "Playing Instrument" ) );
+            emenu.addentry( EMOTE_BOULDERING, true, 'B', _( "Bouldering" ) );
 
             // category: debug
             //emenu.addentry( EMOTE_TEMP, true, 'F', _( "Temp" ) ); // shows almost all effects at once
 
             // these work, but we don't want them for our purposes probably
-            //emenu.addentry( EMOTE_MILKED, true, 'B', _( "Milked" ) );
-            //emenu.addentry( EMOTE_SLIMED, true, 'z', _( "Slimed" ) ); // this one is just some weird blue line?
+            //emenu.addentry( EMOTE_MILKED, true, 'B', _( "Milked" ) ); // gross
+            //emenu.addentry( EMOTE_SLIMED, true, 'z', _( "Slimed" ) ); // like webbed and on fire, not an actual 'emote' style overlay
             //emenu.addentry( EMOTE_TELEGLOW, true, 'x', _( "Teleglow" ) ); // floating eye
             //emenu.addentry( EMOTE_ONFIRE, true, 'g', _( "On Fire" ) ); // flames
             emenu.query();
@@ -670,6 +690,8 @@ void game::chat()
             if( emenu.ret < 0 ) {
                 return;
             }
+
+            bool did_lock = false;
 
             switch( emenu.ret ) {
                 case EMOTE_CLEAR:
@@ -679,115 +701,116 @@ void game::chat()
                 //    u.emote_id = effect_weed_high;
                 //    break;
                 case EMOTE_DRUNK:
-                    u.emote_id = effect_drunk;
+                    did_lock = display_or_lock_emote(u, effect_drunk, EMOTE_DRUNK);
                     break;
                 case EMOTE_SLEEPY:
-                    u.emote_id = effect_sleep;
+                    did_lock = display_or_lock_emote(u, effect_sleep, EMOTE_SLEEPY);
                     break;
                 case EMOTE_NAUSEA:
-                    u.emote_id = effect_nausea;
+                    did_lock = display_or_lock_emote(u, effect_nausea, EMOTE_NAUSEA);
                     break;
                 case EMOTE_BLEED:
-                    u.emote_id = effect_bleed;
+                    did_lock = display_or_lock_emote(u, effect_bleed, EMOTE_BLEED);
                     break;
                 case EMOTE_POISON:
-                    u.emote_id = effect_poison;
+                    did_lock = display_or_lock_emote(u, effect_poison, EMOTE_POISON);
                     break;
                 case EMOTE_HAPPY:
-                    u.emote_id = effect_happy;
+                    did_lock = display_or_lock_emote(u, effect_happy, EMOTE_HAPPY);
                     break;
                 case EMOTE_SAD:
-                    u.emote_id = effect_sad;
+                    did_lock = display_or_lock_emote(u, effect_sad, EMOTE_SAD);
                     break;
                 // this one doesnt really fit with the others, but it can be included
                 case EMOTE_EVIL:
-                    u.emote_id = effect_evil;
+                    did_lock = display_or_lock_emote(u, effect_evil, EMOTE_EVIL);
                     break;
                 case EMOTE_HIGH:
-                    u.emote_id = effect_high;
+                    did_lock = display_or_lock_emote(u, effect_high, EMOTE_EVIL);
                     break;
                 case EMOTE_DAZED:
-                    u.emote_id = effect_dazed;
+                    did_lock = display_or_lock_emote(u, effect_dazed, EMOTE_DAZED);
                     break;
                 case EMOTE_STUNNED:
-                    u.emote_id = effect_stunned;
+                    did_lock = display_or_lock_emote(u, effect_stunned, EMOTE_STUNNED);
                     break;
                 case EMOTE_BADPOISON:
-                    u.emote_id = effect_badpoison;
+                    did_lock = display_or_lock_emote(u, effect_badpoison, EMOTE_BADPOISON);
                     break;
                 case EMOTE_DOWNED:
-                    u.emote_id = effect_downed;
+                    did_lock = display_or_lock_emote(u, effect_downed, EMOTE_DOWNED);
                     break;
                 case EMOTE_SHRIEKING:
-                    u.emote_id = effect_shrieking;
+                    did_lock = display_or_lock_emote(u, effect_shrieking, EMOTE_SHRIEKING);
                     break;
                 case EMOTE_HOT:
-                    u.emote_id = effect_hot;
+                    did_lock = display_or_lock_emote(u, effect_hot, EMOTE_HOT);
                     break;
                 case EMOTE_COLD:
-                    u.emote_id = effect_cold;
+                    did_lock = display_or_lock_emote(u, effect_cold, EMOTE_COLD);
                     break;
                 case EMOTE_FLU:
-                    u.emote_id = effect_flu;
+                    did_lock = display_or_lock_emote(u, effect_flu, EMOTE_FLU);
                     break;
                 case EMOTE_ASTHMA:
-                    u.emote_id = effect_asthma;
+                    did_lock = display_or_lock_emote(u, effect_asthma, EMOTE_ASTHMA);
                     break;
                 case EMOTE_COMMON_COLD:
-                    u.emote_id = effect_common_cold;
+                    did_lock = display_or_lock_emote(u, effect_common_cold, EMOTE_COMMON_COLD);
                     break;
                 case EMOTE_PARALYZEPOISON:
-                    u.emote_id = effect_paralyzepoison;
+                    did_lock = display_or_lock_emote(u, effect_paralyzepoison, EMOTE_PARALYZEPOISON);
                     break;
                 case EMOTE_TEARGAS:
-                    u.emote_id = effect_teargas;
+                    did_lock = display_or_lock_emote(u, effect_teargas, EMOTE_TEARGAS);
                     break;
                 //case EMOTE_TELEGLOW:
                 //    u.emote_id = effect_teleglow;
                 //    break;
                 case EMOTE_GLARE:
-                    u.emote_id = effect_glare;
+                    did_lock = display_or_lock_emote(u, effect_glare, EMOTE_GLARE);
                     break;
                 case EMOTE_BOULDERING:
-                    u.emote_id = effect_bouldering;
+                    did_lock = display_or_lock_emote(u, effect_bouldering, EMOTE_BOULDERING);
                     break;
                 case EMOTE_DEAF:
-                    u.emote_id = effect_deaf;
+                    did_lock = display_or_lock_emote(u, effect_deaf, EMOTE_DEAF);
                     break;
                 case EMOTE_WINDED:
-                    u.emote_id = effect_winded;
+                    did_lock = display_or_lock_emote(u, effect_winded, EMOTE_WINDED);
                     break;
                 case EMOTE_GLOWING:
-                    u.emote_id = effect_glowing;
+                    did_lock = display_or_lock_emote(u, effect_glowing, EMOTE_GLOWING);
                     break;
                 case EMOTE_PET:
-                    u.emote_id = effect_pet;
+                    did_lock = display_or_lock_emote(u, effect_pet, EMOTE_PET);
                     break;
                 //case EMOTE_MILKED:
                 //    u.emote_id = effect_milked;
                 //    break;
                 case EMOTE_PLAYING_INSTRUMENT:
-                    u.emote_id = effect_playing_instrument;
+                    did_lock = display_or_lock_emote(u, effect_playing_instrument, EMOTE_PLAYING_INSTRUMENT);
                     break;
                 case EMOTE_VISUALS:
-                    u.emote_id = effect_visuals;
+                    did_lock = display_or_lock_emote(u, effect_visuals, EMOTE_VISUALS);
                     break;
                 //case EMOTE_GRABBED:
                 //    u.emote_id = effect_grabbed;
                 //    break;
                 case EMOTE_MORALE_WET:
-                    u.emote_id = effect_morale_wet;
+                    did_lock = display_or_lock_emote(u, effect_morale_wet, EMOTE_MORALE_WET);
                     break;
                 case EMOTE_TEMP:
-                    u.emote_id = effect_temp;
+                    did_lock = display_or_lock_emote(u, effect_temp, EMOTE_TEMP);
                     break;
             }
-            
-            // we dont *need* this check, but this prevents another check in avatar_action.cpp so might as well include it here where its called less
+
             if (!u.emote_id.is_null()){
                 u.emote_start = calendar::turn;
                 u.emote_end = u.emote_start+time_duration::from_seconds(10);
-                add_msg( _( "You start emoting." ) );
+                if (!did_lock){
+                    add_msg( _( "You start emoting." ) );
+                }
             }
             else
             {

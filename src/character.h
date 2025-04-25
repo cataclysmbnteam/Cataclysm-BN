@@ -300,8 +300,10 @@ class Character : public Creature, public location_visitable<Character>
         int dex_cur = 0;
         int int_cur = 0;
         int per_cur = 0;
-
+        
+        // id of current emote
         efftype_id emote_id = efftype_id::NULL_ID();
+        bool emote_locked = false;
         time_point emote_start;
         time_point emote_end;
         
