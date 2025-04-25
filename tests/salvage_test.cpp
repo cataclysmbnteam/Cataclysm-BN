@@ -43,6 +43,7 @@ auto cut_up_yields( const std::string &target ) -> void
 
     units::mass cut_up_target_mass = cut_up_target->weight();
     item &item_to_cut = *cut_up_target;
+    material_id_list madeof = cut_up_target->made_of();
     here.add_item_or_charges( you.pos(), std::move( cut_up_target ) );
 
     REQUIRE( smallest_yield_mass <= cut_up_target_mass );
@@ -59,15 +60,17 @@ auto cut_up_yields( const std::string &target ) -> void
     CHECK( salvaged_mass >= 0_milligram );
     for( auto *item : salvaged_items ) {
         CHECK( item->made_of().size() == 1 );
-        CHECK( all_salvagable_materials.contains( item->made_of().front() ) );
+        auto material = item->made_of().front();
+        CHECK( all_salvagable_materials.contains( material ) );
         bool has_quality = false;
         for( auto &q : tool->get_qualities() ) {
-            if( salvage_material_quality_dictionary[item->made_of().front()].contains( q.first ) ) {
+            if( salvage_material_quality_dictionary[material].contains( q.first ) ) {
                 has_quality = true;
                 break;
             }
         }
         CHECK( has_quality );
+        CHECK( std::ranges::find( madeof, material ) != madeof.end() );
     }
 }
 } // namespace
