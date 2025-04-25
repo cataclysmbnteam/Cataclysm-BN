@@ -38,7 +38,12 @@
     "id": "stoner",
     "type": "item_group",
     "//": "Processed weed and weed accessories found on bodies",
-    "items": [ [ "joint_roach", 50 ], [ "blunt_roach", 50 ], { "group": "weed_accessories", "prob": 200 }, { "group": "dispensary", "prob": 200 } ]
+    "items": [
+      [ "joint_roach", 50 ],
+      [ "blunt_roach", 50 ],
+      { "group": "weed_accessories", "prob": 200 },
+      { "group": "dispensary", "prob": 200 }
+    ]
   },
   {
     "id": "silverware",

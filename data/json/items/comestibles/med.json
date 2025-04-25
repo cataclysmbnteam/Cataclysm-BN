@@ -774,7 +774,7 @@
         { "id": "pkill1", "duration": "12 m" },
         { "id": "smoke", "duration": "30 s" }
       ]
-	}
+    }
   },
   {
     "id": "blunt",
@@ -808,7 +808,7 @@
         { "id": "pkill1", "duration": "90 m" },
         { "id": "smoke", "duration": "30 s" }
       ],
-      "addiction_type_too_much": [["cig", "nicotine"]]
+      "addiction_type_too_much": [ [ "cig", "nicotine" ] ]
     }
   },
   {

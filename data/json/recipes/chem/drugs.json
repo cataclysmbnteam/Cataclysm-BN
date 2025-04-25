@@ -68,7 +68,7 @@
     "autolearn": true,
     "reversible": true,
     "flags": [ "BLIND_HARD" ],
-    "components": [ [ [ "tobacco_raw", 2 ] ], [ [ "weed", 2 ], ["blunt_roach", 5], ["joint_roach", 5] ] ]
+    "components": [ [ [ "tobacco_raw", 2 ] ], [ [ "weed", 2 ], [ "blunt_roach", 5 ], [ "joint_roach", 5 ] ] ]
   },
   {
     "type": "recipe",
@@ -318,12 +318,9 @@
     "//": "unfortunately this is a weird process - 30min to actually extract and a few hours to purge the remaining liquid. we'll go with 2h30m for purging. 28g at 20% yield is 7g unrefined distillate",
     "batch_time_factors": [ 80, 5 ],
     "autolearn": true,
-    "tools": [ [ [ "basic_chemistry_set", 1], [ "chemistry_set", 1 ] ], [ [ "surface_heat", 8, "LIST" ] ] ],
+    "tools": [ [ [ "basic_chemistry_set", 1 ], [ "chemistry_set", 1 ] ], [ [ "surface_heat", 8, "LIST" ] ] ],
     "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "CHEM", "level": 3 }, { "id": "BOIL", "level": 1 } ],
-    "components": [
-      [ [ "cannabis", 28 ] ],
-      [ [ "butane_can", 1 ] ]
-    ]
+    "components": [ [ [ "cannabis", 28 ] ], [ [ "butane_can", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -337,13 +334,9 @@
     "//": "purging generally can take 24-48 hours, however we don't want to make the player wait that long. 4 will do hopefully. this step encompasses winterization, distillation, and purging since we have no freezing for recipes",
     "batch_time_factors": [ 99, 5 ],
     "autolearn": true,
-    "tools": [ [ [ "surface_heat", 8, "LIST" ] ], [["still", -1] ], [ [ "vac_sealer", 1 ] ] ],
+    "tools": [ [ [ "surface_heat", 8, "LIST" ] ], [ [ "still", -1 ] ], [ [ "vac_sealer", 1 ] ] ],
     "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "BOIL", "level": 1 }, { "id": "DISTILL", "level": 2 } ],
-    "components": [
-      [ [ "thc_liquid_unrefined", 10 ] ],
-      [ [ "chem_ethanol", 1 ] ],
-      [ [ "paper", 1 ], [ "rag", 1 ] ]
-    ]
+    "components": [ [ [ "thc_liquid_unrefined", 10 ] ], [ [ "chem_ethanol", 1 ] ], [ [ "paper", 1 ], [ "rag", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -359,9 +352,7 @@
     "autolearn": true,
     "tools": [ [ [ "surface_heat", 8, "LIST" ] ], [ [ "vac_sealer", 1 ] ] ],
     "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "BOIL", "level": 1 } ],
-    "components": [
-      [ [ "thc_liquid_unrefined", 10 ] ]
-    ]
+    "components": [ [ [ "thc_liquid_unrefined", 10 ] ] ]
   },
   {
     "type": "recipe",

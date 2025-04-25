@@ -1933,10 +1933,7 @@
   {
     "id": "smoke_shop_clothing",
     "type": "item_group",
-	"//": "only this for now, but when we get more clothing we should probably add some more flavor",
-    "items": [
-      [ "hoodie_drugrug", 100 ],
-      [ "tshirt_tour", 20 ]
-    ]
+    "//": "only this for now, but when we get more clothing we should probably add some more flavor",
+    "items": [ [ "hoodie_drugrug", 100 ], [ "tshirt_tour", 20 ] ]
   }
 ]
