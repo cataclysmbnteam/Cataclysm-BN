@@ -256,7 +256,7 @@
       [ "chem_sulphuric_acid", 30 ],
       [ "chem_muriatic_acid", 35 ],
       [ "butane_tank", 30 ],
-      [ "butane_can", 20],
+      [ "butane_can", 20 ],
       [ "peephole", 25 ],
       { "item": "chem_chromium_oxide", "prob": 5, "charges-min": 100 },
       { "item": "zinc_metal", "prob": 5, "charges-min": 100 },
