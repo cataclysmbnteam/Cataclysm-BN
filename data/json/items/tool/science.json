@@ -118,7 +118,6 @@
     "max_charges": 2000,
     "charges_per_use": 1,
     "turns_per_charge": 2000,
-    "ammo": "butane",
     "looks_like": "oxygen_tank",
     "flags": [ "NO_UNLOAD" ],
     "explosion": {
