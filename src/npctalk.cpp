@@ -119,22 +119,6 @@ static const efftype_id effect_bleed( "bleed" );
 static const efftype_id effect_poison( "poison" );
 static const efftype_id effect_glowing( "glowing" );
 static const efftype_id effect_teargas( "teargas" );
-//static const efftype_id effect_common_cold( "common_cold" );
-//static const efftype_id effect_paralyzepoison( "paralyzepoison" );
-//static const efftype_id effect_hot( "hot" );
-//static const efftype_id effect_cold( "cold" );
-//static const efftype_id effect_grabbed( "grabbed" );
-//static const efftype_id effect_badpoison( "badpoison" );
-//static const efftype_id effect_onfire( "onfire" );
-//static const efftype_id effect_vomitous( "vomitous" );
-//static const efftype_id effect_flu( "flu" );
-//static const efftype_id effect_teleglow( "teleglow" );
-//static const efftype_id effect_frostbite( "frostbite" );
-//static const efftype_id effect_deaf( "deaf" );
-//static const efftype_id effect_slimed( "slimed" );
-//static const efftype_id effect_milked( "milked" ); grey/white water icon
-//static const efftype_id effect_happy( "happy" );
-//static const efftype_id effect_sad( "sad" );
 
 
 static const itype_id fuel_type_animal( "animal" );
@@ -289,22 +273,6 @@ enum emote_menu {
     EMOTE_BLEED,
     EMOTE_GLOWING,
     EMOTE_MORALE_WET
-    //EMOTE_POISON,
-    //EMOTE_TEARGAS,
-    //EMOTE_PARALYZEPOISON,
-    //EMOTE_HOT,
-    //EMOTE_COLD,
-    //EMOTE_HAPPY,
-    //EMOTE_SAD,
-    //EMOTE_MILKED,
-    //EMOTE_TELEGLOW,
-    //EMOTE_FROSTBITE,
-    //EMOTE_SLIMED,
-    //EMOTE_DEAF,
-    //EMOTE_COMMON_COLD,
-    //EMOTE_GRABBED,
-    //EMOTE_FLU,
-    //EMOTE_BADPOISON,
 };
 
 // given a vector of NPCs, presents a menu to allow a player to pick one.
@@ -780,43 +748,7 @@ void game::chat()
                 case EMOTE_TEMP:
                     did_lock = display_or_lock_emote(u, effect_temp, EMOTE_TEMP);
                     break;
-                    
-                //case EMOTE_GRABBED:
-                //    u.emote_id = effect_grabbed;
-                //    break;
-                //case EMOTE_MILKED:
-                //    u.emote_id = effect_milked;
-                //    break;
-                //case EMOTE_TELEGLOW:
-                //    u.emote_id = effect_teleglow;
-                //    break;
-                //case EMOTE_COMMON_COLD:
-                //    did_lock = display_or_lock_emote(u, effect_common_cold, EMOTE_COMMON_COLD);
-                //    break;
-                //case EMOTE_HOT:
-                ///    did_lock = display_or_lock_emote(u, effect_hot, EMOTE_HOT);
-                //    break;
-                //case EMOTE_COLD:
-                //    did_lock = display_or_lock_emote(u, effect_cold, EMOTE_COLD);
-                //    break;
-                //case EMOTE_FLU:
-                //    did_lock = display_or_lock_emote(u, effect_flu, EMOTE_FLU);
-                //    break;
-                //case EMOTE_BADPOISON:
-                //    did_lock = display_or_lock_emote(u, effect_badpoison, EMOTE_BADPOISON);
-                //    break;
-                //case EMOTE_PARALYZEPOISON:
-                //    did_lock = display_or_lock_emote(u, effect_paralyzepoison, EMOTE_PARALYZEPOISON);
-                //    break;
-                //case EMOTE_HAPPY:
-                //    did_lock = display_or_lock_emote(u, effect_happy, EMOTE_HAPPY);
-                //    break;
-                //case EMOTE_SAD:
-                //    did_lock = display_or_lock_emote(u, effect_sad, EMOTE_SAD);
-                //    break;
-                //case EMOTE_DEAF:
-                //    did_lock = display_or_lock_emote(u, effect_deaf, EMOTE_DEAF);
-                //    break;
+                
             }
 
             if (!u.emote_id.is_null()){
