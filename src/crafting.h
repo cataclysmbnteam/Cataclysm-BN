@@ -52,7 +52,7 @@ struct workbench_info_wrapper {
           type( type ) {
     }
 
-    void adjust_multiplier( const std::pair<units::mass, units::volume> &metrics );
+    void adjust_multiplier( const metric &metrics );
 };
 
 struct bench_location {
