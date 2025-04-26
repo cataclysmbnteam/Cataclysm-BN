@@ -13,6 +13,7 @@
 
 #include "action.h"
 #include "activity_handlers.h"
+#include "addiction.h"
 #include "ammo.h"
 #include "animation.h"
 #include "assign.h"
@@ -79,6 +80,7 @@
 #include "string_formatter.h"
 #include "string_utils.h"
 #include "string_input_popup.h"
+#include "text_snippets.h"
 #include "translations.h"
 #include "trap.h"
 #include "ui.h"
@@ -106,6 +108,7 @@ static const efftype_id effect_accumulated_mutagen( "accumulated_mutagen" );
 static const efftype_id effect_asthma( "asthma" );
 static const efftype_id effect_bandaged( "bandaged" );
 static const efftype_id effect_bite( "bite" );
+static const efftype_id effect_cig( "cig" );
 static const efftype_id effect_bleed( "bleed" );
 static const efftype_id effect_pet( "pet" );
 static const efftype_id effect_disinfected( "disinfected" );
@@ -786,6 +789,25 @@ void consume_drug_iuse::load( const JsonObject &obj )
     obj.read( "stat_adjustments", stat_adjustments );
     obj.read( "fields_produced", fields_produced );
     obj.read( "moves", moves );
+    obj.read( "fake_item", fake_item );
+    obj.read( "lightweight_mod", lightweight_mod );
+    obj.read( "tolerance_mod", tolerance_mod );
+    obj.read( "tolerance_lightweight_effected", tolerance_lightweight_effected ); // default true
+    lit_item = obj.get_string( "lit_item", lit_item );
+    obj.read( "smoking_duration", smoking_duration );
+    obj.read( "too_much_threshold", too_much_threshold );
+    obj.read( "snippet_category", snippet_category );
+    obj.read( "snippet_chance", snippet_chance );
+    obj.read( "do_weed_msg",
+              do_weed_msg ); // i wish i didn't have to do this, but the weed_msg function can't really be easily JSONified
+
+    if( obj.has_array( "addiction_type_too_much" ) ) {
+        for( const JsonArray pair : obj.get_array( "addiction_type_too_much" ) ) {
+            if( pair.size() >= 2 ) {
+                addiction_type_too_much.emplace_back( pair.get_string( 0 ), pair.get_string( 1 ) );
+            }
+        }
+    }
 
     for( JsonArray vit : obj.get_array( "vitamins" ) ) {
         auto lo = vit.get_int( 1 );
@@ -827,6 +849,7 @@ int consume_drug_iuse::use( player &p, item &it, bool, const tripoint & ) const
     if( need_these.contains( itype_syringe ) && p.has_bionic( bio_syringe ) ) {
         need_these.erase( itype_syringe ); // no need for a syringe with bionics like these!
     }
+
     // Check prerequisites first.
     for( const auto &tool : need_these ) {
         // Amount == -1 means need one, but don't consume it.
@@ -849,19 +872,91 @@ int consume_drug_iuse::use( player &p, item &it, bool, const tripoint & ) const
             return -1;
         }
     }
+
+    // this is a smokeable item, we need to make sure player isnt already smoking (ripped from iuse::smoking)
+    if( lit_item.size() != 0 ) {
+        // make sure we're not already smoking something
+        auto cigs = p.items_with( []( const item & it ) {
+            return it.is_active() && it.has_flag( flag_LITCIG );
+        } );
+        if( !cigs.empty() ) {
+            p.add_msg_if_player( m_info, _( "You're already smoking a %s!" ), cigs[0]->tname() );
+            return 0;
+        }
+    }
+
+    // Output message.
+    p.add_msg_if_player( _( activation_message ), it.type_name( 1 ) );
+
+    if( smoking_duration ) {
+        detached_ptr<item> cig;
+        cig = item::spawn( lit_item, calendar::turn );
+        time_duration converted_time = time_duration::from_minutes( smoking_duration );
+
+        cig->item_counter = to_turns<int>( converted_time );
+        cig->activate();
+        p.i_add( std::move( cig ) );
+    }
+
+    if( do_weed_msg ) {
+        if( one_in( snippet_chance ) ) {
+            weed_msg( p );
+        }
+    }
+
+    // item used to "fake" addiction (ripped from old ecig iuse)
+    if( fake_item.size() != 0 ) {
+        item *dummy_item = item::spawn_temporary( fake_item, calendar::turn );
+        p.consume_effects( *dummy_item );
+    }
+
     // Apply the various effects.
     for( const auto &eff : effects ) {
         time_duration dur = eff.duration;
-        if( p.has_trait( trait_TOLERANCE ) ) {
-            dur *= .8;
-        } else if( p.has_trait( trait_LIGHTWEIGHT ) ) {
-            dur *= 1.2;
+        if( tolerance_lightweight_effected ) {
+            if( p.has_trait( trait_TOLERANCE ) ) {
+                dur *= tolerance_mod;
+            } else if( p.has_trait( trait_LIGHTWEIGHT ) ) {
+                dur *= lightweight_mod;
+            }
         }
-        p.add_effect( eff.id, dur, convert_bp( eff.bp ) );
+
+        // only way i could figure out how to do this
+        std::unordered_map<std::string, efftype_id> effect_map = {
+            {"cig", effect_cig}
+            // Add other mappings as needed. I think cigs are the only thing this applies to at the moment.
+        };
+
+        // check if effect were applying is connected to an addiction type
+        for( const auto &entry : addiction_type_too_much ) {
+            const std::string &attm_effect = entry.first;
+            const std::string &attm_addiction_type = entry.second;
+
+            auto it = effect_map.find( attm_effect );
+            if( it != effect_map.end() ) {
+                const efftype_id &id = it->second;
+                if( id.obj() == eff.id.obj() ) {
+                    if( p.get_effect_dur( id ) > time_duration::from_minutes( too_much_threshold ) *
+                        ( p.addiction_level(
+                              addiction_type( attm_addiction_type ) ) + 1 ) ) {
+                        p.add_msg_if_player( m_bad, _( "Ugh, too much %s… you feel nasty." ), attm_addiction_type );
+                        break;
+                    }
+                }
+            }
+        }
+
+        p.add_effect( eff.id, eff.duration, convert_bp( eff.bp ) );
+        if( eff.permanent ) {
+            p.get_effect( eff.id, convert_bp( eff.bp ) ).set_permanent();
+        }
+
+        p.add_effect( eff.id, eff.duration, convert_bp( eff.bp ) );
         if( eff.permanent ) {
             p.get_effect( eff.id, convert_bp( eff.bp ) ).set_permanent();
         }
     }
+
     for( const auto &stat_adjustment : stat_adjustments ) {
         p.mod_stat( stat_adjustment.first, stat_adjustment.second );
     }
@@ -882,8 +977,15 @@ int consume_drug_iuse::use( player &p, item &it, bool, const tripoint & ) const
                        p.vitamin_rate( v.first ) <= 0_turns );
     }
 
-    // Output message.
-    p.add_msg_if_player( _( activation_message ), it.type_name( 1 ) );
+    if( snippet_category != "" ) {
+        std::string snippet_string = "";
+        snippet_string = SNIPPET.random_from_category( snippet_category ).value_or(
+                             translation() ).translated();
+        if( one_in( snippet_chance ) ) {
+            p.add_msg_if_player( _( "%s" ), snippet_string );
+        }
+    }
+
     // Consume charges.
     for( const auto &consumable : charges_needed ) {
         if( consumable.second != -1 ) {

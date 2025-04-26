@@ -702,7 +702,12 @@
     "price_postapoc": "5 USD",
     "description": "This cake's destiny is to take you on a gnarly trip.",
     "fun": 12,
-    "use_action": "WEED_CAKE"
+    "use_action": {
+      "type": "consume_drug",
+      "activation_message": "You start scarfing down the delicious cake.  It tastes a little funny though…",
+      "do_weed_msg": true,
+      "effects": [ { "id": "weed_high", "duration": "12 m" }, { "id": "pkill1", "duration": "12 m" } ]
+    }
   },
   {
     "id": "brownie",
@@ -723,7 +728,12 @@
     "description": "This is definitely not how grandma used to bake them.",
     "price_postapoc": "5 USD",
     "fun": 15,
-    "use_action": "WEED_CAKE"
+    "use_action": {
+      "type": "consume_drug",
+      "activation_message": "You start scarfing down the delicious brownie.  It tastes a little funny though…",
+      "do_weed_msg": true,
+      "effects": [ { "id": "weed_high", "duration": "12 m" }, { "id": "pkill1", "duration": "12 m" } ]
+    }
   },
   {
     "id": "noodles_kimchi",

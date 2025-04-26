@@ -170,6 +170,7 @@
     "looks_like": "chainmail_hauberk",
     "color": "light_red",
     "covers": [ "torso", "head", "arms", "hands", "legs", "feet" ],
+    "qualities": [ [ "HV_INSULATION", 1 ] ],
     "coverage": 100,
     "encumbrance": 30,
     "warmth": 5,

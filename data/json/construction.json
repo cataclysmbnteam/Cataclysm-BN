@@ -4973,6 +4973,20 @@
   },
   {
     "type": "construction",
+    "id": "constr_gridgunkit",
+    "group": "place_gunsmith_kit",
+    "category": "WORKSHOP",
+    "required_skills": [ [ "electronics", 1 ] ],
+    "time": "30 m",
+    "qualities": [ [ { "id": "SCREW", "level": 1 } ] ],
+    "using": [ [ "soldering_standard", 20 ] ],
+    "components": [ [ [ "large_repairkit", 1 ] ], [ [ "cable", 5 ] ], [ [ "power_supply", 1 ] ] ],
+    "pre_note": "Will only work if constructed in/on a building that has an electric grid with a mounted battery.",
+    "pre_special": "check_empty",
+    "post_furniture": "f_gridgunkit"
+  },
+  {
+    "type": "construction",
     "id": "constr_gridwelderrig",
     "group": "place_welding_rig",
     "category": "WORKSHOP",
@@ -5124,6 +5138,20 @@
     "pre_note": "Will only work if constructed in/on a building that has an electric grid with a mounted battery.",
     "pre_special": "check_empty",
     "post_furniture": "f_gridfood_processor"
+  },
+  {
+    "type": "construction",
+    "id": "constr_gridsoda_machine",
+    "group": "place_soda_machine",
+    "category": "WORKSHOP",
+    "required_skills": [ [ "electronics", 1 ] ],
+    "time": "30 m",
+    "qualities": [ [ { "id": "SCREW", "level": 1 } ] ],
+    "using": [ [ "soldering_standard", 20 ] ],
+    "components": [ [ [ "soda_machine", 1 ] ], [ [ "cable", 5 ] ], [ [ "power_supply", 1 ] ] ],
+    "pre_note": "Will only work if constructed in/on a building that has an electric grid with a mounted battery.",
+    "pre_special": "check_empty",
+    "post_furniture": "f_gridsoda_machine"
   },
   {
     "type": "construction",
