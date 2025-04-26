@@ -147,7 +147,7 @@
     "description": "A plastic framework.  Other vehicle components can be mounted on it, and it can be attached to other frames to increase the vehicle's size.",
     "breaks_into": "ig_vp_plastic",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "20 m", "using": [ [ "welding_standard", 10 ] ] },
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "20 m", "using": [ [ "soldering_standard", 10 ] ] },
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "10 m", "using": "vehicle_weld_removal" },
       "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "5 m", "using": [ [ "soldering_standard", 5 ], [ "plastics", 1 ] ] }
     },
