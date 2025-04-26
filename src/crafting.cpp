@@ -131,7 +131,7 @@ bool player::making_would_work( const recipe_id &id_to_make, int batch_size )
         return false;
     }
 
-    if( !can_make( making, batch_size ) ) {
+    if( !can_make( &making, batch_size ) ) {
         std::string buffer = _( "You can no longer make that craft!" );
         buffer += "\n";
         buffer += making.simple_requirements().list_missing();
@@ -272,19 +272,19 @@ std::vector<const item *> player::get_eligible_containers_for_crafting() const
     return conts;
 }
 
-bool player::can_make( const recipe &r, int batch_size )
+bool player::can_make( const recipe *r, int batch_size )
 {
     const inventory &crafting_inv = crafting_inventory();
     static auto filter = [&]( bool ok, const npc & guy ) {
         return ok && crafting_activity_actor::assistant_capable( guy, r );
     };
 
-    if( has_recipe( r, crafting_inv, player_activity::get_assistants( *this, filter ) ) < 0 ) {
+    if( has_recipe( r, crafting_inv, character_funcs::get_crafting_helpers( *this ) ) < 0 ) {
         return false;
     }
 
-    return r.deduped_requirements().can_make_with_inventory(
-               crafting_inv, r.get_component_filter(), batch_size );
+    return r->deduped_requirements().can_make_with_inventory(
+               crafting_inv, r->get_component_filter(), batch_size );
 }
 
 bool player::can_start_craft( const recipe *rec, recipe_filter_flags flags, int batch_size )
@@ -873,7 +873,7 @@ void complete_craft( Character &p, item &craft )
         if( first ) {
             first = false;
             // TODO: reconsider recipe memorization
-            if( p.knows_recipe( making ) ) {
+            if( p.knows_recipe( &making ) ) {
                 add_msg( _( "You craft %s from memory." ), making.result_name() );
             } else {
                 add_msg( _( "You craft %s using a book as a reference." ), making.result_name() );
@@ -884,7 +884,7 @@ void complete_craft( Character &p, item &craft )
                 // but also keeps going up as difficulty goes up.
                 // Worst case is lvl 10, which will typically take
                 // 10^4/10 (1,000) minutes, or about 16 hours of crafting it to learn.
-                int difficulty = p.has_recipe( making, p.crafting_inventory(),
+                int difficulty = p.has_recipe( &making, p.crafting_inventory(),
                                                character_funcs::get_crafting_helpers( p ) );
                 ///\EFFECT_INT increases chance to learn recipe when crafting from a book
                 const double learning_speed =
@@ -892,7 +892,7 @@ void complete_craft( Character &p, item &craft )
                     std::max( p.get_int(), 1 );
                 const double time_to_learn = 1000 * 8 * std::pow( difficulty, 4 ) / learning_speed;
                 if( x_in_y( making.time, time_to_learn ) ) {
-                    p.learn_recipe( making );
+                    p.learn_recipe( &making );
                     add_msg( m_good, _( "You memorized the recipe for %s!" ),
                              making.result_name() );
                 }
@@ -2091,7 +2091,7 @@ void crafting::complete_disassemble( Character &who, const iuse_location &target
 
     put_into_vehicle_or_drop( who, item_drop_reason::deliberate, drop_items );
 
-    if( !dis.learn_by_disassembly.empty() && !who.knows_recipe( dis ) ) {
+    if( !dis.learn_by_disassembly.empty() && !who.knows_recipe( &dis ) ) {
         if( who.can_learn_by_disassembly( dis ) ) {
             const SkillLevelMap &char_skills = who.get_all_skills();
             float skill_bonus = ( 1.0f + char_skills.exceeds_recipe_requirements( dis ) ) * std::max( 1.0f,
