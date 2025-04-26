@@ -102,9 +102,9 @@ void player::craft( const tripoint &loc )
     int batch_size = 0;
     const recipe *rec = select_crafting_recipe( batch_size );
     if( rec ) {
-            make_craft( rec->ident(), batch_size, loc );
-        }
+        make_craft( rec->ident(), batch_size, loc );
     }
+}
 
 void player::recraft( const tripoint &loc )
 {
@@ -120,9 +120,9 @@ void player::long_craft( const tripoint &loc )
     int batch_size = 0;
     const recipe *rec = select_crafting_recipe( batch_size );
     if( rec ) {
-            make_all_craft( rec->ident(), batch_size, loc );
-        }
+        make_all_craft( rec->ident(), batch_size, loc );
     }
+}
 
 bool player::making_would_work( const recipe_id &id_to_make, int batch_size )
 {
