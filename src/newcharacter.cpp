@@ -1347,8 +1347,7 @@ tab_direction set_traits( avatar &u, points_left &points )
             } else {
                 iCurrentLine[iCurWorkingPage]--;
             }
-        }
-        else if( action == "REROLL_CHARACTER" ) {
+        } else if( action == "REROLL_CHARACTER" ) {
             points.init_from_options();
             u.randomize( false, points );
             // Return tab_direction::NONE so we re-enter this tab again, but it forces a complete redrawing of it.
@@ -3102,7 +3101,7 @@ trait_id Character::get_random_trait( const std::function<bool( const mutation_b
 
 void Character::randomize_cosmetic_trait( std::string mutation_type )
 {
-    trait_id trait = get_random_trait( [mutation_type]( const mutation_branch &mb ) {
+    trait_id trait = get_random_trait( [mutation_type]( const mutation_branch & mb ) {
         return mb.points == 0 && mb.types.count( mutation_type );
     } );
 
