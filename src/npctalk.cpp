@@ -452,30 +452,27 @@ static void tell_magic_veh_stop_following()
     }
 }
 
-bool display_or_lock_emote(player &u, efftype_id effect, emote_menu emote_choice)
+bool display_or_lock_emote( player &u, efftype_id effect, emote_menu emote_choice )
 {
     bool did_lock = false;
-    if(effect == u.emote_id){
-        if(emote_choice != EMOTE_CLEAR){
-            if (!u.emote_locked){
+    if( effect == u.emote_id ) {
+        if( emote_choice != EMOTE_CLEAR ) {
+            if( !u.emote_locked ) {
                 u.emote_locked = true;
                 add_msg( _( "You will keep emoting." ) );
                 did_lock = true;
-            }
-            else {
+            } else {
                 u.emote_locked = false;
                 effect = efftype_id::NULL_ID();
             }
         }
-    }
-    else{
+    } else {
         u.emote_locked = false;
     }
     u.emote_id = effect;
-    if (did_lock){
+    if( did_lock ) {
         return true;
-    }
-    else{
+    } else {
         return false;
     }
 }
@@ -605,7 +602,7 @@ void game::chat()
         case NPC_CHAT_EMOTE_OVERLAY: {
             uilist emenu;
             emenu.text = std::string( _( "Emote what status effect?" ) );
-            
+
             // category: utility
             emenu.addentry( EMOTE_CLEAR, true, 'a', _( "Clear" ) );
 
@@ -629,7 +626,7 @@ void game::chat()
             emenu.addentry( EMOTE_BLEED, true, 'n', _( "Bleed" ) );
             emenu.addentry( EMOTE_ASTHMA, true, 'o', _( "Out of breath" ) );
             emenu.addentry( EMOTE_MORALE_WET, true, 'p', _( "Thirsty" ) );
-            
+
             // category: sensory/mental effects
             emenu.addentry( EMOTE_HIGH, true, 'q', _( "High" ) );
             emenu.addentry( EMOTE_DRUNK, true, 'r', _( "Drunk" ) );
@@ -641,8 +638,9 @@ void game::chat()
             emenu.addentry( EMOTE_DOWNED, true, 'v', _( "Laying down" ) );
 
             // category: debug
-            if (u.has_trait(trait_DEBUG_MIND_CONTROL)){
-                emenu.addentry( EMOTE_TEMP, true, 'Z', _( "Debug (All/Temp)" ) ); // shows almost all effects at once
+            if( u.has_trait( trait_DEBUG_MIND_CONTROL ) ) {
+                emenu.addentry( EMOTE_TEMP, true, 'Z',
+                                _( "Debug (All/Temp)" ) ); // shows almost all effects at once
             }
 
             // these work (not an exhaustive list though), but we don't want them for our purposes probably
@@ -670,7 +668,7 @@ void game::chat()
             //emenu.addentry( EMOTE_TEARGAS, true, 'o', _( "Teargas" ) );
 
             emenu.query();
-        
+
             if( emenu.ret < 0 ) {
                 return;
             }
@@ -682,84 +680,82 @@ void game::chat()
                     u.emote_id = efftype_id::NULL_ID();
                     break;
                 case EMOTE_DRUNK:
-                    did_lock = display_or_lock_emote(u, effect_drunk, EMOTE_DRUNK);
+                    did_lock = display_or_lock_emote( u, effect_drunk, EMOTE_DRUNK );
                     break;
                 case EMOTE_SLEEPY:
-                    did_lock = display_or_lock_emote(u, effect_sleep, EMOTE_SLEEPY);
+                    did_lock = display_or_lock_emote( u, effect_sleep, EMOTE_SLEEPY );
                     break;
                 case EMOTE_NAUSEA:
-                    did_lock = display_or_lock_emote(u, effect_nausea, EMOTE_NAUSEA);
+                    did_lock = display_or_lock_emote( u, effect_nausea, EMOTE_NAUSEA );
                     break;
                 case EMOTE_BLEED:
-                    did_lock = display_or_lock_emote(u, effect_bleed, EMOTE_BLEED);
+                    did_lock = display_or_lock_emote( u, effect_bleed, EMOTE_BLEED );
                     break;
                 // this one doesnt really fit with the others, but it can be included
                 case EMOTE_EVIL:
-                    did_lock = display_or_lock_emote(u, effect_evil, EMOTE_EVIL);
+                    did_lock = display_or_lock_emote( u, effect_evil, EMOTE_EVIL );
                     break;
                 case EMOTE_HIGH:
-                    did_lock = display_or_lock_emote(u, effect_high, EMOTE_EVIL);
+                    did_lock = display_or_lock_emote( u, effect_high, EMOTE_EVIL );
                     break;
                 case EMOTE_DAZED:
-                    did_lock = display_or_lock_emote(u, effect_dazed, EMOTE_DAZED);
+                    did_lock = display_or_lock_emote( u, effect_dazed, EMOTE_DAZED );
                     break;
                 case EMOTE_STUNNED:
-                    did_lock = display_or_lock_emote(u, effect_stunned, EMOTE_STUNNED);
+                    did_lock = display_or_lock_emote( u, effect_stunned, EMOTE_STUNNED );
                     break;
                 case EMOTE_DOWNED:
-                    did_lock = display_or_lock_emote(u, effect_downed, EMOTE_DOWNED);
+                    did_lock = display_or_lock_emote( u, effect_downed, EMOTE_DOWNED );
                     break;
                 case EMOTE_SHRIEKING:
-                    did_lock = display_or_lock_emote(u, effect_shrieking, EMOTE_SHRIEKING);
+                    did_lock = display_or_lock_emote( u, effect_shrieking, EMOTE_SHRIEKING );
                     break;
                 case EMOTE_ASTHMA:
-                    did_lock = display_or_lock_emote(u, effect_asthma, EMOTE_ASTHMA);
+                    did_lock = display_or_lock_emote( u, effect_asthma, EMOTE_ASTHMA );
                     break;
                 case EMOTE_POISON:
-                    did_lock = display_or_lock_emote(u, effect_poison, EMOTE_BLEED);
+                    did_lock = display_or_lock_emote( u, effect_poison, EMOTE_BLEED );
                     break;
                 case EMOTE_TEARGAS:
-                    did_lock = display_or_lock_emote(u, effect_teargas, EMOTE_TEARGAS);
+                    did_lock = display_or_lock_emote( u, effect_teargas, EMOTE_TEARGAS );
                     break;
                 case EMOTE_GLARE:
-                    did_lock = display_or_lock_emote(u, effect_glare, EMOTE_GLARE);
+                    did_lock = display_or_lock_emote( u, effect_glare, EMOTE_GLARE );
                     break;
                 case EMOTE_BOULDERING:
-                    did_lock = display_or_lock_emote(u, effect_bouldering, EMOTE_BOULDERING);
+                    did_lock = display_or_lock_emote( u, effect_bouldering, EMOTE_BOULDERING );
                     break;
                 case EMOTE_WINDED:
-                    did_lock = display_or_lock_emote(u, effect_winded, EMOTE_WINDED);
+                    did_lock = display_or_lock_emote( u, effect_winded, EMOTE_WINDED );
                     break;
                 case EMOTE_GLOWING:
-                    did_lock = display_or_lock_emote(u, effect_glowing, EMOTE_GLOWING);
+                    did_lock = display_or_lock_emote( u, effect_glowing, EMOTE_GLOWING );
                     break;
                 case EMOTE_PET:
-                    did_lock = display_or_lock_emote(u, effect_pet, EMOTE_PET);
+                    did_lock = display_or_lock_emote( u, effect_pet, EMOTE_PET );
                     break;
                 case EMOTE_PLAYING_INSTRUMENT:
-                    did_lock = display_or_lock_emote(u, effect_playing_instrument, EMOTE_PLAYING_INSTRUMENT);
+                    did_lock = display_or_lock_emote( u, effect_playing_instrument, EMOTE_PLAYING_INSTRUMENT );
                     break;
                 case EMOTE_VISUALS:
-                    did_lock = display_or_lock_emote(u, effect_visuals, EMOTE_VISUALS);
+                    did_lock = display_or_lock_emote( u, effect_visuals, EMOTE_VISUALS );
                     break;
                 case EMOTE_MORALE_WET:
-                    did_lock = display_or_lock_emote(u, effect_morale_wet, EMOTE_MORALE_WET);
+                    did_lock = display_or_lock_emote( u, effect_morale_wet, EMOTE_MORALE_WET );
                     break;
                 case EMOTE_TEMP:
-                    did_lock = display_or_lock_emote(u, effect_temp, EMOTE_TEMP);
+                    did_lock = display_or_lock_emote( u, effect_temp, EMOTE_TEMP );
                     break;
-                
+
             }
 
-            if (!u.emote_id.is_null()){
+            if( !u.emote_id.is_null() ) {
                 u.emote_start = calendar::turn;
-                u.emote_end = u.emote_start+time_duration::from_seconds(10);
-                if (!did_lock){
+                u.emote_end = u.emote_start + time_duration::from_seconds( 10 );
+                if( !did_lock ) {
                     add_msg( _( "You start emoting." ) );
                 }
-            }
-            else
-            {
+            } else {
                 u.emote_start = calendar::turn_zero;
                 u.emote_end = calendar::turn_zero;
                 add_msg( _( "You stop emoting." ) );
