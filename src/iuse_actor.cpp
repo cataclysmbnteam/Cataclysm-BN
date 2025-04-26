@@ -978,7 +978,6 @@ int consume_drug_iuse::use( player &p, item &it, bool, const tripoint & ) const
     }
 
     if( snippet_category != "" ) {
-        snippet_id snip_id = snippet_id::NULL_ID();
         std::string snippet_string = "";
         snippet_string = SNIPPET.random_from_category( snippet_category ).value_or(
                              translation() ).translated();

@@ -454,19 +454,6 @@ void remove_radio_mod( item &it, player &p )
     it.unset_flag( flag_RADIOCARITEM );
 }
 
-// Checks that the player does not have an active item with LITCIG flag.
-static bool check_litcig( player &u )
-{
-    auto cigs = u.items_with( []( const item & it ) {
-        return it.is_active() && it.has_flag( flag_LITCIG );
-    } );
-    if( cigs.empty() ) {
-        return true;
-    }
-    u.add_msg_if_player( m_info, _( "You're already smoking a %s!" ), cigs[0]->tname() );
-    return false;
-}
-
 /* iuse methods return the number of charges expended, which is usually it->charges_to_use().
  * Some items that don't normally use charges return 1 to indicate they're used up.
  * Regardless, returning 0 indicates the item has not been used up,
