@@ -758,7 +758,7 @@
     "id": "bot_turret_longrange",
     "type": "TOOL",
     "name": { "str": "inactive autonomous longrange milspec turret" },
-    "description": "This is an inactive longrange milspec turret.  Using this item involves loading the unit with the factory-loaded 7.62x51mm rounds in your inventory (if you wish to divide your ammunition, set aside whatever 77.62x51mm rounds you do NOT want to give the turret) turning it on, and placing it on the ground, where it will attach itself.  If programmed successfully the turret will then identify you as a friendly, and attack all enemies with its gun.",
+    "description": "This is an inactive longrange milspec turret.  Using this item involves loading the unit with the factory-loaded 7.62x51mm rounds in your inventory (if you wish to divide your ammunition, set aside whatever 7.62x51mm rounds you do NOT want to give the turret) turning it on, and placing it on the ground, where it will attach itself.  If programmed successfully the turret will then identify you as a friendly, and attack all enemies with its gun.",
     "weight": "50 kg",
     "volume": "30 L",
     "price": "5 kUSD",
@@ -771,6 +771,29 @@
     "use_action": {
       "type": "place_monster",
       "monster_id": "mon_turret_longrange",
+      "difficulty": 6,
+      "moves": 100,
+      "skills": [ "electronics", "computer" ]
+    },
+    "flags": [ "ALLOWS_REMOTE_USE" ]
+  },
+  {
+    "id": "bot_turret_antimateriel",
+    "type": "TOOL",
+    "name": { "str": "inactive autonomous anti-materiel milspec turret" },
+    "description": "This is an inactive anti-material milspec turret.  Using this item involves loading the unit with the factory-loaded .50 BMG rounds in your inventory (if you wish to divide your ammunition, set aside whatever .50 BMG rounds you do NOT want to give the turret) turning it on, and placing it on the ground, where it will attach itself.  If programmed successfully the turret will then identify you as a friendly, and attack all enemies with its gun.",
+    "weight": "80 kg",
+    "volume": "30 L",
+    "price": "5 kUSD",
+    "price_postapoc": "100 USD",
+    "to_hit": -3,
+    "bashing": 8,
+    "material": [ "steel", "plastic" ],
+    "symbol": ";",
+    "color": "green",
+    "use_action": {
+      "type": "place_monster",
+      "monster_id": "mon_turret_antimateriel",
       "difficulty": 6,
       "moves": 100,
       "skills": [ "electronics", "computer" ]

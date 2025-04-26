@@ -419,6 +419,7 @@
       [ "char_smoker", 25 ],
       [ "lawn_dart", 10 ],
       [ "dehydrator", 15 ],
+      [ "soda_machine", 15 ],
       [ "pickelhaube", 50 ],
       [ "well_pump", 2 ],
       [ "firehelmet", 10 ],
@@ -478,6 +479,7 @@
       [ "atomic_light", 1 ],
       [ "atomic_lamp", 1 ],
       [ "atomic_coffeepot", 1 ],
+      [ "atomic_soda_machine", 1 ],
       [ "flaregun", 10 ],
       [ "signal_flare", 15 ],
       [ "rm120c", 2 ],
@@ -601,6 +603,7 @@
       [ "silver_medal", 2 ],
       [ "gold_medal", 1 ],
       [ "bionic_scanner", 5 ],
+      [ "gps_device", 5 ],
       { "group": "tinware", "prob": 10 },
       [ "shield_riot", 5 ],
       [ "pirate_flag", 5 ]
@@ -1605,7 +1608,8 @@
       [ "dehydrator", 30 ],
       [ "vac_sealer", 45 ],
       [ "forge", 5 ],
-      [ "atomic_coffeepot", 2 ]
+      [ "atomic_coffeepot", 2 ],
+      [ "atomic_soda_machine", 2 ]
     ]
   },
   {

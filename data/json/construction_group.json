@@ -1216,6 +1216,11 @@
   },
   {
     "type": "construction_group",
+    "id": "place_gunsmith_kit",
+    "name": "Place Gunsmith Kit"
+  },
+  {
+    "type": "construction_group",
     "id": "place_autoclave",
     "name": "Place Autoclave"
   },
@@ -1273,6 +1278,11 @@
     "type": "construction_group",
     "id": "place_food_processor",
     "name": "Place Food Processor"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_soda_machine",
+    "name": "Place Soda Machine"
   },
   {
     "type": "construction_group",
