@@ -210,7 +210,7 @@ std::vector<const recipe *> recipe_subset::search( const std::string &txt,
 recipe_subset::recipe_subset( const recipe_subset &src, const std::vector<const recipe *> &recipes )
 {
     for( const auto elem : recipes ) {
-        include( *elem, src.get_custom_difficulty( elem ) );
+        include( elem, src.get_custom_difficulty( elem ) );
     }
 }
 
@@ -504,46 +504,46 @@ void recipe_dictionary::delete_if( const std::function<bool( const recipe & )> &
     ::delete_if( recipe_dict.uncraft, pred );
 }
 
-void recipe_subset::include( const recipe &r, int custom_difficulty )
+void recipe_subset::include( const recipe *r, int custom_difficulty )
 {
     if( custom_difficulty < 0 ) {
-        custom_difficulty = r.difficulty;
+        custom_difficulty = r->difficulty;
     }
     // We always prefer lower difficulty for the subset, but we save it only if it's not default
-    if( recipes.contains( &r ) ) {
-        const auto iter = difficulties.find( &r );
+    if( recipes.contains( r ) ) {
+        const auto iter = difficulties.find( r );
         // See if we need to lower the difficulty of the existing recipe
         if( iter != difficulties.end() && custom_difficulty < iter->second ) {
-            if( custom_difficulty != r.difficulty ) {
+            if( custom_difficulty != r->difficulty ) {
                 iter->second = custom_difficulty; // Added again with lower difficulty
             } else {
                 difficulties.erase( iter ); // No need to keep the default difficulty. Free some memory
             }
-        } else if( custom_difficulty < r.difficulty ) {
-            difficulties[&r] = custom_difficulty; // Added again with lower difficulty
+        } else if( custom_difficulty < r->difficulty ) {
+            difficulties[r] = custom_difficulty; // Added again with lower difficulty
         }
     } else {
         // add recipe to category and component caches
-        for( const auto &opts : r.simple_requirements().get_components() ) {
+        for( const auto &opts : r->simple_requirements().get_components() ) {
             for( const item_comp &comp : opts ) {
-                component[comp.type].insert( &r );
+                component[comp.type].insert( r );
             }
         }
-        category[r.category].insert( &r );
+        category[r->category].insert( r );
         // Set the difficulty is it's not the default
-        if( custom_difficulty != r.difficulty ) {
-            difficulties[&r] = custom_difficulty;
+        if( custom_difficulty != r->difficulty ) {
+            difficulties[r] = custom_difficulty;
         }
         // insert the recipe
-        recipes.insert( &r );
-        ids.insert( r.ident() );
+        recipes.insert( r );
+        ids.insert( r->ident() );
     }
 }
 
 void recipe_subset::include( const recipe_subset &subset )
 {
-    for( const auto elem : subset ) {
-        include( *elem, subset.get_custom_difficulty( elem ) );
+    for( const auto &elem : subset ) {
+        include( elem, subset.get_custom_difficulty( elem ) );
     }
 }
 

@@ -84,7 +84,7 @@ class recipe_subset
          * @param r recipe to include
          * @param custom_difficulty If specified, it defines custom difficulty for the recipe
          */
-        void include( const recipe &r, int custom_difficulty = -1 );
+        void include( const recipe *r, int custom_difficulty = -1 );
         void include( const recipe_subset &subset );
         /**
          * Include a recipe to the subset. Based on the condition.

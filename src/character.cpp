@@ -11206,14 +11206,14 @@ const recipe_subset &Character::get_learned_recipes() const
     return *learned_recipes;
 }
 
-bool Character::knows_recipe( const recipe &rec ) const
+bool Character::knows_recipe( const recipe *rec ) const
 {
-    return get_learned_recipes().contains( rec );
+    return get_learned_recipes().contains( *rec );
 }
 
-void Character::learn_recipe( const recipe &rec )
+void Character::learn_recipe( const recipe *const rec )
 {
-    if( rec.never_learn ) {
+    if( rec->never_learn ) {
         return;
     }
     learned_recipes->include( rec );
@@ -11751,89 +11751,4 @@ int Character::item_reload_cost( const item &it, item &ammo, int qty ) const
     }
 
     return std::max( mv, 25 );
-}
-
-
-bool Character::studied_all_recipes( const itype &book ) const
-{
-    if( !book.book ) {
-        return true;
-    }
-    for( auto &elem : book.book->recipes ) {
-        if( elem.recipe && !knows_recipe( *elem.recipe ) ) {
-            return false;
-        }
-    }
-    return true;
-}
-
-recipe_subset Character::get_recipes_from_books( const inventory &crafting_inv,
-        const recipe_filter &filter ) const
-{
-    recipe_subset res;
-
-    for( const auto &stack : crafting_inv.const_slice() ) {
-        const item &candidate = *stack->front();
-
-        for( std::pair<const recipe &, int> recipe_entry :
-             candidate.get_available_recipes( *this ) ) {
-            if( filter && !filter( recipe_entry.first ) ) {
-                continue;
-            }
-            res.include( recipe_entry.first, recipe_entry.second );
-        }
-    }
-
-    return res;
-}
-
-recipe_subset Character::get_available_recipes( const inventory &crafting_inv,
-        const std::vector<npc *> *helpers, recipe_filter filter ) const
-{
-    recipe_subset res;
-
-    if( filter ) {
-        res.include_if( get_learned_recipes(), filter );
-    } else {
-        res.include( get_learned_recipes() );
-    }
-
-    res.include( get_recipes_from_books( crafting_inv, filter ) );
-
-    if( helpers != nullptr ) {
-        for( npc *np : *helpers ) {
-            // Directly form the helper's inventory
-            res.include( get_recipes_from_books( np->inv.as_inventory(), filter ) );
-            // Being told what to do
-            res.include_if( np->get_learned_recipes(), [this, &filter]( const recipe & r ) {
-                if( filter && !filter( r ) ) {
-                    return false;
-                }
-                // Skilled enough to understand
-                return get_skill_level( r.skill_used ) >= static_cast<int>( r.difficulty * 0.8f );
-            } );
-        }
-    }
-
-    return res;
-}
-
-bool Character::has_recipe_requirements( const recipe &rec ) const
-{
-    return get_all_skills().has_recipe_requirements( rec );
-}
-
-int Character::has_recipe( const recipe &r, const inventory &crafting_inv,
-                           const std::vector<npc *> &helpers ) const
-{
-    if( !r.skill_used ) {
-        return 0;
-    }
-
-    if( knows_recipe( r ) ) {
-        return r.difficulty;
-    }
-
-    const auto available = get_available_recipes( crafting_inv, &helpers );
-    return available.contains( r ) ? available.get_custom_difficulty( r ) : -1;
 }

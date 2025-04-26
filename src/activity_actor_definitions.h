@@ -4,7 +4,6 @@
 
 #include <optional>
 
-#include "construction_partial.h"
 #include "coordinates.h"
 #include "crafting.h"
 #include "item_handling_util.h"
@@ -14,7 +13,6 @@
 #include "pickup_token.h"
 #include "construction_partial.h"
 #include "point.h"
-#include "recipe.h"
 #include "type_id.h"
 #include "units_energy.h"
 
@@ -273,7 +271,7 @@ class disassemble_activity_actor : public activity_actor
         activity_id get_type() const override {
             return activity_id( "ACT_DISASSEMBLE" );
         }
-        void calc_all_moves( player_activity &act, Character &who ) override;
+        void recalc_all_moves( player_activity &act, Character &who ) override;
         void start( player_activity &act, Character &who ) override;
         void do_turn( player_activity &, Character & ) override;
         void finish( player_activity &act, Character &who ) override;
@@ -675,7 +673,7 @@ class construction_activity_actor : public activity_actor
             return activity_id( "ACT_BUILD" );
         }
 
-        void calc_all_moves( player_activity &act, Character &who ) override;
+        void recalc_all_moves( player_activity &act, Character &who ) override;
 
         void start( player_activity &act, Character &who ) override;
         void do_turn( player_activity &act, Character &who ) override;
@@ -695,7 +693,7 @@ class assist_activity_actor : public activity_actor
             return activity_id( "ACT_ASSIST" );
         }
 
-        void calc_all_moves( player_activity & /*act*/, Character &/*who*/ ) override {};
+        void recalc_all_moves( player_activity & /*act*/, Character &/*who*/ ) override {};
 
         void start( player_activity &act, Character &who ) override;
         void do_turn( player_activity &/*act*/, Character &/*who*/ ) override {};

@@ -199,7 +199,7 @@ class activity_actor
          * Actor specific behaviour to recalc all speed values
          * Expected to be called once per target and on game load
          */
-        virtual void calc_all_moves( player_activity &act, Character &who );
+        virtual void recalc_all_moves( player_activity &act, Character &who );
 
         /**
          * Called once at the start of the activity.
@@ -291,7 +291,7 @@ class activity_actor
          * anything above 0 is a valid number
          * anything below 0 is invalid, promting to use default formula
         */
-        virtual float calc_morale_factor( const Character &/*who*/ ) const {
+        virtual float calc_morale_factor( int /*morale*/ ) const {
             return -1.0f;
         }
 

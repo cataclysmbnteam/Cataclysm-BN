@@ -52,8 +52,6 @@
 #include "translations.h"
 #include "uistate.h"
 #include "vehicle.h"
-#include "vehicle_part.h"
-#include "veh_type.h"
 #include "vpart_position.h"
 
 #define dbg(x) DebugLog((x),DC::Game)
@@ -112,7 +110,7 @@ inline void progress_counter::purge()
     targets.pop_front();
 }
 
-inline void activity_actor::calc_all_moves( player_activity &act, Character &who )
+inline void activity_actor::recalc_all_moves( player_activity &act, Character &who )
 {
     act.speed.calc_all_moves( who );
 }
@@ -815,7 +813,7 @@ inline void disassemble_activity_actor::process_target( player_activity &/*act*/
     progress.emplace( itm.tname( target.count ), moves_needed );
 }
 
-inline void disassemble_activity_actor::calc_all_moves( player_activity &act, Character &who )
+inline void disassemble_activity_actor::recalc_all_moves( player_activity &act, Character &who )
 {
     const auto &target = targets.front().loc;
     auto reqs = activity_reqs_adapter( recipe_dictionary::get_uncraft( target->typeId() ),
@@ -849,7 +847,7 @@ void disassemble_activity_actor::do_turn( player_activity &act, Character &who )
         progress.pop();
         if( !progress.empty() ) {
             if( try_start_single( act, who ) ) {
-                calc_all_moves( act, who );
+                recalc_all_moves( act, who );
             } else {
                 act.set_to_null();
             }
@@ -2205,7 +2203,7 @@ std::unique_ptr<activity_actor> wash_activity_actor::deserialize( JsonIn &jsin )
     return actor;
 }
 
-inline void construction_activity_actor::calc_all_moves( player_activity &act, Character &who )
+inline void construction_activity_actor::recalc_all_moves( player_activity &act, Character &who )
 {
     // Check if pc was lost for some reason, but actually still exists on map, e.g. save/load
     if( !pc ) {
