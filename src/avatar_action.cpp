@@ -95,14 +95,6 @@ static const std::string flag_LADDER( "LADDER" );
 bool avatar_action::move( avatar &you, map &m, const tripoint &d )
 {
 
-    time_point now = calendar::turn;
-    // clear emotes after time is up
-    if( !you.emote_locked && !you.emote_id.is_null() && now > you.emote_end ) {
-        you.emote_end = calendar::turn_zero;
-        add_msg( _( "You stop emoting." ) );
-        you.emote_id = efftype_id::NULL_ID();
-    }
-
     if( ( !g->check_safe_mode_allowed() ) || you.has_active_mutation( trait_SHELL2 ) ) {
         if( you.has_active_mutation( trait_SHELL2 ) ) {
             add_msg( m_warning, _( "You can't move while in your shell.  Deactivate it to go mobile." ) );

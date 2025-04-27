@@ -99,26 +99,29 @@ static const efftype_id effect_under_op( "under_operation" );
 
 
 // solely used for emoting
-static const efftype_id effect_high( "high" );
-static const efftype_id effect_drunk( "drunk" );
-static const efftype_id effect_nausea( "nausea" );
-static const efftype_id effect_evil( "evil" );
-static const efftype_id effect_dazed( "dazed" );
-static const efftype_id effect_stunned( "stunned" );
-static const efftype_id effect_downed( "downed" );
-static const efftype_id effect_shrieking( "shrieking" );
-static const efftype_id effect_visuals( "visuals" );
-static const efftype_id effect_asthma( "asthma" );
-static const efftype_id effect_temp( "temp" );
-static const efftype_id effect_bouldering( "bouldering" );
-static const efftype_id effect_winded( "winded" );
-static const efftype_id effect_playing_instrument( "playing_instrument" );
-static const efftype_id effect_morale_wet( "morale_wet" );
-static const efftype_id effect_glare( "glare" );
-static const efftype_id effect_bleed( "bleed" );
-static const efftype_id effect_poison( "poison" );
-static const efftype_id effect_glowing( "glowing" );
-static const efftype_id effect_teargas( "teargas" );
+static const efftype_id effect_high_emote( "high_emote" );
+static const efftype_id effect_drunk_emote( "drunk_emote" );
+static const efftype_id effect_nausea_emote( "nausea_emote" );
+static const efftype_id effect_evil_emote( "evil_emote" );
+static const efftype_id effect_dazed_emote( "dazed_emote" );
+static const efftype_id effect_stunned_emote( "stunned_emote" );
+static const efftype_id effect_downed_emote( "downed_emote" );
+static const efftype_id effect_shrieking_emote( "shrieking_emote" );
+static const efftype_id effect_visuals_emote( "visuals_emote" );
+static const efftype_id effect_asthma_emote( "asthma_emote" );
+static const efftype_id effect_temp_emote( "temp_emote" );
+static const efftype_id effect_bouldering_emote( "bouldering_emote" );
+static const efftype_id effect_winded_emote( "winded_emote" );
+static const efftype_id effect_playing_instrument_emote( "playing_instrument_emote" );
+static const efftype_id effect_morale_wet_emote( "morale_wet_emote" );
+static const efftype_id effect_glare_emote( "glare_emote" );
+static const efftype_id effect_bleed_emote( "bleed_emote" );
+static const efftype_id effect_poison_emote( "poison_emote" );
+static const efftype_id effect_glowing_emote( "glowing_emote" );
+static const efftype_id effect_teargas_emote( "teargas_emote" );
+static const efftype_id effect_sleep_emote( "sleep_emote" );
+static const efftype_id effect_heart_emote( "heart_emote" );
+
 
 
 static const itype_id fuel_type_animal( "animal" );
@@ -452,28 +455,35 @@ static void tell_magic_veh_stop_following()
     }
 }
 
-bool display_or_lock_emote( player &u, efftype_id effect, emote_menu emote_choice )
+bool handle_emote( player &u, efftype_id effect, emote_menu emote_choice )
 {
-    bool did_lock = false;
-    if( effect == u.emote_id ) {
-        if( emote_choice != EMOTE_CLEAR ) {
-            if( !u.emote_locked ) {
-                u.emote_locked = true;
-                add_msg( _( "You will keep emoting." ) );
-                did_lock = true;
-            } else {
-                u.emote_locked = false;
-                effect = efftype_id::NULL_ID();
-            }
-        }
-    } else {
-        u.emote_locked = false;
+    //u.add_msg_if_player( m_info, _( "(DEBUG) Attempting emote..." ) );
+    // player wants to clear effect
+    if(emote_choice == EMOTE_CLEAR){
+        u.remove_effect(u.last_emote);
+        u.last_emote = efftype_id::NULL_ID();
+        u.add_msg_if_player( _( "You stop emoting early." ) );
+        return false;
     }
-    u.emote_id = effect;
-    if( did_lock ) {
+    // if player is still emoting from last emote, clear it
+    else{
+        if (u.has_effect(u.last_emote) && !(u.last_emote == effect)){
+            u.remove_effect(u.last_emote);
+        }
+    }
+    // decide whether to apply permanently or temporarily
+    bool permanent = u.has_effect( effect );
+    //u.add_msg_if_player( m_info, _( "Has effect: %s" ), permanent );
+    if( permanent ) {
+        u.add_effect( effect, 9999_days, bodypart_str_id::NULL_ID() );
+        u.add_msg_if_player( _( "You will keep emoting." ) );
+        u.last_emote = effect;
         return true;
     } else {
-        return false;
+        u.add_effect( effect, 30_seconds, bodypart_str_id::NULL_ID() );
+        u.add_msg_if_player( _( "You start emoting." ) );
+        u.last_emote = effect;
+        return true;
     }
 }
 
@@ -673,92 +683,79 @@ void game::chat()
                 return;
             }
 
-            bool did_lock = false;
-
             switch( emenu.ret ) {
                 case EMOTE_CLEAR:
-                    u.emote_id = efftype_id::NULL_ID();
+                    handle_emote( u, efftype_id::NULL_ID(), EMOTE_CLEAR );
                     break;
                 case EMOTE_DRUNK:
-                    did_lock = display_or_lock_emote( u, effect_drunk, EMOTE_DRUNK );
+                    handle_emote( u, effect_drunk_emote, EMOTE_DRUNK );
                     break;
                 case EMOTE_SLEEPY:
-                    did_lock = display_or_lock_emote( u, effect_sleep, EMOTE_SLEEPY );
+                    handle_emote( u, effect_sleep_emote, EMOTE_SLEEPY );
                     break;
                 case EMOTE_NAUSEA:
-                    did_lock = display_or_lock_emote( u, effect_nausea, EMOTE_NAUSEA );
+                    handle_emote( u, effect_nausea_emote, EMOTE_NAUSEA );
                     break;
                 case EMOTE_BLEED:
-                    did_lock = display_or_lock_emote( u, effect_bleed, EMOTE_BLEED );
+                    handle_emote( u, effect_bleed_emote, EMOTE_BLEED );
                     break;
                 // this one doesnt really fit with the others, but it can be included
                 case EMOTE_EVIL:
-                    did_lock = display_or_lock_emote( u, effect_evil, EMOTE_EVIL );
+                    handle_emote( u, effect_evil_emote, EMOTE_EVIL );
                     break;
                 case EMOTE_HIGH:
-                    did_lock = display_or_lock_emote( u, effect_high, EMOTE_EVIL );
+                    handle_emote( u, effect_high_emote, EMOTE_HIGH );
                     break;
                 case EMOTE_DAZED:
-                    did_lock = display_or_lock_emote( u, effect_dazed, EMOTE_DAZED );
+                    handle_emote( u, effect_dazed_emote, EMOTE_DAZED );
                     break;
                 case EMOTE_STUNNED:
-                    did_lock = display_or_lock_emote( u, effect_stunned, EMOTE_STUNNED );
+                    handle_emote( u, effect_stunned_emote, EMOTE_STUNNED );
                     break;
                 case EMOTE_DOWNED:
-                    did_lock = display_or_lock_emote( u, effect_downed, EMOTE_DOWNED );
+                    handle_emote( u, effect_downed_emote, EMOTE_DOWNED );
                     break;
                 case EMOTE_SHRIEKING:
-                    did_lock = display_or_lock_emote( u, effect_shrieking, EMOTE_SHRIEKING );
+                    handle_emote( u, effect_shrieking_emote, EMOTE_SHRIEKING );
                     break;
                 case EMOTE_ASTHMA:
-                    did_lock = display_or_lock_emote( u, effect_asthma, EMOTE_ASTHMA );
+                    handle_emote( u, effect_asthma_emote, EMOTE_ASTHMA );
                     break;
                 case EMOTE_POISON:
-                    did_lock = display_or_lock_emote( u, effect_poison, EMOTE_BLEED );
+                    handle_emote( u, effect_poison_emote, EMOTE_POISON );
                     break;
                 case EMOTE_TEARGAS:
-                    did_lock = display_or_lock_emote( u, effect_teargas, EMOTE_TEARGAS );
+                    handle_emote( u, effect_teargas_emote, EMOTE_TEARGAS );
                     break;
                 case EMOTE_GLARE:
-                    did_lock = display_or_lock_emote( u, effect_glare, EMOTE_GLARE );
+                    handle_emote( u, effect_glare_emote, EMOTE_GLARE );
                     break;
                 case EMOTE_BOULDERING:
-                    did_lock = display_or_lock_emote( u, effect_bouldering, EMOTE_BOULDERING );
+                    handle_emote( u, effect_bouldering_emote, EMOTE_BOULDERING );
                     break;
                 case EMOTE_WINDED:
-                    did_lock = display_or_lock_emote( u, effect_winded, EMOTE_WINDED );
+                    handle_emote( u, effect_winded_emote, EMOTE_WINDED );
                     break;
+                // this one doesnt really fit with the others, but it can be included
                 case EMOTE_GLOWING:
-                    did_lock = display_or_lock_emote( u, effect_glowing, EMOTE_GLOWING );
+                    handle_emote( u, effect_glowing_emote, EMOTE_GLOWING );
                     break;
                 case EMOTE_PET:
-                    did_lock = display_or_lock_emote( u, effect_pet, EMOTE_PET );
+                    handle_emote( u, effect_heart_emote, EMOTE_PET );
                     break;
                 case EMOTE_PLAYING_INSTRUMENT:
-                    did_lock = display_or_lock_emote( u, effect_playing_instrument, EMOTE_PLAYING_INSTRUMENT );
+                    handle_emote( u, effect_playing_instrument_emote, EMOTE_PLAYING_INSTRUMENT );
                     break;
                 case EMOTE_VISUALS:
-                    did_lock = display_or_lock_emote( u, effect_visuals, EMOTE_VISUALS );
+                    handle_emote( u, effect_visuals_emote, EMOTE_VISUALS );
                     break;
                 case EMOTE_MORALE_WET:
-                    did_lock = display_or_lock_emote( u, effect_morale_wet, EMOTE_MORALE_WET );
+                    handle_emote( u, effect_morale_wet_emote, EMOTE_MORALE_WET );
                     break;
                 case EMOTE_TEMP:
-                    did_lock = display_or_lock_emote( u, effect_temp, EMOTE_TEMP );
+                    handle_emote( u, effect_temp_emote, EMOTE_TEMP );
                     break;
 
-            }
-
-            if( !u.emote_id.is_null() ) {
-                u.emote_start = calendar::turn;
-                u.emote_end = u.emote_start + time_duration::from_seconds( 10 );
-                if( !did_lock ) {
-                    add_msg( _( "You start emoting." ) );
-                }
-            } else {
-                u.emote_start = calendar::turn_zero;
-                u.emote_end = calendar::turn_zero;
-                add_msg( _( "You stop emoting." ) );
             }
 
             break;

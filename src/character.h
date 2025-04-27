@@ -302,10 +302,7 @@ class Character : public Creature, public location_visitable<Character>
         int per_cur = 0;
 
         // id of current emote
-        efftype_id emote_id = efftype_id::NULL_ID();
-        bool emote_locked = false;
-        time_point emote_start;
-        time_point emote_end;
+        efftype_id last_emote = efftype_id::NULL_ID();
 
         // The prevalence of getter, setter, and mutator functions here is partially
         // a result of the slow, piece-wise migration of the player class upwards into

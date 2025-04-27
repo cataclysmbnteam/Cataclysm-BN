@@ -2289,5 +2289,226 @@
     "base_mods": { "hit_mod": [ 1 ], "dodge_mod": [ 2 ], "speed_mod": [ 20 ], "bash_mod": [ 4 ] },
     "max_duration": "5 m",
     "show_in_info": true
+  },
+  {
+    "//": "EMOTES DEFINED BELOW HERE",
+    "type": "effect_type",
+    "id": "dazed_emote",
+    "looks_like": "dazed",
+    "name": [ "Dazed (emote)" ],
+    "desc": [ "You're pretending to look dazed." ],
+    "rating": "neutral",
+    "max_duration": "999999 d",
+    "show_in_info": true
+  },
+  {
+    "type": "effect_type",
+    "id": "high_emote",
+    "looks_like": "high",
+    "name": [ "High (emote)" ],
+    "desc": [ "You're pretending to look high." ],
+    "rating": "neutral",
+    "max_duration": "999999 d",
+    "show_in_info": true
+  },
+  {
+    "type": "effect_type",
+    "id": "drunk_emote",
+    "looks_like": "drunk",
+    "name": [ "Drunk (emote)" ],
+    "desc": [ "You're pretending to look drunk." ],
+    "rating": "neutral",
+    "max_duration": "999999 d",
+    "show_in_info": true
+  },
+  {
+    "type": "effect_type",
+    "id": "evil_emote",
+    "looks_like": "evil",
+    "name": [ "Evil Aura (emote)" ],
+    "desc": [ "You're pretending to look evil." ],
+    "rating": "neutral",
+    "max_duration": "999999 d",
+    "show_in_info": true
+  },
+  {
+    "type": "effect_type",
+    "id": "heart_emote",
+    "looks_like": "pet",
+    "name": [ "In love (emote)" ],
+    "desc": [ "You're pretending to look in love." ],
+    "rating": "neutral",
+    "max_duration": "999999 d",
+    "show_in_info": true
+  },
+  {
+    "type": "effect_type",
+    "id": "nausea_emote",
+    "looks_like": "nausea",
+    "name": [ "Nausea (emote)" ],
+    "desc": [ "You're pretending to look nauseous." ],
+    "rating": "neutral",
+    "max_duration": "999999 d",
+    "show_in_info": true
+  },
+  {
+    "type": "effect_type",
+    "id": "downed_emote",
+    "looks_like": "downed",
+    "name": [ "Laying down (emote)" ],
+    "desc": [ "You're laying down on the ground." ],
+    "rating": "neutral",
+    "max_duration": "999999 d",
+    "show_in_info": true
+  },
+  {
+    "type": "effect_type",
+    "id": "stunned_emote",
+    "looks_like": "stunned",
+    "name": [ "Laying down (emote)" ],
+    "desc": [ "You're pretending to look stunned." ],
+    "rating": "neutral",
+    "max_duration": "999999 d",
+    "show_in_info": true
+  },
+  {
+    "type": "effect_type",
+    "id": "shrieking_emote",
+    "looks_like": "shrieking",
+    "name": [ "Shrieking (emote)" ],
+    "desc": [ "You're pretending to look terrified or angry." ],
+    "rating": "neutral",
+    "max_duration": "999999 d",
+    "show_in_info": true
+  },
+  {
+    "type": "effect_type",
+    "id": "visuals_emote",
+    "looks_like": "visuals",
+    "name": [ "Tweaking (emote)" ],
+    "desc": [ "You're pretending to look like you're tweaking." ],
+    "rating": "neutral",
+    "max_duration": "999999 d",
+    "show_in_info": true
+  },
+  {
+    "type": "effect_type",
+    "id": "asthma_emote",
+    "looks_like": "asthma",
+    "name": [ "Out of Breath (emote)" ],
+    "desc": [ "You're pretending to look like you're out of breath." ],
+    "rating": "neutral",
+    "max_duration": "999999 d",
+    "show_in_info": true
+  },
+  {
+    "type": "effect_type",
+    "id": "temp_emote",
+    "looks_like": "temp",
+    "name": [ "Debug (emote)" ],
+    "desc": [ "This is a debug emote. If you have this during normal gameplay it's a bug." ],
+    "rating": "neutral",
+    "max_duration": "999999 d",
+    "show_in_info": true
+  },
+  {
+    "type": "effect_type",
+    "id": "bouldering_emote",
+    "looks_like": "bouldering",
+    "name": [ "Bouldering (emote)" ],
+    "desc": [ "You're pretending to look like you can't find your footing." ],
+    "rating": "neutral",
+    "max_duration": "999999 d",
+    "show_in_info": true
+  },
+  {
+    "type": "effect_type",
+    "id": "winded_emote",
+    "looks_like": "winded",
+    "name": [ "Winded (emote)" ],
+    "desc": [ "You're pretending to look like you're winded." ],
+    "rating": "neutral",
+    "max_duration": "999999 d",
+    "show_in_info": true
+  },
+  {
+    "type": "effect_type",
+    "id": "playing_instrument_emote",
+    "looks_like": "playing_instrument",
+    "name": [ "Musical (emote)" ],
+    "desc": [ "You're surrounded by musical notes. (Atleast, in your imagination.)" ],
+    "rating": "neutral",
+    "max_duration": "999999 d",
+    "show_in_info": true
+  },
+  {
+    "type": "effect_type",
+    "id": "morale_wet_emote",
+    "looks_like": "morale_wet",
+    "name": [ "Wet (emote)" ],
+    "desc": [ "You're pretending to look like you're wet." ],
+    "rating": "neutral",
+    "max_duration": "999999 d",
+    "show_in_info": true
+  },
+  {
+    "type": "effect_type",
+    "id": "glare_emote",
+    "looks_like": "glare",
+    "name": [ "Beauty (emote)" ],
+    "desc": [ "You're pretending to look like you're beautiful. :(" ],
+    "rating": "neutral",
+    "max_duration": "999999 d",
+    "show_in_info": true
+  },
+  {
+    "type": "effect_type",
+    "id": "poison_emote",
+    "looks_like": "poison",
+    "name": [ "Poison (emote)" ],
+    "desc": [ "You're pretending to look like you've been poisoned." ],
+    "rating": "neutral",
+    "max_duration": "999999 d",
+    "show_in_info": true
+  },
+  {
+    "type": "effect_type",
+    "id": "glowing_emote",
+    "looks_like": "glowing",
+    "name": [ "Glowing Aura (emote)" ],
+    "desc": [ "You're radiating a glowing aura." ],
+    "rating": "neutral",
+    "max_duration": "999999 d",
+    "show_in_info": true
+  },
+  {
+    "type": "effect_type",
+    "id": "teargas_emote",
+    "looks_like": "teargas",
+    "name": [ "Teargas (emote)" ],
+    "desc": [ "You're pretending to look like you've been teargassed." ],
+    "rating": "neutral",
+    "max_duration": "999999 d",
+    "show_in_info": true
+  },
+  {
+    "type": "effect_type",
+    "id": "sleep_emote",
+    "looks_like": "sleep",
+    "name": [ "Tired (emote)" ],
+    "desc": [ "You're pretending to look like you're tired." ],
+    "rating": "neutral",
+    "max_duration": "999999 d",
+    "show_in_info": true
+  },
+  {
+    "type": "effect_type",
+    "id": "bleed_emote",
+    "looks_like": "bleed",
+    "name": [ "Bleeding (emote)" ],
+    "desc": [ "You're pretending you're bleeding." ],
+    "rating": "neutral",
+    "max_duration": "999999 d",
+    "show_in_info": true
   }
 ]
