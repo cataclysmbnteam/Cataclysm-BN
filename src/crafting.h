@@ -76,9 +76,7 @@ void remove_ammo( item &dis_item, Character &who );
  */
 void remove_ammo( std::vector<item *> &dis_items, Character &who );
 
-std::optional<workbench_info_wrapper> make_workbench_info( item craft, bench_type type,
-        tripoint &location );
-void complete_craft( player &p, item &craft );
+void complete_craft( Character &, item & );
 
 namespace crafting
 {

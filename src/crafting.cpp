@@ -755,75 +755,7 @@ void item::inherit_flags( const std::vector<item *> &parents, const recipe &maki
     }
 }
 
-template<typename T>
-static float lerped_multiplier( const T &value, const T &low, const T &high )
-{
-    // No effect if less than allowed value
-    if( value < low ) {
-        return 1.0f;
-    }
-    // Bottom out at 25% speed
-    if( value > high ) {
-        return 0.25f;
-    }
-    // Linear interpolation between high and low
-    // y = y0 + ( x - x0 ) * ( y1 - y0 ) / ( x1 - x0 )
-    return 1.0f + ( value - low ) * ( 0.25f - 1.0f ) / ( high - low );
-}
-
-static void adjust_multiplier( const item &craft, workbench_info_wrapper &wb )
-{
-    wb.multiplier_adjusted *= lerped_multiplier( craft.weight(), wb.allowed_mass, 1000_kilogram );
-    wb.multiplier_adjusted *= lerped_multiplier( craft.volume(), wb.allowed_volume, 1000_liter );
-}
-
-std::optional<workbench_info_wrapper> make_workbench_info( item craft, bench_type type,
-        const tripoint &location )
-{
-    std::optional<workbench_info_wrapper> ret = std::nullopt;
-    map &here = get_map();
-    switch( type ) {
-        case bench_type::hands:
-            ret = workbench_info_wrapper(
-                      *string_id<furn_t>( "f_fake_bench_hands" ).obj().workbench.get() );
-            break;
-        case bench_type::ground:
-            // Ground - we can always use this, but it's bad
-            ret = workbench_info_wrapper(
-                      *string_id<furn_t>( "f_ground_crafting_spot" ).obj().workbench.get() );
-            break;
-        case bench_type::furniture:
-            if( here.furn( location ).obj().workbench ) {
-                // Furniture workbench
-                ret = workbench_info_wrapper( *here.furn( location ).obj().workbench.get() );
-            } else {
-                return std::nullopt;
-            }
-            break;
-        case bench_type::vehicle:
-            if( const std::optional<vpart_reference> vp = here.veh_at(
-                        location ).part_with_feature( "WORKBENCH", true ) ) {
-                // Vehicle workbench
-                const vpart_info &vp_info = vp->part().info();
-                if( const std::optional<vpslot_workbench> &v_info = vp_info.get_workbench_info() ) {
-                    ret = workbench_info_wrapper( *v_info );
-                } else {
-                    debugmsg( "part '%s' with WORKBENCH flag has no workbench info", vp->part().name() );
-                    return std::nullopt;
-                }
-            }
-            break;
-        default:
-            debugmsg( "Invalid workbench type %d", static_cast<int>( type ) );
-            return std::nullopt;
-    }
-    if( ret ) {
-        adjust_multiplier( craft, *ret );
-    }
-    return ret;
-}
-
-void complete_craft( Character &p, item &craft )
+void complete_craft( Character &who, item &craft )
 {
     if( !craft.is_craft() ) {
         debugmsg( "complete_craft() called on non-craft '%s.'  Aborting.", craft.tname() );
@@ -2182,8 +2114,31 @@ int charges_for_continuing( int full_charges )
 
 } // namespace crafting
 
+
+template<typename T>
+static float lerped_multiplier( const T &value, const T &low, const T &high )
+{
+    // No effect if less than allowed value
+    if( value < low ) {
+        return 1.0f;
+    }
+    // Bottom out at 25% speed
+    if( value > high ) {
+        return 0.25f;
+    }
+    // Linear interpolation between high and low
+    // y = y0 + ( x - x0 ) * ( y1 - y0 ) / ( x1 - x0 )
+    return 1.0f + ( value - low ) * ( 0.25f - 1.0f ) / ( high - low );
+}
+
 void workbench_info_wrapper::adjust_multiplier( const metric &metrics )
 {
     multiplier_adjusted *= lerped_multiplier( metrics.first, allowed_mass, 1000_kilogram );
     multiplier_adjusted *= lerped_multiplier( metrics.second, allowed_volume, 1000_liter );
+}
+
+inline void crafting_activity_actor::adjust_bench_multiplier( bench_location &bench,
+        const metric &metrics ) const
+{
+    bench.wb_info.adjust_multiplier( metrics );
 }
