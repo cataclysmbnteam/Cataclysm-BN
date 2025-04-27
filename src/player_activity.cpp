@@ -172,7 +172,7 @@ std::vector<npc *> player_activity::get_assistants( const Character &who, unsign
                   guy.activity->id() != ACT_ASSIST &&
                   rl_dist( guy.pos(), who.pos() ) < PICKUP_RANGE &&
                   get_map().clear_path( who.pos(), guy.pos(), PICKUP_RANGE, 1, 100 );
-        ok = filter( ok, guy );
+        //ok = filter( ok, guy );
         if( ok ) {
             n++;
         }
@@ -424,16 +424,16 @@ void player_activity::do_turn( player &p )
         }
     }
 
-    /*
-     * Moves block
-     * This might finish the activity (set it to null)
-     * Leave as is till full migration to actors for "NEITHER"
-    */
-    if( fails_conditions( p ) ) {
-        // If the activity fails, we need to cancel it.
-        p.cancel_activity();
-        return;
-    }
+    ///*
+    // * Moves block
+    // * This might finish the activity (set it to null)
+    // * Leave as is till full migration to actors for "NEITHER"
+    //*/
+    //if( fails_conditions( p ) ) {
+    //    // If the activity fails, we need to cancel it.
+    //    p.cancel_activity();
+    //    return;
+    //}
 
 
     if( !type->special() ) {

@@ -1,92 +1,25 @@
 #include "player.h"
 
-#include <algorithm>
-#include <array>
-#include <cmath>
-#include <cstdlib>
-#include <iterator>
 #include <map>
 #include <memory>
 #include <string>
-#include <unordered_map>
 
-#include "action.h"
-#include "activity_handlers.h"
-#include "ammo.h"
 #include "avatar.h"
-#include "avatar_action.h"
-#include "bionics.h"
-#include "cata_utility.h"
-#include "catacharset.h"
 #include "character_display.h"
-#include "character_functions.h"
-#include "character_effects.h"
 #include "character_martial_arts.h"
-#include "character_turn.h"
-#include "clzones.h"
-#include "craft_command.h"
-#include "damage.h"
-#include "debug.h"
-#include "effect.h"
 #include "enums.h"
-#include "faction.h"
-#include "fault.h"
 #include "flag.h"
-#include "field_type.h"
 #include "game.h"
-#include "game_inventory.h"
-#include "gun_mode.h"
-#include "handle_liquid.h"
-#include "input.h"
-#include "int_id.h"
-#include "inventory.h"
 #include "item.h"
-#include "item_contents.h"
-#include "itype.h"
-#include "lightmap.h"
-#include "line.h"
-#include "magic_enchantment.h"
-#include "make_static.h"
-#include "map.h"
-#include "map_iterator.h"
-#include "mapdata.h"
 #include "martialarts.h"
 #include "messages.h"
-#include "monster.h"
-#include "morale.h"
-#include "mtype.h"
-#include "mutation.h"
-#include "npc.h"
-#include "options.h"
 #include "output.h"
-#include "overmap_types.h"
-#include "overmapbuffer.h"
-#include "pickup.h"
-#include "player_activity.h"
-#include "pldata.h"
-#include "profession.h"
-#include "recipe.h"
-#include "recipe_dictionary.h"
-#include "requirements.h"
-#include "rng.h"
-#include "skill.h"
-#include "stomach.h"
 #include "string_formatter.h"
 #include "string_id.h"
 #include "translations.h"
-#include "trap.h"
 #include "ui.h"
-#include "uistate.h"
-#include "units.h"
-#include "value_ptr.h"
-#include "veh_type.h"
-#include "vehicle.h"
-#include "vehicle_part.h"
 #include "visitable.h"
 #include "vitamin.h"
-#include "vpart_position.h"
-#include "weather.h"
-#include "weather_gen.h"
 
 static const bionic_id bio_cqb( "bio_cqb" );
 
@@ -264,90 +197,6 @@ bool character_martial_arts::pick_style( const avatar &you )    // Style selecti
     }
 
     return true;
-}
-
-bool player::studied_all_recipes( const itype &book ) const
-{
-    if( !book.book ) {
-        return true;
-    }
-    for( auto &elem : book.book->recipes ) {
-        if( !knows_recipe( elem.recipe ) ) {
-            return false;
-        }
-    }
-    return true;
-}
-
-recipe_subset player::get_recipes_from_books( const inventory &crafting_inv,
-        const recipe_filter &filter ) const
-{
-    recipe_subset res;
-
-    for( const auto &stack : crafting_inv.const_slice() ) {
-        const item &candidate = *stack->front();
-
-        for( std::pair<const recipe *, int> recipe_entry :
-             candidate.get_available_recipes( *this ) ) {
-            if( filter && !filter( *recipe_entry.first ) ) {
-                continue;
-            }
-            res.include( recipe_entry.first, recipe_entry.second );
-        }
-    }
-
-    return res;
-}
-
-recipe_subset player::get_available_recipes( const inventory &crafting_inv,
-        const std::vector<npc *> *helpers, recipe_filter filter ) const
-{
-    recipe_subset res;
-
-    if( filter ) {
-        res.include_if( get_learned_recipes(), filter );
-    } else {
-        res.include( get_learned_recipes() );
-    }
-
-    res.include( get_recipes_from_books( crafting_inv, filter ) );
-
-    if( helpers != nullptr ) {
-        for( npc *np : *helpers ) {
-            // Directly form the helper's inventory
-            res.include( get_recipes_from_books( np->inv.as_inventory(), filter ) );
-            // Being told what to do
-            res.include_if( np->get_learned_recipes(), [ this, &filter ]( const recipe & r ) {
-                if( filter && !filter( r ) ) {
-                    return false;
-                }
-                // Skilled enough to understand
-                return get_skill_level( r.skill_used ) >= static_cast<int>( r.difficulty * 0.8f );
-            } );
-        }
-    }
-
-    return res;
-}
-
-bool player::has_recipe_requirements( const recipe &rec ) const
-{
-    return get_all_skills().has_recipe_requirements( rec );
-}
-
-int player::has_recipe( const recipe *r, const inventory &crafting_inv,
-                        const std::vector<npc *> &helpers ) const
-{
-    if( !r->skill_used ) {
-        return 0;
-    }
-
-    if( knows_recipe( r ) ) {
-        return r->difficulty;
-    }
-
-    const auto available = get_available_recipes( crafting_inv, &helpers );
-    return available.contains( *r ) ? available.get_custom_difficulty( r ) : -1;
 }
 
 nc_color encumb_color( int level )
