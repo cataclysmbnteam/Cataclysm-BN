@@ -142,19 +142,6 @@ bool player::making_would_work( const recipe_id &id_to_make, int batch_size )
     return check_eligible_containers_for_crafting( making, batch_size );
 }
 
-int player::base_time_to_craft( const recipe &rec, int batch_size ) const
-{
-    const size_t assistants = available_assistant_count( rec );
-    return rec.batch_time( batch_size, 1.0f, assistants );
-}
-
-int player::expected_time_to_craft( const recipe &rec, int batch_size, bool in_progress ) const
-{
-    const size_t assistants = available_assistant_count( rec );
-    float modifier = crafting_speed_multiplier( *this, rec, in_progress );
-    return rec.batch_time( batch_size, modifier, assistants );
-}
-
 bool player::check_eligible_containers_for_crafting( const recipe &rec, int batch_size ) const
 {
     std::vector<const item *> conts = get_eligible_containers_for_crafting();
