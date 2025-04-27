@@ -33,7 +33,7 @@ struct simple_task {
         return moves_left <= 0;
     }
 
-    inline int to_counter() const;
+    int to_counter() const;
 
     //Json stuff
     void serialize( JsonOut &json ) const;

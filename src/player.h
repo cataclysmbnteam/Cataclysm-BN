@@ -8,7 +8,6 @@
 #include "character_id.h"
 #include "color.h"
 #include "enums.h"
-#include "game_constants.h"
 #include "item.h"
 #include "point.h"
 #include "safe_reference.h"

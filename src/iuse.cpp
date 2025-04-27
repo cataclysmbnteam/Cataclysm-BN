@@ -8,7 +8,6 @@
 #include <exception>
 #include <functional>
 #include <iterator>
-#include <list>
 #include <map>
 #include <optional>
 #include <set>

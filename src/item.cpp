@@ -17,19 +17,19 @@
 #include <tuple>
 #include <unordered_set>
 
-#include "advanced_inv.h"
+#include "active_tile_data_def.h"
 #include "ammo.h"
 #include "ascii_art.h"
 #include "avatar.h"
 #include "bionics.h"
 #include "bodypart.h"
+#include "cached_item_options.h"
 #include "cata_utility.h"
 #include "catacharset.h"
-#include "cached_item_options.h"
 #include "character.h"
-#include "character_id.h"
 #include "character_encumbrance.h"
 #include "character_functions.h"
+#include "character_id.h"
 #include "character_martial_arts.h"
 #include "character_stat.h"
 #include "clothing_mod.h"
@@ -91,8 +91,8 @@
 #include "relic.h"
 #include "requirements.h"
 #include "ret_val.h"
-#include "rot.h"
 #include "rng.h"
+#include "rot.h"
 #include "scores_ui.h"
 #include "skill.h"
 #include "stomach.h"
@@ -102,7 +102,6 @@
 #include "text_snippets.h"
 #include "translations.h"
 #include "units.h"
-#include "units_temperature.h"
 #include "units_utility.h"
 #include "value_ptr.h"
 #include "vehicle.h"
@@ -111,7 +110,6 @@
 #include "vpart_position.h"
 #include "weather.h"
 #include "weather_gen.h"
-#include "active_tile_data_def.h"
 
 static const std::string GUN_MODE_VAR_NAME( "item::mode" );
 static const std::string CLOTHING_MOD_VAR_PREFIX( "clothing_mod_" );

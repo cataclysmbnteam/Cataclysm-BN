@@ -3,7 +3,6 @@
 #include <climits>
 #include <cstdint>
 #include <functional>
-#include <list>
 #include <map>
 #include <optional>
 #include <set>
@@ -13,7 +12,7 @@
 #include <vector>
 
 #include "calendar.h"
-#include "cata_arena.h"
+#include "coordinates.h"
 #include "detached_ptr.h"
 #include "enums.h"
 #include "flat_set.h"
@@ -24,13 +23,11 @@
 #include "kill_tracker.h"
 #include "location_vector.h"
 #include "pimpl.h"
-#include "safe_reference.h"
 #include "string_id.h"
 #include "type_id.h"
 #include "units.h"
 #include "value_ptr.h"
 #include "visitable.h"
-#include "coordinates.h"
 
 class Character;
 class JsonIn;

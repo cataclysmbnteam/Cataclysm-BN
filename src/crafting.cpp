@@ -17,14 +17,15 @@
 
 #include "activity_actor_definitions.h"
 #include "activity_handlers.h"
+#include "activity_speed_adapters.h"
 #include "avatar.h"
 #include "avatar_functions.h"
 #include "bionics.h"
 #include "calendar.h"
 #include "cata_utility.h"
 #include "character.h"
-#include "color.h"
 #include "character_functions.h"
+#include "color.h"
 #include "craft_command.h"
 #include "crafting_gui.h"
 #include "debug.h"
@@ -2116,29 +2117,6 @@ int charges_for_continuing( int full_charges )
 }
 
 } // namespace crafting
-
-
-template<typename T>
-static float lerped_multiplier( const T &value, const T &low, const T &high )
-{
-    // No effect if less than allowed value
-    if( value < low ) {
-        return 1.0f;
-    }
-    // Bottom out at 25% speed
-    if( value > high ) {
-        return 0.25f;
-    }
-    // Linear interpolation between high and low
-    // y = y0 + ( x - x0 ) * ( y1 - y0 ) / ( x1 - x0 )
-    return 1.0f + ( value - low ) * ( 0.25f - 1.0f ) / ( high - low );
-}
-
-void workbench_info_wrapper::adjust_multiplier( const metric &metrics )
-{
-    multiplier_adjusted *= lerped_multiplier( metrics.first, allowed_mass, 1000_kilogram );
-    multiplier_adjusted *= lerped_multiplier( metrics.second, allowed_volume, 1000_liter );
-}
 
 inline void crafting_activity_actor::adjust_bench_multiplier( bench_location &bench,
         const metric &metrics ) const
