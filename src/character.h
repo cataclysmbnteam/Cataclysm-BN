@@ -2173,8 +2173,6 @@ class Character : public Creature, public location_visitable<Character>
                                              int radius = PICKUP_RANGE, bool clear_path = true );
         void invalidate_crafting_inventory();
 
-        double crafting_success_roll( const recipe &making ) const;
-
         bool can_continue_craft( item &craft );
 
         void craft_skill_gain( const item &craft, const int &multiplier );

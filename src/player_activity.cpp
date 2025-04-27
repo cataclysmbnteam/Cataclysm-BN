@@ -152,14 +152,14 @@ inline std::vector<npc *> &player_activity::assistants()
 
 std::vector<npc *> player_activity::get_assistants( const Character &who,
         const std::function <bool( bool, const npc & )> &filter,
-        unsigned short max )
+        short max )
 {
-    if( max < 1 ) {
+    if( max == 0 ) {
         return {};
     }
     int n = 0;
     return g->get_npcs_if( [&]( const npc & guy ) {
-        if( n >= max ) {
+        if( max > 0 || n >= max ) {
             return false;
         }
         // NPCs can help craft if awake, taking orders, within pickup range and have clear path

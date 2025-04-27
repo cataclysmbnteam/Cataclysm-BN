@@ -199,7 +199,7 @@ static std::vector<std::string> recipe_info(
                           recp.required_skills_string( &u, false, false ) );
 
 
-    const int expected_turns = 1;
+    const int expected_turns = expected_time_to_craft( u, recp, batch_size ) / to_moves<int>( 1_turns );
     oss << string_format( _( "Time to complete: <color_cyan>%s</color>\n" ),
                           to_string( time_duration::from_turns( expected_turns ) ) );
 

@@ -15,6 +15,7 @@ class inventory;
 class item;
 class player;
 class recipe;
+class time_duration;
 struct iuse_location;
 struct tool_comp;
 
@@ -33,6 +34,8 @@ void remove_ammo( item &dis_item, Character &who );
 void remove_ammo( std::vector<item *> &dis_items, Character &who );
 
 void complete_craft( Character &, item & );
+
+int expected_time_to_craft( const Character &who, const recipe &, const int );
 
 namespace crafting
 {

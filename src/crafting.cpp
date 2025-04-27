@@ -91,19 +91,37 @@ static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 static const trait_id trait_HYPEROPIC( "HYPEROPIC" );
 
 static const flag_id flag_BIONIC_TOGGLED( "BIONIC_TOGGLED" );
-static const std::string flag_BLIND_EASY( "BLIND_EASY" );
-static const std::string flag_BLIND_HARD( "BLIND_HARD" );
 static const std::string flag_FULL_MAGAZINE( "FULL_MAGAZINE" );
 static const std::string flag_NO_RESIZE( "NO_RESIZE" );
 static const std::string flag_UNCRAFT_LIQUIDS_CONTAINED( "UNCRAFT_LIQUIDS_CONTAINED" );
 
+static const std::string building_category( "CC_BUILDING" );
+
+static auto yes_filter = [&]( bool ok, const Character & )
+{
+    return ok;
+};
+
+static bool crafting_allowed( const Character &who, const recipe &rec )
+{
+
+    //TODO: add other checks
+
+    if( rec.category == building_category ) {
+        add_msg( m_info, _( "Overmap terrain building recipes are not implemented yet!" ) );
+        return false;
+    }
+    return true;
+}
 
 void Character::craft( const tripoint &loc )
 {
     int batch_size = 0;
     const recipe *rec = select_crafting_recipe( batch_size );
     if( rec ) {
-        make_craft( rec->ident(), batch_size, loc );
+        if( crafting_allowed( *this, *rec ) ) {
+            make_craft( rec->ident(), batch_size, loc );
+        }
     }
 }
 
@@ -121,14 +139,16 @@ void Character::long_craft( const tripoint &loc )
     int batch_size = 0;
     const recipe *rec = select_crafting_recipe( batch_size );
     if( rec ) {
-        make_all_craft( rec->ident(), batch_size, loc );
+        if( crafting_allowed( *this, *rec ) ) {
+            make_all_craft( rec->ident(), batch_size, loc );
+        }
     }
 }
 
 bool Character::making_would_work( const recipe_id &id_to_make, int batch_size )
 {
     const auto &making = *id_to_make;
-    if( !making ) {
+    if( !( making && crafting_allowed( *this, making ) ) ) {
         return false;
     }
 
@@ -263,11 +283,8 @@ std::vector<const item *> Character::get_eligible_containers_for_crafting() cons
 bool Character::can_make( const recipe *r, int batch_size )
 {
     const inventory &crafting_inv = crafting_inventory();
-    static auto filter = [&r]( bool ok, const Character & guy ) {
-        return ok && crafting_activity_actor::assistant_capable( guy, *r );
-    };
 
-    if( has_recipe( r, crafting_inv, character_funcs::get_crafting_helpers( *this ) ) < 0 ) {
+    if( has_recipe( r, crafting_inv, player_activity::get_assistants( *this, yes_filter, -1 ) ) < 0 ) {
         return false;
     }
 
@@ -516,7 +533,7 @@ void Character::craft_skill_gain( const item &craft, const int &multiplier )
 
     if( making.skill_used ) {
         // Normalize experience gain to crafting time, giving a bonus for longer crafting
-        const double batch_mult = batch_size/* + base_time_to_craft(making, batch_size) / 30000.0 */ ;
+        const double batch_mult = batch_size + making.batch_time( batch_size ) / 30000.0  ;
         // This is called after every 5% crafting progress, so divide by 20
         // TODO: Don't multiply, instead divide the crafting time into more "learn bits"
         const int base_practice = roll_remainder( ( making.difficulty * 15 + 10 ) * batch_mult /
@@ -558,37 +575,38 @@ void Character::craft_skill_gain( const item &craft, const int &multiplier )
     }
 }
 
-double Character::crafting_success_roll( const recipe &making ) const
+static double crafting_success_roll( const recipe &making, const Character &who,
+                                     std::vector<npc *> &assistants )
 {
     int secondary_dice = 0;
     int secondary_difficulty = 0;
     for( const auto &pr : making.required_skills ) {
-        secondary_dice += get_skill_level( pr.first );
+        secondary_dice += who.get_skill_level( pr.first );
         secondary_difficulty += pr.second;
     }
 
     // # of dice is 75% primary skill, 25% secondary (unless secondary is null)
     int skill_dice;
     if( secondary_difficulty > 0 ) {
-        skill_dice = get_skill_level( making.skill_used ) * 3 + secondary_dice;
+        skill_dice = who.get_skill_level( making.skill_used ) * 3 + secondary_dice;
     } else {
-        skill_dice = get_skill_level( making.skill_used ) * 4;
+        skill_dice = who.get_skill_level( making.skill_used ) * 4;
     }
 
-    for( const npc *np : character_funcs::get_crafting_helpers( *this ) ) {
-        if( np->get_skill_level( making.skill_used ) >=
-            get_skill_level( making.skill_used ) ) {
+    for( const npc *guy : assistants ) {
+        if( guy->get_skill_level( making.skill_used ) >=
+            who.get_skill_level( making.skill_used ) ) {
             // NPC assistance is worth half a skill level
             skill_dice += 2;
-            add_msg_if_player( m_info, _( "%s helps with crafting…" ), np->name );
+            who.add_msg_if_player( m_info, _( "%s helps with crafting…" ), guy->name );
             break;
         }
     }
 
     // farsightedness can impose a penalty on electronics and tailoring success
     // it's equivalent to a 2-rank electronics penalty, 1-rank tailoring
-    if( has_trait( trait_HYPEROPIC ) && !worn_with_flag( flag_FIX_FARSIGHT ) &&
-        !has_effect( effect_contacts ) ) {
+    if( who.has_trait( trait_HYPEROPIC ) && !who.worn_with_flag( flag_FIX_FARSIGHT ) &&
+        !who.has_effect( effect_contacts ) ) {
         int main_rank_penalty = 0;
         if( making.skill_used == skill_electronics ) {
             main_rank_penalty = 2;
@@ -600,7 +618,7 @@ double Character::crafting_success_roll( const recipe &making ) const
 
     // It's tough to craft with paws.  Fortunately it's just a matter of grip and fine-motor,
     // not inability to see what you're doing
-    for( const trait_id &mut : get_mutations() ) {
+    for( const trait_id &mut : who.get_mutations() ) {
         for( const std::pair<const skill_id, int> &skib : mut->craft_skill_bonus ) {
             if( making.skill_used == skib.first ) {
                 skill_dice += skib.second;
@@ -610,7 +628,7 @@ double Character::crafting_success_roll( const recipe &making ) const
 
     // Sides on dice is 16 plus your current intelligence
     ///\EFFECT_INT increases crafting success chance
-    const int skill_sides = 16 + int_cur;
+    const int skill_sides = 16 + who.int_cur;
 
     int diff_dice;
     if( secondary_difficulty > 0 ) {
@@ -642,15 +660,12 @@ int item::get_next_failure_point() const
     return craft_data_->next_failure_point >= 0 ? craft_data_->next_failure_point : INT_MAX;
 }
 
-void item::set_next_failure_point( const Character &crafter )
+void item::set_next_failure_point( const Character &crafter, int failure_point_delta )
 {
     if( !is_craft() ) {
         debugmsg( "set_next_failure_point() called on non-craft '%s.'  Aborting.", tname() );
         return;
     }
-
-    const int percent_left = 10000000 - item_counter;
-    const int failure_point_delta = crafter.crafting_success_roll( get_making() ) * percent_left;
 
     craft_data_->next_failure_point = item_counter + failure_point_delta;
 }
@@ -668,14 +683,19 @@ static void destroy_random_component( item &craft, const Character &crafter )
                                    _( "<npcname> messes up and destroys the %s" ), destroyed->tname() );
 }
 
-bool item::handle_craft_failure( Character &crafter )
+/**
+ * Handle failure during crafting.
+ * Destroy components, lose progress, and set a new failure point.
+ * @param crafter the crafting player.
+ * @return whether the craft being worked on should be entirely destroyed
+ */
+bool item::handle_craft_failure( Character &crafter, const double success_roll )
 {
     if( !is_craft() ) {
         debugmsg( "handle_craft_failure() called on non-craft '%s.'  Aborting.", tname() );
         return false;
     }
 
-    const double success_roll = crafter.crafting_success_roll( get_making() );
     const int starting_components = this->components.size();
     // Destroy at most 75% of the components, always a chance of losing 1 though
     const size_t max_destroyed = std::max<size_t>( 1, components.size() * 3 / 4 );
@@ -703,8 +723,6 @@ bool item::handle_craft_failure( Character &crafter )
     crafter.add_msg_player_or_npc( _( "You mess up and lose %d%% progress." ),
                                    _( "<npcname> messes up and loses %d%% progress." ), progess_loss / 100000 );
     item_counter = clamp( item_counter - progess_loss, 0, 10000000 );
-
-    set_next_failure_point( crafter );
 
     // Check if we can consume a new component and continue
     if( !crafter.can_continue_craft( *this ) ) {
@@ -914,6 +932,13 @@ void complete_craft( Character &who, item &craft )
     }
 
     who.inv_restack( );
+}
+
+int expected_time_to_craft( const Character &who, const recipe &rec,
+                            const int batch_size )
+{
+    //TODO: speed preview calculations
+    return rec.batch_time( batch_size );
 }
 
 bool Character::can_continue_craft( item &craft )
@@ -2168,13 +2193,35 @@ inline void crafting_activity_actor::calc_all_moves( player_activity &act, Chara
 
 void crafting_activity_actor::start( player_activity &act, Character &who )
 {
+    if( !target ) {
+        who.add_msg_player_or_npc(
+            _( "You no longer have the in progress craft in your possession.  "
+               "You stop crafting.  "
+               "Reactivate the in progress craft to continue crafting." ),
+            _( "<npcname> no longer has the in progress craft in their possession.  "
+               "<npcname> stops crafting." ) );
+        who.cancel_activity();
+        return;
+    }
+    if( !target->is_craft() ) {
+        debugmsg( "ACT_CRAFT target '%s' is not a craft.  Aborting ACT_CRAFT.", target->tname() );
+        who.cancel_activity();
+        return;
+    }
+
+    rec = target->get_making();
     int total_time = std::max( 1, rec.batch_time( 1 ) );
     int left = target->item_counter == 0
                ? total_time
                : total_time - target->item_counter / 10'000'000.0 * total_time;
 
     progress.emplace( target->tname( target->count() ), total_time, left );
+    target->set_next_failure_point( who, crafting_success_roll( rec, who,
+                                    act.assistants() ) * 10000000 );
+}
 
+void crafting_activity_actor::do_turn( player_activity &act, Character &who )
+{
     // item_location::get_item() will return nullptr if the item is lost
     if( !target ) {
         who.add_msg_player_or_npc(
@@ -2192,42 +2239,43 @@ void crafting_activity_actor::start( player_activity &act, Character &who )
         who.cancel_activity();
         return;
     }
-    if( !who.craft_consume_tools( *target, five_percent_steps, false ) ) {
-        // So we don't skip over any tool comsuption
-        target->item_counter -= target->item_counter % 500000 + 1;
-        who.cancel_activity();
-        return;
-    }
-}
-
-void crafting_activity_actor::do_turn( player_activity &act, Character &who )
-{
-    // item_location::get_item() will return nullptr if the item is lost
-    if( !target ) {
-        who.add_msg_player_or_npc(
-            _( "You no longer have the in progress craft in your possession.  "
-               "You stop crafting.  "
-               "Reactivate the in progress craft to continue crafting." ),
-            _( "<npcname> no longer has the in progress craft in their possession.  "
-               "<npcname> stops crafting." ) );
-        who.cancel_activity();
-        return;
-    }
 
     if( !who.can_continue_craft( *target ) ) {
         who.cancel_activity();
         return;
     }
 
-    const bool is_long = act.values[0];
     // Current progress as a percent of base_total_moves to 2 decimal places
     target->item_counter = progress.front().to_counter();
+
+    // Skill and tools are gained/consumed after every 5% progress
+    int five_percent_steps = target->item_counter / 500'000 - old_counter / 500'000;
     if( five_percent_steps > 0 ) {
         who.craft_skill_gain( *target, five_percent_steps );
     }
 
+    // Unlike skill, tools are consumed once at the start and should not be consumed at the end
+    if( target->item_counter >= 10'000'000 ) {
+        --five_percent_steps;
+    }
+
+    if( five_percent_steps > 0 ) {
+        if( !who.craft_consume_tools( *target, five_percent_steps, false ) ) {
+            // So we don't skip over any tool comsuption
+            target->item_counter -= target->item_counter % 500000 + 1;
+            who.cancel_activity();
+            return;
+        }
+    }
+
+    old_counter = target->item_counter;
+
     if( target->item_counter >= target->get_next_failure_point() ) {
-        bool destroy = target->handle_craft_failure( who );
+        const int percent_left = 10000000 - target->item_counter;
+        bool destroy = target->handle_craft_failure( who, crafting_success_roll( rec, who,
+                       act.assistants() ) * percent_left );
+        target->set_next_failure_point( who, crafting_success_roll( rec, who,
+                                        act.assistants() ) * percent_left );
         // If the craft needs to be destroyed, do it and stop crafting.
         if( destroy ) {
             who.add_msg_player_or_npc( _( "There is nothing left of the %s to craft from." ),
@@ -2238,13 +2286,13 @@ void crafting_activity_actor::do_turn( player_activity &act, Character &who )
     }
 }
 
-void crafting_activity_actor::finish( player_activity &act, Character &who )
+void crafting_activity_actor::finish( player_activity &, Character &who )
 {
     //TODO!: CHEEKY check
     item *craft_copy = &*target;
-    who.cancel_activity();
     complete_craft( who, *craft_copy );
     target->detach();
+    who.cancel_activity();
     if( auto p = who.as_player(); p && is_long ) {
         if( p->making_would_work( rec.ident(), craft_copy->charges ) ) {
             p->last_craft->execute();

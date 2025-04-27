@@ -116,7 +116,7 @@ class crafting_activity_actor : public activity_actor
         recipe rec;
         bool is_long = false;
 
-        int five_percent_steps = 0;
+        int old_counter = 0;
 
     public:
         crafting_activity_actor() = default;
