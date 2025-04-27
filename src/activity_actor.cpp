@@ -79,7 +79,7 @@ static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 
 static const std::string has_thievery_witness( "has_thievery_witness" );
 
-inline int simple_task::to_counter() const
+int simple_task::to_counter() const
 {
     double ret = 10'000'000.0 / moves_total * ( moves_total - moves_left );
     return std::round( ret );
