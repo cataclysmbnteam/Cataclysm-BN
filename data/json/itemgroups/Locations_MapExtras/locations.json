@@ -647,6 +647,7 @@
       [ "carver_off", 5 ],
       [ "coffeemaker", 5 ],
       [ "dehydrator", 5 ],
+      [ "soda_machine", 5 ],
       [ "food_processor", 5 ],
       [ "hotplate", 5 ],
       [ "multi_cooker", 5 ],

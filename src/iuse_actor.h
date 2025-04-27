@@ -262,6 +262,28 @@ class consume_drug_iuse : public iuse_actor
         std::vector<effect_data> effects;
         /** A list of stats and adjustments to them. **/
         std::map<std::string, int> stat_adjustments;
+        /** The item to fake addiction stats from. **/
+        std::string fake_item;
+        /** Should tolerance affect this drug? **/
+        bool tolerance_lightweight_effected = true;
+        /** The modification applied when the user has a tolerance. **/
+        float tolerance_mod = 1.2;
+        /** The modification applied when the user uis a lightweight. **/
+        float lightweight_mod = .8;
+        /** Number of minutes to use for the too much calculation. p.get_effect_dur(id) > time_duration::to_minutes(too_much_threshold) * ( p.addiction_level( addiction_type(attm_addiction_type) ) + 1 ) **/
+        float too_much_threshold = 10;
+        /** A [string, string] that defines what effect type is linked to an addiction. Example: ["cig", "nicotine"]**/
+        std::vector<std::pair<std::string, std::string>> addiction_type_too_much;
+        /** The id of the item to spawn and activate once consumed. **/
+        std::string lit_item;
+        /** Time until lit_item is activated and extinguished in minutes. **/
+        int smoking_duration = 0;
+        /** Does this item contain THC? Should it make the player think high thoughts? **/
+        bool do_weed_msg = false;
+        /** Make the player think a snippet from this category to themselves. **/
+        std::string snippet_category;
+        /** Chance (1 in snippet_chance) to make the player think a snippet. (Default 5)**/
+        int snippet_chance = 5;
 
         /** Modify player vitamin_levels by random amount between min (first) and max (second) */
         std::map<vitamin_id, std::pair<int, int>> vitamins;

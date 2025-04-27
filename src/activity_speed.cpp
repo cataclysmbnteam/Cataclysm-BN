@@ -282,18 +282,18 @@ void activity_speed::calc_morale_factor( const Character &who )
 
 void activity_speed::find_best_bench( const tripoint &pos, const metric metrics )
 {
-    map &here = get_map();
-    bench = bench_loc(
-                workbench_info_wrapper(
-                    *string_id<furn_t>( "f_ground_crafting_spot" )->workbench ),
-                pos );
-    bench_factor_custom_formula( *bench, metrics );
+    static const workbench_info_wrapper ground_bench(
+        *string_id<furn_t>( "f_ground_crafting_spot" )->workbench );
+    static const workbench_info_wrapper hands_bench(
+        *string_id<furn_t>( "f_fake_bench_hands" )->workbench );
 
-    auto bench_tmp = bench_loc(
-                         workbench_info_wrapper(
-                             *string_id<furn_t>( "f_fake_bench_hands" )->workbench ),
-                         pos );
+    map &here = get_map();
+    bench = bench_loc( ground_bench, pos );
+    auto bench_tmp = bench_loc( hands_bench, pos );
+
+    bench_factor_custom_formula( *bench, metrics );
     bench_factor_custom_formula( bench_tmp, metrics );
+
     if( bench_tmp.wb_info.multiplier_adjusted > bench->wb_info.multiplier_adjusted ) {
         bench = bench_tmp;
     }

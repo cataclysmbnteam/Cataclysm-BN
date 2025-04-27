@@ -215,6 +215,14 @@ tripoint_abs_omt avatar::get_active_mission_target() const
     return active_mission->get_target();
 }
 
+tripoint_abs_omt avatar::get_custom_mission_target()
+{
+    if( custom_waypoint == nullptr ) {
+        return overmap::invalid_tripoint;
+    }
+    return *custom_waypoint;
+}
+
 void avatar::set_active_mission( mission &cur_mission )
 {
     const auto iter = std::find( active_missions.begin(), active_missions.end(), &cur_mission );

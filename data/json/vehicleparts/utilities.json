@@ -174,9 +174,7 @@
     "breaks_into": [
       { "count": [ 4, 6 ], "item": "steel_lump" },
       { "count": [ 4, 6 ], "item": "steel_chunk" },
-      { "count": [ 4, 6 ], "item": "scrap" },
-      { "item": "pan", "prob": 50 },
-      { "item": "pot", "prob": 50 }
+      { "count": [ 4, 6 ], "item": "scrap" }
     ],
     "broken_color": "light_cyan",
     "broken_symbol": "x",

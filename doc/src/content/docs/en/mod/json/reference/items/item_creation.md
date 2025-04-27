@@ -868,6 +868,18 @@ more structured function.
     "fields_produced" : {"cracksmoke" : 2}, // Fields to produce, mostly used for smoke.
     "charges_needed" : { "fire" : 1 }, // Charges to use in the process of consuming the drug.
     "tools_needed" : { "apparatus" : -1 }, // Tool needed to use the drug.
+    "fake_item" : "fake_ecig", // Item used to fake addiction and copy other consumption effects from.
+    "lightweight_mod" : 1.2, // Drug duration modifier if the user has LIGHTWEIGHT trait.
+    "tolerance_mod" : .8, // Drug duration modifier if the user has a tolerance.
+    "tolerance_lightweight_effected": true, // Should this drugs time duration be effected by tolerance/lightweight?
+    "too_much_threshold": 10, // Number of minutes to use for the too much calculation.
+    "addiction_type_too_much": [["cig", "nicotine"]], // Link an effect to an addiction. Used for 'you feel gross... too much' message
+    "lit_item": "cigar_lit", // Defines an item to turn into for smoking_duration minutes.
+    "smoking_duration": 12, // Number of minutes the lit_item will remain lit, afterwards it will turn into the extinguished item.
+    "used_up_item": "", // Item to give once used, alternative to lit_item which should be used in tandem with smoking_duration.
+    "do_weed_msg": false, // Should weed_msg(player) be called after using the item?
+    "snippet_category": "killer_withdrawal", // Chance (1 in 5) to say a random snippet from this category upon use. Like do_weed_msg, but unhardcoded.
+    "snippet_chance": 5, // Chance (1 in snippet_chance) to make the player think a snippet.
     "moves": 50 // Number of moves required in the process, default value is 100.
 },
 "use_action": {

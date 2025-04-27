@@ -122,7 +122,10 @@ class avatar : public player
          * Returns the target of the active mission or @ref overmap::invalid_tripoint if there is
          * no active mission.
          */
+        std::unique_ptr<tripoint_abs_omt> custom_waypoint = nullptr;
         tripoint_abs_omt get_active_mission_target() const;
+        /** Returns the custom mission target directly set by the player */
+        tripoint_abs_omt get_custom_mission_target();
         /**
          * Set which mission is active. The mission must be listed in @ref active_missions.
          */
