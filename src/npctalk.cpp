@@ -462,7 +462,6 @@ bool handle_emote( player &u, efftype_id effect, emote_menu emote_choice )
     if(emote_choice == EMOTE_CLEAR){
         u.remove_effect(u.last_emote);
         u.last_emote = efftype_id::NULL_ID();
-        u.add_msg_if_player( _( "You stop emoting early." ) );
         return false;
     }
     // if player is still emoting from last emote, clear it
@@ -481,7 +480,6 @@ bool handle_emote( player &u, efftype_id effect, emote_menu emote_choice )
         return true;
     } else {
         u.add_effect( effect, 30_seconds, bodypart_str_id::NULL_ID() );
-        u.add_msg_if_player( _( "You start emoting." ) );
         u.last_emote = effect;
         return true;
     }
