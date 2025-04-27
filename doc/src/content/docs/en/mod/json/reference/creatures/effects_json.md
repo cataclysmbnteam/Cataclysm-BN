@@ -235,10 +235,8 @@ through some means. Valid entries are:
 "looks_like": "drunk"
 ```
 
-
 If the "looks_like" field exists, the effect will visually resemble the specified tag (for example, "drunk").
 This only affects the appearance of the effect over a NPC or character, not its mechanical behavior.
-
 
 ### Messages
 
