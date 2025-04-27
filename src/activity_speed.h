@@ -112,6 +112,4 @@ class activity_speed
         void calc_tools_factor( Character &who, const q_reqs &quality_reqs );
         static float get_best_qual_mod( const activity_req<quality_id> &q,
                                         const inventory &inv );
-
-        activity_speed() = default;
 };
