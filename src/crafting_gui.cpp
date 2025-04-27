@@ -10,12 +10,12 @@
 #include <vector>
 
 #include "avatar.h"
-#include "character.h"
 #include "calendar.h"
 #include "cata_utility.h"
 #include "catacharset.h"
-#include "color.h"
+#include "character.h"
 #include "character_functions.h"
+#include "color.h"
 #include "crafting.h"
 #include "cursesdef.h"
 #include "game.h"
