@@ -21,7 +21,6 @@ struct tool_comp;
 
 enum class cost_adjustment : int;
 
-
 struct bench_location {
     explicit bench_location( bench_type type, tripoint position )
         : type( type ), position( position )
