@@ -455,143 +455,6 @@ std::unique_ptr<activity_actor> autodrive_activity_actor::deserialize( JsonIn & 
     return std::make_unique<autodrive_activity_actor>();
 }
 
-
-inline void crafting_activity_actor::calc_all_moves( player_activity &act, Character &who )
-{
-    auto reqs = activity_reqs_adapter( rec, target.loc->weight(), target.loc->volume() );
-    act.speed.calc_all_moves( who, reqs );
-}
-
-
-inline void crafting_activity_actor::adjust_bench_multiplier( bench_location &bench,
-        const metric &metrics ) const
-{
-    bench.wb_info.adjust_multiplier( metrics );
-}
-
-void crafting_activity_actor::start( player_activity &act, Character &who )
-{
-    item *craft = &*target.loc;
-
-    int total_time = std::max( 1, rec.batch_time( 1 ) );
-    int left = craft->item_counter == 0
-               ? total_time
-               : total_time - craft->item_counter / 10'000'000.0 * total_time;
-
-    progress.emplace( craft->tname( craft->count() ), total_time, left );
-
-    // item_location::get_item() will return nullptr if the item is lost
-    if( !craft ) {
-        who.add_msg_player_or_npc(
-            _( "You no longer have the in progress craft in your possession.  "
-               "You stop crafting.  "
-               "Reactivate the in progress craft to continue crafting." ),
-            _( "<npcname> no longer has the in progress craft in their possession.  "
-               "<npcname> stops crafting." ) );
-        who.cancel_activity();
-        return;
-    }
-
-    if( !craft->is_craft() ) {
-        debugmsg( "ACT_CRAFT target '%s' is not a craft.  Aborting ACT_CRAFT.", craft->tname() );
-        who.cancel_activity();
-        return;
-    }
-    if( !who.craft_consume_tools( *craft, five_percent_steps, false ) ) {
-        // So we don't skip over any tool comsuption
-        craft->item_counter -= craft->item_counter % 500000 + 1;
-        who.cancel_activity();
-        return;
-    }
-}
-
-void crafting_activity_actor::do_turn( player_activity &act, Character &who )
-{
-    item *craft = &*target.loc;
-
-    // item_location::get_item() will return nullptr if the item is lost
-    if( !craft ) {
-        who.add_msg_player_or_npc(
-            _( "You no longer have the in progress craft in your possession.  "
-               "You stop crafting.  "
-               "Reactivate the in progress craft to continue crafting." ),
-            _( "<npcname> no longer has the in progress craft in their possession.  "
-               "<npcname> stops crafting." ) );
-        who.cancel_activity();
-        return;
-    }
-
-    if( !who.can_continue_craft( *craft ) ) {
-        who.cancel_activity();
-        return;
-    }
-
-    const bool is_long = act.values[0];
-    // Current progress as a percent of base_total_moves to 2 decimal places
-    craft->item_counter = progress.front().to_counter();
-    if( five_percent_steps > 0 ) {
-        who.craft_skill_gain( *craft, five_percent_steps );
-    }
-
-    if( craft->item_counter >= craft->get_next_failure_point() ) {
-        bool destroy = craft->handle_craft_failure( who );
-        // If the craft needs to be destroyed, do it and stop crafting.
-        if( destroy ) {
-            who.add_msg_player_or_npc( _( "There is nothing left of the %s to craft from." ),
-                                       _( "There is nothing left of the %s <npcname> was crafting." ), craft->tname() );
-            act.targets.front()->detach();
-            who.cancel_activity();
-        }
-    }
-}
-
-void crafting_activity_actor::finish( player_activity &act, Character &who )
-{
-    item *craft = &*target.loc;
-    //TODO!: CHEEKY check
-    item *craft_copy = craft;
-    who.cancel_activity();
-    complete_craft( who, *craft_copy );
-    target.loc->detach();
-    if( is_long ) {
-        if( who.making_would_work( rec.ident(), craft_copy->charges ) ) {
-            who.last_craft->execute();
-        }
-    }
-}
-
-float crafting_activity_actor::calc_morale_factor( const Character &who ) const
-{
-    const int morale = who.get_morale_level();
-    if( morale >= 0 ) {
-        // No bonus for being happy yet
-        return 1.0f;
-    }
-
-    // Harder jobs are more frustrating, even when skilled
-    // For each skill where skill=difficulty, multiply effective morale by 200%
-    float morale_mult = std::max( 1.0f, 2.0f * rec.difficulty / std::max( 1,
-                                  who.get_skill_level( rec.skill_used ) ) );
-    for( const std::pair<const skill_id, int> &pr : rec.required_skills ) {
-        morale_mult *= std::max( 1.0f, 2.0f * pr.second / std::max( 1, who.get_skill_level( pr.first ) ) );
-    }
-
-    // Halve speed at -50 effective morale, quarter at -150
-    float morale_effect = 1.0f + ( morale_mult * morale ) / -50.0f;
-
-    return 1.0f / morale_effect;
-}
-
-bool crafting_activity_actor::assistant_capable( const Character &who ) const
-{
-    return assistant_capable( who, rec );
-}
-
-bool crafting_activity_actor::assistant_capable( const Character &who, const recipe &recipe )
-{
-    return who.get_skill_level( recipe.skill_used ) >= recipe.difficulty;
-}
-
 void dig_activity_actor::start( player_activity &/*act*/, Character & )
 {
     map &here = get_map();
@@ -2327,6 +2190,10 @@ std::unique_ptr<activity_actor> assist_activity_actor::deserialize( JsonIn & )
     return std::make_unique<assist_activity_actor>();
 }
 
+std::unique_ptr<activity_actor> crafting_activity_actor::deserialize( JsonIn & )
+{
+    return std::make_unique<crafting_activity_actor>();
+}
 
 namespace activity_actors
 {
@@ -2354,6 +2221,7 @@ deserialize_functions = {
     { activity_id( "ACT_THROW" ), &throw_activity_actor::deserialize },
     { activity_id( "ACT_WASH" ), &wash_activity_actor::deserialize },
     { activity_id( "ACT_ASSIST" ), &assist_activity_actor::deserialize },
+    { activity_id( "ACT_CRAFT" ), &crafting_activity_actor::deserialize },
 };
 } // namespace activity_actors
 

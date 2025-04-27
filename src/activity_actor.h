@@ -291,7 +291,7 @@ class activity_actor
          * anything above 0 is a valid number
          * anything below 0 is invalid, promting to use default formula
         */
-        virtual float calc_morale_factor( int /*morale*/ ) const {
+        virtual float calc_morale_factor( const Character & ) const {
             return -1.0f;
         }
 

@@ -5,19 +5,21 @@
 #include <optional>
 
 #include "coordinates.h"
-#include "crafting.h"
 #include "item_handling_util.h"
 #include "location_ptr.h"
 #include "locations.h"
 #include "memory_fast.h"
 #include "pickup_token.h"
-#include "construction_partial.h"
 #include "point.h"
+#include "recipe.h"
 #include "type_id.h"
 #include "units_energy.h"
 
 class Creature;
 class vehicle;
+
+struct bench_location;
+struct partial_con;
 
 class aim_activity_actor : public activity_actor
 {
@@ -110,14 +112,16 @@ class autodrive_activity_actor : public activity_actor
 class crafting_activity_actor : public activity_actor
 {
     private:
-        iuse_location target;
+        safe_reference<item> target;
         recipe rec;
         bool is_long = false;
+
+        int five_percent_steps = 0;
 
     public:
         crafting_activity_actor() = default;
         crafting_activity_actor(
-            iuse_location &&target_,
+            item *target_,
             bool is_long
         ) : target( std::move( target_ ) ), is_long( is_long ) {
         }

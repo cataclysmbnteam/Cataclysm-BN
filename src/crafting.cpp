@@ -2142,3 +2142,131 @@ inline void crafting_activity_actor::adjust_bench_multiplier( bench_location &be
 {
     bench.wb_info.adjust_multiplier( metrics );
 }
+
+float crafting_activity_actor::calc_morale_factor( const Character &who ) const
+{
+    const int morale = who.get_morale_level();
+    if( morale >= 0 ) {
+        // No bonus for being happy yet
+        return 1.0f;
+    }
+
+    // Harder jobs are more frustrating, even when skilled
+    // For each skill where skill=difficulty, multiply effective morale by 200%
+    float morale_mult = std::max( 1.0f, 2.0f * rec.difficulty / std::max( 1,
+                                  who.get_skill_level( rec.skill_used ) ) );
+    for( const std::pair<const skill_id, int> &pr : rec.required_skills ) {
+        morale_mult *= std::max( 1.0f, 2.0f * pr.second / std::max( 1, who.get_skill_level( pr.first ) ) );
+    }
+
+    // Halve speed at -50 effective morale, quarter at -150
+    float morale_effect = 1.0f + ( morale_mult * morale ) / -50.0f;
+
+    return 1.0f / morale_effect;
+}
+
+bool crafting_activity_actor::assistant_capable( const Character &who ) const
+{
+    return assistant_capable( who, rec );
+}
+
+bool crafting_activity_actor::assistant_capable( const Character &who, const recipe &recipe )
+{
+    return who.get_skill_level( recipe.skill_used ) >= recipe.difficulty;
+}
+
+void crafting_activity_actor::serialize( JsonOut &jsout ) const
+{
+}
+
+inline void crafting_activity_actor::calc_all_moves( player_activity &act, Character &who )
+{
+    auto reqs = activity_reqs_adapter( rec, target->weight(), target->volume() );
+    act.speed.calc_all_moves( who, reqs );
+}
+
+void crafting_activity_actor::start( player_activity &act, Character &who )
+{
+    int total_time = std::max( 1, rec.batch_time( 1 ) );
+    int left = target->item_counter == 0
+               ? total_time
+               : total_time - target->item_counter / 10'000'000.0 * total_time;
+
+    progress.emplace( target->tname( target->count() ), total_time, left );
+
+    // item_location::get_item() will return nullptr if the item is lost
+    if( !target ) {
+        who.add_msg_player_or_npc(
+            _( "You no longer have the in progress craft in your possession.  "
+               "You stop crafting.  "
+               "Reactivate the in progress craft to continue crafting." ),
+            _( "<npcname> no longer has the in progress craft in their possession.  "
+               "<npcname> stops crafting." ) );
+        who.cancel_activity();
+        return;
+    }
+
+    if( !target->is_craft() ) {
+        debugmsg( "ACT_CRAFT target '%s' is not a craft.  Aborting ACT_CRAFT.", target->tname() );
+        who.cancel_activity();
+        return;
+    }
+    if( !who.craft_consume_tools( *target, five_percent_steps, false ) ) {
+        // So we don't skip over any tool comsuption
+        target->item_counter -= target->item_counter % 500000 + 1;
+        who.cancel_activity();
+        return;
+    }
+}
+
+void crafting_activity_actor::do_turn( player_activity &act, Character &who )
+{
+    // item_location::get_item() will return nullptr if the item is lost
+    if( !target ) {
+        who.add_msg_player_or_npc(
+            _( "You no longer have the in progress craft in your possession.  "
+               "You stop crafting.  "
+               "Reactivate the in progress craft to continue crafting." ),
+            _( "<npcname> no longer has the in progress craft in their possession.  "
+               "<npcname> stops crafting." ) );
+        who.cancel_activity();
+        return;
+    }
+
+    if( !who.can_continue_craft( *target ) ) {
+        who.cancel_activity();
+        return;
+    }
+
+    const bool is_long = act.values[0];
+    // Current progress as a percent of base_total_moves to 2 decimal places
+    target->item_counter = progress.front().to_counter();
+    if( five_percent_steps > 0 ) {
+        who.craft_skill_gain( *target, five_percent_steps );
+    }
+
+    if( target->item_counter >= target->get_next_failure_point() ) {
+        bool destroy = target->handle_craft_failure( who );
+        // If the craft needs to be destroyed, do it and stop crafting.
+        if( destroy ) {
+            who.add_msg_player_or_npc( _( "There is nothing left of the %s to craft from." ),
+                                       _( "There is nothing left of the %s <npcname> was crafting." ), target->tname() );
+            act.targets.front()->detach();
+            who.cancel_activity();
+        }
+    }
+}
+
+void crafting_activity_actor::finish( player_activity &act, Character &who )
+{
+    //TODO!: CHEEKY check
+    item *craft_copy = &*target;
+    who.cancel_activity();
+    complete_craft( who, *craft_copy );
+    target->detach();
+    if( auto p = who.as_player(); p && is_long ) {
+        if( p->making_would_work( rec.ident(), craft_copy->charges ) ) {
+            p->last_craft->execute();
+        }
+    }
+}
