@@ -45,7 +45,6 @@ void workbench_info_wrapper::adjust_multiplier( const metric &metrics )
     multiplier_adjusted *= lerped_multiplier( metrics.second, allowed_volume, 1000_liter );
 }
 
-
 activity_reqs_adapter::activity_reqs_adapter( const recipe &rec, units::mass mass,
         units::volume volume )
 {
