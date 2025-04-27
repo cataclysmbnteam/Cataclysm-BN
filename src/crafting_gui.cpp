@@ -13,6 +13,7 @@
 #include <vector>
 
 #include "avatar.h"
+#include "Character.h"
 #include "calendar.h"
 #include "cata_utility.h"
 #include "catacharset.h"

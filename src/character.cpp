@@ -14,20 +14,21 @@
 #include <type_traits>
 
 #include "action.h"
-#include "activity_handlers.h"
 #include "activity_actor_definitions.h"
+#include "activity_handlers.h"
 #include "anatomy.h"
 #include "avatar.h"
 #include "avatar_action.h"
 #include "bionics.h"
 #include "bodypart.h"
 #include "cata_utility.h"
-#include "clothing_utils.h"
 #include "catacharset.h"
 #include "character_functions.h"
 #include "character_martial_arts.h"
 #include "character_stat.h"
+#include "clothing_utils.h"
 #include "clzones.h"
+#include "craft_command.h"
 #include "construction.h"
 #include "consumption.h"
 #include "coordinate_conversions.h"
@@ -52,17 +53,18 @@
 #include "itype.h"
 #include "iuse.h"
 #include "iuse_actor.h"
+#include "legacy_pathfinding.h"
 #include "lightmap.h"
 #include "line.h"
-#include "make_static.h"
 #include "magic_enchantment.h"
+#include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "map_selector.h"
 #include "mapdata.h"
+#include "martialarts.h"
 #include "material.h"
 #include "math_defines.h"
-#include "martialarts.h"
 #include "memorial_logger.h"
 #include "messages.h"
 #include "mission.h"
@@ -77,13 +79,12 @@
 #include "output.h"
 #include "overlay_ordering.h"
 #include "overmapbuffer.h"
-#include "legacy_pathfinding.h"
 #include "player.h"
 #include "player_activity.h"
 #include "profession.h"
 #include "recipe_dictionary.h"
-#include "ret_val.h"
 #include "regen.h"
+#include "ret_val.h"
 #include "rng.h"
 #include "scent_map.h"
 #include "skill.h"
@@ -11718,4 +11719,88 @@ int Character::item_reload_cost( const item &it, item &ammo, int qty ) const
     }
 
     return std::max( mv, 25 );
+}
+
+bool Character::studied_all_recipes( const itype &book ) const
+{
+    if( !book.book ) {
+        return true;
+    }
+    for( auto &elem : book.book->recipes ) {
+        if( !knows_recipe( elem.recipe ) ) {
+            return false;
+        }
+    }
+    return true;
+}
+
+recipe_subset Character::get_recipes_from_books( const inventory &crafting_inv,
+        const recipe_filter &filter ) const
+{
+    recipe_subset res;
+
+    for( const auto &stack : crafting_inv.const_slice() ) {
+        const item &candidate = *stack->front();
+
+        for( std::pair<const recipe *, int> recipe_entry :
+             candidate.get_available_recipes( *this ) ) {
+            if( filter && !filter( *recipe_entry.first ) ) {
+                continue;
+            }
+            res.include( recipe_entry.first, recipe_entry.second );
+        }
+    }
+
+    return res;
+}
+
+recipe_subset Character::get_available_recipes( const inventory &crafting_inv,
+        const std::vector<npc *> *helpers, recipe_filter filter ) const
+{
+    recipe_subset res;
+
+    if( filter ) {
+        res.include_if( get_learned_recipes(), filter );
+    } else {
+        res.include( get_learned_recipes() );
+    }
+
+    res.include( get_recipes_from_books( crafting_inv, filter ) );
+
+    if( helpers != nullptr ) {
+        for( npc *np : *helpers ) {
+            // Directly form the helper's inventory
+            res.include( get_recipes_from_books( np->inv.as_inventory(), filter ) );
+            // Being told what to do
+            res.include_if( np->get_learned_recipes(), [this, &filter]( const recipe & r ) {
+                if( filter && !filter( r ) ) {
+                    return false;
+                }
+                // Skilled enough to understand
+                return get_skill_level( r.skill_used ) >= static_cast<int>( r.difficulty * 0.8f );
+            } );
+        }
+    }
+
+    return res;
+}
+
+bool Character::has_recipe_requirements( const recipe &rec ) const
+{
+    return get_all_skills().has_recipe_requirements( rec );
+}
+
+int Character::has_recipe( const recipe *r, const inventory &crafting_inv,
+                           const std::vector<npc *> &helpers ) const
+{
+    if( !r->skill_used ) {
+        return 0;
+    }
+
+    if( knows_recipe( r ) ) {
+        return r->difficulty;
+    }
+
+    const auto available = get_available_recipes( crafting_inv, &helpers );
+    return available.contains( *r ) ? available.get_custom_difficulty( r ) : -1;
 }

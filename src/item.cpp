@@ -7588,7 +7588,7 @@ void item::mark_chapter_as_read( const Character &ch )
     set_var( var, remain );
 }
 
-std::vector<std::pair<const recipe *, int>> item::get_available_recipes( const player &u ) const
+std::vector<std::pair<const recipe *, int>> item::get_available_recipes( const Character &u ) const
 {
     std::vector<std::pair<const recipe *, int>> recipe_entries;
     if( is_book() ) {
