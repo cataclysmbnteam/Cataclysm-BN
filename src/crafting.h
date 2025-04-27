@@ -8,7 +8,7 @@
 #include "mapdata.h"
 #include "ret_val.h"
 #include "type_id.h"
-#include "veh_type.h"
+#include "activity_speed_adapters.h"
 
 class avatar;
 class Character;
@@ -19,16 +19,8 @@ class recipe;
 struct iuse_location;
 struct tool_comp;
 
-using metric = std::pair<units::mass, units::volume>;
-
 enum class cost_adjustment : int;
 
-enum class bench_type : int {
-    ground = 0,
-    hands,
-    furniture,
-    vehicle
-};
 
 struct bench_location {
     explicit bench_location( bench_type type, tripoint position )
@@ -37,41 +29,6 @@ struct bench_location {
     bench_type type;
     tripoint position;
 };
-
-struct workbench_info_wrapper {
-    // Base multiplier applied for crafting here
-    float multiplier = 1.0f;
-    float multiplier_adjusted = multiplier;
-    // Mass/volume allowed before a crafting speed penalty is applied
-    units::mass allowed_mass = 0_gram;
-    units::volume allowed_volume = 0_ml;
-    bench_type type = bench_type::ground;
-    workbench_info_wrapper( furn_workbench_info f_info ) : multiplier( f_info.multiplier ),
-        allowed_mass( f_info.allowed_mass ),
-        allowed_volume( f_info.allowed_volume ), type( bench_type::furniture ) {
-    }
-    workbench_info_wrapper( vpslot_workbench v_info ) : multiplier( v_info.multiplier ),
-        allowed_mass( v_info.allowed_mass ),
-        allowed_volume( v_info.allowed_volume ), type( bench_type::vehicle ) {
-    }
-    workbench_info_wrapper( float multiplier, const units::mass &allowed_mass,
-                            const units::volume &allowed_volume, const bench_type &type )
-        : multiplier( multiplier ), allowed_mass( allowed_mass ), allowed_volume( allowed_volume ),
-          type( type ) {
-    }
-
-    void adjust_multiplier( const std::pair<units::mass, units::volume> &metrics );
-};
-
-struct bench_loc {
-    workbench_info_wrapper wb_info;
-    tripoint position;
-
-    explicit bench_loc( workbench_info_wrapper info, tripoint position )
-        : wb_info( info ), position( position ) {
-    }
-};
-
 template<typename Type>
 struct comp_selection;
 

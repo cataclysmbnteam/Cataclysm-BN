@@ -1,4 +1,5 @@
 #include "activity_speed.h"
+#include "activity_speed_adapters.h"
 
 #include <optional>
 #include <utility>
@@ -8,11 +9,8 @@
 #include "character.h"
 #include "character_functions.h"
 #include "character_stat.h"
-#include "construction.h"
-#include "crafting.h"
 #include "game.h"
 #include "map.h"
-#include "recipe.h"
 #include "type_id.h"
 #include "veh_type.h"
 #include "vehicle_part.h"
@@ -284,13 +282,18 @@ void activity_speed::calc_morale_factor( const Character &who )
 
 void activity_speed::find_best_bench( const tripoint &pos, const metric metrics )
 {
+    static const std::string feature_wb = "WORKBENCH";
+    static const workbench_info_wrapper ground_bench(
+        *string_id<furn_t>( "f_ground_crafting_spot" )->workbench );
+    static const workbench_info_wrapper hands_bench(
+        *string_id<furn_t>( "f_fake_bench_hands" )->workbench );
+
     map &here = get_map();
-    std::optional<bench_loc> bench_tmp;
-    bench = bench_loc(
-                workbench_info_wrapper(
-                    *string_id<furn_t>( "f_ground_crafting_spot" )->workbench ),
-                pos );
+    bench = bench_loc( ground_bench, pos );
+    auto bench_tmp = bench_loc( hands_bench, pos );
+
     bench_factor_custom_formula( *bench, metrics );
+    bench_factor_custom_formula( bench_tmp, metrics );
 
     std::vector<tripoint> reachable( PICKUP_RANGE * PICKUP_RANGE );
     here.reachable_flood_steps( reachable, pos, PICKUP_RANGE, 1, 100 );
@@ -301,7 +304,7 @@ void activity_speed::find_best_bench( const tripoint &pos, const metric metrics 
             if( bench_tmp->wb_info.multiplier_adjusted > bench->wb_info.multiplier_adjusted ) {
                 bench = bench_tmp;
             }
-        } else if( const auto &vp = here.veh_at( adj ).part_with_feature( "WORKBENCH", true ) ) {
+        } else if( const auto &vp = here.veh_at( adj ).part_with_feature( feature_wb, true ) ) {
             if( const auto &wb_info = vp->part().info().get_workbench_info() ) {
                 bench_tmp = bench_loc( workbench_info_wrapper( *wb_info ), adj );
                 bench_factor_custom_formula( *bench_tmp, metrics );
@@ -313,32 +316,4 @@ void activity_speed::find_best_bench( const tripoint &pos, const metric metrics 
             }
         }
     }
-}
-
-activity_reqs_adapter::activity_reqs_adapter( const recipe &rec, units::mass mass,
-        units::volume volume )
-{
-    for( auto &qual : rec.simple_requirements().get_qualities() ) {
-        qualities.emplace_back( qual.front().type, qual.front().level );
-    }
-
-    skills.emplace_back( rec.skill_used, rec.difficulty );
-    for( auto &skill : rec.required_skills ) {
-        skills.emplace_back( skill.first, skill.second );
-    }
-
-    metrics = std::make_pair( mass, volume );
-}
-
-activity_reqs_adapter::activity_reqs_adapter( const construction &con )
-{
-
-    for( auto &qual : con.requirements->get_qualities() ) {
-        qualities.emplace_back( qual.front().type, qual.front().level );
-    }
-
-    for( auto &skill : con.required_skills ) {
-        skills.emplace_back( skill.first, skill.second );
-    }
-
 }

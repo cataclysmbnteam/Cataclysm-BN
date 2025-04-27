@@ -4,31 +4,20 @@
 #include <utility>
 #include <vector>
 
+#include "activity_speed_adapters.h"
 #include "activity_type.h"
 #include "character_stat.h"
-#include "crafting.h"
-#include "type_id.h"
+#include "type_id.h";
+#include "units.h"
+#include "units_mass.h"
+#include "units_volume.h"
 
 class Character;
 class inventory;
+struct tripoint;
 
-using metric = std::pair<units::mass, units::volume>;
-
-struct activity_reqs_adapter {
-    std::vector<activity_req<quality_id>> qualities;
-    std::vector<activity_req<skill_id>> skills;
-    metric metrics = std::make_pair( 0_milligram, 0_ml );
-
-    activity_reqs_adapter( const recipe &rec, units::mass mass,
-                           units::volume volume );
-
-    activity_reqs_adapter( const construction &con );
-};
-
-using q_reqs = std::vector<activity_req<quality_id>>;
 using stat_reqs = std::vector<activity_req<character_stat>>;
 using stat_factors = std::vector<std::pair<character_stat, float>>;
-using skill_reqs = std::vector<activity_req<skill_id>>;
 
 using morale_factor_fn = std::function<float( const Character & )>;
 using tools_factor_fn = std::function<float( const q_reqs &, const inventory & )>;
@@ -70,7 +59,7 @@ class activity_speed
         float tools = 1.0f;
         float morale = 1.0f;
         float light = 1.0f;
-        std::vector<std::pair<character_stat, float>> stats;
+        stat_factors stats;
 
         //Returns total product of all stats
         inline float stats_total() const {
