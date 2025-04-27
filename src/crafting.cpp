@@ -97,7 +97,7 @@ static const std::string flag_UNCRAFT_LIQUIDS_CONTAINED( "UNCRAFT_LIQUIDS_CONTAI
 
 static const std::string building_category( "CC_BUILDING" );
 
-static auto yes_filter = [&]( bool ok, const Character & )
+static auto yes_filter = []( bool ok, const Character & )
 {
     return ok;
 };
