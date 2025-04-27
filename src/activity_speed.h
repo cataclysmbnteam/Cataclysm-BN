@@ -19,13 +19,13 @@ struct tripoint;
 using stat_reqs = std::vector<activity_req<character_stat>>;
 using stat_factors = std::vector<std::pair<character_stat, float>>;
 
-using bench_factor_fn = std::function<void( bench_location &, const metric & )>;
+using bench_factor_fn = std::function<void( bench_loc &, const metric & )>;
 using morale_factor_fn = std::function<float( const Character & )>;
 using tools_factor_fn = std::function<float( const q_reqs &, const inventory & )>;
 using skills_factor_fn = std::function<float( const Character &, const skill_reqs & )>;
 using stats_factor_fn = std::function<stat_factors( const Character &, const stat_reqs & )>;
 
-static bench_factor_fn default_bench_factor = []( bench_location &bench, const metric & )
+static bench_factor_fn default_bench_factor = []( bench_loc &bench, const metric & )
 {
     bench.wb_info.multiplier_adjusted = bench.wb_info.multiplier;
 };

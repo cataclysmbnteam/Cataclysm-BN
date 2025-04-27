@@ -40,11 +40,11 @@ struct workbench_info_wrapper {
     void adjust_multiplier( const metric &metrics );
 };
 
-struct bench_location {
+struct bench_loc {
     workbench_info_wrapper wb_info;
     tripoint position;
 
-    explicit bench_location( workbench_info_wrapper info, tripoint position )
+    explicit bench_loc( workbench_info_wrapper info, tripoint position )
         : wb_info( info ), position( position ) {
     }
 };
