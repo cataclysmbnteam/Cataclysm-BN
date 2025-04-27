@@ -1,7 +1,6 @@
 #pragma once
 
 #include <functional>
-#include <list>
 #include <map>
 #include <optional>
 #include <set>
@@ -16,7 +15,6 @@
 
 class Character;
 class inventory;
-class player;
 struct construction;
 struct point;
 

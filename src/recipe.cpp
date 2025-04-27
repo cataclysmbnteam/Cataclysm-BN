@@ -10,9 +10,7 @@
 #include "assign.h"
 #include "cached_options.h"
 #include "calendar.h"
-#include "cata_utility.h"
 #include "character.h"
-#include "construction.h"
 #include "debug.h"
 #include "flag.h"
 #include "flat_set.h"
@@ -22,7 +20,6 @@
 #include "json.h"
 #include "mapgen_functions.h"
 #include "output.h"
-#include "player.h"
 #include "skill.h"
 #include "string_formatter.h"
 #include "string_id.h"
@@ -31,7 +28,6 @@
 #include "type_id.h"
 #include "uistate.h"
 #include "units.h"
-#include "value_ptr.h"
 
 
 static const itype_id itype_hotplate( "hotplate" );

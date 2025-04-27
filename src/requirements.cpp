@@ -28,7 +28,7 @@
 #include "locations.h"
 #include "make_static.h"
 #include "output.h"
-#include "Character.h"
+#include "character.h"
 #include "point.h"
 #include "salvage.h"
 #include "string_formatter.h"
