@@ -141,11 +141,13 @@
     "name": { "str": "plastic frame" },
     "item": "frame_plastic",
     "location": "structure",
+    "looks_like": "folding_frame",
     "durability": 250,
+    "folded_volume": "2500 ml",
     "description": "A plastic framework.  Other vehicle components can be mounted on it, and it can be attached to other frames to increase the vehicle's size.",
     "breaks_into": "ig_vp_plastic",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "20 m", "using": [ [ "welding_standard", 10 ] ] },
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "20 m", "using": [ [ "soldering_standard", 10 ] ] },
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "10 m", "using": "vehicle_weld_removal" },
       "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "5 m", "using": [ [ "soldering_standard", 5 ], [ "plastics", 1 ] ] }
     },
@@ -158,7 +160,9 @@
     "name": { "str": "carbon fiber frame" },
     "item": "frame_carbon",
     "location": "structure",
+    "looks_like": "folding_frame",
     "durability": 500,
+    "folded_volume": "2500 ml",
     "description": "A carbon fiber framework.  Other vehicle components can be mounted on it, and it can be attached to other frames to increase the vehicle's size.",
     "breaks_into": "ig_vp_carbon",
     "requirements": {
