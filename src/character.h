@@ -301,9 +301,6 @@ class Character : public Creature, public location_visitable<Character>
         int int_cur = 0;
         int per_cur = 0;
 
-        // id of current emote
-        efftype_id last_emote = efftype_id::NULL_ID();
-
         // The prevalence of getter, setter, and mutator functions here is partially
         // a result of the slow, piece-wise migration of the player class upwards into
         // the character class. As enough logic is moved upwards to fully separate
@@ -1661,6 +1658,7 @@ class Character : public Creature, public location_visitable<Character>
         std::list<activity_ptr> backlog;
         std::optional<tripoint> destination_point;
         itype_id last_item;
+        efftype_id last_emote;
     public:
 
         int scent = 0;

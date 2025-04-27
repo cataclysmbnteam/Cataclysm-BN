@@ -506,6 +506,7 @@ void Character::move_operator_common( Character &&source ) noexcept
     backlog = std::move( source.backlog );
     destination_point = source.destination_point ;
     last_item = source.last_item ;
+    last_emote = source.last_emote;
 
     scent = source.scent ;
     my_bionics = std::move( source.my_bionics );
