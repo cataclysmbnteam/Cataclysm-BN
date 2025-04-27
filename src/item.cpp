@@ -7603,11 +7603,11 @@ void item::mark_chapter_as_read( const Character &ch )
 
 std::vector<std::pair<const recipe *, int>> item::get_available_recipes( const player &u ) const
 {
-    std::vector<std::pair<const recipe &, int>> recipe_entries;
+    std::vector<std::pair<const recipe *, int>> recipe_entries;
     if( is_book() ) {
         for( const islot_book::recipe_with_description_t &elem : type->book->recipes ) {
-            if( elem.recipe, u.get_skill_level( elem.recipe->skill_used ) >= elem.skill_level ) {
-                recipe_entries.emplace_back( &elem.recipe, elem.skill_level );
+            if( u.get_skill_level( elem.recipe->skill_used ) >= elem.skill_level ) {
+                recipe_entries.emplace_back( elem.recipe, elem.skill_level );
             }
         }
     } else if( has_var( "EIPC_RECIPES" ) ) {

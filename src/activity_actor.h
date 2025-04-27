@@ -199,7 +199,7 @@ class activity_actor
          * Actor specific behaviour to recalc all speed values
          * Expected to be called once per target and on game load
          */
-        virtual void recalc_all_moves( player_activity &act, Character &who );
+        virtual void calc_all_moves( player_activity &act, Character &who );
 
         /**
          * Called once at the start of the activity.

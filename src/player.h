@@ -126,6 +126,38 @@ class player : public Character
          */
         detached_ptr<item> reduce_charges( item *it, int quantity );
 
+        // Checks crafting inventory for books providing the requested recipe.
+        // Then checks nearby NPCs who could provide it too.
+        // Returns -1 to indicate recipe not found, otherwise difficulty to learn.
+        int has_recipe( const recipe *r, const inventory &crafting_inv,
+                        const std::vector<npc *> &helpers ) const;
+        bool has_recipe_requirements( const recipe &rec ) const;
+
+        bool studied_all_recipes( const itype &book ) const;
+
+        /** Returns all recipes that are known from the books (either in inventory or nearby). */
+        recipe_subset get_recipes_from_books( const inventory &crafting_inv,
+                                              const recipe_filter &filter = nullptr ) const;
+        /**
+          * Returns all available recipes (from books and npc companions)
+          * @param crafting_inv Current available items to craft
+          * @param helpers List of NPCs that could help with crafting.
+          * @param filter If set, will return only recipes that match the filter (should be much faster).
+          */
+        recipe_subset get_available_recipes( const inventory &crafting_inv,
+                                             const std::vector<npc *> *helpers = nullptr,
+                                             recipe_filter filter = nullptr ) const;
+
+        std::vector<const item *> get_eligible_containers_for_crafting() const;
+        bool check_eligible_containers_for_crafting( const recipe &rec, int batch_size = 1 ) const;
+        bool can_make( const recipe *r, int batch_size = 1 );  // have components?
+        /**
+         * Returns true if the player can start crafting the recipe with the given batch size
+         * The player is not required to have enough tool charges to finish crafting, only to
+         * complete the first step (total / 20 + total % 20 charges)
+         */
+        bool can_start_craft( const recipe *rec, recipe_filter_flags, int batch_size = 1 );
+        bool making_would_work( const recipe_id &id_to_make, int batch_size );
 
         /** consume components and create an active, in progress craft containing them */
         item *start_craft( craft_command &command, const tripoint &loc );

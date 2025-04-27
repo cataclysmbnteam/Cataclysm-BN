@@ -109,7 +109,6 @@ static const activity_id ACT_CONSUME_DRINK_MENU( "ACT_CONSUME_DRINK_MENU" );
 static const activity_id ACT_CONSUME_FOOD_MENU( "ACT_CONSUME_FOOD_MENU" );
 static const activity_id ACT_CONSUME_MEDS_MENU( "ACT_CONSUME_MEDS_MENU" );
 static const activity_id ACT_CRACKING( "ACT_CRACKING" );
-static const activity_id ACT_CRAFT( "ACT_CRAFT" );
 static const activity_id ACT_DISMEMBER( "ACT_DISMEMBER" );
 static const activity_id ACT_DISSECT( "ACT_DISSECT" );
 static const activity_id ACT_EAT_MENU( "ACT_EAT_MENU" );
@@ -230,7 +229,7 @@ static const bionic_id bio_painkiller( "bio_painkiller" );
 
 static const itype_id itype_UPS( "UPS" );
 
-static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
+//static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_SPIRITUAL( "SPIRITUAL" );
 static const trait_id trait_STOCKY_TROGLO( "STOCKY_TROGLO" );
