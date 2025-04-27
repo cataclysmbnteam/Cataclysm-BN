@@ -260,7 +260,7 @@ class activity_actor
         /*
         * Checks if provided character is capable of assisting
         */
-        virtual bool assistant_capable( const Character &who ) const {
+        virtual bool assistant_capable( const Character &/*who*/ ) const {
             return true;
         }
 
