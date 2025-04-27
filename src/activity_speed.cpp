@@ -109,8 +109,7 @@ void activity_speed::calc_light_factor( const Character &who )
     light = limit_factor( 1.0f - darkness, 0.0f );
 }
 
-void activity_speed::calc_skill_factor( const Character &who,
-                                        const std::vector<activity_req<skill_id>> &skill_req )
+void activity_speed::calc_skill_factor( const Character &who, const skill_reqs &skill_req )
 {
     float ac_f = skills_factor_custom_formula( who, skill_req );
     //Any factor above 0 is valid, else - use default calc
@@ -233,8 +232,7 @@ float activity_speed::get_best_qual_mod( const activity_req<quality_id> &q,
     return  q.mod * q_level / ( q_level + 1.75f );
 }
 
-void activity_speed::calc_tools_factor( Character &who,
-                                        const std::vector<activity_req<quality_id>> &quality_reqs )
+void activity_speed::calc_tools_factor( Character &who, const q_reqs &quality_reqs )
 {
     auto &inv = who.crafting_inventory();
     float ac_f = tools_factor_custom_formula( quality_reqs, inv );

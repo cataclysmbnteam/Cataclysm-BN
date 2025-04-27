@@ -150,7 +150,9 @@ inline std::vector<npc *> &player_activity::assistants()
     return assistants_;
 }
 
-std::vector<npc *> player_activity::get_assistants( const Character &who, unsigned short max )
+std::vector<npc *> player_activity::get_assistants( const Character &who,
+        const std::function <bool( bool, const npc & )> &filter,
+        unsigned short max )
 {
     if( max < 1 ) {
         return {};
@@ -165,7 +167,7 @@ std::vector<npc *> player_activity::get_assistants( const Character &who, unsign
                   guy.activity->id() != ACT_ASSIST &&
                   rl_dist( guy.pos(), who.pos() ) < PICKUP_RANGE &&
                   get_map().clear_path( who.pos(), guy.pos(), PICKUP_RANGE, 1, 100 );
-        //ok = filter( ok, guy );
+        ok = filter( ok, guy );
         if( ok ) {
             n++;
         }
@@ -175,13 +177,24 @@ std::vector<npc *> player_activity::get_assistants( const Character &who, unsign
 
 void player_activity::get_assistants( const Character &who )
 {
-    unsigned short max = type->max_assistants();
+    auto max = type->max_assistants();
     if( max < 1 ) {
         assistants_ = {};
         return;
     }
+    std::function<bool( bool, const npc & )> filter;
 
-    assistants_ = get_assistants( who, max );
+    if( actor ) {
+        filter = [&]( bool ok, const npc & guy ) {
+            return ok && actor->assistant_capable( guy );
+        };
+    } else {
+        filter = []( bool ok, const npc & ) {
+            return ok;
+        };
+    }
+
+    assistants_ = get_assistants( who, filter, max );
     for( Character *guy : assistants_ ) {
         guy->assign_activity( std::make_unique<player_activity>
                               ( std::make_unique<assist_activity_actor>() ) );
