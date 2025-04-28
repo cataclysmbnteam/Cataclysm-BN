@@ -7,7 +7,7 @@
 #include "activity_speed_adapters.h"
 #include "activity_type.h"
 #include "character_stat.h"
-#include "type_id.h";
+#include "type_id.h"
 #include "units.h"
 #include "units_mass.h"
 #include "units_volume.h"
