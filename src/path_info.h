@@ -55,7 +55,6 @@ std::string mods_replacements();
 std::string mods_dev_default();
 std::string mods_user_default();
 std::string soundpack_conf();
-std::string lua_doc_output();
 
 std::string credits();
 std::string motd();
