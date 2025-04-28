@@ -2015,7 +2015,7 @@
         "noise": 10,
         "noise_chance": 25,
         "noise_message": "The shishkebab crackles as flames whip along its edge.",
-        "auto_extinguish_chance": 75,
+        "auto_extinguish_chance": 300,
         "auto_extinguish_message": "The flame sputters, then dies with a faint hiss.",
         "voluntary_extinguish_message": "You shut it down. The flame gutters out.",
         "charges_extinguish_message": "The fuel runs dry. The flame gutters and dies in an instant.",
