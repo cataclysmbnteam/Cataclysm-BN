@@ -2436,18 +2436,6 @@
   },
   {
     "type": "effect_type",
-    "id": "asthma_emote",
-    "looks_like": "asthma",
-    "name": ["Out of Breath (emote)"],
-    "desc": ["You're pretending to look like you're out of breath."],
-    "apply_message": "You start emoting.",
-    "remove_message": "You stop emoting.",
-    "rating": "neutral",
-    "max_duration": "999999 d",
-    "show_in_info": true
-  },
-  {
-    "type": "effect_type",
     "id": "bouldering_emote",
     "looks_like": "bouldering",
     "name": ["Bouldering (emote)"],
