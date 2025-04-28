@@ -529,12 +529,7 @@
     "book_learn": [ [ "book_icef", 4 ], [ "textbook_mechanics", 3 ] ],
     "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW_FINE", "level": 1 }, { "id": "WRENCH_FINE", "level": 1 } ],
     "using": [ [ "welding_standard", 15 ] ],
-    "components": [
-      [ [ "pilot_light", 1 ] ],
-      [ [ "pipe", 1 ] ],
-      [ [ "scrap", 3 ] ],
-      [ [ "hose", 2 ] ]
-    ]
+    "components": [ [ [ "pilot_light", 1 ] ], [ [ "pipe", 1 ] ], [ [ "scrap", 3 ] ], [ [ "hose", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -1449,13 +1444,7 @@
     "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
     "book_learn": [ [ "book_icef", 4 ], [ "textbook_mechanics", 3 ] ],
     "using": [ [ "welding_standard", 3 ] ],
-    "components": [
-      [ [ "pilot_light", 2 ] ],
-      [ [ "scrap", 6 ] ],
-      [ [ "pipe", 1 ] ],
-      [ [ "hose", 2 ] ],
-      [ [ "metal_tank_little", 1 ] ]
-    ]
+    "components": [ [ [ "pilot_light", 2 ] ], [ [ "scrap", 6 ] ], [ [ "pipe", 1 ] ], [ [ "hose", 2 ] ], [ [ "metal_tank_little", 1 ] ] ]
   },
   {
     "type": "recipe",

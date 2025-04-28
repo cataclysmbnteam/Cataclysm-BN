@@ -88,7 +88,7 @@
         { "item": "mechanics", "x": [ 32, 36 ], "y": [ 37, 37 ], "chance": 65 },
         { "item": "mechanics", "x": [ 36, 36 ], "y": [ 28, 29 ], "chance": 65 },
         { "item": "mechanics", "x": [ 36, 36 ], "y": [ 32, 33 ], "chance": 65 },
-        { "item": "mechanics", "x": [ 32, 33 ], "y": [ 28, 28 ], "chance": 65 } 
+        { "item": "mechanics", "x": [ 32, 33 ], "y": [ 28, 28 ], "chance": 65 }
       ],
       "place_vehicles": [
         { "vehicle": "motorcycle", "x": 32, "y": 30, "chance": 80, "rotation": 180 },
