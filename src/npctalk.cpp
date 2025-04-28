@@ -97,32 +97,6 @@ static const efftype_id effect_riding( "riding" );
 static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_under_op( "under_operation" );
 
-// solely used for emoting
-static const efftype_id effect_high_emote( "high_emote" );
-static const efftype_id effect_drunk_emote( "drunk_emote" );
-static const efftype_id effect_nausea_emote( "nausea_emote" );
-static const efftype_id effect_evil_emote( "evil_emote" );
-static const efftype_id effect_dazed_emote( "dazed_emote" );
-static const efftype_id effect_stunned_emote( "stunned_emote" );
-static const efftype_id effect_downed_emote( "downed_emote" );
-static const efftype_id effect_shrieking_emote( "shrieking_emote" );
-static const efftype_id effect_visuals_emote( "visuals_emote" );
-static const efftype_id effect_asthma_emote( "asthma_emote" );
-static const efftype_id effect_temp_emote( "temp_emote" );
-static const efftype_id effect_bouldering_emote( "bouldering_emote" );
-static const efftype_id effect_winded_emote( "winded_emote" );
-static const efftype_id effect_playing_instrument_emote( "playing_instrument_emote" );
-static const efftype_id effect_morale_wet_emote( "morale_wet_emote" );
-static const efftype_id effect_glare_emote( "glare_emote" );
-static const efftype_id effect_bleed_emote( "bleed_emote" );
-static const efftype_id effect_poison_emote( "poison_emote" );
-static const efftype_id effect_glowing_emote( "glowing_emote" );
-static const efftype_id effect_teargas_emote( "teargas_emote" );
-static const efftype_id effect_sleep_emote( "sleep_emote" );
-static const efftype_id effect_heart_emote( "heart_emote" );
-
-
-
 static const itype_id fuel_type_animal( "animal" );
 
 static const zone_type_id zone_type_npc_investigate_only( "NPC_INVESTIGATE_ONLY" );
@@ -246,37 +220,6 @@ enum npc_chat_menu {
     NPC_CHAT_COMMAND_MAGIC_VEHICLE_FOLLOW,
     NPC_CHAT_COMMAND_MAGIC_VEHICLE_STOP_FOLLOW
 };
-
-
-
-// "overlay_effect_docile" is a grey heart we could maybe add
-// "overlay_effect_pacified" looks like nanotrasen rep
-enum emote_menu {
-    EMOTE_CLEAR,
-    EMOTE_SLEEPY,
-    EMOTE_EVIL,
-    EMOTE_DRUNK,
-    EMOTE_NAUSEA,
-    EMOTE_HIGH,
-    EMOTE_DAZED,
-    EMOTE_STUNNED,
-    EMOTE_DOWNED,
-    EMOTE_SHRIEKING,
-    EMOTE_VISUALS,
-    EMOTE_ASTHMA,
-    EMOTE_TEMP,
-    EMOTE_BOULDERING,
-    EMOTE_WINDED,
-    EMOTE_PET,
-    EMOTE_PLAYING_INSTRUMENT,
-    EMOTE_GLARE,
-    EMOTE_POISON,
-    EMOTE_TEARGAS,
-    EMOTE_BLEED,
-    EMOTE_GLOWING,
-    EMOTE_MORALE_WET
-};
-
 
 // given a vector of NPCs, presents a menu to allow a player to pick one.
 // everyone == true adds another entry at the end to allow selecting all listed NPCs
@@ -457,9 +400,8 @@ static void tell_magic_veh_stop_following()
 
 bool handle_emote( player &u, efftype_id effect, int emote_choice )
 {
-    //u.add_msg_if_player( m_info, _( "(DEBUG) Attempting emote..." ) );
     // player wants to clear effect
-    if( emote_choice == EMOTE_CLEAR ) {
+    if( emote_choice == 'a' ) {
         u.remove_effect( u.last_emote );
         u.last_emote = efftype_id::NULL_ID();
         return false;
@@ -472,7 +414,6 @@ bool handle_emote( player &u, efftype_id effect, int emote_choice )
     }
     // decide whether to apply permanently or temporarily
     bool permanent = u.has_effect( effect );
-    //u.add_msg_if_player( m_info, _( "Has effect: %s" ), permanent );
     if( permanent ) {
         u.add_effect( effect, 9999_days, bodypart_str_id::NULL_ID() );
         u.add_msg_if_player( _( "You will keep emoting." ) );
@@ -612,7 +553,7 @@ void game::chat()
             emenu.text = std::string( _( "Emote what status effect?" ) );
 
             // category: utility
-            emenu.addentry( EMOTE_CLEAR, true, 'a', _( "Clear" ) );
+            emenu.addentry( 'a', true, 'a', _( "Clear" ) );
 
             std::vector<efftype_id> all_effects = find_all_effect_types();
             char key = 'b';
