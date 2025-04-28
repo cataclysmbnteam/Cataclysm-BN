@@ -1294,11 +1294,6 @@
   },
   {
     "type": "recipe",
-    "result": "battletorch",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
     "result": "shishkebab_off",
     "obsolete": true
   },

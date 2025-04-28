@@ -529,5 +529,41 @@
       [ [ "wire", 1 ], [ "wire_barbed", 1 ], [ "spike", 4 ], [ "nail", 20 ] ],
       [ [ "fabric_standard", 1, "LIST" ], [ "felt_patch", 1 ], [ "fabric_hides_any", 1, "LIST" ] ]
     ]
+  },
+  {
+    "type" : "recipe",
+    "result": "battletorch",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_BASHING",
+    "difficulty": 0,
+    "time": "20 m",
+    "reversible": true,
+    "autolearn": true,
+    "components": [
+      [
+        [ "bat", 1 ]
+      ],
+      [
+        [ "nomex", 5 ]
+      ],
+      [
+        [ "gasoline", 200 ],
+        [ "diesel", 200 ],
+        [ "lamp_oil", 100 ],
+        [ "vodka", 7 ],
+        [ "rum", 7 ],
+        [ "whiskey", 7 ],
+        [ "single_malt_whiskey", 7 ],
+        [ "tequila", 7 ],
+        [ "gin", 7 ],
+        [ "moonshine", 7 ],
+        [ "brandy", 7 ],
+        [ "tallow", 1 ],
+        [ "tallow_tainted", 1 ]
+      ],
+      [
+        [ "rag", 1 ]
+      ]
+    ]
   }
 ]

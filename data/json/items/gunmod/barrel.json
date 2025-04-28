@@ -95,10 +95,13 @@
     "mod_target_category": [
       [ "SUBMACHINE_GUNS" ],
       [ "RIFLES" ],
+      [ "PISTOLS" ],
       [ "MACHINE_GUNS" ],
       [ "SHOTGUNS" ],
       [ "GRENADE_LAUNCHERS" ],
-      [ "M_XBOWS" ]
+      [ "ROCKET_LAUNCHERS" ],
+      [ "M_XBOWS" ],
+      [ "GATLING_GUNS" ]
     ],
     "gun_data": { "ammo": "flammable", "skill": "launcher", "dispersion": 300, "durability": 10, "reload_noise": "slosh." },
     "magazine_well": "250 ml",
