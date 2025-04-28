@@ -625,18 +625,20 @@ void game::chat()
             for( const efftype_id &effect_id : all_effects ) {
                 const effect_type &etype = effect_id.obj();
                 std::string effect_str = effect_id.str();  // This gets the string ID.
-                
-                if (effect_str.length() >= 6 && effect_str.rfind("_emote") == effect_str.length() - 6){
+
+                if( effect_str.length() >= 6 && effect_str.rfind( "_emote" ) == effect_str.length() - 6 ) {
                     // Create a temporary effect to get the display name
                     effect temp_effect( &etype, 0_turns, bodypart_str_id::NULL_ID(), 1, calendar::turn_zero );
                     std::string display_name = temp_effect.disp_name();
 
                     // Remove the "(emote)" suffix if present
                     const std::string emote_suffix = " (emote)";
-                    if( display_name.size() >= emote_suffix.size() && display_name.compare( display_name.size() - emote_suffix.size(), emote_suffix.size(), emote_suffix ) == 0 ) {
+                    if( display_name.size() >= emote_suffix.size() &&
+                        display_name.compare( display_name.size() - emote_suffix.size(), emote_suffix.size(),
+                                              emote_suffix ) == 0 ) {
                         display_name.erase( display_name.size() - emote_suffix.size() );
                     }
-                    
+
                     // Dynamically add to the emote map
                     dynamic_emote_map[effect_id] = display_name;
                     dynamic_emote_key_map[key] = effect_id; // Map the key to the efftype_id
@@ -648,7 +650,7 @@ void game::chat()
                     key++;
                 }
             }
-            
+
             emenu.query();
 
             if( emenu.ret < 0 ) {
@@ -656,14 +658,15 @@ void game::chat()
             }
 
             efftype_id selected_effect_id;
-            if (dynamic_emote_key_map.find(emenu.ret) != dynamic_emote_key_map.end()) {
+            if( dynamic_emote_key_map.find( emenu.ret ) != dynamic_emote_key_map.end() ) {
                 selected_effect_id = dynamic_emote_key_map[emenu.ret]; // Get the efftype_id using the int key
                 // Now, handle the emote dynamically
                 handle_emote( u, selected_effect_id, emenu.ret );
             } else {
                 // If no matching key found in the map
                 // Handle the case where no valid emote was selected
-                handle_emote( u, efftype_id::NULL_ID(), emenu.ret ); // Assuming `NULL_ID()` is a placeholder for "no effect"
+                handle_emote( u, efftype_id::NULL_ID(),
+                              emenu.ret ); // Assuming `NULL_ID()` is a placeholder for "no effect"
             }
 
 
