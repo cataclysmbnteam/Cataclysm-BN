@@ -599,7 +599,7 @@ void game::chat()
             }
 
             efftype_id selected_effect_id;
-            if( dynamic_emote_key_map.find( emenu.ret ) != dynamic_emote_key_map.end() ) {
+            if( dynamic_emote_key_map.contains( emenu.ret ) ) {
                 selected_effect_id = dynamic_emote_key_map[emenu.ret]; // Get the efftype_id using the int key
                 // Now, handle the emote dynamically
                 handle_emote( u, selected_effect_id, emenu.ret );
