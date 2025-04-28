@@ -97,9 +97,8 @@
       [ "RIFLES" ],
       [ "MACHINE_GUNS" ],
       [ "SHOTGUNS" ],
-      [ "PISTOLS" ],
       [ "GRENADE_LAUNCHERS" ],
-      [ "GATLING_GUNS" ]
+      [ "M_XBOWS" ]
     ],
     "gun_data": { "ammo": "flammable", "skill": "launcher", "dispersion": 300, "durability": 10, "reload_noise": "slosh." },
     "magazine_well": "250 ml",
