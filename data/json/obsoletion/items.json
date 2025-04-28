@@ -343,22 +343,6 @@
     "flags": [ "NEVER_JAMS", "INSTALL_DIFFICULT", "IRREMOVABLE" ]
   },
   {
-    "id": "flamethrower_crude",
-    "copy-from": "flamethrower_base",
-    "type": "GUN",
-    "name": { "str": "spraycan flamethrower" },
-    "description": "A favorite of hooligans around the world, this lighter duct-taped to a spray can is probably as dangerous to the user as anyone else.  The nozzle has been crudely modified to disperse gasoline, and a small pump attached to the side allows for repressurization, though this process takes a few minutes.",
-    "weight": "500 g",
-    "volume": "500 ml",
-    "price": "160 USD",
-    "material": "steel",
-    "range": -2,
-    "dispersion": 300,
-    "clip_size": 100,
-    "valid_mod_locations": [ [ "sling", 1 ], [ "stock", 1 ], [ "rail", 1 ] ],
-    "relative": { "reload": 4 }
-  },
-  {
     "type": "effect_type",
     "id": "magnesium",
     "name": [ "Magnesium Supplements" ],
