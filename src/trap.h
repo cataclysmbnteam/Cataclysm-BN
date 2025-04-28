@@ -264,8 +264,8 @@ struct trap {
         static void check_consistency();
         /*@}*/
         static size_t count();
-        
-        LUA_TYPE_OPS(trap, id);
+
+        LUA_TYPE_OPS( trap, id );
 };
 
 const trap_function &trap_function_from_string( const std::string &function_name );

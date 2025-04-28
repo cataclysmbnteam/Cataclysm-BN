@@ -552,8 +552,8 @@ void cata::detail::reg_map( sol::state &lua )
             return m.add_field( p, fid, intensity, age );
         } );
         luna::set_fx( ut, "remove_field_at", &map::remove_field );
-        luna::set_fx( ut, "get_trap_at", []( map & m, const tripoint & p) -> trap_id {
-            return m.tr_at(p).loadid;
+        luna::set_fx( ut, "get_trap_at", []( map & m, const tripoint & p ) -> trap_id {
+            return m.tr_at( p ).loadid;
         } );
         DOC( "Set a trap at a position on the map. It can also replace existing trap, even with `trap_null`." );
         luna::set_fx( ut, "set_trap_at", &map::trap_set );
