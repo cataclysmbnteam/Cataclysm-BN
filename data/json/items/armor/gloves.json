@@ -594,6 +594,7 @@
     "warmth": 10,
     "material_thickness": 3,
     "environmental_protection": 8,
+    "qualities": [ [ "HV_INSULATION", 1 ] ],
     "flags": [ "WATERPROOF" ]
   },
   {

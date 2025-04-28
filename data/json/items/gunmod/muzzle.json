@@ -41,7 +41,7 @@
     "location": "muzzle",
     "mod_target_category": [ [ "RIFLES" ], [ "MACHINE_GUNS" ], [ "GATLING_GUNS" ], [ "SHOTGUNS" ] ],
     "dispersion_modifier": 25,
-    "handling_modifier": 15,
+    "handling_modifier": 10,
     "loudness_modifier": 30
   },
   {
@@ -79,7 +79,6 @@
     "consume_chance": 20,
     "consume_divisor": 110,
     "dispersion_modifier": 50,
-    "handling_modifier": 5,
     "loudness_modifier": -45,
     "flags": [ "DISABLE_SIGHTS", "CONSUMABLE" ]
   },
@@ -102,7 +101,6 @@
     "consume_chance": 100,
     "consume_divisor": 40,
     "dispersion_modifier": 100,
-    "handling_modifier": 5,
     "loudness_modifier": -20,
     "flags": [ "DISABLE_SIGHTS", "CONSUMABLE" ]
   },
@@ -138,7 +136,7 @@
     "price_postapoc": "15 USD",
     "material": [ "superalloy", "ceramic" ],
     "mod_target_category": [ [ "RIFLES" ], [ "MACHINE_GUNS" ], [ "GATLING_GUNS" ] ],
-    "handling_modifier": 0,
+    "handling_modifier": 5,
     "proportional": { "loudness_modifier": 10 },
     "flags": [ "IRREMOVABLE" ]
   },
@@ -159,7 +157,7 @@
     "color": "dark_gray",
     "location": "muzzle",
     "mod_target_category": [ [ "SHOTGUNS" ] ],
-    "handling_modifier": 10,
+    "handling_modifier": -5,
     "loudness_modifier": -75
   },
   {
@@ -182,7 +180,6 @@
     "consume_chance": 20,
     "consume_divisor": 110,
     "dispersion_modifier": 75,
-    "handling_modifier": 5,
     "loudness_modifier": -45,
     "flags": [ "DISABLE_SIGHTS", "CONSUMABLE" ]
   },
