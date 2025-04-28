@@ -398,32 +398,27 @@ static void tell_magic_veh_stop_following()
     }
 }
 
-bool handle_emote( player &u, efftype_id effect, int emote_choice )
+static bool handle_emote( player &u, efftype_id effect, int emote_choice )
 {
     // player wants to clear effect
     if( emote_choice == 'a' ) {
         u.remove_effect( u.last_emote );
         u.last_emote = efftype_id::NULL_ID();
         return false;
-    }
-    // if player is still emoting from last emote, clear it
-    else {
-        if( u.has_effect( u.last_emote ) && !( u.last_emote == effect ) ) {
-            u.remove_effect( u.last_emote );
-        }
+    } else if( u.has_effect( u.last_emote ) && !( u.last_emote == effect ) ) {
+        // if player is still emoting from last emote, clear it
+        u.remove_effect( u.last_emote );
     }
     // decide whether to apply permanently or temporarily
-    bool permanent = u.has_effect( effect );
+    const bool permanent = u.has_effect( effect );
     if( permanent ) {
         u.add_effect( effect, 9999_days, bodypart_str_id::NULL_ID() );
         u.add_msg_if_player( _( "You will keep emoting." ) );
-        u.last_emote = effect;
-        return true;
     } else {
         u.add_effect( effect, 30_seconds, bodypart_str_id::NULL_ID() );
-        u.last_emote = effect;
-        return true;
     }
+    u.last_emote = effect;
+    return true;
 }
 
 void game::chat()
@@ -565,31 +560,27 @@ void game::chat()
             // Iterate through all effect types to create dynamic emote entries
             for( const efftype_id &effect_id : all_effects ) {
                 const effect_type &etype = effect_id.obj();
-                std::string effect_str = effect_id.str();  // This gets the string ID.
+                std::string effect_str = effect_id.str();
 
-                if( effect_str.length() >= 6 && effect_str.rfind( "_emote" ) == effect_str.length() - 6 ) {
-                    // Create a temporary effect to get the display name
-                    effect temp_effect( &etype, 0_turns, bodypart_str_id::NULL_ID(), 1, calendar::turn_zero );
-                    std::string display_name = temp_effect.disp_name();
-
-                    // Remove the "(emote)" suffix if present
-                    const std::string emote_suffix = " (emote)";
-                    if( display_name.size() >= emote_suffix.size() &&
-                        display_name.compare( display_name.size() - emote_suffix.size(), emote_suffix.size(),
-                                              emote_suffix ) == 0 ) {
-                        display_name.erase( display_name.size() - emote_suffix.size() );
-                    }
-
-                    // Dynamically add to the emote map
-                    dynamic_emote_map[effect_id] = display_name;
-                    dynamic_emote_key_map[key] = effect_id; // Map the key to the efftype_id
-
-                    // Add the entry to the menu dynamically
-                    emenu.addentry( key, true, key, _( display_name ) );
-
-                    // Increment the key for the next emote
-                    key++;
+                if( !effect_str.ends_with( "_emote" ) ) {
+                    continue;
                 }
+
+                // Create a temporary effect to get the display name
+                effect temp_effect( &etype, 0_turns, bodypart_str_id::NULL_ID(), 1, calendar::turn_zero );
+                std::string display_name = temp_effect.disp_name();
+
+                replace_first( display_name, " (emote)", "" );
+
+                // Dynamically add to the emote map
+                dynamic_emote_map[effect_id] = display_name;
+                dynamic_emote_key_map[key] = effect_id;
+
+                // Add the entry to the menu dynamically
+                emenu.addentry( key, true, key, _( display_name ) );
+
+                // Increment the key for the next emote
+                key++;
             }
 
             emenu.query();
@@ -598,18 +589,12 @@ void game::chat()
                 return;
             }
 
-            efftype_id selected_effect_id;
+            // Assuming `NULL_ID()` is a placeholder for "no effect"
+            efftype_id selected_effect_id = efftype_id::NULL_ID();
             if( dynamic_emote_key_map.contains( emenu.ret ) ) {
                 selected_effect_id = dynamic_emote_key_map[emenu.ret]; // Get the efftype_id using the int key
-                // Now, handle the emote dynamically
-                handle_emote( u, selected_effect_id, emenu.ret );
-            } else {
-                // If no matching key found in the map
-                // Handle the case where no valid emote was selected
-                handle_emote( u, efftype_id::NULL_ID(),
-                              emenu.ret ); // Assuming `NULL_ID()` is a placeholder for "no effect"
             }
-
+            handle_emote( u, selected_effect_id, emenu.ret );
 
             break;
         }

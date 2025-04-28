@@ -3677,11 +3677,9 @@ std::vector<std::string> Character::get_overlay_ids() const
     // first get effects
     for( const auto &eff_pr : *effects ) {
         if( !eff_pr.second.begin()->second.is_removed() ) {
-            if( eff_pr.first.obj().get_looks_like() != "" ) {
-                rval.emplace_back( "effect_" + eff_pr.first.obj().get_looks_like() );
-            } else {
-                rval.emplace_back( "effect_" + eff_pr.first.str() );
-            }
+            const std::string &looks_like = eff_pr.first.obj().get_looks_like();
+
+            rval.emplace_back( "effect_" + ( looks_like.empty() ? eff_pr.first.str() : looks_like ) );
         }
     }
 
