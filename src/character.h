@@ -677,6 +677,7 @@ class Character : public Creature, public location_visitable<Character>
         int attack_cost( const item &weap ) const;
         /** Gets melee accuracy component from weapon+skills */
         float get_hit_weapon( const item &weap, const attack_statblock &attack ) const;
+
     private:
         /** Check if an area-of-effect technique has valid targets */
         bool valid_aoe_technique( Creature &t, const ma_technique &technique );
