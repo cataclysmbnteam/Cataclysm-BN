@@ -94,7 +94,6 @@ static const std::string flag_LADDER( "LADDER" );
 
 bool avatar_action::move( avatar &you, map &m, const tripoint &d )
 {
-
     if( ( !g->check_safe_mode_allowed() ) || you.has_active_mutation( trait_SHELL2 ) ) {
         if( you.has_active_mutation( trait_SHELL2 ) ) {
             add_msg( m_warning, _( "You can't move while in your shell.  Deactivate it to go mobile." ) );

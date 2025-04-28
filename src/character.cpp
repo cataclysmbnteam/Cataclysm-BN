@@ -3674,7 +3674,6 @@ std::vector<std::string> Character::get_overlay_ids() const
     int order;
     std::string overlay_id;
 
-
     // first get effects
     for( const auto &eff_pr : *effects ) {
         if( !eff_pr.second.begin()->second.is_removed() ) {
