@@ -2298,7 +2298,7 @@
     "name": [ "Dazed (emote)" ],
     "desc": [ "You're pretending to look dazed." ],
     "apply_message": "You start emoting.",
-    "remove_message": "The stop emoting.",
+    "remove_message": "You stop emoting.",
     "rating": "neutral",
     "max_duration": "999999 d",
     "show_in_info": true
@@ -2310,7 +2310,7 @@
     "name": [ "High (emote)" ],
     "desc": [ "You're pretending to look high." ],
     "apply_message": "You start emoting.",
-    "remove_message": "The stop emoting.",
+    "remove_message": "You stop emoting.",
     "rating": "neutral",
     "max_duration": "999999 d",
     "show_in_info": true
@@ -2322,7 +2322,7 @@
     "name": [ "Drunk (emote)" ],
     "desc": [ "You're pretending to look drunk." ],
     "apply_message": "You start emoting.",
-    "remove_message": "The stop emoting.",
+    "remove_message": "You stop emoting.",
     "rating": "neutral",
     "max_duration": "999999 d",
     "show_in_info": true
@@ -2334,7 +2334,7 @@
     "name": [ "Evil Aura (emote)" ],
     "desc": [ "You're pretending to look evil." ],
     "apply_message": "You start emoting.",
-    "remove_message": "The stop emoting.",
+    "remove_message": "You stop emoting.",
     "rating": "neutral",
     "max_duration": "999999 d",
     "show_in_info": true
@@ -2346,7 +2346,7 @@
     "name": [ "In love (emote)" ],
     "desc": [ "You're pretending to look in love." ],
     "apply_message": "You start emoting.",
-    "remove_message": "The stop emoting.",
+    "remove_message": "You stop emoting.",
     "rating": "neutral",
     "max_duration": "999999 d",
     "show_in_info": true
@@ -2358,7 +2358,7 @@
     "name": [ "Nausea (emote)" ],
     "desc": [ "You're pretending to look nauseous." ],
     "apply_message": "You start emoting.",
-    "remove_message": "The stop emoting.",
+    "remove_message": "You stop emoting.",
     "rating": "neutral",
     "max_duration": "999999 d",
     "show_in_info": true
@@ -2370,7 +2370,7 @@
     "name": [ "Laying down (emote)" ],
     "desc": [ "You're laying down on the ground." ],
     "apply_message": "You start emoting.",
-    "remove_message": "The stop emoting.",
+    "remove_message": "You stop emoting.",
     "rating": "neutral",
     "max_duration": "999999 d",
     "show_in_info": true
@@ -2379,10 +2379,10 @@
     "type": "effect_type",
     "id": "stunned_emote",
     "looks_like": "stunned",
-    "name": [ "Laying down (emote)" ],
+    "name": [ "Stunned (emote)" ],
     "desc": [ "You're pretending to look stunned." ],
     "apply_message": "You start emoting.",
-    "remove_message": "The stop emoting.",
+    "remove_message": "You stop emoting.",
     "rating": "neutral",
     "max_duration": "999999 d",
     "show_in_info": true
@@ -2394,7 +2394,7 @@
     "name": [ "Shrieking (emote)" ],
     "desc": [ "You're pretending to look terrified or angry." ],
     "apply_message": "You start emoting.",
-    "remove_message": "The stop emoting.",
+    "remove_message": "You stop emoting.",
     "rating": "neutral",
     "max_duration": "999999 d",
     "show_in_info": true
@@ -2406,7 +2406,7 @@
     "name": [ "Tweaking (emote)" ],
     "desc": [ "You're pretending to look like you're tweaking." ],
     "apply_message": "You start emoting.",
-    "remove_message": "The stop emoting.",
+    "remove_message": "You stop emoting.",
     "rating": "neutral",
     "max_duration": "999999 d",
     "show_in_info": true
@@ -2418,19 +2418,7 @@
     "name": [ "Out of Breath (emote)" ],
     "desc": [ "You're pretending to look like you're out of breath." ],
     "apply_message": "You start emoting.",
-    "remove_message": "The stop emoting.",
-    "rating": "neutral",
-    "max_duration": "999999 d",
-    "show_in_info": true
-  },
-  {
-    "type": "effect_type",
-    "id": "temp_emote",
-    "looks_like": "temp",
-    "name": [ "Debug (emote)" ],
-    "desc": [ "This is a debug emote. If you have this during normal gameplay it's a bug." ],
-    "apply_message": "You start emoting.",
-    "remove_message": "The stop emoting.",
+    "remove_message": "You stop emoting.",
     "rating": "neutral",
     "max_duration": "999999 d",
     "show_in_info": true
@@ -2442,7 +2430,7 @@
     "name": [ "Bouldering (emote)" ],
     "desc": [ "You're pretending to look like you can't find your footing." ],
     "apply_message": "You start emoting.",
-    "remove_message": "The stop emoting.",
+    "remove_message": "You stop emoting.",
     "rating": "neutral",
     "max_duration": "999999 d",
     "show_in_info": true
@@ -2454,7 +2442,7 @@
     "name": [ "Winded (emote)" ],
     "desc": [ "You're pretending to look like you're winded." ],
     "apply_message": "You start emoting.",
-    "remove_message": "The stop emoting.",
+    "remove_message": "You stop emoting.",
     "rating": "neutral",
     "max_duration": "999999 d",
     "show_in_info": true
@@ -2466,7 +2454,7 @@
     "name": [ "Musical (emote)" ],
     "desc": [ "You're surrounded by musical notes. (Atleast, in your imagination.)" ],
     "apply_message": "You start emoting.",
-    "remove_message": "The stop emoting.",
+    "remove_message": "You stop emoting.",
     "rating": "neutral",
     "max_duration": "999999 d",
     "show_in_info": true
@@ -2478,7 +2466,7 @@
     "name": [ "Wet (emote)" ],
     "desc": [ "You're pretending to look like you're wet." ],
     "apply_message": "You start emoting.",
-    "remove_message": "The stop emoting.",
+    "remove_message": "You stop emoting.",
     "rating": "neutral",
     "max_duration": "999999 d",
     "show_in_info": true
@@ -2490,7 +2478,7 @@
     "name": [ "Beauty (emote)" ],
     "desc": [ "You're pretending to look like you're beautiful. :(" ],
     "apply_message": "You start emoting.",
-    "remove_message": "The stop emoting.",
+    "remove_message": "You stop emoting.",
     "rating": "neutral",
     "max_duration": "999999 d",
     "show_in_info": true
@@ -2502,7 +2490,7 @@
     "name": [ "Poison (emote)" ],
     "desc": [ "You're pretending to look like you've been poisoned." ],
     "apply_message": "You start emoting.",
-    "remove_message": "The stop emoting.",
+    "remove_message": "You stop emoting.",
     "rating": "neutral",
     "max_duration": "999999 d",
     "show_in_info": true
@@ -2514,7 +2502,7 @@
     "name": [ "Glowing Aura (emote)" ],
     "desc": [ "You're radiating a glowing aura." ],
     "apply_message": "You start emoting.",
-    "remove_message": "The stop emoting.",
+    "remove_message": "You stop emoting.",
     "rating": "neutral",
     "max_duration": "999999 d",
     "show_in_info": true
@@ -2526,7 +2514,7 @@
     "name": [ "Teargas (emote)" ],
     "desc": [ "You're pretending to look like you've been teargassed." ],
     "apply_message": "You start emoting.",
-    "remove_message": "The stop emoting.",
+    "remove_message": "You stop emoting.",
     "rating": "neutral",
     "max_duration": "999999 d",
     "show_in_info": true
@@ -2538,7 +2526,7 @@
     "name": [ "Tired (emote)" ],
     "desc": [ "You're pretending to look like you're tired." ],
     "apply_message": "You start emoting.",
-    "remove_message": "The stop emoting.",
+    "remove_message": "You stop emoting.",
     "rating": "neutral",
     "max_duration": "999999 d",
     "show_in_info": true
@@ -2550,7 +2538,7 @@
     "name": [ "Bleeding (emote)" ],
     "desc": [ "You're pretending you're bleeding." ],
     "apply_message": "You start emoting.",
-    "remove_message": "The stop emoting.",
+    "remove_message": "You stop emoting.",
     "rating": "neutral",
     "max_duration": "999999 d",
     "show_in_info": true

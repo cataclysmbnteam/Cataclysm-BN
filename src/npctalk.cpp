@@ -97,7 +97,6 @@ static const efftype_id effect_riding( "riding" );
 static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_under_op( "under_operation" );
 
-
 // solely used for emoting
 static const efftype_id effect_high_emote( "high_emote" );
 static const efftype_id effect_drunk_emote( "drunk_emote" );
@@ -278,6 +277,7 @@ enum emote_menu {
     EMOTE_MORALE_WET
 };
 
+
 // given a vector of NPCs, presents a menu to allow a player to pick one.
 // everyone == true adds another entry at the end to allow selecting all listed NPCs
 // this implies a return value of npc_list.size() means "everyone"
@@ -455,7 +455,7 @@ static void tell_magic_veh_stop_following()
     }
 }
 
-bool handle_emote( player &u, efftype_id effect, emote_menu emote_choice )
+bool handle_emote( player &u, efftype_id effect, int emote_choice )
 {
     //u.add_msg_if_player( m_info, _( "(DEBUG) Attempting emote..." ) );
     // player wants to clear effect
@@ -614,147 +614,58 @@ void game::chat()
             // category: utility
             emenu.addentry( EMOTE_CLEAR, true, 'a', _( "Clear" ) );
 
-            // category: emotional state
-            emenu.addentry( EMOTE_EVIL, true, 'b', _( "Evil aura" ) );
-            emenu.addentry( EMOTE_GLOWING, true, 'c', _( "Glowing aura" ) );
-            emenu.addentry( EMOTE_PET, true, 'd', _( "In love" ) );
-            emenu.addentry( EMOTE_GLARE, true, 'e', _( "Beauty" ) );
+            std::vector<efftype_id> all_effects = find_all_effect_types();
+            char key = 'b';
 
-            // category: physical conditions
-            emenu.addentry( EMOTE_SLEEPY, true, 'f', _( "Tired" ) );
-            emenu.addentry( EMOTE_STUNNED, true, 'g', _( "Stunned" ) );
-            emenu.addentry( EMOTE_DAZED, true, 'h', _( "Dazed" ) );
-            emenu.addentry( EMOTE_WINDED, true, 'i', _( "Winded" ) );
-            emenu.addentry( EMOTE_SHRIEKING, true, 'j', _( "Shrieking" ) );
+            // This map will hold dynamic emote entries
+            std::map<efftype_id, std::string> dynamic_emote_map;
+            std::map<int, efftype_id> dynamic_emote_key_map; // Map from menu key (int) to efftype_id
 
-            // category: illness
-            emenu.addentry( EMOTE_NAUSEA, true, 'k', _( "Nauseous" ) );
-            emenu.addentry( EMOTE_POISON, true, 'l', _( "Poison" ) );
-            emenu.addentry( EMOTE_TEARGAS, true, 'm', _( "Teargas" ) );
-            emenu.addentry( EMOTE_BLEED, true, 'n', _( "Bleed" ) );
-            emenu.addentry( EMOTE_ASTHMA, true, 'o', _( "Out of breath" ) );
-            emenu.addentry( EMOTE_MORALE_WET, true, 'p', _( "Thirsty" ) );
+            // Iterate through all effect types to create dynamic emote entries
+            for( const efftype_id &effect_id : all_effects ) {
+                const effect_type &etype = effect_id.obj();
+                std::string effect_str = effect_id.str();  // This gets the string ID.
+                
+                if (effect_str.length() >= 6 && effect_str.rfind("_emote") == effect_str.length() - 6){
+                    // Create a temporary effect to get the display name
+                    effect temp_effect( &etype, 0_turns, bodypart_str_id::NULL_ID(), 1, calendar::turn_zero );
+                    std::string display_name = temp_effect.disp_name();
 
-            // category: sensory/mental effects
-            emenu.addentry( EMOTE_HIGH, true, 'q', _( "High" ) );
-            emenu.addentry( EMOTE_DRUNK, true, 'r', _( "Drunk" ) );
-            emenu.addentry( EMOTE_VISUALS, true, 's', _( "Tweaking" ) );
+                    // Remove the "(emote)" suffix if present
+                    const std::string emote_suffix = " (emote)";
+                    if( display_name.size() >= emote_suffix.size() && display_name.compare( display_name.size() - emote_suffix.size(), emote_suffix.size(), emote_suffix ) == 0 ) {
+                        display_name.erase( display_name.size() - emote_suffix.size() );
+                    }
+                    
+                    // Dynamically add to the emote map
+                    dynamic_emote_map[effect_id] = display_name;
+                    dynamic_emote_key_map[key] = effect_id; // Map the key to the efftype_id
 
-            // category: actions
-            emenu.addentry( EMOTE_PLAYING_INSTRUMENT, true, 't', _( "Music" ) );
-            emenu.addentry( EMOTE_BOULDERING, true, 'u', _( "Bouldering" ) );
-            emenu.addentry( EMOTE_DOWNED, true, 'v', _( "Laying down" ) );
+                    // Add the entry to the menu dynamically
+                    emenu.addentry( key, true, key, _( display_name ) );
 
-            // category: debug
-            if( u.has_trait( trait_DEBUG_MIND_CONTROL ) ) {
-                emenu.addentry( EMOTE_TEMP, true, 'Z',
-                                _( "Debug (All/Temp)" ) ); // shows almost all effects at once
+                    // Increment the key for the next emote
+                    key++;
+                }
             }
-
-            // these work (not an exhaustive list though), but we don't want them for our purposes probably
-            // reasons are generally they would effect player experience (not knowing someone was on fire, bleeding, or grabbed)
-            // or just don't look good/are too nonsensical (emoting bursting into flames, the cold/flu ones) but could be enabled
-            // with a hardcoded mod if someone wanted them
-
-            //emenu.addentry( EMOTE_MILKED, true, 'B', _( "Milked" ) ); // gross
-            //emenu.addentry( EMOTE_SLIMED, true, 'z', _( "Slimed" ) ); // like webbed and on fire, not an actual 'emote' style overlay
-            //emenu.addentry( EMOTE_TELEGLOW, true, 'x', _( "Teleglow" ) ); // floating eye
-            //emenu.addentry( EMOTE_ONFIRE, true, 'g', _( "On Fire" ) ); // flames
-            //emenu.addentry( EMOTE_HOT, true, 'k', _( "Hot" ) ); // could hurt gameplay
-            //emenu.addentry( EMOTE_COLD, true, 'l', _( "Cold" ) ); // could hurt gameplay
-            //emenu.addentry( EMOTE_GRABBED, true, 'h', _( "Grabbed" ) ); // could hurt gameplay
-            //emenu.addentry( EMOTE_BLEED, true, 'e', _( "Bleed" ) ); // could hurt gameplay
-            //emenu.addentry( EMOTE_GLOWING, true, 'B', _( "Glowing" ) ); // this one feels too distracting and weird lines on character
-            //emenu.addentry( EMOTE_DEAF, true, 'v', _( "Deaf" ) ); // could hurt gameplay
-            //emenu.addentry( EMOTE_BADPOISON, true, 'r', _( "Bad Poison" ) ); // could hurt gameplay
-            //emenu.addentry( EMOTE_PARALYZEPOISON, true, 's', _( "Paralyze Poison" ) ); // could hurt gameplay
-            //emenu.addentry( EMOTE_COMMON_COLD, true, 'p', _( "Common Cold" ) ); // could hurt gameplay, uninteresting
-            //emenu.addentry( EMOTE_FLU, true, 'n', _( "Flu" ) ); // could hurt gameplay, uninteresting
-            //emenu.addentry( EMOTE_HAPPY, true, 'd', _( "Happy" ) ); // these have no textures, so we cant use them
-            //emenu.addentry( EMOTE_SAD, true, 'e', _( "Sad" ) );  // these have no textures, so we cant use them
-            //emenu.addentry( EMOTE_POISON, true, 'k', _( "Poison" ) );
-            //emenu.addentry( EMOTE_TEARGAS, true, 'o', _( "Teargas" ) );
-
+            
             emenu.query();
 
             if( emenu.ret < 0 ) {
                 return;
             }
 
-            switch( emenu.ret ) {
-                case EMOTE_CLEAR:
-                    handle_emote( u, efftype_id::NULL_ID(), EMOTE_CLEAR );
-                    break;
-                case EMOTE_DRUNK:
-                    handle_emote( u, effect_drunk_emote, EMOTE_DRUNK );
-                    break;
-                case EMOTE_SLEEPY:
-                    handle_emote( u, effect_sleep_emote, EMOTE_SLEEPY );
-                    break;
-                case EMOTE_NAUSEA:
-                    handle_emote( u, effect_nausea_emote, EMOTE_NAUSEA );
-                    break;
-                case EMOTE_BLEED:
-                    handle_emote( u, effect_bleed_emote, EMOTE_BLEED );
-                    break;
-                // this one doesnt really fit with the others, but it can be included
-                case EMOTE_EVIL:
-                    handle_emote( u, effect_evil_emote, EMOTE_EVIL );
-                    break;
-                case EMOTE_HIGH:
-                    handle_emote( u, effect_high_emote, EMOTE_HIGH );
-                    break;
-                case EMOTE_DAZED:
-                    handle_emote( u, effect_dazed_emote, EMOTE_DAZED );
-                    break;
-                case EMOTE_STUNNED:
-                    handle_emote( u, effect_stunned_emote, EMOTE_STUNNED );
-                    break;
-                case EMOTE_DOWNED:
-                    handle_emote( u, effect_downed_emote, EMOTE_DOWNED );
-                    break;
-                case EMOTE_SHRIEKING:
-                    handle_emote( u, effect_shrieking_emote, EMOTE_SHRIEKING );
-                    break;
-                case EMOTE_ASTHMA:
-                    handle_emote( u, effect_asthma_emote, EMOTE_ASTHMA );
-                    break;
-                case EMOTE_POISON:
-                    handle_emote( u, effect_poison_emote, EMOTE_POISON );
-                    break;
-                case EMOTE_TEARGAS:
-                    handle_emote( u, effect_teargas_emote, EMOTE_TEARGAS );
-                    break;
-                case EMOTE_GLARE:
-                    handle_emote( u, effect_glare_emote, EMOTE_GLARE );
-                    break;
-                case EMOTE_BOULDERING:
-                    handle_emote( u, effect_bouldering_emote, EMOTE_BOULDERING );
-                    break;
-                case EMOTE_WINDED:
-                    handle_emote( u, effect_winded_emote, EMOTE_WINDED );
-                    break;
-                // this one doesnt really fit with the others, but it can be included
-                case EMOTE_GLOWING:
-                    handle_emote( u, effect_glowing_emote, EMOTE_GLOWING );
-                    break;
-                case EMOTE_PET:
-                    handle_emote( u, effect_heart_emote, EMOTE_PET );
-                    break;
-                case EMOTE_PLAYING_INSTRUMENT:
-                    handle_emote( u, effect_playing_instrument_emote, EMOTE_PLAYING_INSTRUMENT );
-                    break;
-                case EMOTE_VISUALS:
-                    handle_emote( u, effect_visuals_emote, EMOTE_VISUALS );
-                    break;
-                case EMOTE_MORALE_WET:
-                    handle_emote( u, effect_morale_wet_emote, EMOTE_MORALE_WET );
-                    break;
-                case EMOTE_TEMP:
-                    handle_emote( u, effect_temp_emote, EMOTE_TEMP );
-                    break;
-
+            efftype_id selected_effect_id;
+            if (dynamic_emote_key_map.find(emenu.ret) != dynamic_emote_key_map.end()) {
+                selected_effect_id = dynamic_emote_key_map[emenu.ret]; // Get the efftype_id using the int key
+                // Now, handle the emote dynamically
+                handle_emote( u, selected_effect_id, emenu.ret );
+            } else {
+                // If no matching key found in the map
+                // Handle the case where no valid emote was selected
+                handle_emote( u, efftype_id::NULL_ID(), emenu.ret ); // Assuming `NULL_ID()` is a placeholder for "no effect"
             }
+
 
             break;
         }
