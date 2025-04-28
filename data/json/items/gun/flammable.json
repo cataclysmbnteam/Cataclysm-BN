@@ -87,7 +87,6 @@
     "price": "200 USD",
     "bashing": 8,
     "material": [ "steel", "plastic" ],
-    "ammo": "gasoline",
     "gun_data": { "ammo": "gasoline", "skill": "launcher", "dispersion": 600, "durability": 3, "reload_noise": "slosh." },
     "range": 1,
     "dispersion": 600,

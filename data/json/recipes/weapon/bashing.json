@@ -543,19 +543,8 @@
       [ [ "bat", 1 ] ],
       [ [ "nomex", 5 ] ],
       [
-        [ "gasoline", 200 ],
-        [ "diesel", 200 ],
-        [ "lamp_oil", 100 ],
-        [ "vodka", 7 ],
-        [ "rum", 7 ],
-        [ "whiskey", 7 ],
-        [ "single_malt_whiskey", 7 ],
-        [ "tequila", 7 ],
-        [ "gin", 7 ],
-        [ "moonshine", 7 ],
-        [ "brandy", 7 ],
-        [ "tallow", 1 ],
-        [ "tallow_tainted", 1 ]
+        [ "flammable_liquid", 100, "LIST" ],
+        [ "hard_liquor", 100, "LIST" ]
       ],
       [ [ "rag", 1 ] ]
     ]
