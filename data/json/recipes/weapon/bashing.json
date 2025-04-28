@@ -542,10 +542,7 @@
     "components": [
       [ [ "bat", 1 ] ],
       [ [ "nomex", 5 ] ],
-      [
-        [ "flammable_liquid", 100, "LIST" ],
-        [ "hard_liquor", 100, "LIST" ]
-      ],
+      [ [ "flammable_liquid", 100, "LIST" ], [ "hard_liquor", 100, "LIST" ] ],
       [ [ "rag", 1 ] ]
     ]
   }
