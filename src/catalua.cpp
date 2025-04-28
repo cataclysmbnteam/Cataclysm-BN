@@ -32,7 +32,7 @@ void startup_lua_test()
     // Nothing to do here
 }
 
-bool generate_lua_docs( const std::string &path )
+bool generate_lua_docs( const std::filesystem::path & )
 {
     // Nothing to do here
     return false;
@@ -137,7 +137,7 @@ void startup_lua_test()
     }
 }
 
-bool generate_lua_docs( const std::string &path )
+bool generate_lua_docs( const std::filesystem::path &path )
 {
     sol::state lua = make_lua_state();
     lua.globals()["doc_gen_func"] = lua.create_table();
