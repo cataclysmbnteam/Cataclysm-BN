@@ -136,7 +136,23 @@
     "mod_targets": [ "hk_g36" ],
     "acceptable_ammo": [ "223" ],
     "install_time": "10 m",
-    "magazine_adaptor": [ [ "223", [ "stanag30", "stanag5", "stanag10", "stanag20", "stanag40", "stanag50", "stanag60", "stanag60drum", "carbonmag_223", "survivor223mag" ] ] ] ,
+    "magazine_adaptor": [
+      [
+        "223",
+        [
+          "stanag30",
+          "stanag5",
+          "stanag10",
+          "stanag20",
+          "stanag40",
+          "stanag50",
+          "stanag60",
+          "stanag60drum",
+          "carbonmag_223",
+          "survivor223mag"
+        ]
+      ]
+    ],
     "min_skills": [ [ "weapon", 4 ], [ "mechanics", 3 ] ],
     "flags": [ "INSTALL_DIFFICULT" ]
   },
@@ -156,7 +172,23 @@
     "mod_targets": [ "steyr_aug" ],
     "acceptable_ammo": [ "223" ],
     "install_time": "10 m",
-    "magazine_adaptor": [ [ "223", [ "stanag30", "stanag5", "stanag10", "stanag20", "stanag40", "stanag50", "stanag60", "stanag60drum", "carbonmag_223", "survivor223mag" ] ] ] ,
+    "magazine_adaptor": [
+      [
+        "223",
+        [
+          "stanag30",
+          "stanag5",
+          "stanag10",
+          "stanag20",
+          "stanag40",
+          "stanag50",
+          "stanag60",
+          "stanag60drum",
+          "carbonmag_223",
+          "survivor223mag"
+        ]
+      ]
+    ],
     "min_skills": [ [ "weapon", 4 ], [ "mechanics", 3 ] ],
     "flags": [ "INSTALL_DIFFICULT" ]
   },
