@@ -12,8 +12,9 @@
     "ascii_picture": "FN_five_seven",
     "material": [ "steel", "plastic" ],
     "ammo": "57",
-    "ranged_damage": { "damage_type": "bullet", "amount": -2 },
+    "ranged_damage": { "damage_type": "bullet", "amount": -3 },
     "dispersion": 440,
+    "handling": 20,
     "min_cycle_recoil": 81,
     "valid_mod_locations": [
       [ "accessories", 2 ],
