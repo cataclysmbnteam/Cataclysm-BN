@@ -95,6 +95,7 @@ std::string enum_to_string<m_flag>( m_flag data )
         case MF_FLIES: return "FLIES";
         case MF_AQUATIC: return "AQUATIC";
         case MF_SWIMS: return "SWIMS";
+        case MF_UNUSED_76: return "UNUSED_76";
         case MF_FISHABLE: return "FISHABLE";
         case MF_ATTACKMON: return "ATTACKMON";
         case MF_ANIMAL: return "ANIMAL";
@@ -181,8 +182,6 @@ std::string enum_to_string<m_flag>( m_flag data )
         case MF_DROPS_AMMO: return "DROPS_AMMO";
         case MF_CAN_BE_ORDERED: return "CAN_BE_ORDERED";
         // *INDENT-ON*
-        case MF_UNUSED_76:
-            [[fallthrough]];
         case m_flag::MF_MAX:
             break;
     }
