@@ -11,7 +11,6 @@
 #   LTO         Set to 1 to enable link-time optimization.
 #   TILES       Set to 1 to enable tiles. Requires SDL.
 #   SOUND       Set to 1 to enable sounds. Requires SDL.
-#   LUA         Set to 1 to enable Lua.
 #
 # Platforms:
 # Linux/Cygwin native
@@ -823,12 +822,7 @@ ifeq ($(TARGETSYSTEM),WINDOWS)
 endif
 OBJS = $(sort $(patsubst %,$(ODIR)/%,$(_OBJS)))
 
-ifeq ($(LUA), 1)
-  DEFINES += -DLUA
-  LUA_OBJS = $(sort $(LUA_SOURCES:$(LUA_SRC_DIR)/%.c=$(ODIRLUA)/%.o))
-else
-  LUA_OBJS =
-endif
+LUA_OBJS = $(sort $(LUA_SOURCES:$(LUA_SRC_DIR)/%.c=$(ODIRLUA)/%.o))
 
 ifdef LANGUAGES
   L10N = localization
