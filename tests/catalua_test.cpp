@@ -1,4 +1,3 @@
-#ifdef LUA
 #include "catch/catch.hpp"
 
 #include "avatar.h"
@@ -769,5 +768,3 @@ TEST_CASE( "lua_units_functions", "[lua]" )
     REQUIRE( lua_mass_grams == units::to_gram( units::from_kilogram( mass_kilograms ) ) );
     REQUIRE( lua_volume_milliliters == units::to_milliliter( units::from_liter( volume_liters ) ) );
 }
-
-#endif

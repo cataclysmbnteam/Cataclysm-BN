@@ -1,4 +1,3 @@
-#ifdef LUA
 #include "catalua_bindings.h"
 
 #include "avatar.h"
@@ -1195,5 +1194,3 @@ void cata::reg_all_bindings( sol::state &lua )
     reg_time_types( lua );
     reg_testing_library( lua );
 }
-
-#endif
