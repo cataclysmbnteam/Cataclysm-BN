@@ -12,7 +12,8 @@
     "verb": "finding a mount",
     "suspendable": false,
     "special": true,
-    "no_resume": true
+    "no_resume": true,
+    "verbose_tooltip": false
   },
   {
     "id": "ACT_READ",
@@ -48,7 +49,8 @@
     "id": "ACT_TIDY_UP",
     "type": "activity_type",
     "verb": "tidying up",
-    "special": true
+    "special": true,
+    "verbose_tooltip": false
   },
   {
     "id": "ACT_VEHICLE_DECONSTRUCTION",
@@ -109,13 +111,15 @@
     "id": "ACT_GENERIC_GAME",
     "type": "activity_type",
     "verb": "playing",
-    "rooted": true
+    "rooted": true,
+    "verbose_tooltip": false
   },
   {
     "id": "ACT_GAME",
     "type": "activity_type",
     "verb": "playing",
-    "rooted": true
+    "rooted": true,
+    "verbose_tooltip": false
   },
   {
     "id": "ACT_WAIT",
@@ -124,7 +128,8 @@
     "rooted": true,
     "no_resume": true,
     "refuel_fires": true,
-    "auto_needs": true
+    "auto_needs": true,
+    "verbose_tooltip": false
   },
   {
     "id": "ACT_CRAFT",
@@ -301,7 +306,8 @@
     "id": "ACT_SOCIALIZE",
     "type": "activity_type",
     "verb": "socializing",
-    "rooted": true
+    "rooted": true,
+    "verbose_tooltip": false
   },
   {
     "id": "ACT_WAIT_WEATHER",
@@ -309,7 +315,8 @@
     "verb": "waiting",
     "rooted": true,
     "no_resume": true,
-    "auto_needs": true
+    "auto_needs": true,
+    "verbose_tooltip": false
   },
   {
     "id": "ACT_FIRSTAID",
@@ -355,12 +362,14 @@
   {
     "id": "ACT_HEATING",
     "type": "activity_type",
-    "verb": "heating"
+    "verb": "heating",
+    "verbose_tooltip": false
   },
   {
     "id": "ACT_VIBE",
     "type": "activity_type",
-    "verb": "de-stressing"
+    "verb": "de-stressing",
+    "verbose_tooltip": false
   },
   {
     "id": "ACT_MAKE_ZLAVE",
@@ -375,7 +384,8 @@
     "verb": "dropping",
     "suspendable": false,
     "special": true,
-    "no_resume": true
+    "no_resume": true,
+    "verbose_tooltip": false
   },
   {
     "id": "ACT_STASH",
@@ -401,7 +411,8 @@
     "verb": "moving items",
     "suspendable": false,
     "special": true,
-    "no_resume": true
+    "no_resume": true,
+    "verbose_tooltip": false
   },
   {
     "id": "ACT_AUTODRIVE",
@@ -409,7 +420,8 @@
     "verb": "driving",
     "suspendable": false,
     "special": true,
-    "no_resume": true
+    "no_resume": true,
+    "verbose_tooltip": false
   },
   {
     "id": "ACT_TRAVELLING",
@@ -417,13 +429,15 @@
     "verb": "traveling",
     "suspendable": false,
     "special": true,
-    "no_resume": true
+    "no_resume": true,
+    "verbose_tooltip": false
   },
   {
     "id": "ACT_MOVE_LOOT",
     "type": "activity_type",
     "verb": "sorting out the loot",
-    "special": true
+    "special": true,
+    "verbose_tooltip": false
   },
   {
     "id": "ACT_FETCH_REQUIRED",
@@ -431,7 +445,8 @@
     "verb": "fetching components",
     "suspendable": false,
     "special": true,
-    "no_resume": true
+    "no_resume": true,
+    "verbose_tooltip": false
   },
   {
     "id": "ACT_MULTIPLE_FARM",
@@ -478,7 +493,8 @@
     "verb": "lighting the fire",
     "rooted": true,
     "special": true,
-    "no_resume": true
+    "no_resume": true,
+    "verbose_tooltip": false
   },
   {
     "id": "ACT_TOGGLE_GATE",
@@ -494,7 +510,8 @@
     "suspendable": false,
     "rooted": true,
     "special": true,
-    "no_resume": true
+    "no_resume": true,
+    "verbose_tooltip": false
   },
   {
     "id": "ACT_MILK",
@@ -543,7 +560,8 @@
     "id": "ACT_START_ENGINES",
     "type": "activity_type",
     "verb": "trying to start the vehicle",
-    "suspendable": false
+    "suspendable": false,
+    "verbose_tooltip": false
   },
   {
     "id": "ACT_OXYTORCH",
@@ -614,14 +632,16 @@
     "type": "activity_type",
     "verb": "interacting with the NPC",
     "rooted": true,
-    "no_resume": true
+    "no_resume": true,
+    "verbose_tooltip": false
   },
   {
     "id": "ACT_WAIT_STAMINA",
     "type": "activity_type",
     "verb": "catching breath",
     "rooted": true,
-    "no_resume": true
+    "no_resume": true,
+    "verbose_tooltip": false
   },
   {
     "id": "ACT_CLEAR_RUBBLE",
@@ -759,7 +779,8 @@
     "verb": "putting on items",
     "suspendable": false,
     "special": true,
-    "no_resume": true
+    "no_resume": true,
+    "verbose_tooltip": false
   },
   {
     "id": "ACT_TREE_COMMUNION",
@@ -767,7 +788,8 @@
     "verb": "communing with the trees",
     "rooted": true,
     "suspendable": false,
-    "no_resume": true
+    "no_resume": true,
+    "verbose_tooltip": false
   },
   {
     "id": "ACT_EAT_MENU",
@@ -848,7 +870,8 @@
     "verb": "canceling activity serialized with legacy code",
     "suspendable": false,
     "special": true,
-    "no_resume": true
+    "no_resume": true,
+    "verbose_tooltip": false
   },
   {
     "id": "ACT_THROW",
@@ -863,7 +886,8 @@
     "id": "ACT_NULL",
     "type": "activity_type",
     "verb": "dummy activity",
-    "//": "dummy activity for tests, cuz, apparently it's much harder to insert it to map"
+    "//": "dummy activity for tests, cuz, apparently it's much harder to insert it to map",
+    "verbose_tooltip": false
   },
   {
     "id": "ACT_ASSIST",

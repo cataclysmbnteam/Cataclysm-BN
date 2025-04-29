@@ -201,7 +201,7 @@ int main( int argc, char *argv[] )
     int seed = time( nullptr );
     bool verifyexit = false;
     bool check_mods = false;
-    bool lua_doc_mode = false;
+    std::filesystem::path lua_doc_output_path;
     std::string dump;
     dump_mode dmode = dump_mode::TSV;
     std::vector<std::string> opts;
@@ -421,12 +421,16 @@ int main( int argc, char *argv[] )
                     }
                 },
                 {
-                    "--lua-doc", nullptr,
-                    "If set, will generate Lua docs and exit",
+                    "--lua-doc", "<generated lua docs path>",
+                    "Generate Lua docs to given path and exit",
                     section_default,
-                    [&]( int, const char ** ) -> int {
+                    [&]( int num_args, const char **params ) -> int {
+                        if( num_args < 1 )
+                        {
+                            return -1;
+                        }
                         test_mode = true;
-                        lua_doc_mode = true;
+                        lua_doc_output_path = params[0];
                         return 0;
                     }
                 }
@@ -753,9 +757,9 @@ int main( int argc, char *argv[] )
     DebugLog( DL::Info, DC::Main ) << "LAPI version: " << cata::get_lapi_version_string();
     cata::startup_lua_test();
 
-    if( lua_doc_mode ) {
+    if( !lua_doc_output_path.empty() ) {
         init_colors();
-        if( cata::generate_lua_docs() ) {
+        if( cata::generate_lua_docs( lua_doc_output_path ) ) {
             cata_printf( "Lua doc: Done!\n" );
             return 0;
         } else {

@@ -120,6 +120,7 @@
     "ammo": "380",
     "ranged_damage": { "damage_type": "bullet", "amount": 2 },
     "dispersion": 250,
+    "handling": 30,
     "range": 15,
     "min_cycle_recoil": 180,
     "barrel_length": "500 ml",

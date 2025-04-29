@@ -18,7 +18,7 @@
     "durability": 7,
     "min_cycle_recoil": 225,
     "blackpowder_tolerance": 24,
-    "handling": 25,
+    "handling": 5,
     "modes": [ [ "DEFAULT", "double", 2 ] ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
     "valid_mod_locations": [

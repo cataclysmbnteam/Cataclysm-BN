@@ -88,7 +88,7 @@
       [ "M_XBOWS" ],
       [ "GRENADE_LAUNCHERS" ]
     ],
-    "handling_modifier": 10,
+    "handling_modifier": -10,
     "dispersion_modifier": 50
   }
 ]

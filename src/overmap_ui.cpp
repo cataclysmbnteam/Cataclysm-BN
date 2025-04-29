@@ -1424,6 +1424,7 @@ static void draw_om_sidebar(
         print_hint( "TOGGLE_FOREST_TRAILS", uistate.overmap_show_forest_trails ? c_pink : c_magenta );
         print_hint( "TOGGLE_OVERMAP_WEATHER", uistate.overmap_visible_weather ? c_pink : c_magenta );
         print_hint( "TOGGLE_DEFAULT_0", uistate.overmap_default_0 ? c_pink : c_magenta );
+        print_hint( "SET_CUSTOM_WAYPOINT", player_character.custom_waypoint ? c_pink : c_magenta );
         print_hint( "HELP_KEYBINDINGS" );
         print_hint( "QUIT" );
     }
@@ -1995,6 +1996,7 @@ static tripoint_abs_omt display( const tripoint_abs_omt &orig,
     ictxt.register_action( "TOGGLE_FOREST_TRAILS" );
     ictxt.register_action( "MISSIONS" );
     ictxt.register_action( "TOGGLE_DEFAULT_0" );
+    ictxt.register_action( "SET_CUSTOM_WAYPOINT" );
 
     if( data.debug_editor ) {
         ictxt.register_action( "PLACE_TERRAIN" );
@@ -2148,6 +2150,13 @@ static tripoint_abs_omt display( const tripoint_abs_omt &orig,
                 curs.z() = 0;
             }
             uistate.overmap_default_0 = !uistate.overmap_default_0;
+        } else if( action == "SET_CUSTOM_WAYPOINT" ) {
+            avatar &player_character = get_avatar();
+            if( player_character.custom_waypoint != nullptr ) {
+                player_character.custom_waypoint = nullptr;
+            } else {
+                player_character.custom_waypoint = std::make_unique<tripoint_abs_omt>( curs );
+            }
         } else if( action == "SEARCH" ) {
             if( !search( ui, curs, orig ) ) {
                 continue;

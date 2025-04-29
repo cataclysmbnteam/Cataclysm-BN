@@ -85,7 +85,7 @@ WORLDINFO::WORLDINFO()
 {
     world_name = world_generator->get_next_valid_worldname();
     WORLD_OPTIONS = get_options().get_world_defaults();
-    world_save_format = save_format::V1;
+    world_save_format = save_format::V2_COMPRESSED_SQLITE3;
 
     world_saves.clear();
     active_mod_order = world_generator->get_mod_manager().get_default_mods();

@@ -3023,6 +3023,25 @@ Function `( Map, Tripoint, FieldTypeIntId, int, TimeDuration ) -> bool`
 
 Function `( Map, Tripoint, FieldTypeIntId )`
 
+#### get_trap_at
+
+Function `( Map, Tripoint ) -> TrapIntId`
+
+#### set_trap_at
+
+Set a trap at a position on the map. It can also replace existing trap, even with `trap_null`.
+Function `( Map, Tripoint, TrapIntId )`
+
+#### disarm_trap_at
+
+Disarms a trap using your skills and stats, with consequences depending on success or failure.
+Function `( Map, Tripoint )`
+
+#### remove_trap_at
+
+Simpler version of `set_trap_at` with `trap_null`.
+Function `( Map, Tripoint )`
+
 ## MapStack
 
 ### Bases
@@ -5107,6 +5126,96 @@ No constructors.
 ### Members
 
 No members.
+
+## TrapId
+
+### Bases
+
+No base classes.
+
+### Constructors
+
+#### `TrapId.new()`
+
+#### `TrapId.new( TrapId )`
+
+#### `TrapId.new( TrapIntId )`
+
+#### `TrapId.new( string )`
+
+### Members
+
+#### obj
+
+Function `( TrapId ) -> TrapRaw`
+
+#### int_id
+
+Function `( TrapId ) -> TrapIntId`
+
+#### implements_int_id
+
+Function `() -> bool`
+
+#### is_null
+
+Function `( TrapId ) -> bool`
+
+#### is_valid
+
+Function `( TrapId ) -> bool`
+
+#### str
+
+Function `( TrapId ) -> string`
+
+#### NULL_ID
+
+Function `() -> TrapId`
+
+#### __tostring
+
+Function `( TrapId ) -> string`
+
+#### serialize
+
+Function `( TrapId, <cppval: 7JsonOut > )`
+
+#### deserialize
+
+Function `( TrapId, <cppval: 6JsonIn > )`
+
+## TrapIntId
+
+### Bases
+
+No base classes.
+
+### Constructors
+
+#### `TrapIntId.new()`
+
+#### `TrapIntId.new( TrapIntId )`
+
+#### `TrapIntId.new( TrapId )`
+
+### Members
+
+#### obj
+
+Function `( TrapIntId ) -> TrapRaw`
+
+#### str_id
+
+Function `( TrapIntId ) -> TrapId`
+
+#### is_valid
+
+Function `( TrapIntId ) -> bool`
+
+#### __tostring
+
+Function `( TrapIntId ) -> string`
 
 ## Tripoint
 

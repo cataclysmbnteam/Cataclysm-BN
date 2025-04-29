@@ -2440,8 +2440,7 @@ int charges_for_continuing( int full_charges )
 
 } // namespace crafting
 
-void workbench_info_wrapper::adjust_multiplier( const metric
-        &metrics )
+void workbench_info_wrapper::adjust_multiplier( const metric &metrics )
 {
     multiplier_adjusted *= lerped_multiplier( metrics.first, allowed_mass, 1000_kilogram );
     multiplier_adjusted *= lerped_multiplier( metrics.second, allowed_volume, 1000_liter );

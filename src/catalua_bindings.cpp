@@ -32,6 +32,7 @@
 #include "skill.h"
 #include "sounds.h"
 #include "translations.h"
+#include "trap.h"
 #include "type_id.h"
 #include "ui.h"
 #include "units_angle.h"
@@ -554,6 +555,15 @@ void cata::detail::reg_map( sol::state &lua )
             return m.add_field( p, fid, intensity, age );
         } );
         luna::set_fx( ut, "remove_field_at", &map::remove_field );
+        luna::set_fx( ut, "get_trap_at", []( map & m, const tripoint & p ) -> trap_id {
+            return m.tr_at( p ).loadid;
+        } );
+        DOC( "Set a trap at a position on the map. It can also replace existing trap, even with `trap_null`." );
+        luna::set_fx( ut, "set_trap_at", &map::trap_set );
+        DOC( "Disarms a trap using your skills and stats, with consequences depending on success or failure." );
+        luna::set_fx( ut, "disarm_trap_at", &map::disarm_trap );
+        DOC( "Simpler version of `set_trap_at` with `trap_null`." );
+        luna::set_fx( ut, "remove_trap_at", &map::remove_trap );
     }
 
     // Register 'tinymap' class to be used in Lua
