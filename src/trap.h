@@ -12,6 +12,7 @@
 #include "translations.h"
 #include "type_id.h"
 #include "units.h"
+#include "catalua_type_operators.h"
 
 class Character;
 class Creature;
@@ -263,6 +264,8 @@ struct trap {
         static void check_consistency();
         /*@}*/
         static size_t count();
+
+        LUA_TYPE_OPS( trap, id );
 };
 
 const trap_function &trap_function_from_string( const std::string &function_name );

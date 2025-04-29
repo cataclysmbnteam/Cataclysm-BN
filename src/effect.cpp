@@ -473,6 +473,10 @@ game_message_type effect_type::lose_game_message_type() const
             return m_neutral;
     }
 }
+std::string effect_type::get_looks_like() const
+{
+    return looks_like;
+}
 std::string effect_type::get_apply_message() const
 {
     return apply_message;
@@ -1305,6 +1309,7 @@ void load_effect_type( const JsonObject &jo )
     } else {
         new_etype.reduced_desc = new_etype.desc;
     }
+    new_etype.looks_like = jo.get_string( "looks_like", "" );
 
     new_etype.part_descs = jo.get_bool( "part_descs", false );
 

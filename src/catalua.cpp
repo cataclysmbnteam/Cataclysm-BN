@@ -32,7 +32,7 @@ void startup_lua_test()
     // Nothing to do here
 }
 
-bool generate_lua_docs()
+bool generate_lua_docs( const std::filesystem::path & )
 {
     // Nothing to do here
     return false;
@@ -137,7 +137,7 @@ void startup_lua_test()
     }
 }
 
-bool generate_lua_docs()
+bool generate_lua_docs( const std::filesystem::path &path )
 {
     sol::state lua = make_lua_state();
     lua.globals()["doc_gen_func"] = lua.create_table();
@@ -148,7 +148,7 @@ bool generate_lua_docs()
         sol::protected_function_result res = doc_gen_func();
         check_func_result( res );
         std::string ret = res;
-        write_to_file( PATH_INFO::lua_doc_output(), [&]( std::ostream & s ) {
+        write_to_file( path.string(), [&]( std::ostream & s ) -> void {
             s << ret;
         } );
     } catch( std::runtime_error &e ) {

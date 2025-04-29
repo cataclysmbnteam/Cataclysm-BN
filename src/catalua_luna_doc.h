@@ -60,6 +60,7 @@ struct npc_personality;
 struct point;
 struct species_type;
 struct tripoint;
+struct trap;
 namespace units
 {
 template<Arithmetic V, typename U>
@@ -159,6 +160,7 @@ LUNA_ID( Skill, "Skill" )
 LUNA_ID( species_type, "SpeciesType" )
 LUNA_ID( spell_type, "SpellType" )
 LUNA_ID( ter_t, "Ter" )
+LUNA_ID( trap, "Trap" )
 
 // Enums
 LUNA_ENUM( add_type, "AddictionType" )
