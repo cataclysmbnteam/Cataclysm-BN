@@ -198,6 +198,7 @@ enum npc_chat_menu {
     NPC_CHAT_TALK,
     NPC_CHAT_YELL,
     NPC_CHAT_MONOLOGUE,
+    NPC_CHAT_EMOTE_OVERLAY,
     NPC_CHAT_SENTENCE,
     NPC_CHAT_GUARD,
     NPC_CHAT_FOLLOW,
@@ -397,6 +398,29 @@ static void tell_magic_veh_stop_following()
     }
 }
 
+static bool handle_emote( player &u, efftype_id effect, int emote_choice )
+{
+    // player wants to clear effect
+    if( emote_choice == 'a' ) {
+        u.remove_effect( u.last_emote );
+        u.last_emote = efftype_id::NULL_ID();
+        return false;
+    } else if( u.has_effect( u.last_emote ) && !( u.last_emote == effect ) ) {
+        // if player is still emoting from last emote, clear it
+        u.remove_effect( u.last_emote );
+    }
+    // decide whether to apply permanently or temporarily
+    const bool permanent = u.has_effect( effect );
+    if( permanent ) {
+        u.add_effect( effect, 9999_days, bodypart_str_id::NULL_ID() );
+        u.add_msg_if_player( _( "You will keep emoting." ) );
+    } else {
+        u.add_effect( effect, 30_seconds, bodypart_str_id::NULL_ID() );
+    }
+    u.last_emote = effect;
+    return true;
+}
+
 void game::chat()
 {
     int volume = u.get_shout_volume();
@@ -459,7 +483,8 @@ void game::chat()
     }
     nmenu.addentry( NPC_CHAT_YELL, true, 'a', _( "Yell" ) );
     nmenu.addentry( NPC_CHAT_SENTENCE, true, 'b', _( "Yell a sentence" ) );
-    nmenu.addentry( NPC_CHAT_MONOLOGUE, true, 'M', _( "Monologue" ) );
+    nmenu.addentry( NPC_CHAT_MONOLOGUE, true, 'O', _( "Monologue" ) );
+    nmenu.addentry( NPC_CHAT_EMOTE_OVERLAY, true, 'E', _( "Emote" ) );
     if( !animal_vehicles.empty() ) {
         nmenu.addentry( NPC_CHAT_ANIMAL_VEHICLE_FOLLOW, true, 'F',
                         _( "Whistle at your animals pulling vehicles to follow you." ) );
@@ -516,6 +541,61 @@ void game::chat()
                 return;
             }
             available[npcselect]->talk_to_u();
+            break;
+        }
+        case NPC_CHAT_EMOTE_OVERLAY: {
+            uilist emenu;
+            emenu.text = std::string( _( "Emote what status effect?" ) );
+
+            // category: utility
+            emenu.addentry( 'a', true, 'a', _( "Clear" ) );
+
+            std::vector<efftype_id> all_effects = find_all_effect_types();
+            char key = 'b';
+
+            // This map will hold dynamic emote entries
+            std::map<efftype_id, std::string> dynamic_emote_map;
+            std::map<int, efftype_id> dynamic_emote_key_map; // Map from menu key (int) to efftype_id
+
+            // Iterate through all effect types to create dynamic emote entries
+            for( const efftype_id &effect_id : all_effects ) {
+                const effect_type &etype = effect_id.obj();
+                std::string effect_str = effect_id.str();
+
+                if( !effect_str.ends_with( "_emote" ) ) {
+                    continue;
+                }
+
+                // Create a temporary effect to get the display name
+                effect temp_effect( &etype, 0_turns, bodypart_str_id::NULL_ID(), 1, calendar::turn_zero );
+                std::string display_name = temp_effect.disp_name();
+
+                replace_first( display_name, " (emote)", "" );
+
+                // Dynamically add to the emote map
+                dynamic_emote_map[effect_id] = display_name;
+                dynamic_emote_key_map[key] = effect_id;
+
+                // Add the entry to the menu dynamically
+                emenu.addentry( key, true, key, _( display_name ) );
+
+                // Increment the key for the next emote
+                key++;
+            }
+
+            emenu.query();
+
+            if( emenu.ret < 0 ) {
+                return;
+            }
+
+            // Assuming `NULL_ID()` is a placeholder for "no effect"
+            efftype_id selected_effect_id = efftype_id::NULL_ID();
+            if( dynamic_emote_key_map.contains( emenu.ret ) ) {
+                selected_effect_id = dynamic_emote_key_map[emenu.ret]; // Get the efftype_id using the int key
+            }
+            handle_emote( u, selected_effect_id, emenu.ret );
+
             break;
         }
         case NPC_CHAT_YELL:
