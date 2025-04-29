@@ -537,7 +537,7 @@
     "copy-from": "rifle_auto",
     "type": "GUN",
     "name": { "str": "SIG 552 SWAT" },
-    "description": "A select fire rifle originally made for the Swiss military and redesigned for American specifications.  This one is the shortened version, made with SWAT teams and vehicle crewmen in mind.  Unlike it's European original it features a STANAG magwell.",
+    "description": "A select fire rifle originally made for the Swiss military and redesigned for American specifications.  This is the shortened version, made with SWAT teams and vehicle crewmen in mind.  Unlike the European original it features a STANAG magwell.",
     "weight": "3000 g",
     "volume": "1750 ml",
     "barrel_length": "250 ml",
