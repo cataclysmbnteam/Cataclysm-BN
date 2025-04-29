@@ -583,7 +583,7 @@
     "flags": [ "MAG_COMPACT" ]
   },
   {
-    "id": "kriss_vector9_mag",
+    "id": "kriss_vector_9mm_mag",
     "looks_like": "tdi_mag",
     "type": "MAGAZINE",
     "name": { "str": "Kriss Vector 9mm magazine" },
