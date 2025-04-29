@@ -200,6 +200,7 @@
     "items": [
       [ "a180mag", 20 ],
       [ "kriss_mag", 40 ],
+      [ "kriss_vector_9mm_mag", 40 ],
       [ "mac10mag", 40 ],
       [ "mac11mag", 20 ],
       [ "mp5mag", 90 ],
