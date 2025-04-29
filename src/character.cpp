@@ -507,6 +507,7 @@ void Character::move_operator_common( Character &&source ) noexcept
     backlog = std::move( source.backlog );
     destination_point = source.destination_point ;
     last_item = source.last_item ;
+    last_emote = source.last_emote;
 
     scent = source.scent ;
     my_bionics = std::move( source.my_bionics );
@@ -3677,7 +3678,9 @@ std::vector<std::string> Character::get_overlay_ids() const
     // first get effects
     for( const auto &eff_pr : *effects ) {
         if( !eff_pr.second.begin()->second.is_removed() ) {
-            rval.emplace_back( "effect_" + eff_pr.first.str() );
+            const std::string &looks_like = eff_pr.first.obj().get_looks_like();
+
+            rval.emplace_back( "effect_" + ( looks_like.empty() ? eff_pr.first.str() : looks_like ) );
         }
     }
 

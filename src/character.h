@@ -1683,6 +1683,7 @@ class Character : public Creature, public location_visitable<Character>
         std::list<activity_ptr> backlog;
         std::optional<tripoint> destination_point;
         itype_id last_item;
+        efftype_id last_emote;
     public:
 
         int scent = 0;

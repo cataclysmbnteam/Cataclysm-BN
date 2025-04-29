@@ -67,6 +67,7 @@
         { "class": "bandit", "x": 28, "y": 41 },
         { "class": "thug", "x": 36, "y": 30 }
       ],
+      "place_item": [ { "item": "shishkebab_off", "x": [ 8, 9 ], "y": [ 17, 18 ], "chance": 50 } ],
       "place_items": [
         { "item": "stash_wood", "x": [ 12, 12 ], "y": [ 8, 10 ], "chance": 85 },
         { "item": "dresser", "x": [ 23, 23 ], "y": [ 8, 8 ], "chance": 85 },
