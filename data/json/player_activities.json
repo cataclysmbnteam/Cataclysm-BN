@@ -135,7 +135,6 @@
     "id": "ACT_CRAFT",
     "type": "activity_type",
     "verb": "crafting",
-    "special": true,
     "refuel_fires": true,
     "auto_needs": true,
     "morale_blocked": true,
