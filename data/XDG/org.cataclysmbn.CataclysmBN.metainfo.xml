@@ -68,6 +68,23 @@
         <content_attribute id="language-discrimination">intense</content_attribute>
     </content_rating>
     <releases>
+        <release version="0.8.0" date="2025-04-28">
+            <url type="details">https://github.com/cataclysmbnteam/Cataclysm-BN/releases/tag/v0.8.0</url>
+            <description>
+                <p>Notable Changes</p>
+                <ul>
+                    <li>Improved monster AI, including a "Stockfish" AI mod for extra challenge</li>
+                    <li>Added a new GPS item to allow for searching for map tiles easier</li>
+                    <li>Reworked how the drug system works, mods can add cigarettes properly now</li>
+                    <li>Rebalanced weapon handling, primarily nerfs</li>
+                    <li>Converted more tool requirements to quality requirements for modability</li>
+                    <li>Reworked the loot tables of supply drops to make them less of power pinatas</li>
+                    <li>Color-coded the charge amounts in the inventory</li>
+                    <li>Added a total armor section to armor layering menu</li>
+                    <li>Rest of the changes can be found in the github repo</li>
+                </ul>
+            </description>
+        </release>
         <release version="0.7.1" date="2025-03-18">
             <url type="details">https://github.com/cataclysmbnteam/Cataclysm-BN/releases/tag/v0.7.1</url>
             <description>
