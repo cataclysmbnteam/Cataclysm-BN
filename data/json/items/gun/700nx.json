@@ -15,6 +15,7 @@
     "ammo": "700nx",
     "dispersion": 90,
     "clip_size": 2,
+    "handling": 40,
     "reload": 300,
     "barrel_length": "1000 ml",
     "valid_mod_locations": [

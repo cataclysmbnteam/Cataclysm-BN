@@ -104,9 +104,9 @@
   {
     "id": "butane_tank",
     "type": "TOOL",
-    "category": "tools",
+    "category": "tools_chemistry",
     "name": { "str": "butane tank", "str_pl": "tanks of butane" },
-    "description": "This is a tank of compressed butane.  It can be used to extract essential oils from organic material.",
+    "description": "This is a tank of liquid compressed butane.  It can be used to extract essential oils from organic material.",
     "weight": "22700 g",
     "volume": "18950 ml",
     "price": "250 USD",
@@ -115,11 +115,11 @@
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "dark_gray",
-    "initial_charges": 20,
-    "max_charges": 20,
+    "max_charges": 2000,
     "charges_per_use": 1,
+    "turns_per_charge": 2000,
     "looks_like": "oxygen_tank",
-    "flags": [  ],
+    "flags": [ "NO_UNLOAD" ],
     "explosion": {
       "power": 90100,
       "distance_factor": 0.5,
@@ -204,6 +204,26 @@
     "max_charges": 300,
     "charges_per_use": 10,
     "use_action": "OXYGEN_BOTTLE"
+  },
+  {
+    "id": "carbondioxide_tank",
+    "type": "TOOL",
+    "category": "tools",
+    "name": { "str": "carbon dioxide tank" },
+    "description": "This is a tank of compressed carbon dioxide gas.",
+    "weight": "2268 g",
+    "volume": "1500 ml",
+    "price": "10 USD",
+    "price_postapoc": "250 cent",
+    "to_hit": -4,
+    "bashing": 10,
+    "material": [ "steel", "plastic" ],
+    "symbol": ";",
+    "color": "light_gray",
+    "initial_charges": 24,
+    "max_charges": 24,
+    "charges_per_use": 1,
+    "looks_like": "oxygen_tank"
   },
   {
     "id": "platinum_grille",
@@ -431,6 +451,7 @@
     "color": "light_gray",
     "use_action": [ "REPORT_GRID_CHARGE", "REPORT_GRID_CONNECTIONS", "MODIFY_GRID_CONNECTIONS" ],
     "flags": [ "BELT_CLIP" ],
+    "qualities": [ [ "VOLT_MEASURE", 1 ] ],
     "magazines": [
       [
         "battery",
