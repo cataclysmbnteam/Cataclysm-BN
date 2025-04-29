@@ -529,5 +529,21 @@
       [ [ "wire", 1 ], [ "wire_barbed", 1 ], [ "spike", 4 ], [ "nail", 20 ] ],
       [ [ "fabric_standard", 1, "LIST" ], [ "felt_patch", 1 ], [ "fabric_hides_any", 1, "LIST" ] ]
     ]
+  },
+  {
+    "type": "recipe",
+    "result": "battletorch",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_BASHING",
+    "difficulty": 0,
+    "time": "20 m",
+    "reversible": true,
+    "autolearn": true,
+    "components": [
+      [ [ "bat", 1 ] ],
+      [ [ "nomex", 5 ] ],
+      [ [ "flammable_liquid", 100, "LIST" ], [ "hard_liquor", 6, "LIST" ], [ "pitch_wood", 4 ] ],
+      [ [ "rag", 1 ] ]
+    ]
   }
 ]

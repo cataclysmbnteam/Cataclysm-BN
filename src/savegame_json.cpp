@@ -906,6 +906,7 @@ void player::store( JsonOut &json ) const
     }
 
     json.member( "destination_point", destination_point );
+    json.member( "last_emote", last_emote );
     json.member( "ammo_location", ammo_location );
 }
 
@@ -972,6 +973,7 @@ void player::load( const JsonObject &data )
         last_target = g->critter_tracker->from_temporary_id( tmptar );
     }
     data.read( "destination_point", destination_point );
+    data.read( "last_emote", last_emote );
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////

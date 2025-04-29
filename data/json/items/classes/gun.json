@@ -272,7 +272,8 @@
       [ "underbarrel", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
-    "flags": [ "RELOAD_EJECT" ]
+    "flags": [ "RELOAD_EJECT" ],
+    "handling": 10
   },
   {
     "abstract": "rifle_energy",
@@ -372,7 +373,7 @@
     "bashing": 12,
     "looks_like": "remington_870",
     "ammo": "shot",
-    "handling": 30,
+    "handling": 20,
     "valid_mod_locations": [
       [ "accessories", 4 ],
       [ "barrel", 1 ],
@@ -465,7 +466,7 @@
     "to_hit": -4,
     "bashing": 18,
     "reload": 400,
-    "handling": 40
+    "handling": 30
   },
   {
     "abstract": "gatling_base",
