@@ -54,8 +54,8 @@ struct activity_reqs_adapter {
     skill_reqs skills;
     metric metrics = std::make_pair( 0_milligram, 0_ml );
 
-    activity_reqs_adapter( const recipe &rec, units::mass mass,
-                           units::volume volume );
+    activity_reqs_adapter( const recipe &rec, units::mass mass = 0_milligram,
+                           units::volume volume = 0_ml );
 
     activity_reqs_adapter( const construction &con );
 };

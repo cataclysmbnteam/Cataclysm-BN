@@ -934,11 +934,11 @@ void complete_craft( Character &who, item &craft )
     who.inv_restack( );
 }
 
-int expected_time_to_craft( const Character &who, const recipe &rec,
+int expected_time_to_craft( Character &who, const recipe &rec,
                             const int batch_size )
 {
-    //TODO: speed preview calculations
-    return rec.batch_time( batch_size );
+    auto speed = crafting_activity_actor::speed_preset( who, rec );
+    return rec.batch_time( batch_size ) * 100 / speed.total_moves();
 }
 
 bool Character::can_continue_craft( item &craft )
@@ -2149,7 +2149,7 @@ inline void crafting_activity_actor::adjust_bench_multiplier( bench_location &be
     bench.wb_info.adjust_multiplier( metrics );
 }
 
-float crafting_activity_actor::calc_morale_factor( const Character &who ) const
+static float morale_factor_static( const Character &who, const recipe &rec )
 {
     const int morale = who.get_morale_level();
     if( morale >= 0 ) {
@@ -2171,6 +2171,11 @@ float crafting_activity_actor::calc_morale_factor( const Character &who ) const
     return 1.0f / morale_effect;
 }
 
+float crafting_activity_actor::calc_morale_factor( const Character &who ) const
+{
+    return morale_factor_static( who, rec );
+}
+
 bool crafting_activity_actor::assistant_capable( const Character &who ) const
 {
     return assistant_capable( who, rec );
@@ -2189,6 +2194,28 @@ inline void crafting_activity_actor::calc_all_moves( player_activity &act, Chara
 {
     auto reqs = activity_reqs_adapter( rec, target->weight(), target->volume() );
     act.speed.calc_all_moves( who, reqs );
+}
+
+activity_speed crafting_activity_actor::speed_preset( Character &who, const recipe &rec )
+{
+    auto reqs = activity_reqs_adapter( rec );
+    auto speed = activity_speed();
+    speed.type = activity_id( "ACT_CRAFT" );
+    if( speed.type->assistable() ) {
+        speed.assistant_count = player_activity::get_assistants( who, [&rec]( bool ok,
+        const Character & guy ) {
+            return ok && assistant_capable( guy, rec );
+        }, 8 ).size();
+    }
+    speed.morale_factor_custom_formula = [&]( const Character & who ) {
+        return morale_factor_static( who, rec );
+    };
+    speed.bench_factor_custom_formula = [&]( bench_location & bench, const metric & metrics ) {
+        bench.wb_info.adjust_multiplier( metrics );
+    };
+
+    speed.calc_all_moves( who, reqs );
+    return speed;
 }
 
 void crafting_activity_actor::start( player_activity &act, Character &who )

@@ -35,7 +35,7 @@ void remove_ammo( std::vector<item *> &dis_items, Character &who );
 
 void complete_craft( Character &, item & );
 
-int expected_time_to_craft( const Character &who, const recipe &, const int );
+int expected_time_to_craft( Character &who, const recipe &, const int );
 
 namespace crafting
 {

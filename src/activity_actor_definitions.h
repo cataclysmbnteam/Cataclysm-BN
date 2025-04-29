@@ -17,6 +17,7 @@
 
 class Creature;
 class vehicle;
+class activity_speed;
 
 struct bench_location;
 struct partial_con;
@@ -143,6 +144,7 @@ class crafting_activity_actor : public activity_actor
 
         void serialize( JsonOut &jsout ) const override;
         static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
+        static activity_speed speed_preset( Character &who, const recipe &rec );
 };
 
 class dig_activity_actor : public activity_actor
