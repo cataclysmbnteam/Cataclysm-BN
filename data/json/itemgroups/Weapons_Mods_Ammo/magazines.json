@@ -368,7 +368,6 @@
       [ "augmag_42rd", 5 ],
       [ "falbigmag", 5 ],
       [ "falmag", 25 ],
-      [ "famasmag", 30 ],
       [ "g36mag_100rd", 5 ],
       [ "g36mag_30rd", 35 ],
       [ "g3bigmag", 5 ],

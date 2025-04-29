@@ -128,8 +128,8 @@
     "id": "famas",
     "copy-from": "rifle_auto",
     "type": "GUN",
-    "name": { "str_sp": "MAS 223" },
-    "description": "A bullpup assault rifle that was used by French armed forces only until recently.  While the FAMAS was famous for its high fire rate, the MAS .223 is a semi-auto only variation imported to the US in the late eighties.  It retains the integral bipod, though.",
+    "name": { "str_sp": "FAMAS G2" },
+    "description": "A select fire bullpup assault rifle that was used by French armed forces until recently.  While the FAMAS was famous for its high fire rate and futuristic look, the failure of the disposable magazine design principle and lack of rails necessitated the invention of the G2 variant.  It can not utilize oversized STANAG snail and drum mags but it retains the integral bipod and blistering rate of fire.",
     "weight": "3800 g",
     "volume": "4162 ml",
     "barrel_length": "250 ml",
@@ -140,6 +140,7 @@
     "ranged_damage": { "damage_type": "bullet", "amount": -2 },
     "dispersion": 180,
     "min_cycle_recoil": 1350,
+    "modes": [ [ "DEFAULT", "semi", 1 ], [ "BURST", "burst", 3 ], [ "AUTO", "auto", 5 ] ],
     "built_in_mods": [ "bipod" ],
     "valid_mod_locations": [
       [ "accessories", 4 ],
@@ -155,7 +156,23 @@
       [ "underbarrel", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "magazines": [ [ "223", [ "famasmag" ] ] ]
+    "magazines": [
+      [
+        "223",
+        [
+          "stanag30",
+          "stanag5",
+          "stanag10",
+          "stanag20",
+          "stanag40",
+          "stanag50",
+          "stanag60",
+          "stanag60drum",
+          "carbonmag_223",
+          "survivor223mag"
+        ]
+      ]
+    ]
   },
   {
     "id": "h&k416a5",
