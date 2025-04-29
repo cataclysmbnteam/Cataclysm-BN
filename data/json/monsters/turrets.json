@@ -412,7 +412,7 @@
     "species": [ "ROBOT" ],
     "looks_like": "mon_turret_bmg",
     "diff": 60,
-    "volume": "80000 ml",
+    "volume": "80 L",
     "weight": "120 kg",
     "hp": 40,
     "speed": 100,
