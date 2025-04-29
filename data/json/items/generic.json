@@ -2511,12 +2511,46 @@
   },
   {
     "type": "GENERIC",
+    "id": "blunt_lit",
+    "name": { "str": "blunt" },
+    "looks_like": "cigar_lit",
+    "color": "brown",
+    "symbol": "!",
+    "description": "The smoke billowing from this blunt has a sweet, fruity odor.",
+    "category": "drugs",
+    "emits": [ "emit_tobacco_trail" ],
+    "use_action": [
+      { "type": "firestarter", "moves": 200, "moves_slow": 2000 },
+      {
+        "target": "blunt_roach",
+        "msg": "You extinguish the blunt.",
+        "active": false,
+        "menu_text": "Extinguish",
+        "type": "transform"
+      }
+    ],
+    "flags": [ "LITCIG", "TOBACCO", "LIGHT_4", "TRADER_AVOID", "FIRESTARTER" ]
+  },
+  {
+    "type": "GENERIC",
     "id": "cigar_butt",
     "name": { "str": "cigar butt" },
     "color": "dark_gray",
     "symbol": "!",
     "weight": "1 g",
     "description": "A true gentleman always finishes his cigars.",
+    "category": "other",
+    "flags": [ "TRADER_AVOID", "TINDER" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "blunt_roach",
+    "looks_like": "cigar_butt",
+    "name": { "str": "blunt roach", "str_pl": "blunt roaches" },
+    "color": "dark_gray",
+    "symbol": "!",
+    "weight": "1 g",
+    "description": "A true gangster always finishes their blunts.",
     "category": "other",
     "flags": [ "TRADER_AVOID", "TINDER" ]
   },

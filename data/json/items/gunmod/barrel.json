@@ -61,7 +61,7 @@
     "blacklist_mod": "emitter",
     "mod_target_category": [ [ "RIFLES" ], [ "SHOTGUNS" ], [ "MACHINE_GUNS" ] ],
     "install_time": "15 m",
-    "handling_modifier": -15,
+    "handling_modifier": -10,
     "range_modifier": 5,
     "dispersion_modifier": 25,
     "loudness_modifier": 15,
@@ -79,5 +79,34 @@
     "damage_modifier": { "damage_type": "bullet", "amount": 5 },
     "ups_charges_modifier": 10,
     "handling_modifier": -5
+  },
+  {
+    "id": "aux_flamer",
+    "type": "GUNMOD",
+    "name": { "str": "aux flamethrower" },
+    "description": "This custom-built miniature flamethrower is made to be attached to most firearms, greatly expanding its lethality.",
+    "weight": "1820 g",
+    "volume": "1 L",
+    "price": "850 USD",
+    "material": [ "steel" ],
+    "symbol": ":",
+    "color": "light_red",
+    "location": "underbarrel",
+    "mod_target_category": [
+      [ "SUBMACHINE_GUNS" ],
+      [ "RIFLES" ],
+      [ "PISTOLS" ],
+      [ "MACHINE_GUNS" ],
+      [ "SHOTGUNS" ],
+      [ "GRENADE_LAUNCHERS" ],
+      [ "ROCKET_LAUNCHERS" ],
+      [ "M_XBOWS" ],
+      [ "GATLING_GUNS" ]
+    ],
+    "gun_data": { "ammo": "flammable", "skill": "launcher", "dispersion": 300, "durability": 10, "reload_noise": "slosh." },
+    "magazine_well": "250 ml",
+    "magazines": [ [ "flammable", [ "aux_pressurized_tank" ] ] ],
+    "min_skills": [ [ "weapon", 2 ], [ "launcher", 1 ] ],
+    "flags": [ "FIRE_100", "PUMP_RAIL_COMPATIBLE", "NON_FOULING" ]
   }
 ]

@@ -168,7 +168,7 @@ changes:
 Also install these additional dependencies:
 
 ```sh
-sudo dnf install clang-devel llvm-devel clang-tools-extra
+sudo dnf install clang-devel llvm-devel clang-tools-extra-devel
 ```
 
 add `CATA_CLANG_TIDY_PLUGIN=ON` to cmake flags when configuring the build.

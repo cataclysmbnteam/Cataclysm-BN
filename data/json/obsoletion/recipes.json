@@ -1294,11 +1294,6 @@
   },
   {
     "type": "recipe",
-    "result": "battletorch",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
     "result": "shishkebab_off",
     "obsolete": true
   },
@@ -1959,11 +1954,6 @@
   {
     "result": "beltfeed",
     "type": "recipe",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "aux_flamer",
     "obsolete": true
   },
   {
