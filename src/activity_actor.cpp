@@ -508,7 +508,6 @@ void dig_activity_actor::finish( player_activity &act, Character &who )
                                calendar::turn );
         for( item * const &it : dropped ) {
             if( it->is_armor() ) {
-                it->set_flag( flag_FILTHY );
                 it->set_damage( rng( 1, it->max_damage() - 1 ) );
             }
         }
@@ -1919,18 +1918,6 @@ std::unique_ptr<activity_actor> toggle_gate_activity_actor::deserialize( JsonIn 
     return actor;
 }
 
-void wash_activity_actor::start( player_activity &, Character & )
-{
-    progress.emplace( "wash", moves_total );
-}
-
-void wash_activity_actor::do_turn( player_activity &, Character & )
-{
-    if( progress.front().complete() ) {
-        progress.pop();
-        return;
-    }
-}
 
 stash_activity_actor::stash_activity_actor( Character &ch, const drop_locations &items,
         const tripoint &relpos ) : relpos( relpos )
@@ -2042,29 +2029,6 @@ std::unique_ptr<activity_actor> throw_activity_actor::deserialize( JsonIn &jsin 
     return actor;
 }
 
-void wash_activity_actor::serialize( JsonOut &jsout ) const
-{
-    jsout.start_object();
-
-    jsout.member( "progress", progress );
-    jsout.member( "targets", targets );
-    jsout.member( "moves_total", moves_total );
-
-    jsout.end_object();
-}
-
-std::unique_ptr<activity_actor> wash_activity_actor::deserialize( JsonIn &jsin )
-{
-    std::unique_ptr<wash_activity_actor> actor;
-
-    JsonObject data = jsin.get_object();
-
-    data.read( "progress", actor->progress );
-    data.read( "targets", actor->targets );
-    data.read( "moves_total", actor->moves_total );
-
-    return actor;
-}
 
 inline void construction_activity_actor::calc_all_moves( player_activity &act, Character &who )
 {
@@ -2215,7 +2179,6 @@ deserialize_functions = {
     { activity_id( "ACT_PICKUP" ), &pickup_activity_actor::deserialize },
     { activity_id( "ACT_STASH" ), &stash_activity_actor::deserialize },
     { activity_id( "ACT_THROW" ), &throw_activity_actor::deserialize },
-    { activity_id( "ACT_WASH" ), &wash_activity_actor::deserialize },
     { activity_id( "ACT_ASSIST" ), &assist_activity_actor::deserialize },
 };
 } // namespace activity_actors

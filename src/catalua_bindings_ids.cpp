@@ -1,4 +1,3 @@
-#ifdef LUA
 #include "catalua_bindings.h"
 
 #include "activity_type.h"
@@ -178,5 +177,3 @@ void cata::detail::reg_types( sol::state &lua )
         luna::set( ut, "transforms_into", &furn_t::transforms_into );
     }
 }
-
-#endif

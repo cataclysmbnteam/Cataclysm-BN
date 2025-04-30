@@ -2150,7 +2150,6 @@ void crafting::complete_disassemble( Character &who, const iuse_location &target
 
     // Get the proper recipe - the one for disassembly, not assembly
     const auto dis_requirements = dis.disassembly_requirements();
-    const bool filthy = org_item.is_filthy();
 
     // Make a copy to keep its data (damage/components) even after it
     // has been removed.
@@ -2255,9 +2254,6 @@ void crafting::complete_disassemble( Character &who, const iuse_location &target
             newit->set_flag( flag_FIT );
         }
 
-        if( filthy ) {
-            newit->set_flag( flag_FILTHY );
-        }
         if( newit->made_of( LIQUID ) ) {
             liquid_handler::handle_all_liquid( std::move( newit ), PICKUP_RANGE );
         } else {

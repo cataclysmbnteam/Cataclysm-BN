@@ -1,4 +1,3 @@
-#ifdef LUA
 #include "catalua_bindings.h"
 
 #include "activity_type.h"
@@ -978,5 +977,3 @@ void cata::detail::reg_avatar( sol::state &lua )
             );
     }
 }
-
-#endif // #ifdef LUA

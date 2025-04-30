@@ -111,7 +111,6 @@ const flag_id flag_FELINE( "FELINE" );
 const flag_id flag_FERTILIZER( "FERTILIZER" );
 const flag_id flag_FIELD_DRESS( "FIELD_DRESS" );
 const flag_id flag_FIELD_DRESS_FAILED( "FIELD_DRESS_FAILED" );
-const flag_id flag_FILTHY( "FILTHY" );
 const flag_id flag_FIN( "FIN" );
 const flag_id flag_FIRE( "FIRE" );
 const flag_id flag_FIRESTARTER( "FIRESTARTER" );

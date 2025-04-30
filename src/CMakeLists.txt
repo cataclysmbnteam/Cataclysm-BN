@@ -8,10 +8,8 @@ list(REMOVE_ITEM CATACLYSM_BN_SOURCES ${MAIN_CPP} ${MESSAGES_CPP})
 
 file(GLOB CATACLYSM_BN_HEADERS ${CMAKE_SOURCE_DIR}/src/*.h)
 
-if (LUA)
-    add_subdirectory(lua)
-    add_subdirectory(sol)
-endif ()
+add_subdirectory(lua)
+add_subdirectory(sol)
 
 # Get GIT version strings
 add_custom_target(
@@ -46,15 +44,13 @@ function(setup_common_target_properties target_name)
         target_link_libraries(${target_name} PUBLIC ${CMAKE_THREAD_LIBS_INIT})
     endif ()
 
-    if (LUA)
-        target_compile_definitions(${target_name} PUBLIC LUA)
-        if (UNIX)
-            target_compile_definitions(${target_name} PUBLIC LUA_USE_LINUX)
-        elseif (APPLE)
-            target_compile_definitions(${target_name} PUBLIC LUA_USE_MACOSX)
-        endif()
-        target_link_libraries(${target_name} PUBLIC libsol)
-    endif ()
+    target_compile_definitions(${target_name} PUBLIC LUA)
+    if (UNIX)
+        target_compile_definitions(${target_name} PUBLIC LUA_USE_LINUX)
+    elseif (APPLE)
+        target_compile_definitions(${target_name} PUBLIC LUA_USE_MACOSX)
+    endif()
+    target_link_libraries(${target_name} PUBLIC libsol)
 
     # Windows-specific libraries
     if (WIN32)

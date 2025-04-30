@@ -16,7 +16,6 @@ class item;
 struct zone_priority_data {
     bool was_loaded = false;
     zone_type_id id;
-    bool filthy = false;
     cata::flat_set<flag_id> flags;
 
     void deserialize( JsonIn &jsin );

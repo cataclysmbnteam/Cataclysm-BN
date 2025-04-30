@@ -1016,11 +1016,10 @@
     "name": { "str_sp": "detergent" },
     "symbol": "=",
     "color": "white",
-    "description": "A popular pre-Cataclysm washing powder.",
+    "description": "A popular pre-Cataclysm washing powder.  It is used for chemistry experiments such as manufacturing gelled gasoline.",
     "material": "powder",
     "volume": "250 ml",
     "weight": "1 g",
-    "flags": [ "DETERGENT" ],
     "ammo_type": "components",
     "container": "box_small",
     "count": 20
@@ -1035,11 +1034,10 @@
     "looks_like": "detergent",
     "symbol": "=",
     "color": "white",
-    "description": "A bar of soap cut into flakes suitable for use in a washing machine.",
+    "description": "A bar of soap cut into flakes, it can only be used for varnishing wood now.",
     "volume": "250 ml",
     "weight": "1 g",
     "ammo_type": "components",
-    "flags": [ "DETERGENT" ],
     "count": 20
   },
   {
@@ -1354,7 +1352,6 @@
     "calories": 600,
     "fun": -15,
     "vitamins": [ [ "mutant_toxin", 240 ] ],
-    "flags": [ "DETERGENT" ],
     "qualities": [ [ "SANDING", 1 ] ],
     "container": "box_small",
     "charges": 20
