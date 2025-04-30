@@ -1069,5 +1069,19 @@
     "tools": [ [ [ "steyr_aug", -1 ], [ "large_repairkit", 25 ], [ "small_repairkit", 45 ] ], [ [ "mold_plastic", -1 ] ] ],
     "using": [ [ "3d_printing_standard", 3 ] ],
     "components": [ [ [ "plastic_chunk", 8 ] ], [ [ "sheet_metal_small", 1 ] ] ]
+  },
+  {
+    "result": "mini14_stanag_adapter",
+    "type": "recipe",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_MODS",
+    "skill_used": "computer",
+    "difficulty": 4,
+    "skills_required": [ [ "fabrication", 3 ] ],
+    "time": "1 h",
+    "book_learn": [ [ "manual_rifle", 4 ], [ "textbook_anarch", 3 ] ],
+    "tools": [ [ [ "ruger_mini", -1 ], [ "ac556", -1 ], [ "large_repairkit", 25 ], [ "small_repairkit", 45 ] ], [ [ "mold_plastic", -1 ] ] ],
+    "using": [ [ "3d_printing_standard", 3 ] ],
+    "components": [ [ [ "plastic_chunk", 4 ] ] ]
   }
 ]
