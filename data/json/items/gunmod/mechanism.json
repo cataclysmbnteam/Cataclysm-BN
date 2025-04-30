@@ -86,7 +86,6 @@
     "location": "mechanism",
     "mod_targets": [ "ruger_mini", "garand", "m1a" ],
     "install_time": "5 s",
-    "min_skills": [ [ "weapon", 3 ] ],
     "dispersion_modifier": 100,
     "handling_modifier": -5,
     "mode_modifier": [ [ "DEFAULT", "auto", 3 ] ]
