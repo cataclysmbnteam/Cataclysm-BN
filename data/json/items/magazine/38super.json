@@ -3,7 +3,7 @@
     "id": "af2011a1mag",
     "looks_like": "glock17_17",
     "type": "MAGAZINE",
-    "name": { "str": "AF2011A1 magazine" },
+    "name": { "str": "AF2011A1 double-magazine" },
     "description": "Two .38 Super 8-round box magazines attached to a single base plate, holding up to 16 rounds in total, used by AF2011A1 double-barrel pistol.",
     "weight": "140 g",
     "volume": "500 ml",
@@ -15,6 +15,7 @@
     "ammo_type": "38super",
     "capacity": 16,
     "reliability": 7,
+    "reload_time": 200,
     "flags": [ "MAG_COMPACT" ]
   },
   {
@@ -32,7 +33,8 @@
     "color": "light_gray",
     "ammo_type": "38super",
     "capacity": 9,
-    "reliability": 8,
+    "reliability": 9,
+    "reload_time": 100,
     "flags": [ "MAG_COMPACT" ]
   }
 ]

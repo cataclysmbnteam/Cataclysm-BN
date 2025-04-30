@@ -31,15 +31,15 @@
     "color": "light_gray",
     "ammo_type": "40",
     "capacity": 12,
-    "reliability": 8,
-    "reload_time": 140,
+    "reliability": 9,
+    "reload_time": 100,
     "flags": [ "MAG_COMPACT" ]
   },
   {
     "id": "glock40drum50rd",
     "copy-from": "glock_drum_50rd",
     "type": "MAGAZINE",
-    "name": { "str": "Glock 22 50-round drum magazine" },
+    "name": { "str": "Glock 22 drum magazine" },
     "description": "A 50-round drum magazine for use with Glock pistols chambered for .40 S&W or .357 SIG.",
     "weight": "230 g",
     "volume": "750 ml",
@@ -48,6 +48,8 @@
     "material": "plastic",
     "symbol": "#",
     "color": "light_gray",
+    "reliability": 7,
+    "reload_time": 150,
     "ammo_type": [ "40", "357sig" ],
     "flags": [ "MAG_COMPACT" ]
   },
@@ -66,8 +68,8 @@
     "color": "light_gray",
     "ammo_type": [ "40", "357sig" ],
     "capacity": 22,
-    "reliability": 7,
-    "reload_time": 140,
+    "reliability": 8,
+    "reload_time": 120,
     "flags": [ "MAG_COMPACT" ]
   },
   {
@@ -85,7 +87,8 @@
     "color": "light_gray",
     "ammo_type": [ "40", "357sig" ],
     "capacity": 15,
-    "reliability": 8,
+    "reliability": 9,
+    "reload_time": 100,
     "flags": [ "MAG_COMPACT" ]
   },
   {
@@ -103,8 +106,8 @@
     "color": "light_gray",
     "ammo_type": "40",
     "capacity": 14,
-    "reliability": 8,
-    "reload_time": 140,
+    "reliability": 9,
+    "reload_time": 100,
     "flags": [ "MAG_COMPACT" ]
   },
   {
@@ -123,6 +126,7 @@
     "ammo_type": "40",
     "capacity": 12,
     "reliability": 9,
+    "reload_time": 100,
     "flags": [ "MAG_COMPACT" ]
   },
   {
@@ -140,8 +144,8 @@
     "color": "light_gray",
     "ammo_type": "40",
     "capacity": 20,
-    "reliability": 1,
-    "reload_time": 160,
+    "reliability": 5,
+    "reload_time": 100,
     "flags": [ "MAG_COMPACT" ]
   },
   {
@@ -160,6 +164,7 @@
     "ammo_type": "40",
     "capacity": 10,
     "reliability": 9,
+    "reload_time": 100,
     "flags": [ "MAG_COMPACT" ]
   },
   {
@@ -178,6 +183,7 @@
     "ammo_type": "40",
     "capacity": 10,
     "reliability": 9,
+    "reload_time": 100,
     "flags": [ "MAG_COMPACT" ]
   },
   {
@@ -196,6 +202,7 @@
     "ammo_type": "40",
     "capacity": 12,
     "reliability": 9,
+    "reload_time": 100,
     "flags": [ "MAG_COMPACT" ]
   },
   {
@@ -214,6 +221,7 @@
     "ammo_type": "40",
     "capacity": 14,
     "reliability": 9,
+    "reload_time": 100,
     "flags": [ "MAG_COMPACT" ]
   },
   {
@@ -231,7 +239,8 @@
     "color": "light_gray",
     "ammo_type": "40",
     "capacity": 10,
-    "reliability": 8,
+    "reliability": 7,
+    "reload_time": 100,
     "flags": [ "MAG_COMPACT" ]
   },
   {
@@ -249,7 +258,8 @@
     "color": "light_gray",
     "ammo_type": [ "40", "357sig" ],
     "capacity": 32,
-    "reliability": 9,
+    "reliability": 8,
+    "reload_time": 120,
     "flags": [ "MAG_COMPACT" ]
   }
 ]

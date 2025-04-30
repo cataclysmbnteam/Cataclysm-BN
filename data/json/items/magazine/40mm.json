@@ -16,6 +16,7 @@
     "capacity": 50,
     "count": 25,
     "reliability": 6,
+    "reload_time": 1000,
     "linkage": "ammolink40mm",
     "flags": [ "MAG_BELT", "MAG_DESTROY" ]
   }

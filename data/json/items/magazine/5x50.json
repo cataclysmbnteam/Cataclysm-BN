@@ -3,8 +3,8 @@
     "id": "5x50_100_mag",
     "looks_like": "mp5mag",
     "type": "MAGAZINE",
-    "name": { "str": "RMFB100 5x50mm extended magazine" },
-    "description": "A 100 round box magazine for use with 5x50mm flechette firearms.",
+    "name": { "str": "RMFB100 5x50mm extended box magazine" },
+    "description": "A 100 round extended box magazine for use with 5x50mm RM216 SPIW and RM232 IDW.",
     "weight": "360 g",
     "volume": "500 ml",
     "price": "150 USD",
@@ -14,16 +14,16 @@
     "color": "dark_gray",
     "ammo_type": "5x50",
     "capacity": 100,
-    "reliability": 10,
-    "reload_time": 60,
+    "reliability": 8,
+    "reload_time": 150,
     "flags": [ "MAG_COMPACT" ]
   },
   {
     "id": "5x50_50_mag",
     "looks_like": "mp5mag",
     "type": "MAGAZINE",
-    "name": { "str": "RMFB50 5x50mm magazine" },
-    "description": "A 50 round box magazine for use with 5x50mm flechette firearms.",
+    "name": { "str": "RMFB50 5x50mm box magazine" },
+    "description": "A 50 round box magazine for use with 5x50mm RM216 SPIW and RM232 IDW.",
     "weight": "240 g",
     "volume": "250 ml",
     "price": "125 USD",
@@ -34,7 +34,7 @@
     "ammo_type": "5x50",
     "capacity": 50,
     "reliability": 10,
-    "reload_time": 50,
+    "reload_time": 100,
     "flags": [ "MAG_COMPACT" ]
   }
 ]
