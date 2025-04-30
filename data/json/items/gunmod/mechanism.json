@@ -74,7 +74,7 @@
     "id": "shoestring_mg",
     "type": "GUNMOD",
     "name": { "str": "shoestring machinegun" },
-    "description": "Literally just a piece of string extending from the trigger to the bolt of the rifle, this so called device is still sufficient for you to become a federal felon.  Was.  Now there is no one left to tell you no to turning your Mini-14, M1A or Garand full auto.",
+    "description": "Quite literally just a piece of string extending from the trigger to the bolt of the rifle, this so called device is still sufficient for you to become a federal felon.  Was.  Now there is no one left to tell you no to turning your Mini-14, M1A or Garand full auto.",
     "weight": "5 g",
     "volume": "10 ml",
     "integral_volume": "0 ml",
@@ -89,7 +89,7 @@
     "min_skills": [ [ "weapon", 3 ] ],
     "dispersion_modifier": 100,
     "handling_modifier": -5,
-    "mode_modifier": [ [ "DEFAULT", "auto", 3 ] ],
+    "mode_modifier": [ [ "DEFAULT", "auto", 3 ] ]
   },
   {
     "id": "glockswitch",
