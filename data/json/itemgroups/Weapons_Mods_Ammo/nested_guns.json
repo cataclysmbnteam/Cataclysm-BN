@@ -2007,8 +2007,8 @@
     "ammo": 100,
     "entries": [
       { "item": "famas", "ammo-group": "on_hand_223", "charges": [ 0, 25 ] },
-      { "item": "famasmag", "ammo-group": "on_hand_223" },
-      { "item": "famasmag", "ammo-group": "on_hand_223", "prob": 50 },
+      { "group": "nested_stanag_mag" },
+      { "group": "nested_stanag_mag", "prob": 50 },
       { "group": "on_hand_223" }
     ]
   },
