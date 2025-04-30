@@ -57,6 +57,10 @@ using chtype = int;
 #define LINE_XOXX_C 0xa8
 #define LINE_OXXX_C 0xa9
 #define LINE_XXXX_C 0xaa
+#define LINE_XDXO_C 0xc6 // '|='  Right double and vertical single
+#define LINE_DXOX_C 0xd0 // '-"-' Up double and horizontal single
+#define LINE_XOXD_C 0xb5 // '=|'  Left double and vertical single
+#define LINE_OXDX_C 0xd2 // '-,,-'Down double and horizontal single
 
 #define LINE_XOXO_S "│" // '|'   Vertical line. ncurses: ACS_VLINE; Unicode: U+2502
 #define LINE_OXOX_S "─" // '-'   Horizontal line. ncurses: ACS_HLINE; Unicode: U+2500
@@ -69,6 +73,10 @@ using chtype = int;
 #define LINE_XOXX_S "┤" // '-|'  Tee pointing left. ncurses: ACS_RTEE; Unicode: U+2524
 #define LINE_OXXX_S "┬" // '^|^' Tee pointing down. ncurses: ACS_TTEE; Unicode: U+252C
 #define LINE_XXXX_S "┼" // '-|-' Large Plus or cross over. ncurses: ACS_PLUS; Unicode: U+253C
+#define LINE_XDXO_S "╞" // '|='  Right double and vertical single
+#define LINE_DXOX_S "╨" // '-"-' Up double and horizontal single
+#define LINE_XOXD_S "╡" // '=|'  Left double and vertical single
+#define LINE_OXDX_S "╥" // '-,,-'Down double and horizontal single
 
 #define LINE_XOXO_UNICODE 0x2502
 #define LINE_OXOX_UNICODE 0x2500
@@ -81,6 +89,10 @@ using chtype = int;
 #define LINE_XOXX_UNICODE 0x2524
 #define LINE_OXXX_UNICODE 0x252C
 #define LINE_XXXX_UNICODE 0x253C
+#define LINE_XDXO_UNICODE 0x255E // '|='  Right double and vertical single
+#define LINE_DXOX_UNICODE 0x2568 // '-"-' Up double and horizontal single
+#define LINE_XOXD_UNICODE 0x2561 // '=|'  Left double and vertical single
+#define LINE_OXDX_UNICODE 0x2565 // '-,,-'Down double and horizontal single
 
 // Supports line drawing
 
