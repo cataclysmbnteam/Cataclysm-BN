@@ -84,7 +84,7 @@
     "symbol": ":",
     "color": "green",
     "location": "mechanism",
-    "mod_targets": [ "ruger_mini", "garand", "m1a"  ],
+    "mod_targets": [ "ruger_mini", "garand", "m1a" ],
     "install_time": "5 s",
     "min_skills": [ [ "weapon", 3 ] ],
     "dispersion_modifier": 100,
