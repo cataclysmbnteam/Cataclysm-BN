@@ -4,97 +4,6 @@
 
 constexpr int LUA_API_VERSION = 2;
 
-#ifndef LUA
-
-#include "popup.h"
-
-namespace cata
-{
-
-// It's a dud
-struct lua_state {
-    lua_state() = default;
-    ~lua_state() = default;
-};
-
-bool has_lua()
-{
-    return false;
-}
-
-std::string get_lapi_version_string()
-{
-    return "<none>";
-}
-
-void startup_lua_test()
-{
-    // Nothing to do here
-}
-
-bool generate_lua_docs( const std::filesystem::path & )
-{
-    // Nothing to do here
-    return false;
-}
-
-void show_lua_console()
-{
-    query_popup()
-    .default_color( c_red )
-    .allow_anykey( true )
-    .message( "%s", "Can't open Lua console:\nthe game was compiled without Lua support." )
-    .query();
-}
-
-void reload_lua_code()
-{
-    query_popup()
-    .default_color( c_red )
-    .allow_anykey( true )
-    .message( "%s", "Can't reload Lua code:\nthe game was compiled without Lua support." )
-    .query();
-}
-
-void debug_write_lua_backtrace( std::ostream &/*out*/ )
-{
-    // Nothing to do here
-}
-
-bool save_world_lua_state( const world *world, const std::string & )
-{
-    return true;
-}
-
-bool load_world_lua_state( const world *world, const std::string & )
-{
-    return true;
-}
-
-std::unique_ptr<lua_state, lua_state_deleter> make_wrapped_state()
-{
-    return std::unique_ptr<lua_state, lua_state_deleter>(
-               new lua_state{}, lua_state_deleter{}
-           );
-}
-
-void init_global_state_tables( lua_state &, const std::vector<mod_id> & ) {}
-void set_mod_being_loaded( lua_state &, const mod_id & ) {}
-void clear_mod_being_loaded( lua_state & ) {}
-void run_mod_preload_script( lua_state &, const mod_id & ) {}
-void run_mod_finalize_script( lua_state &, const mod_id & ) {}
-void run_mod_main_script( lua_state &, const mod_id & ) {}
-void reg_lua_iuse_actors( lua_state &, Item_factory & ) {}
-
-template<typename... Args>
-void run_hooks( Args &&... ) {}
-
-void run_on_every_x_hooks( lua_state & ) {}
-
-} // namespace cata
-
-#else // LUA
-
 #include "catalua_sol.h"
 
 #include "avatar.h"
@@ -418,8 +327,6 @@ void run_on_every_x_hooks( lua_state &state )
 }
 
 } // namespace cata
-
-#endif // LUA
 
 namespace cata
 {

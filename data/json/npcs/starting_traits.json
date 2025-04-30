@@ -61,7 +61,6 @@
       { "trait": "MOODSWINGS", "prob": 10 },
       { "trait": "SAVANT", "prob": 10 },
       { "trait": "SCHIZOPHRENIC", "prob": 1 },
-      { "trait": "SQUEAMISH", "prob": 20 },
       { "trait": "ANTIWHEAT", "prob": 5 },
       { "trait": "WOOLALLERGY", "prob": 5 }
     ]

@@ -24,8 +24,8 @@ jobs:
         run: |
           set +e
           gh release view ${{ env.VERSION }} --json name --jq '.name'
-          HAS_RELEASE=$?
-          if (( $HAS_RELEASE == 1 )); then
+          HAS_NO_RELEASE=$? # error == exitcode 1 == no release of given version exists
+          if (( $HAS_NO_RELEASE == 0 )); then
             echo "Release already exists, skipping." >> "$GITHUB_STEP_SUMMARY"
           else
             echo "Release does not exist, creating a new one" >> "$GITHUB_STEP_SUMMARY"
@@ -177,7 +177,7 @@ jobs:
       - name: Build CBN (linux)
         if: runner.os == 'Linux' && matrix.android == 'none'
         run: |
-          make -j$((`nproc`+0)) TILES=${{ matrix.tiles }} SOUND=${{ matrix.tiles }} LUA=1 RELEASE=1 LANGUAGES=all PCH=0 bindist
+          make -j$((`nproc`+0)) TILES=${{ matrix.tiles }} SOUND=${{ matrix.tiles }} RELEASE=1 LANGUAGES=all PCH=0 bindist
           mv cataclysmbn-${{ env.VERSION }}.tar.gz cbn-${{ matrix.artifact }}-${{ env.VERSION }}.tar.gz
       - name: Build CBN (windows msvc)
         if: runner.os == 'Windows'
@@ -191,7 +191,7 @@ jobs:
         if: runner.os == 'macOS'
         run: |
           source ./venv/bin/activate
-          make -j3 TILES=${{ matrix.tiles }} SOUND=${{ matrix.tiles }} RELEASE=1 LUA=1 LOCALIZE=1 LANGUAGES=all BACKTRACE=0 PCH=0 USE_HOME_DIR=1 OSX_MIN=11 FRAMEWORK=1 COMPILER=$(brew --prefix llvm)/bin/clang++ dmgdist
+          make -j3 TILES=${{ matrix.tiles }} SOUND=${{ matrix.tiles }} RELEASE=1 LOCALIZE=1 LANGUAGES=all BACKTRACE=0 PCH=0 USE_HOME_DIR=1 OSX_MIN=11 FRAMEWORK=1 COMPILER=$(brew --prefix llvm)/bin/clang++ dmgdist
           mv CataclysmBN-${{ env.VERSION }}.dmg cbn-${{ matrix.artifact }}-${{ env.VERSION }}.dmg
       - name: Set up JDK 11 (android)
         if: runner.os == 'Linux' && matrix.android != 'none'

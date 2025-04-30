@@ -1855,8 +1855,6 @@ class Character : public Creature, public location_visitable<Character>
         void on_item_wear( const item &it );
         /** Called when an item is taken off */
         void on_item_takeoff( const item &it );
-        /** Called when an item is washed */
-        void on_worn_item_washed( const item &it );
         /** Called when effect intensity has been changed */
         void on_effect_int_change( const efftype_id &effect_type, int intensity,
                                    const bodypart_str_id &bp ) override;
