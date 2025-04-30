@@ -6195,13 +6195,15 @@ bodypart_str_id Character::body_window( const std::string &menu_header,
         int bonus;
     };
 
-    std::vector<healable_bp> parts;
-    for( const bodypart_id &bp : get_all_body_parts( true ) ) {
+    const auto all_body_parts_v = get_all_body_parts( true );
+    std::vector<healable_bp> parts( all_body_parts_v.size() );
+    for( size_t i = 0; i < all_body_parts_v.size(); ++i ) {
+        const bodypart_id &bp = all_body_parts_v[i];
         // Ugly!
         int heal_bonus = bp == body_part_head ? head_bonus :
                          bp == body_part_torso ? torso_bonus :
                          normal_bonus;
-        parts.emplace_back( false, bp, bp->name_as_heading.translated(), heal_bonus );
+        parts[i] = { false, bp, bp->name_as_heading.translated(), heal_bonus };
     }
 
     int max_bp_name_len = 0;
