@@ -1743,8 +1743,8 @@
     "time": "10 m",
     "reversible": true,
     "autolearn": true,
-    "using": [ [ "sewing_standard", 50 ], [ "welding_standard", 5 ] ],
-    "components": [ [ [ "pipe", 4 ] ], [ [ "spring", 1 ] ], [ [ "fabric_hides_proper", 8, "LIST" ] ], [ [ "rag", 6 ] ] ]
+    "using": [ [ "sewing_standard", 25 ], [ "welding_standard", 5 ] ],
+    "components": [ [ [ "pipe", 2 ] ], [ [ "spring", 1 ] ], [ [ "fabric_hides_proper", 4, "LIST" ] ], [ [ "rag", 3 ] ] ]
   },
   {
     "type": "recipe",
