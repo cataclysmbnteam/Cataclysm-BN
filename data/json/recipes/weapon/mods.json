@@ -372,7 +372,7 @@
     "subcategory": "CSC_WEAPON_MODS",
     "skill_used": "fabrication",
     "skills_required": [ [ "rifle", 4 ] ],
-    "autolearn": true
+    "autolearn": true,
     "difficulty": 3,
     "time": "1 h",
     "book_learn": [ [ "manual_rifle", 2 ], [ "textbook_anarch", 1 ] ],
