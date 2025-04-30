@@ -6189,7 +6189,7 @@ bodypart_str_id Character::body_window( const std::string &menu_header,
                                         float bleed, float bite, float infect, float bandage_power, float disinfectant_power ) const
 {
     struct healable_bp {
-        mutable bool allowed;
+        bool allowed;
         bodypart_id bp;
         std::string name; // Translated name as it appears in the menu.
         int bonus;
@@ -6217,7 +6217,7 @@ bodypart_str_id Character::body_window( const std::string &menu_header,
     bool is_valid_choice = false;
 
     for( size_t i = 0; i < parts.size(); i++ ) {
-        const auto &e = parts[i];
+        auto &e = parts[i];
         const bodypart_id &bp = e.bp;
         const bodypart_str_id &bp_str_id = bp.id();
         const int maximal_hp = get_part_hp_max( bp );
