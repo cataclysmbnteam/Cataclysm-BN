@@ -191,7 +191,7 @@
     "name": { "str": "FN SCAR-H 30-round magazine" },
     "description": "A 30-round steel box magazine for the FN SCAR-H rifle.  This one actually seems to be a modified FN FAL magazine.",
     "reliability": 7,
-    "reload_time": 120,
+    "reload_time": 120
   },
   {
     "id": "scarhmag",
