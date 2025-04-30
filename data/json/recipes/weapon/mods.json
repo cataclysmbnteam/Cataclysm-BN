@@ -367,6 +367,21 @@
   },
   {
     "type": "recipe",
+    "result": "shoestring_mg",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_MODS",
+    "skill_used": "fabrication",
+    "skills_required": [ [ "rifle", 4 ] ],
+    "autolearn": true
+    "difficulty": 3,
+    "time": "1 h",
+    "book_learn": [ [ "manual_rifle", 2 ], [ "textbook_anarch", 1 ] ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "tools": [ [ [ "mini14", -1 ], [ "m1a", -1 ], [ "garand", -1 ] ] ],
+    "components": [ [ [ "string_36", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
     "result": "glockswitch",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_MODS",
