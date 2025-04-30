@@ -377,7 +377,10 @@ void cata::detail::reg_item( sol::state &lua )
         luna::set_fx( ut, "is_tainted", &item::is_tainted );
         luna::set_fx( ut, "is_soft", &item::is_soft );
         luna::set_fx( ut, "is_reloadable", &item::is_reloadable );
-        luna::set_fx( ut, "is_filthy", &item::is_filthy );
+        DOC( "DEPRECATED: Items are no longer filthy" );
+        luna::set_fx( ut, "is_filthy", []() {
+            return false;
+        } );
         luna::set_fx( ut, "is_active", &item::is_active );
         luna::set_fx( ut, "is_upgrade", &item::is_upgrade );
 

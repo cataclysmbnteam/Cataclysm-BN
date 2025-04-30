@@ -95,6 +95,7 @@ std::string enum_to_string<m_flag>( m_flag data )
         case MF_FLIES: return "FLIES";
         case MF_AQUATIC: return "AQUATIC";
         case MF_SWIMS: return "SWIMS";
+        case MF_UNUSED_76: return "UNUSED_76";
         case MF_FISHABLE: return "FISHABLE";
         case MF_ATTACKMON: return "ATTACKMON";
         case MF_ANIMAL: return "ANIMAL";
@@ -148,7 +149,6 @@ std::string enum_to_string<m_flag>( m_flag data )
         case MF_CBM_OP: return "CBM_OP";
         case MF_CBM_TECH: return "CBM_TECH";
         case MF_CBM_SUBS: return "CBM_SUBS";
-        case MF_FILTHY: return "FILTHY";
         case MF_SWARMS: return "SWARMS";
         case MF_CLIMBS: return "CLIMBS";
         case MF_GROUP_MORALE: return "GROUP_MORALE";

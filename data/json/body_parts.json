@@ -28,7 +28,6 @@
     "stylish_bonus": 6,
     "hot_morale_mod": 2,
     "cold_morale_mod": 2,
-    "squeamish_penalty": 6,
     "bionic_slots": 80
   },
   {
@@ -48,7 +47,6 @@
     "stylish_bonus": 3,
     "hot_morale_mod": 2,
     "cold_morale_mod": 2,
-    "squeamish_penalty": 7,
     "bionic_slots": 18
   },
   {
@@ -66,7 +64,6 @@
     "drench_capacity": 1,
     "hit_difficulty": 1.2,
     "stylish_bonus": 2,
-    "squeamish_penalty": 8,
     "bionic_slots": 4
   },
   {
@@ -85,7 +82,6 @@
     "stylish_bonus": 2,
     "hot_morale_mod": 2,
     "cold_morale_mod": 2,
-    "squeamish_penalty": 9,
     "bionic_slots": 4
   },
   {
@@ -110,7 +106,6 @@
     "drench_capacity": 10,
     "hot_morale_mod": 0.5,
     "cold_morale_mod": 0.5,
-    "squeamish_penalty": 5,
     "bionic_slots": 20
   },
   {
@@ -134,7 +129,6 @@
     "drench_capacity": 10,
     "hot_morale_mod": 0.5,
     "cold_morale_mod": 0.5,
-    "squeamish_penalty": 5,
     "bionic_slots": 20
   },
   {
@@ -158,7 +152,6 @@
     "stylish_bonus": 0.5,
     "hot_morale_mod": 0.5,
     "cold_morale_mod": 0.5,
-    "squeamish_penalty": 3,
     "bionic_slots": 5
   },
   {
@@ -182,7 +175,6 @@
     "stylish_bonus": 0.5,
     "hot_morale_mod": 0.5,
     "cold_morale_mod": 0.5,
-    "squeamish_penalty": 3,
     "bionic_slots": 5
   },
   {
@@ -207,7 +199,6 @@
     "stylish_bonus": 1,
     "hot_morale_mod": 0.5,
     "cold_morale_mod": 0.5,
-    "squeamish_penalty": 5,
     "bionic_slots": 30
   },
   {
@@ -232,7 +223,6 @@
     "stylish_bonus": 1,
     "hot_morale_mod": 0.5,
     "cold_morale_mod": 0.5,
-    "squeamish_penalty": 5,
     "bionic_slots": 30
   },
   {
@@ -256,7 +246,6 @@
     "stylish_bonus": 0.5,
     "hot_morale_mod": 0.5,
     "cold_morale_mod": 0.5,
-    "squeamish_penalty": 3,
     "bionic_slots": 7
   },
   {
@@ -280,7 +269,6 @@
     "stylish_bonus": 0.5,
     "hot_morale_mod": 0.5,
     "cold_morale_mod": 0.5,
-    "squeamish_penalty": 3,
     "bionic_slots": 7
   }
 ]
