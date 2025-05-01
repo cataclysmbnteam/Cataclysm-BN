@@ -2552,6 +2552,11 @@ Function `( Item ) -> bool`
 
 Function `( Item ) -> bool`
 
+#### is_filthy
+
+DEPRECATED: Items are no longer filthy
+Function `() -> bool`
+
 #### is_active
 
 Function `( Item ) -> bool`
@@ -5694,7 +5699,7 @@ Function `( Volume, Volume ) -> bool`
 - `CBM_OP` = `73`
 - `CBM_TECH` = `74`
 - `CBM_SUBS` = `75`
-- `FILTHY` = `76`
+- `UNUSED_76` = `76`
 - `FISHABLE` = `77`
 - `GROUP_BASH` = `78`
 - `SWARMS` = `79`
