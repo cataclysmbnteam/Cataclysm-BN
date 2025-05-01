@@ -238,7 +238,6 @@ void complete_salvage( Character &who, item &cut, tripoint_abs_ms pos )
 
     map &here = get_map();
     auto pos_here = here.getlocal( pos );
-    const bool filthy = cut.is_filthy();
 
     for( const auto &salvaged : salvage_results( cut ) ) {
         int amount = std::floor( salvagable_percent * salvaged.second );
@@ -247,9 +246,6 @@ void complete_salvage( Character &who, item &cut, tripoint_abs_ms pos )
             // Time based on number of components.
             add_msg( m_good, vgettext( "Salvaged %1$i %2$s.", "Salvaged %1$i %2$s.", amount ),
                      amount, result.display_name( amount ) );
-            if( filthy ) {
-                result.set_flag( flag_FILTHY );
-            }
             for( ; amount > 0; --amount ) {
                 here.add_item_or_charges( pos_here, item::spawn( result ) );
             }
