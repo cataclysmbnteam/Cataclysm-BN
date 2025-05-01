@@ -160,7 +160,7 @@ void Font::draw_ascii_lines( const SDL_Renderer_Ptr &renderer, const GeometryRen
             geometry->vertical_line( renderer, p + point( ( width / 2 ), 0 ), p.y + height, 2,
                                      sdl_color );
             break;
-        // box bottom east T (left, down, up)
+        // box bottom west T (left, down, up)
         case LINE_XOXX_C:
             geometry->vertical_line( renderer, p + point( ( width / 2 ), 0 ), p.y + height, 2,
                                      sdl_color );
