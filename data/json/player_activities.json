@@ -657,16 +657,6 @@
     "complex_moves": { "speed": true, "stats": [ [ "INT" ] ] }
   },
   {
-    "id": "ACT_WASH",
-    "type": "activity_type",
-    "verb": "washing",
-    "rooted": true,
-    "suspendable": false,
-    "no_resume": true,
-    "morale_blocked": true,
-    "complex_moves": { "max_assistants": 8, "speed": true }
-  },
-  {
     "id": "ACT_HACKSAW",
     "type": "activity_type",
     "verb": "cutting the metal",

@@ -264,7 +264,6 @@ void vibe_finish( player_activity *act, player *p );
 void hand_crank_finish( player_activity *act, player *p );
 void atm_finish( player_activity *act, player *p );
 void eat_menu_finish( player_activity *act, player *p );
-void washing_finish( player_activity *act, player *p );
 void pry_nails_finish( player_activity *act, player *p );
 void chop_tree_finish( player_activity *act, player *p );
 void chop_logs_finish( player_activity *act, player *p );

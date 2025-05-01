@@ -31,8 +31,7 @@
     "bashing": 1,
     "material": "plastic",
     "symbol": "/",
-    "color": "light_gray",
-    "use_action": "WASH_HARD_ITEMS"
+    "color": "light_gray"
   },
   {
     "id": "elec_hairtrimmer",
@@ -139,7 +138,6 @@
     "material": "plastic",
     "symbol": "s",
     "color": "yellow",
-    "use_action": "WASH_HARD_ITEMS",
     "qualities": [ [ "SANDING", 1 ] ],
     "flags": [ "NO_SALVAGE" ]
   },
@@ -194,7 +192,6 @@
     "material": "wood",
     "symbol": ";",
     "color": "white",
-    "use_action": "WASH_SOFT_ITEMS",
     "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
@@ -210,7 +207,6 @@
     "material": [ "wood", "plastic" ],
     "symbol": "%",
     "color": "yellow",
-    "use_action": "WASH_ALL_ITEMS",
     "flags": [ "ALLOWS_REMOTE_USE", "NO_SALVAGE" ]
   }
 ]

@@ -6528,14 +6528,6 @@
   },
   {
     "type": "mutation",
-    "id": "SQUEAMISH",
-    "name": { "str": "Squeamish" },
-    "points": -1,
-    "starting_trait": true,
-    "description": "You can't even think about putting filthy clothes on yourself, especially from zombies' corpses."
-  },
-  {
-    "type": "mutation",
     "id": "BEE",
     "name": { "str": "Bee" },
     "points": 0,

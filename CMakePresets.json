@@ -22,7 +22,6 @@
         "LOCALIZE": "True",
         "TILES": "True",
         "SOUND": "True",
-        "LUA": "True",
         "TESTS": "True",
         "CMAKE_INSTALL_MESSAGE": "NEVER"
       }
@@ -51,7 +50,6 @@
         "LOCALIZE": "True",
         "TILES": "True",
         "SOUND": "True",
-        "LUA": "True",
         "TESTS": "False",
         "CMAKE_INSTALL_MESSAGE": "NEVER"
       }
@@ -76,7 +74,6 @@
         "SOUND": "ON",
         "CMAKE_EXPORT_COMPILE_COMMANDS": "ON",
         "CATA_CLANG_TIDY_PLUGIN": "ON",
-        "LUA": "ON",
         "BACKTRACE": "ON",
         "LIBBACKTRACE": "ON",
         "LINKER": "mold",

@@ -112,7 +112,6 @@ extern const flag_id flag_FELINE;
 extern const flag_id flag_FERTILIZER;
 extern const flag_id flag_FIELD_DRESS;
 extern const flag_id flag_FIELD_DRESS_FAILED;
-extern const flag_id flag_FILTHY;
 extern const flag_id flag_FIN;
 extern const flag_id flag_FIRE;
 extern const flag_id flag_FIRESTARTER;

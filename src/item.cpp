@@ -171,7 +171,6 @@ static const trait_id trait_CARNIVORE( "CARNIVORE" );
 static const trait_id trait_ILLITERATE( "ILLITERATE" );
 static const trait_id trait_LIGHTWEIGHT( "LIGHTWEIGHT" );
 static const trait_id trait_SAPROVORE( "SAPROVORE" );
-static const trait_id trait_SQUEAMISH( "SQUEAMISH" );
 static const trait_id trait_TOLERANCE( "TOLERANCE" );
 static const trait_id trait_WOOLALLERGY( "WOOLALLERGY" );
 
@@ -4388,7 +4387,7 @@ nc_color item::color_in_inventory( const player &p ) const
     } else if( is_armor() && p.has_trait( trait_WOOLALLERGY ) &&
                ( made_of( material_id( "wool" ) ) || has_own_flag( flag_wooled ) ) ) {
         ret = c_red;
-    } else if( is_filthy() || has_own_flag( flag_DIRTY ) ) {
+    } else if( has_own_flag( flag_DIRTY ) ) {
         ret = c_brown;
     } else if( is_bionic() ) {
         if( !p.has_bionic( type->bionic->id ) ) {
@@ -4970,9 +4969,6 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
         tagtext += _( " (poor fit)" );
     }
 
-    if( is_filthy() ) {
-        tagtext += _( " (filthy)" );
-    }
     if( is_bionic() && !has_fault( fault_bionic_nonsterile ) ) {
         tagtext += _( " (sterile)" );
     }
@@ -10657,11 +10653,6 @@ skill_id item::contextualize_skill( const skill_id &id ) const
     return id;
 }
 
-bool item::is_filthy() const
-{
-    return has_flag( flag_FILTHY ) && ( get_option<bool>( "FILTHY_MORALE" ) ||
-                                        get_avatar().has_trait( trait_SQUEAMISH ) );
-}
 
 bool item::on_drop( const tripoint &pos )
 {

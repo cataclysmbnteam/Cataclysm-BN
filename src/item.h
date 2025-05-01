@@ -767,7 +767,7 @@ class item : public location_visitable<item>, public game_object<item>
                                               std::vector<detached_ptr<item>> &used,
                                               const std::function<bool( const item & )> &filter = return_true<item> );
 
-        /** Permits filthy components, should only be used as a helper in creating filters */
+        /** should only be used as a helper in creating filters */
         bool allow_crafting_component() const;
 
         /**
@@ -1195,9 +1195,6 @@ class item : public location_visitable<item>, public game_object<item>
          * for other players. The player is identified by its id.
          */
         void mark_as_used_by_player( const player &p );
-        /** Marks the item as filthy, so characters with squeamish trait can't wear it.
-        */
-        bool is_filthy() const;
         /**
          * This is called once each turn. It's usually only useful for active items,
          * but can be called for inactive items without problems.
@@ -2478,18 +2475,9 @@ bool item_ptr_compare_by_charges( const item *left, const item *right );
  */
 inline bool is_crafting_component( const item &component )
 {
-    return ( component.allow_crafting_component() || component.count_by_charges() ) &&
-           !component.is_filthy();
-}
-
-/**
- * This is used in recipes, all other cases use is_crafting_component instead. This allows
- * filthy components to be filtered out in a different manner that allows exceptions.
- */
-inline bool is_crafting_component_allow_filthy( const item &component )
-{
     return ( component.allow_crafting_component() || component.count_by_charges() );
 }
+
 
 namespace charge_removal_blacklist
 {

@@ -234,6 +234,18 @@
     ]
   },
   {
+    "id": "nested_kriss_vector_9mm_mag",
+    "type": "item_group",
+    "subtype": "distribution",
+    "ammo": 100,
+    "entries": [
+      { "item": "kriss_vector_9mm_mag", "ammo-group": "on_hand_9mm", "prob": 100 },
+      { "item": "glockbigmag", "ammo-group": "on_hand_9mm", "prob": 5 },
+      { "item": "glock_drum_50rd", "ammo-group": "on_hand_9mm", "prob": 5 },
+      { "item": "glock_drum_100rd", "ammo-group": "on_hand_9mm", "prob": 5 }
+    ]
+  },
+  {
     "id": "nested_hk_mp7_mag",
     "type": "item_group",
     "subtype": "distribution",

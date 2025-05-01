@@ -236,7 +236,6 @@ static const itype_id itype_cig( "cig" );
 static const itype_id itype_cigar( "cigar" );
 static const itype_id itype_cow_bell( "cow_bell" );
 static const itype_id itype_data_card( "data_card" );
-static const itype_id itype_detergent( "detergent" );
 static const itype_id itype_e_handcuffs( "e_handcuffs" );
 static const itype_id itype_ecig( "ecig" );
 static const itype_id itype_fire( "fire" );
@@ -269,7 +268,6 @@ static const itype_id itype_rebreather_xl_on( "rebreather_xl_on" );
 static const itype_id itype_rmi2_corpse( "rmi2_corpse" );
 static const itype_id itype_smart_phone( "smart_phone" );
 static const itype_id itype_smartphone_music( "smartphone_music" );
-static const itype_id itype_soap( "soap" );
 static const itype_id itype_soldering_iron( "soldering_iron" );
 static const itype_id itype_spiral_stone( "spiral_stone" );
 static const itype_id itype_thermometer( "thermometer" );
@@ -4665,7 +4663,7 @@ auto iuse::mop( player *p, item *it, bool, const tripoint & ) -> int
         p->add_msg_if_player( m_info, _( "You mop up the spill." ) );
     }
 
-    p->moves -= 15 * mopped_tiles;
+    p->moves -= 150 * mopped_tiles;
     return it->type->charges_to_use();
 }
 
@@ -8932,141 +8930,6 @@ int iuse::ladder( player *p, item *, bool, const tripoint & )
     return 1;
 }
 
-washing_requirements washing_requirements_for_volume( const units::volume &vol )
-{
-    int water = divide_round_up( vol, 125_ml );
-    int cleanser = divide_round_up( vol, 1_liter );
-    int time = to_moves<int>( 10_seconds * ( vol / 250_ml ) );
-    return { water, cleanser, time };
-}
-
-static int wash_items( player *p, bool soft_items, bool hard_items );
-
-int iuse::wash_soft_items( player *p, item *, bool, const tripoint & )
-{
-    if( !character_funcs::can_see_fine_details( *p ) ) {
-        p->add_msg_if_player( _( "You can't see to do that!" ) );
-        return 0;
-    }
-    if( p->is_mounted() ) {
-        p->add_msg_if_player( m_info, _( "You cannot do that while mounted." ) );
-        return 0;
-    }
-    // Check that player isn't over volume limit as this might cause it to break... this is a hack.
-    // TODO: find a better solution.
-    if( p->volume_capacity() < p->volume_carried() ) {
-        p->add_msg_if_player( _( "You're carrying too much to clean anything." ) );
-        return 0;
-    }
-
-    wash_items( p, true, false );
-    return 0;
-}
-
-int iuse::wash_hard_items( player *p, item *, bool, const tripoint & )
-{
-    if( !character_funcs::can_see_fine_details( *p ) ) {
-        p->add_msg_if_player( _( "You can't see to do that!" ) );
-        return 0;
-    }
-    if( p->is_mounted() ) {
-        p->add_msg_if_player( m_info, _( "You cannot do that while mounted." ) );
-        return 0;
-    }
-    // Check that player isn't over volume limit as this might cause it to break... this is a hack.
-    // TODO: find a better solution.
-    if( p->volume_capacity() < p->volume_carried() ) {
-        p->add_msg_if_player( _( "You're carrying too much to clean anything." ) );
-        return 0;
-    }
-
-    wash_items( p, false, true );
-    return 0;
-}
-
-int iuse::wash_all_items( player *p, item *, bool, const tripoint & )
-{
-    if( !character_funcs::can_see_fine_details( *p ) ) {
-        p->add_msg_if_player( _( "You can't see to do that!" ) );
-        return 0;
-    }
-
-    // Check that player isn't over volume limit as this might cause it to break... this is a hack.
-    // TODO: find a better solution.
-    if( p->volume_capacity() < p->volume_carried() ) {
-        p->add_msg_if_player( _( "You're carrying too much to clean anything." ) );
-        return 0;
-    }
-
-    wash_items( p, true, true );
-    return 0;
-}
-
-int wash_items( player *p, bool soft_items, bool hard_items )
-{
-    if( p->is_mounted() ) {
-        p->add_msg_if_player( m_info, _( "You cannot do that while mounted." ) );
-        return 0;
-    }
-    p->inv_restack( );
-    const inventory &crafting_inv = p->crafting_inventory();
-
-    auto is_liquid = []( const item & it ) {
-        return it.made_of( LIQUID ) || it.contents_made_of( LIQUID );
-    };
-    int available_water = std::max(
-                              crafting_inv.charges_of( itype_water, INT_MAX, is_liquid ),
-                              crafting_inv.charges_of( itype_water_clean, INT_MAX, is_liquid )
-                          );
-    int available_cleanser = std::max( crafting_inv.charges_of( itype_soap ),
-                                       crafting_inv.charges_of( itype_detergent ) );
-
-    iuse_locations to_clean = game_menus::inv::multiwash( *p, available_water, available_cleanser,
-                              soft_items,
-                              hard_items );
-
-    if( to_clean.empty() ) {
-        return 0;
-    }
-
-    // Determine if we have enough water and cleanser for all the items.
-    units::volume total_volume = 0_ml;
-    for( const iuse_location &iloc : to_clean ) {
-        if( !iloc.loc ) {
-            p->add_msg_if_player( m_info, _( "Never mind." ) );
-            return 0;
-        }
-        item &i = *iloc.loc;
-        total_volume += i.volume() * iloc.count / i.count();
-    }
-
-    washing_requirements required = washing_requirements_for_volume( total_volume );
-
-    if( !crafting_inv.has_charges( itype_water, required.water, is_liquid ) &&
-        !crafting_inv.has_charges( itype_water_clean, required.water, is_liquid ) ) {
-        p->add_msg_if_player( _( "You need %1$i charges of water or clean water to wash these items." ),
-                              required.water );
-        return 0;
-    } else if( !crafting_inv.has_charges( itype_soap, required.cleanser ) &&
-               !crafting_inv.has_charges( itype_detergent, required.cleanser ) ) {
-        p->add_msg_if_player( _( "You need %1$i charges of cleansing agent to wash these items." ),
-                              required.cleanser );
-        return 0;
-    }
-
-    const std::vector<npc *> helpers = character_funcs::get_crafting_helpers( *p, 3 );
-    for( const npc *np : helpers ) {
-        add_msg( m_info, _( "%s helps with this task…" ), np->name );
-    }
-    required.time = required.time * ( 10 - helpers.size() ) / 10;
-
-    // Assign the activity values.
-    p->assign_activity( std::make_unique<player_activity>( std::make_unique<wash_activity_actor>
-                        ( to_clean,
-                          required.time ) ) );
-
-    return 0;
-}
 
 int iuse::weak_antibiotic( player *p, item *it, bool, const tripoint & )
 {

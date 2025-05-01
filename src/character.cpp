@@ -236,7 +236,6 @@ static const trait_id trait_DEFT( "DEFT" );
 static const trait_id trait_PROF_SKATER( "PROF_SKATER" );
 static const trait_id trait_QUILLS( "QUILLS" );
 static const trait_id trait_SPINES( "SPINES" );
-static const trait_id trait_SQUEAMISH( "SQUEAMISH" );
 static const trait_id trait_THORNS( "THORNS" );
 static const trait_id trait_WOOLALLERGY( "WOOLALLERGY" );
 
@@ -3100,9 +3099,6 @@ ret_val<bool> Character::can_wear( const item &it, bool with_equip_change ) cons
         return ret_val<bool>::make_failure( _( "Can't wear that, it's made of wool!" ) );
     }
 
-    if( it.is_filthy() && has_trait( trait_SQUEAMISH ) ) {
-        return ret_val<bool>::make_failure( _( "Can't wear that, it's filthy!" ) );
-    }
 
     if( !it.has_flag( flag_OVERSIZE ) && !it.has_flag( flag_resized_large ) &&
         !it.has_flag( flag_SEMITANGIBLE ) ) {
@@ -9046,33 +9042,6 @@ dealt_damage_instance Character::deal_damage( Creature *source, bodypart_id bp,
         }
     }
 
-    if( get_option<bool>( "FILTHY_WOUNDS" ) ) {
-        int sum_cover = 0;
-        for( const item * const &i : worn ) {
-            if( i->covers( bp ) && i->is_filthy() ) {
-                sum_cover += i->get_coverage( bp );
-            }
-        }
-
-        // Chance of infection is damage (with cut and stab x4) * sum of coverage on affected body part, in percent.
-        // i.e. if the body part has a sum of 100 coverage from filthy clothing,
-        // each point of damage has a 1% change of causing infection.
-        if( sum_cover > 0 ) {
-            const int cut_type_dam = dealt_dams.type_damage( DT_CUT ) + dealt_dams.type_damage( DT_STAB );
-            const int combined_dam = dealt_dams.type_damage( DT_BASH ) + ( cut_type_dam * 4 );
-            const int infection_chance = ( combined_dam * sum_cover ) / 100;
-            if( x_in_y( infection_chance, 100 ) ) {
-                if( has_effect( effect_bite, bp.id() ) ) {
-                    add_effect( effect_bite, 40_minutes, bp.id() );
-                } else if( has_effect( effect_infected, bp.id() ) ) {
-                    add_effect( effect_infected, 25_minutes, bp.id() );
-                } else {
-                    add_effect( effect_bite, 1_turns, bp.id() );
-                }
-                add_msg_if_player( _( "Filth from your clothing has implanted deep in the wound." ) );
-            }
-        }
-    }
 
     on_hurt( source );
     return dealt_dams;
@@ -10449,12 +10418,6 @@ void Character::use_fire( const int quantity )
     }
 }
 
-void Character::on_worn_item_washed( const item &it )
-{
-    if( is_worn( it ) ) {
-        morale->on_worn_item_washed( it );
-    }
-}
 
 void Character::on_item_wear( const item &it )
 {

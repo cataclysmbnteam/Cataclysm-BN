@@ -124,11 +124,6 @@ class unpack_actor : public iuse_actor
         /** Whether or not the items from the group should spawn fitting */
         bool items_fit = false;
 
-        /**
-         *  If the item is filthy, at what volume (held) threshold should the
-         *   items unpacked be made filthy
-         */
-        units::volume filthy_vol_threshold = 0_ml;
 
         unpack_actor( const std::string &type = "unpack" ) : iuse_actor( type ) {}
 
