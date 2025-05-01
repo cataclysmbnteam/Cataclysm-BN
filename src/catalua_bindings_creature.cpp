@@ -277,7 +277,8 @@ void cata::detail::reg_monster( sol::state &lua )
         SET_MEMB( unique_name );
 
         // Methods
-        luna::set_fx( ut, "get_type", [](const monster &m) { 
+        luna::set_fx( ut, "get_type", []( const monster & m )
+        {
             return m.type -> id; //I really don't want to break the uniformity, but...
         } );
         SET_FX_T( can_upgrade, bool() const );
