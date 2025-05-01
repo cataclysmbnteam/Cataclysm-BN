@@ -1092,6 +1092,7 @@ char rand_char()
 
 // this translates symbol y, u, n, b to NW, NE, SE, SW lines correspondingly
 // h, j, c to horizontal, vertical, cross correspondingly
+// L, R, T, B convert to double line ending in a single vertical or horizontal line
 int special_symbol( int sym )
 {
     switch( sym ) {
@@ -1109,6 +1110,14 @@ int special_symbol( int sym )
             return LINE_XOOX;
         case 'b':
             return LINE_XXOO;
+        case 'L':
+            return LINE_XDXO_C;
+        case 'R':
+            return LINE_XOXD_C;
+        case 'T':
+            return LINE_OXDX_C;
+        case 'B':
+            return LINE_DXOX_C;
         default:
             return sym;
     }
