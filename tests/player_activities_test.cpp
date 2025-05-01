@@ -313,7 +313,8 @@ TEST_CASE( "hacksaw", "[activity][hacksaw]" )
     avatar &dummy = get_avatar();
 
     auto setup_dummy = [&dummy]() -> item & {
-        item &saw = dummy.i_add( item::spawn( itype_test_hacksaw ) );
+        dummy.i_add( item::spawn( itype_id( "atomic_lamp" ) ) );
+        item &saw = dummy.i_add( item::spawn( itype_test_hacksaw ) );        
         dummy.wield( saw );
 
         REQUIRE( dummy.primary_weapon().typeId() == itype_test_hacksaw );
@@ -438,6 +439,7 @@ TEST_CASE( "hacksaw", "[activity][hacksaw]" )
             mp.furn_set( tripoint_zero, furn_t_test_f_hacksaw3 );
             REQUIRE( mp.furn( tripoint_zero ) == furn_t_test_f_hacksaw3 );
 
+            dummy.i_add( item::spawn( itype_id( "atomic_lamp" ) ) );
             item &hacksaw_elec = dummy.i_add( item::spawn( itype_test_hacksaw_elec,
                                               calendar::start_of_cataclysm, 1 ) );
             dummy.wield( hacksaw_elec );
