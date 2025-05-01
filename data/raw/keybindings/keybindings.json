@@ -1167,15 +1167,36 @@
     "type": "keybinding",
     "id": "REROLL_CHARACTER",
     "category": "NEW_CHAR_DESCRIPTION",
-    "name": "Reroll Random Character",
+    "name": "Reroll random character",
     "bindings": [ { "input_method": "keyboard", "key": "%" } ]
   },
   {
     "type": "keybinding",
     "id": "REROLL_CHARACTER_WITH_SCENARIO",
     "category": "NEW_CHAR_DESCRIPTION",
-    "name": "Reroll Random Character With Scenario",
+    "name": "Reroll random character with scenario",
     "bindings": [ { "input_method": "keyboard", "key": "^" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "REROLL_CHARACTER",
+    "category": "NEW_CHAR_TRAITS",
+    "name": "Reroll random character",
+    "bindings": [ { "input_method": "keyboard", "key": "%" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "REROLL_CHARACTER_WITH_SCENARIO",
+    "category": "NEW_CHAR_TRAITS",
+    "name": "Reroll random character with scenario",
+    "bindings": [ { "input_method": "keyboard", "key": "^" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "REROLL_APPEARANCE",
+    "category": "NEW_CHAR_TRAITS",
+    "name": "Reroll appearance",
+    "bindings": [ { "input_method": "keyboard", "key": "&" } ]
   },
   {
     "type": "keybinding",
@@ -3611,5 +3632,40 @@
     "category": "YN_IGNORE_QUERY",
     "name": "Ignore further promts and finish",
     "bindings": [ { "input_method": "keyboard", "key": "I" }, { "input_method": "keyboard", "key": "i" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "RANDOMIZE",
+    "category": "NEW_CHAR_TRAITS",
+    "name": "Select random trait",
+    "bindings": [ { "input_method": "keyboard", "key": "*" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "RANDOMIZE",
+    "category": "NEW_CHAR_PROFESSIONS",
+    "name": "Select random profession",
+    "bindings": [ { "input_method": "keyboard", "key": "*" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "RANDOMIZE",
+    "category": "NEW_CHAR_SCENARIOS",
+    "name": "Select random scenario",
+    "bindings": [ { "input_method": "keyboard", "key": "*" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "RANDOMIZE",
+    "category": "NEW_CHAR_SKILLS",
+    "name": "Select random skill",
+    "bindings": [ { "input_method": "keyboard", "key": "*" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "RANDOMIZE",
+    "category": "NEW_CHAR_STATS",
+    "name": "Select random stat",
+    "bindings": [ { "input_method": "keyboard", "key": "*" } ]
   }
 ]

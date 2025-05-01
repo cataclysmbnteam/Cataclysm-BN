@@ -1789,7 +1789,7 @@
     "name": { "str": "rag" },
     "description": "This is a largish piece of cloth, useful in crafting and possibly for staunching bleeding.",
     "copy-from": "rag_abstract",
-    "use_action": [ { "type": "heal", "move_cost": 200, "used_up_item": "rag_bloody", "bleed": 0.5, "limb_power": 0 }, "WASH_HARD_ITEMS" ],
+    "use_action": [ { "type": "heal", "move_cost": 200, "used_up_item": "rag_bloody", "bleed": 0.5, "limb_power": 0 } ],
     "category": "scrap_fabric"
   },
   {
@@ -3211,7 +3211,7 @@
     "material": "aluminum",
     "symbol": "!",
     "color": "green",
-    "use_action": { "type": "unpack", "group": "premium_contents", "items_fit": true, "filthy_volume_threshold": "10 L" },
+    "use_action": { "type": "unpack", "group": "premium_contents", "items_fit": true },
     "flags": [ "NO_REPAIR", "NO_SALVAGE" ]
   },
   {

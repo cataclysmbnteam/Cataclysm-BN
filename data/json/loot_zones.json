@@ -69,13 +69,7 @@
     "id": "LOOT_CLOTHING",
     "type": "LOOT_ZONE",
     "name": "Loot: Clothing",
-    "description": "Destination for clothing.  Does include filthy clothing if such zone is not specified."
-  },
-  {
-    "id": "LOOT_FCLOTHING",
-    "type": "LOOT_ZONE",
-    "name": "Loot: F.Clothing",
-    "description": "Destination for filthy clothing."
+    "description": "Destination for clothing."
   },
   {
     "id": "LOOT_DRUGS",

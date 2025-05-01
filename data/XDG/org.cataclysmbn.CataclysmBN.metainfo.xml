@@ -4,8 +4,28 @@
     <developer id="org.cataclysmbn">
         <name>Cataclysm BN Team and Contributors</name>
     </developer>
-    <name>Cataclysm-BN</name>
-    <summary>A graphical post-apocalyptic roguelike that focuses on gameplay over realism</summary>
+    <name>Cataclysm BN</name>
+    <summary>Try to survive the apocalypse</summary>
+    <branding>
+        <color type="primary" scheme_preference="light">#8df7a9</color>
+        <color type="primary" scheme_preference="dark">#7f2c22</color>
+    </branding>
+    <categories>
+        <category>Game</category>
+        <category>RolePlaying</category>
+    </categories>
+    <keywords>
+        <keyword>roguelike</keyword>
+        <keyword>science-fiction</keyword>
+        <keyword>apocalypse</keyword>
+        <keyword>turn-based</keyword>
+        <keyword>tiles</keyword>
+        <keyword>game</keyword>
+        <keyword>survival</keyword>
+        <keyword>cbn</keyword>
+        <keyword>bn</keyword>
+        <keyword>c++</keyword>
+    </keywords>
 
     <metadata_license>CC-BY-SA-4.0</metadata_license>
     <project_license>CC-BY-SA-3.0</project_license>
@@ -24,7 +44,7 @@
             Find a way to stop the Cataclysm ... or become one of its strongest monsters.
         </p>
         <p>
-            Cataclysm: Bright Nights is a fork of Cataclysm: Dark Days Ahead.
+            Cataclysm: Bright Nights is a fork of Cataclysm: Dark Days Ahead. The two forks diverged a few years ago over disagreements regarding the right direction for development to take, with BN choosing less emphasis on realism. Overall, BN has taken a more Sci-Fi approach, with robots and bionics still prominent in society.
         </p>
     </description>
     <content_rating type="oars-1.1">
@@ -48,6 +68,23 @@
         <content_attribute id="language-discrimination">intense</content_attribute>
     </content_rating>
     <releases>
+        <release version="0.8.0" date="2025-04-28">
+            <url type="details">https://github.com/cataclysmbnteam/Cataclysm-BN/releases/tag/v0.8.0</url>
+            <description>
+                <p>Notable Changes</p>
+                <ul>
+                    <li>Improved monster AI, including a "Stockfish" AI mod for extra challenge</li>
+                    <li>Added a new GPS item to allow for searching for map tiles easier</li>
+                    <li>Reworked how the drug system works, mods can add cigarettes properly now</li>
+                    <li>Rebalanced weapon handling, primarily nerfs</li>
+                    <li>Converted more tool requirements to quality requirements for modability</li>
+                    <li>Reworked the loot tables of supply drops to make them less of power pinatas</li>
+                    <li>Color-coded the charge amounts in the inventory</li>
+                    <li>Added a total armor section to armor layering menu</li>
+                    <li>Rest of the changes can be found in the github repo</li>
+                </ul>
+            </description>
+        </release>
         <release version="0.7.1" date="2025-03-18">
             <url type="details">https://github.com/cataclysmbnteam/Cataclysm-BN/releases/tag/v0.7.1</url>
             <description>
@@ -93,7 +130,8 @@
     </url>
     <launchable type="desktop-id">org.cataclysmbn.CataclysmBN.desktop</launchable>
     <screenshots>
-        <screenshot type="default">
+        <screenshot type="default" xml:lang="en">
+            <caption>Screenshots from the playthroughs of (clock-wise order) Chaosvolt x2, ExecutorBill, and Scarf005.</caption>
             <image>https://raw.githubusercontent.com/cataclysmbnteam/Cataclysm-BN/cb3a3769dc76a3cfd730c190a068f329fc8de2e9/doc/src/content/docs/en/contribute/img/readme-title.png</image>
         </screenshot>
     </screenshots>

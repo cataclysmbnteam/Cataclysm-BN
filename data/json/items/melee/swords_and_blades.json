@@ -201,15 +201,15 @@
     "category": "weapons",
     "weapon_category": [ "KNIVES" ],
     "name": { "str": "RM42 fighting knife", "str_pl": "RM42 fighting knives" },
-    "description": "This sturdy matte black Rivtech combat dagger features a long and slim double-edged blade with a spear-point and a distinctive slip-resistant grip which can also be used to affix it to a suitable firearm.  Originally manufactured for the military, it was very popular in films and among collectors due to its fearsome appearance.",
+    "description": "This matte black Rivtech combat dagger features a long double-edged blade converging to a spear-point and a distinctive slip-resistant grip with low-profile grooves to affix to a firearm.  Improving on the design of the legendary Fairbarn-Sykes dagger with new materials, it was very popular in films and among collectors due to its fearsome appearance.",
     "weight": "188 g",
     "volume": "750 ml",
     "price": "450 USD",
     "price_postapoc": "40 USD",
-    "to_hit": 2,
-    "bashing": 2,
-    "cutting": 20,
-    "material": [ "ceramic", "plastic" ],
+    "to_hit": 1,
+    "bashing": 4,
+    "cutting": 22,
+    "material": [ "steel", "plastic", "ceramic" ],
     "symbol": "/",
     "color": "dark_gray",
     "gunmod_data": {
@@ -219,9 +219,9 @@
     },
     "min_skills": [ [ "weapon", 2 ], [ "melee", 1 ] ],
     "techniques": [ "RAPID", "WBLOCK_1" ],
-    "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 19 ] ],
+    "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 3 ] ],
     "thrown_damage": [ { "damage_type": "stab", "amount": 14 } ],
-    "flags": [ "STAB", "DURABLE_MELEE", "SHEATH_KNIFE", "NO_CVD" ]
+    "flags": [ "STAB", "DURABLE_MELEE", "SHEATH_KNIFE" ]
   },
   {
     "id": "knife_swissarmy",

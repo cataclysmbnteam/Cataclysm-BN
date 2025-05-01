@@ -572,28 +572,6 @@ class throw_activity_actor : public activity_actor
         static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
 };
 
-class wash_activity_actor : public activity_actor
-{
-    private:
-        iuse_locations targets;
-        int moves_total = 0;
-
-    public:
-        wash_activity_actor() = default;
-        wash_activity_actor( const iuse_locations &targets, int moves_total ) :
-            targets( targets ), moves_total( moves_total ) {};
-
-        activity_id get_type() const override {
-            return activity_id( "ACT_WASH" );
-        }
-
-        void start( player_activity &act, Character & ) override;
-        void do_turn( player_activity &, Character & ) override;
-        void finish( player_activity &act, Character &who ) override;
-
-        void serialize( JsonOut &jsout ) const override;
-        static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
-};
 
 class oxytorch_activity_actor : public activity_actor
 {

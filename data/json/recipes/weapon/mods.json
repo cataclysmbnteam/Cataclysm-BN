@@ -1041,5 +1041,33 @@
       [ [ "amplifier", 5 ] ],
       [ [ "RAM", 2 ] ]
     ]
+  },
+  {
+    "result": "g36_stanag_adapter",
+    "type": "recipe",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_MODS",
+    "skill_used": "computer",
+    "difficulty": 4,
+    "skills_required": [ [ "fabrication", 3 ] ],
+    "time": "1 h",
+    "book_learn": [ [ "manual_rifle", 4 ], [ "textbook_anarch", 3 ] ],
+    "tools": [ [ [ "hk_g36", -1 ], [ "large_repairkit", 25 ], [ "small_repairkit", 45 ] ], [ [ "mold_plastic", -1 ] ] ],
+    "using": [ [ "3d_printing_standard", 3 ] ],
+    "components": [ [ [ "plastic_chunk", 4 ] ] ]
+  },
+  {
+    "result": "aug_nato_conversion",
+    "type": "recipe",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_MODS",
+    "skill_used": "computer",
+    "difficulty": 4,
+    "skills_required": [ [ "fabrication", 4 ] ],
+    "time": "1 h",
+    "book_learn": [ [ "manual_rifle", 5 ], [ "textbook_anarch", 3 ] ],
+    "tools": [ [ [ "steyr_aug", -1 ], [ "large_repairkit", 25 ], [ "small_repairkit", 45 ] ], [ [ "mold_plastic", -1 ] ] ],
+    "using": [ [ "3d_printing_standard", 3 ] ],
+    "components": [ [ [ "plastic_chunk", 8 ] ], [ [ "sheet_metal_small", 1 ] ] ]
   }
 ]

@@ -56,15 +56,6 @@ void swap_letters( player &p );
  */
 drop_locations multidrop( player &p );
 
-/**
- * Select items to wash.
- * @param water Available water
- * @param cleanser Available cleanser
- * @param do_soft Whether to allow soft items
- * @param do_hard Whether to allow hard items
- * @return A list of selected item_locations with quantities.
- */
-iuse_locations multiwash( Character &ch, int water, int cleanser, bool do_soft, bool do_hard );
 
 /** Consuming an item. */
 item *consume( player &p );
