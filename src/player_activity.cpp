@@ -540,6 +540,12 @@ void player_activity::do_turn( player &p )
         }
     }
 
+    if( auto res = type->check_interrupts( p, &speed ); res.success() ) {
+        p.add_msg_player_or_say( m_bad, res.str(), res.str() );
+        set_to_null();
+        return;
+    }
+
     if( actor ) {
         actor->do_turn( *this, p );
     } else {

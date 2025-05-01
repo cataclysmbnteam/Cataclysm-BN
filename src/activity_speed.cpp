@@ -106,7 +106,7 @@ void activity_speed::calc_light_factor( const Character &who )
     const float darkness =
         (
             character_funcs::fine_detail_vision_mod( who ) -
-            character_funcs::FINE_VISION_THRESHOLD
+            character_funcs::Vision::FINE
         ) / 7.0f;
     light = limit_factor( 1.0f - darkness, 0.0f );
 }

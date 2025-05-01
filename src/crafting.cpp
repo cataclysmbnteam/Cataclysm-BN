@@ -128,7 +128,7 @@ float lighting_crafting_speed_multiplier( const Character &who, const recipe &re
     const float darkness =
         (
             character_funcs::fine_detail_vision_mod( who ) -
-            character_funcs::FINE_VISION_THRESHOLD
+            character_funcs::Vision::FINE
         ) / 7.0f;
 
     if( rec.has_flag( flag_BLIND_EASY ) ) {
