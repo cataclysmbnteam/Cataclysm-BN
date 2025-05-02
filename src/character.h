@@ -733,11 +733,6 @@ class Character : public Creature, public location_visitable<Character>
         std::map<bodypart_id, int> get_armor_fire( const std::map<bodypart_id, std::vector<const item *>>
                 &clothing_map ) const;
         // --------------- Mutation Stuff ---------------
-        /** Returns the id of a random trait matching the given predicate */
-        trait_id get_random_trait( const std::function<bool( const mutation_branch & )> &func );
-        void randomize_cosmetic_trait( std::string mutation_type );
-        /** Returns true if character has a conflicting trait to the entered trait. */
-        void clear_cosmetic_traits( std::string mutation_type, trait_id trait );
 
         // In mutation.cpp
         /** Returns true if the player has the entered trait */

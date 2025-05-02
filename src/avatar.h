@@ -69,7 +69,6 @@ class avatar : public player
         // newcharacter.cpp
         bool create( character_type type, const std::string &tempname = "" );
         void randomize( bool random_scenario, points_left &points, bool play_now = false );
-        void randomize_cosmetics();
         bool load_template( const std::string &template_name, points_left &points );
         void save_template( const std::string &name, const points_left &points );
         void character_to_template( const std::string &name );

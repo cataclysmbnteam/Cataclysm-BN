@@ -50,24 +50,24 @@ static constexpr volume legacy_volume_factor = from_milliliter( 250 );
 } // namespace units
 
 // Implicitly converted to volume, which has int as value_type!
-constexpr units::volume operator""_ml( const unsigned long long v )
+constexpr units::volume operator"" _ml( const unsigned long long v )
 {
     return units::from_milliliter( v );
 }
 
-constexpr units::quantity<double, units::volume_in_milliliter_tag> operator""_ml(
+constexpr units::quantity<double, units::volume_in_milliliter_tag> operator"" _ml(
     const long double v )
 {
     return units::from_milliliter( v );
 }
 
 // Implicitly converted to volume, which has int as value_type!
-constexpr units::volume operator""_liter( const unsigned long long v )
+constexpr units::volume operator"" _liter( const unsigned long long v )
 {
     return units::from_milliliter( v * 1000 );
 }
 
-constexpr units::quantity<double, units::volume_in_milliliter_tag> operator""_liter(
+constexpr units::quantity<double, units::volume_in_milliliter_tag> operator"" _liter(
     const long double v )
 {
     return units::from_milliliter( v * 1000 );

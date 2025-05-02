@@ -1735,19 +1735,6 @@
   },
   {
     "type": "recipe",
-    "result": "saddle",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_VEHICLE",
-    "skill_used": "fabrication",
-    "difficulty": 1,
-    "time": "10 m",
-    "reversible": true,
-    "autolearn": true,
-    "using": [ [ "sewing_standard", 25 ], [ "welding_standard", 5 ] ],
-    "components": [ [ [ "pipe", 2 ] ], [ [ "spring", 1 ] ], [ [ "fabric_hides_proper", 4, "LIST" ] ], [ [ "rag", 3 ] ] ]
-  },
-  {
-    "type": "recipe",
     "result": "vehicle_controls",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_VEHICLE",
