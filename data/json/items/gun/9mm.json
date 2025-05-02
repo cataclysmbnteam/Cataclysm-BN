@@ -276,7 +276,20 @@
       [ "sling", 1 ]
     ],
     "magazine_well": "250 ml",
-    "magazines": [ [ "9mm", [ "glockmag", "glockbigmag", "glock17_17", "glock17_22", "glock_drum_50rd", "glock_drum_100rd", "kriss_vector_9mm_mag" ] ] ]
+    "magazines": [
+      [
+        "9mm",
+        [
+          "glockmag",
+          "glockbigmag",
+          "glock17_17",
+          "glock17_22",
+          "glock_drum_50rd",
+          "glock_drum_100rd",
+          "kriss_vector_9mm_mag"
+        ]
+      ]
+    ]
   },
   {
     "id": "ksub2000_turret_fake",
@@ -677,7 +690,20 @@
     "color": "dark_gray",
     "ammo": "9mm",
     "magazine_well": "250 ml",
-    "magazines": [ [ "9mm", [ "glockmag", "glockbigmag", "glock17_17", "glock17_22", "glock_drum_50rd", "glock_drum_100rd", "kriss_vector_9mm_mag" ] ] ],
+    "magazines": [
+      [
+        "9mm",
+        [
+          "glockmag",
+          "glockbigmag",
+          "glock17_17",
+          "glock17_22",
+          "glock_drum_50rd",
+          "glock_drum_100rd",
+          "kriss_vector_9mm_mag"
+        ]
+      ]
+    ],
     "modes": [ [ "DEFAULT", "semi", 1 ], [ "AUTO", "auto", 3 ] ]
   },
   {
