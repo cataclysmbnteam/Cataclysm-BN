@@ -1111,13 +1111,13 @@ int special_symbol( int sym )
         case 'b':
             return LINE_XXOO;
         case 'L':
-            return LINE_XDXO_C;
+            return LINE_XDXO;
         case 'R':
-            return LINE_XOXD_C;
+            return LINE_XOXD;
         case 'T':
-            return LINE_OXDX_C;
+            return LINE_OXDX;
         case 'B':
-            return LINE_DXOX_C;
+            return LINE_DXOX;
         default:
             return sym;
     }
