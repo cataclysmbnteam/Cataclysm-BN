@@ -611,12 +611,12 @@
     "type": "city_building",
     "id": "urban_15_house",
     "overmaps": [
-      { "point": [ 1, 0, 0 ], "overmap": "urban_15_1_south" },
-      { "point": [ 0, 0, 0 ], "overmap": "urban_15_2_south" },
-      { "point": [ 1, 0, 1 ], "overmap": "urban_15_3_south" },
-      { "point": [ 0, 0, 1 ], "overmap": "urban_15_4_south" },
-      { "point": [ 1, 0, 2 ], "overmap": "urban_15_5_south" },
-      { "point": [ 0, 0, 2 ], "overmap": "urban_15_6_south" }
+      { "point": [ 0, 0, 0 ], "overmap": "urban_15_1_north" },
+      { "point": [ 1, 0, 0 ], "overmap": "urban_15_2_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "urban_15_3_north" },
+      { "point": [ 1, 0, 1 ], "overmap": "urban_15_4_north" },
+      { "point": [ 0, 0, 2 ], "overmap": "urban_15_5_north" },
+      { "point": [ 1, 0, 2 ], "overmap": "urban_15_6_north" }
     ],
     "locations": [ "land" ],
     "flags": [ "CLASSIC" ]
