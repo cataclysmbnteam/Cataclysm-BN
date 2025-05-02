@@ -2365,7 +2365,19 @@
     "color": "cyan",
     "move_cost": 2,
     "roof": "t_flat_roof",
-    "flags": [ "TRANSPARENT", "FLAT", "CONNECT_TO_WALL", "SUPPORTS_ROOF", "ROAD", "INDOORS", "BURROWABLE", "LIQUID", "NO_SCENT", "SWIMMABLE", "DEEP_WATER" ],
+    "flags": [
+      "TRANSPARENT",
+      "FLAT",
+      "CONNECT_TO_WALL",
+      "SUPPORTS_ROOF",
+      "ROAD",
+      "INDOORS",
+      "BURROWABLE",
+      "LIQUID",
+      "NO_SCENT",
+      "SWIMMABLE",
+      "DEEP_WATER"
+    ],
     "bash": {
       "str_min": 90,
       "str_max": 250,

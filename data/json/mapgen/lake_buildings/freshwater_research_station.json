@@ -37,12 +37,10 @@
         { "item": "rope_30", "x": 14, "y": [ 7, 9 ], "chance": 30 },
         { "item": "rope_30", "x": 9, "y": [ 13, 15 ], "chance": 30 },
         { "item": "rope_30", "x": 14, "y": [ 13, 15 ], "chance": 70 },
-        { "item": "sea_scooter", "x": [14, 15], "y": [ 11, 16], "chance": 5},
-        { "item": "sea_scooter", "x": [9, 10], "y": [ 11, 16], "chance": 5}
+        { "item": "sea_scooter", "x": [ 14, 15 ], "y": [ 11, 16 ], "chance": 5 },
+        { "item": "sea_scooter", "x": [ 9, 10 ], "y": [ 11, 16 ], "chance": 5 }
       ],
-      "items": { 
-        "#": { "item": "fishing_items", "chance": 10 }
-      },
+      "items": { "#": { "item": "fishing_items", "chance": 10 } },
       "place_vehicles": [
         { "vehicle": "hovercraft_motor_single", "x": 11, "y": 9, "rotation": 270, "chance": 70 },
         { "vehicle": "kayak", "x": 10, "y": 8, "rotation": 270, "chance": 10 },

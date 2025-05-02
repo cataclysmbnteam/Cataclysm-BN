@@ -89,7 +89,11 @@
     "name": "sea scooter",
     "blueprint": [ [ "O" ] ],
     "parts": [
-      { "x": 0, "y": 0, "parts": [ "sea_scooter_hull", "sea_scooter_battery", "controls_electronic", "motorcycle_headlight" ] }
+      {
+        "x": 0,
+        "y": 0,
+        "parts": [ "sea_scooter_hull", "sea_scooter_battery", "controls_electronic", "motorcycle_headlight" ]
+      }
     ]
   },
   {

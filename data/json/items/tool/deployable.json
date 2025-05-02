@@ -202,12 +202,7 @@
     "material": "aluminum",
     "symbol": "0",
     "color": "light_gray",
-    "use_action": {
-      "type": "unfold_vehicle",
-      "vehicle_name": "sea_scooter",
-      "unfold_msg": "You place the sea scooter down.",
-      "moves": 0
-    },
+    "use_action": { "type": "unfold_vehicle", "vehicle_name": "sea_scooter", "unfold_msg": "You place the sea scooter down.", "moves": 0 },
     "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
