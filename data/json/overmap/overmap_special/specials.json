@@ -5792,7 +5792,8 @@
     "id": "lake_bed_hot_spring",
     "overmaps": [ { "point": [ 0, 0, -5 ], "overmap": "lake_bed_hot_spring_north", "locations": [ "lake_bed" ] } ],
     "locations": [ "lake_surface" ],
-    "occurrences": [ 1, 5 ],
+    "occurrences": [ 0, 5 ],
+    "city_distance": [ 20, -1 ],
     "flags": [ "LAKE" ]
   },
   {
@@ -5800,7 +5801,8 @@
     "id": "lake_bed_mystery_fog",
     "overmaps": [ { "point": [ 0, 0, -5 ], "overmap": "lake_bed_mystery_fog_north", "locations": [ "lake_bed" ] } ],
     "locations": [ "lake_surface" ],
-    "occurrences": [ 1, 1 ],
+    "occurrences": [ 0, 5 ],
+    "city_distance": [ 20, -1 ],
     "flags": [ "LAKE" ]
   },
   {
@@ -5808,7 +5810,8 @@
     "id": "lake_bed_toxic_dump",
     "overmaps": [ { "point": [ 0, 0, -5 ], "overmap": "lake_bed_toxic_dump_north", "locations": [ "lake_bed" ] } ],
     "locations": [ "lake_surface" ],
-    "occurrences": [ 1, 5 ],
+    "occurrences": [ 0, 5 ],
+    "city_distance": [ 20, -1 ],
     "flags": [ "LAKE" ]
   },
   {
@@ -5816,7 +5819,8 @@
     "id": "lake_bed_safes",
     "overmaps": [ { "point": [ 0, 0, -5 ], "overmap": "lake_bed_safes_north", "locations": [ "lake_bed" ] } ],
     "locations": [ "lake_surface" ],
-    "occurrences": [ 1, 3 ],
+    "occurrences": [ 0, 5 ],
+    "city_distance": [ 20, -1 ],
     "flags": [ "LAKE" ]
   },
   {

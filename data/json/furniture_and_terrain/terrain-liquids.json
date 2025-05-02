@@ -429,7 +429,7 @@
     "looks_like": "t_metal_flat_roof",
     "color": "light_gray",
     "move_cost": 8,
-    "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "DEEP_WATER", "GOES_UP", "MINEABLE" ],
+    "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "WATER_CUBE", "DEEP_WATER", "GOES_UP", "MINEABLE" ],
     "connects_to": "WATER",
     "examine_action": "water_source"
   },
@@ -488,7 +488,7 @@
     "looks_like": "t_metal_floor",
     "color": "light_gray",
     "move_cost": 2,
-    "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "DEEP_WATER", "GOES_UP" ],
+    "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "WATER_CUBE", "DEEP_WATER", "GOES_UP" ],
     "bash": {
       "sound": "thump",
       "ter_set": "t_water_cube",
