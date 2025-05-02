@@ -297,7 +297,7 @@
     "dispersion": 170,
     "durability": 10,
     "min_cycle_recoil": 400,
-    "magazines": [ [ "40", [ "glock40mag", "glock40bigmag", "glock40drum50rd" ] ] ]
+    "magazines": [ [ "40", [ "glock40mag", "glock40bigmag", "glock40drum50rd", "kriss_mag" ] ] ]
   },
   {
     "id": "kriss_vector",
@@ -305,7 +305,7 @@
     "looks_like": "TDI",
     "type": "GUN",
     "name": { "str": "KRISS Vector .40 S&W" },
-    "description": "A submachine gun with a sleek in-line design.  It features a 2-round burst mode to make the most out of its unique recoil mitigation system alongside a blistering full-auto mode.  This one is chambered in .40 S&W and uses Glock 22 magazines.",
+    "description": "A submachine gun with a sleek in-line design.  It features a 2-round burst mode to utilize its unique recoil mitigation system alongside a blistering full-auto mode.  This one is chambered in .40 S&W and uses Glock 22 magazines.",
     "weight": "3400 g",
     "volume": "1750 ml",
     "barrel_length": "150 ml",
