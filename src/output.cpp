@@ -1097,27 +1097,27 @@ int special_symbol( int sym )
 {
     switch( sym ) {
         case 'j':
-            return LINE_XOXO;
+            return LINE_XOXO_UNICODE;
         case 'h':
-            return LINE_OXOX;
+            return LINE_OXOX_UNICODE;
         case 'c':
-            return LINE_XXXX;
+            return LINE_XXXX_UNICODE;
         case 'y':
-            return LINE_OXXO;
+            return LINE_OXXO_UNICODE;
         case 'u':
-            return LINE_OOXX;
+            return LINE_OOXX_UNICODE;
         case 'n':
-            return LINE_XOOX;
+            return LINE_XOOX_UNICODE;
         case 'b':
-            return LINE_XXOO;
+            return LINE_XXOO_UNICODE;
         case 'L':
-            return LINE_XDXO;
+            return LINE_XDXO_UNICODE;
         case 'R':
-            return LINE_XOXD;
+            return LINE_XOXD_UNICODE;
         case 'T':
-            return LINE_OXDX;
+            return LINE_OXDX_UNICODE;
         case 'B':
-            return LINE_DXOX;
+            return LINE_DXOX_UNICODE;
         default:
             return sym;
     }
