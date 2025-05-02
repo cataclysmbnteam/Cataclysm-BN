@@ -4664,7 +4664,7 @@ auto iuse::mop( player *p, item *it, bool, const tripoint & ) -> int
         p->add_msg_if_player( m_info, _( "You mop up the spill." ) );
     }
 
-    p->moves -= 15 * mopped_tiles;
+    p->moves -= 150 * mopped_tiles;
     return it->type->charges_to_use();
 }
 
