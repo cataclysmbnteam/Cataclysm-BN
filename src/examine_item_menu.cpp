@@ -231,17 +231,13 @@ bool run(
         } );
     }
 
-    add_entry( "OPEN_ITEM_IN_HHG", hint_rating::good, [&]() {
-
-        if( get_option<std::string>( "HHG_URL" ).length() > 0 ) {
+    if( get_option<std::string>( "HHG_URL" ).length() > 0 ) {
+        add_entry( "OPEN_ITEM_IN_HHG", hint_rating::good, [&]() {
             open_url( get_option<std::string>( "HHG_URL" ) + std::string( "/item/" ) + itm.typeId().c_str() +
                       std::string( "?t=UNDEAD_PEOPLE" ) );
-        } else {
-            add_msg( m_bad, _( "Invalid Hitchhiker's Guide URL specified!" ) );
-
-        }
-        return false;
-    } );
+            return false;
+        } );
+    }
 
     add_entry( "REASSIGN", hint_rating::good, [&]() {
         game_menus::inv::prompt_reassign_letter( you, itm );
