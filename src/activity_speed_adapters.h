@@ -11,10 +11,11 @@ using metric = std::pair<units::mass, units::volume>;
 using q_reqs = std::vector<activity_req<quality_id>>;
 using skill_reqs = std::vector<activity_req<skill_id>>;
 
-class furn_workbench_info;
-class vpslot_workbench;
+struct furn_workbench_info;
+struct vpslot_workbench;
+struct construction;
+
 class recipe;
-class construction;
 
 enum class bench_type : int {
     ground = 0,
