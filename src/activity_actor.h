@@ -17,7 +17,7 @@ class JsonIn;
 class JsonOut;
 class player_activity;
 class inventory;
-struct bench_loc;
+struct bench_location;
 
 using metric = std::pair<units::mass, units::volume>;
 
@@ -33,7 +33,7 @@ struct simple_task {
         return moves_left <= 0;
     }
 
-    inline int to_counter() const;
+    int to_counter() const;
 
     //Json stuff
     void serialize( JsonOut &json ) const;
@@ -256,7 +256,15 @@ class activity_actor
             return msg;
         }
 
-        virtual void adjust_bench_multiplier( bench_loc &bench, const metric & ) const;
+
+        /*
+        * Checks if provided character is capable of assisting
+        */
+        virtual bool assistant_capable( const Character &/*who*/ ) const {
+            return true;
+        }
+
+        virtual void adjust_bench_multiplier( bench_location &bench, const metric & ) const;
 
         /*
          * actor specific formula for speed factor based on skills
@@ -283,7 +291,7 @@ class activity_actor
          * anything above 0 is a valid number
          * anything below 0 is invalid, promting to use default formula
         */
-        virtual float calc_morale_factor( const Character &/*who*/ ) const {
+        virtual float calc_morale_factor( const Character & ) const {
             return -1.0f;
         }
 

@@ -79,7 +79,7 @@ static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 
 static const std::string has_thievery_witness( "has_thievery_witness" );
 
-inline int simple_task::to_counter() const
+int simple_task::to_counter() const
 {
     double ret = 10'000'000.0 / moves_total * ( moves_total - moves_left );
     return std::round( ret );
@@ -115,7 +115,7 @@ inline void activity_actor::calc_all_moves( player_activity &act, Character &who
     act.speed.calc_all_moves( who );
 }
 
-inline void activity_actor::adjust_bench_multiplier( bench_loc &bench, const metric & ) const
+inline void activity_actor::adjust_bench_multiplier( bench_location &bench, const metric & ) const
 {
     bench.wb_info.multiplier_adjusted = bench.wb_info.multiplier;
 }
@@ -732,7 +732,7 @@ void disassemble_activity_actor::finish( player_activity &act, Character &who )
     }
 }
 
-void disassemble_activity_actor::adjust_bench_multiplier( bench_loc &bench,
+void disassemble_activity_actor::adjust_bench_multiplier( bench_location &bench,
         const metric &metrics ) const
 {
     bench.wb_info.adjust_multiplier( metrics );
@@ -2154,6 +2154,10 @@ std::unique_ptr<activity_actor> assist_activity_actor::deserialize( JsonIn & )
     return std::make_unique<assist_activity_actor>();
 }
 
+std::unique_ptr<activity_actor> crafting_activity_actor::deserialize( JsonIn & )
+{
+    return std::make_unique<crafting_activity_actor>();
+}
 
 namespace activity_actors
 {
@@ -2180,6 +2184,7 @@ deserialize_functions = {
     { activity_id( "ACT_STASH" ), &stash_activity_actor::deserialize },
     { activity_id( "ACT_THROW" ), &throw_activity_actor::deserialize },
     { activity_id( "ACT_ASSIST" ), &assist_activity_actor::deserialize },
+    { activity_id( "ACT_CRAFT" ), &crafting_activity_actor::deserialize },
 };
 } // namespace activity_actors
 

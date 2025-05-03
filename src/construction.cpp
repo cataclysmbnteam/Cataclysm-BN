@@ -10,8 +10,10 @@
 #include <utility>
 
 #include "action.h"
+#include "activity_actor_definitions.h"
 #include "avatar.h"
 #include "calendar.h"
+#include "character.h"
 #include "character_functions.h"
 #include "color.h"
 #include "consistency_report.h"
@@ -62,7 +64,6 @@
 #include "vehicle.h"
 #include "vehicle_part.h"
 #include "vpart_position.h"
-#include "activity_actor_definitions.h"
 
 static const activity_id ACT_MULTIPLE_CONSTRUCTION( "ACT_MULTIPLE_CONSTRUCTION" );
 

@@ -10,15 +10,12 @@
 
 #include "activity_actor.h"
 #include "activity_speed.h"
-#include "clone_ptr.h"
-#include "crafting.h"
 #include "enums.h"
 #include "memory_fast.h"
 #include "point.h"
 #include "safe_reference.h"
 #include "type_id.h"
 
-class activity_actor;
 class Character;
 class JsonIn;
 class JsonOut;
@@ -176,7 +173,8 @@ class player_activity
 
         //Fills assistant vector with applicable assistants
         void get_assistants( const Character &who );
-        static std::vector<npc *> get_assistants( const Character &who, unsigned short max );
+        static std::vector<npc *> get_assistants( const Character &who,
+                const std::function<bool( bool, const npc & )> &filter, short max );
 
         /**
          * Helper that returns an activity specific progress message.

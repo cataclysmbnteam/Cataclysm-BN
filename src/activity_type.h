@@ -1,7 +1,6 @@
 #pragma once
 
 #include <string>
-#include <optional>
 
 #include "catalua_type_operators.h"
 #include "string_id.h"
