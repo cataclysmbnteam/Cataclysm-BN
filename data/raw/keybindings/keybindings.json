@@ -3350,7 +3350,7 @@
     "type": "keybinding",
     "category": "INVENTORY_ITEM",
     "name": "Hitchhiker's Guide",
-    "bindings": [ { "input_method": "keyboard", "key": "H" } ]
+    "bindings": [ { "input_method": "keyboard", "key": "h" } ]
   },
   {
     "id": "FAVORITE_ADD",
