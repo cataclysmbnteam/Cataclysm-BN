@@ -2114,6 +2114,13 @@
   },
   {
     "type": "keybinding",
+    "name": "Open Hitchhiker's Guide",
+    "category": "DEFAULTMODE",
+    "id": "open_hhg",
+    "bindings": [ { "input_method": "keyboard", "key": "h" } ]
+  },
+  {
+    "type": "keybinding",
     "name": "View Help",
     "category": "DEFAULTMODE",
     "id": "help",
@@ -3337,6 +3344,13 @@
     "category": "INVENTORY_ITEM",
     "name": "Kills",
     "bindings": [ { "input_method": "keyboard", "key": "K" } ]
+  },
+  {
+    "id": "OPEN_ITEM_IN_HHG",
+    "type": "keybinding",
+    "category": "INVENTORY_ITEM",
+    "name": "Hitchhiker's Guide",
+    "bindings": [ { "input_method": "keyboard", "key": "H" } ]
   },
   {
     "id": "FAVORITE_ADD",

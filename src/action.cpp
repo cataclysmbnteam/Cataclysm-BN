@@ -265,6 +265,8 @@ std::string action_ident( action_id act )
             return "messages";
         case ACTION_OPEN_WIKI:
             return "open_wiki";
+        case ACTION_OPEN_HHG:
+            return "open_hhg";
         case ACTION_HELP:
             return "help";
         case ACTION_DEBUG:
@@ -805,7 +807,7 @@ action_id handle_action_menu()
             register_actions( { ACTION_SAVE } );
             register_action_if_hotkey_assigned( ACTION_QUICKLOAD );
             register_action_if_hotkey_assigned( ACTION_SUICIDE );
-            register_actions( { ACTION_OPEN_WIKI, ACTION_HELP } );
+            register_actions( { ACTION_OPEN_WIKI, ACTION_OPEN_HHG, ACTION_HELP } );
             if( ( entry = &entries.back() ) ) {
                 // help _is_a menu.
                 entry->txt += "…";
@@ -929,7 +931,7 @@ action_id handle_main_menu()
     const auto register_actions = make_register_actions( entries, ctxt );
 
     register_actions( {
-        ACTION_OPEN_WIKI, ACTION_HELP, ACTION_KEYBINDINGS, ACTION_OPTIONS, ACTION_AUTOPICKUP, ACTION_AUTONOTES,
+        ACTION_OPEN_WIKI, ACTION_OPEN_HHG, ACTION_HELP, ACTION_KEYBINDINGS, ACTION_OPTIONS, ACTION_AUTOPICKUP, ACTION_AUTONOTES,
         ACTION_SAFEMODE, ACTION_DISTRACTION_MANAGER, ACTION_COLOR, ACTION_WORLD_MODS,
         ACTION_ACTIONMENU, ACTION_QUICKSAVE, ACTION_SAVE, ACTION_DEBUG, ACTION_LUA_CONSOLE,
         ACTION_LUA_RELOAD

@@ -245,6 +245,8 @@ enum action_id : int {
     ACTION_MESSAGES,
     /** Open external Wiki webpage */
     ACTION_OPEN_WIKI,
+    /** Open external hitchhiker's guide webpage */
+    ACTION_OPEN_HHG,
     /** Display help screen */
     ACTION_HELP,
     /** Display main menu */
