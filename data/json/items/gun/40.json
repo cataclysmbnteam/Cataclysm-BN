@@ -324,5 +324,30 @@
     "modes": [ [ "DEFAULT", "semi", 1 ], [ "BURST", "burst", 2 ], [ "AUTO", "auto", 6 ] ],
     "magazine_well": "500 ml",
     "magazines": [ [ "40", [ "kriss_mag", "glock40mag", "glock40bigmag", "glock40drum50rd" ] ] ]
+  },
+  {
+    "id": "hk_ump40",
+    "copy-from": "smg_base",
+    "type": "GUN",
+    "name": { "str": "H&K UMP40" },
+    "looks_like": "hk_ump45",
+    "description": "Developed as a lower-cost successor to H&K's own MP5, the Universal Machine Pistol is a closed-bolt, simple blowback sub-machine gun constructed of lightweight polymer.  This version is chambered .40 S&W.",
+    "weight": "2300 g",
+    "volume": "1250 ml",
+    "price": "2900 USD",
+    "price_postapoc": "30 USD",
+    "to_hit": -2,
+    "ascii_picture": "hk_ump",
+    "bashing": 11,
+    "material": [ "steel", "plastic" ],
+    "color": "dark_gray",
+    "ammo": "40",
+    "ranged_damage": { "damage_type": "bullet", "amount": 1 },
+    "dispersion": 240,
+    "min_cycle_recoil": 540,
+    "blackpowder_tolerance": 24,
+    "built_in_mods": [ "folding_stock" ],
+    "modes": [ [ "DEFAULT", "semi", 1 ], [ "AUTO", "auto", 4 ] ],
+    "magazines": [ [ "40", [ "ump40mag", "ump40_makeshiftmag" ] ] ]
   }
 ]

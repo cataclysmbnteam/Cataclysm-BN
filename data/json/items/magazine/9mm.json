@@ -599,5 +599,23 @@
     "capacity": 40,
     "reliability": 9,
     "flags": [ "MAG_COMPACT" ]
+  },
+  {
+    "id": "ump9mag",
+    "looks_like": "mp5mag",
+    "type": "MAGAZINE",
+    "name": { "str": "UMP9 magazine" },
+    "description": "A standard 30-round curved magazine for use with the H&K UMP9 SMG.",
+    "weight": "200 g",
+    "volume": "500 ml",
+    "price": "4950 cent",
+    "price_postapoc": "1 USD",
+    "material": "plastic",
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": "9mm",
+    "capacity": 25,
+    "reliability": 9,
+    "flags": [ "MAG_COMPACT" ]
   }
 ]
