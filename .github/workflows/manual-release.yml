@@ -24,8 +24,8 @@ jobs:
         run: |
           set +e
           gh release view ${{ env.VERSION }} --json name --jq '.name'
-          HAS_RELEASE=$?
-          if (( $HAS_RELEASE == 1 )); then
+          HAS_NO_RELEASE=$? # error == exitcode 1 == no release of given version exists
+          if (( $HAS_NO_RELEASE == 0 )); then
             echo "Release already exists, skipping." >> "$GITHUB_STEP_SUMMARY"
           else
             echo "Release does not exist, creating a new one" >> "$GITHUB_STEP_SUMMARY"
