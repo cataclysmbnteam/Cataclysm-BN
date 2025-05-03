@@ -40,9 +40,9 @@ There are six principles applied for content in general:
    relegated to mods.
 
 3.1 Clutter benefits nobody. If these additions are just more bloat, mainline mod it.
-   Examples are guns, books, food, drugs, morale items, furniture variants, clothes.
-   Opt-out is preferred for additional bloat, and Opt-in for things that change game theme.
-   e.g. Magical Nights, Aftershock, CRIT. When in doubt, ask.
+Examples are guns, books, food, drugs, morale items, furniture variants, clothes.
+Opt-out is preferred for additional bloat, and Opt-in for things that change game theme.
+e.g. Magical Nights, Aftershock, CRIT. When in doubt, ask.
 
 4. The gameplay should be less about pressing buttons and spending time in submenus and more about
    interacting with the surrounding world and progressing (achieving results).
