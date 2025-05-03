@@ -1097,19 +1097,19 @@ int special_symbol( int sym )
 {
     switch( sym ) {
         case 'j':
-            return LINE_XOXO_UNICODE;
+            return LINE_XOXO;
         case 'h':
-            return LINE_OXOX_UNICODE;
+            return LINE_OXOX;
         case 'c':
-            return LINE_XXXX_UNICODE;
+            return LINE_XXXX;
         case 'y':
-            return LINE_OXXO_UNICODE;
+            return LINE_OXXO;
         case 'u':
-            return LINE_OOXX_UNICODE;
+            return LINE_OOXX;
         case 'n':
-            return LINE_XOOX_UNICODE;
+            return LINE_XOOX;
         case 'b':
-            return LINE_XXOO_UNICODE;
+            return LINE_XXOO;
         case 'L':
             return LINE_XDXO_UNICODE;
         case 'R':
