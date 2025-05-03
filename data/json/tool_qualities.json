@@ -122,7 +122,7 @@
     "id": "SAW_M_FINE",
     "copy-from": "SAW_M",
     "name": { "str": "fine metal sawing" },
-    "extend" :{"salvagable_materials": [ "hardsteel" ]}
+    "extend": { "salvagable_materials": [ "hardsteel" ] }
   },
   {
     "type": "tool_quality",
