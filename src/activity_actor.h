@@ -41,7 +41,7 @@ struct simple_task {
     inline bool not_started() const {
         return moves_left == moves_total;
     }
-    
+
     int to_counter() const;
 
     //Json stuff
