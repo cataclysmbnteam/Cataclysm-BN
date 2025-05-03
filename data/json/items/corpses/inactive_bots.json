@@ -801,6 +801,29 @@
     "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
+    "id": "bot_turret_mark19",
+    "type": "TOOL",
+    "name": { "str": "inactive autonomous grenade launcher milspec turret" },
+    "description": "This is an inactive grenade launcher milspec turret.  Using this item involves loading the unit with the factory-loaded .50 BMG rounds in your inventory (if you wish to divide your ammunition, set aside whatever .50 BMG rounds you do NOT want to give the turret) turning it on, and placing it on the ground, where it will attach itself.  If programmed successfully the turret will then identify you as a friendly, and attack all enemies with its gun.",
+    "weight": "120 kg",
+    "volume": "40 L",
+    "price": "5 kUSD",
+    "price_postapoc": "100 USD",
+    "to_hit": -3,
+    "bashing": 8,
+    "material": [ "steel", "plastic" ],
+    "symbol": ";",
+    "color": "green",
+    "use_action": {
+      "type": "place_monster",
+      "monster_id": "mon_turret_mark19",
+      "difficulty": 6,
+      "moves": 100,
+      "skills": [ "electronics", "computer" ]
+    },
+    "flags": [ "ALLOWS_REMOTE_USE" ]
+  },
+  {
     "id": "bot_mech_recon",
     "type": "TOOL",
     "name": { "str": "inactive recon mech" },

@@ -38,7 +38,11 @@ struct simple_task {
         return moves_left == moves_total;
     }
 
-    inline int to_counter() const;
+    inline bool not_started() const {
+        return moves_left == moves_total;
+    }
+    
+    int to_counter() const;
 
     //Json stuff
     void serialize( JsonOut &json ) const;
