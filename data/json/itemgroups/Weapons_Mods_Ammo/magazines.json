@@ -97,6 +97,8 @@
       [ "mp5bigmag", 20 ],
       [ "stanag30", 20 ],
       [ "ump45mag", 20 ],
+      [ "ump40mag", 20 ],
+      [ "ump9mag", 20 ],
       [ "usp45mag", 10 ],
       [ "usp9mag", 10 ],
       [ "as50mag", 2 ],
@@ -229,7 +231,9 @@
       [ "mp5bigmag", 100 ],
       [ "thompson_bigmag", 100 ],
       [ "thompson_drum", 200 ],
-      [ "ump45mag", 30 ]
+      [ "ump45mag", 30 ],
+      [ "ump9mag", 20 ],
+      [ "ump40mag", 20 ]
     ]
   },
   {

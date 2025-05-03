@@ -251,5 +251,31 @@
     "capacity": 32,
     "reliability": 9,
     "flags": [ "MAG_COMPACT" ]
+  },
+  {
+    "id": "ump40mag",
+    "looks_like": "mp5mag",
+    "type": "MAGAZINE",
+    "name": { "str": "UMP40 magazine" },
+    "description": "A standard 30-round straight double-stack plastic magazine for use with the H&K UMP40 SMG.",
+    "weight": "350 g",
+    "volume": "500 ml",
+    "price": "4950 cent",
+    "price_postapoc": "1 USD",
+    "material": "plastic",
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": "40",
+    "capacity": 25,
+    "reliability": 9,
+    "flags": [ "MAG_COMPACT" ]
+  },
+  {
+    "id": "ump40_makeshiftmag",
+    "copy-from": "smg_40_mag",
+    "type": "MAGAZINE",
+    "price_postapoc": "50 cent",
+    "name": { "str": "UMP40 makeshift magazine" },
+    "description": "An improvised 20-round straight single-stack box magazine consisting of little more than a bent sheet of steel held together by duct tape and hope, for use with the H&K UMP40 SMG."
   }
 ]
