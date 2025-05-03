@@ -34,8 +34,12 @@ There are six principles applied for content in general:
 2. Weird/wonky mechanics should be either reworked or removed. If there is value in retaining them,
    they should be clearly communicated to the player through UI.
 
-3. Everything should fill its own niche or have its own purpose, e.g. we have too many firearms
-   and clutter benefits nobody. If these additions are just more bloat, mainline mod it.
+3. Each mechanic/item/monster/etc. should fill its own niche or have its own purpose, e.g. there
+   shouldn't be many different effects that penalize the character in the same way, or a dozen of
+   guns that differ only in name and +1 to damage value. If such variety is desired, it should be
+   relegated to mods.
+
+3.1 Clutter benefits nobody. If these additions are just more bloat, mainline mod it.
    Examples are guns, books, food, drugs, morale items, furniture variants, clothes.
    Opt-out is preferred for additional bloat, and Opt-in for things that change game theme.
    e.g. Magical Nights, Aftershock, CRIT. When in doubt, ask.
