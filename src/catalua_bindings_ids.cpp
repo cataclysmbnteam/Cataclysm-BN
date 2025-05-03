@@ -19,6 +19,7 @@
 #include "monfaction.h"
 #include "monstergenerator.h"
 #include "morale_types.h"
+#include "mtype.h"
 #include "mutation.h"
 #include "recipe.h"
 #include "skill.h"
@@ -119,6 +120,7 @@ void cata::detail::reg_game_ids( sol::state &lua )
     reg_id<ma_buff, false>( lua );
     reg_id<monfaction, true>( lua );
     reg_id<morale_type_data, false>( lua );
+    reg_id<mtype, false>( lua );
     reg_id<mutation_branch, false>( lua );
     reg_id<mutation_category_trait, false>( lua );
     reg_id<recipe, false>( lua );
