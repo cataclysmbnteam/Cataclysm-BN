@@ -118,5 +118,5 @@ Such as lutefisk and haggis, but a lot of recipes are generic or common American
 
 Bloat is adding rechambered versions of firearms, example being Vektor variants.
 Another example would be adding 30 variations of the bible, or 30 novels.
-We don't need 20 types of beer, it just makes it harder to parse the comestibles menu.
+We don't need 20 types of beer, it just makes it harder to parse the comestibles menu. Put it in a (craft) brewery mod.
 We don't need clothes whose only distinction is a different player sprite. Mod it.
