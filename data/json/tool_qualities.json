@@ -120,8 +120,9 @@
   {
     "type": "tool_quality",
     "id": "SAW_M_FINE",
+    "copy-from": "SAW_M",
     "name": { "str": "fine metal sawing" },
-    "salvagable_materials": [ "steel", "budget_steel", "tin", "silver", "gold", "copper", "iron", "hardsteel" ]
+    "extend" :{"salvagable_materials": [ "hardsteel" ]}
   },
   {
     "type": "tool_quality",

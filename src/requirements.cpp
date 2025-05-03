@@ -100,13 +100,14 @@ void quality::load( const JsonObject &jo, const std::string & )
             usages.emplace_back( level, line );
         }
     }
-    for( auto material : jo.get_array( "salvagable_materials" ) ) {
-        const material_id mat( material.get_string() );
-        if( !mat.is_valid() ) {
-            material.throw_error( "Invalid material" );
+
+    assign( jo, "salvagable_materials", salvagable_materials );
+    for( auto &material : salvagable_materials ) {
+        if( !material.is_valid() ) {
+            jo.throw_error( string_format( "Invalid material %s", material ) );
         }
-        salvagable_materials.push_back( mat );
     }
+
     populate_salvage_materials( *this );
 }
 

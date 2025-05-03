@@ -45,7 +45,7 @@ struct quality {
     translation name;
 
     /** Materials it can salvage */
-    std::vector<material_id> salvagable_materials;
+    std::set<material_id> salvagable_materials;
     std::vector<std::pair<int, std::string>> usages;
 
     void load( const JsonObject &jo, const std::string &src );
