@@ -4684,7 +4684,7 @@ void item::on_wield( player &p, int mv )
     if( mv > 500 ) {
         msg = _( "It takes you a long time to wield your %s." );
     } else if( mv > 250 ) {
-        msg = _( "It takes you a several to wield your %s." );
+        msg = _( "It takes you several seconds to wield your %s." );
     } else if( mv > 100 ) {
         msg = _( "It takes you a couple seconds to wield your %s." );
     } else if( mv > 50 ) {
