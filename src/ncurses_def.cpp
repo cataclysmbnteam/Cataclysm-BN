@@ -177,8 +177,8 @@ void catacurses::mvwaddch( const window &win, point p, const chtype ch )
         case LINE_OXDX_UNICODE:
             return mvwprintw( win, p, LINE_OXDX_S );
         default:
+            return curses_check_result( ::mvwaddch( win.get<::WINDOW>(), p.y, p.x, ch ), OK, "mvwaddch" );
     }
-    return curses_check_result( ::mvwaddch( win.get<::WINDOW>(), p.y, p.x, ch ), OK, "mvwaddch" );
 }
 
 void catacurses::waddch( const window &win, const chtype ch )
@@ -194,8 +194,8 @@ void catacurses::waddch( const window &win, const chtype ch )
         case LINE_OXDX_UNICODE:
             return wprintw( win, LINE_OXDX_S );
         default:
+            return curses_check_result( ::waddch( win.get<::WINDOW>(), ch ), OK, "waddch" );
     }
-    return curses_check_result( ::waddch( win.get<::WINDOW>(), ch ), OK, "waddch" );
 }
 
 void catacurses::wredrawln( const window &win, const int beg_line, const int num_lines )
