@@ -71,7 +71,7 @@ There are six principles applied for content in general:
 
 ### Removals and re-adding
 
-Destruction of additions is a contentious problem in the community. To clarify official stance:
+Removal of content is a contentious problem in the community. To clarify official stance:
 
 - Content should not be kept inside the mainline on the basis of "it can be made good".
   If it isn't good now, it isn't good. Shift it to a mainline mod, or improve/obsolete it.
