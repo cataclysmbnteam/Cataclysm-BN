@@ -23,7 +23,6 @@
 #include "recipe_dictionary.h"
 #include "type_id.h"
 #include "ui_manager.h"
-#include "visitable.h"
 
 const skill_id skill_fabrication( "fabrication" );
 

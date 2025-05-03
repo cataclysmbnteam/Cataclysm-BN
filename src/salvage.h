@@ -9,8 +9,9 @@ class Character;
 class inventory;
 class item;
 class material_type;
-class tripoint;
 class JsonIn;
+
+struct tripoint;
 
 void populate_salvage_materials( quality &q );
 
