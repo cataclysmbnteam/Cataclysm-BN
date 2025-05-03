@@ -37,7 +37,7 @@ There are six principles applied for content in general:
 3. Everything should fill its own niche or have its own purpose, e.g. we have too many firearms
    and clutter benefits nobody. If these additions are just more bloat, mainline mod it.
    Examples are guns, books, food, drugs, morale items, furniture variants, clothes.
-   Opt-out is preferred for additional bloat, and Opt-in for things that change game theme. 
+   Opt-out is preferred for additional bloat, and Opt-in for things that change game theme.
    e.g. Magical Nights, Aftershock, CRIT. When in doubt, ask.
 
 4. The gameplay should be less about pressing buttons and spending time in submenus and more about
@@ -73,11 +73,11 @@ There are six principles applied for content in general:
 
 Destruction of additions is a contentious problem in the community. To clarify official stance:
 
-- Content should not be kept inside the mainline on the basis of "it can be made good". 
+- Content should not be kept inside the mainline on the basis of "it can be made good".
   If it isn't good now, it isn't good. Shift it to a mainline mod, or improve/obsolete it.
-- Content should not be re-added to mainline on the basis of "it was present before". 
+- Content should not be re-added to mainline on the basis of "it was present before".
   Re-added content should be treated the same way new content is.
-- Content should not be "spared" from shifting/obsoletion by giving it forced updates that still 
+- Content should not be "spared" from shifting/obsoletion by giving it forced updates that still
   don't make it good enough. It should be treated like new content is.
 - This doesn't cover arguments regarding content being thematic, liked etc., content can still be
   given extra "points" based on those. We want a level of flavor to the world.
