@@ -17,7 +17,7 @@ class JsonIn;
 class JsonOut;
 class player_activity;
 class inventory;
-class item;
+
 struct bench_loc;
 
 using metric = std::pair<units::mass, units::volume>;
@@ -38,10 +38,6 @@ struct simple_task {
         return moves_left == moves_total;
     }
 
-    inline bool not_started() const {
-        return moves_left == moves_total;
-    }
-    
     int to_counter() const;
 
     //Json stuff

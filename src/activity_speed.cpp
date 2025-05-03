@@ -220,9 +220,11 @@ float activity_speed::get_best_qual_mod( const activity_req<quality_id> &q,
                            + 32.0f * q_level + q.mod;
         return cut_fine_f;
     }
+
     if( q_level == 0 ) {
         return 0.0f;
     }
+
     if( q.req == qual_BUTCHER ) {
         return q_level * q.mod;
     }
