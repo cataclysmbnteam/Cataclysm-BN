@@ -117,6 +117,6 @@ We've historically not represented much European/African/Asian cooking. Some rec
 Such as lutefisk and haggis, but a lot of recipes are generic or common American fare.
 
 Bloat is adding rechambered versions of firearms, example being Vektor variants.
-Another example would be adding 30 variations of the bible, or 30 novels.
+Another example would be adding 30 variations of the bible, or 30 novels. Put it in an expanded literature mod, or a religion mod in the case of religious books.
 We don't need 20 types of beer, it just makes it harder to parse the comestibles menu. Put it in a (craft) brewery mod.
 We don't need clothes whose only distinction is a different player sprite. Put it in a clothing/fashion mod.
