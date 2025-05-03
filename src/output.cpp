@@ -1957,41 +1957,49 @@ void scrollingcombattext::removeCreatureHP()
 std::string string_from_int( const catacurses::chtype ch )
 {
     catacurses::chtype charcode = ch;
-    // LINE_NESW  - X for on, O for off
+    // Check for box drawing characters, and return their corresponding symbols
     switch( ch ) {
         case LINE_XOXO:
-            charcode = LINE_XOXO_C;
-            break;
+        case LINE_XOXO_UNICODE:
+            return LINE_XOXO_S;
         case LINE_OXOX:
-            charcode = LINE_OXOX_C;
-            break;
+        case LINE_OXOX_UNICODE:
+            return LINE_OXOX_S;
         case LINE_XXOO:
-            charcode = LINE_XXOO_C;
-            break;
+        case LINE_XXOO_UNICODE:
+            return LINE_XXOO_S;
         case LINE_OXXO:
-            charcode = LINE_OXXO_C;
-            break;
+        case LINE_OXXO_UNICODE:
+            return LINE_OXXO_S;
         case LINE_OOXX:
-            charcode = LINE_OOXX_C;
-            break;
+        case LINE_OOXX_UNICODE:
+            return LINE_OOXX_S;
         case LINE_XOOX:
-            charcode = LINE_XOOX_C;
-            break;
+        case LINE_XOOX_UNICODE:
+            return LINE_XOOX_S;
         case LINE_XXOX:
-            charcode = LINE_XXOX_C;
-            break;
+        case LINE_XXOX_UNICODE:
+            return LINE_XXOX_S;
         case LINE_XXXO:
-            charcode = LINE_XXXO_C;
-            break;
+        case LINE_XXXO_UNICODE:
+            return LINE_XXXO_S;
         case LINE_XOXX:
-            charcode = LINE_XOXX_C;
-            break;
+        case LINE_XOXX_UNICODE:
+            return LINE_XOXX_S;
         case LINE_OXXX:
-            charcode = LINE_OXXX_C;
-            break;
+        case LINE_OXXX_UNICODE:
+            return LINE_OXXX_S;
         case LINE_XXXX:
-            charcode = LINE_XXXX_C;
-            break;
+        case LINE_XXXX_UNICODE:
+            return LINE_XXXX_S;
+        case LINE_XDXO_UNICODE:
+            return LINE_XDXO_S;
+        case LINE_DXOX_UNICODE:
+            return LINE_DXOX_S;
+        case LINE_XOXD_UNICODE:
+            return LINE_XOXD_S;
+        case LINE_OXDX_UNICODE:
+            return LINE_OXDX_S;
         default:
             charcode = ch;
             break;
