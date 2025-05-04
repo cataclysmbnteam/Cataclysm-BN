@@ -1278,7 +1278,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
         }
         extract_or_wreck_cbms( cbms, roll, *p );
         // those lines are for XP gain with dissecting. It depends on the size of the corpse, time to dissect the corpse and the amount of bionics you would gather.
-        int time_to_cut = size_factor_in_time_to_cut( corpse->size );
+        int time_to_cut = size_factor_in_time_to_cut( corpse->size ) / 100;
         int level_cap = std::min<int>( MAX_SKILL,
                                        ( static_cast<int>( corpse->size ) + ( cbms.size() * 2 + 1 ) ) );
         int size_mult = corpse->size > creature_size::medium ? ( corpse->size * corpse->size ) : 8;
@@ -1957,7 +1957,7 @@ void activity_handlers::pulp_do_turn( player_activity *act, player *p )
         const mtype *corpse_mtype = corpse->get_mtype();
         if( !corpse->is_corpse() || ( !corpse_mtype->has_flag( MF_REVIVES ) &&
                                       !corpse_mtype->zombify_into ) ||
-            ( std::find( act->str_values.begin(), act->str_values.end(), "auto_pulp_no_acid" ) !=
+            ( std::ranges::find( act->str_values, "auto_pulp_no_acid" ) !=
               act->str_values.end() && corpse_mtype->bloodType().obj().has_acid ) ) {
             // Don't smash non-rezing corpses //don't smash acid zombies when auto pulping
             continue;
@@ -2051,7 +2051,6 @@ void activity_handlers::reload_finish( player_activity *act, player *p )
     std::string ammo_name = ammo.tname();
     const int qty = act->index;
     const bool is_speedloader = ammo.has_flag( flag_SPEEDLOADER );
-    const bool ammo_is_filthy = ammo.is_filthy() && !ammo.is_container();
 
     if( !reloadable.reload( *p, ammo, qty ) ) {
         add_msg( m_info, _( "Can't reload the %s." ), reloadable.tname() );
@@ -2060,9 +2059,6 @@ void activity_handlers::reload_finish( player_activity *act, player *p )
 
     std::string msg = _( "You reload the %s." );
 
-    if( ammo_is_filthy ) {
-        reloadable.set_flag( flag_FILTHY );
-    }
 
     if( reloadable.get_var( "dirt", 0 ) > 7800 ) {
         msg =
@@ -4143,7 +4139,7 @@ std::vector<tripoint> get_sorted_tiles_by_distance( const tripoint &abspos,
     };
 
     std::vector<tripoint> sorted( tiles.begin(), tiles.end() );
-    std::sort( sorted.begin(), sorted.end(), cmp );
+    std::ranges::sort( sorted, cmp );
 
     return sorted;
 }

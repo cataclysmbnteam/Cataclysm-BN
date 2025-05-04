@@ -87,7 +87,7 @@ void mtype::set_flag( m_flag flag, bool state )
 
 bool mtype::made_of( const material_id &material ) const
 {
-    return std::find( mat.begin(), mat.end(),  material ) != mat.end();
+    return std::ranges::find( mat,  material ) != mat.end();
 }
 
 bool mtype::made_of_any( const std::set<material_id> &materials ) const
@@ -96,7 +96,7 @@ bool mtype::made_of_any( const std::set<material_id> &materials ) const
         return false;
     }
 
-    return std::any_of( mat.begin(), mat.end(), [&materials]( const material_id & e ) {
+    return std::ranges::any_of( mat, [&materials]( const material_id & e ) {
         return materials.count( e );
     } );
 }

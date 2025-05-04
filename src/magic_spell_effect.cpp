@@ -649,7 +649,7 @@ void area_expander::sort_ascending()
 {
     // Since internal caches like 'area_search' and 'frontier' use indexes inside 'area',
     // these caches will be invalidated.
-    std::sort( area.begin(), area.end(),
+    std::ranges::sort( area,
     []( const node & a, const node & b )  -> bool {
         return a.cost < b.cost;
     } );
@@ -659,7 +659,7 @@ void area_expander::sort_descending()
 {
     // Since internal caches like 'area_search' and 'frontier' use indexes inside 'area',
     // these caches will be invalidated.
-    std::sort( area.begin(), area.end(),
+    std::ranges::sort( area,
     []( const node & a, const node & b ) -> bool {
         return a.cost > b.cost;
     } );

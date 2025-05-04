@@ -99,8 +99,6 @@ static const std::unordered_map<std::string, vpart_bitflags> vpart_bitflag_map =
     { "VISION", VPFLAG_EXTENDS_VISION },
     { "ENABLED_DRAINS_EPOWER", VPFLAG_ENABLED_DRAINS_EPOWER },
     { "AUTOCLAVE", VPFLAG_AUTOCLAVE },
-    { "WASHING_MACHINE", VPFLAG_WASHING_MACHINE },
-    { "DISHWASHER", VPFLAG_DISHWASHER },
     { "FLUIDTANK", VPFLAG_FLUIDTANK },
     { "REACTOR", VPFLAG_REACTOR },
     { "RAIL", VPFLAG_RAIL },
@@ -676,7 +674,7 @@ void vpart_info::check()
             }
         };
         if( part.epower != 0 &&
-        std::none_of( handled.begin(), handled.end(), [&part]( const std::string & flag ) {
+        std::ranges::none_of( handled, [&part]( const std::string & flag ) {
         return part.has_flag( flag );
         } ) ) {
             std::string warnings_are_good_docs = enumerate_as_string( handled );

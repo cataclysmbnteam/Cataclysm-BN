@@ -2327,6 +2327,11 @@ No constructors.
 
 Function `( Item ) -> ItypeId`
 
+#### get_mtype
+
+Almost for a corpse.
+Function `( Item ) -> MtypeId`
+
 #### tname
 
 Translated item name with prefixes
@@ -2554,7 +2559,8 @@ Function `( Item ) -> bool`
 
 #### is_filthy
 
-Function `( Item ) -> bool`
+DEPRECATED: Items are no longer filthy
+Function `() -> bool`
 
 #### is_active
 
@@ -2967,6 +2973,11 @@ Function `( Map ) -> int`
 Creates a new item(s) at a position on the map.
 Function `( Map, Tripoint, ItypeId, int )`
 
+#### create_corpse_at
+
+Creates a new corpse at a position on the map. You can skip `Opt` ones by omitting them or passing `nil`. `MtypeId` specifies which monster's body it is, `TimePoint` indicates when it died, `string` gives it a custom name, and `int` determines the revival time if the monster has the `REVIVES` flag.
+Function `( Map, Tripoint, Opt( MtypeId ), Opt( TimePoint ), Opt( string ), Opt( int ) )`
+
 #### has_items_at
 
 Function `( Map, Tripoint ) -> bool`
@@ -3205,6 +3216,10 @@ Variable of type `bool`
 #### unique_name
 
 Variable of type `string`
+
+#### get_type
+
+Function `( Monster ) -> MtypeId`
 
 #### can_upgrade
 
@@ -3463,6 +3478,58 @@ Function `( MoraleTypeDataId, <cppval: 7JsonOut > )`
 #### deserialize
 
 Function `( MoraleTypeDataId, <cppval: 6JsonIn > )`
+
+## MtypeId
+
+### Bases
+
+No base classes.
+
+### Constructors
+
+#### `MtypeId.new()`
+
+#### `MtypeId.new( MtypeId )`
+
+#### `MtypeId.new( string )`
+
+### Members
+
+#### obj
+
+Function `( MtypeId ) -> MtypeRaw`
+
+#### implements_int_id
+
+Function `() -> bool`
+
+#### is_null
+
+Function `( MtypeId ) -> bool`
+
+#### is_valid
+
+Function `( MtypeId ) -> bool`
+
+#### str
+
+Function `( MtypeId ) -> string`
+
+#### NULL_ID
+
+Function `() -> MtypeId`
+
+#### __tostring
+
+Function `( MtypeId ) -> string`
+
+#### serialize
+
+Function `( MtypeId, <cppval: 7JsonOut > )`
+
+#### deserialize
+
+Function `( MtypeId, <cppval: 6JsonIn > )`
 
 ## MutationBranchId
 
@@ -5698,7 +5765,7 @@ Function `( Volume, Volume ) -> bool`
 - `CBM_OP` = `73`
 - `CBM_TECH` = `74`
 - `CBM_SUBS` = `75`
-- `FILTHY` = `76`
+- `UNUSED_76` = `76`
 - `FISHABLE` = `77`
 - `GROUP_BASH` = `78`
 - `SWARMS` = `79`
@@ -5961,6 +6028,10 @@ Function `( Tripoint, Opt( bool ) ) -> Creature`
 #### get_monster_at
 
 Function `( Tripoint, Opt( bool ) ) -> Monster`
+
+#### place_monster_at
+
+Function `( MtypeId, Tripoint ) -> Monster`
 
 #### get_character_at
 

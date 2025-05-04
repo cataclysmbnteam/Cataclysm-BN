@@ -1541,45 +1541,6 @@ drop_locations game_menus::inv::multidrop( player &p )
     }
 }
 
-iuse_locations game_menus::inv::multiwash( Character &ch, int water, int cleanser, bool do_soft,
-        bool do_hard )
-{
-    const inventory_filter_preset preset( [do_soft, do_hard]( const item & location ) {
-        return location.has_flag( flag_FILTHY ) && ( ( do_soft && location.is_soft() ) ||
-                ( do_hard && !location.is_soft() ) );
-    } );
-    auto make_raw_stats = [water, cleanser](
-                              const std::map<const item *, int> &items
-    ) {
-        units::volume total_volume = 0_ml;
-        for( const auto &it : items ) {
-            total_volume += it.first->volume() * it.second / it.first->count();
-        }
-        washing_requirements required = washing_requirements_for_volume( total_volume );
-        auto to_string = []( int val ) -> std::string {
-            if( val == INT_MAX )
-            {
-                return "inf";
-            }
-            return string_format( "%3d", val );
-        };
-        using stats = inventory_selector::stats;
-        return stats{ {
-                display_stat( _( "Water" ), required.water, water, to_string ),
-                display_stat( _( "Cleanser" ), required.cleanser, cleanser, to_string )
-            } };
-    };
-    inventory_iuse_selector inv_s( *ch.as_player(), _( "ITEMS TO CLEAN" ), preset, make_raw_stats );
-    inv_s.add_character_items( ch );
-    inv_s.add_nearby_items( PICKUP_RANGE );
-    inv_s.set_title( _( "Multiclean" ) );
-    inv_s.set_hint( _( "To clean x items, type a number before selecting." ) );
-    if( inv_s.empty() ) {
-        popup( std::string( _( "You have nothing to clean." ) ), PF_GET_KEY );
-        return {};
-    }
-    return inv_s.execute();
-}
 
 void game_menus::inv::compare( player &p, const std::optional<tripoint> &offset )
 {
@@ -2127,13 +2088,6 @@ class bionic_sterilize_preset : public inventory_selector_preset
             return loc->has_fault( fault_bionic_nonsterile ) && loc->is_bionic();
         }
 
-        std::string get_denial( const item *loc ) const override {
-            if( loc->has_flag( flag_FILTHY ) ) {
-                return  _( "CBM is filthy.  Wash it first." );
-            }
-
-            return std::string();
-        }
 
     protected:
         player &p;

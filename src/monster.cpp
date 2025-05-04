@@ -2866,14 +2866,6 @@ void monster::drop_items_on_death()
         }
         items = std::move( remaining );
     }
-    if( has_flag( MF_FILTHY ) && get_option<bool>( "FILTHY_CLOTHES" ) ) {
-        for( const auto &it : items ) {
-            if( ( it->is_armor() || it->is_pet_armor() ) && !it->is_gun() ) {
-                // handle wearable guns as a special case
-                it->set_flag( STATIC( flag_id( "FILTHY" ) ) );
-            }
-        }
-    }
 
     g->m.spawn_items( pos(), std::move( items ) );
 }
@@ -3520,7 +3512,7 @@ void monster::add_item( detached_ptr<item> &&it )
 
 detached_ptr<item> monster::remove_item( item *it )
 {
-    auto iter = std::find( inv.begin(), inv.end(), it );
+    auto iter = std::ranges::find( inv, it );
     detached_ptr<item> ret;
     if( iter != inv.end() ) {
         inv.erase( iter, &ret );

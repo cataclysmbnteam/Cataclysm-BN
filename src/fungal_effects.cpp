@@ -239,8 +239,8 @@ void fungal_effects::spread_fungus_one_tile( const tripoint &p, const int growth
             // Replace the (already existing) seed
             // Can't use item_stack::only_item() since there might be fertilizer
             map_stack items = m.i_at( p );
-            const map_stack::iterator seed = std::find_if( items.begin(),
-            items.end(), []( const item * const & it ) {
+            const map_stack::iterator seed = std::ranges::find_if( items,
+            []( const item * const & it ) {
                 return it->is_seed();
             } );
             if( seed == items.end() || !( *seed )->is_seed() ) {

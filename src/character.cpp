@@ -10,6 +10,7 @@
 #include <memory>
 #include <numeric>
 #include <ostream>
+#include <ranges>
 #include <type_traits>
 
 #include "action.h"
@@ -235,7 +236,6 @@ static const trait_id trait_DEFT( "DEFT" );
 static const trait_id trait_PROF_SKATER( "PROF_SKATER" );
 static const trait_id trait_QUILLS( "QUILLS" );
 static const trait_id trait_SPINES( "SPINES" );
-static const trait_id trait_SQUEAMISH( "SQUEAMISH" );
 static const trait_id trait_THORNS( "THORNS" );
 static const trait_id trait_WOOLALLERGY( "WOOLALLERGY" );
 
@@ -657,7 +657,7 @@ auto Character::is_dead_state() const -> bool
     }
 
     const auto all_bps = get_all_body_parts( true );
-    cached_dead_state = std::any_of( all_bps.begin(), all_bps.end(), [this]( const bodypart_id & bp ) {
+    cached_dead_state = std::ranges::any_of( all_bps, [this]( const bodypart_id & bp ) {
         return bp->essential && get_part_hp_cur( bp ) <= 0;
     } );
     return cached_dead_state.value();
@@ -2758,7 +2758,7 @@ std::list<item *> Character::get_dependent_worn_items( const item &it ) const
             if( wit == &it || !wit->is_worn_only_with( it ) ) {
                 continue;
             }
-            const auto iter = std::find_if( dependent.begin(), dependent.end(),
+            const auto iter = std::ranges::find_if( dependent,
             [&wit]( const item * dit ) {
                 return wit == dit;
             } );
@@ -3099,9 +3099,6 @@ ret_val<bool> Character::can_wear( const item &it, bool with_equip_change ) cons
         return ret_val<bool>::make_failure( _( "Can't wear that, it's made of wool!" ) );
     }
 
-    if( it.is_filthy() && has_trait( trait_SQUEAMISH ) ) {
-        return ret_val<bool>::make_failure( _( "Can't wear that, it's filthy!" ) );
-    }
 
     if( !it.has_flag( flag_OVERSIZE ) && !it.has_flag( flag_resized_large ) &&
         !it.has_flag( flag_SEMITANGIBLE ) ) {
@@ -3352,7 +3349,7 @@ bool Character::wear_possessed( item &to_wear, bool interactive,
 
 ret_val<bool> Character::can_takeoff( const item &it, bool dropping ) const
 {
-    auto iter = std::find_if( worn.begin(), worn.end(), [ &it ]( item * wit ) {
+    auto iter = std::ranges::find_if( worn, [ &it ]( item * wit ) {
         return &it == wit;
     } );
 
@@ -3382,7 +3379,7 @@ bool Character::takeoff( item &it, std::vector<detached_ptr<item>> *res )
         return false;
     }
 
-    auto iter = std::find_if( worn.begin(), worn.end(), [ &it ]( item * wit ) {
+    auto iter = std::ranges::find_if( worn, [ &it ]( item * wit ) {
         return &it == wit;
     } );
 
@@ -3631,7 +3628,7 @@ bool Character::is_wearing_on_bp( const itype_id &it, const bodypart_id &bp ) co
 
 bool Character::worn_with_flag( const flag_id &flag, const bodypart_id &bp ) const
 {
-    return std::any_of( worn.begin(), worn.end(), [&flag, bp]( const item * const & it ) {
+    return std::ranges::any_of( worn, [&flag, bp]( const item * const & it ) {
         return it->has_flag( flag ) && ( bp == bodypart_str_id::NULL_ID() ||
                                          it->covers( bp ) );
     } );
@@ -3650,7 +3647,7 @@ const item *Character::item_worn_with_flag( const flag_id &flag, const bodypart_
 
 bool Character::worn_with_id( const itype_id &item_id, const bodypart_id &bp ) const
 {
-    return std::any_of( worn.begin(), worn.end(), [&item_id, bp]( const item * const & it ) {
+    return std::ranges::any_of( worn, [&item_id, bp]( const item * const & it ) {
         return it->typeId() == item_id && ( bp == bodypart_str_id::NULL_ID() ||
                                             it->covers( bp ) );
     } );
@@ -3924,7 +3921,7 @@ bool Character::meets_skill_requirements( const std::map<skill_id, int> &req,
 
 bool Character::meets_skill_requirements( const construction &con ) const
 {
-    return std::all_of( con.required_skills.begin(), con.required_skills.end(),
+    return std::ranges::all_of( con.required_skills,
     [&]( const std::pair<skill_id, int> &pr ) {
         return get_skill_level( pr.first ) >= pr.second;
     } );
@@ -4346,8 +4343,8 @@ location_vector<item>::iterator Character::position_to_wear_new_item( const item
 {
     // By default we put this item on after the last item on the same or any
     // lower layer.
-    return std::find_if(
-               worn.rbegin(), worn.rend(),
+    return std::ranges::find_if(
+               std::ranges::reverse_view( worn ),
     [&]( const item * const & w ) {
         return w->get_layer() <= new_item.get_layer();
     }
@@ -6674,12 +6671,12 @@ const std::vector<material_id> Character::fleshy = { material_id( "flesh" ), mat
 bool Character::made_of( const material_id &m ) const
 {
     // TODO: check for mutations that change this.
-    return std::find( fleshy.begin(), fleshy.end(), m ) != fleshy.end();
+    return std::ranges::find( fleshy, m ) != fleshy.end();
 }
 bool Character::made_of_any( const std::set<material_id> &ms ) const
 {
     // TODO: check for mutations that change this.
-    return std::any_of( fleshy.begin(), fleshy.end(), [&ms]( const material_id & e ) {
+    return std::ranges::any_of( fleshy, [&ms]( const material_id & e ) {
         return ms.count( e );
     } );
 }
@@ -8081,7 +8078,7 @@ void Character::shout( std::string msg, bool order )
 
     if( noise <= base ) {
         std::string dampened_shout;
-        std::transform( msg.begin(), msg.end(), std::back_inserter( dampened_shout ), tolower );
+        std::ranges::transform( msg, std::back_inserter( dampened_shout ), tolower );
         msg = std::move( dampened_shout );
     }
 
@@ -9045,33 +9042,6 @@ dealt_damage_instance Character::deal_damage( Creature *source, bodypart_id bp,
         }
     }
 
-    if( get_option<bool>( "FILTHY_WOUNDS" ) ) {
-        int sum_cover = 0;
-        for( const item * const &i : worn ) {
-            if( i->covers( bp ) && i->is_filthy() ) {
-                sum_cover += i->get_coverage( bp );
-            }
-        }
-
-        // Chance of infection is damage (with cut and stab x4) * sum of coverage on affected body part, in percent.
-        // i.e. if the body part has a sum of 100 coverage from filthy clothing,
-        // each point of damage has a 1% change of causing infection.
-        if( sum_cover > 0 ) {
-            const int cut_type_dam = dealt_dams.type_damage( DT_CUT ) + dealt_dams.type_damage( DT_STAB );
-            const int combined_dam = dealt_dams.type_damage( DT_BASH ) + ( cut_type_dam * 4 );
-            const int infection_chance = ( combined_dam * sum_cover ) / 100;
-            if( x_in_y( infection_chance, 100 ) ) {
-                if( has_effect( effect_bite, bp.id() ) ) {
-                    add_effect( effect_bite, 40_minutes, bp.id() );
-                } else if( has_effect( effect_infected, bp.id() ) ) {
-                    add_effect( effect_infected, 25_minutes, bp.id() );
-                } else {
-                    add_effect( effect_bite, 1_turns, bp.id() );
-                }
-                add_msg_if_player( _( "Filth from your clothing has implanted deep in the wound." ) );
-            }
-        }
-    }
 
     on_hurt( source );
     return dealt_dams;
@@ -9722,7 +9692,7 @@ bool Character::has_activity( const activity_id &type ) const
 
 bool Character::has_activity( const std::vector<activity_id> &types ) const
 {
-    return std::find( types.begin(), types.end(), activity->id() ) != types.end();
+    return std::ranges::find( types, activity->id() ) != types.end();
 }
 
 void Character::cancel_activity()
@@ -10448,12 +10418,6 @@ void Character::use_fire( const int quantity )
     }
 }
 
-void Character::on_worn_item_washed( const item &it )
-{
-    if( is_worn( it ) ) {
-        morale->on_worn_item_washed( it );
-    }
-}
 
 void Character::on_item_wear( const item &it )
 {

@@ -160,9 +160,6 @@ int shavekit( player *, item *, bool, const tripoint & );
 int hairkit( player *, item *, bool, const tripoint & );
 int weather_tool( player *, item *, bool, const tripoint & );
 int ladder( player *, item *, bool, const tripoint & );
-int wash_soft_items( player *, item *, bool, const tripoint & );
-int wash_hard_items( player *, item *, bool, const tripoint & );
-int wash_all_items( player *, item *, bool, const tripoint & );
 int solarpack( player *, item *, bool, const tripoint & );
 int solarpack_off( player *, item *, bool, const tripoint & );
 int weak_antibiotic( player *, item *, bool, const tripoint & );
@@ -217,13 +214,6 @@ int cauterize_hotplate( player *, item *, bool, const tripoint & );
 
 void remove_radio_mod( item &it, player &p );
 
-// Helper for clothes washing
-struct washing_requirements {
-    int water;
-    int cleanser;
-    int time;
-};
-washing_requirements washing_requirements_for_volume( const units::volume & );
 
 using use_function_pointer = int ( * )( player *, item *, bool, const tripoint & );
 

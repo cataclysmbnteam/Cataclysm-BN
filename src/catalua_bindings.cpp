@@ -313,6 +313,10 @@ void cata::detail::reg_item( sol::state &lua )
         sol::usertype<item> ut = luna::new_usertype<item>( lua, luna::no_bases, luna::no_constructor );
 
         luna::set_fx( ut, "get_type", &item::typeId );
+        DOC( "Almost for a corpse." );
+        luna::set_fx( ut, "get_mtype", []( const item & it ) {
+            return it.get_mtype() ? it.get_mtype()->id : mtype_id::NULL_ID();
+        } );
 
         DOC( "Translated item name with prefixes" );
         luna::set_fx( ut, "tname", &item::tname );
@@ -377,7 +381,10 @@ void cata::detail::reg_item( sol::state &lua )
         luna::set_fx( ut, "is_tainted", &item::is_tainted );
         luna::set_fx( ut, "is_soft", &item::is_soft );
         luna::set_fx( ut, "is_reloadable", &item::is_reloadable );
-        luna::set_fx( ut, "is_filthy", &item::is_filthy );
+        DOC( "DEPRECATED: Items are no longer filthy" );
+        luna::set_fx( ut, "is_filthy", []() {
+            return false;
+        } );
         luna::set_fx( ut, "is_active", &item::is_active );
         luna::set_fx( ut, "is_upgrade", &item::is_upgrade );
 
@@ -520,6 +527,19 @@ void cata::detail::reg_map( sol::state &lua )
             m.add_item_or_charges( p, std::move( new_item ) );
         } );
 
+        DOC( "Creates a new corpse at a position on the map. You can skip `Opt` ones by omitting them or passing `nil`. `MtypeId` specifies which monster's body it is, `TimePoint` indicates when it died, `string` gives it a custom name, and `int` determines the revival time if the monster has the `REVIVES` flag." );
+        luna::set_fx( ut, "create_corpse_at", []( map & m, const tripoint & p,
+                      sol::optional<mtype_id> mtype,
+                      sol::optional<time_point> turn, sol::optional<std::string> name,
+        sol::optional<int> upgrade_time ) -> void {
+            mtype_id the_id = mtype.value_or( mtype_id::NULL_ID() );
+            time_point the_tp = turn.value_or( calendar::turn );
+            std::string the_name = name.value_or( "" );
+            int the_upgrade = upgrade_time.value_or( -1 );
+
+            detached_ptr<item> new_corpse = item::make_corpse( the_id, the_tp, the_name, the_upgrade );
+            m.add_item_or_charges( p, std::move( new_corpse ) );
+        } );
 
         luna::set_fx( ut, "has_items_at", &map::has_items );
         luna::set_fx( ut, "get_items_at", []( map & m, const tripoint & p ) -> std::unique_ptr<map_stack> {
@@ -820,6 +840,9 @@ void cata::detail::reg_game_api( sol::state &lua )
             return g->critter_at<monster>( p, *allow_hallucination );
         }
         return g->critter_at<monster>( p );
+    } );
+    luna::set_fx( lib, "place_monster_at", []( const mtype_id & id, const tripoint & p ) {
+        return g->place_critter_at( id, p );
     } );
     luna::set_fx( lib, "get_character_at", []( const tripoint & p,
     sol::optional<bool> allow_hallucination ) -> Character * {

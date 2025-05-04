@@ -802,9 +802,6 @@ bool unload_item( avatar &you, item &loc )
 
         // Construct a new ammo item and try to drop it
         detached_ptr<item> ammo = item::spawn( target->ammo_current(), calendar::turn, qty );
-        if( target->is_filthy() ) {
-            ammo->set_flag( flag_FILTHY );
-        }
 
         item &ammo_ref = *ammo;
 

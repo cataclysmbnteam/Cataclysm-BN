@@ -104,12 +104,8 @@ static const efftype_id effect_pet( "pet" );
 static const efftype_id effect_nausea( "nausea" );
 
 static const itype_id itype_battery( "battery" );
-static const itype_id itype_detergent( "detergent" );
 static const itype_id itype_log( "log" );
-static const itype_id itype_soap( "soap" );
 static const itype_id itype_soldering_iron( "soldering_iron" );
-static const itype_id itype_water( "water" );
-static const itype_id itype_water_clean( "water_clean" );
 static const itype_id itype_welder( "welder" );
 
 static const trap_str_id tr_firewood_source( "tr_firewood_source" );
@@ -151,14 +147,14 @@ const int ACTIVITY_SEARCH_DISTANCE = 60;
 
 static bool same_type( const std::vector<item *> &items )
 {
-    return std::all_of( items.begin(), items.end(), [&items]( const item * const & it ) {
+    return std::ranges::all_of( items, [&items]( const item * const & it ) {
         return it->type == ( *items.begin() )->type;
     } );
 }
 
 static bool same_type( const std::vector<detached_ptr<item>> &items )
 {
-    return std::all_of( items.begin(), items.end(), [&items]( const detached_ptr<item> &it ) {
+    return std::ranges::all_of( items, [&items]( const detached_ptr<item> &it ) {
         return it->type == ( *items.begin() )->type;
     } );
 }
@@ -539,7 +535,7 @@ std::list<act_item> reorder_for_dropping( Character &p, const drop_locations &dr
     // Add missing dependent worn items (if any).
     for( const auto &wait : worn ) {
         for( item *dit : p.get_dependent_worn_items( *wait.loc ) ) {
-            const auto iter = std::find_if( worn.begin(), worn.end(),
+            const auto iter = std::ranges::find_if( worn,
             [dit]( const act_item & ait ) {
                 return &*ait.loc == dit;
             } );
@@ -567,7 +563,7 @@ std::list<act_item> reorder_for_dropping( Character &p, const drop_locations &dr
         return acc + ait.loc->get_storage();
     } );
     std::set<int> inv_indices;
-    std::transform( inv.begin(), inv.end(), std::inserter( inv_indices, inv_indices.begin() ),
+    std::ranges::transform( inv, std::inserter( inv_indices, inv_indices.begin() ),
     [&p]( const act_item & ait ) {
         return p.get_item_position( &*ait.loc );
     } );
@@ -628,8 +624,8 @@ std::list<act_item> reorder_for_dropping( Character &p, const drop_locations &dr
     }
 
     // Now insert everything that remains
-    std::copy( inv.begin(), inv.end(), std::back_inserter( res ) );
-    std::copy( worn.begin(), worn.end(), std::back_inserter( res ) );
+    std::ranges::copy( inv, std::back_inserter( res ) );
+    std::ranges::copy( worn, std::back_inserter( res ) );
 
     return res;
 }
@@ -765,67 +761,6 @@ void activity_on_turn_wear( player_activity &act, player &p )
     }
 }
 
-void wash_activity_actor::finish( player_activity &act, Character &who )
-{
-    // Check again that we have enough water and soap incase the amount in our inventory changed somehow
-    // Consume the water and soap
-    units::volume total_volume = 0_ml;
-    for( const auto &it : targets ) {
-        total_volume += it.loc->volume() * it.count / it.loc->count();
-    }
-    washing_requirements required = washing_requirements_for_volume( total_volume );
-
-    const auto is_liquid_crafting_component = []( const item & it ) {
-        return is_crafting_component( it ) && ( !it.count_by_charges() || it.made_of( LIQUID ) ||
-                                                it.contents_made_of( LIQUID ) );
-    };
-    const inventory &crafting_inv = who.crafting_inventory();
-    if( !crafting_inv.has_charges( itype_water, required.water, is_liquid_crafting_component ) &&
-        !crafting_inv.has_charges( itype_water_clean, required.water, is_liquid_crafting_component ) ) {
-        who.add_msg_if_player( _( "You need %1$i charges of water or clean water to wash these items." ),
-                               required.water );
-        act.set_to_null();
-        return;
-    } else if( !crafting_inv.has_charges( itype_soap, required.cleanser ) &&
-               !crafting_inv.has_charges( itype_detergent, required.cleanser ) ) {
-        who.add_msg_if_player( _( "You need %1$i charges of cleansing agent to wash these items." ),
-                               required.cleanser );
-        act.set_to_null();
-        return;
-    }
-
-    for( auto &i : targets ) {
-        item &it = *i.loc;
-        if( i.count >= it.count() ) {
-            if( i.count > it.count() ) {
-                debugmsg( "Invalid item count to wash: tried %d, max %d", i.count, it.count() );
-            }
-            it.item_tags.erase( flag_FILTHY );
-        } else {
-            detached_ptr<item> it2 = it.split( i.count );
-            it2->item_tags.erase( flag_FILTHY );
-            who.i_add_or_drop( std::move( it2 ) );
-        }
-        who.on_worn_item_washed( it );
-    }
-
-    std::vector<item_comp> comps;
-    comps.emplace_back( itype_water, required.water );
-    comps.emplace_back( itype_water_clean, required.water );
-    who.as_player()->consume_items( comps, 1, is_liquid_crafting_component );
-
-    std::vector<item_comp> comps1;
-    comps1.emplace_back( itype_soap, required.cleanser );
-    comps1.emplace_back( itype_detergent, required.cleanser );
-    who.as_player()->consume_items( comps1 );
-
-    who.add_msg_if_player( m_good, _( "You washed your items." ) );
-
-    // Make sure newly washed components show up as available if player attempts to craft immediately
-    who.invalidate_crafting_inventory();
-
-    act.set_to_null();
-}
 
 void stash_activity_actor::do_turn( player_activity &, Character &who )
 {
@@ -1046,7 +981,7 @@ static std::vector<construction_id> get_group_roots( const std::vector<construct
 {
     // Get group members
     std::vector<construction_id> group_members;
-    std::copy_if( all.begin(), all.end(), std::back_inserter( group_members ), [&]( const auto & id ) {
+    std::ranges::copy_if( all, std::back_inserter( group_members ), [&]( const auto & id ) {
         return base->group == id->group;
     } );
 
@@ -1054,7 +989,7 @@ static std::vector<construction_id> get_group_roots( const std::vector<construct
         return std::vector<construction_id>();
     }
 
-    bool same_output = std::all_of( group_members.begin(), group_members.end(), [&]( auto & con ) {
+    bool same_output = std::ranges::all_of( group_members, [&]( auto & con ) {
         return ( con->post_furniture == group_members[0]->post_furniture ) &&
                ( con->post_terrain == group_members[0]->post_terrain );
     } );
@@ -1063,7 +998,7 @@ static std::vector<construction_id> get_group_roots( const std::vector<construct
     }
 
     std::vector<construction_id> ret;
-    std::copy_if( group_members.begin(), group_members.end(),
+    std::ranges::copy_if( group_members,
     std::back_inserter( ret ), [&]( auto & con ) {
         auto it = std::find_if( group_members.begin(), group_members.end(), [&]( auto & next ) {
             return con->post_terrain == next->pre_terrain && con->post_furniture == next->pre_furniture;
@@ -1120,7 +1055,7 @@ static activity_reason_info find_base_construction(
         }
     };
     std::priority_queue<time_con> pq;
-    std::for_each( roots.begin(), roots.end(), [&]( const auto & con ) {
+    std::ranges::for_each( roots, [&]( const auto & con ) {
         pq.push( { to_turns<int>( con->time ), con } );
     } );
     auto is_disassembly = []( const auto & con ) -> bool {
@@ -1427,8 +1362,8 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
                     continue;
                 }
                 // this is the same part that somebody else wants to work on, or already is.
-                if( std::find( already_working_indexes.begin(), already_working_indexes.end(),
-                               vpindex ) != already_working_indexes.end() ) {
+                if( std::ranges::find( already_working_indexes,
+                                       vpindex ) != already_working_indexes.end() ) {
                     continue;
                 }
                 // don't have skill to remove it
@@ -1472,8 +1407,8 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
                     part_elem->info().repair_requirements().is_empty() ) {
                     continue;
                 }
-                if( std::find( already_working_indexes.begin(), already_working_indexes.end(),
-                               vpindex ) != already_working_indexes.end() ) {
+                if( std::ranges::find( already_working_indexes,
+                                       vpindex ) != already_working_indexes.end() ) {
                     continue;
                 }
                 // don't have skill to repair it
@@ -1732,8 +1667,8 @@ static std::vector<std::tuple<tripoint, itype_id, int>> requirements_map( player
     for( const tripoint &elem : mgr.get_point_set_loot( here.getabs( p.pos() ), distance,
             p.is_npc() ) ) {
         // if there is a loot zone that's already near the work spot, we don't want it to be added twice.
-        if( std::find( already_there_spots.begin(), already_there_spots.end(),
-                       elem ) != already_there_spots.end() ) {
+        if( std::ranges::find( already_there_spots,
+                               elem ) != already_there_spots.end() ) {
             // construction tasks don't need the loot spot *and* the already_there/combined spots both added.
             // but a farming task will need to go and fetch the tool no matter if its near the work spot.
             // whereas the construction will automatically use what's nearby anyway.
@@ -1770,8 +1705,8 @@ static std::vector<std::tuple<tripoint, itype_id, int>> requirements_map( player
                         // if two "lines" of the requirement have the same component appearing again
                         // that is fine, we will choose which "line" to fulfill later, and the decrement will count towards that then.
                         if( !pickup_task &&
-                            std::find( already_there_spots.begin(), already_there_spots.end(),
-                                       point_elem ) != already_there_spots.end() ) {
+                            std::ranges::find( already_there_spots,
+                                               point_elem ) != already_there_spots.end() ) {
                             comp_elem.count -= stack_elem->count();
                         }
                         temp_map[stack_elem->typeId()] += stack_elem->count();
@@ -1782,8 +1717,8 @@ static std::vector<std::tuple<tripoint, itype_id, int>> requirements_map( player
                 for( tool_comp &comp_elem : elem ) {
                     if( comp_elem.type == stack_elem->typeId() ) {
                         if( !pickup_task &&
-                            std::find( already_there_spots.begin(), already_there_spots.end(),
-                                       point_elem ) != already_there_spots.end() ) {
+                            std::ranges::find( already_there_spots,
+                                               point_elem ) != already_there_spots.end() ) {
                             comp_elem.count -= stack_elem->count();
                         }
                         if( comp_elem.by_charges() ) {
@@ -1805,8 +1740,8 @@ static std::vector<std::tuple<tripoint, itype_id, int>> requirements_map( player
                     const int qual_level = comp_elem.level;
                     if( stack_elem->has_quality( tool_qual, qual_level ) ) {
                         if( !pickup_task &&
-                            std::find( already_there_spots.begin(), already_there_spots.end(),
-                                       point_elem ) != already_there_spots.end() ) {
+                            std::ranges::find( already_there_spots,
+                                               point_elem ) != already_there_spots.end() ) {
                             comp_elem.count -= stack_elem->count();
                         }
                         temp_map[stack_elem->typeId()] += stack_elem->count();
@@ -1820,8 +1755,8 @@ static std::vector<std::tuple<tripoint, itype_id, int>> requirements_map( player
             // we don't need to fetch those, they will be used automatically in the construction.
             // a shovel for tilling, for example, however, needs to be picked up, no matter if its near the spot or not.
             if( !pickup_task ) {
-                if( std::find( already_there_spots.begin(), already_there_spots.end(),
-                               point_elem ) != already_there_spots.end() ) {
+                if( std::ranges::find( already_there_spots,
+                                       point_elem ) != already_there_spots.end() ) {
                     continue;
                 }
             }
@@ -2863,7 +2798,7 @@ static requirement_check_result generic_multi_activity_check_requirement( player
                     std::vector<tripoint> candidates;
                     for( const tripoint &point_elem : here.points_in_radius( src_loc, PICKUP_RANGE - 1 ) ) {
                         // we don't want to place the components where they could interfere with our ( or someone else's ) construction spots
-                        if( !p.sees( point_elem ) || ( std::find( local_src_set.begin(), local_src_set.end(),
+                        if( !p.sees( point_elem ) || ( std::ranges::find( local_src_set,
                                                        point_elem ) != local_src_set.end() ) || !here.can_put_items_ter_furn( point_elem ) ) {
                             continue;
                         }
@@ -3176,7 +3111,7 @@ static std::optional<tripoint> find_refuel_spot_zone( const tripoint &center )
 static std::optional<tripoint> find_refuel_spot_trap( const std::vector<tripoint> &from,
         const tripoint &center )
 {
-    const auto tile = std::find_if( from.begin(), from.end(), [center]( const tripoint & pt ) {
+    const auto tile = std::ranges::find_if( from, [center]( const tripoint & pt ) {
         // Hacky - firewood spot is a trap and it's ID-checked
         return get_map().tr_at( pt ).id == tr_firewood_source
                && has_clear_path_to_pickup_items( center, pt );
