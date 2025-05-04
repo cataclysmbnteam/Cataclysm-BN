@@ -5194,7 +5194,12 @@ std::vector<detached_ptr<item>> map::use_charges( const tripoint &origin, const 
 
     // populate a grid of spots that can be reached
     std::vector<tripoint> reachable_pts;
-    reachable_flood_steps( reachable_pts, origin, range, 1, 100 );
+
+    if( range <= 0 ) {
+        reachable_pts.push_back( origin );
+    } else {
+        reachable_flood_steps( reachable_pts, origin, range, 1, 100 );
+    }
 
     // We prefer infinite map sources where available, so search for those
     // first
