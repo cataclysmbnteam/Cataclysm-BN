@@ -957,7 +957,7 @@
     "name": { "str": "RM99-X phase immersion suit" },
     "looks_like": "rm13_armor",
     "description": "An experimental project jointly developed by RivTech and XEDRA, this advanced suit looks like the combination of plate armor and an astronaut's spacesuit.  Designed to protect its user during extradimensional scientific excursions, it offers unparalleled environmental protection both in this Earth and beyond.  Use it to turn it on.",
-    "price": "95k USD",
+    "price": "95 kUSD",
     "price_postapoc": "200 USD",
     "material": [ "carbide" ],
     "weight": "1250 g",
