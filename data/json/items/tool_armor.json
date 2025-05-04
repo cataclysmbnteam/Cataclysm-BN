@@ -1007,8 +1007,13 @@
     "description": "An experimental project jointly developed by RivTech and XEDRA, this advanced suit looks like the combination of plate armor and an astronaut's spacesuit.  Designed to protect its user during extradimensional scientific excursions, it offers unparalleled environmental protection both in this Earth and beyond.  Use it to turn it off.",
     "turns_per_charge": 25,
     "revert_to": "phase_immersion_suit",
-    "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "Shutting down: all systems offline.", "target": "phase_immersion_suit" },
-    "qualities": [ [ "HV_INSULATION", 1 ],  [ "GLARE", 2  ] ],
+    "use_action": {
+      "type": "transform",
+      "menu_text": "Turn off",
+      "msg": "Shutting down: all systems offline.",
+      "target": "phase_immersion_suit"
+    },
+    "qualities": [ [ "HV_INSULATION", 1 ], [ "GLARE", 2 ] ],
     "covers": [ "head", "mouth", "eyes", "torso", "arms", "hands", "legs", "feet" ],
     "environmental_protection": 80,
     "material_thickness": 5,
