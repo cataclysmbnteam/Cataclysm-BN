@@ -62,6 +62,7 @@ struct point;
 struct species_type;
 struct tripoint;
 struct trap;
+struct uilist_entry;
 namespace units
 {
 template<Arithmetic V, typename U>
@@ -134,6 +135,7 @@ LUNA_VAL( time_point, "TimePoint" );
 LUNA_VAL( tinymap, "Tinymap" );
 LUNA_VAL( tripoint, "Tripoint" );
 LUNA_VAL( uilist, "UiList" );
+LUNA_VAL( uilist_entry, "UiListEntry" );
 LUNA_VAL( units::angle, "Angle" );
 LUNA_VAL( units::energy, "Energy" );
 LUNA_VAL( units::mass, "Mass" );

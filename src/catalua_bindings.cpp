@@ -662,11 +662,52 @@ void cata::detail::reg_ui_elements( sol::state &lua )
         luna::set_fx( ut, "add_w_col", []( uilist & ui, int retval, const std::string & text, const std::string & desc, const std::string col ) {
             ui.addentry_col( retval, true, MENU_AUTOASSIGN, text, col, desc);
         } );
+        DOC( "Entries from uilist. Remember, in lua, the first element of vector is `entries[1]`, not `entries[0]`." );
+        luna::set( ut, "entries", &uilist::entries );
+        DOC("Changes the color. Default color is `c_magenta`.");
+        luna::set_fx( ut, "border_color", [](uilist & ui, color_id col) {
+            ui.border_color = get_all_colors().get( col ) ;
+        } );
+        DOC("Changes the color. Default color is `c_light_gray`.");
+        luna::set_fx( ut, "text_color", [](uilist & ui, color_id col) {
+            ui.text_color = get_all_colors().get( col ) ;
+        } );
+        DOC("Changes the color. Default color is `c_green`.");
+        luna::set_fx( ut, "title_color", [](uilist & ui, color_id col) {
+            ui.title_color = get_all_colors().get( col ) ;
+        } );
+        DOC("Changes the color. Default color is `h_white`.");
+        luna::set_fx( ut, "hilight_color", [](uilist & ui, color_id col) {
+            ui.hilight_color = get_all_colors().get( col ) ;
+        } );
+        DOC("Changes the color. Default color is `c_light_green`.");
+        luna::set_fx( ut, "hotkey_color", [](uilist & ui, color_id col) {
+            ui.hotkey_color = get_all_colors().get( col ) ;
+        } );
         DOC( "Returns retval for selected entry, or a negative number on fail/cancel" );
         luna::set_fx( ut, "query", []( uilist & ui ) {
             ui.query();
             return ui.ret;
         } );
+    }
+    {
+        DOC( "This type came from UiList." );
+        sol::usertype<uilist_entry> ut =
+            luna::new_usertype<uilist_entry>(
+                lua,
+                luna::no_bases,
+                luna::no_constructor
+            );
+        DOC( "Entry whether it's enabled or not. Default is `true`." );
+        luna::set( ut, "enable", &uilist_entry::enabled);
+        DOC( "Entry text" );
+        luna::set( ut, "txt", &uilist_entry::txt);
+        DOC( "Entry description" );
+        luna::set( ut, "desc", &uilist_entry::desc );
+        DOC( "Entry text of column." );
+        luna::set( ut, "ctxt",  &uilist_entry::ctxt );
+        DOC( "Entry text color. Its default color is `c_red_red`, which makes color of the entry same as what `uilist` decides. So if you want to make color different, choose one except `c_red_red`." );
+        luna::set( ut, "txt_color",  &uilist_entry::text_color );
     }
 
     {

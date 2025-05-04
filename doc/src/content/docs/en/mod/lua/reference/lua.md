@@ -5399,10 +5399,79 @@ Function `( UiList, int, string, string )`
 Adds an entry with desc and col(third `string`). col is additional text on the right of the entry name.
 Function `( UiList, int, string, string, string )`
 
+#### entries
+
+Entries from uilist. Remember, in lua, the first element of vector is `entries[1]`, not `entries[0]`.
+Variable of type `Vector( UiListEntry )`
+
+#### border_color
+
+Changes the color. Default color is `c_magenta`.
+Function `( UiList, Color )`
+
+#### text_color
+
+Changes the color. Default color is `c_light_gray`.
+Function `( UiList, Color )`
+
+#### title_color
+
+Changes the color. Default color is `c_green`.
+Function `( UiList, Color )`
+
+#### hilight_color
+
+Changes the color. Default color is `h_white`.
+Function `( UiList, Color )`
+
+#### hotkey_color
+
+Changes the color. Default color is `c_light_green`.
+Function `( UiList, Color )`
+
 #### query
 
 Returns retval for selected entry, or a negative number on fail/cancel
 Function `( UiList ) -> int`
+
+## UiListEntry
+
+This type came from UiList.
+
+### Bases
+
+No base classes.
+
+### Constructors
+
+No constructors.
+
+### Members
+
+#### enable
+
+Entry whether it's enabled or not. Default is `true`.
+Variable of type `bool`
+
+#### txt
+
+Entry text
+Variable of type `string`
+
+#### desc
+
+Entry description
+Variable of type `string`
+
+#### ctxt
+
+Entry text of column.
+Variable of type `string`
+
+#### txt_color
+
+Entry text color. Its default color is `c_red_red`, which makes color of the entry same as what `uilist` decides. So if you want to make color different, choose one except `c_red_red`.
+Variable of type `<cppval: 8nc_color >`
 
 ## Volume
 
