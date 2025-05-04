@@ -1069,7 +1069,7 @@ void sfx::generate_gun_sound( const tripoint &source, const item &firing )
         selected_sound = "fire_gun";
 
         const auto mods = firing.gunmods();
-        if( std::any_of( mods.begin(), mods.end(),
+        if( std::ranges::any_of( mods,
         []( const item * e ) {
         return e->type->gunmod->loudness < 0;
     } ) ) {
@@ -1230,7 +1230,7 @@ void sfx::do_projectile_hit( const Creature &target )
             material_id( "veggy" ),
             material_id( "bone" ),
         };
-        const bool is_fleshy = std::any_of( fleshy.begin(), fleshy.end(), [&mon]( const material_id & m ) {
+        const bool is_fleshy = std::ranges::any_of( fleshy, [&mon]( const material_id & m ) {
             return mon.made_of( m );
         } );
 

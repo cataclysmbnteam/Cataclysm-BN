@@ -10,15 +10,12 @@
 
 #include "activity_actor.h"
 #include "activity_speed.h"
-#include "clone_ptr.h"
-#include "crafting.h"
 #include "enums.h"
 #include "memory_fast.h"
 #include "point.h"
 #include "safe_reference.h"
 #include "type_id.h"
 
-class activity_actor;
 class Character;
 class JsonIn;
 class JsonOut;

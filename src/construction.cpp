@@ -239,7 +239,7 @@ void finalize()
         }
         constructions_sorted.push_back( c.id.id() );
     }
-    std::sort( constructions_sorted.begin(), constructions_sorted.end(),
+    std::ranges::sort( constructions_sorted,
     [&]( const construction_id & l, const construction_id & r ) -> bool {
         lexicographic<construction> cmp;
         return cmp( l->id, r->id );
@@ -283,7 +283,7 @@ static std::vector<const construction *> constructions_by_group( const construct
 
 static void sort_constructions_by_name( std::vector<construction_group_str_id> &list )
 {
-    std::sort( list.begin(), list.end(),
+    std::ranges::sort( list,
     []( const construction_group_str_id & a, const construction_group_str_id & b ) {
         return localized_compare( a->name(), b->name() );
     } );
@@ -742,21 +742,21 @@ std::optional<construction_id> construction_menu( const bool blueprint )
                 constructs = available;
             } else if( category_id == construction_category_FILTER ) {
                 constructs.clear();
-                std::copy_if( available.begin(), available.end(),
-                              std::back_inserter( constructs ),
+                std::ranges::copy_if( available,
+                                      std::back_inserter( constructs ),
                 [&]( const construction_group_str_id & group ) {
                     return lcmatch( group->name(), filter );
                 } );
             } else if( category_id == construction_category_FAVORITE ) {
                 constructs.clear();
-                std::copy_if( available.begin(), available.end(), std::back_inserter( constructs ), is_favorite );
+                std::ranges::copy_if( available, std::back_inserter( constructs ), is_favorite );
             } else {
                 constructs = cat_available[category_id];
             }
             select = 0;
             if( last_construction ) {
-                const auto it = std::find( constructs.begin(), constructs.end(),
-                                           last_construction );
+                const auto it = std::ranges::find( constructs,
+                                                   last_construction );
                 if( it != constructs.end() ) {
                     select = std::distance( constructs.begin(), it );
                 }
@@ -984,14 +984,14 @@ bool can_construct( const construction &con, const tripoint &p )
     // see if the terrain type checks out
     place_okay &= has_pre_terrain( con, p );
     // see if the (deny) flags check out
-    place_okay &= std::none_of( con.deny_flags.begin(), con.deny_flags.end(),
+    place_okay &= std::ranges::none_of( con.deny_flags,
     [&p, &here]( const std::string & flag ) -> bool {
         const furn_id &furn = here.furn( p );
         const ter_id &ter = here.ter( p );
         return furn == f_null ? ter->has_flag( flag ) : furn->has_flag( flag );
     } );
     // see if the flags check out
-    place_okay &= std::all_of( con.pre_flags.begin(), con.pre_flags.end(),
+    place_okay &= std::ranges::all_of( con.pre_flags,
     [&p, &here]( const std::string & flag ) -> bool {
         const furn_id &furn = here.furn( p );
         const ter_id &ter = here.ter( p );

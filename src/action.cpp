@@ -553,7 +553,7 @@ int hotkey_for_action( action_id action, const bool restrict_to_printable )
         return key != '?';
     };
     std::vector<char> keys = keys_bound_to( action, restrict_to_printable );
-    auto valid = std::find_if( keys.begin(), keys.end(), is_valid_key );
+    auto valid = std::ranges::find_if( keys, is_valid_key );
     return valid == keys.end() ? -1 : *valid;
 }
 
@@ -678,7 +678,7 @@ auto make_register_actions( std::vector<uilist_entry> &entries, const input_cont
         const auto fn = [&]( action_id name ) -> uilist_entry {
             return { name, true, hotkey_for_action( name ), ctxt.get_action_name( action_ident( name ) ) };
         };
-        std::transform( names.begin(), names.end(), std::back_inserter( entries ), fn );
+        std::ranges::transform( names, std::back_inserter( entries ), fn );
     };
 }
 
@@ -691,7 +691,7 @@ auto make_register_categories( std::vector<uilist_entry> &entries,
             categories_by_int[last_category] = name;
             return { last_category++, true, -1, name + "…" };
         };
-        std::transform( names.begin(), names.end(), std::back_inserter( entries ),  fn );
+        std::ranges::transform( names, std::back_inserter( entries ),  fn );
     };
 }
 
@@ -767,9 +767,9 @@ action_id handle_action_menu()
 
     // sort the map by its weightings
     std::vector<std::pair<action_id, int> > sorted_pairs;
-    std::copy( action_weightings.begin(), action_weightings.end(),
-               std::back_inserter<std::vector<std::pair<action_id, int> > >( sorted_pairs ) );
-    std::reverse( sorted_pairs.begin(), sorted_pairs.end() );
+    std::ranges::copy( action_weightings,
+                       std::back_inserter<std::vector<std::pair<action_id, int> > >( sorted_pairs ) );
+    std::ranges::reverse( sorted_pairs );
 
     // Default category is called "back"
     std::string category = "back";

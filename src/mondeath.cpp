@@ -657,7 +657,7 @@ void mdeath::broken( monster &z )
         return;
     }
     std::string item_id = z.type->id.str();
-    if( item_id.compare( 0, 4, "mon_" ) == 0 ) {
+    if( item_id.starts_with( "mon_" ) ) {
         item_id.erase( 0, 4 );
     }
     // make "broken_manhack", or "broken_eyebot", ...
