@@ -5857,8 +5857,7 @@ static bool einkpc_download_memory_card( player &p, item &eink, item &mc )
                     const int old_quality = atoi( chq );
 
                     if( quality > old_quality ) {
-                        chq = string_format( "%d", quality ).data();
-                        photos[strqpos] = *chq;
+                        photos[strqpos] = string_format( "%d", quality )[0];
                     }
                 }
 
