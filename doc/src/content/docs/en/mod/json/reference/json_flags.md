@@ -230,6 +230,7 @@ to find which flags work elsewhere.
 - `POWERARMOR_COMPATIBLE` Makes item compatible with power armor despite other parameters causing
   failure.
 - `PSYSHIELD_PARTIAL` 25% chance to protect against fear_paralyze monster attack when worn.
+- `PSYSHIELD_FULL` 100% chance to protect against fear_paralyze monster attack when worn.
 - `RAD_PROOF` This piece of clothing completely protects you from radiation.
 - `RAD_RESIST` This piece of clothing partially protects you from radiation.
 - `RAINPROOF` Prevents the covered body-part(s) from getting wet in the rain.

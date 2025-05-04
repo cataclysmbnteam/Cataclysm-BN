@@ -649,6 +649,13 @@
     "info": "This gear <good>keeps out</good> the <info>mind control rays</info>."
   },
   {
+    "id": "PSYSHIELD_FULL",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "//": "100% chance to protect against fear_paralyze monster attack.",
+    "info": "This gear <good>completely blocks</good> any <info>mind control rays</info>."
+  },
+  {
     "id": "RAD_PROOF",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],

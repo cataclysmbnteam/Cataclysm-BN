@@ -11194,6 +11194,7 @@ bool Character::can_learn_by_disassembly( const recipe &rec ) const
 bool has_psy_protection( const Character &c, int partial_chance )
 {
     return c.has_artifact_with( AEP_PSYSHIELD ) ||
+           c.worn_with_flag( flag_PSYSHIELD_FULL ) ||
            ( c.worn_with_flag( flag_PSYSHIELD_PARTIAL ) && one_in( partial_chance ) );
 }
 
