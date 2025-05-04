@@ -370,7 +370,7 @@ void debug_menu::wishbionics( Character &c )
     std::vector<const itype *> cbm_items = item_controller->find( []( const itype & itm ) -> bool {
         return itm.can_use( "install_bionic" );
     } );
-    std::sort( cbm_items.begin(), cbm_items.end(), []( const itype * a, const itype * b ) {
+    std::ranges::sort( cbm_items, []( const itype * a, const itype * b ) {
         return localized_compare( a->nname( 1 ), b->nname( 1 ) );
     } );
 
@@ -717,9 +717,9 @@ void debug_menu::wishitem( player *p, const tripoint &pos )
         }
         opts.emplace_back( it->tname( 1, false ), i );
     }
-    std::sort( opts.begin(), opts.end(), localized_compare );
+    std::ranges::sort( opts, localized_compare );
     std::vector<const itype *> itypes;
-    std::transform( opts.begin(), opts.end(), std::back_inserter( itypes ),
+    std::ranges::transform( opts, std::back_inserter( itypes ),
     []( const auto & pair ) {
         return pair.second;
     } );

@@ -8534,7 +8534,7 @@ void game::butcher()
                 //uses default craft materials to estimate recursive disassembly time
                 const auto components = dis.disassembly_requirements().get_components();
                 for( const auto &subcomps : components ) {
-                    if( subcomps.size() > 0 ) {
+                    if( !subcomps.empty() ) {
                         disassembly_stacks_res.emplace_back( subcomps.front().type,
                                                              subcomps.front().count * disassembly_stacks_res[i].second );
                     }

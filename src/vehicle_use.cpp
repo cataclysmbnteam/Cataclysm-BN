@@ -913,7 +913,7 @@ bool vehicle::fold_up()
 
     std::string itype_id = "generic_folded_vehicle";
     for( const auto &elem : tags ) {
-        if( elem.compare( 0, 12, "convertible:" ) == 0 ) {
+        if( elem.starts_with( "convertible:" ) ) {
             itype_id = elem.substr( 12 );
             break;
         }
