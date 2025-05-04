@@ -166,8 +166,7 @@ void catacurses::mvwvline( const window &win, point p, const chtype ch, const in
 
 void catacurses::mvwaddch( const window &win, point p, const chtype ch )
 {
-HACK:
-    //can't print some box drawing characters as integers, use strings instead
+    // HACK: can't print some box drawing characters as integers, use strings instead
     switch( ch ) {
         case LINE_XDXO_UNICODE:
             return mvwprintw( win, p, LINE_XDXO_S );
@@ -184,8 +183,7 @@ HACK:
 
 void catacurses::waddch( const window &win, const chtype ch )
 {
-HACK:
-    //can't print some box drawing characters as integers, use strings instead
+    // HACK: can't print some box drawing characters as integers, use strings instead
     switch( ch ) {
         case LINE_XDXO_UNICODE:
             return wprintw( win, LINE_XDXO_S );
