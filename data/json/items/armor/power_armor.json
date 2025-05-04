@@ -651,7 +651,6 @@
       "NO_RELOAD",
       "BELTED",
       "EXOSUIT",
-      "POWERARMOR_COMPATIBLE",
       "OVERSIZE",
       "ALLOWS_NATURAL_ATTACKS"
     ]
@@ -723,7 +722,6 @@
       "COMPACT",
       "BELTED",
       "EXOSUIT",
-      "POWERARMOR_COMPATIBLE",
       "OVERSIZE",
       "ALLOWS_NATURAL_ATTACKS"
     ]
