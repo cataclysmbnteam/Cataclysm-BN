@@ -45,10 +45,6 @@ using chtype = int;
 #define LINE_XOXX 4194421 // '-|'  Tee pointing left. ncurses: ACS_RTEE; Unicode: U+2524
 #define LINE_OXXX 4194423 // '^|^' Tee pointing down. ncurses: ACS_TTEE; Unicode: U+252C
 #define LINE_XXXX 4194414 // '-|-' Large Plus or cross over. ncurses: ACS_PLUS; Unicode: U+253C
-#define LINE_XDXO '╞'
-#define LINE_DXOX '╨'
-#define LINE_XOXD '╡'
-#define LINE_OXDX '╥'
 
 #define LINE_XOXO_C 0xa0 // '|'   Vertical line. ncurses: ACS_VLINE; Unicode: U+2502
 #define LINE_OXOX_C 0xa1 // '-'   Horizontal line. ncurses: ACS_HLINE; Unicode: U+2500
