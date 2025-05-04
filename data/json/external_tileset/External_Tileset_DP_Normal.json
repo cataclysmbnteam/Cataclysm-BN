@@ -104,7 +104,13 @@
           { "id": "spear_tooth", "fg": 89 },
           { "id": "overlay_wielded_spear_tooth", "fg": 90 },
           { "id": [ "spear_stinger", "spear_triffid" ], "fg": 91 },
-          { "id": [ "overlay_wielded_spear_stinger", "overlay_wielded_spear_triffid" ], "fg": 92 }
+          { "id": [ "overlay_wielded_spear_stinger", "overlay_wielded_spear_triffid" ], "fg": 92 },
+          { "id": "overlay_wielded_phase_immersion_suit", "fg": 93, "rotates": false },
+          { "id": "phase_immersion_suit", "fg": 93, "rotates": false },
+          { "id": "overlay_worn_phase_immersion_suit", "fg": 94, "rotates": false },
+          { "id": "overlay_wielded_phase_immersion_suit_on", "fg": 95, "rotates": false },
+          { "id": "phase_immersion_suit_on", "fg": 95, "rotates": false },
+          { "id": "overlay_worn_phase_immersion_suit_on", "fg": 96, "rotates": false }
         ],
         "sprite_width": 32,
         "sprite_height": 32
