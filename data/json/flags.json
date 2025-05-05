@@ -269,8 +269,7 @@
   {
     "id": "EXOSUIT",
     "type": "json_flag",
-    "context": [ "ARMOR", "TOOL_ARMOR" ],
-    "info": "This clothing is an <info>exo-suit</info>. If <info>powered on</info>, it will provide an <good>increase in strength, speed, and weight capacity</good>."
+    "context": [ "ARMOR", "TOOL_ARMOR" ]
   },
   {
     "id": "FANCY",
