@@ -328,6 +328,8 @@ void spell_type::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "arm_encumbrance_threshold", arm_encumbrance_threshold, 20 );
     optional( jo, was_loaded, "leg_encumbrance_threshold", leg_encumbrance_threshold, 20 );
 
+    optional(jo, was_loaded, "brawler_usable", brawler_usable, false);
+
     std::string temp_string;
     optional( jo, was_loaded, "spell_class", temp_string, "NONE" );
     spell_class = trait_id( temp_string );

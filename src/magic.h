@@ -257,6 +257,9 @@ class spell_type
         // legs. anything over this value will affect the spell.
         int leg_encumbrance_threshold = 20;
 
+        // Can a character with the Brawler trait cast the spell
+        bool brawler_usable;
+
         // spell is restricted to being cast by only this class
         // if spell_class is empty, spell is unrestricted
         trait_id spell_class;

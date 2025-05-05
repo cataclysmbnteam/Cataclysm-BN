@@ -1454,12 +1454,6 @@ static void cast_spell()
         }
     }
 
-    if( u.has_trait( trait_BRAWLER ) ) {
-        add_msg( game_message_params{ m_bad, gmf_bypass_cooldown },
-                 _( "Pfft, magic is for COWARDS." ) );
-        return;
-    }
-
     if( !can_cast_spells ) {
         add_msg( game_message_params{ m_bad, gmf_bypass_cooldown },
                  _( "You can't cast any of the spells you know!" ) );
@@ -1472,6 +1466,12 @@ static void cast_spell()
     }
 
     spell &sp = *u.magic->get_spells()[spell_index];
+
+    if( !sp.type->brawler_usable && u.has_trait( trait_BRAWLER ) ) {
+        add_msg( game_message_params{ m_bad, gmf_bypass_cooldown },
+                 _( "Pfft, that spell is for COWARDS, and a Brawler like you is no coward!" ) );
+        return;
+    }
 
     std::set<trait_id> blockers = sp.get_blocker_muts();
     if( !blockers.empty() ) {
