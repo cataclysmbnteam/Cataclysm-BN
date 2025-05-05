@@ -1413,9 +1413,9 @@ class saw_stock_inventory_preset : public weapon_inventory_preset
 class salvage_inventory_preset : public pickup_inventory_preset
 {
     public:
-        salvage_inventory_preset( const player &p, const inventory &inv ) : p( p ),
-            qualities( inv.get_quality_cache() ),
-            pickup_inventory_preset( p ) {
+        salvage_inventory_preset( const player &p, const inventory &inv ):
+            pickup_inventory_preset( p ),
+            qualities( inv.get_quality_cache() ) {
 
             append_cell( []( const item * loc ) {
                 auto components = salvage::salvage_results( *loc );
@@ -1447,7 +1447,6 @@ class salvage_inventory_preset : public pickup_inventory_preset
         }
 
     private:
-        const player &p;
         salvage::quality_cache qualities;
 };
 
