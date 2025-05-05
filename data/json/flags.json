@@ -1954,7 +1954,7 @@
     "id": "STR_RELOAD",
     "type": "json_flag",
     "context": [  ],
-    "info": "This weapon's <info>reload speed</info> is <info>increased by strength</info>"
+    "info": "This weapon's <info>reload speed</info> is <good>increased by strength</good>."
   },
   {
     "id": "TACK",
@@ -2246,7 +2246,7 @@
     "id": "WEATHER_FORECAST",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
-    "info": "This item can show the <info>automated weather forcast</info>."
+    "info": "This item can show the <info>automated weather forecast</info>."
   },
   {
     "id": "WINDMETER",
