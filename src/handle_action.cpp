@@ -1447,16 +1447,25 @@ static void cast_spell()
     }
 
     bool can_cast_spells = false;
+    bool has_brawler_spell = false;
     for( spell_id sp : spells ) {
         spell temp_spell = u.magic->get_spell( sp );
         if( temp_spell.can_cast( u ) ) {
             can_cast_spells = true;
+        }
+        if (temp_spell.has_flag(spell_flag::BRAWL)) {
+            has_brawler_spell = true;
         }
     }
 
     if( !can_cast_spells ) {
         add_msg( game_message_params{ m_bad, gmf_bypass_cooldown },
                  _( "You can't cast any of the spells you know!" ) );
+        return;
+    }
+    if (!has_brawler_spell && u.has_trait(trait_BRAWLER)) {
+        add_msg( game_message_params{ m_bad, gmf_bypass_cooldown },
+            _( "You don't know any spells you can cast as a Brawler!" ) );
         return;
     }
 
@@ -1467,7 +1476,7 @@ static void cast_spell()
 
     spell &sp = *u.magic->get_spells()[spell_index];
 
-    if( !sp.type->brawler_usable && u.has_trait( trait_BRAWLER ) ) {
+    if( !sp.has_flag(spell_flag::BRAWL) && u.has_trait( trait_BRAWLER ) ) {
         add_msg( game_message_params{ m_bad, gmf_bypass_cooldown },
                  _( "Pfft, that spell is for COWARDS, and a Brawler like you is no coward!" ) );
         return;

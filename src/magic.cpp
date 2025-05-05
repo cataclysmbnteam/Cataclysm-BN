@@ -102,6 +102,7 @@ std::string enum_to_string<spell_flag>( spell_flag data )
         case spell_flag::PAIN_NORESIST: return "PAIN_NORESIST";
         case spell_flag::NO_FAIL: return "NO_FAIL";
         case spell_flag::WONDER: return "WONDER";
+        case spell_flag::BRAWL: return "BRAWL";
         case spell_flag::LAST: break;
     }
     debugmsg( "Invalid spell_flag" );
@@ -327,8 +328,6 @@ void spell_type::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "energy_increment", energy_increment, 0.0f );
     optional( jo, was_loaded, "arm_encumbrance_threshold", arm_encumbrance_threshold, 20 );
     optional( jo, was_loaded, "leg_encumbrance_threshold", leg_encumbrance_threshold, 20 );
-
-    optional(jo, was_loaded, "brawler_usable", brawler_usable, false);
 
     std::string temp_string;
     optional( jo, was_loaded, "spell_class", temp_string, "NONE" );
@@ -1704,6 +1703,9 @@ static std::string enumerate_spell_data( const spell &sp )
     }
     if( sp.effect() == "target_attack" && sp.range() > 1 ) {
         spell_data.emplace_back( _( "can be cast through walls" ) );
+    }
+    if (sp.has_flag(spell_flag::BRAWL)) {
+        spell_data.emplace_back(_("can be used by Brawlers"));
     }
     return enumerate_as_string( spell_data );
 }

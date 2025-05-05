@@ -57,6 +57,7 @@ enum spell_flag {
     WONDER, // instead of casting each of the extra_spells, it picks N of them and casts them (where N is std::min( damage(), number_of_spells ))
     PAIN_NORESIST, // pain altering spells can't be resisted (like with the deadened trait)
     NO_FAIL, // this spell cannot fail when you cast it
+    BRAWL, // this spell can be used by brawlers
     LAST
 };
 
@@ -256,9 +257,6 @@ class spell_type
         // base encumerance value for the spell to be hindered by the caster's
         // legs. anything over this value will affect the spell.
         int leg_encumbrance_threshold = 20;
-
-        // Can a character with the Brawler trait cast the spell
-        bool brawler_usable;
 
         // spell is restricted to being cast by only this class
         // if spell_class is empty, spell is unrestricted
