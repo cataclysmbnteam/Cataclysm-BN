@@ -28,9 +28,26 @@
     "type": "tool_quality",
     "id": "CUT_FINE",
     "name": { "str": "fine cutting" },
-    "copy-from": "CUT",
-    "//": "Usages can't use `copy-from` tooling, so we just override them",
-    "usages": [ [ 1, [ "inscribe", "cauterize", "enzlave" ] ] ]
+    "usages": [ [ 1, [ "inscribe", "cauterize", "enzlave" ] ] ],
+    "salvagable_materials": [
+      "acidchitin",
+      "alien_resin",
+      "bone",
+      "chitin",
+      "cotton",
+      "faux_fur",
+      "fur",
+      "kevlar",
+      "kevlar_rigid",
+      "leather",
+      "neoprene",
+      "nomex",
+      "nylon",
+      "plastic",
+      "rubber",
+      "wood",
+      "wool"
+    ]
   },
   {
     "type": "tool_quality",
