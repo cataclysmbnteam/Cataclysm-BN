@@ -475,7 +475,11 @@ hint_rating rate_action_salvage( avatar &you, const item &it )
                salvage::try_salvage( it, cache ).success() ) {
         return hint_rating::good; // possible
     } else {
-        return hint_rating::iffy; // potentially possible but we currently lack requirements
+        return it.weight() < salvage::minimal_weight_to_cut( it )
+               ? hint_rating::cant
+               // potentially possible but we currently lack requirements
+               : hint_rating::iffy;
+
     }
 }
 
