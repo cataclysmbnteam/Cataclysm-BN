@@ -2222,7 +2222,7 @@ void item::ammo_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
     if( ammo.ammo_effects.contains( ammo_effect_RECYCLED ) &&
         parts->test( iteminfo_parts::AMMO_FX_RECYCLED ) ) {
         fx.emplace_back(
-            _( "This ammo has been <bad>hand-loaded</bad> and has a <bad>small chance to misfire</bad>." ) );
+            _( "This ammo has been <info>hand-loaded</info> and has a <bad>small chance to misfire</bad>." ) );
     }
     if( ammo.ammo_effects.contains( ammo_effect_BLACKPOWDER ) &&
         parts->test( iteminfo_parts::AMMO_FX_BLACKPOWDER ) ) {
