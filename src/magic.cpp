@@ -1704,8 +1704,8 @@ static std::string enumerate_spell_data( const spell &sp )
     if( sp.effect() == "target_attack" && sp.range() > 1 ) {
         spell_data.emplace_back( _( "can be cast through walls" ) );
     }
-    if (sp.has_flag(spell_flag::BRAWL)) {
-        spell_data.emplace_back(_("can be used by Brawlers"));
+    if( sp.has_flag( spell_flag::BRAWL ) ) {
+        spell_data.emplace_back( _( "can be used by Brawlers" ) );
     }
     return enumerate_as_string( spell_data );
 }
