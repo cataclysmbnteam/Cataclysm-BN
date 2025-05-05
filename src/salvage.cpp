@@ -325,6 +325,12 @@ bool menu_salvage_single( player &you )
 
 bool prompt_salvage_single( Character &who, item &target )
 {
+    quality_cache cache = who.crafting_inventory().get_quality_cache();
+    if( auto res = try_salvage( target, cache ); !res.success() ) {
+        add_msg( m_bad, res.str() );
+        return false;
+    }
+
     map &here = get_map();
     std::string msg;
     msg += string_format( _( "Salvaging the %s may yield:\n" ),
@@ -342,11 +348,6 @@ bool prompt_salvage_single( Character &who, item &target )
         return false;
     }
 
-    quality_cache cache = who.crafting_inventory().get_quality_cache();
-
-    if( !try_salvage( target, cache ).success() ) {
-        return false;
-    }
     iuse_location loc( target, 0 );
     who.assign_activity( std::make_unique<player_activity>(
                              std::make_unique<salvage_activity_actor>(
@@ -359,7 +360,8 @@ bool salvage_single( Character &who, item &target )
     map &here = get_map();
     quality_cache cache = who.crafting_inventory().get_quality_cache();
 
-    if( !try_salvage( target, cache ).success() ) {
+    if( auto res = try_salvage( target, cache ); !res.success() ) {
+        add_msg( m_bad, res.str() );
         return false;
     }
 
