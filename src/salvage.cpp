@@ -420,10 +420,10 @@ void salvage_activity_actor::start( player_activity &act, Character &who )
         if( !target.loc ) {
             debugmsg( "Lost target of ", get_type() );
         } else {
-            if( progress.empty() && !mute_promts ) {
+            if( progress.empty() && !mute_prompts ) {
                 switch( salvage::promt_warnings( who, *target.loc, cache ) ) {
                     case salvage::q_result::ignore:
-                        mute_promts = true;
+                        mute_prompts = true;
                         [[fallthrough]];
                     case salvage::q_result::yes:
                         progress.emplace( target.loc->tname(), salvage::moves_to_salvage( *target.loc ) );
@@ -463,12 +463,12 @@ void salvage_activity_actor::do_turn( player_activity &act, Character &who )
             debugmsg( "Lost target of ", get_type() );
             act.set_to_null();
         } else {
-            if( !mute_promts ) {
+            if( !mute_prompts ) {
                 //yes this should NOT be a reference
                 auto cache = who.crafting_inventory().get_quality_cache();
                 switch( salvage::promt_warnings( who, *target.loc, cache ) ) {
                     case salvage::q_result::ignore:
-                        mute_promts = true;
+                        mute_prompts = true;
                         [[fallthrough]];
                     case salvage::q_result::yes:
                         calc_all_moves( act, who );
@@ -507,7 +507,7 @@ void salvage_activity_actor::serialize( JsonOut &jsout ) const
     jsout.member( "progress", progress );
     jsout.member( "targets", targets );
     jsout.member( "pos", pos );
-    jsout.member( "mute_promts", mute_promts );
+    jsout.member( "mute_prompts", mute_prompts );
 
     jsout.end_object();
 }

@@ -653,14 +653,14 @@ class salvage_activity_actor : public activity_actor
     private:
         iuse_locations targets;
         tripoint_abs_ms pos;
-        bool mute_promts = false;
+        bool mute_prompts = false;
     public:
         salvage_activity_actor() = default;
         salvage_activity_actor(
             iuse_locations &&targets,
             tripoint_abs_ms pos,
-            bool mute_promts = false
-        ) : targets( std::move( targets ) ), pos( pos ), mute_promts( mute_promts ) {}
+            bool mute_prompts = false
+        ) : targets( std::move( targets ) ), pos( pos ), mute_prompts( mute_prompts ) {}
 
         ~salvage_activity_actor() = default;
 

@@ -2161,7 +2161,7 @@ std::unique_ptr<activity_actor> salvage_activity_actor::deserialize( JsonIn &jsi
     data.read( "progress", actor->progress );
     data.read( "targets", actor->targets );
     data.read( "pos", actor->pos );
-    data.read( "mute_promts", actor->mute_promts );
+    data.read( "mute_prompts", actor->mute_prompts );
 
     return actor;
 }
