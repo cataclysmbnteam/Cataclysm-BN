@@ -186,6 +186,44 @@
   },
   {
     "type": "terrain",
+    "id": "t_wall_glass_taped",
+    "looks_like": "t_window_taped",
+    "copy-from": "t_window_taped",
+    "name": "taped glass wall",
+    "description": "A glass wall.  This one has been blocked out with duct tape.  You could remove the duct tape by cutting it off.",
+    "//": "Taped window without curtains",
+    "symbol": "\"",
+    "color": "dark_gray",
+    "move_cost": 0,
+    "delete": { "flags": [ "TRANSPARENT", "NO_SCENT", "BARRICADABLE_WINDOW", "CONNECT_TO_WALL" ] },
+    "extend": { "flags": [ "WALL" ] },
+    "bash": {
+      "items": [
+        { "item": "glass_shard", "count": [ 2, 5 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_wall_glass_alarm_taped",
+    "looks_like": "t_window_taped",
+    "copy-from": "t_window_taped",
+    "name": "taped glass wall",
+    "description": "A glass wall.  This one has been blocked out with duct tape.  You could remove the duct tape by cutting it off.",
+    "//": "Taped window without curtains",
+    "symbol": "\"",
+    "color": "dark_gray",
+    "move_cost": 0,
+    "delete": { "flags": [ "TRANSPARENT", "NO_SCENT", "BARRICADABLE_WINDOW", "CONNECT_TO_WALL" ] },
+    "extend": { "flags": [ "WALL", "ALARMED" ] },
+    "bash": {
+      "items": [
+        { "item": "glass_shard", "count": [ 2, 5 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
     "id": "t_window_domestic_taped",
     "copy-from": "t_window_no_curtains_taped",
     "name": "taped window",
