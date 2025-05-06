@@ -19,11 +19,11 @@ You have three major choices here: GCC, Clang and MXE.
 (Note that your distro may have separate packages e.g. `gcc` only includes the C compiler and for
 C++ you'll need to install `g++`.)
 
-Cataclysm is targeting C++20 standard and that means you'll need a compiler that supports it. You
-can easily check if your version of `g++` supports C++20 by running:
+Cataclysm is targeting C++23 standard and that means you'll need a compiler that supports it. You
+can easily check if your version of `g++` supports C++23 by running:
 
 ```sh
-$ g++ --std=c++20
+$ g++ --std=c++23
 g++: fatal error: no input files
 compilation terminated.
 ```
@@ -31,7 +31,7 @@ compilation terminated.
 If you get a line like:
 
 ```sh
-g++: error: unrecognized command line option ‘--std=c++20’
+g++: error: unrecognized command line option ‘--std=c++23’
 ```
 
 This means you'll need a newer version of GCC (`g++`).
