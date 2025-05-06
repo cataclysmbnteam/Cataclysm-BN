@@ -197,11 +197,7 @@
     "move_cost": 0,
     "delete": { "flags": [ "TRANSPARENT", "NO_SCENT", "BARRICADABLE_WINDOW", "CONNECT_TO_WALL" ] },
     "extend": { "flags": [ "WALL" ] },
-    "bash": {
-      "items": [
-        { "item": "glass_shard", "count": [ 2, 5 ] }
-      ]
-    }
+    "bash": { "items": [ { "item": "glass_shard", "count": [ 2, 5 ] } ] }
   },
   {
     "type": "terrain",
@@ -216,11 +212,7 @@
     "move_cost": 0,
     "delete": { "flags": [ "TRANSPARENT", "NO_SCENT", "BARRICADABLE_WINDOW", "CONNECT_TO_WALL" ] },
     "extend": { "flags": [ "WALL", "ALARMED" ] },
-    "bash": {
-      "items": [
-        { "item": "glass_shard", "count": [ 2, 5 ] }
-      ]
-    }
+    "bash": { "items": [ { "item": "glass_shard", "count": [ 2, 5 ] } ] }
   },
   {
     "type": "terrain",
