@@ -9128,6 +9128,8 @@ void Character::heal( const bodypart_id &healed, int dam )
     if( cur_hp + dam >= max_hp ) {
         remove_effect( effect_disabled, healed.id() );
     }
+    // update morale in case healing reduced perceived pain
+    morale->on_stat_change( "perceived_pain", get_perceived_pain() );
 }
 
 void Character::healall( int dam )
