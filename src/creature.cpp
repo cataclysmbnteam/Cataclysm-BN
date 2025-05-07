@@ -36,6 +36,7 @@
 #include "monster.h"
 #include "mtype.h"
 #include "npc.h"
+#include "options.h"
 #include "output.h"
 #include "player.h"
 #include "point.h"
@@ -1552,12 +1553,20 @@ void Creature::set_pain( int npain )
 
 int Creature::get_pain() const
 {
+    if( get_option<bool>( "CHRONIC_PAIN" ) && pain < min_pain() ) {
+        return min_pain();
+    }
     return pain;
 }
 
 int Creature::get_perceived_pain() const
 {
     return get_pain();
+}
+
+int Creature::min_pain() const
+{
+    return 0;
 }
 
 std::pair<std::string, nc_color> Creature::get_pain_description() const

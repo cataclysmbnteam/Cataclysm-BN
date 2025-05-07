@@ -2287,6 +2287,9 @@ void options_manager::add_options_debug()
 
     get_option( "MADE_OF_EXPLODIUM" ).setPrerequisite( "OLD_EXPLOSIONS", "false" );
 
+    add( "CHRONIC_PAIN", debug, translate_marker( "Chronic pain" ),
+         translate_marker( "If true, injuries cause persistent pain until they are healed." ), false );
+
     add_empty_line();
 
     add( "MIN_AUTODRIVE_SPEED", debug, translate_marker( "Minimum auto-drive speed" ),

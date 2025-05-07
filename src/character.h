@@ -1903,6 +1903,9 @@ class Character : public Creature, public location_visitable<Character>
         /** Returns perceived pain (reduced with painkillers)*/
         int get_perceived_pain() const override;
 
+        /** Returns minimum allowed pain depending on current hp */
+        int min_pain() const override;
+
         void spores();
         void blossoms();
 

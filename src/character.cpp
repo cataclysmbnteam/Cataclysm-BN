@@ -998,6 +998,35 @@ void Character::set_pain( int npain )
     }
 }
 
+int Character::min_pain() const
+{
+    int worst_hurt_bp = 0;
+    for( const bodypart_id &bp : get_all_body_parts( true ) ) {
+        //damage to body part, normalized to a scale of 0 to 40
+        //40 to 50 is "distressing pain"
+        int hurt = ( get_hp_max( bp ) - get_hp( bp ) ) * 40 / get_hp_max( bp );
+        //if body part is broken and not splinted, increase pain by ten
+        if( is_limb_broken( bp ) && !worn_with_flag( flag_SPLINT, bp ) ) {
+            hurt += 10;
+        }
+        bodypart_str_id bp_id = bp.id();
+        //if body part has a bite wound, increase pain by five
+        if( has_effect( effect_bite, bp_id ) ) {
+            hurt += 5;
+        }
+        //if body part is infected, increase pain by ten
+        if( has_effect( effect_infected, bp_id ) ) {
+            hurt += 10;
+        }
+
+        if( hurt > worst_hurt_bp ) {
+            worst_hurt_bp = hurt;
+        }
+    }
+
+    return worst_hurt_bp;
+}
+
 int Character::get_perceived_pain() const
 {
     if( has_effect( effect_adrenaline ) ) {
