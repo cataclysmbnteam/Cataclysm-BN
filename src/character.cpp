@@ -2436,6 +2436,9 @@ detached_ptr<item> Character::wear_item( detached_ptr<item> &&wear,
 
     recalc_sight_limits();
     reset_encumbrance();
+    // wearing a splint can change perceived pain without directly modifying pain
+    // update morale just in case
+    morale->on_stat_change( "perceived_pain", get_perceived_pain() );
 
     return detached_ptr<item>();
 }
@@ -3442,6 +3445,10 @@ bool Character::takeoff( item &it, std::vector<detached_ptr<item>> *res )
 
     recalc_sight_limits();
     reset_encumbrance();
+
+    // removing a splint from a broken limb can change perceived pain without directly modifying pain
+    // update morale just in case
+    morale->on_stat_change( "perceived_pain", get_perceived_pain() );
 
     return true;
 }
