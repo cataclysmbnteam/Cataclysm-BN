@@ -138,7 +138,7 @@ you can just as easily create it in a completely different location.
 To install CataclysmBN after building (as root using su or sudo if necessary):
 
 ```sh
-make install
+cmake --install build
 ```
 
 To change build options, you can either pass the options on the command line:
