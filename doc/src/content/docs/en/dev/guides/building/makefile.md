@@ -86,6 +86,7 @@ Given you're building from source you have a number of choices to make:
 - `CLANG=1` - use Clang instead of GCC
 - `CCACHE=1` - use ccache
 - `USE_LIBCXX=1` - use libc++ instead of libstdc++ with Clang (default on OS X)
+- `BACKTRACE=1` - Support for printing stack backtraces on crash
 
 There is a couple of other possible options - feel free to read the `Makefile`.
 
@@ -193,7 +194,7 @@ in a more modern processor. If there is no desire to have sound, those flags can
 The USE_HOME_DIR flag places the user files, like configurations and saves into the home folder,
 making It easier for backups, and can also be omitted.
 
-## Cross-compiling to linux 32-bit from linux 64-bit
+## Cross-compile to linux 32-bit from linux 64-bit
 
 Dependencies:
 
@@ -259,7 +260,7 @@ mkdir -p ~/src
 cd ~/src
 git clone https://github.com/mxe/mxe.git
 cd mxe
-make -j$((`nproc`+0)) MXE_TARGETS='x86_64-w64-mingw32.static i686-w64-mingw32.static' sdl2 sdl2_ttf sdl2_image sdl2_mixer
+make -j$((`nproc`+0)) MXE_TARGETS='x86_64-w64-mingw32.static i686-w64-mingw32.static' sdl2 sdl2_ttf sdl2_image sdl2_mixer sqlite
 ```
 
 Building all these packages from MXE might take a while, even on a fast computer. Be patient; the
