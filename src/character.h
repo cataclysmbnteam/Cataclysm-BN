@@ -1900,11 +1900,9 @@ class Character : public Creature, public location_visitable<Character>
         void mod_pain( int npain ) override;
         /** Sets new intensity of pain an reacts to it */
         void set_pain( int npain ) override;
+        int get_pain() const override;
         /** Returns perceived pain (reduced with painkillers)*/
         int get_perceived_pain() const override;
-
-        /** Returns minimum allowed pain depending on current hp */
-        int min_pain() const override;
 
         void spores();
         void blossoms();
@@ -2403,6 +2401,12 @@ class Character : public Creature, public location_visitable<Character>
 };
 
 Character &get_player_character();
+
+namespace
+{
+/** Returns minimum allowed pain depending on current hp */
+int min_pain( const Character &c );
+} // namespace
 
 // TODO: Move to its own file (it's not Character-specific)
 namespace vision
