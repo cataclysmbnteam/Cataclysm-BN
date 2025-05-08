@@ -51,8 +51,8 @@ Obtain packages specified above with your system package manager.
 ```sh
 $ sudo apt install git cmake ninja-build mold clang ccache \
   libsdl2-dev libsdl2-image-dev libsdl2-ttf-dev libsdl2-mixer-dev \
-  freetype glibc bzip2 zlib libvorbis ncurses gettext libflac++-dev \
-  libsqlite3-dev zlib1g-dev
+  libfreetype-dev bzip2 zlib1g-dev libvorbis-dev libncurses-dev \
+  gettext libflac++-dev libsqlite3-dev zlib1g-dev
 ```
 
 - For Fedora-based distros:
