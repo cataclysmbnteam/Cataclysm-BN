@@ -2402,12 +2402,6 @@ class Character : public Creature, public location_visitable<Character>
 
 Character &get_player_character();
 
-namespace
-{
-/** Returns minimum allowed pain depending on current hp */
-int min_pain( const Character &c );
-} // namespace
-
 // TODO: Move to its own file (it's not Character-specific)
 namespace vision
 {

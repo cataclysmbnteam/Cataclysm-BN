@@ -998,16 +998,6 @@ void Character::set_pain( int npain )
     }
 }
 
-int Character::get_pain() const
-{
-    int pain = Creature::get_pain();
-    int m_pain = min_pain( *this );
-    if( get_option<bool>( "CHRONIC_PAIN" ) && pain < m_pain ) {
-        return m_pain;
-    }
-    return pain;
-}
-
 namespace
 {
 int min_pain( const Character &c )
@@ -1039,6 +1029,14 @@ int min_pain( const Character &c )
     return worst_hurt_bp;
 }
 } // namespace
+
+int Character::get_pain() const
+{
+    if( get_option<bool>( "CHRONIC_PAIN" ) ) {
+        return std::max( Creature::get_pain(), min_pain( *this ) );
+    }
+    return Creature::get_pain();
+}
 
 int Character::get_perceived_pain() const
 {
