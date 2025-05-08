@@ -243,14 +243,13 @@ Make a build directory and run cmake configuration step
 ```sh
 cd <path to cbn sources>
 mkdir build
-cd build
-cmake .. -DTILES=ON -DLANGUAGES=none -DBACKTRACE=OFF -DSOUND=ON
+cmake -B build -DTILES=ON -DLANGUAGES=none -DBACKTRACE=OFF -DSOUND=ON
 ```
 
 Build!
 
 ```
-cmake --build . -j 2 -- /p:Configuration=Release
+cmake --build build -j 2 -- /p:Configuration=Release
 ```
 
 The `-j 2` flag controls build parallelism - you can omit it if you wish. The
