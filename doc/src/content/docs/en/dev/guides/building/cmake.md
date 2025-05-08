@@ -121,9 +121,9 @@ Inside the source tree build is **NOT** supported.
 To build CataclysmBN out of source:
 
 ```sh
-mkdir build && cd build
-cmake .. -DCMAKE_BUILD_TYPE=Release
-make
+mkdir build
+cmake -B build -DCMAKE_BUILD_TYPE=Release
+cmake --build build
 ```
 
 The above example creates a build directory inside the source directory, but that's not required -
@@ -153,7 +153,7 @@ A CMake build with almost all options with build optimizations (ccache, ninja, m
 profiler may look like:
 
 ```sh
-mkdir -p build
+mkdir build
 cmake \
   -B build \
   -G Ninja \
@@ -178,6 +178,7 @@ cmake \
   -DTRACY_VERSION=master \
   -DTRACY_ON_DEMAND=ON \
   -DTRACY_ONLY_IPV4=ON
+cmake --build build
 ```
 
 ## Build for Visual Studio / MSBuild
