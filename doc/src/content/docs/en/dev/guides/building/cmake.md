@@ -64,6 +64,12 @@ freetype glibc bzip2 zlib-ng libvorbis ncurses gettext flac-devel \
 sqlite-devel zlib-devel
 ```
 
+### Windows Subsystem for Linux (WSL)
+
+Follow the same instructions for `UNIX environment`; it just works (TM)
+
+If you plan on using `tiles`, make sure you have the latest [WSL 2 that supports GUI](https://learn.microsoft.com/en-us/windows/wsl/tutorials/gui-apps).
+
 ### Windows Environment (MSYS2)
 
 1. Follow steps from here: https://msys2.github.io/
@@ -180,6 +186,8 @@ cmake \
   -DTRACY_ONLY_IPV4=ON
 cmake --build build
 ```
+
+This will place the executables into `build/src/`.
 
 ## Build for Visual Studio / MSBuild
 
