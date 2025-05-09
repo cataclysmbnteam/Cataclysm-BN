@@ -1002,23 +1002,28 @@ namespace
 {
 int min_pain( const Character &c )
 {
+    const int HP_LOSS_PAIN = 40;
+    const int BROKEN_LIMB_PAIN = 10;
+    const int BITE_PAIN = 5;
+    const int INFECTION_PAIN = 10;
+
     int worst_hurt_bp = 0;
     for( const bodypart_id &bp : c.get_all_body_parts( true ) ) {
-        //damage to body part, normalized to a scale of 0 to 40
+        //damage to body part, normalized to a scale of 0 to HP_LOSS_PAIN
         //40 to 50 is "distressing pain"
-        int hurt = ( c.get_hp_max( bp ) - c.get_hp( bp ) ) * 40 / c.get_hp_max( bp );
-        //if body part is broken and not splinted, increase pain by ten
+        int hurt = ( c.get_hp_max( bp ) - c.get_hp( bp ) ) * HP_LOSS_PAIN / c.get_hp_max( bp );
+        //if body part is broken and not splinted, increase pain by BROKEN_LIMB_PAIN
         if( c.is_limb_broken( bp ) && !c.worn_with_flag( flag_SPLINT, bp ) ) {
-            hurt += 10;
+            hurt += BROKEN_LIMB_PAIN;
         }
         bodypart_str_id bp_id = bp.id();
-        //if body part has a bite wound, increase pain by five
+        //if body part has a bite wound, increase pain by BITE_PAIN
         if( c.has_effect( effect_bite, bp_id ) ) {
-            hurt += 5;
+            hurt += BITE_PAIN;
         }
-        //if body part is infected, increase pain by ten
+        //if body part is infected, increase pain by INFECTION_PAIN
         if( c.has_effect( effect_infected, bp_id ) ) {
-            hurt += 10;
+            hurt += INFECTION_PAIN;
         }
 
         if( hurt > worst_hurt_bp ) {
