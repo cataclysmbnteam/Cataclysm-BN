@@ -136,6 +136,18 @@
   },
   {
     "type": "overmap_special",
+    "id": "orichalcum_mine",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "orichalcum_mine_entrance" },
+      { "point": [ 0, 0, -1 ], "overmap": "orichalcum_mine_lower" }
+    ],
+    "locations": [ "wilderness" ],
+    "city_distance": [ 25, -1 ],
+    "city_sizes": [ 0, 10 ],
+    "occurrences": [ 0, 1 ]
+  },
+  {
+    "type": "overmap_special",
     "id": "forest_tomb",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "forest_tomb_north" },
