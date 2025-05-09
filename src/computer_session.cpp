@@ -1473,7 +1473,7 @@ void computer_session::action_emerg_ref_center()
     std::vector<mission *> missions = g->u.get_active_missions();
     missions.insert( missions.end(), completed_missions.begin(), completed_missions.end() );
 
-    const bool has_mission = std::any_of( missions.begin(), missions.end(), [ &mission_type,
+    const bool has_mission = std::ranges::any_of( missions, [ &mission_type,
     &mission_target ]( mission * mission ) {
         if( mission->get_type().id == mission_type ) {
             mission_target = mission->get_target();

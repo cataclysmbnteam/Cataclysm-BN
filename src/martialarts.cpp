@@ -547,7 +547,7 @@ bool ma_requirements::is_valid_character( const Character &u ) const
     if( !weapon_categories_allowed.empty() && is_armed ) {
         bool valid_weap_cat = false;
         for( const weapon_category_id &w_cat : weapon_categories_allowed ) {
-            if( u.used_weapon().typeId()->weapon_category.count( w_cat ) > 0 ) {
+            if( u.used_weapon().typeId()->weapon_category.contains( w_cat ) ) {
                 valid_weap_cat = true;
             }
         }
@@ -739,7 +739,7 @@ const ma_buff *ma_buff::from_effect( const effect &eff )
 {
     const std::string &id = eff.get_effect_type()->id.str();
     // Same as in get_effect_id!
-    if( id.compare( 0, 7, "mabuff:" ) != 0 ) {
+    if( !id.starts_with( "mabuff:" ) ) {
         return nullptr;
     }
     return &mabuff_id( id.substr( 7 ) ).obj();

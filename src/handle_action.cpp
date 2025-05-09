@@ -1474,7 +1474,7 @@ static void cast_spell()
     spell &sp = *u.magic->get_spells()[spell_index];
 
     std::set<trait_id> blockers = sp.get_blocker_muts();
-    if( blockers.size() ) {
+    if( !blockers.empty() ) {
         for( trait_id blocker : blockers ) {
             if( u.has_trait( blocker ) ) {
                 add_msg( game_message_params{ m_bad, gmf_bypass_cooldown },

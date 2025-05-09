@@ -1,5 +1,6 @@
 #include "legacy_pathfinding.h"
 
+#include <algorithm>
 #include <cstdlib>
 #include <algorithm>
 #include <optional>
@@ -218,7 +219,7 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
         const auto &pf_cache = get_pathfinding_cache_ref( f.z );
         // Check all points for any special case (including just hard terrain)
         if( !( pf_cache.special[f.x][f.y] & non_normal ) &&
-        std::all_of( line_path.begin(), line_path.end(), [&pf_cache]( const tripoint & p ) {
+        std::ranges::all_of( line_path, [&pf_cache]( const tripoint & p ) {
         return !( pf_cache.special[p.x][p.y] & non_normal );
         } ) ) {
             const std::set<tripoint> sorted_line( line_path.begin(), line_path.end() );
@@ -544,7 +545,7 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
             cur = par;
         }
 
-        std::reverse( ret.begin(), ret.end() );
+        std::ranges::reverse( ret );
     }
 
     return ret;

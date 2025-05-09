@@ -20,6 +20,7 @@
 #include "translations.h"
 #include "type_id.h"
 #include "units.h"
+#include "catalua_type_operators.h"
 
 class Creature;
 class monster;
@@ -444,6 +445,7 @@ struct mtype {
 
         // Historically located in monstergenerator.cpp
         void load( const JsonObject &jo, const std::string &src );
+        LUA_TYPE_OPS( mtype, id );
 };
 
 mon_effect_data load_mon_effect_data( const JsonObject &e );

@@ -2327,6 +2327,11 @@ No constructors.
 
 Function `( Item ) -> ItypeId`
 
+#### get_mtype
+
+Almost for a corpse.
+Function `( Item ) -> MtypeId`
+
 #### tname
 
 Translated item name with prefixes
@@ -2968,6 +2973,11 @@ Function `( Map ) -> int`
 Creates a new item(s) at a position on the map.
 Function `( Map, Tripoint, ItypeId, int )`
 
+#### create_corpse_at
+
+Creates a new corpse at a position on the map. You can skip `Opt` ones by omitting them or passing `nil`. `MtypeId` specifies which monster's body it is, `TimePoint` indicates when it died, `string` gives it a custom name, and `int` determines the revival time if the monster has the `REVIVES` flag.
+Function `( Map, Tripoint, Opt( MtypeId ), Opt( TimePoint ), Opt( string ), Opt( int ) )`
+
 #### has_items_at
 
 Function `( Map, Tripoint ) -> bool`
@@ -3206,6 +3216,10 @@ Variable of type `bool`
 #### unique_name
 
 Variable of type `string`
+
+#### get_type
+
+Function `( Monster ) -> MtypeId`
 
 #### can_upgrade
 
@@ -3464,6 +3478,58 @@ Function `( MoraleTypeDataId, <cppval: 7JsonOut > )`
 #### deserialize
 
 Function `( MoraleTypeDataId, <cppval: 6JsonIn > )`
+
+## MtypeId
+
+### Bases
+
+No base classes.
+
+### Constructors
+
+#### `MtypeId.new()`
+
+#### `MtypeId.new( MtypeId )`
+
+#### `MtypeId.new( string )`
+
+### Members
+
+#### obj
+
+Function `( MtypeId ) -> MtypeRaw`
+
+#### implements_int_id
+
+Function `() -> bool`
+
+#### is_null
+
+Function `( MtypeId ) -> bool`
+
+#### is_valid
+
+Function `( MtypeId ) -> bool`
+
+#### str
+
+Function `( MtypeId ) -> string`
+
+#### NULL_ID
+
+Function `() -> MtypeId`
+
+#### __tostring
+
+Function `( MtypeId ) -> string`
+
+#### serialize
+
+Function `( MtypeId, <cppval: 7JsonOut > )`
+
+#### deserialize
+
+Function `( MtypeId, <cppval: 6JsonIn > )`
 
 ## MutationBranchId
 
@@ -4243,6 +4309,38 @@ Function `( Point, int ) -> Point`
 
 Function `( Point ) -> Point`
 
+## PopupInputStr
+
+### Bases
+
+No base classes.
+
+### Constructors
+
+#### `PopupInputStr.new()`
+
+### Members
+
+#### title
+
+`title` is on the left of input field.
+Function `( PopupInputStr, string )`
+
+#### desc
+
+`desc` is above input field.
+Function `( PopupInputStr, string )`
+
+#### query_str
+
+Returns your input.
+Function `( PopupInputStr ) -> string`
+
+#### query_int
+
+Returns your input, but allows numbers only.
+Function `( PopupInputStr ) -> int`
+
 ## QueryPopup
 
 ### Bases
@@ -4271,6 +4369,16 @@ Function `( QueryPopup, bool )`
 #### query
 
 Returns selected action
+Function `( QueryPopup ) -> string`
+
+#### query_yn
+
+Returns `YES` or `NO`. If ESC pressed, returns `NO`.
+Function `( QueryPopup ) -> string`
+
+#### query_ynq
+
+Returns `YES`, `NO` or `QUIT`. If ESC pressed, returns `QUIT`.
 Function `( QueryPopup ) -> string`
 
 ## RecipeId
@@ -5324,17 +5432,112 @@ No base classes.
 
 #### title
 
+Sets title which is on the top line.
 Function `( UiList, string )`
+
+#### text
+
+Sets text which is in upper box.
+Function `( UiList, string )`
+
+#### footer
+
+Sets footer text which is in lower box. It overwrites descs of entries unless is empty.
+Function `( UiList, string )`
+
+#### desc_enabled
+
+Puts a lower box. Footer or entry desc appears on it.
+Function `( UiList, bool )`
 
 #### add
 
-Return value, text
+Adds an entry. `string` is its name, and `int` is what it returns. If `int` is `-1`, the number is decided orderly.
 Function `( UiList, int, string )`
+
+#### add_w_desc
+
+Adds an entry with desc(second `string`). `desc_enabled(true)` is required for showing desc.
+Function `( UiList, int, string, string )`
+
+#### add_w_col
+
+Adds an entry with desc and col(third `string`). col is additional text on the right of the entry name.
+Function `( UiList, int, string, string, string )`
+
+#### entries
+
+Entries from uilist. Remember, in lua, the first element of vector is `entries[1]`, not `entries[0]`.
+Variable of type `Vector( UiListEntry )`
+
+#### border_color
+
+Changes the color. Default color is `c_magenta`.
+Function `( UiList, Color )`
+
+#### text_color
+
+Changes the color. Default color is `c_light_gray`.
+Function `( UiList, Color )`
+
+#### title_color
+
+Changes the color. Default color is `c_green`.
+Function `( UiList, Color )`
+
+#### hilight_color
+
+Changes the color. Default color is `h_white`.
+Function `( UiList, Color )`
+
+#### hotkey_color
+
+Changes the color. Default color is `c_light_green`.
+Function `( UiList, Color )`
 
 #### query
 
 Returns retval for selected entry, or a negative number on fail/cancel
 Function `( UiList ) -> int`
+
+## UiListEntry
+
+This type came from UiList.
+
+### Bases
+
+No base classes.
+
+### Constructors
+
+No constructors.
+
+### Members
+
+#### enable
+
+Entry whether it's enabled or not. Default is `true`.
+Variable of type `bool`
+
+#### txt
+
+Entry text
+Variable of type `string`
+
+#### desc
+
+Entry description
+Variable of type `string`
+
+#### ctxt
+
+Entry text of column.
+Variable of type `string`
+
+#### txt_color
+
+Entry text color. Its default color is `c_red_red`, which makes color of the entry same as what `uilist` decides. So if you want to make color different, choose one except `c_red_red`.
+Variable of type `<cppval: 8nc_color >`
 
 ## Volume
 
@@ -5962,6 +6165,10 @@ Function `( Tripoint, Opt( bool ) ) -> Creature`
 #### get_monster_at
 
 Function `( Tripoint, Opt( bool ) ) -> Monster`
+
+#### place_monster_at
+
+Function `( MtypeId, Tripoint ) -> Monster`
 
 #### get_character_at
 

@@ -88,7 +88,7 @@ void load_recipe_category( const JsonObject &jsobj )
     }
 
     if( !is_hidden ) {
-        if( std::find( craft_cat_list.begin(), craft_cat_list.end(), category ) == craft_cat_list.end() ) {
+        if( std::ranges::find( craft_cat_list, category ) == craft_cat_list.end() ) {
             craft_cat_list.push_back( category );
         }
         const std::string cat_name = get_cat_unprefixed( category );
@@ -558,7 +558,7 @@ const recipe *select_crafting_recipe( int &batch_size_out )
             const nc_color color = avail.color( true );
             const std::string qry = trim( filterstring );
             std::string qry_comps;
-            if( qry.compare( 0, 2, "c:" ) == 0 ) {
+            if( qry.starts_with( "c:" ) ) {
                 qry_comps = qry.substr( 2 );
             }
 
@@ -724,19 +724,19 @@ const recipe *select_crafting_recipe( int &batch_size_out )
                 }
 
                 if( subtab.cur() != "CSC_*_RECENT" ) {
-                    std::stable_sort( current.begin(), current.end(),
+                    std::ranges::stable_sort( current,
                     []( const recipe * a, const recipe * b ) {
                         return b->difficulty < a->difficulty;
                     } );
 
-                    std::stable_sort( current.begin(), current.end(),
+                    std::ranges::stable_sort( current,
                     [&]( const recipe * a, const recipe * b ) {
                         return availability_cache.at( a ).can_craft &&
                                !availability_cache.at( b ).can_craft;
                     } );
                 }
 
-                std::transform( current.begin(), current.end(),
+                std::ranges::transform( current,
                 std::back_inserter( available ), [&]( const recipe * e ) {
                     return availability_cache.at( e );
                 } );
@@ -975,7 +975,7 @@ std::string peek_related_recipe( const recipe *current, const recipe_subset &ava
             related_components.emplace_back( a.type, item::nname( a.type, 1 ) );
         }
     }
-    std::sort( related_components.begin(), related_components.end(), compare_second );
+    std::ranges::sort( related_components, compare_second );
     // current recipe result
     std::vector<std::pair<itype_id, std::string>> related_results;
     detached_ptr<item> tmp = current->create_result();
@@ -991,7 +991,7 @@ std::string peek_related_recipe( const recipe *current, const recipe_subset &ava
             related_results.emplace_back( b->result(), b->result_name() );
         }
     }
-    std::stable_sort( related_results.begin(), related_results.end(), compare_second );
+    std::ranges::stable_sort( related_results, compare_second );
 
     uilist rel_menu;
     int np_last = -1;

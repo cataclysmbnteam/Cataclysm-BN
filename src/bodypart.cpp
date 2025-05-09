@@ -1,5 +1,6 @@
 #include "bodypart.h"
 
+#include <algorithm>
 #include <cstdlib>
 #include <set>
 #include <unordered_map>
@@ -126,8 +127,8 @@ bool is_legacy_bodypart_id( const std::string &id )
         "NUM_BP",
     };
 
-    return std::find( legacy_body_parts.begin(), legacy_body_parts.end(),
-                      id ) != legacy_body_parts.end();
+    return std::ranges::find( legacy_body_parts,
+                              id ) != legacy_body_parts.end();
 }
 
 static body_part legacy_id_to_enum( const std::string &legacy_id )

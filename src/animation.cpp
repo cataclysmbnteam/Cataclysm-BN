@@ -25,6 +25,7 @@
 #include "weather.h"
 
 #if defined(TILES)
+#include <algorithm>
 #include <memory>
 
 #include "cata_tiles.h" // all animation functions will be pushed out to a cata_tiles function in some manner
@@ -113,7 +114,7 @@ bool is_radius_visible( const tripoint &center, int radius )
 
 bool is_layer_visible( const std::map<tripoint, explosion_tile> &layer )
 {
-    return std::any_of( layer.begin(), layer.end(),
+    return std::ranges::any_of( layer,
     []( const std::pair<tripoint, explosion_tile> &element ) {
         return is_point_visible( element.first );
     } );
@@ -1188,7 +1189,7 @@ void draw_cone_aoe( const tripoint &origin, const std::map<tripoint, double> &ao
             pv.val *= 1.0 - ( 2.0 / max_bucket_count );
         }
         combined_layer.insert( combined_layer.end(), layer.begin(), layer.end() );
-        if( std::any_of( combined_layer.begin(), combined_layer.end(),
+        if( std::ranges::any_of( combined_layer,
         []( const point_with_value & element ) {
         return is_point_visible( element.pt );
         } ) ) {

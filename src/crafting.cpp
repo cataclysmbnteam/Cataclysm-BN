@@ -23,8 +23,8 @@
 #include "calendar.h"
 #include "cata_utility.h"
 #include "character.h"
-#include "color.h"
 #include "character_functions.h"
+#include "color.h"
 #include "craft_command.h"
 #include "crafting_gui.h"
 #include "debug.h"
@@ -407,7 +407,7 @@ bool player::check_eligible_containers_for_crafting( const recipe &rec, int batc
         }
 
         // we go through half-filled containers first, then go through empty containers if we need
-        std::sort( conts.begin(), conts.end(), item_ptr_compare_by_charges );
+        std::ranges::sort( conts, item_ptr_compare_by_charges );
 
         int charges_to_store = prod->charges;
         for( const item *cont : conts ) {
@@ -1684,7 +1684,7 @@ find_tool_component( const Character *player_with_inv, const std::vector<tool_co
         }
     }
 
-    std::sort( available_tools.begin(), available_tools.end(),
+    std::ranges::sort( available_tools,
     []( const avail_tool_comp & lhs, const avail_tool_comp & rhs ) {
         if( lhs.comp.use_from == usage_from::none && rhs.comp.use_from != usage_from::none ) {
             return true;
@@ -1722,7 +1722,7 @@ query_tool_selection( const std::vector<avail_tool_comp> &available_tools,
         return available_tools.front().comp;
     }
     if( is_npc ) {
-        auto iter = std::find_if( available_tools.begin(), available_tools.end(),
+        auto iter = std::ranges::find_if( available_tools,
         []( const avail_tool_comp & tool ) {
             return tool.comp.use_from == usage_from::player;
         } );
@@ -1962,7 +1962,7 @@ ret_val<bool> crafting::can_disassemble( const Character &who, const item &obj,
     }
 
     for( const auto &opts : dis.get_tools() ) {
-        const bool found = std::any_of( opts.begin(), opts.end(),
+        const bool found = std::ranges::any_of( opts,
         [&]( const tool_comp & tool ) {
             return ( tool.count <= 0 && inv.has_tools( tool.type, 1 ) ) ||
                    ( tool.count  > 0 && inv.has_charges( tool.type, tool.count ) );
@@ -2418,7 +2418,7 @@ std::set<itype_id> get_books_for_recipe( const Character &c, const inventory &cr
 std::set<itype_id> get_books_for_recipe( const recipe *r )
 {
     std::set<itype_id> book_ids;
-    std::transform( r->booksets.begin(), r->booksets.end(), std::inserter( book_ids, book_ids.end() ),
+    std::ranges::transform( r->booksets, std::inserter( book_ids, book_ids.end() ),
     []( const std::pair<itype_id, int> &pr ) {
         return pr.first;
     } );
@@ -2439,9 +2439,3 @@ int charges_for_continuing( int full_charges )
 }
 
 } // namespace crafting
-
-void workbench_info_wrapper::adjust_multiplier( const metric &metrics )
-{
-    multiplier_adjusted *= lerped_multiplier( metrics.first, allowed_mass, 1000_kilogram );
-    multiplier_adjusted *= lerped_multiplier( metrics.second, allowed_volume, 1000_liter );
-}
