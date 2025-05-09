@@ -1088,7 +1088,7 @@ more structured function.
     ]
 },
 "use_action": { 
-    "type": "cast_spell",       // Casts a spell based on ID, using item charges, or mana if the flag USE_PLAYER_ENERGY is on the item
+    "type": "cast_spell",       // Casts a spell based on ID using item charges or, if the flag USE_PLAYER_ENERGY is on the item, the energy source defined in the spell
     "spell_id": "magus_escape", // The ID of the spell to be casted
     "no_fail": true,            // Whether you can fail the cast
     "level": 10,                // The level its cast at
