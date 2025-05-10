@@ -243,7 +243,8 @@
           },
           { "id": "tr_magic_door", "fg": 321, "rotates": false },
           { "id": "tr_bear", "fg": 322, "rotates": false },
-          { "id": "tr_forge_vault", "fg": 323, "rotates": false }
+          { "id": "tr_forge_vault", "fg": 323, "rotates": false },
+          { "id": "orichalcum_mine_entrance", "fg": 324, "rotates": false }
         ],
         "//": "range 257 to 512",
         "sprite_width": 32,
