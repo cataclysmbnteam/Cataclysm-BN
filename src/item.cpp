@@ -4682,13 +4682,13 @@ void item::on_wield( player &p, int mv )
     std::string msg;
 
     if( mv > 500 ) {
-        msg = _( "It takes you an extremely long time to wield your %s." );
-    } else if( mv > 250 ) {
-        msg = _( "It takes you a very long time to wield your %s." );
-    } else if( mv > 100 ) {
         msg = _( "It takes you a long time to wield your %s." );
-    } else if( mv > 50 ) {
+    } else if( mv > 250 ) {
         msg = _( "It takes you several seconds to wield your %s." );
+    } else if( mv > 100 ) {
+        msg = _( "It takes you a couple seconds to wield your %s." );
+    } else if( mv > 50 ) {
+        msg = _( "It takes you a moment to wield your %s." );
     } else {
         msg = _( "You wield your %s." );
     }
