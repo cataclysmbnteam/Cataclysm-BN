@@ -95,7 +95,7 @@
         "........................"
       ],
       "place_monster": [
-        { "monster": "mon_orc_warrior", "x": [ 0, 24 ], "y": [ 9, 14 ], "repeat": 2 },
+        { "monster": "mon_orc_warrior", "x": [ 0, 23 ], "y": [ 9, 14 ], "repeat": 2 },
         { "monster": "mon_orc_warrior", "x": [ 8, 15 ], "y": [ 17, 20 ], "repeat": 2 }
       ],
       "items": {

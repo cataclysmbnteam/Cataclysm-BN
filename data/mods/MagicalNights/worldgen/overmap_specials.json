@@ -138,8 +138,8 @@
     "type": "overmap_special",
     "id": "orichalcum_mine",
     "overmaps": [
-      { "point": [ 0, 0, 0 ], "overmap": "orichalcum_mine_entrance" },
-      { "point": [ 0, 0, -1 ], "overmap": "orichalcum_mine_lower" }
+      { "point": [ 0, 0, 0 ], "overmap": "orichalcum_mine_entrance_north" },
+      { "point": [ 0, 0, -1 ], "overmap": "orichalcum_mine_lower_north" }
     ],
     "locations": [ "wilderness" ],
     "city_distance": [ 25, -1 ],
