@@ -212,6 +212,14 @@ vehicle_part &veh_interact::select_part( const vehicle &veh, const part_selector
     return *res;
 }
 
+struct veh_interact::install_info_t {
+    int pos;
+    size_t tab;
+    std::vector<const vpart_info *> tab_vparts;
+    std::array<std::string, 8> tab_list;
+    std::array<std::string, 8> tab_list_short;
+};
+
 /**
  * Creates a blank veh_interact window.
  */
@@ -345,14 +353,6 @@ bool veh_interact::format_reqs( std::string &msg, const requirement_data &reqs,
 
     return ok;
 }
-
-struct veh_interact::install_info_t {
-    int pos;
-    size_t tab;
-    std::vector<const vpart_info *> tab_vparts;
-    std::array<std::string, 8> tab_list;
-    std::array<std::string, 8> tab_list_short;
-};
 
 shared_ptr_fast<ui_adaptor> veh_interact::create_or_get_ui_adaptor()
 {

@@ -120,16 +120,6 @@ std::vector<std::vector<T>> find_cycles( const std::unordered_map<T, std::vector
     return result;
 }
 
-/// poor person's https://en.cppreference.com/w/cpp/utility/optional/and_then
-template <typename T, typename Fn>
-auto and_then( std::optional<T> const &opt, Fn &&f ) -> std::optional<std::invoke_result_t<Fn, T>>
-{
-    if( opt ) {
-        return std::optional{f( *opt )};
-    }
-    return std::nullopt;
-}
-
 /// @brief Group elements of a container into key-value map by a given selector function.
 ///
 /// @tparam M map type to use for the result. defaults to std::map
@@ -158,5 +148,3 @@ auto group_by( const C &c, F && selector )
 }
 
 } // namespace cata
-
-
