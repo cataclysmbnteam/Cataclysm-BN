@@ -237,14 +237,14 @@
               { "id": "corner", "fg": [ 306, 307, 308, 309 ], "bg": 257 },
               { "id": "edge", "fg": [ 310, 311 ], "bg": 257 },
               { "id": "end_piece", "fg": [ 312, 313, 314, 315 ], "bg": 257 },
-              { "id": "t_connection", "fg": [ 316, 317, 318, 319 ], "bg": 257 },
-              { "id": "unconnected", "fg": 320, "bg": 257 }
+              { "id": "t_connection", "fg": [ 316, 317 ], "bg": 257 },
+              { "id": "unconnected", "fg": 318, "bg": 257 }
             ]
           },
-          { "id": "tr_magic_door", "fg": 321, "rotates": false },
-          { "id": "tr_bear", "fg": 322, "rotates": false },
-          { "id": "tr_forge_vault", "fg": 323, "rotates": false },
-          { "id": "orichalcum_mine_entrance", "fg": 324, "rotates": false }
+          { "id": "tr_magic_door", "fg": 319, "rotates": false },
+          { "id": "tr_bear", "fg": 320, "rotates": false },
+          { "id": "tr_forge_vault", "fg": 321, "rotates": false },
+          { "id": "orichalcum_mine_entrance", "fg": 322, "rotates": false }
         ],
         "//": "range 257 to 512",
         "sprite_width": 32,
