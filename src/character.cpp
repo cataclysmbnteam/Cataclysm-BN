@@ -998,6 +998,51 @@ void Character::set_pain( int npain )
     }
 }
 
+namespace
+{
+int min_pain( const Character &c )
+{
+    const int HP_LOSS_PAIN = 40;
+    const int BROKEN_LIMB_PAIN = 10;
+    const int BITE_PAIN = 5;
+    const int INFECTION_PAIN = 10;
+
+    int worst_hurt_bp = 0;
+    for( const bodypart_id &bp : c.get_all_body_parts( true ) ) {
+        //damage to body part, normalized to a scale of 0 to HP_LOSS_PAIN
+        //40 to 50 is "distressing pain"
+        int hurt = ( c.get_hp_max( bp ) - c.get_hp( bp ) ) * HP_LOSS_PAIN / c.get_hp_max( bp );
+        //if body part is broken and not splinted, increase pain by BROKEN_LIMB_PAIN
+        if( c.is_limb_broken( bp ) && !c.worn_with_flag( flag_SPLINT, bp ) ) {
+            hurt += BROKEN_LIMB_PAIN;
+        }
+        bodypart_str_id bp_id = bp.id();
+        //if body part has a bite wound, increase pain by BITE_PAIN
+        if( c.has_effect( effect_bite, bp_id ) ) {
+            hurt += BITE_PAIN;
+        }
+        //if body part is infected, increase pain by INFECTION_PAIN
+        if( c.has_effect( effect_infected, bp_id ) ) {
+            hurt += INFECTION_PAIN;
+        }
+
+        if( hurt > worst_hurt_bp ) {
+            worst_hurt_bp = hurt;
+        }
+    }
+
+    return worst_hurt_bp;
+}
+} // namespace
+
+int Character::get_pain() const
+{
+    if( get_option<bool>( "CHRONIC_PAIN" ) ) {
+        return std::max( Creature::get_pain(), min_pain( *this ) );
+    }
+    return Creature::get_pain();
+}
+
 int Character::get_perceived_pain() const
 {
     if( has_effect( effect_adrenaline ) ) {
@@ -2407,6 +2452,9 @@ detached_ptr<item> Character::wear_item( detached_ptr<item> &&wear,
 
     recalc_sight_limits();
     reset_encumbrance();
+    // wearing a splint can change perceived pain without directly modifying pain
+    // update morale just in case
+    morale->on_stat_change( "perceived_pain", get_perceived_pain() );
 
     return detached_ptr<item>();
 }
@@ -3413,6 +3461,10 @@ bool Character::takeoff( item &it, std::vector<detached_ptr<item>> *res )
 
     recalc_sight_limits();
     reset_encumbrance();
+
+    // removing a splint from a broken limb can change perceived pain without directly modifying pain
+    // update morale just in case
+    morale->on_stat_change( "perceived_pain", get_perceived_pain() );
 
     return true;
 }
@@ -9092,6 +9144,8 @@ void Character::heal( const bodypart_id &healed, int dam )
     if( cur_hp + dam >= max_hp ) {
         remove_effect( effect_disabled, healed.id() );
     }
+    // update morale in case healing reduced perceived pain
+    morale->on_stat_change( "perceived_pain", get_perceived_pain() );
 }
 
 void Character::healall( int dam )
