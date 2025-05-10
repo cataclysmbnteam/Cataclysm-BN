@@ -479,5 +479,23 @@
     "see_cost": 5,
     "extras": "build",
     "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "orichalcum_mine_entrance",
+    "name": "Orc Mine Entrance",
+    "sym": "0",
+    "color": "yellow",
+    "see_cost": 5,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "orichalcum_mine_lower",
+    "name": "Orc Mine",
+    "sym": "0",
+    "color": "yellow",
+    "see_cost": 5,
+    "mondensity": 2
   }
 ]

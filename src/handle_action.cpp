@@ -2375,8 +2375,22 @@ bool game::handle_action()
                 break;
 
             case ACTION_OPEN_WIKI:
-                // TODO: un-hardcode URL
-                open_url( "https://docs.cataclysmbn.org" );
+                if( get_option<std::string>( "WIKI_DOC_URL" ).length() > 0 ) {
+                    open_url( get_option<std::string>( "WIKI_DOC_URL" ) );
+                } else {
+                    add_msg( m_bad, _( "Invalid Wiki URL specified!" ) );
+
+                }
+
+                break;
+
+            case ACTION_OPEN_HHG:
+                if( get_option<std::string>( "HHG_URL" ).length() > 0 ) {
+                    open_url( get_option<std::string>( "HHG_URL" ) + std::string( "/?t=UNDEAD_PEOPLE" ) );
+                } else {
+                    add_msg( m_bad, _( "Invalid Hitchhiker's Guide URL specified!" ) );
+
+                }
                 break;
 
             case ACTION_HELP:
