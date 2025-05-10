@@ -20,7 +20,7 @@ local flag_ETHEREAL_ITEM = mod.cache_static("flags", "ETHEREAL_ITEM", JsonFlagId
 local flag_TRADER_AVOID = mod.cache_static("flags", "TRADER_AVOID", JsonFlagId)
 local flag_MC_USED = mod.cache_static("flags", "MC_USED", JsonFlagId)
 
-local base_fw = "E_INK_TAB ver0.8.1"
+local base_fw = "E_INK_TAB ver0.Z.5"
 local hacked_fw = "E_INK_T4L-0K ver001"
 
 --NEVER use <item *> as UID. Just make UID like below.
