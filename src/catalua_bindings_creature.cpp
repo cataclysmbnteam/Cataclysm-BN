@@ -980,10 +980,5 @@ void cata::detail::reg_avatar( sol::state &lua )
                 luna::bases<player, Character, Creature>(),
                 luna::no_constructor
             );
-            
-            DOC("Avatar reads a book `item`. `bool` decides to read continuously or not.");
-            luna::set_fx( ut, "read", []( avatar & you, item & it, bool continuous ) {
-                return you.read( &it, continuous );
-            } );
     }
 }
