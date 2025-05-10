@@ -139,7 +139,6 @@ static const fault_id fault_bionic_nonsterile( "fault_bionic_nonsterile" );
 static const gun_mode_id gun_mode_REACH( "REACH" );
 
 static const itype_id itype_barrel_small( "barrel_small" );
-static const itype_id itype_brass_catcher( "brass_catcher" );
 static const itype_id itype_cig_butt( "cig_butt" );
 static const itype_id itype_cig_lit( "cig_lit" );
 static const itype_id itype_cigar_butt( "cigar_butt" );
@@ -8330,7 +8329,7 @@ ret_val<bool> item::is_gunmod_compatible( const item &mod ) const
     } else if( mod.typeId() == itype_tuned_mechanism && has_flag( flag_NEVER_JAMS ) ) {
         return ret_val<bool>::make_failure( _( "is already eminently reliable" ) );
 
-    } else if( mod.typeId() == itype_brass_catcher && has_flag( flag_RELOAD_EJECT ) ) {
+    } else if( mod.has_flag( flag_BRASS_CATCHER ) && has_flag( flag_RELOAD_EJECT ) ) {
         return ret_val<bool>::make_failure( _( "cannot have a brass catcher" ) );
 
     } else if( ( !mod.type->mod->ammo_modifier.empty() || !mod.type->mod->magazine_adaptor.empty() )

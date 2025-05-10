@@ -117,7 +117,6 @@ static const efftype_id effect_hit_by_player( "hit_by_player" );
 static const efftype_id effect_on_roof( "on_roof" );
 
 static const itype_id itype_adv_UPS_off( "adv_UPS_off" );
-static const itype_id itype_brass_catcher( "brass_catcher" );
 static const itype_id itype_UPS( "UPS" );
 static const itype_id itype_UPS_off( "UPS_off" );
 
@@ -150,8 +149,23 @@ static constexpr int AIF_DURATION_LIMIT = 10;
 
 static projectile make_gun_projectile( const item &gun );
 static void cycle_action( item &weap, const tripoint &pos );
-dispersion_sources calculate_dispersion( const map &m, const Character &who, const item &gun,
+static dispersion_sources calculate_dispersion( const map &m, const Character &who, const item &gun,
         int at_recoil, bool burst );
+
+namespace
+{
+
+/// more generic version of `item::gunmod_find`
+auto gunmod_find_with(
+    item &it, std::function < auto( const item * ) -> bool > pred
+) -> item *
+{
+    std::vector<item *> gunmods = it.gunmods();
+    auto res = std::ranges::find_if( gunmods, pred );
+    return res != gunmods.end() ? *res : nullptr;
+}
+
+} // namespace
 
 class target_ui
 {
@@ -1855,7 +1869,8 @@ static void cycle_action( item &weap, const tripoint &pos )
                      weap.has_flag( flag_USE_PARENT_GUN ) ) ? *weap.parent_item() : weap;
     if( weap.ammo_data() && weap.ammo_data()->ammo->casing ) {
         const itype_id casing = *weap.ammo_data()->ammo->casing;
-        if( parent.has_flag( flag_RELOAD_EJECT ) || parent.gunmod_find( itype_brass_catcher ) ) {
+        if( parent.has_flag( flag_RELOAD_EJECT )
+            || gunmod_find_with( parent, []( auto * e ) -> bool { return e->has_flag( flag_BRASS_CATCHER ); } ) ) {
             detached_ptr<item> det = item::spawn( casing );
             det->set_flag( flag_CASING );
             parent.put_in( std::move( det ) );
@@ -1875,7 +1890,7 @@ static void cycle_action( item &weap, const tripoint &pos )
     const auto mag = weap.magazine_current();
     if( mag && mag->type->magazine->linkage ) {
         detached_ptr<item> linkage = item::spawn( *mag->type->magazine->linkage, calendar::turn, 1 );
-        if( parent.gunmod_find( itype_brass_catcher ) ) {
+        if( gunmod_find_with( parent, []( auto * e ) -> bool { return e->has_flag( flag_BRASS_CATCHER ); } ) ) {
             linkage->set_flag( flag_CASING );
             parent.put_in( std::move( linkage ) );
         } else if( cargo.empty() ) {
