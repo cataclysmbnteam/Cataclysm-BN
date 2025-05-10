@@ -67,9 +67,9 @@
 #include "debug.h"
 #include "dependency_tree.h"
 #include "diary.h"
+#include "distraction_manager.h"
 #include "distribution_grid.h"
 #include "drop_token.h"
-#include "distraction_manager.h"
 #include "editmap.h"
 #include "enums.h"
 #include "event.h"
@@ -108,9 +108,9 @@
 #include "loading_ui.h"
 #include "magic.h"
 #include "map.h"
+#include "map_functions.h"
 #include "map_item_stack.h"
 #include "map_iterator.h"
-#include "map_functions.h"
 #include "map_selector.h"
 #include "mapbuffer.h"
 #include "mapdata.h"
@@ -141,13 +141,15 @@
 #include "player_activity.h"
 #include "point_float.h"
 #include "popup.h"
+#include "profile.h"
 #include "ranged.h"
 #include "recipe.h"
 #include "recipe_dictionary.h"
 #include "ret_val.h"
-#include "rot.h"
 #include "rng.h"
+#include "rot.h"
 #include "safemode_ui.h"
+#include "salvage.h"
 #include "scenario.h"
 #include "scent_map.h"
 #include "scores_ui.h"
@@ -177,7 +179,6 @@
 #include "wcwidth.h"
 #include "weather.h"
 #include "worldfactory.h"
-#include "profile.h"
 
 class computer;
 
@@ -2181,6 +2182,7 @@ input_context get_default_mode_input_context()
     ctxt.register_action( "long_craft" );
     ctxt.register_action( "construct" );
     ctxt.register_action( "disassemble" );
+    ctxt.register_action( "salvage" );
     ctxt.register_action( "sleep" );
     ctxt.register_action( "control_vehicle" );
     ctxt.register_action( "auto_travel_mode" );
@@ -8173,7 +8175,7 @@ static void add_corpses( uilist &menu, const std::vector<item *> &its,
 // Salvagables stack so we need to pass in a stack vector rather than an item index vector
 static void add_salvagables( uilist &menu,
                              const std::vector<std::pair<item *, int>> &stacks,
-                             size_t &menu_index, const salvage_actor &salvage_iuse )
+                             size_t &menu_index )
 {
     if( !stacks.empty() ) {
         int hotkey = get_initial_hotkey( menu_index );
@@ -8185,7 +8187,7 @@ static void add_salvagables( uilist &menu,
             const auto &msg = string_format( pgettext( "butchery menu", "Cut up %s (%d)" ),
                                              it.tname(), stack.second );
             menu.addentry_col( menu_index++, true, hotkey, msg,
-                               to_string_clipped( time_duration::from_turns( salvage_iuse.time_to_cut_up( it ) / 100 ) ) );
+                               to_string_clipped( time_duration::from_turns( salvage::moves_to_salvage( it ) / 100 ) ) );
             hotkey = -1;
         }
     }
@@ -8392,7 +8394,6 @@ static void butcher_submenu( const std::vector<item *> &corpses, int corpse = -1
 
 void game::butcher()
 {
-    static const std::string salvage_string = "salvage";
     if( u.controlling_vehicle ) {
         add_msg( m_info, _( "You can't butcher while driving!" ) );
         return;
@@ -8422,25 +8423,7 @@ void game::butcher()
     std::vector<item *> salvageables;
     map_stack items = m.i_at( u.pos() );
     const inventory &crafting_inv = u.crafting_inventory();
-
-    // TODO: Properly handle different material whitelists
-    // TODO: Improve quality of this section
-    auto salvage_filter = [&]( const item & it ) {
-        auto usable = it.get_usable_item( salvage_string );
-        return usable != nullptr;
-    };
-
-    std::vector< item * > salvage_tools = u.items_with( salvage_filter );
-    int salvage_tool_index = INT_MIN;
-    item *salvage_tool = nullptr;
-    const salvage_actor *salvage_iuse = nullptr;
-    if( !salvage_tools.empty() ) {
-        salvage_tool = salvage_tools.front();
-        salvage_tool_index = u.get_item_position( salvage_tool );
-        item *usable = salvage_tool->get_usable_item( salvage_string );
-        salvage_iuse = dynamic_cast<const salvage_actor *>(
-                           usable->get_use( salvage_string )->get_actor_ptr() );
-    }
+    auto q_cache = u.crafting_inventory().get_quality_cache();
 
     // Reserve capacity for each to hold entire item set if necessary to prevent
     // reallocations later on
@@ -8455,7 +8438,7 @@ void game::butcher()
         if( ( *it )->is_corpse() ) {
             corpses.push_back( *it );
         } else {
-            if( ( salvage_tool_index != INT_MIN ) && salvage_iuse->valid_to_cut_up( **it ) ) {
+            if( salvage::try_salvage( **it, q_cache ).success() ) {
                 salvageables.push_back( *it );
             }
             if( crafting::can_disassemble( u, **it, crafting_inv ).success() ) {
@@ -8528,8 +8511,8 @@ void game::butcher()
         // Add corpses, disassembleables, and salvagables to the UI
         add_corpses( kmenu, corpses, i );
         add_disassemblables( kmenu, disassembly_stacks, i );
-        if( salvage_iuse && !salvageables.empty() ) {
-            add_salvagables( kmenu, salvage_stacks, i, *salvage_iuse );
+        if( !salvageables.empty() ) {
+            add_salvagables( kmenu, salvage_stacks, i );
         }
 
         if( corpses.size() > 1 ) {
@@ -8564,10 +8547,10 @@ void game::butcher()
             kmenu.addentry_col( MULTIDISASSEMBLE_ALL, true, 'd', _( "Disassemble everything recursively" ),
                                 to_string_clipped( time_duration::from_turns( time_to_disassemble_rec / 100 ) ) );
         }
-        if( salvage_iuse && salvageables.size() > 1 ) {
+        if( salvageables.size() > 1 ) {
             int time_to_salvage = 0;
             for( const auto &stack : salvage_stacks ) {
-                time_to_salvage += salvage_iuse->time_to_cut_up( *stack.first ) * stack.second;
+                time_to_salvage += salvage::moves_to_salvage( *stack.first ) * stack.second;
             }
 
             kmenu.addentry_col( MULTISALVAGE, true, 'z', _( "Cut up everything" ),
@@ -8617,7 +8600,7 @@ void game::butcher()
         case BUTCHER_OTHER:
             switch( indexer_index ) {
                 case MULTISALVAGE:
-                    u.assign_activity( activity_id( "ACT_LONGSALVAGE" ), 0, salvage_tool_index );
+                    salvage::salvage_all( u );
                     break;
                 case MULTIBUTCHER:
                     butcher_submenu( corpses );
@@ -8648,13 +8631,9 @@ void game::butcher()
         }
         break;
         case BUTCHER_SALVAGE: {
-            if( !salvage_iuse || !salvage_tool ) {
-                debugmsg( "null salve_iuse or salvage_tool" );
-            } else {
-                // Pick index of first item in the salvage stack
-                item *const target = salvage_stacks[indexer_index].first;
-                salvage_iuse->cut_up( u, *salvage_tool, *target );
-            }
+            item *const target = salvage_stacks[indexer_index].first;
+            salvage::salvage_single( u, *target );
+
         }
         break;
     }

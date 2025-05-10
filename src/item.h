@@ -1265,7 +1265,7 @@ class item : public location_visitable<item>, public game_object<item>
         bool is_armor() const;
         bool is_book() const;
         bool is_map() const;
-        bool is_salvageable() const;
+        bool is_salvageable( bool strict = false ) const;
         bool is_craft() const;
 
         bool is_deployable() const;

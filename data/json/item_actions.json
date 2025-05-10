@@ -146,11 +146,6 @@
   },
   {
     "type": "item_action",
-    "id": "salvage",
-    "name": { "str": "Cut up an item" }
-  },
-  {
-    "type": "item_action",
     "id": "inscribe",
     "name": { "str": "Write on an item" }
   },

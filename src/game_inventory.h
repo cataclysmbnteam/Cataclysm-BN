@@ -14,7 +14,6 @@ class avatar;
 class item;
 class player;
 class repair_item_actor;
-class salvage_actor;
 class Character;
 
 using item_filter = std::function<bool( const item & )>;
@@ -91,7 +90,7 @@ item *wear( player &p );
 /** Choose item to take off. */
 item *take_off( avatar &you );
 /** Item cut up menu. */
-item *salvage( player &p, const salvage_actor *actor );
+item *salvage( player &p );
 /** Repair menu. */
 item *repair( player &p, const repair_item_actor *actor, const item *main_tool );
 /** Bionic install menu. */

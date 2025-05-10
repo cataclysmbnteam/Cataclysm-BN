@@ -43,6 +43,7 @@ hint_rating rate_action_reload( const avatar &you, const item &it );
 hint_rating rate_action_mend( const avatar &you, const item &it );
 // Needs non-const reference to validate crafting inventory
 hint_rating rate_action_disassemble( avatar &you, const item &it );
+hint_rating rate_action_salvage( avatar &you, const item &it );
 
 } // namespace examine_item_menu
 

@@ -199,6 +199,8 @@ enum action_id : int {
     ACTION_CONSTRUCT,
     /** Open disassemble menu */
     ACTION_DISASSEMBLE,
+    /** Open SALVAGE menu */
+    ACTION_SALVAGE,
     /** Open sleep menu */
     ACTION_SLEEP,
     /** Open vehicle control menu */
