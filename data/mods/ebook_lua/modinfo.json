@@ -1,0 +1,12 @@
+[
+  {
+    "type": "MOD_INFO",
+    "id": "ebook_lua",
+    "name": "Adding e-book on tablet PC",
+    "authors": [ "NappingOcean" ],
+    "description": "Testing",
+    "category": "content",
+    "lua_api_version": 2,
+    "dependencies": [ "bn" ]
+  }
+]
