@@ -3,8 +3,8 @@
     "id": "calicomag",
     "looks_like": "mp5mag",
     "type": "MAGAZINE",
-    "name": { "str": "Calico magazine" },
-    "description": "A surprisingly compact 50-round helical magazine for use with the Calico M960 SMG.",
+    "name": { "str": "Calico SMG 50-round helical magazine" },
+    "description": "A surprisingly compact 50-round helical magazine for use with the Calico M960 SMG.  It has an eccentric design prone to feeding failures.",
     "weight": "500 g",
     "volume": "500 ml",
     "price": "9920 cent",
@@ -14,16 +14,16 @@
     "color": "light_gray",
     "ammo_type": "9mm",
     "capacity": 50,
-    "reliability": 7,
-    "reload_time": 160,
+    "reliability": 6,
+    "reload_time": 200,
     "flags": [ "MAG_COMPACT" ]
   },
   {
     "id": "glockbigmag",
     "looks_like": "glock17_17",
     "type": "MAGAZINE",
-    "name": { "str": "Glock extended magazine" },
-    "description": "An extended 30-round polymer magazine for use with Glock compatible firearms.",
+    "name": { "str": "Glock 33-round extended magazine" },
+    "description": "An extended 33-round polymer magazine for use with Glock compatible firearms.",
     "weight": "210 g",
     "volume": "500 ml",
     "price": "47 USD",
@@ -32,19 +32,19 @@
     "symbol": "#",
     "color": "light_gray",
     "ammo_type": "9mm",
-    "capacity": 30,
-    "reliability": 7,
-    "reload_time": 140,
+    "capacity": 33,
+    "reliability": 8,
+    "reload_time": 150,
     "flags": [ "MAG_COMPACT" ]
   },
   {
     "id": "glockmag",
     "looks_like": "glock17_17",
     "type": "MAGAZINE",
-    "name": { "str": "Glock magazine" },
-    "description": "A compact light-weight polymer magazine for use with Glock compatible firearms.",
-    "weight": "105 g",
-    "volume": "250 ml",
+    "name": { "str": "Glock 19 15-round magazine" },
+    "description": "A compact polymer magazine for use with the Glock 19. It is too short to fit in a Glock 17.",
+    "weight": "70 g",
+    "volume": "180 ml",
     "price": "29 USD",
     "price_postapoc": "1 USD",
     "material": "plastic",
@@ -52,17 +52,18 @@
     "color": "light_gray",
     "ammo_type": "9mm",
     "capacity": 15,
-    "reliability": 8,
+    "reliability": 9,
+    "reload_time": 90,
     "flags": [ "MAG_COMPACT" ]
   },
   {
     "id": "glock17_17",
     "//": "Tileset whitelist for pistol magazines",
     "type": "MAGAZINE",
-    "name": { "str": "Glock 17 17-round magazine" },
-    "description": "Made for the Glock 17, this magazine holds 17 rounds.",
-    "weight": "105 g",
-    "volume": "250 ml",
+    "name": { "str": "Glock 17-round magazine" },
+    "description": "A 17-round polymer magazine for use with Glock compatible firearms.",
+    "weight": "100 g",
+    "volume": "220 ml",
     "price": "29 USD",
     "price_postapoc": "1 USD",
     "material": "plastic",
@@ -70,18 +71,18 @@
     "color": "light_gray",
     "ammo_type": "9mm",
     "capacity": 17,
-    "reliability": 7,
-    "reload_time": 140,
+    "reliability": 9,
+    "reload_time": 100,
     "flags": [ "MAG_COMPACT" ]
   },
   {
     "id": "glock17_22",
     "looks_like": "glock17_17",
     "type": "MAGAZINE",
-    "name": { "str": "Glock 17 22-round magazine" },
-    "description": "Made for the Glock 17, this magazine holds 22 rounds.",
-    "weight": "105 g",
-    "volume": "500 ml",
+    "name": { "str": "Glock 22-round magazine" },
+    "description": "A 22-round polymer magazine for use with Glock compatible firearms.",
+    "weight": "115 g",
+    "volume": "250 ml",
     "price": "35 USD",
     "price_postapoc": "2 USD",
     "material": "plastic",
@@ -89,7 +90,8 @@
     "color": "light_gray",
     "ammo_type": "9mm",
     "capacity": 22,
-    "reliability": 8,
+    "reliability": 9,
+    "reload_time": 120,
     "flags": [ "MAG_COMPACT" ]
   },
   {
@@ -98,7 +100,7 @@
     "type": "MAGAZINE",
     "name": { "str": "Glock 50-round drum magazine" },
     "description": "Made to fit most Glock pistols.  This drum magazine holds 50 rounds.",
-    "weight": "100 g",
+    "weight": "300 g",
     "volume": "500 ml",
     "price": "20 USD",
     "price_postapoc": "750 cent",
@@ -107,16 +109,17 @@
     "color": "light_gray",
     "ammo_type": "9mm",
     "capacity": 50,
-    "reliability": 8,
+    "reliability": 7,
+    "reload_time": 150,
     "flags": [ "MAG_BULKY" ]
   },
   {
     "id": "glock_drum_100rd",
     "looks_like": "glock17_17",
     "type": "MAGAZINE",
-    "name": { "str": "Glock 100-round drum magazine" },
-    "description": "Made to fit most Glock pistols.  This drum magazine holds 100 rounds.",
-    "weight": "100 g",
+    "name": { "str": "Glock 100-round double drum magazine" },
+    "description": "Made to fit most Glock pistols.  This windowed double-drum magazine holds 100 rounds.  Considered to be more range toy than practical accessory.",
+    "weight": "500 g",
     "volume": "1 L",
     "price": "31 USD",
     "price_postapoc": "750 cent",
@@ -125,7 +128,8 @@
     "color": "light_gray",
     "ammo_type": "9mm",
     "capacity": 100,
-    "reliability": 8,
+    "reliability": 6,
+    "reload_time": 300,
     "flags": [ "MAG_BULKY" ]
   },
   {
@@ -143,8 +147,8 @@
     "color": "light_gray",
     "ammo_type": "9mm",
     "capacity": 30,
-    "reliability": 7,
-    "reload_time": 140,
+    "reliability": 8,
+    "reload_time": 150,
     "flags": [ "MAG_COMPACT" ]
   },
   {
@@ -162,14 +166,15 @@
     "color": "light_gray",
     "ammo_type": "9mm",
     "capacity": 15,
-    "reliability": 8,
+    "reliability": 9,
+    "reload_time": 100,
     "flags": [ "MAG_COMPACT" ]
   },
   {
     "id": "mp5bigmag",
     "looks_like": "glock17_17",
     "type": "MAGAZINE",
-    "name": { "str": "MP5 extended magazine" },
+    "name": { "str": "MP5 drum magazine" },
     "description": "A drum magazine for use with the H&K MP5 SMG.  Much greater capacity but less reliable the factory specification magazine.",
     "weight": "350 g",
     "volume": "750 ml",
@@ -180,8 +185,8 @@
     "color": "light_gray",
     "ammo_type": "9mm",
     "capacity": 50,
-    "reliability": 8,
-    "reload_time": 160,
+    "reliability": 7,
+    "reload_time": 150,
     "flags": [ "MAG_BULKY" ]
   },
   {
@@ -200,6 +205,7 @@
     "ammo_type": "9mm",
     "capacity": 30,
     "reliability": 9,
+    "reload_time": 100,
     "flags": [ "MAG_COMPACT" ]
   },
   {
@@ -217,7 +223,8 @@
     "color": "light_gray",
     "ammo_type": "9mm",
     "capacity": 17,
-    "reliability": 8,
+    "reliability": 9,
+    "reload_time": 100,
     "flags": [ "MAG_COMPACT" ]
   },
   {
@@ -236,6 +243,7 @@
     "ammo_type": "9mm",
     "capacity": 32,
     "reliability": 6,
+    "reload_time": 100,
     "flags": [ "MAG_COMPACT" ]
   },
   {
@@ -253,8 +261,8 @@
     "color": "light_gray",
     "ammo_type": "9mm",
     "capacity": 20,
-    "reliability": 1,
-    "reload_time": 160,
+    "reliability": 5,
+    "reload_time": 100,
     "flags": [ "MAG_COMPACT" ]
   },
   {
@@ -273,6 +281,7 @@
     "ammo_type": "9mm",
     "capacity": 32,
     "reliability": 7,
+    "reload_time": 100,
     "flags": [ "MAG_COMPACT" ]
   },
   {
@@ -290,7 +299,8 @@
     "color": "light_gray",
     "ammo_type": "9mm",
     "capacity": 15,
-    "reliability": 10,
+    "reliability": 9,
+    "reload_time": 100,
     "flags": [ "MAG_COMPACT" ]
   },
   {
@@ -308,7 +318,8 @@
     "color": "light_gray",
     "ammo_type": "9mm",
     "capacity": 32,
-    "reliability": 8,
+    "reliability": 9,
+    "reload_time": 100,
     "flags": [ "MAG_COMPACT" ]
   },
   {
@@ -327,6 +338,7 @@
     "ammo_type": "9mm",
     "capacity": 7,
     "reliability": 9,
+    "reload_time": 100,
     "flags": [ "MAG_COMPACT" ]
   },
   {
@@ -344,8 +356,8 @@
     "color": "light_gray",
     "ammo_type": "9mm",
     "capacity": 17,
-    "reliability": 7,
-    "reload_time": 140,
+    "reliability": 9,
+    "reload_time": 100,
     "flags": [ "MAG_COMPACT" ]
   },
   {
@@ -364,6 +376,7 @@
     "ammo_type": "9mm",
     "capacity": 13,
     "reliability": 9,
+    "reload_time": 100,
     "flags": [ "MAG_COMPACT" ]
   },
   {
@@ -382,6 +395,7 @@
     "ammo_type": "9mm",
     "capacity": 15,
     "reliability": 9,
+    "reload_time": 100,
     "flags": [ "MAG_COMPACT" ]
   },
   {
@@ -400,6 +414,7 @@
     "ammo_type": "9mm",
     "capacity": 8,
     "reliability": 9,
+    "reload_time": 100,
     "flags": [ "MAG_COMPACT" ]
   },
   {
@@ -418,6 +433,7 @@
     "ammo_type": "9mm",
     "capacity": 10,
     "reliability": 9,
+    "reload_time": 100,
     "flags": [ "MAG_COMPACT" ]
   },
   {
@@ -436,6 +452,7 @@
     "ammo_type": "9mm",
     "capacity": 15,
     "reliability": 9,
+    "reload_time": 100,
     "flags": [ "MAG_COMPACT" ]
   },
   {
@@ -454,6 +471,7 @@
     "ammo_type": "9mm",
     "capacity": 17,
     "reliability": 9,
+    "reload_time": 120,
     "flags": [ "MAG_COMPACT" ]
   },
   {
@@ -471,7 +489,8 @@
     "color": "light_gray",
     "ammo_type": "9mm",
     "capacity": 8,
-    "reliability": 8,
+    "reliability": 7,
+    "reload_time": 100,
     "flags": [ "MAG_COMPACT" ]
   },
   {
@@ -489,7 +508,8 @@
     "color": "light_gray",
     "ammo_type": "9mm",
     "capacity": 10,
-    "reliability": 8,
+    "reliability": 7,
+    "reload_time": 100,
     "flags": [ "MAG_COMPACT" ]
   },
   {
@@ -507,7 +527,8 @@
     "color": "light_gray",
     "ammo_type": "9mm",
     "capacity": 15,
-    "reliability": 8,
+    "reliability": 7,
+    "reload_time": 120,
     "flags": [ "MAG_COMPACT" ]
   },
   {
@@ -525,7 +546,8 @@
     "color": "light_gray",
     "ammo_type": "9mm",
     "capacity": 12,
-    "reliability": 8,
+    "reliability": 9,
+    "reload_time": 100,
     "flags": [ "MAG_COMPACT" ]
   },
   {
@@ -543,7 +565,8 @@
     "color": "light_gray",
     "ammo_type": "9mm",
     "capacity": 20,
-    "reliability": 8,
+    "reliability": 9,
+    "reload_time": 120,
     "flags": [ "MAG_COMPACT" ]
   },
   {
@@ -562,6 +585,7 @@
     "ammo_type": "9mm",
     "capacity": 26,
     "reliability": 8,
+    "reload_time": 150,
     "flags": [ "MAG_COMPACT" ]
   },
   {
@@ -579,7 +603,8 @@
     "color": "light_gray",
     "ammo_type": "9mm",
     "capacity": 8,
-    "reliability": 8,
+    "reliability": 9,
+    "reload_time": 100,
     "flags": [ "MAG_COMPACT" ]
   },
   {
@@ -597,7 +622,8 @@
     "color": "light_gray",
     "ammo_type": "9mm",
     "capacity": 40,
-    "reliability": 9,
+    "reliability": 8,
+    "reload_time": 150,
     "flags": [ "MAG_COMPACT" ]
   }
 ]

@@ -15,6 +15,7 @@
     "ammo_type": "9x18",
     "capacity": 8,
     "reliability": 9,
+    "reload_time": 100,
     "flags": [ "MAG_COMPACT" ]
   },
   {
@@ -32,7 +33,8 @@
     "color": "light_gray",
     "ammo_type": "9x18",
     "capacity": 20,
-    "reliability": 8,
+    "reliability": 9,
+    "reload_time": 100,
     "flags": [ "MAG_COMPACT" ]
   }
 ]

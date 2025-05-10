@@ -12,6 +12,8 @@
     "material": "steel",
     "symbol": "#",
     "color": "light_gray",
+    "reliability": 10,
+    "reload_time": 1500,
     "ammo_type": [ "m235" ],
     "capacity": 4
   }
