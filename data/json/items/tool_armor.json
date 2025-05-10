@@ -927,7 +927,7 @@
     "coverage": 50,
     "encumbrance": 2,
     "material_thickness": 2,
-    "flags": [ "OVERSIZE", "BELTED", "COMPACT" ]
+    "flags": [ "OVERSIZE", "BELTED", "COMPACT", "POWERARMOR_COMPATIBLE" ]
   },
   {
     "id": "dimensional_anchor_on",
@@ -946,7 +946,7 @@
       "target": "dimensional_anchor"
     },
     "covers": [ "torso" ],
-    "flags": [ "DIMENSIONAL_ANCHOR", "OVERSIZE", "BELTED" ]
+    "flags": [ "DIMENSIONAL_ANCHOR", "OVERSIZE", "BELTED", "POWERARMOR_COMPATIBLE" ]
   },
   {
     "id": "phase_immersion_suit",
