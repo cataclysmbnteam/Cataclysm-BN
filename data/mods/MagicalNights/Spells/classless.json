@@ -277,5 +277,25 @@
     "duration_increment": 35400,
     "min_damage": 1,
     "max_damage": 1
+  },
+  {
+    "id": "anomaly_ward",
+    "type": "SPELL",
+    "name": { "str": "Anomaly Ward" },
+    "description": "Protects yourself against otherworldly interference.",
+    "valid_targets": [ "ally", "self" ],
+    "flags": [ "CONCENTRATE", "SOMATIC", "NO_LEGS" ],
+    "effect": "target_attack",
+    "effect_str": "ward_anomaly",
+    "max_level": 15,
+    "min_duration": 180000,
+    "max_duration": 1080000,
+    "duration_increment": 60000,
+    "min_range": 10,
+    "difficulty": 6,
+    "spell_class": "NONE",
+    "energy_source": "MANA",
+    "base_energy_cost": 500,
+    "base_casting_time": 500
   }
 ]
