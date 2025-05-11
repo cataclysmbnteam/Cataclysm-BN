@@ -2216,6 +2216,7 @@ input_context get_default_mode_input_context()
     ctxt.register_action( "lua_console" );
     ctxt.register_action( "lua_reload" );
     ctxt.register_action( "open_wiki" );
+    ctxt.register_action( "open_hhg" );
     ctxt.register_action( "debug_scent" );
     ctxt.register_action( "debug_scent_type" );
     ctxt.register_action( "debug_temp" );
