@@ -366,9 +366,6 @@ mod.ebook_return = function(reader, device)
   end
 end
 
---#region ebook_info
-
---#region Function 1
 mod.check_lib = function(reader, device)
   local uid = mod.item_uid(device)
   local fw = device:get_var_str("tablet_fw", base_fw)
@@ -391,9 +388,7 @@ mod.check_lib = function(reader, device)
   )
   return -1
 end
---#endregion Funciton 1
 
---#region Function 2
 mod.check_firmware = function(reader, device)
   local uid = device:get_var_str("tablet_uid", "nope")
   local your_sk_comp = reader:get_skill_level(sk_COMPUTER)
@@ -461,9 +456,7 @@ mod.check_firmware = function(reader, device)
     end
   end
 end
---#endregion Function 2
 
---#region Function 3
 mod.mc_io = function(reader, device)
   local uid = device:get_var_str("tablet_uid", "nope")
   local fw = device:get_var_str("tablet_fw", base_fw)
@@ -589,9 +582,7 @@ mod.mc_io = function(reader, device)
     end
   end
 end
---#endregion Function 3
 
---#region Function 4
 -- cloud sync. but that never works in this world.
 mod.cloud_sync = function(reader, device)
   mod.poppin(
@@ -622,7 +613,6 @@ mod.reset_lib = function(reader, device)
   end
   return -1
 end
---#endregion Function 5
 
 mod.ebook_info = function(reader, device)
   local uid = mod.item_uid(device)
@@ -676,7 +666,6 @@ mod.ebook_info = function(reader, device)
     end
   end
 end
---#endregion ebook_info
 
 -- The first action for this Lua
 mod.ebook_ui = function(who, item, pos)
