@@ -34,6 +34,6 @@
     "@std/fs": "jsr:@std/fs@^1.0.4",
     "@std/path": "jsr:@std/path@^1.0.6",
     "@std/yaml": "jsr:@std/yaml@^1.0.5",
-    "@valibot/valibot": "jsr:@valibot/valibot@^1.0.0"
+    "@valibot/valibot": "jsr:@valibot/valibot@^1.1.0"
   }
 }
