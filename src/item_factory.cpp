@@ -2714,17 +2714,14 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
             }
         }
         // Hacky, but needed to preserve the "first magazine is default" functionality
-        if( jo.has_object( "extend" ) ) {
-            JsonObject jo_extend = jo.get_object( "extend" );
-            jo_extend.allow_omitted_members();
-            if( jo_extend.has_array( "magazines" ) ) {
-                for( JsonArray arr : jo_extend.get_array( "magazines" ) ) {
-                    ammotype ammo( arr.get_string( 0 ) );
-                    JsonArray compat = arr.get_array( 1 );
+        auto extend_magazines = extend_has_member( jo, "magazines" );
+        if( extend_magazines ) {
+            for( JsonArray arr : *extend_magazines ) {
+                ammotype ammo( arr.get_string( 0 ) );
+                JsonArray compat = arr.get_array( 1 );
 
-                    if( !def.magazine_default.contains( ammo ) ) {
-                        def.magazine_default[ ammo ] = itype_id( compat.get_string( 0 ) );
-                    }
+                if( !def.magazine_default.contains( ammo ) ) {
+                    def.magazine_default[ ammo ] = itype_id( compat.get_string( 0 ) );
                 }
             }
         }
@@ -2762,11 +2759,13 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
         def.qualities.clear();
         set_qualities_from_json( jo, "qualities", def );
     } else {
-        if( jo.has_object( "extend" ) ) {
-            JsonObject tmp = jo.get_object( "extend" );
-            tmp.allow_omitted_members();
-            extend_qualities_from_json( tmp, "qualities", def );
+        auto extend_has_qualities = extend_has_member( jo, "qualities" );
+        if( extend_has_qualities ) {
+            for( JsonArray curr : *extend_has_qualities ) {
+                def.qualities[quality_id( curr.get_string( 0 ) )] = curr.get_int( 1 );
+            }
         }
+
         if( jo.has_object( "delete" ) ) {
             JsonObject tmp = jo.get_object( "delete" );
             tmp.allow_omitted_members();
@@ -2939,14 +2938,6 @@ void Item_factory::set_qualities_from_json( const JsonObject &jo, const std::str
         }
     } else {
         jo.throw_error( "Qualities list is not an array", member );
-    }
-}
-
-void Item_factory::extend_qualities_from_json( const JsonObject &jo, const std::string &member,
-        itype &def )
-{
-    for( JsonArray curr : jo.get_array( member ) ) {
-        def.qualities[quality_id( curr.get_string( 0 ) )] = curr.get_int( 1 );
     }
 }
 
