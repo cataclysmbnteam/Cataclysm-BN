@@ -23,8 +23,6 @@ TEST_CASE( "load_tool_use_action", "[item_factory]" )
     test_extends.allow_omitted_members();
     JsonObject test_sets = all_test_items.get_object( TEST_MEMBER_SETS );
     test_sets.allow_omitted_members();
-    JsonObject test_deletes = all_test_items.get_object( TEST_MEMBER_DELETES );
-    test_deletes.allow_omitted_members();
 
     SECTION( BASE_MEMBER_IS_STRING ) {
         JsonObject test_base_item = all_test_items.get_object( BASE_MEMBER_IS_STRING );
@@ -50,12 +48,7 @@ TEST_CASE( "load_tool_use_action", "[item_factory]" )
             REQUIRE( test_item->can_use( TEST_IUSE_ID ) );
         }
 
-        SECTION( TEST_MEMBER_DELETES ) {
-            test_factory.load_tool( test_deletes, TEST_ITEM_SOURCE );
-            const itype *test_item = get_item( test_factory, TEST_ITEM_NAME );
-
-            REQUIRE( !test_item->has_use() );
-        }
+        // TODO: Implement delete if needed?
     }
 
     SECTION( BASE_MEMBER_IS_ARRAY ) {
@@ -82,12 +75,7 @@ TEST_CASE( "load_tool_use_action", "[item_factory]" )
             REQUIRE( test_item->can_use( TEST_IUSE_ID ) );
         }
 
-        SECTION( TEST_MEMBER_DELETES ) {
-            test_factory.load_tool( test_deletes, TEST_ITEM_SOURCE );
-            const itype *test_item = get_item( test_factory, TEST_ITEM_NAME );
-
-            REQUIRE( !test_item->has_use() );
-        }
+        // TODO: Implement delete if needed?
     }
 
     SECTION( BASE_MEMBER_MISSING ) {

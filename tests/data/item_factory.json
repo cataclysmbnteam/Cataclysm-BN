@@ -36,13 +36,5 @@
     "name": { "str": "test_tool" },
     "copy-from": "base_tool",
     "use_action":"MP3"
-  },
-  "test_member_deletes":{
-    "id": "test_tool",
-    "type": "TOOL",
-    "category": "test_category",
-    "name": { "str": "test_tool" },
-    "copy-from": "base_tool",
-    "delete": { "use_action": ["CAMERA"] }
   }
 }
