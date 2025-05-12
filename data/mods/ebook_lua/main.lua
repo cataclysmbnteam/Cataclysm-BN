@@ -1,9 +1,9 @@
 gdebug.log_info("ebook_lua: main online.")
 
 local mod = game.mod_runtime[game.current_mod]
-local stor = game.mod_storage[game.current_mod]
+local storage = game.mod_storage[game.current_mod]
 
-mod.stor = stor
+mod.storage = storage
 
 -- activities
 local ACT_READ = mod.cache_static("activities", "ACT_READ", ActivityTypeId)
@@ -99,7 +99,7 @@ mod.item_funeral = function()
     mod.poppin(locale.gettext("Your e-copy is degrading!"))
     gapi.add_msg("You stop what you are doing and watch it vanishes.")
   end
-  stor.hook_assuarance[NOW:to_turns()] = nil
+  storage.hook_assuarance[NOW:to_turns()] = nil
   return false
 end
 
@@ -108,9 +108,9 @@ mod.__already_assured = mod.__already_assured or {}
 -- This is for on_load_hook. But why is this doubled?
 mod.assure_timer_hook = function()
   local NOW = gapi.current_turn() - gapi.turn_zero()
-  if stor.hook_assuarance then
+  if storage.hook_assuarance then
     -- gdebug.log_info(string.format("ebook_lua: Data loaded at %d turn", NOW:to_turns()))
-    for the_when, val in pairs(stor.hook_assuarance) do
+    for the_when, val in pairs(storage.hook_assuarance) do
       if not mod.__already_assured[the_when] then
         mod.__already_assured[the_when] = true
         -- Main of assure timer hook.
