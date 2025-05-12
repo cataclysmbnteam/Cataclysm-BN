@@ -593,7 +593,7 @@ mod.ebook_info = function(reader, device)
 end
 
 -- The first action for this Lua
----@type fun(who: Character, item: Item, pos: integer): integer
+---@type fun(who: Character, item: Item, pos: Tripoint): integer
 mod.ebook_ui = function(who, item, pos)
   local unzip_var = mod.unzip_var_lib2(item)
   local var_count = mod.table_size(unzip_var)
