@@ -81,7 +81,7 @@ export const scopes = {
   /** Default allowed scopes */
   base: ["UI", "i18n", "balance", "port"],
   /** List of `mods/<MOD_ID>` */
-  mods: allModIds.toSorted().map((x) => `mods/${x}`),
+  mods: allModIds.toSorted().map((x) => `mods/${x}`).concat("mods"),
 }
 
 // https://github.com/Ezard/semantic-prs?tab=readme-ov-file#configuration
