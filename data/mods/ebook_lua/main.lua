@@ -5,12 +5,6 @@ local stor = game.mod_storage[game.current_mod]
 
 mod.stor = stor
 
--- itypes
-local ity_sw_hacking = mod.cache_static("itypes", "software_hacking", ItypeId)
-
--- skills
-local sk_COMPUTER = mod.cache_static("skills", "computer", SkillId)
-
 -- activities
 local ACT_READ = mod.cache_static("activities", "ACT_READ", ActivityTypeId)
 local ACT_CRAFT = mod.cache_static("activities", "ACT_CRAFT", ActivityTypeId)
@@ -19,9 +13,6 @@ local ACT_CRAFT = mod.cache_static("activities", "ACT_CRAFT", ActivityTypeId)
 local flag_ETHEREAL_ITEM = mod.cache_static("flags", "ETHEREAL_ITEM", JsonFlagId)
 local flag_TRADER_AVOID = mod.cache_static("flags", "TRADER_AVOID", JsonFlagId)
 local flag_MC_USED = mod.cache_static("flags", "MC_USED", JsonFlagId)
-
-local base_fw = "E_INK_TAB ver0.Z.5"
-local hacked_fw = "E_INK_T4L-0K ver001"
 
 --NEVER use <item *> as UID. Just make UID like below.
 mod.item_uid = function(item)
@@ -368,7 +359,6 @@ end
 
 mod.check_lib = function(reader, device)
   local uid = mod.item_uid(device)
-  local fw = device:get_var_str("tablet_fw", base_fw)
   local book_data = mod.unzip_var_lib2(device)
   local book_data_list = ""
   if mod.arr_num(book_data) < 1 then
@@ -378,88 +368,12 @@ mod.check_lib = function(reader, device)
   for k_ity_str, _ in pairs(book_data) do
     book_data_list = book_data_list .. "\n" .. gapi.create_item(ItypeId.new(k_ity_str), 1):tname(1, false, 0)
   end
-  mod.poppin(
-    string.format(
-      locale.gettext("UID:%s\nFirmware:%s\nThis device has book data as below:\n%s"),
-      uid,
-      fw,
-      book_data_list
-    )
-  )
+  mod.poppin(string.format(locale.gettext("UID:%s\n\nThis device has book data as below:\n%s"), uid, book_data_list))
   return -1
-end
-
-mod.check_firmware = function(reader, device)
-  local uid = device:get_var_str("tablet_uid", "nope")
-  local your_sk_comp = reader:get_skill_level(sk_COMPUTER)
-  local your_items = reader:all_items(false)
-  local your_int = reader:get_int()
-
-  -- check you have hackPRO
-  local u_have_hackPRO = false
-  for _, var_item in pairs(your_items) do
-    if var_item:has_item_with_id(ity_sw_hacking) then
-      u_have_hackPRO = true
-      break
-    end
-  end
-
-  local ui_firmware = UiList.new()
-  mod.ui_coloring(device, ui_firmware)
-  ui_firmware:desc_enabled(true)
-  ui_firmware:add_w_desc(0, "Try to update firmware", "Connect server and update firmware automatically.")
-  ui_firmware:add_w_desc(1, "Go back", "Back to info menu.")
-  ui_firmware:add_w_desc(
-    2,
-    "Try to jailbreak",
-    "Attempt to exploit firmware vulnerabilities to lift access restrictions.\nWith enough skill (and the right hacking software), you just might pull it off."
-  ) --"펌웨어의 보안 취약점을 찾아서 기능의 접근 제한을 해제합니다.\n당신의 실력과 해킹 소프트웨어만 있다면 할 수 있을 것 같군요."
-  while true do
-    local fw = device:get_var_str("tablet_fw", base_fw)
-    ui_firmware:text(
-      string.format(
-        locale.gettext("UID: %s\nFirmware: %s\nTrying to fetching data from server... fail\n\nNewest firmware is: %s"),
-        uid,
-        fw,
-        base_fw
-      )
-    )
-    if your_sk_comp >= 4 and fw == base_fw then
-      ui_firmware.entries[3].ctxt = "" --Reset column
-      ui_firmware.entries[3].enable = true
-    elseif fw ~= base_fw then
-      ui_firmware.entries[3].ctxt = locale.gettext("Jailbroken already")
-      ui_firmware.entries[3].enable = false
-    else
-      ui_firmware.entries[3].ctxt = locale.gettext("Not enough skill")
-      ui_firmware.entries[3].enable = false
-    end
-    local ans_firm = ui_firmware:query()
-    if ans_firm < 0 then
-      return -1
-    elseif ans_firm == 0 then
-      mod.poppin("Fail to access update server. Check your network connection.")
-    elseif ans_firm == 1 then
-      return -1
-    elseif ans_firm == 2 then
-      if not u_have_hackPRO then
-        mod.poppin(locale.gettext("You have the skill enough to do that, but don't have the necessary tool."))
-      else
-        gapi.add_msg(MsgType.info, locale.gettext("You start to hack the device..."))
-        local hacking_moves = 100
-        hacking_moves = math.floor(hacking_moves * 60 * 30 / math.max(1, your_int - 6) / math.max(1, your_sk_comp - 3))
-        reader:mod_moves(hacking_moves)
-        device:set_var_str("tablet_fw", hacked_fw)
-        gapi.add_msg(MsgType.info, locale.gettext("Firmware updated: " .. hacked_fw))
-        gapi.add_msg(MsgType.good, locale.gettext("Legacy module restored: Memory card data I/O"))
-      end
-    end
-  end
 end
 
 mod.mc_io = function(reader, device)
   local uid = device:get_var_str("tablet_uid", "nope")
-  local fw = device:get_var_str("tablet_fw", base_fw)
   local your_mc = {}
   local your_items = reader:all_items(false)
   --Let's make your_mc!
@@ -474,20 +388,20 @@ mod.mc_io = function(reader, device)
     return -1
   end
   -- Now we have your_mc table.
-  -- But wait, which firmware is it installed with?
-
   local mc_sel_ui = UiList.new()
   mod.ui_coloring(device, mc_sel_ui)
-  mc_sel_ui:text(string.format(locale.gettext("UID: %s\nFirmware:%s\n\nSelect a memory card."), uid, fw))
+  mc_sel_ui:text(string.format(locale.gettext("UID: %s\n\nSelect a memory card."), uid))
   for k_mc, v_mc in pairs(your_mc) do
     mc_sel_ui:add(k_mc, string.format("%s", v_mc:tname(1, false, 0)))
   end
   while true do
+    for k_num, entry in pairs(mc_sel_ui.entries) do
+      entry.txt = your_mc[k_num]:tname(1, false, 0)
+    end
     local ans_mc_sel = mc_sel_ui:query()
     if ans_mc_sel <= 0 then
       return -1
     else
-      local that_mc = your_mc[ans_mc_sel]
       local mc_menu_ui = UiList.new()
       mc_menu_ui:desc_enabled(true)
       mod.ui_coloring(device, mc_menu_ui)
@@ -495,18 +409,15 @@ mod.mc_io = function(reader, device)
       mc_menu_ui:add_w_desc(-1, "Download book data", "Download book data from memory card.")
       mc_menu_ui:add_w_desc(-1, "Upload book data", "Upload book data to memory card.")
       mc_menu_ui:add_w_desc(-1, "Remove all book data", "Remove all book data of memory card.")
-      mc_menu_ui.entries[2].enable = false
-      mc_menu_ui.entries[3].enable = false
-      local mc_menu_txt = locale.gettext(
-        "UID: %s\nFirmware:%s\nSome memory card functions may be restricted by current firmware settings.\nCurrent card: %s"
-      )
-      if fw == hacked_fw then
-        mc_menu_txt = locale.gettext("UID: %s\nFirmware:%s\nMemory card data I/O online.\nCurrent card: %s")
-        mc_menu_ui.entries[2].enable = true
-        mc_menu_ui.entries[3].enable = true
-      end
-      mc_menu_ui:text(string.format(mc_menu_txt, uid, fw, that_mc:tname(1, false, 0)))
       while true do
+        local that_mc = your_mc[ans_mc_sel]
+        mc_menu_ui:text(
+          string.format(
+            locale.gettext("UID: %s\n\nMemory card data I/O online.\nCurrent card: %s"),
+            uid,
+            that_mc:tname(1, false, 0)
+          )
+        )
         local data_in_dev = mod.unzip_var_lib2(device)
         local data_in_card = mod.unzip_var_lib2(that_mc)
         local ans_mc_menu = mc_menu_ui:query()
@@ -592,9 +503,7 @@ mod.cloud_sync = function(reader, device)
   )
   return -1
 end
---#endregion Function 4
 
---#region Function 5
 -- Reset library. Double caution.
 mod.reset_lib = function(reader, device)
   local yn1 = mod.poppyn(
@@ -620,18 +529,15 @@ mod.ebook_info = function(reader, device)
   mod.ui_coloring(device, ui_info)
   ui_info:desc_enabled(true)
   ui_info:add_w_desc(-1, "Check library", "Check the book data the device has.")
-  ui_info:add_w_desc(-1, "Check firmware", "Check the firmware. Updating by online function included.")
   ui_info:add_w_desc(-1, "Memory card menu", "Operate book data with memory card.")
   ui_info:add_w_desc(-1, "Cloud sync", "Read / Write data from cloud server. It needs network connection.")
   ui_info:add_w_desc(-1, "Reset library", "Delete ALL book data in this device.")
   while true do
-    local fw = device:get_var_str("tablet_fw", base_fw)
     local day = (gapi.current_turn() - gapi.turn_zero()):to_days() + 3
     ui_info:text(
       string.format(
-        locale.gettext("UID: %s\nFirmware: %s\nNetwork: Offline (Cloud unreachable)\n\n\nLast Sync: %d days ago"),
+        locale.gettext("UID: %s\n\nNetwork: Offline (Cloud unreachable)\n\nLast Sync: %d days ago"),
         uid,
-        fw,
         day
       )
     )
@@ -644,21 +550,16 @@ mod.ebook_info = function(reader, device)
         return ch_lib
       end
     elseif ans_info == 1 then
-      local ch_fir = mod.check_firmware(reader, device)
-      if ch_fir ~= -1 then
-        return ch_fir
-      end
-    elseif ans_info == 2 then
       local mc_io = mod.mc_io(reader, device)
       if mc_io ~= -1 then
         return mc_io
       end
-    elseif ans_info == 3 then
+    elseif ans_info == 2 then
       local clo_syn = mod.cloud_sync(reader, device)
       if clo_syn ~= -1 then
         return clo_syn
       end
-    elseif ans_info == 4 then
+    elseif ans_info == 3 then
       local res_lib = mod.reset_lib(reader, device)
       if res_lib ~= -1 then
         return res_lib
@@ -671,7 +572,6 @@ end
 mod.ebook_ui = function(who, item, pos)
   local unzip_var = mod.unzip_var_lib2(item)
   local var_count = mod.arr_num(unzip_var)
-  local uid = item:get_var_str("tablet_uid", "nope")
   local ui = UiList.new()
   ui:desc_enabled(true)
   ui:text(
