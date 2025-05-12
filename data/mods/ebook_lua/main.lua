@@ -48,11 +48,12 @@ mod.insert_lib2 = function(storage, str_to_add)
   storage:set_var_str("book_data", inserting_book_data)
 end
 
--- #lib doesn't work! :(
----@type fun(arr: table): integer
-mod.arr_num = function(arr)
+-- poor person's Object.keys().length
+-- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/keys
+---@type fun(tbl: table): integer
+mod.table_size = function(tbl)
   local count = 0
-  for _, _ in pairs(arr) do
+  for _, _ in pairs(tbl) do
     count = count + 1
   end
   return count
@@ -144,22 +145,17 @@ Scanning Process.
 mod.ebook_scan = function(user, device)
   --get all items in your inventory
   local your_items = user:all_items(false)
-  local have_no_book = true
   local var_unzip = mod.unzip_var_lib2(device)
   local found = {}
 
   --let's find unscanned books!
-  for i = 1, #your_items do
-    local it = your_items[i]
+  for _, it in ipairs(your_items) do
     --Do the below for each book. But no virtual book!
     if it:is_book() and not it:has_var("aspect") then
       --Oh no. ItypeId is always different at everytime. I should work with string.
       local type_str = it:get_type():str()
       --One book for one type.
       if not var_unzip[type_str] then
-        if have_no_book then
-          have_no_book = false
-        end
         --it:tname( int quantity, bool with_prefix, unsigned int truncate )
         --truncate limits the letters of the name.
         found[type_str] = it:tname(1, false, 0)
@@ -167,27 +163,33 @@ mod.ebook_scan = function(user, device)
     end
   end
   --so, do you have no book?
-  if have_no_book then
+  if next(found) == nil then
     gapi.add_msg(locale.gettext("You have no book to be scanned."))
     return -1
   else
-    local base_text =
-      string.format(locale.gettext("%d books are found. Do you want to scan them all?\n"), mod.arr_num(found))
-    local ui_limit = 20 -- Just assumption. I don't know its actual limit.
+    local num_found = mod.table_size(found)
+    local base_text_parts = {}
+    table.insert(
+      base_text_parts,
+      string.format(locale.gettext("%d books are found. Do you want to scan them all?\n"), num_found)
+    )
+
+    local ui_limit = 20
     local dev_limit = math.floor(device.charges / 10)
-    local hit_end = (mod.arr_num(found) > dev_limit)
+    local hit_end = num_found > dev_limit
 
     local ui_scan = UiList.new()
     mod.ui_coloring(device, ui_scan)
     local count = 0
     for _, n_str in pairs(found) do
-      if count == ui_limit then
-        base_text = base_text .. string.format(locale.gettext("\n...And more! (%d)", found - count))
+      if count >= ui_limit then
+        table.insert(base_text_parts, string.format(locale.gettext("\n...And more! (%d)"), num_found - count))
         break
       end
-      base_text = base_text .. string.format("\n%s", n_str)
+      table.insert(base_text_parts, string.format("\n%s", n_str)) -- Use table.insert for building lists of strings
       count = count + 1
     end
+    local base_text = table.concat(base_text_parts) -- Use table.concat to join the strings
 
     ui_scan:text(base_text)
     ui_scan:desc_enabled(true)
@@ -216,8 +218,8 @@ mod.ebook_scan = function(user, device)
           for t_str, _ in pairs(found) do
             mod.insert_lib2(device, t_str)
           end
-          gapi.add_msg(MsgType.good, string.format(locale.gettext("You scanned %d book(s)."), mod.arr_num(found)))
-          return mod.arr_num(found)
+          gapi.add_msg(MsgType.good, string.format(locale.gettext("You scanned %d book(s)."), num_found))
+          return num_found
         end
       else --selected Cancel or pressed ESC
         return -1
@@ -248,7 +250,7 @@ mod.ebook_load = function(reader, device)
     local entry = {}
     entry.type = itype_id
     entry.name = gapi.create_item(itype_id, 1):tname(1, false, 32)
-    tmp_arr[#tmp_arr + 1] = entry
+    table.insert(tmp_arr, entry)
     ui_load:add(-1, entry.name)
   end
 
@@ -332,9 +334,9 @@ mod.ebook_return = function(reader, device)
   --let's find the books
   local your_items = reader:all_items(false)
   local virtual_books = {}
-  for _, it in pairs(your_items) do
+  for _, it in ipairs(your_items) do
     if it:has_var("aspect") then
-      virtual_books[#virtual_books + 1] = it
+      table.insert(virtual_books, it)
     end
   end
   if #virtual_books <= 0 then
@@ -345,7 +347,7 @@ mod.ebook_return = function(reader, device)
   local ui_return = UiList.new()
   mod.ui_coloring(device, ui_return)
   ui_return:text("Choose the book to return.")
-  for key, it in pairs(virtual_books) do
+  for key, it in ipairs(virtual_books) do
     ui_return:add_w_col(
       key,
       it:tname(1, false, letter_limit),
@@ -371,15 +373,20 @@ end
 mod.check_lib = function(reader, device)
   local uid = mod.item_uid(device)
   local book_data = mod.unzip_var_lib2(device)
-  local book_data_list = ""
-  if mod.arr_num(book_data) < 1 then
+
+  if next(book_data) == nil then
     mod.poppin(locale.gettext("There is no book in the device."))
     return -1
   end
+
+  local book_data_items = {}
   for k_ity_str, _ in pairs(book_data) do
-    book_data_list = book_data_list .. "\n" .. gapi.create_item(ItypeId.new(k_ity_str), 1):tname(1, false, 0)
+    table.insert(book_data_items, gapi.create_item(ItypeId.new(k_ity_str), 1):tname(1, false, 0))
   end
-  mod.poppin(string.format(locale.gettext("UID:%s\n\nThis device has book data as below:\n%s"), uid, book_data_list))
+  local book_data_list_str = table.concat(book_data_items, "\n")
+  mod.poppin(
+    string.format(locale.gettext("UID:%s\n\nThis device has book data as below:\n%s"), uid, book_data_list_str)
+  )
   return -1
 end
 
@@ -389,9 +396,9 @@ mod.mc_io = function(reader, device)
   local your_mc = {}
   local your_items = reader:all_items(false)
   --Let's make your_mc!
-  for _, it in pairs(your_items) do
+  for _, it in ipairs(your_items) do
     if it:has_flag(flag_MC_USED) then
-      your_mc[#your_mc + 1] = it
+      table.insert(your_mc, it)
     end
   end
   -- Escape when no mc.
@@ -403,12 +410,15 @@ mod.mc_io = function(reader, device)
   local mc_sel_ui = UiList.new()
   mod.ui_coloring(device, mc_sel_ui)
   mc_sel_ui:text(string.format(locale.gettext("UID: %s\n\nSelect a memory card."), uid))
-  for k_mc, v_mc in pairs(your_mc) do
+  for k_mc, v_mc in ipairs(your_mc) do
     mc_sel_ui:add(k_mc, string.format("%s", v_mc:tname(1, false, 0)))
   end
   while true do
-    for k_num, entry in pairs(mc_sel_ui.entries) do
-      entry.txt = your_mc[k_num]:tname(1, false, 0)
+    -- Refresh names in case card names changed (e.g. after upload)
+    for k_num, entry in ipairs(mc_sel_ui.entries) do -- Assuming entries is a sequence
+      if your_mc[k_num] then -- Guard against potential issues if mc_sel_ui.entries and your_mc get out of sync
+        entry.txt = your_mc[k_num]:tname(1, false, 0)
+      end
     end
     local ans_mc_sel = mc_sel_ui:query()
     if ans_mc_sel <= 0 then
@@ -436,12 +446,11 @@ mod.mc_io = function(reader, device)
         if ans_mc_menu < 0 then
           break
         elseif ans_mc_menu == 0 then --List
-          local book_data_mc_text = ""
+          local book_data_mc_items = {}
           for k_ity_str, _ in pairs(data_in_card) do
-            book_data_mc_text = book_data_mc_text
-              .. "\n"
-              .. gapi.create_item(ItypeId.new(k_ity_str), 1):tname(1, false, 0)
+            table.insert(book_data_mc_items, gapi.create_item(ItypeId.new(k_ity_str), 1):tname(1, false, 0))
           end
+          local book_data_mc_text = table.concat(book_data_mc_items, "\n")
           mod.poppin(
             string.format(locale.gettext("Book data of %s:\n%s"), that_mc:tname(1, false, 0), book_data_mc_text)
           )
@@ -587,7 +596,7 @@ end
 ---@type fun(who: Character, item: Item, pos: integer): integer
 mod.ebook_ui = function(who, item, pos)
   local unzip_var = mod.unzip_var_lib2(item)
-  local var_count = mod.arr_num(unzip_var)
+  local var_count = mod.table_size(unzip_var)
   local ui = UiList.new()
   ui:desc_enabled(true)
   ui:text(
@@ -618,31 +627,26 @@ mod.ebook_ui = function(who, item, pos)
     ui.entries[2].enable = false
   end
 
+  local actions = {
+    [0] = mod.ebook_scan,
+    [1] = mod.ebook_load,
+    [2] = mod.ebook_return,
+    [3] = mod.ebook_info,
+  }
+
   while true do
     mod.ui_coloring(item, ui)
     local ans = ui:query()
     if ans < 0 then
       gapi.add_msg("Never mind.")
       return 0
-    elseif ans == 0 then
-      local scanned = mod.ebook_scan(who, item)
-      if scanned ~= -1 then
-        return scanned
-      end
-    elseif ans == 1 then
-      local loaded = mod.ebook_load(who, item)
-      if loaded ~= -1 then
-        return loaded
-      end
-    elseif ans == 2 then
-      local returned = mod.ebook_return(who, item)
-      if returned ~= -1 then
-        return returned
-      end
-    elseif ans == 3 then
-      local info = mod.ebook_info(who, item)
-      if info ~= -1 then
-        return info
+    end
+
+    local action_func = actions[ans]
+    if action_func then
+      local result = action_func(who, item)
+      if result ~= -1 then
+        return result
       end
     else
       gdebug.log_info("ebook_lua: Error occurred. What the heck did you select?")
