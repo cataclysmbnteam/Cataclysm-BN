@@ -78,21 +78,21 @@ end
 mod.ui_coloring = function(item, ui)
   --This is percentage of charges! Lua has no math.round, so I used math.floor with a trick.
   local charge_p = math.floor(item.charges / item:ammo_capacity(false) * 100 + 0.5)
-  local dye = 0
+  local color = 0
   ui:title(string.format("%s( %d%%): E-Book mod", item:tname(1, false, 0), charge_p))
   if charge_p == 100 then
-    dye = Color.c_green
+    color = Color.c_green
   elseif charge_p >= 75 then
-    dye = Color.c_light_green
+    color = Color.c_light_green
   elseif charge_p >= 50 then
-    dye = Color.c_yellow
+    color = Color.c_yellow
   elseif charge_p >= 25 then
-    dye = Color.c_light_red
+    color = Color.c_light_red
   elseif charge_p <= 0 then
-    dye = Color.c_red
+    color = Color.c_red
   end
-  ui:title_color(dye)
-  ui:border_color(dye)
+  ui:title_color(color)
+  ui:border_color(color)
 end
 
 -- STOP BOTHER ME SAFE_REFERENCE ERROR!!!
