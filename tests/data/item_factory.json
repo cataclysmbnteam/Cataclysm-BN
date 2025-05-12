@@ -1,40 +1,38 @@
 {
-  "base_member_is_string":{
+  "base_member_is_string": {
     "id": "base_tool",
     "type": "TOOL",
     "category": "test_category",
     "name": { "str": "base_tool" },
-    "use_action":"CAMERA"
+    "use_action": "CAMERA"
   },
-  "base_member_is_array":{
+  "base_member_is_array": {
     "id": "base_tool",
     "type": "TOOL",
     "category": "test_category",
     "name": { "str": "base_tool" },
-    "use_action": [
-      "CAMERA"
-    ]
+    "use_action": [ "CAMERA" ]
   },
-  "base_member_missing":{
+  "base_member_missing": {
     "id": "base_tool",
     "type": "TOOL",
     "category": "test_category",
     "name": { "str": "base_tool" }
   },
-  "test_member_extends":{
+  "test_member_extends": {
     "id": "test_tool",
     "type": "TOOL",
     "category": "test_category",
     "name": { "str": "test_tool" },
     "copy-from": "base_tool",
-    "extend": { "use_action": ["MP3"] }
+    "extend": { "use_action": [ "MP3" ] }
   },
-  "test_member_sets":{
+  "test_member_sets": {
     "id": "test_tool",
     "type": "TOOL",
     "category": "test_category",
     "name": { "str": "test_tool" },
     "copy-from": "base_tool",
-    "use_action":"MP3"
+    "use_action": "MP3"
   }
 }
