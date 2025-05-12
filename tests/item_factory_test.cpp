@@ -16,7 +16,6 @@ TEST_CASE( "load_tool_use_action", "[item_factory]" )
     std::ifstream file( TEST_ITEM_JSON_FILENAME );
     JsonIn jsin( file );
     JsonObject all_test_items( jsin.get_object() );
-    std::map<std::string, use_function> test_use_methods = { { TEST_IUSE_ID, TEST_IUSE_FUNCTION } };
     Item_factory test_factory;
 
     JsonObject test_extends = all_test_items.get_object( TEST_MEMBER_EXTENDS );

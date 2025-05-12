@@ -3285,31 +3285,21 @@ void Item_factory::load_item_group( const JsonObject &jsobj, const item_group_id
     }
 }
 
+
 void Item_factory::set_use_methods_from_json( const JsonObject &jo, const std::string &member,
         std::map<std::string, use_function> &use_methods )
 {
-    if( !jo.has_member( member ) ) {
+    bool has_member = jo.has_member( member );
+    auto extend_use_action = extend_has_member( jo, member );
+    if( !has_member && !extend_use_action ) {
         return;
     }
 
-    use_methods.clear();
-    if( jo.has_array( member ) ) {
-        for( const JsonValue entry : jo.get_array( member ) ) {
-            if( entry.test_string() ) {
-                std::string type = entry.get_string();
-                emplace_usage( use_methods, type );
-            } else if( entry.test_object() ) {
-                auto obj = entry.get_object();
-                std::pair<std::string, use_function> fun = usage_from_object( obj );
-                if( fun.second ) {
-                    use_methods.insert( fun );
-                }
-            } else {
-                entry.throw_error( "array element is neither string nor object." );
-            }
-        }
-    } else {
-        if( jo.has_string( member ) ) {
+    if( has_member ) {
+        use_methods.clear();
+        if( jo.has_array( member ) ) {
+            set_use_methods_from_array( jo.get_array( member ), use_methods ) ;
+        } else if( jo.has_string( member ) ) {
             std::string type = jo.get_string( member );
             emplace_usage( use_methods, type );
         } else if( jo.has_object( member ) ) {
@@ -3321,7 +3311,28 @@ void Item_factory::set_use_methods_from_json( const JsonObject &jo, const std::s
         } else {
             jo.throw_error( "member 'use_action' is neither string nor object." );
         }
+    } else if( extend_use_action ) {
+        set_use_methods_from_array( *extend_use_action, use_methods );
+    }
 
+}
+
+void Item_factory::set_use_methods_from_array( const JsonArray &array,
+        std::map<std::string, use_function> &use_methods )
+{
+    for( const JsonValue entry : array ) {
+        if( entry.test_string() ) {
+            std::string type = entry.get_string();
+            emplace_usage( use_methods, type );
+        } else if( entry.test_object() ) {
+            auto obj = entry.get_object();
+            std::pair<std::string, use_function> fun = usage_from_object( obj );
+            if( fun.second ) {
+                use_methods.insert( fun );
+            }
+        } else {
+            entry.throw_error( "array element is neither string nor object." );
+        }
     }
 }
 
@@ -3367,6 +3378,22 @@ use_function Item_factory::usage_from_string( const std::string &type ) const
     // Otherwise, return a hardcoded function we know exists (hopefully)
     debugmsg( "Received unrecognized iuse function %s, using iuse::none instead", type.c_str() );
     return use_function();
+}
+
+std::optional<JsonArray> Item_factory::extend_has_member( const JsonObject &jo,
+        const std::string &member )
+{
+    if( !jo.has_object( "extend" ) ) {
+        return std::nullopt;
+    }
+    JsonObject jo_extend = jo.get_object( "extend" );
+    jo_extend.allow_omitted_members();
+
+    if( !jo_extend.has_member( member ) ) {
+        return std::nullopt;
+    }
+
+    return jo_extend.get_array( member );
 }
 
 namespace io
