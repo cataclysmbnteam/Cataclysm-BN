@@ -6245,7 +6245,7 @@ Function `()`
 
 Function `() -> bool`
 
-## hooks_doc
+## hooks
 
 Documentation for hooks
 
