@@ -108,7 +108,7 @@ TEST_CASE( "load_tool_use_action", "[item_factory]" )
 const itype *get_item( Item_factory &test_factory, std::string name )
 {
     std::vector <const itype *> test_items = test_factory.find( [name]( const itype & item ) {
-        return item.nname( 1 ) == name;
+        return item.get_id() == itype_id( name );
     } );
 
     REQUIRE( test_items.size() == 1 );
