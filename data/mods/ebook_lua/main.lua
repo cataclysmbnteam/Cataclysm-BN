@@ -1,6 +1,8 @@
 gdebug.log_info("ebook_lua: main online.")
 
 local mod = game.mod_runtime[game.current_mod]
+---@class storage
+---@field hook_assuarance table<integer, string>
 local storage = game.mod_storage[game.current_mod]
 
 mod.storage = storage
@@ -35,17 +37,19 @@ mod.unzip_var_lib2 = function(storage)
   return data_list
 end
 
-mod.insert_lib2 = function(storage, string)
+---@type fun(storage: Item, str_to_add: string): void
+mod.insert_lib2 = function(storage, str_to_add)
   local inserting_book_data = storage:get_var_str("book_data", "")
   if inserting_book_data ~= "" then
-    inserting_book_data = inserting_book_data .. "," .. string
+    inserting_book_data = inserting_book_data .. "," .. str_to_add
   else
-    inserting_book_data = string
+    inserting_book_data = str_to_add
   end
   storage:set_var_str("book_data", inserting_book_data)
 end
 
 -- #lib doesn't work! :(
+---@type fun(arr: table): integer
 mod.arr_num = function(arr)
   local count = 0
   for _, _ in pairs(arr) do
@@ -54,6 +58,7 @@ mod.arr_num = function(arr)
   return count
 end
 
+---@type fun(str: string): void
 mod.poppin = function(str)
   local popup = QueryPopup.new()
   popup:message(str)
@@ -61,6 +66,7 @@ mod.poppin = function(str)
   popup:query()
 end
 
+---@type fun(str: string): string
 mod.poppyn = function(str)
   local popup = QueryPopup.new()
   popup:message(str)
@@ -68,6 +74,7 @@ mod.poppyn = function(str)
 end
 
 --For colorful UI!
+---@type fun(item: Item, ui: UiList): void
 mod.ui_coloring = function(item, ui)
   --This is percentage of charges! Lua has no math.round, so I used math.floor with a trick.
   local charge_p = math.floor(item.charges / item:ammo_capacity(false) * 100 + 0.5)
@@ -133,6 +140,7 @@ Scanning Process.
 5. If not, store a book
 ]]
 --
+---@type fun(user: Character, device: Item): integer
 mod.ebook_scan = function(user, device)
   --get all items in your inventory
   local your_items = user:all_items(false)
@@ -227,6 +235,7 @@ Loading Process.
 5. Spawn book but virtual.
 ]]
 --
+---@type fun(reader: Character, device: Item): integer
 mod.ebook_load = function(reader, device)
   local ui_load = UiList.new()
   local tmp_arr = {}
@@ -318,6 +327,7 @@ mod.ebook_load = function(reader, device)
   end
 end
 
+---@type fun(reader: Character, device: Item): integer
 mod.ebook_return = function(reader, device)
   --let's find the books
   local your_items = reader:all_items(false)
@@ -357,6 +367,7 @@ mod.ebook_return = function(reader, device)
   end
 end
 
+---@type fun(reader: Character, device: Item): integer
 mod.check_lib = function(reader, device)
   local uid = mod.item_uid(device)
   local book_data = mod.unzip_var_lib2(device)
@@ -372,6 +383,7 @@ mod.check_lib = function(reader, device)
   return -1
 end
 
+---@type fun(reader: Character, device: Item): integer
 mod.mc_io = function(reader, device)
   local uid = device:get_var_str("tablet_uid", "nope")
   local your_mc = {}
@@ -495,6 +507,7 @@ mod.mc_io = function(reader, device)
 end
 
 -- cloud sync. but that never works in this world.
+---@type fun(reader: Character, device: Item): integer
 mod.cloud_sync = function(reader, device)
   mod.poppin(
     locale.gettext(
@@ -505,6 +518,7 @@ mod.cloud_sync = function(reader, device)
 end
 
 -- Reset library. Double caution.
+---@type fun(reader: Character, device: Item): integer
 mod.reset_lib = function(reader, device)
   local yn1 = mod.poppyn(
     string.format(
@@ -523,6 +537,7 @@ mod.reset_lib = function(reader, device)
   return -1
 end
 
+---@type fun(reader: Character, device: Item): integer
 mod.ebook_info = function(reader, device)
   local uid = mod.item_uid(device)
   local ui_info = UiList.new()
@@ -569,6 +584,7 @@ mod.ebook_info = function(reader, device)
 end
 
 -- The first action for this Lua
+---@type fun(who: Character, item: Item, pos: integer): integer
 mod.ebook_ui = function(who, item, pos)
   local unzip_var = mod.unzip_var_lib2(item)
   local var_count = mod.arr_num(unzip_var)
