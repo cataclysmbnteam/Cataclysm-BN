@@ -5537,7 +5537,7 @@ Variable of type `string`
 #### txt_color
 
 Entry text color. Its default color is `c_red_red`, which makes color of the entry same as what `uilist` decides. So if you want to make color different, choose one except `c_red_red`.
-Variable of type `<cppval: 8nc_color >`
+Function `( UiListEntry, Color )`
 
 ## Volume
 
