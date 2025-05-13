@@ -726,7 +726,9 @@ void cata::detail::reg_ui_elements( sol::state &lua )
         DOC( "Entry text of column." );
         luna::set( ut, "ctxt",  &uilist_entry::ctxt );
         DOC( "Entry text color. Its default color is `c_red_red`, which makes color of the entry same as what `uilist` decides. So if you want to make color different, choose one except `c_red_red`." );
-        luna::set( ut, "txt_color",  &uilist_entry::text_color );
+        luna::set_fx( ut, "txt_color", []( uilist_entry & ui_entry, color_id col ) {
+            ui_entry.text_color = get_all_colors().get( col );
+        } );
     }
 
     {
