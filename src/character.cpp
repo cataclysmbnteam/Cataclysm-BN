@@ -3664,6 +3664,21 @@ const item *Character::item_worn_with_id( const itype_id &item_id, const bodypar
     return nullptr;
 }
 
+std::vector<item *> Character::items_worn_on_bp( const bodypart_id &bp ) const
+{
+    if ( !wearing_something_on( bp ) ) {
+        static const std::vector<item *> nullstack{};
+        return nullstack;
+    }
+    std::vector<item *> items;
+    for( item * const &i : worn ) {
+        if( i->covers( bp ) ) {
+            items.push_back( i );
+        }
+    }
+    return items;
+}
+
 std::vector<std::string> Character::get_overlay_ids() const
 {
     std::vector<std::string> rval;

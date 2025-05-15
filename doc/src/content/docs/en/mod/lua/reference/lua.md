@@ -919,6 +919,10 @@ Function `( Character ) -> bool`
 
 Function `( Character, Item ) -> bool`
 
+#### wielded_items
+
+Function `( Character ) -> Vector( Item )`
+
 #### is_wearing
 
 Function `( Character, Item ) -> bool`
@@ -942,6 +946,10 @@ Function `( Character, JsonFlagId, BodyPartTypeIntId ) -> Item`
 #### item_worn_with_id
 
 Function `( Character, ItypeId, BodyPartTypeIntId ) -> Item`
+
+#### items_worn_on_bp
+
+Function `( Character, BodyPartTypeIntId ) -> Vector( Item )`
 
 #### get_skill_level
 

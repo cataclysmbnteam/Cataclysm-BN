@@ -142,20 +142,22 @@ BodyPartTypeIntId = {}
 ---@field can_unwield fun(arg1: Character, arg2: Item): boolean
 ---@field unwield fun(arg1: Character): boolean
 ---@field is_wielding fun(arg1: Character, arg2: Item): boolean
+---@field wielded_items fun(arg1: Character): any
 ---@field is_wearing fun(arg1: Character, arg2: Item): boolean
----@field is_wearing_on_bp fun(arg1: Character, arg2: ItypeId, arg3: BodyPartTypeIntId): boolean
 ---@field get_int_base fun(arg1: Character): integer
+---@field is_wearing_on_bp fun(arg1: Character, arg2: ItypeId, arg3: BodyPartTypeIntId): boolean
 ---@field worn_with_flag fun(arg1: Character, arg2: JsonFlagId, arg3: BodyPartTypeIntId): boolean
 ---@field worn_with_id fun(arg1: Character, arg2: ItypeId, arg3: BodyPartTypeIntId): boolean
 ---@field item_worn_with_flag fun(arg1: Character, arg2: JsonFlagId, arg3: BodyPartTypeIntId): Item
 ---@field item_worn_with_id fun(arg1: Character, arg2: ItypeId, arg3: BodyPartTypeIntId): Item
+---@field items_worn_on_bp fun(arg1: Character, arg2: BodyPartTypeIntId): any
 ---@field get_skill_level fun(arg1: Character, arg2: SkillId): integer
 ---@field get_all_skills fun(arg1: Character): SkillLevelMap
 ---@field get_skill_level_object fun(arg1: Character, arg2: SkillId): SkillLevel
 ---@field set_skill_level fun(arg1: Character, arg2: SkillId, arg3: integer)
+---@field get_str_bonus fun(arg1: Character): integer
 ---@field mod_skill_level fun(arg1: Character, arg2: SkillId, arg3: integer)
 ---@field rust_rate fun(arg1: Character): integer
----@field get_str_bonus fun(arg1: Character): integer
 ---@field practice fun(arg1: Character, arg2: SkillId, arg3: integer, arg4: integer, arg5: boolean)
 ---@field read_speed fun(arg1: Character, arg2: boolean): integer
 ---@field get_time_died fun(arg1: Character): TimePoint
@@ -164,9 +166,9 @@ BodyPartTypeIntId = {}
 ---@field rest_quality fun(arg1: Character): number
 ---@field healing_rate fun(arg1: Character, arg2: number): number
 ---@field healing_rate_medicine fun(arg1: Character, arg2: number, arg3: BodyPartTypeIntId): number
+---@field get_dex_bonus fun(arg1: Character): integer
 ---@field mutation_value fun(arg1: Character, arg2: string): number
 ---@field get_base_traits fun(arg1: Character): any
----@field get_dex_bonus fun(arg1: Character): integer
 ---@field get_mutations fun(arg1: Character, arg2: boolean): any
 ---@field clear_skills fun(arg1: Character)
 ---@field clear_mutations fun(arg1: Character)
@@ -175,9 +177,9 @@ BodyPartTypeIntId = {}
 ---@field rem_addiction fun(arg1: Character, arg2: AddictionType)
 ---@field has_addiction fun(arg1: Character, arg2: AddictionType): boolean
 ---@field addiction_level fun(arg1: Character, arg2: AddictionType): integer
+---@field get_per_bonus fun(arg1: Character): integer
 ---@field is_hauling fun(arg1: Character): boolean
 ---@field add_item_with_id fun(arg1: Character, arg2: ItypeId, arg3: integer) @Adds an item with the given id and amount
----@field get_per_bonus fun(arg1: Character): integer
 ---@field has_item_with_id fun(arg1: Character, arg2: ItypeId, arg3: boolean): boolean @Checks for an item with the given id
 ---@field get_item_with_id fun(arg1: Character, arg2: ItypeId, arg3: boolean): Item @Gets the first occurrence of an item with the given id
 ---@field has_item_with_flag fun(arg1: Character, arg2: JsonFlagId, arg3: boolean): boolean @Checks for an item with the given flag
@@ -186,10 +188,10 @@ BodyPartTypeIntId = {}
 ---@field assign_activity fun(arg1: Character, arg2: ActivityTypeId, arg3: integer, arg4: integer, arg5: integer, arg6: string)
 ---@field has_activity fun(arg1: Character, arg2: ActivityTypeId): boolean
 ---@field cancel_activity fun(arg1: Character)
----@field metabolic_rate fun(arg1: Character): number
----@field base_age fun(arg1: Character): integer
 ---@field male boolean
 ---@field get_int_bonus fun(arg1: Character): integer
+---@field metabolic_rate fun(arg1: Character): number
+---@field base_age fun(arg1: Character): integer
 ---@field set_base_age fun(arg1: Character, arg2: integer)
 ---@field mod_base_age fun(arg1: Character, arg2: integer)
 ---@field age fun(arg1: Character): integer
@@ -198,9 +200,9 @@ BodyPartTypeIntId = {}
 ---@field mod_base_height fun(arg1: Character, arg2: integer)
 ---@field height fun(arg1: Character): integer
 ---@field bodyweight fun(arg1: Character): Mass
+---@field set_str_bonus fun(arg1: Character, arg2: integer)
 ---@field bionics_weight fun(arg1: Character): Mass
 ---@field get_armor_acid fun(arg1: Character, arg2: BodyPartTypeIntId): integer
----@field set_str_bonus fun(arg1: Character, arg2: integer)
 ---@field get_stim fun(arg1: Character): integer
 ---@field set_stim fun(arg1: Character, arg2: integer)
 ---@field mod_stim fun(arg1: Character, arg2: integer)
@@ -209,9 +211,9 @@ BodyPartTypeIntId = {}
 ---@field mod_rad fun(arg1: Character, arg2: integer)
 ---@field get_stamina fun(arg1: Character): integer
 ---@field get_stamina_max fun(arg1: Character): integer
+---@field set_dex_bonus fun(arg1: Character, arg2: integer)
 ---@field set_stamina fun(arg1: Character, arg2: integer)
 ---@field mod_stamina fun(arg1: Character, arg2: integer)
----@field set_dex_bonus fun(arg1: Character, arg2: integer)
 ---@field wake_up fun(arg1: Character)
 ---@field get_shout_volume fun(arg1: Character): integer
 ---@field shout fun(arg1: Character, arg2: string, arg3: boolean)
@@ -220,9 +222,9 @@ BodyPartTypeIntId = {}
 ---@field mod_painkiller fun(arg1: Character, arg2: integer)
 ---@field set_painkiller fun(arg1: Character, arg2: integer)
 ---@field get_painkiller fun(arg1: Character): integer
+---@field set_per_bonus fun(arg1: Character, arg2: integer)
 ---@field spores fun(arg1: Character)
 ---@field blossoms fun(arg1: Character)
----@field set_per_bonus fun(arg1: Character, arg2: integer)
 ---@field rooted fun(arg1: Character)
 ---@field fall_asleep fun(arg1: Character) | fun(arg1: Character, arg2: TimeDuration)
 ---@field get_hostile_creatures fun(arg1: Character, arg2: integer): any
@@ -231,9 +233,9 @@ BodyPartTypeIntId = {}
 ---@field is_wearing_helmet fun(arg1: Character): boolean
 ---@field get_morale_level fun(arg1: Character): integer
 ---@field add_morale fun(arg1: Character, arg2: MoraleTypeDataId, arg3: integer, arg4: integer, arg5: TimeDuration, arg6: TimeDuration, arg7: boolean, arg8: ItypeRaw)
+---@field set_int_bonus fun(arg1: Character, arg2: integer)
 ---@field has_morale fun(arg1: Character, arg2: MoraleTypeDataId): boolean
 ---@field get_morale fun(arg1: Character, arg2: MoraleTypeDataId): integer
----@field set_int_bonus fun(arg1: Character, arg2: integer)
 ---@field rem_morale fun(arg1: Character, arg2: MoraleTypeDataId)
 ---@field clear_morale fun(arg1: Character)
 ---@field has_morale_to_read fun(arg1: Character): boolean
@@ -242,9 +244,9 @@ BodyPartTypeIntId = {}
 ---@field learn_recipe fun(arg1: Character, arg2: RecipeId)
 ---@field suffer fun(arg1: Character)
 ---@field irradiate fun(arg1: Character, arg2: number, arg3: boolean): boolean
+---@field mod_str_bonus fun(arg1: Character, arg2: integer)
 ---@field can_hear fun(arg1: Character, arg2: Tripoint, arg3: integer): boolean
 ---@field hearing_ability fun(arg1: Character): number
----@field mod_str_bonus fun(arg1: Character, arg2: integer)
 ---@field get_lowest_hp fun(arg1: Character): integer
 ---@field bodypart_exposure fun(arg1: Character): any
 ---@field mod_dex_bonus fun(arg1: Character, arg2: integer)
@@ -1368,7 +1370,7 @@ UiList = {}
 ---@field txt string @Entry text
 ---@field desc string @Entry description
 ---@field ctxt string @Entry text of column.
----@field txt_color any @Entry text color. Its default color is `c_red_red`, which makes color of the entry same as what `uilist` decides. So if you want to make color different, choose one except `c_red_red`.
+---@field txt_color fun(arg1: UiListEntry, arg2: Color) @Entry text color. Its default color is `c_red_red`, which makes color of the entry same as what `uilist` decides. So if you want to make color different, choose one except `c_red_red`.
 UiListEntry = {}
 
 ---@class Volume
