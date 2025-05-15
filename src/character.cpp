@@ -8339,17 +8339,17 @@ void Character::passive_absorb_hit( const bodypart_id &bp, damage_unit &du ) con
 
 static void destroyed_armor_msg( Character &who, const std::string &pre_damage_name )
 {
-    bool clothing_popup_option = get_option<bool>( "CLOTHING_DESTRUCTION_POPUP" );
+    const bool show_clothing_popup = get_option<bool>( "CLOTHING_DESTRUCTION_POPUP" );
     if( who.is_avatar() ) {
         g->memorial().add(
             //~ %s is armor name
             pgettext( "memorial_male", "Worn %s was completely destroyed." ),
             pgettext( "memorial_female", "Worn %s was completely destroyed." ),
             pre_damage_name );
-        if( clothing_popup_option == true ) {
+        if( show_clothing_popup ) {
             popup( _( "Your %s is completely destroyed!" ), pre_damage_name );
         }
-    } else if( who.is_avatar() && who.as_npc()->is_following() && clothing_popup_option == true ) {
+    } else if( who.is_avatar() && who.as_npc()->is_following() && show_clothing_popup ) {
         popup( _( "%1$s's %2$s is completely destroyed!" ),
                who.as_npc()->get_name(),
                pre_damage_name );
