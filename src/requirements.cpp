@@ -108,7 +108,7 @@ void quality::load( const JsonObject &jo, const std::string & )
         }
     }
 
-    populate_salvage_materials( *this );
+    salvage::populate_salvage_materials( *this );
 }
 
 /** @relates string_id */

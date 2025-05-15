@@ -26,22 +26,10 @@
 
 static const skill_id skill_fabrication( "fabrication" );
 
-
-std::unordered_map<material_id, std::set<quality_id>> salvage_material_quality_dictionary;
-std::set<material_id> all_salvagable_materials;
-
 namespace salvage
 {
-
-std::set<material_id> &get_all_salvagable_materials()
-{
-    return all_salvagable_materials;
-}
-
-std::unordered_map<material_id, std::set<quality_id>> &get_salvage_material_quality_dictionary()
-{
-    return salvage_material_quality_dictionary;
-}
+std::unordered_map<material_id, std::set<quality_id>> salvage_material_quality_dictionary;
+std::set<material_id> all_salvagable_materials;
 
 // Helper to find smallest sub-component of an item.
 units::mass minimal_weight_to_cut( const item &it )
@@ -128,8 +116,8 @@ ret_val<bool> try_salvage( const item &target, quality_cache &q_cache )
     return ret_val<bool>::make_success();
 }
 
-q_result promt_warnings( const Character &who, const item &target,
-                         quality_cache &q_cache )
+static q_result prompt_warnings( const Character &who, const item &target,
+                                 quality_cache &q_cache )
 {
     auto &madeof = target.made_of();
 
@@ -401,6 +389,15 @@ bool salvage_all( Character &who )
     }
 }
 
+void populate_salvage_materials( quality &q )
+{
+    for( auto &material : q.salvagable_materials ) {
+        salvage::salvage_material_quality_dictionary[material].emplace( q.id );
+    }
+    std::copy( q.salvagable_materials.begin(), q.salvagable_materials.end(),
+               std::inserter( all_salvagable_materials, all_salvagable_materials.end() ) );
+}
+
 } // namespace salvage
 
 
@@ -423,7 +420,7 @@ void salvage_activity_actor::start( player_activity &act, Character &who )
             debugmsg( "Lost target of ", get_type() );
         } else {
             if( progress.empty() && !mute_prompts ) {
-                switch( salvage::promt_warnings( who, *target.loc, cache ) ) {
+                switch( salvage::prompt_warnings( who, *target.loc, cache ) ) {
                     case salvage::q_result::ignore:
                         mute_prompts = true;
                         [[fallthrough]];
@@ -468,7 +465,7 @@ void salvage_activity_actor::do_turn( player_activity &act, Character &who )
             if( !mute_prompts ) {
                 //yes this should NOT be a reference
                 auto cache = who.crafting_inventory().get_quality_cache();
-                switch( salvage::promt_warnings( who, *target.loc, cache ) ) {
+                switch( salvage::prompt_warnings( who, *target.loc, cache ) ) {
                     case salvage::q_result::ignore:
                         mute_prompts = true;
                         [[fallthrough]];
@@ -514,15 +511,6 @@ void salvage_activity_actor::serialize( JsonOut &jsout ) const
     jsout.end_object();
 }
 
-void populate_salvage_materials( quality &q )
-{
-    for( auto &material : q.salvagable_materials ) {
-        salvage_material_quality_dictionary[material].emplace( q.id );
-    }
-    std::copy( q.salvagable_materials.begin(), q.salvagable_materials.end(),
-               std::inserter( all_salvagable_materials, all_salvagable_materials.end() ) );
-}
-
 //If strict == false we check if atleast one material is salvagable
 //Else we check all materials
 bool item::is_salvageable( bool strict ) const
@@ -531,7 +519,7 @@ bool item::is_salvageable( bool strict ) const
         return false;
     }
     for( auto &mat : made_of() ) {
-        if( all_salvagable_materials.contains( mat ) ) {
+        if( salvage::all_salvagable_materials.contains( mat ) ) {
             if( !strict ) {
                 return !has_flag( flag_NO_SALVAGE );
             }

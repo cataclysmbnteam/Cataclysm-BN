@@ -15,6 +15,12 @@
 #include "string_id.h"
 #include "type_id.h"
 
+namespace salvage
+{
+extern std::unordered_map<material_id, std::set<quality_id>> salvage_material_quality_dictionary;
+extern std::set<material_id> all_salvagable_materials;
+} // namespace salvage
+
 namespace
 {
 
@@ -61,10 +67,10 @@ auto cut_up_yields( const std::string &target ) -> void
     for( auto *item : salvaged_items ) {
         CHECK( item->made_of().size() == 1 );
         auto material = item->made_of().front();
-        CHECK( salvage::get_all_salvagable_materials().contains( material ) );
+        CHECK( salvage::all_salvagable_materials.contains( material ) );
         bool has_quality = false;
         for( auto &q : tool->get_qualities() ) {
-            if( salvage::get_salvage_material_quality_dictionary()[material].contains( q.first ) ) {
+            if( salvage::salvage_material_quality_dictionary[material].contains( q.first ) ) {
                 has_quality = true;
                 break;
             }
