@@ -1364,6 +1364,8 @@ void options_manager::add_options_general()
          true
        );
 
+
+
     add( "SAFEMODEPROXIMITY", general, translate_marker( "Safe mode proximity distance" ),
          translate_marker( "If safe mode is enabled, distance to hostiles at which safe mode should show a warning.  0 = Max player view distance.  This option only has effect when no safe mode rule is specified.  Otherwise, edit the default rule in Safe Mode Manager instead of this value." ),
          0, MAX_VIEW_DISTANCE, 0
@@ -1392,6 +1394,13 @@ void options_manager::add_options_general()
     add( "QUERY_BEFORE_ATTACKING_NEUTRAL", general,
          translate_marker( "Query before attacking neutral monsters" ),
          translate_marker( "If true, you will be prompted to confirm before attacking neutral or fleeing monsters that you have yet to engage in combat with." ),
+         true
+       );
+
+    add_empty_line();
+
+    add( "CLOTHING_DESTRUCTION_POPUP", general, translate_marker( "Clothing destruction popup" ),
+         translate_marker( "If true, a popup will display when a piece of the player/NPC's worn clothing is destroyed." ),
          true
        );
 
