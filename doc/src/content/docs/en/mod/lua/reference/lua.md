@@ -2646,7 +2646,7 @@ Function `( Item, MartialArtsTechniqueId ) -> bool`
 
 #### get_techniques
 
-Gets all additional techniques. Except original techniques.
+Gets all techniques. Including original techniques.
 Function `( Item ) -> Set( MartialArtsTechniqueId )`
 
 #### add_technique

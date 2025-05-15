@@ -587,6 +587,10 @@ FurnRaw = {}
 ---@class Item
 ---@field get_type fun(arg1: Item): ItypeId
 ---@field is_sided fun(arg1: Item): boolean
+---@field set_flag_recursive fun(arg1: Item, arg2: JsonFlagId)
+---@field unset_flags fun(arg1: Item)
+---@field get_var_str fun(arg1: Item, arg2: string, arg3: string): string @Get variable as string
+---@field get_var_num fun(arg1: Item, arg2: string, arg3: number): number @Get variable as float number
 ---@field get_var_tri fun(arg1: Item, arg2: string, arg3: Tripoint): Tripoint @Get variable as tripoint
 ---@field set_var_str fun(arg1: Item, arg2: string, arg3: string)
 ---@field set_var_num fun(arg1: Item, arg2: string, arg3: number)
@@ -662,32 +666,32 @@ FurnRaw = {}
 ---@field set_owner fun(arg1: Item, arg2: Character) @Sets the ownership of this item to a character
 ---@field get_owner_name fun(arg1: Item): string
 ---@field is_owned_by fun(arg1: Item, arg2: Character, arg3: boolean): boolean @Checks if this item owned by a character
+---@field has_technique fun(arg1: Item, arg2: MartialArtsTechniqueId): boolean @Checks if this item has the technique as an addition. Doesn't check original techniques.
+---@field get_techniques fun(arg1: Item): any @Gets all techniques. Including original techniques.
+---@field add_technique fun(arg1: Item, arg2: MartialArtsTechniqueId) @Adds the technique. It isn't treated original, but additional.
+---@field remove_technique fun(arg1: Item, arg2: MartialArtsTechniqueId) @Removes the additional technique. Doesn't affect originial techniques.
+---@field is_null fun(arg1: Item): boolean
 ---@field can_contain fun(arg1: Item, arg2: Item): boolean @Checks if this item can contain another
 ---@field remaining_capacity_for_id fun(arg1: Item, arg2: ItypeId, arg3: boolean): integer @Gets the remaining space available for a type of liquid
 ---@field total_capacity fun(arg1: Item): Volume @Gets maximum volume this item can hold (liquids, ammo, etc)
 ---@field current_magazine fun(arg1: Item): Item @Gets the current magazine
----@field is_null fun(arg1: Item): boolean
 ---@field ammo_capacity fun(arg1: Item, arg2: boolean): integer @Gets the maximum capacity of a magazine
 ---@field ammo_remaining fun(arg1: Item): integer @Get remaining ammo, works with batteries & stuff too
 ---@field ammo_data fun(arg1: Item): ItypeRaw
 ---@field ammo_required fun(arg1: Item): integer
 ---@field ammo_current fun(arg1: Item): ItypeId
 ---@field ammo_consume fun(arg1: Item, arg2: integer, arg3: Tripoint): integer
+---@field is_unarmed_weapon fun(arg1: Item): boolean
 ---@field ammo_set fun(arg1: Item, arg2: ItypeId, arg3: integer)
 ---@field ammo_unset fun(arg1: Item)
 ---@field get_reload_time fun(arg1: Item): integer
 ---@field add_item_with_id fun(arg1: Item, arg2: ItypeId, arg3: integer) @Adds an item(s) to contents
----@field is_unarmed_weapon fun(arg1: Item): boolean
 ---@field has_item_with_id fun(arg1: Item, arg2: ItypeId): boolean @Checks item contents for a given item id
 ---@field covers fun(arg1: Item, arg2: BodyPartTypeIntId): boolean @Checks if the item covers a bodypart
 ---@field set_flag fun(arg1: Item, arg2: JsonFlagId)
 ---@field unset_flag fun(arg1: Item, arg2: JsonFlagId)
 ---@field has_flag fun(arg1: Item, arg2: JsonFlagId): boolean
 ---@field has_own_flag fun(arg1: Item, arg2: JsonFlagId): boolean
----@field set_flag_recursive fun(arg1: Item, arg2: JsonFlagId)
----@field unset_flags fun(arg1: Item)
----@field get_var_str fun(arg1: Item, arg2: string, arg3: string): string @Get variable as string
----@field get_var_num fun(arg1: Item, arg2: string, arg3: number): number @Get variable as float number
 Item = {}
 
 --- Iterate over this using pairs()
@@ -778,6 +782,19 @@ MapStack = {}
 ---@field deserialize fun(arg1: MartialArtsBuffId)
 ---@field new fun(): MartialArtsBuffId | fun(arg1: MartialArtsBuffId): MartialArtsBuffId | fun(arg1: string): MartialArtsBuffId
 MartialArtsBuffId = {}
+
+---@class MartialArtsTechniqueId
+---@field obj fun(arg1: MartialArtsTechniqueId): MartialArtsTechniqueRaw
+---@field implements_int_id fun(): boolean
+---@field is_null fun(arg1: MartialArtsTechniqueId): boolean
+---@field is_valid fun(arg1: MartialArtsTechniqueId): boolean
+---@field str fun(arg1: MartialArtsTechniqueId): string
+---@field NULL_ID fun(): MartialArtsTechniqueId
+---@field __tostring fun(arg1: MartialArtsTechniqueId): string
+---@field serialize fun(arg1: MartialArtsTechniqueId)
+---@field deserialize fun(arg1: MartialArtsTechniqueId)
+---@field new fun(): MartialArtsTechniqueId | fun(arg1: MartialArtsTechniqueId): MartialArtsTechniqueId | fun(arg1: string): MartialArtsTechniqueId
+MartialArtsTechniqueId = {}
 
 ---@class Mass
 ---@field from_milligram fun(arg1: integer): Mass
@@ -1368,7 +1385,7 @@ UiList = {}
 ---@field txt string @Entry text
 ---@field desc string @Entry description
 ---@field ctxt string @Entry text of column.
----@field txt_color any @Entry text color. Its default color is `c_red_red`, which makes color of the entry same as what `uilist` decides. So if you want to make color different, choose one except `c_red_red`.
+---@field txt_color fun(arg1: UiListEntry, arg2: Color) @Entry text color. Its default color is `c_red_red`, which makes color of the entry same as what `uilist` decides. So if you want to make color different, choose one except `c_red_red`.
 UiListEntry = {}
 
 ---@class Volume
