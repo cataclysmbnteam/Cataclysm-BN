@@ -658,9 +658,8 @@ class salvage_activity_actor : public activity_actor
         salvage_activity_actor() = default;
         salvage_activity_actor(
             iuse_locations &&targets,
-            tripoint_abs_ms pos,
-            bool mute_prompts = false
-        ) : targets( std::move( targets ) ), pos( pos ), mute_prompts( mute_prompts ) {}
+            tripoint_abs_ms pos
+        ) : targets( std::move( targets ) ), pos( pos ) {}
 
         ~salvage_activity_actor() = default;
 

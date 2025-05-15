@@ -24,7 +24,7 @@
 #include "type_id.h"
 #include "ui_manager.h"
 
-const skill_id skill_fabrication( "fabrication" );
+static const skill_id skill_fabrication( "fabrication" );
 
 
 std::unordered_map<material_id, std::set<quality_id>> salvage_material_quality_dictionary;
@@ -188,7 +188,7 @@ std::vector<std::pair< itype_id, float>> salvage_results( const item &target )
     //For now we assume that proportions for all materials are equal
     for( auto &material : salvage_result_proportions( target ) ) {
         auto res = material.first->salvaged_into();
-        if( all_salvagable_materials.contains( material.first ) && res ) {
+        if( res && all_salvagable_materials.contains( material.first ) ) {
             //Simplier to debug
             auto t_mass = target.weight().value();
             auto r_mass = ( **res ).weight.value();
