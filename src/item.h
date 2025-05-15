@@ -1846,6 +1846,11 @@ class item : public location_visitable<item>, public game_object<item>
          * the same type are not affected by this.
          */
         void add_technique( const matec_id &tech );
+        /**
+         *  Remove the given technique from the item specific @ref techniques.
+         *  Note that other items of the same type are not affected by this.
+         */
+        void remove_technique( const matec_id &tech );
         /*@}*/
 
         /** Returns all toolmods currently attached to this item (always empty if item not a tool) */

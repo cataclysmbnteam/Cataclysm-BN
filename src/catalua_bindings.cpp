@@ -20,6 +20,7 @@
 #include "game.h"
 #include "itype.h"
 #include "map.h"
+#include "martialarts.h"
 #include "messages.h"
 #include "monfaction.h"
 #include "monster.h"
@@ -432,6 +433,15 @@ void cata::detail::reg_item( sol::state &lua )
 
         DOC( "Checks if this item owned by a character" );
         luna::set_fx( ut, "is_owned_by", &item::is_owned_by );
+
+        DOC( "Checks if this item has the technique as an addition. Doesn't check original techniques." );
+        luna::set_fx( ut, "has_technique", sol::resolve<bool( const matec_id & ) const> ( &item::has_technique ) );
+        DOC( "Gets all techniques. Including original techniques." );
+        luna::set_fx( ut, "get_techniques", sol::resolve<std::set<matec_id>() const> ( &item::get_techniques ) );
+        DOC( "Adds the technique. It isn't treated original, but additional." );
+        luna::set_fx( ut, "add_technique", sol::resolve<void( const matec_id & )> ( &item::add_technique ) );
+        DOC( "Removes the additional technique. Doesn't affect originial techniques." );
+        luna::set_fx( ut, "remove_technique", sol::resolve<void( const matec_id & )> ( &item::remove_technique ) );
 
         DOC( "Checks if this item can contain another" );
         luna::set_fx( ut, "can_contain",
