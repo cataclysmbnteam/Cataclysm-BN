@@ -404,9 +404,8 @@ void populate_salvage_materials( quality &q )
 void salvage_activity_actor::calc_all_moves( player_activity &act, Character &who )
 {
     const auto &target = targets.front();
-    const std::vector<activity_req<quality_id>> q_reqs = {};
-    auto reqs = activity_reqs_adapter( q_reqs, get_type()->skills,
-                                       std::make_pair( target.loc->weight(), target.loc->volume() ) );
+    auto reqs = activity_reqs_adapter( get_type()->skills, std::make_pair(
+                                           target.loc->weight(), target.loc->volume() ) );
 
     act.speed.calc_all_moves( who, reqs );
 }

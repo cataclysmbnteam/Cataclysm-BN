@@ -677,7 +677,7 @@ inline void disassemble_activity_actor::calc_all_moves( player_activity &act, Ch
 {
     const auto &target = targets.front().loc;
     auto reqs = activity_reqs_adapter( recipe_dictionary::get_uncraft( target->typeId() ),
-                                       target->weight(), target->volume() );
+                                       std::make_pair( target->weight(), target->volume() ) );
     act.speed.calc_all_moves( who, reqs );
 }
 
