@@ -8357,7 +8357,6 @@ static void destroyed_armor_msg( Character &who, const std::string &pre_damage_n
     who.add_msg_player_or_npc( m_bad, _( "Your %s is completely destroyed!" ),
                                _( "<npcname>'s %s is completely destroyed!" ),
                                pre_damage_name );
-
 }
 
 static void item_armor_enchantment_adjust(
