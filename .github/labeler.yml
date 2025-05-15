@@ -20,4 +20,4 @@ scripts:
   - scripts/**/*
 
 lua:
-  - **/*.lua
+  - "**/*.lua"

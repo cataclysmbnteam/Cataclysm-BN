@@ -736,7 +736,9 @@ void cata::detail::reg_ui_elements( sol::state &lua )
         DOC( "Entry text of column." );
         luna::set( ut, "ctxt",  &uilist_entry::ctxt );
         DOC( "Entry text color. Its default color is `c_red_red`, which makes color of the entry same as what `uilist` decides. So if you want to make color different, choose one except `c_red_red`." );
-        luna::set( ut, "txt_color",  &uilist_entry::text_color );
+        luna::set_fx( ut, "txt_color", []( uilist_entry & ui_entry, color_id col ) {
+            ui_entry.text_color = get_all_colors().get( col );
+        } );
     }
 
     {
@@ -1123,7 +1125,7 @@ void cata::detail::reg_enums( sol::state &lua )
 void cata::detail::reg_hooks_examples( sol::state &lua )
 {
     DOC( "Documentation for hooks" );
-    luna::userlib lib = luna::begin_lib( lua, "hooks_doc" );
+    luna::userlib lib = luna::begin_lib( lua, "hooks" );
 
     DOC( "Called when game is about to save" );
     luna::set_fx( lib, "on_game_save", []() {} );
