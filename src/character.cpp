@@ -8349,7 +8349,7 @@ static void destroyed_armor_msg( Character &who, const std::string &pre_damage_n
         if( show_clothing_popup ) {
             popup( _( "Your %s is completely destroyed!" ), pre_damage_name );
         }
-    } else if( who.is_avatar() && who.as_npc()->is_following() && show_clothing_popup ) {
+    } else if( who.is_npc() && who.as_npc()->is_following() && show_clothing_popup ) {
         popup( _( "%1$s's %2$s is completely destroyed!" ),
                who.as_npc()->get_name(),
                pre_damage_name );
