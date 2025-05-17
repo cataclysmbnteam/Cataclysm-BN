@@ -63,14 +63,14 @@
     "type": "GENERIC",
     "category": "spellbooks",
     "name": { "str": "Pyromancy for Heretics", "str_pl": "copies of Pyromancy for Heretics" },
-    "//": "4 Kelvinist spells",
+    "//": "5 Kelvinist spells",
     "description": "This charred husk of a book still contains many ways to light things aflame.",
     "weight": "450 g",
     "volume": "1 L",
     "price": "1904 cent",
     "symbol": "?",
     "color": "light_red",
-    "use_action": { "type": "learn_spell", "spells": [ "point_flare", "fireball", "burning_hands", "create_lighter" ] }
+    "use_action": { "type": "learn_spell", "spells": [ "point_flare", "fireball", "burning_hands", "create_lighter", "fire_ward" ] }
   },
   {
     "id": "wizard_advanced",
@@ -122,14 +122,17 @@
     "type": "GENERIC",
     "category": "spellbooks",
     "name": { "str": "Winter's Eternal Grasp", "str_pl": "copies of Winter's Eternal Grasp" },
-    "//": "5 Kelvinist spells",
+    "//": "6 Kelvinist spells",
     "description": "This slim book almost seems to be made from ice, it's cold to the touch.",
     "weight": "450 g",
     "volume": "1 L",
     "price": "1904 cent",
     "symbol": "?",
     "color": "light_blue",
-    "use_action": { "type": "learn_spell", "spells": [ "cone_cold", "ice_spike", "hoary_blast", "chilling_touch", "frost_spray" ] }
+    "use_action": {
+      "type": "learn_spell",
+      "spells": [ "cone_cold", "ice_spike", "hoary_blast", "chilling_touch", "frost_spray", "ice_ward" ]
+    }
   },
   {
     "id": "tome_of_storms",
@@ -153,7 +156,8 @@
         "lightning_bolt",
         "lightning_blast",
         "storm_condense_water",
-        "storm_condense_clean_water"
+        "storm_condense_clean_water",
+        "electric_ward"
       ]
     }
   },
@@ -200,7 +204,7 @@
     "type": "GENERIC",
     "category": "spellbooks",
     "name": { "str": "The Tome of Flesh", "str_pl": "copies of The Tome of Flesh" },
-    "//": "6 Biomancer spells",
+    "//": "7 Biomancer spells",
     "description": "A small tome, seemingly covered in tanned human skin.",
     "weight": "355 g",
     "volume": "500 ml",
@@ -208,7 +212,15 @@
     "color": "red",
     "use_action": {
       "type": "learn_spell",
-      "spells": [ "vicious_tentacle", "bio_grotesque", "bio_acidicspray", "bio_fleshpouch", "bio_bonespear", "bio_create_acid" ]
+      "spells": [
+        "vicious_tentacle",
+        "bio_grotesque",
+        "bio_acidicspray",
+        "bio_fleshpouch",
+        "bio_bonespear",
+        "bio_create_acid",
+        "acid_ward"
+      ]
     }
   },
   {
