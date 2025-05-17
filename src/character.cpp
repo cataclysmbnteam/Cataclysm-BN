@@ -1013,31 +1013,34 @@ int min_pain( const Character &c )
     constexpr int BITE_PAIN = 5;
     constexpr int INFECTION_PAIN = 10;
 
-    int worst_hurt_bp = 0;
-    for( const bodypart_id &bp : c.get_all_body_parts( true ) ) {
+    auto get_pain = [&]( const bodypart_id & bp ) -> int {
         //damage to body part, normalized to a scale of 0 to HP_LOSS_PAIN
         //40 to 50 is "distressing pain"
         int hurt = remaining_ratio( c.get_hp( bp ), c.get_hp_max( bp ) ) * HP_LOSS_PAIN;
         //if body part is broken and not splinted, increase pain by BROKEN_LIMB_PAIN
-        if( c.is_limb_broken( bp ) && !c.worn_with_flag( flag_SPLINT, bp ) ) {
+        if( c.is_limb_broken( bp ) && !c.worn_with_flag( flag_SPLINT, bp ) )
+        {
             hurt += BROKEN_LIMB_PAIN;
         }
-        bodypart_str_id bp_id = bp.id();
+        const bodypart_str_id bp_id = bp.id();
         //if body part has a bite wound, increase pain by BITE_PAIN
-        if( c.has_effect( effect_bite, bp_id ) ) {
+        if( c.has_effect( effect_bite, bp_id ) )
+        {
             hurt += BITE_PAIN;
         }
         //if body part is infected, increase pain by INFECTION_PAIN
-        if( c.has_effect( effect_infected, bp_id ) ) {
+        if( c.has_effect( effect_infected, bp_id ) )
+        {
             hurt += INFECTION_PAIN;
         }
+        return hurt;
+    };
 
-        if( hurt > worst_hurt_bp ) {
-            worst_hurt_bp = hurt;
-        }
+    const auto &bps = c.get_all_body_parts( true );
+    if( bps.empty() ) {
+        return 0;
     }
-
-    return worst_hurt_bp;
+    return std::ranges::max( bps | std::views::transform( get_pain ) );
 }
 } // namespace
 
