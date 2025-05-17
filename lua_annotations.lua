@@ -23,8 +23,11 @@ game = {}
 ---@field serialize fun(arg1: ActivityTypeId)
 ---@field deserialize fun(arg1: ActivityTypeId)
 ---@field __tostring fun(arg1: ActivityTypeId): string
----@field new fun(): ActivityTypeId | fun(arg1: ActivityTypeId): ActivityTypeId | fun(arg1: string): ActivityTypeId
 ActivityTypeId = {}
+---@return ActivityTypeId
+---@overload fun(arg1: ActivityTypeId): ActivityTypeId
+---@overload fun(arg1: string): ActivityTypeId
+function ActivityTypeId.new() end
 
 ---@class Angle
 ---@field from_arcmin fun(arg1: number): Angle
@@ -37,9 +40,13 @@ ActivityTypeId = {}
 ---@field __le fun(arg1: Angle, arg2: Angle): boolean
 ---@field __lt fun(arg1: Angle, arg2: Angle): boolean
 Angle = {}
+---@return Angle
+function Angle.new() end
 
 ---@class Avatar : Player, Character, Creature
 Avatar = {}
+---@return Avatar
+function Avatar.new() end
 
 ---@class BionicDataId
 ---@field implements_int_id fun(): boolean
@@ -51,8 +58,11 @@ Avatar = {}
 ---@field serialize fun(arg1: BionicDataId)
 ---@field deserialize fun(arg1: BionicDataId)
 ---@field __tostring fun(arg1: BionicDataId): string
----@field new fun(): BionicDataId | fun(arg1: BionicDataId): BionicDataId | fun(arg1: string): BionicDataId
 BionicDataId = {}
+---@return BionicDataId
+---@overload fun(arg1: BionicDataId): BionicDataId
+---@overload fun(arg1: string): BionicDataId
+function BionicDataId.new() end
 
 ---@class BodyPartTypeId
 ---@field implements_int_id fun(): boolean
@@ -65,16 +75,23 @@ BionicDataId = {}
 ---@field serialize fun(arg1: BodyPartTypeId)
 ---@field deserialize fun(arg1: BodyPartTypeId)
 ---@field __tostring fun(arg1: BodyPartTypeId): string
----@field new fun(): BodyPartTypeId | fun(arg1: BodyPartTypeId): BodyPartTypeId | fun(arg1: BodyPartTypeIntId): BodyPartTypeId | fun(arg1: string): BodyPartTypeId
 BodyPartTypeId = {}
+---@return BodyPartTypeId
+---@overload fun(arg1: BodyPartTypeId): BodyPartTypeId
+---@overload fun(arg1: BodyPartTypeIntId): BodyPartTypeId
+---@overload fun(arg1: string): BodyPartTypeId
+function BodyPartTypeId.new() end
 
 ---@class BodyPartTypeIntId
 ---@field is_valid fun(arg1: BodyPartTypeIntId): boolean
 ---@field obj fun(arg1: BodyPartTypeIntId): BodyPartTypeRaw
 ---@field str_id fun(arg1: BodyPartTypeIntId): BodyPartTypeId
 ---@field __tostring fun(arg1: BodyPartTypeIntId): string
----@field new fun(): BodyPartTypeIntId | fun(arg1: BodyPartTypeIntId): BodyPartTypeIntId | fun(arg1: BodyPartTypeId): BodyPartTypeIntId
 BodyPartTypeIntId = {}
+---@return BodyPartTypeIntId
+---@overload fun(arg1: BodyPartTypeIntId): BodyPartTypeIntId
+---@overload fun(arg1: BodyPartTypeId): BodyPartTypeIntId
+function BodyPartTypeIntId.new() end
 
 ---@class Character : Creature
 ---@field cash integer
@@ -329,12 +346,16 @@ BodyPartTypeIntId = {}
 ---@field worn_with_flag fun(arg1: Character, arg2: JsonFlagId, arg3: BodyPartTypeIntId): boolean
 ---@field worn_with_id fun(arg1: Character, arg2: ItypeId, arg3: BodyPartTypeIntId): boolean
 Character = {}
+---@return Character
+function Character.new() end
 
 ---@class CharacterId
 ---@field get_value fun(arg1: CharacterId): integer
 ---@field is_valid fun(arg1: CharacterId): boolean
----@field new fun(): CharacterId | fun(arg1: integer): CharacterId
 CharacterId = {}
+---@return CharacterId
+---@overload fun(arg1: integer): CharacterId
+function CharacterId.new() end
 
 ---@class Creature
 ---@field add_effect fun(arg1: Creature, arg2: EffectTypeId, arg3: TimeDuration, arg4: any, arg5: any) @Effect type, duration, bodypart and intensity
@@ -436,6 +457,8 @@ CharacterId = {}
 ---@field speed_rating fun(arg1: Creature): number
 ---@field stability_roll fun(arg1: Creature): number
 Creature = {}
+---@return Creature
+function Creature.new() end
 
 --- new(damageType, amount, armorPen, remainingArmorMultiplier, damageMultiplier)
 ---@class DamageInstance
@@ -448,8 +471,10 @@ Creature = {}
 ---@field total_damage fun(arg1: DamageInstance): number
 ---@field type_damage fun(arg1: DamageInstance, arg2: DamageType): number
 ---@field __eq fun(arg1: DamageInstance, arg2: DamageInstance): boolean
----@field new fun(): DamageInstance | fun(arg1: DamageType, arg2: number, arg3: number, arg4: number, arg5: number): DamageInstance
 DamageInstance = {}
+---@return DamageInstance
+---@overload fun(arg1: DamageType, arg2: number, arg3: number, arg4: number, arg5: number): DamageInstance
+function DamageInstance.new() end
 
 --- new(damageType, amount, armorPen, remainingArmorMultiplier, damageMultiplier)
 ---@class DamageUnit
@@ -459,8 +484,10 @@ DamageInstance = {}
 ---@field res_pen number
 ---@field type DamageType
 ---@field __eq fun(arg1: DamageUnit, arg2: DamageUnit): boolean
----@field new fun(arg1: DamageType, arg2: number, arg3: number, arg4: number, arg5: number): DamageUnit
 DamageUnit = {}
+---@return DamageUnit
+---@overload fun(arg1: DamageType, arg2: number, arg3: number, arg4: number, arg5: number): DamageUnit
+function DamageUnit.new() end
 
 --- Represents the final dealt damage
 ---@class DealtDamageInstance
@@ -469,6 +496,8 @@ DamageUnit = {}
 ---@field total_damage fun(arg1: DealtDamageInstance): integer
 ---@field type_damage fun(arg1: DealtDamageInstance, arg2: DamageType): integer
 DealtDamageInstance = {}
+---@return DealtDamageInstance
+function DealtDamageInstance.new() end
 
 ---@class DiseaseTypeId
 ---@field implements_int_id fun(): boolean
@@ -480,17 +509,24 @@ DealtDamageInstance = {}
 ---@field serialize fun(arg1: DiseaseTypeId)
 ---@field deserialize fun(arg1: DiseaseTypeId)
 ---@field __tostring fun(arg1: DiseaseTypeId): string
----@field new fun(): DiseaseTypeId | fun(arg1: DiseaseTypeId): DiseaseTypeId | fun(arg1: string): DiseaseTypeId
 DiseaseTypeId = {}
+---@return DiseaseTypeId
+---@overload fun(arg1: DiseaseTypeId): DiseaseTypeId
+---@overload fun(arg1: string): DiseaseTypeId
+function DiseaseTypeId.new() end
 
 ---@class DistributionGrid
 ---@field get_resource fun(arg1: DistributionGrid, arg2: boolean): integer @Boolean argument controls recursive behavior
 ---@field mod_resource fun(arg1: DistributionGrid, arg2: integer, arg3: boolean): integer @Boolean argument controls recursive behavior
 DistributionGrid = {}
+---@return DistributionGrid
+function DistributionGrid.new() end
 
 ---@class DistributionGridTracker
 ---@field get_grid_at_abs_ms fun(arg1: DistributionGridTracker, arg2: Tripoint): DistributionGrid
 DistributionGridTracker = {}
+---@return DistributionGridTracker
+function DistributionGridTracker.new() end
 
 ---@class EffectTypeId
 ---@field implements_int_id fun(): boolean
@@ -502,8 +538,11 @@ DistributionGridTracker = {}
 ---@field serialize fun(arg1: EffectTypeId)
 ---@field deserialize fun(arg1: EffectTypeId)
 ---@field __tostring fun(arg1: EffectTypeId): string
----@field new fun(): EffectTypeId | fun(arg1: EffectTypeId): EffectTypeId | fun(arg1: string): EffectTypeId
 EffectTypeId = {}
+---@return EffectTypeId
+---@overload fun(arg1: EffectTypeId): EffectTypeId
+---@overload fun(arg1: string): EffectTypeId
+function EffectTypeId.new() end
 
 ---@class Energy
 ---@field from_joule fun(arg1: integer): Energy
@@ -514,6 +553,8 @@ EffectTypeId = {}
 ---@field __le fun(arg1: Energy, arg2: Energy): boolean
 ---@field __lt fun(arg1: Energy, arg2: Energy): boolean
 Energy = {}
+---@return Energy
+function Energy.new() end
 
 ---@class FactionId
 ---@field implements_int_id fun(): boolean
@@ -525,12 +566,17 @@ Energy = {}
 ---@field serialize fun(arg1: FactionId)
 ---@field deserialize fun(arg1: FactionId)
 ---@field __tostring fun(arg1: FactionId): string
----@field new fun(): FactionId | fun(arg1: FactionId): FactionId | fun(arg1: string): FactionId
 FactionId = {}
+---@return FactionId
+---@overload fun(arg1: FactionId): FactionId
+---@overload fun(arg1: string): FactionId
+function FactionId.new() end
 
 ---@class FactionRaw
 ---@field str_id fun(arg1: FactionRaw): FactionId
 FactionRaw = {}
+---@return FactionRaw
+function FactionRaw.new() end
 
 ---@class FieldTypeId
 ---@field implements_int_id fun(): boolean
@@ -543,16 +589,23 @@ FactionRaw = {}
 ---@field serialize fun(arg1: FieldTypeId)
 ---@field deserialize fun(arg1: FieldTypeId)
 ---@field __tostring fun(arg1: FieldTypeId): string
----@field new fun(): FieldTypeId | fun(arg1: FieldTypeId): FieldTypeId | fun(arg1: FieldTypeIntId): FieldTypeId | fun(arg1: string): FieldTypeId
 FieldTypeId = {}
+---@return FieldTypeId
+---@overload fun(arg1: FieldTypeId): FieldTypeId
+---@overload fun(arg1: FieldTypeIntId): FieldTypeId
+---@overload fun(arg1: string): FieldTypeId
+function FieldTypeId.new() end
 
 ---@class FieldTypeIntId
 ---@field is_valid fun(arg1: FieldTypeIntId): boolean
 ---@field obj fun(arg1: FieldTypeIntId): FieldTypeRaw
 ---@field str_id fun(arg1: FieldTypeIntId): FieldTypeId
 ---@field __tostring fun(arg1: FieldTypeIntId): string
----@field new fun(): FieldTypeIntId | fun(arg1: FieldTypeIntId): FieldTypeIntId | fun(arg1: FieldTypeId): FieldTypeIntId
 FieldTypeIntId = {}
+---@return FieldTypeIntId
+---@overload fun(arg1: FieldTypeIntId): FieldTypeIntId
+---@overload fun(arg1: FieldTypeId): FieldTypeIntId
+function FieldTypeIntId.new() end
 
 ---@class FurnId
 ---@field implements_int_id fun(): boolean
@@ -565,16 +618,23 @@ FieldTypeIntId = {}
 ---@field serialize fun(arg1: FurnId)
 ---@field deserialize fun(arg1: FurnId)
 ---@field __tostring fun(arg1: FurnId): string
----@field new fun(): FurnId | fun(arg1: FurnId): FurnId | fun(arg1: FurnIntId): FurnId | fun(arg1: string): FurnId
 FurnId = {}
+---@return FurnId
+---@overload fun(arg1: FurnId): FurnId
+---@overload fun(arg1: FurnIntId): FurnId
+---@overload fun(arg1: string): FurnId
+function FurnId.new() end
 
 ---@class FurnIntId
 ---@field is_valid fun(arg1: FurnIntId): boolean
 ---@field obj fun(arg1: FurnIntId): FurnRaw
 ---@field str_id fun(arg1: FurnIntId): FurnId
 ---@field __tostring fun(arg1: FurnIntId): string
----@field new fun(): FurnIntId | fun(arg1: FurnIntId): FurnIntId | fun(arg1: FurnId): FurnIntId
 FurnIntId = {}
+---@return FurnIntId
+---@overload fun(arg1: FurnIntId): FurnIntId
+---@overload fun(arg1: FurnId): FurnIntId
+function FurnIntId.new() end
 
 ---@class FurnRaw
 ---@field close FurnId
@@ -583,6 +643,8 @@ FurnIntId = {}
 ---@field int_id fun(arg1: FurnRaw): FurnIntId
 ---@field str_id fun(arg1: FurnRaw): FurnId
 FurnRaw = {}
+---@return FurnRaw
+function FurnRaw.new() end
 
 ---@class Item
 ---@field charges integer
@@ -693,11 +755,15 @@ FurnRaw = {}
 ---@field unset_flag fun(arg1: Item, arg2: JsonFlagId)
 ---@field unset_flags fun(arg1: Item)
 Item = {}
+---@return Item
+function Item.new() end
 
 --- Iterate over this using pairs()
 ---@class ItemStack
 ---@field __pairs fun(arg1: ItemStack): any
 ItemStack = {}
+---@return ItemStack
+function ItemStack.new() end
 
 ---@class ItypeId
 ---@field implements_int_id fun(): boolean
@@ -709,8 +775,11 @@ ItemStack = {}
 ---@field serialize fun(arg1: ItypeId)
 ---@field deserialize fun(arg1: ItypeId)
 ---@field __tostring fun(arg1: ItypeId): string
----@field new fun(): ItypeId | fun(arg1: ItypeId): ItypeId | fun(arg1: string): ItypeId
 ItypeId = {}
+---@return ItypeId
+---@overload fun(arg1: ItypeId): ItypeId
+---@overload fun(arg1: string): ItypeId
+function ItypeId.new() end
 
 ---@class JsonFlagId
 ---@field implements_int_id fun(): boolean
@@ -722,8 +791,11 @@ ItypeId = {}
 ---@field serialize fun(arg1: JsonFlagId)
 ---@field deserialize fun(arg1: JsonFlagId)
 ---@field __tostring fun(arg1: JsonFlagId): string
----@field new fun(): JsonFlagId | fun(arg1: JsonFlagId): JsonFlagId | fun(arg1: string): JsonFlagId
 JsonFlagId = {}
+---@return JsonFlagId
+---@overload fun(arg1: JsonFlagId): JsonFlagId
+---@overload fun(arg1: string): JsonFlagId
+function JsonFlagId.new() end
 
 ---@class JsonTraitFlagId
 ---@field implements_int_id fun(): boolean
@@ -735,8 +807,11 @@ JsonFlagId = {}
 ---@field serialize fun(arg1: JsonTraitFlagId)
 ---@field deserialize fun(arg1: JsonTraitFlagId)
 ---@field __tostring fun(arg1: JsonTraitFlagId): string
----@field new fun(): JsonTraitFlagId | fun(arg1: JsonTraitFlagId): JsonTraitFlagId | fun(arg1: string): JsonTraitFlagId
 JsonTraitFlagId = {}
+---@return JsonTraitFlagId
+---@overload fun(arg1: JsonTraitFlagId): JsonTraitFlagId
+---@overload fun(arg1: string): JsonTraitFlagId
+function JsonTraitFlagId.new() end
 
 ---@class Map
 ---@field add_field_at fun(arg1: Map, arg2: Tripoint, arg3: FieldTypeIntId, arg4: integer, arg5: TimeDuration): boolean
@@ -765,10 +840,14 @@ JsonTraitFlagId = {}
 ---@field set_ter_at fun(arg1: Map, arg2: Tripoint, arg3: TerIntId): boolean
 ---@field set_trap_at fun(arg1: Map, arg2: Tripoint, arg3: TrapIntId) @Set a trap at a position on the map. It can also replace existing trap, even with `trap_null`.
 Map = {}
+---@return Map
+function Map.new() end
 
 ---@class MapStack : ItemStack
 ---@field as_item_stack fun(arg1: MapStack): ItemStack
 MapStack = {}
+---@return MapStack
+function MapStack.new() end
 
 ---@class MartialArtsBuffId
 ---@field implements_int_id fun(): boolean
@@ -780,8 +859,11 @@ MapStack = {}
 ---@field serialize fun(arg1: MartialArtsBuffId)
 ---@field deserialize fun(arg1: MartialArtsBuffId)
 ---@field __tostring fun(arg1: MartialArtsBuffId): string
----@field new fun(): MartialArtsBuffId | fun(arg1: MartialArtsBuffId): MartialArtsBuffId | fun(arg1: string): MartialArtsBuffId
 MartialArtsBuffId = {}
+---@return MartialArtsBuffId
+---@overload fun(arg1: MartialArtsBuffId): MartialArtsBuffId
+---@overload fun(arg1: string): MartialArtsBuffId
+function MartialArtsBuffId.new() end
 
 ---@class MartialArtsTechniqueId
 ---@field implements_int_id fun(): boolean
@@ -793,8 +875,11 @@ MartialArtsBuffId = {}
 ---@field serialize fun(arg1: MartialArtsTechniqueId)
 ---@field deserialize fun(arg1: MartialArtsTechniqueId)
 ---@field __tostring fun(arg1: MartialArtsTechniqueId): string
----@field new fun(): MartialArtsTechniqueId | fun(arg1: MartialArtsTechniqueId): MartialArtsTechniqueId | fun(arg1: string): MartialArtsTechniqueId
 MartialArtsTechniqueId = {}
+---@return MartialArtsTechniqueId
+---@overload fun(arg1: MartialArtsTechniqueId): MartialArtsTechniqueId
+---@overload fun(arg1: string): MartialArtsTechniqueId
+function MartialArtsTechniqueId.new() end
 
 ---@class Mass
 ---@field from_gram fun(arg1: integer): Mass
@@ -809,6 +894,8 @@ MartialArtsTechniqueId = {}
 ---@field __le fun(arg1: Mass, arg2: Mass): boolean
 ---@field __lt fun(arg1: Mass, arg2: Mass): boolean
 Mass = {}
+---@return Mass
+function Mass.new() end
 
 ---@class Monster : Creature
 ---@field anger integer
@@ -848,6 +935,8 @@ Mass = {}
 ---@field try_upgrade fun(arg1: Monster, arg2: boolean)
 ---@field wander_to fun(arg1: Monster, arg2: Tripoint, arg3: integer)
 Monster = {}
+---@return Monster
+function Monster.new() end
 
 ---@class MonsterFactionId
 ---@field implements_int_id fun(): boolean
@@ -860,16 +949,23 @@ Monster = {}
 ---@field serialize fun(arg1: MonsterFactionId)
 ---@field deserialize fun(arg1: MonsterFactionId)
 ---@field __tostring fun(arg1: MonsterFactionId): string
----@field new fun(): MonsterFactionId | fun(arg1: MonsterFactionId): MonsterFactionId | fun(arg1: MonsterFactionIntId): MonsterFactionId | fun(arg1: string): MonsterFactionId
 MonsterFactionId = {}
+---@return MonsterFactionId
+---@overload fun(arg1: MonsterFactionId): MonsterFactionId
+---@overload fun(arg1: MonsterFactionIntId): MonsterFactionId
+---@overload fun(arg1: string): MonsterFactionId
+function MonsterFactionId.new() end
 
 ---@class MonsterFactionIntId
 ---@field is_valid fun(arg1: MonsterFactionIntId): boolean
 ---@field obj fun(arg1: MonsterFactionIntId): MonsterFactionRaw
 ---@field str_id fun(arg1: MonsterFactionIntId): MonsterFactionId
 ---@field __tostring fun(arg1: MonsterFactionIntId): string
----@field new fun(): MonsterFactionIntId | fun(arg1: MonsterFactionIntId): MonsterFactionIntId | fun(arg1: MonsterFactionId): MonsterFactionIntId
 MonsterFactionIntId = {}
+---@return MonsterFactionIntId
+---@overload fun(arg1: MonsterFactionIntId): MonsterFactionIntId
+---@overload fun(arg1: MonsterFactionId): MonsterFactionIntId
+function MonsterFactionIntId.new() end
 
 ---@class MoraleTypeDataId
 ---@field implements_int_id fun(): boolean
@@ -881,8 +977,11 @@ MonsterFactionIntId = {}
 ---@field serialize fun(arg1: MoraleTypeDataId)
 ---@field deserialize fun(arg1: MoraleTypeDataId)
 ---@field __tostring fun(arg1: MoraleTypeDataId): string
----@field new fun(): MoraleTypeDataId | fun(arg1: MoraleTypeDataId): MoraleTypeDataId | fun(arg1: string): MoraleTypeDataId
 MoraleTypeDataId = {}
+---@return MoraleTypeDataId
+---@overload fun(arg1: MoraleTypeDataId): MoraleTypeDataId
+---@overload fun(arg1: string): MoraleTypeDataId
+function MoraleTypeDataId.new() end
 
 ---@class MtypeId
 ---@field implements_int_id fun(): boolean
@@ -894,8 +993,11 @@ MoraleTypeDataId = {}
 ---@field serialize fun(arg1: MtypeId)
 ---@field deserialize fun(arg1: MtypeId)
 ---@field __tostring fun(arg1: MtypeId): string
----@field new fun(): MtypeId | fun(arg1: MtypeId): MtypeId | fun(arg1: string): MtypeId
 MtypeId = {}
+---@return MtypeId
+---@overload fun(arg1: MtypeId): MtypeId
+---@overload fun(arg1: string): MtypeId
+function MtypeId.new() end
 
 ---@class MutationBranchId
 ---@field implements_int_id fun(): boolean
@@ -907,8 +1009,11 @@ MtypeId = {}
 ---@field serialize fun(arg1: MutationBranchId)
 ---@field deserialize fun(arg1: MutationBranchId)
 ---@field __tostring fun(arg1: MutationBranchId): string
----@field new fun(): MutationBranchId | fun(arg1: MutationBranchId): MutationBranchId | fun(arg1: string): MutationBranchId
 MutationBranchId = {}
+---@return MutationBranchId
+---@overload fun(arg1: MutationBranchId): MutationBranchId
+---@overload fun(arg1: string): MutationBranchId
+function MutationBranchId.new() end
 
 ---@class MutationBranchRaw
 ---@field activated boolean @Whether this mutation can be activated at will.
@@ -982,6 +1087,8 @@ MutationBranchId = {}
 ---@field thresh_requirements fun(arg1: MutationBranchRaw): any @Lists the threshold mutation(s) required to gain this mutation.
 ---@field __tostring fun(arg1: MutationBranchRaw): string
 MutationBranchRaw = {}
+---@return MutationBranchRaw
+function MutationBranchRaw.new() end
 
 ---@class MutationCategoryTraitId
 ---@field implements_int_id fun(): boolean
@@ -993,8 +1100,11 @@ MutationBranchRaw = {}
 ---@field serialize fun(arg1: MutationCategoryTraitId)
 ---@field deserialize fun(arg1: MutationCategoryTraitId)
 ---@field __tostring fun(arg1: MutationCategoryTraitId): string
----@field new fun(): MutationCategoryTraitId | fun(arg1: MutationCategoryTraitId): MutationCategoryTraitId | fun(arg1: string): MutationCategoryTraitId
 MutationCategoryTraitId = {}
+---@return MutationCategoryTraitId
+---@overload fun(arg1: MutationCategoryTraitId): MutationCategoryTraitId
+---@overload fun(arg1: string): MutationCategoryTraitId
+function MutationCategoryTraitId.new() end
 
 ---@class Npc : Player, Character, Creature
 ---@field current_activity_id ActivityTypeId
@@ -1043,6 +1153,8 @@ MutationCategoryTraitId = {}
 ---@field turned_hostile fun(arg1: Npc): boolean
 ---@field warn_about fun(arg1: Npc, arg2: string, arg3: TimeDuration, arg4: string, arg5: integer, arg6: Tripoint)
 Npc = {}
+---@return Npc
+function Npc.new() end
 
 ---@class NpcOpinion
 ---@field anger integer
@@ -1050,19 +1162,24 @@ Npc = {}
 ---@field owed integer
 ---@field trust integer
 ---@field value integer
----@field new fun(): NpcOpinion | fun(arg1: integer, arg2: integer, arg3: integer, arg4: integer, arg5: integer): NpcOpinion
 NpcOpinion = {}
+---@return NpcOpinion
+---@overload fun(arg1: integer, arg2: integer, arg3: integer, arg4: integer, arg5: integer): NpcOpinion
+function NpcOpinion.new() end
 
 ---@class NpcPersonality
 ---@field aggression integer
 ---@field altruism integer
 ---@field bravery integer
 ---@field collector integer
----@field new fun(): NpcPersonality
 NpcPersonality = {}
+---@return NpcPersonality
+function NpcPersonality.new() end
 
 ---@class Player : Character, Creature
 Player = {}
+---@return Player
+function Player.new() end
 
 ---@class Point
 ---@field x integer
@@ -1080,16 +1197,20 @@ Player = {}
 ---@field __sub fun(arg1: Point, arg2: Point): Point
 ---@field __tostring fun(arg1: Point): string
 ---@field __unm fun(arg1: Point): Point
----@field new fun(): Point | fun(arg1: Point): Point | fun(arg1: integer, arg2: integer): Point
 Point = {}
+---@return Point
+---@overload fun(arg1: Point): Point
+---@overload fun(arg1: integer, arg2: integer): Point
+function Point.new() end
 
 ---@class PopupInputStr
 ---@field desc fun(arg1: PopupInputStr, arg2: string) @`desc` is above input field.
 ---@field query_int fun(arg1: PopupInputStr): integer @Returns your input, but allows numbers only.
 ---@field query_str fun(arg1: PopupInputStr): string @Returns your input.
 ---@field title fun(arg1: PopupInputStr, arg2: string) @`title` is on the left of input field.
----@field new fun(): PopupInputStr
 PopupInputStr = {}
+---@return PopupInputStr
+function PopupInputStr.new() end
 
 ---@class QueryPopup
 ---@field allow_any_key fun(arg1: QueryPopup, arg2: boolean) @Set whether to allow any key
@@ -1098,8 +1219,9 @@ PopupInputStr = {}
 ---@field query fun(arg1: QueryPopup): string @Returns selected action
 ---@field query_yn fun(arg1: QueryPopup): string @Returns `YES` or `NO`. If ESC pressed, returns `NO`.
 ---@field query_ynq fun(arg1: QueryPopup): string @Returns `YES`, `NO` or `QUIT`. If ESC pressed, returns `QUIT`.
----@field new fun(): QueryPopup
 QueryPopup = {}
+---@return QueryPopup
+function QueryPopup.new() end
 
 ---@class RecipeId
 ---@field implements_int_id fun(): boolean
@@ -1111,8 +1233,11 @@ QueryPopup = {}
 ---@field serialize fun(arg1: RecipeId)
 ---@field deserialize fun(arg1: RecipeId)
 ---@field __tostring fun(arg1: RecipeId): string
----@field new fun(): RecipeId | fun(arg1: RecipeId): RecipeId | fun(arg1: string): RecipeId
 RecipeId = {}
+---@return RecipeId
+---@overload fun(arg1: RecipeId): RecipeId
+---@overload fun(arg1: string): RecipeId
+function RecipeId.new() end
 
 ---@class SkillId
 ---@field implements_int_id fun(): boolean
@@ -1124,8 +1249,11 @@ RecipeId = {}
 ---@field serialize fun(arg1: SkillId)
 ---@field deserialize fun(arg1: SkillId)
 ---@field __tostring fun(arg1: SkillId): string
----@field new fun(): SkillId | fun(arg1: SkillId): SkillId | fun(arg1: string): SkillId
 SkillId = {}
+---@return SkillId
+---@overload fun(arg1: SkillId): SkillId
+---@overload fun(arg1: string): SkillId
+function SkillId.new() end
 
 ---@class SkillLevel
 ---@field can_train fun(arg1: SkillLevel): boolean
@@ -1134,12 +1262,16 @@ SkillId = {}
 ---@field level fun(arg1: SkillLevel): integer
 ---@field train fun(arg1: SkillLevel, arg2: integer, arg3: boolean)
 SkillLevel = {}
+---@return SkillLevel
+function SkillLevel.new() end
 
 ---@class SkillLevelMap : any
 ---@field get_skill_level fun(arg1: SkillLevelMap, arg2: SkillId): integer
 ---@field get_skill_level_object fun(arg1: SkillLevelMap, arg2: SkillId): SkillLevel
 ---@field mod_skill_level fun(arg1: SkillLevelMap, arg2: SkillId, arg3: integer)
 SkillLevelMap = {}
+---@return SkillLevelMap
+function SkillLevelMap.new() end
 
 ---@class SpeciesTypeId
 ---@field implements_int_id fun(): boolean
@@ -1151,8 +1283,11 @@ SkillLevelMap = {}
 ---@field serialize fun(arg1: SpeciesTypeId)
 ---@field deserialize fun(arg1: SpeciesTypeId)
 ---@field __tostring fun(arg1: SpeciesTypeId): string
----@field new fun(): SpeciesTypeId | fun(arg1: SpeciesTypeId): SpeciesTypeId | fun(arg1: string): SpeciesTypeId
 SpeciesTypeId = {}
+---@return SpeciesTypeId
+---@overload fun(arg1: SpeciesTypeId): SpeciesTypeId
+---@overload fun(arg1: string): SpeciesTypeId
+function SpeciesTypeId.new() end
 
 --- The class used for spells that *a player* knows, casts, and gains experience for using. If a given spell is not supposed to be directly cast by a player, consider using SpellSimple instead.
 ---@class Spell
@@ -1167,8 +1302,10 @@ SpeciesTypeId = {}
 ---@field set_exp fun(arg1: Spell, arg2: integer)
 ---@field set_level fun(arg1: Spell, arg2: integer)
 ---@field xp fun(arg1: Spell): integer
----@field new fun(arg1: SpellTypeId, arg2: integer): Spell
 Spell = {}
+---@return Spell
+---@overload fun(arg1: SpellTypeId, arg2: integer): Spell
+function Spell.new() end
 
 --- The type for basic spells. If you don't need to track XP from casting (e.g., if a spell is intended to be cast by anything *other than* a player), this is likely the appropriate type. Otherwise, see the Spell type.
 ---@class SpellSimple
@@ -1180,8 +1317,11 @@ Spell = {}
 ---@field max_level fun(arg1: SpellSimple): integer @Returns the defined maximum level of this SpellSimple instance, if defined. Otherwise, returns 0.
 ---@field prompt_cast fun(arg1: SpellTypeId, arg2: Tripoint, arg3: any): SpellSimple @Static function: Creates and immediately casts a SimpleSpell, then returns the new spell for potential reuse. If the given tripoint is the player's location, the spell will be locked to the player. (This does not necessarily cause friendly fire!) If an integer is specified, the spell will be cast at that level.
 ---@field __tostring fun(arg1: SpellSimple): string
----@field new fun(arg1: SpellTypeId, arg2: boolean): SpellSimple | fun(arg1: SpellTypeId, arg2: boolean, arg3: integer): SpellSimple
 SpellSimple = {}
+---@return SpellSimple
+---@overload fun(arg1: SpellTypeId, arg2: boolean): SpellSimple
+---@overload fun(arg1: SpellTypeId, arg2: boolean, arg3: integer): SpellSimple
+function SpellSimple.new() end
 
 ---@class SpellTypeId
 ---@field implements_int_id fun(): boolean
@@ -1193,8 +1333,11 @@ SpellSimple = {}
 ---@field serialize fun(arg1: SpellTypeId)
 ---@field deserialize fun(arg1: SpellTypeId)
 ---@field __tostring fun(arg1: SpellTypeId): string
----@field new fun(): SpellTypeId | fun(arg1: SpellTypeId): SpellTypeId | fun(arg1: string): SpellTypeId
 SpellTypeId = {}
+---@return SpellTypeId
+---@overload fun(arg1: SpellTypeId): SpellTypeId
+---@overload fun(arg1: string): SpellTypeId
+function SpellTypeId.new() end
 
 --- The 'raw' type for storing the information defining every spell in the game. It's not possible to cast directly from this type; check SpellSimple and Spell.
 ---@class SpellTypeRaw
@@ -1233,6 +1376,8 @@ SpellTypeId = {}
 ---@field get_all fun(): any @Returns a (long) list of every spell in the game.
 ---@field __tostring fun(arg1: SpellTypeRaw): string
 SpellTypeRaw = {}
+---@return SpellTypeRaw
+function SpellTypeRaw.new() end
 
 ---@class TerId
 ---@field implements_int_id fun(): boolean
@@ -1245,16 +1390,23 @@ SpellTypeRaw = {}
 ---@field serialize fun(arg1: TerId)
 ---@field deserialize fun(arg1: TerId)
 ---@field __tostring fun(arg1: TerId): string
----@field new fun(): TerId | fun(arg1: TerId): TerId | fun(arg1: TerIntId): TerId | fun(arg1: string): TerId
 TerId = {}
+---@return TerId
+---@overload fun(arg1: TerId): TerId
+---@overload fun(arg1: TerIntId): TerId
+---@overload fun(arg1: string): TerId
+function TerId.new() end
 
 ---@class TerIntId
 ---@field is_valid fun(arg1: TerIntId): boolean
 ---@field obj fun(arg1: TerIntId): TerRaw
 ---@field str_id fun(arg1: TerIntId): TerId
 ---@field __tostring fun(arg1: TerIntId): string
----@field new fun(): TerIntId | fun(arg1: TerIntId): TerIntId | fun(arg1: TerId): TerIntId
 TerIntId = {}
+---@return TerIntId
+---@overload fun(arg1: TerIntId): TerIntId
+---@overload fun(arg1: TerId): TerIntId
+function TerIntId.new() end
 
 ---@class TerRaw
 ---@field close TerId
@@ -1266,6 +1418,8 @@ TerIntId = {}
 ---@field int_id fun(arg1: TerRaw): TerIntId
 ---@field str_id fun(arg1: TerRaw): TerId
 TerRaw = {}
+---@return TerRaw
+function TerRaw.new() end
 
 --- Represent duration between 2 fixed points in time
 ---@class TimeDuration
@@ -1290,8 +1444,9 @@ TerRaw = {}
 ---@field __sub fun(arg1: TimeDuration, arg2: TimeDuration): TimeDuration
 ---@field __tostring fun(arg1: TimeDuration): string
 ---@field __unm fun(arg1: TimeDuration): TimeDuration
----@field new fun(): TimeDuration
 TimeDuration = {}
+---@return TimeDuration
+function TimeDuration.new() end
 
 --- Represent fixed point in time
 ---@class TimePoint
@@ -1312,11 +1467,14 @@ TimeDuration = {}
 ---@field __lt fun(arg1: TimePoint, arg2: TimePoint): boolean
 ---@field __sub fun(arg1: TimePoint, arg2: TimePoint): TimeDuration | fun(arg1: TimePoint, arg2: TimeDuration): TimePoint
 ---@field __tostring fun(arg1: TimePoint): string
----@field new fun(): TimePoint
 TimePoint = {}
+---@return TimePoint
+function TimePoint.new() end
 
 ---@class Tinymap : Map
 Tinymap = {}
+---@return Tinymap
+function Tinymap.new() end
 
 ---@class TrapId
 ---@field implements_int_id fun(): boolean
@@ -1329,16 +1487,23 @@ Tinymap = {}
 ---@field serialize fun(arg1: TrapId)
 ---@field deserialize fun(arg1: TrapId)
 ---@field __tostring fun(arg1: TrapId): string
----@field new fun(): TrapId | fun(arg1: TrapId): TrapId | fun(arg1: TrapIntId): TrapId | fun(arg1: string): TrapId
 TrapId = {}
+---@return TrapId
+---@overload fun(arg1: TrapId): TrapId
+---@overload fun(arg1: TrapIntId): TrapId
+---@overload fun(arg1: string): TrapId
+function TrapId.new() end
 
 ---@class TrapIntId
 ---@field is_valid fun(arg1: TrapIntId): boolean
 ---@field obj fun(arg1: TrapIntId): TrapRaw
 ---@field str_id fun(arg1: TrapIntId): TrapId
 ---@field __tostring fun(arg1: TrapIntId): string
----@field new fun(): TrapIntId | fun(arg1: TrapIntId): TrapIntId | fun(arg1: TrapId): TrapIntId
 TrapIntId = {}
+---@return TrapIntId
+---@overload fun(arg1: TrapIntId): TrapIntId
+---@overload fun(arg1: TrapId): TrapIntId
+function TrapIntId.new() end
 
 ---@class Tripoint
 ---@field x integer
@@ -1358,8 +1523,12 @@ TrapIntId = {}
 ---@field __sub fun(arg1: Tripoint, arg2: Tripoint): Tripoint | fun(arg1: Tripoint, arg2: Point): Tripoint
 ---@field __tostring fun(arg1: Tripoint): string
 ---@field __unm fun(arg1: Tripoint): Tripoint
----@field new fun(): Tripoint | fun(arg1: Point, arg2: integer): Tripoint | fun(arg1: Tripoint): Tripoint | fun(arg1: integer, arg2: integer, arg3: integer): Tripoint
 Tripoint = {}
+---@return Tripoint
+---@overload fun(arg1: Point, arg2: integer): Tripoint
+---@overload fun(arg1: Tripoint): Tripoint
+---@overload fun(arg1: integer, arg2: integer, arg3: integer): Tripoint
+function Tripoint.new() end
 
 ---@class UiList
 ---@field entries any @Entries from uilist. Remember, in lua, the first element of vector is `entries[1]`, not `entries[0]`.
@@ -1376,8 +1545,9 @@ Tripoint = {}
 ---@field text_color fun(arg1: UiList, arg2: Color) @Changes the color. Default color is `c_light_gray`.
 ---@field title fun(arg1: UiList, arg2: string) @Sets title which is on the top line.
 ---@field title_color fun(arg1: UiList, arg2: Color) @Changes the color. Default color is `c_green`.
----@field new fun(): UiList
 UiList = {}
+---@return UiList
+function UiList.new() end
 
 --- This type came from UiList.
 ---@class UiListEntry
@@ -1387,6 +1557,8 @@ UiList = {}
 ---@field txt string @Entry text
 ---@field txt_color fun(arg1: UiListEntry, arg2: Color) @Entry text color. Its default color is `c_red_red`, which makes color of the entry same as what `uilist` decides. So if you want to make color different, choose one except `c_red_red`.
 UiListEntry = {}
+---@return UiListEntry
+function UiListEntry.new() end
 
 ---@class Volume
 ---@field from_liter fun(arg1: integer): Volume
@@ -1397,6 +1569,8 @@ UiListEntry = {}
 ---@field __le fun(arg1: Volume, arg2: Volume): boolean
 ---@field __lt fun(arg1: Volume, arg2: Volume): boolean
 Volume = {}
+---@return Volume
+function Volume.new() end
 
 --================---- Libraries ----================
 
