@@ -54,6 +54,7 @@ TEST_CASE( "boltcut", "[activity][boltcut]" )
     auto setup_dummy = [&dummy]() -> item & {
         item &cutter = dummy.i_add( item::spawn( itype_test_boltcutter ) );
         dummy.wield( cutter );
+        dummy.i_add( item::spawn( itype_id( "atomic_lamp" ) ) );
 
         REQUIRE( dummy.primary_weapon().typeId() == itype_test_boltcutter );
 
@@ -176,6 +177,7 @@ TEST_CASE( "boltcut", "[activity][boltcut]" )
             mp.furn_set( tripoint_zero, furn_t_test_f_boltcut3 );
             REQUIRE( mp.furn( tripoint_zero ) == furn_t_test_f_boltcut3 );
 
+            dummy.i_add( item::spawn( itype_id( "atomic_lamp" ) ) );
             item &boltcutter_elec = dummy.i_add( item::spawn( itype_test_boltcutter_elec,
                                                  calendar::start_of_cataclysm, 2 ) );
             dummy.wield( boltcutter_elec );
