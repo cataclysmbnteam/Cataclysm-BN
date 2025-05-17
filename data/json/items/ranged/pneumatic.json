@@ -39,7 +39,7 @@
     "type": "GUN",
     "color": "dark_gray",
     "name": { "str": "pneumatic bolt driver" },
-    "description": "A ten-shot, internal magazine-fed, pneumatic crossbow sometimes used by hunting enthusiasts who want the power of a compound crossbow without the risk of losing their prey if they miss.  Be careful where you reload it, pumping air into the tank takes a few seconds.  It is pretty quiet and quite deadly.",
+    "description": "A ten-shot, revolving barrel, pneumatic crossbow sometimes used by hunting enthusiasts who want the power of a compound crossbow without the risk of losing their prey if they miss.  Be careful where you reload it, pumping air into the tank takes a few seconds.  It is pretty quiet and quite deadly.",
     "price": "2900 USD",
     "price_postapoc": "120 USD",
     "material": [ "steel", "wood" ],
