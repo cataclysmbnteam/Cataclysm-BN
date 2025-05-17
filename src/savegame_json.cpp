@@ -1050,6 +1050,8 @@ void avatar::store( JsonOut &json ) const
         json.end_object();
     }
     json.end_array();
+
+    json.member( "bonus_xp", bonus_xp );
 }
 
 void avatar::deserialize( JsonIn &jsin )
@@ -1198,6 +1200,8 @@ void avatar::load( const JsonObject &data )
             warning_record[faction_id( fac_id )] = std::make_pair( warning_num, warning_time );
         }
     }
+
+    data.read( "bonus_xp", bonus_xp );
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////

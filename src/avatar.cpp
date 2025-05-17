@@ -467,7 +467,7 @@ bool avatar::read( item *loc, const bool continuous )
             nonlearners.insert( { elem, _( " (deaf)" ) } );
         } else if( !morale_req ) {
             nonlearners.insert( { elem, _( " (too sad)" ) } );
-        } else if( skill && lvl < type->level ) {
+        } else if( skill && lvl < type->level && elem->get_skill_level_object( skill ).can_train() ) {
             const double penalty = static_cast<double>( time_taken ) / time_to_read( it, *reader, elem );
             learners.insert( {elem, elem == reader ? _( " (reading aloud to you)" ) : ""} );
             act.values.push_back( elem->getID().get_value() );
@@ -513,12 +513,13 @@ bool avatar::read( item *loc, const bool continuous )
                 menu.entries.push_back( header );
             };
 
-            menu.title = !skill ? string_format( _( "Reading %s" ), it.type_name() ) :
+            bool can_train = skill && get_skill_level_object( skill ).can_train();
+            menu.title = !can_train ? string_format( _( "Reading %s" ), it.type_name() ) :
                          //~ %1$s: book name, %2$s: skill name, %3$d and %4$d: skill levels
                          string_format( _( "Reading %1$s (can train %2$s from %3$d to %4$d)" ), it.type_name(),
                                         skill_name, type->req, type->level );
 
-            if( skill ) {
+            if( can_train ) {
                 const int lvl = get_skill_level( skill );
                 menu.addentry( getID().get_value(), lvl < type->level, '0',
                                string_format( _( "Read until you gain a level | current level: %d" ), lvl ) );
