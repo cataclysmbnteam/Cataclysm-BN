@@ -77,6 +77,12 @@ BodyPartTypeId = {}
 BodyPartTypeIntId = {}
 
 ---@class Character : Creature
+---@field cash integer
+---@field focus_pool integer
+---@field follower_ids any
+---@field male boolean
+---@field mutation_category_level any
+---@field name string
 ---@field activate_mutation fun(arg1: Character, arg2: MutationBranchId)
 ---@field add_addiction fun(arg1: Character, arg2: AddictionType, arg3: integer)
 ---@field add_bionic fun(arg1: Character, arg2: BionicDataId)
@@ -103,7 +109,6 @@ BodyPartTypeIntId = {}
 ---@field can_run fun(arg1: Character): boolean
 ---@field can_unwield fun(arg1: Character, arg2: Item): boolean
 ---@field can_wield fun(arg1: Character, arg2: Item): boolean
----@field cash integer
 ---@field check_mount_is_spooked fun(arg1: Character): boolean
 ---@field check_mount_will_move fun(arg1: Character, arg2: Tripoint): boolean
 ---@field clear_bionics fun(arg1: Character)
@@ -116,8 +121,6 @@ BodyPartTypeIntId = {}
 ---@field dismount fun(arg1: Character)
 ---@field expose_to_disease fun(arg1: Character, arg2: DiseaseTypeId)
 ---@field fall_asleep fun(arg1: Character) | fun(arg1: Character, arg2: TimeDuration)
----@field focus_pool integer
----@field follower_ids any
 ---@field forced_dismount fun(arg1: Character)
 ---@field get_all_skills fun(arg1: Character): SkillLevelMap
 ---@field get_armor_acid fun(arg1: Character, arg2: BodyPartTypeIntId): integer
@@ -242,7 +245,6 @@ BodyPartTypeIntId = {}
 ---@field mabuff_dodge_bonus fun(arg1: Character): number
 ---@field mabuff_speed_bonus fun(arg1: Character): integer
 ---@field mabuff_tohit_bonus fun(arg1: Character): number
----@field male boolean
 ---@field max_stored_kcal fun(arg1: Character): integer
 ---@field metabolic_rate fun(arg1: Character): number
 ---@field mod_base_age fun(arg1: Character, arg2: integer)
@@ -267,16 +269,14 @@ BodyPartTypeIntId = {}
 ---@field mount_creature fun(arg1: Character, arg2: Monster)
 ---@field mutate fun(arg1: Character)
 ---@field mutate_category fun(arg1: Character, arg2: MutationCategoryTraitId)
----@field mutate_towards fun(arg1: Character, arg2: MutationBranchId): boolean
 ---@field mutate_towards fun(arg1: Character, arg2: any, arg3: integer): boolean | fun(arg1: Character, arg2: MutationBranchId): boolean
+---@field mutate_towards fun(arg1: Character, arg2: MutationBranchId): boolean
 ---@field mutate_towards fun(arg1: Character, arg2: any, arg3: integer): boolean
 ---@field mutation_armor fun(arg1: Character, arg2: BodyPartTypeIntId, arg3: DamageType): number
----@field mutation_category_level any
 ---@field mutation_effect fun(arg1: Character, arg2: MutationBranchId)
 ---@field mutation_loss_effect fun(arg1: Character, arg2: MutationBranchId)
 ---@field mutation_ok fun(arg1: Character, arg2: MutationBranchId, arg3: boolean, arg4: boolean): boolean
 ---@field mutation_value fun(arg1: Character, arg2: string): number
----@field name string
 ---@field practice fun(arg1: Character, arg2: SkillId, arg3: integer, arg4: integer, arg5: boolean)
 ---@field read_speed fun(arg1: Character, arg2: boolean): integer
 ---@field rem_addiction fun(arg1: Character, arg2: AddictionType)
@@ -439,10 +439,10 @@ Creature = {}
 
 --- new(damageType, amount, armorPen, remainingArmorMultiplier, damageMultiplier)
 ---@class DamageInstance
+---@field damage_units any
 ---@field add fun(arg1: DamageInstance, arg2: DamageUnit)
 ---@field add_damage fun(arg1: DamageInstance, arg2: DamageType, arg3: number, arg4: number, arg5: number, arg6: number)
 ---@field clear fun(arg1: DamageInstance)
----@field damage_units any
 ---@field empty fun(arg1: DamageInstance): boolean
 ---@field mult_damage fun(arg1: DamageInstance, arg2: number, arg3: boolean)
 ---@field total_damage fun(arg1: DamageInstance): number
@@ -578,13 +578,14 @@ FurnIntId = {}
 
 ---@class FurnRaw
 ---@field close FurnId
----@field int_id fun(arg1: FurnRaw): FurnIntId
 ---@field open FurnId
----@field str_id fun(arg1: FurnRaw): FurnId
 ---@field transforms_into FurnId
+---@field int_id fun(arg1: FurnRaw): FurnIntId
+---@field str_id fun(arg1: FurnRaw): FurnId
 FurnRaw = {}
 
 ---@class Item
+---@field charges integer
 ---@field add_item_with_id fun(arg1: Item, arg2: ItypeId, arg3: integer) @Adds an item(s) to contents
 ---@field add_technique fun(arg1: Item, arg2: MartialArtsTechniqueId) @Adds the technique. It isn't treated original, but additional.
 ---@field ammo_capacity fun(arg1: Item, arg2: boolean): integer @Gets the maximum capacity of a magazine
@@ -596,7 +597,6 @@ FurnRaw = {}
 ---@field ammo_set fun(arg1: Item, arg2: ItypeId, arg3: integer)
 ---@field ammo_unset fun(arg1: Item)
 ---@field can_contain fun(arg1: Item, arg2: Item): boolean @Checks if this item can contain another
----@field charges integer
 ---@field clear_vars fun(arg1: Item) @Erase all variables
 ---@field conductive fun(arg1: Item): boolean
 ---@field covers fun(arg1: Item, arg2: BodyPartTypeIntId): boolean @Checks if the item covers a bodypart
@@ -812,6 +812,11 @@ Mass = {}
 
 ---@class Monster : Creature
 ---@field anger integer
+---@field death_drops boolean
+---@field faction MonsterFactionIntId
+---@field friendly integer
+---@field morale integer
+---@field unique_name string
 ---@field attitude fun(arg1: Monster, arg2: Character): MonsterAttitude
 ---@field can_climb fun(arg1: Monster): boolean
 ---@field can_dig fun(arg1: Monster): boolean
@@ -821,11 +826,8 @@ Mass = {}
 ---@field can_submerge fun(arg1: Monster): boolean
 ---@field can_upgrade fun(arg1: Monster): boolean
 ---@field climbs fun(arg1: Monster): boolean
----@field death_drops boolean
 ---@field digs fun(arg1: Monster): boolean
----@field faction MonsterFactionIntId
 ---@field flies fun(arg1: Monster): boolean
----@field friendly integer
 ---@field get_type fun(arg1: Monster): MtypeId
 ---@field get_upgrade_time fun(arg1: Monster): integer
 ---@field hasten_upgrade fun(arg1: Monster)
@@ -834,7 +836,6 @@ Mass = {}
 ---@field make_ally fun(arg1: Monster, arg2: Monster)
 ---@field make_friendly fun(arg1: Monster)
 ---@field make_fungus fun(arg1: Monster): boolean
----@field morale integer
 ---@field move_target fun(arg1: Monster): Tripoint
 ---@field move_to fun(arg1: Monster, arg2: Tripoint, arg3: boolean, arg4: boolean, arg5: number): boolean
 ---@field name fun(arg1: Monster, arg2: integer): string
@@ -845,7 +846,6 @@ Mass = {}
 ---@field swims fun(arg1: Monster): boolean
 ---@field try_reproduce fun(arg1: Monster)
 ---@field try_upgrade fun(arg1: Monster, arg2: boolean)
----@field unique_name string
 ---@field wander_to fun(arg1: Monster, arg2: Tripoint, arg3: integer)
 Monster = {}
 
@@ -912,25 +912,20 @@ MutationBranchId = {}
 
 ---@class MutationBranchRaw
 ---@field activated boolean @Whether this mutation can be activated at will.
----@field addition_mutations fun(arg1: MutationBranchRaw): any
 ---@field allow_soft_gear boolean @Mutation allows soft gear to be worn over otherwise-restricted parts.
 ---@field attackcost_modifier number
 ---@field bleed_resist number
 ---@field bodytemp_max_btu integer
 ---@field bodytemp_min_btu integer
 ---@field bodytemp_sleep_btu integer
----@field categories fun(arg1: MutationBranchRaw): any @Lists the categories this mutation belongs to.
----@field conflicts_with fun(arg1: MutationBranchRaw): any @Lists conflicting mutations.
 ---@field cooldown integer @Costs are incurred every 'cooldown' turns.
 ---@field cost integer
 ---@field debug boolean @Whether or not this mutation is limited to debug use.
----@field desc fun(arg1: MutationBranchRaw): string
 ---@field dodge_modifier number
 ---@field falling_damage_multiplier number
 ---@field fatigue boolean @Mutation causes fatigue when used.
 ---@field fatigue_modifier number
 ---@field fatigue_regen_modifier number
----@field get_all fun(): any @Returns a (long) list of every mutation in the game.
 ---@field healing_awake number @Healing per turn from mutation.
 ---@field healing_resting number @Healing per turn from mutation, while asleep.
 ---@field healthy_rate number @How quickly health (not HP) trends toward healthy_mod.
@@ -948,21 +943,16 @@ MutationBranchId = {}
 ---@field movecost_modifier number
 ---@field movecost_obstacle_modifier number
 ---@field movecost_swim_modifier number
----@field mutation_types fun(arg1: MutationBranchRaw): any @Lists the type(s) of this mutation. Mutations of a given type are mutually exclusive.
----@field name fun(arg1: MutationBranchRaw): string
 ---@field night_vision_range number
 ---@field noise_modifier number
----@field other_prerequisites fun(arg1: MutationBranchRaw): any @Lists the secondary mutation(s) needed to gain this mutation.
 ---@field overmap_multiplier number
 ---@field overmap_sight number
 ---@field pain_recovery number @Pain recovery per turn from mutation.
 ---@field player_display boolean @Whether or not this mutation shows up in the status (`@`) menu.
 ---@field points integer @Point cost in character creation(?).
----@field prerequisites fun(arg1: MutationBranchRaw): any @Lists the primary mutation(s) needed to gain this mutation.
 ---@field profession boolean @Whether this trait is ONLY gained through professional training/experience (and/or quests).
 ---@field purifiable boolean @Whether this mutation is possible to remove through Purifier. False for 'special' mutations.
 ---@field reading_speed_multiplier number
----@field replaced_by fun(arg1: MutationBranchRaw): any @Lists mutations that replace (e.g. evolve from) this one.
 ---@field scent_modifier number
 ---@field skill_rust_multiplier number
 ---@field speed_modifier number
@@ -975,11 +965,21 @@ MutationBranchId = {}
 ---@field thirst boolean @Mutation dehydrates when used.
 ---@field thirst_modifier number
 ---@field threshold boolean @Whether this is a Threshold mutation, and thus especially difficult to mutate. One per character.
----@field thresh_requirements fun(arg1: MutationBranchRaw): any @Lists the threshold mutation(s) required to gain this mutation.
 ---@field ugliness integer @How physically unappealing the mutation is. Can be negative.
 ---@field valid boolean @Whether this mutation is available through generic mutagen.
 ---@field visibility integer @How visible the mutation is to others.
 ---@field weight_capacity_modifier number
+---@field addition_mutations fun(arg1: MutationBranchRaw): any
+---@field categories fun(arg1: MutationBranchRaw): any @Lists the categories this mutation belongs to.
+---@field conflicts_with fun(arg1: MutationBranchRaw): any @Lists conflicting mutations.
+---@field desc fun(arg1: MutationBranchRaw): string
+---@field get_all fun(): any @Returns a (long) list of every mutation in the game.
+---@field mutation_types fun(arg1: MutationBranchRaw): any @Lists the type(s) of this mutation. Mutations of a given type are mutually exclusive.
+---@field name fun(arg1: MutationBranchRaw): string
+---@field other_prerequisites fun(arg1: MutationBranchRaw): any @Lists the secondary mutation(s) needed to gain this mutation.
+---@field prerequisites fun(arg1: MutationBranchRaw): any @Lists the primary mutation(s) needed to gain this mutation.
+---@field replaced_by fun(arg1: MutationBranchRaw): any @Lists mutations that replace (e.g. evolve from) this one.
+---@field thresh_requirements fun(arg1: MutationBranchRaw): any @Lists the threshold mutation(s) required to gain this mutation.
 ---@field __tostring fun(arg1: MutationBranchRaw): string
 MutationBranchRaw = {}
 
@@ -997,11 +997,17 @@ MutationBranchRaw = {}
 MutationCategoryTraitId = {}
 
 ---@class Npc : Player, Character, Creature
+---@field current_activity_id ActivityTypeId
+---@field hit_by_player boolean
+---@field marked_for_death boolean
+---@field needs any
+---@field op_of_u NpcOpinion
+---@field patience integer
+---@field personality NpcPersonality
 ---@field can_move_to fun(arg1: Npc, arg2: Tripoint, arg3: boolean): boolean
 ---@field can_open_door fun(arg1: Npc, arg2: Tripoint, arg3: boolean): boolean
 ---@field complain fun(arg1: Npc): boolean
 ---@field complain_about fun(arg1: Npc, arg2: string, arg3: TimeDuration, arg4: string, arg5: any): boolean
----@field current_activity_id ActivityTypeId
 ---@field current_ally fun(arg1: Npc): Creature
 ---@field current_target fun(arg1: Npc): Creature
 ---@field danger_assessment fun(arg1: Npc): number
@@ -1013,7 +1019,6 @@ MutationCategoryTraitId = {}
 ---@field has_activity fun(arg1: Npc): boolean
 ---@field has_omt_destination fun(arg1: Npc): boolean
 ---@field has_player_activity fun(arg1: Npc): boolean
----@field hit_by_player boolean
 ---@field hostile_anger_level fun(arg1: Npc): integer
 ---@field is_ally fun(arg1: Npc, arg2: Character): boolean
 ---@field is_enemy fun(arg1: Npc): boolean
@@ -1029,12 +1034,7 @@ MutationCategoryTraitId = {}
 ---@field is_travelling fun(arg1: Npc): boolean
 ---@field is_walking_with fun(arg1: Npc): boolean
 ---@field make_angry fun(arg1: Npc)
----@field marked_for_death boolean
 ---@field mutiny fun(arg1: Npc)
----@field needs any
----@field op_of_u NpcOpinion
----@field patience integer
----@field personality NpcPersonality
 ---@field saw_player_recently fun(arg1: Npc): boolean
 ---@field say fun(arg1: Npc, arg2: string)
 ---@field set_attitude fun(arg1: Npc, arg2: NpcAttitude)
@@ -1065,10 +1065,10 @@ NpcPersonality = {}
 Player = {}
 
 ---@class Point
----@field abs fun(arg1: Point): Point
----@field rotate fun(arg1: Point, arg2: integer, arg3: Point): Point
 ---@field x integer
 ---@field y integer
+---@field abs fun(arg1: Point): Point
+---@field rotate fun(arg1: Point, arg2: integer, arg3: Point): Point
 ---@field serialize fun(arg1: Point)
 ---@field deserialize fun(arg1: Point)
 ---@field __add fun(arg1: Point, arg2: Point): Point
@@ -1156,13 +1156,13 @@ SpeciesTypeId = {}
 
 --- The class used for spells that *a player* knows, casts, and gains experience for using. If a given spell is not supposed to be directly cast by a player, consider using SpellSimple instead.
 ---@class Spell
+---@field id SpellTypeId
 ---@field cast fun(arg1: Spell, arg2: Creature, arg3: Tripoint) @Cast this spell, as well as any sub-spells.
 ---@field cast_single_effect fun(arg1: Spell, arg2: Creature, arg3: Tripoint) @Cast *only* this spell's main effects. Generally, cast() should be used instead.
 ---@field desc fun(arg1: Spell): string
 ---@field gain_exp fun(arg1: Spell, arg2: integer)
 ---@field gain_levels fun(arg1: Spell, arg2: integer)
 ---@field get_level fun(arg1: Spell): integer
----@field id SpellTypeId
 ---@field name fun(arg1: Spell): string
 ---@field set_exp fun(arg1: Spell, arg2: integer)
 ---@field set_level fun(arg1: Spell, arg2: integer)
@@ -1172,13 +1172,13 @@ Spell = {}
 
 --- The type for basic spells. If you don't need to track XP from casting (e.g., if a spell is intended to be cast by anything *other than* a player), this is likely the appropriate type. Otherwise, see the Spell type.
 ---@class SpellSimple
----@field cast fun(arg1: SpellSimple, arg2: Creature, arg3: Tripoint, arg4: any)
 ---@field force_target_source boolean @Whether or not the target point is *locked* to the source's location.
 ---@field id SpellTypeId
 ---@field level integer
+---@field trigger_once_in integer @Used for enchantments; the spell's *chance* to trigger every turn.
+---@field cast fun(arg1: SpellSimple, arg2: Creature, arg3: Tripoint, arg4: any)
 ---@field max_level fun(arg1: SpellSimple): integer @Returns the defined maximum level of this SpellSimple instance, if defined. Otherwise, returns 0.
 ---@field prompt_cast fun(arg1: SpellTypeId, arg2: Tripoint, arg3: any): SpellSimple @Static function: Creates and immediately casts a SimpleSpell, then returns the new spell for potential reuse. If the given tripoint is the player's location, the spell will be locked to the player. (This does not necessarily cause friendly fire!) If an integer is specified, the spell will be cast at that level.
----@field trigger_once_in integer @Used for enchantments; the spell's *chance* to trigger every turn.
 ---@field __tostring fun(arg1: SpellSimple): string
 ---@field new fun(arg1: SpellTypeId, arg2: boolean): SpellSimple | fun(arg1: SpellTypeId, arg2: boolean, arg3: integer): SpellSimple
 SpellSimple = {}
@@ -1198,7 +1198,6 @@ SpellTypeId = {}
 
 --- The 'raw' type for storing the information defining every spell in the game. It's not possible to cast directly from this type; check SpellSimple and Spell.
 ---@class SpellTypeRaw
----@field additional_spells fun(arg1: SpellTypeRaw): any @Other spells cast by this spell.
 ---@field aoe_increment number
 ---@field base_casting_time integer
 ---@field base_energy_cost integer
@@ -1215,7 +1214,6 @@ SpellTypeId = {}
 ---@field field_intensity_variance number
 ---@field final_casting_time integer
 ---@field final_energy_cost integer
----@field get_all fun(): any @Returns a (long) list of every spell in the game.
 ---@field id SpellTypeId
 ---@field max_aoe integer
 ---@field max_damage integer
@@ -1231,6 +1229,8 @@ SpellTypeId = {}
 ---@field min_field_intensity integer
 ---@field min_range integer
 ---@field range_increment number
+---@field additional_spells fun(arg1: SpellTypeRaw): any @Other spells cast by this spell.
+---@field get_all fun(): any @Returns a (long) list of every spell in the game.
 ---@field __tostring fun(arg1: SpellTypeRaw): string
 SpellTypeRaw = {}
 
@@ -1259,12 +1259,12 @@ TerIntId = {}
 ---@class TerRaw
 ---@field close TerId
 ---@field heat_radiation integer
----@field int_id fun(arg1: TerRaw): TerIntId
 ---@field open TerId
 ---@field roof TerId
----@field str_id fun(arg1: TerRaw): TerId
 ---@field transforms_into TerId
 ---@field trap_id_str string
+---@field int_id fun(arg1: TerRaw): TerIntId
+---@field str_id fun(arg1: TerRaw): TerId
 TerRaw = {}
 
 --- Represent duration between 2 fixed points in time
@@ -1341,12 +1341,12 @@ TrapId = {}
 TrapIntId = {}
 
 ---@class Tripoint
----@field abs fun(arg1: Tripoint): Tripoint
----@field rotate_2d fun(arg1: Tripoint, arg2: integer, arg3: Point): Tripoint
 ---@field x integer
----@field xy fun(arg1: Tripoint): Point
 ---@field y integer
 ---@field z integer
+---@field abs fun(arg1: Tripoint): Tripoint
+---@field rotate_2d fun(arg1: Tripoint, arg2: integer, arg3: Point): Tripoint
+---@field xy fun(arg1: Tripoint): Point
 ---@field serialize fun(arg1: Tripoint)
 ---@field deserialize fun(arg1: Tripoint)
 ---@field __add fun(arg1: Tripoint, arg2: Tripoint): Tripoint | fun(arg1: Tripoint, arg2: Point): Tripoint
@@ -1362,12 +1362,12 @@ TrapIntId = {}
 Tripoint = {}
 
 ---@class UiList
+---@field entries any @Entries from uilist. Remember, in lua, the first element of vector is `entries[1]`, not `entries[0]`.
 ---@field add fun(arg1: UiList, arg2: integer, arg3: string) @Adds an entry. `string` is its name, and `int` is what it returns. If `int` is `-1`, the number is decided orderly.
 ---@field add_w_col fun(arg1: UiList, arg2: integer, arg3: string, arg4: string, arg5: string) @Adds an entry with desc and col(third `string`). col is additional text on the right of the entry name.
 ---@field add_w_desc fun(arg1: UiList, arg2: integer, arg3: string, arg4: string) @Adds an entry with desc(second `string`). `desc_enabled(true)` is required for showing desc.
 ---@field border_color fun(arg1: UiList, arg2: Color) @Changes the color. Default color is `c_magenta`.
 ---@field desc_enabled fun(arg1: UiList, arg2: boolean) @Puts a lower box. Footer or entry desc appears on it.
----@field entries any @Entries from uilist. Remember, in lua, the first element of vector is `entries[1]`, not `entries[0]`.
 ---@field footer fun(arg1: UiList, arg2: string) @Sets footer text which is in lower box. It overwrites descs of entries unless is empty.
 ---@field hilight_color fun(arg1: UiList, arg2: Color) @Changes the color. Default color is `h_white`.
 ---@field hotkey_color fun(arg1: UiList, arg2: Color) @Changes the color. Default color is `c_light_green`.
