@@ -1,4 +1,3 @@
-#ifdef LUA
 #include "catalua_bindings.h"
 
 #include "catalua.h"
@@ -174,4 +173,3 @@ void cata::detail::mod_mutation_branch( sol::state &lua )
     }
 #undef UT_CLASS // #define UT_CLASS mutation_branch
 }
-#endif // #ifdef LUA

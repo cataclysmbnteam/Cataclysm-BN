@@ -67,9 +67,9 @@
 #include "debug.h"
 #include "dependency_tree.h"
 #include "diary.h"
+#include "distraction_manager.h"
 #include "distribution_grid.h"
 #include "drop_token.h"
-#include "distraction_manager.h"
 #include "editmap.h"
 #include "enums.h"
 #include "event.h"
@@ -108,9 +108,9 @@
 #include "loading_ui.h"
 #include "magic.h"
 #include "map.h"
+#include "map_functions.h"
 #include "map_item_stack.h"
 #include "map_iterator.h"
-#include "map_functions.h"
 #include "map_selector.h"
 #include "mapbuffer.h"
 #include "mapdata.h"
@@ -135,18 +135,21 @@
 #include "overmapbuffer.h"
 #include "panels.h"
 #include "path_info.h"
+#include "pathfinding.h"
 #include "pickup.h"
 #include "player.h"
 #include "player_activity.h"
 #include "point_float.h"
 #include "popup.h"
+#include "profile.h"
 #include "ranged.h"
 #include "recipe.h"
 #include "recipe_dictionary.h"
 #include "ret_val.h"
-#include "rot.h"
 #include "rng.h"
+#include "rot.h"
 #include "safemode_ui.h"
+#include "salvage.h"
 #include "scenario.h"
 #include "scent_map.h"
 #include "scores_ui.h"
@@ -176,7 +179,6 @@
 #include "wcwidth.h"
 #include "weather.h"
 #include "worldfactory.h"
-#include "profile.h"
 
 class computer;
 
@@ -778,13 +780,13 @@ vehicle *game::place_vehicle_nearby(
         }
     }
     for( const std::string &search_type : search_types ) {
-        omt_find_params find_params;
-        find_params.must_see = false;
-        find_params.cant_see = false;
-        find_params.types.emplace_back( search_type, ot_match_type::type );
+        // TODO: Pull-up find_params and use that scan result instead
         // find nearest road
-        find_params.min_distance = min_distance;
-        find_params.search_range = max_distance;
+        omt_find_params find_params;
+        find_params.types.emplace_back( search_type, ot_match_type::type );
+        find_params.search_range = { min_distance, max_distance };
+        find_params.search_layers = std::nullopt;
+
         // if player spawns underground, park their car on the surface.
         const tripoint_abs_omt omt_origin( origin, 0 );
         for( const tripoint_abs_omt &goal : overmap_buffer.find_all( omt_origin, find_params ) ) {
@@ -878,6 +880,11 @@ void game::reload_npcs()
     // and not invoke "on_load" for those NPCs that avoided unloading this way.
     unload_npcs();
     load_npcs();
+
+    //needs to have all npcs loaded
+    for( Character &guy : all_npcs() ) {
+        guy.activity->init_all_moves( guy );
+    }
 }
 
 void game::create_starting_npcs()
@@ -1599,6 +1606,9 @@ bool game::do_turn()
     // reset player noise
     u.volume = 0;
 
+    // Finally, clear pathfinding cache
+    Pathfinding::clear_d_maps();
+
     return false;
 }
 
@@ -2172,6 +2182,7 @@ input_context get_default_mode_input_context()
     ctxt.register_action( "long_craft" );
     ctxt.register_action( "construct" );
     ctxt.register_action( "disassemble" );
+    ctxt.register_action( "salvage" );
     ctxt.register_action( "sleep" );
     ctxt.register_action( "control_vehicle" );
     ctxt.register_action( "auto_travel_mode" );
@@ -2207,6 +2218,7 @@ input_context get_default_mode_input_context()
     ctxt.register_action( "lua_console" );
     ctxt.register_action( "lua_reload" );
     ctxt.register_action( "open_wiki" );
+    ctxt.register_action( "open_hhg" );
     ctxt.register_action( "debug_scent" );
     ctxt.register_action( "debug_scent_type" );
     ctxt.register_action( "debug_temp" );
@@ -2310,8 +2322,8 @@ bool game::try_get_left_click_action( action_id &act, const tripoint &mouse_targ
     }
 
     if( new_destination ) {
-        destination_preview = m.route( u.pos(), mouse_target, u.get_pathfinding_settings(),
-                                       u.get_path_avoid() );
+        destination_preview = m.route( u.pos(), mouse_target, u.get_legacy_pathfinding_settings(),
+                                       u.get_legacy_path_avoid() );
         return false;
     }
 
@@ -2619,6 +2631,8 @@ bool game::load( const save_t &name )
     calendar::set_season_length( ::get_option<int>( "SEASON_LENGTH" ) );
 
     u.reset();
+    //needs all npcs and stats loaded
+    u.activity->init_all_moves( u );
 
     cata::load_world_lua_state( get_active_world(), "lua_state.json" );
 
@@ -6858,7 +6872,7 @@ look_around_result game::look_around( bool show_window, tripoint &center,
                 continue;
             }
 
-            auto route = m.route( u.pos(), lp, u.get_pathfinding_settings(), u.get_path_avoid() );
+            auto route = m.route( u.pos(), lp, u.get_legacy_pathfinding_settings(), u.get_legacy_path_avoid() );
             if( route.size() > 1 ) {
                 route.pop_back();
                 u.set_destination( route );
@@ -6981,7 +6995,7 @@ std::vector<map_item_stack> game::find_nearby_items( int iRadius )
 
     for( int i = 1; i <= range; i++ ) {
         int z = i % 2 ? center_z - i / 2 : center_z + i / 2;
-        for( auto &points_p_it : closest_points_first( {u.pos().xy(), z}, iRadius ) ) {
+        for( auto &points_p_it : closest_points_first<tripoint>( {u.pos().xy(), z}, iRadius ) ) {
             if( points_p_it.y >= u.posy() - iRadius && points_p_it.y <= u.posy() + iRadius &&
                 u.sees( points_p_it ) &&
                 m.sees_some_items( points_p_it, u ) ) {
@@ -7635,8 +7649,8 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
             if( !u.sees( u.pos() + active_pos ) ) {
                 add_msg( _( "You can't see that destination." ) );
             }
-            auto route = m.route( u.pos(), u.pos() + active_pos, u.get_pathfinding_settings(),
-                                  u.get_path_avoid() );
+            auto route = m.route( u.pos(), u.pos() + active_pos, u.get_legacy_pathfinding_settings(),
+                                  u.get_legacy_path_avoid() );
             if( route.size() > 1 ) {
                 route.pop_back();
                 u.set_destination( route );
@@ -8161,7 +8175,7 @@ static void add_corpses( uilist &menu, const std::vector<item *> &its,
 // Salvagables stack so we need to pass in a stack vector rather than an item index vector
 static void add_salvagables( uilist &menu,
                              const std::vector<std::pair<item *, int>> &stacks,
-                             size_t &menu_index, const salvage_actor &salvage_iuse )
+                             size_t &menu_index )
 {
     if( !stacks.empty() ) {
         int hotkey = get_initial_hotkey( menu_index );
@@ -8173,7 +8187,7 @@ static void add_salvagables( uilist &menu,
             const auto &msg = string_format( pgettext( "butchery menu", "Cut up %s (%d)" ),
                                              it.tname(), stack.second );
             menu.addentry_col( menu_index++, true, hotkey, msg,
-                               to_string_clipped( time_duration::from_turns( salvage_iuse.time_to_cut_up( it ) / 100 ) ) );
+                               to_string_clipped( time_duration::from_turns( salvage::moves_to_salvage( it ) / 100 ) ) );
             hotkey = -1;
         }
     }
@@ -8219,10 +8233,10 @@ static void butcher_submenu( const std::vector<item *> &corpses, int corpse = -1
     auto cut_time = [&]( enum butcher_type bt ) {
         int time_to_cut = 0;
         if( corpse != -1 ) {
-            time_to_cut = butcher_time_to_cut( you, inv, *corpses[corpse], bt );
+            time_to_cut = butcher_time_to_cut( *corpses[corpse], bt );
         } else {
             for( const item * const &it : corpses ) {
-                time_to_cut += butcher_time_to_cut( you, inv, *it, bt );
+                time_to_cut += butcher_time_to_cut( *it, bt );
             }
         }
         return to_string_clipped( time_duration::from_turns( time_to_cut / 100 ) );
@@ -8380,7 +8394,6 @@ static void butcher_submenu( const std::vector<item *> &corpses, int corpse = -1
 
 void game::butcher()
 {
-    static const std::string salvage_string = "salvage";
     if( u.controlling_vehicle ) {
         add_msg( m_info, _( "You can't butcher while driving!" ) );
         return;
@@ -8410,25 +8423,7 @@ void game::butcher()
     std::vector<item *> salvageables;
     map_stack items = m.i_at( u.pos() );
     const inventory &crafting_inv = u.crafting_inventory();
-
-    // TODO: Properly handle different material whitelists
-    // TODO: Improve quality of this section
-    auto salvage_filter = [&]( const item & it ) {
-        auto usable = it.get_usable_item( salvage_string );
-        return usable != nullptr;
-    };
-
-    std::vector< item * > salvage_tools = u.items_with( salvage_filter );
-    int salvage_tool_index = INT_MIN;
-    item *salvage_tool = nullptr;
-    const salvage_actor *salvage_iuse = nullptr;
-    if( !salvage_tools.empty() ) {
-        salvage_tool = salvage_tools.front();
-        salvage_tool_index = u.get_item_position( salvage_tool );
-        item *usable = salvage_tool->get_usable_item( salvage_string );
-        salvage_iuse = dynamic_cast<const salvage_actor *>(
-                           usable->get_use( salvage_string )->get_actor_ptr() );
-    }
+    auto q_cache = u.crafting_inventory().get_quality_cache();
 
     // Reserve capacity for each to hold entire item set if necessary to prevent
     // reallocations later on
@@ -8443,7 +8438,7 @@ void game::butcher()
         if( ( *it )->is_corpse() ) {
             corpses.push_back( *it );
         } else {
-            if( ( salvage_tool_index != INT_MIN ) && salvage_iuse->valid_to_cut_up( **it ) ) {
+            if( salvage::try_salvage( **it, q_cache ).success() ) {
                 salvageables.push_back( *it );
             }
             if( crafting::can_disassemble( u, **it, crafting_inv ).success() ) {
@@ -8516,8 +8511,8 @@ void game::butcher()
         // Add corpses, disassembleables, and salvagables to the UI
         add_corpses( kmenu, corpses, i );
         add_disassemblables( kmenu, disassembly_stacks, i );
-        if( salvage_iuse && !salvageables.empty() ) {
-            add_salvagables( kmenu, salvage_stacks, i, *salvage_iuse );
+        if( !salvageables.empty() ) {
+            add_salvagables( kmenu, salvage_stacks, i );
         }
 
         if( corpses.size() > 1 ) {
@@ -8540,7 +8535,7 @@ void game::butcher()
                 //uses default craft materials to estimate recursive disassembly time
                 const auto components = dis.disassembly_requirements().get_components();
                 for( const auto &subcomps : components ) {
-                    if( subcomps.size() > 0 ) {
+                    if( !subcomps.empty() ) {
                         disassembly_stacks_res.emplace_back( subcomps.front().type,
                                                              subcomps.front().count * disassembly_stacks_res[i].second );
                     }
@@ -8552,10 +8547,10 @@ void game::butcher()
             kmenu.addentry_col( MULTIDISASSEMBLE_ALL, true, 'd', _( "Disassemble everything recursively" ),
                                 to_string_clipped( time_duration::from_turns( time_to_disassemble_rec / 100 ) ) );
         }
-        if( salvage_iuse && salvageables.size() > 1 ) {
+        if( salvageables.size() > 1 ) {
             int time_to_salvage = 0;
             for( const auto &stack : salvage_stacks ) {
-                time_to_salvage += salvage_iuse->time_to_cut_up( *stack.first ) * stack.second;
+                time_to_salvage += salvage::moves_to_salvage( *stack.first ) * stack.second;
             }
 
             kmenu.addentry_col( MULTISALVAGE, true, 'z', _( "Cut up everything" ),
@@ -8605,7 +8600,7 @@ void game::butcher()
         case BUTCHER_OTHER:
             switch( indexer_index ) {
                 case MULTISALVAGE:
-                    u.assign_activity( activity_id( "ACT_LONGSALVAGE" ), 0, salvage_tool_index );
+                    salvage::salvage_all( u );
                     break;
                 case MULTIBUTCHER:
                     butcher_submenu( corpses );
@@ -8636,13 +8631,9 @@ void game::butcher()
         }
         break;
         case BUTCHER_SALVAGE: {
-            if( !salvage_iuse || !salvage_tool ) {
-                debugmsg( "null salve_iuse or salvage_tool" );
-            } else {
-                // Pick index of first item in the salvage stack
-                item *const target = salvage_stacks[indexer_index].first;
-                salvage_iuse->cut_up( u, *salvage_tool, *target );
-            }
+            item *const target = salvage_stacks[indexer_index].first;
+            salvage::salvage_single( u, *target );
+
         }
         break;
     }
@@ -8958,8 +8949,14 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp )
             add_msg( m_warning, _( "You cannot pass obstacles whilst mounted." ) );
             return false;
         }
-        const double base_moves = u.run_cost( mcost, diag ) * 100.0 / crit->get_speed();
-        const double encumb_moves = u.get_weight() / 4800.0_gram;
+
+        // u.run_cost(mcost, diag) while mounted just returns mcost itself
+        const double base_moves = mcost * 100.0 / crit->get_speed();
+        units::mass carried_weight = crit->get_carried_weight() + u.get_weight();
+        units::mass max_carry_weight = crit->weight_capacity();
+        units::mass weight_overload = std::max( 0_gram, carried_weight - max_carry_weight );
+        const double encumb_moves = weight_overload / 5_kilogram;
+
         u.moves -= static_cast<int>( std::ceil( base_moves + encumb_moves ) );
         if( u.movement_mode_is( CMM_WALK ) ) {
             crit->use_mech_power( -2 );

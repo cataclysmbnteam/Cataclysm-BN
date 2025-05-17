@@ -132,7 +132,7 @@ void gate_data::check() const
 bool gate_data::is_suitable_wall( const tripoint &pos ) const
 {
     const auto wid = get_map().ter( pos );
-    const auto iter = std::find_if( walls.begin(), walls.end(), [ wid ]( const ter_str_id & wall ) {
+    const auto iter = std::ranges::find_if( walls, [ wid ]( const ter_str_id & wall ) {
         return wall.id() == wid;
     } );
     return iter != walls.end();
@@ -314,7 +314,7 @@ void doors::close_door( map &m, Character &who, const tripoint &closep )
         if( m.furn( closep ) != furn_str_id( "f_safe_o" ) && !items_in_way.empty() ) {
             const units::volume max_nudge = 25_liter;
 
-            const auto toobig = std::find_if( items_in_way.begin(), items_in_way.end(),
+            const auto toobig = std::ranges::find_if( items_in_way,
             [&max_nudge]( const item * const & it ) {
                 return it->volume() > max_nudge;
             } );

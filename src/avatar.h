@@ -1,6 +1,4 @@
 #pragma once
-#ifndef CATA_SRC_AVATAR_H
-#define CATA_SRC_AVATAR_H
 
 #include <cstddef>
 #include <memory>
@@ -71,6 +69,7 @@ class avatar : public player
         // newcharacter.cpp
         bool create( character_type type, const std::string &tempname = "" );
         void randomize( bool random_scenario, points_left &points, bool play_now = false );
+        void randomize_cosmetics();
         bool load_template( const std::string &template_name, points_left &points );
         void save_template( const std::string &name, const points_left &points );
         void character_to_template( const std::string &name );
@@ -124,7 +123,10 @@ class avatar : public player
          * Returns the target of the active mission or @ref overmap::invalid_tripoint if there is
          * no active mission.
          */
+        std::unique_ptr<tripoint_abs_omt> custom_waypoint = nullptr;
         tripoint_abs_omt get_active_mission_target() const;
+        /** Returns the custom mission target directly set by the player */
+        tripoint_abs_omt get_custom_mission_target();
         /**
          * Set which mission is active. The mission must be listed in @ref active_missions.
          */
@@ -278,4 +280,4 @@ class avatar : public player
 
 avatar &get_avatar();
 
-#endif // CATA_SRC_AVATAR_H
+

@@ -47,6 +47,7 @@
     "material": [ "steel", "wood" ],
     "color": "dark_gray",
     "ammo": "44",
+    "handling": 30,
     "ranged_damage": { "damage_type": "bullet", "amount": 2 },
     "dispersion": 180,
     "clip_size": 10,

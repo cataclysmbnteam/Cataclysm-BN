@@ -49,6 +49,7 @@
       { "item": "towel", "prob": 20 },
       { "item": "saline", "prob": 20 },
       { "item": "detergent", "prob": 20 },
+      { "item": "shimmer", "prob": 15 },
       { "item": "mop", "prob": 6 },
       { "item": "mop_folded", "prob": 4 },
       { "item": "boots_rubber", "prob": 10 },

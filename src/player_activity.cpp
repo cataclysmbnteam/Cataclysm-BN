@@ -1,29 +1,31 @@
 #include "player_activity.h"
-#include "cata_utility.h"
 #include "player_activity_ptr.h"
 
 #include <algorithm>
 #include <array>
-#include <map>
 #include <memory>
 #include <utility>
 
 #include "activity_actor.h"
+#include "activity_actor_definitions.h"
 #include "activity_handlers.h"
 #include "activity_type.h"
 #include "avatar.h"
 #include "calendar.h"
+#include "cata_utility.h"
 #include "character.h"
 #include "character_turn.h"
 #include "color.h"
-#include "construction.h"
 #include "construction_partial.h"
 #include "crafting.h"
 #include "distraction_manager.h"
+#include "game.h"
 #include "item.h"
 #include "itype.h"
 #include "map.h"
+#include "npc.h"
 #include "player.h"
+#include "profile.h"
 #include "recipe.h"
 #include "rng.h"
 #include "skill.h"
@@ -31,24 +33,34 @@
 #include "string_formatter.h"
 #include "string_id.h"
 #include "translations.h"
-#include "value_ptr.h"
-#include "profile.h"
-#include "veh_type.h"
-#include "vehicle.h"
-#include "vehicle_part.h"
-#include "vehicle_selector.h"
-#include "vpart_position.h"
-#include "character_functions.h"
 
-static const activity_id ACT_GAME( "ACT_GAME" );
-static const activity_id ACT_PICKAXE( "ACT_PICKAXE" );
-static const activity_id ACT_START_FIRE( "ACT_START_FIRE" );
-static const activity_id ACT_HAND_CRANK( "ACT_HAND_CRANK" );
-static const activity_id ACT_VIBE( "ACT_VIBE" );
-static const activity_id ACT_OXYTORCH( "ACT_OXYTORCH" );
-static const activity_id ACT_FISH( "ACT_FISH" );
+using metric = std::pair<units::mass, units::volume>;
+
+static const activity_id ACT_ADV_INVENTORY( "ACT_ADV_INVENTORY" );
+static const activity_id ACT_AIM( "ACT_AIM" );
+static const activity_id ACT_ARMOR_LAYERS( "ACT_ARMOR_LAYERS" );
+static const activity_id ACT_ASSIST( "ACT_ASSIST" );
 static const activity_id ACT_ATM( "ACT_ATM" );
-static const activity_id ACT_GUNMOD_ADD( "ACT_GUNMOD_ADD" );
+static const activity_id ACT_BURROW( "ACT_BURROW" );
+static const activity_id ACT_CHOP_LOGS( "ACT_CHOP_LOGS" );
+static const activity_id ACT_CHOP_PLANKS( "ACT_CHOP_PLANKS" );
+static const activity_id ACT_CHOP_TREE( "ACT_CHOP_TREE" );
+static const activity_id ACT_CLEAR_RUBBLE( "ACT_CLEAR_RUBBLE" );
+static const activity_id ACT_CONSUME_DRINK_MENU( "ACT_CONSUME_DRINK_MENU" );
+static const activity_id ACT_CONSUME_FOOD_MENU( "ACT_CONSUME_FOOD_MENU" );
+static const activity_id ACT_CONSUME_MEDS_MENU( "ACT_CONSUME_MEDS_MENU" );
+static const activity_id ACT_CRAFT( "ACT_CRAFT" );
+static const activity_id ACT_DIG( "ACT_DIG" );
+static const activity_id ACT_DIG_CHANNEL( "ACT_DIG_CHANNEL" );
+static const activity_id ACT_EAT_MENU( "ACT_EAT_MENU" );
+static const activity_id ACT_FILL_PIT( "ACT_FILL_PIT" );
+static const activity_id ACT_HACKSAW( "ACT_HACKSAW" );
+static const activity_id ACT_JACKHAMMER( "ACT_JACKHAMMER" );
+static const activity_id ACT_PICKAXE( "ACT_PICKAXE" );
+static const activity_id ACT_READ( "ACT_READ" );
+static const activity_id ACT_TRAVELLING( "ACT_TRAVELLING" );
+static const activity_id ACT_VEHICLE( "ACT_VEHICLE" );
+static const activity_id ACT_WAIT_STAMINA( "ACT_WAIT_STAMINA" );
 
 player_activity::player_activity() : type( activity_id::NULL_ID() ) { }
 
@@ -61,9 +73,9 @@ player_activity::player_activity( activity_id t, int turns, int Index, int pos,
 {
 }
 
-player_activity::player_activity( std::unique_ptr<activity_actor> &&actor ) : type(
-        actor->get_type() ),
-    actor( std::move( actor ) ), moves_total( 0 ), moves_left( 0 )
+player_activity::player_activity( std::unique_ptr<activity_actor> &&actor_ ) : type(
+        actor_->get_type() ),
+    actor( std::move( actor_ ) ), moves_total( 0 ), moves_left( 0 )
 {
 }
 
@@ -96,77 +108,91 @@ std::string player_activity::get_str_value( size_t index, const std::string &def
     return index < str_values.size() ? str_values[index] : def;
 }
 
-void player_activity::calc_moves( const Character &who )
+void player_activity::init_all_moves( Character &who )
 {
-    if( is_bench_affected() ) {
-        speed.bench = calc_bench_factor();
+    speed = activity_speed();
+    speed.type = type;
+    if( type->assistable() ) {
+        get_assistants( who );
+        speed.assistant_count = assistants().size();
     }
-    if( is_light_affected() ) {
-        speed.light = calc_light_factor( who );
+    if( type->bench_affected() ) {
+        speed.find_best_bench( who.pos() );
     }
-    if( is_speed_affected() ) {
-        speed.player_speed = who.get_speed() / 100.0f;
-    }
-    if( is_skill_affected() ) {
-        speed.skills = calc_skill_factor( who );
-    }
-    if( is_stats_affected() ) {
-        speed.stats = calc_stats_factor( who );
-    }
-    if( is_tools_affected() ) {
-        speed.tools = calc_tools_factor();
-    }
-    if( is_morale_affected() ) {
-        speed.morale = calc_morale_factor( who.get_morale_level() );
-    }
-}
-
-float player_activity::calc_bench_factor() const
-{
-    return 1.0f;
-}
-
-float player_activity::calc_light_factor( const Character &/* who */ ) const
-{
-    return 1.0f;
-}
-
-float player_activity::calc_skill_factor( const Character &who ) const
-{
     if( actor ) {
-        float f = actor->calc_skill_factor( who, type->skills );
-        return f == -1.f
-               ? 1.0f
-               : f;
+        speed.morale_factor_custom_formula = [&]( const Character & who ) {
+            return actor->calc_morale_factor( who );
+        };
+        speed.tools_factor_custom_formula = [&]( const q_reqs & reqs,
+        const inventory & inv ) {
+            return actor->calc_tools_factor( reqs, inv );
+        };
+        speed.stats_factor_custom_formula = [&]( const Character & who,
+        const stat_reqs & reqs ) {
+            return actor->calc_stats_factors( who, reqs );
+        };
+        speed.skills_factor_custom_formula = [&]( const Character & who,
+        const skill_reqs & reqs ) {
+            return actor->calc_skill_factor( who, reqs );
+        };
+        speed.bench_factor_custom_formula = [&]( bench_loc & bench, const metric & metrics ) {
+            actor->adjust_bench_multiplier( bench, metrics );
+        };
+
+        actor->calc_all_moves( *this, who );
+    } else {
+        speed.calc_all_moves( who );
     }
-    return 1.0f;
 }
 
-float player_activity::calc_stats_factor( const Character &who ) const
+inline std::vector<npc *> &player_activity::assistants()
 {
-    if( actor ) {
-        float f = actor->calc_stats_factor( who, type->stats );
-        return f == -1.f
-               ? 1.0f
-               : f;
+    if( !assistants_ids_.empty() && assistants_.empty() ) {
+        for( npc &guy : g->all_npcs() ) {
+            if( assistants_ids_.contains( guy.getID().get_value() ) ) {
+                assistants_.push_back( &guy );
+            }
+        }
     }
-    return 1.0f;
+    return assistants_;
 }
 
-float player_activity::calc_tools_factor() const
+std::vector<npc *> player_activity::get_assistants( const Character &who, unsigned short max )
 {
-    if( actor ) {
-        float f = actor->calc_tools_factor( type->qualities, tools );
-        return f == -1.f
-               ? 1.0f
-               : f;
+    if( max < 1 ) {
+        return {};
     }
-    return 1.0f;
+    int n = 0;
+    return g->get_npcs_if( [&]( const npc & guy ) {
+        if( n >= max ) {
+            return false;
+        }
+        // NPCs can help craft if awake, taking orders, within pickup range and have clear path
+        bool ok = guy.is_npc() && !guy.in_sleep_state() && guy.is_obeying( who ) &&
+                  guy.activity->id() != ACT_ASSIST &&
+                  rl_dist( guy.pos(), who.pos() ) < PICKUP_RANGE &&
+                  get_map().clear_path( who.pos(), guy.pos(), PICKUP_RANGE, 1, 100 );
+        if( ok ) {
+            n++;
+        }
+        return ok;
+    } );
 }
 
-float player_activity::calc_morale_factor( int /* morale */ ) const
+void player_activity::get_assistants( const Character &who )
 {
-    return 1.0f;
+    unsigned short max = type->max_assistants();
+    if( max < 1 ) {
+        assistants_ = {};
+        return;
+    }
+
+    assistants_ = get_assistants( who, max );
+    for( Character *guy : assistants_ ) {
+        guy->assign_activity( std::make_unique<player_activity>
+                              ( std::make_unique<assist_activity_actor>() ) );
+        assistants_ids_.insert( guy->getID().get_value() );
+    }
 }
 
 static std::string craft_progress_message( const avatar &u, const player_activity &act )
@@ -247,7 +273,7 @@ std::optional<std::string> player_activity::get_progress_message( const avatar &
     if( !type || get_verb().empty() ) {
         return std::optional<std::string>();
     }
-    if( !type->special() && is_verbose_tooltip() ) {
+    if( !type->special() && type->verbose_tooltip() ) {
 
         /*
         * Progress block
@@ -312,13 +338,17 @@ std::optional<std::string> player_activity::get_progress_message( const avatar &
         std::string mults_desc = string_format( _( "Speed multipliers:\n" ) );
         mults_desc += format_spd( speed.total(), "Total", 0, true );
         mults_desc += format_spd( speed.assist, "Assistants", 1 );
-        mults_desc += format_spd( speed.tools, "Tools", 1 );
-        mults_desc += format_spd( speed.bench, "Workbench", 1 );
         mults_desc += format_spd( speed.light, "Light", 1 );
         mults_desc += format_spd( speed.morale, "Morale", 1 );
         mults_desc += format_spd( speed.player_speed, "Speed", 1 );
         mults_desc += format_spd( speed.skills, "Skills", 1 );
         mults_desc += format_spd( speed.tools, "Tools", 1 );
+        mults_desc += format_spd( speed.bench_factor, "Workbench", 1 );
+        mults_desc += format_spd( speed.stats_total(), "Stats", 1 );
+
+        for( auto &stat : speed.stats ) {
+            mults_desc += format_spd( stat.second, get_stat_name( stat.first ), 2 );
+        }
 
 
 
@@ -341,21 +371,21 @@ std::optional<std::string> player_activity::get_progress_message( const avatar &
         }
     }
 
-    if( type == activity_id( "ACT_ADV_INVENTORY" ) ||
-        type == activity_id( "ACT_AIM" ) ||
-        type == activity_id( "ACT_ARMOR_LAYERS" ) ||
-        type == activity_id( "ACT_ATM" ) ||
-        type == activity_id( "ACT_CONSUME_DRINK_MENU" ) ||
-        type == activity_id( "ACT_CONSUME_FOOD_MENU" ) ||
-        type == activity_id( "ACT_CONSUME_MEDS_MENU" ) ||
-        type == activity_id( "ACT_EAT_MENU" ) ) {
+    if( type == ACT_ADV_INVENTORY ||
+        type == ACT_AIM ||
+        type == ACT_ARMOR_LAYERS ||
+        type == ACT_ATM ||
+        type == ACT_CONSUME_DRINK_MENU ||
+        type == ACT_CONSUME_FOOD_MENU ||
+        type == ACT_CONSUME_MEDS_MENU ||
+        type == ACT_EAT_MENU ) {
         return std::nullopt;
     }
 
     std::string extra_info;
-    if( type == activity_id( "ACT_CRAFT" ) ) {
+    if( type == ACT_CRAFT ) {
         return craft_progress_message( u, *this );
-    } else if( type == activity_id( "ACT_READ" ) ) {
+    } else if( type == ACT_READ ) {
         if( const item *book = &*targets.front() ) {
             if( const auto &reading = book->type->book ) {
                 const skill_id &skill = reading->skill;
@@ -372,17 +402,17 @@ std::optional<std::string> player_activity::get_progress_message( const avatar &
             }
         }
     } else if( moves_total > 0 ) {
-        if( type == activity_id( "ACT_BURROW" ) ||
-            type == activity_id( "ACT_HACKSAW" ) ||
-            type == activity_id( "ACT_JACKHAMMER" ) ||
-            type == activity_id( "ACT_PICKAXE" ) ||
-            type == activity_id( "ACT_VEHICLE" ) ||
-            type == activity_id( "ACT_FILL_PIT" ) ||
-            type == activity_id( "ACT_DIG" ) ||
-            type == activity_id( "ACT_DIG_CHANNEL" ) ||
-            type == activity_id( "ACT_CHOP_TREE" ) ||
-            type == activity_id( "ACT_CHOP_LOGS" ) ||
-            type == activity_id( "ACT_CHOP_PLANKS" )
+        if( type == ACT_BURROW ||
+            type == ACT_HACKSAW ||
+            type == ACT_JACKHAMMER ||
+            type == ACT_PICKAXE ||
+            type == ACT_VEHICLE ||
+            type == ACT_FILL_PIT ||
+            type == ACT_DIG ||
+            type == ACT_DIG_CHANNEL ||
+            type == ACT_CHOP_TREE ||
+            type == ACT_CHOP_LOGS ||
+            type == ACT_CHOP_PLANKS
           ) {
             const int percentage = ( ( moves_total - moves_left ) * 100 ) / moves_total;
 
@@ -395,46 +425,12 @@ std::optional<std::string> player_activity::get_progress_message( const avatar &
            : string_format( _( "%s: %s" ), get_verb().translated(), extra_info );
 }
 
-void player_activity::find_best_bench( const tripoint &pos )
-{
-    bench_loc best_bench = bench_loc(
-                               workbench_info_wrapper(
-                                   * string_id<furn_t>( "f_ground_crafting_spot" ).obj().workbench.get() ),
-                               bench_type::ground,
-                               pos );
-    std::vector<tripoint> reachable( PICKUP_RANGE * PICKUP_RANGE );
-    get_map().reachable_flood_steps( reachable, pos, PICKUP_RANGE, 1, 100 );
-    for( const tripoint &adj : reachable ) {
-        if( auto wb = get_map().furn( adj ).obj().workbench ) {
-            if( wb->multiplier > best_bench.wb_info.multiplier ) {
-                best_bench = bench_loc( workbench_info_wrapper( *wb.get() ), bench_type::furniture, adj );
-            }
-        }
-
-        if( const std::optional<vpart_reference> vp = get_map().veh_at(
-                    adj ).part_with_feature( "WORKBENCH", true ) ) {
-            if( const std::optional<vpslot_workbench> &wb_info = vp->part().info().get_workbench_info() ) {
-                if( wb_info->multiplier > best_bench.wb_info.multiplier ) {
-                    best_bench = bench_loc( workbench_info_wrapper( wb_info.value() ), bench_type::furniture, adj );
-                }
-            } else {
-                debugmsg( "part '%' with WORKBENCH flag has no workbench info", vp->part().name() );
-            }
-        }
-    }
-
-    bench = best_bench;
-}
-
 void player_activity::start_or_resume( Character &who, bool resuming )
 {
     if( actor && !resuming ) {
         actor->start( *this, who );
     }
-    if( is_bench_affected() ) {
-        find_best_bench( who.pos() );
-    }
-    calc_moves( who );
+    init_all_moves( who );
     if( rooted() ) {
         who.rooted_message();
     }
@@ -472,17 +468,19 @@ void player_activity::do_turn( player &p )
         }
     }
 
-    /*
-    * Stamina block
-    */
-    int previous_stamina = p.get_stamina();
-    if( p.is_npc() && p.restore_outbounds_activity() ) {
-        // npc might be operating at the edge of the reality bubble.
-        // or just now reloaded back into it, and their activity target might
-        // be still unloaded, can cause infinite loops.
-        set_to_null();
-        p.drop_invalid_inventory();
-        return;
+    if( p.is_npc() ) {
+        if( p.restore_outbounds_activity() ) {
+            // npc might be operating at the edge of the reality bubble.
+            // or just now reloaded back into it, and their activity target might
+            // be still unloaded, can cause infinite loops.
+            set_to_null();
+            p.drop_invalid_inventory();
+            return;
+        }
+        if( p.activity->id() == ACT_ASSIST ) {
+            p.moves = 0;
+            return;
+        }
     }
 
     /*
@@ -492,7 +490,10 @@ void player_activity::do_turn( player &p )
     */
     if( !type->special() ) {
         if( type->complex_moves() ) {
-            calc_moves( p );
+            if( calendar::once_every( 1_minutes ) ) {
+                calc_moves( p );
+            }
+
             int moves_total = speed.total_moves();
 
             //fancy new system
@@ -546,7 +547,10 @@ void player_activity::do_turn( player &p )
         type->call_do_turn( this, &p );
     }
 
-    const bool travel_activity = id() == activity_id( "ACT_TRAVELLING" );
+
+    /*
+    * Stamina block
+    */
     // Activities should never excessively drain stamina.
     // adjusted stamina because
     // autotravel doesn't reduce stamina after do_turn()
@@ -554,6 +558,9 @@ void player_activity::do_turn( player &p )
     // so set stamina -1 if that is the case
     // to simulate that the next step will surely use up some stamina anyway
     // this is to ensure that resting will occur when traveling overburdened
+
+    int previous_stamina = p.get_stamina();
+    const bool travel_activity = id() == ACT_TRAVELLING;
     const int adjusted_stamina = travel_activity ? p.get_stamina() - 1 : p.get_stamina();
     if( adjusted_stamina < previous_stamina && p.get_stamina() < p.get_stamina_max() / 3 ) {
         if( one_in( 50 ) ) {
@@ -561,7 +568,7 @@ void player_activity::do_turn( player &p )
         }
         auto_resume = true;
         std::unique_ptr<player_activity> new_act = std::make_unique<player_activity>
-                ( activity_id( "ACT_WAIT_STAMINA" ), to_moves<int>( 1_minutes ) );
+                ( ACT_WAIT_STAMINA, to_moves<int>( 1_minutes ) );
         new_act->values.push_back( 200 + p.get_stamina_max() / 3 );
         p.assign_activity( std::move( new_act ) );
         return;
@@ -583,6 +590,10 @@ void player_activity::do_turn( player &p )
                 set_to_null();
             }
         }
+        for( Character *npc : assistants() ) {
+            npc->cancel_activity();
+        }
+
     }
     if( !p.activity ) {
         // Make sure data of previous activity is cleared
@@ -599,6 +610,9 @@ void player_activity::canceled( Character &who )
 {
     if( *this && actor ) {
         actor->canceled( *this, who );
+    }
+    for( Character *npc : assistants() ) {
+        npc->cancel_activity();
     }
 }
 
@@ -631,25 +645,25 @@ bool player_activity::can_resume_with( const player_activity &other, const Chara
         return actor->can_resume_with( *other.actor, who );
     }
 
-    if( id() == activity_id( "ACT_CLEAR_RUBBLE" ) ) {
+    if( id() == ACT_CLEAR_RUBBLE ) {
         if( other.coords.empty() || other.coords[0] != coords[0] ) {
             return false;
         }
-    } else if( id() == activity_id( "ACT_READ" ) ) {
+    } else if( id() == ACT_READ ) {
         // Return false if any NPCs joined or left the study session
         // the vector {1, 2} != {2, 1}, so we'll have to check manually
         if( values.size() != other.values.size() ) {
             return false;
         }
         for( int foo : other.values ) {
-            if( std::find( values.begin(), values.end(), foo ) == values.end() ) {
+            if( std::ranges::find( values, foo ) == values.end() ) {
                 return false;
             }
         }
         if( targets.empty() || other.targets.empty() || targets[0] != other.targets[0] ) {
             return false;
         }
-    } else if( id() == activity_id( "ACT_VEHICLE" ) ) {
+    } else if( id() == ACT_VEHICLE ) {
         if( values != other.values || str_values != other.str_values ) {
             return false;
         }

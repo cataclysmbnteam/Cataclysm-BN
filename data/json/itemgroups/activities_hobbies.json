@@ -185,6 +185,7 @@
       { "group": "tinware", "prob": 10 },
       [ "kukri", 4 ],
       [ "knife_hunting", 18 ],
+      [ "gps_device", 5 ],
       [ "knife_heat", 10 ],
       [ "knife_rambo", 20 ],
       [ "machete", 5 ],
@@ -331,7 +332,9 @@
       [ "mess_tin", 10 ],
       [ "survival_kit", 30 ],
       [ "premium_survival_kit", 3 ],
-      [ "wire_saw", 10 ]
+      [ "wire_saw", 10 ],
+      [ "butane_can", 15 ],
+      [ "butane_tank", 10 ]
     ]
   },
   {

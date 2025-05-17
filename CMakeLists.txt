@@ -15,10 +15,10 @@ set(CMAKE_TLS_VERIFY ON)
 
 # Build options
 include(CMakeDependentOption)
+include(ExternalProject)
 option(TILES "Build graphical tileset version." "OFF")
 option(CURSES "Build curses version." "ON")
 option(SOUND "Support for in-game sounds & music." "OFF")
-option(LUA "Support for in-game scripting with Lua." "OFF")
 option(BACKTRACE "Support for printing stack backtraces on crash" "ON")
 option(LIBBACKTRACE "Print backtrace with libbacktrace." "OFF")
 option(USE_XDG_DIR "Use XDG directories for save and config files." "OFF")
@@ -131,11 +131,6 @@ if (NOT DYNAMIC_LINKING)
     set(CMAKE_SHARED_LIBRARY_CXX_FLAGS)
     set(CMAKE_SHARED_LIBRARY_LINK_C_FLAGS)    # remove -rdynamic
     set(CMAKE_SHARED_LIBRARY_LINK_CXX_FLAGS)
-else ()
-    if (MINGW AND NOT "${CMAKE_CXX_COMPILER_ID}" MATCHES "Clang")
-        # Avoid depending on MinGW runtime DLLs
-        set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -static-libgcc -static-libstdc++")
-    endif ()
 endif ()
 
 message(STATUS "${PROJECT_NAME} build options --")
@@ -211,7 +206,6 @@ message(STATUS "DYNAMIC_LINKING               : ${DYNAMIC_LINKING}")
 message(STATUS "TILES                         : ${TILES}")
 message(STATUS "CURSES                        : ${CURSES}")
 message(STATUS "SOUND                         : ${SOUND}")
-message(STATUS "LUA                           : ${LUA}")
 message(STATUS "BACKTRACE                     : ${BACKTRACE}")
 message(STATUS "LIBBACKTRACE                  : ${LIBBACKTRACE}")
 message(STATUS "USE_TRACY                     : ${USE_TRACY}")
@@ -389,6 +383,53 @@ endif ()
 
 if (BACKTRACE)
     add_definitions(-DBACKTRACE)
+    if (LIBBACKTRACE AND NOT MSVC)
+        message(STATUS "Integrating libbacktrace build using ExternalProject")
+
+        set(LIBBACKTRACE_GIT_REPO https://github.com/ianlancetaylor/libbacktrace.git)
+        set(LIBBACKTRACE_GIT_TAG master)
+
+        set(LIBBACKTRACE_INSTALL_DIR "${CMAKE_BINARY_DIR}/libbacktrace/install")
+        SET(LIBBACKTRACE_LIBRARY "${LIBBACKTRACE_INSTALL_DIR}/lib/libbacktrace.a")
+
+        include(ProcessorCount)
+        ProcessorCount(NCPU)
+        if(NCPU EQUAL 0)
+            set(NCPU 1)
+        endif()
+
+        ExternalProject_Add(
+            libbacktrace_external
+            GIT_REPOSITORY ${LIBBACKTRACE_GIT_REPO}
+            GIT_TAG ${LIBBACKTRACE_GIT_TAG}
+            GIT_SHALLOW TRUE
+
+            SOURCE_DIR "${CMAKE_BINARY_DIR}/libbacktrace/src"
+            BINARY_DIR "${CMAKE_BINARY_DIR}/libbacktrace/build"
+
+            CONFIGURE_COMMAND <SOURCE_DIR>/configure --prefix=${LIBBACKTRACE_INSTALL_DIR}
+
+            BUILD_COMMAND make -j${NCPU}
+
+            INSTALL_COMMAND make install
+
+            INSTALL_DIR ${LIBBACKTRACE_INSTALL_DIR}
+            BUILD_BYPRODUCTS ${LIBBACKTRACE_LIBRARY}
+
+            UPDATE_DISCONNECTED 1
+        )
+
+        add_library(backtrace SHARED IMPORTED)
+        set_target_properties(backtrace
+            PROPERTIES IMPORTED_LOCATION ${LIBBACKTRACE_LIBRARY}
+        )
+        # Hack to make it work, otherwise INTERFACE_INCLUDE_DIRECTORIES will not be propagated
+        file(MAKE_DIRECTORY "${LIBBACKTRACE_INSTALL_DIR}/include")
+        target_include_directories(backtrace INTERFACE
+            "${LIBBACKTRACE_INSTALL_DIR}/include"
+        )
+        add_dependencies(backtrace libbacktrace_external)
+    endif ()
     if (LIBBACKTRACE)
         add_definitions(-DLIBBACKTRACE)
     endif ()

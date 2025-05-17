@@ -1,6 +1,4 @@
 #pragma once
-#ifndef CATA_SRC_MARTIALARTS_H
-#define CATA_SRC_MARTIALARTS_H
 
 #include <cstddef>
 #include <set>
@@ -160,6 +158,8 @@ class ma_technique
         float move_cost_multiplier( const Character &u ) const;
         float move_cost_penalty( const Character &u ) const;
         float armor_penetration( const Character &u, damage_type type ) const;
+
+        LUA_TYPE_OPS( ma_technique, id );
 };
 
 class ma_buff
@@ -337,4 +337,4 @@ std::vector<matype_id> autolearn_martialart_types();
 /** Returns true if the character can learn the entered martial art */
 bool can_autolearn_martial_art( const Character &who, const matype_id &ma_id );
 
-#endif // CATA_SRC_MARTIALARTS_H
+

@@ -1,5 +1,6 @@
 #include "options.h"
 
+#include <algorithm>
 #include <locale>
 #include <cfloat>
 #include <climits>
@@ -289,7 +290,7 @@ void options_manager::add_external( const std::string &sNameIn, const std::strin
             thisOpt.iSet = 0;
             break;
         case cOpt::CVT_FLOAT:
-            thisOpt.fMin = FLT_MIN;
+            thisOpt.fMin = -FLT_MAX;
             thisOpt.fMax = FLT_MAX;
             thisOpt.fDefault = 0;
             thisOpt.fSet = 0;
@@ -763,8 +764,8 @@ int options_manager::cOpt::value_as<int>() const
 std::string options_manager::cOpt::getValueName() const
 {
     if( sType == "string_select" ) {
-        const auto iter = std::find_if( vItems.begin(),
-        vItems.end(), [&]( const id_and_option & e ) {
+        const auto iter = std::ranges::find_if( vItems,
+        [&]( const id_and_option & e ) {
             return e.first == sSet;
         } );
         if( iter != vItems.end() ) {
@@ -789,7 +790,7 @@ std::string options_manager::cOpt::getValueName() const
 std::string options_manager::cOpt::getDefaultText( const bool bTranslated ) const
 {
     if( sType == "string_select" ) {
-        const auto iter = std::find_if( vItems.begin(), vItems.end(),
+        const auto iter = std::ranges::find_if( vItems,
         [this]( const id_and_option & elem ) {
             return elem.first == sDefault;
         } );
@@ -1108,7 +1109,7 @@ std::vector<options_manager::id_and_option> options_manager::build_tilesets_list
     std::vector<options_manager::id_and_option> user_tilesets = load_tilesets_from(
                 PATH_INFO::user_gfx() );
     for( const options_manager::id_and_option &id : user_tilesets ) {
-        if( std::find( result.begin(), result.end(), id ) == result.end() ) {
+        if( std::ranges::find( result, id ) == result.end() ) {
             result.emplace_back( id );
         }
     }
@@ -1521,6 +1522,19 @@ void options_manager::add_options_interface()
 
     add( "USE_LANG", interface, translate_marker( "Language" ),
          translate_marker( "Switch Language." ), lang_options, "" );
+
+    add_empty_line();
+
+
+    add( "WIKI_DOC_URL", interface, translate_marker( "Wiki URL" ),
+         translate_marker( "The URL opened by pressing the open wiki keybind." ),
+         "https://docs.cataclysmbn.org", 60
+       );
+
+    add( "HHG_URL", interface, translate_marker( "Hitchhiker's Guide URL" ),
+         translate_marker( "The URL opened by pressing the open HHG keybind." ),
+         "https://next.cbn-guide.pages.dev", 60
+       );
 
     add_empty_line();
 
@@ -2299,6 +2313,13 @@ void options_manager::add_options_debug()
     add( "LIMITED_BAYONETS", debug, translate_marker( "New bayonet system" ),
          translate_marker( "If true, bayonets replace weapon attack instead of adding to it.  WIP feature, weakens bayonets heavily at the moment." ),
          false );
+
+    add_empty_line();
+
+    add( "USE_LEGACY_PATHFINDING", debug,
+         translate_marker( "Use legacy pathfinding" ),
+         translate_marker( "If true, opt out of new pathfinding in favor of legacy one. This makes pathfinding mods not work." ),
+         false );
 }
 
 void options_manager::add_options_world_default()
@@ -2865,7 +2886,7 @@ struct string_col {
 std::string options_manager::show( bool ingame, const bool world_options_only,
                                    const std::function<bool()> &on_quit )
 {
-    const int iWorldOptPage = std::find_if( pages_.begin(), pages_.end(), [&]( const Page & p ) {
+    const int iWorldOptPage = std::ranges::find_if( pages_, [&]( const Page & p ) {
         return p.id_ == world_default;
     } ) - pages_.begin();
 

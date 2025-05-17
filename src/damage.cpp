@@ -1,5 +1,6 @@
 #include "damage.h"
 
+#include <algorithm>
 #include <cstddef>
 #include <algorithm>
 #include <map>
@@ -53,6 +54,7 @@ const std::string damage_unit::get_name() const
         case NUM_DT:
             return std::to_string( NUM_DT );
     }
+    return std::to_string( NUM_DT );
 }
 
 damage_instance::damage_instance() = default;
@@ -131,7 +133,7 @@ void damage_instance::add( const damage_instance &added_di )
 
 void damage_instance::add( const damage_unit &new_du )
 {
-    auto iter = std::find_if( damage_units.begin(), damage_units.end(),
+    auto iter = std::ranges::find_if( damage_units,
     [&new_du]( const damage_unit & du ) {
         return du.type == new_du.type;
     } );
@@ -407,8 +409,8 @@ static damage_unit load_damage_unit_inherit( const JsonObject &curr, const damag
     damage_unit ret = load_damage_unit( curr );
 
     const std::vector<damage_unit> &parent_damage = parent.damage_units;
-    auto du_iter = std::find_if( parent_damage.begin(),
-    parent_damage.end(), [&ret]( const damage_unit & dmg ) {
+    auto du_iter = std::ranges::find_if( parent_damage,
+    [&ret]( const damage_unit & dmg ) {
         return dmg.type == ret.type;
     } );
 

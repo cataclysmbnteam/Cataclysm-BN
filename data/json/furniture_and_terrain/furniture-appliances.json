@@ -1490,6 +1490,41 @@
   },
   {
     "type": "furniture",
+    "id": "f_gridgunkit",
+    "looks_like": "large_repairkit",
+    "name": "grid gunsmith repair kit",
+    "symbol": "#",
+    "description": "A gunsmith kit connected to an electrical grid.",
+    "color": "red",
+    "move_cost_mod": -1,
+    "coverage": 10,
+    "required_str": -1,
+    "crafting_pseudo_item": "fake_gridgunkit",
+    "examine_action": "use_furn_fake_item",
+    "flags": [ "TRANSPARENT", "MOUNTABLE", "EASY_DECONSTRUCT" ],
+    "deconstruct": {
+      "items": [
+        { "item": "solder_wire", "charges": 20 },
+        { "item": "large_repairkit", "count": 1 },
+        { "item": "cable", "charges": 5 },
+        { "item": "power_supply", "count": 1 }
+      ]
+    },
+    "bash": {
+      "str_min": 4,
+      "str_max": 30,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "solder_wire", "charges": [ 10, 20 ] },
+        { "item": "power_supply", "count": [ 1, 4 ] },
+        { "item": "scrap", "count": [ 0, 8 ] },
+        { "item": "cable", "charges": [ 1, 4 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
     "id": "f_welderrig",
     "copy-from": "f_gridwelder",
     "looks_like": "weldrig",
@@ -1682,6 +1717,42 @@
       "items": [
         { "item": "solder_wire", "charges": 20 },
         { "item": "food_processor", "count": 1 },
+        { "item": "cable", "charges": 5 },
+        { "item": "power_supply", "count": 1 }
+      ]
+    },
+    "bash": {
+      "str_min": 8,
+      "str_max": 16,
+      "sound": "crunch!",
+      "sound_fail": "whump.",
+      "items": [
+        { "item": "solder_wire", "charges": [ 10, 20 ] },
+        { "item": "power_supply", "count": [ 1, 4 ] },
+        { "item": "scrap", "count": [ 0, 4 ] },
+        { "item": "plastic_chunk", "count": [ 0, 9 ] },
+        { "item": "cable", "charges": [ 1, 4 ] },
+        { "item": "element", "count": [ 2, 6 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_gridsoda_machine",
+    "looks_like": "food_processor",
+    "name": "soda machine",
+    "symbol": "U",
+    "description": "A soda machine connected to a electrical grid.  Capable of creating carbonated drinks.",
+    "color": "blue",
+    "move_cost_mod": -1,
+    "coverage": 10,
+    "required_str": -1,
+    "crafting_pseudo_item": "fake_gridsoda_machine",
+    "flags": [ "TRANSPARENT", "MOUNTABLE", "EASY_DECONSTRUCT" ],
+    "deconstruct": {
+      "items": [
+        { "item": "solder_wire", "charges": 20 },
+        { "item": "soda_machine", "count": 1 },
         { "item": "cable", "charges": 5 },
         { "item": "power_supply", "count": 1 }
       ]
@@ -2036,6 +2107,96 @@
     "active": [
       "steady_consumer",
       { "power": 25, "consume_every": "600 s", "transform": { "id": "f_freezer", "msg": "The freezer shuts down." } }
+    ]
+  },
+  {
+    "type": "furniture",
+    "id": "f_freezer_industrial",
+    "name": "industrial freezer",
+    "symbol": "}",
+    "color": "blue",
+    "description": "An industrial grade freezer, capable preserving huge amounts of food, as long as it's powered.  It has no power.",
+    "examine_action": "transform",
+    "looks_like": "f_fridge",
+    "transforms_into": "f_freezer_industrial_off",
+    "prompt": "Switch off the freezer.",
+    "message": "You switch off the freezer.",
+    "active": [
+      "charge_watcher",
+      { "min_power": 150, "transform": { "id": "f_freezer_industrial_on", "msg": "The freezer starts up." } }
+    ],
+    "move_cost_mod": -1,
+    "required_str": -1,
+    "coverage": 90,
+    "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "MINEABLE" ],
+    "max_volume": "1000 L",
+    "deconstruct": {
+      "items": [
+        { "item": "sheet_metal", "count": 36 },
+        { "item": "sheet_metal_small", "count": 10 },
+        { "item": "steel_chunk", "count": 10 },
+        { "item": "cable", "count": 5 },
+        { "item": "hose", "count": 1 },
+        { "item": "condensor_coil", "count": 2 },
+        { "item": "evaporator_coil", "count": 2 },
+        { "item": "refrigerant_tank", "count": 2 },
+        { "item": "thermostat", "count": 1 },
+        { "item": "light_bulb", "count": 1 },
+        { "item": "motor_tiny", "count": 2 }
+      ]
+    },
+    "bash": {
+      "str_min": 20,
+      "str_max": 60,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "sheet_metal", "count": [ 10, 30 ] },
+        { "item": "sheet_metal_small", "count": [ 8, 20 ] },
+        { "item": "steel_chunk", "count": [ 2, 10 ] },
+        { "item": "scrap", "count": [ 2, 10 ] },
+        { "item": "cable", "charges": [ 2, 5 ] },
+        { "item": "hose", "count": [ 1, 2 ] },
+        { "item": "cu_pipe", "count": [ 2, 8 ] },
+        { "item": "scrap_copper", "count": [ 1, 4 ] },
+        { "item": "motor_tiny", "count": [ 0, 2 ] }
+      ],
+      "//": "Variable reduction since might hit more or less material.",
+      "ranged": { "reduction": [ 9, 18 ], "destroy_threshold": 50 }
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_freezer_industrial_off",
+    "name": "industrial freezer (off)",
+    "symbol": "}",
+    "color": "blue",
+    "copy-from": "f_freezer_industrial",
+    "description": "An industrial grade freezer, capable preserving huge amounts of food, as long as it's powered.  It is switched off.",
+    "transforms_into": "f_freezer_industrial_on",
+    "prompt": "Switch on the freezer.",
+    "message": "You switch on the freezer.",
+    "//": "Removes autostart action",
+    "active": [ null ]
+  },
+  {
+    "type": "furniture",
+    "id": "f_freezer_industrial_on",
+    "name": "industrial freezer (on)",
+    "symbol": "}",
+    "color": "blue",
+    "copy-from": "f_freezer_industrial",
+    "description": "An industrial grade freezer, capable preserving huge amounts of food, as long as it's powered.  It is switched on.",
+    "transforms_into": "f_freezer_industrial_off",
+    "extend": { "flags": [ "FREEZER" ] },
+    "//": "Please keep steady_consumer to 300 s or more to avoid lag.",
+    "active": [
+      "steady_consumer",
+      {
+        "power": 100,
+        "consume_every": "600 s",
+        "transform": { "id": "f_freezer_industrial", "msg": "The freezer shuts down." }
+      }
     ]
   },
   {
@@ -2841,5 +3002,34 @@
     },
     "crafting_pseudo_item": [ "grid_hydraulic_press" ],
     "deconstruct": { "items": [ { "item": "hydraulic_press", "count": 1 } ] }
+  },
+  {
+    "type": "furniture",
+    "id": "f_recycler",
+    "name": "metal compactor",
+    "description": "A hydraulic compactor that can accept items made of various metals, and press them into basic shapes, ready for further crafting.  If you're very careful, you can even uninstall it to transport it elsewhere.",
+    "looks_like": "t_recycler",
+    "symbol": "&",
+    "color": "green",
+    "move_cost_mod": -1,
+    "coverage": 75,
+    "required_str": 20,
+    "max_volume": "2000 L",
+    "flags": [ "TRANSPARENT", "BLOCKSDOOR", "ADV_DECONSTRUCT", "CONTAINER", "PLACE_ITEM" ],
+    "examine_action": "recycle_compactor",
+    "deconstruct": {
+      "items": [ { "item": "recycler_item", "count": 1 }, { "item": "cable", "charges": 15 }, { "item": "power_supply", "count": 3 } ]
+    },
+    "bash": {
+      "str_min": 20,
+      "str_max": 150,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "steel_lump", "count": [ 0, 2 ] },
+        { "item": "steel_chunk", "count": [ 1, 4 ] },
+        { "item": "scrap", "count": [ 3, 12 ] }
+      ]
+    }
   }
 ]

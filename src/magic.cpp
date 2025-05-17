@@ -48,6 +48,7 @@
 #include "string_formatter.h"
 #include "string_id.h"
 #include "translations.h"
+#include "type_id.h"
 #include "ui.h"
 #include "units.h"
 
@@ -101,6 +102,7 @@ std::string enum_to_string<spell_flag>( spell_flag data )
         case spell_flag::PAIN_NORESIST: return "PAIN_NORESIST";
         case spell_flag::NO_FAIL: return "NO_FAIL";
         case spell_flag::WONDER: return "WONDER";
+        case spell_flag::BRAWL: return "BRAWL";
         case spell_flag::LAST: break;
     }
     debugmsg( "Invalid spell_flag" );
@@ -265,6 +267,8 @@ void spell_type::load( const JsonObject &jo, const std::string & )
     const auto trigger_reader = enum_flags_reader<valid_target> { "valid_targets" };
     mandatory( jo, was_loaded, "valid_targets", valid_targets, trigger_reader );
 
+    optional( jo, was_loaded, "blocker_mutations", blocker_mutations, auto_flags_reader<trait_id> {} );
+
     if( jo.has_array( "extra_effects" ) ) {
         for( JsonObject fake_spell_obj : jo.get_array( "extra_effects" ) ) {
             fake_spell temp;
@@ -293,6 +297,11 @@ void spell_type::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "min_damage", min_damage, 0 );
     optional( jo, was_loaded, "damage_increment", damage_increment, 0.0f );
     optional( jo, was_loaded, "max_damage", max_damage, 0 );
+
+    // minimum is defaulted to -1 for default detection reasons
+    optional( jo, was_loaded, "min_accuracy", min_accuracy, -1 );
+    optional( jo, was_loaded, "accuracy_increment", accuracy_increment, 0.0f );
+    optional( jo, was_loaded, "max_accuracy", max_accuracy, 100 );
 
     optional( jo, was_loaded, "min_range", min_range, 0 );
     optional( jo, was_loaded, "range_increment", range_increment, 0.0f );
@@ -542,6 +551,22 @@ std::string spell::aoe_string() const
         return string_format( "%d-%d", min_leveled_aoe(), type->max_aoe );
     } else {
         return string_format( "%d", aoe() );
+    }
+}
+
+int spell::accuracy() const
+{
+    // default detection for special case
+    if( type->min_accuracy == -1 ) {
+        return -1;
+    }
+
+    const int leveled_accuracy = type->min_accuracy + std::round( get_level() *
+                                 type->accuracy_increment );
+    if( type-> max_accuracy >= type->min_accuracy ) {
+        return std::min( leveled_accuracy, type->max_accuracy );
+    } else {
+        return std::max( leveled_accuracy, type->max_accuracy );
     }
 }
 
@@ -1080,6 +1105,11 @@ int spell::get_level() const
 int spell::get_max_level() const
 {
     return type->max_level;
+}
+
+std::set<trait_id> spell::get_blocker_muts() const
+{
+    return type->blocker_mutations;
 }
 
 // helper function to calculate xp needed to be at a certain level
@@ -1674,8 +1704,25 @@ static std::string enumerate_spell_data( const spell &sp )
     if( sp.effect() == "target_attack" && sp.range() > 1 ) {
         spell_data.emplace_back( _( "can be cast through walls" ) );
     }
+    if( sp.has_flag( spell_flag::BRAWL ) ) {
+        spell_data.emplace_back( _( "can be used by Brawlers" ) );
+    }
     return enumerate_as_string( spell_data );
 }
+
+static std::string enumerate_traits( const std::set<trait_id> st )
+{
+    std::vector<std::string> str_vector;
+    if( !st.empty() ) {
+        for( trait_id trait : st ) {
+            str_vector.push_back( trait->name() );
+        }
+    } else {
+        str_vector.push_back( "None" );
+    }
+    return enumerate_as_string( str_vector );
+}
+
 
 void spellcasting_callback::draw_spell_info( const spell &sp, const uilist *menu )
 {
@@ -1705,6 +1752,9 @@ void spellcasting_callback::draw_spell_info( const spell &sp, const uilist *menu
     if( line <= win_height / 3 ) {
         line++;
     }
+
+    line += fold_and_print( w_menu, point( h_col1, line++ ), info_width, gray, string_format( "%s: %s",
+                            _( "Blocker mutations" ), enumerate_traits( sp.get_blocker_muts() ) ) );
 
     print_colored_text( w_menu, point( h_col1, line ), gray, gray,
                         string_format( "%s: %d %s", _( "Spell Level" ), sp.get_level(),

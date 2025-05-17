@@ -1,4 +1,3 @@
-#ifdef LUA
 #include "catalua_bindings.h"
 
 #include "activity_type.h"
@@ -20,9 +19,11 @@
 #include "monfaction.h"
 #include "monstergenerator.h"
 #include "morale_types.h"
+#include "mtype.h"
 #include "mutation.h"
 #include "recipe.h"
 #include "skill.h"
+#include "trap.h"
 #include "type_id.h"
 
 template<typename T, bool do_int_id>
@@ -117,8 +118,10 @@ void cata::detail::reg_game_ids( sol::state &lua )
     reg_id<json_flag, false>( lua );
     reg_id<json_trait_flag, false>( lua );
     reg_id<ma_buff, false>( lua );
+    reg_id<ma_technique, false>( lua );
     reg_id<monfaction, true>( lua );
     reg_id<morale_type_data, false>( lua );
+    reg_id<mtype, false>( lua );
     reg_id<mutation_branch, false>( lua );
     reg_id<mutation_category_trait, false>( lua );
     reg_id<recipe, false>( lua );
@@ -126,6 +129,7 @@ void cata::detail::reg_game_ids( sol::state &lua )
     reg_id<species_type, false>( lua );
     reg_id<spell_type, false>( lua );
     reg_id<ter_t, true>( lua );
+    reg_id<trap, true>( lua );
 
 }
 
@@ -176,5 +180,3 @@ void cata::detail::reg_types( sol::state &lua )
         luna::set( ut, "transforms_into", &furn_t::transforms_into );
     }
 }
-
-#endif

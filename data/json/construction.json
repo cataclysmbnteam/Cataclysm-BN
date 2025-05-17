@@ -153,7 +153,7 @@
     "time": "60 m",
     "qualities": [ [ { "id": "CUT", "level": 1 } ], [ { "id": "HAMMER", "level": 1 } ] ],
     "components": [ [ [ "wood_structural", 3, "LIST" ], [ "wood_panel", 1 ] ], [ [ "pine_bough", 24 ], [ "willowbark", 24 ] ] ],
-    "pre_terrain": "t_pit_shallow",
+    "pre_flags": "PIT_SHALLOW",
     "dark_craftable": true,
     "post_terrain": "t_improvised_shelter"
   },
@@ -421,6 +421,67 @@
   },
   {
     "type": "construction",
+    "id": "constr_door_welded",
+    "group": "weld_shut_metal_door",
+    "//": "All regular openable metal doors",
+    "category": "REINFORCE",
+    "required_skills": [ [ "fabrication", 1 ] ],
+    "//2": "Same amount of time to cut one open, but half the oxy-ace consumption and allows arc welders",
+    "time": "14 s",
+    "using": [ [ "welding_standard", 8 ] ],
+    "pre_flags": "WELDABLE_DOOR",
+    "post_terrain": "t_door_metal_welded"
+  },
+  {
+    "type": "construction",
+    "id": "constr_door_welded_peep",
+    "group": "weld_shut_metal_door",
+    "//": "Metal door with peephole",
+    "category": "REINFORCE",
+    "required_skills": [ [ "fabrication", 1 ] ],
+    "time": "14 s",
+    "using": [ [ "welding_standard", 8 ] ],
+    "pre_terrain": "t_door_metal_c_peep",
+    "post_terrain": "t_door_metal_welded_peephole"
+  },
+  {
+    "type": "construction",
+    "id": "constr_door_welded_bulkhead",
+    "group": "weld_shut_metal_door",
+    "//": "Metal bulkhead door",
+    "category": "REINFORCE",
+    "required_skills": [ [ "fabrication", 1 ] ],
+    "time": "14 s",
+    "using": [ [ "welding_standard", 8 ] ],
+    "pre_terrain": "t_door_metal_bulkhead_c",
+    "post_terrain": "t_door_metal_welded_bulkhead"
+  },
+  {
+    "type": "construction",
+    "id": "constr_door_welded_lab",
+    "group": "weld_shut_metal_door",
+    "//": "Metal lab door",
+    "category": "REINFORCE",
+    "required_skills": [ [ "fabrication", 1 ] ],
+    "time": "14 s",
+    "using": [ [ "welding_standard", 8 ] ],
+    "pre_terrain": "t_door_metal_lab_c",
+    "post_terrain": "t_door_metal_welded_lab"
+  },
+  {
+    "type": "construction",
+    "id": "constr_door_welded_bars",
+    "group": "weld_shut_metal_door",
+    "//": "Bar doors",
+    "category": "REINFORCE",
+    "required_skills": [ [ "fabrication", 1 ] ],
+    "time": "9 s",
+    "using": [ [ "welding_standard", 5 ] ],
+    "pre_flags": "WELDABLE_BARS",
+    "post_terrain": "t_door_metal_welded_bars"
+  },
+  {
+    "type": "construction",
     "id": "constr_mdoor_frame",
     "group": "build_metal_door",
     "//": "step 1: door frame",
@@ -566,6 +627,56 @@
   },
   {
     "type": "construction",
+    "id": "constr_window_empty_taped",
+    "group": "tape_up_window",
+    "//": "Need a recipe for each type of window tapable due to how code works",
+    "category": "REINFORCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "5 m",
+    "components": [ [ [ "duct_tape", 75 ] ] ],
+    "pre_terrain": "t_window_empty",
+    "dark_craftable": true,
+    "post_terrain": "t_window_empty_taped"
+  },
+  {
+    "type": "construction",
+    "id": "constr_window_empty_domestic_taped",
+    "group": "tape_up_window",
+    "//": "Need a recipe for each type of window tapable due to how code works",
+    "category": "REINFORCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "5 m",
+    "components": [ [ [ "duct_tape", 75 ] ] ],
+    "pre_terrain": "t_window_empty",
+    "dark_craftable": true,
+    "post_terrain": "t_window_empty_domestic_taped"
+  },
+  {
+    "type": "construction",
+    "id": "constr_revert_window_empty_taped",
+    "group": "remove_tape_from_window",
+    "//": "Need a recipe for each type of window tapable due to how code works",
+    "category": "REINFORCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "2 m",
+    "qualities": [ [ { "id": "CUT", "level": 1 } ] ],
+    "pre_terrain": "t_window_empty_taped",
+    "post_terrain": "t_window_empty"
+  },
+  {
+    "type": "construction",
+    "id": "constr_revert_window_empty_domestic_taped",
+    "group": "remove_tape_from_window",
+    "//": "Need a recipe for each type of window tapable due to how code works",
+    "category": "REINFORCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "2 m",
+    "qualities": [ [ { "id": "CUT", "level": 1 } ] ],
+    "pre_terrain": "t_window_empty_domestic_taped",
+    "post_terrain": "t_window_empty_domestic"
+  },
+  {
+    "type": "construction",
     "id": "constr_revert_window_taped",
     "group": "remove_tape_from_window",
     "//": "Need a recipe for each type of window tapable due to how code works",
@@ -614,6 +725,56 @@
   },
   {
     "type": "construction",
+    "id": "constr_wall_glass_taped",
+    "group": "tape_up_window",
+    "//": "Need a recipe for each type of window tapable due to how code works",
+    "category": "REINFORCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "5 m",
+    "components": [ [ [ "duct_tape", 50 ] ] ],
+    "pre_terrain": "t_wall_glass",
+    "dark_craftable": true,
+    "post_terrain": "t_wall_glass_taped"
+  },
+  {
+    "type": "construction",
+    "id": "constr_wall_glass_alarm_taped",
+    "group": "tape_up_window",
+    "//": "Need a recipe for each type of window tapable due to how code works",
+    "category": "REINFORCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "5 m",
+    "components": [ [ [ "duct_tape", 50 ] ] ],
+    "pre_terrain": "t_wall_glass_alarm",
+    "dark_craftable": true,
+    "post_terrain": "t_wall_glass_alarm_taped"
+  },
+  {
+    "type": "construction",
+    "id": "constr_revert_wall_glass_taped",
+    "group": "remove_tape_from_window",
+    "//": "Need a recipe for each type of window tapable due to how code works",
+    "category": "REINFORCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "2 m",
+    "qualities": [ [ { "id": "CUT", "level": 1 } ] ],
+    "pre_terrain": "t_wall_glass_taped",
+    "post_terrain": "t_wall_glass"
+  },
+  {
+    "type": "construction",
+    "id": "constr_revert_wall_glass_alarm_taped",
+    "group": "remove_tape_from_window",
+    "//": "Need a recipe for each type of window tapable due to how code works",
+    "category": "REINFORCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "2 m",
+    "qualities": [ [ { "id": "CUT", "level": 1 } ] ],
+    "pre_terrain": "t_wall_glass_alarm_taped",
+    "post_terrain": "t_wall_glass_alarm"
+  },
+  {
+    "type": "construction",
     "id": "constr_window_boarded",
     "group": "board_up_window",
     "//": "Board up normal window",
@@ -654,6 +815,19 @@
   },
   {
     "type": "construction",
+    "id": "constr_window_boarded_noglass_empty_domestic",
+    "group": "board_up_window",
+    "//": "Board up empty window",
+    "category": "REINFORCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "20 m",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
+    "components": [ [ [ "2x4", 4 ] ], [ [ "nail", 8 ] ] ],
+    "pre_terrain": "t_window_empty_domestic",
+    "post_terrain": "t_window_boarded_noglass"
+  },
+  {
+    "type": "construction",
     "id": "constr_window_boarded_noglass_frame",
     "group": "board_up_window",
     "//": "Board up window frame only",
@@ -663,6 +837,19 @@
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
     "components": [ [ [ "2x4", 4 ] ], [ [ "nail", 8 ] ] ],
     "pre_terrain": "t_window_frame",
+    "post_terrain": "t_window_boarded_noglass"
+  },
+  {
+    "type": "construction",
+    "id": "constr_window_boarded_noglass_frame_domestic",
+    "group": "board_up_window",
+    "//": "Board up window frame only",
+    "category": "REINFORCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "20 m",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
+    "components": [ [ [ "2x4", 4 ] ], [ [ "nail", 8 ] ] ],
+    "pre_terrain": "t_window_frame_domestic",
     "post_terrain": "t_window_boarded_noglass"
   },
   {
@@ -875,7 +1062,7 @@
     "time": "60 m",
     "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
     "components": [ [ [ "log", 2 ] ], [ [ "wood_structural_small", 3, "LIST" ] ] ],
-    "pre_terrain": "t_pit_shallow",
+    "pre_flags": "PIT_SHALLOW",
     "post_terrain": "t_wall_log_half"
   },
   {
@@ -979,7 +1166,7 @@
     "qualities": [ { "id": "GLARE", "level": 2 } ],
     "tools": [ [ [ "oxy_torch", 10 ], [ "welder", 50 ], [ "toolset", 75 ] ] ],
     "components": [ [ [ "steel_plate", 2 ] ] ],
-    "pre_terrain": "t_pit_shallow",
+    "pre_flags": "PIT_SHALLOW",
     "post_terrain": "t_scrap_wall_halfway"
   },
   {
@@ -1006,7 +1193,7 @@
     "time": "120 m",
     "qualities": [ [ { "id": "SMOOTH", "level": 2 } ] ],
     "components": [ [ [ "brick", 15 ] ], [ [ "mortar_build", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ],
-    "pre_terrain": "t_dirt",
+    "pre_flags": "FLAT",
     "post_terrain": "t_brick_wall_halfway"
   },
   {
@@ -1033,7 +1220,7 @@
     "tools": [ [ [ "con_mix", 50 ] ] ],
     "qualities": [ [ { "id": "SMOOTH", "level": 1 } ] ],
     "components": [ [ [ "concrete", 2 ] ], [ [ "water", 2 ] ] ],
-    "pre_terrain": "t_pit_shallow",
+    "pre_flags": "PIT_SHALLOW",
     "post_terrain": "t_concrete"
   },
   {
@@ -1059,7 +1246,7 @@
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "40 m",
     "components": [ [ [ "splinter", 50 ] ] ],
-    "pre_terrain": "t_pit_shallow",
+    "pre_flags": "PIT_SHALLOW",
     "dark_craftable": true,
     "post_terrain": "t_woodchips"
   },
@@ -1124,7 +1311,7 @@
     "tools": [ [ [ "con_mix", 50 ] ] ],
     "qualities": [ [ { "id": "SMOOTH", "level": 1 } ] ],
     "components": [ [ [ "concrete", 4 ] ], [ [ "2x4", 12 ] ], [ [ "water", 4 ], [ "water_clean", 4 ] ] ],
-    "pre_terrain": "t_pit_shallow",
+    "pre_flags": "PIT_SHALLOW",
     "post_terrain": "t_sconc_wall_halfway"
   },
   {
@@ -1151,7 +1338,7 @@
     "time": "120 m",
     "qualities": [ [ { "id": "WELD", "level": 2 } ], [ { "id": "GLARE", "level": 2 } ] ],
     "components": [ [ [ "rebar", 16 ] ] ],
-    "pre_terrain": "t_pit",
+    "pre_flags": "PIT_DEEP",
     "post_terrain": "t_reb_cage"
   },
   {
@@ -1192,7 +1379,7 @@
     "time": "120 m",
     "qualities": [ [ { "id": "WELD", "level": 2 } ], [ { "id": "GLARE", "level": 2 } ] ],
     "components": [ [ [ "rebar", 16 ] ] ],
-    "pre_terrain": "t_pit",
+    "pre_flags": "PIT_DEEP",
     "post_terrain": "t_reb_cage"
   },
   {
@@ -1247,7 +1434,7 @@
     "time": "120 m",
     "qualities": [ [ { "id": "WELD", "level": 2 } ], [ { "id": "GLARE", "level": 2 } ] ],
     "components": [ [ [ "rebar", 8 ] ], [ [ "2x4", 12 ] ], [ [ "pipe", 4 ] ] ],
-    "pre_terrain": "t_pit_shallow",
+    "pre_flags": "PIT_SHALLOW",
     "post_terrain": "t_ov_smreb_cage"
   },
   {
@@ -1274,7 +1461,7 @@
     "time": "180 m",
     "qualities": [ [ { "id": "WELD", "level": 2 } ], [ { "id": "GLARE", "level": 2 } ] ],
     "components": [ [ [ "rebar", 12 ] ], [ [ "2x4", 12 ] ], [ [ "pipe", 4 ] ] ],
-    "pre_terrain": "t_pit",
+    "pre_flags": "PIT_DEEP",
     "post_terrain": "t_ov_reb_cage"
   },
   {
@@ -1324,7 +1511,7 @@
         [ "vine_30", 1 ]
       ]
     ],
-    "pre_terrain": "t_pit",
+    "pre_flags": "PIT_DEEP",
     "post_terrain": "t_palisade"
   },
   {
@@ -1478,7 +1665,7 @@
       [ [ "rope_makeshift_6", 2 ], [ "rope_6", 2 ], [ "vine_30", 1 ] ]
     ],
     "pre_note": "Must be between palisade walls to function, and at least one wall must have an adjacent rope & pulley system.",
-    "pre_terrain": "t_pit",
+    "pre_flags": "PIT_DEEP",
     "post_terrain": "t_palisade_gate"
   },
   {
@@ -1729,7 +1916,7 @@
     "time": "30 m",
     "qualities": [ [ { "id": "HAMMER", "level": 1 } ], [ { "id": "DIG", "level": 2 } ] ],
     "components": [ [ [ "rock", 20 ], [ "wood_structural_small", 2, "LIST" ] ] ],
-    "pre_terrain": "t_pit_shallow",
+    "pre_flags": "PIT_SHALLOW",
     "post_flags": [ "keep_items" ],
     "post_terrain": "t_grave_new",
     "post_special": "done_grave"
@@ -2206,7 +2393,7 @@
     "time": "480 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
     "components": [ [ [ "rock", 40 ] ], [ [ "2x4", 4 ] ], [ [ "nail", 8 ] ] ],
-    "pre_terrain": "t_pit",
+    "pre_flags": "PIT_DEEP",
     "post_terrain": "t_covered_well"
   },
   {
@@ -2913,7 +3100,7 @@
     "tools": [ [ [ "con_mix", 125 ] ] ],
     "qualities": [ [ { "id": "SMOOTH", "level": 1 } ] ],
     "components": [ [ [ "concrete", 5 ] ], [ [ "water", 5 ] ] ],
-    "pre_terrain": "t_pit_shallow",
+    "pre_flags": "PIT_SHALLOW",
     "pre_special": "check_ramp_low",
     "post_terrain": "t_ramp_up_low",
     "post_special": "done_ramp_low"
@@ -2930,7 +3117,7 @@
     "tools": [ [ [ "con_mix", 125 ] ] ],
     "qualities": [ [ { "id": "SMOOTH", "level": 1 } ] ],
     "components": [ [ [ "concrete", 5 ] ], [ [ "water", 5 ] ] ],
-    "pre_terrain": "t_pit_shallow",
+    "pre_flags": "PIT_SHALLOW",
     "pre_special": "check_ramp_high",
     "post_terrain": "t_ramp_up_high",
     "post_special": "done_ramp_high"
@@ -3143,7 +3330,7 @@
     "time": "40 m",
     "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
     "components": [ [ [ "wind_mill", 1 ] ] ],
-    "pre_terrain": "t_pit_shallow",
+    "pre_flags": "PIT_SHALLOW",
     "post_furniture": "f_wind_mill"
   },
   {
@@ -3396,7 +3583,7 @@
       [ [ "withered", 12 ], [ "straw_pile", 12 ] ]
     ],
     "pre_note": "You need a deep pit to construct a root cellar.",
-    "pre_terrain": "t_pit",
+    "pre_flags": "PIT_DEEP",
     "post_terrain": "t_rootcellar"
   },
   {
@@ -3700,7 +3887,7 @@
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
       [ [ "material_sand", 20 ] ]
     ],
-    "pre_terrain": "t_dirt",
+    "pre_flags": "FLAT",
     "post_terrain": "t_adobe_brick_wall_halfway"
   },
   {
@@ -4480,7 +4667,7 @@
     "using": [ [ "soldering_standard", 10 ] ],
     "components": [ [ [ "steel_chunk", 5 ] ], [ [ "plastic_chunk", 2 ] ], [ [ "wind_turbine", 1 ] ] ],
     "pre_note": "Will only work if constructed near a building that has an electric grid with a mounted battery.",
-    "pre_terrain": "t_pit_shallow",
+    "pre_flags": "PIT_SHALLOW",
     "post_furniture": "f_turbine_unit"
   },
   {
@@ -4508,7 +4695,7 @@
     "using": [ [ "soldering_standard", 20 ] ],
     "components": [ [ [ "steel_chunk", 5 ] ], [ [ "plastic_chunk", 2 ] ], [ [ "xl_wind_turbine", 1 ] ] ],
     "pre_note": "Will only work if constructed near a building that has an electric grid with a mounted battery.",
-    "pre_terrain": "t_pit_shallow",
+    "pre_flags": "PIT_SHALLOW",
     "post_furniture": "f_xl_turbine_unit"
   },
   {
@@ -4777,6 +4964,33 @@
   },
   {
     "type": "construction",
+    "id": "constr_industrial_freezer",
+    "group": "install_industrial_freezer",
+    "category": "WORKSHOP",
+    "required_skills": [ [ "fabrication", 6 ], [ "mechanics", 2 ], [ "electronics", 2 ] ],
+    "using": [ [ "soldering_standard", 50 ], [ "welding_standard", 100 ] ],
+    "time": "120 m",
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "pre_note": "Will only work if constructed in/on a building that has an electric grid with a mounted battery.",
+    "pre_special": "check_empty",
+    "post_furniture": "f_freezer_industrial",
+    "components": [
+      [ [ "sheet_metal", 36 ] ],
+      [ [ "sheet_metal_small", 10 ] ],
+      [ [ "steel_chunk", 10 ] ],
+      [ [ "cable", 10 ] ],
+      [ [ "power_supply", 1 ] ],
+      [ [ "hose", 2 ] ],
+      [ [ "condensor_coil", 2 ] ],
+      [ [ "evaporator_coil", 2 ] ],
+      [ [ "refrigerant_tank", 2 ] ],
+      [ [ "thermostat", 1 ] ],
+      [ [ "light_bulb", 1 ] ],
+      [ [ "motor_tiny", 2 ] ]
+    ]
+  },
+  {
+    "type": "construction",
     "id": "constr_gridglass_freezer",
     "group": "install_glass_freezer",
     "category": "WORKSHOP",
@@ -4856,6 +5070,20 @@
     "pre_note": "Will only work if constructed in/on a building that has an electric grid with a mounted battery.",
     "pre_special": "check_empty",
     "post_furniture": "f_gridwelder"
+  },
+  {
+    "type": "construction",
+    "id": "constr_gridgunkit",
+    "group": "place_gunsmith_kit",
+    "category": "WORKSHOP",
+    "required_skills": [ [ "electronics", 1 ] ],
+    "time": "30 m",
+    "qualities": [ [ { "id": "SCREW", "level": 1 } ] ],
+    "using": [ [ "soldering_standard", 20 ] ],
+    "components": [ [ [ "large_repairkit", 1 ] ], [ [ "cable", 5 ] ], [ [ "power_supply", 1 ] ] ],
+    "pre_note": "Will only work if constructed in/on a building that has an electric grid with a mounted battery.",
+    "pre_special": "check_empty",
+    "post_furniture": "f_gridgunkit"
   },
   {
     "type": "construction",
@@ -5010,6 +5238,20 @@
     "pre_note": "Will only work if constructed in/on a building that has an electric grid with a mounted battery.",
     "pre_special": "check_empty",
     "post_furniture": "f_gridfood_processor"
+  },
+  {
+    "type": "construction",
+    "id": "constr_gridsoda_machine",
+    "group": "place_soda_machine",
+    "category": "WORKSHOP",
+    "required_skills": [ [ "electronics", 1 ] ],
+    "time": "30 m",
+    "qualities": [ [ { "id": "SCREW", "level": 1 } ] ],
+    "using": [ [ "soldering_standard", 20 ] ],
+    "components": [ [ [ "soda_machine", 1 ] ], [ [ "cable", 5 ] ], [ [ "power_supply", 1 ] ] ],
+    "pre_note": "Will only work if constructed in/on a building that has an electric grid with a mounted battery.",
+    "pre_special": "check_empty",
+    "post_furniture": "f_gridsoda_machine"
   },
   {
     "type": "construction",
@@ -5333,5 +5575,18 @@
     "pre_note": "Will only work if constructed in/on a building that has an electric grid with a mounted battery.",
     "pre_special": "check_empty",
     "post_furniture": "f_hydraulic_press"
+  },
+  {
+    "type": "construction",
+    "id": "constr_gridf_recycler",
+    "group": "install_f_recycler",
+    "category": "WORKSHOP",
+    "required_skills": [ [ "fabrication", 2 ], [ "electronics", 3 ] ],
+    "time": "20 m",
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "PRY", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
+    "components": [ [ [ "recycler_item", 1 ] ], [ [ "cable", 15 ] ], [ [ "power_supply", 3 ] ] ],
+    "pre_note": "Will only work if constructed in/on a building that has an electric grid with a mounted battery.",
+    "pre_special": "check_empty",
+    "post_furniture": "f_recycler"
   }
 ]

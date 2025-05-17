@@ -215,6 +215,7 @@ static const std::unordered_map<std::string, ter_connects> ter_connects_map = { 
         { "WATER",                    TERCONN_WATER },
         { "PAVEMENT",                 TERCONN_PAVEMENT },
         { "RAIL",                     TERCONN_RAIL },
+        { "GUTTER",                     TERCONN_GUTTER },
         { "COUNTER",                     TERCONN_COUNTER },
     }
 };
@@ -1274,8 +1275,8 @@ void map_data_common_t::load( const JsonObject &jo, const std::string &src )
         for( JsonObject harvest_jo : jo.get_array( "harvest_by_season" ) ) {
             auto season_strings = harvest_jo.get_tags( "seasons" );
             std::set<season_type> seasons;
-            std::transform( season_strings.begin(), season_strings.end(), std::inserter( seasons,
-                            seasons.begin() ), io::string_to_enum<season_type> );
+            std::ranges::transform( season_strings, std::inserter( seasons,
+                                    seasons.begin() ), io::string_to_enum<season_type> );
 
             harvest_id hl;
             if( harvest_jo.has_array( "entries" ) ) {
@@ -1347,6 +1348,8 @@ void ter_t::load( const JsonObject &jo, const std::string &src )
 
     optional( jo, was_loaded, "lockpick_result", lockpick_result, ter_str_id::NULL_ID() );
     optional( jo, was_loaded, "lockpick_message", lockpick_message, translation() );
+    optional( jo, was_loaded, "nail_pull_result", nail_pull_result, ter_str_id::NULL_ID() );
+    optional( jo, was_loaded, "nail_pull_items", nail_pull_items, {0, 0} );
 
     oxytorch = cata::make_value<activity_data_ter>();
     if( jo.has_object( "oxytorch" ) ) {

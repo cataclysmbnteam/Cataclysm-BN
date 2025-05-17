@@ -1,5 +1,6 @@
 #include "character_functions.h"
 
+#include <algorithm>
 #include <utility>
 
 #include "ammo.h"
@@ -449,7 +450,7 @@ std::string fmt_wielded_weapon( const Character &who )
         bool base = weapon.ammo_capacity() > 0 && !weapon.has_flag( flag_RELOAD_AND_SHOOT );
 
         const auto mods = weapon.gunmods();
-        bool aux = std::any_of( mods.begin(), mods.end(), [&]( const item * e ) {
+        bool aux = std::ranges::any_of( mods, [&]( const item * e ) {
             return e->is_gun() && e->ammo_capacity() > 0 && !e->has_flag( flag_RELOAD_AND_SHOOT );
         } );
 
@@ -466,10 +467,10 @@ std::string fmt_wielded_weapon( const Character &who )
         }
         return str;
 
-    } else if( weapon.is_container() && weapon.contents.num_item_stacks() == 1 ) {
-        return string_format( "%s (%d)", weapon.tname(),
-                              weapon.contents.front().charges );
-
+    } else if( ( weapon.is_container() && weapon.contents.num_item_stacks() == 1 ) ||
+               weapon.ammo_capacity() > 0 ) {
+        return string_format( "(%d) %s",
+                              weapon.is_container() ? weapon.contents.front().charges : weapon.ammo_remaining(), weapon.tname() );
     } else {
         return weapon.tname();
     }
@@ -543,7 +544,7 @@ bool try_wield_contents( Character &who, item &container, item *internal_item, b
     if( internal_item == nullptr ) {
         std::vector<std::string> opts;
         std::vector<item *> container_contents = container.contents.all_items_top();
-        std::transform( container_contents.begin(), container_contents.end(),
+        std::ranges::transform( container_contents,
         std::back_inserter( opts ), []( const item * elem ) {
             return elem->display_name();
         } );
@@ -580,7 +581,7 @@ bool try_wield_contents( Character &who, item &container, item *internal_item, b
 
     who.set_primary_weapon( internal_item->detach() );
     who.inv_update_invlet( *internal_item );
-    who.inv_update_cache_with_item( *internal_item );
+    who.inv_update_invlet_cache_with_item( *internal_item );
     who.last_item = internal_item->typeId();
 
     /**
@@ -772,6 +773,19 @@ bool list_ammo( const Character &who, item &base, std::vector<item_reload_option
                       : ammo->typeId();
             const bool can_reload_with = e->can_reload_with( id );
             if( can_reload_with ) {
+                // Skip if is magazine inside gun/mod, but gun/mod can't fire it (e.g 300 Blackout on STANAG on AR-15)
+                if( e->is_magazine() && e->parent_item() ) {
+                    auto ammo_type = ( ammo->is_ammo_container() || ammo->is_container() )
+                                     ? ammo->contents.front().ammo_type()
+                                     : ammo->ammo_type();
+                    const std::set<ammotype> &supported_ammo = e->parent_item()->ammo_types();
+                    const bool gun_supports = std::ranges::any_of( supported_ammo, [&]( const ammotype & at ) {
+                        return at == ammo_type;
+                    } );
+                    if( !gun_supports ) {
+                        continue;
+                    }
+                }
                 // Speedloaders require an empty target.
                 if( include_potential || !ammo->has_flag( flag_SPEEDLOADER ) || e->ammo_remaining() < 1 ) {
                     ammo_match_found = true;
@@ -805,7 +819,7 @@ item_reload_option select_ammo( const Character &who, item &base,
 
     // Construct item names
     std::vector<std::string> names;
-    std::transform( opts.begin(), opts.end(),
+    std::ranges::transform( opts,
     std::back_inserter( names ), [&]( const item_reload_option & e ) {
         const auto ammo_color = [&]( const std::string & name ) {
             return base.is_gun() && e.ammo->ammo_data() &&
@@ -836,7 +850,7 @@ item_reload_option select_ammo( const Character &who, item &base,
 
     // Get location descriptions
     std::vector<std::string> where;
-    std::transform( opts.begin(), opts.end(),
+    std::ranges::transform( opts,
     std::back_inserter( where ), [&]( const item_reload_option & e ) {
         bool is_ammo_container = e.ammo->is_ammo_container();
         if( is_ammo_container || e.ammo->is_container() ) {
@@ -1071,15 +1085,15 @@ item_reload_option select_ammo( const Character &who, item &base, bool prompt,
     }
 
     // sort in order of move cost (ascending), then remaining ammo (descending) with empty magazines always last
-    std::stable_sort( ammo_list.begin(), ammo_list.end(), []( const item_reload_option & lhs,
+    std::ranges::stable_sort( ammo_list, []( const item_reload_option & lhs,
     const item_reload_option & rhs ) {
         return lhs.ammo->ammo_remaining() > rhs.ammo->ammo_remaining();
     } );
-    std::stable_sort( ammo_list.begin(), ammo_list.end(), []( const item_reload_option & lhs,
+    std::ranges::stable_sort( ammo_list, []( const item_reload_option & lhs,
     const item_reload_option & rhs ) {
         return lhs.moves() < rhs.moves();
     } );
-    std::stable_sort( ammo_list.begin(), ammo_list.end(), []( const item_reload_option & lhs,
+    std::ranges::stable_sort( ammo_list, []( const item_reload_option & lhs,
     const item_reload_option & rhs ) {
         return ( lhs.ammo->ammo_remaining() != 0 ) > ( rhs.ammo->ammo_remaining() != 0 );
     } );
@@ -1177,10 +1191,11 @@ void find_ammo_helper( T &src, const item &obj, bool empty, Output out, bool nes
             if( node->is_magazine() ) {
 
                 if( !node->contents.empty() ) {
-                    for( const ammotype &at : ammo ) {
-                        if( node->contents.front().ammo_type() != at ) {
-                            return VisitResponse::SKIP;
-                        }
+                    const bool match = std::ranges::any_of( ammo, [&]( const ammotype & at ) {
+                        return node->contents.front().ammo_type() == at;
+                    } );
+                    if( !match ) {
+                        return VisitResponse::SKIP;
                     }
                 }
 

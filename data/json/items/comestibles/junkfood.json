@@ -308,6 +308,20 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "candy3_weed",
+    "name": { "str": "'special' chewy candy" },
+    "copy-from": "candy3",
+    "price_postapoc": "12 USD",
+    "fun": 15,
+    "use_action": {
+      "type": "consume_drug",
+      "activation_message": "You start scarfing down the candy.  They taste a little funny though…",
+      "do_weed_msg": true,
+      "effects": [ { "id": "weed_high", "duration": "12 m" }, { "id": "pkill1", "duration": "12 m" } ]
+    }
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "powder_candy",
     "name": { "str_sp": "powder candy sticks" },
     "weight": "46 g",
@@ -1045,6 +1059,25 @@
     "primary_material": "cheese",
     "volume": "250 ml",
     "charges": 8,
+    "flags": [ "EATEN_HOT" ],
+    "fun": 6,
+    "vitamins": [ [ "vitA", 1 ], [ "calcium", 15 ], [ "junk_allergen", 1 ], [ "milk_allergen", 1 ] ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "pouch_cheese",
+    "name": "cheese spread pouch",
+    "weight": "10 g",
+    "color": "yellow",
+    "comestible_type": "FOOD",
+    "symbol": "%",
+    "calories": 89,
+    "description": "Heavily processed cheese spread.  Sterilized and packed atmospherically to last long.",
+    "price": "160 cent",
+    "price_postapoc": "3 USD",
+    "material": [ "milk", "junk" ],
+    "primary_material": "cheese",
+    "volume": "30 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 6,
     "vitamins": [ [ "vitA", 1 ], [ "calcium", 15 ], [ "junk_allergen", 1 ], [ "milk_allergen", 1 ] ]

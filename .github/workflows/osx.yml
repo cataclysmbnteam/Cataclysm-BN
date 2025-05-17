@@ -33,28 +33,24 @@ jobs:
         include:
           - name: osx-curses-x64
             os: macos-14
-            mxe: none
             tiles: 0
             artifact: osx-curses-x64
             ext: dmg
             content: application/x-apple-diskimage
           - name: osx-tiles-x64
             os: macos-14
-            mxe: none
             tiles: 1
             artifact: osx-tiles-x64
             ext: dmg
             content: application/x-apple-diskimage
           - name: osx-curses-arm
             os: macos-14
-            mxe: none
             tiles: 0
             artifact: osx-curses-arm
             ext: dmg
             content: application/x-apple-diskimage
           - name: osx-tiles-arm
             os: macos-14
-            mxe: none
             tiles: 1
             artifact: osx-tiles-arm
             ext: dmg
@@ -94,4 +90,4 @@ jobs:
       - name: Build
         run: |
           source ./venv/bin/activate
-          make -j3 TILES=${{ matrix.tiles }} SOUND=${{ matrix.tiles }} LUA=1 RELEASE=1 LANGUAGES=all USE_HOME_DIR=1 OSX_MIN=11 PCH=0 COMPILER=$(brew --prefix llvm)/bin/clang++ dmgdist
+          make -j3 TILES=${{ matrix.tiles }} SOUND=${{ matrix.tiles }} RELEASE=1 LANGUAGES=all USE_HOME_DIR=1 OSX_MIN=11 PCH=0 COMPILER=$(brew --prefix llvm)/bin/clang++ dmgdist

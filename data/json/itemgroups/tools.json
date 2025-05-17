@@ -17,6 +17,7 @@
       [ "hand_drill", 20 ],
       [ "nailgun", 100 ],
       [ "chisel", 10 ],
+      [ "sandpaper", 20 ],
       [ "toolbox", 12 ],
       [ "toolbox_workshop", 3 ]
     ]
@@ -121,6 +122,8 @@
       [ "jerrycan_big", 10 ],
       [ "char_smoker", 5 ],
       [ "dehydrator", 5 ],
+      [ "soda_machine", 5 ],
+      [ "carbondioxide_tank", 1 ],
       [ "tongs", 1 ],
       [ "tourist_table", 1 ]
     ]
@@ -143,6 +146,7 @@
       [ "heavy_flashlight", 15 ],
       [ "knife_folding", 25 ],
       [ "knife_hunting", 10 ],
+      [ "gps_device", 5 ],
       [ "knife_heat", 10 ],
       [ "knife_rambo", 10 ],
       [ "knife_swissarmy", 10 ],
@@ -252,6 +256,7 @@
       { "group": "tools_lighting", "prob": 50 },
       { "group": "tools_tailor", "prob": 50 },
       { "group": "tools_recharging", "prob": 20 },
+      [ "sandpaper", 10 ],
       [ "toolbox", 4 ],
       [ "toolbox_workshop", 1 ]
     ]
@@ -353,6 +358,7 @@
       [ "handflare", 20 ],
       [ "hatchet", 10 ],
       [ "knife_hunting", 10 ],
+      [ "gps_device", 5 ],
       [ "knife_rambo", 10 ],
       [ "knife_heat", 10 ],
       [ "knife_swissarmy", 5 ],

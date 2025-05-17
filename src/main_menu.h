@@ -1,6 +1,4 @@
 #pragma once
-#ifndef CATA_SRC_MAIN_MENU_H
-#define CATA_SRC_MAIN_MENU_H
 
 #include <cstddef>
 #include <string>
@@ -143,5 +141,5 @@ class main_menu
         std::string halloween_graves();
 };
 
-#endif // CATA_SRC_MAIN_MENU_H
+
 

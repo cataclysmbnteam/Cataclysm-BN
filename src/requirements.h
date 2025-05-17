@@ -1,9 +1,7 @@
 #pragma once
-#ifndef CATA_SRC_REQUIREMENTS_H
-#define CATA_SRC_REQUIREMENTS_H
 
-#include <list>
 #include <map>
+#include <set>
 #include <string>
 #include <tuple>
 #include <vector>
@@ -46,6 +44,8 @@ struct quality {
     quality_id id;
     translation name;
 
+    /** Materials it can salvage */
+    std::set<material_id> salvagable_materials;
     std::vector<std::pair<int, std::string>> usages;
 
     void load( const JsonObject &jo, const std::string &src );
@@ -468,4 +468,4 @@ class deduped_requirement_data
         std::vector<requirement_data> alternatives_;
 };
 
-#endif // CATA_SRC_REQUIREMENTS_H
+

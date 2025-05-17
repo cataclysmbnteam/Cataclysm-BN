@@ -1,6 +1,4 @@
 #pragma once
-#ifndef CATA_SRC_DAMAGE_H
-#define CATA_SRC_DAMAGE_H
 
 #include <array>
 #include <map>
@@ -150,4 +148,4 @@ resistances load_resistances_instance( const JsonObject &jo );
 // Handles some shorthands
 std::map<damage_type, float> load_damage_map( const JsonObject &jo );
 
-#endif // CATA_SRC_DAMAGE_H
+

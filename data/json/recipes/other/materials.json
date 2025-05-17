@@ -269,8 +269,7 @@
     "difficulty": 2,
     "time": "8 m",
     "autolearn": true,
-    "qualities": [ { "id": "HAMMER", "level": 3 } ],
-    "tools": [ [ [ "boltcutters", -1 ], [ "toolset", -1 ] ] ],
+    "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "CUT_M", "level": 1 } ],
     "components": [ [ [ "wire", 2 ] ] ]
   },
   {
@@ -660,9 +659,9 @@
     "time": "1 h 30 m",
     "autolearn": true,
     "using": [ [ "forging_standard", 10 ], [ "steel_standard", 5 ] ],
-    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_W", "level": 2 } ],
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_W", "level": 2 }, { "id": "SANDING", "level": 1 } ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
-    "components": [ [ [ "2x4", 24 ] ], [ [ "nail_glue", 40, "LIST" ] ] ]
+    "components": [ [ [ "2x4", 24 ] ], [ [ "varnish", 10, "LIST" ] ], [ [ "nail_glue", 40, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -1047,12 +1046,9 @@
     "difficulty": 2,
     "time": "5 m",
     "autolearn": [ [ "fabrication", 4 ] ],
+    "qualities": [ { "id": "PULL_FINE", "level": 2 }, { "id": "CUT_M", "level": 1 } ],
     "book_learn": [ [ "textbook_armwest", 1 ], [ "textbook_fabrication", 1 ], [ "recipe_melee", 1 ] ],
-    "tools": [
-      [ [ "pliers", -1 ], [ "multitool", -1 ], [ "toolset", -1 ] ],
-      [ [ "cutting_wire_standard", 1, "LIST" ] ],
-      [ [ "cu_pipe", -1 ], [ "cudgel", -1 ] ]
-    ],
+    "tools": [ [ [ "cu_pipe", -1 ], [ "cudgel", -1 ] ] ],
     "components": [ [ [ "wire", 1 ] ] ]
   },
   {
@@ -1066,8 +1062,12 @@
     "time": "30 m",
     "autolearn": [ [ "fabrication", 4 ] ],
     "book_learn": [ [ "textbook_armwest", 2 ], [ "textbook_fabrication", 2 ], [ "recipe_melee", 2 ] ],
-    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "ANVIL", "level": 1 }, { "id": "DRILL", "level": 2 } ],
-    "tools": [ [ [ "pliers", -1 ], [ "multitool", -1 ], [ "toolset", -1 ] ] ],
+    "qualities": [
+      { "id": "HAMMER", "level": 2 },
+      { "id": "ANVIL", "level": 1 },
+      { "id": "DRILL", "level": 2 },
+      { "id": "PULL_FINE", "level": 2 }
+    ],
     "components": [ [ [ "chain_link", 900 ] ] ]
   },
   {
@@ -1588,9 +1588,9 @@
     "byproducts": [ [ "scrap", 3 ] ],
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "fabrication",
+    "qualities": [ { "id": "CUT_M", "level": 1 } ],
     "autolearn": true,
     "time": "30 m",
-    "tools": [ [ [ "boltcutters", -1 ], [ "pliers", -1 ], [ "toolset", -1 ], [ "multitool", -1 ] ] ],
     "components": [ [ [ "wire_barbed", 1 ] ] ]
   },
   {

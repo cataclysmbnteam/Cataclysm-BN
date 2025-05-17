@@ -310,14 +310,6 @@
     "info": "This gear <good>corrects nearsightedness</good>."
   },
   {
-    "id": "FILTHY",
-    "type": "json_flag",
-    "context": [ "ARMOR", "TOOL_ARMOR" ],
-    "//": "Zombie-dropped clothing giving various penalties if Filthy mod is active.  Also CBMs harvested from zombies.",
-    "craft_inherit": true,
-    "info": "This item is <bad>filthy</bad>."
-  },
-  {
     "id": "FLAMMABLE",
     "type": "json_flag",
     "context": [ "GENERIC" ]
@@ -326,7 +318,8 @@
     "id": "FLASH_PROTECTION",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
-    "//": "Used for eyes protection from flashbang."
+    "//": "Used for eyes protection from flashbang.",
+    "info": "This clothing will <good>partially protect from a flash from a flashbang</good>."
   },
   {
     "id": "FLOTATION",
@@ -400,13 +393,13 @@
     "id": "HYGROMETER",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
-    "info": "This gear is equipped with an accurate hygrometer (which is used to measure humidity)."
+    "info": "This gear is equipped with an accurate hygrometer (which is used to <info>measure humidity</info>)."
   },
   {
     "id": "BRASS_CATCHER",
     "type": "json_flag",
     "context": [ "GUNMOD" ],
-    "info": "This gun mod catches ejected casings."
+    "info": "This gun mod <info>catches ejected casings</info>."
   },
   {
     "id": "IRREMOVABLE",
@@ -514,7 +507,7 @@
     "id": "POLEARM",
     "type": "json_flag",
     "context": [ "GENERIC", "TOOL" ],
-    "info": "As a weapon, this item needs considerable space to use properly and does 70% of its normal damage to adjacent enemies."
+    "info": "As a weapon, this item <info>needs considerable space to use</info> properly and <bad>does 70% of its normal damage to adjacent enemies</bad>."
   },
   {
     "id": "SPAWN_FRIENDLY",
@@ -1640,7 +1633,7 @@
     "id": "MOUNTED_GUN",
     "type": "json_flag",
     "context": [  ],
-    "info": "This weapon <bad>can only be fired if mounted</bad> on a vehicle or furniture (window, table, mound of dirt, etc.) to fire, <info>Large or Huge</info> mutants or those with active <info>Power Armor</info> can fire from the hip with <bad>reduced accuracy.</bad>"
+    "info": "This weapon <bad>can only be fired if mounted</bad> on a vehicle or furniture (window, table, mound of dirt, etc.) to fire, <info>Large or Huge</info> mutants or those with active <info>Power Armor</info> can fire from the hip with <bad>reduced accuracy</bad>."
   },
   {
     "id": "MYCUS_OK",
@@ -1959,7 +1952,8 @@
   {
     "id": "STR_RELOAD",
     "type": "json_flag",
-    "context": [  ]
+    "context": [  ],
+    "info": "This weapon's <info>reload speed</info> is <good>increased by strength</good>."
   },
   {
     "id": "TACK",
@@ -2020,7 +2014,8 @@
   {
     "id": "UNDERWATER_GUN",
     "type": "json_flag",
-    "context": [  ]
+    "context": [  ],
+    "info": "This weapon is inherently <good>designed to work underwater</good>."
   },
   {
     "id": "UNRECOVERABLE",
@@ -2120,11 +2115,6 @@
     "context": [  ]
   },
   {
-    "id": "DETERGENT",
-    "type": "json_flag",
-    "context": [  ]
-  },
-  {
     "id": "FIRE_100",
     "type": "json_flag",
     "context": [  ]
@@ -2148,7 +2138,7 @@
     "id": "HEAVY_WEAPON_SUPPORT",
     "type": "json_flag",
     "context": [  ],
-    "info": "This equipment <good>allows you to fire</good> unwieldy weapons without requiring support from mountable terrain, as a <info>Large or Huge</info> mutant could, at the expense of <bad>reduced accuracy.</bad>"
+    "info": "This equipment <good>allows you to fire</good> unwieldy weapons without requiring support from mountable terrain, as a <info>Large or Huge</info> mutant could, at the expense of <bad>reduced accuracy</bad>."
   },
   {
     "id": "FIRE_TWOHAND",
@@ -2191,6 +2181,11 @@
     "context": [  ]
   },
   {
+    "id": "UNBREAKABLE",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
     "id": "UNBREAKABLE_MELEE",
     "type": "json_flag",
     "context": [  ]
@@ -2198,7 +2193,8 @@
   {
     "id": "WATERPROOF_GUN",
     "type": "json_flag",
-    "context": [  ]
+    "context": [  ],
+    "info": "This weapon <good>can shoot underwater</good>, but <info>unless it was specifically designed to do so</info>, it <bad>will suffer from accuracy penalty</bad>."
   },
   {
     "id": "no_auto_equip",
@@ -2249,12 +2245,13 @@
     "id": "WEATHER_FORECAST",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
-    "info": "It can show the automated weather forcast."
+    "info": "This item can show the <info>automated weather forecast</info>."
   },
   {
     "id": "WINDMETER",
     "type": "json_flag",
-    "context": [  ]
+    "context": [  ],
+    "info": "This item can show the <info>current heading and speed of the wind</info> as well as <info>perceived temperature</info>."
   },
   {
     "id": "HIDDEN",

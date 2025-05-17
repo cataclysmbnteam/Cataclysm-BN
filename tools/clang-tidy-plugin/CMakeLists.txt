@@ -10,7 +10,6 @@ set(CataAnalyzerSrc
     CataTidyModule.cpp
     CombineLocalsIntoPointCheck.cpp
     DeterminismCheck.cpp
-    HeaderGuardCheck.cpp
     JsonTranslationInputCheck.cpp
     NoLongCheck.cpp
     NoStaticGettextCheck.cpp

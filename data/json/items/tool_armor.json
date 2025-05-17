@@ -91,7 +91,7 @@
     "warmth": 10,
     "material_thickness": 3,
     "flags": [ "BELTED", "WATER_FRIENDLY", "NO_SALVAGE" ],
-    "use_action": { "type": "unpack", "group": "gobag_contents", "filthy_volume_threshold": "10 L" }
+    "use_action": { "type": "unpack", "group": "gobag_contents" }
   },
   {
     "id": "personal_gobag",
@@ -100,7 +100,7 @@
     "name": { "str": "personal go bag" },
     "description": "A huge duffel bag with backpack attached, both packed to the gills.  You have packed this to be ready for deployment.  Activate to unpack and enjoy.",
     "looks_like": "gobag",
-    "use_action": { "type": "unpack", "group": "gobag_contents", "items_fit": true, "filthy_volume_threshold": "10 L" },
+    "use_action": { "type": "unpack", "group": "gobag_contents", "items_fit": true },
     "copy-from": "gobag"
   },
   {
@@ -893,7 +893,7 @@
     "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "Your RM13 combat armor turns off.", "target": "rm13_armor" },
     "environmental_protection": 40,
     "encumbrance": 10,
-    "qualities": [ [ "GLARE", 2 ] ],
+    "qualities": [ [ "GLARE", 2 ], [ "HV_INSULATION", 1 ] ],
     "material_thickness": 7
   },
   {
@@ -927,7 +927,7 @@
     "coverage": 50,
     "encumbrance": 2,
     "material_thickness": 2,
-    "flags": [ "OVERSIZE", "BELTED", "COMPACT" ]
+    "flags": [ "OVERSIZE", "BELTED", "COMPACT", "POWERARMOR_COMPATIBLE" ]
   },
   {
     "id": "dimensional_anchor_on",
@@ -946,7 +946,7 @@
       "target": "dimensional_anchor"
     },
     "covers": [ "torso" ],
-    "flags": [ "DIMENSIONAL_ANCHOR", "OVERSIZE", "BELTED" ]
+    "flags": [ "DIMENSIONAL_ANCHOR", "OVERSIZE", "BELTED", "POWERARMOR_COMPATIBLE" ]
   },
   {
     "id": "phase_immersion_suit",
@@ -1006,6 +1006,7 @@
     "turns_per_charge": 25,
     "revert_to": "phase_immersion_suit",
     "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "Suit shutting down.", "target": "phase_immersion_suit" },
+    "qualities": [ [ "HV_INSULATION", 1 ] ],
     "covers": [ "head", "mouth", "eyes", "torso", "arms", "hands", "legs", "feet" ],
     "environmental_protection": 80,
     "flags": [
@@ -2676,6 +2677,7 @@
     "symbol": "[",
     "color": "light_gray",
     "covers": [ "torso" ],
+    "storage": "15 L",
     "coverage": 40,
     "encumbrance": 12,
     "material_thickness": 3,
@@ -2700,6 +2702,7 @@
     "symbol": "[",
     "color": "blue",
     "covers": [ "torso" ],
+    "storage": "15 L",
     "coverage": 40,
     "encumbrance": 20,
     "material_thickness": 1,

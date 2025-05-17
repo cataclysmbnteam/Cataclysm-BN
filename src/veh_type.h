@@ -1,6 +1,4 @@
 #pragma once
-#ifndef CATA_SRC_VEH_TYPE_H
-#define CATA_SRC_VEH_TYPE_H
 
 #include <array>
 #include <bitset>
@@ -68,8 +66,6 @@ enum vpart_bitflags : int {
     VPFLAG_EXTENDS_VISION,
     VPFLAG_ENABLED_DRAINS_EPOWER,
     VPFLAG_AUTOCLAVE,
-    VPFLAG_WASHING_MACHINE,
-    VPFLAG_DISHWASHER,
     VPFLAG_FLUIDTANK,
     VPFLAG_REACTOR,
     VPFLAG_RAIL,
@@ -401,4 +397,4 @@ struct vehicle_prototype {
     static std::vector<vproto_id> get_all();
 };
 
-#endif // CATA_SRC_VEH_TYPE_H
+

@@ -53,11 +53,6 @@
     "obsolete": true
   },
   {
-    "type": "recipe",
-    "result": "flamethrower_simple",
-    "obsolete": true
-  },
-  {
     "id": "wheel_steerable",
     "copy-from": "wheel",
     "type": "vehicle_part",
@@ -194,8 +189,7 @@
     "price": "0 cent",
     "material": "cotton",
     "symbol": ",",
-    "color": "white",
-    "use_action": "WASH_HARD_ITEMS"
+    "color": "white"
   },
   {
     "id": "fault_gun_clogged",

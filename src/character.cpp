@@ -10,6 +10,7 @@
 #include <memory>
 #include <numeric>
 #include <ostream>
+#include <ranges>
 #include <type_traits>
 
 #include "action.h"
@@ -76,7 +77,7 @@
 #include "output.h"
 #include "overlay_ordering.h"
 #include "overmapbuffer.h"
-#include "pathfinding.h"
+#include "legacy_pathfinding.h"
 #include "player.h"
 #include "player_activity.h"
 #include "profession.h"
@@ -235,7 +236,6 @@ static const trait_id trait_DEFT( "DEFT" );
 static const trait_id trait_PROF_SKATER( "PROF_SKATER" );
 static const trait_id trait_QUILLS( "QUILLS" );
 static const trait_id trait_SPINES( "SPINES" );
-static const trait_id trait_SQUEAMISH( "SQUEAMISH" );
 static const trait_id trait_THORNS( "THORNS" );
 static const trait_id trait_WOOLALLERGY( "WOOLALLERGY" );
 
@@ -358,6 +358,8 @@ static const trait_flag_str_id trait_flag_PRED4( "PRED4" );
 static const trait_flag_str_id flag_NO_THIRST( "NO_THIRST" );
 static const trait_flag_str_id flag_NO_RADIATION( "NO_RADIATION" );
 static const trait_flag_str_id flag_NON_THRESH( "NON_THRESH" );
+
+static const activity_id ACT_ASSIST( "ACT_ASSIST" );
 
 namespace io
 {
@@ -504,6 +506,7 @@ void Character::move_operator_common( Character &&source ) noexcept
     backlog = std::move( source.backlog );
     destination_point = source.destination_point ;
     last_item = source.last_item ;
+    last_emote = source.last_emote;
 
     scent = source.scent ;
     my_bionics = std::move( source.my_bionics );
@@ -654,7 +657,7 @@ auto Character::is_dead_state() const -> bool
     }
 
     const auto all_bps = get_all_body_parts( true );
-    cached_dead_state = std::any_of( all_bps.begin(), all_bps.end(), [this]( const bodypart_id & bp ) {
+    cached_dead_state = std::ranges::any_of( all_bps, [this]( const bodypart_id & bp ) {
         return bp->essential && get_part_hp_cur( bp ) <= 0;
     } );
     return cached_dead_state.value();
@@ -2400,7 +2403,7 @@ detached_ptr<item> Character::wear_item( detached_ptr<item> &&wear,
     to_wear.on_wear( *this );
 
     inv.update_invlet( to_wear );
-    inv.update_cache_with_item( to_wear );
+    inv.update_invlet_cache_with_item( to_wear );
 
     recalc_sight_limits();
     reset_encumbrance();
@@ -2418,7 +2421,7 @@ void Character::add_worn( detached_ptr<item> &&wear )
     worn.insert( pos, std::move( wear ) );
     to_wear.on_wear( *this );
     inv.update_invlet( to_wear );
-    inv.update_cache_with_item( to_wear );
+    inv.update_invlet_cache_with_item( to_wear );
     recalc_sight_limits();
     reset_encumbrance();
 }
@@ -2666,9 +2669,9 @@ void Character::inv_update_invlet( item &it )
     inv.update_invlet( it );
 }
 
-void Character::inv_update_cache_with_item( item &it )
+void Character::inv_update_invlet_cache_with_item( item &it )
 {
-    inv.update_cache_with_item( it );
+    inv.update_invlet_cache_with_item( it );
 }
 
 std::map<char, itype_id> &Character::inv_assigned_invlet()
@@ -2755,7 +2758,7 @@ std::list<item *> Character::get_dependent_worn_items( const item &it ) const
             if( wit == &it || !wit->is_worn_only_with( it ) ) {
                 continue;
             }
-            const auto iter = std::find_if( dependent.begin(), dependent.end(),
+            const auto iter = std::ranges::find_if( dependent,
             [&wit]( const item * dit ) {
                 return wit == dit;
             } );
@@ -3096,9 +3099,6 @@ ret_val<bool> Character::can_wear( const item &it, bool with_equip_change ) cons
         return ret_val<bool>::make_failure( _( "Can't wear that, it's made of wool!" ) );
     }
 
-    if( it.is_filthy() && has_trait( trait_SQUEAMISH ) ) {
-        return ret_val<bool>::make_failure( _( "Can't wear that, it's filthy!" ) );
-    }
 
     if( !it.has_flag( flag_OVERSIZE ) && !it.has_flag( flag_resized_large ) &&
         !it.has_flag( flag_SEMITANGIBLE ) ) {
@@ -3349,7 +3349,7 @@ bool Character::wear_possessed( item &to_wear, bool interactive,
 
 ret_val<bool> Character::can_takeoff( const item &it, bool dropping ) const
 {
-    auto iter = std::find_if( worn.begin(), worn.end(), [ &it ]( item * wit ) {
+    auto iter = std::ranges::find_if( worn, [ &it ]( item * wit ) {
         return &it == wit;
     } );
 
@@ -3379,7 +3379,7 @@ bool Character::takeoff( item &it, std::vector<detached_ptr<item>> *res )
         return false;
     }
 
-    auto iter = std::find_if( worn.begin(), worn.end(), [ &it ]( item * wit ) {
+    auto iter = std::ranges::find_if( worn, [ &it ]( item * wit ) {
         return &it == wit;
     } );
 
@@ -3396,7 +3396,7 @@ bool Character::takeoff( item &it, std::vector<detached_ptr<item>> *res )
         ( *iter )->on_takeoff( *this );
         detached_ptr<item> det;
         worn.erase( iter, &det );
-        inv.add_item_keep_invlet( std::move( det ) );
+        inv.add_item( std::move( det ), true );
     } else {
         ( *iter )->on_takeoff( *this );
         detached_ptr<item> det;
@@ -3628,7 +3628,7 @@ bool Character::is_wearing_on_bp( const itype_id &it, const bodypart_id &bp ) co
 
 bool Character::worn_with_flag( const flag_id &flag, const bodypart_id &bp ) const
 {
-    return std::any_of( worn.begin(), worn.end(), [&flag, bp]( const item * const & it ) {
+    return std::ranges::any_of( worn, [&flag, bp]( const item * const & it ) {
         return it->has_flag( flag ) && ( bp == bodypart_str_id::NULL_ID() ||
                                          it->covers( bp ) );
     } );
@@ -3645,6 +3645,25 @@ const item *Character::item_worn_with_flag( const flag_id &flag, const bodypart_
     return nullptr;
 }
 
+bool Character::worn_with_id( const itype_id &item_id, const bodypart_id &bp ) const
+{
+    return std::ranges::any_of( worn, [&item_id, bp]( const item * const & it ) {
+        return it->typeId() == item_id && ( bp == bodypart_str_id::NULL_ID() ||
+                                            it->covers( bp ) );
+    } );
+}
+
+const item *Character::item_worn_with_id( const itype_id &item_id, const bodypart_id &bp ) const
+{
+    for( const item * const &it : worn ) {
+        if( it->typeId() == item_id && ( bp == bodypart_str_id::NULL_ID() ||
+                                         it->covers( bp ) ) ) {
+            return it;
+        }
+    }
+    return nullptr;
+}
+
 std::vector<std::string> Character::get_overlay_ids() const
 {
     std::vector<std::string> rval;
@@ -3655,7 +3674,9 @@ std::vector<std::string> Character::get_overlay_ids() const
     // first get effects
     for( const auto &eff_pr : *effects ) {
         if( !eff_pr.second.begin()->second.is_removed() ) {
-            rval.emplace_back( "effect_" + eff_pr.first.str() );
+            const std::string &looks_like = eff_pr.first.obj().get_looks_like();
+
+            rval.emplace_back( "effect_" + ( looks_like.empty() ? eff_pr.first.str() : looks_like ) );
         }
     }
 
@@ -3900,7 +3921,7 @@ bool Character::meets_skill_requirements( const std::map<skill_id, int> &req,
 
 bool Character::meets_skill_requirements( const construction &con ) const
 {
-    return std::all_of( con.required_skills.begin(), con.required_skills.end(),
+    return std::ranges::all_of( con.required_skills,
     [&]( const std::pair<skill_id, int> &pr ) {
         return get_skill_level( pr.first ) >= pr.second;
     } );
@@ -3927,15 +3948,15 @@ void Character::die( Creature *nkiller )
     set_killer( nkiller );
     set_time_died( calendar::turn );
     if( has_effect( effect_lightsnare ) ) {
-        inv.add_item( item::spawn( itype_string_36, calendar::start_of_cataclysm ) );
-        inv.add_item( item::spawn( itype_snare_trigger, calendar::start_of_cataclysm ) );
+        inv.add_item( item::spawn( itype_string_36, calendar::start_of_cataclysm ), false );
+        inv.add_item( item::spawn( itype_snare_trigger, calendar::start_of_cataclysm ), false );
     }
     if( has_effect( effect_heavysnare ) ) {
-        inv.add_item( item::spawn( itype_rope_6, calendar::start_of_cataclysm ) );
-        inv.add_item( item::spawn( itype_snare_trigger, calendar::start_of_cataclysm ) );
+        inv.add_item( item::spawn( itype_rope_6, calendar::start_of_cataclysm ), false );
+        inv.add_item( item::spawn( itype_snare_trigger, calendar::start_of_cataclysm ), false );
     }
     if( has_effect( effect_beartrap ) ) {
-        inv.add_item( item::spawn( itype_beartrap, calendar::start_of_cataclysm ) );
+        inv.add_item( item::spawn( itype_beartrap, calendar::start_of_cataclysm ), false );
     }
     mission::on_creature_death( *this );
 }
@@ -4322,8 +4343,8 @@ location_vector<item>::iterator Character::position_to_wear_new_item( const item
 {
     // By default we put this item on after the last item on the same or any
     // lower layer.
-    return std::find_if(
-               worn.rbegin(), worn.rend(),
+    return std::ranges::find_if(
+               std::ranges::reverse_view( worn ),
     [&]( const item * const & w ) {
         return w->get_layer() <= new_item.get_layer();
     }
@@ -6650,12 +6671,12 @@ const std::vector<material_id> Character::fleshy = { material_id( "flesh" ), mat
 bool Character::made_of( const material_id &m ) const
 {
     // TODO: check for mutations that change this.
-    return std::find( fleshy.begin(), fleshy.end(), m ) != fleshy.end();
+    return std::ranges::find( fleshy, m ) != fleshy.end();
 }
 bool Character::made_of_any( const std::set<material_id> &ms ) const
 {
     // TODO: check for mutations that change this.
-    return std::any_of( fleshy.begin(), fleshy.end(), [&ms]( const material_id & e ) {
+    return std::ranges::any_of( fleshy, [&ms]( const material_id & e ) {
         return ms.count( e );
     } );
 }
@@ -7673,7 +7694,7 @@ detached_ptr<item> Character::dispose_item( detached_ptr<item> &&obj, const std:
             }
 
             moves -= item_handling_cost( *obj );
-            inv.add_item_keep_invlet( std::move( obj ) );
+            inv.add_item( std::move( obj ), true );
             inv.unsort();
             return detached_ptr<item>();
         }
@@ -8057,7 +8078,7 @@ void Character::shout( std::string msg, bool order )
 
     if( noise <= base ) {
         std::string dampened_shout;
-        std::transform( msg.begin(), msg.end(), std::back_inserter( dampened_shout ), tolower );
+        std::ranges::transform( msg, std::back_inserter( dampened_shout ), tolower );
         msg = std::move( dampened_shout );
     }
 
@@ -8550,9 +8571,15 @@ bool Character::armor_absorb( damage_unit &du, item &armor, const bodypart_id &b
     if( rng( 1, 100 ) > armor.get_coverage( bp ) ) {
         return false;
     }
-
-    // TODO: add some check for power armor
+    // If the attack has already been negated by other armor, don't bother.
+    if( du.amount <= 0 ) {
+        return false;
+    }
     armor.mitigate_damage( du );
+    // We're indestructible, bail out here.
+    if( armor.has_flag( flag_UNBREAKABLE ) ) {
+        return false;
+    }
 
     // We want armor's own resistance to this type, not the resistance it grants
     const int armors_own_resist = armor.damage_resist( du.type, true );
@@ -9015,33 +9042,6 @@ dealt_damage_instance Character::deal_damage( Creature *source, bodypart_id bp,
         }
     }
 
-    if( get_option<bool>( "FILTHY_WOUNDS" ) ) {
-        int sum_cover = 0;
-        for( const item * const &i : worn ) {
-            if( i->covers( bp ) && i->is_filthy() ) {
-                sum_cover += i->get_coverage( bp );
-            }
-        }
-
-        // Chance of infection is damage (with cut and stab x4) * sum of coverage on affected body part, in percent.
-        // i.e. if the body part has a sum of 100 coverage from filthy clothing,
-        // each point of damage has a 1% change of causing infection.
-        if( sum_cover > 0 ) {
-            const int cut_type_dam = dealt_dams.type_damage( DT_CUT ) + dealt_dams.type_damage( DT_STAB );
-            const int combined_dam = dealt_dams.type_damage( DT_BASH ) + ( cut_type_dam * 4 );
-            const int infection_chance = ( combined_dam * sum_cover ) / 100;
-            if( x_in_y( infection_chance, 100 ) ) {
-                if( has_effect( effect_bite, bp.id() ) ) {
-                    add_effect( effect_bite, 40_minutes, bp.id() );
-                } else if( has_effect( effect_infected, bp.id() ) ) {
-                    add_effect( effect_infected, 25_minutes, bp.id() );
-                } else {
-                    add_effect( effect_bite, 1_turns, bp.id() );
-                }
-                add_msg_if_player( _( "Filth from your clothing has implanted deep in the wound." ) );
-            }
-        }
-    }
 
     on_hurt( source );
     return dealt_dams;
@@ -9677,9 +9677,11 @@ void Character::assign_activity( std::unique_ptr<player_activity> act, bool allo
     if( is_npc() ) {
         cancel_stashed_activity();
         npc *guy = dynamic_cast<npc *>( this );
-        guy->set_attitude( NPCATT_ACTIVITY );
-        guy->set_mission( NPC_MISSION_ACTIVITY );
         guy->current_activity_id = activity->id();
+        if( activity->id() != ACT_ASSIST ) {
+            guy->set_attitude( NPCATT_ACTIVITY );
+            guy->set_mission( NPC_MISSION_ACTIVITY );
+        }
     }
 }
 
@@ -9690,7 +9692,7 @@ bool Character::has_activity( const activity_id &type ) const
 
 bool Character::has_activity( const std::vector<activity_id> &types ) const
 {
-    return std::find( types.begin(), types.end(), activity->id() ) != types.end();
+    return std::ranges::find( types, activity->id() ) != types.end();
 }
 
 void Character::cancel_activity()
@@ -10050,6 +10052,54 @@ int Character::temp_corrected_by_climate_control( int temperature ) const
     return temperature;
 }
 
+const item *Character::get_item_with_id( const itype_id &item_id, bool need_charges ) const
+{
+    const item *ret = nullptr;
+
+    inv.visit_items( [&ret, &item_id, &need_charges]( const item * it ) {
+        if( it->typeId() == item_id ) {
+            if( it->is_tool() && need_charges ) {
+                if( it->type->tool->max_charges && it->charges <= 0 ) {
+                    return VisitResponse::SKIP;
+                }
+            }
+            ret = it;
+            return VisitResponse::ABORT;
+        }
+        return VisitResponse::NEXT;
+    } );
+
+    return ret;
+}
+
+void Character::add_item_with_id( const itype_id &item_id, int count )
+{
+    detached_ptr<item> new_item = item::spawn( item_id, calendar::turn, count );
+    i_add( std::move( new_item ), true );
+}
+
+bool Character::has_item_with_id( const itype_id &item_id, bool need_charges ) const
+{
+    return has_item_with( [&item_id, &need_charges]( const item & it ) {
+        if( it.is_tool() && need_charges ) {
+            return it.typeId() == item_id &&
+                   it.type->tool->max_charges ? it.charges > 0 : it.typeId() == item_id;
+        }
+        return it.typeId() == item_id;
+    } );
+}
+
+std::vector<item *> Character::all_items_with_id( const itype_id &item_id, bool need_charges ) const
+{
+    return items_with( [&item_id, &need_charges]( const item & it ) {
+        if( it.is_tool() && need_charges ) {
+            return it.typeId() == item_id &&
+                   it.type->tool->max_charges ? it.charges > 0 : it.typeId() == item_id;
+        }
+        return it.typeId() == item_id;
+    } );
+}
+
 bool Character::has_item_with_flag( const flag_id &flag, bool need_charges ) const
 {
     return has_item_with( [&flag, &need_charges]( const item & it ) {
@@ -10060,10 +10110,23 @@ bool Character::has_item_with_flag( const flag_id &flag, bool need_charges ) con
     } );
 }
 
-std::vector<item *> Character::all_items_with_flag( const flag_id &flag ) const
+std::vector<item *> Character::all_items_with_flag( const flag_id &flag, bool need_charges ) const
 {
-    return items_with( [&flag]( const item & it ) {
+    return items_with( [&flag, &need_charges]( const item & it ) {
+        if( it.is_tool() && need_charges ) {
+            return it.has_flag( flag ) && it.type->tool->max_charges ? it.charges > 0 : it.has_flag( flag );
+        }
         return it.has_flag( flag );
+    } );
+}
+
+std::vector<item *> Character::all_items( bool need_charges ) const
+{
+    return items_with( [&need_charges]( const item & it ) {
+        if( it.is_tool() && need_charges ) {
+            return it.type->tool->max_charges ? it.charges > 0 : true;
+        }
+        return true;
     } );
 }
 
@@ -10355,12 +10418,6 @@ void Character::use_fire( const int quantity )
     }
 }
 
-void Character::on_worn_item_washed( const item &it )
-{
-    if( is_worn( it ) ) {
-        morale->on_worn_item_washed( it );
-    }
-}
 
 void Character::on_item_wear( const item &it )
 {
@@ -10459,7 +10516,7 @@ int Character::adjust_for_focus( int amount ) const
     return roll_remainder( tmp );
 }
 
-std::set<tripoint> Character::get_path_avoid() const
+std::set<tripoint> Character::get_legacy_path_avoid() const
 {
     std::set<tripoint> ret;
     for( npc &guy : g->all_npcs() ) {
@@ -10473,9 +10530,43 @@ std::set<tripoint> Character::get_path_avoid() const
     return ret;
 }
 
-const pathfinding_settings &Character::get_pathfinding_settings() const
+const pathfinding_settings &Character::get_legacy_pathfinding_settings() const
 {
     return *path_settings;
+}
+
+std::pair<PathfindingSettings, RouteSettings> Character::get_pathfinding_pair() const
+{
+    PathfindingSettings path_settings;
+
+    path_settings.door_open_cost = 2.0;
+    path_settings.mob_presence_penalty = 16.0;
+    path_settings.rough_terrain_cost = 0.0;
+    path_settings.sharp_terrain_cost = INFINITY;
+    path_settings.trap_cost = INFINITY;
+    path_settings.can_climb_stairs = true;
+    path_settings.bash_strength_val = 0;
+
+    const int climb = std::min( 20, get_dex() );
+    if( climb <= 1 ) {
+        path_settings.climb_cost = INFINITY;
+    } else {
+        const float climb_success_prob = 1.0 - 1.0 / climb;
+        path_settings.climb_cost = 5 / climb_success_prob;
+    }
+
+    RouteSettings route_settings;
+    // TODO: Make it assign a stockfish preset instead
+    route_settings.alpha = 1.0;
+    route_settings.h_coeff = 1.0;
+    route_settings.max_dist = INFINITY;
+    route_settings.max_f_coeff = INFINITY;
+    route_settings.max_s_coeff = INFINITY;
+    route_settings.f_limit_based_on_max_dist = false;
+    route_settings.search_cone_angle = 180.0;
+    route_settings.search_radius_coeff = INFINITY;
+
+    return { path_settings, route_settings };
 }
 
 float Character::power_rating() const

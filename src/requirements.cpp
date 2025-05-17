@@ -30,6 +30,7 @@
 #include "output.h"
 #include "player.h"
 #include "point.h"
+#include "salvage.h"
 #include "string_formatter.h"
 #include "string_id.h"
 #include "string_utils.h"
@@ -99,6 +100,15 @@ void quality::load( const JsonObject &jo, const std::string & )
             usages.emplace_back( level, line );
         }
     }
+
+    assign( jo, "salvagable_materials", salvagable_materials );
+    for( auto &material : salvagable_materials ) {
+        if( !material.is_valid() ) {
+            jo.throw_error( string_format( "Invalid material %s", material ) );
+        }
+    }
+
+    salvage::populate_salvage_materials( *this );
 }
 
 /** @relates string_id */
@@ -1176,7 +1186,7 @@ requirement_data requirement_data::continue_requirements( const std::vector<item
     location_inventory craft_components( new fake_item_location() );
     std::vector<detached_ptr<item>> comps_copy;
     for( item * const &it : remaining_comps ) {
-        craft_components.add_item( item::spawn( *it ) );
+        craft_components.add_item( item::spawn( *it ), false );
     }
 
     // Remove requirements that are completely fulfilled by current craft components

@@ -373,8 +373,19 @@ void iexamine::translocator( player &, const tripoint &examp )
         g->u.translocators->activate_teleporter( omt_loc, examp );
         add_msg( m_info, _( "Translocator gate active." ) );
     } else {
-        if( query_yn( _( "Do you want to deactivate this active Translocator?" ) ) ) {
-            g->u.translocators->deactivate_teleporter( omt_loc, examp );
+        const int choice = uilist( _( "Do what with Translocator?" ), {
+            _( "Visit another gate." ),
+            _( "Deactivate." )
+        } );
+        if( choice == 0 ) {
+            item *vtm = item::spawn_temporary( "translocation_caster", calendar::start_of_cataclysm );
+            player_character.invoke_item( vtm );
+        } else if( choice == 1 ) {
+            if( query_yn( _( "Deactivate this Translocator?" ) ) ) {
+                g->u.translocators->deactivate_teleporter( omt_loc, examp );
+            }
+        } else {
+            add_msg( _( "Never mind." ) );
         }
     }
 }
@@ -1323,7 +1334,7 @@ static item *find_best_prying_tool( player &p )
     } );
 
     // Sort by their quality level.
-    std::sort( prying_items.begin(), prying_items.end(), []( const item * a, const item * b ) -> bool {
+    std::ranges::sort( prying_items, []( const item * a, const item * b ) -> bool {
         return a->get_quality( quality_id( "PRY" ) ) > b->get_quality( quality_id( "PRY" ) );
     } );
 
@@ -1447,7 +1458,7 @@ static item *find_best_lock_picking_tool( player &p )
     } );
 
     // Sort by their picklock level.
-    std::sort( picklocks.begin(), picklocks.end(), [&]( const item * a, const item * b ) {
+    std::ranges::sort( picklocks, [&]( const item * a, const item * b ) {
         return a->get_quality( qual_LOCKPICK ) > b->get_quality( qual_LOCKPICK );
     } );
 
@@ -1711,20 +1722,25 @@ void iexamine::door_peephole( player &p, const tripoint &examp )
         return;
     }
 
-    // Peek through the peephole, or open the door.
-    const int choice = uilist( _( "Do what with the door?" ), {
-        _( "Peek through peephole." ),
-        _( "Open door." )
-    } );
-    if( choice == 0 ) {
-        // Peek
+    if( here.open_door( examp, true, true ) ) {
         g->peek( examp );
         p.add_msg_if_player( _( "You peek through the peephole." ) );
-    } else if( choice == 1 ) {
-        here.open_door( examp, true, false );
-        p.add_msg_if_player( _( "You open the door." ) );
     } else {
-        p.add_msg_if_player( _( "Never mind." ) );
+        // Peek through the peephole, or open the door.
+        const int choice = uilist( _( "Do what with the door?" ), {
+            _( "Peek through peephole." ),
+            _( "Open door." )
+        } );
+        if( choice == 0 ) {
+            // Peek
+            g->peek( examp );
+            p.add_msg_if_player( _( "You peek through the peephole." ) );
+        } else if( choice == 1 ) {
+            here.open_door( examp, true, false );
+            p.add_msg_if_player( _( "You open the door." ) );
+        } else {
+            p.add_msg_if_player( _( "Never mind." ) );
+        }
     }
 }
 
@@ -1847,7 +1863,8 @@ static bool drink_nectar( player &p )
 static void handle_harvest( player &p, const std::string &itemid, bool force_drop )
 {
     detached_ptr<item> harvest = item::spawn( itemid );
-    if( !force_drop && p.can_pick_volume( *harvest ) &&
+    // Drop items that're exceed available space and things that aren't comestibles
+    if( !force_drop && harvest->get_comestible() && p.can_pick_volume( *harvest ) &&
         p.can_pick_weight( *harvest, !get_option<bool>( "DANGEROUS_PICKUPS" ) ) ) {
 
         p.add_msg_if_player( _( "You harvest: %s." ), harvest->tname() );
@@ -2203,7 +2220,7 @@ std::vector<seed_tuple> iexamine::get_seed_entries( const std::vector<item *> &s
     }
 
     // Sort by name
-    std::sort( seed_entries.begin(), seed_entries.end(),
+    std::ranges::sort( seed_entries,
     []( const seed_tuple & l, const seed_tuple & r ) {
         return std::get<1>( l ).compare( std::get<1>( r ) ) < 0;
     } );
@@ -2369,8 +2386,8 @@ void iexamine::harvest_plant( player &p, const tripoint &examp, bool from_activi
     map &here = get_map();
     // Can't use item_stack::only_item() since there might be fertilizer
     map_stack items = here.i_at( examp );
-    map_stack::iterator seed_it = std::find_if( items.begin(),
-    items.end(), []( const item * const & it ) {
+    map_stack::iterator seed_it = std::ranges::find_if( items,
+    []( const item * const & it ) {
         return it->is_seed();
     } );
 
@@ -2471,8 +2488,8 @@ void iexamine::fertilize_plant( player &p, const tripoint &tile, const itype_id 
 
     // Can't use item_stack::only_item() since there might be fertilizer
     map_stack items = here.i_at( tile );
-    map_stack::iterator seed_it = std::find_if( items.begin(),
-    items.end(), []( const item * const & it ) {
+    map_stack::iterator seed_it = std::ranges::find_if( items,
+    []( const item * const & it ) {
         return it->is_seed();
     } );
     if( seed_it == items.end() ) {
@@ -2505,7 +2522,7 @@ itype_id iexamine::choose_fertilizer( player &p, const std::string &pname, bool 
     std::vector<itype_id> f_types;
     std::vector<std::string> f_names;
     for( auto &f : f_inv ) {
-        if( std::find( f_types.begin(), f_types.end(), f->typeId() ) == f_types.end() ) {
+        if( std::ranges::find( f_types, f->typeId() ) == f_types.end() ) {
             f_types.push_back( f->typeId() );
             f_names.push_back( f->tname() );
         }
@@ -2532,8 +2549,8 @@ void iexamine::aggie_plant( player &p, const tripoint &examp )
     map &here = get_map();
     // Can't use item_stack::only_item() since there might be fertilizer
     map_stack items = here.i_at( examp );
-    map_stack::iterator seed_it = std::find_if( items.begin(),
-    items.end(), []( const item * const & it ) {
+    map_stack::iterator seed_it = std::ranges::find_if( items,
+    []( const item * const & it ) {
         return it->is_seed();
     } );
 
@@ -2853,11 +2870,11 @@ void iexamine::autoclave_full( player &, const tripoint &examp )
     }
 
     map_stack items = here.i_at( examp );
-    bool cbms = std::all_of( items.begin(), items.end(), []( const item * const & i ) {
+    bool cbms = std::ranges::all_of( items, []( const item * const & i ) {
         return i->is_bionic();
     } );
 
-    bool cbms_not_packed = std::all_of( items.begin(), items.end(), []( const item * const & i ) {
+    bool cbms_not_packed = std::ranges::all_of( items, []( const item * const & i ) {
         return i->is_bionic() && i->has_flag( flag_NO_PACKED );
     } );
 
@@ -3036,7 +3053,7 @@ void iexamine::fvat_empty( player &p, const tripoint &examp )
         std::vector<itype_id> b_types;
         std::vector<std::string> b_names;
         for( auto &b : b_inv ) {
-            if( std::find( b_types.begin(), b_types.end(), b->typeId() ) == b_types.end() ) {
+            if( std::ranges::find( b_types, b->typeId() ) == b_types.end() ) {
                 b_types.push_back( b->typeId() );
                 b_names.push_back( item::nname( b->typeId() ) );
             }
@@ -3272,7 +3289,7 @@ void iexamine::keg( player &p, const tripoint &examp )
         std::vector<std::string> drink_names;
         std::vector<double> drink_rot;
         for( auto &drink : drinks_inv ) {
-            auto found_drink = std::find( drink_types.begin(), drink_types.end(), drink->typeId() );
+            auto found_drink = std::ranges::find( drink_types, drink->typeId() );
             if( found_drink == drink_types.end() ) {
                 drink_types.push_back( drink->typeId() );
                 drink_names.push_back( item::nname( drink->typeId() ) );
@@ -4097,7 +4114,7 @@ void iexamine::use_furn_fake_item( player &p, const tripoint &examp )
     }
 
     const int original_charges = fake_item.charges;
-    p.invoke_item( &fake_item );
+    p.invoke_item( &fake_item, examp );
 
     // HACK: Evil hack incoming
     activity_handlers::repair_activity_hack::patch_activity_for_furniture( *g->u.activity, examp,
@@ -4853,7 +4870,7 @@ static player &best_installer( player &p, player &null_player, int difficulty )
                            skill_electronics );
         ally_skills.push_back( ally_skill );
     }
-    std::sort( ally_skills.begin(), ally_skills.end(), [&]( const std::pair<float, int> &lhs,
+    std::ranges::sort( ally_skills, [&]( const std::pair<float, int> &lhs,
     const std::pair<float, int> &rhs ) {
         return rhs.first < lhs.first;
     } );
@@ -5025,13 +5042,10 @@ void iexamine::autodoc( player &p, const tripoint &examp )
 
     amenu.query();
 
-    bool needs_anesthesia = true;
+    bool needs_anesthesia = cbm_needs_anesthesia( patient );
     std::vector<tool_comp> anesth_kit;
 
-    if( patient.has_trait( trait_NOPAIN ) || patient.has_bionic( bio_painkiller ) ||
-        amenu.ret > 1 ) {
-        needs_anesthesia = false;
-    } else {
+    if( needs_anesthesia && amenu.ret < 2 ) {
         const inventory &crafting_inv = p.crafting_inventory();
         std::vector<item *> a_filter = crafting_inv.items_with( []( const item & it ) {
             return it.has_quality( qual_ANESTHESIA );
@@ -5650,7 +5664,7 @@ static void smoker_load_food( player &p, const tripoint &examp,
             count = inv.amount_of( smokable_item->typeId() );
         }
         if( count != 0 ) {
-            auto on_list = std::find( names.begin(), names.end(), item::nname( smokable_item->typeId(), 1 ) );
+            auto on_list = std::ranges::find( names, item::nname( smokable_item->typeId(), 1 ) );
             if( on_list == names.end() ) {
                 smenu.addentry( item::nname( smokable_item->typeId(), 1 ) );
                 entries.push_back( smokable_item );
@@ -5759,7 +5773,7 @@ static void mill_load_food( player &p, const tripoint &examp,
             count = inv.amount_of( millable_item->typeId() );
         }
         if( count != 0 ) {
-            auto on_list = std::find( names.begin(), names.end(), item::nname( millable_item->typeId(), 1 ) );
+            auto on_list = std::ranges::find( names, item::nname( millable_item->typeId(), 1 ) );
             if( on_list == names.end() ) {
                 smenu.addentry( item::nname( millable_item->typeId(), 1 ) );
                 entries.push_back( millable_item );

@@ -123,12 +123,13 @@
     "name": { "str_sp": "sand" },
     "symbol": "=",
     "color": "dark_gray",
-    "description": "A handful of New England sand.  If you had a stoked furnace, you could turn it into glass.  Otherwise, it's only good for making cement.",
+    "description": "A handful of New England sand.  If you had a stoked furnace, you could turn it into glass or cement.  Otherwise, it's only good for sanding wood.",
     "material": "soil",
     "volume": "250 ml",
     "weight": "8 g",
     "bashing": 1,
     "ammo_type": "components",
+    "qualities": [ [ "SANDING", 1 ] ],
     "count": 50
   },
   {
@@ -1015,11 +1016,10 @@
     "name": { "str_sp": "detergent" },
     "symbol": "=",
     "color": "white",
-    "description": "A popular pre-Cataclysm washing powder.",
+    "description": "A popular pre-Cataclysm washing powder.  It is used for chemistry experiments such as manufacturing gelled gasoline.",
     "material": "powder",
     "volume": "250 ml",
     "weight": "1 g",
-    "flags": [ "DETERGENT" ],
     "ammo_type": "components",
     "container": "box_small",
     "count": 20
@@ -1034,11 +1034,10 @@
     "looks_like": "detergent",
     "symbol": "=",
     "color": "white",
-    "description": "A bar of soap cut into flakes suitable for use in a washing machine.",
+    "description": "A bar of soap cut into flakes, it can only be used for varnishing wood now.",
     "volume": "250 ml",
     "weight": "1 g",
     "ammo_type": "components",
-    "flags": [ "DETERGENT" ],
     "count": 20
   },
   {
@@ -1335,5 +1334,26 @@
     "explode_in_fire": true,
     "explosion": { "power": 20, "shrapnel": 0 },
     "flags": [ "NO_DROP", "IRREMOVABLE" ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "shimmer",
+    "category": "chems",
+    "price": "5 USD",
+    "price_postapoc": "10 cent",
+    "name": { "str_sp": "Shimmer! Floor Wax and Dessert Topping" },
+    "looks_like": "detergent",
+    "symbol": "=",
+    "color": "white",
+    "description": "It's durable and it's scuff resistant!  It even cleans your clothes!  But despite the advertisements, it is not, in fact, delicious.",
+    "volume": "250 ml",
+    "weight": "1 g",
+    "healthy": -20,
+    "calories": 600,
+    "fun": -15,
+    "vitamins": [ [ "mutant_toxin", 240 ] ],
+    "qualities": [ [ "SANDING", 1 ] ],
+    "container": "box_small",
+    "charges": 20
   }
 ]

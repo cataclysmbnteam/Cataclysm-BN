@@ -65,6 +65,7 @@
 #include "rng.h"
 #include "sdl_wrappers.h"
 #include "sdl_geometry.h"
+#include "sdl_utils.h"
 #include "sdl_font.h"
 #include "sdlsound.h"
 #include "string_formatter.h"
@@ -689,13 +690,18 @@ void clear_window_area( const catacurses::window &win_ )
 static std::optional<std::pair<tripoint_abs_omt, std::string>> get_mission_arrow(
             const inclusive_cuboid<tripoint> &overmap_area, const tripoint_abs_omt &center )
 {
-    if( get_avatar().get_active_mission() == nullptr ) {
+    const auto *mission = get_avatar().get_active_mission();
+    const bool custom_waypoint_valid = get_avatar().get_custom_mission_target() !=
+                                       overmap::invalid_tripoint;
+    if( mission == nullptr && !custom_waypoint_valid ) {
         return std::nullopt;
     }
-    if( !get_avatar().get_active_mission()->has_target() ) {
+    if( ( mission == nullptr || !mission->has_target() ) && !custom_waypoint_valid ) {
         return std::nullopt;
     }
-    const tripoint_abs_omt mission_target = get_avatar().get_active_mission_target();
+    tripoint_abs_omt mission_target = custom_waypoint_valid
+                                      ? get_avatar().get_custom_mission_target()
+                                      : get_avatar().get_active_mission_target();  // Safe here because mission is non-null
 
     std::string mission_arrow_variant;
     if( overmap_area.contains( mission_target.raw() ) ) {
@@ -941,6 +947,16 @@ void cata_tiles::draw_om( point dest, const tripoint_abs_omt &center_abs_omt, bo
                                      subtile, rotation, ll, false, height_3d, 0 );
             }
 
+            if( blink && uistate.overmap_highlighted_omts.contains( omp ) ) {
+                if( tile_iso ) {
+                    draw_from_id_string( "highlight", omp.raw(), 0, 0, lit_level::LIT, false, 0 );
+                } else {
+                    SDL_Color c = curses_color_to_SDL( c_pink );
+                    c.a = c.a >> 1;
+                    auto p = player_to_screen( omp.raw().xy() );
+                    draw_color_at( c, p, SDL_BLENDMODE_BLEND );
+                }
+            }
 
             if( see ) {
                 if( blink && uistate.overmap_debug_mongroup ) {

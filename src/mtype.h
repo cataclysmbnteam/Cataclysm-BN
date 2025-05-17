@@ -1,12 +1,11 @@
 #pragma once
-#ifndef CATA_SRC_MTYPE_H
-#define CATA_SRC_MTYPE_H
 
 #include <map>
 #include <optional>
 #include <set>
 #include <array>
 #include <string>
+#include <variant>
 #include <vector>
 
 #include "behavior.h"
@@ -16,10 +15,12 @@
 #include "enum_bitset.h"
 #include "enums.h"
 #include "mattack_common.h"
+#include "legacy_pathfinding.h"
 #include "pathfinding.h"
 #include "translations.h"
 #include "type_id.h"
 #include "units.h"
+#include "catalua_type_operators.h"
 
 class Creature;
 class monster;
@@ -142,7 +143,7 @@ enum m_flag : int {
     MF_CBM_OP,              // May produce a bionic from bionics_op when butchered, and the power storage is mk 2.
     MF_CBM_TECH,            // May produce a bionic from bionics_tech when butchered.
     MF_CBM_SUBS,            // May produce a bionic from bionics_subs when butchered.
-    MF_FILTHY,              // Any clothing it drops will be filthy.
+    MF_UNUSED_76,           // !! Unused Flag position, kept for compatability purposes
     MF_FISHABLE,            // It is fishable.
     MF_GROUP_BASH,          // Monsters that can pile up against obstacles and add their strength together to break them.
     MF_SWARMS,              // Monsters that like to group together and form loose packs
@@ -401,8 +402,19 @@ struct mtype {
         /** Emission sources that cycle each turn the monster remains alive */
         std::map<emit_id, time_duration> emit_fields;
 
-        pathfinding_settings path_settings;
-        pathfinding_settings path_settings_buffed;
+        pathfinding_settings legacy_path_settings;
+        pathfinding_settings legacy_path_settings_buffed;
+
+        PathfindingSettings path_settings;
+        RouteSettings route_settings;
+        PathfindingSettings path_settings_buffed;
+        RouteSettings route_settings_buffed;
+
+        // We rely on external options to construct pathfinding options
+        //   which are subject to change by rebalancing mods
+        //   thus necessiating a late load
+        std::unordered_map<std::string, std::variant<float, bool, int>> recorded_path_settings;
+        void setup_pathfinding_deferred();
 
         // Used to fetch the properly pluralized monster type name
         std::string nname( unsigned int quantity = 1 ) const;
@@ -433,8 +445,9 @@ struct mtype {
 
         // Historically located in monstergenerator.cpp
         void load( const JsonObject &jo, const std::string &src );
+        LUA_TYPE_OPS( mtype, id );
 };
 
 mon_effect_data load_mon_effect_data( const JsonObject &e );
 
-#endif // CATA_SRC_MTYPE_H
+
