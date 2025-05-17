@@ -3321,5 +3321,49 @@
         ]
       }
     ]
+  },
+  {
+    "id": "everyday_tihar",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "entries": [
+      { "item": "tihar", "ammo-group": "on_hand_pebbles", "charges": [ 0, 30 ] },
+      { "group": "pebblemag", "charges-min": 0, "prob": 80 },
+      { "group": "pebblemag", "charges-min": 0, "prob": 50 },
+      { "group": "on_hand_pebbles", "prob": 25, "charges": [ 10, 20 ], "count": [ 1, 2 ] }
+    ]
+  },
+  {
+    "id": "everyday_helsing",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "entries": [
+      { "item": "helsing", "ammo-group": "on_hand_bolts", "charges-min": 0 },
+      {
+        "distribution": [
+          {
+            "distribution": [
+              { "collection": [ { "group": "on_hand_bolts", "charges": [ 0, 20 ] }, { "item": "quiver" } ], "prob": 100 },
+              {
+                "collection": [ { "group": "on_hand_bolts", "charges": [ 0, 60 ] }, { "item": "quiver_large" } ],
+                "prob": 15
+              },
+              {
+                "collection": [ { "group": "on_hand_bolts", "charges": [ 0, 20 ] }, { "item": "quiver_birchbark" } ],
+                "prob": 5
+              },
+              {
+                "collection": [ { "group": "on_hand_bolts", "charges": [ 0, 60 ] }, { "item": "quiver_large_birchbark" } ],
+                "prob": 5
+              }
+            ],
+            "prob": 50
+          },
+          { "group": "on_hand_bolts", "prob": 50, "charges": [ 10, 20 ], "count": [ 1, 2 ] }
+        ]
+      }
+    ]
   }
 ]

@@ -1071,7 +1071,7 @@
       { "id": "SANDING", "level": 1 }
     ],
     "components": [
-      [ [ "hand_pump", 1 ] ],
+      [ [ "hose", 1 ] ],
       [ [ "pipe", 8 ] ],
       [ [ "adhesive", 1, "LIST" ] ],
       [ [ "2x4", 1 ], [ "stick", 1 ] ],
@@ -1097,7 +1097,7 @@
       { "id": "SANDING", "level": 1 }
     ],
     "components": [
-      [ [ "hand_pump", 1 ] ],
+      [ [ "hose", 1 ] ],
       [ [ "pipe", 4 ] ],
       [ [ "adhesive", 1, "LIST" ] ],
       [ [ "2x4", 1 ], [ "stick", 1 ] ],

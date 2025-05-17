@@ -1,0 +1,20 @@
+[
+  {
+    "id": "pebblemag",
+    "looks_like": "bottle_plastic_small",
+    "type": "MAGAZINE",
+    "name": { "str": "makeshift pneumatic magazine" },
+    "description": "A magazine for use with a pneumatic rifle.  Unlike most standard firearms, this is a simple tube made of clear plastic with metal reinforcements in order to better see the ammo count, and is somewhat tedious to reload compared to normal firearm magazines.",
+    "weight": "60 g",
+    "volume": "250 ml",
+    "price": "1920 cent",
+    "material": "steel",
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": "pebble",
+    "capacity": 30,
+    "reliability": 6,
+    "reload_time": 150,
+    "flags": [ "MAG_COMPACT" ]
+  }
+]

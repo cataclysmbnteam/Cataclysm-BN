@@ -204,6 +204,8 @@
       [ "bolt_steel_target", 5 ],
       [ "bolt_steel_bodkin", 5 ],
       [ "bbgun", 10 ],
+      [ "tihar", 4 ],
+      [ "helsing", 2 ],
       [ "crossbow", 2 ],
       [ "compcrossbow", 2 ],
       [ "mag_survival", 40 ],
