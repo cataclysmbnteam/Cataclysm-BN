@@ -3329,8 +3329,8 @@
     "subtype": "collection",
     "entries": [
       { "item": "tihar", "ammo-group": "on_hand_pebbles", "charges": [ 0, 30 ] },
-      { "group": "pebblemag", "charges-min": 0, "prob": 80 },
-      { "group": "pebblemag", "charges-min": 0, "prob": 50 },
+      { "item": "pebblemag", "charges-min": 0, "prob": 80 },
+      { "item": "pebblemag", "charges-min": 0, "prob": 50 },
       { "group": "on_hand_pebbles", "prob": 25, "charges": [ 10, 20 ], "count": [ 1, 2 ] }
     ]
   },
