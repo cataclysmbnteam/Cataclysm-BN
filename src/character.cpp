@@ -1001,7 +1001,8 @@ void Character::set_pain( int npain )
 namespace
 {
 
-auto remaining_ratio( int value, int max_value ) -> int
+/// normalize between 0 to 1
+auto remaining_ratio( float value, float max_value ) -> float
 {
     return max_value == 0 ? 0 : ( max_value - value ) / max_value;
 }
