@@ -78,7 +78,7 @@ auto parts_to_display( const item &it,
 {
     auto result = std::vector<BodyPartInfoPair>();
 
-    std::copy_if( xs.begin(), xs.end(), std::back_inserter( result ),
+    std::ranges::copy_if( xs, std::back_inserter( result ),
     [&it, armor]( const auto & piece ) {
         if( !piece.second.active ) {
             return false;

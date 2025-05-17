@@ -251,7 +251,7 @@ itype_id bionic_data::itype() const
 
 bool bionic_data::is_included( const bionic_id &id ) const
 {
-    return std::find( included_bionics.begin(), included_bionics.end(), id ) != included_bionics.end();
+    return std::ranges::find( included_bionics, id ) != included_bionics.end();
 }
 
 void bionic_data::load_bionic( const JsonObject &jo, const std::string &src )
@@ -1775,7 +1775,7 @@ void Character::process_bionic( bionic &bio )
         if( calendar::once_every( 30_turns ) ) {
             std::vector<effect *> bleeding_list = get_all_effects_of_type( effect_bleed );
             // Essential parts (Head/Torso) first.
-            std::sort( bleeding_list.begin(), bleeding_list.end(),
+            std::ranges::sort( bleeding_list,
             []( effect * a, effect * b ) {
                 return a->get_bp()->essential > b->get_bp()->essential;
             } );
@@ -1804,8 +1804,8 @@ void Character::process_bionic( bionic &bio )
                 const auto damaged_parts = [this, should_heal, sort_by]() {
                     const auto xs = get_all_body_parts( true );
                     auto ys = std::vector<bodypart_id> {};
-                    std::copy_if( xs.begin(), xs.end(), std::back_inserter( ys ), should_heal );
-                    std::sort( ys.begin(), ys.end(), sort_by );
+                    std::ranges::copy_if( xs, std::back_inserter( ys ), should_heal );
+                    std::ranges::sort( ys, sort_by );
                     return ys;
                 };
 
@@ -2690,7 +2690,7 @@ void Character::bionics_install_failure( const std::string &installer,
         case 4:
         case 5: {
             std::vector<bionic_id> valid;
-            std::copy_if( begin( faulty_bionics ), end( faulty_bionics ), std::back_inserter( valid ),
+            std::ranges::copy_if( faulty_bionics, std::back_inserter( valid ),
             [&]( const bionic_id & id ) {
                 return !has_bionic( id );
             } );
@@ -2972,7 +2972,7 @@ int bionic::get_quality( const quality_id &quality ) const
 bool bionic::is_this_fuel_powered( const itype_id &this_fuel ) const
 {
     const std::vector<itype_id> fuel_op = info().fuel_opts;
-    return std::find( fuel_op.begin(), fuel_op.end(), this_fuel ) != fuel_op.end();
+    return std::ranges::find( fuel_op, this_fuel ) != fuel_op.end();
 }
 
 void bionic::toggle_safe_fuel_mod()

@@ -87,9 +87,9 @@ class activity_type
         bool has_interrupts_ = light_interrupts_ || morale_interrupts_ || total_speed_interrupts_;
 
     public:
-        std::vector<activity_req<character_stat>> stats = {};
-        std::vector<activity_req<skill_id>> skills = {};
-        std::vector<activity_req<quality_id>> qualities = {};
+        std::vector<activity_req<character_stat>> stats;
+        std::vector<activity_req<skill_id>> skills;
+        std::vector<activity_req<quality_id>> qualities;
 
         const activity_id &id() const {
             return id_;

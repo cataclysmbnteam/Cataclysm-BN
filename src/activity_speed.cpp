@@ -1,5 +1,7 @@
 #include "activity_speed.h"
+#include "activity_speed_adapters.h"
 
+#include <algorithm>
 #include <optional>
 #include <utility>
 #include <vector>
@@ -8,11 +10,8 @@
 #include "character.h"
 #include "character_functions.h"
 #include "character_stat.h"
-#include "construction.h"
-#include "crafting.h"
 #include "game.h"
 #include "map.h"
-#include "recipe.h"
 #include "type_id.h"
 #include "veh_type.h"
 #include "vehicle_part.h"
@@ -111,8 +110,7 @@ void activity_speed::calc_light_factor( const Character &who )
     light = limit_factor( 1.0f - darkness, 0.0f );
 }
 
-void activity_speed::calc_skill_factor( const Character &who,
-                                        const std::vector<activity_req<skill_id>> &skill_req )
+void activity_speed::calc_skill_factor( const Character &who, const skill_reqs &skill_req )
 {
     float ac_f = skills_factor_custom_formula( who, skill_req );
     //Any factor above 0 is valid, else - use default calc
@@ -134,7 +132,7 @@ void activity_speed::calc_skill_factor( const Character &who,
 
         factors.push_back( bonus );
     }
-    std::sort( factors.begin(), factors.end(), std::greater<>() );
+    std::ranges::sort( factors, std::greater<>() );
 
     int denom = 0;
     for( const auto &factor : factors ) {
@@ -235,8 +233,7 @@ float activity_speed::get_best_qual_mod( const activity_req<quality_id> &q,
     return  q.mod * q_level / ( q_level + 1.75f );
 }
 
-void activity_speed::calc_tools_factor( Character &who,
-                                        const std::vector<activity_req<quality_id>> &quality_reqs )
+void activity_speed::calc_tools_factor( Character &who, const q_reqs &quality_reqs )
 {
     auto &inv = who.crafting_inventory();
     float ac_f = tools_factor_custom_formula( quality_reqs, inv );
@@ -251,7 +248,7 @@ void activity_speed::calc_tools_factor( Character &who,
     for( const auto &q : quality_reqs ) {
         factors.push_back( get_best_qual_mod( q, inv ) );
     }
-    std::sort( factors.begin(), factors.end(), std::greater<>() );
+    std::ranges::sort( factors, std::greater<>() );
 
     int denom = 0;
     for( const auto &factor : factors ) {
@@ -284,6 +281,7 @@ void activity_speed::calc_morale_factor( const Character &who )
 
 void activity_speed::find_best_bench( const tripoint &pos, const metric metrics )
 {
+    static const std::string feature_wb = "WORKBENCH";
     static const workbench_info_wrapper ground_bench(
         *string_id<furn_t>( "f_ground_crafting_spot" )->workbench );
     static const workbench_info_wrapper hands_bench(
@@ -309,7 +307,7 @@ void activity_speed::find_best_bench( const tripoint &pos, const metric metrics 
             if( bench_tmp.wb_info.multiplier_adjusted > bench->wb_info.multiplier_adjusted ) {
                 bench = bench_tmp;
             }
-        } else if( const auto &vp = here.veh_at( adj ).part_with_feature( "WORKBENCH", true ) ) {
+        } else if( const auto &vp = here.veh_at( adj ).part_with_feature( feature_wb, true ) ) {
             if( const auto &wb_info = vp->part().info().get_workbench_info() ) {
                 bench_tmp = bench_loc( workbench_info_wrapper( *wb_info ), adj );
                 bench_factor_custom_formula( bench_tmp, metrics );
@@ -321,32 +319,4 @@ void activity_speed::find_best_bench( const tripoint &pos, const metric metrics 
             }
         }
     }
-}
-
-activity_reqs_adapter::activity_reqs_adapter( const recipe &rec, units::mass mass,
-        units::volume volume )
-{
-    for( auto &qual : rec.simple_requirements().get_qualities() ) {
-        qualities.emplace_back( qual.front().type, qual.front().level );
-    }
-
-    skills.emplace_back( rec.skill_used, rec.difficulty );
-    for( auto &skill : rec.required_skills ) {
-        skills.emplace_back( skill.first, skill.second );
-    }
-
-    metrics = std::make_pair( mass, volume );
-}
-
-activity_reqs_adapter::activity_reqs_adapter( const construction &con )
-{
-
-    for( auto &qual : con.requirements->get_qualities() ) {
-        qualities.emplace_back( qual.front().type, qual.front().level );
-    }
-
-    for( auto &skill : con.required_skills ) {
-        skills.emplace_back( skill.first, skill.second );
-    }
-
 }

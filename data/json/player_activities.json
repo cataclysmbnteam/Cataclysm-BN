@@ -285,7 +285,7 @@
     "refuel_fires": true,
     "auto_needs": true,
     "interrupts": { "morale": -100, "light": "DIM" },
-    "complex_moves": { "speed": true }
+    "complex_moves": { "speed": true, "bench": true, "light": true, "skills": [ [ "fabrication" ] ], "qualities": true }
   },
   {
     "id": "ACT_FORAGE",

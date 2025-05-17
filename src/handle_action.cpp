@@ -77,6 +77,7 @@
 #include "ranged.h"
 #include "rng.h"
 #include "safemode_ui.h"
+#include "salvage.h"
 #include "scores_ui.h"
 #include "sounds.h"
 #include "string_formatter.h"
@@ -1447,22 +1448,25 @@ static void cast_spell()
     }
 
     bool can_cast_spells = false;
+    bool has_brawler_spell = false;
     for( spell_id sp : spells ) {
         spell temp_spell = u.magic->get_spell( sp );
         if( temp_spell.can_cast( u ) ) {
             can_cast_spells = true;
         }
-    }
-
-    if( u.has_trait( trait_BRAWLER ) ) {
-        add_msg( game_message_params{ m_bad, gmf_bypass_cooldown },
-                 _( "Pfft, magic is for COWARDS." ) );
-        return;
+        if( temp_spell.has_flag( spell_flag::BRAWL ) ) {
+            has_brawler_spell = true;
+        }
     }
 
     if( !can_cast_spells ) {
         add_msg( game_message_params{ m_bad, gmf_bypass_cooldown },
                  _( "You can't cast any of the spells you know!" ) );
+        return;
+    }
+    if( !has_brawler_spell && u.has_trait( trait_BRAWLER ) ) {
+        add_msg( game_message_params{ m_bad, gmf_bypass_cooldown },
+                 _( "You don't know any spells you can cast as a Brawler!" ) );
         return;
     }
 
@@ -1473,8 +1477,14 @@ static void cast_spell()
 
     spell &sp = *u.magic->get_spells()[spell_index];
 
+    if( !sp.has_flag( spell_flag::BRAWL ) && u.has_trait( trait_BRAWLER ) ) {
+        add_msg( game_message_params{ m_bad, gmf_bypass_cooldown },
+                 _( "Pfft, that spell is for COWARDS, and a Brawler like you is no coward!" ) );
+        return;
+    }
+
     std::set<trait_id> blockers = sp.get_blocker_muts();
-    if( blockers.size() ) {
+    if( !blockers.empty() ) {
         for( trait_id blocker : blockers ) {
             if( u.has_trait( blocker ) ) {
                 add_msg( game_message_params{ m_bad, gmf_bypass_cooldown },
@@ -2214,6 +2224,16 @@ bool game::handle_action()
                 }
                 break;
 
+            case ACTION_SALVAGE:
+                if( u.controlling_vehicle ) {
+                    add_msg( m_info, _( "You can't salvage items while driving." ) );
+                } else if( u.is_mounted() ) {
+                    add_msg( m_info, _( "You can't salvage items while you're riding." ) );
+                } else {
+                    salvage::menu_salvage_single( u );
+                }
+                break;
+
             case ACTION_CONSTRUCT:
                 if( u.in_vehicle ) {
                     add_msg( m_info, _( "You can't construct while in a vehicle." ) );
@@ -2375,8 +2395,22 @@ bool game::handle_action()
                 break;
 
             case ACTION_OPEN_WIKI:
-                // TODO: un-hardcode URL
-                open_url( "https://docs.cataclysmbn.org" );
+                if( get_option<std::string>( "WIKI_DOC_URL" ).length() > 0 ) {
+                    open_url( get_option<std::string>( "WIKI_DOC_URL" ) );
+                } else {
+                    add_msg( m_bad, _( "Invalid Wiki URL specified!" ) );
+
+                }
+
+                break;
+
+            case ACTION_OPEN_HHG:
+                if( get_option<std::string>( "HHG_URL" ).length() > 0 ) {
+                    open_url( get_option<std::string>( "HHG_URL" ) + std::string( "/?t=UNDEAD_PEOPLE" ) );
+                } else {
+                    add_msg( m_bad, _( "Invalid Hitchhiker's Guide URL specified!" ) );
+
+                }
                 break;
 
             case ACTION_HELP:

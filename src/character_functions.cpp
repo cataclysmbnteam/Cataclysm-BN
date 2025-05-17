@@ -1,5 +1,6 @@
 #include "character_functions.h"
 
+#include <algorithm>
 #include <utility>
 
 #include "ammo.h"
@@ -449,7 +450,7 @@ std::string fmt_wielded_weapon( const Character &who )
         bool base = weapon.ammo_capacity() > 0 && !weapon.has_flag( flag_RELOAD_AND_SHOOT );
 
         const auto mods = weapon.gunmods();
-        bool aux = std::any_of( mods.begin(), mods.end(), [&]( const item * e ) {
+        bool aux = std::ranges::any_of( mods, [&]( const item * e ) {
             return e->is_gun() && e->ammo_capacity() > 0 && !e->has_flag( flag_RELOAD_AND_SHOOT );
         } );
 
@@ -543,7 +544,7 @@ bool try_wield_contents( Character &who, item &container, item *internal_item, b
     if( internal_item == nullptr ) {
         std::vector<std::string> opts;
         std::vector<item *> container_contents = container.contents.all_items_top();
-        std::transform( container_contents.begin(), container_contents.end(),
+        std::ranges::transform( container_contents,
         std::back_inserter( opts ), []( const item * elem ) {
             return elem->display_name();
         } );
@@ -818,7 +819,7 @@ item_reload_option select_ammo( const Character &who, item &base,
 
     // Construct item names
     std::vector<std::string> names;
-    std::transform( opts.begin(), opts.end(),
+    std::ranges::transform( opts,
     std::back_inserter( names ), [&]( const item_reload_option & e ) {
         const auto ammo_color = [&]( const std::string & name ) {
             return base.is_gun() && e.ammo->ammo_data() &&
@@ -849,7 +850,7 @@ item_reload_option select_ammo( const Character &who, item &base,
 
     // Get location descriptions
     std::vector<std::string> where;
-    std::transform( opts.begin(), opts.end(),
+    std::ranges::transform( opts,
     std::back_inserter( where ), [&]( const item_reload_option & e ) {
         bool is_ammo_container = e.ammo->is_ammo_container();
         if( is_ammo_container || e.ammo->is_container() ) {
@@ -1084,15 +1085,15 @@ item_reload_option select_ammo( const Character &who, item &base, bool prompt,
     }
 
     // sort in order of move cost (ascending), then remaining ammo (descending) with empty magazines always last
-    std::stable_sort( ammo_list.begin(), ammo_list.end(), []( const item_reload_option & lhs,
+    std::ranges::stable_sort( ammo_list, []( const item_reload_option & lhs,
     const item_reload_option & rhs ) {
         return lhs.ammo->ammo_remaining() > rhs.ammo->ammo_remaining();
     } );
-    std::stable_sort( ammo_list.begin(), ammo_list.end(), []( const item_reload_option & lhs,
+    std::ranges::stable_sort( ammo_list, []( const item_reload_option & lhs,
     const item_reload_option & rhs ) {
         return lhs.moves() < rhs.moves();
     } );
-    std::stable_sort( ammo_list.begin(), ammo_list.end(), []( const item_reload_option & lhs,
+    std::ranges::stable_sort( ammo_list, []( const item_reload_option & lhs,
     const item_reload_option & rhs ) {
         return ( lhs.ammo->ammo_remaining() != 0 ) > ( rhs.ammo->ammo_remaining() != 0 );
     } );

@@ -122,7 +122,7 @@ static void add_boardable( const map &m, const tripoint &p, std::vector<tripoint
         // Don't board up the outside
         return;
     }
-    if( std::find( vec.begin(), vec.end(), p ) != vec.end() ) {
+    if( std::ranges::find( vec, p ) != vec.end() ) {
         // Already registered to be boarded
         return;
     }
@@ -164,7 +164,7 @@ static void board_up( map &m, const tripoint_range<tripoint> &range )
     }
     // Find all furniture that can be used to board up some place
     for( const tripoint &p : range ) {
-        if( std::find( boardables.begin(), boardables.end(), p ) != boardables.end() ) {
+        if( std::ranges::find( boardables, p ) != boardables.end() ) {
             continue;
         }
         if( !m.has_furn( p ) ) {
@@ -236,7 +236,7 @@ tripoint_abs_omt start_location::find_player_initial_location() const
             }
 
             const auto &terrains = special.all_terrains();
-            if( std::none_of( terrains.begin(), terrains.end(),
+            if( std::ranges::none_of( terrains,
             [&loc]( const oter_str_id & t ) {
             return is_ot_match( loc.first, t, loc.second );
             } ) ) {

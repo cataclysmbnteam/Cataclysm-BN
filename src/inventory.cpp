@@ -1,5 +1,6 @@
 #include "inventory.h"
 
+#include <algorithm>
 #include <climits>
 #include <cmath>
 #include <cstdint>
@@ -100,7 +101,7 @@ void invlet_favorites::erase( char invlet )
         return;
     }
     std::string &invlets = invlets_by_id[id];
-    std::string::iterator it = std::find( invlets.begin(), invlets.end(), invlet );
+    std::string::iterator it = std::ranges::find( invlets, invlet );
     invlets.erase( it );
     ids_by_invlet[invlet_u] = itype_id();
 }
@@ -372,7 +373,7 @@ void inventory::restack( player &p )
     for( invstack::iterator iter = items.begin(); iter != items.end(); ++iter, ++idx ) {
         std::vector<item *> &stack = *iter;
         // Sort the inner stack itself, so the most recently used item is at front and keeps the invlet
-        std::sort( stack.begin(), stack.end(), []( auto * lhs, auto * rhs ) {
+        std::ranges::sort( stack, []( auto * lhs, auto * rhs ) {
             return *lhs < *rhs;
         } );
         item &topmost = *stack.front();
@@ -1204,7 +1205,7 @@ void inventory::assign_empty_invlet( item &it, const Character &p, const bool fo
                 // don't overwrite assigned keys
                 continue;
             }
-            if( std::find( binds.begin(), binds.end(), inv_char ) != binds.end() ) {
+            if( std::ranges::find( binds, inv_char ) != binds.end() ) {
                 // don't auto-assign bound keys
                 continue;
             }

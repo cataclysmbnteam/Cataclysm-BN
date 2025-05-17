@@ -482,7 +482,7 @@ void overmap::unserialize( std::istream &fin, const std::string &file_path )
                     if( radio_member_name == "type" ) {
                         const std::string radio_name = jsin.get_string();
                         const auto mapping =
-                            find_if( radio_type_names.begin(), radio_type_names.end(),
+                            std::ranges::find_if( radio_type_names,
                         [radio_name]( const std::pair<radio_type, std::string> &p ) {
                             return p.second == radio_name;
                         } );
