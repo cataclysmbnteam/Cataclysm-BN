@@ -63,6 +63,8 @@ jobs:
 
       - name: Add msbuild to PATH
         uses: microsoft/setup-msbuild@v2
+        with:
+          vs-version: 17.13
 
       - name: Remove Strawberry Perl from PATH
         run: |

@@ -116,6 +116,8 @@ jobs:
       - name: Install MSBuild (windows msvc)
         if: runner.os == 'Windows'
         uses: microsoft/setup-msbuild@v2
+        with:
+          vs-version: 17.13
 
       - name: Install stable CMake
         uses: lukka/get-cmake@v3.31.6

@@ -144,6 +144,8 @@ jobs:
       - name: Install dependencies (windows msvc) (1/3)
         if: runner.os == 'Windows'
         uses: microsoft/setup-msbuild@v2
+        with:
+          vs-version: 17.13
       - name: Install dependencies (windows msvc) (2/3)
         if: runner.os == 'Windows'
         uses: lukka/run-vcpkg@main
