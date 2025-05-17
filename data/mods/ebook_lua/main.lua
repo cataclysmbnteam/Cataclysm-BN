@@ -205,9 +205,7 @@ mod.ebook_scan = function(user, device)
             for t_str, _ in pairs(found) do
               mod.insert_lib2(device, t_str)
               count2 = count2 + 1
-              if count2 >= dev_limit then
-                break
-              end
+              if count2 >= dev_limit then break end
             end
             gapi.add_msg(MsgType.good, string.format(locale.gettext("You scanned %d book(s)."), dev_limit))
             return dev_limit
@@ -263,9 +261,7 @@ mod.ebook_load = function(reader, device)
   -- Repeat when getting minute more than 0 AND less than charges-10.
   -- If you cancel to input number, minute is 0, and it will get back and show you data select menu.
   while true do
-    if not u_input_too_big_minute then
-      sel = ui_load:query()
-    end
+    if not u_input_too_big_minute then sel = ui_load:query() end
     u_input_too_big_minute = false
     if sel < 0 then
       --You canceled to select the book.
@@ -335,9 +331,7 @@ mod.ebook_return = function(reader, device)
   local your_items = reader:all_items(false)
   local virtual_books = {}
   for _, it in ipairs(your_items) do
-    if it:has_var("aspect") then
-      table.insert(virtual_books, it)
-    end
+    if it:has_var("aspect") then table.insert(virtual_books, it) end
   end
   if #virtual_books <= 0 then
     mod.poppin(locale.gettext("There is no book to return."))
@@ -397,9 +391,7 @@ mod.mc_io = function(reader, device)
   local your_items = reader:all_items(false)
   --Let's make your_mc!
   for _, it in ipairs(your_items) do
-    if it:has_flag(flag_MC_USED) then
-      table.insert(your_mc, it)
-    end
+    if it:has_flag(flag_MC_USED) then table.insert(your_mc, it) end
   end
   -- Escape when no mc.
   if #your_mc == 0 then
@@ -570,24 +562,16 @@ mod.ebook_info = function(reader, device)
       return -1
     elseif ans_info == 0 then
       local ch_lib = mod.check_lib(reader, device)
-      if ch_lib ~= -1 then
-        return ch_lib
-      end
+      if ch_lib ~= -1 then return ch_lib end
     elseif ans_info == 1 then
       local mc_io = mod.mc_io(reader, device)
-      if mc_io ~= -1 then
-        return mc_io
-      end
+      if mc_io ~= -1 then return mc_io end
     elseif ans_info == 2 then
       local clo_syn = mod.cloud_sync(reader, device)
-      if clo_syn ~= -1 then
-        return clo_syn
-      end
+      if clo_syn ~= -1 then return clo_syn end
     elseif ans_info == 3 then
       local res_lib = mod.reset_lib(reader, device)
-      if res_lib ~= -1 then
-        return res_lib
-      end
+      if res_lib ~= -1 then return res_lib end
     end
   end
 end
@@ -645,9 +629,7 @@ mod.ebook_ui = function(who, item, pos)
     local action_func = actions[ans]
     if action_func then
       local result = action_func(who, item)
-      if result ~= -1 then
-        return result
-      end
+      if result ~= -1 then return result end
     else
       gdebug.log_info("ebook_lua: Error occurred. What the heck did you select?")
       return 0

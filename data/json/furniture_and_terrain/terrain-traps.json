@@ -7,7 +7,7 @@
     "symbol": "0",
     "color": "yellow",
     "move_cost": 8,
-    "flags": [ "TRANSPARENT", "DIGGABLE", "DIGGABLE_CAN_DEEPEN", "VEH_TREAT_AS_BASH_BELOW" ],
+    "flags": [ "TRANSPARENT", "DIGGABLE", "DIGGABLE_CAN_DEEPEN", "VEH_TREAT_AS_BASH_BELOW", "PIT_SHALLOW" ],
     "bash": { "sound": "thump", "ter_set": "t_pit", "str_min": 50, "str_max": 100, "str_min_supported": 100 }
   },
   {
@@ -19,7 +19,7 @@
     "color": "brown",
     "move_cost": 10,
     "trap": "tr_pit",
-    "flags": [ "TRANSPARENT" ],
+    "flags": [ "TRANSPARENT", "PIT_DEEP" ],
     "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 75, "str_max": 400, "str_min_supported": 100, "bash_below": true },
     "examine_action": "pit"
   },

@@ -5867,6 +5867,11 @@ void item::add_technique( const matec_id &tech )
     techniques.insert( tech );
 }
 
+void item::remove_technique( const matec_id &tech )
+{
+    techniques.erase( tech );
+}
+
 std::vector<item *> item::toolmods()
 {
     std::vector<item *> res;
@@ -7390,20 +7395,6 @@ bool item::is_reloadable_helper( const itype_id &ammo, bool now ) const
     } else {
         return ammo.is_empty() ? true : magazine_compatible().count( ammo );
     }
-}
-
-bool item::is_salvageable() const
-{
-    if( is_null() ) {
-        return false;
-    }
-    const std::vector<material_id> &mats = made_of();
-    if( std::ranges::none_of( mats, []( const material_id & m ) {
-    return m->salvaged_into().has_value();
-    } ) ) {
-        return false;
-    }
-    return !has_flag( flag_NO_SALVAGE );
 }
 
 bool item::is_craft() const
