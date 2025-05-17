@@ -925,20 +925,6 @@ more structured function.
     "need_sunlight": true // Whether the character needs to be in direct sunlight, e.g. to use magnifying glasses.
 },
 "use_action": {
-    "type": "salvage", // Try to salvage base materials from an item, e.g. cutting up cloth to get rags or leather.
-    "moves_per_part": 25, // Number of moves it takes (optional).
-    "material_whitelist": [ // List of material ids (not item ids!) that can be salvage from.
-        "cotton",           // The list here is the default list, used when there is no explicit martial list given.
-        "leather",          // If the item (that is to be cut up) has any material not in the list, it can not be cut up.
-        "fur",
-        "nomex",
-        "kevlar",
-        "plastic",
-        "wood",
-        "wool"
-    ]
-},
-"use_action": {
     "type": "inscribe", // Inscribe a message on an item or on the ground.
     "on_items": true, // Whether the item can inscribe on an item.
     "on_terrain": false, // Whether the item can inscribe on the ground.
@@ -1088,7 +1074,7 @@ more structured function.
     ]
 },
 "use_action": { 
-    "type": "cast_spell",       // Casts a spell based on ID, using item charges, or mana if the flag USE_PLAYER_ENERGY is on the item
+    "type": "cast_spell",       // Casts a spell based on ID using item charges or, if the flag USE_PLAYER_ENERGY is on the item, the energy source defined in the spell
     "spell_id": "magus_escape", // The ID of the spell to be casted
     "no_fail": true,            // Whether you can fail the cast
     "level": 10,                // The level its cast at

@@ -2,7 +2,7 @@
   "tasks": {
     "doc": "deno task doc:cli & deno task doc:lua && deno fmt",
     "doc:cli": "deno run --allow-run=./cataclysm-bn-tiles --allow-write=doc/src/content/docs ./scripts/gen_cli_docs.ts",
-    "doc:lua": "./cataclysm-bn-tiles --lua-doc doc/src/content/docs/en/mod/lua/reference/lua.md",
+    "doc:lua": "./cataclysm-bn-tiles --lua-doc doc/src/content/docs/en/mod/lua/reference/lua.md --lua-types lua_annotations.lua",
     "migrate-unit": "deno run -A scripts/migrate_legacy_unit.ts --path data/json; deno run -A scripts/migrate_legacy_unit.ts --path data/mods; make style-all-json-parallel",
     "dprint": "deno run -A npm:dprint",
     // creates a weekly reddit changelog template
@@ -34,6 +34,6 @@
     "@std/fs": "jsr:@std/fs@^1.0.4",
     "@std/path": "jsr:@std/path@^1.0.6",
     "@std/yaml": "jsr:@std/yaml@^1.0.5",
-    "@valibot/valibot": "jsr:@valibot/valibot@^1.0.0"
+    "@valibot/valibot": "jsr:@valibot/valibot@^1.1.0"
   }
 }

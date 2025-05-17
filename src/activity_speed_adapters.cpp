@@ -45,8 +45,8 @@ void workbench_info_wrapper::adjust_multiplier( const metric &metrics )
     multiplier_adjusted *= lerped_multiplier( metrics.second, allowed_volume, 1000_liter );
 }
 
-activity_reqs_adapter::activity_reqs_adapter( const recipe &rec, units::mass mass,
-        units::volume volume )
+activity_reqs_adapter::activity_reqs_adapter( const recipe &rec,
+        const metric &metrics ) : metrics( metrics )
 {
     for( auto &qual : rec.simple_requirements().get_qualities() ) {
         qualities.emplace_back( qual.front().type, qual.front().level );
@@ -56,13 +56,10 @@ activity_reqs_adapter::activity_reqs_adapter( const recipe &rec, units::mass mas
     for( auto &skill : rec.required_skills ) {
         skills.emplace_back( skill.first, skill.second );
     }
-
-    metrics = std::make_pair( mass, volume );
 }
 
 activity_reqs_adapter::activity_reqs_adapter( const construction &con )
 {
-
     for( auto &qual : con.requirements->get_qualities() ) {
         qualities.emplace_back( qual.front().type, qual.front().level );
     }
@@ -70,5 +67,4 @@ activity_reqs_adapter::activity_reqs_adapter( const construction &con )
     for( auto &skill : con.required_skills ) {
         skills.emplace_back( skill.first, skill.second );
     }
-
 }

@@ -158,6 +158,8 @@ class ma_technique
         float move_cost_multiplier( const Character &u ) const;
         float move_cost_penalty( const Character &u ) const;
         float armor_penetration( const Character &u, damage_type type ) const;
+
+        LUA_TYPE_OPS( ma_technique, id );
 };
 
 class ma_buff

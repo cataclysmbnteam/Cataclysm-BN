@@ -20,6 +20,7 @@
 #include "game.h"
 #include "itype.h"
 #include "map.h"
+#include "martialarts.h"
 #include "messages.h"
 #include "monfaction.h"
 #include "monster.h"
@@ -433,6 +434,19 @@ void cata::detail::reg_item( sol::state &lua )
         DOC( "Checks if this item owned by a character" );
         luna::set_fx( ut, "is_owned_by", &item::is_owned_by );
 
+        DOC( "Checks if this item has the technique as an addition. Doesn't check original techniques." );
+        luna::set_fx( ut, "has_technique",
+                      sol::resolve<bool( const matec_id & ) const> ( &item::has_technique ) );
+        DOC( "Gets all techniques. Including original techniques." );
+        luna::set_fx( ut, "get_techniques",
+                      sol::resolve<std::set<matec_id>() const> ( &item::get_techniques ) );
+        DOC( "Adds the technique. It isn't treated original, but additional." );
+        luna::set_fx( ut, "add_technique",
+                      sol::resolve<void( const matec_id & )> ( &item::add_technique ) );
+        DOC( "Removes the additional technique. Doesn't affect originial techniques." );
+        luna::set_fx( ut, "remove_technique",
+                      sol::resolve<void( const matec_id & )> ( &item::remove_technique ) );
+
         DOC( "Checks if this item can contain another" );
         luna::set_fx( ut, "can_contain",
                       sol::resolve<bool( const item & ) const>
@@ -726,7 +740,9 @@ void cata::detail::reg_ui_elements( sol::state &lua )
         DOC( "Entry text of column." );
         luna::set( ut, "ctxt",  &uilist_entry::ctxt );
         DOC( "Entry text color. Its default color is `c_red_red`, which makes color of the entry same as what `uilist` decides. So if you want to make color different, choose one except `c_red_red`." );
-        luna::set( ut, "txt_color",  &uilist_entry::text_color );
+        luna::set_fx( ut, "txt_color", []( uilist_entry & ui_entry, color_id col ) {
+            ui_entry.text_color = get_all_colors().get( col );
+        } );
     }
 
     {
@@ -1113,7 +1129,7 @@ void cata::detail::reg_enums( sol::state &lua )
 void cata::detail::reg_hooks_examples( sol::state &lua )
 {
     DOC( "Documentation for hooks" );
-    luna::userlib lib = luna::begin_lib( lua, "hooks_doc" );
+    luna::userlib lib = luna::begin_lib( lua, "hooks" );
 
     DOC( "Called when game is about to save" );
     luna::set_fx( lib, "on_game_save", []() {} );

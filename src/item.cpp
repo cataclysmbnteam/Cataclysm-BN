@@ -139,7 +139,6 @@ static const fault_id fault_bionic_nonsterile( "fault_bionic_nonsterile" );
 static const gun_mode_id gun_mode_REACH( "REACH" );
 
 static const itype_id itype_barrel_small( "barrel_small" );
-static const itype_id itype_brass_catcher( "brass_catcher" );
 static const itype_id itype_cig_butt( "cig_butt" );
 static const itype_id itype_cig_lit( "cig_lit" );
 static const itype_id itype_cigar_butt( "cigar_butt" );
@@ -4683,13 +4682,13 @@ void item::on_wield( player &p, int mv )
     std::string msg;
 
     if( mv > 500 ) {
-        msg = _( "It takes you an extremely long time to wield your %s." );
-    } else if( mv > 250 ) {
-        msg = _( "It takes you a very long time to wield your %s." );
-    } else if( mv > 100 ) {
         msg = _( "It takes you a long time to wield your %s." );
-    } else if( mv > 50 ) {
+    } else if( mv > 250 ) {
         msg = _( "It takes you several seconds to wield your %s." );
+    } else if( mv > 100 ) {
+        msg = _( "It takes you a couple seconds to wield your %s." );
+    } else if( mv > 50 ) {
+        msg = _( "It takes you a moment to wield your %s." );
     } else {
         msg = _( "You wield your %s." );
     }
@@ -5866,6 +5865,11 @@ bool item::has_technique( const matec_id &tech ) const
 void item::add_technique( const matec_id &tech )
 {
     techniques.insert( tech );
+}
+
+void item::remove_technique( const matec_id &tech )
+{
+    techniques.erase( tech );
 }
 
 std::vector<item *> item::toolmods()
@@ -7393,20 +7397,6 @@ bool item::is_reloadable_helper( const itype_id &ammo, bool now ) const
     }
 }
 
-bool item::is_salvageable() const
-{
-    if( is_null() ) {
-        return false;
-    }
-    const std::vector<material_id> &mats = made_of();
-    if( std::ranges::none_of( mats, []( const material_id & m ) {
-    return m->salvaged_into().has_value();
-    } ) ) {
-        return false;
-    }
-    return !has_flag( flag_NO_SALVAGE );
-}
-
 bool item::is_craft() const
 {
     return craft_data_ != nullptr;
@@ -8330,7 +8320,7 @@ ret_val<bool> item::is_gunmod_compatible( const item &mod ) const
     } else if( mod.typeId() == itype_tuned_mechanism && has_flag( flag_NEVER_JAMS ) ) {
         return ret_val<bool>::make_failure( _( "is already eminently reliable" ) );
 
-    } else if( mod.typeId() == itype_brass_catcher && has_flag( flag_RELOAD_EJECT ) ) {
+    } else if( mod.has_flag( flag_BRASS_CATCHER ) && has_flag( flag_RELOAD_EJECT ) ) {
         return ret_val<bool>::make_failure( _( "cannot have a brass catcher" ) );
 
     } else if( ( !mod.type->mod->ammo_modifier.empty() || !mod.type->mod->magazine_adaptor.empty() )

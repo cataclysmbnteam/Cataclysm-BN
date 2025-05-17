@@ -1525,6 +1525,19 @@ void options_manager::add_options_interface()
 
     add_empty_line();
 
+
+    add( "WIKI_DOC_URL", interface, translate_marker( "Wiki URL" ),
+         translate_marker( "The URL opened by pressing the open wiki keybind." ),
+         "https://docs.cataclysmbn.org", 60
+       );
+
+    add( "HHG_URL", interface, translate_marker( "Hitchhiker's Guide URL" ),
+         translate_marker( "The URL opened by pressing the open HHG keybind." ),
+         "https://next.cbn-guide.pages.dev", 60
+       );
+
+    add_empty_line();
+
     add( "USE_CELSIUS", interface, translate_marker( "Temperature units" ),
          translate_marker( "Switch between Celsius, Fahrenheit and Kelvin." ),
     { { "celsius", translate_marker( "Celsius" ) }, { "fahrenheit", translate_marker( "Fahrenheit" ) }, { "kelvin", translate_marker( "Kelvin" ) } },
