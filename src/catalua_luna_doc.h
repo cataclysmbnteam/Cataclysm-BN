@@ -31,6 +31,7 @@ class distribution_grid_tracker;
 class effect_type;
 class item;
 class item_stack;
+class ma_technique;
 class ma_buff;
 class map;
 class map_stack;
@@ -155,6 +156,7 @@ LUNA_ID( itype, "Itype" )
 LUNA_ID( json_flag, "JsonFlag" )
 LUNA_ID( json_trait_flag, "JsonTraitFlag" )
 LUNA_ID( ma_buff, "MartialArtsBuff" )
+LUNA_ID( ma_technique, "MartialArtsTechnique" )
 LUNA_ID( monfaction, "MonsterFaction" )
 LUNA_ID( morale_type_data, "MoraleTypeData" )
 LUNA_ID( mtype, "Mtype" )
