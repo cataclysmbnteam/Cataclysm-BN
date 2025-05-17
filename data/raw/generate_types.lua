@@ -8,11 +8,13 @@ end
 Helper function to sort a table by key or using a custom sort function.
 Uses 'pairs' for iteration to be compatible with sol2 table/map proxies.
 ]]
----@param t table
----@param f? fun(a:any, b:any):boolean
+---@generic T
+---@param t T[]
+---@param f? fun(a: T, b: T):boolean
 ---@return table
 local sorted_by = function(t, f)
   if not f then f = sort_by_tostring end
+  ---@type T[]
   local sorted = {}
   for k, v in pairs(t) do
     table.insert(sorted, { k = k, v = v })
@@ -256,6 +258,14 @@ local fmt_constructor_field = function(typename, ctors)
   return "---@field new " .. signature_union .. "\n"
 end
 
+---@param name string
+function field_sort_order(name)
+  if string.match(name, "^__") then return 3 end -- metamethods
+  if name == "deserialize" then return 2 end
+  if name == "serialize" then return 1 end
+  return 0
+end
+
 ---@diagnostic disable-next-line: undefined-global
 -- Main function to generate the LuaLS type definition file content.
 ---@return string
@@ -305,7 +315,13 @@ game = {}
       ret = ret .. "---@class " .. name .. bases_str .. "\n"
 
       -- Process Members (Variables and Functions)
-      local members_sorted = sorted_by(members)
+      local members_sorted = sorted_by(members, function(a, b)
+        local a_priority = field_sort_order(a.v.name)
+        local b_priority = field_sort_order(b.v.name)
+
+        if a_priority ~= b_priority then return a_priority < b_priority end
+        return a.v.name < b.v.name
+      end)
       for _, mem_item in ipairs(members_sorted) do
         local member = mem_item.v
         local member_name_str = tostring(member.name)
