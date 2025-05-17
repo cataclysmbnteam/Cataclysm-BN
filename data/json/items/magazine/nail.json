@@ -13,7 +13,7 @@
     "color": "light_gray",
     "ammo_type": "nail",
     "capacity": 50,
-    "reliability": 6,
+    "reliability": 5,
     "reload_time": 300,
     "flags": [ "MAG_COMPACT" ]
   }
