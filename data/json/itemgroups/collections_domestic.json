@@ -190,6 +190,8 @@
       { "item": "chem_potassium_chloride", "prob": 5, "charges-min": 100 },
       { "item": "chem_muriatic_acid", "prob": 15 },
       { "item": "denat_alcohol", "prob": 10 },
+      { "item": "butane_can", "prob": 20 },
+      { "item": "butane_tank", "prob": 10 },
       { "item": "chem_peptone_broth", "prob": 15 }
     ]
   },
