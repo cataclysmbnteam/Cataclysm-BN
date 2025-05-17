@@ -1900,6 +1900,7 @@ class Character : public Creature, public location_visitable<Character>
         void mod_pain( int npain ) override;
         /** Sets new intensity of pain an reacts to it */
         void set_pain( int npain ) override;
+        int get_pain() const override;
         /** Returns perceived pain (reduced with painkillers)*/
         int get_perceived_pain() const override;
 
