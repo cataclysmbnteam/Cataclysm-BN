@@ -1002,10 +1002,10 @@ namespace
 {
 int min_pain( const Character &c )
 {
-    const int HP_LOSS_PAIN = 40;
-    const int BROKEN_LIMB_PAIN = 10;
-    const int BITE_PAIN = 5;
-    const int INFECTION_PAIN = 10;
+    constexpr int HP_LOSS_PAIN = 40;
+    constexpr int BROKEN_LIMB_PAIN = 10;
+    constexpr int BITE_PAIN = 5;
+    constexpr int INFECTION_PAIN = 10;
 
     int worst_hurt_bp = 0;
     for( const bodypart_id &bp : c.get_all_body_parts( true ) ) {
