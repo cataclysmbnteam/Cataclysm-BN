@@ -62,7 +62,7 @@ jobs:
           fetch-depth: 1
 
       - name: Add msbuild to PATH
-        uses: microsoft/setup-msbuild@v1.3.1
+        uses: microsoft/setup-msbuild@v2
 
       - name: Remove Strawberry Perl from PATH
         run: |
