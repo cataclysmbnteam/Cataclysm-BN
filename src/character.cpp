@@ -1000,6 +1000,12 @@ void Character::set_pain( int npain )
 
 namespace
 {
+
+auto remaining_ratio( int value, int max_value ) -> int
+{
+    return max_value == 0 ? 0 : ( max_value - value ) / max_value;
+}
+
 int min_pain( const Character &c )
 {
     constexpr int HP_LOSS_PAIN = 40;
@@ -1011,7 +1017,7 @@ int min_pain( const Character &c )
     for( const bodypart_id &bp : c.get_all_body_parts( true ) ) {
         //damage to body part, normalized to a scale of 0 to HP_LOSS_PAIN
         //40 to 50 is "distressing pain"
-        int hurt = ( c.get_hp_max( bp ) - c.get_hp( bp ) ) * HP_LOSS_PAIN / c.get_hp_max( bp );
+        int hurt = remaining_ratio( c.get_hp( bp ), c.get_hp_max( bp ) ) * HP_LOSS_PAIN;
         //if body part is broken and not splinted, increase pain by BROKEN_LIMB_PAIN
         if( c.is_limb_broken( bp ) && !c.worn_with_flag( flag_SPLINT, bp ) ) {
             hurt += BROKEN_LIMB_PAIN;
