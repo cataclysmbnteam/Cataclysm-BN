@@ -35,7 +35,7 @@
     "time": "25 m",
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
-    "components": [ [ [ "scrap_copper", 12 ] ], [ [ "tin", 20 ] ] ]
+    "components": [ [ [ "scrap_copper", 10 ] ], [ [ "tin", 20 ] ] ]
   },
   {
     "result": "shavingkit",

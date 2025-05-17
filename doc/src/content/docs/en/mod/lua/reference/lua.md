@@ -2507,7 +2507,7 @@ Function `( Item ) -> bool`
 
 #### is_salvageable
 
-Function `( Item ) -> bool`
+Function `( Item, bool ) -> bool`
 
 #### is_craft
 

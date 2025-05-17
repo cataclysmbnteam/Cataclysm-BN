@@ -132,7 +132,7 @@
     "symbol": ".",
     "color": "dark_gray",
     "move_cost": 2,
-    "flags": [ "TRANSPARENT", "FLAMMABLE", "FLAT" ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE", "FLAT", "ROOF" ],
     "bash": { "str_min": 30, "str_max": 210, "sound": "crash!", "sound_fail": "whump!", "bash_below": true }
   },
   {
