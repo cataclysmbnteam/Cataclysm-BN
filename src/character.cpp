@@ -3666,7 +3666,7 @@ const item *Character::item_worn_with_id( const itype_id &item_id, const bodypar
 
 std::vector<item *> Character::items_worn_on_bp( const bodypart_id &bp ) const
 {
-    if ( !wearing_something_on( bp ) ) {
+    if( !wearing_something_on( bp ) ) {
         static const std::vector<item *> nullstack{};
         return nullstack;
     }
