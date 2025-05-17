@@ -1,8 +1,6 @@
 ---@type fun (a: any, b: any): boolean
 function sort_by_tostring(a, b)
-  if a.k and b.k then
-    return tostring(a.k) < tostring(b.k)
-  end
+  if a.k and b.k then return tostring(a.k) < tostring(b.k) end
   return tostring(a) < tostring(b)
 end
 
@@ -14,9 +12,7 @@ Uses 'pairs' for iteration to be compatible with sol2 table/map proxies.
 ---@param f? fun(a:any, b:any):boolean
 ---@return table
 local sorted_by = function(t, f)
-  if not f then
-    f = sort_by_tostring
-  end
+  if not f then f = sort_by_tostring end
   local sorted = {}
   for k, v in pairs(t) do
     table.insert(sorted, { k = k, v = v })
@@ -33,9 +29,7 @@ end
 local remove_hidden_args = function(arg_list)
   local ret = {}
   for _, arg in ipairs(arg_list) do
-    if not string.match(arg, "^<.+>$") then
-      table.insert(ret, arg)
-    end
+    if not string.match(arg, "^<.+>$") then table.insert(ret, arg) end
   end
   return ret
 end
@@ -45,9 +39,7 @@ end
 ---@return string
 local map_cpp_type_to_lua = function(cpp_type)
   -- NOTE: This mapping might need refinement based on actual types used
-  if not cpp_type then
-    return "any"
-  end -- Handle nil input gracefully
+  if not cpp_type then return "any" end -- Handle nil input gracefully
   cpp_type = string.gsub(cpp_type, "const%s+", "") -- Remove const
   cpp_type = string.gsub(cpp_type, "%s+&", "") -- Remove references
   cpp_type = string.gsub(cpp_type, "%s+%*", "") -- Remove pointers (basic)
@@ -134,9 +126,7 @@ end
 ---@param comment? string
 ---@return string
 local fmt_comment_annotation = function(comment)
-  if not comment or comment == "" then
-    return ""
-  end
+  if not comment or comment == "" then return "" end
   local comment_lines = {}
   for line in string.gmatch(comment .. "\n", "([^\n]*)\n") do
     table.insert(comment_lines, "--- " .. line)
@@ -156,9 +146,7 @@ local fmt_function_signature = function(arg_list, ret_type, class_name, is_metho
   local params = {}
   local mapped_class_name = map_cpp_type_to_lua(class_name)
 
-  if is_method then
-    table.insert(params, "self: " .. mapped_class_name)
-  end
+  if is_method then table.insert(params, "self: " .. mapped_class_name) end
 
   local clean_arg_list = remove_hidden_args(arg_list)
   for i, arg_str in ipairs(clean_arg_list) do
@@ -175,9 +163,7 @@ local fmt_function_signature = function(arg_list, ret_type, class_name, is_metho
   local params_str = table.concat(params, ", ")
   local lua_ret_type = map_cpp_type_to_lua(ret_type)
   local ret_str = ""
-  if lua_ret_type ~= "nil" then
-    ret_str = ": " .. lua_ret_type
-  end
+  if lua_ret_type ~= "nil" then ret_str = ": " .. lua_ret_type end
 
   return "fun(" .. params_str .. ")" .. ret_str
 end
@@ -197,15 +183,11 @@ local fmt_variable_field = function(member, is_static)
   local lua_type = map_cpp_type_to_lua(member.vartype)
 
   ret = ret .. "---@field " .. member_name .. " " .. lua_type
-  if member.comment and member.comment ~= "" then
-    ret = ret .. " @" .. member.comment
-  end
+  if member.comment and member.comment ~= "" then ret = ret .. " @" .. member.comment end
   if member.hasval then
     -- Avoid overly long or complex value representations
     local val_str = tostring(member.varval)
-    if #val_str < 50 and not string.find(val_str, "\n") then
-      ret = ret .. " # value: " .. val_str
-    end
+    if #val_str < 50 and not string.find(val_str, "\n") then ret = ret .. " # value: " .. val_str end
   end
   ret = ret .. "\n"
   return ret
@@ -246,9 +228,7 @@ local fmt_function_field = function(member, class_name, is_method)
 
   local signature_union = table.concat(signatures, " | ")
   ret = ret .. "---@field " .. member_name .. " " .. signature_union
-  if member.comment and member.comment ~= "" then
-    ret = ret .. " @" .. member.comment
-  end
+  if member.comment and member.comment ~= "" then ret = ret .. " @" .. member.comment end
   return ret .. "\n"
 end
 
@@ -259,9 +239,7 @@ end
 ---@param ctors string[][] List of constructor argument lists
 ---@return string Field annotation string or ""
 local fmt_constructor_field = function(typename, ctors)
-  if not ctors or #ctors == 0 then
-    return ""
-  end
+  if not ctors or #ctors == 0 then return "" end
 
   local signatures = {}
   local mapped_typename = map_cpp_type_to_lua(typename)
@@ -308,9 +286,7 @@ game = {}
   local process_section = function(section_name, section_data, is_class)
     local ret = ""
     local section_sorted = sorted_by(section_data)
-    if #section_sorted == 0 then
-      return ""
-    end -- Skip empty sections
+    if #section_sorted == 0 then return "" end -- Skip empty sections
 
     ret = ret .. "--================---- " .. section_name .. " ----================\n\n"
 
@@ -325,9 +301,7 @@ game = {}
       -- Class/Lib Annotation Start
       local bases_str = is_class and fmt_bases_luals(bases) or ""
       local comment_annot = fmt_comment_annotation(comment)
-      if comment_annot ~= "" then
-        ret = ret .. comment_annot .. "\n"
-      end
+      if comment_annot ~= "" then ret = ret .. comment_annot .. "\n" end
       ret = ret .. "---@class " .. name .. bases_str .. "\n"
 
       -- Process Members (Variables and Functions)
@@ -368,9 +342,7 @@ game = {}
       end
 
       -- Add Constructor Field (only for classes)
-      if is_class then
-        ret = ret .. fmt_constructor_field(name, ctors)
-      end
+      if is_class then ret = ret .. fmt_constructor_field(name, ctors) end
 
       -- Placeholder table declaration
       ret = ret .. name .. " = {}\n\n"
@@ -385,9 +357,7 @@ game = {}
   -- Process Enums (Remain largely unchanged, ensure sorting/formatting is robust)
   local enums_table = dt["#enums"] or {}
   local enums_sorted = sorted_by(enums_table)
-  if #enums_sorted > 0 then
-    full_ret = full_ret .. "--=================---- Enums ----=================\n\n"
-  end
+  if #enums_sorted > 0 then full_ret = full_ret .. "--=================---- Enums ----=================\n\n" end
   for _, item in ipairs(enums_sorted) do
     local enumname = item.k
     local dt_enum = item.v or {}
@@ -395,9 +365,7 @@ game = {}
     local entries = dt_enum["entries"] or {}
 
     local comment_annot = fmt_comment_annotation(enum_comment)
-    if comment_annot ~= "" then
-      full_ret = full_ret .. comment_annot .. "\n"
-    end
+    if comment_annot ~= "" then full_ret = full_ret .. comment_annot .. "\n" end
 
     full_ret = full_ret .. "---@enum " .. enumname .. "\n"
     full_ret = full_ret .. enumname .. " = {\n"
@@ -420,9 +388,7 @@ game = {}
       end
     end
 
-    local entries_sorted_by_v = sorted_by(entries_filtered, function(a, b)
-      return a.v < b.v
-    end)
+    local entries_sorted_by_v = sorted_by(entries_filtered, function(a, b) return a.v < b.v end)
 
     local table_entries = {}
     for _, entry_item in ipairs(entries_sorted_by_v) do
