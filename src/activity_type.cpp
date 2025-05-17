@@ -243,7 +243,7 @@ ret_val<bool> activity_type::check_interrupts( const Character &who,
         character_funcs::fine_detail_vision_mod( who ) > *light_interrupts_ ) {
         return ret_val<bool>::make_success(
                    string_format(
-                       _( "You can no longer see well enough for %s." ),
+                       _( "Can no longer see well enough for %s." ),
                        verb_ ) );
     }
 
@@ -251,7 +251,7 @@ ret_val<bool> activity_type::check_interrupts( const Character &who,
     if( morale_interrupts_ && who.get_morale_level() < *morale_interrupts_ ) {
         return ret_val<bool>::make_success(
                    string_format(
-                       _( "Your morale is too low for %s." ),
+                       _( "Morale is too low for %s." ),
                        verb_ ) );
     }
 
@@ -259,7 +259,7 @@ ret_val<bool> activity_type::check_interrupts( const Character &who,
     if( speed && total_speed_interrupts_ && speed->total_moves() < *total_speed_interrupts_ ) {
         return ret_val<bool>::make_success(
                    string_format(
-                       _( "You are too frustrated to do %s and just give up." ),
+                       _( "Too frustrated to do %s and just give up." ),
                        verb_ ) );
     }
 
