@@ -258,11 +258,12 @@ local fmt_constructor_field = function(typename, ctors)
   return "---@field new " .. signature_union .. "\n"
 end
 
----@param name string
-function field_sort_order(name)
-  if string.match(name, "^__") then return 3 end -- metamethods
-  if name == "deserialize" then return 2 end
-  if name == "serialize" then return 1 end
+---@param member { name: string, type: "var" | "func" }
+function field_sort_order(member)
+  if string.match(member.name, "^__") then return 4 end -- metamethods
+  if member.name == "deserialize" then return 3 end
+  if member.name == "serialize" then return 2 end
+  if member.type == "func" then return 1 end
   return 0
 end
 
@@ -316,8 +317,8 @@ game = {}
 
       -- Process Members (Variables and Functions)
       local members_sorted = sorted_by(members, function(a, b)
-        local a_priority = field_sort_order(a.v.name)
-        local b_priority = field_sort_order(b.v.name)
+        local a_priority = field_sort_order(a.v)
+        local b_priority = field_sort_order(b.v)
 
         if a_priority ~= b_priority then return a_priority < b_priority end
         return a.v.name < b.v.name
