@@ -20,13 +20,13 @@ jobs:
           - name: Windows Tiles x64 MSVC
             artifact: windows-tiles-x64-msvc
             arch: x64
-            os: windows-2019
+            os: windows-latest
             ext: zip
             content: application/zip
           - name: Windows Tiles x32 MSVC
             artifact: windows-tiles-x32-msvc
             arch: x86
-            os: windows-2019
+            os: windows-latest
             ext: zip
             content: application/zip
           - name: Linux Tiles x64
