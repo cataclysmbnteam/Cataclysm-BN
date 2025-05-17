@@ -729,7 +729,7 @@
     "type": "COMESTIBLE",
     "comestible_type": "DRINK",
     "name": { "str_sp": "GHB" },
-    "description": "A powerful central nervous system depressant often used recreationally for its euphoric and sedative effects. Highly potent in small doses, GHB carries a serious risk of overdose, especially when combined with alcohol or other depressants. While it has a limited approved medical use in the treatment of narcolepsy (specifically to reduce cataplexy and improve nighttime sleep), its potential for abuse and dangerous side effects make unsupervised use extremely hazardous.",
+    "description": "A powerful central nervous system depressant often used recreationally for its euphoric and sedative effects. Highly potent in small doses, GHB carries a serious risk of overdose, especially when combined with alcohol or other depressants. While it has a limited approved medical use in the treatment of narcolepsy (specifically to reduce cataplexy and improve nighttime sleep), its potential for abuse and dangerous side effects make unsupervised use extremely hazardous. It can also temporarily reduce the symptoms of alcohol withdrawal, though this use is risky and not medically approved outside of controlled environments.",
     "weight": "1 g",
     "volume": "250 ml",
     "price": "60 USD",

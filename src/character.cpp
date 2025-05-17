@@ -5419,7 +5419,7 @@ void Character::check_needs_extremes()
         add_msg_if_player( m_bad, _( "Your breathing stops completely." ) );
         g->events().send<event_type::dies_from_drug_overdose>( getID(), efftype_id() );
         set_part_hp_cur( bodypart_id( "torso" ), 0 );
-    // taking GHB greatly reduces the amount of stimulation needed to die
+        // taking GHB greatly reduces the amount of stimulation needed to die
     } else if( get_effect_int( effect_took_antinarcoleptic )  && get_stim() < -80 ) {
         add_msg_if_player( m_bad, _( "Your breathing slows down to a stop." ) );
         g->events().send<event_type::dies_from_drug_overdose>( getID(), effect_took_antinarcoleptic );
