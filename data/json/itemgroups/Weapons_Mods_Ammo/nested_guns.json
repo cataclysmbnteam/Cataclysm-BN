@@ -1448,6 +1448,19 @@
     ]
   },
   {
+    "id": "nested_ac556",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [
+      { "item": "ac556", "ammo-group": "on_hand_223", "charges": [ 0, 5 ] },
+      { "group": "nested_ruger_mini_mag" },
+      { "group": "nested_ruger_mini_mag", "prob": 50 },
+      { "group": "on_hand_223" }
+    ]
+  },
+  {
     "id": "nested_sks",
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
