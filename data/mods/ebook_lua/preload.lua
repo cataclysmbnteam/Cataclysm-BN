@@ -9,16 +9,12 @@ mod.stor = storage
 
 mod.cache_static = function(category, name, binding_id)
   storage[category] = storage[category] or {}
-  if not storage[category][name] then
-    storage[category][name] = binding_id.new(name)
-  end
+  if not storage[category][name] then storage[category][name] = binding_id.new(name) end
   return storage[category][name]
 end
 
 ---@type fun(n: integer): TimeDuration
-mod.from_turns = function(n)
-  return TimeDuration.new().from_turns(n)
-end
+mod.from_turns = function(n) return TimeDuration.new().from_turns(n) end
 
 -- mod.cache_static( "flags", "", JsonFlagId.new())
 
@@ -36,10 +32,6 @@ mod.turntimer_hook = function(turn, func)
   storage.hook_assuarance[the_when:to_turns()] = "Requiem"
 end
 
-game.hooks.on_game_load[#game.hooks.on_game_load + 1] = function(...)
-  return mod.assure_timer_hook(...)
-end
+game.hooks.on_game_load[#game.hooks.on_game_load + 1] = function(...) return mod.assure_timer_hook(...) end
 
-game.iuse_functions["LUA_EBOOK"] = function(...)
-  return mod.ebook_ui(...)
-end
+game.iuse_functions["LUA_EBOOK"] = function(...) return mod.ebook_ui(...) end
