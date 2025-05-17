@@ -2515,7 +2515,7 @@ Function `( Item ) -> bool`
 
 #### is_salvageable
 
-Function `( Item ) -> bool`
+Function `( Item, bool ) -> bool`
 
 #### is_craft
 
@@ -2646,6 +2646,26 @@ Function `( Item ) -> string`
 
 Checks if this item owned by a character
 Function `( Item, Character, bool ) -> bool`
+
+#### has_technique
+
+Checks if this item has the technique as an addition. Doesn't check original techniques.
+Function `( Item, MartialArtsTechniqueId ) -> bool`
+
+#### get_techniques
+
+Gets all techniques. Including original techniques.
+Function `( Item ) -> Set( MartialArtsTechniqueId )`
+
+#### add_technique
+
+Adds the technique. It isn't treated original, but additional.
+Function `( Item, MartialArtsTechniqueId )`
+
+#### remove_technique
+
+Removes the additional technique. Doesn't affect originial techniques.
+Function `( Item, MartialArtsTechniqueId )`
 
 #### can_contain
 
@@ -3132,6 +3152,58 @@ Function `( MartialArtsBuffId, <cppval: 7JsonOut > )`
 #### deserialize
 
 Function `( MartialArtsBuffId, <cppval: 6JsonIn > )`
+
+## MartialArtsTechniqueId
+
+### Bases
+
+No base classes.
+
+### Constructors
+
+#### `MartialArtsTechniqueId.new()`
+
+#### `MartialArtsTechniqueId.new( MartialArtsTechniqueId )`
+
+#### `MartialArtsTechniqueId.new( string )`
+
+### Members
+
+#### obj
+
+Function `( MartialArtsTechniqueId ) -> MartialArtsTechniqueRaw`
+
+#### implements_int_id
+
+Function `() -> bool`
+
+#### is_null
+
+Function `( MartialArtsTechniqueId ) -> bool`
+
+#### is_valid
+
+Function `( MartialArtsTechniqueId ) -> bool`
+
+#### str
+
+Function `( MartialArtsTechniqueId ) -> string`
+
+#### NULL_ID
+
+Function `() -> MartialArtsTechniqueId`
+
+#### __tostring
+
+Function `( MartialArtsTechniqueId ) -> string`
+
+#### serialize
+
+Function `( MartialArtsTechniqueId, <cppval: 7JsonOut > )`
+
+#### deserialize
+
+Function `( MartialArtsTechniqueId, <cppval: 6JsonIn > )`
 
 ## Mass
 

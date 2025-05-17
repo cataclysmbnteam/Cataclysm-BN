@@ -223,7 +223,7 @@
     "description": "A smallish patch of leather, could be used to make tough clothing.",
     "price": "20 USD",
     "price_postapoc": "10 cent",
-    "material": [ "leather", "flesh" ],
+    "material": [ "leather" ],
     "flags": [ "NO_SALVAGE" ],
     "weight": "100 g",
     "volume": "250 ml",
