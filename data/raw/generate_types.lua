@@ -235,27 +235,29 @@ local fmt_function_field = function(member, class_name, is_method)
 end
 
 --[[
-    Formats ---@field annotation for constructors ('new' function).
+    Formats ---@overload annotations and function stub for constructors ('new' function).
   ]]
----@param typename string Class name
----@param ctors string[][] List of constructor argument lists
----@return string Field annotation string or ""
+---@param typename string Class name (C++ name, e.g., "TypeId")
+---@param ctors string[][] List of constructor argument lists (C++ types).
+--                      Each inner table is a list of C++ type strings for one constructor.
+--                      An empty inner table {} signifies a constructor with no arguments.
+--                      If ctors is nil or an empty table, only the basic new() stub and @return are generated.
+---@return string EmmyLua annotation string for the constructor.
 local fmt_constructor_field = function(typename, ctors)
-  if not ctors or #ctors == 0 then return "" end
+  local type = map_cpp_type_to_lua(typename)
 
-  local signatures = {}
-  local mapped_typename = map_cpp_type_to_lua(typename)
+  ---@type string[]
+  local lines = {}
 
-  for _, arg_list in ipairs(ctors) do
-    -- Constructors are static, return the class type
-    table.insert(signatures, fmt_function_signature(arg_list, typename, typename, false))
+  table.insert(lines, "---@return " .. type)
+  for _, cpp_arg_list in ipairs(ctors) do
+    if cpp_arg_list and #cpp_arg_list > 0 then
+      table.insert(lines, "---@overload " .. fmt_function_signature(cpp_arg_list, typename, typename, false))
+    end
   end
+  table.insert(lines, "function " .. type .. ".new() end")
 
-  local signature_union = table.concat(signatures, " | ")
-
-  -- Assuming constructors don't usually have separate comments from the class itself.
-  -- If they do, the data structure needs to provide it here.
-  return "---@field new " .. signature_union .. "\n"
+  return table.concat(lines, "\n") .. "\n"
 end
 
 ---@param member { name: string, type: "var" | "func" }
@@ -340,29 +342,18 @@ game = {}
           -- Pass 'is_class' to fmt_function_field to decide if 'self' should be added.
           ret = ret .. fmt_function_field(member, name, false)
         else
-          print(
-            "Warning: Unknown member type '"
-              .. tostring(member.type)
-              .. "' for "
-              .. name
-              .. "."
-              .. member_name_str
-              .. "\n"
-          )
           ret = ret
             .. fmt_variable_field(
               { name = member_name_str, vartype = "any", comment = "Unknown member type" },
               not is_class
             ) -- Fallback
         end
-        -- ::continue:: -- Lua 5.2+ goto label
       end
 
-      -- Add Constructor Field (only for classes)
-      if is_class then ret = ret .. fmt_constructor_field(name, ctors) end
+      ret = ret .. name .. " = {}\n"
 
-      -- Placeholder table declaration
-      ret = ret .. name .. " = {}\n\n"
+      if is_class then ret = ret .. fmt_constructor_field(name, ctors) end
+      ret = ret .. "\n"
     end
     return ret
   end
