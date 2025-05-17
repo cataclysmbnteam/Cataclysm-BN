@@ -890,6 +890,11 @@
   },
   {
     "type": "effect_type",
+    "id": "took_antinarcoleptic",
+    "blood_analysis_description": "GHB"
+  },
+  {
+    "type": "effect_type",
     "id": "feral_killed_recently",
     "max_duration": "200 d",
     "max_intensity": 200,

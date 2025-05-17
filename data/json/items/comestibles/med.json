@@ -725,6 +725,37 @@
     }
   },
   {
+    "id": "ghb",
+    "type": "COMESTIBLE",
+    "comestible_type": "DRINK",
+    "name": { "str_sp": "GHB" },
+    "description": "A powerful central nervous system depressant often used recreationally for its euphoric and sedative effects. Highly potent in small doses, GHB carries a serious risk of overdose, especially when combined with alcohol or other depressants. While it has a limited approved medical use in the treatment of narcolepsy (specifically to reduce cataplexy and improve nighttime sleep), its potential for abuse and dangerous side effects make unsupervised use extremely hazardous.",
+    "weight": "1 g",
+    "volume": "250 ml",
+    "price": "60 USD",
+    "price_postapoc": "70 USD",
+    "charges": 4,
+    "stack_size": 100,
+    "material": "alcohol",
+    "symbol": "!",
+    "color": "light_gray",
+    "container": "bottle_plastic_small",
+    "stim": -40,
+    "healthy": -3,
+    "fun": 20,
+    "addiction_potential": 30,
+    "addiction_type": "sleeping pill",
+    "flags": [ "UNSAFE_CONSUME" ],
+    "phase": "liquid",
+    "use_action": {
+      "type": "consume_drug",
+      "activation_message": "You measure out a dosage of GHB.",
+      "tools_needed": { "syringe": 1 },
+      "effects": [ { "id": "took_antinarcoleptic", "duration": "4 h" } ],
+      "moves": 250
+    }
+  },
+  {
     "id": "iodine",
     "type": "COMESTIBLE",
     "comestible_type": "MED",
