@@ -3671,10 +3671,19 @@ std::vector<item *> Character::items_worn_on_bp( const bodypart_id &bp ) const
         return nullstack;
     }
     std::vector<item *> items;
-    for( item * const &i : worn ) {
-        if( i->covers( bp ) ) {
-            items.push_back( i );
+    for( item * const &it : worn ) {
+        if( it->covers( bp ) ) {
+            items.push_back( it );
         }
+    }
+    return items;
+}
+
+std::vector<item *> Character::items_worn() const
+{
+    std::vector<item *> items;
+    for( item * const &it : worn ) {
+        items.push_back( it );
     }
     return items;
 }

@@ -250,6 +250,7 @@ function BodyPartTypeIntId.new() end
 ---@field is_worn fun(arg1: Character, arg2: Item): boolean
 ---@field item_worn_with_flag fun(arg1: Character, arg2: JsonFlagId, arg3: BodyPartTypeIntId): Item
 ---@field item_worn_with_id fun(arg1: Character, arg2: ItypeId, arg3: BodyPartTypeIntId): Item
+---@field items_worn fun(arg1: Character): any
 ---@field items_worn_on_bp fun(arg1: Character, arg2: BodyPartTypeIntId): any
 ---@field knows_recipe fun(arg1: Character, arg2: RecipeId): boolean
 ---@field learn_recipe fun(arg1: Character, arg2: RecipeId)
@@ -288,8 +289,8 @@ function BodyPartTypeIntId.new() end
 ---@field mutate fun(arg1: Character)
 ---@field mutate_category fun(arg1: Character, arg2: MutationCategoryTraitId)
 ---@field mutate_towards fun(arg1: Character, arg2: any, arg3: integer): boolean | fun(arg1: Character, arg2: MutationBranchId): boolean
----@field mutate_towards fun(arg1: Character, arg2: any, arg3: integer): boolean
 ---@field mutate_towards fun(arg1: Character, arg2: MutationBranchId): boolean
+---@field mutate_towards fun(arg1: Character, arg2: any, arg3: integer): boolean
 ---@field mutation_armor fun(arg1: Character, arg2: BodyPartTypeIntId, arg3: DamageType): number
 ---@field mutation_effect fun(arg1: Character, arg2: MutationBranchId)
 ---@field mutation_loss_effect fun(arg1: Character, arg2: MutationBranchId)

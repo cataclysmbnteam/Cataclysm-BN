@@ -635,6 +635,8 @@ void cata::detail::reg_character( sol::state &lua )
 
         SET_FX_T( items_worn_on_bp,
                   std::vector<item *> ( const bodypart_id & ) const );
+        
+        SET_FX_T( items_worn, std::vector<item *> () const );
 
         SET_FX_T( get_skill_level, int( const skill_id & ) const );
 

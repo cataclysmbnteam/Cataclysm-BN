@@ -951,6 +951,10 @@ Function `( Character, ItypeId, BodyPartTypeIntId ) -> Item`
 
 Function `( Character, BodyPartTypeIntId ) -> Vector( Item )`
 
+#### items_worn
+
+Function `( Character ) -> Vector( Item )`
+
 #### get_skill_level
 
 Function `( Character, SkillId ) -> int`

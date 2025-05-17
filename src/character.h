@@ -1519,6 +1519,8 @@ class Character : public Creature, public location_visitable<Character>
                                        const bodypart_id &bp = bodypart_str_id::NULL_ID() ) const;
         /** Returns worn items on the given body part. */
         std::vector<item *> items_worn_on_bp( const bodypart_id &bp = bodypart_str_id::NULL_ID() ) const;
+        /** Returns all worn items. */
+        std::vector<item *> items_worn() const;
 
         // drawing related stuff
         /**
