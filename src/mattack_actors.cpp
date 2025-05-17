@@ -233,6 +233,8 @@ melee_actor::melee_actor()
     move_cost = 100;
 }
 
+melee_actor::~melee_actor() = default;
+
 void melee_actor::load_internal( const JsonObject &obj, const std::string & )
 {
     // Optional:
