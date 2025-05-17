@@ -314,7 +314,7 @@ TEST_CASE( "hacksaw", "[activity][hacksaw]" )
 
     auto setup_dummy = [&dummy]() -> item & {
         dummy.i_add( item::spawn( itype_id( "atomic_lamp" ) ) );
-        item &saw = dummy.i_add( item::spawn( itype_test_hacksaw ) );        
+        item &saw = dummy.i_add( item::spawn( itype_test_hacksaw ) );
         dummy.wield( saw );
 
         REQUIRE( dummy.primary_weapon().typeId() == itype_test_hacksaw );
