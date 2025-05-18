@@ -496,7 +496,7 @@ void cata::detail::reg_item( sol::state &lua )
         luna::set_fx( ut, "set_flag_recursive", &item::set_flag_recursive );
         luna::set_fx( ut, "unset_flags", &item::unset_flags );
         
-        DOC( "" );
+        DOC( "Converts the item as given `ItypeId`." );
         luna::set_fx( ut, "convert", &item::convert );
 
         DOC( "Get variable as string" );

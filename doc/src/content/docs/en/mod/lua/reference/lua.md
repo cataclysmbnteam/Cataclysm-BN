@@ -1073,6 +1073,11 @@ Function `( Character, JsonFlagId, bool ) -> Vector( Item )`
 Gets all items
 Function `( Character, bool ) -> Vector( Item )`
 
+#### inv_remove_item
+
+Removes given `Item` from character's inventory. The `Item` must be in the inventory, neither wielded nor worn.
+Function `( Character, Item )`
+
 #### assign_activity
 
 Function `( Character, ActivityTypeId, int, int, int, string )`
@@ -2756,6 +2761,11 @@ Function `( Item, JsonFlagId )`
 
 Function `( Item )`
 
+#### convert
+
+Converts the item as given `ItypeId`.
+Function `( Item, ItypeId )`
+
 #### get_var_str
 
 Get variable as string
@@ -3005,6 +3015,14 @@ Function `( Map, Tripoint ) -> bool`
 #### get_items_at
 
 Function `( Map, Tripoint ) -> <cppval: St10unique_ptrI9map_stackSt14default_deleteIS0_EE >`
+
+#### remove_item_at
+
+Function `( Map, Tripoint, Item )`
+
+#### clear_items_at
+
+Function `( Map, Tripoint )`
 
 #### get_ter_at
 
