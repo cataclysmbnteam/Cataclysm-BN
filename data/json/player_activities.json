@@ -181,7 +181,7 @@
     "type": "activity_type",
     "verb": "butchering",
     "auto_needs": true,
-    "interrupts": { "morale": -50, "vision": "DIM" },
+    "interrupts": { "morale": -20, "vision": "DIM" },
     "complex_moves": {
       "max_assistants": 4,
       "vision": true,
@@ -197,7 +197,7 @@
     "type": "activity_type",
     "verb": "field dressing",
     "auto_needs": true,
-    "interrupts": { "morale": -50, "vision": "DIM" },
+    "interrupts": { "morale": -25, "vision": "DIM" },
     "complex_moves": {
       "max_assistants": 2,
       "vision": true,
@@ -222,7 +222,7 @@
     "type": "activity_type",
     "verb": "skinning",
     "auto_needs": true,
-    "interrupts": { "morale": -50, "vision": "DIM" },
+    "interrupts": { "morale": -20, "vision": "DIM" },
     "complex_moves": {
       "max_assistants": 2,
       "vision": true,
@@ -267,7 +267,7 @@
     "type": "activity_type",
     "verb": "dissecting",
     "auto_needs": true,
-    "interrupts": { "morale": -50, "vision": "PERFECT" },
+    "interrupts": { "morale": -15, "vision": "PERFECT" },
     "complex_moves": {
       "max_assistants": 3,
       "vision": true,
@@ -291,7 +291,7 @@
     "id": "ACT_FORAGE",
     "type": "activity_type",
     "verb": "foraging",
-    "interrupts": { "morale": -100, "vision": "MINIMAL" },
+    "interrupts": { "vision": "MINIMAL" },
     "complex_moves": { "vision": true, "speed": true, "skills": [ [ "survival" ] ], "stats": [ [ "PER" ] ] },
     "verbose_tooltip": false
   },
@@ -314,6 +314,7 @@
     "id": "ACT_TRAIN",
     "type": "activity_type",
     "verb": "training",
+    "interrupts": { "morale": -50, "vision": "FINE" },
     "complex_moves": { "speed": true, "skills": [ [ "melee" ] ], "stats": [ [ "INT" ] ] }
   },
   {
@@ -351,7 +352,7 @@
     "id": "ACT_PICKAXE",
     "type": "activity_type",
     "verb": "mining",
-    "interrupts": { "morale": -20, "vision": "DIM" },
+    "interrupts": { "morale": -20, "vision": "MINIMAL" },
     "complex_moves": { "max_assistants": 4, "vision": true, "speed": true, "stats": [ [ "STR" ] ] }
   },
   {
@@ -726,7 +727,7 @@
     "id": "ACT_JACKHAMMER",
     "type": "activity_type",
     "verb": "drilling",
-    "interrupts": { "morale": -20, "vision": "DIM" },
+    "interrupts": { "morale": -20, "vision": "MINIMAL" },
     "complex_moves": { "speed": true, "stats": [ [ "STR" ] ] }
   },
   {
@@ -740,7 +741,7 @@
     "id": "ACT_PLANT_SEED",
     "type": "activity_type",
     "verb": "planting seeds",
-    "interrupts": { "morale": -50, "vision": "DIM" },
+    "interrupts": { "morale": -40, "vision": "DIM" },
     "complex_moves": { "speed": true }
   },
   {
