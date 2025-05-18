@@ -215,28 +215,6 @@
     "looks_like": "rope_30"
   },
   {
-    "id": "UPS_off",
-    "type": "TOOL_ARMOR",
-    "copy-from": "UPS_off",
-    "name": { "str": "UPS", "str_pl": "UPS's" },
-    "description": "This is a unified power supply, or UPS.  It is a civilian evolution of a military project.  Designed to power advanced weapons and armor, the civilian version serves as a portable power bank and inverter for many household electronics.  It can be worn around to either leg for ease of access.",
-    "coverage": 5,
-    "encumbrance": 2,
-    "covers": [ "leg_either" ],
-    "extend": { "flags": [ "POWERARMOR_COMPATIBLE" ] }
-  },
-  {
-    "id": "adv_UPS_off",
-    "type": "TOOL_ARMOR",
-    "copy-from": "adv_UPS_off",
-    "name": { "str": "advanced UPS", "str_pl": "advanced UPS's" },
-    "description": "This is an advanced version of the unified power supply, or UPS.  This device has been significantly redesigned to provide better efficiency as well as to consume plutonium fuel cells rather than batteries, and is both slimmer and lighter to wear.  Sadly, its plutonium reactor can't be charged in UPS charging station.",
-    "coverage": 5,
-    "encumbrance": 1,
-    "covers": [ "leg_either" ],
-    "flags": [ "WAIST", "COMPACT", "FRAGILE", "OVERSIZE", "IS_UPS", "POWERARMOR_COMPATIBLE" ]
-  },
-  {
     "id": "bionic_maintenance_toolkit",
     "copy-from": "screwdriver_set",
     "type": "TOOL",
