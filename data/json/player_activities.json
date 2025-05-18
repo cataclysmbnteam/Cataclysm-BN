@@ -238,7 +238,7 @@
     "type": "activity_type",
     "verb": "quartering",
     "auto_needs": true,
-    "interrupts": { "morale": -100, "vision": "MINIMAL" },
+    "interrupts": { "morale": -30, "vision": "MINIMAL" },
     "complex_moves": {
       "max_assistants": 3,
       "vision": true,
@@ -253,7 +253,7 @@
     "type": "activity_type",
     "verb": "dismembering",
     "auto_needs": true,
-    "interrupts": { "morale": -100, "vision": "MINIMAL" },
+    "interrupts": { "morale": -30, "vision": "MINIMAL" },
     "complex_moves": {
       "max_assistants": 8,
       "speed": true,
