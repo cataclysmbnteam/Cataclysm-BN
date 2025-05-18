@@ -71,7 +71,7 @@ void activity_type::load( const JsonObject &jo )
             }
         }
         result.bench_affected_ = c_moves.get_bool( "bench", false );
-        result.light_affected_ = c_moves.get_bool( "light", false );
+        result.vision_affected_ = c_moves.get_bool( "vision", false );
         result.speed_affected_ = c_moves.get_bool( "speed", false );
         result.morale_affected_ = c_moves.get_bool( "morale", false );
 
@@ -155,9 +155,9 @@ void activity_type::load( const JsonObject &jo )
         result.has_interrupts_ = true;
         auto interrupts = jo.get_object( "interrupts" );
         assign( interrupts, "morale", result.morale_interrupts_, false );
-        auto light = interrupts.get_string( "light" );
-        if( !light.empty() ) {
-            result.light_interrupts_ = character_funcs::Vision::parse( light );
+        auto vision = interrupts.get_string( "vision" );
+        if( !vision.empty() ) {
+            result.vision_interrupts_ = character_funcs::Vision::parse( vision );
         }
     }
 
@@ -239,8 +239,8 @@ ret_val<bool> activity_type::check_interrupts( const Character &who,
 
     //Check if vision modifier is below expected level
     //Bigger number -> worse vision
-    if( light_interrupts_ &&
-        character_funcs::fine_detail_vision_mod( who ) > *light_interrupts_ ) {
+    if( vision_interrupts_ &&
+        character_funcs::fine_detail_vision_mod( who ) > *vision_interrupts_ ) {
         return ret_val<bool>::make_success(
                    string_format(
                        _( "Can no longer see well enough for %s." ),

@@ -338,7 +338,7 @@ std::optional<std::string> player_activity::get_progress_message( const avatar &
         std::string mults_desc = string_format( _( "Speed multipliers:\n" ) );
         mults_desc += format_spd( speed.total(), "Total", 0, true );
         mults_desc += format_spd( speed.assist, "Assistants", 1 );
-        mults_desc += format_spd( speed.light, "Light", 1 );
+        mults_desc += format_spd( speed.vision, "Vision", 1 );
         mults_desc += format_spd( speed.morale, "Morale", 1 );
         mults_desc += format_spd( speed.player_speed, "Speed", 1 );
         mults_desc += format_spd( speed.skills, "Skills", 1 );

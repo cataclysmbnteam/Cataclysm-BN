@@ -73,7 +73,7 @@ class activity_type
         bool special_ = false;
         bool complex_moves_ = false;
         bool bench_affected_ = false;
-        bool light_affected_ = false;
+        bool vision_affected_ = false;
         bool skill_affected_ = false;
         bool speed_affected_ = false;
         bool stats_affected_ = false;
@@ -81,10 +81,10 @@ class activity_type
         bool morale_affected_ = false;
         bool verbose_tooltip_ = true;
         unsigned short max_assistants_ = 0;
-        std::optional<float> light_interrupts_ = std::nullopt;
+        std::optional<float> vision_interrupts_ = std::nullopt;
         std::optional<int16_t> morale_interrupts_ = std::nullopt;
         std::optional<int16_t> total_speed_interrupts_ = std::nullopt;
-        bool has_interrupts_ = light_interrupts_ || morale_interrupts_ || total_speed_interrupts_;
+        bool has_interrupts_ = vision_interrupts_ || morale_interrupts_ || total_speed_interrupts_;
 
     public:
         std::vector<activity_req<character_stat>> stats;
@@ -127,8 +127,8 @@ class activity_type
         inline bool bench_affected() const {
             return bench_affected_;
         }
-        inline bool light_affected() const {
-            return light_affected_;
+        inline bool vision_affected() const {
+            return vision_affected_;
         }
         inline bool skill_affected() const {
             return skill_affected_;
@@ -152,8 +152,8 @@ class activity_type
         auto has_interrupts() const {
             return has_interrupts_;
         }
-        auto light_interrupts() const {
-            return light_interrupts_;
+        auto vision_interrupts() const {
+            return vision_interrupts_;
         }
         auto morale_interrupts() const {
             return morale_interrupts_;
