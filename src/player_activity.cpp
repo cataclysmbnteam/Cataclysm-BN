@@ -444,6 +444,12 @@ void player_activity::do_turn( player &p )
         this->resolve_active();
     } );
 
+    if( auto res = type->check_interrupts( p, &speed ); res.success() ) {
+        p.add_msg_player_or_say( m_bad, res.str(), res.str() );
+        set_to_null();
+        return;
+    }
+
     /*
     * Auto-needs block
     * Should happen before activity or it may fail du to 0 moves
@@ -538,12 +544,6 @@ void player_activity::do_turn( player &p )
                 }
             }
         }
-    }
-
-    if( auto res = type->check_interrupts( p, &speed ); res.success() ) {
-        p.add_msg_player_or_say( m_bad, res.str(), res.str() );
-        set_to_null();
-        return;
     }
 
     if( actor ) {
