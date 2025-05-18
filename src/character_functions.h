@@ -52,8 +52,8 @@ struct Vision {
     FINE = 4.0f,
     /*   6.0 is LIGHT_AMBIENT_DIM*/
     DIM = 6.0f,
-    /*  7.3 is LIGHT_AMBIENT_MINIMAL, a dark cloudy night, unlit indoors */
-    MINIMAL = 7.3f,
+    /*  8.0 is LIGHT_AMBIENT_MINIMAL, a dark cloudy night, unlit indoors */
+    MINIMAL = 8.0f,
     /*  11.0 is zero light or blindness*/
     NONE = 11.0f;
 
