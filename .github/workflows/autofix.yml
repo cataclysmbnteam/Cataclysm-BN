@@ -41,6 +41,10 @@ jobs:
       - name: format JSON
         run: make style-all-json-parallel RELEASE=1
 
+      # autofix.ci cannot edit .github directory due to security reasons
+      - name: unstage .github
+        run: git restore .github
+
       - uses: autofix-ci/action@v1.3
         if: ${{ always() }}
         with:
