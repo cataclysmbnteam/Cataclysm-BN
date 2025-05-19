@@ -101,7 +101,7 @@ mod.item_funeral = function()
   local YOU = gapi.get_avatar()
   local NOW = gapi.current_turn() - gapi.turn_zero()
   gdebug.log_info(string.format("[%d] Call the Requiem for the unmaterialized one.", NOW:to_turns()))
-  if storage.hook_assuarance[NOW:to_turns()] and ( YOU:has_activity(ACT_READ) or YOU:has_activity(ACT_CRAFT) ) then
+  if storage.hook_assuarance[NOW:to_turns()] and (YOU:has_activity(ACT_READ) or YOU:has_activity(ACT_CRAFT)) then
     -- For more precise, what you read is needed... but I don't know how to get.
     YOU:cancel_activity()
     mod.poppin(locale.gettext("Your e-copy is degrading!"))
@@ -314,10 +314,16 @@ mod.ebook_load = function(reader, device)
         end
 
         local the_when = gapi.current_turn() + mod.from_turns(lifetime - 1)
-        book_in_real:set_var_num("its_fate_time", the_when:to_turn() )
+        book_in_real:set_var_num("its_fate_time", the_when:to_turn())
         mod.turntimer_hook(lifetime - 1, mod.item_funeral)
 
-        local msg = string.format(locale.gettext( "You printed a physical copy of %s.\nIt’s virtually weightless and will degrade naturally in about \n[%d minutes.]\nYou can return it to the device to recover some energy." ), selected.name, mod.from_turns(lifetime):to_minutes() )
+        local msg = string.format(
+          locale.gettext(
+            "You printed a physical copy of %s.\nIt’s virtually weightless and will degrade naturally in about \n[%d minutes.]\nYou can return it to the device to recover some energy."
+          ),
+          selected.name,
+          mod.from_turns(lifetime):to_minutes()
+        )
         mod.poppin(msg)
         reader:mod_moves(-100)
         return minute
@@ -357,7 +363,7 @@ mod.ebook_return = function(reader, device)
     local it = virtual_books[sel_return]
     local ammo_type = device:ammo_current()
     device:ammo_set(ammo_type, device.charges + math.floor(it:get_var_num("ethereal", 0) / 60))
-    local the_when = math.floor(it:get_var_num("its_fate_time", 0 ))
+    local the_when = math.floor(it:get_var_num("its_fate_time", 0))
     storage.hook_assuarance[the_when] = nil
     it:set_var_num("ethereal", 0)
     --DON'T READ VANISHING ITEM EVER!!!
