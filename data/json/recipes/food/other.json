@@ -2192,6 +2192,7 @@
   {
     "type": "recipe",
     "result": "dry_rice",
+    "id_suffix": "with_food_processor",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
     "skill_used": "cooking",
