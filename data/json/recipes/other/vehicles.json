@@ -1029,8 +1029,9 @@
     "difficulty": 6,
     "time": "1 h",
     "autolearn": true,
+    "reversible": true,
     "book_learn": [ [ "textbook_fabrication", 6 ], [ "textbook_mechanics", 5 ], [ "reference_fabrication1", 6 ] ],
-    "using": [ [ "welding_standard", 3 ], [ "steel_standard", 2 ], [ "soldering_standard", 10 ] ],
+    "using": [ [ "welding_standard", 3 ], [ "steel_standard", 2 ], [ "soldering_standard", 10 ], [ "sewing_standard", 20 ] ],
     "qualities": [
       { "id": "HAMMER", "level": 2 },
       { "id": "SAW_M", "level": 1 },
@@ -1038,11 +1039,12 @@
       { "id": "SCREW", "level": 1 }
     ],
     "components": [
+      [ [ "fabric_standard", 10, "LIST" ] ],
       [ [ "pipe", 1 ] ],
       [ [ "motor_tiny", 2 ], [ "motor_small", 1 ] ],
       [ [ "hose", 1 ] ],
       [ [ "cable", 10 ] ],
-      [ [ "chunk_rubber", 10 ] ]
+      [ [ "chunk_rubber", 10 ], [ "neoprene", 10 ] ]
     ]
   },
   {

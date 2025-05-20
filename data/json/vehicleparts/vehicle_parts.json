@@ -1217,7 +1217,7 @@
     "broken_color": "light_gray",
     "damage_modifier": 40,
     "durability": 240,
-    "contact_area": 0,
+    "contact_area": 20,
     "folded_volume": "250 ml",
     "item": "hovercraft_section",
     "location": "under",
