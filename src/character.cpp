@@ -6609,6 +6609,15 @@ bool Character::is_immune_damage( const damage_type dt ) const
         case DT_COLD:
             return has_effect_with_flag( flag_EFFECT_COLD_IMMUNE ) ||
                    worn_with_flag( flag_COLD_IMMUNE );
+        case DT_DARK:
+            return has_effect_with_flag( flag_EFFECT_DARK_IMMUNE ) ||
+                   worn_with_flag( flag_DARK_IMMUNE );
+        case DT_LIGHT:
+            return has_effect_with_flag( flag_EFFECT_LIGHT_IMMUNE ) ||
+                   worn_with_flag( flag_LIGHT_IMMUNE );
+        case DT_PSI:
+            return has_effect_with_flag( flag_EFFECT_PSI_IMMUNE ) ||
+                   worn_with_flag( flag_PSI_IMMUNE );
         case DT_ELECTRIC:
             return has_active_bionic( bio_faraday ) ||
                    worn_with_flag( flag_ELECTRIC_IMMUNE ) ||
@@ -7283,6 +7292,9 @@ int Character::get_armor_type( damage_type dt, bodypart_id bp ) const
         case DT_ACID:
         case DT_HEAT:
         case DT_COLD:
+        case DT_DARK:
+        case DT_LIGHT:
+        case DT_PSI:
         case DT_ELECTRIC: {
             int ret = 0;
             for( const auto &i : worn ) {
@@ -7336,6 +7348,9 @@ std::map<bodypart_id, int> Character::get_all_armor_type( damage_type dt,
             case DT_ACID:
             case DT_HEAT:
             case DT_COLD:
+            case DT_DARK:
+            case DT_LIGHT:
+            case DT_PSI:
             case DT_ELECTRIC: {
                 for( const item *it : clothing_map.at( bp ) ) {
                     per_bp.second += it->damage_resist( dt );
@@ -8368,6 +8383,15 @@ static void item_armor_enchantment_adjust(
         case DT_COLD:
             du.amount += armor.bonus_from_enchantments( guy, du.amount, enchant_vals::mod::ITEM_ARMOR_COLD );
             break;
+        case DT_DARK:
+            du.amount += armor.bonus_from_enchantments( guy, du.amount, enchant_vals::mod::ITEM_ARMOR_DARK );
+            break;
+        case DT_LIGHT:
+            du.amount += armor.bonus_from_enchantments( guy, du.amount, enchant_vals::mod::ITEM_ARMOR_LIGHT );
+            break;
+        case DT_PSI:
+            du.amount += armor.bonus_from_enchantments( guy, du.amount, enchant_vals::mod::ITEM_ARMOR_PSI );
+            break;
         case DT_CUT:
             du.amount += armor.bonus_from_enchantments( guy, du.amount, enchant_vals::mod::ITEM_ARMOR_CUT );
             break;
@@ -8405,6 +8429,15 @@ static void armor_enchantment_adjust( const Character &guy, damage_unit &du )
             break;
         case DT_COLD:
             du.amount += guy.bonus_from_enchantments( du.amount, enchant_vals::mod::ARMOR_COLD );
+            break;
+        case DT_DARK:
+            du.amount += guy.bonus_from_enchantments( du.amount, enchant_vals::mod::ARMOR_DARK );
+            break;
+        case DT_LIGHT:
+            du.amount += guy.bonus_from_enchantments( du.amount, enchant_vals::mod::ARMOR_LIGHT );
+            break;
+        case DT_PSI:
+            du.amount += guy.bonus_from_enchantments( du.amount, enchant_vals::mod::ARMOR_PSI );
             break;
         case DT_CUT:
             du.amount += guy.bonus_from_enchantments( du.amount, enchant_vals::mod::ARMOR_CUT );

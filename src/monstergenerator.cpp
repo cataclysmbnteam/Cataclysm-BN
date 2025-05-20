@@ -109,6 +109,9 @@ std::string enum_to_string<m_flag>( m_flag data )
         case MF_SLUDGEPROOF: return "SLUDGEPROOF";
         case MF_SLUDGETRAIL: return "SLUDGETRAIL";
         case MF_COLDPROOF: return "COLDPROOF";
+        case MF_DARKPROOF: return "DARKPROOF";
+        case MF_LIGHTPROOF: return "LIGHTPROOF";
+        case MF_PSIPROOF: return "PSIPROOF";
         case MF_BIOPROOF: return "BIOPROOF";
         case MF_FIREY: return "FIREY";
         case MF_QUEEN: return "QUEEN";

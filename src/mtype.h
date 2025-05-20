@@ -103,7 +103,10 @@ enum m_flag : int {
     MF_SLUDGEPROOF,         // Ignores the effect of sludge trails
     MF_SLUDGETRAIL,         // Causes monster to leave a sludge trap trail when moving
     MF_COLDPROOF,           // Immune to cold damage
-    MF_BIOPROOF,     // Immune to biological damage
+    MF_BIOPROOF,            // Immune to biological damage
+    MF_DARKPROOF,           // Immune to dark damage
+    MF_LIGHTPROOF,          // Immune to light damage
+    MF_PSIPROOF,            // Immune to psionic damage
     MF_FIREY,               // Burns stuff and is immune to fire
     MF_QUEEN,               // When it dies, local populations start to die off too
     MF_ELECTRONIC,          // e.g. a robot; affected by EMP blasts, and other stuff

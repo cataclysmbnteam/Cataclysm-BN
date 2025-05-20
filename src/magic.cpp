@@ -171,7 +171,13 @@ static damage_type damage_type_from_string( std::string &str )
         return DT_BIOLOGICAL;
     } else if( str == "COLD" ) {
         return DT_COLD;
-    } else if( str == "CUT" ) {
+    } else if( str == "COLD" ) {
+        return DT_DARK;
+    } else if( str == "DARK" ) {
+        return DT_LIGHT;
+    } else if( str == "LIGHT" ) {
+        return DT_PSI;
+    } else if( str == "PSI" ) {
         return DT_CUT;
     } else if( str == "BULLET" ) {
         return DT_BULLET;
@@ -1070,6 +1076,12 @@ nc_color spell::damage_type_color() const
             return c_green;
         case DT_COLD:
             return c_white;
+        case DT_DARK:
+            return c_green;
+        case DT_LIGHT:
+            return c_yellow;
+        case DT_PSI:
+            return c_magenta;
         case DT_CUT:
             return c_light_gray;
         case DT_ELECTRIC:
