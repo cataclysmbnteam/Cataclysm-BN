@@ -101,7 +101,7 @@ mod.item_funeral = function()
   local YOU = gapi.get_avatar()
   local NOW = gapi.current_turn() - gapi.turn_zero()
   gdebug.log_info(string.format("[%d] Call the Requiem for the unmaterialized one.", NOW:to_turns()))
-  if YOU:has_activity(ACT_READ) or YOU:has_activity(ACT_CRAFT) then
+  if storage.hook_assuarance[NOW:to_turns()] and (YOU:has_activity(ACT_READ) or YOU:has_activity(ACT_CRAFT)) then
     -- For more precise, what you read is needed... but I don't know how to get.
     YOU:cancel_activity()
     mod.poppin(locale.gettext("Your e-copy is degrading!"))
@@ -280,7 +280,15 @@ mod.ebook_load = function(reader, device)
         --You got the book on the real world!
         reader:add_item_with_id(selected.type, 1)
         --Then lemme see it.
-        local book_in_real = reader:get_item_with_id(selected.type, false)
+        local book_in_real
+        for _, it in pairs(reader:all_items(false)) do
+          if it:get_type() == selected.type then
+            if it:get_var_str("aspect", "real") == "real" then
+              book_in_real = it
+              break
+            end
+          end
+        end
 
         --The book should be labeled.
         book_in_real:set_var_str(
@@ -293,7 +301,7 @@ mod.ebook_load = function(reader, device)
         book_in_real:set_var_num("volume", 0)
         --The book should be gone.
         book_in_real:set_flag(flag_ETHEREAL_ITEM)
-        lifetime = lifetime * minute
+        lifetime = lifetime * minute + 1
         book_in_real:set_var_num("ethereal", lifetime)
         --The book should be untradable. But it looks not effective.
         book_in_real:set_flag(flag_TRADER_AVOID)
@@ -305,20 +313,19 @@ mod.ebook_load = function(reader, device)
           book_in_real.charges = 0
         end
 
+        local the_when = gapi.current_turn() + mod.from_turns(lifetime - 1)
+        book_in_real:set_var_num("its_fate_time", the_when:to_turn())
         mod.turntimer_hook(lifetime - 1, mod.item_funeral)
 
-        local qp = QueryPopup.new()
-        qp:message(
-          string.format(
-            locale.gettext(
-              "You printed a physical copy of %s.\nIt’s virtually weightless and will degrade naturally in about \n[%d minutes.]\nYou can return it to the device to recover some energy."
-            ),
-            selected.name,
-            mod.from_turns(lifetime):to_minutes()
-          )
+        local msg = string.format(
+          locale.gettext(
+            "You printed a physical copy of %s.\nIt’s virtually weightless and will degrade naturally in about \n[%d minutes.]\nYou can return it to the device to recover some energy."
+          ),
+          selected.name,
+          mod.from_turns(lifetime):to_minutes()
         )
-        qp:allow_any_key(true)
-        qp:query()
+        mod.poppin(msg)
+        reader:mod_moves(-100)
         return minute
       end
     end
@@ -356,6 +363,8 @@ mod.ebook_return = function(reader, device)
     local it = virtual_books[sel_return]
     local ammo_type = device:ammo_current()
     device:ammo_set(ammo_type, device.charges + math.floor(it:get_var_num("ethereal", 0) / 60))
+    local the_when = math.floor(it:get_var_num("its_fate_time", 0))
+    storage.hook_assuarance[the_when] = nil
     it:set_var_num("ethereal", 0)
     --DON'T READ VANISHING ITEM EVER!!!
     reader:mod_moves(-250)
