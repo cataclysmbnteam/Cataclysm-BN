@@ -19,7 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <VCProjectVersion>16.0</VCProjectVersion>
+    <VCProjectVersion>17.0</VCProjectVersion>
     <ProjectGuid>{0009BB11-11AD-4C14-A5FC-D882A942C00B}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>CataclysmLib</RootNamespace>

@@ -19,7 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <VCProjectVersion>16.0</VCProjectVersion>
+    <VCProjectVersion>17.0</VCProjectVersion>
     <ProjectGuid>{35D74C75-FC4A-442F-AF44-43BC9D845BAF}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>JsonFormatter</RootNamespace>

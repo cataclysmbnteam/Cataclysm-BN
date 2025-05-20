@@ -19,7 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <VCProjectVersion>16.0</VCProjectVersion>
+    <VCProjectVersion>17.0</VCProjectVersion>
     <ProjectGuid>{2C1ECEE1-9686-4C3C-8DE1-88996EE43378}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>CataclysmTest</RootNamespace>
