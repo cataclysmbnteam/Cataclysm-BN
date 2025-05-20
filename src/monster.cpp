@@ -915,7 +915,6 @@ std::string monster::extended_description() const
         {m_flag::MF_STUN_IMMUNE, pgettext( "Stun as immunity", "stun" )},
         {m_flag::MF_SLUDGEPROOF, pgettext( "Sludge as immunity", "sludge" )},
         {m_flag::MF_BIOPROOF, pgettext( "Biological hazards as immunity", "biohazards" )},
-        {m_flag::MF_COLDPROOF, pgettext( "Biological hazards as immunity", "cold" )},
         {m_flag::MF_DARKPROOF, pgettext( "Dark attacks as immunity", "dark" )},
         {m_flag::MF_LIGHTPROOF, pgettext( "Light attacks as immunity", "light" )},
         {m_flag::MF_PSIPROOF, pgettext( "Psionic attacks as immunity", "psi" )},
