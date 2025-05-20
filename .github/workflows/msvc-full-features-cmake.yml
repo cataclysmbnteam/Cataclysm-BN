@@ -52,7 +52,7 @@ env:
 jobs:
   build_catatclysm:
     name: Build
-    runs-on: windows-2019
+    runs-on: windows-latest
     if: github.event.pull_request.draft == false
 
     steps:
@@ -62,7 +62,9 @@ jobs:
           fetch-depth: 1
 
       - name: Add msbuild to PATH
-        uses: microsoft/setup-msbuild@v1.3.1
+        uses: microsoft/setup-msbuild@v2
+        with:
+          vs-version: 17.13
 
       - name: Remove Strawberry Perl from PATH
         run: |
