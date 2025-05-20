@@ -40,8 +40,8 @@ jobs:
       max-parallel: ${{ github.ref_name == 'main' && 20 || 1 }}
       matrix:
         include:
-          - title: GCC 12, Ubuntu, Curses
-            compiler: g++-12
+          - title: GCC, Ubuntu, Curses
+            compiler: g++
             os: ubuntu-24.04
             cmake: 0
             tiles: 0
@@ -50,11 +50,11 @@ jobs:
             libbacktrace: 1
             native: linux64
             ccache_limit: 2G
-            ccache_key: linux-gcc-12
+            ccache_key: linux-gcc
             always-run: true
 
-          - title: GCC 12, Ubuntu, Tiles, Sound, CMake, Languages
-            compiler: g++-12
+          - title: GCC, Ubuntu, Tiles, Sound, CMake, Languages
+            compiler: g++
             os: ubuntu-24.04
             cmake: 1
             tiles: 1
@@ -62,11 +62,11 @@ jobs:
             languages: all
             native: linux64
             ccache_limit: 2G
-            ccache_key: linux-gcc-12-cmake-tiles
+            ccache_key: linux-gcc-cmake-tiles
             upload-artifact: true
 
-          - title: GCC 12, Ubuntu, Tiles, Sound
-            compiler: g++-12
+          - title: GCC, Ubuntu, Tiles, Sound
+            compiler: g++
             os: ubuntu-24.04
             cmake: 1
             tiles: 1
@@ -75,11 +75,11 @@ jobs:
             libbacktrace: 1
             native: linux64
             ccache_limit: 1G
-            ccache_key: linux-gcc-12-tiles
+            ccache_key: linux-gcc-tiles
 
         # === Temporarily disabled because of #3664 ===
-        #  - title: GCC 12, Ubuntu, Tiles, NoSound, ASan
-        #    compiler: g++-12
+        #  - title: GCC, Ubuntu, Tiles, NoSound, ASan
+        #    compiler: g++
         #    os: ubuntu-24.04
         #    cmake: 0
         #    tiles: 1
@@ -87,7 +87,7 @@ jobs:
         #    sanitize: address
         #    native: linux64
         #    ccache_limit: 2G
-        #    ccache_key: linux-gcc-12-asan
+        #    ccache_key: linux-gcc-asan
 
         # === Temporarily disabled because of #3664 ===
         #  - title: Clang 14, Ubuntu, Tiles, NoSound, ASan, UBSan
