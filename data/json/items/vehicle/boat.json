@@ -123,5 +123,21 @@
     "bashing": 8,
     "to_hit": -1,
     "category": "veh_parts"
+  },
+  {
+    "type": "GENERIC",
+    "id": "hovercraft_section",
+    "symbol": "o",
+    "color": "green",
+    "name": { "str_sp": "hovercraft impeller" },
+    "description": "An impeller and skirt used by air-cushion-vehicles to float just above the surface of land or water.",
+    "price": "80 USD",
+    "price_postapoc": "1 USD",
+    "material": [ "plastic" ],
+    "weight": "300 g",
+    "volume": "5 L",
+    "bashing": 8,
+    "to_hit": -1,
+    "category": "veh_parts"
   }
 ]
