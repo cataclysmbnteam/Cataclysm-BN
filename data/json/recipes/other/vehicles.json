@@ -1031,7 +1031,7 @@
     "autolearn": true,
     "reversible": true,
     "book_learn": [ [ "textbook_fabrication", 6 ], [ "textbook_mechanics", 5 ], [ "reference_fabrication1", 6 ] ],
-    "using": [ [ "welding_standard", 3 ], [ "steel_standard", 2 ], [ "soldering_standard", 10 ], [ "sewing_standard", 20 ] ],
+    "using": [ [ "welding_standard", 3 ], [ "steel_standard", 4 ], [ "soldering_standard", 10 ], [ "sewing_standard", 20 ] ],
     "qualities": [
       { "id": "HAMMER", "level": 2 },
       { "id": "SAW_M", "level": 1 },
