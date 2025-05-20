@@ -171,13 +171,13 @@ static damage_type damage_type_from_string( std::string &str )
         return DT_BIOLOGICAL;
     } else if( str == "COLD" ) {
         return DT_COLD;
-    } else if( str == "COLD" ) {
-        return DT_DARK;
     } else if( str == "DARK" ) {
-        return DT_LIGHT;
+        return DT_DARK;
     } else if( str == "LIGHT" ) {
-        return DT_PSI;
+        return DT_LIGHT;
     } else if( str == "PSI" ) {
+        return DT_PSI;
+    } else if( str == "CUT" ) {
         return DT_CUT;
     } else if( str == "BULLET" ) {
         return DT_BULLET;

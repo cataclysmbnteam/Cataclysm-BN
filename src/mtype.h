@@ -320,6 +320,9 @@ struct mtype {
         /** If unset (-1) then values are calculated automatically from other properties */
         int armor_bash = -1;     /** innate armor vs. bash */
         int armor_cut  = -1;     /** innate armor vs. cut */
+        int armor_dark = -1;     /** innate armor vs. dark */
+        int armor_light = -1;    /** innate armor vs. light */
+        int armor_psi = -1;      /** innate armor vs. psi */
         int armor_stab = -1;     /** innate armor vs. stabbing */
         int armor_bullet = -1;   /** innate armor vs. bullet */
         int armor_acid = -1;     /** innate armor vs. acid */
