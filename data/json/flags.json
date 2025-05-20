@@ -1187,6 +1187,21 @@
     "type": "json_flag"
   },
   {
+    "id": "EFFECT_DARK_IMMUNE",
+    "context": [  ],
+    "type": "json_flag"
+  },
+  {
+    "id": "EFFECT_LIGHT_IMMUNE",
+    "context": [  ],
+    "type": "json_flag"
+  },
+  {
+    "id": "EFFECT_PSI_IMMUNE",
+    "context": [  ],
+    "type": "json_flag"
+  },
+  {
     "id": "EFFECT_ELECTRIC_IMMUNE",
     "context": [  ],
     "type": "json_flag"
