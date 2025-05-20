@@ -158,7 +158,7 @@ void cata::detail::reg_types( sol::state &lua )
         } );
 
         luna::set_fx( ut, "name", &ter_t::name );
-        luna::set_fx( ut, "get_flags", &ter_t::get_flags );
+        luna::set_fx( ut, "get_flags", sol::resolve<const std::set<std::string> &() const> (&ter_t::get_flags) );
         luna::set_fx( ut, "has_flag", sol::resolve<bool( const std::string & ) const> ( &ter_t::has_flag ) );
         luna::set_fx( ut, "set_flag", &ter_t::set_flag );
         luna::set_fx( ut, "get_light_emitted", [] (ter_t &t ) -> int {
@@ -204,7 +204,7 @@ void cata::detail::reg_types( sol::state &lua )
         } );
 
         luna::set_fx( ut, "name", &furn_t::name );
-        luna::set_fx( ut, "get_flags", &furn_t::get_flags );
+        luna::set_fx( ut, "get_flags", sol::resolve<const std::set<std::string> &() const> ( &furn_t::get_flags ) );
         luna::set_fx( ut, "has_flag", sol::resolve<bool( const std::string & ) const> ( &furn_t::has_flag ) );
         luna::set_fx( ut, "set_flag", &furn_t::set_flag );
         luna::set_fx( ut, "get_light_emitted", []( furn_t &f ) -> int {
