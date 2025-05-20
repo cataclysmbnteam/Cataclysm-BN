@@ -1218,6 +1218,7 @@
     "damage_modifier": 40,
     "durability": 240,
     "contact_area": 0,
+    "folded_volume": "250 ml",
     "item": "hovercraft_section",
     "location": "under",
     "requirements": {
@@ -1229,7 +1230,7 @@
         "using": [ [ "welding_standard", 5 ], [ "vehicle_repair_small_metal", 3 ] ]
       }
     },
-    "flags": [ "WHEEL", "MULTISQUARE", "TRACKED", "VARIABLE_SIZE", "FOLDABLE", "STABLE", "SELF_JACK" ],
+    "flags": [ "WHEEL", "FLOATS", "MULTISQUARE", "TRACKED", "VARIABLE_SIZE", "FOLDABLE", "STABLE", "SELF_JACK" ],
     "wheel_type": "off-road",
     "cargo_weight_modifier": 75,
     "breaks_into": [
