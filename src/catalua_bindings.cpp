@@ -496,6 +496,9 @@ void cata::detail::reg_item( sol::state &lua )
         luna::set_fx( ut, "set_flag_recursive", &item::set_flag_recursive );
         luna::set_fx( ut, "unset_flags", &item::unset_flags );
 
+        DOC( "Converts the item as given `ItypeId`." );
+        luna::set_fx( ut, "convert", &item::convert );
+
         DOC( "Get variable as string" );
         luna::set_fx( ut, "get_var_str",
                       sol::resolve<std::string( const std::string &, const std::string & ) const>
@@ -559,6 +562,12 @@ void cata::detail::reg_map( sol::state &lua )
         luna::set_fx( ut, "has_items_at", &map::has_items );
         luna::set_fx( ut, "get_items_at", []( map & m, const tripoint & p ) -> std::unique_ptr<map_stack> {
             return std::make_unique<map_stack>( m.i_at( p ) );
+        } );
+        luna::set_fx( ut, "remove_item_at", []( map & m, const tripoint & p, item * it ) -> void {
+            m.i_rem( p, it );
+        } );
+        luna::set_fx( ut, "clear_items_at", []( map & m, const tripoint & p ) -> void {
+            m.i_clear( p );
         } );
 
 

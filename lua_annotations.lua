@@ -225,6 +225,7 @@ function BodyPartTypeIntId.new() end
 ---@field hitall fun(arg1: Character, arg2: integer, arg3: integer, arg4: Creature): integer
 ---@field hurtall fun(arg1: Character, arg2: integer, arg3: Creature, arg4: boolean)
 ---@field in_climate_control fun(arg1: Character): boolean
+---@field inv_remove_item fun(arg1: Character, arg2: Item) @Removes given `Item` from character's inventory. The `Item` must be in the inventory, neither wielded nor worn.
 ---@field irradiate fun(arg1: Character, arg2: number, arg3: boolean): boolean
 ---@field is_armed fun(arg1: Character): boolean
 ---@field is_blind fun(arg1: Character): boolean
@@ -286,9 +287,9 @@ function BodyPartTypeIntId.new() end
 ---@field mount_creature fun(arg1: Character, arg2: Monster)
 ---@field mutate fun(arg1: Character)
 ---@field mutate_category fun(arg1: Character, arg2: MutationCategoryTraitId)
----@field mutate_towards fun(arg1: Character, arg2: any, arg3: integer): boolean | fun(arg1: Character, arg2: MutationBranchId): boolean
----@field mutate_towards fun(arg1: Character, arg2: MutationBranchId): boolean
 ---@field mutate_towards fun(arg1: Character, arg2: any, arg3: integer): boolean
+---@field mutate_towards fun(arg1: Character, arg2: MutationBranchId): boolean
+---@field mutate_towards fun(arg1: Character, arg2: any, arg3: integer): boolean | fun(arg1: Character, arg2: MutationBranchId): boolean
 ---@field mutation_armor fun(arg1: Character, arg2: BodyPartTypeIntId, arg3: DamageType): number
 ---@field mutation_effect fun(arg1: Character, arg2: MutationBranchId)
 ---@field mutation_loss_effect fun(arg1: Character, arg2: MutationBranchId)
@@ -661,6 +662,7 @@ function FurnRaw.new() end
 ---@field can_contain fun(arg1: Item, arg2: Item): boolean @Checks if this item can contain another
 ---@field clear_vars fun(arg1: Item) @Erase all variables
 ---@field conductive fun(arg1: Item): boolean
+---@field convert fun(arg1: Item, arg2: ItypeId) @Converts the item as given `ItypeId`.
 ---@field covers fun(arg1: Item, arg2: BodyPartTypeIntId): boolean @Checks if the item covers a bodypart
 ---@field current_magazine fun(arg1: Item): Item @Gets the current magazine
 ---@field display_name fun(arg1: Item, arg2: integer): string @Display name with all bells and whistles like ammo and prefixes
@@ -745,8 +747,8 @@ function FurnRaw.new() end
 ---@field remove_technique fun(arg1: Item, arg2: MartialArtsTechniqueId) @Removes the additional technique. Doesn't affect originial techniques.
 ---@field set_flag fun(arg1: Item, arg2: JsonFlagId)
 ---@field set_flag_recursive fun(arg1: Item, arg2: JsonFlagId)
----@field set_owner fun(arg1: Item, arg2: Character) @Sets the ownership of this item to a character
 ---@field set_owner fun(arg1: Item, arg2: FactionId) @Sets the ownership of this item to a faction
+---@field set_owner fun(arg1: Item, arg2: Character) @Sets the ownership of this item to a character
 ---@field set_var_num fun(arg1: Item, arg2: string, arg3: number)
 ---@field set_var_str fun(arg1: Item, arg2: string, arg3: string)
 ---@field set_var_tri fun(arg1: Item, arg2: string, arg3: Tripoint)
@@ -815,6 +817,7 @@ function JsonTraitFlagId.new() end
 
 ---@class Map
 ---@field add_field_at fun(arg1: Map, arg2: Tripoint, arg3: FieldTypeIntId, arg4: integer, arg5: TimeDuration): boolean
+---@field clear_items_at fun(arg1: Map, arg2: Tripoint)
 ---@field create_corpse_at fun(arg1: Map, arg2: Tripoint, arg3: any, arg4: any, arg5: any, arg6: any) @Creates a new corpse at a position on the map. You can skip `Opt` ones by omitting them or passing `nil`. `MtypeId` specifies which monster's body it is, `TimePoint` indicates when it died, `string` gives it a custom name, and `int` determines the revival time if the monster has the `REVIVES` flag.
 ---@field create_item_at fun(arg1: Map, arg2: Tripoint, arg3: ItypeId, arg4: integer) @Creates a new item(s) at a position on the map.
 ---@field disarm_trap_at fun(arg1: Map, arg2: Tripoint) @Disarms a trap using your skills and stats, with consequences depending on success or failure.
@@ -833,6 +836,7 @@ function JsonTraitFlagId.new() end
 ---@field mod_field_age_at fun(arg1: Map, arg2: Tripoint, arg3: FieldTypeIntId, arg4: TimeDuration): TimeDuration
 ---@field mod_field_int_at fun(arg1: Map, arg2: Tripoint, arg3: FieldTypeIntId, arg4: integer): integer
 ---@field remove_field_at fun(arg1: Map, arg2: Tripoint, arg3: FieldTypeIntId)
+---@field remove_item_at fun(arg1: Map, arg2: Tripoint, arg3: Item)
 ---@field remove_trap_at fun(arg1: Map, arg2: Tripoint) @Simpler version of `set_trap_at` with `trap_null`.
 ---@field set_field_age_at fun(arg1: Map, arg2: Tripoint, arg3: FieldTypeIntId, arg4: TimeDuration, arg5: boolean): TimeDuration
 ---@field set_field_int_at fun(arg1: Map, arg2: Tripoint, arg3: FieldTypeIntId, arg4: integer, arg5: boolean): integer
