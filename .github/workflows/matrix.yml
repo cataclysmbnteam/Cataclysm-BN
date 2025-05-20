@@ -19,7 +19,7 @@ concurrency:
 jobs:
   skip-duplicates:
     continue-on-error: true
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-latest
     outputs:
       should_skip_code: ${{ steps.skip_code_check.outputs.should_skip }}
       should_skip_data: ${{ steps.skip_data_check.outputs.should_skip }}
@@ -42,7 +42,7 @@ jobs:
         include:
           - title: GCC, Ubuntu, Curses
             compiler: g++
-            os: ubuntu-24.04
+            os: ubuntu-latest
             cmake: 0
             tiles: 0
             sound: 0
@@ -55,7 +55,7 @@ jobs:
 
           - title: GCC, Ubuntu, Tiles, Sound, CMake, Languages
             compiler: g++
-            os: ubuntu-24.04
+            os: ubuntu-latest
             cmake: 1
             tiles: 1
             sound: 1
@@ -67,7 +67,7 @@ jobs:
 
           - title: GCC, Ubuntu, Tiles, Sound
             compiler: g++
-            os: ubuntu-24.04
+            os: ubuntu-latest
             cmake: 1
             tiles: 1
             sound: 1
@@ -80,7 +80,7 @@ jobs:
         # === Temporarily disabled because of #3664 ===
         #  - title: GCC, Ubuntu, Tiles, NoSound, ASan
         #    compiler: g++
-        #    os: ubuntu-24.04
+        #    os: ubuntu-latest
         #    cmake: 0
         #    tiles: 1
         #    sound: 0
@@ -92,7 +92,7 @@ jobs:
         # === Temporarily disabled because of #3664 ===
         #  - title: Clang 14, Ubuntu, Tiles, NoSound, ASan, UBSan
         #    compiler: clang++-14
-        #    os: ubuntu-24.04
+        #    os: ubuntu-latest
         #    cmake: 0
         #    tiles: 1
         #    sound: 0

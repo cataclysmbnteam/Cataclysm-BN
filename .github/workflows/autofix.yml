@@ -2,7 +2,17 @@ name: autofix.ci # needed to securely identify the workflow
 
 on:
   pull_request:
-    paths: ["**.json", "**.cpp", "**.hpp", "**.h", "**.c", "**.md", "**.ts", "**.lua"]
+    paths:
+      [
+        "**.json",
+        "**.cpp",
+        "**.hpp",
+        "**.h",
+        "**.c",
+        "**.md",
+        "**.ts",
+        "**.lua",
+      ]
 
 permissions:
   contents: read
@@ -12,7 +22,7 @@ env:
 
 jobs:
   autofix:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-latest
     permissions:
       contents: write
 
