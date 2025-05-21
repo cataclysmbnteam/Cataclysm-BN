@@ -195,7 +195,7 @@
     "anger_triggers": [ "NETHER_ATTENTION" ],
     "death_function": [ "DARKMAN" ],
     "regenerates_in_dark": true,
-    "flags": [ "NOHEAD", "HARDTOSHOOT", "WEBWALK", "FLIES", "PLASTIC", "COLDPROOF", "ACIDPROOF", "SUNDEATH", "NO_BREATHE" ]
+    "flags": [ "NOHEAD", "HARDTOSHOOT", "WEBWALK", "FLIES", "PLASTIC", "DARKPROOF", "ACIDPROOF", "SUNDEATH", "NO_BREATHE" ]
   },
   {
     "id": "mon_dementia",
@@ -508,7 +508,7 @@
       "WARM",
       "BASHES",
       "ARTHROPOD_BLOOD",
-      "COLDPROOF",
+      "DARKPROOF",
       "NO_BREATHE",
       "HARDTOSHOOT"
     ]
@@ -554,7 +554,7 @@
       "BASHES",
       "ARTHROPOD_BLOOD",
       "NO_BREATHE",
-      "COLDPROOF",
+      "DARKPROOF",
       "HARDTOSHOOT"
     ]
   },
@@ -618,7 +618,7 @@
       "HARDTOSHOOT",
       "FLIES",
       "PLASTIC",
-      "COLDPROOF",
+      "DARKPROOF",
       "SUNDEATH",
       "NO_BREATHE",
       "HIT_AND_RUN",
@@ -708,7 +708,7 @@
       "HARDTOSHOOT",
       "WEBWALK",
       "NO_BREATHE",
-      "COLDPROOF",
+      "DARKPROOF",
       "NIGHT_INVISIBILITY"
     ]
   },
@@ -750,7 +750,7 @@
       "FLIES",
       "PLASTIC",
       "SUNDEATH",
-      "COLDPROOF",
+      "DARKPROOF",
       "ACIDPROOF",
       "HIT_AND_RUN",
       "NO_BREATHE",
@@ -782,7 +782,7 @@
     "harvest": "exempt",
     "special_attacks": [ [ "DISAPPEAR", 200 ] ],
     "death_function": [ "MELT" ],
-    "flags": [ "SEES", "SMELLS", "WARM", "SWIMS", "PLASTIC", "COLDPROOF", "SUNDEATH", "NOGIB" ]
+    "flags": [ "SEES", "SMELLS", "WARM", "SWIMS", "PLASTIC", "DARKPROOF", "SUNDEATH", "NOGIB" ]
   },
   {
     "id": "mon_shoggoth",
