@@ -434,10 +434,10 @@ void cata::detail::reg_item( sol::state &lua )
         luna::set_fx( ut, "is_made_of", sol::resolve<bool (const material_id & ) const> ( &item::made_of ) );
 
         luna::set_fx( ut, "get_kcal", []( item & it ) -> int {
-            return it.get_comestible()->default_nutrition.kcal;
+            return it.is_comestible() ? it.get_comestible()->default_nutrition.kcal : 0 ;
         } );
         luna::set_fx( ut, "get_quench", []( item & it ) -> int {
-            return it.get_comestible()->quench;
+            return it.is_comestible() ? it.get_comestible()->quench : 0 ;
         } );
         luna::set_fx( ut, "get_comestible_fun", []( item & it ) -> int {
             return it.get_comestible_fun();
