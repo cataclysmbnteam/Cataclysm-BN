@@ -99,7 +99,7 @@ class melee_actor : public mattack_actor
         translation hit_dmg_npc;
 
         melee_actor();
-        ~melee_actor() override = default;
+        ~melee_actor() override;
 
         virtual Creature *find_target( monster &z ) const;
         virtual void on_damage( monster &z, Creature &target, dealt_damage_instance &dealt ) const;

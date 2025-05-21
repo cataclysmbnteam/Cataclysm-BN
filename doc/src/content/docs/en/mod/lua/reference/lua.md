@@ -1073,6 +1073,11 @@ Function `( Character, JsonFlagId, bool ) -> Vector( Item )`
 Gets all items
 Function `( Character, bool ) -> Vector( Item )`
 
+#### inv_remove_item
+
+Removes given `Item` from character's inventory. The `Item` must be in the inventory, neither wielded nor worn.
+Function `( Character, Item )`
+
 #### assign_activity
 
 Function `( Character, ActivityTypeId, int, int, int, string )`
@@ -2507,7 +2512,7 @@ Function `( Item ) -> bool`
 
 #### is_salvageable
 
-Function `( Item ) -> bool`
+Function `( Item, bool ) -> bool`
 
 #### is_craft
 
@@ -2639,6 +2644,26 @@ Function `( Item ) -> string`
 Checks if this item owned by a character
 Function `( Item, Character, bool ) -> bool`
 
+#### has_technique
+
+Checks if this item has the technique as an addition. Doesn't check original techniques.
+Function `( Item, MartialArtsTechniqueId ) -> bool`
+
+#### get_techniques
+
+Gets all techniques. Including original techniques.
+Function `( Item ) -> Set( MartialArtsTechniqueId )`
+
+#### add_technique
+
+Adds the technique. It isn't treated original, but additional.
+Function `( Item, MartialArtsTechniqueId )`
+
+#### remove_technique
+
+Removes the additional technique. Doesn't affect originial techniques.
+Function `( Item, MartialArtsTechniqueId )`
+
 #### can_contain
 
 Checks if this item can contain another
@@ -2735,6 +2760,11 @@ Function `( Item, JsonFlagId )`
 #### unset_flags
 
 Function `( Item )`
+
+#### convert
+
+Converts the item as given `ItypeId`.
+Function `( Item, ItypeId )`
 
 #### get_var_str
 
@@ -2986,6 +3016,14 @@ Function `( Map, Tripoint ) -> bool`
 
 Function `( Map, Tripoint ) -> <cppval: St10unique_ptrI9map_stackSt14default_deleteIS0_EE >`
 
+#### remove_item_at
+
+Function `( Map, Tripoint, Item )`
+
+#### clear_items_at
+
+Function `( Map, Tripoint )`
+
 #### get_ter_at
 
 Function `( Map, Tripoint ) -> TerIntId`
@@ -3124,6 +3162,58 @@ Function `( MartialArtsBuffId, <cppval: 7JsonOut > )`
 #### deserialize
 
 Function `( MartialArtsBuffId, <cppval: 6JsonIn > )`
+
+## MartialArtsTechniqueId
+
+### Bases
+
+No base classes.
+
+### Constructors
+
+#### `MartialArtsTechniqueId.new()`
+
+#### `MartialArtsTechniqueId.new( MartialArtsTechniqueId )`
+
+#### `MartialArtsTechniqueId.new( string )`
+
+### Members
+
+#### obj
+
+Function `( MartialArtsTechniqueId ) -> MartialArtsTechniqueRaw`
+
+#### implements_int_id
+
+Function `() -> bool`
+
+#### is_null
+
+Function `( MartialArtsTechniqueId ) -> bool`
+
+#### is_valid
+
+Function `( MartialArtsTechniqueId ) -> bool`
+
+#### str
+
+Function `( MartialArtsTechniqueId ) -> string`
+
+#### NULL_ID
+
+Function `() -> MartialArtsTechniqueId`
+
+#### __tostring
+
+Function `( MartialArtsTechniqueId ) -> string`
+
+#### serialize
+
+Function `( MartialArtsTechniqueId, <cppval: 7JsonOut > )`
+
+#### deserialize
+
+Function `( MartialArtsTechniqueId, <cppval: 6JsonIn > )`
 
 ## Mass
 
@@ -5537,7 +5627,7 @@ Variable of type `string`
 #### txt_color
 
 Entry text color. Its default color is `c_red_red`, which makes color of the entry same as what `uilist` decides. So if you want to make color different, choose one except `c_red_red`.
-Variable of type `<cppval: 8nc_color >`
+Function `( UiListEntry, Color )`
 
 ## Volume
 
@@ -6245,7 +6335,7 @@ Function `()`
 
 Function `() -> bool`
 
-## hooks_doc
+## hooks
 
 Documentation for hooks
 

@@ -174,6 +174,16 @@ void edit_json( SAVEOBJ &it )
 
 }
 
+class editmap::game_draw_callback_t_container
+{
+    public:
+        game_draw_callback_t_container( editmap *em ) : em( em ) {}
+        shared_ptr_fast<game::draw_callback_t> create_or_get();
+    private:
+        editmap *em;
+        weak_ptr_fast<game::draw_callback_t> cbw;
+};
+
 editmap::editmap()
 {
     sel_field = -1;
@@ -284,16 +294,6 @@ bool editmap::eget_direction( tripoint &p, const std::string &action ) const
     }
     return true;
 }
-
-class editmap::game_draw_callback_t_container
-{
-    public:
-        game_draw_callback_t_container( editmap *em ) : em( em ) {}
-        shared_ptr_fast<game::draw_callback_t> create_or_get();
-    private:
-        editmap *em;
-        weak_ptr_fast<game::draw_callback_t> cbw;
-};
 
 shared_ptr_fast<game::draw_callback_t> editmap::game_draw_callback_t_container::create_or_get()
 {
