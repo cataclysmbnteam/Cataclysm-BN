@@ -53,7 +53,7 @@
     "type": "uncraft",
     "copy-from": "metal_magazine",
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "scrap", 4 ] ] ]
+    "components": [ [ [ "scrap", 1 ] ] ]
   },
   {
     "result": "ump45_makeshiftmag",
