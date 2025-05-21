@@ -149,9 +149,9 @@ void cata::detail::reg_types( sol::state &lua )
         // This causes various weirdness, so let's omit the fields for now.
     }
     {
-        sol::usertype<material_type> ut = 
+        sol::usertype<material_type> ut =
             luna::new_usertype<material_type>( lua, luna::no_bases, luna::no_constructor );
-        
+
         luna::set_fx( ut, "str_id", &material_type::ident );
         luna::set_fx( ut, "name", &material_type::name );
     }

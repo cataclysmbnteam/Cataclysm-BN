@@ -116,8 +116,8 @@ class material_type
         const mat_burn_products &burn_products() const;
         const material_id_list &compact_accepts() const;
         const mat_compacts_into &compacts_into() const;
-        
-        LUA_TYPE_OPS(material_type, id);
+
+        LUA_TYPE_OPS( material_type, id );
 };
 
 namespace materials
