@@ -4,6 +4,7 @@ on:
   # push:
   #   branches: [main]
   #   paths: [ "**.cpp", "**.h", "**.c", "**/CMakeLists.txt", "**/Makefile", "**.hpp", "**.cmake", "build-scripts/**","tools/clang-tidy-plugin/**", ".github/workflows/clang-tidy.yml", "**/.clang-tidy" ]
+  workflow_dispatch:
   pull_request:
     branches: [main]
     paths:
@@ -46,8 +47,8 @@ jobs:
     runs-on: ubuntu-latest
     env:
       CMAKE: 1
-      CLANG: /usr/bin/clang++-18
-      COMPILER: /usr/bin/clang++-18
+      CLANG: /usr/bin/clang++-19
+      COMPILER: /usr/bin/clang++-19
       TILES: 1
       SOUND: 1
       BUILD_PATH: "build"
@@ -62,25 +63,25 @@ jobs:
           sudo apt-get update
           sudo apt-get install \
             cmake gettext ninja-build mold ccache jq \
-            clang-18 libclang-18-dev llvm-18 llvm-18-dev clang-tidy-18 \
+            clang-19 libclang-19-dev llvm-19 llvm-19-dev clang-tidy-19 \
             libsdl2-dev libsdl2-ttf-dev libsdl2-image-dev libsdl2-mixer-dev libpulse-dev libflac-dev \
             sqlite3 libsqlite3-dev zlib1g-dev
 
-      - name: ensure clang 18 is installed
+      - name: ensure clang 19 is installed
         run: |
-          if [ -z "$(command -v clang++-18)" ]; then
-            echo "clang 18 not found"
+          if [ -z "$(command -v clang++-19)" ]; then
+            echo "clang 19 not found"
             exit 1
           fi
-          ls -al /usr/lib/llvm-18/lib
-          if [ ! -d /usr/lib/llvm-18/lib ]; then
-            echo "llvm-18 not found"
+          ls -al /usr/lib/llvm-19/lib
+          if [ ! -d /usr/lib/llvm-19/lib ]; then
+            echo "llvm-19 not found"
             exit 1
           fi
 
-          sudo update-alternatives --install /usr/bin/clang++ clang++ /usr/bin/clang++-18 100
-          sudo update-alternatives --install /usr/bin/FileCheck FileCheck /usr/bin/FileCheck-18 100
-          sudo update-alternatives --install /usr/bin/llvm-config llvm-config /usr/bin/llvm-config-18 100
+          sudo update-alternatives --install /usr/bin/clang++ clang++ /usr/bin/clang++-19 100
+          sudo update-alternatives --install /usr/bin/FileCheck FileCheck /usr/bin/FileCheck-19 100
+          sudo update-alternatives --install /usr/bin/llvm-config llvm-config /usr/bin/llvm-config-19 100
 
       - name: Setup ccache
         uses: Chocobo1/setup-ccache-action@v1
