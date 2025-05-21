@@ -31,6 +31,7 @@
 #include "rng.h"
 #include "skill.h"
 #include "sounds.h"
+#include "stomach.h"
 #include "string_input_popup.h"
 #include "translations.h"
 #include "trap.h"
@@ -326,6 +327,21 @@ void cata::detail::reg_item( sol::state &lua )
         DOC( "Display name with all bells and whistles like ammo and prefixes" );
         luna::set_fx( ut, "display_name", &item::display_name );
 
+        DOC("Weight of the item. The first `bool` is whether including contents, second `bool` is whether it is `integral_weight`.");
+        luna::set_fx( ut, "weight", []( item &it, sol::optional<bool> incl_cont, sol::optional<bool> inte ) {
+            bool include_contents = incl_cont.value_or(true);
+            bool integral = inte.value_or(false);
+            return it.weight( include_contents, integral );
+        } );
+        DOC("Volume of the item. `bool` is whether it is `integral_volume`.");
+        luna::set_fx( ut, "volume", []( item &it, sol::optional<bool> inte ) {
+            bool integral = inte.value_or(false);
+            return it.volume( integral );
+        } );
+        
+        DOC("Cents of the item. `bool` is whether it is a post-cataclysm value.");
+        luna::set_fx( ut, "price", &item::price );
+
         DOC( "Check for variable of any type" );
         luna::set_fx( ut, "has_var", &item::has_var );
         DOC( "Erase variable" );
@@ -402,6 +418,8 @@ void cata::detail::reg_item( sol::state &lua )
 
         luna::set_fx( ut, "conductive", &item::conductive );
 
+        luna::set_fx( ut, "is_stackable", sol::resolve<bool() const> (&item::count_by_charges) );
+
         luna::set( ut, "charges", &item::charges );
 
         luna::set_fx( ut, "energy_remaining", &item::energy_remaining );
@@ -410,6 +428,19 @@ void cata::detail::reg_item( sol::state &lua )
 
         luna::set_fx( ut, "mod_charges", &item::mod_charges );
 
+        luna::set_fx( ut, "made_of", sol::resolve<const std::vector<material_id> &() const> ( &item::made_of ) );
+
+        luna::set_fx( ut, "is_made_of", sol::resolve<bool (const material_id & ) const> ( &item::made_of ) );
+
+        luna::set_fx( ut, "get_kcal", []( item & it ) -> int {
+            return it.get_comestible()->default_nutrition.kcal;
+        } );
+        luna::set_fx( ut, "get_quench", []( item & it ) -> int {
+            return it.get_comestible()->quench;
+        } );
+        luna::set_fx( ut, "get_comestible_fun", []( item & it ) -> int {
+            return it.get_comestible_fun();
+        } );
         DOC( "Gets the TimeDuration until this item rots" );
         luna::set_fx( ut, "get_rot", &item::get_rot );
 

@@ -2610,6 +2610,18 @@ Function `( Item ) -> bool`
 
 Function `( Item, int )`
 
+#### get_kcal
+
+Function `( Item ) -> int`
+
+#### get_quench
+
+Function `( Item ) -> int`
+
+#### get_comestible_fun
+
+Function `( Item ) -> int`
+
 #### get_rot
 
 Gets the TimeDuration until this item rots
@@ -3270,6 +3282,58 @@ Function `( Mass, Mass ) -> bool`
 #### __le
 
 Function `( Mass, Mass ) -> bool`
+
+## MaterialTypeId
+
+### Bases
+
+No base classes.
+
+### Constructors
+
+#### `MaterialTypeId.new()`
+
+#### `MaterialTypeId.new( MaterialTypeId )`
+
+#### `MaterialTypeId.new( string )`
+
+### Members
+
+#### obj
+
+Function `( MaterialTypeId ) -> MaterialTypeRaw`
+
+#### implements_int_id
+
+Function `() -> bool`
+
+#### is_null
+
+Function `( MaterialTypeId ) -> bool`
+
+#### is_valid
+
+Function `( MaterialTypeId ) -> bool`
+
+#### str
+
+Function `( MaterialTypeId ) -> string`
+
+#### NULL_ID
+
+Function `() -> MaterialTypeId`
+
+#### __tostring
+
+Function `( MaterialTypeId ) -> string`
+
+#### serialize
+
+Function `( MaterialTypeId, <cppval: 7JsonOut > )`
+
+#### deserialize
+
+Function `( MaterialTypeId, <cppval: 6JsonIn > )`
 
 ## Monster
 
