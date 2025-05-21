@@ -223,21 +223,21 @@ struct MinAdaptor {
 };
 
 template <typename Comp>
-constexpr auto max_by( Comp &&comp )
+inline auto max_by( Comp &&comp )
 {
     return MaxAdaptor<std::decay_t<Comp>>( std::forward<Comp>( comp ) );
 }
-constexpr auto max()
+inline auto max()
 {
     return MaxAdaptor( std::less{} );
 }
 
 template <typename Comp>
-constexpr auto min_by( Comp &&comp )
+inline auto min_by( Comp &&comp )
 {
     return MinAdaptor<std::decay_t<Comp>>( std::forward<Comp>( comp ) );
 }
-constexpr auto min()
+inline auto min()
 {
     return MinAdaptor( std::less{} );
 }
