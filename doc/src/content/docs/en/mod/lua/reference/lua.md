@@ -2347,6 +2347,21 @@ Function `( Item, int, bool, int ) -> string`
 Display name with all bells and whistles like ammo and prefixes
 Function `( Item, int ) -> string`
 
+#### weight
+
+Weight of the item. The first `bool` is whether including contents, second `bool` is whether it is `integral_weight`.
+Function `( Item, Opt( bool ), Opt( bool ) ) -> Mass`
+
+#### volume
+
+Volume of the item. `bool` is whether it is `integral_volume`.
+Function `( Item, Opt( bool ) ) -> Volume`
+
+#### price
+
+Cents of the item. `bool` is whether it is a post-cataclysm value.
+Function `( Item, bool ) -> int`
+
 #### has_var
 
 Check for variable of any type
@@ -2594,6 +2609,10 @@ Function `( Item ) -> bool`
 
 Function `( Item ) -> bool`
 
+#### is_stackable
+
+Function `( Item ) -> bool`
+
 #### charges
 
 Variable of type `int`
@@ -2609,6 +2628,14 @@ Function `( Item ) -> bool`
 #### mod_charges
 
 Function `( Item, int )`
+
+#### made_of
+
+Function `( Item ) -> <cppval: St6vectorI9string_idI13material_typeESaIS2_EE >`
+
+#### is_made_of
+
+Function `( Item, MaterialTypeId ) -> bool`
 
 #### get_kcal
 
@@ -3334,6 +3361,26 @@ Function `( MaterialTypeId, <cppval: 7JsonOut > )`
 #### deserialize
 
 Function `( MaterialTypeId, <cppval: 6JsonIn > )`
+
+## MaterialTypeRaw
+
+### Bases
+
+No base classes.
+
+### Constructors
+
+No constructors.
+
+### Members
+
+#### str_id
+
+Function `( MaterialTypeRaw ) -> MaterialTypeId`
+
+#### name
+
+Function `( MaterialTypeRaw ) -> string`
 
 ## Monster
 

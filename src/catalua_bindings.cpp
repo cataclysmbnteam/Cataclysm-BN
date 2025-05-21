@@ -21,6 +21,7 @@
 #include "itype.h"
 #include "map.h"
 #include "martialarts.h"
+#include "material.h"
 #include "messages.h"
 #include "monfaction.h"
 #include "monster.h"
