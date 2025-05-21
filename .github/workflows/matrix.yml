@@ -149,7 +149,7 @@ jobs:
         if: ${{ env.SKIP == 'false' && runner.os == 'Linux' }}
         run: |
           sudo apt-get update
-          sudo apt-get install libncursesw5-dev ccache gettext parallel libsqlite3-dev zlib1g-dev
+          sudo apt-get install gcc-14 libncursesw5-dev ccache gettext parallel libsqlite3-dev zlib1g-dev
           sudo locale-gen en_US.UTF-8 fr_FR.UTF-8 ru_RU.UTF-8
 
       - name: install SDL2 dependencies (ubuntu)
