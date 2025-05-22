@@ -1521,23 +1521,22 @@ int known_magic::max_mana( const Character &guy ) const
 
 double known_magic::mana_regen_rate( const Character &guy ) const
 {
-    bool is_flat_rate = get_option<bool>("MANA_REGEN_IS_FLAT");
+    bool is_flat_rate = get_option<bool>( "MANA_REGEN_IS_FLAT" );
     double base_rate;
-    if (!is_flat_rate) {
+    if( !is_flat_rate ) {
         // mana should replenish in hours_to_regen hours by default.
-        int hours_to_regen = get_option<int>("MANA_REGEN_HOURS_RATE");
-        double full_replenish = to_turns<double>( time_duration::from_hours(hours_to_regen) );
+        int hours_to_regen = get_option<int>( "MANA_REGEN_HOURS_RATE" );
+        double full_replenish = to_turns<double>( time_duration::from_hours( hours_to_regen ) );
         double capacity = max_mana( guy );
         base_rate = capacity / full_replenish;
-    }
-    else {
+    } else {
         // mana should regen at a rate of flat_rate by default
-        base_rate = get_option<int>("MANA_REGEN_FLAT") / to_turns<double>( 1_hours );
+        base_rate = get_option<int>( "MANA_REGEN_FLAT" ) / to_turns<double>( 1_hours );
     }
 
     double mut_mul = guy.mutation_value( "mana_regen_multiplier" );
     double natural_regen = std::max( 0.0, base_rate * mut_mul );
-    
+
 
     double ench_bonus = guy.bonus_from_enchantments( natural_regen, enchant_vals::mod::MANA_REGEN );
 
