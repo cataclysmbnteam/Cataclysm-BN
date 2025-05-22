@@ -2193,27 +2193,24 @@ inline void crafting_activity_actor::calc_all_moves( player_activity &act, Chara
     act.speed.calc_all_moves( who, reqs );
 }
 
-activity_speed crafting_activity_actor::speed_preset( Character &who, const recipe &rec )
-{
-    auto reqs = activity_reqs_adapter( rec );
-    auto speed = activity_speed();
-    speed.type = activity_id( "ACT_CRAFT" );
-    if( speed.type->assistable() ) {
-        speed.assistant_count = player_activity::get_assistants( who, [&rec]( bool ok,
-        const Character & guy ) {
-            return ok && assistant_capable( guy, rec );
-        }, 8 ).size();
-    }
-    speed.morale_factor_custom_formula = [&]( const Character & who ) {
-        return morale_factor_static( who, rec );
-    };
-    speed.bench_factor_custom_formula = [&]( bench_location & bench, const metric & metrics ) {
-        bench.wb_info.adjust_multiplier( metrics );
-    };
-
-    speed.calc_all_moves( who, reqs );
-    return speed;
-}
+//activity_speed crafting_activity_actor::speed_preset( Character &who, const recipe &rec )
+//{
+//    auto reqs = activity_reqs_adapter( rec, std::make_pair( target->weight(), target->volume() ) );
+//    auto speed = activity_speed();
+//    speed.type = activity_id( "ACT_CRAFT" );
+//    if( speed.type->assistable() ) {
+//        speed.assistant_count = player_activity::get_assistants( who, [&rec]( bool ok,
+//        const Character & guy ) {
+//            return ok && assistant_capable( guy, rec );
+//        }, 8 ).size();
+//    }
+//    speed.morale_factor_custom_formula = [&]( const Character & who ) {
+//        return morale_factor_static( who, rec );
+//    };
+//
+//    speed.calc_all_moves( who, reqs );
+//    return speed;
+//}
 
 void crafting_activity_actor::start( player_activity &act, Character &who )
 {

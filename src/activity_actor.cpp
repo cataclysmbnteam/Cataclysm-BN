@@ -80,7 +80,6 @@ static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 static const std::string has_thievery_witness( "has_thievery_witness" );
 
 int simple_task::to_counter() const
-int simple_task::to_counter() const
 {
     double ret = 10'000'000.0 / moves_total * ( moves_total - moves_left );
     return std::round( ret );
@@ -2182,6 +2181,7 @@ deserialize_functions = {
     { activity_id( "ACT_AUTODRIVE" ), &autodrive_activity_actor::deserialize },
     { activity_id( "ACT_BOLTCUTTING" ), &boltcutting_activity_actor::deserialize },
     { activity_id( "ACT_BUILD" ), &construction_activity_actor::deserialize },
+    { activity_id( "ACT_CRAFT" ), &crafting_activity_actor::deserialize },
     { activity_id( "ACT_DIG" ), &dig_activity_actor::deserialize },
     { activity_id( "ACT_DIG_CHANNEL" ), &dig_channel_activity_actor::deserialize },
     { activity_id( "ACT_DISASSEMBLE" ), &disassemble_activity_actor::deserialize },
@@ -2198,7 +2198,6 @@ deserialize_functions = {
     { activity_id( "ACT_THROW" ), &throw_activity_actor::deserialize },
     { activity_id( "ACT_ASSIST" ), &assist_activity_actor::deserialize },
     { activity_id( "ACT_LONGSALVAGE" ), &salvage_activity_actor::deserialize }
-    { activity_id( "ACT_CRAFT" ), &crafting_activity_actor::deserialize },
 };
 } // namespace activity_actors
 

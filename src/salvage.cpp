@@ -7,6 +7,7 @@
 
 #include "activity_speed.h"
 #include "character.h"
+#include "crafting.h"
 #include "flag.h"
 #include "game_inventory.h"
 #include "item.h"
