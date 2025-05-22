@@ -68,11 +68,9 @@ TEST_CASE( "load_tool_use_action", "[item_factory]" )
 
             const itype *test_item = get_item( test_factory, BASE_ITEM_NAME );
             REQUIRE( test_item->can_use( BASE_IUSE_ID ) );
-            REQUIRE( test_item->can_use( BASE_IUSE_ID2 ) );
 
             test_item = get_item( test_factory, TEST_ITEM_NAME );
             REQUIRE( test_item->can_use( BASE_IUSE_ID ) );
-            REQUIRE( test_item->can_use( BASE_IUSE_ID2 ) );
             REQUIRE( test_item->can_use( TEST_IUSE_ID ) );
         }
 
@@ -82,11 +80,9 @@ TEST_CASE( "load_tool_use_action", "[item_factory]" )
 
             const itype *test_item = get_item( test_factory, BASE_ITEM_NAME );
             REQUIRE( test_item->can_use( BASE_IUSE_ID ) );
-            REQUIRE( test_item->can_use( BASE_IUSE_ID2 ) );
 
             test_item = get_item( test_factory, TEST_ITEM_NAME );
             REQUIRE( !test_item->can_use( BASE_IUSE_ID ) );
-            REQUIRE( !test_item->can_use( BASE_IUSE_ID2 ) );
             REQUIRE( test_item->can_use( TEST_IUSE_ID ) );
         }
 

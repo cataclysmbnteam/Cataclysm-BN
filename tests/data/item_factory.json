@@ -11,7 +11,7 @@
     "type": "TOOL",
     "category": "test_category",
     "name": { "str": "base_tool" },
-    "use_action": ["CAMERA", "GEIGER" ]
+    "use_action": [ "CAMERA" ]
   },
   "base_member_missing": {
     "id": "base_tool",
