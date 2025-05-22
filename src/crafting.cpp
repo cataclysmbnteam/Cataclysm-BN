@@ -368,7 +368,7 @@ bool Character::making_would_work( const recipe_id &id_to_make, int batch_size )
     return check_eligible_containers_for_crafting( making, batch_size );
 }
 
-int player::available_assistant_count( const recipe &rec ) const
+int Character::available_assistant_count( const recipe &rec ) const
 {
     // NPCs around you should assist in batch production if they have the skills
     // TODO: Cache them in activity, include them in modifier calculations
@@ -379,13 +379,13 @@ int player::available_assistant_count( const recipe &rec ) const
     } );
 }
 
-int player::base_time_to_craft( const recipe &rec, int batch_size ) const
+int Character::base_time_to_craft( const recipe &rec, int batch_size ) const
 {
     const size_t assistants = available_assistant_count( rec );
     return rec.batch_time( batch_size, 1.0f, assistants );
 }
 
-int player::expected_time_to_craft( const recipe &rec, int batch_size, bool in_progress ) const
+int Character::expected_time_to_craft( const recipe &rec, int batch_size, bool in_progress ) const
 {
     const size_t assistants = available_assistant_count( rec );
     float modifier = crafting_speed_multiplier( *this, rec, in_progress );
@@ -1013,7 +1013,7 @@ void item::inherit_flags( const std::vector<item *> &parents, const recipe &maki
     }
 }
 
-void complete_craft( player &p, item &craft, const bench_location & )
+void complete_craft( Character &who, item &craft, const bench_location & )
 {
     if( !craft.is_craft() ) {
         debugmsg( "complete_craft() called on non-craft '%s.'  Aborting.", craft.tname() );
@@ -2332,15 +2332,15 @@ void remove_ammo( item &dis_item, Character &who )
     }
 }
 
-bench_location find_best_bench( const player &p, const item &craft )
+bench_location find_best_bench( const Character &who, const item &craft )
 {
-    bool can_lift = p.can_wield( craft ).success() && p.weight_capacity() >= craft.weight();
-    std::pair<bench_type, float> bench_here = crafting::best_bench_here( craft, p.pos(), can_lift );
+    bool can_lift = who.can_wield( craft ).success() && who.weight_capacity() >= craft.weight();
+    std::pair<bench_type, float> bench_here = crafting::best_bench_here( craft, who.pos(), can_lift );
     bench_type best_type = bench_here.first;
     float best_bench_multi = bench_here.second;
-    tripoint best_loc = p.pos();
+    tripoint best_loc = who.pos();
     std::vector<tripoint> reachable( PICKUP_RANGE * PICKUP_RANGE );
-    g->m.reachable_flood_steps( reachable, p.pos(), PICKUP_RANGE, 1, 100 );
+    g->m.reachable_flood_steps( reachable, who.pos(), PICKUP_RANGE, 1, 100 );
     for( const tripoint &adj : reachable ) {
         if( const cata::value_ptr<furn_workbench_info> &wb = g->m.furn( adj )->workbench ) {
             if( wb->multiplier > best_bench_multi ) {
