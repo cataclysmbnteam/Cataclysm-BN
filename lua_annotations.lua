@@ -14,10 +14,10 @@ game = {}
 --================---- Classes ----================
 
 ---@class ActivityTypeId
+---@field NULL_ID fun(): ActivityTypeId
 ---@field implements_int_id fun(): boolean
 ---@field is_null fun(arg1: ActivityTypeId): boolean
 ---@field is_valid fun(arg1: ActivityTypeId): boolean
----@field NULL_ID fun(): ActivityTypeId
 ---@field obj fun(arg1: ActivityTypeId): ActivityTypeRaw
 ---@field str fun(arg1: ActivityTypeId): string
 ---@field serialize fun(arg1: ActivityTypeId)
@@ -49,10 +49,10 @@ Avatar = {}
 function Avatar.new() end
 
 ---@class BionicDataId
+---@field NULL_ID fun(): BionicDataId
 ---@field implements_int_id fun(): boolean
 ---@field is_null fun(arg1: BionicDataId): boolean
 ---@field is_valid fun(arg1: BionicDataId): boolean
----@field NULL_ID fun(): BionicDataId
 ---@field obj fun(arg1: BionicDataId): BionicDataRaw
 ---@field str fun(arg1: BionicDataId): string
 ---@field serialize fun(arg1: BionicDataId)
@@ -65,11 +65,11 @@ BionicDataId = {}
 function BionicDataId.new() end
 
 ---@class BodyPartTypeId
+---@field NULL_ID fun(): BodyPartTypeId
 ---@field implements_int_id fun(): boolean
 ---@field int_id fun(arg1: BodyPartTypeId): BodyPartTypeIntId
 ---@field is_null fun(arg1: BodyPartTypeId): boolean
 ---@field is_valid fun(arg1: BodyPartTypeId): boolean
----@field NULL_ID fun(): BodyPartTypeId
 ---@field obj fun(arg1: BodyPartTypeId): BodyPartTypeRaw
 ---@field str fun(arg1: BodyPartTypeId): string
 ---@field serialize fun(arg1: BodyPartTypeId)
@@ -501,10 +501,10 @@ DealtDamageInstance = {}
 function DealtDamageInstance.new() end
 
 ---@class DiseaseTypeId
+---@field NULL_ID fun(): DiseaseTypeId
 ---@field implements_int_id fun(): boolean
 ---@field is_null fun(arg1: DiseaseTypeId): boolean
 ---@field is_valid fun(arg1: DiseaseTypeId): boolean
----@field NULL_ID fun(): DiseaseTypeId
 ---@field obj fun(arg1: DiseaseTypeId): DiseaseTypeRaw
 ---@field str fun(arg1: DiseaseTypeId): string
 ---@field serialize fun(arg1: DiseaseTypeId)
@@ -530,10 +530,10 @@ DistributionGridTracker = {}
 function DistributionGridTracker.new() end
 
 ---@class EffectTypeId
+---@field NULL_ID fun(): EffectTypeId
 ---@field implements_int_id fun(): boolean
 ---@field is_null fun(arg1: EffectTypeId): boolean
 ---@field is_valid fun(arg1: EffectTypeId): boolean
----@field NULL_ID fun(): EffectTypeId
 ---@field obj fun(arg1: EffectTypeId): EffectTypeRaw
 ---@field str fun(arg1: EffectTypeId): string
 ---@field serialize fun(arg1: EffectTypeId)
@@ -558,10 +558,10 @@ Energy = {}
 function Energy.new() end
 
 ---@class FactionId
+---@field NULL_ID fun(): FactionId
 ---@field implements_int_id fun(): boolean
 ---@field is_null fun(arg1: FactionId): boolean
 ---@field is_valid fun(arg1: FactionId): boolean
----@field NULL_ID fun(): FactionId
 ---@field obj fun(arg1: FactionId): FactionRaw
 ---@field str fun(arg1: FactionId): string
 ---@field serialize fun(arg1: FactionId)
@@ -580,11 +580,11 @@ FactionRaw = {}
 function FactionRaw.new() end
 
 ---@class FieldTypeId
+---@field NULL_ID fun(): FieldTypeId
 ---@field implements_int_id fun(): boolean
 ---@field int_id fun(arg1: FieldTypeId): FieldTypeIntId
 ---@field is_null fun(arg1: FieldTypeId): boolean
 ---@field is_valid fun(arg1: FieldTypeId): boolean
----@field NULL_ID fun(): FieldTypeId
 ---@field obj fun(arg1: FieldTypeId): FieldTypeRaw
 ---@field str fun(arg1: FieldTypeId): string
 ---@field serialize fun(arg1: FieldTypeId)
@@ -609,11 +609,11 @@ FieldTypeIntId = {}
 function FieldTypeIntId.new() end
 
 ---@class FurnId
+---@field NULL_ID fun(): FurnId
 ---@field implements_int_id fun(): boolean
 ---@field int_id fun(arg1: FurnId): FurnIntId
 ---@field is_null fun(arg1: FurnId): boolean
 ---@field is_valid fun(arg1: FurnId): boolean
----@field NULL_ID fun(): FurnId
 ---@field obj fun(arg1: FurnId): FurnRaw
 ---@field str fun(arg1: FurnId): string
 ---@field serialize fun(arg1: FurnId)
@@ -768,10 +768,10 @@ ItemStack = {}
 function ItemStack.new() end
 
 ---@class ItypeId
+---@field NULL_ID fun(): ItypeId
 ---@field implements_int_id fun(): boolean
 ---@field is_null fun(arg1: ItypeId): boolean
 ---@field is_valid fun(arg1: ItypeId): boolean
----@field NULL_ID fun(): ItypeId
 ---@field obj fun(arg1: ItypeId): ItypeRaw
 ---@field str fun(arg1: ItypeId): string
 ---@field serialize fun(arg1: ItypeId)
@@ -784,10 +784,10 @@ ItypeId = {}
 function ItypeId.new() end
 
 ---@class JsonFlagId
+---@field NULL_ID fun(): JsonFlagId
 ---@field implements_int_id fun(): boolean
 ---@field is_null fun(arg1: JsonFlagId): boolean
 ---@field is_valid fun(arg1: JsonFlagId): boolean
----@field NULL_ID fun(): JsonFlagId
 ---@field obj fun(arg1: JsonFlagId): JsonFlagRaw
 ---@field str fun(arg1: JsonFlagId): string
 ---@field serialize fun(arg1: JsonFlagId)
@@ -800,10 +800,10 @@ JsonFlagId = {}
 function JsonFlagId.new() end
 
 ---@class JsonTraitFlagId
+---@field NULL_ID fun(): JsonTraitFlagId
 ---@field implements_int_id fun(): boolean
 ---@field is_null fun(arg1: JsonTraitFlagId): boolean
 ---@field is_valid fun(arg1: JsonTraitFlagId): boolean
----@field NULL_ID fun(): JsonTraitFlagId
 ---@field obj fun(arg1: JsonTraitFlagId): JsonTraitFlagRaw
 ---@field str fun(arg1: JsonTraitFlagId): string
 ---@field serialize fun(arg1: JsonTraitFlagId)
@@ -854,10 +854,10 @@ MapStack = {}
 function MapStack.new() end
 
 ---@class MartialArtsBuffId
+---@field NULL_ID fun(): MartialArtsBuffId
 ---@field implements_int_id fun(): boolean
 ---@field is_null fun(arg1: MartialArtsBuffId): boolean
 ---@field is_valid fun(arg1: MartialArtsBuffId): boolean
----@field NULL_ID fun(): MartialArtsBuffId
 ---@field obj fun(arg1: MartialArtsBuffId): MartialArtsBuffRaw
 ---@field str fun(arg1: MartialArtsBuffId): string
 ---@field serialize fun(arg1: MartialArtsBuffId)
@@ -870,10 +870,10 @@ MartialArtsBuffId = {}
 function MartialArtsBuffId.new() end
 
 ---@class MartialArtsTechniqueId
+---@field NULL_ID fun(): MartialArtsTechniqueId
 ---@field implements_int_id fun(): boolean
 ---@field is_null fun(arg1: MartialArtsTechniqueId): boolean
 ---@field is_valid fun(arg1: MartialArtsTechniqueId): boolean
----@field NULL_ID fun(): MartialArtsTechniqueId
 ---@field obj fun(arg1: MartialArtsTechniqueId): MartialArtsTechniqueRaw
 ---@field str fun(arg1: MartialArtsTechniqueId): string
 ---@field serialize fun(arg1: MartialArtsTechniqueId)
@@ -943,11 +943,11 @@ Monster = {}
 function Monster.new() end
 
 ---@class MonsterFactionId
+---@field NULL_ID fun(): MonsterFactionId
 ---@field implements_int_id fun(): boolean
 ---@field int_id fun(arg1: MonsterFactionId): MonsterFactionIntId
 ---@field is_null fun(arg1: MonsterFactionId): boolean
 ---@field is_valid fun(arg1: MonsterFactionId): boolean
----@field NULL_ID fun(): MonsterFactionId
 ---@field obj fun(arg1: MonsterFactionId): MonsterFactionRaw
 ---@field str fun(arg1: MonsterFactionId): string
 ---@field serialize fun(arg1: MonsterFactionId)
@@ -972,10 +972,10 @@ MonsterFactionIntId = {}
 function MonsterFactionIntId.new() end
 
 ---@class MoraleTypeDataId
+---@field NULL_ID fun(): MoraleTypeDataId
 ---@field implements_int_id fun(): boolean
 ---@field is_null fun(arg1: MoraleTypeDataId): boolean
 ---@field is_valid fun(arg1: MoraleTypeDataId): boolean
----@field NULL_ID fun(): MoraleTypeDataId
 ---@field obj fun(arg1: MoraleTypeDataId): MoraleTypeDataRaw
 ---@field str fun(arg1: MoraleTypeDataId): string
 ---@field serialize fun(arg1: MoraleTypeDataId)
@@ -988,10 +988,10 @@ MoraleTypeDataId = {}
 function MoraleTypeDataId.new() end
 
 ---@class MtypeId
+---@field NULL_ID fun(): MtypeId
 ---@field implements_int_id fun(): boolean
 ---@field is_null fun(arg1: MtypeId): boolean
 ---@field is_valid fun(arg1: MtypeId): boolean
----@field NULL_ID fun(): MtypeId
 ---@field obj fun(arg1: MtypeId): MtypeRaw
 ---@field str fun(arg1: MtypeId): string
 ---@field serialize fun(arg1: MtypeId)
@@ -1004,10 +1004,10 @@ MtypeId = {}
 function MtypeId.new() end
 
 ---@class MutationBranchId
+---@field NULL_ID fun(): MutationBranchId
 ---@field implements_int_id fun(): boolean
 ---@field is_null fun(arg1: MutationBranchId): boolean
 ---@field is_valid fun(arg1: MutationBranchId): boolean
----@field NULL_ID fun(): MutationBranchId
 ---@field obj fun(arg1: MutationBranchId): MutationBranchRaw
 ---@field str fun(arg1: MutationBranchId): string
 ---@field serialize fun(arg1: MutationBranchId)
@@ -1095,10 +1095,10 @@ MutationBranchRaw = {}
 function MutationBranchRaw.new() end
 
 ---@class MutationCategoryTraitId
+---@field NULL_ID fun(): MutationCategoryTraitId
 ---@field implements_int_id fun(): boolean
 ---@field is_null fun(arg1: MutationCategoryTraitId): boolean
 ---@field is_valid fun(arg1: MutationCategoryTraitId): boolean
----@field NULL_ID fun(): MutationCategoryTraitId
 ---@field obj fun(arg1: MutationCategoryTraitId): MutationCategoryTraitRaw
 ---@field str fun(arg1: MutationCategoryTraitId): string
 ---@field serialize fun(arg1: MutationCategoryTraitId)
@@ -1228,10 +1228,10 @@ QueryPopup = {}
 function QueryPopup.new() end
 
 ---@class RecipeId
+---@field NULL_ID fun(): RecipeId
 ---@field implements_int_id fun(): boolean
 ---@field is_null fun(arg1: RecipeId): boolean
 ---@field is_valid fun(arg1: RecipeId): boolean
----@field NULL_ID fun(): RecipeId
 ---@field obj fun(arg1: RecipeId): RecipeRaw
 ---@field str fun(arg1: RecipeId): string
 ---@field serialize fun(arg1: RecipeId)
@@ -1244,10 +1244,10 @@ RecipeId = {}
 function RecipeId.new() end
 
 ---@class SkillId
+---@field NULL_ID fun(): SkillId
 ---@field implements_int_id fun(): boolean
 ---@field is_null fun(arg1: SkillId): boolean
 ---@field is_valid fun(arg1: SkillId): boolean
----@field NULL_ID fun(): SkillId
 ---@field obj fun(arg1: SkillId): SkillRaw
 ---@field str fun(arg1: SkillId): string
 ---@field serialize fun(arg1: SkillId)
@@ -1278,10 +1278,10 @@ SkillLevelMap = {}
 function SkillLevelMap.new() end
 
 ---@class SpeciesTypeId
+---@field NULL_ID fun(): SpeciesTypeId
 ---@field implements_int_id fun(): boolean
 ---@field is_null fun(arg1: SpeciesTypeId): boolean
 ---@field is_valid fun(arg1: SpeciesTypeId): boolean
----@field NULL_ID fun(): SpeciesTypeId
 ---@field obj fun(arg1: SpeciesTypeId): SpeciesTypeRaw
 ---@field str fun(arg1: SpeciesTypeId): string
 ---@field serialize fun(arg1: SpeciesTypeId)
@@ -1328,10 +1328,10 @@ SpellSimple = {}
 function SpellSimple.new() end
 
 ---@class SpellTypeId
+---@field NULL_ID fun(): SpellTypeId
 ---@field implements_int_id fun(): boolean
 ---@field is_null fun(arg1: SpellTypeId): boolean
 ---@field is_valid fun(arg1: SpellTypeId): boolean
----@field NULL_ID fun(): SpellTypeId
 ---@field obj fun(arg1: SpellTypeId): SpellTypeRaw
 ---@field str fun(arg1: SpellTypeId): string
 ---@field serialize fun(arg1: SpellTypeId)
@@ -1384,11 +1384,11 @@ SpellTypeRaw = {}
 function SpellTypeRaw.new() end
 
 ---@class TerId
+---@field NULL_ID fun(): TerId
 ---@field implements_int_id fun(): boolean
 ---@field int_id fun(arg1: TerId): TerIntId
 ---@field is_null fun(arg1: TerId): boolean
 ---@field is_valid fun(arg1: TerId): boolean
----@field NULL_ID fun(): TerId
 ---@field obj fun(arg1: TerId): TerRaw
 ---@field str fun(arg1: TerId): string
 ---@field serialize fun(arg1: TerId)
@@ -1481,11 +1481,11 @@ Tinymap = {}
 function Tinymap.new() end
 
 ---@class TrapId
+---@field NULL_ID fun(): TrapId
 ---@field implements_int_id fun(): boolean
 ---@field int_id fun(arg1: TrapId): TrapIntId
 ---@field is_null fun(arg1: TrapId): boolean
 ---@field is_valid fun(arg1: TrapId): boolean
----@field NULL_ID fun(): TrapId
 ---@field obj fun(arg1: TrapId): TrapRaw
 ---@field str fun(arg1: TrapId): string
 ---@field serialize fun(arg1: TrapId)

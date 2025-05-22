@@ -30,14 +30,14 @@ jobs:
             ext: zip
             content: application/zip
           - name: Linux Tiles x64
-            os: ubuntu-24.04
+            os: ubuntu-latest
             android: none
             tiles: 1
             artifact: linux-tiles-x64
             ext: tar.gz
             content: application/gzip
           - name: linux-curses-x64
-            os: ubuntu-24.04
+            os: ubuntu-latest
             android: none
             tiles: 0
             artifact: linux-curses-x64
@@ -68,19 +68,19 @@ jobs:
             ext: dmg
             content: application/x-apple-diskimage
           - name: Android x64
-            os: ubuntu-24.04
+            os: ubuntu-latest
             android: arm64
             artifact: android-x64
             ext: apk
             content: application/apk
           - name: Android x32
-            os: ubuntu-24.04
+            os: ubuntu-latest
             android: arm32
             artifact: android-x32
             ext: apk
             content: application/apk
           - name: Android Bundle
-            os: ubuntu-24.04
+            os: ubuntu-latest
             android: bundle
             artifact: android-bundle
             ext: aab
@@ -137,8 +137,11 @@ jobs:
         if: runner.os == 'Linux' && matrix.android == 'none'
         run: |
           sudo apt-get update
-          sudo apt-get install libncursesw5-dev libsdl2-dev libsdl2-ttf-dev libsdl2-image-dev \
+          sudo apt-get install gcc-14 libncursesw5-dev libsdl2-dev libsdl2-ttf-dev libsdl2-image-dev \
             libsdl2-mixer-dev libpulse-dev ccache gettext parallel libsqlite3-dev zlib1g-dev
+          sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-14 100
+          sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-14 100
+          g++ --version
 
       - name: Install runtime dependencies (mac)
         if: runner.os == 'macOS'
