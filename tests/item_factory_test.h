@@ -21,6 +21,7 @@ const std::string TEST_ITEM_SOURCE = "testing";
 const std::string USE_ACTION = "use_action";
 
 const std::string BASE_IUSE_ID = "CAMERA";
+const std::string BASE_IUSE_ID2 = "GEIGER";
 const std::string TEST_IUSE_ID = "MP3";
 
 const itype *get_item( Item_factory &test_factory, std::string name );
