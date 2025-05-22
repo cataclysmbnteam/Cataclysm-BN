@@ -28,14 +28,15 @@ TEST_CASE( "load_tool_use_action", "[item_factory]" )
         test_base_item.allow_omitted_members();
 
         test_factory.load_tool( test_base_item, TEST_ITEM_SOURCE );
-        const itype *test_item = get_item( test_factory, BASE_ITEM_NAME );
-        REQUIRE( test_item->can_use( BASE_IUSE_ID ) );
 
         SECTION( TEST_MEMBER_EXTENDS ) {
             test_factory.load_tool( test_extends, TEST_ITEM_SOURCE );
             test_factory.finalize();
-            const itype *test_item = get_item( test_factory, TEST_ITEM_NAME );
 
+            const itype *test_item = get_item( test_factory, BASE_ITEM_NAME );
+            REQUIRE( test_item->can_use( BASE_IUSE_ID ) );
+
+            test_item = get_item( test_factory, TEST_ITEM_NAME );
             REQUIRE( test_item->can_use( BASE_IUSE_ID ) );
             REQUIRE( test_item->can_use( TEST_IUSE_ID ) );
         }
@@ -43,8 +44,11 @@ TEST_CASE( "load_tool_use_action", "[item_factory]" )
         SECTION( TEST_MEMBER_SETS ) {
             test_factory.load_tool( test_sets, TEST_ITEM_SOURCE );
             test_factory.finalize();
-            const itype *test_item = get_item( test_factory, TEST_ITEM_NAME );
 
+            const itype *test_item = get_item( test_factory, BASE_ITEM_NAME );
+            REQUIRE( test_item->can_use( BASE_IUSE_ID ) );
+
+            test_item = get_item( test_factory, TEST_ITEM_NAME );
             REQUIRE( !test_item->can_use( BASE_IUSE_ID ) );
             REQUIRE( test_item->can_use( TEST_IUSE_ID ) );
         }
@@ -57,14 +61,15 @@ TEST_CASE( "load_tool_use_action", "[item_factory]" )
         test_base_item.allow_omitted_members();
 
         test_factory.load_tool( test_base_item, TEST_ITEM_SOURCE );
-        const itype *test_item = get_item( test_factory, BASE_ITEM_NAME );
-        REQUIRE( test_item->can_use( BASE_IUSE_ID ) );
 
         SECTION( TEST_MEMBER_EXTENDS ) {
             test_factory.load_tool( test_extends, TEST_ITEM_SOURCE );
             test_factory.finalize();
-            const itype *test_item = get_item( test_factory, TEST_ITEM_NAME );
 
+            const itype *test_item = get_item( test_factory, BASE_ITEM_NAME );
+            REQUIRE( test_item->can_use( BASE_IUSE_ID ) );
+
+            test_item = get_item( test_factory, TEST_ITEM_NAME );
             REQUIRE( test_item->can_use( BASE_IUSE_ID ) );
             REQUIRE( test_item->can_use( TEST_IUSE_ID ) );
         }
@@ -72,8 +77,11 @@ TEST_CASE( "load_tool_use_action", "[item_factory]" )
         SECTION( TEST_MEMBER_SETS ) {
             test_factory.load_tool( test_sets, TEST_ITEM_SOURCE );
             test_factory.finalize();
-            const itype *test_item = get_item( test_factory, TEST_ITEM_NAME );
 
+            const itype *test_item = get_item( test_factory, BASE_ITEM_NAME );
+            REQUIRE( test_item->can_use( BASE_IUSE_ID ) );
+
+            test_item = get_item( test_factory, TEST_ITEM_NAME );
             REQUIRE( !test_item->can_use( BASE_IUSE_ID ) );
             REQUIRE( test_item->can_use( TEST_IUSE_ID ) );
         }
@@ -86,22 +94,26 @@ TEST_CASE( "load_tool_use_action", "[item_factory]" )
         test_base_item.allow_omitted_members();
 
         test_factory.load_tool( test_base_item, TEST_ITEM_SOURCE );
-        const itype *test_item = get_item( test_factory, BASE_ITEM_NAME );
-        REQUIRE( test_item->has_use( ) == false );
 
         SECTION( TEST_MEMBER_EXTENDS ) {
             test_factory.load_tool( test_extends, TEST_ITEM_SOURCE );
             test_factory.finalize();
-            const itype *test_item = get_item( test_factory, TEST_ITEM_NAME );
 
+            const itype *test_item = get_item( test_factory, BASE_ITEM_NAME );
+            REQUIRE( test_item->has_use( ) == false );
+
+            test_item = get_item( test_factory, TEST_ITEM_NAME );
             REQUIRE( test_item->can_use( TEST_IUSE_ID ) );
         }
 
         SECTION( TEST_MEMBER_SETS ) {
             test_factory.load_tool( test_sets, TEST_ITEM_SOURCE );
             test_factory.finalize();
-            const itype *test_item = get_item( test_factory, TEST_ITEM_NAME );
 
+            const itype *test_item = get_item( test_factory, BASE_ITEM_NAME );
+            REQUIRE( test_item->has_use( ) == false );
+
+            test_item = get_item( test_factory, TEST_ITEM_NAME );
             REQUIRE( test_item->can_use( TEST_IUSE_ID ) );
         }
     }
