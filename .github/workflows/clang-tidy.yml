@@ -63,25 +63,17 @@ jobs:
           sudo apt-get update
           sudo apt-get install \
             cmake gettext ninja-build mold ccache jq \
-            clang-19 libclang-19-dev llvm-19 llvm-19-dev clang-tidy-19 \
             libsdl2-dev libsdl2-ttf-dev libsdl2-image-dev libsdl2-mixer-dev libpulse-dev libflac-dev \
             sqlite3 libsqlite3-dev zlib1g-dev
 
-      - name: ensure clang 19 is installed
-        run: |
-          if [ -z "$(command -v clang++-19)" ]; then
-            echo "clang 19 not found"
-            exit 1
-          fi
-          ls -al /usr/lib/llvm-19/lib
-          if [ ! -d /usr/lib/llvm-19/lib ]; then
-            echo "llvm-19 not found"
-            exit 1
-          fi
+          VERSION=20
+          wget https://apt.llvm.org/llvm.sh
+          chmod +x ./llvm.sh
+          sudo ./llvm.sh $VERSION all
+          for bin in clang clang++ clang-format clang-tidy run-clang-tidy; do
+            sudo update-alternatives --install /usr/bin/$bin $bin /usr/bin/$bin-$VERSION 200
+          done
 
-          sudo update-alternatives --install /usr/bin/clang++ clang++ /usr/bin/clang++-19 100
-          sudo update-alternatives --install /usr/bin/FileCheck FileCheck /usr/bin/FileCheck-19 100
-          sudo update-alternatives --install /usr/bin/llvm-config llvm-config /usr/bin/llvm-config-19 100
 
       - name: Setup ccache
         uses: Chocobo1/setup-ccache-action@v1
