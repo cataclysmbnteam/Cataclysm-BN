@@ -136,8 +136,6 @@ class crafting_activity_actor : public activity_actor
         void do_turn( player_activity &, Character & ) override;
         void finish( player_activity &act, Character &who ) override;
 
-        void adjust_bench_multiplier( bench_location &bench, const metric &metrics ) const override;
-
         float calc_morale_factor( const Character &who ) const override;
         bool assistant_capable( const Character &who ) const override;
         static bool assistant_capable( const Character &who, const recipe &recipe );
@@ -281,8 +279,6 @@ class disassemble_activity_actor : public activity_actor
         void start( player_activity &act, Character &who ) override;
         void do_turn( player_activity &, Character & ) override;
         void finish( player_activity &act, Character &who ) override;
-
-        void adjust_bench_multiplier( bench_location &bench, const metric &metrics ) const override;
 
         void serialize( JsonOut &jsout ) const override;
         static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );

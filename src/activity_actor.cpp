@@ -113,11 +113,6 @@ inline void activity_actor::calc_all_moves( player_activity &act, Character &who
     act.speed.calc_all_moves( who );
 }
 
-inline void activity_actor::adjust_bench_multiplier( bench_location &bench, const metric & ) const
-{
-    bench.wb_info.multiplier_adjusted = bench.wb_info.multiplier;
-}
-
 aim_activity_actor::aim_activity_actor() : fake_weapon( new fake_item_location() )
 {
     initial_view_offset = get_avatar().view_offset;
@@ -728,12 +723,6 @@ void disassemble_activity_actor::finish( player_activity &act, Character &who )
     if( recurse ) {
         crafting::disassemble_all( *who.as_avatar(), recurse );
     }
-}
-
-void disassemble_activity_actor::adjust_bench_multiplier( bench_location &bench,
-        const metric &metrics ) const
-{
-    bench.wb_info.adjust_multiplier( metrics );
 }
 
 void disassemble_activity_actor::serialize( JsonOut &jsout ) const

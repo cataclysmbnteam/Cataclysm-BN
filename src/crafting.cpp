@@ -2140,12 +2140,6 @@ int charges_for_continuing( int full_charges )
 
 } // namespace crafting
 
-inline void crafting_activity_actor::adjust_bench_multiplier( bench_location &bench,
-        const metric &metrics ) const
-{
-    bench.wb_info.adjust_multiplier( metrics );
-}
-
 static float morale_factor_static( const Character &who, const recipe &rec )
 {
     const int morale = who.get_morale_level();
@@ -2189,7 +2183,7 @@ void crafting_activity_actor::serialize( JsonOut &jsout ) const
 
 inline void crafting_activity_actor::calc_all_moves( player_activity &act, Character &who )
 {
-    auto reqs = activity_reqs_adapter( rec, target->weight(), target->volume() );
+    auto reqs = activity_reqs_adapter( rec, std::make_pair( target->weight(), target->volume() ) );
     act.speed.calc_all_moves( who, reqs );
 }
 

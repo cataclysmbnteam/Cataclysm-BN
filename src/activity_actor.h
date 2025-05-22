@@ -10,6 +10,8 @@
 #include "calendar.h"
 #include "type_id.h"
 #include "units.h"
+#include "units_mass.h"
+#include "units_volume.h"
 
 class avatar;
 class Character;
@@ -17,8 +19,6 @@ class JsonIn;
 class JsonOut;
 class player_activity;
 class inventory;
-
-struct bench_location;
 
 using metric = std::pair<units::mass, units::volume>;
 
@@ -268,8 +268,6 @@ class activity_actor
         virtual bool assistant_capable( const Character &/*who*/ ) const {
             return true;
         }
-
-        virtual void adjust_bench_multiplier( bench_location &bench, const metric & ) const;
 
         /*
          * actor specific formula for speed factor based on skills
