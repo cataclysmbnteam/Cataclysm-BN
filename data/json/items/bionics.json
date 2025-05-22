@@ -972,7 +972,7 @@
     "type": "BIONIC_ITEM",
     "name": { "str": "Teleportation Unit CBM" },
     "looks_like": "bio_int_enhancer",
-    "description": "This highly experimental unit folds space over short distances, instantly transporting the user's body up to 25 feet in a random duration at the cost of much power.  Note that prolonged or frequent use may have dangerous side effects.",
+    "description": "This highly experimental unit folds space over short distances, instantly transporting the user's body up to 25 feet in a random direction at the cost of much power.  Note that prolonged or frequent use may have dangerous side effects.",
     "price": "7 kUSD",
     "difficulty": 7
   },

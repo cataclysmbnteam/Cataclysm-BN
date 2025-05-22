@@ -5856,8 +5856,7 @@ static bool einkpc_download_memory_card( player &p, item &eink, item &mc )
                     const int old_quality = atoi( chq );
 
                     if( quality > old_quality ) {
-                        chq = string_format( "%d", quality ).data();
-                        photos[strqpos] = *chq;
+                        photos[strqpos] = string_format( "%d", quality )[0];
                     }
                 }
 
@@ -7125,7 +7124,7 @@ int iuse::camera( player *p, item *it, bool, const tripoint & )
                               e.c_str() );
                 }
 
-                const bool selfie = std::find( player_vec.begin(), player_vec.end(), p ) != player_vec.end();
+                const bool selfie = std::ranges::find( player_vec, p ) != player_vec.end();
 
                 if( selfie ) {
                     p->add_msg_if_player( _( "You took a selfie." ) );

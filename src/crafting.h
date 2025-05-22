@@ -8,6 +8,7 @@
 #include "mapdata.h"
 #include "ret_val.h"
 #include "type_id.h"
+#include "activity_speed_adapters.h"
 
 class avatar;
 class Character;

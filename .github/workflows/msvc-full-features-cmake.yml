@@ -41,6 +41,7 @@ concurrency:
   cancel-in-progress: true
 
 env:
+  VCPKG_BINARY_SOURCES: "clear;x-gha,readwrite"
   # There's not enough disk space to build both release and debug versions of
   # our dependencies, so we hack the triplet file to build only release versions
   # Have to use github.workspace because runner namespace isn't available yet.
@@ -51,7 +52,7 @@ env:
 jobs:
   build_catatclysm:
     name: Build
-    runs-on: windows-2019
+    runs-on: windows-latest
     if: github.event.pull_request.draft == false
 
     steps:
@@ -61,7 +62,9 @@ jobs:
           fetch-depth: 1
 
       - name: Add msbuild to PATH
-        uses: microsoft/setup-msbuild@v1.3.1
+        uses: microsoft/setup-msbuild@v2
+        with:
+          vs-version: 17.13
 
       - name: Remove Strawberry Perl from PATH
         run: |
@@ -76,6 +79,14 @@ jobs:
 
       - name: Install stable CMake
         uses: lukka/get-cmake@v3.31.6
+
+      # https://learn.microsoft.com/en-us/vcpkg/consume/binary-caching-github-actions-cache#1---export-required-github-actions-environment-variables
+      - name: Export GitHub Actions cache environment variables
+        uses: actions/github-script@v7
+        with:
+          script: |
+            core.exportVariable("ACTIONS_CACHE_URL", process.env.ACTIONS_CACHE_URL || "")
+            core.exportVariable("ACTIONS_RUNTIME_TOKEN", process.env.ACTIONS_RUNTIME_TOKEN || "")
 
       - name: Install vcpkg
         uses: lukka/run-vcpkg@main

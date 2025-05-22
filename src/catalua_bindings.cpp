@@ -20,6 +20,7 @@
 #include "game.h"
 #include "itype.h"
 #include "map.h"
+#include "martialarts.h"
 #include "messages.h"
 #include "monfaction.h"
 #include "monster.h"
@@ -30,6 +31,7 @@
 #include "rng.h"
 #include "skill.h"
 #include "sounds.h"
+#include "string_input_popup.h"
 #include "translations.h"
 #include "trap.h"
 #include "type_id.h"
@@ -313,6 +315,10 @@ void cata::detail::reg_item( sol::state &lua )
         sol::usertype<item> ut = luna::new_usertype<item>( lua, luna::no_bases, luna::no_constructor );
 
         luna::set_fx( ut, "get_type", &item::typeId );
+        DOC( "Almost for a corpse." );
+        luna::set_fx( ut, "get_mtype", []( const item & it ) {
+            return it.get_mtype() ? it.get_mtype()->id : mtype_id::NULL_ID();
+        } );
 
         DOC( "Translated item name with prefixes" );
         luna::set_fx( ut, "tname", &item::tname );
@@ -428,6 +434,19 @@ void cata::detail::reg_item( sol::state &lua )
         DOC( "Checks if this item owned by a character" );
         luna::set_fx( ut, "is_owned_by", &item::is_owned_by );
 
+        DOC( "Checks if this item has the technique as an addition. Doesn't check original techniques." );
+        luna::set_fx( ut, "has_technique",
+                      sol::resolve<bool( const matec_id & ) const> ( &item::has_technique ) );
+        DOC( "Gets all techniques. Including original techniques." );
+        luna::set_fx( ut, "get_techniques",
+                      sol::resolve<std::set<matec_id>() const> ( &item::get_techniques ) );
+        DOC( "Adds the technique. It isn't treated original, but additional." );
+        luna::set_fx( ut, "add_technique",
+                      sol::resolve<void( const matec_id & )> ( &item::add_technique ) );
+        DOC( "Removes the additional technique. Doesn't affect originial techniques." );
+        luna::set_fx( ut, "remove_technique",
+                      sol::resolve<void( const matec_id & )> ( &item::remove_technique ) );
+
         DOC( "Checks if this item can contain another" );
         luna::set_fx( ut, "can_contain",
                       sol::resolve<bool( const item & ) const>
@@ -477,6 +496,9 @@ void cata::detail::reg_item( sol::state &lua )
         luna::set_fx( ut, "set_flag_recursive", &item::set_flag_recursive );
         luna::set_fx( ut, "unset_flags", &item::unset_flags );
 
+        DOC( "Converts the item as given `ItypeId`." );
+        luna::set_fx( ut, "convert", &item::convert );
+
         DOC( "Get variable as string" );
         luna::set_fx( ut, "get_var_str",
                       sol::resolve<std::string( const std::string &, const std::string & ) const>
@@ -523,10 +545,29 @@ void cata::detail::reg_map( sol::state &lua )
             m.add_item_or_charges( p, std::move( new_item ) );
         } );
 
+        DOC( "Creates a new corpse at a position on the map. You can skip `Opt` ones by omitting them or passing `nil`. `MtypeId` specifies which monster's body it is, `TimePoint` indicates when it died, `string` gives it a custom name, and `int` determines the revival time if the monster has the `REVIVES` flag." );
+        luna::set_fx( ut, "create_corpse_at", []( map & m, const tripoint & p,
+                      sol::optional<mtype_id> mtype,
+                      sol::optional<time_point> turn, sol::optional<std::string> name,
+        sol::optional<int> upgrade_time ) -> void {
+            mtype_id the_id = mtype.value_or( mtype_id::NULL_ID() );
+            time_point the_tp = turn.value_or( calendar::turn );
+            std::string the_name = name.value_or( "" );
+            int the_upgrade = upgrade_time.value_or( -1 );
+
+            detached_ptr<item> new_corpse = item::make_corpse( the_id, the_tp, the_name, the_upgrade );
+            m.add_item_or_charges( p, std::move( new_corpse ) );
+        } );
 
         luna::set_fx( ut, "has_items_at", &map::has_items );
         luna::set_fx( ut, "get_items_at", []( map & m, const tripoint & p ) -> std::unique_ptr<map_stack> {
             return std::make_unique<map_stack>( m.i_at( p ) );
+        } );
+        luna::set_fx( ut, "remove_item_at", []( map & m, const tripoint & p, item * it ) -> void {
+            m.i_rem( p, it );
+        } );
+        luna::set_fx( ut, "clear_items_at", []( map & m, const tripoint & p ) -> void {
+            m.i_clear( p );
         } );
 
 
@@ -633,17 +674,83 @@ void cata::detail::reg_ui_elements( sol::state &lua )
                 uilist()
                 > ()
             );
+        DOC( "Sets title which is on the top line." );
         luna::set_fx( ut, "title", []( uilist & ui, const std::string & text ) {
             ui.title = text;
         } );
-        DOC( "Return value, text" );
+        DOC( "Sets text which is in upper box." );
+        luna::set_fx( ut, "text", []( uilist & ui, const std::string & input ) {
+            ui.text = input;
+        } );
+        DOC( "Sets footer text which is in lower box. It overwrites descs of entries unless is empty." );
+        luna::set_fx( ut, "footer", []( uilist & ui, const std::string & text ) {
+            ui.footer_text = text;
+        } );
+        DOC( "Puts a lower box. Footer or entry desc appears on it." );
+        luna::set_fx( ut, "desc_enabled", []( uilist & ui, bool value ) {
+            ui.desc_enabled = value;
+        } );
+        DOC( "Adds an entry. `string` is its name, and `int` is what it returns. If `int` is `-1`, the number is decided orderly." );
         luna::set_fx( ut, "add", []( uilist & ui, int retval, const std::string & text ) {
             ui.addentry( retval, true, MENU_AUTOASSIGN, text );
+        } );
+        DOC( "Adds an entry with desc(second `string`). `desc_enabled(true)` is required for showing desc." );
+        luna::set_fx( ut, "add_w_desc", []( uilist & ui, int retval, const std::string & text,
+        const std::string & desc ) {
+            ui.addentry_desc( retval, true, MENU_AUTOASSIGN, text, desc );
+        } ) ;
+        DOC( "Adds an entry with desc and col(third `string`). col is additional text on the right of the entry name." );
+        luna::set_fx( ut, "add_w_col", []( uilist & ui, int retval, const std::string & text,
+        const std::string & desc, const std::string col ) {
+            ui.addentry_col( retval, true, MENU_AUTOASSIGN, text, col, desc );
+        } );
+        DOC( "Entries from uilist. Remember, in lua, the first element of vector is `entries[1]`, not `entries[0]`." );
+        luna::set( ut, "entries", &uilist::entries );
+        DOC( "Changes the color. Default color is `c_magenta`." );
+        luna::set_fx( ut, "border_color", []( uilist & ui, color_id col ) {
+            ui.border_color = get_all_colors().get( col ) ;
+        } );
+        DOC( "Changes the color. Default color is `c_light_gray`." );
+        luna::set_fx( ut, "text_color", []( uilist & ui, color_id col ) {
+            ui.text_color = get_all_colors().get( col ) ;
+        } );
+        DOC( "Changes the color. Default color is `c_green`." );
+        luna::set_fx( ut, "title_color", []( uilist & ui, color_id col ) {
+            ui.title_color = get_all_colors().get( col ) ;
+        } );
+        DOC( "Changes the color. Default color is `h_white`." );
+        luna::set_fx( ut, "hilight_color", []( uilist & ui, color_id col ) {
+            ui.hilight_color = get_all_colors().get( col ) ;
+        } );
+        DOC( "Changes the color. Default color is `c_light_green`." );
+        luna::set_fx( ut, "hotkey_color", []( uilist & ui, color_id col ) {
+            ui.hotkey_color = get_all_colors().get( col ) ;
         } );
         DOC( "Returns retval for selected entry, or a negative number on fail/cancel" );
         luna::set_fx( ut, "query", []( uilist & ui ) {
             ui.query();
             return ui.ret;
+        } );
+    }
+    {
+        DOC( "This type came from UiList." );
+        sol::usertype<uilist_entry> ut =
+            luna::new_usertype<uilist_entry>(
+                lua,
+                luna::no_bases,
+                luna::no_constructor
+            );
+        DOC( "Entry whether it's enabled or not. Default is `true`." );
+        luna::set( ut, "enable", &uilist_entry::enabled );
+        DOC( "Entry text" );
+        luna::set( ut, "txt", &uilist_entry::txt );
+        DOC( "Entry description" );
+        luna::set( ut, "desc", &uilist_entry::desc );
+        DOC( "Entry text of column." );
+        luna::set( ut, "ctxt",  &uilist_entry::ctxt );
+        DOC( "Entry text color. Its default color is `c_red_red`, which makes color of the entry same as what `uilist` decides. So if you want to make color different, choose one except `c_red_red`." );
+        luna::set_fx( ut, "txt_color", []( uilist_entry & ui_entry, color_id col ) {
+            ui_entry.text_color = get_all_colors().get( col );
         } );
     }
 
@@ -669,6 +776,54 @@ void cata::detail::reg_ui_elements( sol::state &lua )
         DOC( "Returns selected action" );
         luna::set_fx( ut, "query", []( query_popup & popup ) {
             return popup.query().action;
+        } );
+        DOC( "Returns `YES` or `NO`. If ESC pressed, returns `NO`." );
+        luna::set_fx( ut, "query_yn", []( query_popup & popup ) {
+            return popup
+                   .context( "YESNO" )
+                   .option( "YES" )
+                   .option( "NO" )
+                   .query()
+                   .action;
+        } );
+        DOC( "Returns `YES`, `NO` or `QUIT`. If ESC pressed, returns `QUIT`." );
+        luna::set_fx( ut, "query_ynq", []( query_popup & popup ) {
+            return popup
+                   .context( "YESNOQUIT" )
+                   .option( "YES" )
+                   .option( "NO" )
+                   .option( "QUIT" )
+                   .query()
+                   .action;
+        } );
+    }
+
+    {
+        sol::usertype<string_input_popup> ut =
+            luna::new_usertype<string_input_popup>(
+                lua,
+                luna::no_bases,
+                luna::constructors <
+                string_input_popup()
+                > ()
+            );
+        DOC( "`title` is on the left of input field." );
+        luna::set_fx( ut, "title", []( string_input_popup & sipop, const std::string & text ) {
+            sipop.title( text );
+        } );
+        DOC( "`desc` is above input field." );
+        luna::set_fx( ut, "desc", []( string_input_popup & sipop, const std::string & text ) {
+            sipop.description( text );
+        } );
+        DOC( "Returns your input." );
+        luna::set_fx( ut, "query_str", []( string_input_popup & sipop ) {
+            sipop.only_digits( false );
+            return sipop.query_string();
+        } );
+        DOC( "Returns your input, but allows numbers only." );
+        luna::set_fx( ut, "query_int", []( string_input_popup & sipop ) {
+            sipop.only_digits( true );
+            return sipop.query_int();
         } );
     }
 }
@@ -823,6 +978,9 @@ void cata::detail::reg_game_api( sol::state &lua )
             return g->critter_at<monster>( p, *allow_hallucination );
         }
         return g->critter_at<monster>( p );
+    } );
+    luna::set_fx( lib, "place_monster_at", []( const mtype_id & id, const tripoint & p ) {
+        return g->place_critter_at( id, p );
     } );
     luna::set_fx( lib, "get_character_at", []( const tripoint & p,
     sol::optional<bool> allow_hallucination ) -> Character * {
@@ -980,7 +1138,7 @@ void cata::detail::reg_enums( sol::state &lua )
 void cata::detail::reg_hooks_examples( sol::state &lua )
 {
     DOC( "Documentation for hooks" );
-    luna::userlib lib = luna::begin_lib( lua, "hooks_doc" );
+    luna::userlib lib = luna::begin_lib( lua, "hooks" );
 
     DOC( "Called when game is about to save" );
     luna::set_fx( lib, "on_game_save", []() {} );

@@ -10,6 +10,7 @@
 #include <memory>
 #include <numeric>
 #include <ostream>
+#include <ranges>
 #include <type_traits>
 
 #include "action.h"
@@ -657,7 +658,7 @@ auto Character::is_dead_state() const -> bool
     }
 
     const auto all_bps = get_all_body_parts( true );
-    cached_dead_state = std::any_of( all_bps.begin(), all_bps.end(), [this]( const bodypart_id & bp ) {
+    cached_dead_state = std::ranges::any_of( all_bps, [this]( const bodypart_id & bp ) {
         return bp->essential && get_part_hp_cur( bp ) <= 0;
     } );
     return cached_dead_state.value();
@@ -2758,7 +2759,7 @@ std::list<item *> Character::get_dependent_worn_items( const item &it ) const
             if( wit == &it || !wit->is_worn_only_with( it ) ) {
                 continue;
             }
-            const auto iter = std::find_if( dependent.begin(), dependent.end(),
+            const auto iter = std::ranges::find_if( dependent,
             [&wit]( const item * dit ) {
                 return wit == dit;
             } );
@@ -3349,7 +3350,7 @@ bool Character::wear_possessed( item &to_wear, bool interactive,
 
 ret_val<bool> Character::can_takeoff( const item &it, bool dropping ) const
 {
-    auto iter = std::find_if( worn.begin(), worn.end(), [ &it ]( item * wit ) {
+    auto iter = std::ranges::find_if( worn, [ &it ]( item * wit ) {
         return &it == wit;
     } );
 
@@ -3379,7 +3380,7 @@ bool Character::takeoff( item &it, std::vector<detached_ptr<item>> *res )
         return false;
     }
 
-    auto iter = std::find_if( worn.begin(), worn.end(), [ &it ]( item * wit ) {
+    auto iter = std::ranges::find_if( worn, [ &it ]( item * wit ) {
         return &it == wit;
     } );
 
@@ -3628,7 +3629,7 @@ bool Character::is_wearing_on_bp( const itype_id &it, const bodypart_id &bp ) co
 
 bool Character::worn_with_flag( const flag_id &flag, const bodypart_id &bp ) const
 {
-    return std::any_of( worn.begin(), worn.end(), [&flag, bp]( const item * const & it ) {
+    return std::ranges::any_of( worn, [&flag, bp]( const item * const & it ) {
         return it->has_flag( flag ) && ( bp == bodypart_str_id::NULL_ID() ||
                                          it->covers( bp ) );
     } );
@@ -3647,7 +3648,7 @@ const item *Character::item_worn_with_flag( const flag_id &flag, const bodypart_
 
 bool Character::worn_with_id( const itype_id &item_id, const bodypart_id &bp ) const
 {
-    return std::any_of( worn.begin(), worn.end(), [&item_id, bp]( const item * const & it ) {
+    return std::ranges::any_of( worn, [&item_id, bp]( const item * const & it ) {
         return it->typeId() == item_id && ( bp == bodypart_str_id::NULL_ID() ||
                                             it->covers( bp ) );
     } );
@@ -3921,7 +3922,7 @@ bool Character::meets_skill_requirements( const std::map<skill_id, int> &req,
 
 bool Character::meets_skill_requirements( const construction &con ) const
 {
-    return std::all_of( con.required_skills.begin(), con.required_skills.end(),
+    return std::ranges::all_of( con.required_skills,
     [&]( const std::pair<skill_id, int> &pr ) {
         return get_skill_level( pr.first ) >= pr.second;
     } );
@@ -4343,8 +4344,8 @@ location_vector<item>::iterator Character::position_to_wear_new_item( const item
 {
     // By default we put this item on after the last item on the same or any
     // lower layer.
-    return std::find_if(
-               worn.rbegin(), worn.rend(),
+    return std::ranges::find_if(
+               std::ranges::reverse_view( worn ),
     [&]( const item * const & w ) {
         return w->get_layer() <= new_item.get_layer();
     }
@@ -6671,12 +6672,12 @@ const std::vector<material_id> Character::fleshy = { material_id( "flesh" ), mat
 bool Character::made_of( const material_id &m ) const
 {
     // TODO: check for mutations that change this.
-    return std::find( fleshy.begin(), fleshy.end(), m ) != fleshy.end();
+    return std::ranges::find( fleshy, m ) != fleshy.end();
 }
 bool Character::made_of_any( const std::set<material_id> &ms ) const
 {
     // TODO: check for mutations that change this.
-    return std::any_of( fleshy.begin(), fleshy.end(), [&ms]( const material_id & e ) {
+    return std::ranges::any_of( fleshy, [&ms]( const material_id & e ) {
         return ms.count( e );
     } );
 }
@@ -8078,7 +8079,7 @@ void Character::shout( std::string msg, bool order )
 
     if( noise <= base ) {
         std::string dampened_shout;
-        std::transform( msg.begin(), msg.end(), std::back_inserter( dampened_shout ), tolower );
+        std::ranges::transform( msg, std::back_inserter( dampened_shout ), tolower );
         msg = std::move( dampened_shout );
     }
 
@@ -9692,7 +9693,7 @@ bool Character::has_activity( const activity_id &type ) const
 
 bool Character::has_activity( const std::vector<activity_id> &types ) const
 {
-    return std::find( types.begin(), types.end(), activity->id() ) != types.end();
+    return std::ranges::find( types, activity->id() ) != types.end();
 }
 
 void Character::cancel_activity()

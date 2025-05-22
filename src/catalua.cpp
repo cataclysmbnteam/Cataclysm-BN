@@ -46,18 +46,19 @@ void startup_lua_test()
     }
 }
 
-bool generate_lua_docs( const std::filesystem::path &path )
+auto generate_lua_docs( const std::filesystem::path &script_path,
+                        const std::filesystem::path &to ) -> bool
 {
     sol::state lua = make_lua_state();
     lua.globals()["doc_gen_func"] = lua.create_table();
-    std::string lua_doc_script = PATH_INFO::datadir() + "raw/generate_docs.lua";
+
     try {
-        run_lua_script( lua, lua_doc_script );
+        run_lua_script( lua, script_path.string() );
         sol::protected_function doc_gen_func = lua["doc_gen_func"]["impl"];
         sol::protected_function_result res = doc_gen_func();
         check_func_result( res );
         std::string ret = res;
-        write_to_file( path.string(), [&]( std::ostream & s ) -> void {
+        write_to_file( to.string(), [&]( std::ostream & s ) -> void {
             s << ret;
         } );
     } catch( std::runtime_error &e ) {

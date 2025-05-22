@@ -199,6 +199,8 @@ enum action_id : int {
     ACTION_CONSTRUCT,
     /** Open disassemble menu */
     ACTION_DISASSEMBLE,
+    /** Open SALVAGE menu */
+    ACTION_SALVAGE,
     /** Open sleep menu */
     ACTION_SLEEP,
     /** Open vehicle control menu */
@@ -245,6 +247,8 @@ enum action_id : int {
     ACTION_MESSAGES,
     /** Open external Wiki webpage */
     ACTION_OPEN_WIKI,
+    /** Open external hitchhiker's guide webpage */
+    ACTION_OPEN_HHG,
     /** Display help screen */
     ACTION_HELP,
     /** Display main menu */

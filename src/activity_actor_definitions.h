@@ -688,3 +688,31 @@ class assist_activity_actor : public activity_actor
 
 };
 
+class salvage_activity_actor : public activity_actor
+{
+    private:
+        iuse_locations targets;
+        tripoint_abs_ms pos;
+        bool mute_prompts = false;
+    public:
+        salvage_activity_actor() = default;
+        salvage_activity_actor(
+            iuse_locations &&targets,
+            tripoint_abs_ms pos
+        ) : targets( std::move( targets ) ), pos( pos ) {}
+
+        ~salvage_activity_actor() = default;
+
+        activity_id get_type() const override {
+            return activity_id( "ACT_LONGSALVAGE" );
+        }
+
+        void calc_all_moves( player_activity & /*act*/, Character &/*who*/ ) override;
+
+        void start( player_activity &act, Character &who ) override;
+        void do_turn( player_activity &/*act*/, Character &/*who*/ ) override;
+        void finish( player_activity &/*act*/, Character &/*who*/ ) override;
+
+        void serialize( JsonOut &jsout ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
+};

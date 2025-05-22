@@ -2191,6 +2191,22 @@
   },
   {
     "type": "recipe",
+    "result": "dry_rice",
+    "id_suffix": "with_food_processor",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_OTHER",
+    "skill_used": "cooking",
+    "difficulty": 4,
+    "charges": 1,
+    "time": "5 m",
+    "autolearn": true,
+    "batch_time_factors": [ 80, 1 ],
+    "byproducts": [ [ "rice_bran", 1 ] ],
+    "tools": [ [ [ "food_processor", 20 ] ] ],
+    "components": [ [ [ "seed_rice", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
     "result": "jar_3l_glass_yeast",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",

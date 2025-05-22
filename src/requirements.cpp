@@ -30,6 +30,7 @@
 #include "output.h"
 #include "character.h"
 #include "point.h"
+#include "salvage.h"
 #include "string_formatter.h"
 #include "string_id.h"
 #include "string_utils.h"
@@ -99,6 +100,15 @@ void quality::load( const JsonObject &jo, const std::string & )
             usages.emplace_back( level, line );
         }
     }
+
+    assign( jo, "salvagable_materials", salvagable_materials );
+    for( auto &material : salvagable_materials ) {
+        if( !material.is_valid() ) {
+            jo.throw_error( string_format( "Invalid material %s", material ) );
+        }
+    }
+
+    salvage::populate_salvage_materials( *this );
 }
 
 /** @relates string_id */

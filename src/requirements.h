@@ -1,7 +1,7 @@
 #pragma once
 
-#include <list>
 #include <map>
+#include <set>
 #include <string>
 #include <tuple>
 #include <vector>
@@ -44,6 +44,8 @@ struct quality {
     quality_id id;
     translation name;
 
+    /** Materials it can salvage */
+    std::set<material_id> salvagable_materials;
     std::vector<std::pair<int, std::string>> usages;
 
     void load( const JsonObject &jo, const std::string &src );

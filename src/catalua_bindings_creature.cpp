@@ -22,6 +22,7 @@
 #include "monfaction.h"
 #include "monster.h"
 #include "morale_types.h"
+#include "mtype.h"
 #include "mutation.h"
 #include "npc.h"
 #include "player.h"
@@ -276,6 +277,10 @@ void cata::detail::reg_monster( sol::state &lua )
         SET_MEMB( unique_name );
 
         // Methods
+        luna::set_fx( ut, "get_type", []( const monster & m )
+        {
+            return m.type -> id; //I really don't want to break the uniformity, but...
+        } );
         SET_FX_T( can_upgrade, bool() const );
         SET_FX_T( hasten_upgrade, void() );
         SET_FX_T( get_upgrade_time, int() const );
@@ -689,6 +694,11 @@ void cata::detail::reg_character( sol::state &lua )
 
         DOC( "Gets all items" );
         SET_FX_T( all_items, std::vector<item *>( bool need_charges ) const );
+
+        DOC( "Removes given `Item` from character's inventory. The `Item` must be in the inventory, neither wielded nor worn." );
+        luna::set_fx( ut, "inv_remove_item", []( Character & ch, item * it ) -> void {
+            ch.inv_remove_item( it );
+        } );
 
         SET_FX_T( assign_activity,
                   void( const activity_id &, int, int, int, const std::string & ) );

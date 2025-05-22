@@ -1234,7 +1234,7 @@ std::vector<tripoint_abs_omt> overmapbuffer::find_all_async( const tripoint_abs_
 
             if( !params.max_results.has_value() ||
                 dst.size() < static_cast<size_t>( params.max_results.value() ) ) {
-                std::copy( task_result.begin(), task_result.end(), std::back_inserter( dst ) );
+                std::ranges::copy( task_result, std::back_inserter( dst ) );
                 if( params.max_results.has_value() &&
                     dst.size() > static_cast<uint64_t>( params.max_results.value() ) ) {
                     dst.resize( params.max_results.value() );
@@ -1456,7 +1456,7 @@ std::vector<overmap *> overmapbuffer::get_overmaps_near( const tripoint_abs_sm &
 
     // Sort the resulting overmaps so that the closest ones are first.
     const tripoint_abs_om center = project_to<coords::om>( location );
-    std::sort( result.begin(), result.end(), [&center]( const overmap * lhs,
+    std::ranges::sort( result, [&center]( const overmap * lhs,
     const overmap * rhs ) {
         const tripoint_abs_om lhs_pos( lhs->pos(), 0 );
         const tripoint_abs_om rhs_pos( rhs->pos(), 0 );
@@ -1584,7 +1584,7 @@ std::vector<city_reference> overmapbuffer::get_cities_near( const tripoint_abs_s
 
     for( const auto om : get_overmaps_near( location, radius ) ) {
         result.reserve( result.size() + om->cities.size() );
-        std::transform( om->cities.begin(), om->cities.end(), std::back_inserter( result ),
+        std::ranges::transform( om->cities, std::back_inserter( result ),
         [&]( city & element ) {
             const auto rel_pos_city = project_to<coords::sm>( element.pos );
             const auto abs_pos_city =
@@ -1595,7 +1595,7 @@ std::vector<city_reference> overmapbuffer::get_cities_near( const tripoint_abs_s
         } );
     }
 
-    std::sort( result.begin(), result.end(), []( const city_reference & lhs,
+    std::ranges::sort( result, []( const city_reference & lhs,
     const city_reference & rhs ) {
         return lhs.get_distance_from_bounds() < rhs.get_distance_from_bounds();
     } );
@@ -1617,7 +1617,7 @@ city_reference overmapbuffer::closest_city( const tripoint_abs_sm &center )
 city_reference overmapbuffer::closest_known_city( const tripoint_abs_sm &center )
 {
     const auto cities = get_cities_near( center, omt_to_sm_copy( OMAPX ) );
-    const auto it = std::find_if( cities.begin(), cities.end(),
+    const auto it = std::ranges::find_if( cities,
     [this]( const city_reference & elem ) {
         const tripoint_abs_omt p = project_to<coords::omt>( elem.abs_sm_pos );
         return seen( p );
@@ -1920,12 +1920,12 @@ bool overmapbuffer::add_grid_connection( const tripoint_abs_omt &lhs, const trip
     overmap_with_local_coords lhs_omc = get_om_global( lhs );
     overmap_with_local_coords rhs_omc = get_om_global( rhs );
 
-    const auto lhs_iter = std::find( six_cardinal_directions.begin(),
-                                     six_cardinal_directions.end(),
-                                     coord_diff.raw() );
-    const auto rhs_iter = std::find( six_cardinal_directions.begin(),
-                                     six_cardinal_directions.end(),
-                                     -coord_diff.raw() );
+    const auto lhs_iter = std::ranges::find( six_cardinal_directions,
+
+                          coord_diff.raw() );
+    const auto rhs_iter = std::ranges::find( six_cardinal_directions,
+
+                          -coord_diff.raw() );
 
     size_t lhs_i = std::distance( six_cardinal_directions.begin(), lhs_iter );
     size_t rhs_i = std::distance( six_cardinal_directions.begin(), rhs_iter );
@@ -1961,12 +1961,12 @@ bool overmapbuffer::remove_grid_connection( const tripoint_abs_omt &lhs,
     overmap_with_local_coords lhs_omc = get_om_global( lhs );
     overmap_with_local_coords rhs_omc = get_om_global( rhs );
 
-    const auto lhs_iter = std::find( six_cardinal_directions.begin(),
-                                     six_cardinal_directions.end(),
-                                     coord_diff.raw() );
-    const auto rhs_iter = std::find( six_cardinal_directions.begin(),
-                                     six_cardinal_directions.end(),
-                                     -coord_diff.raw() );
+    const auto lhs_iter = std::ranges::find( six_cardinal_directions,
+
+                          coord_diff.raw() );
+    const auto rhs_iter = std::ranges::find( six_cardinal_directions,
+
+                          -coord_diff.raw() );
 
     size_t lhs_i = std::distance( six_cardinal_directions.begin(), lhs_iter );
     size_t rhs_i = std::distance( six_cardinal_directions.begin(), rhs_iter );

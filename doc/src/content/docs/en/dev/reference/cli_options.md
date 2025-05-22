@@ -58,9 +58,13 @@ Base path for all game data subdirectories.
 
 If set, no debug messages will be printed.
 
-### `--lua-doc <generated lua docs path>`
+### `--lua-doc <output path>`
 
 Generate Lua docs to given path and exit.
+
+### `--lua-types <output path>`
+
+Generate Lua types to given path and exit.
 
 ### `--datadir <directory name>`
 

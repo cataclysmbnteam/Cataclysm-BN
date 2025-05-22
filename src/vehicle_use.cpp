@@ -913,7 +913,7 @@ bool vehicle::fold_up()
 
     std::string itype_id = "generic_folded_vehicle";
     for( const auto &elem : tags ) {
-        if( elem.compare( 0, 12, "convertible:" ) == 0 ) {
+        if( elem.starts_with( "convertible:" ) ) {
             itype_id = elem.substr( 12 );
             break;
         }
@@ -1881,6 +1881,9 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
     }
     if( has_autodoc ) {
         selectmenu.addentry( USE_AUTODOC, true, 'I', _( "Use autodoc" ) );
+    }
+    if( from_vehicle ) {
+        selectmenu.addentry( GET_ITEMS, true, 'g', _( "Get items" ) );
     }
     if( has_items_on_ground && !items_are_sealed ) {
         selectmenu.addentry( GET_ITEMS_ON_GROUND, true, 'i', _( "Get items on the ground" ) );

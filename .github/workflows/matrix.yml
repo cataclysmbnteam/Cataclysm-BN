@@ -19,7 +19,7 @@ concurrency:
 jobs:
   skip-duplicates:
     continue-on-error: true
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-latest
     outputs:
       should_skip_code: ${{ steps.skip_code_check.outputs.should_skip }}
       should_skip_data: ${{ steps.skip_data_check.outputs.should_skip }}
@@ -40,9 +40,9 @@ jobs:
       max-parallel: ${{ github.ref_name == 'main' && 20 || 1 }}
       matrix:
         include:
-          - title: GCC 12, Ubuntu, Curses
-            compiler: g++-12
-            os: ubuntu-24.04
+          - title: GCC, Ubuntu, Curses
+            compiler: g++
+            os: ubuntu-latest
             cmake: 0
             tiles: 0
             sound: 0
@@ -50,24 +50,24 @@ jobs:
             libbacktrace: 1
             native: linux64
             ccache_limit: 2G
-            ccache_key: linux-gcc-12
+            ccache_key: linux-gcc
             always-run: true
 
-          - title: GCC 12, Ubuntu, Tiles, Sound, CMake, Languages
-            compiler: g++-12
-            os: ubuntu-24.04
+          - title: GCC, Ubuntu, Tiles, Sound, CMake, Languages
+            compiler: g++
+            os: ubuntu-latest
             cmake: 1
             tiles: 1
             sound: 1
             languages: all
             native: linux64
             ccache_limit: 2G
-            ccache_key: linux-gcc-12-cmake-tiles
+            ccache_key: linux-gcc-cmake-tiles
             upload-artifact: true
 
-          - title: GCC 12, Ubuntu, Tiles, Sound
-            compiler: g++-12
-            os: ubuntu-24.04
+          - title: GCC, Ubuntu, Tiles, Sound
+            compiler: g++
+            os: ubuntu-latest
             cmake: 1
             tiles: 1
             sound: 1
@@ -75,24 +75,24 @@ jobs:
             libbacktrace: 1
             native: linux64
             ccache_limit: 1G
-            ccache_key: linux-gcc-12-tiles
+            ccache_key: linux-gcc-tiles
 
         # === Temporarily disabled because of #3664 ===
-        #  - title: GCC 12, Ubuntu, Tiles, NoSound, ASan
-        #    compiler: g++-12
-        #    os: ubuntu-24.04
+        #  - title: GCC, Ubuntu, Tiles, NoSound, ASan
+        #    compiler: g++
+        #    os: ubuntu-latest
         #    cmake: 0
         #    tiles: 1
         #    sound: 0
         #    sanitize: address
         #    native: linux64
         #    ccache_limit: 2G
-        #    ccache_key: linux-gcc-12-asan
+        #    ccache_key: linux-gcc-asan
 
         # === Temporarily disabled because of #3664 ===
         #  - title: Clang 14, Ubuntu, Tiles, NoSound, ASan, UBSan
         #    compiler: clang++-14
-        #    os: ubuntu-24.04
+        #    os: ubuntu-latest
         #    cmake: 0
         #    tiles: 1
         #    sound: 0
@@ -149,8 +149,12 @@ jobs:
         if: ${{ env.SKIP == 'false' && runner.os == 'Linux' }}
         run: |
           sudo apt-get update
-          sudo apt-get install libncursesw5-dev ccache gettext parallel libsqlite3-dev zlib1g-dev
+          sudo apt-get install gcc-14 libncursesw5-dev ccache gettext parallel libsqlite3-dev zlib1g-dev
           sudo locale-gen en_US.UTF-8 fr_FR.UTF-8 ru_RU.UTF-8
+
+          sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-14 100
+          sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-14 100
+          g++ --version
 
       - name: install SDL2 dependencies (ubuntu)
         if: ${{ env.SKIP == 'false' && runner.os == 'Linux' && matrix.tiles == 1 }}

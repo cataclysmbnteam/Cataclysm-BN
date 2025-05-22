@@ -68,7 +68,7 @@ std::vector<efftype_id> find_all_effect_types()
 {
     std::vector<efftype_id> all;
     all.reserve( effect_types.size() );
-    std::transform( effect_types.begin(), effect_types.end(), std::back_inserter( all ),
+    std::ranges::transform( effect_types, std::back_inserter( all ),
     []( const std::pair<efftype_id, effect_type> &pr ) {
         return pr.first;
     } );
@@ -1392,8 +1392,8 @@ void load_effect_type( const JsonObject &jo )
 
     assign( jo, "morale", new_etype.morale );
 
-    const auto morale_effect = std::find_if( new_etype.mod_data.begin(),
-    new_etype.mod_data.end(), []( decltype( *new_etype.mod_data.begin() ) & pr ) {
+    const auto morale_effect = std::ranges::find_if( new_etype.mod_data,
+    []( decltype( *new_etype.mod_data.begin() ) & pr ) {
         return std::get<2>( pr.first ) == "MORALE";
     } );
     bool has_morale_effect = morale_effect != new_etype.mod_data.end();

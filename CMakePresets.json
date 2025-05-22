@@ -10,8 +10,8 @@
       "name": "windows-tiles-sounds-x64-msvc",
       "binaryDir": "${sourceDir}/out/build/${presetName}",
       "displayName": "Windows Tiles Sounds x64 MSVC",
-      "description": "Target Windows (64-bit) with the Visual Studio 2019 development environment.",
-      "generator": "Visual Studio 16 2019",
+      "description": "Target Windows (64-bit) with the Visual Studio 2022 development environment.",
+      "generator": "Visual Studio 17 2022",
       "cacheVariables": {
         "CMAKE_PROJECT_INCLUDE_BEFORE": "${sourceDir}/build-scripts/${presetName}.cmake",
         "CMAKE_TOOLCHAIN_FILE": "${sourceDir}/build-scripts/MSVC.cmake",
@@ -24,17 +24,6 @@
         "SOUND": "True",
         "TESTS": "True",
         "CMAKE_INSTALL_MESSAGE": "NEVER"
-      }
-    },
-    {
-      "name": "windows-tiles-sounds-x64-msvc-2022",
-      "inherits": ["windows-tiles-sounds-x64-msvc"],
-      "binaryDir": "${sourceDir}/out/build/${presetName}",
-      "displayName": "Windows Tiles Sounds x64 MSVC 2022",
-      "description": "Target Windows (64-bit) with the Visual Studio 2022 development environment.",
-      "generator": "Visual Studio 17 2022",
-      "cacheVariables": {
-        "CMAKE_PROJECT_INCLUDE_BEFORE": "${sourceDir}/build-scripts/windows-tiles-sounds-x64-msvc.cmake"
       }
     },
     {
@@ -64,8 +53,8 @@
         "CATA_CCACHE": "ON",
         "CMAKE_C_COMPILER_LAUNCHER": "ccache",
         "CMAKE_CXX_COMPILER_LAUNCHER": "ccache",
-        "CMAKE_C_COMPILER": "/usr/bin/clang-19",
-        "CMAKE_CXX_COMPILER": "/usr/bin/clang++-19",
+        "CMAKE_C_COMPILER": "clang",
+        "CMAKE_CXX_COMPILER": "clang++",
         "CMAKE_INSTALL_PREFIX": "$env{XDG_DATA_HOME}",
         "JSON_FORMAT": "ON",
         "CMAKE_BUILD_TYPE": "RelWithDebInfo",

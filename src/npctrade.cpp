@@ -188,7 +188,7 @@ std::vector<item_pricing> npc_trading::init_buying( player &buyer, player &selle
                                   std::make_pair( b.locs.front()->get_category(), b.locs.front()->display_name() ) );
     };
 
-    std::sort( result.begin(), result.end(), cmp );
+    std::ranges::sort( result, cmp );
 
     return result;
 }

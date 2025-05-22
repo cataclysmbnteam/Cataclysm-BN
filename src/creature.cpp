@@ -1836,7 +1836,7 @@ std::vector<bodypart_id> Creature::get_all_body_parts( bool only_main ) const
         all_bps.emplace_back( elem.first );
     }
 
-    std::sort( all_bps.begin(), all_bps.end(),
+    std::ranges::sort( all_bps,
     []( const bodypart_id & lhs, const bodypart_id & rhs ) {
         return lhs->sort_order < rhs->sort_order;
     } );
