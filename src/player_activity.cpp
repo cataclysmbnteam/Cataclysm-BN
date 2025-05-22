@@ -1,6 +1,8 @@
 #include "player_activity.h"
 #include "player_activity_ptr.h"
 
+#include <algorithm>
+#include <array>
 #include <memory>
 #include <utility>
 
@@ -14,6 +16,8 @@
 #include "character.h"
 #include "character_turn.h"
 #include "color.h"
+#include "construction_partial.h"
+#include "crafting.h"
 #include "distraction_manager.h"
 #include "game.h"
 #include "item.h"
@@ -22,12 +26,15 @@
 #include "npc.h"
 #include "player.h"
 #include "profile.h"
+#include "recipe.h"
 #include "rng.h"
 #include "skill.h"
 #include "sounds.h"
 #include "string_formatter.h"
 #include "string_id.h"
 #include "translations.h"
+
+using metric = std::pair<units::mass, units::volume>;
 
 static const activity_id ACT_ADV_INVENTORY( "ACT_ADV_INVENTORY" );
 static const activity_id ACT_AIM( "ACT_AIM" );
