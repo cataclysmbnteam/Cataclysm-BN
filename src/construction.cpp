@@ -455,6 +455,24 @@ std::optional<construction_id> construction_menu( const bool blueprint )
     ctxt.register_action( "RESET_FILTER" );
 
     const std::vector<construction_category> &construct_cat = construction_categories::get_all();
+    std::vector<size_t> construct_cat_order( construct_cat.size() );
+    {
+        std::ranges::iota( construct_cat_order, 0 );
+        const auto move_to_end = [&]( const construction_category_id & id ) -> void {
+            auto it = std::ranges::find_if( construct_cat_order, [&]( auto & v )
+            {
+                return construct_cat[v].id == id;
+            } );
+            if( it != construct_cat_order.end() )
+            {
+                std::rotate( it, it + 1, construct_cat_order.end() );
+            }
+        };
+
+        // Force the construction list to be { ..., FAVORITE, FILTER }
+        move_to_end( construction_category_FAVORITE );
+        move_to_end( construction_category_FILTER );
+    }
     const int tabcount = static_cast<int>( construction_category::count() );
 
     std::string filter;
@@ -651,7 +669,8 @@ std::optional<construction_id> construction_menu( const bool blueprint )
         werase( w_list );
         // Print new tab listing
         // NOLINTNEXTLINE(cata-use-named-point-constants)
-        mvwprintz( w_con, point( 1, 1 ), c_yellow, "<< %s >>", construct_cat[tabindex].name() );
+        mvwprintz( w_con, point( 1, 1 ), c_yellow, "<< %s >>",
+                   construct_cat[construct_cat_order[tabindex]].name() );
         // Determine where in the master list to start printing
         calcStartPos( offset, select, w_list_height, constructs.size() );
         // Print the constructions between offset and max (or how many will fit)
@@ -737,7 +756,7 @@ std::optional<construction_id> construction_menu( const bool blueprint )
             } else if( select >= 0 && static_cast<size_t>( select ) < constructs.size() ) {
                 last_construction = constructs[select];
             }
-            category_id = construct_cat[tabindex].id;
+            category_id = construct_cat[construct_cat_order[tabindex]].id;
             if( category_id == construction_category_ALL ) {
                 constructs = available;
             } else if( category_id == construction_category_FILTER ) {
@@ -920,7 +939,7 @@ std::optional<construction_id> construction_menu( const bool blueprint )
         }
     } while( !exit );
 
-    uistate.construction_tab = int_id<construction_category>( tabindex ).id();
+    uistate.construction_tab = int_id<construction_category>( construct_cat_order[tabindex] ).id();
 
     return ret;
 }
