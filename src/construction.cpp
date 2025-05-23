@@ -457,7 +457,8 @@ std::optional<construction_id> construction_menu( const bool blueprint )
     const std::vector<construction_category> &construct_cat = construction_categories::get_all();
     std::vector<size_t> construct_cat_order( construct_cat.size() );
     {
-        std::iota( construct_cat_order.begin(), construct_cat_order.end(), 0 ); // NOLINT(modernize-use-ranges)
+        std::iota( construct_cat_order.begin(), construct_cat_order.end(),
+                   0 ); // NOLINT(modernize-use-ranges)
         const auto move_to_end = [&]( const construction_category_id & id ) -> void {
             auto it = std::ranges::find_if( construct_cat_order, [&]( auto & v )
             {
