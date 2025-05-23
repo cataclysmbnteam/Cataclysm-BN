@@ -13,7 +13,7 @@ namespace item_factory_test
 
 TEST_CASE( "load_tool_use_action", "[item_factory]" )
 {
-    std::ifstream file( TEST_ITEM_JSON_FILENAME );
+    std::ifstream file( TEST_ITEM_JSON_FILENAME, std::ios::binary);
     JsonIn jsin( file );
     JsonObject all_test_items( jsin.get_object() );
     Item_factory test_factory;
