@@ -70,7 +70,7 @@ TEST_CASE( "flat_map", "[ranges]" )
                       | flat_map( fn )
                       | std::ranges::to<std::vector>();
 
-        CHECK( output == std::vector<int> {} );
+        CHECK( output.empty() );
     }
 }
 
