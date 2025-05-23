@@ -3726,7 +3726,7 @@ void activity_handlers::craft_do_turn( player_activity *act, player *p )
         //TODO!: CHEEKY check
         item *craft_copy = craft;
         p->cancel_activity();
-        complete_craft( *p, *craft_copy, bench_location{bench_t, bench_pos} );
+        complete_craft( *p, *craft_copy );
         act->targets.front()->detach();
         if( is_long ) {
             if( p->making_would_work( p->lastrecipe, craft_copy->charges ) ) {

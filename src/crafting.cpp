@@ -1013,7 +1013,7 @@ void item::inherit_flags( const std::vector<item *> &parents, const recipe &maki
     }
 }
 
-void complete_craft( Character &who, item &craft, const bench_location & )
+void complete_craft( Character &who, item &craft )
 {
     if( !craft.is_craft() ) {
         debugmsg( "complete_craft() called on non-craft '%s.'  Aborting.", craft.tname() );
