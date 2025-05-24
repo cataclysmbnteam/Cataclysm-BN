@@ -36,6 +36,7 @@
 #include "item.h"
 #include "json.h"
 #include "magic.h"
+#include "make_static.h"
 #include "map.h"
 #include "messages.h"
 #include "omdata.h"
@@ -60,6 +61,7 @@
 #include "vehicle_part.h"
 #include "vpart_position.h"
 #include "weather.h"
+#include "xp.h"
 
 static const trait_id trait_SELFAWARE( "SELFAWARE" );
 static const trait_id trait_THRESH_FELINE( "THRESH_FELINE" );
@@ -1571,6 +1573,21 @@ static void draw_wind_padding( avatar &u, const catacurses::window &w )
     render_wind( u, w, " %s: " );
 }
 
+std::string number_shorthand( int n, int max_length )
+{
+    int num_length = std::log10( n );
+    int k_count = 0;
+    while( n > 0 && num_length - k_count > max_length ) {
+        n /= 1000;
+        k_count++;
+    }
+    if( n == 0 ) {
+        return std::string( 'k', max_length );
+    }
+
+    return std::to_string( n ) + std::string( 'k', k_count );
+}
+
 static void draw_health_classic( avatar &u, const catacurses::window &w )
 {
     static std::array<bodypart_id, 6> part = { {
@@ -1662,6 +1679,16 @@ static void draw_health_classic( avatar &u, const catacurses::window &w )
     pair = power_stat( u );
     mvwprintz( w, point( 8, 6 ), c_light_gray, _( "POWER" ) );
     mvwprintz( w, point( 14, 6 ), pair.first, pair.second );
+
+    // xp
+    bool stats_through_kills = get_option<bool>( STATIC( "STATS_THROUGH_KILLS" ) );
+    bool skills_through_kills = get_option<bool>( STATIC( "SKILLS_THROUGH_KILLS" ) );
+    if( stats_through_kills || skills_through_kills ) {
+        int xp = skills_through_kills ? xp::available( u ) : u.kill_xp();
+        const std::string &xp_with_ks = number_shorthand( xp, 6 );
+        mvwprintz( w, point( 35, 6 ), c_light_gray, _( "XP" ) );
+        mvwprintz( w, point( 38, 6 ), c_light_gray, xp_with_ks );
+    }
 
     // vehicle display
     if( veh ) {
