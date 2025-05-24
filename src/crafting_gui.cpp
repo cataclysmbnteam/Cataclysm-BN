@@ -1,12 +1,9 @@
 #include "crafting_gui.h"
 
 #include <algorithm>
-#include <cstddef>
 #include <cstring>
 #include <iterator>
 #include <map>
-#include <memory>
-#include <optional>
 #include <set>
 #include <string>
 #include <utility>
@@ -16,8 +13,9 @@
 #include "calendar.h"
 #include "cata_utility.h"
 #include "catacharset.h"
-#include "color.h"
+#include "character.h"
 #include "character_functions.h"
+#include "color.h"
 #include "crafting.h"
 #include "cursesdef.h"
 #include "game.h"
@@ -46,7 +44,6 @@
 static const std::string flag_BLIND_EASY( "BLIND_EASY" );
 static const std::string flag_BLIND_HARD( "BLIND_HARD" );
 
-class inventory;
 class npc;
 
 enum TAB_MODE {

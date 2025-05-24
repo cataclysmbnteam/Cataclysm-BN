@@ -5,7 +5,6 @@
 #include <vector>
 
 #include "point.h"
-#include "mapdata.h"
 #include "ret_val.h"
 #include "type_id.h"
 #include "activity_speed_adapters.h"
@@ -14,7 +13,6 @@ class avatar;
 class Character;
 class inventory;
 class item;
-class player;
 class recipe;
 struct iuse_location;
 struct tool_comp;
@@ -40,7 +38,7 @@ void remove_ammo( item &dis_item, Character &who );
  */
 void remove_ammo( std::vector<item *> &dis_items, Character &who );
 
-bench_location find_best_bench( const player &p, const item &craft );
+bench_location find_best_bench( const Character &who, const item &craft );
 
 float workbench_crafting_speed_multiplier( const item &craft, const bench_location &bench );
 float morale_crafting_speed_multiplier( const Character &who, const recipe &rec );
@@ -48,7 +46,7 @@ float lighting_crafting_speed_multiplier( const Character &who, const recipe &re
 float crafting_speed_multiplier( const Character &who, const recipe &rec, bool in_progress );
 float crafting_speed_multiplier( const Character &who, const item &craft,
                                  const bench_location &bench );
-void complete_craft( player &p, item &craft, const bench_location &bench );
+void complete_craft( Character &who, item &craft );
 
 namespace crafting
 {
