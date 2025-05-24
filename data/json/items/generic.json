@@ -278,7 +278,7 @@
     "weight": "4500 mg",
     "volume": "25 ml",
     "to_hit": -2,
-    "flags": [ "UNRECOVERABLE" ],
+    "flags": [ "UNRECOVERABLE", "NO_SALVAGE" ],
     "stackable": true
   },
   {
