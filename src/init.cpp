@@ -896,14 +896,14 @@ static void load_and_finalize_packs( loading_ui &ui, const std::string &msg,
     cata::clear_mod_being_loaded( *loader.lua );
 }
 
-void init::load_main_lua_scripts( cata::lua_state &state, const std::vector<mod_id> &packs )
+auto init::load_main_lua_scripts( cata::lua_state &state, const std::vector<mod_id> &packs ) -> int
 {
-    for( const mod_id &mod : packs ) {
-        if( mod.is_valid() && mod->lua_api_version ) {
-            cata::set_mod_being_loaded( state, mod );
-            cata::run_mod_main_script( state, mod );
-        }
+    auto range = packs | std::views::filter( []( const mod_id & mod ) { return mod.is_valid() && mod->lua_api_version; } );
+    for( const auto &mod : range ) {
+        cata::set_mod_being_loaded( state, mod );
+        cata::run_mod_main_script( state, mod );
     }
+    return std::ranges::distance( range );
 }
 
 bool init::is_data_loaded()
@@ -913,7 +913,7 @@ bool init::is_data_loaded()
 
 static void clear_loaded_data()
 {
-    return DynamicDataLoader::get_instance().unload_data();
+    DynamicDataLoader::get_instance().unload_data();
 }
 
 void init::load_core_bn_modfiles()
