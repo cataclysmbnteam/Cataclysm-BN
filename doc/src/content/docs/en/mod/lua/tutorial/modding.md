@@ -105,7 +105,7 @@ This script is supposed to implement the main logic of the mod. This includes, b
 While you can do a lot of interesting stuff with vanilla Lua, the integration imposes some limits to
 prevent potential bugs:
 
-- Loading packages (or Lua modules) is disabled.
+- Loading packages (or Lua modules) is limited to `data/raw/` and `data/mods/<mod_id>/` directories.
 - Your current mod id is stored in `game.current_mod` variable
 - Your mod's runtime state should live in `game.mod_runtime[ game.current_mod ]` table. You can also
   interface with other mods if you know their id, by accessing their runtime state in a similar way
@@ -118,12 +118,13 @@ prevent potential bugs:
 
 When script is called, it comes with some standard Lua libraries pre-loaded:
 
-| Library  | Description                                  |
-| -------- | -------------------------------------------- |
-| `base`   | print, assert, and other base functions      |
-| `math`   | all things math                              |
-| `string` | string library                               |
-| `table`  | the table manipulator and observer functions |
+| Library   | Description                                  |
+| --------- | -------------------------------------------- |
+| `base`    | print, assert, and other base functions      |
+| `math`    | all things math                              |
+| `string`  | string library                               |
+| `table`   | the table manipulator and observer functions |
+| `package` | load modules with `require`                  |
 
 See `Standard Libraries` section in Lua manual for details.
 
@@ -160,6 +161,7 @@ Some functions have been globally overriden to improve integration with the game
 | Function   | Description                                                    |
 | ---------- | -------------------------------------------------------------- |
 | print      | Print as `INFO LUA` to debug.log (overrides default Lua print) |
+| package    | loads from `data/raw/`, `data/mods/<mod_id>/`                  |
 | dofile     | Disabled                                                       |
 | loadfile   | Disabled                                                       |
 | load       | Disabled                                                       |

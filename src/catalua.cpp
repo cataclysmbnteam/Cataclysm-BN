@@ -216,6 +216,11 @@ void set_mod_being_loaded( lua_state &state, const mod_id &mod )
     sol::state &lua = state.lua;
     lua.globals()["game"]["current_mod"] = mod.str();
     lua.globals()["game"]["current_mod_path"] = mod->path + "/";
+    lua.globals()["package"]["path"] =
+        string_format(
+            "%1$s/?.lua;%1$s/?/init.lua;%2$s/?.lua;%2$s/?/init.lua",
+            PATH_INFO::datadir() + "/lua", mod->path
+        );
 }
 
 void clear_mod_being_loaded( lua_state &state )
@@ -223,6 +228,7 @@ void clear_mod_being_loaded( lua_state &state )
     sol::state &lua = state.lua;
     lua.globals()["game"]["current_mod"] = sol::nil;
     lua.globals()["game"]["current_mod_path"] = sol::nil;
+    lua.globals()["package"]["path"] = sol::nil;
 }
 
 void run_mod_preload_script( lua_state &state, const mod_id &mod )
