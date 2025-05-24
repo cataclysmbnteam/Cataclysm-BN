@@ -100,16 +100,6 @@ void WORLDINFO::COPY_WORLD( const WORLDINFO *world_to_copy )
     active_mod_order = world_to_copy->active_mod_order;
 }
 
-bool WORLDINFO::needs_lua() const
-{
-    for( const mod_id &mod : active_mod_order ) {
-        if( mod.is_valid() && mod->lua_api_version ) {
-            return true;
-        }
-    }
-    return false;
-}
-
 bool WORLDINFO::save_exists( const save_t &name ) const
 {
     return std::ranges::find( world_saves, name ) != world_saves.end();

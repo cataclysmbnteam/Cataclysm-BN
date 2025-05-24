@@ -17,6 +17,7 @@ constexpr int LUA_API_VERSION = 2;
 #include "init.h"
 #include "item_factory.h"
 #include "map.h"
+#include "messages.h"
 #include "mod_manager.h"
 #include "path_info.h"
 #include "point.h"
@@ -24,11 +25,6 @@ constexpr int LUA_API_VERSION = 2;
 
 namespace cata
 {
-
-bool has_lua()
-{
-    return true;
-}
 
 std::string get_lapi_version_string()
 {
@@ -78,7 +74,8 @@ void reload_lua_code()
     cata::lua_state &state = *DynamicDataLoader::get_instance().lua;
     const auto &packs = world_generator->active_world->info->active_mod_order;
     try {
-        init::load_main_lua_scripts( state, packs );
+        const int lua_mods = init::load_main_lua_scripts( state, packs );
+        add_msg( m_good, _( "Reloaded %1$d lua mods." ), lua_mods );
     } catch( std::runtime_error &e ) {
         debugmsg( "%s", e.what() );
     }
@@ -218,12 +215,20 @@ void set_mod_being_loaded( lua_state &state, const mod_id &mod )
 {
     sol::state &lua = state.lua;
     lua.globals()["game"]["current_mod"] = mod.str();
+    lua.globals()["game"]["current_mod_path"] = mod->path + "/";
+    lua.globals()["package"]["path"] =
+        string_format(
+            "%1$s/?.lua;%1$s/?/init.lua;%2$s/?.lua;%2$s/?/init.lua",
+            PATH_INFO::datadir() + "/lua", mod->path
+        );
 }
 
 void clear_mod_being_loaded( lua_state &state )
 {
     sol::state &lua = state.lua;
     lua.globals()["game"]["current_mod"] = sol::nil;
+    lua.globals()["game"]["current_mod_path"] = sol::nil;
+    lua.globals()["package"]["path"] = sol::nil;
 }
 
 void run_mod_preload_script( lua_state &state, const mod_id &mod )
