@@ -41,6 +41,7 @@
     "items": [
       [ "joint_roach", 50 ],
       [ "blunt_roach", 50 ],
+      [ "butane_can", 50 ],
       { "group": "weed_accessories", "prob": 200 },
       { "group": "dispensary", "prob": 200 }
     ]
