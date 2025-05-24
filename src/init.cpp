@@ -10,6 +10,7 @@
 #include <stdexcept>
 #include <string>
 #include <vector>
+#include <ranges>
 
 #include "achievement.h"
 #include "activity_type.h"
@@ -860,14 +861,6 @@ static void load_and_finalize_packs( loading_ui &ui, const std::string &msg,
     ui.show();
     for( const mod_id &mod : available ) {
         if( mod->lua_api_version ) {
-            if( !cata::has_lua() ) {
-                throw std::runtime_error(
-                    string_format(
-                        "You need game build with Lua support to load content pack %s [%s]",
-                        mod->name(), mod
-                    )
-                );
-            }
             if( cata::get_lua_api_version() != *mod->lua_api_version ) {
                 // The mod may be broken, but let's be user-friendly and try to load it anyway
                 debugmsg(
@@ -890,21 +883,17 @@ static void load_and_finalize_packs( loading_ui &ui, const std::string &msg,
 
     loader.finalize_loaded_data( ui );
 
-    if( cata::has_lua() ) {
-        for( const mod_id &mod : available ) {
-            if( mod->lua_api_version ) {
-                cata::set_mod_being_loaded( *loader.lua, mod );
-                cata::run_mod_finalize_script( *loader.lua, mod );
-            }
+    for( const mod_id &mod : available ) {
+        if( mod->lua_api_version ) {
+            cata::set_mod_being_loaded( *loader.lua, mod );
+            cata::run_mod_finalize_script( *loader.lua, mod );
         }
     }
 
     loader.check_consistency( ui );
 
-    if( cata::has_lua() ) {
-        init::load_main_lua_scripts( *loader.lua, packs );
-        cata::clear_mod_being_loaded( *loader.lua );
-    }
+    init::load_main_lua_scripts( *loader.lua, packs );
+    cata::clear_mod_being_loaded( *loader.lua );
 }
 
 void init::load_main_lua_scripts( cata::lua_state &state, const std::vector<mod_id> &packs )
@@ -995,18 +984,13 @@ bool init::check_mods_for_errors( loading_ui &ui, const std::vector<mod_id> &opt
             return false;
         }
 
-        if( id->lua_api_version && !cata::has_lua() ) {
-            std::cerr << string_format( "Mod requires Lua support: [%s]\n", id );
-            return false;
-        }
-
         to_check.emplace( id );
     }
 
     // If no specific mods specified check all non-obsolete mods
     if( to_check.empty() ) {
         for( const mod_id &mod : world_generator->get_mod_manager().all_mods() ) {
-            if( !mod->obsolete && !( !cata::has_lua() && mod->lua_api_version ) ) {
+            if( !mod->obsolete ) {
                 to_check.emplace( mod );
             }
         }
