@@ -4,8 +4,8 @@
 #include <climits>
 #include <cstdlib>
 #include <limits>
-#include <list>
 
+#include "character.h"
 #include "crafting.h"
 #include "debug.h"
 #include "enum_conversions.h"
@@ -14,7 +14,6 @@
 #include "item.h"
 #include "json.h"
 #include "output.h"
-#include "player.h"
 #include "recipe.h"
 #include "requirements.h"
 #include "translations.h"
@@ -277,7 +276,6 @@ detached_ptr<item> craft_command::create_in_progress_craft()
     new_craft->set_tools_to_continue( true );
     // Pass true to indicate that we are starting the craft and the remainder should be consumed as well
     crafter->craft_consume_tools( *new_craft, 1, true );
-    new_craft->set_next_failure_point( *crafter );
 
     return new_craft;
 }
