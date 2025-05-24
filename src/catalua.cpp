@@ -215,12 +215,14 @@ void set_mod_being_loaded( lua_state &state, const mod_id &mod )
 {
     sol::state &lua = state.lua;
     lua.globals()["game"]["current_mod"] = mod.str();
+    lua.globals()["game"]["current_mod_path"] = mod->path + "/";
 }
 
 void clear_mod_being_loaded( lua_state &state )
 {
     sol::state &lua = state.lua;
     lua.globals()["game"]["current_mod"] = sol::nil;
+    lua.globals()["game"]["current_mod_path"] = sol::nil;
 }
 
 void run_mod_preload_script( lua_state &state, const mod_id &mod )
