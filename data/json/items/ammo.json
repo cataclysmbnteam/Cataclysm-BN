@@ -149,7 +149,7 @@
     "volume": "250 ml",
     "weight": "90 g",
     "ammo_type": "soap",
-    "flags": [ "NO_SALVAGE" ],
+    "flags": [ "NO_SALVAGE", "UNRECOVERABLE" ],
     "count": 10,
     "stack_size": 10
   },

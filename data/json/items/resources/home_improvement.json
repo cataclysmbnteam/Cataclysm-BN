@@ -12,7 +12,7 @@
     "material": "steel",
     "volume": "1250 ml",
     "weight": "10 g",
-    "flags": [ "NO_SALVAGE" ],
+    "flags": [ "NO_SALVAGE", "UNRECOVERABLE" ],
     "ammo_type": "NULL",
     "count": 100
   },
@@ -29,7 +29,7 @@
     "material": "steel",
     "volume": "1250 ml",
     "weight": "10 g",
-    "flags": [ "NO_SALVAGE" ],
+    "flags": [ "NO_SALVAGE", "UNRECOVERABLE" ],
     "ammo_type": "NULL",
     "count": 100
   },
@@ -46,7 +46,7 @@
     "material": "steel",
     "volume": "1250 ml",
     "weight": "10 g",
-    "flags": [ "NO_SALVAGE" ],
+    "flags": [ "NO_SALVAGE", "UNRECOVERABLE" ],
     "ammo_type": "NULL",
     "count": 100
   },
@@ -63,7 +63,7 @@
     "material": "steel",
     "volume": "1250 ml",
     "weight": "10 g",
-    "flags": [ "NO_SALVAGE" ],
+    "flags": [ "NO_SALVAGE", "UNRECOVERABLE" ],
     "ammo_type": "NULL",
     "count": 100
   },
@@ -80,7 +80,7 @@
     "material": "steel",
     "volume": "1250 ml",
     "weight": "10 g",
-    "flags": [ "NO_SALVAGE" ],
+    "flags": [ "NO_SALVAGE", "UNRECOVERABLE" ],
     "ammo_type": "NULL",
     "count": 100
   },
@@ -97,7 +97,7 @@
     "material": "steel",
     "volume": "1250 ml",
     "weight": "10 g",
-    "flags": [ "NO_SALVAGE" ],
+    "flags": [ "NO_SALVAGE", "UNRECOVERABLE" ],
     "ammo_type": "NULL",
     "count": 100
   },

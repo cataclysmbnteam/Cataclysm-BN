@@ -204,7 +204,7 @@
     "charges": 16,
     "phase": "liquid",
     "fun": -25,
-    "flags": [ "NUTRIENT_OVERRIDE", "NO_SALVAGE" ],
+    "flags": [ "NUTRIENT_OVERRIDE", "NO_SALVAGE", "UNRECOVERABLE" ],
     "vitamins": [ [ "veggy_allergen", 1 ] ]
   },
   {
@@ -229,7 +229,7 @@
     "charges": 16,
     "phase": "liquid",
     "fun": -25,
-    "flags": [ "NUTRIENT_OVERRIDE", "NO_SALVAGE" ],
+    "flags": [ "NUTRIENT_OVERRIDE", "NO_SALVAGE", "UNRECOVERABLE" ],
     "vitamins": [ [ "meat_allergen", 1 ] ]
   },
   {
