@@ -123,7 +123,7 @@ mod.assure_timer_hook = function()
         mod.__already_assured[the_when] = true
         -- Main of assure timer hook.
         if val == "Requiem" then
-          local booked_at = mod.from_turns(the_when)
+          local booked_at = TimeDuration.from_turns(the_when)
           gdebug.log_info(string.format("Function [%s]: booked at [%d] turn after.", val, (booked_at - NOW):to_turns()))
           gapi.add_on_every_x_hook(booked_at, mod.item_funeral)
         end
@@ -313,7 +313,7 @@ mod.ebook_load = function(reader, device)
           book_in_real.charges = 0
         end
 
-        local the_when = gapi.current_turn() + mod.from_turns(lifetime - 1)
+        local the_when = gapi.current_turn() + TimeDuration.from_turns(lifetime - 1)
         book_in_real:set_var_num("its_fate_time", the_when:to_turn())
         mod.turntimer_hook(lifetime - 1, mod.item_funeral)
 
@@ -322,7 +322,7 @@ mod.ebook_load = function(reader, device)
             "You printed a physical copy of %s.\nIt’s virtually weightless and will degrade naturally in about \n[%d minutes.]\nYou can return it to the device to recover some energy."
           ),
           selected.name,
-          mod.from_turns(lifetime):to_minutes()
+          TimeDuration.from_turns(lifetime):to_minutes()
         )
         mod.poppin(msg)
         reader:mod_moves(-100)
