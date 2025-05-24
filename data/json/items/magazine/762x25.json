@@ -35,6 +35,7 @@
     "ammo_type": "762x25",
     "capacity": 35,
     "reliability": 8,
+    "reload_time": 100,
     "flags": [ "MAG_COMPACT" ]
   },
   {
@@ -53,6 +54,7 @@
     "ammo_type": "762x25",
     "capacity": 8,
     "reliability": 8,
+    "reload_time": 100,
     "flags": [ "MAG_COMPACT" ]
   }
 ]

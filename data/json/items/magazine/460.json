@@ -13,7 +13,8 @@
     "color": "light_gray",
     "ammo_type": [ "45", "460" ],
     "capacity": 10,
-    "reliability": 9,
+    "reliability": 8,
+    "reload_time": 120,
     "flags": [ "MAG_COMPACT" ]
   },
   {
@@ -30,7 +31,8 @@
     "color": "light_gray",
     "ammo_type": [ "45", "460" ],
     "capacity": 7,
-    "reliability": 10,
+    "reliability": 9,
+    "reload_time": 100,
     "flags": [ "MAG_COMPACT" ]
   }
 ]
