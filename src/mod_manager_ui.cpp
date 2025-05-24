@@ -82,7 +82,7 @@ std::string mod_ui::get_information( const MOD_INFORMATION *mod )
     }
 
     if( mod->lua_api_version ) {
-        nc_color col_lua = cata::has_lua() ? c_light_blue : c_red;
+        nc_color col_lua = c_light_blue;
         int this_api = cata::get_lua_api_version();
         nc_color col_api = this_api == *mod->lua_api_version ? c_white : c_yellow;
         info += string_format(

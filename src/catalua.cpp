@@ -25,11 +25,6 @@ constexpr int LUA_API_VERSION = 2;
 namespace cata
 {
 
-bool has_lua()
-{
-    return true;
-}
-
 std::string get_lapi_version_string()
 {
     return string_format( "%d", get_lua_api_version() );
