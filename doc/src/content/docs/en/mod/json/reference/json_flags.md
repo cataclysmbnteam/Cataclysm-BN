@@ -1022,6 +1022,10 @@ Multiple death functions can be used. Not all combinations make sense.
 - `BASHES` Bashes down doors.
 - `BILE_BLOOD` Makes monster bleed bile.
 - `BIOPROOF` Makes monster immune to Bio damage (A damage type mostly used by magic mods)
+- `COLDPROOF` Makes monster immune to Cold damage (A damage type mostly used by magic mods)
+- `DARKPROOF` Makes monster immune to Dark damage (A damage type completely used by magic mods)
+- `LIGHTPROOF` Makes monster immune to Light damage (A damage type completely used by magic mods)
+- `PSIPROOF` Makes monster immune to Psionic damage (A damage type mostly used by magic mods)
 - `BIRDFOOD` Becomes friendly / tamed with bird food.
 - `BLEED` Causes the player to bleed.
 - `BONES` May produce bones and sinews when butchered.
