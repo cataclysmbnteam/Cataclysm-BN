@@ -512,7 +512,7 @@ std::map<item *, bionic_id> npc::check_toggle_cbm()
     if( free_power <= 0_J ) {
         return res;
     }
-    for( bionic &bio : *my_bionics ) {
+    for( bionic &bio : get_bionic_collection() ) {
         // I'm not checking if NPC_USABLE because if it isn't it shouldn't be in them.
         if( bio.powered || !bio.info().has_flag( flag_BIONIC_WEAPON ) ||
             free_power < bio.info().power_activate ) {
@@ -695,7 +695,7 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
         clear_npc_ai_info_cache( npc_ai_info::ideal_weapon_value );
     } else if( bio.id == bio_ears && has_active_bionic( bio_earplugs ) ) {
         add_msg_activate();
-        for( bionic &bio : *my_bionics ) {
+        for( bionic &bio : get_bionic_collection() ) {
             if( bio.id == bio_earplugs ) {
                 bio.powered = false;
                 add_msg_if_player( m_info, _( "Your %s automatically turn off." ),
@@ -704,7 +704,7 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
         }
     } else if( bio.id == bio_earplugs && has_active_bionic( bio_ears ) ) {
         add_msg_activate();
-        for( bionic &bio : *my_bionics ) {
+        for( bionic &bio : get_bionic_collection() ) {
             if( bio.id == bio_ears ) {
                 bio.powered = false;
                 add_msg_if_player( m_info, _( "Your %s automatically turns off." ),
@@ -2913,7 +2913,7 @@ std::pair<int, int> Character::amount_of_storage_bionics() const
     units::energy lvl = get_max_power_level();
 
     // exclude amount of power capacity obtained via non-power-storage CBMs
-    for( const bionic &it : *my_bionics ) {
+    for( const bionic &it : get_bionic_collection() ) {
         lvl -= it.info().capacity;
     }
 
