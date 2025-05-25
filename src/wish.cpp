@@ -377,7 +377,7 @@ void debug_menu::wishbionics( Character &c )
     while( true ) {
         units::energy power_level = c.get_power_level();
         units::energy power_max = c.get_max_power_level();
-        size_t num_installed = c.get_bionics().size();
+        size_t num_installed = c.get_bionic_collection().size();
 
         bool can_uninstall = num_installed > 0;
         bool can_uninstall_all = can_uninstall || power_max > 0_J;

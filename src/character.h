@@ -987,6 +987,7 @@ class Character : public Creature, public location_visitable<Character>
         bool activate_bionic( bionic &bio, bool eff_only = false,
                               bool *close_bionics_ui = nullptr );
         std::vector<bionic_id> get_bionics() const;
+        bionic_collection &get_bionic_collection() const;
         /** Get state of bionic with given id */
         bionic &get_bionic_state( const bionic_id &id );
         /** Returns amount of Storage CBMs in the corpse **/
