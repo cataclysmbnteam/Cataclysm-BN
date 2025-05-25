@@ -123,9 +123,9 @@ TEST_CASE( "load_tool_use_action", "[item_factory]" )
     file.close();
 }
 
-const itype *get_item( Item_factory &test_factory, std::string name )
+const itype *get_item( Item_factory &test_factory, const std::string &name )
 {
-    std::vector <const itype *> test_items = test_factory.find( [name]( const itype & item ) {
+    std::vector <const itype *> test_items = test_factory.find( [&name]( const itype & item ) {
         return item.get_id() == itype_id( name );
     } );
 
@@ -133,4 +133,4 @@ const itype *get_item( Item_factory &test_factory, std::string name )
     return test_items[0];
 }
 
-}
+} // namespace item_factory_test

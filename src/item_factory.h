@@ -13,7 +13,6 @@
 #include "item.h"
 #include "itype.h"
 #include "iuse.h"
-#include "json.h"
 #include "type_id.h"
 
 class Item_group;
@@ -315,7 +314,8 @@ class Item_factory
 
         std::pair<std::string, use_function> usage_from_object( const JsonObject &obj );
 
-        std::optional<JsonArray> extend_has_member( const JsonObject &jo, const std::string &member );
+        static std::optional<JsonArray> extend_has_member( const JsonObject &jo,
+                const std::string &member );
 
         /**
          * Helper function for Item_group loading
