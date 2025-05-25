@@ -1,9 +1,8 @@
 #include "catch/catch.hpp"
 
-#include "consumption_test.h"
-
 #include "avatar.h"
 #include "bionics.h"
+#include "consumption.h"
 #include "effect.h"
 #include "item.h"
 #include "mutation.h"
