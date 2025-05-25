@@ -1003,9 +1003,6 @@ bool item::display_stacked_with( const item &rhs, bool check_components ) const
     return !count_by_charges() && stacks_with( rhs, check_components );
 }
 
-// This function is structured to begin with a series of 'return false' checks.
-// These are intended to short circuit, so we stack _only_ if we don't meet any explicit "don't stack" criteria
-// Any stacking logic that _doesn't_ 'return false' must go at the end of the function
 bool item::stacks_with( const item &rhs, bool check_components, bool skip_type_check ) const
 {
     if( !skip_type_check && type != rhs.type ) {
