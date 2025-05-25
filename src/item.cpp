@@ -1111,7 +1111,6 @@ bool item::stacks_with_corpse( const item &rhs ) const
         return true;
     }
 
-    int( ( corpse->id == rhs.corpse->id ) ) );
     return false;
 }
 
