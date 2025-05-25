@@ -25,7 +25,7 @@ TEST_CASE( "consume_poison", "[consumption]" )
     SECTION( "not poison" ) {
         test_poison.poison = 0;
         consume_poison( test_consumer, test_poison );
-        effect &is_poisoned = test_consumer.get_effect( effect_foodpoison );
+        bool is_poisoned = static_cast<bool>( test_consumer.get_effect( effect_foodpoison ) );
 
         CHECK( !is_poisoned );
     }
@@ -36,7 +36,7 @@ TEST_CASE( "consume_poison", "[consumption]" )
         SECTION( "vulnerable" ) {
             consume_poison( test_consumer, test_poison );
 
-            effect &is_poisoned = test_consumer.get_effect( effect_foodpoison );
+            bool is_poisoned = static_cast<bool>( test_consumer.get_effect( effect_foodpoison ) );
             CHECK( is_poisoned );
         }
 
@@ -45,7 +45,7 @@ TEST_CASE( "consume_poison", "[consumption]" )
                 test_consumer.set_mutation( trait_POISRESIST );
                 consume_poison( test_consumer, test_poison );
 
-                effect &is_poisoned = test_consumer.get_effect( effect_foodpoison );
+                bool is_poisoned = static_cast<bool>( test_consumer.get_effect( effect_foodpoison ) );
                 CHECK( !is_poisoned );
             }
 
@@ -53,7 +53,7 @@ TEST_CASE( "consume_poison", "[consumption]" )
                 test_consumer.set_mutation( trait_EATDEAD );
                 consume_poison( test_consumer, test_poison );
 
-                effect &is_poisoned = test_consumer.get_effect( effect_foodpoison );
+                bool is_poisoned = static_cast<bool>( test_consumer.get_effect( effect_foodpoison ) );
                 CHECK( !is_poisoned );
             }
 
@@ -61,7 +61,7 @@ TEST_CASE( "consume_poison", "[consumption]" )
                 test_consumer.add_bionic( bio_digestion );
                 consume_poison( test_consumer, test_poison );
 
-                effect &is_poisoned = test_consumer.get_effect( effect_foodpoison );
+                bool is_poisoned = static_cast<bool>( test_consumer.get_effect( effect_foodpoison ) );
                 CHECK( !is_poisoned );
             }
         }
