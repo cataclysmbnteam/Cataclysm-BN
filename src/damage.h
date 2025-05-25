@@ -26,6 +26,9 @@ enum damage_type : int {
     DT_STAB, // stabbing/piercing damage
     DT_HEAT, // e.g. fire, plasma
     DT_COLD, // e.g. heatdrain, cryogrenades
+    DT_DARK, // e.g. eldritch blast from D&D, death coil from Warcraft
+    DT_LIGHT, // e.g. holy magic that damages undead, Holy light from Warcraft
+    DT_PSI, // e.g. mental magic from Spellforce, Mind Spike from D&D
     DT_ELECTRIC, // e.g. electrical discharge
     DT_BULLET, // bullets and other fast moving projectiles
     NUM_DT
