@@ -818,7 +818,7 @@
     "autolearn": true,
     "flags": [ "BLIND_HARD" ],
     "components": [
-      [ [ "milk_substitute_standard", 2, "LIST" ] ],
+      [ [ "ghee", 1 ] ],
       [ [ "hickory_root", 1 ] ],
       [ [ "sugar", 40 ] ],
       [ [ "water_clean", 10 ] ]
