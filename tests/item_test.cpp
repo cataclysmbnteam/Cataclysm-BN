@@ -4,16 +4,16 @@
 #include <limits>
 #include <memory>
 
-#include "cached_item_options.h"
 #include "calendar.h"
 #include "enums.h"
 #include "item.h"
 #include "itype.h"
-#include "math_defines.h"
 #include "ret_val.h"
+#include "math_defines.h"
 #include "type_id.h"
 #include "units.h"
 #include "value_ptr.h"
+#include "cached_item_options.h"
 
 TEST_CASE( "item_volume", "[item]" )
 {
@@ -322,12 +322,7 @@ TEST_CASE( "stacking_corpses", "[item]" )
 
     WHEN( "corpses differently damaged" ) {
         human_corpse2.inc_damage();
-        THEN( "they don't stack" ) {
-            CHECK( !human_corpse1.stacks_with( human_corpse2 ) );
-        }
-
-        THEN( "they stack if damaged equally" ) {
-            human_corpse1.inc_damage();
+        THEN( "should still stack" ) {
             CHECK( human_corpse1.stacks_with( human_corpse2 ) );
         }
     }

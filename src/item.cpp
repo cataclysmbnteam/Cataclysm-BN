@@ -1011,7 +1011,7 @@ bool item::stacks_with( const item &rhs, bool check_components, bool skip_type_c
     if( is_relic() && rhs.is_relic() && !( *relic_data == *rhs.relic_data ) ) {
         return false;
     }
-    if( charges != 0 && rhs.charges != 0 && is_money() ) {
+    if( is_money() && charges != 0 && rhs.charges != 0 ) {
         // Dealing with nonempty cash cards
         return true;
     }
@@ -1023,6 +1023,11 @@ bool item::stacks_with( const item &rhs, bool check_components, bool skip_type_c
     if( is_favorite != rhs.is_favorite ) {
         return false;
     }
+
+    if( is_corpse() || rhs.is_corpse() ) {
+        return stacks_with_corpse( rhs );
+    }
+
     if( damage_ != rhs.damage_ ) {
         return false;
     }
@@ -1043,15 +1048,6 @@ bool item::stacks_with( const item &rhs, bool check_components, bool skip_type_c
     }
     if( item_vars != rhs.item_vars ) {
         return false;
-    }
-
-    if( is_corpse() || rhs.is_corpse() ) {
-        if( is_corpse()  != rhs.is_corpse() ) {
-            return false;
-        }
-        if( ( corpse->id != rhs.corpse->id ) ) {
-            return false;
-        }
     }
 
     if( craft_data_ || rhs.craft_data_ ) {
@@ -1107,6 +1103,16 @@ bool item::stacks_with( const item &rhs, bool check_components, bool skip_type_c
     }
 
     return contents.stacks_with( rhs.contents );
+}
+
+bool item::stacks_with_corpse( const item &rhs ) const
+{
+    if( is_corpse() && rhs.is_corpse() && ( *get_mtype() == *rhs.get_mtype() ) ) {
+        return true;
+    }
+
+    int( ( corpse->id == rhs.corpse->id ) ) );
+    return false;
 }
 
 namespace
