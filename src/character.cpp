@@ -2069,6 +2069,10 @@ bool Character::natural_attack_restricted_on( const bodypart_id &bp ) const
     return false;
 }
 
+bionic_collection &Character::get_bionic_collection() const
+{
+    return *my_bionics;
+}
 std::vector<bionic_id> Character::get_bionics() const
 {
     std::vector<bionic_id> result;
