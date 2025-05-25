@@ -24,6 +24,7 @@
 #include "bodypart.h"
 #include "catalua.h"
 #include "cata_utility.h"
+#include "catalua_impl.h"
 #include "clothing_mod.h"
 #include "clzones.h"
 #include "construction.h"
@@ -898,6 +899,11 @@ static void load_and_finalize_packs( loading_ui &ui, const std::string &msg,
 
 auto init::load_main_lua_scripts( cata::lua_state &state, const std::vector<mod_id> &packs ) -> int
 {
+    state.lua.script( R"(
+        for k, v in pairs(package.loaded)
+            do package.loaded[k] = nil
+        end
+    )" );
     auto range = packs | std::views::filter( []( const mod_id & mod ) { return mod.is_valid() && mod->lua_api_version; } );
     for( const auto &mod : range ) {
         cata::set_mod_being_loaded( state, mod );
