@@ -1072,27 +1072,27 @@ nc_color spell::damage_type_color() const
         case DT_ACID:
             return c_light_green;
         case DT_BASH:
-            return c_magenta;
+            return c_brown;
         case DT_BIOLOGICAL:
             return c_green;
         case DT_COLD:
-            return c_white;
+            return c_blue;
         case DT_DARK:
-            return c_green;
-        case DT_LIGHT:
-            return c_yellow;
-        case DT_PSI:
             return c_magenta;
+        case DT_LIGHT:
+            return c_white;
+        case DT_PSI:
+            return c_pink;
         case DT_CUT:
             return c_light_gray;
         case DT_ELECTRIC:
-            return c_light_blue;
+            return c_light_cyan;
         case DT_BULLET:
         /* fallthrough */
         case DT_STAB:
             return c_light_red;
         case DT_TRUE:
-            return c_dark_gray;
+            return c_light_gray;
         default:
             return c_black;
     }
