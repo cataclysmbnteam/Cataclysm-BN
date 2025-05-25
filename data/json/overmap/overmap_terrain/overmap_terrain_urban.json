@@ -102,8 +102,28 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "urban_18_1", "urban_18_2", "urban_19_1", "urban_19_2", "urban_20_1", "urban_20_2", "urban_23_1", "urban_23_2" ],
+    "id": [ "urban_18_1", "urban_18_2", "urban_19_1", "urban_19_2", "urban_20_1", "urban_20_2" ],
     "copy-from": "generic_city_house_basement"
+  },
+  {
+    "id": "urban_23_1",
+    "type": "overmap_terrain",
+    "name": "basement",
+    "sym": "O",
+    "color": "dark_gray",
+    "see_cost": 5,
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "id": "urban_23_2",
+    "type": "overmap_terrain",
+    "name": "basement",
+    "sym": "O",
+    "color": "dark_gray",
+    "see_cost": 5,
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
   },
   {
     "id": "urban_subway",
