@@ -1003,6 +1003,9 @@ bool item::display_stacked_with( const item &rhs, bool check_components ) const
     return !count_by_charges() && stacks_with( rhs, check_components );
 }
 
+// This function is structured to begin with a series of 'return false' checks.
+// These are intended to short circuit, so we stack _only_ if we don't meet any explicit "don't stack" criteria
+// Any stacking logic that _doesn't_ 'return false' must go at the end of the function
 bool item::stacks_with( const item &rhs, bool check_components, bool skip_type_check ) const
 {
     if( !skip_type_check && type != rhs.type ) {
@@ -1044,6 +1047,37 @@ bool item::stacks_with( const item &rhs, bool check_components, bool skip_type_c
     if( item_vars != rhs.item_vars ) {
         return false;
     }
+
+    if( is_corpse() || rhs.is_corpse() ) {
+        if( is_corpse()  != rhs.is_corpse() ) {
+            return false;
+        }
+        if( ( corpse->id != rhs.corpse->id ) ) {
+            return false;
+        }
+    }
+
+    if( craft_data_ || rhs.craft_data_ ) {
+        // In-progress crafts are always distinct items. Easier to handle for the player,
+        // and there shouldn't be that many items of this type around anyway.
+        return false;
+    }
+    if( check_components || is_comestible() || is_craft() ) {
+        //Only check if at least one item isn't using the default recipe or is comestible
+        if( !components.empty() || !rhs.components.empty() ) {
+            if( get_uncraft_components() != rhs.get_uncraft_components() ) {
+                return false;
+            }
+        }
+    }
+    if( contents.num_item_stacks() != rhs.contents.num_item_stacks() ) {
+        return false;
+    }
+
+    if( ammo_current() != rhs.ammo_current() ) {
+        return false;
+    }
+
     if( goes_bad() && rhs.goes_bad() ) {
         // Stack items that fall into the same "bucket" of freshness.
         // Distant buckets are larger than near ones.
@@ -1073,33 +1107,6 @@ bool item::stacks_with( const item &rhs, bool check_components, bool skip_type_c
             // just to be safe that rotten and unrotten food is *never* stacked.
             return false;
         }
-    }
-    if( ( corpse == nullptr && rhs.corpse != nullptr ) ||
-        ( corpse != nullptr && rhs.corpse == nullptr ) ) {
-        return false;
-    }
-    if( corpse != nullptr && rhs.corpse != nullptr && corpse->id != rhs.corpse->id ) {
-        return false;
-    }
-    if( craft_data_ || rhs.craft_data_ ) {
-        // In-progress crafts are always distinct items. Easier to handle for the player,
-        // and there shouldn't be that many items of this type around anyway.
-        return false;
-    }
-    if( check_components || is_comestible() || is_craft() ) {
-        //Only check if at least one item isn't using the default recipe or is comestible
-        if( !components.empty() || !rhs.components.empty() ) {
-            if( get_uncraft_components() != rhs.get_uncraft_components() ) {
-                return false;
-            }
-        }
-    }
-    if( contents.num_item_stacks() != rhs.contents.num_item_stacks() ) {
-        return false;
-    }
-
-    if( ammo_current() != rhs.ammo_current() ) {
-        return false;
     }
 
     return contents.stacks_with( rhs.contents );
