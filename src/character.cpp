@@ -2076,7 +2076,7 @@ bionic_collection &Character::get_bionic_collection() const
 std::vector<bionic_id> Character::get_bionics() const
 {
     std::vector<bionic_id> result;
-    for( const bionic &b : *my_bionics ) {
+    for( const bionic &b : get_bionic_collection() ) {
         result.push_back( b.id );
     }
     return result;
@@ -2084,7 +2084,7 @@ std::vector<bionic_id> Character::get_bionics() const
 
 bionic &Character::get_bionic_state( const bionic_id &id )
 {
-    for( bionic &b : *my_bionics ) {
+    for( bionic &b : get_bionic_collection() ) {
         if( id == b.id ) {
             return b;
         }
@@ -2105,7 +2105,7 @@ bool Character::has_bionic( const bionic_id &b ) const
 
 bool Character::has_active_bionic( const bionic_id &b ) const
 {
-    for( const bionic &i : *my_bionics ) {
+    for( const bionic &i : get_bionic_collection() ) {
         if( i.id == b ) {
             return ( i.powered && i.incapacitated_time == 0_turns );
         }
@@ -3757,7 +3757,7 @@ std::vector<std::string> Character::get_overlay_ids() const
     }
 
     // then get bionics
-    for( const bionic &bio : *my_bionics ) {
+    for( const bionic &bio : get_bionic_collection() ) {
         if( !bio.show_sprite ) {
             continue;
         }
@@ -4989,7 +4989,7 @@ void Character::on_damage_of_type( int adjusted_damage, damage_type type, const 
     // Electrical damage has a chance to temporarily incapacitate bionics in the damaged body_part.
     if( type == DT_ELECTRIC ) {
         const time_duration min_disable_time = 10_turns * adjusted_damage;
-        for( bionic &i : *my_bionics ) {
+        for( bionic &i : get_bionic_collection() ) {
             if( !i.powered ) {
                 // Unpowered bionics are protected from power surges.
                 continue;
@@ -8352,7 +8352,7 @@ void Character::recalculate_enchantment_cache()
         }
     }
 
-    for( const bionic &bio : *my_bionics ) {
+    for( const bionic &bio : get_bionic_collection() ) {
         const bionic_id &bid = bio.id;
 
         for( const enchantment_id &ench_id : bid->enchantments ) {
@@ -10212,7 +10212,7 @@ bool Character::has_charges( const itype_id &it, int quantity,
     if( it == itype_bio_armor ) {
         int mod_qty = 0;
         float efficiency = 1;
-        for( const bionic &bio : *my_bionics ) {
+        for( const bionic &bio : get_bionic_collection() ) {
             if( bio.powered && bio.info().has_flag( flag_BIONIC_ARMOR_INTERFACE ) ) {
                 efficiency = std::max( efficiency, bio.info().fuel_efficiency );
             }
@@ -10274,7 +10274,7 @@ std::vector<detached_ptr<item>> Character::use_charges( const itype_id &what, in
     } else if( what == itype_bio_armor ) {
         float mod_qty = 0;
         float efficiency = 1;
-        for( const bionic &bio : *my_bionics ) {
+        for( const bionic &bio : get_bionic_collection() ) {
             if( bio.powered && bio.info().has_flag( flag_BIONIC_ARMOR_INTERFACE ) ) {
                 efficiency = std::max( efficiency, bio.info().fuel_efficiency );
             }
@@ -10803,7 +10803,7 @@ void Character::place_corpse()
     for( auto &itm : tmp ) {
         here.add_item_or_charges( pos(), std::move( itm ) );
     }
-    for( const bionic &bio : *my_bionics ) {
+    for( const bionic &bio : get_bionic_collection() ) {
         if( bio.info().itype().is_valid() ) {
             detached_ptr<item> cbm = item::spawn( bio.id.str(), calendar::turn );
             cbm->faults.emplace( fault_bionic_nonsterile );
@@ -10852,7 +10852,7 @@ void Character::place_corpse( const tripoint_abs_omt &om_target )
     for( auto &itm : tmp ) {
         bay.add_item_or_charges( fin, std::move( itm ) );
     }
-    for( const bionic &bio : *my_bionics ) {
+    for( const bionic &bio : get_bionic_collection() ) {
         if( bio.info().itype().is_valid() ) {
             body->put_in( item::spawn( bio.info().itype(), calendar::turn ) );
         }
