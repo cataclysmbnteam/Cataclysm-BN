@@ -1,0 +1,30 @@
+[
+  {
+    "type": "item_group",
+    "id": "ammo_pistol_obscure",
+    "//": "Imported or otherwise very obscure pistol ammo.",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "9x18mm", "prob": 20, "charges": [ 1, 100 ] },
+      { "item": "9x18mmfmj", "prob": 20, "charges": [ 1, 100 ] },
+      { "item": "9x18mmP2", "prob": 10, "charges": [ 1, 100 ] }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "ammo_smg_obscure",
+    "//": "Imported or otherwise very obscure SMG ammo.",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "9x18mm", "prob": 60, "charges": [ 1, 100 ] },
+      { "item": "9x18mmfmj", "prob": 30, "charges": [ 1, 100 ] },
+      { "item": "9x18mmP2", "prob": 10, "charges": [ 1, 100 ] }
+    ]
+  },
+  {
+    "id": "ammo_casings",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "item": "9x18mm_casing", "prob": 80 } ]
+  }
+]

@@ -672,18 +672,6 @@
     ]
   },
   {
-    "id": "everyday_makarov",
-    "type": "item_group",
-    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
-    "subtype": "collection",
-    "entries": [
-      { "item": "makarov", "ammo-group": "on_hand_9x18", "charges": [ 0, 8 ] },
-      { "item": "makarovmag", "charges-min": 0, "prob": 80, "ammo-group": "on_hand_9x18" },
-      { "item": "makarovmag", "charges-min": 0, "ammo-group": "on_hand_9x18", "prob": 50 },
-      { "group": "on_hand_9x18", "prob": 25, "charges": [ 10, 20 ], "count": [ 1, 2 ] }
-    ]
-  },
-  {
     "id": "everyday_hk_mp5_semi_pistol",
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
@@ -2580,18 +2568,6 @@
       { "item": "skorpion61mag", "charges-min": 0, "prob": 80, "ammo-group": "on_hand_32" },
       { "item": "skorpion61mag", "charges-min": 0, "ammo-group": "on_hand_32", "prob": 50 },
       { "group": "on_hand_32", "prob": 25, "charges": [ 10, 20 ], "count": [ 1, 2 ] }
-    ]
-  },
-  {
-    "id": "everyday_skorpion_82",
-    "type": "item_group",
-    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
-    "subtype": "collection",
-    "entries": [
-      { "item": "skorpion_82", "ammo-group": "on_hand_9x18", "charges": [ 0, 20 ] },
-      { "item": "skorpion82mag", "charges-min": 0, "prob": 80, "ammo-group": "on_hand_9x18" },
-      { "item": "skorpion82mag", "charges-min": 0, "ammo-group": "on_hand_9x18", "prob": 50 },
-      { "group": "on_hand_9x18", "prob": 25, "charges": [ 10, 20 ], "count": [ 1, 2 ] }
     ]
   },
   {

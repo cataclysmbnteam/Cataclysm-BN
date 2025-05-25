@@ -121,12 +121,6 @@
   },
   {
     "type": "ammunition_type",
-    "id": "9x18",
-    "name": "9x18mm",
-    "default": "9x18mm"
-  },
-  {
-    "type": "ammunition_type",
     "id": "380",
     "name": ".380 ACP",
     "default": "380_JHP"

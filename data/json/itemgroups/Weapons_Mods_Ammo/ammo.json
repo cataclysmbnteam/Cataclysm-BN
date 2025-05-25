@@ -77,10 +77,7 @@
       { "item": "762_25typeP", "prob": 10, "charges": [ 1, 100 ] },
       { "item": "762_m43", "prob": 10, "charges": [ 1, 100 ] },
       { "item": "762_m87", "prob": 20, "charges": [ 1, 100 ] },
-      { "item": "8mm_civilian", "prob": 30, "charges": [ 1, 100 ] },
-      { "item": "9x18mm", "prob": 20, "charges": [ 1, 100 ] },
-      { "item": "9x18mmfmj", "prob": 20, "charges": [ 1, 100 ] },
-      { "item": "9x18mmP2", "prob": 10, "charges": [ 1, 100 ] }
+      { "item": "8mm_civilian", "prob": 30, "charges": [ 1, 100 ] }
     ]
   },
   {
@@ -181,10 +178,7 @@
     "entries": [
       { "item": "762_25", "prob": 100, "charges": [ 1, 100 ] },
       { "item": "762_25hot", "prob": 25, "charges": [ 1, 100 ] },
-      { "item": "762_25typeP", "prob": 25, "charges": [ 1, 100 ] },
-      { "item": "9x18mm", "prob": 60, "charges": [ 1, 100 ] },
-      { "item": "9x18mmfmj", "prob": 30, "charges": [ 1, 100 ] },
-      { "item": "9x18mmP2", "prob": 10, "charges": [ 1, 100 ] }
+      { "item": "762_25typeP", "prob": 25, "charges": [ 1, 100 ] }
     ]
   },
   {
@@ -707,7 +701,6 @@
       { "item": "762_51_casing", "prob": 80 },
       { "item": "762R_casing", "prob": 60 },
       { "item": "9mm_casing", "prob": 100 },
-      { "item": "9x18mm_casing", "prob": 80 },
       { "item": "shot_hull", "prob": 100 },
       { "item": "300blk_casing", "prob": 80 }
     ]

@@ -1,0 +1,8 @@
+[
+  {
+    "type": "ammunition_type",
+    "id": "9x18",
+    "name": "9x18mm",
+    "default": "9x18mm"
+  }
+]

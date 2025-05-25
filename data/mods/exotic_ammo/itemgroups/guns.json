@@ -1,0 +1,26 @@
+[
+  {
+    "type": "item_group",
+    "id": "guns_pistol_obscure",
+    "//": "Imported or otherwise very obscure pistols.",
+    "items": [ { "group": "nested_makarov", "prob": 50 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "carried_guns_pistol_obscure",
+    "//": "Imported or otherwise very obscure pistols being carried, with either mags or loose ammo.",
+    "items": [ { "group": "everyday_makarov", "prob": 50 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_smg_obscure",
+    "//": "Imported or otherwise very obscure SMGs.",
+    "items": [ { "group": "nested_skorpion_82", "prob": 100 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "carried_guns_smg_obscure",
+    "//": "Imported or otherwise very obscure SMGs. Just mags, no loose ammo.",
+    "items": [ { "group": "everyday_skorpion_82", "prob": 100 } ]
+  }
+]

@@ -947,19 +947,6 @@
     "entries": [ { "item": "colt_navy", "ammo-group": "on_hand_36paper", "charges": [ 0, 6 ] }, { "group": "on_hand_36paper" } ]
   },
   {
-    "id": "nested_makarov",
-    "type": "item_group",
-    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
-    "subtype": "collection",
-    "ammo": 100,
-    "entries": [
-      { "item": "makarov", "ammo-group": "on_hand_9x18", "charges": [ 0, 8 ] },
-      { "item": "makarovmag", "ammo-group": "on_hand_9x18" },
-      { "item": "makarovmag", "ammo-group": "on_hand_9x18", "prob": 50 },
-      { "group": "on_hand_9x18" }
-    ]
-  },
-  {
     "id": "nested_pistol_flintlock",
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
@@ -2341,19 +2328,6 @@
       { "item": "skorpion61mag", "ammo-group": "on_hand_32" },
       { "item": "skorpion61mag", "ammo-group": "on_hand_32", "prob": 50 },
       { "group": "on_hand_32" }
-    ]
-  },
-  {
-    "id": "nested_skorpion_82",
-    "type": "item_group",
-    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
-    "subtype": "collection",
-    "ammo": 100,
-    "entries": [
-      { "item": "skorpion_82", "ammo-group": "on_hand_9x18", "charges": [ 0, 20 ] },
-      { "item": "skorpion82mag", "ammo-group": "on_hand_9x18" },
-      { "item": "skorpion82mag", "ammo-group": "on_hand_9x18", "prob": 50 },
-      { "group": "on_hand_9x18" }
     ]
   },
   {

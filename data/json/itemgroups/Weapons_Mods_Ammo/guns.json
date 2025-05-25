@@ -249,7 +249,6 @@
       { "group": "nested_draco", "prob": 30 },
       { "group": "nested_lemat_revolver", "prob": 50 },
       { "group": "nested_m1911-460", "prob": 5 },
-      { "group": "nested_makarov", "prob": 50 },
       { "group": "nested_moss_brownie", "prob": 20 },
       { "group": "nested_pistol_flintlock", "prob": 70 },
       { "group": "nested_raging_bull", "prob": 60 },
@@ -273,7 +272,6 @@
       { "group": "everyday_draco", "prob": 30 },
       { "group": "everyday_lemat_revolver", "prob": 50 },
       { "group": "everyday_m1911-460", "prob": 5 },
-      { "group": "everyday_makarov", "prob": 50 },
       { "group": "everyday_moss_brownie", "prob": 20 },
       { "group": "everyday_pistol_flintlock", "prob": 70 },
       { "group": "everyday_raging_bull", "prob": 60 },
@@ -413,8 +411,7 @@
     "items": [
       { "group": "nested_briefcase_smg", "prob": 80 },
       { "group": "nested_ppsh", "prob": 150 },
-      { "group": "nested_skorpion_61", "prob": 100 },
-      { "group": "nested_skorpion_82", "prob": 100 }
+      { "group": "nested_skorpion_61", "prob": 100 }
     ]
   },
   {
@@ -424,8 +421,7 @@
     "items": [
       { "group": "everyday_briefcase_smg", "prob": 80 },
       { "group": "everyday_ppsh", "prob": 150 },
-      { "group": "everyday_skorpion_61", "prob": 100 },
-      { "group": "everyday_skorpion_82", "prob": 100 }
+      { "group": "everyday_skorpion_61", "prob": 100 }
     ]
   },
   {
