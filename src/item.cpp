@@ -1025,7 +1025,7 @@ bool item::stacks_with( const item &rhs, bool check_components, bool skip_type_c
     }
 
     if( is_corpse() || rhs.is_corpse() ) {
-        return stacks_with_corpse( rhs );
+        return this->is_corpse() && rhs.is_corpse() && ( *this->get_mtype() == *rhs.get_mtype() );
     }
 
     if( damage_ != rhs.damage_ ) {
@@ -1103,15 +1103,6 @@ bool item::stacks_with( const item &rhs, bool check_components, bool skip_type_c
     }
 
     return contents.stacks_with( rhs.contents );
-}
-
-bool item::stacks_with_corpse( const item &rhs ) const
-{
-    if( is_corpse() && rhs.is_corpse() && ( *get_mtype() == *rhs.get_mtype() ) ) {
-        return true;
-    }
-
-    return false;
 }
 
 namespace

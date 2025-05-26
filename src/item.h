@@ -612,7 +612,6 @@ class item : public location_visitable<item>, public game_object<item>
         bool display_stacked_with( const item &rhs, bool check_components = false ) const;
         bool stacks_with( const item &rhs, bool check_components = false,
                           bool skip_type_check = false ) const;
-        bool stacks_with_corpse( const item &rhs ) const;
         /**
          * Merge charges of the other item into this item. Destroying rhs in the process.
          * @return true if the items have been merged, otherwise false.
@@ -2647,4 +2646,5 @@ struct cable_connection_data {
         con2.point = tripoint_abs_ms( tmp );
     }
 };
+
 
