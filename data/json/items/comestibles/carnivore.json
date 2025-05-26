@@ -728,6 +728,7 @@
     "volume": "250 ml",
     "charges": 2,
     "stack_size": 4,
+    "flags": [ "UNRECOVERABLE", "NO_SALVAGE" ],
     "vitamins": [ [ "meat_allergen", 1 ] ],
     "fun": -18
   },
@@ -927,7 +928,7 @@
     "charges": 2,
     "stack_size": 4,
     "fun": -18,
-    "flags": [ "UNSAFE_CONSUME" ],
+    "flags": [ "UNSAFE_CONSUME", "NO_SALVAGE", "UNRECOVERABLE" ],
     "vitamins": [ [ "meat_allergen", 1 ] ]
   },
   {

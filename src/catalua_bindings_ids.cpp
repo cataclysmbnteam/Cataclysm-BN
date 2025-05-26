@@ -16,6 +16,7 @@
 #include "magic.h"
 #include "mapdata.h"
 #include "martialarts.h"
+#include "material.h"
 #include "monfaction.h"
 #include "monstergenerator.h"
 #include "morale_types.h"
@@ -119,6 +120,7 @@ void cata::detail::reg_game_ids( sol::state &lua )
     reg_id<json_trait_flag, false>( lua );
     reg_id<ma_buff, false>( lua );
     reg_id<ma_technique, false>( lua );
+    reg_id<material_type, false>( lua );
     reg_id<monfaction, true>( lua );
     reg_id<morale_type_data, false>( lua );
     reg_id<mtype, false>( lua );
@@ -145,6 +147,13 @@ void cata::detail::reg_types( sol::state &lua )
 
         // Factions are a pain because they _inherit_ from their type, not reference it by id.
         // This causes various weirdness, so let's omit the fields for now.
+    }
+    {
+        sol::usertype<material_type> ut =
+            luna::new_usertype<material_type>( lua, luna::no_bases, luna::no_constructor );
+
+        luna::set_fx( ut, "str_id", &material_type::ident );
+        luna::set_fx( ut, "name", &material_type::name );
     }
     {
         sol::usertype<ter_t> ut =

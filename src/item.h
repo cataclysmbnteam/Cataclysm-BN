@@ -13,6 +13,7 @@
 
 #include "calendar.h"
 #include "coordinates.h"
+#include "coordinates.h"
 #include "detached_ptr.h"
 #include "enums.h"
 #include "flat_set.h"
@@ -1820,6 +1821,7 @@ class item : public location_visitable<item>, public game_object<item>
         /**
          * Enumerates recipes available from this book and the skill level required to use them.
          */
+        std::vector<std::pair<const recipe *, int>> get_available_recipes( const Character &u ) const;
         std::vector<std::pair<const recipe *, int>> get_available_recipes( const Character &u ) const;
         /*@}*/
 

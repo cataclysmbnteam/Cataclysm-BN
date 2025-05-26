@@ -5,7 +5,6 @@
 #include <vector>
 
 #include "point.h"
-#include "mapdata.h"
 #include "ret_val.h"
 #include "type_id.h"
 #include "activity_speed_adapters.h"
@@ -14,7 +13,6 @@ class avatar;
 class Character;
 class inventory;
 class item;
-class player;
 class recipe;
 class time_duration;
 struct iuse_location;
