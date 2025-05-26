@@ -40,6 +40,7 @@
 #include "mtype.h"
 #include "mutation.h"
 #include "output.h"
+#include "options.h"
 #include "pldata.h"
 #include "point.h"
 #include "requirements.h"
@@ -171,6 +172,12 @@ static damage_type damage_type_from_string( std::string &str )
         return DT_BIOLOGICAL;
     } else if( str == "COLD" ) {
         return DT_COLD;
+    } else if( str == "DARK" ) {
+        return DT_DARK;
+    } else if( str == "LIGHT" ) {
+        return DT_LIGHT;
+    } else if( str == "PSI" ) {
+        return DT_PSI;
     } else if( str == "CUT" ) {
         return DT_CUT;
     } else if( str == "BULLET" ) {
@@ -1065,21 +1072,27 @@ nc_color spell::damage_type_color() const
         case DT_ACID:
             return c_light_green;
         case DT_BASH:
-            return c_magenta;
+            return c_brown;
         case DT_BIOLOGICAL:
             return c_green;
         case DT_COLD:
+            return c_blue;
+        case DT_DARK:
+            return c_magenta;
+        case DT_LIGHT:
             return c_white;
+        case DT_PSI:
+            return c_pink;
         case DT_CUT:
             return c_light_gray;
         case DT_ELECTRIC:
-            return c_light_blue;
+            return c_light_cyan;
         case DT_BULLET:
         /* fallthrough */
         case DT_STAB:
             return c_light_red;
         case DT_TRUE:
-            return c_dark_gray;
+            return c_light_gray;
         default:
             return c_black;
     }
@@ -1520,11 +1533,22 @@ int known_magic::max_mana( const Character &guy ) const
 
 double known_magic::mana_regen_rate( const Character &guy ) const
 {
-    // mana should replenish in 8 hours.
-    double full_replenish = to_turns<double>( 8_hours );
-    double capacity = max_mana( guy );
+    bool is_flat_rate = get_option<bool>( "MANA_REGEN_IS_FLAT" );
+    double base_rate;
+    if( !is_flat_rate ) {
+        // mana should replenish in hours_to_regen hours by default.
+        int hours_to_regen = get_option<int>( "MANA_REGEN_HOURS_RATE" );
+        double full_replenish = to_turns<double>( time_duration::from_hours( hours_to_regen ) );
+        double capacity = max_mana( guy );
+        base_rate = capacity / full_replenish;
+    } else {
+        // mana should regen at a rate of flat_rate by default
+        base_rate = get_option<int>( "MANA_REGEN_FLAT" ) / to_turns<double>( 1_hours );
+    }
+
     double mut_mul = guy.mutation_value( "mana_regen_multiplier" );
-    double natural_regen = std::max( 0.0, capacity * mut_mul / full_replenish );
+    double natural_regen = std::max( 0.0, base_rate * mut_mul );
+
 
     double ench_bonus = guy.bonus_from_enchantments( natural_regen, enchant_vals::mod::MANA_REGEN );
 

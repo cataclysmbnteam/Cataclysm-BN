@@ -950,7 +950,8 @@ void player::load( const JsonObject &data )
     }
 
     // Fixes bugged characters for CBM's preventing mutations.
-    for( const bionic_id &bid : get_bionics() ) {
+    for( const bionic &i : get_bionic_collection() ) {
+        const bionic_id &bid = i.id;
         for( const trait_id &mid : bid->canceled_mutations ) {
             if( has_trait( mid ) ) {
                 remove_mutation( mid );
