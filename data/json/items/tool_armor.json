@@ -1009,6 +1009,7 @@
     "qualities": [ [ "HV_INSULATION", 1 ] ],
     "covers": [ "head", "mouth", "eyes", "torso", "arms", "hands", "legs", "feet" ],
     "environmental_protection": 80,
+    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "ARMOR_PSI", "add": -25 } ] } ] },
     "flags": [
       "RAD_PROOF",
       "STURDY",

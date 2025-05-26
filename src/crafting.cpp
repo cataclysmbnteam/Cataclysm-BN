@@ -553,7 +553,7 @@ const inventory &Character::crafting_inventory( const tripoint &src_pos, int rad
     cached_crafting_inventory.add_items( inv, true );
     cached_crafting_inventory.add_item( primary_weapon(), true );
     cached_crafting_inventory.add_items( worn, true );
-    for( const bionic &bio : *my_bionics ) {
+    for( const bionic &bio : get_bionic_collection() ) {
         const bionic_data &bio_data = bio.info();
         if( ( !bio_data.has_flag( flag_BIONIC_TOGGLED ) || bio.powered ) &&
             !bio_data.fake_item.is_empty() ) {
@@ -1533,14 +1533,14 @@ std::vector<detached_ptr<item>> Character::consume_items( const comp_selection<i
                              int batch,
                              const std::function<bool( const item & )> &filter )
 {
-    return consume_items( get_map(), is, batch, filter, pos(), PICKUP_RANGE );
+    return consume_items( get_map(), is, batch, pos(), PICKUP_RANGE, filter );
 }
 
 std::vector<detached_ptr<item>> Character::consume_items( map &m,
                              const comp_selection<item_comp> &is,
                              int batch,
-                             const std::function<bool( const item & )> &filter,
-                             const tripoint &origin, int radius )
+                             const tripoint &origin, int radius,
+                             const std::function<bool( const item & )> &filter )
 {
     std::vector<detached_ptr<item>> ret;
 

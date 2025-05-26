@@ -182,6 +182,7 @@
           { "item": "handrolled_cig", "prob": 10 },
           { "item": "nic_gum", "prob": 20 },
           { "item": "ecig", "prob": 15 },
+          { "item": "butane_can", "prob": 10 },
           { "item": "light_battery_cell", "charges": 100, "container-item": "dab_pen", "prob": 10 },
           { "collection": [ { "item": "weed" }, { "item": "pipe_glass", "prob": 50 } ], "prob": 10 },
           { "collection": [ { "item": "nectar_collector" }, { "item": "thc_wax", "prob": 50 } ], "prob": 10 },

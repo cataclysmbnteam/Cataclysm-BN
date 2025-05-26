@@ -1011,6 +1011,7 @@ class Character : public Creature, public location_visitable<Character>
         bool activate_bionic( bionic &bio, bool eff_only = false,
                               bool *close_bionics_ui = nullptr );
         std::vector<bionic_id> get_bionics() const;
+        bionic_collection &get_bionic_collection() const;
         /** Get state of bionic with given id */
         bionic &get_bionic_state( const bionic_id &id );
         /** Returns amount of Storage CBMs in the corpse **/
@@ -1924,6 +1925,7 @@ class Character : public Creature, public location_visitable<Character>
         void mod_pain( int npain ) override;
         /** Sets new intensity of pain an reacts to it */
         void set_pain( int npain ) override;
+        int get_pain() const override;
         /** Returns perceived pain (reduced with painkillers)*/
         int get_perceived_pain() const override;
 
@@ -2512,8 +2514,8 @@ class Character : public Creature, public location_visitable<Character>
                                      const std::function<bool( const item & )> &filter = return_true<item> );
         std::vector<detached_ptr<item>> consume_items( map &m, const comp_selection<item_comp> &is,
                                      int batch,
-                                     const std::function<bool( const item & )> &filter = return_true<item>,
-                                     const tripoint &origin = tripoint_zero, int radius = PICKUP_RANGE );
+                                     const tripoint &origin, int radius,
+                                     const std::function<bool( const item & )> &filter = return_true<item> );
         std::vector<detached_ptr<item>> consume_items( const std::vector<item_comp> &components,
                                      int batch = 1,
                                      const std::function<bool( const item & )> &filter = return_true<item> );

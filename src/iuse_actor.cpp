@@ -854,7 +854,7 @@ int consume_drug_iuse::use( player &p, item &it, bool, const tripoint & ) const
                                      _( "I need a %1$s to consume %2$s!" ),
                                      item::nname( tool.first ),
                                      it.type_name( 1 ) );
-            return -1;
+            return 0;
         }
     }
     for( const auto &consumable : charges_needed ) {
@@ -865,7 +865,7 @@ int consume_drug_iuse::use( player &p, item &it, bool, const tripoint & ) const
                                      _( "I need a %1$s to consume %2$s!" ),
                                      item::nname( consumable.first ),
                                      it.type_name( 1 ) );
-            return -1;
+            return 0;
         }
     }
 

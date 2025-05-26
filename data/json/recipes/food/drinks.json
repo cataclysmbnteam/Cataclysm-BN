@@ -817,7 +817,7 @@
     "time": "1h15m",
     "autolearn": true,
     "flags": [ "BLIND_HARD" ],
-    "components": [ [ [ "milk_cream", 1 ] ], [ [ "hickory_root", 1 ] ], [ [ "sugar", 40 ] ], [ [ "water_clean", 10 ] ] ]
+    "components": [ [ [ "ghee", 1 ] ], [ [ "hickory_root", 1 ] ], [ [ "sugar", 40 ] ], [ [ "water_clean", 10 ] ] ]
   },
   {
     "type": "recipe",
