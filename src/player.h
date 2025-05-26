@@ -215,8 +215,8 @@ class player : public Character
                                      const std::function<bool( const item & )> &filter = return_true<item> );
         std::vector<detached_ptr<item>> consume_items( map &m, const comp_selection<item_comp> &is,
                                      int batch,
-                                     const std::function<bool( const item & )> &filter = return_true<item>,
-                                     const tripoint &origin = tripoint_zero, int radius = PICKUP_RANGE );
+                                     const tripoint &origin, int radius,
+                                     const std::function<bool( const item & )> &filter = return_true<item> );
         std::vector<detached_ptr<item>> consume_items( const std::vector<item_comp> &components,
                                      int batch = 1,
                                      const std::function<bool( const item & )> &filter = return_true<item> );
