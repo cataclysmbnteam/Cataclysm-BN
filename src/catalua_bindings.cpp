@@ -329,17 +329,15 @@ void cata::detail::reg_item( sol::state &lua )
         luna::set_fx( ut, "display_name", &item::display_name );
 
         DOC( "Weight of the item. The first `bool` is whether including contents, second `bool` is whether it is `integral_weight`." );
-        luna::set_fx( ut, "weight", []( item & it, sol::optional<bool> incl_cont,
-        sol::optional<bool> inte ) {
-            bool include_contents = incl_cont.value_or( true );
-            bool integral = inte.value_or( false );
-            return it.weight( include_contents, integral );
-        } );
+        luna::set_fx( ut, "weight", [](
+                          item & it,
+                          sol::optional<bool> include_contents,
+                          sol::optional<bool> integral
+        ) { return it.weight( include_contents.value_or( true ), integral.value_or( false ) ); } );
+
         DOC( "Volume of the item. `bool` is whether it is `integral_volume`." );
-        luna::set_fx( ut, "volume", []( item & it, sol::optional<bool> inte ) {
-            bool integral = inte.value_or( false );
-            return it.volume( integral );
-        } );
+        luna::set_fx( ut, "volume",
+        []( item & it, sol::optional<bool> integral ) { return it.volume( integral.value_or( false ) ); } );
 
         DOC( "Cents of the item. `bool` is whether it is a post-cataclysm value." );
         luna::set_fx( ut, "price", &item::price );
