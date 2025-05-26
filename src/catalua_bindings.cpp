@@ -428,11 +428,11 @@ void cata::detail::reg_item( sol::state &lua )
 
         luna::set_fx( ut, "mod_charges", &item::mod_charges );
 
-        luna::set_fx( ut, "made_of", sol::resolve<const std::vector<material_id> &() const>
-                      ( &item::made_of ) );
+        luna::set_fx( ut, "made_of",
+                      sol::resolve < auto() const -> const std::vector<material_id> & > ( &item::made_of ) );
 
         luna::set_fx( ut, "is_made_of",
-                      sol::resolve<bool ( const material_id & ) const> ( &item::made_of ) );
+                      sol::resolve < auto( const material_id & ) const -> bool > ( &item::made_of ) );
 
         luna::set_fx( ut, "get_kcal", []( item & it ) -> int {
             return it.is_comestible() ? it.get_comestible()->default_nutrition.kcal : 0;
