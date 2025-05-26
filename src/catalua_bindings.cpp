@@ -435,10 +435,10 @@ void cata::detail::reg_item( sol::state &lua )
                       sol::resolve<bool ( const material_id & ) const> ( &item::made_of ) );
 
         luna::set_fx( ut, "get_kcal", []( item & it ) -> int {
-            return it.is_comestible() ? it.get_comestible()->default_nutrition.kcal : 0 ;
+            return it.is_comestible() ? it.get_comestible()->default_nutrition.kcal : 0;
         } );
         luna::set_fx( ut, "get_quench", []( item & it ) -> int {
-            return it.is_comestible() ? it.get_comestible()->quench : 0 ;
+            return it.is_comestible() ? it.get_comestible()->quench : 0;
         } );
         luna::set_fx( ut, "get_comestible_fun", []( item & it ) -> int {
             return it.get_comestible_fun();
@@ -731,7 +731,7 @@ void cata::detail::reg_ui_elements( sol::state &lua )
         luna::set_fx( ut, "add_w_desc", []( uilist & ui, int retval, const std::string & text,
         const std::string & desc ) {
             ui.addentry_desc( retval, true, MENU_AUTOASSIGN, text, desc );
-        } ) ;
+        } );
         DOC( "Adds an entry with desc and col(third `string`). col is additional text on the right of the entry name." );
         luna::set_fx( ut, "add_w_col", []( uilist & ui, int retval, const std::string & text,
         const std::string & desc, const std::string col ) {
@@ -741,23 +741,23 @@ void cata::detail::reg_ui_elements( sol::state &lua )
         luna::set( ut, "entries", &uilist::entries );
         DOC( "Changes the color. Default color is `c_magenta`." );
         luna::set_fx( ut, "border_color", []( uilist & ui, color_id col ) {
-            ui.border_color = get_all_colors().get( col ) ;
+            ui.border_color = get_all_colors().get( col );
         } );
         DOC( "Changes the color. Default color is `c_light_gray`." );
         luna::set_fx( ut, "text_color", []( uilist & ui, color_id col ) {
-            ui.text_color = get_all_colors().get( col ) ;
+            ui.text_color = get_all_colors().get( col );
         } );
         DOC( "Changes the color. Default color is `c_green`." );
         luna::set_fx( ut, "title_color", []( uilist & ui, color_id col ) {
-            ui.title_color = get_all_colors().get( col ) ;
+            ui.title_color = get_all_colors().get( col );
         } );
         DOC( "Changes the color. Default color is `h_white`." );
         luna::set_fx( ut, "hilight_color", []( uilist & ui, color_id col ) {
-            ui.hilight_color = get_all_colors().get( col ) ;
+            ui.hilight_color = get_all_colors().get( col );
         } );
         DOC( "Changes the color. Default color is `c_light_green`." );
         luna::set_fx( ut, "hotkey_color", []( uilist & ui, color_id col ) {
-            ui.hotkey_color = get_all_colors().get( col ) ;
+            ui.hotkey_color = get_all_colors().get( col );
         } );
         DOC( "Returns retval for selected entry, or a negative number on fail/cancel" );
         luna::set_fx( ut, "query", []( uilist & ui ) {
