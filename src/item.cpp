@@ -6878,6 +6878,9 @@ int item::damage_resist( damage_type dt, bool to_self ) const
         case DT_BIOLOGICAL:
         case DT_ELECTRIC:
         case DT_COLD:
+        case DT_DARK:
+        case DT_LIGHT:
+        case DT_PSI:
             // Currently hardcoded:
             // Items can never be damaged by those types
             // But they provide 0 protection from them

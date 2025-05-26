@@ -103,7 +103,10 @@ enum m_flag : int {
     MF_SLUDGEPROOF,         // Ignores the effect of sludge trails
     MF_SLUDGETRAIL,         // Causes monster to leave a sludge trap trail when moving
     MF_COLDPROOF,           // Immune to cold damage
-    MF_BIOPROOF,     // Immune to biological damage
+    MF_BIOPROOF,            // Immune to biological damage
+    MF_DARKPROOF,           // Immune to dark damage
+    MF_LIGHTPROOF,          // Immune to light damage
+    MF_PSIPROOF,            // Immune to psionic damage
     MF_FIREY,               // Burns stuff and is immune to fire
     MF_QUEEN,               // When it dies, local populations start to die off too
     MF_ELECTRONIC,          // e.g. a robot; affected by EMP blasts, and other stuff
@@ -317,6 +320,9 @@ struct mtype {
         /** If unset (-1) then values are calculated automatically from other properties */
         int armor_bash = -1;     /** innate armor vs. bash */
         int armor_cut  = -1;     /** innate armor vs. cut */
+        int armor_dark = -1;     /** innate armor vs. dark */
+        int armor_light = -1;    /** innate armor vs. light */
+        int armor_psi = -1;      /** innate armor vs. psi */
         int armor_stab = -1;     /** innate armor vs. stabbing */
         int armor_bullet = -1;   /** innate armor vs. bullet */
         int armor_acid = -1;     /** innate armor vs. acid */
