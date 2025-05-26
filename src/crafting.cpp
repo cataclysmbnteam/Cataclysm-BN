@@ -1532,13 +1532,13 @@ std::vector<detached_ptr<item>> player::consume_items( const comp_selection<item
                              int batch,
                              const std::function<bool( const item & )> &filter )
 {
-    return consume_items( get_map(), is, batch, filter, pos(), PICKUP_RANGE );
+    return consume_items( get_map(), is, batch, pos(), PICKUP_RANGE, filter );
 }
 
 std::vector<detached_ptr<item>> player::consume_items( map &m, const comp_selection<item_comp> &is,
                              int batch,
-                             const std::function<bool( const item & )> &filter,
-                             const tripoint &origin, int radius )
+                             const tripoint &origin, int radius,
+                             const std::function<bool( const item & )> &filter )
 {
     std::vector<detached_ptr<item>> ret;
 
