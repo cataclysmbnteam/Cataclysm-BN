@@ -2179,34 +2179,6 @@ class Character : public Creature, public location_visitable<Character>
                                              int radius = PICKUP_RANGE, bool clear_path = true );
         void invalidate_crafting_inventory();
 
-        bool can_continue_craft( item &craft );
-
-        void craft_skill_gain( const item &craft, const int &multiplier );
-
-        const requirement_data *select_requirements(
-            const std::vector<const requirement_data *> &, int batch, const inventory &,
-            const std::function<bool( const item & )> &filter ) const;
-        comp_selection<item_comp>
-
-        select_item_component( const std::vector<item_comp> &components,
-                               int batch, inventory &map_inv, bool can_cancel = false,
-                               const std::function<bool( const item & )> &filter = return_true<item>, bool player_inv = true );
-        std::vector<detached_ptr<item>> consume_items( const comp_selection<item_comp> &is, int batch,
-                                     const std::function<bool( const item & )> &filter = return_true<item> );
-        std::vector<detached_ptr<item>> consume_items( map &m, const comp_selection<item_comp> &is,
-                                     int batch,
-                                     const std::function<bool( const item & )> &filter = return_true<item>,
-                                     const tripoint &origin = tripoint_zero, int radius = PICKUP_RANGE );
-        std::vector<detached_ptr<item>> consume_items( const std::vector<item_comp> &components,
-                                     int batch = 1,
-                                     const std::function<bool( const item & )> &filter = return_true<item> );
-        bool craft_consume_tools( item &craft, int mulitplier, bool start_craft );
-        void consume_tools( const comp_selection<tool_comp> &tool, int batch );
-        void consume_tools( map &m, const comp_selection<tool_comp> &tool, int batch,
-                            const tripoint &origin = tripoint_zero, int radius = PICKUP_RANGE );
-        void consume_tools( const std::vector<tool_comp> &tools, int batch = 1,
-                            const std::string &hotkeys = DEFAULT_HOTKEYS );
-
         /** Returns all known recipes. */
         const recipe_subset &get_learned_recipes() const;
 
