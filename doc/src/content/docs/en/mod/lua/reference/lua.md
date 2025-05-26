@@ -2347,6 +2347,21 @@ Function `( Item, int, bool, int ) -> string`
 Display name with all bells and whistles like ammo and prefixes
 Function `( Item, int ) -> string`
 
+#### weight
+
+Weight of the item. The first `bool` is whether including contents, second `bool` is whether it is `integral_weight`.
+Function `( Item, Opt( bool ), Opt( bool ) ) -> Mass`
+
+#### volume
+
+Volume of the item. `bool` is whether it is `integral_volume`.
+Function `( Item, Opt( bool ) ) -> Volume`
+
+#### price
+
+Cents of the item. `bool` is whether it is a post-cataclysm value.
+Function `( Item, bool ) -> int`
+
 #### has_var
 
 Check for variable of any type
@@ -2594,6 +2609,10 @@ Function `( Item ) -> bool`
 
 Function `( Item ) -> bool`
 
+#### is_stackable
+
+Function `( Item ) -> bool`
+
 #### charges
 
 Variable of type `int`
@@ -2609,6 +2628,26 @@ Function `( Item ) -> bool`
 #### mod_charges
 
 Function `( Item, int )`
+
+#### made_of
+
+Function `( Item ) -> <cppval: St6vectorI9string_idI13material_typeESaIS2_EE >`
+
+#### is_made_of
+
+Function `( Item, MaterialTypeId ) -> bool`
+
+#### get_kcal
+
+Function `( Item ) -> int`
+
+#### get_quench
+
+Function `( Item ) -> int`
+
+#### get_comestible_fun
+
+Function `( Item ) -> int`
 
 #### get_rot
 
@@ -3270,6 +3309,78 @@ Function `( Mass, Mass ) -> bool`
 #### __le
 
 Function `( Mass, Mass ) -> bool`
+
+## MaterialTypeId
+
+### Bases
+
+No base classes.
+
+### Constructors
+
+#### `MaterialTypeId.new()`
+
+#### `MaterialTypeId.new( MaterialTypeId )`
+
+#### `MaterialTypeId.new( string )`
+
+### Members
+
+#### obj
+
+Function `( MaterialTypeId ) -> MaterialTypeRaw`
+
+#### implements_int_id
+
+Function `() -> bool`
+
+#### is_null
+
+Function `( MaterialTypeId ) -> bool`
+
+#### is_valid
+
+Function `( MaterialTypeId ) -> bool`
+
+#### str
+
+Function `( MaterialTypeId ) -> string`
+
+#### NULL_ID
+
+Function `() -> MaterialTypeId`
+
+#### __tostring
+
+Function `( MaterialTypeId ) -> string`
+
+#### serialize
+
+Function `( MaterialTypeId, <cppval: 7JsonOut > )`
+
+#### deserialize
+
+Function `( MaterialTypeId, <cppval: 6JsonIn > )`
+
+## MaterialTypeRaw
+
+### Bases
+
+No base classes.
+
+### Constructors
+
+No constructors.
+
+### Members
+
+#### str_id
+
+Function `( MaterialTypeRaw ) -> MaterialTypeId`
+
+#### name
+
+Function `( MaterialTypeRaw ) -> string`
 
 ## Monster
 

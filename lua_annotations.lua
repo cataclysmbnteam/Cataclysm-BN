@@ -669,9 +669,12 @@ function FurnRaw.new() end
 ---@field energy_remaining fun(arg1: Item): Energy
 ---@field erase_var fun(arg1: Item, arg2: string) @Erase variable
 ---@field get_category_id fun(arg1: Item): string @Gets the category id this item is in
+---@field get_comestible_fun fun(arg1: Item): integer
+---@field get_kcal fun(arg1: Item): integer
 ---@field get_mtype fun(arg1: Item): MtypeId @Almost for a corpse.
 ---@field get_owner fun(arg1: Item): FactionId @Gets the faction id that owns this item
 ---@field get_owner_name fun(arg1: Item): string
+---@field get_quench fun(arg1: Item): integer
 ---@field get_reload_time fun(arg1: Item): integer
 ---@field get_rot fun(arg1: Item): TimeDuration @Gets the TimeDuration until this item rots
 ---@field get_techniques fun(arg1: Item): any @Gets all techniques. Including original techniques.
@@ -717,6 +720,7 @@ function FurnRaw.new() end
 ---@field is_gunmod fun(arg1: Item): boolean
 ---@field is_holster fun(arg1: Item): boolean
 ---@field is_irremovable fun(arg1: Item): boolean
+---@field is_made_of fun(arg1: Item, arg2: MaterialTypeId): boolean
 ---@field is_magazine fun(arg1: Item): boolean @Is this a magazine? (batteries are magazines)
 ---@field is_map fun(arg1: Item): boolean
 ---@field is_med_container fun(arg1: Item): boolean
@@ -734,6 +738,7 @@ function FurnRaw.new() end
 ---@field is_sided fun(arg1: Item): boolean
 ---@field is_silent fun(arg1: Item): boolean
 ---@field is_soft fun(arg1: Item): boolean
+---@field is_stackable fun(arg1: Item): boolean
 ---@field is_tainted fun(arg1: Item): boolean
 ---@field is_tool fun(arg1: Item): boolean
 ---@field is_toolmod fun(arg1: Item): boolean
@@ -742,13 +747,15 @@ function FurnRaw.new() end
 ---@field is_upgrade fun(arg1: Item): boolean
 ---@field is_watertight_container fun(arg1: Item): boolean
 ---@field is_wheel fun(arg1: Item): boolean
+---@field made_of fun(arg1: Item): any
 ---@field mod_charges fun(arg1: Item, arg2: integer)
+---@field price fun(arg1: Item, arg2: boolean): integer @Cents of the item. `bool` is whether it is a post-cataclysm value.
 ---@field remaining_capacity_for_id fun(arg1: Item, arg2: ItypeId, arg3: boolean): integer @Gets the remaining space available for a type of liquid
 ---@field remove_technique fun(arg1: Item, arg2: MartialArtsTechniqueId) @Removes the additional technique. Doesn't affect originial techniques.
 ---@field set_flag fun(arg1: Item, arg2: JsonFlagId)
 ---@field set_flag_recursive fun(arg1: Item, arg2: JsonFlagId)
----@field set_owner fun(arg1: Item, arg2: FactionId) @Sets the ownership of this item to a faction
 ---@field set_owner fun(arg1: Item, arg2: Character) @Sets the ownership of this item to a character
+---@field set_owner fun(arg1: Item, arg2: FactionId) @Sets the ownership of this item to a faction
 ---@field set_var_num fun(arg1: Item, arg2: string, arg3: number)
 ---@field set_var_str fun(arg1: Item, arg2: string, arg3: string)
 ---@field set_var_tri fun(arg1: Item, arg2: string, arg3: Tripoint)
@@ -756,6 +763,8 @@ function FurnRaw.new() end
 ---@field total_capacity fun(arg1: Item): Volume @Gets maximum volume this item can hold (liquids, ammo, etc)
 ---@field unset_flag fun(arg1: Item, arg2: JsonFlagId)
 ---@field unset_flags fun(arg1: Item)
+---@field volume fun(arg1: Item, arg2: any): Volume @Volume of the item. `bool` is whether it is `integral_volume`.
+---@field weight fun(arg1: Item, arg2: any, arg3: any): Mass @Weight of the item. The first `bool` is whether including contents, second `bool` is whether it is `integral_weight`.
 Item = {}
 ---@return Item
 function Item.new() end
@@ -900,6 +909,29 @@ function MartialArtsTechniqueId.new() end
 Mass = {}
 ---@return Mass
 function Mass.new() end
+
+---@class MaterialTypeId
+---@field NULL_ID fun(): MaterialTypeId
+---@field implements_int_id fun(): boolean
+---@field is_null fun(arg1: MaterialTypeId): boolean
+---@field is_valid fun(arg1: MaterialTypeId): boolean
+---@field obj fun(arg1: MaterialTypeId): MaterialTypeRaw
+---@field str fun(arg1: MaterialTypeId): string
+---@field serialize fun(arg1: MaterialTypeId)
+---@field deserialize fun(arg1: MaterialTypeId)
+---@field __tostring fun(arg1: MaterialTypeId): string
+MaterialTypeId = {}
+---@return MaterialTypeId
+---@overload fun(arg1: MaterialTypeId): MaterialTypeId
+---@overload fun(arg1: string): MaterialTypeId
+function MaterialTypeId.new() end
+
+---@class MaterialTypeRaw
+---@field name fun(arg1: MaterialTypeRaw): string
+---@field str_id fun(arg1: MaterialTypeRaw): MaterialTypeId
+MaterialTypeRaw = {}
+---@return MaterialTypeRaw
+function MaterialTypeRaw.new() end
 
 ---@class Monster : Creature
 ---@field anger integer
