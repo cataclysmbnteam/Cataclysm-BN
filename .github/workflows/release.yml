@@ -123,13 +123,13 @@ jobs:
             ext: tar.gz
             content: application/gzip
           - name: osx-curses-x64
-            os: macos-14
+            os: macos-13
             tiles: 0
             artifact: osx-curses-x64
             ext: dmg
             content: application/x-apple-diskimage
           - name: osx-tiles-x64
-            os: macos-14
+            os: macos-13
             tiles: 1
             artifact: osx-tiles-x64
             ext: dmg
