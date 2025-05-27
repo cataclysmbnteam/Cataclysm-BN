@@ -152,7 +152,7 @@
     "max_level": 37,
     "base_casting_time": 100,
     "base_energy_cost": 2,
-    "damage_type": "bio"
+    "damage_type": "dark"
   },
   {
     "id": "ooze_acidicspray",
