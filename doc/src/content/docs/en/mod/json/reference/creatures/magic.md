@@ -139,6 +139,8 @@ experience you need to get to a level is below:
 
 - `PAIN_NORESIST` - pain altering spells can't be resisted (like with the deadened trait)
 
+- `BRAWL` - Allows characters with the Brawler trait to cast the spell (otherwise they cannot)
+
 - `NO_FAIL` - this spell cannot fail when you cast it
 
 #### Currently Implemented Effects and special rules
@@ -238,6 +240,9 @@ experience you need to get to a level is below:
 - `cold`
 - `cut`
 - `electric`
+- `light` - used both for actual light, as well as 'holy'
+- `dark`
+- `psi` - psychic
 - `stab`
 - `true` - this damage type goes through armor altogether, and thus is very powerful. It is the
   default damage type when unspecified.
@@ -615,6 +620,9 @@ damage type has its own enchant value:
 - `ARMOR_BULLET`
 - `ARMOR_COLD`
 - `ARMOR_CUT`
+- `ARMOR_LIGHT`
+- `ARMOR_DARK`
+- `ARMOR_PSI`
 - `ARMOR_ELEC`
 - `ARMOR_HEAT`
 - `ARMOR_STAB`
@@ -649,6 +657,9 @@ value:
 - `ITEM_ARMOR_BULLET`
 - `ITEM_ARMOR_COLD`
 - `ITEM_ARMOR_CUT`
+- `ITEM_ARMOR_LIGHT`
+- `ITEM_ARMOR_DARK`
+- `ITEM_ARMOR_PSI`
 - `ITEM_ARMOR_ELEC`
 - `ITEM_ARMOR_HEAT`
 - `ITEM_ARMOR_STAB`
