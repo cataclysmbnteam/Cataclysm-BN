@@ -3,7 +3,6 @@
 #include <climits>
 #include <cstdint>
 #include <functional>
-#include <list>
 #include <map>
 #include <optional>
 #include <set>
@@ -13,7 +12,7 @@
 #include <vector>
 
 #include "calendar.h"
-#include "cata_arena.h"
+#include "coordinates.h"
 #include "detached_ptr.h"
 #include "enums.h"
 #include "flat_set.h"
@@ -24,13 +23,11 @@
 #include "kill_tracker.h"
 #include "location_vector.h"
 #include "pimpl.h"
-#include "safe_reference.h"
 #include "string_id.h"
 #include "type_id.h"
 #include "units.h"
 #include "value_ptr.h"
 #include "visitable.h"
-#include "coordinates.h"
 
 class Character;
 class JsonIn;
@@ -1823,7 +1820,7 @@ class item : public location_visitable<item>, public game_object<item>
         /**
          * Enumerates recipes available from this book and the skill level required to use them.
          */
-        std::vector<std::pair<const recipe *, int>> get_available_recipes( const player &u ) const;
+        std::vector<std::pair<const recipe *, int>> get_available_recipes( const Character &u ) const;
         /*@}*/
 
         /**
@@ -2217,7 +2214,7 @@ class item : public location_visitable<item>, public game_object<item>
          * Causes a debugmsg if called on non-craft.
          * @param crafter the crafting player
          */
-        void set_next_failure_point( const player &crafter );
+        void set_next_failure_point( const Character &crafter );
 
         /**
          * Handle failure during crafting.
@@ -2225,7 +2222,7 @@ class item : public location_visitable<item>, public game_object<item>
          * @param crafter the crafting player.
          * @return whether the craft being worked on should be entirely destroyed
          */
-        bool handle_craft_failure( player &crafter );
+        bool handle_craft_failure( Character &crafter );
 
         /**
          * Returns requirement data representing what is needed to resume work on an in progress craft.
