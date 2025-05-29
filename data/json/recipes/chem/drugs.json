@@ -528,7 +528,7 @@
     "batch_time_factors": [ 80, 5 ],
     "qualities": [ { "id": "CHEM", "level": 1 } ],
     "components": [
-      [ [ "dayquil", 1 ], [ "nyquil", 1 ] ],
+      [ [ "dayquil", 1 ], [ "nyquil", 1 ], [ "poppysyrup", 1 ] ],
       [ [ "oxycodone", 1 ], [ "codeine", 2 ], [ "poppy_pain", 2 ] ],
       [ [ "candy3", 1 ], [ "powder_candy", 1 ], [ "neccowafers", 1 ], [ "candycigarette", 1 ], [ "maple_candy", 1 ] ],
       [
