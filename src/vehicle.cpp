@@ -50,14 +50,12 @@
 #include "map_iterator.h"
 #include "mapbuffer.h"
 #include "mapdata.h"
-#include "math_defines.h"
 #include "messages.h"
 #include "monster.h"
 #include "npc.h"
 #include "options.h"
 #include "output.h"
 #include "overmapbuffer.h"
-#include "pimpl.h"
 #include "player.h"
 #include "player_activity.h"
 #include "point_float.h"
@@ -69,10 +67,7 @@
 #include "translations.h"
 #include "units_utility.h"
 #include "veh_type.h"
-#include "vehicle_move.h"
-#include "vehicle_selector.h"
 #include "weather.h"
-#include "weather_gen.h"
 
 /*
  * Speed up all those if ( blarg == "structure" ) statements that are used everywhere;

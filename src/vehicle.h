@@ -1,13 +1,10 @@
 #pragma once
 
 #include <array>
-#include <climits>
-#include <cstddef>
 #include <functional>
 #include <map>
 #include <optional>
 #include <set>
-#include <stack>
 #include <string>
 #include <unordered_map>
 #include <utility>
@@ -21,7 +18,6 @@
 #include "game_constants.h"
 #include "item.h"
 #include "item_stack.h"
-#include "location_ptr.h"
 #include "point.h"
 #include "tileray.h"
 #include "type_id.h"
