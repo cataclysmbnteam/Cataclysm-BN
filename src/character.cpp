@@ -8433,16 +8433,37 @@ void Character::passive_absorb_hit( const bodypart_id &bp, damage_unit &du ) con
     du.amount = std::max( 0.0f, du.amount );
 }
 
-static void destroyed_armor_msg( Character &who, const std::string &pre_damage_name )
+static void destroyed_armor_msg( Character &who, const std::string &pre_damage_name,
+                                 const bool holds_items,
+                                 units::mass item_weight,
+                                 units::volume item_volume )
 {
+    const bool show_popup = get_option<bool>( "CLOTHING_DESTRUCTION_POPUP" );
+    const bool container_only = !get_option<bool>( "CLOTHING_DESTRUCTION_POPUP_CONTENTS" );
+    const units::mass required_weight = units::from_gram(
+                                            get_option<int>( "CLOTHING_DESTRUCTION_POPUP_MIN_WEIGHT" ) );
+    const units::volume required_volume = units::from_milliliter(
+            get_option<int>( "CLOTHING_DESTRUCTION_POPUP_MIN_VOLUME" ) );
+    const bool weight_ok = required_weight == units::mass{} || item_weight >= required_weight;
+    const bool volume_ok = required_volume == units::volume{} || item_volume >= required_volume;
+    const bool contents_ok = !container_only || holds_items;
+    const bool should_show_popup = show_popup && weight_ok && volume_ok && contents_ok;
     if( who.is_avatar() ) {
         g->memorial().add(
             //~ %s is armor name
             pgettext( "memorial_male", "Worn %s was completely destroyed." ),
             pgettext( "memorial_female", "Worn %s was completely destroyed." ),
             pre_damage_name );
+        if( should_show_popup ) {
+            popup( _( "Your %s is completely destroyed!" ), pre_damage_name );
+        }
+    } else if( who.is_npc() && who.as_npc()->is_following() && should_show_popup ) {
+        popup( _( "%1$s's %2$s is completely destroyed!" ),
+               who.as_npc()->get_name(),
+               pre_damage_name );
     }
-    who.add_msg_player_or_npc( m_bad, _( "Your %s is completely destroyed!" ),
+    who.add_msg_player_or_npc( m_bad,
+                               _( "Your %s is completely destroyed!" ),
                                _( "<npcname>'s %s is completely destroyed!" ),
                                pre_damage_name );
 }
@@ -8638,7 +8659,8 @@ void Character::absorb_hit( const bodypart_id &bp, damage_instance &dam )
                     SCT.add( point( posx(), posy() ), direction::NORTH, remove_color_tags( pre_damage_name ),
                              m_neutral, _( "destroyed" ), m_info );
                 }
-                destroyed_armor_msg( *this, pre_damage_name );
+                destroyed_armor_msg( *this, pre_damage_name, armor.contents.empty(), armor.weight(),
+                                     armor.volume() );
                 armor_destroyed = true;
                 armor.on_takeoff( *this );
 
