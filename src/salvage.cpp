@@ -182,7 +182,13 @@ std::vector<std::pair< itype_id, float>> salvage_results( const item &target )
             auto r_mass = ( **res ).weight.value();
             //cuz we need actual float here
             auto cnt = t_mass * material.second / r_mass;
-            salvagable_materials.emplace_back( *res, cnt );
+
+            if( auto found = std::ranges::find( salvagable_materials, res, &std::pair<itype_id, float>::first );
+                found != salvagable_materials.end() ) {
+                found->second += cnt;
+            } else {
+                salvagable_materials.emplace_back( *res, cnt );
+            }
         }
     }
     return salvagable_materials;
