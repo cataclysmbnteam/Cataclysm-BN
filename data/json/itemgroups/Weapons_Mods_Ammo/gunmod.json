@@ -45,6 +45,7 @@
       [ "retool_ar15_300blk", 40 ],
       [ "g36_stanag_adapter", 40 ],
       [ "aug_nato_conversion", 40 ],
+      [ "mini14_stanag_adapter", 40 ],
       [ "breacher_grip", 10 ],
       { "group": "auto_sears", "prob": 40 }
     ]
