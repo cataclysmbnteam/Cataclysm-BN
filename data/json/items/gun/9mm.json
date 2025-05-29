@@ -276,7 +276,20 @@
       [ "sling", 1 ]
     ],
     "magazine_well": "250 ml",
-    "magazines": [ [ "9mm", [ "glockmag", "glockbigmag", "glock17_17", "glock17_22", "glock_drum_50rd", "glock_drum_100rd" ] ] ]
+    "magazines": [
+      [
+        "9mm",
+        [
+          "glockmag",
+          "glockbigmag",
+          "glock17_17",
+          "glock17_22",
+          "glock_drum_50rd",
+          "glock_drum_100rd",
+          "kriss_vector_9mm_mag"
+        ]
+      ]
+    ]
   },
   {
     "id": "ksub2000_turret_fake",
@@ -677,7 +690,20 @@
     "color": "dark_gray",
     "ammo": "9mm",
     "magazine_well": "250 ml",
-    "magazines": [ [ "9mm", [ "glockmag", "glockbigmag", "glock17_17", "glock17_22", "glock_drum_50rd", "glock_drum_100rd" ] ] ],
+    "magazines": [
+      [
+        "9mm",
+        [
+          "glockmag",
+          "glockbigmag",
+          "glock17_17",
+          "glock17_22",
+          "glock_drum_50rd",
+          "glock_drum_100rd",
+          "kriss_vector_9mm_mag"
+        ]
+      ]
+    ],
     "modes": [ [ "DEFAULT", "semi", 1 ], [ "AUTO", "auto", 3 ] ]
   },
   {
@@ -685,8 +711,8 @@
     "copy-from": "smg_base",
     "type": "GUN",
     "looks_like": "TDI",
-    "name": { "str": "Kriss Vector 9mm" },
-    "description": "A submachine gun with a sleek in-line design.  It features a 2-round burst mode to make the most out of its unique recoil mitigation system alongside a blistering full-auto mode.  This one is chambered in 9mm and uses full-size Glock 17 magazines.",
+    "name": { "str": "KRISS Vector 9mm" },
+    "description": "A submachine gun with a sleek in-line design.  It features a 2-round burst mode to utilize its unique recoil mitigation system alongside a blistering full-auto mode.  This one is chambered in 9mm and uses Glock 17 magazines.",
     "weight": "3400 g",
     "volume": "1750 ml",
     "barrel_length": "150 ml",
