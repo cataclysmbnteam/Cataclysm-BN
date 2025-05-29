@@ -280,7 +280,6 @@ class avatar : public player
     public:
         // ---------------VALUES-----------------
         tripoint view_offset;
-        int volume = 0;
 
         bool random_start_location = false;
         start_location_id start_location;
