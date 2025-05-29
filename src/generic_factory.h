@@ -814,6 +814,25 @@ inline void optional( const JsonObject &jo, const bool was_loaded, const std::st
         }
     }
 }
+template<typename MemberType, typename DefaultType = MemberType>
+requires( std::is_constructible_v<MemberType, const DefaultType &> )
+inline void optional( const JsonObject &jo, const bool was_loaded,
+                      const std::vector<std::string> names,
+                      MemberType &member, const DefaultType &default_value )
+{
+    bool set = false;
+    for( const std::string &name : names ) {
+        if( set ) {
+            continue;
+        }
+        set = ( jo.read( name, member )
+                || handle_proportional( jo, name, member )
+                || handle_relative( jo, name, member ) );
+    }
+    if( !set && !was_loaded ) {
+        member = default_value;
+    }
+}
 
 template<typename MemberType, typename ReaderType, typename DefaultType = MemberType>
 requires( !std::is_constructible_v<MemberType, const ReaderType &> )
