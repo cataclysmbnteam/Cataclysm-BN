@@ -218,7 +218,9 @@
       "NOGIB",
       "NOHEAD",
       "NO_BREATHE",
-      "SWARMS"
+      "SWARMS",
+      "PSIPROOF",
+      "BIOPROOF"
     ]
   },
   {
