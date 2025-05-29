@@ -1150,7 +1150,7 @@ vehicle *map::veh_at_internal( const tripoint &p, int &part_num )
     return const_cast<vehicle *>( const_cast<const map *>( this )->veh_at_internal( p, part_num ) );
 }
 
-void map::board_vehicle( const tripoint &pos, player *p )
+void map::board_vehicle( const tripoint &pos, Character *p )
 {
     if( p == nullptr ) {
         debugmsg( "map::board_vehicle: null player" );

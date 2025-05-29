@@ -8620,7 +8620,7 @@ void item::casings_handle( const std::function < detached_ptr<item>( detached_pt
     contents.casings_handle( func );
 }
 
-bool item::reload( player &u, item &loc, int qty )
+bool item::reload( Character &who, item &loc, int qty )
 {
     if( qty <= 0 ) {
         debugmsg( "Tried to reload zero or less charges" );
@@ -8653,8 +8653,8 @@ bool item::reload( player &u, item &loc, int qty )
 
     qty = std::min( qty, limit );
 
-    casings_handle( [&u]( detached_ptr<item> &&e ) {
-        return u.i_add_or_drop( std::move( e ) );
+    casings_handle( [&who]( detached_ptr<item> &&e ) {
+        return who.i_add_or_drop( std::move( e ) );
     } );
 
     if( is_magazine() ) {
@@ -8662,7 +8662,7 @@ bool item::reload( player &u, item &loc, int qty )
 
         if( is_ammo_belt() ) {
             const auto &linkage = type->magazine->linkage;
-            if( linkage && !u.use_charges_if_avail( *linkage, qty ) ) {
+            if( linkage && !who.use_charges_if_avail( *linkage, qty ) ) {
                 debugmsg( "insufficient linkages available when reloading ammo belt" );
             }
         }
@@ -8698,7 +8698,7 @@ bool item::reload( player &u, item &loc, int qty )
             std::string prompt = string_format( pgettext( "magazine", "Eject %1$s from %2$s?" ),
                                                 magazine_current()->tname(), tname() );
 
-            if( !u.dispose_item( *magazine_current(), prompt ) ) {
+            if( !who.dispose_item( *magazine_current(), prompt ) ) {
                 return false;
             }
         }
@@ -8731,7 +8731,7 @@ bool item::reload( player &u, item &loc, int qty )
         if( ammo->charges == 0 && !ammo->has_flag( flag_SPEEDLOADER ) ) {
             ammo->detach();
             if( container != nullptr ) {
-                u.inv_restack();
+                who.inv_restack();
             }
         }
     }

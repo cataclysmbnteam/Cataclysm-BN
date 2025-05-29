@@ -10,11 +10,9 @@
 #include <memory>
 #include <optional>
 #include <set>
-#include <unordered_map>
 #include <utility>
 
 #include "action.h"
-#include "bodypart.h"
 #include "calendar.h"
 #include "cata_utility.h"
 #include "catacharset.h"
@@ -24,7 +22,6 @@
 #include "character_functions.h"
 #include "character_martial_arts.h"
 #include "character_stat.h"
-#include "clzones.h"
 #include "color.h"
 #include "debug.h"
 #include "diary.h"
@@ -58,10 +55,8 @@
 #include "output.h"
 #include "overmap.h"
 #include "legacy_pathfinding.h"
-#include "pimpl.h"
 #include "player.h"
 #include "player_activity.h"
-#include "ranged.h"
 #include "recipe.h"
 #include "ret_val.h"
 #include "rng.h"
@@ -72,9 +67,7 @@
 #include "translations.h"
 #include "type_id.h"
 #include "ui.h"
-#include "value_ptr.h"
 #include "vehicle.h"
-#include "vehicle_part.h"
 #include "vpart_position.h"
 
 static const activity_id ACT_READ( "ACT_READ" );
@@ -117,6 +110,8 @@ avatar::avatar()
     active_mission = nullptr;
     grab_type = OBJECT_NONE;
     a_diary = nullptr;
+    start_location = start_location_id( "sloc_shelter" );
+    movecounter = 0;
 }
 
 avatar::~avatar() = default;

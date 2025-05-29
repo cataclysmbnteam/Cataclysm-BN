@@ -50,7 +50,7 @@ class veh_interact
         static vehicle_part &select_part( const vehicle &veh, const part_selector &sel,
                                           const std::string &title = std::string() );
 
-        static void complete_vehicle( player &p );
+        static void complete_vehicle( Character &p );
 
     private:
         veh_interact( vehicle &veh, point p = point_zero );

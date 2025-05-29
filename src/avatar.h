@@ -276,6 +276,24 @@ class avatar : public player
 
         /** Warnings from factions about bad behavior */
         std::map<faction_id, std::pair<int, time_point>> warning_record;
+
+    public:
+        // ---------------VALUES-----------------
+        tripoint view_offset;
+        int volume = 0;
+
+        bool random_start_location = false;
+        start_location_id start_location;
+
+        // Save favorite ammo location
+        //TODO!: check this
+        safe_reference<item> ammo_location;
+        int movecounter = 0;
+
+        vproto_id starting_vehicle = vproto_id::NULL_ID();
+        std::vector<mtype_id> starting_pets;
+
+        std::set<character_id> follower_ids;
 };
 
 avatar &get_avatar();

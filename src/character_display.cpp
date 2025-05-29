@@ -3,10 +3,8 @@
 #include <algorithm>
 #include <array>
 #include <cmath>
-#include <cstddef>
 #include <cstdlib>
 #include <memory>
-#include <unordered_map>
 
 #include "addiction.h"
 #include "avatar.h"
@@ -52,6 +50,23 @@ static const trait_flag_str_id trait_flag_UNARMED_BONUS( "UNARMED_BONUS" );
 
 // use this instead of having to type out 26 spaces like before
 static const std::string header_spaces( 26, ' ' );
+
+static nc_color encumb_color( int level )
+{
+    if( level < 0 ) {
+        return c_green;
+    }
+    if( level < 10 ) {
+        return c_light_gray;
+    }
+    if( level < 40 ) {
+        return c_yellow;
+    }
+    if( level < 70 ) {
+        return c_light_red;
+    }
+    return c_red;
+}
 
 static int get_temp_conv( const Character &c, const bodypart_str_id &bp )
 {

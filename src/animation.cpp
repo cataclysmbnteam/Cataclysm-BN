@@ -5,7 +5,6 @@
 #include "character.h"
 #include "cursesdef.h"
 #include "enums.h"
-#include "explosion.h"
 #include "game_constants.h"
 #include "game.h"
 #include "line.h"
@@ -14,11 +13,9 @@
 #include "mtype.h"
 #include "options.h"
 #include "output.h"
-#include "player.h"
 #include "point.h"
 #include "popup.h"
 #include "posix_time.h"
-#include "ranged.h"
 #include "translations.h"
 #include "type_id.h"
 #include "ui_manager.h"
@@ -121,7 +118,7 @@ bool is_layer_visible( const std::map<tripoint, explosion_tile> &layer )
 }
 
 // Convert p to screen position relative to u's current position and view
-tripoint relative_view_pos( const player &u, const tripoint &p ) noexcept
+tripoint relative_view_pos( const avatar &u, const tripoint &p ) noexcept
 {
     return p - ( u.pos() + u.view_offset ) + point( POSX, POSY );
 }
@@ -588,7 +585,7 @@ namespace
 {
 // short visual animation (player, monster, ...) (hit, dodge, ...)
 // cTile is a UTF-8 strings, and must be a single cell wide!
-void hit_animation( const player &u, const tripoint &center, nc_color cColor,
+void hit_animation( const avatar &u, const tripoint &center, nc_color cColor,
                     const std::string &cTile )
 {
     const tripoint init_pos = relative_view_pos( u, center );
@@ -611,7 +608,7 @@ void hit_animation( const player &u, const tripoint &center, nc_color cColor,
     }
 }
 
-void draw_hit_mon_curses( const tripoint &center, const monster &m, const player &u,
+void draw_hit_mon_curses( const tripoint &center, const monster &m, const avatar &u,
                           const bool dead )
 {
     hit_animation( u, center, red_background( m.type->color ), dead ? "%" : m.symbol() );

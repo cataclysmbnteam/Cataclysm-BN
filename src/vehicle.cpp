@@ -2958,7 +2958,7 @@ std::vector<int> vehicle::all_parts_at_location( const std::string &location ) c
 // as the part index was first "chosen" before the NPC started traveling here.
 // therefore the part index is now invalid shifted by one or two ( depending on how many other NPCs working on this vehicle )
 // so loop over the part indexes in reverse order to get the next one down that matches the part type we wanted to remove
-int vehicle::get_next_shifted_index( int original_index, player &p )
+int vehicle::get_next_shifted_index( int original_index, Character &p )
 {
     int ret_index = original_index;
     bool found_shifted_index = false;
