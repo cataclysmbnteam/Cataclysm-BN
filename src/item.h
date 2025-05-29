@@ -811,7 +811,7 @@ class item : public location_visitable<item>, public game_object<item>
          */
         int get_remaining_capacity_for_liquid( const item &liquid, bool allow_bucket = false,
                                                std::string *err = nullptr ) const;
-        int get_remaining_capacity_for_liquid( const item &liquid, const Character &p,
+        int get_remaining_capacity_for_liquid( const item &liquid, const Character &who,
                                                std::string *err = nullptr ) const;
         /**
          * How many charges of a given item id this container can hold.
@@ -1414,12 +1414,12 @@ class item : public location_visitable<item>, public game_object<item>
          * Callback when a character starts wearing the item. The item is already in the worn
          * items vector and is called from there.
          */
-        void on_wear( Character &p );
+        void on_wear( Character &who );
         /**
          * Callback when a character takes off an item. The item is still in the worn items
          * vector but will be removed immediately after the function returns
          */
-        void on_takeoff( Character &p );
+        void on_takeoff( Character &who );
         /**
          * Callback when a player starts wielding the item. The item is already in the weapon
          * slot and is called from there.
@@ -1432,7 +1432,7 @@ class item : public location_visitable<item>, public game_object<item>
          * and is called from there. This is not called when the item is added to the inventory
          * from worn vector or weapon slot. The item is considered already carried.
          */
-        void on_pickup( Character &p );
+        void on_pickup( Character &who );
         /**
          * Callback when contents of the item are affected in any way other than just processing.
          */

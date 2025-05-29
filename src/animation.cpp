@@ -645,16 +645,16 @@ void game::draw_hit_mon( const tripoint &p, const monster &m, const bool dead )
 
 namespace
 {
-void draw_hit_player_curses( const game &g, const Character &p, const int dam )
+void draw_hit_player_curses( const game &g, const Character &who, const int dam )
 {
-    nc_color const col = !dam ? yellow_background( p.symbol_color() ) : red_background(
-                             p.symbol_color() );
-    hit_animation( g.u, p.pos(), col, p.symbol() );
+    nc_color const col = !dam ? yellow_background( who.symbol_color() ) : red_background(
+                             who.symbol_color() );
+    hit_animation( g.u, who.pos(), col, who.symbol() );
 }
 } //namespace
 
 #if defined(TILES)
-void game::draw_hit_player( const Character &p, const int dam )
+void game::draw_hit_player( const Character &who, const int dam )
 {
     if( test_mode ) {
         // avoid segfault from null tilecontext in tests
@@ -662,7 +662,7 @@ void game::draw_hit_player( const Character &p, const int dam )
     }
 
     if( !use_tiles ) {
-        draw_hit_player_curses( *this, p, dam );
+        draw_hit_player_curses( *this, who, dam );
         return;
     }
 
@@ -671,18 +671,18 @@ void game::draw_hit_player( const Character &p, const int dam )
     static const std::string npc_male      {"npc_male"};
     static const std::string npc_female    {"npc_female"};
 
-    const std::string &type = p.is_player() ? ( p.male ? player_male : player_female )
-                              : p.male ? npc_male : npc_female;
+    const std::string &type = who.is_player() ? ( who.male ? player_male : player_female )
+                              : who.male ? npc_male : npc_female;
 
     shared_ptr_fast<draw_callback_t> hit_cb = make_shared_fast<draw_callback_t>( [&]() {
-        tilecontext->init_draw_hit( p.pos(), type );
+        tilecontext->init_draw_hit( who.pos(), type );
     } );
     add_draw_callback( hit_cb );
 
     bullet_animation().progress();
 }
 #else
-void game::draw_hit_player( const Character &p, const int dam )
+void game::draw_hit_player( const Character &who, const int dam )
 {
     draw_hit_player_curses( *this, p, dam );
 }
