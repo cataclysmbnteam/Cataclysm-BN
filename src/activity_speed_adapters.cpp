@@ -23,8 +23,10 @@ workbench_info_wrapper::workbench_info_wrapper( float multiplier,
     : multiplier( multiplier ), allowed_mass( allowed_mass ), allowed_volume( allowed_volume ),
       type( type ) {}
 
-template<typename T>
-static float lerped_multiplier( const T &value, const T &low, const T &high )
+template<Arithmetic V, typename U>
+static float lerped_multiplier( const units::quantity<V, U> &value,
+                                const units::quantity<V, U> &low,
+                                const units::quantity<V, U> &high )
 {
     // No effect if less than allowed value
     if( value < low ) {
@@ -60,6 +62,7 @@ activity_reqs_adapter::activity_reqs_adapter( const recipe &rec,
 
 activity_reqs_adapter::activity_reqs_adapter( const construction &con )
 {
+
     for( auto &qual : con.requirements->get_qualities() ) {
         qualities.emplace_back( qual.front().type, qual.front().level );
     }
@@ -67,4 +70,5 @@ activity_reqs_adapter::activity_reqs_adapter( const construction &con )
     for( auto &skill : con.required_skills ) {
         skills.emplace_back( skill.first, skill.second );
     }
+
 }

@@ -19,13 +19,13 @@ struct tripoint;
 using stat_reqs = std::vector<activity_req<character_stat>>;
 using stat_factors = std::vector<std::pair<character_stat, float>>;
 
-using bench_factor_fn = std::function<void( bench_loc &, const metric & )>;
+using bench_factor_fn = std::function<void( bench_location &, const metric & )>;
 using morale_factor_fn = std::function<float( const Character & )>;
 using tools_factor_fn = std::function<float( const q_reqs &, const inventory & )>;
 using skills_factor_fn = std::function<float( const Character &, const skill_reqs & )>;
 using stats_factor_fn = std::function<stat_factors( const Character &, const stat_reqs & )>;
 
-static bench_factor_fn default_bench_factor = []( bench_loc &bench, const metric & )
+static bench_factor_fn default_bench_factor = []( bench_location &bench, const metric & )
 {
     bench.wb_info.multiplier_adjusted = bench.wb_info.multiplier;
 };
@@ -54,9 +54,8 @@ class activity_speed
 {
     public:
         activity_id type = activity_id::NULL_ID();
-        std::optional<bench_loc> bench;
+        std::optional<bench_location> bench;
         int assistant_count = 0;
-        bench_factor_fn bench_factor_custom_formula = default_bench_factor;
         morale_factor_fn morale_factor_custom_formula = default_morale_factor;
         tools_factor_fn tools_factor_custom_formula = default_tools_factor;
         skills_factor_fn skills_factor_custom_formula = default_skills_factor;
@@ -112,4 +111,6 @@ class activity_speed
         void calc_tools_factor( Character &who, const q_reqs &quality_reqs );
         static float get_best_qual_mod( const activity_req<quality_id> &q,
                                         const inventory &inv );
+
+        activity_speed() = default;
 };
