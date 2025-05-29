@@ -684,7 +684,7 @@ void game::draw_hit_player( const Character &who, const int dam )
 #else
 void game::draw_hit_player( const Character &who, const int dam )
 {
-    draw_hit_player_curses( *this, p, dam );
+    draw_hit_player_curses( *this, who, dam );
 }
 #endif
 
