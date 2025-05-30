@@ -1729,6 +1729,7 @@ void oxytorch_activity_actor::start( player_activity &act, Character &/*who*/ )
 void oxytorch_activity_actor::do_turn( player_activity &/*act*/, Character &who )
 {
     // We check available charges when first starting the cut, but this prevents abnormal behavior if torch status changes mid-activity.
+    // An oxytorch will probably not use batteries, but just in case a hybrid is made at some point.
     if( tool->ammo_sufficient() && tool->energy_sufficient( who ) ) {
         tool->energy_consume( tool->energy_required(), tool->position() );
         tool->ammo_consume( tool->ammo_required(), tool->position() );

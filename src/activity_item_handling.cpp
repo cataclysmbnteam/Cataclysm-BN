@@ -2422,9 +2422,9 @@ void activity_on_turn_move_loot( player_activity &act, player &p )
 static bool mine_activity( player &p, const tripoint &src_loc )
 {
     map &here = get_map();
-    std::vector<item *> mining_inv = p.items_with( []( const item & itm ) {
+    std::vector<item *> mining_inv = p.items_with( [&p]( const item & itm ) {
         return ( itm.has_flag( flag_DIG_TOOL ) && !itm.type->can_use( "JACKHAMMER" ) ) ||
-               ( itm.type->can_use( "JACKHAMMER" ) && itm.ammo_sufficient() );
+               ( itm.type->can_use( "JACKHAMMER" ) && itm.ammo_sufficient() && itm.energy_sufficient( p ) );
     } );
     if( mining_inv.empty() || p.is_mounted() || p.is_underwater() || here.veh_at( src_loc ) ||
         !here.has_flag( "MINEABLE", src_loc ) ) {
