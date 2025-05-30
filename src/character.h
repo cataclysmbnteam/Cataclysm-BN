@@ -39,6 +39,7 @@
 #include "player_activity_ptr.h"
 #include "pldata.h"
 #include "point.h"
+#include "requirements.h"
 #include "ret_val.h"
 #include "safe_reference.h"
 #include "stomach.h"
@@ -2550,11 +2551,14 @@ class Character : public Creature, public location_visitable<Character>
                                      const std::function<bool( const item & )> &filter = return_true<item> );
         /** Consume tools for the next multiplier * 5% progress of the craft */
         bool craft_consume_tools( item &craft, int mulitplier, bool start_craft );
-        void consume_tools( const comp_selection<tool_comp> &tool, int batch );
+        void consume_tools( const comp_selection<tool_comp> &tool, int batch,
+                            cost_adjustment cost_ad = cost_adjustment::none );
         void consume_tools( map &m, const comp_selection<tool_comp> &tool, int batch,
-                            const tripoint &origin = tripoint_zero, int radius = PICKUP_RANGE );
+                            const tripoint &origin = tripoint_zero, int radius = PICKUP_RANGE,
+                            cost_adjustment cost_ad = cost_adjustment::none );
         void consume_tools( const std::vector<tool_comp> &tools, int batch = 1,
-                            const std::string &hotkeys = DEFAULT_HOTKEYS );
+                            const std::string &hotkeys = DEFAULT_HOTKEYS,
+                            cost_adjustment cost_ad = cost_adjustment::none );
         void make_craft_with_command( const recipe_id &id_to_make, int batch_size, bool is_long = false,
                                       const tripoint &loc = tripoint_zero );
         pimpl<craft_command> last_craft;
