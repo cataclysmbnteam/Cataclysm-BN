@@ -559,49 +559,131 @@
     "magazine_well": "250 ml"
   },
   {
-    "id": "gps_device",
-    "type": "TOOL",
-    "category": "electronics",
-    "looks_like": "cell_phone",
-    "name": { "str": "gps pinpointer" },
-    "description": "Durable handheld GPS unit built for outdoor navigation.  Activate to acquire satellite lock and search the database.",
-    "weight": "230 g",
-    "volume": "350 ml",
-    "price": "100 USD",
-    "price_postapoc": "50 USD",
-    "material": [ "plastic", "aluminum" ],
-    "symbol": ";",
-    "color": "yellow",
-    "ammo": "battery",
-    "use_action": { "type": "gps_device", "radius": 40, "additional_charges_per_tile": 0.1 },
-    "magazines": [
-      [
-        "battery",
-        [
-          "light_plus_battery_cell",
-          "light_minus_battery_cell",
-          "light_minus_disposable_cell",
-          "light_battery_cell",
-          "light_disposable_cell",
-          "light_atomic_battery_cell",
-          "light_minus_atomic_battery_cell"
-        ]
-      ]
-    ]
+    "type": "SPELL",
+    "id": "AEA_MAPCIV",
+    "effect": "map",
+    "name": { "str": "Civilian GPS" },
+    "description": "Reveals an area around you on the overmap",
+    "valid_targets": [ "self" ],
+    "min_aoe": 7,
+    "max_aoe": 7,
+    "message": "You have a vision of the surrounding area…",
+    "base_casting_time": 150,
+    "flags": [
+		"NO_HANDS",
+		"NO_LEGS",
+		"NO_EXPLOSION_VFX",
+		"NO_FAIL",
+		"SILENT"	
+	]
   },
   {
-    "id": "mil_gps_device",
-    "type": "TOOL",
+    "type": "SPELL",
+    "id": "AEA_MAPMIL",
+    "effect": "map",
+    "name": { "str": "Military GPS" },
+    "description": "Reveals an area around you on the overmap",
+    "valid_targets": [ "self" ],
+    "min_aoe": 15,
+    "max_aoe": 15,
+    "message": "You have a vision of the surrounding area…",
+    "base_casting_time": 100,
+    "flags": [
+		"NO_HANDS",
+		"NO_LEGS",
+		"NO_EXPLOSION_VFX",
+		"NO_FAIL",
+		"SILENT"	
+	]
+  },
+  {
+	"id": "gps_device",
+    "type": "ARMOR",
     "copy-from": "gps_device",
-    "name": { "str": "military gps pinpointer" },
-    "description": "Durable handheld GPS unit built for outdoor navigation.  Activate to acquire satellite lock and search the database.  This one has encrpytion keys for military-grade satellites, allowing a much greater search range.",
-    "use_action": { "type": "gps_device", "radius": 120, "additional_charges_per_tile": 0.1 },
-    "magazines": [
-      [
-        "battery",
-        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+    "name": { "str": "gps pinpointer" },
+    "use_action": [
+		{
+			"type": "transform",
+			"msg": "You turn the gps pinpointer on.",
+			"target": "gps_device_on",
+			"transform_charges": 1,
+			"active": true,
+			"need_charges": 1,
+			"need_charges_msg": "The gps pinpointer's batteries are dead."
+		},
+		{ "type": "gps_device", "radius": 400, "additional_charges_per_tile": 0.1 }
+	]
+  },
+  {
+	"id": "gps_device_on",
+    "type": "ARMOR",
+    "copy-from": "gps_device",
+    "name": { "str": "gps pinpointer (on)" },
+    "power_draw": 10000,
+    "use_action": [
+		{
+			"type": "transform",
+			"msg": "You turn the gps pinpointer off.",
+			"target": "gps_device",
+			"need_charges_msg": "The gps pinpointer's batteries are dead."
+		},
+		{ "type": "gps_device", "radius": 400, "additional_charges_per_tile": 0.1 }
+	],
+    "relic_data": {
+      "passive_effects": [
+        {
+			"condition": "ALWAYS",
+			"intermittent_activation": {
+				"effects": [
+					{
+						"frequency": "20 seconds",
+						"spell_effects": [ { "id": "AEA_MAPCIV" } ]
+					}
+				]
+			}
+        }
       ]
-    ]
+    }
+  },
+  {
+	"id": "mil_gps_device",
+    "type": "ARMOR",
+    "copy-from": "mil_gps_device",
+    "name": { "str": "military gps pinpointer" },
+    "use_action": [
+		{ "type": "gps_device", "radius": 1200, "additional_charges_per_tile": 0.1 }
+	]
+  },
+  {
+	"id": "mil_gps_device_on",
+    "type": "ARMOR",
+    "copy-from": "gps_device",
+    "name": { "str": "military gps pinpointer (on)" },
+    "power_draw": 5000,
+    "use_action": [
+		{
+			"type": "transform",
+			"msg": "You turn the military gps pinpointer off.",
+			"target": "mil_gps_device",
+			"need_charges_msg": "The military gps pinpointer's batteries are dead."
+		},
+		{ "type": "gps_device", "radius": 1200, "additional_charges_per_tile": 0.1 }
+	],
+    "relic_data": {
+      "passive_effects": [
+        {
+			"condition": "ALWAYS",
+			"intermittent_activation": {
+				"effects": [
+					{
+						"frequency": "10 seconds",
+						"spell_effects": [ { "id": "AEA_MAPMIL" } ]
+					}
+				]
+			}
+        }
+      ]
+    }
   },
   {
     "id": "bionic_scanner",
