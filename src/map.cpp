@@ -514,7 +514,7 @@ void map::vehmove()
         auto same_ptr = [ elem ]( const struct wrapped_vehicle & tgt ) {
             return elem == tgt.v;
         };
-        if( std::find_if( vehicle_list.begin(), vehicle_list.end(), same_ptr ) !=
+        if( std::ranges::find_if( vehicle_list, same_ptr ) !=
             vehicle_list.end() ) {
             elem->part_removal_cleanup();
         }
@@ -570,8 +570,8 @@ bool map::vehproceed( VehicleList &vehicle_list )
 
         // Check if any vehicles exist in the active range for this z-level
         cache.veh_in_active_range = cache.veh_in_active_range &&
-                                    std::any_of( std::begin( cache.veh_exists_at ),
-        std::end( cache.veh_exists_at ), []( const auto & row ) {
+                                    std::ranges::any_of( cache.veh_exists_at,
+        []( const auto & row ) {
             return std::any_of( std::begin( row ), std::end( row ), []( bool veh_exists ) {
                 return veh_exists;
             } );
@@ -584,7 +584,7 @@ bool map::vehproceed( VehicleList &vehicle_list )
 static bool sees_veh( const Creature &c, vehicle &veh, bool force_recalc )
 {
     const auto &veh_points = veh.get_points( force_recalc );
-    return std::any_of( veh_points.begin(), veh_points.end(), [&c]( const tripoint & pt ) {
+    return std::ranges::any_of( veh_points, [&c]( const tripoint & pt ) {
         return c.sees( pt );
     } );
 }
@@ -1576,8 +1576,8 @@ std::string map::furnname( const tripoint &p )
     if( f.has_flag( "PLANT" ) ) {
         // Can't use item_stack::only_item() since there might be fertilizer
         map_stack items = i_at( p );
-        const map_stack::iterator seed = std::find_if( items.begin(),
-        items.end(), []( const item * const & it ) {
+        const map_stack::iterator seed = std::ranges::find_if( items,
+        []( const item * const & it ) {
             return it->is_seed();
         } );
         if( seed == items.end() ) {
@@ -1818,7 +1818,7 @@ bool map::ter_set( const tripoint &p, const ter_id &new_terrain )
     // HACK: Hack around ledges in traplocs or else it gets NASTY in z-level mode
     if( old_t.trap != tr_null && old_t.trap != tr_ledge ) {
         auto &traps = traplocs[old_t.trap.to_i()];
-        const auto iter = std::find( traps.begin(), traps.end(), p );
+        const auto iter = std::ranges::find( traps, p );
         if( iter != traps.end() ) {
             traps.erase( iter );
         }
@@ -4766,33 +4766,6 @@ static bool process_map_items( item *item_ref, const tripoint &location,
 
 static void process_vehicle_items( vehicle &cur_veh, int part )
 {
-    const bool washmachine_here = cur_veh.part_flag( part, VPFLAG_WASHING_MACHINE ) &&
-                                  cur_veh.is_part_on( part );
-    bool washing_machine_finished = false;
-    const bool dishwasher_here = cur_veh.part_flag( part, VPFLAG_DISHWASHER ) &&
-                                 cur_veh.is_part_on( part );
-    if( washmachine_here || dishwasher_here ) {
-        for( auto &n : cur_veh.get_items( part ) ) {
-            const time_duration washing_time = 90_minutes;
-            const time_duration time_left = washing_time - n->age();
-            if( time_left <= 0_turns ) {
-                n->unset_flag( flag_FILTHY );
-                washing_machine_finished = true;
-                cur_veh.part( part ).enabled = false;
-            } else if( calendar::once_every( 15_minutes ) ) {
-                add_msg( _( "It should take %1$d minutes to finish washing items in the %2$s." ),
-                         to_minutes<int>( time_left ) + 1, cur_veh.name );
-                break;
-            }
-        }
-        if( washing_machine_finished ) {
-            if( washmachine_here ) {
-                add_msg( _( "The washing machine in the %s has finished washing." ), cur_veh.name );
-            } else if( dishwasher_here ) {
-                add_msg( _( "The dishwasher in the %s has finished washing." ), cur_veh.name );
-            }
-        }
-    }
 
     const int recharge_part_idx = cur_veh.part_with_feature( part, VPFLAG_RECHARGE, true );
     static const vehicle_part null_part;
@@ -5179,7 +5152,7 @@ static void use_charges_from_furn( const furn_t &f, const itype_id &type, int &q
                 continue;
             }
             auto stack = m->i_at( p );
-            auto iter = std::find_if( stack.begin(), stack.end(),
+            auto iter = std::ranges::find_if( stack,
             [ammo]( const item * const & i ) {
                 return i->typeId() == ammo;
             } );
@@ -5223,7 +5196,12 @@ std::vector<detached_ptr<item>> map::use_charges( const tripoint &origin, const 
 
     // populate a grid of spots that can be reached
     std::vector<tripoint> reachable_pts;
-    reachable_flood_steps( reachable_pts, origin, range, 1, 100 );
+
+    if( range <= 0 ) {
+        reachable_pts.push_back( origin );
+    } else {
+        reachable_flood_steps( reachable_pts, origin, range, 1, 100 );
+    }
 
     // We prefer infinite map sources where available, so search for those
     // first
@@ -5566,7 +5544,7 @@ void map::remove_trap( const tripoint &p )
 
         current_submap->set_trap( l, tr_null );
         auto &traps = traplocs[tid.to_i()];
-        const auto iter = std::find( traps.begin(), traps.end(), p );
+        const auto iter = std::ranges::find( traps, p );
         if( iter != traps.end() ) {
             traps.erase( iter );
         }
@@ -7494,8 +7472,8 @@ void map::grow_plant( const tripoint &p )
     }
     // Can't use item_stack::only_item() since there might be fertilizer
     map_stack items = i_at( p );
-    map_stack::iterator seed_it = std::find_if( items.begin(),
-    items.end(), []( const item * const & it ) {
+    map_stack::iterator seed_it = std::ranges::find_if( items,
+    []( const item * const & it ) {
         return it->is_seed();
     } );
 
@@ -7521,8 +7499,8 @@ void map::grow_plant( const tripoint &p )
             }
 
             // Remove fertilizer if any
-            map_stack::iterator fertilizer = std::find_if( items.begin(),
-            items.end(), []( const item * const & it ) {
+            map_stack::iterator fertilizer = std::ranges::find_if( items,
+            []( const item * const & it ) {
                 return it->has_flag( flag_FERTILIZER );
             } );
             if( fertilizer != items.end() ) {
@@ -7537,8 +7515,8 @@ void map::grow_plant( const tripoint &p )
             }
 
             // Remove fertilizer if any
-            map_stack::iterator fertilizer = std::find_if( items.begin(),
-            items.end(), []( const item * const & it ) {
+            map_stack::iterator fertilizer = std::ranges::find_if( items,
+            []( const item * const & it ) {
                 return it->has_flag( flag_FERTILIZER );
             } );
             if( fertilizer != items.end() ) {

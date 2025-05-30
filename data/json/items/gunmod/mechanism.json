@@ -121,6 +121,78 @@
     "flags": [ "WATERPROOF_GUN" ]
   },
   {
+    "id": "g36_stanag_adapter",
+    "type": "GUNMOD",
+    "name": { "str": "G36 STANAG adapter" },
+    "description": "A custom magwell which is installed into the lower receiver of a G36 to enable the use of most STANAG magazines save for the largest ones.",
+    "weight": "100 g",
+    "volume": "150 ml",
+    "integral_volume": "150 ml",
+    "price": "320 USD",
+    "material": "plastic",
+    "symbol": ":",
+    "color": "green",
+    "location": "mechanism",
+    "mod_targets": [ "hk_g36" ],
+    "acceptable_ammo": [ "223" ],
+    "install_time": "10 m",
+    "magazine_adaptor": [
+      [
+        "223",
+        [
+          "stanag30",
+          "stanag5",
+          "stanag10",
+          "stanag20",
+          "stanag40",
+          "stanag50",
+          "stanag60",
+          "stanag60drum",
+          "carbonmag_223",
+          "survivor223mag"
+        ]
+      ]
+    ],
+    "min_skills": [ [ "weapon", 4 ], [ "mechanics", 3 ] ],
+    "flags": [ "INSTALL_DIFFICULT" ]
+  },
+  {
+    "id": "aug_nato_conversion",
+    "type": "GUNMOD",
+    "name": { "str": "AUG NATO conversion kit" },
+    "description": "A STANAG sized magwell and a modified trigger group to facilitate the use of STANAG magazines on an AUG rifle.  Most versions of the rifle come with this out of the factory as the A3 variant but it's quite simple to convert the older variants.  Fits all but the largest STANAG magazines.",
+    "weight": "100 g",
+    "volume": "150 ml",
+    "integral_volume": "150 ml",
+    "price": "320 USD",
+    "material": "plastic",
+    "symbol": ":",
+    "color": "green",
+    "location": "mechanism",
+    "mod_targets": [ "steyr_aug" ],
+    "acceptable_ammo": [ "223" ],
+    "install_time": "10 m",
+    "magazine_adaptor": [
+      [
+        "223",
+        [
+          "stanag30",
+          "stanag5",
+          "stanag10",
+          "stanag20",
+          "stanag40",
+          "stanag50",
+          "stanag60",
+          "stanag60drum",
+          "carbonmag_223",
+          "survivor223mag"
+        ]
+      ]
+    ],
+    "min_skills": [ [ "weapon", 4 ], [ "mechanics", 3 ] ],
+    "flags": [ "INSTALL_DIFFICULT" ]
+  },
+  {
     "id": "xbow_string",
     "type": "GUNMOD",
     "name": { "str": "steel prod" },

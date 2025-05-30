@@ -1557,7 +1557,7 @@ void Character::suffer()
         }
     }
 
-    for( bionic &bio : *my_bionics ) {
+    for( bionic &bio : get_bionic_collection() ) {
         process_bionic( bio );
     }
 
@@ -1929,7 +1929,7 @@ void Character::add_addiction( add_type type, int strength )
 
 bool Character::has_addiction( add_type type ) const
 {
-    return std::any_of( addictions.begin(), addictions.end(),
+    return std::ranges::any_of( addictions,
     [type]( const addiction & ad ) {
         return ad.type == type && ad.intensity >= MIN_ADDICTION_LEVEL;
     } );
@@ -1937,7 +1937,7 @@ bool Character::has_addiction( add_type type ) const
 
 void Character::rem_addiction( add_type type )
 {
-    auto iter = std::find_if( addictions.begin(), addictions.end(),
+    auto iter = std::ranges::find_if( addictions,
     [type]( const addiction & ad ) {
         return ad.type == type;
     } );
@@ -1950,7 +1950,7 @@ void Character::rem_addiction( add_type type )
 
 int Character::addiction_level( add_type type ) const
 {
-    auto iter = std::find_if( addictions.begin(), addictions.end(),
+    auto iter = std::ranges::find_if( addictions,
     [type]( const addiction & ad ) {
         return ad.type == type;
     } );

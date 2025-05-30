@@ -583,15 +583,15 @@ bool check_special_rule( const std::vector<material_id> &materials, const std::s
     }
 
     if( type == 'm' ) {
-        return std::any_of( materials.begin(), materials.end(), [&filter]( const material_id & mat ) {
-            return std::any_of( filter.begin(), filter.end(), [&mat]( const std::string & search ) {
+        return std::ranges::any_of( materials, [&filter]( const material_id & mat ) {
+            return std::ranges::any_of( filter, [&mat]( const std::string & search ) {
                 return lcmatch( mat->name(), search );
             } );
         } );
 
     } else if( type == 'M' ) {
-        return std::all_of( materials.begin(), materials.end(), [&filter]( const material_id & mat ) {
-            return std::any_of( filter.begin(), filter.end(), [&mat]( const std::string & search ) {
+        return std::ranges::all_of( materials, [&filter]( const material_id & mat ) {
+            return std::ranges::any_of( filter, [&mat]( const std::string & search ) {
                 return lcmatch( mat->name(), search );
             } );
         } );

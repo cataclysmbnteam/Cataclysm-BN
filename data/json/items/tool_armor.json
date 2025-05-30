@@ -91,7 +91,7 @@
     "warmth": 10,
     "material_thickness": 3,
     "flags": [ "BELTED", "WATER_FRIENDLY", "NO_SALVAGE" ],
-    "use_action": { "type": "unpack", "group": "gobag_contents", "filthy_volume_threshold": "10 L" }
+    "use_action": { "type": "unpack", "group": "gobag_contents" }
   },
   {
     "id": "personal_gobag",
@@ -100,7 +100,7 @@
     "name": { "str": "personal go bag" },
     "description": "A huge duffel bag with backpack attached, both packed to the gills.  You have packed this to be ready for deployment.  Activate to unpack and enjoy.",
     "looks_like": "gobag",
-    "use_action": { "type": "unpack", "group": "gobag_contents", "items_fit": true, "filthy_volume_threshold": "10 L" },
+    "use_action": { "type": "unpack", "group": "gobag_contents", "items_fit": true },
     "copy-from": "gobag"
   },
   {
@@ -850,7 +850,7 @@
     "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "Your RM13 combat armor turns off.", "target": "rm13_armor" },
     "environmental_protection": 40,
     "encumbrance": 10,
-    "qualities": [ [ "GLARE", 2 ] ],
+    "qualities": [ [ "GLARE", 2 ], [ "HV_INSULATION", 1 ] ],
     "material_thickness": 7
   },
   {
@@ -884,7 +884,7 @@
     "coverage": 50,
     "encumbrance": 2,
     "material_thickness": 2,
-    "flags": [ "OVERSIZE", "BELTED", "COMPACT" ]
+    "flags": [ "OVERSIZE", "BELTED", "COMPACT", "POWERARMOR_COMPATIBLE" ]
   },
   {
     "id": "dimensional_anchor_on",
@@ -903,7 +903,7 @@
       "target": "dimensional_anchor"
     },
     "covers": [ "torso" ],
-    "flags": [ "DIMENSIONAL_ANCHOR", "OVERSIZE", "BELTED" ]
+    "flags": [ "DIMENSIONAL_ANCHOR", "OVERSIZE", "BELTED", "POWERARMOR_COMPATIBLE" ]
   },
   {
     "id": "phase_immersion_suit",
@@ -963,8 +963,10 @@
     "turns_per_charge": 25,
     "revert_to": "phase_immersion_suit",
     "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "Suit shutting down.", "target": "phase_immersion_suit" },
+    "qualities": [ [ "HV_INSULATION", 1 ] ],
     "covers": [ "head", "mouth", "eyes", "torso", "arms", "hands", "legs", "feet" ],
     "environmental_protection": 80,
+    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "ARMOR_PSI", "add": -25 } ] } ] },
     "flags": [
       "RAD_PROOF",
       "STURDY",
@@ -1353,7 +1355,7 @@
     "color": "dark_gray",
     "name": { "str": "pair of light amp goggles", "str_pl": "pairs of light amp goggles" },
     "description": "A pair of battery-powered goggles that amplify ambient light, allowing you to see in the dark.  Use it to turn them on.",
-    "flags": [ "FRAGILE" ],
+    "flags": [ "FRAGILE", "HELMET_COMPAT" ],
     "price": "920 USD",
     "price_postapoc": "35 USD",
     "material": [ "plastic", "steel" ],
@@ -1362,18 +1364,18 @@
     "to_hit": -3,
     "use_action": {
       "type": "transform",
-      "msg": "You activate your %s.",
+      "msg": "You activate your %s and pull them down over your eyes.",
       "target": "goggles_nv_on",
       "active": true,
       "need_charges_msg": "The %s's batteries are dead.",
       "need_power": "1 kJ",
       "transform_power": "1 kJ"
     },
-    "covers": [ "eyes" ],
+    "covers": [ "head" ],
     "warmth": 10,
     "environmental_protection": 6,
-    "encumbrance": 40,
-    "coverage": 100,
+    "encumbrance": 5,
+    "coverage": 10,
     "material_thickness": 2,
     "battery_well": "250 ml",
     "batteries": [
@@ -1397,7 +1399,13 @@
     "//": "2019 commercial models can operate at under 0.375W with the IR illuminator on",
     "power_draw": "0 J",
     "revert_to": "goggles_nv",
-    "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "Your %s deactivates.", "target": "goggles_nv" },
+    "use_action": {
+      "type": "transform",
+      "menu_text": "Turn off",
+      "msg": "Your %s deactivates and you push them up.",
+      "target": "goggles_nv"
+    },
+    "covers": [ "eyes" ],
     "warmth": 25,
     "encumbrance": 20,
     "battery_well": "250 ml"
@@ -1410,7 +1418,7 @@
     "color": "dark_gray",
     "name": { "str": "pair of infrared goggles", "str_pl": "pairs of infrared goggles" },
     "description": "A pair of battery-powered goggles that grant infrared vision, allowing you to see warm-blooded creatures in the dark.  Use it to turn them on.",
-    "flags": [ "FRAGILE" ],
+    "flags": [ "FRAGILE", "HELMET_COMPAT" ],
     "price": "920 USD",
     "price_postapoc": "25 USD",
     "material": [ "plastic", "steel" ],
@@ -1419,18 +1427,18 @@
     "to_hit": -3,
     "use_action": {
       "type": "transform",
-      "msg": "You activate your %s.",
+      "msg": "You activate your %s and pull them down over your eyes.",
       "target": "goggles_ir_on",
       "active": true,
       "need_charges_msg": "The %s's batteries are dead.",
       "need_power": "1 kJ",
       "transform_power": "1 kJ"
     },
-    "covers": [ "eyes" ],
+    "covers": [ "head" ],
     "warmth": 10,
     "environmental_protection": 6,
-    "encumbrance": 40,
-    "coverage": 100,
+    "encumbrance": 5,
+    "coverage": 10,
     "material_thickness": 2,
     "battery_well": "250 ml",
     "batteries": [
@@ -1453,7 +1461,12 @@
     "flags": [ "IR_EFFECT", "FRAGILE", "TRADER_AVOID" ],
     "power_draw": "1 J",
     "revert_to": "goggles_ir",
-    "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "Your %s deactivates.", "target": "goggles_ir" },
+    "use_action": {
+      "type": "transform",
+      "menu_text": "Turn off",
+      "msg": "Your %s deactivates and you push them up.",
+      "target": "goggles_ir"
+    },
     "covers": [ "eyes" ],
     "warmth": 25,
     "encumbrance": 20,
@@ -2608,6 +2621,7 @@
     "symbol": "[",
     "color": "light_gray",
     "covers": [ "torso" ],
+    "storage": "15 L",
     "coverage": 40,
     "encumbrance": 12,
     "material_thickness": 3,
@@ -2632,6 +2646,7 @@
     "symbol": "[",
     "color": "blue",
     "covers": [ "torso" ],
+    "storage": "15 L",
     "coverage": 40,
     "encumbrance": 20,
     "material_thickness": 1,

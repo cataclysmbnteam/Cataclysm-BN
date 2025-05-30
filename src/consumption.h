@@ -3,6 +3,7 @@
 #include <list>
 
 #include "calendar.h"
+#include "character.h"
 #include "type_id.h"
 
 class item;
@@ -28,4 +29,4 @@ struct consumption_history_t {
 };
 bool query_consume_ownership( item &target, avatar &you );
 
-
+void consume_poison( Character &consumer, item &food );

@@ -48,6 +48,7 @@
     "bashing": 7,
     "cutting": 4,
     "material": [ "steel", "plastic" ],
+    "qualities": [ [ "CUT_M", 2 ] ],
     "symbol": ";",
     "color": "red",
     "use_action": "BOLTCUTTERS",

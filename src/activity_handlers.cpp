@@ -130,7 +130,6 @@ static const activity_id ACT_HAIRCUT( "ACT_HAIRCUT" );
 static const activity_id ACT_HAND_CRANK( "ACT_HAND_CRANK" );
 static const activity_id ACT_HOTWIRE_CAR( "ACT_HOTWIRE_CAR" );
 static const activity_id ACT_JACKHAMMER( "ACT_JACKHAMMER" );
-static const activity_id ACT_LONGSALVAGE( "ACT_LONGSALVAGE" );
 static const activity_id ACT_MAKE_ZLAVE( "ACT_MAKE_ZLAVE" );
 static const activity_id ACT_MEDITATE( "ACT_MEDITATE" );
 static const activity_id ACT_MEND_ITEM( "ACT_MEND_ITEM" );
@@ -320,7 +319,6 @@ activity_handlers::finish_functions = {
     { ACT_FISH, fish_finish },
     { ACT_FORAGE, forage_finish },
     { ACT_HOTWIRE_CAR, hotwire_finish },
-    { ACT_LONGSALVAGE, longsalvage_finish },
     { ACT_MAKE_ZLAVE, make_zlave_finish },
     { ACT_PICKAXE, pickaxe_finish },
     { ACT_RELOAD, reload_finish },
@@ -1277,7 +1275,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
         }
         extract_or_wreck_cbms( cbms, roll, *p );
         // those lines are for XP gain with dissecting. It depends on the size of the corpse, time to dissect the corpse and the amount of bionics you would gather.
-        int time_to_cut = size_factor_in_time_to_cut( corpse->size );
+        int time_to_cut = size_factor_in_time_to_cut( corpse->size ) / 100;
         int level_cap = std::min<int>( MAX_SKILL,
                                        ( static_cast<int>( corpse->size ) + ( cbms.size() * 2 + 1 ) ) );
         int size_mult = corpse->size > creature_size::medium ? ( corpse->size * corpse->size ) : 8;
@@ -1784,42 +1782,6 @@ void activity_handlers::hotwire_finish( player_activity *act, player *p )
     act->set_to_null();
 }
 
-void activity_handlers::longsalvage_finish( player_activity *act, player *p )
-{
-    static const std::string salvage_string = "salvage";
-    item &main_tool = p->i_at( act->index );
-    map &here = get_map();
-    map_stack items = here.i_at( p->pos() );
-    item *salvage_tool = main_tool.get_usable_item( salvage_string );
-    if( salvage_tool == nullptr ) {
-        debugmsg( "Lost tool used for long salvage" );
-        act->set_to_null();
-        return;
-    }
-
-    const use_function *use_fun = salvage_tool->get_use( salvage_string );
-    const salvage_actor *actor = dynamic_cast<const salvage_actor *>( use_fun->get_actor_ptr() );
-    if( actor == nullptr ) {
-        debugmsg( "iuse_actor type descriptor and actual type mismatch" );
-        act->set_to_null();
-        return;
-    }
-    item *target = nullptr;
-    for( item *&it : items ) {
-        if( actor->valid_to_cut_up( *it ) ) {
-            target = it;
-        }
-    }
-
-    if( target ) {
-        actor->cut_up( *p, *salvage_tool, *target );
-        return;
-    }
-
-    add_msg( _( "You finish salvaging." ) );
-    act->set_to_null();
-}
-
 void activity_handlers::make_zlave_finish( player_activity *act, player *p )
 {
     act->set_to_null();
@@ -1962,7 +1924,7 @@ void activity_handlers::pulp_do_turn( player_activity *act, player *p )
         const mtype *corpse_mtype = corpse->get_mtype();
         if( !corpse->is_corpse() || ( !corpse_mtype->has_flag( MF_REVIVES ) &&
                                       !corpse_mtype->zombify_into ) ||
-            ( std::find( act->str_values.begin(), act->str_values.end(), "auto_pulp_no_acid" ) !=
+            ( std::ranges::find( act->str_values, "auto_pulp_no_acid" ) !=
               act->str_values.end() && corpse_mtype->bloodType().obj().has_acid ) ) {
             // Don't smash non-rezing corpses //don't smash acid zombies when auto pulping
             continue;
@@ -2056,7 +2018,6 @@ void activity_handlers::reload_finish( player_activity *act, player *p )
     std::string ammo_name = ammo.tname();
     const int qty = act->index;
     const bool is_speedloader = ammo.has_flag( flag_SPEEDLOADER );
-    const bool ammo_is_filthy = ammo.is_filthy() && !ammo.is_container();
 
     if( !reloadable.reload( *p, ammo, qty ) ) {
         add_msg( m_info, _( "Can't reload the %s." ), reloadable.tname() );
@@ -2065,9 +2026,6 @@ void activity_handlers::reload_finish( player_activity *act, player *p )
 
     std::string msg = _( "You reload the %s." );
 
-    if( ammo_is_filthy ) {
-        reloadable.set_flag( flag_FILTHY );
-    }
 
     if( reloadable.get_var( "dirt", 0 ) > 7800 ) {
         msg =
@@ -3785,7 +3743,7 @@ void activity_handlers::craft_do_turn( player_activity *act, player *p )
         //TODO!: CHEEKY check
         item *craft_copy = craft;
         p->cancel_activity();
-        complete_craft( *p, *craft_copy, bench_location{bench_t, bench_pos} );
+        complete_craft( *p, *craft_copy );
         act->targets.front()->detach();
         if( is_long ) {
             if( p->making_would_work( p->lastrecipe, craft_copy->charges ) ) {
@@ -4161,7 +4119,7 @@ std::vector<tripoint> get_sorted_tiles_by_distance( const tripoint &abspos,
     };
 
     std::vector<tripoint> sorted( tiles.begin(), tiles.end() );
-    std::sort( sorted.begin(), sorted.end(), cmp );
+    std::ranges::sort( sorted, cmp );
 
     return sorted;
 }

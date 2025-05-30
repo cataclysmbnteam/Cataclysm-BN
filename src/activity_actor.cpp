@@ -7,17 +7,17 @@
 #include <string>
 #include <utility>
 
-#include "avatar_action.h"
 #include "activity_handlers.h" // put_into_vehicle_or_drop and drop_on_map
-#include "advanced_inv.h"
 #include "activity_speed.h"
+#include "advanced_inv.h"
 #include "avatar.h"
+#include "avatar_action.h"
 #include "calendar.h"
 #include "character.h"
 #include "character_functions.h"
-#include "crafting.h"
 #include "construction.h"
 #include "construction_partial.h"
+#include "crafting.h"
 #include "debug.h"
 #include "enums.h"
 #include "event.h"
@@ -79,7 +79,7 @@ static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 
 static const std::string has_thievery_witness( "has_thievery_witness" );
 
-inline int simple_task::to_counter() const
+int simple_task::to_counter() const
 {
     double ret = 10'000'000.0 / moves_total * ( moves_total - moves_left );
     return std::round( ret );
@@ -87,7 +87,6 @@ inline int simple_task::to_counter() const
 
 inline void progress_counter::pop()
 {
-
     if( empty() ) {
         dbg( DL::Error ) << "task was popped out of empty progress queue";
         return;
@@ -95,7 +94,6 @@ inline void progress_counter::pop()
     moves_left -= targets.front().moves_left;
     targets.pop_front();
     idx++;
-
 }
 
 inline void progress_counter::purge()
@@ -508,7 +506,6 @@ void dig_activity_actor::finish( player_activity &act, Character &who )
                                calendar::turn );
         for( item * const &it : dropped ) {
             if( it->is_armor() ) {
-                it->set_flag( flag_FILTHY );
                 it->set_damage( rng( 1, it->max_damage() - 1 ) );
             }
         }
@@ -680,7 +677,7 @@ inline void disassemble_activity_actor::calc_all_moves( player_activity &act, Ch
 {
     const auto &target = targets.front().loc;
     auto reqs = activity_reqs_adapter( recipe_dictionary::get_uncraft( target->typeId() ),
-                                       target->weight(), target->volume() );
+                                       std::make_pair( target->weight(), target->volume() ) );
     act.speed.calc_all_moves( who, reqs );
 }
 
@@ -1923,18 +1920,6 @@ std::unique_ptr<activity_actor> toggle_gate_activity_actor::deserialize( JsonIn 
     return actor;
 }
 
-void wash_activity_actor::start( player_activity &, Character & )
-{
-    progress.emplace( "wash", moves_total );
-}
-
-void wash_activity_actor::do_turn( player_activity &, Character & )
-{
-    if( progress.front().complete() ) {
-        progress.pop();
-        return;
-    }
-}
 
 stash_activity_actor::stash_activity_actor( Character &ch, const drop_locations &items,
         const tripoint &relpos ) : relpos( relpos )
@@ -2046,29 +2031,6 @@ std::unique_ptr<activity_actor> throw_activity_actor::deserialize( JsonIn &jsin 
     return actor;
 }
 
-void wash_activity_actor::serialize( JsonOut &jsout ) const
-{
-    jsout.start_object();
-
-    jsout.member( "progress", progress );
-    jsout.member( "targets", targets );
-    jsout.member( "moves_total", moves_total );
-
-    jsout.end_object();
-}
-
-std::unique_ptr<activity_actor> wash_activity_actor::deserialize( JsonIn &jsin )
-{
-    std::unique_ptr<wash_activity_actor> actor;
-
-    JsonObject data = jsin.get_object();
-
-    data.read( "progress", actor->progress );
-    data.read( "targets", actor->targets );
-    data.read( "moves_total", actor->moves_total );
-
-    return actor;
-}
 
 inline void construction_activity_actor::calc_all_moves( player_activity &act, Character &who )
 {
@@ -2194,6 +2156,19 @@ std::unique_ptr<activity_actor> assist_activity_actor::deserialize( JsonIn & )
     return std::make_unique<assist_activity_actor>();
 }
 
+std::unique_ptr<activity_actor> salvage_activity_actor::deserialize( JsonIn &jsin )
+{
+    std::unique_ptr<salvage_activity_actor> actor( new salvage_activity_actor() );
+
+    JsonObject data = jsin.get_object();
+
+    data.read( "progress", actor->progress );
+    data.read( "targets", actor->targets );
+    data.read( "pos", actor->pos );
+    data.read( "mute_prompts", actor->mute_prompts );
+
+    return actor;
+}
 
 namespace activity_actors
 {
@@ -2219,8 +2194,8 @@ deserialize_functions = {
     { activity_id( "ACT_PICKUP" ), &pickup_activity_actor::deserialize },
     { activity_id( "ACT_STASH" ), &stash_activity_actor::deserialize },
     { activity_id( "ACT_THROW" ), &throw_activity_actor::deserialize },
-    { activity_id( "ACT_WASH" ), &wash_activity_actor::deserialize },
     { activity_id( "ACT_ASSIST" ), &assist_activity_actor::deserialize },
+    { activity_id( "ACT_LONGSALVAGE" ), &salvage_activity_actor::deserialize }
 };
 } // namespace activity_actors
 

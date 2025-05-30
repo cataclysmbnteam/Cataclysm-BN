@@ -906,6 +906,7 @@ void player::store( JsonOut &json ) const
     }
 
     json.member( "destination_point", destination_point );
+    json.member( "last_emote", last_emote );
     json.member( "ammo_location", ammo_location );
 }
 
@@ -949,7 +950,8 @@ void player::load( const JsonObject &data )
     }
 
     // Fixes bugged characters for CBM's preventing mutations.
-    for( const bionic_id &bid : get_bionics() ) {
+    for( const bionic &i : get_bionic_collection() ) {
+        const bionic_id &bid = i.id;
         for( const trait_id &mid : bid->canceled_mutations ) {
             if( has_trait( mid ) ) {
                 remove_mutation( mid );
@@ -972,6 +974,7 @@ void player::load( const JsonObject &data )
         last_target = g->critter_tracker->from_temporary_id( tmptar );
     }
     data.read( "destination_point", destination_point );
+    data.read( "last_emote", last_emote );
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -2341,7 +2344,7 @@ void item::io( Archive &archive )
     // counter, it will always be 0 and it prevents proper stacking.
     if( get_chapters() == 0 ) {
         for( auto it = item_vars.begin(); it != item_vars.end(); ) {
-            if( it->first.compare( 0, 19, "remaining-chapters-" ) == 0 ) {
+            if( it->first.starts_with( "remaining-chapters-" ) ) {
                 item_vars.erase( it++ );
             } else {
                 ++it;

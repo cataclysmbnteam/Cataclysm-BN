@@ -690,13 +690,18 @@ void clear_window_area( const catacurses::window &win_ )
 static std::optional<std::pair<tripoint_abs_omt, std::string>> get_mission_arrow(
             const inclusive_cuboid<tripoint> &overmap_area, const tripoint_abs_omt &center )
 {
-    if( get_avatar().get_active_mission() == nullptr ) {
+    const auto *mission = get_avatar().get_active_mission();
+    const bool custom_waypoint_valid = get_avatar().get_custom_mission_target() !=
+                                       overmap::invalid_tripoint;
+    if( mission == nullptr && !custom_waypoint_valid ) {
         return std::nullopt;
     }
-    if( !get_avatar().get_active_mission()->has_target() ) {
+    if( ( mission == nullptr || !mission->has_target() ) && !custom_waypoint_valid ) {
         return std::nullopt;
     }
-    const tripoint_abs_omt mission_target = get_avatar().get_active_mission_target();
+    tripoint_abs_omt mission_target = custom_waypoint_valid
+                                      ? get_avatar().get_custom_mission_target()
+                                      : get_avatar().get_active_mission_target();  // Safe here because mission is non-null
 
     std::string mission_arrow_variant;
     if( overmap_area.contains( mission_target.raw() ) ) {
@@ -3204,26 +3209,55 @@ static void CheckMessages()
                     }
 
                     // Only monitor motion when cursor is visible
-                    last_input = input_event( MOUSE_MOVE, input_event_t::mouse );
+                    last_input = input_event( MouseInput::Move );
                 }
                 break;
 
             case SDL_MOUSEBUTTONUP:
                 switch( ev.button.button ) {
                     case SDL_BUTTON_LEFT:
-                        last_input = input_event( MOUSE_BUTTON_LEFT, input_event_t::mouse );
+                        last_input = input_event( MouseInput::LeftButtonUp );
                         break;
                     case SDL_BUTTON_RIGHT:
-                        last_input = input_event( MOUSE_BUTTON_RIGHT, input_event_t::mouse );
+                        last_input = input_event( MouseInput::RightButtonUp );
+                        break;
+                    case SDL_BUTTON_MIDDLE:
+                        last_input = input_event( MouseInput::MiddleButtonUp );
+                        break;
+                    case SDL_BUTTON_X1:
+                        last_input = input_event( MouseInput::X1ButtonUp );
+                        break;
+                    case SDL_BUTTON_X2:
+                        last_input = input_event( MouseInput::X2ButtonUp );
+                        break;
+                }
+                break;
+
+            case SDL_MOUSEBUTTONDOWN:
+                switch( ev.button.button ) {
+                    case SDL_BUTTON_LEFT:
+                        last_input = input_event( MouseInput::LeftButtonDown );
+                        break;
+                    case SDL_BUTTON_RIGHT:
+                        last_input = input_event( MouseInput::RightButtonDown );
+                        break;
+                    case SDL_BUTTON_MIDDLE:
+                        last_input = input_event( MouseInput::MiddleButtonDown );
+                        break;
+                    case SDL_BUTTON_X1:
+                        last_input = input_event( MouseInput::X1ButtonDown );
+                        break;
+                    case SDL_BUTTON_X2:
+                        last_input = input_event( MouseInput::X2ButtonDown );
                         break;
                 }
                 break;
 
             case SDL_MOUSEWHEEL:
                 if( ev.wheel.y > 0 ) {
-                    last_input = input_event( SCROLLWHEEL_UP, input_event_t::mouse );
+                    last_input = input_event( MouseInput::ScrollUp );
                 } else if( ev.wheel.y < 0 ) {
-                    last_input = input_event( SCROLLWHEEL_DOWN, input_event_t::mouse );
+                    last_input = input_event( MouseInput::ScrollDown );
                 }
                 break;
 
@@ -3841,6 +3875,31 @@ std::optional<tripoint> input_context::get_coordinates( const catacurses::window
     }
 
     return tripoint( p, g->get_levz() );
+}
+
+std::optional<point> input_context::get_coordinates_text( const catacurses::window
+        & capture_win ) const
+{
+#if !defined( TILES )
+    std::optional<tripoint_bub_ms> coord3d = get_coordinates( capture_win );
+    if( coord3d.has_value() ) {
+        return coord3d->xy().raw();
+    } else {
+        return std::nullopt;
+    }
+#else
+    if( !coordinate_input_received ) {
+        return std::nullopt;
+    }
+    const window_dimensions dim = get_window_dimensions( capture_win );
+    const int &fw = dim.scaled_font_size.x;
+    const int &fh = dim.scaled_font_size.y;
+    const point &win_min = dim.window_pos_pixel;
+    const point screen_pos = coordinate - win_min;
+    const point selected( divide_round_down( screen_pos.x, fw ),
+                          divide_round_down( screen_pos.y, fh ) );
+    return selected;
+#endif
 }
 
 int get_terminal_width()

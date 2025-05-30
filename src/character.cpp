@@ -10,23 +10,25 @@
 #include <memory>
 #include <numeric>
 #include <ostream>
+#include <ranges>
 #include <type_traits>
 
 #include "action.h"
-#include "activity_handlers.h"
 #include "activity_actor_definitions.h"
+#include "activity_handlers.h"
 #include "anatomy.h"
 #include "avatar.h"
 #include "avatar_action.h"
 #include "bionics.h"
 #include "bodypart.h"
 #include "cata_utility.h"
-#include "clothing_utils.h"
 #include "catacharset.h"
 #include "character_functions.h"
 #include "character_martial_arts.h"
 #include "character_stat.h"
+#include "clothing_utils.h"
 #include "clzones.h"
+#include "craft_command.h"
 #include "construction.h"
 #include "consumption.h"
 #include "coordinate_conversions.h"
@@ -51,17 +53,18 @@
 #include "itype.h"
 #include "iuse.h"
 #include "iuse_actor.h"
+#include "legacy_pathfinding.h"
 #include "lightmap.h"
 #include "line.h"
-#include "make_static.h"
 #include "magic_enchantment.h"
+#include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "map_selector.h"
 #include "mapdata.h"
+#include "martialarts.h"
 #include "material.h"
 #include "math_defines.h"
-#include "martialarts.h"
 #include "memorial_logger.h"
 #include "messages.h"
 #include "mission.h"
@@ -76,13 +79,12 @@
 #include "output.h"
 #include "overlay_ordering.h"
 #include "overmapbuffer.h"
-#include "legacy_pathfinding.h"
 #include "player.h"
 #include "player_activity.h"
 #include "profession.h"
 #include "recipe_dictionary.h"
-#include "ret_val.h"
 #include "regen.h"
+#include "ret_val.h"
 #include "rng.h"
 #include "scent_map.h"
 #include "skill.h"
@@ -235,7 +237,6 @@ static const trait_id trait_DEFT( "DEFT" );
 static const trait_id trait_PROF_SKATER( "PROF_SKATER" );
 static const trait_id trait_QUILLS( "QUILLS" );
 static const trait_id trait_SPINES( "SPINES" );
-static const trait_id trait_SQUEAMISH( "SQUEAMISH" );
 static const trait_id trait_THORNS( "THORNS" );
 static const trait_id trait_WOOLALLERGY( "WOOLALLERGY" );
 
@@ -506,6 +507,7 @@ void Character::move_operator_common( Character &&source ) noexcept
     backlog = std::move( source.backlog );
     destination_point = source.destination_point ;
     last_item = source.last_item ;
+    last_emote = source.last_emote;
 
     scent = source.scent ;
     my_bionics = std::move( source.my_bionics );
@@ -656,7 +658,7 @@ auto Character::is_dead_state() const -> bool
     }
 
     const auto all_bps = get_all_body_parts( true );
-    cached_dead_state = std::any_of( all_bps.begin(), all_bps.end(), [this]( const bodypart_id & bp ) {
+    cached_dead_state = std::ranges::any_of( all_bps, [this]( const bodypart_id & bp ) {
         return bp->essential && get_part_hp_cur( bp ) <= 0;
     } );
     return cached_dead_state.value();
@@ -995,6 +997,61 @@ void Character::set_pain( int npain )
         react_to_felt_pain( cur_pain - prev_pain );
         on_stat_change( "perceived_pain", cur_pain );
     }
+}
+
+namespace
+{
+
+/// normalize between 0 to 1
+auto remaining_ratio( float value, float max_value ) -> float
+{
+    return max_value == 0 ? 0 : ( max_value - value ) / max_value;
+}
+
+int min_pain( const Character &c )
+{
+    constexpr int HP_LOSS_PAIN = 40;
+    constexpr int BROKEN_LIMB_PAIN = 10;
+    constexpr int BITE_PAIN = 5;
+    constexpr int INFECTION_PAIN = 10;
+
+    auto get_pain = [&]( const bodypart_id & bp ) -> int {
+        //damage to body part, normalized to a scale of 0 to HP_LOSS_PAIN
+        //40 to 50 is "distressing pain"
+        int hurt = remaining_ratio( c.get_hp( bp ), c.get_hp_max( bp ) ) * HP_LOSS_PAIN;
+        //if body part is broken and not splinted, increase pain by BROKEN_LIMB_PAIN
+        if( c.is_limb_broken( bp ) && !c.worn_with_flag( flag_SPLINT, bp ) )
+        {
+            hurt += BROKEN_LIMB_PAIN;
+        }
+        const bodypart_str_id bp_id = bp.id();
+        //if body part has a bite wound, increase pain by BITE_PAIN
+        if( c.has_effect( effect_bite, bp_id ) )
+        {
+            hurt += BITE_PAIN;
+        }
+        //if body part is infected, increase pain by INFECTION_PAIN
+        if( c.has_effect( effect_infected, bp_id ) )
+        {
+            hurt += INFECTION_PAIN;
+        }
+        return hurt;
+    };
+
+    const auto &bps = c.get_all_body_parts( true );
+    if( bps.empty() ) {
+        return 0;
+    }
+    return std::ranges::max( bps | std::views::transform( get_pain ) );
+}
+} // namespace
+
+int Character::get_pain() const
+{
+    if( get_option<bool>( "CHRONIC_PAIN" ) ) {
+        return std::max( Creature::get_pain(), min_pain( *this ) );
+    }
+    return Creature::get_pain();
 }
 
 int Character::get_perceived_pain() const
@@ -2013,10 +2070,14 @@ bool Character::natural_attack_restricted_on( const bodypart_id &bp ) const
     return false;
 }
 
+bionic_collection &Character::get_bionic_collection() const
+{
+    return *my_bionics;
+}
 std::vector<bionic_id> Character::get_bionics() const
 {
     std::vector<bionic_id> result;
-    for( const bionic &b : *my_bionics ) {
+    for( const bionic &b : get_bionic_collection() ) {
         result.push_back( b.id );
     }
     return result;
@@ -2024,7 +2085,7 @@ std::vector<bionic_id> Character::get_bionics() const
 
 bionic &Character::get_bionic_state( const bionic_id &id )
 {
-    for( bionic &b : *my_bionics ) {
+    for( bionic &b : get_bionic_collection() ) {
         if( id == b.id ) {
             return b;
         }
@@ -2035,8 +2096,8 @@ bionic &Character::get_bionic_state( const bionic_id &id )
 
 bool Character::has_bionic( const bionic_id &b ) const
 {
-    for( const bionic_id &bid : get_bionics() ) {
-        if( bid == b ) {
+    for( const bionic &i : get_bionic_collection() ) {
+        if( i.id == b ) {
             return true;
         }
     }
@@ -2045,7 +2106,7 @@ bool Character::has_bionic( const bionic_id &b ) const
 
 bool Character::has_active_bionic( const bionic_id &b ) const
 {
-    for( const bionic &i : *my_bionics ) {
+    for( const bionic &i : get_bionic_collection() ) {
         if( i.id == b ) {
             return ( i.powered && i.incapacitated_time == 0_turns );
         }
@@ -2055,12 +2116,13 @@ bool Character::has_active_bionic( const bionic_id &b ) const
 
 bool Character::has_any_bionic() const
 {
-    return !get_bionics().empty();
+    return !get_bionic_collection().empty();
 }
 
 bionic_id Character::get_remote_fueled_bionic() const
 {
-    for( const bionic_id &bid : get_bionics() ) {
+    for( const bionic &i : get_bionic_collection() ) {
+        const bionic_id &bid = i.id;
         if( bid->is_remote_fueled ) {
             return bid;
         }
@@ -2075,7 +2137,9 @@ bool Character::can_fuel_bionic_with( const item &it ) const
         return false;
     }
 
-    for( const bionic_id &bid : get_bionics() ) {
+
+    for( const bionic &i : get_bionic_collection() ) {
+        const bionic_id &bid = i.id;
         if( is_bat && bid->max_energy_draw > 0_J ) {
             return true;
         } else {
@@ -2093,7 +2157,8 @@ std::vector<bionic_id> Character::get_bionic_fueled_with( const item &it ) const
 {
     std::vector<bionic_id> bionics;
 
-    for( const bionic_id &bid : get_bionics() ) {
+    for( const bionic &i : get_bionic_collection() ) {
+        const bionic_id &bid = i.id;
         for( const itype_id &fuel : bid->fuel_opts ) {
             if( fuel == it.typeId() ) {
                 bionics.emplace_back( bid );
@@ -2107,7 +2172,8 @@ std::vector<bionic_id> Character::get_bionic_fueled_with( const item &it ) const
 std::vector<bionic_id> Character::get_fueled_bionics() const
 {
     std::vector<bionic_id> bionics;
-    for( const bionic_id &bid : get_bionics() ) {
+    for( const bionic &i : get_bionic_collection() ) {
+        const bionic_id &bid = i.id;
         if( !bid->fuel_opts.empty() ) {
             bionics.emplace_back( bid );
         }
@@ -2264,7 +2330,8 @@ int Character::get_fuel_capacity( const itype_id &fuel ) const
         amount_stored = std::stoi( get_value( fuel.str() ) );
     }
     int capacity = 0;
-    for( const bionic_id &bid : get_bionics() ) {
+    for( const bionic &i : get_bionic_collection() ) {
+        const bionic_id &bid = i.id;
         for( const itype_id &fl : bid->fuel_opts ) {
             if( get_value( bid.str() ).empty() || get_value( bid.str() ) == fl.str() ) {
                 if( fl == fuel ) {
@@ -2290,7 +2357,8 @@ units::energy Character::get_energy_capacity() const
 int Character::get_total_fuel_capacity( const itype_id &fuel ) const
 {
     int capacity = 0;
-    for( const bionic_id &bid : get_bionics() ) {
+    for( const bionic &i : get_bionic_collection() ) {
+        const bionic_id &bid = i.id;
         for( const itype_id &fl : bid->fuel_opts ) {
             if( get_value( bid.str() ).empty() || get_value( bid.str() ) == fl.str() ) {
                 if( fl == fuel ) {
@@ -2363,7 +2431,8 @@ void Character::update_fuel_storage( const itype_id &fuel )
 int Character::get_mod_stat_from_bionic( const character_stat &Stat ) const
 {
     int ret = 0;
-    for( const bionic_id &bid : get_bionics() ) {
+    for( const bionic &i : get_bionic_collection() ) {
+        const bionic_id &bid = i.id;
         const auto St_bn = bid->stat_bonus.find( Stat );
         if( St_bn != bid->stat_bonus.end() ) {
             ret += St_bn->second;
@@ -2433,6 +2502,9 @@ detached_ptr<item> Character::wear_item( detached_ptr<item> &&wear,
 
     recalc_sight_limits();
     reset_encumbrance();
+    // wearing a splint can change perceived pain without directly modifying pain
+    // update morale just in case
+    morale->on_stat_change( "perceived_pain", get_perceived_pain() );
 
     return detached_ptr<item>();
 }
@@ -2784,7 +2856,7 @@ std::list<item *> Character::get_dependent_worn_items( const item &it ) const
             if( wit == &it || !wit->is_worn_only_with( it ) ) {
                 continue;
             }
-            const auto iter = std::find_if( dependent.begin(), dependent.end(),
+            const auto iter = std::ranges::find_if( dependent,
             [&wit]( const item * dit ) {
                 return wit == dit;
             } );
@@ -3001,7 +3073,8 @@ units::mass Character::weight_capacity() const
     }
 
     units::mass bio_weight_bonus = 0_gram;
-    for( const bionic_id &bid : get_bionics() ) {
+    for( const bionic &i : get_bionic_collection() ) {
+        const bionic_id &bid = i.id;
         ret *= bid->weight_capacity_modifier;
         bio_weight_bonus +=  bid->weight_capacity_bonus;
     }
@@ -3125,9 +3198,6 @@ ret_val<bool> Character::can_wear( const item &it, bool with_equip_change ) cons
         return ret_val<bool>::make_failure( _( "Can't wear that, it's made of wool!" ) );
     }
 
-    if( it.is_filthy() && has_trait( trait_SQUEAMISH ) ) {
-        return ret_val<bool>::make_failure( _( "Can't wear that, it's filthy!" ) );
-    }
 
     if( !it.has_flag( flag_OVERSIZE ) && !it.has_flag( flag_resized_large ) &&
         !it.has_flag( flag_SEMITANGIBLE ) ) {
@@ -3378,7 +3448,7 @@ bool Character::wear_possessed( item &to_wear, bool interactive,
 
 ret_val<bool> Character::can_takeoff( const item &it, bool dropping ) const
 {
-    auto iter = std::find_if( worn.begin(), worn.end(), [ &it ]( item * wit ) {
+    auto iter = std::ranges::find_if( worn, [ &it ]( item * wit ) {
         return &it == wit;
     } );
 
@@ -3408,7 +3478,7 @@ bool Character::takeoff( item &it, std::vector<detached_ptr<item>> *res )
         return false;
     }
 
-    auto iter = std::find_if( worn.begin(), worn.end(), [ &it ]( item * wit ) {
+    auto iter = std::ranges::find_if( worn, [ &it ]( item * wit ) {
         return &it == wit;
     } );
 
@@ -3442,6 +3512,10 @@ bool Character::takeoff( item &it, std::vector<detached_ptr<item>> *res )
 
     recalc_sight_limits();
     reset_encumbrance();
+
+    // removing a splint from a broken limb can change perceived pain without directly modifying pain
+    // update morale just in case
+    morale->on_stat_change( "perceived_pain", get_perceived_pain() );
 
     return true;
 }
@@ -3657,7 +3731,7 @@ bool Character::is_wearing_on_bp( const itype_id &it, const bodypart_id &bp ) co
 
 bool Character::worn_with_flag( const flag_id &flag, const bodypart_id &bp ) const
 {
-    return std::any_of( worn.begin(), worn.end(), [&flag, bp]( const item * const & it ) {
+    return std::ranges::any_of( worn, [&flag, bp]( const item * const & it ) {
         return it->has_flag( flag ) && ( bp == bodypart_str_id::NULL_ID() ||
                                          it->covers( bp ) );
     } );
@@ -3676,7 +3750,7 @@ const item *Character::item_worn_with_flag( const flag_id &flag, const bodypart_
 
 bool Character::worn_with_id( const itype_id &item_id, const bodypart_id &bp ) const
 {
-    return std::any_of( worn.begin(), worn.end(), [&item_id, bp]( const item * const & it ) {
+    return std::ranges::any_of( worn, [&item_id, bp]( const item * const & it ) {
         return it->typeId() == item_id && ( bp == bodypart_str_id::NULL_ID() ||
                                             it->covers( bp ) );
     } );
@@ -3703,7 +3777,9 @@ std::vector<std::string> Character::get_overlay_ids() const
     // first get effects
     for( const auto &eff_pr : *effects ) {
         if( !eff_pr.second.begin()->second.is_removed() ) {
-            rval.emplace_back( "effect_" + eff_pr.first.str() );
+            const std::string &looks_like = eff_pr.first.obj().get_looks_like();
+
+            rval.emplace_back( "effect_" + ( looks_like.empty() ? eff_pr.first.str() : looks_like ) );
         }
     }
 
@@ -3718,7 +3794,7 @@ std::vector<std::string> Character::get_overlay_ids() const
     }
 
     // then get bionics
-    for( const bionic &bio : *my_bionics ) {
+    for( const bionic &bio : get_bionic_collection() ) {
         if( !bio.show_sprite ) {
             continue;
         }
@@ -3948,7 +4024,7 @@ bool Character::meets_skill_requirements( const std::map<skill_id, int> &req,
 
 bool Character::meets_skill_requirements( const construction &con ) const
 {
-    return std::all_of( con.required_skills.begin(), con.required_skills.end(),
+    return std::ranges::all_of( con.required_skills,
     [&]( const std::pair<skill_id, int> &pr ) {
         return get_skill_level( pr.first ) >= pr.second;
     } );
@@ -4370,8 +4446,8 @@ location_vector<item>::iterator Character::position_to_wear_new_item( const item
 {
     // By default we put this item on after the last item on the same or any
     // lower layer.
-    return std::find_if(
-               worn.rbegin(), worn.rend(),
+    return std::ranges::find_if(
+               std::ranges::reverse_view( worn ),
     [&]( const item * const & w ) {
         return w->get_layer() <= new_item.get_layer();
     }
@@ -4470,7 +4546,8 @@ static void apply_mut_encumbrance( char_encumbrance_data &vals,
 void Character::mut_cbm_encumb( char_encumbrance_data &vals ) const
 {
 
-    for( const bionic_id &bid : get_bionics() ) {
+    for( const bionic &i : get_bionic_collection() ) {
+        const bionic_id &bid = i.id;
         for( const std::pair<const bodypart_str_id, int> &element : bid->encumbrance ) {
             vals.elems[element.first].encumbrance += element.second;
         }
@@ -4950,7 +5027,7 @@ void Character::on_damage_of_type( int adjusted_damage, damage_type type, const 
     // Electrical damage has a chance to temporarily incapacitate bionics in the damaged body_part.
     if( type == DT_ELECTRIC ) {
         const time_duration min_disable_time = 10_turns * adjusted_damage;
-        for( bionic &i : *my_bionics ) {
+        for( bionic &i : get_bionic_collection() ) {
             if( !i.powered ) {
                 // Unpowered bionics are protected from power surges.
                 continue;
@@ -6636,6 +6713,15 @@ bool Character::is_immune_damage( const damage_type dt ) const
         case DT_COLD:
             return has_effect_with_flag( flag_EFFECT_COLD_IMMUNE ) ||
                    worn_with_flag( flag_COLD_IMMUNE );
+        case DT_DARK:
+            return has_effect_with_flag( flag_EFFECT_DARK_IMMUNE ) ||
+                   worn_with_flag( flag_DARK_IMMUNE );
+        case DT_LIGHT:
+            return has_effect_with_flag( flag_EFFECT_LIGHT_IMMUNE ) ||
+                   worn_with_flag( flag_LIGHT_IMMUNE );
+        case DT_PSI:
+            return has_effect_with_flag( flag_EFFECT_PSI_IMMUNE ) ||
+                   worn_with_flag( flag_PSI_IMMUNE );
         case DT_ELECTRIC:
             return has_active_bionic( bio_faraday ) ||
                    worn_with_flag( flag_ELECTRIC_IMMUNE ) ||
@@ -6698,12 +6784,12 @@ const std::vector<material_id> Character::fleshy = { material_id( "flesh" ), mat
 bool Character::made_of( const material_id &m ) const
 {
     // TODO: check for mutations that change this.
-    return std::find( fleshy.begin(), fleshy.end(), m ) != fleshy.end();
+    return std::ranges::find( fleshy, m ) != fleshy.end();
 }
 bool Character::made_of_any( const std::set<material_id> &ms ) const
 {
     // TODO: check for mutations that change this.
-    return std::any_of( fleshy.begin(), fleshy.end(), [&ms]( const material_id & e ) {
+    return std::ranges::any_of( fleshy, [&ms]( const material_id & e ) {
         return ms.count( e );
     } );
 }
@@ -7178,7 +7264,8 @@ units::mass Character::bodyweight() const
 units::mass Character::bionics_weight() const
 {
     units::mass bio_weight = 0_gram;
-    for( const bionic_id &bid : get_bionics() ) {
+    for( const bionic &i : get_bionic_collection() ) {
+        const bionic_id &bid = i.id;
         if( !bid->included ) {
             bio_weight += bid->itype()->weight;
         }
@@ -7310,6 +7397,9 @@ int Character::get_armor_type( damage_type dt, bodypart_id bp ) const
         case DT_ACID:
         case DT_HEAT:
         case DT_COLD:
+        case DT_DARK:
+        case DT_LIGHT:
+        case DT_PSI:
         case DT_ELECTRIC: {
             int ret = 0;
             for( const auto &i : worn ) {
@@ -7363,6 +7453,9 @@ std::map<bodypart_id, int> Character::get_all_armor_type( damage_type dt,
             case DT_ACID:
             case DT_HEAT:
             case DT_COLD:
+            case DT_DARK:
+            case DT_LIGHT:
+            case DT_PSI:
             case DT_ELECTRIC: {
                 for( const item *it : clothing_map.at( bp ) ) {
                     per_bp.second += it->damage_resist( dt );
@@ -7389,7 +7482,8 @@ int Character::get_armor_bash_base( bodypart_id bp ) const
             ret += i->bash_resist();
         }
     }
-    for( const bionic_id &bid : get_bionics() ) {
+    for( const bionic &i : get_bionic_collection() ) {
+        const bionic_id &bid = i.id;
         const auto bash_prot = bid->bash_protec.find( bp.id() );
         if( bash_prot != bid->bash_protec.end() ) {
             ret += bash_prot->second;
@@ -7408,7 +7502,8 @@ int Character::get_armor_cut_base( bodypart_id bp ) const
             ret += i->cut_resist();
         }
     }
-    for( const bionic_id &bid : get_bionics() ) {
+    for( const bionic &i : get_bionic_collection() ) {
+        const bionic_id &bid = i.id;
         const auto cut_prot = bid->cut_protec.find( bp.id() );
         if( cut_prot != bid->cut_protec.end() ) {
             ret += cut_prot->second;
@@ -7428,7 +7523,8 @@ int Character::get_armor_bullet_base( bodypart_id bp ) const
         }
     }
 
-    for( const bionic_id &bid : get_bionics() ) {
+    for( const bionic &i : get_bionic_collection() ) {
+        const bionic_id &bid = i.id;
         const auto bullet_prot = bid->bullet_protec.find( bp.id() );
         if( bullet_prot != bid->bullet_protec.end() ) {
             ret += bullet_prot->second;
@@ -7449,7 +7545,8 @@ int Character::get_env_resist( bodypart_id bp ) const
         }
     }
 
-    for( const bionic_id &bid : get_bionics() ) {
+    for( const bionic &i : get_bionic_collection() ) {
+        const bionic_id &bid = i.id;
         const auto EP = bid->env_protec.find( bp.id() );
         if( ( !bid->activated || has_active_bionic( bid ) ) && EP != bid->env_protec.end() ) {
             ret += EP->second;
@@ -8142,7 +8239,7 @@ void Character::shout( std::string msg, bool order )
 
     if( noise <= base ) {
         std::string dampened_shout;
-        std::transform( msg.begin(), msg.end(), std::back_inserter( dampened_shout ), tolower );
+        std::ranges::transform( msg, std::back_inserter( dampened_shout ), tolower );
         msg = std::move( dampened_shout );
     }
 
@@ -8350,7 +8447,7 @@ void Character::recalculate_enchantment_cache()
         }
     }
 
-    for( const bionic &bio : *my_bionics ) {
+    for( const bionic &bio : get_bionic_collection() ) {
         const bionic_id &bid = bio.id;
 
         for( const enchantment_id &ench_id : bid->enchantments ) {
@@ -8432,6 +8529,15 @@ static void item_armor_enchantment_adjust(
         case DT_COLD:
             du.amount += armor.bonus_from_enchantments( guy, du.amount, enchant_vals::mod::ITEM_ARMOR_COLD );
             break;
+        case DT_DARK:
+            du.amount += armor.bonus_from_enchantments( guy, du.amount, enchant_vals::mod::ITEM_ARMOR_DARK );
+            break;
+        case DT_LIGHT:
+            du.amount += armor.bonus_from_enchantments( guy, du.amount, enchant_vals::mod::ITEM_ARMOR_LIGHT );
+            break;
+        case DT_PSI:
+            du.amount += armor.bonus_from_enchantments( guy, du.amount, enchant_vals::mod::ITEM_ARMOR_PSI );
+            break;
         case DT_CUT:
             du.amount += armor.bonus_from_enchantments( guy, du.amount, enchant_vals::mod::ITEM_ARMOR_CUT );
             break;
@@ -8469,6 +8575,15 @@ static void armor_enchantment_adjust( const Character &guy, damage_unit &du )
             break;
         case DT_COLD:
             du.amount += guy.bonus_from_enchantments( du.amount, enchant_vals::mod::ARMOR_COLD );
+            break;
+        case DT_DARK:
+            du.amount += guy.bonus_from_enchantments( du.amount, enchant_vals::mod::ARMOR_DARK );
+            break;
+        case DT_LIGHT:
+            du.amount += guy.bonus_from_enchantments( du.amount, enchant_vals::mod::ARMOR_LIGHT );
+            break;
+        case DT_PSI:
+            du.amount += guy.bonus_from_enchantments( du.amount, enchant_vals::mod::ARMOR_PSI );
             break;
         case DT_CUT:
             du.amount += guy.bonus_from_enchantments( du.amount, enchant_vals::mod::ARMOR_CUT );
@@ -8703,21 +8818,24 @@ float Character::bionic_armor_bonus( const bodypart_id &bp, damage_type dt ) con
 {
     float result = 0.0f;
     if( dt == DT_CUT || dt == DT_STAB ) {
-        for( const bionic_id &bid : get_bionics() ) {
+        for( const bionic &i : get_bionic_collection() ) {
+            const bionic_id &bid = i.id;
             const auto cut_prot = bid->cut_protec.find( bp.id() );
             if( cut_prot != bid->cut_protec.end() ) {
                 result += cut_prot->second;
             }
         }
     } else if( dt == DT_BASH ) {
-        for( const bionic_id &bid : get_bionics() ) {
+        for( const bionic &i : get_bionic_collection() ) {
+            const bionic_id &bid = i.id;
             const auto bash_prot = bid->bash_protec.find( bp.id() );
             if( bash_prot != bid->bash_protec.end() ) {
                 result += bash_prot->second;
             }
         }
     } else if( dt == DT_BULLET ) {
-        for( const bionic_id &bid : get_bionics() ) {
+        for( const bionic &i : get_bionic_collection() ) {
+            const bionic_id &bid = i.id;
             const auto bullet_prot = bid->bullet_protec.find( bp.id() );
             if( bullet_prot != bid->bullet_protec.end() ) {
                 result += bullet_prot->second;
@@ -9106,33 +9224,6 @@ dealt_damage_instance Character::deal_damage( Creature *source, bodypart_id bp,
         }
     }
 
-    if( get_option<bool>( "FILTHY_WOUNDS" ) ) {
-        int sum_cover = 0;
-        for( const item * const &i : worn ) {
-            if( i->covers( bp ) && i->is_filthy() ) {
-                sum_cover += i->get_coverage( bp );
-            }
-        }
-
-        // Chance of infection is damage (with cut and stab x4) * sum of coverage on affected body part, in percent.
-        // i.e. if the body part has a sum of 100 coverage from filthy clothing,
-        // each point of damage has a 1% change of causing infection.
-        if( sum_cover > 0 ) {
-            const int cut_type_dam = dealt_dams.type_damage( DT_CUT ) + dealt_dams.type_damage( DT_STAB );
-            const int combined_dam = dealt_dams.type_damage( DT_BASH ) + ( cut_type_dam * 4 );
-            const int infection_chance = ( combined_dam * sum_cover ) / 100;
-            if( x_in_y( infection_chance, 100 ) ) {
-                if( has_effect( effect_bite, bp.id() ) ) {
-                    add_effect( effect_bite, 40_minutes, bp.id() );
-                } else if( has_effect( effect_infected, bp.id() ) ) {
-                    add_effect( effect_infected, 25_minutes, bp.id() );
-                } else {
-                    add_effect( effect_bite, 1_turns, bp.id() );
-                }
-                add_msg_if_player( _( "Filth from your clothing has implanted deep in the wound." ) );
-            }
-        }
-    }
 
     on_hurt( source );
     return dealt_dams;
@@ -9183,6 +9274,8 @@ void Character::heal( const bodypart_id &healed, int dam )
     if( cur_hp + dam >= max_hp ) {
         remove_effect( effect_disabled, healed.id() );
     }
+    // update morale in case healing reduced perceived pain
+    morale->on_stat_change( "perceived_pain", get_perceived_pain() );
 }
 
 void Character::healall( int dam )
@@ -9783,7 +9876,7 @@ bool Character::has_activity( const activity_id &type ) const
 
 bool Character::has_activity( const std::vector<activity_id> &types ) const
 {
-    return std::find( types.begin(), types.end(), activity->id() ) != types.end();
+    return std::ranges::find( types, activity->id() ) != types.end();
 }
 
 void Character::cancel_activity()
@@ -10240,7 +10333,7 @@ bool Character::has_energy( const itype_id &it, units::energy amount,
     if( it == itype_bio_armor ) {
         units::energy mod_power = 0_J;
         float efficiency = 1;
-        for( const bionic &bio : *my_bionics ) {
+        for( const bionic &bio : get_bionic_collection() ) {
             if( bio.powered && bio.info().has_flag( flag_BIONIC_ARMOR_INTERFACE ) ) {
                 efficiency = std::max( efficiency, bio.info().fuel_efficiency );
             }
@@ -10307,7 +10400,6 @@ std::vector<detached_ptr<item>> Character::use_charges( const itype_id &what, in
     } else if( what == itype_fire ) {
         use_fire( qty );
         return res;
-
     }
 
     tripoint p = pos();
@@ -10557,12 +10649,6 @@ void Character::use_fire( const int quantity )
     }
 }
 
-void Character::on_worn_item_washed( const item &it )
-{
-    if( is_worn( it ) ) {
-        morale->on_worn_item_washed( it );
-    }
-}
 
 void Character::on_item_wear( const item &it )
 {
@@ -10880,7 +10966,7 @@ void Character::place_corpse()
     for( auto &itm : tmp ) {
         here.add_item_or_charges( pos(), std::move( itm ) );
     }
-    for( const bionic &bio : *my_bionics ) {
+    for( const bionic &bio : get_bionic_collection() ) {
         if( bio.info().itype().is_valid() ) {
             detached_ptr<item> cbm = item::spawn( bio.id.str(), calendar::turn );
             cbm->faults.emplace( fault_bionic_nonsterile );
@@ -10929,7 +11015,7 @@ void Character::place_corpse( const tripoint_abs_omt &om_target )
     for( auto &itm : tmp ) {
         bay.add_item_or_charges( fin, std::move( itm ) );
     }
-    for( const bionic &bio : *my_bionics ) {
+    for( const bionic &bio : get_bionic_collection() ) {
         if( bio.info().itype().is_valid() ) {
             body->put_in( item::spawn( bio.info().itype(), calendar::turn ) );
         }
@@ -11863,4 +11949,88 @@ int Character::item_reload_cost( const item &it, item &ammo, int qty ) const
     }
 
     return std::max( mv, 25 );
+}
+
+bool Character::studied_all_recipes( const itype &book ) const
+{
+    if( !book.book ) {
+        return true;
+    }
+    for( auto &elem : book.book->recipes ) {
+        if( !knows_recipe( elem.recipe ) ) {
+            return false;
+        }
+    }
+    return true;
+}
+
+recipe_subset Character::get_recipes_from_books( const inventory &crafting_inv,
+        const recipe_filter &filter ) const
+{
+    recipe_subset res;
+
+    for( const auto &stack : crafting_inv.const_slice() ) {
+        const item &candidate = *stack->front();
+
+        for( std::pair<const recipe *, int> recipe_entry :
+             candidate.get_available_recipes( *this ) ) {
+            if( filter && !filter( *recipe_entry.first ) ) {
+                continue;
+            }
+            res.include( recipe_entry.first, recipe_entry.second );
+        }
+    }
+
+    return res;
+}
+
+recipe_subset Character::get_available_recipes( const inventory &crafting_inv,
+        const std::vector<npc *> *helpers, recipe_filter filter ) const
+{
+    recipe_subset res;
+
+    if( filter ) {
+        res.include_if( get_learned_recipes(), filter );
+    } else {
+        res.include( get_learned_recipes() );
+    }
+
+    res.include( get_recipes_from_books( crafting_inv, filter ) );
+
+    if( helpers != nullptr ) {
+        for( npc *np : *helpers ) {
+            // Directly form the helper's inventory
+            res.include( get_recipes_from_books( np->inv.as_inventory(), filter ) );
+            // Being told what to do
+            res.include_if( np->get_learned_recipes(), [this, &filter]( const recipe & r ) {
+                if( filter && !filter( r ) ) {
+                    return false;
+                }
+                // Skilled enough to understand
+                return get_skill_level( r.skill_used ) >= static_cast<int>( r.difficulty * 0.8f );
+            } );
+        }
+    }
+
+    return res;
+}
+
+bool Character::has_recipe_requirements( const recipe &rec ) const
+{
+    return get_all_skills().has_recipe_requirements( rec );
+}
+
+int Character::has_recipe( const recipe *r, const inventory &crafting_inv,
+                           const std::vector<npc *> &helpers ) const
+{
+    if( !r->skill_used ) {
+        return 0;
+    }
+
+    if( knows_recipe( r ) ) {
+        return r->difficulty;
+    }
+
+    const auto available = get_available_recipes( crafting_inv, &helpers );
+    return available.contains( *r ) ? available.get_custom_difficulty( r ) : -1;
 }

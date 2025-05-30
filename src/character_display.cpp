@@ -344,7 +344,7 @@ static bool is_cqb_skill( const skill_id &id )
             skill_id( "bashing" ), skill_id( "stabbing" ),
         }
     };
-    return std::find( cqb_skills.begin(), cqb_skills.end(), id ) != cqb_skills.end();
+    return std::ranges::find( cqb_skills, id ) != cqb_skills.end();
 }
 
 namespace
@@ -1316,7 +1316,7 @@ void character_display::disp_info( Character &ch )
     const unsigned int effect_win_size_y_max = 1 + static_cast<unsigned>( effect_name_and_text.size() );
 
     std::vector<trait_id> traitslist = ch.get_mutations( false );
-    std::sort( traitslist.begin(), traitslist.end(), trait_display_sort );
+    std::ranges::sort( traitslist, trait_display_sort );
     const unsigned int trait_win_size_y_max = 1 + static_cast<unsigned>( traitslist.size() );
 
     std::vector<bionic> bionicslist = *ch.my_bionics;

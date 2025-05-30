@@ -1073,6 +1073,11 @@ Function `( Character, JsonFlagId, bool ) -> Vector( Item )`
 Gets all items
 Function `( Character, bool ) -> Vector( Item )`
 
+#### inv_remove_item
+
+Removes given `Item` from character's inventory. The `Item` must be in the inventory, neither wielded nor worn.
+Function `( Character, Item )`
+
 #### assign_activity
 
 Function `( Character, ActivityTypeId, int, int, int, string )`
@@ -1835,7 +1840,7 @@ No constructors.
 
 #### dealt_dams
 
-Variable of type `Array( int, 11 )`
+Variable of type `Array( int, 14 )`
 
 #### bp_hit
 
@@ -2327,6 +2332,11 @@ No constructors.
 
 Function `( Item ) -> ItypeId`
 
+#### get_mtype
+
+Almost for a corpse.
+Function `( Item ) -> MtypeId`
+
 #### tname
 
 Translated item name with prefixes
@@ -2336,6 +2346,21 @@ Function `( Item, int, bool, int ) -> string`
 
 Display name with all bells and whistles like ammo and prefixes
 Function `( Item, int ) -> string`
+
+#### weight
+
+Weight of the item. The first `bool` is whether including contents, second `bool` is whether it is `integral_weight`.
+Function `( Item, Opt( bool ), Opt( bool ) ) -> Mass`
+
+#### volume
+
+Volume of the item. `bool` is whether it is `integral_volume`.
+Function `( Item, Opt( bool ) ) -> Volume`
+
+#### price
+
+Cents of the item. `bool` is whether it is a post-cataclysm value.
+Function `( Item, bool ) -> int`
 
 #### has_var
 
@@ -2502,7 +2527,7 @@ Function `( Item ) -> bool`
 
 #### is_salvageable
 
-Function `( Item ) -> bool`
+Function `( Item, bool ) -> bool`
 
 #### is_craft
 
@@ -2554,7 +2579,8 @@ Function `( Item ) -> bool`
 
 #### is_filthy
 
-Function `( Item ) -> bool`
+DEPRECATED: Items are no longer filthy
+Function `() -> bool`
 
 #### is_active
 
@@ -2583,6 +2609,10 @@ Function `( Item ) -> bool`
 
 Function `( Item ) -> bool`
 
+#### is_stackable
+
+Function `( Item ) -> bool`
+
 #### charges
 
 Variable of type `int`
@@ -2598,6 +2628,26 @@ Function `( Item ) -> bool`
 #### mod_charges
 
 Function `( Item, int )`
+
+#### made_of
+
+Function `( Item ) -> <cppval: St6vectorI9string_idI13material_typeESaIS2_EE >`
+
+#### is_made_of
+
+Function `( Item, MaterialTypeId ) -> bool`
+
+#### get_kcal
+
+Function `( Item ) -> int`
+
+#### get_quench
+
+Function `( Item ) -> int`
+
+#### get_comestible_fun
+
+Function `( Item ) -> int`
 
 #### get_rot
 
@@ -2632,6 +2682,26 @@ Function `( Item ) -> string`
 
 Checks if this item owned by a character
 Function `( Item, Character, bool ) -> bool`
+
+#### has_technique
+
+Checks if this item has the technique as an addition. Doesn't check original techniques.
+Function `( Item, MartialArtsTechniqueId ) -> bool`
+
+#### get_techniques
+
+Gets all techniques. Including original techniques.
+Function `( Item ) -> Set( MartialArtsTechniqueId )`
+
+#### add_technique
+
+Adds the technique. It isn't treated original, but additional.
+Function `( Item, MartialArtsTechniqueId )`
+
+#### remove_technique
+
+Removes the additional technique. Doesn't affect originial techniques.
+Function `( Item, MartialArtsTechniqueId )`
 
 #### can_contain
 
@@ -2729,6 +2799,11 @@ Function `( Item, JsonFlagId )`
 #### unset_flags
 
 Function `( Item )`
+
+#### convert
+
+Converts the item as given `ItypeId`.
+Function `( Item, ItypeId )`
 
 #### get_var_str
 
@@ -2967,6 +3042,11 @@ Function `( Map ) -> int`
 Creates a new item(s) at a position on the map.
 Function `( Map, Tripoint, ItypeId, int )`
 
+#### create_corpse_at
+
+Creates a new corpse at a position on the map. You can skip `Opt` ones by omitting them or passing `nil`. `MtypeId` specifies which monster's body it is, `TimePoint` indicates when it died, `string` gives it a custom name, and `int` determines the revival time if the monster has the `REVIVES` flag.
+Function `( Map, Tripoint, Opt( MtypeId ), Opt( TimePoint ), Opt( string ), Opt( int ) )`
+
 #### has_items_at
 
 Function `( Map, Tripoint ) -> bool`
@@ -2974,6 +3054,14 @@ Function `( Map, Tripoint ) -> bool`
 #### get_items_at
 
 Function `( Map, Tripoint ) -> <cppval: St10unique_ptrI9map_stackSt14default_deleteIS0_EE >`
+
+#### remove_item_at
+
+Function `( Map, Tripoint, Item )`
+
+#### clear_items_at
+
+Function `( Map, Tripoint )`
 
 #### get_ter_at
 
@@ -3026,6 +3114,25 @@ Function `( Map, Tripoint, FieldTypeIntId, int, TimeDuration ) -> bool`
 #### remove_field_at
 
 Function `( Map, Tripoint, FieldTypeIntId )`
+
+#### get_trap_at
+
+Function `( Map, Tripoint ) -> TrapIntId`
+
+#### set_trap_at
+
+Set a trap at a position on the map. It can also replace existing trap, even with `trap_null`.
+Function `( Map, Tripoint, TrapIntId )`
+
+#### disarm_trap_at
+
+Disarms a trap using your skills and stats, with consequences depending on success or failure.
+Function `( Map, Tripoint )`
+
+#### remove_trap_at
+
+Simpler version of `set_trap_at` with `trap_null`.
+Function `( Map, Tripoint )`
 
 ## MapStack
 
@@ -3095,6 +3202,58 @@ Function `( MartialArtsBuffId, <cppval: 7JsonOut > )`
 
 Function `( MartialArtsBuffId, <cppval: 6JsonIn > )`
 
+## MartialArtsTechniqueId
+
+### Bases
+
+No base classes.
+
+### Constructors
+
+#### `MartialArtsTechniqueId.new()`
+
+#### `MartialArtsTechniqueId.new( MartialArtsTechniqueId )`
+
+#### `MartialArtsTechniqueId.new( string )`
+
+### Members
+
+#### obj
+
+Function `( MartialArtsTechniqueId ) -> MartialArtsTechniqueRaw`
+
+#### implements_int_id
+
+Function `() -> bool`
+
+#### is_null
+
+Function `( MartialArtsTechniqueId ) -> bool`
+
+#### is_valid
+
+Function `( MartialArtsTechniqueId ) -> bool`
+
+#### str
+
+Function `( MartialArtsTechniqueId ) -> string`
+
+#### NULL_ID
+
+Function `() -> MartialArtsTechniqueId`
+
+#### __tostring
+
+Function `( MartialArtsTechniqueId ) -> string`
+
+#### serialize
+
+Function `( MartialArtsTechniqueId, <cppval: 7JsonOut > )`
+
+#### deserialize
+
+Function `( MartialArtsTechniqueId, <cppval: 6JsonIn > )`
+
 ## Mass
 
 ### Bases
@@ -3151,6 +3310,78 @@ Function `( Mass, Mass ) -> bool`
 
 Function `( Mass, Mass ) -> bool`
 
+## MaterialTypeId
+
+### Bases
+
+No base classes.
+
+### Constructors
+
+#### `MaterialTypeId.new()`
+
+#### `MaterialTypeId.new( MaterialTypeId )`
+
+#### `MaterialTypeId.new( string )`
+
+### Members
+
+#### obj
+
+Function `( MaterialTypeId ) -> MaterialTypeRaw`
+
+#### implements_int_id
+
+Function `() -> bool`
+
+#### is_null
+
+Function `( MaterialTypeId ) -> bool`
+
+#### is_valid
+
+Function `( MaterialTypeId ) -> bool`
+
+#### str
+
+Function `( MaterialTypeId ) -> string`
+
+#### NULL_ID
+
+Function `() -> MaterialTypeId`
+
+#### __tostring
+
+Function `( MaterialTypeId ) -> string`
+
+#### serialize
+
+Function `( MaterialTypeId, <cppval: 7JsonOut > )`
+
+#### deserialize
+
+Function `( MaterialTypeId, <cppval: 6JsonIn > )`
+
+## MaterialTypeRaw
+
+### Bases
+
+No base classes.
+
+### Constructors
+
+No constructors.
+
+### Members
+
+#### str_id
+
+Function `( MaterialTypeRaw ) -> MaterialTypeId`
+
+#### name
+
+Function `( MaterialTypeRaw ) -> string`
+
 ## Monster
 
 ### Bases
@@ -3186,6 +3417,10 @@ Variable of type `bool`
 #### unique_name
 
 Variable of type `string`
+
+#### get_type
+
+Function `( Monster ) -> MtypeId`
 
 #### can_upgrade
 
@@ -3444,6 +3679,58 @@ Function `( MoraleTypeDataId, <cppval: 7JsonOut > )`
 #### deserialize
 
 Function `( MoraleTypeDataId, <cppval: 6JsonIn > )`
+
+## MtypeId
+
+### Bases
+
+No base classes.
+
+### Constructors
+
+#### `MtypeId.new()`
+
+#### `MtypeId.new( MtypeId )`
+
+#### `MtypeId.new( string )`
+
+### Members
+
+#### obj
+
+Function `( MtypeId ) -> MtypeRaw`
+
+#### implements_int_id
+
+Function `() -> bool`
+
+#### is_null
+
+Function `( MtypeId ) -> bool`
+
+#### is_valid
+
+Function `( MtypeId ) -> bool`
+
+#### str
+
+Function `( MtypeId ) -> string`
+
+#### NULL_ID
+
+Function `() -> MtypeId`
+
+#### __tostring
+
+Function `( MtypeId ) -> string`
+
+#### serialize
+
+Function `( MtypeId, <cppval: 7JsonOut > )`
+
+#### deserialize
+
+Function `( MtypeId, <cppval: 6JsonIn > )`
 
 ## MutationBranchId
 
@@ -4223,6 +4510,38 @@ Function `( Point, int ) -> Point`
 
 Function `( Point ) -> Point`
 
+## PopupInputStr
+
+### Bases
+
+No base classes.
+
+### Constructors
+
+#### `PopupInputStr.new()`
+
+### Members
+
+#### title
+
+`title` is on the left of input field.
+Function `( PopupInputStr, string )`
+
+#### desc
+
+`desc` is above input field.
+Function `( PopupInputStr, string )`
+
+#### query_str
+
+Returns your input.
+Function `( PopupInputStr ) -> string`
+
+#### query_int
+
+Returns your input, but allows numbers only.
+Function `( PopupInputStr ) -> int`
+
 ## QueryPopup
 
 ### Bases
@@ -4251,6 +4570,16 @@ Function `( QueryPopup, bool )`
 #### query
 
 Returns selected action
+Function `( QueryPopup ) -> string`
+
+#### query_yn
+
+Returns `YES` or `NO`. If ESC pressed, returns `NO`.
+Function `( QueryPopup ) -> string`
+
+#### query_ynq
+
+Returns `YES`, `NO` or `QUIT`. If ESC pressed, returns `QUIT`.
 Function `( QueryPopup ) -> string`
 
 ## RecipeId
@@ -5112,6 +5441,96 @@ No constructors.
 
 No members.
 
+## TrapId
+
+### Bases
+
+No base classes.
+
+### Constructors
+
+#### `TrapId.new()`
+
+#### `TrapId.new( TrapId )`
+
+#### `TrapId.new( TrapIntId )`
+
+#### `TrapId.new( string )`
+
+### Members
+
+#### obj
+
+Function `( TrapId ) -> TrapRaw`
+
+#### int_id
+
+Function `( TrapId ) -> TrapIntId`
+
+#### implements_int_id
+
+Function `() -> bool`
+
+#### is_null
+
+Function `( TrapId ) -> bool`
+
+#### is_valid
+
+Function `( TrapId ) -> bool`
+
+#### str
+
+Function `( TrapId ) -> string`
+
+#### NULL_ID
+
+Function `() -> TrapId`
+
+#### __tostring
+
+Function `( TrapId ) -> string`
+
+#### serialize
+
+Function `( TrapId, <cppval: 7JsonOut > )`
+
+#### deserialize
+
+Function `( TrapId, <cppval: 6JsonIn > )`
+
+## TrapIntId
+
+### Bases
+
+No base classes.
+
+### Constructors
+
+#### `TrapIntId.new()`
+
+#### `TrapIntId.new( TrapIntId )`
+
+#### `TrapIntId.new( TrapId )`
+
+### Members
+
+#### obj
+
+Function `( TrapIntId ) -> TrapRaw`
+
+#### str_id
+
+Function `( TrapIntId ) -> TrapId`
+
+#### is_valid
+
+Function `( TrapIntId ) -> bool`
+
+#### __tostring
+
+Function `( TrapIntId ) -> string`
+
 ## Tripoint
 
 ### Bases
@@ -5214,17 +5633,112 @@ No base classes.
 
 #### title
 
+Sets title which is on the top line.
 Function `( UiList, string )`
+
+#### text
+
+Sets text which is in upper box.
+Function `( UiList, string )`
+
+#### footer
+
+Sets footer text which is in lower box. It overwrites descs of entries unless is empty.
+Function `( UiList, string )`
+
+#### desc_enabled
+
+Puts a lower box. Footer or entry desc appears on it.
+Function `( UiList, bool )`
 
 #### add
 
-Return value, text
+Adds an entry. `string` is its name, and `int` is what it returns. If `int` is `-1`, the number is decided orderly.
 Function `( UiList, int, string )`
+
+#### add_w_desc
+
+Adds an entry with desc(second `string`). `desc_enabled(true)` is required for showing desc.
+Function `( UiList, int, string, string )`
+
+#### add_w_col
+
+Adds an entry with desc and col(third `string`). col is additional text on the right of the entry name.
+Function `( UiList, int, string, string, string )`
+
+#### entries
+
+Entries from uilist. Remember, in lua, the first element of vector is `entries[1]`, not `entries[0]`.
+Variable of type `Vector( UiListEntry )`
+
+#### border_color
+
+Changes the color. Default color is `c_magenta`.
+Function `( UiList, Color )`
+
+#### text_color
+
+Changes the color. Default color is `c_light_gray`.
+Function `( UiList, Color )`
+
+#### title_color
+
+Changes the color. Default color is `c_green`.
+Function `( UiList, Color )`
+
+#### hilight_color
+
+Changes the color. Default color is `h_white`.
+Function `( UiList, Color )`
+
+#### hotkey_color
+
+Changes the color. Default color is `c_light_green`.
+Function `( UiList, Color )`
 
 #### query
 
 Returns retval for selected entry, or a negative number on fail/cancel
 Function `( UiList ) -> int`
+
+## UiListEntry
+
+This type came from UiList.
+
+### Bases
+
+No base classes.
+
+### Constructors
+
+No constructors.
+
+### Members
+
+#### enable
+
+Entry whether it's enabled or not. Default is `true`.
+Variable of type `bool`
+
+#### txt
+
+Entry text
+Variable of type `string`
+
+#### desc
+
+Entry description
+Variable of type `string`
+
+#### ctxt
+
+Entry text of column.
+Variable of type `string`
+
+#### txt_color
+
+Entry text color. Its default color is `c_red_red`, which makes color of the entry same as what `uilist` decides. So if you want to make color different, choose one except `c_red_red`.
+Function `( UiListEntry, Color )`
 
 ## Volume
 
@@ -5484,8 +5998,11 @@ Function `( Volume, Volume ) -> bool`
 - `DT_STAB` = `6`
 - `DT_HEAT` = `7`
 - `DT_COLD` = `8`
-- `DT_ELECTRIC` = `9`
-- `DT_BULLET` = `10`
+- `DT_DARK` = `9`
+- `DT_LIGHT` = `10`
+- `DT_PSI` = `11`
+- `DT_ELECTRIC` = `12`
+- `DT_BULLET` = `13`
 
 ## MonsterAttitude
 
@@ -5550,81 +6067,84 @@ Function `( Volume, Volume ) -> bool`
 - `SLUDGETRAIL` = `34`
 - `COLDPROOF` = `35`
 - `BIOPROOF` = `36`
-- `FIREY` = `37`
-- `QUEEN` = `38`
-- `ELECTRONIC` = `39`
-- `FUR` = `40`
-- `LEATHER` = `41`
-- `WOOL` = `42`
-- `FEATHER` = `43`
-- `BONES` = `44`
-- `FAT` = `45`
-- `CONSOLE_DESPAWN` = `46`
-- `IMMOBILE` = `47`
-- `ID_CARD_DESPAWN` = `48`
-- `RIDEABLE_MECH` = `49`
-- `CARD_OVERRIDE` = `50`
-- `MILITARY_MECH` = `51`
-- `MECH_RECON_VISION` = `52`
-- `MECH_DEFENSIVE` = `53`
-- `HIT_AND_RUN` = `54`
-- `GUILT` = `55`
-- `PAY_BOT` = `56`
-- `HUMAN` = `57`
-- `NO_BREATHE` = `58`
-- `FLAMMABLE` = `59`
-- `REVIVES` = `60`
-- `CHITIN` = `61`
-- `VERMIN` = `62`
-- `NOGIB` = `63`
-- `LARVA` = `64`
-- `ARTHROPOD_BLOOD` = `65`
-- `ACID_BLOOD` = `66`
-- `BILE_BLOOD` = `67`
-- `ABSORBS` = `68`
-- `ABSORBS_SPLITS` = `69`
-- `CBM_CIV` = `70`
-- `CBM_POWER` = `71`
-- `CBM_SCI` = `72`
-- `CBM_OP` = `73`
-- `CBM_TECH` = `74`
-- `CBM_SUBS` = `75`
-- `FILTHY` = `76`
-- `FISHABLE` = `77`
-- `GROUP_BASH` = `78`
-- `SWARMS` = `79`
-- `GROUP_MORALE` = `80`
-- `INTERIOR_AMMO` = `81`
-- `CLIMBS` = `82`
-- `PACIFIST` = `83`
-- `PUSH_MON` = `84`
-- `PUSH_VEH` = `85`
-- `NIGHT_INVISIBILITY` = `86`
-- `REVIVES_HEALTHY` = `87`
-- `NO_NECRO` = `88`
-- `PATH_AVOID_DANGER_1` = `89`
-- `PATH_AVOID_DANGER_2` = `90`
-- `PATH_AVOID_FIRE` = `91`
-- `PATH_AVOID_FALL` = `92`
-- `PRIORITIZE_TARGETS` = `93`
-- `NOT_HALLUCINATION` = `94`
-- `CANPLAY` = `95`
-- `PET_MOUNTABLE` = `96`
-- `PET_HARNESSABLE` = `97`
-- `DOGFOOD` = `98`
-- `MILKABLE` = `99`
-- `SHEARABLE` = `100`
-- `NO_BREED` = `101`
-- `NO_FUNG_DMG` = `102`
-- `PET_WONT_FOLLOW` = `103`
-- `DRIPS_NAPALM` = `104`
-- `DRIPS_GASOLINE` = `105`
-- `ELECTRIC_FIELD` = `106`
-- `LOUDMOVES` = `107`
-- `CAN_OPEN_DOORS` = `108`
-- `STUN_IMMUNE` = `109`
-- `DROPS_AMMO` = `110`
-- `CAN_BE_ORDERED` = `111`
+- `DARKPROOF` = `37`
+- `LIGHTPROOF` = `38`
+- `PSIPROOF` = `39`
+- `FIREY` = `40`
+- `QUEEN` = `41`
+- `ELECTRONIC` = `42`
+- `FUR` = `43`
+- `LEATHER` = `44`
+- `WOOL` = `45`
+- `FEATHER` = `46`
+- `BONES` = `47`
+- `FAT` = `48`
+- `CONSOLE_DESPAWN` = `49`
+- `IMMOBILE` = `50`
+- `ID_CARD_DESPAWN` = `51`
+- `RIDEABLE_MECH` = `52`
+- `CARD_OVERRIDE` = `53`
+- `MILITARY_MECH` = `54`
+- `MECH_RECON_VISION` = `55`
+- `MECH_DEFENSIVE` = `56`
+- `HIT_AND_RUN` = `57`
+- `GUILT` = `58`
+- `PAY_BOT` = `59`
+- `HUMAN` = `60`
+- `NO_BREATHE` = `61`
+- `FLAMMABLE` = `62`
+- `REVIVES` = `63`
+- `CHITIN` = `64`
+- `VERMIN` = `65`
+- `NOGIB` = `66`
+- `LARVA` = `67`
+- `ARTHROPOD_BLOOD` = `68`
+- `ACID_BLOOD` = `69`
+- `BILE_BLOOD` = `70`
+- `ABSORBS` = `71`
+- `ABSORBS_SPLITS` = `72`
+- `CBM_CIV` = `73`
+- `CBM_POWER` = `74`
+- `CBM_SCI` = `75`
+- `CBM_OP` = `76`
+- `CBM_TECH` = `77`
+- `CBM_SUBS` = `78`
+- `UNUSED_76` = `79`
+- `FISHABLE` = `80`
+- `GROUP_BASH` = `81`
+- `SWARMS` = `82`
+- `GROUP_MORALE` = `83`
+- `INTERIOR_AMMO` = `84`
+- `CLIMBS` = `85`
+- `PACIFIST` = `86`
+- `PUSH_MON` = `87`
+- `PUSH_VEH` = `88`
+- `NIGHT_INVISIBILITY` = `89`
+- `REVIVES_HEALTHY` = `90`
+- `NO_NECRO` = `91`
+- `PATH_AVOID_DANGER_1` = `92`
+- `PATH_AVOID_DANGER_2` = `93`
+- `PATH_AVOID_FIRE` = `94`
+- `PATH_AVOID_FALL` = `95`
+- `PRIORITIZE_TARGETS` = `96`
+- `NOT_HALLUCINATION` = `97`
+- `CANPLAY` = `98`
+- `PET_MOUNTABLE` = `99`
+- `PET_HARNESSABLE` = `100`
+- `DOGFOOD` = `101`
+- `MILKABLE` = `102`
+- `SHEARABLE` = `103`
+- `NO_BREED` = `104`
+- `NO_FUNG_DMG` = `105`
+- `PET_WONT_FOLLOW` = `106`
+- `DRIPS_NAPALM` = `107`
+- `DRIPS_GASOLINE` = `108`
+- `ELECTRIC_FIELD` = `109`
+- `LOUDMOVES` = `110`
+- `CAN_OPEN_DOORS` = `111`
+- `STUN_IMMUNE` = `112`
+- `DROPS_AMMO` = `113`
+- `CAN_BE_ORDERED` = `114`
 
 ## MonsterSize
 
@@ -5853,6 +6373,10 @@ Function `( Tripoint, Opt( bool ) ) -> Creature`
 
 Function `( Tripoint, Opt( bool ) ) -> Monster`
 
+#### place_monster_at
+
+Function `( MtypeId, Tripoint ) -> Monster`
+
 #### get_character_at
 
 Function `( Tripoint, Opt( bool ) ) -> Character`
@@ -5928,7 +6452,7 @@ Function `()`
 
 Function `() -> bool`
 
-## hooks_doc
+## hooks
 
 Documentation for hooks
 

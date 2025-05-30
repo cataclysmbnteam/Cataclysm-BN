@@ -3,6 +3,7 @@
 #include "type_id.h"
 
 #include <memory>
+#include <filesystem>
 
 class Item_factory;
 class map;
@@ -21,7 +22,8 @@ bool has_lua();
 int get_lua_api_version();
 std::string get_lapi_version_string();
 void startup_lua_test();
-bool generate_lua_docs();
+auto generate_lua_docs( const std::filesystem::path &script_path,
+                        const std::filesystem::path &to ) -> bool;
 void show_lua_console();
 void reload_lua_code();
 void debug_write_lua_backtrace( std::ostream &out );

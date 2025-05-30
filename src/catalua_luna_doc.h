@@ -31,9 +31,11 @@ class distribution_grid_tracker;
 class effect_type;
 class item;
 class item_stack;
+class ma_technique;
 class ma_buff;
 class map;
 class map_stack;
+class material_type;
 class monster;
 class npc;
 class player;
@@ -44,6 +46,7 @@ class SkillLevel;
 class SkillLevelMap;
 class spell_type;
 class spell;
+class string_input_popup;
 class time_duration;
 class time_point;
 class tinymap;
@@ -60,6 +63,8 @@ struct npc_personality;
 struct point;
 struct species_type;
 struct tripoint;
+struct trap;
+struct uilist_entry;
 namespace units
 {
 template<Arithmetic V, typename U>
@@ -121,6 +126,7 @@ LUNA_VAL( npc_opinion, "NpcOpinion" );
 LUNA_VAL( npc_personality, "NpcPersonality" );
 LUNA_VAL( player, "Player" );
 LUNA_VAL( point, "Point" );
+LUNA_VAL( string_input_popup, "PopupInputStr" );
 LUNA_VAL( query_popup, "QueryPopup" );
 LUNA_VAL( SkillLevelMap, "SkillLevelMap" );
 LUNA_VAL( SkillLevel, "SkillLevel" );
@@ -131,6 +137,7 @@ LUNA_VAL( time_point, "TimePoint" );
 LUNA_VAL( tinymap, "Tinymap" );
 LUNA_VAL( tripoint, "Tripoint" );
 LUNA_VAL( uilist, "UiList" );
+LUNA_VAL( uilist_entry, "UiListEntry" );
 LUNA_VAL( units::angle, "Angle" );
 LUNA_VAL( units::energy, "Energy" );
 LUNA_VAL( units::mass, "Mass" );
@@ -150,8 +157,11 @@ LUNA_ID( itype, "Itype" )
 LUNA_ID( json_flag, "JsonFlag" )
 LUNA_ID( json_trait_flag, "JsonTraitFlag" )
 LUNA_ID( ma_buff, "MartialArtsBuff" )
+LUNA_ID( ma_technique, "MartialArtsTechnique" )
+LUNA_ID( material_type, "MaterialType" )
 LUNA_ID( monfaction, "MonsterFaction" )
 LUNA_ID( morale_type_data, "MoraleTypeData" )
+LUNA_ID( mtype, "Mtype" )
 LUNA_ID( mutation_branch, "MutationBranch" )
 LUNA_ID( mutation_category_trait, "MutationCategoryTrait" )
 LUNA_ID( recipe, "Recipe" )
@@ -159,6 +169,7 @@ LUNA_ID( Skill, "Skill" )
 LUNA_ID( species_type, "SpeciesType" )
 LUNA_ID( spell_type, "SpellType" )
 LUNA_ID( ter_t, "Ter" )
+LUNA_ID( trap, "Trap" )
 
 // Enums
 LUNA_ENUM( add_type, "AddictionType" )

@@ -35,8 +35,7 @@
     "difficulty": 3,
     "time": "30 m",
     "autolearn": true,
-    "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "tools": [ [ [ "boltcutters", -1 ], [ "toolset", -1 ] ] ],
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CUT_M", "level": 2 } ],
     "components": [ [ [ "wire_barbed", 3 ], [ "wire", 9 ], [ "nail", 10 ] ] ]
   },
   {

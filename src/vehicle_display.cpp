@@ -1,6 +1,7 @@
 #include "vehicle.h"
 #include "vehicle_part.h" // IWYU pragma: associated
 
+#include <algorithm>
 #include <cstdlib>
 #include <algorithm>
 #include <optional>
@@ -338,7 +339,7 @@ std::vector<itype_id> vehicle::get_printable_fuel_types() const
 
     std::vector<itype_id> res( opts.begin(), opts.end() );
 
-    std::sort( res.begin(), res.end(), [&]( const itype_id & lhs, const itype_id & rhs ) {
+    std::ranges::sort( res, [&]( const itype_id & lhs, const itype_id & rhs ) {
         return basic_consumption( rhs ) < basic_consumption( lhs );
     } );
 

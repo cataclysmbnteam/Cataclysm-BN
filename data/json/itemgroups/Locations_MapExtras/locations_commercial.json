@@ -57,6 +57,7 @@
       [ "bottle_glass", 10 ],
       [ "flask_glass", 10 ],
       [ "pipe_glass", 10 ],
+      [ "pipe_glass_bong", 10 ],
       [ "fish_bowl", 1 ],
       [ "glass_sheet", 5 ],
       [ "jar_3l_glass", 15 ],
@@ -213,6 +214,7 @@
       [ "sword_cane", 5 ],
       [ "hollow_cane", 5 ],
       [ "advanced_ecig", 5 ],
+      { "item": "light_battery_cell", "charges": 100, "container-item": "dab_pen", "prob": 5 },
       [ "television", 10 ],
       [ "microwave", 5 ],
       [ "multi_cooker", 1 ],
@@ -419,6 +421,7 @@
       [ "char_smoker", 25 ],
       [ "lawn_dart", 10 ],
       [ "dehydrator", 15 ],
+      [ "soda_machine", 15 ],
       [ "pickelhaube", 50 ],
       [ "well_pump", 2 ],
       [ "firehelmet", 10 ],
@@ -478,6 +481,7 @@
       [ "atomic_light", 1 ],
       [ "atomic_lamp", 1 ],
       [ "atomic_coffeepot", 1 ],
+      [ "atomic_soda_machine", 1 ],
       [ "flaregun", 10 ],
       [ "signal_flare", 15 ],
       [ "rm120c", 2 ],
@@ -601,6 +605,7 @@
       [ "silver_medal", 2 ],
       [ "gold_medal", 1 ],
       [ "bionic_scanner", 5 ],
+      [ "gps_device", 5 ],
       { "group": "tinware", "prob": 10 },
       [ "shield_riot", 5 ],
       [ "pirate_flag", 5 ]
@@ -1605,7 +1610,8 @@
       [ "dehydrator", 30 ],
       [ "vac_sealer", 45 ],
       [ "forge", 5 ],
-      [ "atomic_coffeepot", 2 ]
+      [ "atomic_coffeepot", 2 ],
+      [ "atomic_soda_machine", 2 ]
     ]
   },
   {
@@ -1923,5 +1929,11 @@
       [ "recipe_fauxfur", 5 ],
       [ "textbook_tailor", 3 ]
     ]
+  },
+  {
+    "id": "smoke_shop_clothing",
+    "type": "item_group",
+    "//": "only this for now, but when we get more clothing we should probably add some more flavor",
+    "items": [ [ "hoodie_drugrug", 100 ], [ "tshirt_tour", 20 ] ]
   }
 ]

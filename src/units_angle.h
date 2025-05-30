@@ -69,42 +69,42 @@ inline units::angle atan2( double y, double x )
 
 } // namespace units
 
-constexpr units::angle operator"" _radians( const long double v )
+constexpr units::angle operator""_radians( const long double v )
 {
     return units::from_radians( v );
 }
 
-constexpr units::angle operator"" _radians( const unsigned long long v )
+constexpr units::angle operator""_radians( const unsigned long long v )
 {
     return units::from_radians( v );
 }
 
-constexpr units::angle operator"" _pi_radians( const long double v )
+constexpr units::angle operator""_pi_radians( const long double v )
 {
     return units::from_radians( v * M_PI );
 }
 
-constexpr units::angle operator"" _pi_radians( const unsigned long long v )
+constexpr units::angle operator""_pi_radians( const unsigned long long v )
 {
     return units::from_radians( v * M_PI );
 }
 
-constexpr units::angle operator"" _degrees( const long double v )
+constexpr units::angle operator""_degrees( const long double v )
 {
     return units::from_degrees( v );
 }
 
-constexpr units::angle operator"" _degrees( const unsigned long long v )
+constexpr units::angle operator""_degrees( const unsigned long long v )
 {
     return units::from_degrees( v );
 }
 
-constexpr units::angle operator"" _arcmin( const long double v )
+constexpr units::angle operator""_arcmin( const long double v )
 {
     return units::from_arcmin( v );
 }
 
-constexpr units::angle operator"" _arcmin( const unsigned long long v )
+constexpr units::angle operator""_arcmin( const unsigned long long v )
 {
     return units::from_arcmin( v );
 }

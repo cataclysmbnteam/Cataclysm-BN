@@ -32,7 +32,7 @@ Find a way to stop the Cataclysm ... or become one of its strongest monsters.
 
 ### Executables
 
-[![Stable][stable-releases-badge]][stable-releases] [![Recent][all-releases-badge]][all-releases]
+[![Stable][stable-releases-badge]][stable-releases] [![Recent][all-releases-badge]][all-releases] [![Experiemental][experimental-badge]][experimental-releases]
 
 ### Source Code
 
@@ -42,6 +42,8 @@ Find a way to stop the Cataclysm ... or become one of its strongest monsters.
 [stable-releases-badge]: https://img.shields.io/github/v/release/cataclysmbnteam/Cataclysm-BN?style=for-the-badge&color=success&label=stable
 [all-releases]: https://github.com/cataclysmbnteam/Cataclysm-BN/releases?q=prerelease%3Atrue&expanded=true
 [all-releases-badge]: https://img.shields.io/github/v/release/cataclysmbnteam/Cataclysm-BN?style=for-the-badge&color=important&label=Latest%20Release&include_prereleases&sort=date
+[experimental-releases]: https://github.com/cataclysmbnteam/Cataclysm-BN/releases/tag/experimental
+[experimental-badge]: https://img.shields.io/github/v/release/cataclysmbnteam/Cataclysm-BN?style=for-the-badge&color=salmon&label=Experimental%20Release&include_prereleases&sort=date
 [source]: https://github.com/cataclysmbnteam/Cataclysm-BN/archive/master.zip "The source can be downloaded as a .zip archive"
 [source-badge]: https://img.shields.io/badge/Zip%20Archive-black?style=for-the-badge&logo=github
 [clone]: https://github.com/cataclysmbnteam/Cataclysm-BN/ "clone from our GitHub repo"

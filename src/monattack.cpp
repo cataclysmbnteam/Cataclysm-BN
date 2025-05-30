@@ -836,6 +836,13 @@ bool mattack::pull_metal_weapon( monster *z )
                 if( foe->has_activity( ACT_RELOAD ) ) {
                     foe->cancel_activity();
                 }
+                if( target->is_avatar() ) {
+                    popup( _( "%s is pulled away from your hands!" ), weapon.tname() );
+                } else if( target->is_npc() && target->as_npc()->is_following() ) {
+                    popup( _( "%1$s is pulled away from %2$s's hands!" ),
+                           weapon.tname(),
+                           target->as_npc()->get_name() );
+                }
             } else {
                 target->add_msg_player_or_npc( m_type,
                                                _( "The %s unsuccessfully attempts to pull your weapon away." ),

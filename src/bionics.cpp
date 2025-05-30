@@ -250,7 +250,7 @@ itype_id bionic_data::itype() const
 
 bool bionic_data::is_included( const bionic_id &id ) const
 {
-    return std::find( included_bionics.begin(), included_bionics.end(), id ) != included_bionics.end();
+    return std::ranges::find( included_bionics, id ) != included_bionics.end();
 }
 
 void bionic_data::load_bionic( const JsonObject &jo, const std::string &src )
@@ -514,7 +514,7 @@ std::map<item *, bionic_id> npc::check_toggle_cbm()
     if( free_power <= 0_J ) {
         return res;
     }
-    for( bionic &bio : *my_bionics ) {
+    for( bionic &bio : get_bionic_collection() ) {
         // I'm not checking if NPC_USABLE because if it isn't it shouldn't be in them.
         if( bio.powered || !bio.info().has_flag( flag_BIONIC_WEAPON ) ||
             free_power < bio.info().power_activate ) {
@@ -697,7 +697,7 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
         clear_npc_ai_info_cache( npc_ai_info::ideal_weapon_value );
     } else if( bio.id == bio_ears && has_active_bionic( bio_earplugs ) ) {
         add_msg_activate();
-        for( bionic &bio : *my_bionics ) {
+        for( bionic &bio : get_bionic_collection() ) {
             if( bio.id == bio_earplugs ) {
                 bio.powered = false;
                 add_msg_if_player( m_info, _( "Your %s automatically turn off." ),
@@ -706,7 +706,7 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
         }
     } else if( bio.id == bio_earplugs && has_active_bionic( bio_ears ) ) {
         add_msg_activate();
-        for( bionic &bio : *my_bionics ) {
+        for( bionic &bio : get_bionic_collection() ) {
             if( bio.id == bio_ears ) {
                 bio.powered = false;
                 add_msg_if_player( m_info, _( "Your %s automatically turns off." ),
@@ -1805,7 +1805,7 @@ void Character::process_bionic( bionic &bio )
         if( calendar::once_every( 30_turns ) ) {
             std::vector<effect *> bleeding_list = get_all_effects_of_type( effect_bleed );
             // Essential parts (Head/Torso) first.
-            std::sort( bleeding_list.begin(), bleeding_list.end(),
+            std::ranges::sort( bleeding_list,
             []( effect * a, effect * b ) {
                 return a->get_bp()->essential > b->get_bp()->essential;
             } );
@@ -1834,8 +1834,8 @@ void Character::process_bionic( bionic &bio )
                 const auto damaged_parts = [this, should_heal, sort_by]() {
                     const auto xs = get_all_body_parts( true );
                     auto ys = std::vector<bodypart_id> {};
-                    std::copy_if( xs.begin(), xs.end(), std::back_inserter( ys ), should_heal );
-                    std::sort( ys.begin(), ys.end(), sort_by );
+                    std::ranges::copy_if( xs, std::back_inserter( ys ), should_heal );
+                    std::ranges::sort( ys, sort_by );
                     return ys;
                 };
 
@@ -2179,7 +2179,8 @@ bool Character::can_uninstall_bionic( const bionic_id &b_id, player &installer, 
         }
     }
 
-    for( const bionic_id &bid : get_bionics() ) {
+    for( const bionic &i : get_bionic_collection() ) {
+        const bionic_id &bid = i.id;
         if( bid->is_included( b_id ) ) {
             popup( _( "%s must remove the %s bionic to remove the %s." ), installer.disp_name(),
                    bid->name, b_id->name );
@@ -2189,7 +2190,8 @@ bool Character::can_uninstall_bionic( const bionic_id &b_id, player &installer, 
 
     // make sure the bionic you are removing is not required by other installed bionics
     std::vector<std::string> dependent_bionics;
-    for( const bionic_id &bid : get_bionics() ) {
+    for( const bionic &i : get_bionic_collection() ) {
+        const bionic_id &bid = i.id;
         // look at required bionics for every installed bionic
         for( const bionic_id &req_bid : bid->required_bionics ) {
             if( req_bid == b_id ) {
@@ -2720,7 +2722,7 @@ void Character::bionics_install_failure( const std::string &installer,
         case 4:
         case 5: {
             std::vector<bionic_id> valid;
-            std::copy_if( begin( faulty_bionics ), end( faulty_bionics ), std::back_inserter( valid ),
+            std::ranges::copy_if( faulty_bionics, std::back_inserter( valid ),
             [&]( const bionic_id & id ) {
                 return !has_bionic( id );
             } );
@@ -2780,7 +2782,8 @@ std::string list_occupied_bps( const bionic_id &bio_id, const std::string &intro
 int Character::get_used_bionics_slots( const bodypart_id &bp ) const
 {
     int used_slots = 0;
-    for( const bionic_id &bid : get_bionics() ) {
+    for( const bionic &i : get_bionic_collection() ) {
+        const bionic_id &bid = i.id;
         auto search = bid->occupied_bodyparts.find( bp.id() );
         if( search != bid->occupied_bodyparts.end() ) {
             used_slots += search->second;
@@ -2940,7 +2943,7 @@ std::pair<int, int> Character::amount_of_storage_bionics() const
     units::energy lvl = get_max_power_level();
 
     // exclude amount of power capacity obtained via non-power-storage CBMs
-    for( const bionic &it : *my_bionics ) {
+    for( const bionic &it : get_bionic_collection() ) {
         lvl -= it.info().capacity;
     }
 
@@ -3002,7 +3005,7 @@ int bionic::get_quality( const quality_id &quality ) const
 bool bionic::is_this_fuel_powered( const itype_id &this_fuel ) const
 {
     const std::vector<itype_id> fuel_op = info().fuel_opts;
-    return std::find( fuel_op.begin(), fuel_op.end(), this_fuel ) != fuel_op.end();
+    return std::ranges::find( fuel_op, this_fuel ) != fuel_op.end();
 }
 
 void bionic::toggle_safe_fuel_mod()

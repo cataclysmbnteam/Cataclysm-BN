@@ -2,7 +2,6 @@
 
 #include <memory>
 #include <string>
-#include <utility>
 #include <vector>
 
 #include "clone_ptr.h"
@@ -28,15 +27,12 @@ std::pair<int, units::energy> alcohol_weak( player *, item *, bool, const tripoi
 std::pair<int, units::energy> alcohol_medium( player *, item *, bool, const tripoint & );
 std::pair<int, units::energy> alcohol_strong( player *, item *, bool, const tripoint & );
 std::pair<int, units::energy> xanax( player *, item *, bool, const tripoint & );
-std::pair<int, units::energy> smoking( player *, item *, bool, const tripoint & );
-std::pair<int, units::energy> ecig( player *, item *, bool, const tripoint & );
 std::pair<int, units::energy> antibiotic( player *, item *, bool, const tripoint & );
 std::pair<int, units::energy> eyedrops( player *, item *, bool, const tripoint & );
 std::pair<int, units::energy> fungicide( player *, item *, bool, const tripoint & );
 std::pair<int, units::energy> antifungal( player *, item *, bool, const tripoint & );
 std::pair<int, units::energy> antiparasitic( player *, item *, bool, const tripoint & );
 std::pair<int, units::energy> anticonvulsant( player *, item *, bool, const tripoint & );
-std::pair<int, units::energy> weed_cake( player *, item *, bool, const tripoint & );
 std::pair<int, units::energy> meth( player *, item *, bool, const tripoint & );
 std::pair<int, units::energy> vaccine( player *, item *, bool, const tripoint & );
 std::pair<int, units::energy> poison( player *, item *, bool, const tripoint & );
@@ -51,7 +47,6 @@ std::pair<int, units::energy> inhaler( player *, item *, bool, const tripoint & 
 std::pair<int, units::energy> blech( player *, item *, bool, const tripoint & );
 std::pair<int, units::energy> blech_because_unclean( player *, item *, bool, const tripoint & );
 std::pair<int, units::energy> plantblech( player *, item *, bool, const tripoint & );
-std::pair<int, units::energy> chew( player *, item *, bool, const tripoint & );
 std::pair<int, units::energy> purifier( player *, item *, bool, const tripoint & );
 std::pair<int, units::energy> purify_iv( player *, item *, bool, const tripoint & );
 std::pair<int, units::energy> purify_smart( player *, item *, bool, const tripoint & );
@@ -162,9 +157,6 @@ std::pair<int, units::energy> shavekit( player *, item *, bool, const tripoint &
 std::pair<int, units::energy> hairkit( player *, item *, bool, const tripoint & );
 std::pair<int, units::energy> weather_tool( player *, item *, bool, const tripoint & );
 std::pair<int, units::energy> ladder( player *, item *, bool, const tripoint & );
-std::pair<int, units::energy> wash_soft_items( player *, item *, bool, const tripoint & );
-std::pair<int, units::energy> wash_hard_items( player *, item *, bool, const tripoint & );
-std::pair<int, units::energy> wash_all_items( player *, item *, bool, const tripoint & );
 std::pair<int, units::energy> solarpack( player *, item *, bool, const tripoint & );
 std::pair<int, units::energy> solarpack_off( player *, item *, bool, const tripoint & );
 std::pair<int, units::energy> weak_antibiotic( player *, item *, bool, const tripoint & );
@@ -220,13 +212,6 @@ std::pair<int, units::energy> cauterize_hotplate( player *, item *, bool, const 
 
 void remove_radio_mod( item &it, player &p );
 
-// Helper for clothes washing
-struct washing_requirements {
-    int water;
-    int cleanser;
-    int time;
-};
-washing_requirements washing_requirements_for_volume( const units::volume & );
 
 using use_function_pointer = std::pair<int, units::energy> ( * )( player *, item *, bool,
                              const tripoint & );

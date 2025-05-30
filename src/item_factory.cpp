@@ -934,7 +934,6 @@ void Item_factory::init()
     add_iuse( "DIRECTIONAL_HOLOGRAM", &iuse::directional_hologram );
     add_iuse( "CAPTURE_MONSTER_ACT", &iuse::capture_monster_act );
     add_iuse( "CAPTURE_MONSTER_VEH", &iuse::capture_monster_veh );
-    add_iuse( "CHEW", &iuse::chew );
     add_iuse( "RPGDIE", &iuse::rpgdie );
     add_iuse( "BURROW", &iuse::burrow );
     add_iuse( "CHOP_TREE", &iuse::chop_tree );
@@ -950,7 +949,6 @@ void Item_factory::init()
     add_iuse( "CRAFT", &iuse::craft );
     add_iuse( "DOG_WHISTLE", &iuse::dog_whistle );
     add_iuse( "DOLLCHAT", &iuse::talking_doll );
-    add_iuse( "ECIG", &iuse::ecig );
     add_iuse( "EHANDCUFFS", &iuse::ehandcuffs );
     add_iuse( "EINKTABLETPC", &iuse::einktabletpc );
     add_iuse( "EXTINGUISHER", &iuse::extinguisher );
@@ -1042,7 +1040,6 @@ void Item_factory::init()
     add_iuse( "SHAVEKIT", &iuse::shavekit );
     add_iuse( "SIPHON", &iuse::siphon );
     add_iuse( "SLEEP", &iuse::sleep );
-    add_iuse( "SMOKING", &iuse::smoking );
     add_iuse( "SOLARPACK", &iuse::solarpack );
     add_iuse( "SOLARPACK_OFF", &iuse::solarpack_off );
     add_iuse( "SPRAY_CAN", &iuse::spray_can );
@@ -1064,13 +1061,9 @@ void Item_factory::init()
     add_iuse( "VIBE", &iuse::vibe );
     add_iuse( "HAND_CRANK", &iuse::hand_crank );
     add_iuse( "VORTEX", &iuse::vortex );
-    add_iuse( "WASH_SOFT_ITEMS", &iuse::wash_soft_items );
-    add_iuse( "WASH_HARD_ITEMS", &iuse::wash_hard_items );
-    add_iuse( "WASH_ALL_ITEMS", &iuse::wash_all_items );
     add_iuse( "WATER_PURIFIER", &iuse::water_purifier );
     add_iuse( "WEAK_ANTIBIOTIC", &iuse::weak_antibiotic );
     add_iuse( "WEATHER_TOOL", &iuse::weather_tool );
-    add_iuse( "WEED_CAKE", &iuse::weed_cake );
     add_iuse( "XANAX", &iuse::xanax );
 
     // Obsolete - just dummies, won't be called
@@ -1101,7 +1094,6 @@ void Item_factory::init()
     add_actor( std::make_unique<change_scent_iuse>() );
     add_actor( std::make_unique<place_npc_iuse>() );
     add_actor( std::make_unique<reveal_map_actor>() );
-    add_actor( std::make_unique<salvage_actor>() );
     add_actor( std::make_unique<unfold_vehicle_iuse>() );
     add_actor( std::make_unique<place_trap_actor>() );
     add_actor( std::make_unique<emit_actor>() );
@@ -1115,6 +1107,7 @@ void Item_factory::init()
     add_actor( std::make_unique<learn_spell_actor>() );
     add_actor( std::make_unique<cast_spell_actor>() );
     add_actor( std::make_unique<weigh_self_actor>() );
+    add_actor( std::make_unique<gps_device_actor>() );
     add_actor( std::make_unique<sew_advanced_actor>() );
 
     // An empty dummy group, it will not spawn anything. However, it makes that item group
@@ -2742,17 +2735,14 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
             }
         }
         // Hacky, but needed to preserve the "first magazine is default" functionality
-        if( jo.has_object( "extend" ) ) {
-            JsonObject jo_extend = jo.get_object( "extend" );
-            jo_extend.allow_omitted_members();
-            if( jo_extend.has_array( "magazines" ) ) {
-                for( JsonArray arr : jo_extend.get_array( "magazines" ) ) {
-                    ammotype ammo( arr.get_string( 0 ) );
-                    JsonArray compat = arr.get_array( 1 );
+        auto extend_magazines = extend_has_member( jo, "magazines" );
+        if( extend_magazines ) {
+            for( JsonArray arr : *extend_magazines ) {
+                ammotype ammo( arr.get_string( 0 ) );
+                JsonArray compat = arr.get_array( 1 );
 
-                    if( !def.magazine_default.contains( ammo ) ) {
-                        def.magazine_default[ ammo ] = itype_id( compat.get_string( 0 ) );
-                    }
+                if( !def.magazine_default.contains( ammo ) ) {
+                    def.magazine_default[ ammo ] = itype_id( compat.get_string( 0 ) );
                 }
             }
         }
@@ -2792,11 +2782,13 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
         def.qualities.clear();
         set_qualities_from_json( jo, "qualities", def );
     } else {
-        if( jo.has_object( "extend" ) ) {
-            JsonObject tmp = jo.get_object( "extend" );
-            tmp.allow_omitted_members();
-            extend_qualities_from_json( tmp, "qualities", def );
+        auto extend_has_qualities = extend_has_member( jo, "qualities" );
+        if( extend_has_qualities ) {
+            for( JsonArray curr : *extend_has_qualities ) {
+                def.qualities[quality_id( curr.get_string( 0 ) )] = curr.get_int( 1 );
+            }
         }
+
         if( jo.has_object( "delete" ) ) {
             JsonObject tmp = jo.get_object( "delete" );
             tmp.allow_omitted_members();
@@ -2969,14 +2961,6 @@ void Item_factory::set_qualities_from_json( const JsonObject &jo, const std::str
         }
     } else {
         jo.throw_error( "Qualities list is not an array", member );
-    }
-}
-
-void Item_factory::extend_qualities_from_json( const JsonObject &jo, const std::string &member,
-        itype &def )
-{
-    for( JsonArray curr : jo.get_array( member ) ) {
-        def.qualities[quality_id( curr.get_string( 0 ) )] = curr.get_int( 1 );
     }
 }
 
@@ -3315,31 +3299,21 @@ void Item_factory::load_item_group( const JsonObject &jsobj, const item_group_id
     }
 }
 
+
 void Item_factory::set_use_methods_from_json( const JsonObject &jo, const std::string &member,
         std::map<std::string, use_function> &use_methods )
 {
-    if( !jo.has_member( member ) ) {
+    bool has_member = jo.has_member( member );
+    auto extend_use_action = extend_has_member( jo, member );
+    if( !has_member && !extend_use_action ) {
         return;
     }
 
-    use_methods.clear();
-    if( jo.has_array( member ) ) {
-        for( const JsonValue entry : jo.get_array( member ) ) {
-            if( entry.test_string() ) {
-                std::string type = entry.get_string();
-                emplace_usage( use_methods, type );
-            } else if( entry.test_object() ) {
-                auto obj = entry.get_object();
-                std::pair<std::string, use_function> fun = usage_from_object( obj );
-                if( fun.second ) {
-                    use_methods.insert( fun );
-                }
-            } else {
-                entry.throw_error( "array element is neither string nor object." );
-            }
-        }
-    } else {
-        if( jo.has_string( member ) ) {
+    if( has_member ) {
+        use_methods.clear();
+        if( jo.has_array( member ) ) {
+            set_use_methods_from_array( jo.get_array( member ), use_methods ) ;
+        } else if( jo.has_string( member ) ) {
             std::string type = jo.get_string( member );
             emplace_usage( use_methods, type );
         } else if( jo.has_object( member ) ) {
@@ -3351,7 +3325,28 @@ void Item_factory::set_use_methods_from_json( const JsonObject &jo, const std::s
         } else {
             jo.throw_error( "member 'use_action' is neither string nor object." );
         }
+    } else if( extend_use_action ) {
+        set_use_methods_from_array( *extend_use_action, use_methods );
+    }
 
+}
+
+void Item_factory::set_use_methods_from_array( const JsonArray &array,
+        std::map<std::string, use_function> &use_methods )
+{
+    for( const JsonValue entry : array ) {
+        if( entry.test_string() ) {
+            std::string type = entry.get_string();
+            emplace_usage( use_methods, type );
+        } else if( entry.test_object() ) {
+            auto obj = entry.get_object();
+            std::pair<std::string, use_function> fun = usage_from_object( obj );
+            if( fun.second ) {
+                use_methods.insert( fun );
+            }
+        } else {
+            entry.throw_error( "array element is neither string nor object." );
+        }
     }
 }
 
@@ -3397,6 +3392,22 @@ use_function Item_factory::usage_from_string( const std::string &type ) const
     // Otherwise, return a hardcoded function we know exists (hopefully)
     debugmsg( "Received unrecognized iuse function %s, using iuse::none instead", type.c_str() );
     return use_function();
+}
+
+std::optional<JsonArray> Item_factory::extend_has_member( const JsonObject &jo,
+        const std::string &member )
+{
+    if( !jo.has_object( "extend" ) ) {
+        return std::nullopt;
+    }
+    JsonObject jo_extend = jo.get_object( "extend" );
+    jo_extend.allow_omitted_members();
+
+    if( !jo_extend.has_member( member ) ) {
+        return std::nullopt;
+    }
+
+    return jo_extend.get_array( member );
 }
 
 namespace io

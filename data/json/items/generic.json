@@ -223,7 +223,7 @@
     "description": "A smallish patch of leather, could be used to make tough clothing.",
     "price": "20 USD",
     "price_postapoc": "10 cent",
-    "material": [ "leather", "flesh" ],
+    "material": [ "leather" ],
     "flags": [ "NO_SALVAGE" ],
     "weight": "100 g",
     "volume": "250 ml",
@@ -278,7 +278,7 @@
     "weight": "4500 mg",
     "volume": "25 ml",
     "to_hit": -2,
-    "flags": [ "UNRECOVERABLE" ],
+    "flags": [ "UNRECOVERABLE", "NO_SALVAGE" ],
     "stackable": true
   },
   {
@@ -1789,7 +1789,7 @@
     "name": { "str": "rag" },
     "description": "This is a largish piece of cloth, useful in crafting and possibly for staunching bleeding.",
     "copy-from": "rag_abstract",
-    "use_action": [ { "type": "heal", "move_cost": 200, "used_up_item": "rag_bloody", "bleed": 0.5, "limb_power": 0 }, "WASH_HARD_ITEMS" ],
+    "use_action": [ { "type": "heal", "move_cost": 200, "used_up_item": "rag_bloody", "bleed": 0.5, "limb_power": 0 } ],
     "category": "scrap_fabric"
   },
   {
@@ -2511,12 +2511,46 @@
   },
   {
     "type": "GENERIC",
+    "id": "blunt_lit",
+    "name": { "str": "blunt" },
+    "looks_like": "cigar_lit",
+    "color": "brown",
+    "symbol": "!",
+    "description": "The smoke billowing from this blunt has a sweet, fruity odor.",
+    "category": "drugs",
+    "emits": [ "emit_tobacco_trail" ],
+    "use_action": [
+      { "type": "firestarter", "moves": 200, "moves_slow": 2000 },
+      {
+        "target": "blunt_roach",
+        "msg": "You extinguish the blunt.",
+        "active": false,
+        "menu_text": "Extinguish",
+        "type": "transform"
+      }
+    ],
+    "flags": [ "LITCIG", "TOBACCO", "LIGHT_4", "TRADER_AVOID", "FIRESTARTER" ]
+  },
+  {
+    "type": "GENERIC",
     "id": "cigar_butt",
     "name": { "str": "cigar butt" },
     "color": "dark_gray",
     "symbol": "!",
     "weight": "1 g",
     "description": "A true gentleman always finishes his cigars.",
+    "category": "other",
+    "flags": [ "TRADER_AVOID", "TINDER" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "blunt_roach",
+    "looks_like": "cigar_butt",
+    "name": { "str": "blunt roach", "str_pl": "blunt roaches" },
+    "color": "dark_gray",
+    "symbol": "!",
+    "weight": "1 g",
+    "description": "A true gangster always finishes their blunts.",
     "category": "other",
     "flags": [ "TRADER_AVOID", "TINDER" ]
   },
@@ -3137,7 +3171,7 @@
     "material": "aluminum",
     "symbol": "!",
     "color": "green",
-    "use_action": { "type": "unpack", "group": "premium_contents", "items_fit": true, "filthy_volume_threshold": "10 L" },
+    "use_action": { "type": "unpack", "group": "premium_contents", "items_fit": true },
     "flags": [ "NO_REPAIR", "NO_SALVAGE" ]
   },
   {

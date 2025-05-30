@@ -57,6 +57,7 @@ enum spell_flag {
     WONDER, // instead of casting each of the extra_spells, it picks N of them and casts them (where N is std::min( damage(), number_of_spells ))
     PAIN_NORESIST, // pain altering spells can't be resisted (like with the deadened trait)
     NO_FAIL, // this spell cannot fail when you cast it
+    BRAWL, // this spell can be used by brawlers
     LAST
 };
 
@@ -153,6 +154,9 @@ class spell_type
         // spell sound effect
         translation sound_description;
         skill_id skill;
+
+        // Mutations that block the spell from being cast
+        std::set<trait_id> blocker_mutations;
 
         requirement_id spell_components;
 
@@ -361,6 +365,8 @@ class spell
         bool is_max_level() const;
         // what is the max level of the spell
         int get_max_level() const;
+        // what are the blocker mutations
+        std::set<trait_id> get_blocker_muts() const;
 
         // what is the intensity of the field the spell generates ( 0 if no field )
         int field_intensity() const;

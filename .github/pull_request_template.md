@@ -1,3 +1,5 @@
+<!-- for small documentation fixes, it's okay to ignore the template -->
+
 ## Purpose of change (The Why)
 
 <!-- e.g resolves #1234 / monster A is too OP despite being an early-game mob -->
@@ -51,4 +53,6 @@ please remove sections irrelevant to this PR.
   - [ ] If the change alters versions of software required to build or work with the game, please document it.
 - [ ] This is a PR that removes JSON entities.
   - [ ] The removed JSON entities have new entries in `data/json/obsoletion/` folder or use some other migration process for existing saves.
+- [ ] This PR modifies BN's lua API.
+  - [ ] I have committed the output of `deno task doc` so the Lua API documentation is updated.
 -->

@@ -534,7 +534,7 @@ std::vector<stacked_items> stack_for_pickup_ui( const
         }
 
         // Each sub-stack has to be sorted separately
-        std::sort( restacked_children.begin(), restacked_children.end(),
+        std::ranges::sort( restacked_children,
         []( const std::list<item_stack::iterator> &lhs, const std::list<item_stack::iterator> &rhs ) {
             return **lhs.front() < **rhs.front();
         } );
@@ -542,7 +542,7 @@ std::vector<stacked_items> stack_for_pickup_ui( const
     }
 
     // Sorting by parent is a bit arbitrary (parent-less go last) - sort by count?
-    std::sort( restacked_with_parents.begin(), restacked_with_parents.end(),
+    std::ranges::sort( restacked_with_parents,
     []( const stacked_items & lhs, stacked_items & rhs ) {
         return lhs.parent.has_value() && ( !rhs.parent.has_value() || **lhs.parent < **rhs.parent );
     } );
@@ -1081,8 +1081,8 @@ void pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
                 if( selected_stack.parent ) {
                     pickup_count &parent_stack = getitem[*selected_stack.parent];
                     if( selected_stack.pick ) {
-                        parent_stack.all_children_picked = std::all_of(
-                                                               parent_stack.children.begin(), parent_stack.children.end(),
+                        parent_stack.all_children_picked = std::ranges::all_of(
+                                                               parent_stack.children,
                         [&]( size_t child_index ) {
                             return getitem[child_index].pick;
                         } );

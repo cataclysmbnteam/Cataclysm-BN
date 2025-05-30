@@ -818,7 +818,7 @@
     "broken_color": "light_blue",
     "damage_modifier": 80,
     "durability": 100,
-    "description": "A small washing machine.  With detergent, water, and some electrical power, you could clean a lot of clothes.  'e'xamine the tile with the washing machine to use it.",
+    "description": "A small washing machine.  It's only good for salvage, or decorating your vehicle.",
     "epower": -400,
     "size": "40 L",
     "item": "washing_machine",
@@ -832,7 +832,7 @@
         "using": [ [ "welding_standard", 5 ], [ "vehicle_repair_electronics", 2 ] ]
       }
     },
-    "flags": [ "CARGO", "OBSTACLE", "WASHING_MACHINE", "COVERED", "ENABLED_DRAINS_EPOWER" ],
+    "flags": [ "CARGO", "OBSTACLE", "COVERED", "ENABLED_DRAINS_EPOWER" ],
     "breaks_into": [
       { "item": "steel_lump", "count": [ 8, 13 ] },
       { "item": "steel_chunk", "count": [ 8, 13 ] },
@@ -851,7 +851,7 @@
     "broken_color": "light_blue",
     "damage_modifier": 80,
     "durability": 100,
-    "description": "A small dishwasher.  With detergent, water, and some electrical power, you could clean your dishes…  Or something more useful like a CBM dripping with zombie gore.  'e'xamine the tile with the dishwasher to use it.",
+    "description": "A small dishwasher.  It's only good for salvage, or decorating your vehicle.",
     "epower": -400,
     "size": "40 L",
     "item": "dishwasher",
@@ -866,7 +866,7 @@
         "using": [ [ "welding_standard", 5 ], [ "vehicle_repair_electronics", 2 ] ]
       }
     },
-    "flags": [ "CARGO", "OBSTACLE", "DISHWASHER", "COVERED", "ENABLED_DRAINS_EPOWER" ],
+    "flags": [ "CARGO", "OBSTACLE", "COVERED", "ENABLED_DRAINS_EPOWER" ],
     "breaks_into": [
       { "item": "steel_lump", "count": [ 8, 13 ] },
       { "item": "steel_chunk", "count": [ 8, 13 ] },
@@ -1202,6 +1202,42 @@
     "flags": [ "FLOATS", "BOARDABLE" ],
     "breaks_into": [ { "item": "kevlar_plate", "count": [ 1, 3 ] } ],
     "damage_reduction": { "all": 14 }
+  },
+  {
+    "type": "vehicle_part",
+    "id": "hovercraft_section",
+    "name": { "str": "hovercraft impeller" },
+    "description": "An impeller and skirt used by air-cushion vehicles to float just above the surface of land or water.",
+    "symbol": "o",
+    "color": "dark_gray",
+    "looks_like": "inflatable_airbag",
+    "broken_symbol": "x",
+    "broken_color": "light_gray",
+    "damage_modifier": 40,
+    "durability": 240,
+    "contact_area": 20,
+    "folded_volume": "250 ml",
+    "item": "hovercraft_section",
+    "location": "under",
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 6 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
+      "removal": { "skills": [ [ "mechanics", 5 ] ], "time": "30 m", "qualities": [ { "id": "SAW_M", "level": 1 } ] },
+      "repair": {
+        "skills": [ [ "mechanics", 6 ] ],
+        "time": "60 m",
+        "using": [ [ "welding_standard", 5 ], [ "vehicle_repair_small_metal", 3 ] ]
+      }
+    },
+    "flags": [ "WHEEL", "FLOATS", "MULTISQUARE", "TRACKED", "VARIABLE_SIZE", "FOLDABLE", "STABLE", "SELF_JACK" ],
+    "wheel_type": "off-road",
+    "cargo_weight_modifier": 75,
+    "breaks_into": [
+      { "item": "steel_lump" },
+      { "item": "steel_chunk", "count": [ 1, 3 ] },
+      { "item": "scrap", "count": [ 1, 3 ] },
+      { "item": "cable", "charges": [ 0, 4 ] }
+    ],
+    "damage_reduction": { "all": 25 }
   },
   {
     "type": "vehicle_part",

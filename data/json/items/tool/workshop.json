@@ -310,11 +310,6 @@
     "material": "steel",
     "symbol": ";",
     "color": "light_gray",
-    "use_action": {
-      "type": "salvage",
-      "moves_per_part": 1000,
-      "material_whitelist": [ "steel", "hardsteel", "budget_steel", "tin", "silver_small", "gold_small", "copper", "iron" ]
-    },
     "qualities": [ [ "SAW_M", 2 ], [ "SAW_W", 1 ], [ "SAW_M_FINE", 1 ], [ "BUTCHER", -90 ] ],
     "flags": [ "BELT_CLIP" ]
   },
@@ -333,14 +328,7 @@
     "color": "light_gray",
     "looks_like": "chain",
     "qualities": [ [ "SAW_M", 1 ], [ "SAW_W", 1 ] ],
-    "use_action": [
-      {
-        "type": "salvage",
-        "moves_per_part": 2000,
-        "material_whitelist": [ "steel", "budget_steel", "tin", "silver_small", "gold_small", "copper", "iron" ]
-      },
-      "HACKSAW"
-    ]
+    "use_action": [ "HACKSAW" ]
   },
   {
     "id": "hammer",
@@ -709,7 +697,17 @@
     "material": "steel",
     "symbol": ";",
     "color": "light_gray",
-    "qualities": [ [ "CUT", 1 ], [ "SAW_W", 1 ], [ "SAW_M", 1 ], [ "WRENCH", 1 ], [ "SCREW", 1 ], [ "SCREW_FINE", 1 ], [ "BUTCHER", 7 ] ],
+    "qualities": [
+      [ "CUT", 1 ],
+      [ "SAW_W", 1 ],
+      [ "SAW_M", 1 ],
+      [ "WRENCH", 1 ],
+      [ "SCREW", 1 ],
+      [ "SCREW_FINE", 1 ],
+      [ "BUTCHER", 7 ],
+      [ "CUT_M", 1 ],
+      [ "PULL_FINE", 2 ]
+    ],
     "flags": [ "STAB", "SHEATH_KNIFE" ]
   },
   {
@@ -801,7 +799,7 @@
     "material": "steel",
     "symbol": ";",
     "color": "light_gray",
-    "qualities": [ [ "WRENCH", 1 ], [ "PULL", 1 ] ],
+    "qualities": [ [ "WRENCH", 1 ], [ "PULL", 1 ], [ "PULL_FINE", 2 ] ],
     "flags": [ "BELT_CLIP" ]
   },
   {
@@ -1026,43 +1024,13 @@
       [ "WRENCH_FINE", 1 ],
       [ "SCREW_FINE", 1 ],
       [ "SANDING", 2 ],
+      [ "DRILL", 2 ],
+      [ "PULL_FINE", 2 ],
+      [ "CUT_M", 1 ],
+      [ "HV_INSULATION", 1 ],
       [ "BUTCHER", 11 ]
     ],
-    "use_action": [
-      "HAMMER",
-      "CROWBAR",
-      {
-        "type": "salvage",
-        "moves_per_part": 1000,
-        "material_whitelist": [
-          "steel",
-          "hardsteel",
-          "budget_steel",
-          "tin",
-          "silver_small",
-          "gold_small",
-          "copper",
-          "iron",
-          "acidchitin",
-          "alien_resin",
-          "bone",
-          "chitin",
-          "cotton",
-          "faux_fur",
-          "fur",
-          "kevlar",
-          "kevlar_rigid",
-          "leather",
-          "neoprene",
-          "nomex",
-          "nylon",
-          "plastic",
-          "rubber",
-          "wood",
-          "wool"
-        ]
-      }
-    ]
+    "use_action": [ "HAMMER", "CROWBAR" ]
   },
   {
     "id": "toolbox_workshop",
@@ -1096,43 +1064,14 @@
       [ "BUTCHER", 11 ],
       [ "FILE", 2 ],
       [ "REAM", 1 ],
+      [ "SANDING", 2 ],
+      [ "DRILL", 2 ],
+      [ "PULL_FINE", 2 ],
+      [ "CUT_M", 1 ],
+      [ "HV_INSULATION", 1 ],
       [ "VISE", 1 ]
     ],
-    "use_action": [
-      "HAMMER",
-      "CROWBAR",
-      {
-        "type": "salvage",
-        "moves_per_part": 1000,
-        "material_whitelist": [
-          "steel",
-          "hardsteel",
-          "budget_steel",
-          "tin",
-          "silver_small",
-          "gold_small",
-          "copper",
-          "iron",
-          "acidchitin",
-          "alien_resin",
-          "bone",
-          "chitin",
-          "cotton",
-          "faux_fur",
-          "fur",
-          "kevlar",
-          "kevlar_rigid",
-          "leather",
-          "neoprene",
-          "nomex",
-          "nylon",
-          "plastic",
-          "rubber",
-          "wood",
-          "wool"
-        ]
-      }
-    ]
+    "use_action": [ "HAMMER", "CROWBAR" ]
   },
   {
     "id": "toolset_extended",
@@ -1159,37 +1098,6 @@
         "skill": "mechanics",
         "cost_scaling": 0.1,
         "move_cost": 1000
-      },
-      {
-        "type": "salvage",
-        "moves_per_part": 1000,
-        "material_whitelist": [
-          "steel",
-          "hardsteel",
-          "budget_steel",
-          "tin",
-          "silver_small",
-          "gold_small",
-          "copper",
-          "iron",
-          "acidchitin",
-          "alien_resin",
-          "bone",
-          "chitin",
-          "cotton",
-          "faux_fur",
-          "fur",
-          "kevlar",
-          "kevlar_rigid",
-          "leather",
-          "neoprene",
-          "nomex",
-          "nylon",
-          "plastic",
-          "rubber",
-          "wood",
-          "wool"
-        ]
       },
       { "flame": false, "type": "cauterize" }
     ],

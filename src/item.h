@@ -3,7 +3,6 @@
 #include <climits>
 #include <cstdint>
 #include <functional>
-#include <list>
 #include <map>
 #include <optional>
 #include <set>
@@ -13,7 +12,7 @@
 #include <vector>
 
 #include "calendar.h"
-#include "cata_arena.h"
+#include "coordinates.h"
 #include "detached_ptr.h"
 #include "enums.h"
 #include "flat_set.h"
@@ -24,13 +23,11 @@
 #include "kill_tracker.h"
 #include "location_vector.h"
 #include "pimpl.h"
-#include "safe_reference.h"
 #include "string_id.h"
 #include "type_id.h"
 #include "units.h"
 #include "value_ptr.h"
 #include "visitable.h"
-#include "coordinates.h"
 
 class Character;
 class JsonIn;
@@ -774,7 +771,7 @@ class item : public location_visitable<item>, public game_object<item>
                                               std::vector<detached_ptr<item>> &used,
                                               const std::function<bool( const item & )> &filter = return_true<item> );
 
-        /** Permits filthy components, should only be used as a helper in creating filters */
+        /** should only be used as a helper in creating filters */
         bool allow_crafting_component() const;
 
         /**
@@ -1202,9 +1199,6 @@ class item : public location_visitable<item>, public game_object<item>
          * for other players. The player is identified by its id.
          */
         void mark_as_used_by_player( const player &p );
-        /** Marks the item as filthy, so characters with squeamish trait can't wear it.
-        */
-        bool is_filthy() const;
         /**
          * This is called once each turn. It's usually only useful for active items,
          * but can be called for inactive items without problems.
@@ -1272,7 +1266,7 @@ class item : public location_visitable<item>, public game_object<item>
         bool is_armor() const;
         bool is_book() const;
         bool is_map() const;
-        bool is_salvageable() const;
+        bool is_salvageable( bool strict = false ) const;
         bool is_craft() const;
 
         bool is_deployable() const;
@@ -1830,7 +1824,7 @@ class item : public location_visitable<item>, public game_object<item>
         /**
          * Enumerates recipes available from this book and the skill level required to use them.
          */
-        std::vector<std::pair<const recipe *, int>> get_available_recipes( const player &u ) const;
+        std::vector<std::pair<const recipe *, int>> get_available_recipes( const Character &u ) const;
         /*@}*/
 
         /**
@@ -1853,6 +1847,11 @@ class item : public location_visitable<item>, public game_object<item>
          * the same type are not affected by this.
          */
         void add_technique( const matec_id &tech );
+        /**
+         *  Remove the given technique from the item specific @ref techniques.
+         *  Note that other items of the same type are not affected by this.
+         */
+        void remove_technique( const matec_id &tech );
         /*@}*/
 
         /** Returns all toolmods currently attached to this item (always empty if item not a tool) */
@@ -2279,7 +2278,7 @@ class item : public location_visitable<item>, public game_object<item>
          * Causes a debugmsg if called on non-craft.
          * @param crafter the crafting player
          */
-        void set_next_failure_point( const player &crafter );
+        void set_next_failure_point( const Character &crafter );
 
         /**
          * Handle failure during crafting.
@@ -2287,7 +2286,7 @@ class item : public location_visitable<item>, public game_object<item>
          * @param crafter the crafting player.
          * @return whether the craft being worked on should be entirely destroyed
          */
-        bool handle_craft_failure( player &crafter );
+        bool handle_craft_failure( Character &crafter );
 
         /**
          * Returns requirement data representing what is needed to resume work on an in progress craft.
@@ -2545,18 +2544,9 @@ bool item_ptr_compare_by_charges( const item *left, const item *right );
  */
 inline bool is_crafting_component( const item &component )
 {
-    return ( component.allow_crafting_component() || component.count_by_charges() ) &&
-           !component.is_filthy();
-}
-
-/**
- * This is used in recipes, all other cases use is_crafting_component instead. This allows
- * filthy components to be filtered out in a different manner that allows exceptions.
- */
-inline bool is_crafting_component_allow_filthy( const item &component )
-{
     return ( component.allow_crafting_component() || component.count_by_charges() );
 }
+
 
 namespace charge_removal_blacklist
 {

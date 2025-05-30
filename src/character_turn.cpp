@@ -171,7 +171,7 @@ void Character::process_turn()
     // Has to happen before reset_stats
     clear_miss_reasons();
 
-    for( bionic &i : *my_bionics ) {
+    for( bionic &i : get_bionic_collection() ) {
         if( i.incapacitated_time > 0_turns ) {
             i.incapacitated_time -= 1_turns;
             if( i.incapacitated_time == 0_turns ) {

@@ -1021,6 +1021,34 @@
   },
   {
     "type": "recipe",
+    "result": "hovercraft_section",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_VEHICLE",
+    "skill_used": "mechanics",
+    "skills_required": [ "electronics", 2 ],
+    "difficulty": 5,
+    "time": "1 h",
+    "autolearn": [ [ "mechanics", 6 ], [ "electronics", 3 ] ],
+    "reversible": true,
+    "book_learn": [ [ "textbook_fabrication", 5 ], [ "textbook_mechanics", 4 ], [ "reference_fabrication1", 5 ] ],
+    "using": [ [ "welding_standard", 3 ], [ "steel_standard", 4 ], [ "soldering_standard", 10 ], [ "sewing_standard", 20 ] ],
+    "qualities": [
+      { "id": "HAMMER", "level": 2 },
+      { "id": "SAW_M", "level": 1 },
+      { "id": "WRENCH", "level": 1 },
+      { "id": "SCREW", "level": 1 }
+    ],
+    "components": [
+      [ [ "fabric_standard", 10, "LIST" ] ],
+      [ [ "pipe", 1 ] ],
+      [ [ "motor_tiny", 2 ], [ "motor_small", 1 ] ],
+      [ [ "hose", 1 ] ],
+      [ [ "cable", 10 ] ],
+      [ [ "chunk_rubber", 10 ], [ "neoprene", 10 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
     "result": "hand_paddles",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_VEHICLE",
@@ -1732,6 +1760,19 @@
     "autolearn": true,
     "using": [ [ "sewing_standard", 50 ], [ "welding_standard", 5 ] ],
     "components": [ [ [ "pipe", 4 ] ], [ [ "spring", 2 ] ], [ [ "fabric_hides_proper", 12, "LIST" ], [ "fur", 12 ] ], [ [ "rag", 8 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "saddle",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_VEHICLE",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "10 m",
+    "reversible": true,
+    "autolearn": true,
+    "using": [ [ "sewing_standard", 25 ], [ "welding_standard", 5 ] ],
+    "components": [ [ [ "pipe", 2 ] ], [ [ "spring", 1 ] ], [ [ "fabric_hides_proper", 4, "LIST" ] ], [ [ "rag", 3 ] ] ]
   },
   {
     "type": "recipe",
