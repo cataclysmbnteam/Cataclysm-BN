@@ -74,7 +74,6 @@ jobs:
             sudo update-alternatives --install /usr/bin/$bin $bin /usr/bin/$bin-$VERSION 200
           done
 
-
       - name: Setup ccache
         uses: Chocobo1/setup-ccache-action@v1
         with:
