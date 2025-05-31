@@ -2534,6 +2534,34 @@ class Character : public Creature, public location_visitable<Character>
         int last_batch = 0;
         itype_id lastconsumed;        //used in crafting.cpp and construction.cpp
 
+    public:
+
+
+        /**
+         * Remove charges from a specific item (given by its item position).
+         * The item must exist and it must be counted by charges.
+         * @param position Item position of the item.
+         * @param quantity The number of charges to remove, must not be larger than
+         * the current charges of the item.
+         * @return An item that contains the removed charges, it's effectively a
+         * copy of the item with the proper charges.
+         */
+        detached_ptr<item> reduce_charges( int position, int quantity );
+        /**
+         * Remove charges from a specific item (given by a pointer to it).
+         * Otherwise identical to @ref reduce_charges(int,int)
+         * @param it A pointer to the item, it *must* exist.
+         * @param quantity How many charges to remove
+         * @return An item that contains the removed charges, it's effectively a
+         * copy of the item with the proper charges.
+         */
+        detached_ptr<item> reduce_charges( item *it, int quantity );
+
+        //sound
+        int volume = 0;
+        // Relative direction of a grab, add to posx, posy to get the coordinates of the grabbed thing.
+        tripoint grab_point = tripoint_zero;
+
 };
 
 Character &get_player_character();

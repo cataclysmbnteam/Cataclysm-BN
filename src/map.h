@@ -738,7 +738,7 @@ class map
         vehicle *veh_at_internal( const tripoint &p, int &part_num );
         const vehicle *veh_at_internal( const tripoint &p, int &part_num ) const;
         // Put player on vehicle at x,y
-        void board_vehicle( const tripoint &p, player *pl );
+        void board_vehicle( const tripoint &p, Character *pl );
         // Remove given passenger from given vehicle part.
         // If dead_passenger, then null passenger is acceptable.
         void unboard_vehicle( const vpart_reference &, Character *passenger,
@@ -893,7 +893,7 @@ class map
          * Calls the examine function of furniture or terrain at given tile, for given character.
          * Will only examine terrain if furniture had @ref iexamine::none as the examine function.
          */
-        void examine( Character &p, const tripoint &pos );
+        void examine( Character &who, const tripoint &pos );
 
         /**
          * Returns true if point at pos is harvestable right now, with no extra tools.
@@ -1804,7 +1804,7 @@ class map
     protected:
         void generate_lightmap( int zlev );
         void build_seen_cache( const tripoint &origin, int target_z );
-        void apply_character_light( Character &p );
+        void apply_character_light( Character &who );
 
         //Adds/removes player specific transparencies
         void apply_vision_transparency_cache( const tripoint &center, int target_z,
