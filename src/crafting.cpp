@@ -1849,7 +1849,7 @@ select_tool_component( const std::vector<tool_comp> &tools, int batch, const inv
 
 } // namespace crafting
 
-bool Character::craft_consume_tools( item &craft, int mulitplier, bool start_craft )
+bool Character::craft_consume_tools( item &craft, int multiplier, bool start_craft )
 {
     if( !craft.is_craft() ) {
         debugmsg( "craft_consume_tools() called on non-craft '%s.' Aborting.", craft.tname() );
@@ -1948,14 +1948,14 @@ bool Character::craft_consume_tools( item &craft, int mulitplier, bool start_cra
 }
 
 void Character::consume_tools( const comp_selection<tool_comp> &tool,
-                            int batch, cost_adjustment cost_ad )
+                               int batch, cost_adjustment cost_ad )
 {
     consume_tools( get_map(), tool, batch, pos(), PICKUP_RANGE, cost_ad );
 }
 
 /* we use this if we selected the tool earlier */
 void Character::consume_tools( map &m, const comp_selection<tool_comp> &tool,
-                            int batch, const tripoint &origin, int radius, cost_adjustment cost_ad )
+                               int batch, const tripoint &origin, int radius, cost_adjustment cost_ad )
 {
     if( has_trait( trait_DEBUG_HS ) ) {
         return;
@@ -1996,7 +1996,7 @@ void Character::consume_tools( map &m, const comp_selection<tool_comp> &tool,
 In that case, consider using select_tool_component with 1 pre-created map inventory, and then passing the results
 to consume_tools */
 void Character::consume_tools( const std::vector<tool_comp> &tools, int batch,
-                            const std::string &hotkeys, cost_adjustment cost_ad )
+                               const std::string &hotkeys, cost_adjustment cost_ad )
 {
     inventory map_inv;
     map_inv.form_from_map( pos(), PICKUP_RANGE, this );

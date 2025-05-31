@@ -414,6 +414,7 @@
     "color": "light_gray",
     "use_action": [ "REPORT_GRID_CHARGE", "REPORT_GRID_CONNECTIONS", "MODIFY_GRID_CONNECTIONS" ],
     "flags": [ "BELT_CLIP" ],
+    "qualities": [ [ "VOLT_MEASURE", 1 ] ],
     "battery_well": "250 ml",
     "batteries": [
       "light_battery_cell",
@@ -424,7 +425,6 @@
       "light_minus_disposable_cell",
       "light_disposable_cell"
     ]
-    "qualities": [ [ "VOLT_MEASURE", 1 ] ],
   },
   {
     "id": "melting_point",

@@ -1181,14 +1181,14 @@ class weigh_self_actor : public iuse_actor
 class gps_device_actor : public iuse_actor
 {
     public:
-        float additional_charges_per_tile;
+        float additional_multiplier_per_tile;
         int radius;
 
         gps_device_actor( const std::string &type = "gps_device" ) : iuse_actor( type ) {}
 
         ~gps_device_actor() override = default;
         void load( const JsonObject &jo ) override;
-        int use( player &p, item &, bool, const tripoint & ) const override;
+        std::pair<int, units::energy> use( player &p, item &, bool, const tripoint & ) const override;
         std::unique_ptr<iuse_actor> clone() const override;
         void info( const item &, std::vector<iteminfo> & ) const override;
 };

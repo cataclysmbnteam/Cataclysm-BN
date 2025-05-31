@@ -3607,25 +3607,18 @@
     "price": "25 USD",
     "price_postapoc": "1 USD",
     "material": "plastic",
-    "ammo": "battery",
-    "power_draw": 9000,
+    "power_draw": "9 J",
     "revert_to": "dab_pen",
-    "magazines": [
-      [
-        "battery",
-        [ "light_minus_battery_cell", "light_minus_disposable_cell", "light_battery_cell", "light_disposable_cell" ]
-      ]
-    ],
-    "charges_per_use": 1,
-    "max_charges": 100,
     "use_action": {
       "target": "dab_pen",
       "msg": "You turn off the dab pen.",
       "active": false,
-      "need_charges": 0,
       "need_charges_msg": "The dab pen's batteries need more charge.",
-      "type": "transform"
-    }
+      "type": "transform",
+      "need_power": "0 kJ"
+    },
+    "max_power": "100 kJ",
+    "batteries": [ "light_minus_battery_cell", "light_minus_disposable_cell", "light_battery_cell", "light_disposable_cell" ]
   },
   {
     "type": "COMESTIBLE",

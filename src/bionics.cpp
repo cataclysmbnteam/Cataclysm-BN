@@ -297,7 +297,7 @@ void bionic_data::load( const JsonObject &jsobj, const std::string &src )
     assign_map_from_array( jsobj, "stat_bonus", stat_bonus, strict );
     assign( jsobj, "remote_fuel_draw", remote_fuel_draw, strict, 0_J );
     is_remote_fueled = remote_fuel_draw > 0_J;
-    assign( jsobj, "energy_mult", energy_mult, strict, 1 );
+    assign( jsobj, "energy_multiplier", energy_multiplier, strict, 1 );
     assign( jsobj, "energy_capacity", energy_capacity, strict, 0_J );
     assign( jsobj, "max_energy_draw", max_energy_draw, strict, 0_J );
     assign( jsobj, "fuel_options", fuel_opts, strict );

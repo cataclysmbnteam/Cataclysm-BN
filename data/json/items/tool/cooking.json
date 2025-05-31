@@ -474,15 +474,9 @@
     "material": [ "plastic", "aluminum" ],
     "symbol": "%",
     "color": "white",
-    "ammo": "battery",
     "flags": [ "ALLOWS_REMOTE_USE" ],
-    "magazines": [
-      [
-        "battery",
-        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
-      ]
-    ],
-    "magazine_well": "500 ml"
+    "battery_well": "500 ml",
+    "batteries": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
   },
   {
     "id": "atomic_soda_machine",

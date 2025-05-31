@@ -920,7 +920,7 @@ std::pair<int, units::energy> consume_drug_iuse::use( player &p, item &it, bool,
         } );
         if( !cigs.empty() ) {
             p.add_msg_if_player( m_info, _( "You're already smoking a %s!" ), cigs[0]->tname() );
-            return 0;
+            return std::make_pair( 0, 0_J );
         }
     }
 
@@ -1037,7 +1037,7 @@ std::pair<int, units::energy> consume_drug_iuse::use( player &p, item &it, bool,
     }
 
     p.moves -= moves;
-    return std::make_pair( it.type->charges_to_use(), it.type->energy );
+    return std::make_pair( it.type->charges_to_use(), it.energy_required() );
 }
 
 std::unique_ptr<iuse_actor> delayed_transform_iuse::clone() const
@@ -4758,13 +4758,23 @@ std::unique_ptr<iuse_actor> weigh_self_actor::clone() const
 void gps_device_actor::info( const item &, std::vector<iteminfo> &dump ) const
 {
     dump.emplace_back( "DESCRIPTION",
-                       string_format( _( "This item uses up (%.2f) additional charges per tile revealed." ),
-                                      additional_charges_per_tile ) );
+                       string_format( _( "This item uses up (%.2f)% additional power/charges per tile revealed." ),
+                                      additional_multiplier_per_tile * 100 ) );
 }
 
-int gps_device_actor::use( player &p, item &it, bool, const tripoint & ) const
+std::pair<int, units::energy> gps_device_actor::use( player &p, item &it, bool,
+        const tripoint & ) const
 {
-    float charges_built_up = 1.0;
+    std::pair<int, units::energy> res( it.type->charges_to_use(), it.energy_required() );
+    auto [chrg, enrg] = res;
+
+    if( !it.energy_sufficient( p ) || !it.ammo_sufficient() ) {
+        p.add_msg_if_player( m_info, _( "The %s doesn't have enough charges/power to start." ),
+                             it.tname() );
+        return res;
+    }
+
+    float multiplier = 1.0;
     const tripoint_abs_omt center = p.global_omt_location();
 
     std::string query = string_input_popup()
@@ -4774,7 +4784,7 @@ int gps_device_actor::use( player &p, item &it, bool, const tripoint & ) const
 
     if( query.size() < 3 ) {
         p.add_msg_if_player( m_info, _( "Please enter at least 3 characters." ) );
-        return 0;
+        return std::make_pair( 0, 0_J );
     }
 
     // Exclude natural terrain types. This item should NOT obsolete other items, just be useful for the player.
@@ -4806,44 +4816,62 @@ int gps_device_actor::use( player &p, item &it, bool, const tripoint & ) const
     params.existing_only  = false;
     params.search_layers  = omt_find_above_ground_layer;
     params.explored       = false;
-    params.max_results = static_cast<size_t>( 1 + it.ammo_remaining() / additional_charges_per_tile );
-    params.popup          = make_shared_fast<throbber_popup>( _( "Searching…" ) );
+    params.popup = make_shared_fast<throbber_popup>( _( "Searching…" ) );
+    params.max_results = INT_MAX;
+
+    // If all checks are false, no power/charges are ever consumed, or only the initial cost is consumed.
+    // Therefore, it remains a nullopt.
+    if( additional_multiplier_per_tile != 0.0f ) {
+        if( it.energy_required() > 0_J ) {
+            params.max_results = std::min<std::optional<int>>( params.max_results,
+                                 1 + additional_multiplier_per_tile *
+                                 ( it.energy_available( p ) - enrg ) / it.energy_required() );
+        }
+        if( it.type->charges_to_use() ) {
+            params.max_results = std::min<std::optional<int>>( params.max_results,
+                                 1 + additional_multiplier_per_tile *
+                                 ( it.ammo_remaining() - chrg ) / it.ammo_required() );
+        }
+    }
 
     const auto places = overmap_buffer.find_all( center, params );
     params.popup = nullptr;
 
     if( places.empty() ) {
         p.add_msg_if_player( m_info, _( "No locations found for \"%s\"." ), query );
-        return 1;
+        return res;
     }
 
     // Group by display name
     std::multimap<std::string, tripoint_abs_omt> grouped;
     std::set<std::string> unique_names;
+    int i = 0;
     for( const auto &pt : places ) {
+        if( params.max_results.has_value() && i >= params.max_results ) {
+            if( i != places.size() ) {
+                p.add_msg_if_player( m_info, _( "Your GPS runs out of power before finding all matches." ) );
+            }
+            break;
+        }
         const std::string name = overmap_buffer.ter( pt ).obj().get_name();
         grouped.insert( { name, pt } );
         unique_names.insert( name );
-        charges_built_up += additional_charges_per_tile;
+        multiplier += additional_multiplier_per_tile;
+        overmap_buffer.reveal( pt, 0 );
+        i++;
     }
 
-    if( 1 + it.ammo_remaining() < charges_built_up ) {
-        p.add_msg_if_player( m_info, _( "Requires %.1f charges, but only %d remaining." ),
-                             charges_built_up, it.ammo_remaining() - 1 );
-        return 1;
-    }
+    // multiplier's been tallied, multiply the charge usage.
+    enrg *= multiplier;
+    chrg *= multiplier;
 
     // I don't think this will actually ever be called, but we're leaving it here for now
     if( unique_names.empty() ) {
         p.add_msg_if_player( m_info, _( "Nothing new to display." ) );
-        return 1;
+        return res;
     }
 
     p.add_msg_if_player( m_good, _( "You add the GPS results to your map." ) );
-    // Device has enough charge and nothing has gone wrong, reveal on overmap the locations!
-    for( const auto &pt : places ) {
-        overmap_buffer.reveal( pt, 0 );
-    }
     uistate.overmap_highlighted_omts.clear();
 
     // Let the player pick which name to highlight
@@ -4855,14 +4883,14 @@ int gps_device_actor::use( player &p, item &it, bool, const tripoint & ) const
     }
     ui.query();
     if( ui.ret < 0 ) {
-        return charges_built_up;
+        return res;
     }
 
     const tripoint_abs_omt plr_pos = p.global_omt_location();
     auto range = grouped.equal_range( name_list[ui.ret] );
     const int count = std::distance( range.first, range.second );
     if( count == 0 ) {
-        return charges_built_up;
+        return res;
     }
 
     // Highlight all matching points
@@ -4876,7 +4904,7 @@ int gps_device_actor::use( player &p, item &it, bool, const tripoint & ) const
 
     if( count == 1 ) {
         ui::omap::choose_point( range.first->second );
-        return charges_built_up;
+        return res;
     }
 
     // If there are multiple, ask for closest vs random
@@ -4885,7 +4913,7 @@ int gps_device_actor::use( player &p, item &it, bool, const tripoint & ) const
     ui.addentry( 1, true, 'r', _( "Random" ) );
     ui.query();
     if( ui.ret < 0 ) {
-        return charges_built_up;
+        return res;
     }
 
     if( ui.ret == 1 ) {
@@ -4901,13 +4929,13 @@ int gps_device_actor::use( player &p, item &it, bool, const tripoint & ) const
         ui::omap::choose_point( it->second );
     }
 
-    return charges_built_up;
+    return res;
 }
 
 void gps_device_actor::load( const JsonObject &jo )
 {
     assign( jo, "radius", radius );
-    assign( jo, "additional_charges_per_tile", additional_charges_per_tile );
+    assign( jo, "additional_multiplier_per_tile", additional_multiplier_per_tile );
 }
 
 std::unique_ptr<iuse_actor> gps_device_actor::clone() const

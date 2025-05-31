@@ -520,21 +520,15 @@
     "material": [ "plastic", "aluminum" ],
     "symbol": ";",
     "color": "yellow",
-    "ammo": "battery",
-    "use_action": { "type": "gps_device", "radius": 40, "additional_charges_per_tile": 0.1 },
-    "magazines": [
-      [
-        "battery",
-        [
-          "light_plus_battery_cell",
-          "light_minus_battery_cell",
-          "light_minus_disposable_cell",
-          "light_battery_cell",
-          "light_disposable_cell",
-          "light_atomic_battery_cell",
-          "light_minus_atomic_battery_cell"
-        ]
-      ]
+    "use_action": { "type": "gps_device", "radius": 40, "additional_multiplier_per_tile": 0 },
+    "batteries": [
+      "light_plus_battery_cell",
+      "light_minus_battery_cell",
+      "light_minus_disposable_cell",
+      "light_battery_cell",
+      "light_disposable_cell",
+      "light_atomic_battery_cell",
+      "light_minus_atomic_battery_cell"
     ]
   },
   {
@@ -543,13 +537,8 @@
     "copy-from": "gps_device",
     "name": { "str": "military gps pinpointer" },
     "description": "Durable handheld GPS unit built for outdoor navigation.  Activate to acquire satellite lock and search the database.  This one has encrpytion keys for military-grade satellites, allowing a much greater search range.",
-    "use_action": { "type": "gps_device", "radius": 120, "additional_charges_per_tile": 0.1 },
-    "magazines": [
-      [
-        "battery",
-        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
-      ]
-    ]
+    "use_action": { "type": "gps_device", "radius": 120, "additional_multiplier_per_tile": 0.1 },
+    "batteries": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
   },
   {
     "id": "bionic_scanner",

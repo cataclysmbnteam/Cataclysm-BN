@@ -7,6 +7,7 @@
 #include "point.h"
 #include "ret_val.h"
 #include "type_id.h"
+#include "units.h"
 #include "activity_speed_adapters.h"
 
 class avatar;

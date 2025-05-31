@@ -1951,14 +1951,14 @@
     "charges_per_use": 1,
     "max_charges": 100,
     "use_action": {
-      "type": "fireweapon_off",
-      "target_id": "shishkebab_on",
+      "type": "transform",
+      "target": "shishkebab_on",
       "moves": 10,
-      "noise": 10,
-      "success_chance": 4,
-      "success_message": "A burst of flame roars to life, crawling along the blade.",
-      "failure_message": "The igniter clicks, but nothing catches.",
-      "lacks_fuel_message": "You hear a sputter—it's dry. No fuel left."
+      "active": true,
+      "need_dry": true,
+      "transform_charges": 1,
+      "msg": "A burst of flame roars to life, crawling along the blade.",
+      "need_charges_msg": "You hear a sputter—it's dry. No fuel left."
     },
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -30 ] ],
     "techniques": [ "WBLOCK_1" ],
@@ -1974,20 +1974,11 @@
     "color": "red",
     "turns_per_charge": 20,
     "revert_to": "shishkebab_off",
+    "revert_msg": "The flame sputters, then dies with a faint hiss.",
     "use_action": [
-      {
-        "type": "fireweapon_on",
-        "noise": 10,
-        "noise_chance": 25,
-        "noise_message": "The shishkebab crackles as flames whip along its edge.",
-        "auto_extinguish_chance": 300,
-        "auto_extinguish_message": "The flame sputters, then dies with a faint hiss.",
-        "voluntary_extinguish_message": "You shut it down. The flame gutters out.",
-        "charges_extinguish_message": "The fuel runs dry. The flame gutters and dies in an instant.",
-        "water_extinguish_message": "Your shishkebab hisses in the water and goes out."
-      },
+      { "type": "transform", "target": "shishkebab_off", "msg": "You shut it down. The flame gutters out." },
       { "type": "firestarter", "moves": 30 }
     ],
-    "flags": [ "FIRE", "LIGHT_240", "CHARGEDIM", "FLAMING", "TRADER_AVOID" ]
+    "flags": [ "FIRE", "LIGHT_240", "CHARGEDIM", "FLAMING", "TRADER_AVOID", "WATER_DISABLE" ]
   }
 ]

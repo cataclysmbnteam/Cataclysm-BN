@@ -1353,11 +1353,11 @@ bool Character::fuel_bionic_with( item &it )
         for( bionic &bio : *my_bionics ) {
             if( bio.info().max_energy_draw > 0_J &&
                 bio.energy_stored != bio.info().energy_capacity ) {
-                const int energy_multiplier = bio.info().energy_mult;
+                const int energy_mult = bio.info().energy_multiplier;
 
-                units::energy loadable = std::min( it.energy_remaining() * energy_multiplier,
+                units::energy loadable = std::min( it.energy_remaining() * energy_mult,
                                                    bio.info().energy_capacity - bio.energy_stored );
-                it.mod_energy( - loadable / energy_multiplier );
+                it.mod_energy( - loadable / energy_mult );
                 bio.energy_stored += loadable;
                 add_msg_player_or_npc( m_info,
                                        //~ %1$i: charge number, %2$s: item name, %3$s: bionics name

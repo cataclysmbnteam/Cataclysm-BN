@@ -67,7 +67,7 @@ struct bionic_data {
     /**How much energy this bionic can hold*/
     units::energy energy_capacity = 0_J;
     /**How efficiently it converts energy when recharging*/
-    int energy_mult = 1;
+    int energy_multiplier = 1;
     /**Maximum the bionic converts from it's store to the player in one turn*/
     units::energy max_energy_draw = 0_J;
     /**How much fuel this bionic can hold*/
