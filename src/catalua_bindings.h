@@ -35,6 +35,7 @@ void reg_magic( sol::state &lua );
 void reg_npc( sol::state &lua );
 void reg_player( sol::state &lua );
 void reg_point_tripoint( sol::state &lua );
+void reg_recipe( sol::state &lua );
 void reg_skill_level_map( sol::state &lua );
 void reg_spell_type( sol::state &lua );
 void reg_spell_fake( sol::state &lua );
