@@ -61,11 +61,16 @@ int kill_tracker::npc_kill_count() const
     return npc_kills.size();
 }
 
+int kill_tracker::xp_for_killing( const mtype_id &id ) const
+{
+    return id->difficulty + id->difficulty_base;
+}
+
 int kill_tracker::kill_xp() const
 {
     int ret = 0;
     for( const std::pair<const mtype_id, int> &pair : kills ) {
-        ret += ( pair.first->difficulty + pair.first->difficulty_base ) * pair.second;
+        ret += xp_for_killing( pair.first ) * pair.second;
     }
     ret += npc_kills.size() * 10;
     return ret;
@@ -73,7 +78,8 @@ int kill_tracker::kill_xp() const
 
 bool kill_tracker::option_xp() const
 {
-    return ( xp_allowed && get_option<bool>( "STATS_THROUGH_KILLS" ) );
+    return ( xp_allowed && ( get_option<bool>( "STATS_THROUGH_KILLS" ) ||
+                             get_option<bool>( "SKILLS_THROUGH_KILLS" ) ) );
 }
 
 std::string kill_tracker::get_kills_text() const
