@@ -868,7 +868,7 @@ static int hack_level( const Character &who )
     // odds go up with int>8, down with int<8
     // 4 int stat is worth 1 computer skill here
     ///\EFFECT_INT increases success chance of hacking card readers
-    return who.get_skill_level( skill_computer ) + who.int_cur / 2 - 8;
+    return who.get_skill_level( skill_computer ) + ( who.int_cur - 8 ) / 4;
 }
 
 static hack_result hack_attempt( Character &who, const bool using_bionic )
