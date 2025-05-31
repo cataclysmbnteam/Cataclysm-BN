@@ -13,7 +13,7 @@
 #include "itype.h"
 #include "skill.h"
 
-void cata::detail::reg_recipe(sol::state &lua)
+void cata::detail::reg_recipe( sol::state &lua )
 {
 #define UT_CLASS recipe
     {
@@ -31,25 +31,27 @@ void cata::detail::reg_recipe(sol::state &lua)
         SET_MEMB( required_skills );
         SET_MEMB( learn_by_disassembly );
         SET_MEMB( booksets );
-        
-        SET_FX_T( ident, const recipe_id &() const );
-        SET_FX_T( result, const itype_id &() const );
-        SET_FX_T( result_name, std::string () const );
-        SET_FX_T( has_flag, bool ( const std::string &flag_name ) const);
 
-        luna::set_fx( ut, "get_from_skill_used", []( const skill_id &sk ) -> std::vector<recipe> {
+        SET_FX_T( ident, const recipe_id & () const );
+        SET_FX_T( result, const itype_id & () const );
+        SET_FX_T( result_name, std::string() const );
+        SET_FX_T( has_flag, bool ( const std::string & flag_name ) const );
+
+        luna::set_fx( ut, "get_from_skill_used", []( const skill_id & sk ) -> std::vector<recipe> {
             std::vector<recipe> recipes;
-            for( auto &e: recipe_dict ){
+            for( auto &e : recipe_dict )
+            {
                 const auto &r = e.second;
-                if (r.skill_used == sk){ recipes.push_back(r); }
+                if( r.skill_used == sk ) { recipes.push_back( r ); }
             }
             return recipes;
         } );
-        luna::set_fx( ut, "get_from_flag", []( const std::string &flag_name ) -> std::vector<recipe> {
+        luna::set_fx( ut, "get_from_flag", []( const std::string & flag_name ) -> std::vector<recipe> {
             std::vector<recipe> recipes;
-            for( auto &e: recipe_dict ){
+            for( auto &e : recipe_dict )
+            {
                 const auto &r = e.second;
-                if (r.has_flag( flag_name )){ recipes.push_back(r); }
+                if( r.has_flag( flag_name ) ) { recipes.push_back( r ); }
             }
             return recipes;
         } );
