@@ -412,7 +412,7 @@ class vehicle
         int part_epower_w( int index ) const;
 
         // convert watts over time to battery energy
-        int power_to_energy_bat( int power_w, const time_duration &d ) const;
+        units::energy power_to_energy_bat( int power_w, const time_duration &d ) const;
 
         // convert vhp to watts.
         static int vhp_to_watts( int power );
@@ -446,7 +446,7 @@ class vehicle
         void refresh_mass() const;
         void calc_mass_center( bool precalc ) const;
 
-        /** empty the contents of a tank, battery or turret spilling liquids randomly on the ground */
+        /** empty the contents of a tank or turret spilling liquids randomly on the ground */
         void leak_fuel( vehicle_part &pt );
 
         int next_hack_id = 0;
@@ -943,17 +943,26 @@ class vehicle
         // taken from batteries.
         void power_parts();
 
+        // Returns total energy capacity in vehicle
+        units::energy energy_capacity() const;
+
+        /**
+         * Returns total battery in vehicle
+         * @recurse whether this function goes over connected vehicles/grids.
+         */
+        units::energy energy_left( bool recurse = false ) const;
+
         /**
          * Try to charge our (and, optionally, connected vehicles') batteries by the given amount.
          * @return amount of charge left over.
          */
-        int charge_battery( int amount, bool include_other_vehicles = true );
+        units::energy charge_battery( units::energy amount, bool include_other_vehicles = true );
 
         /**
          * Try to discharge our (and, optionally, connected vehicles') batteries by the given amount.
          * @return amount of request unfulfilled (0 if totally successful).
          */
-        int discharge_battery( int amount, bool recurse = true );
+        units::energy discharge_battery( units::energy amount, bool recurse = true );
 
         /**
          * Mark mass caches and pivot cache as dirty

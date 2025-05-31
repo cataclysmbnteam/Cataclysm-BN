@@ -75,7 +75,6 @@
 
 static const itype_id fuel_type_battery( "battery" );
 
-static const itype_id itype_battery( "battery" );
 static const itype_id itype_plut_cell( "plut_cell" );
 
 static const skill_id skill_mechanics( "mechanics" );
@@ -1554,15 +1553,15 @@ void veh_interact::calc_overview()
         if( vpr.part().is_battery() && vpr.part().is_available() ) {
             // always display total battery capacity and percentage charge
             auto details = []( const vehicle_part & pt, const catacurses::window & w, int y ) {
-                int pct = ( static_cast<double>( pt.ammo_remaining() ) / pt.ammo_capacity() ) * 100;
+                int pct = ( 1.0f * pt.energy_remaining() / pt.energy_capacity() ) * 100;
                 int offset = 1;
-                std::string fmtstring = "%i    %3i%%";
+                std::string fmtstring = "%s    %3i%%";
                 if( pt.is_leaking() ) {
-                    fmtstring = "%i   " + leak_marker + "%3i%%" + leak_marker;
+                    fmtstring = "%s   " + leak_marker + "%3i%%" + leak_marker;
                     offset = 0;
                 }
-                right_print( w, y, offset, pt.ammo_current()->color,
-                             string_format( fmtstring, pt.ammo_capacity(), pct ) );
+                right_print( w, y, offset, c_light_gray,
+                             string_format( fmtstring, units::display( pt.energy_capacity() ), pct ) );
             };
             overview_opts.emplace_back( "BATTERY", &vpr.part(), next_hotkey( vpr.part(), hotkey ), details );
         }
@@ -2913,13 +2912,12 @@ void veh_interact::display_details( const vpart_info *part )
     // 6 [horizontal]: (column 1) flags    (column 2) battery capacity (if applicable)
     fold_and_print( w_details, point( col_1, line + 5 ), details_w, c_yellow, label );
 
-    if( part->fuel_type == itype_battery && !part->has_flag( VPFLAG_ENGINE ) &&
-        !part->has_flag( VPFLAG_ALTERNATOR ) ) {
-        const cata::value_ptr<islot_magazine> &battery = part->item->magazine;
+    if( part->item->battery ) {
+        const cata::value_ptr<islot_battery> &battery = part->item->battery;
         fold_and_print( w_details, point( col_2, line + 5 ), column_width, c_white,
-                        "%s: <color_light_gray>%8d</color>",
+                        "%s: <color_light_gray>%s</color>",
                         small_mode ? _( "BatCap" ) : _( "Battery Capacity" ),
-                        battery->capacity );
+                        units::display( battery->max_energy ) );
     } else {
         int part_power = part->power;
         if( part_power == 0 ) {

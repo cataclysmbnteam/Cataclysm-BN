@@ -31,7 +31,6 @@
 static const itype_id fuel_type_battery( "battery" );
 static const itype_id fuel_type_none( "null" );
 
-static const itype_id itype_battery( "battery" );
 static const itype_id itype_muscle( "muscle" );
 
 /*-----------------------------------------------------------------------------
@@ -303,10 +302,6 @@ bool vehicle_part::fuel_set( const itype_id &fuel )
 
 itype_id vehicle_part::ammo_current() const
 {
-    if( is_battery() ) {
-        return itype_battery;
-    }
-
     if( is_tank() && !base->contents.empty() ) {
         return base->contents.front().typeId();
     }
@@ -391,6 +386,26 @@ int vehicle_part::ammo_consume( int qty, const tripoint &pos )
         return res;
     }
     return base->ammo_consume( qty, pos );
+}
+
+units::energy vehicle_part::energy_capacity() const
+{
+    return base->energy_capacity();
+}
+
+units::energy vehicle_part::energy_remaining() const
+{
+    return base->energy_remaining();
+}
+
+units::energy vehicle_part::energy_set( const units::energy enrg )
+{
+    units::energy ret = -1_J;
+    if( base->energy_capacity() > 0_J ) {
+        ret = std::min( enrg, base->energy_capacity() );
+        base->set_energy( ret );
+    }
+    return ret;
 }
 
 double vehicle_part::consume_energy( const itype_id &ftype, double energy_j )
@@ -595,7 +610,7 @@ bool vehicle_part::is_tank() const
 
 bool vehicle_part::is_battery() const
 {
-    return base->is_magazine() && base->ammo_types().contains( ammotype( "battery" ) );
+    return base->energy_capacity() > 0_J;
 }
 
 bool vehicle_part::is_reactor() const
@@ -671,7 +686,7 @@ bool vehicle::can_enable( const vehicle_part &pt, bool alert ) const
 
     // TODO: check fuel for combustion engines
 
-    if( pt.info().epower < 0 && fuel_left( fuel_type_battery, true ) <= 0 ) {
+    if( pt.info().epower < 0 && energy_left( true ) <= 0_J ) {
         if( alert ) {
             add_msg( m_bad, _( "Insufficient power to enable %s" ), pt.name() );
         }

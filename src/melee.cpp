@@ -444,7 +444,7 @@ void Character::melee_attack( Creature &t, bool allow_special, const matec_id *f
                          mons->get_name() );
                 mattack::smash_specific( mons, &t );
             } else {
-                mons->use_mech_power( -2 );
+                mons->use_mech_power( -2_kJ );
                 mons->melee_attack( t );
             }
             mod_moves( -mons->type->attack_cost );
