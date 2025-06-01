@@ -242,8 +242,6 @@ class disassemble_activity_actor : public activity_actor
         void do_turn( player_activity &, Character & ) override;
         void finish( player_activity &act, Character &who ) override;
 
-        void adjust_bench_multiplier( bench_loc &bench, const metric &metrics ) const override;
-
         void serialize( JsonOut &jsout ) const override;
         static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
 
