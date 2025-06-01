@@ -135,9 +135,6 @@ void player_activity::init_all_moves( Character &who )
         const skill_reqs & reqs ) {
             return actor->calc_skill_factor( who, reqs );
         };
-        speed.bench_factor_custom_formula = [&]( bench_loc & bench, const metric & metrics ) {
-            actor->adjust_bench_multiplier( bench, metrics );
-        };
 
         actor->calc_all_moves( *this, who );
     } else {

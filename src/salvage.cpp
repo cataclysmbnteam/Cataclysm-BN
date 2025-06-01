@@ -169,7 +169,6 @@ static std::vector<std::pair< material_id, float>> salvage_result_proportions(
     return salvagable_materials;
 }
 
-//Returns vector of pairs <item id, count>
 std::unordered_map< itype_id, float> salvage_results( const item &target )
 {
     std::unordered_map<itype_id, float> salvagable_materials;
