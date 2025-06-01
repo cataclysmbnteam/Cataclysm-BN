@@ -302,15 +302,15 @@ void activity_speed::find_best_bench( const tripoint &pos, const metric metrics 
     here.reachable_flood_steps( reachable, pos, PICKUP_RANGE, 1, 100 );
     for( const tripoint &adj : reachable ) {
         if( const auto &wb = here.furn( adj )->workbench ) {
-            bench_tmp = bench_location( workbench_info_wrapper( *wb ), adj );
-            bench->wb_info.adjust_multiplier( metrics );
+            bench_tmp = bench_loc( workbench_info_wrapper( *wb ), adj );
+            bench_tmp.wb_info.adjust_multiplier( metrics );
             if( bench_tmp.wb_info.multiplier_adjusted > bench->wb_info.multiplier_adjusted ) {
                 bench = bench_tmp;
             }
         } else if( const auto &vp = here.veh_at( adj ).part_with_feature( feature_wb, true ) ) {
             if( const auto &wb_info = vp->part().info().get_workbench_info() ) {
-                bench_tmp = bench_location( workbench_info_wrapper( *wb_info ), adj );
-                bench->wb_info.adjust_multiplier( metrics );
+                bench_tmp = bench_loc( workbench_info_wrapper( *wb_info ), adj );
+                bench_tmp.wb_info.adjust_multiplier( metrics );
                 if( bench_tmp.wb_info.multiplier_adjusted > bench->wb_info.multiplier_adjusted ) {
                     bench = bench_tmp;
                 }

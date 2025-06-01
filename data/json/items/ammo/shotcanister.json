@@ -60,7 +60,7 @@
     "ammo_type": "shotcanister",
     "looks_like": "shot_scrap",
     "range": 3,
-    "damage": { "damage_type": "bullet", "amount": 13, "armor_penetration": 7, "armor_multiplier": 1.5 },
+    "damage": { "damage_type": "bullet", "amount": 13, "armor_penetration": 7, "armor_multiplier": 0.5 },
     "dispersion": 50,
     "loudness": 0,
     "count": 10

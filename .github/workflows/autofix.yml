@@ -53,6 +53,7 @@ jobs:
 
       # autofix.ci cannot edit .github directory due to security reasons
       - name: unstage .github
+        if: ${{ always() }}
         run: git restore .github
 
       - uses: autofix-ci/action@v1.3
