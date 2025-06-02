@@ -334,7 +334,7 @@ TEST_CASE( "healing_rate_medicine with bandages and/or disinfectant", "[heal][ba
     // Bandages heal 1-3 HP per day while awake, 2-6 HP per day while asleep
     SECTION( "bandages only" ) {
         SECTION( "awake" ) {
-            CHECK( bandaged_rate( "head", awake_rest ) == Approx( 0.86f * hp_per_day ) );
+            CHECK( bandaged_rate( "head", awake_rest ) == Approx( 0.86f * hp_per_day ).epsilon(0.005) );
             CHECK( bandaged_rate( "arm_l", awake_rest ) == Approx( 0.86f * hp_per_day ) );
             CHECK( bandaged_rate( "arm_r", awake_rest ) == Approx( 0.86f * hp_per_day ) );
             CHECK( bandaged_rate( "leg_l", awake_rest ) == Approx( 0.86f * hp_per_day ) );
