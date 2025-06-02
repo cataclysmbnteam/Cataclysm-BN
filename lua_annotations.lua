@@ -103,9 +103,9 @@ function BodyPartTypeIntId.new() end
 ---@field activate_mutation fun(arg1: Character, arg2: MutationBranchId)
 ---@field add_addiction fun(arg1: Character, arg2: AddictionType, arg3: integer)
 ---@field add_bionic fun(arg1: Character, arg2: BionicDataId)
+---@field addiction_level fun(arg1: Character, arg2: AddictionType): integer
 ---@field add_item_with_id fun(arg1: Character, arg2: ItypeId, arg3: integer) @Adds an item with the given id and amount
 ---@field add_morale fun(arg1: Character, arg2: MoraleTypeDataId, arg3: integer, arg4: integer, arg5: TimeDuration, arg6: TimeDuration, arg7: boolean, arg8: ItypeRaw)
----@field addiction_level fun(arg1: Character, arg2: AddictionType): integer
 ---@field age fun(arg1: Character): integer
 ---@field all_items fun(arg1: Character, arg2: boolean): any @Gets all items
 ---@field all_items_with_flag fun(arg1: Character, arg2: JsonFlagId, arg3: boolean): any @Gets all items with the given flag
@@ -118,6 +118,7 @@ function BodyPartTypeIntId.new() end
 ---@field blossoms fun(arg1: Character)
 ---@field bodypart_exposure fun(arg1: Character): any
 ---@field bodyweight fun(arg1: Character): Mass
+---@field cancel_activity fun(arg1: Character)
 ---@field can_hear fun(arg1: Character, arg2: Tripoint, arg3: integer): boolean
 ---@field can_mount fun(arg1: Character, arg2: Monster): boolean
 ---@field can_pick_volume fun(arg1: Character, arg2: Volume): boolean
@@ -125,7 +126,6 @@ function BodyPartTypeIntId.new() end
 ---@field can_run fun(arg1: Character): boolean
 ---@field can_unwield fun(arg1: Character, arg2: Item): boolean
 ---@field can_wield fun(arg1: Character, arg2: Item): boolean
----@field cancel_activity fun(arg1: Character)
 ---@field check_mount_is_spooked fun(arg1: Character): boolean
 ---@field check_mount_will_move fun(arg1: Character, arg2: Tripoint): boolean
 ---@field clear_bionics fun(arg1: Character)
@@ -139,7 +139,6 @@ function BodyPartTypeIntId.new() end
 ---@field expose_to_disease fun(arg1: Character, arg2: DiseaseTypeId)
 ---@field fall_asleep fun(arg1: Character) | fun(arg1: Character, arg2: TimeDuration)
 ---@field forced_dismount fun(arg1: Character)
----@field getID fun(arg1: Character): CharacterId
 ---@field get_all_skills fun(arg1: Character): SkillLevelMap
 ---@field get_armor_acid fun(arg1: Character, arg2: BodyPartTypeIntId): integer
 ---@field get_base_traits fun(arg1: Character): any
@@ -154,6 +153,7 @@ function BodyPartTypeIntId.new() end
 ---@field get_healthy_mod fun(arg1: Character): integer
 ---@field get_highest_category fun(arg1: Character): MutationCategoryTraitId
 ---@field get_hostile_creatures fun(arg1: Character, arg2: integer): any
+---@field getID fun(arg1: Character): CharacterId
 ---@field get_int fun(arg1: Character): integer
 ---@field get_int_base fun(arg1: Character): integer
 ---@field get_int_bonus fun(arg1: Character): integer
@@ -302,11 +302,10 @@ function BodyPartTypeIntId.new() end
 ---@field remove_bionic fun(arg1: Character, arg2: BionicDataId)
 ---@field remove_child_flag fun(arg1: Character, arg2: MutationBranchId)
 ---@field remove_mutation fun(arg1: Character, arg2: MutationBranchId, arg3: boolean)
----@field rest_quality fun(arg1: Character): number
 ---@field restore_scent fun(arg1: Character)
+---@field rest_quality fun(arg1: Character): number
 ---@field rooted fun(arg1: Character)
 ---@field rust_rate fun(arg1: Character): integer
----@field setID fun(arg1: Character, arg2: CharacterId, arg3: boolean)
 ---@field set_base_age fun(arg1: Character, arg2: integer)
 ---@field set_base_height fun(arg1: Character, arg2: integer)
 ---@field set_dex_bonus fun(arg1: Character, arg2: integer)
@@ -314,6 +313,7 @@ function BodyPartTypeIntId.new() end
 ---@field set_fatigue fun(arg1: Character, arg2: integer)
 ---@field set_healthy fun(arg1: Character, arg2: integer)
 ---@field set_healthy_mod fun(arg1: Character, arg2: integer)
+---@field setID fun(arg1: Character, arg2: CharacterId, arg3: boolean)
 ---@field set_int_bonus fun(arg1: Character, arg2: integer)
 ---@field set_max_power_level fun(arg1: Character, arg2: Energy)
 ---@field set_movement_mode fun(arg1: Character, arg2: CharacterMoveMode)
@@ -1632,11 +1632,11 @@ function Volume.new() end
 
 --- Various game constants
 ---@class const
----@field OMT_MS_SIZE integer # value: 24
----@field OMT_SM_SIZE integer # value: 2
 ---@field OM_MS_SIZE integer # value: 4320
 ---@field OM_OMT_SIZE integer # value: 180
 ---@field OM_SM_SIZE integer # value: 360
+---@field OMT_MS_SIZE integer # value: 24
+---@field OMT_SM_SIZE integer # value: 2
 ---@field SM_MS_SIZE integer # value: 12
 const = {}
 
