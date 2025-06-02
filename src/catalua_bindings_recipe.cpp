@@ -43,7 +43,7 @@ void cata::detail::reg_recipe( sol::state &lua )
 
         namespace views = std::views;
         namespace ranges = std::ranges;
-        
+
         luna::set_fx( ut, "get_from_skill_used", []( const skill_id & sk ) -> std::vector<recipe> {
             return recipe_dict
             | views::values
