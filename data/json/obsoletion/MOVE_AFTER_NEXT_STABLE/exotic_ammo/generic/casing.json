@@ -8,5 +8,15 @@
     "description": "An empty casing from a 9x18mm round.",
     "weight": "3 g",
     "volume": "5ml"
+  },
+  {
+    "id": "38super_casing",
+    "copy-from": "casing",
+    "looks_like": "9mm_casing",
+    "type": "GENERIC",
+    "name": { "str": ".38 Super casing" },
+    "description": "An empty casing from a .38 Super round.",
+    "weight": "3 g",
+    "volume": "4ml"
   }
 ]

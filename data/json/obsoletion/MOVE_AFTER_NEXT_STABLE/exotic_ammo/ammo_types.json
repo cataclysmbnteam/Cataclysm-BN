@@ -4,5 +4,11 @@
     "id": "9x18",
     "name": "9x18mm",
     "default": "9x18mm"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "38super",
+    "name": ".38 Super",
+    "default": "38super_fmj"
   }
 ]

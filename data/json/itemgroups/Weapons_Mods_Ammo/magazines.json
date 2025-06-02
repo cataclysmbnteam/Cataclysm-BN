@@ -137,7 +137,6 @@
       [ "kp3atmag", 15 ],
       [ "kpf9mag", 15 ],
       [ "m1911mag", 30 ],
-      [ "m1911mag_10rd_38super", 15 ],
       [ "m9mag", 25 ],
       [ "mosquitomag", 15 ],
       [ "p226mag_15rd_357sig", 35 ],
@@ -361,7 +360,6 @@
     "id": "mags_obscure",
     "//": "Magazines for imported firearms.",
     "items": [
-      [ "af2011a1mag", 10 ],
       [ "ak74mag", 90 ],
       [ "augmag_100rd", 2 ],
       [ "augmag_10rd", 5 ],
@@ -375,7 +373,6 @@
       [ "g3mag", 35 ],
       [ "m1918mag", 20 ],
       [ "m1918bigmag", 10 ],
-      [ "makarovmag", 10 ],
       [ "ppshdrum", 10 ],
       [ "ppshmag", 20 ],
       [ "rpk74mag", 10 ],
@@ -385,7 +382,6 @@
       [ "saiga410mag_30rd", 10 ],
       [ "sigp230mag", 10 ],
       [ "skorpion61mag", 20 ],
-      [ "skorpion82mag", 20 ],
       [ "tokarevmag", 10 ],
       [ "USAS10mag", 15 ],
       [ "USAS20mag", 5 ]

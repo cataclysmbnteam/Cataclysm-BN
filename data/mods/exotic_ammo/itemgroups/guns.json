@@ -3,13 +3,13 @@
     "type": "item_group",
     "id": "guns_pistol_obscure",
     "//": "Imported or otherwise very obscure pistols.",
-    "items": [ { "group": "nested_makarov", "prob": 50 } ]
+    "items": [ { "group": "nested_makarov", "prob": 50 }, { "group": "nested_af2011a1_38super", "prob": 10 } ]
   },
   {
     "type": "item_group",
     "id": "carried_guns_pistol_obscure",
     "//": "Imported or otherwise very obscure pistols being carried, with either mags or loose ammo.",
-    "items": [ { "group": "everyday_makarov", "prob": 50 } ]
+    "items": [ { "group": "everyday_makarov", "prob": 50 }, { "group": "everyday_af2011a1_38super", "prob": 10 } ]
   },
   {
     "type": "item_group",
@@ -22,5 +22,23 @@
     "id": "carried_guns_smg_obscure",
     "//": "Imported or otherwise very obscure SMGs. Just mags, no loose ammo.",
     "items": [ { "group": "everyday_skorpion_82", "prob": 100 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_pistol_common",
+    "//": "Pistols commonly owned by citizens and found in many locations.",
+    "items": [ { "group": "nested_m1911a1_38super", "prob": 15 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "carried_guns_pistol_common",
+    "//": "Pistols commonly owned by citizens and carried by them. If a gun has mags, it has no loose ammo. If it has no mags, it has loose ammo.",
+    "items": [ { "group": "everyday_m1911a1_38super", "prob": 15 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_pistol_common_display",
+    "//": "Empty pistols found exclusively in gun stores.",
+    "items": [ { "item": "m1911a1_38super", "prob": 15, "charges-min": 0, "charges-max": 0 } ]
   }
 ]

@@ -25,6 +25,27 @@
     "id": "ammo_casings",
     "type": "item_group",
     "subtype": "distribution",
-    "entries": [ { "item": "9x18mm_casing", "prob": 80 } ]
+    "entries": [ { "item": "9x18mm_casing", "prob": 80 }, { "item": "38super_casing", "prob": 80 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "ammo_pistol_common",
+    "//": "Pistol ammo commonly owned by citizens and found in many locations.",
+    "subtype": "distribution",
+    "entries": [ { "item": "38super_fmj", "prob": 7, "charges": [ 1, 100 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "ammo_pistol_blackpowder_handloads",
+    "//": "Blackpowder pistol ammo balanced according to rarity, additional weight for calibers that have common, manual-action firearms available in that chambering.",
+    "subtype": "distribution",
+    "entries": [ { "item": "bp_38super_fmj", "prob": 7, "charges": [ 1, 100 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "ammo_pistol_common_full",
+    "//": "Pistol ammo commonly owned by citizens and found in many locations, for vending machines.",
+    "subtype": "distribution",
+    "entries": [ { "item": "38super_fmj", "prob": 7 } ]
   }
 ]

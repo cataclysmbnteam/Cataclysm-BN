@@ -1,0 +1,14 @@
+[
+  {
+    "type": "item_group",
+    "id": "mags_obscure",
+    "//": "Magazines for imported firearms.",
+    "items": [ [ "makarovmag", 10 ], [ "skorpion82mag", 20 ], [ "af2011a1mag", 10 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "mags_pistol_common",
+    "//": "Factory specification pistol magazines commonly owned by citizens.",
+    "items": [ [ "m1911mag_10rd_38super", 15 ] ]
+  }
+]

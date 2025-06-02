@@ -622,19 +622,6 @@
     ]
   },
   {
-    "id": "nested_m1911a1_38super",
-    "type": "item_group",
-    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
-    "subtype": "collection",
-    "ammo": 100,
-    "entries": [
-      { "item": "m1911a1_38super", "ammo-group": "on_hand_38super", "charges": [ 0, 9 ] },
-      { "item": "m1911mag_10rd_38super", "ammo-group": "on_hand_38super" },
-      { "item": "m1911mag_10rd_38super", "ammo-group": "on_hand_38super", "prob": 50 },
-      { "group": "on_hand_38super" }
-    ]
-  },
-  {
     "id": "nested_fn57",
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
@@ -882,19 +869,6 @@
       { "group": "nested_rm103a_mag" },
       { "group": "nested_rm103a_mag", "prob": 50 },
       { "group": "on_hand_8x40" }
-    ]
-  },
-  {
-    "id": "nested_af2011a1_38super",
-    "type": "item_group",
-    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
-    "subtype": "collection",
-    "ammo": 100,
-    "entries": [
-      { "item": "af2011a1_38super", "ammo-group": "on_hand_38super", "charges": [ 0, 16 ] },
-      { "item": "af2011a1mag", "ammo-group": "on_hand_38super" },
-      { "item": "af2011a1mag", "ammo-group": "on_hand_38super", "prob": 50 },
-      { "group": "on_hand_38super" }
     ]
   },
   {

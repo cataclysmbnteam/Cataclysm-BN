@@ -492,18 +492,6 @@
     ]
   },
   {
-    "id": "everyday_m1911a1_38super",
-    "type": "item_group",
-    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
-    "subtype": "collection",
-    "entries": [
-      { "item": "m1911a1_38super", "ammo-group": "on_hand_38super", "charges": [ 0, 9 ] },
-      { "item": "m1911mag_10rd_38super", "charges-min": 0, "prob": 80, "ammo-group": "on_hand_38super" },
-      { "item": "m1911mag_10rd_38super", "charges-min": 0, "ammo-group": "on_hand_38super", "prob": 50 },
-      { "group": "on_hand_38super", "prob": 25, "charges": [ 10, 20 ], "count": [ 1, 2 ] }
-    ]
-  },
-  {
     "id": "everyday_fn57",
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
@@ -645,18 +633,6 @@
       { "group": "nested_rm103a_mag", "charges-min": 0, "prob": 80 },
       { "group": "nested_rm103a_mag", "charges-min": 0, "prob": 50 },
       { "group": "on_hand_8x40", "prob": 25, "charges": [ 10, 20 ], "count": [ 1, 2 ] }
-    ]
-  },
-  {
-    "id": "everyday_af2011a1_38super",
-    "type": "item_group",
-    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
-    "subtype": "collection",
-    "entries": [
-      { "item": "af2011a1_38super", "ammo-group": "on_hand_38super" },
-      { "item": "af2011a1mag", "charges-min": 0, "prob": 80, "ammo-group": "on_hand_38super" },
-      { "item": "af2011a1mag", "charges-min": 0, "ammo-group": "on_hand_38super", "prob": 50 },
-      { "group": "on_hand_38super", "prob": 25, "charges": [ 10, 20 ], "count": [ 1, 2 ] }
     ]
   },
   {
