@@ -43,18 +43,20 @@ void cata::detail::reg_recipe( sol::state &lua )
 
         luna::set_fx( ut, "get_from_skill_used", []( const skill_id & sk ) -> std::vector<recipe> {
             auto filtered = recipe_dict
-                | std::views::values
-                | std::views::filter( [&]( const recipe &r ) {
-                    return r.skill_used == sk;
-                } );
+            | std::views::values
+            | std::views::filter( [&]( const recipe & r )
+            {
+                return r.skill_used == sk;
+            } );
             return { filtered.begin(), filtered.end() };
         } );
         luna::set_fx( ut, "get_from_flag", []( const std::string & flag_name ) -> std::vector<recipe> {
             auto filtered = recipe_dict
-                | std::views::values
-                | std::views::filter( [&]( const recipe &r ) {
-                    return r.has_flag( flag_name );
-                } );
+            | std::views::values
+            | std::views::filter( [&]( const recipe & r )
+            {
+                return r.has_flag( flag_name );
+            } );
             return { filtered.begin(), filtered.end() };
         } );
         luna::set_fx( ut, "get_all", []() -> std::vector<recipe> {
