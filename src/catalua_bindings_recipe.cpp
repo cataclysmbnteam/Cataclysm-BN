@@ -1,3 +1,7 @@
+#include <vector>
+#include <string>
+#include <ranges>
+#include <algorithm>
 #include "catalua_bindings.h"
 
 #include "catalua.h"
@@ -38,31 +42,24 @@ void cata::detail::reg_recipe( sol::state &lua )
         SET_FX_T( has_flag, bool ( const std::string & flag_name ) const );
 
         luna::set_fx( ut, "get_from_skill_used", []( const skill_id & sk ) -> std::vector<recipe> {
-            std::vector<recipe> recipes;
-            for( auto &e : recipe_dict )
-            {
-                const auto &r = e.second;
-                if( r.skill_used == sk ) { recipes.push_back( r ); }
-            }
-            return recipes;
+            auto filtered = recipe_dict
+                | std::views::values
+                | std::views::filter( [&]( const recipe &r ) {
+                    return r.skill_used == sk;
+                } );
+            return { filtered.begin(), filtered.end() };
         } );
         luna::set_fx( ut, "get_from_flag", []( const std::string & flag_name ) -> std::vector<recipe> {
-            std::vector<recipe> recipes;
-            for( auto &e : recipe_dict )
-            {
-                const auto &r = e.second;
-                if( r.has_flag( flag_name ) ) { recipes.push_back( r ); }
-            }
-            return recipes;
+            auto filtered = recipe_dict
+                | std::views::values
+                | std::views::filter( [&]( const recipe &r ) {
+                    return r.has_flag( flag_name );
+                } );
+            return { filtered.begin(), filtered.end() };
         } );
         luna::set_fx( ut, "get_all", []() -> std::vector<recipe> {
-            std::vector<recipe> recipes;
-            for( auto &e : recipe_dict )
-            {
-                const auto &r = e.second;
-                recipes.push_back( r );
-            }
-            return recipes;
+            auto all = recipe_dict | std::views::values;
+            return { all.begin(), all.end() };
         } );
     }
 }
