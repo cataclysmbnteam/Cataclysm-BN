@@ -56,7 +56,6 @@ class activity_speed
         activity_id type = activity_id::NULL_ID();
         std::optional<bench_loc> bench;
         int assistant_count = 0;
-        bench_factor_fn bench_factor_custom_formula = default_bench_factor;
         morale_factor_fn morale_factor_custom_formula = default_morale_factor;
         tools_factor_fn tools_factor_custom_formula = default_tools_factor;
         skills_factor_fn skills_factor_custom_formula = default_skills_factor;

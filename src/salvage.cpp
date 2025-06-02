@@ -169,10 +169,9 @@ static std::vector<std::pair< material_id, float>> salvage_result_proportions(
     return salvagable_materials;
 }
 
-//Returns vector of pairs <item id, count>
-std::vector<std::pair< itype_id, float>> salvage_results( const item &target )
+std::unordered_map< itype_id, float> salvage_results( const item &target )
 {
-    std::vector<std::pair< itype_id, float>> salvagable_materials;
+    std::unordered_map<itype_id, float> salvagable_materials;
     //For now we assume that proportions for all materials are equal
     for( auto &material : salvage_result_proportions( target ) ) {
         auto res = material.first->salvaged_into();
@@ -181,8 +180,7 @@ std::vector<std::pair< itype_id, float>> salvage_results( const item &target )
             auto t_mass = target.weight().value();
             auto r_mass = ( **res ).weight.value();
             //cuz we need actual float here
-            auto cnt = t_mass * material.second / r_mass;
-            salvagable_materials.emplace_back( *res, cnt );
+            salvagable_materials[*res] += t_mass * material.second / r_mass;
         }
     }
     return salvagable_materials;
