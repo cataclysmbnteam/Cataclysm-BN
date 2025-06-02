@@ -13,7 +13,7 @@
 #include "itype.h"
 #include "skill.h"
 
-void cata::detail::reg_recipe(sol::state &lua)
+void cata::detail::reg_recipe( sol::state &lua )
 {
 #define UT_CLASS recipe
     {
