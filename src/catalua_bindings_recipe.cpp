@@ -60,4 +60,5 @@ void cata::detail::reg_recipe( sol::state &lua )
             return recipe_dict | views::values | ranges::to<std::vector<recipe>>();
         } );
     }
+#undef UT_CLASS // #define UT_CLASS recipe
 }
