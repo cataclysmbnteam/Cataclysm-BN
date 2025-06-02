@@ -4634,6 +4634,78 @@ Function `( RecipeId, <cppval: 7JsonOut > )`
 
 Function `( RecipeId, <cppval: 6JsonIn > )`
 
+## RecipeRaw
+
+### Bases
+
+No base classes.
+
+### Constructors
+
+No constructors.
+
+### Members
+
+#### category
+
+Variable of type `string`
+
+#### subcategory
+
+Variable of type `string`
+
+#### time
+
+Variable of type `int`
+
+#### skill_used
+
+Variable of type `SkillId`
+
+#### difficulty
+
+Variable of type `int`
+
+#### required_skills
+
+Variable of type `Map( SkillId, int )`
+
+#### learn_by_disassembly
+
+Variable of type `Map( SkillId, int )`
+
+#### booksets
+
+Variable of type `Map( ItypeId, int )`
+
+#### ident
+
+Function `( RecipeRaw ) -> RecipeId`
+
+#### result
+
+Function `( RecipeRaw ) -> ItypeId`
+
+#### result_name
+
+Function `( RecipeRaw ) -> string`
+
+#### has_flag
+
+Function `( RecipeRaw, string ) -> bool`
+
+#### get_from_skill_used
+
+Function `( SkillId ) -> Vector( RecipeRaw )`
+
+#### get_from_flag
+
+Function `( string ) -> Vector( RecipeRaw )`
+
+#### get_all
+
+Function `() -> Vector( RecipeRaw )`
+
 ## SkillId
 
 ### Bases
