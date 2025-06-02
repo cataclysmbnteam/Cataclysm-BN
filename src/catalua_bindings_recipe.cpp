@@ -13,7 +13,7 @@
 #include "itype.h"
 #include "skill.h"
 
-void cata::detail::reg_recipe( sol::state &lua )
+void cata::detail::reg_recipe(sol::state &lua)
 {
 #define UT_CLASS recipe
     {
@@ -52,6 +52,15 @@ void cata::detail::reg_recipe( sol::state &lua )
             {
                 const auto &r = e.second;
                 if( r.has_flag( flag_name ) ) { recipes.push_back( r ); }
+            }
+            return recipes;
+        } );
+        luna::set_fx( ut, "get_all", []() -> std::vector<recipe> {
+            std::vector<recipe> recipes;
+            for( auto &e : recipe_dict )
+            {
+                const auto &r = e.second;
+                recipes.push_back( r );
             }
             return recipes;
         } );

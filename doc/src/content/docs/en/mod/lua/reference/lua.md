@@ -4702,6 +4702,10 @@ Function `( SkillId ) -> Vector( RecipeRaw )`
 
 Function `( string ) -> Vector( RecipeRaw )`
 
+#### get_all
+
+Function `() -> Vector( RecipeRaw )`
+
 ## SkillId
 
 ### Bases

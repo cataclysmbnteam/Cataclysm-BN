@@ -1284,6 +1284,7 @@ function RecipeId.new() end
 ---@field skill_used SkillId
 ---@field subcategory string
 ---@field time integer
+---@field get_all fun(): any
 ---@field get_from_flag fun(arg1: string): any
 ---@field get_from_skill_used fun(arg1: SkillId): any
 ---@field has_flag fun(arg1: RecipeRaw, arg2: string): boolean
