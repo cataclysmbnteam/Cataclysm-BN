@@ -161,7 +161,8 @@ class avatar : public player
          * @param reader the player/NPC who's reading to the caller
          * @param learner if not nullptr, assume that the caller and reader read at a pace that isn't too fast for him
          */
-        int time_to_read( const item &book, const Character &reader, const Character *learner = nullptr ) const;
+        int time_to_read( const item &book, const Character &reader,
+                          const Character *learner = nullptr ) const;
         /** Handles reading effects and returns true if activity started */
         bool read( item *loc, bool continuous = false );
         /** Completes book reading action. **/
@@ -294,9 +295,9 @@ class avatar : public player
 
         std::set<character_id> follower_ids;
 
-        public:
-            profession_id prof;
-            std::string custom_profession;
+    public:
+        profession_id prof;
+        std::string custom_profession;
 };
 
 avatar &get_avatar();

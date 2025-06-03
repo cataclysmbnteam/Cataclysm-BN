@@ -119,7 +119,8 @@ void buy_helper( T &src, Callback cb )
     } );
 }
 
-std::vector<item_pricing> npc_trading::init_buying( Character &buyer, Character &seller, bool is_npc )
+std::vector<item_pricing> npc_trading::init_buying( Character &buyer, Character &seller,
+        bool is_npc )
 {
     std::vector<item_pricing> result;
     npc *np_p = dynamic_cast<npc *>( &buyer );
