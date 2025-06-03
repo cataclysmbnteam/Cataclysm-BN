@@ -1094,7 +1094,7 @@ bool vehicle::check_heli_descend( Character &who )
         if( here.impassable_ter_furn( below ) || here.has_flag_ter_or_furn( TFLAG_RAMP_DOWN, below ) ||
             ovp || g->critter_at( below ) ) {
             who.add_msg_if_player( m_bad,
-                                 _( "It would be unsafe to try and land when there are obstacles below you." ) );
+                                   _( "It would be unsafe to try and land when there are obstacles below you." ) );
             return false;
         }
         if( here.has_flag_ter_or_furn( TFLAG_NO_FLOOR, below ) ) {
@@ -1121,7 +1121,8 @@ bool vehicle::check_heli_ascend( Character &who )
         return false;
     }
     if( !is_flying_in_air() && check_on_ramp() ) {
-        who.add_msg_if_player( m_bad, _( "It would be unsafe to try and take off from an uneven surface." ) );
+        who.add_msg_if_player( m_bad,
+                               _( "It would be unsafe to try and take off from an uneven surface." ) );
         return false;
     }
     map &here = get_map();
@@ -1152,10 +1153,10 @@ bool vehicle::check_heli_ascend( Character &who )
             }
             if( obstacle_direction == direction::CENTER ) {
                 who.add_msg_if_player( m_bad, _( "Your ascent is blocked by %s directly above you." ),
-                                     blocker_string );
+                                       blocker_string );
             } else {
                 who.add_msg_if_player( m_bad, _( "Your ascent is blocked by %s to your %s." ), blocker_string,
-                                     direction_string );
+                                       direction_string );
             }
             return false;
         }
