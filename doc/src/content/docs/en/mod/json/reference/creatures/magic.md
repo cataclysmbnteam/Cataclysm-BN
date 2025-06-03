@@ -219,6 +219,8 @@ experience you need to get to a level is below:
 
 - `directed_push` pushes things in a single direction away from you.
 
+- `noise` makes noise at a loudness equal to the spell's damage.
+
 - `WONDER` - Unlike the above, this is not an "effect" but a "flag". This alters the behavior of the
   parent spell drastically: The spell itself doesn't cast, but its damage and range information is
   used in order to cast the extra_effects. N of the extra_effects will be chosen at random to be
