@@ -1,6 +1,7 @@
 #pragma once
 
 #include "character_stat.h"
+#include "type_id.h"
 
 class Character;
 class item;
@@ -34,6 +35,10 @@ void disp_info( Character &ch );
  * Handles upgrade of avatar stats.
  */
 void upgrade_stat_prompt( avatar &you, const character_stat &stat );
+/**
+ * Prompts "Do you want to upgrade skill by 1 level? Will cost %d xp."
+ */
+void upgrade_skill_prompt( avatar &you, const skill_id &skill );
 
 /** Gets the minimum combined bare-handed damage from skill, bionics, and mutations for display functions */
 int display_empty_handed_base_damage( const Character &you );

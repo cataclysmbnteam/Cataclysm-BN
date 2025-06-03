@@ -3059,7 +3059,7 @@ void item::book_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
         info.emplace_back( "BOOK",
                            _( "You have <info>never read</info> this book." ) );
     }
-    if( book.skill ) {
+    if( book.skill && you.get_skill_level_object( book.skill ).can_train() ) {
         const SkillLevel &skill = you.get_skill_level_object( book.skill );
         if( parts->test( iteminfo_parts::BOOK_SKILLRANGE_MAX ) ) {
             const std::string skill_name = book.skill->name();

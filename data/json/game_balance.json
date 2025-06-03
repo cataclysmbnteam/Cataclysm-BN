@@ -155,6 +155,13 @@
   },
   {
     "type": "EXTERNAL_OPTION",
+    "name": "SKILLS_THROUGH_KILLS",
+    "info": "Replace \"learn by doing\" by spending experience from kills on skills.",
+    "stype": "bool",
+    "value": false
+  },
+  {
+    "type": "EXTERNAL_OPTION",
     "name": "MON_FUNGALOID_YOUNG_ALLOWED",
     "info": "Enables fungal stalk to be spawned on infested terrain from 'PLANT' attack function.",
     "stype": "bool",

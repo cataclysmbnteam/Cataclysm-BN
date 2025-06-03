@@ -30,6 +30,7 @@
 #include "string_formatter.h"
 #include "string_id.h"
 #include "string_input_popup.h"
+#include "xp.h"
 #include "translations.h"
 #include "ui_manager.h"
 #include "units.h"
@@ -849,19 +850,43 @@ static void draw_skills_tab( ui_adaptor &ui, const catacurses::window &w_skills,
                 }
                 mvwprintz( w_skills, point( 1, y_pos ), c_light_gray, std::string( col_width, ' ' ) );
             }
-            mvwprintz( w_skills, point( 1, y_pos ), cstatus, "%s:", aSkill->name() );
-            if( aSkill->ident() == skill_id( "dodge" ) ) {
-                mvwprintz( w_skills, point( 14, y_pos ), cstatus, "%4.1f/%-2d(%2d%%)",
-                           you.get_dodge(), level_num, exercise < 0 ? 0 : exercise );
-            }
-            if( aSkill->ident() == skill_id( "unarmed" ) ) {
-                mvwprintz( w_skills, point( 15, y_pos ), cstatus, "%3d/%-2d(%2d%%)",
-                           character_display::display_empty_handed_base_damage( you ), level_num,
-                           exercise < 0 ? 0 : exercise );
+            if( get_option<bool>( "SKILLS_THROUGH_KILLS" ) ) {
+                mvwprintz( w_skills, point( 1, y_pos ), cstatus, "%s:", aSkill->name() );
+                int available_xp = xp::available( you );
+                int xp_to_level = xp::to_raise_skill( you, aSkill->ident() );
+                int percentage_to_level = 100 * available_xp / xp_to_level;
+                if( aSkill->ident() == skill_id( "dodge" ) ) {
+                    mvwprintz( w_skills, point( 14, y_pos ), cstatus, "%4.1f/%-2d",
+                               you.get_dodge(), level_num );
+                }
+                if( aSkill->ident() == skill_id( "unarmed" ) ) {
+                    mvwprintz( w_skills, point( 15, y_pos ), cstatus, "%3d/%-2d",
+                               character_display::display_empty_handed_base_damage( you ), level_num );
+                } else {
+                    mvwprintz( w_skills, point( 19, y_pos ), cstatus, "%-2d",
+                               level_num );
+                }
+                if( percentage_to_level >= 100 ) {
+                    mvwprintz( w_skills, point( 21, y_pos ), c_green, "(++)" );
+                } else {
+                    mvwprintz( w_skills, point( 21, y_pos ), cstatus, "(%2d%%)",
+                               percentage_to_level );
+                }
             } else {
-                mvwprintz( w_skills, point( 19, y_pos ), cstatus, "%-2d(%2d%%)",
-                           level_num,
-                           ( exercise < 0 ? 0 : exercise ) );
+                mvwprintz( w_skills, point( 1, y_pos ), cstatus, "%s:", aSkill->name() );
+                if( aSkill->ident() == skill_id( "dodge" ) ) {
+                    mvwprintz( w_skills, point( 14, y_pos ), cstatus, "%4.1f/%-2d(%2d%%)",
+                               you.get_dodge(), level_num, exercise < 0 ? 0 : exercise );
+                }
+                if( aSkill->ident() == skill_id( "unarmed" ) ) {
+                    mvwprintz( w_skills, point( 15, y_pos ), cstatus, "%3d/%-2d(%2d%%)",
+                               character_display::display_empty_handed_base_damage( you ), level_num,
+                               exercise < 0 ? 0 : exercise );
+                } else {
+                    mvwprintz( w_skills, point( 19, y_pos ), cstatus, "%-2d(%2d%%)",
+                               level_num,
+                               ( exercise < 0 ? 0 : exercise ) );
+                }
             }
         }
     }
@@ -1185,7 +1210,11 @@ static bool handle_player_display_action( Character &you, unsigned int &line,
                     selectedSkill = skillslist[line].skill;
                 }
                 if( selectedSkill ) {
-                    you.get_skill_level_object( selectedSkill->ident() ).toggleTraining();
+                    if( !get_option<bool>( "SKILLS_THROUGH_KILLS" ) ) {
+                        you.get_skill_level_object( selectedSkill->ident() ).toggleTraining();
+                    } else {
+                        character_display::upgrade_skill_prompt( *you.as_avatar(), selectedSkill->ident() );
+                    }
                 }
                 invalidate_tab( curtab );
                 break;
@@ -1649,5 +1678,24 @@ void character_display::upgrade_stat_prompt( avatar &you, const character_stat &
     if( query_yn( _( "Are you sure you want to raise %s?  %d points available." ), stat_string,
                   free_points ) ) {
         you.upgrade_stat( stat );
+    }
+}
+
+void character_display::upgrade_skill_prompt( avatar &you, const skill_id &skill )
+{
+    int xp_available = xp::available( you );
+    int xp_cost = xp::to_raise_skill( you, skill );
+
+    int skill_lvl = you.get_skill_level( skill );
+
+    if( xp_available < xp_cost ) {
+        popup_top( _( "Not enough xp to raise skill %s (%d -> %d).\nNeeded xp %d > Available xp %d" ),
+                   skill->name().c_str(), skill_lvl, skill_lvl + 1, xp_cost, xp_available );
+        return;
+    }
+
+    if( query_yn( _( "Are you sure you want to raise %s (%d -> %d)?\nWill cost %d xp out of %d." ),
+                  skill->name().c_str(), skill_lvl, skill_lvl + 1, xp_cost, xp_available ) ) {
+        you.set_skill_level( skill, skill_lvl + 1 );
     }
 }

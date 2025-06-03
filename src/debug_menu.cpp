@@ -1515,7 +1515,7 @@ void debug()
             add_msg( m_info, _( "Thirst: %d, kCal: %d / %d" ), u.get_thirst(), u.get_stored_kcal(),
                      u.max_stored_kcal() );
             add_msg( m_info, _( "Body Mass Index: %.0f\nBasal Metabolic Rate: %i" ), u.bmi(), u.bmr() );
-            if( get_option<bool>( "STATS_THROUGH_KILLS" ) ) {
+            if( get_option<bool>( "STATS_THROUGH_KILLS" ) || get_option<bool>( "SKILLS_THROUGH_KILLS" ) ) {
                 add_msg( m_info, _( "Kill xp: %d" ), u.kill_xp() );
             }
             g->invalidate_main_ui_adaptor();

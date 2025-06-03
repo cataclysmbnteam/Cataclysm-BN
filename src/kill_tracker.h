@@ -37,8 +37,11 @@ class kill_tracker : public event_subscriber
         int npc_kill_count() const;
         // returns player's "kill xp" for monsters via STK
         int kill_xp() const;
+        int xp_for_killing( const mtype_id & ) const;
 
         std::string get_kills_text() const;
+
+        bool option_xp() const;
 
         void clear();
 
@@ -52,7 +55,6 @@ class kill_tracker : public event_subscriber
         void deserialize( JsonIn & );
     private:
         bool xp_allowed;
-        bool option_xp() const;
         std::map<mtype_id, int> kills;         // player's kill count
         std::vector<std::string> npc_kills;    // names of NPCs the player killed
 };
