@@ -3200,6 +3200,7 @@ void Item_factory::add_entry( Item_group &ig, const JsonObject &obj )
     use_modifier |= load_min_max( modifier.damage, obj, "damage" );
     use_modifier |= load_min_max( modifier.dirt, obj, "dirt" );
     use_modifier |= load_min_max( modifier.charges, obj, "charges" );
+    use_modifier |= load_min_max( modifier.energy, obj, "energy" );
     use_modifier |= load_min_max( modifier.count, obj, "count" );
     use_modifier |= load_sub_ref( modifier.ammo, obj, "ammo", ig );
     use_modifier |= load_sub_ref( modifier.container, obj, "container", ig );

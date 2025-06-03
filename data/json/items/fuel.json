@@ -1,5 +1,20 @@
 [
   {
+    "type": "AMMO",
+    "id": "battery",
+    "category": "spare_parts",
+    "price": "120 USD",
+    "price_postapoc": "2 cent",
+    "name": { "str": "battery", "str_pl": "batteries" },
+    "symbol": "=",
+    "color": "yellow",
+    "description": "This definition exists only so vehicles don't become sad.  If you see this ANYWHERE outside debug this is BAD.",
+    "material": "iron",
+    "volume": "100 ml",
+    "fuel": { "energy": 1 },
+    "ammo_type": "battery"
+  },
+  {
     "id": "chem_ethanol",
     "type": "AMMO",
     "name": { "str_sp": "ethanol" },

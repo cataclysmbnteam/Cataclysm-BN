@@ -265,9 +265,9 @@
     "weight": "14 g",
     "volume": "50 ml",
     "looks_like": "lighter",
-    "charges_per_use": 1,
+    "power_draw": "1 kJ",
     "use_action": { "type": "firestarter", "moves": 50 },
-    "magazine_well": "50 ml",
-    "magazines": [ [ "battery", [ "light_minus_battery_cell", "light_minus_atomic_battery_cell", "light_minus_disposable_cell" ] ] ]
+    "battery_well": "50 ml",
+    "batteries": [ "light_minus_battery_cell", "light_minus_atomic_battery_cell", "light_minus_disposable_cell" ]
   }
 ]

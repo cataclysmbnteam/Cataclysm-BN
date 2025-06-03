@@ -156,12 +156,17 @@ class Item_modifier
     public:
         std::pair<int, int> damage;
         std::pair<int, int> count;
+        std::pair<int, int> dirt;
         /**
          * Charges to spawn the item with, if this turns out to
          * be negative, the default charges are used.
          */
-        std::pair<int, int> dirt;
         std::pair<int, int> charges;
+        /**
+         * Energy to spawn the item with, if this turns out to
+         * be negative, the default is used.
+         */
+        std::pair<units::energy, units::energy> energy;
         /**
          * Ammo for guns. If NULL the gun spawns without ammo.
          * This takes @ref charges and @ref with_ammo into account.
