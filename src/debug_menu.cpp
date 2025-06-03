@@ -200,7 +200,7 @@ class mission_debug
         static void remove_mission( mission &m );
     public:
         static void edit_mission( mission &m );
-        static void edit( player &who );
+        static void edit( Character &who );
         static void edit_player();
         static void edit_npc( npc &who );
         static std::string describe( const mission &m );
@@ -1189,7 +1189,7 @@ static void add_header( uilist &mmenu, const std::string &str )
     mmenu.entries.push_back( header );
 }
 
-void mission_debug::edit( player &who )
+void mission_debug::edit( Character &who )
 {
     if( who.is_player() ) {
         edit_player();

@@ -15,7 +15,7 @@
 #include "translations.h"
 #include "type_id.h"
 
-class player;
+class Character;
 
 enum game_message_type : int;
 class JsonIn;
@@ -24,7 +24,7 @@ class JsonOut;
 class effect;
 
 /** Handles the large variety of weed messages. */
-void weed_msg( player &p );
+void weed_msg( Character &who );
 
 enum effect_rating {
     e_good,     // The effect is good for the one who has it.
