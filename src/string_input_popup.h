@@ -278,6 +278,7 @@ class string_input_popup // NOLINT(cata-xy)
         // NOLINTNEXTLINE(cata-no-long)
         void edit( long &value );
         void edit( int &value );
+        void edit( long long &value );
         /**@}*/
 
         std::map<long, std::function<bool()>> callbacks;

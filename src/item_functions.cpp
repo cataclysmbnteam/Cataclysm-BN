@@ -24,7 +24,7 @@ bool can_be_unloaded( const item &itm )
         return false;
     }
 
-    if( itm.magazine_current() ) {
+    if( itm.magazine_current() || itm.battery_current() ) {
         return true;
     }
 
@@ -49,13 +49,13 @@ int shots_remaining( const Character &who, const item &it )
     }
 
     int ammo_drain = it.ammo_required();
-    int energy_drain = it.get_gun_ups_drain();
-    int power = who.charges_of( itype_UPS );
+    units::energy energy_drain = it.get_gun_ups_drain();
+    units::energy power = who.energy_of( itype_UPS );
 
-    if( ammo_drain > 0 && energy_drain > 0 ) {
+    if( ammo_drain > 0 && energy_drain > 0_J ) {
         // Both UPS and ammo, lower is limiting.
-        return std::min( it.ammo_remaining() / ammo_drain, power / energy_drain );
-    } else if( energy_drain > 0 ) {
+        return std::min( it.ammo_remaining() / ammo_drain, static_cast<int>( power / energy_drain ) );
+    } else if( energy_drain > 0_J ) {
         //Only one of the two, it is limiting.
         return power / energy_drain;
     } else if( ammo_drain > 0 ) {

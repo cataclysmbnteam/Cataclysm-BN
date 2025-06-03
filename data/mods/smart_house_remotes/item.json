@@ -13,23 +13,17 @@
     "material": [ "plastic", "aluminum" ],
     "symbol": ";",
     "color": "light_blue",
-    "ammo": "battery",
-    "charges_per_use": 1,
     "use_action": "SMART_HOUSE_REMOTE",
-    "magazines": [
-      [
-        "battery",
-        [
-          "light_battery_cell",
-          "light_plus_battery_cell",
-          "light_minus_battery_cell",
-          "light_atomic_battery_cell",
-          "light_minus_atomic_battery_cell",
-          "light_minus_disposable_cell",
-          "light_disposable_cell"
-        ]
-      ]
-    ],
-    "magazine_well": "250 ml"
+    "power_draw": "1 kJ",
+    "battery_well": "250 ml",
+    "batteries": [
+      "light_battery_cell",
+      "light_plus_battery_cell",
+      "light_minus_battery_cell",
+      "light_atomic_battery_cell",
+      "light_minus_atomic_battery_cell",
+      "light_minus_disposable_cell",
+      "light_disposable_cell"
+    ]
   }
 ]
