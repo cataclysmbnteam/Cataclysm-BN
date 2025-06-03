@@ -7059,7 +7059,7 @@ void game::draw_trail_to_square( const tripoint &t, bool bDrawX )
 
 static void centerlistview( const tripoint &active_item_position, int ui_width )
 {
-    player &u = g->u;
+    avatar &u = get_avatar();
     if( get_option<std::string>( "SHIFT_LIST_ITEM_VIEW" ) != "false" ) {
         u.view_offset.z = active_item_position.z;
         if( get_option<std::string>( "SHIFT_LIST_ITEM_VIEW" ) == "centered" ) {

@@ -1358,7 +1358,7 @@ static std::string get_freshness_description( const item &food_item )
     }
 }
 
-item::sizing item::get_sizing( const Character &p ) const
+item::sizing item::get_sizing( const Character &who ) const
 {
     const islot_armor *armor_data = find_armor_data();
     if( !armor_data ) {
@@ -1373,8 +1373,8 @@ item::sizing item::get_sizing( const Character &p ) const
     if( to_ignore ) {
         return sizing::ignore;
     } else {
-        const bool small = p.get_size() == creature_size::tiny;
-        const bool big = p.get_size() == creature_size::huge;
+        const bool small = who.get_size() == creature_size::tiny;
+        const bool big = who.get_size() == creature_size::huge;
 
         // due to the iterative nature of these features, something can fit and be undersized/oversized
         // but that is fine because we have separate logic to adjust encumberance per each. One day we
@@ -4528,15 +4528,15 @@ nc_color item::color_in_inventory( const player &p ) const
     return ret;
 }
 
-void item::on_wear( Character &p )
+void item::on_wear( Character &who )
 {
     if( is_sided() && get_side() == side::BOTH ) {
         if( has_flag( flag_SPLINT ) ) {
             set_side( side::LEFT );
-            if( ( covers( bodypart_id( "leg_l" ) ) && p.is_limb_broken( bodypart_id( "leg_r" ) ) &&
-                  !p.worn_with_flag( flag_SPLINT, bodypart_id( "leg_r" ) ) ) ||
-                ( covers( bodypart_id( "arm_l" ) ) && p.is_limb_broken( bodypart_id( "arm_r" ) ) &&
-                  !p.worn_with_flag( flag_SPLINT, bodypart_id( "arm_r" ) ) ) ) {
+            if( ( covers( bodypart_id( "leg_l" ) ) && who.is_limb_broken( bodypart_id( "leg_r" ) ) &&
+                  !who.worn_with_flag( flag_SPLINT, bodypart_id( "leg_r" ) ) ) ||
+                ( covers( bodypart_id( "arm_l" ) ) && who.is_limb_broken( bodypart_id( "arm_r" ) ) &&
+                  !who.worn_with_flag( flag_SPLINT, bodypart_id( "arm_r" ) ) ) ) {
                 set_side( side::RIGHT );
             }
         } else if( has_flag( flag_POWERARMOR_MOD ) ) {
@@ -4544,13 +4544,13 @@ void item::on_wear( Character &p )
             std::vector< std::pair< bodypart_str_id, int > > mod_parts;
             int lhs = 0;
             int rhs = 0;
-            const auto &all_bps = p.get_all_body_parts();
+            const auto &all_bps = who.get_all_body_parts();
             for( const bodypart_id &bp : all_bps ) {
                 if( get_covered_body_parts().test( bp.id() ) ) {
                     mod_parts.emplace_back( bp, 0 );
                 }
             }
-            for( auto &elem : p.worn ) {
+            for( auto &elem : who.worn ) {
                 for( std::pair< bodypart_str_id, int > &mod_part : mod_parts ) {
                     const bodypart_str_id &bp = mod_part.first;
                     if( elem->get_covered_body_parts().test( bp ) &&
@@ -4574,17 +4574,17 @@ void item::on_wear( Character &p )
             set_side( ( lhs > rhs ) ? side::RIGHT : side::LEFT );
         } else {
             // for sided items wear the item on the side which results in least encumbrance
-            const auto &all_bps = p.get_all_body_parts();
+            const auto &all_bps = who.get_all_body_parts();
             int lhs = 0;
             int rhs = 0;
             set_side( side::LEFT );
-            const char_encumbrance_data left_enc = p.get_encumbrance( *this );
+            const char_encumbrance_data left_enc = who.get_encumbrance( *this );
             for( const bodypart_id &bp : all_bps ) {
                 lhs += left_enc.elems.at( bp.id() ).encumbrance;
             }
 
             set_side( side::RIGHT );
-            const char_encumbrance_data right_enc = p.get_encumbrance( *this );
+            const char_encumbrance_data right_enc = who.get_encumbrance( *this );
             for( const bodypart_id &bp : all_bps ) {
                 rhs += right_enc.elems.at( bp.id() ).encumbrance;
             }
@@ -4602,30 +4602,30 @@ void item::on_wear( Character &p )
             return;
         }
         flag_id transform_flag( actor->dependencies );
-        for( const auto &elem : p.worn ) {
+        for( const auto &elem : who.worn ) {
             if( elem->has_flag( transform_flag ) && elem->is_active() != is_active() ) {
                 transform = true;
             }
         }
         if( transform && actor->restricted ) {
-            actor->bypass( *p.as_player(), *this, false, p.pos() );
+            actor->bypass( *who.as_player(), *this, false, who.pos() );
         }
     }
 
     // TODO: artifacts currently only work with the player character
-    if( &p == &get_avatar() && type->artifact ) {
+    if( &who == &get_avatar() && type->artifact ) {
         g->add_artifact_messages( type->artifact->effects_worn );
     }
     // if game is loaded - don't want ownership assigned during char creation
     if( get_avatar().getID().is_valid() ) {
-        handle_pickup_ownership( p );
+        handle_pickup_ownership( who );
     }
-    p.on_item_wear( *this );
+    who.on_item_wear( *this );
 }
 
-void item::on_takeoff( Character &p )
+void item::on_takeoff( Character &who )
 {
-    p.on_item_takeoff( *this );
+    who.on_item_takeoff( *this );
 
     if( is_sided() ) {
         set_side( side::BOTH );
@@ -4639,7 +4639,7 @@ void item::on_takeoff( Character &p )
             debugmsg( "iuse_actor type descriptor and actual type mismatch" );
             return;
         }
-        actor->bypass( *p.as_player(), *this, false, p.pos() );
+        actor->bypass( *who.as_player(), *this, false, who.pos() );
     }
 }
 
@@ -4745,26 +4745,26 @@ void item::handle_pickup_ownership( Character &c )
     }
 }
 
-void item::on_pickup( Character &p )
+void item::on_pickup( Character &who )
 {
     // Fake characters are used to determine pickup weight and volume
-    if( p.is_fake() ) {
+    if( who.is_fake() ) {
         return;
     }
     avatar &you = get_avatar();
     // TODO: artifacts currently only work with the player character
-    if( &p == &you && type->artifact ) {
+    if( &who == &you && type->artifact ) {
         g->add_artifact_messages( type->artifact->effects_carried );
     }
     // if game is loaded - don't want ownership assigned during char creation
     if( you.getID().is_valid() ) {
-        handle_pickup_ownership( p );
+        handle_pickup_ownership( who );
     }
     if( is_bucket_nonempty() ) {
-        contents.spill_contents( p.pos() );
+        contents.spill_contents( who.pos() );
     }
 
-    p.flag_encumbrance();
+    who.flag_encumbrance();
 }
 
 void item::on_contents_changed()
@@ -6198,7 +6198,7 @@ bool item::is_power_armor() const
              has_flag( flag_POWERARMOR_MOD ) );
 }
 
-int item::get_avg_encumber( const Character &p ) const
+int item::get_avg_encumber( const Character &who ) const
 {
     const islot_armor *armor = find_armor_data();
     if( !armor ) {
@@ -6211,7 +6211,7 @@ int item::get_avg_encumber( const Character &p ) const
 
     for( const armor_portion_data &entry : armor->data ) {
         for( const bodypart_str_id &limb : entry.covers ) {
-            int encumber = get_encumber( p, limb.id() );
+            int encumber = get_encumber( who, limb.id() );
             if( encumber ) {
                 avg_encumber += encumber;
                 ++avg_ctr;
@@ -6225,14 +6225,14 @@ int item::get_avg_encumber( const Character &p ) const
     }
 }
 
-int item::get_encumber( const Character &p, const bodypart_id &bodypart ) const
+int item::get_encumber( const Character &who, const bodypart_id &bodypart ) const
 {
 
     units::volume contents_volume( 0_ml );
 
     contents_volume += contents.item_size_modifier();
 
-    if( p.is_worn( *this ) ) {
+    if( who.is_worn( *this ) ) {
         const islot_armor *armor = find_armor_data();
 
         if( armor != nullptr ) {
@@ -6241,14 +6241,14 @@ int item::get_encumber( const Character &p, const bodypart_id &bodypart ) const
                     if( entry.max_encumber != 0 ) {
                         units::volume char_storage( 0_ml );
 
-                        for( const item * const &e : p.worn ) {
+                        for( const item * const &e : who.worn ) {
                             char_storage += e->get_storage();
                         }
 
                         if( char_storage != 0_ml ) {
                             // Cast up to 64 to prevent overflow. Dividing before would prevent this but lose data.
                             contents_volume += units::from_milliliter( static_cast<int64_t>( armor->storage.value() ) *
-                                               p.inv_volume().value() / char_storage.value() );
+                                               who.inv_volume().value() / char_storage.value() );
                         }
                     }
                 }
@@ -6256,11 +6256,11 @@ int item::get_encumber( const Character &p, const bodypart_id &bodypart ) const
         }
     }
 
-    return get_encumber_when_containing( p, contents_volume, bodypart );
+    return get_encumber_when_containing( who, contents_volume, bodypart );
 }
 
 int item::get_encumber_when_containing(
-    const Character &p, const units::volume &contents_volume, const bodypart_id &bodypart ) const
+    const Character &who, const units::volume &contents_volume, const bodypart_id &bodypart ) const
 {
     const islot_armor *armor = find_armor_data();
     if( armor == nullptr ) {
@@ -6301,7 +6301,7 @@ int item::get_encumber_when_containing(
     }
 
     // TODO: Should probably have sizing affect coverage
-    const sizing sizing_level = get_sizing( p );
+    const sizing sizing_level = get_sizing( who );
     switch( sizing_level ) {
         case sizing::small_sized_human_char:
         case sizing::small_sized_big_char:
@@ -8620,7 +8620,7 @@ void item::casings_handle( const std::function < detached_ptr<item>( detached_pt
     contents.casings_handle( func );
 }
 
-bool item::reload( player &u, item &loc, int qty )
+bool item::reload( Character &who, item &loc, int qty )
 {
     if( qty <= 0 ) {
         debugmsg( "Tried to reload zero or less charges" );
@@ -8653,8 +8653,8 @@ bool item::reload( player &u, item &loc, int qty )
 
     qty = std::min( qty, limit );
 
-    casings_handle( [&u]( detached_ptr<item> &&e ) {
-        return u.i_add_or_drop( std::move( e ) );
+    casings_handle( [&who]( detached_ptr<item> &&e ) {
+        return who.i_add_or_drop( std::move( e ) );
     } );
 
     if( is_magazine() ) {
@@ -8662,7 +8662,7 @@ bool item::reload( player &u, item &loc, int qty )
 
         if( is_ammo_belt() ) {
             const auto &linkage = type->magazine->linkage;
-            if( linkage && !u.use_charges_if_avail( *linkage, qty ) ) {
+            if( linkage && !who.use_charges_if_avail( *linkage, qty ) ) {
                 debugmsg( "insufficient linkages available when reloading ammo belt" );
             }
         }
@@ -8698,7 +8698,7 @@ bool item::reload( player &u, item &loc, int qty )
             std::string prompt = string_format( pgettext( "magazine", "Eject %1$s from %2$s?" ),
                                                 magazine_current()->tname(), tname() );
 
-            if( !u.dispose_item( *magazine_current(), prompt ) ) {
+            if( !who.dispose_item( *magazine_current(), prompt ) ) {
                 return false;
             }
         }
@@ -8731,7 +8731,7 @@ bool item::reload( player &u, item &loc, int qty )
         if( ammo->charges == 0 && !ammo->has_flag( flag_SPEEDLOADER ) ) {
             ammo->detach();
             if( container != nullptr ) {
-                u.inv_restack();
+                who.inv_restack();
             }
         }
     }
@@ -8984,14 +8984,14 @@ int item::get_remaining_capacity_for_liquid( const item &liquid, bool allow_buck
     return remaining_capacity;
 }
 
-int item::get_remaining_capacity_for_liquid( const item &liquid, const Character &p,
+int item::get_remaining_capacity_for_liquid( const item &liquid, const Character &who,
         std::string *err ) const
 {
-    const bool allow_bucket = p.is_wielding( *this ) || !p.has_item( *this );
+    const bool allow_bucket = who.is_wielding( *this ) || !who.has_item( *this );
     int res = get_remaining_capacity_for_liquid( liquid, allow_bucket, err );
 
-    if( res > 0 && !type->rigid && p.has_item( *this ) ) {
-        const units::volume volume_to_expand = std::max( p.volume_capacity() - p.volume_carried(),
+    if( res > 0 && !type->rigid && who.has_item( *this ) ) {
+        const units::volume volume_to_expand = std::max( who.volume_capacity() - who.volume_carried(),
                                                0_ml );
 
         res = std::min( liquid.charges_per_volume( volume_to_expand ), res );

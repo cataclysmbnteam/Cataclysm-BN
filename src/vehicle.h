@@ -1,13 +1,10 @@
 #pragma once
 
 #include <array>
-#include <climits>
-#include <cstddef>
 #include <functional>
 #include <map>
 #include <optional>
 #include <set>
-#include <stack>
 #include <string>
 #include <unordered_map>
 #include <utility>
@@ -21,7 +18,6 @@
 #include "game_constants.h"
 #include "item.h"
 #include "item_stack.h"
-#include "location_ptr.h"
 #include "point.h"
 #include "tileray.h"
 #include "type_id.h"
@@ -514,9 +510,9 @@ class vehicle
         bool mod_hp( vehicle_part &pt, int qty, damage_type dt = DT_NULL );
 
         // check if given player controls this vehicle
-        bool player_in_control( const Character &p ) const;
+        bool player_in_control( const Character &who ) const;
         // check if player controls this vehicle remotely
-        bool remote_controlled( const Character &p ) const;
+        bool remote_controlled( const Character &who ) const;
 
         // init parts state for randomly generated vehicle
         void init_state( int init_veh_fuel, int init_veh_status );
@@ -797,7 +793,7 @@ class vehicle
         // returns indices of all parts in the given location slot
         std::vector<int> all_parts_at_location( const std::string &location ) const;
         // shifts an index to next available of that type for NPC activities
-        int get_next_shifted_index( int original_index, player &p );
+        int get_next_shifted_index( int original_index, Character &who );
         // Given a part and a flag, returns the indices of all contiguously adjacent parts
         // with the same flag on the X and Y Axis
         std::vector<std::vector<int>> find_lines_of_parts( int part, const std::string &flag );

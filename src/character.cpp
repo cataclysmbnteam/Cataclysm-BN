@@ -11922,3 +11922,37 @@ int Character::has_recipe( const recipe *r, const inventory &crafting_inv,
     const auto available = get_available_recipes( crafting_inv, &helpers );
     return available.contains( *r ) ? available.get_custom_difficulty( r ) : -1;
 }
+
+
+detached_ptr<item> Character::reduce_charges( int position, int quantity )
+{
+    item &it = i_at( position );
+    if( it.is_null() ) {
+        debugmsg( "invalid item position %d for reduce_charges", position );
+        return detached_ptr<item>();
+    }
+    if( it.charges <= quantity ) {
+        return i_rem( position );
+    }
+    it.mod_charges( -quantity );
+
+    auto taken = item::spawn( it );
+    taken->charges = quantity;
+    return taken;
+}
+
+detached_ptr<item> Character::reduce_charges( item *it, int quantity )
+{
+    if( !has_item( *it ) ) {
+        debugmsg( "invalid item (name %s) for reduce_charges", it->tname() );
+        return detached_ptr<item>();
+    }
+    if( it->charges <= quantity ) {
+        return it->detach();
+    }
+    it->mod_charges( -quantity );
+
+    auto taken = item::spawn( *it );
+    taken->charges = quantity;
+    return taken;
+}
