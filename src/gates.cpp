@@ -245,10 +245,11 @@ void gates::toggle_gate( const tripoint &pos, Character &who )
     const gate_data &gate = gates_data.obj( gid );
 
     who.add_msg_if_player( gate.pull_message );
-    who.assign_activity( std::make_unique<player_activity>( std::make_unique<toggle_gate_activity_actor>(
-                           gate.moves,
-                           pos
-                       ) ) );
+    who.assign_activity( std::make_unique<player_activity>
+                         ( std::make_unique<toggle_gate_activity_actor>(
+                               gate.moves,
+                               pos
+                           ) ) );
 }
 
 // Doors namespace
