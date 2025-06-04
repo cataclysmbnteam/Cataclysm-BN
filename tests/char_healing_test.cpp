@@ -12,6 +12,8 @@
 #include "state_helpers.h"
 #include "type_id.h"
 
+using namespace Catch::Matchers;
+
 // Tests for Character healing, including:
 //
 // - Character::healing_rate
@@ -59,7 +61,7 @@ static float healing_rate_at_health( Character &dummy, const int healthy_value,
 
 // At baseline human defaults, with no treatment or traits, the character only heals while sleeping.
 // Default as of this writing is is 0.0001, or 8.64 HP per day.
-TEST_CASE( "baseline healing rate with no healing traits", "[heal][baseline][!mayfail]" )
+TEST_CASE( "baseline healing rate with no healing traits", "[heal][baseline]" )
 {
     clear_all_state();
     avatar dummy;
@@ -82,14 +84,14 @@ TEST_CASE( "baseline healing rate with no healing traits", "[heal][baseline][!ma
         }
 
         THEN( "healing rate is normal when asleep" ) {
-            CHECK( dummy.healing_rate( sleep_rest ) == Approx( normal ).margin( tol ) );
+            REQUIRE_THAT( dummy.healing_rate( sleep_rest ), WithinAbs( normal, tol ) );
         }
     }
 }
 
 // Healing rate may be affected by any of several traits/mutations, and the effects vary depending
 // on whether the character is asleep or awake.
-TEST_CASE( "traits and mutations affecting healing rate", "[heal][trait][mutation][!mayfail]" )
+TEST_CASE( "traits and mutations affecting healing rate", "[heal][trait][mutation]" )
 {
     clear_all_state();
     avatar dummy;
@@ -112,8 +114,8 @@ TEST_CASE( "traits and mutations affecting healing rate", "[heal][trait][mutatio
         REQUIRE( dummy.mutation_value( "healing_awake" ) == 2.0f );
         REQUIRE( dummy.mutation_value( "healing_resting" ) == 1.5f );
 
-        CHECK( dummy.healing_rate( awake_rest ) == Approx( normal * 2.0f ).margin( tol ) );
-        CHECK( dummy.healing_rate( sleep_rest ) == Approx( normal * 4.5f ).margin( tol ) );
+        REQUIRE_THAT( dummy.healing_rate( awake_rest ), WithinAbs( normal * 2.0f, tol ) );
+        REQUIRE_THAT( dummy.healing_rate( sleep_rest ), WithinAbs( normal * 4.5f, tol ) );
     }
 
     // "You require more resources than most, but heal more rapidly as well.
@@ -124,8 +126,8 @@ TEST_CASE( "traits and mutations affecting healing rate", "[heal][trait][mutatio
         REQUIRE( dummy.mutation_value( "healing_awake" ) == 0.2f );
         REQUIRE( dummy.mutation_value( "healing_resting" ) == 0.5f );
 
-        CHECK( dummy.healing_rate( awake_rest ) == Approx( normal * 0.2f ).margin( tol ) );
-        CHECK( dummy.healing_rate( sleep_rest ) == Approx( normal * 1.7f ).margin( tol ) );
+        REQUIRE_THAT( dummy.healing_rate( awake_rest ), WithinAbs( normal * 0.2f, tol ) );
+        REQUIRE_THAT( dummy.healing_rate( sleep_rest ), WithinAbs( normal * 1.7f, tol ) );
     }
 
     // "Your flesh regenerates slowly, and you will regain HP even when not sleeping."
@@ -135,8 +137,8 @@ TEST_CASE( "traits and mutations affecting healing rate", "[heal][trait][mutatio
         REQUIRE( dummy.mutation_value( "healing_awake" ) == 0.66f );
         REQUIRE( dummy.mutation_value( "healing_resting" ) == 0.5f );
 
-        CHECK( dummy.healing_rate( awake_rest ) == Approx( normal * 0.66f ).margin( tol ) );
-        CHECK( dummy.healing_rate( sleep_rest ) == Approx( normal * 2.2f ).margin( tol ) );
+        REQUIRE_THAT( dummy.healing_rate( awake_rest ), WithinAbs( normal * 0.66f, tol ) );
+        REQUIRE_THAT( dummy.healing_rate( sleep_rest ), WithinAbs( normal * 2.2f, tol ) );
     }
 
     // "You heal faster when sleeping and will even recover a small amount of HP when not sleeping."
@@ -146,8 +148,8 @@ TEST_CASE( "traits and mutations affecting healing rate", "[heal][trait][mutatio
         REQUIRE( dummy.mutation_value( "healing_awake" ) == 0.20f );
         REQUIRE( dummy.mutation_value( "healing_resting" ) == 0.5f );
 
-        CHECK( dummy.healing_rate( awake_rest ) == Approx( normal * 0.20f ).margin( tol ) );
-        CHECK( dummy.healing_rate( sleep_rest ) == Approx( normal * 1.7f ).margin( tol ) );
+        REQUIRE_THAT( dummy.healing_rate( awake_rest ), WithinAbs( normal * 0.20f, tol ) );
+        REQUIRE_THAT( dummy.healing_rate( sleep_rest ), WithinAbs( normal * 1.7f, tol ) );
     }
 
     // "You feel as though you are slowly weakening and your body heals slower."
@@ -158,7 +160,7 @@ TEST_CASE( "traits and mutations affecting healing rate", "[heal][trait][mutatio
         REQUIRE( dummy.mutation_value( "healing_resting" ) == -0.25f );
 
         CHECK( dummy.healing_rate( awake_rest ) == zero );
-        CHECK( dummy.healing_rate( sleep_rest ) == Approx( normal * 0.75f ).margin( tol ) );
+        REQUIRE_THAT( dummy.healing_rate( sleep_rest ), WithinAbs( normal * 0.75f, tol ) );
     }
 
     // "You heal a little slower than most; sleeping will heal less HP."
@@ -169,7 +171,7 @@ TEST_CASE( "traits and mutations affecting healing rate", "[heal][trait][mutatio
         REQUIRE( dummy.mutation_value( "healing_resting" ) == -0.25f );
 
         CHECK( dummy.healing_rate( awake_rest ) == zero );
-        CHECK( dummy.healing_rate( sleep_rest ) == Approx( normal * 0.75f ).margin( tol ) );
+        REQUIRE_THAT( dummy.healing_rate( sleep_rest ), WithinAbs( normal * 0.75f, tol ) );
     }
 
     // "Your health recovery through sleeping is severely impaired and causes you to recover only a third of usual HP."
@@ -180,7 +182,7 @@ TEST_CASE( "traits and mutations affecting healing rate", "[heal][trait][mutatio
         REQUIRE( dummy.mutation_value( "healing_resting" ) == -0.66f );
 
         CHECK( dummy.healing_rate( awake_rest ) == zero );
-        CHECK( dummy.healing_rate( sleep_rest ) == Approx( normal * 0.33f ).margin( tol ) );
+        REQUIRE_THAT( dummy.healing_rate( sleep_rest ), WithinAbs( normal * 0.33f, tol ) );
     }
 
     // "You recover barely any health through sleeping - it will heal only one tenth of usual HP."
@@ -191,7 +193,7 @@ TEST_CASE( "traits and mutations affecting healing rate", "[heal][trait][mutatio
         REQUIRE( dummy.mutation_value( "healing_resting" ) == -0.9f );
 
         CHECK( dummy.healing_rate( awake_rest ) == zero );
-        CHECK( dummy.healing_rate( sleep_rest ) == Approx( normal * 0.10f ).margin( tol ) );
+        REQUIRE_THAT( dummy.healing_rate( sleep_rest ), WithinAbs( normal * 0.10f, tol ) );
     }
 
     // "Your body is very slowly wasting away."
@@ -202,7 +204,7 @@ TEST_CASE( "traits and mutations affecting healing rate", "[heal][trait][mutatio
         REQUIRE( dummy.mutation_value( "healing_resting" ) == 0.0f );
 
         CHECK( dummy.healing_rate( awake_rest ) == zero );
-        CHECK( dummy.healing_rate( sleep_rest ) == Approx( normal ).margin( tol ) );
+        REQUIRE_THAT( dummy.healing_rate( sleep_rest ), WithinAbs( normal, tol ) );
     }
 
     // "Your body is slowly wasting away!"
@@ -212,14 +214,14 @@ TEST_CASE( "traits and mutations affecting healing rate", "[heal][trait][mutatio
         REQUIRE( dummy.mutation_value( "healing_awake" ) == -0.08f );
         REQUIRE( dummy.mutation_value( "healing_resting" ) == 0.0f );
 
-        CHECK( dummy.healing_rate( awake_rest ) == Approx( normal * -0.1f ).margin( tol ) );
-        CHECK( dummy.healing_rate( sleep_rest ) == Approx( normal ).margin( tol ) );
+        REQUIRE_THAT( dummy.healing_rate( awake_rest ), WithinAbs( normal * -0.1f, tol ) );
+        REQUIRE_THAT( dummy.healing_rate( sleep_rest ), WithinAbs( normal, tol ) );
     }
 }
 
 // The "hidden health" stat returned by Character::get_healthy ranges from [-200, 200] and
 // influences healing rate significantly.
-TEST_CASE( "health effects on healing rate", "[heal][health][!mayfail]" )
+TEST_CASE( "health effects on healing rate", "[heal][health]" )
 {
     clear_all_state();
     avatar dummy;
@@ -229,26 +231,26 @@ TEST_CASE( "health effects on healing rate", "[heal][health][!mayfail]" )
     REQUIRE( normal > 1.0f * hp_per_day );
 
     SECTION( "normal health gives normal healing when asleep" ) {
-        CHECK( healing_rate_at_health( dummy, 0, sleep_rest ) == Approx( normal ).margin( tol ) );
+        REQUIRE_THAT( healing_rate_at_health( dummy, 0, sleep_rest ), WithinAbs( normal, tol ) );
     }
 
     SECTION( "bad health degrades healing when asleep" ) {
         // Poor health reduces healing linearly
-        CHECK( healing_rate_at_health( dummy, -50, sleep_rest ) == Approx( 0.75f * normal ).margin( tol ) );
-        CHECK( healing_rate_at_health( dummy, -100, sleep_rest ) == Approx( 0.5f * normal ).margin( tol ) );
-        CHECK( healing_rate_at_health( dummy, -150,
-                                       sleep_rest ) == Approx( 0.25f * normal ).margin( tol ) );
+        REQUIRE_THAT( healing_rate_at_health( dummy, -50, sleep_rest ), WithinAbs( 0.75f * normal, tol ) );
+        REQUIRE_THAT( healing_rate_at_health( dummy, -100, sleep_rest ), WithinAbs( 0.5f * normal, tol ) );
+        REQUIRE_THAT( healing_rate_at_health( dummy, -150,
+                                              sleep_rest ), WithinAbs( 0.25f * normal, tol ) );
         // Worst possible health: no healing even while asleep!
-        CHECK( healing_rate_at_health( dummy, -200, sleep_rest ) == Approx( 0.0f * normal ).margin( tol ) );
+        REQUIRE_THAT( healing_rate_at_health( dummy, -200, sleep_rest ), WithinAbs( 0.0f * normal, tol ) );
     }
 
     SECTION( "good health improves healing when asleep" ) {
         // Good health increases healing linearly
-        CHECK( healing_rate_at_health( dummy, 50, sleep_rest ) == Approx( 1.25f * normal ).margin( tol ) );
-        CHECK( healing_rate_at_health( dummy, 100, sleep_rest ) == Approx( 1.5f * normal ).margin( tol ) );
-        CHECK( healing_rate_at_health( dummy, 150, sleep_rest ) == Approx( 1.75f * normal ).margin( tol ) );
+        REQUIRE_THAT( healing_rate_at_health( dummy, 50, sleep_rest ), WithinAbs( 1.25f * normal, tol ) );
+        REQUIRE_THAT( healing_rate_at_health( dummy, 100, sleep_rest ), WithinAbs( 1.5f * normal, tol ) );
+        REQUIRE_THAT( healing_rate_at_health( dummy, 150, sleep_rest ), WithinAbs( 1.75f * normal, tol ) );
         // Best possible health: double healing!
-        CHECK( healing_rate_at_health( dummy, 200, sleep_rest ) == Approx( 2.0f * normal ).margin( tol ) );
+        REQUIRE_THAT( healing_rate_at_health( dummy, 200, sleep_rest ), WithinAbs( 2.0f * normal, tol ) );
     }
 
     SECTION( "health has no effect on healing while awake" ) {
@@ -308,7 +310,7 @@ static float together_rate( const std::string bp_name, const float rest_quality 
 // Healing rates from treatment are doubled while sleeping.
 //
 TEST_CASE( "healing_rate_medicine with bandages and/or disinfectant",
-           "[heal][bandage][disinfect][!mayfail]" )
+           "[heal][bandage][disinfect]" )
 {
     clear_all_state();
     // There are no healing effects from medicine if no medicine has been applied.
@@ -335,63 +337,63 @@ TEST_CASE( "healing_rate_medicine with bandages and/or disinfectant",
     // Bandages heal 1-3 HP per day while awake, 2-6 HP per day while asleep
     SECTION( "bandages only" ) {
         SECTION( "awake" ) {
-            CHECK( bandaged_rate( "head", awake_rest ) == Approx( 0.86f * hp_per_day ).epsilon( 0.01f ) );
-            CHECK( bandaged_rate( "arm_l", awake_rest ) == Approx( 0.86f * hp_per_day ).epsilon( 0.01f ) );
-            CHECK( bandaged_rate( "arm_r", awake_rest ) == Approx( 0.86f * hp_per_day ).epsilon( 0.01f ) );
-            CHECK( bandaged_rate( "leg_l", awake_rest ) == Approx( 0.86f * hp_per_day ).epsilon( 0.01f ) );
-            CHECK( bandaged_rate( "leg_r", awake_rest ) == Approx( 0.86f * hp_per_day ).epsilon( 0.01f ) );
-            CHECK( bandaged_rate( "torso", awake_rest ) == Approx( 0.86f * hp_per_day ).epsilon( 0.01f ) );
+            REQUIRE_THAT( bandaged_rate( "head", awake_rest ), WithinRel( 0.86f * hp_per_day, 0.01f ) );
+            REQUIRE_THAT( bandaged_rate( "arm_l", awake_rest ), WithinRel( 0.86f * hp_per_day, 0.01f ) );
+            REQUIRE_THAT( bandaged_rate( "arm_r", awake_rest ), WithinRel( 0.86f * hp_per_day, 0.01f ) );
+            REQUIRE_THAT( bandaged_rate( "leg_l", awake_rest ), WithinRel( 0.86f * hp_per_day, 0.01f ) );
+            REQUIRE_THAT( bandaged_rate( "leg_r", awake_rest ), WithinRel( 0.86f * hp_per_day, 0.01f ) );
+            REQUIRE_THAT( bandaged_rate( "torso", awake_rest ), WithinRel( 0.86f * hp_per_day, 0.01f ) );
         }
 
         SECTION( "asleep" ) {
-            CHECK( bandaged_rate( "head", sleep_rest ) == Approx( 0.86f * hp_per_day ).epsilon( 0.01f ) );
-            CHECK( bandaged_rate( "arm_l", sleep_rest ) == Approx( 1.72f * hp_per_day ).epsilon( 0.01f ) );
-            CHECK( bandaged_rate( "arm_r", sleep_rest ) == Approx( 1.72f * hp_per_day ).epsilon( 0.01f ) );
-            CHECK( bandaged_rate( "leg_l", sleep_rest ) == Approx( 1.72f * hp_per_day ).epsilon( 0.01f ) );
-            CHECK( bandaged_rate( "leg_r", sleep_rest ) == Approx( 1.72f * hp_per_day ).epsilon( 0.01f ) );
-            CHECK( bandaged_rate( "torso", sleep_rest ) == Approx( 1.72f * hp_per_day ).epsilon( 0.01f ) );
+            REQUIRE_THAT( bandaged_rate( "head", sleep_rest ), WithinRel( 0.86f * hp_per_day, 0.01f ) );
+            REQUIRE_THAT( bandaged_rate( "arm_l", sleep_rest ), WithinRel( 1.72f * hp_per_day, 0.01f ) );
+            REQUIRE_THAT( bandaged_rate( "arm_r", sleep_rest ), WithinRel( 1.72f * hp_per_day, 0.01f ) );
+            REQUIRE_THAT( bandaged_rate( "leg_l", sleep_rest ), WithinRel( 1.72f * hp_per_day, 0.01f ) );
+            REQUIRE_THAT( bandaged_rate( "leg_r", sleep_rest ), WithinRel( 1.72f * hp_per_day, 0.01f ) );
+            REQUIRE_THAT( bandaged_rate( "torso", sleep_rest ), WithinRel( 1.72f * hp_per_day, 0.01f ) );
         }
     }
 
     // Disinfectant heals 1-3 HP per day while awake, 2-6 HP per day while asleep
     SECTION( "disinfectant only" ) {
         SECTION( "awake" ) {
-            CHECK( disinfected_rate( "head", awake_rest ) == Approx( 0.86f * hp_per_day ).epsilon( 0.01f ) );
-            CHECK( disinfected_rate( "arm_l", awake_rest ) == Approx( 0.86f * hp_per_day ).epsilon( 0.01f ) );
-            CHECK( disinfected_rate( "arm_r", awake_rest ) == Approx( 0.86f * hp_per_day ).epsilon( 0.01f ) );
-            CHECK( disinfected_rate( "leg_l", awake_rest ) == Approx( 0.86f * hp_per_day ).epsilon( 0.01f ) );
-            CHECK( disinfected_rate( "leg_r", awake_rest ) == Approx( 0.86f * hp_per_day ).epsilon( 0.01f ) );
-            CHECK( disinfected_rate( "torso", awake_rest ) == Approx( 0.86f * hp_per_day ).epsilon( 0.01f ) );
+            REQUIRE_THAT( disinfected_rate( "head", awake_rest ), WithinRel( 0.86f * hp_per_day, 0.01f ) );
+            REQUIRE_THAT( disinfected_rate( "arm_l", awake_rest ), WithinRel( 0.86f * hp_per_day, 0.01f ) );
+            REQUIRE_THAT( disinfected_rate( "arm_r", awake_rest ), WithinRel( 0.86f * hp_per_day, 0.01f ) );
+            REQUIRE_THAT( disinfected_rate( "leg_l", awake_rest ), WithinRel( 0.86f * hp_per_day, 0.01f ) );
+            REQUIRE_THAT( disinfected_rate( "leg_r", awake_rest ), WithinRel( 0.86f * hp_per_day, 0.01f ) );
+            REQUIRE_THAT( disinfected_rate( "torso", awake_rest ), WithinRel( 0.86f * hp_per_day, 0.01f ) );
         }
 
         SECTION( "asleep" ) {
-            CHECK( disinfected_rate( "head", sleep_rest ) == Approx( 0.86f * hp_per_day ).epsilon( 0.01f ) );
-            CHECK( disinfected_rate( "arm_l", sleep_rest ) == Approx( 1.72f * hp_per_day ).epsilon( 0.01f ) );
-            CHECK( disinfected_rate( "arm_r", sleep_rest ) == Approx( 1.72f * hp_per_day ).epsilon( 0.01f ) );
-            CHECK( disinfected_rate( "leg_l", sleep_rest ) == Approx( 1.72f * hp_per_day ).epsilon( 0.01f ) );
-            CHECK( disinfected_rate( "leg_r", sleep_rest ) == Approx( 1.72f * hp_per_day ).epsilon( 0.01f ) );
-            CHECK( disinfected_rate( "torso", sleep_rest ) == Approx( 1.72f * hp_per_day ).epsilon( 0.01f ) );
+            REQUIRE_THAT( disinfected_rate( "head", sleep_rest ), WithinRel( 0.86f * hp_per_day, 0.01f ) );
+            REQUIRE_THAT( disinfected_rate( "arm_l", sleep_rest ), WithinRel( 1.72f * hp_per_day, 0.01f ) );
+            REQUIRE_THAT( disinfected_rate( "arm_r", sleep_rest ), WithinRel( 1.72f * hp_per_day, 0.01f ) );
+            REQUIRE_THAT( disinfected_rate( "leg_l", sleep_rest ), WithinRel( 1.72f * hp_per_day, 0.01f ) );
+            REQUIRE_THAT( disinfected_rate( "leg_r", sleep_rest ), WithinRel( 1.72f * hp_per_day, 0.01f ) );
+            REQUIRE_THAT( disinfected_rate( "torso", sleep_rest ), WithinRel( 1.72f * hp_per_day, 0.01f ) );
         }
     }
 
     // Combined, healing is 4-12 HP per day while awake, 8-24 HP per day while asleep
     SECTION( "bandages and disinfectant together" ) {
         SECTION( "awake" ) {
-            CHECK( together_rate( "head", awake_rest ) == Approx( 1.72f * hp_per_day ).epsilon( 0.01f ) );
-            CHECK( together_rate( "arm_l", awake_rest ) == Approx( 4.32f * hp_per_day ).epsilon( 0.01f ) );
-            CHECK( together_rate( "arm_r", awake_rest ) == Approx( 4.32f * hp_per_day ).epsilon( 0.01f ) );
-            CHECK( together_rate( "leg_l", awake_rest ) == Approx( 4.32f * hp_per_day ).epsilon( 0.01f ) );
-            CHECK( together_rate( "leg_r", awake_rest ) == Approx( 4.32f * hp_per_day ).epsilon( 0.01f ) );
-            CHECK( together_rate( "torso", awake_rest ) == Approx( 2.59f * hp_per_day ).epsilon( 0.01f ) );
+            REQUIRE_THAT( together_rate( "head", awake_rest ), WithinRel( 1.72f * hp_per_day, 0.01f ) );
+            REQUIRE_THAT( together_rate( "arm_l", awake_rest ), WithinRel( 4.32f * hp_per_day, 0.01f ) );
+            REQUIRE_THAT( together_rate( "arm_r", awake_rest ), WithinRel( 4.32f * hp_per_day, 0.01f ) );
+            REQUIRE_THAT( together_rate( "leg_l", awake_rest ), WithinRel( 4.32f * hp_per_day, 0.01f ) );
+            REQUIRE_THAT( together_rate( "leg_r", awake_rest ), WithinRel( 4.32f * hp_per_day, 0.01f ) );
+            REQUIRE_THAT( together_rate( "torso", awake_rest ), WithinRel( 2.59f * hp_per_day, 0.01f ) );
         }
 
         SECTION( "asleep" ) {
-            CHECK( together_rate( "head", sleep_rest ) == Approx( 4.32f * hp_per_day ).epsilon( 0.01f ) );
-            CHECK( together_rate( "arm_l", sleep_rest ) == Approx( 7.77f * hp_per_day ).epsilon( 0.01f ) );
-            CHECK( together_rate( "arm_r", sleep_rest ) == Approx( 7.77f * hp_per_day ).epsilon( 0.01f ) );
-            CHECK( together_rate( "leg_l", sleep_rest ) == Approx( 7.77f * hp_per_day ).epsilon( 0.01f ) );
-            CHECK( together_rate( "leg_r", sleep_rest ) == Approx( 7.77f * hp_per_day ).epsilon( 0.01f ) );
-            CHECK( together_rate( "torso", sleep_rest ) == Approx( 7.77f * hp_per_day ).epsilon( 0.01f ) );
+            REQUIRE_THAT( together_rate( "head", sleep_rest ), WithinRel( 4.32f * hp_per_day, 0.01f ) );
+            REQUIRE_THAT( together_rate( "arm_l", sleep_rest ), WithinRel( 7.77f * hp_per_day, 0.01f ) );
+            REQUIRE_THAT( together_rate( "arm_r", sleep_rest ), WithinRel( 7.77f * hp_per_day, 0.01f ) );
+            REQUIRE_THAT( together_rate( "leg_l", sleep_rest ), WithinRel( 7.77f * hp_per_day, 0.01f ) );
+            REQUIRE_THAT( together_rate( "leg_r", sleep_rest ), WithinRel( 7.77f * hp_per_day, 0.01f ) );
+            REQUIRE_THAT( together_rate( "torso", sleep_rest ), WithinRel( 7.77f * hp_per_day, 0.01f ) );
         }
     }
 }
