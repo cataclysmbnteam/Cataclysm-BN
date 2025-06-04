@@ -308,7 +308,7 @@ static double together_rate( const std::string bp_name, const float rest_quality
 // Healing rates from treatment are doubled while sleeping.
 //
 TEST_CASE( "healing_rate_medicine with bandages and/or disinfectant",
-           "[heal][bandage][disinfect][!mayfail]" )
+           "[heal][bandage][disinfect]" )
 {
     clear_all_state();
     // There are no healing effects from medicine if no medicine has been applied.
