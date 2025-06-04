@@ -45,6 +45,10 @@ class player : public Character
         //Need to figure out what exactly this one does
         bool manual_examine = false;
 
+        // Save favorite ammo location
+        //TODO: move to avatar
+        safe_reference<item> ammo_location;
+
         //message related stuff
         using Character::add_msg_if_player;
         void add_msg_if_player( const std::string &msg ) const override;
