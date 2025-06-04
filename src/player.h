@@ -44,7 +44,7 @@ class player : public Character
 
         //Need to figure out what exactly this one does
         bool manual_examine = false;
-        
+
         // Save favorite ammo location
         //TODO: move to avatar
         safe_reference<item> ammo_location;
