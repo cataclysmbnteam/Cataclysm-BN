@@ -337,63 +337,99 @@ TEST_CASE( "healing_rate_medicine with bandages and/or disinfectant",
     // Bandages heal 1-3 HP per day while awake, 2-6 HP per day while asleep
     SECTION( "bandages only" ) {
         SECTION( "awake" ) {
-            REQUIRE_THAT( bandaged_rate( "head", awake_rest ), WithinRel( 0.86f * hp_per_day, 0.01f ) );
-            REQUIRE_THAT( bandaged_rate( "arm_l", awake_rest ), WithinRel( 0.86f * hp_per_day, 0.01f ) );
-            REQUIRE_THAT( bandaged_rate( "arm_r", awake_rest ), WithinRel( 0.86f * hp_per_day, 0.01f ) );
-            REQUIRE_THAT( bandaged_rate( "leg_l", awake_rest ), WithinRel( 0.86f * hp_per_day, 0.01f ) );
-            REQUIRE_THAT( bandaged_rate( "leg_r", awake_rest ), WithinRel( 0.86f * hp_per_day, 0.01f ) );
-            REQUIRE_THAT( bandaged_rate( "torso", awake_rest ), WithinRel( 0.86f * hp_per_day, 0.01f ) );
+            REQUIRE_THAT( bandaged_rate( "head", awake_rest ), WithinAbs( 0.86f * hp_per_day,
+                          tol ) );
+            REQUIRE_THAT( bandaged_rate( "arm_l", awake_rest ), WithinAbs( 0.86f * hp_per_day,
+                          tol ) );
+            REQUIRE_THAT( bandaged_rate( "arm_r", awake_rest ), WithinAbs( 0.86f * hp_per_day,
+                          tol ) );
+            REQUIRE_THAT( bandaged_rate( "leg_l", awake_rest ), WithinAbs( 0.86f * hp_per_day,
+                          tol ) );
+            REQUIRE_THAT( bandaged_rate( "leg_r", awake_rest ), WithinAbs( 0.86f * hp_per_day,
+                          tol ) );
+            REQUIRE_THAT( bandaged_rate( "torso", awake_rest ), WithinAbs( 0.86f * hp_per_day,
+                          tol ) );
         }
 
         SECTION( "asleep" ) {
-            REQUIRE_THAT( bandaged_rate( "head", sleep_rest ), WithinRel( 0.86f * hp_per_day, 0.01f ) );
-            REQUIRE_THAT( bandaged_rate( "arm_l", sleep_rest ), WithinRel( 1.72f * hp_per_day, 0.01f ) );
-            REQUIRE_THAT( bandaged_rate( "arm_r", sleep_rest ), WithinRel( 1.72f * hp_per_day, 0.01f ) );
-            REQUIRE_THAT( bandaged_rate( "leg_l", sleep_rest ), WithinRel( 1.72f * hp_per_day, 0.01f ) );
-            REQUIRE_THAT( bandaged_rate( "leg_r", sleep_rest ), WithinRel( 1.72f * hp_per_day, 0.01f ) );
-            REQUIRE_THAT( bandaged_rate( "torso", sleep_rest ), WithinRel( 1.72f * hp_per_day, 0.01f ) );
+            REQUIRE_THAT( bandaged_rate( "head", sleep_rest ), WithinAbs( 0.86f * hp_per_day,
+                          tol ) );
+            REQUIRE_THAT( bandaged_rate( "arm_l", sleep_rest ), WithinAbs( 1.72f * hp_per_day,
+                          tol ) );
+            REQUIRE_THAT( bandaged_rate( "arm_r", sleep_rest ), WithinAbs( 1.72f * hp_per_day,
+                          tol ) );
+            REQUIRE_THAT( bandaged_rate( "leg_l", sleep_rest ), WithinAbs( 1.72f * hp_per_day,
+                          tol ) );
+            REQUIRE_THAT( bandaged_rate( "leg_r", sleep_rest ), WithinAbs( 1.72f * hp_per_day,
+                          tol ) );
+            REQUIRE_THAT( bandaged_rate( "torso", sleep_rest ), WithinAbs( 1.72f * hp_per_day,
+                          tol ) );
         }
     }
 
     // Disinfectant heals 1-3 HP per day while awake, 2-6 HP per day while asleep
     SECTION( "disinfectant only" ) {
         SECTION( "awake" ) {
-            REQUIRE_THAT( disinfected_rate( "head", awake_rest ), WithinRel( 0.86f * hp_per_day, 0.01f ) );
-            REQUIRE_THAT( disinfected_rate( "arm_l", awake_rest ), WithinRel( 0.86f * hp_per_day, 0.01f ) );
-            REQUIRE_THAT( disinfected_rate( "arm_r", awake_rest ), WithinRel( 0.86f * hp_per_day, 0.01f ) );
-            REQUIRE_THAT( disinfected_rate( "leg_l", awake_rest ), WithinRel( 0.86f * hp_per_day, 0.01f ) );
-            REQUIRE_THAT( disinfected_rate( "leg_r", awake_rest ), WithinRel( 0.86f * hp_per_day, 0.01f ) );
-            REQUIRE_THAT( disinfected_rate( "torso", awake_rest ), WithinRel( 0.86f * hp_per_day, 0.01f ) );
+            REQUIRE_THAT( disinfected_rate( "head", awake_rest ), WithinAbs( 0.86f * hp_per_day,
+                          tol ) );
+            REQUIRE_THAT( disinfected_rate( "arm_l", awake_rest ), WithinAbs( 0.86f * hp_per_day,
+                          tol ) );
+            REQUIRE_THAT( disinfected_rate( "arm_r", awake_rest ), WithinAbs( 0.86f * hp_per_day,
+                          tol ) );
+            REQUIRE_THAT( disinfected_rate( "leg_l", awake_rest ), WithinAbs( 0.86f * hp_per_day,
+                          tol ) );
+            REQUIRE_THAT( disinfected_rate( "leg_r", awake_rest ), WithinAbs( 0.86f * hp_per_day,
+                          tol ) );
+            REQUIRE_THAT( disinfected_rate( "torso", awake_rest ), WithinAbs( 0.86f * hp_per_day,
+                          tol ) );
         }
 
         SECTION( "asleep" ) {
-            REQUIRE_THAT( disinfected_rate( "head", sleep_rest ), WithinRel( 0.86f * hp_per_day, 0.01f ) );
-            REQUIRE_THAT( disinfected_rate( "arm_l", sleep_rest ), WithinRel( 1.72f * hp_per_day, 0.01f ) );
-            REQUIRE_THAT( disinfected_rate( "arm_r", sleep_rest ), WithinRel( 1.72f * hp_per_day, 0.01f ) );
-            REQUIRE_THAT( disinfected_rate( "leg_l", sleep_rest ), WithinRel( 1.72f * hp_per_day, 0.01f ) );
-            REQUIRE_THAT( disinfected_rate( "leg_r", sleep_rest ), WithinRel( 1.72f * hp_per_day, 0.01f ) );
-            REQUIRE_THAT( disinfected_rate( "torso", sleep_rest ), WithinRel( 1.72f * hp_per_day, 0.01f ) );
+            REQUIRE_THAT( disinfected_rate( "head", sleep_rest ), WithinAbs( 0.86f * hp_per_day,
+                          tol ) );
+            REQUIRE_THAT( disinfected_rate( "arm_l", sleep_rest ), WithinAbs( 1.72f * hp_per_day,
+                          tol ) );
+            REQUIRE_THAT( disinfected_rate( "arm_r", sleep_rest ), WithinAbs( 1.72f * hp_per_day,
+                          tol ) );
+            REQUIRE_THAT( disinfected_rate( "leg_l", sleep_rest ), WithinAbs( 1.72f * hp_per_day,
+                          tol ) );
+            REQUIRE_THAT( disinfected_rate( "leg_r", sleep_rest ), WithinAbs( 1.72f * hp_per_day,
+                          tol ) );
+            REQUIRE_THAT( disinfected_rate( "torso", sleep_rest ), WithinAbs( 1.72f * hp_per_day,
+                          tol ) );
         }
     }
 
     // Combined, healing is 4-12 HP per day while awake, 8-24 HP per day while asleep
     SECTION( "bandages and disinfectant together" ) {
         SECTION( "awake" ) {
-            REQUIRE_THAT( together_rate( "head", awake_rest ), WithinRel( 1.72f * hp_per_day, 0.01f ) );
-            REQUIRE_THAT( together_rate( "arm_l", awake_rest ), WithinRel( 4.32f * hp_per_day, 0.01f ) );
-            REQUIRE_THAT( together_rate( "arm_r", awake_rest ), WithinRel( 4.32f * hp_per_day, 0.01f ) );
-            REQUIRE_THAT( together_rate( "leg_l", awake_rest ), WithinRel( 4.32f * hp_per_day, 0.01f ) );
-            REQUIRE_THAT( together_rate( "leg_r", awake_rest ), WithinRel( 4.32f * hp_per_day, 0.01f ) );
-            REQUIRE_THAT( together_rate( "torso", awake_rest ), WithinRel( 2.59f * hp_per_day, 0.01f ) );
+            REQUIRE_THAT( together_rate( "head", awake_rest ), WithinAbs( 1.72f * hp_per_day,
+                          tol ) );
+            REQUIRE_THAT( together_rate( "arm_l", awake_rest ), WithinAbs( 4.32f * hp_per_day,
+                          tol ) );
+            REQUIRE_THAT( together_rate( "arm_r", awake_rest ), WithinAbs( 4.32f * hp_per_day,
+                          tol ) );
+            REQUIRE_THAT( together_rate( "leg_l", awake_rest ), WithinAbs( 4.32f * hp_per_day,
+                          tol ) );
+            REQUIRE_THAT( together_rate( "leg_r", awake_rest ), WithinAbs( 4.32f * hp_per_day,
+                          tol ) );
+            REQUIRE_THAT( together_rate( "torso", awake_rest ), WithinAbs( 2.59f * hp_per_day,
+                          tol ) );
         }
 
         SECTION( "asleep" ) {
-            REQUIRE_THAT( together_rate( "head", sleep_rest ), WithinRel( 4.32f * hp_per_day, 0.01f ) );
-            REQUIRE_THAT( together_rate( "arm_l", sleep_rest ), WithinRel( 7.77f * hp_per_day, 0.01f ) );
-            REQUIRE_THAT( together_rate( "arm_r", sleep_rest ), WithinRel( 7.77f * hp_per_day, 0.01f ) );
-            REQUIRE_THAT( together_rate( "leg_l", sleep_rest ), WithinRel( 7.77f * hp_per_day, 0.01f ) );
-            REQUIRE_THAT( together_rate( "leg_r", sleep_rest ), WithinRel( 7.77f * hp_per_day, 0.01f ) );
-            REQUIRE_THAT( together_rate( "torso", sleep_rest ), WithinRel( 7.77f * hp_per_day, 0.01f ) );
+            REQUIRE_THAT( together_rate( "head", sleep_rest ), WithinAbs( 4.32f * hp_per_day,
+                          tol ) );
+            REQUIRE_THAT( together_rate( "arm_l", sleep_rest ), WithinAbs( 7.77f * hp_per_day,
+                          tol ) );
+            REQUIRE_THAT( together_rate( "arm_r", sleep_rest ), WithinAbs( 7.77f * hp_per_day,
+                          tol ) );
+            REQUIRE_THAT( together_rate( "leg_l", sleep_rest ), WithinAbs( 7.77f * hp_per_day,
+                          tol ) );
+            REQUIRE_THAT( together_rate( "leg_r", sleep_rest ), WithinAbs( 7.77f * hp_per_day,
+                          tol ) );
+            REQUIRE_THAT( together_rate( "torso", sleep_rest ), WithinAbs( 7.77f * hp_per_day,
+                          tol ) );
         }
     }
 }
