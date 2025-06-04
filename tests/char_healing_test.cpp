@@ -12,7 +12,7 @@
 #include "state_helpers.h"
 #include "type_id.h"
 
-using namespace Catch::Matchers::WithinAbs;
+using Catch::Matchers::WithinAbs;
 
 // Tests for Character healing, including:
 //
