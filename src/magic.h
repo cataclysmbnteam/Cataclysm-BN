@@ -58,6 +58,7 @@ enum spell_flag {
     PAIN_NORESIST, // pain altering spells can't be resisted (like with the deadened trait)
     NO_FAIL, // this spell cannot fail when you cast it
     BRAWL, // this spell can be used by brawlers
+    DUPE_SOUND, // this spell will play 'duplicate' sounds, if relevant to the spell effect
     LAST
 };
 

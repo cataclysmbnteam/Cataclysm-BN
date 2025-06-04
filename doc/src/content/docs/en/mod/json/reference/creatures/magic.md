@@ -141,6 +141,8 @@ experience you need to get to a level is below:
 
 - `BRAWL` - Allows characters with the Brawler trait to cast the spell (otherwise they cannot)
 
+- `DUPE_SOUND` - Allows a spell to play multiple of the same sound (i.e. a sound for each target affected)
+
 - `NO_FAIL` - this spell cannot fail when you cast it
 
 #### Currently Implemented Effects and special rules
