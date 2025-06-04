@@ -1029,7 +1029,7 @@ void spell_effect::spawn_summoned_monster( const spell &sp, Creature &caster,
         std::advance( iter, mon_spot );
         if( add_summoned_mon( mon_id, *iter, summon_time, sp ) ) {
             num_mons--;
-            if (!sp.has_flag(spell_flag::DUPE_SOUND) && !sound_played) {
+            if ( sp.has_flag(spell_flag::DUPE_SOUND) || !sound_played) {
                 sound_played = true;
                 sp.make_sound( *iter );
             }
@@ -1106,7 +1106,7 @@ void spell_effect::vomit( const spell &sp, Creature &caster, const tripoint &tar
         if( !ch ) {
             continue;
         }
-        if (!sp.has_flag(spell_flag::DUPE_SOUND) && !sound_played) {
+        if ( sp.has_flag(spell_flag::DUPE_SOUND) || !sound_played) {
             sound_played = true;
             sp.make_sound( target );
         }
@@ -1142,7 +1142,7 @@ void spell_effect::mod_moves( const spell &sp, Creature &caster, const tripoint 
         if( !critter ) {
             continue;
         }
-        if (!sp.has_flag(spell_flag::DUPE_SOUND) && !sound_played) {
+        if ( sp.has_flag(spell_flag::DUPE_SOUND) || !sound_played) {
             sound_played = true;
             sp.make_sound( potential_target );
         }
@@ -1183,7 +1183,7 @@ void spell_effect::morale( const spell &sp, Creature &caster, const tripoint &ta
         }
         player_target->add_morale( morale_type( sp.effect_data() ), sp.damage(), 0, sp.duration_turns(),
                                    sp.duration_turns() / 10, false );
-        if (!sp.has_flag(spell_flag::DUPE_SOUND) && !sound_played) {
+        if (sp.has_flag(spell_flag::DUPE_SOUND) || !sound_played) {
             sound_played = true;
             sp.make_sound( potential_target );
         }
@@ -1202,7 +1202,7 @@ void spell_effect::charm_monster( const spell &sp, Creature &caster, const tripo
         if( !mon ) {
             continue;
         }
-        if (!sp.has_flag(spell_flag::DUPE_SOUND) && !sound_played) {
+        if ( sp.has_flag(spell_flag::DUPE_SOUND) || !sound_played) {
             sound_played = true;
             sp.make_sound( potential_target );
         }
@@ -1239,7 +1239,7 @@ void spell_effect::mutate( const spell &sp, Creature &caster, const tripoint &ta
                 guy->mutate_category( mutation_category_id( sp.effect_data() ) );
             }
         }
-        if (!sp.has_flag(spell_flag::DUPE_SOUND) && !sound_played) {
+        if (sp.has_flag(spell_flag::DUPE_SOUND) || !sound_played) {
             sound_played = true;
             sp.make_sound( potential_target );
         }
