@@ -284,9 +284,6 @@ class avatar : public player
         bool random_start_location = false;
         start_location_id start_location;
 
-        // Save favorite ammo location
-        //TODO!: check this
-        safe_reference<item> ammo_location;
         int movecounter = 0;
 
         vproto_id starting_vehicle = vproto_id::NULL_ID();

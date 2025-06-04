@@ -800,7 +800,7 @@ bool list_ammo( const Character &who, item &base, std::vector<item_reload_option
     return ammo_match_found;
 }
 
-item_reload_option select_ammo( const Character &who, item &base,
+item_reload_option select_ammo( const player &who, item &base,
                                 std::vector<item_reload_option> opts )
 {
     if( opts.empty() ) {
@@ -1050,7 +1050,7 @@ item_reload_option select_ammo( const Character &who, item &base,
     return opts[ menu.ret ];
 }
 
-item_reload_option select_ammo( const Character &who, item &base, bool prompt,
+item_reload_option select_ammo( const player &who, item &base, bool prompt,
                                 bool include_empty_mags, bool include_potential )
 {
     std::vector<item_reload_option> ammo_list;
