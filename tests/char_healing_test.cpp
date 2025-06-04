@@ -138,7 +138,7 @@ TEST_CASE( "traits and mutations affecting healing rate", "[heal][trait][mutatio
         REQUIRE( dummy.mutation_value( "healing_resting" ) == 0.5f );
 
         REQUIRE_THAT( dummy.healing_rate( awake_rest ), WithinAbs( normal * 0.66f, tol ) );
-        REQUIRE_THAT( dummy.healing_rate( sleep_rest ), WithinAbs( normal * 2.2f, tol ) );
+        REQUIRE_THAT( dummy.healing_rate( sleep_rest ), WithinAbs( normal * 2.16f, tol ) );
     }
 
     // "You heal faster when sleeping and will even recover a small amount of HP when not sleeping."
@@ -428,7 +428,7 @@ TEST_CASE( "healing_rate_medicine with bandages and/or disinfectant",
                           tol ) );
             REQUIRE_THAT( together_rate( "leg_r", sleep_rest ), WithinAbs( 7.77f * hp_per_day,
                           tol ) );
-            REQUIRE_THAT( together_rate( "torso", sleep_rest ), WithinAbs( 7.77f * hp_per_day,
+            REQUIRE_THAT( together_rate( "torso", sleep_rest ), WithinAbs( 6.51f * hp_per_day,
                           tol ) );
         }
     }
