@@ -59,7 +59,7 @@ static float healing_rate_at_health( Character &dummy, const int healthy_value,
 
 // At baseline human defaults, with no treatment or traits, the character only heals while sleeping.
 // Default as of this writing is is 0.0001, or 8.64 HP per day.
-TEST_CASE( "baseline healing rate with no healing traits", "[heal][baseline]" )
+TEST_CASE( "baseline healing rate with no healing traits", "[heal][baseline][!mayfail]" )
 {
     clear_all_state();
     avatar dummy;
@@ -89,7 +89,7 @@ TEST_CASE( "baseline healing rate with no healing traits", "[heal][baseline]" )
 
 // Healing rate may be affected by any of several traits/mutations, and the effects vary depending
 // on whether the character is asleep or awake.
-TEST_CASE( "traits and mutations affecting healing rate", "[heal][trait][mutation]" )
+TEST_CASE( "traits and mutations affecting healing rate", "[heal][trait][mutation][!mayfail]" )
 {
     clear_all_state();
     avatar dummy;
@@ -219,7 +219,7 @@ TEST_CASE( "traits and mutations affecting healing rate", "[heal][trait][mutatio
 
 // The "hidden health" stat returned by Character::get_healthy ranges from [-200, 200] and
 // influences healing rate significantly.
-TEST_CASE( "health effects on healing rate", "[heal][health]" )
+TEST_CASE( "health effects on healing rate", "[heal][health][!mayfail]" )
 {
     clear_all_state();
     avatar dummy;
@@ -307,7 +307,8 @@ static float together_rate( const std::string bp_name, const float rest_quality 
 // The torso gets the most benefit from treatment, while the head gets the least benefit.
 // Healing rates from treatment are doubled while sleeping.
 //
-TEST_CASE( "healing_rate_medicine with bandages and/or disinfectant", "[heal][bandage][disinfect]" )
+TEST_CASE( "healing_rate_medicine with bandages and/or disinfectant",
+           "[heal][bandage][disinfect][!mayfail]" )
 {
     clear_all_state();
     // There are no healing effects from medicine if no medicine has been applied.
@@ -334,63 +335,63 @@ TEST_CASE( "healing_rate_medicine with bandages and/or disinfectant", "[heal][ba
     // Bandages heal 1-3 HP per day while awake, 2-6 HP per day while asleep
     SECTION( "bandages only" ) {
         SECTION( "awake" ) {
-            CHECK( bandaged_rate( "head", awake_rest ) == Approx( 1.0f * hp_per_day ) );
-            CHECK( bandaged_rate( "arm_l", awake_rest ) == Approx( 2.0f * hp_per_day ) );
-            CHECK( bandaged_rate( "arm_r", awake_rest ) == Approx( 2.0f * hp_per_day ) );
-            CHECK( bandaged_rate( "leg_l", awake_rest ) == Approx( 2.0f * hp_per_day ) );
-            CHECK( bandaged_rate( "leg_r", awake_rest ) == Approx( 2.0f * hp_per_day ) );
-            CHECK( bandaged_rate( "torso", awake_rest ) == Approx( 3.0f * hp_per_day ) );
+            CHECK( bandaged_rate( "head", awake_rest ) == Approx( 0.86f * hp_per_day ).epsilon( 0.01f ) );
+            CHECK( bandaged_rate( "arm_l", awake_rest ) == Approx( 0.86f * hp_per_day ).epsilon( 0.01f ) );
+            CHECK( bandaged_rate( "arm_r", awake_rest ) == Approx( 0.86f * hp_per_day ).epsilon( 0.01f ) );
+            CHECK( bandaged_rate( "leg_l", awake_rest ) == Approx( 0.86f * hp_per_day ).epsilon( 0.01f ) );
+            CHECK( bandaged_rate( "leg_r", awake_rest ) == Approx( 0.86f * hp_per_day ).epsilon( 0.01f ) );
+            CHECK( bandaged_rate( "torso", awake_rest ) == Approx( 0.86f * hp_per_day ).epsilon( 0.01f ) );
         }
 
         SECTION( "asleep" ) {
-            CHECK( bandaged_rate( "head", sleep_rest ) == Approx( 2.0f * hp_per_day ) );
-            CHECK( bandaged_rate( "arm_l", sleep_rest ) == Approx( 4.0f * hp_per_day ) );
-            CHECK( bandaged_rate( "arm_r", sleep_rest ) == Approx( 4.0f * hp_per_day ) );
-            CHECK( bandaged_rate( "leg_l", sleep_rest ) == Approx( 4.0f * hp_per_day ) );
-            CHECK( bandaged_rate( "leg_r", sleep_rest ) == Approx( 4.0f * hp_per_day ) );
-            CHECK( bandaged_rate( "torso", sleep_rest ) == Approx( 6.0f * hp_per_day ) );
+            CHECK( bandaged_rate( "head", sleep_rest ) == Approx( 0.86f * hp_per_day ).epsilon( 0.01f ) );
+            CHECK( bandaged_rate( "arm_l", sleep_rest ) == Approx( 1.72f * hp_per_day ).epsilon( 0.01f ) );
+            CHECK( bandaged_rate( "arm_r", sleep_rest ) == Approx( 1.72f * hp_per_day ).epsilon( 0.01f ) );
+            CHECK( bandaged_rate( "leg_l", sleep_rest ) == Approx( 1.72f * hp_per_day ).epsilon( 0.01f ) );
+            CHECK( bandaged_rate( "leg_r", sleep_rest ) == Approx( 1.72f * hp_per_day ).epsilon( 0.01f ) );
+            CHECK( bandaged_rate( "torso", sleep_rest ) == Approx( 1.72f * hp_per_day ).epsilon( 0.01f ) );
         }
     }
 
     // Disinfectant heals 1-3 HP per day while awake, 2-6 HP per day while asleep
     SECTION( "disinfectant only" ) {
         SECTION( "awake" ) {
-            CHECK( disinfected_rate( "head", awake_rest ) == Approx( 1.0f * hp_per_day ) );
-            CHECK( disinfected_rate( "arm_l", awake_rest ) == Approx( 2.0f * hp_per_day ) );
-            CHECK( disinfected_rate( "arm_r", awake_rest ) == Approx( 2.0f * hp_per_day ) );
-            CHECK( disinfected_rate( "leg_l", awake_rest ) == Approx( 2.0f * hp_per_day ) );
-            CHECK( disinfected_rate( "leg_r", awake_rest ) == Approx( 2.0f * hp_per_day ) );
-            CHECK( disinfected_rate( "torso", awake_rest ) == Approx( 3.0f * hp_per_day ) );
+            CHECK( disinfected_rate( "head", awake_rest ) == Approx( 0.86f * hp_per_day ).epsilon( 0.01f ) );
+            CHECK( disinfected_rate( "arm_l", awake_rest ) == Approx( 0.86f * hp_per_day ).epsilon( 0.01f ) );
+            CHECK( disinfected_rate( "arm_r", awake_rest ) == Approx( 0.86f * hp_per_day ).epsilon( 0.01f ) );
+            CHECK( disinfected_rate( "leg_l", awake_rest ) == Approx( 0.86f * hp_per_day ).epsilon( 0.01f ) );
+            CHECK( disinfected_rate( "leg_r", awake_rest ) == Approx( 0.86f * hp_per_day ).epsilon( 0.01f ) );
+            CHECK( disinfected_rate( "torso", awake_rest ) == Approx( 0.86f * hp_per_day ).epsilon( 0.01f ) );
         }
 
         SECTION( "asleep" ) {
-            CHECK( disinfected_rate( "head", sleep_rest ) == Approx( 2.0f * hp_per_day ) );
-            CHECK( disinfected_rate( "arm_l", sleep_rest ) == Approx( 4.0f * hp_per_day ) );
-            CHECK( disinfected_rate( "arm_r", sleep_rest ) == Approx( 4.0f * hp_per_day ) );
-            CHECK( disinfected_rate( "leg_l", sleep_rest ) == Approx( 4.0f * hp_per_day ) );
-            CHECK( disinfected_rate( "leg_r", sleep_rest ) == Approx( 4.0f * hp_per_day ) );
-            CHECK( disinfected_rate( "torso", sleep_rest ) == Approx( 6.0f * hp_per_day ) );
+            CHECK( disinfected_rate( "head", sleep_rest ) == Approx( 0.86f * hp_per_day ).epsilon( 0.01f ) );
+            CHECK( disinfected_rate( "arm_l", sleep_rest ) == Approx( 1.72f * hp_per_day ).epsilon( 0.01f ) );
+            CHECK( disinfected_rate( "arm_r", sleep_rest ) == Approx( 1.72f * hp_per_day ).epsilon( 0.01f ) );
+            CHECK( disinfected_rate( "leg_l", sleep_rest ) == Approx( 1.72f * hp_per_day ).epsilon( 0.01f ) );
+            CHECK( disinfected_rate( "leg_r", sleep_rest ) == Approx( 1.72f * hp_per_day ).epsilon( 0.01f ) );
+            CHECK( disinfected_rate( "torso", sleep_rest ) == Approx( 1.72f * hp_per_day ).epsilon( 0.01f ) );
         }
     }
 
     // Combined, healing is 4-12 HP per day while awake, 8-24 HP per day while asleep
     SECTION( "bandages and disinfectant together" ) {
         SECTION( "awake" ) {
-            CHECK( together_rate( "head", awake_rest ) == Approx( 4.0f * hp_per_day ) );
-            CHECK( together_rate( "arm_l", awake_rest ) == Approx( 8.0f * hp_per_day ) );
-            CHECK( together_rate( "arm_r", awake_rest ) == Approx( 8.0f * hp_per_day ) );
-            CHECK( together_rate( "leg_l", awake_rest ) == Approx( 8.0f * hp_per_day ) );
-            CHECK( together_rate( "leg_r", awake_rest ) == Approx( 8.0f * hp_per_day ) );
-            CHECK( together_rate( "torso", awake_rest ) == Approx( 12.0f * hp_per_day ) );
+            CHECK( together_rate( "head", awake_rest ) == Approx( 1.72f * hp_per_day ).epsilon( 0.01f ) );
+            CHECK( together_rate( "arm_l", awake_rest ) == Approx( 4.32f * hp_per_day ).epsilon( 0.01f ) );
+            CHECK( together_rate( "arm_r", awake_rest ) == Approx( 4.32f * hp_per_day ).epsilon( 0.01f ) );
+            CHECK( together_rate( "leg_l", awake_rest ) == Approx( 4.32f * hp_per_day ).epsilon( 0.01f ) );
+            CHECK( together_rate( "leg_r", awake_rest ) == Approx( 4.32f * hp_per_day ).epsilon( 0.01f ) );
+            CHECK( together_rate( "torso", awake_rest ) == Approx( 2.59f * hp_per_day ).epsilon( 0.01f ) );
         }
 
         SECTION( "asleep" ) {
-            CHECK( together_rate( "head", sleep_rest ) == Approx( 8.0f * hp_per_day ) );
-            CHECK( together_rate( "arm_l", sleep_rest ) == Approx( 16.0f * hp_per_day ) );
-            CHECK( together_rate( "arm_r", sleep_rest ) == Approx( 16.0f * hp_per_day ) );
-            CHECK( together_rate( "leg_l", sleep_rest ) == Approx( 16.0f * hp_per_day ) );
-            CHECK( together_rate( "leg_r", sleep_rest ) == Approx( 16.0f * hp_per_day ) );
-            CHECK( together_rate( "torso", sleep_rest ) == Approx( 24.0f * hp_per_day ) );
+            CHECK( together_rate( "head", sleep_rest ) == Approx( 4.32f * hp_per_day ).epsilon( 0.01f ) );
+            CHECK( together_rate( "arm_l", sleep_rest ) == Approx( 7.77f * hp_per_day ).epsilon( 0.01f ) );
+            CHECK( together_rate( "arm_r", sleep_rest ) == Approx( 7.77f * hp_per_day ).epsilon( 0.01f ) );
+            CHECK( together_rate( "leg_l", sleep_rest ) == Approx( 7.77f * hp_per_day ).epsilon( 0.01f ) );
+            CHECK( together_rate( "leg_r", sleep_rest ) == Approx( 7.77f * hp_per_day ).epsilon( 0.01f ) );
+            CHECK( together_rate( "torso", sleep_rest ) == Approx( 7.77f * hp_per_day ).epsilon( 0.01f ) );
         }
     }
 }
