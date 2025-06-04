@@ -424,6 +424,6 @@
     "vision_night": 15,
     "death_function": [ "NORMAL" ],
     "harvest": "zombie_leather",
-    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "POISON", "NO_BREATHE", "REVIVES"]
+    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "POISON", "NO_BREATHE", "REVIVES" ]
   }
 ]
