@@ -272,7 +272,7 @@ static float untreated_rate( const std::string bp_name, const float rest_quality
 }
 
 // Return `healing_rate_medicine` for a `bandaged` body part at a given rest quality
-static float bandaged_rate( const std::string bp_name, const float rest_quality )
+static double bandaged_rate( const std::string bp_name, const float rest_quality )
 {
     avatar dummy;
     const bodypart_str_id &bp = bodypart_str_id( bp_name );
@@ -281,7 +281,7 @@ static float bandaged_rate( const std::string bp_name, const float rest_quality 
 }
 
 // Return `healing_rate_medicine` for a `disinfected` body part at a given rest quality
-static float disinfected_rate( const std::string bp_name, const float rest_quality )
+static double disinfected_rate( const std::string bp_name, const float rest_quality )
 {
     avatar dummy;
     const bodypart_str_id &bp = bodypart_str_id( bp_name );
@@ -290,7 +290,7 @@ static float disinfected_rate( const std::string bp_name, const float rest_quali
 }
 
 // Return `healing_rate_medicine` for a `bandaged` AND `disinfected` body part at a given rest quality
-static float together_rate( const std::string bp_name, const float rest_quality )
+static double together_rate( const std::string bp_name, const float rest_quality )
 {
     avatar dummy;
     const bodypart_str_id &bp = bodypart_str_id( bp_name );
