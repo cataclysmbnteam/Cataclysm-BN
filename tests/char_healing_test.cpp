@@ -336,22 +336,34 @@ TEST_CASE( "healing_rate_medicine with bandages and/or disinfectant",
     SECTION( "bandages only" ) {
         SECTION( "awake" ) {
             constexpr double base_rate = 1.0;
-            CHECK( bandaged_rate( "head", awake_rest ) == Approx( base_rate * 0.5 * hp_per_day ).epsilon( 0.01f ) );
-            CHECK( bandaged_rate( "arm_l", awake_rest ) == Approx( base_rate * 1.0 * hp_per_day ).epsilon( 0.01f ) );
-            CHECK( bandaged_rate( "arm_r", awake_rest ) == Approx( base_rate * 1.0 * hp_per_day ).epsilon( 0.01f ) );
-            CHECK( bandaged_rate( "leg_l", awake_rest ) == Approx( base_rate * 1.0 * hp_per_day ).epsilon( 0.01f ) );
-            CHECK( bandaged_rate( "leg_r", awake_rest ) == Approx( base_rate * 1.0 * hp_per_day ).epsilon( 0.01f ) );
-            CHECK( bandaged_rate( "torso", awake_rest ) == Approx( base_rate * 0.75 * hp_per_day ).epsilon( 0.01f ) );
+            CHECK( bandaged_rate( "head", awake_rest ) == Approx( base_rate * 0.5 * hp_per_day ).epsilon(
+                       0.01f ) );
+            CHECK( bandaged_rate( "arm_l",
+                                  awake_rest ) == Approx( base_rate * 1.0 * hp_per_day ).epsilon( 0.01f ) );
+            CHECK( bandaged_rate( "arm_r",
+                                  awake_rest ) == Approx( base_rate * 1.0 * hp_per_day ).epsilon( 0.01f ) );
+            CHECK( bandaged_rate( "leg_l",
+                                  awake_rest ) == Approx( base_rate * 1.0 * hp_per_day ).epsilon( 0.01f ) );
+            CHECK( bandaged_rate( "leg_r",
+                                  awake_rest ) == Approx( base_rate * 1.0 * hp_per_day ).epsilon( 0.01f ) );
+            CHECK( bandaged_rate( "torso",
+                                  awake_rest ) == Approx( base_rate * 0.75 * hp_per_day ).epsilon( 0.01f ) );
         }
 
         SECTION( "asleep" ) {
             constexpr double base_rate = 2.0;
-            CHECK( bandaged_rate( "head", sleep_rest ) == Approx( base_rate * 0.5 * hp_per_day ).epsilon( 0.01f ) );
-            CHECK( bandaged_rate( "arm_l", sleep_rest ) == Approx( base_rate * 1.0 * hp_per_day ).epsilon( 0.01f ) );
-            CHECK( bandaged_rate( "arm_r", sleep_rest ) == Approx( base_rate * 1.0 * hp_per_day ).epsilon( 0.01f ) );
-            CHECK( bandaged_rate( "leg_l", sleep_rest ) == Approx( base_rate * 1.0 * hp_per_day ).epsilon( 0.01f ) );
-            CHECK( bandaged_rate( "leg_r", sleep_rest ) == Approx( base_rate * 1.0 * hp_per_day ).epsilon( 0.01f ) );
-            CHECK( bandaged_rate( "torso", sleep_rest ) == Approx( base_rate * 0.75 * hp_per_day ).epsilon( 0.01f ) );
+            CHECK( bandaged_rate( "head", sleep_rest ) == Approx( base_rate * 0.5 * hp_per_day ).epsilon(
+                       0.01f ) );
+            CHECK( bandaged_rate( "arm_l",
+                                  sleep_rest ) == Approx( base_rate * 1.0 * hp_per_day ).epsilon( 0.01f ) );
+            CHECK( bandaged_rate( "arm_r",
+                                  sleep_rest ) == Approx( base_rate * 1.0 * hp_per_day ).epsilon( 0.01f ) );
+            CHECK( bandaged_rate( "leg_l",
+                                  sleep_rest ) == Approx( base_rate * 1.0 * hp_per_day ).epsilon( 0.01f ) );
+            CHECK( bandaged_rate( "leg_r",
+                                  sleep_rest ) == Approx( base_rate * 1.0 * hp_per_day ).epsilon( 0.01f ) );
+            CHECK( bandaged_rate( "torso",
+                                  sleep_rest ) == Approx( base_rate * 0.75 * hp_per_day ).epsilon( 0.01f ) );
         }
     }
 
@@ -359,22 +371,34 @@ TEST_CASE( "healing_rate_medicine with bandages and/or disinfectant",
     SECTION( "disinfectant only" ) {
         SECTION( "awake" ) {
             constexpr double base_rate = 1.0;
-            CHECK( disinfected_rate( "head", awake_rest ) == Approx( base_rate * 0.5 * hp_per_day ).epsilon( 0.01f ) );
-            CHECK( disinfected_rate( "arm_l", awake_rest ) == Approx( base_rate * 1.0 * hp_per_day ).epsilon( 0.01f ) );
-            CHECK( disinfected_rate( "arm_r", awake_rest ) == Approx( base_rate * 1.0 * hp_per_day ).epsilon( 0.01f ) );
-            CHECK( disinfected_rate( "leg_l", awake_rest ) == Approx( base_rate * 1.0 * hp_per_day ).epsilon( 0.01f ) );
-            CHECK( disinfected_rate( "leg_r", awake_rest ) == Approx( base_rate * 1.0 * hp_per_day ).epsilon( 0.01f ) );
-            CHECK( disinfected_rate( "torso", awake_rest ) == Approx( base_rate * 0.75 * hp_per_day ).epsilon( 0.01f ) );
+            CHECK( disinfected_rate( "head",
+                                     awake_rest ) == Approx( base_rate * 0.5 * hp_per_day ).epsilon( 0.01f ) );
+            CHECK( disinfected_rate( "arm_l",
+                                     awake_rest ) == Approx( base_rate * 1.0 * hp_per_day ).epsilon( 0.01f ) );
+            CHECK( disinfected_rate( "arm_r",
+                                     awake_rest ) == Approx( base_rate * 1.0 * hp_per_day ).epsilon( 0.01f ) );
+            CHECK( disinfected_rate( "leg_l",
+                                     awake_rest ) == Approx( base_rate * 1.0 * hp_per_day ).epsilon( 0.01f ) );
+            CHECK( disinfected_rate( "leg_r",
+                                     awake_rest ) == Approx( base_rate * 1.0 * hp_per_day ).epsilon( 0.01f ) );
+            CHECK( disinfected_rate( "torso",
+                                     awake_rest ) == Approx( base_rate * 0.75 * hp_per_day ).epsilon( 0.01f ) );
         }
 
         SECTION( "asleep" ) {
             constexpr double base_rate = 2.0;
-            CHECK( disinfected_rate( "head", sleep_rest ) == Approx( base_rate * 0.5 * hp_per_day ).epsilon( 0.01f ) );
-            CHECK( disinfected_rate( "arm_l", sleep_rest ) == Approx( base_rate * 1.0 * hp_per_day ).epsilon( 0.01f ) );
-            CHECK( disinfected_rate( "arm_r", sleep_rest ) == Approx( base_rate * 1.0 * hp_per_day ).epsilon( 0.01f ) );
-            CHECK( disinfected_rate( "leg_l", sleep_rest ) == Approx( base_rate * 1.0 * hp_per_day ).epsilon( 0.01f ) );
-            CHECK( disinfected_rate( "leg_r", sleep_rest ) == Approx( base_rate * 1.0 * hp_per_day ).epsilon( 0.01f ) );
-            CHECK( disinfected_rate( "torso", sleep_rest ) == Approx( base_rate * 0.75 * hp_per_day ).epsilon( 0.01f ) );
+            CHECK( disinfected_rate( "head",
+                                     sleep_rest ) == Approx( base_rate * 0.5 * hp_per_day ).epsilon( 0.01f ) );
+            CHECK( disinfected_rate( "arm_l",
+                                     sleep_rest ) == Approx( base_rate * 1.0 * hp_per_day ).epsilon( 0.01f ) );
+            CHECK( disinfected_rate( "arm_r",
+                                     sleep_rest ) == Approx( base_rate * 1.0 * hp_per_day ).epsilon( 0.01f ) );
+            CHECK( disinfected_rate( "leg_l",
+                                     sleep_rest ) == Approx( base_rate * 1.0 * hp_per_day ).epsilon( 0.01f ) );
+            CHECK( disinfected_rate( "leg_r",
+                                     sleep_rest ) == Approx( base_rate * 1.0 * hp_per_day ).epsilon( 0.01f ) );
+            CHECK( disinfected_rate( "torso",
+                                     sleep_rest ) == Approx( base_rate * 0.75 * hp_per_day ).epsilon( 0.01f ) );
         }
     }
 
@@ -382,22 +406,34 @@ TEST_CASE( "healing_rate_medicine with bandages and/or disinfectant",
     SECTION( "bandages and disinfectant together" ) {
         SECTION( "awake" ) {
             constexpr double base_rate = 1.0 * 4;
-            CHECK( together_rate( "head", awake_rest ) == Approx( base_rate * 0.5 * hp_per_day ).epsilon( 0.01f ) );
-            CHECK( together_rate( "arm_l", awake_rest ) == Approx( base_rate * 1.0 * hp_per_day ).epsilon( 0.01f ) );
-            CHECK( together_rate( "arm_r", awake_rest ) == Approx( base_rate * 1.0 * hp_per_day ).epsilon( 0.01f ) );
-            CHECK( together_rate( "leg_l", awake_rest ) == Approx( base_rate * 1.0 * hp_per_day ).epsilon( 0.01f ) );
-            CHECK( together_rate( "leg_r", awake_rest ) == Approx( base_rate * 1.0 * hp_per_day ).epsilon( 0.01f ) );
-            CHECK( together_rate( "torso", awake_rest ) == Approx( base_rate * 0.75 * hp_per_day ).epsilon( 0.01f ) );
+            CHECK( together_rate( "head", awake_rest ) == Approx( base_rate * 0.5 * hp_per_day ).epsilon(
+                       0.01f ) );
+            CHECK( together_rate( "arm_l",
+                                  awake_rest ) == Approx( base_rate * 1.0 * hp_per_day ).epsilon( 0.01f ) );
+            CHECK( together_rate( "arm_r",
+                                  awake_rest ) == Approx( base_rate * 1.0 * hp_per_day ).epsilon( 0.01f ) );
+            CHECK( together_rate( "leg_l",
+                                  awake_rest ) == Approx( base_rate * 1.0 * hp_per_day ).epsilon( 0.01f ) );
+            CHECK( together_rate( "leg_r",
+                                  awake_rest ) == Approx( base_rate * 1.0 * hp_per_day ).epsilon( 0.01f ) );
+            CHECK( together_rate( "torso",
+                                  awake_rest ) == Approx( base_rate * 0.75 * hp_per_day ).epsilon( 0.01f ) );
         }
 
         SECTION( "asleep" ) {
             constexpr double base_rate = 2.0 * 4;
-            CHECK( together_rate( "head", sleep_rest ) == Approx( base_rate * 0.5 * hp_per_day ).epsilon( 0.01f ) );
-            CHECK( together_rate( "arm_l", sleep_rest ) == Approx( base_rate * 1.0 * hp_per_day ).epsilon( 0.01f ) );
-            CHECK( together_rate( "arm_r", sleep_rest ) == Approx( base_rate * 1.0 * hp_per_day ).epsilon( 0.01f ) );
-            CHECK( together_rate( "leg_l", sleep_rest ) == Approx( base_rate * 1.0 * hp_per_day ).epsilon( 0.01f ) );
-            CHECK( together_rate( "leg_r", sleep_rest ) == Approx( base_rate * 1.0 * hp_per_day ).epsilon( 0.01f ) );
-            CHECK( together_rate( "torso", sleep_rest ) == Approx( base_rate * 0.75 * hp_per_day ).epsilon( 0.01f ) );
+            CHECK( together_rate( "head", sleep_rest ) == Approx( base_rate * 0.5 * hp_per_day ).epsilon(
+                       0.01f ) );
+            CHECK( together_rate( "arm_l",
+                                  sleep_rest ) == Approx( base_rate * 1.0 * hp_per_day ).epsilon( 0.01f ) );
+            CHECK( together_rate( "arm_r",
+                                  sleep_rest ) == Approx( base_rate * 1.0 * hp_per_day ).epsilon( 0.01f ) );
+            CHECK( together_rate( "leg_l",
+                                  sleep_rest ) == Approx( base_rate * 1.0 * hp_per_day ).epsilon( 0.01f ) );
+            CHECK( together_rate( "leg_r",
+                                  sleep_rest ) == Approx( base_rate * 1.0 * hp_per_day ).epsilon( 0.01f ) );
+            CHECK( together_rate( "torso",
+                                  sleep_rest ) == Approx( base_rate * 0.75 * hp_per_day ).epsilon( 0.01f ) );
         }
     }
 }
