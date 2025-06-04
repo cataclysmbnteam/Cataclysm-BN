@@ -358,21 +358,23 @@ TEST_CASE( "healing_rate_medicine with bandages and/or disinfectant",
     // Disinfectant heals 1-3 HP per day while awake, 2-6 HP per day while asleep
     SECTION( "disinfectant only" ) {
         SECTION( "awake" ) {
-            CHECK( disinfected_rate( "head", awake_rest ) == Approx( 0.86f * hp_per_day ).epsilon( 0.01f ) );
-            CHECK( disinfected_rate( "arm_l", awake_rest ) == Approx( 0.86f * hp_per_day ).epsilon( 0.01f ) );
-            CHECK( disinfected_rate( "arm_r", awake_rest ) == Approx( 0.86f * hp_per_day ).epsilon( 0.01f ) );
-            CHECK( disinfected_rate( "leg_l", awake_rest ) == Approx( 0.86f * hp_per_day ).epsilon( 0.01f ) );
-            CHECK( disinfected_rate( "leg_r", awake_rest ) == Approx( 0.86f * hp_per_day ).epsilon( 0.01f ) );
-            CHECK( disinfected_rate( "torso", awake_rest ) == Approx( 0.86f * hp_per_day ).epsilon( 0.01f ) );
+            constexpr double base_rate = 1.0;
+            CHECK( disinfected_rate( "head", awake_rest ) == Approx( base_rate * 0.5 * hp_per_day ).epsilon( 0.01f ) );
+            CHECK( disinfected_rate( "arm_l", awake_rest ) == Approx( base_rate * 1.0 * hp_per_day ).epsilon( 0.01f ) );
+            CHECK( disinfected_rate( "arm_r", awake_rest ) == Approx( base_rate * 1.0 * hp_per_day ).epsilon( 0.01f ) );
+            CHECK( disinfected_rate( "leg_l", awake_rest ) == Approx( base_rate * 1.0 * hp_per_day ).epsilon( 0.01f ) );
+            CHECK( disinfected_rate( "leg_r", awake_rest ) == Approx( base_rate * 1.0 * hp_per_day ).epsilon( 0.01f ) );
+            CHECK( disinfected_rate( "torso", awake_rest ) == Approx( base_rate * 0.75 * hp_per_day ).epsilon( 0.01f ) );
         }
 
         SECTION( "asleep" ) {
-            CHECK( disinfected_rate( "head", sleep_rest ) == Approx( 0.86f * hp_per_day ).epsilon( 0.01f ) );
-            CHECK( disinfected_rate( "arm_l", sleep_rest ) == Approx( 1.72f * hp_per_day ).epsilon( 0.01f ) );
-            CHECK( disinfected_rate( "arm_r", sleep_rest ) == Approx( 1.72f * hp_per_day ).epsilon( 0.01f ) );
-            CHECK( disinfected_rate( "leg_l", sleep_rest ) == Approx( 1.72f * hp_per_day ).epsilon( 0.01f ) );
-            CHECK( disinfected_rate( "leg_r", sleep_rest ) == Approx( 1.72f * hp_per_day ).epsilon( 0.01f ) );
-            CHECK( disinfected_rate( "torso", sleep_rest ) == Approx( 1.72f * hp_per_day ).epsilon( 0.01f ) );
+            constexpr double base_rate = 2.0;
+            CHECK( disinfected_rate( "head", sleep_rest ) == Approx( base_rate * 0.5 * hp_per_day ).epsilon( 0.01f ) );
+            CHECK( disinfected_rate( "arm_l", sleep_rest ) == Approx( base_rate * 1.0 * hp_per_day ).epsilon( 0.01f ) );
+            CHECK( disinfected_rate( "arm_r", sleep_rest ) == Approx( base_rate * 1.0 * hp_per_day ).epsilon( 0.01f ) );
+            CHECK( disinfected_rate( "leg_l", sleep_rest ) == Approx( base_rate * 1.0 * hp_per_day ).epsilon( 0.01f ) );
+            CHECK( disinfected_rate( "leg_r", sleep_rest ) == Approx( base_rate * 1.0 * hp_per_day ).epsilon( 0.01f ) );
+            CHECK( disinfected_rate( "torso", sleep_rest ) == Approx( base_rate * 0.75 * hp_per_day ).epsilon( 0.01f ) );
         }
     }
 
