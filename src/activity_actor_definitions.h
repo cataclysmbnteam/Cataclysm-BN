@@ -5,18 +5,21 @@
 #include <optional>
 
 #include "coordinates.h"
-#include "crafting.h"
 #include "item_handling_util.h"
 #include "location_ptr.h"
 #include "locations.h"
 #include "memory_fast.h"
 #include "pickup_token.h"
 #include "point.h"
+#include "recipe.h"
 #include "type_id.h"
 #include "units_energy.h"
 
 class Creature;
 class vehicle;
+class activity_speed;
+
+struct bench_location;
 struct partial_con;
 
 class aim_activity_actor : public activity_actor
@@ -105,6 +108,41 @@ class autodrive_activity_actor : public activity_actor
 
         void serialize( JsonOut &jsout ) const override;
         static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
+};
+
+class crafting_activity_actor : public activity_actor
+{
+    private:
+        safe_reference<item> target;
+        recipe rec;
+        bool is_long = false;
+
+        int old_counter = 0;
+
+    public:
+        crafting_activity_actor() = default;
+        crafting_activity_actor(
+            item *target_,
+            bool is_long
+        ) : target( std::move( target_ ) ), is_long( is_long ) {
+        }
+        ~crafting_activity_actor() = default;
+
+        activity_id get_type() const override {
+            return activity_id( "ACT_CRAFT" );
+        }
+        void calc_all_moves( player_activity &act, Character &who ) override;
+        void start( player_activity &act, Character &who ) override;
+        void do_turn( player_activity &, Character & ) override;
+        void finish( player_activity &act, Character &who ) override;
+
+        float calc_morale_factor( const Character &who ) const override;
+        bool assistant_capable( const Character &who ) const override;
+        static bool assistant_capable( const Character &who, const recipe &recipe );
+
+        void serialize( JsonOut &jsout ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
+        static activity_speed speed_preset( Character &who, const recipe &rec );
 };
 
 class dig_activity_actor : public activity_actor

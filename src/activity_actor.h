@@ -10,6 +10,8 @@
 #include "calendar.h"
 #include "type_id.h"
 #include "units.h"
+#include "units_mass.h"
+#include "units_volume.h"
 
 class avatar;
 class Character;
@@ -17,8 +19,6 @@ class JsonIn;
 class JsonOut;
 class player_activity;
 class inventory;
-
-struct bench_loc;
 
 using metric = std::pair<units::mass, units::volume>;
 
@@ -261,6 +261,14 @@ class activity_actor
             return msg;
         }
 
+
+        /*
+        * Checks if provided character is capable of assisting
+        */
+        virtual bool assistant_capable( const Character &/*who*/ ) const {
+            return true;
+        }
+
         /*
          * actor specific formula for speed factor based on skills
          * anything above 0 is a valid number
@@ -286,7 +294,7 @@ class activity_actor
          * anything above 0 is a valid number
          * anything below 0 is invalid, promting to use default formula
         */
-        virtual float calc_morale_factor( const Character &/*who*/ ) const {
+        virtual float calc_morale_factor( const Character & ) const {
             return -1.0f;
         }
 
