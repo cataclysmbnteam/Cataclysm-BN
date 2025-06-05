@@ -4047,18 +4047,8 @@ void activity_handlers::fill_pit_finish( player_activity *act, player *p )
     const ter_id ter = here.ter( pos );
     const ter_id old_ter = ter;
 
-    if( ter == t_pit || ter == t_pit_spiked || ter == t_pit_glass ||
-        ter == t_pit_corpsed ) {
-        here.ter_set( pos, t_pit_shallow );
-    } else {
-        here.ter_set( pos, t_dirt );
-    }
-    int act_exertion = to_moves<int>( time_duration::from_minutes( 15 ) );
-    if( old_ter == t_pit_shallow ) {
-        act_exertion = to_moves<int>( time_duration::from_minutes( 10 ) );
-    } else if( old_ter == t_dirtmound ) {
-        act_exertion = to_moves<int>( time_duration::from_minutes( 5 ) );
-    }
+    here.ter_set( pos, old_ter->fill_result );
+    int act_exertion = to_moves<int>( time_duration::from_minutes( old_ter->fill_minutes ) );
     const int helpersize = character_funcs::get_crafting_helpers( *p, 3 ).size();
     act_exertion = act_exertion * ( 10 - helpersize ) / 10;
     p->mod_stored_kcal( std::min( -1, -act_exertion / to_moves<int>( 20_seconds ) ) );
