@@ -62,6 +62,8 @@
 #include "vehicle_selector.h"
 #include "vpart_position.h"
 
+static const trait_id trait_DEBUG_STORAGE( "DEBUG_STORAGE" );
+
 using item_count = std::pair<item *, int>;
 using pickup_map = std::map<std::string, item_count>;
 
@@ -1270,6 +1272,10 @@ int pickup::cost_to_move_item( const Character &who, const item &it )
         // No free hand? That will cost you extra
         ret += 20;
     }
+    if( who.has_trait( trait_DEBUG_STORAGE ) ) {
+        return ret;
+    }
+
     const int delta_weight = units::to_gram( it.weight() - who.weight_capacity() );
     // Is it too heavy? It'll take 10 moves per kg over limit
     ret += std::max( 0, delta_weight / 100 );
