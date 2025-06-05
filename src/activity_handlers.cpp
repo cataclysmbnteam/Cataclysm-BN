@@ -3690,7 +3690,9 @@ void activity_handlers::craft_do_turn( player_activity *act, player *p )
     const double cur_total_moves = std::max( 1, rec.batch_time( craft->charges, crafting_speed,
                                    assistants ) );
     // Delta progress in moves adjusted for current crafting speed
-    const double delta_progress = p->get_moves() * base_total_moves / cur_total_moves;
+    const double delta_progress = p->get_moves() > 0
+                                  ? p->get_moves() * base_total_moves / cur_total_moves
+                                  : 0;
     // Current progress in moves
     const double current_progress = craft->item_counter * base_total_moves / 10'000'000.0 +
                                     delta_progress;
