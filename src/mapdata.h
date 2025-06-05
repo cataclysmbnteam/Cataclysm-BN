@@ -106,6 +106,21 @@ struct map_bash_info {
     // ID as string, because 3 type weirdness...
     void check( const std::string &id, map_object_type type ) const;
 };
+
+struct map_dig_info {
+    // Minimum digging quality to dig this tile
+    int dig_min = 0; 
+    // Terrain to become after digging
+    ter_str_id result_ter = ter_str_id::NULL_ID();
+    // Items to drop upon finishing digging
+    item_group_id result_items = item_group_id( "EMPTY_GROUP" );
+    // number of minutes it takes to dig
+    int num_minutes = 0;
+
+    // Load in the actual data
+    void deserialize(JsonIn &jsin);
+};
+
 struct map_deconstruct_info {
     // Only if true, the terrain/furniture can be deconstructed
     bool can_do;
@@ -452,8 +467,6 @@ struct map_data_common_t {
         int movecost = 0;
         // The coverage percentage of a furniture piece of terrain. <30 won't cover from sight.
         int coverage = 0;
-        // What itemgroup spawns when digging a shallow pit in this terrain, defaults to standard soil yield
-        std::string digging_result = "digging_soil_loam_200L";
         // Maximal volume of items that can be stored in/on this furniture
         units::volume max_volume = 1000_liter;
 
@@ -539,6 +552,7 @@ struct ter_t : map_data_common_t {
     ter_str_id lockpick_result; // Lockpick action: transform when successfully lockpicked
     translation lockpick_message; // Lockpick action: message when successfully lockpicked
 
+    map_dig_info digging_results; // Dig action: resulting items, terrain, and min digging level
 
     cata::value_ptr<activity_data_ter> boltcut; // Bolt cutting action data
     cata::value_ptr<activity_data_ter> hacksaw; // Hacksaw action data

@@ -348,6 +348,17 @@ void map_bash_info::check( const std::string &id, map_object_type type ) const
     }
 }
 
+void map_dig_info::deserialize(JsonIn &jsin) {
+    JsonObject jo = jsin.get_object();
+
+    assign(jo, "digging_min", dig_min);
+    assign(jo, "result_ter", result_ter);
+    assign(jo, "num_minutes", num_minutes);
+    if (jo.has_member("items")) {
+        result_items = item_group::load_item_group(jo.get_member("items"), "collection");
+    }
+}
+
 map_deconstruct_info::map_deconstruct_info() : can_do( false ), deconstruct_above( false ),
     ter_set( ter_str_id::NULL_ID() ), furn_set( furn_str_id::NULL_ID() ) {}
 
@@ -1323,7 +1334,6 @@ void ter_t::load( const JsonObject &jo, const std::string &src )
     mandatory( jo, was_loaded, "name", name_ );
     mandatory( jo, was_loaded, "move_cost", movecost );
     assign( jo, "coverage", coverage, is_json_check_strict( src ) );
-    assign( jo, "digging_result", digging_result, is_json_check_strict( src ) );
     assign( jo, "max_volume", max_volume, is_json_check_strict( src ) );
     assign( jo, "trap", trap_id_str, is_json_check_strict( src ) );
 
@@ -1368,6 +1378,7 @@ void ter_t::load( const JsonObject &jo, const std::string &src )
 
     // Not assign, because we want to overwrite individual fields
     optional( jo, was_loaded, "bash", bash );
+    optional(jo, was_loaded, "digging_results", digging_results);
     deconstruct.load( jo, "deconstruct", false );
     pry.load( jo, "pry", pry_result::terrain );
 }
@@ -1537,7 +1548,6 @@ void furn_t::load( const JsonObject &jo, const std::string &src )
     mandatory( jo, was_loaded, "name", name_ );
     mandatory( jo, was_loaded, "move_cost_mod", movecost );
     optional( jo, was_loaded, "coverage", coverage );
-    optional( jo, was_loaded, "digging_result", digging_result );
     optional( jo, was_loaded, "comfort", comfort, 0 );
     optional( jo, was_loaded, "floor_bedding_warmth", floor_bedding_warmth, 0 );
     optional( jo, was_loaded, "emissions", emissions );
