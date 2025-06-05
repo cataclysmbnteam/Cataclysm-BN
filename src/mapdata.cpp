@@ -1376,6 +1376,9 @@ void ter_t::load( const JsonObject &jo, const std::string &src )
         hacksaw->load( jo.get_object( "hacksaw" ) );
     }
 
+    optional(jo, was_loaded, "fill_result", fill_result, ter_str_id::NULL_ID());
+    optional(jo, was_loaded, "fill_minutes", fill_minutes, 15);
+
     // Not assign, because we want to overwrite individual fields
     optional( jo, was_loaded, "bash", bash );
     optional(jo, was_loaded, "digging_results", digging_results);

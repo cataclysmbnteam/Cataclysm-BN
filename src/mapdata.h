@@ -553,6 +553,8 @@ struct ter_t : map_data_common_t {
     translation lockpick_message; // Lockpick action: message when successfully lockpicked
 
     map_dig_info digging_results; // Dig action: resulting items, terrain, and min digging level
+    ter_str_id fill_result; // Fill action: resulting terrain
+    int fill_minutes; // Fill action: minutes to fill up
 
     cata::value_ptr<activity_data_ter> boltcut; // Bolt cutting action data
     cata::value_ptr<activity_data_ter> hacksaw; // Hacksaw action data
