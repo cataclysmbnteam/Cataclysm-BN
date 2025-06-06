@@ -352,8 +352,11 @@ void map_dig_info::deserialize(JsonIn &jsin) {
     assign(jo, "digging_min", dig_min);
     assign(jo, "result_ter", result_ter);
     assign(jo, "num_minutes", num_minutes);
-    if (jo.has_member("items")) {
+    // Support for individual items specified or an itemgroup
+    if (jo.has_array("items")) {
         result_items = item_group::load_item_group(jo.get_member("items"), "collection");
+    } else if (jo.has_string("items")) {
+        assign(jo, "items", result_items);
     }
 }
 

@@ -113,7 +113,7 @@ struct map_dig_info {
     // Terrain to become after digging
     ter_str_id result_ter = ter_str_id::NULL_ID();
     // Items to drop upon finishing digging
-    item_group_id result_items = item_group_id( "EMPTY_GROUP" );
+    item_group_id result_items = item_group_id( "digging_soil_loam_200L" );
     // number of minutes it takes to dig
     int num_minutes = 0;
 
