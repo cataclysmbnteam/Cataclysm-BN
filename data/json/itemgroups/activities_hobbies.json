@@ -186,6 +186,7 @@
       [ "kukri", 4 ],
       [ "knife_hunting", 18 ],
       [ "gps_device", 5 ],
+      [ "scouter", 4 ],
       [ "knife_heat", 10 ],
       [ "knife_rambo", 20 ],
       [ "machete", 5 ],
