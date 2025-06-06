@@ -68,6 +68,9 @@ struct construction {
         // Post construction flags
         std::set<std::string> post_flags;
 
+        // Whether the construction needs diggable terrain
+        bool needs_diggable;
+
         /** Skill->skill level mapping. Can be empty. */
         std::map<skill_id, int> required_skills;
 

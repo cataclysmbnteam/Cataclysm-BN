@@ -30,7 +30,6 @@
 #include "trap.h"
 #include "type_id.h"
 
-static const std::string flag_DIGGABLE( "DIGGABLE" );
 static const std::string flag_TRANSPARENT( "TRANSPARENT" );
 
 static void set_furn_ids();
@@ -152,7 +151,6 @@ static const std::unordered_map<std::string, ter_bitflags> ter_bitflags_map = { 
         { "UNSTABLE",                 TFLAG_UNSTABLE },       // monmove
         { "LIQUID",                   TFLAG_LIQUID },         // *move(), add/spawn_item*()
         { "FIRE_CONTAINER",           TFLAG_FIRE_CONTAINER }, // fire
-        { "DIGGABLE",                 TFLAG_DIGGABLE },       // monmove
         { "SUPPRESS_SMOKE",           TFLAG_SUPPRESS_SMOKE }, // fire
         { "FLAMMABLE_HARD",           TFLAG_FLAMMABLE_HARD }, // fire
         { "SEALED",                   TFLAG_SEALED },         // Fire, acid
@@ -498,7 +496,6 @@ ter_t null_terrain_t()
     new_terrain.movecost = 0;
     new_terrain.transparent = true;
     new_terrain.set_flag( flag_TRANSPARENT );
-    new_terrain.set_flag( flag_DIGGABLE );
     new_terrain.examine = iexamine_function_from_string( "none" );
     new_terrain.max_volume = DEFAULT_MAX_VOLUME_IN_SQUARE;
     return new_terrain;
@@ -1325,6 +1322,10 @@ void map_data_common_t::load( const JsonObject &jo, const std::string &src )
 bool ter_t::is_null() const
 {
     return id == ter_str_id::NULL_ID();
+}
+
+bool ter_t::is_diggable() const {
+    return !digging_results.result_ter->is_null();
 }
 
 void ter_t::load( const JsonObject &jo, const std::string &src )

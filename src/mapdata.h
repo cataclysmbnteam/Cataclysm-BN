@@ -209,7 +209,6 @@ struct pry_result {
  * DOOR - Can be opened (used for NPC pathfinding)
  * FLAMMABLE - Can be lit on fire
  * FLAMMABLE_HARD - Harder to light on fire, but still possible
- * DIGGABLE - Digging monsters, seeding monsters, digging with shovel, etc
  * LIQUID - Blocks movement, but isn't a wall (lava, water, etc)
  * SWIMMABLE - Player and monsters can swim through it
  * SHARP - May do minor damage to players/monsters passing through it
@@ -290,7 +289,6 @@ enum ter_bitflags : int {
     TFLAG_FLAMMABLE_HARD,
     TFLAG_SUPPRESS_SMOKE,
     TFLAG_SHARP,
-    TFLAG_DIGGABLE,
     TFLAG_ROUGH,
     TFLAG_UNSTABLE,
     TFLAG_WALL,
@@ -580,6 +578,8 @@ struct ter_t : map_data_common_t {
     void load( const JsonObject &jo, const std::string &src ) override;
     void check() const override;
     static const std::vector<ter_t> &get_all();
+
+    bool is_diggable() const;
 
     LUA_TYPE_OPS( ter_t, id );
 };
