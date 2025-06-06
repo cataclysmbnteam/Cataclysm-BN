@@ -21,7 +21,7 @@
     "id": "akmag10",
     "looks_like": "stanag30",
     "type": "MAGAZINE",
-    "name": { "str": "AK 10-round magazine" },
+    "name": { "str": "AK 10-round compact magazine" },
     "description": "A compact 10-round magazine for 7.62x39 AK-pattern rifles, made of stamped sheet metal.  Made for restricted civilian use.",
     "weight": "130 g",
     "volume": "151 ml",
@@ -33,13 +33,14 @@
     "ammo_type": "762",
     "capacity": 10,
     "reliability": 9,
+    "reload_time": 80,
     "flags": [ "MAG_COMPACT" ]
   },
   {
     "id": "akmag20",
     "looks_like": "stanag30",
     "type": "MAGAZINE",
-    "name": { "str": "AK 20-round magazine" },
+    "name": { "str": "AK 20-round compact magazine" },
     "description": "A compact 20-round magazine for 7.62x39 AK-pattern rifles, made of stamped sheet metal.  Originally designed for tank crews.",
     "weight": "283 g",
     "volume": "265 ml",
@@ -51,6 +52,7 @@
     "ammo_type": "762",
     "capacity": 20,
     "reliability": 9,
+    "reload_time": 90,
     "flags": [ "MAG_COMPACT" ]
   },
   {
@@ -69,6 +71,7 @@
     "ammo_type": "762",
     "capacity": 30,
     "reliability": 9,
+    "reload_time": 100,
     "flags": [ "MAG_COMPACT" ]
   },
   {
@@ -87,6 +90,7 @@
     "ammo_type": "762",
     "capacity": 40,
     "reliability": 8,
+    "reload_time": 120,
     "flags": [ "MAG_BULKY" ]
   },
   {
@@ -105,6 +109,7 @@
     "ammo_type": "762",
     "capacity": 75,
     "reliability": 7,
+    "reload_time": 170,
     "flags": [ "MAG_BULKY" ]
   }
 ]
