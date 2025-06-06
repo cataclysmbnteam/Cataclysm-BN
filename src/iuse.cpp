@@ -2436,7 +2436,7 @@ static digging_moves_and_byproducts dig_pit_moves_and_byproducts( player *p, ite
     const double attr = 10.0 / std::max( 1, p->str_cur );
 
     // And now determine the moves...
-    int dig_minutes = g->m.ter(pos)->digging_results.num_minutes;
+    int dig_minutes = channel ? 60 : g->m.ter(pos)->digging_results.num_minutes;
     int moves = to_moves<int>( std::max( 10_minutes,
                                          time_duration::from_minutes( dig_minutes * attr ) / quality ) );
     // Channel can be assumed to always be moving water because it doesn't create magic terraforming in theory.
