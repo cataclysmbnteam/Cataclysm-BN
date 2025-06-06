@@ -2468,7 +2468,7 @@ int iuse::dig( player *p, item *it, bool t, const tripoint & )
     }
     const bool grave = g->m.ter( dig_point ) == t_grave;
 
-    if( !p->crafting_inventory().max_quality( qual_DIG ) >= g->m.ter(dig_point)->digging_results.dig_min) {
+    if( !(p->crafting_inventory().max_quality( qual_DIG ) >= g->m.ter(dig_point)->digging_results.dig_min ) ) {
         if( grave ) {
             p->add_msg_if_player( _( "You can't exhume a grave without a better digging tool." ) );
             return 0;
