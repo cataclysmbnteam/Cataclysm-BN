@@ -104,6 +104,7 @@ std::string enum_to_string<spell_flag>( spell_flag data )
         case spell_flag::NO_FAIL: return "NO_FAIL";
         case spell_flag::WONDER: return "WONDER";
         case spell_flag::BRAWL: return "BRAWL";
+        case spell_flag::DUPE_SOUND: return "DUPE_SOUND";
         case spell_flag::LAST: break;
     }
     debugmsg( "Invalid spell_flag" );

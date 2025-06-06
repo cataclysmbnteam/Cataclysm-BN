@@ -3208,7 +3208,7 @@ bool find_auto_consume( player &p, const consume_type type )
 
     // actually eat
     const auto cost = pickup::cost_to_move_item( p, **stalest );
-    const auto dist = std::max( rl_dist( p.pos(), here.getlocal( ( *stalest )->position() ) ), 1 );
+    const auto dist = std::max( rl_dist( p.pos(), ( *stalest )->position() ), 1 );
     p.mod_moves( -cost * dist );
 
     item *item_loc = &p.get_consumable_from( **stalest );

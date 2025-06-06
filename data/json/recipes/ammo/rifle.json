@@ -373,7 +373,12 @@
     "charges": 1,
     "reversible": true,
     "using": [ [ "bullet_forming", 15 ], [ "ammo_bullet", 8 ] ],
-    "components": [ [ [ "4570_casing", 1 ] ], [ [ "lgrifle_primer", 1 ] ], [ [ "gunpowder", 17 ] ], [ [ "copper", 7 ] ] ]
+    "components": [
+      [ [ "4570_casing", 1 ] ],
+      [ [ "lgrifle_primer", 1 ] ],
+      [ [ "gunpowder", 17 ] ],
+      [ [ "copper", 7 ], [ "cartridgebrass", 14 ] ]
+    ]
   },
   {
     "result": "4570_low",

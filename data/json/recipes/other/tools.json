@@ -160,7 +160,7 @@
         [ "chem_aluminium_powder", 15 ],
         [ "can_drink_unsealed", 2 ]
       ],
-      [ [ "copper_scrap_equivalent", 4, "LIST" ] ]
+      [ [ "copper_scrap_equivalent", 4, "LIST" ], [ "cartridgebrass", 200 ] ]
     ]
   },
   {
