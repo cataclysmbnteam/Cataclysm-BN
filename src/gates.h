@@ -16,7 +16,7 @@ void check();
 void reset();
 
 /** opens/closes the gate via player's activity */
-void toggle_gate( const tripoint &pos, player &p );
+void toggle_gate( const tripoint &pos, Character &who );
 /** opens/closes the gate immediately */
 void toggle_gate( const tripoint &pos );
 

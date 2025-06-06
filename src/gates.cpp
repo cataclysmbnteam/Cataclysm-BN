@@ -233,22 +233,23 @@ void gates::toggle_gate( const tripoint &pos )
     }
 }
 
-void gates::toggle_gate( const tripoint &pos, player &p )
+void gates::toggle_gate( const tripoint &pos, Character &who )
 {
     const gate_id gid = get_gate_id( pos );
 
     if( !gates_data.is_valid( gid ) ) {
-        p.add_msg_if_player( _( "Nothing happens." ) );
+        who.add_msg_if_player( _( "Nothing happens." ) );
         return;
     }
 
     const gate_data &gate = gates_data.obj( gid );
 
-    p.add_msg_if_player( gate.pull_message );
-    p.assign_activity( std::make_unique<player_activity>( std::make_unique<toggle_gate_activity_actor>(
-                           gate.moves,
-                           pos
-                       ) ) );
+    who.add_msg_if_player( gate.pull_message );
+    who.assign_activity( std::make_unique<player_activity>
+                         ( std::make_unique<toggle_gate_activity_actor>(
+                               gate.moves,
+                               pos
+                           ) ) );
 }
 
 // Doors namespace

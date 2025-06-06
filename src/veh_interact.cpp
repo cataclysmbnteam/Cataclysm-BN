@@ -1767,7 +1767,7 @@ vehicle_part *veh_interact::get_most_repariable_part() const
     return part ? &part : nullptr;
 }
 
-bool veh_interact::can_remove_part( int idx, const player &p )
+bool veh_interact::can_remove_part( int idx, const Character &who )
 {
     sel_vehicle_part = &veh->part( idx );
     sel_vpart_info = &sel_vehicle_part->info();
@@ -1787,7 +1787,7 @@ bool veh_interact::can_remove_part( int idx, const player &p )
 
     const auto reqs = sel_vpart_info->removal_requirements();
     bool ok = format_reqs( nmsg, reqs, sel_vpart_info->removal_skills,
-                           sel_vpart_info->removal_time( p ) );
+                           sel_vpart_info->removal_time( who ) );
     std::string additional_requirements;
     bool lifting_or_jacking_required = false;
 
@@ -1802,7 +1802,7 @@ bool veh_interact::can_remove_part( int idx, const player &p )
         lvl = jack_quality( *veh );
         str = veh->lift_strength();
         use_aid = ( max_jack >= lvl ) || can_self_jack();
-        use_str = character_funcs::can_lift_with_helpers( p, str );
+        use_str = character_funcs::can_lift_with_helpers( who, str );
     } else if( get_option<bool>( "DISABLE_LIFTING" ) || sel_vpart_info->has_flag( "NO_LIFT_REQ" ) ) {
         use_aid = true;
         use_str = true;
@@ -1816,7 +1816,7 @@ bool veh_interact::can_remove_part( int idx, const player &p )
                          TOOL_LIFT_FACTOR );
         str = base.lift_strength();
         use_aid = max_lift >= lvl;
-        use_str = character_funcs::can_lift_with_helpers( p, base.lift_strength() );
+        use_str = character_funcs::can_lift_with_helpers( who, base.lift_strength() );
     }
 
     if( !( use_aid || use_str ) ) {
@@ -1825,7 +1825,7 @@ bool veh_interact::can_remove_part( int idx, const player &p )
     if( lifting_or_jacking_required ) {
         nc_color aid_color = use_aid ? c_green : ( use_str ? c_dark_gray : c_red );
         nc_color str_color = use_str ? c_green : ( use_aid ? c_dark_gray : c_red );
-        const auto helpers = character_funcs::get_crafting_helpers( p );
+        const auto helpers = character_funcs::get_crafting_helpers( who );
         //~ %1$s is quality name, %2$d is quality level
         std::string aid_string = string_format( _( "1 tool with %1$s %2$d" ),
                                                 qual.obj().name, lvl );

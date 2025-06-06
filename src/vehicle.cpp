@@ -2350,10 +2350,10 @@ bool vehicle::find_and_split_vehicles( int exclude )
     return false;
 }
 
-void vehicle::relocate_passengers( const std::vector<player *> &passengers )
+void vehicle::relocate_passengers( const std::vector<Character *> &passengers )
 {
     const auto boardables = get_avail_parts( "BOARDABLE" );
-    for( player *passenger : passengers ) {
+    for( auto *passenger : passengers ) {
         for( const vpart_reference &vp : boardables ) {
             if( vp.part().passenger_id == passenger->getID() ) {
                 passenger->setpos( vp.pos() );
@@ -2429,7 +2429,7 @@ bool vehicle::split_vehicles( const std::vector<std::vector <int>> &new_vehs,
         }
         new_vehicle->last_fluid_check = last_fluid_check;
 
-        std::vector<player *> passengers;
+        std::vector<Character *> passengers;
         for( size_t new_part = 0; new_part < split_parts.size(); new_part++ ) {
             int mov_part = split_parts[ new_part ];
             point cur_mount = parts[ mov_part ].mount;
