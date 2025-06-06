@@ -67,7 +67,7 @@ class activity_speed
         float skills = 1.0f;
         float tools = 1.0f;
         float morale = 1.0f;
-        float light = 1.0f;
+        float vision = 1.0f;
         stat_factors stats;
 
         //Returns total product of all stats
@@ -82,7 +82,7 @@ class activity_speed
         //Returns total product of all factors
         inline float total() const {
             return 1.0f * assist * bench_factor * player_speed * stats_total() * skills * tools * morale *
-                   light;
+                   vision;
         }
 
         //Returns total amonut of moves based on factors
@@ -100,7 +100,7 @@ class activity_speed
         void calc_assistants_factor( const Character &who );
         void calc_bench_factor( const Character &who );
         void find_best_bench( const tripoint &pos, metric metrics = std::make_pair( 0_milligram, 0_ml ) );
-        void calc_light_factor( const Character &who );
+        void calc_vision_factor( const Character &who );
         void calc_morale_factor( const Character &who );
         void calc_skill_factor( const Character &who, const skill_reqs &skill_req );
 

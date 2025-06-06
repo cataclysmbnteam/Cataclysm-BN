@@ -6,10 +6,14 @@
 
 #include "activity_actor.h"
 #include "activity_handlers.h"
+#include "activity_speed.h"
 #include "assign.h"
+#include "character.h"
+#include "character_functions.h"
 #include "debug.h"
 #include "enum_conversions.h"
 #include "json.h"
+#include "ret_val.h"
 #include "sounds.h"
 #include "string_formatter.h"
 #include "translations.h"
@@ -53,13 +57,21 @@ void activity_type::load( const JsonObject &jo )
     assign( jo, "multi_activity", result.multi_activity_, false );
     assign( jo, "refuel_fires", result.refuel_fires, false );
     assign( jo, "auto_needs", result.auto_needs, false );
-    assign( jo, "morale_blocked", result.morale_blocked_, false );
     assign( jo, "verbose_tooltip", result.verbose_tooltip_, false );
     if( jo.has_member( "complex_moves" ) ) {
         result.complex_moves_ = true;
         auto c_moves = jo.get_object( "complex_moves" );
+        if( c_moves.has_member( "total_interrupts" ) ) {
+            result.has_interrupts_ = true;
+            auto res = c_moves.get_int( "total_interrupts" );
+            if( res < INT16_MIN || INT16_MAX < res ) {
+                debugmsg( "total_interrupts should be in range [%1,%2]", INT16_MIN, INT16_MAX );
+            } else {
+                result.total_speed_interrupts_ = res;
+            }
+        }
         result.bench_affected_ = c_moves.get_bool( "bench", false );
-        result.light_affected_ = c_moves.get_bool( "light", false );
+        result.vision_affected_ = c_moves.get_bool( "vision", false );
         result.speed_affected_ = c_moves.get_bool( "speed", false );
         result.morale_affected_ = c_moves.get_bool( "morale", false );
 
@@ -139,6 +151,16 @@ void activity_type::load( const JsonObject &jo )
         }
     }
 
+    if( jo.has_member( "interrupts" ) ) {
+        result.has_interrupts_ = true;
+        auto interrupts = jo.get_object( "interrupts" );
+        assign( interrupts, "morale", result.morale_interrupts_, false );
+        auto vision = interrupts.get_string( "vision" );
+        if( !vision.empty() ) {
+            result.vision_interrupts_ = character_funcs::Vision::parse( vision );
+        }
+    }
+
     if( activity_type_all.find( result.id_ ) != activity_type_all.end() ) {
         debugmsg( "Redefinition of %s", result.id_.c_str() );
     } else {
@@ -207,6 +229,43 @@ bool activity_type::call_finish( player_activity *act, player *p ) const
     return false;
 }
 
+ret_val<bool> activity_type::check_interrupts( const Character &who,
+        const activity_speed *speed ) const
+{
+    //Check if activity type is interruptable by certain conditions at all
+    if( !has_interrupts_ ) {
+        return ret_val<bool>::make_failure();
+    }
+
+    //Check if vision modifier is below expected level
+    //Bigger number -> worse vision
+    if( vision_interrupts_ &&
+        character_funcs::fine_detail_vision_mod( who ) > *vision_interrupts_ ) {
+        return ret_val<bool>::make_success(
+                   string_format(
+                       _( "Can no longer see well enough for %s." ),
+                       verb_ ) );
+    }
+
+    //Check if morale is above expected level
+    if( morale_interrupts_ && who.get_morale_level() < *morale_interrupts_ ) {
+        return ret_val<bool>::make_success(
+                   string_format(
+                       _( "Morale is too low for %s." ),
+                       verb_ ) );
+    }
+
+    //Check if total speed is above expected level
+    if( speed && total_speed_interrupts_ && speed->total_moves() < *total_speed_interrupts_ ) {
+        return ret_val<bool>::make_success(
+                   string_format(
+                       _( "Too frustrated to do %s and just give up." ),
+                       verb_ ) );
+    }
+
+    //Everything is fine
+    return ret_val<bool>::make_failure();
+}
 void activity_type::reset()
 {
     activity_type_all.clear();
