@@ -352,6 +352,20 @@
     ]
   },
   {
+    "id": "nested_ac556_mag",
+    "type": "item_group",
+    "subtype": "distribution",
+    "ammo": 100,
+    "entries": [
+      { "item": "ruger20", "ammo-group": "on_hand_223", "prob": 100 },
+      { "item": "ruger5", "ammo-group": "on_hand_223", "prob": 5 },
+      { "item": "ruger10", "ammo-group": "on_hand_223", "prob": 5 },
+      { "item": "ruger30", "ammo-group": "on_hand_223", "prob": 5 },
+      { "item": "ruger90", "ammo-group": "on_hand_223", "prob": 5 },
+      { "item": "ruger100", "ammo-group": "on_hand_223", "prob": 5 }
+    ]
+  },
+  {
     "id": "nested_fn_fal_mag",
     "type": "item_group",
     "subtype": "distribution",
