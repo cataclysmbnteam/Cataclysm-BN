@@ -802,7 +802,7 @@
     "comestible_type": "DRINK",
     "looks_like": "blood",
     "symbol": "~",
-    "spoils_in": "0 days"
+    "spoils_in": "0 days",
     "quench": 5,
     "healthy": -8,
     "price_postapoc": "10 cent",
