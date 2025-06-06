@@ -364,6 +364,7 @@ void vpart_info::load( const JsonObject &jo, const std::string &src )
         for( const std::string pre_flag : jttd.get_array( "pre_flags" ) ) {
             def.transform_terrain.pre_flags.emplace( pre_flag );
         }
+        def.transform_terrain.digging = jttd.get_bool("digging", false);
         def.transform_terrain.post_terrain = jttd.get_string( "post_terrain", "t_null" );
         def.transform_terrain.post_furniture = jttd.get_string( "post_furniture", "f_null" );
         def.transform_terrain.post_field = jttd.get_string( "post_field", "fd_null" );
