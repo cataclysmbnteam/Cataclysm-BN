@@ -131,7 +131,7 @@
     "symbol": "*",
     "looks_like": "t_bog_iron",
     "color": "brown",
-    "digging_result": "digging_alluvial_200L",
+    "digging_results": { "digging_min": 1, "result_ter": "t_pit_shallow", "num_minutes": 60, "items": "digging_alluvial_200L" },
     "bash": {
       "sound": "thump",
       "ter_set": "t_pit_shallow",
@@ -153,6 +153,8 @@
     "symbol": "#",
     "color": "brown",
     "move_cost": 3,
+    "fill_result": "t_dirt",
+    "fill_minutes": 5,
     "flags": [ "TRANSPARENT", "MOUNTABLE", "VEH_TREAT_AS_BASH_BELOW", "PLANTABLE" ],
     "digging_results": { "digging_min": 1, "result_ter": "t_pit_shallow", "num_minutes": 60 },
     "bash": { "sound": "thump", "ter_set": "t_dirt", "str_min": 50, "str_max": 100, "str_min_supported": 100 },
