@@ -949,7 +949,7 @@
     "skill_used": "computer",
     "difficulty": 5,
     "time": "30 m",
-    "book_learn": [ [ "radio_book", 6 ], [ "textbook_anarch", 5 ], [ "recipe_lab_elec", 5 ] ],
+    "book_learn": [ [ "textbook_anarch", 5 ], [ "recipe_lab_elec", 5 ] ],
     "using": [ [ "soldering_standard", 14 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "tools": [ [ [ "software_hacking", -1 ], [ "control_laptop", -1 ] ] ],
