@@ -2447,7 +2447,7 @@ void veh_interact::display_stats() const
 
     bool is_boat = !veh->floating.empty();
     bool is_ground = !veh->wheelcache.empty() || !is_boat;
-    bool is_aircraft = veh->is_rotorcraft() && veh->is_flying_in_air();
+    bool is_aircraft = veh->is_aircraft() && veh->is_flying_in_air();
 
     const auto vel_to_int = []( const double vel ) {
         return static_cast<int>( convert_velocity( vel, VU_VEHICLE ) );
@@ -2475,12 +2475,12 @@ void veh_interact::display_stats() const
     if( is_aircraft ) {
         print_stat(
             _( "Air Safe/Top Speed: <color_light_green>%3d</color>/<color_light_red>%3d</color> %s" ),
-            vel_to_int( veh->safe_rotor_velocity( false ) ),
-            vel_to_int( veh->max_rotor_velocity( false ) ),
+            vel_to_int( veh->safe_aircraft_velocity( false ) ),
+            vel_to_int( veh->max_air_velocity( false ) ),
             velocity_units( VU_VEHICLE ) );
         print_stat(
             _( "Air Acceleration: <color_light_blue>%3d</color> %s/s" ),
-            vel_to_int( veh->rotor_acceleration( false ) ),
+            vel_to_int( veh->aircraft_acceleration( false ) ),
             velocity_units( VU_VEHICLE ) );
     } else {
         if( is_ground ) {
@@ -2517,10 +2517,10 @@ void veh_interact::display_stats() const
     print_stat(
         _( "Mass: <color_light_blue>%5.0f</color> %s" ),
         convert_weight( veh->total_mass() ), weight_units() );
-    if( veh->has_part( "ROTOR" ) ) {
+    if( veh->has_lift() ) {
         // convert newton to kg.
         units::mass lift_as_mass = units::from_newton(
-                                       veh->lift_thrust_of_rotorcraft( true ) );
+                                       veh->total_lift( true ) );
         print_stat(
             _( "Maximum Lift: <color_light_blue>%5.0f</color> %s" ),
             convert_weight( lift_as_mass ),
