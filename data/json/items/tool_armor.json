@@ -3137,7 +3137,7 @@
     "copy-from": "scouter",
     "repairs_like": "scouter",
     "type": "TOOL_ARMOR",
-    "name": { "str": "scouting visor (NV Mode)", "str_pl": "scouting visors (NV Mode)" },
+    "name": { "str": "upgraded scouting visor (NV Mode)", "str_pl": "upgraded scouting visors (NV Mode)" },
     "description": "This device is a head-mounted, UPS-powered, augmented reality scanning tool used by tech enthusiasts before the Cataclysm struck, projecting a HUD onto a transparent screen that goes over your eye.  The night vision mode is currently on, draining power.",
     "power_draw": 375,
     "extend": { "flags": [ "GNV_EFFECT" ] },
