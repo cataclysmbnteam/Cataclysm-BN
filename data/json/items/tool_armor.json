@@ -3070,14 +3070,13 @@
       "POWERARMOR_COMPATIBLE",
       "RECHARGE",
       "NO_UNLOAD",
-      "NO_RELOAD",
-      "USE_UPS",
-      "NAT_UPS"
+      "NO_RELOAD"
     ],
     "coverage": 50,
     "symbol": "[",
     "ammo": "battery",
     "charges_per_use": 1,
+    "max_charges": 200,
     "use_action": [
       "PORTABLE_GAME",
       "WEATHER_TOOL",
@@ -3087,12 +3086,13 @@
       {
         "type": "transform",
         "msg": "You activate your %'s night vision mode.",
-        "target": "scouter_nv_on_chorus",
+        "target": "scouter_nv_on",
         "active": true,
         "transform_charges": 1,
         "need_charges": 1,
         "need_charges_msg": "The %s's batteries are dead."
-      }
+      },
+      "TOGGLE_UPS_CHARGING"
     ]
   },
   {
@@ -3123,12 +3123,13 @@
       {
         "type": "transform",
         "msg": "You activate your %'s night vision mode.",
-        "target": "mil_scouter_nv_on_chorus",
+        "target": "mil_scouter_nv_on",
         "active": true,
         "transform_charges": 1,
         "need_charges": 1,
         "need_charges_msg": "The %s's batteries are dead."
-      }
+      },
+      "TOGGLE_UPS_CHARGING"
     ]
   },
   {
