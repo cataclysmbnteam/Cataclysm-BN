@@ -346,17 +346,18 @@ void map_bash_info::check( const std::string &id, map_object_type type ) const
     }
 }
 
-void map_dig_info::deserialize(JsonIn &jsin) {
+void map_dig_info::deserialize( JsonIn &jsin )
+{
     JsonObject jo = jsin.get_object();
 
-    assign(jo, "digging_min", dig_min);
-    assign(jo, "result_ter", result_ter);
-    assign(jo, "num_minutes", num_minutes);
+    assign( jo, "digging_min", dig_min );
+    assign( jo, "result_ter", result_ter );
+    assign( jo, "num_minutes", num_minutes );
     // Support for individual items specified or an itemgroup
-    if (jo.has_array("items")) {
-        result_items = item_group::load_item_group(jo.get_member("items"), "collection");
-    } else if (jo.has_string("items")) {
-        assign(jo, "items", result_items);
+    if( jo.has_array( "items" ) ) {
+        result_items = item_group::load_item_group( jo.get_member( "items" ), "collection" );
+    } else if( jo.has_string( "items" ) ) {
+        assign( jo, "items", result_items );
     }
 }
 
@@ -1327,7 +1328,8 @@ bool ter_t::is_null() const
     return id == ter_str_id::NULL_ID();
 }
 
-bool ter_t::is_diggable() const {
+bool ter_t::is_diggable() const
+{
     return !digging_results.result_ter->is_null();
 }
 
@@ -1380,12 +1382,12 @@ void ter_t::load( const JsonObject &jo, const std::string &src )
         hacksaw->load( jo.get_object( "hacksaw" ) );
     }
 
-    optional(jo, was_loaded, "fill_result", fill_result, ter_str_id::NULL_ID());
-    optional(jo, was_loaded, "fill_minutes", fill_minutes, 15);
+    optional( jo, was_loaded, "fill_result", fill_result, ter_str_id::NULL_ID() );
+    optional( jo, was_loaded, "fill_minutes", fill_minutes, 15 );
 
     // Not assign, because we want to overwrite individual fields
     optional( jo, was_loaded, "bash", bash );
-    optional(jo, was_loaded, "digging_results", digging_results);
+    optional( jo, was_loaded, "digging_results", digging_results );
     deconstruct.load( jo, "deconstruct", false );
     pry.load( jo, "pry", pry_result::terrain );
 }

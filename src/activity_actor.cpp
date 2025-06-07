@@ -510,8 +510,8 @@ void dig_activity_actor::finish( player_activity &act, Character &who )
     here.ter_set( location, ter_id( result_terrain ) );
 
     here.spawn_items( byproducts_location,
-                          item_group::items_from( item_group_id( byproducts_item_group ),
-                                  calendar::turn ) );
+                      item_group::items_from( item_group_id( byproducts_item_group ),
+                              calendar::turn ) );
 
     const int act_exertion = act.moves_total;
 
@@ -584,8 +584,8 @@ void dig_channel_activity_actor::finish( player_activity &act, Character &who )
     here.ter_set( location, ter_id( result_terrain ) );
 
     here.spawn_items( byproducts_location,
-                          item_group::items_from( item_group_id( byproducts_item_group ),
-                                  calendar::turn ) );
+                      item_group::items_from( item_group_id( byproducts_item_group ),
+                              calendar::turn ) );
 
     const int act_exertion = act.moves_total;
 

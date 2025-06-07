@@ -109,7 +109,7 @@ struct map_bash_info {
 
 struct map_dig_info {
     // Minimum digging quality to dig this tile
-    int dig_min = 0; 
+    int dig_min = 0;
     // Terrain to become after digging
     ter_str_id result_ter = ter_str_id::NULL_ID();
     // Items to drop upon finishing digging
@@ -118,7 +118,7 @@ struct map_dig_info {
     int num_minutes = 0;
 
     // Load in the actual data
-    void deserialize(JsonIn &jsin);
+    void deserialize( JsonIn &jsin );
 };
 
 struct map_deconstruct_info {

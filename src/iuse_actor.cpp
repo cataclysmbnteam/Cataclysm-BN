@@ -4173,7 +4173,7 @@ int place_trap_actor::use( player &p, item &it, bool, const tripoint & ) const
     }
 
     const bool has_shovel = p.has_quality( quality_id( "DIG" ), 3 );
-    const bool is_diggable = here.ter(pos)->is_diggable();
+    const bool is_diggable = here.ter( pos )->is_diggable();
     bool bury = false;
     if( could_bury && has_shovel && is_diggable ) {
         bury = query_yn( _( bury_question ) );

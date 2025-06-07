@@ -188,7 +188,12 @@ it for the purpose of surgery.
   "fill_minutes": 10, // Number of minutes to fill terrain in
   "max_volume": "1000 L",
   "flags": ["TRANSPARENT"],
-  "digging_results": { "digging_min": 1, "result_ter": "t_pit_shallow", "num_minutes": 60, "items": "digging_sand_50L" },
+  "digging_results": {
+    "digging_min": 1,
+    "result_ter": "t_pit_shallow",
+    "num_minutes": 60,
+    "items": "digging_sand_50L"
+  },
   "connects_to": "WALL",
   "close": "t_foo_closed",
   "open": "t_foo_open",

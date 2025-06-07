@@ -1887,7 +1887,7 @@ std::string map::features( const tripoint &p )
     // to take up one line.  So, make sure it does that.
     // FIXME: can't control length of localized text.
     add_if( is_bashable( p ), _( "Smashable." ) );
-    add_if( ter(p)->is_diggable(), _( "Diggable." ) );
+    add_if( ter( p )->is_diggable(), _( "Diggable." ) );
     add_if( has_flag( "PLOWABLE", p ), _( "Plowable." ) );
     add_if( has_flag( "ROUGH", p ), _( "Rough." ) );
     add_if( has_flag( "UNSTABLE", p ), _( "Unstable." ) );
