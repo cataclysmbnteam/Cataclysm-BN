@@ -144,7 +144,9 @@ async function* walkFileOrDirectory(path: string): AsyncIterableIterator<WalkEnt
  * @param paths paths to recursively read JSON files from
  * @returns an array of {@link WalkEntry} with unverified JSON object array
  */
-export const recursivelyReadJSON = async (...paths: string[]): Promise<JSONFileEntry[]> => {
+export const recursivelyReadJSON = async (
+  ...paths: string[]
+): Promise<JSONFileEntry[]> => {
   const mux = new MuxAsyncIterator(...paths.map(walkFileOrDirectory))
   const jsons = await Array.fromAsync(mux)
 
@@ -153,6 +155,33 @@ export const recursivelyReadJSON = async (...paths: string[]): Promise<JSONFileE
       return ({
         ...entry,
         data: jsonMap.parse(await Deno.readTextFile(entry.path)) as Map<string, unknown>[],
+      })
+    } catch (e) {
+      console.error(entry.path, e)
+      throw e
+    }
+  })
+
+  return (await Promise.all(res))
+}
+
+/**
+ * @param paths paths to recursively read JSON files from
+ * @returns an array of {@link WalkEntry} with unverified JSON object array
+ *
+ * TODO: make this less duplicated
+ */
+export const recursivelyReadJSONObj = async (
+  ...paths: string[]
+): Promise<(WalkEntry & { data: Record<string, unknown>[] })[]> => {
+  const mux = new MuxAsyncIterator(...paths.map(walkFileOrDirectory))
+  const jsons = await Array.fromAsync(mux)
+
+  const res = jsons.map(async (entry) => {
+    try {
+      return ({
+        ...entry,
+        data: JSON.parse(await Deno.readTextFile(entry.path)) as Record<string, unknown>[],
       })
     } catch (e) {
       console.error(entry.path, e)
