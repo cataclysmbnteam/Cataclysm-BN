@@ -100,7 +100,7 @@ void ter_furn_transform::load( const JsonObject &jo, const std::string & )
                 ter_flag_transform.emplace( valid_terrain, cur_results );
             }
 
-            if (ter_obj.has_member("diggable")) {
+            if (ter_obj.get_bool("diggable", false)) {
                 diggable_ter_transform = cur_results;
             }
         }
