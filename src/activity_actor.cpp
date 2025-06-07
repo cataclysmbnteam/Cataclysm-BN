@@ -509,11 +509,9 @@ void dig_activity_actor::finish( player_activity &act, Character &who )
 
     here.ter_set( location, ter_id( result_terrain ) );
 
-    for( int i = 0; i < byproducts_count; i++ ) {
-        here.spawn_items( byproducts_location,
-                          item_group::items_from( item_group_id( byproducts_item_group ),
-                                  calendar::turn ) );
-    }
+    here.spawn_items( byproducts_location,
+                      item_group::items_from( item_group_id( byproducts_item_group ),
+                              calendar::turn ) );
 
     const int act_exertion = act.moves_total;
 
@@ -539,7 +537,6 @@ void dig_activity_actor::serialize( JsonOut &jsout ) const
     jsout.member( "location", location );
     jsout.member( "result_terrain", result_terrain );
     jsout.member( "byproducts_location", byproducts_location );
-    jsout.member( "byproducts_count", byproducts_count );
     jsout.member( "byproducts_item_group", byproducts_item_group );
 
     jsout.end_object();
@@ -548,7 +545,7 @@ void dig_activity_actor::serialize( JsonOut &jsout ) const
 std::unique_ptr<activity_actor> dig_activity_actor::deserialize( JsonIn &jsin )
 {
     std::unique_ptr<dig_activity_actor> actor( new dig_activity_actor( 0, tripoint_zero,
-            {}, tripoint_zero, 0, {} ) );
+            {}, tripoint_zero, {} ) );
 
     JsonObject data = jsin.get_object();
 
@@ -557,7 +554,6 @@ std::unique_ptr<activity_actor> dig_activity_actor::deserialize( JsonIn &jsin )
     data.read( "location", actor->location );
     data.read( "result_terrain", actor->result_terrain );
     data.read( "byproducts_location", actor->byproducts_location );
-    data.read( "byproducts_count", actor->byproducts_count );
     data.read( "byproducts_item_group", actor->byproducts_item_group );
 
     return actor;
@@ -587,11 +583,9 @@ void dig_channel_activity_actor::finish( player_activity &act, Character &who )
     map &here = get_map();
     here.ter_set( location, ter_id( result_terrain ) );
 
-    for( int i = 0; i < byproducts_count; i++ ) {
-        here.spawn_items( byproducts_location,
-                          item_group::items_from( item_group_id( byproducts_item_group ),
-                                  calendar::turn ) );
-    }
+    here.spawn_items( byproducts_location,
+                      item_group::items_from( item_group_id( byproducts_item_group ),
+                              calendar::turn ) );
 
     const int act_exertion = act.moves_total;
 
@@ -613,7 +607,6 @@ void dig_channel_activity_actor::serialize( JsonOut &jsout ) const
     jsout.member( "location", location );
     jsout.member( "result_terrain", result_terrain );
     jsout.member( "byproducts_location", byproducts_location );
-    jsout.member( "byproducts_count", byproducts_count );
     jsout.member( "byproducts_item_group", byproducts_item_group );
 
     jsout.end_object();
@@ -622,7 +615,7 @@ void dig_channel_activity_actor::serialize( JsonOut &jsout ) const
 std::unique_ptr<activity_actor> dig_channel_activity_actor::deserialize( JsonIn &jsin )
 {
     std::unique_ptr<dig_channel_activity_actor> actor( new dig_channel_activity_actor( 0, tripoint_zero,
-            {}, tripoint_zero, 0, {} ) );
+            {}, tripoint_zero, {} ) );
 
     JsonObject data = jsin.get_object();
 
@@ -631,7 +624,6 @@ std::unique_ptr<activity_actor> dig_channel_activity_actor::deserialize( JsonIn 
     data.read( "location", actor->location );
     data.read( "result_terrain", actor->result_terrain );
     data.read( "byproducts_location", actor->byproducts_location );
-    data.read( "byproducts_count", actor->byproducts_count );
     data.read( "byproducts_item_group", actor->byproducts_item_group );
 
     return actor;

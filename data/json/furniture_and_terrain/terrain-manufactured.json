@@ -1584,7 +1584,8 @@
     "looks_like": "t_claymound",
     "move_cost": 5,
     "transforms_into": "t_niter_bed_ready",
-    "flags": [ "TRANSPARENT", "DIGGABLE", "HARVESTED" ],
+    "flags": [ "TRANSPARENT", "HARVESTED" ],
+    "digging_results": { "digging_min": 1, "result_ter": "t_pit_shallow", "num_minutes": 60 },
     "bash": {
       "sound": "thump!",
       "sound_fail": "thump!",
@@ -1603,8 +1604,8 @@
     "color": "brown",
     "looks_like": "t_claymound",
     "move_cost": 5,
-    "flags": [ "TRANSPARENT", "DIGGABLE" ],
-    "digging_result": "digging_niter_bed",
+    "flags": [ "TRANSPARENT" ],
+    "digging_results": { "digging_min": 1, "result_ter": "t_pit_shallow", "num_minutes": 60, "items": "digging_niter_bed" },
     "bash": {
       "sound": "thump!",
       "sound_fail": "thump!",

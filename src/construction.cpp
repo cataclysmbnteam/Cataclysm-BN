@@ -1018,6 +1018,10 @@ bool can_construct( const construction &con, const tripoint &p )
         const ter_id &ter = here.ter( p );
         return furn == f_null ? ter->has_flag( flag ) : furn->has_flag( flag );
     } );
+    // see if diggability checks out
+    if( con.needs_diggable ) {
+        place_okay &=  here.ter( p )->is_diggable();
+    }
     // make sure the construction would actually do something
     if( !con.post_terrain.is_empty() ) {
         place_okay &= here.ter( p ) != con.post_terrain;
@@ -1709,6 +1713,7 @@ void construction::load( const JsonObject &jo, const std::string &/*src*/ )
     assign( jo, "pre_flags", pre_flags );
     optional( jo, was_loaded, "deny_flags", deny_flags );
     optional( jo, was_loaded, "post_flags", post_flags );
+    optional( jo, was_loaded, "needs_diggable", needs_diggable, false );
 
     if( jo.has_member( "byproducts" ) ) {
         byproduct_item_group = item_group::load_item_group( jo.get_member( "byproducts" ),

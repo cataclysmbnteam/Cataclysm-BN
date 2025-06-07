@@ -1363,7 +1363,7 @@ void vehicle::transform_terrain()
         const transform_terrain_data &ttd = vp.info().transform_terrain;
         bool prereq_fulfilled = false;
         for( const std::string &flag : ttd.pre_flags ) {
-            if( g->m.has_flag( flag, start_pos ) ) {
+            if( ( ttd.diggable && g->m.ter( start_pos )->is_diggable() ) || g->m.has_flag( flag, start_pos ) ) {
                 prereq_fulfilled = true;
                 break;
             }
