@@ -917,7 +917,7 @@ static bool mx_minefield( map &/*m_orig*/, const tripoint &abs_sub )
         //Spawn ordinary mine on asphalt, otherwise spawn buried mine
         for( int i = 0; i < num_mines; i++ ) {
             const int x = rng( 3, SEEX * 2 - 4 ), y = rng( SEEY, SEEY * 2 - 2 );
-            if( m.ter(point( x, y ))->is_diggable() ) {
+            if( m.ter( point( x, y ) )->is_diggable() ) {
                 mtrap_set( &m, point( x, y ), tr_landmine_buried );
             } else {
                 mtrap_set( &m, point( x, y ), tr_landmine );
@@ -1019,7 +1019,7 @@ static bool mx_minefield( map &/*m_orig*/, const tripoint &abs_sub )
         //Spawn ordinary mine on asphalt, otherwise spawn buried mine
         for( int i = 0; i < num_mines; i++ ) {
             const int x = rng( 3, SEEX * 2 - 4 ), y = rng( 1, SEEY );
-            if( m.ter(point( x, y ))->is_diggable() ) {
+            if( m.ter( point( x, y ) )->is_diggable() ) {
                 mtrap_set( &m, point( x, y ), tr_landmine_buried );
             } else {
                 mtrap_set( &m, point( x, y ), tr_landmine );
@@ -1167,7 +1167,7 @@ static bool mx_minefield( map &/*m_orig*/, const tripoint &abs_sub )
         //Spawn ordinary mine on asphalt, otherwise spawn buried mine
         for( int i = 0; i < num_mines; i++ ) {
             const int x = rng( SEEX + 1, SEEX * 2 - 2 ), y = rng( 3, SEEY * 2 - 4 );
-            if( m.ter(point( x, y ))->is_diggable() ) {
+            if( m.ter( point( x, y ) )->is_diggable() ) {
                 mtrap_set( &m, point( x, y ), tr_landmine_buried );
             } else {
                 mtrap_set( &m, point( x, y ), tr_landmine );
@@ -1303,7 +1303,7 @@ static bool mx_minefield( map &/*m_orig*/, const tripoint &abs_sub )
         //Spawn ordinary mine on asphalt, otherwise spawn buried mine
         for( int i = 0; i < num_mines; i++ ) {
             const int x = rng( 1, SEEX ), y = rng( 3, SEEY * 2 - 4 );
-            if( m.ter(point( x, y ))->is_diggable() ) {
+            if( m.ter( point( x, y ) )->is_diggable() ) {
                 mtrap_set( &m, point( x, y ), tr_landmine_buried );
             } else {
                 mtrap_set( &m, point( x, y ), tr_landmine );

@@ -150,7 +150,7 @@ void fungal_effects::spread_fungus_one_tile( const tripoint &p, const int growth
 {
     bool converted = false;
     // Terrain conversion
-    if( m.ter(p)->is_diggable() ) {
+    if( m.ter( p )->is_diggable() ) {
         if( x_in_y( growth * 10, 100 ) ) {
             m.ter_set( p, t_fungus );
             converted = true;

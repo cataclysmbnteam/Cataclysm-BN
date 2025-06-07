@@ -2410,7 +2410,8 @@ struct digging_moves_and_byproducts {
     ter_id result_terrain;
 };
 
-static digging_moves_and_byproducts dig_pit_moves_and_byproducts( player *p, item *it, const tripoint &pos, const bool channel )
+static digging_moves_and_byproducts dig_pit_moves_and_byproducts( player *p, item *it,
+        const tripoint &pos, const bool channel )
 {
     // Vastly simplified version of DDA's version, which had a 77-line-long explanation.
     //
@@ -2435,11 +2436,12 @@ static digging_moves_and_byproducts dig_pit_moves_and_byproducts( player *p, ite
     const double attr = 10.0 / std::max( 1, p->str_cur );
 
     // And now determine the moves...
-    int dig_minutes = channel ? 60 : g->m.ter(pos)->digging_results.num_minutes;
+    int dig_minutes = channel ? 60 : g->m.ter( pos )->digging_results.num_minutes;
     int moves = to_moves<int>( std::max( 10_minutes,
                                          time_duration::from_minutes( dig_minutes * attr ) / quality ) );
     // Channel can be assumed to always be moving water because it doesn't create magic terraforming in theory.
-    ter_id result_terrain = channel ? ter_id( "t_water_moving_sh" ) : g->m.ter(pos)->digging_results.result_ter;
+    ter_id result_terrain = channel ? ter_id( "t_water_moving_sh" ) : g->m.ter(
+                                pos )->digging_results.result_ter;
 
     return { moves, g->m.ter( pos )->digging_results.result_items.str(), result_terrain };
 }
@@ -2455,7 +2457,7 @@ int iuse::dig( player *p, item *it, bool t, const tripoint & )
     }
     const tripoint dig_point = p->pos();
 
-    const bool can_dig_here = g->m.ter(dig_point)->is_diggable() &&
+    const bool can_dig_here = g->m.ter( dig_point )->is_diggable() &&
                               !g->m.has_furn( dig_point ) &&
                               g->m.tr_at( dig_point ).is_null() &&
                               ( g->m.ter( dig_point ) == t_grave_new || g->m.i_at( dig_point ).empty() ) &&
@@ -2468,7 +2470,8 @@ int iuse::dig( player *p, item *it, bool t, const tripoint & )
     }
     const bool grave = g->m.ter( dig_point ) == t_grave;
 
-    if( !(p->crafting_inventory().max_quality( qual_DIG ) >= g->m.ter(dig_point)->digging_results.dig_min ) ) {
+    if( !( p->crafting_inventory().max_quality( qual_DIG ) >= g->m.ter(
+               dig_point )->digging_results.dig_min ) ) {
         if( grave ) {
             p->add_msg_if_player( _( "You can't exhume a grave without a better digging tool." ) );
             return 0;
@@ -2518,7 +2521,8 @@ int iuse::dig( player *p, item *it, bool t, const tripoint & )
         }
     }
 
-    digging_moves_and_byproducts moves_and_byproducts = dig_pit_moves_and_byproducts( p, it, dig_point, false );
+    digging_moves_and_byproducts moves_and_byproducts = dig_pit_moves_and_byproducts( p, it, dig_point,
+            false );
 
     const std::vector<npc *> helpers = character_funcs::get_crafting_helpers( *p, 3 );
     for( const npc *np : helpers ) {
@@ -2553,7 +2557,7 @@ int iuse::dig_channel( player *p, item *it, bool t, const tripoint & )
     tripoint west = dig_point + point_west;
     tripoint east = dig_point + point_east;
 
-    const bool can_dig_here = g->m.ter(dig_point)->is_diggable() &&
+    const bool can_dig_here = g->m.ter( dig_point )->is_diggable() &&
                               !g->m.has_furn( dig_point ) &&
                               g->m.tr_at( dig_point ).is_null() && g->m.i_at( dig_point ).empty() && !g->m.veh_at( dig_point ) &&
                               ( g->m.has_flag( flag_CURRENT, north ) ||  g->m.has_flag( flag_CURRENT, south ) ||
@@ -2583,7 +2587,8 @@ int iuse::dig_channel( player *p, item *it, bool t, const tripoint & )
         return 0;
     }
 
-    digging_moves_and_byproducts moves_and_byproducts = dig_pit_moves_and_byproducts( p, it, dig_point, true );
+    digging_moves_and_byproducts moves_and_byproducts = dig_pit_moves_and_byproducts( p, it, dig_point,
+            true );
 
     const std::vector<npc *> helpers = character_funcs::get_crafting_helpers( *p, 3 );
     for( const npc *np : helpers ) {
@@ -2635,7 +2640,7 @@ int iuse::fill_pit( player *p, item *it, bool t, const tripoint & )
         return 0;
     }
 
-    int moves = to_moves<int>( time_duration::from_minutes( ter->fill_minutes ));
+    int moves = to_moves<int>( time_duration::from_minutes( ter->fill_minutes ) );
 
     const std::vector<npc *> helpers = character_funcs::get_crafting_helpers( *p, 3 );
     for( const npc *np : helpers ) {

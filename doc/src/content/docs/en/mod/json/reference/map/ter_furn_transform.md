@@ -78,6 +78,7 @@ You can also use flags instead of specific IDs for both furniture and terrain.
 ```
 
 To target any diggable terrain, use the boolean.
+
 ```json
 "terrain": [
   {
