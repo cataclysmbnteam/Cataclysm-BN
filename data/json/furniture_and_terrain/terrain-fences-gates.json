@@ -375,7 +375,6 @@
     "coverage": 25,
     "flags": [
       "TRANSPARENT",
-      "DIGGABLE",
       "FLAMMABLE_ASH",
       "NOITEM",
       "THIN_OBSTACLE",
@@ -385,6 +384,7 @@
       "AUTO_WALL_SYMBOL",
       "BURROWABLE"
     ],
+    "digging_results": { "digging_min": 1, "result_ter": "t_pit_shallow", "num_minutes": 60 },
     "nail_pull_result": "t_fence_post",
     "nail_pull_items": [ 8, 5 ],
     "connects_to": "WOODFENCE",

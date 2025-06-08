@@ -123,6 +123,7 @@ struct transform_terrain_data {
     std::string post_field;
     int post_field_intensity = 0;
     time_duration post_field_age = 0_turns;
+    bool diggable;
 };
 
 class vpart_info

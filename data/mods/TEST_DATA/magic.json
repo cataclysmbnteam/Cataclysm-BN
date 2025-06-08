@@ -24,7 +24,7 @@
   {
     "type": "ter_furn_transform",
     "id": "test_lava_terrain",
-    "terrain": [ { "result": "t_lava", "valid_flags": [ "DIGGABLE" ] } ]
+    "terrain": [ { "result": "t_lava", "diggable": true } ]
   },
   {
     "id": "test_spell_lava",
