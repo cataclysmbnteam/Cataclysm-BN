@@ -242,14 +242,14 @@ class turret_data
          * and performs any other actions that must be done before firing a turret.
          * @param p the player that is firing the gun, subject to recoil adjustment.
          */
-        void prepare_fire( Character &p );
+        void prepare_fire( Character &who );
 
         /**
          * Reset state after firing a prepared turret, called by the firing function.
          * @param p the player that just fired (or attempted to fire) the turret.
          * @param shots the number of shots fired by the most recent call to turret::fire.
          */
-        void post_fire( Character &p, int shots );
+        void post_fire( Character &who, int shots );
 
         /**
          * Fire the turret's gun at a given target.
@@ -257,7 +257,7 @@ class turret_data
          * @param target coordinates that will be fired on.
          * @return the number of shots actually fired (may be zero).
          */
-        int fire( Character &p, const tripoint &target );
+        int fire( Character &who, const tripoint &target );
 
         bool can_reload() const;
         bool can_unload() const;

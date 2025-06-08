@@ -291,10 +291,6 @@ class avatar : public player
         std::vector<mtype_id> starting_pets;
 
         std::set<character_id> follower_ids;
-
-    public:
-        profession_id prof;
-        std::string custom_profession;
 };
 
 avatar &get_avatar();

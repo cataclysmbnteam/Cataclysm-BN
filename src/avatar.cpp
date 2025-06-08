@@ -262,7 +262,7 @@ void avatar::on_mission_finished( mission &cur_mission )
 const Character *avatar::get_book_reader( const item &book,
         std::vector<std::string> &reasons ) const
 {
-    const player *reader = nullptr;
+    const Character *reader = nullptr;
     if( !book.is_book() ) {
         reasons.push_back( string_format( _( "Your %s is not good reading material." ),
                                           book.tname() ) );
