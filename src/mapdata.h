@@ -550,10 +550,6 @@ struct ter_t : map_data_common_t {
     ter_str_id lockpick_result; // Lockpick action: transform when successfully lockpicked
     translation lockpick_message; // Lockpick action: message when successfully lockpicked
 
-    map_dig_info digging_results; // Dig action: resulting items, terrain, and min digging level
-    ter_str_id fill_result; // Fill action: resulting terrain
-    int fill_minutes; // Fill action: minutes to fill up
-
     cata::value_ptr<activity_data_ter> boltcut; // Bolt cutting action data
     cata::value_ptr<activity_data_ter> hacksaw; // Hacksaw action data
     cata::value_ptr<activity_data_ter> oxytorch; // Oxytorch action data
@@ -566,6 +562,10 @@ struct ter_t : map_data_common_t {
     std::array<short, 2> nail_pull_items; // Nails and planks given upon pulling nails (respectively).
 
     trap_id trap; // The id of the trap located at this terrain. Limit one trap per tile currently.
+
+    map_dig_info digging_results; // Dig action: resulting items, terrain, and min digging level
+    ter_str_id fill_result; // Fill action: resulting terrain
+    int fill_minutes; // Fill action: minutes to fill up
 
     int heat_radiation = 0; // In fire field intensity "units"
 
