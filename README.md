@@ -39,7 +39,7 @@ Find a way to stop the Cataclysm ... or become one of its strongest monsters.
 While many of the dependencies that the game depends on are likely installed by default, some likely aren't installed by default on your distro.
 
 Here are the commands for some of the most popular distro families:
-- Ubuntu / Debian: `sudo apt install libsdl2-image libsdl2-ttf libsdl2-mixer libfreetype6 zip libsqlite3-0`
+- Ubuntu / Debian: `sudo apt install libsdl2-image-2.0.0 libsdl2-ttf-2.0.0 libsdl2-mixer-2.0.0 libfreetype6 zip libsqlite3-0`
 - Fedora: `sudo dnf install SDL2 SDL2_image SDL2_ttf SDL2_mixer freetype zip sqlite`
 - Arch: `sudo pacman -S sdl2 sdl2_image sdl2_ttf sdl2_mixer zip sqlite`
 
