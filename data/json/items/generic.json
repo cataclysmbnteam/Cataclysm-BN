@@ -278,7 +278,7 @@
     "weight": "4500 mg",
     "volume": "25 ml",
     "to_hit": -2,
-    "flags": [ "UNRECOVERABLE", "NO_SALVAGE" ],
+    "flags": [ "UNRECOVERABLE" ],
     "stackable": true
   },
   {
@@ -288,7 +288,7 @@
     "category": "chems",
     "color": "brown",
     "name": { "str": "bone glue" },
-    "description": "Glue made from boiling animal bones.  The adhesive isn't strong enough for heavy-duty usages, but it can be used as a varnish or holding together small items.",
+    "description": "Glue made from boiling animal bones.  The adhesive isn't strong enough for heavy-duty usages, but it can be used to hold together small items.",
     "price": "18 USD",
     "price_postapoc": "50 cent",
     "material": [ "bone" ],

@@ -336,7 +336,6 @@
         [ "cooking_oil", 8 ],
         [ "cooking_oil2", 8 ],
         [ "lamp_oil", 100 ],
-        [ "motor_oil", 100 ],
         [ "r_paint", 10 ],
         [ "b_paint", 10 ],
         [ "w_paint", 10 ],
@@ -348,7 +347,6 @@
         [ "wax", 1 ],
         [ "soap", 1 ],
         [ "soap_flakes", 1 ],
-        [ "detergent", 1 ],
         [ "shimmer", 1 ]
       ]
     ]

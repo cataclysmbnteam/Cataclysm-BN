@@ -182,7 +182,6 @@
     "symbol": "=",
     "color": "yellow",
     "material": "hydrocarbons",
-    "flags": [ "NO_SALVAGE", "UNRECOVERABLE" ],
     "ammo_type": "lamp_oil",
     "fuel": {
       "//": "Roughly equivalent to LPG",
@@ -210,7 +209,6 @@
     "symbol": "=",
     "color": "yellow",
     "material": "hydrocarbons",
-    "flags": [ "NO_SALVAGE", "UNRECOVERABLE" ],
     "ammo_type": "motor_oil",
     "fuel": {
       "//": "Roughly equivalent to LPG",
