@@ -39,13 +39,14 @@ Find a way to stop the Cataclysm ... or become one of its strongest monsters.
 While many of the dependencies that the game depends on are likely installed by default, some likely aren't installed by default on your distro.
 
 Here are the commands for some of the most popular distro families:
+
 - Ubuntu / Debian: `sudo apt install libsdl2-image-2.0.0 libsdl2-ttf-2.0.0 libsdl2-mixer-2.0.0 libfreetype6 zip libsqlite3-0`
 - Fedora: `sudo dnf install SDL2 SDL2_image SDL2_ttf SDL2_mixer freetype zip sqlite`
 - Arch: `sudo pacman -S sdl2 sdl2_image sdl2_ttf sdl2_mixer zip sqlite`
 
 ### Launchers
-The primary supported launcher is [Catapult](https://github.com/qrrk/Catapult), which can handle both BN and DDA (it defaults to DDA, so be sure to change it in the top menu!)
 
+The primary supported launcher is [Catapult](https://github.com/qrrk/Catapult), which can handle both BN and DDA (it defaults to DDA, so be sure to change it in the top menu!)
 
 ### Source Code
 
@@ -133,13 +134,13 @@ For a manual installation, you should create a mods folder in the root BN folder
 
 For Catapult, you would put them in bn/userdata/mods (creating the folder if it's not already there) inside your catapult installation. For example, it might look like Catapult/bn/userdata/mods.
 
-For Linux users using the XDG directories (but NOT the flatpak): The user mods directory should be in ~/.local/share/cataclysm-bn/mods (~/.local/share/cataclysm-bn is the user directory in general)
+For Linux users using the XDG directories (but NOT the flatpak): The user mods directory should be in ~~/.local/share/cataclysm-bn/mods (~~/.local/share/cataclysm-bn is the user directory in general)
 
 For flatpak users, the user mods folder is ~/.var/app/org.cataclysmbn.CataclysmBN/data/cataclysm-bn/mods (the user directory in general is ~/.var/app/org.cataclysmbn.CataclysmBN/data/cataclysm-bn/)
 
 #### How do I update the game manually?
 
-Assuming you've managed your mods appropriately, the correct update process is to delete the old data folder (alongside the gfx folder if you want to be extra safe) and *then* overwrite the contents of the old BN folder with the new BN download. Deleting the old data folder is specifically necessary due to the fact that simply overwriting the old folder will **not** account for updates which delete files, as may happen with the obsoletion folder for example.
+Assuming you've managed your mods appropriately, the correct update process is to delete the old data folder (alongside the gfx folder if you want to be extra safe) and _then_ overwrite the contents of the old BN folder with the new BN download. Deleting the old data folder is specifically necessary due to the fact that simply overwriting the old folder will **not** account for updates which delete files, as may happen with the obsoletion folder for example.
 
 Don't delete your saves folder, memorial, graveyard, etc.!
 
