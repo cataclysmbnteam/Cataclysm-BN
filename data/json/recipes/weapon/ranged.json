@@ -178,7 +178,6 @@
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SANDING", "level": 1 } ],
     "components": [
       [ [ "stick_long", 1 ], [ "2x4", 3 ] ],
-      [ [ "", 2, "LIST" ] ],
       [ [ "bone_sturdy", 4, "LIST" ], [ "bone_heavy", 2 ] ],
       [ [ "adhesive_proper", 5, "LIST" ] ],
       [ [ "cordage_superior", 2, "LIST" ] ]
@@ -320,7 +319,7 @@
       [ "textbook_armschina", 5 ]
     ],
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_W", "level": 1 } ],
-    "components": [ [ [ "2x4", 2 ], [ "stick", 4 ] ], [ [ "", 2, "LIST" ] ], [ [ "scrap", 1 ] ], [ [ "cordage_superior", 3, "LIST" ] ] ]
+    "components": [ [ [ "2x4", 2 ], [ "stick", 4 ] ], [ [ "scrap", 1 ] ], [ [ "cordage_superior", 3, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -346,7 +345,6 @@
     ],
     "components": [
       [ [ "stick", 5 ], [ "2x4", 3 ] ],
-      [ [ "", 2, "LIST" ] ],
       [ [ "bone_sturdy", 3, "LIST" ], [ "bone_heavy", 2 ] ],
       [ [ "adhesive_proper", 5, "LIST" ] ],
       [ [ "cordage_superior", 1, "LIST" ] ]
@@ -682,7 +680,6 @@
     ],
     "components": [
       [ [ "2x4", 8 ], [ "stick", 16 ] ],
-      [ [ "", 2, "LIST" ] ],
       [ [ "rope_superior_short", 2, "LIST" ] ],
       [ [ "foot_crank", 1 ] ],
       [ [ "spring", 4 ] ],
@@ -709,7 +706,6 @@
     ],
     "components": [
       [ [ "2x4", 4 ], [ "stick", 8 ] ],
-      [ [ "", 2, "LIST" ] ],
       [ [ "spring", 1 ] ],
       [ [ "cordage_superior", 1, "LIST" ] ],
       [ [ "nail_glue", 20, "LIST" ] ]
