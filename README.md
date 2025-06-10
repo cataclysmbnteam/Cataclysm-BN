@@ -139,7 +139,7 @@ For flatpak users, the user mods folder is ~/.var/app/org.cataclysmbn.CataclysmB
 
 #### How do I update the game manually?
 
-Assuming you've managed your mods appropriately, the correct update process is to delete the old data folder (alongside the gfx folder if you want to be extra safe) and *then* overwrite the contents of the old BN folder with the new BN download. Deleting the old data folder is specifically necessary due to the fact that simply overwriting the old folder will **not** account for deleted files, as may happen with the obsoletion folder for example.
+Assuming you've managed your mods appropriately, the correct update process is to delete the old data folder (alongside the gfx folder if you want to be extra safe) and *then* overwrite the contents of the old BN folder with the new BN download. Deleting the old data folder is specifically necessary due to the fact that simply overwriting the old folder will **not** account for updates which delete files, as may happen with the obsoletion folder for example.
 
 Don't delete your saves folder, memorial, graveyard, etc.!
 
