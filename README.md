@@ -58,7 +58,7 @@ The primary supported launcher is [Catapult](https://github.com/qrrk/Catapult), 
 [experimental-releases]: https://github.com/cataclysmbnteam/Cataclysm-BN/releases/tag/experimental
 [experimental-badge]: https://img.shields.io/github/v/release/cataclysmbnteam/Cataclysm-BN?style=for-the-badge&color=salmon&label=Experimental%20Release&include_prereleases&sort=date
 [flathub-releases]: https://flathub.org/apps/org.cataclysmbn.CataclysmBN
-[flathub-badge]: https://img.shields.io/flathub/v/org.cataclysmbn.CataclysmBN?color=success
+[flathub-badge]: https://img.shields.io/flathub/v/org.cataclysmbn.CataclysmBN?style=for-the-badge&color=success
 [source]: https://github.com/cataclysmbnteam/Cataclysm-BN/archive/master.zip "The source can be downloaded as a .zip archive"
 [source-badge]: https://img.shields.io/badge/Zip%20Archive-black?style=for-the-badge&logo=github
 [clone]: https://github.com/cataclysmbnteam/Cataclysm-BN/ "clone from our GitHub repo"
