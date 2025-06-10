@@ -134,9 +134,9 @@ For a manual installation, you should create a mods folder in the root BN folder
 
 For Catapult, you would put them in bn/userdata/mods (creating the folder if it's not already there) inside your catapult installation. For example, it might look like Catapult/bn/userdata/mods.
 
-For Linux users using the XDG directories (but NOT the flatpak): The user mods directory should be in ~~/.local/share/cataclysm-bn/mods (~~/.local/share/cataclysm-bn is the user directory in general)
+For Linux users using the XDG directories (but NOT the flatpak): The user mods directory should be in `~/.local/share/cataclysm-bn/mods` (`~/.local/share/cataclysm-bn` is the user directory in general)
 
-For flatpak users, the user mods folder is ~/.var/app/org.cataclysmbn.CataclysmBN/data/cataclysm-bn/mods (the user directory in general is ~/.var/app/org.cataclysmbn.CataclysmBN/data/cataclysm-bn/)
+For flatpak users, the user mods folder is `~/.var/app/org.cataclysmbn.CataclysmBN/data/cataclysm-bn/mods` (the user directory in general is `~/.var/app/org.cataclysmbn.CataclysmBN/data/cataclysm-bn/`)
 
 #### How do I update the game manually?
 
