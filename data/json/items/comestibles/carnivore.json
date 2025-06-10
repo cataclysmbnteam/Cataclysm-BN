@@ -929,7 +929,7 @@
     "charges": 2,
     "stack_size": 4,
     "fun": -18,
-    "flags": [ "UNSAFE_CONSUME", "NO_SALVAGE", "UNRECOVERABLE" ],
+    "flags": [ "UNSAFE_CONSUME" ],
     "vitamins": [ [ "meat_allergen", 1 ] ]
   },
   {
