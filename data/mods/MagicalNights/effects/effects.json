@@ -271,5 +271,76 @@
     "rating": "bad",
     "//": "This is the best I can do in terms of making it 'never miss' generally",
     "base_mods": { "dodge_mod": [ -10 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "ward_cold",
+    "name": [ "Ward Against Ice" ],
+    "desc": [ "The cold never bothers you anymore, since becoming a kelvinist." ],
+    "remove_message": "You feel the icy fingers of frost running along your back once more.",
+    "removes_effects": [ "cold", "frostbite", "frostbite_recovery" ],
+    "decay_messages": [ [ "Your ward against cold is waning.", "bad" ] ],
+    "rating": "good",
+    "max_duration": "180 m",
+    "max_intensity": 90,
+    "int_dur_factor": "2 m",
+    "flags": [ "EFFECT_COLD_IMMUNE" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "ward_fire",
+    "name": [ "Ward Against Fire" ],
+    "desc": [ "You feel like a firebird, able to walk through flames without a care in the world!" ],
+    "remove_message": "You feel phantom flames licking at your feet for a brief moment.",
+    "removes_effects": [ "onfire", "smoke", "hot", "blisters", "hot_speed" ],
+    "decay_messages": [ [ "Your ward against fire is waning.", "bad" ] ],
+    "rating": "good",
+    "max_duration": "180 m",
+    "max_intensity": 90,
+    "int_dur_factor": "2 m",
+    "flags": [ "EFFECT_HEAT_IMMUNE" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "ward_acid",
+    "name": [ "Ward Against Acid" ],
+    "desc": [
+      "While normally this would just be a godsend for chemists and people with acid reflux, the Cataclysm has made it an even more useful."
+    ],
+    "remove_message": "You suddenly feel the pain of your stomach acid eating at your flesh for but a moment.",
+    "removes_effects": [ "corroding" ],
+    "decay_messages": [ [ "Your ward against acid is waning.", "bad" ] ],
+    "rating": "good",
+    "max_duration": "180 m",
+    "max_intensity": 90,
+    "int_dur_factor": "2 m",
+    "flags": [ "EFFECT_ACID_IMMUNE" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "ward_anomaly",
+    "name": [ "Ward Against Anomalous" ],
+    "desc": [ "Protects against the effects of being around otherworldly beings" ],
+    "remove_message": "For a brief moment, you experience what it's like to be a conspiracy theorist thinking that everything is watching you.",
+    "removes_effects": [ "darkness", "rat", "evil", "attention", "teleglow", "amigara" ],
+    "decay_messages": [ [ "Your ward against anomalous effects is waning.", "bad" ] ],
+    "rating": "good",
+    "max_duration": "180 m",
+    "max_intensity": 90,
+    "int_dur_factor": "2 m"
+  },
+  {
+    "type": "effect_type",
+    "id": "ward_lightning",
+    "name": [ "Ward Against Lightning" ],
+    "desc": [ "Increases your resistance to approximately 180 Teraohms, making you immune to electricity." ],
+    "remove_message": "You get startled by your first static shock in a long time.",
+    "removes_effects": [ "zapped" ],
+    "decay_messages": [ [ "Your ward against lightning is waning.", "bad" ] ],
+    "rating": "good",
+    "max_duration": "180 m",
+    "max_intensity": 90,
+    "int_dur_factor": "2 m",
+    "flags": [ "EFFECT_ELECTRIC_IMMUNE" ]
   }
 ]

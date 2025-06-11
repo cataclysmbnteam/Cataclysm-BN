@@ -317,5 +317,25 @@
     "base_energy_cost": 450,
     "min_damage": 1,
     "max_damage": 1
+  },
+  {
+    "id": "electric_ward",
+    "type": "SPELL",
+    "name": { "str": "Electric Ward" },
+    "description": "Uses your control over electricity to make yourself immune to its effects..",
+    "valid_targets": [ "ally", "self" ],
+    "flags": [ "CONCENTRATE", "SOMATIC", "NO_LEGS" ],
+    "effect": "target_attack",
+    "effect_str": "ward_lightning",
+    "max_level": 15,
+    "min_duration": 180000,
+    "max_duration": 1080000,
+    "duration_increment": 60000,
+    "min_range": 10,
+    "difficulty": 6,
+    "spell_class": "STORMSHAPER",
+    "energy_source": "MANA",
+    "base_energy_cost": 500,
+    "base_casting_time": 500
   }
 ]
