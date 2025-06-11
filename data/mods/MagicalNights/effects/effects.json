@@ -278,7 +278,7 @@
     "name": [ "Ward Against Ice" ],
     "desc": [ "The cold never bothers you anymore, since becoming a kelvinist." ],
     "remove_message": "You feel the icy fingers of frost running along your back once more.",
-    "removes_effects": [ "cold", "frostbite", "frostbite_recovery", "arcana_lingering_chill" ],
+    "removes_effects": [ "cold", "frostbite", "frostbite_recovery" ],
     "decay_messages": [ [ "Your ward against cold is waning.", "bad" ] ],
     "rating": "good",
     "max_duration": "180 m",
