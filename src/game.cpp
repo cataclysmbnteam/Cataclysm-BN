@@ -2086,7 +2086,7 @@ std::pair<tripoint, tripoint> game::mouse_edge_scrolling( input_context &ctxt, c
 
 tripoint game::mouse_edge_scrolling_terrain( input_context &ctxt )
 {
-    auto ret = mouse_edge_scrolling( ctxt, std::max( DEFAULT_TILESET_ZOOM / tileset_zoom, 1 ),
+    auto ret = mouse_edge_scrolling( ctxt, std::max<int>( DEFAULT_TILESET_ZOOM / tileset_zoom, 1 ),
                                      last_mouse_edge_scroll_vector_terrain, tile_iso );
     last_mouse_edge_scroll_vector_terrain = ret.second;
     last_mouse_edge_scroll_vector_overmap = tripoint_zero;
@@ -6790,7 +6790,7 @@ look_around_result game::look_around( bool show_window, tripoint &center,
     is_looking = true;
     const tripoint prev_offset = u.view_offset;
 #if defined(TILES)
-    const int prev_tileset_zoom = tileset_zoom;
+    const float prev_tileset_zoom = tileset_zoom;
     while( is_moving_zone && square_dist( start_point, end_point ) > 256 / get_zoom() &&
            get_zoom() != 4 ) {
         zoom_out();
@@ -7102,15 +7102,36 @@ static void centerlistview( const tripoint &active_item_position, int ui_width )
 
 #if defined(TILES)
 static constexpr int MAXIMUM_ZOOM_LEVEL = 4;
+static constexpr int MINIMUM_ZOOM_LEVEL = 64;
+
+static float calc_next_zoom( float cur_zoom, int direction ) {
+    const int step_count = get_option<int>( "ZOOM_STEP_COUNT" );
+    const double nth_root_2 = std::pow( 2, 1./step_count );
+    // What is our current zoom index:
+    // nth_root_2 ** step = cur_zoom
+    // log( nth_root_2 ** step ) = log( cur_zoom )
+    // step = log(cur_zoom) / log( nth_root_2 )
+    double expected_cur_ndx = log( cur_zoom ) / log( nth_root_2 );
+
+    // Round to closest integer
+    size_t zoom_level = std::round( expected_cur_ndx ) + direction;
+    
+    // calculate next zoom value, and wrap if needed
+    double next_zoom = std::pow( nth_root_2, zoom_level );
+    if( next_zoom < MAXIMUM_ZOOM_LEVEL ) {
+        next_zoom = MINIMUM_ZOOM_LEVEL;
+    } else if( next_zoom > MINIMUM_ZOOM_LEVEL ) {
+        next_zoom = MAXIMUM_ZOOM_LEVEL;
+    }
+
+    return next_zoom;
+}
+
 #endif
 void game::zoom_out()
 {
 #if defined(TILES)
-    if( tileset_zoom > MAXIMUM_ZOOM_LEVEL ) {
-        tileset_zoom = tileset_zoom / 2;
-    } else {
-        tileset_zoom = 64;
-    }
+    tileset_zoom = calc_next_zoom( tileset_zoom, -1 );
     rescale_tileset( tileset_zoom );
 #endif
 }
@@ -7118,11 +7139,7 @@ void game::zoom_out()
 void game::zoom_in()
 {
 #if defined(TILES)
-    if( tileset_zoom == 64 ) {
-        tileset_zoom = MAXIMUM_ZOOM_LEVEL;
-    } else {
-        tileset_zoom = tileset_zoom * 2;
-    }
+    tileset_zoom = calc_next_zoom( tileset_zoom, 1 );
     rescale_tileset( tileset_zoom );
 #endif
 }
@@ -7135,7 +7152,7 @@ void game::reset_zoom()
 #endif // TILES
 }
 
-void game::set_zoom( const int level )
+void game::set_zoom( const float level )
 {
 #if defined(TILES)
     if( tileset_zoom != level ) {
@@ -7147,7 +7164,7 @@ void game::set_zoom( const int level )
 #endif // TILES
 }
 
-int game::get_zoom() const
+float game::get_zoom() const
 {
 #if defined(TILES)
     return tileset_zoom;
