@@ -7104,9 +7104,10 @@ static void centerlistview( const tripoint &active_item_position, int ui_width )
 static constexpr int MAXIMUM_ZOOM_LEVEL = 4;
 static constexpr int MINIMUM_ZOOM_LEVEL = 64;
 
-static float calc_next_zoom( float cur_zoom, int direction ) {
+static float calc_next_zoom( float cur_zoom, int direction )
+{
     const int step_count = get_option<int>( "ZOOM_STEP_COUNT" );
-    const double nth_root_2 = std::pow( 2, 1./step_count );
+    const double nth_root_2 = std::pow( 2, 1. / step_count );
     // What is our current zoom index:
     // nth_root_2 ** step = cur_zoom
     // log( nth_root_2 ** step ) = log( cur_zoom )
@@ -7115,7 +7116,7 @@ static float calc_next_zoom( float cur_zoom, int direction ) {
 
     // Round to closest integer
     size_t zoom_level = std::round( expected_cur_ndx ) + direction;
-    
+
     // calculate next zoom value, and wrap if needed
     double next_zoom = std::pow( nth_root_2, zoom_level );
     if( next_zoom < MAXIMUM_ZOOM_LEVEL ) {

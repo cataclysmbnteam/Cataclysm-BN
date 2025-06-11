@@ -2074,8 +2074,8 @@ void options_manager::add_options_graphics()
     get_option( "PIXEL_MINIMAP_BLINK" ).setPrerequisite( "PIXEL_MINIMAP" );
 
     add( "ZOOM_STEP_COUNT", graphics, translate_marker( "Zoom steps" ),
-    translate_marker( "Number of steps between zoom levels." ),
-    1, 7, 1, COPT_CURSES_HIDE );
+         translate_marker( "Number of steps between zoom levels." ),
+         1, 7, 1, COPT_CURSES_HIDE );
 
     add_empty_line();
 
