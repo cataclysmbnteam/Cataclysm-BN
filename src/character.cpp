@@ -4772,9 +4772,9 @@ void Character::mod_healthy_mod( int nhealthy_mod, int cap )
     int high_cap;
     if( nhealthy_mod < 0 ) {
         low_cap = cap;
-        high_cap = 200;
+        high_cap = 200 * 10000;
     } else {
-        low_cap = -200;
+        low_cap = -200 * 10000;
         high_cap = cap;
     }
 
@@ -5043,7 +5043,7 @@ std::string Character::get_weight_string() const
 
 int Character::get_max_healthy() const
 {
-    return 200;
+    return 200 * 10000;
 }
 
 void Character::regen( int rate_multiplier )
@@ -5132,22 +5132,22 @@ void Character::update_health( int external_modifiers )
 {
     if( has_artifact_with( AEP_SICK ) ) {
         // Carrying a sickness artifact makes your health 50 points worse on average
-        external_modifiers -= 50;
+        external_modifiers -= 50 * 10000;
     }
     // Limit healthy_mod to [-200, 200].
     // This also sets approximate bounds for the character's health.
     if( get_healthy_mod() > get_max_healthy() ) {
         set_healthy_mod( get_max_healthy() );
-    } else if( get_healthy_mod() < -200 ) {
-        set_healthy_mod( -200 );
+    } else if( get_healthy_mod() < -200 * 10000) {
+        set_healthy_mod( -200 * 10000);
     }
 
     // Active leukocyte breeder will keep your health near 100
     int effective_healthy_mod = get_healthy_mod();
     if( has_active_bionic( bio_leukocyte ) ) {
         // Side effect: dependency
-        mod_healthy_mod( -50, -200 );
-        effective_healthy_mod = 100;
+        mod_healthy_mod( -50 * 10000, -200 * 10000);
+        effective_healthy_mod = 100 * 10000;
     }
 
     // Health tends toward healthy_mod.
