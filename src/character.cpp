@@ -5154,11 +5154,11 @@ void Character::update_health( int external_modifiers )
     // For small differences, it changes 4 points per day
     // For large ones, up to ~40% of the difference per day
     int health_change = effective_healthy_mod - get_healthy() + external_modifiers;
-    mod_healthy( sgn( health_change ) * std::max( 1, std::abs( health_change ) / 10 ) );
+    mod_healthy( sgn( health_change ) * std::max<int>( 1, std::abs( health_change ) * (1 - 0.9971) ) );
 
     // And healthy_mod decays over time.
     // Slowly near 0, but it's hard to overpower it near +/-100
-    set_healthy_mod( std::round( get_healthy_mod() * 0.95f ) );
+    set_healthy_mod( std::round( get_healthy_mod() * 0.9955f ) );
 
     add_msg( m_debug, "Health: %d, Health mod: %d", get_healthy(), get_healthy_mod() );
 }
