@@ -25,6 +25,16 @@ int rng( int lo, int hi )
     return rng_int_dist( rng_get_engine(), std::uniform_int_distribution<>::param_type( lo, hi ) );
 }
 
+int64_t rng64( int64_t lo, int64_t hi )
+{
+    static std::uniform_int_distribution<int64_t> rng_int64_dist;
+    if( lo > hi ) {
+        std::swap( lo, hi );
+    }
+    return rng_int64_dist( rng_get_engine(),
+                           std::uniform_int_distribution<int64_t>::param_type( lo, hi ) );
+}
+
 double rng_float( double lo, double hi )
 {
     static std::uniform_real_distribution<double> rng_real_dist;
