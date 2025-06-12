@@ -7112,10 +7112,10 @@ static float calc_next_zoom( float cur_zoom, int direction )
     // nth_root_2 ** step = cur_zoom
     // log( nth_root_2 ** step ) = log( cur_zoom )
     // step = log(cur_zoom) / log( nth_root_2 )
-    double expected_cur_ndx = log( cur_zoom ) / log( nth_root_2 );
+    const double expected_cur_ndx = log( cur_zoom ) / log( nth_root_2 );
 
     // Round to closest integer
-    size_t zoom_level = std::round( expected_cur_ndx ) + direction;
+    const size_t zoom_level = std::round( expected_cur_ndx ) + direction;
 
     // calculate next zoom value, and wrap if needed
     double next_zoom = std::pow( nth_root_2, zoom_level );
