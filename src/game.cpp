@@ -7119,9 +7119,9 @@ static float calc_next_zoom( float cur_zoom, int direction )
 
     // calculate next zoom value, and wrap if needed
     double next_zoom = std::pow( nth_root_2, zoom_level );
-    if( next_zoom < MAXIMUM_ZOOM_LEVEL ) {
+    if( next_zoom < MAXIMUM_ZOOM_LEVEL - 0.0001f ) {
         next_zoom = MINIMUM_ZOOM_LEVEL;
-    } else if( next_zoom > MINIMUM_ZOOM_LEVEL ) {
+    } else if( next_zoom > MINIMUM_ZOOM_LEVEL + 0.0001f ) {
         next_zoom = MAXIMUM_ZOOM_LEVEL;
     }
 
