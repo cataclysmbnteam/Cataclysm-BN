@@ -3147,5 +3147,20 @@
       [ [ "paper", 1 ], [ "rag", 1 ] ],
       [ [ "adhesive_proper", 1, "LIST" ] ]
     ]
+  },
+  {
+    "type": "recipe",
+    "result": "crucible",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "difficulty": 6,
+    "autolearn": true,
+    "book_learn": [ [ "concrete_book", 5 ], [ "textbook_armwest", 5 ], [ "textbook_weapwest", 5 ] ],
+    "time": "2 h",
+    "using": [ [ "forging_standard", 10 ] ],
+    "//": "Mullite is created by firing kaolinite clay at very high temeperatures.",
+    "components": [ [ [ "clay_lump", 6 ] ], [ [ "material_sand", 60 ] ] ],
+    "//2": "Sand was used in the actual recipes that scientists re-discovered."
   }
 ]
