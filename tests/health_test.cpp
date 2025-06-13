@@ -18,13 +18,13 @@ static void test_diet( const time_duration &dur, npc &dude,
         // 'Eat' every 6 hours
         for( size_t index = 0u; index < 4u; ++index ) {
             // They lightly correspond to breakfast, dinner, supper, night snack
-            dude.mod_healthy_mod( hmod_changes_per_day[ index ] * 10000,
-                                  sgn( hmod_changes_per_day[ index ] ) * 200 * 10000 );
+            dude.mod_healthy_mod( hmod_changes_per_day[ index ],
+                                  sgn( hmod_changes_per_day[ index ] ) * 200 );
             // And update health every 30m over the 6h period
             for( time_duration n = 0_turns; n < 6_hours; n += 30_minutes ) {
                 dude.update_health();
             }
-            health_samples.emplace_back( dude.get_healthy() / 10000 );
+            health_samples.emplace_back( dude.get_healthy() );
         }
     }
 
@@ -33,8 +33,8 @@ static void test_diet( const time_duration &dur, npc &dude,
         ss << i << ", ";
     }
     INFO( "Health samples: " << ss.str() );
-    CHECK( dude.get_healthy() / 10000 >= min );
-    CHECK( dude.get_healthy() / 10000 <= max );
+    CHECK( dude.get_healthy() >= min );
+    CHECK( dude.get_healthy() <= max );
 }
 
 // Maximum possible health in feasible environment
@@ -85,7 +85,7 @@ TEST_CASE( "fasting_breakfast", "[health]" )
 TEST_CASE( "recovering_health", "[health]" )
 {
     standard_npc dude( "recovering junk eater" );
-    dude.set_healthy( -100 * 10000 );
+    dude.set_healthy( -100 );
     // Beans and rice * 3 + broccoli = 3 * 1 + 2 healthy
     // 3 meals per day
     // Just a week should be enough to stop dying, but not enough to get healthy

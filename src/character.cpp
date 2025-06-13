@@ -4639,11 +4639,11 @@ int Character::ranged_per_mod() const
     return std::max( ( 20.0 - get_per() ) * 1.2, 0.0 );
 }
 
-int Character::get_healthy() const
+float Character::get_healthy() const
 {
     return healthy;
 }
-int Character::get_healthy_mod() const
+float Character::get_healthy_mod() const
 {
     return healthy_mod;
 }
@@ -4740,11 +4740,11 @@ std::string enum_to_string<character_stat>( character_stat data )
 }
 } // namespace io
 
-void Character::set_healthy( int nhealthy )
+void Character::set_healthy( float nhealthy )
 {
     healthy = nhealthy;
 }
-void Character::mod_healthy( int nhealthy )
+void Character::mod_healthy( float nhealthy )
 {
     float mut_rate = 1.0f;
     for( const trait_id &mut : get_mutations() ) {
@@ -4752,11 +4752,11 @@ void Character::mod_healthy( int nhealthy )
     }
     healthy += nhealthy * mut_rate;
 }
-void Character::set_healthy_mod( int nhealthy_mod )
+void Character::set_healthy_mod( float nhealthy_mod )
 {
     healthy_mod = nhealthy_mod;
 }
-void Character::mod_healthy_mod( int nhealthy_mod, int cap )
+void Character::mod_healthy_mod( float nhealthy_mod, float cap )
 {
     // TODO: This really should be a full morale-like system, with per-effect caps
     //       and durations.  This version prevents any single effect from exceeding its
@@ -4768,13 +4768,13 @@ void Character::mod_healthy_mod( int nhealthy_mod, int cap )
     if( nhealthy_mod == 0 || cap == 0 ) {
         return;
     }
-    int low_cap;
-    int high_cap;
+    float low_cap;
+    float high_cap;
     if( nhealthy_mod < 0 ) {
         low_cap = cap;
-        high_cap = 200 * 10000;
+        high_cap = 200;
     } else {
-        low_cap = -200 * 10000;
+        low_cap = -200;
         high_cap = cap;
     }
 
@@ -5043,7 +5043,7 @@ std::string Character::get_weight_string() const
 
 int Character::get_max_healthy() const
 {
-    return 200 * 10000;
+    return 200;
 }
 
 void Character::regen( int rate_multiplier )
@@ -5132,35 +5132,36 @@ void Character::update_health( int external_modifiers )
 {
     if( has_artifact_with( AEP_SICK ) ) {
         // Carrying a sickness artifact makes your health 50 points worse on average
-        external_modifiers -= 50 * 10000;
+        external_modifiers -= 50;
     }
     // Limit healthy_mod to [-200, 200].
     // This also sets approximate bounds for the character's health.
     if( get_healthy_mod() > get_max_healthy() ) {
         set_healthy_mod( get_max_healthy() );
-    } else if( get_healthy_mod() < -200 * 10000) {
-        set_healthy_mod( -200 * 10000);
+    } else if( get_healthy_mod() < -200 ) {
+        set_healthy_mod( -200 );
     }
 
     // Active leukocyte breeder will keep your health near 100
-    int effective_healthy_mod = get_healthy_mod();
+    float effective_healthy_mod = get_healthy_mod();
     if( has_active_bionic( bio_leukocyte ) ) {
         // Side effect: dependency
-        mod_healthy_mod( -50 * 10000, -200 * 10000);
-        effective_healthy_mod = 100 * 10000;
+        mod_healthy_mod( -50, -200 );
+        effective_healthy_mod = 100;
     }
 
     // Health tends toward healthy_mod.
     // For small differences, it changes 4 points per day
     // For large ones, up to ~40% of the difference per day
-    int health_change = effective_healthy_mod - get_healthy() + external_modifiers;
-    mod_healthy( sgn( health_change ) * std::max<int>( 1, std::abs( health_change ) * (1 - 0.9971) ) );
+    float health_change = effective_healthy_mod - get_healthy() + external_modifiers;
+    mod_healthy( health_change * ( 1 - 0.9971 ) );
 
     // And healthy_mod decays over time.
     // Slowly near 0, but it's hard to overpower it near +/-100
-    set_healthy_mod( std::round( get_healthy_mod() * 0.9955f ) );
+    set_healthy_mod( get_healthy_mod() * 0.9955f );
 
-    add_msg( m_debug, "Health: %d, Health mod: %d", get_healthy(), get_healthy_mod() );
+    add_msg( m_debug, "Health: %d, Health mod: %d", static_cast<int>( get_healthy() ),
+             static_cast<int>( get_healthy_mod() ) );
 }
 
 // Returns the number of multiples of tick_length we would "pass" on our way `from` to `to`

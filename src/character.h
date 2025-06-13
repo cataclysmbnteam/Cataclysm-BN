@@ -366,16 +366,16 @@ class Character : public Creature, public location_visitable<Character>
         void print_health() const;
 
         /** Getters for health values exclusive to characters */
-        virtual int get_healthy() const;
-        virtual int get_healthy_mod() const;
+        virtual float get_healthy() const;
+        virtual float get_healthy_mod() const;
 
         /** Modifiers for health values exclusive to characters */
-        virtual void mod_healthy( int nhealthy );
-        virtual void mod_healthy_mod( int nhealthy_mod, int cap );
+        virtual void mod_healthy( float nhealthy );
+        virtual void mod_healthy_mod( float nhealthy_mod, float cap );
 
         /** Setters for health values exclusive to characters */
-        virtual void set_healthy( int nhealthy );
-        virtual void set_healthy_mod( int nhealthy_mod );
+        virtual void set_healthy( float nhealthy );
+        virtual void set_healthy_mod( float nhealthy_mod );
 
         /** Getter for need values exclusive to characters */
         int get_stored_kcal() const;
@@ -2258,8 +2258,8 @@ class Character : public Creature, public location_visitable<Character>
         int int_bonus = 0;
 
         /** How healthy the character is. */
-        int healthy = 0;
-        int healthy_mod = 0;
+        float healthy = 0;
+        float healthy_mod = 0;
 
         /** age in years at character creation */
         int init_age = 25;

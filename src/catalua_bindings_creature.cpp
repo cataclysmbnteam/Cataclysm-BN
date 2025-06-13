@@ -374,14 +374,14 @@ void cata::detail::reg_character( sol::state &lua )
         SET_FX_T( mod_per_bonus, void( int ) );
         SET_FX_T( mod_int_bonus, void( int ) );
 
-        SET_FX_T( get_healthy, int() const );
-        SET_FX_T( get_healthy_mod, int() const );
+        SET_FX_T( get_healthy, float() const );
+        SET_FX_T( get_healthy_mod, float() const );
 
-        SET_FX_T( mod_healthy, void( int ) );
-        SET_FX_T( mod_healthy_mod, void( int, int ) );
+        SET_FX_T( mod_healthy, void( float ) );
+        SET_FX_T( mod_healthy_mod, void( float, float ) );
 
-        SET_FX_T( set_healthy, void( int ) );
-        SET_FX_T( set_healthy_mod, void( int ) );
+        SET_FX_T( set_healthy, void( float ) );
+        SET_FX_T( set_healthy_mod, void( float ) );
 
         SET_FX_T( get_stored_kcal, int() const );
 
