@@ -4,6 +4,7 @@
     "type": "ARMOR",
     "copy-from": "boots_hiking",
     "name": { "str": "seven league boots", "str_pl": "pairs of seven league boots" },
+    "material": [ "leather", "steel" ],
     "looks_like": "boots_hiking",
     "description": "Rugged yet extremely comfortable and well fitting boots of worn leather and steel, they look like they've seen a lot of use and will likely see a lot more.  They make your movement a lot less work.",
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "MOVE_COST", "add": -30 } ] } ] },
@@ -18,6 +19,7 @@
     "type": "ARMOR",
     "copy-from": "boots_hiking",
     "name": { "str": "boots of haste", "str_pl": "pairs of boots of haste" },
+    "material": [ "leather", "steel" ],
     "looks_like": "boots_hiking",
     "description": "Rugged yet extremely comfortable and well fitting boots of worn leather and steel, they look like they've seen a lot of use and will likely see a lot more.  They make your movement a lot less work.",
     "relic_data": {
@@ -42,6 +44,7 @@
     "initial_charges": 24,
     "max_charges": 24,
     "charges_per_use": 24,
+    "material": [ "leather", "steel" ],
     "artifact_data": { "charge_type": "ARTC_TIME" },
     "use_action": { "type": "cast_spell", "spell_id": "magus_escape", "no_fail": true, "level": 10, "need_worn": true },
     "encumbrance": 8,
