@@ -516,6 +516,54 @@ void weather_effect::acid( int intensity )
     }
 }
 
+/**
+ * Morale.
+ * Causes the player to feel a morale effect.
+ */
+void weather_effect::morale( int intensity, int bonus, int bonus_max, int duration, int decay_start,
+                             const std::string &morale_id_str,
+                             const std::string &morale_msg, int morale_msg_frequency, game_message_type message_type )
+{
+    if( !( calendar::once_every( time_duration::from_seconds( intensity ) ) && is_player_outside() ) ) {
+        return;
+    }
+
+    static const morale_type morale_id( morale_id_str );
+    if( !morale_id.is_valid() ) {
+        debugmsg( "Invalid morale ID: %s", morale_id_str.c_str() );
+        return;
+    }
+
+    get_avatar().add_morale( morale_id, bonus, bonus_max, 1_minutes * duration, 1_minutes * decay_start,
+                             true );
+    if( one_in( morale_msg_frequency ) ) {
+        add_msg( message_type, _( morale_msg ) );
+    }
+}
+
+/**
+ * Effect.
+ * Causes the player to feel a status effect.
+ */
+void weather_effect::effect( int intensity, int duration, const std::string &effect_id_str,
+                             const std::string &effect_msg, int effect_msg_frequency, game_message_type message_type )
+{
+    if( !( calendar::once_every( time_duration::from_seconds( intensity ) ) && is_player_outside() ) ) {
+        return;
+    }
+
+    static const efftype_id effect_id( effect_id_str );
+    if( !effect_id.is_valid() ) {
+        debugmsg( "Invalid effect ID: %s", effect_id_str.c_str() );
+        return;
+    }
+
+    get_avatar().add_effect( effect_id, 1_seconds * duration );
+    if( one_in( effect_msg_frequency ) ) {
+        add_msg( message_type, _( effect_msg ) );
+    }
+}
+
 double precip_mm_per_hour( precip_class const p )
 // Precipitation rate expressed as the rainfall equivalent if all
 // the precipitation were rain (rather than snow).

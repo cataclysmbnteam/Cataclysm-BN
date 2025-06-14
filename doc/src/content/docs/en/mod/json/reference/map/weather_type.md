@@ -51,9 +51,11 @@ All members are mandatory.
 | ---------- | ----------------------------------------------------------------------------------- |
 | wet        | wets player by `int` amount                                                         |
 | thunder    | thunder sound with chance 1 in `int`                                                |
-| lightening | 1 in `int` chance of sound plus message and possible super charging electric fields |
+| lightning  | 1 in `int` chance of sound plus message and possible super charging electric fields |
 | light_acid | causes pain unless waterproof                                                       |
 | acid_rain  | causes more pain unless waterproof                                                  |
+| morale     | causes player to feel a morale effect                                               |
+| effect     | causes player to become afflicted with a status effect                              |
 
 ### requirements
 

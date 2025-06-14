@@ -78,6 +78,12 @@ void thunder( int intensity );
 void lightning( int intensity );
 void light_acid( int intensity );
 void acid( int intensity );
+void effect( int intensity, int duration, const std::string &effect_id_str,
+             const std::string &effect_msg,
+             int effect_msg_frequency, game_message_type message_type );
+void morale( int intensity, int bonus, int bonus_max, int duration, int decay_start,
+             const std::string &morale_id_str, const std::string &morale_msg,
+             int morale_msg_frequency, game_message_type message_type );
 void wet_player( int amount );
 } // namespace weather_effect
 
