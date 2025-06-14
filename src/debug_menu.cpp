@@ -966,19 +966,22 @@ void character_edit_menu( Character &c )
             break;
         case edit_character::healthy: {
             uilist smenu;
-            smenu.addentry( 0, true, 'h', "%s: %d", _( "Health" ), p.get_healthy() );
-            smenu.addentry( 1, true, 'm', "%s: %d", _( "Health modifier" ), p.get_healthy_mod() );
+            smenu.addentry( 0, true, 'h', "%s: %d", _( "Health" ), static_cast<int>( p.get_healthy() ) );
+            smenu.addentry( 1, true, 'm', "%s: %d", _( "Health modifier" ),
+                            static_cast<int>( p.get_healthy_mod() ) );
             smenu.addentry( 2, true, 'r', "%s: %d", _( "Radiation" ), p.get_rad() );
             smenu.query();
             int value;
             switch( smenu.ret ) {
                 case 0:
-                    if( query_int( value, _( "Set the value to?  Currently: %d" ), p.get_healthy() ) ) {
+                    if( query_int( value, _( "Set the value to?  Currently: %d" ),
+                                   static_cast<int>( p.get_healthy() ) ) ) {
                         p.set_healthy( value );
                     }
                     break;
                 case 1:
-                    if( query_int( value, _( "Set the value to?  Currently: %d" ), p.get_healthy_mod() ) ) {
+                    if( query_int( value, _( "Set the value to?  Currently: %d" ),
+                                   static_cast<int>( p.get_healthy_mod() ) ) ) {
                         p.set_healthy_mod( value );
                     }
                     break;
