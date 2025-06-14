@@ -910,7 +910,7 @@ bool npc::can_read( const item &book, std::vector<std::string> &fail_reasons )
     return true;
 }
 
-int npc::time_to_read( const item &book, const player &reader ) const
+int npc::time_to_read( const item &book, const Character &reader ) const
 {
     const auto &type = book.type->book;
     const skill_id &skill = type->skill;
@@ -1036,7 +1036,7 @@ void npc::finish_read( item *it )
     revert_after_activity();
 }
 
-void npc::start_read( item &it, player *pl )
+void npc::start_read( item &it, Character *pl )
 {
     item &chosen = it;
     const int time_taken = time_to_read( chosen, *pl );
@@ -1265,7 +1265,7 @@ void npc::invalidate_range_cache()
     }
 }
 
-void npc::form_opinion( const player &u )
+void npc::form_opinion( const Character &u )
 {
     // FEAR
     if( u.primary_weapon().is_gun() ) {
@@ -1517,7 +1517,7 @@ int npc::assigned_missions_value()
     return ret;
 }
 
-std::vector<skill_id> npc::skills_offered_to( const player &p ) const
+std::vector<skill_id> npc::skills_offered_to( const Character &p ) const
 {
     std::vector<skill_id> ret;
     for( const auto &pair : *_skills ) {
@@ -1529,7 +1529,7 @@ std::vector<skill_id> npc::skills_offered_to( const player &p ) const
     return ret;
 }
 
-std::vector<matype_id> npc::styles_offered_to( const player &p ) const
+std::vector<matype_id> npc::styles_offered_to( const Character &p ) const
 {
     return p.martial_arts_data->get_unknown_styles( *martial_arts_data );
 }
@@ -2018,7 +2018,7 @@ void npc::set_faction_ver( int new_version )
     faction_api_version = new_version;
 }
 
-bool npc::has_faction_relationship( const player &p,
+bool npc::has_faction_relationship( const Character &p,
                                     const npc_factions::relationship flag ) const
 {
     faction *p_fac = p.get_faction();

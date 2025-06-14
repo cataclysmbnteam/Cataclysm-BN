@@ -3677,7 +3677,7 @@ void npc::activate_item( int item_index )
     }
 }
 
-void npc::heal_player( player &patient )
+void npc::heal_player( Character &patient )
 {
     int dist = rl_dist( pos(), patient.pos() );
 
@@ -3709,7 +3709,7 @@ void npc::heal_player( player &patient )
 
 }
 
-void npc:: pretend_heal( player &patient, item &used )
+void npc:: pretend_heal( Character &patient, item &used )
 {
     if( get_player_character().sees( *this ) ) {
         add_msg( _( "%1$s heals %2$s." ), disp_name(),
