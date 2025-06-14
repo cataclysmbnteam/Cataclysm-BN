@@ -1105,7 +1105,7 @@
     "stim": -1,
     "healthy": -1,
     "quench": 7,
-    "calories": 120,
+    "calories": 65,
     "addiction_potential": 45,
     "addiction_type": "opiate",
     "use_action": {
