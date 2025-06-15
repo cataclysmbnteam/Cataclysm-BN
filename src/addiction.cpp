@@ -119,7 +119,7 @@ void addict_effect( Character &u, addiction &add )
                                               _( "You could use some diazepam." );
                     u.add_msg_if_player( m_warning, msg_1 );
                     u.add_morale( morale_type, morale_penalty_min, morale_penalty_max );
-                    if( on_ghb && one_in(5)) {
+                    if( on_ghb && one_in( 5 ) ) {
                         u.add_msg_if_player( _( "The GHB makes it not so bad." ) );
                     }
                 } else if( calendar::once_every( 1_minutes ) && rng( 8, 300 ) < in ) {
@@ -131,7 +131,7 @@ void addict_effect( Character &u, addiction &add )
 
                     const time_duration shake_duration = on_ghb ? 2_minutes : 5_minutes;
                     u.add_effect( effect_shakes, shake_duration );
-                    if( on_ghb && one_in(5)) {
+                    if( on_ghb && one_in( 5 ) ) {
                         u.add_msg_if_player( _( "The GHB makes it not so bad." ) );
                     }
                 }
