@@ -534,7 +534,7 @@ void weather_effect::morale( int intensity, int bonus, int bonus_max, int durati
         return;
     }
 
-    get_avatar().add_morale( morale_id, bonus, bonus_max, 1_minutes * duration, 1_minutes * decay_start,
+    get_avatar().add_morale( morale_id, bonus, bonus_max, 1_seconds * duration, 1_seconds * decay_start,
                              true );
     if( one_in( morale_msg_frequency ) ) {
         add_msg( message_type, _( morale_msg ) );
@@ -545,7 +545,8 @@ void weather_effect::morale( int intensity, int bonus, int bonus_max, int durati
  * Effect.
  * Causes the player to feel a status effect.
  */
-void weather_effect::effect( int intensity, int duration, const std::string &effect_id_str,
+void weather_effect::effect( int intensity, int duration,
+                             int body_part_int, int effect_intensity, const std::string &effect_id_str,
                              const std::string &effect_msg, int effect_msg_frequency, game_message_type message_type )
 {
     if( !( calendar::once_every( time_duration::from_seconds( intensity ) ) && is_player_outside() ) ) {
@@ -558,7 +559,10 @@ void weather_effect::effect( int intensity, int duration, const std::string &eff
         return;
     }
 
-    get_avatar().add_effect( effect_id, 1_seconds * duration );
+    const body_part body_part_applying = body_part(body_part_int);
+
+    get_avatar().add_effect( effect_id, 1_seconds * duration, body_part_applying, effect_intensity );
+
     if( one_in( effect_msg_frequency ) ) {
         add_msg( message_type, _( effect_msg ) );
     }
