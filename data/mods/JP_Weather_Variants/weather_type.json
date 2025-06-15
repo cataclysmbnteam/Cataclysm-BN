@@ -102,10 +102,10 @@
     "effects": [
       {
         "name": "morale",
-        "intensity": 180,
+        "intensity": 60,
         "bonus": 2,
         "bonus_max": 60,
-        "duration": 120,
+        "duration": 30,
         "decay_start": 60,
         "morale_id_str": "morale_weather_geomagnetic_lights",
         "morale_msg": "You stare in awe at the violent pink, green, and blue waves rippling across the sky as you feel an odd wave-like sensation.",
@@ -114,9 +114,13 @@
       },
       {
         "name": "effect",
-        "intensity": 180,
-        "duration": 180,
+        "intensity": 60,
+        "duration": 30,
         "effect_id_str": "emp",
+        "effect_intensity": 0,
+        "bodypart_string": "head",
+        "precipitation_name": "electromagnetic waves",
+        "ignore_armor": true,
         "effect_msg": "",
         "effect_msg_frequency": 0,
         "message_type": 2
@@ -153,10 +157,10 @@
     "effects": [
       {
         "name": "morale",
-        "intensity": 180,
+        "intensity": 60,
         "bonus": 2,
         "bonus_max": 60,
-        "duration": 120,
+        "duration": 30,
         "decay_start": 60,
         "morale_id_str": "morale_weather_geomagnetic_lights",
         "morale_msg": "You stare in awe at the violent pink, green, and blue waves rippling across the sky.",
@@ -238,5 +242,47 @@
     "sound_category": "snowstorm",
     "sun_intensity": "none",
     "requirements": { "acidic": true, "temperature_max": 21, "required_weathers": [ "acid_rain", "snowstorm" ] }
+  },
+  {
+    "id": "clear_night",
+    "type": "weather_type",
+    "name": "Clear Night",
+    "color": "c_light_blue",
+    "map_color": "c_blue_yellow",
+    "glyph": " ",
+    "ranged_penalty": 0,
+    "sight_penalty": 1,
+    "light_modifier": 0,
+    "sound_attn": 0,
+    "dangerous": false,
+    "precip": "none",
+    "rains": false,
+    "acidic": false,
+    "sun_intensity": "normal",
+    "requirements": { "time": "night", "required_weathers": [ "clear" ] }
+  },
+  {
+    "id": "starry_night",
+    "type": "weather_type",
+    "name": "Starry Night",
+    "color": "c_light_blue",
+    "map_color": "c_yellow_cyan",
+    "glyph": "*",
+    "ranged_penalty": 0,
+    "sight_penalty": 1,
+    "light_modifier": 1,
+    "sound_attn": 0,
+    "dangerous": false,
+    "precip": "none",
+    "rains": false,
+    "acidic": false,
+    "sun_intensity": "normal",
+    "requirements": {
+      "pressure_min": 1025,
+      "humidity_max": 63,
+      "time": "night",
+      "humidity_and_pressure": false,
+      "required_weathers": [ "clear_night" ]
+    }
   }
 ]

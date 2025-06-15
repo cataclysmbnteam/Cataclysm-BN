@@ -22,7 +22,9 @@
           { "id": "acid_flurries", "fg": 5, "rotates": false },
           { "id": "acid_snow", "fg": 6, "rotates": false },
           { "id": "acid_snowstorm", "fg": 7, "rotates": false },
-          { "id": "weather_acid_snow", "fg": 8, "rotates": false }
+          { "id": "weather_acid_snow", "fg": 8, "rotates": false },
+          { "id": "starry_night", "fg": 9, "rotates": false },
+          { "id": "clear_night", "fg": 10, "rotates": false }
         ],
         "//": "range 1 to 16",
         "sprite_width": 32,
