@@ -193,9 +193,7 @@ void weather_type::load( const JsonObject &jo, const std::string & )
         const std::map<std::string, weather_effect_fn> all_weather_effects = {
             { "wet", &weather_effect::wet_player },
             { "thunder", &weather_effect::thunder },
-            { "lightning", &weather_effect::lightning },
-            { "light_acid", &weather_effect::light_acid },
-            { "acid", &weather_effect::acid }
+            { "lightning", &weather_effect::lightning }
             // effect and morale would be here, but are hardcoded above
         };
 
