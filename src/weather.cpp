@@ -503,10 +503,9 @@ void weather_effect::effect( int intensity, int duration,
         bool has_helmet = false;
         if( you.primary_weapon().has_flag( json_flag_RAIN_PROTECT ) && one_in( 4 ) ) {
             return add_msg( _( "Your umbrella protects you from the %s." ), precipitation_name );
-        }
-        else if( you.worn_with_flag( json_flag_RAINPROOF ) && one_in( 2 ) ) {
+        } else if( you.worn_with_flag( json_flag_RAINPROOF ) && one_in( 2 ) ) {
             return add_msg( _( "Your clothing protects you from the %s." ), precipitation_name );
-        }else if( you.is_wearing_power_armor( &has_helmet ) && ( has_helmet || !one_in( 2 ) ) ) {
+        } else if( you.is_wearing_power_armor( &has_helmet ) && ( has_helmet || !one_in( 2 ) ) ) {
             return add_msg( _( "Your power armor protects you from the %s." ), precipitation_name );
         }
     }
