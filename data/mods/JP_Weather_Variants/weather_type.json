@@ -129,7 +129,7 @@
       "humidity_max": 52,
       "pressure_min": 1020,
       "pressure_max": 1021,
-      "humidity_and_pressure": false, 
+      "humidity_and_pressure": false,
       "time": "night",
       "required_weathers": [ "clear" ]
     }
@@ -171,7 +171,7 @@
       "humidity_max": 55,
       "pressure_min": 1020,
       "pressure_max": 1023,
-      "humidity_and_pressure": false, 
+      "humidity_and_pressure": false,
       "time": "night",
       "required_weathers": [ "clear" ]
     }
