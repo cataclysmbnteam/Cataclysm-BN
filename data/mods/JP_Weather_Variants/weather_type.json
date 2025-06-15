@@ -278,7 +278,7 @@
     "acidic": false,
     "sun_intensity": "normal",
     "requirements": {
-      "pressure_min": 1025,
+      "pressure_min": 1050,
       "humidity_max": 63,
       "time": "night",
       "humidity_and_pressure": false,
