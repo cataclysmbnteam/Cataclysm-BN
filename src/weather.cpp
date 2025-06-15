@@ -467,16 +467,16 @@ void weather_effect::light_acid( int intensity )
 {
     if( calendar::once_every( time_duration::from_seconds( intensity ) ) && is_player_outside() ) {
         if( g->u.primary_weapon().has_flag( json_flag_RAIN_PROTECT ) && !one_in( 3 ) ) {
-            add_msg( _( "Your %s protects you from the acidic drizzle." ), g->u.primary_weapon().tname() );
+            add_msg( _( "Your %s protects you from the gentle acidfall." ), g->u.primary_weapon().tname() );
         } else {
             if( g->u.worn_with_flag( json_flag_RAINPROOF ) && !one_in( 4 ) ) {
-                add_msg( _( "Your clothing protects you from the acidic drizzle." ) );
+                add_msg( _( "Your clothing protects you from the gentle acidfall." ) );
             } else {
                 bool has_helmet = false;
                 if( g->u.is_wearing_power_armor( &has_helmet ) && ( has_helmet || !one_in( 4 ) ) ) {
-                    add_msg( _( "Your power armor protects you from the acidic drizzle." ) );
+                    add_msg( _( "Your power armor protects you from the gentle acidfall." ) );
                 } else {
-                    add_msg( m_warning, _( "The acid rain stings, but is mostly harmless for now…" ) );
+                    add_msg( m_warning, _( "The acidfall stings, but is mostly harmless for now…" ) );
                     if( one_in( 10 ) && ( g->u.get_pain() < 10 ) ) {
                         g->u.mod_pain( 1 );
                     }
@@ -498,19 +498,19 @@ void weather_effect::acid( int intensity )
 
     auto &you = get_avatar();
     if( you.primary_weapon().has_flag( json_flag_RAIN_PROTECT ) && one_in( 4 ) ) {
-        return add_msg( _( "Your umbrella protects you from the acid rain." ) );
+        return add_msg( _( "Your umbrella protects you from the acidfall." ) );
     }
 
     if( you.worn_with_flag( json_flag_RAINPROOF ) && one_in( 2 ) ) {
-        return add_msg( _( "Your clothing protects you from the acid rain." ) );
+        return add_msg( _( "Your clothing protects you from the acidfall." ) );
     }
 
     bool has_helmet = false;
     if( you.is_wearing_power_armor( &has_helmet ) && ( has_helmet || !one_in( 2 ) ) ) {
-        return add_msg( _( "Your power armor protects you from the acid rain." ) );
+        return add_msg( _( "Your power armor protects you from the acidfall." ) );
     }
 
-    add_msg( m_bad, _( "The acid rain burns!" ) );
+    add_msg( m_bad, _( "The acidfall burns!" ) );
     if( one_in( 2 ) && ( you.get_pain() < 100 ) ) {
         you.mod_pain( rng( 1, 5 ) );
     }
