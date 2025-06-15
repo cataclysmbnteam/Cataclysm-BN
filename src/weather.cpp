@@ -467,16 +467,16 @@ void weather_effect::light_acid( int intensity )
 {
     if( calendar::once_every( time_duration::from_seconds( intensity ) ) && is_player_outside() ) {
         if( g->u.primary_weapon().has_flag( json_flag_RAIN_PROTECT ) && !one_in( 3 ) ) {
-            add_msg( _( "Your %s protects you from the acidic drizzle." ), g->u.primary_weapon().tname() );
+            add_msg( _( "Your %s protects you from the gentle acidfall." ), g->u.primary_weapon().tname() );
         } else {
             if( g->u.worn_with_flag( json_flag_RAINPROOF ) && !one_in( 4 ) ) {
-                add_msg( _( "Your clothing protects you from the acidic drizzle." ) );
+                add_msg( _( "Your clothing protects you from the gentle acidfall." ) );
             } else {
                 bool has_helmet = false;
                 if( g->u.is_wearing_power_armor( &has_helmet ) && ( has_helmet || !one_in( 4 ) ) ) {
-                    add_msg( _( "Your power armor protects you from the acidic drizzle." ) );
+                    add_msg( _( "Your power armor protects you from the gentle acidfall." ) );
                 } else {
-                    add_msg( m_warning, _( "The acid rain stings, but is mostly harmless for now…" ) );
+                    add_msg( m_warning, _( "The acidfall stings, but is mostly harmless for now…" ) );
                     if( one_in( 10 ) && ( g->u.get_pain() < 10 ) ) {
                         g->u.mod_pain( 1 );
                     }
@@ -498,21 +498,94 @@ void weather_effect::acid( int intensity )
 
     auto &you = get_avatar();
     if( you.primary_weapon().has_flag( json_flag_RAIN_PROTECT ) && one_in( 4 ) ) {
-        return add_msg( _( "Your umbrella protects you from the acid rain." ) );
+        return add_msg( _( "Your umbrella protects you from the acidfall." ) );
     }
 
     if( you.worn_with_flag( json_flag_RAINPROOF ) && one_in( 2 ) ) {
-        return add_msg( _( "Your clothing protects you from the acid rain." ) );
+        return add_msg( _( "Your clothing protects you from the acidfall." ) );
     }
 
     bool has_helmet = false;
     if( you.is_wearing_power_armor( &has_helmet ) && ( has_helmet || !one_in( 2 ) ) ) {
-        return add_msg( _( "Your power armor protects you from the acid rain." ) );
+        return add_msg( _( "Your power armor protects you from the acidfall." ) );
     }
 
-    add_msg( m_bad, _( "The acid rain burns!" ) );
+    add_msg( m_bad, _( "The acidfall burns!" ) );
     if( one_in( 2 ) && ( you.get_pain() < 100 ) ) {
         you.mod_pain( rng( 1, 5 ) );
+    }
+}
+
+/**
+ * Morale.
+ * Causes the player to feel a morale effect.
+ */
+void weather_effect::morale( int intensity, int bonus, int bonus_max, int duration, int decay_start,
+                             const std::string &morale_id_str,
+                             const std::string &morale_msg, int morale_msg_frequency, game_message_type message_type )
+{
+    if( !( calendar::once_every( time_duration::from_seconds( intensity ) ) && is_player_outside() ) ) {
+        return;
+    }
+
+    static const morale_type morale_id( morale_id_str );
+    if( !morale_id.is_valid() ) {
+        debugmsg( "Invalid morale ID: %s", morale_id_str.c_str() );
+        return;
+    }
+
+    get_avatar().add_morale( morale_id, bonus, bonus_max, 1_seconds * duration, 1_seconds * decay_start,
+                             true );
+    if( one_in( morale_msg_frequency ) ) {
+        add_msg( message_type, _( morale_msg ) );
+    }
+}
+
+/**
+ * Effect.
+ * Causes the player to feel a status effect.
+ */
+void weather_effect::effect( int intensity, int duration,
+                             std::string bodypart_string, int effect_intensity, const std::string &effect_id_str,
+                             const std::string &effect_msg, int effect_msg_frequency, game_message_type message_type,
+                             std::string precipitation_name, bool ignore_armor )
+{
+    if( !( calendar::once_every( time_duration::from_seconds( intensity ) ) && is_player_outside() ) ) {
+        return;
+    }
+
+    if( !ignore_armor ) {
+        auto &you = get_avatar();
+        if( you.primary_weapon().has_flag( json_flag_RAIN_PROTECT ) && one_in( 4 ) ) {
+            return add_msg( _( "Your umbrella protects you from the %s." ), precipitation_name );
+        }
+
+        if( you.worn_with_flag( json_flag_RAINPROOF ) && one_in( 2 ) ) {
+            return add_msg( _( "Your clothing protects you from the %s." ), precipitation_name );
+        }
+
+        bool has_helmet = false;
+        if( you.is_wearing_power_armor( &has_helmet ) && ( has_helmet || !one_in( 2 ) ) ) {
+            return add_msg( _( "Your power armor protects you from the %s." ), precipitation_name );
+        }
+    }
+
+    const efftype_id effect_id( effect_id_str );
+    if( !effect_id.is_valid() ) {
+        debugmsg( "Invalid effect ID: %s", effect_id_str.c_str() );
+        return;
+    }
+
+    bodypart_str_id bp_id = bodypart_str_id::NULL_ID();
+    if( bodypart_string != "" ) {
+        bp_id = bodypart_str_id( bodypart_string );
+    }
+
+    get_avatar().add_effect( effect_id, 1_seconds * duration, bp_id, effect_intensity,
+                             false, false );
+
+    if( one_in( effect_msg_frequency ) ) {
+        add_msg( message_type, _( effect_msg ) );
     }
 }
 
