@@ -546,22 +546,43 @@ void weather_effect::morale( int intensity, int bonus, int bonus_max, int durati
  * Causes the player to feel a status effect.
  */
 void weather_effect::effect( int intensity, int duration,
-                             int body_part_int, int effect_intensity, const std::string &effect_id_str,
-                             const std::string &effect_msg, int effect_msg_frequency, game_message_type message_type )
+                             std::string bodypart_string, int effect_intensity, const std::string &effect_id_str,
+                             const std::string &effect_msg, int effect_msg_frequency, game_message_type message_type,
+                             std::string precipitation_name, bool ignore_armor )
 {
     if( !( calendar::once_every( time_duration::from_seconds( intensity ) ) && is_player_outside() ) ) {
         return;
     }
 
-    static const efftype_id effect_id( effect_id_str );
+    if( !ignore_armor ) {
+        auto &you = get_avatar();
+        if( you.primary_weapon().has_flag( json_flag_RAIN_PROTECT ) && one_in( 4 ) ) {
+            return add_msg( _( "Your umbrella protects you from the %s." ), precipitation_name );
+        }
+
+        if( you.worn_with_flag( json_flag_RAINPROOF ) && one_in( 2 ) ) {
+            return add_msg( _( "Your clothing protects you from the %s." ), precipitation_name );
+        }
+
+        bool has_helmet = false;
+        if( you.is_wearing_power_armor( &has_helmet ) && ( has_helmet || !one_in( 2 ) ) ) {
+            return add_msg( _( "Your power armor protects you from the %s." ), precipitation_name );
+        }
+    }
+
+    const efftype_id effect_id( effect_id_str );
     if( !effect_id.is_valid() ) {
         debugmsg( "Invalid effect ID: %s", effect_id_str.c_str() );
         return;
     }
 
-    const body_part body_part_applying = body_part(body_part_int);
+    bodypart_str_id bp_id = bodypart_str_id::NULL_ID();
+    if( bodypart_string != "" ) {
+        bp_id = bodypart_str_id( bodypart_string );
+    }
 
-    get_avatar().add_effect( effect_id, 1_seconds * duration, body_part_applying, effect_intensity );
+    get_avatar().add_effect( effect_id, 1_seconds * duration, bp_id, effect_intensity,
+                             false, false );
 
     if( one_in( effect_msg_frequency ) ) {
         add_msg( message_type, _( effect_msg ) );

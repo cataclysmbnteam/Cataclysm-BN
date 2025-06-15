@@ -174,14 +174,16 @@ void weather_type::load( const JsonObject &jo, const std::string & )
             int freq = weather_effect.get_int( "effect_msg_frequency" );
             int duration = weather_effect.get_int( "duration" );
             int effect_intensity = weather_effect.get_int( "effect_intensity" );
-            int body_part_int = weather_effect.get_int( "body_part_int" );
+            std::string bodypart_string = weather_effect.get_string( "bodypart_string" );
+            std::string precipitation_name = weather_effect.get_string( "precipitation_name" );
+            bool ignore_armor = weather_effect.get_bool( "ignore_armor" );
             int message_type = weather_effect.get_int( "message_type" );
             game_message_type gmt = static_cast<game_message_type>( message_type );
 
             effects.emplace_back(
             [ = ]( int intensity ) {
-                weather_effect::effect( intensity, duration, body_part_int, effect_intensity, id_str, msg, freq,
-                                        gmt );
+                weather_effect::effect( intensity, duration, bodypart_string, effect_intensity, id_str, msg, freq,
+                                        gmt, precipitation_name, ignore_armor );
             },
             intensity
             );

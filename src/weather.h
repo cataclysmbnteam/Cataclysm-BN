@@ -78,10 +78,11 @@ void thunder( int intensity );
 void lightning( int intensity );
 void light_acid( int intensity );
 void acid( int intensity );
-void effect( int intensity, int duration, int body_part_int, int effect_intensity,
+void effect( int intensity, int duration, std::string bodypart_string, int effect_intensity,
              const std::string &effect_id_str,
              const std::string &effect_msg,
-             int effect_msg_frequency, game_message_type message_type );
+             int effect_msg_frequency, game_message_type message_type, std::string precipitation_name,
+             bool ignore_armor );
 void morale( int intensity, int bonus, int bonus_max, int duration, int decay_start,
              const std::string &morale_id_str, const std::string &morale_msg,
              int morale_msg_frequency, game_message_type message_type );
