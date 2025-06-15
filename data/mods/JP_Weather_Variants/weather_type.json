@@ -180,7 +180,7 @@
     "id": "acid_flurries",
     "type": "weather_type",
     "name": "Acid Flurries",
-    "color": "c_green",
+    "color": "c_light_green",
     "map_color": "c_yellow_green",
     "glyph": "%",
     "ranged_penalty": 2,
