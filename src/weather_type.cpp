@@ -1,7 +1,6 @@
 #include "weather_type.h"
 
 #include "game_constants.h"
-#include "json.h"
 #include "generic_factory.h"
 #include "weather.h"
 
@@ -142,90 +141,70 @@ void weather_type::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "sound_category", sound_category, weather_sound_category::silent );
     mandatory( jo, was_loaded, "sun_intensity", sun_intensity );
 
-    using EffectHandler = std::function<weather_effect_entry( const JsonObject &, int )>;
+    for( const JsonObject weather_effect : jo.get_array( "effects" ) ) {
+        std::string name = weather_effect.get_string( "name" );
+        int intensity = weather_effect.get_int( "intensity" );
 
-    static const std::map<std::string, EffectHandler> weather_effect_registry = {
-        {
-            "morale", []( const JsonObject & obj, int intensity )
-            {
-                obj.allow_omitted_members(); // this is probaby a bad idea...
-                return weather_effect_entry(
-                [ = ]( int i ) {
-                    weather_effect::morale(
-                        i,
-                        obj.get_int( "bonus" ),
-                        obj.get_int( "bonus_max" ),
-                        obj.get_int( "duration" ),
-                        obj.get_int( "decay_start" ),
-                        obj.get_string( "morale_id_str" ),
-                        obj.get_string( "morale_msg" ),
-                        obj.get_int( "morale_msg_frequency" ),
-                        static_cast<game_message_type>( obj.get_int( "message_type" ) )
-                    );
-                },
-                intensity
-                );
-            }
-        },
-        {
-            "effect", []( const JsonObject & obj, int intensity )
-            {
-                obj.allow_omitted_members(); // this is probaby a bad idea...
-                return weather_effect_entry(
-                [ = ]( int i ) {
-                    weather_effect::effect(
-                        i,
-                        obj.get_int( "duration" ),
-                        obj.get_string( "bodypart_string", "" ),
-                        obj.get_int( "effect_intensity" ),
-                        obj.get_string( "effect_id_str" ),
-                        obj.get_string( "effect_msg" ),
-                        obj.get_int( "effect_msg_frequency" ),
-                        static_cast<game_message_type>( obj.get_int( "message_type" ) ),
-                        obj.get_string( "precipitation_name" ),
-                        obj.get_bool( "ignore_armor" ),
-                        obj.get_int( "clothing_protection" ),
-                        obj.get_int( "umbrella_protection" )
-                    );
-                },
-                intensity
-                );
-            }
-        },
-        {
-            "wet", []( const JsonObject &, int intensity )
-            {
-                return weather_effect_entry( weather_effect::wet_player, intensity );
-            }
-        },
-        {
-            "thunder", []( const JsonObject &, int intensity )
-            {
-                return weather_effect_entry( weather_effect::thunder, intensity );
-            }
-        },
-        {
-            "lightning", []( const JsonObject &, int intensity )
-            {
-                return weather_effect_entry( weather_effect::lightning, intensity );
-            }
+        // this is a terrible hardcoded implementation, but only way i could figure out how to satisfy JSON and get it to function
+        if( name == "morale" ) {
+            std::string id_str = weather_effect.get_string( "morale_id_str" );
+            std::string msg = weather_effect.get_string( "morale_msg" );
+            int freq = weather_effect.get_int( "morale_msg_frequency" );
+            int bonus = weather_effect.get_int( "bonus" );
+            int bonus_max = weather_effect.get_int( "bonus_max" );
+            int duration = weather_effect.get_int( "duration" );
+            int decay_start = weather_effect.get_int( "decay_start" );
+            int message_type = weather_effect.get_int( "message_type" );
+            game_message_type gmt = static_cast<game_message_type>( message_type );
+
+            effects.emplace_back(
+            [ = ]( int intensity ) {
+                weather_effect::morale( intensity, bonus, bonus_max, duration, decay_start, id_str, msg, freq,
+                                        gmt );
+            },
+            intensity
+            );
+            continue; // skip the map lookup
         }
-    };
 
-    std::vector<weather_effect_entry> effects;
+        // same as above
+        if( name == "effect" ) {
+            std::string id_str = weather_effect.get_string( "effect_id_str" );
+            std::string msg = weather_effect.get_string( "effect_msg" );
+            int freq = weather_effect.get_int( "effect_msg_frequency" );
+            int duration = weather_effect.get_int( "duration" );
+            int effect_intensity = weather_effect.get_int( "effect_intensity" );
+            std::string bodypart_string = weather_effect.get_string( "bodypart_string" );
+            std::string precipitation_name = weather_effect.get_string( "precipitation_name" );
+            bool ignore_armor = weather_effect.get_bool( "ignore_armor" );
+            int message_type = weather_effect.get_int( "message_type" );
+            int clothing_protection = weather_effect.get_int( "clothing_protection" );
+            int umbrella_protection = weather_effect.get_int( "umbrella_protection" );
+            game_message_type gmt = static_cast<game_message_type>( message_type );
 
-    for( const JsonValue &val : jo.get_array( "effects" ) ) {
-        JsonObject weather_effect = val.get_object();
+            effects.emplace_back(
+            [ = ]( int intensity ) {
+                weather_effect::effect( intensity, duration, bodypart_string, effect_intensity, id_str, msg, freq,
+                                        gmt, precipitation_name, ignore_armor, clothing_protection, umbrella_protection );
+            },
+            intensity
+            );
+            continue; // skip the map lookup
+        }
 
-        const std::string name = weather_effect.get_string( "name" );
-        const int intensity = weather_effect.get_int( "intensity" );
+        const std::map<std::string, weather_effect_fn> all_weather_effects = {
+            { "wet", &weather_effect::wet_player },
+            { "thunder", &weather_effect::thunder },
+            { "lightning", &weather_effect::lightning }
+            // effect and morale would be here, but are hardcoded above
+        };
 
-        const auto it = weather_effect_registry.find( name );
-        if( it == weather_effect_registry.end() ) {
+        const auto iter = all_weather_effects.find( name );
+        if( iter == all_weather_effects.end() ) {
             weather_effect.throw_error( "Invalid weather effect", "name" );
         }
 
-        effects.emplace_back( it->second( weather_effect, intensity ) );
+        effects.emplace_back( iter->second, intensity );
     }
 
     if( jo.has_member( "animation" ) ) {
