@@ -10131,14 +10131,37 @@ void game::vertical_move( int movez, bool force, bool peeking )
         }
     }
 
-    if( !force && movez == -1 && !m.has_flag( "GOES_DOWN", u.pos() ) &&
-        !u.is_underwater() && !u.can_noclip() && !u.can_fly() ) { // [FLIGHT] added !u.can_noclip()
-        add_msg( m_info, _( "You can't go down here!" ) );
-        return;
-    } else if( !climbing && !force && movez == 1 && !m.has_flag( "GOES_UP", u.pos() ) &&
-               !u.is_underwater() && !u.can_noclip() && !u.can_fly() ) {  // [FLIGHT] added !u.can_noclip()
-        add_msg( m_info, _( "You can't go up here!" ) );
-        return;
+    if( !force && movez == 1 && !m.has_flag( "GOES_UP", u.pos() ) &&
+        !u.is_underwater() ) {
+
+        const tripoint dest = u.pos() + tripoint_above;
+        const ter_id dest_terrain = m.ter( dest );
+        const bool dest_is_air = dest_terrain == t_open_air;
+
+        if( !u.can_fly() && !u.can_noclip() ) {
+            add_msg( m_info, _( "You can't go up here!" ) );
+            return;
+        } else if( m.impassable( dest ) || !dest_is_air ) {
+            add_msg( m_info, _( "There is something above blocking your way." ) );
+            return;
+        }
+
+    } else if( !force && movez == -1 && !m.has_flag( "GOES_DOWN", u.pos() ) &&
+               !u.is_underwater() ) {
+
+        const tripoint dest = u.pos() + tripoint_below;
+
+        // Check if player is standing on open air
+        const ter_id here_terrain = m.ter( u.pos() );
+        const bool standing_on_air = here_terrain == t_open_air;
+
+        if( !u.can_fly() && !u.can_noclip() ) {
+            add_msg( m_info, _( "You can't go down here!" ) );
+            return;
+        } else if( m.impassable( dest ) || !standing_on_air ) {
+            add_msg( m_info, _( "You can't fly into the ground..." ) );
+            return;
+        }
     }
 
     if( force ) {
@@ -10306,7 +10329,9 @@ void game::vertical_move( int movez, bool force, bool peeking )
     // Find the corresponding staircase
     bool rope_ladder = false;
     // TODO: Remove the stairfinding, make the mapgen gen aligned maps
-    if( !force && !climbing && !swimming && !flying ) {
+    const bool special_move = climbing || swimming || u.can_noclip() || u.can_fly();
+
+    if( !force && !special_move ) {
         const std::optional<tripoint> pnt = find_or_make_stairs( maybetmp, z_after, rope_ladder, peeking );
         if( !pnt ) {
             return;
@@ -10660,7 +10685,7 @@ std::optional<tripoint> game::find_or_make_stairs( map &mp, const int z_after, b
                     _( "There is a huge blob of water!  You may be unable to return back down these stairs.  Continue up?" ) ) ) {
                 return std::nullopt;
             }
-        } else if( !mp.has_flag( "GOES_DOWN", *stairs ) ) {
+        } else if( !mp.has_flag( "GOES_DOWN", *stairs ) && !u.can_fly() && !u.can_noclip() ) {
             if( !query_yn( _( "You may be unable to return back down these stairs.  Continue up?" ) ) ) {
                 return std::nullopt;
             }
@@ -10722,8 +10747,10 @@ std::optional<tripoint> game::find_or_make_stairs( map &mp, const int z_after, b
         } else {
             return std::nullopt;
         }
-    } else if( !query_yn( _( "There is a sheer drop halfway down.  Jump?" ) ) ) {
-        return std::nullopt;
+    } else if( !u.can_fly() && !u.can_noclip() ) {
+        if( query_yn( _( "There is a sheer drop halfway down.  Jump?" ) ) ) {
+            return std::nullopt;
+        }
     }
 
     return stairs;

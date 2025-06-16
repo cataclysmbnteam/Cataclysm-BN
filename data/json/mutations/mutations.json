@@ -3453,7 +3453,7 @@
     "points": 2,
     "visibility": 4,
     "ugliness": 2,
-    "description": "You have a pair of large, feathered wings.  Your body is too heavy to be able to fly, but you can use them to slow your descent during a fall, and will not take falling damage under any circumstances.",
+    "description": "You have a pair of large, feathered wings. Though your body is heavy and not built for sustained flight, you can use your wings to fly for short periods. You can also glide to slow your descent and will never take falling damage under any circumstances.",
     "//": "Immunity to falls is already hardcoded in, but this will make the effect consistent with other wing traits since hulk tosses check the same multiplier.",
     "falling_damage_multiplier": 0.75,
     "types": [ "WINGS" ],
