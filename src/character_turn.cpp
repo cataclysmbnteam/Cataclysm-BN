@@ -1,5 +1,6 @@
 #include "character_turn.h"
 
+#include "avatar.h"
 #include "bionics.h"
 #include "calendar.h"
 #include "character_effects.h"
@@ -1005,6 +1006,18 @@ void do_pause( Character &who )
 
     who.moves = 0;
     who.recoil = MAX_RECOIL;
+
+    if( ( g->m.ter( who.pos() ).id().str() == "t_open_air" ) ) {
+        if( !who.can_noclip() && !who.can_fly() ) {
+            g->vertical_move( -1, true );
+        } else if( who.can_fly() ) {
+            if( one_in( 2 ) ) {
+                who.add_msg_if_player( m_info,
+                                       _( "You flap your wings." ) );
+            }
+            who.burn_move_stamina( 100 );
+        }
+    }
 
     // Train swimming if underwater
     if( !who.in_vehicle ) {

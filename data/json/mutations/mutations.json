@@ -6429,6 +6429,24 @@
   },
   {
     "type": "mutation",
+    "id": "DEBUG_NOCLIP",
+    "name": { "str": "Debug Noclip" },
+    "points": 99,
+    "valid": false,
+    "description": "Garry?",
+    "debug": true
+  },
+  {
+    "type": "mutation",
+    "id": "DEBUG_FLIGHT",
+    "name": { "str": "Debug Flight" },
+    "points": 99,
+    "valid": false,
+    "description": "Redbull gives you wiiiiings!",
+    "debug": true
+  },
+  {
+    "type": "mutation",
     "id": "DEBUG_CLOAK",
     "name": { "str": "Debug Invisibility" },
     "points": 99,

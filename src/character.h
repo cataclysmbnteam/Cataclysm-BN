@@ -1683,6 +1683,20 @@ class Character : public Creature, public location_visitable<Character>
         bool in_vehicle = false;
         bool hauling = false;
 
+        bool can_noclip() const {
+            return has_trait( trait_id( "DEBUG_NOCLIP" ) );
+        }
+
+        bool can_fly() const {
+            if( has_trait( trait_id( "DEBUG_FLIGHT" ) ) ) {
+                return true;
+            } else if( has_trait( trait_id( "WINGS_BIRD" ) ) && stamina > 2000 ) {
+                return true;
+            }
+
+            return false;
+        }
+
         activity_ptr stashed_outbounds_activity;
         activity_ptr stashed_outbounds_backlog;
         activity_ptr activity;

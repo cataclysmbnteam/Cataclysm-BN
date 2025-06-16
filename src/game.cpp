@@ -8744,6 +8744,9 @@ bool game::prompt_dangerous_tile( const tripoint &dest_loc ) const
     }
 
     if( !u.is_mounted() ) {
+        if( u.can_noclip() || u.can_fly() ) {
+            return true;
+        }
         ledge_examine( u, dest_loc );
         return false;
     }
@@ -8771,8 +8774,10 @@ std::vector<std::string> game::get_dangerous_tile( const tripoint &dest_loc ) co
         // HACK: Hack for now, later ledge should stop being a trap
         // Note: in non-z-level mode, ledges obey different rules and so should be handled as regular traps
         if( tr.loadid == tr_ledge && m.has_zlevels() ) {
-            if( !boardable ) {
-                harmful_stuff.emplace_back( tr.name() );
+            if( !u.can_fly() ) {
+                if( !boardable ) {
+                    harmful_stuff.emplace_back( tr.name() );
+                }
             }
         } else if( tr.can_see( dest_loc, u ) && !tr.is_benign() && !boardable ) {
             harmful_stuff.emplace_back( tr.name() );
@@ -8993,7 +8998,16 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp )
         */
         if( grabbed_vehicle == nullptr || grabbed_vehicle->wheelcache.empty() ) {
             //Burn normal amount of stamina if no vehicle grabbed or vehicle lacks wheels
-            u.burn_move_stamina( previous_moves - u.moves );
+            if( u.can_fly() && g->m.ter( u.pos() ).id().str() == "t_open_air" ) {
+                if( one_in( 2 ) ) {
+                    u.add_msg_if_player( m_info,
+                                         _( "You flap your wings." ) );
+                }
+                // double stamina cost if flying
+                u.burn_move_stamina( 10 * ( previous_moves - u.moves ) );
+            } else {
+                u.burn_move_stamina( previous_moves - u.moves );
+            }
         } else {
             //Burn half as much stamina if vehicle has wheels, without changing move time
             u.burn_move_stamina( 0.50 * ( previous_moves - u.moves ) );
@@ -10048,12 +10062,14 @@ void game::vertical_move( int movez, bool force, bool peeking )
         }
     }
 
+    bool flying = u.can_fly() && ( g->m.ter( u.pos() ).id().str() == "t_open_air" );
     // Force means we're going down, even if there's no staircase, etc.
     bool climbing = false;
     int move_cost = 100;
     tripoint stairs( u.posx(), u.posy(), u.posz() + movez );
     if( m.has_zlevels() && !force && movez == 1 && !m.has_flag( "GOES_UP", u.pos() ) &&
-        !u.is_underwater() ) {
+        !u.is_underwater() && !u.can_noclip() && !u.can_fly() ) { // [FLIGHT] added !u.can_noclip()
+
         // Climbing
         if( m.has_floor_or_support( stairs ) ) {
             add_msg( m_info, _( "You can't climb here - there's a ceiling above your head." ) );
@@ -10067,7 +10083,6 @@ void game::vertical_move( int movez, bool force, bool peeking )
                 pts.push_back( pt );
             }
         }
-
 
         const auto cost = map_funcs::climbing_cost( m, u.pos(), stairs );
 
@@ -10117,11 +10132,11 @@ void game::vertical_move( int movez, bool force, bool peeking )
     }
 
     if( !force && movez == -1 && !m.has_flag( "GOES_DOWN", u.pos() ) &&
-        !u.is_underwater() ) {
+        !u.is_underwater() && !u.can_noclip() && !u.can_fly() ) { // [FLIGHT] added !u.can_noclip()
         add_msg( m_info, _( "You can't go down here!" ) );
         return;
     } else if( !climbing && !force && movez == 1 && !m.has_flag( "GOES_UP", u.pos() ) &&
-               !u.is_underwater() ) {
+               !u.is_underwater() && !u.can_noclip() && !u.can_fly() ) {  // [FLIGHT] added !u.can_noclip()
         add_msg( m_info, _( "You can't go up here!" ) );
         return;
     }
@@ -10291,7 +10306,7 @@ void game::vertical_move( int movez, bool force, bool peeking )
     // Find the corresponding staircase
     bool rope_ladder = false;
     // TODO: Remove the stairfinding, make the mapgen gen aligned maps
-    if( !force && !climbing && !swimming ) {
+    if( !force && !climbing && !swimming && !flying ) {
         const std::optional<tripoint> pnt = find_or_make_stairs( maybetmp, z_after, rope_ladder, peeking );
         if( !pnt ) {
             return;
