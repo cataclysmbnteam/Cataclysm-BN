@@ -511,29 +511,30 @@ int spell::damage() const
     }
 }
 
-int spell::damage_as_character(const Character &guy) const {
+int spell::damage_as_character( const Character &guy ) const
+{
     // Open-ended for the purposes of further expansion
     float total_damage = damage();
-    if (has_flag(spell_flag::ADD_MELEE_DAM)) {
-        item& weapon = guy.used_weapon();
+    if( has_flag( spell_flag::ADD_MELEE_DAM ) ) {
+        item &weapon = guy.used_weapon();
         int weapon_damage = 0;
-        if (!weapon.is_null()) {
+        if( !weapon.is_null() ) {
             // Just take the max, rather than worrying about how to integrate the other damage types
             // Also assumes that weapons aren't dealing other damage types
-            weapon_damage = std::max({weapon.damage_melee(DT_STAB), weapon.damage_melee(DT_CUT), weapon.damage_melee(DT_BASH)});
+            weapon_damage = std::max( {weapon.damage_melee( DT_STAB ), weapon.damage_melee( DT_CUT ), weapon.damage_melee( DT_BASH )} );
         }
         total_damage += weapon_damage;
     }
 
-    return std::round(total_damage);
+    return std::round( total_damage );
 }
 
-std::string spell::damage_string(const Character &guy) const
+std::string spell::damage_string( const Character &guy ) const
 {
     if( has_flag( spell_flag::RANDOM_DAMAGE ) ) {
         return string_format( "%d-%d", min_leveled_damage(), type->max_damage );
     } else {
-        const int dmg = damage_as_character(guy);
+        const int dmg = damage_as_character( guy );
         if( dmg >= 0 ) {
             return string_format( "%d", dmg );
         } else {
@@ -1251,17 +1252,17 @@ dealt_damage_instance spell::get_dealt_damage_instance() const
     return dmg;
 }
 
-damage_instance spell::get_damage_instance(const Character &guy) const
+damage_instance spell::get_damage_instance( const Character &guy ) const
 {
     damage_instance dmg;
-    dmg.add_damage( dmg_type(), damage_as_character(guy) );
+    dmg.add_damage( dmg_type(), damage_as_character( guy ) );
     return dmg;
 }
 
-dealt_damage_instance spell::get_dealt_damage_instance(const Character &guy) const
+dealt_damage_instance spell::get_dealt_damage_instance( const Character &guy ) const
 {
     dealt_damage_instance dmg;
-    dmg.set_damage( dmg_type(), damage_as_character(guy) );
+    dmg.set_damage( dmg_type(), damage_as_character( guy ) );
     return dmg;
 }
 
@@ -1764,8 +1765,8 @@ static std::string enumerate_spell_data( const spell &sp )
     if( sp.has_flag( spell_flag::BRAWL ) ) {
         spell_data.emplace_back( _( "can be used by Brawlers" ) );
     }
-    if (sp.has_flag(spell_flag::ADD_MELEE_DAM)) {
-        spell_data.emplace_back(_("can be augmented by melee weapon damage"));
+    if( sp.has_flag( spell_flag::ADD_MELEE_DAM ) ) {
+        spell_data.emplace_back( _( "can be augmented by melee weapon damage" ) );
     }
     return enumerate_as_string( spell_data );
 }
@@ -1878,18 +1879,18 @@ void spellcasting_callback::draw_spell_info( const spell &sp, const uilist *menu
         line++;
     }
 
-    const int damage = sp.damage_as_character(g->u);
+    const int damage = sp.damage_as_character( g->u );
     std::string damage_string;
     std::string aoe_string;
     // if it's any type of attack spell, the stats are normal.
     if( fx == "target_attack" || fx == "projectile_attack" || fx == "cone_attack" ||
         fx == "line_attack" ) {
         if( damage > 0 ) {
-            damage_string = string_format( "%s: %s %s", _( "Damage" ), colorize( sp.damage_string(g->u),
+            damage_string = string_format( "%s: %s %s", _( "Damage" ), colorize( sp.damage_string( g->u ),
                                            sp.damage_type_color() ),
                                            colorize( sp.damage_type_string(), sp.damage_type_color() ) );
         } else if( damage < 0 ) {
-            damage_string = string_format( "%s: %s", _( "Healing" ), colorize( sp.damage_string(g->u),
+            damage_string = string_format( "%s: %s", _( "Healing" ), colorize( sp.damage_string( g->u ),
                                            light_green ) );
         }
         if( sp.aoe() > 0 ) {

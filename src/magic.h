@@ -377,9 +377,9 @@ class spell
         dealt_damage_instance get_dealt_damage_instance() const;
         damage_instance get_damage_instance() const;
         // damage with character stats taken into account
-        int damage_as_character(const Character &guy) const;
-        dealt_damage_instance get_dealt_damage_instance(const Character &guy) const;
-        damage_instance get_damage_instance(const Character &guy) const;
+        int damage_as_character( const Character &guy ) const;
+        dealt_damage_instance get_dealt_damage_instance( const Character &guy ) const;
+        damage_instance get_damage_instance( const Character &guy ) const;
         // how big is the spell's radius
         int aoe() const;
         // "accuracy" of spells (used for determining body part hit)
@@ -445,7 +445,7 @@ class spell
         //if targeted_monster_ids is empty, it returns an empty string
         std::string list_targeted_monster_names() const;
 
-        std::string damage_string(const Character &guy) const;
+        std::string damage_string( const Character &guy ) const;
         std::string aoe_string() const;
         std::string duration_string() const;
 

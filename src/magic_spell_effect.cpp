@@ -499,7 +499,7 @@ static void damage_targets( const spell &sp, Creature &caster,
 
         projectile bolt;
         bolt.speed = 10000;
-        bolt.impact = sp.get_damage_instance(*caster.as_character());
+        bolt.impact = sp.get_damage_instance( *caster.as_character() );
         bolt.add_effect( ammo_effect_magic );
 
         dealt_projectile_attack atk;
