@@ -110,7 +110,7 @@
         "morale_id_str": "morale_weather_geomagnetic_lights",
         "morale_msg": "You stare in awe at the violent pink, green, and blue waves rippling across the sky.",
         "morale_msg_frequency": 5,
-        "message_type": 1
+        "message_type": 0
       },
       {
         "name": "effect",
@@ -167,7 +167,7 @@
         "morale_id_str": "morale_weather_geomagnetic_lights",
         "morale_msg": "You stare in awe at the pink, green, and blue waves rippling across the sky.",
         "morale_msg_frequency": 8,
-        "message_type": 1
+        "message_type": 0
       }
     ],
     "sun_intensity": "light",
