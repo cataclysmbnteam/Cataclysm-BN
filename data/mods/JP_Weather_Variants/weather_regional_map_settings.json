@@ -1045,7 +1045,7 @@
       "summer_humidity_manual_mod": -17,
       "winter_humidity_manual_mod": 17,
       "base_pressure": 1016,
-      "base_acid": 1,
+      "base_acid": 0.5,
       "base_wind": 10,
       "base_wind_distrib_peaks": 100,
       "base_wind_season_variation": 30,
