@@ -1251,6 +1251,20 @@ dealt_damage_instance spell::get_dealt_damage_instance() const
     return dmg;
 }
 
+damage_instance spell::get_damage_instance(const Character &guy) const
+{
+    damage_instance dmg;
+    dmg.add_damage( dmg_type(), damage_as_character(guy) );
+    return dmg;
+}
+
+dealt_damage_instance spell::get_dealt_damage_instance(const Character &guy) const
+{
+    dealt_damage_instance dmg;
+    dmg.set_damage( dmg_type(), damage_as_character(guy) );
+    return dmg;
+}
+
 std::string spell::effect_data() const
 {
     return type->effect_str;
@@ -1861,7 +1875,7 @@ void spellcasting_callback::draw_spell_info( const spell &sp, const uilist *menu
         line++;
     }
 
-    const int damage = sp.damage();
+    const int damage = sp.damage_as_character(g->u);
     std::string damage_string;
     std::string aoe_string;
     // if it's any type of attack spell, the stats are normal.
