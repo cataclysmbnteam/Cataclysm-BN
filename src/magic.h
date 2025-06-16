@@ -443,7 +443,7 @@ class spell
         //if targeted_monster_ids is empty, it returns an empty string
         std::string list_targeted_monster_names() const;
 
-        std::string damage_string() const;
+        std::string damage_string(const Character &guy) const;
         std::string aoe_string() const;
         std::string duration_string() const;
 
