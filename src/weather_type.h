@@ -129,6 +129,19 @@ struct weather_type {
             return utf32_to_utf8( symbol );
         }
 };
+
+struct weather_effect_entry {
+    std::function<void( int )> effect_fn;
+    int intensity;
+
+    weather_effect_entry( std::function<void( int )> fn, int i )
+        : effect_fn( std::move( fn ) ), intensity( i ) {}
+
+    // Optional: convenience overload for function pointers
+    weather_effect_entry( void ( *fn )( int ), int i )
+        : effect_fn( fn ), intensity( i ) {}
+};
+
 namespace weather_types
 {
 /** Get all currently loaded weather types */
