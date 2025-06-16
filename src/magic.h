@@ -59,6 +59,7 @@ enum spell_flag {
     NO_FAIL, // this spell cannot fail when you cast it
     BRAWL, // this spell can be used by brawlers
     DUPE_SOUND, // this spell will play 'duplicate' sounds, if relevant to the spell effect
+    ADD_MELEE_DAM, // Add melee damage to the spell's damage
     LAST
 };
 
@@ -373,6 +374,8 @@ class spell
         int field_intensity() const;
         // how much damage does the spell do
         int damage() const;
+        // damage with character stats taken into account
+        int damage_as_character(const Character &guy) const;
         dealt_damage_instance get_dealt_damage_instance() const;
         damage_instance get_damage_instance() const;
         // how big is the spell's radius

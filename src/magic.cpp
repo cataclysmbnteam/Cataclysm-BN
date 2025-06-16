@@ -105,6 +105,7 @@ std::string enum_to_string<spell_flag>( spell_flag data )
         case spell_flag::WONDER: return "WONDER";
         case spell_flag::BRAWL: return "BRAWL";
         case spell_flag::DUPE_SOUND: return "DUPE_SOUND";
+        case spell_flag::ADD_MELEE_DAM: return "ADD_MELEE_DAM";
         case spell_flag::LAST: break;
     }
     debugmsg( "Invalid spell_flag" );
@@ -508,6 +509,20 @@ int spell::damage() const
             return std::max( leveled_damage, type->max_damage );
         }
     }
+}
+
+int spell::damage_as_character(const Character &guy) const {
+    float total_damage = damage();
+    if (has_flag(spell_flag::ADD_MELEE_DAM)) {
+        item& weapon = guy.used_weapon();
+        int weapon_damage = 0;
+        if (!weapon.is_null()) {
+            weapon_damage = std::max({weapon.damage_melee(DT_STAB), weapon.damage_melee(DT_CUT), weapon.damage_melee(DT_BASH)});
+        }
+        total_damage += weapon_damage;
+    }
+
+    return std::round(total_damage);
 }
 
 std::string spell::damage_string() const
