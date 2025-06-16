@@ -178,12 +178,14 @@ void weather_type::load( const JsonObject &jo, const std::string & )
             std::string precipitation_name = weather_effect.get_string( "precipitation_name" );
             bool ignore_armor = weather_effect.get_bool( "ignore_armor" );
             int message_type = weather_effect.get_int( "message_type" );
+            int clothing_protection = weather_effect.get_int( "clothing_protection" );
+            int umbrella_protection = weather_effect.get_int( "umbrella_protection" );
             game_message_type gmt = static_cast<game_message_type>( message_type );
 
             effects.emplace_back(
             [ = ]( int intensity ) {
                 weather_effect::effect( intensity, duration, bodypart_string, effect_intensity, id_str, msg, freq,
-                                        gmt, precipitation_name, ignore_armor );
+                                        gmt, precipitation_name, ignore_armor, clothing_protection, umbrella_protection );
             },
             intensity
             );

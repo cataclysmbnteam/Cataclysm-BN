@@ -492,7 +492,8 @@ void weather_effect::morale( int intensity, int bonus, int bonus_max, int durati
 void weather_effect::effect( int intensity, int duration,
                              std::string bodypart_string, int effect_intensity, const std::string &effect_id_str,
                              const std::string &effect_msg, int effect_msg_frequency, game_message_type message_type,
-                             std::string precipitation_name, bool ignore_armor )
+                             std::string precipitation_name, bool ignore_armor, int clothing_protection,
+                             int umbrella_protection )
 {
     if( !( calendar::once_every( time_duration::from_seconds( intensity ) ) && is_player_outside() ) ) {
         return;
@@ -501,11 +502,14 @@ void weather_effect::effect( int intensity, int duration,
     if( !ignore_armor ) {
         auto &you = get_avatar();
         bool has_helmet = false;
-        if( you.primary_weapon().has_flag( json_flag_RAIN_PROTECT ) && one_in( 4 ) ) {
+        if( you.primary_weapon().has_flag( json_flag_RAIN_PROTECT ) && one_in( umbrella_protection ) ) {
             return add_msg( _( "Your umbrella protects you from the %s." ), precipitation_name );
-        } else if( you.worn_with_flag( json_flag_RAINPROOF ) && one_in( 2 ) ) {
+        } else if( you.worn_with_flag( json_flag_RAINPROOF ) && one_in( umbrella_protection ) ) {
+            return add_msg( _( "Your rainproof clothing protects you from the %s." ), precipitation_name );
+        } else if( one_in( clothing_protection ) ) {
             return add_msg( _( "Your clothing protects you from the %s." ), precipitation_name );
-        } else if( you.is_wearing_power_armor( &has_helmet ) && ( has_helmet || !one_in( 2 ) ) ) {
+        } else if( you.is_wearing_power_armor( &has_helmet ) && ( has_helmet ||
+                   !one_in( clothing_protection ) ) ) {
             return add_msg( _( "Your power armor protects you from the %s." ), precipitation_name );
         }
     }
