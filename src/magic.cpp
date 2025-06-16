@@ -514,7 +514,7 @@ int spell::damage() const
 int spell::damage_as_character( const Character &guy ) const
 {
     // Open-ended for the purposes of further expansion
-    float total_damage = damage();
+    double total_damage = damage();
     if( has_flag( spell_flag::ADD_MELEE_DAM ) ) {
         item &weapon = guy.used_weapon();
         int weapon_damage = 0;
