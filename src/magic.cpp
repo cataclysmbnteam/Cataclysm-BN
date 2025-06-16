@@ -1764,6 +1764,9 @@ static std::string enumerate_spell_data( const spell &sp )
     if( sp.has_flag( spell_flag::BRAWL ) ) {
         spell_data.emplace_back( _( "can be used by Brawlers" ) );
     }
+    if (sp.has_flag(spell_flag::ADD_MELEE_DAM)) {
+        spell_data.emplace_back(_("can be augmented by melee weapon damage"));
+    }
     return enumerate_as_string( spell_data );
 }
 
