@@ -143,6 +143,8 @@ experience you need to get to a level is below:
 
 - `DUPE_SOUND` - Allows a spell to play multiple of the same sound (i.e. a sound for each target affected)
 
+- `ADD_MELEE_DAM` - Adds the highest category of melee damage for your currently wielded item to the spell's damage
+
 - `NO_FAIL` - this spell cannot fail when you cast it
 
 #### Currently Implemented Effects and special rules
