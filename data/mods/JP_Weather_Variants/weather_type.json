@@ -15,14 +15,14 @@
     "effects": [
       {
         "name": "morale",
-        "intensity": 60,
+        "intensity": 3,
         "bonus": 2,
         "bonus_max": 60,
         "duration": 180,
         "decay_start": 60,
         "morale_id_str": "morale_weather_rainbow",
         "morale_msg": "You stare in awe at the rainbow.",
-        "morale_msg_frequency": 3,
+        "morale_msg_frequency": 8,
         "message_type": 0
       }
     ],
@@ -58,14 +58,14 @@
     "effects": [
       {
         "name": "morale",
-        "intensity": 60,
+        "intensity": 3,
         "bonus": 2,
         "bonus_max": 60,
         "duration": 180,
         "decay_start": 60,
         "morale_id_str": "morale_weather_sundog",
         "morale_msg": "You stare in awe at the sundog and the ice crystals suspended in the air.",
-        "morale_msg_frequency": 3,
+        "morale_msg_frequency": 8,
         "message_type": 0
       }
     ],
@@ -109,12 +109,12 @@
         "decay_start": 60,
         "morale_id_str": "morale_weather_geomagnetic_lights",
         "morale_msg": "You stare in awe at the violent pink, green, and blue waves rippling across the sky.",
-        "morale_msg_frequency": 1,
+        "morale_msg_frequency": 5,
         "message_type": 1
       },
       {
         "name": "effect",
-        "intensity": 2,
+        "intensity": 3,
         "duration": 30,
         "effect_id_str": "emp",
         "effect_intensity": 0,
@@ -122,7 +122,7 @@
         "precipitation_name": "electromagnetic waves",
         "ignore_armor": true,
         "effect_msg": "You feel an odd wave-like sensation pass through your body.",
-        "effect_msg_frequency": 40,
+        "effect_msg_frequency": 16,
         "message_type": 2,
         "clothing_protection": 0,
         "umbrella_protection": 0
@@ -166,7 +166,7 @@
         "decay_start": 60,
         "morale_id_str": "morale_weather_geomagnetic_lights",
         "morale_msg": "You stare in awe at the pink, green, and blue waves rippling across the sky.",
-        "morale_msg_frequency": 1,
+        "morale_msg_frequency": 8,
         "message_type": 1
       }
     ],
