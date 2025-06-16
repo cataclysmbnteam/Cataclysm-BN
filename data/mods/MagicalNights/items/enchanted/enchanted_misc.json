@@ -181,12 +181,13 @@
         "clothing_mods": [
           "leather_padded",
           "steel_padded",
+          "alloy_padded",
           "kevlar_padded",
+          "nomex_padded",
           "furred",
+          "wooled",
           "resized_large",
           "pocketed",
-          "nomex_padded",
-          "wooled",
           "owlbear_furred",
           "demonchitin_padded",
           "blackdragon_coated"
