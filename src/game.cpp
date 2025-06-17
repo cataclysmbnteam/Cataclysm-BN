@@ -8809,6 +8809,17 @@ std::vector<std::string> game::get_dangerous_tile( const tripoint &dest_loc ) co
 
 bool game::walk_move( const tripoint &dest_loc, const bool via_ramp )
 {
+    if( u.can_noclip() ) {
+        // Bypass all movement restrictions for debug noclip mode
+        tripoint oldpos = u.pos();
+        point submap_shift = place_player( dest_loc );
+        point ms_shift = sm_to_ms_copy( submap_shift );
+        oldpos = oldpos - ms_shift;
+
+        on_move_effects();
+        return true;
+    }
+
     if( m.has_flag_ter( TFLAG_SMALL_PASSAGE, dest_loc ) ) {
         if( u.get_size() > creature_size::medium ) {
             add_msg( m_warning, _( "You can't fit there." ) );
@@ -10139,17 +10150,25 @@ void game::vertical_move( int movez, bool force, bool peeking )
         if( !u.can_fly() && !u.can_noclip() ) {
             add_msg( m_info, _( "You can't go up here!" ) );
             return;
-        } else if( m.impassable( dest ) || !dest_is_air ) {
+        }
+
+        if( m.impassable( dest ) || !dest_is_air ) {
             if( !u.can_noclip() ) {
                 u.burn_move_stamina( 5000 );
+                add_msg( m_info, _( "There is something above blocking your way." ) );
+                return;
             }
-            add_msg( m_info, _( "There is something above blocking your way." ) );
-            return;
+            // If noclip is enabled, allow passage even through impassable
         }
+
 
         // If destination is air and player can’t noclip, drain stamina for flying up
         if( dest_is_air && !u.can_noclip() ) {
             u.burn_move_stamina( 5000 );
+            if( one_in( 2 ) ) {
+                u.add_msg_if_player( m_info,
+                                     _( "You flap your wings." ) );
+            }
         }
 
     } else if( !force && movez == -1 && !m.has_flag( "GOES_DOWN", u.pos() ) &&
@@ -10164,10 +10183,13 @@ void game::vertical_move( int movez, bool force, bool peeking )
         if( !u.can_fly() && !u.can_noclip() ) {
             add_msg( m_info, _( "You can't go down here!" ) );
             return;
-        } else if( m.impassable( dest ) || !standing_on_air ) {
-            add_msg( m_info, _( "You can't fly into the ground..." ) );
+        }
+
+        if( ( m.impassable( dest ) || !standing_on_air ) && !u.can_noclip() ) {
+            // used to have an add_msg here, but seems like odd behavior
             return;
         }
+
     }
 
     if( force ) {
