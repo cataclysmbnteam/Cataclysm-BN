@@ -3453,6 +3453,9 @@
     "points": 2,
     "visibility": 4,
     "ugliness": 2,
+    "cost": -100,
+    "stamina": true,
+    "allows_flight": true,
     "description": "You have a pair of large, feathered wings. Though your body is heavy and not built for sustained flight, you can use your wings to fly for short periods. You can also glide to slow your descent and will never take falling damage under any circumstances.",
     "//": "Immunity to falls is already hardcoded in, but this will make the effect consistent with other wing traits since hulk tosses check the same multiplier.",
     "falling_damage_multiplier": 0.75,
@@ -6442,6 +6445,7 @@
     "name": { "str": "Debug Flight" },
     "points": 99,
     "valid": false,
+    "allows_flight": true,
     "description": "Redbull gives you wiiiiings!",
     "debug": true
   },

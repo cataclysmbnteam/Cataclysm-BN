@@ -30,6 +30,8 @@
 #include "enum_int_operators.h"
 #include "enums.h"
 #include "flat_set.h"
+#include "mutation.h"
+#include "bionics.h"
 #include "game_constants.h"
 #include "inventory.h"
 #include "item.h"
@@ -786,7 +788,7 @@ class Character : public Creature, public location_visitable<Character>
         void deactivate_mutation( const trait_id &mut );
 
         /** Removes the appropriate costs (NOTE: will reapply mods & recalc sightlines in case of newly activated mutation). */
-        void mutation_spend_resources( const trait_id &mut );
+        void mutation_spend_resources( const trait_id &mut, float multiplier );
 
         /** Converts a bodypart_str_id to its main part */
         static bodypart_str_id bp_to_hp( const bodypart_str_id &bp );
@@ -1688,10 +1690,10 @@ class Character : public Creature, public location_visitable<Character>
         }
 
         bool can_fly() const {
-            if( has_trait( trait_id( "DEBUG_FLIGHT" ) ) ) {
-                return true;
-            } else if( has_trait( trait_id( "WINGS_BIRD" ) ) && stamina > 2000 ) {
-                return true;
+            for( const trait_id &mid : get_mutations() ) {
+                if( mid->allows_flight && can_use_mutation( mid, *this ) ) {
+                    return true;
+                }
             }
 
             return false;

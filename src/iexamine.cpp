@@ -4772,7 +4772,7 @@ void iexamine::ledge( player &p, const tripoint &examp )
 
                     g->m.ter_set( dest, t_web_bridge );
                 }
-                p.mutation_spend_resources( trait_WEB_BRIDGE );
+                p.mutation_spend_resources( trait_WEB_BRIDGE, 1 );
             }
             break;
         }

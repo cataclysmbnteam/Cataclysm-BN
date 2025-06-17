@@ -1015,7 +1015,7 @@ void do_pause( Character &who )
                 who.add_msg_if_player( m_info,
                                        _( "You flap your wings." ) );
             }
-            who.burn_move_stamina( 1000 );
+            g->u.mutation_spend_resources( trait_id( "WINGS_BIRD" ), 1 );
         }
     }
 

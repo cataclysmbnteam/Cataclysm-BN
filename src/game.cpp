@@ -9014,7 +9014,7 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp )
                     u.add_msg_if_player( m_info,
                                          _( "You flap your wings." ) );
                 }
-                u.burn_move_stamina( 2500 );
+                u.mutation_spend_resources( trait_id( "WINGS_BIRD" ), 2.5 );
             }
             u.burn_move_stamina( previous_moves - u.moves );
         } else {
@@ -10108,7 +10108,7 @@ void game::vertical_move( int movez, bool force, bool peeking )
                             add_msg( m_good, _( "You spin a rope of web." ) );
                             m.furn_set( u.pos(), furn_str_id( "f_rope_up_web" ) );
                             u.mod_moves( to_turns<int>( 2_seconds ) );
-                            u.mutation_spend_resources( trait_WEB_ROPE );
+                            u.mutation_spend_resources( trait_WEB_ROPE, 1 );
                             vertical_move( movez, force, peeking );
                         }
                     }
@@ -10154,7 +10154,7 @@ void game::vertical_move( int movez, bool force, bool peeking )
 
         if( m.impassable( dest ) || !dest_is_air ) {
             if( !u.can_noclip() ) {
-                u.burn_move_stamina( 5000 );
+                u.mutation_spend_resources( trait_id( "WINGS_BIRD" ), 5 );
                 add_msg( m_info, _( "There is something above blocking your way." ) );
                 return;
             }
@@ -10164,7 +10164,7 @@ void game::vertical_move( int movez, bool force, bool peeking )
 
         // If destination is air and player can’t noclip, drain stamina for flying up
         if( dest_is_air && !u.can_noclip() ) {
-            u.burn_move_stamina( 5000 );
+            u.mutation_spend_resources( trait_id( "WINGS_BIRD" ), 1 );
             if( one_in( 2 ) ) {
                 u.add_msg_if_player( m_info,
                                      _( "You flap your wings." ) );

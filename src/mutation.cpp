@@ -480,7 +480,7 @@ void Character::activate_mutation( const trait_id &mut )
     if( !can_use_mutation_warn( mut, *this ) ) {
         return;
     }
-    mutation_spend_resources( mut );
+    mutation_spend_resources( mut, 1 );
     tdata.powered = true;
 
     if( !mut->enchantments.empty() ) {
@@ -1715,11 +1715,11 @@ bool can_use_mutation_warn( const trait_id &mut, const Character &character )
     return result;
 }
 
-void Character::mutation_spend_resources( const trait_id &mut )
+void Character::mutation_spend_resources( const trait_id &mut, float multiplier = 1 )
 {
     const mutation_branch &mdata = mut.obj();
     char_trait_data &tdata = my_mutations[mut];
-    int cost = mdata.cost;
+    int cost = mdata.cost * multiplier;
     if( tdata.powered && tdata.charge > 0 ) {
         // Already-on units just lose a bit of charge
         tdata.charge--;
