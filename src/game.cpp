@@ -9003,11 +9003,9 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp )
                     u.add_msg_if_player( m_info,
                                          _( "You flap your wings." ) );
                 }
-                // double stamina cost if flying
-                u.burn_move_stamina( 10 * ( previous_moves - u.moves ) );
-            } else {
-                u.burn_move_stamina( previous_moves - u.moves );
+                u.burn_move_stamina( 2500 );
             }
+            u.burn_move_stamina( previous_moves - u.moves );
         } else {
             //Burn half as much stamina if vehicle has wheels, without changing move time
             u.burn_move_stamina( 0.50 * ( previous_moves - u.moves ) );
@@ -10062,7 +10060,6 @@ void game::vertical_move( int movez, bool force, bool peeking )
         }
     }
 
-    bool flying = u.can_fly() && ( g->m.ter( u.pos() ).id().str() == "t_open_air" );
     // Force means we're going down, even if there's no staircase, etc.
     bool climbing = false;
     int move_cost = 100;
@@ -10138,12 +10135,21 @@ void game::vertical_move( int movez, bool force, bool peeking )
         const ter_id dest_terrain = m.ter( dest );
         const bool dest_is_air = dest_terrain == t_open_air;
 
+
         if( !u.can_fly() && !u.can_noclip() ) {
             add_msg( m_info, _( "You can't go up here!" ) );
             return;
         } else if( m.impassable( dest ) || !dest_is_air ) {
+            if( !u.can_noclip() ) {
+                u.burn_move_stamina( 5000 );
+            }
             add_msg( m_info, _( "There is something above blocking your way." ) );
             return;
+        }
+
+        // If destination is air and player can’t noclip, drain stamina for flying up
+        if( dest_is_air && !u.can_noclip() ) {
+            u.burn_move_stamina( 5000 );
         }
 
     } else if( !force && movez == -1 && !m.has_flag( "GOES_DOWN", u.pos() ) &&
