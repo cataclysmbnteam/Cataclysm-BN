@@ -6447,6 +6447,7 @@
     "points": 99,
     "valid": false,
     "allows_flight": true,
+    "active": true,
     "description": "Redbull gives you wiiiiings!",
     "debug": true
   },

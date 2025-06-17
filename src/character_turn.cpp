@@ -1016,7 +1016,7 @@ void do_pause( Character &who )
             for( const trait_id &tid : who.get_mutations() ) {
                 const mutation_branch &mdata = tid.obj();
                 if( mdata.allows_flight ) {
-                    who.mutation_spend_resources( tid, 1 );
+                    who.mutation_spend_resources( tid );
                 }
             }
         }

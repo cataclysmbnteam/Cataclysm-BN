@@ -9014,7 +9014,7 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp )
                 for( const trait_id &tid : u.get_mutations() ) {
                     const mutation_branch &mdata = tid.obj();
                     if( mdata.allows_flight ) {
-                        u.mutation_spend_resources( tid, 2.5 );
+                        u.mutation_spend_resources( tid );
                     }
                 }
 
@@ -10111,7 +10111,7 @@ void game::vertical_move( int movez, bool force, bool peeking )
                             add_msg( m_good, _( "You spin a rope of web." ) );
                             m.furn_set( u.pos(), furn_str_id( "f_rope_up_web" ) );
                             u.mod_moves( to_turns<int>( 2_seconds ) );
-                            u.mutation_spend_resources( trait_WEB_ROPE, 1 );
+                            u.mutation_spend_resources( trait_WEB_ROPE );
                             vertical_move( movez, force, peeking );
                         }
                     }
@@ -10160,7 +10160,7 @@ void game::vertical_move( int movez, bool force, bool peeking )
                 for( const trait_id &tid : u.get_mutations() ) {
                     const mutation_branch &mdata = tid.obj();
                     if( mdata.allows_flight ) {
-                        u.mutation_spend_resources( tid, 5 );
+                        u.mutation_spend_resources( tid );
                     }
                 }
                 add_msg( m_info, _( "There is something above blocking your way." ) );
@@ -10175,7 +10175,7 @@ void game::vertical_move( int movez, bool force, bool peeking )
             for( const trait_id &tid : u.get_mutations() ) {
                 const mutation_branch &mdata = tid.obj();
                 if( mdata.allows_flight ) {
-                    u.mutation_spend_resources( tid, 1 );
+                    u.mutation_spend_resources( tid );
                 }
             }
             // add flying flavor text here

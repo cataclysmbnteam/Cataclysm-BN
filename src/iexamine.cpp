@@ -4628,6 +4628,27 @@ void iexamine::ledge( player &p, const tripoint &examp )
 {
     enum ledge_action : int { jump_over, climb_down, spin_web_bridge };
 
+    if( g->m.ter( p.pos() ).id().str() == "t_open_air" && !p.can_fly() && !p.can_noclip() ) {
+        tripoint where = p.pos();
+        tripoint below = where;
+        below.z--;
+
+        // Keep going down until we find a tile that is NOT open air
+        while( g->m.ter( below ).id().str() == "t_open_air" &&
+               g->m.valid_move( where, below, false, true ) ) {
+            where.z--;
+            below.z--;
+        }
+
+        // where now represents the first NON-open-air tile or the last valid move before hitting one
+        const int height = p.pos().z - below.z;
+
+        if( height > 0 ) {
+            g->vertical_move( -height, true );  // fall onto the solid tile
+            return;
+        }
+    }
+
     uilist cmenu;
     cmenu.text = _( "There is a ledge here.  What do you want to do?" );
     cmenu.addentry( ledge_action::jump_over, true, 'j', _( "Jump over." ) );
@@ -4772,7 +4793,7 @@ void iexamine::ledge( player &p, const tripoint &examp )
 
                     g->m.ter_set( dest, t_web_bridge );
                 }
-                p.mutation_spend_resources( trait_WEB_BRIDGE, 1 );
+                p.mutation_spend_resources( trait_WEB_BRIDGE );
             }
             break;
         }

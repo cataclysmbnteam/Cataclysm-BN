@@ -788,7 +788,7 @@ class Character : public Creature, public location_visitable<Character>
         void deactivate_mutation( const trait_id &mut );
 
         /** Removes the appropriate costs (NOTE: will reapply mods & recalc sightlines in case of newly activated mutation). */
-        void mutation_spend_resources( const trait_id &mut, float multiplier );
+        void mutation_spend_resources( const trait_id &mut );
 
         /** Converts a bodypart_str_id to its main part */
         static bodypart_str_id bp_to_hp( const bodypart_str_id &bp );
