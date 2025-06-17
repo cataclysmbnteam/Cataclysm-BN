@@ -1701,6 +1701,11 @@ class Character : public Creature, public location_visitable<Character>
                     }
                 }
             }
+            for( const bionic &bio : *my_bionics ) {
+                if( bio.info().allows_flight && power_level > units::from_kilojoule( 0 ) && bio.powered ) {
+                    return true;
+                }
+            }
 
             return false;
         }

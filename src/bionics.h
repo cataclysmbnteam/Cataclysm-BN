@@ -78,8 +78,11 @@ struct bionic_data {
     std::optional<float> coverage_power_gen_penalty;
     /**If true this bionic emits heat when producing power*/
     bool exothermic_power_gen = false;
+    /**If true this bionic allows the user to fly*/
+    bool allows_flight = false;
     /**Type of field emitted by this bionic when it produces energy*/
     emit_id power_gen_emission = emit_id::NULL_ID();
+
 
     /**Amount of environemental protection offered by this bionic*/
     std::map<bodypart_str_id, int> env_protec;

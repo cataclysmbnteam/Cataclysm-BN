@@ -19,6 +19,18 @@
     "time": 1
   },
   {
+    "id": "bio_wings",
+    "type": "bionic",
+    "name": { "str": "Bionic Wings" },
+    "description": "Retractable mechanical wings are surgically embedded into your back, forged from ultra-light alloys and powered by muscle-assist servos. When deployed, they extend outward in a burst of kinetic precision, allowing controlled gliding, rapid descents, or short bursts of powered flight.",
+    "occupied_bodyparts": [ [ "torso", 10 ] ],
+    "flags": [ "BIONIC_TOGGLED" ],
+    "allows_flight": true,
+    "react_cost": "5 kJ",
+    "act_cost": "5 kJ",
+    "time": 1
+  },
+  {
     "id": "bio_alarm",
     "type": "bionic",
     "name": { "str": "Alarm System" },
