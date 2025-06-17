@@ -35,7 +35,7 @@
       "palettes": [ "basement_empty" ],
       "nested": {
         "2": {
-          "chunks": [ [ "null", 50 ], [ "11x11_gym_open", 10 ], [ "11x11_recroom_open", 30 ], [ "room_11x11_apartment_W", 10 ] ]
+          "chunks": [ [ "null", 50 ], [ "11x11_gym_open_1", 10 ], [ "11x11_recroom_open", 30 ], [ "room_11x11_apartment_W", 10 ] ]
         },
         "1": {
           "chunks": [
