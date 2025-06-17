@@ -1689,10 +1689,16 @@ class Character : public Creature, public location_visitable<Character>
             return has_trait( trait_id( "DEBUG_NOCLIP" ) );
         }
 
-        bool can_fly() const {
+        bool can_fly() {
             for( const trait_id &mid : get_mutations() ) {
-                if( mid->allows_flight && can_use_mutation( mid, *this ) ) {
-                    return true;
+                auto it = my_mutations.find( mid->id );
+                if( it != my_mutations.end() ) {
+                    if( mid->allows_flight && can_use_mutation( mid, *this ) && it->second.powered ) {
+                        return true;
+                    } else if( !can_use_mutation( mid, *this ) && it->second.powered ) {
+                        deactivate_mutation( mid );
+                        return false;
+                    }
                 }
             }
 

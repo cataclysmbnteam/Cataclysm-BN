@@ -9010,11 +9010,14 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp )
         if( grabbed_vehicle == nullptr || grabbed_vehicle->wheelcache.empty() ) {
             //Burn normal amount of stamina if no vehicle grabbed or vehicle lacks wheels
             if( u.can_fly() && g->m.ter( u.pos() ).id().str() == "t_open_air" ) {
-                if( one_in( 2 ) ) {
-                    u.add_msg_if_player( m_info,
-                                         _( "You flap your wings." ) );
+                // add flying flavor text here
+                for( const trait_id &tid : u.get_mutations() ) {
+                    const mutation_branch &mdata = tid.obj();
+                    if( mdata.allows_flight ) {
+                        u.mutation_spend_resources( tid, 2.5 );
+                    }
                 }
-                u.mutation_spend_resources( trait_id( "WINGS_BIRD" ), 2.5 );
+
             }
             u.burn_move_stamina( previous_moves - u.moves );
         } else {
@@ -10154,7 +10157,12 @@ void game::vertical_move( int movez, bool force, bool peeking )
 
         if( m.impassable( dest ) || !dest_is_air ) {
             if( !u.can_noclip() ) {
-                u.mutation_spend_resources( trait_id( "WINGS_BIRD" ), 5 );
+                for( const trait_id &tid : u.get_mutations() ) {
+                    const mutation_branch &mdata = tid.obj();
+                    if( mdata.allows_flight ) {
+                        u.mutation_spend_resources( tid, 5 );
+                    }
+                }
                 add_msg( m_info, _( "There is something above blocking your way." ) );
                 return;
             }
@@ -10164,11 +10172,13 @@ void game::vertical_move( int movez, bool force, bool peeking )
 
         // If destination is air and player can’t noclip, drain stamina for flying up
         if( dest_is_air && !u.can_noclip() ) {
-            u.mutation_spend_resources( trait_id( "WINGS_BIRD" ), 1 );
-            if( one_in( 2 ) ) {
-                u.add_msg_if_player( m_info,
-                                     _( "You flap your wings." ) );
+            for( const trait_id &tid : u.get_mutations() ) {
+                const mutation_branch &mdata = tid.obj();
+                if( mdata.allows_flight ) {
+                    u.mutation_spend_resources( tid, 1 );
+                }
             }
+            // add flying flavor text here
         }
 
     } else if( !force && movez == -1 && !m.has_flag( "GOES_DOWN", u.pos() ) &&
@@ -10186,7 +10196,7 @@ void game::vertical_move( int movez, bool force, bool peeking )
         }
 
         if( ( m.impassable( dest ) || !standing_on_air ) && !u.can_noclip() ) {
-            // used to have an add_msg here, but seems like odd behavior
+            add_msg( m_info, _( "You can't go down here!" ) );
             return;
         }
 

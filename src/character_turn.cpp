@@ -1011,11 +1011,14 @@ void do_pause( Character &who )
         if( !who.can_noclip() && !who.can_fly() ) {
             g->vertical_move( -1, true );
         } else if( who.can_fly() ) {
-            if( one_in( 2 ) ) {
-                who.add_msg_if_player( m_info,
-                                       _( "You flap your wings." ) );
+            // add flying flavor text here
+
+            for( const trait_id &tid : who.get_mutations() ) {
+                const mutation_branch &mdata = tid.obj();
+                if( mdata.allows_flight ) {
+                    who.mutation_spend_resources( tid, 1 );
+                }
             }
-            g->u.mutation_spend_resources( trait_id( "WINGS_BIRD" ), 1 );
         }
     }
 
