@@ -1748,19 +1748,20 @@ void Character::mutation_spend_resources( const trait_id &mut )
             mod_fatigue( cost );
         }
         if( mdata.stamina ) {
-            mod_stamina( cost );
+            mod_stamina( -cost ); // flipped, because it should be consuming stamina not adding to it
         }
         if( mdata.mana ) {
-            magic->mod_mana( *this, cost );
+            magic->mod_mana( *this, -cost ); // flipped, because it should be consuming mana not adding to it
         }
         if( mdata.health ) {
-            mod_healthy( cost );
+            mod_healthy( -cost ); // flipped, because it should be consuming health not adding to it
         }
         if( mdata.pain ) {
-            mod_pain( -cost );
+            mod_pain( cost );
         }
         if( mdata.bionic ) {
-            mod_power_level( units::from_kilojoule( cost ) );
+            mod_power_level( units::from_kilojoule(
+                                 -cost ) );  // flipped, because it should be consuming bionic power not adding to it
         }
 
         // Handle stat changes from activation
