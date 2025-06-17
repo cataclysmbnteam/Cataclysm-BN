@@ -1701,6 +1701,15 @@ bool can_use_mutation( const trait_id &mut, const Character &character )
     // Fatigue can go to Exhausted.
     return !( ( mdata.hunger && character.get_kcal_percent() < 0.5f ) ||
               ( mdata.thirst && character.get_thirst() >= thirst_levels::dehydrated ) ||
+              ( mdata.stamina && character.get_stamina() <= 1000 ) ||
+              // 1000+ = too much stamina
+              ( mdata.pain && character.get_pain() >= 100 ) || // too much pain
+              ( mdata.bionic && character.get_power_level() <= units::from_kilojoule( 1 ) ) ||
+              // 1kJ or more = too much bionic power
+              ( mdata.mana && character.magic->available_mana() <= 10 ) ||
+              // 10 or more = too much mana
+              ( mdata.health && character.get_healthy() <= -100 ) ||
+              // 10 or more = too much mana
               ( mdata.fatigue && character.get_fatigue() >= fatigue_levels::exhausted ) );
 }
 
@@ -1737,6 +1746,21 @@ void Character::mutation_spend_resources( const trait_id &mut )
         }
         if( mdata.fatigue ) {
             mod_fatigue( cost );
+        }
+        if( mdata.stamina ) {
+            mod_stamina( cost );
+        }
+        if( mdata.mana ) {
+            magic->mod_mana( *this, cost );
+        }
+        if( mdata.health ) {
+            mod_healthy( cost );
+        }
+        if( mdata.pain ) {
+            mod_pain( -cost );
+        }
+        if( mdata.bionic ) {
+            mod_power_level( units::from_kilojoule( cost ) );
         }
 
         // Handle stat changes from activation
