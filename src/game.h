@@ -1,6 +1,4 @@
 #pragma once
-#ifndef CATA_SRC_GAME_H
-#define CATA_SRC_GAME_H
 
 #include <array>
 #include <chrono>
@@ -585,8 +583,8 @@ class game
         void zoom_in();
         void zoom_out();
         void reset_zoom();
-        void set_zoom( int level );
-        int get_zoom() const;
+        void set_zoom( float level );
+        float get_zoom() const;
         int get_moves_since_last_save() const;
         int get_user_action_counter() const;
 
@@ -1039,7 +1037,7 @@ class game
         int user_action_counter = 0; // Times the user has input an action
 
         /** How far the tileset should be zoomed out, 16 is default. 32 is zoomed in by x2, 8 is zoomed out by x0.5 */
-        int tileset_zoom = 0;
+        float tileset_zoom = 0;
 
         /** Seed for all the random numbers that should have consistent randomness (weather). */
         unsigned int seed = 0;
@@ -1096,4 +1094,4 @@ namespace cata_event_dispatch
 void avatar_moves( const avatar &u, const map &m, const tripoint &p );
 } // namespace cata_event_dispatch
 
-#endif // CATA_SRC_GAME_H
+

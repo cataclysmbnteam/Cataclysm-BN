@@ -130,7 +130,6 @@ static const activity_id ACT_HAIRCUT( "ACT_HAIRCUT" );
 static const activity_id ACT_HAND_CRANK( "ACT_HAND_CRANK" );
 static const activity_id ACT_HOTWIRE_CAR( "ACT_HOTWIRE_CAR" );
 static const activity_id ACT_JACKHAMMER( "ACT_JACKHAMMER" );
-static const activity_id ACT_LONGSALVAGE( "ACT_LONGSALVAGE" );
 static const activity_id ACT_MAKE_ZLAVE( "ACT_MAKE_ZLAVE" );
 static const activity_id ACT_MEDITATE( "ACT_MEDITATE" );
 static const activity_id ACT_MEND_ITEM( "ACT_MEND_ITEM" );
@@ -321,7 +320,6 @@ activity_handlers::finish_functions = {
     { ACT_FISH, fish_finish },
     { ACT_FORAGE, forage_finish },
     { ACT_HOTWIRE_CAR, hotwire_finish },
-    { ACT_LONGSALVAGE, longsalvage_finish },
     { ACT_MAKE_ZLAVE, make_zlave_finish },
     { ACT_PICKAXE, pickaxe_finish },
     { ACT_RELOAD, reload_finish },
@@ -568,6 +566,16 @@ butchery_setup consider_butchery( const item &corpse_item, player &u, butcher_ty
             b_rack_present = true;
             break;
         }
+        //vehicle part
+        const optional_vpart_position vp = here.veh_at( pt );
+        if( !vp ) {
+            continue;
+        }
+        vp->vehicle();
+        if( vp.part_with_feature( "BUTCHER_EQ", true ) ) {
+            b_rack_present = true;
+            break;
+        }
     }
     if( !b_rack_present ) {
         b_rack_present = inv.has_item_with( []( const item & it ) {
@@ -717,7 +725,7 @@ static void set_up_butchery_activity( player_activity &act, player &u, const but
 
     print_reasons();
     act.tools.clear();
-    act.recalc_all_moves( u );
+    act.speed.calc_all_moves( u );
     act.moves_left = setup.move_cost;
     act.moves_total = setup.move_cost;
     // We have a valid target, so preform the full finish function
@@ -1268,7 +1276,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
         }
         extract_or_wreck_cbms( cbms, roll, *p );
         // those lines are for XP gain with dissecting. It depends on the size of the corpse, time to dissect the corpse and the amount of bionics you would gather.
-        int time_to_cut = size_factor_in_time_to_cut( corpse->size );
+        int time_to_cut = size_factor_in_time_to_cut( corpse->size ) / 100;
         int level_cap = std::min<int>( MAX_SKILL,
                                        ( static_cast<int>( corpse->size ) + ( cbms.size() * 2 + 1 ) ) );
         int size_mult = corpse->size > creature_size::medium ? ( corpse->size * corpse->size ) : 8;
@@ -1770,42 +1778,6 @@ void activity_handlers::hotwire_finish( player_activity *act, player *p )
     act->set_to_null();
 }
 
-void activity_handlers::longsalvage_finish( player_activity *act, player *p )
-{
-    static const std::string salvage_string = "salvage";
-    item &main_tool = p->i_at( act->index );
-    map &here = get_map();
-    map_stack items = here.i_at( p->pos() );
-    item *salvage_tool = main_tool.get_usable_item( salvage_string );
-    if( salvage_tool == nullptr ) {
-        debugmsg( "Lost tool used for long salvage" );
-        act->set_to_null();
-        return;
-    }
-
-    const use_function *use_fun = salvage_tool->get_use( salvage_string );
-    const salvage_actor *actor = dynamic_cast<const salvage_actor *>( use_fun->get_actor_ptr() );
-    if( actor == nullptr ) {
-        debugmsg( "iuse_actor type descriptor and actual type mismatch" );
-        act->set_to_null();
-        return;
-    }
-    item *target = nullptr;
-    for( item *&it : items ) {
-        if( actor->valid_to_cut_up( *it ) ) {
-            target = it;
-        }
-    }
-
-    if( target ) {
-        actor->cut_up( *p, *salvage_tool, *target );
-        return;
-    }
-
-    add_msg( _( "You finish salvaging." ) );
-    act->set_to_null();
-}
-
 void activity_handlers::make_zlave_finish( player_activity *act, player *p )
 {
     act->set_to_null();
@@ -1947,7 +1919,7 @@ void activity_handlers::pulp_do_turn( player_activity *act, player *p )
         const mtype *corpse_mtype = corpse->get_mtype();
         if( !corpse->is_corpse() || ( !corpse_mtype->has_flag( MF_REVIVES ) &&
                                       !corpse_mtype->zombify_into ) ||
-            ( std::find( act->str_values.begin(), act->str_values.end(), "auto_pulp_no_acid" ) !=
+            ( std::ranges::find( act->str_values, "auto_pulp_no_acid" ) !=
               act->str_values.end() && corpse_mtype->bloodType().obj().has_acid ) ) {
             // Don't smash non-rezing corpses //don't smash acid zombies when auto pulping
             continue;
@@ -2041,7 +2013,6 @@ void activity_handlers::reload_finish( player_activity *act, player *p )
     std::string ammo_name = ammo.tname();
     const int qty = act->index;
     const bool is_speedloader = ammo.has_flag( flag_SPEEDLOADER );
-    const bool ammo_is_filthy = ammo.is_filthy() && !ammo.is_container();
 
     if( !reloadable.reload( *p, ammo, qty ) ) {
         add_msg( m_info, _( "Can't reload the %s." ), reloadable.tname() );
@@ -2050,9 +2021,6 @@ void activity_handlers::reload_finish( player_activity *act, player *p )
 
     std::string msg = _( "You reload the %s." );
 
-    if( ammo_is_filthy ) {
-        reloadable.set_flag( flag_FILTHY );
-    }
 
     if( reloadable.get_var( "dirt", 0 ) > 7800 ) {
         msg =
@@ -3722,7 +3690,9 @@ void activity_handlers::craft_do_turn( player_activity *act, player *p )
     const double cur_total_moves = std::max( 1, rec.batch_time( craft->charges, crafting_speed,
                                    assistants ) );
     // Delta progress in moves adjusted for current crafting speed
-    const double delta_progress = p->get_moves() * base_total_moves / cur_total_moves;
+    const double delta_progress = p->get_moves() > 0
+                                  ? p->get_moves() * base_total_moves / cur_total_moves
+                                  : 0;
     // Current progress in moves
     const double current_progress = craft->item_counter * base_total_moves / 10'000'000.0 +
                                     delta_progress;
@@ -3758,7 +3728,7 @@ void activity_handlers::craft_do_turn( player_activity *act, player *p )
         //TODO!: CHEEKY check
         item *craft_copy = craft;
         p->cancel_activity();
-        complete_craft( *p, *craft_copy, bench_location{bench_t, bench_pos} );
+        complete_craft( *p, *craft_copy );
         act->targets.front()->detach();
         if( is_long ) {
             if( p->making_would_work( p->lastrecipe, craft_copy->charges ) ) {
@@ -3809,58 +3779,12 @@ void activity_handlers::pry_nails_finish( player_activity *act, player *p )
     map &here = get_map();
     const ter_id type = here.ter( pnt );
 
-    int nails = 0;
-    int boards = 0;
-    ter_id newter;
-    if( type == t_fence ) {
-        nails = 6;
-        boards = 3;
-        newter = t_fence_post;
-        p->add_msg_if_player( _( "You pry out the fence post." ) );
-    } else if( type == t_window_reinforced_noglass ) {
-        nails = 16;
-        boards = 8;
-        newter = t_window_boarded_noglass;
-        p->add_msg_if_player( _( "You pry the boards from the window." ) );
-    } else if( type == t_window_reinforced ) {
-        nails = 16;
-        boards = 8;
-        newter = t_window_boarded;
-        p->add_msg_if_player( _( "You pry the boards from the window." ) );
-    } else if( type == t_window_boarded ) {
-        nails = 8;
-        boards = 4;
-        newter = t_window_frame;
-        p->add_msg_if_player( _( "You pry the boards from the window." ) );
-    } else if( type == t_window_boarded_noglass ) {
-        nails = 8;
-        boards = 4;
-        newter = t_window_empty;
-        p->add_msg_if_player( _( "You pry the boards from the window frame." ) );
-    } else if( type == t_door_boarded || type == t_door_boarded_damaged ||
-               type == t_rdoor_boarded || type == t_rdoor_boarded_damaged ||
-               type == t_door_boarded_peep || type == t_door_boarded_damaged_peep ) {
-        nails = 8;
-        boards = 4;
-        if( type == t_door_boarded ) {
-            newter = t_door_c;
-        } else if( type == t_door_boarded_damaged ) {
-            newter = t_door_b;
-        } else if( type == t_door_boarded_peep ) {
-            newter = t_door_c_peep;
-        } else if( type == t_door_boarded_damaged_peep ) {
-            newter = t_door_b_peep;
-        } else if( type == t_rdoor_boarded ) {
-            newter = t_rdoor_c;
-        } else { // if (type == t_rdoor_boarded_damaged)
-            newter = t_rdoor_b;
-        }
-        p->add_msg_if_player( _( "You pry the boards from the door." ) );
-    }
+    p->add_msg_if_player( _( "You pry out the nails from the terrain." ) );
+
     p->practice( skill_fabrication, 1, 1 );
-    here.spawn_item( p->pos(), itype_nail, 0, nails );
-    here.spawn_item( p->pos(), itype_2x4, boards );
-    here.ter_set( pnt, newter );
+    here.spawn_item( p->pos(), itype_nail, 1, type->nail_pull_items[0] );
+    here.spawn_item( p->pos(), itype_2x4, type->nail_pull_items[1] );
+    here.ter_set( pnt, type->nail_pull_result );
     act->set_to_null();
 }
 
@@ -4125,18 +4049,8 @@ void activity_handlers::fill_pit_finish( player_activity *act, player *p )
     const ter_id ter = here.ter( pos );
     const ter_id old_ter = ter;
 
-    if( ter == t_pit || ter == t_pit_spiked || ter == t_pit_glass ||
-        ter == t_pit_corpsed ) {
-        here.ter_set( pos, t_pit_shallow );
-    } else {
-        here.ter_set( pos, t_dirt );
-    }
-    int act_exertion = to_moves<int>( time_duration::from_minutes( 15 ) );
-    if( old_ter == t_pit_shallow ) {
-        act_exertion = to_moves<int>( time_duration::from_minutes( 10 ) );
-    } else if( old_ter == t_dirtmound ) {
-        act_exertion = to_moves<int>( time_duration::from_minutes( 5 ) );
-    }
+    here.ter_set( pos, old_ter->fill_result );
+    int act_exertion = to_moves<int>( time_duration::from_minutes( old_ter->fill_minutes ) );
     const int helpersize = character_funcs::get_crafting_helpers( *p, 3 ).size();
     act_exertion = act_exertion * ( 10 - helpersize ) / 10;
     p->mod_stored_kcal( std::min( -1, -act_exertion / to_moves<int>( 20_seconds ) ) );
@@ -4179,7 +4093,7 @@ std::vector<tripoint> get_sorted_tiles_by_distance( const tripoint &abspos,
     };
 
     std::vector<tripoint> sorted( tiles.begin(), tiles.end() );
-    std::sort( sorted.begin(), sorted.end(), cmp );
+    std::ranges::sort( sorted, cmp );
 
     return sorted;
 }

@@ -1,9 +1,6 @@
 #pragma once
-#ifndef CATA_SRC_CONSTRUCTION_H
-#define CATA_SRC_CONSTRUCTION_H
 
 #include <functional>
-#include <list>
 #include <map>
 #include <optional>
 #include <set>
@@ -18,7 +15,6 @@
 
 class Character;
 class inventory;
-class player;
 struct construction;
 struct point;
 
@@ -100,6 +96,9 @@ struct construction {
 
         bool is_blacklisted() const;
 
+        // Whether the construction needs diggable terrain
+        bool needs_diggable;
+
         // If true, the requirements are generated during finalization
         bool vehicle_start = false;
 
@@ -132,4 +131,4 @@ bool can_construct( const construction &con, const tripoint &p );
 bool player_can_build( Character &ch, const inventory &inv, const construction &con );
 
 
-#endif // CATA_SRC_CONSTRUCTION_H
+

@@ -559,6 +559,51 @@
     "magazine_well": "250 ml"
   },
   {
+    "id": "gps_device",
+    "type": "TOOL",
+    "category": "electronics",
+    "looks_like": "cell_phone",
+    "name": { "str": "gps pinpointer" },
+    "description": "Durable handheld GPS unit built for outdoor navigation.  Activate to acquire satellite lock and search the database.",
+    "weight": "230 g",
+    "volume": "350 ml",
+    "price": "100 USD",
+    "price_postapoc": "50 USD",
+    "material": [ "plastic", "aluminum" ],
+    "symbol": ";",
+    "color": "yellow",
+    "ammo": "battery",
+    "use_action": { "type": "gps_device", "radius": 40, "additional_charges_per_tile": 0.1 },
+    "magazines": [
+      [
+        "battery",
+        [
+          "light_plus_battery_cell",
+          "light_minus_battery_cell",
+          "light_minus_disposable_cell",
+          "light_battery_cell",
+          "light_disposable_cell",
+          "light_atomic_battery_cell",
+          "light_minus_atomic_battery_cell"
+        ]
+      ]
+    ]
+  },
+  {
+    "id": "mil_gps_device",
+    "type": "TOOL",
+    "copy-from": "gps_device",
+    "name": { "str": "military gps pinpointer" },
+    "description": "Durable handheld GPS unit built for outdoor navigation.  Activate to acquire satellite lock and search the database.  This one has encrpytion keys for military-grade satellites, allowing a much greater search range.",
+    "use_action": { "type": "gps_device", "radius": 120, "additional_charges_per_tile": 0.1 },
+    "magazines": [
+      [
+        "battery",
+        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+      ]
+    ]
+  },
+  {
     "id": "bionic_scanner",
     "type": "TOOL",
     "category": "electronics",
@@ -597,12 +642,10 @@
   },
   {
     "id": "bionic_scanner_on",
+    "copy-from": "bionic_scanner",
     "type": "TOOL",
-    "category": "electronics",
     "name": { "str": "bionic scanner (on)" },
     "description": "A small metal scanner specialized in detecting bionic hardware.  While in use it will steadily drain power, automatically scanning corpses near you for bionics.",
-    "weight": "141 g",
-    "volume": "250 ml",
     "price": "100 USD",
     "price_postapoc": "50 USD",
     "material": [ "plastic", "aluminum" ],

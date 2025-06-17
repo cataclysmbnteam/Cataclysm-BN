@@ -10,8 +10,10 @@
 #include <utility>
 
 #include "action.h"
+#include "activity_actor_definitions.h"
 #include "avatar.h"
 #include "calendar.h"
+#include "character.h"
 #include "character_functions.h"
 #include "color.h"
 #include "consistency_report.h"
@@ -62,7 +64,6 @@
 #include "vehicle.h"
 #include "vehicle_part.h"
 #include "vpart_position.h"
-#include "activity_actor_definitions.h"
 
 static const activity_id ACT_MULTIPLE_CONSTRUCTION( "ACT_MULTIPLE_CONSTRUCTION" );
 
@@ -239,7 +240,7 @@ void finalize()
         }
         constructions_sorted.push_back( c.id.id() );
     }
-    std::sort( constructions_sorted.begin(), constructions_sorted.end(),
+    std::ranges::sort( constructions_sorted,
     [&]( const construction_id & l, const construction_id & r ) -> bool {
         lexicographic<construction> cmp;
         return cmp( l->id, r->id );
@@ -283,7 +284,7 @@ static std::vector<const construction *> constructions_by_group( const construct
 
 static void sort_constructions_by_name( std::vector<construction_group_str_id> &list )
 {
-    std::sort( list.begin(), list.end(),
+    std::ranges::sort( list,
     []( const construction_group_str_id & a, const construction_group_str_id & b ) {
         return localized_compare( a->name(), b->name() );
     } );
@@ -455,6 +456,25 @@ std::optional<construction_id> construction_menu( const bool blueprint )
     ctxt.register_action( "RESET_FILTER" );
 
     const std::vector<construction_category> &construct_cat = construction_categories::get_all();
+    std::vector<size_t> construct_cat_order( construct_cat.size() );
+    {
+        std::iota( construct_cat_order.begin(), construct_cat_order.end(), // NOLINT(modernize-use-ranges)
+                   0 );
+        const auto move_to_end = [&]( const construction_category_id & id ) -> void {
+            auto it = std::ranges::find_if( construct_cat_order, [&]( auto & v )
+            {
+                return construct_cat[v].id == id;
+            } );
+            if( it != construct_cat_order.end() )
+            {
+                std::rotate( it, it + 1, construct_cat_order.end() );
+            }
+        };
+
+        // Force the construction list to be { ..., FAVORITE, FILTER }
+        move_to_end( construction_category_FAVORITE );
+        move_to_end( construction_category_FILTER );
+    }
     const int tabcount = static_cast<int>( construction_category::count() );
 
     std::string filter;
@@ -651,7 +671,8 @@ std::optional<construction_id> construction_menu( const bool blueprint )
         werase( w_list );
         // Print new tab listing
         // NOLINTNEXTLINE(cata-use-named-point-constants)
-        mvwprintz( w_con, point( 1, 1 ), c_yellow, "<< %s >>", construct_cat[tabindex].name() );
+        mvwprintz( w_con, point( 1, 1 ), c_yellow, "<< %s >>",
+                   construct_cat[construct_cat_order[tabindex]].name() );
         // Determine where in the master list to start printing
         calcStartPos( offset, select, w_list_height, constructs.size() );
         // Print the constructions between offset and max (or how many will fit)
@@ -737,26 +758,26 @@ std::optional<construction_id> construction_menu( const bool blueprint )
             } else if( select >= 0 && static_cast<size_t>( select ) < constructs.size() ) {
                 last_construction = constructs[select];
             }
-            category_id = construct_cat[tabindex].id;
+            category_id = construct_cat[construct_cat_order[tabindex]].id;
             if( category_id == construction_category_ALL ) {
                 constructs = available;
             } else if( category_id == construction_category_FILTER ) {
                 constructs.clear();
-                std::copy_if( available.begin(), available.end(),
-                              std::back_inserter( constructs ),
+                std::ranges::copy_if( available,
+                                      std::back_inserter( constructs ),
                 [&]( const construction_group_str_id & group ) {
                     return lcmatch( group->name(), filter );
                 } );
             } else if( category_id == construction_category_FAVORITE ) {
                 constructs.clear();
-                std::copy_if( available.begin(), available.end(), std::back_inserter( constructs ), is_favorite );
+                std::ranges::copy_if( available, std::back_inserter( constructs ), is_favorite );
             } else {
                 constructs = cat_available[category_id];
             }
             select = 0;
             if( last_construction ) {
-                const auto it = std::find( constructs.begin(), constructs.end(),
-                                           last_construction );
+                const auto it = std::ranges::find( constructs,
+                                                   last_construction );
                 if( it != constructs.end() ) {
                     select = std::distance( constructs.begin(), it );
                 }
@@ -920,7 +941,7 @@ std::optional<construction_id> construction_menu( const bool blueprint )
         }
     } while( !exit );
 
-    uistate.construction_tab = int_id<construction_category>( tabindex ).id();
+    uistate.construction_tab = int_id<construction_category>( construct_cat_order[tabindex] ).id();
 
     return ret;
 }
@@ -984,19 +1005,23 @@ bool can_construct( const construction &con, const tripoint &p )
     // see if the terrain type checks out
     place_okay &= has_pre_terrain( con, p );
     // see if the (deny) flags check out
-    place_okay &= std::none_of( con.deny_flags.begin(), con.deny_flags.end(),
+    place_okay &= std::ranges::none_of( con.deny_flags,
     [&p, &here]( const std::string & flag ) -> bool {
         const furn_id &furn = here.furn( p );
         const ter_id &ter = here.ter( p );
         return furn == f_null ? ter->has_flag( flag ) : furn->has_flag( flag );
     } );
     // see if the flags check out
-    place_okay &= std::all_of( con.pre_flags.begin(), con.pre_flags.end(),
+    place_okay &= std::ranges::all_of( con.pre_flags,
     [&p, &here]( const std::string & flag ) -> bool {
         const furn_id &furn = here.furn( p );
         const ter_id &ter = here.ter( p );
         return furn == f_null ? ter->has_flag( flag ) : furn->has_flag( flag );
     } );
+    // see if diggability checks out
+    if( con.needs_diggable ) {
+        place_okay &=  here.ter( p )->is_diggable();
+    }
     // make sure the construction would actually do something
     if( !con.post_terrain.is_empty() ) {
         place_okay &= here.ter( p ) != con.post_terrain;
@@ -1688,6 +1713,7 @@ void construction::load( const JsonObject &jo, const std::string &/*src*/ )
     assign( jo, "pre_flags", pre_flags );
     optional( jo, was_loaded, "deny_flags", deny_flags );
     optional( jo, was_loaded, "post_flags", post_flags );
+    optional( jo, was_loaded, "needs_diggable", needs_diggable, false );
 
     if( jo.has_member( "byproducts" ) ) {
         byproduct_item_group = item_group::load_item_group( jo.get_member( "byproducts" ),

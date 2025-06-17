@@ -56,7 +56,7 @@
 #include "output.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
-#include "pathfinding.h"
+#include "legacy_pathfinding.h"
 #include "player_activity.h"
 #include "pldata.h"
 #include "ranged.h"
@@ -1127,7 +1127,7 @@ detached_ptr<item> npc::wear_if_wanted( detached_ptr<item> &&it, std::string &re
                 continue;
             }
             // Find an item that covers the same body part as the new item
-            auto iter = std::find_if( worn.begin(), worn.end(), [bp]( const item * const & armor ) {
+            auto iter = std::ranges::find_if( worn, [bp]( const item * const & armor ) {
                 return armor->covers( bp );
             } );
             if( iter != worn.end() && !( is_limb_broken( bp ) && ( *iter )->has_flag( flag_SPLINT ) ) ) {
@@ -2877,7 +2877,7 @@ bool npc::dispose_item( item &obj, const std::string & )
         return true;
     }
 
-    const auto mn = std::min_element( opts.begin(), opts.end(),
+    const auto mn = std::ranges::min_element( opts,
     []( const dispose_option & lop, const dispose_option & rop ) {
         return lop.moves < rop.moves;
     } );

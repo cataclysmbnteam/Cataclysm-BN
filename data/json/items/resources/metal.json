@@ -281,7 +281,7 @@
     "color": "light_gray",
     "ammo_type": "components",
     "flags": [ "NO_SALVAGE" ],
-    "qualities": [ [ "HAMMER", 1 ] ]
+    "qualities": [ [ "HAMMER", 1 ], [ "SANDING", 1 ] ]
   },
   {
     "id": "steel_lump",
@@ -302,7 +302,7 @@
     "color": "light_gray",
     "ammo_type": "components",
     "flags": [ "NO_SALVAGE" ],
-    "qualities": [ [ "HAMMER", 1 ] ]
+    "qualities": [ [ "HAMMER", 1 ], [ "SANDING", 1 ] ]
   },
   {
     "id": "hinge",

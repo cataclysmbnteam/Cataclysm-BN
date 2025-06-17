@@ -220,7 +220,7 @@
     "//": "a collection of ammo that would be found with a loaded gun.",
     "subtype": "distribution",
     "entries": [
-      { "item": "22_cb", "prob": 100, "charges": [ 50, 100 ] },
+      { "item": "22_cphp", "prob": 100, "charges": [ 50, 100 ] },
       { "item": "22_fmj", "prob": 100, "charges": [ 50, 100 ] },
       { "item": "22_lr", "prob": 100, "charges": [ 50, 100 ] },
       { "item": "22_ratshot", "prob": 100, "charges": [ 50, 100 ] }

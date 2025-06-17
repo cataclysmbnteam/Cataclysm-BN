@@ -1,6 +1,4 @@
 #pragma once
-#ifndef CATA_SRC_BIONICS_H
-#define CATA_SRC_BIONICS_H
 
 #include <cstddef>
 #include <map>
@@ -64,6 +62,8 @@ struct bionic_data {
     std::map<character_stat, int> stat_bonus;
     /**This bionic draws power through a cable*/
     bool is_remote_fueled = false;
+    /**This bionic draws power through a cable*/
+    units::energy remote_fuel_draw = 0_J;
     /**Fuel types that can be used by this bionic*/
     std::vector<itype_id> fuel_opts;
     /**How much fuel this bionic can hold*/
@@ -232,4 +232,4 @@ int bionic_manip_cos( float adjusted_skill, int bionic_difficulty );
 std::vector<bionic_id> bionics_cancelling_trait( const std::vector<bionic_id> &bios,
         const trait_id &tid );
 
-#endif // CATA_SRC_BIONICS_H
+

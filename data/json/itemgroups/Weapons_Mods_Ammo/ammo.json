@@ -439,11 +439,11 @@
     "//": "Factory specification grenade launcher ammo intended for military use",
     "subtype": "distribution",
     "entries": [
-      { "item": "40x53mm_m1001", "prob": 10, "charges": [ 1, 50 ] },
-      { "item": "40x46mm_m433", "prob": 120, "charges": [ 1, 50 ] },
-      { "item": "40x53mm_m430a1", "prob": 75, "charges": [ 1, 50 ] },
-      { "item": "40x46mm_m576", "prob": 15, "charges": [ 1, 50 ] },
-      { "item": "40x46mm_m651", "prob": 20, "charges": [ 1, 50 ] }
+      { "item": "40x53mm_m1001", "prob": 10, "count": [ 1, 3 ] },
+      { "item": "40x46mm_m433", "prob": 120, "count": [ 1, 3 ] },
+      { "item": "40x53mm_m430a1", "prob": 75, "count": [ 1, 3 ] },
+      { "item": "40x46mm_m576", "prob": 15, "count": [ 1, 3 ] },
+      { "item": "40x46mm_m651", "prob": 20, "count": [ 1, 3 ] }
     ]
   },
   {

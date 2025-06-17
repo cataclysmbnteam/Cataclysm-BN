@@ -1,4 +1,3 @@
-#ifdef LUA
 #include "catalua_bindings.h"
 
 #include "activity_type.h"
@@ -23,6 +22,7 @@
 #include "monfaction.h"
 #include "monster.h"
 #include "morale_types.h"
+#include "mtype.h"
 #include "mutation.h"
 #include "npc.h"
 #include "player.h"
@@ -277,6 +277,10 @@ void cata::detail::reg_monster( sol::state &lua )
         SET_MEMB( unique_name );
 
         // Methods
+        luna::set_fx( ut, "get_type", []( const monster & m )
+        {
+            return m.type -> id; //I really don't want to break the uniformity, but...
+        } );
         SET_FX_T( can_upgrade, bool() const );
         SET_FX_T( hasten_upgrade, void() );
         SET_FX_T( get_upgrade_time, int() const );
@@ -300,7 +304,7 @@ void cata::detail::reg_monster( sol::state &lua )
         SET_FX_T( swims, bool() const );
 
         SET_FX_T( move_target, tripoint() );
-        SET_FX_N_T( wander, "is_wandering", bool() );
+        SET_FX_N_T( is_wandering, "is_wandering", bool() );
 
         SET_FX_T( wander_to, void( const tripoint & p, int f ) );
         SET_FX_T( move_to, bool( const tripoint & p, bool force, bool step_on_critter,
@@ -370,14 +374,14 @@ void cata::detail::reg_character( sol::state &lua )
         SET_FX_T( mod_per_bonus, void( int ) );
         SET_FX_T( mod_int_bonus, void( int ) );
 
-        SET_FX_T( get_healthy, int() const );
-        SET_FX_T( get_healthy_mod, int() const );
+        SET_FX_T( get_healthy, float() const );
+        SET_FX_T( get_healthy_mod, float() const );
 
-        SET_FX_T( mod_healthy, void( int ) );
-        SET_FX_T( mod_healthy_mod, void( int, int ) );
+        SET_FX_T( mod_healthy, void( float ) );
+        SET_FX_T( mod_healthy_mod, void( float, float ) );
 
-        SET_FX_T( set_healthy, void( int ) );
-        SET_FX_T( set_healthy_mod, void( int ) );
+        SET_FX_T( set_healthy, void( float ) );
+        SET_FX_T( set_healthy_mod, void( float ) );
 
         SET_FX_T( get_stored_kcal, int() const );
 
@@ -619,8 +623,13 @@ void cata::detail::reg_character( sol::state &lua )
 
         SET_FX_T( worn_with_flag, bool( const flag_id &, const bodypart_id & ) const );
 
+        SET_FX_T( worn_with_id, bool( const itype_id &, const bodypart_id & ) const );
+
         SET_FX_T( item_worn_with_flag,
                   const item * ( const flag_id &, const bodypart_id & ) const );
+
+        SET_FX_T( item_worn_with_id,
+                  const item * ( const itype_id &, const bodypart_id & ) const );
 
         SET_FX_T( get_skill_level, int( const skill_id & ) const );
 
@@ -667,9 +676,29 @@ void cata::detail::reg_character( sol::state &lua )
 
         SET_FX_T( is_hauling, bool() const );
 
+        DOC( "Adds an item with the given id and amount" );
+        SET_FX_T( add_item_with_id, void( const itype_id & itype, int count ) );
+
+        DOC( "Checks for an item with the given id" );
+        SET_FX_T( has_item_with_id, bool( const itype_id & itype, bool need_charges ) const );
+
+        DOC( "Gets the first occurrence of an item with the given id" );
+        SET_FX_T( get_item_with_id, const item * ( const itype_id & itype, bool need_charges ) const );
+
+        DOC( "Checks for an item with the given flag" );
         SET_FX_T( has_item_with_flag, bool( const flag_id & flag, bool need_charges ) const );
+
+        DOC( "Gets all items with the given flag" );
         SET_FX_T( all_items_with_flag,
-                  std::vector<item *>( const flag_id & flag ) const );
+                  std::vector<item *>( const flag_id & flag, bool need_charges ) const );
+
+        DOC( "Gets all items" );
+        SET_FX_T( all_items, std::vector<item *>( bool need_charges ) const );
+
+        DOC( "Removes given `Item` from character's inventory. The `Item` must be in the inventory, neither wielded nor worn." );
+        luna::set_fx( ut, "inv_remove_item", []( Character & ch, item * it ) -> void {
+            ch.inv_remove_item( it );
+        } );
 
         SET_FX_T( assign_activity,
                   void( const activity_id &, int, int, int, const std::string & ) );
@@ -958,5 +987,3 @@ void cata::detail::reg_avatar( sol::state &lua )
             );
     }
 }
-
-#endif // #ifdef LUA

@@ -1,6 +1,4 @@
 #pragma once
-#ifndef CATA_SRC_MTYPE_H
-#define CATA_SRC_MTYPE_H
 
 #include <map>
 #include <optional>
@@ -17,11 +15,12 @@
 #include "enum_bitset.h"
 #include "enums.h"
 #include "mattack_common.h"
+#include "legacy_pathfinding.h"
 #include "pathfinding.h"
-#include "pathfinding_dijikstra.h"
 #include "translations.h"
 #include "type_id.h"
 #include "units.h"
+#include "catalua_type_operators.h"
 
 class Creature;
 class monster;
@@ -104,7 +103,10 @@ enum m_flag : int {
     MF_SLUDGEPROOF,         // Ignores the effect of sludge trails
     MF_SLUDGETRAIL,         // Causes monster to leave a sludge trap trail when moving
     MF_COLDPROOF,           // Immune to cold damage
-    MF_BIOPROOF,     // Immune to biological damage
+    MF_BIOPROOF,            // Immune to biological damage
+    MF_DARKPROOF,           // Immune to dark damage
+    MF_LIGHTPROOF,          // Immune to light damage
+    MF_PSIPROOF,            // Immune to psionic damage
     MF_FIREY,               // Burns stuff and is immune to fire
     MF_QUEEN,               // When it dies, local populations start to die off too
     MF_ELECTRONIC,          // e.g. a robot; affected by EMP blasts, and other stuff
@@ -144,7 +146,7 @@ enum m_flag : int {
     MF_CBM_OP,              // May produce a bionic from bionics_op when butchered, and the power storage is mk 2.
     MF_CBM_TECH,            // May produce a bionic from bionics_tech when butchered.
     MF_CBM_SUBS,            // May produce a bionic from bionics_subs when butchered.
-    MF_FILTHY,              // Any clothing it drops will be filthy.
+    MF_UNUSED_76,           // !! Unused Flag position, kept for compatability purposes
     MF_FISHABLE,            // It is fishable.
     MF_GROUP_BASH,          // Monsters that can pile up against obstacles and add their strength together to break them.
     MF_SWARMS,              // Monsters that like to group together and form loose packs
@@ -318,6 +320,9 @@ struct mtype {
         /** If unset (-1) then values are calculated automatically from other properties */
         int armor_bash = -1;     /** innate armor vs. bash */
         int armor_cut  = -1;     /** innate armor vs. cut */
+        int armor_dark = -1;     /** innate armor vs. dark */
+        int armor_light = -1;    /** innate armor vs. light */
+        int armor_psi = -1;      /** innate armor vs. psi */
         int armor_stab = -1;     /** innate armor vs. stabbing */
         int armor_bullet = -1;   /** innate armor vs. bullet */
         int armor_acid = -1;     /** innate armor vs. acid */
@@ -446,8 +451,9 @@ struct mtype {
 
         // Historically located in monstergenerator.cpp
         void load( const JsonObject &jo, const std::string &src );
+        LUA_TYPE_OPS( mtype, id );
 };
 
 mon_effect_data load_mon_effect_data( const JsonObject &e );
 
-#endif // CATA_SRC_MTYPE_H
+

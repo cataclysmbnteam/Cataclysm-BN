@@ -609,9 +609,9 @@ void Creature::deal_melee_hit( Creature *source, item *source_weapon, int hit_sp
     bodypart_id bp_hit = select_body_part( source, hit_spread ).id();
     block_hit( source, bp_hit, d );
 
-    on_hit( source, bp_hit ); // trigger on-gethit events
     dealt_dam = deal_damage( source, bp_hit, d, source_weapon );
     dealt_dam.bp_hit = bp_hit.id();
+    on_hit( source, bp_hit ); // trigger on-gethit events
 }
 void Creature::deal_melee_hit( Creature *source, int hit_spread, bool critical_hit,
                                const damage_instance &dam, dealt_damage_instance &dealt_dam )
@@ -786,7 +786,7 @@ void Creature::deal_projectile_attack( Creature *source, item *source_weapon,
     if( targetted_crit_allowed || magic ) { //default logic for selecting bodypart
         if( goodhit < accuracy_critical && hit_value <= 0.2 ) {
             bp_hit = bodypart_str_id( "head" );
-        } else if( hit_value <= 0.4 || magic ) {
+        } else if( hit_value <= 0.4 ) {
             bp_hit = bodypart_str_id( "torso" );
         } else if( one_in( 4 ) ) {
             if( one_in( 2 ) ) {
@@ -802,8 +802,10 @@ void Creature::deal_projectile_attack( Creature *source, item *source_weapon,
             }
         }
     } else { // no crit logic for selecting bodypart
-        if( hit_value <= 0.4 && !one_in( 4 ) ) {
-            bp_hit = one_in( 3 ) ? bodypart_str_id( "head" ) : bodypart_str_id( "torso" );
+        if( goodhit < accuracy_critical && hit_value <= 0.2 && one_in( 2 ) ) {
+            bp_hit = bodypart_str_id( "head" );
+        } else if( hit_value <= 0.4 && !one_in( 4 ) ) {
+            bp_hit = bodypart_str_id( "torso" );
         } else if( one_in( 4 ) ) {
             if( one_in( 2 ) ) {
                 bp_hit = bodypart_str_id( "leg_l" );
@@ -1834,7 +1836,7 @@ std::vector<bodypart_id> Creature::get_all_body_parts( bool only_main ) const
         all_bps.emplace_back( elem.first );
     }
 
-    std::sort( all_bps.begin(), all_bps.end(),
+    std::ranges::sort( all_bps,
     []( const bodypart_id & lhs, const bodypart_id & rhs ) {
         return lhs->sort_order < rhs->sort_order;
     } );

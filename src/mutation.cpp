@@ -1,5 +1,6 @@
 #include "mutation.h"
 
+#include <algorithm>
 #include <cmath>
 #include <algorithm>
 #include <cstdlib>
@@ -106,7 +107,7 @@ bool Character::has_trait( const trait_id &b ) const
 
 bool Character::has_trait_flag( const trait_flag_str_id &b ) const
 {
-    return std::any_of( cached_mutations.cbegin(), cached_mutations.cend(),
+    return std::ranges::any_of( cached_mutations,
     [&b]( const mutation_branch * mut ) -> bool {
         return mut->flags.contains( b );
     } );
@@ -639,7 +640,8 @@ bool Character::mutation_ok( const trait_id &mutation, bool force_good, bool for
         return false;
     }
 
-    for( const bionic_id &bid : get_bionics() ) {
+    for( const bionic &i : get_bionic_collection() ) {
+        const bionic_id &bid = i.id;
         for( const trait_id &mid : bid->canceled_mutations ) {
             if( mid == mutation ) {
                 return false;
@@ -710,7 +712,7 @@ static std::map<mutation_category_id, float> calc_category_weights(
     const std::map<mutation_category_id, int> &mcl, bool addition )
 {
     std::map<mutation_category_id, float> category_weights;
-    auto max_lvl_iter = std::max_element( mcl.begin(), mcl.end(),
+    auto max_lvl_iter = std::ranges::max_element( mcl,
     []( const auto & best, const auto & current ) {
         return current.second > best.second;
     } );
@@ -1121,7 +1123,7 @@ bool Character::mutate_towards( const trait_id &mut )
 
     // Check mutations of the same type - except for the ones we might need for pre-reqs
     for( const auto &consider : same_type ) {
-        if( std::find( all_prereqs.begin(), all_prereqs.end(), consider ) == all_prereqs.end() ) {
+        if( std::ranges::find( all_prereqs, consider ) == all_prereqs.end() ) {
             cancel.push_back( consider );
         }
     }
@@ -1511,7 +1513,7 @@ static mutagen_rejection try_reject_mutagen( Character &guy, const item &it, boo
             "MYCUS", "MARLOSS", "MARLOSS_SEED", "MARLOSS_GEL"
         }
     };
-    if( std::any_of( safe.begin(), safe.end(), [&it]( const std::string & flag ) {
+    if( std::ranges::any_of( safe, [&it]( const std::string & flag ) {
     return it.type->can_use( flag );
     } ) ) {
         return mutagen_rejection::accepted;
@@ -1689,7 +1691,7 @@ bool are_same_type_traits( const trait_id &trait_a, const trait_id &trait_b )
 
 bool contains_trait( std::vector<string_id<mutation_branch>> traits, const trait_id &trait )
 {
-    return std::find( traits.begin(), traits.end(), trait ) != traits.end();
+    return std::ranges::find( traits, trait ) != traits.end();
 }
 
 bool can_use_mutation( const trait_id &mut, const Character &character )

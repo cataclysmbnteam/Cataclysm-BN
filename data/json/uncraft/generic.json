@@ -523,6 +523,13 @@
     "flags": [ "BLIND_EASY" ]
   },
   {
+    "result": "matches",
+    "type": "uncraft",
+    "time": "6 s",
+    "components": [ [ [ "cardboard", 1 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
     "result": "broken_EMP_hack",
     "type": "uncraft",
     "skill_used": "electronics",
@@ -1906,6 +1913,13 @@
     "flags": [ "BLIND_EASY" ]
   },
   {
+    "result": "evac_pamphlet",
+    "type": "uncraft",
+    "time": "6 s",
+    "components": [ [ [ "paper", 1 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
     "result": "scorecard",
     "type": "uncraft",
     "time": "6 s",
@@ -2311,7 +2325,7 @@
     "result": "laptop",
     "type": "uncraft",
     "skill_used": "electronics",
-    "time": "1 h",
+    "time": "20 m",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
       [ [ "processor", 1 ] ],
@@ -2621,8 +2635,12 @@
     "difficulty": 7,
     "skills_required": [ "electronics", 5 ],
     "time": "1 h 20 m",
-    "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
-    "tools": [ [ [ "boltcutters", -1 ], [ "toolset", -1 ] ] ],
+    "qualities": [
+      { "id": "SAW_M", "level": 1 },
+      { "id": "SCREW", "level": 1 },
+      { "id": "WRENCH", "level": 1 },
+      { "id": "CUT_M", "level": 2 }
+    ],
     "components": [
       [ [ "depowered_armor", 1 ] ],
       [ [ "steel_armor", 8 ] ],
@@ -2640,8 +2658,12 @@
     "difficulty": 8,
     "skills_required": [ "electronics", 4 ],
     "time": "1 h 20 m",
-    "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
-    "tools": [ [ [ "boltcutters", -1 ], [ "toolset", -1 ] ] ],
+    "qualities": [
+      { "id": "SAW_M", "level": 1 },
+      { "id": "SCREW", "level": 1 },
+      { "id": "WRENCH", "level": 1 },
+      { "id": "CUT_M", "level": 2 }
+    ],
     "components": [
       [ [ "depowered_helmet", 1 ] ],
       [ [ "steel_armor", 2 ] ],
@@ -2659,8 +2681,12 @@
     "difficulty": 6,
     "skills_required": [ "electronics", 4 ],
     "time": "1 h",
-    "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
-    "tools": [ [ [ "boltcutters", -1 ], [ "toolset", -1 ] ] ],
+    "qualities": [
+      { "id": "SAW_M", "level": 1 },
+      { "id": "SCREW", "level": 1 },
+      { "id": "WRENCH", "level": 1 },
+      { "id": "CUT_M", "level": 2 }
+    ],
     "components": [
       [ [ "depowered_armor", 1 ] ],
       [ [ "alloy_sheet", 5 ] ],
@@ -2678,8 +2704,12 @@
     "difficulty": 7,
     "skills_required": [ "electronics", 3 ],
     "time": "1 h",
-    "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
-    "tools": [ [ [ "boltcutters", -1 ], [ "toolset", -1 ] ] ],
+    "qualities": [
+      { "id": "SAW_M", "level": 1 },
+      { "id": "SCREW", "level": 1 },
+      { "id": "WRENCH", "level": 1 },
+      { "id": "CUT_M", "level": 2 }
+    ],
     "components": [
       [ [ "depowered_helmet", 1 ] ],
       [ [ "alloy_sheet", 1 ] ],
@@ -2695,8 +2725,12 @@
     "difficulty": 8,
     "skills_required": [ "electronics", 6 ],
     "time": "1 h 40 m",
-    "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
-    "tools": [ [ [ "boltcutters", -1 ], [ "toolset", -1 ] ] ],
+    "qualities": [
+      { "id": "SAW_M", "level": 1 },
+      { "id": "SCREW", "level": 1 },
+      { "id": "WRENCH", "level": 1 },
+      { "id": "CUT_M", "level": 2 }
+    ],
     "components": [
       [ [ "depowered_armor", 1 ] ],
       [ [ "hard_steel_armor", 12 ] ],
@@ -2715,8 +2749,12 @@
     "difficulty": 9,
     "skills_required": [ "electronics", 5 ],
     "time": "1 h 40 m",
-    "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
-    "tools": [ [ [ "boltcutters", -1 ], [ "toolset", -1 ] ] ],
+    "qualities": [
+      { "id": "SAW_M", "level": 1 },
+      { "id": "SCREW", "level": 1 },
+      { "id": "WRENCH", "level": 1 },
+      { "id": "CUT_M", "level": 2 }
+    ],
     "components": [
       [ [ "depowered_helmet", 1 ] ],
       [ [ "hard_steel_armor", 2 ] ],
@@ -3258,6 +3296,13 @@
     "flags": [ "BLIND_EASY" ]
   },
   {
+    "result": "eclipse_glasses",
+    "type": "uncraft",
+    "time": "6 s",
+    "components": [ [ [ "cardboard", 2 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
     "result": "survivormap",
     "type": "uncraft",
     "time": "30 s",
@@ -3684,6 +3729,20 @@
   },
   {
     "result": "trailmap",
+    "type": "uncraft",
+    "time": "30 s",
+    "components": [ [ [ "paper", 10 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "regionaltransportmap",
+    "type": "uncraft",
+    "time": "30 s",
+    "components": [ [ [ "paper", 10 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "subwaymap",
     "type": "uncraft",
     "time": "30 s",
     "components": [ [ [ "paper", 10 ] ] ],

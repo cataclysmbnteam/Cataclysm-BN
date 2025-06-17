@@ -473,6 +473,7 @@ Guns can be defined like this:
 "blackpowder_tolerance": 8,// One in X chance to get clogged up (per shot) when firing blackpowder ammunition (higher is better). Optional, default is 8.
 "min_cycle_recoil": 0,     // Minimum ammo recoil for gun to be able to fire more than once per attack.
 "burst": 5,                // Number of shots fired in burst mode
+"handling": 15,            // Modifier in how quick the gun recovers from recoil. 20 is baseline, below that is worse and above is better. Scales with '2 - 2.0 => 0' by default, for example 15 handling would be '2 - 1.5 => 0.5' increase to recoil and 30 would be '2 - 3.0 => -1' reduction to recoil
 "clip_size": 100,          // Maximum amount of ammo that can be loaded
 "ups_charges": 0,          // Additionally to the normal ammo (if any), a gun can require some charges from an UPS. This also works on mods. Attaching a mod with ups_charges will add/increase ups drain on the weapon.
 "ammo_to_fire" 1,          // Amount of ammo used per shot, separate from any UPS cost that may be given to the weapon.
@@ -867,6 +868,18 @@ more structured function.
     "fields_produced" : {"cracksmoke" : 2}, // Fields to produce, mostly used for smoke.
     "charges_needed" : { "fire" : 1 }, // Charges to use in the process of consuming the drug.
     "tools_needed" : { "apparatus" : -1 }, // Tool needed to use the drug.
+    "fake_item" : "fake_ecig", // Item used to fake addiction and copy other consumption effects from.
+    "lightweight_mod" : 1.2, // Drug duration modifier if the user has LIGHTWEIGHT trait.
+    "tolerance_mod" : .8, // Drug duration modifier if the user has a tolerance.
+    "tolerance_lightweight_effected": true, // Should this drugs time duration be effected by tolerance/lightweight?
+    "too_much_threshold": 10, // Number of minutes to use for the too much calculation.
+    "addiction_type_too_much": [["cig", "nicotine"]], // Link an effect to an addiction. Used for 'you feel gross... too much' message
+    "lit_item": "cigar_lit", // Defines an item to turn into for smoking_duration minutes.
+    "smoking_duration": 12, // Number of minutes the lit_item will remain lit, afterwards it will turn into the extinguished item.
+    "used_up_item": "", // Item to give once used, alternative to lit_item which should be used in tandem with smoking_duration.
+    "do_weed_msg": false, // Should weed_msg(player) be called after using the item?
+    "snippet_category": "killer_withdrawal", // Chance (1 in 5) to say a random snippet from this category upon use. Like do_weed_msg, but unhardcoded.
+    "snippet_chance": 5, // Chance (1 in snippet_chance) to make the player think a snippet.
     "moves": 50 // Number of moves required in the process, default value is 100.
 },
 "use_action": {
@@ -906,25 +919,10 @@ more structured function.
     "type": "unpack", // unpack this item
     "group": "gobag_contents", // itemgroup this unpacks into
     "items_fit": true, // Do the armor items in this fit? Defaults to false.
-    "filthy_volume_threshold": "10 L" // If the items unpacked from this item have volume, and this item is filthy, at what amount of held volume should they become filthy
 },
 "use_action": {
     "type": "extended_firestarter", // Start a fire (like with magnifying glasses or a fire drill). This action can take many turns, not just some moves like firestarter, it can also be canceled (firestarter can't).
     "need_sunlight": true // Whether the character needs to be in direct sunlight, e.g. to use magnifying glasses.
-},
-"use_action": {
-    "type": "salvage", // Try to salvage base materials from an item, e.g. cutting up cloth to get rags or leather.
-    "moves_per_part": 25, // Number of moves it takes (optional).
-    "material_whitelist": [ // List of material ids (not item ids!) that can be salvage from.
-        "cotton",           // The list here is the default list, used when there is no explicit martial list given.
-        "leather",          // If the item (that is to be cut up) has any material not in the list, it can not be cut up.
-        "fur",
-        "nomex",
-        "kevlar",
-        "plastic",
-        "wood",
-        "wool"
-    ]
 },
 "use_action": {
     "type": "inscribe", // Inscribe a message on an item or on the ground.
@@ -1074,6 +1072,14 @@ more structured function.
         "leather_padded",
         "kevlar_padded"
     ]
+},
+"use_action": { 
+    "type": "cast_spell",       // Casts a spell based on ID using item charges or, if the flag USE_PLAYER_ENERGY is on the item, the energy source defined in the spell
+    "spell_id": "magus_escape", // The ID of the spell to be casted
+    "no_fail": true,            // Whether you can fail the cast
+    "level": 10,                // The level its cast at
+    "need_worn": true           // if you need to wear it to cast the spell
+    "need_wielding": true       // if you need to wield it to cast the spell
 }
 ```
 

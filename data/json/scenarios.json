@@ -241,7 +241,7 @@
     ],
     "traits": [ "RADIOGENIC", "ROT2", "SAPROVORE", "SORES", "UNSTABLE" ],
     "forced_traits": [ "PSYCHOPATH", "SCHIZOPHRENIC", "CARNIVORE" ],
-    "forbidden_traits": [ "ANIMALEMPATH", "ANIMALDISCORD", "ANTIWHEAT", "ANTIFRUIT", "MEATARIAN", "SQUEAMISH" ],
+    "forbidden_traits": [ "ANIMALEMPATH", "ANIMALDISCORD", "ANTIWHEAT", "ANTIFRUIT", "MEATARIAN" ],
     "flags": [ "CHALLENGE", "LONE_START", "SUM_START", "CITY_START" ]
   },
   {

@@ -1,11 +1,8 @@
 #pragma once
-#ifndef CATA_SRC_ITEM_H
-#define CATA_SRC_ITEM_H
 
 #include <climits>
 #include <cstdint>
 #include <functional>
-#include <list>
 #include <map>
 #include <optional>
 #include <set>
@@ -15,7 +12,7 @@
 #include <vector>
 
 #include "calendar.h"
-#include "cata_arena.h"
+#include "coordinates.h"
 #include "detached_ptr.h"
 #include "enums.h"
 #include "flat_set.h"
@@ -26,13 +23,11 @@
 #include "kill_tracker.h"
 #include "location_vector.h"
 #include "pimpl.h"
-#include "safe_reference.h"
 #include "string_id.h"
 #include "type_id.h"
 #include "units.h"
 #include "value_ptr.h"
 #include "visitable.h"
-#include "coordinates.h"
 
 class Character;
 class JsonIn;
@@ -575,6 +570,9 @@ class item : public location_visitable<item>, public game_object<item>
         /** Burns the item. Returns true if the item was destroyed. */
         bool burn( fire_data &frd );
 
+        // Returns the category id of this item as a string.
+        const std::string &get_category_id() const;
+
         // Returns the category of this item.
         const item_category &get_category() const;
 
@@ -584,7 +582,7 @@ class item : public location_visitable<item>, public game_object<item>
          * @param loc Location of ammo to be reloaded
          * @param qty caps reloading to this (or fewer) units
          */
-        bool reload( player &u, item &loc, int qty );
+        bool reload( Character &who, item &loc, int qty );
 
         template<typename Archive>
         void io( Archive & );
@@ -769,7 +767,7 @@ class item : public location_visitable<item>, public game_object<item>
                                               std::vector<detached_ptr<item>> &used,
                                               const std::function<bool( const item & )> &filter = return_true<item> );
 
-        /** Permits filthy components, should only be used as a helper in creating filters */
+        /** should only be used as a helper in creating filters */
         bool allow_crafting_component() const;
 
         /**
@@ -813,8 +811,12 @@ class item : public location_visitable<item>, public game_object<item>
          */
         int get_remaining_capacity_for_liquid( const item &liquid, bool allow_bucket = false,
                                                std::string *err = nullptr ) const;
-        int get_remaining_capacity_for_liquid( const item &liquid, const Character &p,
+        int get_remaining_capacity_for_liquid( const item &liquid, const Character &who,
                                                std::string *err = nullptr ) const;
+        /**
+         * How many charges of a given item id this container can hold.
+         */
+        int get_remaining_capacity_for_id( const itype_id &liquid, bool allow_bucket ) const;
         /**
          * It returns the total capacity (volume) of the container for liquids.
          */
@@ -1193,9 +1195,6 @@ class item : public location_visitable<item>, public game_object<item>
          * for other players. The player is identified by its id.
          */
         void mark_as_used_by_player( const player &p );
-        /** Marks the item as filthy, so characters with squeamish trait can't wear it.
-        */
-        bool is_filthy() const;
         /**
          * This is called once each turn. It's usually only useful for active items,
          * but can be called for inactive items without problems.
@@ -1263,7 +1262,7 @@ class item : public location_visitable<item>, public game_object<item>
         bool is_armor() const;
         bool is_book() const;
         bool is_map() const;
-        bool is_salvageable() const;
+        bool is_salvageable( bool strict = false ) const;
         bool is_craft() const;
 
         bool is_deployable() const;
@@ -1415,12 +1414,12 @@ class item : public location_visitable<item>, public game_object<item>
          * Callback when a character starts wearing the item. The item is already in the worn
          * items vector and is called from there.
          */
-        void on_wear( Character &p );
+        void on_wear( Character &who );
         /**
          * Callback when a character takes off an item. The item is still in the worn items
          * vector but will be removed immediately after the function returns
          */
-        void on_takeoff( Character &p );
+        void on_takeoff( Character &who );
         /**
          * Callback when a player starts wielding the item. The item is already in the weapon
          * slot and is called from there.
@@ -1433,7 +1432,7 @@ class item : public location_visitable<item>, public game_object<item>
          * and is called from there. This is not called when the item is added to the inventory
          * from worn vector or weapon slot. The item is considered already carried.
          */
-        void on_pickup( Character &p );
+        void on_pickup( Character &who );
         /**
          * Callback when contents of the item are affected in any way other than just processing.
          */
@@ -1509,6 +1508,10 @@ class item : public location_visitable<item>, public game_object<item>
         void erase_var( const std::string &name );
         /** Removes all item variables. */
         void clear_vars();
+        /** Adds child items to the contents of this one. */
+        void add_item_with_id( const itype_id &itype, int count = 1 );
+        /** Checks if this item contains an item with itype. */
+        bool has_item_with_id( const itype_id &itype ) const;
         /*@}*/
 
         /**
@@ -1817,7 +1820,7 @@ class item : public location_visitable<item>, public game_object<item>
         /**
          * Enumerates recipes available from this book and the skill level required to use them.
          */
-        std::vector<std::pair<const recipe *, int>> get_available_recipes( const player &u ) const;
+        std::vector<std::pair<const recipe *, int>> get_available_recipes( const Character &u ) const;
         /*@}*/
 
         /**
@@ -1840,6 +1843,11 @@ class item : public location_visitable<item>, public game_object<item>
          * the same type are not affected by this.
          */
         void add_technique( const matec_id &tech );
+        /**
+         *  Remove the given technique from the item specific @ref techniques.
+         *  Note that other items of the same type are not affected by this.
+         */
+        void remove_technique( const matec_id &tech );
         /*@}*/
 
         /** Returns all toolmods currently attached to this item (always empty if item not a tool) */
@@ -2206,7 +2214,7 @@ class item : public location_visitable<item>, public game_object<item>
          * Causes a debugmsg if called on non-craft.
          * @param crafter the crafting player
          */
-        void set_next_failure_point( const player &crafter );
+        void set_next_failure_point( const Character &crafter );
 
         /**
          * Handle failure during crafting.
@@ -2214,7 +2222,7 @@ class item : public location_visitable<item>, public game_object<item>
          * @param crafter the crafting player.
          * @return whether the craft being worked on should be entirely destroyed
          */
-        bool handle_craft_failure( player &crafter );
+        bool handle_craft_failure( Character &crafter );
 
         /**
          * Returns requirement data representing what is needed to resume work on an in progress craft.
@@ -2472,18 +2480,9 @@ bool item_ptr_compare_by_charges( const item *left, const item *right );
  */
 inline bool is_crafting_component( const item &component )
 {
-    return ( component.allow_crafting_component() || component.count_by_charges() ) &&
-           !component.is_filthy();
-}
-
-/**
- * This is used in recipes, all other cases use is_crafting_component instead. This allows
- * filthy components to be filtered out in a different manner that allows exceptions.
- */
-inline bool is_crafting_component_allow_filthy( const item &component )
-{
     return ( component.allow_crafting_component() || component.count_by_charges() );
 }
+
 
 namespace charge_removal_blacklist
 {
@@ -2645,4 +2644,4 @@ struct cable_connection_data {
     }
 };
 
-#endif // CATA_SRC_ITEM_H
+

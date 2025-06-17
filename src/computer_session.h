@@ -1,6 +1,4 @@
 #pragma once
-#ifndef CATA_SRC_COMPUTER_SESSION_H
-#define CATA_SRC_COMPUTER_SESSION_H
 
 #include <map>
 #include <string>
@@ -142,4 +140,4 @@ class computer_session
         computer_failure_functions;
 };
 
-#endif // CATA_SRC_COMPUTER_SESSION_H
+

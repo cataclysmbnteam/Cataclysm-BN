@@ -172,7 +172,7 @@
     "upgrades": { "age_grow": 7, "into": "mon_skittering_plague" },
     "death_function": [ "NORMAL" ],
     "special_attacks": [ [ "EAT_FOOD", 120 ] ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "CLIMBS", "POISON", "LARVA", "STUMBLES", "FILTHY", "PATH_AVOID_FIRE" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "CLIMBS", "POISON", "LARVA", "STUMBLES", "PATH_AVOID_FIRE" ]
   },
   {
     "id": "mon_plague_vector",

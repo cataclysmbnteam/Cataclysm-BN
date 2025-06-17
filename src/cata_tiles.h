@@ -1,6 +1,4 @@
 #pragma once
-#ifndef CATA_SRC_CATA_TILES_H
-#define CATA_SRC_CATA_TILES_H
 
 #include <cstddef>
 #include <map>
@@ -360,7 +358,7 @@ class cata_tiles
 
         /** Reload tileset, with the given scale. Scale is divided by 16 to allow for scales < 1 without risking
          *  float inaccuracies. */
-        void set_draw_scale( int scale );
+        void set_draw_scale( float scale );
 
         /** Tries to find tile with specified parameters and return it if exists **/
         std::optional<tile_search_result> tile_type_search(
@@ -498,6 +496,17 @@ class cata_tiles
          */
         bool draw_tile_at( const tile_type &tile, point, unsigned int loc_rand, int rota,
                            lit_level ll, bool apply_night_vision_goggles, int &height_3d, int overlay_count );
+
+        /**
+         * @brief Draws a colored solid color tile at position, with optional blending
+         *
+         * @param color Color to draw.
+         * @param p Point to draw the tile at.
+         * @param blend_mode Blend mode to draw the tile with
+         * @return always true.
+         */
+        bool draw_color_at( const SDL_Color &color, point p,
+                            SDL_BlendMode blend_mode = SDL_BLENDMODE_NONE );
 
         /** Tile Picking */
         void get_tile_values( int t, const int *tn, int &subtile, int &rotation );
@@ -809,4 +818,4 @@ class cata_tiles
         std::string memory_map_mode = "color_pixel_sepia";
 };
 
-#endif // CATA_SRC_CATA_TILES_H
+

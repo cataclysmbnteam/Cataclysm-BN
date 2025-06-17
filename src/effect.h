@@ -1,6 +1,4 @@
 #pragma once
-#ifndef CATA_SRC_EFFECT_H
-#define CATA_SRC_EFFECT_H
 
 #include <set>
 #include <string>
@@ -91,6 +89,8 @@ class effect_type
         /** Returns if an effect is good or bad for message display. */
         effect_rating get_rating() const;
 
+        /** Returns looks_like. */
+        std::string get_looks_like() const;
         /** Returns true if there is a listed name in the JSON entry for each intensity from
          *  1 to max_intensity. */
         bool use_name_ints() const;
@@ -157,6 +157,7 @@ class effect_type
         int max_intensity = 0;
         int max_effective_intensity = 0;
         time_duration max_duration = 0_turns;
+        std::string looks_like;
 
         int dur_add_perc = 0;
         int int_add_val = 0;
@@ -408,4 +409,4 @@ class effects_map : public
 {
 };
 
-#endif // CATA_SRC_EFFECT_H
+

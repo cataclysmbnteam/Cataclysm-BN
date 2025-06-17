@@ -104,7 +104,9 @@
           { "id": "spear_tooth", "fg": 89 },
           { "id": "overlay_wielded_spear_tooth", "fg": 90 },
           { "id": [ "spear_stinger", "spear_triffid" ], "fg": 91 },
-          { "id": [ "overlay_wielded_spear_stinger", "overlay_wielded_spear_triffid" ], "fg": 92 }
+          { "id": [ "overlay_wielded_spear_stinger", "overlay_wielded_spear_triffid" ], "fg": 92 },
+          { "id": "scouter", "fg": 93 },
+          { "id": "overlay_worn_scouter", "fg": 94 }
         ],
         "sprite_width": 32,
         "sprite_height": 32

@@ -327,7 +327,7 @@ void monster::setpos( const tripoint &p )
         return;
     }
 
-    bool wandering = wander();
+    bool wandering = is_wandering();
     g->update_zombie_pos( *this, p );
     position = p;
     if( has_effect( effect_ridden ) && mounted_player && mounted_player->pos() != pos() ) {
@@ -915,6 +915,9 @@ std::string monster::extended_description() const
         {m_flag::MF_STUN_IMMUNE, pgettext( "Stun as immunity", "stun" )},
         {m_flag::MF_SLUDGEPROOF, pgettext( "Sludge as immunity", "sludge" )},
         {m_flag::MF_BIOPROOF, pgettext( "Biological hazards as immunity", "biohazards" )},
+        {m_flag::MF_DARKPROOF, pgettext( "Dark attacks as immunity", "dark" )},
+        {m_flag::MF_LIGHTPROOF, pgettext( "Light attacks as immunity", "light" )},
+        {m_flag::MF_PSIPROOF, pgettext( "Psionic attacks as immunity", "psi" )},
     } );
 
     describe_properties( _( "It can %s." ), {
@@ -1122,16 +1125,48 @@ bool monster::made_of( phase_id p ) const
 
 void monster::set_goal( const tripoint &p )
 {
+    const map &here = get_map();
+    if( !here.inbounds( p ) ) {
+        return;
+    }
+
+    if( p != this->goal && p != this->pos() ) {
+        this->repath_requested = true;
+    }
     goal = p;
 }
 
 void monster::shift( point sm_shift )
 {
+    const map &here = get_map();
+
     const point ms_shift = sm_to_ms_copy( sm_shift );
     position -= ms_shift;
-    goal -= ms_shift;
     if( wandf > 0 ) {
         wander_pos -= ms_shift;
+    }
+
+    // Pathfinding shifts, we bypass `set_dest` to prevent repathing
+    this->goal -= ms_shift;
+    if( !here.inbounds( this->goal ) ) {
+        // May accidentally occur during long-teleports
+        this->goal = pos();
+        this->path.clear();
+        return;
+    }
+
+    // Shift our found paths too, but also validate them
+    if( !this->path.empty() ) {
+        for( tripoint &p : this->path ) {
+            p -= ms_shift;
+
+            if( !here.inbounds( p ) ) {
+                // Path started going through OoB regions, so...
+                this->path.clear();
+                this->repath_requested = true;
+                break;
+            }
+        }
     }
 }
 
@@ -1232,7 +1267,7 @@ tripoint monster::move_target()
 
 Creature *monster::attack_target()
 {
-    if( wander() ) {
+    if( is_wandering() ) {
         return nullptr;
     }
 
@@ -1679,7 +1714,13 @@ bool monster::is_immune_damage( const damage_type dt ) const
         case DT_HEAT:
             return has_flag( MF_FIREPROOF );
         case DT_COLD:
-            return false;
+            return has_flag( MF_COLDPROOF );
+        case DT_DARK:
+            return has_flag( MF_DARKPROOF );
+        case DT_LIGHT:
+            return has_flag( MF_LIGHTPROOF );
+        case DT_PSI:
+            return has_flag( MF_PSIPROOF );
         case DT_ELECTRIC:
             return type->sp_defense == &mdefense::zapback ||
                    has_flag( MF_ELECTRIC ) ||
@@ -1728,6 +1769,9 @@ resistances monster::resists() const
     res.set_resist( DT_ACID, type->armor_acid + get_worn_armor_val( DT_ACID ) );
     res.set_resist( DT_HEAT, type->armor_fire + get_worn_armor_val( DT_HEAT ) );
     res.set_resist( DT_COLD, type->armor_cold + get_worn_armor_val( DT_COLD ) );
+    res.set_resist( DT_DARK, type->armor_dark + get_worn_armor_val( DT_DARK ) );
+    res.set_resist( DT_LIGHT, type->armor_light + get_worn_armor_val( DT_LIGHT ) );
+    res.set_resist( DT_PSI, type->armor_psi + get_worn_armor_val( DT_PSI ) );
     res.set_resist( DT_ELECTRIC, type->armor_electric + get_worn_armor_val( DT_ELECTRIC ) );
     return res;
 }
@@ -1915,6 +1959,12 @@ void monster::melee_attack( Creature &target, float accuracy )
 
 void monster::deal_projectile_attack( Creature *source, dealt_projectile_attack &attack )
 {
+    this->deal_projectile_attack( source, nullptr, attack );
+}
+
+void monster::deal_projectile_attack( Creature *source, item *source_weapon,
+                                      dealt_projectile_attack &attack )
+{
     const auto &proj = attack.proj;
     double &missed_by = attack.missed_by; // We can change this here
 
@@ -1933,7 +1983,7 @@ void monster::deal_projectile_attack( Creature *source, dealt_projectile_attack 
         missed_by = accuracy_critical;
     }
 
-    Creature::deal_projectile_attack( source, attack );
+    Creature::deal_projectile_attack( source, source_weapon, attack );
 
     if( !is_hallucination() && attack.hit_critter == this ) {
         // Maybe TODO: Get difficulty from projectile speed/size/missed_by
@@ -2236,6 +2286,12 @@ int monster::get_armor_type( damage_type dt, bodypart_id bp ) const
             return worn_armor + static_cast<int>( type->armor_fire );
         case DT_COLD:
             return worn_armor + static_cast<int>( type->armor_cold );
+        case DT_DARK:
+            return worn_armor + static_cast<int>( type->armor_dark );
+        case DT_LIGHT:
+            return worn_armor + static_cast<int>( type->armor_light );
+        case DT_PSI:
+            return worn_armor + static_cast<int>( type->armor_psi );
         case DT_ELECTRIC:
             return worn_armor + static_cast<int>( type->armor_electric );
         case DT_NULL:
@@ -2828,14 +2884,6 @@ void monster::drop_items_on_death()
         }
         items = std::move( remaining );
     }
-    if( has_flag( MF_FILTHY ) && get_option<bool>( "FILTHY_CLOTHES" ) ) {
-        for( const auto &it : items ) {
-            if( ( it->is_armor() || it->is_pet_armor() ) && !it->is_gun() ) {
-                // handle wearable guns as a special case
-                it->set_flag( STATIC( flag_id( "FILTHY" ) ) );
-            }
-        }
-    }
 
     g->m.spawn_items( pos(), std::move( items ) );
 }
@@ -3101,7 +3149,7 @@ void monster::add_msg_player_or_npc( const game_message_params &params,
     }
 }
 
-units::mass monster::get_carried_weight()
+units::mass monster::get_carried_weight() const
 {
     units::mass total_weight = 0_gram;
     if( tack_item ) {
@@ -3119,7 +3167,7 @@ units::mass monster::get_carried_weight()
     return total_weight;
 }
 
-units::volume monster::get_carried_volume()
+units::volume monster::get_carried_volume() const
 {
     units::volume total_volume = 0_ml;
     for( const item * const &it : inv ) {
@@ -3482,7 +3530,7 @@ void monster::add_item( detached_ptr<item> &&it )
 
 detached_ptr<item> monster::remove_item( item *it )
 {
-    auto iter = std::find( inv.begin(), inv.end(), it );
+    auto iter = std::ranges::find( inv, it );
     detached_ptr<item> ret;
     if( iter != inv.end() ) {
         inv.erase( iter, &ret );

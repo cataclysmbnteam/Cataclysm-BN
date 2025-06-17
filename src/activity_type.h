@@ -1,6 +1,4 @@
 #pragma once
-#ifndef CATA_SRC_ACTIVITY_TYPE_H
-#define CATA_SRC_ACTIVITY_TYPE_H
 
 #include <string>
 #include <optional>
@@ -83,9 +81,9 @@ class activity_type
         unsigned short max_assistants_ = 0;
 
     public:
-        std::vector<activity_req<character_stat>> stats = {};
-        std::vector<activity_req<skill_id>> skills = {};
-        std::vector<activity_req<quality_id>> qualities = {};
+        std::vector<activity_req<character_stat>> stats;
+        std::vector<activity_req<skill_id>> skills;
+        std::vector<activity_req<quality_id>> qualities;
 
         const activity_id &id() const {
             return id_;
@@ -175,4 +173,3 @@ class activity_type
         LUA_TYPE_OPS( activity_type, id_ );
 };
 
-#endif // CATA_SRC_ACTIVITY_TYPE_H

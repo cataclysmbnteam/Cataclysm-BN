@@ -635,7 +635,7 @@ void tileset_loader::load_tileset( const std::string &img_path, const bool pump_
     size = expected_tilecount;
 }
 
-void cata_tiles::set_draw_scale( int scale )
+void cata_tiles::set_draw_scale( float scale )
 {
     assert( tileset_ptr );
     tile_width = tileset_ptr->get_tile_width() * tileset_ptr->get_tile_pixelscale() * scale / 16;
@@ -1314,18 +1314,6 @@ void tileset_loader::load_tile_spritelists( const JsonObject &entry,
     }
 }
 
-static int divide_round_down( int a, int b )
-{
-    if( b < 0 ) {
-        a = -a;
-        b = -b;
-    }
-    if( a >= 0 ) {
-        return a / b;
-    } else {
-        return -( ( -a + b - 1 ) / b );
-    }
-}
 
 void cata_tiles::draw( point dest, const tripoint &center, int width, int height,
                        std::multimap<point, formatted_text> &overlay_strings,
@@ -2542,6 +2530,24 @@ bool cata_tiles::draw_tile_at(
                     apply_night_vision_goggles, overlay_count );
     draw_sprite_at( tile, tile.fg, p, loc_rand, /*fg:*/ true, rota, ll,
                     apply_night_vision_goggles, height_3d, overlay_count );
+    return true;
+}
+
+bool cata_tiles::draw_color_at( const SDL_Color &color, point pos, SDL_BlendMode blend_mode )
+{
+    SDL_Rect rect{
+        pos.x,
+        pos.y,
+        tile_width,
+        tile_height
+    };
+
+    SDL_BlendMode old_blend_mode;
+    GetRenderDrawBlendMode( renderer, old_blend_mode );
+    SetRenderDrawBlendMode( renderer, blend_mode );
+    SetRenderDrawColor( renderer, color.r, color.g, color.b, color.a );
+    RenderFillRect( renderer, &rect );
+    SetRenderDrawBlendMode( renderer, old_blend_mode );
     return true;
 }
 

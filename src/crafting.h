@@ -1,34 +1,23 @@
 #pragma once
-#ifndef CATA_SRC_CRAFTING_H
-#define CATA_SRC_CRAFTING_H
 
 #include <list>
 #include <set>
 #include <vector>
 
 #include "point.h"
-#include "mapdata.h"
 #include "ret_val.h"
 #include "type_id.h"
-#include <veh_type.h>
+#include "activity_speed_adapters.h"
 
 class avatar;
 class Character;
 class inventory;
 class item;
-class player;
 class recipe;
 struct iuse_location;
 struct tool_comp;
 
 enum class cost_adjustment : int;
-
-enum class bench_type : int {
-    ground = 0,
-    hands,
-    furniture,
-    vehicle
-};
 
 struct bench_location {
     explicit bench_location( bench_type type, tripoint position )
@@ -37,32 +26,6 @@ struct bench_location {
     bench_type type;
     tripoint position;
 };
-
-struct workbench_info_wrapper {
-    // Base multiplier applied for crafting here
-    float multiplier;
-    // Mass/volume allowed before a crafting speed penalty is applied
-    units::mass allowed_mass;
-    units::volume allowed_volume;
-    workbench_info_wrapper( furn_workbench_info f_info ) : multiplier( f_info.multiplier ),
-        allowed_mass( f_info.allowed_mass ),
-        allowed_volume( f_info.allowed_volume ) {
-    }
-    workbench_info_wrapper( vpslot_workbench v_info ) : multiplier( v_info.multiplier ),
-        allowed_mass( v_info.allowed_mass ),
-        allowed_volume( v_info.allowed_volume ) {
-    }
-};
-
-struct bench_loc {
-    explicit bench_loc( workbench_info_wrapper info, bench_type type, tripoint position )
-        : wb_info( info ), type( type ), position( position ) {
-    }
-    workbench_info_wrapper wb_info;
-    bench_type type;
-    tripoint position;
-};
-
 template<typename Type>
 struct comp_selection;
 
@@ -75,7 +38,7 @@ void remove_ammo( item &dis_item, Character &who );
  */
 void remove_ammo( std::vector<item *> &dis_items, Character &who );
 
-bench_location find_best_bench( const player &p, const item &craft );
+bench_location find_best_bench( const Character &who, const item &craft );
 
 float workbench_crafting_speed_multiplier( const item &craft, const bench_location &bench );
 float morale_crafting_speed_multiplier( const Character &who, const recipe &rec );
@@ -83,7 +46,7 @@ float lighting_crafting_speed_multiplier( const Character &who, const recipe &re
 float crafting_speed_multiplier( const Character &who, const recipe &rec, bool in_progress );
 float crafting_speed_multiplier( const Character &who, const item &craft,
                                  const bench_location &bench );
-void complete_craft( player &p, item &craft, const bench_location &bench );
+void complete_craft( Character &who, item &craft );
 
 namespace crafting
 {
@@ -154,5 +117,3 @@ bool disassemble_all( avatar &you, bool recursively );
 void complete_disassemble( Character &who, const iuse_location &target, const tripoint &pos );
 
 } // namespace crafting
-
-#endif // CATA_SRC_CRAFTING_H

@@ -370,14 +370,14 @@ void debug_menu::wishbionics( Character &c )
     std::vector<const itype *> cbm_items = item_controller->find( []( const itype & itm ) -> bool {
         return itm.can_use( "install_bionic" );
     } );
-    std::sort( cbm_items.begin(), cbm_items.end(), []( const itype * a, const itype * b ) {
+    std::ranges::sort( cbm_items, []( const itype * a, const itype * b ) {
         return localized_compare( a->nname( 1 ), b->nname( 1 ) );
     } );
 
     while( true ) {
         units::energy power_level = c.get_power_level();
         units::energy power_max = c.get_max_power_level();
-        size_t num_installed = c.get_bionics().size();
+        size_t num_installed = c.get_bionic_collection().size();
 
         bool can_uninstall = num_installed > 0;
         bool can_uninstall_all = can_uninstall || power_max > 0_J;
@@ -717,9 +717,9 @@ void debug_menu::wishitem( player *p, const tripoint &pos )
         }
         opts.emplace_back( it->tname( 1, false ), i );
     }
-    std::sort( opts.begin(), opts.end(), localized_compare );
+    std::ranges::sort( opts, localized_compare );
     std::vector<const itype *> itypes;
-    std::transform( opts.begin(), opts.end(), std::back_inserter( itypes ),
+    std::ranges::transform( opts, std::back_inserter( itypes ),
     []( const auto & pair ) {
         return pair.second;
     } );

@@ -728,6 +728,7 @@
     "volume": "250 ml",
     "charges": 2,
     "stack_size": 4,
+    "flags": [ "UNRECOVERABLE", "NO_SALVAGE" ],
     "vitamins": [ [ "meat_allergen", 1 ] ],
     "fun": -18
   },
@@ -801,6 +802,7 @@
     "comestible_type": "DRINK",
     "looks_like": "blood",
     "symbol": "~",
+    "spoils_in": "0 days",
     "quench": 5,
     "healthy": -8,
     "price_postapoc": "10 cent",

@@ -1,6 +1,4 @@
 #pragma once
-#ifndef CATA_SRC_ACTIVITY_HANDLERS_H
-#define CATA_SRC_ACTIVITY_HANDLERS_H
 
 #include <functional>
 #include <map>
@@ -267,7 +265,6 @@ void vibe_finish( player_activity *act, player *p );
 void hand_crank_finish( player_activity *act, player *p );
 void atm_finish( player_activity *act, player *p );
 void eat_menu_finish( player_activity *act, player *p );
-void washing_finish( player_activity *act, player *p );
 void pry_nails_finish( player_activity *act, player *p );
 void chop_tree_finish( player_activity *act, player *p );
 void chop_logs_finish( player_activity *act, player *p );
@@ -312,4 +309,3 @@ void patch_activity_for_furniture( player_activity &activity,
 
 } // namespace activity_handlers
 
-#endif // CATA_SRC_ACTIVITY_HANDLERS_H

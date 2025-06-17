@@ -1147,6 +1147,18 @@
     ]
   },
   {
+    "id": "nested_kriss_vector_9mm",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "entries": [
+      { "item": "kriss_vector_9mm", "ammo-group": "on_hand_9mm", "charges": [ 0, 30 ] },
+      { "group": "nested_kriss_vector_9mm_mag", "charges-min": 0 },
+      { "group": "nested_kriss_vector_9mm_mag", "charges-min": 0, "prob": 50 },
+      { "group": "on_hand_9mm" }
+    ]
+  },
+  {
     "id": "nested_american_180",
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
@@ -1995,8 +2007,8 @@
     "ammo": 100,
     "entries": [
       { "item": "famas", "ammo-group": "on_hand_223", "charges": [ 0, 25 ] },
-      { "item": "famasmag", "ammo-group": "on_hand_223" },
-      { "item": "famasmag", "ammo-group": "on_hand_223", "prob": 50 },
+      { "group": "nested_stanag_mag" },
+      { "group": "nested_stanag_mag", "prob": 50 },
       { "group": "on_hand_223" }
     ]
   },

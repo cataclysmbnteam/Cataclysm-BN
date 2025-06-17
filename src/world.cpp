@@ -1,5 +1,6 @@
 #include "world.h"
 
+#include <algorithm>
 #include <sstream>
 #include <cstring>
 #include <chrono>
@@ -85,7 +86,7 @@ WORLDINFO::WORLDINFO()
 {
     world_name = world_generator->get_next_valid_worldname();
     WORLD_OPTIONS = get_options().get_world_defaults();
-    world_save_format = save_format::V1;
+    world_save_format = save_format::V2_COMPRESSED_SQLITE3;
 
     world_saves.clear();
     active_mod_order = world_generator->get_mod_manager().get_default_mods();
@@ -111,7 +112,7 @@ bool WORLDINFO::needs_lua() const
 
 bool WORLDINFO::save_exists( const save_t &name ) const
 {
-    return std::find( world_saves.begin(), world_saves.end(), name ) != world_saves.end();
+    return std::ranges::find( world_saves, name ) != world_saves.end();
 }
 
 void WORLDINFO::add_save( const save_t &name )

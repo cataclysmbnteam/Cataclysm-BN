@@ -3,6 +3,7 @@
 #include "pickup.h"
 #include "player.h" // IWYU pragma: associated
 #include "consumption.h" // IWYU pragma: associated
+#include "character.h"
 
 #include <algorithm>
 #include <array>
@@ -905,16 +906,7 @@ bool Character::eat( item &food, bool force )
 
     moves -= mealtime;
 
-    // If it's poisonous... poison us.
-    // TODO: Move this to a flag
-    if( food.poison > 0 && !has_trait( trait_POISRESIST ) &&
-        !has_trait( trait_EATDEAD ) ) {
-        if( food.poison >= rng( 2, 4 ) ) {
-            add_effect( effect_poison, food.poison * 1_minutes );
-        }
-
-        add_effect( effect_foodpoison, food.poison * 30_minutes );
-    }
+    consume_poison( *this, food );
 
     if( food.has_flag( flag_HIDDEN_HALLU ) ) {
         if( !has_effect( effect_hallu ) ) {
@@ -1560,6 +1552,7 @@ void Character::consume( item &target )
     }
 
     item &comest = get_consumable_from( target );
+    const auto old_invlet = target.invlet;
 
     if( comest.is_null() || target.is_craft() ) {
         add_msg_if_player( m_info, _( "You can't eat your %s." ), target.tname() );
@@ -1582,7 +1575,38 @@ void Character::consume( item &target )
     // Restack and sort so that we don't lie about target's invlet
     if( inv_item ) {
         inv.restack( *this->as_player() );
+
+        // in the case that the consumable was in a container, but the container is now empty (no more charges)
+        // the invlet is lost
+        // so we find try to find a new container with a consumable of the same type, and re-assign to it
+        if( was_in_container && !target.is_favorite && comest.count_by_charges() && comest.charges == 0 &&
+            !is_wearing( target ) ) {
+            auto &cont_type = target.typeId();
+            auto &item_type = comest.typeId();
+
+            auto stacks = inv.const_slice();
+            // find a non-empty container of the same type, with the same content type
+            for( auto &stack : stacks ) {
+                auto &c = stack->front();
+                if( c->typeId() != cont_type ) {
+                    continue;
+                }
+                if( !c->is_container() || c->contents.empty() ) {
+                    continue;
+                }
+                if( c->contents.front().typeId() != item_type ) {
+                    continue;
+                }
+
+                // remove the assignment from the now-empty container regardless,
+                // and assign it to the next container if found
+                inv_reassign_item( *c, old_invlet, true );
+
+                break;
+            }
+        }
     }
+
     if( consumed ) {
         if( was_in_container && wielding ) {
             add_msg_if_player( _( "You are now wielding an empty %s." ), primary_weapon().tname() );
@@ -1673,4 +1697,19 @@ consumption_event::consumption_event( const item &food ) : time( calendar::turn 
 {
     type_id = food.typeId();
     component_hash = food.make_component_hash();
+}
+
+void consume_poison( Character &consumer, item &food )
+{
+    // If it's poisonous... poison us.
+    // TODO: Move this to a flag
+    if( food.poison > 0 && !consumer.has_trait( trait_POISRESIST ) &&
+        !consumer.has_trait( trait_EATDEAD ) && !consumer.has_bionic( bio_digestion ) ) {
+        if( food.poison >= rng( 2, 4 ) ) {
+            consumer.add_effect( effect_poison, food.poison * 1_minutes );
+        }
+
+        consumer.add_effect( effect_foodpoison, food.poison * 30_minutes );
+    }
+
 }

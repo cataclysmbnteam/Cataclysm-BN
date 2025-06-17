@@ -1014,6 +1014,34 @@
   },
   {
     "type": "recipe",
+    "result": "hovercraft_section",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_VEHICLE",
+    "skill_used": "mechanics",
+    "skills_required": [ "electronics", 2 ],
+    "difficulty": 5,
+    "time": "1 h",
+    "autolearn": [ [ "mechanics", 6 ], [ "electronics", 3 ] ],
+    "reversible": true,
+    "book_learn": [ [ "textbook_fabrication", 5 ], [ "textbook_mechanics", 4 ], [ "reference_fabrication1", 5 ] ],
+    "using": [ [ "welding_standard", 3 ], [ "steel_standard", 4 ], [ "soldering_standard", 10 ], [ "sewing_standard", 20 ] ],
+    "qualities": [
+      { "id": "HAMMER", "level": 2 },
+      { "id": "SAW_M", "level": 1 },
+      { "id": "WRENCH", "level": 1 },
+      { "id": "SCREW", "level": 1 }
+    ],
+    "components": [
+      [ [ "fabric_standard", 10, "LIST" ] ],
+      [ [ "pipe", 1 ] ],
+      [ [ "motor_tiny", 2 ], [ "motor_small", 1 ] ],
+      [ [ "hose", 1 ] ],
+      [ [ "cable", 10 ] ],
+      [ [ "chunk_rubber", 10 ], [ "neoprene", 10 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
     "result": "hand_paddles",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_VEHICLE",
@@ -1021,7 +1049,7 @@
     "difficulty": 1,
     "time": "1 h",
     "autolearn": true,
-    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_W", "level": 1 } ],
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_W", "level": 1 }, { "id": "SANDING", "level": 1 } ],
     "components": [ [ [ "2x4", 4 ] ], [ [ "nail_glue", 10, "LIST" ] ] ]
   },
   {
@@ -1181,7 +1209,7 @@
     "time": "9 m",
     "reversible": true,
     "autolearn": true,
-    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CUT", "level": 1 }, { "id": "SANDING", "level": 1 } ],
     "components": [ [ [ "2x4", 5 ] ], [ [ "stick", 2 ] ], [ [ "nail_glue", 20, "LIST" ] ] ]
   },
   {
@@ -1657,7 +1685,7 @@
     "reversible": true,
     "decomp_learn": 1,
     "autolearn": true,
-    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SAW_W", "level": 1 } ],
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SAW_W", "level": 1 }, { "id": "SANDING", "level": 1 } ],
     "components": [ [ [ "2x4", 4 ] ], [ [ "wood_panel", 1 ] ], [ [ "nail_glue", 8, "LIST" ] ] ]
   },
   {
@@ -1713,6 +1741,19 @@
     "autolearn": true,
     "using": [ [ "sewing_standard", 50 ], [ "welding_standard", 5 ] ],
     "components": [ [ [ "pipe", 4 ] ], [ [ "spring", 2 ] ], [ [ "fabric_hides_proper", 12, "LIST" ], [ "fur", 12 ] ], [ [ "rag", 8 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "saddle",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_VEHICLE",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "10 m",
+    "reversible": true,
+    "autolearn": true,
+    "using": [ [ "sewing_standard", 25 ], [ "welding_standard", 5 ] ],
+    "components": [ [ [ "pipe", 2 ] ], [ [ "spring", 1 ] ], [ [ "fabric_hides_proper", 4, "LIST" ] ], [ [ "rag", 3 ] ] ]
   },
   {
     "type": "recipe",
@@ -1906,7 +1947,7 @@
     "skills_required": [ "fabrication", 2 ],
     "time": "20 m",
     "autolearn": true,
-    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_W", "level": 1 } ],
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_W", "level": 1 }, { "id": "SANDING", "level": 1 } ],
     "components": [ [ [ "nail_glue", 4, "LIST" ] ], [ [ "stick", 2 ], [ "2x4", 2 ] ] ]
   },
   {

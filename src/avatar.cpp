@@ -10,11 +10,9 @@
 #include <memory>
 #include <optional>
 #include <set>
-#include <unordered_map>
 #include <utility>
 
 #include "action.h"
-#include "bodypart.h"
 #include "calendar.h"
 #include "cata_utility.h"
 #include "catacharset.h"
@@ -24,7 +22,6 @@
 #include "character_functions.h"
 #include "character_martial_arts.h"
 #include "character_stat.h"
-#include "clzones.h"
 #include "color.h"
 #include "debug.h"
 #include "diary.h"
@@ -57,11 +54,9 @@
 #include "options.h"
 #include "output.h"
 #include "overmap.h"
-#include "pathfinding.h"
-#include "pimpl.h"
+#include "legacy_pathfinding.h"
 #include "player.h"
 #include "player_activity.h"
-#include "ranged.h"
 #include "recipe.h"
 #include "ret_val.h"
 #include "rng.h"
@@ -72,9 +67,7 @@
 #include "translations.h"
 #include "type_id.h"
 #include "ui.h"
-#include "value_ptr.h"
 #include "vehicle.h"
-#include "vehicle_part.h"
 #include "vpart_position.h"
 
 static const activity_id ACT_READ( "ACT_READ" );
@@ -117,6 +110,8 @@ avatar::avatar()
     active_mission = nullptr;
     grab_type = OBJECT_NONE;
     a_diary = nullptr;
+    start_location = start_location_id( "sloc_shelter" );
+    movecounter = 0;
 }
 
 avatar::~avatar() = default;
@@ -215,9 +210,17 @@ tripoint_abs_omt avatar::get_active_mission_target() const
     return active_mission->get_target();
 }
 
+tripoint_abs_omt avatar::get_custom_mission_target()
+{
+    if( custom_waypoint == nullptr ) {
+        return overmap::invalid_tripoint;
+    }
+    return *custom_waypoint;
+}
+
 void avatar::set_active_mission( mission &cur_mission )
 {
-    const auto iter = std::find( active_missions.begin(), active_missions.end(), &cur_mission );
+    const auto iter = std::ranges::find( active_missions, &cur_mission );
     if( iter == active_missions.end() ) {
         debugmsg( "new active mission %d is not in the active_missions list", cur_mission.get_id() );
     } else {
@@ -241,7 +244,7 @@ void avatar::on_mission_finished( mission &cur_mission )
         add_msg_if_player( m_good, _( "Mission \"%s\" is successfully completed." ),
                            cur_mission.name() );
     }
-    const auto iter = std::find( active_missions.begin(), active_missions.end(), &cur_mission );
+    const auto iter = std::ranges::find( active_missions, &cur_mission );
     if( iter == active_missions.end() ) {
         debugmsg( "completed mission %d was not in the active_missions list", cur_mission.get_id() );
     } else {
@@ -482,8 +485,8 @@ bool avatar::read( item *loc, const bool continuous )
             };
 
             auto max_length = [&length]( const std::map<npc *, std::string> &m ) {
-                auto max_ele = std::max_element( m.begin(),
-                                                 m.end(), [&length]( const std::pair<npc *, std::string> &left,
+                auto max_ele = std::ranges::max_element( m,
+                               [&length]( const std::pair<npc *, std::string> &left,
                 const std::pair<npc *, std::string> &right ) {
                     return length( left ) < length( right );
                 } );
@@ -582,7 +585,7 @@ bool avatar::read( item *loc, const bool continuous )
     }
 
     if( !continuous ||
-    !std::all_of( learners.begin(), learners.end(), [&]( const std::pair<npc *, std::string> &elem ) {
+    !std::ranges::all_of( learners, [&]( const std::pair<npc *, std::string> &elem ) {
     return std::count( activity->values.begin(), activity->values.end(),
                        elem.first->getID().get_value() ) != 0;
     } ) ||
@@ -1067,7 +1070,7 @@ int avatar::free_upgrade_points() const
 
 std::optional<int> avatar::kill_xp_for_next_point() const
 {
-    auto it = std::lower_bound( xp_cutoffs.begin(), xp_cutoffs.end(), kill_xp() );
+    auto it = std::ranges::lower_bound( xp_cutoffs, kill_xp() );
     if( it == xp_cutoffs.end() ) {
         return std::nullopt;
     } else {
@@ -1306,8 +1309,8 @@ bool avatar::invoke_item( item *used, const tripoint &pt )
                              res.str() );
     }
 
-    umenu.desc_enabled = std::any_of( umenu.entries.begin(),
-    umenu.entries.end(), []( const uilist_entry & elem ) {
+    umenu.desc_enabled = std::ranges::any_of( umenu.entries,
+    []( const uilist_entry & elem ) {
         return !elem.desc.empty();
     } );
 

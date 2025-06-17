@@ -251,7 +251,7 @@ itype_id bionic_data::itype() const
 
 bool bionic_data::is_included( const bionic_id &id ) const
 {
-    return std::find( included_bionics.begin(), included_bionics.end(), id ) != included_bionics.end();
+    return std::ranges::find( included_bionics, id ) != included_bionics.end();
 }
 
 void bionic_data::load_bionic( const JsonObject &jo, const std::string &src )
@@ -296,7 +296,8 @@ void bionic_data::load( const JsonObject &jsobj, const std::string &src )
     assign( jsobj, "weight_capacity_modifier", weight_capacity_modifier, strict, 1.0f );
     assign( jsobj, "weight_capacity_bonus", weight_capacity_bonus, strict, 0_gram );
     assign_map_from_array( jsobj, "stat_bonus", stat_bonus, strict );
-    assign( jsobj, "is_remote_fueled", is_remote_fueled, strict );
+    assign( jsobj, "remote_fuel_draw", remote_fuel_draw, strict, 0_J );
+    is_remote_fueled = remote_fuel_draw > 0_J;
     assign( jsobj, "fuel_options", fuel_opts, strict );
     assign( jsobj, "fuel_capacity", fuel_capacity, strict, 0 );
     assign( jsobj, "fuel_efficiency", fuel_efficiency, strict, 0.0f );
@@ -511,7 +512,7 @@ std::map<item *, bionic_id> npc::check_toggle_cbm()
     if( free_power <= 0_J ) {
         return res;
     }
-    for( bionic &bio : *my_bionics ) {
+    for( bionic &bio : get_bionic_collection() ) {
         // I'm not checking if NPC_USABLE because if it isn't it shouldn't be in them.
         if( bio.powered || !bio.info().has_flag( flag_BIONIC_WEAPON ) ||
             free_power < bio.info().power_activate ) {
@@ -694,7 +695,7 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
         clear_npc_ai_info_cache( npc_ai_info::ideal_weapon_value );
     } else if( bio.id == bio_ears && has_active_bionic( bio_earplugs ) ) {
         add_msg_activate();
-        for( bionic &bio : *my_bionics ) {
+        for( bionic &bio : get_bionic_collection() ) {
             if( bio.id == bio_earplugs ) {
                 bio.powered = false;
                 add_msg_if_player( m_info, _( "Your %s automatically turn off." ),
@@ -703,7 +704,7 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
         }
     } else if( bio.id == bio_earplugs && has_active_bionic( bio_ears ) ) {
         add_msg_activate();
-        for( bionic &bio : *my_bionics ) {
+        for( bionic &bio : get_bionic_collection() ) {
             if( bio.id == bio_ears ) {
                 bio.powered = false;
                 add_msg_if_player( m_info, _( "Your %s automatically turns off." ),
@@ -1361,16 +1362,20 @@ bool Character::burn_fuel( bionic &bio, bool start )
                             mod_power_level( units::from_kilojoule( fuel_energy ) * effective_efficiency );
                         }
                     } else if( is_cable_powered ) {
-                        int to_consume = 1;
+                        auto to_consume = bio.info().remote_fuel_draw;
                         if( get_power_level() >= get_max_power_level() ) {
-                            to_consume = 0;
+                            to_consume = 0_J;
                         }
-                        const int unconsumed = consume_remote_fuel( to_consume );
-                        if( unconsumed == 0 && to_consume == 1 ) {
-                            mod_power_level( units::from_kilojoule( fuel_energy ) * effective_efficiency );
-                            current_fuel_stock -= 1;
-                        } else if( to_consume == 1 ) {
-                            current_fuel_stock = 0;
+                        const auto unconsumed = consume_remote_fuel( to_consume );
+                        // we don't check if to_consume != unconsumed cuz we wouldn't get there otherwise
+                        if( to_consume > 0_J ) {
+                            if( unconsumed == 0_J ) {
+                                mod_power_level( bio.info().remote_fuel_draw * effective_efficiency );
+                                current_fuel_stock -= units::to_kilojoule( to_consume );
+                            } else {
+                                mod_power_level( ( to_consume - unconsumed ) * effective_efficiency );
+                                current_fuel_stock = 0;
+                            }
                         }
                         set_value( "rem_" + fuel.str(), std::to_string( current_fuel_stock ) );
                     } else {
@@ -1538,9 +1543,10 @@ itype_id Character::find_remote_fuel( bool look_only )
     return remote_fuel;
 }
 
-int Character::consume_remote_fuel( int amount )
+units::energy Character::consume_remote_fuel( units::energy amount )
 {
-    int unconsumed_amount = amount;
+    int amount_kj = units::to_kilojoule( amount );
+    units::energy unconsumed_amount = amount;
     const std::vector<item *> cables = items_with( []( const item & it ) {
         return it.is_active() && it.has_flag( flag_CABLE_SPOOL );
     } );
@@ -1548,46 +1554,50 @@ int Character::consume_remote_fuel( int amount )
     map &here = get_map();
     for( const item *cable : cables ) {
         auto data = cable_connection_data::make_data( cable );
-        if( !data || !data->character_connected() || !data->has_map_connection() ) {
+        if( !data || ( !data->character_connected() && !data->complete() ) ) {
             continue;
         }
 
-        auto map_con = *data->get_map_connection();
-        if( !map_con.point_valid() ) {
-            debugmsg( "Cable_data was not properly initialized or cable map points were not set" );
-            continue;
-        }
-        switch( map_con.state ) {
+        auto non_char = *data->get_nonchar_connection();
+        switch( non_char.state ) {
             case state_vehicle: {
-                const auto vp = here.veh_at( map_con.point );
+                if( !non_char.point_valid() ) {
+                    debugmsg( "Cable_data was not properly initialized or cable map points were not set" );
+                    continue;
+                }
+                const auto vp = here.veh_at( non_char.point );
                 if( vp ) {
-                    unconsumed_amount = vp->vehicle().discharge_battery( amount );
+                    unconsumed_amount = units::from_kilojoule( vp->vehicle().discharge_battery( amount_kj ) );
                 }
                 break;
             }
             case state_grid: {
-                const auto *grid_connector = active_tiles::furn_at<vehicle_connector_tile>( map_con.point );
+                if( !non_char.point_valid() ) {
+                    debugmsg( "Cable_data was not properly initialized or cable map points were not set" );
+                    continue;
+                }
+                const auto *grid_connector = active_tiles::furn_at<vehicle_connector_tile>( non_char.point );
                 if( grid_connector ) {
-                    auto grid = get_distribution_grid_tracker().grid_at( map_con.point );
-                    unconsumed_amount = grid.mod_resource( -amount );
+                    auto grid = get_distribution_grid_tracker().grid_at( non_char.point );
+                    unconsumed_amount = units::from_kilojoule( grid.mod_resource( -amount_kj ) );
+                }
+                break;
+            }
+            case state_UPS: {
+                static const item_filter used_ups = [&]( const item & itm ) {
+                    return itm.get_var( "cable" ) == "plugged_in";
+                };
+                if( has_charges( itype_UPS_off, amount_kj, used_ups ) ) {
+                    use_charges( itype_UPS_off, amount_kj, used_ups );
+                    unconsumed_amount = 0_J;
+                } else if( has_charges( itype_adv_UPS_off, amount_kj, used_ups ) ) {
+                    use_charges( itype_adv_UPS_off, roll_remainder( amount_kj * 0.5 ), used_ups );
+                    unconsumed_amount = 0_J;
                 }
                 break;
             }
             default:
                 continue;
-        }
-    }
-
-    if( unconsumed_amount > 0 ) {
-        static const item_filter used_ups = [&]( const item & itm ) {
-            return itm.get_var( "cable" ) == "plugged_in";
-        };
-        if( has_charges( itype_UPS_off, unconsumed_amount, used_ups ) ) {
-            use_charges( itype_UPS_off, unconsumed_amount, used_ups );
-            unconsumed_amount = 0;
-        } else if( has_charges( itype_adv_UPS_off, unconsumed_amount, used_ups ) ) {
-            use_charges( itype_adv_UPS_off, roll_remainder( unconsumed_amount * 0.5 ), used_ups );
-            unconsumed_amount = 0;
         }
     }
 
@@ -1765,7 +1775,7 @@ void Character::process_bionic( bionic &bio )
         if( calendar::once_every( 30_turns ) ) {
             std::vector<effect *> bleeding_list = get_all_effects_of_type( effect_bleed );
             // Essential parts (Head/Torso) first.
-            std::sort( bleeding_list.begin(), bleeding_list.end(),
+            std::ranges::sort( bleeding_list,
             []( effect * a, effect * b ) {
                 return a->get_bp()->essential > b->get_bp()->essential;
             } );
@@ -1794,8 +1804,8 @@ void Character::process_bionic( bionic &bio )
                 const auto damaged_parts = [this, should_heal, sort_by]() {
                     const auto xs = get_all_body_parts( true );
                     auto ys = std::vector<bodypart_id> {};
-                    std::copy_if( xs.begin(), xs.end(), std::back_inserter( ys ), should_heal );
-                    std::sort( ys.begin(), ys.end(), sort_by );
+                    std::ranges::copy_if( xs, std::back_inserter( ys ), should_heal );
+                    std::ranges::sort( ys, sort_by );
                     return ys;
                 };
 
@@ -2139,7 +2149,8 @@ bool Character::can_uninstall_bionic( const bionic_id &b_id, player &installer, 
         }
     }
 
-    for( const bionic_id &bid : get_bionics() ) {
+    for( const bionic &i : get_bionic_collection() ) {
+        const bionic_id &bid = i.id;
         if( bid->is_included( b_id ) ) {
             popup( _( "%s must remove the %s bionic to remove the %s." ), installer.disp_name(),
                    bid->name, b_id->name );
@@ -2149,7 +2160,8 @@ bool Character::can_uninstall_bionic( const bionic_id &b_id, player &installer, 
 
     // make sure the bionic you are removing is not required by other installed bionics
     std::vector<std::string> dependent_bionics;
-    for( const bionic_id &bid : get_bionics() ) {
+    for( const bionic &i : get_bionic_collection() ) {
+        const bionic_id &bid = i.id;
         // look at required bionics for every installed bionic
         for( const bionic_id &req_bid : bid->required_bionics ) {
             if( req_bid == b_id ) {
@@ -2680,7 +2692,7 @@ void Character::bionics_install_failure( const std::string &installer,
         case 4:
         case 5: {
             std::vector<bionic_id> valid;
-            std::copy_if( begin( faulty_bionics ), end( faulty_bionics ), std::back_inserter( valid ),
+            std::ranges::copy_if( faulty_bionics, std::back_inserter( valid ),
             [&]( const bionic_id & id ) {
                 return !has_bionic( id );
             } );
@@ -2740,7 +2752,8 @@ std::string list_occupied_bps( const bionic_id &bio_id, const std::string &intro
 int Character::get_used_bionics_slots( const bodypart_id &bp ) const
 {
     int used_slots = 0;
-    for( const bionic_id &bid : get_bionics() ) {
+    for( const bionic &i : get_bionic_collection() ) {
+        const bionic_id &bid = i.id;
         auto search = bid->occupied_bodyparts.find( bp.id() );
         if( search != bid->occupied_bodyparts.end() ) {
             used_slots += search->second;
@@ -2900,7 +2913,7 @@ std::pair<int, int> Character::amount_of_storage_bionics() const
     units::energy lvl = get_max_power_level();
 
     // exclude amount of power capacity obtained via non-power-storage CBMs
-    for( const bionic &it : *my_bionics ) {
+    for( const bionic &it : get_bionic_collection() ) {
         lvl -= it.info().capacity;
     }
 
@@ -2962,7 +2975,7 @@ int bionic::get_quality( const quality_id &quality ) const
 bool bionic::is_this_fuel_powered( const itype_id &this_fuel ) const
 {
     const std::vector<itype_id> fuel_op = info().fuel_opts;
-    return std::find( fuel_op.begin(), fuel_op.end(), this_fuel ) != fuel_op.end();
+    return std::ranges::find( fuel_op, this_fuel ) != fuel_op.end();
 }
 
 void bionic::toggle_safe_fuel_mod()

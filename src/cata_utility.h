@@ -1,6 +1,4 @@
 #pragma once
-#ifndef CATA_SRC_CATA_UTILITY_H
-#define CATA_SRC_CATA_UTILITY_H
 
 #include <algorithm>
 #include <cstddef>
@@ -52,6 +50,9 @@ inline int fast_floor( double v )
  * @return Rounded value.
  */
 double round_up( double val, unsigned int dp );
+
+int divide_round_down( int a, int b );
+
 
 /** Divide @p num by @p den, rounding up
 *
@@ -343,4 +344,4 @@ class restore_on_out_of_scope
 */
 holiday get_holiday_from_time( std::time_t time = 0, bool force_refresh = false );
 
-#endif // CATA_SRC_CATA_UTILITY_H
+

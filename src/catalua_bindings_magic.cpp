@@ -1,4 +1,3 @@
-#ifdef LUA
 #include "catalua_bindings.h"
 
 #include "catalua.h"
@@ -225,5 +224,3 @@ void cata::detail::reg_spell( sol::state &lua )
     }
 #undef UT_CLASS // #define UT_CLASS spell
 }
-
-#endif // #ifdef LUA

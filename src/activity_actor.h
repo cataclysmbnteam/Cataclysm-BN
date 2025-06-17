@@ -1,6 +1,4 @@
 #pragma once
-#ifndef CATA_SRC_ACTIVITY_ACTOR_H
-#define CATA_SRC_ACTIVITY_ACTOR_H
 
 #include <deque>
 #include <memory>
@@ -11,6 +9,7 @@
 #include "activity_type.h"
 #include "calendar.h"
 #include "type_id.h"
+#include "units.h"
 
 class avatar;
 class Character;
@@ -18,7 +17,10 @@ class JsonIn;
 class JsonOut;
 class player_activity;
 class inventory;
+
 struct bench_loc;
+
+using metric = std::pair<units::mass, units::volume>;
 
 struct simple_task {
     // Name of the target that's being processed
@@ -32,7 +34,11 @@ struct simple_task {
         return moves_left <= 0;
     }
 
-    inline int to_counter() const;
+    inline bool not_started() const {
+        return moves_left == moves_total;
+    }
+
+    int to_counter() const;
 
     //Json stuff
     void serialize( JsonOut &json ) const;
@@ -77,8 +83,8 @@ class progress_counter
             } );
             total_tasks++;
         }
-        inline void pop();
-        inline void purge();
+        void pop();
+        void purge();
         inline bool empty() const {
             return targets.empty();
         }
@@ -198,7 +204,7 @@ class activity_actor
          * Actor specific behaviour to recalc all speed values
          * Expected to be called once per target and on game load
          */
-        virtual void recalc_all_moves( player_activity &act, Character &who );
+        virtual void calc_all_moves( player_activity &act, Character &who );
 
         /**
          * Called once at the start of the activity.
@@ -256,16 +262,6 @@ class activity_actor
         }
 
         /*
-         * actor specific formula for speed factor based on workbench
-         * anything above 0 is a valid number
-         * anything below 0 is invalid, promting to use default formula
-        */
-        virtual float calc_bench_factor( const Character & /*who*/,
-                                         const std::optional<bench_loc> &/*bench*/ ) const {
-            return -1.0f;
-        }
-
-        /*
          * actor specific formula for speed factor based on skills
          * anything above 0 is a valid number
          * anything below 0 is invalid, promting to use default formula
@@ -290,7 +286,7 @@ class activity_actor
          * anything above 0 is a valid number
          * anything below 0 is invalid, promting to use default formula
         */
-        virtual float calc_morale_factor( int /*morale*/ ) const {
+        virtual float calc_morale_factor( const Character &/*who*/ ) const {
             return -1.0f;
         }
 
@@ -317,4 +313,3 @@ deserialize_functions;
 void serialize( const std::unique_ptr<activity_actor> &actor, JsonOut &jsout );
 void deserialize( std::unique_ptr<activity_actor> &actor, JsonIn &jsin );
 
-#endif // CATA_SRC_ACTIVITY_ACTOR_H

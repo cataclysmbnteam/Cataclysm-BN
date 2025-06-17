@@ -61,7 +61,7 @@
 #include "name.h"
 #include "npc.h"
 #include "output.h"
-#include "pathfinding.h"
+#include "legacy_pathfinding.h"
 #include "player.h"
 #include "point.h"
 #include "projectile.h"
@@ -836,6 +836,13 @@ bool mattack::pull_metal_weapon( monster *z )
                 if( foe->has_activity( ACT_RELOAD ) ) {
                     foe->cancel_activity();
                 }
+                if( target->is_avatar() ) {
+                    popup( _( "%s is pulled away from your hands!" ), weapon.tname() );
+                } else if( target->is_npc() && target->as_npc()->is_following() ) {
+                    popup( _( "%1$s is pulled away from %2$s's hands!" ),
+                           weapon.tname(),
+                           target->as_npc()->get_name() );
+                }
             } else {
                 target->add_msg_player_or_npc( m_type,
                                                _( "The %s unsuccessfully attempts to pull your weapon away." ),
@@ -1446,7 +1453,7 @@ bool mattack::growplants( monster *z )
     for( const auto &p : g->m.points_in_radius( z->pos(), 3 ) ) {
 
         // Only affect natural, dirtlike terrain or trees.
-        if( !( g->m.has_flag_ter( "DIGGABLE", p ) ||
+        if( !( g->m.ter( p )->is_diggable() ||
                g->m.has_flag_ter( "TREE", p ) ||
                g->m.ter( p ) == t_tree_young ) ) {
             continue;
@@ -3375,12 +3382,20 @@ void mattack::taze( monster *z, Creature *target )
 {
     // It takes a while
     z->moves -= 200;
+    // Uncanny dodge prints its own message when it triggers, to return here instead of below.
     if( target == nullptr || target->uncanny_dodge() ) {
         return;
     }
+    if( dodge_check( z, target ) ) {
+        target->add_msg_player_or_npc( _( "The %s tries to shock you, but you dodge." ),
+                                       _( "The %s tries to shock <npcname>, but they dodge." ),
+                                       z->name() );
+        return;
+    }
 
-    int dam = target->deal_damage( z, bodypart_id( "torso" ), damage_instance( DT_ELECTRIC, rng( 1,
-                                   5 ) ) ).total_damage();
+    int dam = target->deal_damage( z, target->get_random_body_part(), damage_instance( DT_ELECTRIC,
+                                   rng( 1,
+                                        5 ) ) ).total_damage();
     if( dam == 0 ) {
         target->add_msg_player_or_npc( _( "The %s unsuccessfully attempts to shock you." ),
                                        _( "The %s unsuccessfully attempts to shock <npcname>." ),

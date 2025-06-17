@@ -1,5 +1,6 @@
 #include "inventory.h"
 
+#include <algorithm>
 #include <climits>
 #include <cmath>
 #include <cstdint>
@@ -100,7 +101,7 @@ void invlet_favorites::erase( char invlet )
         return;
     }
     std::string &invlets = invlets_by_id[id];
-    std::string::iterator it = std::find( invlets.begin(), invlets.end(), invlet );
+    std::string::iterator it = std::ranges::find( invlets, invlet );
     invlets.erase( it );
     ids_by_invlet[invlet_u] = itype_id();
 }
@@ -371,6 +372,10 @@ void inventory::restack( player &p )
     int idx = 0;
     for( invstack::iterator iter = items.begin(); iter != items.end(); ++iter, ++idx ) {
         std::vector<item *> &stack = *iter;
+        // Sort the inner stack itself, so the most recently used item is at front and keeps the invlet
+        std::ranges::sort( stack, []( auto * lhs, auto * rhs ) {
+            return *lhs < *rhs;
+        } );
         item &topmost = *stack.front();
 
         const item *invlet_item = p.invlet_to_item( topmost.invlet );
@@ -559,6 +564,7 @@ void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Characte
         //Adds faucet to kitchen stuff; may be horribly wrong to do such....
         //ShouldBreak into own variable
         const std::optional<vpart_reference> kpart = vp.part_with_feature( "KITCHEN", true );
+        const std::optional<vpart_reference> butcherpart = vp.part_with_feature( "BUTCHER_EQ", true );
         const std::optional<vpart_reference> faupart = vp.part_with_feature( "FAUCET", true );
         const std::optional<vpart_reference> weldpart = vp.part_with_feature( "WELDRIG", true );
         const std::optional<vpart_reference> craftpart = vp.part_with_feature( "CRAFTRIG", true );
@@ -588,6 +594,7 @@ void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Characte
 
         static const flag_id flag_PSEUDO( "PSEUDO" );
         static const flag_id flag_HEATS_FOOD( "HEATS_FOOD" );
+        static const flag_id flag_FLATSURF( "FLAT_SURFACE" );
 
         if( kpart && !found_parts.contains( &*kpart ) ) {
             item &hotplate = *item::spawn_temporary( "hotplate", bday );
@@ -604,6 +611,16 @@ void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Characte
             pan.set_flag( flag_PSEUDO );
             add_item_by_items_type_cache( pan, false );
             found_parts.insert( &*kpart );
+        }
+        if( butcherpart &&
+            !found_parts.contains( &*butcherpart ) ) { //copy n paste code moment(this will go wrong)
+            item &butchery = *item::spawn_temporary( "fake_adv_butchery", bday );
+            butchery.charges = veh->fuel_left( itype_battery, true );
+            butchery.item_tags.insert( flag_PSEUDO );
+            //A very hacky way to make game take vehicle part into the account for flat surface
+            butchery.item_tags.insert( flag_FLATSURF );
+            add_item_by_items_type_cache( butchery, false );
+            found_parts.insert( &*butcherpart );
         }
         if( weldpart && !found_parts.contains( &*weldpart ) ) {
             item &welder = *item::spawn_temporary( "welder", bday );
@@ -1188,7 +1205,7 @@ void inventory::assign_empty_invlet( item &it, const Character &p, const bool fo
                 // don't overwrite assigned keys
                 continue;
             }
-            if( std::find( binds.begin(), binds.end(), inv_char ) != binds.end() ) {
+            if( std::ranges::find( binds, inv_char ) != binds.end() ) {
                 // don't auto-assign bound keys
                 continue;
             }
@@ -1222,6 +1239,16 @@ void inventory::reassign_item( item &it, char invlet, bool remove_old )
     if( remove_old && it.invlet ) {
         invlet_cache.erase( it.invlet );
     }
+
+    // Remove invlet from other items beforehand, since restack may assign it to other items in the same stack.
+    auto fn = [ = ]( item * ii ) {
+        if( ii->invlet == invlet ) {
+            ii->invlet = 0;
+        }
+        return VisitResponse::SKIP;
+    };
+    visit_items( fn );
+
     it.invlet = invlet;
     update_invlet_cache_with_item( it );
 }

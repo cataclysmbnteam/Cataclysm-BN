@@ -1,6 +1,4 @@
 #pragma once
-#ifndef CATA_SRC_ACTIVITY_ACTOR_DEFINITIONS_H
-#define CATA_SRC_ACTIVITY_ACTOR_DEFINITIONS_H
 
 #include "activity_actor.h"
 
@@ -13,15 +11,13 @@
 #include "locations.h"
 #include "memory_fast.h"
 #include "pickup_token.h"
-#include "location_ptr.h"
-#include "locations.h"
-#include "construction_partial.h"
 #include "point.h"
 #include "type_id.h"
 #include "units_energy.h"
 
 class Creature;
 class vehicle;
+struct partial_con;
 
 class aim_activity_actor : public activity_actor
 {
@@ -119,7 +115,6 @@ class dig_activity_actor : public activity_actor
         tripoint location;
         std::string result_terrain;
         tripoint byproducts_location;
-        int byproducts_count;
         std::string byproducts_item_group;
 
         /**
@@ -130,7 +125,6 @@ class dig_activity_actor : public activity_actor
             return  location == other.location &&
                     result_terrain == other.result_terrain &&
                     byproducts_location == other.byproducts_location &&
-                    byproducts_count == other.byproducts_count &&
                     byproducts_item_group == other.byproducts_item_group;
         }
 
@@ -146,12 +140,11 @@ class dig_activity_actor : public activity_actor
         dig_activity_actor(
             int dig_moves, const tripoint &dig_loc,
             const std::string &resulting_ter, const tripoint &dump_loc,
-            int dump_spawn_count, const std::string &dump_item_group
+            const std::string &dump_item_group
         ):
             moves_total( dig_moves ), location( dig_loc ),
             result_terrain( resulting_ter ),
             byproducts_location( dump_loc ),
-            byproducts_count( dump_spawn_count ),
             byproducts_item_group( dump_item_group ) {}
 
         activity_id get_type() const override {
@@ -174,7 +167,6 @@ class dig_channel_activity_actor : public activity_actor
         tripoint location;
         std::string result_terrain;
         tripoint byproducts_location;
-        int byproducts_count;
         std::string byproducts_item_group;
 
         /**
@@ -185,7 +177,6 @@ class dig_channel_activity_actor : public activity_actor
             return  location == other.location &&
                     result_terrain == other.result_terrain &&
                     byproducts_location == other.byproducts_location &&
-                    byproducts_count == other.byproducts_count &&
                     byproducts_item_group == other.byproducts_item_group;
         }
 
@@ -202,12 +193,11 @@ class dig_channel_activity_actor : public activity_actor
         dig_channel_activity_actor(
             int dig_moves, const tripoint &dig_loc,
             const std::string &resulting_ter, const tripoint &dump_loc,
-            int dump_spawn_count, const std::string &dump_item_group
+            const std::string &dump_item_group
         ):
             moves_total( dig_moves ), location( dig_loc ),
             result_terrain( resulting_ter ),
             byproducts_location( dump_loc ),
-            byproducts_count( dump_spawn_count ),
             byproducts_item_group( dump_item_group ) {}
 
         activity_id get_type() const override {
@@ -241,13 +231,10 @@ class disassemble_activity_actor : public activity_actor
         activity_id get_type() const override {
             return activity_id( "ACT_DISASSEMBLE" );
         }
-        void recalc_all_moves( player_activity &act, Character &who ) override;
+        void calc_all_moves( player_activity &act, Character &who ) override;
         void start( player_activity &act, Character &who ) override;
         void do_turn( player_activity &, Character & ) override;
         void finish( player_activity &act, Character &who ) override;
-
-        float calc_bench_factor( const Character &who,
-                                 const std::optional<bench_loc> &bench ) const override;
 
         void serialize( JsonOut &jsout ) const override;
         static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
@@ -577,28 +564,6 @@ class throw_activity_actor : public activity_actor
         static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
 };
 
-class wash_activity_actor : public activity_actor
-{
-    private:
-        iuse_locations targets;
-        int moves_total = 0;
-
-    public:
-        wash_activity_actor() = default;
-        wash_activity_actor( const iuse_locations &targets, int moves_total ) :
-            targets( targets ), moves_total( moves_total ) {};
-
-        activity_id get_type() const override {
-            return activity_id( "ACT_WASH" );
-        }
-
-        void start( player_activity &act, Character & ) override;
-        void do_turn( player_activity &, Character & ) override;
-        void finish( player_activity &act, Character &who ) override;
-
-        void serialize( JsonOut &jsout ) const override;
-        static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
-};
 
 class oxytorch_activity_actor : public activity_actor
 {
@@ -644,7 +609,7 @@ class construction_activity_actor : public activity_actor
             return activity_id( "ACT_BUILD" );
         }
 
-        void recalc_all_moves( player_activity &act, Character &who ) override;
+        void calc_all_moves( player_activity &act, Character &who ) override;
 
         void start( player_activity &act, Character &who ) override;
         void do_turn( player_activity &act, Character &who ) override;
@@ -664,7 +629,7 @@ class assist_activity_actor : public activity_actor
             return activity_id( "ACT_ASSIST" );
         }
 
-        void recalc_all_moves( player_activity & /*act*/, Character &/*who*/ ) override {};
+        void calc_all_moves( player_activity & /*act*/, Character &/*who*/ ) override {};
 
         void start( player_activity &act, Character &who ) override;
         void do_turn( player_activity &/*act*/, Character &/*who*/ ) override {};
@@ -675,4 +640,31 @@ class assist_activity_actor : public activity_actor
 
 };
 
-#endif // CATA_SRC_ACTIVITY_ACTOR_DEFINITIONS_H
+class salvage_activity_actor : public activity_actor
+{
+    private:
+        iuse_locations targets;
+        tripoint_abs_ms pos;
+        bool mute_prompts = false;
+    public:
+        salvage_activity_actor() = default;
+        salvage_activity_actor(
+            iuse_locations &&targets,
+            tripoint_abs_ms pos
+        ) : targets( std::move( targets ) ), pos( pos ) {}
+
+        ~salvage_activity_actor() = default;
+
+        activity_id get_type() const override {
+            return activity_id( "ACT_LONGSALVAGE" );
+        }
+
+        void calc_all_moves( player_activity & /*act*/, Character &/*who*/ ) override;
+
+        void start( player_activity &act, Character &who ) override;
+        void do_turn( player_activity &/*act*/, Character &/*who*/ ) override;
+        void finish( player_activity &/*act*/, Character &/*who*/ ) override;
+
+        void serialize( JsonOut &jsout ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
+};

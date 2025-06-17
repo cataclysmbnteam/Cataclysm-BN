@@ -381,9 +381,6 @@ to find which flags work elsewhere.
 - `TOWEL` Dry your character using the item as towel.
 - `TOW_ATTACH` This is a tow cable, activate it to attach it to a vehicle.
 - `TURRET` Activate a turret.
-- `WASH_ALL_ITEMS` Wash items with FILTHY flag.
-- `WASH_HARD_ITEMS` Wash hard items with FILTHY flag.
-- `WASH_SOFT_ITEMS` Wash soft items with FILTHY flag.
 - `WATER_PURIFIER` Purify water.
 
 ## Comestibles
@@ -643,7 +640,7 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - `aggie_plant` Harvest plants.
 - `autodoc` Brings the autodoc consoles menu. Needs the `AUTODOC` flag to function properly and an
   adjacent furniture with the `AUTODOC_COUCH` flag.
-- `autoclave_empty` Start the autoclave cycle if it contains filthy CBM, and the player has enough
+- `autoclave_empty` Start the autoclave cycle if it contains faulty CBM, and the player has enough
   water.
 - `autoclave_full` Check on the progress of the cycle, and collect sterile CBM once cycle is
   completed.
@@ -712,7 +709,6 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - `CORPSE` ... Flag used to spawn various human corpses during the mapgen.
 - `DANGEROUS` ... NPCs will not accept this item. Explosion iuse actor implies this flag. Implies
   "NPC_THROW_NOW".
-- `DETERGENT` ... This item can be used as a detergent in a washing machine.
 - `DESTROY_ON_DECHARGE` ... This item should be destroyed if loses charges.
 - `DURABLE_MELEE` ... Item is made to hit stuff and it does it well, so it's considered to be a lot
   tougher than other weapons made of the same materials.
@@ -765,6 +761,7 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
   firestarter.
 - `TRADER_AVOID` ... NPCs will not start with this item. Use this for active items (e.g. flashlight
   (on)), dangerous items (e.g. active bomb), fake item or unusual items (e.g. unique quest item).
+- `UNBREAKABLE` ... Armor with this flag will never take damage when taking hits for the wearer.
 - `UNBREAKABLE_MELEE` ... Does never get damaged when used as melee weapon.
 - `UNRECOVERABLE` ... Cannot be recovered from a disassembly.
 
@@ -1025,6 +1022,10 @@ Multiple death functions can be used. Not all combinations make sense.
 - `BASHES` Bashes down doors.
 - `BILE_BLOOD` Makes monster bleed bile.
 - `BIOPROOF` Makes monster immune to Bio damage (A damage type mostly used by magic mods)
+- `COLDPROOF` Makes monster immune to Cold damage (A damage type mostly used by magic mods)
+- `DARKPROOF` Makes monster immune to Dark damage (A damage type completely used by magic mods)
+- `LIGHTPROOF` Makes monster immune to Light damage (A damage type completely used by magic mods)
+- `PSIPROOF` Makes monster immune to Psionic damage (A damage type mostly used by magic mods)
 - `BIRDFOOD` Becomes friendly / tamed with bird food.
 - `BLEED` Causes the player to bleed.
 - `BONES` May produce bones and sinews when butchered.
@@ -1055,7 +1056,6 @@ Multiple death functions can be used. Not all combinations make sense.
 - `ELECTRONIC` e.g. A Robot; affected by emp blasts and other stuff.
 - `FAT` May produce fat when butchered.
 - `FEATHER` May produce feathers when butchered.
-- `FILTHY` Any clothing it drops will be filthy.
 - `FIREPROOF` Immune to fire.
 - `FIREY` Burns stuff and is immune to fire.
 - `FISHABLE` It is fishable.
@@ -1600,7 +1600,6 @@ Those flags are added by the game code to specific items (that specific welder, 
 - `CURTAIN` Can be installed over a part flagged with `WINDOW`, and functions the same as blinds
   found on windows in buildings.
 - `DIFFICULTY_REMOVE`
-- `DISHWASHER` Can be used to wash filthy non-soft items en masse.
 - `DOME_LIGHT`
 - `DOOR_MOTOR` Can only be installed on a part with `OPENABLE` flag.
 - `E_ALTERNATOR` Is an engine that can power an alternator.
@@ -1712,7 +1711,6 @@ Those flags are added by the game code to specific items (that specific welder, 
   give it special handling.
 - `VARIABLE_SIZE` Has 'bigness' for power, wheel radius, etc.
 - `VISION`
-- `WASHING_MACHINE` Can be used to wash filthy clothes en masse.
 - `WATER_WHEEL` Recharges vehicle batteries when in flowing water.
 - `WELDRIG` Acts as a welder for crafting.
 - `WHEEL` Counts as a wheel in wheel calculations.
