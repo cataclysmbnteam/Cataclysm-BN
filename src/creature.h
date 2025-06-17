@@ -242,7 +242,7 @@ class Creature
         }
         /** DANGER: This is a huge landmine.
         This method will return a non-nullptr for NPCs. Do NOT use `critter.as_player() == nullptr` to verify that a critter is not the player.
-        Use `is_player` instead. **/    
+        Use `is_player` instead. **/
         virtual const player *as_player() const {
             return nullptr;
         }
