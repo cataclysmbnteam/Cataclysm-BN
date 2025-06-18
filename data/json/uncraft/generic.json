@@ -5000,6 +5000,6 @@
     "type": "uncraft",
     "time": "2 m",
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "small_canvas_bag", 1 ] ] ],
+    "components": [ [ [ "bag_canvas_small", 1 ] ] ]
   }
 ]
