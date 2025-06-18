@@ -4996,10 +4996,10 @@
     "flags": [ "BLIND_EASY" ]
   },
   {
-    "result": "rag",
+    "result": "bag_canvas_small",
     "type": "uncraft",
     "time": "2 m",
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "bag_canvas_small", 1 ] ] ]
+    "components": [ [ [ "rag", 1 ] ] ]
   }
 ]
