@@ -1760,8 +1760,8 @@ void Character::mutation_spend_resources( const trait_id &mut )
             mod_pain( cost );
         }
         if( mdata.bionic ) {
-            mod_power_level( units::from_kilojoule(
-                                 -cost ) );  // flipped, because it should be consuming bionic power not adding to it
+            // flipped, because it should be consuming bionic power not adding to it
+            mod_power_level( units::from_kilojoule( -cost ) );
         }
 
         // Handle stat changes from activation
