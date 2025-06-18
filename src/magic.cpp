@@ -749,7 +749,7 @@ bool spell::can_cast( Character &guy ) const
     }
 }
 
-void spell::use_components( player &you ) const
+void spell::use_components( Character &who ) const
 {
     if( type->spell_components.is_empty() ) {
         return;
@@ -758,11 +758,11 @@ void spell::use_components( player &you ) const
     // if we're here, we're assuming the Character has the correct components (using can_cast())
     inventory map_inv;
     for( const auto &it : spell_components.get_components() ) {
-        you.consume_items( you.select_item_component( it, 1, map_inv ), 1 );
+        who.consume_items( who.select_item_component( it, 1, map_inv ), 1 );
     }
     for( const auto &it : spell_components.get_tools() ) {
-        you.consume_tools( crafting::select_tool_component(
-                               it, 1, map_inv, you.as_character() ), 1 );
+        who.consume_tools( crafting::select_tool_component(
+                               it, 1, map_inv, &who ), 1 );
     }
 }
 

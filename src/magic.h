@@ -473,7 +473,7 @@ class spell
         // goes through the spell effect and all of its internal spells
         void cast_all_effects( Creature &source, const tripoint &target ) const;
         // uses up the components in @you's inventory
-        void use_components( player &you ) const;
+        void use_components( Character &who ) const;
         // checks if a target point is in spell range
         bool is_target_in_range( const Creature &caster, const tripoint &p ) const;
 
