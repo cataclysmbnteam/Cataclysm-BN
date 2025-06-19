@@ -43,6 +43,7 @@
 #include "magic.h"
 #include "map.h"
 #include "material.h"
+#include "martialarts.h"
 #include "math_defines.h"
 #include "messages.h"
 #include "monster.h"
@@ -115,6 +116,8 @@ static const ammo_effect_str_id ammo_effect_WIDE( "WIDE" );
 static const efftype_id effect_downed( "downed" );
 static const efftype_id effect_hit_by_player( "hit_by_player" );
 static const efftype_id effect_on_roof( "on_roof" );
+
+static const matec_id tec_none( "tec_none" );
 
 static const itype_id itype_adv_UPS_off( "adv_UPS_off" );
 static const itype_id itype_UPS( "UPS" );
@@ -1235,8 +1238,6 @@ dealt_projectile_attack throw_item( Character &who, const tripoint &target,
 {
     item &thrown = *to_throw;
 
-    const int move_cost = ranged::throw_cost( who, thrown );
-    who.mod_moves( -move_cost );
 
     const int throwing_skill = who.get_skill_level( skill_throw );
     const units::volume volume = thrown.volume();
@@ -1275,7 +1276,10 @@ dealt_projectile_attack throw_item( Character &who, const tripoint &target,
     const bool do_railgun = who.has_active_bionic( bio_railgun ) && thrown.made_of_any( ferric ) &&
                             !throw_assist;
     const int effective_strength =
-        throw_assist ? throw_assist_str : do_railgun ? who.get_str() * 2 : who.get_str();
+        throw_assist ? throw_assist_str :
+        do_railgun ? who.get_str() * 2 :
+        who.is_expert_thrower() ? who.get_str() * 1.5 :
+        who.get_str();
 
     // We'll be constructing a projectile
     projectile proj = throw_damage_projectile( thrown, skill_level, effective_strength );
@@ -1366,8 +1370,22 @@ dealt_projectile_attack throw_item( Character &who, const tripoint &target,
     // This should generally have values below ~20*sqrt(skill_lvl)
     const float final_xp_mult = range_factor * damage_factor;
 
-    auto dealt_attack = projectile_attack( proj, throw_from, target, dispersion, &who );
 
+    who.throw_attacking = true;
+
+    auto dealt_attack = projectile_attack( proj, throw_from, target, dispersion, &who, &thrown );
+
+    int move_cost = ranged::throw_cost( who, thrown );
+    //We call this again just to modify our mvoe cost
+    if( dealt_attack.tec_id != tec_none && dealt_attack.tec_id.is_valid() ) {
+        debugmsg( "tec id %s", dealt_attack.tec_id.c_str() );
+        who.apply_technique_buffs( dealt_attack.tec_id.obj(), nullptr, &move_cost );
+    }
+    who.mod_moves( -move_cost );
+
+
+    //dealt_attack.hit_critter
+    who.throw_attacking = false;
     const double missed_by = dealt_attack.missed_by;
     if( missed_by <= 0.1 && dealt_attack.hit_critter != nullptr ) {
         who.as_player()->practice( skill_used, final_xp_mult, MAX_SKILL );

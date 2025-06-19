@@ -8,6 +8,7 @@
 #include "point.h"
 #include "string_id.h"
 #include "detached_ptr.h"
+#include "martialarts.h"
 
 class Creature;
 struct explosion_data;
@@ -71,6 +72,7 @@ struct dealt_projectile_attack {
     dealt_damage_instance dealt_dam; // If hit_critter isn't null, hit data is written here
     tripoint end_point; // Last hit tile (is hit_critter is null, drops should spawn here)
     double missed_by; // Accuracy of dealt attack
+    matec_id tec_id; // The technique chosen and executed at the endpoint
 };
 
 void apply_ammo_effects( const tripoint &p, const std::set<ammo_effect_str_id> &effects,
