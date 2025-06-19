@@ -549,7 +549,7 @@
       [ "bio_time_freeze", 4 ],
       [ "bio_teleport", 4 ],
       [ "bio_probability_travel", 4 ],
-      [ "bio_wings", 14 ],
+      [ "bio_wings", 4 ],
       [ "afs_bio_linguistic_coprocessor", 10 ],
       [ "afs_bio_dopamine_stimulators", 10 ],
       [ "bio_reactor", 10 ],
