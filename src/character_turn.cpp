@@ -10,6 +10,7 @@
 #include "character.h"
 #include "creature.h"
 #include "flag.h"
+#include "flag_trait.h"
 #include "game.h"
 #include "handle_liquid.h"
 #include "itype.h"
@@ -65,6 +66,9 @@ static const trait_id trait_WEBBED( "WEBBED" );
 static const trait_id trait_WHISKERS_RAT( "WHISKERS_RAT" );
 static const trait_id trait_WHISKERS( "WHISKERS" );
 static const trait_id trait_DEBUG_STORAGE( "DEBUG_STORAGE" );
+
+static const trait_flag_str_id trait_flag_MUTATION_FLIGHT( "MUTATION_FLIGHT" );
+
 
 static const efftype_id effect_bloodworms( "bloodworms" );
 static const efftype_id effect_brainworms( "brainworms" );
@@ -1007,15 +1011,15 @@ void do_pause( Character &who )
     who.moves = 0;
     who.recoil = MAX_RECOIL;
 
-    if( ( g->m.ter( who.pos() ).id().str() == "t_open_air" ) ) {
-        if( !who.can_noclip() && !who.can_fly() ) {
+    if( ( get_map().ter( who.pos() ).id().str() == "t_open_air" ) ) {
+        if( !character_funcs::can_fly( who ) ) {
             g->vertical_move( -1, true );
-        } else if( who.can_fly() ) {
+        } else if( character_funcs::can_fly( who ) ) {
             // add flying flavor text here
 
             for( const trait_id &tid : who.get_mutations() ) {
                 const mutation_branch &mdata = tid.obj();
-                if( mdata.allows_flight ) {
+                if( mdata.flags.contains( trait_flag_MUTATION_FLIGHT ) ) {
                     who.mutation_spend_resources( tid );
                 }
             }

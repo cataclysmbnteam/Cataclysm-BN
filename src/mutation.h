@@ -98,7 +98,6 @@ struct mutation_branch {
         bool fatigue       = false;
         bool hunger        = false;
         bool thirst        = false;
-        bool allows_flight        = false;
         bool stamina        = false;
         bool mana        = false;
         bool bionic        = false;

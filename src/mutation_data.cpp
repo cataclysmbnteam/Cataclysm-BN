@@ -299,7 +299,6 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "bionic", bionic, false );
     optional( jo, was_loaded, "thirst", thirst, false );
     optional( jo, was_loaded, "fatigue", fatigue, false );
-    optional( jo, was_loaded, "allows_flight", allows_flight, false );
     optional( jo, was_loaded, "stamina", stamina, false );
     optional( jo, was_loaded, "mana", mana, false );
     optional( jo, was_loaded, "health", health, false );

@@ -989,6 +989,12 @@
     "info": "This bionic is <bad>faulty</bad>."
   },
   {
+    "id": "BIONIC_FLIGHT",
+    "type": "json_flag",
+    "context": [ "BIONIC" ],
+    "info": "This bionic allows flight."
+  },
+  {
     "id": "BIONIC_POWER_SOURCE",
     "type": "json_flag",
     "context": [ "BIONIC" ],

@@ -24,8 +24,7 @@
     "name": { "str": "Carbon Fiber Wings" },
     "description": "Retractable mechanical wings are surgically embedded into your back, forged from ultra-light alloys and powered by muscle-assist servos.  When deployed, they extend outward in a burst of kinetic precision, allowing controlled gliding, rapid descents, or short bursts of powered flight.",
     "occupied_bodyparts": [ [ "torso", 10 ] ],
-    "flags": [ "BIONIC_TOGGLED" ],
-    "allows_flight": true,
+    "flags": [ "BIONIC_TOGGLED", "BIONIC_FLIGHT" ],
     "react_cost": "10 kJ",
     "act_cost": "10 kJ",
     "time": 1

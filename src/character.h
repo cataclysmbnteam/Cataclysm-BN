@@ -1685,31 +1685,6 @@ class Character : public Creature, public location_visitable<Character>
         bool in_vehicle = false;
         bool hauling = false;
 
-        bool can_noclip() const {
-            return has_trait( trait_id( "DEBUG_NOCLIP" ) );
-        }
-
-        bool can_fly() {
-            for( const trait_id &mid : get_mutations() ) {
-                auto it = my_mutations.find( mid->id );
-                if( it != my_mutations.end() ) {
-                    if( mid->allows_flight && can_use_mutation( mid, *this ) && it->second.powered ) {
-                        return true;
-                    } else if( !can_use_mutation( mid, *this ) && it->second.powered ) {
-                        deactivate_mutation( mid );
-                        return false;
-                    }
-                }
-            }
-            for( const bionic &bio : *my_bionics ) {
-                if( bio.info().allows_flight && power_level > units::from_kilojoule( 0 ) && bio.powered ) {
-                    return true;
-                }
-            }
-
-            return false;
-        }
-
         activity_ptr stashed_outbounds_activity;
         activity_ptr stashed_outbounds_backlog;
         activity_ptr activity;

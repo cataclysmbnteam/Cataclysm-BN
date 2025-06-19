@@ -4628,14 +4628,14 @@ void iexamine::ledge( player &p, const tripoint &examp )
 {
     enum ledge_action : int { jump_over, climb_down, spin_web_bridge };
 
-    if( g->m.ter( p.pos() ).id().str() == "t_open_air" && !p.can_fly() && !p.can_noclip() ) {
+    if( get_map().ter( p.pos() ).id().str() == "t_open_air" && !character_funcs::can_fly( p ) ) {
         tripoint where = p.pos();
         tripoint below = where;
         below.z--;
 
         // Keep going down until we find a tile that is NOT open air
-        while( g->m.ter( below ).id().str() == "t_open_air" &&
-               g->m.valid_move( where, below, false, true ) ) {
+        while( get_map().ter( below ).id().str() == "t_open_air" &&
+               get_map().valid_move( where, below, false, true ) ) {
             where.z--;
             below.z--;
         }
