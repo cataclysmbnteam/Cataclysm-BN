@@ -81,7 +81,6 @@ struct bionic_data {
     /**Type of field emitted by this bionic when it produces energy*/
     emit_id power_gen_emission = emit_id::NULL_ID();
 
-
     /**Amount of environemental protection offered by this bionic*/
     std::map<bodypart_str_id, int> env_protec;
     /**Amount of bash protection offered by this bionic*/

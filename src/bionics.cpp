@@ -322,7 +322,6 @@ void bionic_data::load( const JsonObject &jsobj, const std::string &src )
     assign( jsobj, "available_upgrades", available_upgrades, strict );
     assign( jsobj, "flags", flags, strict );
 
-
     activated = has_flag( flag_BIONIC_TOGGLED ) ||
                 power_activate > 0_kJ ||
                 charge_time > 0;
