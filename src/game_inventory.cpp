@@ -997,7 +997,7 @@ class read_inventory_preset final: public inventory_selector_preset
 
                 // This is terrible and needs to be removed asap when this entire file is refactored
                 // to use the new avatar class
-                const player *reader = nullptr;
+                const Character *reader = nullptr;
                 if( const avatar *av = p.as_avatar() ) {
                     reader = av->get_book_reader( *loc, dummy );
                 } else if( const npc *n = p.as_npc() ) {

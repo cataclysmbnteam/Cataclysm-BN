@@ -1138,7 +1138,7 @@ void complete_construction( Character &who, tripoint_abs_ms &where )
         return;
     }
     const construction &built = pc->id.obj();
-    const auto award_xp = [&]( player & c ) {
+    const auto award_xp = [&]( Character & c ) {
         for( const auto &pr : built.required_skills ) {
             const float built_time = to_moves<int>( built.time );
             const float built_base = to_moves<int>( 10_minutes );

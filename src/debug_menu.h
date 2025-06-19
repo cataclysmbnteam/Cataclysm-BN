@@ -23,12 +23,12 @@ void teleport_overmap( bool specific_coordinates = false );
 void spawn_nested_mapgen();
 void character_edit_menu( Character &c );
 void effect_edit_menu( Creature &c );
-void wishitem( player *p = nullptr );
-void wishitem( player *p, const tripoint & );
+void wishitem( Character *who = nullptr );
+void wishitem( Character *, const tripoint & );
 void wishmonster( const std::optional<tripoint> &p );
-void wishmutate( player *p );
+void wishmutate( Character * );
 void wishbionics( Character &c );
-void wishskill( player *p );
+void wishskill( Character * );
 void mutation_wish();
 void benchmark( int max_difference, bench_kind kind );
 

@@ -152,7 +152,7 @@ class avatar : public player
          * @returns nullptr, if neither the player nor his followers can read to the player, otherwise the player/NPC
          * who can read and can read the fastest
          */
-        const player *get_book_reader( const item &book, std::vector<std::string> &reasons ) const;
+        const Character *get_book_reader( const item &book, std::vector<std::string> &reasons ) const;
         /**
          * Helper function for get_book_reader
          * @warning This function assumes that the everyone is able to read
@@ -161,7 +161,8 @@ class avatar : public player
          * @param reader the player/NPC who's reading to the caller
          * @param learner if not nullptr, assume that the caller and reader read at a pace that isn't too fast for him
          */
-        int time_to_read( const item &book, const player &reader, const player *learner = nullptr ) const;
+        int time_to_read( const item &book, const Character &reader,
+                          const Character *learner = nullptr ) const;
         /** Handles reading effects and returns true if activity started */
         bool read( item *loc, bool continuous = false );
         /** Completes book reading action. **/

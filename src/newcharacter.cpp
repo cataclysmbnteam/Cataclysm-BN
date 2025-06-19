@@ -197,7 +197,7 @@ static matype_id choose_ma_style( const character_type type, const std::vector<m
  *
  * @return true, if player can pick profession. Otherwise - false.
  */
-static bool can_pick_prof( const profession &prof, const player &u, int points )
+static bool can_pick_prof( const profession &prof, const Character &u, int points )
 {
     return prof.point_cost() - u.prof->point_cost() <= points;
 }

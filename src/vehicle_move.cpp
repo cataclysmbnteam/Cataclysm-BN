@@ -1074,7 +1074,7 @@ bool vehicle::check_is_heli_landed()
     return false;
 }
 
-bool vehicle::check_heli_descend( player &p )
+bool vehicle::check_heli_descend( Character &who )
 {
     if( !is_rotorcraft() ) {
         debugmsg( "A vehicle is somehow flying without being an aircraft" );
@@ -1087,14 +1087,14 @@ bool vehicle::check_heli_descend( player &p )
         tripoint below( pt.xy(), pt.z - 1 );
         if( here.has_zlevels() && ( pt.z < -OVERMAP_DEPTH ||
                                     !here.has_flag_ter_or_furn( TFLAG_NO_FLOOR, pt ) ) ) {
-            p.add_msg_if_player( _( "You are already landed!" ) );
+            who.add_msg_if_player( _( "You are already landed!" ) );
             return false;
         }
         const optional_vpart_position ovp = here.veh_at( below );
         if( here.impassable_ter_furn( below ) || here.has_flag_ter_or_furn( TFLAG_RAMP_DOWN, below ) ||
             ovp || g->critter_at( below ) ) {
-            p.add_msg_if_player( m_bad,
-                                 _( "It would be unsafe to try and land when there are obstacles below you." ) );
+            who.add_msg_if_player( m_bad,
+                                   _( "It would be unsafe to try and land when there are obstacles below you." ) );
             return false;
         }
         if( here.has_flag_ter_or_furn( TFLAG_NO_FLOOR, below ) ) {
@@ -1103,32 +1103,33 @@ bool vehicle::check_heli_descend( player &p )
         count++;
     }
     if( velocity > 0 && air_count != count ) {
-        p.add_msg_if_player( m_bad, _( "It would be unsafe to try and land while you are moving." ) );
+        who.add_msg_if_player( m_bad, _( "It would be unsafe to try and land while you are moving." ) );
         return false;
     }
     return true;
 
 }
 
-bool vehicle::check_heli_ascend( player &p )
+bool vehicle::check_heli_ascend( Character &who )
 {
     if( !is_rotorcraft() ) {
         debugmsg( "A vehicle is somehow flying without being an aircraft" );
         return true;
     }
     if( velocity > 0 && !is_flying_in_air() ) {
-        p.add_msg_if_player( m_bad, _( "It would be unsafe to try and take off while you are moving." ) );
+        who.add_msg_if_player( m_bad, _( "It would be unsafe to try and take off while you are moving." ) );
         return false;
     }
     if( !is_flying_in_air() && check_on_ramp() ) {
-        p.add_msg_if_player( m_bad, _( "It would be unsafe to try and take off from an uneven surface." ) );
+        who.add_msg_if_player( m_bad,
+                               _( "It would be unsafe to try and take off from an uneven surface." ) );
         return false;
     }
     map &here = get_map();
     for( const tripoint &pt : get_points( true ) ) {
         tripoint above( pt.xy(), pt.z + 1 );
         if( !here.inbounds_z( above.z ) ) {
-            p.add_msg_if_player( m_bad, _( "It would be unsafe to try and ascend further." ) );
+            who.add_msg_if_player( m_bad, _( "It would be unsafe to try and ascend further." ) );
             return false;
         }
         bool has_ceiling = !here.has_flag_ter( TFLAG_NO_FLOOR, above );
@@ -1136,7 +1137,7 @@ bool vehicle::check_heli_ascend( player &p )
         bool has_veh = here.veh_at( above ).has_value();
         bool has_critter = g->critter_at( above );
         if( has_ceiling || has_blocking_ter_furn || has_veh || has_critter ) {
-            direction obstacle_direction = direction_from( ( pt - p.pos() ).xy() );
+            direction obstacle_direction = direction_from( ( pt - who.pos() ).xy() );
             const std::string direction_string = direction_name( obstacle_direction );
             std::string blocker_string;
             if( has_ceiling ) {
@@ -1151,11 +1152,11 @@ bool vehicle::check_heli_ascend( player &p )
                 blocker_string = "BUGS";
             }
             if( obstacle_direction == direction::CENTER ) {
-                p.add_msg_if_player( m_bad, _( "Your ascent is blocked by %s directly above you." ),
-                                     blocker_string );
+                who.add_msg_if_player( m_bad, _( "Your ascent is blocked by %s directly above you." ),
+                                       blocker_string );
             } else {
-                p.add_msg_if_player( m_bad, _( "Your ascent is blocked by %s to your %s." ), blocker_string,
-                                     direction_string );
+                who.add_msg_if_player( m_bad, _( "Your ascent is blocked by %s to your %s." ), blocker_string,
+                                       direction_string );
             }
             return false;
         }
