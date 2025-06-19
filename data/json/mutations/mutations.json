@@ -5472,44 +5472,66 @@
     "category": [ "SPIDER" ]
   },
   {
-    "type": "mutation",
-    "id": "ARM_TENTACLES",
-    "name": { "str": "Tentacle Arms" },
-    "points": -4,
-    "visibility": 7,
-    "ugliness": 4,
-    "mixed_effect": true,
-    "description": "Your arms have transformed into tentacles, resulting in a +1 bonus to Dexterity, permanent hand encumbrance of 30, and an inability to wear gloves.  Somewhat decreases wet penalties.",
-    "encumbrance_always": [ [ "hand_l", 30 ], [ "hand_r", 30 ] ],
-    "restricts_gear": [ "hand_l", "hand_r" ],
-    "types": [ "HANDS" ],
-    "leads_to": [ "CLAWS_TENTACLE" ],
-    "changes_to": [ "ARM_TENTACLES_4" ],
-    "cancels": [ "NAILS", "CLAWS", "TALONS", "WEBBED" ],
-    "wet_protection": [
-      { "part": "arm_l", "neutral": 19 },
-      { "part": "arm_r", "neutral": 19 },
-      { "part": "hand_l", "neutral": 5 },
-      { "part": "hand_r", "neutral": 5 }
-    ],
-    "attacks": [
-      {
-        "attack_text_u": "You slap %s with your tentacle",
-        "attack_text_npc": "%1$s slaps %2$s with their tentacle",
-        "blocker_mutations": [ "CLAWS_TENTACLE" ],
-        "chance": 1,
-        "hardcoded_effect": true
-      },
-      {
-        "attack_text_u": "You rake %s with your tentacle",
-        "attack_text_npc": "%1$s rakes %2$s with their tentacle",
-        "required_mutations": [ "CLAWS_TENTACLE" ],
-        "chance": 1,
-        "hardcoded_effect": true
-      }
-    ],
-    "passive_mods": { "dex_mod": 1 }
+  "type": "mutation",
+  "id": "ARM_TENTACLES",
+  "name": {
+    "str": "Tentacle Arms"
   },
+  "points": -4,
+  "visibility": 7,
+  "ugliness": 4,
+  "mixed_effect": true,
+  "description": "Your arms have transformed into tentacles, resulting in a +1 bonus to Dexterity, permanent hand encumbrance of 30, and an inability to wear gloves.  Somewhat decreases wet penalties.",
+  "encumbrance_always": [
+    [ "hand_l", 30 ],
+    [ "hand_r", 30 ]
+  ],
+  "restricts_gear": [
+    "hand_l",
+    "hand_r"
+  ],
+  "types": [
+    "HANDS"
+  ],
+  "leads_to": [
+    "CLAWS_TENTACLE"
+  ],
+  "changes_to": [
+    "ARM_TENTACLES_4"
+  ],
+  "cancels": [
+    "NAILS",
+    "CLAWS",
+    "CLAWS_RETRACT",
+    "TALONS",
+    "WEBBED"
+  ],
+  "wet_protection": [
+    { "part": "arm_l", "neutral": 19 },
+    { "part": "arm_r", "neutral": 19 },
+    { "part": "hand_l", "neutral": 5 },
+    { "part": "hand_r", "neutral": 5 }
+  ],
+  "attacks": [
+    {
+      "attack_text_u": "You slap %s with your tentacle",
+      "attack_text_npc": "%1$s slaps %2$s with their tentacle",
+      "blocker_mutations": [ "CLAWS_TENTACLE" ],
+      "chance": 1,
+      "hardcoded_effect": true
+    },
+    {
+      "attack_text_u": "You rake %s with your tentacle",
+      "attack_text_npc": "%1$s rakes %2$s with their tentacle",
+      "required_mutations": [ "CLAWS_TENTACLE" ],
+      "chance": 1,
+      "hardcoded_effect": true
+    }
+  ],
+  "passive_mods": {
+    "dex_mod": 1
+    }
+  }
   {
     "type": "mutation",
     "id": "ARM_TENTACLES_4",
