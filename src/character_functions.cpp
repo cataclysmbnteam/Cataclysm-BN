@@ -62,7 +62,6 @@ static const trait_flag_str_id trait_flag_SPIRITUAL( "SPIRITUAL" );
 
 static const trait_flag_str_id trait_flag_MUTATION_FLIGHT( "MUTATION_FLIGHT" );
 
-
 static const efftype_id effect_boomered( "boomered" );
 static const efftype_id effect_darkness( "darkness" );
 static const efftype_id effect_meth( "meth" );

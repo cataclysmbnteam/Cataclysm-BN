@@ -8812,17 +8812,6 @@ std::vector<std::string> game::get_dangerous_tile( const tripoint &dest_loc ) co
 
 bool game::walk_move( const tripoint &dest_loc, const bool via_ramp )
 {
-    if( character_funcs::can_noclip( u ) ) {
-        // Bypass all movement restrictions for debug noclip mode
-        tripoint oldpos = u.pos();
-        point submap_shift = place_player( dest_loc );
-        point ms_shift = sm_to_ms_copy( submap_shift );
-        oldpos = oldpos - ms_shift;
-
-        on_move_effects();
-        return true;
-    }
-
     if( m.has_flag_ter( TFLAG_SMALL_PASSAGE, dest_loc ) ) {
         if( u.get_size() > creature_size::medium ) {
             add_msg( m_warning, _( "You can't fit there." ) );
@@ -8898,7 +8887,8 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp )
         u.grab( OBJECT_NONE );
     }
 
-    if( m.impassable( dest_loc ) && !pushing && !shifting_furniture ) {
+    if( ( m.impassable( dest_loc ) && !character_funcs::can_noclip( u ) ) && !pushing &&
+        !shifting_furniture ) {
         if( vp_there && u.mounted_creature && u.mounted_creature->has_flag( MF_RIDEABLE_MECH ) &&
             vp_there->vehicle().handle_potential_theft( u ) ) {
             tripoint diff = dest_loc - u.pos();
@@ -8968,11 +8958,15 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp )
 
     const int mcost = m.combined_movecost( u.pos(), dest_loc, grabbed_vehicle, modifier,
                                            via_ramp ) * multiplier;
-    if( grabbed_move( dest_loc - u.pos() ) ) {
-        return true;
-    } else if( mcost == 0 ) {
-        return false;
+    // only do this check if we can't noclip
+    if( !character_funcs::can_noclip( u ) ) {
+        if( grabbed_move( dest_loc - u.pos() ) ) {
+            return true;
+        } else if( mcost == 0 ) {
+            return false;
+        }
     }
+
     bool diag = trigdist && u.posx() != dest_loc.x && u.posy() != dest_loc.y;
     const int previous_moves = u.moves;
     if( u.is_mounted() ) {
@@ -9135,7 +9129,7 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp )
     }
 
     if( dest_loc != u.pos() ) {
-        cata_event_dispatch::avatar_moves( u, m, dest_loc );
+        //cata_event_dispatch::avatar_moves( u, m, dest_loc );
     }
 
     tripoint oldpos = u.pos();
