@@ -773,6 +773,33 @@
   },
   {
     "type": "terrain",
+    "id": "t_screened_porch_wall",
+    "name": "screen mesh wall",
+    "description": "A rather flimsy tall wall made of 2x4s and screen mesh, suitable for keeping the bugs out.",
+    "symbol": "LINE_OXOX",
+    "color": "brown",
+    "looks_like": "t_chickenwire_fence",
+    "move_cost": 0,
+    "flags": [ "TRANSPARENT", "NOITEM", "PERMEABLE", "AUTO_WALL_SYMBOL", "WALL" ],
+    "deconstruct": {
+      "ter_set": "t_floor",
+      "items": [ { "item": "screen_mesh", "count": 1 }, { "item": "nail", "charges": 10 }, { "item": "2x4", "charges": 4 } ]
+    },
+    "bash": {
+      "str_min": 5,
+      "str_max": 12,
+      "sound": "metal rattling!",
+      "sound_fail": "whack!",
+      "ter_set": "t_floor",
+      "items": [
+        { "item": "screen_mesh", "count": [ 0, 1 ] },
+        { "item": "nail", "charges": [ 5, 10 ] },
+        { "item": "2x4", "count": [ 1, 3 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
     "id": "t_wall_wood",
     "name": "wooden wall",
     "description": "A finished wall of planks and support beams, capable of supporting an upper level or roof.  Still highly flammable.",
