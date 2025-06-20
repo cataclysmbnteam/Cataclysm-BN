@@ -61,6 +61,10 @@ static const trait_flag_str_id trait_flag_SAPIOVORE( "SAPIOVORE" );
 static const trait_flag_str_id trait_flag_SPIRITUAL( "SPIRITUAL" );
 
 static const trait_flag_str_id trait_flag_MUTATION_FLIGHT( "MUTATION_FLIGHT" );
+static const trait_flag_str_id trait_flag_FLIGHT_ALWAYS_ACTIVE( "FLIGHT_ALWAYS_ACTIVE" );
+
+const flag_id flag_ALLOWS_FLIGHT( "ALLOWS_FLIGHT" );
+const flag_id flag_ALWAYS_ALLOWS_FLIGHT( "ALWAYS_ALLOWS_FLIGHT" );
 
 static const efftype_id effect_boomered( "boomered" );
 static const efftype_id effect_darkness( "darkness" );
@@ -125,13 +129,21 @@ bool can_fly( Character &ch )
         return true;
     }
 
+    for( const auto &w : ch.worn ) {
+        if( ( w->is_active() && w->has_flag( flag_ALLOWS_FLIGHT ) ) ||
+            w->has_flag( flag_ALWAYS_ALLOWS_FLIGHT ) ) {
+            return true;
+        }
+    }
+
     for( const trait_id &mid : ch.get_mutations() ) {
         auto it = ch.my_mutations.find( mid->id );
         if( it != ch.my_mutations.end() ) {
-            if( mid->flags.contains( trait_flag_MUTATION_FLIGHT ) && can_use_mutation( mid, ch ) &&
-                it->second.powered ) {
+            if( ( mid->flags.contains( trait_flag_MUTATION_FLIGHT ) && ( can_use_mutation( mid, ch ) &&
+                    it->second.powered ) ) ||  mid->flags.contains( trait_flag_FLIGHT_ALWAYS_ACTIVE ) ) {
                 return true;
-            } else if( !can_use_mutation( mid, ch ) && it->second.powered ) {
+            } else if( ( mid->flags.contains( trait_flag_MUTATION_FLIGHT ) && !can_use_mutation( mid, ch ) &&
+                         it->second.powered ) ) {
                 ch.deactivate_mutation( mid );
                 return false;
             }
