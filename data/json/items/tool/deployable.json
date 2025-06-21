@@ -171,7 +171,7 @@
     "description": "This is a folding wagon.",
     "weight": "5kg",
     "looks_like": "folding_basket",
-    "volume": "150L",
+    "volume": "10L",
     "price": "35 USD",
     "price_postapoc": "5 USD",
     "to_hit": -5,
