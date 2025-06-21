@@ -1010,23 +1010,23 @@ void do_pause( Character &who )
     who.moves = 0;
     who.recoil = MAX_RECOIL;
 
-    if( ( get_map().ter( who.pos() ).id().str() == "t_open_air" ) ) {
-        if( !character_funcs::can_fly( who ) ) {
-            g->vertical_move( -1, true );
-        } else if( character_funcs::can_fly( who ) ) {
-            // add flying flavor text here
+    // Train swimming if underwater
+    if( !who.in_vehicle ) {
+        if( ( get_map().ter( who.pos() ).id().str() == "t_open_air" ) ) {
+            if( !character_funcs::can_fly( who ) ) {
+                g->vertical_move( -1, true );
+            } else if( character_funcs::can_fly( who ) ) {
+                // add flying flavor text here
 
-            for( const trait_id &tid : who.get_mutations() ) {
-                const mutation_branch &mdata = tid.obj();
-                if( mdata.flags.contains( trait_flag_MUTATION_FLIGHT ) ) {
-                    who.mutation_spend_resources( tid );
+                for( const trait_id &tid : who.get_mutations() ) {
+                    const mutation_branch &mdata = tid.obj();
+                    if( mdata.flags.contains( trait_flag_MUTATION_FLIGHT ) ) {
+                        who.mutation_spend_resources( tid );
+                    }
                 }
             }
         }
-    }
 
-    // Train swimming if underwater
-    if( !who.in_vehicle ) {
         if( who.is_underwater() ) {
             who.as_player()->practice( skill_swimming, 1 );
             who.drench( 100, { {
