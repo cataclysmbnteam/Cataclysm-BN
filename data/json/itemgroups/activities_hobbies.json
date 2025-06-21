@@ -182,6 +182,7 @@
       [ "hotplate", 10 ],
       [ "popcan_stove", 10 ],
       [ "coffeemaker", 5 ],
+      [ "folding_wagon", 5 ],
       { "group": "tinware", "prob": 10 },
       [ "kukri", 4 ],
       [ "knife_hunting", 18 ],
