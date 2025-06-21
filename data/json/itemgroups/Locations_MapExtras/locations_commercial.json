@@ -220,6 +220,7 @@
       [ "multi_cooker", 1 ],
       [ "pastaextruder", 8 ],
       [ "can_sealer", 5 ],
+      [ "folding_wagon", 5 ],
       [ "knuckle_brass", 15 ],
       [ "platinum_small", 10 ],
       [ "foodperson_mask", 1 ],
@@ -1101,6 +1102,7 @@
           { "item": "folding_bicycle", "prob": 10 },
           { "item": "roller_blades", "prob": 10 },
           { "item": "folding_skateboard", "prob": 10 },
+          { "item": "folding_wagon", "prob": 10 },
           { "item": "wheel_skateboard", "prob": 5 },
           { "item": "wheel_mount_skateboard", "prob": 5 },
           { "item": "frame_wood_deck", "prob": 5 }
