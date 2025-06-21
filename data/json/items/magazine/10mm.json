@@ -10,6 +10,8 @@
     "price": "24 USD",
     "price_postapoc": "1 USD",
     "capacity": 15,
+    "reliability": 9,
+    "reload_time": 100,
     "ammo_type": "10mm"
   },
   {
@@ -24,6 +26,8 @@
     "price_postapoc": "5 USD",
     "material": "plastic",
     "symbol": "#",
+    "reliability": 8,
+    "reload_time": 150,
     "color": "light_gray",
     "ammo_type": "10mm"
   },
@@ -31,11 +35,13 @@
     "id": "glock20drum50rd",
     "copy-from": "glock_drum_50rd",
     "type": "MAGAZINE",
-    "name": { "str": "Glock 20 50-round drum magazine" },
+    "name": { "str": "Glock 20 drum magazine" },
     "description": "Made to fit the Glock 20.  This drum magazine holds 50 rounds.",
     "weight": "160 g",
     "volume": "500 ml",
     "price": "25 USD",
+    "reliability": 7,
+    "reload_time": 200,
     "price_postapoc": "950 cent",
     "ammo_type": "10mm"
   }
