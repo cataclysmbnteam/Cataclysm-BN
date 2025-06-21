@@ -26,11 +26,13 @@ test_user_dir*
 /font/
 /graveyard/
 /memorial/
+/mods/
 /obj/
 /objwin/
 /save/
 /src/version.h
 /src/prefix.h
+/sound/
 /templates/
 /tools/format/json_formatter.cgi
 CataclysmWin.cscope_file_list
