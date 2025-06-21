@@ -856,7 +856,7 @@ endif
 
 ifeq ($(USE_XDG_DIR),0)
   ifeq ($(USE_HOME_DIR),0)
-    BINDIST_EXTRAS += player-mods player-soundpacks
+    BINDIST_EXTRAS += mods sound
   endif
 endif
 
