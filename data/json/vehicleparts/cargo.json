@@ -89,7 +89,7 @@
   {
     "type": "vehicle_part",
     "id": "basketlg_folding",
-    "name": { "str": "folding shopping cart basket" },
+    "name": { "str": "folding wagon basket" },
     "symbol": "o",
     "looks_like": "basketlg",
     "color": "brown",
