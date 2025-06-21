@@ -166,12 +166,36 @@ void catacurses::mvwvline( const window &win, point p, const chtype ch, const in
 
 void catacurses::mvwaddch( const window &win, point p, const chtype ch )
 {
-    return curses_check_result( ::mvwaddch( win.get<::WINDOW>(), p.y, p.x, ch ), OK, "mvwaddch" );
+    // HACK: can't print some box drawing characters as integers, use strings instead
+    switch( ch ) {
+        case LINE_XDXO_UNICODE:
+            return mvwprintw( win, p, LINE_XDXO_S );
+        case LINE_DXOX_UNICODE:
+            return mvwprintw( win, p, LINE_DXOX_S );
+        case LINE_XOXD_UNICODE:
+            return mvwprintw( win, p, LINE_XOXD_S );
+        case LINE_OXDX_UNICODE:
+            return mvwprintw( win, p, LINE_OXDX_S );
+        default:
+            return curses_check_result( ::mvwaddch( win.get<::WINDOW>(), p.y, p.x, ch ), OK, "mvwaddch" );
+    }
 }
 
 void catacurses::waddch( const window &win, const chtype ch )
 {
-    return curses_check_result( ::waddch( win.get<::WINDOW>(), ch ), OK, "waddch" );
+    // HACK: can't print some box drawing characters as integers, use strings instead
+    switch( ch ) {
+        case LINE_XDXO_UNICODE:
+            return wprintw( win, LINE_XDXO_S );
+        case LINE_DXOX_UNICODE:
+            return wprintw( win, LINE_DXOX_S );
+        case LINE_XOXD_UNICODE:
+            return wprintw( win, LINE_XOXD_S );
+        case LINE_OXDX_UNICODE:
+            return wprintw( win, LINE_OXDX_S );
+        default:
+            return curses_check_result( ::waddch( win.get<::WINDOW>(), ch ), OK, "waddch" );
+    }
 }
 
 void catacurses::wredrawln( const window &win, const int beg_line, const int num_lines )

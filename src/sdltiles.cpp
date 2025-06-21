@@ -1412,6 +1412,18 @@ static bool draw_window( Font_Ptr &font, const catacurses::window &w, point offs
                 case LINE_XXXX_UNICODE:
                     uc = LINE_XXXX_C;
                     break;
+                case LINE_XDXO_UNICODE:
+                    uc = LINE_XDXO_C;
+                    break;
+                case LINE_DXOX_UNICODE:
+                    uc = LINE_DXOX_C;
+                    break;
+                case LINE_XOXD_UNICODE:
+                    uc = LINE_XOXD_C;
+                    break;
+                case LINE_OXDX_UNICODE:
+                    uc = LINE_OXDX_C;
+                    break;
                 case UNKNOWN_UNICODE:
                     use_draw_ascii_lines_routine = true;
                     break;
