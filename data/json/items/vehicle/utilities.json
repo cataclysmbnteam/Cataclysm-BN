@@ -25,7 +25,7 @@
     "color": "light_cyan",
     "symbol": ":",
     "material": [ "superalloy", "ceramic" ],
-    "volume": "100 L",
+    "volume": "75 L",
     "bashing": 7,
     "category": "veh_parts",
     "price": "900 USD",
