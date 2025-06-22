@@ -858,6 +858,26 @@
     "looks_like": "fd_cigsmoke"
   },
   {
+    "id": "fd_bluntsmoke",
+    "type": "field_type",
+    "intensity_levels": [
+      { "name": "swirl of blunt smoke", "translucency": 5 },
+      { "name": "blunt smoke", "color": "light_gray" },
+      { "name": "thick blunt smoke", "color": "dark_gray" }
+    ],
+    "npc_complain": { "chance": 20, "issue": "weed_smoke", "duration": "10 minutes", "speech": "<weed_smoke>" },
+    "decay_amount_factor": 5,
+    "percent_spread": 225,
+    "outdoor_age_speedup": "6 minutes",
+    "dirty_transparency_cache": true,
+    "priority": 8,
+    "half_life": "35 minutes",
+    "phase": "gas",
+    "accelerated_decay": true,
+    "display_field": true,
+    "looks_like": "fd_cigsmoke"
+  },
+  {
     "id": "fd_cracksmoke",
     "type": "field_type",
     "legacy_enum_id": 35,

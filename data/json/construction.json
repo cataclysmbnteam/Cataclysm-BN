@@ -1101,6 +1101,32 @@
   },
   {
     "type": "construction",
+    "id": "constr_screen_door",
+    "group": "build_screen_door",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 2 ] ],
+    "time": "60 m",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
+    "components": [ [ [ "screen_mesh", 1 ] ], [ [ "2x4", 4 ] ], [ [ "nail", 20 ] ], [ [ "hinge", 2 ] ] ],
+    "pre_note": "Needs to be supported on both sides by fencing, walls, etc.",
+    "pre_terrain": "t_floor",
+    "post_terrain": "t_screen_door_c"
+  },
+  {
+    "type": "construction",
+    "id": "constr_screened_porch_wall",
+    "group": "build_screen_mesh_wall",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 2 ] ],
+    "time": "60 m",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
+    "components": [ [ [ "screen_mesh", 1 ] ], [ [ "2x4", 4 ] ], [ [ "nail", 10 ] ] ],
+    "pre_note": "Needs to be supported on both sides by fencing, walls, etc.",
+    "pre_terrain": "t_floor",
+    "post_terrain": "t_screened_porch_wall"
+  },
+  {
+    "type": "construction",
     "id": "constr_sandbag_half",
     "group": "build_sandbag_wall",
     "//": "Step 1: Build sandbag barricade",
@@ -1773,32 +1799,6 @@
     "pre_note": "Needs to be supported on both sides by fencing, walls, etc.",
     "pre_special": "check_empty",
     "post_terrain": "t_chaingate_c"
-  },
-  {
-    "type": "construction",
-    "id": "constr_screen_door",
-    "group": "build_screen_door",
-    "category": "CONSTRUCT",
-    "required_skills": [ [ "fabrication", 2 ] ],
-    "time": "60 m",
-    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
-    "components": [ [ [ "screen_mesh", 1 ] ], [ [ "2x4", 4 ] ], [ [ "nail", 20 ] ], [ [ "hinge", 2 ] ] ],
-    "pre_note": "Needs to be supported on both sides by fencing, walls, etc.",
-    "pre_special": "check_empty",
-    "post_terrain": "t_screen_door_c"
-  },
-  {
-    "type": "construction",
-    "id": "constr_screened_porch_wall",
-    "group": "build_screen_mesh_wall",
-    "category": "CONSTRUCT",
-    "required_skills": [ [ "fabrication", 2 ] ],
-    "time": "60 m",
-    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
-    "components": [ [ [ "screen_mesh", 1 ] ], [ [ "2x4", 4 ] ], [ [ "nail", 10 ] ] ],
-    "pre_note": "Needs to be supported on both sides by fencing, walls, etc.",
-    "pre_special": "check_empty",
-    "post_terrain": "t_screened_porch_wall"
   },
   {
     "type": "construction",
@@ -5388,7 +5388,7 @@
       [ [ "chain", 1 ] ],
       [ [ "rope_6", 2 ], [ "rope_makeshift_6", 2 ] ]
     ],
-    "pre_note": "Must be adjacent to a brick or (reinforced)concrete wall that is itself adjacent to a garage gate in order to open said gate.",
+    "pre_note": "Must be adjacent to a brick, concrete, stone or plastered wooden wall that is itself adjacent to a garage gate in order to open said gate.",
     "pre_special": "check_empty",
     "post_terrain": "t_gates_mech_control"
   },
