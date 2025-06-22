@@ -2156,7 +2156,7 @@
     "name": "Debug Menu",
     "category": "DEFAULTMODE",
     "id": "debug",
-    "bindings": [ { "input_method": "keyboard", "key": "F11" } ]
+    "bindings": [ { "input_method": "keyboard", "key": "F12" } ]
   },
   {
     "type": "keybinding",
