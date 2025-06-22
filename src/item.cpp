@@ -9779,7 +9779,7 @@ detached_ptr<item> item::process_litcig( detached_ptr<item> &&self, player *carr
             carrier->add_effect( effect_cig, duration );
         }
         if( it.has_flag( flag_MARIJUANA ) ) {
-            carrier->add_effect( effect_weed_high, duration / 2 );
+            carrier->add_effect( effect_weed_high, duration );
         }
 
         carrier->moves -= 15;
