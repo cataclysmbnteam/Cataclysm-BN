@@ -187,5 +187,94 @@
       { "group": "nested_m1911_mag_460", "charges-min": 0, "prob": 50 },
       { "group": "on_hand_460", "prob": 25, "charges": [ 10, 20 ], "count": [ 1, 2 ] }
     ]
+  },
+  {
+    "id": "on_hand_454_or_45colt",
+    "type": "item_group",
+    "//": "Used for when a gun can freely use either .454 Casull or .45 Colt, for example raging_bull.",
+    "subtype": "distribution",
+    "entries": [ { "group": "on_hand_454", "prob": 100 }, { "group": "on_hand_45colt", "prob": 50 } ]
+  },
+  {
+    "id": "on_hand_454_mixed",
+    "type": "item_group",
+    "//": "Used for when a gun can freely use either .410 shotshells or .45 Colt, for example bond_410.",
+    "subtype": "distribution",
+    "entries": [ { "group": "on_hand_454", "prob": 100 }, { "group": "on_hand_410_or_45colt", "prob": 50 } ]
+  },
+  {
+    "id": "on_hand_454",
+    "type": "item_group",
+    "//": "a collection of ammo that would be found with a loaded gun.",
+    "subtype": "distribution",
+    "entries": [ { "item": "454_Casull", "prob": 100, "charges": [ 25, 50 ] } ]
+  },
+  {
+    "id": "nested_raging_bull",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [
+      { "item": "raging_bull", "ammo-group": "on_hand_454_or_45colt", "charges": [ 0, 5 ] },
+      { "item": "454_speedloader5", "ammo-group": "on_hand_454_or_45colt", "prob": 50 },
+      { "item": "454_speedloader5", "ammo-group": "on_hand_454_or_45colt", "prob": 25 },
+      { "group": "on_hand_454_or_45colt" }
+    ]
+  },
+  {
+    "id": "nested_raging_judge",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [
+      { "item": "raging_judge", "ammo-group": "on_hand_454_mixed", "charges": [ 0, 6 ] },
+      { "item": "454_speedloader6", "ammo-group": "on_hand_454_mixed", "prob": 50 },
+      { "item": "454_speedloader6", "ammo-group": "on_hand_454_mixed", "prob": 25 },
+      { "group": "on_hand_454_mixed" }
+    ]
+  },
+  {
+    "id": "everyday_raging_bull",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "entries": [
+      { "item": "raging_bull", "ammo-group": "on_hand_454_or_45colt", "charges": [ 0, 5 ] },
+      {
+        "distribution": [
+          {
+            "collection": [
+              { "item": "454_speedloader5", "charges-min": 0, "prob": 80, "ammo-group": "on_hand_454_or_45colt" },
+              { "item": "454_speedloader5", "charges-min": 0, "ammo-group": "on_hand_454_or_45colt", "prob": 50 }
+            ],
+            "prob": 50
+          },
+          { "group": "on_hand_454_or_45colt", "prob": 50, "charges": [ 10, 20 ], "count": [ 1, 2 ] }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "everyday_raging_judge",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "entries": [
+      { "item": "raging_judge", "ammo-group": "on_hand_454_mixed", "charges": [ 0, 6 ] },
+      {
+        "distribution": [
+          {
+            "collection": [
+              { "item": "454_speedloader6", "charges-min": 0, "prob": 80, "ammo-group": "on_hand_454_mixed" },
+              { "item": "454_speedloader6", "charges-min": 0, "ammo-group": "on_hand_454_mixed", "prob": 50 }
+            ],
+            "prob": 50
+          },
+          { "group": "on_hand_454_mixed", "prob": 50, "charges": [ 10, 20 ], "count": [ 1, 2 ] }
+        ]
+      }
+    ]
   }
 ]

@@ -633,38 +633,6 @@
     "components": [ [ [ "45_casing", 1 ] ], [ [ "lgpistol_primer", 1 ] ], [ [ "gunpowder", 5 ] ] ]
   },
   {
-    "result": "454_Casull",
-    "type": "recipe",
-    "category": "CC_AMMO",
-    "subcategory": "CSC_AMMO_PISTOL",
-    "skill_used": "fabrication",
-    "difficulty": 7,
-    "skills_required": [ "gun", 7 ],
-    "time": "2 m",
-    "batch_time_factors": [ 60, 5 ],
-    "book_learn": [ [ "recipe_bullets", 6 ], [ "manual_pistol", 7 ] ],
-    "charges": 1,
-    "reversible": true,
-    "using": [ [ "bullet_forming", 5 ], [ "ammo_bullet", 4 ] ],
-    "components": [ [ [ "454_casing", 1 ] ], [ [ "smrifle_primer", 1 ] ], [ [ "gunpowder", 6 ] ], [ [ "copper", 2 ] ] ]
-  },
-  {
-    "result": "bp_454_Casull",
-    "type": "recipe",
-    "category": "CC_AMMO",
-    "subcategory": "CSC_AMMO_PISTOL",
-    "skill_used": "fabrication",
-    "difficulty": 7,
-    "skills_required": [ "gun", 7 ],
-    "time": "2 m",
-    "batch_time_factors": [ 60, 5 ],
-    "book_learn": [ [ "recipe_bullets", 6 ], [ "manual_pistol", 7 ] ],
-    "charges": 1,
-    "reversible": true,
-    "using": [ [ "bullet_forming", 5 ], [ "ammo_bullet", 4 ] ],
-    "components": [ [ [ "454_casing", 1 ] ], [ [ "smrifle_primer", 1 ] ], [ [ "chem_black_powder", 9 ] ], [ [ "copper", 2 ] ] ]
-  },
-  {
     "result": "45colt_jhp",
     "type": "recipe",
     "category": "CC_AMMO",

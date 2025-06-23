@@ -167,8 +167,6 @@
     "id": "mags_pistol_rare",
     "//": "Aftermarket or otherwise uncommon pistol magazines excluding milspec.",
     "items": [
-      [ "454_speedloader5", 1 ],
-      [ "454_speedloader6", 1 ],
       [ "bhp9mag_15rd", 10 ],
       [ "cz75mag_20rd", 7 ],
       [ "cz75mag_26rd", 3 ],

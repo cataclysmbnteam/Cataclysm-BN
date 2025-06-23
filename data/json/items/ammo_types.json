@@ -151,12 +151,6 @@
   },
   {
     "type": "ammunition_type",
-    "id": "454",
-    "name": ".454",
-    "default": "454_Casull"
-  },
-  {
-    "type": "ammunition_type",
     "id": "45colt",
     "name": ".45 Colt",
     "default": "45colt_jhp"

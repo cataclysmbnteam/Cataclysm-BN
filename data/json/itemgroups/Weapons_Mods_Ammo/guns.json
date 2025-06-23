@@ -246,8 +246,6 @@
       { "group": "nested_lemat_revolver", "prob": 50 },
       { "group": "nested_moss_brownie", "prob": 20 },
       { "group": "nested_pistol_flintlock", "prob": 70 },
-      { "group": "nested_raging_bull", "prob": 60 },
-      { "group": "nested_raging_judge", "prob": 40 },
       { "group": "nested_rm99_pistol", "prob": 30 },
       { "group": "nested_sig_p230", "prob": 10 },
       { "group": "nested_tokarev", "prob": 50 }
@@ -267,8 +265,6 @@
       { "group": "everyday_lemat_revolver", "prob": 50 },
       { "group": "everyday_moss_brownie", "prob": 20 },
       { "group": "everyday_pistol_flintlock", "prob": 70 },
-      { "group": "everyday_raging_bull", "prob": 60 },
-      { "group": "everyday_raging_judge", "prob": 40 },
       { "group": "everyday_rm99_pistol", "prob": 30 },
       { "group": "everyday_sig_p230", "prob": 10 },
       { "group": "everyday_tokarev", "prob": 50 }

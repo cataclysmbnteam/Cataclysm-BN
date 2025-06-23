@@ -1725,48 +1725,6 @@
     ]
   },
   {
-    "id": "everyday_raging_bull",
-    "type": "item_group",
-    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
-    "subtype": "collection",
-    "entries": [
-      { "item": "raging_bull", "ammo-group": "on_hand_454_or_45colt", "charges": [ 0, 5 ] },
-      {
-        "distribution": [
-          {
-            "collection": [
-              { "item": "454_speedloader5", "charges-min": 0, "prob": 80, "ammo-group": "on_hand_454_or_45colt" },
-              { "item": "454_speedloader5", "charges-min": 0, "ammo-group": "on_hand_454_or_45colt", "prob": 50 }
-            ],
-            "prob": 50
-          },
-          { "group": "on_hand_454_or_45colt", "prob": 50, "charges": [ 10, 20 ], "count": [ 1, 2 ] }
-        ]
-      }
-    ]
-  },
-  {
-    "id": "everyday_raging_judge",
-    "type": "item_group",
-    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
-    "subtype": "collection",
-    "entries": [
-      { "item": "raging_judge", "ammo-group": "on_hand_454_mixed", "charges": [ 0, 6 ] },
-      {
-        "distribution": [
-          {
-            "collection": [
-              { "item": "454_speedloader6", "charges-min": 0, "prob": 80, "ammo-group": "on_hand_454_mixed" },
-              { "item": "454_speedloader6", "charges-min": 0, "ammo-group": "on_hand_454_mixed", "prob": 50 }
-            ],
-            "prob": 50
-          },
-          { "group": "on_hand_454_mixed", "prob": 50, "charges": [ 10, 20 ], "count": [ 1, 2 ] }
-        ]
-      }
-    ]
-  },
-  {
     "id": "everyday_cop_38",
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",

@@ -807,32 +807,6 @@
     "entries": [ { "item": "moss_brownie", "ammo-group": "on_hand_22", "charges": [ 0, 4 ] }, { "group": "on_hand_22" } ]
   },
   {
-    "id": "nested_raging_bull",
-    "type": "item_group",
-    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
-    "subtype": "collection",
-    "ammo": 100,
-    "entries": [
-      { "item": "raging_bull", "ammo-group": "on_hand_454_or_45colt", "charges": [ 0, 5 ] },
-      { "item": "454_speedloader5", "ammo-group": "on_hand_454_or_45colt", "prob": 50 },
-      { "item": "454_speedloader5", "ammo-group": "on_hand_454_or_45colt", "prob": 25 },
-      { "group": "on_hand_454_or_45colt" }
-    ]
-  },
-  {
-    "id": "nested_raging_judge",
-    "type": "item_group",
-    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
-    "subtype": "collection",
-    "ammo": 100,
-    "entries": [
-      { "item": "raging_judge", "ammo-group": "on_hand_454_mixed", "charges": [ 0, 6 ] },
-      { "item": "454_speedloader6", "ammo-group": "on_hand_454_mixed", "prob": 50 },
-      { "item": "454_speedloader6", "ammo-group": "on_hand_454_mixed", "prob": 25 },
-      { "group": "on_hand_454_mixed" }
-    ]
-  },
-  {
     "id": "nested_tokarev",
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",

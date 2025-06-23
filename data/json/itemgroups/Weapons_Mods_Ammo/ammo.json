@@ -68,7 +68,6 @@
     "entries": [
       { "item": "36navy", "prob": 50, "charges": [ 1, 100 ] },
       { "item": "44army", "prob": 100, "charges": [ 1, 100 ] },
-      { "item": "454_Casull", "prob": 60, "charges": [ 1, 100 ] },
       { "item": "762_25", "prob": 25, "charges": [ 1, 100 ] },
       { "item": "762_25hot", "prob": 15, "charges": [ 1, 100 ] },
       { "item": "762_25typeP", "prob": 10, "charges": [ 1, 100 ] },
@@ -679,7 +678,6 @@
       { "item": "44_casing", "prob": 80 },
       { "item": "45_casing", "prob": 80 },
       { "item": "45colt_casing", "prob": 60 },
-      { "item": "454_casing", "prob": 60 },
       { "item": "4570_casing", "prob": 60 },
       { "item": "46mm_casing", "prob": 60 },
       { "item": "50_casing", "prob": 60 },
@@ -708,7 +706,6 @@
       [ "44_casing", 35 ],
       [ "45_casing", 65 ],
       [ "45colt_casing", 40 ],
-      [ "454_casing", 10 ],
       [ "500_casing", 10 ],
       [ "57mm_casing", 10 ],
       [ "46mm_casing", 10 ],

@@ -6,7 +6,9 @@
     "items": [
       { "group": "nested_makarov", "prob": 50 },
       { "group": "nested_af2011a1_38super", "prob": 10 },
-      { "group": "nested_m1911-460", "prob": 5 }
+      { "group": "nested_m1911-460", "prob": 5 },
+      { "group": "nested_raging_bull", "prob": 60 },
+      { "group": "nested_raging_judge", "prob": 40 }
     ]
   },
   {
@@ -16,7 +18,9 @@
     "items": [
       { "group": "everyday_makarov", "prob": 50 },
       { "group": "everyday_af2011a1_38super", "prob": 10 },
-      { "group": "everyday_m1911-460", "prob": 5 }
+      { "group": "everyday_m1911-460", "prob": 5 },
+      { "group": "everyday_raging_bull", "prob": 60 },
+      { "group": "everyday_raging_judge", "prob": 40 }
     ]
   },
   {
