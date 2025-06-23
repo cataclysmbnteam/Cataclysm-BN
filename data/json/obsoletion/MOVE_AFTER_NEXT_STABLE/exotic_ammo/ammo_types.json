@@ -28,5 +28,11 @@
     "id": "454",
     "name": ".454",
     "default": "454_Casull"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "500",
+    "name": ".500",
+    "default": "500_Magnum"
   }
 ]

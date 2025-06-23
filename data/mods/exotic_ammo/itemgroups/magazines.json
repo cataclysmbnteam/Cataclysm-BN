@@ -9,7 +9,7 @@
     "type": "item_group",
     "id": "mags_pistol_common",
     "//": "Factory specification pistol magazines commonly owned by citizens.",
-    "items": [ [ "m1911mag_10rd_38super", 15 ] ]
+    "items": [ [ "m1911mag_10rd_38super", 15 ], [ "500_speedloader5", 15 ] ]
   },
   {
     "type": "item_group",

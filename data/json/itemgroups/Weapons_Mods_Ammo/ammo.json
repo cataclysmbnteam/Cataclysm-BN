@@ -29,7 +29,6 @@
       { "item": "4570_low", "prob": 15, "charges": [ 1, 100 ] },
       { "item": "4570_sp", "prob": 5, "charges": [ 1, 100 ] },
       { "item": "45colt_jhp", "prob": 20, "charges": [ 1, 100 ] },
-      { "item": "500_Magnum", "prob": 25, "charges": [ 1, 100 ] },
       { "item": "57mm", "prob": 10, "charges": [ 1, 100 ] },
       { "item": "9mm", "prob": 125, "charges": [ 1, 100 ] },
       { "item": "9mmfmj", "prob": 125, "charges": [ 1, 100 ] }
@@ -120,7 +119,6 @@
       { "item": "bp_45_acp", "prob": 40, "charges": [ 1, 100 ] },
       { "item": "bp_45_jhp", "prob": 40, "charges": [ 1, 100 ] },
       { "item": "bp_45colt_jhp", "prob": 20, "charges": [ 1, 100 ] },
-      { "item": "bp_500_Magnum", "prob": 25, "charges": [ 1, 100 ] },
       { "item": "bp_57mm", "prob": 10, "charges": [ 1, 100 ] },
       { "item": "bp_9mm", "prob": 125, "charges": [ 1, 100 ] },
       { "item": "bp_9mmfmj", "prob": 125, "charges": [ 1, 100 ] },
@@ -225,7 +223,6 @@
       { "item": "4570_low", "prob": 15, "charges": [ 1, 100 ] },
       { "item": "4570_sp", "prob": 10, "charges": [ 1, 100 ] },
       { "item": "45colt_jhp", "prob": 15, "charges": [ 1, 100 ] },
-      { "item": "500_Magnum", "prob": 20, "charges": [ 1, 100 ] },
       { "item": "762_54R", "prob": 55, "charges": [ 1, 100 ] },
       { "item": "762_m43", "prob": 20, "charges": [ 1, 100 ] },
       { "item": "762_m87", "prob": 35, "charges": [ 1, 100 ] }
@@ -318,7 +315,6 @@
       { "item": "bp_3006fmj", "prob": 110, "charges": [ 1, 100 ] },
       { "item": "bp_308", "prob": 75, "charges": [ 1, 100 ] },
       { "item": "bp_45colt_jhp", "prob": 15, "charges": [ 1, 100 ] },
-      { "item": "bp_500_Magnum", "prob": 20, "charges": [ 1, 100 ] },
       { "item": "bp_556", "prob": 110, "charges": [ 1, 100 ] },
       { "item": "bp_556_incendiary", "prob": 5, "charges": [ 1, 100 ] },
       { "item": "bp_762_51", "prob": 70, "charges": [ 1, 100 ] },
@@ -571,7 +567,6 @@
       { "item": "4570_low", "prob": 15 },
       { "item": "4570_sp", "prob": 5 },
       { "item": "45colt_jhp", "prob": 20 },
-      { "item": "500_Magnum", "prob": 25 },
       { "item": "57mm", "prob": 10 },
       { "item": "9mm", "prob": 125 },
       { "item": "9mmfmj", "prob": 125 }
@@ -607,7 +602,6 @@
       { "item": "4570_low", "prob": 15 },
       { "item": "4570_sp", "prob": 10 },
       { "item": "45colt_jhp", "prob": 15 },
-      { "item": "500_Magnum", "prob": 20 },
       { "item": "762_54R", "prob": 55 },
       { "item": "762_m43", "prob": 20 },
       { "item": "762_m87", "prob": 35 }
@@ -681,7 +675,6 @@
       { "item": "4570_casing", "prob": 60 },
       { "item": "46mm_casing", "prob": 60 },
       { "item": "50_casing", "prob": 60 },
-      { "item": "500_casing", "prob": 60 },
       { "item": "545_casing", "prob": 60 },
       { "item": "57mm_casing", "prob": 60 },
       { "item": "5x50_hull", "prob": 60 },
@@ -706,7 +699,6 @@
       [ "44_casing", 35 ],
       [ "45_casing", 65 ],
       [ "45colt_casing", 40 ],
-      [ "500_casing", 10 ],
       [ "57mm_casing", 10 ],
       [ "46mm_casing", 10 ],
       [ "762_casing", 85 ],

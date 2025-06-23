@@ -39,19 +39,22 @@
     "type": "item_group",
     "id": "guns_pistol_common",
     "//": "Pistols commonly owned by citizens and found in many locations.",
-    "items": [ { "group": "nested_m1911a1_38super", "prob": 15 } ]
+    "items": [ { "group": "nested_m1911a1_38super", "prob": 15 }, { "group": "nested_sw_500", "prob": 25 } ]
   },
   {
     "type": "item_group",
     "id": "carried_guns_pistol_common",
     "//": "Pistols commonly owned by citizens and carried by them. If a gun has mags, it has no loose ammo. If it has no mags, it has loose ammo.",
-    "items": [ { "group": "everyday_m1911a1_38super", "prob": 15 } ]
+    "items": [ { "group": "everyday_m1911a1_38super", "prob": 15 }, { "group": "everyday_sw_500", "prob": 25 } ]
   },
   {
     "type": "item_group",
     "id": "guns_pistol_common_display",
     "//": "Empty pistols found exclusively in gun stores.",
-    "items": [ { "item": "m1911a1_38super", "prob": 15, "charges-min": 0, "charges-max": 0 } ]
+    "items": [
+      { "item": "m1911a1_38super", "prob": 15, "charges-min": 0, "charges-max": 0 },
+      { "item": "sw_500", "prob": 25, "charges-min": 0, "charges-max": 0 }
+    ]
   },
   {
     "type": "item_group",
@@ -69,6 +72,24 @@
     "type": "item_group",
     "id": "guns_hunting",
     "//": "Guns typically used by hunters, be it rifles, shotguns or archery.",
-    "items": [ { "group": "nested_trex_gun", "prob": 5 } ]
+    "items": [ { "group": "nested_trex_gun", "prob": 5 }, { "group": "nested_bh_m89", "prob": 5 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_rifle_common",
+    "//": "Rifles owned by citizens and found in many locations.",
+    "items": [ { "group": "nested_bh_m89", "prob": 20 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "carried_guns_rifle_common",
+    "//": "Rifles commonly owned by citizens and carried by them. Has mags or loose ammo.",
+    "items": [ { "group": "everyday_bh_m89", "prob": 20 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_rifle_common_display",
+    "//": "Empty rifles commonly found in gun stores.",
+    "items": [ { "item": "bh_m89", "prob": 20, "charges-min": 0, "charges-max": 0 } ]
   }
 ]

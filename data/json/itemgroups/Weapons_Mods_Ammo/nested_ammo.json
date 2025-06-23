@@ -43,13 +43,6 @@
     "entries": [ { "item": "57mm", "prob": 100, "charges": [ 25, 50 ] } ]
   },
   {
-    "id": "on_hand_500",
-    "type": "item_group",
-    "//": "a collection of ammo that would be found with a loaded gun.",
-    "subtype": "distribution",
-    "entries": [ { "item": "500_Magnum", "prob": 100, "charges": [ 6, 10 ] } ]
-  },
-  {
     "id": "on_hand_44paper",
     "type": "item_group",
     "//": "a collection of ammo that would be found with a loaded gun.",

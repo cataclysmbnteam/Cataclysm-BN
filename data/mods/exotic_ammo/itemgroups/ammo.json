@@ -33,7 +33,8 @@
       { "item": "38super_casing", "prob": 80 },
       { "item": "700nx_casing", "prob": 40 },
       { "item": "460_casing", "prob": 60 },
-      { "item": "454_casing", "prob": 60 }
+      { "item": "454_casing", "prob": 60 },
+      { "item": "500_casing", "prob": 60 }
     ]
   },
   {
@@ -41,21 +42,27 @@
     "id": "ammo_pistol_common",
     "//": "Pistol ammo commonly owned by citizens and found in many locations.",
     "subtype": "distribution",
-    "entries": [ { "item": "38super_fmj", "prob": 7, "charges": [ 1, 100 ] } ]
+    "entries": [
+      { "item": "38super_fmj", "prob": 7, "charges": [ 1, 100 ] },
+      { "item": "500_Magnum", "prob": 25, "charges": [ 1, 100 ] }
+    ]
   },
   {
     "type": "item_group",
     "id": "ammo_pistol_blackpowder_handloads",
     "//": "Blackpowder pistol ammo balanced according to rarity, additional weight for calibers that have common, manual-action firearms available in that chambering.",
     "subtype": "distribution",
-    "entries": [ { "item": "bp_38super_fmj", "prob": 7, "charges": [ 1, 100 ] } ]
+    "entries": [
+      { "item": "bp_38super_fmj", "prob": 7, "charges": [ 1, 100 ] },
+      { "item": "bp_500_Magnum", "prob": 25, "charges": [ 1, 100 ] }
+    ]
   },
   {
     "type": "item_group",
     "id": "ammo_pistol_common_full",
     "//": "Pistol ammo commonly owned by citizens and found in many locations, for vending machines.",
     "subtype": "distribution",
-    "entries": [ { "item": "38super_fmj", "prob": 7 } ]
+    "entries": [ { "item": "38super_fmj", "prob": 7 }, { "item": "500_Magnum", "prob": 25 } ]
   },
   {
     "type": "item_group",
@@ -68,6 +75,27 @@
     "id": "casings",
     "//": "casings list for shooting range.",
     "type": "item_group",
-    "items": [ [ "700nx_casing", 10 ], [ "454_casing", 10 ] ]
+    "items": [ [ "700nx_casing", 10 ], [ "454_casing", 10 ], [ "500_casing", 10 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "ammo_rifle_common",
+    "//": "Rifle ammo commonly owned by citizens and found in many locations.",
+    "subtype": "distribution",
+    "entries": [ { "item": "500_Magnum", "prob": 20, "charges": [ 1, 100 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "ammo_rifle_blackpowder_handloads",
+    "//": "Blackpowder rifle ammo balanced according to rarity, additional weight for calibers that have common, manual-action firearms available in that chambering.",
+    "subtype": "distribution",
+    "entries": [ { "item": "bp_500_Magnum", "prob": 20, "charges": [ 1, 100 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "ammo_rifle_common_full",
+    "//": "Rifle ammo commonly owned by citizens and found in many locations, for vending machines.",
+    "subtype": "distribution",
+    "entries": [ { "item": "500_Magnum", "prob": 20 } ]
   }
 ]
