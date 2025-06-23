@@ -601,6 +601,8 @@ void Character::load( const JsonObject &data )
 
     data.read( "my_bionics", *my_bionics );
 
+    data.read( "known_monsters", known_monsters );
+
     for( auto &w : worn ) {
         w->on_takeoff( *this );
     }
@@ -649,6 +651,9 @@ void Character::load( const JsonObject &data )
     set_primary_weapon( std::move( weap ) );
 
     data.read( "move_mode", move_mode );
+
+    // monsters recorded by the character
+    json.member( "known_monsters", known_monsters );
 
     if( has_effect( effect_riding ) ) {
         int temp_id;

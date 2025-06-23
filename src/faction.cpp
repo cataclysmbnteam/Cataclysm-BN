@@ -21,6 +21,7 @@
 #include "item.h"
 #include "json.h"
 #include "line.h"
+#include "mtype.h"
 #include "npc.h"
 #include "output.h"
 #include "overmapbuffer.h"
@@ -621,6 +622,8 @@ void faction_manager::display() const
     enum class tab_mode : int {
         TAB_FOLLOWERS = 0,
         TAB_OTHERFACTIONS,
+
+        TAB_CREATURES,
         NUM_TABS,
         FIRST_TAB = 0,
         LAST_TAB = NUM_TABS - 1
@@ -642,9 +645,13 @@ void faction_manager::display() const
     std::vector<const faction *> valfac; // Factions that we know of.
     npc *guy = nullptr;
     const faction *cur_fac = nullptr;
+    cur_creature = mtype_id::NULL_ID();
     bool interactable = false;
     bool radio_interactable = false;
     size_t active_vec_size = 0;
+
+    std::vector<mtype_id> creatures; // Creatures we've recorded
+    mtype_id cur_creature = mtype_id::NULL_ID();
 
     ui.on_redraw( [&]( const ui_adaptor & ) {
         werase( w_missions );
@@ -656,6 +663,7 @@ void faction_manager::display() const
         const std::vector<std::pair<tab_mode, std::string>> tabs = {
             { tab_mode::TAB_FOLLOWERS, _( "YOUR FOLLOWERS" ) },
             { tab_mode::TAB_OTHERFACTIONS, _( "OTHER FACTIONS" ) },
+            { tab_mode::TAB_CREATURES, _( "CREATURES" ) },
         };
         draw_tabs( w_missions, tabs, tab );
         draw_border_below_tabs( w_missions );
@@ -716,6 +724,30 @@ void faction_manager::display() const
                 }
             }
             break;
+            case tab_mode::TAB_CREATURES: {
+                const std::string no_creatures =
+                    _( "You haven't recorded sightings of any creatures.  Taking photos can be a good way to keep track of them." );
+                const int w = getmaxx( w_missions ) - 31 - 2;
+                if( active_vec_size > 0 ) {
+                    draw_scrollbar( w_missions, selection, entries_per_page, active_vec_size,
+                                    point( 0, 3 ) );
+                    for( size_t i = top_of_page; i < active_vec_size && i < top_of_page + entries_per_page; i++ ) {
+                        const int y = i - top_of_page + 3;
+                        trim_and_print( w_missions, point( 1, y ), 28, selection == i ? hilite( col ) : col,
+                                        string_format( "%s  %s", colorize( creatures[i]->sym,
+                                                       selection == i ? hilite( creatures[i]->color ) : creatures[i]->color ),
+                                                       creatures[i]->nname() ) );
+                    }
+                    if( !cur_creature.is_null() ) {
+                        cur_creature->faction_display( w_missions, point( 31, 3 ), w );
+                    } else {
+                        fold_and_print( w_missions, point( 31, 4 ), w, c_light_red, no_creatures );
+                    }
+                    break;
+                } else {
+                    fold_and_print( w_missions, point( 31, 4 ), w, c_light_red, no_creatures );
+                }
+            }
             default:
                 break;
         }
@@ -747,6 +779,13 @@ void faction_manager::display() const
             debugmsg( "The sanity check failed because tab=%d", static_cast<int>( tab ) );
             tab = tab_mode::FIRST_TAB;
         }
+        creatures.clear();
+        creatures.reserve( player_character.get_known_monsters().size() );
+        creatures.insert( creatures.end(), player_character.get_known_monsters().begin(),
+                          player_character.get_known_monsters().end() );
+        std::sort( creatures.begin(), creatures.end(), []( const mtype_id & a, const mtype_id & b ) {
+            return localized_compare( a->nname(), b->nname() );
+        } );
         active_vec_size = 0;
         if( tab == tab_mode::TAB_FOLLOWERS ) {
             if( selection < followers.size() ) {
@@ -758,6 +797,11 @@ void faction_manager::display() const
                 cur_fac = valfac[selection];
             }
             active_vec_size = valfac.size();
+        } else if( tab == tab_mode::TAB_CREATURES ) {
+            if( selection < creatures.size() ) {
+                cur_creature = creatures[selection];
+            }
+            active_vec_size = creatures.size();
         }
 
         ui_manager::redraw();
