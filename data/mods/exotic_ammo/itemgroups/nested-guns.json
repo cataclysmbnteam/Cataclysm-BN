@@ -392,5 +392,47 @@
       { "item": "fnp90mag", "charges-min": 0, "ammo-group": "on_hand_57", "prob": 50 },
       { "group": "on_hand_57", "prob": 25, "charges": [ 10, 20 ], "count": [ 1, 2 ] }
     ]
+  },
+  {
+    "id": "on_hand_46",
+    "type": "item_group",
+    "//": "a collection of ammo that would be found with a loaded gun.",
+    "subtype": "distribution",
+    "entries": [ { "item": "46mm", "prob": 100, "charges": [ 20, 40 ] } ]
+  },
+  {
+    "id": "nested_hk_mp7",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [
+      { "item": "hk_mp7", "ammo-group": "on_hand_46", "charges": [ 0, 20 ] },
+      { "group": "nested_hk_mp7_mag" },
+      { "group": "nested_hk_mp7_mag", "prob": 50 },
+      { "group": "on_hand_46" }
+    ]
+  },
+  {
+    "id": "nested_hk_mp7_mag",
+    "type": "item_group",
+    "subtype": "distribution",
+    "ammo": 100,
+    "entries": [
+      { "item": "hk46mag", "ammo-group": "on_hand_46", "prob": 100 },
+      { "item": "hk46bigmag", "ammo-group": "on_hand_46", "prob": 5 }
+    ]
+  },
+  {
+    "id": "everyday_hk_mp7",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "entries": [
+      { "item": "hk_mp7", "ammo-group": "on_hand_46", "charges": [ 0, 20 ] },
+      { "group": "nested_hk_mp7_mag", "charges-min": 0, "prob": 80 },
+      { "group": "nested_hk_mp7_mag", "charges-min": 0, "prob": 50 },
+      { "group": "on_hand_46", "prob": 25, "charges": [ 10, 20 ], "count": [ 1, 2 ] }
+    ]
   }
 ]

@@ -117,12 +117,24 @@
     "type": "item_group",
     "id": "guns_smg_rare",
     "//": "SMGs including those only used by police/paramilitary forces.",
-    "items": [ { "group": "nested_fn_p90", "prob": 50 } ]
+    "items": [ { "group": "nested_fn_p90", "prob": 50 }, { "group": "nested_hk_mp7", "prob": 60 } ]
   },
   {
     "type": "item_group",
     "id": "carried_guns_smg_rare",
     "//": "SMGs including those only carried by police/paramilitary forces. Either mags or loose ammo are included.",
-    "items": [ { "group": "everyday_fn_p90", "prob": 50 } ]
+    "items": [ { "group": "everyday_fn_p90", "prob": 50 }, { "group": "everyday_hk_mp7", "prob": 60 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_smg_milspec",
+    "//": "Military specification SMGs only ever found at military sites.",
+    "items": [ { "group": "nested_hk_mp7", "prob": 100 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "carried_guns_smg_milspec",
+    "//": "Military specification SMGs only ever carried by the military. Comes with mags or loose ammo.",
+    "items": [ { "group": "everyday_hk_mp7", "prob": 100 } ]
   }
 ]

@@ -182,11 +182,6 @@
     "flags": [ "HIDDEN_HALLU" ]
   },
   {
-    "id": "hk_ucp",
-    "type": "MIGRATION",
-    "replace": "hk_mp7"
-  },
-  {
     "id": "10mm",
     "type": "MIGRATION",
     "replace": "10mm_fmj"

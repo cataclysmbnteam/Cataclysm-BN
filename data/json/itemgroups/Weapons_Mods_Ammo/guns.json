@@ -339,7 +339,6 @@
       { "group": "nested_hk_mp5sd", "prob": 10 },
       { "group": "nested_kriss_vector_9mm", "prob": 10 },
       { "group": "nested_TDI", "prob": 10 },
-      { "group": "nested_hk_mp7", "prob": 60 },
       { "group": "nested_hk_ump45", "prob": 30 }
     ]
   },
@@ -353,7 +352,6 @@
       { "group": "everyday_hk_mp5sd", "prob": 10 },
       { "group": "nested_kriss_vector_9mm", "prob": 10 },
       { "group": "nested_TDI", "prob": 10 },
-      { "group": "everyday_hk_mp7", "prob": 60 },
       { "group": "everyday_hk_ump45", "prob": 30 }
     ]
   },
@@ -362,7 +360,6 @@
     "id": "guns_smg_milspec",
     "//": "Military specification SMGs only ever found at military sites.",
     "items": [
-      { "group": "nested_hk_mp7", "prob": 100 },
       { "group": "nested_needlegun", "prob": 30 },
       { "group": "nested_rm2000_smg", "prob": 50 },
       { "group": "nested_kriss_vector_9mm", "prob": 10 },
@@ -376,7 +373,6 @@
     "id": "carried_guns_smg_milspec",
     "//": "Military specification SMGs only ever carried by the military. Comes with mags or loose ammo.",
     "items": [
-      { "group": "everyday_hk_mp7", "prob": 100 },
       { "group": "everyday_needlegun", "prob": 30 },
       { "group": "everyday_rm2000_smg", "prob": 50 },
       { "group": "nested_kriss_vector_9mm", "prob": 10 },

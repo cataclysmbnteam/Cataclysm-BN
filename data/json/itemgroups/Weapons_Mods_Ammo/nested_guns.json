@@ -1081,19 +1081,6 @@
     ]
   },
   {
-    "id": "nested_hk_mp7",
-    "type": "item_group",
-    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
-    "subtype": "collection",
-    "ammo": 100,
-    "entries": [
-      { "item": "hk_mp7", "ammo-group": "on_hand_46", "charges": [ 0, 20 ] },
-      { "group": "nested_hk_mp7_mag" },
-      { "group": "nested_hk_mp7_mag", "prob": 50 },
-      { "group": "on_hand_46" }
-    ]
-  },
-  {
     "id": "nested_rm2000_smg",
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",

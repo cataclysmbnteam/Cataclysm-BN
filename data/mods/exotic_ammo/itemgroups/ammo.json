@@ -35,7 +35,8 @@
       { "item": "460_casing", "prob": 60 },
       { "item": "454_casing", "prob": 60 },
       { "item": "500_casing", "prob": 60 },
-      { "item": "57mm_casing", "prob": 60 }
+      { "item": "57mm_casing", "prob": 60 },
+      { "item": "46mm_casing", "prob": 60 }
     ]
   },
   {
@@ -78,7 +79,7 @@
     "id": "casings",
     "//": "casings list for shooting range.",
     "type": "item_group",
-    "items": [ [ "700nx_casing", 10 ], [ "454_casing", 10 ], [ "500_casing", 10 ], [ "57mm_casing", 10 ] ]
+    "items": [ [ "700nx_casing", 10 ], [ "454_casing", 10 ], [ "500_casing", 10 ], [ "57mm_casing", 10 ], [ "46mm_casing", 10 ] ]
   },
   {
     "type": "item_group",
@@ -107,5 +108,12 @@
     "//": "Ammo for police issue firearms.",
     "subtype": "distribution",
     "entries": [ { "item": "57mm", "prob": 80, "charges": [ 1, 100 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "ammo_pistol_milspec",
+    "//": "Military specification pistol ammo found at military sites.",
+    "subtype": "distribution",
+    "entries": [ { "item": "46mm", "prob": 70, "charges": [ 1, 100 ] } ]
   }
 ]

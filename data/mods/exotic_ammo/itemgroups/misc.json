@@ -27,6 +27,6 @@
     "id": "npc_misc",
     "ammo": 75,
     "magazine": 50,
-    "items": [ [ "57mm_casing", 1 ] ]
+    "items": [ [ "57mm_casing", 1 ], [ "46mm_casing", 1 ] ]
   }
 ]

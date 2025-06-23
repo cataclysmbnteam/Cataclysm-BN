@@ -231,16 +231,6 @@
     "volume": "10ml"
   },
   {
-    "id": "46mm_casing",
-    "copy-from": "casing",
-    "looks_like": "9mm_casing",
-    "type": "GENERIC",
-    "name": { "str": "4.6x30mm casing" },
-    "description": "An empty casing from a 4.6x30mm round.",
-    "weight": "2 g",
-    "volume": "3ml"
-  },
-  {
     "id": "5x50_hull",
     "copy-from": "casing",
     "looks_like": "9mm_casing",

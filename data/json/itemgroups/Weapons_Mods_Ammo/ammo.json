@@ -52,7 +52,6 @@
     "//": "Military specification pistol ammo found at military sites.",
     "subtype": "distribution",
     "entries": [
-      { "item": "46mm", "prob": 70, "charges": [ 1, 100 ] },
       { "item": "5x50dart", "prob": 30, "charges": [ 1, 100 ] },
       { "item": "5x50heavy", "prob": 20, "charges": [ 1, 100 ] },
       { "item": "9mmfmj", "prob": 100, "charges": [ 1, 100 ] }
@@ -669,7 +668,6 @@
       { "item": "45_casing", "prob": 80 },
       { "item": "45colt_casing", "prob": 60 },
       { "item": "4570_casing", "prob": 60 },
-      { "item": "46mm_casing", "prob": 60 },
       { "item": "50_casing", "prob": 60 },
       { "item": "545_casing", "prob": 60 },
       { "item": "5x50_hull", "prob": 60 },
@@ -694,7 +692,6 @@
       [ "44_casing", 35 ],
       [ "45_casing", 65 ],
       [ "45colt_casing", 40 ],
-      [ "46mm_casing", 10 ],
       [ "762_casing", 85 ],
       [ "762_51_casing", 50 ],
       [ "223_casing", 85 ],

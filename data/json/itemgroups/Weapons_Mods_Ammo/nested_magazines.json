@@ -235,16 +235,6 @@
     ]
   },
   {
-    "id": "nested_hk_mp7_mag",
-    "type": "item_group",
-    "subtype": "distribution",
-    "ammo": 100,
-    "entries": [
-      { "item": "hk46mag", "ammo-group": "on_hand_46", "prob": 100 },
-      { "item": "hk46bigmag", "ammo-group": "on_hand_46", "prob": 5 }
-    ]
-  },
-  {
     "id": "nested_stanag_mag",
     "type": "item_group",
     "subtype": "distribution",
