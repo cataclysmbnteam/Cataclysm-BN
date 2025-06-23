@@ -636,18 +636,6 @@
     ]
   },
   {
-    "id": "everyday_m1911-460",
-    "type": "item_group",
-    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
-    "subtype": "collection",
-    "entries": [
-      { "item": "m1911-460", "ammo-group": "on_hand_460", "charges": [ 0, 7 ] },
-      { "group": "nested_m1911_mag_460", "charges-min": 0, "prob": 80 },
-      { "group": "nested_m1911_mag_460", "charges-min": 0, "prob": 50 },
-      { "group": "on_hand_460", "prob": 25, "charges": [ 10, 20 ], "count": [ 1, 2 ] }
-    ]
-  },
-  {
     "id": "everyday_hk_mp5_semi_pistol",
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",

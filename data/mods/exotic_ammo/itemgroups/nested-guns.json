@@ -141,5 +141,51 @@
     "//": "a collection of ammo that would be found with a loaded gun.",
     "subtype": "distribution",
     "entries": [ { "item": "700nx", "prob": 100, "charges": [ 5, 10 ] } ]
+  },
+  {
+    "id": "nested_m1911_mag_460",
+    "type": "item_group",
+    "subtype": "distribution",
+    "//": "Used so the .460 1911 spawns with correct ammo.",
+    "ammo": 100,
+    "entries": [
+      { "item": "m1911mag", "ammo-group": "on_hand_460", "prob": 100 },
+      { "item": "m1911bigmag", "ammo-group": "on_hand_460", "prob": 5 }
+    ]
+  },
+  {
+    "id": "on_hand_460",
+    "type": "item_group",
+    "//": "a collection of ammo that would be found with a loaded gun.",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "460_fmj", "prob": 100, "charges": [ 20, 40 ] },
+      { "item": "460_rowland", "prob": 100, "charges": [ 20, 40 ] }
+    ]
+  },
+  {
+    "id": "nested_m1911-460",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [
+      { "item": "m1911-460", "ammo-group": "on_hand_460", "charges": [ 0, 7 ] },
+      { "group": "nested_m1911_mag_460" },
+      { "group": "nested_m1911_mag_460", "prob": 50 },
+      { "group": "on_hand_460" }
+    ]
+  },
+  {
+    "id": "everyday_m1911-460",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "entries": [
+      { "item": "m1911-460", "ammo-group": "on_hand_460", "charges": [ 0, 7 ] },
+      { "group": "nested_m1911_mag_460", "charges-min": 0, "prob": 80 },
+      { "group": "nested_m1911_mag_460", "charges-min": 0, "prob": 50 },
+      { "group": "on_hand_460", "prob": 25, "charges": [ 10, 20 ], "count": [ 1, 2 ] }
+    ]
   }
 ]

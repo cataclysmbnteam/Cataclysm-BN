@@ -7,7 +7,9 @@
     "entries": [
       { "item": "9x18mm", "prob": 20, "charges": [ 1, 100 ] },
       { "item": "9x18mmfmj", "prob": 20, "charges": [ 1, 100 ] },
-      { "item": "9x18mmP2", "prob": 10, "charges": [ 1, 100 ] }
+      { "item": "9x18mmP2", "prob": 10, "charges": [ 1, 100 ] },
+      { "item": "460_fmj", "prob": 3, "charges": [ 1, 100 ] },
+      { "item": "460_rowland", "prob": 2, "charges": [ 1, 100 ] }
     ]
   },
   {
@@ -28,7 +30,8 @@
     "entries": [
       { "item": "9x18mm_casing", "prob": 80 },
       { "item": "38super_casing", "prob": 80 },
-      { "item": "700nx_casing", "prob": 40 }
+      { "item": "700nx_casing", "prob": 40 },
+      { "item": "460_casing", "prob": 60 }
     ]
   },
   {

@@ -492,11 +492,6 @@
     "replace": "colt_lightning"
   },
   {
-    "id": [ "l_sp_45", "l_mp_45" ],
-    "type": "MIGRATION",
-    "replace": "m1911-460"
-  },
-  {
     "id": "l_enforcer_45",
     "type": "MIGRATION",
     "replace": "sw629"

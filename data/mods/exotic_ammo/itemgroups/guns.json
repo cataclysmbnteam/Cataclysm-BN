@@ -3,13 +3,21 @@
     "type": "item_group",
     "id": "guns_pistol_obscure",
     "//": "Imported or otherwise very obscure pistols.",
-    "items": [ { "group": "nested_makarov", "prob": 50 }, { "group": "nested_af2011a1_38super", "prob": 10 } ]
+    "items": [
+      { "group": "nested_makarov", "prob": 50 },
+      { "group": "nested_af2011a1_38super", "prob": 10 },
+      { "group": "nested_m1911-460", "prob": 5 }
+    ]
   },
   {
     "type": "item_group",
     "id": "carried_guns_pistol_obscure",
     "//": "Imported or otherwise very obscure pistols being carried, with either mags or loose ammo.",
-    "items": [ { "group": "everyday_makarov", "prob": 50 }, { "group": "everyday_af2011a1_38super", "prob": 10 } ]
+    "items": [
+      { "group": "everyday_makarov", "prob": 50 },
+      { "group": "everyday_af2011a1_38super", "prob": 10 },
+      { "group": "everyday_m1911-460", "prob": 5 }
+    ]
   },
   {
     "type": "item_group",

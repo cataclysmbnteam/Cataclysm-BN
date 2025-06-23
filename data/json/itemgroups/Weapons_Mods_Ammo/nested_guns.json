@@ -880,19 +880,6 @@
     "entries": [ { "item": "cop_38", "ammo-group": "on_hand_357_38mixed", "charges": [ 0, 4 ] }, { "group": "on_hand_357_38mixed" } ]
   },
   {
-    "id": "nested_m1911-460",
-    "type": "item_group",
-    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
-    "subtype": "collection",
-    "ammo": 100,
-    "entries": [
-      { "item": "m1911-460", "ammo-group": "on_hand_460", "charges": [ 0, 7 ] },
-      { "group": "nested_m1911_mag_460" },
-      { "group": "nested_m1911_mag_460", "prob": 50 },
-      { "group": "on_hand_460" }
-    ]
-  },
-  {
     "id": "nested_lemat_revolver",
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",

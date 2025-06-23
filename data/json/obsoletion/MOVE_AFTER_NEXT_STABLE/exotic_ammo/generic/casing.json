@@ -28,5 +28,15 @@
     "description": "An empty casing from a .700 NX round.  These are rare, so you might want to hold onto these.",
     "weight": "18 g",
     "volume": "12ml"
+  },
+  {
+    "id": "460_casing",
+    "copy-from": "casing",
+    "looks_like": "9mm_casing",
+    "type": "GENERIC",
+    "name": { "str": ".460 Rowland casing" },
+    "description": "An empty casing from a .460 Rowland round.  It looks deceptively like a .45ACP casing.",
+    "weight": "4 g",
+    "volume": "6ml"
   }
 ]
