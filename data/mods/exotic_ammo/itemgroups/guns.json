@@ -40,5 +40,23 @@
     "id": "guns_pistol_common_display",
     "//": "Empty pistols found exclusively in gun stores.",
     "items": [ { "item": "m1911a1_38super", "prob": 15, "charges-min": 0, "charges-max": 0 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_rifle_obscure",
+    "//": "Mostly imported or otherwise very obscure rifles.",
+    "items": [ { "group": "nested_trex_gun", "prob": 20 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "carried_guns_rifle_obscure",
+    "//": "Imported or otherwise very obscure rifles. Comes with mags or loose ammo.",
+    "items": [ { "group": "everyday_trex_gun", "prob": 20 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_hunting",
+    "//": "Guns typically used by hunters, be it rifles, shotguns or archery.",
+    "items": [ { "group": "nested_trex_gun", "prob": 5 } ]
   }
 ]

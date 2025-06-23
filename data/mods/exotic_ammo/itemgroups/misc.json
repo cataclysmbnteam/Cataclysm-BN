@@ -1,0 +1,19 @@
+[
+  {
+    "type": "item_group",
+    "id": "pawn",
+    "items": [ [ "700nx", 1 ], [ "700nx_casing", 1 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "antique_rare",
+    "subtype": "distribution",
+    "entries": [ { "item": "trex_gun", "prob": 4 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "antique_bank_vault",
+    "subtype": "distribution",
+    "entries": [ { "item": "trex_gun", "prob": 4 } ]
+  }
+]

@@ -2222,16 +2222,6 @@
     ]
   },
   {
-    "id": "everyday_trex_gun",
-    "type": "item_group",
-    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
-    "subtype": "collection",
-    "entries": [
-      { "item": "trex_gun", "ammo-group": "on_hand_700nx", "charges": [ 0, 2 ] },
-      { "group": "on_hand_700nx", "charges": [ 10, 20 ], "count": [ 1, 2 ] }
-    ]
-  },
-  {
     "id": "everyday_mossberg_500",
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",

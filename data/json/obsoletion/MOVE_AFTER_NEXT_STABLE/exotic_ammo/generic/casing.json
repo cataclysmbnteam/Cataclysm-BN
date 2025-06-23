@@ -18,5 +18,15 @@
     "description": "An empty casing from a .38 Super round.",
     "weight": "3 g",
     "volume": "4ml"
+  },
+  {
+    "id": "700nx_casing",
+    "copy-from": "casing",
+    "looks_like": "9mm_casing",
+    "type": "GENERIC",
+    "name": { "str": ".700 NX casing" },
+    "description": "An empty casing from a .700 NX round.  These are rare, so you might want to hold onto these.",
+    "weight": "18 g",
+    "volume": "12ml"
   }
 ]

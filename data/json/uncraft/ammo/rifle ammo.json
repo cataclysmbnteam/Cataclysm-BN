@@ -556,38 +556,6 @@
     "charges": 1
   },
   {
-    "result": "700nx",
-    "type": "uncraft",
-    "skill_used": "fabrication",
-    "skills_required": [ "gun", 1 ],
-    "time": "7 s",
-    "qualities": [ { "id": "PULL", "level": 1 } ],
-    "components": [
-      [ [ "lead", 10 ] ],
-      [ [ "copper", 5 ] ],
-      [ [ "700nx_casing", 1 ] ],
-      [ [ "lgrifle_primer", 1 ] ],
-      [ [ "gunpowder", 30 ] ]
-    ],
-    "charges": 1
-  },
-  {
-    "result": "bp_700nx",
-    "type": "uncraft",
-    "skill_used": "fabrication",
-    "skills_required": [ "gun", 1 ],
-    "time": "7 s",
-    "qualities": [ { "id": "PULL", "level": 1 } ],
-    "components": [
-      [ [ "lead", 10 ] ],
-      [ [ "copper", 5 ] ],
-      [ [ "700nx_casing", 1 ] ],
-      [ [ "lgrifle_primer", 1 ] ],
-      [ [ "chem_black_powder", 45 ] ]
-    ],
-    "charges": 1
-  },
-  {
     "result": "762_51",
     "type": "uncraft",
     "skill_used": "fabrication",

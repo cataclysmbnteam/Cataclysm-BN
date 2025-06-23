@@ -25,7 +25,11 @@
     "id": "ammo_casings",
     "type": "item_group",
     "subtype": "distribution",
-    "entries": [ { "item": "9x18mm_casing", "prob": 80 }, { "item": "38super_casing", "prob": 80 } ]
+    "entries": [
+      { "item": "9x18mm_casing", "prob": 80 },
+      { "item": "38super_casing", "prob": 80 },
+      { "item": "700nx_casing", "prob": 40 }
+    ]
   },
   {
     "type": "item_group",
@@ -47,5 +51,18 @@
     "//": "Pistol ammo commonly owned by citizens and found in many locations, for vending machines.",
     "subtype": "distribution",
     "entries": [ { "item": "38super_fmj", "prob": 7 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "ammo_rifle_obscure",
+    "//": "Imported or otherwise very obscure rifle ammo.",
+    "subtype": "distribution",
+    "entries": [ { "item": "700nx", "prob": 20, "charges": [ 1, 100 ] } ]
+  },
+  {
+    "id": "casings",
+    "//": "casings list for shooting range.",
+    "type": "item_group",
+    "items": [ [ "700nx_casing", 10 ] ]
   }
 ]

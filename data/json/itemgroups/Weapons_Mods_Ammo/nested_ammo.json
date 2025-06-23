@@ -302,13 +302,6 @@
     "entries": [ { "item": "545", "prob": 100, "charges": [ 15, 30 ] }, { "item": "545_ap", "prob": 30, "charges": [ 15, 30 ] } ]
   },
   {
-    "id": "on_hand_700nx",
-    "type": "item_group",
-    "//": "a collection of ammo that would be found with a loaded gun.",
-    "subtype": "distribution",
-    "entries": [ { "item": "700nx", "prob": 100, "charges": [ 5, 10 ] } ]
-  },
-  {
     "id": "on_hand_shot",
     "type": "item_group",
     "//": "a collection of ammo that would be found with a loaded gun.",

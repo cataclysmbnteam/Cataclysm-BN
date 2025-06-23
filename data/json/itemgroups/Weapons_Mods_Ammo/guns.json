@@ -734,8 +734,7 @@
       { "group": "nested_iwi_tavor_x95_300blk", "prob": 20 },
       { "group": "nested_longrifle_flintlock", "prob": 90 },
       { "group": "nested_rifle_flintlock", "prob": 90 },
-      { "group": "nested_steyr_aug", "prob": 40 },
-      { "group": "nested_trex_gun", "prob": 20 }
+      { "group": "nested_steyr_aug", "prob": 40 }
     ]
   },
   {
@@ -756,8 +755,7 @@
       { "group": "everyday_iwi_tavor_x95_300blk", "prob": 20 },
       { "group": "everyday_longrifle_flintlock", "prob": 90 },
       { "group": "everyday_rifle_flintlock", "prob": 90 },
-      { "group": "everyday_steyr_aug", "prob": 40 },
-      { "group": "everyday_trex_gun", "prob": 20 }
+      { "group": "everyday_steyr_aug", "prob": 40 }
     ]
   },
   {
@@ -1175,7 +1173,6 @@
     "id": "guns_hunting",
     "//": "Guns typically used by hunters, be it rifles, shotguns or archery.",
     "items": [
-      { "group": "nested_trex_gun", "prob": 5 },
       { "group": "nested_remington_700", "prob": 20 },
       { "group": "nested_remington700_270", "prob": 10 },
       { "group": "nested_marlin_1894c", "prob": 30 },
