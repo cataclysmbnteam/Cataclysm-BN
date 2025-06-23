@@ -34,5 +34,11 @@
     "id": "500",
     "name": ".500",
     "default": "500_Magnum"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "57",
+    "name": "5.7mm",
+    "default": "57mm"
   }
 ]

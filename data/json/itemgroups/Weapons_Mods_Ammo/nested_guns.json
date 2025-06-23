@@ -622,19 +622,6 @@
     ]
   },
   {
-    "id": "nested_fn57",
-    "type": "item_group",
-    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
-    "subtype": "collection",
-    "ammo": 100,
-    "entries": [
-      { "item": "fn57", "ammo-group": "on_hand_57", "charges": [ 0, 20 ] },
-      { "item": "fn57mag", "ammo-group": "on_hand_57" },
-      { "item": "fn57mag", "ammo-group": "on_hand_57", "prob": 50 },
-      { "group": "on_hand_57" }
-    ]
-  },
-  {
     "id": "nested_ruger_lcr_22",
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
@@ -911,19 +898,6 @@
       { "item": "calicomag", "ammo-group": "on_hand_9mm" },
       { "item": "calicomag", "ammo-group": "on_hand_9mm", "prob": 50 },
       { "group": "on_hand_9mm" }
-    ]
-  },
-  {
-    "id": "nested_fn_p90",
-    "type": "item_group",
-    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
-    "subtype": "collection",
-    "ammo": 100,
-    "entries": [
-      { "item": "fn_p90", "ammo-group": "on_hand_57", "charges": [ 0, 50 ] },
-      { "item": "fnp90mag", "ammo-group": "on_hand_57" },
-      { "item": "fnp90mag", "ammo-group": "on_hand_57", "prob": 50 },
-      { "group": "on_hand_57" }
     ]
   },
   {

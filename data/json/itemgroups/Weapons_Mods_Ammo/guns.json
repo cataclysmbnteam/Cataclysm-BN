@@ -11,7 +11,6 @@
       { "group": "nested_cz75", "prob": 10 },
       { "group": "nested_deagle_44", "prob": 10 },
       { "group": "nested_fn1910", "prob": 5 },
-      { "group": "nested_fn57", "prob": 10 },
       { "group": "nested_glock_17", "prob": 55 },
       { "group": "nested_glock_19", "prob": 40 },
       { "group": "nested_glock_20", "prob": 20 },
@@ -69,7 +68,6 @@
       { "group": "everyday_cz75", "prob": 10 },
       { "group": "everyday_deagle_44", "prob": 10 },
       { "group": "everyday_fn1910", "prob": 5 },
-      { "group": "everyday_fn57", "prob": 10 },
       { "group": "everyday_glock_17", "prob": 55 },
       { "group": "everyday_glock_19", "prob": 40 },
       { "group": "everyday_glock_20", "prob": 20 },
@@ -127,7 +125,6 @@
       { "item": "cz75", "prob": 10, "charges-min": 0, "charges-max": 0 },
       { "item": "deagle_44", "prob": 10, "charges-min": 0, "charges-max": 0 },
       { "item": "fn1910", "prob": 5, "charges-min": 0, "charges-max": 0 },
-      { "item": "fn57", "prob": 10, "charges-min": 0, "charges-max": 0 },
       { "item": "glock_17", "prob": 55, "charges-min": 0, "charges-max": 0 },
       { "item": "glock_19", "prob": 40, "charges-min": 0, "charges-max": 0 },
       { "item": "glock_20", "prob": 20, "charges-min": 0, "charges-max": 0 },
@@ -338,7 +335,6 @@
     "//": "SMGs including those only used by police/paramilitary forces.",
     "items": [
       { "group": "nested_calico", "prob": 30 },
-      { "group": "nested_fn_p90", "prob": 50 },
       { "group": "nested_hk_mp5", "prob": 100 },
       { "group": "nested_hk_mp5sd", "prob": 10 },
       { "group": "nested_kriss_vector_9mm", "prob": 10 },
@@ -353,7 +349,6 @@
     "//": "SMGs including those only carried by police/paramilitary forces. Either mags or loose ammo are included.",
     "items": [
       { "group": "everyday_calico", "prob": 30 },
-      { "group": "everyday_fn_p90", "prob": 50 },
       { "group": "everyday_hk_mp5", "prob": 100 },
       { "group": "everyday_hk_mp5sd", "prob": 10 },
       { "group": "nested_kriss_vector_9mm", "prob": 10 },
@@ -1047,8 +1042,6 @@
     "items": [
       { "group": "nested_ar15", "prob": 15 },
       { "group": "nested_cx4", "prob": 20 },
-      { "group": "nested_fn57", "prob": 20 },
-      { "group": "nested_fn_p90", "prob": 5 },
       { "group": "nested_glock_19", "prob": 15 },
       { "group": "nested_glock_22", "prob": 20 },
       { "group": "nested_hk_mp5", "prob": 10 },
@@ -1072,8 +1065,6 @@
     "items": [
       { "group": "everyday_ar15", "prob": 15 },
       { "group": "everyday_cx4", "prob": 20 },
-      { "group": "everyday_fn57", "prob": 20 },
-      { "group": "everyday_fn_p90", "prob": 5 },
       { "group": "everyday_glock_19", "prob": 15 },
       { "group": "everyday_glock_22", "prob": 20 },
       { "group": "everyday_hk_mp5", "prob": 10 },

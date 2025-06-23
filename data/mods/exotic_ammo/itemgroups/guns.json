@@ -39,13 +39,21 @@
     "type": "item_group",
     "id": "guns_pistol_common",
     "//": "Pistols commonly owned by citizens and found in many locations.",
-    "items": [ { "group": "nested_m1911a1_38super", "prob": 15 }, { "group": "nested_sw_500", "prob": 25 } ]
+    "items": [
+      { "group": "nested_m1911a1_38super", "prob": 15 },
+      { "group": "nested_sw_500", "prob": 25 },
+      { "group": "nested_fn57", "prob": 10 }
+    ]
   },
   {
     "type": "item_group",
     "id": "carried_guns_pistol_common",
     "//": "Pistols commonly owned by citizens and carried by them. If a gun has mags, it has no loose ammo. If it has no mags, it has loose ammo.",
-    "items": [ { "group": "everyday_m1911a1_38super", "prob": 15 }, { "group": "everyday_sw_500", "prob": 25 } ]
+    "items": [
+      { "group": "everyday_m1911a1_38super", "prob": 15 },
+      { "group": "everyday_sw_500", "prob": 25 },
+      { "group": "everyday_fn57", "prob": 10 }
+    ]
   },
   {
     "type": "item_group",
@@ -53,7 +61,8 @@
     "//": "Empty pistols found exclusively in gun stores.",
     "items": [
       { "item": "m1911a1_38super", "prob": 15, "charges-min": 0, "charges-max": 0 },
-      { "item": "sw_500", "prob": 25, "charges-min": 0, "charges-max": 0 }
+      { "item": "sw_500", "prob": 25, "charges-min": 0, "charges-max": 0 },
+      { "item": "fn57", "prob": 10, "charges-min": 0, "charges-max": 0 }
     ]
   },
   {
@@ -91,5 +100,29 @@
     "id": "guns_rifle_common_display",
     "//": "Empty rifles commonly found in gun stores.",
     "items": [ { "item": "bh_m89", "prob": 20, "charges-min": 0, "charges-max": 0 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_cop",
+    "//": "Police issue weapons of all types",
+    "items": [ { "group": "nested_fn57", "prob": 20 }, { "group": "nested_fn_p90", "prob": 5 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "carried_guns_cop",
+    "//": "Police issue weapons of all types. Carried, so they have mags or loose ammo.",
+    "items": [ { "group": "everyday_fn57", "prob": 20 }, { "group": "everyday_fn_p90", "prob": 5 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_smg_rare",
+    "//": "SMGs including those only used by police/paramilitary forces.",
+    "items": [ { "group": "nested_fn_p90", "prob": 50 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "carried_guns_smg_rare",
+    "//": "SMGs including those only carried by police/paramilitary forces. Either mags or loose ammo are included.",
+    "items": [ { "group": "everyday_fn_p90", "prob": 50 } ]
   }
 ]

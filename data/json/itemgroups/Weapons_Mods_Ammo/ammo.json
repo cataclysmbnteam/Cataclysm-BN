@@ -29,7 +29,6 @@
       { "item": "4570_low", "prob": 15, "charges": [ 1, 100 ] },
       { "item": "4570_sp", "prob": 5, "charges": [ 1, 100 ] },
       { "item": "45colt_jhp", "prob": 20, "charges": [ 1, 100 ] },
-      { "item": "57mm", "prob": 10, "charges": [ 1, 100 ] },
       { "item": "9mm", "prob": 125, "charges": [ 1, 100 ] },
       { "item": "9mmfmj", "prob": 125, "charges": [ 1, 100 ] }
     ]
@@ -119,7 +118,6 @@
       { "item": "bp_45_acp", "prob": 40, "charges": [ 1, 100 ] },
       { "item": "bp_45_jhp", "prob": 40, "charges": [ 1, 100 ] },
       { "item": "bp_45colt_jhp", "prob": 20, "charges": [ 1, 100 ] },
-      { "item": "bp_57mm", "prob": 10, "charges": [ 1, 100 ] },
       { "item": "bp_9mm", "prob": 125, "charges": [ 1, 100 ] },
       { "item": "bp_9mmfmj", "prob": 125, "charges": [ 1, 100 ] },
       { "item": "reloaded_4570_bp", "prob": 20, "charges": [ 1, 100 ] }
@@ -517,7 +515,6 @@
       { "item": "3006", "prob": 10, "charges": [ 1, 100 ] },
       { "item": "40sw", "prob": 50, "charges": [ 1, 100 ] },
       { "item": "45_acp", "prob": 20, "charges": [ 1, 100 ] },
-      { "item": "57mm", "prob": 80, "charges": [ 1, 100 ] },
       { "item": "9mm", "prob": 100, "charges": [ 1, 100 ] },
       { "item": "shot_00", "prob": 40, "charges": [ 1, 100 ] },
       { "item": "shot_beanbag", "prob": 40, "charges": [ 1, 100 ] }
@@ -567,7 +564,6 @@
       { "item": "4570_low", "prob": 15 },
       { "item": "4570_sp", "prob": 5 },
       { "item": "45colt_jhp", "prob": 20 },
-      { "item": "57mm", "prob": 10 },
       { "item": "9mm", "prob": 125 },
       { "item": "9mmfmj", "prob": 125 }
     ]
@@ -676,7 +672,6 @@
       { "item": "46mm_casing", "prob": 60 },
       { "item": "50_casing", "prob": 60 },
       { "item": "545_casing", "prob": 60 },
-      { "item": "57mm_casing", "prob": 60 },
       { "item": "5x50_hull", "prob": 60 },
       { "item": "762_casing", "prob": 80 },
       { "item": "762_25_casing", "prob": 60 },
@@ -699,7 +694,6 @@
       [ "44_casing", 35 ],
       [ "45_casing", 65 ],
       [ "45colt_casing", 40 ],
-      [ "57mm_casing", 10 ],
       [ "46mm_casing", 10 ],
       [ "762_casing", 85 ],
       [ "762_51_casing", 50 ],

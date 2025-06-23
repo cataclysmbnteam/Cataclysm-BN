@@ -157,12 +157,6 @@
   },
   {
     "type": "ammunition_type",
-    "id": "57",
-    "name": "5.7mm",
-    "default": "57mm"
-  },
-  {
-    "type": "ammunition_type",
     "id": "46",
     "name": "4.6mm",
     "default": "46mm"

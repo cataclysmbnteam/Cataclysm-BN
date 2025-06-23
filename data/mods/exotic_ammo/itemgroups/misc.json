@@ -15,5 +15,18 @@
     "id": "antique_bank_vault",
     "subtype": "distribution",
     "entries": [ { "item": "trex_gun", "prob": 4 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "defense_caravan_ammunition",
+    "subtype": "collection",
+    "items": [ { "item": "57mm" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "npc_misc",
+    "ammo": 75,
+    "magazine": 50,
+    "items": [ [ "57mm_casing", 1 ] ]
   }
 ]

@@ -58,5 +58,15 @@
     "description": "An empty casing from a .500 S&W Magnum round.",
     "weight": "7 g",
     "volume": "10ml"
+  },
+  {
+    "id": "57mm_casing",
+    "copy-from": "casing",
+    "looks_like": "9mm_casing",
+    "type": "GENERIC",
+    "name": { "str": "5.7x28mm casing" },
+    "description": "An empty casing from a 5.7x28mm round.",
+    "weight": "2 g",
+    "volume": "3ml"
   }
 ]

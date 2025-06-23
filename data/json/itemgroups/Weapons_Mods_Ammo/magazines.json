@@ -66,7 +66,6 @@
     "id": "mags_cop",
     "//": "Standard issue police magazines.",
     "items": [
-      [ "fn57mag", 15 ],
       [ "glockmag", 40 ],
       [ "glock40mag", 30 ],
       [ "hk46mag", 5 ],
@@ -89,7 +88,6 @@
     "//": "Magazines issued to paramilitary forces in addition to standard police issue.",
     "items": [
       { "group": "mags_cop", "prob": 50 },
-      [ "fnp90mag", 20 ],
       [ "glockbigmag", 10 ],
       [ "glock40bigmag", 10 ],
       [ "hk46bigmag", 5 ],
@@ -121,7 +119,6 @@
       [ "cz75mag_12rd", 10 ],
       [ "deaglemag", 10 ],
       [ "fn1910mag", 5 ],
-      [ "fn57mag", 10 ],
       [ "glock_21mag", 15 ],
       [ "glock17_17", 55 ],
       [ "glock20mag", 20 ],
@@ -219,7 +216,6 @@
     "//": "Aftermarket or otherwise uncommon SMG magazines excluding milspec.",
     "items": [
       [ "calicomag", 30 ],
-      [ "fnp90mag", 50 ],
       [ "hk46bigmag", 5 ],
       [ "hk46mag", 55 ],
       [ "mp5bigmag", 100 ],
