@@ -267,7 +267,6 @@ const behavior::node_t *mtype::get_goals() const
     return &goals;
 }
 
-
 void mtype::faction_display( catacurses::window &w, const point &top_left, const int width ) const
 {
     int y = 0;

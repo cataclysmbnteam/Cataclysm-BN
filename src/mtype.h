@@ -11,6 +11,7 @@
 #include "behavior.h"
 #include "calendar.h"
 #include "color.h"
+#include "cursesdef.h"
 #include "damage.h"
 #include "enum_bitset.h"
 #include "enums.h"
@@ -298,6 +299,8 @@ struct mtype {
         bool regenerates_in_dark = false;
         // Will stop fleeing if at max hp, and regen anger and morale.
         bool regen_morale = false;
+
+        void faction_display( catacurses::window &w, const point &top_left, const int width ) const;
 
         // mountable ratio for rider weight vs. mount weight, default 0.3
         float mountable_weight_ratio = 0.3;

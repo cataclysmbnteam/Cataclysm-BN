@@ -601,8 +601,6 @@ void Character::load( const JsonObject &data )
 
     data.read( "my_bionics", *my_bionics );
 
-    data.read( "known_monsters", known_monsters );
-
     for( auto &w : worn ) {
         w->on_takeoff( *this );
     }
@@ -653,7 +651,7 @@ void Character::load( const JsonObject &data )
     data.read( "move_mode", move_mode );
 
     // monsters recorded by the character
-    json.member( "known_monsters", known_monsters );
+    data.read( "known_monsters", known_monsters );
 
     if( has_effect( effect_riding ) ) {
         int temp_id;
@@ -1046,6 +1044,10 @@ void avatar::store( JsonOut &json ) const
 
     json.member( "preferred_aiming_mode", preferred_aiming_mode );
 
+    json.member( "snippets_read", snippets_read );
+
+    json.member( "known_monsters", known_monsters );
+
     json.member( "faction_warnings" );
     json.start_array();
     for( const auto &elem : warning_record ) {
@@ -1121,6 +1123,9 @@ void avatar::load( const JsonObject &data )
 
     items_identified.clear();
     data.read( "items_identified", items_identified );
+
+    // Player only, snippets they have read at least once.
+    data.read( "snippets_read", snippets_read );
 
     data.read( "translocators", translocators );
 
