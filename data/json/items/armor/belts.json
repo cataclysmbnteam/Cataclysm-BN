@@ -27,7 +27,7 @@
       "flags": [ "BELT_CLIP" ]
     },
     "valid_mods": [ "resized_large" ],
-    "flags": [ "FANCY", "WAIST", "COMPACT", "NO_QUICKDRAW", "WATER_FRIENDLY" ]
+    "flags": [ "FANCY", "WAIST", "COMPACT", "WATER_FRIENDLY" ]
   },
   {
     "abstract": "judo_belt_abstract",
@@ -238,7 +238,7 @@
       "flags": [ "BELT_CLIP", "SHEATH_KNIFE" ]
     },
     "valid_mods": [ "resized_large" ],
-    "flags": [ "WAIST", "COMPACT", "NO_QUICKDRAW", "WATER_FRIENDLY" ]
+    "flags": [ "WAIST", "COMPACT", "WATER_FRIENDLY" ]
   },
   {
     "id": "webbing_belt",
