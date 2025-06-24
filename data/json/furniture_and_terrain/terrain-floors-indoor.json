@@ -378,7 +378,7 @@
     "light_emitted": 240,
     "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "INDOORS", "FLAT", "MINEABLE" ],
     "deconstruct": {
-      "ter_set": "t_floor",
+      "ter_set": "t_concrete",
       "items": [
         { "item": "cable", "charges": 4 },
         { "item": "power_supply", "count": 1 },
@@ -391,7 +391,7 @@
     "bash": {
       "sound": "metal screeching!",
       "sound_fail": "clang!",
-      "ter_set": "t_floor",
+      "ter_set": "t_concrete",
       "str_min": 20,
       "str_max": 70,
       "//": "Some extra wire and scrap metal from smash results matching vehicle floodlights",
