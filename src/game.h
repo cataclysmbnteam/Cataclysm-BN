@@ -24,6 +24,7 @@
 #include "enums.h"
 #include "game_constants.h"
 #include "memory_fast.h"
+#include "mapdata.h"
 #include "pimpl.h"
 #include "point.h"
 #include "type_id.h"
@@ -468,6 +469,8 @@ class game
          */
         void unload_npcs();
     public:
+        static tripoint find_closest_stair( const tripoint &near_this, const ter_bitflags stair_type );
+        void suggest_auto_walk_to_stairs( Character &u, map &m, const std::string &direction );
         /** Unloads, then loads the NPCs */
         void reload_npcs();
         /** Add follower id to set of followers. */
