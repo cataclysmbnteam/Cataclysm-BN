@@ -4994,5 +4994,12 @@
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "plastic_scrap", 10 ] ] ],
     "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "bag_canvas_small",
+    "type": "uncraft",
+    "time": "2 m",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "rag", 1 ] ] ]
   }
 ]
