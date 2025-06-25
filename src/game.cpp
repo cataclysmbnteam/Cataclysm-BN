@@ -551,6 +551,50 @@ void game::load_map( const tripoint_abs_sm &pos_sm,
     grid_tracker_ptr->load( m );
 }
 
+std::optional<tripoint> game::find_local_stairs_leading_to( map &mp, const int z_after )
+{
+    const int movez = z_after - get_levz();
+    const bool going_down = movez == -1;
+    const bool going_up = movez == 1;
+
+    //i tried 40, 80, and 100 here and got the same result almost every time? works for our purposes though
+    for( const tripoint &candidate : closest_points_first( u.pos(), 80 ) ) {
+        if( ( going_up && mp.has_flag( TFLAG_GOES_UP, candidate ) ) ||
+            ( going_down && mp.has_flag( TFLAG_GOES_DOWN, candidate ) ) ) {
+            return candidate;
+        }
+        // Optionally support elevators:
+        if( ( movez == 2 || movez == -2 ) && mp.ter( candidate ) == t_elevator ) {
+            return candidate;
+        }
+    }
+
+    return std::nullopt;
+}
+
+void game::suggest_auto_walk_to_stairs( Character &u, map &m, const std::string &direction )
+{
+    const int z_after = direction == "up" ? u.posz() + 1 : u.posz() - 1;
+    std::optional<tripoint> stair_pos = find_local_stairs_leading_to( m, z_after );
+
+    if( !stair_pos || !u.sees( *stair_pos ) ) {
+        return;
+    }
+
+    auto route = m.route( u.pos(), *stair_pos, u.get_legacy_pathfinding_settings(),
+                          u.get_legacy_path_avoid() );
+    if( route.size() <= 1 ) {
+        return;
+    }
+
+    std::string dir_text = direction == "up" ? "(up)" : "(down)";
+    if( query_yn( "Walk to %s %s?", m.ter( *stair_pos ).obj().name(), dir_text ) ) {
+        route.pop_back();
+        u.set_destination( route, u.remove_activity() );
+        u.activity = std::make_unique<player_activity>();
+    }
+}
+
 // Set up all default values for a new game
 bool game::start_game()
 {
@@ -10737,6 +10781,18 @@ std::optional<tripoint> game::find_or_make_stairs( map &mp, const int z_after, b
                 return std::nullopt;
             }
         }
+    }
+
+    return stairs;
+}
+std::optional<tripoint> game::find_or_make_stairs( map &mp, const int z_after, bool &rope_ladder,
+        bool peeking )
+{
+    const int movez = z_after - u.pos().z;
+
+    // Try to find the stairs.
+    std::optional<tripoint> stairs = find_stairs( mp, z_after, peeking );
+    if( stairs.has_value() ) {
         return stairs;
     }
 
