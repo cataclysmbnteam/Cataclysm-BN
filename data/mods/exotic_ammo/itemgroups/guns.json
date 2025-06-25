@@ -8,7 +8,8 @@
       { "group": "nested_af2011a1_38super", "prob": 10 },
       { "group": "nested_m1911-460", "prob": 5 },
       { "group": "nested_raging_bull", "prob": 60 },
-      { "group": "nested_raging_judge", "prob": 40 }
+      { "group": "nested_raging_judge", "prob": 40 },
+      { "group": "nested_tokarev", "prob": 50 }
     ]
   },
   {
@@ -20,20 +21,21 @@
       { "group": "everyday_af2011a1_38super", "prob": 10 },
       { "group": "everyday_m1911-460", "prob": 5 },
       { "group": "everyday_raging_bull", "prob": 60 },
-      { "group": "everyday_raging_judge", "prob": 40 }
+      { "group": "everyday_raging_judge", "prob": 40 },
+      { "group": "everyday_tokarev", "prob": 50 }
     ]
   },
   {
     "type": "item_group",
     "id": "guns_smg_obscure",
     "//": "Imported or otherwise very obscure SMGs.",
-    "items": [ { "group": "nested_skorpion_82", "prob": 100 } ]
+    "items": [ { "group": "nested_skorpion_82", "prob": 100 }, { "group": "nested_ppsh", "prob": 150 } ]
   },
   {
     "type": "item_group",
     "id": "carried_guns_smg_obscure",
     "//": "Imported or otherwise very obscure SMGs. Just mags, no loose ammo.",
-    "items": [ { "group": "everyday_skorpion_82", "prob": 100 } ]
+    "items": [ { "group": "everyday_skorpion_82", "prob": 100 }, { "group": "everyday_ppsh", "prob": 150 } ]
   },
   {
     "type": "item_group",

@@ -241,8 +241,7 @@
       { "group": "nested_moss_brownie", "prob": 20 },
       { "group": "nested_pistol_flintlock", "prob": 70 },
       { "group": "nested_rm99_pistol", "prob": 30 },
-      { "group": "nested_sig_p230", "prob": 10 },
-      { "group": "nested_tokarev", "prob": 50 }
+      { "group": "nested_sig_p230", "prob": 10 }
     ]
   },
   {
@@ -260,8 +259,7 @@
       { "group": "everyday_moss_brownie", "prob": 20 },
       { "group": "everyday_pistol_flintlock", "prob": 70 },
       { "group": "everyday_rm99_pistol", "prob": 30 },
-      { "group": "everyday_sig_p230", "prob": 10 },
-      { "group": "everyday_tokarev", "prob": 50 }
+      { "group": "everyday_sig_p230", "prob": 10 }
     ]
   },
   {
@@ -385,21 +383,13 @@
     "type": "item_group",
     "id": "guns_smg_obscure",
     "//": "Imported or otherwise very obscure SMGs.",
-    "items": [
-      { "group": "nested_briefcase_smg", "prob": 80 },
-      { "group": "nested_ppsh", "prob": 150 },
-      { "group": "nested_skorpion_61", "prob": 100 }
-    ]
+    "items": [ { "group": "nested_briefcase_smg", "prob": 80 }, { "group": "nested_skorpion_61", "prob": 100 } ]
   },
   {
     "type": "item_group",
     "id": "carried_guns_smg_obscure",
     "//": "Imported or otherwise very obscure SMGs. Just mags, no loose ammo.",
-    "items": [
-      { "group": "everyday_briefcase_smg", "prob": 80 },
-      { "group": "everyday_ppsh", "prob": 150 },
-      { "group": "everyday_skorpion_61", "prob": 100 }
-    ]
+    "items": [ { "group": "everyday_briefcase_smg", "prob": 80 }, { "group": "everyday_skorpion_61", "prob": 100 } ]
   },
   {
     "type": "item_group",

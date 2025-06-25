@@ -526,5 +526,76 @@
     "subtype": "collection",
     "ammo": 100,
     "entries": [ { "item": "remington700_270", "ammo-group": "on_hand_270win", "charges": [ 0, 4 ] }, { "group": "on_hand_270win" } ]
+  },
+  {
+    "id": "on_hand_762x25",
+    "type": "item_group",
+    "//": "a collection of ammo that would be found with a loaded gun.",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "762_25", "prob": 100, "charges": [ 20, 40 ] },
+      { "item": "762_25hot", "prob": 100, "charges": [ 20, 40 ] },
+      { "item": "762_25typeP", "prob": 30, "charges": [ 20, 40 ] }
+    ]
+  },
+  {
+    "id": "nested_ppsh_mag",
+    "type": "item_group",
+    "subtype": "distribution",
+    "ammo": 100,
+    "entries": [
+      { "item": "ppshmag", "ammo-group": "on_hand_762x25", "prob": 100 },
+      { "item": "ppshdrum", "ammo-group": "on_hand_762x25", "prob": 5 }
+    ]
+  },
+  {
+    "id": "nested_ppsh",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [
+      { "item": "ppsh", "ammo-group": "on_hand_762x25", "charges": [ 0, 35 ] },
+      { "group": "nested_ppsh_mag" },
+      { "group": "nested_ppsh_mag", "prob": 50 },
+      { "group": "on_hand_762x25" }
+    ]
+  },
+  {
+    "id": "nested_tokarev",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [
+      { "item": "tokarev", "ammo-group": "on_hand_762x25", "charges": [ 0, 8 ] },
+      { "item": "tokarevmag", "ammo-group": "on_hand_762x25" },
+      { "item": "tokarevmag", "prob": 50, "ammo-group": "on_hand_762x25" },
+      { "group": "on_hand_762x25" }
+    ]
+  },
+  {
+    "id": "everyday_ppsh",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "entries": [
+      { "item": "ppsh", "ammo-group": "on_hand_762x25", "charges": [ 0, 35 ] },
+      { "group": "nested_ppsh_mag", "charges-min": 0, "prob": 80, "ammo-group": "on_hand_762x25" },
+      { "group": "nested_ppsh_mag", "charges-min": 0, "ammo-group": "on_hand_762x25", "prob": 50 },
+      { "group": "on_hand_762x25", "prob": 25, "charges": [ 10, 20 ], "count": [ 1, 2 ] }
+    ]
+  },
+  {
+    "id": "everyday_tokarev",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "entries": [
+      { "item": "tokarev", "ammo-group": "on_hand_762x25" },
+      { "item": "tokarevmag", "charges-min": 0, "prob": 80, "ammo-group": "on_hand_762x25" },
+      { "item": "tokarevmag", "charges-min": 0, "ammo-group": "on_hand_762x25", "prob": 50 },
+      { "group": "on_hand_762x25", "prob": 25, "charges": [ 10, 20 ], "count": [ 1, 2 ] }
+    ]
   }
 ]

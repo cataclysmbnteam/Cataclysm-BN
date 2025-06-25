@@ -58,5 +58,11 @@
     "id": "270win",
     "name": ".270 Winchester",
     "default": "270win_jsp"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "762x25",
+    "name": "7.62x25mm",
+    "default": "762_25"
   }
 ]

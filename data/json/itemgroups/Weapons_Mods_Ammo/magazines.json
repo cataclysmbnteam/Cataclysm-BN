@@ -365,8 +365,6 @@
       [ "g3mag", 35 ],
       [ "m1918mag", 20 ],
       [ "m1918bigmag", 10 ],
-      [ "ppshdrum", 10 ],
-      [ "ppshmag", 20 ],
       [ "rpk74mag", 10 ],
       [ "saiga10mag", 15 ],
       [ "saiga30mag", 5 ],
@@ -374,7 +372,6 @@
       [ "saiga410mag_30rd", 10 ],
       [ "sigp230mag", 10 ],
       [ "skorpion61mag", 20 ],
-      [ "tokarevmag", 10 ],
       [ "USAS10mag", 15 ],
       [ "USAS20mag", 5 ]
     ]

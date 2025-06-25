@@ -471,16 +471,6 @@
     ]
   },
   {
-    "id": "nested_ppsh_mag",
-    "type": "item_group",
-    "subtype": "distribution",
-    "ammo": 100,
-    "entries": [
-      { "item": "ppshmag", "ammo-group": "on_hand_762x25", "prob": 100 },
-      { "item": "ppshdrum", "ammo-group": "on_hand_762x25", "prob": 5 }
-    ]
-  },
-  {
     "id": "nested_USAS_12_mag",
     "type": "item_group",
     "subtype": "distribution",

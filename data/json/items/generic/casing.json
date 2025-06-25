@@ -263,16 +263,6 @@
     "volume": "9ml"
   },
   {
-    "id": "762_25_casing",
-    "copy-from": "casing",
-    "looks_like": "9mm_casing",
-    "type": "GENERIC",
-    "name": { "str": "7.62x25mm casing" },
-    "description": "An empty casing from a 7.62x25mm round.",
-    "weight": "4 g",
-    "volume": "7ml"
-  },
-  {
     "id": "9mm_casing",
     "copy-from": "casing",
     "type": "GENERIC",

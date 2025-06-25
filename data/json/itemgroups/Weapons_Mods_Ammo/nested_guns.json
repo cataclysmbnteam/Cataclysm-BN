@@ -781,19 +781,6 @@
     "entries": [ { "item": "moss_brownie", "ammo-group": "on_hand_22", "charges": [ 0, 4 ] }, { "group": "on_hand_22" } ]
   },
   {
-    "id": "nested_tokarev",
-    "type": "item_group",
-    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
-    "subtype": "collection",
-    "ammo": 100,
-    "entries": [
-      { "item": "tokarev", "ammo-group": "on_hand_762x25", "charges": [ 0, 8 ] },
-      { "item": "tokarevmag", "ammo-group": "on_hand_762x25" },
-      { "item": "tokarevmag", "prob": 50, "ammo-group": "on_hand_762x25" },
-      { "group": "on_hand_762x25" }
-    ]
-  },
-  {
     "id": "nested_walther_ppk",
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
@@ -2148,19 +2135,6 @@
       { "item": "8x40_speedloader5", "ammo-group": "on_hand_8x40", "prob": 50 },
       { "item": "8x40_speedloader5", "ammo-group": "on_hand_8x40", "prob": 25 },
       { "group": "on_hand_8x40" }
-    ]
-  },
-  {
-    "id": "nested_ppsh",
-    "type": "item_group",
-    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
-    "subtype": "collection",
-    "ammo": 100,
-    "entries": [
-      { "item": "ppsh", "ammo-group": "on_hand_762x25", "charges": [ 0, 35 ] },
-      { "group": "nested_ppsh_mag" },
-      { "group": "nested_ppsh_mag", "prob": 50 },
-      { "group": "on_hand_762x25" }
     ]
   },
   {

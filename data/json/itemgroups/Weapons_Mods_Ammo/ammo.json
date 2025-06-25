@@ -65,9 +65,6 @@
     "entries": [
       { "item": "36navy", "prob": 50, "charges": [ 1, 100 ] },
       { "item": "44army", "prob": 100, "charges": [ 1, 100 ] },
-      { "item": "762_25", "prob": 25, "charges": [ 1, 100 ] },
-      { "item": "762_25hot", "prob": 15, "charges": [ 1, 100 ] },
-      { "item": "762_25typeP", "prob": 10, "charges": [ 1, 100 ] },
       { "item": "762_m43", "prob": 10, "charges": [ 1, 100 ] },
       { "item": "762_m87", "prob": 20, "charges": [ 1, 100 ] },
       { "item": "8mm_civilian", "prob": 30, "charges": [ 1, 100 ] }
@@ -164,12 +161,9 @@
     "type": "item_group",
     "id": "ammo_smg_obscure",
     "//": "Imported or otherwise very obscure SMG ammo.",
+    "//2": "Previously contained only 9x18 and 7.62x25, which are now in a mod.",
     "subtype": "distribution",
-    "entries": [
-      { "item": "762_25", "prob": 100, "charges": [ 1, 100 ] },
-      { "item": "762_25hot", "prob": 25, "charges": [ 1, 100 ] },
-      { "item": "762_25typeP", "prob": 25, "charges": [ 1, 100 ] }
-    ]
+    "entries": [  ]
   },
   {
     "type": "item_group",
@@ -665,7 +659,6 @@
       { "item": "50_casing", "prob": 60 },
       { "item": "5x50_hull", "prob": 60 },
       { "item": "762_casing", "prob": 80 },
-      { "item": "762_25_casing", "prob": 60 },
       { "item": "762_51_casing", "prob": 80 },
       { "item": "762R_casing", "prob": 60 },
       { "item": "9mm_casing", "prob": 100 },

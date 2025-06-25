@@ -3,7 +3,15 @@
     "type": "item_group",
     "id": "mags_obscure",
     "//": "Magazines for imported firearms.",
-    "items": [ [ "makarovmag", 10 ], [ "skorpion82mag", 20 ], [ "af2011a1mag", 10 ], [ "ak74mag", 90 ] ]
+    "items": [
+      [ "makarovmag", 10 ],
+      [ "skorpion82mag", 20 ],
+      [ "af2011a1mag", 10 ],
+      [ "ak74mag", 90 ],
+      [ "tokarevmag", 10 ],
+      [ "ppshdrum", 10 ],
+      [ "ppshmag", 20 ]
+    ]
   },
   {
     "type": "item_group",

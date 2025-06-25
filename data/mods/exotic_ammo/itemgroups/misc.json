@@ -41,5 +41,11 @@
     "magazine": 100,
     "subtype": "distribution",
     "entries": [ { "item": "ak74", "prob": 4 }, { "item": "an94", "prob": 1 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_BANDIT_smg",
+    "subtype": "distribution",
+    "entries": [ { "item": "ppsh", "prob": 4 }, { "item": "skorpion_82", "prob": 3 } ]
   }
 ]

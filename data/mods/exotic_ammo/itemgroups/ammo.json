@@ -10,7 +10,10 @@
       { "item": "9x18mmP2", "prob": 10, "charges": [ 1, 100 ] },
       { "item": "460_fmj", "prob": 3, "charges": [ 1, 100 ] },
       { "item": "460_rowland", "prob": 2, "charges": [ 1, 100 ] },
-      { "item": "454_Casull", "prob": 60, "charges": [ 1, 100 ] }
+      { "item": "454_Casull", "prob": 60, "charges": [ 1, 100 ] },
+      { "item": "762_25", "prob": 25, "charges": [ 1, 100 ] },
+      { "item": "762_25hot", "prob": 15, "charges": [ 1, 100 ] },
+      { "item": "762_25typeP", "prob": 10, "charges": [ 1, 100 ] }
     ]
   },
   {
@@ -21,7 +24,10 @@
     "entries": [
       { "item": "9x18mm", "prob": 60, "charges": [ 1, 100 ] },
       { "item": "9x18mmfmj", "prob": 30, "charges": [ 1, 100 ] },
-      { "item": "9x18mmP2", "prob": 10, "charges": [ 1, 100 ] }
+      { "item": "9x18mmP2", "prob": 10, "charges": [ 1, 100 ] },
+      { "item": "762_25", "prob": 100, "charges": [ 1, 100 ] },
+      { "item": "762_25hot", "prob": 25, "charges": [ 1, 100 ] },
+      { "item": "762_25typeP", "prob": 25, "charges": [ 1, 100 ] }
     ]
   },
   {
@@ -38,7 +44,8 @@
       { "item": "57mm_casing", "prob": 60 },
       { "item": "46mm_casing", "prob": 60 },
       { "item": "545_casing", "prob": 60 },
-      { "item": "270win_casing", "prob": 60 }
+      { "item": "270win_casing", "prob": 60 },
+      { "item": "762_25_casing", "prob": 60 }
     ]
   },
   {

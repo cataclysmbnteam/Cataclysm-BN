@@ -452,12 +452,6 @@
   },
   {
     "type": "ammunition_type",
-    "id": "762x25",
-    "name": "7.62x25mm",
-    "default": "762_25"
-  },
-  {
-    "type": "ammunition_type",
     "id": "flintlock",
     "name": "paper cartridge",
     "default": "flintlock_ammo"
