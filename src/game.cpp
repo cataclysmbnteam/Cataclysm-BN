@@ -10685,45 +10685,20 @@ void game::start_hauling( const tripoint &pos )
                        ) ) );
 }
 
-tripoint game::find_closest_stair( const tripoint &near_this, const ter_bitflags stair_type )
+std::optional<tripoint> game::find_stairs( map &mp, const int z_after, bool peeking )
 {
-    // we probably need to add furniture/traps for drainspouts at some point
-    map &here = get_map();
-    for( const tripoint &candidate : closest_points_first( get_avatar().pos(), 40 ) ) {
-        if( here.has_flag( stair_type, candidate ) ) {
-            return candidate;
-
-        }
+    const int movez = z_after - get_levz();
+    const bool going_down_1 = movez == -1;
+    const bool going_up_1 = movez == 1;
+    // If there are stairs on the same x and y as we currently are, use those
+    if( going_down_1 && mp.has_flag( TFLAG_GOES_UP, u.pos() + tripoint_below ) ) {
+        return u.pos() + tripoint_below;
     }
-    // we didn't find it
-    return near_this;
-}
-
-void game::suggest_auto_walk_to_stairs( Character &u, map &m, const std::string &direction )
-{
-    const ter_bitflags stair_flag = direction == "up" ? TFLAG_GOES_UP : TFLAG_GOES_DOWN;
-    tripoint stair_pos = find_closest_stair( u.pos(), stair_flag );
-    if( !u.sees( stair_pos ) ) {
-        return;
+    if( going_up_1 && mp.has_flag( TFLAG_GOES_DOWN, u.pos() + tripoint_above ) &&
+        !mp.has_flag( TFLAG_DEEP_WATER, u.pos() + tripoint_below ) ) {
+        return u.pos() + tripoint_above;
     }
-
-    auto route = m.route( u.pos(), stair_pos, u.get_legacy_pathfinding_settings(),
-                          u.get_legacy_path_avoid() );
-    if( route.size() <= 1 ) {
-        // Don't repeat the main fail msg — just silently fail.
-        return;
-    }
-
-    if( query_yn( "Walk to %s?", m.ter( stair_pos ).obj().name() ) ) {
-        route.pop_back();
-        u.set_destination( route, u.remove_activity() );
-        u.activity = std::make_unique<player_activity>();
-    }
-}
-
-std::optional<tripoint> game::find_or_make_stairs( map &mp, const int z_after, bool &rope_ladder,
-        bool peeking )
-{
+    // We did not find stairs directly above or below, so search the map for them
     const int omtilesz = SEEX * 2;
     real_coords rc( m.getabs( point( u.posx(), u.posy() ) ) );
     tripoint omtile_align_start( m.getlocal( rc.begin_om_pos() ), z_after );
@@ -10732,18 +10707,6 @@ std::optional<tripoint> game::find_or_make_stairs( map &mp, const int z_after, b
     // Try to find the stairs.
     std::optional<tripoint> stairs;
     int best = INT_MAX;
-    const int movez = z_after - get_levz();
-    const bool going_down_1 = movez == -1;
-    const bool going_up_1 = movez == 1;
-    // If there are stairs on the same x and y as we currently are, use those
-    if( going_down_1 && mp.has_flag( TFLAG_GOES_UP, u.pos() + tripoint_below ) ) {
-        stairs.emplace( u.pos() + tripoint_below );
-    }
-    if( going_up_1 && mp.has_flag( TFLAG_GOES_DOWN, u.pos() + tripoint_above ) &&
-        !mp.has_flag( TFLAG_DEEP_WATER, u.pos() + tripoint_below ) ) {
-        stairs.emplace( u.pos() + tripoint_above );
-    }
-    // We did not find stairs directly above or below, so search the map for them
     if( !stairs.has_value() ) {
         for( const tripoint &dest : m.points_in_rectangle( omtile_align_start, omtile_align_end ) ) {
             if( rl_dist( u.pos(), dest ) <= best &&
@@ -10792,7 +10755,9 @@ std::optional<tripoint> game::find_or_make_stairs( map &mp, const int z_after, b
 
     // Try to find the stairs.
     std::optional<tripoint> stairs = find_stairs( mp, z_after, peeking );
+    // Check the destination area for lava.
     if( stairs.has_value() ) {
+        // Defensive: should never happen, but bail out safely
         return stairs;
     }
 
@@ -10800,7 +10765,7 @@ std::optional<tripoint> game::find_or_make_stairs( map &mp, const int z_after, b
     rope_ladder = false;
     stairs.emplace( u.pos() );
     stairs->z = z_after;
-    // Check the destination area for lava.
+
     if( mp.ter( *stairs ) == t_lava ) {
         if( movez < 0 &&
             !query_yn(
