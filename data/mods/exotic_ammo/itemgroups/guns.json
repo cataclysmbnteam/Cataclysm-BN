@@ -69,13 +69,21 @@
     "type": "item_group",
     "id": "guns_rifle_obscure",
     "//": "Mostly imported or otherwise very obscure rifles.",
-    "items": [ { "group": "nested_trex_gun", "prob": 20 } ]
+    "items": [
+      { "group": "nested_trex_gun", "prob": 20 },
+      { "group": "nested_ak74", "prob": 50 },
+      { "group": "nested_an94", "prob": 40 }
+    ]
   },
   {
     "type": "item_group",
     "id": "carried_guns_rifle_obscure",
     "//": "Imported or otherwise very obscure rifles. Comes with mags or loose ammo.",
-    "items": [ { "group": "everyday_trex_gun", "prob": 20 } ]
+    "items": [
+      { "group": "everyday_trex_gun", "prob": 20 },
+      { "group": "everyday_ak74", "prob": 50 },
+      { "group": "everyday_an94", "prob": 40 }
+    ]
   },
   {
     "type": "item_group",

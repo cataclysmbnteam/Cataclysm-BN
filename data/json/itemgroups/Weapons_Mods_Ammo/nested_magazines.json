@@ -409,16 +409,6 @@
     ]
   },
   {
-    "id": "nested_ak74_mag",
-    "type": "item_group",
-    "subtype": "distribution",
-    "ammo": 100,
-    "entries": [
-      { "item": "ak74mag", "ammo-group": "on_hand_545x39", "prob": 100 },
-      { "item": "rpk74mag", "ammo-group": "on_hand_545x39", "prob": 5 }
-    ]
-  },
-  {
     "id": "nested_steyr_aug_mag",
     "type": "item_group",
     "subtype": "distribution",

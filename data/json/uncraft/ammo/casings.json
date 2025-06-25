@@ -128,14 +128,6 @@
     "components": [ [ [ "cartridgebrass", 18 ] ] ]
   },
   {
-    "result": "545_casing",
-    "type": "uncraft",
-    "time": "10 s",
-    "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "charges": 1,
-    "components": [ [ [ "cartridgebrass", 4 ] ] ]
-  },
-  {
     "result": "762R_casing",
     "type": "uncraft",
     "time": "10 s",

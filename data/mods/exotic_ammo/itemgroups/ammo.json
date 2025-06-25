@@ -36,7 +36,8 @@
       { "item": "454_casing", "prob": 60 },
       { "item": "500_casing", "prob": 60 },
       { "item": "57mm_casing", "prob": 60 },
-      { "item": "46mm_casing", "prob": 60 }
+      { "item": "46mm_casing", "prob": 60 },
+      { "item": "545_casing", "prob": 60 }
     ]
   },
   {
@@ -73,7 +74,11 @@
     "id": "ammo_rifle_obscure",
     "//": "Imported or otherwise very obscure rifle ammo.",
     "subtype": "distribution",
-    "entries": [ { "item": "700nx", "prob": 20, "charges": [ 1, 100 ] } ]
+    "entries": [
+      { "item": "700nx", "prob": 20, "charges": [ 1, 100 ] },
+      { "item": "545", "prob": 60, "charges": [ 1, 100 ] },
+      { "item": "545_ap", "prob": 30, "charges": [ 1, 100 ] }
+    ]
   },
   {
     "id": "casings",

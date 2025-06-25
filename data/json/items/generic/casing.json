@@ -253,16 +253,6 @@
     "volume": "12ml"
   },
   {
-    "id": "545_casing",
-    "copy-from": "casing",
-    "looks_like": "9mm_casing",
-    "type": "GENERIC",
-    "name": { "str": "5.45x39mm casing" },
-    "description": "An empty casing from a 5.45x39mm round.",
-    "weight": "4 g",
-    "volume": "7ml"
-  },
-  {
     "id": "762R_casing",
     "copy-from": "casing",
     "looks_like": "223_casing",

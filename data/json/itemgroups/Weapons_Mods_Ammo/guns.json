@@ -701,8 +701,6 @@
     "//": "Mostly imported or otherwise very obscure rifles.",
     "items": [
       { "group": "nested_ak47", "prob": 50 },
-      { "group": "nested_ak74", "prob": 50 },
-      { "group": "nested_an94", "prob": 40 },
       { "group": "nested_arx160", "prob": 40 },
       { "group": "nested_bfg50", "prob": 5 },
       { "group": "nested_carbine_flintlock", "prob": 140 },
@@ -722,8 +720,6 @@
     "//": "Imported or otherwise very obscure rifles. Comes with mags or loose ammo.",
     "items": [
       { "group": "everyday_ak47", "prob": 50 },
-      { "group": "everyday_ak74", "prob": 50 },
-      { "group": "everyday_an94", "prob": 40 },
       { "group": "everyday_arx160", "prob": 40 },
       { "group": "everyday_bfg50", "prob": 5 },
       { "group": "everyday_carbine_flintlock", "prob": 140 },

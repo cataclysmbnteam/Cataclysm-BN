@@ -1364,18 +1364,6 @@
     ]
   },
   {
-    "id": "everyday_ak74",
-    "type": "item_group",
-    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
-    "subtype": "collection",
-    "entries": [
-      { "item": "ak74", "ammo-group": "on_hand_545x39", "charges": [ 0, 30 ] },
-      { "group": "nested_ak74_mag", "charges-min": 0, "prob": 80 },
-      { "group": "nested_ak74_mag", "charges-min": 0, "prob": 50 },
-      { "group": "on_hand_545x39", "prob": 25, "charges": [ 10, 20 ], "count": [ 1, 2 ] }
-    ]
-  },
-  {
     "id": "everyday_famas",
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
@@ -2320,18 +2308,6 @@
       { "item": "20x66_10_mag", "charges-min": 0, "prob": 80, "ammo-group": "on_hand_20x66mm" },
       { "item": "20x66_10_mag", "charges-min": 0, "ammo-group": "on_hand_20x66mm", "prob": 50 },
       { "group": "on_hand_20x66mm", "prob": 25, "charges": [ 10, 20 ], "count": [ 1, 2 ] }
-    ]
-  },
-  {
-    "id": "everyday_an94",
-    "type": "item_group",
-    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
-    "subtype": "collection",
-    "entries": [
-      { "item": "an94", "ammo-group": "on_hand_545x39", "charges": [ 0, 30 ] },
-      { "group": "nested_ak74_mag", "charges-min": 0, "prob": 80 },
-      { "group": "nested_ak74_mag", "charges-min": 0, "prob": 50 },
-      { "group": "on_hand_545x39", "prob": 25, "charges": [ 10, 20 ], "count": [ 1, 2 ] }
     ]
   },
   {

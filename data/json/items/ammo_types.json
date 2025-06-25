@@ -163,12 +163,6 @@
   },
   {
     "type": "ammunition_type",
-    "id": "545x39",
-    "name": "5.45x39mm",
-    "default": "545"
-  },
-  {
-    "type": "ammunition_type",
     "id": "223",
     "//": "This is a 5.56x45mm round, but it's called 223 because legacy migration reasons.",
     "name": "5.56x45mm",

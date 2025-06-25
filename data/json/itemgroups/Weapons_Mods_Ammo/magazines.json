@@ -353,7 +353,6 @@
     "id": "mags_obscure",
     "//": "Magazines for imported firearms.",
     "items": [
-      [ "ak74mag", 90 ],
       [ "augmag_100rd", 2 ],
       [ "augmag_10rd", 5 ],
       [ "augmag_30rd", 30 ],

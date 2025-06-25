@@ -44,7 +44,7 @@
     "use_action": {
       "type": "bandolier",
       "capacity": 25,
-      "ammo": [ "22", "223", "270win", "300blk", "5x50", "545x39", "3006", "308", "300", "762", "762R", "8x40mm", "4570", "50" ],
+      "ammo": [ "22", "223", "270win", "300blk", "5x50", "3006", "308", "300", "762", "762R", "8x40mm", "4570", "50" ],
       "draw_cost": 20
     },
     "flags": [ "WATER_FRIENDLY", "WAIST", "COMPACT", "OVERSIZE" ]
@@ -134,7 +134,7 @@
     "use_action": {
       "type": "bandolier",
       "capacity": 6,
-      "ammo": [ "22", "223", "270win", "300blk", "5x50", "545x39", "3006", "308", "300", "762", "762R", "8x40mm", "4570", "50" ],
+      "ammo": [ "22", "223", "270win", "300blk", "5x50", "3006", "308", "300", "762", "762R", "8x40mm", "4570", "50" ],
       "draw_cost": 20
     },
     "valid_mods": [ "resized_large" ],

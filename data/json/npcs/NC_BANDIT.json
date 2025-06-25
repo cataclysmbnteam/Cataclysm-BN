@@ -314,12 +314,7 @@
       },
       { "group": "guns_rifle_common", "prob": 25 },
       {
-        "distribution": [
-          { "item": "crossbow_carbon", "prob": 10 },
-          { "item": "huge_crossbow", "prob": 5 },
-          { "item": "ak47", "prob": 50 },
-          { "item": "ak74", "prob": 50 }
-        ],
+        "distribution": [ { "item": "crossbow_carbon", "prob": 10 }, { "item": "huge_crossbow", "prob": 5 }, { "item": "ak47", "prob": 50 } ],
         "prob": 10
       },
       { "group": "guns_rifle_rare", "prob": 5 },
