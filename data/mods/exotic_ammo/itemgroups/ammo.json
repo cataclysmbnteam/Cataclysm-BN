@@ -37,7 +37,8 @@
       { "item": "500_casing", "prob": 60 },
       { "item": "57mm_casing", "prob": 60 },
       { "item": "46mm_casing", "prob": 60 },
-      { "item": "545_casing", "prob": 60 }
+      { "item": "545_casing", "prob": 60 },
+      { "item": "270win_casing", "prob": 60 }
     ]
   },
   {
@@ -91,21 +92,27 @@
     "id": "ammo_rifle_common",
     "//": "Rifle ammo commonly owned by citizens and found in many locations.",
     "subtype": "distribution",
-    "entries": [ { "item": "500_Magnum", "prob": 20, "charges": [ 1, 100 ] } ]
+    "entries": [
+      { "item": "500_Magnum", "prob": 20, "charges": [ 1, 100 ] },
+      { "item": "270win_jsp", "prob": 30, "charges": [ 1, 100 ] }
+    ]
   },
   {
     "type": "item_group",
     "id": "ammo_rifle_blackpowder_handloads",
     "//": "Blackpowder rifle ammo balanced according to rarity, additional weight for calibers that have common, manual-action firearms available in that chambering.",
     "subtype": "distribution",
-    "entries": [ { "item": "bp_500_Magnum", "prob": 20, "charges": [ 1, 100 ] } ]
+    "entries": [
+      { "item": "bp_500_Magnum", "prob": 20, "charges": [ 1, 100 ] },
+      { "item": "bp_270win_jsp", "prob": 30, "charges": [ 1, 100 ] }
+    ]
   },
   {
     "type": "item_group",
     "id": "ammo_rifle_common_full",
     "//": "Rifle ammo commonly owned by citizens and found in many locations, for vending machines.",
     "subtype": "distribution",
-    "entries": [ { "item": "500_Magnum", "prob": 20 } ]
+    "entries": [ { "item": "500_Magnum", "prob": 20 }, { "item": "270win_jsp", "prob": 30 } ]
   },
   {
     "type": "item_group",

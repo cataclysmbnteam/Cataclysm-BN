@@ -217,16 +217,6 @@
     "replace": "tie_skinny"
   },
   {
-    "id": "270",
-    "type": "MIGRATION",
-    "replace": "270win_jsp"
-  },
-  {
-    "id": "reloaded_270",
-    "type": "MIGRATION",
-    "replace": "270win_jsp"
-  },
-  {
     "id": "afs_rolling_pin",
     "type": "MIGRATION",
     "replace": "rolling_pin"

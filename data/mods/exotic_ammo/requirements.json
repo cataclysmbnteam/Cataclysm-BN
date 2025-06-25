@@ -30,5 +30,29 @@
     "type": "requirement",
     "//": "Components required for 57 ammo",
     "components": [ [ [ "57mm_casing", 1 ] ], [ [ "smpistol_primer", 1 ] ] ]
+  },
+  {
+    "id": "ammo_270win",
+    "type": "requirement",
+    "//": "Components required for .270 Winchester ammo",
+    "components": [ [ [ "270win_casing", 1 ] ], [ [ "lgrifle_primer", 1 ] ] ]
+  },
+  {
+    "id": "3006_casehead",
+    "type": "requirement",
+    "//": "References needed for boltfaces and magazines using .30-06 or derivatives",
+    "tools": [
+      [
+        [ "3006_casing", -1 ],
+        [ "3006", -1 ],
+        [ "3006fmj", -1 ],
+        [ "3006_incendiary", -1 ],
+        [ "bp_3006", -1 ],
+        [ "bp_3006fmj", -1 ],
+        [ "bp_3006_incendiary", -1 ],
+        [ "270win_casing", -1 ],
+        [ "270win_jsp", -1 ]
+      ]
+    ]
   }
 ]

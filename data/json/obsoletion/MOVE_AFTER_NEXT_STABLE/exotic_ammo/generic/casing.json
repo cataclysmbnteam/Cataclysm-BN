@@ -88,5 +88,15 @@
     "description": "An empty casing from a 5.45x39mm round.",
     "weight": "4 g",
     "volume": "7ml"
+  },
+  {
+    "id": "270win_casing",
+    "copy-from": "casing",
+    "looks_like": "223_casing",
+    "type": "GENERIC",
+    "name": { "str": ".270 Winchester casing" },
+    "description": "An empty casing from a .270 Winchester round.",
+    "weight": "7 g",
+    "volume": "10ml"
   }
 ]

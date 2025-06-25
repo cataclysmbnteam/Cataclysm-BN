@@ -176,12 +176,6 @@
   },
   {
     "type": "ammunition_type",
-    "id": "270win",
-    "name": ".270 Winchester",
-    "default": "270win_jsp"
-  },
-  {
-    "type": "ammunition_type",
     "id": "308",
     "name": "7.62x51mm",
     "default": "762_51"

@@ -52,5 +52,11 @@
     "id": "545x39",
     "name": "5.45x39mm",
     "default": "545"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "270win",
+    "name": ".270 Winchester",
+    "default": "270win_jsp"
   }
 ]

@@ -130,38 +130,6 @@
     "components": [ [ [ "223_casing", 1 ] ], [ [ "smrifle_primer", 1 ] ], [ [ "chem_black_powder", 6 ] ], [ [ "copper", 1 ] ] ]
   },
   {
-    "result": "270win_jsp",
-    "type": "recipe",
-    "category": "CC_AMMO",
-    "subcategory": "CSC_AMMO_RIFLE",
-    "skill_used": "fabrication",
-    "difficulty": 3,
-    "skills_required": [ "gun", 1 ],
-    "time": "2 m",
-    "batch_time_factors": [ 60, 5 ],
-    "book_learn": [ [ "recipe_bullets", 1 ], [ "mag_rifle", 3 ] ],
-    "charges": 1,
-    "reversible": true,
-    "using": [ [ "rifle_bullet_forming", 8 ], [ "ammo_bullet", 5 ], [ "ammo_270win", 1 ] ],
-    "components": [ [ [ "gunpowder", 10 ] ], [ [ "copper", 3 ] ] ]
-  },
-  {
-    "result": "bp_270win_jsp",
-    "type": "recipe",
-    "category": "CC_AMMO",
-    "subcategory": "CSC_AMMO_RIFLE",
-    "skill_used": "fabrication",
-    "difficulty": 3,
-    "skills_required": [ "gun", 1 ],
-    "time": "2 m",
-    "batch_time_factors": [ 60, 5 ],
-    "book_learn": [ [ "recipe_bullets", 1 ], [ "mag_rifle", 3 ] ],
-    "charges": 1,
-    "reversible": true,
-    "using": [ [ "rifle_bullet_forming", 8 ], [ "ammo_bullet", 5 ], [ "ammo_270win", 1 ] ],
-    "components": [ [ [ "chem_black_powder", 15 ] ], [ [ "copper", 3 ] ] ]
-  },
-  {
     "result": "300_winmag",
     "type": "recipe",
     "category": "CC_AMMO",

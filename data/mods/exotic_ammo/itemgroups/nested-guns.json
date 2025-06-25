@@ -501,5 +501,30 @@
       { "item": "ak74mag", "ammo-group": "on_hand_545x39", "prob": 100 },
       { "item": "rpk74mag", "ammo-group": "on_hand_545x39", "prob": 5 }
     ]
+  },
+  {
+    "id": "on_hand_270win",
+    "type": "item_group",
+    "//": "a collection of ammo that would be found with a loaded gun.",
+    "subtype": "distribution",
+    "entries": [ { "item": "270win_jsp", "prob": 100, "charges": [ 10, 20 ] } ]
+  },
+  {
+    "id": "everyday_remington700_270",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "entries": [
+      { "item": "remington700_270", "ammo-group": "on_hand_270win", "charges": [ 0, 4 ] },
+      { "group": "on_hand_270win", "charges": [ 10, 20 ], "count": [ 1, 2 ] }
+    ]
+  },
+  {
+    "id": "nested_remington700_270",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [ { "item": "remington700_270", "ammo-group": "on_hand_270win", "charges": [ 0, 4 ] }, { "group": "on_hand_270win" } ]
   }
 ]

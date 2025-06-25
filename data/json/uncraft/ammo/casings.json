@@ -24,14 +24,6 @@
     "components": [ [ [ "cartridgebrass", 7 ] ] ]
   },
   {
-    "result": "270win_casing",
-    "type": "uncraft",
-    "time": "10 s",
-    "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "charges": 1,
-    "components": [ [ [ "cartridgebrass", 7 ] ] ]
-  },
-  {
     "result": "300_casing",
     "type": "uncraft",
     "time": "10 s",
