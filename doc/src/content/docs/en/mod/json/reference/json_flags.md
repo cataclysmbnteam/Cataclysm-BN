@@ -98,6 +98,7 @@ chambering! :-)
 
 The following ammo types are (or will soon be) available in in-repo mods
 `exotic_ammo`:
+
 - `454` .454 Casull
 - `500` .500 Magnum
 - `57` 5.7 mm
