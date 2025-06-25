@@ -10597,9 +10597,20 @@ void game::start_hauling( const tripoint &pos )
                        ) ) );
 }
 
-std::optional<tripoint> game::find_or_make_stairs( map &mp, const int z_after, bool &rope_ladder,
-        bool peeking )
+std::optional<tripoint> game::find_stairs( map &mp, const int z_after, bool peeking )
 {
+    const int movez = z_after - get_levz();
+    const bool going_down_1 = movez == -1;
+    const bool going_up_1 = movez == 1;
+    // If there are stairs on the same x and y as we currently are, use those
+    if( going_down_1 && mp.has_flag( TFLAG_GOES_UP, u.pos() + tripoint_below ) ) {
+        return u.pos() + tripoint_below;
+    }
+    if( going_up_1 && mp.has_flag( TFLAG_GOES_DOWN, u.pos() + tripoint_above ) &&
+        !mp.has_flag( TFLAG_DEEP_WATER, u.pos() + tripoint_below ) ) {
+        return u.pos() + tripoint_above;
+    }
+    // We did not find stairs directly above or below, so search the map for them
     const int omtilesz = SEEX * 2;
     real_coords rc( m.getabs( point( u.posx(), u.posy() ) ) );
     tripoint omtile_align_start( m.getlocal( rc.begin_om_pos() ), z_after );
@@ -10608,18 +10619,6 @@ std::optional<tripoint> game::find_or_make_stairs( map &mp, const int z_after, b
     // Try to find the stairs.
     std::optional<tripoint> stairs;
     int best = INT_MAX;
-    const int movez = z_after - get_levz();
-    const bool going_down_1 = movez == -1;
-    const bool going_up_1 = movez == 1;
-    // If there are stairs on the same x and y as we currently are, use those
-    if( going_down_1 && mp.has_flag( TFLAG_GOES_UP, u.pos() + tripoint_below ) ) {
-        stairs.emplace( u.pos() + tripoint_below );
-    }
-    if( going_up_1 && mp.has_flag( TFLAG_GOES_DOWN, u.pos() + tripoint_above ) &&
-        !mp.has_flag( TFLAG_DEEP_WATER, u.pos() + tripoint_below ) ) {
-        stairs.emplace( u.pos() + tripoint_above );
-    }
-    // We did not find stairs directly above or below, so search the map for them
     if( !stairs.has_value() ) {
         for( const tripoint &dest : m.points_in_rectangle( omtile_align_start, omtile_align_end ) ) {
             if( rl_dist( u.pos(), dest ) <= best &&
@@ -10657,6 +10656,20 @@ std::optional<tripoint> game::find_or_make_stairs( map &mp, const int z_after, b
                 return std::nullopt;
             }
         }
+    }
+
+    return stairs;
+}
+std::optional<tripoint> game::find_or_make_stairs( map &mp, const int z_after, bool &rope_ladder,
+        bool peeking )
+{
+    const int movez = z_after - u.pos().z;
+
+    // Try to find the stairs.
+    std::optional<tripoint> stairs = find_stairs( mp, z_after, peeking );
+    // Check the destination area for lava.
+    if( stairs.has_value() ) {
+        // Defensive: should never happen, but bail out safely
         return stairs;
     }
 
@@ -10664,7 +10677,7 @@ std::optional<tripoint> game::find_or_make_stairs( map &mp, const int z_after, b
     rope_ladder = false;
     stairs.emplace( u.pos() );
     stairs->z = z_after;
-    // Check the destination area for lava.
+
     if( mp.ter( *stairs ) == t_lava ) {
         if( movez < 0 &&
             !query_yn(
