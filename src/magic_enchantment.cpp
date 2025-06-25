@@ -98,6 +98,9 @@ namespace io
             case enchant_vals::mod::ARMOR_BIO: return "ARMOR_BIO";
             case enchant_vals::mod::ARMOR_COLD: return "ARMOR_COLD";
             case enchant_vals::mod::ARMOR_CUT: return "ARMOR_CUT";
+            case enchant_vals::mod::ARMOR_DARK: return "ARMOR_DARK";
+            case enchant_vals::mod::ARMOR_LIGHT: return "ARMOR_LIGHT";
+            case enchant_vals::mod::ARMOR_PSI: return "ARMOR_PSI";
             case enchant_vals::mod::ARMOR_ELEC: return "ARMOR_ELEC";
             case enchant_vals::mod::ARMOR_HEAT: return "ARMOR_HEAT";
             case enchant_vals::mod::ARMOR_STAB: return "ARMOR_STAB";
@@ -107,6 +110,9 @@ namespace io
             case enchant_vals::mod::ITEM_DAMAGE_STAB: return "ITEM_DAMAGE_STAB";
             case enchant_vals::mod::ITEM_ARMOR_BASH: return "ITEM_ARMOR_BASH";
             case enchant_vals::mod::ITEM_ARMOR_CUT: return "ITEM_ARMOR_CUT";
+            case enchant_vals::mod::ITEM_ARMOR_DARK: return "ITEM_ARMOR_DARK";
+            case enchant_vals::mod::ITEM_ARMOR_LIGHT: return "ITEM_ARMOR_LIGHT";
+            case enchant_vals::mod::ITEM_ARMOR_PSI: return "ITEM_ARMOR_PSI";
             case enchant_vals::mod::ITEM_ARMOR_STAB: return "ITEM_ARMOR_STAB";
             case enchant_vals::mod::ITEM_ARMOR_BULLET: return "ITEM_ARMOR_BULLET";
             case enchant_vals::mod::ITEM_ARMOR_HEAT: return "ITEM_ARMOR_HEAT";

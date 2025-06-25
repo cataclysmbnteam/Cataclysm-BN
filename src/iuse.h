@@ -2,7 +2,6 @@
 
 #include <memory>
 #include <string>
-#include <utility>
 #include <vector>
 
 #include "clone_ptr.h"

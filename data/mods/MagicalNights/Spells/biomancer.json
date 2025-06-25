@@ -368,5 +368,25 @@
     "damage_type": "acid",
     "effect": "projectile_attack",
     "extra_effects": [ { "id": "acid_bomb" }, { "id": "acid_bomb" }, { "id": "acid_bomb" } ]
+  },
+  {
+    "id": "acid_ward",
+    "type": "SPELL",
+    "name": { "str": "Acid Ward" },
+    "description": "Uses your control over acid and biology to make yourself immune to the effects of acids.",
+    "valid_targets": [ "ally", "self" ],
+    "flags": [ "CONCENTRATE", "SOMATIC", "NO_LEGS" ],
+    "effect": "target_attack",
+    "effect_str": "ward_acid",
+    "max_level": 15,
+    "min_duration": 180000,
+    "max_duration": 1080000,
+    "duration_increment": 60000,
+    "min_range": 10,
+    "difficulty": 6,
+    "spell_class": "BIOMANCER",
+    "energy_source": "MANA",
+    "base_energy_cost": 500,
+    "base_casting_time": 500
   }
 ]

@@ -49,3 +49,5 @@
 # insert space padding around parentheses on the inside only
 --pad-paren-in
 
+# Don't break one-line blocks.
+--keep-one-line-blocks

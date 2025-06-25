@@ -572,14 +572,9 @@
     "difficulty": 3,
     "time": "20 m",
     "book_learn": [ [ "textbook_fabrication", 5 ], [ "textbook_carpentry", 5 ] ],
-    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SANDING", "level": 1 } ],
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "using": [ [ "sewing_standard", 100 ] ],
-    "components": [
-      [ [ "leather", 6 ], [ "fur", 6 ] ],
-      [ [ "wood_structural", 4, "LIST" ] ],
-      [ [ "varnish", 1, "LIST" ] ],
-      [ [ "rope_natural_short", 4, "LIST" ] ]
-    ]
+    "components": [ [ [ "leather", 6 ], [ "fur", 6 ] ], [ [ "wood_structural", 4, "LIST" ] ], [ [ "rope_natural_short", 4, "LIST" ] ] ]
   },
   {
     "result": "seatbelt",
@@ -950,8 +945,8 @@
     "time": "1 h",
     "reversible": true,
     "autolearn": true,
-    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_W", "level": 1 }, { "id": "SANDING", "level": 1 } ],
-    "components": [ [ [ "2x4", 5 ] ], [ [ "varnish", 2, "LIST" ] ], [ [ "nail_glue", 15, "LIST" ] ] ]
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_W", "level": 1 } ],
+    "components": [ [ [ "2x4", 5 ] ], [ [ "nail_glue", 15, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -988,12 +983,11 @@
     "difficulty": 2,
     "time": "5 m",
     "autolearn": true,
-    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_W", "level": 1 }, { "id": "SANDING", "level": 1 } ],
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_W", "level": 1 } ],
     "using": [ [ "sewing_standard", 100 ] ],
     "components": [
       [ [ "sheet", 2 ] ],
       [ [ "wood_structural", 2, "LIST" ] ],
-      [ [ "varnish", 2, "LIST" ] ],
       [ [ "rope_natural_short", 1, "LIST" ] ],
       [ [ "nail_glue", 20, "LIST" ] ]
     ]
@@ -1008,15 +1002,42 @@
     "difficulty": 4,
     "time": "50 m",
     "autolearn": true,
-    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_W", "level": 1 }, { "id": "SANDING", "level": 1 } ],
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_W", "level": 1 } ],
     "using": [ [ "sewing_standard", 250 ] ],
     "components": [
       [ [ "sheet", 8 ] ],
       [ [ "wood_beam", 1 ] ],
       [ [ "wood_structural", 2, "LIST" ] ],
-      [ [ "varnish", 4, "LIST" ] ],
       [ [ "rope_natural", 1, "LIST" ] ],
       [ [ "nail_glue", 50, "LIST" ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "hovercraft_section",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_VEHICLE",
+    "skill_used": "mechanics",
+    "skills_required": [ "electronics", 2 ],
+    "difficulty": 5,
+    "time": "1 h",
+    "autolearn": [ [ "mechanics", 6 ], [ "electronics", 3 ] ],
+    "reversible": true,
+    "book_learn": [ [ "textbook_fabrication", 5 ], [ "textbook_mechanics", 4 ], [ "reference_fabrication1", 5 ] ],
+    "using": [ [ "welding_standard", 3 ], [ "steel_standard", 4 ], [ "soldering_standard", 10 ], [ "sewing_standard", 20 ] ],
+    "qualities": [
+      { "id": "HAMMER", "level": 2 },
+      { "id": "SAW_M", "level": 1 },
+      { "id": "WRENCH", "level": 1 },
+      { "id": "SCREW", "level": 1 }
+    ],
+    "components": [
+      [ [ "fabric_standard", 10, "LIST" ] ],
+      [ [ "pipe", 1 ] ],
+      [ [ "motor_tiny", 2 ], [ "motor_small", 1 ] ],
+      [ [ "hose", 1 ] ],
+      [ [ "cable", 10 ] ],
+      [ [ "chunk_rubber", 10 ], [ "neoprene", 10 ] ]
     ]
   },
   {
@@ -1054,14 +1075,8 @@
     "difficulty": 2,
     "time": "40 m",
     "autolearn": true,
-    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_W", "level": 1 }, { "id": "SANDING", "level": 1 } ],
-    "components": [
-      [ [ "nail_glue", 4, "LIST" ] ],
-      [ [ "2x4", 2 ] ],
-      [ [ "stick", 2 ], [ "2x4", 2 ] ],
-      [ [ "varnish", 3, "LIST" ] ],
-      [ [ "towel", 3 ] ]
-    ]
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_W", "level": 1 } ],
+    "components": [ [ [ "nail_glue", 4, "LIST" ] ], [ [ "2x4", 2 ] ], [ [ "stick", 2 ], [ "2x4", 2 ] ], [ [ "towel", 3 ] ] ]
   },
   {
     "type": "recipe",
@@ -1304,8 +1319,8 @@
     "time": "6 m",
     "reversible": true,
     "autolearn": true,
-    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SANDING", "level": 1 } ],
-    "components": [ [ [ "2x4", 5 ] ], [ [ "nail_glue", 20, "LIST" ] ], [ [ "varnish", 4, "LIST" ] ] ]
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "2x4", 5 ] ], [ [ "nail_glue", 20, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -1318,8 +1333,7 @@
     "reversible": true,
     "autolearn": true,
     "using": [ [ "rope_natural_short", 3 ] ],
-    "qualities": [ { "id": "SANDING", "level": 1 } ],
-    "components": [ [ [ "2x4", 3 ], [ "stick", 6 ] ], [ [ "varnish", 3, "LIST" ] ] ]
+    "components": [ [ [ "2x4", 3 ], [ "stick", 6 ] ] ]
   },
   {
     "type": "recipe",
@@ -1331,8 +1345,8 @@
     "time": "90 m",
     "reversible": true,
     "autolearn": true,
-    "qualities": [ { "id": "SAW_W", "level": 1 }, { "id": "DRILL", "level": 1 }, { "id": "SANDING", "level": 1 } ],
-    "components": [ [ [ "2x4", 2 ] ], [ [ "varnish", 2, "LIST" ] ] ]
+    "qualities": [ { "id": "SAW_W", "level": 1 }, { "id": "DRILL", "level": 1 } ],
+    "components": [ [ [ "2x4", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -1344,8 +1358,8 @@
     "time": "6 m",
     "reversible": true,
     "autolearn": true,
-    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SAW_W", "level": 1 }, { "id": "SANDING", "level": 1 } ],
-    "components": [ [ [ "2x4", 5 ] ], [ [ "varnish", 4, "LIST" ] ], [ [ "nail_glue", 20, "LIST" ] ] ]
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SAW_W", "level": 1 } ],
+    "components": [ [ [ "2x4", 5 ] ], [ [ "nail_glue", 20, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -1357,8 +1371,8 @@
     "time": "12 m",
     "reversible": true,
     "autolearn": true,
-    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SAW_W", "level": 1 }, { "id": "SANDING", "level": 1 } ],
-    "components": [ [ [ "2x4", 5 ] ], [ [ "nail_glue", 30, "LIST" ] ], [ [ "varnish", 1, "LIST" ] ], [ [ "scrap", 5 ] ] ]
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SAW_W", "level": 1 } ],
+    "components": [ [ [ "2x4", 5 ] ], [ [ "nail_glue", 30, "LIST" ] ], [ [ "scrap", 5 ] ] ]
   },
   {
     "type": "recipe",
@@ -1370,12 +1384,7 @@
     "time": "6 m",
     "reversible": true,
     "autolearn": true,
-    "qualities": [ { "id": "SANDING", "level": 1 } ],
-    "components": [
-      [ [ "2x4", 6 ] ],
-      [ [ "varnish", 5, "LIST" ] ],
-      [ [ "rope_natural_short", 1, "LIST" ], [ "nail", 5 ], [ "adhesive", 2, "LIST" ] ]
-    ]
+    "components": [ [ [ "2x4", 6 ] ], [ [ "rope_natural_short", 1, "LIST" ], [ "nail", 5 ], [ "adhesive", 2, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -1677,7 +1686,7 @@
     "decomp_learn": 1,
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SAW_W", "level": 1 }, { "id": "SANDING", "level": 1 } ],
-    "components": [ [ [ "2x4", 4 ] ], [ [ "wood_panel", 1 ] ], [ [ "varnish", 2, "LIST" ] ], [ [ "nail_glue", 8, "LIST" ] ] ]
+    "components": [ [ [ "2x4", 4 ] ], [ [ "wood_panel", 1 ] ], [ [ "nail_glue", 8, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -1939,7 +1948,7 @@
     "time": "20 m",
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_W", "level": 1 }, { "id": "SANDING", "level": 1 } ],
-    "components": [ [ [ "nail_glue", 4, "LIST" ] ], [ [ "stick", 2 ], [ "2x4", 2 ] ], [ [ "varnish", 1, "LIST" ] ] ]
+    "components": [ [ [ "nail_glue", 4, "LIST" ] ], [ [ "stick", 2 ], [ "2x4", 2 ] ] ]
   },
   {
     "result": "carbonfiber_boat_hull",

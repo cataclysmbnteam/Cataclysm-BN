@@ -223,6 +223,8 @@ std::string action_ident( action_id act )
             return "construct";
         case ACTION_DISASSEMBLE:
             return "disassemble";
+        case ACTION_SALVAGE:
+            return "salvage";
         case ACTION_SLEEP:
             return "sleep";
         case ACTION_CONTROL_VEHICLE:
@@ -869,7 +871,7 @@ action_id handle_action_menu()
         } else if( category == _( "Craft" ) ) {
             register_actions( {
                 ACTION_CRAFT, ACTION_RECRAFT, ACTION_LONGCRAFT,
-                ACTION_CONSTRUCT, ACTION_DISASSEMBLE
+                ACTION_CONSTRUCT, ACTION_DISASSEMBLE, ACTION_SALVAGE
             } );
         } else if( category == _( "Info" ) ) {
             register_actions( {

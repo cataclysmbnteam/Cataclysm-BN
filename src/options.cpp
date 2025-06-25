@@ -2098,6 +2098,10 @@ void options_manager::add_options_graphics()
 
     get_option( "PIXEL_MINIMAP_BLINK" ).setPrerequisite( "PIXEL_MINIMAP" );
 
+    add( "ZOOM_STEP_COUNT", graphics, translate_marker( "Zoom steps" ),
+         translate_marker( "Number of steps between zoom levels." ),
+         1, 7, 1, COPT_CURSES_HIDE );
+
     add_empty_line();
 
 #if defined(TILES)
@@ -2324,6 +2328,9 @@ void options_manager::add_options_debug()
          false );
 
     get_option( "MADE_OF_EXPLODIUM" ).setPrerequisite( "OLD_EXPLOSIONS", "false" );
+
+    add( "CHRONIC_PAIN", debug, translate_marker( "Chronic pain" ),
+         translate_marker( "If true, injuries cause persistent pain until they are healed." ), false );
 
     add_empty_line();
 

@@ -86,7 +86,7 @@
     "effect": "target_attack",
     "base_casting_time": 150,
     "base_energy_cost": 550,
-    "damage_type": "true",
+    "damage_type": "light",
     "spell_class": "ANIMIST",
     "difficulty": 12,
     "max_level": 22,
@@ -238,7 +238,7 @@
     "difficulty": 5,
     "base_casting_time": 100,
     "base_energy_cost": 5,
-    "damage_type": "bio"
+    "damage_type": "dark"
   },
   {
     "id": "create_rune_animist",

@@ -744,6 +744,13 @@ std::optional<tripoint> input_context::get_coordinates( const catacurses::window
     return std::nullopt;
 }
 
+std::optional<point> input_context::get_coordinates_text( const catacurses::window
+        & capture_win ) const
+{
+    // TODO: implement this properly
+    return std::nullopt;
+}
+
 // Ends the terminal, destroy everything
 void catacurses::endwin()
 {

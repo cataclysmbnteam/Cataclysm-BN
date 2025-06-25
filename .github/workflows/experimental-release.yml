@@ -20,37 +20,37 @@ jobs:
           - name: Windows Tiles x64 MSVC
             artifact: windows-tiles-x64-msvc
             arch: x64
-            os: windows-2019
+            os: windows-latest
             ext: zip
             content: application/zip
           - name: Windows Tiles x32 MSVC
             artifact: windows-tiles-x32-msvc
             arch: x86
-            os: windows-2019
+            os: windows-latest
             ext: zip
             content: application/zip
           - name: Linux Tiles x64
-            os: ubuntu-24.04
+            os: ubuntu-latest
             android: none
             tiles: 1
             artifact: linux-tiles-x64
             ext: tar.gz
             content: application/gzip
           - name: linux-curses-x64
-            os: ubuntu-24.04
+            os: ubuntu-latest
             android: none
             tiles: 0
             artifact: linux-curses-x64
             ext: tar.gz
             content: application/gzip
           - name: osx-curses-x64
-            os: macos-14
+            os: macos-13
             tiles: 0
             artifact: osx-curses-x64
             ext: dmg
             content: application/x-apple-diskimage
           - name: osx-tiles-x64
-            os: macos-14
+            os: macos-13
             tiles: 1
             artifact: osx-tiles-x64
             ext: dmg
@@ -68,19 +68,19 @@ jobs:
             ext: dmg
             content: application/x-apple-diskimage
           - name: Android x64
-            os: ubuntu-24.04
+            os: ubuntu-latest
             android: arm64
             artifact: android-x64
             ext: apk
             content: application/apk
           - name: Android x32
-            os: ubuntu-24.04
+            os: ubuntu-latest
             android: arm32
             artifact: android-x32
             ext: apk
             content: application/apk
           - name: Android Bundle
-            os: ubuntu-24.04
+            os: ubuntu-latest
             android: bundle
             artifact: android-bundle
             ext: aab
@@ -115,7 +115,9 @@ jobs:
 
       - name: Install MSBuild (windows msvc)
         if: runner.os == 'Windows'
-        uses: microsoft/setup-msbuild@v1.3.1
+        uses: microsoft/setup-msbuild@v2
+        with:
+          vs-version: 17.13
 
       - name: Install stable CMake
         uses: lukka/get-cmake@v3.31.6
@@ -135,8 +137,11 @@ jobs:
         if: runner.os == 'Linux' && matrix.android == 'none'
         run: |
           sudo apt-get update
-          sudo apt-get install libncursesw5-dev libsdl2-dev libsdl2-ttf-dev libsdl2-image-dev \
+          sudo apt-get install gcc-14 libncursesw5-dev libsdl2-dev libsdl2-ttf-dev libsdl2-image-dev \
             libsdl2-mixer-dev libpulse-dev ccache gettext parallel libsqlite3-dev zlib1g-dev
+          sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-14 100
+          sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-14 100
+          g++ --version
 
       - name: Install runtime dependencies (mac)
         if: runner.os == 'macOS'
@@ -218,9 +223,10 @@ jobs:
         if: github.repository == 'cataclysmbnteam/Cataclysm-BN'
         run: |
           SHA_SHORT=$(git rev-parse --short HEAD)
+          TIMESTAMP=$(date "+%F %T")
 
           gh release upload experimental --clobber cbn-${{ matrix.artifact }}-experimental.${{ matrix.ext }}
-          gh release edit experimental --title "Experimental $SHA_SHORT" --notes "Experimental build for commit $SHA_SHORT"
+          gh release edit experimental --title "Experimental @ $TIMESTAMP (\`$SHA_SHORT\`)" --notes "Experimental build for commit $SHA_SHORT on $TIMESTAMP"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         shell: bash

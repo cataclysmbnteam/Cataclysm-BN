@@ -1150,9 +1150,9 @@ vehicle *map::veh_at_internal( const tripoint &p, int &part_num )
     return const_cast<vehicle *>( const_cast<const map *>( this )->veh_at_internal( p, part_num ) );
 }
 
-void map::board_vehicle( const tripoint &pos, player *p )
+void map::board_vehicle( const tripoint &pos, Character *who )
 {
-    if( p == nullptr ) {
+    if( who == nullptr ) {
         debugmsg( "map::board_vehicle: null player" );
         return;
     }
@@ -1160,7 +1160,7 @@ void map::board_vehicle( const tripoint &pos, player *p )
     const std::optional<vpart_reference> vp = veh_at( pos ).part_with_feature( VPFLAG_BOARDABLE,
             true );
     if( !vp ) {
-        if( p->grab_point.x == 0 && p->grab_point.y == 0 ) {
+        if( who->grab_point.x == 0 && who->grab_point.y == 0 ) {
             debugmsg( "map::board_vehicle: vehicle not found" );
         }
         return;
@@ -1172,12 +1172,12 @@ void map::board_vehicle( const tripoint &pos, player *p )
         unboard_vehicle( pos );
     }
     vp->part().set_flag( vehicle_part::passenger_flag );
-    vp->part().passenger_id = p->getID();
+    vp->part().passenger_id = who->getID();
     vp->vehicle().invalidate_mass();
 
-    p->setpos( pos );
-    p->in_vehicle = true;
-    if( p->is_avatar() ) {
+    who->setpos( pos );
+    who->in_vehicle = true;
+    if( who->is_avatar() ) {
         g->update_map( g->u );
     }
 }
@@ -1776,13 +1776,13 @@ furn_id map::get_furn_transforms_into( const tripoint &p ) const
  * Examines the tile pos, with character as the "examinator"
  * Casts Character to player because player/NPC split isn't done yet
  */
-void map::examine( Character &p, const tripoint &pos )
+void map::examine( Character &who, const tripoint &pos )
 {
     const auto furn_here = furn( pos ).obj();
     if( furn_here.examine != iexamine::none ) {
-        furn_here.examine( dynamic_cast<player &>( p ), pos );
+        furn_here.examine( dynamic_cast<player &>( who ), pos );
     } else {
-        ter( pos ).obj().examine( dynamic_cast<player &>( p ), pos );
+        ter( pos ).obj().examine( dynamic_cast<player &>( who ), pos );
     }
 }
 
@@ -1887,7 +1887,7 @@ std::string map::features( const tripoint &p )
     // to take up one line.  So, make sure it does that.
     // FIXME: can't control length of localized text.
     add_if( is_bashable( p ), _( "Smashable." ) );
-    add_if( has_flag( "DIGGABLE", p ), _( "Diggable." ) );
+    add_if( ter( p )->is_diggable(), _( "Diggable." ) );
     add_if( has_flag( "PLOWABLE", p ), _( "Plowable." ) );
     add_if( has_flag( "ROUGH", p ), _( "Rough." ) );
     add_if( has_flag( "UNSTABLE", p ), _( "Unstable." ) );

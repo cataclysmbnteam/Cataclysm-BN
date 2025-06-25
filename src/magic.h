@@ -58,6 +58,8 @@ enum spell_flag {
     PAIN_NORESIST, // pain altering spells can't be resisted (like with the deadened trait)
     NO_FAIL, // this spell cannot fail when you cast it
     BRAWL, // this spell can be used by brawlers
+    DUPE_SOUND, // this spell will play 'duplicate' sounds, if relevant to the spell effect
+    ADD_MELEE_DAM, // Add melee damage to the spell's damage
     LAST
 };
 
@@ -374,6 +376,10 @@ class spell
         int damage() const;
         dealt_damage_instance get_dealt_damage_instance() const;
         damage_instance get_damage_instance() const;
+        // damage with character stats taken into account
+        int damage_as_character( const Character &guy ) const;
+        dealt_damage_instance get_dealt_damage_instance( const Character &guy ) const;
+        damage_instance get_damage_instance( const Character &guy ) const;
         // how big is the spell's radius
         int aoe() const;
         // "accuracy" of spells (used for determining body part hit)
@@ -439,7 +445,7 @@ class spell
         //if targeted_monster_ids is empty, it returns an empty string
         std::string list_targeted_monster_names() const;
 
-        std::string damage_string() const;
+        std::string damage_string( const Character &guy ) const;
         std::string aoe_string() const;
         std::string duration_string() const;
 
@@ -467,7 +473,7 @@ class spell
         // goes through the spell effect and all of its internal spells
         void cast_all_effects( Creature &source, const tripoint &target ) const;
         // uses up the components in @you's inventory
-        void use_components( player &you ) const;
+        void use_components( Character &who ) const;
         // checks if a target point is in spell range
         bool is_target_in_range( const Creature &caster, const tripoint &p ) const;
 

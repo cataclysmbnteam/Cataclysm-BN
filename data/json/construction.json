@@ -153,7 +153,7 @@
     "time": "60 m",
     "qualities": [ [ { "id": "CUT", "level": 1 } ], [ { "id": "HAMMER", "level": 1 } ] ],
     "components": [ [ [ "wood_structural", 3, "LIST" ], [ "wood_panel", 1 ] ], [ [ "pine_bough", 24 ], [ "willowbark", 24 ] ] ],
-    "pre_terrain": "t_pit_shallow",
+    "pre_flags": "PIT_SHALLOW",
     "dark_craftable": true,
     "post_terrain": "t_improvised_shelter"
   },
@@ -1062,7 +1062,7 @@
     "time": "60 m",
     "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
     "components": [ [ [ "log", 2 ] ], [ [ "wood_structural_small", 3, "LIST" ] ] ],
-    "pre_terrain": "t_pit_shallow",
+    "pre_flags": "PIT_SHALLOW",
     "post_terrain": "t_wall_log_half"
   },
   {
@@ -1098,6 +1098,32 @@
     "components": [ [ [ "log", 1 ] ], [ [ "2x4", 2 ] ], [ [ "nail", 24 ] ] ],
     "pre_terrain": "t_wall_log_broken",
     "post_terrain": "t_wall_log_chipped"
+  },
+  {
+    "type": "construction",
+    "id": "constr_screen_door",
+    "group": "build_screen_door",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 2 ] ],
+    "time": "60 m",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
+    "components": [ [ [ "screen_mesh", 1 ] ], [ [ "2x4", 4 ] ], [ [ "nail", 20 ] ], [ [ "hinge", 2 ] ] ],
+    "pre_note": "Needs to be supported on both sides by fencing, walls, etc.",
+    "pre_terrain": "t_floor",
+    "post_terrain": "t_screen_door_c"
+  },
+  {
+    "type": "construction",
+    "id": "constr_screened_porch_wall",
+    "group": "build_screen_mesh_wall",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 2 ] ],
+    "time": "60 m",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
+    "components": [ [ [ "screen_mesh", 1 ] ], [ [ "2x4", 4 ] ], [ [ "nail", 10 ] ] ],
+    "pre_note": "Needs to be supported on both sides by fencing, walls, etc.",
+    "pre_terrain": "t_floor",
+    "post_terrain": "t_screened_porch_wall"
   },
   {
     "type": "construction",
@@ -1166,7 +1192,7 @@
     "qualities": [ { "id": "GLARE", "level": 2 } ],
     "tools": [ [ [ "oxy_torch", 10 ], [ "welder", 50 ], [ "toolset", 75 ] ] ],
     "components": [ [ [ "steel_plate", 2 ] ] ],
-    "pre_terrain": "t_pit_shallow",
+    "pre_flags": "PIT_SHALLOW",
     "post_terrain": "t_scrap_wall_halfway"
   },
   {
@@ -1193,7 +1219,7 @@
     "time": "120 m",
     "qualities": [ [ { "id": "SMOOTH", "level": 2 } ] ],
     "components": [ [ [ "brick", 15 ] ], [ [ "mortar_build", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ],
-    "pre_terrain": "t_dirt",
+    "pre_flags": "FLAT",
     "post_terrain": "t_brick_wall_halfway"
   },
   {
@@ -1220,7 +1246,7 @@
     "tools": [ [ [ "con_mix", 50 ] ] ],
     "qualities": [ [ { "id": "SMOOTH", "level": 1 } ] ],
     "components": [ [ [ "concrete", 2 ] ], [ [ "water", 2 ] ] ],
-    "pre_terrain": "t_pit_shallow",
+    "pre_flags": "PIT_SHALLOW",
     "post_terrain": "t_concrete"
   },
   {
@@ -1246,7 +1272,7 @@
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "40 m",
     "components": [ [ [ "splinter", 50 ] ] ],
-    "pre_terrain": "t_pit_shallow",
+    "pre_flags": "PIT_SHALLOW",
     "dark_craftable": true,
     "post_terrain": "t_woodchips"
   },
@@ -1311,7 +1337,7 @@
     "tools": [ [ [ "con_mix", 50 ] ] ],
     "qualities": [ [ { "id": "SMOOTH", "level": 1 } ] ],
     "components": [ [ [ "concrete", 4 ] ], [ [ "2x4", 12 ] ], [ [ "water", 4 ], [ "water_clean", 4 ] ] ],
-    "pre_terrain": "t_pit_shallow",
+    "pre_flags": "PIT_SHALLOW",
     "post_terrain": "t_sconc_wall_halfway"
   },
   {
@@ -1338,7 +1364,7 @@
     "time": "120 m",
     "qualities": [ [ { "id": "WELD", "level": 2 } ], [ { "id": "GLARE", "level": 2 } ] ],
     "components": [ [ [ "rebar", 16 ] ] ],
-    "pre_terrain": "t_pit",
+    "pre_flags": "PIT_DEEP",
     "post_terrain": "t_reb_cage"
   },
   {
@@ -1379,7 +1405,7 @@
     "time": "120 m",
     "qualities": [ [ { "id": "WELD", "level": 2 } ], [ { "id": "GLARE", "level": 2 } ] ],
     "components": [ [ [ "rebar", 16 ] ] ],
-    "pre_terrain": "t_pit",
+    "pre_flags": "PIT_DEEP",
     "post_terrain": "t_reb_cage"
   },
   {
@@ -1434,7 +1460,7 @@
     "time": "120 m",
     "qualities": [ [ { "id": "WELD", "level": 2 } ], [ { "id": "GLARE", "level": 2 } ] ],
     "components": [ [ [ "rebar", 8 ] ], [ [ "2x4", 12 ] ], [ [ "pipe", 4 ] ] ],
-    "pre_terrain": "t_pit_shallow",
+    "pre_flags": "PIT_SHALLOW",
     "post_terrain": "t_ov_smreb_cage"
   },
   {
@@ -1461,7 +1487,7 @@
     "time": "180 m",
     "qualities": [ [ { "id": "WELD", "level": 2 } ], [ { "id": "GLARE", "level": 2 } ] ],
     "components": [ [ [ "rebar", 12 ] ], [ [ "2x4", 12 ] ], [ [ "pipe", 4 ] ] ],
-    "pre_terrain": "t_pit",
+    "pre_flags": "PIT_DEEP",
     "post_terrain": "t_ov_reb_cage"
   },
   {
@@ -1511,7 +1537,7 @@
         [ "vine_30", 1 ]
       ]
     ],
-    "pre_terrain": "t_pit",
+    "pre_flags": "PIT_DEEP",
     "post_terrain": "t_palisade"
   },
   {
@@ -1665,7 +1691,7 @@
       [ [ "rope_makeshift_6", 2 ], [ "rope_6", 2 ], [ "vine_30", 1 ] ]
     ],
     "pre_note": "Must be between palisade walls to function, and at least one wall must have an adjacent rope & pulley system.",
-    "pre_terrain": "t_pit",
+    "pre_flags": "PIT_DEEP",
     "post_terrain": "t_palisade_gate"
   },
   {
@@ -1677,7 +1703,7 @@
     "time": "15 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "DIG", "level": 2 } ] ],
     "components": [ [ [ "pointy_stick", 2 ], [ "spear_wood", 2 ] ] ],
-    "pre_flags": "DIGGABLE",
+    "needs_diggable": true,
     "post_terrain": "t_fence_post"
   },
   {
@@ -1701,7 +1727,7 @@
     "time": "30 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "DIG", "level": 2 } ] ],
     "components": [ [ [ "pointy_stick", 2 ], [ "spear_wood", 2 ] ], [ [ "2x4", 5 ] ], [ [ "nail", 12 ] ], [ [ "hinge", 2 ] ] ],
-    "pre_flags": "DIGGABLE",
+    "needs_diggable": true,
     "post_terrain": "t_fencegate_c"
   },
   {
@@ -1747,7 +1773,7 @@
     "time": "30 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
     "components": [ [ [ "pipe", 6 ] ], [ [ "scrap", 8 ] ] ],
-    "pre_flags": "DIGGABLE",
+    "needs_diggable": true,
     "post_terrain": "t_chainfence_posts"
   },
   {
@@ -1776,32 +1802,6 @@
   },
   {
     "type": "construction",
-    "id": "constr_screen_door",
-    "group": "build_screen_door",
-    "category": "CONSTRUCT",
-    "required_skills": [ [ "fabrication", 2 ] ],
-    "time": "60 m",
-    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
-    "components": [ [ [ "screen_mesh", 1 ] ], [ [ "2x4", 4 ] ], [ [ "nail", 20 ] ], [ [ "hinge", 2 ] ] ],
-    "pre_note": "Needs to be supported on both sides by fencing, walls, etc.",
-    "pre_special": "check_empty",
-    "post_terrain": "t_screen_door_c"
-  },
-  {
-    "type": "construction",
-    "id": "constr_screened_porch_wall",
-    "group": "build_screen_mesh_wall",
-    "category": "CONSTRUCT",
-    "required_skills": [ [ "fabrication", 2 ] ],
-    "time": "60 m",
-    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
-    "components": [ [ [ "screen_mesh", 1 ] ], [ [ "2x4", 4 ] ], [ [ "nail", 10 ] ] ],
-    "pre_note": "Needs to be supported on both sides by fencing, walls, etc.",
-    "pre_special": "check_empty",
-    "post_terrain": "t_screened_porch_wall"
-  },
-  {
-    "type": "construction",
     "id": "constr_chickenwire_fence_post",
     "group": "build_chickenwire_fence",
     "//": "Step 1: 2x4 stud frame",
@@ -1810,7 +1810,7 @@
     "time": "30 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
     "components": [ [ [ "2x4", 5 ] ], [ [ "nail", 20 ] ] ],
-    "pre_flags": "DIGGABLE",
+    "needs_diggable": true,
     "post_terrain": "t_chickenwire_fence_post"
   },
   {
@@ -1916,7 +1916,7 @@
     "time": "30 m",
     "qualities": [ [ { "id": "HAMMER", "level": 1 } ], [ { "id": "DIG", "level": 2 } ] ],
     "components": [ [ [ "rock", 20 ], [ "wood_structural_small", 2, "LIST" ] ] ],
-    "pre_terrain": "t_pit_shallow",
+    "pre_flags": "PIT_SHALLOW",
     "post_flags": [ "keep_items" ],
     "post_terrain": "t_grave_new",
     "post_special": "done_grave"
@@ -2393,7 +2393,7 @@
     "time": "480 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
     "components": [ [ [ "rock", 40 ] ], [ [ "2x4", 4 ] ], [ [ "nail", 8 ] ] ],
-    "pre_terrain": "t_pit",
+    "pre_flags": "PIT_DEEP",
     "post_terrain": "t_covered_well"
   },
   {
@@ -2610,7 +2610,7 @@
     "time": "30 m",
     "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
     "components": [ [ [ "wood_beam", 1 ] ], [ [ "rope_makeshift_30", 1 ], [ "rope_30", 1 ], [ "vine_30", 1 ] ] ],
-    "pre_flags": "DIGGABLE",
+    "needs_diggable": true,
     "pre_special": "check_empty",
     "post_furniture": "f_flagpole_wood"
   },
@@ -2981,7 +2981,7 @@
       [ [ "wood_structural", 4, "LIST" ], [ "log", 1 ] ],
       [ [ "rope_makeshift_30", 1 ], [ "rope_30", 1 ], [ "vine_30", 1 ] ]
     ],
-    "pre_flags": "DIGGABLE",
+    "needs_diggable": true,
     "pre_special": "check_down_OK",
     "post_special": "done_dig_stair"
   },
@@ -3100,7 +3100,7 @@
     "tools": [ [ [ "con_mix", 125 ] ] ],
     "qualities": [ [ { "id": "SMOOTH", "level": 1 } ] ],
     "components": [ [ [ "concrete", 5 ] ], [ [ "water", 5 ] ] ],
-    "pre_terrain": "t_pit_shallow",
+    "pre_flags": "PIT_SHALLOW",
     "pre_special": "check_ramp_low",
     "post_terrain": "t_ramp_up_low",
     "post_special": "done_ramp_low"
@@ -3117,7 +3117,7 @@
     "tools": [ [ [ "con_mix", 125 ] ] ],
     "qualities": [ [ { "id": "SMOOTH", "level": 1 } ] ],
     "components": [ [ [ "concrete", 5 ] ], [ [ "water", 5 ] ] ],
-    "pre_terrain": "t_pit_shallow",
+    "pre_flags": "PIT_SHALLOW",
     "pre_special": "check_ramp_high",
     "post_terrain": "t_ramp_up_high",
     "post_special": "done_ramp_high"
@@ -3330,7 +3330,7 @@
     "time": "40 m",
     "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
     "components": [ [ [ "wind_mill", 1 ] ] ],
-    "pre_terrain": "t_pit_shallow",
+    "pre_flags": "PIT_SHALLOW",
     "post_furniture": "f_wind_mill"
   },
   {
@@ -3583,7 +3583,7 @@
       [ [ "withered", 12 ], [ "straw_pile", 12 ] ]
     ],
     "pre_note": "You need a deep pit to construct a root cellar.",
-    "pre_terrain": "t_pit",
+    "pre_flags": "PIT_DEEP",
     "post_terrain": "t_rootcellar"
   },
   {
@@ -3833,7 +3833,7 @@
     "time": "30 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "DIG", "level": 2 } ] ],
     "components": [ [ [ "pointy_stick", 2 ], [ "spear_wood", 2 ] ], [ [ "2x4", 5 ] ], [ [ "nail", 12 ] ], [ [ "hinge", 2 ] ] ],
-    "pre_flags": "DIGGABLE",
+    "needs_diggable": true,
     "post_terrain": "t_splitrail_fencegate_c"
   },
   {
@@ -3845,7 +3845,7 @@
     "time": "30 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "DIG", "level": 2 } ] ],
     "components": [ [ [ "pointy_stick", 2 ], [ "spear_wood", 2 ] ], [ [ "2x4", 8 ] ], [ [ "nail", 20 ] ], [ [ "hinge", 2 ] ] ],
-    "pre_flags": "DIGGABLE",
+    "needs_diggable": true,
     "post_terrain": "t_privacy_fencegate_c"
   },
   {
@@ -3857,7 +3857,7 @@
     "time": "45 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "DIG", "level": 2 } ], [ { "id": "CHISEL", "level": 1 } ] ],
     "components": [ [ [ "log", 2 ] ] ],
-    "pre_flags": "DIGGABLE",
+    "needs_diggable": true,
     "post_terrain": "t_splitrail_fence"
   },
   {
@@ -3869,7 +3869,7 @@
     "time": "30 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "DIG", "level": 2 } ] ],
     "components": [ [ [ "pointy_stick", 2 ], [ "spear_wood", 2 ] ], [ [ "2x4", 8 ] ], [ [ "nail", 20 ] ] ],
-    "pre_flags": "DIGGABLE",
+    "needs_diggable": true,
     "post_terrain": "t_privacy_fence"
   },
   {
@@ -3887,7 +3887,7 @@
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
       [ [ "material_sand", 20 ] ]
     ],
-    "pre_terrain": "t_dirt",
+    "pre_flags": "FLAT",
     "post_terrain": "t_adobe_brick_wall_halfway"
   },
   {
@@ -4001,7 +4001,8 @@
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "pointy_stick", 4 ] ], [ [ "string_36", 1 ], [ "string_6", 4 ] ], [ [ "tarp", 1 ], [ "plastic_sheet", 1 ] ] ],
     "pre_note": "Can be deconstructed without tools.",
-    "pre_flags": [ "DIGGABLE", "FLAT" ],
+    "pre_flags": [ "FLAT" ],
+    "needs_diggable": true,
     "post_terrain": "t_tarptent"
   },
   {
@@ -4013,7 +4014,8 @@
     "time": "10m",
     "on_display": false,
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "pre_flags": [ "DIGGABLE", "FLAT" ],
+    "pre_flags": [ "FLAT" ],
+    "needs_diggable": true,
     "dark_craftable": true,
     "post_terrain": "t_floor"
   },
@@ -4026,7 +4028,8 @@
     "time": "30m",
     "on_display": false,
     "qualities": [ { "id": "DIG", "level": 1 } ],
-    "pre_flags": [ "DIGGABLE", "FLAT" ],
+    "pre_flags": [ "FLAT" ],
+    "needs_diggable": true,
     "dark_craftable": true,
     "post_terrain": "t_pit_shallow"
   },
@@ -4051,7 +4054,8 @@
     "time": "150m",
     "on_display": false,
     "qualities": [ { "id": "DIG", "level": 2 } ],
-    "pre_flags": [ "DIGGABLE", "FLAT" ],
+    "pre_flags": [ "FLAT" ],
+    "needs_diggable": true,
     "dark_craftable": true,
     "post_terrain": "t_pit"
   },
@@ -4667,7 +4671,7 @@
     "using": [ [ "soldering_standard", 10 ] ],
     "components": [ [ [ "steel_chunk", 5 ] ], [ [ "plastic_chunk", 2 ] ], [ [ "wind_turbine", 1 ] ] ],
     "pre_note": "Will only work if constructed near a building that has an electric grid with a mounted battery.",
-    "pre_terrain": "t_pit_shallow",
+    "pre_flags": "PIT_SHALLOW",
     "post_furniture": "f_turbine_unit"
   },
   {
@@ -4695,7 +4699,7 @@
     "using": [ [ "soldering_standard", 20 ] ],
     "components": [ [ [ "steel_chunk", 5 ] ], [ [ "plastic_chunk", 2 ] ], [ [ "xl_wind_turbine", 1 ] ] ],
     "pre_note": "Will only work if constructed near a building that has an electric grid with a mounted battery.",
-    "pre_terrain": "t_pit_shallow",
+    "pre_flags": "PIT_SHALLOW",
     "post_furniture": "f_xl_turbine_unit"
   },
   {
@@ -5384,7 +5388,7 @@
       [ [ "chain", 1 ] ],
       [ [ "rope_6", 2 ], [ "rope_makeshift_6", 2 ] ]
     ],
-    "pre_note": "Must be adjacent to a brick or (reinforced)concrete wall that is itself adjacent to a garage gate in order to open said gate.",
+    "pre_note": "Must be adjacent to a brick, concrete, stone or plastered wooden wall that is itself adjacent to a garage gate in order to open said gate.",
     "pre_special": "check_empty",
     "post_terrain": "t_gates_mech_control"
   },

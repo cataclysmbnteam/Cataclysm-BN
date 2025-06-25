@@ -4114,7 +4114,7 @@ void iexamine::use_furn_fake_item( player &p, const tripoint &examp )
     }
 
     const int original_charges = fake_item.charges;
-    p.invoke_item( &fake_item );
+    p.invoke_item( &fake_item, examp );
 
     // HACK: Evil hack incoming
     activity_handlers::repair_activity_hack::patch_activity_for_furniture( *g->u.activity, examp,

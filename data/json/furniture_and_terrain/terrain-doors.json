@@ -2300,7 +2300,7 @@
     "id": "t_door_metal_locked_o",
     "name": "open metal door",
     "description": "A hanging metal gate.  Typically used in conjunction with mechanical winch.  Probably shouldn't be underneath when it comes down.",
-    "symbol": "+",
+    "symbol": "'",
     "looks_like": "t_door_metal_lab_o",
     "color": "cyan",
     "move_cost": 2,
@@ -2689,7 +2689,7 @@
     "id": "t_door_metal_bulkhead_o",
     "name": "open bulkhead door",
     "description": "An extremely resilient door of cast metal, it is watertight and opened using the fly wheel.",
-    "symbol": "+",
+    "symbol": "'",
     "looks_like": "t_door_metal_o",
     "color": "light_gray",
     "move_cost": 2,
@@ -2864,6 +2864,76 @@
       "items": [
         { "item": "pipe", "count": [ 3, 6 ] },
         { "item": "scrap", "count": [ 3, 12 ] },
+        { "item": "hinge", "count": [ 1, 2 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_screen_door_c",
+    "name": "closed screen door",
+    "description": "A simple wooden doorway with screen mesh.",
+    "symbol": "+",
+    "color": "brown",
+    "looks_like": "t_chickenwire_gate_c",
+    "move_cost": 0,
+    "flags": [ "TRANSPARENT", "DOOR", "PERMEABLE", "CONNECT_TO_WALL" ],
+    "open": "t_screen_door_o",
+    "deconstruct": {
+      "ter_set": "t_floor",
+      "items": [
+        { "item": "2x4", "count": 4 },
+        { "item": "screen_mesh", "count": 1 },
+        { "item": "nail", "charges": 20 },
+        { "item": "hinge", "count": 2 }
+      ]
+    },
+    "bash": {
+      "str_min": 5,
+      "str_max": 12,
+      "str_min_blocked": 5,
+      "str_max_blocked": 15,
+      "sound": "rattle!",
+      "sound_fail": "thump!",
+      "ter_set": "t_floor",
+      "items": [
+        { "item": "screen_mesh", "count": [ 0, 1 ] },
+        { "item": "2x4", "count": [ 2, 4 ] },
+        { "item": "hinge", "count": [ 1, 2 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_screen_door_o",
+    "name": "open screen door",
+    "description": "A simple wooden doorway with screen mesh.",
+    "symbol": "'",
+    "color": "brown",
+    "looks_like": "t_chickenwire_gate_o",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "DOOR", "PERMEABLE", "CONNECT_TO_WALL" ],
+    "close": "t_screen_door_c",
+    "deconstruct": {
+      "ter_set": "t_floor",
+      "items": [
+        { "item": "2x4", "count": 4 },
+        { "item": "screen_mesh", "count": 1 },
+        { "item": "nail", "charges": 20 },
+        { "item": "hinge", "count": 2 }
+      ]
+    },
+    "bash": {
+      "str_min": 5,
+      "str_max": 12,
+      "str_min_blocked": 5,
+      "str_max_blocked": 15,
+      "sound": "rattle!",
+      "sound_fail": "thump!",
+      "ter_set": "t_floor",
+      "items": [
+        { "item": "screen_mesh", "count": [ 0, 1 ] },
+        { "item": "2x4", "count": [ 2, 4 ] },
         { "item": "hinge", "count": [ 1, 2 ] }
       ]
     }

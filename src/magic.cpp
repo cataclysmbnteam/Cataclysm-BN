@@ -40,6 +40,7 @@
 #include "mtype.h"
 #include "mutation.h"
 #include "output.h"
+#include "options.h"
 #include "pldata.h"
 #include "point.h"
 #include "requirements.h"
@@ -103,6 +104,8 @@ std::string enum_to_string<spell_flag>( spell_flag data )
         case spell_flag::NO_FAIL: return "NO_FAIL";
         case spell_flag::WONDER: return "WONDER";
         case spell_flag::BRAWL: return "BRAWL";
+        case spell_flag::DUPE_SOUND: return "DUPE_SOUND";
+        case spell_flag::ADD_MELEE_DAM: return "ADD_MELEE_DAM";
         case spell_flag::LAST: break;
     }
     debugmsg( "Invalid spell_flag" );
@@ -171,6 +174,12 @@ static damage_type damage_type_from_string( std::string &str )
         return DT_BIOLOGICAL;
     } else if( str == "COLD" ) {
         return DT_COLD;
+    } else if( str == "DARK" ) {
+        return DT_DARK;
+    } else if( str == "LIGHT" ) {
+        return DT_LIGHT;
+    } else if( str == "PSI" ) {
+        return DT_PSI;
     } else if( str == "CUT" ) {
         return DT_CUT;
     } else if( str == "BULLET" ) {
@@ -502,12 +511,30 @@ int spell::damage() const
     }
 }
 
-std::string spell::damage_string() const
+int spell::damage_as_character( const Character &guy ) const
+{
+    // Open-ended for the purposes of further expansion
+    double total_damage = damage();
+    if( has_flag( spell_flag::ADD_MELEE_DAM ) ) {
+        item &weapon = guy.used_weapon();
+        int weapon_damage = 0;
+        if( !weapon.is_null() ) {
+            // Just take the max, rather than worrying about how to integrate the other damage types
+            // Also assumes that weapons aren't dealing other damage types
+            weapon_damage = std::max( {weapon.damage_melee( DT_STAB ), weapon.damage_melee( DT_CUT ), weapon.damage_melee( DT_BASH )} );
+        }
+        total_damage += weapon_damage;
+    }
+
+    return std::round( total_damage );
+}
+
+std::string spell::damage_string( const Character &guy ) const
 {
     if( has_flag( spell_flag::RANDOM_DAMAGE ) ) {
         return string_format( "%d-%d", min_leveled_damage(), type->max_damage );
     } else {
-        const int dmg = damage();
+        const int dmg = damage_as_character( guy );
         if( dmg >= 0 ) {
             return string_format( "%d", dmg );
         } else {
@@ -722,7 +749,7 @@ bool spell::can_cast( Character &guy ) const
     }
 }
 
-void spell::use_components( player &you ) const
+void spell::use_components( Character &who ) const
 {
     if( type->spell_components.is_empty() ) {
         return;
@@ -731,11 +758,11 @@ void spell::use_components( player &you ) const
     // if we're here, we're assuming the Character has the correct components (using can_cast())
     inventory map_inv;
     for( const auto &it : spell_components.get_components() ) {
-        you.consume_items( you.select_item_component( it, 1, map_inv ), 1 );
+        who.consume_items( who.select_item_component( it, 1, map_inv ), 1 );
     }
     for( const auto &it : spell_components.get_tools() ) {
-        you.consume_tools( crafting::select_tool_component(
-                               it, 1, map_inv, you.as_character() ), 1 );
+        who.consume_tools( crafting::select_tool_component(
+                               it, 1, map_inv, &who ), 1 );
     }
 }
 
@@ -1065,21 +1092,27 @@ nc_color spell::damage_type_color() const
         case DT_ACID:
             return c_light_green;
         case DT_BASH:
-            return c_magenta;
+            return c_brown;
         case DT_BIOLOGICAL:
             return c_green;
         case DT_COLD:
+            return c_blue;
+        case DT_DARK:
+            return c_magenta;
+        case DT_LIGHT:
             return c_white;
+        case DT_PSI:
+            return c_pink;
         case DT_CUT:
             return c_light_gray;
         case DT_ELECTRIC:
-            return c_light_blue;
+            return c_light_cyan;
         case DT_BULLET:
         /* fallthrough */
         case DT_STAB:
             return c_light_red;
         case DT_TRUE:
-            return c_dark_gray;
+            return c_light_gray;
         default:
             return c_black;
     }
@@ -1216,6 +1249,20 @@ dealt_damage_instance spell::get_dealt_damage_instance() const
 {
     dealt_damage_instance dmg;
     dmg.set_damage( dmg_type(), damage() );
+    return dmg;
+}
+
+damage_instance spell::get_damage_instance( const Character &guy ) const
+{
+    damage_instance dmg;
+    dmg.add_damage( dmg_type(), damage_as_character( guy ) );
+    return dmg;
+}
+
+dealt_damage_instance spell::get_dealt_damage_instance( const Character &guy ) const
+{
+    dealt_damage_instance dmg;
+    dmg.set_damage( dmg_type(), damage_as_character( guy ) );
     return dmg;
 }
 
@@ -1520,11 +1567,22 @@ int known_magic::max_mana( const Character &guy ) const
 
 double known_magic::mana_regen_rate( const Character &guy ) const
 {
-    // mana should replenish in 8 hours.
-    double full_replenish = to_turns<double>( 8_hours );
-    double capacity = max_mana( guy );
+    bool is_flat_rate = get_option<bool>( "MANA_REGEN_IS_FLAT" );
+    double base_rate;
+    if( !is_flat_rate ) {
+        // mana should replenish in hours_to_regen hours by default.
+        int hours_to_regen = get_option<int>( "MANA_REGEN_HOURS_RATE" );
+        double full_replenish = to_turns<double>( time_duration::from_hours( hours_to_regen ) );
+        double capacity = max_mana( guy );
+        base_rate = capacity / full_replenish;
+    } else {
+        // mana should regen at a rate of flat_rate by default
+        base_rate = get_option<int>( "MANA_REGEN_FLAT" ) / to_turns<double>( 1_hours );
+    }
+
     double mut_mul = guy.mutation_value( "mana_regen_multiplier" );
-    double natural_regen = std::max( 0.0, capacity * mut_mul / full_replenish );
+    double natural_regen = std::max( 0.0, base_rate * mut_mul );
+
 
     double ench_bonus = guy.bonus_from_enchantments( natural_regen, enchant_vals::mod::MANA_REGEN );
 
@@ -1707,6 +1765,9 @@ static std::string enumerate_spell_data( const spell &sp )
     if( sp.has_flag( spell_flag::BRAWL ) ) {
         spell_data.emplace_back( _( "can be used by Brawlers" ) );
     }
+    if( sp.has_flag( spell_flag::ADD_MELEE_DAM ) ) {
+        spell_data.emplace_back( _( "can be augmented by melee weapon damage" ) );
+    }
     return enumerate_as_string( spell_data );
 }
 
@@ -1818,18 +1879,18 @@ void spellcasting_callback::draw_spell_info( const spell &sp, const uilist *menu
         line++;
     }
 
-    const int damage = sp.damage();
+    const int damage = sp.damage_as_character( g->u );
     std::string damage_string;
     std::string aoe_string;
     // if it's any type of attack spell, the stats are normal.
     if( fx == "target_attack" || fx == "projectile_attack" || fx == "cone_attack" ||
         fx == "line_attack" ) {
         if( damage > 0 ) {
-            damage_string = string_format( "%s: %s %s", _( "Damage" ), colorize( sp.damage_string(),
+            damage_string = string_format( "%s: %s %s", _( "Damage" ), colorize( sp.damage_string( g->u ),
                                            sp.damage_type_color() ),
                                            colorize( sp.damage_type_string(), sp.damage_type_color() ) );
         } else if( damage < 0 ) {
-            damage_string = string_format( "%s: %s", _( "Healing" ), colorize( sp.damage_string(),
+            damage_string = string_format( "%s: %s", _( "Healing" ), colorize( sp.damage_string( g->u ),
                                            light_green ) );
         }
         if( sp.aoe() > 0 ) {

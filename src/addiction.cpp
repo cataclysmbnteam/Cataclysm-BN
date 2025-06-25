@@ -61,6 +61,7 @@ void addict_effect( Character &u, addiction &add )
 
     switch( add.type ) {
         case add_type::CIG:
+            u.mod_int_bonus( -1 );
             if( !one_in( 2000 - 20 * in ) ) {
                 break;
             }

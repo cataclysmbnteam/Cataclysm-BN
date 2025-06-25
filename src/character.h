@@ -27,25 +27,24 @@
 #include "creature.h"
 #include "cursesdef.h"
 #include "damage.h"
-#include "enums.h"
 #include "enum_int_operators.h"
+#include "enums.h"
 #include "flat_set.h"
 #include "game_constants.h"
 #include "inventory.h"
-#include "item_handling_util.h"
 #include "item.h"
-#include "location_ptr.h"
+#include "item_handling_util.h"
 #include "memory_fast.h"
 #include "pimpl.h"
 #include "player_activity_ptr.h"
 #include "pldata.h"
 #include "point.h"
 #include "ret_val.h"
+#include "safe_reference.h"
 #include "stomach.h"
 #include "string_formatter.h"
 #include "type_id.h"
 #include "units.h"
-#include "units_temperature.h"
 #include "visitable.h"
 #include "weighted_list.h"
 
@@ -62,7 +61,6 @@ class known_magic;
 class player;
 class player_activity;
 class player_morale;
-class recipe_subset;
 class vehicle;
 class monster;
 class weather_manager;
@@ -79,9 +77,23 @@ struct points_left;
 struct trap;
 template <typename E> struct enum_traits;
 
+
+enum class recipe_filter_flags : int;
+class craft_command;
+class recipe;
+class recipe_subset;
+struct requirement_data;
+struct item_comp;
+struct tool_comp;
+
 enum class character_stat : char;
 
 constexpr int MAX_CLAIRVOYANCE = 40;
+
+static const std::string
+DEFAULT_HOTKEYS( "1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ" );
+
+using recipe_filter = std::function<bool( const recipe &r )>;
 
 enum vision_modes {
     DEBUG_NIGHTVISION,
@@ -234,6 +246,18 @@ struct mountable_status {
     };
 };
 
+/** @relates ret_val */
+template<>
+struct ret_val<edible_rating>::default_success : public
+    std::integral_constant<edible_rating, edible_rating::edible> {
+};
+
+/** @relates ret_val */
+template<>
+struct ret_val<edible_rating>::default_failure : public
+    std::integral_constant<edible_rating, edible_rating::inedible> {
+};
+
 class Character : public Creature, public location_visitable<Character>
 {
     public:
@@ -342,16 +366,16 @@ class Character : public Creature, public location_visitable<Character>
         void print_health() const;
 
         /** Getters for health values exclusive to characters */
-        virtual int get_healthy() const;
-        virtual int get_healthy_mod() const;
+        virtual float get_healthy() const;
+        virtual float get_healthy_mod() const;
 
         /** Modifiers for health values exclusive to characters */
-        virtual void mod_healthy( int nhealthy );
-        virtual void mod_healthy_mod( int nhealthy_mod, int cap );
+        virtual void mod_healthy( float nhealthy );
+        virtual void mod_healthy_mod( float nhealthy_mod, float cap );
 
         /** Setters for health values exclusive to characters */
-        virtual void set_healthy( int nhealthy );
-        virtual void set_healthy_mod( int nhealthy_mod );
+        virtual void set_healthy( float nhealthy );
+        virtual void set_healthy_mod( float nhealthy_mod );
 
         /** Getter for need values exclusive to characters */
         int get_stored_kcal() const;
@@ -987,6 +1011,7 @@ class Character : public Creature, public location_visitable<Character>
         bool activate_bionic( bionic &bio, bool eff_only = false,
                               bool *close_bionics_ui = nullptr );
         std::vector<bionic_id> get_bionics() const;
+        bionic_collection &get_bionic_collection() const;
         /** Get state of bionic with given id */
         bionic &get_bionic_state( const bionic_id &id );
         /** Returns amount of Storage CBMs in the corpse **/
@@ -1033,7 +1058,7 @@ class Character : public Creature, public location_visitable<Character>
         int get_free_bionics_slots( const bodypart_id &bp ) const;
 
         /** Handles process of introducing patient into anesthesia during Autodoc operations. Requires anesthesia kits or NOPAIN mutation */
-        void introduce_into_anesthesia( const time_duration &duration, player &installer,
+        void introduce_into_anesthesia( const time_duration &duration, Character &installer,
                                         bool needs_anesthesia );
         /** Removes a bionic from my_bionics[] */
         void remove_bionic( const bionic_id &b );
@@ -1052,11 +1077,11 @@ class Character : public Creature, public location_visitable<Character>
                               const skill_id &least_important_skill,
                               int skill_level = -1 );
         /**Is the installation possible*/
-        bool can_install_bionics( const itype &type, player &installer, bool autodoc = false,
+        bool can_install_bionics( const itype &type, Character &installer, bool autodoc = false,
                                   int skill_level = -1 );
         std::map<bodypart_id, int> bionic_installation_issues( const bionic_id &bioid ) const;
         /** Initialize all the values needed to start the operation player_activity */
-        bool install_bionics( const itype &type, player &installer, bool autodoc = false,
+        bool install_bionics( const itype &type, Character &installer, bool autodoc = false,
                               int skill_level = -1 );
         /**Success or failure of installation happens here*/
         void perform_install( bionic_id bid, bionic_id upbid, int difficulty, int success,
@@ -1067,10 +1092,10 @@ class Character : public Creature, public location_visitable<Character>
                                       int success, float adjusted_skill );
 
         /**Is The uninstallation possible*/
-        bool can_uninstall_bionic( const bionic_id &b_id, player &installer, bool autodoc = false,
+        bool can_uninstall_bionic( const bionic_id &b_id, Character &installer, bool autodoc = false,
                                    int skill_level = -1 );
         /** Initialize all the values needed to start the operation player_activity */
-        bool uninstall_bionic( const bionic_id &b_id, player &installer, bool autodoc = false,
+        bool uninstall_bionic( const bionic_id &b_id, Character &installer, bool autodoc = false,
                                int skill_level = -1 );
         /**Succes or failure of removal happens here*/
         void perform_uninstall( bionic_id bid, int difficulty, int success, const units::energy &power_lvl,
@@ -1079,10 +1104,10 @@ class Character : public Creature, public location_visitable<Character>
         void bionics_uninstall_failure( int difficulty, int success, float adjusted_skill );
 
         /**Used by monster to perform surgery*/
-        bool uninstall_bionic( const bionic &target_cbm, monster &installer, player &patient,
+        bool uninstall_bionic( const bionic &target_cbm, monster &installer, Character &patient,
                                float adjusted_skill );
         /**When a monster fails the surgery*/
-        void bionics_uninstall_failure( monster &installer, player &patient, int difficulty, int success,
+        void bionics_uninstall_failure( monster &installer, Character &patient, int difficulty, int success,
                                         float adjusted_skill );
 
         /**Convert fuel to bionic power*/
@@ -1684,8 +1709,6 @@ class Character : public Creature, public location_visitable<Character>
         std::set<character_id> follower_ids;
         weak_ptr_fast<Creature> last_target;
         std::optional<tripoint> last_target_pos;
-        // Save favorite ammo location
-        safe_reference<item> ammo_location;
         /* crafting inventory cached time */
         time_point cached_time;
 
@@ -1871,7 +1894,7 @@ class Character : public Creature, public location_visitable<Character>
         void on_stat_change( const std::string &stat, int value ) override;
 
         /** Removes "sleep" and "lying_down" */
-        void wake_up();
+        virtual void wake_up();
         // how loud a character can shout. based on mutations and clothing
         int get_shout_volume() const;
         // shouts a message
@@ -1900,6 +1923,7 @@ class Character : public Creature, public location_visitable<Character>
         void mod_pain( int npain ) override;
         /** Sets new intensity of pain an reacts to it */
         void set_pain( int npain ) override;
+        int get_pain() const override;
         /** Returns perceived pain (reduced with painkillers)*/
         int get_perceived_pain() const override;
 
@@ -2234,8 +2258,8 @@ class Character : public Creature, public location_visitable<Character>
         int int_bonus = 0;
 
         /** How healthy the character is. */
-        int healthy = 0;
-        int healthy_mod = 0;
+        float healthy = 0;
+        float healthy_mod = 0;
 
         /** age in years at character creation */
         int init_age = 25;
@@ -2396,6 +2420,145 @@ class Character : public Creature, public location_visitable<Character>
         void clear_npc_ai_info_cache( npc_ai_info key ) const;
         void set_npc_ai_info_cache( npc_ai_info key, double val ) const;
         std::optional<double> get_npc_ai_info_cache( npc_ai_info key ) const;
+
+        //Crafting funcs
+    public:
+        // Checks crafting inventory for books providing the requested recipe.
+        // Then checks nearby NPCs who could provide it too.
+        // Returns -1 to indicate recipe not found, otherwise difficulty to learn.
+        int has_recipe( const recipe *r, const inventory &crafting_inv,
+                        const std::vector<npc *> &helpers ) const;
+        bool has_recipe_requirements( const recipe &rec ) const;
+
+        bool studied_all_recipes( const itype &book ) const;
+
+        /** Returns all recipes that are known from the books (either in inventory or nearby). */
+        recipe_subset get_recipes_from_books( const inventory &crafting_inv,
+                                              const recipe_filter &filter = nullptr ) const;
+        /**
+          * Returns all available recipes (from books and npc companions)
+          * @param crafting_inv Current available items to craft
+          * @param helpers List of NPCs that could help with crafting.
+          * @param filter If set, will return only recipes that match the filter (should be much faster).
+          */
+        recipe_subset get_available_recipes( const inventory &crafting_inv,
+                                             const std::vector<npc *> *helpers = nullptr,
+                                             recipe_filter filter = nullptr ) const;
+
+        /** For use with in progress crafts */
+        int available_assistant_count( const recipe &rec ) const;
+        /**
+         * Time to craft not including speed multiplier
+         */
+        int base_time_to_craft( const recipe &rec, int batch_size = 1 ) const;
+        /**
+         * Expected time to craft a recipe, with assumption that multipliers stay constant.
+         */
+        int expected_time_to_craft( const recipe &rec, int batch_size = 1, bool in_progress = false ) const;
+        std::vector<const item *> get_eligible_containers_for_crafting() const;
+        bool check_eligible_containers_for_crafting( const recipe &rec, int batch_size = 1 ) const;
+        bool can_make( const recipe *r, int batch_size = 1 ); // have components?
+        /**
+         * Returns true if the player can start crafting the recipe with the given batch size
+         * The player is not required to have enough tool charges to finish crafting, only to
+         * complete the first step (total / 20 + total % 20 charges)
+         */
+        bool can_start_craft( const recipe *rec, recipe_filter_flags, int batch_size = 1 );
+        bool making_would_work( const recipe_id &id_to_make, int batch_size );
+
+        /**
+         * Start various types of crafts
+         * @param loc the location of the workbench. tripoint_zero indicates crafting from inventory.
+         */
+        void craft( const tripoint &loc = tripoint_zero );
+        void recraft( const tripoint &loc = tripoint_zero );
+        void long_craft( const tripoint &loc = tripoint_zero );
+        void make_craft( const recipe_id &id, int batch_size, const tripoint &loc = tripoint_zero );
+        void make_all_craft( const recipe_id &id, int batch_size, const tripoint &loc = tripoint_zero );
+        /** consume components and create an active, in progress craft containing them */
+        item *start_craft( craft_command &command, const tripoint &loc );
+        /**
+         * Calculate a value representing the success of the player at crafting the given recipe,
+         * taking player skill, recipe difficulty, npc helpers, and player mutations into account.
+         * @param making the recipe for which to calculate
+         * @return a value >= 0.0 with >= 1.0 representing unequivocal success
+         */
+        double crafting_success_roll( const recipe &making ) const;
+        /**
+         * Check if the player meets the requirements to continue the in progress craft and if
+         * unable to continue print messages explaining the reason.
+         * If the craft is missing components due to messing up, prompt to consume new ones to
+         * allow the craft to be continued.
+         * @param craft the currently in progress craft
+         * @return if the craft can be continued
+         */
+        bool can_continue_craft( item &craft );
+        /**
+         * Handle skill gain for player and followers during crafting
+         * @param craft the currently in progress craft
+         * @param multiplier what factor to multiply the base skill gain by.  This is used to apply
+         * multiple steps of incremental skill gain simultaneously if needed.
+         */
+        void craft_skill_gain( const item &craft, const int &multiplier );
+
+        const requirement_data *select_requirements(
+            const std::vector<const requirement_data *> &, int batch, const inventory &,
+            const std::function<bool( const item & )> &filter ) const;
+        comp_selection<item_comp>
+        select_item_component( const std::vector<item_comp> &components,
+                               int batch, inventory &map_inv, bool can_cancel = false,
+                               const std::function<bool( const item & )> &filter = return_true<item>, bool player_inv = true );
+        std::vector<detached_ptr<item>> consume_items( const comp_selection<item_comp> &is, int batch,
+                                     const std::function<bool( const item & )> &filter = return_true<item> );
+        std::vector<detached_ptr<item>> consume_items( map &m, const comp_selection<item_comp> &is,
+                                     int batch,
+                                     const tripoint &origin, int radius,
+                                     const std::function<bool( const item & )> &filter = return_true<item> );
+        std::vector<detached_ptr<item>> consume_items( const std::vector<item_comp> &components,
+                                     int batch = 1,
+                                     const std::function<bool( const item & )> &filter = return_true<item> );
+        /** Consume tools for the next multiplier * 5% progress of the craft */
+        bool craft_consume_tools( item &craft, int mulitplier, bool start_craft );
+        void consume_tools( const comp_selection<tool_comp> &tool, int batch );
+        void consume_tools( map &m, const comp_selection<tool_comp> &tool, int batch,
+                            const tripoint &origin = tripoint_zero, int radius = PICKUP_RANGE );
+        void consume_tools( const std::vector<tool_comp> &tools, int batch = 1,
+                            const std::string &hotkeys = DEFAULT_HOTKEYS );
+        void make_craft_with_command( const recipe_id &id_to_make, int batch_size, bool is_long = false,
+                                      const tripoint &loc = tripoint_zero );
+        pimpl<craft_command> last_craft;
+
+        recipe_id lastrecipe;
+        int last_batch = 0;
+        itype_id lastconsumed;        //used in crafting.cpp and construction.cpp
+
+    public:
+
+
+        /**
+         * Remove charges from a specific item (given by its item position).
+         * The item must exist and it must be counted by charges.
+         * @param position Item position of the item.
+         * @param quantity The number of charges to remove, must not be larger than
+         * the current charges of the item.
+         * @return An item that contains the removed charges, it's effectively a
+         * copy of the item with the proper charges.
+         */
+        detached_ptr<item> reduce_charges( int position, int quantity );
+        /**
+         * Remove charges from a specific item (given by a pointer to it).
+         * Otherwise identical to @ref reduce_charges(int,int)
+         * @param it A pointer to the item, it *must* exist.
+         * @param quantity How many charges to remove
+         * @return An item that contains the removed charges, it's effectively a
+         * copy of the item with the proper charges.
+         */
+        detached_ptr<item> reduce_charges( item *it, int quantity );
+
+        //sound
+        int volume = 0;
+        // Relative direction of a grab, add to posx, posy to get the coordinates of the grabbed thing.
+        tripoint grab_point = tripoint_zero;
 
 };
 

@@ -256,6 +256,24 @@
     "info": "This gear <good>completely protects</good> you from <info>low temperatures</info>."
   },
   {
+    "id": "DARK_IMMUNE",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "type": "json_flag",
+    "info": "This gear <good>completely protects</good> you from <info>dark damage</info>."
+  },
+  {
+    "id": "LIGHT_IMMUNE",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "type": "json_flag",
+    "info": "This gear <good>completely protects</good> you from <info>light damage</info>."
+  },
+  {
+    "id": "PSI_IMMUNE",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "type": "json_flag",
+    "info": "This gear <good>completely protects</good> you from <info>psionic damage</info>."
+  },
+  {
     "id": "ACID",
     "context": [ "COMESTIBLE" ],
     "type": "json_flag"
@@ -1169,6 +1187,21 @@
     "type": "json_flag"
   },
   {
+    "id": "EFFECT_DARK_IMMUNE",
+    "context": [  ],
+    "type": "json_flag"
+  },
+  {
+    "id": "EFFECT_LIGHT_IMMUNE",
+    "context": [  ],
+    "type": "json_flag"
+  },
+  {
+    "id": "EFFECT_PSI_IMMUNE",
+    "context": [  ],
+    "type": "json_flag"
+  },
+  {
     "id": "EFFECT_ELECTRIC_IMMUNE",
     "context": [  ],
     "type": "json_flag"
@@ -1983,6 +2016,11 @@
   },
   {
     "id": "TOBACCO",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "MARIJUANA",
     "type": "json_flag",
     "context": [  ]
   },

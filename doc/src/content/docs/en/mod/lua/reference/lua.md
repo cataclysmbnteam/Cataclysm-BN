@@ -1073,6 +1073,11 @@ Function `( Character, JsonFlagId, bool ) -> Vector( Item )`
 Gets all items
 Function `( Character, bool ) -> Vector( Item )`
 
+#### inv_remove_item
+
+Removes given `Item` from character's inventory. The `Item` must be in the inventory, neither wielded nor worn.
+Function `( Character, Item )`
+
 #### assign_activity
 
 Function `( Character, ActivityTypeId, int, int, int, string )`
@@ -1835,7 +1840,7 @@ No constructors.
 
 #### dealt_dams
 
-Variable of type `Array( int, 11 )`
+Variable of type `Array( int, 14 )`
 
 #### bp_hit
 
@@ -2342,6 +2347,21 @@ Function `( Item, int, bool, int ) -> string`
 Display name with all bells and whistles like ammo and prefixes
 Function `( Item, int ) -> string`
 
+#### weight
+
+Weight of the item. The first `bool` is whether including contents, second `bool` is whether it is `integral_weight`.
+Function `( Item, Opt( bool ), Opt( bool ) ) -> Mass`
+
+#### volume
+
+Volume of the item. `bool` is whether it is `integral_volume`.
+Function `( Item, Opt( bool ) ) -> Volume`
+
+#### price
+
+Cents of the item. `bool` is whether it is a post-cataclysm value.
+Function `( Item, bool ) -> int`
+
 #### has_var
 
 Check for variable of any type
@@ -2507,7 +2527,7 @@ Function `( Item ) -> bool`
 
 #### is_salvageable
 
-Function `( Item ) -> bool`
+Function `( Item, bool ) -> bool`
 
 #### is_craft
 
@@ -2589,6 +2609,10 @@ Function `( Item ) -> bool`
 
 Function `( Item ) -> bool`
 
+#### is_stackable
+
+Function `( Item ) -> bool`
+
 #### charges
 
 Variable of type `int`
@@ -2604,6 +2628,26 @@ Function `( Item ) -> bool`
 #### mod_charges
 
 Function `( Item, int )`
+
+#### made_of
+
+Function `( Item ) -> <cppval: St6vectorI9string_idI13material_typeESaIS2_EE >`
+
+#### is_made_of
+
+Function `( Item, MaterialTypeId ) -> bool`
+
+#### get_kcal
+
+Function `( Item ) -> int`
+
+#### get_quench
+
+Function `( Item ) -> int`
+
+#### get_comestible_fun
+
+Function `( Item ) -> int`
 
 #### get_rot
 
@@ -2638,6 +2682,26 @@ Function `( Item ) -> string`
 
 Checks if this item owned by a character
 Function `( Item, Character, bool ) -> bool`
+
+#### has_technique
+
+Checks if this item has the technique as an addition. Doesn't check original techniques.
+Function `( Item, MartialArtsTechniqueId ) -> bool`
+
+#### get_techniques
+
+Gets all techniques. Including original techniques.
+Function `( Item ) -> Set( MartialArtsTechniqueId )`
+
+#### add_technique
+
+Adds the technique. It isn't treated original, but additional.
+Function `( Item, MartialArtsTechniqueId )`
+
+#### remove_technique
+
+Removes the additional technique. Doesn't affect originial techniques.
+Function `( Item, MartialArtsTechniqueId )`
 
 #### can_contain
 
@@ -2735,6 +2799,11 @@ Function `( Item, JsonFlagId )`
 #### unset_flags
 
 Function `( Item )`
+
+#### convert
+
+Converts the item as given `ItypeId`.
+Function `( Item, ItypeId )`
 
 #### get_var_str
 
@@ -2986,6 +3055,14 @@ Function `( Map, Tripoint ) -> bool`
 
 Function `( Map, Tripoint ) -> <cppval: St10unique_ptrI9map_stackSt14default_deleteIS0_EE >`
 
+#### remove_item_at
+
+Function `( Map, Tripoint, Item )`
+
+#### clear_items_at
+
+Function `( Map, Tripoint )`
+
 #### get_ter_at
 
 Function `( Map, Tripoint ) -> TerIntId`
@@ -3125,6 +3202,58 @@ Function `( MartialArtsBuffId, <cppval: 7JsonOut > )`
 
 Function `( MartialArtsBuffId, <cppval: 6JsonIn > )`
 
+## MartialArtsTechniqueId
+
+### Bases
+
+No base classes.
+
+### Constructors
+
+#### `MartialArtsTechniqueId.new()`
+
+#### `MartialArtsTechniqueId.new( MartialArtsTechniqueId )`
+
+#### `MartialArtsTechniqueId.new( string )`
+
+### Members
+
+#### obj
+
+Function `( MartialArtsTechniqueId ) -> MartialArtsTechniqueRaw`
+
+#### implements_int_id
+
+Function `() -> bool`
+
+#### is_null
+
+Function `( MartialArtsTechniqueId ) -> bool`
+
+#### is_valid
+
+Function `( MartialArtsTechniqueId ) -> bool`
+
+#### str
+
+Function `( MartialArtsTechniqueId ) -> string`
+
+#### NULL_ID
+
+Function `() -> MartialArtsTechniqueId`
+
+#### __tostring
+
+Function `( MartialArtsTechniqueId ) -> string`
+
+#### serialize
+
+Function `( MartialArtsTechniqueId, <cppval: 7JsonOut > )`
+
+#### deserialize
+
+Function `( MartialArtsTechniqueId, <cppval: 6JsonIn > )`
+
 ## Mass
 
 ### Bases
@@ -3180,6 +3309,78 @@ Function `( Mass, Mass ) -> bool`
 #### __le
 
 Function `( Mass, Mass ) -> bool`
+
+## MaterialTypeId
+
+### Bases
+
+No base classes.
+
+### Constructors
+
+#### `MaterialTypeId.new()`
+
+#### `MaterialTypeId.new( MaterialTypeId )`
+
+#### `MaterialTypeId.new( string )`
+
+### Members
+
+#### obj
+
+Function `( MaterialTypeId ) -> MaterialTypeRaw`
+
+#### implements_int_id
+
+Function `() -> bool`
+
+#### is_null
+
+Function `( MaterialTypeId ) -> bool`
+
+#### is_valid
+
+Function `( MaterialTypeId ) -> bool`
+
+#### str
+
+Function `( MaterialTypeId ) -> string`
+
+#### NULL_ID
+
+Function `() -> MaterialTypeId`
+
+#### __tostring
+
+Function `( MaterialTypeId ) -> string`
+
+#### serialize
+
+Function `( MaterialTypeId, <cppval: 7JsonOut > )`
+
+#### deserialize
+
+Function `( MaterialTypeId, <cppval: 6JsonIn > )`
+
+## MaterialTypeRaw
+
+### Bases
+
+No base classes.
+
+### Constructors
+
+No constructors.
+
+### Members
+
+#### str_id
+
+Function `( MaterialTypeRaw ) -> MaterialTypeId`
+
+#### name
+
+Function `( MaterialTypeRaw ) -> string`
 
 ## Monster
 
@@ -4432,6 +4633,78 @@ Function `( RecipeId, <cppval: 7JsonOut > )`
 #### deserialize
 
 Function `( RecipeId, <cppval: 6JsonIn > )`
+
+## RecipeRaw
+
+### Bases
+
+No base classes.
+
+### Constructors
+
+No constructors.
+
+### Members
+
+#### category
+
+Variable of type `string`
+
+#### subcategory
+
+Variable of type `string`
+
+#### time
+
+Variable of type `int`
+
+#### skill_used
+
+Variable of type `SkillId`
+
+#### difficulty
+
+Variable of type `int`
+
+#### required_skills
+
+Variable of type `Map( SkillId, int )`
+
+#### learn_by_disassembly
+
+Variable of type `Map( SkillId, int )`
+
+#### booksets
+
+Variable of type `Map( ItypeId, int )`
+
+#### ident
+
+Function `( RecipeRaw ) -> RecipeId`
+
+#### result
+
+Function `( RecipeRaw ) -> ItypeId`
+
+#### result_name
+
+Function `( RecipeRaw ) -> string`
+
+#### has_flag
+
+Function `( RecipeRaw, string ) -> bool`
+
+#### get_from_skill_used
+
+Function `( SkillId ) -> Vector( RecipeRaw )`
+
+#### get_from_flag
+
+Function `( string ) -> Vector( RecipeRaw )`
+
+#### get_all
+
+Function `() -> Vector( RecipeRaw )`
 
 ## SkillId
 
@@ -5797,8 +6070,11 @@ Function `( Volume, Volume ) -> bool`
 - `DT_STAB` = `6`
 - `DT_HEAT` = `7`
 - `DT_COLD` = `8`
-- `DT_ELECTRIC` = `9`
-- `DT_BULLET` = `10`
+- `DT_DARK` = `9`
+- `DT_LIGHT` = `10`
+- `DT_PSI` = `11`
+- `DT_ELECTRIC` = `12`
+- `DT_BULLET` = `13`
 
 ## MonsterAttitude
 
@@ -5863,81 +6139,84 @@ Function `( Volume, Volume ) -> bool`
 - `SLUDGETRAIL` = `34`
 - `COLDPROOF` = `35`
 - `BIOPROOF` = `36`
-- `FIREY` = `37`
-- `QUEEN` = `38`
-- `ELECTRONIC` = `39`
-- `FUR` = `40`
-- `LEATHER` = `41`
-- `WOOL` = `42`
-- `FEATHER` = `43`
-- `BONES` = `44`
-- `FAT` = `45`
-- `CONSOLE_DESPAWN` = `46`
-- `IMMOBILE` = `47`
-- `ID_CARD_DESPAWN` = `48`
-- `RIDEABLE_MECH` = `49`
-- `CARD_OVERRIDE` = `50`
-- `MILITARY_MECH` = `51`
-- `MECH_RECON_VISION` = `52`
-- `MECH_DEFENSIVE` = `53`
-- `HIT_AND_RUN` = `54`
-- `GUILT` = `55`
-- `PAY_BOT` = `56`
-- `HUMAN` = `57`
-- `NO_BREATHE` = `58`
-- `FLAMMABLE` = `59`
-- `REVIVES` = `60`
-- `CHITIN` = `61`
-- `VERMIN` = `62`
-- `NOGIB` = `63`
-- `LARVA` = `64`
-- `ARTHROPOD_BLOOD` = `65`
-- `ACID_BLOOD` = `66`
-- `BILE_BLOOD` = `67`
-- `ABSORBS` = `68`
-- `ABSORBS_SPLITS` = `69`
-- `CBM_CIV` = `70`
-- `CBM_POWER` = `71`
-- `CBM_SCI` = `72`
-- `CBM_OP` = `73`
-- `CBM_TECH` = `74`
-- `CBM_SUBS` = `75`
-- `UNUSED_76` = `76`
-- `FISHABLE` = `77`
-- `GROUP_BASH` = `78`
-- `SWARMS` = `79`
-- `GROUP_MORALE` = `80`
-- `INTERIOR_AMMO` = `81`
-- `CLIMBS` = `82`
-- `PACIFIST` = `83`
-- `PUSH_MON` = `84`
-- `PUSH_VEH` = `85`
-- `NIGHT_INVISIBILITY` = `86`
-- `REVIVES_HEALTHY` = `87`
-- `NO_NECRO` = `88`
-- `PATH_AVOID_DANGER_1` = `89`
-- `PATH_AVOID_DANGER_2` = `90`
-- `PATH_AVOID_FIRE` = `91`
-- `PATH_AVOID_FALL` = `92`
-- `PRIORITIZE_TARGETS` = `93`
-- `NOT_HALLUCINATION` = `94`
-- `CANPLAY` = `95`
-- `PET_MOUNTABLE` = `96`
-- `PET_HARNESSABLE` = `97`
-- `DOGFOOD` = `98`
-- `MILKABLE` = `99`
-- `SHEARABLE` = `100`
-- `NO_BREED` = `101`
-- `NO_FUNG_DMG` = `102`
-- `PET_WONT_FOLLOW` = `103`
-- `DRIPS_NAPALM` = `104`
-- `DRIPS_GASOLINE` = `105`
-- `ELECTRIC_FIELD` = `106`
-- `LOUDMOVES` = `107`
-- `CAN_OPEN_DOORS` = `108`
-- `STUN_IMMUNE` = `109`
-- `DROPS_AMMO` = `110`
-- `CAN_BE_ORDERED` = `111`
+- `DARKPROOF` = `37`
+- `LIGHTPROOF` = `38`
+- `PSIPROOF` = `39`
+- `FIREY` = `40`
+- `QUEEN` = `41`
+- `ELECTRONIC` = `42`
+- `FUR` = `43`
+- `LEATHER` = `44`
+- `WOOL` = `45`
+- `FEATHER` = `46`
+- `BONES` = `47`
+- `FAT` = `48`
+- `CONSOLE_DESPAWN` = `49`
+- `IMMOBILE` = `50`
+- `ID_CARD_DESPAWN` = `51`
+- `RIDEABLE_MECH` = `52`
+- `CARD_OVERRIDE` = `53`
+- `MILITARY_MECH` = `54`
+- `MECH_RECON_VISION` = `55`
+- `MECH_DEFENSIVE` = `56`
+- `HIT_AND_RUN` = `57`
+- `GUILT` = `58`
+- `PAY_BOT` = `59`
+- `HUMAN` = `60`
+- `NO_BREATHE` = `61`
+- `FLAMMABLE` = `62`
+- `REVIVES` = `63`
+- `CHITIN` = `64`
+- `VERMIN` = `65`
+- `NOGIB` = `66`
+- `LARVA` = `67`
+- `ARTHROPOD_BLOOD` = `68`
+- `ACID_BLOOD` = `69`
+- `BILE_BLOOD` = `70`
+- `ABSORBS` = `71`
+- `ABSORBS_SPLITS` = `72`
+- `CBM_CIV` = `73`
+- `CBM_POWER` = `74`
+- `CBM_SCI` = `75`
+- `CBM_OP` = `76`
+- `CBM_TECH` = `77`
+- `CBM_SUBS` = `78`
+- `UNUSED_76` = `79`
+- `FISHABLE` = `80`
+- `GROUP_BASH` = `81`
+- `SWARMS` = `82`
+- `GROUP_MORALE` = `83`
+- `INTERIOR_AMMO` = `84`
+- `CLIMBS` = `85`
+- `PACIFIST` = `86`
+- `PUSH_MON` = `87`
+- `PUSH_VEH` = `88`
+- `NIGHT_INVISIBILITY` = `89`
+- `REVIVES_HEALTHY` = `90`
+- `NO_NECRO` = `91`
+- `PATH_AVOID_DANGER_1` = `92`
+- `PATH_AVOID_DANGER_2` = `93`
+- `PATH_AVOID_FIRE` = `94`
+- `PATH_AVOID_FALL` = `95`
+- `PRIORITIZE_TARGETS` = `96`
+- `NOT_HALLUCINATION` = `97`
+- `CANPLAY` = `98`
+- `PET_MOUNTABLE` = `99`
+- `PET_HARNESSABLE` = `100`
+- `DOGFOOD` = `101`
+- `MILKABLE` = `102`
+- `SHEARABLE` = `103`
+- `NO_BREED` = `104`
+- `NO_FUNG_DMG` = `105`
+- `PET_WONT_FOLLOW` = `106`
+- `DRIPS_NAPALM` = `107`
+- `DRIPS_GASOLINE` = `108`
+- `ELECTRIC_FIELD` = `109`
+- `LOUDMOVES` = `110`
+- `CAN_OPEN_DOORS` = `111`
+- `STUN_IMMUNE` = `112`
+- `DROPS_AMMO` = `113`
+- `CAN_BE_ORDERED` = `114`
 
 ## MonsterSize
 

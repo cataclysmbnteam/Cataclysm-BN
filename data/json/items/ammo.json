@@ -688,6 +688,7 @@
     "volume": "250 ml",
     "weight": "2 g",
     "ammo_type": "components",
+    "flags": [ "NO_SALVAGE" ],
     "count": 200
   },
   {

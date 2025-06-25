@@ -50,14 +50,12 @@
 #include "map_iterator.h"
 #include "mapbuffer.h"
 #include "mapdata.h"
-#include "math_defines.h"
 #include "messages.h"
 #include "monster.h"
 #include "npc.h"
 #include "options.h"
 #include "output.h"
 #include "overmapbuffer.h"
-#include "pimpl.h"
 #include "player.h"
 #include "player_activity.h"
 #include "point_float.h"
@@ -69,10 +67,7 @@
 #include "translations.h"
 #include "units_utility.h"
 #include "veh_type.h"
-#include "vehicle_move.h"
-#include "vehicle_selector.h"
 #include "weather.h"
-#include "weather_gen.h"
 
 /*
  * Speed up all those if ( blarg == "structure" ) statements that are used everywhere;
@@ -392,7 +387,7 @@ vehicle::vehicle() : vehicle( vproto_id() )
 
 vehicle::~vehicle() = default;
 
-bool vehicle::player_in_control( const Character &p ) const
+bool vehicle::player_in_control( const Character &who ) const
 {
     // Debug switch to prevent vehicles from skidding
     // without having to place the player in them.
@@ -400,19 +395,19 @@ bool vehicle::player_in_control( const Character &p ) const
         return true;
     }
 
-    const optional_vpart_position vp = g->m.veh_at( p.pos() );
+    const optional_vpart_position vp = g->m.veh_at( who.pos() );
     if( vp && &vp->vehicle() == this &&
         ( ( part_with_feature( vp->part_index(), "CONTROL_ANIMAL", true ) >= 0 &&
             has_engine_type( fuel_type_animal, false ) && has_harnessed_animal() ) ||
           ( part_with_feature( vp->part_index(), VPFLAG_CONTROLS, false ) >= 0 ) ) &&
-        p.controlling_vehicle ) {
+        who.controlling_vehicle ) {
         return true;
     }
 
-    return remote_controlled( p );
+    return remote_controlled( who );
 }
 
-bool vehicle::remote_controlled( const Character &p ) const
+bool vehicle::remote_controlled( const Character &who ) const
 {
     vehicle *veh = g->remoteveh();
     if( veh != this ) {
@@ -420,7 +415,7 @@ bool vehicle::remote_controlled( const Character &p ) const
     }
 
     for( const vpart_reference &vp : get_avail_parts( "REMOTE_CONTROLS" ) ) {
-        if( rl_dist( p.pos(), vp.pos() ) <= 40 ) {
+        if( rl_dist( who.pos(), vp.pos() ) <= 40 ) {
             return true;
         }
     }
@@ -2355,10 +2350,10 @@ bool vehicle::find_and_split_vehicles( int exclude )
     return false;
 }
 
-void vehicle::relocate_passengers( const std::vector<player *> &passengers )
+void vehicle::relocate_passengers( const std::vector<Character *> &passengers )
 {
     const auto boardables = get_avail_parts( "BOARDABLE" );
-    for( player *passenger : passengers ) {
+    for( auto *passenger : passengers ) {
         for( const vpart_reference &vp : boardables ) {
             if( vp.part().passenger_id == passenger->getID() ) {
                 passenger->setpos( vp.pos() );
@@ -2434,7 +2429,7 @@ bool vehicle::split_vehicles( const std::vector<std::vector <int>> &new_vehs,
         }
         new_vehicle->last_fluid_check = last_fluid_check;
 
-        std::vector<player *> passengers;
+        std::vector<Character *> passengers;
         for( size_t new_part = 0; new_part < split_parts.size(); new_part++ ) {
             int mov_part = split_parts[ new_part ];
             point cur_mount = parts[ mov_part ].mount;
@@ -2958,12 +2953,12 @@ std::vector<int> vehicle::all_parts_at_location( const std::string &location ) c
 // as the part index was first "chosen" before the NPC started traveling here.
 // therefore the part index is now invalid shifted by one or two ( depending on how many other NPCs working on this vehicle )
 // so loop over the part indexes in reverse order to get the next one down that matches the part type we wanted to remove
-int vehicle::get_next_shifted_index( int original_index, player &p )
+int vehicle::get_next_shifted_index( int original_index, Character &who )
 {
     int ret_index = original_index;
     bool found_shifted_index = false;
     for( std::vector<vehicle_part>::reverse_iterator it = parts.rbegin(); it != parts.rend(); ++it ) {
-        if( p.get_value( "veh_index_type" ) == it->info().name() ) {
+        if( who.get_value( "veh_index_type" ) == it->info().name() ) {
             ret_index = index_of_part( &*it );
             found_shifted_index = true;
             break;

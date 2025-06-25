@@ -180,7 +180,7 @@
     "move_cost_mod": 2,
     "coverage": 50,
     "required_str": 10,
-    "looks_like": "machinery_heavy",
+    "looks_like": "t_machinery_heavy",
     "flags": [ "TRANSPARENT", "PLACE_ITEM", "MOUNTABLE", "FLAT_SURF", "EASY_DECONSTRUCT" ],
     "deconstruct": { "items": [ { "item": "robobench", "count": 1 } ] },
     "bash": {

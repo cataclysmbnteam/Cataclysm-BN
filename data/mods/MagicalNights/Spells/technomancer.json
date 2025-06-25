@@ -330,7 +330,7 @@
     "final_energy_cost": 500,
     "spell_class": "TECHNOMANCER",
     "energy_source": "BIONIC",
-    "damage_type": "cut",
+    "damage_type": "light",
     "difficulty": 1,
     "max_level": 45,
     "base_casting_time": 120,

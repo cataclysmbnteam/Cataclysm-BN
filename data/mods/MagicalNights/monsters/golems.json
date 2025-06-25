@@ -30,7 +30,7 @@
     "vision_night": 40,
     "anger_triggers": [ "PLAYER_CLOSE", "HURT" ],
     "death_function": [ "BROKEN" ],
-    "flags": [ "SEES", "NO_BREATHE", "ACIDPROOF", "LOUDMOVES" ]
+    "flags": [ "SEES", "NO_BREATHE", "ACIDPROOF", "PSIPROOF", "BIOPROOF", "LOUDMOVES" ]
   },
   {
     "id": "mon_plasticgolem",
@@ -60,7 +60,7 @@
     "vision_night": 30,
     "anger_triggers": [ "PLAYER_CLOSE", "HURT" ],
     "death_function": [ "BROKEN" ],
-    "flags": [ "SEES", "HEARS", "NO_BREATHE", "LOUDMOVES" ]
+    "flags": [ "SEES", "HEARS", "PSIPROOF", "BIOPROOF", "NO_BREATHE", "LOUDMOVES" ]
   },
   {
     "id": "mon_stonegolem",
@@ -94,7 +94,7 @@
     "special_attacks": [ { "type": "spell", "spell_data": { "id": "rocket_punch", "min_level": 5 }, "cooldown": 10 } ],
     "anger_triggers": [ "PLAYER_CLOSE", "HURT" ],
     "death_function": [ "BROKEN" ],
-    "flags": [ "SEES", "NO_BREATHE", "ACIDPROOF", "LOUDMOVES" ]
+    "flags": [ "SEES", "NO_BREATHE", "PSIPROOF", "BIOPROOF", "ACIDPROOF", "LOUDMOVES" ]
   },
   {
     "id": "mon_irongolem",
@@ -128,7 +128,7 @@
     "special_attacks": [ { "type": "spell", "spell_data": { "id": "gas_attack", "min_level": 5 }, "cooldown": 60 } ],
     "anger_triggers": [ "PLAYER_CLOSE", "HURT" ],
     "death_function": [ "BROKEN" ],
-    "flags": [ "SEES", "NO_BREATHE", "ACIDPROOF", "LOUDMOVES" ]
+    "flags": [ "SEES", "NO_BREATHE", "ACIDPROOF", "PSIPROOF", "BIOPROOF", "LOUDMOVES" ]
   },
   {
     "id": "mon_resingolem_fresh",
@@ -160,7 +160,7 @@
     "death_function": [ "BROKEN" ],
     "regenerates": 25,
     "upgrades": { "into": "mon_resingolem_half", "half_life": 25 },
-    "flags": [ "SEES", "HEARS", "NO_BREATHE", "LOUDMOVES" ]
+    "flags": [ "SEES", "HEARS", "NO_BREATHE", "PSIPROOF", "BIOPROOF", "LOUDMOVES" ]
   },
   {
     "id": "mon_resingolem_half",
@@ -192,7 +192,7 @@
     "death_function": [ "BROKEN" ],
     "regenerates": 10,
     "upgrades": { "into": "mon_resingolem_cured", "half_life": 25 },
-    "flags": [ "SEES", "HEARS", "NO_BREATHE", "LOUDMOVES" ]
+    "flags": [ "SEES", "HEARS", "NO_BREATHE", "PSIPROOF", "BIOPROOF", "LOUDMOVES" ]
   },
   {
     "id": "mon_resingolem_cured",
@@ -222,7 +222,7 @@
     "vision_night": 30,
     "anger_triggers": [ "PLAYER_CLOSE", "HURT" ],
     "death_function": [ "BROKEN" ],
-    "flags": [ "SEES", "HEARS", "NO_BREATHE", "LOUDMOVES" ]
+    "flags": [ "SEES", "HEARS", "NO_BREATHE", "PSIPROOF", "BIOPROOF", "LOUDMOVES" ]
   },
   {
     "id": "mon_orchigolem",
@@ -255,7 +255,7 @@
     "vision_night": 40,
     "anger_triggers": [ "PLAYER_CLOSE", "HURT" ],
     "death_function": [ "BROKEN" ],
-    "flags": [ "SEES", "NO_BREATHE", "ACIDPROOF", "LOUDMOVES" ]
+    "flags": [ "SEES", "NO_BREATHE", "ACIDPROOF", "PSIPROOF", "BIOPROOF", "LOUDMOVES" ]
   },
   {
     "id": "mon_mithrgolem",
@@ -289,6 +289,6 @@
     "vision_night": 40,
     "anger_triggers": [ "PLAYER_CLOSE", "HURT" ],
     "death_function": [ "BROKEN" ],
-    "flags": [ "SEES", "NO_BREATHE", "ACIDPROOF", "LOUDMOVES" ]
+    "flags": [ "SEES", "NO_BREATHE", "ACIDPROOF", "PSIPROOF", "BIOPROOF", "LOUDMOVES" ]
   }
 ]

@@ -1056,8 +1056,8 @@
     "max_effective_intensity": 8,
     "part_descs": true,
     "max_duration": "4 d",
-    "base_mods": { "healing_rate": [ 2 ], "healing_head": [ 50 ], "healing_torso": [ 150 ] },
-    "scaling_mods": { "healing_rate": [ 2 ] }
+    "base_mods": { "healing_rate": [ 1 ], "healing_head": [ 75 ], "healing_torso": [ 75 ] },
+    "scaling_mods": { "healing_rate": [ 1 ] }
   },
   {
     "type": "effect_type",
@@ -1071,8 +1071,8 @@
     "max_effective_intensity": 8,
     "part_descs": true,
     "max_duration": "4 d",
-    "base_mods": { "healing_rate": [ 2 ], "healing_head": [ 50 ], "healing_torso": [ 150 ] },
-    "scaling_mods": { "healing_rate": [ 2 ] }
+    "base_mods": { "healing_rate": [ 1 ], "healing_head": [ 75 ], "healing_torso": [ 75 ] },
+    "scaling_mods": { "healing_rate": [ 1 ] }
   },
   {
     "type": "effect_type",

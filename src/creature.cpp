@@ -609,9 +609,9 @@ void Creature::deal_melee_hit( Creature *source, item *source_weapon, int hit_sp
     bodypart_id bp_hit = select_body_part( source, hit_spread ).id();
     block_hit( source, bp_hit, d );
 
-    on_hit( source, bp_hit ); // trigger on-gethit events
     dealt_dam = deal_damage( source, bp_hit, d, source_weapon );
     dealt_dam.bp_hit = bp_hit.id();
+    on_hit( source, bp_hit ); // trigger on-gethit events
 }
 void Creature::deal_melee_hit( Creature *source, int hit_spread, bool critical_hit,
                                const damage_instance &dam, dealt_damage_instance &dealt_dam )

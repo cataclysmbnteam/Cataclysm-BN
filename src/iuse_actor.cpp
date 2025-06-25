@@ -854,7 +854,7 @@ int consume_drug_iuse::use( player &p, item &it, bool, const tripoint & ) const
                                      _( "I need a %1$s to consume %2$s!" ),
                                      item::nname( tool.first ),
                                      it.type_name( 1 ) );
-            return -1;
+            return 0;
         }
     }
     for( const auto &consumable : charges_needed ) {
@@ -865,7 +865,7 @@ int consume_drug_iuse::use( player &p, item &it, bool, const tripoint & ) const
                                      _( "I need a %1$s to consume %2$s!" ),
                                      item::nname( consumable.first ),
                                      it.type_name( 1 ) );
-            return -1;
+            return 0;
         }
     }
 
@@ -1774,263 +1774,6 @@ int firestarter_actor::use( player &p, item &it, bool t, const tripoint &spos ) 
     p.activity->placement = pos;
     // charges to use are handled by the activity
     return 0;
-}
-
-void salvage_actor::load( const JsonObject &obj )
-{
-    assign( obj, "cost", cost );
-    assign( obj, "moves_per_part", moves_per_part );
-
-    if( obj.has_array( "material_whitelist" ) ) {
-        material_whitelist.clear();
-        assign( obj, "material_whitelist", material_whitelist );
-    }
-}
-
-std::unique_ptr<iuse_actor> salvage_actor::clone() const
-{
-    return std::make_unique<salvage_actor>( *this );
-}
-
-int salvage_actor::use( player &p, item &it, bool t, const tripoint & ) const
-{
-    if( t ) {
-        return 0;
-    }
-
-    auto item_loc = game_menus::inv::salvage( p, this );
-    if( !item_loc ) {
-        add_msg( _( "Never mind." ) );
-        return 0;
-    }
-
-    if( !try_to_cut_up( p, *item_loc ) ) {
-        // Messages should have already been displayed.
-        return 0;
-    }
-
-    return cut_up( p, it, *item_loc );
-}
-
-// Helper to visit instances of all the sub-materials of an item.
-static void visit_salvage_products( const item &it,
-                                    const std::function<void( const item & )> &func )
-{
-    for( const material_id &material : it.made_of() ) {
-        if( const std::optional<itype_id> id = material->salvaged_into() ) {
-            item *tmp = item::spawn_temporary( *id );
-            func( *tmp );
-        }
-    }
-}
-
-// Helper to find smallest sub-component of an item.
-static units::mass minimal_weight_to_cut( const item &it )
-{
-    units::mass min_weight = units::mass_max;
-    visit_salvage_products( it, [&min_weight]( const item & exemplar ) {
-        min_weight = std::min( min_weight, exemplar.weight() );
-    } );
-    return min_weight;
-}
-
-int salvage_actor::time_to_cut_up( const item &it ) const
-{
-    units::mass total_material_weight;
-    int num_materials = 0;
-    visit_salvage_products( it, [&total_material_weight, &num_materials]( const item & exemplar ) {
-        total_material_weight += exemplar.weight();
-        num_materials += 1;
-    } );
-    if( num_materials == 0 ) {
-        return 0;
-    }
-    units::mass average_material_weight = total_material_weight / num_materials;
-    int count = it.weight() / average_material_weight;
-    return moves_per_part * count;
-}
-
-bool salvage_actor::valid_to_cut_up( const item &it ) const
-{
-    if( it.is_null() ) {
-        return false;
-    }
-    // There must be some historical significance to these items.
-    if( !it.is_salvageable() ) {
-        return false;
-    }
-    if( !it.only_made_of( material_whitelist ) ) {
-        return false;
-    }
-    if( !it.contents.empty() ) {
-        return false;
-    }
-    if( it.weight() < minimal_weight_to_cut( it ) ) {
-        return false;
-    }
-
-    return true;
-}
-
-// it here is the item that is a candidate for being chopped up.
-// This is the former valid_to_cut_up with all the messages and queries
-bool salvage_actor::try_to_cut_up( player &p, item &it ) const
-{
-    int pos = p.get_item_position( &it );
-
-    if( it.is_null() ) {
-        add_msg( m_info, _( "You do not have that item." ) );
-        return false;
-    }
-    // There must be some historical significance to these items.
-    if( !it.is_salvageable() ) {
-        add_msg( m_info, _( "Can't salvage anything from %s." ), it.tname() );
-        if( recipe_dictionary::get_uncraft( it.typeId() ) ) {
-            add_msg( m_info, _( "Try disassembling the %s instead." ), it.tname() );
-        }
-        return false;
-    }
-
-    if( !it.only_made_of( material_whitelist ) ) {
-        add_msg( m_info, _( "The %s is made of material that cannot be cut up." ), it.tname() );
-        return false;
-    }
-    if( !it.contents.empty() ) {
-        add_msg( m_info, _( "Please empty the %s before cutting it up." ), it.tname() );
-        return false;
-    }
-    if( it.weight() < minimal_weight_to_cut( it ) ) {
-        add_msg( m_info, _( "The %s is too small to salvage material from." ), it.tname() );
-        return false;
-    }
-    // Softer warnings at the end so we don't ask permission and then tell them no.
-
-    if( p.is_wielding( it ) ) {
-        if( !query_yn( _( "You are wielding that, are you sure?" ) ) ) {
-            return false;
-        }
-    } else if( pos == INT_MIN ) {
-        // Not in inventory
-        return true;
-    } else if( pos < -1 ) {
-        if( !query_yn( _( "You're wearing that, are you sure?" ) ) ) {
-            return false;
-        }
-    }
-
-    return true;
-}
-
-// function returns charges from it during the cutting process of the *cut.
-// it cuts
-// cut gets cut
-int salvage_actor::cut_up( player &p, item &it, item &cut ) const
-{
-    // This is the value that tracks progress, as we cut pieces off, we reduce this number.
-    units::mass remaining_weight = cut.weight();
-    // Chance of us losing a material component to entropy.
-    /** @EFFECT_FABRICATION reduces chance of losing components when cutting items up */
-    int entropy_threshold = std::max( 5, 10 - p.get_skill_level( skill_fabrication ) );
-    // What material components can we get back?
-    std::vector<material_id> cut_material_components = cut.made_of();
-    // What materials do we salvage (ids and counts).
-    std::map<itype_id, int> materials_salvaged;
-
-    // Final just in case check (that perhaps was not done elsewhere);
-    if( &cut == &it ) {
-        add_msg( m_info, _( "You can not cut the %s with itself." ), it.tname() );
-        return 0;
-    }
-    if( !cut.contents.empty() ) {
-        // Should have been ensured by try_to_cut_up
-        debugmsg( "tried to cut a non-empty item %s", cut.tname() );
-        return 0;
-    }
-
-    // Not much practice, and you won't get very far ripping things up.
-    p.practice( skill_fabrication, rng( 0, 5 ), 1 );
-
-    // Higher fabrication, less chance of entropy, but still a chance.
-    if( rng( 1, 10 ) <= entropy_threshold ) {
-        remaining_weight *= 0.99;
-    }
-    // Fail dex roll, potentially lose more parts.
-    /** @EFFECT_DEX randomly reduces component loss when cutting items up */
-    if( dice( 3, 4 ) > p.dex_cur ) {
-        remaining_weight *= 0.95;
-    }
-    // If more than 1 material component can still be salvaged,
-    // chance of losing more components if the item is damaged.
-    // If the item being cut is not damaged, no additional losses will be incurred.
-    if( cut.damage() > 0 ) {
-        float component_success_chance = std::min( std::pow( 0.8, cut.damage_level( 4 ) ),
-                                         1.0 );
-        remaining_weight *= component_success_chance;
-    }
-
-    // Essentially we round-robbin through the components subtracting mass as we go.
-    std::map<units::mass, itype_id> weight_to_item_map;
-    for( const material_id &material : cut_material_components ) {
-        if( const std::optional<itype_id> id = material->salvaged_into() ) {
-            materials_salvaged[*id] = 0;
-            weight_to_item_map[ item::spawn_temporary( *id, calendar::turn_zero, item::solitary_tag{} )->weight() ]
-                = *id;
-        }
-    }
-    while( remaining_weight > 0_gram && !weight_to_item_map.empty() ) {
-        units::mass components_weight = std::accumulate( weight_to_item_map.begin(),
-                                        weight_to_item_map.end(), 0_gram, []( const units::mass & a,
-        const std::pair<units::mass, itype_id> &b ) {
-            return a + b.first;
-        } );
-        if( components_weight > 0_gram && components_weight <= remaining_weight ) {
-            int count = remaining_weight / components_weight;
-            for( std::pair<units::mass, itype_id> mat_pair : weight_to_item_map ) {
-                materials_salvaged[mat_pair.second] += count;
-            }
-            remaining_weight -= components_weight * count;
-        }
-        weight_to_item_map.erase( std::prev( weight_to_item_map.end() ) );
-    }
-
-    add_msg( m_info, _( "You try to salvage materials from the %s." ),
-             cut.tname() );
-
-    item_location_type cut_type = cut.where();
-    tripoint pos = cut.position();
-
-    // Clean up before removing the item.
-    remove_ammo( cut, p );
-    // Original item has been consumed.
-    cut.detach();
-    // Force an encumbrance update in case they were wearing that item.
-    p.reset_encumbrance();
-
-    map &here = get_map();
-    for( const auto &salvaged : materials_salvaged ) {
-        itype_id mat_name = salvaged.first;
-        int amount = salvaged.second;
-        item &result = *item::spawn_temporary( mat_name, calendar::turn );
-        if( amount > 0 ) {
-            // Time based on number of components.
-            p.moves -= moves_per_part;
-            add_msg( m_good, vgettext( "Salvaged %1$i %2$s.", "Salvaged %1$i %2$s.", amount ),
-                     amount, result.display_name( amount ) );
-            if( cut_type == item_location_type::character ) {
-                while( amount-- ) {
-                    p.i_add_or_drop( item::spawn( result ) );
-                }
-            } else {
-                for( int i = 0; i < amount; i++ ) {
-                    here.add_item_or_charges( pos, item::spawn( result ) );
-                }
-            }
-        } else {
-            add_msg( m_bad, _( "Could not salvage a %s." ), result.display_name() );
-        }
-    }
-    // No matter what, cutting has been done by the time we get here.
-    return cost >= 0 ? cost : it.ammo_required();
 }
 
 void inscribe_actor::load( const JsonObject &obj )
@@ -4430,7 +4173,7 @@ int place_trap_actor::use( player &p, item &it, bool, const tripoint & ) const
     }
 
     const bool has_shovel = p.has_quality( quality_id( "DIG" ), 3 );
-    const bool is_diggable = here.has_flag( "DIGGABLE", pos );
+    const bool is_diggable = here.ter( pos )->is_diggable();
     bool bury = false;
     if( could_bury && has_shovel && is_diggable ) {
         bury = query_yn( _( bury_question ) );
