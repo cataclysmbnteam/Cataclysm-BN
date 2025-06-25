@@ -471,6 +471,7 @@ class game
         void unload_npcs();
     public:
         static tripoint find_closest_stair( const tripoint &near_this, const ter_bitflags stair_type );
+        std::optional<tripoint> find_local_stairs_leading_to( map &mp, const int z_after );
         void suggest_auto_walk_to_stairs( Character &u, map &m, const std::string &direction );
         /** Unloads, then loads the NPCs */
         void reload_npcs();

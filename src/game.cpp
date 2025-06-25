@@ -548,36 +548,44 @@ void game::load_map( const tripoint_abs_sm &pos_sm,
     grid_tracker_ptr->load( m );
 }
 
-tripoint game::find_closest_stair( const tripoint &near_this, const ter_bitflags stair_type )
+std::optional<tripoint> game::find_local_stairs_leading_to( map &mp, const int z_after )
 {
-    // we probably need to add furniture/traps for drainspouts at some point
-    map &here = get_map();
-    for( const tripoint &candidate : closest_points_first( get_avatar().pos(), 40 ) ) {
-        if( here.has_flag( stair_type, candidate ) ) {
-            return candidate;
+    const int movez = z_after - get_levz();
+    const bool going_down = movez == -1;
+    const bool going_up = movez == 1;
 
+    //i tried 40, 80, and 100 here and got the same result almost every time? works for our purposes though
+    for( const tripoint &candidate : closest_points_first( u.pos(), 80 ) ) {
+        if( ( going_up && mp.has_flag( TFLAG_GOES_UP, candidate ) ) ||
+            ( going_down && mp.has_flag( TFLAG_GOES_DOWN, candidate ) ) ) {
+            return candidate;
+        }
+        // Optionally support elevators:
+        if( ( movez == 2 || movez == -2 ) && mp.ter( candidate ) == t_elevator ) {
+            return candidate;
         }
     }
-    // we didn't find it
-    return near_this;
+
+    return std::nullopt;
 }
 
 void game::suggest_auto_walk_to_stairs( Character &u, map &m, const std::string &direction )
 {
-    const ter_bitflags stair_flag = direction == "up" ? TFLAG_GOES_UP : TFLAG_GOES_DOWN;
-    tripoint stair_pos = find_closest_stair( u.pos(), stair_flag );
-    if( !u.sees( stair_pos ) ) {
+    const int z_after = direction == "up" ? u.posz() + 1 : u.posz() - 1;
+    std::optional<tripoint> stair_pos = find_local_stairs_leading_to( m, z_after );
+
+    if( !stair_pos || !u.sees( *stair_pos ) ) {
         return;
     }
 
-    auto route = m.route( u.pos(), stair_pos, u.get_legacy_pathfinding_settings(),
+    auto route = m.route( u.pos(), *stair_pos, u.get_legacy_pathfinding_settings(),
                           u.get_legacy_path_avoid() );
     if( route.size() <= 1 ) {
-        // Don't repeat the main fail msg — just silently fail.
         return;
     }
 
-    if( query_yn( "Walk to %s?", m.ter( stair_pos ).obj().name() ) ) {
+    std::string dir_text = direction == "up" ? "(up)" : "(down)";
+    if( query_yn( "Walk to %s %s?", m.ter( *stair_pos ).obj().name(), dir_text ) ) {
         route.pop_back();
         u.set_destination( route, u.remove_activity() );
         u.activity = std::make_unique<player_activity>();
@@ -10667,9 +10675,7 @@ std::optional<tripoint> game::find_or_make_stairs( map &mp, const int z_after, b
 
     // Try to find the stairs.
     std::optional<tripoint> stairs = find_stairs( mp, z_after, peeking );
-    // Check the destination area for lava.
     if( stairs.has_value() ) {
-        // Defensive: should never happen, but bail out safely
         return stairs;
     }
 
@@ -10678,6 +10684,7 @@ std::optional<tripoint> game::find_or_make_stairs( map &mp, const int z_after, b
     stairs.emplace( u.pos() );
     stairs->z = z_after;
 
+    // Check the destination area for lava.
     if( mp.ter( *stairs ) == t_lava ) {
         if( movez < 0 &&
             !query_yn(
