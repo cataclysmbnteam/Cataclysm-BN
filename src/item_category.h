@@ -35,7 +35,7 @@ class item_category
         translation name_;
         /** Used to sort categories when displaying.  Lower values are shown first. */
         int sort_rank_ = 0;
-         /** Global spawn rate for items from category */
+        /** Global spawn rate for items from category */
         float spawn_rate = 1.0f;
 
         std::optional<zone_type_id> zone_;

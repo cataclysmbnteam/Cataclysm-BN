@@ -4425,8 +4425,8 @@ detached_ptr<item> map::spawn_an_item( const tripoint &p, detached_ptr<item> &&n
 
 float map::item_category_spawn_rate( const item &itm )
 {
-    const item_category_id &cat = itm.get_category_of_contents().id;
-    const float spawn_rate = cat.obj().get_spawn_rate();
+    const std::string &cat = itm.get_category().id.c_str();
+    const float spawn_rate = get_option<float>( "SPAWN_RATE_" + cat );
 
     return spawn_rate > 1.0f ? roll_remainder( spawn_rate ) : spawn_rate;
 }

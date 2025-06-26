@@ -14,7 +14,9 @@
 #include <stdexcept>
 #include <unordered_map>
 
+#include "advanced_inv_listitem.h"
 #include "all_enum_values.h"
+#include "avatar.h"
 #include "calendar.h"
 #include "catacharset.h"
 #include "catalua.h"
@@ -6265,40 +6267,28 @@ std::vector<item *> map::place_items( const item_group_id &loc, const int chance
             p.y = rng( p1.y, p2.y );
             tries++;
         } while( is_valid_terrain( p ) && tries < 20 );
+        tripoint tp = tripoint( p, 0 );
         if( tries < 20 ) {
-            for( const item &itm : item_group::items_from( group_id, turn, spawn_flags::use_spawn_rate ) ) {
+            for( const detached_ptr<item> &itm_ptr : item_group::items_from( loc, turn ) ) {
+                const item &itm = *itm_ptr;
+                const item_category_id cat_id( itm.get_category_id() );
                 const float item_cat_spawn_rate = std::max( 0.0f, item_category_spawn_rate( itm ) );
-                // for items with category spawn rate less than or equal to 1, roll a dice to see if they should spawn
+
                 if( item_cat_spawn_rate <= 1 ) {
-                    if( rng_float( 0.1f, 1 ) <= item_cat_spawn_rate ) {
-                         item &it = add_item_or_charges( p, itm );
-                        if( !it.is_null() ) {
-                            res.push_back( &it );
-                        }
+                    if( rng_float( 0.0f, 1.0f ) <= item_cat_spawn_rate ) {
+                        auto put = put_items_from_loc( loc, tp, turn );
+                        res.insert( res.end(), put.begin(), put.end() );
                     }
-                    // for items with category spawn rate more than 1, spawn item at least one time...
                 } else {
-                    item &it = add_item_or_charges( p, itm );
-                    if( !it.is_null() ) {
-                        res.push_back( &it );
-                    }
+                    // Always spawn one
+                    auto put = put_items_from_loc( loc, tp, turn );
+                    res.insert( res.end(), put.begin(), put.end() );
 
-                    // ...then create a list with items from the same item group and remove all items with differing category from that list
-                    // so if the original item was e.g. from 'guns' category, the list will contain only items from the 'guns' category...
-                    Item_list extra_spawn = item_group::items_from( group_id, turn, spawn_flags::use_spawn_rate );
-                    extra_spawn.erase( std::remove_if( extra_spawn.begin(), extra_spawn.end(), [&itm]( item & it ) {
-                        return it.get_category_of_contents() != itm.get_category_of_contents();
-                    } ), extra_spawn.end() );
-
-                    // ...then add a chance to spawn additional items from the list, amount is based on the item category spawn rate
-                    for( int i = 0; i < item_cat_spawn_rate; i++ ) {
-                        for( const item &it : extra_spawn ) {
-                            if( rng( 1, 100 ) <= chance ) {
-                                item &new_item = add_item_or_charges( p, it );
-                                if( !new_item.is_null() ) {
-                                    res.push_back( &new_item );
-                                }
-                            }
+                    // Try for extras based on category
+                    for( int i = 1; i < item_cat_spawn_rate; ++i ) {
+                        if( rng( 1, 100 ) <= chance ) {
+                            auto extra = put_filtered_items_from_loc( loc, tp, turn, cat_id );
+                            res.insert( res.end(), extra.begin(), extra.end() );
                         }
                     }
                 }
@@ -6317,6 +6307,30 @@ std::vector<item *> map::place_items( const item_group_id &loc, const int chance
         }
     }
     return res;
+}
+
+std::vector<item *> map::put_filtered_items_from_loc(
+    const item_group_id &loc,
+    const tripoint &p,
+    const time_point &turn,
+    const item_category_id &filter_cat )
+{
+    std::vector<detached_ptr<item>> items = item_group::items_from( loc, turn );
+    std::vector<detached_ptr<item>> filtered;
+    std::vector<item *> ret;
+    filtered.reserve( items.size() );
+    ret.reserve( items.size() );
+
+    for( detached_ptr<item> &it : items ) {
+        const item_category_id cat_id( it->get_category_id() );
+        if( cat_id == filter_cat ) {
+            ret.push_back( &*it );
+            filtered.push_back( std::move( it ) );
+        }
+    }
+
+    spawn_items( p, std::move( filtered ) );
+    return ret;
 }
 
 std::vector<item *> map::put_items_from_loc( const item_group_id &loc, const tripoint &p,

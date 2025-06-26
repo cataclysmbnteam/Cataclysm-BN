@@ -1251,7 +1251,7 @@ class map
         detached_ptr<item> add_item_or_charges( point p, detached_ptr<item> &&obj, bool overflow = true ) {
             return add_item_or_charges( tripoint( p, abs_sub.z ), std::move( obj ), overflow );
         }
-        
+
         /**
          * Checks for spawn_rate value for item category of 'itm'.
          * If spawn_rate is less than 1.0, it will make a random roll (0.1-1.0) to check if the item will have a chance to spawn.
@@ -1355,6 +1355,12 @@ class map
         */
         std::vector<item *> put_items_from_loc( const item_group_id &loc, const tripoint &p,
                                                 const time_point &turn = calendar::start_of_cataclysm );
+
+        std::vector<item *> put_filtered_items_from_loc(
+            const item_group_id &loc,
+            const tripoint &p,
+            const time_point &turn,
+            const item_category_id &filter_cat );
 
         // Similar to spawn_an_item, but spawns a list of items, or nothing if the list is empty.
         std::vector<detached_ptr<item>> spawn_items( const tripoint &p,
