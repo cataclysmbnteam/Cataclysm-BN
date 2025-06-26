@@ -1397,6 +1397,31 @@ void options_manager::add_options_general()
 
     add_empty_line();
 
+    add_option_group( general, Group( "clothing_destruction_popup",
+                                      to_translation( "Clothing destruction popup" ),
+                                      to_translation( "Configure when popups appear due to clothing being destroyed." ) ),
+    [&]( auto & page_id ) {
+        add( "CLOTHING_DESTRUCTION_POPUP", page_id, translate_marker( "Enable popup" ),
+             translate_marker( "If true, a popup will display when a piece of the player/NPC's worn clothing is destroyed." ),
+             true );
+
+        add( "CLOTHING_DESTRUCTION_POPUP_CONTENTS", page_id, translate_marker( "Only if contents present" ),
+             translate_marker( "Only show popup if destroyed clothing has contents." ),
+             false );
+
+        add( "CLOTHING_DESTRUCTION_POPUP_MIN_WEIGHT", page_id,
+             translate_marker( "Min weight for popup (g)" ),
+             translate_marker( "Minimum weight of the item for the popup to trigger." ),
+             0, 1000000, 0 );
+
+        add( "CLOTHING_DESTRUCTION_POPUP_MIN_VOLUME", page_id,
+             translate_marker( "Min volume for popup (ml)" ),
+             translate_marker( "Minimum volume of the item for the popup to trigger." ),
+             0, 1000000, 0 );
+    } );
+
+    add_empty_line();
+
     add( "TURN_DURATION", general, translate_marker( "Realtime turn progression" ),
          translate_marker( "If enabled, monsters will take periodic gameplay turns.  This value is the delay between each turn, in seconds.  Works best with Safe Mode disabled.  0 = disabled." ),
          0.0, 10.0, 0.0, 0.05

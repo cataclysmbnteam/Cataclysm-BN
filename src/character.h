@@ -1908,7 +1908,7 @@ class Character : public Creature, public location_visitable<Character>
         void on_stat_change( const std::string &stat, int value ) override;
 
         /** Removes "sleep" and "lying_down" */
-        void wake_up();
+        virtual void wake_up();
         // how loud a character can shout. based on mutations and clothing
         int get_shout_volume() const;
         // shouts a message
