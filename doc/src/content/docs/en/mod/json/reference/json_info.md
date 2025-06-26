@@ -288,6 +288,25 @@ item in `data/json/items/bionics.json`. Even for a faulty bionic.
   "category": "MUTCAT_BIRD",
   "strength": 1
 }
+
+### Item Category
+
+When you sort your inventory by category, these are the categories that are displayed.
+| Identifier | Description
+|---         |---
+| id         | Unique ID. Must be one continuous word, use underscores if necessary
+| name       | The name of the category. This is what shows up in-game when you open the inventory.
+| zone       | The corresponding loot_zone (see loot_zones.json)
+| sort_rank  | Used to sort categories when displaying.  Lower values are shown first
+
+
+```C++
+{
+    "id":"ammo",
+    "name": "AMMO",
+    "zone": "LOOT_AMMO",
+    "sort_rank": -21
+}
 ```
 
 ### Disease
