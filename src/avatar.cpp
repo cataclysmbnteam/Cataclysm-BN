@@ -992,6 +992,8 @@ void avatar::add_snippet( snippet_id snippet )
     if( has_seen_snippet( snippet ) ) {
         return;
     }
+    std::string combined_name = "has_seen_snippet_" + snippet.str();
+    get_avatar().set_value( combined_name, "true" );
     snippets_read.emplace( snippet );
 }
 bool avatar::has_seen_snippet( const snippet_id &snippet ) const
