@@ -50,6 +50,7 @@
 #include "input.h"
 #include "int_id.h"
 #include "item.h"
+#include "item_category.h"
 #include "item_contents.h"
 #include "item_factory.h"
 #include "item_group.h"
@@ -4420,6 +4421,14 @@ detached_ptr<item> map::spawn_an_item( const tripoint &p, detached_ptr<item> &&n
     spawned_item->set_damage( damlevel );
 
     return add_item_or_charges( p, std::move( spawned_item ) );
+}
+
+float map::item_category_spawn_rate( const item &itm )
+{
+    const item_category_id &cat = itm.get_category_of_contents().id;
+    const float spawn_rate = cat.obj().get_spawn_rate();
+
+    return spawn_rate > 1.0f ? roll_remainder( spawn_rate ) : spawn_rate;
 }
 
 std::vector<detached_ptr<item>> map::spawn_items( const tripoint &p,
