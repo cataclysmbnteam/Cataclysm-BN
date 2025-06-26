@@ -556,12 +556,10 @@ std::optional<tripoint> game::find_local_stairs_leading_to( map &mp, const int z
 
     //i tried 40, 80, and 100 here and got the same result almost every time? works for our purposes though
     for( const tripoint &candidate : closest_points_first( u.pos(), 80 ) ) {
-        if( ( going_up && mp.has_flag( TFLAG_GOES_UP, candidate ) ) ||
-            ( going_down && mp.has_flag( TFLAG_GOES_DOWN, candidate ) ) ) {
-            return candidate;
-        }
-        // Optionally support elevators:
-        if( ( movez == 2 || movez == -2 ) && mp.ter( candidate ) == t_elevator ) {
+        if( ( going_up && ( mp.has_flag( TFLAG_GOES_UP, candidate ) ||
+                            mp.has_flag( TFLAG_ELEVATOR, candidate ) ) ) ||
+            ( going_down && ( mp.has_flag( TFLAG_GOES_DOWN, candidate ) ||
+                              mp.has_flag( TFLAG_ELEVATOR, candidate ) ) ) ) {
             return candidate;
         }
     }
@@ -584,8 +582,14 @@ void game::suggest_auto_walk_to_stairs( Character &u, map &m, const std::string 
         return;
     }
 
-    std::string dir_text = direction == "up" ? "(up)" : "(down)";
-    if( query_yn( "Walk to %s %s?", m.ter( *stair_pos ).obj().name(), dir_text ) ) {
+    // Detect if it's an elevator
+    bool is_elevator = m.has_flag( TFLAG_ELEVATOR, *stair_pos );
+    // Choose message depending on type
+    std::string dir_text;
+    if( !is_elevator ) {
+        dir_text = direction == "up" ? " (up)" : " (down)";
+    }
+    if( query_yn( "Walk to %s%s?", m.ter( *stair_pos ).obj().name(), dir_text ) ) {
         route.pop_back();
         u.set_destination( route, u.remove_activity() );
         u.activity = std::make_unique<player_activity>();
