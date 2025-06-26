@@ -69,7 +69,8 @@ In `data/json/debug_spells.json` there is a template spell, copied here for your
   "sound_description": "a whoosh", // the sound description. in the form of "You hear %s" by default it is "an explosion"
   "sound_ambient": true, // whether or not this is treated as an ambient sound or not
   "sound_id": "misc", // the sound id
-  "sound_variant": "shockwave" // the sound variant
+  "sound_variant": "shockwave", // the sound variant
+  "sprite": "fd_electricity", // This changes the spell sprite to any valid field ID. Do not use with NO_EXPLOSION_VFX
   "learn_spells": { "acid_resistance_greater": 15 } // You learn the specified spell once your level in this spell is greater than or equal to the number shown.
 }
 ```
