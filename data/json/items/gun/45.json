@@ -3,8 +3,8 @@
     "id": "TDI",
     "copy-from": "smg_base",
     "type": "GUN",
-    "name": { "str": "TDI Vector" },
-    "description": "The TDI Vector is a submachine gun with a unique, in-line design that makes recoil very manageable, even in the powerful .45 caliber.",
+    "name": { "str": "KRISS Vector .45 ACP" },
+    "description": "A submachine gun with a sleek in-line design.  It features a 2-round burst mode to utilize its unique recoil mitigation system alongside a blistering full-auto mode.  This one is chambered in .45 ACP and uses Glock 21 magazines.",
     "weight": "3400 g",
     "volume": "1750 ml",
     "barrel_length": "150 ml",
@@ -309,6 +309,6 @@
     "dispersion": 170,
     "durability": 10,
     "min_cycle_recoil": 400,
-    "magazines": [ [ "45", [ "glock_21mag", "glock_21mag26", "glock21drum40rd" ] ] ]
+    "magazines": [ [ "45", [ "glock_21mag", "glock_21mag26", "glock21drum40rd", "tdi_mag" ] ] ]
   }
 ]
