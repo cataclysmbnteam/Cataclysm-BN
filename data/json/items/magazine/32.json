@@ -15,6 +15,7 @@
     "ammo_type": "32",
     "capacity": 8,
     "reliability": 9,
+    "reload_time": 100,
     "flags": [ "MAG_COMPACT" ]
   },
   {
@@ -33,6 +34,7 @@
     "ammo_type": "32",
     "capacity": 8,
     "reliability": 9,
+    "reload_time": 100,
     "flags": [ "MAG_COMPACT" ]
   },
   {
@@ -50,7 +52,8 @@
     "color": "light_gray",
     "ammo_type": "32",
     "capacity": 20,
-    "reliability": 8,
+    "reliability": 9,
+    "reload_time": 100,
     "flags": [ "MAG_COMPACT" ]
   },
   {
@@ -69,6 +72,7 @@
     "ammo_type": "32",
     "capacity": 7,
     "reliability": 9,
+    "reload_time": 100,
     "flags": [ "MAG_COMPACT" ]
   }
 ]

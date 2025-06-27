@@ -1,7 +1,7 @@
 [
   {
     "id": "saiga10mag",
-    "looks_like": "shotbelt_20",
+    "looks_like": "stanag30",
     "type": "MAGAZINE",
     "name": { "str": "Saiga-12 box magazine" },
     "description": "A removable plastic magazine for the Saiga-12 shotgun.  Holds 10 rounds.",
@@ -15,11 +15,12 @@
     "ammo_type": "shot",
     "capacity": 10,
     "reliability": 9,
+    "reload_time": 100,
     "flags": [ "MAG_COMPACT" ]
   },
   {
     "id": "saiga30mag",
-    "looks_like": "shotbelt_20",
+    "looks_like": "stanag30",
     "type": "MAGAZINE",
     "name": { "str": "Saiga-12 drum magazine" },
     "description": "A removable plastic magazine for the Saiga-12 shotgun.  Holds 30 rounds.",
@@ -32,13 +33,13 @@
     "color": "dark_gray",
     "ammo_type": "shot",
     "capacity": 30,
-    "reliability": 8,
-    "reload_time": 130,
+    "reliability": 7,
+    "reload_time": 180,
     "flags": [ "MAG_BULKY" ]
   },
   {
     "id": "USAS10mag",
-    "looks_like": "shotbelt_20",
+    "looks_like": "stanag30",
     "type": "MAGAZINE",
     "name": { "str": "USAS-12 box magazine" },
     "description": "A removable plastic magazine for the USAS-12 shotgun.  Holds 10 rounds.",
@@ -52,11 +53,12 @@
     "ammo_type": "shot",
     "capacity": 10,
     "reliability": 9,
+    "reload_time": 100,
     "flags": [ "MAG_COMPACT" ]
   },
   {
     "id": "USAS20mag",
-    "looks_like": "shotbelt_20",
+    "looks_like": "stanag30",
     "type": "MAGAZINE",
     "name": { "str": "USAS-12 drum magazine" },
     "description": "A removable plastic magazine for the USAS-12 shotgun.  Holds 20 rounds.",
@@ -69,8 +71,8 @@
     "color": "dark_gray",
     "ammo_type": "shot",
     "capacity": 20,
-    "reliability": 8,
-    "reload_time": 110,
+    "reliability": 7,
+    "reload_time": 180,
     "flags": [ "MAG_BULKY" ]
   },
   {
@@ -89,6 +91,7 @@
     "ammo_type": "shot",
     "capacity": 20,
     "reliability": 5,
+    "reload_time": 800,
     "armor_data": { "covers": [ "torso" ], "coverage": 5, "material_thickness": 1, "encumbrance": 2 },
     "flags": [ "MAG_EJECT", "BELTED", "OVERSIZE", "WATER_FRIENDLY" ]
   },

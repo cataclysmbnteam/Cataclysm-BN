@@ -15,6 +15,7 @@
     "ammo_type": "545x39",
     "capacity": 30,
     "reliability": 9,
+    "reload_time": 100,
     "flags": [ "MAG_COMPACT" ]
   },
   {
@@ -34,7 +35,7 @@
     "ammo_type": "545x39",
     "capacity": 45,
     "reliability": 8,
-    "reload_time": 130,
+    "reload_time": 120,
     "flags": [ "MAG_BULKY" ]
   }
 ]

@@ -14,7 +14,8 @@
     "color": "yellow",
     "ammo_type": "4570",
     "capacity": 240,
-    "reliability": 6,
+    "reliability": 8,
+    "reload_time": 600,
     "flags": [ "MAG_BULKY" ]
   }
 ]

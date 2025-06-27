@@ -15,6 +15,7 @@
     "ammo_type": "46",
     "capacity": 40,
     "reliability": 8,
+    "reload_time": 120,
     "flags": [ "MAG_COMPACT" ]
   },
   {
@@ -33,6 +34,7 @@
     "ammo_type": "46",
     "capacity": 20,
     "reliability": 9,
+    "reload_time": 100,
     "flags": [ "MAG_COMPACT" ]
   }
 ]

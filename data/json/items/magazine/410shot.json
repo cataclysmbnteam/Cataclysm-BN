@@ -1,7 +1,7 @@
 [
   {
     "id": "saiga410mag_10rd",
-    "looks_like": "shotbelt_20",
+    "looks_like": "stanag30",
     "type": "MAGAZINE",
     "name": { "str": "Saiga-410 box magazine" },
     "description": "A removable plastic box magazine for the Saiga-410 shotgun.  Holds 10 shells.",
@@ -15,11 +15,12 @@
     "ammo_type": "410shot",
     "capacity": 10,
     "reliability": 9,
+    "reload_time": 100,
     "flags": [ "MAG_COMPACT" ]
   },
   {
     "id": "saiga410mag_30rd",
-    "looks_like": "shotbelt_20",
+    "looks_like": "stanag30",
     "type": "MAGAZINE",
     "name": { "str": "Saiga-410 drum magazine" },
     "description": "A removable plastic drum magazine for the Saiga-410 shotgun.  Holds 30 shells.",
@@ -32,8 +33,8 @@
     "color": "dark_gray",
     "ammo_type": "410shot",
     "capacity": 30,
-    "reliability": 8,
-    "reload_time": 130,
+    "reliability": 7,
+    "reload_time": 160,
     "flags": [ "MAG_BULKY" ]
   }
 ]

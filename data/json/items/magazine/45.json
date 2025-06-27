@@ -15,6 +15,7 @@
     "ammo_type": "45",
     "capacity": 30,
     "reliability": 7,
+    "reload_time": 100,
     "flags": [ "MAG_COMPACT" ]
   },
   {
@@ -32,8 +33,8 @@
     "color": "light_gray",
     "ammo_type": "45",
     "capacity": 20,
-    "reliability": 1,
-    "reload_time": 160,
+    "reliability": 5,
+    "reload_time": 100,
     "flags": [ "MAG_COMPACT" ]
   },
   {
@@ -51,7 +52,8 @@
     "color": "light_gray",
     "ammo_type": "45",
     "capacity": 30,
-    "reliability": 9,
+    "reliability": 8,
+    "reload_time": 120,
     "flags": [ "MAG_COMPACT" ]
   },
   {
@@ -69,7 +71,7 @@
     "color": "light_gray",
     "ammo_type": "45",
     "capacity": 30,
-    "reliability": 8,
+    "reliability": 7,
     "reload_time": 120,
     "flags": [ "MAG_COMPACT" ]
   },
@@ -88,7 +90,7 @@
     "color": "light_gray",
     "ammo_type": "45",
     "capacity": 50,
-    "reliability": 7,
+    "reliability": 6,
     "reload_time": 150,
     "flags": [ "MAG_BULKY" ]
   },
@@ -108,6 +110,7 @@
     "ammo_type": "45",
     "capacity": 20,
     "reliability": 8,
+    "reload_time": 100,
     "flags": [ "MAG_COMPACT" ]
   },
   {
@@ -116,6 +119,8 @@
     "type": "MAGAZINE",
     "name": { "str": "Thompson makeshift magazine" },
     "price_postapoc": "50 cent",
+    "reliability": 5,
+    "reload_time": 100,
     "description": "An improvised 20-round straight single-stack box magazine consisting of little more than a bent sheet of steel held together by duct tape and hope, for use with the Thompson SMG."
   },
   {
@@ -134,6 +139,7 @@
     "ammo_type": "45",
     "capacity": 25,
     "reliability": 9,
+    "reload_time": 100,
     "flags": [ "MAG_COMPACT" ]
   },
   {
@@ -142,6 +148,8 @@
     "type": "MAGAZINE",
     "price_postapoc": "50 cent",
     "name": { "str": "UMP45 makeshift magazine" },
+    "reliability": 5,
+    "reload_time": 100,
     "description": "An improvised 20-round straight single-stack box magazine consisting of little more than a bent sheet of steel held together by duct tape and hope, for use with the UMP45 SMG."
   },
   {
@@ -159,7 +167,8 @@
     "color": "light_gray",
     "ammo_type": "45",
     "capacity": 12,
-    "reliability": 10,
+    "reliability": 9,
+    "reload_time": 100,
     "flags": [ "MAG_COMPACT" ]
   },
   {
@@ -178,6 +187,7 @@
     "ammo_type": "45",
     "capacity": 12,
     "reliability": 9,
+    "reload_time": 100,
     "flags": [ "MAG_COMPACT" ]
   },
   {
@@ -195,14 +205,15 @@
     "color": "light_gray",
     "ammo_type": "45",
     "capacity": 9,
-    "reliability": 8,
+    "reliability": 7,
+    "reload_time": 100,
     "flags": [ "MAG_COMPACT" ]
   },
   {
     "id": "glock_21mag",
     "looks_like": "glock17_17",
     "type": "MAGAZINE",
-    "name": { "str": "Glock 21 13-round magazine" },
+    "name": { "str": "Glock 21 magazine" },
     "description": "A standard capacity magazine for use with the Glock 21.",
     "weight": "85 g",
     "volume": "105 ml",
@@ -213,14 +224,15 @@
     "color": "light_gray",
     "ammo_type": "45",
     "capacity": 13,
-    "reliability": 8,
+    "reliability": 9,
+    "reload_time": 100,
     "flags": [ "MAG_COMPACT" ]
   },
   {
     "id": "glock_21mag26",
     "looks_like": "glock17_17",
     "type": "MAGAZINE",
-    "name": { "str": "Glock 21 26-round magazine" },
+    "name": { "str": "Glock 21 extended magazine" },
     "description": "A double capacity magazine for use with the Glock 21.",
     "weight": "85 g",
     "volume": "205 ml",
@@ -231,18 +243,21 @@
     "color": "light_gray",
     "ammo_type": "45",
     "capacity": 26,
-    "reliability": 7,
+    "reliability": 8,
+    "reload_time": 120,
     "flags": [ "MAG_COMPACT" ]
   },
   {
     "id": "glock21drum40rd",
     "copy-from": "glock20drum50rd",
     "type": "MAGAZINE",
-    "name": { "str": "Glock 21 40-round drum magazine" },
+    "name": { "str": "Glock 21 drum magazine" },
     "description": "Made to fit the Glock 21.  This drum magazine holds 40 rounds.",
     "price": "70 USD",
     "price_postapoc": "1000 cent",
     "ammo_type": "45",
+    "reliability": 7,
+    "reload_time": 150,
     "capacity": 40
   }
 ]

@@ -7,6 +7,8 @@
     "name": { "str": ".50 BMG ammo belt" },
     "ammo_type": "50",
     "capacity": 100,
+    "reliability": 6,
+    "reload_time": 1000,
     "count": 100,
     "linkage": "ammolink50"
   },
@@ -46,7 +48,7 @@
     "ammo_type": "50",
     "capacity": 10,
     "reliability": 9,
-    "reload_time": 110,
+    "reload_time": 130,
     "flags": [ "MAG_BULKY" ]
   },
   {
@@ -65,7 +67,7 @@
     "ammo_type": "50",
     "capacity": 5,
     "reliability": 9,
-    "reload_time": 200,
+    "reload_time": 100,
     "flags": [ "MAG_BULKY" ]
   }
 ]

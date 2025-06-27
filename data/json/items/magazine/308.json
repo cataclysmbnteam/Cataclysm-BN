@@ -7,6 +7,8 @@
     "ammo_type": "308",
     "capacity": 200,
     "count": 100,
+    "reliability": 6,
+    "reload_time": 900,
     "default_ammo": "762_51",
     "linkage": "ammolink308"
   },
@@ -26,6 +28,7 @@
     "ammo_type": "308",
     "capacity": 30,
     "reliability": 8,
+    "reload_time": 150,
     "flags": [ "MAG_COMPACT" ]
   },
   {
@@ -44,6 +47,7 @@
     "ammo_type": "308",
     "capacity": 20,
     "reliability": 9,
+    "reload_time": 100,
     "flags": [ "MAG_COMPACT" ]
   },
   {
@@ -61,8 +65,8 @@
     "color": "light_gray",
     "ammo_type": "308",
     "capacity": 5,
-    "reliability": 1,
-    "reload_time": 150,
+    "reliability": 5,
+    "reload_time": 100,
     "flags": [ "MAG_COMPACT" ]
   },
   {
@@ -100,6 +104,7 @@
     "ammo_type": "308",
     "capacity": 20,
     "reliability": 9,
+    "reload_time": 100,
     "flags": [ "MAG_COMPACT" ]
   },
   {
@@ -107,7 +112,9 @@
     "copy-from": "fal_makeshiftmag",
     "type": "MAGAZINE",
     "name": { "str": "H&K G3 makeshift magazine" },
-    "description": "An improvised 5-round straight single-stack box magazine consisting of little more than a bent sheet of steel held together by duct tape and hope, for use with G3 rifle."
+    "description": "An improvised 5-round straight single-stack box magazine consisting of little more than a bent sheet of steel held together by duct tape and hope, for use with G3 rifle.",
+    "reliability": 5,
+    "reload_time": 100
   },
   {
     "id": "m14mag",
@@ -125,6 +132,7 @@
     "ammo_type": "308",
     "capacity": 20,
     "reliability": 9,
+    "reload_time": 100,
     "flags": [ "MAG_COMPACT" ]
   },
   {
@@ -142,8 +150,8 @@
     "color": "light_gray",
     "ammo_type": "308",
     "capacity": 5,
-    "reliability": 10,
-    "reload_time": 50,
+    "reliability": 9,
+    "reload_time": 80,
     "flags": [ "MAG_COMPACT" ]
   },
   {
@@ -152,7 +160,9 @@
     "type": "MAGAZINE",
     "price_postapoc": "50 cent",
     "name": { "str": "M14 makeshift magazine" },
-    "description": "An improvised 5-round straight single-stack box magazine consisting of little more than a bent sheet of steel held together by duct tape and hope, for use with M14 rifle."
+    "description": "An improvised 5-round straight single-stack box magazine consisting of little more than a bent sheet of steel held together by duct tape and hope, for use with M14 rifle.",
+    "reliability": 5,
+    "reload_time": 100
   },
   {
     "id": "scarhbigmag",
@@ -179,7 +189,9 @@
     "type": "MAGAZINE",
     "price_postapoc": "250 cent",
     "name": { "str": "FN SCAR-H 30-round magazine" },
-    "description": "A 30-round steel box magazine for the FN SCAR-H rifle.  This one actually seems to be a modified FN FAL magazine."
+    "description": "A 30-round steel box magazine for the FN SCAR-H rifle.  This one actually seems to be a modified FN FAL magazine.",
+    "reliability": 7,
+    "reload_time": 120
   },
   {
     "id": "scarhmag",
@@ -197,6 +209,7 @@
     "ammo_type": "308",
     "capacity": 20,
     "reliability": 9,
+    "reload_time": 100,
     "flags": [ "MAG_COMPACT" ]
   },
   {
@@ -205,7 +218,9 @@
     "type": "MAGAZINE",
     "price_postapoc": "50 cent",
     "name": { "str": "FN SCAR-H makeshift magazine" },
-    "description": "An improvised 5-round straight single-stack box magazine consisting of little more than a bent sheet of steel held together by duct tape and hope, for use with FN SCAR-H rifle."
+    "description": "An improvised 5-round straight single-stack box magazine consisting of little more than a bent sheet of steel held together by duct tape and hope, for use with FN SCAR-H rifle.",
+    "reliability": 5,
+    "reload_time": 100
   },
   {
     "id": "hk417mag_20rd",
@@ -223,6 +238,7 @@
     "ammo_type": "308",
     "capacity": 20,
     "reliability": 9,
+    "reload_time": 100,
     "flags": [ "MAG_COMPACT" ]
   },
   {
@@ -241,6 +257,7 @@
     "ammo_type": "308",
     "capacity": 10,
     "reliability": 9,
+    "reload_time": 80,
     "flags": [ "MAG_COMPACT" ]
   },
   {
@@ -249,7 +266,9 @@
     "type": "MAGAZINE",
     "price_postapoc": "50 cent",
     "name": { "str": "H&K417 makeshift magazine" },
-    "description": "An improvised 5-round straight single-stack box magazine consisting of little more than a bent sheet of steel held together by duct tape and hope, for use with HK417 rifle."
+    "description": "An improvised 5-round straight single-stack box magazine consisting of little more than a bent sheet of steel held together by duct tape and hope, for use with HK417 rifle.",
+    "reliability": 5,
+    "reload_time": 100
   },
   {
     "id": "ar10mag_20rd",
@@ -267,6 +286,7 @@
     "ammo_type": "308",
     "capacity": 20,
     "reliability": 9,
+    "reload_time": 100,
     "flags": [ "MAG_COMPACT" ]
   },
   {
@@ -275,6 +295,8 @@
     "type": "MAGAZINE",
     "price_postapoc": "50 cent",
     "name": { "str": "AR-10 makeshift magazine" },
-    "description": "An improvised 5-round straight single-stack box magazine consisting of little more than a bent sheet of steel held together by duct tape and hope, for use with AR-10 rifle."
+    "description": "An improvised 5-round straight single-stack box magazine consisting of little more than a bent sheet of steel held together by duct tape and hope, for use with AR-10 rifle.",
+    "reliability": 5,
+    "reload_time": 100
   }
 ]
