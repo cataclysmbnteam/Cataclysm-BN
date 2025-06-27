@@ -71,6 +71,26 @@
     "flags": [ "INSTALL_DIFFICULT" ]
   },
   {
+    "id": "shoestring_mg",
+    "type": "GUNMOD",
+    "name": { "str": "shoestring machinegun" },
+    "description": "Quite literally just a piece of string extending from the trigger to the bolt of the rifle, this so called device is still sufficient for you to become a federal felon.  Was.  Now there is no one left to tell you no to turning your Mini-14, M1A or Garand full auto.",
+    "weight": "5 g",
+    "volume": "10 ml",
+    "integral_volume": "0 ml",
+    "price": "2 USD",
+    "price_postapoc": "1 cent",
+    "material": [ "cotton" ],
+    "symbol": ":",
+    "color": "green",
+    "location": "mechanism",
+    "mod_targets": [ "ruger_mini", "garand", "m1a" ],
+    "install_time": "5 s",
+    "dispersion_modifier": 100,
+    "handling_modifier": -5,
+    "mode_modifier": [ [ "DEFAULT", "auto", 3 ] ]
+  },
+  {
     "id": "glockswitch",
     "type": "GUNMOD",
     "name": { "str": "glock switch" },
@@ -170,6 +190,42 @@
     "color": "green",
     "location": "mechanism",
     "mod_targets": [ "steyr_aug" ],
+    "acceptable_ammo": [ "223" ],
+    "install_time": "10 m",
+    "magazine_adaptor": [
+      [
+        "223",
+        [
+          "stanag30",
+          "stanag5",
+          "stanag10",
+          "stanag20",
+          "stanag40",
+          "stanag50",
+          "stanag60",
+          "stanag60drum",
+          "carbonmag_223",
+          "survivor223mag"
+        ]
+      ]
+    ],
+    "min_skills": [ [ "weapon", 4 ], [ "mechanics", 3 ] ],
+    "flags": [ "INSTALL_DIFFICULT" ]
+  },
+  {
+    "id": "mini14_stanag_adapter",
+    "type": "GUNMOD",
+    "name": { "str": "Ruger Mini 14 / AC-556 STANAG adapter" },
+    "description": "A custom magwell which is installed into a Ruger Mini-14 or AC-556 to enable the use of most STANAG magazines save for the largest ones.",
+    "weight": "100 g",
+    "volume": "150 ml",
+    "integral_volume": "150 ml",
+    "price": "320 USD",
+    "material": "plastic",
+    "symbol": ":",
+    "color": "green",
+    "location": "mechanism",
+    "mod_targets": [ "ruger_mini", "ac556" ],
     "acceptable_ammo": [ "223" ],
     "install_time": "10 m",
     "magazine_adaptor": [
