@@ -6269,26 +6269,35 @@ std::vector<item *> map::place_items( const item_group_id &loc, const int chance
         } while( is_valid_terrain( p ) && tries < 20 );
         tripoint tp = tripoint( p, 0 );
         if( tries < 20 ) {
-            for( const detached_ptr<item> &itm_ptr : item_group::items_from( loc, turn ) ) {
-                const item &itm = *itm_ptr;
-                const item_category_id cat_id( itm.get_category_id() );
-                const float item_cat_spawn_rate = std::max( 0.0f, item_category_spawn_rate( itm ) );
+            const std::vector<detached_ptr<item>> item_ptrs = item_group::items_from( loc, turn );
 
-                if( item_cat_spawn_rate <= 1 ) {
+            // Check the spawn rate using the first item (or however you define the category-wide rate)
+            if( !item_ptrs.empty() ) {
+                const float item_cat_spawn_rate = std::max( 0.0f, item_category_spawn_rate( *item_ptrs.front() ) );
+
+                if( item_cat_spawn_rate <= 1.0f ) {
+                    // Spawn once with probability equal to item_cat_spawn_rate
                     if( rng_float( 0.0f, 1.0f ) <= item_cat_spawn_rate ) {
                         auto put = put_items_from_loc( loc, tp, turn );
                         res.insert( res.end(), put.begin(), put.end() );
                     }
                 } else {
-                    // Always spawn one
-                    auto put = put_items_from_loc( loc, tp, turn );
-                    res.insert( res.end(), put.begin(), put.end() );
+                    // Loop over all items
+                    for( const detached_ptr<item> &itm_ptr : item_ptrs ) {
+                        const item &itm = *itm_ptr;
+                        const item_category_id cat_id( itm.get_category_id() );
 
-                    // Try for extras based on category
-                    for( int i = 1; i < item_cat_spawn_rate; ++i ) {
-                        if( rng( 1, 100 ) <= chance ) {
-                            auto extra = put_filtered_items_from_loc( loc, tp, turn, cat_id );
-                            res.insert( res.end(), extra.begin(), extra.end() );
+                        // Always spawn one
+                        auto put = put_items_from_loc( loc, tp, turn );
+                        res.insert( res.end(), put.begin(), put.end() );
+
+                        // Spawn extras based on integer part of item_cat_spawn_rate
+                        int extra_count = static_cast<int>( item_cat_spawn_rate );
+                        for( int i = 1; i < extra_count; ++i ) {
+                            if( rng( 1, 100 ) <= chance ) {
+                                auto extra = put_filtered_items_from_loc( loc, tp, turn, cat_id );
+                                res.insert( res.end(), extra.begin(), extra.end() );
+                            }
                         }
                     }
                 }
@@ -6316,20 +6325,15 @@ std::vector<item *> map::put_filtered_items_from_loc(
     const item_category_id &filter_cat )
 {
     std::vector<detached_ptr<item>> items = item_group::items_from( loc, turn );
-    std::vector<detached_ptr<item>> filtered;
     std::vector<item *> ret;
-    filtered.reserve( items.size() );
     ret.reserve( items.size() );
 
     for( detached_ptr<item> &it : items ) {
-        const item_category_id cat_id( it->get_category_id() );
-        if( cat_id == filter_cat ) {
+        if( it->get_category_id() == filter_cat.c_str() ) {
             ret.push_back( &*it );
-            filtered.push_back( std::move( it ) );
+            break; // Only collect one matching item
         }
     }
-
-    spawn_items( p, std::move( filtered ) );
     return ret;
 }
 

@@ -4426,7 +4426,14 @@ detached_ptr<item> map::spawn_an_item( const tripoint &p, detached_ptr<item> &&n
 float map::item_category_spawn_rate( const item &itm )
 {
     const std::string &cat = itm.get_category().id.c_str();
-    const float spawn_rate = get_option<float>( "SPAWN_RATE_" + cat );
+    float spawn_rate = get_option<float>( "SPAWN_RATE_" + cat );
+    if( itm.goes_bad() ) {
+        const float spawn_rate_mod = get_option<float>( "SPAWN_RATE_perishables" );
+        spawn_rate += spawn_rate_mod;
+    } else if( itm.goes_bad_after_opening( true ) ) {
+        const float spawn_rate_mod = get_option<float>( "SPAWN_RATE_perishables_canned" );
+        spawn_rate += spawn_rate_mod;
+    }
 
     return spawn_rate > 1.0f ? roll_remainder( spawn_rate ) : spawn_rate;
 }
