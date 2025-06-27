@@ -4429,10 +4429,12 @@ float map::item_category_spawn_rate( const item &itm )
     float spawn_rate = get_option<float>( "SPAWN_RATE_" + cat );
     if( itm.goes_bad() ) {
         const float spawn_rate_mod = get_option<float>( "SPAWN_RATE_perishables" );
-        spawn_rate += spawn_rate_mod;
+        spawn_rate = spawn_rate / 2;
+        spawn_rate += spawn_rate_mod / 2;
     } else if( itm.goes_bad_after_opening( true ) ) {
         const float spawn_rate_mod = get_option<float>( "SPAWN_RATE_perishables_canned" );
-        spawn_rate += spawn_rate_mod;
+        spawn_rate = spawn_rate / 2;
+        spawn_rate += spawn_rate_mod / 2;
     }
 
     return spawn_rate > 1.0f ? roll_remainder( spawn_rate ) : spawn_rate;

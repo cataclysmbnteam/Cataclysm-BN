@@ -6249,82 +6249,73 @@ std::vector<item *> map::place_items( const item_group_id &loc, const int chance
         return res;
     }
 
-    const float spawn_rate = get_option<float>( "ITEM_SPAWNRATE" );
-    int spawn_count = roll_remainder( chance * spawn_rate / 100.0f );
-
-    // Pre-fetch items for category spawn rate analysis
-    const std::vector<detached_ptr<item>> initial_items = item_group::items_from( loc, turn );
-
-    // Build a map of category -> count of additional spawns based on category spawn rate
-    std::map<item_category_id, int> category_extra_spawn_counts;
-    for( const auto &ptr : initial_items ) {
-        item_category_id cat_id = item_category_id( ptr->get_category_id() );
-        float rate = std::max( 0.0f, item_category_spawn_rate( *ptr ) );
-        if( rate > 1.0f ) {
-            // Spawn (rate - 1) additional times for this category
-            category_extra_spawn_counts[cat_id] += static_cast<int>( std::floor( rate ) - 1.0 );
-        }
-    }
+    const float spawn_rate = std::max( get_option<float>( "ITEM_SPAWNRATE" ), 1.0f );
+    const int spawn_count = roll_remainder( chance * spawn_rate / 100.0f );
 
     for( int i = 0; i < spawn_count; i++ ) {
-        // Might contain one item or several that belong together like guns & their ammo
         int tries = 0;
-        auto is_valid_terrain = [this, ongrass]( point  p ) {
-            auto &terrain = ter( p ).obj();
-            return terrain.movecost == 0           &&
+        auto is_valid_terrain = [this, ongrass]( const tripoint & p ) {
+            const ter_t &terrain = ter( p ).obj();
+            return terrain.movecost == 0 &&
                    !terrain.has_flag( "PLACE_ITEM" ) &&
-                   !ongrass                                   &&
+                   !ongrass &&
                    !terrain.has_flag( "FLAT" );
         };
 
-        point p;
+        tripoint p;
         do {
             p.x = rng( p1.x, p2.x );
             p.y = rng( p1.y, p2.y );
+            p.z = abs_sub.z;
             tries++;
         } while( is_valid_terrain( p ) && tries < 20 );
-        tripoint tp = tripoint( p, 0 );
+
         if( tries < 20 ) {
-            for( int i = 0; i < spawn_count; ++i ) {
-                int tries = 0;
-                point p;
-                auto is_valid_terrain = [this, ongrass]( point p ) {
-                    const auto &terrain = ter( p ).obj();
-                    return terrain.movecost == 0 &&
-                           !terrain.has_flag( "PLACE_ITEM" ) &&
-                           !ongrass &&
-                           !terrain.has_flag( "FLAT" );
-                };
+            std::vector<detached_ptr<item>> initial = item_group::items_from( loc, turn );
 
-                do {
-                    p.x = rng( p1.x, p2.x );
-                    p.y = rng( p1.y, p2.y );
-                    ++tries;
-                } while( is_valid_terrain( p ) && tries < 20 );
+            for( detached_ptr<item> &itm : initial ) {
+                const float cat_rate = std::max( 0.0f, item_category_spawn_rate( *itm ) );
 
-                if( tries >= 20 ) {
-                    continue;
-                }
+                if( cat_rate <= 1.0f ) {
+                    if( rng_float( 0.1f, 1.0f ) <= cat_rate ) {
+                        detached_ptr<item> placed = add_item_or_charges( p, std::move( itm ) );
+                        if( placed ) {
+                            res.push_back( std::move( &*placed ) );
+                        }
+                    }
+                } else {
+                    const item &real_item = *itm; // Get reference before move
+                    detached_ptr<item> placed = add_item_or_charges( p, std::move( itm ) );
 
-                tripoint tp( p, abs_sub.z );
+                    if( placed ) {
+                        res.push_back( std::move( &*placed ) );
+                    }
 
-                // Always spawn base items
-                auto base_items = put_items_from_loc( loc, tp, turn );
-                res.insert( res.end(), base_items.begin(), base_items.end() );
-                get_avatar().add_msg_if_player( "SPAWNING BASE ITEM" );
+                    std::vector<detached_ptr<item>> extra = item_group::items_from( loc, turn );
 
-                // Then, for each category with >1.0 spawn rate, spawn more items
-                for( const auto &[cat_id, extra_count] : category_extra_spawn_counts ) {
-                    for( int n = 0; n < extra_count; ++n ) {
-                        get_avatar().add_msg_if_player( _( "SPAWNING EXTRA ITEM IN CATEGORY %s" ), cat_id );
-                        get_avatar().add_msg_if_player( tp.to_string() );
-                        auto extra_items = put_filtered_items_from_loc( loc, tp, turn, item_category_id( cat_id ) );
-                        res.insert( res.end(), extra_items.begin(), extra_items.end() );
+                    extra.erase( std::remove_if( extra.begin(),
+                    extra.end(), [&real_item]( const detached_ptr<item> &it ) {
+                        return item_category_id( it->get_category_id() ) != item_category_id( real_item.get_category_id() );
+                    } ),
+                    extra.end() );
+
+                    for( int i = 0; i < static_cast<int>( cat_rate ); i++ ) {
+                        for( detached_ptr<item> &ex : extra ) {
+                            if( rng_float( 0.0f, 1.0f ) < std::min( 1.0f, cat_rate - 1.0f ) ) {
+                                detached_ptr<item> spawned = add_item_or_charges( p, std::move( ex ) );
+
+                                if( spawned ) {
+                                    res.push_back( std::move( &* spawned ) );
+                                }
+                            }
+                        }
                     }
                 }
             }
         }
     }
+
+
     for( auto e : res ) {
         if( e->is_tool() || e->is_gun() || e->is_magazine() ) {
             if( rng( 0, 99 ) < magazine && !e->magazine_current() &&
@@ -6370,7 +6361,6 @@ std::vector<item *> map::put_filtered_items_from_loc(
             }
         }
 
-        // We only need one base item to determine the rate and start spawning
         break;
     }
 
