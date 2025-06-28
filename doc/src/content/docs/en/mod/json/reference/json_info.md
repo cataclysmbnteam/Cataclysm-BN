@@ -279,7 +279,7 @@ item in `data/json/items/bionics.json`. Even for a faulty bionic.
 | category   | Mutation category needed to dream.                                   |
 | strength   | Mutation category strength required (1 = 20-34, 2 = 35-49, 3 = 50+). |
 
-```json
+````json
 {
   "messages": [
     "You have a strange dream about birds.",
@@ -309,7 +309,7 @@ When you sort your inventory by category, these are the categories that are disp
   "sort_rank": -21,
   "priority_zones": [ { "id": "LOOT_FARMOR", "filthy": true, "flags": [ "RAINPROOF" ] } ],
 }
-```
+````
 
 ### Disease
 
