@@ -4078,7 +4078,7 @@ void Character::do_skill_rust()
               ( has_trait_flag( trait_flag_PRED3 ) && calendar::once_every( 4_hours ) ) ||
               ( has_trait_flag( trait_flag_PRED4 ) && calendar::once_every( 3_hours ) ) ) ) {
             // Their brain is optimized to remember this
-            if( one_in( 13 ) ) {
+            if( one_in( 13 ) && !has_effect( effect_sleep ) ) {
                 // They've already passed the roll to avoid rust at
                 // this point, but print a message about it now and
                 // then.
