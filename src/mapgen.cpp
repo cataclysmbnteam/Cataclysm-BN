@@ -6284,29 +6284,47 @@ std::vector<item *> map::place_items( const item_group_id &loc, const int chance
                         }
                     }
                 } else {
-                    const item &real_item = *itm; // Get reference before move
-                    detached_ptr<item> placed = add_item_or_charges( p, std::move( itm ) );
+                    const item &real_item = *itm; // original item reference
 
+                    // Spawn the base item once (as before)
+                    detached_ptr<item> placed = add_item_or_charges( p, std::move( itm ) );
                     if( placed ) {
                         res.push_back( std::move( &*placed ) );
                     }
 
+                    // Build the list of extra items of the same category
                     std::vector<detached_ptr<item>> extra = item_group::items_from( loc, turn );
+                    extra.erase(
+                        std::remove_if(
+                            extra.begin(), extra.end(),
+                    [&real_item]( const detached_ptr<item> &it ) {
+                        return item_category_id( it->get_category_id() )
+                               != item_category_id( real_item.get_category_id() );
+                    }
+                        ),
+                    extra.end()
+                    );
 
-                    extra.erase( std::remove_if( extra.begin(),
-                    extra.end(), [&real_item]( const detached_ptr<item> &it ) {
-                        return item_category_id( it->get_category_id() ) != item_category_id( real_item.get_category_id() );
-                    } ),
-                    extra.end() );
+                    // Spawn additional items randomly rather than all
+                    int base_count = static_cast<int>( cat_rate );
+                    for( int i = 0; i < base_count; i++ ) {
+                        if( extra.empty() ) {
+                            break;
+                        }
+                        int idx = rng( 0, static_cast<int>( extra.size() ) - 1 );
+                        detached_ptr<item> spawned = add_item_or_charges( p, std::move( extra[idx] ) );
+                        if( spawned ) {
+                            res.push_back( std::move( &*spawned ) );
+                        }
+                    }
 
-                    for( int i = 0; i < static_cast<int>( cat_rate ); i++ ) {
-                        for( detached_ptr<item> &ex : extra ) {
-                            if( rng_float( 0.0f, 1.0f ) < std::min( 1.0f, cat_rate - 1.0f ) ) {
-                                detached_ptr<item> spawned = add_item_or_charges( p, std::move( ex ) );
-
-                                if( spawned ) {
-                                    res.push_back( std::move( &* spawned ) );
-                                }
+                    // Handle fractional part (e.g. cat_rate = 2.7 => 70% chance of one more)
+                    if( rng_float( 0.0f, 1.0f ) < ( cat_rate - static_cast<float>( base_count ) ) ) {
+                        if( !extra.empty() ) {
+                            int idx = rng( 0, static_cast<int>( extra.size() ) - 1 );
+                            detached_ptr<item> spawned = add_item_or_charges( p, std::move( extra[idx] ) );
+                            if( spawned ) {
+                                res.push_back( std::move( &*spawned ) );
                             }
                         }
                     }
