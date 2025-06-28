@@ -1723,12 +1723,6 @@ class Character : public Creature, public location_visitable<Character>
         /** Returns the intensity of the specified addiction */
         int  addiction_level( add_type type ) const;
 
-        /** Returns true if the character is familiar with the given creature type **/
-        bool knows_creature_type( const Creature *c ) const;
-        /** Returns true if the character is familiar with the given creature type **/
-        bool knows_creature_type( const mtype_id &c ) const;
-        /** This character becomes familiar with creatures of the given type **/
-        void set_knows_creature_type( const Creature *c );
         /** This character becomes familiar with creatures of the given type **/
         void set_knows_creature_type( const mtype_id &c );
         /** Returns a list of all monster types known by this character **/

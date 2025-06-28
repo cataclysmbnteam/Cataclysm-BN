@@ -9785,26 +9785,6 @@ bool Character::is_hauling() const
     return hauling;
 }
 
-bool Character::knows_creature_type( const Creature *c ) const
-{
-    if( const monster *mon = dynamic_cast<const monster *>( c ) ) {
-        return knows_creature_type( mon->type->id );
-    }
-    return false;
-}
-
-bool Character::knows_creature_type( const mtype_id &c ) const
-{
-    return known_monsters.count( c ) > 0;
-}
-
-void Character::set_knows_creature_type( const Creature *c )
-{
-    if( const monster *mon = dynamic_cast<const monster *>( c ) ) {
-        set_knows_creature_type( mon->type->id );
-    }
-}
-
 void Character::set_knows_creature_type( const mtype_id &c )
 {
     known_monsters.emplace( c );

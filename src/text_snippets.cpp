@@ -69,7 +69,9 @@ void snippet_library::add_snippet_from_json( const std::string &category, const 
 
         translation name;
         optional( jo, false, "name", name );
-        name_by_id[id] = name;
+        if( !name.empty() ) {
+            name_by_id[id] = name;
+        }
     } else {
         snippets_by_category[category].no_id.emplace_back( text );
     }
@@ -238,9 +240,7 @@ std::string get_random_tip_of_the_day()
                     jobj.throw_error( "expected 'tip' category", "category" );
                 }
                 std::vector<std::string> text = jobj.get_string_array( "text" );
-                for( std::string entry : text ) {
-                    all_tips.push_back( entry );
-                }
+                all_tips.insert( all_tips.end(), text.begin(), text.end() );
             }
         } );
         if( !success ) {

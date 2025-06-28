@@ -650,12 +650,6 @@ void faction_manager::display() const
     bool radio_interactable = false;
     size_t active_vec_size = 0;
 
-    std::vector<std::pair<snippet_id, std::string>> lore; // Lore we have seen
-    std::pair<snippet_id, std::string> *snippet = nullptr;
-
-    std::vector<mtype_id> creatures; // Creatures we've recorded
-    mtype_id cur_creature = mtype_id::NULL_ID();
-
     ui.on_redraw( [&]( const ui_adaptor & ) {
         werase( w_missions );
 
@@ -781,6 +775,31 @@ void faction_manager::display() const
         wnoutrefresh( w_missions );
     } );
 
+    lore.clear();
+    for( const auto &elem : get_avatar().get_snippets() ) {
+        std::optional<translation> name = SNIPPET.get_name_by_id( elem );
+        if( name && !name->empty() ) {
+            lore.push_back( std::pair<snippet_id, std::string>( elem, name->translated() ) );
+        } else {
+            lore.push_back( std::pair<snippet_id, std::string>( elem, elem.str() ) );
+        }
+    }
+
+    auto compare_second =
+        []( const std::pair<snippet_id, std::string> &a,
+    const std::pair<snippet_id, std::string> &b ) {
+        return localized_compare( a.second, b.second );
+    };
+    std::sort( lore.begin(), lore.end(), compare_second );
+
+    creatures.assign( get_avatar().get_known_monsters().begin(),
+                      get_avatar().get_known_monsters().end() );
+
+    std::sort( creatures.begin(), creatures.end(), []( const mtype_id & a, const mtype_id & b ) {
+        return localized_compare( a->nname(), b->nname() );
+    } );
+
+
     while( true ) {
         // create a list of NPCs, visible and the ones on overmapbuffer
         followers.clear();
@@ -803,33 +822,11 @@ void faction_manager::display() const
         interactable = false;
         snippet = nullptr;
         radio_interactable = false;
-        lore.clear();
-        for( const auto &elem : get_avatar().get_snippets() ) {
-            std::optional<translation> name = SNIPPET.get_name_by_id( elem );
-            if( name && !name->empty() ) {
-                lore.push_back( std::pair<snippet_id, std::string>( elem, name->translated() ) );
-            } else {
-                lore.push_back( std::pair<snippet_id, std::string>( elem, elem.str() ) );
-            }
-        }
 
-        auto compare_second =
-            []( const std::pair<snippet_id, std::string> &a,
-        const std::pair<snippet_id, std::string> &b ) {
-            return localized_compare( a.second, b.second );
-        };
-        std::sort( lore.begin(), lore.end(), compare_second );
         if( tab < tab_mode::FIRST_TAB || tab >= tab_mode::NUM_TABS ) {
             debugmsg( "The sanity check failed because tab=%d", static_cast<int>( tab ) );
             tab = tab_mode::FIRST_TAB;
         }
-        creatures.clear();
-        creatures.reserve( get_avatar().get_known_monsters().size() );
-        creatures.insert( creatures.end(), get_avatar().get_known_monsters().begin(),
-                          get_avatar().get_known_monsters().end() );
-        std::sort( creatures.begin(), creatures.end(), []( const mtype_id & a, const mtype_id & b ) {
-            return localized_compare( a->nname(), b->nname() );
-        } );
         active_vec_size = 0;
         if( tab == tab_mode::TAB_FOLLOWERS ) {
             if( selection < followers.size() ) {

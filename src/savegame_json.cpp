@@ -650,9 +650,6 @@ void Character::load( const JsonObject &data )
 
     data.read( "move_mode", move_mode );
 
-    // monsters recorded by the character
-    data.read( "known_monsters", known_monsters );
-
     if( has_effect( effect_riding ) ) {
         int temp_id;
         if( data.read( "mounted_creature", temp_id ) ) {
@@ -1209,6 +1206,9 @@ void avatar::load( const JsonObject &data )
             warning_record[faction_id( fac_id )] = std::make_pair( warning_num, warning_time );
         }
     }
+
+    // monsters recorded by the character
+    data.read( "known_monsters", known_monsters );
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////

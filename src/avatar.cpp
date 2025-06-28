@@ -989,16 +989,16 @@ void avatar::wake_up()
 
 void avatar::add_snippet( snippet_id snippet )
 {
-    if( has_seen_snippet( snippet ) ) {
-        return;
-    }
+    // Optional: caller can check !has_seen_snippet(snippet) before calling this
+    // to avoid doing unnecessary work. This function is safe to call multiple times:
+    // set_value() and emplace() won't change anything if the snippet was already added.
     std::string combined_name = "has_seen_snippet_" + snippet.str();
     get_avatar().set_value( combined_name, "true" );
     snippets_read.emplace( snippet );
 }
 bool avatar::has_seen_snippet( const snippet_id &snippet ) const
 {
-    return snippets_read.count( snippet ) > 0;
+    return snippets_read.contains( snippet );
 }
 
 const std::set<snippet_id> &avatar::get_snippets()
