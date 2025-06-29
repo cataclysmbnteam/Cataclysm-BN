@@ -1725,6 +1725,11 @@ void item::basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                                      !has_flag( flag_SNIPPET_NEEDS_LITERACY ) ) ) {
             // Just use the dynamic description
             info.emplace_back( "DESCRIPTION", snippet.value().translated() );
+            // only ever do the effect for a snippet the first time you see it
+            if( !get_avatar().has_seen_snippet( snip_id ) ) {
+                //note that you have seen the snippet
+                get_avatar().add_snippet( snip_id );
+            }
         } else if( idescription != item_vars.end() ) {
             info.emplace_back( "DESCRIPTION", idescription->second );
         } else {

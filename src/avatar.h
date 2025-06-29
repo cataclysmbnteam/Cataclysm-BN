@@ -170,6 +170,10 @@ class avatar : public player
         /** Note that we've read a book at least once. **/
         bool has_identified( const itype_id &item_id ) const;
 
+        void add_snippet( snippet_id snippet );
+        bool has_seen_snippet( const snippet_id &snippet ) const;
+        const std::set<snippet_id> &get_snippets();
+
         void wake_up() override;
         // Grab furniture / vehicle
         void grab( object_type grab_type, const tripoint &grab_point = tripoint_zero );
@@ -281,6 +285,9 @@ class avatar : public player
     public:
         // ---------------VALUES-----------------
         tripoint view_offset;
+
+        // Snippets the player has seen
+        std::set<snippet_id> snippets_read;
 
         bool random_start_location = false;
         start_location_id start_location;

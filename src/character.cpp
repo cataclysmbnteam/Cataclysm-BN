@@ -9785,6 +9785,11 @@ bool Character::is_hauling() const
     return hauling;
 }
 
+void Character::set_knows_creature_type( const mtype_id &c )
+{
+    known_monsters.emplace( c );
+}
+
 std::unique_ptr<player_activity> Character::remove_activity()
 {
     std::unique_ptr<player_activity> ret = activity.release();
