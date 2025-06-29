@@ -2,6 +2,7 @@
 
 #include "game_constants.h"
 #include "generic_factory.h"
+#include "bodypart.h"
 #include "weather.h"
 
 namespace
@@ -174,7 +175,14 @@ void weather_type::load( const JsonObject &jo, const std::string & )
             int freq = weather_effect.get_int( "effect_msg_frequency" );
             int duration = weather_effect.get_int( "duration" );
             int effect_intensity = weather_effect.get_int( "effect_intensity" );
-            std::string bodypart_string = weather_effect.get_string( "bodypart_string" );
+            std::string bodypart_string = weather_effect.get_string( "bodypart_string", "" );
+
+
+            bodypart_str_id bp_id = bodypart_str_id::NULL_ID();
+            if( bodypart_string != "" ) {
+                bp_id = bodypart_str_id( bodypart_string );
+            }
+
             std::string precipitation_name = weather_effect.get_string( "precipitation_name" );
             bool ignore_armor = weather_effect.get_bool( "ignore_armor" );
             int message_type = weather_effect.get_int( "message_type" );
@@ -184,7 +192,8 @@ void weather_type::load( const JsonObject &jo, const std::string & )
 
             effects.emplace_back(
             [ = ]( int intensity ) {
-                weather_effect::effect( intensity, duration, bodypart_string, effect_intensity, id_str, msg, freq,
+                weather_effect::effect( intensity, duration, bp_id, effect_intensity, id_str, msg,
+                                        freq,
                                         gmt, precipitation_name, ignore_armor, clothing_protection, umbrella_protection );
             },
             intensity

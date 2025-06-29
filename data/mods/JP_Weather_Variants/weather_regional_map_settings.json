@@ -1,7 +1,8 @@
 [
   {
     "type": "region_settings",
-    "id": "default",
+    "//": "don't know how safe keeping this as 'default' is, so name is changed",
+    "id": "default_copy_jp_weather",
     "default_oter": "field",
     "default_groundcover": [ [ "t_region_groundcover", 1 ] ],
     "region_terrain_and_furniture": {

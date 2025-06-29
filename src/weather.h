@@ -76,7 +76,8 @@ namespace weather_effect
 {
 void thunder( int intensity );
 void lightning( int intensity );
-void effect( int intensity, int duration, std::string bodypart_string, int effect_intensity,
+void effect( int intensity, int duration, bodypart_str_id bp_id,
+             int effect_intensity,
              const std::string &effect_id_str,
              const std::string &effect_msg,
              int effect_msg_frequency, game_message_type message_type, std::string precipitation_name,

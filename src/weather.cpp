@@ -490,7 +490,8 @@ void weather_effect::morale( int intensity, int bonus, int bonus_max, int durati
  * Causes the player to feel a status effect.
  */
 void weather_effect::effect( int intensity, int duration,
-                             std::string bodypart_string, int effect_intensity, const std::string &effect_id_str,
+                             bodypart_str_id bp_id, int effect_intensity,
+                             const std::string &effect_id_str,
                              const std::string &effect_msg, int effect_msg_frequency, game_message_type message_type,
                              std::string precipitation_name, bool ignore_armor, int clothing_protection,
                              int umbrella_protection )
@@ -502,14 +503,14 @@ void weather_effect::effect( int intensity, int duration,
     if( !ignore_armor ) {
         auto &you = get_avatar();
         bool has_helmet = false;
-        if( you.primary_weapon().has_flag( json_flag_RAIN_PROTECT ) && one_in( umbrella_protection ) ) {
+        if( one_in( umbrella_protection ) && you.primary_weapon().has_flag( json_flag_RAIN_PROTECT ) ) {
             return add_msg( _( "Your umbrella protects you from the %s." ), precipitation_name );
-        } else if( you.worn_with_flag( json_flag_RAINPROOF ) && one_in( umbrella_protection ) ) {
+        } else if( one_in( umbrella_protection ) && you.worn_with_flag( json_flag_RAINPROOF ) ) {
             return add_msg( _( "Your rainproof clothing protects you from the %s." ), precipitation_name );
         } else if( one_in( clothing_protection ) ) {
             return add_msg( _( "Your clothing protects you from the %s." ), precipitation_name );
-        } else if( you.is_wearing_power_armor( &has_helmet ) && ( has_helmet ||
-                   !one_in( clothing_protection ) ) ) {
+        } else if( ( !one_in( clothing_protection || has_helmet
+                            ) ) && you.is_wearing_power_armor( &has_helmet ) ) {
             return add_msg( _( "Your power armor protects you from the %s." ), precipitation_name );
         }
     }
@@ -518,11 +519,6 @@ void weather_effect::effect( int intensity, int duration,
     if( !effect_id.is_valid() ) {
         debugmsg( "Invalid effect ID: %s", effect_id_str.c_str() );
         return;
-    }
-
-    bodypart_str_id bp_id = bodypart_str_id::NULL_ID();
-    if( bodypart_string != "" ) {
-        bp_id = bodypart_str_id( bodypart_string );
     }
 
     get_avatar().add_effect( effect_id, 1_seconds * duration, bp_id, effect_intensity,
