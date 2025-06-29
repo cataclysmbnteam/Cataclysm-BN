@@ -53,11 +53,24 @@ matype_id martial_art_learned_from( const itype & );
 struct ma_requirements {
     bool was_loaded = false;
 
-    bool unarmed_allowed; // does this bonus work when unarmed?
-    bool melee_allowed; // what about with a melee weapon?
+    bool unarmed_allowed;   // does this bonus work when unarmed?
+    bool melee_allowed;     // what about with a melee weapon?
     bool unarmed_weapons_allowed; // If unarmed, what about unarmed weapons?
     bool strictly_unarmed; // Ignore force_unarmed?
-    bool wall_adjacent; // Does it only work near a wall?
+
+    bool req_running;   // Does it only work when running?
+    std::set<std::string>
+    req_adjacent; // a set of flags to check adjacent terrain for. AS_TODO: Maybe it should be a vector?
+
+    bool adjacent_enemies_min; //Must be more than this number of adjacent enemies.
+    bool adjacent_enemies_max; //Must be below this number of adjacent enemies.
+
+    bool stam_min; //Must have stamina above this value;
+    bool stam_max; //Must have stamina below this value;
+
+    // Maybe we hate these tho, ya know?
+    // bool hp_above; //Must have stamina above this value;
+    // bool hp_below; //Must have stamina below this value;
 
     /** Weapon categories compatible with this requirement. If empty, allow any weapon category. */
     std::vector<weapon_category_id> weapon_categories_allowed;
@@ -73,7 +86,12 @@ struct ma_requirements {
      */
     std::vector<std::pair<damage_type, int>> min_damage;
 
-    std::set<mabuff_id> req_buffs; // other buffs required to trigger this bonus
+    //std::set<mabuff_id> req_buffs;
+    std::vector<std::pair<mabuff_id, int>>
+                                        consumed_buffs; // as req_buffs, but will remove the buffs after application
+    std::vector<std::pair<mabuff_id, int>>
+                                        required_buffs;  // other buffs, and their stacks, required to trigger this
+    std::vector<mabuff_id> prevented_by_buffs;  // buffs that will prevent activation
     std::set<flag_id> req_flags; // any item flags required for this technique
 
     ma_requirements() {
@@ -81,7 +99,14 @@ struct ma_requirements {
         melee_allowed = false;
         unarmed_weapons_allowed = true;
         strictly_unarmed = false;
-        wall_adjacent = false;
+
+        req_running = false;
+
+        adjacent_enemies_min = 0;
+        adjacent_enemies_max = 8;
+
+        stam_min = 0;
+        stam_max = 1;
     }
 
     std::string get_description( bool buff = false ) const;
@@ -118,37 +143,51 @@ class ma_technique
         std::string npc_message;
 
         bool defensive = false;
-        bool side_switch = false; // moves the target behind user
-        bool dummy = false;
-        bool crit_tec = false;
-        bool crit_ok = false;
+        bool miss_recovery = false; // allows free recovery from misses, like tec_feint
+        bool grab_break = false;    // allows grab_breaks, like tec_break
 
         ma_requirements reqs;
 
-        int down_dur = 0;
-        int stun_dur = 0;
-        int knockback_dist = 0;
-        float knockback_spread = 0.0f;  // adding randomness to knockback, like tec_throw
-        bool powerful_knockback = false;
-        std::string aoe;                // corresponds to an aoe shape, defaults to just the target
-        bool knockback_follow = false;  // Character follows the knocked-back party into their former tile
+        std::vector<mabuff_id> triggered_buffs; //MA Buffs to trigger upon using this technique.
+        int weighting = 0; //how often this technique is used
+
+        // conditional
+        std::set<efftype_id> req_target_effects; //required effects on enemy for triggering
+
+        bool human_target = false;  // only works on humanoid enemies
+        bool sneak_attack = false;
+
+        bool crit_tec = false;  //Can only be used on a crit
+        bool crit_ok = false;   //Is allowed to be used on a crit
+        bool reach_tec = false; //Can only be used with reach attacks
+        bool reach_ok = false;  //Is allowed to be used with reach attacks
+        bool throwing_tec = false; //Can only be used with throwing attack
+        bool throwing_ok = false; //Is allowed to be used with throwing attacks
+
+        bool dummy = false;
 
         // offensive
+        bool pull_target = false;
+        bool pull_self = false;
         bool disarms = false;       // like tec_disarm
         bool take_weapon = false;   // disarms and equips weapon if hands are free
         bool dodge_counter = false; // counter move activated on a dodge
         bool block_counter = false; // counter move activated on a block
 
-        bool miss_recovery = false; // allows free recovery from misses, like tec_feint
-        bool grab_break = false;    // allows grab_breaks, like tec_break
+        bool switch_side_target = false; // moves the target behind user
+        bool switch_side_self = false; // moves the user behind the target
+        bool switch_pos =
+            false; // switches places with the target           // corresponds to an aoe shape, defaults to just the target
 
-        int weighting = 0; //how often this technique is used
+        int down_dur = 0;
+        int stun_dur = 0;
 
-        // conditional
-        bool downed_target = false; // only works on downed enemies
-        bool stunned_target = false;// only works on stunned enemies
-        bool wall_adjacent = false; // only works near a wall
-        bool human_target = false;  // only works on humanoid enemies
+        int knockback_dist = 0;
+        float knockback_spread = 0.0f;  // adding randomness to knockback, like tec_throw
+        std::string knockback_type;     //"", "powerful", "destructive"
+        std::string knockback_follow_type;  // "", "partial", "full"
+
+        std::string aoe;
 
         /** All kinds of bonuses by types to damage, hit etc. */
         bonus_container bonuses;
@@ -198,6 +237,7 @@ class ma_buff
         bool is_throw_immune() const;
         bool is_quiet() const;
         bool is_stealthy() const;
+        bool is_expert_thrower() const;
 
         // The ID of the effect that is used to store this buff
         efftype_id get_effect_id() const;
@@ -216,6 +256,7 @@ class ma_buff
 
         time_duration buff_duration = 0_turns; // total length this buff lasts
         int max_stacks = 0; // total number of stacks this buff can have
+        bool stack_per_enemy = false; //should this buff gain stacks per adjacent enemy
 
         int dodges_bonus = 0; // extra dodges, like karate
         int blocks_bonus = 0; // extra blocks, like karate
@@ -223,10 +264,11 @@ class ma_buff
         /** All kinds of bonuses by types to damage, hit, armor etc. */
         bonus_container bonuses;
 
-        bool quiet = false;
-        bool throw_immune = false; // are we immune to throws/grabs?
-        bool strictly_melee = false; // can we only use it with weapons?
-        bool stealthy = false; // do we make less noise when moving?
+        bool throw_immune = false;      // are we immune to throws/grabs?
+        bool quiet_attacks = false;     // are our attack silent?
+        bool quiet_movement = false;    // do we make less noise when moving?
+        bool expert_thrower = false;    // do we make less noise when moving?
+        bool strictly_melee = false;    // can we only use it with weapons?
 
         void load( const JsonObject &jo, const std::string &src );
 
@@ -262,6 +304,8 @@ class martialart
         void apply_oncrit_buffs( Character &u ) const;
 
         void apply_onkill_buffs( Character &u ) const;
+
+        void apply_triggered_buffs( Character &u, const matec_id &tec ) const;
 
         // determines if a technique is valid or not for this style
         bool has_technique( const Character &u, const matec_id &tec_id ) const;
@@ -306,6 +350,7 @@ class martialart
         std::vector<mabuff_id> onmiss_buffs;
         std::vector<mabuff_id> oncrit_buffs;
         std::vector<mabuff_id> onkill_buffs;
+        std::vector<mabuff_id> triggered_buffs;
 };
 
 class ma_style_callback : public uilist_callback
