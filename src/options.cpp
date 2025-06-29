@@ -2534,6 +2534,12 @@ void options_manager::add_options_world_default()
          translate_marker( "If true, strength checks and/or lifting qualities no longer need to be met in order to change parts." ),
          false, COPT_ALWAYS_HIDE
        );
+
+    add( "RESPECT_GLOBALLY_UNIQUE", world_default,
+         translate_marker( "Respect globally unique specials." ),
+         translate_marker( "If false, specials marked as only spawning once will instead spawn at most once per overmap." ),
+         true
+       );
 }
 
 void options_manager::add_options_android()
