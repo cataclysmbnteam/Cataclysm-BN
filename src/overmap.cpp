@@ -5568,7 +5568,7 @@ bool overmap::can_place_special( const overmap_special &special, const tripoint_
         return false;
     }
 
-    if( special.has_flag( "GLOBALLY_UNIQUE" ) &&
+    if( get_option<bool>( "RESPECT_GLOBALLY_UNIQUE" ) && special.has_flag( "GLOBALLY_UNIQUE" ) &&
         overmap_buffer.contains_unique_special( special.id ) ) {
         return false;
     }
@@ -6017,8 +6017,11 @@ void overmap::place_specials( overmap_special_batch &enabled_specials )
         const float rate = is_true_center && special.has_flag( "ENDGAME" ) ? 1 :
                            zone_ratio[current];
 
-        const bool unique = iter.special_details->has_flag( "UNIQUE" );
-        const bool globally_unique = iter.special_details->has_flag( "GLOBALLY_UNIQUE" );
+        const bool respect_globally_unique = get_option<bool>( "RESPECT_GLOBALLY_UNIQUE" );
+        const bool unique = iter.special_details->has_flag( "UNIQUE" ) ||
+                            ( !respect_globally_unique && iter.special_details->has_flag( "GLOBALLY_UNIQUE" ) );
+        const bool globally_unique = respect_globally_unique &&
+                                     iter.special_details->has_flag( "GLOBALLY_UNIQUE" );
 
         int amount_to_place;
         if( unique || globally_unique ) {
