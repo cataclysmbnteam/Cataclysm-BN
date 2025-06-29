@@ -136,12 +136,6 @@ class faction_manager
             return factions;
         }
 
-        mutable std::vector<std::pair<snippet_id, std::string>> lore; // Lore we have seen
-        mutable std::pair<snippet_id, std::string> *snippet = nullptr;
-
-        mutable std::vector<mtype_id> creatures; // Creatures we've recorded
-        mutable mtype_id cur_creature = mtype_id::NULL_ID();
-
         faction *get( const faction_id &id, bool complain = true );
 };
 

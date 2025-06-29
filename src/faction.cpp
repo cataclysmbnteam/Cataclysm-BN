@@ -650,6 +650,12 @@ void faction_manager::display() const
     bool radio_interactable = false;
     size_t active_vec_size = 0;
 
+    std::vector<std::pair<snippet_id, std::string>> lore; // Lore we have seen
+    std::pair<snippet_id, std::string> *snippet = nullptr;
+
+    std::vector<mtype_id> creatures; // Creatures we've recorded
+    mtype_id cur_creature = mtype_id::NULL_ID();
+
     ui.on_redraw( [&]( const ui_adaptor & ) {
         werase( w_missions );
 
@@ -775,7 +781,6 @@ void faction_manager::display() const
         wnoutrefresh( w_missions );
     } );
 
-    lore.clear();
     for( const auto &elem : get_avatar().get_snippets() ) {
         std::optional<translation> name = SNIPPET.get_name_by_id( elem );
         if( name && !name->empty() ) {
