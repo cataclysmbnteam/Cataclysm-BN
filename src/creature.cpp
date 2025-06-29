@@ -1435,7 +1435,10 @@ void Creature::process_effects()
             }
             // Add any effects that others remove to the removal list
             for( const efftype_id &removed_effect : _it.second.get_removes_effects() ) {
-                to_remove.emplace_back( removed_effect, bodypart_str_id::NULL_ID(), false );
+                // Don't try to remove it if it isn't present
+                if ( has_effect( removed_effect ) ) {
+                    to_remove.emplace_back( removed_effect, bodypart_str_id::NULL_ID(), false );
+                }
             }
             effect &e = _it.second;
             const int prev_int = e.get_intensity();
@@ -1470,7 +1473,8 @@ void Creature::process_effects()
             }
 
             if( !found ) {
-                debugmsg( "Couldn't find effect to remove %s", r.type.str() );
+                // Effect somehow went missing between previous loop and now
+                debugmsg( "Couldn't find effect assigned to be removed %s", r.type.str() );
             }
         }
 
