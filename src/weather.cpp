@@ -464,7 +464,8 @@ void weather_effect::lightning( int intensity )
  * Morale.
  * Causes the player to feel a morale effect.
  */
-void weather_effect::morale( int intensity, int bonus, int bonus_max, int duration, int decay_start,
+void weather_effect::morale( int intensity, int bonus, int bonus_max, time_duration duration,
+                             time_duration decay_start,
                              const std::string &morale_id_str,
                              const std::string &morale_msg, int morale_msg_frequency, game_message_type message_type )
 {
@@ -478,7 +479,7 @@ void weather_effect::morale( int intensity, int bonus, int bonus_max, int durati
         return;
     }
 
-    get_avatar().add_morale( morale_id, bonus, bonus_max, 1_seconds * duration, 1_seconds * decay_start,
+    get_avatar().add_morale( morale_id, bonus, bonus_max, duration, decay_start,
                              true );
     if( one_in( morale_msg_frequency ) ) {
         add_msg( message_type, _( morale_msg ) );
@@ -489,7 +490,7 @@ void weather_effect::morale( int intensity, int bonus, int bonus_max, int durati
  * Effect.
  * Causes the player to feel a status effect.
  */
-void weather_effect::effect( int intensity, int duration,
+void weather_effect::effect( int intensity, time_duration duration,
                              bodypart_str_id bp_id, int effect_intensity,
                              const std::string &effect_id_str,
                              const std::string &effect_msg, int effect_msg_frequency, game_message_type message_type,
@@ -521,7 +522,7 @@ void weather_effect::effect( int intensity, int duration,
         return;
     }
 
-    get_avatar().add_effect( effect_id, 1_seconds * duration, bp_id, effect_intensity,
+    get_avatar().add_effect( effect_id, duration, bp_id, effect_intensity,
                              false, false );
 
     if( one_in( effect_msg_frequency ) ) {

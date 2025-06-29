@@ -231,10 +231,9 @@
       {
         "name": "effect",
         "intensity": 2,
-        "duration": 2,
+        "duration": "2 s",
         "effect_id_str": "acid_burn_pain_light",
         "effect_intensity": 0,
-        "bodypart_string": "",
         "precipitation_name": "acidic drizzle",
         "ignore_armor": false,
         "effect_msg": "The acidic drizzle burns, but is mostly harmless for now...",
@@ -268,10 +267,9 @@
       {
         "name": "effect",
         "intensity": 2,
-        "duration": 2,
+        "duration": "2 s",
         "effect_id_str": "acid_burn_pain",
         "effect_intensity": 0,
-        "bodypart_string": "",
         "precipitation_name": "acid rain",
         "ignore_armor": false,
         "effect_msg": "The acid rain burns your skin!",

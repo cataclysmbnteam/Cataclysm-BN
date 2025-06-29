@@ -1,5 +1,6 @@
 #include "weather_type.h"
 
+#include "units_serde.h"
 #include "game_constants.h"
 #include "generic_factory.h"
 #include "bodypart.h"
@@ -153,8 +154,12 @@ void weather_type::load( const JsonObject &jo, const std::string & )
             int freq = weather_effect.get_int( "morale_msg_frequency" );
             int bonus = weather_effect.get_int( "bonus" );
             int bonus_max = weather_effect.get_int( "bonus_max" );
-            int duration = weather_effect.get_int( "duration" );
-            int decay_start = weather_effect.get_int( "decay_start" );
+            time_duration duration = read_from_json_string<time_duration>
+                                     ( *weather_effect.get_raw( "duration" ),
+                                       time_duration::units );
+            time_duration decay_start = read_from_json_string<time_duration>
+                                        ( *weather_effect.get_raw( "decay_start" ),
+                                          time_duration::units );
             int message_type = weather_effect.get_int( "message_type" );
             game_message_type gmt = static_cast<game_message_type>( message_type );
 
@@ -173,10 +178,11 @@ void weather_type::load( const JsonObject &jo, const std::string & )
             std::string id_str = weather_effect.get_string( "effect_id_str" );
             std::string msg = weather_effect.get_string( "effect_msg" );
             int freq = weather_effect.get_int( "effect_msg_frequency" );
-            int duration = weather_effect.get_int( "duration" );
             int effect_intensity = weather_effect.get_int( "effect_intensity" );
             std::string bodypart_string = weather_effect.get_string( "bodypart_string", "" );
-
+            time_duration duration = read_from_json_string<time_duration>
+                                     ( *weather_effect.get_raw( "duration" ),
+                                       time_duration::units );
 
             bodypart_str_id bp_id = bodypart_str_id::NULL_ID();
             if( bodypart_string != "" ) {
