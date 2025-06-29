@@ -510,8 +510,8 @@ void weather_effect::effect( int intensity, time_duration duration,
             return add_msg( _( "Your rainproof clothing protects you from the %s." ), precipitation_name );
         } else if( one_in( clothing_protection ) ) {
             return add_msg( _( "Your clothing protects you from the %s." ), precipitation_name );
-        } else if( ( !one_in( clothing_protection || has_helmet
-                            ) ) && you.is_wearing_power_armor( &has_helmet ) ) {
+        } else if( you.is_wearing_power_armor( &has_helmet ) && ( has_helmet ||
+                   !one_in( clothing_protection ) ) ) {
             return add_msg( _( "Your power armor protects you from the %s." ), precipitation_name );
         }
     }
