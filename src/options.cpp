@@ -2410,11 +2410,6 @@ void options_manager::add_options_world_default()
          0.0, 10.0, 1.0, 0.01, COPT_NO_HIDE
        );
 
-    add( "ITEM_SPAWNRATE", world_default, translate_marker( "Item spawn scaling factor" ),
-         translate_marker( "A scaling factor that determines density of item spawns." ),
-         0.01, 10.0, 1.0, 0.01
-       );
-
     add( "NPC_DENSITY", world_default, translate_marker( "NPC spawn rate scaling factor" ),
          translate_marker( "A scaling factor that determines density of dynamic NPC spawns." ),
          0.0, 100.0, 0.1, 0.01
@@ -2425,6 +2420,203 @@ void options_manager::add_options_world_default()
          translate_marker( "A scaling factor that determines the time between monster upgrades.  A higher number means slower evolution.  Set to 0.00 to turn off monster upgrades." ),
          0.0, 100, 2.0, 0.01
        );
+
+    add_empty_line();
+
+    add( "ITEM_SPAWNRATE", world_default,
+         "Item spawn scaling factor",
+         "A scaling factor that determines density of item spawns. A higher number means more items.",
+         0.01, 10.0, 1.0, 0.01 );
+
+    add_option_group( world_default, Group( "item_category_spawn_rate",
+                                            to_translation( "Item category spawn rate" ),
+                                            to_translation( "Spawn rate for item categories. Values ≤ 1.0 represent a chance to spawn. >1.0 means extra spawns. Set to 0.0 to disable spawning items from that category." ) ),
+    [&]( const std::string & page_id ) {
+
+        add( "SPAWN_RATE_ammo", page_id, "AMMO",
+             "Spawn rate for items from AMMO category.",
+             0.0, 20.0, 1.0, 0.01 );
+
+        add( "SPAWN_RATE_artifacts", page_id, "ARTIFACTS",
+             "Spawn rate for items from ARTIFACTS category.",
+             0.0, 20.0, 1.0, 0.01 );
+
+        add( "SPAWN_RATE_battery", page_id, "BATTERIES",
+             "Spawn rate for items from BATTERIES category.",
+             0.0, 20.0, 1.0, 0.01 );
+
+        add( "SPAWN_RATE_bionics", page_id, "BIONICS",
+             "Spawn rate for items from BIONICS category.",
+             0.0, 20.0, 1.0, 0.01 );
+
+        add( "SPAWN_RATE_books", page_id, "BOOKS",
+             "Spawn rate for items from BOOKS category.",
+             0.0, 20.0, 1.0, 0.01 );
+
+        add( "SPAWN_RATE_perishables_canned", page_id, "CANNED PERISHABLES",
+             "Spawn rate for items from CANNED PERISHABLES category.",
+             0.0, 20.0, 1.0, 0.01 );
+
+        add( "SPAWN_RATE_scrap_ceramics", page_id, "CERAMIC SCRAP",
+             "Spawn rate for items from CERAMIC SCRAP category.",
+             0.0, 20.0, 1.0, 0.01 );
+
+        add( "SPAWN_RATE_chems", page_id, "CHEMICAL STUFF",
+             "Spawn rate for items from CHEMICAL STUFF category.",
+             0.0, 20.0, 1.0, 0.01 );
+
+        add( "SPAWN_RATE_tools_chemistry", page_id, "CHEMISTRY TOOLS",
+             "Spawn rate for items from CHEMISTRY TOOLS category.",
+             0.0, 20.0, 1.0, 0.01 );
+
+        add( "SPAWN_RATE_clothing", page_id, "CLOTHING",
+             "Spawn rate for items from CLOTHING category.",
+             0.0, 20.0, 1.0, 0.01 );
+
+        add( "SPAWN_RATE_container", page_id, "CONTAINER",
+             "Spawn rate for items from CONTAINER category.",
+             0.0, 20.0, 1.0, 0.01 );
+
+        add( "SPAWN_RATE_cooking_ingredients", page_id, "COOKING INGREDIENTS",
+             "Spawn rate for items from COOKING INGREDIENTS category.",
+             0.0, 20.0, 1.0, 0.01 );
+
+        add( "SPAWN_RATE_tools_cooking", page_id, "COOKING TOOLS",
+             "Spawn rate for items from COOKING TOOLS category.",
+             0.0, 20.0, 1.0, 0.01 );
+
+        add( "SPAWN_RATE_deployables", page_id, "DEPLOYABLES",
+             "Spawn rate for items from DEPLOYABLES category.",
+             0.0, 20.0, 1.0, 0.01 );
+
+        add( "SPAWN_RATE_drugs", page_id, "DRUGS",
+             "Spawn rate for items from DRUGS category.",
+             0.0, 20.0, 1.0, 0.01 );
+
+        add( "SPAWN_RATE_scrap_electronics", page_id, "ELECTRONIC SCRAP",
+             "Spawn rate for items from ELECTRONIC SCRAP category.",
+             0.0, 20.0, 1.0, 0.01 );
+
+        add( "SPAWN_RATE_electronics", page_id, "ELECTRONICS",
+             "Spawn rate for items from ELECTRONICS category.",
+             0.0, 20.0, 1.0, 0.01 );
+
+        add( "SPAWN_RATE_tools_entry", page_id, "ENTRY TOOLS",
+             "Spawn rate for items from ENTRY TOOLS category.",
+             0.0, 20.0, 1.0, 0.01 );
+
+        add( "SPAWN_RATE_scrap_fabric", page_id, "FABRICS",
+             "Spawn rate for items from FABRICS category.",
+             0.0, 20.0, 1.0, 0.01 );
+
+        add( "SPAWN_RATE_tools_farming", page_id, "FARM TOOLS",
+             "Spawn rate for items from FARM TOOLS category.",
+             0.0, 20.0, 1.0, 0.01 );
+
+        add( "SPAWN_RATE_food", page_id, "FOOD",
+             "Spawn rate for items from FOOD category.",
+             0.0, 20.0, 1.0, 0.01 );
+
+        add( "SPAWN_RATE_fuel", page_id, "FUEL",
+             "Spawn rate for items from FUEL category.",
+             0.0, 20.0, 1.0, 0.01 );
+
+        add( "SPAWN_RATE_scrap_glass", page_id, "GLASS SCRAP",
+             "Spawn rate for items from GLASS SCRAP category.",
+             0.0, 20.0, 1.0, 0.01 );
+
+        add( "SPAWN_RATE_guns", page_id, "GUNS",
+             "Spawn rate for items from GUNS category.",
+             0.0, 20.0, 1.0, 0.01 );
+
+        add( "SPAWN_RATE_scrap_leather", page_id, "LEATHER SCRAP",
+             "Spawn rate for items from LEATHER SCRAP category.",
+             0.0, 20.0, 1.0, 0.01 );
+
+        add( "SPAWN_RATE_magazines", page_id, "MAGAZINES",
+             "Spawn rate for items from MAGAZINES category.",
+             0.0, 20.0, 1.0, 0.01 );
+
+        add( "SPAWN_RATE_maps", page_id, "MAPS",
+             "Spawn rate for items from MAPS category.",
+             0.0, 20.0, 1.0, 0.01 );
+
+        add( "SPAWN_RATE_scrap_metal", page_id, "METAL SCRAP",
+             "Spawn rate for items from METAL SCRAP category.",
+             0.0, 20.0, 1.0, 0.01 );
+
+        add( "SPAWN_RATE_scrap_misc", page_id, "MISC SCRAP",
+             "Spawn rate for items from MISC SCRAP category.",
+             0.0, 20.0, 1.0, 0.01 );
+
+        add( "SPAWN_RATE_mods", page_id, "MODS",
+             "Spawn rate for items from MODS category.",
+             0.0, 20.0, 1.0, 0.01 );
+
+        add( "SPAWN_RATE_mutagen", page_id, "MUTAGENS",
+             "Spawn rate for items from MUTAGENS category.",
+             0.0, 20.0, 1.0, 0.01 );
+
+        add( "SPAWN_RATE_other", page_id, "OTHER",
+             "Spawn rate for items from OTHER category.",
+             0.0, 20.0, 1.0, 0.01 );
+
+        add( "SPAWN_RATE_tools", page_id, "OTHER TOOLS",
+             "Spawn rate for items from OTHER TOOLS category.",
+             0.0, 20.0, 1.0, 0.01 );
+
+        // this needs special handling since it uses .goes_bad() instead of an actual group
+        // this needs special handling since it uses .goes_bad() instead of an actual group
+        add( "SPAWN_RATE_perishables", page_id, "PERISHABLES",
+             "Spawn rate for items from PERISHABLES category.",
+             0.0, 20.0, 1.0, 0.01 );
+
+        add( "SPAWN_RATE_scrap_plastic", page_id, "PLASTIC SCRAP",
+             "Spawn rate for items from PLASTIC SCRAP category.",
+             0.0, 20.0, 1.0, 0.01 );
+
+        add( "SPAWN_RATE_rocks", page_id, "ROCKS",
+             "Spawn rate for items from ROCKS category.",
+             0.0, 20.0, 1.0, 0.01 );
+
+        add( "SPAWN_RATE_scrap_rubber", page_id, "RUBBER SCRAP",
+             "Spawn rate for items from RUBBER SCRAP category.",
+             0.0, 20.0, 1.0, 0.01 );
+
+        add( "SPAWN_RATE_seeds", page_id, "SEEDS",
+             "Spawn rate for items from SEEDS category.",
+             0.0, 20.0, 1.0, 0.01 );
+
+        add( "SPAWN_RATE_spare_parts", page_id, "SPARE PARTS",
+             "Spawn rate for items from SPARE PARTS category.",
+             0.0, 20.0, 1.0, 0.01 );
+
+        add( "SPAWN_RATE_spellbooks", page_id, "SPELLBOOKS",
+             "Spawn rate for items from SPELLBOOKS category.",
+             0.0, 20.0, 1.0, 0.01 );
+
+        add( "SPAWN_RATE_valuables", page_id, "VALUABLES",
+             "Spawn rate for items from VALUABLES category.",
+             0.0, 20.0, 1.0, 0.01 );
+
+        add( "SPAWN_RATE_veh_parts", page_id, "VEHICLE PARTS",
+             "Spawn rate for items from VEHICLE PARTS category.",
+             0.0, 20.0, 1.0, 0.01 );
+
+        add( "SPAWN_RATE_weapons", page_id, "WEAPONS",
+             "Spawn rate for items from WEAPONS category.",
+             0.0, 20.0, 1.0, 0.01 );
+
+        add( "SPAWN_RATE_scrap_wood", page_id, "WOOD SCRAP",
+             "Spawn rate for items from WOOD SCRAP category.",
+             0.0, 20.0, 1.0, 0.01 );
+
+        add( "SPAWN_RATE_tools_workshop", page_id, "WORKSHOP TOOLS",
+             "Spawn rate for items from WORKSHOP TOOLS category.",
+             0.0, 20.0, 1.0, 0.01 );
+
+
+    } );
 
     add_empty_line();
 
