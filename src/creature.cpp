@@ -1436,7 +1436,7 @@ void Creature::process_effects()
             // Add any effects that others remove to the removal list
             for( const efftype_id &removed_effect : _it.second.get_removes_effects() ) {
                 // Don't try to remove it if it isn't present
-                if ( has_effect( removed_effect ) ) {
+                if( has_effect( removed_effect ) ) {
                     to_remove.emplace_back( removed_effect, bodypart_str_id::NULL_ID(), false );
                 }
             }
