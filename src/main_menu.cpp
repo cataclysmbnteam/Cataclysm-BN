@@ -228,12 +228,6 @@ void main_menu::display_sub_menu( int sel, const point &bottom_left, int sel_lin
                 int savegames_count = world->world_saves.size();
                 nc_color clr = c_white;
                 std::string txt = all_worldnames[i];
-                if( world->needs_lua() && !cata::has_lua() ) {
-                    clr = c_light_gray;
-                    txt += " - ";
-                    //~ Marker for worlds that need Lua in game builds without Lua
-                    txt += _( "Needs Lua!" );
-                }
                 if( all_worldnames[i] == "TUTORIAL" || all_worldnames[i] == "DEFENSE" ) {
                     clr = c_light_cyan;
                 }
@@ -1035,14 +1029,6 @@ bool main_menu::load_character_tab( const std::string &worldname )
             return str.decoded_name() != MAP_SHARING::getUsername();
         } );
         savegames.erase( new_end, savegames.end() );
-    }
-
-    if( world->needs_lua() && !cata::has_lua() ) {
-        on_error();
-        //~ Error when attempting to load a world whose mods depend on Lua
-        //~ on game build that doesn't have Lua.  %s = world name.
-        popup( _( "%s needs game build with Lua support!" ), worldname );
-        return false;
     }
 
     if( savegames.empty() ) {
