@@ -469,6 +469,14 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "bandit_garage_2_roof",
+    "name": "garage",
+    "sym": "O",
+    "color": "white",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
     "id": "ws_giant_sinkhole_1",
     "name": "giant sinkhole",
     "copy-from": "generic_city_building_no_sidewalk",
