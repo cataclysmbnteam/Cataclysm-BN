@@ -32,6 +32,7 @@ In `data/json/debug_spells.json` there is a template spell, copied here for your
     "FOOT_R"
   ], // body parts affected by effects
   "spell_class": "NONE", //
+  "stat": "STR", // The stat that the spell uses for scaling. STR, PER, INT, or DEX
   "base_casting_time": 100, // this is the casting time (in moves)
   "base_energy_cost": 10, // the amount of energy (of the requisite type) to cast the spell
   "energy_source": "MANA", // the type of energy used to cast the spell. types are: MANA, BIONIC, HP, STAMINA, FATIGUE, NONE (none will not use mana)
