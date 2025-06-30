@@ -491,19 +491,21 @@ character_stat spell::stat() const {
     return type->stat;
 }
 
-double spell::get_stat_mult(bool decrease, const Character &guy) const {
-    int stat_val;
+int spell::get_stat_value(const Character &guy) const {
     switch( stat() ) {
-        case character_stat::STRENGTH : stat_val = guy.get_str();
-        case character_stat::PERCEPTION : stat_val = guy.get_per();
-        case character_stat::INTELLIGENCE : stat_val = guy.get_int();
-        case character_stat::DEXTERITY : stat_val = guy.get_dex();
-        default : stat_val = 8;
+        case character_stat::STRENGTH : return guy.get_str();
+        case character_stat::PERCEPTION : return guy.get_per();
+        case character_stat::INTELLIGENCE : return guy.get_int();
+        case character_stat::DEXTERITY : return guy.get_dex();
+        default : return 8;
     }
+}
+
+double spell::get_stat_mult(bool decrease, const Character &guy) const {
     if (decrease) {
-        return (1 - (0.1 * (stat_val - 8)));
+        return std::max((1.0 - (0.1 * (get_stat_value(guy) - 8))), 0.1); // Max is necessary to avoid negatives / 0
     }
-    return (1 + (0.1 * (stat_val - 8))); // No else block needed because return early above
+    return (1.0 + (0.1 * (get_stat_value(guy) - 8))); // No else block needed because return early above
 }
 
 int spell::field_intensity() const
@@ -871,10 +873,18 @@ float spell::spell_fail( const Character &guy ) const
 
     int stat_val;
     switch( stat() ) {
-        case character_stat::STRENGTH : stat_val = guy.get_str();
-        case character_stat::PERCEPTION : stat_val = guy.get_per();
-        case character_stat::INTELLIGENCE : stat_val = guy.get_int();
-        case character_stat::DEXTERITY : stat_val = guy.get_dex();
+        case character_stat::STRENGTH : 
+            stat_val = guy.get_str();
+            break;
+        case character_stat::PERCEPTION : 
+            stat_val = guy.get_per();
+            break;
+        case character_stat::DEXTERITY : 
+            stat_val = guy.get_dex();
+            break;
+        case character_stat::INTELLIGENCE:
+            stat_val = guy.get_int();
+            break;
         default : stat_val = 0; // if no stat set, it shouldn't contribute
     }
     // formula is based on the following:

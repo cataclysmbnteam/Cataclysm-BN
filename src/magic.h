@@ -340,6 +340,8 @@ class spell
         int min_leveled_aoe() const;
         // minimum duration including levels (moves)
         int min_leveled_duration() const;
+        // get stat value
+        int get_stat_value(const Character &guy) const;
         // get the multiplier to spell stats from character stats
         double get_stat_mult(bool decrease, const Character &guy) const;
 
