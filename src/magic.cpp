@@ -266,10 +266,10 @@ void spell_type::load( const JsonObject &jo, const std::string & )
         effect = found_effect->second;
     }
 
-    optional(jo, was_loaded, "scale_str", scale_str, false);
-    optional(jo, was_loaded, "scale_dex", scale_dex, false);
-    optional(jo, was_loaded, "scale_per", scale_per, false);
-    optional(jo, was_loaded, "scale_int", scale_int, false);
+    optional( jo, was_loaded, "scale_str", scale_str, false );
+    optional( jo, was_loaded, "scale_dex", scale_dex, false );
+    optional( jo, was_loaded, "scale_per", scale_per, false );
+    optional( jo, was_loaded, "scale_int", scale_int, false );
 
     const auto effect_targets_reader = enum_flags_reader<valid_target> { "effect_targets" };
     optional( jo, was_loaded, "effect_filter", effect_targets, effect_targets_reader );
@@ -488,28 +488,32 @@ skill_id spell::skill() const
     return type->skill;
 }
 
-int spell::get_stats_deltas(const Character &guy) const {
+int spell::get_stats_deltas( const Character &guy ) const
+{
     int total = 0;
-    if (type->scale_str) {
+    if( type->scale_str ) {
         total += guy.get_str() - 8;
     }
-    if (type->scale_dex) {
+    if( type->scale_dex ) {
         total += guy.get_dex() - 8;
     }
-    if (type->scale_per) {
+    if( type->scale_per ) {
         total += guy.get_per() - 8;
     }
-    if (type->scale_int) {
+    if( type->scale_int ) {
         total += guy.get_int() - 8;
     }
     return total;
 }
 
-double spell::get_stat_mult(bool decrease, const Character &guy) const {
-    if (decrease) {
-        return std::max((1.0 - (0.1 * get_stats_deltas(guy))), 0.1); // Max is necessary to avoid negatives / 0
+double spell::get_stat_mult( bool decrease, const Character &guy ) const
+{
+    if( decrease ) {
+        return std::max( ( 1.0 - ( 0.1 * get_stats_deltas( guy ) ) ),
+                         0.1 ); // Max is necessary to avoid negatives / 0
     }
-    return (1.0 + (0.1 * get_stats_deltas(guy) )); // No else block needed because return early above
+    return ( 1.0 + ( 0.1 * get_stats_deltas(
+                         guy ) ) ); // No else block needed because return early above
 }
 
 int spell::field_intensity() const
@@ -555,7 +559,8 @@ int spell::damage_as_character( const Character &guy ) const
         total_damage += weapon_damage;
     }
 
-    total_damage *= get_stat_mult(false, guy); // This should safely result in 1x mult if no stats are set to scale
+    total_damage *= get_stat_mult( false,
+                                   guy ); // This should safely result in 1x mult if no stats are set to scale
 
     return std::round( total_damage );
 }
@@ -737,7 +742,7 @@ int spell::energy_cost( const Character &guy ) const
         }
     }
 
-    cost *= get_stat_mult(true, guy);
+    cost *= get_stat_mult( true, guy );
 
     return cost;
 }
@@ -836,7 +841,7 @@ int spell::casting_time( const Character &guy ) const
         !guy.primary_weapon().has_flag( flag_MAGIC_FOCUS ) ) {
         casting_time = std::round( casting_time * 1.5 );
     }
-    casting_time *= get_stat_mult(true, guy);
+    casting_time *= get_stat_mult( true, guy );
     return casting_time;
 }
 
@@ -871,16 +876,16 @@ float spell::spell_fail( const Character &guy ) const
 
     // note: This has the potential to get very dumb if you set a spell to scale off all stats. You have been warned
     int stats_vals = 0;
-    if (type->scale_str) {
+    if( type->scale_str ) {
         stats_vals += guy.get_str();
     }
-    if (type->scale_dex) {
+    if( type->scale_dex ) {
         stats_vals += guy.get_dex();
     }
-    if (type->scale_per) {
+    if( type->scale_per ) {
         stats_vals += guy.get_per();
     }
-    if (type->scale_int) {
+    if( type->scale_int ) {
         stats_vals += guy.get_int();
     }
 
@@ -1819,16 +1824,16 @@ static std::string enumerate_spell_data( const spell &sp )
     if( sp.has_flag( spell_flag::ADD_MELEE_DAM ) ) {
         spell_data.emplace_back( _( "can be augmented by melee weapon damage" ) );
     }
-    if(sp.type->scale_str) {
+    if( sp.type->scale_str ) {
         spell_data.emplace_back( _( "scales off of strength stat" ) );
     }
-    if(sp.type->scale_dex) {
+    if( sp.type->scale_dex ) {
         spell_data.emplace_back( _( "scales off of dexterity stat" ) );
     }
-    if(sp.type->scale_per) {
+    if( sp.type->scale_per ) {
         spell_data.emplace_back( _( "scales off of perception stat" ) );
     }
-    if(sp.type->scale_int) {
+    if( sp.type->scale_int ) {
         spell_data.emplace_back( _( "scales off of intelligence stat" ) );
     }
     return enumerate_as_string( spell_data );

@@ -344,7 +344,7 @@ class spell
         // minimum duration including levels (moves)
         int min_leveled_duration() const;
         // get the sum of the deltas of relevant stats away from 8
-        int get_stats_deltas(const Character &guy) const;
+        int get_stats_deltas( const Character &guy ) const;
         // get the multiplier to spell stats from character stats
         double get_stat_mult( bool decrease, const Character &guy ) const;
 
