@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <array>
+#include <character_stat.h>
 #include <cmath>
 #include <cstdlib>
 #include <memory>
@@ -266,6 +267,9 @@ void spell_type::load( const JsonObject &jo, const std::string & )
         effect = found_effect->second;
     }
 
+    const auto stat_reader = enum_flags_reader<character_stat> {"stat"};
+    optional(jo, was_loaded, "stat", stat, stat_reader, character_stat::DUMMY_STAT);
+
     const auto effect_targets_reader = enum_flags_reader<valid_target> { "effect_targets" };
     optional( jo, was_loaded, "effect_filter", effect_targets, effect_targets_reader );
 
@@ -483,6 +487,25 @@ skill_id spell::skill() const
     return type->skill;
 }
 
+character_stat spell::stat() const {
+    return type->stat;
+}
+
+double spell::get_stat_mult(bool decrease, const Character &guy) const {
+    int stat_val;
+    switch( stat() ) {
+        case character_stat::STRENGTH : stat_val = guy.get_str();
+        case character_stat::PERCEPTION : stat_val = guy.get_per();
+        case character_stat::INTELLIGENCE : stat_val = guy.get_int();
+        case character_stat::DEXTERITY : stat_val = guy.get_dex();
+        default : stat_val = 8;
+    }
+    if (decrease) {
+        return (1 - (0.1 * (stat_val - 8)));
+    }
+    return (1 + (0.1 * (stat_val - 8))); // No else block needed because return early above
+}
+
 int spell::field_intensity() const
 {
     return std::min( type->max_field_intensity,
@@ -524,6 +547,10 @@ int spell::damage_as_character( const Character &guy ) const
             weapon_damage = std::max( {weapon.damage_melee( DT_STAB ), weapon.damage_melee( DT_CUT ), weapon.damage_melee( DT_BASH )} );
         }
         total_damage += weapon_damage;
+    }
+
+    if( stat() != character_stat::DUMMY_STAT ){
+        total_damage *= get_stat_mult(false, guy);
     }
 
     return std::round( total_damage );
@@ -705,6 +732,11 @@ int spell::energy_cost( const Character &guy ) const
                 break;
         }
     }
+
+    if( stat() != character_stat::DUMMY_STAT ) {
+        cost *= get_stat_mult(true, guy);
+    }
+
     return cost;
 }
 
@@ -802,6 +834,9 @@ int spell::casting_time( const Character &guy ) const
         !guy.primary_weapon().has_flag( flag_MAGIC_FOCUS ) ) {
         casting_time = std::round( casting_time * 1.5 );
     }
+    if( stat() != character_stat::DUMMY_STAT ) {
+        casting_time *= get_stat_mult(true, guy);
+    }
     return casting_time;
 }
 
@@ -833,12 +868,21 @@ float spell::spell_fail( const Character &guy ) const
     if( has_flag( spell_flag::NO_FAIL ) ) {
         return 0.0f;
     }
+
+    int stat_val;
+    switch( stat() ) {
+        case character_stat::STRENGTH : stat_val = guy.get_str();
+        case character_stat::PERCEPTION : stat_val = guy.get_per();
+        case character_stat::INTELLIGENCE : stat_val = guy.get_int();
+        case character_stat::DEXTERITY : stat_val = guy.get_dex();
+        default : stat_val = 0; // if no stat set, it shouldn't contribute
+    }
     // formula is based on the following:
     // exponential curve
     // effective skill of 0 or less is 100% failure
-    // effective skill of 8 (8 int, 0 spellcraft, 0 spell level, spell difficulty 0) is ~50% failure
+    // effective skill of 8 (8 of relevant stat, 0 spellcraft, 0 spell level, spell difficulty 0) is ~50% failure
     // effective skill of 30 is 0% failure
-    const float effective_skill = 2 * ( get_level() - get_difficulty() ) + guy.get_int() +
+    const float effective_skill = ( 2 * ( get_level() - get_difficulty() ) ) + stat_val +
                                   guy.get_skill_level( skill() );
     // add an if statement in here because sufficiently large numbers will definitely overflow because of exponents
     if( effective_skill > 30.0f ) {
@@ -1816,6 +1860,12 @@ void spellcasting_callback::draw_spell_info( const spell &sp, const uilist *menu
 
     line += fold_and_print( w_menu, point( h_col1, line++ ), info_width, gray, string_format( "%s: %s",
                             _( "Blocker mutations" ), enumerate_traits( sp.get_blocker_muts() ) ) );
+    line += fold_and_print( w_menu, point( h_col1, line++ ), info_width, gray, string_format( "%s: %s",
+                            _( "Skill" ), sp.skill() ) );
+    
+    std::string stat_text = (sp.stat() == character_stat::DUMMY_STAT) ? "None" : io::enum_to_string<character_stat>(sp.stat());
+    line += fold_and_print( w_menu, point( h_col1, line++ ), info_width, gray, string_format( "%s: %s",
+                            _( "Stat" ), stat_text ) );
 
     print_colored_text( w_menu, point( h_col1, line ), gray, gray,
                         string_format( "%s: %d %s", _( "Spell Level" ), sp.get_level(),

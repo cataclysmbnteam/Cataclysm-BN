@@ -11,6 +11,7 @@
 
 #include "bodypart.h"
 #include "catalua_type_operators.h"
+#include "character_stat.h"
 #include "damage.h"
 #include "enum_bitset.h"
 #include "event_bus.h"
@@ -156,6 +157,8 @@ class spell_type
         // spell sound effect
         translation sound_description;
         skill_id skill;
+        // Stat used for scaling
+        character_stat stat;
 
         // Mutations that block the spell from being cast
         std::set<trait_id> blocker_mutations;
@@ -337,6 +340,8 @@ class spell
         int min_leveled_aoe() const;
         // minimum duration including levels (moves)
         int min_leveled_duration() const;
+        // get the multiplier to spell stats from character stats
+        double get_stat_mult(bool decrease, const Character &guy) const;
 
     public:
         spell() = default;
@@ -421,6 +426,8 @@ class spell
         trait_id spell_class() const;
         // get skill id
         skill_id skill() const;
+        // get stat
+        character_stat stat() const;
         // get spell effect string (from type)
         std::string effect() const;
         // get spell effect_str data
