@@ -2,7 +2,6 @@
 
 #include <algorithm>
 #include <array>
-#include <character_stat.h>
 #include <cmath>
 #include <cstdlib>
 #include <memory>
@@ -15,6 +14,7 @@
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "character.h"
+#include "character_stat.h"
 #include "color.h"
 #include "crafting.h"
 #include "craft_command.h"
