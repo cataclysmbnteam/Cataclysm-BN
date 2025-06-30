@@ -268,7 +268,7 @@ void spell_type::load( const JsonObject &jo, const std::string & )
     }
 
     const auto stat_reader = enum_flags_reader<character_stat> {"stat"};
-    optional(jo, was_loaded, "stat", stat, stat_reader, character_stat::DUMMY_STAT);
+    optional( jo, was_loaded, "stat", stat, stat_reader, character_stat::DUMMY_STAT );
 
     const auto effect_targets_reader = enum_flags_reader<valid_target> { "effect_targets" };
     optional( jo, was_loaded, "effect_filter", effect_targets, effect_targets_reader );
@@ -487,25 +487,35 @@ skill_id spell::skill() const
     return type->skill;
 }
 
-character_stat spell::stat() const {
+character_stat spell::stat() const
+{
     return type->stat;
 }
 
-int spell::get_stat_value(const Character &guy) const {
+int spell::get_stat_value( const Character &guy ) const
+{
     switch( stat() ) {
-        case character_stat::STRENGTH : return guy.get_str();
-        case character_stat::PERCEPTION : return guy.get_per();
-        case character_stat::INTELLIGENCE : return guy.get_int();
-        case character_stat::DEXTERITY : return guy.get_dex();
-        default : return 8;
+        case character_stat::STRENGTH :
+            return guy.get_str();
+        case character_stat::PERCEPTION :
+            return guy.get_per();
+        case character_stat::INTELLIGENCE :
+            return guy.get_int();
+        case character_stat::DEXTERITY :
+            return guy.get_dex();
+        default :
+            return 8;
     }
 }
 
-double spell::get_stat_mult(bool decrease, const Character &guy) const {
-    if (decrease) {
-        return std::max((1.0 - (0.1 * (get_stat_value(guy) - 8))), 0.1); // Max is necessary to avoid negatives / 0
+double spell::get_stat_mult( bool decrease, const Character &guy ) const
+{
+    if( decrease ) {
+        return std::max( ( 1.0 - ( 0.1 * ( get_stat_value( guy ) - 8 ) ) ),
+                         0.1 ); // Max is necessary to avoid negatives / 0
     }
-    return (1.0 + (0.1 * (get_stat_value(guy) - 8))); // No else block needed because return early above
+    return ( 1.0 + ( 0.1 * ( get_stat_value( guy ) -
+                             8 ) ) ); // No else block needed because return early above
 }
 
 int spell::field_intensity() const
@@ -551,8 +561,8 @@ int spell::damage_as_character( const Character &guy ) const
         total_damage += weapon_damage;
     }
 
-    if( stat() != character_stat::DUMMY_STAT ){
-        total_damage *= get_stat_mult(false, guy);
+    if( stat() != character_stat::DUMMY_STAT ) {
+        total_damage *= get_stat_mult( false, guy );
     }
 
     return std::round( total_damage );
@@ -736,7 +746,7 @@ int spell::energy_cost( const Character &guy ) const
     }
 
     if( stat() != character_stat::DUMMY_STAT ) {
-        cost *= get_stat_mult(true, guy);
+        cost *= get_stat_mult( true, guy );
     }
 
     return cost;
@@ -837,7 +847,7 @@ int spell::casting_time( const Character &guy ) const
         casting_time = std::round( casting_time * 1.5 );
     }
     if( stat() != character_stat::DUMMY_STAT ) {
-        casting_time *= get_stat_mult(true, guy);
+        casting_time *= get_stat_mult( true, guy );
     }
     return casting_time;
 }
@@ -873,19 +883,20 @@ float spell::spell_fail( const Character &guy ) const
 
     int stat_val;
     switch( stat() ) {
-        case character_stat::STRENGTH : 
+        case character_stat::STRENGTH :
             stat_val = guy.get_str();
             break;
-        case character_stat::PERCEPTION : 
+        case character_stat::PERCEPTION :
             stat_val = guy.get_per();
             break;
-        case character_stat::DEXTERITY : 
+        case character_stat::DEXTERITY :
             stat_val = guy.get_dex();
             break;
         case character_stat::INTELLIGENCE:
             stat_val = guy.get_int();
             break;
-        default : stat_val = 0; // if no stat set, it shouldn't contribute
+        default :
+            stat_val = 0; // if no stat set, it shouldn't contribute
     }
     // formula is based on the following:
     // exponential curve
@@ -1872,8 +1883,9 @@ void spellcasting_callback::draw_spell_info( const spell &sp, const uilist *menu
                             _( "Blocker mutations" ), enumerate_traits( sp.get_blocker_muts() ) ) );
     line += fold_and_print( w_menu, point( h_col1, line++ ), info_width, gray, string_format( "%s: %s",
                             _( "Skill" ), sp.skill() ) );
-    
-    std::string stat_text = (sp.stat() == character_stat::DUMMY_STAT) ? "None" : io::enum_to_string<character_stat>(sp.stat());
+
+    std::string stat_text = ( sp.stat() == character_stat::DUMMY_STAT ) ? "None" :
+                            io::enum_to_string<character_stat>( sp.stat() );
     line += fold_and_print( w_menu, point( h_col1, line++ ), info_width, gray, string_format( "%s: %s",
                             _( "Stat" ), stat_text ) );
 
