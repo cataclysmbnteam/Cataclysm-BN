@@ -264,7 +264,7 @@
         ],
         "prob": 75
       },
-        { "group": "religious_books, "count": [ 1, 2 ], "prob": 60 }
+      { "group": "religious_books", "count": [ 1, 2 ], "prob": 60 }
     ]
   }
 ]
