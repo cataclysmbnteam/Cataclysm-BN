@@ -264,36 +264,7 @@
         ],
         "prob": 75
       },
-      {
-        "distribution": [
-          { "item": "holybook_bible1", "count": [ 1, 2 ], "prob": 1 },
-          { "item": "holybook_bible2", "count": [ 1, 2 ], "prob": 1 },
-          { "item": "holybook_bible3", "count": [ 1, 2 ], "prob": 1 },
-          { "item": "holybook_bible4", "count": [ 1, 2 ], "prob": 1 },
-          { "item": "holybook_quran", "count": [ 1, 2 ], "prob": 1 },
-          { "item": "holybook_hadith", "count": [ 1, 2 ], "prob": 1 },
-          { "item": "holybook_havamal", "count": [ 1, 2 ], "prob": 1 },
-          { "item": "holybook_tanakh", "count": [ 1, 2 ], "prob": 1 },
-          { "item": "holybook_talmud", "count": [ 1, 2 ], "prob": 1 },
-          { "item": "holybook_vedas", "count": [ 1, 2 ], "prob": 1 },
-          { "item": "holybook_upanishads", "count": [ 1, 2 ], "prob": 1 },
-          { "item": "holybook_tripitaka", "count": [ 1, 2 ], "prob": 1 },
-          { "item": "holybook_sutras", "count": [ 1, 2 ], "prob": 1 },
-          { "item": "holybook_granth", "count": [ 1, 2 ], "prob": 1 },
-          { "item": "holybook_mormon", "count": [ 1, 2 ], "prob": 1 },
-          { "item": "holybook_kojiki", "count": [ 1, 2 ], "prob": 1 },
-          { "item": "holybook_pastafarian", "count": [ 1, 2 ], "prob": 1 },
-          { "item": "holybook_slack", "count": [ 1, 2 ], "prob": 1 },
-          { "item": "holybook_kallisti", "count": [ 1, 2 ], "prob": 1 },
-          { "item": "holybook_scientology", "count": [ 1, 2 ], "prob": 1 },
-          { "item": "holybook_satanic", "count": [ 1, 2 ], "prob": 1 },
-          { "item": "holybook_taoism", "count": [ 1, 2 ], "prob": 1 },
-          { "item": "holybook_confucianism", "count": [ 1, 2 ], "prob": 1 },
-          { "item": "holybook_paganism", "count": [ 1, 2 ], "prob": 1 },
-          { "item": "holybook_shamanism", "count": [ 1, 2 ], "prob": 1 }
-        ],
-        "prob": 60
-      }
+        { "group": "religious_books, "count": [ 1, 2 ], "prob": 60 }
     ]
   }
 ]
