@@ -321,11 +321,11 @@ input_event input_manager::get_input_event()
                 rval.type = input_event_t::mouse;
                 rval.mouse_pos = point( event.x, event.y );
                 if( event.bstate & BUTTON1_CLICKED ) {
-                    rval.add_input( MouseInput::LeftButtonUp );
+                    rval.add_input( MOUSE_BUTTON_LEFT );
                 } else if( event.bstate & BUTTON3_CLICKED ) {
-                    rval.add_input( MouseInput::RightButtonUp );
+                    rval.add_input( MOUSE_BUTTON_RIGHT );
                 } else if( event.bstate & REPORT_MOUSE_POSITION ) {
-                    rval.add_input( MouseInput::Move );
+                    rval.add_input( MOUSE_MOVE );
                     if( input_timeout > 0 ) {
                         // Mouse movement seems to clear ncurses timeout
                         set_timeout( input_timeout );
