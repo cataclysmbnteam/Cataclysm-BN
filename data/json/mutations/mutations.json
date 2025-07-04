@@ -5489,7 +5489,7 @@
     "types": [ "HANDS" ],
     "leads_to": [ "CLAWS_TENTACLE" ],
     "changes_to": [ "ARM_TENTACLES_4" ],
-    "cancels": [ "NAILS", "CLAWS", "TALONS", "WEBBED" ],
+    "cancels": [ "NAILS", "CLAWS", "CLAWS_RETRACT", "TALONS", "WEBBED" ],
     "wet_protection": [
       { "part": "arm_l", "neutral": 19 },
       { "part": "arm_r", "neutral": 19 },

@@ -130,7 +130,7 @@ you wish to assign to that action.
 
 Where you put the third party mods depends on whether you installed manually or with Catapult. No matter which you do, 3rd party mods do **not** go in data/mods. That folder should be reserved for in-repo mods only, especially given Catapult will automatically delete the contents of that folder!
 
-For a manual installation, you should create a mods folder in the root BN folder to store your mods. Thus, instead of putting them in cataclysm-bn/data/mods, you'd put them in cataclysm-bn/mods (Case should not matter)
+For a manual installation, you should use the player-mods folder (if it is not present, you are either using an older version and should manually create a folder in the base cataclysm folder yourself or you are using XDG or Home directories on a supported platform)
 
 For Catapult, you would put them in bn/userdata/mods (creating the folder if it's not already there) inside your catapult installation. For example, it might look like Catapult/bn/userdata/mods.
 

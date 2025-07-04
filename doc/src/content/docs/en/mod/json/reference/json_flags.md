@@ -767,6 +767,8 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - `UNBREAKABLE` ... Armor with this flag will never take damage when taking hits for the wearer.
 - `UNBREAKABLE_MELEE` ... Does never get damaged when used as melee weapon.
 - `UNRECOVERABLE` ... Cannot be recovered from a disassembly.
+- `TOBACCO` ... When lit, this item gives the cigarette effect every puff.
+- `MARIJUANA` ... When lit, this item gives the marijuana effect every puff.
 
 ## Guns
 
