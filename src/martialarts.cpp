@@ -46,6 +46,8 @@ static const skill_id skill_unarmed( "unarmed" );
 static const bionic_id bio_armor_arms( "bio_armor_arms" );
 static const bionic_id bio_armor_legs( "bio_armor_legs" );
 static const bionic_id bio_cqb( "bio_cqb" );
+static const efftype_id effect_downed( "downed" );
+static const efftype_id effect_stunned( "stunned" );
 
 static const flag_id json_flag_UNARMED_WEAPON( "UNARMED_WEAPON" );
 
@@ -168,14 +170,46 @@ class ma_weapon_damage_reader : public generic_typed_reader<ma_weapon_damage_rea
 
 void ma_requirements::load( const JsonObject &jo, const std::string & )
 {
+
     optional( jo, was_loaded, "unarmed_allowed", unarmed_allowed, false );
     optional( jo, was_loaded, "melee_allowed", melee_allowed, false );
     optional( jo, was_loaded, "unarmed_weapons_allowed", unarmed_weapons_allowed, true );
     optional( jo, was_loaded, "strictly_unarmed", strictly_unarmed, false );
-    optional( jo, was_loaded, "wall_adjacent", wall_adjacent, false );
 
-    optional( jo, was_loaded, "req_buffs", req_buffs, auto_flags_reader<mabuff_id> {} );
+    optional( jo, was_loaded, "req_running", req_running, false );
+
+    optional( jo, was_loaded, "req_adjacent", req_adjacent, auto_flags_reader<std::string> {} );
+    if( jo.get_bool( "wall_adjacent", false ) && !req_adjacent.contains( "WALL" ) ) {
+        req_adjacent.insert( "WALL" );
+    }
+
+    optional( jo, was_loaded, "adjacent_enemies_min", adjacent_enemies_min, 0 );
+    optional( jo, was_loaded, "adjacent_enemies_max", adjacent_enemies_max, 8 );
+
+    optional( jo, was_loaded, "stam_min", stam_min, 0 );
+    optional( jo, was_loaded, "stam_max", stam_max, 1 );
+
     optional( jo, was_loaded, "req_flags", req_flags, auto_flags_reader<flag_id> {} );
+
+    for( const JsonObject &req : jo.get_array( "required_buffs" ) ) {
+        const std::string id = req.get_string( "id" );
+        required_buffs.emplace_back( std::pair<mabuff_id, int>( id, req.get_int( "stacks" ) ) );
+    }
+
+    if( jo.has_string( "req_buffs" ) ) {
+        required_buffs.emplace_back( std::pair<mabuff_id, int>( jo.get_string( "req_buffs" ), 1 ) );
+    } else if( jo.has_array( "req_buffs" ) ) {
+        for( const auto &req_old : jo.get_string_array( "req_buffs" ) ) { //This should catch legacy fields.
+            required_buffs.emplace_back( std::pair<mabuff_id, int>( req_old, 1 ) );
+        }
+    }
+
+    for( const JsonObject &req : jo.get_array( "consumed_buffs" ) ) {
+        consumed_buffs.emplace_back( std::pair<mabuff_id, int>( req.get_string( "id" ),
+                                     req.get_int( "stacks" ) ) );
+    }
+
+    optional( jo, was_loaded, "prevented_by_buffs", prevented_by_buffs, auto_flags_reader<mabuff_id> {} );
 
     optional( jo, was_loaded, "skill_requirements", min_skill, ma_skill_reader {} );
     optional( jo, was_loaded, "weapon_damage_requirements", min_damage, ma_weapon_damage_reader {} );
@@ -197,15 +231,32 @@ void ma_technique::load( const JsonObject &jo, const std::string &src )
 
     optional( jo, was_loaded, "crit_tec", crit_tec, false );
     optional( jo, was_loaded, "crit_ok", crit_ok, false );
-    optional( jo, was_loaded, "downed_target", downed_target, false );
-    optional( jo, was_loaded, "stunned_target", stunned_target, false );
-    optional( jo, was_loaded, "wall_adjacent", wall_adjacent, false );
-    optional( jo, was_loaded, "human_target", human_target, false );
 
+    optional( jo, was_loaded, "reach_tec", reach_tec, false );
+    optional( jo, was_loaded, "reach_ok", reach_ok, false );
+
+    optional( jo, was_loaded, "throwing_tec", throwing_tec, false );
+    optional( jo, was_loaded, "throwing_ok", throwing_ok, false );
+
+    optional( jo, was_loaded, "req_target_effects", req_target_effects, auto_flags_reader<efftype_id> {} );
+    if( jo.get_bool( "downed_target", false ) && !req_target_effects.contains( effect_downed ) ) {
+        req_target_effects.insert( effect_downed );
+    }
+    if( jo.get_bool( "stunned_target", false ) && !req_target_effects.contains( effect_stunned ) ) {
+        req_target_effects.insert( effect_stunned );
+    }
+
+    optional( jo, was_loaded, "human_target", human_target, false );
     optional( jo, was_loaded, "defensive", defensive, false );
     optional( jo, was_loaded, "disarms", disarms, false );
     optional( jo, was_loaded, "take_weapon", take_weapon, false );
-    optional( jo, was_loaded, "side_switch", side_switch, false );
+
+
+    optional( jo, was_loaded,  std::vector<std::string> { "side_switch", "switch_side_target" },
+              switch_side_target, false );
+    optional( jo, was_loaded, "switch_side_self", switch_side_self, false );
+    optional( jo, was_loaded, "switch_pos", switch_pos, false );
+
     optional( jo, was_loaded, "dummy", dummy, false );
     optional( jo, was_loaded, "dodge_counter", dodge_counter, false );
     optional( jo, was_loaded, "block_counter", block_counter, false );
@@ -214,12 +265,23 @@ void ma_technique::load( const JsonObject &jo, const std::string &src )
 
     optional( jo, was_loaded, "weighting", weighting, 1 );
 
+    optional( jo, was_loaded, "req_ammo", req_ammo, false );
+    optional( jo, was_loaded, "fire_weapon", req_ammo, false );
+    optional( jo, was_loaded, "sneak_attack", sneak_attack, false );
+
+    optional( jo, was_loaded, "triggered_buffs", triggered_buffs, auto_flags_reader<mabuff_id> {} );
+
     optional( jo, was_loaded, "down_dur", down_dur, 0 );
     optional( jo, was_loaded, "stun_dur", stun_dur, 0 );
+    optional( jo, was_loaded, "pull_target", pull_target, false );
+    optional( jo, was_loaded, "pull_self", pull_self, false );
     optional( jo, was_loaded, "knockback_dist", knockback_dist, 0 );
     optional( jo, was_loaded, "knockback_spread", knockback_spread, 0 );
-    optional( jo, was_loaded, "powerful_knockback", powerful_knockback, false );
-    optional( jo, was_loaded, "knockback_follow", knockback_follow, false );
+
+    optional( jo, was_loaded, "knockback_type", knockback_type,
+              jo.get_bool( "powerful_knockback", false ) ? "powerful" : "" );
+    optional( jo, was_loaded, "knockback_follow_type", knockback_follow_type,
+              jo.get_bool( "knockback_follow", false ) ? "partial" : "" );
 
     optional( jo, was_loaded, "aoe", aoe, "" );
     optional( jo, was_loaded, "flags", flags, auto_flags_reader<> {} );
@@ -252,13 +314,18 @@ void ma_buff::load( const JsonObject &jo, const std::string &src )
 
     optional( jo, was_loaded, "buff_duration", buff_duration, 2_turns );
     optional( jo, was_loaded, "max_stacks", max_stacks, 1 );
+    optional( jo, was_loaded, "stacks_per_enemy", stack_per_enemy, false );
 
     optional( jo, was_loaded, "bonus_dodges", dodges_bonus, 0 );
     optional( jo, was_loaded, "bonus_blocks", blocks_bonus, 0 );
 
-    optional( jo, was_loaded, "quiet", quiet, false );
     optional( jo, was_loaded, "throw_immune", throw_immune, false );
-    optional( jo, was_loaded, "stealthy", stealthy, false );
+
+    optional( jo, was_loaded, std::vector<std::string> { "quiet", "quiet_attacks" }, quiet_attacks,
+              false );
+    optional( jo, was_loaded, std::vector<std::string> { "stealthy", "quiet_movement" }, quiet_movement,
+              false );
+    optional( jo, was_loaded, "expert_thrower", expert_thrower, false );
 
     reqs.load( jo, src );
     bonuses.load( jo );
@@ -325,6 +392,7 @@ void martialart::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "onmiss_buffs", onmiss_buffs, ma_buff_reader{} );
     optional( jo, was_loaded, "oncrit_buffs", oncrit_buffs, ma_buff_reader{} );
     optional( jo, was_loaded, "onkill_buffs", onkill_buffs, ma_buff_reader{} );
+    optional( jo, was_loaded, "triggered_buffs", triggered_buffs, ma_buff_reader{} );
 
     optional( jo, was_loaded, "techniques", techniques, auto_flags_reader<matec_id> {} );
     optional( jo, was_loaded, "weapons", weapons, auto_flags_reader<itype_id> {} );
@@ -383,9 +451,9 @@ std::vector<matype_id> autolearn_martialart_types()
 
 static void check( const ma_requirements &req, const std::string &display_text )
 {
-    for( auto &r : req.req_buffs ) {
-        if( !r.is_valid() ) {
-            debugmsg( "ma buff %s of %s does not exist", r.c_str(), display_text );
+    for( auto &r : req.required_buffs ) {
+        if( !r.first.is_valid() ) {
+            debugmsg( "ma buff %s of %s does not exist", r.first.c_str(), display_text );
         }
     }
 }
@@ -490,8 +558,20 @@ void clear_techniques_and_martial_arts()
 
 bool ma_requirements::is_valid_character( const Character &u ) const
 {
-    for( const mabuff_id &buff_id : req_buffs ) {
-        if( !u.has_mabuff( buff_id ) ) {
+    for( const auto &buff : required_buffs ) {
+        if( !u.has_mabuff( buff.first ) ||
+            u.get_effect_int( buff.first.obj().get_effect_id() ) < buff.second ) {
+            return false;
+        }
+    }
+    for( const auto &buff : consumed_buffs ) {
+        if( !u.has_mabuff( buff.first ) ||
+            u.get_effect_int( buff.first.obj().get_effect_id() ) < buff.second ) {
+            return false;
+        }
+    }
+    for( const auto &buff : prevented_by_buffs ) {
+        if( u.has_mabuff( buff ) ) {
             return false;
         }
     }
@@ -534,7 +614,11 @@ bool ma_requirements::is_valid_character( const Character &u ) const
         }
     }
 
-    if( wall_adjacent && !get_map().is_wall_adjacent( u.pos() ) ) {
+    if( req_running && !u.movement_mode_is( CMM_RUN ) ) {
+        return false;
+    }
+
+    if( !req_adjacent.empty() && !get_map().has_adjacent_flags( u.pos(), req_adjacent ) ) {
         return false;
     }
 
@@ -645,11 +729,20 @@ std::string ma_requirements::get_description( bool buff ) const
         } ) + "\n";
     }
 
-    if( !req_buffs.empty() ) {
+    if( !required_buffs.empty() ) {
         dump += _( "<bold>Requires:</bold> " );
 
-        dump += enumerate_as_string( req_buffs.begin(), req_buffs.end(), []( const mabuff_id & bid ) {
-            return _( bid->name );
+        dump += enumerate_as_string( required_buffs.begin(),
+        required_buffs.end(), []( const std::pair<mabuff_id, int> &bid ) {
+            return _( bid.first->name );
+        }, enumeration_conjunction::none ) + "\n";
+    }
+    if( !consumed_buffs.empty() ) {
+        dump += _( "<bold>Consumes:</bold> " );
+
+        dump += enumerate_as_string( consumed_buffs.begin(),
+        consumed_buffs.end(), []( const std::pair<mabuff_id, int> &bid ) {
+            return _( bid.first->name );
         }, enumeration_conjunction::none ) + "\n";
     }
 
@@ -674,9 +767,15 @@ std::string ma_requirements::get_description( bool buff ) const
                                type ) + "\n";
     }
 
-    if( wall_adjacent ) {
-        dump += string_format( _( "* Can %s while <info>near</info> to a <info>wall</info>" ),
-                               type ) + "\n";
+    if( !req_adjacent.empty() ) {
+        dump += string_format(
+                    _( "* Can %s while <info>adjacent</info> to terrain with any of the following flags:" ),
+                    type ) + "\n";
+        for( std::string flag : req_adjacent ) {
+            dump += string_format( _( "\t <info>" + flag + "</info" ),
+                                   type ) + "\n";
+
+        }
     }
 
     return dump;
@@ -686,16 +785,30 @@ ma_technique::ma_technique()
 {
     crit_tec = false;
     crit_ok = false;
+
+    reach_tec = false;
+    reach_ok = false;
+
+    throwing_tec = false;
+    throwing_ok = false;
+
     defensive = false;
-    side_switch = false; // moves the target behind user
+    switch_side_target = false; // moves the target behind user
+    switch_side_self = false;
+    switch_pos = false; // switches positions with the target
+
     dummy = false;
 
     down_dur = 0;
     stun_dur = 0;
+    pull_target = false;
+    pull_self = false;
+
     knockback_dist = 0;
     knockback_spread = 0; // adding randomness to knockback, like tec_throw
-    powerful_knockback = false;
-    knockback_follow = false; // player follows the knocked-back party into their former tile
+    knockback_type = "";
+    knockback_follow_type =
+        ""; // "partial" = target's former tile. "full" = relative tile to target's final tile.
 
     // offensive
     disarms = false; // like tec_disarm
@@ -704,9 +817,6 @@ ma_technique::ma_technique()
     block_counter = false; // like tec_counter
 
     // conditional
-    downed_target = false;    // only works on downed enemies
-    stunned_target = false;   // only works on stunned enemies
-    wall_adjacent = false;    // only works near a wall
     human_target = false;     // only works on humanoid enemies
 
     miss_recovery = false; // allows free recovery from misses, like tec_feint
@@ -799,11 +909,15 @@ bool ma_buff::is_throw_immune() const
 }
 bool ma_buff::is_quiet() const
 {
-    return quiet;
+    return quiet_attacks;
 }
 bool ma_buff::is_stealthy() const
 {
-    return stealthy;
+    return quiet_movement;
+}
+bool ma_buff::is_expert_thrower() const
+{
+    return expert_thrower;
 }
 
 std::string ma_buff::get_description( bool passive ) const
@@ -846,11 +960,11 @@ std::string ma_buff::get_description( bool passive ) const
                                blocks_bonus, vgettext( " for the stack", " per stack", max_stacks ) ) + "\n";
     }
 
-    if( quiet ) {
+    if( quiet_attacks ) {
         dump += _( "* Attacks will be completely <info>silent</info>" ) + std::string( "\n" );
     }
 
-    if( stealthy ) {
+    if( quiet_movement ) {
         dump += _( "* Movement will make <info>less noise</info>" ) + std::string( "\n" );
     }
 
@@ -872,10 +986,17 @@ static void simultaneous_add( Character &u, const std::vector<mabuff_id> &buffs 
         const ma_buff &buff = buffid.obj();
         if( buff.is_valid_character( u ) ) {
             buffer.push_back( &buff );
+
         }
     }
     for( auto &elem : buffer ) {
         elem->apply_buff( u );
+        for( const std::pair<mabuff_id, int> &to_consume : elem->reqs.consumed_buffs ) {
+            if( u.has_mabuff( to_consume.first ) ) {
+                u.remove_effect( efftype_id( std::string( "mabuff:" ) + to_consume.first.str() ),
+                                 to_consume.second );
+            }
+        }
     }
 }
 
@@ -932,6 +1053,11 @@ void martialart::apply_oncrit_buffs( Character &u ) const
 void martialart::apply_onkill_buffs( Character &u ) const
 {
     simultaneous_add( u, onkill_buffs );
+}
+
+void martialart::apply_triggered_buffs( Character &u, const matec_id &tec ) const
+{
+    simultaneous_add( u, tec.obj().triggered_buffs );
 }
 
 bool martialart::has_technique( const Character &u, const matec_id &tec_id ) const
@@ -1164,6 +1290,10 @@ void character_martial_arts::ma_onkill_effects( Character &owner )
 {
     style_selected->apply_onkill_buffs( owner );
 }
+void character_martial_arts::ma_triggered_effects( Character &owner, const matec_id &tec )
+{
+    style_selected->apply_triggered_buffs( owner, tec );
+}
 
 template<typename C, typename F>
 static void accumulate_ma_buff_effects( const C &container, F f )
@@ -1305,7 +1435,12 @@ bool Character::is_stealthy() const
         return b.is_stealthy();
     } );
 }
-
+bool Character::is_expert_thrower() const
+{
+    return search_ma_buff_effect( *effects, []( const ma_buff & b, const effect & ) {
+        return b.is_expert_thrower();
+    } );
+}
 bool Character::has_mabuff( const mabuff_id &id ) const
 {
     return search_ma_buff_effect( *effects, [&id]( const ma_buff & b, const effect & ) {
@@ -1432,20 +1567,34 @@ std::string ma_technique::get_description() const
         dump += _( "* Will only activate on a <info>crit</info>" ) + std::string( "\n" );
     }
 
-    if( side_switch ) {
+    if( switch_side_target ) {
         dump += _( "* Moves target <info>behind</info> you" ) + std::string( "\n" );
     }
 
-    if( wall_adjacent ) {
-        dump += _( "* Will only activate while <info>near</info> to a <info>wall</info>" ) +
-                std::string( "\n" );
+    if( switch_pos ) {
+        dump += _( "* Switches positions with the target" ) + std::string( "\n" );
     }
 
-    if( downed_target ) {
+    if( !reqs.req_adjacent.empty() ) {
+        dump += string_format(
+                    _( "* Will only activate while <info>adjacent</info> to terrain with any of the following flags:" ),
+                    type ) + "\n";
+        for( std::string flag : reqs.req_adjacent ) {
+            dump += string_format( _( "\t\t <info>" + flag + "</info>" ),
+                                   type ) + "\n";
+
+        }
+    }
+
+    if( reqs.req_running ) {
+        dump += _( "* Will only activate while <info>running</info>" ) + std::string( "\n" );
+    }
+
+    if( req_target_effects.contains( effect_stunned ) ) {
         dump += _( "* Only works on a <info>downed</info> target" ) + std::string( "\n" );
     }
 
-    if( stunned_target ) {
+    if( req_target_effects.contains( effect_downed ) ) {
         dump += _( "* Only works on a <info>stunned</info> target" ) + std::string( "\n" );
     }
 
@@ -1453,8 +1602,13 @@ std::string ma_technique::get_description() const
         dump += _( "* Only works on a <info>humanoid</info> target" ) + std::string( "\n" );
     }
 
-    if( powerful_knockback ) {
+    if( knockback_type == "powerful" ) {
         dump += _( "* Causes extra damage on <info>knockback collision</info>." ) + std::string( "\n" );
+    }
+
+    if( knockback_type == "destructive" ) {
+        dump += _( "* Causes extra damage on <info>knockback collision</info>, and can break terrain." ) +
+                std::string( "\n" );
     }
 
     if( dodge_counter ) {
@@ -1490,8 +1644,13 @@ std::string ma_technique::get_description() const
                                knockback_dist, vgettext( "tile", "tiles", knockback_dist ) ) + "\n";
     }
 
-    if( knockback_follow ) {
+    if( knockback_follow_type == "partial" ) {
         dump += _( "* Will <info>follow</info> enemies after knockback." ) + std::string( "\n" );
+    }
+
+    if( knockback_follow_type == "full" ) {
+        dump += _( "* Will <info>follow</info> enemies all the way after knockback." ) +
+                std::string( "\n" );
     }
 
     if( down_dur ) {
@@ -1601,6 +1760,7 @@ bool ma_style_callback::key( const input_context &ctxt, const input_event &event
         buff_desc( _( "Dodge" ), ma.ondodge_buffs );
         buff_desc( _( "Block" ), ma.onblock_buffs );
         buff_desc( _( "Get hit" ), ma.ongethit_buffs );
+        buff_desc( _( "Triggered" ), ma.triggered_buffs );
 
         for( const auto &tech : ma.techniques ) {
             buffer += string_format( _( "<header>Technique:</header> <bold>%s</bold>   " ),
