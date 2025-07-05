@@ -58,6 +58,17 @@
     "difficulty": 7
   },
   {
+    "id": "bio_wings",
+    "copy-from": "bionic_general_npc_usable",
+    "type": "BIONIC_ITEM",
+    "name": { "str": "Thermofluidic Propulsion Modules CBM" },
+    "looks_like": "bio_int_enhancer",
+    "description": "An advanced mobility system implanted along the lower spine, legs, and feet, the Thermofluidic Propulsion Modules utilize controlled bursts of heated fluid dynamics and high-efficiency micro-thrusters to achieve lift and precise maneuverability.  This system enables short-range flight and levitation by manipulating pressure and thermal gradients, providing enhanced mobility across challenging terrain.",
+    "price": "9500 USD",
+    "weight": "1 kg",
+    "difficulty": 7
+  },
+  {
     "id": "bio_alarm",
     "copy-from": "bionic_general",
     "type": "BIONIC_ITEM",
