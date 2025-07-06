@@ -765,7 +765,7 @@ void Creature::deal_projectile_attack( Creature *source, item *source_weapon,
     // Headshot < 0.1, Crit < 0.2, Goodhit < 0.5, Normal < 0.8, 0.8 =< Graze
     const double goodhit = missed_by + std::max( 0.0, std::min( 1.0, dodge_rescaled ) );
 
-    if( goodhit >= 1.0 && !magic ) {
+    if( goodhit >= 1.0 ) {
         attack.missed_by = 1.0; // Arbitrary value
         // "Avoid" rather than "dodge", because it includes removing self from the line of fire
         //  rather than just Matrix-style bullet dodging
@@ -792,27 +792,33 @@ void Creature::deal_projectile_attack( Creature *source, item *source_weapon,
     // Hit severity is the damage multiplier based on how well an attack was aimed, and is passed to impact.mult_damage.
     // Closely related to goodhit, and modified by creature stats, skill, stamina etc. sorta similarly to hit_value.
     // Different parts have different maximum severities, potentially modified by weapon/ammo/monster stats.
-    // Limbs max x1.5, Torso max x2.0, Head max x3.0. Cant quite do a direct formula.
+    // Limbs max x1.25, Torso max x1.5, Head max x2. Cant quite do a direct formula.
     double severity = 1.0;
     if( !magic ) {
         if( goodhit > accuracy_standard ) {
-            // A graze, dealing 1-90% damage. 0.8 is 90%, 1 is 1% damage.
-            severity = std::max( 0.01, 4.5 * ( 1.0 - goodhit ) );
+            // A graze, dealing 1-80% damage. 0.8 is 80%, 1 is 1% damage.
+            // Increased the lower damage band to balance out the damage band between x1.1 and x1.5
+            severity = std::max( 0.01, 4.0 * ( 1.0 - goodhit ) );
+        } else if( goodhit > accuracy_goodhit ) {
+            // 0.8 to 0.5, going from 80% to 110% across 0.3.
+            severity = 1.6 - goodhit;
         } else if( goodhit > accuracy_critical ) {
-            // 0.8 is 90% damage, 0.2 is 150%. A difference of 60% across 0.6, which makes this linear! woo! y=mx+b
-            // This makes 0.7 100% damage, 0.5 "goodhit" 120%, and 0.2 "critical" 150%.
-            severity = 1.7 - goodhit;
+            // 0.5 is 110% damage, 0.2 is 150%. A difference of 40% across 0.3
+            severity = 1.766 - ( ( goodhit * 4.0 ) / 3.0 );
         } else {
             // Cap damage mult from accuracy at 1.5. Everything else comes from skills/stats.
             severity = 1.5;
         }
+        // Add any severity bonus now if we got a good hit or better.
+        if( goodhit <= accuracy_goodhit ) {
+            severity += proj.aimedcritbonus;
+        }
+        // And cap severity if no targetted crit is allowed.
         if( !targetted_crit_allowed ) {
             severity = std::min( severity, 1.1 );
         }
-        // Add any severity bonus now.
-        severity += proj.aimedcritbonus;
     } else {
-        // Magic does not get crits.
+        // Magic does not get crits, nor can it graze.
         severity = rng_float( 0.9, 1.1 );
     }
 
@@ -867,13 +873,13 @@ void Creature::deal_projectile_attack( Creature *source, item *source_weapon,
         // Intent is that decently skilled characters (3-4) with slightly benificial stats can acheive max severity in ideal circumstances.
         // High skill/stats allows a character to maintain lethality in less than ideal circumstances or take advantage of weapons/ammo that improves crit potential
         if( !magic && targetted_crit_allowed && goodhit <= accuracy_critical ) {
-            // standard max severity for a perfect headshot is 3x, an increase of 1.5x
-
+            // standard max severity for a perfect headshot is 2x
+            // Reduced the max severity gain from skill/stats
             // If its not a gun, dont try to grab a relevant gun skill and break things
-            const double wep_skill_adjust = ( source_weapon->is_gun() ) ? 0.4 * ( sender->get_skill_level(
+            const double wep_skill_adjust = ( source_weapon->is_gun() ) ? 0.1 * ( sender->get_skill_level(
                                                 source_weapon->gun_skill() ) ) : 0.0;
             // Stats over 8 provide an increase to max severity acheivable.
-            const double stat_adjust = std::max( ( 0.1 * ( ( sender->get_dex() ) +
+            const double stat_adjust = std::max( ( 0.05 * ( ( sender->get_dex() ) +
                                                    ( sender->get_per() ) - 16.0 ) ), 0.0 );
             severity += ( ( wep_skill_adjust + stat_adjust ) * ( ( 0.2 - goodhit ) * 5.0 ) );
         }
@@ -916,12 +922,12 @@ void Creature::deal_projectile_attack( Creature *source, item *source_weapon,
 
     // Now that we know where we hit, lets cap our severity based on the hit location.
     if( ( bp_hit == bodypart_str_id( "head" ) ) ) {
-        severity = std::min( severity, 3.0 + proj.aimedcritmaxbonus );
+        severity = std::min( severity, 2.0 + proj.aimedcritmaxbonus );
     } else if( ( bp_hit == bodypart_str_id( "torso" ) ) ) {
-        severity = std::min( severity, 2 + proj.aimedcritmaxbonus );
+        severity = std::min( severity, 1.5 + proj.aimedcritmaxbonus );
     } else {
         // If we dont hit the head or torso, we are hitting one of the 4 limbs.
-        severity = std::min( severity, 1.5 + proj.aimedcritmaxbonus );
+        severity = std::min( severity, 1.25 + proj.aimedcritmaxbonus );
     }
 
     attack.missed_by = goodhit;
