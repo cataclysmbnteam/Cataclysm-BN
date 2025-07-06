@@ -921,15 +921,19 @@ void Creature::deal_projectile_attack( Creature *source, item *source_weapon,
     }
 
     // Now that we know where we hit, lets cap our severity based on the hit location.
-    if( ( bp_hit == bodypart_str_id( "head" ) ) ) {
-        severity = std::min( severity, 2.0 + proj.aimedcritmaxbonus );
-    } else if( ( bp_hit == bodypart_str_id( "torso" ) ) ) {
-        severity = std::min( severity, 1.5 + proj.aimedcritmaxbonus );
+    if( !is_player() && !is_npc() ) {
+        if( ( bp_hit == bodypart_str_id( "head" ) ) ) {
+            severity = std::min( severity, 2.0 + proj.aimedcritmaxbonus );
+        } else if( ( bp_hit == bodypart_str_id( "torso" ) ) ) {
+            severity = std::min( severity, 1.5 + proj.aimedcritmaxbonus );
+        } else {
+            // If we dont hit the head or torso, we are hitting one of the 4 limbs.
+            severity = std::min( severity, 1.25 + proj.aimedcritmaxbonus );
+        }
     } else {
-        // If we dont hit the head or torso, we are hitting one of the 4 limbs.
-        severity = std::min( severity, 1.25 + proj.aimedcritmaxbonus );
+        // Characters have divided health pools
+        severity = std::min( severity, 1.5 + proj.aimedcritmaxbonus );
     }
-
     attack.missed_by = goodhit;
     // copy it, since we're mutating
     damage_instance impact = proj.impact;
