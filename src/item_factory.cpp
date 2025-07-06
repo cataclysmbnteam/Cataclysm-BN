@@ -1754,6 +1754,8 @@ void islot_ammo::load( const JsonObject &jo )
     assign( jo, "effects", ammo_effects );
     optional( jo, was_loaded, "show_stats", force_stat_display, std::nullopt );
     optional( jo, was_loaded, "shape", shape, std::nullopt );
+    optional( jo, was_loaded, "aimed_crit_mult_max_bonus", aimedcritmaxbonus, 0.0 );
+    optional( jo, was_loaded, "aimed_crit_mult_bonus", aimedcritbonus, 0.0 );
 }
 
 void islot_ammo::deserialize( JsonIn &jsin )

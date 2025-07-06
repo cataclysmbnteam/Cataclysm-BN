@@ -91,6 +91,8 @@ void projectile::load( JsonObject &jo )
     jo.read( "impact", impact );
     range = jo.get_int( "range" );
     speed = jo.get_int( "speed", 1000 );
+    aimedcritmaxbonus = jo.get_float( "aimedcritmaxbonus", 0.0 );
+    aimedcritbonus = jo.get_float( "aimedcritbonus", 0.0 );
     jo.read( "proj_effects", proj_effects );
 }
 
