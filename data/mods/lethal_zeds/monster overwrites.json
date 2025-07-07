@@ -4,7 +4,7 @@
     "copy-from": "fake_item",
     "type": "GUN",
     "name": { "str": "zombie rock gun" },
-    "description": "This is a bug if you have this. No recovery on rocks, we don't want a deluge of stone.",
+    "description": "This is a bug if you have this.  No recovery on rocks, we don't want a deluge of stone.",
     "weight": "1 g",
     "volume": "1 L",
     "price": "2 USD",
