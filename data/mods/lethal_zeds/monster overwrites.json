@@ -1,23 +1,23 @@
 [
   {
-   "id": "zombie_thrown_rock",
-   "copy-from": "fake_item",
-   "type": "GUN",
-   "name": { "str": "zombie rock gun" },
-   "description": "This is a bug if you have this. No recovery on rocks, we don't want a deluge of stone.",
-   "weight": "1 g",
-   "volume": "1 L",
-   "price": "2 USD",
-   "price_postapoc": "2 USD",
-   "material": [ "steel" ],
-   "color": "yellow",
-   "range": 10,
-   "skill": "throw",
-   "ranged_damage": [ { "damage_type": "bash", "amount": 2, "armor_penetration": 10 } ],
-   "dispersion": 3000,
-   "modes": [ [ "DEFAULT", "semi", 1 ] ],
-   "loudness": 1,
-   "flags": [ "NEVER_JAMS", "NO_UNLOAD" ]
+    "id": "zombie_thrown_rock",
+    "copy-from": "fake_item",
+    "type": "GUN",
+    "name": { "str": "zombie rock gun" },
+    "description": "This is a bug if you have this. No recovery on rocks, we don't want a deluge of stone.",
+    "weight": "1 g",
+    "volume": "1 L",
+    "price": "2 USD",
+    "price_postapoc": "2 USD",
+    "material": [ "steel" ],
+    "color": "yellow",
+    "range": 10,
+    "skill": "throw",
+    "ranged_damage": [ { "damage_type": "bash", "amount": 2, "armor_penetration": 10 } ],
+    "dispersion": 3000,
+    "modes": [ [ "DEFAULT", "semi", 1 ] ],
+    "loudness": 1,
+    "flags": [ "NEVER_JAMS", "NO_UNLOAD" ]
   },
   {
     "id": "mon_zombie",
@@ -29,29 +29,29 @@
     "grab_strength": 3,
     "extend": { "flags": [ "GOODHEARING" ] },
     "melee_damage": [ { "damage_type": "bash", "amount": 2, "armor_penetration": 4, "armor_multiplier": 0.2 } ],
-    "special_attacks": [ 
-    {
-      "type": "bite",
-      "move_cost": 80,
-      "cooldown": 4,
-      "no_infection_chance": 2,
-      "damage_max_instance": [ { "damage_type": "cut", "amount": 6, "armor_penetration": 8 } ]
-    },
-    {
-      "type": "gun",
-      "cooldown": 7,
-      "move_cost": 100,
-      "fake_skills": [ [ "gun", 1 ], [ "throw", 1 ] ],
-      "gun_type": "zombie_thrown_rock",
-      "no_ammo_sound": "",
-      "require_targeting_player": false,
-      "ranges": [ [ 1, 6, "DEFAULT" ] ],
-      "fake_dex": 5,
-      "fake_per": 5,
-      "description": "The zombie throws a rock!",
-      "no_crits": true
-    },
-      [ "GRAB", 2 ], 
+    "special_attacks": [
+      {
+        "type": "bite",
+        "move_cost": 80,
+        "cooldown": 4,
+        "no_infection_chance": 2,
+        "damage_max_instance": [ { "damage_type": "cut", "amount": 6, "armor_penetration": 8 } ]
+      },
+      {
+        "type": "gun",
+        "cooldown": 7,
+        "move_cost": 100,
+        "fake_skills": [ [ "gun", 1 ], [ "throw", 1 ] ],
+        "gun_type": "zombie_thrown_rock",
+        "no_ammo_sound": "",
+        "require_targeting_player": false,
+        "ranges": [ [ 1, 6, "DEFAULT" ] ],
+        "fake_dex": 5,
+        "fake_per": 5,
+        "description": "The zombie throws a rock!",
+        "no_crits": true
+      },
+      [ "GRAB", 2 ],
       [ "scratch", 10 ]
     ]
   },
@@ -64,7 +64,7 @@
     "grab_strength": 3,
     "extend": { "flags": [ "GOODHEARING" ] },
     "melee_damage": [ { "damage_type": "bash", "amount": 2, "armor_penetration": 4, "armor_multiplier": 0.2 } ],
-    "special_attacks": [ 
+    "special_attacks": [
       {
         "type": "bite",
         "move_cost": 80,
@@ -72,7 +72,7 @@
         "no_infection_chance": 2,
         "damage_max_instance": [ { "damage_type": "cut", "amount": 6, "armor_penetration": 8 } ]
       },
-      [ "GRAB", 2 ], 
+      [ "GRAB", 2 ],
       [ "scratch", 10 ]
     ]
   },
@@ -87,7 +87,7 @@
     "extend": { "flags": [ "GOODHEARING" ] },
     "melee_damage": [ { "damage_type": "bash", "amount": 2, "armor_penetration": 4, "armor_multiplier": 0.2 } ],
     "special_attacks": [
-      [ "GRAB", 2 ], 
+      [ "GRAB", 2 ],
       {
         "type": "gun",
         "cooldown": 7,
@@ -112,13 +112,13 @@
     "melee_dice": 3,
     "extend": { "flags": [ "GOODHEARING" ] },
     "melee_damage": [ { "damage_type": "bash", "amount": 2, "armor_penetration": 4, "armor_multiplier": 0.2 } ],
-    "special_attacks": [ 
-    {
-      "type": "bite",
-      "move_cost": 120,
-      "cooldown": 5,
-      "damage_max_instance": [ { "damage_type": "cut", "amount": 6, "armor_penetration": 8 } ]
-    },
+    "special_attacks": [
+      {
+        "type": "bite",
+        "move_cost": 120,
+        "cooldown": 5,
+        "damage_max_instance": [ { "damage_type": "cut", "amount": 6, "armor_penetration": 8 } ]
+      },
       [ "scratch", 10 ]
     ]
   },
@@ -139,22 +139,22 @@
         "no_infection_chance": 2,
         "damage_max_instance": [ { "damage_type": "cut", "amount": 6, "armor_penetration": 8 } ]
       },
-    {
-      "type": "gun",
-      "cooldown": 7,
-      "move_cost": 100,
-      "fake_skills": [ [ "gun", 1 ], [ "throw", 1 ] ],
-      "gun_type": "zombie_thrown_rock",
-      "no_ammo_sound": "",
-      "require_targeting_player": false,
-      "ranges": [ [ 1, 6, "DEFAULT" ] ],
-      "fake_dex": 5,
-      "fake_per": 5,
-      "description": "The zombie throws a rock!",
-      "no_crits": true
-    },
-    [ "GRAB", 2 ], 
-    [ "scratch", 10 ] 
+      {
+        "type": "gun",
+        "cooldown": 7,
+        "move_cost": 100,
+        "fake_skills": [ [ "gun", 1 ], [ "throw", 1 ] ],
+        "gun_type": "zombie_thrown_rock",
+        "no_ammo_sound": "",
+        "require_targeting_player": false,
+        "ranges": [ [ 1, 6, "DEFAULT" ] ],
+        "fake_dex": 5,
+        "fake_per": 5,
+        "description": "The zombie throws a rock!",
+        "no_crits": true
+      },
+      [ "GRAB", 2 ],
+      [ "scratch", 10 ]
     ]
   },
   {
@@ -167,22 +167,22 @@
     "extend": { "flags": [ "GOODHEARING" ] },
     "melee_damage": [ { "damage_type": "bash", "amount": 2, "armor_penetration": 4, "armor_multiplier": 0.2 } ],
     "special_attacks": [
-    [ "GRAB", 2 ], 
-    {
-      "type": "gun",
-      "cooldown": 7,
-      "move_cost": 100,
-      "fake_skills": [ [ "gun", 1 ], [ "throw", 1 ] ],
-      "gun_type": "zombie_thrown_rock",
-      "no_ammo_sound": "",
-      "require_targeting_player": false,
-      "ranges": [ [ 1, 6, "DEFAULT" ] ],
-      "fake_dex": 5,
-      "fake_per": 5,
-      "description": "The zombie throws a rock!",
-      "no_crits": true
-    },
-    [ "scratch", 5 ]
+      [ "GRAB", 2 ],
+      {
+        "type": "gun",
+        "cooldown": 7,
+        "move_cost": 100,
+        "fake_skills": [ [ "gun", 1 ], [ "throw", 1 ] ],
+        "gun_type": "zombie_thrown_rock",
+        "no_ammo_sound": "",
+        "require_targeting_player": false,
+        "ranges": [ [ 1, 6, "DEFAULT" ] ],
+        "fake_dex": 5,
+        "fake_per": 5,
+        "description": "The zombie throws a rock!",
+        "no_crits": true
+      },
+      [ "scratch", 5 ]
     ]
   },
   {
@@ -280,7 +280,7 @@
     "grab_strength": 3,
     "extend": { "flags": [ "GOODHEARING" ] },
     "melee_damage": [ { "damage_type": "bash", "amount": 2, "armor_penetration": 4, "armor_multiplier": 0.2 } ],
-    "special_attacks": [ 
+    "special_attacks": [
       {
         "type": "bite",
         "move_cost": 80,
@@ -288,22 +288,22 @@
         "no_infection_chance": 2,
         "damage_max_instance": [ { "damage_type": "cut", "amount": 6, "armor_penetration": 8 } ]
       },
-    {
-      "type": "gun",
-      "cooldown": 7,
-      "move_cost": 100,
-      "fake_skills": [ [ "gun", 1 ], [ "throw", 1 ] ],
-      "gun_type": "zombie_thrown_rock",
-      "no_ammo_sound": "",
-      "require_targeting_player": false,
-      "ranges": [ [ 1, 6, "DEFAULT" ] ],
-      "fake_dex": 5,
-      "fake_per": 5,
-      "description": "The zombie throws a rock!",
-      "no_crits": true
-    },
-    [ "GRAB", 2 ], 
-    [ "scratch", 20 ]
+      {
+        "type": "gun",
+        "cooldown": 7,
+        "move_cost": 100,
+        "fake_skills": [ [ "gun", 1 ], [ "throw", 1 ] ],
+        "gun_type": "zombie_thrown_rock",
+        "no_ammo_sound": "",
+        "require_targeting_player": false,
+        "ranges": [ [ 1, 6, "DEFAULT" ] ],
+        "fake_dex": 5,
+        "fake_per": 5,
+        "description": "The zombie throws a rock!",
+        "no_crits": true
+      },
+      [ "GRAB", 2 ],
+      [ "scratch", 20 ]
     ]
   },
   {
@@ -348,7 +348,7 @@
     "extend": { "flags": [ "GOODHEARING" ] },
     "melee_damage": [ { "damage_type": "bash", "amount": 2, "armor_penetration": 4, "armor_multiplier": 0.2 } ],
     "special_attacks": [
-      [ "GRAB", 2 ], 
+      [ "GRAB", 2 ],
       {
         "type": "bite",
         "move_cost": 80,
@@ -369,7 +369,7 @@
         "fake_per": 5,
         "description": "The zombie throws a rock!",
         "no_crits": true
-      } 
+      }
     ]
   },
   {
@@ -383,7 +383,7 @@
     "extend": { "flags": [ "GOODHEARING" ] },
     "melee_damage": [ { "damage_type": "bash", "amount": 2, "armor_penetration": 4, "armor_multiplier": 0.2 } ],
     "special_attacks": [
-      [ "GRAB", 2 ], 
+      [ "GRAB", 2 ],
       {
         "type": "bite",
         "move_cost": 80,
@@ -442,7 +442,7 @@
     "extend": { "flags": [ "GOODHEARING" ] },
     "melee_damage": [ { "damage_type": "bash", "amount": 2, "armor_penetration": 4, "armor_multiplier": 0.2 } ],
     "special_attacks": [
-      [ "GRAB", 2 ], 
+      [ "GRAB", 2 ],
       {
         "type": "bite",
         "move_cost": 80,
@@ -476,7 +476,7 @@
     "extend": { "flags": [ "GOODHEARING" ] },
     "melee_damage": [ { "damage_type": "bash", "amount": 2, "armor_penetration": 4, "armor_multiplier": 0.2 } ],
     "special_attacks": [
-      [ "GRAB", 2 ], 
+      [ "GRAB", 2 ],
       {
         "type": "bite",
         "move_cost": 80,
@@ -509,9 +509,7 @@
     "grab_strength": 2,
     "extend": { "flags": [ "GOODHEARING" ] },
     "melee_damage": [ { "damage_type": "bash", "amount": 2, "armor_penetration": 4, "armor_multiplier": 0.2 } ],
-    "special_attacks": [
-      [ "GRAB", 2 ]
-    ]
+    "special_attacks": [ [ "GRAB", 2 ] ]
   },
   {
     "id": "mon_zombie_miner",
@@ -522,22 +520,22 @@
     "grab_strength": 3,
     "extend": { "flags": [ "GOODHEARING" ] },
     "melee_damage": [ { "damage_type": "stab", "amount": 6, "armor_penetration": 5, "armor_multiplier": 0.1 } ],
-    "special_attacks": [ 
-    [ "GRAB", 2 ], 
-    {
-      "type": "gun",
-      "cooldown": 7,
-      "move_cost": 100,
-      "fake_skills": [ [ "gun", 1 ], [ "throw", 1 ] ],
-      "gun_type": "zombie_thrown_rock",
-      "no_ammo_sound": "",
-      "require_targeting_player": false,
-      "ranges": [ [ 1, 6, "DEFAULT" ] ],
-      "fake_dex": 5,
-      "fake_per": 5,
-      "description": "The zombie throws a rock!",
-      "no_crits": true
-    }
+    "special_attacks": [
+      [ "GRAB", 2 ],
+      {
+        "type": "gun",
+        "cooldown": 7,
+        "move_cost": 100,
+        "fake_skills": [ [ "gun", 1 ], [ "throw", 1 ] ],
+        "gun_type": "zombie_thrown_rock",
+        "no_ammo_sound": "",
+        "require_targeting_player": false,
+        "ranges": [ [ 1, 6, "DEFAULT" ] ],
+        "fake_dex": 5,
+        "fake_per": 5,
+        "description": "The zombie throws a rock!",
+        "no_crits": true
+      }
     ]
   },
   {
@@ -548,7 +546,7 @@
     "melee_dice": 2,
     "hp": 70,
     "extend": { "flags": [ "GOODHEARING" ] },
-    "special_attacks": [ 
+    "special_attacks": [
       {
         "type": "bite",
         "move_cost": 80,
@@ -577,7 +575,7 @@
     "hp": 70,
     "melee_damage": [ { "damage_type": "bash", "amount": 1, "armor_penetration": 2, "armor_multiplier": 0.2 } ],
     "extend": { "flags": [ "GOODHEARING" ] },
-    "special_attacks": [ 
+    "special_attacks": [
       {
         "type": "bite",
         "move_cost": 80,
@@ -596,7 +594,7 @@
     "hp": 70,
     "melee_damage": [ { "damage_type": "bash", "amount": 1, "armor_penetration": 2, "armor_multiplier": 0.2 } ],
     "extend": { "flags": [ "GOODHEARING" ] },
-    "special_attacks": [ 
+    "special_attacks": [
       {
         "type": "bite",
         "move_cost": 80,
