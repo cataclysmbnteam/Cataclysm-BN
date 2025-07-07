@@ -1016,6 +1016,31 @@
     ]
   },
   {
+    "result": "rail_laser_sight",
+    "type": "recipe",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_MODS",
+    "skill_used": "electronics",
+    "difficulty": 6,
+    "skills_required": [ [ "fabrication", 4 ], [ "gun", 2 ] ],
+    "time": "1 h",
+    "autolearn": true,
+    "reversible": true,
+    "book_learn": [ [ "manual_rifle", 6 ], [ "textbook_anarch", 3 ] ],
+    "tools": [ [ [ "large_repairkit", 25 ], [ "small_repairkit", 45 ] ], [ [ "mold_plastic", -1 ] ] ],
+    "components": [
+      [ [ "e_scrap", 4 ] ],
+      [ [ "solder_wire", 10 ] ],
+      [ [ "cable", 5 ] ],
+      [ [ "diamond", 1 ], [ "sapphire", 1 ], [ "ruby", 1 ] ],
+      [ [ "light_minus_battery_cell", 1 ] ],
+      [ [ "plastic_chunk", 5 ] ],
+      [ [ "circuit", 1 ] ],
+      [ [ "lens", 1 ] ],
+      [ [ "amplifier", 1 ] ]
+    ]
+  },
+  {
     "result": "mod_makeshift_capacitor",
     "type": "recipe",
     "category": "CC_WEAPON",
