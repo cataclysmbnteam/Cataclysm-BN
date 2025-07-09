@@ -1672,7 +1672,10 @@
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 5 ], [ "mechanics", 2 ] ],
     "time": "60 m",
-    "components": [ [ [ "rope_makeshift_30", 1 ], [ "rope_30", 1 ], [ "vine_30", 1 ], [ "rope_30_plastic", 1 ] ], [ [ "wood_structural", 4, "LIST" ] ] ],
+    "components": [
+      [ [ "rope_makeshift_30", 1 ], [ "rope_30", 1 ], [ "vine_30", 1 ], [ "rope_30_plastic", 1 ] ],
+      [ [ "wood_structural", 4, "LIST" ] ]
+    ],
     "pre_note": "Can be deconstructed without tools.  Must be adjacent to a palisade wall that is itself adjacent to a palisade gate in order to open said gate.",
     "pre_special": "check_empty",
     "post_terrain": "t_palisade_pulley"
@@ -2415,7 +2418,10 @@
     "category": "FURN",
     "required_skills": [ [ "survival", 0 ] ],
     "time": "10 m",
-    "components": [ [ [ "straw_pile", 40 ], [ "withered", 40 ] ], [ [ "rope_30", 1 ], [ "rope_makeshift_30", 1 ], [ "vine_30", 1 ], [ "rope_30_plastic", 1 ] ] ],
+    "components": [
+      [ [ "straw_pile", 40 ], [ "withered", 40 ] ],
+      [ [ "rope_30", 1 ], [ "rope_makeshift_30", 1 ], [ "vine_30", 1 ], [ "rope_30_plastic", 1 ] ]
+    ],
     "pre_special": "check_empty",
     "dark_craftable": true,
     "post_furniture": "f_hay"
