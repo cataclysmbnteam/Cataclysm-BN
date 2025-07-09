@@ -124,6 +124,7 @@
         "opinion": { "trust": -20, "value": -20 },
         "condition": { "u_is_wearing": "badge_marshal" }
       },
+      { "text": "Hey, when would more of this stuff be ready?", "topic": "TALK_ISHERWOOD_CLAIRE_RESTOCK" },
       {
         "text": "Hi, nice farm you have here.",
         "topic": "TALK_ISHERWOOD_CLAIRE_TALK1",
@@ -150,6 +151,7 @@
         "topic": "TALK_ISHERWOOD_CLAIRE",
         "condition": { "not": { "u_is_wearing": "badge_marshal" } }
       },
+      { "text": "Hey, when would more of this stuff be ready?", "topic": "TALK_ISHERWOOD_CLAIRE_RESTOCK" },
       {
         "text": "I'd better get going.",
         "topic": "TALK_DONE",

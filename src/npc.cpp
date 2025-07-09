@@ -1790,6 +1790,14 @@ void npc::shop_restock()
     }
 }
 
+std::string npc::get_restock_interval() const
+{
+    time_duration const restock_remaining =
+        restock - calendar::turn;
+    std::string restock_rem = to_string( restock_remaining );
+    return restock_rem;
+}
+
 int npc::minimum_item_value() const
 {
     // TODO: Base on inventory

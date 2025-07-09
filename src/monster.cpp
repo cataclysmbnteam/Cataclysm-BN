@@ -2888,6 +2888,14 @@ void monster::drop_items_on_death()
     g->m.spawn_items( pos(), std::move( items ) );
 }
 
+std::string npc::get_restock_interval() const
+{
+    time_duration const restock_remaining =
+        restock - calendar::turn;
+    std::string restock_rem = to_string( restock_remaining );
+    return restock_rem;
+}
+
 void monster::process_one_effect( effect &it, bool is_new )
 {
     // Monsters don't get trait-based reduction, but they do get effect based reduction
