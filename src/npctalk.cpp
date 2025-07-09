@@ -1794,7 +1794,7 @@ void parse_tags( std::string &phrase, const Character &u, const Character &me,
             tmp->charges = u.charges_of( item_type );
             phrase.replace( fa, l, format_money( tmp->price( true ) ) );
         } else if( tag == "<interval>" ) {
-            const npc *guy = dynamic_cast<const npc *>( &me );
+            const npc *guy = me.as_npc();
             phrase.replace( fa, l, guy->get_restock_interval() );
         } else if( !tag.empty() ) {
             debugmsg( "Bad tag.  '%s' (%d - %d)", tag.c_str(), fa, fb );
