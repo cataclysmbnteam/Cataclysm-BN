@@ -275,6 +275,7 @@
       { "text": "A farm must be a pretty safe place these days.", "topic": "TALK_CLAIRE_FARM" },
       { "text": "You are lucky to have your family still together.", "topic": "TALK_ISHERWOOD_CLAIRE2" },
       { "text": "Let's trade.", "effect": "start_trade", "topic": "TALK_ISHERWOOD_CLAIRE" },
+      { "text": "Hey, when would more of this stuff be ready?", "topic": "TALK_ISHERWOOD_CLAIRE_RESTOCK" },
       { "text": "Can I do anything for you?", "topic": "TALK_MISSION_LIST" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
     ]
