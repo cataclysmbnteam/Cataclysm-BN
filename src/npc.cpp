@@ -1718,13 +1718,15 @@ int npc::max_willing_to_owe() const
 
 void npc::shop_restock()
 {
-    const time_duration restock_delay = 3_days;
-
-    if( restock != calendar::turn_zero && ( calendar::turn - restock ) < restock_delay ) {
+    if( ( restock != calendar::turn_zero ) &&
+        ( ( calendar::turn - restock ) < 3_days * get_option<float>( "RESTOCK_DELAY_MULT" ) ) ) {
         return;
     }
 
-    restock = calendar::turn + restock_delay;
+    restock = calendar::turn + 3_days * get_option<float>( "RESTOCK_DELAY_MULT" );
+    if( is_player_ally() ) {
+        return;
+    }
 
     const item_group_id &from = myclass->get_shopkeeper_items();
     if( from == item_group_id( "EMPTY_GROUP" ) ) {
@@ -1793,9 +1795,11 @@ void npc::shop_restock()
 
 std::string npc::get_restock_interval() const
 {
-    time_duration const restock_remaining =
-        restock - calendar::turn;
+    time_duration const restock_remaining = restock - calendar::turn;
     std::string restock_rem = to_string( restock_remaining );
+    if( restock_remaining < -1_seconds ) {
+        debugmsg( "Restock not scheduled or negative.  Open the shop first." );
+    }
     return restock_rem;
 }
 

@@ -161,6 +161,12 @@
   },
   {
     "type": "talk_topic",
+    "id": "TALK_ISHERWOOD_CLAIRE_RESTOCK",
+    "dynamic_line": "Around <interval>.",
+    "responses": [ { "text": "Alright then, bye.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
     "id": "TALK_ISHERWOOD_CLAIRE_TALK1",
     "dynamic_line": "I live here with my husband, Jack.  He is working out in his shop.",
     "responses": [

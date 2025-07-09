@@ -2514,6 +2514,11 @@ void options_manager::add_options_world_default()
          false
        );
 
+    add( "RESTOCK_DELAY_MULT", world_default, translate_marker( "Merchant restock rate" ),
+         translate_marker( "A scaling factor that determines restock rate of merchants." ),
+         0.01, 10.0, 1.0, 0.01
+       );
+
     add_empty_line();
 
     add( "RAD_MUTATION", world_default, translate_marker( "Mutations by radiation" ),
