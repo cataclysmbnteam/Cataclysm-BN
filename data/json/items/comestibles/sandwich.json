@@ -299,7 +299,7 @@
     "name": { "str": "PB&M sandwich", "str_pl": "PB&M sandwiches" },
     "calories": 170,
     "description": "Who knew you could mix maple syrup and peanut butter to create yet another different sandwich?",
-    "material": [ "wheat", nut ],
+    "material": [ "wheat", "nut" ],
     "fun": 6,
     "vitamins": [ [ "calcium", 12 ], [ "iron", 28 ], [ "wheat_allergen", 1 ] ]
   },
