@@ -5941,8 +5941,17 @@ bool item::goes_bad() const
     return is_food() && get_comestible()->spoils != 0_turns;
 }
 
-bool item::goes_bad_after_opening() const
+bool item::goes_bad_after_opening( bool strict ) const
 {
+    // check if this item is explicitly a canning-type item: eg, it preserves contents
+    if( strict ) {
+        if( type->container && type->container->preserves &&
+            !contents.empty() && contents.front().goes_bad() ) {
+            return true;
+        }
+    } else {
+        return false;
+    }
     return goes_bad() || ( type->container && type->container->preserves &&
                            !contents.empty() && contents.front().goes_bad() );
 }
