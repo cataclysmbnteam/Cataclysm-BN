@@ -1798,7 +1798,8 @@ void parse_tags( std::string &phrase, const Character &u, const Character &me,
             npc *guy = const_cast<npc *>( me.as_npc() ); // remove const-ness from pointer
             time_duration const restock_remaining = guy->restock - calendar::turn;
             // reset if the restock rate is higher than the possible max, or null (setting has changed or not oponed shop yet)
-            if( restock_remaining < -1_seconds || restock_remaining > 3_days * get_option<float>( "RESTOCK_DELAY_MULT" ) ) {
+            if( restock_remaining < -1_seconds ||
+                restock_remaining > 3_days * get_option<float>( "RESTOCK_DELAY_MULT" ) ) {
                 guy->restock = calendar::turn + 3_days * get_option<float>( "RESTOCK_DELAY_MULT" );
             }
             phrase.replace( fa, l, guy->get_restock_interval() );
