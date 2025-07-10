@@ -147,7 +147,7 @@
     "volume": "250 ml",
     "comestible_type": "DRINK",
     "container": "jar_glass_sealed",
-    "primary_material": "junk",
+    "material": ["junk", "nut"],
     "quench": -2,
     "calories": 190,
     "charges": 8,
