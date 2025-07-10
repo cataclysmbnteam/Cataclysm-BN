@@ -159,7 +159,7 @@
   {
     "id": "peanutbutter_imitation",
     "type": "COMESTIBLE",
-    "name": "imitation peanutbutter",
+    "name": "imitation peanut butter",
     "description": "A thick, nutty brown paste.",
     "copy-from": "peanutbutter"
   },
