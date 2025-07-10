@@ -1797,9 +1797,6 @@ std::string npc::get_restock_interval() const
 {
     time_duration const restock_remaining = restock - calendar::turn;
     std::string restock_rem = to_string( restock_remaining );
-    if( restock_remaining < -1_seconds ) {
-        debugmsg( "Restock not scheduled or negative.  Open the shop first." );
-    }
     return restock_rem;
 }
 
