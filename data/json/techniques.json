@@ -816,7 +816,7 @@
     "messages": [ "You hook and drag %s down", "<npcname> hooks and drags %s down" ],
     "skill_requirements": [ { "name": "melee", "level": 3 } ],
     "melee_allowed": true,
-    "req_buffs": "buff_medievalpole_onmiss",
+    "req_buffs": [ "buff_medievalpole_onmiss" ],
     "crit_ok": true,
     "weighting": 2,
     "down_dur": 2,

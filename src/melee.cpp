@@ -524,7 +524,8 @@ void Character::melee_attack( Creature &t, bool allow_special, const matec_id *f
 
         // Pick one or more special attacks
         matec_id technique_id;
-        if( allow_special && !has_force_technique ) {
+        if( allow_special && ( !has_force_technique || ( reach_attacking &&
+                               *force_technique == tec_none ) ) ) {
             technique_id = pick_technique( t, cur_weapon, critical_hit, false, false );
         } else if( has_force_technique ) {
             technique_id = *force_technique;
@@ -553,7 +554,8 @@ void Character::melee_attack( Creature &t, bool allow_special, const matec_id *f
 
         // Handles effects as well; not done in melee_affect_*
         if( technique.id != tec_none ) {
-            perform_technique( technique, t, d, move_cost );
+            apply_technique_buffs( technique, &d, &move_cost );
+            perform_technique( technique, t );
         }
 
         // Proceed with melee attack.
@@ -750,7 +752,8 @@ void Character::reach_attack( const tripoint &p )
     }
 
     reach_attacking = true;
-    melee_attack( *critter, false, &force_technique, false );
+
+    melee_attack( *critter, true ); // , nullptr, false );
     reach_attacking = false;
 }
 
@@ -1188,8 +1191,8 @@ matec_id Character::pick_technique( Creature &t, const item &weap,
 
     bool downed = t.has_effect( effect_downed );
     bool stunned = t.has_effect( effect_stunned );
-    bool wall_adjacent = g->m.is_wall_adjacent( pos() );
-
+    bool sneak_attack = !( t.sees( g->u.pos() ) && t.sees( g->u ) );
+    bool running = g->u.movement_mode_is( CMM_RUN );
     // first add non-aoe tecs
     for( const matec_id &tec_id : all ) {
         const ma_technique &tec = tec_id.obj();
@@ -1204,11 +1207,32 @@ matec_id Character::pick_technique( Creature &t, const item &weap,
             continue;
         }
 
-        // skip wall adjacent techniques if not next to a wall
-        if( tec.wall_adjacent && !wall_adjacent ) {
+        //if throwing seelect for throwing_tecs
+        //but otherwise allow throwing_ok tecs
+        if( !tec.throwing_ok && ( throw_attacking != tec.throwing_tec ) ) {
             continue;
         }
 
+        // skip techniques that require specific adjacency flags if those flags aren't present
+        if( !tec.reqs.req_adjacent.empty() && !g->m.has_adjacent_flags( pos(), tec.reqs.req_adjacent ) ) {
+            continue;
+        }
+
+        // skip running techniques if not running
+        if( tec.reqs.req_running && !running ) {
+            continue;
+        }
+
+        // skip running techniques if not running
+        if( tec.sneak_attack && !sneak_attack ) {
+            continue;
+        }
+
+        //if reaching then select from reach_tecs
+        //but otherwise allow reach_ok tecs
+        if( !tec.reach_ok && ( reach_attacking != tec.reach_tec ) ) {
+            continue;
+        }
         // skip dodge counter techniques
         if( dodge_counter != tec.dodge_counter ) {
             continue;
@@ -1221,7 +1245,8 @@ matec_id Character::pick_technique( Creature &t, const item &weap,
 
         // if critical then select only from critical tecs
         // but allow the technique if its crit ok
-        if( !tec.crit_ok && ( crit != tec.crit_tec ) ) {
+        if( !tec.crit_ok &&
+            ( crit != tec.crit_tec ) ) { //if its not crit_ok && (crit does not equal crit_tec)
             continue;
         }
 
@@ -1231,12 +1256,12 @@ matec_id Character::pick_technique( Creature &t, const item &weap,
         }
 
         // don't apply "downed only" techniques to someone who's not downed
-        if( !downed && tec.downed_target ) {
+        if( !downed && tec.req_target_effects.contains( effect_downed ) ) {
             continue;
         }
 
         // don't apply "stunned only" techniques to someone who's not stunned
-        if( !stunned && tec.stunned_target ) {
+        if( !stunned && tec.req_target_effects.contains( effect_stunned ) ) {
             continue;
         }
 
@@ -1430,78 +1455,106 @@ static void print_damage_info( const damage_instance &di )
     add_msg( m_debug, "%stotal: %d", ss, total );
 }
 
-void Character::perform_technique( const ma_technique &technique, Creature &t, damage_instance &di,
-                                   int &move_cost )
+/// <summary>
+/// Applies all of the non-numerical effects of a martial arts technique. This includes reposition, effect application, aoe, etc.
+/// </summary>
+void Character::perform_technique( const ma_technique &technique, Creature &t )
 {
-    add_msg( m_debug, "dmg before tec:" );
-    print_damage_info( di );
-
-    for( damage_unit &du : di.damage_units ) {
-        // TODO: Allow techniques to add more damage types to attacks
-        if( du.amount <= 0 ) {
-            continue;
-        }
-
-        du.amount += technique.damage_bonus( *this, du.type );
-        du.damage_multiplier *= technique.damage_multiplier( *this, du.type );
-        du.res_pen += technique.armor_penetration( *this, du.type );
-    }
-
-    add_msg( m_debug, "dmg after tec:" );
-    print_damage_info( di );
-
-    move_cost *= technique.move_cost_multiplier( *this );
-    move_cost += technique.move_cost_penalty( *this );
-
     if( technique.down_dur > 0 ) {
         t.add_effect( effect_downed, rng( 1_turns, time_duration::from_turns( technique.down_dur ) ) );
-        auto &bash = get_damage_unit( di.damage_units, DT_BASH );
-        if( bash.amount > 0 ) {
-            bash.amount += 3;
-        }
     }
 
-    if( technique.side_switch ) {
-        const tripoint b = t.pos();
-        int newx;
-        int newy;
+    if( technique.pull_target || technique.pull_self ) {
+        map &here = get_map();
 
-        if( b.x > posx() ) {
-            newx = posx() - 1;
-        } else if( b.x < posx() ) {
-            newx = posx() + 1;
-        } else {
-            newx = b.x;
+        Creature *target = technique.pull_target ? &t : this;
+        Creature *anchor = technique.pull_target ? this : &t;
+        std::vector<tripoint> line = here.find_clear_path( anchor -> pos(), target -> pos() );
+        tripoint prev_point = target -> pos();
+        for( auto &i : line ) {
+            // can't pull through cars and windows
+            if( ( !g->is_empty( i ) && i != anchor->pos() && i != target -> pos() ) ||
+                here.obstructed_by_vehicle_rotation( prev_point, i ) ) {
+                continue;
+            }
+            prev_point = i;
         }
 
-        if( b.y > posy() ) {
-            newy = posy() - 1;
-        } else if( b.y < posy() ) {
-            newy = posy() + 1;
-        } else {
-            newy = b.y;
-        }
+        // Limit the range in case some weird math thing would cause the target to fly past us
+        int range = rl_dist( anchor -> pos(), target -> pos() ) + 1;
+        tripoint pt = target->pos();
+        while( range > 0 ) {
+            // Recalculate the ray each step
+            // We can't depend on either the target position being constant (obviously),
+            // but neither on z pos staying constant, because we may want to shift the map mid-pull
+            const units::angle dir = coord_to_angle( target->pos(), anchor->pos() );
+            tileray tdir( dir );
+            tdir.advance();
+            pt.x = target->posx() + tdir.dx();
+            pt.y = target->posy() + tdir.dy();
+            if( !g->is_empty( pt ) ) { //Cancel the grab if the space is occupied by something
+                break;
+            }
 
-        const tripoint &dest = tripoint( newx, newy, b.z );
+            player *foe = dynamic_cast<player *>( target );
+            if( foe != nullptr ) {
+                if( foe->in_vehicle ) {
+                    here.unboard_vehicle( foe->pos() );
+                }
+
+                if( target->is_player() && ( pt.x < HALF_MAPSIZE_X || pt.y < HALF_MAPSIZE_Y ||
+                                             //I don't actually know what this check does.
+                                             pt.x >= HALF_MAPSIZE_X + SEEX || pt.y >= HALF_MAPSIZE_Y + SEEY ) ) {
+                    g->update_map( pt.x, pt.y );
+                }
+            }
+
+            if( technique.pull_target ) {
+                t.setpos( pt );
+            } else {
+                setpos( pt );
+            }
+            range--;
+        }
+        // The monster might drag a target that's not on it's z level
+        // So if they leave them on open air, make them fall
+        here.creature_on_trap( *target );
+    }
+    if( technique.switch_pos ) {
+        g->swap_critters( g->u, t );
+    }
+
+    if( technique.switch_side_target || technique.switch_side_self ) {
+        const tripoint tPos = technique.switch_side_target ? t.pos() : pos();
+        const tripoint aPos = technique.switch_side_target ? pos() : t.pos();
+        const tripoint dest = aPos - ( tPos - aPos );
+
         if( g->is_empty( dest ) ) {
-            t.setpos( dest );
+            if( technique.switch_side_target ) {
+                t.setpos( dest );
+            } else {
+                if( in_vehicle ) { //Don't unboard unless it's the player, and unless there is actually a place to swap to.
+                    get_map().unboard_vehicle( pos() );
+                }
+                setpos( dest );
+            }
         }
     }
 
-    if( technique.stun_dur > 0 && !technique.powerful_knockback ) {
+    if( technique.stun_dur > 0 && technique.knockback_type.empty() ) {
         t.add_effect( effect_stunned, rng( 1_turns, time_duration::from_turns( technique.stun_dur ) ) );
     }
 
     if( technique.knockback_dist ) {
-        const tripoint prev_pos = t.pos(); // track target startpoint for knockback_follow
+        tripoint prev_pos = t.pos(); // track target startpoint for knockback_follow
         const int kb_offset_x = rng( -technique.knockback_spread, technique.knockback_spread );
         const int kb_offset_y = rng( -technique.knockback_spread, technique.knockback_spread );
         tripoint kb_point( posx() + kb_offset_x, posy() + kb_offset_y, posz() );
-        for( int dist = rng( 1, technique.knockback_dist ); dist > 0; dist-- ) {
+        for( int dist = rng( technique.knockback_dist / 2, technique.knockback_dist ); dist > 0; dist-- ) {
             t.knock_back_from( kb_point );
         }
         // This technique makes the player follow into the tile the target was knocked from
-        if( technique.knockback_follow ) {
+        if( !technique.knockback_follow_type.empty() ) {
             const optional_vpart_position vp0 = g->m.veh_at( pos() );
             vehicle *const veh0 = veh_pointer_or_null( vp0 );
             bool to_swimmable = g->m.has_flag( "SWIMMABLE", prev_pos );
@@ -1518,6 +1571,10 @@ void Character::perform_technique( const ma_technique &technique, Creature &t, d
 
             if( !move_issue ) {
                 if( t.pos() != prev_pos ) {
+                    if( technique.knockback_follow_type == "full" ) {
+                        const tripoint delta = prev_pos - pos();
+                        prev_pos = t.pos() - delta;
+                    }
                     g->place_player( prev_pos );
                     g->on_move_effects();
                 }
@@ -1589,6 +1646,51 @@ void Character::perform_technique( const ma_technique &technique, Creature &t, d
         if( one_in( ( 1400 - ( get_int() * 50 ) ) / bionic_boost ) ) {
             martial_arts_data->learn_current_style_CQB( is_player() );
         }
+    }
+
+    //if a technique was used that consumed a buff, make sure we actually remove the buff.
+    for( const std::pair<mabuff_id, int> &consume_id : technique.reqs.consumed_buffs ) {
+        if( has_mabuff( consume_id.first ) ) {
+            debugmsg( "Removal clause" );
+            remove_effect( efftype_id( std::string( "mabuff:" ) +
+                                       consume_id.first.str() ) ); //, consume_id.second );
+        }
+    }
+
+    martial_arts_data->ma_triggered_effects( *this, technique.id );
+}
+
+
+/// <summary>
+/// Applies damage_instance modifications, and move_cost modifications from a technique.
+///
+/// Can be called only one by passing in nullptr for damage_instance or move_cost.
+/// </summary>
+void Character::apply_technique_buffs( const ma_technique &technique, damage_instance *di,
+                                       int *move_cost )
+{
+    add_msg( m_debug, "dmg before tec:" );
+    if( di ) {
+
+        print_damage_info( *di );
+
+        for( damage_unit &du : di -> damage_units ) {
+            // TODO: Allow techniques to add more damage types to attacks
+            if( du.amount <= 0 ) {
+                continue;
+            }
+
+            du.amount += technique.damage_bonus( *this, du.type );
+            du.damage_multiplier *= technique.damage_multiplier( *this, du.type );
+            du.res_pen += technique.armor_penetration( *this, du.type );
+        }
+
+        add_msg( m_debug, "dmg after tec:" );
+        print_damage_info( *di );
+    }
+    if( move_cost ) {
+        *move_cost *= technique.move_cost_multiplier( *this );
+        *move_cost += technique.move_cost_penalty( *this );
     }
 }
 

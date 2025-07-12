@@ -74,6 +74,8 @@ class character_martial_arts
         void ma_oncrit_effects( Character &owner );
         /** Fires all kill-triggered martial arts events */
         void ma_onkill_effects( Character &owner );
+        /** Fires all technique-specific martial arts events */
+        void ma_triggered_effects( Character &owner, const matec_id &tec );
 
         /** Returns true if the player has the leg block technique available */
         bool can_leg_block( const Character &owner ) const;
