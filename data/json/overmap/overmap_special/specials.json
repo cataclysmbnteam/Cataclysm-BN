@@ -1796,7 +1796,7 @@
     "city_distance": [ 3, -1 ],
     "city_sizes": [ 4, -1 ],
     "occurrences": [ 50, 100 ],
-    "flags": [ "ELECTRIC_GRID", "UNIQUE", "GLOBALLY_UNIQUE" ]
+    "flags": [ "UNIQUE", "GLOBALLY_UNIQUE" ]
   },
   {
     "type": "overmap_special",
@@ -1982,7 +1982,7 @@
     "city_distance": [ 3, -1 ],
     "rotate": false,
     "occurrences": [ 30, 100 ],
-    "flags": [ "UNIQUE", "ELECTRIC_GRID" ]
+    "flags": [ "UNIQUE" ]
   },
   {
     "type": "overmap_special",
@@ -3025,7 +3025,7 @@
     "city_distance": [ 10, -1 ],
     "occurrences": [ 30, 100 ],
     "rotate": false,
-    "flags": [ "LAB", "UNIQUE", "ELECTRIC_GRID" ]
+    "flags": [ "LAB", "UNIQUE" ]
   },
   {
     "type": "overmap_special",
@@ -3134,7 +3134,7 @@
     ],
     "locations": [ "land" ],
     "occurrences": [ 0, 2 ],
-    "flags": [ "LAB", "ELECTRIC_GRID" ]
+    "flags": [ "LAB" ]
   },
   {
     "type": "overmap_special",
@@ -5631,7 +5631,7 @@
     "city_distance": [ 5, -1 ],
     "city_sizes": [ 4, -1 ],
     "occurrences": [ 10, 100 ],
-    "flags": [ "MILITARY", "UNIQUE", "ELECTRIC_GRID" ]
+    "flags": [ "MILITARY", "UNIQUE" ]
   },
   {
     "type": "overmap_special",
