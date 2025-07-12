@@ -286,6 +286,7 @@ doc_gen_func.impl = function()
 ---@field iuse_functions table
 ---@field hooks hooks
 ---@field current_mod string
+---@field current_mod_path string
 ---@field cata_internal table
 game = {}
 ]]
