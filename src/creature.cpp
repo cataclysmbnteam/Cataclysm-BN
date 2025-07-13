@@ -627,7 +627,7 @@ void print_dmg_msg( Creature &target, Creature *source, const dealt_damage_insta
 {
     std::string message;
     game_message_type sct_color = m_neutral;
-    if( severity < 0.9 ) {
+    if( severity < 0.8 ) {
         message = _( "Grazing hit." );
         sct_color = m_grazing;
     } else if( severity >= 1.5 ) {
@@ -723,17 +723,25 @@ auto get_stun_srength( const projectile &proj, creature_size size ) -> int
 void Creature::deal_projectile_attack( Creature *source, item *source_weapon,
                                        dealt_projectile_attack &attack )
 {
-    // Figure these out and store it so we dont need to keep calling them.
-    const bool sourceplayer = source->is_player();
-    const bool sourcenpc = source->is_npc();
-    const bool magic = attack.proj.has_effect( ammo_effect_magic );
-    const bool targetted_crit_allowed = !attack.proj.has_effect( ammo_effect_NO_CRIT );
+
     const double missed_by = attack.missed_by;
     if( missed_by >= 1.0 ) {
         // Total miss.
         // If a magic projectile somehow has a missed_by of 1 or more, it also misses.
         return;
     }
+
+    // Figure these out and store it so we dont need to keep calling them.
+    const bool sourceplayer = source->is_player();
+    const bool sourcenpc = source->is_npc();
+    const bool magic = attack.proj.has_effect( ammo_effect_magic );
+    const bool targetted_crit_allowed = !attack.proj.has_effect( ammo_effect_NO_CRIT );
+    // Determine our required accuracy to hit the head.
+    const double headshot_acc = ( has_flag( MF_SMALL_HEAD ) ||
+                                  has_flag( MF_TINY_HEAD ) ) ? ( has_flag( MF_TINY_HEAD ) ? 0.05 : 0.08 ) : 0.1;
+
+
+
     // If carrying a rider, there is a chance the hits may hit rider instead.
     if( has_effect( effect_ridden ) ) {
         monster *mons = dynamic_cast<monster *>( this );
@@ -747,6 +755,9 @@ void Creature::deal_projectile_attack( Creature *source, item *source_weapon,
     }
     projectile &proj = attack.proj;
     dealt_damage_instance &dealt_dam = attack.dealt_dam;
+
+    const double ammo_severity_bonus = proj.aimedcritbonus;
+    const double ammo_severity_max_bonus = proj.aimedcritmaxbonus;
 
     const bool u_see_this = g->u.sees( *this );
 
@@ -790,6 +801,7 @@ void Creature::deal_projectile_attack( Creature *source, item *source_weapon,
     }
 
     // Hit severity is the damage multiplier based on how well an attack was aimed, and is passed to impact.mult_damage.
+    // Severity replaces hit tier, and
     // Closely related to goodhit, and modified by creature stats, skill, stamina etc. sorta similarly to hit_value.
     // Different parts have different maximum severities, potentially modified by weapon/ammo/monster stats.
     // Limbs max x1.25, Torso max x1.5, Head max x2. Cant quite do a direct formula.
@@ -810,13 +822,7 @@ void Creature::deal_projectile_attack( Creature *source, item *source_weapon,
             severity = 1.5;
         }
         // Add any severity bonus now if we got a good hit or better.
-        if( goodhit <= accuracy_goodhit ) {
-            severity += proj.aimedcritbonus;
-        }
-        // And cap severity if no targetted crit is allowed.
-        if( !targetted_crit_allowed ) {
-            severity = std::min( severity, 1.1 );
-        }
+
     } else {
         // Magic does not get crits, nor can it graze.
         severity = rng_float( 0.9, 1.1 );
@@ -835,52 +841,37 @@ void Creature::deal_projectile_attack( Creature *source, item *source_weapon,
     // We only want to grab stats from creatures that have them, i.e. the player and NPCs.
     if( sourceplayer || sourcenpc ) {
         Character *sender = dynamic_cast<Character *>( source );
-        double stamina_percentage = 1.0;
-        if( sourceplayer ) {
-            stamina_percentage = ( ( ( sender->get_stamina() > 0 ? ( sender->get_stamina() ) :
-                                       1 ) ) / sender->get_stamina_max() );
-        } else {
-            // They feel no pain and pretty much always have full stamina... but they do bleed.
-            // Capping NPCs out at a x0.8 modifier, because I dont love them.
-            // HP percentage provides an int 0-100 value, so adjust to what we are using.
-            stamina_percentage = std::min( 0.8, std::max( 0.01, 0.01 * ( sender->hp_percentage() ) ) );
-        }
-        if( source->is_player() ) {
-
-            // Add a little failsafe to avoid divide by 0 incase of wierdness
-            // If its not a gun, dont try to grab a relevant gun skill and break things
-            const double wep_skill_adjust = ( source_weapon->is_gun() ) ? 0.15 * ( sender->get_skill_level(
-                                                source_weapon->gun_skill() ) ) : 0.0;
-            const double stat_adjust = 0.05 * ( ( sender->get_dex() ) + ( sender->get_per() ) - 16 );
-            hit_location_variance = std::max( 0.05, std::min( 0.9,
-                                              ( hit_location_variance - ( ( stat_adjust + wep_skill_adjust ) * stamina_percentage ) ) ) );
-        }
-        // NPCs feel no pain, have a full stamina refresh every minute, seem to prioritize full aim over reason, and have several other cheaty workarounds.
+        // Call all this stuff once so we can use it elsewhere.
+        const double sender_dex = sender->get_dex();
+        const double sender_per = sender->get_per();
+        const double sender_skill = ( source_weapon->is_gun() ) ? sender->get_skill_level(
+                                        source_weapon->gun_skill() ) : 0.0;
+        const double stat_adjust = 0.05 * ( ( sender_dex ) + ( sender_per ) - 16 );
+        // Use a different forumla for stamina percentage if the sender is an NPC rather than the player.
+        // NPCs feel no pain and pretty much always have full stamina... but they do bleed.
         // They get seperate meaner logic to prevent them from auto-headshotting everything forever.
-        else if( source->is_npc() ) {
+        // Capping NPCs out at a x0.8 percentage, because I dont love them.
+        // HP percentage provides an int 0-100 value, so adjust to what we are using.
+        const double stamina_percentage = ( sourceplayer ) ? ( ( ( sender->get_stamina() > 0 ?
+                                          ( sender->get_stamina() ) :
+                                          1 ) ) / sender->get_stamina_max() ) : std::min( 0.8, std::max( 0.01,
+                                                  0.01 * ( sender->hp_percentage() ) ) );
+        // NPCs get a worse skill ratio, 0.1 instead of 0.15. If they felt pain, got hungry/thirsty, or got tired they could get an equivalent skill adjust.
+        const double wep_skill_adjust = sender_skill * ( ( sourceplayer ) ? 0.15 : 0.1 );
+        hit_location_variance = std::max( 0.05, std::min( 0.9,
+                                          ( hit_location_variance - ( ( stat_adjust + wep_skill_adjust ) * stamina_percentage ) ) ) );
 
-            // NPCs get a worse skill ratio, 0.1 instead of 0.15. If they felt pain, got hungry/thirsty, or got tired they could get an equivalent skill adjust.
-            const double wep_skill_adjust = ( source_weapon->is_gun() ) ? 0.1 * ( sender->get_skill_level(
-                                                source_weapon->gun_skill() ) ) : 0.0;
-            const double stat_adjust = 0.05 * ( ( sender->get_dex() ) + ( sender->get_per() ) - 16 );
-
-            hit_location_variance = std::max( 0.05, std::min( 0.9,
-                                              ( hit_location_variance - ( ( stat_adjust + wep_skill_adjust ) * stamina_percentage ) ) ) );
-        }
         // If accuracy is 0.2 or less, use source creature stats/skill/etc to potentially provide extra severity.
         // Monsters and spells dont get this effect.
         // Skill is more important than stats. Extra severity increases from 0 to its maximum as accuracy/missed_by/goodhit goes from 0.2 -> 0
         // Intent is that decently skilled characters (3-4) with slightly benificial stats can acheive max severity in ideal circumstances.
-        // High skill/stats allows a character to maintain lethality in less than ideal circumstances or take advantage of weapons/ammo that improves crit potential
+        // High skill/stats allows a character to maintain lethality in less than ideal circumstances or take advantage of weapons/ammo that improves crit potential.
+        // Landing a critical does not depend on what location is hit. Hit location determines the maximum severity.
         if( !magic && targetted_crit_allowed && goodhit <= accuracy_critical ) {
-            // standard max severity for a perfect headshot is 2x
-            // Reduced the max severity gain from skill/stats
-            // If its not a gun, dont try to grab a relevant gun skill and break things
-            const double wep_skill_adjust = ( source_weapon->is_gun() ) ? 0.1 * ( sender->get_skill_level(
-                                                source_weapon->gun_skill() ) ) : 0.0;
+            // standard severity for an aimed critical is x1.5, critical acc is 0.2
             // Stats over 8 provide an increase to max severity acheivable.
-            const double stat_adjust = std::max( ( 0.05 * ( ( sender->get_dex() ) +
-                                                   ( sender->get_per() ) - 16.0 ) ), 0.0 );
+            const double stat_adjust = std::max( ( 0.05 * ( ( sender_dex ) +
+                                                   ( sender_per ) - 16.0 ) ), 0.0 );
             severity += ( ( wep_skill_adjust + stat_adjust ) * ( ( 0.2 - goodhit ) * 5.0 ) );
         }
     }
@@ -897,7 +888,7 @@ void Creature::deal_projectile_attack( Creature *source, item *source_weapon,
     // In unintentional non-fatal firearm injuries, ~77% of injuries are to the arms and legs.
     // These are stats for non-fatal firearm injuries so obvious survivorship bias. Chest and head hits are bad.
     // The torso is generally the easiest target to hit and most shots will be aiming generally for center mass.
-    if( hit_value <= accuracy_headshot && !has_flag( MF_NOHEAD ) ) {
+    if( hit_value <= headshot_acc && !has_flag( MF_NOHEAD ) ) {
         // Only hit the head if the target in question actually has a head.
         bp_hit = bodypart_str_id( "head" );
     } else if( hit_value <= accuracy_critical ) {
@@ -919,20 +910,58 @@ void Creature::deal_projectile_attack( Creature *source, item *source_weapon,
                                        2 ) ? bp_hit = bodypart_str_id( "leg_l" ) : bp_hit = bodypart_str_id( "leg_r" ) ) : ( one_in(
                                                2 ) ? bp_hit = bodypart_str_id( "arm_l" ) : bp_hit = bodypart_str_id( "arm_r" ) ) );
     }
+    if( goodhit <= accuracy_standard ) {
+        severity += ammo_severity_bonus;
+    }
 
     // Now that we know where we hit, lets cap our severity based on the hit location.
-    if( !is_player() && !is_npc() ) {
-        if( ( bp_hit == bodypart_str_id( "head" ) ) ) {
-            severity = std::min( severity, 2.0 + proj.aimedcritmaxbonus );
-        } else if( ( bp_hit == bodypart_str_id( "torso" ) ) ) {
-            severity = std::min( severity, 1.5 + proj.aimedcritmaxbonus );
+    // If we did not hit head or torso, we hit *something* else, which is likely less important.
+    // This should be able to handle any rough bodyplan so long as the "torso" is centermass and the "head" is the most important/delicate thing.
+    if( bp_hit == bodypart_str_id( "head" ) ) {
+        // Characters have divided health pools, so cap severity
+        // If a monster has the no head bonus crit flag, cap severity to 1.5x as well
+        if( is_player() ||
+            is_npc() || has_flag( MF_NO_HEAD_BONUS_CRIT ) ) {
+            severity = std::min( severity, 1.5 + ammo_severity_max_bonus );
+        } else if( has_flag( MF_HEAD_BONUS_MAX_CRIT_1 ) || has_flag( MF_HEAD_BONUS_MAX_CRIT_2 ) ) {
+            severity = std::min( severity,
+                                 2.0 + proj.aimedcritmaxbonus + ( has_flag( MF_HEAD_BONUS_MAX_CRIT_1 ) ? 0.5 : 1.0 ) );
         } else {
-            // If we dont hit the head or torso, we are hitting one of the 4 limbs.
-            severity = std::min( severity, 1.25 + proj.aimedcritmaxbonus );
+            severity = std::min( severity, 2.0 + proj.aimedcritmaxbonus );
         }
     } else {
-        // Characters have divided health pools
-        severity = std::min( severity, 1.5 + proj.aimedcritmaxbonus );
+        // We hit the torso or limbs. Projectile resistant overrides other cases.
+        // If projectile resistant, negative ammo severity max bonus not applied to prevent negative damage mult shenanagins,
+        // and projectile resistant is already very strong.
+        if( has_flag( MF_PROJECTILE_RESISTANT_4 ) ) {
+            severity = std::min( severity, 1.0 + std::max( 0.0, ammo_severity_max_bonus ) );
+        } else if( has_flag( MF_PROJECTILE_RESISTANT_3 ) ) {
+            severity = std::min( severity, 0.8 + std::max( 0.0, ammo_severity_max_bonus ) );
+        } else if( has_flag( MF_PROJECTILE_RESISTANT_2 ) ) {
+            severity = std::min( severity, 0.5 + std::max( 0.0, ammo_severity_max_bonus ) );
+        } else if( has_flag( MF_PROJECTILE_RESISTANT_1 ) ) {
+            severity = std::min( severity, 0.2 + std::max( 0.0, ammo_severity_max_bonus ) );
+        } else if( bp_hit == bodypart_str_id( "torso" ) ) {
+            if( has_flag( MF_TORSO_BONUS_MAX_CRIT_2 ) ) {
+                severity = std::min( severity, 2.0 + ammo_severity_max_bonus );
+            } else if( has_flag( MF_TORSO_BONUS_MAX_CRIT_1 ) ) {
+                severity = std::min( severity, 1.75 + ammo_severity_max_bonus );
+            } else {
+                severity = std::min( severity, 1.5 + ammo_severity_max_bonus );
+            }
+
+        } else {
+            severity = std::min( severity, 1.25 + ammo_severity_max_bonus );
+        }
+    }
+    // Prevent negative damage mult shenanagins.
+    if( severity < 0.0 ) {
+        severity = 0.0;
+    }
+
+    // And cap severity if no targetted crit is allowed.
+    if( !targetted_crit_allowed ) {
+        severity = std::min( severity, 1.1 );
     }
     attack.missed_by = goodhit;
     // copy it, since we're mutating
@@ -940,10 +969,21 @@ void Creature::deal_projectile_attack( Creature *source, item *source_weapon,
     if( severity > 0.0f && proj.has_effect( ammo_effect_NO_DAMAGE_SCALING ) ) {
         severity = 1.0f;
     }
-
-    impact.mult_damage( severity );
+    // Make grazing shots apply the damage multiplier before armor, instead of after armor.
+    // Grazing shots are goodhit > 0.8
+    // We dont use just severity here, because some effects might drop severity below 0.8 but still be a solid hit.
+    impact.mult_damage( severity, ( ( goodhit > accuracy_standard ) ? true : false ) );
 
     if( proj.has_effect( ammo_effect_NOGIB ) ) {
+        float dmg_ratio = impact.total_damage() / get_hp_max( bp_hit );
+        if( dmg_ratio > 1.25f ) {
+            impact.mult_damage( 1.0f / dmg_ratio );
+        }
+    }
+    // Reuse the NOGIB code to prevent animals that are headshotted from exploding as whimsical gore pinatas.
+    // Great for parties, less great if you are trying to get food as a starving survivor.
+    // If the resulting damage from a normal attack explodes the animal, it explodes.
+    if( goodhit < accuracy_critical && has_flag( MF_ANIMAL ) ) {
         float dmg_ratio = impact.total_damage() / get_hp_max( bp_hit );
         if( dmg_ratio > 1.25f ) {
             impact.mult_damage( 1.0f / dmg_ratio );
@@ -1477,7 +1517,8 @@ time_duration Creature::get_effect_dur( const efftype_id &eff_id ) const
     return get_effect_dur( eff_id, bodypart_str_id::NULL_ID() );
 }
 
-time_duration Creature::get_effect_dur( const efftype_id &eff_id, const bodypart_str_id &bp ) const
+time_duration Creature::get_effect_dur( const efftype_id &eff_id,
+                                        const bodypart_str_id &bp ) const
 {
     const effect &eff = get_effect( eff_id, bp );
     if( !eff.is_null() ) {
@@ -2251,7 +2292,8 @@ void Creature::add_msg_if_player( const translation &msg ) const
     return add_msg_if_player( msg.translated() );
 }
 
-void Creature::add_msg_if_player( const game_message_params &params, const translation &msg ) const
+void Creature::add_msg_if_player( const game_message_params &params,
+                                  const translation &msg ) const
 {
     return add_msg_if_player( params, msg.translated() );
 }
