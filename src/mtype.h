@@ -11,6 +11,7 @@
 #include "behavior.h"
 #include "calendar.h"
 #include "color.h"
+#include "cursesdef.h"
 #include "damage.h"
 #include "enum_bitset.h"
 #include "enums.h"
