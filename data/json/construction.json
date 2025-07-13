@@ -1672,7 +1672,10 @@
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 5 ], [ "mechanics", 2 ] ],
     "time": "60 m",
-    "components": [ [ [ "rope_makeshift_30", 1 ], [ "rope_30", 1 ], [ "vine_30", 1 ] ], [ [ "wood_structural", 4, "LIST" ] ] ],
+    "components": [
+      [ [ "rope_makeshift_30", 1 ], [ "rope_30", 1 ], [ "vine_30", 1 ], [ "rope_30_plastic", 1 ] ],
+      [ [ "wood_structural", 4, "LIST" ] ]
+    ],
     "pre_note": "Can be deconstructed without tools.  Must be adjacent to a palisade wall that is itself adjacent to a palisade gate in order to open said gate.",
     "pre_special": "check_empty",
     "post_terrain": "t_palisade_pulley"
@@ -2415,7 +2418,10 @@
     "category": "FURN",
     "required_skills": [ [ "survival", 0 ] ],
     "time": "10 m",
-    "components": [ [ [ "straw_pile", 40 ], [ "withered", 40 ] ], [ [ "rope_30", 1 ], [ "rope_makeshift_30", 1 ], [ "vine_30", 1 ] ] ],
+    "components": [
+      [ [ "straw_pile", 40 ], [ "withered", 40 ] ],
+      [ [ "rope_30", 1 ], [ "rope_makeshift_30", 1 ], [ "vine_30", 1 ], [ "rope_30_plastic", 1 ] ]
+    ],
     "pre_special": "check_empty",
     "dark_craftable": true,
     "post_furniture": "f_hay"
@@ -2609,7 +2615,7 @@
     "required_skills": [ [ "fabrication", 3 ] ],
     "time": "30 m",
     "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
-    "components": [ [ [ "wood_beam", 1 ] ], [ [ "rope_makeshift_30", 1 ], [ "rope_30", 1 ], [ "vine_30", 1 ] ] ],
+    "components": [ [ [ "wood_beam", 1 ] ], [ [ "rope_makeshift_30", 1 ], [ "rope_30", 1 ], [ "vine_30", 1 ], [ "rope_30_plastic", 1 ] ] ],
     "needs_diggable": true,
     "pre_special": "check_empty",
     "post_furniture": "f_flagpole_wood"
@@ -2979,7 +2985,7 @@
     "tools": [ [ [ "pickaxe", -1 ], [ "jackhammer", 140 ], [ "elec_jackhammer", 7000 ] ] ],
     "components": [
       [ [ "wood_structural", 4, "LIST" ], [ "log", 1 ] ],
-      [ [ "rope_makeshift_30", 1 ], [ "rope_30", 1 ], [ "vine_30", 1 ] ]
+      [ [ "rope_makeshift_30", 1 ], [ "rope_30", 1 ], [ "vine_30", 1 ], [ "rope_30_plastic", 1 ] ]
     ],
     "needs_diggable": true,
     "pre_special": "check_down_OK",
@@ -3000,7 +3006,7 @@
     "tools": [ [ [ "pickaxe", -1 ], [ "jackhammer", 160 ], [ "elec_jackhammer", 7000 ] ] ],
     "components": [
       [ [ "wood_structural", 6, "LIST" ], [ "log", 2 ] ],
-      [ [ "rope_makeshift_30", 1 ], [ "rope_30", 1 ], [ "vine_30", 1 ] ]
+      [ [ "rope_makeshift_30", 1 ], [ "rope_30", 1 ], [ "vine_30", 1 ], [ "rope_30_plastic", 1 ] ]
     ],
     "pre_special": "check_down_OK",
     "pre_terrain": "t_rock_floor",
@@ -3082,7 +3088,7 @@
     "//": "Helmets are essential because you're digging up and things may fall on you.",
     "components": [
       [ [ "wood_structural", 6, "LIST" ], [ "log", 2 ] ],
-      [ [ "rope_makeshift_30", 1 ], [ "rope_30", 1 ], [ "vine_30", 1 ] ]
+      [ [ "rope_makeshift_30", 1 ], [ "rope_30", 1 ], [ "vine_30", 1 ], [ "rope_30_plastic", 1 ] ]
     ],
     "pre_special": "check_up_OK",
     "pre_terrain": "t_rock",
@@ -3231,7 +3237,7 @@
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
     "components": [
       [ [ "2x4", 8 ] ],
-      [ [ "rope_makeshift_30", 1 ], [ "rope_30", 1 ], [ "vine_30", 1 ] ],
+      [ [ "rope_makeshift_30", 1 ], [ "rope_30", 1 ], [ "vine_30", 1 ], [ "rope_30_plastic", 1 ] ],
       [ [ "55gal_drum", 2 ], [ "30gal_drum", 2 ], [ "wooden_barrel", 2 ] ]
     ],
     "pre_terrain": "t_water_dp",
@@ -3249,7 +3255,7 @@
     "components": [
       [ [ "2x4", 4 ] ],
       [ [ "2x4", 4 ], [ "wood_sheet", 1 ], [ "wood_panel", 2 ] ],
-      [ [ "rope_makeshift_30", 1 ], [ "rope_30", 1 ], [ "vine_30", 1 ] ],
+      [ [ "rope_makeshift_30", 1 ], [ "rope_30", 1 ], [ "vine_30", 1 ], [ "rope_30_plastic", 1 ] ],
       [ [ "55gal_drum", 2 ], [ "30gal_drum", 2 ], [ "wooden_barrel", 2 ] ]
     ],
     "pre_terrain": "t_water_moving_dp",
