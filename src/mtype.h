@@ -311,6 +311,8 @@ struct mtype {
         // Will stop fleeing if at max hp, and regen anger and morale.
         bool regen_morale = false;
 
+        void faction_display( catacurses::window &w, const point &top_left, const int width ) const;
+
         // mountable ratio for rider weight vs. mount weight, default 0.3
         float mountable_weight_ratio = 0.3;
 
@@ -331,7 +333,7 @@ struct mtype {
 
         /** If unset (-1) then values are calculated automatically from other properties */
         int armor_bash = -1;     /** innate armor vs. bash */
-        int armor_cut  = -1;     /** innate armor vs. cut */
+        int armor_cut = -1;     /** innate armor vs. cut */
         int armor_dark = -1;     /** innate armor vs. dark */
         int armor_light = -1;    /** innate armor vs. light */
         int armor_psi = -1;      /** innate armor vs. psi */
