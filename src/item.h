@@ -925,7 +925,7 @@ class item : public location_visitable<item>, public game_object<item>
         bool goes_bad() const;
 
         /** whether an item is perishable (can rot), even if it is currently in a preserving container */
-        bool goes_bad_after_opening( bool strict = false ) const;
+        bool goes_bad_after_opening() const;
 
         /** Get the shelf life of the item*/
         time_duration get_shelf_life() const;
@@ -2025,7 +2025,18 @@ class item : public location_visitable<item>, public game_object<item>
          * Summed range value of a gun, including values from mods. Returns 0 on non-gun items.
          */
         int gun_range( bool with_ammo = true ) const;
-
+        /**
+         * Summed projectile speed value (m/s) of a gun, including values from mods. Returns 10 on non-gun items.
+         */
+        int gun_speed( bool with_ammo = true ) const;
+        /**
+         * Summed bonus to the aimed critical base multiplier, including values from mods. Returns 0 on non-gun items.
+         */
+        double gun_aimed_crit_bonus( bool with_ammo = true ) const;
+        /**
+         * Summed bonus to the aimed critical max potential multiplier value of a gun, including values from mods. Returns 0 on non-gun items.
+         */
+        double gun_aimed_crit_max_bonus( bool with_ammo = true ) const;
         /**
          * Get multiplier on recoil considering handling and attached gunmods.
          * @param bipod whether any bipods should be considered

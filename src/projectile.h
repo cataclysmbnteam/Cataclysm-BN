@@ -18,13 +18,15 @@ using ammo_effect_str_id = string_id<ammo_effect>;
 
 struct projectile {
         damage_instance impact;
-        // how hard is it to dodge? essentially rolls to-hit,
-        // bullets have arbitrarily high values but thrown objects have dodgeable values.
-        // TODO: Get rid of this, replace with something sane (or just get rid)
+        // Speed of the projectile in meters per second.
+        // How hard is it to dodge? essentially rolls to-hit.
+        // Projectiles travel their full distance instantly, and speed does not effect range.
+        // Speed of sound is roughly 340 m/s. Technically changes based on temp and altitude, but that is not worth calculating.
         int speed = 0;
         int range = 0;
         double aimedcritmaxbonus = 0.0;
         double aimedcritbonus = 0.0;
+
 
         /**
          * Returns an item that should be dropped or an item for which is_null() is true

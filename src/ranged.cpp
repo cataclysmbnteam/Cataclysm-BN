@@ -1781,12 +1781,11 @@ std::vector<ranged::aim_type> ranged::get_aim_types( const Character &who, const
 static projectile make_gun_projectile( const item &gun )
 {
     projectile proj;
-    proj.speed  = 1000;
+    proj.speed = gun.gun_speed();
     proj.impact = gun.gun_damage();
     proj.range = gun.gun_range();
-    proj.aimedcritbonus = ( gun.ammo_data() != nullptr ) ? gun.ammo_data()->ammo->aimedcritbonus : 0.0;
-    proj.aimedcritmaxbonus = ( gun.ammo_data() != nullptr ) ? gun.ammo_data()->ammo->aimedcritmaxbonus :
-                             0.0;
+    proj.aimedcritbonus = gun.gun_aimed_crit_bonus();
+    proj.aimedcritmaxbonus = gun.gun_aimed_crit_max_bonus();
     for( const ammo_effect_str_id &ae_id : gun.ammo_effects() ) {
         proj.add_effect( ae_id );
     }
