@@ -7848,7 +7848,7 @@ int item::gun_range( const player *p ) const
     return std::max( 0, ret );
 }
 
-int item::gun_speed( bool with_ammo = true ) const
+int item::gun_speed( bool with_ammo ) const
 {
     if( !is_gun() ) {
         return 10;
@@ -7863,7 +7863,7 @@ int item::gun_speed( bool with_ammo = true ) const
     return std::max( 0, ret );
 }
 
-double item::gun_aimed_crit_bonus( bool with_ammo = true ) const
+double item::gun_aimed_crit_bonus( bool with_ammo ) const
 {
     if( !is_gun() ) {
         return 0;
@@ -7878,7 +7878,7 @@ double item::gun_aimed_crit_bonus( bool with_ammo = true ) const
     return std::max( 0, ret );
 }
 
-double item::gun_aimed_crit_max_bonus( bool with_ammo = true ) const
+double item::gun_aimed_crit_max_bonus( bool with_ammo ) const
 {
     if( !is_gun() ) {
         return 0;
