@@ -925,22 +925,22 @@ void Creature::deal_projectile_attack( Creature *source, item *source_weapon,
             severity = std::min( severity, 1.5 + ammo_severity_max_bonus );
         } else if( has_flag( MF_HEAD_BONUS_MAX_CRIT_1 ) || has_flag( MF_HEAD_BONUS_MAX_CRIT_2 ) ) {
             severity = std::min( severity,
-                                 2.0 + proj.aimedcritmaxbonus + ( has_flag( MF_HEAD_BONUS_MAX_CRIT_1 ) ? 0.5 : 1.0 ) );
+                                 2.0 + ammo_severity_max_bonus + ( has_flag( MF_HEAD_BONUS_MAX_CRIT_1 ) ? 0.5 : 1.0 ) );
         } else {
-            severity = std::min( severity, 2.0 + proj.aimedcritmaxbonus );
+            severity = std::min( severity, 2.0 + ammo_severity_max_bonus );
         }
     } else {
         // We hit the torso or limbs. Projectile resistant overrides other cases.
         // If projectile resistant, negative ammo severity max bonus not applied to prevent negative damage mult shenanagins,
         // and projectile resistant is already very strong.
         if( has_flag( MF_PROJECTILE_RESISTANT_4 ) ) {
-            severity = std::min( severity, 1.0 + std::max( 0.0, ammo_severity_max_bonus ) );
-        } else if( has_flag( MF_PROJECTILE_RESISTANT_3 ) ) {
-            severity = std::min( severity, 0.8 + std::max( 0.0, ammo_severity_max_bonus ) );
-        } else if( has_flag( MF_PROJECTILE_RESISTANT_2 ) ) {
-            severity = std::min( severity, 0.5 + std::max( 0.0, ammo_severity_max_bonus ) );
-        } else if( has_flag( MF_PROJECTILE_RESISTANT_1 ) ) {
             severity = std::min( severity, 0.2 + std::max( 0.0, ammo_severity_max_bonus ) );
+        } else if( has_flag( MF_PROJECTILE_RESISTANT_3 ) ) {
+            severity = std::min( severity, 0.5 + std::max( 0.0, ammo_severity_max_bonus ) );
+        } else if( has_flag( MF_PROJECTILE_RESISTANT_2 ) ) {
+            severity = std::min( severity, 0.8 + std::max( 0.0, ammo_severity_max_bonus ) );
+        } else if( has_flag( MF_PROJECTILE_RESISTANT_1 ) ) {
+            severity = std::min( severity, 1.0 + std::max( 0.0, ammo_severity_max_bonus ) );
         } else if( bp_hit == bodypart_str_id( "torso" ) ) {
             if( has_flag( MF_TORSO_BONUS_MAX_CRIT_2 ) ) {
                 severity = std::min( severity, 2.0 + ammo_severity_max_bonus );
