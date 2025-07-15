@@ -13,11 +13,12 @@
     "color": "yellow",
     "range": 10,
     "skill": "throw",
+    "ammo_effects": [ "NO_PENETRATE_OBSTACLES" ],
     "ranged_damage": [ { "damage_type": "bash", "amount": 2, "armor_penetration": 10 } ],
     "dispersion": 3000,
     "modes": [ [ "DEFAULT", "semi", 1 ] ],
     "loudness": 1,
-    "flags": [ "NEVER_JAMS", "NO_UNLOAD", "NO_PENETRATE_OBSTACLES" ]
+    "flags": [ "NEVER_JAMS", "NO_UNLOAD" ]
   },
   {
     "id": "mon_zombie",
