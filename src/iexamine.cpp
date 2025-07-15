@@ -2061,7 +2061,8 @@ static bool harvest_common( player &p, const tripoint &examp, bool furn, bool ne
 void iexamine::harvest_furn_nectar( player &p, const tripoint &examp )
 {
     bool auto_forage = get_option<bool>( "AUTO_FEATURES" ) &&
-                       get_option<std::string>( "AUTO_FORAGING" ) == "both";
+                       ( get_option<std::string>( "AUTO_FORAGING" ) == "flowers" ||
+                         get_option<std::string>( "AUTO_FORAGING" ) == "both" );
     if( harvest_common( p, examp, true, true, auto_forage ) ) {
         map &here = get_map();
         get_map().furn_set( examp, here.get_furn_transforms_into( examp ) );
@@ -2071,7 +2072,8 @@ void iexamine::harvest_furn_nectar( player &p, const tripoint &examp )
 void iexamine::harvest_furn( player &p, const tripoint &examp )
 {
     bool auto_forage = get_option<bool>( "AUTO_FEATURES" ) &&
-                       get_option<std::string>( "AUTO_FORAGING" ) == "both";
+                       ( get_option<std::string>( "AUTO_FORAGING" ) == "flowers" ||
+                         get_option<std::string>( "AUTO_FORAGING" ) == "both" );
     if( harvest_common( p, examp, true, false, auto_forage ) ) {
         map &here = get_map();
         get_map().furn_set( examp, here.get_furn_transforms_into( examp ) );
@@ -2083,6 +2085,7 @@ void iexamine::harvest_ter_nectar( player &p, const tripoint &examp )
     bool auto_forage = get_option<bool>( "AUTO_FEATURES" ) &&
                        ( get_option<std::string>( "AUTO_FORAGING" ) == "both" ||
                          get_option<std::string>( "AUTO_FORAGING" ) == "bushes" ||
+                         get_option<std::string>( "AUTO_FORAGING" ) == "flowers" ||
                          get_option<std::string>( "AUTO_FORAGING" ) == "trees" );
     if( harvest_common( p, examp, false, true, auto_forage ) ) {
         map &here = get_map();
@@ -2094,6 +2097,7 @@ void iexamine::harvest_ter( player &p, const tripoint &examp )
 {
     bool auto_forage = get_option<bool>( "AUTO_FEATURES" ) &&
                        ( get_option<std::string>( "AUTO_FORAGING" ) == "both" ||
+                         get_option<std::string>( "AUTO_FORAGING" ) == "flowers" ||
                          get_option<std::string>( "AUTO_FORAGING" ) == "trees" );
     if( harvest_common( p, examp, false, false, auto_forage ) ) {
         map &here = get_map();
