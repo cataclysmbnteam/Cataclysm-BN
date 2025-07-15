@@ -13,6 +13,7 @@
     "color": "yellow",
     "range": 10,
     "skill": "throw",
+    "ammo_effects": [ "NO_PENETRATE_OBSTACLES" ],
     "ranged_damage": [ { "damage_type": "bash", "amount": 2, "armor_penetration": 10 } ],
     "dispersion": 3000,
     "modes": [ [ "DEFAULT", "semi", 1 ] ],
