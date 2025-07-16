@@ -24,7 +24,17 @@ struct projectile {
         // Speed of sound is roughly 340 m/s. Technically changes based on temp and altitude, but that is not worth calculating.
         int speed = 0;
         int range = 0;
+        /**
+        * Bonus to the potential maximum damage multiplier a projectile can receive from a ranged "crit"
+        * A value of 0.5 is +50%
+        * Does nothing without stats,skills, or aimedcrit bonus to make use of it
+        */
         double aimedcritmaxbonus = 0.0;
+        /**
+        * Bonus to the damage multiplier for any ranged attack that is a "goodhit" or better (acc < 0.5).
+        * Can increase damage up to the maximum potential multiplier, or down to 0%.
+        * A value of 0.5 is +50%
+        */
         double aimedcritbonus = 0.0;
 
 

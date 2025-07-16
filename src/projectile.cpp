@@ -33,6 +33,8 @@ projectile &projectile::operator=( const projectile &other )
     impact = other.impact;
     speed = other.speed;
     range = other.range;
+    aimedcritmaxbonus = other.aimedcritmaxbonus;
+    aimedcritbonus = other.aimedcritbonus;
     proj_effects = other.proj_effects;
     set_drop( item::spawn( *other.get_drop() ) );
     set_custom_explosion( other.get_custom_explosion() );
