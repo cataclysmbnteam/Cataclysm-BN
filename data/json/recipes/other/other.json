@@ -773,6 +773,7 @@
     "charges": 10,
     "batch_time_factors": [ 75, 4 ],
     "book_learn": [ [ "concrete_book", 3 ], [ "adv_chemistry", 3 ], [ "textbook_chemistry", 3 ], [ "reference_cooking", 4 ] ],
+    "qualities": [ { "id": "PRESSURIZATION", "level": 1 } ],
     "tools": [ [ [ "forge", 50 ], [ "oxy_torch", 10 ] ], [ [ "barometer", -1 ] ] ],
     "components": [ [ [ "material_limestone", 10 ] ], [ [ "metal_tank_little", 1 ] ] ]
   }
