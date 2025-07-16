@@ -776,5 +776,11 @@
     "qualities": [ { "id": "PRESSURIZATION", "level": 1 } ],
     "tools": [ [ [ "forge", 50 ], [ "oxy_torch", 10 ] ] ],
     "components": [ [ [ "material_limestone", 10 ] ], [ [ "metal_tank_little", 1 ] ] ]
+  },
+  {
+    "type": "uncraft",
+    "result": "carbondioxide_tank",
+    "time": "30 s",
+    "components": [ [ [ "metal_tank_little", 1 ] ] ]
   }
 ]
