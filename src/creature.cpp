@@ -623,14 +623,14 @@ namespace ranged
 {
 
 void print_dmg_msg( Creature &target, Creature *source, const dealt_damage_instance &dealt_dam,
-                    double severity )
+                    double goodhit )
 {
     std::string message;
     game_message_type sct_color = m_neutral;
-    if( severity < 0.8 ) {
+    if( goodhit > 0.8 ) {
         message = _( "Grazing hit." );
         sct_color = m_grazing;
-    } else if( severity >= 1.5 ) {
+    } else if( goodhit < 0.2 ) {
         message = _( "Critical!" );
         sct_color = m_critical;
     }
@@ -940,7 +940,7 @@ void Creature::deal_projectile_attack( Creature *source, item *source_weapon,
         } else if( has_flag( MF_PROJECTILE_RESISTANT_2 ) ) {
             severity = std::min( severity, 0.8 + std::max( 0.0, ammo_severity_max_bonus ) );
         } else if( has_flag( MF_PROJECTILE_RESISTANT_1 ) ) {
-            severity = std::min( severity, 1.0 + std::max( 0.0, ammo_severity_max_bonus ) );
+            severity = std::min( severity, 1.1 + std::max( 0.0, ammo_severity_max_bonus ) );
         } else if( bp_hit == bodypart_str_id( "torso" ) ) {
             if( has_flag( MF_TORSO_BONUS_MAX_CRIT_2 ) ) {
                 severity = std::min( severity, 2.0 + ammo_severity_max_bonus );
@@ -1084,7 +1084,7 @@ void Creature::deal_projectile_attack( Creature *source, item *source_weapon,
                 add_msg( source->is_player() ? _( "You miss!" ) : _( "The shot misses!" ) );
             }
         } else {
-            ranged::print_dmg_msg( *this, source, dealt_dam, severity );
+            ranged::print_dmg_msg( *this, source, dealt_dam, goodhit );
         }
     }
 
