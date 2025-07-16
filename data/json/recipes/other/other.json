@@ -760,5 +760,20 @@
       [ [ "sheet_metal_small", 10 ] ],
       [ [ "broken_dissector", 1 ] ]
     ]
+  },
+  {
+    "type": "recipe",
+    "result": "carbondioxide_tank",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHERS",
+    "skill_used": "fabrication",
+    "skills_required": [ "cooking", 2 ],
+    "difficulty": 3,
+    "time": "12 m",
+    "charges": 10,
+    "batch_time_factors": [ 75, 4 ],
+    "book_learn": [ [ "concrete_book", 3 ], [ "adv_chemistry", 3 ], [ "textbook_chemistry", 3 ], [ "reference_cooking", 4 ] ],
+    "tools": [ [ [ "forge", 50 ], [ "oxy_torch", 10 ] ], [ [ "barometer", -1 ] ] ],
+    "components": [ [ [ "material_limestone", 10 ] ], [ [ "metal_tank_little", 1 ] ] ]
   }
 ]
