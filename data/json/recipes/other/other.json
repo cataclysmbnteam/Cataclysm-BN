@@ -764,7 +764,7 @@
   {
     "type": "recipe",
     "result": "carbondioxide_tank",
-    "byproduts": [ [ "material_quicklime", 10 ] ],
+    "byproducts": [ [ "material_quicklime", 10 ] ],
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_OTHER",
     "skill_used": "fabrication",
