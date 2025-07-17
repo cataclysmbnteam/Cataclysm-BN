@@ -31,7 +31,7 @@
   {
     "id": "THROWN",
     "type": "ammo_effect",
-    "//":  "Used to distinguish thrown ranged attacks."
+    "//": "Used to distinguish thrown ranged attacks."
   },
   {
     "id": "FLAME",
