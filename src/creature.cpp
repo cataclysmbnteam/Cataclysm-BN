@@ -66,6 +66,7 @@ static const ammo_effect_str_id ammo_effect_NOGIB( "NOGIB" );
 static const ammo_effect_str_id ammo_effect_PARALYZEPOISON( "PARALYZEPOISON" );
 static const ammo_effect_str_id ammo_effect_POISON( "POISON" );
 static const ammo_effect_str_id ammo_effect_TANGLE( "TANGLE" );
+static const ammo_effect_str_id ammo_effect_THROWN( "THROWN" );
 
 static const efftype_id effect_badpoison( "badpoison" );
 static const efftype_id effect_blind( "blind" );
@@ -738,6 +739,7 @@ void Creature::deal_projectile_attack( Creature *source, item *source_weapon,
     const bool sourceplayer = source->is_player();
     const bool sourcenpc = source->is_npc();
     const bool magic = attack.proj.has_effect( ammo_effect_magic );
+    const bool thrownattack = attack.proj.has_effect( ammo_effect_THROWN );
     const bool targetted_crit_allowed = !attack.proj.has_effect( ammo_effect_NO_CRIT );
     // Determine our required accuracy to hit the head.
     const double headshot_acc = ( has_flag( MF_SMALL_HEAD ) ||
@@ -851,7 +853,7 @@ void Creature::deal_projectile_attack( Creature *source, item *source_weapon,
         const double sender_per = sender->get_per();
         // Check and make sure that the item is not detached. If it is, its a thrown item so grab throw.
         // Doing this here because checking if a magic projectile is attached causes issues.
-        const double sender_skill = ( source_weapon->is_detached() ) ? sender->get_skill_level(
+        const double sender_skill = ( thrownattack ) ? sender->get_skill_level(
                                         skill_throw ) :
                                     ( source_weapon->is_gun() ) ? sender->get_skill_level(
                                         source_weapon->gun_skill() ) : 0.0;

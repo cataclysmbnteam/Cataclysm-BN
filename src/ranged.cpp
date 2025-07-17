@@ -111,6 +111,7 @@ static const ammo_effect_str_id ammo_effect_SHATTER_SELF( "SHATTER_SELF" );
 static const ammo_effect_str_id ammo_effect_SHOT( "SHOT" );
 static const ammo_effect_str_id ammo_effect_TANGLE( "TANGLE" );
 static const ammo_effect_str_id ammo_effect_WIDE( "WIDE" );
+static const ammo_effect_str_id ammo_effect_THROWN( "THROWN" );
 
 static const efftype_id effect_downed( "downed" );
 static const efftype_id effect_hit_by_player( "hit_by_player" );
@@ -1340,6 +1341,9 @@ dealt_projectile_attack throw_item( Character &who, const tripoint &target,
         proj.add_effect( ammo_effect_ACT_ON_RANGED_HIT );
         thrown.activate();
     }
+    // This is just to indicate something is a thrown item
+    // Checking with other methods downstream breaks other projectile attacks.
+    proj.add_effect( ammo_effect_THROWN );
 
     // Item will shatter upon landing, destroying the item, dealing damage, and making noise
     /** @EFFECT_STR increases chance of shattering thrown glass items (NEGATIVE) */
