@@ -85,6 +85,8 @@ static const efftype_id effect_stunned( "stunned" );
 static const efftype_id effect_tied( "tied" );
 static const efftype_id effect_zapped( "zapped" );
 
+static const skill_id skill_throw( "throw" );
+
 const std::map<std::string, creature_size> Creature::size_map = {
     {"TINY",   creature_size::tiny},
     {"SMALL",  creature_size::small},
@@ -732,6 +734,7 @@ void Creature::deal_projectile_attack( Creature *source, item *source_weapon,
     }
 
     // Figure these out and store it so we dont need to keep calling them.
+    const bool thrownattack = source_weapon->is_detached();
     const bool sourceplayer = source->is_player();
     const bool sourcenpc = source->is_npc();
     const bool magic = attack.proj.has_effect( ammo_effect_magic );
@@ -840,12 +843,14 @@ void Creature::deal_projectile_attack( Creature *source, item *source_weapon,
     double hit_location_variance = 0.9;
     // We only want to grab stats from creatures that have them, i.e. the player and NPCs.
     // Dont let magic make the check to avoid shenanagins.
+    // Dont use for
     if( !magic && ( sourceplayer || sourcenpc ) ) {
         Character *sender = dynamic_cast<Character *>( source );
         // Call all this stuff once so we can use it elsewhere.
         const double sender_dex = sender->get_dex();
         const double sender_per = sender->get_per();
-        const double sender_skill = ( source_weapon->is_gun() ) ? sender->get_skill_level(
+        const double sender_skill = ( thrownattack ) ? sender->get_skill_level( skill_throw ) :
+                                    ( source_weapon->is_gun() ) ? sender->get_skill_level(
                                         source_weapon->gun_skill() ) : 0.0;
         const double stat_adjust = 0.05 * ( ( sender_dex ) + ( sender_per ) - 16 );
         // Use a different forumla for stamina percentage if the sender is an NPC rather than the player.
