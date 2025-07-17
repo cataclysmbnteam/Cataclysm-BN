@@ -1090,19 +1090,47 @@ int throw_cost( const Character &c, const item &to_throw )
 
 float get_str_draw_penalty( const item &it, const Character &p )
 {
+    // Grab the archer's skill for purposes of strength requirment reduction, if we are using a "gun"
+    // Improvement intervals at 4/8/10, max reduction of 3 strength
+    const int charskill = p.get_skill_level( it.gun_skill() );
+    int str_adjust = 0;
+    if( charskill >= 4 ) {
+        if( charskill >= 10 ) {
+            str_adjust = 3;
+        } else if( charskill >= 8 ) {
+            str_adjust = 2;
+        } else {
+            str_adjust = 1;
+        }
+    }
     // We only care if weapon has STR_DRAW, and that the user is weaker than required strength.
     // Also avoid dividing by zero, and skip if we'd just get a result of 1 anyway.
-    if( !it.has_flag( flag_STR_DRAW ) || p.get_str() >= it.get_min_str() || it.get_min_str() <= 1 ) {
+    if( !it.has_flag( flag_STR_DRAW ) || p.get_str() + str_adjust >= it.get_min_str() ||
+        it.get_min_str() <= 1 ) {
         return 1.0f;
     }
     // We also don't want to actually reduce values to zero, even if user is debuffed to zero strength.
-    float archer_str = std::max( 1, p.get_str() );
+    float archer_str = std::max( 1, p.get_str() + str_adjust );
     return ( archer_str / it.get_min_str() );
 }
 
 float str_draw_damage_modifier( const item &it, const Character &p )
 {
-    if( !it.has_flag( flag_STR_DRAW ) || p.get_str() >= it.get_min_str() || it.get_min_str() <= 1 ) {
+    // Grab the archer's skill for purposes of strength requirment reduction, if we are using a "gun"
+    // Improvement intervals at 4/8/10, max reduction of 3 strength
+    const int charskill = p.get_skill_level( it.gun_skill() );
+    int str_adjust = 0;
+    if( charskill >= 4 ) {
+        if( charskill >= 10 ) {
+            str_adjust = 3;
+        } else if( charskill >= 8 ) {
+            str_adjust = 2;
+        } else {
+            str_adjust = 1;
+        }
+    }
+    if( !it.has_flag( flag_STR_DRAW ) || p.get_str() + str_adjust >= it.get_min_str() ||
+        it.get_min_str() <= 1 ) {
         return 1.0f;
     }
     if( ranged::get_str_draw_penalty( it, p ) < 0.75f ) {
@@ -1116,7 +1144,21 @@ float str_draw_damage_modifier( const item &it, const Character &p )
 
 float str_draw_dispersion_modifier( const item &it, const Character &p )
 {
-    if( !it.has_flag( flag_STR_DRAW ) || p.get_str() >= it.get_min_str() || it.get_min_str() <= 1 ) {
+    // Grab the archer's skill for purposes of strength requirment reduction, if we are using a "gun"
+    // Improvement intervals at 4/8/10, max reduction of 3 strength
+    const int charskill = p.get_skill_level( it.gun_skill() );
+    int str_adjust = 0;
+    if( charskill >= 4 ) {
+        if( charskill >= 10 ) {
+            str_adjust = 3;
+        } else if( charskill >= 8 ) {
+            str_adjust = 2;
+        } else {
+            str_adjust = 1;
+        }
+    }
+    if( !it.has_flag( flag_STR_DRAW ) || p.get_str() + str_adjust >= it.get_min_str() ||
+        it.get_min_str() <= 1 ) {
         return 1.0f;
     }
     if( ranged::get_str_draw_penalty( it, p ) < 0.75f ) {
@@ -1128,7 +1170,21 @@ float str_draw_dispersion_modifier( const item &it, const Character &p )
 
 float str_draw_range_modifier( const item &it, const Character &p )
 {
-    if( !it.has_flag( flag_STR_DRAW ) || p.get_str() >= it.get_min_str() || it.get_min_str() <= 1 ) {
+    // Grab the archer's skill for purposes of strength requirment reduction, if we are using a "gun"
+    // Improvement intervals at 4/8/10, max reduction of 3 strength
+    const int charskill = p.get_skill_level( it.gun_skill() );
+    int str_adjust = 0;
+    if( charskill >= 4 ) {
+        if( charskill >= 10 ) {
+            str_adjust = 3;
+        } else if( charskill >= 8 ) {
+            str_adjust = 2;
+        } else {
+            str_adjust = 1;
+        }
+    }
+    if( !it.has_flag( flag_STR_DRAW ) || p.get_str() + str_adjust >= it.get_min_str() ||
+        it.get_min_str() <= 1 ) {
         return 1.0f;
     }
     if( ranged::get_str_draw_penalty( it, p ) < 0.75f ) {

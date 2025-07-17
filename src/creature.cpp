@@ -839,7 +839,8 @@ void Creature::deal_projectile_attack( Creature *source, item *source_weapon,
     // Each point of equivalent weapon skill reduces variance by 0.15, to a minimum of 0.05
     double hit_location_variance = 0.9;
     // We only want to grab stats from creatures that have them, i.e. the player and NPCs.
-    if( sourceplayer || sourcenpc ) {
+    // Dont let magic make the check to avoid shenanagins.
+    if( !magic && ( sourceplayer || sourcenpc ) ) {
         Character *sender = dynamic_cast<Character *>( source );
         // Call all this stuff once so we can use it elsewhere.
         const double sender_dex = sender->get_dex();
