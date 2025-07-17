@@ -734,7 +734,7 @@ void Creature::deal_projectile_attack( Creature *source, item *source_weapon,
     }
 
     // Figure these out and store it so we dont need to keep calling them.
-    const bool thrownattack = source_weapon->is_detached();
+
     const bool sourceplayer = source->is_player();
     const bool sourcenpc = source->is_npc();
     const bool magic = attack.proj.has_effect( ammo_effect_magic );
@@ -742,6 +742,7 @@ void Creature::deal_projectile_attack( Creature *source, item *source_weapon,
     // Determine our required accuracy to hit the head.
     const double headshot_acc = ( has_flag( MF_SMALL_HEAD ) ||
                                   has_flag( MF_TINY_HEAD ) ) ? ( has_flag( MF_TINY_HEAD ) ? 0.05 : 0.08 ) : 0.1;
+
 
 
 
@@ -843,13 +844,15 @@ void Creature::deal_projectile_attack( Creature *source, item *source_weapon,
     double hit_location_variance = 0.9;
     // We only want to grab stats from creatures that have them, i.e. the player and NPCs.
     // Dont let magic make the check to avoid shenanagins.
-    // Dont use for
     if( !magic && ( sourceplayer || sourcenpc ) ) {
         Character *sender = dynamic_cast<Character *>( source );
         // Call all this stuff once so we can use it elsewhere.
         const double sender_dex = sender->get_dex();
         const double sender_per = sender->get_per();
-        const double sender_skill = ( thrownattack ) ? sender->get_skill_level( skill_throw ) :
+        // Check and make sure that the item is not detached. If it is, its a thrown item so grab throw.
+        // Doing this here because checking if a magic projectile is attached causes issues.
+        const double sender_skill = ( source_weapon->is_detached() ) ? sender->get_skill_level(
+                                        skill_throw ) :
                                     ( source_weapon->is_gun() ) ? sender->get_skill_level(
                                         source_weapon->gun_skill() ) : 0.0;
         const double stat_adjust = 0.05 * ( ( sender_dex ) + ( sender_per ) - 16 );
