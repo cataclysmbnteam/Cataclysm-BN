@@ -2,6 +2,12 @@
 title: MSYS2
 ---
 
+:::caution
+
+This set of instructions for MSYS2 have not been updated in a long time. The preferred instructions for building with MSYS2 are instead found in [CMake](./cmake#windows-environment-msys2)
+
+:::
+
 This guide contains instructions for compiling Cataclysm-BN on 64bit Windows under MSYS2.
 
 :::warning
