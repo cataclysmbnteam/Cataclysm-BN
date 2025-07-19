@@ -2566,7 +2566,6 @@ void options_manager::add_options_world_default()
              0.0, 20.0, 1.0, 0.01 );
 
         // this needs special handling since it uses .goes_bad() instead of an actual group
-        // this needs special handling since it uses .goes_bad() instead of an actual group
         add( "SPAWN_RATE_perishables", page_id, "PERISHABLES",
              "Spawn rate for items from PERISHABLES category.",
              0.0, 20.0, 1.0, 0.01 );
@@ -2585,6 +2584,10 @@ void options_manager::add_options_world_default()
 
         add( "SPAWN_RATE_seeds", page_id, "SEEDS",
              "Spawn rate for items from SEEDS category.",
+             0.0, 20.0, 1.0, 0.01 );
+
+        add( "SPAWN_RATE_soil", page_id, "SOIL",
+             "Spawn rate for items from SOIL category.",
              0.0, 20.0, 1.0, 0.01 );
 
         add( "SPAWN_RATE_spare_parts", page_id, "SPARE PARTS",
