@@ -1011,6 +1011,7 @@
       { "item": "syringe", "prob": 20 },
       { "item": "meth", "prob": 10 },
       { "item": "heroin", "prob": 5 },
+      { "item": "ghb", "prob": 5 },
       { "item": "sizzurp", "prob": 5 },
       { "item": "mag_porn", "prob": 35 },
       { "item": "hairpin", "prob": 5 },
