@@ -269,6 +269,8 @@ to find which flags work elsewhere.
 - `WATERPROOF` Prevents the covered body-part(s) from getting wet in any circumstance.
 - `WATER_FRIENDLY` Prevents the item from making the body part count as unfriendly to water and thus
   causing negative morale from being wet.
+- `ALLOWS_FLIGHT` While active, drains UPS to provide flight.
+- `ALWAYS_ALLOWS_FLIGHT` Always allow flight.
 
 ## Bionics
 
@@ -285,6 +287,7 @@ to find which flags work elsewhere.
 - `BIONIC_WEAPON` This bionic is a weapon bionic and activating it will create (or destroy) bionic's
   fake_item in user's hands. Prevents all other activation effects.
 - `BIONIC_SHOCKPROOF` This bionic can't be incapacitated by electrical attacks.
+- `BIONIC_FLIGHT` This bionic allows flight when active.
 
 ## Books
 
@@ -1292,6 +1295,8 @@ be defined in JSON if they are to be used in NPC dialogue conditions.
   positive if negative.
 - `SUBTLE_SPELL` Negates the negative impact of arm encumbrance on spells with the `SOMATIC` flag.
 - `UNARMED_BONUS` You get a bonus to unarmed bash and cut damage equal to unarmed_skill/2 up to 4.
+- `MUTATION_FLIGHT` Grants flight for the user, in exchange for the specified cost.
+- `FLIGHT_ALWAYS_ACTIVE` Grants flight for the user, all the time.
 
 ### Categories
 
