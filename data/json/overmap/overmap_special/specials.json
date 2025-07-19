@@ -1844,7 +1844,7 @@
     "type": "overmap_special",
     "id": "solar_farm",
     "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "solar_farm_north" } ],
-    "connections": [ { "point": [ 0, 1, 0 ], "terrain": "road" } ],
+    "connections": [ { "point": [ 0, 1, 0 ], "connection": "local_road" } ],
     "locations": [ "land" ],
     "city_distance": [ -1, 2 ],
     "city_sizes": [ 4, -1 ],
