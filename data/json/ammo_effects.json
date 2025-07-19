@@ -29,6 +29,11 @@
     "//": "Always hits torso."
   },
   {
+    "id": "THROWN",
+    "type": "ammo_effect",
+    "//": "Used to distinguish thrown ranged attacks."
+  },
+  {
     "id": "FLAME",
     "type": "ammo_effect",
     "aoe": { "field_type": "fd_fire", "intensity_min": 1, "intensity_max": 1, "size": 3 }

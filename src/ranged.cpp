@@ -111,6 +111,7 @@ static const ammo_effect_str_id ammo_effect_SHATTER_SELF( "SHATTER_SELF" );
 static const ammo_effect_str_id ammo_effect_SHOT( "SHOT" );
 static const ammo_effect_str_id ammo_effect_TANGLE( "TANGLE" );
 static const ammo_effect_str_id ammo_effect_WIDE( "WIDE" );
+static const ammo_effect_str_id ammo_effect_THROWN( "THROWN" );
 
 static const efftype_id effect_downed( "downed" );
 static const efftype_id effect_hit_by_player( "hit_by_player" );
@@ -1090,19 +1091,47 @@ int throw_cost( const Character &c, const item &to_throw )
 
 float get_str_draw_penalty( const item &it, const Character &p )
 {
+    // Grab the archer's skill for purposes of strength requirment reduction, if we are using a "gun"
+    // Improvement intervals at 4/8/10, max reduction of 3 strength
+    const int charskill = p.get_skill_level( it.gun_skill() );
+    int str_adjust = 0;
+    if( charskill >= 4 ) {
+        if( charskill >= 10 ) {
+            str_adjust = 3;
+        } else if( charskill >= 8 ) {
+            str_adjust = 2;
+        } else {
+            str_adjust = 1;
+        }
+    }
     // We only care if weapon has STR_DRAW, and that the user is weaker than required strength.
     // Also avoid dividing by zero, and skip if we'd just get a result of 1 anyway.
-    if( !it.has_flag( flag_STR_DRAW ) || p.get_str() >= it.get_min_str() || it.get_min_str() <= 1 ) {
+    if( !it.has_flag( flag_STR_DRAW ) || p.get_str() + str_adjust >= it.get_min_str() ||
+        it.get_min_str() <= 1 ) {
         return 1.0f;
     }
     // We also don't want to actually reduce values to zero, even if user is debuffed to zero strength.
-    float archer_str = std::max( 1, p.get_str() );
+    float archer_str = std::max( 1, p.get_str() + str_adjust );
     return ( archer_str / it.get_min_str() );
 }
 
 float str_draw_damage_modifier( const item &it, const Character &p )
 {
-    if( !it.has_flag( flag_STR_DRAW ) || p.get_str() >= it.get_min_str() || it.get_min_str() <= 1 ) {
+    // Grab the archer's skill for purposes of strength requirment reduction, if we are using a "gun"
+    // Improvement intervals at 4/8/10, max reduction of 3 strength
+    const int charskill = p.get_skill_level( it.gun_skill() );
+    int str_adjust = 0;
+    if( charskill >= 4 ) {
+        if( charskill >= 10 ) {
+            str_adjust = 3;
+        } else if( charskill >= 8 ) {
+            str_adjust = 2;
+        } else {
+            str_adjust = 1;
+        }
+    }
+    if( !it.has_flag( flag_STR_DRAW ) || p.get_str() + str_adjust >= it.get_min_str() ||
+        it.get_min_str() <= 1 ) {
         return 1.0f;
     }
     if( ranged::get_str_draw_penalty( it, p ) < 0.75f ) {
@@ -1116,7 +1145,21 @@ float str_draw_damage_modifier( const item &it, const Character &p )
 
 float str_draw_dispersion_modifier( const item &it, const Character &p )
 {
-    if( !it.has_flag( flag_STR_DRAW ) || p.get_str() >= it.get_min_str() || it.get_min_str() <= 1 ) {
+    // Grab the archer's skill for purposes of strength requirment reduction, if we are using a "gun"
+    // Improvement intervals at 4/8/10, max reduction of 3 strength
+    const int charskill = p.get_skill_level( it.gun_skill() );
+    int str_adjust = 0;
+    if( charskill >= 4 ) {
+        if( charskill >= 10 ) {
+            str_adjust = 3;
+        } else if( charskill >= 8 ) {
+            str_adjust = 2;
+        } else {
+            str_adjust = 1;
+        }
+    }
+    if( !it.has_flag( flag_STR_DRAW ) || p.get_str() + str_adjust >= it.get_min_str() ||
+        it.get_min_str() <= 1 ) {
         return 1.0f;
     }
     if( ranged::get_str_draw_penalty( it, p ) < 0.75f ) {
@@ -1128,7 +1171,21 @@ float str_draw_dispersion_modifier( const item &it, const Character &p )
 
 float str_draw_range_modifier( const item &it, const Character &p )
 {
-    if( !it.has_flag( flag_STR_DRAW ) || p.get_str() >= it.get_min_str() || it.get_min_str() <= 1 ) {
+    // Grab the archer's skill for purposes of strength requirment reduction, if we are using a "gun"
+    // Improvement intervals at 4/8/10, max reduction of 3 strength
+    const int charskill = p.get_skill_level( it.gun_skill() );
+    int str_adjust = 0;
+    if( charskill >= 4 ) {
+        if( charskill >= 10 ) {
+            str_adjust = 3;
+        } else if( charskill >= 8 ) {
+            str_adjust = 2;
+        } else {
+            str_adjust = 1;
+        }
+    }
+    if( !it.has_flag( flag_STR_DRAW ) || p.get_str() + str_adjust >= it.get_min_str() ||
+        it.get_min_str() <= 1 ) {
         return 1.0f;
     }
     if( ranged::get_str_draw_penalty( it, p ) < 0.75f ) {
@@ -1284,6 +1341,9 @@ dealt_projectile_attack throw_item( Character &who, const tripoint &target,
         proj.add_effect( ammo_effect_ACT_ON_RANGED_HIT );
         thrown.activate();
     }
+    // This is just to indicate something is a thrown item
+    // Checking with other methods downstream breaks other projectile attacks.
+    proj.add_effect( ammo_effect_THROWN );
 
     // Item will shatter upon landing, destroying the item, dealing damage, and making noise
     /** @EFFECT_STR increases chance of shattering thrown glass items (NEGATIVE) */
@@ -1781,9 +1841,11 @@ std::vector<ranged::aim_type> ranged::get_aim_types( const Character &who, const
 static projectile make_gun_projectile( const item &gun )
 {
     projectile proj;
-    proj.speed  = 1000;
+    proj.speed = gun.gun_speed();
     proj.impact = gun.gun_damage();
     proj.range = gun.gun_range();
+    proj.aimedcritbonus = gun.gun_aimed_crit_bonus();
+    proj.aimedcritmaxbonus = gun.gun_aimed_crit_max_bonus();
     for( const ammo_effect_str_id &ae_id : gun.ammo_effects() ) {
         proj.add_effect( ae_id );
     }
