@@ -1,16 +1,19 @@
 #pragma once
 
-#include <string>
 #include <optional>
+#include <string>
 
 #include "catalua_type_operators.h"
+#include "character_stat.h"
+#include "ret_val.h"
 #include "string_id.h"
 #include "translations.h"
-#include "character_stat.h"
 #include "type_id.h"
 
 class JsonObject;
+class activity_speed;
 class activity_type;
+class Character;
 class player;
 class player_activity;
 
@@ -70,15 +73,18 @@ class activity_type
         bool special_ = false;
         bool complex_moves_ = false;
         bool bench_affected_ = false;
-        bool light_affected_ = false;
+        bool vision_affected_ = false;
         bool skill_affected_ = false;
         bool speed_affected_ = false;
         bool stats_affected_ = false;
         bool tools_affected_ = false;
         bool morale_affected_ = false;
-        bool morale_blocked_ = false;
         bool verbose_tooltip_ = true;
         unsigned short max_assistants_ = 0;
+        std::optional<float> vision_interrupts_ = std::nullopt;
+        std::optional<int16_t> morale_interrupts_ = std::nullopt;
+        std::optional<int16_t> total_speed_interrupts_ = std::nullopt;
+        bool has_interrupts_ = vision_interrupts_ || morale_interrupts_ || total_speed_interrupts_;
 
     public:
         std::vector<activity_req<character_stat>> stats;
@@ -121,8 +127,8 @@ class activity_type
         inline bool bench_affected() const {
             return bench_affected_;
         }
-        inline bool light_affected() const {
-            return light_affected_;
+        inline bool vision_affected() const {
+            return vision_affected_;
         }
         inline bool skill_affected() const {
             return skill_affected_;
@@ -139,11 +145,21 @@ class activity_type
         inline bool morale_affected() const {
             return morale_affected_;
         }
-        inline bool morale_blocked() const {
-            return morale_blocked_;
-        }
         inline bool verbose_tooltip() const {
             return verbose_tooltip_;
+        }
+
+        auto has_interrupts() const {
+            return has_interrupts_;
+        }
+        auto vision_interrupts() const {
+            return vision_interrupts_;
+        }
+        auto morale_interrupts() const {
+            return morale_interrupts_;
+        }
+        auto total_speed_interrupts() const {
+            return total_speed_interrupts_;
         }
 
         inline unsigned short max_assistants() const {
@@ -164,6 +180,8 @@ class activity_type
         void call_do_turn( player_activity *, player * ) const;
         /** Returns whether it had a finish function or not */
         bool call_finish( player_activity *, player * ) const;
+
+        ret_val<bool> check_interrupts( const Character &, const activity_speed * ) const;
 
         /** JSON stuff */
         static void load( const JsonObject &jo );
