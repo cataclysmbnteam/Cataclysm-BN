@@ -508,7 +508,7 @@ int spell::get_stats_deltas( const Character &guy ) const
 
 double spell::get_stat_mult( bool decrease, const Character &guy ) const
 {
-    double percent = get_option<int>("MAGIC_STAT_SCALING_PERCENT") / 100.0;
+    double percent = get_option<int>( "MAGIC_STAT_SCALING_PERCENT" ) / 100.0;
     if( decrease ) {
         return std::max( ( 1.0 - ( percent * get_stats_deltas( guy ) ) ),
                          0.1 ); // Max is necessary to avoid negatives / 0
