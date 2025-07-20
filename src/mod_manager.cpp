@@ -8,7 +8,6 @@
 #include <utility>
 
 #include "assign.h"
-#include "cached_options.h"
 #include "cata_utility.h"
 #include "debug.h"
 #include "dependency_tree.h"
@@ -20,8 +19,6 @@
 #include "string_id.h"
 #include "translations.h"
 #include "worldfactory.h"
-
-static const mod_id mod_no_global_uniques( "no_global_uniques" );
 
 static const std::string MOD_SEARCH_FILE( "modinfo.json" );
 
@@ -455,11 +452,6 @@ void mod_manager::load_mods_list( WORLDINFO *world ) const
             }
             const auto iter = mod_replacements.find( mod );
             if( iter != mod_replacements.end() ) {
-                if( iter->first == mod_no_global_uniques ) {
-                    world->WORLD_OPTIONS[ "RESPECT_GLOBALLY_UNIQUE" ].setValue( "false" );
-                    world->save();
-                    respect_globally_unique = false;
-                }
                 if( !iter->second.is_empty() ) {
                     amo.push_back( iter->second );
                 }
