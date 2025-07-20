@@ -1259,8 +1259,6 @@ class map
         */
         float item_category_spawn_rate( const item &itm );
 
-
-
         /**
          * Place an item on the map, despite the parameter name, this is not necessarily a new item.
          * WARNING: does -not- check volume or stack charges. player functions (drop etc) should use
@@ -1355,12 +1353,6 @@ class map
         */
         std::vector<item *> put_items_from_loc( const item_group_id &loc, const tripoint &p,
                                                 const time_point &turn = calendar::start_of_cataclysm );
-
-        std::vector<item *> put_filtered_items_from_loc(
-            const item_group_id &loc,
-            const tripoint &p,
-            const time_point &turn,
-            const item_category_id &filter_cat );
 
         // Similar to spawn_an_item, but spawns a list of items, or nothing if the list is empty.
         std::vector<detached_ptr<item>> spawn_items( const tripoint &p,
