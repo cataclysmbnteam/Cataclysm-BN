@@ -6249,7 +6249,7 @@ std::vector<item *> map::place_items( const item_group_id &loc, const int chance
         return res;
     }
 
-    const float spawn_rate = std::max( get_option<float>( "ITEM_SPAWNRATE" ), 1.0f );
+    const float spawn_rate = get_option<float>( "ITEM_SPAWNRATE" );
     const int spawn_count = roll_remainder( chance * spawn_rate / 100.0f );
 
     for( int i = 0; i < spawn_count; i++ ) {
@@ -6274,7 +6274,7 @@ std::vector<item *> map::place_items( const item_group_id &loc, const int chance
             std::vector<detached_ptr<item>> initial = item_group::items_from( loc, turn );
 
             for( detached_ptr<item> &itm : initial ) {
-                const float cat_rate = std::max( 0.0f, item_category_spawn_rate( *itm ) );
+                const float cat_rate = item_category_spawn_rate( *itm );
 
                 if( cat_rate <= 1.0f ) {
                     if( rng_float( 0.1f, 1.0f ) <= cat_rate ) {
@@ -6346,50 +6346,6 @@ std::vector<item *> map::place_items( const item_group_id &loc, const int chance
         }
     }
     return res;
-}
-
-std::vector<item *> map::put_filtered_items_from_loc(
-    const item_group_id &loc,
-    const tripoint &p,
-    const time_point &turn,
-    const item_category_id &filter_cat )
-{
-    std::vector<item *> ret;
-
-    // Initial item sample to find category spawn rate
-    std::vector<detached_ptr<item>> initial_items = item_group::items_from( loc, turn );
-    std::vector<detached_ptr<item>> to_spawn;
-
-    for( const auto &it : initial_items ) {
-        if( it->get_category_id() != filter_cat.c_str() ) {
-            continue;
-        }
-
-        float cat_rate = std::max( 0.0f, item_category_spawn_rate( *it ) );
-        int spawn_count = std::max( 1, static_cast<int>( std::floor( cat_rate ) ) );
-
-        for( int i = 0; i < spawn_count; ++i ) {
-            // Always re-generate the item to get distinct instances
-            std::vector<detached_ptr<item>> batch = item_group::items_from( loc, turn );
-
-            for( auto &spawned : batch ) {
-                if( spawned->get_category_id() == filter_cat.c_str() ) {
-                    to_spawn.push_back( std::move( spawned ) );
-                }
-            }
-        }
-
-        break;
-    }
-
-    // Actually spawn them
-    ret.reserve( to_spawn.size() );
-    for( auto &it : to_spawn ) {
-        ret.push_back( &*it );
-    }
-
-    spawn_items( p, std::move( to_spawn ) );
-    return ret;
 }
 
 std::vector<item *> map::put_items_from_loc( const item_group_id &loc, const tripoint &p,
