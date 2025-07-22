@@ -17,7 +17,7 @@ class JsonValue;
 class inventory;
 class item;
 class nc_color;
-class player;
+class Character;
 
 enum class available_status : int {
     a_true = +1, // yes, it's available
@@ -449,11 +449,11 @@ class deduped_requirement_data
             int batch = 1, cost_adjustment = static_cast<cost_adjustment>( 0 ) ) const;
 
         const requirement_data *select_alternative(
-            player &, const std::function<bool( const item & )> &filter, int batch = 1,
+            Character &, const std::function<bool( const item & )> &filter, int batch = 1,
             cost_adjustment = static_cast<cost_adjustment>( 0 ) ) const;
 
         const requirement_data *select_alternative(
-            player &, const inventory &, const std::function<bool( const item & )> &filter,
+            Character &, const inventory &, const std::function<bool( const item & )> &filter,
             int batch = 1, cost_adjustment = static_cast<cost_adjustment>( 0 ) ) const;
 
         bool can_make_with_inventory(

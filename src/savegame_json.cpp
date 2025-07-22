@@ -950,7 +950,8 @@ void player::load( const JsonObject &data )
     }
 
     // Fixes bugged characters for CBM's preventing mutations.
-    for( const bionic_id &bid : get_bionics() ) {
+    for( const bionic &i : get_bionic_collection() ) {
+        const bionic_id &bid = i.id;
         for( const trait_id &mid : bid->canceled_mutations ) {
             if( has_trait( mid ) ) {
                 remove_mutation( mid );
@@ -1040,6 +1041,10 @@ void avatar::store( JsonOut &json ) const
 
     json.member( "preferred_aiming_mode", preferred_aiming_mode );
 
+    json.member( "snippets_read", snippets_read );
+
+    json.member( "known_monsters", known_monsters );
+
     json.member( "faction_warnings" );
     json.start_array();
     for( const auto &elem : warning_record ) {
@@ -1115,6 +1120,9 @@ void avatar::load( const JsonObject &data )
 
     items_identified.clear();
     data.read( "items_identified", items_identified );
+
+    // Player only, snippets they have read at least once.
+    data.read( "snippets_read", snippets_read );
 
     data.read( "translocators", translocators );
 
@@ -1198,6 +1206,9 @@ void avatar::load( const JsonObject &data )
             warning_record[faction_id( fac_id )] = std::make_pair( warning_num, warning_time );
         }
     }
+
+    // monsters recorded by the character
+    data.read( "known_monsters", known_monsters );
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////

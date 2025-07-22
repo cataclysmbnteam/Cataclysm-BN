@@ -110,6 +110,10 @@
 #  include "mod_tileset.h"
 #endif
 
+struct DynamicDataLoader::cached_streams {
+    lru_cache<std::string, shared_ptr_fast<std::istringstream>> cache;
+};
+
 DynamicDataLoader::DynamicDataLoader()
 {
     initialize();
@@ -134,10 +138,6 @@ void DynamicDataLoader::load_object( const JsonObject &jo, const std::string &sr
     }
     it->second( jo, src, base_path, full_path );
 }
-
-struct DynamicDataLoader::cached_streams {
-    lru_cache<std::string, shared_ptr_fast<std::istringstream>> cache;
-};
 
 shared_ptr_fast<std::istream> DynamicDataLoader::get_cached_stream( const std::string &path )
 {

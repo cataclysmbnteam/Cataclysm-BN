@@ -893,5 +893,79 @@
       [ [ "pipe", 8 ] ],
       [ [ "sheet_metal_small", 1 ] ]
     ]
+  },
+  {
+    "type": "recipe",
+    "result": "scouter",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_TOOLS",
+    "skill_used": "electronics",
+    "difficulty": 7,
+    "time": "20 m",
+    "reversible": true,
+    "decomp_learn": 7,
+    "book_learn": [ [ "advanced_electronics", 6 ], [ "textbook_electronics", 6 ] ],
+    "using": [ [ "soldering_standard", 20 ] ],
+    "qualities": [ { "id": "SCREW_FINE", "level": 1 }, { "id": "VOLT_MEASURE", "level": 1 } ],
+    "components": [
+      [ [ "plastic_chunk", 6 ] ],
+      [ [ "game_watch", 1 ], [ "smart_phone", 1 ], [ "laptop", 1 ] ],
+      [ [ "gps_device", 1 ] ],
+      [ [ "geiger_off", 1 ] ],
+      [ [ "goggles_nv", 1 ] ],
+      [ [ "processor", 1 ] ],
+      [ [ "RAM", 2 ] ],
+      [ [ "power_supply", 1 ] ],
+      [ [ "amplifier", 2 ] ],
+      [ [ "e_scrap", 5 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "gps_device",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_TOOLS",
+    "skill_used": "electronics",
+    "difficulty": 5,
+    "time": "30 m",
+    "reversible": true,
+    "book_learn": [ [ "radio_book", 2 ], [ "textbook_anarch", 3 ] ],
+    "using": [ [ "soldering_standard", 14 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [
+      [ [ "amplifier", 1 ] ],
+      [ [ "transponder", 1 ] ],
+      [ [ "receiver", 1 ] ],
+      [ [ "antenna", 1 ] ],
+      [ [ "scrap", 5 ] ],
+      [ [ "cable", 10 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "mil_gps_device",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_TOOLS",
+    "skill_used": "computer",
+    "difficulty": 5,
+    "time": "30 m",
+    "book_learn": [ [ "textbook_anarch", 5 ], [ "recipe_lab_elec", 5 ] ],
+    "using": [ [ "soldering_standard", 14 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "tools": [ [ [ "software_hacking", -1 ], [ "control_laptop", -1 ] ] ],
+    "components": [ [ [ "gps_device", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "mil_scouter",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_TOOLS",
+    "skill_used": "computer",
+    "difficulty": 1,
+    "time": "30 m",
+    "autolearn": true,
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "tools": [ [ [ "mil_gps_device", -1 ] ] ],
+    "components": [ [ [ "scouter", 1 ] ] ]
   }
 ]

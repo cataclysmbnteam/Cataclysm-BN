@@ -109,6 +109,9 @@ std::string enum_to_string<m_flag>( m_flag data )
         case MF_SLUDGEPROOF: return "SLUDGEPROOF";
         case MF_SLUDGETRAIL: return "SLUDGETRAIL";
         case MF_COLDPROOF: return "COLDPROOF";
+        case MF_DARKPROOF: return "DARKPROOF";
+        case MF_LIGHTPROOF: return "LIGHTPROOF";
+        case MF_PSIPROOF: return "PSIPROOF";
         case MF_BIOPROOF: return "BIOPROOF";
         case MF_FIREY: return "FIREY";
         case MF_QUEEN: return "QUEEN";
@@ -761,6 +764,9 @@ void mtype::load( const JsonObject &jo, const std::string &src )
     assign( jo, "dodge", sk_dodge, strict, 0 );
     assign( jo, "armor_bash", armor_bash, strict, 0 );
     assign( jo, "armor_cut", armor_cut, strict, 0 );
+    assign( jo, "armor_dark", armor_dark, strict, 0 );
+    assign( jo, "armor_light", armor_light, strict, 0 );
+    assign( jo, "armor_psi", armor_psi, strict, 0 );
     assign( jo, "armor_bullet", armor_bullet, strict, 0 );
     assign( jo, "armor_stab", armor_stab, strict, 0 );
     assign( jo, "armor_acid", armor_acid, strict, 0 );

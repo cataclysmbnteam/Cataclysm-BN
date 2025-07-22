@@ -21,6 +21,7 @@
 #include "itype.h"
 #include "map.h"
 #include "martialarts.h"
+#include "material.h"
 #include "messages.h"
 #include "monfaction.h"
 #include "monster.h"
@@ -31,6 +32,7 @@
 #include "rng.h"
 #include "skill.h"
 #include "sounds.h"
+#include "stomach.h"
 #include "string_input_popup.h"
 #include "translations.h"
 #include "trap.h"
@@ -326,6 +328,20 @@ void cata::detail::reg_item( sol::state &lua )
         DOC( "Display name with all bells and whistles like ammo and prefixes" );
         luna::set_fx( ut, "display_name", &item::display_name );
 
+        DOC( "Weight of the item. The first `bool` is whether including contents, second `bool` is whether it is `integral_weight`." );
+        luna::set_fx( ut, "weight", [](
+                          item & it,
+                          sol::optional<bool> include_contents,
+                          sol::optional<bool> integral
+        ) { return it.weight( include_contents.value_or( true ), integral.value_or( false ) ); } );
+
+        DOC( "Volume of the item. `bool` is whether it is `integral_volume`." );
+        luna::set_fx( ut, "volume",
+        []( item & it, sol::optional<bool> integral ) { return it.volume( integral.value_or( false ) ); } );
+
+        DOC( "Cents of the item. `bool` is whether it is a post-cataclysm value." );
+        luna::set_fx( ut, "price", &item::price );
+
         DOC( "Check for variable of any type" );
         luna::set_fx( ut, "has_var", &item::has_var );
         DOC( "Erase variable" );
@@ -402,6 +418,8 @@ void cata::detail::reg_item( sol::state &lua )
 
         luna::set_fx( ut, "conductive", &item::conductive );
 
+        luna::set_fx( ut, "is_stackable", sol::resolve<bool() const> ( &item::count_by_charges ) );
+
         luna::set( ut, "charges", &item::charges );
 
         luna::set_fx( ut, "energy_remaining", &item::energy_remaining );
@@ -410,6 +428,21 @@ void cata::detail::reg_item( sol::state &lua )
 
         luna::set_fx( ut, "mod_charges", &item::mod_charges );
 
+        luna::set_fx( ut, "made_of",
+                      sol::resolve < auto() const -> const std::vector<material_id> & > ( &item::made_of ) );
+
+        luna::set_fx( ut, "is_made_of",
+                      sol::resolve < auto( const material_id & ) const -> bool > ( &item::made_of ) );
+
+        luna::set_fx( ut, "get_kcal", []( item & it ) -> int {
+            return it.is_comestible() ? it.get_comestible()->default_nutrition.kcal : 0;
+        } );
+        luna::set_fx( ut, "get_quench", []( item & it ) -> int {
+            return it.is_comestible() ? it.get_comestible()->quench : 0;
+        } );
+        luna::set_fx( ut, "get_comestible_fun", []( item & it ) -> int {
+            return it.get_comestible_fun();
+        } );
         DOC( "Gets the TimeDuration until this item rots" );
         luna::set_fx( ut, "get_rot", &item::get_rot );
 
@@ -496,6 +529,9 @@ void cata::detail::reg_item( sol::state &lua )
         luna::set_fx( ut, "set_flag_recursive", &item::set_flag_recursive );
         luna::set_fx( ut, "unset_flags", &item::unset_flags );
 
+        DOC( "Converts the item as given `ItypeId`." );
+        luna::set_fx( ut, "convert", &item::convert );
+
         DOC( "Get variable as string" );
         luna::set_fx( ut, "get_var_str",
                       sol::resolve<std::string( const std::string &, const std::string & ) const>
@@ -559,6 +595,12 @@ void cata::detail::reg_map( sol::state &lua )
         luna::set_fx( ut, "has_items_at", &map::has_items );
         luna::set_fx( ut, "get_items_at", []( map & m, const tripoint & p ) -> std::unique_ptr<map_stack> {
             return std::make_unique<map_stack>( m.i_at( p ) );
+        } );
+        luna::set_fx( ut, "remove_item_at", []( map & m, const tripoint & p, item * it ) -> void {
+            m.i_rem( p, it );
+        } );
+        luna::set_fx( ut, "clear_items_at", []( map & m, const tripoint & p ) -> void {
+            m.i_clear( p );
         } );
 
 
@@ -689,7 +731,7 @@ void cata::detail::reg_ui_elements( sol::state &lua )
         luna::set_fx( ut, "add_w_desc", []( uilist & ui, int retval, const std::string & text,
         const std::string & desc ) {
             ui.addentry_desc( retval, true, MENU_AUTOASSIGN, text, desc );
-        } ) ;
+        } );
         DOC( "Adds an entry with desc and col(third `string`). col is additional text on the right of the entry name." );
         luna::set_fx( ut, "add_w_col", []( uilist & ui, int retval, const std::string & text,
         const std::string & desc, const std::string col ) {
@@ -699,23 +741,23 @@ void cata::detail::reg_ui_elements( sol::state &lua )
         luna::set( ut, "entries", &uilist::entries );
         DOC( "Changes the color. Default color is `c_magenta`." );
         luna::set_fx( ut, "border_color", []( uilist & ui, color_id col ) {
-            ui.border_color = get_all_colors().get( col ) ;
+            ui.border_color = get_all_colors().get( col );
         } );
         DOC( "Changes the color. Default color is `c_light_gray`." );
         luna::set_fx( ut, "text_color", []( uilist & ui, color_id col ) {
-            ui.text_color = get_all_colors().get( col ) ;
+            ui.text_color = get_all_colors().get( col );
         } );
         DOC( "Changes the color. Default color is `c_green`." );
         luna::set_fx( ut, "title_color", []( uilist & ui, color_id col ) {
-            ui.title_color = get_all_colors().get( col ) ;
+            ui.title_color = get_all_colors().get( col );
         } );
         DOC( "Changes the color. Default color is `h_white`." );
         luna::set_fx( ut, "hilight_color", []( uilist & ui, color_id col ) {
-            ui.hilight_color = get_all_colors().get( col ) ;
+            ui.hilight_color = get_all_colors().get( col );
         } );
         DOC( "Changes the color. Default color is `c_light_green`." );
         luna::set_fx( ut, "hotkey_color", []( uilist & ui, color_id col ) {
-            ui.hotkey_color = get_all_colors().get( col ) ;
+            ui.hotkey_color = get_all_colors().get( col );
         } );
         DOC( "Returns retval for selected entry, or a negative number on fail/cancel" );
         luna::set_fx( ut, "query", []( uilist & ui ) {
@@ -1339,6 +1381,7 @@ void cata::reg_all_bindings( sol::state &lua )
     reg_game_ids( lua );
     mod_mutation_branch( lua );
     reg_magic( lua );
+    reg_recipe( lua );
     reg_coords_library( lua );
     reg_constants( lua );
     reg_hooks_examples( lua );

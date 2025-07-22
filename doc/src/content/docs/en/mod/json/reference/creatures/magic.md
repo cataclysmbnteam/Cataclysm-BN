@@ -13,6 +13,7 @@ In `data/json/debug_spells.json` there is a template spell, copied here for your
   "type": "SPELL",
   "name": "Template Spell", // name of the spell that shows in game
   "description": "This is a template to show off all the available values",
+  "blocker_mutations": ["THRESH_RAT"], // list of mutations that will not allow you to cast the spell
   "valid_targets": ["hostile", "ground", "self", "ally"], // if a valid target is not included, you cannot cast the spell on that target.
   "effect": "shallow_pit", // effects are coded in C++. A list will be provided below of possible effects that have been coded.
   "effect_str": "template", // special. see below
@@ -31,6 +32,7 @@ In `data/json/debug_spells.json` there is a template spell, copied here for your
     "FOOT_R"
   ], // body parts affected by effects
   "spell_class": "NONE", //
+  "scale_str": true, // The spell will scale off of strength. Also valid: scale_dex, scale_per, scale_int
   "base_casting_time": 100, // this is the casting time (in moves)
   "base_energy_cost": 10, // the amount of energy (of the requisite type) to cast the spell
   "energy_source": "MANA", // the type of energy used to cast the spell. types are: MANA, BIONIC, HP, STAMINA, FATIGUE, NONE (none will not use mana)
@@ -68,7 +70,8 @@ In `data/json/debug_spells.json` there is a template spell, copied here for your
   "sound_description": "a whoosh", // the sound description. in the form of "You hear %s" by default it is "an explosion"
   "sound_ambient": true, // whether or not this is treated as an ambient sound or not
   "sound_id": "misc", // the sound id
-  "sound_variant": "shockwave" // the sound variant
+  "sound_variant": "shockwave", // the sound variant
+  "sprite": "fd_electricity", // This changes the spell sprite to any valid field ID. Do not use with NO_EXPLOSION_VFX
   "learn_spells": { "acid_resistance_greater": 15 } // You learn the specified spell once your level in this spell is greater than or equal to the number shown.
 }
 ```
@@ -139,6 +142,12 @@ experience you need to get to a level is below:
 
 - `PAIN_NORESIST` - pain altering spells can't be resisted (like with the deadened trait)
 
+- `BRAWL` - Allows characters with the Brawler trait to cast the spell (otherwise they cannot)
+
+- `DUPE_SOUND` - Allows a spell to play multiple of the same sound (i.e. a sound for each target affected)
+
+- `ADD_MELEE_DAM` - Adds the highest category of melee damage for your currently wielded item to the spell's damage
+
 - `NO_FAIL` - this spell cannot fail when you cast it
 
 #### Currently Implemented Effects and special rules
@@ -166,6 +175,12 @@ experience you need to get to a level is below:
 
 - `spawn_item` - spawns an item that will disappear at the end of its duration. Default duration
   is 0. Damage determines quantity.
+
+- `summon_vehicle` - spawns a specified vehicle that should disappear after its duration
+
+- `summon` - spawns a monster that will disappear at the end of its duration. By default friendly to the player. Damage determines quantity.
+
+- `translocate` - teleports the player between registered 'translocators', such as the gates in Magical Nights
 
 - `teleport_random` - teleports the player randomly range spaces with aoe variation
 
@@ -217,6 +232,8 @@ experience you need to get to a level is below:
 
 - `directed_push` pushes things in a single direction away from you.
 
+- `noise` makes noise at a loudness equal to the spell's damage.
+
 - `WONDER` - Unlike the above, this is not an "effect" but a "flag". This alters the behavior of the
   parent spell drastically: The spell itself doesn't cast, but its damage and range information is
   used in order to cast the extra_effects. N of the extra_effects will be chosen at random to be
@@ -238,6 +255,9 @@ experience you need to get to a level is below:
 - `cold`
 - `cut`
 - `electric`
+- `light` - used both for actual light, as well as 'holy'
+- `dark`
+- `psi` - psychic
 - `stab`
 - `true` - this damage type goes through armor altogether, and thus is very powerful. It is the
   default damage type when unspecified.
@@ -615,6 +635,9 @@ damage type has its own enchant value:
 - `ARMOR_BULLET`
 - `ARMOR_COLD`
 - `ARMOR_CUT`
+- `ARMOR_LIGHT`
+- `ARMOR_DARK`
+- `ARMOR_PSI`
 - `ARMOR_ELEC`
 - `ARMOR_HEAT`
 - `ARMOR_STAB`
@@ -649,6 +672,9 @@ value:
 - `ITEM_ARMOR_BULLET`
 - `ITEM_ARMOR_COLD`
 - `ITEM_ARMOR_CUT`
+- `ITEM_ARMOR_LIGHT`
+- `ITEM_ARMOR_DARK`
+- `ITEM_ARMOR_PSI`
 - `ITEM_ARMOR_ELEC`
 - `ITEM_ARMOR_HEAT`
 - `ITEM_ARMOR_STAB`

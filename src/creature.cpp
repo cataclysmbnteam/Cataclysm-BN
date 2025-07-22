@@ -609,9 +609,9 @@ void Creature::deal_melee_hit( Creature *source, item *source_weapon, int hit_sp
     bodypart_id bp_hit = select_body_part( source, hit_spread ).id();
     block_hit( source, bp_hit, d );
 
-    on_hit( source, bp_hit ); // trigger on-gethit events
     dealt_dam = deal_damage( source, bp_hit, d, source_weapon );
     dealt_dam.bp_hit = bp_hit.id();
+    on_hit( source, bp_hit ); // trigger on-gethit events
 }
 void Creature::deal_melee_hit( Creature *source, int hit_spread, bool critical_hit,
                                const damage_instance &dam, dealt_damage_instance &dealt_dam )
@@ -1435,7 +1435,10 @@ void Creature::process_effects()
             }
             // Add any effects that others remove to the removal list
             for( const efftype_id &removed_effect : _it.second.get_removes_effects() ) {
-                to_remove.emplace_back( removed_effect, bodypart_str_id::NULL_ID(), false );
+                // Don't try to remove it if it isn't present
+                if( has_effect( removed_effect ) ) {
+                    to_remove.emplace_back( removed_effect, bodypart_str_id::NULL_ID(), false );
+                }
             }
             effect &e = _it.second;
             const int prev_int = e.get_intensity();
@@ -1470,7 +1473,8 @@ void Creature::process_effects()
             }
 
             if( !found ) {
-                debugmsg( "Couldn't find effect to remove %s", r.type.str() );
+                // Effect somehow went missing between previous loop and now
+                debugmsg( "Couldn't find effect assigned to be removed %s", r.type.str() );
             }
         }
 

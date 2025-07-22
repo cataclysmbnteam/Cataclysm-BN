@@ -1559,7 +1559,7 @@ void Character::suffer()
         }
     }
 
-    for( bionic &bio : *my_bionics ) {
+    for( bionic &bio : get_bionic_collection() ) {
         process_bionic( bio );
     }
 

@@ -244,14 +244,14 @@ if (NOT MSVC)
     if (NOT "${CMAKE_SYSTEM_NAME}" MATCHES "Windows")
         set(CATA_WARNINGS "${CATA_WARNINGS} -Wredundant-decls")
     endif ()
-    set(CATA_OTHER_FLAGS "${CATA_OTHER_FLAGS} -fsigned-char -g1")
+    set(CATA_OTHER_FLAGS "${CATA_OTHER_FLAGS} -fsigned-char -fno-builtin-std-forward_like -g1")
     # Compact the whitespace in the warning string
     string(REGEX REPLACE "[\t ]+" " " CATA_WARNINGS "${CATA_WARNINGS}")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${CATA_WARNINGS} ${CATA_OTHER_FLAGS}")
     set(CMAKE_CXX_FLAGS_DEBUG "-Og -g2")
 endif ()
 
-set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 

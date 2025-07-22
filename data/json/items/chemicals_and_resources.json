@@ -1034,7 +1034,7 @@
     "looks_like": "detergent",
     "symbol": "=",
     "color": "white",
-    "description": "A bar of soap cut into flakes, it can only be used for varnishing wood now.",
+    "description": "A bar of soap cut into flakes.",
     "volume": "250 ml",
     "weight": "1 g",
     "ammo_type": "components",

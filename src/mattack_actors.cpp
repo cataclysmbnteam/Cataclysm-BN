@@ -233,6 +233,8 @@ melee_actor::melee_actor()
     move_cost = 100;
 }
 
+melee_actor::~melee_actor() = default;
+
 void melee_actor::load_internal( const JsonObject &obj, const std::string & )
 {
     // Optional:
@@ -323,7 +325,6 @@ bool melee_actor::call( monster &z ) const
                                     target->select_body_part( &z, hitspread ) :
                                     convert_bp( *body_parts.pick() );
 
-    target->on_hit( &z, bp_hit.id() );
     dealt_damage_instance dealt_damage = target->deal_damage( &z, bp_hit.id(), damage );
     dealt_damage.bp_hit = bp_hit;
 
@@ -337,7 +338,7 @@ bool melee_actor::call( monster &z ) const
         target->add_msg_player_or_npc( m_neutral, no_dmg_msg_u, no_dmg_msg_npc, z.name(),
                                        body_part_name_accusative( bp_hit ) );
     }
-
+    target->on_hit( &z, bp_hit.id() );
     return true;
 }
 

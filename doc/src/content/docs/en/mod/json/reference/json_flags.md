@@ -50,22 +50,15 @@ chambering! :-)
 - `40mm` 40mm Grenade
 - `44` .44 Magnum
 - `44paper` .44 cap & ball
-- `454` .454 Casull
 - `45` .45 ACP (and relatives)
-- `46` 46mm
-- `500` .500 Magnum
 - `50` .50 BMG
-- `57` 57mm
 - `5x50` 5x50 Dart
 - `66mm` 66mm HEAT
-- `700nx` .700 Nitro Express
 - `762R` 7.62x54mm
 - `762` 7.62x39mm
-- `762x25` 7.62x25mm
 - `84x246mm` 84x246mm HE
 - `8x40mm` 8mm Caseless
 - `9mm` 9x19mm Luger (and relatives)
-- `9x18` 9x18mm
 - `BB` BB
 - `RPG-7` RPG-7
 - `UPS` UPS charges
@@ -102,6 +95,21 @@ chambering! :-)
 - `thrown` Thrown
 - `unfinished_char` Semi-charred fuel
 - `water` Water
+
+The following ammo types are (or will soon be) available in in-repo mods
+`exotic_ammo`:
+
+- `454` .454 Casull
+- `500` .500 Magnum
+- `57` 5.7 mm
+- `46` 4.6 mm
+- `762x25` 7.62x25mm (Tokarev)
+- `9x18` 9x18mm
+- `700nx` .700 Nitro Express
+- `38super` .38 super
+- `460` .460 Rowland
+- `545x39` 5.45x39mm
+- `270win` .270 winchester
 
 ### Effects
 
@@ -764,6 +772,8 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - `UNBREAKABLE` ... Armor with this flag will never take damage when taking hits for the wearer.
 - `UNBREAKABLE_MELEE` ... Does never get damaged when used as melee weapon.
 - `UNRECOVERABLE` ... Cannot be recovered from a disassembly.
+- `TOBACCO` ... When lit, this item gives the cigarette effect every puff.
+- `MARIJUANA` ... When lit, this item gives the marijuana effect every puff.
 
 ## Guns
 
@@ -1022,6 +1032,10 @@ Multiple death functions can be used. Not all combinations make sense.
 - `BASHES` Bashes down doors.
 - `BILE_BLOOD` Makes monster bleed bile.
 - `BIOPROOF` Makes monster immune to Bio damage (A damage type mostly used by magic mods)
+- `COLDPROOF` Makes monster immune to Cold damage (A damage type mostly used by magic mods)
+- `DARKPROOF` Makes monster immune to Dark damage (A damage type completely used by magic mods)
+- `LIGHTPROOF` Makes monster immune to Light damage (A damage type completely used by magic mods)
+- `PSIPROOF` Makes monster immune to Psionic damage (A damage type mostly used by magic mods)
 - `BIRDFOOD` Becomes friendly / tamed with bird food.
 - `BLEED` Causes the player to bleed.
 - `BONES` May produce bones and sinews when butchered.

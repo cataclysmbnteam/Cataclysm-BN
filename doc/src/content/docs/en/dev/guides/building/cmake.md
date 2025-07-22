@@ -76,21 +76,6 @@ If you plan on using `tiles`, make sure you have the latest [WSL 2 that supports
 2. Install CataclysmBN build deps:
 
 ```
-pacman -S mingw-w64-i686-toolchain msys/git \
-   	  mingw-w64-i686-cmake \
-   	  mingw-w64-i686-SDL2_{image,mixer,ttf} \
-   	  ncurses-devel \
-      gettext \
-      base-devel
-```
-
-This should get your environment set up to build console and tiles version of windows.
-
-:::caution
-
-This is only for 32bit builds. 64bit requires the x86_64 instead of the i686 packages listed above:
-
-```sh
 pacman -S mingw-w64-x86_64-toolchain msys/git \
    	  mingw-w64-x86_64-cmake \
    	  mingw-w64-x86_64-SDL2_{image,mixer,ttf} \
@@ -99,7 +84,7 @@ pacman -S mingw-w64-x86_64-toolchain msys/git \
       base-devel
 ```
 
-:::
+This should get your environment set up to build console and tiles version of windows.
 
 :::note
 

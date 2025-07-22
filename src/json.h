@@ -1281,6 +1281,9 @@ class JsonValue
         int get_int() const {
             return seek().get_int();
         }
+        unsigned int get_uint() const {
+            return seek().get_uint();
+        }
         int64_t get_int64() const {
             return seek().get_int64();
         }

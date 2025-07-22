@@ -116,6 +116,7 @@
       { "item": "binoculars", "prob": 20 },
       { "item": "roller_blades", "prob": 20 },
       { "item": "folding_skateboard", "prob": 10 },
+      { "item": "folding_wagon", "prob": 10 },
       { "item": "duct_tape", "prob": 100 },
       { "item": "lawnmower", "prob": 25 },
       { "item": "trash_can_empty", "prob": 25 },
@@ -190,6 +191,8 @@
       { "item": "chem_potassium_chloride", "prob": 5, "charges-min": 100 },
       { "item": "chem_muriatic_acid", "prob": 15 },
       { "item": "denat_alcohol", "prob": 10 },
+      { "item": "butane_can", "prob": 20 },
+      { "item": "butane_tank", "prob": 10 },
       { "item": "chem_peptone_broth", "prob": 15 }
     ]
   },
@@ -814,6 +817,7 @@
       { "item": "hockey_stick", "prob": 10 },
       { "item": "roller_blades", "prob": 20 },
       { "item": "folding_skateboard", "prob": 10 },
+      { "item": "folding_wagon", "prob": 10 },
       { "item": "roller_shoes_off", "prob": 10 },
       { "item": "jersey", "prob": 40 },
       { "item": "hairpin", "prob": 20 },

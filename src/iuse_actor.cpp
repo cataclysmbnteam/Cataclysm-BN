@@ -854,7 +854,7 @@ int consume_drug_iuse::use( player &p, item &it, bool, const tripoint & ) const
                                      _( "I need a %1$s to consume %2$s!" ),
                                      item::nname( tool.first ),
                                      it.type_name( 1 ) );
-            return -1;
+            return 0;
         }
     }
     for( const auto &consumable : charges_needed ) {
@@ -865,7 +865,7 @@ int consume_drug_iuse::use( player &p, item &it, bool, const tripoint & ) const
                                      _( "I need a %1$s to consume %2$s!" ),
                                      item::nname( consumable.first ),
                                      it.type_name( 1 ) );
-            return -1;
+            return 0;
         }
     }
 
@@ -4173,7 +4173,7 @@ int place_trap_actor::use( player &p, item &it, bool, const tripoint & ) const
     }
 
     const bool has_shovel = p.has_quality( quality_id( "DIG" ), 3 );
-    const bool is_diggable = here.has_flag( "DIGGABLE", pos );
+    const bool is_diggable = here.ter( pos )->is_diggable();
     bool bury = false;
     if( could_bury && has_shovel && is_diggable ) {
         bury = query_yn( _( bury_question ) );

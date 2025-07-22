@@ -261,8 +261,6 @@ class activity_actor
             return msg;
         }
 
-        virtual void adjust_bench_multiplier( bench_loc &bench, const metric & ) const;
-
         /*
          * actor specific formula for speed factor based on skills
          * anything above 0 is a valid number

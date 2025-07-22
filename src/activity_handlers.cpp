@@ -3690,7 +3690,9 @@ void activity_handlers::craft_do_turn( player_activity *act, player *p )
     const double cur_total_moves = std::max( 1, rec.batch_time( craft->charges, crafting_speed,
                                    assistants ) );
     // Delta progress in moves adjusted for current crafting speed
-    const double delta_progress = p->get_moves() * base_total_moves / cur_total_moves;
+    const double delta_progress = p->get_moves() > 0
+                                  ? p->get_moves() * base_total_moves / cur_total_moves
+                                  : 0;
     // Current progress in moves
     const double current_progress = craft->item_counter * base_total_moves / 10'000'000.0 +
                                     delta_progress;
@@ -3726,7 +3728,7 @@ void activity_handlers::craft_do_turn( player_activity *act, player *p )
         //TODO!: CHEEKY check
         item *craft_copy = craft;
         p->cancel_activity();
-        complete_craft( *p, *craft_copy, bench_location{bench_t, bench_pos} );
+        complete_craft( *p, *craft_copy );
         act->targets.front()->detach();
         if( is_long ) {
             if( p->making_would_work( p->lastrecipe, craft_copy->charges ) ) {
@@ -4047,18 +4049,8 @@ void activity_handlers::fill_pit_finish( player_activity *act, player *p )
     const ter_id ter = here.ter( pos );
     const ter_id old_ter = ter;
 
-    if( ter == t_pit || ter == t_pit_spiked || ter == t_pit_glass ||
-        ter == t_pit_corpsed ) {
-        here.ter_set( pos, t_pit_shallow );
-    } else {
-        here.ter_set( pos, t_dirt );
-    }
-    int act_exertion = to_moves<int>( time_duration::from_minutes( 15 ) );
-    if( old_ter == t_pit_shallow ) {
-        act_exertion = to_moves<int>( time_duration::from_minutes( 10 ) );
-    } else if( old_ter == t_dirtmound ) {
-        act_exertion = to_moves<int>( time_duration::from_minutes( 5 ) );
-    }
+    here.ter_set( pos, old_ter->fill_result );
+    int act_exertion = to_moves<int>( time_duration::from_minutes( old_ter->fill_minutes ) );
     const int helpersize = character_funcs::get_crafting_helpers( *p, 3 ).size();
     act_exertion = act_exertion * ( 10 - helpersize ) / 10;
     p->mod_stored_kcal( std::min( -1, -act_exertion / to_moves<int>( 20_seconds ) ) );

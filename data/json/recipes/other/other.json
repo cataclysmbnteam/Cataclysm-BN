@@ -253,11 +253,9 @@
     "time": "1 h",
     "book_learn": [ [ "scots_cookbook", 3 ] ],
     "using": [ [ "sewing_standard", 20 ] ],
-    "qualities": [ { "id": "SANDING", "level": 1 } ],
     "components": [
       [ [ "large_stomach_sealed", 1 ], [ "leather", 10 ], [ "fur", 10 ] ],
       [ [ "stick", 1 ], [ "2x4", 1 ] ],
-      [ [ "varnish", 1, "LIST" ] ],
       [ [ "fabric_standard", 3, "LIST" ] ],
       [ [ "adhesive", 1, "LIST" ] ]
     ]
@@ -332,8 +330,8 @@
     "time": "1 h 30 m",
     "reversible": true,
     "autolearn": true,
-    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_W", "level": 2 }, { "id": "SANDING", "level": 1 } ],
-    "components": [ [ [ "2x4", 4 ] ], [ [ "varnish", 2, "LIST" ] ], [ [ "nail_glue", 20, "LIST" ] ], [ [ "hinge", 2 ] ] ]
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_W", "level": 2 } ],
+    "components": [ [ [ "2x4", 4 ] ], [ [ "nail_glue", 20, "LIST" ] ], [ [ "hinge", 2 ] ] ]
   },
   {
     "result": "fish_bait",
@@ -762,5 +760,27 @@
       [ [ "sheet_metal_small", 10 ] ],
       [ [ "broken_dissector", 1 ] ]
     ]
+  },
+  {
+    "type": "recipe",
+    "result": "carbondioxide_tank",
+    "byproducts": [ [ "material_quicklime" ] ],
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "skill_used": "fabrication",
+    "skills_required": [ "cooking", 2 ],
+    "difficulty": 3,
+    "time": "30 m",
+    "batch_time_factors": [ 75, 4 ],
+    "book_learn": [ [ "concrete_book", 3 ], [ "adv_chemistry", 3 ], [ "textbook_chemistry", 3 ], [ "reference_cooking", 4 ] ],
+    "qualities": [ { "id": "PRESSURIZATION", "level": 1 } ],
+    "tools": [ [ [ "forge", 250 ], [ "oxy_torch", 50 ] ] ],
+    "components": [ [ [ "material_limestone", 50 ] ], [ [ "metal_tank_little", 1 ] ] ]
+  },
+  {
+    "type": "uncraft",
+    "result": "carbondioxide_tank",
+    "time": "30 s",
+    "components": [ [ [ "metal_tank_little", 1 ] ] ]
   }
 ]
