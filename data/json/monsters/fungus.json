@@ -338,7 +338,7 @@
     "vision_night": 5,
     "harvest": "zombie",
     "special_attacks": [ [ "FUNGUS", 200 ], { "type": "bite", "cooldown": 5 } ],
-    "death_drops": "default_zombie_death_drops",
+    "death_drops": "default_zombie_children_death_drops",
     "death_function": [ "NORMAL" ],
     "burn_into": "mon_zombie_scorched",
     "flags": [ "SEES", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "PUSH_MON" ]
