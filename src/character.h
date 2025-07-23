@@ -30,6 +30,8 @@
 #include "enum_int_operators.h"
 #include "enums.h"
 #include "flat_set.h"
+#include "mutation.h"
+#include "bionics.h"
 #include "game_constants.h"
 #include "inventory.h"
 #include "item.h"
