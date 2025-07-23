@@ -1318,7 +1318,6 @@
     "to_hit": -3,
     "max_charges": 100,
     "initial_charges": 100,
-    "charges_per_use": 1,
     "ammo": "gasfilter_m",
     "use_action": "GASMASK",
     "material": [ "kevlar", "cotton" ],
