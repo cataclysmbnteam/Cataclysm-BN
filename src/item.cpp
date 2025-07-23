@@ -7863,6 +7863,51 @@ int item::gun_range( const player *p ) const
     return std::max( 0, ret );
 }
 
+int item::gun_speed( bool with_ammo ) const
+{
+    if( !is_gun() ) {
+        return 10;
+    }
+    int ret = type->gun->speed;
+    for( const item *mod : gunmods() ) {
+        ret += mod->type->gunmod->speed;
+    }
+    if( with_ammo && ammo_data() ) {
+        ret += ammo_data()->ammo->speed;
+    }
+    return std::max( 0, ret );
+}
+
+double item::gun_aimed_crit_bonus( bool with_ammo ) const
+{
+    if( !is_gun() ) {
+        return 0;
+    }
+    int ret = type->gun->aimedcritbonus;
+    for( const item *mod : gunmods() ) {
+        ret += mod->type->gunmod->aimedcritbonus;
+    }
+    if( with_ammo && ammo_data() ) {
+        ret += ammo_data()->ammo->aimedcritbonus;
+    }
+    return std::max( 0, ret );
+}
+
+double item::gun_aimed_crit_max_bonus( bool with_ammo ) const
+{
+    if( !is_gun() ) {
+        return 0;
+    }
+    int ret = type->gun->aimedcritmaxbonus;
+    for( const item *mod : gunmods() ) {
+        ret += mod->type->gunmod->aimedcritmaxbonus;
+    }
+    if( with_ammo && ammo_data() ) {
+        ret += ammo_data()->ammo->aimedcritmaxbonus;
+    }
+    return std::max( 0, ret );
+}
+
 units::energy item::energy_remaining() const
 {
     if( is_battery() ) {
