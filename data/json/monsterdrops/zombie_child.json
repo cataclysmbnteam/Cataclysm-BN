@@ -6,7 +6,7 @@
     "id": "default_zombie_children_death_drops",
     "entries": [
       { "group": "default_zombie_children_clothes", "custom-flags": [ "UNDERSIZE" ] },
-      { "group": "coats_unisex", "prob": 65 }
+      { "group": "child_items", "prob": 65 }
     ]
   },
   {
