@@ -891,6 +891,8 @@
   {
     "type": "effect_type",
     "id": "took_antinarcoleptic",
+    "name": [ "Took GHB" ],
+    "desc": [ "You took GHB some time ago and you might still be under its influence." ],
     "blood_analysis_description": "GHB"
   },
   {
