@@ -1022,7 +1022,7 @@ void do_pause( Character &who )
                     }
                 }
             } else {
-                g->vertical_move( -1, true );
+                g->vertical_move( 0, true );
             }
         }
 
