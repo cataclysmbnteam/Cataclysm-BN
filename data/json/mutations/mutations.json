@@ -1063,7 +1063,7 @@
     "type": "mutation",
     "id": "SCHIZOPHRENIC",
     "name": { "str": "Psychosis" },
-    "points": -1,
+    "points": -6,
     "description": "You will periodically suffer from delusions, ranging from minor effects to full visual hallucinations.  Some of these effects may be controlled through the use of Thorazine.",
     "starting_trait": true,
     "valid": false,

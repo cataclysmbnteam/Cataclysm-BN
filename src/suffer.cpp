@@ -513,15 +513,10 @@ void Character::suffer_from_schizophrenia()
         shout( SNIPPET.random_from_category( "schizo_self_shout" ).value_or( translation() ).translated() );
         return;
     }
-    // Drop weapon
-    if( one_turn_in( 2_days ) && !weapon.is_null() ) {
-        const translation snip = SNIPPET.random_from_category( "schizo_weapon_drop" ).value_or(
-                                     translation() );
-        std::string str = string_format( snip, i_name_w );
-        str[0] = toupper( str[0] );
-
-        add_msg_if_player( m_bad, "%s", str );
-        drop( primary_weapon(), pos() );
+    // Focus debuff
+    if( one_turn_in( 8_hours ) ) {
+        add_msg_if_player( m_bad, _( "You find it hard to focus all of a sudden." ) );
+        focus_pool -= rng( 20, 40 );
         return;
     }
     // Talk to self
