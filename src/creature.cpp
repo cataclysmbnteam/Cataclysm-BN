@@ -85,6 +85,8 @@ static const efftype_id effect_stunned( "stunned" );
 static const efftype_id effect_tied( "tied" );
 static const efftype_id effect_zapped( "zapped" );
 
+static const matec_id tec_none( "tec_none" );
+
 const std::map<std::string, creature_size> Creature::size_map = {
     {"TINY",   creature_size::tiny},
     {"SMALL",  creature_size::small},
@@ -858,6 +860,20 @@ void Creature::deal_projectile_attack( Creature *source, item *source_weapon,
         impact.mult_damage( 0.0f );
     }
 
+    // Roll techniques now that we know for sure who the target is.
+    attack.tec_id = tec_none;
+    auto *c = dynamic_cast<Character *>( source );
+    if( c != nullptr && c->throw_attacking ) {
+        matec_id tec_id = c->pick_technique( *this, *source_weapon, ht == ranged::hit_tier::critical, false,
+                                             false );
+        if( tec_id != tec_none ) {
+            ma_technique technique = tec_id.obj();
+            c->apply_technique_buffs( technique, &impact, nullptr );
+            c->perform_technique( technique, *this );
+            attack.tec_id = tec_id;
+        }
+    }
+
     // If we have a shield, it might passively block ranged impacts
     block_ranged_hit( source, bp_hit, impact );
     // If the projectile survives, both it and the launcher get credit for the kill.
@@ -1245,9 +1261,18 @@ void Creature::clear_effects()
 }
 bool Creature::remove_effect( const efftype_id &eff_id )
 {
-    return remove_effect( eff_id, bodypart_str_id::NULL_ID() );
+    return remove_effect( eff_id, bodypart_str_id::NULL_ID(), 0 );
+}
+bool Creature::remove_effect( const efftype_id &eff_id, const int &stacks )
+{
+    return remove_effect( eff_id, bodypart_str_id::NULL_ID(), stacks );
 }
 bool Creature::remove_effect( const efftype_id &eff_id, const bodypart_str_id &bp )
+{
+    return remove_effect( eff_id, bp, 0 );
+}
+bool Creature::remove_effect( const efftype_id &eff_id, const bodypart_str_id &bp,
+                              const int &stacks )
 {
     if( !has_effect( eff_id, bp ) ) {
         //Effect doesn't exist, so do nothing
@@ -1255,29 +1280,43 @@ bool Creature::remove_effect( const efftype_id &eff_id, const bodypart_str_id &b
     }
     const effect_type &type = eff_id.obj();
 
+
+    bool removed = false;
+    // null bp means remove all of a given effect id
+    if( !bp ) {
+        for( auto &it : ( *effects )[eff_id] ) {
+            auto &e = it.second;
+            if( !e.is_removed() ) {
+                if( stacks == 0 || stacks > e.get_intensity() ) {
+                    e.set_removed();
+                    removed = true;
+                } else {
+                    e.mod_intensity( -stacks );
+                }
+                on_effect_int_change( e.get_id(), stacks == 0 ? 0 : e.get_intensity(), e.get_bp() );
+            }
+        }
+    } else {
+        effect &e = get_effect( eff_id, bp );
+        if( !e.is_removed() ) {
+            if( stacks == 0 || stacks > e.get_intensity() ) {
+                e.set_removed();
+                removed = true;
+            } else {
+                e.mod_intensity( -stacks );
+            }
+            on_effect_int_change( e.get_id(), stacks == 0 ? 0 : e.get_intensity(), e.get_bp() );
+        }
+    }
+
     Character *ch = as_character();
-    if( ch != nullptr ) {
+    if( removed && ch != nullptr ) {
         if( is_player() ) {
             if( !type.get_remove_message().empty() ) {
                 add_msg( type.lose_game_message_type(), _( type.get_remove_message() ) );
             }
         }
         g->events().send<event_type::character_loses_effect>( ch->getID(), eff_id );
-    }
-
-    // null bp means remove all of a given effect id
-    if( !bp ) {
-        for( auto &it : ( *effects )[eff_id] ) {
-            auto &e = it.second;
-            if( !e.is_removed() ) {
-                on_effect_int_change( e.get_id(), 0, e.get_bp() );
-                e.set_removed();
-            }
-        }
-    } else {
-        effect &e = get_effect( eff_id, bp );
-        on_effect_int_change( e.get_id(), 0, e.get_bp() );
-        e.set_removed();
     }
     // Sleep is a special case, since it affects max sight range and other effects
     // Must be below the set_removed above or we'll get an infinite loop

@@ -491,7 +491,8 @@ void Character::move_operator_common( Character &&source ) noexcept
     prof = source.prof ;
     custom_profession = std::move( source.custom_profession );
 
-    reach_attacking = source.reach_attacking ;
+    reach_attacking = source.reach_attacking;
+    throw_attacking = source.throw_attacking;
 
     magic = std::move( source.magic );
 
@@ -6728,16 +6729,17 @@ int Character::throw_range( const item &it ) const
         tmp.charges = 1;
     }
 
+    int str_override = str_cur * is_expert_thrower() ? 1.5 : 1;
     /** @EFFECT_STR determines maximum weight that can be thrown */
-    if( ( tmp.weight() / 100_gram ) > static_cast<int>( str_cur * 15 ) ) {
+    if( ( tmp.weight() / 100_gram ) > static_cast<int>( str_override * 15 ) ) {
         return 0;
     }
-    // Increases as weight decreases until 150 g, then decreases again
+
+    // Increases as weight decreases until 150 g,then decrea ses again
     /** @EFFECT_STR increases throwing range, vs item weight (high or low) */
-    int str_override = str_cur;
     if( is_mounted() ) {
         auto mons = mounted_creature.get();
-        str_override = mons->mech_str_addition() != 0 ? mons->mech_str_addition() : str_cur;
+        str_override = mons->mech_str_addition() != 0 ? mons->mech_str_addition() : str_override;
     }
     const int divisor = tmp.weight() >= 150_gram
                         ? tmp.weight() / 100_gram
