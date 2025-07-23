@@ -2529,7 +2529,7 @@
         "type": "transform"
       }
     ],
-    "flags": [ "LITCIG", "TOBACCO", "LIGHT_4", "TRADER_AVOID", "FIRESTARTER" ]
+    "flags": [ "LITCIG", "MARIJUANA", "TOBACCO", "LIGHT_4", "TRADER_AVOID", "FIRESTARTER" ]
   },
   {
     "type": "GENERIC",
@@ -2605,7 +2605,7 @@
         "type": "transform"
       }
     ],
-    "flags": [ "LITCIG", "LIGHT_4", "TRADER_AVOID", "FIRESTARTER" ]
+    "flags": [ "LITCIG", "MARIJUANA", "LIGHT_4", "TRADER_AVOID", "FIRESTARTER" ]
   },
   {
     "type": "GENERIC",

@@ -11,6 +11,7 @@
 #include "behavior.h"
 #include "calendar.h"
 #include "color.h"
+#include "cursesdef.h"
 #include "damage.h"
 #include "enum_bitset.h"
 #include "enums.h"
@@ -182,6 +183,18 @@ enum m_flag : int {
     MF_STUN_IMMUNE,         // This monster is immune to the stun effect
     MF_DROPS_AMMO,          // This monster drops ammo. Check to make sure starting_ammo paramter is present for this monster type!
     MF_CAN_BE_ORDERED,      // If friendly, allow setting this monster to ignore hostiles and prioritize following the player.
+    MF_SMALL_HEAD,          // This monster has a smaller head in proportion to the rest of its body than usual, making it 20% harder to shoot the head. 0.1 -> 0.08
+    MF_TINY_HEAD,           // This monster has a tiny head in proportion to the rest of its body, making it 50% hard to shoot the head. 0.1 -> 0.05
+    MF_NO_HEAD_BONUS_CRIT,  // This monster can still be hit in the head, but cannot be dealt extra damage past the 1.5 multiplier.
+    MF_HEAD_BONUS_MAX_CRIT_1,       // This monster has a vulnerable head, increasing the maximum potential critical multiplier by 0.5 (50%)
+    MF_HEAD_BONUS_MAX_CRIT_2,       // This monster has a extremely vulnerable head, increasing the maximum potential critical multiplier by 1.0 (100%)
+    MF_TORSO_BONUS_MAX_CRIT_1,      // This monster has a vulnerable torso, increasing the maximum potential critical multiplier by 0.25 (25%)
+    MF_TORSO_BONUS_MAX_CRIT_2,      // This monster has a extremely vulnerable torso, increasing the maximum potential critical multiplier by 0.5 (50%)
+    MF_PROJECTILE_RESISTANT_1,      // This monster has a torso and limbs that are notably resistant to projectiles, with a default x1 damage mult cap.
+    MF_PROJECTILE_RESISTANT_2,      // This monster has a torso and limbs that are very resistant to projectiles, with a default x0.8 damage mult cap.
+    MF_PROJECTILE_RESISTANT_3,      // This monster has a torso and limbs that are extremely resistant to projectiles, with a default x0.5 damage mult cap.
+    MF_PROJECTILE_RESISTANT_4,      // This monster has a torso and limbs that are almost immune to projectiles, with a default x0.2 damage mult cap.
+
     MF_MAX                  // Sets the length of the flags - obviously must be LAST
 };
 
@@ -299,6 +312,8 @@ struct mtype {
         // Will stop fleeing if at max hp, and regen anger and morale.
         bool regen_morale = false;
 
+        void faction_display( catacurses::window &w, const point &top_left, const int width ) const;
+
         // mountable ratio for rider weight vs. mount weight, default 0.3
         float mountable_weight_ratio = 0.3;
 
@@ -319,7 +334,7 @@ struct mtype {
 
         /** If unset (-1) then values are calculated automatically from other properties */
         int armor_bash = -1;     /** innate armor vs. bash */
-        int armor_cut  = -1;     /** innate armor vs. cut */
+        int armor_cut = -1;     /** innate armor vs. cut */
         int armor_dark = -1;     /** innate armor vs. dark */
         int armor_light = -1;    /** innate armor vs. light */
         int armor_psi = -1;      /** innate armor vs. psi */

@@ -152,6 +152,7 @@ static const efftype_id effect_disabled( "disabled" );
 static const efftype_id effect_disinfected( "disinfected" );
 static const efftype_id effect_downed( "downed" );
 static const efftype_id effect_drunk( "drunk" );
+static const efftype_id effect_took_antinarcoleptic( "took_antinarcoleptic" );
 static const efftype_id effect_earphones( "earphones" );
 static const efftype_id effect_foodpoison( "foodpoison" );
 static const efftype_id effect_frostbite( "frostbite" );
@@ -4078,7 +4079,7 @@ void Character::do_skill_rust()
               ( has_trait_flag( trait_flag_PRED3 ) && calendar::once_every( 4_hours ) ) ||
               ( has_trait_flag( trait_flag_PRED4 ) && calendar::once_every( 3_hours ) ) ) ) {
             // Their brain is optimized to remember this
-            if( one_in( 13 ) ) {
+            if( one_in( 13 ) && !has_effect( effect_sleep ) ) {
                 // They've already passed the roll to avoid rust at
                 // this point, but print a message about it now and
                 // then.
@@ -5493,6 +5494,11 @@ void Character::check_needs_extremes()
     } else if( get_stim() < -200 || get_painkiller() > 240 ) {
         add_msg_if_player( m_bad, _( "Your breathing stops completely." ) );
         g->events().send<event_type::dies_from_drug_overdose>( getID(), efftype_id() );
+        set_part_hp_cur( bodypart_id( "torso" ), 0 );
+        // taking GHB greatly reduces the amount of stimulation needed to die
+    } else if( get_effect_int( effect_took_antinarcoleptic )  && get_stim() < -80 ) {
+        add_msg_if_player( m_bad, _( "Your breathing slows down to a stop." ) );
+        g->events().send<event_type::dies_from_drug_overdose>( getID(), effect_took_antinarcoleptic );
         set_part_hp_cur( bodypart_id( "torso" ), 0 );
     } else if( has_effect( effect_jetinjector ) && get_effect_dur( effect_jetinjector ) > 40_minutes ) {
         if( !( has_trait( trait_NOPAIN ) ) ) {
@@ -8433,16 +8439,37 @@ void Character::passive_absorb_hit( const bodypart_id &bp, damage_unit &du ) con
     du.amount = std::max( 0.0f, du.amount );
 }
 
-static void destroyed_armor_msg( Character &who, const std::string &pre_damage_name )
+static void destroyed_armor_msg( Character &who, const std::string &pre_damage_name,
+                                 const bool holds_items,
+                                 units::mass item_weight,
+                                 units::volume item_volume )
 {
+    const bool show_popup = get_option<bool>( "CLOTHING_DESTRUCTION_POPUP" );
+    const bool container_only = !get_option<bool>( "CLOTHING_DESTRUCTION_POPUP_CONTENTS" );
+    const units::mass required_weight = units::from_gram(
+                                            get_option<int>( "CLOTHING_DESTRUCTION_POPUP_MIN_WEIGHT" ) );
+    const units::volume required_volume = units::from_milliliter(
+            get_option<int>( "CLOTHING_DESTRUCTION_POPUP_MIN_VOLUME" ) );
+    const bool weight_ok = required_weight == units::mass{} || item_weight >= required_weight;
+    const bool volume_ok = required_volume == units::volume{} || item_volume >= required_volume;
+    const bool contents_ok = !container_only || holds_items;
+    const bool should_show_popup = show_popup && weight_ok && volume_ok && contents_ok;
     if( who.is_avatar() ) {
         g->memorial().add(
             //~ %s is armor name
             pgettext( "memorial_male", "Worn %s was completely destroyed." ),
             pgettext( "memorial_female", "Worn %s was completely destroyed." ),
             pre_damage_name );
+        if( should_show_popup ) {
+            popup( _( "Your %s is completely destroyed!" ), pre_damage_name );
+        }
+    } else if( who.is_npc() && who.as_npc()->is_following() && should_show_popup ) {
+        popup( _( "%1$s's %2$s is completely destroyed!" ),
+               who.as_npc()->get_name(),
+               pre_damage_name );
     }
-    who.add_msg_player_or_npc( m_bad, _( "Your %s is completely destroyed!" ),
+    who.add_msg_player_or_npc( m_bad,
+                               _( "Your %s is completely destroyed!" ),
                                _( "<npcname>'s %s is completely destroyed!" ),
                                pre_damage_name );
 }
@@ -8638,7 +8665,8 @@ void Character::absorb_hit( const bodypart_id &bp, damage_instance &dam )
                     SCT.add( point( posx(), posy() ), direction::NORTH, remove_color_tags( pre_damage_name ),
                              m_neutral, _( "destroyed" ), m_info );
                 }
-                destroyed_armor_msg( *this, pre_damage_name );
+                destroyed_armor_msg( *this, pre_damage_name, armor.contents.empty(), armor.weight(),
+                                     armor.volume() );
                 armor_destroyed = true;
                 armor.on_takeoff( *this );
 
@@ -9761,6 +9789,11 @@ void Character::stop_hauling()
 bool Character::is_hauling() const
 {
     return hauling;
+}
+
+void Character::set_knows_creature_type( const mtype_id &c )
+{
+    known_monsters.emplace( c );
 }
 
 std::unique_ptr<player_activity> Character::remove_activity()
