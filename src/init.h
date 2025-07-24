@@ -180,9 +180,8 @@ class DynamicDataLoader
 namespace init
 {
 
-/// Load (or reload) mods' main Lua scripts.
-/// @returns the number of loaded scripts.
-auto load_main_lua_scripts( cata::lua_state &state, const std::vector<mod_id> &packs ) -> int;
+/** Load (or reload) mods' main Lua scripts. */
+void load_main_lua_scripts( cata::lua_state &state, const std::vector<mod_id> &packs );
 
 /** Returns whether the game data is currently loaded. */
 bool is_data_loaded();

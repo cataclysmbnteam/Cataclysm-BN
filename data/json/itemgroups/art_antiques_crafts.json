@@ -214,6 +214,7 @@
     "id": "antique_rare",
     "subtype": "distribution",
     "entries": [
+      { "item": "trex_gun", "prob": 4 },
       { "item": "spiral_stone", "prob": 2 },
       { "item": "pistol_flintlock", "prob": 3 },
       { "item": "carbine_flintlock", "prob": 3 },
@@ -287,6 +288,7 @@
     "id": "antique_bank_vault",
     "subtype": "distribution",
     "entries": [
+      { "item": "trex_gun", "prob": 4 },
       { "item": "spiral_stone", "prob": 2 },
       { "item": "cutlass", "prob": 2 },
       { "item": "broadsword", "prob": 2 },

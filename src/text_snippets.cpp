@@ -66,12 +66,6 @@ void snippet_library::add_snippet_from_json( const std::string &category, const 
         }
         snippets_by_category[category].ids.emplace_back( id );
         snippets_by_id[id] = text;
-
-        translation name;
-        optional( jo, false, "name", name );
-        if( !name.empty() ) {
-            name_by_id[id] = name;
-        }
     } else {
         snippets_by_category[category].no_id.emplace_back( text );
     }
@@ -93,15 +87,6 @@ std::optional<translation> snippet_library::get_snippet_by_id( const snippet_id 
 {
     const auto it = snippets_by_id.find( id );
     if( it == snippets_by_id.end() ) {
-        return std::nullopt;
-    }
-    return it->second;
-}
-
-std::optional<translation> snippet_library::get_name_by_id( const snippet_id &id ) const
-{
-    const auto it = name_by_id.find( id );
-    if( it == name_by_id.end() ) {
         return std::nullopt;
     }
     return it->second;
@@ -239,8 +224,10 @@ std::string get_random_tip_of_the_day()
                 if( jobj.get_string( "category" ) != "tip" ) {
                     jobj.throw_error( "expected 'tip' category", "category" );
                 }
-                std::vector<std::string> text = jobj.get_string_array( "text" );
-                all_tips.insert( all_tips.end(), text.begin(), text.end() );
+                JsonArray text = jobj.get_array( "text" );
+                for( JsonValue entry : text ) {
+                    all_tips.push_back( entry.get_string() );
+                }
             }
         } );
         if( !success ) {

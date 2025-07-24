@@ -516,7 +516,7 @@
     "type": "mutation",
     "id": "LARGE_OK",
     "copy-from": "LARGE_OK",
-    "extend": { "category": [ "MASTODON" ], "threshreq": [ "THRESH_MASTODON" ] }
+    "extend": { "category": [ "MASTODON" ] }
   },
   {
     "type": "mutation",

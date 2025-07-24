@@ -890,13 +890,6 @@
   },
   {
     "type": "effect_type",
-    "id": "took_antinarcoleptic",
-    "name": [ "Took GHB" ],
-    "desc": [ "You took GHB some time ago and you might still be under its influence." ],
-    "blood_analysis_description": "GHB"
-  },
-  {
-    "type": "effect_type",
     "id": "feral_killed_recently",
     "max_duration": "200 d",
     "max_intensity": 200,
@@ -2548,37 +2541,5 @@
     "rating": "neutral",
     "max_duration": "999999 d",
     "show_in_info": true
-  },
-  {
-    "type": "effect_type",
-    "id": "acid_burn_pain",
-    "name": [ "Acid Burn", "Corrosive Trauma", "Tissue Corrosion" ],
-    "desc": [
-      "Your skin burns painfully from acid exposure.",
-      "A harsh chemical reaction leaves your skin blistered and screaming.",
-      "Your skin bubbles and breaks down under intense acid exposure."
-    ],
-    "rating": "bad",
-    "max_intensity": 1,
-    "int_dur_factor": "1 m",
-    "max_duration": "10 m",
-    "base_mods": { "pain_amount": [ 1 ], "pain_max": [ 1 ], "pain_max_val": [ 100 ] },
-    "scaling_mods": { "pain_min": [ 1 ], "pain_max": [ 5 ], "pain_chance": [ 2 ], "pain_max_val": [ 100 ] }
-  },
-  {
-    "type": "effect_type",
-    "id": "acid_burn_pain_light",
-    "name": [ "Mild Acid Burn", "Tingling Corrosion", "Acidic Residue" ],
-    "desc": [
-      "Your skin itches and tingles from light acid exposure.",
-      "Your skin tingles uncomfortably as acid begins to eat away at it.",
-      "A leftover trace of acid is causing a subtle sting."
-    ],
-    "rating": "bad",
-    "max_intensity": 1,
-    "int_dur_factor": "30 s",
-    "max_duration": "10 m",
-    "base_mods": { "pain_amount": [ 0 ], "pain_max": [ 1 ], "pain_max_val": [ 10 ] },
-    "scaling_mods": { "pain_min": [ 1 ], "pain_max": [ 1 ], "pain_chance": [ 10 ], "pain_max_val": [ 10 ] }
   }
 ]

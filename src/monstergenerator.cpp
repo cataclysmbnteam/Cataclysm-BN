@@ -184,17 +184,6 @@ std::string enum_to_string<m_flag>( m_flag data )
         case MF_LOUDMOVES: return "LOUDMOVES";
         case MF_DROPS_AMMO: return "DROPS_AMMO";
         case MF_CAN_BE_ORDERED: return "CAN_BE_ORDERED";
-        case MF_SMALL_HEAD: return "SMALL_HEAD";
-        case MF_TINY_HEAD: return "TINY_HEAD";
-        case MF_NO_HEAD_BONUS_CRIT: return "NO_HEAD_BONUS_CRIT";
-        case MF_HEAD_BONUS_MAX_CRIT_1: return "HEAD_BONUS_CRIT_1";
-        case MF_HEAD_BONUS_MAX_CRIT_2: return "HEAD_BONUS_CRIT_2";
-        case MF_TORSO_BONUS_MAX_CRIT_1: return "TORSO_BONUS_CRIT_1";
-        case MF_TORSO_BONUS_MAX_CRIT_2: return "TORSO_BONUS_CRIT_2";
-        case MF_PROJECTILE_RESISTANT_1: return "PROJECTILE_RESISTANT_1";
-        case MF_PROJECTILE_RESISTANT_2: return "PROJECTILE_RESISTANT_2";
-        case MF_PROJECTILE_RESISTANT_3: return "PROJECTILE_RESISTANT_3";
-        case MF_PROJECTILE_RESISTANT_4: return "PROJECTILE_RESISTANT_4";
         // *INDENT-ON*
         case m_flag::MF_MAX:
             break;

@@ -47,7 +47,6 @@ using ItemList = std::vector<item *>;
  */
 std::vector<detached_ptr<item>> items_from( const item_group_id &group_id,
                              const time_point &birthday );
-
 /**
  * Same as above but with implicit birthday at turn 0.
  */

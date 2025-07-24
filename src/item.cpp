@@ -134,8 +134,6 @@ static const efftype_id effect_weed_high( "weed_high" );
 static const fault_id fault_gun_blackpowder( "fault_gun_blackpowder" );
 static const fault_id fault_bionic_nonsterile( "fault_bionic_nonsterile" );
 
-static const flag_id flag_MARIJUANA( "MARIJUANA" );
-
 static const gun_mode_id gun_mode_REACH( "REACH" );
 
 static const itype_id itype_barrel_small( "barrel_small" );
@@ -1725,11 +1723,6 @@ void item::basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                                      !has_flag( flag_SNIPPET_NEEDS_LITERACY ) ) ) {
             // Just use the dynamic description
             info.emplace_back( "DESCRIPTION", snippet.value().translated() );
-            // only ever do the effect for a snippet the first time you see it
-            if( !get_avatar().has_seen_snippet( snip_id ) ) {
-                //note that you have seen the snippet
-                get_avatar().add_snippet( snip_id );
-            }
         } else if( idescription != item_vars.end() ) {
             info.emplace_back( "DESCRIPTION", idescription->second );
         } else {
@@ -5941,18 +5934,8 @@ bool item::goes_bad() const
     return is_food() && get_comestible()->spoils != 0_turns;
 }
 
-bool item::goes_bad_after_opening( bool strict ) const
+bool item::goes_bad_after_opening() const
 {
-    // check if this item is explicitly a canning-type item: eg, it preserves contents
-    if( strict ) {
-        if( type->container && type->container->preserves &&
-            !contents.empty() && contents.front().goes_bad() ) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
     return goes_bad() || ( type->container && type->container->preserves &&
                            !contents.empty() && contents.front().goes_bad() );
 }
@@ -7860,51 +7843,6 @@ int item::gun_range( const player *p ) const
     // Reduce bow range if player has less than minimum strength.
     ret *= ranged::str_draw_range_modifier( *this, *p );
 
-    return std::max( 0, ret );
-}
-
-int item::gun_speed( bool with_ammo ) const
-{
-    if( !is_gun() ) {
-        return 10;
-    }
-    int ret = type->gun->speed;
-    for( const item *mod : gunmods() ) {
-        ret += mod->type->gunmod->speed;
-    }
-    if( with_ammo && ammo_data() ) {
-        ret += ammo_data()->ammo->speed;
-    }
-    return std::max( 0, ret );
-}
-
-double item::gun_aimed_crit_bonus( bool with_ammo ) const
-{
-    if( !is_gun() ) {
-        return 0;
-    }
-    int ret = type->gun->aimedcritbonus;
-    for( const item *mod : gunmods() ) {
-        ret += mod->type->gunmod->aimedcritbonus;
-    }
-    if( with_ammo && ammo_data() ) {
-        ret += ammo_data()->ammo->aimedcritbonus;
-    }
-    return std::max( 0, ret );
-}
-
-double item::gun_aimed_crit_max_bonus( bool with_ammo ) const
-{
-    if( !is_gun() ) {
-        return 0;
-    }
-    int ret = type->gun->aimedcritmaxbonus;
-    for( const item *mod : gunmods() ) {
-        ret += mod->type->gunmod->aimedcritmaxbonus;
-    }
-    if( with_ammo && ammo_data() ) {
-        ret += ammo_data()->ammo->aimedcritmaxbonus;
-    }
     return std::max( 0, ret );
 }
 
@@ -9832,16 +9770,11 @@ detached_ptr<item> item::process_litcig( detached_ptr<item> &&self, player *carr
             duration = 30_seconds;
         }
         carrier->add_msg_if_player( m_neutral, _( "You take a puff of your %s." ), it.tname() );
-
-        // we need to figure out a way to get the item before this got converted,
-        // but i don't think that's going to be very easy...
         if( it.has_flag( flag_TOBACCO ) ) {
             carrier->add_effect( effect_cig, duration );
+        } else {
+            carrier->add_effect( effect_weed_high, duration / 2 );
         }
-        if( it.has_flag( flag_MARIJUANA ) ) {
-            carrier->add_effect( effect_weed_high, duration );
-        }
-
         carrier->moves -= 15;
 
         if( ( carrier->has_effect( effect_shakes ) && one_in( 10 ) ) ) {
@@ -9874,9 +9807,12 @@ detached_ptr<item> item::process_litcig( detached_ptr<item> &&self, player *carr
         if( carrier != nullptr ) {
             carrier->add_msg_if_player( m_neutral, _( "You finish your %s." ), it.tname() );
         }
-        it.convert( dynamic_cast<const iuse_transform *>
-                    ( it.type->get_use( "transform" )->get_actor_ptr() )->target );
-        if( it.has_flag( flag_MARIJUANA ) ) {
+        if( it.typeId() == itype_cig_lit ) {
+            it.convert( itype_cig_butt );
+        } else if( it.typeId() == itype_cigar_lit ) {
+            it.convert( itype_cigar_butt );
+        } else { // joint
+            it.convert( itype_joint_roach );
             if( carrier != nullptr ) {
                 carrier->add_effect( effect_weed_high, 1_minutes ); // one last puff
                 here.add_field( pos + point( rng( -1, 1 ), rng( -1, 1 ) ), fd_weedsmoke, 2 );
@@ -9951,8 +9887,13 @@ detached_ptr<item> item::process_extinguish( detached_ptr<item> &&self, player *
 
     // cig dies out
     if( self->has_flag( flag_LITCIG ) ) {
-        self->convert( dynamic_cast<const iuse_transform *>
-                       ( self->type->get_use( "transform" )->get_actor_ptr() )->target );
+        if( self->typeId() == itype_cig_lit ) {
+            self->convert( itype_cig_butt );
+        } else if( self->typeId() == itype_cigar_lit ) {
+            self->convert( itype_cigar_butt );
+        } else { // joint
+            self->convert( itype_joint_roach );
+        }
     } else { // transform (lit) items
         if( !self->revert( carrier ) ) {
             self->type->invoke( carrier != nullptr ? *carrier : get_avatar(), *self, pos, "transform" );

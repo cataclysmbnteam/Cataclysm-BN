@@ -183,7 +183,7 @@
     "price": "50 cent",
     "name": { "str_sp": "cotton seeds" },
     "description": "Some cotton seeds.  Can be processed to produce an edible oil.",
-    "charges": 2,
+    "charges": 8,
     "stack_size": 40,
     "seed_data": { "plant_name": "cotton", "fruit": "cotton_boll", "byproducts": [ "withered" ], "grow": "20 days" }
   },

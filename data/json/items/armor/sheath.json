@@ -220,7 +220,7 @@
       "type": "holster",
       "holster_prompt": "Holster weapon",
       "holster_msg": "You holster your %s.",
-      "max_volume": "4000 ml",
+      "max_volume": "3500 ml",
       "draw_cost": 150,
       "flags": [ "SHEATH_SPEAR", "SHEATH_AXE" ]
     },

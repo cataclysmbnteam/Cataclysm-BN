@@ -15,7 +15,6 @@
 #include "debug.h"
 #include "enums.h"
 #include "explosion.h"
-#include "character_functions.h"
 #include "game.h"
 #include "game_constants.h"
 #include "int_id.h"
@@ -57,8 +56,6 @@ static const itype_id itype_rope_30( "rope_30" );
 static const trait_id trait_WINGS_BIRD( "WINGS_BIRD" );
 static const trait_id trait_WINGS_BUTTERFLY( "WINGS_BUTTERFLY" );
 static const trait_id trait_WEB_RAPPEL( "WEB_RAPPEL" );
-static const trait_id trait_DEBUG_NOCLIP( "DEBUG_NOCLIP" );
-static const trait_id trait_DEBUG_FLIGHT( "DEBUG_FLIGHT" );
 
 static const mtype_id mon_blob( "mon_blob" );
 static const mtype_id mon_shadow( "mon_shadow" );
@@ -1128,20 +1125,18 @@ bool trapfunc::ledge( const tripoint &p, Creature *c, item * )
     }
     if( !g->m.has_zlevels() ) {
         if( c == &g->u ) {
-            if( !character_funcs::can_fly( get_avatar() ) ) {
-                add_msg( m_warning, _( "You fall down a level!" ) );
-                g->vertical_move( -1, true );
-                if( get_avatar().has_trait( trait_WINGS_BIRD ) || ( one_in( 2 ) &&
-                        get_avatar().has_trait( trait_WINGS_BUTTERFLY ) ) ) {
-                    add_msg( _( "You flap your wings and flutter down gracefully." ) );
-                } else if( get_avatar().has_trait( trait_WEB_RAPPEL ) ) {
-                    add_msg( _( "You quickly spin a line of silk and rappel down." ) );
-                } else if( get_avatar().has_active_bionic( bio_shock_absorber ) ) {
-                    add_msg( m_info,
-                             _( "You hit the ground hard, but your shock absorbers handle the impact admirably!" ) );
-                } else {
-                    get_avatar().impact( 20, p );
-                }
+            add_msg( m_warning, _( "You fall down a level!" ) );
+            g->vertical_move( -1, true );
+            if( g->u.has_trait( trait_WINGS_BIRD ) || ( one_in( 2 ) &&
+                    g->u.has_trait( trait_WINGS_BUTTERFLY ) ) ) {
+                add_msg( _( "You flap your wings and flutter down gracefully." ) );
+            } else if( g->u.has_trait( trait_WEB_RAPPEL ) ) {
+                add_msg( _( "You quickly spin a line of silk and rappel down." ) );
+            } else if( g->u.has_active_bionic( bio_shock_absorber ) ) {
+                add_msg( m_info,
+                         _( "You hit the ground hard, but your shock absorbers handle the impact admirably!" ) );
+            } else {
+                g->u.impact( 20, p );
             }
         } else {
             c->add_msg_if_npc( _( "<npcname> falls down a level!" ) );
@@ -1210,13 +1205,9 @@ bool trapfunc::ledge( const tripoint &p, Creature *c, item * )
     }
 
     if( pl->is_player() ) {
-        if( character_funcs::can_fly( *pl->as_character() ) ) {
-            return false;
-        } else {
-            add_msg( m_bad, vgettext( "You fall down %d story!", "You fall down %d stories!", height ),
-                     height );
-            g->vertical_move( -height, true );
-        }
+        add_msg( m_bad, vgettext( "You fall down %d story!", "You fall down %d stories!", height ),
+                 height );
+        g->vertical_move( -height, true );
     } else {
         pl->setpos( where );
     }

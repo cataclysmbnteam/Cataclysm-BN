@@ -279,7 +279,7 @@ item in `data/json/items/bionics.json`. Even for a faulty bionic.
 | category   | Mutation category needed to dream.                                   |
 | strength   | Mutation category strength required (1 = 20-34, 2 = 35-49, 3 = 50+). |
 
-````json
+```json
 {
   "messages": [
     "You have a strange dream about birds.",
@@ -288,28 +288,7 @@ item in `data/json/items/bionics.json`. Even for a faulty bionic.
   "category": "MUTCAT_BIRD",
   "strength": 1
 }
-
-### Item Category
-
-When you sort your inventory by category, these are the categories that are displayed.
-| Identifier      | Description
-|---              |---
-| id              | Unique ID. Must be one continuous word, use underscores if necessary
-| name            | The name of the category. This is what shows up in-game when you open the inventory.
-| zone            | The corresponding loot_zone (see loot_zones.json)
-| sort_rank       | Used to sort categories when displaying.  Lower values are shown first
-| priority_zones  | When set, items in this category will be sorted to the priority zone if the conditions are met. If the user does not have the priority zone in the zone manager, the items get sorted into zone set in the 'zone' property. It is a list of objects. Each object has 3 properties: ID: The id of a LOOT_ZONE (see LOOT_ZONES.json), filthy: boolean. setting this means filthy items of this category will be sorted to the priority zone, flags: array of flags
-|spawn_rate       | Sets amount of items from item category that might spawn.  Checks for `spawn_rate` value for item category.  If `spawn_chance` is less than 1.0, it will make a random roll (0.1-1.0) to check if the item will have a chance to spawn.  If `spawn_chance` is more than or equal to 1.0, it will add a chance to spawn additional items from the same category.  Items will be taken from item group which original item was located in.  Therefore this parameter won't affect chance to spawn additional items for items set to spawn solitary in mapgen (e.g. through use of `item` or `place_item`).
-
-```C++
-{
-  "id":"armor",
-  "name": "ARMOR",
-  "zone": "LOOT_ARMOR",
-  "sort_rank": -21,
-  "priority_zones": [ { "id": "LOOT_FARMOR", "filthy": true, "flags": [ "RAINPROOF" ] } ],
-}
-````
+```
 
 ### Disease
 

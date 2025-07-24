@@ -19,17 +19,6 @@
     "time": 1
   },
   {
-    "id": "bio_wings",
-    "type": "bionic",
-    "name": { "str": "Thermofluidic Propulsion Modules" },
-    "description": "These advanced propulsion modules utilize thermofluidic principles to generate lift and controlled thrust, allowing the user to achieve limited levitation and short-range flight.  When toggled on, they emit directed thermal energy through micro-thrusters to maneuver over obstacles or hazardous terrain.  Energy is consumed both during activation and sustained operation.",
-    "occupied_bodyparts": [ [ "torso", 1 ], [ "leg_l", 3 ], [ "leg_r", 3 ] ],
-    "flags": [ "BIONIC_TOGGLED", "BIONIC_FLIGHT" ],
-    "react_cost": "10 kJ",
-    "act_cost": "10 kJ",
-    "time": 1
-  },
-  {
     "id": "bio_alarm",
     "type": "bionic",
     "name": { "str": "Alarm System" },

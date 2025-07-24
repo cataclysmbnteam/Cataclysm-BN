@@ -760,27 +760,5 @@
       [ [ "sheet_metal_small", 10 ] ],
       [ [ "broken_dissector", 1 ] ]
     ]
-  },
-  {
-    "type": "recipe",
-    "result": "carbondioxide_tank",
-    "byproducts": [ [ "material_quicklime" ] ],
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_OTHER",
-    "skill_used": "fabrication",
-    "skills_required": [ "cooking", 2 ],
-    "difficulty": 3,
-    "time": "30 m",
-    "batch_time_factors": [ 75, 4 ],
-    "book_learn": [ [ "concrete_book", 3 ], [ "adv_chemistry", 3 ], [ "textbook_chemistry", 3 ], [ "reference_cooking", 4 ] ],
-    "qualities": [ { "id": "PRESSURIZATION", "level": 1 } ],
-    "tools": [ [ [ "forge", 250 ], [ "oxy_torch", 50 ] ] ],
-    "components": [ [ [ "material_limestone", 50 ] ], [ [ "metal_tank_little", 1 ] ] ]
-  },
-  {
-    "type": "uncraft",
-    "result": "carbondioxide_tank",
-    "time": "30 s",
-    "components": [ [ [ "metal_tank_little", 1 ] ] ]
   }
 ]

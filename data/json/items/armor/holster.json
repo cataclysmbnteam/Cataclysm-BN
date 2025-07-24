@@ -23,7 +23,7 @@
       "draw_cost": 150,
       "skills": [ "smg", "shotgun", "rifle", "launcher" ]
     },
-    "flags": [ "BELTED", "COMPACT", "OVERSIZE" ]
+    "flags": [ "BELTED", "COMPACT", "OVERSIZE", "NO_QUICKDRAW" ]
   },
   {
     "id": "bootstrap",

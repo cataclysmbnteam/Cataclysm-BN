@@ -182,6 +182,11 @@
     "flags": [ "HIDDEN_HALLU" ]
   },
   {
+    "id": "hk_ucp",
+    "type": "MIGRATION",
+    "replace": "hk_mp7"
+  },
+  {
     "id": "10mm",
     "type": "MIGRATION",
     "replace": "10mm_fmj"
@@ -215,6 +220,16 @@
     "id": "skinny_tie",
     "type": "MIGRATION",
     "replace": "tie_skinny"
+  },
+  {
+    "id": "270",
+    "type": "MIGRATION",
+    "replace": "270win_jsp"
+  },
+  {
+    "id": "reloaded_270",
+    "type": "MIGRATION",
+    "replace": "270win_jsp"
   },
   {
     "id": "afs_rolling_pin",
@@ -475,6 +490,11 @@
     "id": [ "l_HFPack", "l_long_45" ],
     "type": "MIGRATION",
     "replace": "colt_lightning"
+  },
+  {
+    "id": [ "l_sp_45", "l_mp_45" ],
+    "type": "MIGRATION",
+    "replace": "m1911-460"
   },
   {
     "id": "l_enforcer_45",

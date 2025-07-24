@@ -343,7 +343,10 @@ static int debug_menu_uilist( bool display_all_entries = true )
 
         // insert debug-only menu right after "Info".
         menu.insert( menu.begin() + 1, debug_menu.begin(), debug_menu.end() );
-        menu.emplace_back( 7, true, 'l', _( "Lua console" ) );
+
+        if( cata::has_lua() ) {
+            menu.emplace_back( 7, true, 'l', _( "Lua console" ) );
+        }
     }
 
     std::string msg;

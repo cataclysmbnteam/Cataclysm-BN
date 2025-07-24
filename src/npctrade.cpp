@@ -166,7 +166,7 @@ std::vector<item_pricing> npc_trading::init_buying( Character &buyer, Character 
 
     //nearby items owned by the NPC will only show up in
     //the trade window if the NPC is also a shopkeeper
-    if( np.is_shopkeeper() ) {
+    if( np.mission == NPC_MISSION_SHOPKEEP ) {
         for( map_cursor &cursor : map_selector( seller.pos(), PICKUP_RANGE ) ) {
             cursor.visit_items( [&check_item]( item * node ) {
                 check_item( {node}, 1 );
@@ -486,7 +486,7 @@ bool trading_window::perform_trade( npc &np, const std::string &deal )
     weight_left = np.weight_capacity() - np.weight_carried();
 
     // Shopkeeps are happy to have large inventories.
-    if( np.is_shopkeeper() ) {
+    if( np.mission == NPC_MISSION_SHOPKEEP ) {
         volume_left = 5000_liter;
         weight_left = 5000_kilogram;
     }
@@ -682,7 +682,7 @@ void trading_window::update_npc_owed( npc &np )
 bool npc_trading::trade( npc &np, int cost, const std::string &deal )
 {
     // Only allow actual shopkeepers to refresh their inventory like this
-    if( np.is_shopkeeper() ) {
+    if( np.mission == NPC_MISSION_SHOPKEEP ) {
         np.shop_restock();
     }
     //np.drop_items( np.weight_carried() - np.weight_capacity(),

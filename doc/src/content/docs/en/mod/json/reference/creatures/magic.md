@@ -32,7 +32,6 @@ In `data/json/debug_spells.json` there is a template spell, copied here for your
     "FOOT_R"
   ], // body parts affected by effects
   "spell_class": "NONE", //
-  "scale_str": true, // The spell will scale off of strength. Also valid: scale_dex, scale_per, scale_int
   "base_casting_time": 100, // this is the casting time (in moves)
   "base_energy_cost": 10, // the amount of energy (of the requisite type) to cast the spell
   "energy_source": "MANA", // the type of energy used to cast the spell. types are: MANA, BIONIC, HP, STAMINA, FATIGUE, NONE (none will not use mana)
@@ -70,8 +69,7 @@ In `data/json/debug_spells.json` there is a template spell, copied here for your
   "sound_description": "a whoosh", // the sound description. in the form of "You hear %s" by default it is "an explosion"
   "sound_ambient": true, // whether or not this is treated as an ambient sound or not
   "sound_id": "misc", // the sound id
-  "sound_variant": "shockwave", // the sound variant
-  "sprite": "fd_electricity", // This changes the spell sprite to any valid field ID. Do not use with NO_EXPLOSION_VFX
+  "sound_variant": "shockwave" // the sound variant
   "learn_spells": { "acid_resistance_greater": 15 } // You learn the specified spell once your level in this spell is greater than or equal to the number shown.
 }
 ```

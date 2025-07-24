@@ -442,7 +442,7 @@
       "flags": [ "SHEATH_SWORD", "SHEATH_AXE", "SHEATH_SPEAR" ],
       "skills": [ "smg", "shotgun", "rifle", "launcher" ]
     },
-    "flags": [ "POWERARMOR_MOD", "COMPACT", "BELTED", "ONLY_ONE" ]
+    "flags": [ "POWERARMOR_MOD", "COMPACT", "BELTED", "NO_QUICKDRAW", "ONLY_ONE" ]
   },
   {
     "id": "power_armor_leg_hardpoint",

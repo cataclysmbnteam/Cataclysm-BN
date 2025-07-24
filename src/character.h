@@ -30,8 +30,6 @@
 #include "enum_int_operators.h"
 #include "enums.h"
 #include "flat_set.h"
-#include "mutation.h"
-#include "bionics.h"
 #include "game_constants.h"
 #include "inventory.h"
 #include "item.h"
@@ -1707,7 +1705,6 @@ class Character : public Creature, public location_visitable<Character>
         int slow_rad = 0;
 
         int focus_pool = 0;
-        std::set<mtype_id> known_monsters;
         int cash = 0;
         std::set<character_id> follower_ids;
         weak_ptr_fast<Creature> last_target;
@@ -1724,13 +1721,6 @@ class Character : public Creature, public location_visitable<Character>
         bool has_addiction( add_type type ) const;
         /** Returns the intensity of the specified addiction */
         int  addiction_level( add_type type ) const;
-
-        /** This character becomes familiar with creatures of the given type **/
-        void set_knows_creature_type( const mtype_id &c );
-        /** Returns a list of all monster types known by this character **/
-        const std::set<mtype_id> &get_known_monsters() const {
-            return known_monsters;
-        }
 
         shared_ptr_fast<monster> mounted_creature;
         // for loading NPC mounts
@@ -1904,7 +1894,7 @@ class Character : public Creature, public location_visitable<Character>
         void on_stat_change( const std::string &stat, int value ) override;
 
         /** Removes "sleep" and "lying_down" */
-        virtual void wake_up();
+        void wake_up();
         // how loud a character can shout. based on mutations and clothing
         int get_shout_volume() const;
         // shouts a message

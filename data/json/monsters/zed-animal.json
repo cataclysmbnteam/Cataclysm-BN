@@ -183,6 +183,7 @@
     "harvest": "zombie_tooth_fur",
     "special_attacks": [ [ "HOWL", 10 ] ],
     "anger_triggers": [ "PLAYER_CLOSE", "HURT" ],
+    "fear_triggers": [ "FIRE" ],
     "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "KEENNOSE", "BASHES", "POISON", "NO_BREATHE", "REVIVES" ]
   },
@@ -216,6 +217,7 @@
     "vision_night": 5,
     "harvest": "zombie_tooth_fur_large",
     "anger_triggers": [ "PLAYER_CLOSE", "HURT" ],
+    "fear_triggers": [ "FIRE" ],
     "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "PUSH_MON" ]
   },
@@ -247,6 +249,7 @@
     "path_settings": { "max_dist": 10 },
     "special_attacks": [ { "type": "bite", "cooldown": 2 } ],
     "anger_triggers": [ "PLAYER_WEAK", "PLAYER_CLOSE" ],
+    "fear_triggers": [ "FIRE" ],
     "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "KEENNOSE", "BLEED", "BASHES", "POISON", "NO_BREATHE", "REVIVES" ],
     "//": "1d8->2d5, minor bonus over 1d9"
@@ -278,6 +281,7 @@
     "vision_night": 5,
     "harvest": "zombie_leather",
     "anger_triggers": [ "PLAYER_CLOSE", "HURT" ],
+    "fear_triggers": [ "FIRE" ],
     "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "SWIMS" ]
   },
@@ -310,6 +314,7 @@
     "vision_night": 5,
     "harvest": "zombie_fur_large",
     "anger_triggers": [ "PLAYER_CLOSE", "HURT" ],
+    "fear_triggers": [ "FIRE" ],
     "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES" ]
   },
@@ -342,6 +347,7 @@
     "harvest": "zombie_tooth_fur",
     "special_attacks": [ { "type": "leap", "cooldown": 10, "max_range": 5 } ],
     "anger_triggers": [ "PLAYER_CLOSE", "HURT" ],
+    "fear_triggers": [ "FIRE" ],
     "death_function": [ "NORMAL" ],
     "flags": [
       "SEES",

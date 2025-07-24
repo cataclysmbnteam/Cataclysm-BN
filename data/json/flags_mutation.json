@@ -132,13 +132,5 @@
   {
     "id": "UNARMED_BONUS",
     "type": "mutation_flag"
-  },
-  {
-    "id": "MUTATION_FLIGHT",
-    "type": "mutation_flag"
-  },
-  {
-    "id": "FLIGHT_ALWAYS_ACTIVE",
-    "type": "mutation_flag"
   }
 ]

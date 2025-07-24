@@ -91,7 +91,7 @@
     "time": "54 m",
     "autolearn": true,
     "charges": 4,
-    "byproducts": [ [ "seed_cotton_boll", 1 ] ],
+    "byproducts": [ [ "seed_cotton_boll", 2 ] ],
     "components": [ [ [ "cotton_boll", 1 ] ] ]
   },
   {
@@ -103,7 +103,7 @@
     "time": "9 m",
     "autolearn": true,
     "charges": 4,
-    "byproducts": [ [ "seed_cotton_boll", 1 ] ],
+    "byproducts": [ [ "seed_cotton_boll", 2 ] ],
     "tools": [ [ [ "carding_paddles", -1 ] ] ],
     "components": [ [ [ "cotton_boll", 1 ] ] ]
   },

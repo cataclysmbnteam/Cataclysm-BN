@@ -773,9 +773,8 @@ void mdeath::jabberwock( monster &z )
     player *ch = dynamic_cast<player *>( z.get_killer() );
 
     bool vorpal = ch && ch->is_player() &&
-                  ( ch->primary_weapon().damage_melee( DT_CUT ) >= ( ch->primary_weapon().damage_melee(
-                              DT_BASH ) * 1.5 ) ) &&
-                  ch->primary_weapon().volume() > 500_ml;
+                  ch->primary_weapon().has_flag( STATIC( flag_id( "DIAMOND" ) ) ) &&
+                  ch->primary_weapon().volume() > 750_ml;
 
     if( vorpal && !ch->primary_weapon().has_technique( matec_id( "VORPAL" ) ) ) {
         if( ch->sees( z ) ) {

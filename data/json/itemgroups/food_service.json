@@ -247,7 +247,6 @@
       { "item": "syringe", "prob": 30 },
       { "item": "meth", "prob": 20 },
       { "item": "heroin", "prob": 7 },
-      { "item": "ghb", "prob": 7 },
       { "item": "sizzurp", "prob": 10 },
       { "item": "mag_porn", "prob": 35 },
       { "item": "hairpin", "prob": 5 },

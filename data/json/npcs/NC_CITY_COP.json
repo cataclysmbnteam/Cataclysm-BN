@@ -121,7 +121,6 @@
       { "item": "coke", "prob": 8 },
       { "item": "meth", "prob": 2 },
       { "item": "heroin", "prob": 1 },
-      { "item": "ghb", "prob": 1 },
       { "item": "crack", "prob": 4 },
       { "item": "antifungal", "prob": 1 },
       { "item": "antiparasitic", "prob": 2 },

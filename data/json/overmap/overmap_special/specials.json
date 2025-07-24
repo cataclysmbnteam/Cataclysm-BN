@@ -1796,15 +1796,12 @@
     "city_distance": [ 3, -1 ],
     "city_sizes": [ 4, -1 ],
     "occurrences": [ 50, 100 ],
-    "flags": [ "UNIQUE", "GLOBALLY_UNIQUE" ]
+    "flags": [ "ELECTRIC_GRID", "UNIQUE", "GLOBALLY_UNIQUE" ]
   },
   {
     "type": "overmap_special",
     "id": "bandit_cabin",
-    "overmaps": [
-      { "point": [ 0, 0, 0 ], "overmap": "bandit_cabin_north" },
-      { "point": [ 0, 0, 1 ], "overmap": "bandit_cabin_roof_north" }
-    ],
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "bandit_cabin_north" } ],
     "locations": [ "forest" ],
     "city_distance": [ 20, -1 ],
     "city_sizes": [ 4, -1 ],
@@ -1818,10 +1815,7 @@
       { "point": [ 0, 0, 0 ], "overmap": "bandit_camp_1_north" },
       { "point": [ 1, 0, 0 ], "overmap": "bandit_camp_2_north" },
       { "point": [ 0, 1, 0 ], "overmap": "bandit_camp_3_north" },
-      { "point": [ 1, 1, 0 ], "overmap": "bandit_camp_4_north" },
-      { "point": [ 0, 0, 1 ], "overmap": "bandit_camp_1_roof_north" },
-      { "point": [ 1, 0, 1 ], "overmap": "bandit_camp_2_roof_north" },
-      { "point": [ 1, 1, 1 ], "overmap": "bandit_camp_4_roof_north" }
+      { "point": [ 1, 1, 0 ], "overmap": "bandit_camp_4_north" }
     ],
     "locations": [ "wilderness" ],
     "city_distance": [ 20, -1 ],
@@ -1839,18 +1833,6 @@
     "city_sizes": [ 8, -1 ],
     "occurrences": [ 0, 2 ],
     "flags": [ "CLASSIC", "URBAN" ]
-  },
-  {
-    "type": "overmap_special",
-    "id": "solar_farm",
-    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "solar_farm_north" } ],
-    "connections": [ { "point": [ 0, 1, 0 ], "connection": "local_road" } ],
-    "locations": [ "land" ],
-    "city_distance": [ -1, 2 ],
-    "city_sizes": [ 4, -1 ],
-    "occurrences": [ 0, 2 ],
-    "spawns": { "group": "GROUP_SMALL_STATION", "population": [ 4, 10 ], "radius": [ 0, 0 ] },
-    "flags": [ "CLASSIC", "URBAN", "MAN_MADE", "ELECTRIC_GRID" ]
   },
   {
     "type": "overmap_special",
@@ -1994,7 +1976,7 @@
     "city_distance": [ 3, -1 ],
     "rotate": false,
     "occurrences": [ 30, 100 ],
-    "flags": [ "UNIQUE" ]
+    "flags": [ "UNIQUE", "ELECTRIC_GRID" ]
   },
   {
     "type": "overmap_special",
@@ -2600,8 +2582,7 @@
     "id": "bandit_garage",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "bandit_garage_1_north" },
-      { "point": [ 1, 0, 0 ], "overmap": "bandit_garage_2_north" },
-      { "point": [ 1, 0, 1 ], "overmap": "bandit_garage_2_roof_north" }
+      { "point": [ 1, 0, 0 ], "overmap": "bandit_garage_2_north" }
     ],
     "locations": [ "forest" ],
     "connections": [ { "point": [ -1, 0, 0 ], "connection": "local_road" } ],
@@ -2648,8 +2629,8 @@
       { "point": [ 1, 1, 1 ], "overmap": "s_reststop_2_roof_north" }
     ],
     "connections": [
-      { "point": [ 0, -1, 0 ], "connection": "local_road", "from": [ 0, 0, 0 ], "existing": true },
-      { "point": [ 1, -1, 0 ], "connection": "local_road", "from": [ 1, 0, 0 ], "existing": true }
+      { "point": [ 0, -1, 0 ], "connection": "local_road", "existing": true },
+      { "point": [ 1, -1, 0 ], "connection": "local_road", "existing": true }
     ],
     "locations": [ "wilderness" ],
     "city_distance": [ 15, 150 ],
@@ -3037,7 +3018,7 @@
     "city_distance": [ 10, -1 ],
     "occurrences": [ 30, 100 ],
     "rotate": false,
-    "flags": [ "LAB", "UNIQUE" ]
+    "flags": [ "LAB", "UNIQUE", "ELECTRIC_GRID" ]
   },
   {
     "type": "overmap_special",
@@ -3146,7 +3127,7 @@
     ],
     "locations": [ "land" ],
     "occurrences": [ 0, 2 ],
-    "flags": [ "LAB" ]
+    "flags": [ "LAB", "ELECTRIC_GRID" ]
   },
   {
     "type": "overmap_special",
@@ -5643,7 +5624,7 @@
     "city_distance": [ 5, -1 ],
     "city_sizes": [ 4, -1 ],
     "occurrences": [ 10, 100 ],
-    "flags": [ "MILITARY", "UNIQUE" ]
+    "flags": [ "MILITARY", "UNIQUE", "ELECTRIC_GRID" ]
   },
   {
     "type": "overmap_special",

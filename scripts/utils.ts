@@ -57,10 +57,9 @@ export const parseMany = <const TSchema extends BaseSchema<unknown, unknown, Bas
   schema: TSchema,
 ) => {
   const parser = v.safeParser(schema)
-  return (xs: JSONFileEntry[]): InferOutput<TSchema>[] =>
+  return (xs: unknown[]): InferOutput<TSchema>[] =>
     xs
-      .flatMap((x) => x.data)
-      .map((x) => parser(map_to_object(x)))
+      .map(parser)
       .filter((x) => x.success)
       .map((x) => x.output)
 }

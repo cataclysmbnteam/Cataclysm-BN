@@ -1,0 +1,64 @@
+[
+  {
+    "type": "keybinding",
+    "id": "MOUSE_LEFT_DOWN",
+    "name": "Left mouse button pressed",
+    "bindings": [ { "input_method": "mouse", "key": "MOUSE_LEFT_PRESSED" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "MOUSE_LEFT_UP",
+    "name": "Left mouse button released",
+    "bindings": [ { "input_method": "mouse", "key": "MOUSE_LEFT" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "MOUSE_RIGHT_DOWN",
+    "name": "Right mouse button pressed",
+    "bindings": [ { "input_method": "mouse", "key": "MOUSE_RIGHT_PRESSED" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "MOUSE_RIGHT_UP",
+    "name": "Right mouse button released",
+    "bindings": [ { "input_method": "mouse", "key": "MOUSE_RIGHT" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "MOUSE_MIDDLE_DOWN",
+    "name": "Middle mouse button pressed",
+    "bindings": [ { "input_method": "mouse", "key": "MOUSE_MIDDLE_PRESSED" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "MOUSE_MIDDLE_UP",
+    "name": "Middle mouse button released",
+    "bindings": [ { "input_method": "mouse", "key": "MOUSE_MIDDLE_RELEASED" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "MOUSE_X1_DOWN",
+    "name": "First extra mouse button pressed",
+    "bindings": [ { "input_method": "mouse", "key": "MOUSE_X1_PRESSED" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "MOUSE_X1_UP",
+    "category": "MISSIONS",
+    "name": "First extra mouse button released",
+    "bindings": [ { "input_method": "mouse", "key": "MOUSE_X1_RELEASED" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "MOUSE_X2_DOWN",
+    "category": "MISSIONS",
+    "name": "Second extra mouse button pressed",
+    "bindings": [ { "input_method": "mouse", "key": "MOUSE_X2_PRESSED" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "MOUSE_X2_UP",
+    "name": "Second extra mouse button released",
+    "bindings": [ { "input_method": "mouse", "key": "MOUSE_X2_RELEASED" } ]
+  }
+]

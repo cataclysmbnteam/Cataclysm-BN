@@ -724,38 +724,6 @@
     }
   },
   {
-    "id": "ghb",
-    "type": "COMESTIBLE",
-    "comestible_type": "MED",
-    "name": { "str_sp": "GHB" },
-    "description": "A potent CNS depressant and natural neurotransmitter, used medically for narcolepsy and sometimes alcohol withdrawal.  Recreational use is risky due to high overdose potential, especially with alcohol.",
-    "weight": "1 g",
-    "looks_like": "water",
-    "volume": "500 ml",
-    "price": "60 USD",
-    "price_postapoc": "70 USD",
-    "stack_size": 100,
-    "material": "alcohol",
-    "symbol": "!",
-    "color": "light_gray",
-    "container": "bottle_plastic_small",
-    "stim": -30,
-    "healthy": -2,
-    "fun": 20,
-    "addiction_potential": 30,
-    "addiction_type": "sleeping pill",
-    "flags": [ "UNSAFE_CONSUME" ],
-    "phase": "liquid",
-    "//": "should be four hours, but we have a bug right now yay",
-    "use_action": {
-      "type": "consume_drug",
-      "activation_message": "You measure out a dose of GHB with the syringe.",
-      "tools_needed": { "syringe": 1 },
-      "effects": [ { "id": "took_antinarcoleptic", "duration": "2 h" } ],
-      "moves": 250
-    }
-  },
-  {
     "id": "iodine",
     "type": "COMESTIBLE",
     "comestible_type": "MED",
@@ -831,9 +799,9 @@
       "charges_needed": { "fire": 1 },
       "do_weed_msg": true,
       "effects": [
-        { "id": "weed_high", "duration": "15 s" },
+        { "id": "weed_high", "duration": "90 m" },
         { "id": "cig", "duration": "15 s" },
-        { "id": "pkill1", "duration": "12 m" }
+        { "id": "pkill1", "duration": "90 m" }
       ],
       "fields_produced": { "fd_weedsmoke": 2 },
       "addiction_type_too_much": [ [ "cig", "nicotine" ] ]

@@ -1431,28 +1431,28 @@
     "type": "mutation",
     "id": "LARGE",
     "copy-from": "LARGE",
-    "delete": { "category": [ "BEAST", "URSINE", "CATTLE", "LIZARD", "RAPTOR", "CHIMERA" ] },
+    "delete": { "category": [ "URSINE", "CATTLE", "LIZARD", "CHIMERA" ] },
     "extend": { "category": [ "COWGIRL", "BEARGIRL" ] }
   },
   {
     "type": "mutation",
     "id": "LARGE_OK",
     "copy-from": "LARGE_OK",
-    "delete": { "category": [ "BEAST", "URSINE", "CATTLE", "LIZARD", "RAPTOR", "CHIMERA" ] },
+    "delete": { "category": [ "URSINE", "CATTLE", "LIZARD", "CHIMERA" ] },
     "extend": { "category": [ "COWGIRL", "BEARGIRL" ], "threshreq": [ "THRESH_BEARGIRL", "THRESH_COWGIRL" ] }
   },
   {
     "type": "mutation",
     "id": "HUGE",
     "copy-from": "HUGE",
-    "delete": { "category": [ "URSINE", "CATTLE", "RAPTOR", "CHIMERA" ] },
+    "delete": { "category": [ "URSINE", "CATTLE" ] },
     "valid": false
   },
   {
     "type": "mutation",
     "id": "HUGE_OK",
     "copy-from": "HUGE_OK",
-    "delete": { "category": [ "URSINE", "CATTLE", "RAPTOR", "CHIMERA" ] },
+    "delete": { "category": [ "URSINE", "CATTLE" ] },
     "valid": false
   },
   {
@@ -1613,28 +1613,21 @@
     "type": "mutation",
     "id": "SMALL",
     "copy-from": "SMALL",
-    "delete": { "category": [ "MOUSE", "RAT", "RABBIT", "FELINE", "BIRD", "INSECT", "SPIDER", "TROGLOBITE" ] },
+    "delete": { "category": [ "MOUSE", "RABBIT" ] },
     "extend": { "category": [ "MOUSEGIRL", "BUNNYGIRL" ] }
-  },
-  {
-    "type": "mutation",
-    "id": "SMALL_OK",
-    "copy-from": "SMALL_OK",
-    "delete": { "category": [ "MOUSE", "RAT", "RABBIT", "FELINE", "BIRD", "INSECT", "SPIDER", "TROGLOBITE" ] },
-    "extend": { "category": [ "MOUSEGIRL", "BUNNYGIRL" ], "threshreq": [ "THRESH_MOUSEGIRL", "THRESH_BUNNYGIRL" ] }
   },
   {
     "type": "mutation",
     "id": "SMALL2",
     "copy-from": "SMALL2",
-    "delete": { "category": [ "MOUSE", "INSECT" ] },
+    "delete": { "category": [ "MOUSE" ] },
     "extend": { "category": [ "MOUSEGIRL" ] }
   },
   {
     "type": "mutation",
-    "id": "SMALL2_OK",
-    "copy-from": "SMALL2_OK",
-    "delete": { "category": [ "MOUSE", "INSECT" ] },
+    "id": "SMALL_OK",
+    "copy-from": "SMALL_OK",
+    "delete": { "category": [ "MOUSE" ] },
     "extend": { "category": [ "MOUSEGIRL" ], "threshreq": [ "THRESH_MOUSEGIRL" ] }
   },
   {

@@ -102,7 +102,7 @@ TEST_CASE( "Having all mutations give correct highest category", "[mutations]" )
 TEST_CASE( "Having all pre-threshold mutations gives a sensible threshold breach chance",
            "[mutations]" )
 {
-    const float BREACH_CHANCE_MIN = 0.15f;
+    const float BREACH_CHANCE_MIN = 0.2f;
     const float BREACH_CHANCE_MAX = 0.5f;
 
     for( auto &cat : mutation_category_trait::get_all() ) {
@@ -120,7 +120,7 @@ TEST_CASE( "Having all pre-threshold mutations gives a sensible threshold breach
             const int total_strength = get_total_category_strength( dummy );
             float breach_chance = category_strength / static_cast<float>( total_strength );
 
-            THEN( "Threshold breach chance is at least 0.15" ) {
+            THEN( "Threshold breach chance is at least 0.2" ) {
                 INFO( "MUTATIONS: " << get_mutations_as_string( dummy ) );
                 CHECK( breach_chance >= BREACH_CHANCE_MIN );
             }

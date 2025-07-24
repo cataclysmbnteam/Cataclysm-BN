@@ -51,48 +51,9 @@ All members are mandatory.
 | ---------- | ----------------------------------------------------------------------------------- |
 | wet        | wets player by `int` amount                                                         |
 | thunder    | thunder sound with chance 1 in `int`                                                |
-| lightning  | 1 in `int` chance of sound plus message and possible super charging electric fields |
+| lightening | 1 in `int` chance of sound plus message and possible super charging electric fields |
 | light_acid | causes pain unless waterproof                                                       |
 | acid_rain  | causes more pain unless waterproof                                                  |
-| morale     | causes player to feel a morale effect                                               |
-| effect     | causes player to become afflicted with a status effect                              |
-
-Example morale:
-
-```json
-{
-  "name": "morale",
-  "intensity": 3, // this effect will be applied every X turns.
-  "bonus": 2, // the bonus the morale provides.
-  "bonus_max": 60, // the maximum amount the morale can effect the player.
-  "duration": "180 s", // amount of time the morale will last.
-  "decay_start": "60 s", // amount of time before the effect starts counting down the duration.
-  "morale_id_str": "morale_weather_rainbow", // id of the morale applied to the player.
-  "morale_msg": "You stare in awe at the rainbow.", // message to display in chat when the player is afflicted.
-  "morale_msg_frequency": 8, // chance to display this message every time the player is afflicted.
-  "message_type": 0 // type of message to display: good, bad, mixed, etc.
-}
-```
-
-Example effect:
-
-```json
-{
-  "name": "effect",
-  "intensity": 3, // this effect will be applied every X turns.
-  "duration": "30 s", // amount of time the effect will last.
-  "effect_id_str": "emp",
-  "effect_intensity": 0, // intensity of the effect applied.
-  "precipitation_name": "brain waves", // name of precipitation to display when "The <PRECIPITATION> is blocked by your umbrella!" type messages display.
-  "ignore_armor": true, // ignores all protection.
-  "bodypart_string": "head", // bodypart to apply the effect on.
-  "effect_msg": "You feel an odd wave-like sensation pass through your head.", // message to display in chat when the player is afflicted
-  "effect_msg_frequency": 16, // chance to display this message every time the player is afflicted.
-  "message_type": 2, // type of message to display: good, bad, mixed, etc.
-  "clothing_protection": 0, // one in X chance to block precipitation.
-  "umbrella_protection": 0 // one in X chance to block precipitation.
-}
-```
 
 ### requirements
 

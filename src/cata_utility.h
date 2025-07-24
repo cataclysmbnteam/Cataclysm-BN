@@ -51,6 +51,9 @@ inline int fast_floor( double v )
  */
 double round_up( double val, unsigned int dp );
 
+int divide_round_down( int a, int b );
+
+
 /** Divide @p num by @p den, rounding up
 *
 * @p num must be non-negative, @p den must be positive, and @c num+den must not overflow.

@@ -1,0 +1,40 @@
+[
+  {
+    "id": "ak74mag",
+    "looks_like": "stanag30",
+    "type": "MAGAZINE",
+    "name": { "str": "AK-74M magazine" },
+    "description": "A standard magazine made for the AK-74M rifle, made of steel-reinforced polymer.  Holds 30 rounds.",
+    "weight": "230 g",
+    "volume": "500 ml",
+    "price": "15 USD",
+    "price_postapoc": "1 USD",
+    "material": [ "steel", "plastic" ],
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": "545x39",
+    "capacity": 30,
+    "reliability": 9,
+    "flags": [ "MAG_COMPACT" ]
+  },
+  {
+    "id": "rpk74mag",
+    "looks_like": "stanag30",
+    "type": "MAGAZINE",
+    "name": { "str": "AK-74M extended magazine" },
+    "//": "Technically it's meant for the RPK-74, but can always rename if we add an RPK.",
+    "description": "A 45-round magazine compatible with the AK-74M rifle, though originally designed for the RPK-74 light machine gun.",
+    "weight": "300 g",
+    "volume": "750 ml",
+    "price": "85 USD",
+    "price_postapoc": "250 cent",
+    "material": "plastic",
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": "545x39",
+    "capacity": 45,
+    "reliability": 8,
+    "reload_time": 130,
+    "flags": [ "MAG_BULKY" ]
+  }
+]

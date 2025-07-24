@@ -378,7 +378,7 @@
     "light_emitted": 240,
     "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "INDOORS", "FLAT", "MINEABLE" ],
     "deconstruct": {
-      "ter_set": "t_concrete",
+      "ter_set": "t_floor",
       "items": [
         { "item": "cable", "charges": 4 },
         { "item": "power_supply", "count": 1 },
@@ -391,7 +391,7 @@
     "bash": {
       "sound": "metal screeching!",
       "sound_fail": "clang!",
-      "ter_set": "t_concrete",
+      "ter_set": "t_floor",
       "str_min": 20,
       "str_max": 70,
       "//": "Some extra wire and scrap metal from smash results matching vehicle floodlights",
@@ -636,7 +636,7 @@
     "id": "t_rad_platform",
     "looks_like": "t_blue_floor",
     "name": "radiation platform",
-    "description": "A dual-purpose platform that exposes items placed on it to a radioactive source by temporarily hoisting the radioactive material stored within, while also safely containing all objects to avoid contaminating its surroundings.  Operated from an external console.",
+    "description": "A dual purpose platform that serves as a containment, and as a device that exposes items places on in to the radioactive source, by temporarily hoisting the radioactive material stored within.  Operated from external console.",
     "symbol": "0",
     "color": "light_blue",
     "move_cost": 100,

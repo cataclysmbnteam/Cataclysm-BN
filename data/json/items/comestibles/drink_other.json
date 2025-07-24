@@ -147,7 +147,7 @@
     "volume": "250 ml",
     "comestible_type": "DRINK",
     "container": "jar_glass_sealed",
-    "material": [ "junk", "nut" ],
+    "primary_material": "junk",
     "quench": -2,
     "calories": 190,
     "charges": 8,
@@ -159,7 +159,7 @@
   {
     "id": "peanutbutter_imitation",
     "type": "COMESTIBLE",
-    "name": "imitation peanut butter",
+    "name": "imitation peanutbutter",
     "description": "A thick, nutty brown paste.",
     "copy-from": "peanutbutter"
   },

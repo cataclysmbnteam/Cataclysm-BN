@@ -157,12 +157,6 @@ class spell_type
         translation sound_description;
         skill_id skill;
 
-        // scale based on stats
-        bool scale_str;
-        bool scale_dex;
-        bool scale_per;
-        bool scale_int;
-
         // Mutations that block the spell from being cast
         std::set<trait_id> blocker_mutations;
 
@@ -343,10 +337,6 @@ class spell
         int min_leveled_aoe() const;
         // minimum duration including levels (moves)
         int min_leveled_duration() const;
-        // get the sum of the deltas of relevant stats away from 8
-        int get_stats_deltas( const Character &guy ) const;
-        // get the multiplier to spell stats from character stats
-        double get_stat_mult( bool decrease, const Character &guy ) const;
 
     public:
         spell() = default;

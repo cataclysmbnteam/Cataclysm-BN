@@ -167,7 +167,7 @@
     "qualities": [ { "id": "CONTAIN", "level": 1 } ],
     "components": [
       [ [ "ether", 540 ] ],
-      [ [ "heroin", 1 ], [ "oxycodone", 2 ], [ "tramadol", 3 ], [ "ghb", 2 ], [ "codeine", 4 ], [ "poppy_pain", 4 ] ]
+      [ [ "heroin", 1 ], [ "oxycodone", 2 ], [ "tramadol", 3 ], [ "codeine", 4 ], [ "poppy_pain", 4 ] ]
     ]
   },
   {
