@@ -10145,7 +10145,7 @@ void game::vertical_move( int movez, bool force, bool peeking )
         }
     }
 
-    if( !force && movez == 1 && !m.has_flag( "GOES_UP", u.pos() ) &&
+    if( !climbing && !force && movez == 1 && !m.has_flag( "GOES_UP", u.pos() ) &&
         !u.is_underwater() ) {
 
         const tripoint dest = u.pos() + tripoint_above;
