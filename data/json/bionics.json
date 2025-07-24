@@ -384,7 +384,7 @@
     "id": "bio_eye_enhancer",
     "type": "bionic",
     "name": { "str": "Diamond Cornea" },
-    "description": "Your vision is greatly enhanced, giving you a +2 bonus to perception and fixing any vision problems short of total blindness.",
+    "description": "Your vision is greatly enhanced, giving you a +2 bonus to perception and fixing any vision problems.",
     "occupied_bodyparts": [ [ "eyes", 1 ] ],
     "stat_bonus": [ [ "PER", 2 ] ],
     "canceled_mutations": [ "HYPEROPIC", "MYOPIC" ],
@@ -396,7 +396,7 @@
     "name": { "str": "Telescopic Lenses" },
     "description": "The lenses in your eyes have been surgically removed and replaced with an array of high-powered, auto-focusing lenses.  They function as integrated binoculars, letting you see much farther than before, and any mundane vision problems you might have had are now gone.",
     "occupied_bodyparts": [ [ "eyes", 2 ] ],
-    "canceled_mutations": [ "HYPEROPIC", "MYOPIC", "BLIND" ]
+    "canceled_mutations": [ "HYPEROPIC", "MYOPIC" ]
   },
   {
     "id": "bio_face_mask",

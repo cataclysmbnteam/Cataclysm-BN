@@ -276,7 +276,6 @@ static const bionic_id afs_bio_linguistic_coprocessor( "afs_bio_linguistic_copro
 
 static const trait_id trait_BARK( "BARK" );
 static const trait_id trait_BIRD_EYE( "BIRD_EYE" );
-static const trait_id trait_BLIND( "BLIND" );
 static const trait_id trait_CEPH_EYES( "CEPH_EYES" );
 static const trait_id trait_DEAF( "DEAF" );
 static const trait_id trait_DEBUG_CLOAK( "DEBUG_CLOAK" );
@@ -6792,7 +6791,6 @@ tripoint_abs_omt Character::global_omt_location() const
 bool Character::is_blind() const
 {
     return ( worn_with_flag( flag_BLIND ) ||
-             has_trait( trait_BLIND ) ||
              has_effect( effect_blind ) ||
              has_active_bionic( bio_blindfold ) );
 }

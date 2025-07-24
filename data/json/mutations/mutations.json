@@ -861,27 +861,6 @@
   },
   {
     "type": "mutation",
-    "id": "BLIND",
-    "name": { "str": "Blind" },
-    "points": -12,
-    "description": "You're totally blind, requiring you to cautiously feel out your surroundings.  Prevents crafting and construction aside from simple tasks that can be done blindfolded, and hinders many other actions as well.",
-    "starting_trait": true,
-    "valid": false,
-    "cancels": [
-      "NIGHTVISION",
-      "NIGHTVISION2",
-      "NIGHTVISION3",
-      "ELFA_NV",
-      "ELFA_FNV",
-      "FEL_NV",
-      "URSINE_EYE",
-      "EAGLEEYED",
-      "MYOPIC",
-      "HYPEROPIC"
-    ]
-  },
-  {
-    "type": "mutation",
     "id": "SLOWLEARNER",
     "name": { "str": "Slow Learner" },
     "points": -3,
