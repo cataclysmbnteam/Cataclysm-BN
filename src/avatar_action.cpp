@@ -65,7 +65,6 @@
 class player;
 
 static const efftype_id effect_amigara( "amigara" );
-static const efftype_id effect_ai_waiting( "ai_waiting" );
 static const efftype_id effect_glowing( "glowing" );
 static const efftype_id effect_harnessed( "harnessed" );
 static const efftype_id effect_hit_by_player( "hit_by_player" );
