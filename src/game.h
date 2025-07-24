@@ -23,6 +23,7 @@
 #include "cursesdef.h"
 #include "enums.h"
 #include "game_constants.h"
+#include "mapdata.h"
 #include "memory_fast.h"
 #include "pimpl.h"
 #include "point.h"
@@ -522,6 +523,9 @@ class game
         void process_artifact( item &it, Character &who );
         void add_artifact_messages( const std::vector<art_effect_passive> &effects );
         void add_artifact_dreams( );
+
+        static tripoint find_closest_stair( const tripoint &near_this, const ter_bitflags stair_type );
+        void suggest_auto_walk_to_stairs( Character &u, map &m, const std::string &direction );
 
         void peek();
         void peek( const tripoint &p );

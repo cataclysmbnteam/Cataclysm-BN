@@ -10087,6 +10087,7 @@ void game::vertical_move( int movez, bool force, bool peeking )
         // Climbing
         if( m.has_floor_or_support( stairs ) ) {
             add_msg( m_info, _( "You can't climb here - there's a ceiling above your head." ) );
+            suggest_auto_walk_to_stairs( u, m, "up" );
             return;
         }
 
@@ -10122,7 +10123,7 @@ void game::vertical_move( int movez, bool force, bool peeking )
 
             } else {
                 add_msg( m_info, _( "You can't climb here - you need walls and/or furniture to brace against." ) );
-
+                suggest_auto_walk_to_stairs( u, m, "up" );
             }
             return;
 
@@ -10131,6 +10132,7 @@ void game::vertical_move( int movez, bool force, bool peeking )
         if( pts.empty() ) {
             add_msg( m_info,
                      _( "You can't climb here - there is no terrain above you that would support your weight." ) );
+            suggest_auto_walk_to_stairs( u, m, "up" );
             return;
         } else {
             // TODO: Make it an extended action
@@ -10194,11 +10196,13 @@ void game::vertical_move( int movez, bool force, bool peeking )
 
         if( !can_fly ) {
             add_msg( m_info, _( "You can't go down here!" ) );
+            suggest_auto_walk_to_stairs( u, m, "down" );
             return;
         }
 
         if( ( m.impassable( dest ) || !standing_on_air ) && !can_noclip ) {
             add_msg( m_info, _( "You can't go down here!" ) );
+            suggest_auto_walk_to_stairs( u, m, "down" );
             return;
         }
 
@@ -10635,6 +10639,42 @@ void game::start_hauling( const tripoint &pos )
                            to_vehicle,
                            relative_destination
                        ) ) );
+}
+
+tripoint game::find_closest_stair( const tripoint &near_this, const ter_bitflags stair_type )
+{
+    // we probably need to add furniture/traps for drainspouts at some point
+    map &here = get_map();
+    for( const tripoint &candidate : closest_points_first( get_avatar().pos(), 40 ) ) {
+        if( here.has_flag( stair_type, candidate ) ) {
+            return candidate;
+
+        }
+    }
+    // we didn't find it
+    return near_this;
+}
+
+void game::suggest_auto_walk_to_stairs( Character &u, map &m, const std::string &direction )
+{
+    const ter_bitflags stair_flag = direction == "up" ? TFLAG_GOES_UP : TFLAG_GOES_DOWN;
+    tripoint stair_pos = find_closest_stair( u.pos(), stair_flag );
+    if( !u.sees( stair_pos ) ) {
+        return;
+    }
+
+    auto route = m.route( u.pos(), stair_pos, u.get_legacy_pathfinding_settings(),
+                          u.get_legacy_path_avoid() );
+    if( route.size() <= 1 ) {
+        // Don't repeat the main fail msg — just silently fail.
+        return;
+    }
+
+    if( query_yn( "Walk to %s?", m.ter( stair_pos ).obj().name() ) ) {
+        route.pop_back();
+        u.set_destination( route, u.remove_activity() );
+        u.activity = std::make_unique<player_activity>();
+    }
 }
 
 std::optional<tripoint> game::find_or_make_stairs( map &mp, const int z_after, bool &rope_ladder,
