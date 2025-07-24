@@ -70,7 +70,7 @@
     "id": "THRESH_HARPY",
     "name": { "str": "Harpy" },
     "points": 1,
-    "description": "Sadly, it looks like all those myths got it wrong about flying.  Well, at least you *think* so.  Maybe with some extra practice and some dieting, you can one day take to the sky unaided!",
+    "description": "The Wright Brothers **wish** they could have flown like you do.  The zombies stand no chance, now that you can swoop down from above!  Part of you wishes you could build a house on a floating sky island, though…",
     "valid": false,
     "purifiable": false,
     "threshold": true,
