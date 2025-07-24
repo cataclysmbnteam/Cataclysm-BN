@@ -34,6 +34,15 @@
     ]
   },
   {
+    "name": "GROUP_SKELETON_UPGRADE",
+    "type": "monstergroup",
+    "default": "mon_skeleton_brute",
+    "monsters": [
+      { "monster": "mon_skeleton_brute", "freq": 80, "cost_multiplier": 2 },
+      { "monster": "mon_skeleton_brute", "freq": 80, "cost_multiplier": 2 }
+    ]
+  },
+  {
     "type": "monstergroup",
     "name": "GROUP_CHILD_ZOMBIE_UPGRADE",
     "default": "mon_zombie_shriekling",

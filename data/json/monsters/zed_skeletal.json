@@ -30,7 +30,7 @@
     "vision_night": 3,
     "harvest": "mr_bones",
     "special_attacks": [ [ "scratch", 10 ], { "type": "bite", "cooldown": 5 } ],
-    "upgrades": { "half_life": 15, "into": "mon_skeleton_brute" },
+    "upgrades": { "half_life": 15, "into_group": "GROUP_SKELETON_UPGRADE" },
     "death_drops": "default_zombie_clothes",
     "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "HEARS", "BLEED", "HARDTOSHOOT", "REVIVES", "NO_BREATHE", "POISON" ]
