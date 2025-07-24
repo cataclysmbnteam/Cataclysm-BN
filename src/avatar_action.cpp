@@ -65,6 +65,7 @@
 class player;
 
 static const efftype_id effect_amigara( "amigara" );
+static const efftype_id effect_ai_waiting( "ai_waiting" );
 static const efftype_id effect_glowing( "glowing" );
 static const efftype_id effect_harnessed( "harnessed" );
 static const efftype_id effect_hit_by_player( "hit_by_player" );
@@ -464,6 +465,20 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
         // Only lose movement if we're blind
         if( waste_moves ) {
             you.moves -= 100;
+        }
+        // Add to map memory if blind
+        if( you.is_blind() ) {
+            const std::string &obstacle = m.has_furn( dest_loc ) ? m.furn( dest_loc ).id().str() : m.ter(
+                                              dest_loc ).id().str();
+            std::string veh_obstacle;
+            if( m.veh_at( dest_loc ) ) {
+                char part_mod = 0;
+                const vpart_id &vp_id = m.veh_at( dest_loc )->vehicle().part_id_string( m.veh_at(
+                                            dest_loc )->part_index(), false, part_mod );
+                veh_obstacle = "vp_" + vp_id.str();
+            }
+            // TODO: Figure out how to make subtile and rotation work right here
+            you.memorize_tile( m.getabs( dest_loc ), m.veh_at( dest_loc ) ? veh_obstacle : obstacle, 0, 0 );
         }
     } else if( m.ter( dest_loc ) == t_door_locked || m.ter( dest_loc ) == t_door_locked_peep ||
                m.ter( dest_loc ) == t_door_locked_alarm || m.ter( dest_loc ) == t_door_locked_interior ) {
