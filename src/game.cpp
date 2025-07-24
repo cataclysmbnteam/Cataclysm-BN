@@ -10203,486 +10203,457 @@ void game::vertical_move( int movez, bool force, bool peeking )
         return;
     } else if( !climbing && !force && movez == 1 && !m.has_flag( "GOES_UP", u.pos() ) &&
 
-               const tripoint dest = u.pos() + tripoint_above;
-               const ter_id dest_terrain = m.ter( dest );
-               const bool dest_is_air = dest_terrain == t_open_air;
+        const tripoint dest = u.pos() + tripoint_above;
+        const ter_id dest_terrain = m.ter( dest );
+        const bool dest_is_air = dest_terrain == t_open_air;
 
-               const auto &mutations = get_avatar().get_mutations();
+        const auto &mutations = get_avatar().get_mutations();
 
-    if( !can_fly ) {
-        add_msg( m_info, _( "You can't go up here!" ) );
+        if( !can_fly ) {
+            add_msg( m_info, _( "You can't go up here!" ) );
             return;
         }
 
-    if( m.impassable( dest ) || !dest_is_air ) {
-    if( !can_noclip ) {
+        if( m.impassable( dest ) || !dest_is_air ) {
+            if( !can_noclip ) {
+                for( const trait_id &tid : mutations ) {
+                    const auto &mdata = tid.obj();
+                    if( mdata.flags.contains( trait_flag_MUTATION_FLIGHT ) ) {
+                        get_avatar().mutation_spend_resources( tid );
+                    }
+                }
+                add_msg( m_info, _( "There is something above blocking your way." ) );
+                return;
+            }
+        }
+
+        // dest is air and no noclip: spend resources
+        if( dest_is_air && !can_noclip ) {
             for( const trait_id &tid : mutations ) {
                 const auto &mdata = tid.obj();
                 if( mdata.flags.contains( trait_flag_MUTATION_FLIGHT ) ) {
                     get_avatar().mutation_spend_resources( tid );
                 }
             }
-            add_msg( m_info, _( "There is something above blocking your way." ) );
+            // add flying flavor text here
+        }
+
+    } else if( !force && movez == -1 && !m.has_flag( "GOES_DOWN", u.pos() ) &&
+               !u.is_underwater() ) {
+
+        const tripoint dest = u.pos() + tripoint_below;
+
+        // Check if player is standing on open air
+        const ter_id here_terrain = m.ter( u.pos() );
+        const bool standing_on_air = here_terrain == t_open_air;
+
+        if( !can_fly ) {
+            add_msg( m_info, _( "You can't go down here!" ) );
             return;
         }
+
+        if( ( m.impassable( dest ) || !standing_on_air ) && !can_noclip ) {
+            add_msg( m_info, _( "You can't go down here!" ) );
+            return;
+        }
+
     }
 
-    // dest is air and no noclip: spend resources
-    if( dest_is_air && !can_noclip ) {
-    for( const trait_id &tid : mutations ) {
-            const auto &mdata = tid.obj();
-            if( mdata.flags.contains( trait_flag_MUTATION_FLIGHT ) ) {
-                get_avatar().mutation_spend_resources( tid );
+    if( force ) {
+        // Let go of a grabbed cart.
+        u.grab( OBJECT_NONE );
+    } else if( u.grab_point != tripoint_zero ) {
+        add_msg( m_info, _( "You can't drag things up and down stairs." ) );
+        return;
+    }
+
+    // Because get_levz takes z-value from the map, it will change when vertical_shift (m.has_zlevels() == true)
+    // is called or when the map is loaded on new z-level (== false).
+    // This caches the z-level we start the movement on (current) and the level we're want to end.
+    const int z_before = get_levz();
+    const int z_after = get_levz() + movez;
+    if( z_after < -OVERMAP_DEPTH || z_after > OVERMAP_HEIGHT ) {
+        debugmsg( "Tried to move outside allowed range of z-levels" );
+        return;
+    }
+
+    if( !u.move_effects( false ) ) {
+        return;
+    }
+
+    // Check if there are monsters are using the stairs.
+    bool slippedpast = false;
+    if( !m.has_zlevels() && !coming_to_stairs.empty() && !force ) {
+        // TODO: Allow travel if zombie couldn't reach stairs, but spawn him when we go up.
+        add_msg( m_warning, _( "You try to use the stairs.  Suddenly you are blocked by a %s!" ),
+                 coming_to_stairs[0]->name() );
+        // Roll.
+        ///\EFFECT_DEX increases chance of moving past monsters on stairs
+
+        ///\EFFECT_DODGE increases chance of moving past monsters on stairs
+        int dexroll = dice( 6, u.dex_cur + u.get_skill_level( skill_dodge ) * 2 );
+        ///\EFFECT_STR increases chance of moving past monsters on stairs
+
+        ///\EFFECT_MELEE increases chance of moving past monsters on stairs
+        int strroll = dice( 3, u.str_cur + u.get_skill_level( skill_melee ) * 1.5 );
+        if( coming_to_stairs.size() > 4 ) {
+            add_msg( _( "The are a lot of them on the %s!" ), m.tername( u.pos() ) );
+            dexroll /= 4;
+            strroll /= 2;
+        } else if( coming_to_stairs.size() > 1 ) {
+            add_msg( m_warning, _( "There's something else behind it!" ) );
+            dexroll /= 2;
+        }
+
+        if( dexroll < 14 || strroll < 12 ) {
+            update_stair_monsters();
+            u.moves -= 100;
+            return;
+        }
+
+        add_msg( _( "You manage to slip past!" ) );
+        slippedpast = true;
+        u.moves -= 100;
+    }
+
+    // Shift the map up or down
+
+    std::unique_ptr<map> tmp_map_ptr;
+    if( !m.has_zlevels() ) {
+        tmp_map_ptr = std::make_unique<map>();
+    }
+
+    map &maybetmp = m.has_zlevels() ? m : *( tmp_map_ptr );
+    if( m.has_zlevels() ) {
+        // We no longer need to shift the map here! What joy
+    } else {
+        maybetmp.load( tripoint( get_levx(), get_levy(), z_after ), false );
+    }
+
+    bool swimming = false;
+    bool surfacing = false;
+    bool submerging = false;
+    // > and < are used for diving underwater.
+    if( m.has_flag( TFLAG_SWIMMABLE, u.pos() ) ) {
+        swimming = true;
+        const ter_id &target_ter = m.ter( u.pos() + tripoint( 0, 0, movez ) );
+
+        // If we're in a water tile that has both air above and deep enough water to submerge in...
+        if( m.has_flag( TFLAG_DEEP_WATER, u.pos() ) &&
+            !m.has_flag( TFLAG_WATER_CUBE, u.pos() ) ) {
+            // ...and we're trying to swim down
+            if( movez == -1 ) {
+                // ...and we're already submerged
+                if( u.is_underwater() ) {
+                    // ...and there's more water beneath us.
+                    if( target_ter->has_flag( TFLAG_WATER_CUBE ) ) {
+                        // Then go ahead and move down.
+                        add_msg( _( "You swim down." ) );
+                    } else {
+                        // There's no more water beneath us.
+                        add_msg( m_info,
+                                 _( "You are already underwater and there is no more water beneath you to swim down!" ) );
+                        return;
+                    }
+                }
+                // ...and we're not already submerged.
+                else {
+                    // Check for a flotation device first before allowing us to submerge.
+                    if( u.worn_with_flag( flag_FLOTATION ) ) {
+                        add_msg( m_info, _( "You can't dive while wearing a flotation device." ) );
+                        return;
+                    }
+
+                    // Then dive under the surface.
+                    u.oxygen = 30 + 2 * u.str_cur;
+                    u.set_underwater( true );
+                    add_msg( _( "You dive underwater!" ) );
+                    submerging = true;
+                }
+            }
+            // ...and we're trying to surface
+            else if( movez == 1 ) {
+                // ... and we're already submerged
+                if( u.is_underwater() ) {
+                    if( u.swim_speed() < 500 || u.shoe_type_count( itype_swim_fins ) ) {
+                        u.set_underwater( false );
+                        add_msg( _( "You surface." ) );
+                        surfacing = true;
+                    } else {
+                        add_msg( m_info, _( "You try to surface but can't!" ) );
+                        return;
+                    }
+                }
             }
         }
-        // add flying flavor text here
-    }
+        // If we're in a water tile that is entirely water
+        else if( m.has_flag( TFLAG_WATER_CUBE, u.pos() ) ) {
+            // If you're at this point, you should already be underwater, but force that to be the case.
+            if( !u.is_underwater() ) {
+                u.oxygen = 30 + 2 * u.str_cur;
+                u.set_underwater( true );
+            }
 
-} else if( !force && movez == -1 && !m.has_flag( "GOES_DOWN", u.pos() ) &&
-           !u.is_underwater() )
-{
-
-    const tripoint dest = u.pos() + tripoint_below;
-
-    // Check if player is standing on open air
-    const ter_id here_terrain = m.ter( u.pos() );
-    const bool standing_on_air = here_terrain == t_open_air;
-
-    if( !can_fly ) {
-        add_msg( m_info, _( "You can't go down here!" ) );
-        return;
-    }
-
-    if( ( m.impassable( dest ) || !standing_on_air ) && !can_noclip ) {
-        add_msg( m_info, _( "You can't go down here!" ) );
-        return;
-    }
-
-}
-
-if( force )
-{
-    // Let go of a grabbed cart.
-    u.grab( OBJECT_NONE );
-} else if( u.grab_point != tripoint_zero )
-{
-    add_msg( m_info, _( "You can't drag things up and down stairs." ) );
-    return;
-}
-
-// Because get_levz takes z-value from the map, it will change when vertical_shift (m.has_zlevels() == true)
-// is called or when the map is loaded on new z-level (== false).
-// This caches the z-level we start the movement on (current) and the level we're want to end.
-const int z_before = get_levz();
-const int z_after = get_levz() + movez;
-if( z_after < -OVERMAP_DEPTH || z_after > OVERMAP_HEIGHT )
-{
-    debugmsg( "Tried to move outside allowed range of z-levels" );
-    return;
-}
-
-if( !u.move_effects( false ) )
-{
-    return;
-}
-
-// Check if there are monsters are using the stairs.
-bool slippedpast = false;
-if( !m.has_zlevels() && !coming_to_stairs.empty() && !force )
-{
-    // TODO: Allow travel if zombie couldn't reach stairs, but spawn him when we go up.
-    add_msg( m_warning, _( "You try to use the stairs.  Suddenly you are blocked by a %s!" ),
-             coming_to_stairs[0]->name() );
-    // Roll.
-    ///\EFFECT_DEX increases chance of moving past monsters on stairs
-
-    ///\EFFECT_DODGE increases chance of moving past monsters on stairs
-    int dexroll = dice( 6, u.dex_cur + u.get_skill_level( skill_dodge ) * 2 );
-    ///\EFFECT_STR increases chance of moving past monsters on stairs
-
-    ///\EFFECT_MELEE increases chance of moving past monsters on stairs
-    int strroll = dice( 3, u.str_cur + u.get_skill_level( skill_melee ) * 1.5 );
-    if( coming_to_stairs.size() > 4 ) {
-        add_msg( _( "The are a lot of them on the %s!" ), m.tername( u.pos() ) );
-        dexroll /= 4;
-        strroll /= 2;
-    } else if( coming_to_stairs.size() > 1 ) {
-        add_msg( m_warning, _( "There's something else behind it!" ) );
-        dexroll /= 2;
-    }
-
-    if( dexroll < 14 || strroll < 12 ) {
-        update_stair_monsters();
-        u.moves -= 100;
-        return;
-    }
-
-    add_msg( _( "You manage to slip past!" ) );
-    slippedpast = true;
-    u.moves -= 100;
-}
-
-// Shift the map up or down
-
-std::unique_ptr<map> tmp_map_ptr;
-if( !m.has_zlevels() )
-{
-    tmp_map_ptr = std::make_unique<map>();
-}
-
-map &maybetmp = m.has_zlevels() ? m :*( tmp_map_ptr );
-if( m.has_zlevels() )
-{
-    // We no longer need to shift the map here! What joy
-} else
-{
-    maybetmp.load( tripoint( get_levx(), get_levy(), z_after ), false );
-}
-
-bool swimming = false;
-bool surfacing = false;
-bool submerging = false;
-// > and < are used for diving underwater.
-if( m.has_flag( TFLAG_SWIMMABLE, u.pos() ) )
-{
-    swimming = true;
-    const ter_id &target_ter = m.ter( u.pos() + tripoint( 0, 0, movez ) );
-
-    // If we're in a water tile that has both air above and deep enough water to submerge in...
-    if( m.has_flag( TFLAG_DEEP_WATER, u.pos() ) &&
-        !m.has_flag( TFLAG_WATER_CUBE, u.pos() ) ) {
-        // ...and we're trying to swim down
-        if( movez == -1 ) {
-            // ...and we're already submerged
-            if( u.is_underwater() ) {
+            // ...and we're trying to swim down
+            if( movez == -1 ) {
                 // ...and there's more water beneath us.
                 if( target_ter->has_flag( TFLAG_WATER_CUBE ) ) {
                     // Then go ahead and move down.
                     add_msg( _( "You swim down." ) );
                 } else {
-                    // There's no more water beneath us.
                     add_msg( m_info,
                              _( "You are already underwater and there is no more water beneath you to swim down!" ) );
                     return;
                 }
             }
-            // ...and we're not already submerged.
-            else {
-                // Check for a flotation device first before allowing us to submerge.
-                if( u.worn_with_flag( flag_FLOTATION ) ) {
-                    add_msg( m_info, _( "You can't dive while wearing a flotation device." ) );
-                    return;
-                }
-
-                // Then dive under the surface.
-                u.oxygen = 30 + 2 * u.str_cur;
-                u.set_underwater( true );
-                add_msg( _( "You dive underwater!" ) );
-                submerging = true;
-            }
-        }
-        // ...and we're trying to surface
-        else if( movez == 1 ) {
-            // ... and we're already submerged
-            if( u.is_underwater() ) {
-                if( u.swim_speed() < 500 || u.shoe_type_count( itype_swim_fins ) ) {
-                    u.set_underwater( false );
-                    add_msg( _( "You surface." ) );
-                    surfacing = true;
+            // ...and we're trying to move up
+            else if( movez == 1 ) {
+                // ...and there's more water above us us.
+                if( target_ter->has_flag( TFLAG_WATER_CUBE ) ||
+                    target_ter->has_flag( TFLAG_DEEP_WATER ) ) {
+                    // Then go ahead and move up.
+                    add_msg( _( "You swim up." ) );
                 } else {
-                    add_msg( m_info, _( "You try to surface but can't!" ) );
+                    add_msg( m_info, _( "You are already underwater and there is no water above you to swim up!" ) );
                     return;
                 }
             }
         }
     }
-    // If we're in a water tile that is entirely water
-    else if( m.has_flag( TFLAG_WATER_CUBE, u.pos() ) ) {
-        // If you're at this point, you should already be underwater, but force that to be the case.
-        if( !u.is_underwater() ) {
-            u.oxygen = 30 + 2 * u.str_cur;
-            u.set_underwater( true );
-        }
 
-        // ...and we're trying to swim down
-        if( movez == -1 ) {
-            // ...and there's more water beneath us.
-            if( target_ter->has_flag( TFLAG_WATER_CUBE ) ) {
-                // Then go ahead and move down.
-                add_msg( _( "You swim down." ) );
-            } else {
-                add_msg( m_info,
-                         _( "You are already underwater and there is no more water beneath you to swim down!" ) );
-                return;
+    // Find the corresponding staircase
+    bool rope_ladder = false;
+    // TODO: Remove the stairfinding, make the mapgen gen aligned maps
+    const bool special_move = climbing || swimming || can_fly;
+
+    if( !force && !special_move ) {
+        const std::optional<tripoint> pnt = find_or_make_stairs( maybetmp, z_after, rope_ladder, peeking );
+        if( !pnt ) {
+            return;
+        }
+        stairs = *pnt;
+    }
+
+    if( !force ) {
+        monstairz = z_before;
+    }
+    // Save all monsters that can reach the stairs, remove them from the tracker,
+    // then despawn the remaining monsters. Because it's a vertical shift, all
+    // monsters are out of the bounds of the map and will despawn.
+    shared_ptr_fast<monster> stored_mount;
+    if( u.is_mounted() && !m.has_zlevels() ) {
+        // Store a *copy* of the mount, so we can remove the original monster instance
+        // from the tracker before the map shifts.
+        // Map shifting would otherwise just despawn the mount and would later respawn it.
+        stored_mount = make_shared_fast<monster>( *u.mounted_creature );
+        critter_tracker->remove( *u.mounted_creature );
+    }
+    if( !m.has_zlevels() ) {
+        const tripoint to = u.pos();
+        for( monster &critter : all_monsters() ) {
+            // if its a ladder instead of stairs - most zombies can't climb that.
+            // unless that have a special flag to allow them to do so.
+            if( ( m.has_flag( "DIFFICULT_Z", u.pos() ) && !critter.climbs() ) ||
+                critter.has_effect( effect_ridden ) ||
+                critter.has_effect( effect_tied ) ) {
+                continue;
+            }
+            int turns = critter.turns_to_reach( to.xy() );
+            if( turns < 10 && coming_to_stairs.size() < 8 && critter.will_reach( to.xy() )
+                && !slippedpast ) {
+                critter.staircount = 10 + turns;
+                critter.on_unload();
+                coming_to_stairs.push_back( make_shared_fast<monster>( critter ) );
+                remove_zombie( critter );
             }
         }
-        // ...and we're trying to move up
-        else if( movez == 1 ) {
-            // ...and there's more water above us us.
-            if( target_ter->has_flag( TFLAG_WATER_CUBE ) ||
-                target_ter->has_flag( TFLAG_DEEP_WATER ) ) {
-                // Then go ahead and move up.
-                add_msg( _( "You swim up." ) );
-            } else {
-                add_msg( m_info, _( "You are already underwater and there is no water above you to swim up!" ) );
-                return;
+        auto mons = critter_tracker->find( g->u.pos() );
+        if( mons != nullptr ) {
+            critter_tracker->remove( *mons );
+        }
+        shift_monsters( tripoint( 0, 0, movez ) );
+    }
+
+    std::vector<shared_ptr_fast<npc>> npcs_to_bring;
+    std::vector<monster *> monsters_following;
+    if( !m.has_zlevels() && std::abs( movez ) == 1 ) {
+        std::copy_if( active_npc.begin(), active_npc.end(), back_inserter( npcs_to_bring ),
+        [this]( const shared_ptr_fast<npc> &np ) {
+            return np->is_walking_with() && !np->is_mounted() && !np->in_sleep_state() &&
+                   rl_dist( np->pos(), u.pos() ) < 2;
+        } );
+    }
+
+    if( m.has_zlevels() && std::abs( movez ) == 1 ) {
+        bool ladder = m.has_flag( "DIFFICULT_Z", u.pos() );
+        for( monster &critter : all_monsters() ) {
+            if( ladder && !critter.climbs() ) {
+                continue;
+            }
+            if( critter.attack_target() == &g->u || ( !critter.has_effect( effect_ridden ) &&
+                    critter.has_effect( effect_pet ) && critter.friendly == -1 &&
+                    !critter.has_effect( effect_tied ) ) ) {
+                monsters_following.push_back( &critter );
             }
         }
     }
-}
 
-// Find the corresponding staircase
-bool rope_ladder = false;
-// TODO: Remove the stairfinding, make the mapgen gen aligned maps
-const bool special_move = climbing || swimming || can_fly;
+    if( u.is_mounted() ) {
+        monster *crit = u.mounted_creature.get();
+        if( crit->has_flag( MF_RIDEABLE_MECH ) ) {
+            crit->use_mech_power( -1 );
+            if( u.movement_mode_is( CMM_WALK ) ) {
+                crit->use_mech_power( -2 );
+            } else if( u.movement_mode_is( CMM_CROUCH ) ) {
+                crit->use_mech_power( -1 );
+            } else if( u.movement_mode_is( CMM_RUN ) ) {
+                crit->use_mech_power( -3 );
+            }
+        }
+    } else {
+        u.moves -= move_cost;
+    }
+    for( const auto &np : npcs_to_bring ) {
+        if( np->in_vehicle ) {
+            m.unboard_vehicle( np->pos() );
+        }
+    }
 
-if( !force && !special_move )
-{
-    const std::optional<tripoint> pnt = find_or_make_stairs( maybetmp, z_after, rope_ladder, peeking );
-    if( !pnt ) {
+    if( surfacing || submerging ) {
+        // Surfacing and submerging don't actually move us anywhere, and just
+        // toggle our underwater state in the same location.
         return;
     }
-    stairs = *pnt;
-}
 
-if( !force )
-{
-    monstairz = z_before;
-}
-// Save all monsters that can reach the stairs, remove them from the tracker,
-// then despawn the remaining monsters. Because it's a vertical shift, all
-// monsters are out of the bounds of the map and will despawn.
-shared_ptr_fast<monster> stored_mount;
-if( u.is_mounted() && !m.has_zlevels() )
-{
-    // Store a *copy* of the mount, so we can remove the original monster instance
-    // from the tracker before the map shifts.
-    // Map shifting would otherwise just despawn the mount and would later respawn it.
-    stored_mount = make_shared_fast<monster>( *u.mounted_creature );
-    critter_tracker->remove( *u.mounted_creature );
-}
-if( !m.has_zlevels() )
-{
-    const tripoint to = u.pos();
-    for( monster &critter : all_monsters() ) {
-        // if its a ladder instead of stairs - most zombies can't climb that.
-        // unless that have a special flag to allow them to do so.
-        if( ( m.has_flag( "DIFFICULT_Z", u.pos() ) && !critter.climbs() ) ||
-            critter.has_effect( effect_ridden ) ||
-            critter.has_effect( effect_tied ) ) {
-            continue;
-        }
-        int turns = critter.turns_to_reach( to.xy() );
-        if( turns < 10 && coming_to_stairs.size() < 8 && critter.will_reach( to.xy() )
-            && !slippedpast ) {
-            critter.staircount = 10 + turns;
-            critter.on_unload();
-            coming_to_stairs.push_back( make_shared_fast<monster>( critter ) );
-            remove_zombie( critter );
-        }
+    const tripoint old_pos = g->u.pos();
+    point submap_shift;
+    vertical_shift( z_after );
+    if( !force ) {
+        submap_shift = update_map( stairs.x, stairs.y );
     }
-    auto mons = critter_tracker->find( g->u.pos() );
-    if( mons != nullptr ) {
-        critter_tracker->remove( *mons );
-    }
-    shift_monsters( tripoint( 0, 0, movez ) );
-}
 
-std::vector<shared_ptr_fast<npc>> npcs_to_bring;
-std::vector<monster *> monsters_following;
-if( !m.has_zlevels() && std::abs( movez ) == 1 )
-{
-    std::copy_if( active_npc.begin(), active_npc.end(), back_inserter( npcs_to_bring ),
-    [this]( const shared_ptr_fast<npc> &np ) {
-        return np->is_walking_with() && !np->is_mounted() && !np->in_sleep_state() &&
-               rl_dist( np->pos(), u.pos() ) < 2;
-    } );
-}
-
-if( m.has_zlevels() && std::abs( movez ) == 1 )
-{
-    bool ladder = m.has_flag( "DIFFICULT_Z", u.pos() );
-    for( monster &critter : all_monsters() ) {
-        if( ladder && !critter.climbs() ) {
-            continue;
-        }
-        if( critter.attack_target() == &g->u || ( !critter.has_effect( effect_ridden ) &&
-                critter.has_effect( effect_pet ) && critter.friendly == -1 &&
-                !critter.has_effect( effect_tied ) ) ) {
-            monsters_following.push_back( &critter );
-        }
-    }
-}
-
-if( u.is_mounted() )
-{
-    monster *crit = u.mounted_creature.get();
-    if( crit->has_flag( MF_RIDEABLE_MECH ) ) {
-        crit->use_mech_power( -1 );
-        if( u.movement_mode_is( CMM_WALK ) ) {
-            crit->use_mech_power( -2 );
-        } else if( u.movement_mode_is( CMM_CROUCH ) ) {
-            crit->use_mech_power( -1 );
-        } else if( u.movement_mode_is( CMM_RUN ) ) {
-            crit->use_mech_power( -3 );
-        }
-    }
-} else
-{
-    u.moves -= move_cost;
-}
-for( const auto &np : npcs_to_bring )
-{
-    if( np->in_vehicle ) {
-        m.unboard_vehicle( np->pos() );
-    }
-}
-
-if( surfacing || submerging )
-{
-    // Surfacing and submerging don't actually move us anywhere, and just
-    // toggle our underwater state in the same location.
-    return;
-}
-
-const tripoint old_pos = g->u.pos();
-point submap_shift;
-vertical_shift( z_after );
-if( !force )
-{
-    submap_shift = update_map( stairs.x, stairs.y );
-}
-
-// if an NPC or monster is on the stiars when player ascends/descends
-// they may end up merged on th esame tile, do some displacement to resolve that.
-// if, in the weird case of it not being possible to displace;
-// ( how did the player even manage to approach the stairs, if so? )
-// then nothing terrible happens, its just weird.
-if( critter_at<npc>( u.pos(), true ) || critter_at<monster>( u.pos(), true ) )
-{
-    std::string crit_name;
-    bool player_displace = false;
-    std::optional<tripoint> displace = find_empty_spot_nearby( u.pos() );
-    if( displace.has_value() ) {
-        npc *guy = g->critter_at<npc>( u.pos(), true );
-        if( guy ) {
-            crit_name = guy->get_name();
-            tripoint old_pos = guy->pos();
-            if( !guy->is_enemy() ) {
-                guy->move_away_from( u.pos(), true );
-                if( old_pos != guy->pos() ) {
-                    add_msg( _( "%s moves out of the way for you." ), guy->get_name() );
+    // if an NPC or monster is on the stiars when player ascends/descends
+    // they may end up merged on th esame tile, do some displacement to resolve that.
+    // if, in the weird case of it not being possible to displace;
+    // ( how did the player even manage to approach the stairs, if so? )
+    // then nothing terrible happens, its just weird.
+    if( critter_at<npc>( u.pos(), true ) || critter_at<monster>( u.pos(), true ) ) {
+        std::string crit_name;
+        bool player_displace = false;
+        std::optional<tripoint> displace = find_empty_spot_nearby( u.pos() );
+        if( displace.has_value() ) {
+            npc *guy = g->critter_at<npc>( u.pos(), true );
+            if( guy ) {
+                crit_name = guy->get_name();
+                tripoint old_pos = guy->pos();
+                if( !guy->is_enemy() ) {
+                    guy->move_away_from( u.pos(), true );
+                    if( old_pos != guy->pos() ) {
+                        add_msg( _( "%s moves out of the way for you." ), guy->get_name() );
+                    }
+                } else {
+                    player_displace = true;
                 }
-            } else {
-                player_displace = true;
+            }
+            monster *mon = g->critter_at<monster>( u.pos(), true );
+            // if the monster is ridden by the player or an NPC:
+            // Dont displace them. If they are mounted by a friendly NPC,
+            // then the NPC will already have been displaced just above.
+            // if they are ridden by the player, we want them to coexist on same tile
+            if( mon && !mon->mounted_player ) {
+                crit_name = mon->get_name();
+                if( mon->friendly == -1 ) {
+                    mon->setpos( *displace );
+                    add_msg( _( "Your %s moves out of the way for you." ), mon->get_name() );
+                } else {
+                    player_displace = true;
+                }
+            }
+            if( player_displace ) {
+                u.setpos( *displace );
+                u.moves -= 20;
+                add_msg( _( "You push past %s blocking the way." ), crit_name );
+            }
+        } else {
+            debugmsg( "Failed to find a spot to displace into." );
+        }
+    }
+
+    // Now that we know the player's destination position, we can move their mount as well
+    if( u.is_mounted() ) {
+        if( stored_mount ) {
+            assert( !m.has_zlevels() );
+            stored_mount->spawn( g->u.pos() );
+            if( critter_tracker->add( stored_mount ) ) {
+                u.mounted_creature = stored_mount;
+            }
+        } else {
+            u.mounted_creature->setpos( g->u.pos() );
+        }
+    }
+
+    if( !npcs_to_bring.empty() ) {
+        // Would look nicer randomly scrambled
+        std::vector<tripoint> candidates = closest_points_first( u.pos(), 1 );
+        candidates.erase( std::remove_if( candidates.begin(), candidates.end(),
+        [this]( const tripoint & c ) {
+            return !is_empty( c );
+        } ), candidates.end() );
+
+        for( const auto &np : npcs_to_bring ) {
+            const auto found = std::find_if( candidates.begin(), candidates.end(),
+            [this, np]( const tripoint & c ) {
+                return !np->is_dangerous_fields( m.field_at( c ) ) && m.tr_at( c ).is_benign();
+            } );
+            if( found != candidates.end() ) {
+                // TODO: De-uglify
+                np->setpos( *found );
+                np->place_on_map();
+                np->setpos( *found );
+                candidates.erase( found );
+            }
+
+            if( candidates.empty() ) {
+                break;
             }
         }
-        monster *mon = g->critter_at<monster>( u.pos(), true );
-        // if the monster is ridden by the player or an NPC:
-        // Dont displace them. If they are mounted by a friendly NPC,
-        // then the NPC will already have been displaced just above.
-        // if they are ridden by the player, we want them to coexist on same tile
-        if( mon && !mon->mounted_player ) {
-            crit_name = mon->get_name();
-            if( mon->friendly == -1 ) {
-                mon->setpos( *displace );
-                add_msg( _( "Your %s moves out of the way for you." ), mon->get_name() );
-            } else {
-                player_displace = true;
-            }
-        }
-        if( player_displace ) {
-            u.setpos( *displace );
-            u.moves -= 20;
-            add_msg( _( "You push past %s blocking the way." ), crit_name );
-        }
-    } else {
-        debugmsg( "Failed to find a spot to displace into." );
+
+        reload_npcs();
     }
-}
 
-// Now that we know the player's destination position, we can move their mount as well
-if( u.is_mounted() )
-{
-    if( stored_mount ) {
-        assert( !m.has_zlevels() );
-        stored_mount->spawn( g->u.pos() );
-        if( critter_tracker->add( stored_mount ) ) {
-            u.mounted_creature = stored_mount;
-        }
-    } else {
-        u.mounted_creature->setpos( g->u.pos() );
-    }
-}
-
-if( !npcs_to_bring.empty() )
-{
-    // Would look nicer randomly scrambled
-    std::vector<tripoint> candidates = closest_points_first( u.pos(), 1 );
-    candidates.erase( std::remove_if( candidates.begin(), candidates.end(),
-    [this]( const tripoint & c ) {
-        return !is_empty( c );
-    } ), candidates.end() );
-
-    for( const auto &np : npcs_to_bring ) {
-        const auto found = std::find_if( candidates.begin(), candidates.end(),
-        [this, np]( const tripoint & c ) {
-            return !np->is_dangerous_fields( m.field_at( c ) ) && m.tr_at( c ).is_benign();
-        } );
-        if( found != candidates.end() ) {
-            // TODO: De-uglify
-            np->setpos( *found );
-            np->place_on_map();
-            np->setpos( *found );
-            candidates.erase( found );
-        }
-
-        if( candidates.empty() ) {
-            break;
+    // This ugly check is here because of stair teleport bullshit
+    // TODO: Remove stair teleport bullshit
+    if( rl_dist( g->u.pos(), old_pos ) <= 1 ) {
+        for( monster *m : monsters_following ) {
+            m->set_dest( g->u.pos() );
         }
     }
 
-    reload_npcs();
-}
-
-// This ugly check is here because of stair teleport bullshit
-// TODO: Remove stair teleport bullshit
-if( rl_dist( g->u.pos(), old_pos ) <= 1 )
-{
-    for( monster *m : monsters_following ) {
-        m->set_dest( g->u.pos() );
+    if( rope_ladder ) {
+        m.ter_set( u.pos(), t_rope_up );
     }
-}
 
-if( rope_ladder )
-{
-    m.ter_set( u.pos(), t_rope_up );
-}
+    if( m.ter( stairs ) == t_manhole_cover ) {
+        m.spawn_item( stairs + point( rng( -1, 1 ), rng( -1, 1 ) ), itype_manhole_cover );
+        m.ter_set( stairs, t_manhole );
+    }
 
-if( m.ter( stairs ) == t_manhole_cover )
-{
-    m.spawn_item( stairs + point( rng( -1, 1 ), rng( -1, 1 ) ), itype_manhole_cover );
-    m.ter_set( stairs, t_manhole );
-}
+    // Wouldn't work and may do strange things
+    if( u.is_hauling() && !m.has_zlevels() ) {
+        add_msg( _( "You cannot haul items here." ) );
+        u.stop_hauling();
+    }
 
-// Wouldn't work and may do strange things
-if( u.is_hauling() && !m.has_zlevels() )
-{
-    add_msg( _( "You cannot haul items here." ) );
-    u.stop_hauling();
-}
+    if( u.is_hauling() ) {
+        const tripoint adjusted_pos = old_pos - sm_to_ms_copy( submap_shift );
+        start_hauling( adjusted_pos );
+    }
 
-if( u.is_hauling() )
-{
-    const tripoint adjusted_pos = old_pos - sm_to_ms_copy( submap_shift );
-    start_hauling( adjusted_pos );
-}
+    m.invalidate_map_cache( g->get_levz() );
+    // Upon force movement, traps can not be avoided.
+    m.creature_on_trap( u, !force );
 
-m.invalidate_map_cache( g->get_levz() );
-// Upon force movement, traps can not be avoided.
-m.creature_on_trap( u, !force );
-
-cata_event_dispatch::avatar_moves( u, m, u.pos() );
+    cata_event_dispatch::avatar_moves( u, m, u.pos() );
 }
 
 void game::start_hauling( const tripoint &pos )
