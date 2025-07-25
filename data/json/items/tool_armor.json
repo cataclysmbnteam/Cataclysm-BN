@@ -1318,7 +1318,6 @@
     "to_hit": -3,
     "max_charges": 100,
     "initial_charges": 100,
-    "charges_per_use": 1,
     "ammo": "gasfilter_m",
     "use_action": "GASMASK",
     "material": [ "kevlar", "cotton" ],
@@ -3080,7 +3079,6 @@
     "use_action": [
       "PORTABLE_GAME",
       "WEATHER_TOOL",
-      "GEIGER",
       "RADIOCONTROL",
       { "type": "gps_device", "radius": 40, "additional_charges_per_tile": 0.1 },
       {
@@ -3117,7 +3115,6 @@
     "use_action": [
       "PORTABLE_GAME",
       "WEATHER_TOOL",
-      "GEIGER",
       "RADIOCONTROL",
       { "type": "gps_device", "radius": 120, "additional_charges_per_tile": 0.1 },
       {

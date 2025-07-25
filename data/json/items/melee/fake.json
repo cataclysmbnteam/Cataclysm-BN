@@ -50,6 +50,7 @@
     "volume": "250 ml",
     "cutting": 28,
     "flags": [ "REACH_ATTACK", "NO_DROP", "NO_UNWIELD", "UNBREAKABLE_MELEE", "TRADER_AVOID", "WHIP" ],
-    "qualities": [ [ "SAW_M", 1 ], [ "SAW_W", 1 ] ]
+    "qualities": [ [ "SAW_M", 1 ], [ "SAW_W", 1 ] ],
+    "use_action": [ "HACKSAW" ]
   }
 ]

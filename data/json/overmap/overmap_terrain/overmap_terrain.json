@@ -311,6 +311,14 @@
   },
   {
     "type": "overmap_terrain",
+    "id": [ "bandit_camp_1_roof", "bandit_camp_2_roof", "bandit_camp_4_roof" ],
+    "name": "wooden fort",
+    "sym": "+",
+    "color": "brown",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
     "id": [
       "Bastion_Fort_1_NW",
       "Bastion_Fort_1_NE",
@@ -466,6 +474,14 @@
     "color": "white",
     "see_cost": 5,
     "flags": [ "RISK_LOW", "SOURCE_SAFETY", "SOURCE_FOOD" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "bandit_garage_2_roof",
+    "name": "garage",
+    "sym": "O",
+    "color": "white",
+    "see_cost": 5
   },
   {
     "type": "overmap_terrain",

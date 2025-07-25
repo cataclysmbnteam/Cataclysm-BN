@@ -50,22 +50,15 @@ chambering! :-)
 - `40mm` 40mm Grenade
 - `44` .44 Magnum
 - `44paper` .44 cap & ball
-- `454` .454 Casull
 - `45` .45 ACP (and relatives)
-- `46` 46mm
-- `500` .500 Magnum
 - `50` .50 BMG
-- `57` 57mm
 - `5x50` 5x50 Dart
 - `66mm` 66mm HEAT
-- `700nx` .700 Nitro Express
 - `762R` 7.62x54mm
 - `762` 7.62x39mm
-- `762x25` 7.62x25mm
 - `84x246mm` 84x246mm HE
 - `8x40mm` 8mm Caseless
 - `9mm` 9x19mm Luger (and relatives)
-- `9x18` 9x18mm
 - `BB` BB
 - `RPG-7` RPG-7
 - `UPS` UPS charges
@@ -102,6 +95,21 @@ chambering! :-)
 - `thrown` Thrown
 - `unfinished_char` Semi-charred fuel
 - `water` Water
+
+The following ammo types are (or will soon be) available in in-repo mods
+`exotic_ammo`:
+
+- `454` .454 Casull
+- `500` .500 Magnum
+- `57` 5.7 mm
+- `46` 4.6 mm
+- `762x25` 7.62x25mm (Tokarev)
+- `9x18` 9x18mm
+- `700nx` .700 Nitro Express
+- `38super` .38 super
+- `460` .460 Rowland
+- `545x39` 5.45x39mm
+- `270win` .270 winchester
 
 ### Effects
 
@@ -261,6 +269,8 @@ to find which flags work elsewhere.
 - `WATERPROOF` Prevents the covered body-part(s) from getting wet in any circumstance.
 - `WATER_FRIENDLY` Prevents the item from making the body part count as unfriendly to water and thus
   causing negative morale from being wet.
+- `ALLOWS_FLIGHT` While active, drains UPS to provide flight.
+- `ALWAYS_ALLOWS_FLIGHT` Always allow flight.
 
 ## Bionics
 
@@ -277,6 +287,7 @@ to find which flags work elsewhere.
 - `BIONIC_WEAPON` This bionic is a weapon bionic and activating it will create (or destroy) bionic's
   fake_item in user's hands. Prevents all other activation effects.
 - `BIONIC_SHOCKPROOF` This bionic can't be incapacitated by electrical attacks.
+- `BIONIC_FLIGHT` This bionic allows flight when active.
 
 ## Books
 
@@ -1284,6 +1295,8 @@ be defined in JSON if they are to be used in NPC dialogue conditions.
   positive if negative.
 - `SUBTLE_SPELL` Negates the negative impact of arm encumbrance on spells with the `SOMATIC` flag.
 - `UNARMED_BONUS` You get a bonus to unarmed bash and cut damage equal to unarmed_skill/2 up to 4.
+- `MUTATION_FLIGHT` Grants flight for the user, in exchange for the specified cost.
+- `FLIGHT_ALWAYS_ACTIVE` Grants flight for the user, all the time.
 
 ### Categories
 

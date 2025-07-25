@@ -218,7 +218,7 @@
     "type": "item_group",
     "subtype": "collection",
     "id": "bandolier_rifle_hunter",
-    "entries": [ { "item": "270win_jsp", "charges": 16 } ]
+    "entries": [ { "item": "3006", "charges": 16 } ]
   },
   {
     "type": "item_group",
@@ -2077,7 +2077,7 @@
         ],
         "entries": [
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
-          { "item": "remington700_270", "ammo-item": "270win_jsp", "charges": 4, "contents-item": "shoulder_strap" },
+          { "item": "remington_700", "ammo-item": "3006", "charges": 4, "contents-item": "shoulder_strap" },
           { "item": "bandolier_rifle", "contents-group": "bandolier_rifle_hunter" },
           { "item": "sheath", "contents-item": "knife_hunting" }
         ]

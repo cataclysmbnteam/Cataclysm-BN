@@ -2,6 +2,12 @@
 title: Cygwin
 ---
 
+:::caution
+
+Cygwin build has not been tested in a very long time, and this article is mostly kept around for posterity
+
+:::
+
 This guide contains instructions for compiling Cataclysm-BN on Windows under Cygwin.
 
 :::note

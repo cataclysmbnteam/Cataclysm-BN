@@ -250,5 +250,12 @@
     "info": "The integer flat rate for mana regen (per hour) that should be used as a baseline if enabled.",
     "stype": "int",
     "value": 100
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "MAGIC_STAT_SCALING_PERCENT",
+    "info": "The percentage bonus (or malus) that each point away from the base 8 should get you (i.e. 10 is 10%).",
+    "stype": "int",
+    "value": 10
   }
 ]

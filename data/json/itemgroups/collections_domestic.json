@@ -810,6 +810,7 @@
       { "item": "coke", "prob": 8 },
       { "item": "meth", "prob": 2 },
       { "item": "heroin", "prob": 1 },
+      { "item": "ghb", "prob": 1 },
       { "item": "sizzurp", "prob": 3 },
       { "item": "sneakers", "prob": 80 },
       { "item": "mask_hockey", "prob": 5 },

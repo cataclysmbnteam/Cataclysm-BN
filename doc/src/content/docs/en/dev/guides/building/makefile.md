@@ -230,16 +230,12 @@ MXE can be either installed from MXE apt repository (much faster) or compiled fr
 sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 86B72ED9
 sudo add-apt-repository "deb [arch=amd64] https://pkg.mxe.cc/repos/apt `lsb_release -sc` main"
 sudo apt-get update
-sudo apt-get install astyle bzip2 git make mxe-{i686,x86-64}-w64-mingw32.static-{sdl2,sdl2-ttf,sdl2-image,sdl2-mixer}
+sudo apt-get install astyle bzip2 git make mxe-x86-64-w64-mingw32.static-{sdl2,sdl2-ttf,sdl2-image,sdl2-mixer}
 ```
-
-If you are not planning on building for both 32-bit and 64-bit, you might want to adjust the last
-apt-get invocation to install only `i686` or `x86-64` packages.
 
 Edit your `~/.profile` as follows:
 
 ```sh
-export PLATFORM_32="/usr/lib/mxe/usr/bin/i686-w64-mingw32.static-"
 export PLATFORM_64="/usr/lib/mxe/usr/bin/x86_64-w64-mingw32.static-"
 ```
 
@@ -260,7 +256,7 @@ mkdir -p ~/src
 cd ~/src
 git clone https://github.com/mxe/mxe.git
 cd mxe
-make -j$((`nproc`+0)) MXE_TARGETS='x86_64-w64-mingw32.static i686-w64-mingw32.static' sdl2 sdl2_ttf sdl2_image sdl2_mixer sqlite
+make -j$((`nproc`+0)) MXE_TARGETS='x86_64-w64-mingw32.static' sdl2 sdl2_ttf sdl2_image sdl2_mixer sqlite
 ```
 
 Building all these packages from MXE might take a while, even on a fast computer. Be patient; the
@@ -272,7 +268,6 @@ MXE_TARGETS.
 Edit your `~/.profile` as follows:
 
 ```sh
-export PLATFORM_32="~/src/mxe/usr/bin/i686-w64-mingw32.static-"
 export PLATFORM_64="~/src/mxe/usr/bin/x86_64-w64-mingw32.static-"
 ```
 
@@ -280,10 +275,7 @@ This is to ensure that the variables for the `make` command will not get reset a
 
 ### Building (SDL)
 
-Run one of the following commands based on your targeted environment:
-
 ```sh
-make -j$((`nproc`+0)) CROSS="${PLATFORM_32}" TILES=1 SOUND=1 RELEASE=1 BACKTRACE=0 PCH=0 bindist
 make -j$((`nproc`+0)) CROSS="${PLATFORM_64}" TILES=1 SOUND=1 RELEASE=1 BACKTRACE=0 PCH=0 bindist
 ```
 
