@@ -259,6 +259,7 @@ void trap::trigger( const tripoint &pos, Creature *creature, item *item ) const
         bool triggered = act( pos, creature, item );
         if( triggered && is_real_creature ) {
             if( Character *ch = creature->as_character() ) {
+                ch->add_known_trap( pos, *this );
                 get_event_bus().send<event_type::character_triggers_trap>( ch->getID(), id );
             }
         }
