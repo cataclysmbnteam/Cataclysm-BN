@@ -1063,7 +1063,7 @@
     "type": "mutation",
     "id": "SCHIZOPHRENIC",
     "name": { "str": "Psychosis" },
-    "points": -1,
+    "points": -6,
     "description": "You will periodically suffer from delusions, ranging from minor effects to full visual hallucinations.  Some of these effects may be controlled through the use of Thorazine.",
     "starting_trait": true,
     "valid": false,
@@ -3453,9 +3453,13 @@
     "points": 2,
     "visibility": 4,
     "ugliness": 2,
-    "description": "You have a pair of large, feathered wings.  Your body is too heavy to be able to fly, but you can use them to slow your descent during a fall, and will not take falling damage under any circumstances.",
+    "cost": 100,
+    "stamina": true,
+    "active": true,
+    "description": "You have a pair of large, feathered wings.  Though your body is heavy and not built for sustained flight, you can use your wings to fly for short periods.  You can also glide to slow your descent and will never take falling damage under any circumstances.",
     "//": "Immunity to falls is already hardcoded in, but this will make the effect consistent with other wing traits since hulk tosses check the same multiplier.",
     "falling_damage_multiplier": 0.75,
+    "flags": [ "MUTATION_FLIGHT" ],
     "types": [ "WINGS" ],
     "prereqs": [ "WINGS_STUB" ],
     "category": [ "BIRD" ]
@@ -6452,6 +6456,15 @@
     "points": 99,
     "valid": false,
     "description": "You can clearly see that this is for dev purposes only.",
+    "debug": true
+  },
+  {
+    "type": "mutation",
+    "id": "DEBUG_NOCLIP",
+    "name": { "str": "Debug Noclip" },
+    "points": 99,
+    "valid": false,
+    "description": "Garry?",
     "debug": true
   },
   {

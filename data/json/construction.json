@@ -1071,7 +1071,8 @@
     "copy-from": "constr_wall_log_half",
     "//": "Step 2: Finish the log wall",
     "pre_terrain": "t_wall_log_half",
-    "post_terrain": "t_wall_log"
+    "post_terrain": "t_wall_log",
+    "delete": { "pre_flags": "PIT_SHALLOW" }
   },
   {
     "type": "construction",

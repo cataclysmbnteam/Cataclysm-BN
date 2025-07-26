@@ -114,7 +114,7 @@ void addict_effect( Character &u, addiction &add )
             const int morale_penalty_max = on_ghb ? -5 * in : -10 * in;
 
             if( is_alcohol || add.type == add_type::DIAZEPAM ) {
-                if( x_in_y( in, to_turns<int>( 2_minutes ) * 20 ) ) {
+                if( x_in_y( in, to_turns<int>( 2_minutes ) * 20 ) && ( !on_ghb || one_in( 2 ) ) ) {
                     const std::string msg_1 = is_alcohol ?
                                               _( "You could use a drink." ) :
                                               _( "You could use some diazepam." );
@@ -123,7 +123,7 @@ void addict_effect( Character &u, addiction &add )
                     if( on_ghb && one_in( 5 ) ) {
                         u.add_msg_if_player( _( "The GHB makes it not so bad." ) );
                     }
-                } else if( calendar::once_every( 1_minutes ) && rng( 8, 300 ) < in ) {
+                } else if( calendar::once_every( 1_minutes ) && rng( 8, 300 ) < in && ( !on_ghb || one_in( 2 ) ) ) {
                     const std::string msg_2 = is_alcohol ?
                                               _( "Your hands start shaking… you need a drink bad!" ) :
                                               _( "You're shaking… you need some diazepam!" );

@@ -726,7 +726,7 @@
   {
     "id": "ghb",
     "type": "COMESTIBLE",
-    "comestible_type": "DRINK",
+    "comestible_type": "MED",
     "name": { "str_sp": "GHB" },
     "description": "A potent CNS depressant and natural neurotransmitter, used medically for narcolepsy and sometimes alcohol withdrawal.  Recreational use is risky due to high overdose potential, especially with alcohol.",
     "weight": "1 g",
