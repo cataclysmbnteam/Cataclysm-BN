@@ -1641,7 +1641,7 @@
         { "item": "withered", "count": [ 2, 12 ] }
       ],
       "//": "Go straight through without taking any damage.",
-      "ranged": { "block_unaimed_chance": "0%" }
+      "ranged": { "block_unaimed_chance": "100%" }
     }
   },
   {
