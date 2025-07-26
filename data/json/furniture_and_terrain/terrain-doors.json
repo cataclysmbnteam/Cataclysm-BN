@@ -2305,7 +2305,7 @@
     "color": "cyan",
     "move_cost": 2,
     "roof": "t_flat_roof",
-    "flags": [ "TRANSPARENT", "FLAT", "CONNECT_TO_WALL", "SUPPORTS_ROOF", "ROAD", "INDOORS", "BURROWABLE" ],
+    "flags": [ "TRANSPARENT", "FLAT", "CONNECT_TO_WALL", "SUPPORTS_ROOF", "ROAD", "INDOORS" ],
     "bash": {
       "str_min": 90,
       "str_max": 250,
@@ -2486,7 +2486,7 @@
       "byproducts": [ { "item": "pipe", "count": 12 }, { "item": "hinge", "count": 2 } ]
     },
     "flags": [ "TRANSPARENT", "NOITEM", "PERMEABLE", "CONNECT_TO_WALL", "LOCKED", "THIN_OBSTACLE", "WELDABLE_BARS" ],
-    "examine_action": "locked_object_pickable",
+    "examine_action": "locked_object",
     "oxytorch": {
       "result": "t_mdoor_frame",
       "duration": "10 seconds",
@@ -2505,6 +2505,15 @@
         { "item": "scrap", "count": [ 3, 12 ] },
         { "item": "hinge", "count": [ 1, 2 ] }
       ]
+    },
+    "pry": {
+      "success_message": "You pry open the door.",
+      "fail_message": "You pry, but cannot pry open the door.",
+      "pry_quality": 4,
+      "noise": 24,
+      "sound": "metal screeching!",
+      "difficulty": 4,
+      "new_ter_type": "t_door_bar_o"
     }
   },
   {
