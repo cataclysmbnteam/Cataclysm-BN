@@ -1978,11 +1978,10 @@ void monster::deal_projectile_attack( Creature *source, item *source_weapon,
         return;
     }
 
-    // Handled in creature::deal_projectile_attack now, so that not having a head does not make it somehow less likely to hit the torso.
-    //// No head = immune to ranged crits
-    //if( missed_by < accuracy_critical && has_flag( MF_NOHEAD ) ) {
-    //    missed_by = accuracy_critical;
-    //}
+    // No head = immune to ranged crits
+    if( missed_by < accuracy_critical && has_flag( MF_NOHEAD ) ) {
+        missed_by = accuracy_critical;
+    }
 
     Creature::deal_projectile_attack( source, source_weapon, attack );
 
