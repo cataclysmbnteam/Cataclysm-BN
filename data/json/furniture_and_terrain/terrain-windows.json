@@ -139,7 +139,7 @@
     "bash": {
       "items": [ { "item": "glass_shard", "count": [ 1, 3 ] } ],
       "//": "This is purely to override hidden inherited range data so open windows won't catch bullets that should fly through uninterrupted",
-      "ranged": { "block_unaimed_chance": "0%" }
+      "ranged": { "block_unaimed_chance": "100%" }
     }
   },
   {
@@ -258,7 +258,7 @@
         { "item": "string_36", "count": 1 }
       ],
       "//": "This is purely to override hidden inherited range data so open windows won't catch bullets that should fly through uninterrupted",
-      "ranged": { "block_unaimed_chance": "0%" }
+      "ranged": { "block_unaimed_chance": "100%" }
     }
   },
   {
