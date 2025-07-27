@@ -446,34 +446,34 @@ void start_location::add_map_extra( const tripoint_abs_omt &omtstart,
 void start_location::handle_heli_crash( player &u ) const
 {
     bool no_body_parts_damaged = true;
-    while (no_body_parts_damaged){
+    while( no_body_parts_damaged ) {
         for( const bodypart_id &bp : u.get_all_body_parts( true ) ) {
-        if( bp == bodypart_id( "head" ) || bp == bodypart_id( "torso" ) ) {
-            continue;// Skip head + torso for balance reasons.
-        }
-        const int roll = rng( 1, 8 );
-        switch( roll ) {
-            // Damage + Bleed
-            case 1:
-            case 2:
-                u.add_effect( effect_bleed, 6_minutes, bp.id() );
-            /* fallthrough */
-            case 3:
-            case 4:
-            // Just damage
-            case 5: {
-                const int maxHp = u.get_hp_max( bp );
-                // Body part health will range from 33% to 66% with occasional bleed
-                const int dmg = rng( maxHp / 3, maxHp * 2 / 3 );
-                u.apply_damage( nullptr, bp, dmg );
-                no_body_parts_damaged = false;
-                break;
+            if( bp == bodypart_id( "head" ) || bp == bodypart_id( "torso" ) ) {
+                continue;// Skip head + torso for balance reasons.
             }
-            // No damage
-            default:
-                break;
+            const int roll = rng( 1, 8 );
+            switch( roll ) {
+                // Damage + Bleed
+                case 1:
+                case 2:
+                    u.add_effect( effect_bleed, 6_minutes, bp.id() );
+                /* fallthrough */
+                case 3:
+                case 4:
+                // Just damage
+                case 5: {
+                    const int maxHp = u.get_hp_max( bp );
+                    // Body part health will range from 33% to 66% with occasional bleed
+                    const int dmg = rng( maxHp / 3, maxHp * 2 / 3 );
+                    u.apply_damage( nullptr, bp, dmg );
+                    no_body_parts_damaged = false;
+                    break;
+                }
+                // No damage
+                default:
+                    break;
+            }
         }
-    }
     }
 }
 
