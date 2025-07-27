@@ -90,7 +90,7 @@
     "type": "MONSTER",
     "copy-from": "mon_zombie_surgeon",
     "name": { "str": "cadaver assembler" },
-    "description": "With a grotesquely twisted body and four arms fused with surgical tools, this zombie obsessively regenerates nearby undead at an abnormal speed. A dark aura flows over its pale skin, eerily healing damaged allies and spreading a distorted will to live.",
+    "description": "With a grotesquely twisted body and four arms fused with surgical tools, this zombie obsessively regenerates nearby undead at an abnormal speed.  A dark aura flows over its pale skin, eerily healing damaged allies and spreading a distorted will to live.",
     "default_faction": "zombie",
     "color": "red_white",
     "hp": 205,
