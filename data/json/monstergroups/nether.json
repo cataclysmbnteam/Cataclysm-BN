@@ -952,12 +952,7 @@
     "melee_dice_sides": 6,
     "vision_day": 55,
     "vision_night": 30,
-  "emit_fields": [
-    {
-      "emit_id": "emit_shock_cloud",
-      "delay": "1 s"
-    }
-  ],
+    "emit_fields": [ { "emit_id": "emit_shock_cloud", "delay": "1 s" } ],
     "special_attacks": [ [ "DISAPPEAR", 60 ] ],
     "death_function": [ "MELT" ],
     "flags": [ "SEES", "HEARS", "GOODHEARING", "NOHEAD", "NO_BREATHE", "ELECTRIC", "STUMBLES" ]
