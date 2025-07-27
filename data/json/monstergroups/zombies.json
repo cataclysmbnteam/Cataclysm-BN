@@ -296,7 +296,7 @@
       { "monster": "mon_zombie_static", "freq": 180, "cost_multiplier": 5 },
       { "monster": "mon_zombie_survivor", "freq": 1, "cost_multiplier": 25 },
       { "monster": "mon_zombie_survivor_elite", "freq": 1, "cost_multiplier": 25, "starts": 720 },
-      { "monster": "mon_zombie_darkfield", "freq": 4, "cost_multiplier": 20, "starts": 500 }
+      { "monster": "mon_zombie_darkfield", "freq": 4, "cost_multiplier": 20, "starts": 500 },
       { "monster": "mon_skeleton_necro", "freq": 4, "cost_multiplier": 20, "starts": 500 },
       { "monster": "mon_skeleton_master", "freq": 1, "cost_multiplier": 25, "starts": 1000 },
       { "monster": "mon_zombie_necro", "freq": 4, "cost_multiplier": 20, "starts": 500 },
