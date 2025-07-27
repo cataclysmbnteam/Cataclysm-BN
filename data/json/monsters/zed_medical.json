@@ -83,6 +83,41 @@
         "effects": [ { "id": "poison", "duration": 90, "bp": "torso" }, { "id": "badpoison", "duration": 30, "bp": "torso" } ]
       }
     ],
-    "upgrades": false
+    "upgrades": { "half_life": 14, "into": "mon_zombie_conjoiner" }
+  },
+  {
+    "id": "mon_zombie_conjoiner",
+    "type": "MONSTER",
+    "copy-from": "mon_zombie_surgeon",
+    "name": { "str": "cadaver assembler" },
+    "description": "With a grotesquely twisted body and four arms fused with surgical tools, this zombie obsessively regenerates nearby undead at an abnormal speed. A dark aura flows over its pale skin, eerily healing damaged allies and spreading a distorted will to live.",
+    "default_faction": "zombie",
+    "color": "red_white",
+    "hp": 205,
+    "melee_skill": 6,
+    "armor_stab": 6,
+    "armor_acid": 20,
+    "vision_day": 50,
+    "vision_night": 14,
+    "harvest": "CBM_SCI",
+    "path_settings": { "max_dist": 10 },
+    "special_attacks": [
+      {
+        "id": "scratch",
+        "damage_max_instance": [ { "damage_type": "cut", "amount": 30, "armor_multiplier": 0.3 } ],
+        "effects": [ { "id": "bleed", "duration": 800, "affect_hit_bp": true } ]
+      },
+      {
+        "id": "inject",
+        "damage_max_instance": [ { "damage_type": "stab", "amount": 15, "armor_multiplier": 0.2 }, { "damage_type": "acid", "amount": 5 } ],
+        "effects": [ { "id": "paralyzepoison", "duration": 90, "bp": "torso" }, { "id": "badpoison", "duration": 60, "bp": "torso" } ]
+      },
+      {
+        "type": "spell",
+        "spell_data": { "id": "conjoiner_heal" },
+        "cooldown": 1,
+        "monster_message": "<color_yellow>Nearby zombies regenerate abnormally quickly.</color>"
+      }
+    ]
   }
 ]
