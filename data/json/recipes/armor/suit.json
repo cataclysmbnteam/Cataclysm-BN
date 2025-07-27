@@ -1043,5 +1043,18 @@
       [ [ "thermometer", 1 ] ],
       [ [ "water", 5 ], [ "water_clean", 5 ] ]
     ]
+  },
+  {
+    "result": "snuggie",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_SUIT",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "time": "45 m",
+    "reversible": true,
+    "autolearn": true,
+    "using": [ [ "sewing_standard", 24 ] ],
+    "components": [ [ [ "rag", 24 ] ] ]
   }
 ]
