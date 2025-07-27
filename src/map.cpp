@@ -108,6 +108,7 @@ using ammo_effect_str_id = string_id<ammo_effect>;
 static const ammo_effect_str_id ammo_effect_INCENDIARY( "INCENDIARY" );
 static const ammo_effect_str_id ammo_effect_LASER( "LASER" );
 static const ammo_effect_str_id ammo_effect_LIGHTNING( "LIGHTNING" );
+static const ammo_effect_str_id ammo_effect_NO_PENETRATE_OBSTACLES( "NO_PENETRATE_OBSTACLES" );
 static const ammo_effect_str_id ammo_effect_PLASMA( "PLASMA" );
 
 static const fault_id fault_bionic_nonsterile( "fault_bionic_nonsterile" );
@@ -3926,6 +3927,10 @@ void map::shoot( const tripoint &origin, const tripoint &p, projectile &proj, co
 
     const bool inc = proj.has_effect( ammo_effect_INCENDIARY ) ||
                      proj.impact.type_damage( DT_HEAT ) > 0;
+    const bool phys = proj.impact.type_damage( DT_BASH ) > 0 ||
+                      proj.impact.type_damage( DT_CUT ) > 0 ||
+                      proj.impact.type_damage( DT_STAB ) > 0 ||
+                      proj.impact.type_damage( DT_BULLET ) > 0;
     if( const optional_vpart_position vp = veh_at( p ) ) {
         dam = vp->vehicle().damage( vp->part_index(), dam, inc ? DT_HEAT : DT_STAB, hit_items );
     }
@@ -3944,7 +3949,15 @@ void map::shoot( const tripoint &origin, const tripoint &p, projectile &proj, co
         float destroy_roll = point_blank ? dam * 1.5 : dam * rng_float( 0.9, 1.1 );
         if( !hit_items && ( !check( rfi.block_unaimed_chance ) || ( rfi.block_unaimed_chance < 100_pct &&
                             point_blank ) ) ) {
-            // Nothing, it's a miss or we're shooting over nearby furniture
+            // Nothing, it's a miss, we're shooting over nearby furniture.
+        } else if( proj.has_effect( ammo_effect_NO_PENETRATE_OBSTACLES ) ) {
+            // We shot something with a flamethrower or other non-penetrating weapon.
+            // Try to bash the obstacle if it was a thrown rock or the like, then stop the shot.
+            add_msg( _( "The shot is stopped by the %s!" ), furnname( p ) );
+            if( phys ) {
+                bash( p, dam, false );
+            }
+            dam = 0;
         } else if( rfi.reduction_laser && proj.has_effect( ammo_effect_LASER ) ) {
             dam -= std::max( ( rng( rfi.reduction_laser->min,
                                     rfi.reduction_laser->max ) - initial_arpen ) * initial_armor_mult, 0.0f );
@@ -3956,11 +3969,12 @@ void map::shoot( const tripoint &origin, const tripoint &p, projectile &proj, co
             if( get_avatar().sees( p ) ) {
                 if( dam <= 0 ) {
                     add_msg( _( "The shot is stopped by the %s!" ), furnname( p ) );
-                } else {
+                    // Only bother mentioning it punched through if it had any resistance, so zip through canvas with no message.
+                } else if( rfi.reduction.min > 0 ) {
                     add_msg( _( "The shot hits the %s and punches through!" ), furnname( p ) );
                 }
             }
-            if( destroy_roll > rfi.destroy_threshold ) {
+            if( destroy_roll > rfi.destroy_threshold && rfi.reduction.min > 0 ) {
                 bash_params params{0, false, true, hit_items, 1.0, false};
                 bash_furn_success( p, params );
             }
@@ -3977,6 +3991,14 @@ void map::shoot( const tripoint &origin, const tripoint &p, projectile &proj, co
         if( !hit_items && ( !check( ri.block_unaimed_chance ) || ( ri.block_unaimed_chance < 100_pct &&
                             point_blank ) ) ) {
             // Nothing, it's a miss or we're shooting over nearby terrain
+        } else if( proj.has_effect( ammo_effect_NO_PENETRATE_OBSTACLES ) ) {
+            // We shot something with a flamethrower or other non-penetrating weapon.
+            // Try to bash the obstacle if it was a thrown rock or the like, then stop the shot.
+            add_msg( _( "The shot is stopped by the %s!" ), tername( p ) );
+            if( phys ) {
+                bash( p, dam, false );
+            }
+            dam = 0;
         } else if( ri.reduction_laser && proj.has_effect( ammo_effect_LASER ) ) {
             dam -= std::max( ( rng( ri.reduction_laser->min,
                                     ri.reduction_laser->max ) - initial_arpen ) * initial_armor_mult, 0.0f );
@@ -3988,11 +4010,13 @@ void map::shoot( const tripoint &origin, const tripoint &p, projectile &proj, co
             if( get_avatar().sees( p ) ) {
                 if( dam <= 0 ) {
                     add_msg( _( "The shot is stopped by the %s!" ), tername( p ) );
-                } else {
+                    // Only bother mentioning it punched through if it had any resistance, so zip through canvas with no message.
+                } else if( ri.reduction.min > 0 ) {
                     add_msg( _( "The shot hits the %s and punches through!" ), tername( p ) );
                 }
             }
-            if( destroy_roll > ri.destroy_threshold ) {
+            // Destroy if the damage exceeds threshold, unless the target was meant to be shot through with zero resistance like canvas.
+            if( destroy_roll > ri.destroy_threshold && ri.reduction.min > 0 ) {
                 bash_params params{0, false, true, hit_items, 1.0, false};
                 bash_ter_success( p, params );
             }

@@ -309,7 +309,7 @@
         { "item": "wooden_bead", "count": [ 200, 500 ] }
       ],
       "//": "Go straight through without taking any damage.",
-      "ranged": { "block_unaimed_chance": "0%" }
+      "ranged": { "block_unaimed_chance": "100%" }
     }
   },
   {
@@ -370,7 +370,7 @@
       "sound_vol": 8,
       "tent_centers": [ "f_groundsheet", "f_fema_groundsheet", "f_skin_groundsheet" ],
       "//": "Go straight through without taking any damage.",
-      "ranged": { "block_unaimed_chance": "0%" }
+      "ranged": { "block_unaimed_chance": "100%" }
     }
   },
   {
@@ -393,7 +393,7 @@
       "collapse_radius": 2,
       "tent_centers": [ "f_center_groundsheet" ],
       "//": "Go straight through without taking any damage.",
-      "ranged": { "block_unaimed_chance": "0%" }
+      "ranged": { "block_unaimed_chance": "100%" }
     }
   },
   {
@@ -416,7 +416,7 @@
       "sound_vol": 8,
       "tent_centers": [ "f_groundsheet", "f_fema_groundsheet", "f_skin_groundsheet" ],
       "//": "Go straight through without taking any damage.",
-      "ranged": { "block_unaimed_chance": "0%" }
+      "ranged": { "block_unaimed_chance": "100%" }
     }
   },
   {
@@ -460,7 +460,7 @@
       "collapse_radius": 2,
       "tent_centers": [ "f_center_groundsheet" ],
       "//": "Go straight through without taking any damage.",
-      "ranged": { "block_unaimed_chance": "0%" }
+      "ranged": { "block_unaimed_chance": "100%" }
     }
   },
   {
@@ -587,7 +587,7 @@
       "sound_vol": 8,
       "tent_centers": [ "f_groundsheet", "f_fema_groundsheet", "f_skin_groundsheet" ],
       "//": "Go straight through without taking any damage.",
-      "ranged": { "block_unaimed_chance": "0%" }
+      "ranged": { "block_unaimed_chance": "100%" }
     }
   },
   {
@@ -610,7 +610,7 @@
       "sound_vol": 8,
       "tent_centers": [ "f_groundsheet", "f_fema_groundsheet", "f_skin_groundsheet" ],
       "//": "Go straight through without taking any damage.",
-      "ranged": { "block_unaimed_chance": "0%" }
+      "ranged": { "block_unaimed_chance": "100%" }
     }
   },
   {

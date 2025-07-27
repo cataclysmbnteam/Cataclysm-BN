@@ -22,7 +22,7 @@
     "bashing": 10,
     "skill": "launcher",
     "ammo": "flammable",
-    "ammo_effects": [ "FLARE" ],
+    "ammo_effects": [ "NO_PENETRATE_OBSTACLES", "FLARE" ],
     "reload": 400,
     "ammo_to_fire": 100,
     "flags": [ "NEVER_JAMS", "FIRESTARTER", "PYROMANIAC_WEAPON" ],
@@ -511,6 +511,7 @@
     "ammo": "chemical_spray",
     "ammo_to_fire": 50,
     "flags": [ "NEVER_JAMS", "NON_FOULING" ],
+    "ammo_effects": [ "NO_PENETRATE_OBSTACLES" ],
     "valid_mod_locations": [
       [ "accessories", 4 ],
       [ "grip", 1 ],
