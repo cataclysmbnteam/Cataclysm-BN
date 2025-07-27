@@ -329,7 +329,7 @@
       { "monster": "mon_zombie_static", "freq": 30, "cost_multiplier": 5 },
       { "monster": "mon_zombie_survivor", "freq": 1, "cost_multiplier": 25 },
       { "monster": "mon_zombie_survivor_elite", "freq": 1, "cost_multiplier": 25, "starts": 720 },
-      { "monster": "mon_zombie_darkfield", "freq": 4, "cost_multiplier": 20, "starts": 500 }
+      { "monster": "mon_zombie_darkfield", "freq": 4, "cost_multiplier": 20, "starts": 500 },
       { "monster": "mon_skeleton_necro", "freq": 4, "cost_multiplier": 20, "starts": 500 },
       { "monster": "mon_skeleton_master", "freq": 1, "cost_multiplier": 25, "starts": 1000 },
       { "monster": "mon_zombie_necro", "freq": 4, "cost_multiplier": 20, "starts": 500 },
@@ -768,7 +768,7 @@
       { "monster": "mon_zombie_technician", "freq": 200, "cost_multiplier": 3 },
       { "monster": "mon_zombie_hazmat", "freq": 250, "cost_multiplier": 3 },
       { "monster": "mon_zombie_electric", "freq": 100, "cost_multiplier": 5 },
-      { "monster": "mon_zombie_stormbringer", "freq": 50, "cost_multiplier": 10, "starts": 500 }
+      { "monster": "mon_zombie_stormbringer", "freq": 50, "cost_multiplier": 10, "starts": 500 },
       { "monster": "mon_skitterbot", "freq": 100, "cost_multiplier": 5 },
       { "monster": "mon_zombie_cop", "freq": 100, "cost_multiplier": 5 }
     ]
