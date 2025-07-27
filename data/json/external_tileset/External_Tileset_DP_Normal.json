@@ -106,7 +106,17 @@
           { "id": [ "spear_stinger", "spear_triffid" ], "fg": 91 },
           { "id": [ "overlay_wielded_spear_stinger", "overlay_wielded_spear_triffid" ], "fg": 92 },
           { "id": "scouter", "fg": 93 },
-          { "id": "overlay_worn_scouter", "fg": 94 }
+          { "id": "overlay_worn_scouter", "fg": 94 },
+          { "id": "mon_zombie_conjoiner", "fg": 95 },
+          { "id": "corpse_mon_zombie_conjoiner", "fg": 96 },
+          { "id": "mon_zombie_supply_sergeant", "fg": 97 },
+          { "id": "corpse_mon_zombie_supply_sergeant", "fg": 98 },
+          { "id": "mon_banshee", "fg": 99 },
+          { "id": "corpse_mon_banshee", "fg": 100 },
+          { "id": "mon_mon_zombie_stormbringer", "fg": 101 },
+          { "id": "corpse_mon_mon_zombie_stormbringer", "fg": 102 },
+          { "id": "mon_mon_zombie_darkfield", "fg": 103 },
+          { "id": "corpse_mon_mon_zombie_darkfield", "fg": 104 }
         ],
         "sprite_width": 32,
         "sprite_height": 32
