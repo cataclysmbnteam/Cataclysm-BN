@@ -1839,7 +1839,7 @@ class bionic_install_preset: public inventory_selector_preset
             const itype *itemtype = it->type;
             const bionic_id &bid = itemtype->bionic->id;
 
-            if( it->has_fault( fault_bionic_nonsterile ) && !p.has_trait( trait_INFRESIST ) ) {
+            if( it->has_fault( fault_bionic_nonsterile ) && !pa.has_trait( trait_INFRESIST ) ) {
                 // NOLINTNEXTLINE(cata-text-style): single space after the period for symmetry
                 return _( "/!\\ CBM is not sterile. /!\\ Please use autoclave or other methods to sterilize." );
             } else if( pa.has_bionic( bid ) ) {
