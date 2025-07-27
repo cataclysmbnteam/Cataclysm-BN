@@ -79,6 +79,7 @@
     "default": "mon_zombie_kevlar_1",
     "//": "Masters pick from here when upgrading.",
     "monsters": [
+      { "monster": "mon_zombie_supply_sergeant", "freq": 100, "cost_multiplier": 2 },
       { "monster": "mon_zombie_soldier_blackops_1", "freq": 100, "cost_multiplier": 2 },
       { "monster": "mon_zombie_soldier_acid_1", "freq": 100, "cost_multiplier": 2 },
       { "monster": "mon_zombie_soldier_acid_2", "freq": 150, "cost_multiplier": 2 }
