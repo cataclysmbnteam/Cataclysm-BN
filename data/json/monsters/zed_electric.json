@@ -163,7 +163,7 @@
     "type": "MONSTER",
     "name": { "str": "stormbringer" },
     "looks_like": "mon_zombie_nullfield",
-    "description": "Spewing blue lightning from its body, this bizarre zombie stares at its surroundings with a maniacal blue glow. There is a murderous aura around it, and a cloud of condensed electrons hovers in the air.",
+    "description": "Spewing blue lightning from its body, this bizarre zombie stares at its surroundings with a maniacal blue glow.  There is a murderous aura around it, and a cloud of condensed electrons hovers in the air.",
     "default_faction": "zombie",
     "bodytype": "human",
     "species": [ "ZOMBIE", "HUMAN" ],
