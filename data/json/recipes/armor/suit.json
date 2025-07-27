@@ -1052,7 +1052,6 @@
     "skill_used": "tailor",
     "difficulty": 3,
     "time": "45 m",
-    "reversible": true,
     "autolearn": true,
     "using": [ [ "sewing_standard", 24 ] ],
     "components": [ [ [ "rag", 24 ] ] ]
