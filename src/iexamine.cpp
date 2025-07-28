@@ -1609,7 +1609,8 @@ void iexamine::transform( player &p, const tripoint &pos )
     std::string message;
     std::string prompt;
     const bool furn_is_deployed = !g->m.furn( pos ).obj().deployed_item.is_empty();
-    const bool can_climb = g->m.has_flag( flag_CLIMBABLE, pos ) || g->m.has_flag( flag_CLIMB_SIMPLE, pos );
+    const bool can_climb = g->m.has_flag( flag_CLIMBABLE, pos ) ||
+                           g->m.has_flag( flag_CLIMB_SIMPLE, pos );
 
     if( g->m.has_furn( pos ) ) {
         message = g->m.furn( pos ).obj().message;
@@ -1652,7 +1653,7 @@ void iexamine::transform( player &p, const tripoint &pos )
         }
         case 2: {
             add_msg( m_info, _( "You take down the %s." ),
-                                 g->m.furnname( pos ) );
+                     g->m.furnname( pos ) );
             const auto furn_item = g->m.furn( pos ).obj().deployed_item;
             g->m.add_item_or_charges( pos, item::spawn( furn_item, calendar::turn ) );
             g->m.furn_set( pos, f_null );
