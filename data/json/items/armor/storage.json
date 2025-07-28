@@ -1058,5 +1058,40 @@
     "warmth": 5,
     "material_thickness": 2,
     "flags": [ "VARSIZE" ]
+  },
+  {
+    "id": "survivor_hiking_backpack_armored",
+    "type": "ARMOR",
+    "name": { "str": "armored survivor hiking backpack" },
+    "copy-from": "survivor_hiking_backpack",
+    "material": [ "leather", "kevlar" ]
+  },
+  {
+    "id": "survivor_duffel_bag_armored",
+    "type": "ARMOR",
+    "name": { "str": "armored survivor duffel bag" },
+    "copy-from": "survivor_duffel_bag",
+    "material": [ "leather", "kevlar" ]
+  },
+  {
+    "id": "survivor_pack_armored",
+    "type": "ARMOR",
+    "name": { "str": "armored survivor backpack" },
+    "copy-from": "survivor_pack",
+    "material": [ "leather", "kevlar" ]
+  },
+  {
+    "id": "survivor_rucksack_armored",
+    "type": "ARMOR",
+    "name": { "str": "armored survivor rucksack" },
+    "copy-from": "survivor_rucksack",
+    "material": [ "leather", "kevlar" ]
+  },
+  {
+    "id": "survivor_runner_pack_armored",
+    "type": "ARMOR",
+    "name": { "str": "armored survivor runner pack" },
+    "copy-from": "survivor_runner_pack",
+    "material": [ "leather", "kevlar" ]
   }
 ]
