@@ -242,16 +242,31 @@ std::string map_data_common_t::extended_description() const
 
     if( debug_vision() ) {
         ss << "Bash: " << bash.str_min << "-" << bash.str_max << "\n";
-        if( bash.ranged ) {
-            static std::string indent = "    ";
-            ss << "Ranged: " << "\n";
-            ss << indent << "Reduction:" << bash.ranged->reduction.min << "-" << bash.ranged->reduction.max;
-            if( bash.ranged->reduction_laser ) {
-                ss << indent << "Laser res:" << bash.ranged->reduction_laser->min << "-" <<
-                   bash.ranged->reduction_laser->max;
-            }
-            ss << indent << "Block unaimed chance: " << bash.ranged->block_unaimed_chance;
+    }
+
+    if( bash.ranged && bash.ranged->reduction.min > 0 ) {
+        static std::string indent = "    ";
+        ss << "\n" << "Cover:" << "\n";
+        if( bash.ranged->reduction.min == bash.ranged->reduction.max ) {
+            ss << indent << "Damage Reduction: " << bash.ranged->reduction.min << "\n";
+        } else {
+            ss << indent << "Damage Reduction: " << bash.ranged->reduction.min << "-" << bash.ranged->reduction.max << "\n";
         }
+        if( bash.ranged->reduction_laser ) {
+            if( bash.ranged->reduction_laser->min == bash.ranged->reduction_laser->max ) {
+                ss << indent << "Vs. Laser: " << bash.ranged->reduction_laser->min << "\n";
+            } else {
+                ss << indent << "Vs. Laser: " << bash.ranged->reduction_laser->min << "-" <<
+                   bash.ranged->reduction_laser->max << "\n";
+            }
+        }
+        if( debug_vision() && bash.ranged->destroy_threshold > 0 ) {
+            ss << indent << "Destroy Threshold: " << bash.ranged->destroy_threshold << "\n";
+        }
+        if( bash.ranged->block_unaimed_chance > 0_pct ) {
+            ss << indent << "Block Chance: " << bash.ranged->block_unaimed_chance / 1_pct << "%" << "\n";
+        }
+        ss << "\n";
     }
 
     if( !flags.empty() ) {
