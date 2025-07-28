@@ -444,7 +444,7 @@
       ],
       "ranged": { "reduction": [ 10, 10 ], "destroy_threshold": 50, "block_unaimed_chance": "25%" }
     },
-    "transforms_into": "f_coffee_table_flipped",
+    "transforms_into": "f_coffee_table",
     "prompt": "Set coffee table upright",
     "message": "You tip the coffee table back onto its feet.",
     "delete": { "flags": [ "FLAT_SURF" ], "workbench": { "multiplier": 0.85, "mass": "200 kg", "volume": "75L" } }
