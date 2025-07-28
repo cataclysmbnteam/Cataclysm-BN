@@ -306,7 +306,7 @@
     "description": "This little metal table looks like a bear's had lunch off it.  Examine it to set it back upright to be less of a tripping hazard.",
     "symbol": "#",
     "bgcolor": "light_gray",
-    "move_cost_mod": 4,
+    "move_cost_mod": -1,
     "coverage": 40,
     "looks_like": "f_tourist_table",
     "bash": {
@@ -324,6 +324,7 @@
     "transforms_into": "f_tourist_table",
     "prompt": "Set tourist table upright",
     "message": "You set the tourist table back upright.",
+    "extend": { "flags": [ "CLIMB_SIMPLE" ] },
     "delete": { "flags": [ "FLAT_SURF" ], "workbench": { "multiplier": 1.05, "mass": "100 kg", "volume": "35L" } }
   },
   {
@@ -365,7 +366,7 @@
     "description": "Not so good for eating on, but will buy you a few more seconds before the zombies eat you.  Examine to set it back up for more civilized uses.",
     "symbol": "#",
     "color": "red",
-    "move_cost_mod": 4,
+    "move_cost_mod": -1,
     "coverage": 50,
     "required_str": 5,
     "bash": {
@@ -384,6 +385,7 @@
     "transforms_into": "f_table",
     "prompt": "Set table upright",
     "message": "You set the table back on its feet.",
+    "extend": { "flags": [ "CLIMB_SIMPLE" ] },
     "delete": { "flags": [ "FLAT_SURF" ], "workbench": { "multiplier": 1.1, "mass": "200 kg", "volume": "75L" } }
   },
   {
@@ -426,7 +428,7 @@
     "symbol": "#",
     "color": "red",
     "looks_like": "f_coffee_table",
-    "move_cost_mod": 3,
+    "move_cost_mod": 4,
     "coverage": 30,
     "deconstruct": { "items": [ { "item": "2x4", "count": 2 }, { "item": "wood_panel", "count": 1 }, { "item": "nail", "charges": 8 } ] },
     "bash": {
