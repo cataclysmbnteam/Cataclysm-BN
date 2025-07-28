@@ -250,7 +250,8 @@ std::string map_data_common_t::extended_description() const
         if( bash.ranged->reduction.min == bash.ranged->reduction.max ) {
             ss << indent << "Damage Reduction: " << bash.ranged->reduction.min << "\n";
         } else {
-            ss << indent << "Damage Reduction: " << bash.ranged->reduction.min << "-" << bash.ranged->reduction.max << "\n";
+            ss << indent << "Damage Reduction: " << bash.ranged->reduction.min << "-" <<
+               bash.ranged->reduction.max << "\n";
         }
         if( bash.ranged->reduction_laser ) {
             if( bash.ranged->reduction_laser->min == bash.ranged->reduction_laser->max ) {
