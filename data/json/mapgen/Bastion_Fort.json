@@ -248,12 +248,7 @@
         "      we___cw...#       "
       ],
       "palettes": [ "bastion_fort_palette" ],
-      "terrain": {
-        " ": "t_open_air",
-        ",": "t_open_air_rooved",
-        "^": "t_sidewalk_ramp_down_high",
-        "v": "t_sidewalk_ramp_down_low"
-      },
+      "terrain": { " ": "t_open_air", ",": "t_open_air_rooved", "^": "t_sidewalk_ramp_down_high", "v": "t_sidewalk_ramp_down_low" },
       "items": { "e": { "item": "office_breakroom", "chance": 50, "repeat": 3 } },
       "place_vehicles": [
         { "vehicle": "bastion_fort_vehicles", "x": 1, "y": 8, "chance": 25, "rotation": 270 },
