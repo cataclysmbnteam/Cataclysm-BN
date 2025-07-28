@@ -3673,13 +3673,7 @@
     "components": [
       [ [ "wire", 12 ], [ "spike", 12 ], [ "nail", 24 ] ],
       [ [ "sheet_metal_small", 20 ], [ "scrap", 40 ] ],
-      [
-        [ "sheet_metal", 2 ],
-        [ "steel_plate", 1 ],
-        [ "frame", 1 ],
-        [ "xlframe", 2 ],
-        [ "pipe", 6 ]
-      ]
+      [ [ "sheet_metal", 2 ], [ "steel_plate", 1 ], [ "frame", 1 ], [ "xlframe", 2 ], [ "pipe", 6 ] ]
     ],
     "pre_terrain": "t_junk_palisade",
     "post_terrain": "t_junk_wall"
@@ -3695,13 +3689,7 @@
     "using": [ [ "welding_standard", 2 ] ],
     "components": [
       [ [ "sheet_metal_small", 15 ], [ "scrap", 30 ] ],
-      [
-        [ "sheet_metal", 2 ],
-        [ "steel_plate", 1 ],
-        [ "frame", 1 ],
-        [ "xlframe", 2 ],
-        [ "pipe", 6 ]
-      ]
+      [ [ "sheet_metal", 2 ], [ "steel_plate", 1 ], [ "frame", 1 ], [ "xlframe", 2 ], [ "pipe", 6 ] ]
     ],
     "pre_terrain": "t_junk_palisade",
     "post_terrain": "t_junk_wall"
