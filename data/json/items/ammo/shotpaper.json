@@ -51,7 +51,7 @@
     "proportional": { "recoil": 0.6, "loudness": 0.8, "dispersion": 1.2 },
     "range": 0,
     "shape": [ "cone", { "half_angle": 15, "length": 10 } ],
-    "extend": { "effects": [ "INCENDIARY", "STREAM", "NOGIB" ] }
+    "extend": { "effects": [ "INCENDIARY", "STREAM", "NOGIB", "NO_PENETRATE_OBSTACLES" ] }
   },
   {
     "id": "shot_paper_slug",

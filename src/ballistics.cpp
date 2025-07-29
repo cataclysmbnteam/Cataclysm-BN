@@ -237,11 +237,9 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
     const bool do_draw_line = proj.has_effect( ammo_effect_DRAW_AS_LINE ) ||
                               get_option<bool>( "BULLETS_AS_LASERS" );
     const bool null_source = proj.has_effect( ammo_effect_NULL_SOURCE );
-    const auto &expl = proj.get_custom_explosion();
     // Determines whether it can penetrate obstacles
-    // Stop on first impact if it's something like a flamethrower, also detonate exploding projectiles
     const bool is_bullet = proj_arg.speed >= 200 &&
-                           !proj.has_effect( ammo_effect_NO_PENETRATE_OBSTACLES ) && !expl;
+                           !proj.has_effect( ammo_effect_NO_PENETRATE_OBSTACLES );
 
     // If we were targetting a tile rather than a monster, don't overshoot
     // Unless the target was a wall, then we are aiming high enough to overshoot
@@ -477,6 +475,7 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
     drop_or_embed_projectile( attack );
 
     apply_ammo_effects( tp, proj.get_ammo_effects(), origin );
+    const auto &expl = proj.get_custom_explosion();
     if( expl ) {
         explosion_handler::explosion( tp, expl, origin );
     }

@@ -30,7 +30,7 @@
     "damage": { "damage_type": "bash", "amount": 20 },
     "casing": "40x46mm_m212_casing",
     "loudness": 80,
-    "extend": { "effects": [ "LARGE_BEANBAG" ] }
+    "extend": { "effects": [ "LARGE_BEANBAG", "NO_PENETRATE_OBSTACLES" ] }
   },
   {
     "id": "40x46mm_m433",
@@ -42,7 +42,7 @@
     "damage": { "damage_type": "bullet", "amount": 125, "armor_penetration": 30 },
     "casing": "40x46mm_m118_casing",
     "loudness": 80,
-    "extend": { "effects": [ "FRAG" ] }
+    "extend": { "effects": [ "FRAG", "NO_PENETRATE_OBSTACLES" ] }
   },
   {
     "id": "40x46mm_m576",
@@ -68,7 +68,7 @@
     "drop": "gasbomb_act",
     "casing": "40x46mm_m195_casing",
     "loudness": 60,
-    "extend": { "effects": [ "NO_EMBED" ] }
+    "extend": { "effects": [ "NO_EMBED", "NO_PENETRATE_OBSTACLES" ] }
   },
   {
     "id": "40x46mm_buckshot_m118",
