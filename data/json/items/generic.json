@@ -3274,6 +3274,24 @@
   },
   {
     "type": "GENERIC",
+    "id": "broken_turret_antimateriel",
+    "symbol": ",",
+    "color": "green",
+    "name": { "str": "broken anti-materiel milspec turret" },
+    "weight": "80 kg",
+    "copy-from": "broken_turret"
+  },
+  {
+    "type": "GENERIC",
+    "id": "broken_turret_mark19",
+    "symbol": ",",
+    "color": "green",
+    "name": { "str": "broken grenade launcher milspec turret" },
+    "weight": "120 kg",
+    "copy-from": "broken_turret"
+  },
+  {
+    "type": "GENERIC",
     "id": "wool_pillow",
     "copy-from": "pillow",
     "looks_like": "pillow",
