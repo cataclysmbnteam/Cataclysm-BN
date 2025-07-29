@@ -295,7 +295,7 @@
     "flags": [ "NOITEM", "DOOR", "PERMEABLE", "FLAMMABLE_ASH", "MOUNTABLE" ],
     "open": "f_beaded_door_o",
     "deconstruct": {
-      "items": [ { "item": "stick_long", "count": 1 }, { "item": "string_36", "count": 20 }, { "item": "wooden_bead", "count": 2000 } ]
+      "items": [ { "item": "stick_long", "count": 1 }, { "item": "string_36", "count": 20 }, { "item": "wooden_bead", "count": 500 } ]
     },
     "bash": {
       "str_min": 1,
@@ -827,7 +827,7 @@
       "items": [
         { "item": "rock", "count": [ 16, 32 ] },
         { "item": "sharp_rock", "count": [ 0, 6 ] },
-        { "item": "material_limestone", "charges": [ 3, 8 ], "prob": 80 },
+        { "item": "material_limestone", "charges": [ 100, 300 ], "prob": 80 },
         { "group": "rock_mining_extra", "prob": 8 }
       ],
       "//": "Stone obstacles have double the expected reduction but lower destroy_threshold in return",
@@ -854,7 +854,7 @@
       "items": [
         { "item": "rock", "count": [ 35, 50 ] },
         { "item": "sharp_rock", "count": [ 3, 7 ] },
-        { "item": "material_limestone", "charges": [ 5, 15 ], "prob": 80 },
+        { "item": "material_limestone", "charges": [ 250, 400 ], "prob": 80 },
         { "group": "rock_mining_extra", "prob": 15 }
       ],
       "ranged": { "reduction": [ 64, 64 ], "destroy_threshold": 64, "block_unaimed_chance": "50%" }
@@ -879,7 +879,7 @@
       "items": [
         { "item": "rock", "count": [ 50, 70 ] },
         { "item": "sharp_rock", "count": [ 4, 7 ] },
-        { "item": "material_limestone", "charges": [ 8, 20 ], "prob": 80 },
+        { "item": "material_limestone", "charges": [ 500, 800 ], "prob": 80 },
         { "group": "rock_mining_extra", "prob": 20 }
       ],
       "ranged": { "reduction": [ 128, 128 ], "destroy_threshold": 128 }

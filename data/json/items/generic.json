@@ -2122,8 +2122,8 @@
     "description": "A compacted mass of soil and natural fibers, baked dry enough to harden into a brick.",
     "material": "soil",
     "flags": [ "NONCONDUCTIVE" ],
-    "weight": "1500 g",
-    "volume": "750 ml",
+    "weight": "6000 g",
+    "volume": "4000 ml",
     "bashing": 10,
     "to_hit": -2,
     "price": "20 USD",
@@ -3270,6 +3270,24 @@
     "color": "green",
     "name": { "str": "broken longrange milspec turret" },
     "weight": "50 kg",
+    "copy-from": "broken_turret"
+  },
+  {
+    "type": "GENERIC",
+    "id": "broken_turret_antimateriel",
+    "symbol": ",",
+    "color": "green",
+    "name": { "str": "broken anti-materiel milspec turret" },
+    "weight": "80 kg",
+    "copy-from": "broken_turret"
+  },
+  {
+    "type": "GENERIC",
+    "id": "broken_turret_mark19",
+    "symbol": ",",
+    "color": "green",
+    "name": { "str": "broken grenade launcher milspec turret" },
+    "weight": "120 kg",
     "copy-from": "broken_turret"
   },
   {
