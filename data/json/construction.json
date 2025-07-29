@@ -581,7 +581,7 @@
       { "item": "splinter", "charges": [ 1, 8 ] },
       { "item": "splinter", "count": [ 1, 4 ] }
     ],
-    "pre_terrain": "t_wall",
+    "pre_terrain": "t_wall_wood",
     "post_terrain": "t_fortification_wood"
   },
   {
