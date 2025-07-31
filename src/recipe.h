@@ -104,6 +104,8 @@ class recipe
         /// @returns The name (@ref item::nname) of the resulting item (@ref result).
         std::string result_name() const;
 
+        std::string nested_name;
+
         std::map<itype_id, int> byproducts;
 
         skill_id skill_used;
@@ -112,6 +114,7 @@ class recipe
         std::map<skill_id, int> autolearn_requirements; // Skill levels required to autolearn
         std::map<skill_id, int> learn_by_disassembly; // Skill levels required to learn by disassembly
         std::map<itype_id, int> booksets; // Books containing this recipe, and the skill level required
+        std::set<recipe_id> nested_category_data; // Parameters for nested categories
         std::set<flag_id> flags_to_delete; // Flags to delete from the resultant item.
 
         // Create a string list to describe the skill requirements for this recipe
@@ -160,6 +163,8 @@ class recipe
 
         /** Returns a non-empty string describing an inconsistency (if any) in the recipe. */
         std::string get_consistency_error() const;
+
+        bool is_nested() const;
 
         bool hot_result() const;
 
