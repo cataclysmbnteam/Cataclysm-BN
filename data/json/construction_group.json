@@ -1568,5 +1568,15 @@
     "type": "construction_group",
     "id": "install_f_recycler",
     "name": "Install Metal Compactor"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_fortification",
+    "name": "Build Fortification"
+  },
+  {
+    "type": "construction_group",
+    "id": "carve_fortification",
+    "name": "Carve Fortification"
   }
 ]
