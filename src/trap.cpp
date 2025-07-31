@@ -26,7 +26,7 @@
 static const skill_id skill_traps( "traps" );
 
 static const efftype_id effect_lack_sleep( "lack_sleep" );
-static const efftype_id dashing_effect("dashing");
+static const efftype_id dashing_effect( "dashing" );
 
 static const trait_id trait_PROF_PD_DET( "PROF_PD_DET" );
 static const trait_id trait_PROF_POLICE( "PROF_POLICE" );
