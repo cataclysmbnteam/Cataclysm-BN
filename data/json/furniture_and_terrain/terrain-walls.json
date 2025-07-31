@@ -474,9 +474,9 @@
       "sound_fail": "whump!",
       "ter_set": "t_rock_floor",
       "items": [
-        { "item": "rock", "count": [ 35, 50 ] },
+        { "item": "rock", "count": [ 25, 40 ] },
         { "item": "sharp_rock", "count": [ 3, 7 ] },
-        { "item": "material_limestone", "charges": [ 5, 15 ], "prob": 80 },
+        { "item": "material_limestone", "charges": [ 400, 800 ], "prob": 40 },
         { "item": "material_rocksalt", "prob": 10 }
       ],
       "//": "Stone obstacles have double the expected reduction but lower destroy_threshold in return",
@@ -1360,7 +1360,7 @@
       "sound_fail_vol": 4,
       "ter_set": "t_floor_paper",
       "//": "Go straight through without taking any damage.",
-      "ranged": { "block_unaimed_chance": "0%" }
+      "ranged": { "block_unaimed_chance": "100%" }
     }
   },
   {
@@ -1379,7 +1379,7 @@
       "sound_fail_vol": 4,
       "ter_set": "t_floor_paper_noroof",
       "//": "Go straight through without taking any damage.",
-      "ranged": { "block_unaimed_chance": "0%" }
+      "ranged": { "block_unaimed_chance": "100%" }
     }
   },
   {
@@ -1467,9 +1467,9 @@
       "ter_set": "t_rock_floor",
       "ter_set_bashed_from_above": "t_rock_floor_no_roof",
       "items": [
-        { "item": "rock", "count": [ 65, 85 ] },
+        { "item": "rock", "count": [ 55, 75 ] },
         { "item": "sharp_rock", "count": [ 5, 9 ] },
-        { "item": "material_limestone", "charges": [ 10, 25 ], "prob": 80 },
+        { "item": "material_limestone", "charges": [ 500, 1000 ], "prob": 40 },
         { "group": "rock_mining_extra", "prob": 25 }
       ],
       "//": "Stone obstacles have double the expected reduction but lower destroy_threshold in return",
@@ -1495,7 +1495,7 @@
       "items": [
         { "item": "rock", "count": [ 35, 50 ] },
         { "item": "sharp_rock", "count": [ 3, 7 ] },
-        { "item": "material_limestone", "charges": [ 5, 15 ], "prob": 80 },
+        { "item": "material_limestone", "charges": [ 400, 800 ], "prob": 40 },
         { "item": "material_rocksalt", "prob": 10 }
       ],
       "//": "Stone obstacles have double the expected reduction but lower destroy_threshold in return",
@@ -1521,7 +1521,7 @@
       "items": [
         { "item": "rock", "count": [ 35, 50 ] },
         { "item": "sharp_rock", "count": [ 3, 7 ] },
-        { "item": "material_limestone", "charges": [ 5, 15 ], "prob": 80 },
+        { "item": "material_limestone", "charges": [ 400, 800 ], "prob": 40 },
         { "item": "material_rocksalt", "prob": 10 }
       ],
       "//": "Stone obstacles have double the expected reduction but lower destroy_threshold in return",
