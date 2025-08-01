@@ -31,14 +31,14 @@ std::string mod_ui::get_information( const MOD_INFORMATION *mod )
         info += "\n";
     }
 
-    if ( !mod->license.empty() ) {
+    if( !mod->license.empty() ) {
         info += colorize( _( "License" ), c_light_blue ) + ": ";
-        if ( ( mod->license == "All Rights Reserved" ) || ( mod->license == "Source Available" ) ) {
+        if( ( mod->license == "All Rights Reserved" ) || ( mod->license == "Source Available" ) ) {
             // Mod is not FOSS, so color red to indicate they likely do not have rights to create derivatives
-            info += colorize(mod->license, c_light_red);
+            info += colorize( mod->license, c_light_red );
         } else {
             // Mod is (assumed) to be FOSS, so color green
-            info += colorize(mod->license, c_light_green);
+            info += colorize( mod->license, c_light_green );
         }
         info += "\n";
     }

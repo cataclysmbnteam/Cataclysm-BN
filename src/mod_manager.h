@@ -57,7 +57,7 @@ struct MOD_INFORMATION {
         /** Full path to modinfo.json, for debug purposes */
         std::string path_full;
 
-        /** 
+        /**
          *  The license the mod is under, preferably named such that people may find it
          *  Ex: CC-BY-SA 4.0, GPL v3 only, MIT, CC0, BSD 3-clause, Hippocratic License 3.0
          *  Non-FOSS should use "All Rights Reserved" or "Source Available"
