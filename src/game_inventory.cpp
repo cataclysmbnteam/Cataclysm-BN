@@ -58,6 +58,7 @@
 #include "units.h"
 #include "units_utility.h"
 #include "value_ptr.h"
+#include "salvage.h"
 
 static const activity_id ACT_EAT_MENU( "ACT_EAT_MENU" );
 static const activity_id ACT_CONSUME_FOOD_MENU( "ACT_CONSUME_FOOD_MENU" );
@@ -996,7 +997,7 @@ class read_inventory_preset final: public inventory_selector_preset
 
                 // This is terrible and needs to be removed asap when this entire file is refactored
                 // to use the new avatar class
-                const player *reader = nullptr;
+                const Character *reader = nullptr;
                 if( const avatar *av = p.as_avatar() ) {
                     reader = av->get_book_reader( *loc, dummy );
                 } else if( const npc *n = p.as_npc() ) {
@@ -1409,31 +1410,52 @@ class saw_stock_inventory_preset : public weapon_inventory_preset
         const saw_stock_actor &actor;
 };
 
-class salvage_inventory_preset: public inventory_selector_preset
+class salvage_inventory_preset : public pickup_inventory_preset
 {
     public:
-        salvage_inventory_preset( const salvage_actor *actor ) :
-            actor( actor ) {
+        salvage_inventory_preset( const player &p, const inventory &inv ):
+            pickup_inventory_preset( p ),
+            qualities( inv.get_quality_cache() ) {
 
-            append_cell( [ actor ]( const item * loc ) {
-                return to_string_clipped( time_duration::from_turns( actor->time_to_cut_up(
+            append_cell( []( const item * loc ) {
+                auto components = salvage::salvage_results( *loc );
+                return enumerate_as_string( components.begin(), components.end(),
+                []( const decltype( components )::value_type & comps ) {
+                    int c = std::floor( comps.second );
+                    //%1$s: item name, % 2$d :  count
+                    return string_format( "%1$d %2$s", c, comps.first->nname( c ) );
+                } );
+            }, _( "YIELD" ) );
+
+            append_cell( []( const item * loc ) {
+                return to_string_clipped( time_duration::from_turns( salvage::moves_to_salvage(
                                               *loc ) / 100 ) );
             }, _( "TIME" ) );
         }
 
+        std::string get_denial( const item *loc ) const override {
+            auto q_cache = qualities;
+            const ret_val<bool> ret = salvage::try_salvage( *loc, q_cache );
+            if( !ret.success() ) {
+                return ret.str();
+            }
+            return pickup_inventory_preset::get_denial( loc );
+        }
+
         bool is_shown( const item *loc ) const override {
-            return actor->valid_to_cut_up( *loc );
+            return loc->is_salvageable();
         }
 
     private:
-        const salvage_actor *actor;
+        salvage::quality_cache qualities;
 };
 
-item *game_menus::inv::salvage( player &p, const salvage_actor *actor )
+item *game_menus::inv::salvage( player &p )
 {
-    return inv_internal( p, salvage_inventory_preset( actor ),
-                         _( "Cut up what?" ), 1,
-                         _( "You have nothing to cut up." ) );
+
+    return inv_internal( p, salvage_inventory_preset( p, p.crafting_inventory() ),
+                         _( "Salvage what?" ), 1,
+                         _( "You have nothing to salvage." ) );
 }
 
 class repair_inventory_preset: public inventory_selector_preset
@@ -1817,7 +1839,7 @@ class bionic_install_preset: public inventory_selector_preset
             const itype *itemtype = it->type;
             const bionic_id &bid = itemtype->bionic->id;
 
-            if( it->has_fault( fault_bionic_nonsterile ) && !p.has_trait( trait_INFRESIST ) ) {
+            if( it->has_fault( fault_bionic_nonsterile ) && !pa.has_trait( trait_INFRESIST ) ) {
                 // NOLINTNEXTLINE(cata-text-style): single space after the period for symmetry
                 return _( "/!\\ CBM is not sterile. /!\\ Please use autoclave or other methods to sterilize." );
             } else if( pa.has_bionic( bid ) ) {

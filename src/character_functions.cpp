@@ -27,6 +27,7 @@
 #include "skill.h"
 #include "submap.h"
 #include "trap.h"
+#include "flag_trait.h"
 #include "uistate.h"
 #include "veh_type.h"
 #include "vehicle.h"
@@ -58,6 +59,12 @@ static const trait_flag_str_id trait_flag_CANNIBAL( "CANNIBAL" );
 static const trait_flag_str_id trait_flag_PSYCHOPATH( "PSYCHOPATH" );
 static const trait_flag_str_id trait_flag_SAPIOVORE( "SAPIOVORE" );
 static const trait_flag_str_id trait_flag_SPIRITUAL( "SPIRITUAL" );
+
+static const trait_flag_str_id trait_flag_MUTATION_FLIGHT( "MUTATION_FLIGHT" );
+static const trait_flag_str_id trait_flag_FLIGHT_ALWAYS_ACTIVE( "FLIGHT_ALWAYS_ACTIVE" );
+
+const flag_id flag_ALLOWS_FLIGHT( "ALLOWS_FLIGHT" );
+const flag_id flag_ALWAYS_ALLOWS_FLIGHT( "ALWAYS_ALLOWS_FLIGHT" );
 
 static const efftype_id effect_boomered( "boomered" );
 static const efftype_id effect_darkness( "darkness" );
@@ -107,6 +114,49 @@ void siphon( Character &ch, vehicle &veh, const itype_id &desired_liquid )
     } else {
         veh.drain( desired_liquid, qty );
     }
+}
+
+bool can_noclip( const Character &ch )
+{
+    return ch.has_trait( trait_id( "DEBUG_NOCLIP" ) );
+}
+
+bool can_fly( Character &ch )
+{
+
+    // if the player can noclip, flying is technically a part of that
+    if( can_noclip( ch ) ) {
+        return true;
+    }
+
+    for( const auto &w : ch.worn ) {
+        if( ( w->is_active() && w->has_flag( flag_ALLOWS_FLIGHT ) ) ||
+            w->has_flag( flag_ALWAYS_ALLOWS_FLIGHT ) ) {
+            return true;
+        }
+    }
+
+    for( const trait_id &mid : ch.get_mutations() ) {
+        auto it = ch.my_mutations.find( mid->id );
+        if( it != ch.my_mutations.end() ) {
+            if( ( mid->flags.contains( trait_flag_MUTATION_FLIGHT ) && ( can_use_mutation( mid, ch ) &&
+                    it->second.powered ) ) ||  mid->flags.contains( trait_flag_FLIGHT_ALWAYS_ACTIVE ) ) {
+                return true;
+            } else if( ( mid->flags.contains( trait_flag_MUTATION_FLIGHT ) && !can_use_mutation( mid, ch ) &&
+                         it->second.powered ) ) {
+                ch.deactivate_mutation( mid );
+                return false;
+            }
+        }
+    }
+    for( const bionic &bio : *ch.my_bionics ) {
+        if( bio.info().has_flag( flag_id( "BIONIC_FLIGHT" ) ) &&
+            ch.get_power_level() > units::from_kilojoule( 0 ) && bio.powered ) {
+            return true;
+        }
+    }
+
+    return false;
 }
 
 bool is_book_morale_boosted( const Character &ch, const item &book )
@@ -800,7 +850,7 @@ bool list_ammo( const Character &who, item &base, std::vector<item_reload_option
     return ammo_match_found;
 }
 
-item_reload_option select_ammo( const Character &who, item &base,
+item_reload_option select_ammo( const player &who, item &base,
                                 std::vector<item_reload_option> opts )
 {
     if( opts.empty() ) {
@@ -1050,7 +1100,7 @@ item_reload_option select_ammo( const Character &who, item &base,
     return opts[ menu.ret ];
 }
 
-item_reload_option select_ammo( const Character &who, item &base, bool prompt,
+item_reload_option select_ammo( const player &who, item &base, bool prompt,
                                 bool include_empty_mags, bool include_potential )
 {
     std::vector<item_reload_option> ammo_list;

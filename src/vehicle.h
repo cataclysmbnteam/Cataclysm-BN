@@ -1,13 +1,10 @@
 #pragma once
 
 #include <array>
-#include <climits>
-#include <cstddef>
 #include <functional>
 #include <map>
 #include <optional>
 #include <set>
-#include <stack>
 #include <string>
 #include <unordered_map>
 #include <utility>
@@ -21,7 +18,6 @@
 #include "game_constants.h"
 #include "item.h"
 #include "item_stack.h"
-#include "location_ptr.h"
 #include "point.h"
 #include "tileray.h"
 #include "type_id.h"
@@ -246,14 +242,14 @@ class turret_data
          * and performs any other actions that must be done before firing a turret.
          * @param p the player that is firing the gun, subject to recoil adjustment.
          */
-        void prepare_fire( player &p );
+        void prepare_fire( Character &who );
 
         /**
          * Reset state after firing a prepared turret, called by the firing function.
          * @param p the player that just fired (or attempted to fire) the turret.
          * @param shots the number of shots fired by the most recent call to turret::fire.
          */
-        void post_fire( player &p, int shots );
+        void post_fire( Character &who, int shots );
 
         /**
          * Fire the turret's gun at a given target.
@@ -261,7 +257,7 @@ class turret_data
          * @param target coordinates that will be fired on.
          * @return the number of shots actually fired (may be zero).
          */
-        int fire( player &p, const tripoint &target );
+        int fire( Character &who, const tripoint &target );
 
         bool can_reload() const;
         bool can_unload() const;
@@ -514,9 +510,9 @@ class vehicle
         bool mod_hp( vehicle_part &pt, int qty, damage_type dt = DT_NULL );
 
         // check if given player controls this vehicle
-        bool player_in_control( const Character &p ) const;
+        bool player_in_control( const Character &who ) const;
         // check if player controls this vehicle remotely
-        bool remote_controlled( const Character &p ) const;
+        bool remote_controlled( const Character &who ) const;
 
         // init parts state for randomly generated vehicle
         void init_state( int init_veh_fuel, int init_veh_status );
@@ -660,7 +656,7 @@ class vehicle
         // than the structure part at exclude
         bool find_and_split_vehicles( int exclude );
         // relocate passengers to the same part on a new vehicle
-        void relocate_passengers( const std::vector<player *> &passengers );
+        void relocate_passengers( const std::vector<Character *> &passengers );
         // remove a bunch of parts, specified by a vector indices, and move them to a new vehicle at
         // the same global position
         // optionally specify the new vehicle position and the mount points on the new vehicle
@@ -797,7 +793,7 @@ class vehicle
         // returns indices of all parts in the given location slot
         std::vector<int> all_parts_at_location( const std::string &location ) const;
         // shifts an index to next available of that type for NPC activities
-        int get_next_shifted_index( int original_index, player &p );
+        int get_next_shifted_index( int original_index, Character &who );
         // Given a part and a flag, returns the indices of all contiguously adjacent parts
         // with the same flag on the X and Y Axis
         std::vector<std::vector<int>> find_lines_of_parts( int part, const std::string &flag );
@@ -1236,8 +1232,8 @@ class vehicle
         /**
          * can the helicopter descend/ascend here?
          */
-        bool check_heli_descend( player &p );
-        bool check_heli_ascend( player &p );
+        bool check_heli_descend( Character &who );
+        bool check_heli_ascend( Character &who );
         bool check_is_heli_landed();
         /**
          * Player is driving the vehicle

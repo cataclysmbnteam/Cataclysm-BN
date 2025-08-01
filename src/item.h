@@ -3,7 +3,6 @@
 #include <climits>
 #include <cstdint>
 #include <functional>
-#include <list>
 #include <map>
 #include <optional>
 #include <set>
@@ -13,7 +12,7 @@
 #include <vector>
 
 #include "calendar.h"
-#include "cata_arena.h"
+#include "coordinates.h"
 #include "detached_ptr.h"
 #include "enums.h"
 #include "flat_set.h"
@@ -24,13 +23,11 @@
 #include "kill_tracker.h"
 #include "location_vector.h"
 #include "pimpl.h"
-#include "safe_reference.h"
 #include "string_id.h"
 #include "type_id.h"
 #include "units.h"
 #include "value_ptr.h"
 #include "visitable.h"
-#include "coordinates.h"
 
 class Character;
 class JsonIn;
@@ -585,7 +582,7 @@ class item : public location_visitable<item>, public game_object<item>
          * @param loc Location of ammo to be reloaded
          * @param qty caps reloading to this (or fewer) units
          */
-        bool reload( player &u, item &loc, int qty );
+        bool reload( Character &who, item &loc, int qty );
 
         template<typename Archive>
         void io( Archive & );
@@ -814,7 +811,7 @@ class item : public location_visitable<item>, public game_object<item>
          */
         int get_remaining_capacity_for_liquid( const item &liquid, bool allow_bucket = false,
                                                std::string *err = nullptr ) const;
-        int get_remaining_capacity_for_liquid( const item &liquid, const Character &p,
+        int get_remaining_capacity_for_liquid( const item &liquid, const Character &who,
                                                std::string *err = nullptr ) const;
         /**
          * How many charges of a given item id this container can hold.
@@ -928,7 +925,7 @@ class item : public location_visitable<item>, public game_object<item>
         bool goes_bad() const;
 
         /** whether an item is perishable (can rot), even if it is currently in a preserving container */
-        bool goes_bad_after_opening() const;
+        bool goes_bad_after_opening( bool strict = false ) const;
 
         /** Get the shelf life of the item*/
         time_duration get_shelf_life() const;
@@ -1265,7 +1262,7 @@ class item : public location_visitable<item>, public game_object<item>
         bool is_armor() const;
         bool is_book() const;
         bool is_map() const;
-        bool is_salvageable() const;
+        bool is_salvageable( bool strict = false ) const;
         bool is_craft() const;
 
         bool is_deployable() const;
@@ -1417,12 +1414,12 @@ class item : public location_visitable<item>, public game_object<item>
          * Callback when a character starts wearing the item. The item is already in the worn
          * items vector and is called from there.
          */
-        void on_wear( Character &p );
+        void on_wear( Character &who );
         /**
          * Callback when a character takes off an item. The item is still in the worn items
          * vector but will be removed immediately after the function returns
          */
-        void on_takeoff( Character &p );
+        void on_takeoff( Character &who );
         /**
          * Callback when a player starts wielding the item. The item is already in the weapon
          * slot and is called from there.
@@ -1435,7 +1432,7 @@ class item : public location_visitable<item>, public game_object<item>
          * and is called from there. This is not called when the item is added to the inventory
          * from worn vector or weapon slot. The item is considered already carried.
          */
-        void on_pickup( Character &p );
+        void on_pickup( Character &who );
         /**
          * Callback when contents of the item are affected in any way other than just processing.
          */
@@ -1823,7 +1820,7 @@ class item : public location_visitable<item>, public game_object<item>
         /**
          * Enumerates recipes available from this book and the skill level required to use them.
          */
-        std::vector<std::pair<const recipe *, int>> get_available_recipes( const player &u ) const;
+        std::vector<std::pair<const recipe *, int>> get_available_recipes( const Character &u ) const;
         /*@}*/
 
         /**
@@ -1846,6 +1843,11 @@ class item : public location_visitable<item>, public game_object<item>
          * the same type are not affected by this.
          */
         void add_technique( const matec_id &tech );
+        /**
+         *  Remove the given technique from the item specific @ref techniques.
+         *  Note that other items of the same type are not affected by this.
+         */
+        void remove_technique( const matec_id &tech );
         /*@}*/
 
         /** Returns all toolmods currently attached to this item (always empty if item not a tool) */
@@ -2023,7 +2025,18 @@ class item : public location_visitable<item>, public game_object<item>
          * Summed range value of a gun, including values from mods. Returns 0 on non-gun items.
          */
         int gun_range( bool with_ammo = true ) const;
-
+        /**
+         * Summed projectile speed value (m/s) of a gun, including values from mods. Returns 10 on non-gun items.
+         */
+        int gun_speed( bool with_ammo = true ) const;
+        /**
+         * Summed bonus to the aimed critical base multiplier, including values from mods. Returns 0 on non-gun items.
+         */
+        double gun_aimed_crit_bonus( bool with_ammo = true ) const;
+        /**
+         * Summed bonus to the aimed critical max potential multiplier value of a gun, including values from mods. Returns 0 on non-gun items.
+         */
+        double gun_aimed_crit_max_bonus( bool with_ammo = true ) const;
         /**
          * Get multiplier on recoil considering handling and attached gunmods.
          * @param bipod whether any bipods should be considered
@@ -2212,7 +2225,7 @@ class item : public location_visitable<item>, public game_object<item>
          * Causes a debugmsg if called on non-craft.
          * @param crafter the crafting player
          */
-        void set_next_failure_point( const player &crafter );
+        void set_next_failure_point( const Character &crafter );
 
         /**
          * Handle failure during crafting.
@@ -2220,7 +2233,7 @@ class item : public location_visitable<item>, public game_object<item>
          * @param crafter the crafting player.
          * @return whether the craft being worked on should be entirely destroyed
          */
-        bool handle_craft_failure( player &crafter );
+        bool handle_craft_failure( Character &crafter );
 
         /**
          * Returns requirement data representing what is needed to resume work on an in progress craft.

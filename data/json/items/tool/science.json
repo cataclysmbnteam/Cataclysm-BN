@@ -116,6 +116,7 @@
     "symbol": ";",
     "color": "dark_gray",
     "max_charges": 2000,
+    "initial_charges": 2000,
     "charges_per_use": 1,
     "turns_per_charge": 2000,
     "looks_like": "oxygen_tank",

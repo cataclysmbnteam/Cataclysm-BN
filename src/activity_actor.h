@@ -17,6 +17,7 @@ class JsonIn;
 class JsonOut;
 class player_activity;
 class inventory;
+
 struct bench_loc;
 
 using metric = std::pair<units::mass, units::volume>;
@@ -31,6 +32,10 @@ struct simple_task {
 
     inline bool complete() const {
         return moves_left <= 0;
+    }
+
+    inline bool not_started() const {
+        return moves_left == moves_total;
     }
 
     int to_counter() const;
@@ -78,8 +83,8 @@ class progress_counter
             } );
             total_tasks++;
         }
-        inline void pop();
-        inline void purge();
+        void pop();
+        void purge();
         inline bool empty() const {
             return targets.empty();
         }
@@ -255,8 +260,6 @@ class activity_actor
             msg.implemented = false;
             return msg;
         }
-
-        virtual void adjust_bench_multiplier( bench_loc &bench, const metric & ) const;
 
         /*
          * actor specific formula for speed factor based on skills

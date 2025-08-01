@@ -138,7 +138,7 @@ bool monster::will_move_to( const tripoint &p ) const
         return false;
     }
 
-    if( digs() && !g->m.has_flag( "DIGGABLE", p ) && !g->m.has_flag( "BURROWABLE", p ) ) {
+    if( digs() && !g->m.ter( p )->is_diggable() && !g->m.has_flag( "BURROWABLE", p ) ) {
         return false;
     }
 
@@ -888,9 +888,7 @@ void monster::move()
         return;
     }
 
-    tripoint destination;
-    bool have_destination = false;
-    bool pathed_to_goal = this->path.empty() ? false : this->path.back() == goal;
+    tripoint destination = this->pos();
 
     if( !this->is_wandering() ) {
         if( this->repath_requested ) {
@@ -920,43 +918,44 @@ void monster::move()
         if( this->path.empty() ) {
             // No prior path, no successful pathing, go in a straight line
             destination = goal;
-            have_destination = true;
         } else {
             destination = this->path.front();
 
             const bool is_viable_dest = here.valid_move( this->pos(), destination, true, true, true );
-            pathed_to_goal = is_viable_dest;
-            have_destination = is_viable_dest;
 
             if( !is_viable_dest ) {
                 // Should not _usually_ occur, but...
+                destination = this->pos();
                 this->path.clear();
                 this->repath_requested = true;
             }
         }
     } else {
+        if( has_flag( MF_SMELLS ) ) {
+            // No sight... or our plans are invalid (e.g. moving through a transparent, but
+            //  solid, square of terrain).  Fall back to smell if we have it.
+            this->unset_dest();
+            tripoint tmp = this->scent_move();
+            if( tmp.x != -1 ) {
+                destination = tmp;
+            }
+        }
+
+        if( this->wandf > 0 && this->friendly == 0 ) {
+            // No LOS, no scent, so as a fall-back follow sound
+            this->unset_dest();
+            if( this->wander_pos != this->pos() ) {
+                destination = this->wander_pos;
+            }
+        }
+
         this->path.clear();
     }
-    this->repath_requested = false;
 
-    if( !have_destination && has_flag( MF_SMELLS ) ) {
-        // No sight... or our plans are invalid (e.g. moving through a transparent, but
-        //  solid, square of terrain).  Fall back to smell if we have it.
-        unset_dest();
-        tripoint tmp = scent_move();
-        if( tmp.x != -1 ) {
-            destination = tmp;
-            have_destination = true;
-        }
-    }
-    if( wandf > 0 && !have_destination &&
-        friendly == 0 ) { // No LOS, no scent, so as a fall-back follow sound
-        unset_dest();
-        if( wander_pos != pos() ) {
-            destination = wander_pos;
-            have_destination = true;
-        }
-    }
+    const bool have_destination = destination != this->pos();
+    const bool pathed_to_goal = this->path.empty() ? false :
+                                this->path.front() == destination && this->path.back() == goal;
+    this->repath_requested = false;
 
     if( !g->m.has_zlevels() ) {
         // Otherwise weird things happen
@@ -1381,7 +1380,7 @@ int monster::calc_movecost( const tripoint &f, const tripoint &t ) const
     const int source_cost = g->m.move_cost( f );
     const int dest_cost = g->m.move_cost( t );
     // Digging and flying monsters ignore terrain cost
-    if( flies() || ( digging() && g->m.has_flag( "DIGGABLE", t ) ) ) {
+    if( flies() || ( digging() && g->m.ter( t )->is_diggable() ) ) {
         movecost = 100;
         // Swimming monsters move super fast in water
     } else if( swims() ) {
@@ -1791,10 +1790,10 @@ bool monster::move_to( const tripoint &p, bool force, bool step_on_critter,
         return true;
     }
     if( !will_be_water && ( digs() || can_dig() ) ) {
-        set_underwater( g->m.has_flag( "DIGGABLE", pos() ) );
+        set_underwater( g->m.ter( pos() )->is_diggable() );
     }
     // Diggers turn the dirt into dirtmound
-    if( digging() && g->m.has_flag( "DIGGABLE", pos() ) ) {
+    if( digging() && g->m.ter( pos() )->is_diggable() ) {
         int factor = 0;
         switch( type->size ) {
             case creature_size::tiny:

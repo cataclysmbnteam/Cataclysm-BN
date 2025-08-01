@@ -1780,7 +1780,8 @@ bool Character::block_hit( Creature *source, bodypart_id &bp_hit, damage_instanc
 
         // non-electrical "elemental" damage types do their full damage if unarmed,
         // but severely mitigated damage if not
-        else if( elem.type == DT_HEAT || elem.type == DT_ACID || elem.type == DT_COLD ) {
+        else if( elem.type == DT_HEAT || elem.type == DT_ACID || elem.type == DT_COLD ||
+                 elem.type == DT_DARK || elem.type == DT_LIGHT || elem.type == DT_PSI ) {
             // Unarmed weapons won't block those
             if( item_blocking ) {
                 float previous_amount = elem.amount;

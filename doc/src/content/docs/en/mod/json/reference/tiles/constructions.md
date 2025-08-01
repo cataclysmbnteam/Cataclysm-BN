@@ -17,7 +17,8 @@ This article was recently split off from `JSON INFO` and likely could use additi
 "components": [ [ [ "spear_wood", 4 ], [ "pointy_stick", 4 ] ] ],   // Items used in construction
 "using": [ [ "welding_standard", 5 ] ],                             // (Optional) External requirements to use
 "pre_note": "I am a dwarf and I'm digging a hole!",                 // (Optional) Annotation
-"pre_flags": [ "DIGGABLE", "FLAT" ],                                // (Optional) Flags the terrain must have to be built on
+"pre_flags": [ "FLAT" ],                                // (Optional) Flags the terrain must have to be built on
+"needs_diggable": true,                                          // (Optional) Whether the pre-terrain must be diggable
 "pre_terrain": "t_pit",                                             // (Optional) Required terrain to build on
 "pre_furniture": "f_sandbag_half",                                  // (Optional) Required furniture to build on
 "pre_special": "check_down_OK",                                     // (Optional) Hardcoded tile validity checks, refer to construction.cpp 

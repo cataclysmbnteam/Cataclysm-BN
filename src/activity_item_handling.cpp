@@ -16,11 +16,13 @@
 #include <tuple>
 #include <utility>
 #include <vector>
+#include <ranges>
 
 #include "activity_actor_definitions.h"
 #include "avatar.h"
 #include "avatar_action.h"
 #include "calendar.h"
+#include "cata_algo.h"
 #include "character.h"
 #include "character_functions.h"
 #include "clzones.h"
@@ -76,6 +78,9 @@
 #include "vehicle_selector.h"
 #include "vpart_position.h"
 #include "weather.h"
+#include "map_utils.h"
+
+namespace views = std::views;
 
 static const activity_id ACT_BUTCHER_FULL( "ACT_BUTCHER_FULL" );
 static const activity_id ACT_CHOP_LOGS( "ACT_CHOP_LOGS" );
@@ -3140,14 +3145,9 @@ bool find_auto_consume( player &p, const consume_type type )
     if( here.check_vehicle_zones( g->get_levz() ) ) {
         mgr.cache_vzones();
     }
-    const std::unordered_set<tripoint> &dest_set = mgr.get_near( consume_type_zone, here.getabs( pos ),
-            ACTIVITY_SEARCH_DISTANCE );
-    if( dest_set.empty() ) {
-        return false;
-    }
 
-    const auto ok_to_consume = [&p, type]( item & it ) -> bool {
-        item &comest = p.get_consumable_from( it );
+    const auto ok_to_consume = [&p, type]( const item * it ) -> bool {
+        const item &comest = p.get_consumable_from( const_cast<item &>( *it ) );
         /* not food.              */
         if( comest.is_null() || comest.is_craft() || !comest.is_food() )
         {
@@ -3169,7 +3169,7 @@ bool find_auto_consume( player &p, const consume_type type )
             return false;
         }
         /* not ours, freely steal from hostiles however  */
-        if( !it.is_owned_by( p, true ) && it.get_owner()->likes_u >= -10 )
+        if( !it->is_owned_by( p, true ) && it->get_owner()->likes_u >= -10 )
         {
             return false;
         }
@@ -3191,73 +3191,31 @@ bool find_auto_consume( player &p, const consume_type type )
         return true;
     };
 
-    struct {
-        item *min_shelf_life = nullptr;
-        tripoint loc = tripoint_min;
-        item *item_loc = nullptr;
+    using namespace cata::ranges;
 
-        bool longer_life_than( item &it ) {
-            return !min_shelf_life || it.spoilage_sort_order() < min_shelf_life->spoilage_sort_order();
-        };
-    } current;
-
-    const auto should_skip = [&]( item & it ) {
-        return !ok_to_consume( it ) || !current.longer_life_than( it );
+    const auto compare = []( const item * a, const item * b ) {
+        return a->spoilage_sort_order() < b->spoilage_sort_order();
     };
-
-    for( const tripoint loc : dest_set ) {
-        if( loc.z != p.pos().z ) {
-            continue;
-        }
-        const optional_vpart_position vp = here.veh_at( g->m.getlocal( loc ) );
-        if( vp ) {
-            vehicle &veh = vp->vehicle();
-            const int index = veh.part_with_feature( vp->part_index(), "CARGO", false );
-            if( index < 0 ) {
-                continue;
-            }
-            /**
-             * TODO: when we get to use ranges library, current should be replaced with:
-             *
-             * const auto shortest = vehitems | filter_view(ok_to_consume) | max_element(spoilage_sort_order)
-             *
-             * rationale:
-             * 1. much more readable (mandatory FP shilling)
-             * 2. filter_view does not create a new container (it's a view), so it's performant
-             *
-             * @see https://en.cppreference.com/w/cpp/ranges/filter_view
-             * @see https://en.cppreference.com/w/cpp/algorithm/ranges/max_element
-             */
-            vehicle_stack vehitems = veh.get_items( index );
-            for( item *&it : vehitems ) {
-                if( should_skip( *it ) ) {
-                    continue;
-                }
-                current = { it, loc, &p.get_consumable_from( *it ) };
-            }
-        } else {
-            map_stack mapitems = here.i_at( here.getlocal( loc ) );
-            for( item *&it : mapitems ) {
-                if( should_skip( *it ) ) {
-                    continue;
-                }
-                current = { it, loc, &p.get_consumable_from( *it )};
-            }
-        }
-    }
-    if( !current.min_shelf_life ) {
+    std::optional<item *> stalest = mgr.get_near( consume_type_zone, here.getabs( pos ),
+                                    ACTIVITY_SEARCH_DISTANCE )
+                                    | views::filter( [&]( const auto & loc ) -> bool { return loc.z == p.pos().z; } )
+                                    | flat_map( get_items_at )
+                                    | views::filter( ok_to_consume )
+                                    | min_by( compare );
+    if( !stalest ) {
         return false;
     }
 
     // actually eat
-    const auto cost = pickup::cost_to_move_item( p, *current.min_shelf_life );
-    const auto dist = std::max( rl_dist( p.pos(), here.getlocal( current.loc ) ), 1 );
+    const auto cost = pickup::cost_to_move_item( p, **stalest );
+    const auto dist = std::max( rl_dist( p.pos(), ( *stalest )->position() ), 1 );
     p.mod_moves( -cost * dist );
 
-    avatar_action::eat( g->u, current.item_loc );
+    item *item_loc = &p.get_consumable_from( **stalest );
+    avatar_action::eat( get_avatar(), item_loc );
     // eat() may have removed the item, so check its still there.
-    if( current.item_loc && current.item_loc->is_container() ) {
-        current.item_loc->on_contents_changed();
+    if( item_loc && item_loc->is_container() ) {
+        item_loc->on_contents_changed();
     }
     return true;
 }

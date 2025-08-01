@@ -566,49 +566,6 @@ class firestarter_actor : public iuse_actor
 };
 
 /**
- * Cuts stuff up into components
- */
-class salvage_actor : public iuse_actor
-{
-    public:
-        /** Moves used per unit of volume of cut item */
-        int moves_per_part = 25;
-
-        /** Materials it can cut */
-        std::set<material_id> material_whitelist = {
-            material_id( "acidchitin" ),
-            material_id( "alien_resin" ),
-            material_id( "bone" ),
-            material_id( "chitin" ),
-            material_id( "cotton" ),
-            material_id( "faux_fur" ),
-            material_id( "fur" ),
-            material_id( "kevlar" ),
-            material_id( "kevlar_rigid" ),
-            material_id( "leather" ),
-            material_id( "neoprene" ),
-            material_id( "nomex" ),
-            material_id( "nylon" ),
-            material_id( "plastic" ),
-            material_id( "rubber" ),
-            material_id( "wood" ),
-            material_id( "wool" )
-        };
-
-        bool try_to_cut_up( player &p, item &it ) const;
-        int cut_up( player &p, item &it, item &cut ) const;
-        int time_to_cut_up( const item &it ) const;
-        bool valid_to_cut_up( const item &it ) const;
-
-        salvage_actor( const std::string &type = "salvage" ) : iuse_actor( type ) {}
-
-        ~salvage_actor() override = default;
-        void load( const JsonObject &obj ) override;
-        int use( player &, item &, bool, const tripoint & ) const override;
-        std::unique_ptr<iuse_actor> clone() const override;
-};
-
-/**
  * Writes on stuff (ground or items)
  */
 class inscribe_actor : public iuse_actor

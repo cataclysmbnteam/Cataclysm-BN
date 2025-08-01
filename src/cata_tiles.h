@@ -358,7 +358,7 @@ class cata_tiles
 
         /** Reload tileset, with the given scale. Scale is divided by 16 to allow for scales < 1 without risking
          *  float inaccuracies. */
-        void set_draw_scale( int scale );
+        void set_draw_scale( float scale );
 
         /** Tries to find tile with specified parameters and return it if exists **/
         std::optional<tile_search_result> tile_type_search(

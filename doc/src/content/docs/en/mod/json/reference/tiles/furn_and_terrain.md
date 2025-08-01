@@ -184,9 +184,16 @@ it for the purpose of surgery.
   "move_cost": 10,
   "light_emitted": 10,
   "trap": "spike_pit",
+  "fill_result": "t_dirt", // Terrain result from filling this terrain in
+  "fill_minutes": 10, // Number of minutes to fill terrain in
   "max_volume": "1000 L",
-  "flags": ["TRANSPARENT", "DIGGABLE"],
-  "digging_result": "digging_sand_50L",
+  "flags": ["TRANSPARENT"],
+  "digging_results": {
+    "digging_min": 1,
+    "result_ter": "t_pit_shallow",
+    "num_minutes": 60,
+    "items": "digging_sand_50L"
+  },
   "connects_to": "WALL",
   "close": "t_foo_closed",
   "open": "t_foo_open",
@@ -238,14 +245,14 @@ How much light the terrain emits. 10 will light the tile it's on brightly, 15 wi
 and the tiles around it brightly, as well as slightly lighting the tiles two tiles away from the
 source. For examples: An overhead light is 120, a utility light, 240, and a console, 10.
 
-#### `digging_result`
+#### `digging_results`
 
-(Optional) String defining the ID of what itemgroup this terrain will produce when a pit is dug
-here.
+(Optional) Fields relating to digging terrain using a shovel
 
-Only relevant for terrain with the `DIGGABLE` flag. If not specificed, default is itemgroup
-`digging_soil_loam_50L`. Note as well that this group will be called 4 times by default, 8 times if
-the terrain has the `DIGGABLE_CAN_DEEPEN` flag.
+- `"digging_min"` - minimum digging quality required for digging this terrain
+- `"result_ter"` - resulting terrain ID from digging
+- `"num_minutes"` - number of minutes spent digging
+- `"items"` - (Optional) either an array of items, or an existing itemgroup ID. Defaults to `digging_soil_loam_200L`
 
 #### `lockpick_result`
 

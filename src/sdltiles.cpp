@@ -3752,7 +3752,7 @@ bool gamepad_available()
     return joystick != nullptr;
 }
 
-void rescale_tileset( int size )
+void rescale_tileset( float size )
 {
     tilecontext->set_draw_scale( size );
 }

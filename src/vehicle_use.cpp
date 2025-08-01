@@ -1363,7 +1363,7 @@ void vehicle::transform_terrain()
         const transform_terrain_data &ttd = vp.info().transform_terrain;
         bool prereq_fulfilled = false;
         for( const std::string &flag : ttd.pre_flags ) {
-            if( g->m.has_flag( flag, start_pos ) ) {
+            if( ( ttd.diggable && g->m.ter( start_pos )->is_diggable() ) || g->m.has_flag( flag, start_pos ) ) {
                 prereq_fulfilled = true;
                 break;
             }
@@ -1881,6 +1881,9 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
     }
     if( has_autodoc ) {
         selectmenu.addentry( USE_AUTODOC, true, 'I', _( "Use autodoc" ) );
+    }
+    if( from_vehicle ) {
+        selectmenu.addentry( GET_ITEMS, true, 'g', _( "Get items" ) );
     }
     if( has_items_on_ground && !items_are_sealed ) {
         selectmenu.addentry( GET_ITEMS_ON_GROUND, true, 'i', _( "Get items on the ground" ) );

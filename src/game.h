@@ -438,7 +438,7 @@ class game
          */
         bool revive_corpse( const tripoint &p, item &it );
         /**Turns Broken Cyborg monster into Cyborg NPC via surgery*/
-        void save_cyborg( item *cyborg, const tripoint &couch_pos, player &installer );
+        void save_cyborg( item *cyborg, const tripoint &couch_pos, Character &installer );
         /** Asks if the player wants to cancel their activity, and if so cancels it. */
         bool cancel_activity_query( const std::string &text );
         /** Asks if the player wants to cancel their activity and if so cancels it. Additionally checks
@@ -484,7 +484,7 @@ class game
         /** process vehicles that are following the player */
         void autopilot_vehicles();
         /** Picks and spawns a random fish from the remaining fish list when a fish is caught. */
-        void catch_a_monster( monster *fish, const tripoint &pos, player *p,
+        void catch_a_monster( monster *fish, const tripoint &pos, Character *who,
                               const time_duration &catch_duration );
         /**
          * Get the contiguous fishable locations starting at fish_pos, out to the specificed distance.
@@ -515,11 +515,11 @@ class game
         Creature *is_hostile_very_close();
         // Handles shifting coordinates transparently when moving between submaps.
         // Helper to make calling with a player pointer less verbose.
-        point update_map( player &p );
+        point update_map( Character &who );
         point update_map( int &x, int &y );
         void update_overmap_seen(); // Update which overmap tiles we can see
 
-        void process_artifact( item &it, player &p );
+        void process_artifact( item &it, Character &who );
         void add_artifact_messages( const std::vector<art_effect_passive> &effects );
         void add_artifact_dreams( );
 
@@ -583,8 +583,8 @@ class game
         void zoom_in();
         void zoom_out();
         void reset_zoom();
-        void set_zoom( int level );
-        int get_zoom() const;
+        void set_zoom( float level );
+        float get_zoom() const;
         int get_moves_since_last_save() const;
         int get_user_action_counter() const;
 
@@ -1037,7 +1037,7 @@ class game
         int user_action_counter = 0; // Times the user has input an action
 
         /** How far the tileset should be zoomed out, 16 is default. 32 is zoomed in by x2, 8 is zoomed out by x0.5 */
-        int tileset_zoom = 0;
+        float tileset_zoom = 0;
 
         /** Seed for all the random numbers that should have consistent randomness (weather). */
         unsigned int seed = 0;

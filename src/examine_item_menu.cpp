@@ -16,6 +16,7 @@
 #include "itype.h"
 #include "messages.h"
 #include "output.h"
+#include "salvage.h"
 #include "recipe_dictionary.h"
 #include "rot.h"
 #include "ui_manager.h"
@@ -202,6 +203,11 @@ bool run(
 
     add_entry( "MEND", rate_action_mend( you, itm ), [&]() {
         avatar_action::mend( you, &itm );
+        return true;
+    } );
+
+    add_entry( "SALVAGE", rate_action_salvage( you, itm ), [&]() {
+        salvage::prompt_salvage_single( you, itm );
         return true;
     } );
 
@@ -468,6 +474,23 @@ hint_rating rate_action_disassemble( avatar &you, const item &it )
         return hint_rating::iffy; // potentially possible but we currently lack requirements
     } else {
         return hint_rating::cant; // never possible
+    }
+}
+
+hint_rating rate_action_salvage( avatar &you, const item &it )
+{
+    //is_salvageable is much cheaper so we do it first
+    if( !it.is_salvageable() ) {
+        return hint_rating::cant; // never possible
+    } else if( auto cache = you.crafting_inventory().get_quality_cache();
+               salvage::try_salvage( it, cache ).success() ) {
+        return hint_rating::good; // possible
+    } else {
+        return it.weight() < salvage::minimal_weight_to_cut( it )
+               ? hint_rating::cant
+               // potentially possible but we currently lack requirements
+               : hint_rating::iffy;
+
     }
 }
 

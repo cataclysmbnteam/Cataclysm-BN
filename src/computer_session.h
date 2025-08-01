@@ -8,7 +8,7 @@
 #include "computer.h"
 #include "cursesdef.h"
 
-class player;
+class Character;
 
 class computer_session
 {
@@ -30,7 +30,7 @@ class computer_session
 
         /** Returns true if the player successfully hacks the computer. Security = -1 defaults to
          *  the main system security. */
-        bool hack_attempt( player &p, int Security = -1 );
+        bool hack_attempt( Character &who, int Security = -1 );
 
         // Called by use()
         void activate_function( computer_action action );

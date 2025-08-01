@@ -24,7 +24,7 @@
   {
     "type": "vehicle_part",
     "abstract": "basketlg_abstract",
-    "name": { "str": "shopping cart basket" },
+    "name": { "str": "large wire basket" },
     "symbol": "o",
     "looks_like": "basketsm",
     "color": "brown",
@@ -62,7 +62,7 @@
   {
     "id": "basketlg_external",
     "type": "vehicle_part",
-    "name": { "str": "external shopping cart basket" },
+    "name": { "str": "external large wire basket" },
     "looks_like": "basketlg",
     "item": "basket",
     "location": "structure",
@@ -89,7 +89,7 @@
   {
     "type": "vehicle_part",
     "id": "basketlg_folding",
-    "name": { "str": "folding shopping cart basket" },
+    "name": { "str": "large folding wire basket" },
     "symbol": "o",
     "looks_like": "basketlg",
     "color": "brown",
@@ -116,7 +116,7 @@
   {
     "type": "vehicle_part",
     "abstract": "basketsm_abstract",
-    "name": { "str": "wire bike basket" },
+    "name": { "str": "small folding wire basket" },
     "symbol": "o",
     "looks_like": "basketlg",
     "color": "brown",
@@ -157,7 +157,7 @@
   {
     "id": "basketsm_external",
     "type": "vehicle_part",
-    "name": { "str": "external wire bike basket" },
+    "name": { "str": "external small wire basket" },
     "looks_like": "basketsm",
     "item": "bike_basket",
     "location": "structure",

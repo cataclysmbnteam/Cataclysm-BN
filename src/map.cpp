@@ -50,6 +50,7 @@
 #include "input.h"
 #include "int_id.h"
 #include "item.h"
+#include "item_category.h"
 #include "item_contents.h"
 #include "item_factory.h"
 #include "item_group.h"
@@ -107,6 +108,7 @@ using ammo_effect_str_id = string_id<ammo_effect>;
 static const ammo_effect_str_id ammo_effect_INCENDIARY( "INCENDIARY" );
 static const ammo_effect_str_id ammo_effect_LASER( "LASER" );
 static const ammo_effect_str_id ammo_effect_LIGHTNING( "LIGHTNING" );
+static const ammo_effect_str_id ammo_effect_NO_PENETRATE_OBSTACLES( "NO_PENETRATE_OBSTACLES" );
 static const ammo_effect_str_id ammo_effect_PLASMA( "PLASMA" );
 
 static const fault_id fault_bionic_nonsterile( "fault_bionic_nonsterile" );
@@ -1150,9 +1152,9 @@ vehicle *map::veh_at_internal( const tripoint &p, int &part_num )
     return const_cast<vehicle *>( const_cast<const map *>( this )->veh_at_internal( p, part_num ) );
 }
 
-void map::board_vehicle( const tripoint &pos, player *p )
+void map::board_vehicle( const tripoint &pos, Character *who )
 {
-    if( p == nullptr ) {
+    if( who == nullptr ) {
         debugmsg( "map::board_vehicle: null player" );
         return;
     }
@@ -1160,7 +1162,7 @@ void map::board_vehicle( const tripoint &pos, player *p )
     const std::optional<vpart_reference> vp = veh_at( pos ).part_with_feature( VPFLAG_BOARDABLE,
             true );
     if( !vp ) {
-        if( p->grab_point.x == 0 && p->grab_point.y == 0 ) {
+        if( who->grab_point.x == 0 && who->grab_point.y == 0 ) {
             debugmsg( "map::board_vehicle: vehicle not found" );
         }
         return;
@@ -1172,12 +1174,12 @@ void map::board_vehicle( const tripoint &pos, player *p )
         unboard_vehicle( pos );
     }
     vp->part().set_flag( vehicle_part::passenger_flag );
-    vp->part().passenger_id = p->getID();
+    vp->part().passenger_id = who->getID();
     vp->vehicle().invalidate_mass();
 
-    p->setpos( pos );
-    p->in_vehicle = true;
-    if( p->is_avatar() ) {
+    who->setpos( pos );
+    who->in_vehicle = true;
+    if( who->is_avatar() ) {
         g->update_map( g->u );
     }
 }
@@ -1776,13 +1778,13 @@ furn_id map::get_furn_transforms_into( const tripoint &p ) const
  * Examines the tile pos, with character as the "examinator"
  * Casts Character to player because player/NPC split isn't done yet
  */
-void map::examine( Character &p, const tripoint &pos )
+void map::examine( Character &who, const tripoint &pos )
 {
     const auto furn_here = furn( pos ).obj();
     if( furn_here.examine != iexamine::none ) {
-        furn_here.examine( dynamic_cast<player &>( p ), pos );
+        furn_here.examine( dynamic_cast<player &>( who ), pos );
     } else {
-        ter( pos ).obj().examine( dynamic_cast<player &>( p ), pos );
+        ter( pos ).obj().examine( dynamic_cast<player &>( who ), pos );
     }
 }
 
@@ -1887,7 +1889,7 @@ std::string map::features( const tripoint &p )
     // to take up one line.  So, make sure it does that.
     // FIXME: can't control length of localized text.
     add_if( is_bashable( p ), _( "Smashable." ) );
-    add_if( has_flag( "DIGGABLE", p ), _( "Diggable." ) );
+    add_if( ter( p )->is_diggable(), _( "Diggable." ) );
     add_if( has_flag( "PLOWABLE", p ), _( "Plowable." ) );
     add_if( has_flag( "ROUGH", p ), _( "Rough." ) );
     add_if( has_flag( "UNSTABLE", p ), _( "Unstable." ) );
@@ -3925,6 +3927,10 @@ void map::shoot( const tripoint &origin, const tripoint &p, projectile &proj, co
 
     const bool inc = proj.has_effect( ammo_effect_INCENDIARY ) ||
                      proj.impact.type_damage( DT_HEAT ) > 0;
+    const bool phys = proj.impact.type_damage( DT_BASH ) > 0 ||
+                      proj.impact.type_damage( DT_CUT ) > 0 ||
+                      proj.impact.type_damage( DT_STAB ) > 0 ||
+                      proj.impact.type_damage( DT_BULLET ) > 0;
     if( const optional_vpart_position vp = veh_at( p ) ) {
         dam = vp->vehicle().damage( vp->part_index(), dam, inc ? DT_HEAT : DT_STAB, hit_items );
     }
@@ -3943,7 +3949,15 @@ void map::shoot( const tripoint &origin, const tripoint &p, projectile &proj, co
         float destroy_roll = point_blank ? dam * 1.5 : dam * rng_float( 0.9, 1.1 );
         if( !hit_items && ( !check( rfi.block_unaimed_chance ) || ( rfi.block_unaimed_chance < 100_pct &&
                             point_blank ) ) ) {
-            // Nothing, it's a miss or we're shooting over nearby furniture
+            // Nothing, it's a miss, we're shooting over nearby furniture.
+        } else if( proj.has_effect( ammo_effect_NO_PENETRATE_OBSTACLES ) ) {
+            // We shot something with a flamethrower or other non-penetrating weapon.
+            // Try to bash the obstacle if it was a thrown rock or the like, then stop the shot.
+            add_msg( _( "The shot is stopped by the %s!" ), furnname( p ) );
+            if( phys ) {
+                bash( p, dam, false );
+            }
+            dam = 0;
         } else if( rfi.reduction_laser && proj.has_effect( ammo_effect_LASER ) ) {
             dam -= std::max( ( rng( rfi.reduction_laser->min,
                                     rfi.reduction_laser->max ) - initial_arpen ) * initial_armor_mult, 0.0f );
@@ -3955,11 +3969,12 @@ void map::shoot( const tripoint &origin, const tripoint &p, projectile &proj, co
             if( get_avatar().sees( p ) ) {
                 if( dam <= 0 ) {
                     add_msg( _( "The shot is stopped by the %s!" ), furnname( p ) );
-                } else {
+                    // Only bother mentioning it punched through if it had any resistance, so zip through canvas with no message.
+                } else if( rfi.reduction.min > 0 ) {
                     add_msg( _( "The shot hits the %s and punches through!" ), furnname( p ) );
                 }
             }
-            if( destroy_roll > rfi.destroy_threshold ) {
+            if( destroy_roll > rfi.destroy_threshold && rfi.reduction.min > 0 ) {
                 bash_params params{0, false, true, hit_items, 1.0, false};
                 bash_furn_success( p, params );
             }
@@ -3976,6 +3991,14 @@ void map::shoot( const tripoint &origin, const tripoint &p, projectile &proj, co
         if( !hit_items && ( !check( ri.block_unaimed_chance ) || ( ri.block_unaimed_chance < 100_pct &&
                             point_blank ) ) ) {
             // Nothing, it's a miss or we're shooting over nearby terrain
+        } else if( proj.has_effect( ammo_effect_NO_PENETRATE_OBSTACLES ) ) {
+            // We shot something with a flamethrower or other non-penetrating weapon.
+            // Try to bash the obstacle if it was a thrown rock or the like, then stop the shot.
+            add_msg( _( "The shot is stopped by the %s!" ), tername( p ) );
+            if( phys ) {
+                bash( p, dam, false );
+            }
+            dam = 0;
         } else if( ri.reduction_laser && proj.has_effect( ammo_effect_LASER ) ) {
             dam -= std::max( ( rng( ri.reduction_laser->min,
                                     ri.reduction_laser->max ) - initial_arpen ) * initial_armor_mult, 0.0f );
@@ -3987,11 +4010,13 @@ void map::shoot( const tripoint &origin, const tripoint &p, projectile &proj, co
             if( get_avatar().sees( p ) ) {
                 if( dam <= 0 ) {
                     add_msg( _( "The shot is stopped by the %s!" ), tername( p ) );
-                } else {
+                    // Only bother mentioning it punched through if it had any resistance, so zip through canvas with no message.
+                } else if( ri.reduction.min > 0 ) {
                     add_msg( _( "The shot hits the %s and punches through!" ), tername( p ) );
                 }
             }
-            if( destroy_roll > ri.destroy_threshold ) {
+            // Destroy if the damage exceeds threshold, unless the target was meant to be shot through with zero resistance like canvas.
+            if( destroy_roll > ri.destroy_threshold && ri.reduction.min > 0 ) {
                 bash_params params{0, false, true, hit_items, 1.0, false};
                 bash_ter_success( p, params );
             }
@@ -4420,6 +4445,23 @@ detached_ptr<item> map::spawn_an_item( const tripoint &p, detached_ptr<item> &&n
     spawned_item->set_damage( damlevel );
 
     return add_item_or_charges( p, std::move( spawned_item ) );
+}
+
+float map::item_category_spawn_rate( const item &itm )
+{
+    const std::string &cat = itm.get_category().id.c_str();
+    float spawn_rate = get_option<float>( "SPAWN_RATE_" + cat );
+
+    // strictly search for canned foods only in the first check
+    if( itm.goes_bad_after_opening( true ) ) {
+        float spawn_rate_mod = get_option<float>( "SPAWN_RATE_perishables_canned" );
+        spawn_rate *= spawn_rate_mod;
+    } else if( itm.goes_bad() ) {
+        float spawn_rate_mod = get_option<float>( "SPAWN_RATE_perishables" );
+        spawn_rate *= spawn_rate_mod;
+    }
+
+    return spawn_rate > 1.0f ? roll_remainder( spawn_rate ) : spawn_rate;
 }
 
 std::vector<detached_ptr<item>> map::spawn_items( const tripoint &p,
@@ -5194,7 +5236,12 @@ std::vector<detached_ptr<item>> map::use_charges( const tripoint &origin, const 
 
     // populate a grid of spots that can be reached
     std::vector<tripoint> reachable_pts;
-    reachable_flood_steps( reachable_pts, origin, range, 1, 100 );
+
+    if( range <= 0 ) {
+        reachable_pts.push_back( origin );
+    } else {
+        reachable_flood_steps( reachable_pts, origin, range, 1, 100 );
+    }
 
     // We prefer infinite map sources where available, so search for those
     // first

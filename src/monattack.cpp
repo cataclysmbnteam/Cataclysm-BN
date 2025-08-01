@@ -1453,7 +1453,7 @@ bool mattack::growplants( monster *z )
     for( const auto &p : g->m.points_in_radius( z->pos(), 3 ) ) {
 
         // Only affect natural, dirtlike terrain or trees.
-        if( !( g->m.has_flag_ter( "DIGGABLE", p ) ||
+        if( !( g->m.ter( p )->is_diggable() ||
                g->m.has_flag_ter( "TREE", p ) ||
                g->m.ter( p ) == t_tree_young ) ) {
             continue;
