@@ -278,6 +278,7 @@ std::optional<MOD_INFORMATION> load_modfile( const JsonObject &jo, const std::st
     const std::string m_descr = jo.get_string( "description", "" );
     modfile.set_translatable_info( translatable_mod_info( m_name, m_descr, modfile.path ) );
 
+    assign( jo, "license", modfile.license );
     assign( jo, "authors", modfile.authors );
     assign( jo, "maintainers", modfile.maintainers );
     assign( jo, "version", modfile.version );

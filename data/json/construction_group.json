@@ -1570,6 +1570,15 @@
     "name": "Install Metal Compactor"
   },
   {
+    "id": "build_fortification",
+    "name": "Build Fortification"
+  },
+  {
+    "type": "construction_group",
+    "id": "carve_fortification",
+    "name": "Carve Fortification"
+  },
+  {
     "type": "construction_group",
     "id": "place_clay_pots",
     "name": "Place Clay Pots"

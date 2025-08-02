@@ -287,6 +287,15 @@
     "max_duration": "1 m"
   },
   {
+    "type": "effect_type",
+    "id": "dashing",
+    "name": [ "Dashing" ],
+    "desc": [
+      "Dummy tag for recognizing if a creature is currently using a dash spell effect.  If you see this lingering, that's a bug."
+    ],
+    "permanent": true
+  },
+  {
     "//": "ACTUAL PLAYER EFFECTS START HERE",
     "type": "effect_type",
     "id": "downed",

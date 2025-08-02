@@ -26,6 +26,8 @@ Example:
     "name": "Better Zombies",
     // Mod's description, in English.
     "description": "Reworks all base game zombies and adds 100+ new variants.",
+    // Mod's license. Non-FOSS should (usually) use "All Rights Reserved" or "Source Available"
+    "license": "CC-BY-SA 4.0 Unported",
     // Original author(s) of the mod.
     "authors": ["That Guy", "His Friend"],
     // If the author(s) abandoned the mod for some reason, this entry lists current maintainers.

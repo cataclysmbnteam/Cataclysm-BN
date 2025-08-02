@@ -241,6 +241,7 @@ static const efftype_id effect_riding( "riding" );
 static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_stunned( "stunned" );
 static const efftype_id effect_tied( "tied" );
+static const efftype_id dashing_effect( "dashing" );
 
 static const bionic_id bio_remote( "bio_remote" );
 static const bionic_id bio_probability_travel( "bio_probability_travel" );
@@ -8738,7 +8739,7 @@ bool game::prompt_dangerous_tile( const tripoint &dest_loc ) const
     static const iexamine_function ledge_examine = iexamine_function_from_string( "ledge" );
     std::vector<std::string> harmful_stuff = get_dangerous_tile( dest_loc );
 
-    if( harmful_stuff.empty() ) {
+    if( harmful_stuff.empty() || u.has_effect( dashing_effect ) ) {
         return true;
     }
 
