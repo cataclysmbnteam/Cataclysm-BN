@@ -5,6 +5,7 @@
     "wiki/": "https://deno.land/x/lume_theme_simple_wiki@v0.14.0/",
     "lume/cms/": "https://cdn.jsdelivr.net/gh/lumeland/cms@0.13.0-beta.0/"
   },
+  "lock": false,
   "tasks": {
     "lume": "echo \"import 'lume/cli.ts'\" | deno run -A -",
     "build": "deno task lume",
@@ -13,7 +14,8 @@
   },
   "fmt": {
     "semiColons": false,
-    "lineWidth": 100
+    "lineWidth": 100,
+    "proseWrap": "preserve"
   },
   "compilerOptions": {
     "types": [
