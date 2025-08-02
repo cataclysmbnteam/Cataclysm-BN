@@ -1570,6 +1570,7 @@
     "name": "Install Metal Compactor"
   },
   {
+    "type": "construction_group",
     "id": "build_fortification",
     "name": "Build Fortification"
   },
