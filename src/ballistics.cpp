@@ -443,7 +443,7 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
                     here.add_splatter_trail( critter->bloodType(), tp, dest );
                 }
                 sfx::do_projectile_hit( *attack.hit_critter );
-                has_momentum = false;
+                has_momentum = proj.impact.total_damage() > 0 && is_bullet;
             } else {
                 attack.missed_by = aim.missed_by;
             }

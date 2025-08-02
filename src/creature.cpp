@@ -1000,16 +1000,33 @@ void Creature::deal_projectile_attack( Creature *source, item *source_weapon,
             impact.mult_damage( 1.0f / dmg_ratio );
         }
     }
-
     if( proj.has_effect( ammo_effect_NO_DAMAGE ) ) {
         impact.mult_damage( 0.0f );
     }
+    // Track damage before and after after for overpenetration effects, include divide-by-zero protection.
+    float dmg_before_armor = std::max( 1.0f, impact.total_damage() );
 
     // If we have a shield, it might passively block ranged impacts
     block_ranged_hit( source, bp_hit, impact );
     // If the projectile survives, both it and the launcher get credit for the kill.
     dealt_dam = deal_damage( source, bp_hit, impact, source_weapon, attack.proj.get_drop() );
     dealt_dam.bp_hit = bp_hit.id();
+
+    float dmg_after_armor = dealt_dam.total_damage();
+
+    // Modify projectile for overpenetration.
+    for( auto &elem : proj.impact.damage_units ) {
+        // Ratio of how much armor reduced expected damage, used as a multiplier.
+        float damage_ratio = dmg_after_armor / dmg_before_armor;
+        // Take an extra 10 damage and 5 arpen off per target, regardless of damage ratio.
+        elem.amount = std::max( 0.0f, ( elem.amount * damage_ratio ) - 10 );
+        elem.res_pen = std::max( 0.0f, ( elem.res_pen * damage_ratio ) - 5 );
+        add_msg( m_debug, _( "Projectile damage is now %s, arpen is now %s" ), elem.amount, elem.res_pen );
+    }
+    // If we ate all available damage doing that, prevent it from trying to hit anyone else downrange.
+    if( proj.impact.total_damage() <= 0 ) {
+        proj.impact.damage_units.clear();
+    }
 
     // Apply ammo effects to target.
     if( proj.has_effect( ammo_effect_TANGLE ) ) {
