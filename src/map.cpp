@@ -5364,7 +5364,7 @@ std::vector<detached_ptr<item>> map::use_charges( const tripoint &origin, const 
 
             // TODO: add a sane birthday arg
             detached_ptr<item> tmp = item::spawn( type, calendar::start_of_cataclysm );
-            tmp->charges = forgepart->vehicle().drain( ftype, quantity );
+            tmp->charges = butcherpart->vehicle().drain( ftype, quantity );
             quantity -= tmp->charges;
             ret.push_back( std::move( tmp ) );
 
