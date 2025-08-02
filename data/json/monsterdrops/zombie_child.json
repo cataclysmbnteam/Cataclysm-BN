@@ -33,12 +33,7 @@
         "distribution": [
           {
             "collection": [
-              {
-                "distribution": [
-                  { "group": "male_underwear", "prob": 90 },
-                  { "item": "union_suit", "prob": 10 }
-                ]
-              },
+              { "distribution": [ { "group": "male_underwear", "prob": 90 }, { "item": "union_suit", "prob": 10 } ] },
               {
                 "distribution": [
                   {
@@ -70,11 +65,7 @@
                       {
                         "distribution": [
                           {
-                            "distribution": [
-                              { "item": "stockings", "prob": 40 },
-                              { "item": "stockings_wool", "prob": 10 },
-                              { "item": "tights", "prob": 50 }
-                            ]
+                            "distribution": [ { "item": "stockings", "prob": 40 }, { "item": "stockings_wool", "prob": 10 }, { "item": "tights", "prob": 50 } ]
                           },
                           { "group": "socks_unisex", "prob": 50 }
                         ]
@@ -84,16 +75,10 @@
                   },
                   {
                     "collection": [
-                      {
-                        "distribution": [ { "item": "dress", "prob": 70 }, { "item": "sundress", "prob": 50 } ]
-                      },
+                      { "distribution": [ { "item": "dress", "prob": 70 }, { "item": "sundress", "prob": 50 } ] },
                       { "group": "dress_shoes", "prob": 30 },
                       {
-                        "distribution": [
-                          { "item": "stockings", "prob": 40 },
-                          { "item": "stockings_wool", "prob": 10 },
-                          { "item": "tights", "prob": 50 }
-                        ]
+                        "distribution": [ { "item": "stockings", "prob": 40 }, { "item": "stockings_wool", "prob": 10 }, { "item": "tights", "prob": 50 } ]
                       }
                     ],
                     "prob": 20
