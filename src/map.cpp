@@ -3917,6 +3917,7 @@ void map::shoot( const tripoint &origin, const tripoint &p, projectile &proj, co
     }
 
     float dam = initial_damage;
+    float pen = initial_arpen;
 
     if( has_flag( "ALARMED", p ) && !g->timed_events.queued( TIMED_EVENT_WANTED ) ) {
         sounds::sound( p, 30, sounds::sound_t::alarm, _( "an alarm sound!" ), true, "environment",
@@ -3963,8 +3964,9 @@ void map::shoot( const tripoint &origin, const tripoint &p, projectile &proj, co
                                     rfi.reduction_laser->max ) - initial_arpen ) * initial_armor_mult, 0.0f );
         } else {
             // Roll damage reduction value, reduce result by arpen, multiply by any armor mult, then finally set to zero if negative result
-            dam -= std::max( ( rng( rfi.reduction.min,
-                                    rfi.reduction.max ) - initial_arpen ) * initial_armor_mult, 0.0f );
+            float roll = rng( rfi.reduction.min, rfi.reduction.max );
+            dam -= std::max( ( roll - initial_arpen ) * initial_armor_mult, 0.0f );
+            pen -= roll;
             // Only print if we hit something we can see enemies through, so we know cover did its job
             if( get_avatar().sees( p ) ) {
                 if( dam <= 0 ) {
@@ -4004,8 +4006,9 @@ void map::shoot( const tripoint &origin, const tripoint &p, projectile &proj, co
                                     ri.reduction_laser->max ) - initial_arpen ) * initial_armor_mult, 0.0f );
         } else {
             // Roll damage reduction value, reduce result by arpen, multiply by any armor mult, then finally set to zero if negative result
-            dam -= std::max( ( rng( ri.reduction.min,
-                                    ri.reduction.max ) - initial_arpen ) * initial_armor_mult, 0.0f );
+            float roll = rng( ri.reduction.min, ri.reduction.max );
+            dam -= std::max( ( roll - initial_arpen ) * initial_armor_mult, 0.0f );
+            pen -= roll;
             // Only print if we hit something we can see enemies through, so we know cover did its job
             if( get_avatar().sees( p ) ) {
                 if( dam <= 0 ) {
@@ -4040,6 +4043,7 @@ void map::shoot( const tripoint &origin, const tripoint &p, projectile &proj, co
     }
 
     dam = std::max( 0.0f, dam );
+    pen = std::max( 0.0f, pen );
 
     // Check fields?
     const field_entry *fieldhit = get_field( p, fd_web );
@@ -4059,6 +4063,15 @@ void map::shoot( const tripoint &origin, const tripoint &p, projectile &proj, co
         return;
     } else if( dam < initial_damage ) {
         proj.impact.mult_damage( dam / static_cast<double>( initial_damage ) );
+    }
+    if( pen <= 0 ) {
+        for( auto &elem : proj.impact.damage_units ) {
+            elem.res_pen = 0.0f;
+        }
+    } else if( pen < initial_arpen ) {
+        for( auto &elem : proj.impact.damage_units ) {
+            elem.res_pen *= ( pen / static_cast<double>( initial_arpen ) );
+        }
     }
 
     //Projectiles with NO_ITEM_DAMAGE flag won't damage items at all
