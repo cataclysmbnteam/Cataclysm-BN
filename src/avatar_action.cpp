@@ -465,6 +465,21 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
         if( waste_moves ) {
             you.moves -= 100;
         }
+        // Add to map memory if blind
+        if( you.is_blind() ) {
+            std::string obstacle;
+            if( m.veh_at( dest_loc ) ) {
+                char part_mod = 0;
+                const vpart_id &vp_id = m.veh_at( dest_loc )->vehicle().part_id_string( m.veh_at(
+                                            dest_loc )->part_index(), false, part_mod );
+                obstacle = "vp_" + vp_id.str();
+            } else {
+                obstacle = m.has_furn( dest_loc ) ? m.furn( dest_loc ).id().str() : m.ter(
+                               dest_loc ).id().str();
+            }
+            // TODO: Figure out how to make subtile and rotation work right here
+            you.memorize_tile( m.getabs( dest_loc ), obstacle, 0, 0 );
+        }
     } else if( m.ter( dest_loc ) == t_door_locked || m.ter( dest_loc ) == t_door_locked_peep ||
                m.ter( dest_loc ) == t_door_locked_alarm || m.ter( dest_loc ) == t_door_locked_interior ) {
         // Don't drain move points for learning something you could learn just by looking
