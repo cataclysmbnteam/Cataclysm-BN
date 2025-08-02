@@ -1568,5 +1568,10 @@
     "type": "construction_group",
     "id": "install_f_recycler",
     "name": "Install Metal Compactor"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_clay_pots",
+    "name": "Place Clay Pots"
   }
 ]
