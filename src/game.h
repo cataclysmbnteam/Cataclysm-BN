@@ -23,6 +23,7 @@
 #include "cursesdef.h"
 #include "enums.h"
 #include "game_constants.h"
+#include "mapdata.h"
 #include "memory_fast.h"
 #include "pimpl.h"
 #include "point.h"
@@ -236,6 +237,7 @@ class game
         void vertical_move( int z, bool force, bool peeking = false );
         void start_hauling( const tripoint &pos );
         /** Returns the other end of the stairs (if any). May query, affect u etc.  */
+        std::optional<tripoint> find_stairs( map &mp, int z_after, bool peeking );
         std::optional<tripoint> find_or_make_stairs( map &mp, int z_after, bool &rope_ladder,
                 bool peeking );
         /** Actual z-level movement part of vertical_move. Doesn't include stair finding, traps etc. */
@@ -522,6 +524,10 @@ class game
         void process_artifact( item &it, Character &who );
         void add_artifact_messages( const std::vector<art_effect_passive> &effects );
         void add_artifact_dreams( );
+
+        static tripoint find_closest_stair( const tripoint &near_this, const ter_bitflags stair_type );
+        std::optional<tripoint> find_local_stairs_leading_to( map &mp, const int z_after );
+        void suggest_auto_walk_to_stairs( Character &u, map &m, const std::string &direction );
 
         void peek();
         void peek( const tripoint &p );
