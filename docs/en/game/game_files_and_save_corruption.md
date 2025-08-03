@@ -1,6 +1,4 @@
----
-title: Game file and save corruption
----
+# Game file and save corruption
 
 Game files and save corruption falls into following categories:
 

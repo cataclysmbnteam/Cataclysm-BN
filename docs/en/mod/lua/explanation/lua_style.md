@@ -1,6 +1,4 @@
----
-title: Lua Style Guide
----
+# Lua Style Guide
 
 As Lua ecosystem is a new addition to the project, we only have formatting guidelines.
 

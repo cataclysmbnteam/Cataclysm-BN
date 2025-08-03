@@ -1,6 +1,4 @@
----
-title: Translate BN with transifex
----
+# Translate BN with transifex
 
 ## Supported languages
 

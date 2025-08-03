@@ -1,6 +1,4 @@
----
-title: Working with both BN and DDA
----
+# Working with both BN and DDA
 
 Sometimes you may need to port some changes from DDA. It could be done via adding remote and
 cherry-picking.

@@ -1,6 +1,4 @@
----
-title: Testing Cataclysm
----
+# Testing Cataclysm
 
 When you `make` Cataclysm from source, an executable `tests/cata_test` is built from test cases
 found in the `tests/` directory. These tests are written in the

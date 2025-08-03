@@ -1,6 +1,4 @@
----
-title: Creating missions
----
+# Creating missions
 
 NPCs can assign missions to the player. There is a fairly regular structure for this:
 

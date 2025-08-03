@@ -1,6 +1,4 @@
----
-title: Mutation overlay ordering
----
+# Mutation overlay ordering
 
 The file `mutation_ordering.json` defines the order that visual mutation and bionic overlays are
 rendered on a character ingame. The layering value from 0 (bottom) - 9999 (top) sets the order.

@@ -1,6 +1,4 @@
----
-title: Item spawn system
----
+# Item spawn system
 
 ## Collection or Distribution
 

@@ -1,6 +1,4 @@
----
-title: Melee balance spreadsheet
----
+# Melee balance spreadsheet
 
 ![spreadsheet](https://github.com/cataclysmbnteam/Cataclysm-BN/assets/54838975/1fa4f7ec-2965-4247-a592-94f246b13662)
 

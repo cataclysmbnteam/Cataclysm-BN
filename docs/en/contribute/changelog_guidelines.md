@@ -1,14 +1,4 @@
----
-title: Changelog Guidelines
----
-
-import Conventional from "../../../../components/Conventional.astro"
-
-## PR Title Generator
-
-<Conventional />
-
----
+# Changelog Guidelines
 
 PR title follows [Convensional Commits](https://www.conventionalcommits.org/en/v1.0.0/) for easier
 changelog generation. The format is one of:
@@ -24,7 +14,6 @@ For Example, a PR title can be:
 feat: add new mutation
 feat(port): port mutation description from DDA
 ```
-
 
 ## Type
 

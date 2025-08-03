@@ -1,6 +1,4 @@
----
-title: Translate third-party mods
----
+# Translate third-party mods
 
 ## Intro
 

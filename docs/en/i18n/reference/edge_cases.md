@@ -1,6 +1,4 @@
----
-title: Edge cases
----
+# Edge cases
 
 There are issues specific to Cataclysm: BN which translators should be aware of. For example:
 

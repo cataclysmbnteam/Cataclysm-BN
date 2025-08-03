@@ -1,6 +1,4 @@
----
-title: File location for Comestibles
----
+# File location for Comestibles
 
 There are a large number of files in `json/items/comestibles`, and this guide will help you decide
 where to put your new comestible!

@@ -1,6 +1,4 @@
----
-title: How it all started
----
+# How it all started
 
 :::danger{title="spoiler alert"}
 

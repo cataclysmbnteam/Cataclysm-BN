@@ -1,6 +1,4 @@
----
-title: NPC factions
----
+# NPC factions
 
 An NPC faction looks like this:
 

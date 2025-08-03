@@ -1,6 +1,4 @@
----
-title: General Style Guide
----
+# General Style Guide
 
 Please follow these conventions when adding or editing in-game text:
 

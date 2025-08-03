@@ -1,6 +1,4 @@
----
-title: JSON Flags
----
+# JSON Flags
 
 ## Notes
 

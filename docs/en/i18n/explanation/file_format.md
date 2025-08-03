@@ -1,6 +1,4 @@
----
-title: Translation file format (.po)
----
+# Translation file format (.po)
 
 Translations are stored in [`".po"` files (Portable Object)][po], named with a language code
 specific to each language and country. So for example the translations for the Spanish spoken in

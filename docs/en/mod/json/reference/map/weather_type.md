@@ -1,6 +1,4 @@
----
-title: Weather Types
----
+# Weather Types
 
 Weather type specifies conditions under which it can occur (temperature, humidity, pressure,
 windpower, time of day, etc.) and what effects it causes on the game world and reality bubble.

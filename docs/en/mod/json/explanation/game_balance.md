@@ -1,6 +1,4 @@
----
-title: Stat system scaling
----
+# Stat system scaling
 
 Minimum stat: 0 (should only happen due to penalties, instant failure in most scenarios)
 

@@ -1,6 +1,4 @@
----
-title: Effects
----
+# Effects
 
 ## How to give effects in-game?
 

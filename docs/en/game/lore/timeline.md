@@ -1,6 +1,4 @@
----
-title: Timeline
----
+# Timeline
 
 :::danger{title="spoiler alert"}
 

@@ -1,6 +1,4 @@
----
-title: MOD_INFO
----
+# MOD_INFO
 
 Also see [MODDING.md](../tutorial/modding.md).
 

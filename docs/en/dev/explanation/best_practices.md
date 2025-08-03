@@ -1,6 +1,4 @@
----
-title: best practices
----
+# best practices
 
 List of conventions used in the project, plus just plain good practices. Not rules per se, most of
 the codebase doesn't meet those standards.

@@ -1,6 +1,4 @@
----
-title: ter_furn_transform
----
+# ter_furn_transform
 
 A ter_furn_transform is a type of json object that allows you to specify a transformation of a tile
 from one terrain to another terrain, and from one furniture to another furniture.

@@ -1,6 +1,4 @@
----
-title: Visual Studio + vcpkg
----
+# Visual Studio + vcpkg
 
 This guide contains steps required to allow compilation of Cataclysm-BN on Windows using Visual
 Studio and vcpkg.

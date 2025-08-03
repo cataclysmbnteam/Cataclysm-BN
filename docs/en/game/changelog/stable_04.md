@@ -1,6 +1,4 @@
----
-title: Stable 0.4
----
+# Stable 0.4
 
 ## Content
 

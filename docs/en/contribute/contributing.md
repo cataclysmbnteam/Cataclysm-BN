@@ -1,6 +1,4 @@
----
-title: Contributing
----
+# Contributing
 
 :::tip{title="Opening new issue"}
 

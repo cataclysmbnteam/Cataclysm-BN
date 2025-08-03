@@ -1,6 +1,4 @@
----
-title: Starting locations
----
+# Starting locations
 
 Starting locations are specified as JSON object with "type" member set to "start_location":
 

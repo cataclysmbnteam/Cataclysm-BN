@@ -1,6 +1,4 @@
----
-title: Electric grids
----
+# Electric grids
 
 Electric grids are electric connections within a building, similar to how all parts of a vehicle
 share battery power.

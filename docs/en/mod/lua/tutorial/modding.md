@@ -1,6 +1,4 @@
----
-title: Modding with Lua
----
+# Modding with Lua
 
 ## Useful links
 

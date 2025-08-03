@@ -1,6 +1,4 @@
----
-title: Transifex로 BN 번역하기
----
+# Transifex로 BN 번역하기
 
 ## 지원하는 언어
 

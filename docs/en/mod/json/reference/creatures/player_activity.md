@@ -1,6 +1,4 @@
----
-title: Activities
----
+# Activities
 
 Activities are long term actions, that can be interrupted and (optionally) continued. This allows
 the avatar or an npc to react to events (like monsters appearing, getting hurt) while doing

@@ -1,6 +1,4 @@
----
-title: Game Objects
----
+# Game Objects
 
 Many of the things that physically exist within the game world are **game objects(GO)**. Currently
 this only covers items, but creatures and vehicles are coming soon and then probably furniture at

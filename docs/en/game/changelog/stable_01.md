@@ -1,6 +1,4 @@
----
-title: Stable 0.1
----
+# Stable 0.1
 
 ## Gameplay
 

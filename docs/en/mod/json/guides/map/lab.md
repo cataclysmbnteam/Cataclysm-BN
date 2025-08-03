@@ -1,6 +1,4 @@
----
-title: Writing Lab JSON
----
+# Writing Lab JSON
 
 Labs are heavily randomized but have very few actual overmap terrain tiles, meaning that variety in
 the maps gets almost entirely using JSON. In particular, labs use place_nested extensively to

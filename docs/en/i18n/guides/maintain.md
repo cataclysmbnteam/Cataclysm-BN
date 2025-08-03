@@ -1,6 +1,4 @@
----
-title: Merging and managing translations for maintainers
----
+# Merging and managing translations for maintainers
 
 Several steps need to be done in the correct order to correctly merge and maintain the translation
 files.

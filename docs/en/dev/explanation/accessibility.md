@@ -1,6 +1,4 @@
----
-title: Compatibility with screen readers
----
+# Compatibility with screen readers
 
 There are people who use screen readers to play Cataclysm Bright Nights. In order for screen readers
 to announce the most important information in a UI, the terminal cursor has to be placed at the

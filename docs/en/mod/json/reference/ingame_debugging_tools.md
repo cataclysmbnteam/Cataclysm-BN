@@ -1,6 +1,4 @@
----
-title: In-game debugging tools
----
+# In-game debugging tools
 
 The game features a number of inbuilt tools that aim to aid in debugging issues and testing fixes or
 new additions.

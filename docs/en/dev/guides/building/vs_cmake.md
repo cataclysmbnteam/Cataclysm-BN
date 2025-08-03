@@ -1,6 +1,4 @@
----
-title: CMake + Visual Studio + Vcpkg
----
+# CMake + Visual Studio + Vcpkg
 
 :::caution
 

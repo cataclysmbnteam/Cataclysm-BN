@@ -1,6 +1,4 @@
----
-title: Tilesets
----
+# Tilesets
 
 A tileset provides graphic images for the game. Each tileset has one or more tilesheets of image
 sprites and a `tile_config.json` file that describes how to map the contents of the sprite sheets to

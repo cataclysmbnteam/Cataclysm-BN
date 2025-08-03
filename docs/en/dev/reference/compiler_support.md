@@ -1,6 +1,4 @@
----
-title: Compiler Support
----
+# Compiler Support
 
 Our goal with compiler support is to make it as easy as possible for new contributors to get started
 with development of the game, while also using the newest compilers (and thus language standards)

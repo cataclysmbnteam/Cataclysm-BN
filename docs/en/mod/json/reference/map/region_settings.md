@@ -1,6 +1,4 @@
----
-title: Region Settings
----
+# Region Settings
 
 The **region_settings** define the attributes for map generation that apply to an entire region. The
 general settings define the default overmap terrain and ground cover. Additional sections are as

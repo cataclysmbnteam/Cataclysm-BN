@@ -1,6 +1,4 @@
----
-title: Field Types
----
+# Field Types
 
 ```json
 {

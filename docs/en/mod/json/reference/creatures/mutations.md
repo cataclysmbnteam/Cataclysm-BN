@@ -1,6 +1,4 @@
----
-title: Mutations & Traits
----
+# Mutations & Traits
 
 :::note
 

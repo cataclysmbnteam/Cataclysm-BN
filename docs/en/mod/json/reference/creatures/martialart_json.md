@@ -1,6 +1,4 @@
----
-title: Martial arts & techniques
----
+# Martial arts & techniques
 
 ### Martial arts
 

@@ -1,6 +1,4 @@
----
-title: Updating the game
----
+# Updating the game
 
 # Do
 

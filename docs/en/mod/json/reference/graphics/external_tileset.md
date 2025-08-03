@@ -1,6 +1,4 @@
----
-title: External Tilesets
----
+# External Tilesets
 
 `data/json/external_tileset` is used for content specific to Bright Nights which are not presently
 in primary tilesets such as UDP or Ultica, for which `looks_like` is inadequate to depict the

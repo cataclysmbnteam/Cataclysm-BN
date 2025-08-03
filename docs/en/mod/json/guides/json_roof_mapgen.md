@@ -1,6 +1,4 @@
----
-title: Adding Json Roof Guide
----
+# Adding Json Roof Guide
 
 Adding json roofs to a building involves using a few more files to link the roof and building
 together during mapgen.

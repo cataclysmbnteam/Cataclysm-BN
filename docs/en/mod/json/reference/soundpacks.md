@@ -1,6 +1,4 @@
----
-title: Soundpacks
----
+# Soundpacks
 
 A soundpack can be installed in the `data/sound` directory. It has to be a subdirectory that
 contains at least a file named `soundpack.txt`. It can include any number of json files which add

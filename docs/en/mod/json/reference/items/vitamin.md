@@ -1,6 +1,4 @@
----
-title: vitamin
----
+# vitamin
 
 ## definition
 

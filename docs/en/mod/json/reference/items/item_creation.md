@@ -1,6 +1,4 @@
----
-title: Item Creation / Types
----
+# Item Creation / Types
 
 :::note
 

@@ -1,6 +1,4 @@
----
-title: allergies
----
+# allergies
 
 ## Basic Info
 

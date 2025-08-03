@@ -1,6 +1,4 @@
----
-title: Grammatical gender
----
+# Grammatical gender
 
 For NPC dialogue (and potentially other strings) some languages may wish to have alternate
 translations depending on the gender of the conversation participants. This two pieces of initial

@@ -1,6 +1,4 @@
----
-title: Translation API
----
+# Translation API
 
 Cataclysm: BN uses custom runtime library that works similarly to [GNU gettext][gettext] to display
 translated texts.

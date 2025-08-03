@@ -1,6 +1,4 @@
----
-title: Design document
----
+# Design document
 
 See [Game Balance](../../mod/json/explanation/game_balance.md) and
 [Lore](../../game/lore/factions.md) for more detailed discussion coresponding to particular elements

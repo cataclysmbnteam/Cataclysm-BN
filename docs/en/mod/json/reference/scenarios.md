@@ -1,6 +1,4 @@
----
-title: Scenarios
----
+# Scenarios
 
 Scenarios are specified as JSON object with `type` member set to `scenario`.
 

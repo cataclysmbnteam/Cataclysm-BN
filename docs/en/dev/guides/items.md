@@ -1,6 +1,4 @@
----
-title: Items Cookbook
----
+# Items Cookbook
 
 Here are some common tasks that you might want to do with items.
 [For more on item(game objects), check here.](../explanation/game_objects.md)

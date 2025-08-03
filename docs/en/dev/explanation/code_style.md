@@ -1,6 +1,4 @@
----
-title: C++ Code Style Guide
----
+# C++ Code Style Guide
 
 All of the C++ code in the project is styled, you should run any changes you make through astyle
 before pushing a pull request.

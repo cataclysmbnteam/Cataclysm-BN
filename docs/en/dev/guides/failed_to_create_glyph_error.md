@@ -1,6 +1,4 @@
----
-title: Failed to create glyph error
----
+# Failed to create glyph error
 
 There were similar issues reported in BN and DDA for MSYS Windows builds and some Mac builds.
 https://github.com/CleverRaven/Cataclysm-DDA/issues/50115

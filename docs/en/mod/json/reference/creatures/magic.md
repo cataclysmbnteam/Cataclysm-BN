@@ -1,6 +1,4 @@
----
-title: Spells, enchantments and other custom effects
----
+# Spells, enchantments and other custom effects
 
 # Spells
 

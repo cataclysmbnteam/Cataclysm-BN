@@ -1,6 +1,4 @@
----
-title: Profiling with tracy
----
+# Profiling with tracy
 
 [Tracy](https://github.com/wolfpld/tracy) is a realtime profiler which you can use to analyze
 performance bottleneck. It consists of two parts: client and profiler. The client integrated in BN

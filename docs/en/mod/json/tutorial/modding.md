@@ -1,6 +1,4 @@
----
-title: Modding guide
----
+# Modding guide
 
 :::caution{title="Some documentation is not complete"}
 

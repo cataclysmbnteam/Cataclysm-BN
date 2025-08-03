@@ -1,6 +1,4 @@
----
-title: C++ Lua integration
----
+# C++ Lua integration
 
 This document describes implementation details behind Lua integration in Cataclysm: Bright Nights.
 

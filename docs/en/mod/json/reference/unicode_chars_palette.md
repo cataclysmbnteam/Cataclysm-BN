@@ -1,6 +1,4 @@
----
-title: Unicode chars palette
----
+# Unicode chars palette
 
 ## 2460—24FF Enclosed Alphanumerics
 

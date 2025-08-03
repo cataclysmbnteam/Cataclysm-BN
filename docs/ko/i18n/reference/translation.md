@@ -1,6 +1,4 @@
----
-title: 번역 API
----
+# 번역 API
 
 Cataclysm: BN 은 번역된 텍스트를 표시하기 위해 [GNU gettext][gettext]와 유사하게 작동하는 커스텀
 런타임 라이브러리를 사용합니다.

@@ -1,6 +1,4 @@
----
-title: Binding new type
----
+# Binding new type
 
 ### Adding new type to the doc generator without binding internals
 

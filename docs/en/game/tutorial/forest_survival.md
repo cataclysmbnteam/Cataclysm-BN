@@ -1,6 +1,4 @@
----
-title: forest survival
----
+# forest survival
 
 Being the most difficult part of Cataclysm, surviving in the woods with nothing is one of the most
 rewarding experiences. This guide will cover a tasklist that should keep you alive. Should you fall

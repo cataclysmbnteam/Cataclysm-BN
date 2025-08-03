@@ -1,6 +1,4 @@
----
-title: Mod Tileset
----
+# Mod Tileset
 
 MOD tileset defines additional sprite sheets. It is specified as JSON object with `type` member set
 to `mod_tileset`.

@@ -1,6 +1,4 @@
----
-title: Colors
----
+# Colors
 
 BN is a colorful game. You can use several foreground and background colors in various places:
 

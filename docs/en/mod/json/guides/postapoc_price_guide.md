@@ -1,6 +1,4 @@
----
-title: How to give items a sensible postapoc_price value
----
+# How to give items a sensible postapoc_price value
 
 ### Pricing philosophy
 

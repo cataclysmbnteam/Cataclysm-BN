@@ -1,6 +1,4 @@
----
-title: new mutation system
----
+# new mutation system
 
 At the moment the system only covers untargeted mutations. The targeted ones (alpha mutagen etc.)
 still use the old one, with the only difference being that it doesn't force negative mutations 33%

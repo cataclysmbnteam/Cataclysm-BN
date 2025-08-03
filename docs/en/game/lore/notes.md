@@ -1,6 +1,4 @@
----
-title: Xedra Notes
----
+# Xedra Notes
 
 :::danger{title="spoiler alert"}
 

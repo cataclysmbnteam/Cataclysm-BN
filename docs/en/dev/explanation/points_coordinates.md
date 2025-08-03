@@ -1,6 +1,4 @@
----
-title: Points, tripoints, and coordinate systems
----
+# Points, tripoints, and coordinate systems
 
 ## Axes
 

@@ -1,6 +1,4 @@
----
-title: Updating documentation
----
+# Updating documentation
 
 To update the documentation site, you need to:
 
@@ -79,9 +77,7 @@ This one is a bit more involved, but similar to the previous one.
    `<your-filename>.md` then add the [frontmatter](https://jekyllrb.com/docs/front-matter/) like:
 
 ```md
----
-title: <your-title>
----
+# <your-title>
 ```
 
 currently only `title` is required.

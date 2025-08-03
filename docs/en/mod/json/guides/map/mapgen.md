@@ -1,6 +1,4 @@
----
-title: Guide for basic mapgen
----
+# Guide for basic mapgen
 
 This guide will cover the basics of mapgen, which files you need to edit, the tags in each file and
 the differences in creating specials or regular city buildings.

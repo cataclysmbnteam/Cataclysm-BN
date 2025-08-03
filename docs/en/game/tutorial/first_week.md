@@ -1,6 +1,4 @@
----
-title: first week
----
+# first week
 
 :::tip
 

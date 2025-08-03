@@ -1,6 +1,4 @@
----
-title: JSON Inheritance
----
+# JSON Inheritance
 
 To reduce duplication in the JSON data it is possible for some types to inherit from an existing
 type.

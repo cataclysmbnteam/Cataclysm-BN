@@ -1,6 +1,4 @@
----
-title: About Changelogs
----
+# About Changelogs
 
 These are an incomplete list compiled for convenience, see
 [releases](https://github.com/cataclysmbnteam/Cataclysm-BN/releases) for all changes.

@@ -1,6 +1,4 @@
----
-title: New player guide
----
+# New player guide
 
 :::tip
 

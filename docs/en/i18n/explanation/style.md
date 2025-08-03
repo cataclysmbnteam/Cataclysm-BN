@@ -1,6 +1,4 @@
----
-title: Language Specific Style Guide
----
+# Language Specific Style Guide
 
 :::note{title="This section is a template."}
 

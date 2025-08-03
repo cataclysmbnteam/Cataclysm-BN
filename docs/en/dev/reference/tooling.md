@@ -1,6 +1,4 @@
----
-title: Developer Tooling
----
+# Developer Tooling
 
 ## Code style (astyle)
 

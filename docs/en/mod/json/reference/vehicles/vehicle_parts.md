@@ -1,6 +1,4 @@
----
-title: Vehicles
----
+# Vehicles
 
 :::note
 

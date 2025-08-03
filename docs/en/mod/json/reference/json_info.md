@@ -1,6 +1,4 @@
----
-title: JSON INFO
----
+# JSON INFO
 
 :::note
 

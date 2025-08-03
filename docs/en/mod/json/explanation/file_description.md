@@ -1,6 +1,4 @@
----
-title: File descriptions
----
+# File descriptions
 
 Here's a quick summary of what each of the JSON files contain, broken down by folder. This list is
 not comprehensive, but covers the broad strokes.

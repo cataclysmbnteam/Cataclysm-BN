@@ -1,6 +1,4 @@
----
-title: Factions
----
+# Factions
 
 :::danger{title="spoiler alert"}
 
