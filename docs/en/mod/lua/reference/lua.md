@@ -1,11 +1,8 @@
 ---
-title: Lua API reference
-editUrl: false
-sidebar:
-  badge:
-    text: Generated
-    status: note
+edit: false
 ---
+
+# Lua API reference
 
 > [!NOTE]
 >
@@ -398,27 +395,27 @@ Function `( Character, int )`
 
 #### get_healthy
 
-Function `( Character ) -> int`
+Function `( Character ) -> double`
 
 #### get_healthy_mod
 
-Function `( Character ) -> int`
+Function `( Character ) -> double`
 
 #### mod_healthy
 
-Function `( Character, int )`
+Function `( Character, double )`
 
 #### mod_healthy_mod
 
-Function `( Character, int, int )`
+Function `( Character, double, double )`
 
 #### set_healthy
 
-Function `( Character, int )`
+Function `( Character, double )`
 
 #### set_healthy_mod
 
-Function `( Character, int )`
+Function `( Character, double )`
 
 #### get_stored_kcal
 
@@ -6215,6 +6212,17 @@ Function `( Volume, Volume ) -> bool`
 - `STUN_IMMUNE` = `112`
 - `DROPS_AMMO` = `113`
 - `CAN_BE_ORDERED` = `114`
+- `SMALL_HEAD` = `115`
+- `TINY_HEAD` = `116`
+- `NO_HEAD_BONUS_CRIT` = `117`
+- `HEAD_BONUS_CRIT_1` = `118`
+- `HEAD_BONUS_CRIT_2` = `119`
+- `TORSO_BONUS_CRIT_1` = `120`
+- `TORSO_BONUS_CRIT_2` = `121`
+- `PROJECTILE_RESISTANT_1` = `122`
+- `PROJECTILE_RESISTANT_2` = `123`
+- `PROJECTILE_RESISTANT_3` = `124`
+- `PROJECTILE_RESISTANT_4` = `125`
 
 ## MonsterSize
 

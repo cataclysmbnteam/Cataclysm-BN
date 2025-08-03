@@ -1,11 +1,8 @@
 ---
-title: CLI Options
-editUrl: false
-sidebar:
-  badge:
-    text: Generated
-    status: note
+edit: false
 ---
+
+# CLI Options
 
 > [!NOTE]
 >
