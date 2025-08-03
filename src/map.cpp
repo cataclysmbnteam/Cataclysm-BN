@@ -3942,12 +3942,12 @@ void map::shoot( const tripoint &origin, const tripoint &p, projectile &proj, co
     ter_id terrain = ter( p );
     ter_t ter = terrain.obj();
 
+    double range = rl_dist( origin, p );
+    const bool point_blank = range <= 1;
     if( furn.bash.ranged ) {
-        double range = rl_dist( origin, p );
-        const bool point_blank = range <= 1;
-        const ranged_bash_info &rfi = *furn.bash.ranged;
-        // Damage obstacles like a crit if we're breaching at point blank range, otherwise randomize like a normal hit.
+        // Damage cover like a crit if we're breaching at point blank range, otherwise randomize like a normal hit.
         float destroy_roll = point_blank ? dam * 1.5 : dam * rng_float( 0.9, 1.1 );
+        const ranged_bash_info &rfi = *furn.bash.ranged;
         if( !hit_items && ( !check( rfi.block_unaimed_chance ) || ( rfi.block_unaimed_chance < 100_pct &&
                             point_blank ) ) ) {
             // Nothing, it's a miss, we're shooting over nearby furniture.
@@ -3961,18 +3961,13 @@ void map::shoot( const tripoint &origin, const tripoint &p, projectile &proj, co
             dam = 0;
         } else if( rfi.reduction_laser && proj.has_effect( ammo_effect_LASER ) ) {
             dam -= std::max( ( rng( rfi.reduction_laser->min,
-                                    rfi.reduction_laser->max ) - initial_arpen ) * initial_armor_mult, 0.0f );
+                                    rfi.reduction_laser->max ) - pen ) * initial_armor_mult, 0.0f );
         } else {
             // Roll damage reduction value, reduce result by arpen, multiply by any armor mult, then finally set to zero if negative result
             const float pen_reduction = rng( rfi.reduction.min, rfi.reduction.max );
-            const float dam_reduction = std::max( ( pen_reduction - initial_arpen ) * initial_armor_mult,
-                                                  0.0f );
-            const float new_dam = std::max( 0.0f, dam - dam_reduction );
-            const float new_pen = std::max( 0.0f, pen - pen_reduction );
-            add_msg( m_debug, "%s: damage: %.0f -> %.0f, arpen: %.0f -> %.0f", furn.name(), dam, new_dam, pen,
-                     new_pen );
-            dam = new_dam;
-            pen = new_pen;
+            dam = std::max( dam - ( std::max( pen_reduction - pen, 0.0f ) * initial_armor_mult ),
+                            0.0f );
+            pen = std::max( 0.0f, pen - pen_reduction );
             // Only print if we hit something we can see enemies through, so we know cover did its job
             if( get_avatar().sees( p ) ) {
                 if( dam <= 0 ) {
@@ -3982,6 +3977,9 @@ void map::shoot( const tripoint &origin, const tripoint &p, projectile &proj, co
                     add_msg( _( "The shot hits the %s and punches through!" ), furnname( p ) );
                 }
             }
+            add_msg( m_debug, "%s: damage: %.0f -> %.0f, arpen: %.0f -> %.0f", furn.name(), initial_damage, dam,
+                     initial_arpen,
+                     pen );
             if( destroy_roll > rfi.destroy_threshold && rfi.reduction.min > 0 ) {
                 bash_params params{0, false, true, hit_items, 1.0, false};
                 bash_furn_success( p, params );
@@ -3990,12 +3988,15 @@ void map::shoot( const tripoint &origin, const tripoint &p, projectile &proj, co
                 add_field( p, fd_fire, 1 );
             }
         }
-    } else if( ter.bash.ranged ) {
-        double range = rl_dist( origin, p );
-        const bool point_blank = range <= 1;
-        const ranged_bash_info &ri = *ter.bash.ranged;
-        // Damage obstacles like a crit if we're breaching at point blank range, otherwise randomize like a normal hit.
+        // Check furniture and terrain separately, if this was an if/else then getting partial cover embedded in a wall would let you fire through it.
+    }
+    if( ter.bash.ranged ) {
+        // New values are used for debug message in case furniture did something.
+        float modified_dam = dam;
+        float modified_pen = pen;
+        // Separate hit roll since damage might have been lowered by furniture first.
         float destroy_roll = point_blank ? dam * 1.5 : dam * rng_float( 0.9, 1.1 );
+        const ranged_bash_info &ri = *ter.bash.ranged;
         if( !hit_items && ( !check( ri.block_unaimed_chance ) || ( ri.block_unaimed_chance < 100_pct &&
                             point_blank ) ) ) {
             // Nothing, it's a miss or we're shooting over nearby terrain
@@ -4009,18 +4010,13 @@ void map::shoot( const tripoint &origin, const tripoint &p, projectile &proj, co
             dam = 0;
         } else if( ri.reduction_laser && proj.has_effect( ammo_effect_LASER ) ) {
             dam -= std::max( ( rng( ri.reduction_laser->min,
-                                    ri.reduction_laser->max ) - initial_arpen ) * initial_armor_mult, 0.0f );
+                                    ri.reduction_laser->max ) - pen ) * initial_armor_mult, 0.0f );
         } else {
             // Roll damage reduction value, reduce result by arpen, multiply by any armor mult, then finally set to zero if negative result
             const float pen_reduction = rng( ri.reduction.min, ri.reduction.max );
-            const float dam_reduction = std::max( ( pen_reduction - initial_arpen ) * initial_armor_mult,
-                                                  0.0f );
-            const float new_dam = std::max( 0.0f, dam - dam_reduction );
-            const float new_pen = std::max( 0.0f, pen - pen_reduction );
-            add_msg( m_debug, "%s: damage: %.0f -> %.0f, arpen: %.0f -> %.0f", ter.name(), dam, new_dam, pen,
-                     new_pen );
-            dam = new_dam;
-            pen = new_pen;
+            dam = std::max( dam - ( std::max( pen_reduction - pen, 0.0f ) * initial_armor_mult ),
+                            0.0f );
+            pen = std::max( 0.0f, pen - pen_reduction );
             // Only print if we hit something we can see enemies through, so we know cover did its job
             if( get_avatar().sees( p ) ) {
                 if( dam <= 0 ) {
@@ -4030,6 +4026,9 @@ void map::shoot( const tripoint &origin, const tripoint &p, projectile &proj, co
                     add_msg( _( "The shot hits the %s and punches through!" ), tername( p ) );
                 }
             }
+            add_msg( m_debug, "%s: damage: %.0f -> %.0f, arpen: %.0f -> %.0f", ter.name(), modified_dam, dam,
+                     modified_pen,
+                     pen );
             // Destroy if the damage exceeds threshold, unless the target was meant to be shot through with zero resistance like canvas.
             if( destroy_roll > ri.destroy_threshold && ri.reduction.min > 0 ) {
                 bash_params params{0, false, true, hit_items, 1.0, false};
@@ -4053,9 +4052,6 @@ void map::shoot( const tripoint &origin, const tripoint &p, projectile &proj, co
             }
         }
     }
-
-    dam = std::max( 0.0f, dam );
-    pen = std::max( 0.0f, pen );
 
     // Check fields?
     const field_entry *fieldhit = get_field( p, fd_web );
