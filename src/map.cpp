@@ -3964,9 +3964,15 @@ void map::shoot( const tripoint &origin, const tripoint &p, projectile &proj, co
                                     rfi.reduction_laser->max ) - initial_arpen ) * initial_armor_mult, 0.0f );
         } else {
             // Roll damage reduction value, reduce result by arpen, multiply by any armor mult, then finally set to zero if negative result
-            float roll = rng( rfi.reduction.min, rfi.reduction.max );
-            dam -= std::max( ( roll - initial_arpen ) * initial_armor_mult, 0.0f );
-            pen -= roll;
+            const float pen_reduction = rng( rfi.reduction.min, rfi.reduction.max );
+            const float dam_reduction = std::max( ( pen_reduction - initial_arpen ) * initial_armor_mult,
+                                                  0.0f );
+            const float new_dam = std::max( 0.0f, dam - dam_reduction );
+            const float new_pen = std::max( 0.0f, pen - pen_reduction );
+            add_msg( m_debug, "%s: damage: %.0f -> %.0f, arpen: %.0f -> %.0f", furn.name(), dam, new_dam, pen,
+                     new_pen );
+            dam = new_dam;
+            pen = new_pen;
             // Only print if we hit something we can see enemies through, so we know cover did its job
             if( get_avatar().sees( p ) ) {
                 if( dam <= 0 ) {
@@ -4006,9 +4012,15 @@ void map::shoot( const tripoint &origin, const tripoint &p, projectile &proj, co
                                     ri.reduction_laser->max ) - initial_arpen ) * initial_armor_mult, 0.0f );
         } else {
             // Roll damage reduction value, reduce result by arpen, multiply by any armor mult, then finally set to zero if negative result
-            float roll = rng( ri.reduction.min, ri.reduction.max );
-            dam -= std::max( ( roll - initial_arpen ) * initial_armor_mult, 0.0f );
-            pen -= roll;
+            const float pen_reduction = rng( ri.reduction.min, ri.reduction.max );
+            const float dam_reduction = std::max( ( pen_reduction - initial_arpen ) * initial_armor_mult,
+                                                  0.0f );
+            const float new_dam = std::max( 0.0f, dam - dam_reduction );
+            const float new_pen = std::max( 0.0f, pen - pen_reduction );
+            add_msg( m_debug, "%s: damage: %.0f -> %.0f, arpen: %.0f -> %.0f", ter.name(), dam, new_dam, pen,
+                     new_pen );
+            dam = new_dam;
+            pen = new_pen;
             // Only print if we hit something we can see enemies through, so we know cover did its job
             if( get_avatar().sees( p ) ) {
                 if( dam <= 0 ) {
@@ -4052,7 +4064,7 @@ void map::shoot( const tripoint &origin, const tripoint &p, projectile &proj, co
             add_field( p, fd_fire, fieldhit->get_field_intensity() - 1 );
         } else if( dam > 5 + fieldhit->get_field_intensity() * 5 &&
                    one_in( 5 - fieldhit->get_field_intensity() ) ) {
-            dam -= rng( 1, 2 + fieldhit->get_field_intensity() * 2 );
+            dam -= rng( 1, 2 + ( fieldhit->get_field_intensity() * 2 ) );
             remove_field( p, fd_web );
         }
     }
