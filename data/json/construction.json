@@ -5777,8 +5777,8 @@
     "group": "build_adobe_floor",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 3 ] ],
-    "time": "60 m",
-    "qualities": [ [ { "id": "SMOOTH", "level": 1 } ] ],
+    "time": "30 m",
+    "qualities": [ [ { "id": "SMOOTH", "level": 1 } ], [ { "id": "DIG", "level": 1 } ] ],
     "components": [
       [ [ "adobe_brick", 10 ] ],
       [ [ "mortar_adobe", 1 ] ],
@@ -5795,12 +5795,12 @@
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 3 ] ],
     "time": "60 m",
-    "qualities": [ [ { "id": "SMOOTH", "level": 1 } ] ],
+    "qualities": [ [ { "id": "SMOOTH", "level": 1 } ], [ { "id": "DIG", "level": 1 } ] ],
     "components": [
-      [ [ "adobe_brick", 10 ] ],
-      [ [ "mortar_adobe", 1 ] ],
-      [ [ "water", 1 ], [ "water_clean", 1 ] ],
-      [ [ "material_sand", 20 ] ]
+      [ [ "adobe_brick", 20 ] ],
+      [ [ "mortar_adobe", 2 ] ],
+      [ [ "water", 2 ], [ "water_clean", 2 ] ],
+      [ [ "material_sand", 40 ] ]
     ],
     "pre_special": "check_support",
     "post_terrain": "t_adobe_brick_floor"
