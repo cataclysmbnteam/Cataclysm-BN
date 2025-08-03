@@ -1,10 +1,8 @@
 # Item Creation / Types
 
-:::note
-
-This page is currently under-construction and was recently split off from `JSON INFO`
-
-:::
+> [!NOTE]
+>
+> This page is currently under-construction and was recently split off from `JSON INFO`
 
 ### Generic Items
 

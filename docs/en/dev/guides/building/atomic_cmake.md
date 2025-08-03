@@ -7,24 +7,20 @@ the desired solution rather than layering the dependencies onto your base instal
 
 # Example: Fedora Atomic-based (Bazzite)
 
-:::caution
+> [!CAUTION]
+>
+> As of writing this, Bazzite's default container image is fedora-toolbox:38, which _may_ result in
+> having to edit the dependencies installation script. On distros that grab a more modern version of
+> Fedora as their image (or by manually grabbing one yourself), you can be more certain in just using
+> the standard Fedora script
 
-As of writing this, Bazzite's default container image is fedora-toolbox:38, which _may_ result in
-having to edit the dependencies installation script. On distros that grab a more modern version of
-Fedora as their image (or by manually grabbing one yourself), you can be more certain in just using
-the standard Fedora script
-
-:::
-
-:::caution
-
-when using [distrobox](https://distrobox.it), using
-[exported](https://github.com/89luca89/distrobox/blob/main/docs/usage/distrobox-export.md) compiler
-(e.g `~/.local/bin/clang`)
-[won't work as it cannot access `/usr`.](https://github.com/89luca89/distrobox/issues/1548) instead,
-use absolute path for compilers like `/usr/bin/clang`.
-
-:::
+> [!CAUTION]
+>
+> when using [distrobox](https://distrobox.it), using
+> [exported](https://github.com/89luca89/distrobox/blob/main/docs/usage/distrobox-export.md) compiler
+> (e.g `~/.local/bin/clang`)
+> [won't work as it cannot access `/usr`.](https://github.com/89luca89/distrobox/issues/1548) instead,
+> use absolute path for compilers like `/usr/bin/clang`.
 
 ## Setting up the container
 

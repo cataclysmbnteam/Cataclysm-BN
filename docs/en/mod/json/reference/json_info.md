@@ -1,17 +1,13 @@
 # JSON INFO
 
-:::note
+> [!NOTE]
+>
+> This document is being split into multiple pages.
 
-This document is being split into multiple pages.
-
-:::
-
-:::danger
-
-Many of the JSON files are not documented yet or is outdated. Check relevent source files to be
-sure.
-
-:::
+> [!DANGER]
+>
+> Many of the JSON files are not documented yet or is outdated. Check relevent source files to be
+> sure.
 
 This document describes the contents of the json files used in Cataclysm: Dark days ahead. You are
 probably reading this if you want to add or change content of Catacysm: Dark days ahead and need to

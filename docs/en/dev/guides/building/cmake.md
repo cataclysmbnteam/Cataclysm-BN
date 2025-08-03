@@ -2,11 +2,9 @@
 title: CMake
 ---
 
-:::caution
-
-CMake build is work-in-progress.
-
-:::
+> [!CAUTION]
+>
+> CMake build is work-in-progress.
 
 For official way to build CataclysmBN see [Compiler Support](../../reference/compiler_support.md).
 
@@ -86,12 +84,10 @@ pacman -S mingw-w64-x86_64-toolchain msys/git \
 
 This should get your environment set up to build console and tiles version of windows.
 
-:::note
-
-If you're trying to test with Jetbrains CLion, point to the cmake version in the `msys32/mingw32`
-path instead of using the built in. This will let cmake detect the installed packages.
-
-:::
+> [!NOTE]
+>
+> If you're trying to test with Jetbrains CLion, point to the cmake version in the `msys32/mingw32`
+> path instead of using the built in. This will let cmake detect the installed packages.
 
 ### CMake Build
 
@@ -103,11 +99,9 @@ There are two ways to build CataclysmBN with CMake: inside the source tree or ou
 Out-of-source builds have the advantage that you can have multiple builds with different options
 from one source directory.
 
-:::danger
-
-Inside the source tree build is **NOT** supported.
-
-:::
+> [!DANGER]
+>
+> Inside the source tree build is **NOT** supported.
 
 To build CataclysmBN out of source:
 
@@ -176,13 +170,11 @@ This will place the executables into `build/src/`.
 
 ## Build for Visual Studio / MSBuild
 
-:::caution
-
-This guide is quite old and requires manual dependency management.
-
-For modern alternative, see [CMake Visual Studio build with vcpkg](./vs_cmake.md)
-
-:::
+> [!CAUTION]
+>
+> This guide is quite old and requires manual dependency management.
+>
+> For modern alternative, see [CMake Visual Studio build with vcpkg](./vs_cmake.md)
 
 CMake can generate `.sln` and `.vcxproj` files used either by Visual Studio itself or by MSBuild
 command line compiler (if you don't want a full fledged IDE) and have more "native" binaries than

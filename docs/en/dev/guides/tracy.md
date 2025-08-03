@@ -7,15 +7,13 @@ client in order to start profiling.
 
 ## Install Tracy Profiler
 
-:::caution
-
-Both the game and profiler have to be built with same version of tracy to work properly. Due to
-[numerous issues](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/3253#discussion_r1545267113),
-The windows version uses [`v0.10`](https://github.com/wolfpld/tracy/releases/tag/v0.10) wheras the
-linux version uses
-[`6d1deb5640ed11da01995fb1791115cfebe54dbf`](https://github.com/wolfpld/tracy/commit/6d1deb5640ed11da01995fb1791115cfebe54dbf).
-
-:::
+> [!CAUTION]
+>
+> Both the game and profiler have to be built with same version of tracy to work properly. Due to
+> [numerous issues](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/3253#discussion_r1545267113),
+> The windows version uses [`v0.10`](https://github.com/wolfpld/tracy/releases/tag/v0.10) wheras the
+> linux version uses
+> [`6d1deb5640ed11da01995fb1791115cfebe54dbf`](https://github.com/wolfpld/tracy/commit/6d1deb5640ed11da01995fb1791115cfebe54dbf).
 
 ### Linux
 
@@ -47,27 +45,27 @@ $ cmake -B profiler/build -S profiler # if you're using wayland
 3. Set up cmake. By default tracy uses wayland, if you want to use X11, you need to add `LEGACY=1`
    flag.
 
-:::note{title="for X11"}
+> [!NOTE]
+>
+> #### for X11
+>
+> ```sh
+> $ cmake -DLEGACY=ON -B profiler/build -S profiler # if you're using X11
+> ```
+>
+> tracy uses wayland by default, if you want to use X11, you need to add `LEGACY=1` flag.
 
-```sh
-$ cmake -DLEGACY=ON -B profiler/build -S profiler # if you're using X11
-```
-
-tracy uses wayland by default, if you want to use X11, you need to add `LEGACY=1` flag.
-
-:::
-
-:::note{title="fileselector fixes"}
-
-```sh
-$ cmake -DGTK_FILESELECTOR=ON -B profiler/build -S profiler
-```
-
-Due to issues with [default fileselector (xdg-portal)](https://github.com/wolfpld/tracy/issues/764),
-tracy may fail to open or save trace history. As an workaround, add `GTK_FILESELECTOR=ON` in compile
-flags to use gtk fileselector.
-
-:::
+> [!NOTE]
+>
+> #### fileselector fixes
+>
+> ```sh
+> $ cmake -DGTK_FILESELECTOR=ON -B profiler/build -S profiler
+> ```
+>
+> Due to issues with [default fileselector (xdg-portal)](https://github.com/wolfpld/tracy/issues/764),
+> tracy may fail to open or save trace history. As an workaround, add `GTK_FILESELECTOR=ON` in compile
+> flags to use gtk fileselector.
 
 ```sh
 $ cmake --build profiler/build --config Release --parallel $(nproc)
@@ -75,32 +73,32 @@ $ cmake --build profiler/build --config Release --parallel $(nproc)
 
 4. Build the binary. It will be available on `./profiler/build/tracy-profiler`.
 
-:::tip{title="Adding desktop entry"}
-
-```
-[Desktop Entry]
-Version=1.0
-Type=Application
-Name=Tracy Profiler
-GenericName=Code profiler
-GenericName[pl]=Profiler kodu
-GenericName[ko]=코드 프로파일러
-Comment=Examine code to see where it is slow
-Comment[pl]=Znajdowanie wolno wykonującego się kodu
-Comment[ko]=코드 분석해서 느린 곳 찾기
-Exec=<THE_PATH_WHERE_YOU_INSTALLED_TRACY>/profiler/build/tracy-profiler %f
-Icon=<THE_PATH_WHERE_YOU_INSTALLED_TRACY>/icon/icon.ico
-Terminal=false
-Categories=Development;Profiling;
-MimeType=application/tracy;
-X-Desktop-File-Install-Version=0.26
-```
-
-To make the profiler available in app runner, create `$HOME/.local/share/applications/tracy.desktop`
-file with the following content. Make sure to replace `<THE_PATH_WHERE_YOU_INSTALLED_TRACY>` with
-the path where you installed tracy!
-
-:::
+> [!TIP]
+>
+> #### Adding desktop entry
+>
+> ```
+> [Desktop Entry]
+> Version=1.0
+> Type=Application
+> Name=Tracy Profiler
+> GenericName=Code profiler
+> GenericName[pl]=Profiler kodu
+> GenericName[ko]=코드 프로파일러
+> Comment=Examine code to see where it is slow
+> Comment[pl]=Znajdowanie wolno wykonującego się kodu
+> Comment[ko]=코드 분석해서 느린 곳 찾기
+> Exec=<THE_PATH_WHERE_YOU_INSTALLED_TRACY>/profiler/build/tracy-profiler %f
+> Icon=<THE_PATH_WHERE_YOU_INSTALLED_TRACY>/icon/icon.ico
+> Terminal=false
+> Categories=Development;Profiling;
+> MimeType=application/tracy;
+> X-Desktop-File-Install-Version=0.26
+> ```
+>
+> To make the profiler available in app runner, create `$HOME/.local/share/applications/tracy.desktop`
+> file with the following content. Make sure to replace `<THE_PATH_WHERE_YOU_INSTALLED_TRACY>` with
+> the path where you installed tracy!
 
 ### Windows
 

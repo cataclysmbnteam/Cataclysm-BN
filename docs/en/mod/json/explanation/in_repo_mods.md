@@ -6,13 +6,11 @@ sidebar:
     variant: caution
 ---
 
-:::caution
-
-Current guideline is in favor of removing
-[in-repo mods](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/3026). This page is kept for
-historical purposes.
-
-:::
+> [!CAUTION]
+>
+> Current guideline is in favor of removing
+> [in-repo mods](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/3026). This page is kept for
+> historical purposes.
 
 BN is not only moddable, but ships with a number of mods available for users to select from even
 without having to obtain mods from a third party source.

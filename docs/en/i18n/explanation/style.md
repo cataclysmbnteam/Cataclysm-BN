@@ -1,11 +1,11 @@
 # Language Specific Style Guide
 
-:::note{title="This section is a template."}
-
-As this page is for language-specific notes, it shouldn't be translated. Instead, it's used as a
-template. [Check here for examples.](#writing-style-guide-for-your-language)
-
-:::
+> [!NOTE]
+>
+> #### This section is a template.
+>
+> As this page is for language-specific notes, it shouldn't be translated. Instead, it's used as a
+> template. [Check here for examples.](#writing-style-guide-for-your-language)
 
 ## How to write one for your language
 

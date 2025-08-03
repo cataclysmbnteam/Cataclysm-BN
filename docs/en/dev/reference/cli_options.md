@@ -7,11 +7,9 @@ sidebar:
     status: note
 ---
 
-:::note
-
-This page is auto-generated from `tools/gen_cli_docs.ts` and should not be edited directly.
-
-:::
+> [!NOTE]
+>
+> This page is auto-generated from `tools/gen_cli_docs.ts` and should not be edited directly.
 
 The game executable can not only run your favorite roguelike,
 but also provides a number of command line options to help modders and developers.

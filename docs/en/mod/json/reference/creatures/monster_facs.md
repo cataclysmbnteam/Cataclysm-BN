@@ -2,9 +2,9 @@
 title: Monster Factions
 ---
 
-:::note
-This article was recently split off from `JSON INFO` and likely could use additional work
-:::
+> [!NOTE]
+>
+> This article was recently split off from `JSON INFO` and likely could use additional work
 
 ### Monster Factions
 

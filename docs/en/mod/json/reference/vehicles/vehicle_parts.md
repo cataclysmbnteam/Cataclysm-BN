@@ -1,10 +1,8 @@
 # Vehicles
 
-:::note
-
-This page is currently under-construction and was recently split off from `JSON INFO`
-
-:::
+> [!NOTE]
+>
+> This page is currently under-construction and was recently split off from `JSON INFO`
 
 ### Vehicle Parts
 

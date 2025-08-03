@@ -1,10 +1,10 @@
 # Xedra Notes
 
-:::danger{title="spoiler alert"}
-
-spoilers below! All of this is to be revised to fit new lore introduced in Factions
-
-:::
+> [!DANGER]
+>
+> #### spoiler alert
+>
+> spoilers below! All of this is to be revised to fit new lore introduced in Factions
 
 ### Note #356-92-XE
 

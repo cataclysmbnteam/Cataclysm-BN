@@ -28,16 +28,14 @@ this is the most straightforward way to update the documentation site.
 2. You will be redirected to the github page of the documentation site. You can edit and preview
    your changes here.
 
-:::note
-
-- `.md` in `CONTRIBUTING.md` stands for markdown files
-- `.mdx` in `docs.mdx` stands for [MarkDown eXtended](https://mdxjs.com)
-  - it's a superset of markdown with javascript and [jsx component][jsx] support
-  - they are a bit more complicated but allows to use interactive components
+> [!NOTE]
+>
+> - `.md` in `CONTRIBUTING.md` stands for markdown files
+> - `.mdx` in `docs.mdx` stands for [MarkDown eXtended](https://mdxjs.com)
+>   - it's a superset of markdown with javascript and [jsx component][jsx] support
+>   - they are a bit more complicated but allows to use interactive components
 
 [jsx]: https://www.typescriptlang.org/docs/handbook/jsx.html
-
-:::
 
 ![propose changes window](https://github.com/scarf005/Cataclysm-BN/assets/54838975/d4a06795-1680-4706-a84c-072346bff109)
 
@@ -87,14 +85,12 @@ currently only `title` is required.
 
 ## Local development
 
-:::note
-
-This section assumes you have some knowledge of [git](https://git-scm.com),
-[node](https://nodejs.org/en) and
-[javascript](https://developer.mozilla.org/en-US/docs/Web/JavaScript). Of course, you can learn them
-as you go.
-
-:::
+> [!NOTE]
+>
+> This section assumes you have some knowledge of [git](https://git-scm.com),
+> [node](https://nodejs.org/en) and
+> [javascript](https://developer.mozilla.org/en-US/docs/Web/JavaScript). Of course, you can learn them
+> as you go.
 
 To run the documentation site locally, you need to:
 

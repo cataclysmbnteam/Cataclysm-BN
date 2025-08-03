@@ -2,9 +2,9 @@
 title: Recipes
 ---
 
-:::note
-This article was recently split off from `JSON INFO` and likely could use additional work
-:::
+> [!NOTE]
+>
+> This article was recently split off from `JSON INFO` and likely could use additional work
 
 ### Recipes
 
@@ -82,9 +82,9 @@ Recipes represent both craft and uncraft (disassembly) recipes.
 
 #### Overlapping recipe component requirements
 
-:::note
-This section was inherited from DDA, and has not been proven to still apply yet. Take the below with a grain of salt.
-:::
+> [!NOTE]
+>
+> This section was inherited from DDA, and has not been proven to still apply yet. Take the below with a grain of salt.
 
 If recipes have requirements which overlap, this makes it more difficult for the game to calculate
 whether it is possible to craft a recipe at all.

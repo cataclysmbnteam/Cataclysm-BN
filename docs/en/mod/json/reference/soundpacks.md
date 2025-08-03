@@ -75,12 +75,10 @@ Sound effects can be included for preloading with a format like this:
 
 `"variant": "all"` will be treated specially and load all variants of the given id.
 
-:::warning
-
-`"variant": "all"` uses unoptimal algorithm (because the dev was dumb and lazy and used hacks) and
-will slow down game loading time.
-
-:::
+> [!WARNING]
+>
+> `"variant": "all"` uses unoptimal algorithm (because the dev was dumb and lazy and used hacks) and
+> will slow down game loading time.
 
 If `"variant"` is omitted, it defaults to `"default"`.
 

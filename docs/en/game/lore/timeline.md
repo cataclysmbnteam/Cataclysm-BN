@@ -1,10 +1,10 @@
 # Timeline
 
-:::danger{title="spoiler alert"}
-
-spoilers below! Heavily to be revised for lore changes in Factions.
-
-:::
+> [!DANGER]
+>
+> #### spoiler alert
+>
+> spoilers below! Heavily to be revised for lore changes in Factions.
 
 ## Timeline
 

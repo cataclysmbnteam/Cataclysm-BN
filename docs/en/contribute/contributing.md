@@ -1,10 +1,10 @@
 # Contributing
 
-:::tip{title="Opening new issue"}
-
-Check [how to open a issue](./issues).
-
-:::
+> [!TIP]
+>
+> #### Opening new issue
+>
+> Check [how to open a issue](./issues).
 
 # Want to help?
 
@@ -32,15 +32,15 @@ Contributing to Cataclysm: Bright Nights is easy:
 2. Make your changes.
 3. Send us a pull request.
 
-:::note{title="License"}
-
-Cataclysm: Bright Nights is released under the Creative Commons Attribution ShareAlike 3.0 license.
-The code and content of the game is free to use, modify, and redistribute for any purpose
-whatsoever. See http://creativecommons.org/licenses/by-sa/3.0/ for details. This means any
-contribution you make to the project will also be covered by the same license, and this license is
-irrevocable.
-
-:::
+> [!NOTE]
+>
+> #### License
+>
+> Cataclysm: Bright Nights is released under the Creative Commons Attribution ShareAlike 3.0 license.
+> The code and content of the game is free to use, modify, and redistribute for any purpose
+> whatsoever. See http://creativecommons.org/licenses/by-sa/3.0/ for details. This means any
+> contribution you make to the project will also be covered by the same license, and this license is
+> irrevocable.
 
 ## Guidelines
 

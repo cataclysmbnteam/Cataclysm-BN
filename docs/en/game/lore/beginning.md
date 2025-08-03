@@ -1,10 +1,10 @@
 # How it all started
 
-:::danger{title="spoiler alert"}
-
-spoilers below!
-
-:::
+> [!DANGER]
+>
+> #### spoiler alert
+>
+> spoilers below!
 
 ### Cataclysm
 

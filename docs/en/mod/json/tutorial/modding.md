@@ -1,11 +1,11 @@
 # Modding guide
 
-:::caution{title="Some documentation is not complete"}
-
-Some parts of the documentation are incomplete or have not been properly updated from older
-documentation. Contributions to fix this are greatly appreciated.
-
-:::
+> [!CAUTION]
+>
+> #### Some documentation is not complete
+>
+> Some parts of the documentation are incomplete or have not been properly updated from older
+> documentation. Contributions to fix this are greatly appreciated.
 
 Certain features of the game can be modified without rebuilding the game from source code. This
 includes professions, monsters, npcs, and more. Just modify the pertinent files and run the game to

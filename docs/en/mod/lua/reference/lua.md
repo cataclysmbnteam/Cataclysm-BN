@@ -7,14 +7,12 @@ sidebar:
     status: note
 ---
 
-:::note
-
-This page is auto-generated from [`data/raw/generate_docs.lua`][generate_docs]
-and should not be edited directly.
+> [!NOTE]
+>
+> This page is auto-generated from [`data/raw/generate_docs.lua`][generate_docs]
+> and should not be edited directly.
 
 [generate_docs]: https://github.com/cataclysmbnteam/Cataclysm-BN/blob/main/data/raw/generate_docs.lua
-
-:::
 
 ## ActivityTypeId
 

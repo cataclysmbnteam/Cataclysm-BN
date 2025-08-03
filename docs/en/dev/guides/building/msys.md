@@ -2,22 +2,18 @@
 title: MSYS2
 ---
 
-:::caution
-
-This set of instructions for MSYS2 have not been updated in a long time. The preferred instructions for building with MSYS2 are instead found in [CMake](./cmake#windows-environment-msys2)
-
-:::
+> [!CAUTION]
+>
+> This set of instructions for MSYS2 have not been updated in a long time. The preferred instructions for building with MSYS2 are instead found in [CMake](./cmake#windows-environment-msys2)
 
 This guide contains instructions for compiling Cataclysm-BN on 64bit Windows under MSYS2.
 
-:::warning
-
-These instructions _are not intended_ to produce a redistributable copy of CBN. Please download the
-official builds from the website or
-[cross-compile from Linux](./makefile#cross-compile-to-windows-from-linux) if that is your
-intention.
-
-:::
+> [!WARNING]
+>
+> These instructions _are not intended_ to produce a redistributable copy of CBN. Please download the
+> official builds from the website or
+> [cross-compile from Linux](./makefile#cross-compile-to-windows-from-linux) if that is your
+> intention.
 
 These instructions were written using 64-bit Windows 7 and the 64-bit version of MSYS2; the steps
 should be the same for other versions of Windows.

@@ -2,9 +2,9 @@
 title: Professions
 ---
 
-:::danger
-This article was recently split off from `JSON INFO`, and needs to be updated due to referring to ancient methods of mods extending and deleting base game professions.
-:::
+> [!DANGER]
+>
+> This article was recently split off from `JSON INFO`, and needs to be updated due to referring to ancient methods of mods extending and deleting base game professions.
 
 ### Profession item substitution
 

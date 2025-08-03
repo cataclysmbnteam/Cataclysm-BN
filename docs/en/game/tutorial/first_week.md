@@ -1,11 +1,9 @@
 # first week
 
-:::tip
-
-In order to maximize your ability to learn and chances of survival, Evac shelter is recommended and
-expected.
-
-:::
+> [!TIP]
+>
+> In order to maximize your ability to learn and chances of survival, Evac shelter is recommended and
+> expected.
 
 While daunting, the game is a lot easier than some might think. You can do a great deal to prepare
 yourself for combat, but remember the zombies always get tougher thanks to evolution. It only gets
@@ -34,12 +32,10 @@ in combat. If its too hot this is easy you just take off layers. If it's too col
 craft what clothes you can or loot what you can but don't waste too much time on this. You'll likely
 find the clothes you need.
 
-:::note
-
-You want to minimize how many enemies you take on at once until you learn the game and the limits of
-your character, usually 1 enemy at a time is ideal
-
-:::
+> [!NOTE]
+>
+> You want to minimize how many enemies you take on at once until you learn the game and the limits of
+> your character, usually 1 enemy at a time is ideal
 
 ## Going into town
 
@@ -93,12 +89,10 @@ Without fuel you won't be going anywhere. Gas stations come to mind, but you can
 diesel with the right book and cooking level. You can also opt for a solar car but it won't go far
 and you need a lot of panels and the electric motors.
 
-:::note
-
-Your first week was a success if you lived long enough to loot a gun store, find a working car, and
-have otherwise kept up with your survival needs.
-
-:::
+> [!NOTE]
+>
+> Your first week was a success if you lived long enough to loot a gun store, find a working car, and
+> have otherwise kept up with your survival needs.
 
 ## Bonus Tasks
 

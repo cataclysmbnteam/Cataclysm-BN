@@ -1,13 +1,13 @@
 # Factions
 
-:::danger{title="spoiler alert"}
-
-spoilers below!
-
-Also worth noting these include future plans, and is a framework for what future additions/lore
-reworks should keep in mind, rather than what is currently already in the game.
-
-:::
+> [!DANGER]
+>
+> #### spoiler alert
+>
+> spoilers below!
+>
+> Also worth noting these include future plans, and is a framework for what future additions/lore
+> reworks should keep in mind, rather than what is currently already in the game.
 
 ## America
 

@@ -1,10 +1,8 @@
 # CMake + Visual Studio + Vcpkg
 
-:::caution
-
-CMake build is work-in-progress.
-
-:::
+> [!CAUTION]
+>
+> CMake build is work-in-progress.
 
 ## Prerequisites
 
@@ -108,11 +106,9 @@ Explorer, switch it into CMake Targets mode (can be done with right click), then
 
 ## Install
 
-:::caution
-
-Install is still considered WIP and has received little testing.
-
-:::
+> [!CAUTION]
+>
+> Install is still considered WIP and has received little testing.
 
 ### Visual Studio
 

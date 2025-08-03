@@ -6,11 +6,9 @@ sidebar:
     variant: caution
 ---
 
-:::caution
-
-This document is from DDA and does not necessarily up-to-date with BN guidelines.
-
-:::
+> [!CAUTION]
+>
+> This document is from DDA and does not necessarily up-to-date with BN guidelines.
 
 GitHub issues are used for everything from bug reporting to suggesting long-term ideas. You can make
 everything run much smoother by following some simple rules.

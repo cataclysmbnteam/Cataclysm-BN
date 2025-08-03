@@ -5,12 +5,10 @@ rewarding experiences. This guide will cover a tasklist that should keep you ali
 behind, continue the previous steps before moving onto the next day's tasks. The exception is day 1.
 Day 1 tasks are in order of severity.
 
-:::caution
-
-This guide ASSUMES you are not playing with mods that changes this too much, specifically changing
-foraging drops. You'll die if they removed trash from shrubs.
-
-:::
+> [!CAUTION]
+>
+> This guide ASSUMES you are not playing with mods that changes this too much, specifically changing
+> foraging drops. You'll die if they removed trash from shrubs.
 
 ## Day 1 requirements
 
@@ -128,8 +126,6 @@ to deconstruct electronic furniture in town and make any low level craft you can
 flash lights and electric firestarters. If you get a solar panel, mounted battery and oven you'll be
 in a good position.
 
-:::tip
-
-That's about all you can do without going into the city.
-
-:::
+> [!TIP]
+>
+> That's about all you can do without going into the city.
