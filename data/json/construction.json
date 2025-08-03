@@ -5770,5 +5770,39 @@
     "pre_special": "check_empty",
     "dark_craftable": true,
     "post_furniture": "f_clay_storage"
+  },
+  {
+    "type": "construction",
+    "id": "constr_adobe_brick_floor_noroof",
+    "group": "build_adobe_floor",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 3 ] ],
+    "time": "30 m",
+    "qualities": [ [ { "id": "SMOOTH", "level": 1 } ], [ { "id": "DIG", "level": 1 } ] ],
+    "components": [
+      [ [ "adobe_brick", 10 ] ],
+      [ [ "mortar_adobe", 1 ] ],
+      [ [ "water", 1 ], [ "water_clean", 1 ] ],
+      [ [ "material_sand", 20 ] ]
+    ],
+    "pre_flags": "FLAT",
+    "post_terrain": "t_adobe_brick_floor_noroof"
+  },
+  {
+    "type": "construction",
+    "id": "constr_adobe_brick_roof",
+    "group": "build_adobe_roof",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 3 ] ],
+    "time": "60 m",
+    "qualities": [ [ { "id": "SMOOTH", "level": 1 } ], [ { "id": "DIG", "level": 1 } ] ],
+    "components": [
+      [ [ "adobe_brick", 20 ] ],
+      [ [ "mortar_adobe", 2 ] ],
+      [ [ "water", 2 ], [ "water_clean", 2 ] ],
+      [ [ "material_sand", 40 ] ]
+    ],
+    "pre_special": "check_support",
+    "post_terrain": "t_adobe_brick_floor"
   }
 ]

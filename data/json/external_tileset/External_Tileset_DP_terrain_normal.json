@@ -36,7 +36,9 @@
           { "id": "t_fortification_drystone", "fg": 30 },
           { "id": "t_fortification_stone", "fg": 31 },
           { "id": "t_fortification_brick", "fg": 32 },
-          { "id": "t_fortification_adobe", "fg": 33 }
+          { "id": "t_fortification_adobe", "fg": 33 },
+          { "id": "t_adobe_brick_floor", "fg": 34 },
+          { "id": "t_adobe_brick_floor_noroof", "fg": 34 }
         ],
         "sprite_width": 32,
         "sprite_height": 32
