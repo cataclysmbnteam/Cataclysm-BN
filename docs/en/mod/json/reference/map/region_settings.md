@@ -136,7 +136,7 @@ interpreted.
 
 | Identifier                                 | Description                                                                 |
 | ------------------------------------------ | --------------------------------------------------------------------------- |
-| `noise_threshold_lake`                     | [0, 1], x > value spawns a `lake_surface` or `lake_shore`.                  |
+| `noise_threshold_lake`                     | `[0, 1]`, x > value spawns a `lake_surface` or `lake_shore`.                |
 | `lake_size_min`                            | Minimum size of the lake in overmap terrains for it to actually spawn.      |
 | `lake_depth`                               | Depth of lakes, expressed in Z-levels (e.g. -1 to -10).                     |
 | `shore_extendable_overmap_terrain`         | List of overmap terrains that can be extended to the shore if adjacent.     |
@@ -167,14 +167,14 @@ features are interpreted.
 
 ### Fields
 
-| Identifier                             | Description                                                            |
-| -------------------------------------- | ---------------------------------------------------------------------- |
-| `noise_threshold_forest`               | [0, 1], x > value spawns `forest`.                                     |
-| `noise_threshold_forest_thick`         | [0, 1], x > value spawns `forest_thick`.                               |
-| `noise_threshold_swamp_adjacent_water` | [0, 1], x > value spawns `forest_water` if forest near a waterbody.    |
-| `noise_threshold_swamp_isolated`       | [0, 1], x > value spawns `forest_water` if forest isolated from water. |
-| `river_floodplain_buffer_distance_min` | Minimum buffer distance in overmap terrains for river floodplains.     |
-| `river_floodplain_buffer_distance_max` | Maximum buffer distance in overmap terrains for river floodplains.     |
+| Identifier                             | Description                                                              |
+| -------------------------------------- | ------------------------------------------------------------------------ |
+| `noise_threshold_forest`               | `[0, 1]`, x > value spawns `forest`.                                     |
+| `noise_threshold_forest_thick`         | `[0, 1]`, x > value spawns `forest_thick`.                               |
+| `noise_threshold_swamp_adjacent_water` | `[0, 1]`, x > value spawns `forest_water` if forest near a waterbody.    |
+| `noise_threshold_swamp_isolated`       | `[0, 1]`, x > value spawns `forest_water` if forest isolated from water. |
+| `river_floodplain_buffer_distance_min` | Minimum buffer distance in overmap terrains for river floodplains.       |
+| `river_floodplain_buffer_distance_max` | Maximum buffer distance in overmap terrains for river floodplains.       |
 
 ### Example
 
@@ -497,7 +497,7 @@ The **weather** section defines the base weather attributes used for the region.
 | `base_wind`                  | Base wind for the region in mph units. Roughly the yearly average.                                                                                                                               |
 | `base_wind_distrib_peaks`    | How high the wind peaks can go. Higher values produce windier days.                                                                                                                              |
 | `base_wind_season_variation` | How the wind varies with season. Lower values produce more variation                                                                                                                             |
-| `weather_types`              | Ids of the weather types allowed in this region. First value will be the default weather type. Declaration order will affect weather selection, see [WEATHER_TYPE.md](WEATHER_TYPE) for details. |
+| `weather_types`              | Ids of the weather types allowed in this region. First value will be the default weather type. Declaration order will affect weather selection, see [WEATHER_TYPE.md](weather_type) for details. |
 
 ### Example
 

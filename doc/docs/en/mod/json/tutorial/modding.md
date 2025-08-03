@@ -12,7 +12,7 @@ includes professions, monsters, npcs, and more. Just modify the pertinent files 
 see your changes.
 
 The majority of modding is done by editing JSON files. An in-depth review of all json files and
-their appropriate fields is available in [JSON_INFO](./../reference/json_info.md).
+their appropriate fields is available in [JSON_INFO](../../../../../../docs/en/mod/json/reference/json_info.md).
 
 ## The basics
 
@@ -70,7 +70,7 @@ present in another mod. If you have no dependencies outside of the core game, th
 `dda` in the list is good enough. If your mod depends on another one to work properly, adding that
 mod's `id` attribute to the array causes Cataclysm to force that mod to load before yours.
 
-For more details on `MOD_INFO` object, see [JSON_INFO.md](./../reference/mod_info).
+For more details on `MOD_INFO` object, see [JSON_INFO.md](../../../../../../docs/en/mod/json/reference/mod_info).
 
 ## Actually adding things to your mod
 
@@ -84,7 +84,7 @@ otherwise, there are no restrictions on what you can put where.
 
 ### JSON_INFO.md
 
-It's worth reading [JSON_INFO.md](./../reference/json_info) to get a comprehensive list of everything
+It's worth reading [JSON_INFO.md](../../../../../../docs/en/mod/json/reference/json_info) to get a comprehensive list of everything
 you can do with these mods. The rest of this document will have a few examples to copy and paste,
 but it is by no means comprehensive. The base game's data is also defined in the same way as any mod
 you write, so taking a look through the game's json files (in `data/json`) can also teach you a lot.
@@ -175,7 +175,7 @@ Police Officer profession:
 
 ### Adding an item
 
-Items are where you really want to read the [JSON_INFO](./../reference/json_info) file, just because
+Items are where you really want to read the [JSON_INFO](../../../../../../docs/en/mod/json/reference/json_info) file, just because
 there's so much that you can do with them, and every category of item is a little bit different.
 
 <!--I chose this one because it's about as basic an item as I could find. Everything else does something.-->

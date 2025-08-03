@@ -4,7 +4,7 @@
 >
 > #### Opening new issue
 >
-> Check [how to open a issue](./issues).
+> Check [how to open a issue](../../../../docs/en/contribute/issues).
 
 # Want to help?
 
@@ -58,12 +58,12 @@ There are a couple of guidelines we suggest sticking to:
 ### C++
 
 Code style is enforced across the codebase by `astyle`. See
-[CODE_STYLE](./../dev/explanation/code_style.md) for details.
+[CODE_STYLE](../../../../docs/en/dev/explanation/code_style.md) for details.
 
 ### JSON
 
 JSON files are formatted using custom formatter available in `tools/format`. Visit
-[JSON Style Guide](./../mod/json/explanation/json_style.md) for details.
+[JSON Style Guide](../../../../docs/en/mod/json/explanation/json_style.md) for details.
 
 ### Markdown
 
@@ -85,7 +85,7 @@ VSCode, you can set following configuration to auto-format markdown files on sav
 
 Lua files are formatted using [`dprint`](https://dprint.dev)'s built-in formatter. Run
 [`deno task dprint fmt`](https://dprint.dev/plugins/lua) anywhere to format Lua files. For details,
-see [Lua Style Guide](./../mod/lua/explanation/lua_style.md).
+see [Lua Style Guide](../../../../docs/en/mod/lua/explanation/lua_style.md).
 
 ## Translations
 
@@ -95,9 +95,9 @@ list of supported languages.
 
 For more information:
 
-- [For translators](./../i18n/tutorial/transifex)
-- [For developers](./../i18n/reference/translation)
-- [For maintainers](./../i18n/guides/maintain)
+- [For translators](../../../../docs/en/i18n/tutorial/transifex)
+- [For developers](../../../../docs/en/i18n/reference/translation)
+- [For maintainers](../../../../docs/en/i18n/guides/maintain)
 
 ## Documentation
 
@@ -288,7 +288,7 @@ See https://help.github.com/articles/closing-issues-using-keywords for more.
 ## Tooling support
 
 Various tools are available to help you keep your contributions conforming to the appropriate style.
-See [DEVELOPER_TOOLING](./../dev/reference/tooling) for more details.
+See [DEVELOPER_TOOLING](../../../../docs/en/dev/reference/tooling) for more details.
 
 ## Advanced Techniques
 
@@ -429,4 +429,4 @@ $ git pull --ff-only upstream main
 $ git checkout new_branch
 ```
 
-For more frequently asked questions, see the [developer FAQ](./../dev/reference/faq.md).
+For more frequently asked questions, see the [developer FAQ](../../../../docs/en/dev/reference/faq.md).

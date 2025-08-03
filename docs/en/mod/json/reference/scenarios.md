@@ -149,7 +149,7 @@ default profession. If this is empty, all professions are allowed.
 
 (optional, string)
 
-Add a map special to the starting location, see JSON_FLAGS for the possible specials.
+Add a map special to the starting location, see json_flags for the possible specials.
 
 ## `missions`
 

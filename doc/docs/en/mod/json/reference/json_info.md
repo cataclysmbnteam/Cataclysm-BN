@@ -35,8 +35,8 @@ positioning your cursor over an id and hitting the appropriate key combination.
 
 Entries are distinguished by their `type` property. This property is mandatory for all entries.
 Setting this entry to 'armor' for example means the game will expect properties specific to armor in
-that entry. Also ties in with [`copy-from`](./items/json_inheritance.md#copy-from), if you want to
-[inherit properties of another object](./items/json_inheritance.md), it must be of the same tipe.
+that entry. Also ties in with [`copy-from`](../../../../../../docs/en/mod/json/reference/items/json_inheritance.md#copy-from), if you want to
+[inherit properties of another object](../../../../../../docs/en/mod/json/reference/items/json_inheritance.md), it must be of the same tipe.
 
 ## Formatting
 
@@ -88,7 +88,7 @@ entries does not matter.
 }
 ```
 
-[Currently, only some JSON values support this syntax](./../../../i18n/reference/translation#supported-json-values).
+[Currently, only some JSON values support this syntax](../../../../../../docs/en/i18n/reference/translation#supported-json-values).
 
 ## Description and content of each JSON file
 
@@ -356,7 +356,7 @@ When you sort your inventory by category, these are the categories that are disp
 ### Scores and Achievements
 
 Scores are defined in two or three steps based on _events_. To see what events exist and what data
-they contain, read [`event.h`](https://github.com/cataclysmbnteam/Cataclysm-BN/blob/main/src/event.h).
+they contain, read [`event.h`](../../../../../../../src/event.h).
 
 Each event contains a certain set of fields. Each field has a string key and a `cata_variant` value.
 The fields should provide all the relevant information about the event.

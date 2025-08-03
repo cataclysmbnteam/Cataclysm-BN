@@ -46,7 +46,7 @@
     "damage": { "values": [ { "damage_type": "bash", "amount": 50 } ] } }, // Damage of this attack, using `damage_instance` syntax (see below)
   { "id": "THRUST", "damage": { "values": [ { "damage_type": "stab", "amount": 45 } ] } }
 ],
-"flags": ["VARSIZE"],                        // Indicates special effects, see JSON_FLAGS.md
+"flags": ["VARSIZE"],                        // Indicates special effects, see json_flags.md
 "environmental_protection_with_filter": 6,   // the resistance to environmental effects if an item (for example a gas mask) requires a filter to operate and this filter is installed. Used in combination with use_action 'GASMASK' and 'DIVE_TANK'
 "magazine_well": 0,                          // Volume above which the magazine starts to protrude from the item and add extra volume
 "magazines": [                               // Magazines types for each ammo type (if any) which can be used to reload this item

@@ -121,7 +121,7 @@ details.
 
 (string, optional)
 
-Size flag, see JSON_FLAGS.md.
+Size flag, see json_flags.md.
 
 ## "material"
 
@@ -323,7 +323,7 @@ see ITEM_SPAWN.md. The default subtype is "distribution".
 
 (array of strings, optional)
 
-How the monster behaves on death. See JSON_FLAGS.md for a list of possible functions. One can add or
+How the monster behaves on death. See json_flags.md for a list of possible functions. One can add or
 remove entries in mods via "add:death_function" and "remove:death_function".
 
 ## "on_death"
@@ -431,7 +431,7 @@ Will stop fleeing if at max hp, and regen anger and morale.
 Monster's special attacks. This should be an array, each element of it should be an object (new
 style) or an array (old style).
 
-The old style array should contain 2 elements: the id of the attack (see JSON_FLAGS.md for a list)
+The old style array should contain 2 elements: the id of the attack (see json_flags.md for a list)
 and the cooldown for that attack. Example (grab attack every 10 turns):
 
 ```json
@@ -475,14 +475,14 @@ and you should not include the cooldown.
 
 (array of strings, optional)
 
-Monster flags. See JSON_FLAGS.md for a full list. One can add or remove entries in mods via
+Monster flags. See json_flags.md for a full list. One can add or remove entries in mods via
 "add:flags" and "remove:flags".
 
 ## "fear_triggers", "anger_triggers", "placate_triggers"
 
 (array of strings, optional)
 
-What makes the monster afraid / angry / what calms it. See JSON_FLAGS.md for a full list
+What makes the monster afraid / angry / what calms it. See json_flags.md for a full list
 
 ## "revert_to_itype"
 
@@ -572,7 +572,7 @@ this or "baby_monster" for reproduction to work.
 (array, optional)
 
 A special defense attack, triggered when the monster is attacked. It should contain an array with
-the id of the defense (see Monster defense attacks in JSON_FLAGS.md) and the chance for that defense
+the id of the defense (see Monster defense attacks in json_flags.md) and the chance for that defense
 to be actually triggered. Example:
 
 ```json

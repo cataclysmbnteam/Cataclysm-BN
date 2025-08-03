@@ -287,7 +287,7 @@ can put any item_group into the machines, like those bullet ones_.
 
 6. Item spawns: There are many ways to place items. This tutorial will only cover explicit symbol
    placement which is the easiest. There is documentation all about loot spawns you can read for
-   further information. See: [ITEM_SPAWN.md](../../reference/items/ITEM_SPAWN).
+   further information. See: [ITEM_SPAWN.md](../../reference/items/item_spawn).
 
 our sample uses "items": for its tag. others include: "place_item", "place_items", "place_loot".
 Some of these allow for individual item placement and others groups, or both. This will be covered
@@ -594,7 +594,7 @@ Example:
    percentage so `[ 1, 10 ]` wouldn't be 1 to 10 times per overmap but a 1 in 10% chance to spawn on
    the overmap. So 10% chance to spawn once per overmap.
 8. `"flags"`: These are flags you can use to further define the special. For a list of flags see:
-   [JSON_FLAGS](../../reference/json_flags.md).
+   [json_flags](../../reference/json_flags.md).
 
 Read: [OVERMAP](../../reference/map/overmap.md) for more details.
 
@@ -642,7 +642,7 @@ You need one entry per mapgen ID:
    appropriate for your location. Others further define the mapgen, like having sidewalks generate.
 
 For further information see:
-[Overmap Terrain section of OVERMAP](../../reference/map/OVERMAP#overmap-terrain).
+[Overmap Terrain section of OVERMAP](../../reference/map/overmap#overmap-terrain).
 
 ## Palettes:
 

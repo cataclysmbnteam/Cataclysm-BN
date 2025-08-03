@@ -21,7 +21,7 @@
    attack timer.
 6. Just like attacks, some monsters may have a special function called when they die. This works the
    same as attacks, but the relevant files are `mondeath.h` and `mondeath.cpp`.
-7. If you add flags, document them in `JSON_FLAGS.md`, and `mtype.h`. Please. Or we will replace
+7. If you add flags, document them in `json_flags.md`, and `mtype.h`. Please. Or we will replace
    your blood with acid in the night.
 
 ## Adding structures to the map
@@ -99,7 +99,7 @@ constants in the example above.
 
 1. Add the new item use code to `iuse.cpp` and `iuse.h`.
 2. Add the new json_flag to your item. And link it to the iuse function in `item_factory.cpp`.
-3. Document the new flag in `JSON_FLAGS.md`.
+3. Document the new flag in `json_flags.md`.
 
 ## Acid resistance
 

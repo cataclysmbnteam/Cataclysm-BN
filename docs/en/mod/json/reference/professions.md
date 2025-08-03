@@ -96,7 +96,7 @@ Point cost of profession. Positive values cost points and negative values grant 
 
 List of starting addictions. Each entry in the list should be an object with the following members:
 
-- "type": the string id of the addiction (see JSON_FLAGS.md),
+- "type": the string id of the addiction (see json_flags.md),
 - "intensity": intensity (integer) of the addiction.
 
 Example:

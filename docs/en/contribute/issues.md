@@ -65,7 +65,7 @@ Remember to take part in the discussion of your suggestions.
 ### Questions
 
 You should direct your questions to the forum or ask on IRC. You should also read the included
-documentation and additional text files, e.g. [compiling](../dev/guides/building/cmake.md) if you
+documentation and additional text files, e.g. [compiling](./../dev/guides/building/cmake.md) if you
 have problems building.
 
 ## Bounties

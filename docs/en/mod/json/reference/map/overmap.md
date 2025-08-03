@@ -204,7 +204,7 @@ referenced overmap terrains (e.g. the `_north` version for all).
 | `extras`          | Reference to a named `map_extras` in region_settings, defines which map extras can be applied.                                                                                              |
 | `mondensity`      | Summed with values for adjacent overmap terrains to influence density of monsters spawned here.                                                                                             |
 | `spawns`          | Spawns added once at mapgen. Monster group, % chance, population range (min/max).                                                                                                           |
-| `flags`           | See `Overmap terrains` in [JSON_FLAGS.md](../JSON_FLAGS).                                                                                                                                   |
+| `flags`           | See `Overmap terrains` in [json_flags.md](../json_flags).                                                                                                                                   |
 | `mapgen`          | Specify a C++ mapgen function. Don't do this--use JSON.                                                                                                                                     |
 | `mapgen_straight` | Specify a C++ mapgen function for a LINEAR feature variation. Prefer JSON instead.                                                                                                          |
 | `mapgen_curved`   | Specify a C++ mapgen function for a LINEAR feature variation. Prefer JSON instead.                                                                                                          |
@@ -316,7 +316,7 @@ level value and then only specify it for individual entries that differ.
 | `city_distance` | Min/max distance from a city that the special may be placed. Use -1 for unbounded.                    |
 | `city_sizes`    | Min/max city size for a city that the special may be placed near. Use -1 for unbounded.               |
 | `occurrences`   | Min/max number of occurrences when placing the special. If UNIQUE flag is set, becomes X of Y chance. |
-| `flags`         | See `Overmap specials` in [JSON_FLAGS.md](../JSON_FLAGS).                                             |
+| `flags`         | See `Overmap specials` in [json_flags.md](../json_flags).                                             |
 | `rotate`        | Whether the special can rotate. True if not specified.                                                |
 
 Depending on the subtype, there are further relevant fields:
@@ -896,7 +896,7 @@ layout each connection point will be linked to the closest connection of same ty
 | `terrain`    | `overmap_terrain` to be placed when the placement location matches `locations`.                            |
 | `locations`  | List of `overmap_location` that this subtype applies to. Can be empty; signifies `terrain` is valid as is. |
 | `basic_cost` | Cost of this subtype when pathfinding a route. Default 0.                                                  |
-| `flags`      | See `Overmap connections` in [JSON_FLAGS.md](../JSON_FLAGS).                                               |
+| `flags`      | See `Overmap connections` in [json_flags.md](../json_flags).                                               |
 
 ## Overmap Location
 

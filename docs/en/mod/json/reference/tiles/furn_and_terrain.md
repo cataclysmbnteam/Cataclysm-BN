@@ -382,7 +382,7 @@ Displayed name of the object. This will be translated.
 
 #### `flags`
 
-(Optional) Various additional flags, see "doc/JSON_FLAGS.md".
+(Optional) Various additional flags, see "doc/json_flags.md".
 
 #### `connects_to`
 
