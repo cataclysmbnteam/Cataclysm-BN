@@ -16,17 +16,20 @@
     "magazine": 100,
     "subtype": "distribution",
     "entries": [
-      [ "l_car_223_kit", 5 ],
-      [ "l_dsr_223_kit", 5 ],
-      [ "l_lmg_223_kit", 5 ],
-      [ "l_mbr_223_kit", 5 ]
+      { "item": "l_car_223_kit", "prob": 5 },
+      { "item": "l_dsr_223_kit", "prob": 5 },
+      { "item": "l_lmg_223_kit", "prob": 5 },
+      { "item": "l_mbr_223_kit", "prob": 5 }
     ]
   },
   {
     "type": "item_group",
     "id": "lmoe_guns",
+    "magazine": 100,
+    "ammo": 100,
+    "subtype": "distribution",
     "entries": [
-      [ "lwfeed", 30 ]
+      { "item": "lwfeed", "prob": 30 }
     ]
   },
   {
@@ -41,7 +44,9 @@
     "id": "behindcounter",
     "magazine": 100,
     "items": [
-      [ "lwfeed", 40 ]
+      [ "l_enforcer_45", 4 ],
+      [ "l_sp_45", 3 ],
+      [ "l_mp_45", 2 ]
     ]
   }
 ]

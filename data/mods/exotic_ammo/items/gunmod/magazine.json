@@ -12,7 +12,7 @@
     "symbol": ":",
     "color": "green",
     "location": "magazine",
-    "mod_targets": [ "pistol", "rifle" ],
+    "mod_target_category": [ [ "RIFLES", "PISTOLS" ] ],
     "acceptable_ammo": [ "9mm", "460", "223" ],
     "install_time": "60 m",
     "magazine_adaptor": [ [ "9mm", [ "lw21mag" ] ], [ "460", [ "lw12mag" ] ], [ "223", [ "lw223mag", "lw223bigmag" ] ] ],
