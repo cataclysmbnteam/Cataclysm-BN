@@ -726,6 +726,8 @@ Everything else will look like a series of object entries, for example the roof_
 }
 ```
 
+Palette IDs must be unique. An error will be displayed if one is redefined and JSON loading will be aborted.
+
 If you want to look at more complex palettes, the standard_domestic_palette in
 [data/json/mapgen_palettes/house_general_palette.json](https://github.com/cataclysmbnteam/Cataclysm-BN/blob/main/data/json/mapgen_palettes/house_general_palette.json)
 is a good look at a palette designed to work across all CDDA houses. It includes the loot spawns and
