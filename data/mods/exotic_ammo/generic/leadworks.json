@@ -74,7 +74,7 @@
     "type": "GENERIC",
     "symbol": ")",
     "color": "light_gray",
-    "name": { "str_sp": "L523-DSR conversion" },
+    "name": { "str_sp": "L523-DMR conversion" },
     "category": "spare_parts",
     "description": "All the parts necessary to convert an L523 to a Designated Shootist Rifle, suitable for long-ranged work.  In order to reconfigure an already-configured L523, you'll need to disassemble it to the base platform, then assemble with the parts you prefer.",
     "price": "2000 USD",
