@@ -151,7 +151,6 @@ static const trait_id trait_MASOCHIST( "MASOCHIST" );
 static const trait_id trait_MASOCHIST_MED( "MASOCHIST_MED" );
 static const trait_id trait_MUT_JUNKIE( "MUT_JUNKIE" );
 static const trait_id trait_SAPIOVORE( "SAPIOVORE" );
-static const trait_id trait_SELFAWARE( "SELFAWARE" );
 
 static const trait_flag_str_id trait_flag_PRED1( "PRED1" );
 static const trait_flag_str_id trait_flag_PRED2( "PRED2" );
@@ -3866,12 +3865,10 @@ static bodypart_str_id pick_part_to_heal(
     const bool bleed = bleed_chance > 0.0f;
     const bool bite = bite_chance > 0.0f;
     const bool infect = infect_chance > 0.0f;
-    const bool precise = &healer == &patient ?
-                         patient.has_trait( trait_SELFAWARE ) :
-                         /** @EFFECT_PER slightly increases precision when using first aid on someone else */
+    /** @EFFECT_PER slightly increases precision when using first aid */
+    /** @EFFECT_FIRSTAID increases precision when using first aid */
+    const bool precise = ( healer.get_skill_level( skill_firstaid ) * 4 + healer.per_cur >= 20 );
 
-                         /** @EFFECT_FIRSTAID increases precision when using first aid on someone else */
-                         ( healer.get_skill_level( skill_firstaid ) * 4 + healer.per_cur >= 20 );
     while( true ) {
         bodypart_str_id healed_part = patient.body_window( menu_header, force, precise,
                                       limb_power, head_bonus, torso_bonus,

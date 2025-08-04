@@ -68,7 +68,6 @@ static const trait_id trait_PER_ALPHA( "PER_ALPHA" );
 static const trait_id trait_ROBUST( "ROBUST" );
 static const trait_id trait_ROOTS2( "ROOTS2" );
 static const trait_id trait_ROOTS3( "ROOTS3" );
-static const trait_id trait_SELFAWARE( "SELFAWARE" );
 static const trait_id trait_SLIMESPAWNER( "SLIMESPAWNER" );
 static const trait_id trait_STR_ALPHA( "STR_ALPHA" );
 static const trait_id trait_THRESH_MARLOSS( "THRESH_MARLOSS" );
@@ -541,10 +540,6 @@ void Character::activate_mutation( const trait_id &mut )
     } else if( mut == trait_M_PROVENANCE ) {
         spores(); // double trouble!
         blossoms();
-        tdata.powered = false;
-        return;
-    } else if( mut == trait_SELFAWARE ) {
-        print_health();
         tdata.powered = false;
         return;
     } else if( mut == trait_TREE_COMMUNION ) {
