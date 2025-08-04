@@ -9,7 +9,8 @@
       { "group": "nested_m1911-460", "prob": 5 },
       { "group": "nested_raging_bull", "prob": 60 },
       { "group": "nested_raging_judge", "prob": 40 },
-      { "group": "nested_tokarev", "prob": 50 }
+      { "group": "nested_tokarev", "prob": 50 },
+      { "item": "l_bak_223", "prob": 80, "charges-min": 0, "charges-max": 5 }
     ]
   },
   {
@@ -29,7 +30,7 @@
     "type": "item_group",
     "id": "guns_smg_obscure",
     "//": "Imported or otherwise very obscure SMGs.",
-    "items": [ { "group": "nested_skorpion_82", "prob": 100 }, { "group": "nested_ppsh", "prob": 150 } ]
+    "items": [ { "group": "nested_skorpion_82", "prob": 100 }, { "group": "nested_ppsh", "prob": 150 }, { "item": "rm360_carbine", "prob": 30, "charges-min": 0, "charges-max": 100 } ]
   },
   {
     "type": "item_group",
@@ -44,7 +45,13 @@
     "items": [
       { "group": "nested_m1911a1_38super", "prob": 15 },
       { "group": "nested_sw_500", "prob": 25 },
-      { "group": "nested_fn57", "prob": 10 }
+      { "group": "nested_fn57", "prob": 10 },
+      { "item": "l_enforcer_45", "prob": 5, "charges-min": 0, "charges-max": 6 },
+      { "item": "l_lookout_9mm", "prob": 4, "charges-min": 0, "charges-max": 7 },
+      { "item": "l_sp_45", "prob": 7, "charges-min": 0, "charges-max": 12 },
+      { "item": "l_sp_9mm", "prob": 12, "charges-min": 0, "charges-max": 21 },
+      { "item": "l_mp_45", "prob": 5, "charges-min": 0, "charges-max": 12 },
+      { "item": "l_mp_9mm", "prob": 5, "charges-min": 0, "charges-max": 21 }
     ]
   },
   {
@@ -55,6 +62,7 @@
       { "group": "everyday_m1911a1_38super", "prob": 15 },
       { "group": "everyday_sw_500", "prob": 25 },
       { "group": "everyday_fn57", "prob": 10 }
+      
     ]
   },
   {
@@ -74,7 +82,13 @@
     "items": [
       { "group": "nested_trex_gun", "prob": 20 },
       { "group": "nested_ak74", "prob": 50 },
-      { "group": "nested_an94", "prob": 40 }
+      { "group": "nested_an94", "prob": 40 },
+      { "item": "l_base_223", "prob": 40, "charges-min": 0, "charges-max": 32 },
+      { "item": "l_car_223", "prob": 10, "charges-min": 0, "charges-max": 32 },
+      { "item": "l_dsr_223", "prob": 5, "charges-min": 0, "charges-max": 32 },
+      { "item": "l_lmg_223", "prob": 5, "charges-min": 0, "charges-max": 32 },
+      { "item": "l_mbr_223", "prob": 10, "charges-min": 0, "charges-max": 32 },
+      { "item": "l_long_45", "prob": 30, "charges-min": 0, "charges-max": 12 }
     ]
   },
   {
@@ -122,7 +136,7 @@
     "type": "item_group",
     "id": "guns_cop",
     "//": "Police issue weapons of all types",
-    "items": [ { "group": "nested_fn57", "prob": 20 }, { "group": "nested_fn_p90", "prob": 5 } ]
+    "items": [ { "group": "nested_fn57", "prob": 20 }, { "group": "nested_fn_p90", "prob": 5 }, { "item": "l_enforcer_45", "prob": 10, "charges-min": 0, "charges-max": 6 } ]
   },
   {
     "type": "item_group",
@@ -153,5 +167,40 @@
     "id": "carried_guns_smg_milspec",
     "//": "Military specification SMGs only ever carried by the military. Comes with mags or loose ammo.",
     "items": [ { "group": "everyday_hk_mp7", "prob": 100 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "lmoe_guns",
+    "magazine": 100,
+    "ammo": 100,
+    "subtype": "distribution",
+    "entries": [
+      { "item": "l_HFPack", "prob": 50 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "behindcounter",
+    "ammo": 50,
+    "magazine": 100,
+    "items": [
+      [ "l_enforcer_45", 4 ],
+      [ "l_sp_45", 3 ],
+      [ "l_mp_45", 2 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "behindcounter",
+    "magazine": 100,
+    "ammo": 50,
+    "items": [
+      [ "l_lookout_9mm", 5 ],
+      [ "l_sp_9mm", 5 ],
+      [ "l_bak_223", 4 ],
+      [ "l_car_223", 3 ],
+      [ "l_mp_9mm", 4 ],
+      [ "l_mp_45", 7 ]
+    ]
   }
 ]
