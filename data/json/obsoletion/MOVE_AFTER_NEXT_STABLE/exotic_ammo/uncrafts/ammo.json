@@ -62,14 +62,6 @@
     "charges": 1
   },
   {
-    "result": "9x18mm_casing",
-    "type": "uncraft",
-    "time": "10 s",
-    "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "charges": 1,
-    "components": [ [ [ "cartridgebrass", 3 ] ] ]
-  },
-  {
     "result": "38_super",
     "type": "uncraft",
     "skill_used": "fabrication",
@@ -122,14 +114,6 @@
     "charges": 1
   },
   {
-    "result": "38super_casing",
-    "type": "uncraft",
-    "time": "10 s",
-    "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "charges": 1,
-    "components": [ [ [ "cartridgebrass", 3 ] ] ]
-  },
-  {
     "result": "700nx",
     "type": "uncraft",
     "skill_used": "fabrication",
@@ -160,14 +144,6 @@
       [ [ "chem_black_powder", 45 ] ]
     ],
     "charges": 1
-  },
-  {
-    "result": "700nx_casing",
-    "type": "uncraft",
-    "time": "10 s",
-    "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "charges": 1,
-    "components": [ [ [ "cartridgebrass", 18 ] ] ]
   },
   {
     "result": "bp_460_fmj",
@@ -222,14 +198,6 @@
     "charges": 1
   },
   {
-    "result": "460_casing",
-    "type": "uncraft",
-    "time": "10 s",
-    "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "charges": 1,
-    "components": [ [ [ "cartridgebrass", 4 ] ] ]
-  },
-  {
     "result": "454_Casull",
     "type": "uncraft",
     "skill_used": "fabrication",
@@ -254,22 +222,6 @@
       [ [ "copper", 2 ] ]
     ],
     "charges": 1
-  },
-  {
-    "result": "454_casing",
-    "type": "uncraft",
-    "time": "10 s",
-    "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "charges": 1,
-    "components": [ [ [ "cartridgebrass", 7 ] ] ]
-  },
-  {
-    "result": "500_casing",
-    "type": "uncraft",
-    "time": "10 s",
-    "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "charges": 1,
-    "components": [ [ [ "cartridgebrass", 7 ] ] ]
   },
   {
     "result": "bp_500_Magnum",
@@ -298,14 +250,6 @@
     "charges": 1
   },
   {
-    "result": "57mm_casing",
-    "type": "uncraft",
-    "time": "10 s",
-    "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "charges": 1,
-    "components": [ [ [ "cartridgebrass", 2 ] ] ]
-  },
-  {
     "result": "bp_57mm",
     "type": "uncraft",
     "skill_used": "fabrication",
@@ -320,14 +264,6 @@
       [ [ "copper", 1 ] ]
     ],
     "charges": 1
-  },
-  {
-    "result": "46mm_casing",
-    "type": "uncraft",
-    "time": "10 s",
-    "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "charges": 1,
-    "components": [ [ [ "cartridgebrass", 2 ] ] ]
   },
   {
     "result": "46mm",
@@ -402,14 +338,6 @@
     "charges": 1
   },
   {
-    "result": "545_casing",
-    "type": "uncraft",
-    "time": "10 s",
-    "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "charges": 1,
-    "components": [ [ [ "cartridgebrass", 4 ] ] ]
-  },
-  {
     "result": "270win_jsp",
     "type": "uncraft",
     "skill_used": "fabrication",
@@ -440,14 +368,6 @@
       [ [ "chem_black_powder", 15 ] ]
     ],
     "charges": 1
-  },
-  {
-    "result": "270win_casing",
-    "type": "uncraft",
-    "time": "10 s",
-    "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "charges": 1,
-    "components": [ [ [ "cartridgebrass", 7 ] ] ]
   },
   {
     "result": "bp_762_25",
@@ -488,13 +408,5 @@
     "qualities": [ { "id": "PULL", "level": 2 } ],
     "components": [ [ [ "lead", 2 ] ], [ [ "762_25_casing", 1 ] ], [ [ "smpistol_primer", 1 ] ], [ [ "gunpowder", 5 ] ] ],
     "charges": 1
-  },
-  {
-    "result": "762_25_casing",
-    "type": "uncraft",
-    "time": "10 s",
-    "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "charges": 1,
-    "components": [ [ [ "cartridgebrass", 4 ] ] ]
   }
 ]
