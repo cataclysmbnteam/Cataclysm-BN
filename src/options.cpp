@@ -1550,11 +1550,11 @@ void options_manager::add_options_interface()
 
     add_empty_line();
 
-    add("HEALTH_STYLE", interface, translate_marker("Health Display Style"),
-         translate_marker("Switch health-related display styling such as HP and hunger"), 
-         {{ "number", translate_marker("Numerical")}, {"bar", translate_marker("Bar")}},
-          "bar");
-    
+    add( "HEALTH_STYLE", interface, translate_marker( "Health Display Style" ),
+         translate_marker( "Switch health-related display styling such as HP and hunger" ),
+    {{ "number", translate_marker( "Numerical" )}, {"bar", translate_marker( "Bar" )}},
+    "bar" );
+
     add_empty_line();
 
     add( "WIKI_DOC_URL", interface, translate_marker( "Wiki URL" ),

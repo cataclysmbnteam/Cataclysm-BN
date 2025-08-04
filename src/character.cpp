@@ -4699,7 +4699,7 @@ void Character::print_health() const
         return;
     }
     int current_health = get_healthy();
-    if( get_option<std::string>("HEALTH_STYLE") == "number" ) {
+    if( get_option<std::string>( "HEALTH_STYLE" ) == "number" ) {
         add_msg_if_player( _( "Your current health value is %d." ), current_health );
     }
 
@@ -4887,7 +4887,7 @@ std::pair<std::string, nc_color> Character::get_hunger_description() const
         hunger_color = c_red;
     }
 
-    if( get_option<std::string>("HEALTH_STYLE") == "number" ) {
+    if( get_option<std::string>( "HEALTH_STYLE" ) == "number" ) {
         hunger_string = string_format( "%d kcal", total_kcal );
     }
 
@@ -4975,7 +4975,7 @@ std::pair<std::string, nc_color> Character::get_pain_description() const
         pain_color = c_light_red;
     }
     // get pain string
-    if( ( get_option<std::string>("HEALTH_STYLE") == "number" || has_effect( effect_got_checked ) ) &&
+    if( ( get_option<std::string>( "HEALTH_STYLE" ) == "number" || has_effect( effect_got_checked ) ) &&
         get_perceived_pain() > 0 ) {
         pain_string = string_format( "%s %d", _( "Pain " ), get_perceived_pain() );
     } else if( get_perceived_pain() > 0 ) {

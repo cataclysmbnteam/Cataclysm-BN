@@ -769,7 +769,7 @@ static int get_int_digits( const int &digits )
 
 static void draw_limb_health( avatar &u, const catacurses::window &w, const bodypart_str_id &bp )
 {
-    const std::string display_type = get_option<std::string>("HEALTH_STYLE");
+    const std::string display_type = get_option<std::string>( "HEALTH_STYLE" );
     static auto print_symbol_num = []( const catacurses::window & w, int num, const std::string & sym,
     const nc_color & color ) {
         while( num-- > 0 ) {
