@@ -38,15 +38,5 @@
     "items": [
       [ "lwfeed", 40 ]
     ]
-  },
-  {
-    "type": "item_group",
-    "id": "behindcounter",
-    "magazine": 100,
-    "items": [
-      [ "l_enforcer_45", 4 ],
-      [ "l_sp_45", 3 ],
-      [ "l_mp_45", 2 ]
-    ]
   }
 ]
