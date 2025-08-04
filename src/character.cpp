@@ -329,7 +329,6 @@ static const trait_id trait_ROOTS2( "ROOTS2" );
 static const trait_id trait_ROOTS3( "ROOTS3" );
 static const trait_id trait_SAVANT( "SAVANT" );
 static const trait_id trait_SEESLEEP( "SEESLEEP" );
-static const trait_id trait_SELFAWARE( "SELFAWARE" );
 static const trait_id trait_SHELL( "SHELL" );
 static const trait_id trait_SHELL2( "SHELL2" );
 static const trait_id trait_SHOUT2( "SHOUT2" );
@@ -4700,7 +4699,7 @@ void Character::print_health() const
         return;
     }
     int current_health = get_healthy();
-    if( has_trait( trait_SELFAWARE ) ) {
+    if( get_option<std::string>("HEALTH_STYLE") == "number" ) {
         add_msg_if_player( _( "Your current health value is %d." ), current_health );
     }
 
@@ -4888,7 +4887,7 @@ std::pair<std::string, nc_color> Character::get_hunger_description() const
         hunger_color = c_red;
     }
 
-    if( has_trait( trait_SELFAWARE ) ) {
+    if( get_option<std::string>("HEALTH_STYLE") == "number" ) {
         hunger_string = string_format( "%d kcal", total_kcal );
     }
 
@@ -4976,7 +4975,7 @@ std::pair<std::string, nc_color> Character::get_pain_description() const
         pain_color = c_light_red;
     }
     // get pain string
-    if( ( has_trait( trait_SELFAWARE ) || has_effect( effect_got_checked ) ) &&
+    if( ( get_option<std::string>("HEALTH_STYLE") == "number" || has_effect( effect_got_checked ) ) &&
         get_perceived_pain() > 0 ) {
         pain_string = string_format( "%s %d", _( "Pain " ), get_perceived_pain() );
     } else if( get_perceived_pain() > 0 ) {

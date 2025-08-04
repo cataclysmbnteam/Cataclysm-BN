@@ -61,7 +61,6 @@
 #include "vpart_position.h"
 #include "weather.h"
 
-static const trait_id trait_SELFAWARE( "SELFAWARE" );
 static const trait_id trait_THRESH_FELINE( "THRESH_FELINE" );
 static const trait_id trait_THRESH_BIRD( "THRESH_BIRD" );
 static const trait_id trait_THRESH_URSINE( "THRESH_URSINE" );
@@ -770,7 +769,7 @@ static int get_int_digits( const int &digits )
 
 static void draw_limb_health( avatar &u, const catacurses::window &w, const bodypart_str_id &bp )
 {
-    const bool is_self_aware = u.has_trait( trait_SELFAWARE );
+    const std::string display_type = get_option<std::string>("HEALTH_STYLE");
     static auto print_symbol_num = []( const catacurses::window & w, int num, const std::string & sym,
     const nc_color & color ) {
         while( num-- > 0 ) {
@@ -790,7 +789,7 @@ static void draw_limb_health( avatar &u, const catacurses::window &w, const body
                         ( u.mutation_value( "mending_modifier" ) >= 1.0f );
         nc_color color = splinted ? c_blue : c_dark_gray;
 
-        if( is_self_aware || u.has_effect( effect_got_checked ) ) {
+        if( display_type == "number" || u.has_effect( effect_got_checked ) ) {
             color_override = color;
         } else {
             const int num = mend_perc / 20;
@@ -806,7 +805,7 @@ static void draw_limb_health( avatar &u, const catacurses::window &w, const body
         hp.second = *color_override;
     }
 
-    if( is_self_aware || u.has_effect( effect_got_checked ) ) {
+    if( display_type == "number" || u.has_effect( effect_got_checked ) ) {
         wprintz( w, hp.second, "%3d  ", hp_cur );
     } else {
         wprintz( w, hp.second, hp.first );
