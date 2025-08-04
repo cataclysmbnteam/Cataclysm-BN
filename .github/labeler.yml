@@ -14,7 +14,7 @@ translation:
   - lang/**/*
 
 docs:
-  - doc/**/*
+  - docs/**/*
 
 scripts:
   - scripts/**/*

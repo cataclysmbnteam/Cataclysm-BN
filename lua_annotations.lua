@@ -150,8 +150,8 @@ function BodyPartTypeIntId.new() end
 ---@field get_faction_id fun(arg1: Character): FactionId
 ---@field get_fatigue fun(arg1: Character): integer
 ---@field get_free_bionics_slots fun(arg1: Character, arg2: BodyPartTypeIntId): integer
----@field get_healthy fun(arg1: Character): integer
----@field get_healthy_mod fun(arg1: Character): integer
+---@field get_healthy fun(arg1: Character): number
+---@field get_healthy_mod fun(arg1: Character): number
 ---@field get_highest_category fun(arg1: Character): MutationCategoryTraitId
 ---@field get_hostile_creatures fun(arg1: Character, arg2: integer): any
 ---@field getID fun(arg1: Character): CharacterId
@@ -270,8 +270,8 @@ function BodyPartTypeIntId.new() end
 ---@field mod_base_height fun(arg1: Character, arg2: integer)
 ---@field mod_dex_bonus fun(arg1: Character, arg2: integer)
 ---@field mod_fatigue fun(arg1: Character, arg2: integer)
----@field mod_healthy fun(arg1: Character, arg2: integer)
----@field mod_healthy_mod fun(arg1: Character, arg2: integer, arg3: integer)
+---@field mod_healthy fun(arg1: Character, arg2: number)
+---@field mod_healthy_mod fun(arg1: Character, arg2: number, arg3: number)
 ---@field mod_int_bonus fun(arg1: Character, arg2: integer)
 ---@field mod_max_power_level fun(arg1: Character, arg2: Energy)
 ---@field mod_painkiller fun(arg1: Character, arg2: integer)
@@ -312,8 +312,8 @@ function BodyPartTypeIntId.new() end
 ---@field set_dex_bonus fun(arg1: Character, arg2: integer)
 ---@field set_faction_id fun(arg1: Character, arg2: FactionId)
 ---@field set_fatigue fun(arg1: Character, arg2: integer)
----@field set_healthy fun(arg1: Character, arg2: integer)
----@field set_healthy_mod fun(arg1: Character, arg2: integer)
+---@field set_healthy fun(arg1: Character, arg2: number)
+---@field set_healthy_mod fun(arg1: Character, arg2: number)
 ---@field setID fun(arg1: Character, arg2: CharacterId, arg3: boolean)
 ---@field set_int_bonus fun(arg1: Character, arg2: integer)
 ---@field set_max_power_level fun(arg1: Character, arg2: Energy)
@@ -2069,7 +2069,18 @@ MonsterFlag = {
 	CAN_OPEN_DOORS = 111,
 	STUN_IMMUNE = 112,
 	DROPS_AMMO = 113,
-	CAN_BE_ORDERED = 114
+	CAN_BE_ORDERED = 114,
+	SMALL_HEAD = 115,
+	TINY_HEAD = 116,
+	NO_HEAD_BONUS_CRIT = 117,
+	HEAD_BONUS_CRIT_1 = 118,
+	HEAD_BONUS_CRIT_2 = 119,
+	TORSO_BONUS_CRIT_1 = 120,
+	TORSO_BONUS_CRIT_2 = 121,
+	PROJECTILE_RESISTANT_1 = 122,
+	PROJECTILE_RESISTANT_2 = 123,
+	PROJECTILE_RESISTANT_3 = 124,
+	PROJECTILE_RESISTANT_4 = 125
 }
 
 ---@enum MonsterSize
