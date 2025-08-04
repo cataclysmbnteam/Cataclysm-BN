@@ -23,8 +23,8 @@
     "type": "item_group",
     "id": "mags_pistol_rare",
     "//": "Aftermarket or otherwise uncommon pistol magazines excluding milspec.",
-    "items": [ 
-      [ "454_speedloader5", 1 ], 
+    "items": [
+      [ "454_speedloader5", 1 ],
       [ "454_speedloader6", 1 ],
       [ "223_speedloader5", 5 ],
       [ "460_speedloader6", 10 ],

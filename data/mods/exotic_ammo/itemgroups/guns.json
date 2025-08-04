@@ -30,7 +30,11 @@
     "type": "item_group",
     "id": "guns_smg_obscure",
     "//": "Imported or otherwise very obscure SMGs.",
-    "items": [ { "group": "nested_skorpion_82", "prob": 100 }, { "group": "nested_ppsh", "prob": 150 }, { "group": "everyday_rm360", "prob": 30 } ]
+    "items": [
+      { "group": "nested_skorpion_82", "prob": 100 },
+      { "group": "nested_ppsh", "prob": 150 },
+      { "group": "everyday_rm360", "prob": 30 }
+    ]
   },
   {
     "type": "item_group",
@@ -62,7 +66,6 @@
       { "group": "everyday_m1911a1_38super", "prob": 15 },
       { "group": "everyday_sw_500", "prob": 25 },
       { "group": "everyday_fn57", "prob": 10 }
-      
     ]
   },
   {
@@ -137,7 +140,11 @@
     "type": "item_group",
     "id": "guns_cop",
     "//": "Police issue weapons of all types",
-    "items": [ { "group": "nested_fn57", "prob": 20 }, { "group": "nested_fn_p90", "prob": 5 }, { "group": "everyday_enforcer45", "prob": 10 } ]
+    "items": [
+      { "group": "nested_fn57", "prob": 20 },
+      { "group": "nested_fn_p90", "prob": 5 },
+      { "group": "everyday_enforcer45", "prob": 10 }
+    ]
   },
   {
     "type": "item_group",
@@ -175,9 +182,7 @@
     "magazine": 100,
     "ammo": 100,
     "subtype": "distribution",
-    "entries": [
-      { "item": "l_HFPack", "prob": 50 }
-    ]
+    "entries": [ { "item": "l_HFPack", "prob": 50 } ]
   },
   {
     "type": "item_group",
