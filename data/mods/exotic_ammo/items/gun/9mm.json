@@ -18,7 +18,7 @@
     "name": { "str_sp": "L39B" },
     "//": "The M93R can go through up to 110 rounds in six seconds, FWIW.",
     "description": "A selective-firing 9x19mm handgun introduced by Leadworks LLC's, L39B provides accurate single-shot placement as well as controllable short-range firepower with its three-round burst mode.  Users praised its accuracy and fearsome appearance.  Comes with built in red dot and laser sights.  Similar to other Leadworks products it doesn't accept third-party modifications.",
-    "price": 95000,
+    "price": "950 USD",
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "3 rd.", 3 ] ],
     "relative": { "weight": 130, "durability": -1 }
   },
@@ -32,7 +32,7 @@
     "description": "A semiautomatic 9x19mm handgun introduced by Leadworks LLC's, L39 provides accurate single-shot placement in a very robust frame with built in red dot and laser sights.  Several urban legends describe using it in ways that would have destroyed a lesser weapon.  Similar to other Leadworks products it doesn't accept third-party modifications.",
     "weight": "935 g",
     "volume": "500 ml",
-    "price": 70000,
+    "price": "700 USD",
     "to_hit": -2,
     "bashing": 8,
     "material": [ "steel", "plastic" ],

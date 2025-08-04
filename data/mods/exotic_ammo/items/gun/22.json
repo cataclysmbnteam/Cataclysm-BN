@@ -9,7 +9,7 @@
     "description": "This unusual Rivtech carbine features five rotating barrels and a large capacity helical magazine.  Durable and easy to handle, it was designed to overcome the deficiencies of its low power .22LR cartridge by rapidly delivering a large number of projectiles.",
     "weight": "1620 g",
     "volume": "1 L",
-    "price": 180000,
+    "price": "1800 USD",
     "to_hit": -2,
     "bashing": 8,
     "material": [ "superalloy", "ceramic" ],

@@ -7,7 +7,6 @@
     "description": "Built in red-dot sight for the Leadworks weapon.",
     "weight": "0 g",
     "volume": "0 ml",
-    "price": 0,
     "flags": [ "DISABLE_SIGHTS", "IRREMOVABLE" ]
   },
   {
@@ -18,7 +17,6 @@
     "description": "Built in rifle scope for the Leadworks weapon.",
     "weight": "0 g",
     "volume": "0 ml",
-    "price": 0,
     "flags": [ "DISABLE_SIGHTS", "ZOOM", "IRREMOVABLE" ]
   },
   {
@@ -29,7 +27,6 @@
     "description": "A Leadworks built-in Advanced Combat Optical Gunsight, a milspec medium magnification scope.  Improves accuracy significantly.",
     "weight": "0 g",
     "volume": "0 ml",
-    "price": 0,
     "flags": [ "DISABLE_SIGHTS", "ZOOM", "IRREMOVABLE" ]
   },
   {
@@ -39,7 +36,6 @@
     "name": { "str_sp": "LW holographic sight" },
     "description": "Leadworks built-in holographic sight.",
     "weight": "0 g",
-    "price": 0,
     "flags": [ "DISABLE_SIGHTS", "IRREMOVABLE" ]
   }
 ]
