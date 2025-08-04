@@ -63,6 +63,7 @@
     "type": "GUN",
     "reload_noise_volume": 10,
     "name": { "str": "L1820 Long Ranger", "str_pl": "L1820 Long Ranger" },
+    "weapon_category": [ "RIFLES", "MANUAL_ACTION" ],
     "//": "If it's based off the Winchester 94, it's likely got a 20 inch barrel. For sanity's sake though, let's cap it at +4.",
     "description": "The Leadworks Long Ranger was designed to give Enforcer users (or anyone using .460/.45 caliber cartridges) a little extra reach while using the same ammunition.  Loaded with powerful .460 Rowland ammunition, this rifle offers a competitive replacement to the AR-15 in politically restrictive climates, but was met with disgust from lever action purists because of its synthetic furniture and built in holographic and laser sights.  Similar to other Leadworks products it doesn't accept third-party modifications.",
     "weight": "4175 g",
