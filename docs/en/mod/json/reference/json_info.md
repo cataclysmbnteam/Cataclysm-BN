@@ -4,7 +4,7 @@
 >
 > This document is being split into multiple pages.
 
-> [!DANGER]
+> [!CAUTION]
 >
 > Many of the JSON files are not documented yet or is outdated. Check relevent source files to be
 > sure.
@@ -704,7 +704,7 @@ For every `type` other then `bionic` and `bionic_group` following entries scale 
 `base_num` value should be an array with two elements in which the first defines the minimum number
 of the corresponding item produced and the second defines the maximum number. `scale_num` value
 should be an array with two elements, increasing the minimum and maximum drop numbers respectively
-by element value * survival skill. `max` upper limit after `bas_num` and `scale_num` are calculated
+by element value \* survival skill. `max` upper limit after `bas_num` and `scale_num` are calculated
 using `mass_ratio` value is a multiplier of how much of the monster's weight comprises the
 associated item. to conserve mass, keep between 0 and 1 combined with all drops. This overrides
 `base_num`, `scale_num` and `max`

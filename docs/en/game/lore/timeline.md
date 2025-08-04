@@ -1,6 +1,6 @@
 # Timeline
 
-> [!DANGER]
+> [!CAUTION]
 >
 > #### spoiler alert
 >

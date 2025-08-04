@@ -1,6 +1,6 @@
 # How it all started
 
-> [!DANGER]
+> [!CAUTION]
 >
 > #### spoiler alert
 >
