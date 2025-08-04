@@ -129,7 +129,8 @@
     "//": "Empty rifles commonly found in gun stores.",
     "items": [
       { "item": "bh_m89", "prob": 20, "charges-min": 0, "charges-max": 0 },
-      { "item": "remington700_270", "prob": 30, "charges-min": 0, "charges-max": 0 }
+      { "item": "remington700_270", "prob": 30, "charges-min": 0, "charges-max": 0 },
+      { "item": "l_HFPack", "prob": 30 }
     ]
   },
   {
