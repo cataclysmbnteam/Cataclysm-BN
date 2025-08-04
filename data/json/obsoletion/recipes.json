@@ -553,11 +553,6 @@
   },
   {
     "type": "recipe",
-    "result": "l_HFPackuncraft",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
     "result": "laptop",
     "obsolete": true
   },
