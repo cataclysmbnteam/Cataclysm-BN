@@ -4,14 +4,15 @@ gdebug.log_info("SpeedyDex: Lua loaded")
 local mod = game.mod_runtime[game.current_mod]
 
 ---CONFIGURATION
-local MINIMUM_BONUS <const> = 10
-local SPEED_MULTIPLIER <const> = 2
+local SPEEDYDEX_MIN_DEX = 0    -- The minimum dex required for bonus to kick in
+local SPEEDYDEX_DEX_SPEED = 0   -- The amount of moves gained per dex above the minimum
 
 ---Calculate speed bonus from dexterity value.
 ---@param dex number
 ---@return number
 local function calc_speedydex_bonus(dex)
-    return math.min((dex - 8) * SPEED_MULTIPLIER, MINIMUM_BONUS)
+    local modified_dex = math.max(dex - SPEEDYDEX_MIN_DEX, 0)
+    return modified_dex * SPEEDYDEX_DEX_SPEED
 end
 
 ---Applies SpeedyDex speed bonus to the player.

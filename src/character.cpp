@@ -4610,15 +4610,6 @@ int Character::get_int_bonus() const
     return int_bonus;
 }
 
-int get_speedydex_bonus( const int dex )
-{
-    static const std::string speedydex_min_dex( "SPEEDYDEX_MIN_DEX" );
-    static const std::string speedydex_dex_speed( "SPEEDYDEX_DEX_SPEED" );
-    // this is the number to be multiplied by the increment
-    const int modified_dex = std::max( dex - get_option<int>( speedydex_min_dex ), 0 );
-    return modified_dex * get_option<int>( speedydex_dex_speed );
-}
-
 int Character::get_speed() const
 {
     if( is_mounted() ) {
