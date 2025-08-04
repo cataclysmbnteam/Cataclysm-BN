@@ -273,6 +273,8 @@ function BodyPartTypeIntId.new() end
 ---@field mod_healthy fun(arg1: Character, arg2: number)
 ---@field mod_healthy_mod fun(arg1: Character, arg2: number, arg3: number)
 ---@field mod_int_bonus fun(arg1: Character, arg2: integer)
+---@field mod_speed_bonus fun(arg1: Character, arg2: integer)
+---@field set_speed_bonus fun(arg1: Character, arg2: integer)
 ---@field mod_max_power_level fun(arg1: Character, arg2: Energy)
 ---@field mod_painkiller fun(arg1: Character, arg2: integer)
 ---@field mod_per_bonus fun(arg1: Character, arg2: integer)
