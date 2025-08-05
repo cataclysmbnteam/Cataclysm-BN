@@ -1412,6 +1412,18 @@ static bool draw_window( Font_Ptr &font, const catacurses::window &w, point offs
                 case LINE_XXXX_UNICODE:
                     uc = LINE_XXXX_C;
                     break;
+                case LINE_XDXO_UNICODE:
+                    uc = LINE_XDXO_C;
+                    break;
+                case LINE_DXOX_UNICODE:
+                    uc = LINE_DXOX_C;
+                    break;
+                case LINE_XOXD_UNICODE:
+                    uc = LINE_XOXD_C;
+                    break;
+                case LINE_OXDX_UNICODE:
+                    uc = LINE_OXDX_C;
+                    break;
                 case UNKNOWN_UNICODE:
                     use_draw_ascii_lines_routine = true;
                     break;
@@ -3209,55 +3221,26 @@ static void CheckMessages()
                     }
 
                     // Only monitor motion when cursor is visible
-                    last_input = input_event( MouseInput::Move );
+                    last_input = input_event( MOUSE_MOVE, input_event_t::mouse );
                 }
                 break;
 
             case SDL_MOUSEBUTTONUP:
                 switch( ev.button.button ) {
                     case SDL_BUTTON_LEFT:
-                        last_input = input_event( MouseInput::LeftButtonUp );
+                        last_input = input_event( MOUSE_BUTTON_LEFT, input_event_t::mouse );
                         break;
                     case SDL_BUTTON_RIGHT:
-                        last_input = input_event( MouseInput::RightButtonUp );
-                        break;
-                    case SDL_BUTTON_MIDDLE:
-                        last_input = input_event( MouseInput::MiddleButtonUp );
-                        break;
-                    case SDL_BUTTON_X1:
-                        last_input = input_event( MouseInput::X1ButtonUp );
-                        break;
-                    case SDL_BUTTON_X2:
-                        last_input = input_event( MouseInput::X2ButtonUp );
-                        break;
-                }
-                break;
-
-            case SDL_MOUSEBUTTONDOWN:
-                switch( ev.button.button ) {
-                    case SDL_BUTTON_LEFT:
-                        last_input = input_event( MouseInput::LeftButtonDown );
-                        break;
-                    case SDL_BUTTON_RIGHT:
-                        last_input = input_event( MouseInput::RightButtonDown );
-                        break;
-                    case SDL_BUTTON_MIDDLE:
-                        last_input = input_event( MouseInput::MiddleButtonDown );
-                        break;
-                    case SDL_BUTTON_X1:
-                        last_input = input_event( MouseInput::X1ButtonDown );
-                        break;
-                    case SDL_BUTTON_X2:
-                        last_input = input_event( MouseInput::X2ButtonDown );
+                        last_input = input_event( MOUSE_BUTTON_RIGHT, input_event_t::mouse );
                         break;
                 }
                 break;
 
             case SDL_MOUSEWHEEL:
                 if( ev.wheel.y > 0 ) {
-                    last_input = input_event( MouseInput::ScrollUp );
+                    last_input = input_event( SCROLLWHEEL_UP, input_event_t::mouse );
                 } else if( ev.wheel.y < 0 ) {
-                    last_input = input_event( MouseInput::ScrollDown );
+                    last_input = input_event( SCROLLWHEEL_DOWN, input_event_t::mouse );
                 }
                 break;
 
@@ -3769,7 +3752,7 @@ bool gamepad_available()
     return joystick != nullptr;
 }
 
-void rescale_tileset( int size )
+void rescale_tileset( float size )
 {
     tilecontext->set_draw_scale( size );
 }
@@ -3875,31 +3858,6 @@ std::optional<tripoint> input_context::get_coordinates( const catacurses::window
     }
 
     return tripoint( p, g->get_levz() );
-}
-
-std::optional<point> input_context::get_coordinates_text( const catacurses::window
-        & capture_win ) const
-{
-#if !defined( TILES )
-    std::optional<tripoint_bub_ms> coord3d = get_coordinates( capture_win );
-    if( coord3d.has_value() ) {
-        return coord3d->xy().raw();
-    } else {
-        return std::nullopt;
-    }
-#else
-    if( !coordinate_input_received ) {
-        return std::nullopt;
-    }
-    const window_dimensions dim = get_window_dimensions( capture_win );
-    const int &fw = dim.scaled_font_size.x;
-    const int &fh = dim.scaled_font_size.y;
-    const point &win_min = dim.window_pos_pixel;
-    const point screen_pos = coordinate - win_min;
-    const point selected( divide_round_down( screen_pos.x, fw ),
-                          divide_round_down( screen_pos.y, fh ) );
-    return selected;
-#endif
 }
 
 int get_terminal_width()

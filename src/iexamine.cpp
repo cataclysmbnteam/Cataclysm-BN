@@ -191,6 +191,7 @@ static const trait_id trait_PROBOSCIS( "PROBOSCIS" );
 static const trait_id trait_THRESH_MARLOSS( "THRESH_MARLOSS" );
 static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
 static const trait_id trait_WEB_BRIDGE( "WEB_BRIDGE" );
+static const trait_id trait_DEBUG_NOCLIP( "DEBUG_NOCLIP" );
 
 static const quality_id qual_ANESTHESIA( "ANESTHESIA" );
 static const quality_id qual_DIG( "DIG" );
@@ -214,6 +215,7 @@ static const bionic_id bio_power_storage_mkII( "bio_power_storage_mkII" );
 static const std::string flag_AUTODOC( "AUTODOC" );
 static const std::string flag_AUTODOC_COUCH( "AUTODOC_COUCH" );
 static const std::string flag_BARRICADABLE_WINDOW_CURTAINS( "BARRICADABLE_WINDOW_CURTAINS" );
+static const std::string flag_CLIMBABLE( "CLIMBABLE" );
 static const std::string flag_CLIMB_SIMPLE( "CLIMB_SIMPLE" );
 static const std::string flag_GROWTH_HARVEST( "GROWTH_HARVEST" );
 static const std::string flag_OPENCLOSE_INSIDE( "OPENCLOSE_INSIDE" );
@@ -1606,6 +1608,9 @@ void iexamine::transform( player &p, const tripoint &pos )
 {
     std::string message;
     std::string prompt;
+    const bool furn_is_deployed = !g->m.furn( pos ).obj().deployed_item.is_empty();
+    const bool can_climb = g->m.has_flag( flag_CLIMBABLE, pos ) ||
+                           g->m.has_flag( flag_CLIMB_SIMPLE, pos );
 
     if( g->m.has_furn( pos ) ) {
         message = g->m.furn( pos ).obj().message;
@@ -1619,6 +1624,12 @@ void iexamine::transform( player &p, const tripoint &pos )
     selection_menu.text = _( "Select an action" );
     selection_menu.addentry( 0, true, 'g', _( "Get items" ) );
     selection_menu.addentry( 1, true, 't', !prompt.empty() ? _( prompt ) : _( "Transform furniture" ) );
+    if( furn_is_deployed ) {
+        selection_menu.addentry( 2, true, 'T', _( "Take down the %s" ), g->m.furnname( pos ) );
+    }
+    if( can_climb ) {
+        selection_menu.addentry( 3, true, 'c', _( "Climb %s" ), g->m.furnname( pos ) );
+    }
     selection_menu.query();
 
     switch( selection_menu.ret ) {
@@ -1638,6 +1649,18 @@ void iexamine::transform( player &p, const tripoint &pos )
                 }
                 g->m.ter_set( pos, g->m.get_ter_transforms_into( pos ) );
             }
+            return;
+        }
+        case 2: {
+            add_msg( m_info, _( "You take down the %s." ),
+                     g->m.furnname( pos ) );
+            const auto furn_item = g->m.furn( pos ).obj().deployed_item;
+            g->m.add_item_or_charges( pos, item::spawn( furn_item, calendar::turn ) );
+            g->m.furn_set( pos, f_null );
+            return;
+        }
+        case 3: {
+            iexamine::chainfence( p, pos );
             return;
         }
         default:
@@ -2060,7 +2083,8 @@ static bool harvest_common( player &p, const tripoint &examp, bool furn, bool ne
 void iexamine::harvest_furn_nectar( player &p, const tripoint &examp )
 {
     bool auto_forage = get_option<bool>( "AUTO_FEATURES" ) &&
-                       get_option<std::string>( "AUTO_FORAGING" ) == "both";
+                       ( get_option<std::string>( "AUTO_FORAGING" ) == "flowers" ||
+                         get_option<std::string>( "AUTO_FORAGING" ) == "both" );
     if( harvest_common( p, examp, true, true, auto_forage ) ) {
         map &here = get_map();
         get_map().furn_set( examp, here.get_furn_transforms_into( examp ) );
@@ -2070,7 +2094,8 @@ void iexamine::harvest_furn_nectar( player &p, const tripoint &examp )
 void iexamine::harvest_furn( player &p, const tripoint &examp )
 {
     bool auto_forage = get_option<bool>( "AUTO_FEATURES" ) &&
-                       get_option<std::string>( "AUTO_FORAGING" ) == "both";
+                       ( get_option<std::string>( "AUTO_FORAGING" ) == "flowers" ||
+                         get_option<std::string>( "AUTO_FORAGING" ) == "both" );
     if( harvest_common( p, examp, true, false, auto_forage ) ) {
         map &here = get_map();
         get_map().furn_set( examp, here.get_furn_transforms_into( examp ) );
@@ -2082,6 +2107,7 @@ void iexamine::harvest_ter_nectar( player &p, const tripoint &examp )
     bool auto_forage = get_option<bool>( "AUTO_FEATURES" ) &&
                        ( get_option<std::string>( "AUTO_FORAGING" ) == "both" ||
                          get_option<std::string>( "AUTO_FORAGING" ) == "bushes" ||
+                         get_option<std::string>( "AUTO_FORAGING" ) == "flowers" ||
                          get_option<std::string>( "AUTO_FORAGING" ) == "trees" );
     if( harvest_common( p, examp, false, true, auto_forage ) ) {
         map &here = get_map();
@@ -2093,6 +2119,7 @@ void iexamine::harvest_ter( player &p, const tripoint &examp )
 {
     bool auto_forage = get_option<bool>( "AUTO_FEATURES" ) &&
                        ( get_option<std::string>( "AUTO_FORAGING" ) == "both" ||
+                         get_option<std::string>( "AUTO_FORAGING" ) == "flowers" ||
                          get_option<std::string>( "AUTO_FORAGING" ) == "trees" );
     if( harvest_common( p, examp, false, false, auto_forage ) ) {
         map &here = get_map();
@@ -4626,6 +4653,27 @@ void iexamine::pay_gas( player &p, const tripoint &examp )
 void iexamine::ledge( player &p, const tripoint &examp )
 {
     enum ledge_action : int { jump_over, climb_down, spin_web_bridge };
+
+    if( get_map().ter( p.pos() ).id().str() == "t_open_air" && !character_funcs::can_fly( p ) ) {
+        tripoint where = p.pos();
+        tripoint below = where;
+        below.z--;
+
+        // Keep going down until we find a tile that is NOT open air
+        while( get_map().ter( below ).id().str() == "t_open_air" &&
+               get_map().valid_move( where, below, false, true ) ) {
+            where.z--;
+            below.z--;
+        }
+
+        // where now represents the first NON-open-air tile or the last valid move before hitting one
+        const int height = p.pos().z - below.z;
+
+        if( height > 0 ) {
+            g->vertical_move( -height, true );  // fall onto the solid tile
+            return;
+        }
+    }
 
     uilist cmenu;
     cmenu.text = _( "There is a ledge here.  What do you want to do?" );

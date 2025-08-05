@@ -152,6 +152,7 @@ static const efftype_id effect_disabled( "disabled" );
 static const efftype_id effect_disinfected( "disinfected" );
 static const efftype_id effect_downed( "downed" );
 static const efftype_id effect_drunk( "drunk" );
+static const efftype_id effect_took_antinarcoleptic( "took_antinarcoleptic" );
 static const efftype_id effect_earphones( "earphones" );
 static const efftype_id effect_foodpoison( "foodpoison" );
 static const efftype_id effect_frostbite( "frostbite" );
@@ -328,7 +329,6 @@ static const trait_id trait_ROOTS2( "ROOTS2" );
 static const trait_id trait_ROOTS3( "ROOTS3" );
 static const trait_id trait_SAVANT( "SAVANT" );
 static const trait_id trait_SEESLEEP( "SEESLEEP" );
-static const trait_id trait_SELFAWARE( "SELFAWARE" );
 static const trait_id trait_SHELL( "SHELL" );
 static const trait_id trait_SHELL2( "SHELL2" );
 static const trait_id trait_SHOUT2( "SHOUT2" );
@@ -524,7 +524,6 @@ void Character::move_operator_common( Character &&source ) noexcept
     focus_pool = source.focus_pool ;
     cash = source.cash ;
     follower_ids = std::move( source.follower_ids );
-    ammo_location = std::move( source.ammo_location );
     cached_time = source.cached_time ;
 
     addictions = std::move( source.addictions );
@@ -4079,7 +4078,7 @@ void Character::do_skill_rust()
               ( has_trait_flag( trait_flag_PRED3 ) && calendar::once_every( 4_hours ) ) ||
               ( has_trait_flag( trait_flag_PRED4 ) && calendar::once_every( 3_hours ) ) ) ) {
             // Their brain is optimized to remember this
-            if( one_in( 13 ) ) {
+            if( one_in( 13 ) && !has_effect( effect_sleep ) ) {
                 // They've already passed the roll to avoid rust at
                 // this point, but print a message about it now and
                 // then.
@@ -4640,11 +4639,11 @@ int Character::ranged_per_mod() const
     return std::max( ( 20.0 - get_per() ) * 1.2, 0.0 );
 }
 
-int Character::get_healthy() const
+float Character::get_healthy() const
 {
     return healthy;
 }
-int Character::get_healthy_mod() const
+float Character::get_healthy_mod() const
 {
     return healthy_mod;
 }
@@ -4700,7 +4699,7 @@ void Character::print_health() const
         return;
     }
     int current_health = get_healthy();
-    if( has_trait( trait_SELFAWARE ) ) {
+    if( get_option<std::string>( "HEALTH_STYLE" ) == "number" ) {
         add_msg_if_player( _( "Your current health value is %d." ), current_health );
     }
 
@@ -4741,11 +4740,11 @@ std::string enum_to_string<character_stat>( character_stat data )
 }
 } // namespace io
 
-void Character::set_healthy( int nhealthy )
+void Character::set_healthy( float nhealthy )
 {
     healthy = nhealthy;
 }
-void Character::mod_healthy( int nhealthy )
+void Character::mod_healthy( float nhealthy )
 {
     float mut_rate = 1.0f;
     for( const trait_id &mut : get_mutations() ) {
@@ -4753,11 +4752,11 @@ void Character::mod_healthy( int nhealthy )
     }
     healthy += nhealthy * mut_rate;
 }
-void Character::set_healthy_mod( int nhealthy_mod )
+void Character::set_healthy_mod( float nhealthy_mod )
 {
     healthy_mod = nhealthy_mod;
 }
-void Character::mod_healthy_mod( int nhealthy_mod, int cap )
+void Character::mod_healthy_mod( float nhealthy_mod, float cap )
 {
     // TODO: This really should be a full morale-like system, with per-effect caps
     //       and durations.  This version prevents any single effect from exceeding its
@@ -4769,8 +4768,8 @@ void Character::mod_healthy_mod( int nhealthy_mod, int cap )
     if( nhealthy_mod == 0 || cap == 0 ) {
         return;
     }
-    int low_cap;
-    int high_cap;
+    float low_cap;
+    float high_cap;
     if( nhealthy_mod < 0 ) {
         low_cap = cap;
         high_cap = 200;
@@ -4888,7 +4887,7 @@ std::pair<std::string, nc_color> Character::get_hunger_description() const
         hunger_color = c_red;
     }
 
-    if( has_trait( trait_SELFAWARE ) ) {
+    if( get_option<std::string>( "HEALTH_STYLE" ) == "number" ) {
         hunger_string = string_format( "%d kcal", total_kcal );
     }
 
@@ -4976,7 +4975,7 @@ std::pair<std::string, nc_color> Character::get_pain_description() const
         pain_color = c_light_red;
     }
     // get pain string
-    if( ( has_trait( trait_SELFAWARE ) || has_effect( effect_got_checked ) ) &&
+    if( ( get_option<std::string>( "HEALTH_STYLE" ) == "number" || has_effect( effect_got_checked ) ) &&
         get_perceived_pain() > 0 ) {
         pain_string = string_format( "%s %d", _( "Pain " ), get_perceived_pain() );
     } else if( get_perceived_pain() > 0 ) {
@@ -5144,7 +5143,7 @@ void Character::update_health( int external_modifiers )
     }
 
     // Active leukocyte breeder will keep your health near 100
-    int effective_healthy_mod = get_healthy_mod();
+    float effective_healthy_mod = get_healthy_mod();
     if( has_active_bionic( bio_leukocyte ) ) {
         // Side effect: dependency
         mod_healthy_mod( -50, -200 );
@@ -5154,14 +5153,15 @@ void Character::update_health( int external_modifiers )
     // Health tends toward healthy_mod.
     // For small differences, it changes 4 points per day
     // For large ones, up to ~40% of the difference per day
-    int health_change = effective_healthy_mod - get_healthy() + external_modifiers;
-    mod_healthy( sgn( health_change ) * std::max( 1, std::abs( health_change ) / 10 ) );
+    float health_change = effective_healthy_mod - get_healthy() + external_modifiers;
+    mod_healthy( health_change * ( 1 - 0.9971 ) );
 
     // And healthy_mod decays over time.
     // Slowly near 0, but it's hard to overpower it near +/-100
-    set_healthy_mod( std::round( get_healthy_mod() * 0.95f ) );
+    set_healthy_mod( get_healthy_mod() * 0.9955f );
 
-    add_msg( m_debug, "Health: %d, Health mod: %d", get_healthy(), get_healthy_mod() );
+    add_msg( m_debug, "Health: %d, Health mod: %d", static_cast<int>( get_healthy() ),
+             static_cast<int>( get_healthy_mod() ) );
 }
 
 // Returns the number of multiples of tick_length we would "pass" on our way `from` to `to`
@@ -5493,6 +5493,11 @@ void Character::check_needs_extremes()
     } else if( get_stim() < -200 || get_painkiller() > 240 ) {
         add_msg_if_player( m_bad, _( "Your breathing stops completely." ) );
         g->events().send<event_type::dies_from_drug_overdose>( getID(), efftype_id() );
+        set_part_hp_cur( bodypart_id( "torso" ), 0 );
+        // taking GHB greatly reduces the amount of stimulation needed to die
+    } else if( get_effect_int( effect_took_antinarcoleptic )  && get_stim() < -80 ) {
+        add_msg_if_player( m_bad, _( "Your breathing slows down to a stop." ) );
+        g->events().send<event_type::dies_from_drug_overdose>( getID(), effect_took_antinarcoleptic );
         set_part_hp_cur( bodypart_id( "torso" ), 0 );
     } else if( has_effect( effect_jetinjector ) && get_effect_dur( effect_jetinjector ) > 40_minutes ) {
         if( !( has_trait( trait_NOPAIN ) ) ) {
@@ -8433,16 +8438,37 @@ void Character::passive_absorb_hit( const bodypart_id &bp, damage_unit &du ) con
     du.amount = std::max( 0.0f, du.amount );
 }
 
-static void destroyed_armor_msg( Character &who, const std::string &pre_damage_name )
+static void destroyed_armor_msg( Character &who, const std::string &pre_damage_name,
+                                 const bool holds_items,
+                                 units::mass item_weight,
+                                 units::volume item_volume )
 {
+    const bool show_popup = get_option<bool>( "CLOTHING_DESTRUCTION_POPUP" );
+    const bool container_only = !get_option<bool>( "CLOTHING_DESTRUCTION_POPUP_CONTENTS" );
+    const units::mass required_weight = units::from_gram(
+                                            get_option<int>( "CLOTHING_DESTRUCTION_POPUP_MIN_WEIGHT" ) );
+    const units::volume required_volume = units::from_milliliter(
+            get_option<int>( "CLOTHING_DESTRUCTION_POPUP_MIN_VOLUME" ) );
+    const bool weight_ok = required_weight == units::mass{} || item_weight >= required_weight;
+    const bool volume_ok = required_volume == units::volume{} || item_volume >= required_volume;
+    const bool contents_ok = !container_only || holds_items;
+    const bool should_show_popup = show_popup && weight_ok && volume_ok && contents_ok;
     if( who.is_avatar() ) {
         g->memorial().add(
             //~ %s is armor name
             pgettext( "memorial_male", "Worn %s was completely destroyed." ),
             pgettext( "memorial_female", "Worn %s was completely destroyed." ),
             pre_damage_name );
+        if( should_show_popup ) {
+            popup( _( "Your %s is completely destroyed!" ), pre_damage_name );
+        }
+    } else if( who.is_npc() && who.as_npc()->is_following() && should_show_popup ) {
+        popup( _( "%1$s's %2$s is completely destroyed!" ),
+               who.as_npc()->get_name(),
+               pre_damage_name );
     }
-    who.add_msg_player_or_npc( m_bad, _( "Your %s is completely destroyed!" ),
+    who.add_msg_player_or_npc( m_bad,
+                               _( "Your %s is completely destroyed!" ),
                                _( "<npcname>'s %s is completely destroyed!" ),
                                pre_damage_name );
 }
@@ -8638,7 +8664,8 @@ void Character::absorb_hit( const bodypart_id &bp, damage_instance &dam )
                     SCT.add( point( posx(), posy() ), direction::NORTH, remove_color_tags( pre_damage_name ),
                              m_neutral, _( "destroyed" ), m_info );
                 }
-                destroyed_armor_msg( *this, pre_damage_name );
+                destroyed_armor_msg( *this, pre_damage_name, armor.contents.empty(), armor.weight(),
+                                     armor.volume() );
                 armor_destroyed = true;
                 armor.on_takeoff( *this );
 
@@ -9763,6 +9790,11 @@ bool Character::is_hauling() const
     return hauling;
 }
 
+void Character::set_knows_creature_type( const mtype_id &c )
+{
+    known_monsters.emplace( c );
+}
+
 std::unique_ptr<player_activity> Character::remove_activity()
 {
     std::unique_ptr<player_activity> ret = activity.release();
@@ -10822,7 +10854,7 @@ int Character::run_cost( int base_cost, bool diag ) const
         // ROOTS3 does slow you down as your roots are probing around for nutrients,
         // whether you want them to or not.  ROOTS1 is just too squiggly without shoes
         // to give you some stability.  Plants are a bit of a slow-mover.  Deal.
-        if( has_trait( trait_ROOTS3 ) && here.has_flag( "DIGGABLE", pos() ) ) {
+        if( has_trait( trait_ROOTS3 ) && here.ter( pos() )->is_diggable() ) {
             movecost += 10 * footwear_factor();
         }
 
@@ -11578,7 +11610,7 @@ int Character::impact( const int force, const tripoint &p )
     } else {
         // Slamming into terrain/furniture
         target_name = g->m.disp_name( p );
-        int hard_ground = g->m.has_flag( TFLAG_DIGGABLE, p ) ? 0 : 3;
+        int hard_ground = g->m.ter( p )->is_diggable() ? 0 : 3;
         armor_eff = 0.25f; // Not much
         // Get cut by stuff
         // This isn't impalement on metal wreckage, more like flying through a closed window

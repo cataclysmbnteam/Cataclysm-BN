@@ -6,7 +6,7 @@ on:
   push:
     branches:
       - main
-    paths-ignore: [doc/**, scripts/**, "**.md", "**.mdx"]
+    paths-ignore: [docs/**, scripts/**, "**.md", "**.mdx"]
 
 env:
   VCPKG_BINARY_SOURCES: "default"
@@ -20,12 +20,6 @@ jobs:
           - name: Windows Tiles x64 MSVC
             artifact: windows-tiles-x64-msvc
             arch: x64
-            os: windows-latest
-            ext: zip
-            content: application/zip
-          - name: Windows Tiles x32 MSVC
-            artifact: windows-tiles-x32-msvc
-            arch: x86
             os: windows-latest
             ext: zip
             content: application/zip
@@ -71,12 +65,6 @@ jobs:
             os: ubuntu-latest
             android: arm64
             artifact: android-x64
-            ext: apk
-            content: application/apk
-          - name: Android x32
-            os: ubuntu-latest
-            android: arm32
-            artifact: android-x32
             ext: apk
             content: application/apk
           - name: Android Bundle

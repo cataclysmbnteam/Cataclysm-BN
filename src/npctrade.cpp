@@ -42,8 +42,8 @@
 static const skill_id skill_barter( "barter" );
 static const flag_id json_flag_NO_UNWIELD( "NO_UNWIELD" );
 
-void npc_trading::transfer_items( std::vector<item_pricing> &stuff, player &,
-                                  player &receiver, bool npc_gives )
+void npc_trading::transfer_items( std::vector<item_pricing> &stuff, Character &,
+                                  Character &receiver, bool npc_gives )
 {
     for( item_pricing &ip : stuff ) {
         if( !ip.selected ) {
@@ -92,7 +92,7 @@ std::vector<item_pricing> npc_trading::init_selling( npc &np )
     return result;
 }
 
-double npc_trading::net_price_adjustment( const player &buyer, const player &seller )
+double npc_trading::net_price_adjustment( const Character &buyer, const Character &seller )
 {
     // Adjust the prices based on your barter skill.
     // cap adjustment so nothing is ever sold below value
@@ -119,7 +119,8 @@ void buy_helper( T &src, Callback cb )
     } );
 }
 
-std::vector<item_pricing> npc_trading::init_buying( player &buyer, player &seller, bool is_npc )
+std::vector<item_pricing> npc_trading::init_buying( Character &buyer, Character &seller,
+        bool is_npc )
 {
     std::vector<item_pricing> result;
     npc *np_p = dynamic_cast<npc *>( &buyer );
@@ -165,7 +166,7 @@ std::vector<item_pricing> npc_trading::init_buying( player &buyer, player &selle
 
     //nearby items owned by the NPC will only show up in
     //the trade window if the NPC is also a shopkeeper
-    if( np.mission == NPC_MISSION_SHOPKEEP ) {
+    if( np.is_shopkeeper() ) {
         for( map_cursor &cursor : map_selector( seller.pos(), PICKUP_RANGE ) ) {
             cursor.visit_items( [&check_item]( item * node ) {
                 check_item( {node}, 1 );
@@ -485,7 +486,7 @@ bool trading_window::perform_trade( npc &np, const std::string &deal )
     weight_left = np.weight_capacity() - np.weight_carried();
 
     // Shopkeeps are happy to have large inventories.
-    if( np.mission == NPC_MISSION_SHOPKEEP ) {
+    if( np.is_shopkeeper() ) {
         volume_left = 5000_liter;
         weight_left = 5000_kilogram;
     }
@@ -681,7 +682,7 @@ void trading_window::update_npc_owed( npc &np )
 bool npc_trading::trade( npc &np, int cost, const std::string &deal )
 {
     // Only allow actual shopkeepers to refresh their inventory like this
-    if( np.mission == NPC_MISSION_SHOPKEEP ) {
+    if( np.is_shopkeeper() ) {
         np.shop_restock();
     }
     //np.drop_items( np.weight_carried() - np.weight_capacity(),

@@ -126,23 +126,17 @@ end
 
 doc_gen_func.impl = function()
   local ret = [[---
-title: Lua API reference
-editUrl: false
-sidebar:
-  badge:
-    text: Generated
-    status: note
+edit: false
 ---
 
-:::note
+# Lua API reference
 
-This page is auto-generated from [`data/raw/generate_docs.lua`][generate_docs]
+> [!NOTE]
+>
+> This page is auto-generated from [`data/raw/generate_docs.lua`][generate_docs]
 and should not be edited directly.
 
 [generate_docs]: https://github.com/cataclysmbnteam/Cataclysm-BN/blob/main/data/raw/generate_docs.lua
-
-:::
-
 ]]
 
   local dt = catadoc

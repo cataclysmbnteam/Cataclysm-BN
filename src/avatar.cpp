@@ -259,9 +259,10 @@ void avatar::on_mission_finished( mission &cur_mission )
     }
 }
 
-const player *avatar::get_book_reader( const item &book, std::vector<std::string> &reasons ) const
+const Character *avatar::get_book_reader( const item &book,
+        std::vector<std::string> &reasons ) const
 {
-    const player *reader = nullptr;
+    const Character *reader = nullptr;
     if( !book.is_book() ) {
         reasons.push_back( string_format( _( "Your %s is not good reading material." ),
                                           book.tname() ) );
@@ -351,7 +352,8 @@ const player *avatar::get_book_reader( const item &book, std::vector<std::string
     return reader;
 }
 
-int avatar::time_to_read( const item &book, const player &reader, const player *learner ) const
+int avatar::time_to_read( const item &book, const Character &reader,
+                          const Character *learner ) const
 {
     const auto &type = book.type->book;
     const skill_id &skill = type->skill;
@@ -406,7 +408,7 @@ bool avatar::read( item *loc, const bool continuous )
         skim_book_msg( it, *this );
     }
     std::vector<std::string> fail_messages;
-    const player *reader = get_book_reader( it, fail_messages );
+    const auto *reader = get_book_reader( it, fail_messages );
     if( reader == nullptr ) {
         // We can't read, and neither can our followers
         for( const std::string &reason : fail_messages ) {
@@ -631,7 +633,7 @@ bool avatar::read( item *loc, const bool continuous )
     const int intelligence = get_int();
     const bool complex_penalty = type->intel > std::min( intelligence, reader->get_int() ) &&
                                  !reader->has_trait( trait_PROF_DICEMASTER );
-    const player *complex_player = reader->get_int() < intelligence ? reader : this;
+    const auto *complex_player = reader->get_int() < intelligence ? reader : this;
     if( complex_penalty && !continuous ) {
         add_msg( m_warning,
                  _( "This book is too complex for %s to easily understand.  It will take longer to read." ),
@@ -983,6 +985,25 @@ void avatar::wake_up()
         }
     }
     Character::wake_up();
+}
+
+void avatar::add_snippet( snippet_id snippet )
+{
+    // Optional: caller can check !has_seen_snippet(snippet) before calling this
+    // to avoid doing unnecessary work. This function is safe to call multiple times:
+    // set_value() and emplace() won't change anything if the snippet was already added.
+    std::string combined_name = "has_seen_snippet_" + snippet.str();
+    get_avatar().set_value( combined_name, "true" );
+    snippets_read.emplace( snippet );
+}
+bool avatar::has_seen_snippet( const snippet_id &snippet ) const
+{
+    return snippets_read.contains( snippet );
+}
+
+const std::set<snippet_id> &avatar::get_snippets()
+{
+    return snippets_read;
 }
 
 void avatar::vomit()

@@ -242,14 +242,14 @@ class turret_data
          * and performs any other actions that must be done before firing a turret.
          * @param p the player that is firing the gun, subject to recoil adjustment.
          */
-        void prepare_fire( player &p );
+        void prepare_fire( Character &who );
 
         /**
          * Reset state after firing a prepared turret, called by the firing function.
          * @param p the player that just fired (or attempted to fire) the turret.
          * @param shots the number of shots fired by the most recent call to turret::fire.
          */
-        void post_fire( player &p, int shots );
+        void post_fire( Character &who, int shots );
 
         /**
          * Fire the turret's gun at a given target.
@@ -257,7 +257,7 @@ class turret_data
          * @param target coordinates that will be fired on.
          * @return the number of shots actually fired (may be zero).
          */
-        int fire( player &p, const tripoint &target );
+        int fire( Character &who, const tripoint &target );
 
         bool can_reload() const;
         bool can_unload() const;
@@ -656,7 +656,7 @@ class vehicle
         // than the structure part at exclude
         bool find_and_split_vehicles( int exclude );
         // relocate passengers to the same part on a new vehicle
-        void relocate_passengers( const std::vector<player *> &passengers );
+        void relocate_passengers( const std::vector<Character *> &passengers );
         // remove a bunch of parts, specified by a vector indices, and move them to a new vehicle at
         // the same global position
         // optionally specify the new vehicle position and the mount points on the new vehicle
@@ -1232,8 +1232,8 @@ class vehicle
         /**
          * can the helicopter descend/ascend here?
          */
-        bool check_heli_descend( player &p );
-        bool check_heli_ascend( player &p );
+        bool check_heli_descend( Character &who );
+        bool check_heli_ascend( Character &who );
         bool check_is_heli_landed();
         /**
          * Player is driving the vehicle

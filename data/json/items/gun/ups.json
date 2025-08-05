@@ -28,7 +28,7 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "ammo_effects": [ "DRAW_LASER_BEAM", "EMP" ]
+    "ammo_effects": [ "NO_PENETRATE_OBSTACLES", "DRAW_LASER_BEAM", "EMP" ]
   },
   {
     "id": "gatling_mech_laser",

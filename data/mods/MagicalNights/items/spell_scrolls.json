@@ -749,15 +749,6 @@
     "use_action": { "type": "learn_spell", "spells": [ "lava_bomb_main" ] }
   },
   {
-    "type": "GENERIC",
-    "copy-from": "spell_scroll",
-    "id": "spell_scroll_acid_resistance",
-    "//": "Classless spell, black dragon books",
-    "name": { "str": "Scroll of Acid Resistance", "str_pl": "Scrolls of Acid Resistance" },
-    "description": "This spell creates an invisible aura to protect you from acid.",
-    "use_action": { "type": "learn_spell", "spells": [ "acid_resistance" ] }
-  },
-  {
     "id": "lightning_storm_scroll",
     "type": "GENERIC",
     "name": { "str": "Scroll of Lightning Storm", "str_pl": "Scrolls of Lightning Storm" },
@@ -958,5 +949,50 @@
     "name": { "str": "Scroll of Acid Storm", "str_pl": "Scrolls of Acid Storm" },
     "description": "This scroll details how a spell called 'Acid Bomb' can be altered to become much more powerful, at a much higher mana cost.",
     "use_action": { "type": "learn_spell", "spells": [ "acid_storm" ] }
+  },
+  {
+    "type": "GENERIC",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_acid_ward",
+    "//": "Biomancer spell",
+    "name": { "str": "Scroll of Acid Ward", "str_pl": "Scrolls of Acid Ward" },
+    "description": "Creating all that acid is no good if you can't protect yourself from your own spells.",
+    "use_action": { "type": "learn_spell", "spells": [ "acid_ward" ] }
+  },
+  {
+    "type": "GENERIC",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_anomaly_ward",
+    "//": "Classless spell",
+    "name": { "str": "Scroll of Anomaly Ward", "str_pl": "Scrolls of Anomaly Ward" },
+    "description": "In this catastrophe, it's very tempting to be able to say 'screeeewwwwww the nether'.",
+    "use_action": { "type": "learn_spell", "spells": [ "anomaly_ward" ] }
+  },
+  {
+    "type": "GENERIC",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_ice_ward",
+    "//": "Kelvinist spell",
+    "name": { "str": "Scroll of Ice Ward", "str_pl": "Scrolls of Ice Ward" },
+    "description": "Your enemies may be as cold as ice, but you shouldn't have to be.",
+    "use_action": { "type": "learn_spell", "spells": [ "ice_ward" ] }
+  },
+  {
+    "type": "GENERIC",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_fire_ward",
+    "//": "Kelvinist spell",
+    "name": { "str": "Scroll of Fire Ward", "str_pl": "Scrolls of Fire Ward" },
+    "description": "Your enemies may want you to die in a fire, but you'd rather not.",
+    "use_action": { "type": "learn_spell", "spells": [ "fire_ward" ] }
+  },
+  {
+    "type": "GENERIC",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_electric_ward",
+    "//": "Stormshaper spell",
+    "name": { "str": "Scroll of Electric Ward", "str_pl": "Scrolls of Electric Ward" },
+    "description": "With this spell, you will no-longer be thunderstruck by pesky bolts of electricity.",
+    "use_action": { "type": "learn_spell", "spells": [ "electric_ward" ] }
   }
 ]

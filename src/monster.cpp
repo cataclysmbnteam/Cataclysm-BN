@@ -1280,7 +1280,7 @@ Creature *monster::attack_target()
     return target;
 }
 
-bool monster::is_fleeing( player &u ) const
+bool monster::is_fleeing( Character &who ) const
 {
     if( effect_cache[FLEEING] ) {
         return true;
@@ -1288,8 +1288,8 @@ bool monster::is_fleeing( player &u ) const
     if( anger >= 100 || morale >= 100 ) {
         return false;
     }
-    monster_attitude att = attitude( &u );
-    return att == MATT_FLEE || ( att == MATT_FOLLOW && rl_dist( pos(), u.pos() ) <= 4 );
+    monster_attitude att = attitude( &who );
+    return att == MATT_FLEE || ( att == MATT_FOLLOW && rl_dist( pos(), who.pos() ) <= 4 );
 }
 
 Attitude monster::attitude_to( const Creature &other ) const
@@ -1978,10 +1978,11 @@ void monster::deal_projectile_attack( Creature *source, item *source_weapon,
         return;
     }
 
-    // No head = immune to ranged crits
-    if( missed_by < accuracy_critical && has_flag( MF_NOHEAD ) ) {
-        missed_by = accuracy_critical;
-    }
+    // Handled in creature::deal_projectile_attack now, so that not having a head does not make it somehow less likely to hit the torso.
+    //// No head = immune to ranged crits
+    //if( missed_by < accuracy_critical && has_flag( MF_NOHEAD ) ) {
+    //    missed_by = accuracy_critical;
+    //}
 
     Creature::deal_projectile_attack( source, source_weapon, attack );
 

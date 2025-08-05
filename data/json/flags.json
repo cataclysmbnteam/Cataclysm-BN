@@ -6,6 +6,18 @@
     "info": "This gear has <info>cloaking tech</info> that will <good>make you invisible</good> when active, at the cost of <info>power from a UPS</info>."
   },
   {
+    "id": "ALLOWS_FLIGHT",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "info": "This gear <info>allows flight</info> when active, at the cost of <info>power from a UPS</info>."
+  },
+  {
+    "id": "ALWAYS_ALLOWS_FLIGHT",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "info": "This gear <info>allows flight</info>."
+  },
+  {
     "id": "EFFECT_INVISIBLE",
     "context": [  ],
     "type": "json_flag"
@@ -987,6 +999,12 @@
     "type": "json_flag",
     "context": [ "BIONIC" ],
     "info": "This bionic is <bad>faulty</bad>."
+  },
+  {
+    "id": "BIONIC_FLIGHT",
+    "type": "json_flag",
+    "context": [ "BIONIC" ],
+    "info": "This bionic allows flight."
   },
   {
     "id": "BIONIC_POWER_SOURCE",
@@ -2016,6 +2034,11 @@
   },
   {
     "id": "TOBACCO",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "MARIJUANA",
     "type": "json_flag",
     "context": [  ]
   },

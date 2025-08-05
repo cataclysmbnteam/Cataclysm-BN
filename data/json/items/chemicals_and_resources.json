@@ -1020,7 +1020,6 @@
     "material": "powder",
     "volume": "250 ml",
     "weight": "1 g",
-    "flags": [ "NO_SALVAGE", "UNRECOVERABLE" ],
     "ammo_type": "components",
     "container": "box_small",
     "count": 20
@@ -1035,10 +1034,9 @@
     "looks_like": "detergent",
     "symbol": "=",
     "color": "white",
-    "description": "A bar of soap cut into flakes, it can only be used for varnishing wood now.",
+    "description": "A bar of soap cut into flakes.",
     "volume": "250 ml",
     "weight": "1 g",
-    "flags": [ "NO_SALVAGE", "UNRECOVERABLE" ],
     "ammo_type": "components",
     "count": 20
   },
@@ -1355,7 +1353,6 @@
     "fun": -15,
     "vitamins": [ [ "mutant_toxin", 240 ] ],
     "qualities": [ [ "SANDING", 1 ] ],
-    "flags": [ "NO_SALVAGE", "UNRECOVERABLE" ],
     "container": "box_small",
     "charges": 20
   }
