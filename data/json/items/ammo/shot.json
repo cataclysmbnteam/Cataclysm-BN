@@ -110,7 +110,7 @@
     "count": 10,
     "damage": { "damage_type": "bash", "amount": 5 },
     "proportional": { "recoil": 0.4, "loudness": 0.6 },
-    "extend": { "effects": [ "BEANBAG", "NOGIB", "NO_PENETRATE_OBSTACLES" ] }
+    "extend": { "effects": [ "BEANBAG", "NOGIB" ] }
   },
   {
     "id": "shot_bird",
