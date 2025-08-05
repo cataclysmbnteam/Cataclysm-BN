@@ -93,10 +93,27 @@ local map_cpp_type_to_lua = function(cpp_type)
   else
     -- Clean up namespaces and templates for class names
     local clean_type = string.gsub(cpp_type, "::", "_")
+    -- Clean spaces
+    clean_type = string.gsub(clean_type, "%s+", "")
     -- Try to extract the core type name, handling basic templates roughly
     clean_type = string.match(clean_type, "^[%w_]+%s*<?([%w_]+)?>?$") or clean_type
-    clean_type = string.match(clean_type, "[%w_]+$") -- Get the last part
-    return clean_type or "any"
+    clean_type = string.match(clean_type, "[%w_]+$") or clean_type -- Get the last part
+
+    if clean_type == "..." or string.match(clean_type, "<cppval:") then
+      clean_type = "any"
+    elseif string.match(clean_type, "^Vector%(%w+%)$") then
+      clean_type = string.gsub(clean_type, "^Vector%((%w+)%)$", "%1[]")
+    elseif string.match(clean_type, "^Set%(%w+%)$") then
+      clean_type = string.gsub(clean_type, "^Set%((%w+)%)$", "%1[]")
+    elseif string.match(clean_type, "^Array%((%w+),(%d+)%)$") then
+      clean_type = string.gsub(clean_type, "^Array%((%w+),(%d+)%)$", "%1[]")
+    elseif string.match(clean_type, "^Map%((%w+),(%w+)%)$") then
+      clean_type = string.gsub(clean_type, "^Map%((%w+),(%w+)%)$", "table<%1, %2>")
+    elseif string.match(clean_type, "^Opt%((%w+)%)$") then
+      clean_type = string.gsub(clean_type, "^Opt%((%w+)%)$", "%1?")
+    end
+
+    return clean_type or "any" -- Fallback to 'any' if nothing matches
   end
 end
 
