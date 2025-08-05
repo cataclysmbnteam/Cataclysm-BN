@@ -4002,7 +4002,7 @@ void map::shoot( const tripoint &origin, const tripoint &p, projectile &proj, co
         } else if( non_penetrating ) {
             // We shot something with a flamethrower or other non-penetrating weapon.
             // Try to bash the obstacle if it was a thrown rock or the like, then stop the shot.
-            add_msg( _( "The shot is stopped by the %s!" ), tername( p ) );
+            add_msg( _( "The shot strikes the %s!" ), tername( p ) );
             if( proj.impact.type_damage( DT_BASH ) > 0 ) {
                 bash( p, dam, false );
             }
