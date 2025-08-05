@@ -110,6 +110,7 @@ static const ammo_effect_str_id ammo_effect_LASER( "LASER" );
 static const ammo_effect_str_id ammo_effect_LIGHTNING( "LIGHTNING" );
 static const ammo_effect_str_id ammo_effect_NO_PENETRATE_OBSTACLES( "NO_PENETRATE_OBSTACLES" );
 static const ammo_effect_str_id ammo_effect_PLASMA( "PLASMA" );
+static const ammo_effect_str_id ammo_effect_THROWN( "THROWN" );
 
 static const fault_id fault_bionic_nonsterile( "fault_bionic_nonsterile" );
 
@@ -3928,10 +3929,8 @@ void map::shoot( const tripoint &origin, const tripoint &p, projectile &proj, co
 
     const bool inc = proj.has_effect( ammo_effect_INCENDIARY ) ||
                      proj.impact.type_damage( DT_HEAT ) > 0;
-    const bool phys = proj.impact.type_damage( DT_BASH ) > 0 ||
-                      proj.impact.type_damage( DT_CUT ) > 0 ||
-                      proj.impact.type_damage( DT_STAB ) > 0 ||
-                      proj.impact.type_damage( DT_BULLET ) > 0;
+    // Projectiles that deal bashing damage, thrown items, or items explicitly flagged won't penetrate
+    const bool non_penetrating = proj.impact.type_damage( DT_BASH ) > 0 || proj.has_effect( ammo_effect_THROWN ) || proj.has_effect( ammo_effect_NO_PENETRATE_OBSTACLES );
     if( const optional_vpart_position vp = veh_at( p ) ) {
         dam = vp->vehicle().damage( vp->part_index(), dam, inc ? DT_HEAT : DT_STAB, hit_items );
     }
@@ -3951,11 +3950,11 @@ void map::shoot( const tripoint &origin, const tripoint &p, projectile &proj, co
         if( !hit_items && ( !check( rfi.block_unaimed_chance ) || ( rfi.block_unaimed_chance < 100_pct &&
                             point_blank ) ) ) {
             // Nothing, it's a miss, we're shooting over nearby furniture.
-        } else if( proj.has_effect( ammo_effect_NO_PENETRATE_OBSTACLES ) ) {
+        } else if( non_penetrating ) {
             // We shot something with a flamethrower or other non-penetrating weapon.
-            // Try to bash the obstacle if it was a thrown rock or the like, then stop the shot.
-            add_msg( _( "The shot is stopped by the %s!" ), furnname( p ) );
-            if( phys ) {
+            // Try to bash the obstacle and stop the shot.
+            add_msg( _( "The shot strikes the %s!" ), furnname( p ) );
+            if( proj.impact.type_damage( DT_BASH ) > 0 ) {
                 bash( p, dam, false );
             }
             dam = 0;
@@ -4000,11 +3999,11 @@ void map::shoot( const tripoint &origin, const tripoint &p, projectile &proj, co
         if( !hit_items && ( !check( ri.block_unaimed_chance ) || ( ri.block_unaimed_chance < 100_pct &&
                             point_blank ) ) ) {
             // Nothing, it's a miss or we're shooting over nearby terrain
-        } else if( proj.has_effect( ammo_effect_NO_PENETRATE_OBSTACLES ) ) {
+        } else if( non_penetrating ) {
             // We shot something with a flamethrower or other non-penetrating weapon.
             // Try to bash the obstacle if it was a thrown rock or the like, then stop the shot.
             add_msg( _( "The shot is stopped by the %s!" ), tername( p ) );
-            if( phys ) {
+            if( proj.impact.type_damage( DT_BASH ) > 0 ) {
                 bash( p, dam, false );
             }
             dam = 0;

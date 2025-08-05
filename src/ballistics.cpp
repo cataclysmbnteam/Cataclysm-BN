@@ -51,6 +51,7 @@ static const ammo_effect_str_id ammo_effect_SHATTER_SELF( "SHATTER_SELF" );
 static const ammo_effect_str_id ammo_effect_STREAM( "STREAM" );
 static const ammo_effect_str_id ammo_effect_STREAM_BIG( "STREAM_BIG" );
 static const ammo_effect_str_id ammo_effect_TANGLE( "TANGLE" );
+static const ammo_effect_str_id ammo_effect_THROWN( "THROWN" );
 
 static const efftype_id effect_bounced( "bounced" );
 
@@ -237,9 +238,11 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
     const bool do_draw_line = proj.has_effect( ammo_effect_DRAW_AS_LINE ) ||
                               get_option<bool>( "BULLETS_AS_LASERS" );
     const bool null_source = proj.has_effect( ammo_effect_NULL_SOURCE );
+    // Projectiles that deal bashing damage, thrown items, or items explicitly flagged won't penetrate
+    const bool non_penetrating = proj.impact.type_damage( DT_BASH ) > 0 || proj.has_effect( ammo_effect_THROWN ) || proj.has_effect( ammo_effect_NO_PENETRATE_OBSTACLES );
     // Determines whether it can penetrate obstacles
     const bool is_bullet = proj_arg.speed >= 200 &&
-                           !proj.has_effect( ammo_effect_NO_PENETRATE_OBSTACLES );
+                           !non_penetrating;
 
     // If we were targetting a tile rather than a monster, don't overshoot
     // Unless the target was a wall, then we are aiming high enough to overshoot
