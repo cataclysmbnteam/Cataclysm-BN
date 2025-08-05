@@ -98,7 +98,7 @@ in markdown format. You can also
 
 ## Community
 
-[![Official Docs](https://img.shields.io/badge/Docs-LightGray?style=for-the-badge&logo=astro)][docs]
+[![Official Docs](https://img.shields.io/badge/Docs-LightGray?style=for-the-badge)][docs]
 [![Discussions](https://img.shields.io/badge/Discussions-black?style=for-the-badge&logo=github)][discussion]
 [![Discord](https://img.shields.io/discord/830879262763909202?style=for-the-badge&logo=discord)][discord]
 [![Discussions](https://img.shields.io/badge/CDDA%20Modding-green?style=for-the-badge&logo=discord)][modding]

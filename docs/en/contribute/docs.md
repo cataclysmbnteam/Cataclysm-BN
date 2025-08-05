@@ -53,7 +53,9 @@ To run the documentation site locally, you need to:
 ### Setup dev server
 
 ```sh
-(Cataclysm-BN) $ cd docs
+(Cataclysm-BN) $ deno task docs serve
+
+# or if you are already inside the docs directory
 (Cataclysm-BN/docs) $ deno task serve
 ```
 
@@ -64,7 +66,7 @@ You will be able to access the documentation site at `http://localhost:3000`. Th
 Lua and CLI docs are generated automatically from the source code. To generate them, go to project root and run:
 
 ```sh
-(Cataclysm-BN) $ deno task docs
+(Cataclysm-BN) $ deno task docs:gen
 ```
 
 ## License

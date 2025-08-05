@@ -1,6 +1,6 @@
 # Xedra Notes
 
-> [!DANGER]
+> [!CAUTION]
 >
 > #### spoiler alert
 >

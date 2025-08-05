@@ -1,6 +1,6 @@
 # Factions
 
-> [!DANGER]
+> [!CAUTION]
 >
 > #### spoiler alert
 >

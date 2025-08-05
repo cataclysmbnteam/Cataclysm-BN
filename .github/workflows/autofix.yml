@@ -32,6 +32,7 @@ jobs:
       - run: sudo apt-get install astyle
 
       - uses: denoland/setup-deno@v2
+        with: { cache: true }
 
       - name: cache deno dependencies
         uses: actions/cache@v4

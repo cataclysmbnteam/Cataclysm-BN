@@ -14,11 +14,20 @@ export const asideToGfm = (aside: string): string =>
       const title = attrs?.match(titleRegex)?.groups?.title
       const [links, lines] = partition(content.trim().split("\n"), (line) => linkRegex.test(line))
 
-      return `> [!${type.toUpperCase()}]\n>\n${title ? `> #### ${title}\n>\n` : ""}${
+      return `> [!${getType(type)}]\n>\n${title ? `> #### ${title}\n>\n` : ""}${
         formatLine(lines).concat(links).map((line) => line.trim()).join("\n")
       }`
     },
   )
+
+const getType = (type: string): string => (types[type] ?? type).toUpperCase()
+const types: Record<string, string> = {
+  note: "NOTE",
+  tip: "TIP",
+  warning: "WARNING",
+  caution: "CAUTION",
+  danger: "CAUTION",
+}
 
 const formatLine = (lines: string[]) =>
   lines.map((line, i) => isLastLineEmpty(line, i, lines) ? "" : `> ${line}`)

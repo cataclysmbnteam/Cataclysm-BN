@@ -19,7 +19,7 @@ some text
 
 :::
 
-:::note{title="for X11"}
+:::danger{title="for X11"}
 
 ```sh
 $ cmake -DLEGACY=ON -B profiler/build -S profiler # if you're using X11

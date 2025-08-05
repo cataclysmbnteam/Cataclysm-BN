@@ -15,7 +15,7 @@ some text
 
 [jsx]: https://www.typescriptlang.org/docs/handbook/jsx.html
 
-> [!NOTE]
+> [!CAUTION]
 >
 > #### for X11
 >

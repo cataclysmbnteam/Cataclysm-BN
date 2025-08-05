@@ -99,7 +99,7 @@ There are two ways to build CataclysmBN with CMake: inside the source tree or ou
 Out-of-source builds have the advantage that you can have multiple builds with different options
 from one source directory.
 
-> [!DANGER]
+> [!CAUTION]
 >
 > Inside the source tree build is **NOT** supported.
 
