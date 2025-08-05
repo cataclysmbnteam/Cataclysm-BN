@@ -642,7 +642,19 @@ function FurnIntId.new() end
 ---@field close FurnId
 ---@field open FurnId
 ---@field transforms_into FurnId
+---@field get_coverage fun(arg1: FurnRaw): integer
+---@field get_flags fun(arg1: FurnRaw): any
+---@field get_light_emitted fun(arg1: FurnRaw): integer
+---@field get_max_volume fun(arg1: FurnRaw): Volume
+---@field get_movecost fun(arg1: FurnRaw): integer
+---@field has_flag fun(arg1: FurnRaw, arg2: string): boolean
 ---@field int_id fun(arg1: FurnRaw): FurnIntId
+---@field name fun(arg1: FurnRaw): string
+---@field set_coverage fun(arg1: FurnRaw, arg2: integer)
+---@field set_flag fun(arg1: FurnRaw, arg2: string)
+---@field set_light_emitted fun(arg1: FurnRaw, arg2: integer)
+---@field set_max_volume fun(arg1: FurnRaw, arg2: Volume)
+---@field set_movecost fun(arg1: FurnRaw, arg2: integer)
 ---@field str_id fun(arg1: FurnRaw): FurnId
 FurnRaw = {}
 ---@return FurnRaw
@@ -1472,7 +1484,19 @@ function TerIntId.new() end
 ---@field roof TerId
 ---@field transforms_into TerId
 ---@field trap_id_str string
+---@field get_coverage fun(arg1: TerRaw): integer
+---@field get_flags fun(arg1: TerRaw): any
+---@field get_light_emitted fun(arg1: TerRaw): integer
+---@field get_max_volume fun(arg1: TerRaw): Volume
+---@field get_movecost fun(arg1: TerRaw): integer
+---@field has_flag fun(arg1: TerRaw, arg2: string): boolean
 ---@field int_id fun(arg1: TerRaw): TerIntId
+---@field name fun(arg1: TerRaw): string
+---@field set_coverage fun(arg1: TerRaw, arg2: integer)
+---@field set_flag fun(arg1: TerRaw, arg2: string)
+---@field set_light_emitted fun(arg1: TerRaw, arg2: integer)
+---@field set_max_volume fun(arg1: TerRaw, arg2: Volume)
+---@field set_movecost fun(arg1: TerRaw, arg2: integer)
 ---@field str_id fun(arg1: TerRaw): TerId
 TerRaw = {}
 ---@return TerRaw
