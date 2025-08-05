@@ -2,7 +2,17 @@ name: autofix.ci # needed to securely identify the workflow
 
 on:
   pull_request:
-    paths: ["**.json", "**.cpp", "**.hpp", "**.h", "**.c", "**.md", "**.ts"]
+    paths:
+      [
+        "**.json",
+        "**.cpp",
+        "**.hpp",
+        "**.h",
+        "**.c",
+        "**.md",
+        "**.ts",
+        "**.lua",
+      ]
 
 permissions:
   contents: read
@@ -12,7 +22,7 @@ env:
 
 jobs:
   autofix:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-latest
     permissions:
       contents: write
 
@@ -22,6 +32,7 @@ jobs:
       - run: sudo apt-get install astyle
 
       - uses: denoland/setup-deno@v2
+        with: { cache: true }
 
       - name: cache deno dependencies
         uses: actions/cache@v4
@@ -40,6 +51,11 @@ jobs:
 
       - name: format JSON
         run: make style-all-json-parallel RELEASE=1
+
+      # autofix.ci cannot edit .github directory due to security reasons
+      - name: unstage .github
+        if: ${{ always() }}
+        run: git restore .github
 
       - uses: autofix-ci/action@v1.3
         if: ${{ always() }}

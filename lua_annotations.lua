@@ -9,6 +9,7 @@
 ---@field iuse_functions table
 ---@field hooks hooks
 ---@field current_mod string
+---@field current_mod_path string
 ---@field cata_internal table
 game = {}
 --================---- Classes ----================
@@ -103,9 +104,9 @@ function BodyPartTypeIntId.new() end
 ---@field activate_mutation fun(arg1: Character, arg2: MutationBranchId)
 ---@field add_addiction fun(arg1: Character, arg2: AddictionType, arg3: integer)
 ---@field add_bionic fun(arg1: Character, arg2: BionicDataId)
+---@field addiction_level fun(arg1: Character, arg2: AddictionType): integer
 ---@field add_item_with_id fun(arg1: Character, arg2: ItypeId, arg3: integer) @Adds an item with the given id and amount
 ---@field add_morale fun(arg1: Character, arg2: MoraleTypeDataId, arg3: integer, arg4: integer, arg5: TimeDuration, arg6: TimeDuration, arg7: boolean, arg8: ItypeRaw)
----@field addiction_level fun(arg1: Character, arg2: AddictionType): integer
 ---@field age fun(arg1: Character): integer
 ---@field all_items fun(arg1: Character, arg2: boolean): any @Gets all items
 ---@field all_items_with_flag fun(arg1: Character, arg2: JsonFlagId, arg3: boolean): any @Gets all items with the given flag
@@ -118,6 +119,7 @@ function BodyPartTypeIntId.new() end
 ---@field blossoms fun(arg1: Character)
 ---@field bodypart_exposure fun(arg1: Character): any
 ---@field bodyweight fun(arg1: Character): Mass
+---@field cancel_activity fun(arg1: Character)
 ---@field can_hear fun(arg1: Character, arg2: Tripoint, arg3: integer): boolean
 ---@field can_mount fun(arg1: Character, arg2: Monster): boolean
 ---@field can_pick_volume fun(arg1: Character, arg2: Volume): boolean
@@ -125,7 +127,6 @@ function BodyPartTypeIntId.new() end
 ---@field can_run fun(arg1: Character): boolean
 ---@field can_unwield fun(arg1: Character, arg2: Item): boolean
 ---@field can_wield fun(arg1: Character, arg2: Item): boolean
----@field cancel_activity fun(arg1: Character)
 ---@field check_mount_is_spooked fun(arg1: Character): boolean
 ---@field check_mount_will_move fun(arg1: Character, arg2: Tripoint): boolean
 ---@field clear_bionics fun(arg1: Character)
@@ -139,7 +140,6 @@ function BodyPartTypeIntId.new() end
 ---@field expose_to_disease fun(arg1: Character, arg2: DiseaseTypeId)
 ---@field fall_asleep fun(arg1: Character) | fun(arg1: Character, arg2: TimeDuration)
 ---@field forced_dismount fun(arg1: Character)
----@field getID fun(arg1: Character): CharacterId
 ---@field get_all_skills fun(arg1: Character): SkillLevelMap
 ---@field get_armor_acid fun(arg1: Character, arg2: BodyPartTypeIntId): integer
 ---@field get_base_traits fun(arg1: Character): any
@@ -150,10 +150,11 @@ function BodyPartTypeIntId.new() end
 ---@field get_faction_id fun(arg1: Character): FactionId
 ---@field get_fatigue fun(arg1: Character): integer
 ---@field get_free_bionics_slots fun(arg1: Character, arg2: BodyPartTypeIntId): integer
----@field get_healthy fun(arg1: Character): integer
----@field get_healthy_mod fun(arg1: Character): integer
+---@field get_healthy fun(arg1: Character): number
+---@field get_healthy_mod fun(arg1: Character): number
 ---@field get_highest_category fun(arg1: Character): MutationCategoryTraitId
 ---@field get_hostile_creatures fun(arg1: Character, arg2: integer): any
+---@field getID fun(arg1: Character): CharacterId
 ---@field get_int fun(arg1: Character): integer
 ---@field get_int_base fun(arg1: Character): integer
 ---@field get_int_bonus fun(arg1: Character): integer
@@ -225,6 +226,7 @@ function BodyPartTypeIntId.new() end
 ---@field hitall fun(arg1: Character, arg2: integer, arg3: integer, arg4: Creature): integer
 ---@field hurtall fun(arg1: Character, arg2: integer, arg3: Creature, arg4: boolean)
 ---@field in_climate_control fun(arg1: Character): boolean
+---@field inv_remove_item fun(arg1: Character, arg2: Item) @Removes given `Item` from character's inventory. The `Item` must be in the inventory, neither wielded nor worn.
 ---@field irradiate fun(arg1: Character, arg2: number, arg3: boolean): boolean
 ---@field is_armed fun(arg1: Character): boolean
 ---@field is_blind fun(arg1: Character): boolean
@@ -268,8 +270,8 @@ function BodyPartTypeIntId.new() end
 ---@field mod_base_height fun(arg1: Character, arg2: integer)
 ---@field mod_dex_bonus fun(arg1: Character, arg2: integer)
 ---@field mod_fatigue fun(arg1: Character, arg2: integer)
----@field mod_healthy fun(arg1: Character, arg2: integer)
----@field mod_healthy_mod fun(arg1: Character, arg2: integer, arg3: integer)
+---@field mod_healthy fun(arg1: Character, arg2: number)
+---@field mod_healthy_mod fun(arg1: Character, arg2: number, arg3: number)
 ---@field mod_int_bonus fun(arg1: Character, arg2: integer)
 ---@field mod_max_power_level fun(arg1: Character, arg2: Energy)
 ---@field mod_painkiller fun(arg1: Character, arg2: integer)
@@ -301,18 +303,18 @@ function BodyPartTypeIntId.new() end
 ---@field remove_bionic fun(arg1: Character, arg2: BionicDataId)
 ---@field remove_child_flag fun(arg1: Character, arg2: MutationBranchId)
 ---@field remove_mutation fun(arg1: Character, arg2: MutationBranchId, arg3: boolean)
----@field rest_quality fun(arg1: Character): number
 ---@field restore_scent fun(arg1: Character)
+---@field rest_quality fun(arg1: Character): number
 ---@field rooted fun(arg1: Character)
 ---@field rust_rate fun(arg1: Character): integer
----@field setID fun(arg1: Character, arg2: CharacterId, arg3: boolean)
 ---@field set_base_age fun(arg1: Character, arg2: integer)
 ---@field set_base_height fun(arg1: Character, arg2: integer)
 ---@field set_dex_bonus fun(arg1: Character, arg2: integer)
 ---@field set_faction_id fun(arg1: Character, arg2: FactionId)
 ---@field set_fatigue fun(arg1: Character, arg2: integer)
----@field set_healthy fun(arg1: Character, arg2: integer)
----@field set_healthy_mod fun(arg1: Character, arg2: integer)
+---@field set_healthy fun(arg1: Character, arg2: number)
+---@field set_healthy_mod fun(arg1: Character, arg2: number)
+---@field setID fun(arg1: Character, arg2: CharacterId, arg3: boolean)
 ---@field set_int_bonus fun(arg1: Character, arg2: integer)
 ---@field set_max_power_level fun(arg1: Character, arg2: Energy)
 ---@field set_movement_mode fun(arg1: Character, arg2: CharacterMoveMode)
@@ -673,15 +675,19 @@ function FurnRaw.new() end
 ---@field can_contain fun(arg1: Item, arg2: Item): boolean @Checks if this item can contain another
 ---@field clear_vars fun(arg1: Item) @Erase all variables
 ---@field conductive fun(arg1: Item): boolean
+---@field convert fun(arg1: Item, arg2: ItypeId) @Converts the item as given `ItypeId`.
 ---@field covers fun(arg1: Item, arg2: BodyPartTypeIntId): boolean @Checks if the item covers a bodypart
 ---@field current_magazine fun(arg1: Item): Item @Gets the current magazine
 ---@field display_name fun(arg1: Item, arg2: integer): string @Display name with all bells and whistles like ammo and prefixes
 ---@field energy_remaining fun(arg1: Item): Energy
 ---@field erase_var fun(arg1: Item, arg2: string) @Erase variable
 ---@field get_category_id fun(arg1: Item): string @Gets the category id this item is in
+---@field get_comestible_fun fun(arg1: Item): integer
+---@field get_kcal fun(arg1: Item): integer
 ---@field get_mtype fun(arg1: Item): MtypeId @Almost for a corpse.
 ---@field get_owner fun(arg1: Item): FactionId @Gets the faction id that owns this item
 ---@field get_owner_name fun(arg1: Item): string
+---@field get_quench fun(arg1: Item): integer
 ---@field get_reload_time fun(arg1: Item): integer
 ---@field get_rot fun(arg1: Item): TimeDuration @Gets the TimeDuration until this item rots
 ---@field get_techniques fun(arg1: Item): any @Gets all techniques. Including original techniques.
@@ -727,6 +733,7 @@ function FurnRaw.new() end
 ---@field is_gunmod fun(arg1: Item): boolean
 ---@field is_holster fun(arg1: Item): boolean
 ---@field is_irremovable fun(arg1: Item): boolean
+---@field is_made_of fun(arg1: Item, arg2: MaterialTypeId): boolean
 ---@field is_magazine fun(arg1: Item): boolean @Is this a magazine? (batteries are magazines)
 ---@field is_map fun(arg1: Item): boolean
 ---@field is_med_container fun(arg1: Item): boolean
@@ -744,6 +751,7 @@ function FurnRaw.new() end
 ---@field is_sided fun(arg1: Item): boolean
 ---@field is_silent fun(arg1: Item): boolean
 ---@field is_soft fun(arg1: Item): boolean
+---@field is_stackable fun(arg1: Item): boolean
 ---@field is_tainted fun(arg1: Item): boolean
 ---@field is_tool fun(arg1: Item): boolean
 ---@field is_toolmod fun(arg1: Item): boolean
@@ -752,7 +760,9 @@ function FurnRaw.new() end
 ---@field is_upgrade fun(arg1: Item): boolean
 ---@field is_watertight_container fun(arg1: Item): boolean
 ---@field is_wheel fun(arg1: Item): boolean
+---@field made_of fun(arg1: Item): any
 ---@field mod_charges fun(arg1: Item, arg2: integer)
+---@field price fun(arg1: Item, arg2: boolean): integer @Cents of the item. `bool` is whether it is a post-cataclysm value.
 ---@field remaining_capacity_for_id fun(arg1: Item, arg2: ItypeId, arg3: boolean): integer @Gets the remaining space available for a type of liquid
 ---@field remove_technique fun(arg1: Item, arg2: MartialArtsTechniqueId) @Removes the additional technique. Doesn't affect originial techniques.
 ---@field set_flag fun(arg1: Item, arg2: JsonFlagId)
@@ -766,6 +776,8 @@ function FurnRaw.new() end
 ---@field total_capacity fun(arg1: Item): Volume @Gets maximum volume this item can hold (liquids, ammo, etc)
 ---@field unset_flag fun(arg1: Item, arg2: JsonFlagId)
 ---@field unset_flags fun(arg1: Item)
+---@field volume fun(arg1: Item, arg2: any): Volume @Volume of the item. `bool` is whether it is `integral_volume`.
+---@field weight fun(arg1: Item, arg2: any, arg3: any): Mass @Weight of the item. The first `bool` is whether including contents, second `bool` is whether it is `integral_weight`.
 Item = {}
 ---@return Item
 function Item.new() end
@@ -827,6 +839,7 @@ function JsonTraitFlagId.new() end
 
 ---@class Map
 ---@field add_field_at fun(arg1: Map, arg2: Tripoint, arg3: FieldTypeIntId, arg4: integer, arg5: TimeDuration): boolean
+---@field clear_items_at fun(arg1: Map, arg2: Tripoint)
 ---@field create_corpse_at fun(arg1: Map, arg2: Tripoint, arg3: any, arg4: any, arg5: any, arg6: any) @Creates a new corpse at a position on the map. You can skip `Opt` ones by omitting them or passing `nil`. `MtypeId` specifies which monster's body it is, `TimePoint` indicates when it died, `string` gives it a custom name, and `int` determines the revival time if the monster has the `REVIVES` flag.
 ---@field create_item_at fun(arg1: Map, arg2: Tripoint, arg3: ItypeId, arg4: integer) @Creates a new item(s) at a position on the map.
 ---@field disarm_trap_at fun(arg1: Map, arg2: Tripoint) @Disarms a trap using your skills and stats, with consequences depending on success or failure.
@@ -845,6 +858,7 @@ function JsonTraitFlagId.new() end
 ---@field mod_field_age_at fun(arg1: Map, arg2: Tripoint, arg3: FieldTypeIntId, arg4: TimeDuration): TimeDuration
 ---@field mod_field_int_at fun(arg1: Map, arg2: Tripoint, arg3: FieldTypeIntId, arg4: integer): integer
 ---@field remove_field_at fun(arg1: Map, arg2: Tripoint, arg3: FieldTypeIntId)
+---@field remove_item_at fun(arg1: Map, arg2: Tripoint, arg3: Item)
 ---@field remove_trap_at fun(arg1: Map, arg2: Tripoint) @Simpler version of `set_trap_at` with `trap_null`.
 ---@field set_field_age_at fun(arg1: Map, arg2: Tripoint, arg3: FieldTypeIntId, arg4: TimeDuration, arg5: boolean): TimeDuration
 ---@field set_field_int_at fun(arg1: Map, arg2: Tripoint, arg3: FieldTypeIntId, arg4: integer, arg5: boolean): integer
@@ -908,6 +922,29 @@ function MartialArtsTechniqueId.new() end
 Mass = {}
 ---@return Mass
 function Mass.new() end
+
+---@class MaterialTypeId
+---@field NULL_ID fun(): MaterialTypeId
+---@field implements_int_id fun(): boolean
+---@field is_null fun(arg1: MaterialTypeId): boolean
+---@field is_valid fun(arg1: MaterialTypeId): boolean
+---@field obj fun(arg1: MaterialTypeId): MaterialTypeRaw
+---@field str fun(arg1: MaterialTypeId): string
+---@field serialize fun(arg1: MaterialTypeId)
+---@field deserialize fun(arg1: MaterialTypeId)
+---@field __tostring fun(arg1: MaterialTypeId): string
+MaterialTypeId = {}
+---@return MaterialTypeId
+---@overload fun(arg1: MaterialTypeId): MaterialTypeId
+---@overload fun(arg1: string): MaterialTypeId
+function MaterialTypeId.new() end
+
+---@class MaterialTypeRaw
+---@field name fun(arg1: MaterialTypeRaw): string
+---@field str_id fun(arg1: MaterialTypeRaw): MaterialTypeId
+MaterialTypeRaw = {}
+---@return MaterialTypeRaw
+function MaterialTypeRaw.new() end
 
 ---@class Monster : Creature
 ---@field anger integer
@@ -1250,6 +1287,26 @@ RecipeId = {}
 ---@overload fun(arg1: RecipeId): RecipeId
 ---@overload fun(arg1: string): RecipeId
 function RecipeId.new() end
+
+---@class RecipeRaw
+---@field booksets any
+---@field category string
+---@field difficulty integer
+---@field learn_by_disassembly any
+---@field required_skills any
+---@field skill_used SkillId
+---@field subcategory string
+---@field time integer
+---@field get_all fun(): any
+---@field get_from_flag fun(arg1: string): any
+---@field get_from_skill_used fun(arg1: SkillId): any
+---@field has_flag fun(arg1: RecipeRaw, arg2: string): boolean
+---@field ident fun(arg1: RecipeRaw): RecipeId
+---@field result fun(arg1: RecipeRaw): ItypeId
+---@field result_name fun(arg1: RecipeRaw): string
+RecipeRaw = {}
+---@return RecipeRaw
+function RecipeRaw.new() end
 
 ---@class SkillId
 ---@field NULL_ID fun(): SkillId
@@ -1600,11 +1657,11 @@ function Volume.new() end
 
 --- Various game constants
 ---@class const
----@field OMT_MS_SIZE integer # value: 24
----@field OMT_SM_SIZE integer # value: 2
 ---@field OM_MS_SIZE integer # value: 4320
 ---@field OM_OMT_SIZE integer # value: 180
 ---@field OM_SM_SIZE integer # value: 360
+---@field OMT_MS_SIZE integer # value: 24
+---@field OMT_SM_SIZE integer # value: 2
 ---@field SM_MS_SIZE integer # value: 12
 const = {}
 
@@ -1893,8 +1950,11 @@ DamageType = {
 	DT_STAB = 6,
 	DT_HEAT = 7,
 	DT_COLD = 8,
-	DT_ELECTRIC = 9,
-	DT_BULLET = 10
+	DT_DARK = 9,
+	DT_LIGHT = 10,
+	DT_PSI = 11,
+	DT_ELECTRIC = 12,
+	DT_BULLET = 13
 }
 
 ---@enum MonsterAttitude
@@ -1956,81 +2016,95 @@ MonsterFlag = {
 	SLUDGETRAIL = 34,
 	COLDPROOF = 35,
 	BIOPROOF = 36,
-	FIREY = 37,
-	QUEEN = 38,
-	ELECTRONIC = 39,
-	FUR = 40,
-	LEATHER = 41,
-	WOOL = 42,
-	FEATHER = 43,
-	BONES = 44,
-	FAT = 45,
-	CONSOLE_DESPAWN = 46,
-	IMMOBILE = 47,
-	ID_CARD_DESPAWN = 48,
-	RIDEABLE_MECH = 49,
-	CARD_OVERRIDE = 50,
-	MILITARY_MECH = 51,
-	MECH_RECON_VISION = 52,
-	MECH_DEFENSIVE = 53,
-	HIT_AND_RUN = 54,
-	GUILT = 55,
-	PAY_BOT = 56,
-	HUMAN = 57,
-	NO_BREATHE = 58,
-	FLAMMABLE = 59,
-	REVIVES = 60,
-	CHITIN = 61,
-	VERMIN = 62,
-	NOGIB = 63,
-	LARVA = 64,
-	ARTHROPOD_BLOOD = 65,
-	ACID_BLOOD = 66,
-	BILE_BLOOD = 67,
-	ABSORBS = 68,
-	ABSORBS_SPLITS = 69,
-	CBM_CIV = 70,
-	CBM_POWER = 71,
-	CBM_SCI = 72,
-	CBM_OP = 73,
-	CBM_TECH = 74,
-	CBM_SUBS = 75,
-	UNUSED_76 = 76,
-	FISHABLE = 77,
-	GROUP_BASH = 78,
-	SWARMS = 79,
-	GROUP_MORALE = 80,
-	INTERIOR_AMMO = 81,
-	CLIMBS = 82,
-	PACIFIST = 83,
-	PUSH_MON = 84,
-	PUSH_VEH = 85,
-	NIGHT_INVISIBILITY = 86,
-	REVIVES_HEALTHY = 87,
-	NO_NECRO = 88,
-	PATH_AVOID_DANGER_1 = 89,
-	PATH_AVOID_DANGER_2 = 90,
-	PATH_AVOID_FIRE = 91,
-	PATH_AVOID_FALL = 92,
-	PRIORITIZE_TARGETS = 93,
-	NOT_HALLUCINATION = 94,
-	CANPLAY = 95,
-	PET_MOUNTABLE = 96,
-	PET_HARNESSABLE = 97,
-	DOGFOOD = 98,
-	MILKABLE = 99,
-	SHEARABLE = 100,
-	NO_BREED = 101,
-	NO_FUNG_DMG = 102,
-	PET_WONT_FOLLOW = 103,
-	DRIPS_NAPALM = 104,
-	DRIPS_GASOLINE = 105,
-	ELECTRIC_FIELD = 106,
-	LOUDMOVES = 107,
-	CAN_OPEN_DOORS = 108,
-	STUN_IMMUNE = 109,
-	DROPS_AMMO = 110,
-	CAN_BE_ORDERED = 111
+	DARKPROOF = 37,
+	LIGHTPROOF = 38,
+	PSIPROOF = 39,
+	FIREY = 40,
+	QUEEN = 41,
+	ELECTRONIC = 42,
+	FUR = 43,
+	LEATHER = 44,
+	WOOL = 45,
+	FEATHER = 46,
+	BONES = 47,
+	FAT = 48,
+	CONSOLE_DESPAWN = 49,
+	IMMOBILE = 50,
+	ID_CARD_DESPAWN = 51,
+	RIDEABLE_MECH = 52,
+	CARD_OVERRIDE = 53,
+	MILITARY_MECH = 54,
+	MECH_RECON_VISION = 55,
+	MECH_DEFENSIVE = 56,
+	HIT_AND_RUN = 57,
+	GUILT = 58,
+	PAY_BOT = 59,
+	HUMAN = 60,
+	NO_BREATHE = 61,
+	FLAMMABLE = 62,
+	REVIVES = 63,
+	CHITIN = 64,
+	VERMIN = 65,
+	NOGIB = 66,
+	LARVA = 67,
+	ARTHROPOD_BLOOD = 68,
+	ACID_BLOOD = 69,
+	BILE_BLOOD = 70,
+	ABSORBS = 71,
+	ABSORBS_SPLITS = 72,
+	CBM_CIV = 73,
+	CBM_POWER = 74,
+	CBM_SCI = 75,
+	CBM_OP = 76,
+	CBM_TECH = 77,
+	CBM_SUBS = 78,
+	UNUSED_76 = 79,
+	FISHABLE = 80,
+	GROUP_BASH = 81,
+	SWARMS = 82,
+	GROUP_MORALE = 83,
+	INTERIOR_AMMO = 84,
+	CLIMBS = 85,
+	PACIFIST = 86,
+	PUSH_MON = 87,
+	PUSH_VEH = 88,
+	NIGHT_INVISIBILITY = 89,
+	REVIVES_HEALTHY = 90,
+	NO_NECRO = 91,
+	PATH_AVOID_DANGER_1 = 92,
+	PATH_AVOID_DANGER_2 = 93,
+	PATH_AVOID_FIRE = 94,
+	PATH_AVOID_FALL = 95,
+	PRIORITIZE_TARGETS = 96,
+	NOT_HALLUCINATION = 97,
+	CANPLAY = 98,
+	PET_MOUNTABLE = 99,
+	PET_HARNESSABLE = 100,
+	DOGFOOD = 101,
+	MILKABLE = 102,
+	SHEARABLE = 103,
+	NO_BREED = 104,
+	NO_FUNG_DMG = 105,
+	PET_WONT_FOLLOW = 106,
+	DRIPS_NAPALM = 107,
+	DRIPS_GASOLINE = 108,
+	ELECTRIC_FIELD = 109,
+	LOUDMOVES = 110,
+	CAN_OPEN_DOORS = 111,
+	STUN_IMMUNE = 112,
+	DROPS_AMMO = 113,
+	CAN_BE_ORDERED = 114,
+	SMALL_HEAD = 115,
+	TINY_HEAD = 116,
+	NO_HEAD_BONUS_CRIT = 117,
+	HEAD_BONUS_CRIT_1 = 118,
+	HEAD_BONUS_CRIT_2 = 119,
+	TORSO_BONUS_CRIT_1 = 120,
+	TORSO_BONUS_CRIT_2 = 121,
+	PROJECTILE_RESISTANT_1 = 122,
+	PROJECTILE_RESISTANT_2 = 123,
+	PROJECTILE_RESISTANT_3 = 124,
+	PROJECTILE_RESISTANT_4 = 125
 }
 
 ---@enum MonsterSize

@@ -512,7 +512,7 @@ std::map<item *, bionic_id> npc::check_toggle_cbm()
     if( free_power <= 0_J ) {
         return res;
     }
-    for( bionic &bio : *my_bionics ) {
+    for( bionic &bio : get_bionic_collection() ) {
         // I'm not checking if NPC_USABLE because if it isn't it shouldn't be in them.
         if( bio.powered || !bio.info().has_flag( flag_BIONIC_WEAPON ) ||
             free_power < bio.info().power_activate ) {
@@ -695,7 +695,7 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
         clear_npc_ai_info_cache( npc_ai_info::ideal_weapon_value );
     } else if( bio.id == bio_ears && has_active_bionic( bio_earplugs ) ) {
         add_msg_activate();
-        for( bionic &bio : *my_bionics ) {
+        for( bionic &bio : get_bionic_collection() ) {
             if( bio.id == bio_earplugs ) {
                 bio.powered = false;
                 add_msg_if_player( m_info, _( "Your %s automatically turn off." ),
@@ -704,7 +704,7 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
         }
     } else if( bio.id == bio_earplugs && has_active_bionic( bio_ears ) ) {
         add_msg_activate();
-        for( bionic &bio : *my_bionics ) {
+        for( bionic &bio : get_bionic_collection() ) {
             if( bio.id == bio_ears ) {
                 bio.powered = false;
                 add_msg_if_player( m_info, _( "Your %s automatically turns off." ),
@@ -2006,7 +2006,7 @@ void Character::bionics_uninstall_failure( int difficulty, int success, float ad
 
 }
 
-void Character::bionics_uninstall_failure( monster &installer, player &patient, int difficulty,
+void Character::bionics_uninstall_failure( monster &installer, Character &patient, int difficulty,
         int success, float adjusted_skill )
 {
 
@@ -2125,7 +2125,7 @@ int bionic_manip_cos( float adjusted_skill, int bionic_difficulty )
     return chance_of_success;
 }
 
-bool Character::can_uninstall_bionic( const bionic_id &b_id, player &installer, bool autodoc,
+bool Character::can_uninstall_bionic( const bionic_id &b_id, Character &installer, bool autodoc,
                                       int skill_level )
 {
     // If malfunctioning bionics doesn't have associated item it gets predefined difficulty
@@ -2149,7 +2149,8 @@ bool Character::can_uninstall_bionic( const bionic_id &b_id, player &installer, 
         }
     }
 
-    for( const bionic_id &bid : get_bionics() ) {
+    for( const bionic &i : get_bionic_collection() ) {
+        const bionic_id &bid = i.id;
         if( bid->is_included( b_id ) ) {
             popup( _( "%s must remove the %s bionic to remove the %s." ), installer.disp_name(),
                    bid->name, b_id->name );
@@ -2159,7 +2160,8 @@ bool Character::can_uninstall_bionic( const bionic_id &b_id, player &installer, 
 
     // make sure the bionic you are removing is not required by other installed bionics
     std::vector<std::string> dependent_bionics;
-    for( const bionic_id &bid : get_bionics() ) {
+    for( const bionic &i : get_bionic_collection() ) {
+        const bionic_id &bid = i.id;
         // look at required bionics for every installed bionic
         for( const bionic_id &req_bid : bid->required_bionics ) {
             if( req_bid == b_id ) {
@@ -2218,7 +2220,7 @@ bool Character::can_uninstall_bionic( const bionic_id &b_id, player &installer, 
     return true;
 }
 
-bool Character::uninstall_bionic( const bionic_id &b_id, player &installer, bool autodoc,
+bool Character::uninstall_bionic( const bionic_id &b_id, Character &installer, bool autodoc,
                                   int skill_level )
 {
     // If malfunctioning bionics doesn't have associated item it gets predefined difficulty
@@ -2324,7 +2326,7 @@ void Character::perform_uninstall( bionic_id bid, int difficulty, int success,
     here.invalidate_map_cache( g->get_levz() );
 }
 
-bool Character::uninstall_bionic( const bionic &target_cbm, monster &installer, player &patient,
+bool Character::uninstall_bionic( const bionic &target_cbm, monster &installer, Character &patient,
                                   float adjusted_skill )
 {
     if( installer.ammo[itype_anesthetic] <= 0 ) {
@@ -2395,7 +2397,7 @@ bool Character::uninstall_bionic( const bionic &target_cbm, monster &installer, 
     return false;
 }
 
-bool Character::can_install_bionics( const itype &type, player &installer, bool autodoc,
+bool Character::can_install_bionics( const itype &type, Character &installer, bool autodoc,
                                      int skill_level )
 {
     if( !type.bionic ) {
@@ -2504,7 +2506,7 @@ float Character::env_surgery_bonus( int radius )
     return bonus;
 }
 
-bool Character::install_bionics( const itype &type, player &installer, bool autodoc,
+bool Character::install_bionics( const itype &type, Character &installer, bool autodoc,
                                  int skill_level )
 {
     if( !type.bionic ) {
@@ -2750,7 +2752,8 @@ std::string list_occupied_bps( const bionic_id &bio_id, const std::string &intro
 int Character::get_used_bionics_slots( const bodypart_id &bp ) const
 {
     int used_slots = 0;
-    for( const bionic_id &bid : get_bionics() ) {
+    for( const bionic &i : get_bionic_collection() ) {
+        const bionic_id &bid = i.id;
         auto search = bid->occupied_bodyparts.find( bp.id() );
         if( search != bid->occupied_bodyparts.end() ) {
             used_slots += search->second;
@@ -2910,7 +2913,7 @@ std::pair<int, int> Character::amount_of_storage_bionics() const
     units::energy lvl = get_max_power_level();
 
     // exclude amount of power capacity obtained via non-power-storage CBMs
-    for( const bionic &it : *my_bionics ) {
+    for( const bionic &it : get_bionic_collection() ) {
         lvl -= it.info().capacity;
     }
 
@@ -3119,7 +3122,7 @@ std::vector<bionic_id> bionics_cancelling_trait( const std::vector<bionic_id> &b
     return bionics_cancelling;
 }
 
-void Character::introduce_into_anesthesia( const time_duration &duration, player &installer,
+void Character::introduce_into_anesthesia( const time_duration &duration, Character &installer,
         bool needs_anesthesia )   //used by the Autodoc
 {
     if( installer.has_trait( trait_DEBUG_BIONICS ) ) {

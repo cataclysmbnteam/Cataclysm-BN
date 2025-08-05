@@ -31,7 +31,12 @@ ret_val<bool> try_salvage( const item &, quality_cache & );
 
 units::mass minimal_weight_to_cut( const item &it );
 
-std::vector<std::pair< itype_id, float>> salvage_results( const item &target );
+/// <summary>
+/// Returns a map of salvage results for the given item.
+/// The map contains resulting item types and their respective amounts.
+/// </summary>
+/// <param name="target">Salvaged item</param>
+std::unordered_map<itype_id, float> salvage_results( const item &target );
 
 void complete_salvage( Character &who, item &cut, tripoint_abs_ms pos );
 

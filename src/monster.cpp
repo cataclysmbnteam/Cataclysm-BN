@@ -915,6 +915,9 @@ std::string monster::extended_description() const
         {m_flag::MF_STUN_IMMUNE, pgettext( "Stun as immunity", "stun" )},
         {m_flag::MF_SLUDGEPROOF, pgettext( "Sludge as immunity", "sludge" )},
         {m_flag::MF_BIOPROOF, pgettext( "Biological hazards as immunity", "biohazards" )},
+        {m_flag::MF_DARKPROOF, pgettext( "Dark attacks as immunity", "dark" )},
+        {m_flag::MF_LIGHTPROOF, pgettext( "Light attacks as immunity", "light" )},
+        {m_flag::MF_PSIPROOF, pgettext( "Psionic attacks as immunity", "psi" )},
     } );
 
     describe_properties( _( "It can %s." ), {
@@ -1277,7 +1280,7 @@ Creature *monster::attack_target()
     return target;
 }
 
-bool monster::is_fleeing( player &u ) const
+bool monster::is_fleeing( Character &who ) const
 {
     if( effect_cache[FLEEING] ) {
         return true;
@@ -1285,8 +1288,8 @@ bool monster::is_fleeing( player &u ) const
     if( anger >= 100 || morale >= 100 ) {
         return false;
     }
-    monster_attitude att = attitude( &u );
-    return att == MATT_FLEE || ( att == MATT_FOLLOW && rl_dist( pos(), u.pos() ) <= 4 );
+    monster_attitude att = attitude( &who );
+    return att == MATT_FLEE || ( att == MATT_FOLLOW && rl_dist( pos(), who.pos() ) <= 4 );
 }
 
 Attitude monster::attitude_to( const Creature &other ) const
@@ -1711,7 +1714,13 @@ bool monster::is_immune_damage( const damage_type dt ) const
         case DT_HEAT:
             return has_flag( MF_FIREPROOF );
         case DT_COLD:
-            return false;
+            return has_flag( MF_COLDPROOF );
+        case DT_DARK:
+            return has_flag( MF_DARKPROOF );
+        case DT_LIGHT:
+            return has_flag( MF_LIGHTPROOF );
+        case DT_PSI:
+            return has_flag( MF_PSIPROOF );
         case DT_ELECTRIC:
             return type->sp_defense == &mdefense::zapback ||
                    has_flag( MF_ELECTRIC ) ||
@@ -1760,6 +1769,9 @@ resistances monster::resists() const
     res.set_resist( DT_ACID, type->armor_acid + get_worn_armor_val( DT_ACID ) );
     res.set_resist( DT_HEAT, type->armor_fire + get_worn_armor_val( DT_HEAT ) );
     res.set_resist( DT_COLD, type->armor_cold + get_worn_armor_val( DT_COLD ) );
+    res.set_resist( DT_DARK, type->armor_dark + get_worn_armor_val( DT_DARK ) );
+    res.set_resist( DT_LIGHT, type->armor_light + get_worn_armor_val( DT_LIGHT ) );
+    res.set_resist( DT_PSI, type->armor_psi + get_worn_armor_val( DT_PSI ) );
     res.set_resist( DT_ELECTRIC, type->armor_electric + get_worn_armor_val( DT_ELECTRIC ) );
     return res;
 }
@@ -1966,10 +1978,11 @@ void monster::deal_projectile_attack( Creature *source, item *source_weapon,
         return;
     }
 
-    // No head = immune to ranged crits
-    if( missed_by < accuracy_critical && has_flag( MF_NOHEAD ) ) {
-        missed_by = accuracy_critical;
-    }
+    // Handled in creature::deal_projectile_attack now, so that not having a head does not make it somehow less likely to hit the torso.
+    //// No head = immune to ranged crits
+    //if( missed_by < accuracy_critical && has_flag( MF_NOHEAD ) ) {
+    //    missed_by = accuracy_critical;
+    //}
 
     Creature::deal_projectile_attack( source, source_weapon, attack );
 
@@ -2274,6 +2287,12 @@ int monster::get_armor_type( damage_type dt, bodypart_id bp ) const
             return worn_armor + static_cast<int>( type->armor_fire );
         case DT_COLD:
             return worn_armor + static_cast<int>( type->armor_cold );
+        case DT_DARK:
+            return worn_armor + static_cast<int>( type->armor_dark );
+        case DT_LIGHT:
+            return worn_armor + static_cast<int>( type->armor_light );
+        case DT_PSI:
+            return worn_armor + static_cast<int>( type->armor_psi );
         case DT_ELECTRIC:
             return worn_armor + static_cast<int>( type->armor_electric );
         case DT_NULL:

@@ -957,7 +957,7 @@
   {
     "type": "COMESTIBLE",
     "id": "milk_atomic_coffee",
-    "name": { "str_sp": "sweet atomic coffee" },
+    "name": { "str_sp": "atomic coffee milk" },
     "copy-from": "milk_coffee",
     "addiction_type": "caffeine",
     "fatigue_mod": 45,

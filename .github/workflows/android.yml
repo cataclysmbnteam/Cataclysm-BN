@@ -6,7 +6,7 @@ on:
       - main
     paths-ignore:
       - "build-data/osx/**"
-      - "doc/**"
+      - "docs/**"
       - "doxygen_doc/**"
       - "gfx/**"
       - "lang/**"
@@ -26,7 +26,7 @@ concurrency:
 jobs:
   build_catatclysm:
     name: Build
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-latest
     if: github.event.pull_request.draft == false
 
     steps:
@@ -44,7 +44,10 @@ jobs:
       - name: Setup build and dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install gettext libsqlite3-dev zlib1g-dev
+          sudo apt-get install gcc-14 gettext libsqlite3-dev zlib1g-dev
+          sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-14 100
+          sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-14 100
+          g++ --version
 
       - name: Build
         working-directory: ./android

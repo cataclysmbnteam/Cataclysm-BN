@@ -6,6 +6,18 @@
     "info": "This gear has <info>cloaking tech</info> that will <good>make you invisible</good> when active, at the cost of <info>power from a UPS</info>."
   },
   {
+    "id": "ALLOWS_FLIGHT",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "info": "This gear <info>allows flight</info> when active, at the cost of <info>power from a UPS</info>."
+  },
+  {
+    "id": "ALWAYS_ALLOWS_FLIGHT",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "info": "This gear <info>allows flight</info>."
+  },
+  {
     "id": "EFFECT_INVISIBLE",
     "context": [  ],
     "type": "json_flag"
@@ -254,6 +266,24 @@
     "context": [ "ARMOR", "TOOL_ARMOR" ],
     "type": "json_flag",
     "info": "This gear <good>completely protects</good> you from <info>low temperatures</info>."
+  },
+  {
+    "id": "DARK_IMMUNE",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "type": "json_flag",
+    "info": "This gear <good>completely protects</good> you from <info>dark damage</info>."
+  },
+  {
+    "id": "LIGHT_IMMUNE",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "type": "json_flag",
+    "info": "This gear <good>completely protects</good> you from <info>light damage</info>."
+  },
+  {
+    "id": "PSI_IMMUNE",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "type": "json_flag",
+    "info": "This gear <good>completely protects</good> you from <info>psionic damage</info>."
   },
   {
     "id": "ACID",
@@ -971,6 +1001,12 @@
     "info": "This bionic is <bad>faulty</bad>."
   },
   {
+    "id": "BIONIC_FLIGHT",
+    "type": "json_flag",
+    "context": [ "BIONIC" ],
+    "info": "This bionic allows flight."
+  },
+  {
     "id": "BIONIC_POWER_SOURCE",
     "type": "json_flag",
     "context": [ "BIONIC" ],
@@ -1165,6 +1201,21 @@
   },
   {
     "id": "EFFECT_COLD_IMMUNE",
+    "context": [  ],
+    "type": "json_flag"
+  },
+  {
+    "id": "EFFECT_DARK_IMMUNE",
+    "context": [  ],
+    "type": "json_flag"
+  },
+  {
+    "id": "EFFECT_LIGHT_IMMUNE",
+    "context": [  ],
+    "type": "json_flag"
+  },
+  {
+    "id": "EFFECT_PSI_IMMUNE",
     "context": [  ],
     "type": "json_flag"
   },
@@ -1983,6 +2034,11 @@
   },
   {
     "id": "TOBACCO",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "MARIJUANA",
     "type": "json_flag",
     "context": [  ]
   },

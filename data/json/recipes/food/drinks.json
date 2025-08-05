@@ -817,7 +817,7 @@
     "time": "1h15m",
     "autolearn": true,
     "flags": [ "BLIND_HARD" ],
-    "components": [ [ [ "milk_cream", 1 ] ], [ [ "hickory_root", 1 ] ], [ [ "sugar", 40 ] ], [ [ "water_clean", 10 ] ] ]
+    "components": [ [ [ "ghee", 1 ] ], [ [ "hickory_root", 1 ] ], [ [ "sugar", 40 ] ], [ [ "water_clean", 10 ] ] ]
   },
   {
     "type": "recipe",
@@ -883,7 +883,40 @@
     "tools": [ [ [ "water_boiling_heat", 3, "LIST" ] ] ],
     "components": [
       [ [ "beverage_sweetener", 1, "LIST" ] ],
-      [ [ "whiskey", 1 ], [ "single_malt_whiskey", 1 ], [ "single_pot_whiskey", 1 ], [ "canadian_whiskey", 1 ] ],
+      [
+        [ "whiskey", 1 ],
+        [ "single_malt_whiskey", 1 ],
+        [ "single_pot_whiskey", 1 ],
+        [ "canadian_whiskey", 1 ],
+        [ "cheap_whiskey", 1 ],
+        [ "drink_wsour", 1 ]
+      ],
+      [ [ "coffee_raw", 1 ] ],
+      [ [ "milk_substitute_standard", 1, "LIST" ] ],
+      [ [ "water_clean", 1 ], [ "water", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "irish_coffee_atomic",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_DRINKS",
+    "charges": 2,
+    "skill_used": "cooking",
+    "time": "11 m",
+    "autolearn": true,
+    "batch_time_factors": [ 80, 5 ],
+    "tools": [ [ [ "atomic_coffeepot", -1 ] ] ],
+    "components": [
+      [ [ "beverage_sweetener", 1, "LIST" ] ],
+      [
+        [ "whiskey", 1 ],
+        [ "single_malt_whiskey", 1 ],
+        [ "single_pot_whiskey", 1 ],
+        [ "canadian_whiskey", 1 ],
+        [ "cheap_whiskey", 1 ],
+        [ "drink_wsour", 1 ]
+      ],
       [ [ "coffee_raw", 1 ] ],
       [ [ "milk_substitute_standard", 1, "LIST" ] ],
       [ [ "water_clean", 1 ], [ "water", 1 ] ]

@@ -103,6 +103,7 @@ static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_stunned( "stunned" );
 static const efftype_id effect_took_antiasthmatic( "took_antiasthmatic" );
 static const efftype_id effect_took_thorazine( "took_thorazine" );
+static const efftype_id effect_took_antinarcoleptic( "took_antinarcoleptic" );
 static const efftype_id effect_valium( "valium" );
 static const efftype_id effect_visuals( "visuals" );
 
@@ -325,7 +326,8 @@ void Character::suffer_while_awake( const int current_stim )
         suffer_from_schizophrenia();
     }
 
-    if( ( has_trait( trait_NARCOLEPTIC ) || has_artifact_with( AEP_SCHIZO ) ) ) {
+    if( ( has_trait( trait_NARCOLEPTIC ) || has_artifact_with( AEP_SCHIZO ) ) &&
+        !has_effect( effect_took_antinarcoleptic ) ) {
         if( one_turn_in( 8_hours ) ) {
             add_msg_player_or_npc( m_bad,
                                    _( "You're suddenly overcome with the urge to sleep and you pass out." ),
@@ -511,15 +513,10 @@ void Character::suffer_from_schizophrenia()
         shout( SNIPPET.random_from_category( "schizo_self_shout" ).value_or( translation() ).translated() );
         return;
     }
-    // Drop weapon
-    if( one_turn_in( 2_days ) && !weapon.is_null() ) {
-        const translation snip = SNIPPET.random_from_category( "schizo_weapon_drop" ).value_or(
-                                     translation() );
-        std::string str = string_format( snip, i_name_w );
-        str[0] = toupper( str[0] );
-
-        add_msg_if_player( m_bad, "%s", str );
-        drop( primary_weapon(), pos() );
+    // Focus debuff
+    if( one_turn_in( 8_hours ) ) {
+        add_msg_if_player( m_bad, _( "You find it hard to focus all of a sudden." ) );
+        focus_pool -= rng( 20, 40 );
         return;
     }
     // Talk to self
@@ -1557,7 +1554,7 @@ void Character::suffer()
         }
     }
 
-    for( bionic &bio : *my_bionics ) {
+    for( bionic &bio : get_bionic_collection() ) {
         process_bionic( bio );
     }
 

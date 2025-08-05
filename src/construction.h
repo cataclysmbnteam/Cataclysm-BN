@@ -1,7 +1,6 @@
 #pragma once
 
 #include <functional>
-#include <list>
 #include <map>
 #include <optional>
 #include <set>
@@ -16,7 +15,6 @@
 
 class Character;
 class inventory;
-class player;
 struct construction;
 struct point;
 
@@ -97,6 +95,9 @@ struct construction {
         float time_scale() const;
 
         bool is_blacklisted() const;
+
+        // Whether the construction needs diggable terrain
+        bool needs_diggable;
 
         // If true, the requirements are generated during finalization
         bool vehicle_start = false;

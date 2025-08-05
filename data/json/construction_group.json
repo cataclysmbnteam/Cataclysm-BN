@@ -1568,5 +1568,30 @@
     "type": "construction_group",
     "id": "install_f_recycler",
     "name": "Install Metal Compactor"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_fortification",
+    "name": "Build Fortification"
+  },
+  {
+    "type": "construction_group",
+    "id": "carve_fortification",
+    "name": "Carve Fortification"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_clay_pots",
+    "name": "Place Clay Pots"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_adobe_floor",
+    "name": "Build Adobe Floor"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_adobe_roof",
+    "name": "Build Roof Over Adobe Floor"
   }
 ]

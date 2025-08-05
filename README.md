@@ -1,7 +1,7 @@
 # Cataclysm: Bright Nights
 
 <header align="center">
-  <a><img src="doc/src/content/docs/en/contribute/img/readme-title.png" title="screenshots of (clockwise from upper-right: Chaosvolt (x2), ExecutorBill, scarf005"></a>
+  <a><img src="docs/en/contribute/img/readme-title.png" title="screenshots of (clockwise from upper-right: Chaosvolt (x2), ExecutorBill, scarf005"></a>
 
 [![en][icon-en]][en] [![ko][icon-ko]][ko]
 
@@ -32,7 +32,21 @@ Find a way to stop the Cataclysm ... or become one of its strongest monsters.
 
 ### Executables
 
-[![Stable][stable-releases-badge]][stable-releases] [![Recent][all-releases-badge]][all-releases]
+[![Stable][stable-releases-badge]][stable-releases] [![Recent][all-releases-badge]][all-releases] [![Experiemental][experimental-badge]][experimental-releases] [![Flatpak][flathub-badge]][flathub-releases]
+
+#### Linux Instructions
+
+While many of the dependencies that the game depends on are likely installed by default, some likely aren't installed by default on your distro.
+
+Here are the commands for some of the most popular distro families:
+
+- Ubuntu / Debian: `sudo apt install libsdl2-image-2.0.0 libsdl2-ttf-2.0.0 libsdl2-mixer-2.0.0 libfreetype6 zip libsqlite3-0`
+- Fedora: `sudo dnf install SDL2 SDL2_image SDL2_ttf SDL2_mixer freetype zip sqlite`
+- Arch: `sudo pacman -S sdl2 sdl2_image sdl2_ttf sdl2_mixer zip sqlite`
+
+### Launchers
+
+The primary supported launcher is [Catapult](https://github.com/qrrk/Catapult), which can handle both BN and DDA (it defaults to DDA, so be sure to change it in the top menu!)
 
 ### Source Code
 
@@ -42,6 +56,10 @@ Find a way to stop the Cataclysm ... or become one of its strongest monsters.
 [stable-releases-badge]: https://img.shields.io/github/v/release/cataclysmbnteam/Cataclysm-BN?style=for-the-badge&color=success&label=stable
 [all-releases]: https://github.com/cataclysmbnteam/Cataclysm-BN/releases?q=prerelease%3Atrue&expanded=true
 [all-releases-badge]: https://img.shields.io/github/v/release/cataclysmbnteam/Cataclysm-BN?style=for-the-badge&color=important&label=Latest%20Release&include_prereleases&sort=date
+[experimental-releases]: https://github.com/cataclysmbnteam/Cataclysm-BN/releases/tag/experimental
+[experimental-badge]: https://img.shields.io/github/v/release/cataclysmbnteam/Cataclysm-BN?style=for-the-badge&color=salmon&label=Experimental%20Release&include_prereleases&sort=date
+[flathub-releases]: https://flathub.org/apps/org.cataclysmbn.CataclysmBN
+[flathub-badge]: https://img.shields.io/flathub/v/org.cataclysmbn.CataclysmBN?style=for-the-badge&color=success
 [source]: https://github.com/cataclysmbnteam/Cataclysm-BN/archive/master.zip "The source can be downloaded as a .zip archive"
 [source-badge]: https://img.shields.io/badge/Zip%20Archive-black?style=for-the-badge&logo=github
 [clone]: https://github.com/cataclysmbnteam/Cataclysm-BN/ "clone from our GitHub repo"
@@ -49,12 +67,12 @@ Find a way to stop the Cataclysm ... or become one of its strongest monsters.
 
 ## Building
 
-- [with cmake](doc/src/content/docs/en/dev/guides/building/cmake.md)
-- [with makefile](doc/src/content/docs/en/dev/guides/building/makefile.md): supports Linux, macOS,
+- [with cmake](docs/en/dev/guides/building/cmake.md)
+- [with makefile](docs/en/dev/guides/building/makefile.md): supports Linux, macOS,
   and BSD.
-- [with MSYS2](doc/src/content/docs/en/dev/guides/building/msys.md)
-- [with vcpkg](doc/src/content/docs/en/dev/guides/building/vs_vcpkg.md)
-- [which compilers we support](doc/src/content/docs/en/dev/reference/compiler_support.md)
+- [with MSYS2](docs/en/dev/guides/building/msys.md)
+- [with vcpkg](docs/en/dev/guides/building/vs_vcpkg.md)
+- [which compilers we support](docs/en/dev/reference/compiler_support.md)
 
 Please read the [official docs](https://docs.cataclysmbn.org/en/dev/guides/building/cmake/) for
 details.
@@ -76,11 +94,11 @@ Gameplay and developing documentation is available in the [doc](./doc/src/conten
 in markdown format. You can also
 
 - visit the [official docs](https://docs.cataclysmbn.org/en/) site
-- [build and serve the documentation locally](./doc/src/content/docs/en/contribute/docs.md)
+- [build and serve the documentation locally](./docs/en/contribute/docs.md)
 
 ## Community
 
-[![Official Docs](https://img.shields.io/badge/Docs-LightGray?style=for-the-badge&logo=astro)][docs]
+[![Official Docs](https://img.shields.io/badge/Docs-LightGray?style=for-the-badge)][docs]
 [![Discussions](https://img.shields.io/badge/Discussions-black?style=for-the-badge&logo=github)][discussion]
 [![Discord](https://img.shields.io/discord/830879262763909202?style=for-the-badge&logo=discord)][discord]
 [![Discussions](https://img.shields.io/badge/CDDA%20Modding-green?style=for-the-badge&logo=discord)][modding]
@@ -108,6 +126,26 @@ you wish to assign to that action.
 
 **World** on the main menu will generate a fresh world for you. Select **Create World**.
 
+#### Where should I put 3rd-party mods?
+
+Where you put the third party mods depends on whether you installed manually or with Catapult. No matter which you do, 3rd party mods do **not** go in data/mods. That folder should be reserved for in-repo mods only, especially given Catapult will automatically delete the contents of that folder!
+
+For a manual installation, you should use the player-mods folder (if it is not present, you are either using an older version and should manually create a folder in the base cataclysm folder yourself or you are using XDG or Home directories on a supported platform)
+
+For Catapult, you would put them in bn/userdata/mods (creating the folder if it's not already there) inside your catapult installation. For example, it might look like Catapult/bn/userdata/mods.
+
+For Linux users using the XDG directories (but NOT the flatpak): The user mods directory should be in `~/.local/share/cataclysm-bn/mods` (`~/.local/share/cataclysm-bn` is the user directory in general)
+
+For flatpak users, the user mods folder is `~/.var/app/org.cataclysmbn.CataclysmBN/data/cataclysm-bn/mods` (the user directory in general is `~/.var/app/org.cataclysmbn.CataclysmBN/data/cataclysm-bn/`)
+
+#### How do I update the game manually?
+
+Assuming you've managed your mods appropriately, the correct update process is to delete the old data folder (alongside the gfx folder if you want to be extra safe) and _then_ overwrite the contents of the old BN folder with the new BN download. Deleting the old data folder is specifically necessary due to the fact that simply overwriting the old folder will **not** account for updates which delete files, as may happen with the obsoletion folder for example.
+
+Don't delete your saves folder, memorial, graveyard, etc.!
+
+Alternatively, you can always use the Catapult launcher and let it handle updating. It has a good track record of correctly updating the vanilla game.
+
 #### I've found a bug. What should I do?
 
 [Bug report](https://github.com/cataclysmbnteam/Cataclysm-BN/issues/new?template=bug_report.yml) can
@@ -115,11 +153,11 @@ be submitted via debug menu.
 
 Run `Submit a bug report on github` inside the game to submit an issue.
 
-|           1. open Options (ESC) -> Debug Menu (a)           |                      2. open Info (i)                       |
-| :---------------------------------------------------------: | :---------------------------------------------------------: |
-| ![](doc/src/content/docs/en/contribute/img/readme-bug1.png) | ![](doc/src/content/docs/en/contribute/img/readme-bug2.png) |
-|            3. Submit a bug report on github (U)             |              4. An link to issue is generated               |
-| ![](doc/src/content/docs/en/contribute/img/readme-bug3.png) | ![](doc/src/content/docs/en/contribute/img/readme-bug4.png) |
+|   1. open Options (ESC) -> Debug Menu (a)   |              2. open Info (i)               |
+| :-----------------------------------------: | :-----------------------------------------: |
+| ![](docs/en/contribute/img/readme-bug1.png) | ![](docs/en/contribute/img/readme-bug2.png) |
+|    3. Submit a bug report on github (U)     |      4. An link to issue is generated       |
+| ![](docs/en/contribute/img/readme-bug3.png) | ![](docs/en/contribute/img/readme-bug4.png) |
 
 It will open a bug report on browser with `Version and configuration` filled in.
 

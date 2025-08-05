@@ -465,6 +465,8 @@
     "https://deno.land/x/copb@v1.0.1/mod.ts": "664b6af5d0bf0339e3461ac69e6b06f052a322b7bfc1ec2fbc701fb525c56ba3",
     "https://deno.land/x/copb@v1.0.1/version.ts": "e1ce0be2da17592e301891cbffa0f00490c987be292434b852022c81d4d6800e",
     "https://deno.land/x/destr@v1.0.0/src/index.ts": "7201c154f5933f5698988116b45606621c80be5c66c38efd6667487ba1c589a2",
+    "https://deno.land/x/lume@v3.0.5/core/utils/lume_config.ts": "3715adca952a4c6054b0f4a25792859ae683a85b11c225b36d027ac26baabe95",
+    "https://deno.land/x/lume@v3.0.5/lint.ts": "4b369361e0cff20a8dfd9e3ff8cb642aa805e7532825ea3a5378eb1f80901fc6",
     "https://deno.land/x/outdent@v0.8.0/mod.ts": "72630e680dcc36d5ae556fbff6900b12706c81a6fd592345fc98bcc0878fb3ca",
     "https://deno.land/x/outdent@v0.8.0/src/index.ts": "6dc3df4108d5d6fedcdb974844d321037ca81eaaa16be6073235ff3268841a22",
     "https://deno.land/x/typed_regex@0.1.0/api_types.ts": "340eb68cee4fe6d45bd12874faf20e5538770312ac585ae7ff670380d0f11368",

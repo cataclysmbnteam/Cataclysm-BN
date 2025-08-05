@@ -22,7 +22,7 @@
         "type": "consume_drug",
         "activation_message": "You take a puff from your boxmod vape.",
         "stat_adjustments": { "thirst": 1, "hunger": -10 },
-        "effects": [ { "id": "cig", "duration": "10 m" } ],
+        "effects": [ { "id": "cig", "duration": "300 s" } ],
         "fields_produced": { "fd_cigsmoke": 3 },
         "charges_needed": { "nicotine_liquid": 1 },
         "moves": 200,
@@ -66,7 +66,7 @@
       "type": "consume_drug",
       "activation_message": "You take a puff from your disposable vape.",
       "stat_adjustments": { "thirst": 1, "hunger": -10 },
-      "effects": [ { "id": "cig", "duration": "10 m" } ],
+      "effects": [ { "id": "cig", "duration": "300 s" } ],
       "fields_produced": { "fd_cigsmoke": 1 },
       "moves": 200,
       "addiction_type_too_much": [ [ "cig", "nicotine" ] ],
@@ -144,7 +144,7 @@
     "category": "drugs",
     "id": "dab_pen",
     "name": { "str": "dab pen" },
-    "description": "This is a dab pen for vaporizing cannabis.  Now all you need is thc distillate and you're ready to rock and roll.",
+    "description": "This is a dab pen for vaporizing cannabis.  Now all you need is 'thc distillate' and you're ready to rock and roll.",
     "symbol": "!",
     "color": "dark_gray",
     "looks_like": "ecig",
@@ -162,7 +162,6 @@
       ]
     ],
     "charges_per_use": 1,
-    "max_charges": 100,
     "flags": [ "NO_INGEST" ],
     "use_action": {
       "type": "consume_drug",
@@ -170,8 +169,7 @@
       "effects": [
         { "id": "weed_high", "duration": "90 m" },
         { "id": "pkill1", "duration": "90 m" },
-        { "id": "pkill2", "duration": "5 m" },
-        { "id": "smoke", "duration": "30 s" }
+        { "id": "pkill2", "duration": "5 m" }
       ],
       "stat_adjustments": { "hunger": 3, "thirst": 5 },
       "tools_needed": { "thc_liquid": 1 },
@@ -205,8 +203,7 @@
       "effects": [
         { "id": "weed_high", "duration": "90 m" },
         { "id": "pkill1", "duration": "90 m" },
-        { "id": "pkill2", "duration": "5 m" },
-        { "id": "smoke", "duration": "30 s" }
+        { "id": "pkill2", "duration": "5 m" }
       ],
       "stat_adjustments": { "hunger": 3, "thirst": 5 },
       "fields_produced": { "fd_weedsmoke": 1 },
@@ -218,7 +215,7 @@
     "category": "drugs",
     "id": "nectar_collector",
     "name": { "str": "nectar collector" },
-    "description": "This is a metal and wooden nectar collector.  The top cover can be attached and detached magnetically.  The wood has engravings depicting bees, honey, and flowers.",
+    "description": "This is a metal and wooden nectar collector.  The top cover can be attached and detached magnetically.  The wood has engravings depicting bees, honey, and flowers.  You need 'thc wax' to use this item.",
     "symbol": "!",
     "color": "brown",
     "looks_like": "ecig",
@@ -236,8 +233,7 @@
       "effects": [
         { "id": "weed_high", "duration": "90 m" },
         { "id": "pkill1", "duration": "90 m" },
-        { "id": "pkill2", "duration": "1 m" },
-        { "id": "smoke", "duration": "30 s" }
+        { "id": "pkill2", "duration": "1 m" }
       ],
       "stat_adjustments": { "hunger": 3, "thirst": 5 },
       "charges_needed": { "fire": 1, "thc_wax": 1 },

@@ -60,9 +60,11 @@
     "mods/smart_house_remote_mod",
     "mods/speedydex",
     "mods/stats_through_kills",
+    "mods/tablet_ebook",
     "mods/teleportation_tech",
     "mods/test_data",
     "mods/udp_redux",
+    "mods/lethal_zeds",
     "mods"
   ]
 }

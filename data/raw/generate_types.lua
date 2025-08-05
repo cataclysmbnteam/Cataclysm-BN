@@ -262,6 +262,8 @@ end
 
 ---@param member { name: string, type: "var" | "func" }
 function field_sort_order(member)
+  if member.name == "NULL_ID" then return -1 end
+
   if string.match(member.name, "^__") then return 4 end -- metamethods
   if member.name == "deserialize" then return 3 end
   if member.name == "serialize" then return 2 end
@@ -284,6 +286,7 @@ doc_gen_func.impl = function()
 ---@field iuse_functions table
 ---@field hooks hooks
 ---@field current_mod string
+---@field current_mod_path string
 ---@field cata_internal table
 game = {}
 ]]

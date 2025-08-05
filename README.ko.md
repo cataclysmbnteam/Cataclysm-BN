@@ -1,7 +1,7 @@
 # 카타클리즘: 밝은 밤
 
 <header align="center">
-  <a><img src="doc/src/content/docs/en/contribute/img/readme-title.png" title="우측 위부터 시계방향으로 Chaosvolt (x2), ExecutorBill, scarf005의 스크린샷"></a>
+  <a><img src="docs/en/contribute/img/readme-title.png" title="우측 위부터 시계방향으로 Chaosvolt (x2), ExecutorBill, scarf005의 스크린샷"></a>
 
 [![en][icon-en]][en] [![ko][icon-ko]][ko]
 
@@ -31,7 +31,7 @@
 
 ### 실행 파일
 
-[![Stable][stable-releases-badge]][stable-releases] [![Recent][all-releases-badge]][all-releases]
+[![Stable][stable-releases-badge]][stable-releases] [![Recent][all-releases-badge]][all-releases] [![Experiemental][experimental-badge]][experimental-releases]
 
 ### 소스 코드
 
@@ -41,6 +41,8 @@
 [stable-releases-badge]: https://img.shields.io/github/v/release/cataclysmbnteam/Cataclysm-BN?style=for-the-badge&color=success&label=안정판
 [all-releases]: https://github.com/cataclysmbnteam/Cataclysm-BN/releases?q=prerelease%3Atrue&expanded=true "실험판 실행 파일 내려받기"
 [all-releases-badge]: https://img.shields.io/github/v/release/cataclysmbnteam/Cataclysm-BN?style=for-the-badge&color=important&label=최신%20실험판&include_prereleases&sort=date
+[experimental-releases]: https://github.com/cataclysmbnteam/Cataclysm-BN/releases/tag/experimental
+[experimental-badge]: https://img.shields.io/github/v/release/cataclysmbnteam/Cataclysm-BN?style=for-the-badge&color=salmon&label=Experimental%20Release&include_prereleases&sort=date
 [source]: https://github.com/cataclysmbnteam/Cataclysm-BN/archive/master.zip "소스 코드를 .zip 아카이브로 다운로드할 수 있습니다"
 [source-badge]: https://img.shields.io/badge/ZIP%20아카이브로%20내려받기-black?style=for-the-badge&logo=github
 [clone]: https://github.com/cataclysmbnteam/Cataclysm-BN/ "GitHub 저장소에서 클론할 수 있습니다"
@@ -48,12 +50,12 @@
 
 ## 빌드하기
 
-- [makefile](doc/src/content/docs/en/dev/guides/building/makefile.md)로 빌드하기: Linux, macOS,
+- [makefile](docs/en/dev/guides/building/makefile.md)로 빌드하기: Linux, macOS,
   BSD를 지원합니다.
-- [MSYS2](doc/src/content/docs/en/dev/guides/building/msys.md)
-- [vcpkjg](doc/src/content/docs/en/dev/guides/building/vs_vcpkg.md)
-- [cmake](doc/src/content/docs/en/dev/guides/building/cmake.md)
-- [지원하는 컴파일러 목록](doc/src/content/docs/en/dev/reference/compiler_support.md)
+- [MSYS2](docs/en/dev/guides/building/msys.md)
+- [vcpkjg](docs/en/dev/guides/building/vs_vcpkg.md)
+- [cmake](docs/en/dev/guides/building/cmake.md)
+- [지원하는 컴파일러 목록](docs/en/dev/reference/compiler_support.md)
 
 자세한 내용은 [공식 문서](https://docs.cataclysmbn.org/en/dev/guides/building/cmake/)를
 참고해주세요.
@@ -75,7 +77,7 @@
 있습니다. 또는
 
 - [공식 문서 사이트](https://docs.cataclysmbn.org/ko/)를 방문하거나
-- [로컬에서 사이트를 빌드하고 실행](./doc/src/content/docs/en/contribute/docs.md)할 수 있습니다.
+- [로컬에서 사이트를 빌드하고 실행](./docs/en/contribute/docs.md)할 수 있습니다.
 
 ## 커뮤니티
 
@@ -113,11 +115,11 @@
 
 게임 내에서 `Submit a bug report on github`를 실행하여 이슈를 제출할 수 있습니다.
 
-|              1. 옵션 (ESC) -> 디버그 메뉴 (a)               |                         2. 정보 (i)                         |
-| :---------------------------------------------------------: | :---------------------------------------------------------: |
-| ![](doc/src/content/docs/en/contribute/img/readme-bug1.png) | ![](doc/src/content/docs/en/contribute/img/readme-bug2.png) |
-|                   3. 버그 리포트 제출 (U)                   |                  4. 이슈 링크가 생성됩니다                  |
-| ![](doc/src/content/docs/en/contribute/img/readme-bug3.png) | ![](doc/src/content/docs/en/contribute/img/readme-bug4.png) |
+|      1. 옵션 (ESC) -> 디버그 메뉴 (a)       |                 2. 정보 (i)                 |
+| :-----------------------------------------: | :-----------------------------------------: |
+| ![](docs/en/contribute/img/readme-bug1.png) | ![](docs/en/contribute/img/readme-bug2.png) |
+|           3. 버그 리포트 제출 (U)           |          4. 이슈 링크가 생성됩니다          |
+| ![](docs/en/contribute/img/readme-bug3.png) | ![](docs/en/contribute/img/readme-bug4.png) |
 
 `버전 및 환경 설정(Version and configuration)` 항목이 채워진 이슈가 브라우저에서 열립니다.
 

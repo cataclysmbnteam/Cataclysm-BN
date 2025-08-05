@@ -635,7 +635,7 @@ void tileset_loader::load_tileset( const std::string &img_path, const bool pump_
     size = expected_tilecount;
 }
 
-void cata_tiles::set_draw_scale( int scale )
+void cata_tiles::set_draw_scale( float scale )
 {
     assert( tileset_ptr );
     tile_width = tileset_ptr->get_tile_width() * tileset_ptr->get_tile_pixelscale() * scale / 16;
@@ -1314,6 +1314,18 @@ void tileset_loader::load_tile_spritelists( const JsonObject &entry,
     }
 }
 
+static int divide_round_down( int a, int b )
+{
+    if( b < 0 ) {
+        a = -a;
+        b = -b;
+    }
+    if( a >= 0 ) {
+        return a / b;
+    } else {
+        return -( ( -a + b - 1 ) / b );
+    }
+}
 
 void cata_tiles::draw( point dest, const tripoint &center, int width, int height,
                        std::multimap<point, formatted_text> &overlay_strings,

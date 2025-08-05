@@ -3,6 +3,7 @@
 #include "pickup.h"
 #include "player.h" // IWYU pragma: associated
 #include "consumption.h" // IWYU pragma: associated
+#include "character.h"
 
 #include <algorithm>
 #include <array>
@@ -905,16 +906,7 @@ bool Character::eat( item &food, bool force )
 
     moves -= mealtime;
 
-    // If it's poisonous... poison us.
-    // TODO: Move this to a flag
-    if( food.poison > 0 && !has_trait( trait_POISRESIST ) &&
-        !has_trait( trait_EATDEAD ) ) {
-        if( food.poison >= rng( 2, 4 ) ) {
-            add_effect( effect_poison, food.poison * 1_minutes );
-        }
-
-        add_effect( effect_foodpoison, food.poison * 30_minutes );
-    }
+    consume_poison( *this, food );
 
     if( food.has_flag( flag_HIDDEN_HALLU ) ) {
         if( !has_effect( effect_hallu ) ) {
@@ -1705,4 +1697,19 @@ consumption_event::consumption_event( const item &food ) : time( calendar::turn 
 {
     type_id = food.typeId();
     component_hash = food.make_component_hash();
+}
+
+void consume_poison( Character &consumer, item &food )
+{
+    // If it's poisonous... poison us.
+    // TODO: Move this to a flag
+    if( food.poison > 0 && !consumer.has_trait( trait_POISRESIST ) &&
+        !consumer.has_trait( trait_EATDEAD ) && !consumer.has_bionic( bio_digestion ) ) {
+        if( food.poison >= rng( 2, 4 ) ) {
+            consumer.add_effect( effect_poison, food.poison * 1_minutes );
+        }
+
+        consumer.add_effect( effect_foodpoison, food.poison * 30_minutes );
+    }
+
 }

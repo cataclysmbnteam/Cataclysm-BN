@@ -10,8 +10,10 @@
 #include <utility>
 
 #include "action.h"
+#include "activity_actor_definitions.h"
 #include "avatar.h"
 #include "calendar.h"
+#include "character.h"
 #include "character_functions.h"
 #include "color.h"
 #include "consistency_report.h"
@@ -62,7 +64,6 @@
 #include "vehicle.h"
 #include "vehicle_part.h"
 #include "vpart_position.h"
-#include "activity_actor_definitions.h"
 
 static const activity_id ACT_MULTIPLE_CONSTRUCTION( "ACT_MULTIPLE_CONSTRUCTION" );
 
@@ -455,6 +456,25 @@ std::optional<construction_id> construction_menu( const bool blueprint )
     ctxt.register_action( "RESET_FILTER" );
 
     const std::vector<construction_category> &construct_cat = construction_categories::get_all();
+    std::vector<size_t> construct_cat_order( construct_cat.size() );
+    {
+        std::iota( construct_cat_order.begin(), construct_cat_order.end(), // NOLINT(modernize-use-ranges)
+                   0 );
+        const auto move_to_end = [&]( const construction_category_id & id ) -> void {
+            auto it = std::ranges::find_if( construct_cat_order, [&]( auto & v )
+            {
+                return construct_cat[v].id == id;
+            } );
+            if( it != construct_cat_order.end() )
+            {
+                std::rotate( it, it + 1, construct_cat_order.end() );
+            }
+        };
+
+        // Force the construction list to be { ..., FAVORITE, FILTER }
+        move_to_end( construction_category_FAVORITE );
+        move_to_end( construction_category_FILTER );
+    }
     const int tabcount = static_cast<int>( construction_category::count() );
 
     std::string filter;
@@ -651,7 +671,8 @@ std::optional<construction_id> construction_menu( const bool blueprint )
         werase( w_list );
         // Print new tab listing
         // NOLINTNEXTLINE(cata-use-named-point-constants)
-        mvwprintz( w_con, point( 1, 1 ), c_yellow, "<< %s >>", construct_cat[tabindex].name() );
+        mvwprintz( w_con, point( 1, 1 ), c_yellow, "<< %s >>",
+                   construct_cat[construct_cat_order[tabindex]].name() );
         // Determine where in the master list to start printing
         calcStartPos( offset, select, w_list_height, constructs.size() );
         // Print the constructions between offset and max (or how many will fit)
@@ -737,7 +758,7 @@ std::optional<construction_id> construction_menu( const bool blueprint )
             } else if( select >= 0 && static_cast<size_t>( select ) < constructs.size() ) {
                 last_construction = constructs[select];
             }
-            category_id = construct_cat[tabindex].id;
+            category_id = construct_cat[construct_cat_order[tabindex]].id;
             if( category_id == construction_category_ALL ) {
                 constructs = available;
             } else if( category_id == construction_category_FILTER ) {
@@ -920,7 +941,7 @@ std::optional<construction_id> construction_menu( const bool blueprint )
         }
     } while( !exit );
 
-    uistate.construction_tab = int_id<construction_category>( tabindex ).id();
+    uistate.construction_tab = int_id<construction_category>( construct_cat_order[tabindex] ).id();
 
     return ret;
 }
@@ -997,6 +1018,10 @@ bool can_construct( const construction &con, const tripoint &p )
         const ter_id &ter = here.ter( p );
         return furn == f_null ? ter->has_flag( flag ) : furn->has_flag( flag );
     } );
+    // see if diggability checks out
+    if( con.needs_diggable ) {
+        place_okay &=  here.ter( p )->is_diggable();
+    }
     // make sure the construction would actually do something
     if( !con.post_terrain.is_empty() ) {
         place_okay &= here.ter( p ) != con.post_terrain;
@@ -1113,7 +1138,7 @@ void complete_construction( Character &who, tripoint_abs_ms &where )
         return;
     }
     const construction &built = pc->id.obj();
-    const auto award_xp = [&]( player & c ) {
+    const auto award_xp = [&]( Character & c ) {
         for( const auto &pr : built.required_skills ) {
             const float built_time = to_moves<int>( built.time );
             const float built_base = to_moves<int>( 10_minutes );
@@ -1688,6 +1713,7 @@ void construction::load( const JsonObject &jo, const std::string &/*src*/ )
     assign( jo, "pre_flags", pre_flags );
     optional( jo, was_loaded, "deny_flags", deny_flags );
     optional( jo, was_loaded, "post_flags", post_flags );
+    optional( jo, was_loaded, "needs_diggable", needs_diggable, false );
 
     if( jo.has_member( "byproducts" ) ) {
         byproduct_item_group = item_group::load_item_group( jo.get_member( "byproducts" ),

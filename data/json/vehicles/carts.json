@@ -209,6 +209,17 @@
     "items": [ { "x": 0, "y": 0, "chance": 35, "item_groups": [ "trash_cart" ] } ]
   },
   {
+    "id": "folding_wagon",
+    "type": "vehicle",
+    "name": "Folding Wagon",
+    "blueprint": [ "o" ],
+    "parts": [
+      { "x": 0, "y": 0, "part": "xlframe_vertical_2" },
+      { "x": 0, "y": 0, "part": "wheel_caster" },
+      { "x": 0, "y": 0, "part": "basketlg_folding" }
+    ]
+  },
+  {
     "id": "grocery_cart",
     "type": "vehicle",
     "name": "Grocery Cart",

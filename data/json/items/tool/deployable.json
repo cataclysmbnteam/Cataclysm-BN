@@ -164,6 +164,30 @@
     "flags": [ "ALLOWS_REMOTE_USE", "DESTROY_ON_DECHARGE" ]
   },
   {
+    "id": "folding_wagon",
+    "type": "TOOL",
+    "category": "deployables",
+    "name": { "str": "folding wagon" },
+    "description": "This is a folding wagon.",
+    "weight": "5kg",
+    "looks_like": "folding_basket",
+    "volume": "10L",
+    "price": "35 USD",
+    "price_postapoc": "5 USD",
+    "to_hit": -5,
+    "bashing": 10,
+    "material": "aluminum",
+    "symbol": "0",
+    "color": "light_gray",
+    "use_action": {
+      "type": "unfold_vehicle",
+      "vehicle_name": "folding_wagon",
+      "unfold_msg": "You unfold the folding wagon.",
+      "moves": 100
+    },
+    "flags": [ "ALLOWS_REMOTE_USE", "DESTROY_ON_DECHARGE" ]
+  },
+  {
     "id": "generic_folded_vehicle",
     "type": "TOOL",
     "category": "deployables",
