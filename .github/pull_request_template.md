@@ -28,10 +28,10 @@ NOTE: Please read your emails. Anyone mentioned on Github with an @ will receive
 
 ### Mandatory
 
-- [ ] I wrote the PR title in [conventional commit format](https://docs.cataclysmbn.org/en/contribute/changelog_guidelines/).
-- [ ] I ran the [code formatter](https://docs.cataclysmbn.org/en/contribute/contributing/#code-style).
-- [ ] I linked any relevant issues using [github keyword syntax](https://docs.cataclysmbn.org/en/contribute/contributing/#pull-request-notes) like `closes #1234` in [Summary of the PR](#purpose-of-change-the-why) so it can be closed automatically.
-- [ ] I've [committed my changes to new branch that isn't `main`](https://docs.cataclysmbn.org/en/contribute/contributing/#make-your-changes) so it won't cause conflict when updating `main` branch later.
+- [ ] I wrote the PR title in [conventional commit format](https://docs.cataclysmbn.org/contribute/changelog_guidelines/).
+- [ ] I ran the [code formatter](https://docs.cataclysmbn.org/contribute/contributing/#code-style).
+- [ ] I linked any relevant issues using [github keyword syntax](https://docs.cataclysmbn.org/contribute/contributing/#pull-request-notes) like `closes #1234` in [Summary of the PR](#purpose-of-change-the-why) so it can be closed automatically.
+- [ ] I've [committed my changes to new branch that isn't `main`](https://docs.cataclysmbn.org/contribute/contributing/#make-your-changes) so it won't cause conflict when updating `main` branch later.
 
 <!--
 please remove sections irrelevant to this PR.
