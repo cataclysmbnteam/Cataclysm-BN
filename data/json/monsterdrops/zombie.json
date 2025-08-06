@@ -219,7 +219,8 @@
             "collection": [ { "item": "money_bundle", "count": [ 1, 2 ] }, { "item": "coin_quarter", "prob": 50, "count": [ 1, 10 ] } ],
             "prob": 25
           }
-        ], "prob": 10
+        ],
+        "prob": 10
       },
       { "item": "fighter_sting", "prob": 60 }
     ]
