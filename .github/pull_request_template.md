@@ -54,5 +54,5 @@ please remove sections irrelevant to this PR.
 - [ ] This is a PR that removes JSON entities.
   - [ ] The removed JSON entities have new entries in `data/json/obsoletion/` folder or use some other migration process for existing saves.
 - [ ] This PR modifies BN's lua API.
-  - [ ] I have committed the output of `deno task doc` so the Lua API documentation is updated.
+  - [ ] I have committed the output of `deno task docs:gen` so the Lua API documentation is updated.
 -->
