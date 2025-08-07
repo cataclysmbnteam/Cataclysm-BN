@@ -4408,6 +4408,48 @@
   },
   {
     "type": "profession",
+    "id": "prof_pirate_churl",
+    "name": "Pirate Churl",
+    "description": "Arrr, what devilry be this? Ye wake not in yer berth but cast upon some blasted land, no chart nor crew in sight. Some foul magicks or cursed squall hath thrown ye from the known seas into a world wracked by ruine. With naught but this meager kit, ye must scavenge, swindle, and survive in this wretched Cataclysm — a hellscape blacker than the Deep sith the days of old Noe and his barnacled ark.",
+    "points": 2,
+    "skills": [
+      { "level": 1, "name": "swimming" },
+      { "level": 1, "name": "gun" },
+      { "level": 1, "name": "melee" },
+      { "level": 1, "name": "pistol" },
+      { "level": 1, "name": "cutting" },
+      { "level": 2, "name": "survival" },
+      { "level": 1, "name": "fabrication" }
+    ],
+    "items": {
+      "both": {
+        "items": [
+          "socks",
+          "breeches",
+          "longshirt",
+          "vest_leather",
+          "bandana_head",
+          "boots",
+          "mbag",
+          "leather_pouch",
+          "scabbard",
+          "gold_ear",
+          "rum"
+        ],
+        "entries": [
+          { "item": "cutlass", "custom-flags": [ "auto_wield" ] },
+          { "item": "baldric_holster", "contents-group": "pistols_pirate" },
+          { "item": "flintlock_pouch", "contents-group": "flintlock_pouch_reenactor" },
+          { "item": "flintlock_ammo", "charges": 4 }
+        ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "boy_shorts", "sports_bra" ]
+    },
+    "traits": [ "PROF_CHURL", "SMELLY2" ]
+  },
+  {
+    "type": "profession",
     "id": "drone_op",
     "name": "Drone Operator",
     "description": "You had a job programming machines such as automatic street cleaners, newsbots and pizza delivery drones.  Now all the drones carry guns instead of pizza.",
