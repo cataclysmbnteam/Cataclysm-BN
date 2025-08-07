@@ -145,6 +145,7 @@
       "place_nested": [
         { "chunks": [ [ "nested_drugdeal_a", 60 ], [ "nested_drugdeal_b", 20 ], [ "nested_drugdeal_c", 20 ] ], "x": 0, "y": 0 }
       ],
+      "place_loot": [ { "group": "stash_drugrunner", "chance": 25, "x": [ 1, 22 ], "y": [ 1, 22 ] } ],
       "place_monster": [ { "group": "GROUP_NETHER_CAPTURED", "x": [ 1, 22 ], "y": [ 1, 22 ], "repeat": [ 1, 3 ] } ]
     }
   },

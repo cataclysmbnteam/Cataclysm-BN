@@ -4135,7 +4135,7 @@
       { "point": [ 0, 3, 0 ], "overmap": "marina_20_north", "locations": [ "land" ] }
     ],
     "locations": [ "lake_surface", "lake_shore", "land" ],
-    "city_sizes": [ 4, 20 ],
+    "city_sizes": [ 0, 20 ],
     "occurrences": [ 75, 100 ],
     "connections": [ { "point": [ 2, 4, 0 ], "connection": "local_road", "from": [ 2, 3, 0 ] } ],
     "flags": [ "LAKE", "UNIQUE" ]
