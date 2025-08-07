@@ -55,6 +55,12 @@ Links to relevant pull requests, for content covered below:
   [#5712](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/5712)
 - Treetops ported from DDA: [#5167](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/5167)
 - Ability to weld shut doors: [#6182](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/6182)
+- Scouting visor: [#6687](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/6687)
+- New elite zombies: [#6854](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/6854)
+- Flipping tables/benches for cover: [#6857](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/6857)
+- Arrow slits/fortifications: [#6864](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/6864)
+- Adobe flooring: [#6864](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/6885)
+- Lakebed content: [#6903](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/6903)
 
 ## Undead People
 
@@ -103,6 +109,9 @@ Ultica are planned for the future.
 - Sprites for bone cuirass and greaves. Reimplementation of previously-obsoleted bone armor specific
   to BN.
 - Additional tooth and stinger weapons, including triffid stinger weapons. Items specific to BN.
+- Scouting visors, item specific to BN.
+- Cadaver assembler, zombie supply sergeant, banshee, stormbringer, shroud weaver, and shock vortex. Monsters specific to BN.
+- Flipped variants of benches and tables. Furniture specific to BN.
 
 ### External_Tileset_DP_terrain_normal.png
 
@@ -111,6 +120,9 @@ Ultica are planned for the future.
 - Swapped spring and summer sprites (the latter not depicting young berries) for blueberry bush, as
   harvest season has been moved in BN.
 - Welded-shut metal doors including peephole, bulkhead, lab door, and bar doors. Terrain specific to BN.
+- Fortifcations carved into wood, log, stone, and brick walls. Terrain specific to BN.
+- Adobe floors, terrain specific to BN.
+- Moss and tree trunks on lake bed surface. Terrain specific to BN.
 
 ### External_Tileset_DP_Tall.png
 
