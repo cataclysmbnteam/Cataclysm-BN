@@ -24,7 +24,6 @@ end
 
 ---Applies SpeedyDex speed bonus to the player every turn.
 function mod.speedydex()
-  ---@type Avatar
   local player = gapi.get_avatar()
 
   local dex = player:get_dex()
