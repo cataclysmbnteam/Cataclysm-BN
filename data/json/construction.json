@@ -3568,7 +3568,7 @@
     "required_skills": [ [ "survival", 0 ] ],
     "time": "6 m",
     "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
-    "byproducts": [ { "item": "straw_pile", "count": [ 0, 1 ] } ],
+    "byproducts": [ { "item": "straw_pile" } ],
     "pre_terrain": "t_grass",
     "post_terrain": "t_dirt"
   },
@@ -3580,7 +3580,7 @@
     "required_skills": [ [ "survival", 0 ] ],
     "time": "6 m",
     "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
-    "byproducts": [ { "item": "straw_pile" } ],
+    "byproducts": [ { "item": "straw_pile", "count": 2 } ],
     "pre_terrain": "t_grass_long",
     "post_terrain": "t_dirt"
   },
@@ -3592,7 +3592,7 @@
     "required_skills": [ [ "survival", 0 ] ],
     "time": "6 m",
     "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
-    "byproducts": [ { "item": "straw_pile", "count": [ 1, 2 ] } ],
+    "byproducts": [ { "item": "straw_pile", "count": [ 2, 3 ] } ],
     "pre_terrain": "t_grass_tall",
     "post_terrain": "t_dirt"
   },
@@ -3604,7 +3604,7 @@
     "required_skills": [ [ "survival", 0 ] ],
     "time": "6 m",
     "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
-    "byproducts": [ { "item": "straw_pile", "count": [ 0, 1 ] } ],
+    "byproducts": [ { "item": "straw_pile" } ],
     "pre_terrain": "t_grass_dead",
     "post_terrain": "t_dirt"
   },

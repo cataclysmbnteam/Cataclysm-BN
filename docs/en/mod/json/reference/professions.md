@@ -2,7 +2,7 @@
 title: Professions
 ---
 
-> [!DANGER]
+> [!CAUTION]
 >
 > This article was recently split off from `JSON INFO`, and needs to be updated due to referring to ancient methods of mods extending and deleting base game professions.
 
@@ -115,12 +115,8 @@ Mods can modify this list (requires `"edit-mode": "modify"`, see example) via "a
   "type": "profession",
   "id": "hunter",
   "edit-mode": "modify",
-  "remove:addictions": [
-    "nicotine"
-  ],
-  "add:addictions": [
-    { "type": "alcohol", "intensity": 10 }
-  ]
+  "remove:addictions": ["nicotine"],
+  "add:addictions": [{ "type": "alcohol", "intensity": 10 }]
 }
 ```
 
@@ -150,12 +146,8 @@ Mods can modify this list (requires `"edit-mode": "modify"`, see example) via "a
   "type": "profession",
   "id": "hunter",
   "edit-mode": "modify",
-  "remove:skills": [
-    "archery"
-  ],
-  "add:skills": [
-    { "name": "computer", "level": 2 }
-  ]
+  "remove:skills": ["archery"],
+  "add:skills": [{ "name": "computer", "level": 2 }]
 }
 ```
 
@@ -204,14 +196,9 @@ Example for mods:
   "id": "hunter",
   "edit-mode": "modify",
   "items": {
-    "remove:both": [
-      "rock",
-      "tshirt_text"
-    ],
+    "remove:both": ["rock", "tshirt_text"],
     "add:both": ["2x4"],
-    "add:female": [
-      ["tshirt_text", "allyourbase"]
-    ]
+    "add:female": [["tshirt_text", "allyourbase"]]
   }
 }
 ```

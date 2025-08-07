@@ -6990,7 +6990,7 @@ std::vector<map_item_stack> game::find_nearby_items( int iRadius )
     std::vector<map_item_stack> ret;
     std::vector<std::string> item_order;
 
-    if( u.is_blind() ) {
+    if( u.is_blind() && u.clairvoyance() < 1 ) {
         return ret;
     }
 
@@ -8771,8 +8771,8 @@ std::vector<std::string> game::get_dangerous_tile( const tripoint &dest_loc ) co
         }
     }
 
-    if( !u.is_blind() ) {
-        const trap &tr = m.tr_at( dest_loc );
+    const trap &tr = m.tr_at( dest_loc );
+    if( !u.is_blind() || u.clairvoyance() < 1 || tr.can_see( dest_loc, u ) ) {
         const bool boardable = static_cast<bool>( m.veh_at( dest_loc ).part_with_feature( "BOARDABLE",
                                true ) );
         // HACK: Hack for now, later ledge should stop being a trap

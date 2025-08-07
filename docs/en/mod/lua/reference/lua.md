@@ -2299,6 +2299,54 @@ Function `( FurnRaw ) -> FurnId`
 
 Function `( FurnRaw ) -> FurnIntId`
 
+#### name
+
+Function `( FurnRaw ) -> string`
+
+#### get_flags
+
+Function `( FurnRaw ) -> <cppval: St3setINSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEESt4lessIS5_ESaIS5_EE >`
+
+#### has_flag
+
+Function `( FurnRaw, string ) -> bool`
+
+#### set_flag
+
+Function `( FurnRaw, string )`
+
+#### get_light_emitted
+
+Function `( FurnRaw ) -> int`
+
+#### set_light_emitted
+
+Function `( FurnRaw, int )`
+
+#### get_movecost
+
+Function `( FurnRaw ) -> int`
+
+#### set_movecost
+
+Function `( FurnRaw, int )`
+
+#### get_coverage
+
+Function `( FurnRaw ) -> int`
+
+#### set_coverage
+
+Function `( FurnRaw, int )`
+
+#### get_max_volume
+
+Function `( FurnRaw ) -> Volume`
+
+#### set_max_volume
+
+Function `( FurnRaw, Volume )`
+
 #### open
 
 Variable of type `FurnId`
@@ -5288,6 +5336,54 @@ Function `( TerRaw ) -> TerId`
 #### int_id
 
 Function `( TerRaw ) -> TerIntId`
+
+#### name
+
+Function `( TerRaw ) -> string`
+
+#### get_flags
+
+Function `( TerRaw ) -> <cppval: St3setINSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEESt4lessIS5_ESaIS5_EE >`
+
+#### has_flag
+
+Function `( TerRaw, string ) -> bool`
+
+#### set_flag
+
+Function `( TerRaw, string )`
+
+#### get_light_emitted
+
+Function `( TerRaw ) -> int`
+
+#### set_light_emitted
+
+Function `( TerRaw, int )`
+
+#### get_movecost
+
+Function `( TerRaw ) -> int`
+
+#### set_movecost
+
+Function `( TerRaw, int )`
+
+#### get_coverage
+
+Function `( TerRaw ) -> int`
+
+#### set_coverage
+
+Function `( TerRaw, int )`
+
+#### get_max_volume
+
+Function `( TerRaw ) -> Volume`
+
+#### set_max_volume
+
+Function `( TerRaw, Volume )`
 
 #### open
 

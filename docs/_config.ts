@@ -2,6 +2,7 @@ import lume from "lume/mod.ts"
 import wiki from "wiki/mod.ts"
 
 import date from "lume/plugins/date.ts"
+import relativeUrls from "lume/plugins/relative_urls.ts"
 
 import { ko } from "npm:date-fns/locale/ko"
 
@@ -14,6 +15,7 @@ const languages = ["en", "ko", "ru", "de"]
 
 site
   .ignore("README.md")
+  .use(relativeUrls())
   .use(autoId({ languages }))
   .use(wiki({ languages }))
   .use(date({
