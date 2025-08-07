@@ -407,25 +407,6 @@
     "description": "A species of eelgrass that grows at the bottom of lakes.",
     "symbol": "#",
     "color": "green",
-    "looks_like": "f_chamomile",
-    "move_cost_mod": 1,
-    "required_str": -1,
-    "flags": [ "TRANSPARENT", "TINY", "NOCOLLIDE" ],
-    "bash": {
-      "str_min": 4,
-      "str_max": 30,
-      "sound": "swish.",
-      "sound_fail": "blub.",
-      "items": [ { "item": "withered", "count": [ 1, 2 ] } ]
-    }
-  },
-  {
-    "type": "furniture",
-    "id": "f_lake_eelgrass",
-    "name": "eelgrass",
-    "description": "A species of eelgrass that grows at the bottom of lakes.",
-    "symbol": "#",
-    "color": "green",
     "looks_like": "f_cattails_harvested",
     "move_cost_mod": 1,
     "required_str": -1,
