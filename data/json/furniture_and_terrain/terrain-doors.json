@@ -2286,7 +2286,7 @@
       "str_max": 250,
       "sound": "metal screeching!",
       "sound_fail": "clang!",
-      "ter_set": "t_water_cube",
+      "ter_set": "t_mdoor_frame",
       "items": [
         { "item": "scrap", "count": [ 12, 24 ] },
         { "item": "steel_plate", "prob": 75 },
@@ -2346,7 +2346,7 @@
       "str_max": 250,
       "sound": "metal screeching!",
       "sound_fail": "clang!",
-      "ter_set": "t_water_cube",
+      "ter_set": "t_mdoor_frame",
       "items": [
         { "item": "scrap", "count": [ 12, 24 ] },
         { "item": "steel_plate", "prob": 75 },
@@ -2751,7 +2751,7 @@
       "str_max": 300,
       "sound": "metal screeching!",
       "sound_fail": "clang!",
-      "ter_set": "t_water_cube",
+      "ter_set": "t_mdoor_frame",
       "items": [ { "item": "scrap", "count": [ 12, 24 ] }, { "item": "steel_plate", "prob": 75 } ],
       "ranged": { "reduction": [ 100, 100 ], "destroy_threshold": 300 }
     }
