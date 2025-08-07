@@ -1,13 +1,5 @@
 [
   {
-    "id": "crate_ship_cargo",
-    "type": "item_group",
-    "subtype": "distribution",
-    "items": [
-      { "group": "military", "prob": 100 }
-    ]
-  },
-  {
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ [ "cargo_ship_a", "cargo_ship_b", "cargo_ship_c" ] ],
@@ -40,6 +32,7 @@
         "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~",
         "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
       ],
+      "place_monster": [ { "group": "GROUP_UNDERWATER_PEST", "x": 2, "y": 14, "repeat": [ 2, 5 ] }, { "group": "GROUP_UNDERWATER_PEST", "x": 66, "y": 12, "repeat": [ 2, 5 ] } ],
       "palettes": [ "lake_bed_palette" ],
       "vendingmachines": { "D": { "item_group": "vending_drink" }, "F": { "item_group": "vending_food" } },
       "toilets": { "t": {  } },
@@ -137,6 +130,7 @@
         "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~",
         "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
       ],
+      "place_monster": [ { "group": "GROUP_UNDERWATER_PEST", "x": 66, "y": 12, "repeat": [ 2, 5 ] } ],
       "vendingmachines": { "D": { "item_group": "vending_drink" }, "F": { "item_group": "vending_food" } },
       "toilets": { "t": {  } },
       "gaspumps": { "!": {  } },
@@ -281,43 +275,5 @@
         "e": "t_stairs_down_underwater"
       }
     }
-  },
-  {
-    "type": "overmap_terrain",
-    "id": [
-      "cargo_ship_a",
-      "cargo_ship_b",
-      "cargo_ship_c",
-      "cargo_ship_1_a",
-      "cargo_ship_1_b",
-      "cargo_ship_1_c",
-      "cargo_ship_2_a",
-      "cargo_ship_2_b",
-      "cargo_ship_2_c"
-    ],
-    "name": "sunken cargo ship",
-    "sym": "S",
-    "color": "light_gray",
-    "see_cost": 1
-  },
-  {
-    "type": "overmap_special",
-    "id": "sunken_cargo_ship",
-    "rotate": false,
-    "overmaps": [
-      { "point": [ 0, 0, -5 ], "overmap": "cargo_ship_a_east", "locations": [ "lake_bed" ] },
-      { "point": [ 0, 1, -5 ], "overmap": "cargo_ship_b_east", "locations": [ "lake_bed" ] },
-      { "point": [ 0, 2, -5 ], "overmap": "cargo_ship_c_east", "locations": [ "lake_bed" ] },
-      { "point": [ 0, 0, -4 ], "overmap": "cargo_ship_1_a_east", "locations": [ "lake_water_cube" ] },
-      { "point": [ 0, 1, -4 ], "overmap": "cargo_ship_1_b_east", "locations": [ "lake_water_cube" ] },
-      { "point": [ 0, 2, -4 ], "overmap": "cargo_ship_1_c_east", "locations": [ "lake_water_cube" ] },
-      { "point": [ 0, 0, -3 ], "overmap": "cargo_ship_2_a_east", "locations": [ "lake_water_cube" ] },
-      { "point": [ 0, 1, -3 ], "overmap": "cargo_ship_2_b_east", "locations": [ "lake_water_cube" ] },
-      { "point": [ 0, 2, -3 ], "overmap": "cargo_ship_2_c_east", "locations": [ "lake_water_cube" ] }
-    ],
-    "locations": [ "lake_surface" ],
-    "occurrences": [ 0, 3 ],
-    "city_distance": [ 20, -1 ],
-    "flags": [ "LAKE" ]
   }
 ]

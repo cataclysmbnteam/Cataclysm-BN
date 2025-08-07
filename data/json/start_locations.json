@@ -445,7 +445,7 @@
     "type": "start_location",
     "id": "sloc_lake_bed",
     "name": "Lake Bed",
-    "terrain": [ "lake_bed" ]
+    "terrain": [ "lake_bed", "cargo_ship_c", "lake_bed_hot_spring" ]
   },
   {
     "type": "start_location",

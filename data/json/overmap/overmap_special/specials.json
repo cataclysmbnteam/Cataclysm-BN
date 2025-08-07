@@ -5798,15 +5798,6 @@
   },
   {
     "type": "overmap_special",
-    "id": "lake_bed_mystery_fog",
-    "overmaps": [ { "point": [ 0, 0, -5 ], "overmap": "lake_bed_mystery_fog_north", "locations": [ "lake_bed" ] } ],
-    "locations": [ "lake_surface" ],
-    "occurrences": [ 0, 5 ],
-    "city_distance": [ 20, -1 ],
-    "flags": [ "LAKE" ]
-  },
-  {
-    "type": "overmap_special",
     "id": "lake_bed_toxic_dump",
     "overmaps": [ { "point": [ 0, 0, -5 ], "overmap": "lake_bed_toxic_dump_north", "locations": [ "lake_bed" ] } ],
     "locations": [ "lake_surface" ],
@@ -6007,5 +5998,25 @@
     "city_distance": [ 8, 40 ],
     "occurrences": [ 0, 10 ],
     "flags": [ "CLASSIC", "WILDERNESS", "ELECTRIC_GRID" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "sunken_cargo_ship",
+    "rotate": false,
+    "overmaps": [
+      { "point": [ 0, 0, -5 ], "overmap": "cargo_ship_a_east", "locations": [ "lake_bed" ] },
+      { "point": [ 0, 1, -5 ], "overmap": "cargo_ship_b_east", "locations": [ "lake_bed" ] },
+      { "point": [ 0, 2, -5 ], "overmap": "cargo_ship_c_east", "locations": [ "lake_bed" ] },
+      { "point": [ 0, 0, -4 ], "overmap": "cargo_ship_1_a_east", "locations": [ "lake_water_cube" ] },
+      { "point": [ 0, 1, -4 ], "overmap": "cargo_ship_1_b_east", "locations": [ "lake_water_cube" ] },
+      { "point": [ 0, 2, -4 ], "overmap": "cargo_ship_1_c_east", "locations": [ "lake_water_cube" ] },
+      { "point": [ 0, 0, -3 ], "overmap": "cargo_ship_2_a_east", "locations": [ "lake_water_cube" ] },
+      { "point": [ 0, 1, -3 ], "overmap": "cargo_ship_2_b_east", "locations": [ "lake_water_cube" ] },
+      { "point": [ 0, 2, -3 ], "overmap": "cargo_ship_2_c_east", "locations": [ "lake_water_cube" ] }
+    ],
+    "locations": [ "lake_surface" ],
+    "occurrences": [ 0, 3 ],
+    "city_distance": [ 20, -1 ],
+    "flags": [ "LAKE" ]
   }
 ]

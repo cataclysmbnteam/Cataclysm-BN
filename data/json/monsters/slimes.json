@@ -104,7 +104,7 @@
     "hp": 120,
     "speed": 5,
     "symbol": "_",
-    "color": "light_gray",
+    "color": "dark_gray",
     "phase": "LIQUID",
     "aggression": 100,
     "morale": 100,
@@ -118,7 +118,7 @@
     "armor_stab": 20,
     "armor_acid": 20,
     "harvest": "exempt",
-    "special_attacks": [ [ "FORMBLOB", 20 ], [ "CALLBLOBS", 0 ] ],
+    "special_attacks": [ [ "FORMBLOB", 10 ], [ "CALLBLOBS", 0 ] ],
     "death_function": [ "BLOBSPLIT" ],
     "flags": [ "HEARS", "GOODHEARING", "NOHEAD", "POISON", "NO_BREATHE", "ACIDPROOF" ]
   },

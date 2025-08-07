@@ -50,5 +50,64 @@
     "color": "blue",
     "see_cost": 1,
     "flags": [ "NO_ROTATE", "LAKE", "SOURCE_DRINK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "lake_bed_hot_spring" ],
+    "name": "hot spring",
+    "sym": "h",
+    "color": "red",
+    "see_cost": 1
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "lake_bed_toxic_dump" ],
+    "name": "underwater toxic waste dump",
+    "sym": "D",
+    "color": "green",
+    "see_cost": 1
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "lake_bed_safes" ],
+    "name": "dumped vault safes",
+    "sym": "S",
+    "color": "blue",
+    "see_cost": 1
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "lake_bed_lab_entrance_roof" ],
+    "name": "lake bed (submerged)",
+    "sym": "#",
+    "looks_like": "lake_bed",
+    "color": "blue",
+    "see_cost": 1
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "lake_bed_lab_entrance", "lake_bed_lab_entrance_airlock" ],
+    "name": "sunken lab entrance",
+    "sym": "L",
+    "color": "green",
+    "see_cost": 1
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "cargo_ship_a",
+      "cargo_ship_b",
+      "cargo_ship_c",
+      "cargo_ship_1_a",
+      "cargo_ship_1_b",
+      "cargo_ship_1_c",
+      "cargo_ship_2_a",
+      "cargo_ship_2_b",
+      "cargo_ship_2_c"
+    ],
+    "name": "sunken cargo ship",
+    "sym": "S",
+    "color": "light_gray",
+    "see_cost": 1
   }
 ]
