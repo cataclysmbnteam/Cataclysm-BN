@@ -936,14 +936,15 @@
     "name": "Underwater Welder",
     "description": "Through years of underwater welding, you've honed a deep understanding of submerged structures in the New England region.",
     "points": 3,
-    "skills": [ { "level": 3, "name": "swimming" }, 
-      { "level": 2, "name": "fabrication" },
-      { "level": 2, "name": "mechanics" } 
-    ],
+    "skills": [ { "level": 3, "name": "swimming" }, { "level": 2, "name": "fabrication" }, { "level": 2, "name": "mechanics" } ],
     "items": {
       "both": {
         "items": [ "wetsuit", "wetsuit_hood", "dive_bag", "diving_watch", "goggles_swim", "small_scuba_tank", "swim_fins" ],
-        "entries": [ { "group": "charged_flashlight" }, { "item": "sea_scooter" }, { "item": "tinyweldtank", "ammo-item": "oxyacetylene", "charges": 60, "container-item": "oxy_torch" } ]
+        "entries": [
+          { "group": "charged_flashlight" },
+          { "item": "sea_scooter" },
+          { "item": "tinyweldtank", "ammo-item": "oxyacetylene", "charges": 60, "container-item": "oxy_torch" }
+        ]
       }
     }
   },
@@ -954,14 +955,15 @@
     "description": "Through years of underwater welding, you've honed a deep understanding of submerged structures in the New England region.",
     "points": 4,
     "CBMs": [ "bio_batteries", "bio_gills", "bio_surgical_razor", "bio_power_storage_mkII" ],
-    "skills": [ { "level": 2, "name": "swimming" }, 
-      { "level": 4, "name": "firstaid" }, 
-      { "level": 1, "name": "electronics" }
-    ],
+    "skills": [ { "level": 2, "name": "swimming" }, { "level": 4, "name": "firstaid" }, { "level": 1, "name": "electronics" } ],
     "items": {
       "both": {
         "items": [ "wetsuit", "wetsuit_hood", "dive_bag", "diving_watch", "goggles_swim", "swim_fins" ],
-        "entries": [ { "group": "charged_flashlight" }, { "item": "sea_scooter" }, { "item": "airspeargun", "ammo-item": "fishspear", "charges": 4} ]
+        "entries": [
+          { "group": "charged_flashlight" },
+          { "item": "sea_scooter" },
+          { "item": "airspeargun", "ammo-item": "fishspear", "charges": 4 }
+        ]
       }
     }
   },

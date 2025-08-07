@@ -395,24 +395,20 @@
   {
     "type": "overmap_special",
     "id": "sunken_lab",
-    "overmaps": [ { "point": [ 0, 0, -4 ], "overmap": "lake_bed_lab_entrance_roof_north", "locations": [ "lake_water_cube" ] }, { "point": [ 0, 0, -5 ], "overmap": "lake_bed_lab_entrance_north", "locations": [ "lake_bed" ] }, { "point": [ 0, 0, -6 ], "overmap": "lake_bed_lab_entrance_airlock_north", "locations": [ "subterranean_empty" ] } ],
-    "place_nested": [
+    "overmaps": [
+      { "point": [ 0, 0, -4 ], "overmap": "lake_bed_lab_entrance_roof_north", "locations": [ "lake_water_cube" ] },
+      { "point": [ 0, 0, -5 ], "overmap": "lake_bed_lab_entrance_north", "locations": [ "lake_bed" ] },
       {
-        "point": [0, 1, -6],
-        "special": "lab_basement"
-      },
-      {
-        "point": [0, -1, -6],
-        "special": "lab_basement"
-      },
-      {
-        "point": [1, 0, -6],
-        "special": "lab_basement"
-      },
-      {
-        "point": [-1, 0, -6],
-        "special": "lab_basement"
+        "point": [ 0, 0, -6 ],
+        "overmap": "lake_bed_lab_entrance_airlock_north",
+        "locations": [ "subterranean_empty" ]
       }
+    ],
+    "place_nested": [
+      { "point": [ 0, 1, -6 ], "special": "lab_basement" },
+      { "point": [ 0, -1, -6 ], "special": "lab_basement" },
+      { "point": [ 1, 0, -6 ], "special": "lab_basement" },
+      { "point": [ -1, 0, -6 ], "special": "lab_basement" }
     ],
     "locations": [ "lake_surface" ],
     "city_distance": [ 20, -1 ],

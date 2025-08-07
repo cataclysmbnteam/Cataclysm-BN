@@ -1,14 +1,9 @@
 [
-  
   {
     "id": "crate_ship_cargo",
     "type": "item_group",
     "subtype": "distribution",
-    "items": [
-      { "group": "military", "prob": 100 },
-      { "group": "rare", "prob": 100 },
-      { "group": "science", "prob": 100 }
-    ]
+    "items": [ { "group": "military", "prob": 100 }, { "group": "rare", "prob": 100 }, { "group": "science", "prob": 100 } ]
   },
   {
     "id": "lake_bed",
@@ -20,6 +15,10 @@
     "id": "underwater_toxic_waste",
     "type": "item_group",
     "subtype": "distribution",
-    "entries": [ { "group": "toxic_waste", "prob": 200 }, { "group": "toxic_dump_equipment", "prob": 20 }, { "item": "mutagen_fish", "prob": 20 } ]
+    "entries": [
+      { "group": "toxic_waste", "prob": 200 },
+      { "group": "toxic_dump_equipment", "prob": 20 },
+      { "item": "mutagen_fish", "prob": 20 }
+    ]
   }
 ]

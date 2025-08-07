@@ -105,9 +105,7 @@
       ],
       "palettes": [ "lake_bed_palette" ],
       "items": { "~": { "item": "lake_bed", "chance": 2 } },
-      "place_monster": [
-        { "group": "GROUP_UNDERWATER_PEST", "x": [ 1, 23 ], "y": [ 1, 23 ] }
-      ],
+      "place_monster": [ { "group": "GROUP_UNDERWATER_PEST", "x": [ 1, 23 ], "y": [ 1, 23 ] } ],
       "place_furniture": [
         { "furn": "f_boulder_small", "x": [ 3, 21 ], "y": [ 3, 21 ], "repeat": [ 1, 3 ] },
         { "furn": "f_boulder_medium", "x": [ 3, 21 ], "y": [ 3, 21 ], "repeat": [ 1, 3 ] },
@@ -153,7 +151,10 @@
       "palettes": [ "lake_bed_palette" ],
       "furniture": { "$": "f_safe_l" },
       "items": { "~": { "item": "lake_bed", "chance": 2 } },
-      "place_items": [ { "chance": 75, "item": "vault", "x": [ 9, 9 ], "y": [ 9, 9 ] }, { "chance": 75, "item": "vault", "x": [ 15, 15 ], "y": [ 13, 13 ] } ],
+      "place_items": [
+        { "chance": 75, "item": "vault", "x": [ 9, 9 ], "y": [ 9, 9 ] },
+        { "chance": 75, "item": "vault", "x": [ 15, 15 ], "y": [ 13, 13 ] }
+      ],
       "place_furniture": [
         { "furn": "f_boulder_small", "x": [ 3, 21 ], "y": [ 3, 21 ], "repeat": [ 1, 3 ] },
         { "furn": "f_boulder_medium", "x": [ 3, 21 ], "y": [ 3, 21 ], "repeat": [ 1, 3 ] },
@@ -195,10 +196,7 @@
         "~~~~~~~~~~~~~~~~~~~~~~~~",
         "~~~~~~~~~~~~~~~~~~~~~~~~"
       ],
-      "terrain": {
-        "W": "t_bulkhead_roof",
-        "~": "t_water_cube"
-      }
+      "terrain": { "W": "t_bulkhead_roof", "~": "t_water_cube" }
     }
   },
   {
@@ -323,28 +321,11 @@
         "~~~~~~~~~~~~~~~~~~~~~~~~"
       ],
       "palettes": [ "lake_bed_palette" ],
-      "set": [
-        {
-          "square": "radiation",
-          "amount": [ 20, 60 ],
-          "x": 3,
-          "y": 3,
-          "x2": 21,
-          "y2": 16
-        }
-      ],
-      "items": {
-        "~": { "item": "lake_bed", "chance": 2 },
-        "W": { "item": "underwater_toxic_waste", "chance": 20 }
-      },
+      "set": [ { "square": "radiation", "amount": [ 20, 60 ], "x": 3, "y": 3, "x2": 21, "y2": 16 } ],
+      "items": { "~": { "item": "lake_bed", "chance": 2 }, "W": { "item": "underwater_toxic_waste", "chance": 20 } },
       "place_monster": [ { "monster": "mon_zhark", "x": 2, "y": 14 }, { "monster": "mon_zhark", "x": 7, "y": 14 } ],
       "place_furniture": [
-        {
-          "furn": "f_rubble_rock",
-          "x": [ 3, 21 ],
-          "y": [ 3, 21 ],
-          "repeat": [ 3, 8 ]
-        },
+        { "furn": "f_rubble_rock", "x": [ 3, 21 ], "y": [ 3, 21 ], "repeat": [ 3, 8 ] },
         { "furn": "f_wreckage", "x": [ 3, 21 ], "y": [ 3, 21 ], "repeat": [ 0, 1 ] }
       ]
     }

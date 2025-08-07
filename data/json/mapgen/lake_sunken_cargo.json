@@ -32,7 +32,10 @@
         "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~",
         "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
       ],
-      "place_monster": [ { "group": "GROUP_UNDERWATER_PEST", "x": 2, "y": 14, "repeat": [ 2, 5 ] }, { "group": "GROUP_UNDERWATER_PEST", "x": 66, "y": 12, "repeat": [ 2, 5 ] } ],
+      "place_monster": [
+        { "group": "GROUP_UNDERWATER_PEST", "x": 2, "y": 14, "repeat": [ 2, 5 ] },
+        { "group": "GROUP_UNDERWATER_PEST", "x": 66, "y": 12, "repeat": [ 2, 5 ] }
+      ],
       "palettes": [ "lake_bed_palette" ],
       "vendingmachines": { "D": { "item_group": "vending_drink" }, "F": { "item_group": "vending_food" } },
       "toilets": { "t": {  } },
