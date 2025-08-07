@@ -443,24 +443,6 @@
   },
   {
     "type": "start_location",
-    "id": "sloc_lake_bed",
-    "name": "Lake Bed",
-    "terrain": [ "lake_bed" ]
-  },
-  {
-    "type": "start_location",
-    "id": "sloc_lake_cargo",
-    "name": "Sunken Ship",
-    "terrain": [ "cargo_ship_c" ]
-  },
-  {
-    "type": "start_location",
-    "id": "sloc_lake_hot_spring",
-    "name": "Hot Spring",
-    "terrain": [ "lake_bed_hot_spring" ]
-  },
-  {
-    "type": "start_location",
     "id": "sloc_marina",
     "name": "Marina",
     "terrain": [ "marina_4" ]
