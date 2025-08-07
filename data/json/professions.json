@@ -973,7 +973,8 @@
     "name": "Davy Jones",
     "description": "You were robbed, shot in the head and thrown into the sea just before the Cataclysm. Now you have risen undead from the depths, with a thirst for vengeance against those who wronged you, and a desire to reclaim your lost treasures.",
     "points": 2,
-    "traits": [ "PROF_FERAL", "GILLS", "FRESHWATEROSMOSIS", "SLEEK_SCALES", "TAIL_FIN", "SMELLY2", "DEFORMED", "COLDBLOOD3" ],
+    "//": "this ends up with a whopping -30 points when not on freeform, but it is meant as a challenge profession anyways",
+    "traits": [ "PROF_FERAL", "GILLS", "FRESHWATEROSMOSIS", "SLEEK_SCALES", "TAIL_FIN", "SMELLY2", "DEFORMED", "COLDBLOOD3", "PSYCHOPATH", "SCHIZOPHRENIC", "CARNIVORE", "RADIOGENIC", "ROT2", "SAPROVORE", "SORES", "UNSTABLE" ],
     "skills": [ { "level": 1, "name": "swimming" }, { "level": 2, "name": "cutting" }, { "level": 2, "name": "pistol" } ],
     "items": {
       "both": {
