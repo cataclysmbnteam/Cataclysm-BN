@@ -2145,6 +2145,7 @@
     "type": "terrain",
     "id": "t_lake_trunk",
     "name": "sunken tree trunk",
+    "looks_like": "t_trunk",
     "description": "A section of trunk from a tree that has fallen from the shallows above and ended up down here at some point. It's waterlogged and seems to be partially eaten by worms.",
     "symbol": "1",
     "color": "brown",

@@ -375,38 +375,6 @@
   },
   {
     "type": "terrain",
-    "id": "t_lake_trunk",
-    "name": "sunken tree trunk",
-    "description": "A section of trunk from a tree that has fallen from the shallows above and ended up down here at some point. It's waterlogged and seems to be partially eaten by worms.",
-    "symbol": "1",
-    "looks_like": "t_trunk",
-    "color": "brown",
-    "move_cost": 4,
-    "coverage": 50,
-    "flags": [
-      "TRANSPARENT",
-      "LIQUID",
-      "NO_SCENT",
-      "SWIMMABLE",
-      "DEEP_WATER",
-      "WATER_CUBE",
-      "GOES_UP",
-      "DIGGABLE",
-      "MOUNTABLE",
-      "SHORT"
-    ],
-    "bash": {
-      "str_min": 80,
-      "str_max": 180,
-      "sound": "glub.",
-      "sound_fail": "swish.",
-      "ter_set": "t_lake_bed",
-      "items": [ { "item": "splinter", "count": [ 5, 15 ] } ],
-      "ranged": { "reduction": [ 80, 80 ], "destroy_threshold": 180, "block_unaimed_chance": "50%" }
-    }
-  },
-  {
-    "type": "terrain",
     "id": "t_ocean_bed",
     "//": "for eventual use with water z levels.  Currently non-functional.",
     "name": "ocean bed",
