@@ -1,5 +1,10 @@
 # Documentation Site
 
+> [!DANGER]
+>
+> This documentation site is now deprecated and only serves as an archive.
+> This directory will be removed in the future.
+
 ![image](https://github.com/cataclysmbnteam/Cataclysm-BN/assets/54838975/b96a856a-9937-4f45-a508-b27766e2004b)
 
 Visit <docs.cataclysmbn.org/> to see the deployed version of this site.

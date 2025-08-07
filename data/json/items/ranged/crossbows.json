@@ -58,7 +58,7 @@
     "loudness": 0,
     "count": 10,
     "dont_recover_one_in": 10,
-    "effects": [ "NOGIB" ]
+    "effects": [ "NOGIB", "NO_PENETRATE_OBSTACLES" ]
   },
   {
     "type": "AMMO",
@@ -140,7 +140,7 @@
     "loudness": 0,
     "count": 10,
     "dont_recover_one_in": 35,
-    "effects": [ "NOGIB" ]
+    "effects": [ "NOGIB", "NO_PENETRATE_OBSTACLES" ]
   },
   {
     "type": "AMMO",
@@ -281,7 +281,7 @@
     "loudness": 0,
     "count": 10,
     "dont_recover_one_in": 45,
-    "effects": [ "NOGIB" ]
+    "effects": [ "NOGIB", "NO_PENETRATE_OBSTACLES" ]
   },
   {
     "type": "AMMO",

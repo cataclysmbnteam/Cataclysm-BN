@@ -1,7 +1,7 @@
 # Cataclysm: Bright Nights
 
 <header align="center">
-  <a><img src="doc/src/content/docs/en/contribute/img/readme-title.png" title="screenshots of (clockwise from upper-right: Chaosvolt (x2), ExecutorBill, scarf005"></a>
+  <a><img src="docs/en/contribute/img/readme-title.png" title="screenshots of (clockwise from upper-right: Chaosvolt (x2), ExecutorBill, scarf005"></a>
 
 [![en][icon-en]][en] [![ko][icon-ko]][ko]
 
@@ -67,12 +67,12 @@ The primary supported launcher is [Catapult](https://github.com/qrrk/Catapult), 
 
 ## Building
 
-- [with cmake](doc/src/content/docs/en/dev/guides/building/cmake.md)
-- [with makefile](doc/src/content/docs/en/dev/guides/building/makefile.md): supports Linux, macOS,
+- [with cmake](docs/en/dev/guides/building/cmake.md)
+- [with makefile](docs/en/dev/guides/building/makefile.md): supports Linux, macOS,
   and BSD.
-- [with MSYS2](doc/src/content/docs/en/dev/guides/building/msys.md)
-- [with vcpkg](doc/src/content/docs/en/dev/guides/building/vs_vcpkg.md)
-- [which compilers we support](doc/src/content/docs/en/dev/reference/compiler_support.md)
+- [with MSYS2](docs/en/dev/guides/building/msys.md)
+- [with vcpkg](docs/en/dev/guides/building/vs_vcpkg.md)
+- [which compilers we support](docs/en/dev/reference/compiler_support.md)
 
 Please read the [official docs](https://docs.cataclysmbn.org/en/dev/guides/building/cmake/) for
 details.
@@ -94,11 +94,11 @@ Gameplay and developing documentation is available in the [doc](./doc/src/conten
 in markdown format. You can also
 
 - visit the [official docs](https://docs.cataclysmbn.org/en/) site
-- [build and serve the documentation locally](./doc/src/content/docs/en/contribute/docs.md)
+- [build and serve the documentation locally](./docs/en/contribute/docs.md)
 
 ## Community
 
-[![Official Docs](https://img.shields.io/badge/Docs-LightGray?style=for-the-badge&logo=astro)][docs]
+[![Official Docs](https://img.shields.io/badge/Docs-LightGray?style=for-the-badge)][docs]
 [![Discussions](https://img.shields.io/badge/Discussions-black?style=for-the-badge&logo=github)][discussion]
 [![Discord](https://img.shields.io/discord/830879262763909202?style=for-the-badge&logo=discord)][discord]
 [![Discussions](https://img.shields.io/badge/CDDA%20Modding-green?style=for-the-badge&logo=discord)][modding]
@@ -153,11 +153,11 @@ be submitted via debug menu.
 
 Run `Submit a bug report on github` inside the game to submit an issue.
 
-|           1. open Options (ESC) -> Debug Menu (a)           |                      2. open Info (i)                       |
-| :---------------------------------------------------------: | :---------------------------------------------------------: |
-| ![](doc/src/content/docs/en/contribute/img/readme-bug1.png) | ![](doc/src/content/docs/en/contribute/img/readme-bug2.png) |
-|            3. Submit a bug report on github (U)             |              4. An link to issue is generated               |
-| ![](doc/src/content/docs/en/contribute/img/readme-bug3.png) | ![](doc/src/content/docs/en/contribute/img/readme-bug4.png) |
+|   1. open Options (ESC) -> Debug Menu (a)   |              2. open Info (i)               |
+| :-----------------------------------------: | :-----------------------------------------: |
+| ![](docs/en/contribute/img/readme-bug1.png) | ![](docs/en/contribute/img/readme-bug2.png) |
+|    3. Submit a bug report on github (U)     |      4. An link to issue is generated       |
+| ![](docs/en/contribute/img/readme-bug3.png) | ![](docs/en/contribute/img/readme-bug4.png) |
 
 It will open a bug report on browser with `Version and configuration` filled in.
 

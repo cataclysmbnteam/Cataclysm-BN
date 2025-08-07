@@ -329,7 +329,6 @@ static const trait_id trait_ROOTS2( "ROOTS2" );
 static const trait_id trait_ROOTS3( "ROOTS3" );
 static const trait_id trait_SAVANT( "SAVANT" );
 static const trait_id trait_SEESLEEP( "SEESLEEP" );
-static const trait_id trait_SELFAWARE( "SELFAWARE" );
 static const trait_id trait_SHELL( "SHELL" );
 static const trait_id trait_SHELL2( "SHELL2" );
 static const trait_id trait_SHOUT2( "SHOUT2" );
@@ -4611,15 +4610,6 @@ int Character::get_int_bonus() const
     return int_bonus;
 }
 
-int get_speedydex_bonus( const int dex )
-{
-    static const std::string speedydex_min_dex( "SPEEDYDEX_MIN_DEX" );
-    static const std::string speedydex_dex_speed( "SPEEDYDEX_DEX_SPEED" );
-    // this is the number to be multiplied by the increment
-    const int modified_dex = std::max( dex - get_option<int>( speedydex_min_dex ), 0 );
-    return modified_dex * get_option<int>( speedydex_dex_speed );
-}
-
 int Character::get_speed() const
 {
     if( is_mounted() ) {
@@ -4700,7 +4690,7 @@ void Character::print_health() const
         return;
     }
     int current_health = get_healthy();
-    if( has_trait( trait_SELFAWARE ) ) {
+    if( get_option<std::string>( "HEALTH_STYLE" ) == "number" ) {
         add_msg_if_player( _( "Your current health value is %d." ), current_health );
     }
 
@@ -4888,7 +4878,7 @@ std::pair<std::string, nc_color> Character::get_hunger_description() const
         hunger_color = c_red;
     }
 
-    if( has_trait( trait_SELFAWARE ) ) {
+    if( get_option<std::string>( "HEALTH_STYLE" ) == "number" ) {
         hunger_string = string_format( "%d kcal", total_kcal );
     }
 
@@ -4976,7 +4966,7 @@ std::pair<std::string, nc_color> Character::get_pain_description() const
         pain_color = c_light_red;
     }
     // get pain string
-    if( ( has_trait( trait_SELFAWARE ) || has_effect( effect_got_checked ) ) &&
+    if( ( get_option<std::string>( "HEALTH_STYLE" ) == "number" || has_effect( effect_got_checked ) ) &&
         get_perceived_pain() > 0 ) {
         pain_string = string_format( "%s %d", _( "Pain " ), get_perceived_pain() );
     } else if( get_perceived_pain() > 0 ) {

@@ -43,9 +43,9 @@ TEST_CASE( "projectiles_through_obstacles", "[projectile]" )
     get_avatar().setpos( { 2, 2, 0 } );
 
     map &here = get_map();
-    // Ensure that a projectile fired from a gun can pass through a chain link fence
+    // Ensure that a projectile fired from a gun can pass through a wall
     // First, set up a test area - three tiles in a row
-    // One on either side clear, with a chainlink fence in the middle
+    // One on either side clear, with a wooden wall in the middle
     std::vector<tripoint> range = { tripoint_zero, tripoint_east, tripoint( 2, 0, 0 ) };
     for( const tripoint &pt : range ) {
         REQUIRE( here.inbounds( pt ) );
@@ -55,8 +55,8 @@ TEST_CASE( "projectiles_through_obstacles", "[projectile]" )
         REQUIRE( here.is_transparent( pt ) );
     }
 
-    // Set an obstacle in the way, a chain fence
-    here.ter_set( range[1], ter_id( "t_chainfence" ) );
+    // Set an obstacle in the way, a wooden wall
+    here.ter_set( range[1], ter_id( "t_wall_wood" ) );
 
     // Create a gun to fire a projectile from
     detached_ptr<item> gun = item::spawn( itype_id( "m1a" ) );

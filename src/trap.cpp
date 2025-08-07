@@ -26,6 +26,7 @@
 static const skill_id skill_traps( "traps" );
 
 static const efftype_id effect_lack_sleep( "lack_sleep" );
+static const efftype_id dashing_effect( "dashing" );
 
 static const trait_id trait_PROF_PD_DET( "PROF_PD_DET" );
 static const trait_id trait_PROF_POLICE( "PROF_POLICE" );
@@ -255,10 +256,11 @@ bool trap::can_see( const tripoint &pos, const Character &p ) const
 void trap::trigger( const tripoint &pos, Creature *creature, item *item ) const
 {
     const bool is_real_creature = creature != nullptr && !creature->is_hallucination();
-    if( is_real_creature || item != nullptr ) {
+    if( ( is_real_creature || item != nullptr ) && !creature->has_effect( dashing_effect ) ) {
         bool triggered = act( pos, creature, item );
         if( triggered && is_real_creature ) {
             if( Character *ch = creature->as_character() ) {
+                ch->add_known_trap( pos, *this );
                 get_event_bus().send<event_type::character_triggers_trap>( ch->getID(), id );
             }
         }

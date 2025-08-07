@@ -600,5 +600,24 @@
         { "item": "rebar", "count": [ 0, 2 ] }
       ]
     }
+  },
+  {
+    "type": "terrain",
+    "id": "t_adobe_brick_floor_noroof",
+    "name": "adobe floor",
+    "description": "Adobe bricks and mortar smoothed out to make a clean fireproof floor.",
+    "symbol": ".",
+    "color": "brown",
+    "looks_like": "t_thconc_floor",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "FLAT", "ROAD" ],
+    "bash": {
+      "sound": "SMASH!",
+      "ter_set": "t_null",
+      "str_min": 90,
+      "str_max": 400,
+      "str_min_supported": 100,
+      "items": [ { "item": "material_soil", "count": [ 4, 10 ] }, { "item": "adobe_brick", "count": [ 2, 6 ] } ]
+    }
   }
 ]

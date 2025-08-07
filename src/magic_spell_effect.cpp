@@ -58,6 +58,7 @@
 #include "vpart_position.h"
 
 static const ammo_effect_str_id ammo_effect_magic( "magic" );
+static const efftype_id dashing_effect( "dashing" );
 
 namespace spell_detail
 {
@@ -1276,6 +1277,8 @@ void spell_effect::dash( const spell &sp, Creature &caster, const tripoint &targ
     }
     // save the amount of moves the caster has so we can restore them after the dash
     const int cur_moves = caster.moves;
+    // add dash "effect" for detection
+    caster.add_effect( dashing_effect, 1_turns );
     while( walk_point != trajectory.end() ) {
         if( caster_you != nullptr ) {
             if( g->critter_at( here.getlocal( *walk_point ) ) ||
@@ -1294,4 +1297,6 @@ void spell_effect::dash( const spell &sp, Creature &caster, const tripoint &targ
         --walk_point;
     }
     caster.moves = cur_moves;
+    // remove dashing effect since dashing is over
+    caster.remove_effect( dashing_effect );
 }

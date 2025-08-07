@@ -305,7 +305,7 @@
         "~": "t_fence_h"
       },
       "furniture": {
-        "6": "f_table",
+        "6": [ [ "f_table", 9 ], "f_table_flipped" ],
         "7": "f_bookcase",
         "8": "f_bathtub",
         "9": "f_rack",
@@ -387,7 +387,7 @@
         "~": "t_fence_h"
       },
       "furniture": {
-        "6": "f_table",
+        "6": [ [ "f_table", 9 ], "f_table_flipped" ],
         "7": "f_bookcase",
         "8": "f_bathtub",
         "9": "f_rack",
@@ -518,7 +518,7 @@
         "~": "t_fence_h"
       },
       "furniture": {
-        "6": "f_table",
+        "6": [ [ "f_table", 9 ], "f_table_flipped" ],
         "7": "f_bookcase",
         "8": "f_bathtub",
         "9": "f_rack",

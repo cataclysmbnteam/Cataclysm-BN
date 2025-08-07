@@ -61,7 +61,7 @@
     "type": "terrain",
     "id": "t_chaingate_l",
     "name": "locked wire gate",
-    "description": "A gate for a chain link fence.  This one has a locked padlock on the latch system.  With the right tools, you could cut the metal fence or pick the lock.  You could also examine the fence to see if it looks climbable.",
+    "description": "A gate for a chain link fence.  This one has a locked padlock on the latch system.  With the right tools, you could cut the metal fence, pick the lock, or pry the whole thing open.  You could also examine the fence to see if it looks climbable.",
     "symbol": "+",
     "color": "cyan",
     "move_cost": 0,
@@ -75,7 +75,7 @@
     },
     "flags": [ "TRANSPARENT", "PERMEABLE", "LOCKED", "THIN_OBSTACLE", "BURROWABLE" ],
     "connects_to": "CHAINFENCE",
-    "examine_action": "locked_object_pickable",
+    "examine_action": "locked_object",
     "oxytorch": {
       "result": "t_dirt",
       "duration": "9 seconds",
@@ -96,6 +96,15 @@
       "sound_fail": "clang!",
       "ter_set": "t_dirt",
       "items": [ { "item": "wire", "count": [ 8, 20 ] }, { "item": "scrap", "count": [ 0, 12 ] } ]
+    },
+    "pry": {
+      "success_message": "You pry open the gate.",
+      "fail_message": "You pry, but cannot pry open the gate.",
+      "pry_quality": 1,
+      "noise": 18,
+      "sound": "metal screeching!",
+      "difficulty": 8,
+      "new_ter_type": "t_chaingate_o"
     }
   },
   {

@@ -3,10 +3,10 @@ name: General build matrix
 on:
   push:
     branches: [main]
-    paths-ignore: [doc/**, scripts/**, "**.md", "**.mdx"]
+    paths-ignore: [docs/**, scripts/**, "**.md", "**.mdx"]
   pull_request:
     branches: [main]
-    paths-ignore: [doc/**, scripts/**, "**.md", "**.mdx"]
+    paths-ignore: [docs/**, scripts/**, "**.md", "**.mdx"]
     types: [opened, reopened, synchronize, ready_for_review]
   workflow_dispatch:
 
@@ -27,11 +27,11 @@ jobs:
       - id: skip_code_check
         uses: fkirc/skip-duplicate-actions@master
         with:
-          paths_ignore: '["android/**", "build-data/osx/**", "doc/**", "doxygen_doc/**", "msvc-**", "tools/**", "utilities/**", "scripts/**", "data/**", "lang/**"]'
+          paths_ignore: '["android/**", "build-data/osx/**", "docs/**", "doxygen_doc/**", "msvc-**", "tools/**", "utilities/**", "scripts/**", "data/**", "lang/**"]'
       - id: skip_data_check
         uses: fkirc/skip-duplicate-actions@master
         with:
-          paths_ignore: '["android/**", "build-data/osx/**", "doc/**", "doxygen_doc/**", "msvc-**", "tools/**", "utilities/**", "scripts/**"]'
+          paths_ignore: '["android/**", "build-data/osx/**", "docs/**", "doxygen_doc/**", "msvc-**", "tools/**", "utilities/**", "scripts/**"]'
 
   varied_builds:
     needs: skip-duplicates
