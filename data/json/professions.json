@@ -952,13 +952,22 @@
     "type": "profession",
     "id": "bionic_diver",
     "name": "Bionic Marine Biologist",
-    "description": "Through years of underwater welding, you've honed a deep understanding of submerged structures in the New England region.",
+    "description": "You were a marine biologist who specialized in underwater research.  You have bionic implants that allow you to explore the depths and surgically examine marine life.",
     "points": 4,
     "CBMs": [ "bio_batteries", "bio_gills", "bio_surgical_razor", "bio_power_storage_mkII", "bio_power_storage_mkII" ],
     "skills": [ { "level": 2, "name": "swimming" }, { "level": 4, "name": "firstaid" }, { "level": 1, "name": "electronics" } ],
     "items": {
       "both": {
-        "items": [ "wetsuit", "wetsuit_hood", "dive_bag", "diving_watch", "goggles_swim", "swim_fins" ],
+        "items": [
+          "wetsuit",
+          "wetsuit_hood",
+          "welding_mask_raised",
+          "dive_bag",
+          "diving_watch",
+          "goggles_swim",
+          "small_scuba_tank",
+          "swim_fins"
+        ],
         "entries": [
           { "group": "charged_flashlight" },
           { "item": "sea_scooter" },
@@ -975,7 +984,6 @@
     "points": 2,
     "//": "this ends up with a whopping -30 points when not on freeform, but it is meant as a challenge profession anyways",
     "traits": [
-      "PROF_FERAL",
       "GILLS",
       "FRESHWATEROSMOSIS",
       "SLEEK_SCALES",
@@ -1003,7 +1011,8 @@
           { "item": "flintlock_ammo", "charges": 4 }
         ]
       }
-    }
+    },
+    "flags": [ "SCEN_ONLY" ]
   },
   {
     "type": "profession",
@@ -4423,48 +4432,6 @@
       "male": [ "boxer_shorts" ],
       "female": [ "boy_shorts", "sports_bra" ]
     }
-  },
-  {
-    "type": "profession",
-    "id": "prof_pirate_churl",
-    "name": "Pirate Churl",
-    "description": "Arrr, what devilry be this? Ye wake not in yer berth but cast upon some blasted land, no chart nor crew in sight. Some foul magicks or cursed squall hath thrown ye from the known seas into a world wracked by ruine. With naught but this meager kit, ye must scavenge, swindle, and survive in this wretched Cataclysm — a hellscape blacker than the Deep sith the days of old Noe and his barnacled ark.",
-    "points": 2,
-    "skills": [
-      { "level": 1, "name": "swimming" },
-      { "level": 1, "name": "gun" },
-      { "level": 1, "name": "melee" },
-      { "level": 1, "name": "pistol" },
-      { "level": 1, "name": "cutting" },
-      { "level": 2, "name": "survival" },
-      { "level": 1, "name": "fabrication" }
-    ],
-    "items": {
-      "both": {
-        "items": [
-          "socks",
-          "breeches",
-          "longshirt",
-          "vest_leather",
-          "bandana_head",
-          "boots",
-          "mbag",
-          "leather_pouch",
-          "scabbard",
-          "gold_ear",
-          "rum"
-        ],
-        "entries": [
-          { "item": "cutlass", "custom-flags": [ "auto_wield" ] },
-          { "item": "baldric_holster", "contents-group": "pistols_pirate" },
-          { "item": "flintlock_pouch", "contents-group": "flintlock_pouch_reenactor" },
-          { "item": "flintlock_ammo", "charges": 4 }
-        ]
-      },
-      "male": [ "boxer_shorts" ],
-      "female": [ "boy_shorts", "sports_bra" ]
-    },
-    "traits": [ "PROF_CHURL", "SMELLY2" ]
   },
   {
     "type": "profession",

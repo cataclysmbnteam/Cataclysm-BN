@@ -331,7 +331,7 @@
     "type": "terrain",
     "id": "t_lake_moss",
     "name": "water moss",
-    "looks_like": "t_grass",
+    "looks_like": "t_moss",
     "description": "Moist spongy water moss.",
     "symbol": ".",
     "color": "light_green",
