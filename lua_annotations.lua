@@ -273,8 +273,6 @@ function BodyPartTypeIntId.new() end
 ---@field mod_healthy fun(arg1: Character, arg2: number)
 ---@field mod_healthy_mod fun(arg1: Character, arg2: number, arg3: number)
 ---@field mod_int_bonus fun(arg1: Character, arg2: integer)
----@field mod_speed_bonus fun(arg1: Character, arg2: integer)
----@field set_speed_bonus fun(arg1: Character, arg2: integer)
 ---@field mod_max_power_level fun(arg1: Character, arg2: Energy)
 ---@field mod_painkiller fun(arg1: Character, arg2: integer)
 ---@field mod_per_bonus fun(arg1: Character, arg2: integer)
@@ -282,6 +280,7 @@ function BodyPartTypeIntId.new() end
 ---@field mod_rad fun(arg1: Character, arg2: integer)
 ---@field mod_skill_level fun(arg1: Character, arg2: SkillId, arg3: integer)
 ---@field mod_sleep_deprivation fun(arg1: Character, arg2: integer)
+---@field mod_speed_bonus fun(arg1: Character, arg2: integer)
 ---@field mod_stamina fun(arg1: Character, arg2: integer)
 ---@field mod_stim fun(arg1: Character, arg2: integer)
 ---@field mod_stored_kcal fun(arg1: Character, arg2: integer)
@@ -290,9 +289,9 @@ function BodyPartTypeIntId.new() end
 ---@field mount_creature fun(arg1: Character, arg2: Monster)
 ---@field mutate fun(arg1: Character)
 ---@field mutate_category fun(arg1: Character, arg2: MutationCategoryTraitId)
----@field mutate_towards fun(arg1: Character, arg2: MutationBranchId[], arg3: integer): boolean
----@field mutate_towards fun(arg1: Character, arg2: MutationBranchId): boolean
 ---@field mutate_towards fun(arg1: Character, arg2: MutationBranchId[], arg3: integer): boolean | fun(arg1: Character, arg2: MutationBranchId): boolean
+---@field mutate_towards fun(arg1: Character, arg2: MutationBranchId): boolean
+---@field mutate_towards fun(arg1: Character, arg2: MutationBranchId[], arg3: integer): boolean
 ---@field mutation_armor fun(arg1: Character, arg2: BodyPartTypeIntId, arg3: DamageType): number
 ---@field mutation_effect fun(arg1: Character, arg2: MutationBranchId)
 ---@field mutation_loss_effect fun(arg1: Character, arg2: MutationBranchId)
@@ -328,6 +327,7 @@ function BodyPartTypeIntId.new() end
 ---@field set_rad fun(arg1: Character, arg2: integer)
 ---@field set_skill_level fun(arg1: Character, arg2: SkillId, arg3: integer)
 ---@field set_sleep_deprivation fun(arg1: Character, arg2: integer)
+---@field set_speed_bonus fun(arg1: Character, arg2: integer)
 ---@field set_stamina fun(arg1: Character, arg2: integer)
 ---@field set_stim fun(arg1: Character, arg2: integer)
 ---@field set_stored_kcal fun(arg1: Character, arg2: integer)
@@ -644,19 +644,7 @@ function FurnIntId.new() end
 ---@field close FurnId
 ---@field open FurnId
 ---@field transforms_into FurnId
----@field get_coverage fun(arg1: FurnRaw): integer
----@field get_flags fun(arg1: FurnRaw): any
----@field get_light_emitted fun(arg1: FurnRaw): integer
----@field get_max_volume fun(arg1: FurnRaw): Volume
----@field get_movecost fun(arg1: FurnRaw): integer
----@field has_flag fun(arg1: FurnRaw, arg2: string): boolean
 ---@field int_id fun(arg1: FurnRaw): FurnIntId
----@field name fun(arg1: FurnRaw): string
----@field set_coverage fun(arg1: FurnRaw, arg2: integer)
----@field set_flag fun(arg1: FurnRaw, arg2: string)
----@field set_light_emitted fun(arg1: FurnRaw, arg2: integer)
----@field set_max_volume fun(arg1: FurnRaw, arg2: Volume)
----@field set_movecost fun(arg1: FurnRaw, arg2: integer)
 ---@field str_id fun(arg1: FurnRaw): FurnId
 FurnRaw = {}
 ---@return FurnRaw
@@ -1486,19 +1474,7 @@ function TerIntId.new() end
 ---@field roof TerId
 ---@field transforms_into TerId
 ---@field trap_id_str string
----@field get_coverage fun(arg1: TerRaw): integer
----@field get_flags fun(arg1: TerRaw): any
----@field get_light_emitted fun(arg1: TerRaw): integer
----@field get_max_volume fun(arg1: TerRaw): Volume
----@field get_movecost fun(arg1: TerRaw): integer
----@field has_flag fun(arg1: TerRaw, arg2: string): boolean
 ---@field int_id fun(arg1: TerRaw): TerIntId
----@field name fun(arg1: TerRaw): string
----@field set_coverage fun(arg1: TerRaw, arg2: integer)
----@field set_flag fun(arg1: TerRaw, arg2: string)
----@field set_light_emitted fun(arg1: TerRaw, arg2: integer)
----@field set_max_volume fun(arg1: TerRaw, arg2: Volume)
----@field set_movecost fun(arg1: TerRaw, arg2: integer)
 ---@field str_id fun(arg1: TerRaw): TerId
 TerRaw = {}
 ---@return TerRaw
