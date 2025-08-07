@@ -280,6 +280,7 @@ function BodyPartTypeIntId.new() end
 ---@field mod_rad fun(arg1: Character, arg2: integer)
 ---@field mod_skill_level fun(arg1: Character, arg2: SkillId, arg3: integer)
 ---@field mod_sleep_deprivation fun(arg1: Character, arg2: integer)
+---@field mod_speed_bonus fun(arg1: Character, arg2: integer)
 ---@field mod_stamina fun(arg1: Character, arg2: integer)
 ---@field mod_stim fun(arg1: Character, arg2: integer)
 ---@field mod_stored_kcal fun(arg1: Character, arg2: integer)
@@ -288,9 +289,9 @@ function BodyPartTypeIntId.new() end
 ---@field mount_creature fun(arg1: Character, arg2: Monster)
 ---@field mutate fun(arg1: Character)
 ---@field mutate_category fun(arg1: Character, arg2: MutationCategoryTraitId)
----@field mutate_towards fun(arg1: Character, arg2: MutationBranchId[], arg3: integer): boolean
----@field mutate_towards fun(arg1: Character, arg2: MutationBranchId): boolean
 ---@field mutate_towards fun(arg1: Character, arg2: MutationBranchId[], arg3: integer): boolean | fun(arg1: Character, arg2: MutationBranchId): boolean
+---@field mutate_towards fun(arg1: Character, arg2: MutationBranchId): boolean
+---@field mutate_towards fun(arg1: Character, arg2: MutationBranchId[], arg3: integer): boolean
 ---@field mutation_armor fun(arg1: Character, arg2: BodyPartTypeIntId, arg3: DamageType): number
 ---@field mutation_effect fun(arg1: Character, arg2: MutationBranchId)
 ---@field mutation_loss_effect fun(arg1: Character, arg2: MutationBranchId)
@@ -326,6 +327,7 @@ function BodyPartTypeIntId.new() end
 ---@field set_rad fun(arg1: Character, arg2: integer)
 ---@field set_skill_level fun(arg1: Character, arg2: SkillId, arg3: integer)
 ---@field set_sleep_deprivation fun(arg1: Character, arg2: integer)
+---@field set_speed_bonus fun(arg1: Character, arg2: integer)
 ---@field set_stamina fun(arg1: Character, arg2: integer)
 ---@field set_stim fun(arg1: Character, arg2: integer)
 ---@field set_stored_kcal fun(arg1: Character, arg2: integer)

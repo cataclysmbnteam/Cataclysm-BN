@@ -373,6 +373,8 @@ void cata::detail::reg_character( sol::state &lua )
         SET_FX_T( mod_dex_bonus, void( int ) );
         SET_FX_T( mod_per_bonus, void( int ) );
         SET_FX_T( mod_int_bonus, void( int ) );
+        SET_FX_T( mod_speed_bonus, void( int ) );
+        SET_FX_T( set_speed_bonus, void( int ) );
 
         SET_FX_T( get_healthy, float() const );
         SET_FX_T( get_healthy_mod, float() const );
