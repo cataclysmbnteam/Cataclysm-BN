@@ -151,15 +151,12 @@
       "palettes": [ "lake_bed_palette" ],
       "furniture": { "$": "f_safe_l" },
       "items": { "~": { "item": "lake_bed", "chance": 2 } },
-      "place_items": [
-        { "chance": 75, "item": "vault", "x": 9, "y": 9 },
-        { "chance": 75, "item": "vault", "x": 15, "y": 13 }
-      ],
+      "place_items": [ { "chance": 75, "item": "vault", "x": 9, "y": 9 }, { "chance": 75, "item": "vault", "x": 15, "y": 13 } ],
       "place_furniture": [
-          { "furn": "f_wreckage", "x": [ 3, 21 ], "y": [ 3, 8 ], "repeat": [ 0, 1 ] },
-          { "furn": "f_wreckage", "x": [ 3, 21 ], "y": [ 16, 21 ], "repeat": [ 0, 1 ] },
-          { "furn": "f_wreckage", "x": [ 3, 8 ], "y": [ 3, 21 ], "repeat": [ 0, 1 ] },
-          { "furn": "f_wreckage", "x": [ 16, 21 ], "y": [ 3, 21 ], "repeat": [ 0, 1 ] }
+        { "furn": "f_wreckage", "x": [ 3, 21 ], "y": [ 3, 8 ], "repeat": [ 0, 1 ] },
+        { "furn": "f_wreckage", "x": [ 3, 21 ], "y": [ 16, 21 ], "repeat": [ 0, 1 ] },
+        { "furn": "f_wreckage", "x": [ 3, 8 ], "y": [ 3, 21 ], "repeat": [ 0, 1 ] },
+        { "furn": "f_wreckage", "x": [ 16, 21 ], "y": [ 3, 21 ], "repeat": [ 0, 1 ] }
       ]
     }
   },
