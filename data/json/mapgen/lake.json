@@ -2,13 +2,7 @@
   {
     "type": "palette",
     "id": "lake_bed_palette",
-    "terrain": {
-      "~": [
-        [ "t_lake_bed", 75 ],
-        [ "t_lake_moss", 20 ],
-        [ "t_lake_trunk", 5 ]
-      ]
-    },
+    "terrain": { "~": [ [ "t_lake_bed", 75 ], [ "t_lake_moss", 20 ], [ "t_lake_trunk", 5 ] ] },
     "furniture": {
       "f": "f_fog",
       "h": "f_hot_spring",
