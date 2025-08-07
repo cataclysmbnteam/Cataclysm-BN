@@ -954,7 +954,7 @@
     "name": "Bionic Marine Biologist",
     "description": "Through years of underwater welding, you've honed a deep understanding of submerged structures in the New England region.",
     "points": 4,
-    "CBMs": [ "bio_batteries", "bio_gills", "bio_surgical_razor", "bio_power_storage_mkII" ],
+    "CBMs": [ "bio_batteries", "bio_gills", "bio_surgical_razor", "bio_power_storage_mkII", "bio_power_storage_mkII" ],
     "skills": [ { "level": 2, "name": "swimming" }, { "level": 4, "name": "firstaid" }, { "level": 1, "name": "electronics" } ],
     "items": {
       "both": {
@@ -963,6 +963,26 @@
           { "group": "charged_flashlight" },
           { "item": "sea_scooter" },
           { "item": "airspeargun", "ammo-item": "fishspear", "charges": 4 }
+        ]
+      }
+    }
+  },
+  {
+    "type": "profession",
+    "id": "davy_jones",
+    "name": "Davy Jones",
+    "description": "You were robbed, shot in the head and thrown into the sea just before the Cataclysm. Now you have risen undead from the depths, with a thirst for vengeance against those who wronged you, and a desire to reclaim your lost treasures.",
+    "points": 2,
+    "traits": [ "PROF_FERAL", "GILLS", "FRESHWATEROSMOSIS", "SLEEK_SCALES", "TAIL_FIN", "SMELLY2", "DEFORMED", "COLDBLOOD3"  ],
+    "skills": [ { "level": 1, "name": "swimming" }, { "level": 2, "name": "cutting" }, { "level": 2, "name": "pistol" } ],
+    "items": {
+      "both": {
+        "items": [ "boxer_shorts", "tank_top", "mbag", "bastsandals", "bandana_head", "scabbard", "rum" ],
+        "entries": [
+          { "item": "cutlass", "custom-flags": [ "auto_wield" ] },
+          { "item": "baldric_holster", "contents-group": "pistols_pirate" },
+          { "item": "flintlock_pouch", "contents-group": "flintlock_pouch_reenactor" },
+          { "item": "flintlock_ammo", "charges": 4 }
         ]
       }
     }

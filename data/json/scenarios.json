@@ -38,7 +38,7 @@
     "points": 1,
     "description": "You appear at the bottom of a lake, alone.",
     "allowed_locs": [ "sloc_lake_bed" ],
-    "professions": [ "professional_diver", "underwater_welder", "bionic_diver" ],
+    "professions": [ "professional_diver", "underwater_welder", "bionic_diver", "davy_jones" ],
     "start_name": "Lake Bed",
     "flags": [ "LONE_START" ]
   },
