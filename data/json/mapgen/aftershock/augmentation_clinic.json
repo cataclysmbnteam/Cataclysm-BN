@@ -17,7 +17,7 @@
         " -.----...------|(|,,|| ",
         " -.--B......B-.-V,,,,,( ",
         " -.--A......Aó.-V,,,,,( ",
-        " ó.--B......B-.-||Y<<Y| ",
+        " ó.--B......B-.-||YZZY| ",
         " ------(:(----.- |||||| ",
         " -lb..:.Y.:..-.-        ",
         " -lb.l|...(.B-.-        ",
@@ -55,7 +55,10 @@
         "?": { "item": "autodoc_supplies", "chance": 100 }
       },
       "monster": { "ö": { "monster": "mon_skitterbot" } },
-      "vendingmachines": { "V": { "item_group": "afs_vending_medicine", "reinforced": true } }
+      "vendingmachines": {
+        "V": { "item_group": "afs_vending_medicine", "reinforced": true },
+        "Z": { "item_group": "vending_bionics", "reinforced": true }
+      }
     }
   },
   {
