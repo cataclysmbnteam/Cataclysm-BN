@@ -621,11 +621,7 @@
         "y": 0,
         "parts": [ "frame_cross", "seat", "seatbelt", "controls_electronic", "hdroof", "metal_boat_hull" ]
       },
-      {
-        "x": -1,
-        "y": 0,
-        "parts": [ "frame_cross", "aisle_vertical", "hdroof", "metal_boat_hull" ]
-      },
+      { "x": -1, "y": 0, "parts": [ "frame_cross", "aisle_vertical", "hdroof", "metal_boat_hull" ] },
       {
         "x": 0,
         "y": 0,
@@ -635,14 +631,17 @@
       { "x": 2, "y": 0, "parts": [ "frame_cross", "aisle_vertical", "metal_boat_hull" ] },
       { "x": 3, "y": 0, "parts": [ "frame_se", "hdhalfboard_se", "metal_boat_hull" ] },
       { "x": 4, "y": 0, "parts": [ "frame_nw", "hdhalfboard_nw", "metal_boat_hull" ] },
-
       { "x": -6, "y": 1, "parts": [ "frame_horizontal", "hdhalfboard_horizontal", "metal_boat_hull" ] },
       { "x": -5, "y": 1, "parts": [ "frame_cross", "aisle_vertical", "metal_boat_hull" ] },
       { "x": -4, "y": 1, "parts": [ "frame_cross", "aisle_vertical", "metal_boat_hull" ] },
       { "x": -3, "y": 1, "parts": [ "frame_horizontal", "hdhatch", "plating_steel", "metal_boat_hull" ] },
       { "x": -2, "y": 1, "parts": [ "frame_cross", "aisle_vertical", "hdroof", "floodlight", "metal_boat_hull" ] },
       { "x": -1, "y": 1, "parts": [ "frame_cross", "aisle_vertical", "hdroof", "light_blue", "metal_boat_hull" ] },
-      { "x": 0, "y": 1, "parts": [ "frame_cross", "aisle_vertical", "hdroof", "mounted_american_flag", "metal_boat_hull" ] },
+      {
+        "x": 0,
+        "y": 1,
+        "parts": [ "frame_cross", "aisle_vertical", "hdroof", "mounted_american_flag", "metal_boat_hull" ]
+      },
       { "x": 1, "y": 1, "parts": [ "frame_horizontal", "hdhatch", "plating_steel", "metal_boat_hull" ] },
       { "x": 2, "y": 1, "parts": [ "frame_cross", "aisle_vertical", "metal_boat_hull" ] },
       {
@@ -663,9 +662,6 @@
         ]
       },
       { "x": 4, "y": 1, "parts": [ "frame_horizontal", "hdhalfboard_horizontal", "metal_boat_hull" ] },
-
-
-
       {
         "x": -6,
         "y": 2,
@@ -713,9 +709,6 @@
       { "x": 2, "y": 2, "parts": [ "frame_cross", "aisle_vertical", "metal_boat_hull" ] },
       { "x": 3, "y": 2, "parts": [ "frame_sw", "hdhalfboard_sw", "metal_boat_hull" ] },
       { "x": 4, "y": 2, "parts": [ "frame_ne", "hdhalfboard_ne", "metal_boat_hull" ] },
-
-
-
       { "x": -6, "y": 3, "parts": [ "frame_se", "hdhalfboard_se", "metal_boat_hull" ] },
       { "x": -5, "y": 3, "parts": [ "frame_vertical", "metal_boat_hull" ] },
       { "x": -4, "y": 3, "parts": [ "frame_vertical", "hdhalfboard_vertical", "metal_boat_hull" ] },
@@ -726,7 +719,6 @@
       { "x": 1, "y": 3, "parts": [ "frame_ne", "hdhalfboard_ne", "plating_steel", "metal_boat_hull" ] },
       { "x": 2, "y": 3, "parts": [ "frame_vertical", "hdhalfboard_vertical", "metal_boat_hull" ] },
       { "x": 3, "y": 3, "parts": [ "frame_ne", "hdhalfboard_ne", "metal_boat_hull" ] },
-
       { "x": -6, "y": -1, "parts": [ "frame_sw", "hdhalfboard_sw", "metal_boat_hull" ] },
       { "x": -5, "y": -1, "parts": [ "frame_vertical", "metal_boat_hull" ] },
       { "x": -4, "y": -1, "parts": [ "frame_vertical", "hdhalfboard_vertical", "metal_boat_hull" ] },
@@ -741,25 +733,18 @@
     "items": [
       { "x": 0, "y": 0, "chance": 25, "items": [ "flotation_vest", "waterwaymap" ] },
       { "x": 0, "y": 0, "chance": 5, "items": [ "mil_gps_device" ] },
-
       { "x": -2, "y": 0, "chance": 25, "items": [ "flotation_vest" ] },
       { "x": -2, "y": 0, "chance": 25, "item_groups": [ "army_personal_locker", "guns_milspec" ] },
-
       { "x": 0, "y": 2, "chance": 25, "items": [ "flotation_vest" ] },
       { "x": 0, "y": 2, "chance": 25, "item_groups": [ "army_personal_locker", "guns_milspec" ] },
-
       { "x": -2, "y": 2, "chance": 25, "items": [ "flotation_vest" ] },
       { "x": -2, "y": 2, "chance": 25, "item_groups": [ "army_personal_locker", "guns_milspec" ] },
-
       { "x": -4, "y": 0, "chance": 50, "item_groups": [ "on_hand_308" ] },
       { "x": -4, "y": 0, "chance": 25, "items": [ "flotation_vest", "ear_plugs" ] },
-
       { "x": -4, "y": 2, "chance": 50, "item_groups": [ "on_hand_308" ] },
       { "x": -4, "y": 2, "chance": 25, "items": [ "flotation_vest", "ear_plugs" ] },
-
       { "x": 3, "y": 1, "chance": 50, "item_groups": [ "on_hand_50" ] },
       { "x": 3, "y": 1, "chance": 25, "items": [ "flotation_vest", "ear_plugs" ] },
-
       { "x": -5, "y": 0, "chance": 75, "item_groups": [ "mil_food_nodrugs", "gear_medical", "fireman_gear" ] },
       { "x": -5, "y": 0, "chance": 50, "item_groups": [ "mil_food_nodrugs", "gear_medical", "fireman_gear" ] },
       { "x": -5, "y": 0, "chance": 25, "item_groups": [ "mil_food_nodrugs", "gear_medical", "fireman_gear" ] },

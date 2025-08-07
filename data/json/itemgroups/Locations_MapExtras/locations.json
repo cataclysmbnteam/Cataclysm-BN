@@ -2666,19 +2666,13 @@
     "id": "fort_crate",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [
-      { "group": "supplies_cannonball", "prob": 100 },
-      { "item": "gatlingdrum240", "prob": 25 }
-    ]
+    "entries": [ { "group": "supplies_cannonball", "prob": 100 }, { "item": "gatlingdrum240", "prob": 25 } ]
   },
   {
     "id": "fort_powderbarrel",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [
-      { "group": "supplies_powder_mag", "prob": 100 },
-      { "item": "4570_low", "charges": [ 1, 240 ], "prob": 50 }
-    ]
+    "entries": [ { "group": "supplies_powder_mag", "prob": 100 }, { "item": "4570_low", "charges": [ 1, 240 ], "prob": 50 } ]
   },
   {
     "type": "item_group",

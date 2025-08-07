@@ -192,33 +192,27 @@
         { "chance": 10, "fuel": 15, "vehicle": "boats_medium", "x": 14, "y": 7, "rotation": 90 },
         { "chance": 10, "fuel": 15, "vehicle": "boats_medium", "x": 22, "y": 7, "rotation": 90 },
         { "chance": 10, "fuel": 15, "vehicle": "boats_medium", "x": 30, "y": 7, "rotation": 90 },
-
         { "chance": 10, "fuel": 15, "vehicle": "boats_medium", "x": 4, "y": 17, "rotation": 270 },
         { "chance": 10, "fuel": 15, "vehicle": "boats_medium", "x": 12, "y": 17, "rotation": 270 },
         { "chance": 10, "fuel": 15, "vehicle": "boats_medium", "x": 20, "y": 17, "rotation": 270 },
         { "chance": 10, "fuel": 15, "vehicle": "boats_medium", "x": 28, "y": 17, "rotation": 270 },
-
         { "chance": 10, "fuel": 15, "vehicle": "boats_medium", "x": 6, "y": 30, "rotation": 90 },
         { "chance": 10, "fuel": 15, "vehicle": "boats_medium", "x": 14, "y": 30, "rotation": 90 },
         { "chance": 10, "fuel": 15, "vehicle": "boats_medium", "x": 22, "y": 30, "rotation": 90 },
         { "chance": 10, "fuel": 15, "vehicle": "boats_medium", "x": 30, "y": 30, "rotation": 90 },
-
         { "chance": 10, "fuel": 15, "vehicle": "boats_medium", "x": 4, "y": 40, "rotation": 270 },
         { "chance": 10, "fuel": 15, "vehicle": "boats_medium", "x": 12, "y": 40, "rotation": 270 },
         { "chance": 10, "fuel": 15, "vehicle": "boats_medium", "x": 20, "y": 40, "rotation": 270 },
         { "chance": 10, "fuel": 15, "vehicle": "boats_medium", "x": 28, "y": 40, "rotation": 270 },
-
         { "chance": 10, "fuel": 15, "vehicle": "boats_medium", "x": 50, "y": 40, "rotation": 270 },
         { "chance": 10, "fuel": 15, "vehicle": "boats_medium", "x": 58, "y": 40, "rotation": 270 },
         { "chance": 10, "fuel": 15, "vehicle": "boats_medium", "x": 66, "y": 40, "rotation": 270 },
         { "chance": 10, "fuel": 15, "vehicle": "boats_medium", "x": 74, "y": 40, "rotation": 270 },
         { "chance": 10, "fuel": 15, "vehicle": "boats_medium", "x": 82, "y": 40, "rotation": 270 },
-
         { "chance": 10, "fuel": 15, "vehicle": "boats_medium", "x": 92, "y": 30, "rotation": 90 },
         { "chance": 10, "fuel": 15, "vehicle": "boats_medium", "x": 100, "y": 30, "rotation": 90 },
         { "chance": 10, "fuel": 15, "vehicle": "boats_medium", "x": 90, "y": 40, "rotation": 270 },
         { "chance": 10, "fuel": 15, "vehicle": "boats_medium", "x": 98, "y": 40, "rotation": 270 },
-
         { "chance": 10, "fuel": 15, "vehicle": "boats_medium", "x": 52, "y": 12, "rotation": 180 },
         { "chance": 10, "fuel": 15, "vehicle": "boats_medium", "x": 82, "y": 10, "rotation": 0 },
         { "chance": 10, "fuel": 15, "vehicle": "boats_medium", "x": 52, "y": 20, "rotation": 180 },

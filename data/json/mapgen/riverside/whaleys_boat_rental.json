@@ -2,17 +2,8 @@
   {
     "method": "json",
     "object": {
-      "furniture": {
-        "&": "f_toilet",
-        "C": "f_chair",
-        "S": "f_sink",
-        "c": "f_counter",
-        "r": "f_rack_wood",
-        "{": "f_vending_c"
-      },
-      "items": {
-        "r": [ { "item": "supplies_ship_rigging", "chance": 90 }, { "item": "fishing_items", "chance": 50 } ]
-      },
+      "furniture": { "&": "f_toilet", "C": "f_chair", "S": "f_sink", "c": "f_counter", "r": "f_rack_wood", "{": "f_vending_c" },
+      "items": { "r": [ { "item": "supplies_ship_rigging", "chance": 90 }, { "item": "fishing_items", "chance": 50 } ] },
       "place_items": [
         { "chance": 75, "item": "vending_food_items", "x": 18, "y": 3 },
         { "chance": 75, "item": "vending_drink_items", "x": 19, "y": 3 },
@@ -80,16 +71,8 @@
   {
     "method": "json",
     "object": {
-      "furniture": {
-        "&": "f_trashcan",
-        "C": "f_chair",
-        "T": "f_table",
-        "c": "f_counter",
-        "r": "f_rack_wood"
-      },
-      "items": {
-        "r": [ { "item": "supplies_ship_rigging", "chance": 90 }, { "item": "fishing_items", "chance": 50 } ]
-      },
+      "furniture": { "&": "f_trashcan", "C": "f_chair", "T": "f_table", "c": "f_counter", "r": "f_rack_wood" },
+      "items": { "r": [ { "item": "supplies_ship_rigging", "chance": 90 }, { "item": "fishing_items", "chance": 50 } ] },
       "place_items": [
         { "chance": 55, "item": "novels", "x": 12, "y": 10 },
         { "chance": 65, "item": "trash", "x": 17, "y": 10 },
@@ -156,17 +139,8 @@
   {
     "method": "json",
     "object": {
-      "furniture": {
-        "C": "f_counter",
-        "T": "f_table",
-        "X": "f_crate_c",
-        "c": "f_chair",
-        "r": "f_rack_wood",
-        "{": "f_vending_c"
-      },
-      "items": {
-        "r": [ { "item": "supplies_ship_rigging", "chance": 90 }, { "item": "fishing_items", "chance": 50 } ]
-      },
+      "furniture": { "C": "f_counter", "T": "f_table", "X": "f_crate_c", "c": "f_chair", "r": "f_rack_wood", "{": "f_vending_c" },
+      "items": { "r": [ { "item": "supplies_ship_rigging", "chance": 90 }, { "item": "fishing_items", "chance": 50 } ] },
       "place_items": [
         { "chance": 55, "item": "swimmer_head", "x": 13, "y": 10 },
         { "chance": 75, "item": "vending_food_items", "x": 13, "y": 5 },
