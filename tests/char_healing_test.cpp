@@ -308,7 +308,7 @@ static double together_rate( const std::string bp_name, const float rest_quality
 // Both bandages and disinfectant together multiply this effect, giving 4-12 HP per day while awake.
 // The torso gets the most benefit from treatment, while the head gets the least benefit.
 // Healing rates from treatment are doubled while sleeping.
-//
+// *INDENT-OFF*
 TEST_CASE( "healing_rate_medicine with bandages and/or disinfectant",
            "[heal][bandage][disinfect]" )
 {
@@ -343,8 +343,7 @@ TEST_CASE( "healing_rate_medicine with bandages and/or disinfectant",
             CHECK_THAT( bandaged_rate( "arm_r", awake_rest ), WithinRel( base_rate * 1.0 * hp_per_day, 0.01 ) );
             CHECK_THAT( bandaged_rate( "leg_l", awake_rest ), WithinRel( base_rate * 1.0 * hp_per_day, 0.01 ) );
             CHECK_THAT( bandaged_rate( "leg_r", awake_rest ), WithinRel( base_rate * 1.0 * hp_per_day, 0.01 ) );
-            CHECK_THAT( bandaged_rate( "torso", awake_rest ), WithinRel( base_rate * 0.75 * hp_per_day,
-                        0.01 ) );
+            CHECK_THAT( bandaged_rate( "torso", awake_rest ), WithinRel( base_rate * 0.75 * hp_per_day, 0.01 ) );
         }
 
         SECTION( "asleep" ) {
@@ -354,8 +353,7 @@ TEST_CASE( "healing_rate_medicine with bandages and/or disinfectant",
             CHECK_THAT( bandaged_rate( "arm_r", sleep_rest ), WithinRel( base_rate * 1.0 * hp_per_day, 0.01 ) );
             CHECK_THAT( bandaged_rate( "leg_l", sleep_rest ), WithinRel( base_rate * 1.0 * hp_per_day, 0.01 ) );
             CHECK_THAT( bandaged_rate( "leg_r", sleep_rest ), WithinRel( base_rate * 1.0 * hp_per_day, 0.01 ) );
-            CHECK_THAT( bandaged_rate( "torso", sleep_rest ), WithinRel( base_rate * 0.75 * hp_per_day,
-                        0.01 ) );
+            CHECK_THAT( bandaged_rate( "torso", sleep_rest ), WithinRel( base_rate * 0.75 * hp_per_day, 0.01 ) );
         }
     }
 
@@ -363,34 +361,22 @@ TEST_CASE( "healing_rate_medicine with bandages and/or disinfectant",
     SECTION( "disinfectant only" ) {
         SECTION( "awake" ) {
             constexpr double base_rate = 1.0;
-            CHECK_THAT( disinfected_rate( "head", awake_rest ), WithinAbs( base_rate * 0.75 * hp_per_day,
-                        tol ) );
-            CHECK_THAT( disinfected_rate( "arm_l", awake_rest ), WithinAbs( base_rate * 1.0 * hp_per_day,
-                        tol ) );
-            CHECK_THAT( disinfected_rate( "arm_r", awake_rest ), WithinAbs( base_rate * 1.0 * hp_per_day,
-                        tol ) );
-            CHECK_THAT( disinfected_rate( "leg_l", awake_rest ), WithinAbs( base_rate * 1.0 * hp_per_day,
-                        tol ) );
-            CHECK_THAT( disinfected_rate( "leg_r", awake_rest ), WithinAbs( base_rate * 1.0 * hp_per_day,
-                        tol ) );
-            CHECK_THAT( disinfected_rate( "torso", awake_rest ), WithinAbs( base_rate * 0.75 * hp_per_day,
-                        tol ) );
+            CHECK_THAT( disinfected_rate( "head", awake_rest ), WithinRel( base_rate * 0.75 * hp_per_day, 0.01 ) );
+            CHECK_THAT( disinfected_rate( "arm_l", awake_rest ), WithinRel( base_rate * 1.0 * hp_per_day, 0.01 ) );
+            CHECK_THAT( disinfected_rate( "arm_r", awake_rest ), WithinRel( base_rate * 1.0 * hp_per_day, 0.01 ) );
+            CHECK_THAT( disinfected_rate( "leg_l", awake_rest ), WithinRel( base_rate * 1.0 * hp_per_day, 0.01 ) );
+            CHECK_THAT( disinfected_rate( "leg_r", awake_rest ), WithinRel( base_rate * 1.0 * hp_per_day, 0.01 ) );
+            CHECK_THAT( disinfected_rate( "torso", awake_rest ), WithinRel( base_rate * 0.75 * hp_per_day, 0.01 ) );
         }
 
         SECTION( "asleep" ) {
             constexpr double base_rate = 2.0;
-            CHECK_THAT( disinfected_rate( "head", sleep_rest ), WithinAbs( base_rate * 0.75 * hp_per_day,
-                        tol ) );
-            CHECK_THAT( disinfected_rate( "arm_l", sleep_rest ), WithinAbs( base_rate * 1.0 * hp_per_day,
-                        tol ) );
-            CHECK_THAT( disinfected_rate( "arm_r", sleep_rest ), WithinAbs( base_rate * 1.0 * hp_per_day,
-                        tol ) );
-            CHECK_THAT( disinfected_rate( "leg_l", sleep_rest ), WithinAbs( base_rate * 1.0 * hp_per_day,
-                        tol ) );
-            CHECK_THAT( disinfected_rate( "leg_r", sleep_rest ), WithinAbs( base_rate * 1.0 * hp_per_day,
-                        tol ) );
-            CHECK_THAT( disinfected_rate( "torso", sleep_rest ), WithinAbs( base_rate * 0.75 * hp_per_day,
-                        tol ) );
+            CHECK_THAT( disinfected_rate( "head", sleep_rest ), WithinRel( base_rate * 0.75 * hp_per_day, 0.01 ) );
+            CHECK_THAT( disinfected_rate( "arm_l", sleep_rest ), WithinRel( base_rate * 1.0 * hp_per_day, 0.01 ) );
+            CHECK_THAT( disinfected_rate( "arm_r", sleep_rest ), WithinRel( base_rate * 1.0 * hp_per_day, 0.01 ) );
+            CHECK_THAT( disinfected_rate( "leg_l", sleep_rest ), WithinRel( base_rate * 1.0 * hp_per_day, 0.01 ) );
+            CHECK_THAT( disinfected_rate( "leg_r", sleep_rest ), WithinRel( base_rate * 1.0 * hp_per_day, 0.01 ) );
+            CHECK_THAT( disinfected_rate( "torso", sleep_rest ), WithinRel( base_rate * 0.75 * hp_per_day, 0.01 ) );
         }
     }
 
@@ -403,8 +389,7 @@ TEST_CASE( "healing_rate_medicine with bandages and/or disinfectant",
             CHECK_THAT( together_rate( "arm_r", awake_rest ), WithinRel( base_rate * 1.0 * hp_per_day, 0.01 ) );
             CHECK_THAT( together_rate( "leg_l", awake_rest ), WithinRel( base_rate * 1.0 * hp_per_day, 0.01 ) );
             CHECK_THAT( together_rate( "leg_r", awake_rest ), WithinRel( base_rate * 1.0 * hp_per_day, 0.01 ) );
-            CHECK_THAT( together_rate( "torso", awake_rest ), WithinRel( base_rate * 0.75 * hp_per_day,
-                        0.01 ) );
+            CHECK_THAT( together_rate( "torso", awake_rest ), WithinRel( base_rate * 0.75 * hp_per_day, 0.01 ) );
         }
 
         SECTION( "asleep" ) {
@@ -414,8 +399,7 @@ TEST_CASE( "healing_rate_medicine with bandages and/or disinfectant",
             CHECK_THAT( together_rate( "arm_r", sleep_rest ), WithinRel( base_rate * 1.0 * hp_per_day, 0.01 ) );
             CHECK_THAT( together_rate( "leg_l", sleep_rest ), WithinRel( base_rate * 1.0 * hp_per_day, 0.01 ) );
             CHECK_THAT( together_rate( "leg_r", sleep_rest ), WithinRel( base_rate * 1.0 * hp_per_day, 0.01 ) );
-            CHECK_THAT( together_rate( "torso", sleep_rest ), WithinRel( base_rate * 0.75 * hp_per_day,
-                        0.01 ) );
+            CHECK_THAT( together_rate( "torso", sleep_rest ), WithinRel( base_rate * 0.75 * hp_per_day,0.01 ) );
         }
     }
 }
