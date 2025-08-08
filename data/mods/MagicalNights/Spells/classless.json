@@ -214,6 +214,7 @@
     "description": "Translocates the user to an attuned gate.",
     "valid_targets": [ "self" ],
     "effect": "translocate",
+    "scale_int": true,
     "difficulty": 15,
     "max_level": 35,
     "base_casting_time": 6000,
