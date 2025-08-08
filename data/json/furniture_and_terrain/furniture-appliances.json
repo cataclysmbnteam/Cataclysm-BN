@@ -1373,13 +1373,10 @@
     "coverage": 10,
     "required_str": -1,
     "active": [ "charger", { "power": 15 } ],
-    "flags": [ "TRANSPARENT" ],
+    "flags": [ "TRANSPARENT", "EASY_DECONSTRUCT" ],
     "deconstruct": {
       "items": [
-        { "item": "solder_wire", "charges": 20 },
-        { "item": "cable", "charges": 5 },
-        { "item": "battery_charger", "count": 1 },
-        { "item": "power_supply", "count": 1 }
+        { "item": "battery_charger", "count": 1 }
       ]
     },
     "bash": {
@@ -1388,10 +1385,7 @@
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "items": [
-        { "item": "solder_wire", "charges": [ 10, 20 ] },
-        { "item": "e_scrap", "count": [ 0, 1 ] },
-        { "item": "plastic_chunk", "count": [ 0, 1 ] },
-        { "item": "cable", "charges": [ 2, 8 ] }
+        { "item": "battery_charger", "count": 1 }
       ]
     }
   },
@@ -1468,10 +1462,7 @@
     "flags": [ "TRANSPARENT", "MOUNTABLE", "EASY_DECONSTRUCT" ],
     "deconstruct": {
       "items": [
-        { "item": "solder_wire", "charges": 20 },
-        { "item": "welder", "count": 1 },
-        { "item": "cable", "charges": 5 },
-        { "item": "power_supply", "count": 1 }
+        { "item": "welder", "count": 1 }
       ]
     },
     "bash": {
@@ -1480,11 +1471,7 @@
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "items": [
-        { "item": "solder_wire", "charges": [ 10, 20 ] },
-        { "item": "power_supply", "count": [ 1, 4 ] },
-        { "item": "scrap", "count": [ 0, 2 ] },
-        { "item": "cable", "charges": [ 1, 4 ] },
-        { "item": "plastic_chunk", "count": [ 1, 2 ] }
+        { "item": "welder", "count": 1 }
       ]
     }
   },
@@ -1504,10 +1491,7 @@
     "flags": [ "TRANSPARENT", "MOUNTABLE", "EASY_DECONSTRUCT" ],
     "deconstruct": {
       "items": [
-        { "item": "solder_wire", "charges": 20 },
-        { "item": "large_repairkit", "count": 1 },
-        { "item": "cable", "charges": 5 },
-        { "item": "power_supply", "count": 1 }
+        { "item": "large_repairkit", "count": 1 }
       ]
     },
     "bash": {
@@ -1516,10 +1500,7 @@
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "items": [
-        { "item": "solder_wire", "charges": [ 10, 20 ] },
-        { "item": "power_supply", "count": [ 1, 4 ] },
-        { "item": "scrap", "count": [ 0, 8 ] },
-        { "item": "cable", "charges": [ 1, 4 ] }
+        { "item": "large_repairkit", "count": 1 }
       ]
     }
   },
@@ -1679,10 +1660,7 @@
     "flags": [ "TRANSPARENT", "MOUNTABLE", "EASY_DECONSTRUCT" ],
     "deconstruct": {
       "items": [
-        { "item": "solder_wire", "charges": 20 },
-        { "item": "dehydrator", "count": 1 },
-        { "item": "cable", "charges": 5 },
-        { "item": "power_supply", "count": 1 }
+        { "item": "dehydrator", "count": 1 }
       ]
     },
     "bash": {
@@ -1691,12 +1669,7 @@
       "sound": "crunch!",
       "sound_fail": "whump.",
       "items": [
-        { "item": "solder_wire", "charges": [ 10, 20 ] },
-        { "item": "power_supply", "count": [ 1, 4 ] },
-        { "item": "scrap", "count": [ 0, 4 ] },
-        { "item": "plastic_chunk", "count": [ 0, 9 ] },
-        { "item": "cable", "charges": [ 1, 4 ] },
-        { "item": "element", "count": [ 2, 6 ] }
+        { "item": "dehydrator", "count": 1 }
       ]
     }
   },
@@ -1715,10 +1688,7 @@
     "flags": [ "TRANSPARENT", "MOUNTABLE", "EASY_DECONSTRUCT" ],
     "deconstruct": {
       "items": [
-        { "item": "solder_wire", "charges": 20 },
-        { "item": "food_processor", "count": 1 },
-        { "item": "cable", "charges": 5 },
-        { "item": "power_supply", "count": 1 }
+        { "item": "food_processor", "count": 1 }
       ]
     },
     "bash": {
@@ -1727,12 +1697,7 @@
       "sound": "crunch!",
       "sound_fail": "whump.",
       "items": [
-        { "item": "solder_wire", "charges": [ 10, 20 ] },
-        { "item": "power_supply", "count": [ 1, 4 ] },
-        { "item": "scrap", "count": [ 0, 4 ] },
-        { "item": "plastic_chunk", "count": [ 0, 9 ] },
-        { "item": "cable", "charges": [ 1, 4 ] },
-        { "item": "element", "count": [ 2, 6 ] }
+        { "item": "food_processor", "count": 1 }
       ]
     }
   },
@@ -1751,10 +1716,7 @@
     "flags": [ "TRANSPARENT", "MOUNTABLE", "EASY_DECONSTRUCT" ],
     "deconstruct": {
       "items": [
-        { "item": "solder_wire", "charges": 20 },
-        { "item": "soda_machine", "count": 1 },
-        { "item": "cable", "charges": 5 },
-        { "item": "power_supply", "count": 1 }
+        { "item": "soda_machine", "count": 1 }
       ]
     },
     "bash": {
@@ -1763,12 +1725,7 @@
       "sound": "crunch!",
       "sound_fail": "whump.",
       "items": [
-        { "item": "solder_wire", "charges": [ 10, 20 ] },
-        { "item": "power_supply", "count": [ 1, 4 ] },
-        { "item": "scrap", "count": [ 0, 4 ] },
-        { "item": "plastic_chunk", "count": [ 0, 9 ] },
-        { "item": "cable", "charges": [ 1, 4 ] },
-        { "item": "element", "count": [ 2, 6 ] }
+        { "item": "soda_machine", "count": 1 }
       ]
     }
   },
@@ -1787,10 +1744,7 @@
     "flags": [ "TRANSPARENT", "MOUNTABLE", "EASY_DECONSTRUCT" ],
     "deconstruct": {
       "items": [
-        { "item": "solder_wire", "charges": 20 },
-        { "item": "vac_sealer", "count": 1 },
-        { "item": "cable", "charges": 5 },
-        { "item": "power_supply", "count": 1 }
+        { "item": "vac_sealer", "count": 1 }
       ]
     },
     "bash": {
@@ -1799,12 +1753,7 @@
       "sound": "crunch!",
       "sound_fail": "whump.",
       "items": [
-        { "item": "solder_wire", "charges": [ 10, 20 ] },
-        { "item": "power_supply", "count": [ 1, 4 ] },
-        { "item": "scrap", "count": [ 0, 4 ] },
-        { "item": "plastic_chunk", "count": [ 0, 9 ] },
-        { "item": "cable", "charges": [ 1, 4 ] },
-        { "item": "element", "count": [ 2, 6 ] }
+        { "item": "vac_sealer", "count": 1 }
       ]
     }
   },
@@ -1859,10 +1808,7 @@
     "flags": [ "TRANSPARENT", "MOUNTABLE", "EASY_DECONSTRUCT" ],
     "deconstruct": {
       "items": [
-        { "item": "solder_wire", "charges": 20 },
-        { "item": "electrolysis_kit", "count": 1 },
-        { "item": "cable", "charges": 5 },
-        { "item": "power_supply", "count": 1 }
+        { "item": "electrolysis_kit", "count": 1 }
       ]
     },
     "bash": {
@@ -1871,9 +1817,7 @@
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "items": [
-        { "item": "solder_wire", "charges": [ 10, 20 ] },
-        { "item": "scrap", "count": [ 0, 2 ] },
-        { "item": "cable", "charges": [ 1, 4 ] }
+        { "item": "electrolysis_kit", "count": 1 }
       ]
     }
   },
@@ -1892,10 +1836,7 @@
     "flags": [ "TRANSPARENT", "MOUNTABLE", "EASY_DECONSTRUCT" ],
     "deconstruct": {
       "items": [
-        { "item": "solder_wire", "charges": 20 },
-        { "item": "chemistry_set", "count": 1 },
-        { "item": "cable", "charges": 5 },
-        { "item": "power_supply", "count": 1 }
+        { "item": "chemistry_set", "count": 1 }
       ]
     },
     "bash": {
@@ -1904,10 +1845,7 @@
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "items": [
-        { "item": "solder_wire", "charges": [ 10, 20 ] },
-        { "item": "scrap", "count": [ 0, 2 ] },
-        { "item": "glass_shard", "count": [ 0, 2 ] },
-        { "item": "cable", "charges": [ 1, 4 ] }
+        { "item": "chemistry_set", "count": 1 }
       ]
     }
   },
@@ -1962,10 +1900,7 @@
     "flags": [ "TRANSPARENT", "MOUNTABLE", "EASY_DECONSTRUCT" ],
     "deconstruct": {
       "items": [
-        { "item": "solder_wire", "charges": 20 },
-        { "item": "soldering_iron", "count": 1 },
-        { "item": "cable", "charges": 5 },
-        { "item": "power_supply", "count": 1 }
+        { "item": "soldering_iron", "count": 1 }
       ]
     },
     "bash": {
@@ -1974,9 +1909,7 @@
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "items": [
-        { "item": "solder_wire", "charges": [ 10, 20 ] },
-        { "item": "scrap", "count": [ 0, 2 ] },
-        { "item": "cable", "charges": [ 1, 4 ] }
+        { "item": "soldering_iron", "count": 1 }
       ]
     }
   },
@@ -2510,10 +2443,7 @@
     "flags": [ "TRANSPARENT", "EASY_DECONSTRUCT" ],
     "deconstruct": {
       "items": [
-        { "item": "solder_wire", "charges": 20 },
-        { "item": "small_space_heater", "count": 1 },
-        { "item": "cable", "charges": 5 },
-        { "item": "power_supply", "count": 1 }
+        { "item": "small_space_heater", "count": 1 }
       ]
     },
     "bash": {
@@ -2522,11 +2452,7 @@
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "items": [
-        { "item": "solder_wire", "charges": [ 10, 20 ] },
-        { "item": "power_supply", "count": [ 1, 4 ] },
-        { "item": "scrap", "count": [ 0, 2 ] },
-        { "item": "cable", "charges": [ 1, 4 ] },
-        { "item": "element", "count": [ 2, 6 ] }
+        { "item": "small_space_heater", "count": 1 }
       ]
     }
   },
@@ -2600,10 +2526,16 @@
     ],
     "deconstruct": {
       "items": [
-        { "item": "solder_wire", "charges": 20 },
-        { "item": "large_space_heater", "count": 1 },
-        { "item": "cable", "charges": 5 },
-        { "item": "power_supply", "count": 1 }
+        { "item": "large_space_heater", "count": 1 }
+      ]
+    },
+    "bash": {
+      "str_min": 8,
+      "str_max": 30,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "large_space_heater", "count": 1 }
       ]
     }
   },
@@ -2620,10 +2552,16 @@
     "message": "You turn the heater on.",
     "deconstruct": {
       "items": [
-        { "item": "solder_wire", "charges": 20 },
-        { "item": "large_space_heater", "count": 1 },
-        { "item": "cable", "charges": 5 },
-        { "item": "power_supply", "count": 1 }
+        { "item": "large_space_heater", "count": 1 }
+      ]
+    },
+    "bash": {
+      "str_min": 8,
+      "str_max": 30,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "large_space_heater", "count": 1 }
       ]
     }
   },
@@ -2653,10 +2591,16 @@
     "emissions": [ "emit_hot_air2_blast" ],
     "deconstruct": {
       "items": [
-        { "item": "solder_wire", "charges": 20 },
-        { "item": "large_space_heater", "count": 1 },
-        { "item": "cable", "charges": 5 },
-        { "item": "power_supply", "count": 1 }
+        { "item": "large_space_heater", "count": 1 }
+      ]
+    },
+    "bash": {
+      "str_min": 8,
+      "str_max": 30,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "large_space_heater", "count": 1 }
       ]
     }
   },
@@ -2713,10 +2657,7 @@
     "flags": [ "TRANSPARENT", "MOUNTABLE", "EASY_DECONSTRUCT" ],
     "deconstruct": {
       "items": [
-        { "item": "solder_wire", "charges": 20 },
-        { "item": "3d_printer_basic", "count": 1 },
-        { "item": "cable", "charges": 5 },
-        { "item": "power_supply", "count": 1 }
+        { "item": "3d_printer_basic", "count": 1 }
       ]
     },
     "bash": {
@@ -2725,9 +2666,7 @@
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "items": [
-        { "item": "solder_wire", "charges": [ 10, 20 ] },
-        { "item": "scrap", "count": [ 0, 2 ] },
-        { "item": "cable", "charges": [ 1, 4 ] }
+        { "item": "3d_printer_basic", "count": 1 }
       ]
     }
   },
