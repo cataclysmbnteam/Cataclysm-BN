@@ -107,7 +107,8 @@
       "mapgensize": [ 12, 12 ],
       "rotation": [ 0, 3 ],
       "place_monster": [ { "group": "GROUP_UNDERWATER_PEST", "x": [ 0, 11 ], "y": [ 0, 11 ] } ],
-      "place_furniture": [ { "furn": "f_hot_spring", "x": [ 0, 11 ], "y": [ 1, 11 ], "repeat": [ 3, 8 ] } ]
+      "place_furniture": [ { "furn": "f_hot_spring", "x": [ 0, 11 ], "y": [ 1, 11 ], "repeat": [ 3, 8 ] } ],
+      "place_loot": [ { "item": "chunk_sulfur", "x": [ 2, 9 ], "y": [ 2, 9 ], "repeat": [ 1, 3 ] } ]
     }
   },
   {
