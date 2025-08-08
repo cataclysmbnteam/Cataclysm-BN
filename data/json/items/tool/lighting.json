@@ -598,7 +598,7 @@
     "id": "reading_light_on",
     "copy-from": "reading_light",
     "type": "TOOL",
-    "name": { "str": "reading light (active)", "str_pl": "reading lights (active)" },
+    "name": { "str": "reading light (on)", "str_pl": "reading lights (on)" },
     "description": "A little clip-on LED light, meant for reading books in the dark.  This one is turned on.",
     "power_draw": 4000,
     "revert_to": "reading_light",
