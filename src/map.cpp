@@ -4000,7 +4000,7 @@ void map::shoot( const tripoint &origin, const tripoint &p, projectile &proj, co
         if( !hit_items && ( !check( ri.block_unaimed_chance ) || ( ri.block_unaimed_chance < 100_pct &&
                             point_blank ) ) ) {
             // Nothing, it's a miss or we're shooting over nearby terrain
-        } else if( ammo_effect_NO_PENETRATE_OBSTACLES ) {
+        } else if( proj.has_effect( ammo_effect_NO_PENETRATE_OBSTACLES ) ) {
             // We shot something with a flamethrower or other non-penetrating weapon.
             // Try to bash the obstacle if it was a thrown rock or the like, then stop the shot.
             add_msg( _( "The shot strikes the %s!" ), tername( p ) );
