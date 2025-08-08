@@ -2502,7 +2502,17 @@
     "result": "money_bundle",
     "type": "uncraft",
     "time": "30 s",
-    "components": [ [ [ "paper", 2 ] ] ],
+    "//": "18 grams of paper, item is 20 grams",
+    "components": [ [ [ "paper", 6 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "coin_quarter",
+    "type": "uncraft",
+    "time": "30 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "//": "5.6 grams of zinc, coin is 6 grams; we don't have nickel so this'll do",
+    "components": [ [ [ "zinc_metal", 80 ] ] ],
     "flags": [ "BLIND_EASY" ]
   },
   {

@@ -30,7 +30,7 @@
     "damage": { "damage_type": "bash", "amount": 20 },
     "casing": "40x46mm_m212_casing",
     "loudness": 80,
-    "extend": { "effects": [ "LARGE_BEANBAG", "NO_PENETRATE_OBSTACLES" ] }
+    "extend": { "effects": [ "LARGE_BEANBAG" ] }
   },
   {
     "id": "40x46mm_m433",

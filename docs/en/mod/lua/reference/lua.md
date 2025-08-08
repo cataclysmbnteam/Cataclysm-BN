@@ -6650,6 +6650,11 @@ Function `()`
 Called right after game has loaded
 Function `()`
 
+#### on_character_reset_stats
+
+Called when character stat gets reset
+Function `()`
+
 #### on_every_x
 
 Called every in-game period

@@ -649,6 +649,7 @@ void character_edit_menu( Character &c )
                 int value;
                 if( query_int( value, _( "Set the stat to?  Currently: %d" ), *bp_ptr ) && value >= 0 ) {
                     *bp_ptr = value;
+                    p.reset_bonuses();
                     p.reset_stats();
                 }
             }
