@@ -453,7 +453,7 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
             here.shoot( source, tp, proj, !no_item_damage && tp == target );
             has_momentum = proj.impact.total_damage() > 0;
         }
-        if( ( !has_momentum || !is_bullet ) && here.impassable( tp ) &&
+        if( !has_momentum && here.impassable( tp ) &&
             !here.has_flag( flag_THIN_OBSTACLE, tp ) ) {
             // Flamethrowers go through bars but not wall
             traj_len = i;

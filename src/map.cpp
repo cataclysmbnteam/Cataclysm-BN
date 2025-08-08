@@ -3953,8 +3953,8 @@ void map::shoot( const tripoint &origin, const tripoint &p, projectile &proj, co
             // Nothing, it's a miss, we're shooting over nearby furniture.
         } else if( proj.has_effect( ammo_effect_NO_PENETRATE_OBSTACLES ) ) {
             // We shot something with a flamethrower or other non-penetrating weapon.
-            // Try to bash the obstacle if it was a thrown rock or the like, then stop the shot.
-            add_msg( _( "The shot is stopped by the %s!" ), furnname( p ) );
+            // Try to bash the obstacle and stop the shot.
+            add_msg( _( "The shot strikes the %s!" ), furnname( p ) );
             if( phys ) {
                 bash( p, dam, false );
             }
@@ -4003,7 +4003,7 @@ void map::shoot( const tripoint &origin, const tripoint &p, projectile &proj, co
         } else if( proj.has_effect( ammo_effect_NO_PENETRATE_OBSTACLES ) ) {
             // We shot something with a flamethrower or other non-penetrating weapon.
             // Try to bash the obstacle if it was a thrown rock or the like, then stop the shot.
-            add_msg( _( "The shot is stopped by the %s!" ), tername( p ) );
+            add_msg( _( "The shot strikes the %s!" ), tername( p ) );
             if( phys ) {
                 bash( p, dam, false );
             }
