@@ -807,8 +807,7 @@
       "type": "transform",
       "msg": "You close the headlamp's cover.",
       "menu_text": "Close cover",
-      "target": "wearable_atomic_light_off",
-      "active": true
+      "target": "wearable_atomic_light_off"
     },
     "covers": [ "head" ],
     "encumbrance": 5,
@@ -828,7 +827,8 @@
       "type": "transform",
       "msg": "You open the headlamp's cover.",
       "menu_text": "Open cover",
-      "target": "wearable_atomic_light"
+      "target": "wearable_atomic_light",
+      "active": true
     }
   },
   {
