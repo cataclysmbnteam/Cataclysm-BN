@@ -2468,8 +2468,12 @@
     "symbol": ",",
     "material": [ "paper" ],
     "volume": "250 ml",
-    "price": "0 cent",
-    "category": "scrap_wood"
+    "//": "1 gram for any given bill, so 20 x 20 = 400",
+    "price": "400 USD",
+    "price_postapoc": "25 cent",
+    "category": "valuables",
+    "stackable": true,
+    "flags": [ "TINDER" ]
   },
   {
     "id": "pouch_autoclave",

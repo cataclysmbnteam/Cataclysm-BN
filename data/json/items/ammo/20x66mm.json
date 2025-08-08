@@ -10,7 +10,7 @@
     "count": 10,
     "damage": { "damage_type": "bash", "amount": 6 },
     "proportional": { "recoil": 0.4, "loudness": 0.6 },
-    "extend": { "effects": [ "LARGE_BEANBAG", "NOGIB", "NO_PENETRATE_OBSTACLES" ] }
+    "extend": { "effects": [ "LARGE_BEANBAG", "NOGIB" ] }
   },
   {
     "id": "20x66_flechette_reloaded",
