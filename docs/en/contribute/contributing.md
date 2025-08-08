@@ -1,432 +1,321 @@
-# Contributing
+# Contributing to Cataclysm: Bright Nights
 
-> [!TIP]
->
-> #### Opening new issue
->
-> Check [how to open a issue](./issues).
+First off, thank you for considering contributing! We're excited to have your help. This project is the result of the hard work of many people, and we appreciate you joining us.
 
-# Want to help?
+This guide is designed to make contributing as easy as possible. We've split it into two sections:
 
-Help is appreciated, especially with:
+-   [**For Newcomers**](#for-newcomers-the-visual-guide): A step-by-step visual guide for those new to Git or contributing to open-source.
+-   [**For Experienced Users**](#for-experienced-users-the-quick-guide): A quick reference for those who are already comfortable with the fork-and-pull-request workflow.
 
-- Reporting bugs. Including ones inherited from DDA.
-- Identifying problems that aren't bugs. Misleading descriptions, values that are clearly off
-  compared to similar cases, grammar mistakes, UI wonkiness that has an obvious solution.
-- Making useless things useful or putting them on a blacklist. Adding deconstruction recipes for
-  things that should have them but don't, replacing completely redundant items with their generic
-  versions (say, "tiny marked bottle" with just "tiny bottle") in spawn lists.
-- Tileset work. I'm occasionally adding new objects, like the new electric grid elements, and they
-  could use new tiles.
-- Balance analysis. Those should be rather in depth or "obviously correct". Obviously correct would
-  be things like: "weapon x has strictly better stats than y, but y requires rarer components and
-  has otherwise identical requirements".
-- Identifying performance bottlenecks with a profiler.
-- Code quality help.
+---
 
-## How-to
+## For Newcomers: The Visual Guide
 
-Contributing to Cataclysm: Bright Nights is easy:
+Welcome! We'll walk you through contributing. The core idea is to work on your own copy (a "fork") and then propose merging your changes back into the main project via a "Pull Request".
 
-1. Fork the repository here on GitHub.
-2. Make your changes.
-3. Send us a pull request.
+### The Big Picture: Remotes and Repositories
 
-> [!NOTE]
->
-> #### License
->
-> Cataclysm: Bright Nights is released under the Creative Commons Attribution ShareAlike 3.0 license.
-> The code and content of the game is free to use, modify, and redistribute for any purpose
-> whatsoever. See http://creativecommons.org/licenses/by-sa/3.0/ for details. This means any
-> contribution you make to the project will also be covered by the same license, and this license is
-> irrevocable.
+Before we start, let's clarify the key terms. You will be interacting with three different locations for the code:
 
-## Guidelines
+*   **`upstream`**: The official Cataclysm: BN repository on GitHub. This is the single source of truth.
+*   **`origin`**: Your personal copy (fork) of the repository on GitHub. You have full write access here.
+*   **`local`**: The repository cloned onto your computer. This is where you will edit files.
 
-There are a couple of guidelines we suggest sticking to:
+The relationship and the typical flow of changes between them looks like this:
 
-- Add this repository as an `upstream` remote.
-- Keep your `main` branch clean. This means you can easily pull changes made to this repository into
-  yours.
-- Create a new branch for each new feature or set of related bug fixes.
-- Never merge from your local branches into your `main` branch. Only update that by pulling from
-  `upstream/main`.
+```mermaid
+flowchart TD
+    subgraph "GitHub (Remote)"
+        Upstream["Cataclysm: BN Project<br><b>(upstream)</b>"]
+        Origin["Your Personal Fork<br><b>(origin)</b>"]
+    end
 
-## Code Style
+    subgraph "Your Computer (Local)"
+        LocalRepo["Your Local Repository<br><i>(main, feature-branch)</i>"]
+    end
 
-### C++
-
-Code style is enforced across the codebase by `astyle`. See
-[CODE_STYLE](./../dev/explanation/code_style.md) for details.
-
-### JSON
-
-JSON files are formatted using custom formatter available in `tools/format`. Visit
-[JSON Style Guide](./../mod/json/explanation/json_style.md) for details.
-
-### Markdown
-
-Markdown files such as `doc/` are formatted using [`deno`](https://deno.com)'s built-in formatter.
-Run [`deno fmt`](https://deno.land/manual/tools/formatter) anywhere to format markdown files. On
-VSCode, you can set following configuration to auto-format markdown files on save:
-
-```json
-// .vscode/settings.json
-{
-  "[markdown]": {
-    "editor.formatOnSave": true,
-    "editor.defaultFormatter": "denoland.vscode-deno"
-  }
-}
+    %% Actions and Commands
+    Upstream-->|1 - You 'Fork' this on the GitHub website|Origin
+    Origin-->|2 - 'git clone' to your computer|LocalRepo
+    LocalRepo-->|4 - 'git push' your changes|Origin
+    Origin-->|5 - Open a 'Pull Request'|Upstream
+    Upstream-->|3 - 'git pull' for updates|LocalRepo
 ```
 
-### Lua
+### Step 1: Setting Up Your Environment (One-Time Only)
 
-Lua files are formatted using [`dprint`](https://dprint.dev)'s built-in formatter. Run
-[`deno task dprint fmt`](https://dprint.dev/plugins/lua) anywhere to format Lua files. For details,
-see [Lua Style Guide](./../mod/lua/explanation/lua_style.md).
+This setup configures your local environment to easily sync with the official project.
+
+1.  **Fork the Repository:**
+    *   Go to the [Cataclysm: BN repository page](https://github.com/cataclysmbnteam/Cataclysm-BN).
+    *   Click the "Fork" button in the top-right corner. This creates your own copy on GitHub (`YourUsername/Cataclysm-BN`).
+
+2.  **Clone Your Fork Locally:**
+    *   Go to *your* forked repository page.
+    *   Click the green "<> Code" button and copy the HTTPS URL.
+    *   Open your terminal and run the following (replace `YOUR_USERNAME`):
+    ```sh
+    # Clones your fork to a new folder named "Cataclysm-BN"
+    git clone https://github.com/YOUR_USERNAME/Cataclysm-BN.git
+
+    # Navigate into the newly created directory
+    cd Cataclysm-BN
+    ```
+
+3.  **Link to the `upstream` Repository:**
+    *   Now, you will tell your local repository where the *original* project is. This is crucial for keeping your copy updated.
+    ```sh
+    # Add the original project as a remote named "upstream"
+    git remote add upstream https://github.com/cataclysmbnteam/Cataclysm-BN.git
+
+    # Verify that both 'origin' and 'upstream' are configured
+    git remote -v
+    # origin    https://github.com/YOUR_USERNAME/Cataclysm-BN.git (fetch)
+    # origin    https://github.com/YOUR_USERNAME/Cataclysm-BN.git (push)
+    # upstream  https://github.com/cataclysmbnteam/Cataclysm-BN.git (fetch)
+    # upstream  https://github.com/cataclysmbnteam/Cataclysm-BN.git (push)
+    ```
+
+4.  **Configure Your `main` Branch:**
+    *   This final, important step sets your local `main` branch to directly track the official project's `main` branch. This simplifies keeping your project up-to-date.
+    ```sh
+    # Fetch the latest info from upstream
+    git fetch upstream
+
+    # Set your local main branch to track upstream's main branch
+    git branch main --set-upstream-to=upstream/main
+    ```
+    Now, when you are on your `main` branch, running `git pull` will automatically get updates from the official project, not from your fork. This is the recommended trunk-based development workflow.
+
+### Step 2: The Contribution Workflow (For Every New Feature)
+
+This is the cycle you'll follow each time you want to make a change.
+
+1.  **Sync Your `main` Branch:**
+    Before starting, make sure your local `main` branch has the latest changes. Thanks to our setup, this is now simple.
+
+    ```sh
+    git checkout main
+    git pull
+    ```
+    Visually, you're ensuring your local `main` matches the `upstream/main`.
+    ```mermaid
+    gitGraph
+       commit id: "Start"
+       branch "upstream/main"
+       checkout "upstream/main"
+       commit id: "Update 1"
+       commit id: "Update 2"
+       checkout main
+       commit id: "You run 'git pull'" type: REVERSE
+       merge "upstream/main" id: "Now you are up to date!"
+    ```
+
+2.  **Create a New Feature Branch:**
+    Never work directly on your `main` branch! Create a new, descriptively named branch for your changes.
+
+    ```sh
+    # The -b flag creates the new branch and immediately switches to it
+    git checkout -b my-awesome-new-feature
+    ```
+    This creates a clean slate for you to work on, branching off from the latest project code.
+    ```mermaid
+    gitGraph
+        commit id: "latest main"
+        branch "my-awesome-feature"
+        checkout "my-awesome-feature"
+        commit id: "Work in Progress"
+        commit id: "More work..."
+    ```
+
+3.  **Make Your Changes and Commit:**
+    *   Edit files, add new files, and fix bugs.
+    *   Once you have a logical chunk of work done, "commit" it with a clear message.
+
+    ```sh
+    git add .
+    git commit -m "feat: Add laser-eyed frogs"
+    ```
+
+4.  **Push Your Branch to `origin` (Your Fork):**
+    Save your work to your fork on GitHub.
+
+    ```sh
+    # Push the 'my-awesome-new-feature' branch to your 'origin' remote
+    git push -u origin my-awesome-new-feature
+    ```
+
+5.  **Open a Pull Request (PR):**
+    *   Go to your fork's page on GitHub (`https://github.com/YOUR_USERNAME/Cataclysm-BN`).
+    *   GitHub will display a banner for your recently pushed branch. Click "Compare & pull request".
+    *   Write a clear title and description. Explain *what* your change does and *why* you made it.
+    *   If your PR is a work-in-progress, please [mark it as a draft](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests#draft-pull-requests).
+
+The team will now be able to review your code and merge it into the project. Thank you for contributing
+
+### The #1 Pitfall: Committing Directly to `main`
+
+**Do not make commits on your `main` branch.** Your `main` branch should only ever track the official `upstream/main`. If you commit to your `main`, it will "diverge" from the official project, making it difficult to pull in future updates.
+
+**This is what happens if you commit to `main`:**
+
+```mermaid
+gitGraph
+    commit id: "A"
+    branch upstream
+    checkout upstream
+    commit id: "B"
+    commit id: "C"
+    checkout main
+    commit id: "My Bad Commit"
+    %% This creates a conflict! Your `main` and `upstream` have different histories.
+```
+
+If you do this by accident, see the FAQ section on how to fix it.
+
+---
+
+## For Experienced Users: The Quick Guide
+
+We assume you're familiar with the fork-and-PR workflow.
+
+1.  **Remotes:**
+    *   `origin` should point to your fork.
+    *   `upstream` should point to `https://github.com/cataclysmbnteam/Cataclysm-BN.git`.
+
+2.  **Workflow:**
+    *   Keep your local `main` branch clean and tracking `upstream/main`.
+    *   Before starting work, sync: `git checkout main && git pull upstream main`.
+    *   Create a feature branch: `git checkout -b my-feature upstream/main`.
+    *   Rebase your feature branch on `upstream/main` as needed to resolve conflicts.
+    *   Submit a PR to `cataclysmbnteam/Cataclysm-BN:main`.
+
+3.  **Pull Request Notes:**
+    *   Mark work-in-progress PRs as drafts.
+    *   To auto-close issues, use keywords in the PR description (e.g., `Fixes #12345`).
+    *   Ensure your code adheres to the style guides. Run formatters before committing.
+
+---
+
+## Code and Content Style Guides
+
+To maintain consistency across the project, we use formatters to enforce style. Please run these before committing your changes.
+
+-   **C++:** Enforced by `astyle`. See [CODE_STYLE](./../dev/explanation/code_style.md).
+-   **JSON:** Use the custom formatter in `tools/format`. See [JSON Style Guide](./../mod/json/explanation/json_style.md).
+-   **Markdown:** Formatted with `deno fmt`.
+-   **Lua:** Formatted with `dprint`. See [Lua Style Guide](./../mod/lua/explanation/lua_style.md).
 
 ## Translations
 
-The translation of Cataclysm: BN is done using Transifex. Look at the
-[translation project](https://app.transifex.com/bn-team/cataclysm-bright-nights/) for an up-to-date
-list of supported languages.
+Translations are managed on Transifex. Please see the [translation project page](https://app.transifex.com/bn-team/cataclysm-bright-nights/) and read the documentation for [translators](./../i18n/tutorial/transifex) and [developers](./../i18n/reference/translation).
 
-For more information:
+## Documentation and Testing
 
-- [For translators](./../i18n/tutorial/transifex)
-- [For developers](./../i18n/reference/translation)
-- [For maintainers](./../i18n/guides/maintain)
+-   **Doxygen:** New C++ code should be documented. See the original guide for templates.
+-   **Unit Tests:** Run the test suite with `make check` after any change to game source to ensure you haven't broken anything.
+-   **In-Game Testing:** Use the debug menu to spawn items, teleport, and set up scenarios to test your changes effectively.
 
-## Documentation
+You're absolutely right. Visualizing the problem and the solution is key to helping newcomers understand Git concepts. Here is the revised FAQ section with ample `gitGraph` diagrams to illustrate the process.
 
-<!--
-![](./img/contributing-doxy1.png)
-![](./img/contributing-doxy2.png)
+---
 
-Autogenerated documentation is hosted on
-[GitHub Pages](https://cataclysmbnteam.github.io/Cataclysm-BN). -->
-
-### Doxygen Comments
-
-Extensive documentation of classes and class members will make the code more readable to new
-contributors. New doxygen comments for existing classes are a welcomed contribution.
-
-Use the following template for commenting classes:
-
-```cpp
-/**
- * Brief description
- *
- * Lengthy description with many words. (optional)
- */
-class foo {
-
-}
-```
-
-Use the following template for commenting functions:
-
-```cpp
-/**
- * Brief description
- *
- * Lengthy description with many words. (optional)
- * @param param1 Description of param1 (optional)
- * @return Description of return (optional)
- */
-int foo(int param1);
-```
-
-Use the following template for commenting member variables:
-
-```cpp
-/** Brief description **/
-int foo;
-```
-
-### Guidelines for adding documentation
-
-- Doxygen comments should describe behavior towards the outside, not implementation, but since many
-  classes in Cataclysm are intertwined, it's often necessary to describe implementation.
-- Describe things that aren't obvious to newcomers just from the name.
-- Don't describe redundantly: `/** Map **/; map* map;` is not a helpful comment.
-- When documenting X, describe how X interacts with other components, not just what X itself does.
-
-### Building the documentation for viewing it locally
-
-- Install doxygen
-- `doxygen doxygen_doc/doxygen_conf.txt`
-- `firefox doxygen_doc/html/index.html` (replace firefox with your browser of choice)
-
-## Example Workflow
-
-### Setup your environment
-
-_(This only needs to be done once.)_
-
-1. Fork this repository here on GitHub.
-
-1. Clone your fork locally.
-
-```sh
-$ git clone https://github.com/YOUR_USERNAME/Cataclysm-BN.git
-# Clones your fork of the repository into the current directory in terminal
-```
-
-3. Set commit message template.
-
-```sh
-$ git config --local commit.template .gitmessage
-```
-
-4. Add this repository as a remote.
-
-```sh
-$ cd Cataclysm-BN
-# Changes the active directory in the prompt to the newly cloned "Cataclysm-BN" directory
-$ git remote add -f upstream https://github.com/cataclysmbnteam/Cataclysm-BN.git
-# Assigns the original repository to a remote called "upstream"
-```
-
-For further details about commit message guidelines please visit:
-
-- [codeinthehole.com](https://codeinthehole.com/tips/a-useful-template-for-commit-messages/)
-- [chris.beams.io](https://chris.beams.io/posts/git-commit/)
-- [help.github.com](https://help.github.com/articles/closing-issues-using-keywords/)
-
-### Update your `main` branch
-
-1. Make sure you have your `main` branch checked out.
-
-```sh
-$ git checkout main
-```
-
-2. Pull the changes from the `upstream/main` branch.
-
-```sh
-$ git pull --ff-only upstream main
-# gets changes from "main" branch on the "upstream" remote
-```
-
-> **Note** If this gives you an error, it means you have committed directly to your local `main`
-> branch.
-> [Click here for instructions on how to fix this issue](#why-does-git-pull---ff-only-result-in-an-error).
-
-### Make your changes
-
-0. Update your `main` branch, if you haven't already.
-
-1. For each new feature or bug fix, create a new branch.
-
-```sh
-$ git branch new_feature
-# Creates a new branch called "new_feature"
-$ git checkout new_feature
-# Makes "new_feature" the active branch
-```
-
-2. Once you've committed some changes locally, you need to push them to your fork here on GitHub.
-
-```sh
-$ git push origin new_feature
-# origin was automatically set to point to your fork when you cloned it
-```
-
-3. Once you're finished working on your branch, and have committed and pushed all your changes,
-   submit a pull request from your `new_feature` branch to this repository's `main` branch.
-
-> **Note** any new commits to the `new_feature` branch on GitHub will automatically be included in
-> the pull request, so make sure to only commit related changes to the same branch.
-
-## Pull Request Notes
-
-If you file a PR but you're still working on it, please mark it as
-[draft](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests#draft-pull-requests).
-This can help speed up our review process by allowing us to only review the things that are ready
-for it, and will prevent anything that isn't completely ready from being merged in.
-
-It is not required to solve or reference an open issue to file a PR, however, if you do so, you need
-to explain the problem your PR is solving in full detail.
-
-### Closing issues using keywords
-
-One more thing: when marking your PR as closing, fixing, or resolving issues, please include this
-somewhere in the description:
-
-```md
-- {keyword} #{issue}
-```
-
-for example: `- fixed #12345`
-
-### keyword
-
-`{keyword}` must be one of the following:
-
-- `close`, `closes`, `closed`
-- `fix`, `fixes`, `fixed`
-- `resolve`, `resolves`, `resolved`
-
-### issue
-
-and `{issue}` is the number of the issue you're closing after PR gets merged.
-
-This would automatically close the issue when the PR is pulled in, and allows merges to work
-slightly faster.
-
-### closing multiple issues at once
-
-```md
-- {keyword} #{issue}, {keyword} #{issue}
-```
-
-See https://help.github.com/articles/closing-issues-using-keywords for more.
-
-## Tooling support
-
-Various tools are available to help you keep your contributions conforming to the appropriate style.
-See [DEVELOPER_TOOLING](./../dev/reference/tooling) for more details.
-
-## Advanced Techniques
-
-These guidelines aren't essential, but they can make keeping things in order much easier.
-
-### Using remote tracking branches
-
-Remote tracking branches allow you to easily stay in touch with this repository's `main` branch, as
-they automatically know which remote branch to get changes from.
-
-```sh
-$ git branch -vv
-* main        xxxx [origin/main] ....
-  new_feature xxxx ....
-```
-
-Here you can see we have two branches; `main` which is tracking `origin/main`, and `new_feature`
-which isn't tracking any branch. In practice, what this means is that git won't know where to get
-changes from.
-
-```sh
-$ git checkout new_feature
-Switched to branch 'new_feature'
-$ git pull
-There is no tracking information for the current branch.
-Please specify which branch you want to merge with.
-```
-
-In order to easily pull changes from `upstream/main` into the `new_feature` branch, we can tell git
-which branch it should track. (You can even do this for your local main branch.)
-
-```sh
-$ git branch -u upstream/main new_feature
-Branch new_feature set up to track remote branch main from upstream.
-$ git pull
-Updating xxxx..xxxx
-....
-```
-
-You can also set the tracking information at the same time as creating the branch.
-
-```sh
-$ git branch new_feature_2 --track upstream/main
-Branch new_feature_2 set up to track remote branch main from upstream.
-```
-
-> **Note**: Although this makes it easier to pull from `upstream/main`, it doesn't change anything
-> with regards to pushing. `git push` fails because you don't have permission to push to
-> `upstream/main`.
-
-```sh
-$ git push
-error: The requested URL returned error: 403 while accessing https://github.com/cataclysmbnteam/Cataclysm-BN.git
-fatal: HTTP request failed
-$ git push origin
-....
-To https://github.com/YOUR_USERNAME/Cataclysm-BN.git
-xxxx..xxxx  new_feature -> new_feature
-```
-
-## Unit tests
-
-There is a suite of tests built into the source tree at tests/ You should run the test suite after
-ANY change to the game source. An ordinary invocation of `make` will build the test executable at
-tests/cata_test, and it can be invoked like any ordinary executable, or via `make check`. With no
-arguments it will run the entire test suite. With `--help` it will print a number of invocation
-options you can use to adjust its operation.
-
-```sh
-$ make
-... compilation details ...
-$ tests/cata_test
-Starting the actual test at Fri Nov  9 04:37:03 2018
-===============================================================================
-All tests passed (1324684 assertions in 94 test cases)
-Ended test at Fri Nov  9 04:37:45 2018
-The test took 41.772 seconds
-```
-
-I recommend habitually invoking make like `make YOUR BUILD OPTIONS && make check`.
-
-## In-game testing, test environment and the debug menu
-
-Whether you are implementing a new feature or whether you are fixing a bug, it is always a good
-practice to test your changes in-game. It can be a hard task to create the exact conditions by
-playing a normal game to be able to test your changes, which is why there is a debug menu. There is
-no default key to bring up the menu so you will need to assign one first.
-
-Bring up the keybindings menu (press `Escape` then `1`), scroll down almost to the bottom and press
-`+` to add a new key binding. Press the letter that corresponds to the _Debug menu_ item, then press
-the key you want to use to bring up the debug menu. To test your changes, create a new world with a
-new character. Once you are in that world, press the key you just assigned for the debug menu and
-you should see something like this:
-
-```
-┌─────────────────────────────────────────────────────┐
-│ Debug Functions - Manipulate the fabric of reality! │
-├─────────────────────────────────────────────────────┤
-│ i Info                                              │
-│ Q Quit to main menu                                 │
-│ s Spawning...                                       │
-│ p Player...                                         │
-│ t Teleport...                                       │
-│ m Map...                                            │
-└─────────────────────────────────────────────────────┘
-```
-
-With these commands, you should be able to recreate the proper conditions to test your changes. The
-[DDA wiki](http://cddawiki.chezzo.com/cdda_wiki/index.php) may have useful informations regarding
-debug menu.
-
-## Frequently Asked Questions
+## FAQ
 
 ### Why does `git pull --ff-only` result in an error?
 
-If `git pull --ff-only` shows an error, it means that you've committed directly to your local `main`
-branch. To fix this, we create a new branch with these commits, find the point at which we diverged
-from `upstream/main`, and then reset `main` to that point.
+This is a very common issue for newcomers! This error means you have made commits directly on your `main` branch, while the official project's `main` branch has also received new commits. Your local `main` and the project's `main` have "diverged," and Git cannot automatically combine them with a simple "fast-forward."
 
-```sh
-$ git pull --ff-only upstream main
-From https://github.com/cataclysmbnteam/Cataclysm-BN
- * branch            main     -> FETCH_HEAD
-fatal: Not possible to fast-forward, aborting.
-$ git branch new_branch main          # mark the current commit with a tmp branch
-$ git merge-base main upstream/main
-cc31d0... # the last commit before we committed directly to main
-$ git reset --hard cc31d0....
-HEAD is now at cc31d0... ...
+**The Problem State:**
+
+Imagine the project's history moves forward with a new commit. At the same time, you accidentally add your own commit directly to your local `main` branch instead of a feature branch. The histories now look like this:
+
+```mermaid
+gitGraph
+    commit id: "Common Ancestor"
+    branch upstream
+    checkout upstream
+    commit id: "Project's New Commit"
+
+    checkout main
+    commit id: "Your Accidental Commit"
+    %% At this point, the branches have diverged.
+    %% A fast-forward pull is impossible because your 'main' isn't an ancestor of 'upstream'.
 ```
 
-Now that `main` has been cleaned up, we can easily pull from `upstream/main`, and then continue
-working on `new_branch`.
+Don't worry, this is easy to fix without losing your work!
+
+---
+
+**The Solution: A Step-by-Step Visual Guide**
+
+We will move your accidental commit to a new branch and then reset your `main` branch to match the official project.
+
+#### Step 1: Safeguard Your Work
+
+First, we create a new branch called `my-saved-work`. This acts as a bookmark for the commit you accidentally made on `main`. Your work is now safe on this new branch.
 
 ```sh
-$ git pull --ff-only upstream main
-# gets changes from the "upstream" remote for the matching branch, in this case "main"
-$ git checkout new_branch
+# This command creates a new branch pointing to your current main
+git branch my-saved-work
 ```
 
-For more frequently asked questions, see the [developer FAQ](./../dev/reference/faq.md).
+Your repository now looks like this. Notice how both `main` and `my-saved-work` point to your commit:
+
+```mermaid
+gitGraph
+    commit id: "Common Ancestor"
+    branch upstream
+    checkout upstream
+    commit id: "Project's New Commit"
+
+    checkout main
+    commit id: "Your Accidental Commit"
+    branch my-saved-work
+    %% Your work is now safely bookmarked
+```
+
+---
+
+#### Step 2: Reset Your `main` Branch
+
+Now we will reset your `main` branch to be identical to the official project's `main` branch (`upstream/main`).
+
+```sh
+# First, make sure you are on the main branch
+git checkout main
+
+# Then, reset it to match the upstream branch.
+# The --hard flag discards any local changes on main.
+git reset --hard upstream/main
+```
+
+Your `main` branch is now clean and exactly matches the project's history. Your work is still safe on the `my-saved-work` branch.
+
+```mermaid
+gitGraph
+    commit id: "Common Ancestor"
+    branch upstream
+    checkout upstream
+    commit id: "Project's New Commit"
+    checkout main
+    merge upstream
+    %% main is now clean and synced with upstream!
+
+    branch my-saved-work
+    checkout my-saved-work
+    commit id: "Your Accidental Commit"
+    %% Your work remains safe on this separate branch.
+```
+
+---
+
+#### Step 3: Continue Your Work
+
+Your `main` branch is now fixed! You can switch to your new, safe branch to continue working on your feature.
+
+```sh
+git checkout my-saved-work
+```
+
+Your repository is now in a healthy state. You have a clean `main` branch for pulling future updates and a separate feature branch (`my-saved-work`) where you can continue your development. From here, you can follow the normal contribution workflow.
