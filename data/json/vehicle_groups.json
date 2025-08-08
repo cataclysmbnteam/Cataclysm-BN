@@ -61,6 +61,7 @@
       [ "icecream_truck", 50 ],
       [ "food_truck", 50 ],
       [ "wienermobile", 5 ],
+      [ "twinkie_van", 5 ],
       [ "tatra_truck", 100 ],
       [ "4x4_car", 400 ],
       [ "whillys_mb", 100 ],
@@ -162,6 +163,7 @@
       [ "surv_car", 2 ],
       [ "car_roadwarrior", 2 ],
       [ "wienermobile", 5 ],
+      [ "twinkie_van", 5 ],
       [ "tatra_truck", 300 ],
       [ "4x4_car", 300 ],
       [ "whillys_mb", 100 ]
@@ -261,6 +263,7 @@
       [ "icecream_truck", 50 ],
       [ "food_truck", 20 ],
       [ "wienermobile", 5 ],
+      [ "twinkie_van", 5 ],
       [ "portable_generator", 50 ],
       [ "4x4_car", 175 ],
       [ "whillys_mb", 25 ],
