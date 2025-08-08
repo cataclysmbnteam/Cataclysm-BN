@@ -1374,19 +1374,13 @@
     "required_str": -1,
     "active": [ "charger", { "power": 15 } ],
     "flags": [ "TRANSPARENT", "EASY_DECONSTRUCT" ],
-    "deconstruct": {
-      "items": [
-        { "item": "battery_charger", "count": 1 }
-      ]
-    },
+    "deconstruct": { "items": [ { "item": "battery_charger", "count": 1 } ] },
     "bash": {
       "str_min": 16,
       "str_max": 40,
       "sound": "metal screeching!",
       "sound_fail": "clang!",
-      "items": [
-        { "item": "battery_charger", "count": 1 }
-      ]
+      "items": [ { "item": "battery_charger", "count": 1 } ]
     }
   },
   {
@@ -1460,19 +1454,13 @@
     "crafting_pseudo_item": "fake_gridwelder",
     "examine_action": "use_furn_fake_item",
     "flags": [ "TRANSPARENT", "MOUNTABLE", "EASY_DECONSTRUCT" ],
-    "deconstruct": {
-      "items": [
-        { "item": "welder", "count": 1 }
-      ]
-    },
+    "deconstruct": { "items": [ { "item": "welder", "count": 1 } ] },
     "bash": {
       "str_min": 4,
       "str_max": 30,
       "sound": "metal screeching!",
       "sound_fail": "clang!",
-      "items": [
-        { "item": "welder", "count": 1 }
-      ]
+      "items": [ { "item": "welder", "count": 1 } ]
     }
   },
   {
@@ -1489,19 +1477,13 @@
     "crafting_pseudo_item": "fake_gridgunkit",
     "examine_action": "use_furn_fake_item",
     "flags": [ "TRANSPARENT", "MOUNTABLE", "EASY_DECONSTRUCT" ],
-    "deconstruct": {
-      "items": [
-        { "item": "large_repairkit", "count": 1 }
-      ]
-    },
+    "deconstruct": { "items": [ { "item": "large_repairkit", "count": 1 } ] },
     "bash": {
       "str_min": 4,
       "str_max": 30,
       "sound": "metal screeching!",
       "sound_fail": "clang!",
-      "items": [
-        { "item": "large_repairkit", "count": 1 }
-      ]
+      "items": [ { "item": "large_repairkit", "count": 1 } ]
     }
   },
   {
@@ -1658,19 +1640,13 @@
     "required_str": -1,
     "crafting_pseudo_item": "fake_griddehydrator",
     "flags": [ "TRANSPARENT", "MOUNTABLE", "EASY_DECONSTRUCT" ],
-    "deconstruct": {
-      "items": [
-        { "item": "dehydrator", "count": 1 }
-      ]
-    },
+    "deconstruct": { "items": [ { "item": "dehydrator", "count": 1 } ] },
     "bash": {
       "str_min": 8,
       "str_max": 16,
       "sound": "crunch!",
       "sound_fail": "whump.",
-      "items": [
-        { "item": "dehydrator", "count": 1 }
-      ]
+      "items": [ { "item": "dehydrator", "count": 1 } ]
     }
   },
   {
@@ -1686,19 +1662,13 @@
     "required_str": -1,
     "crafting_pseudo_item": "fake_gridfood_processor",
     "flags": [ "TRANSPARENT", "MOUNTABLE", "EASY_DECONSTRUCT" ],
-    "deconstruct": {
-      "items": [
-        { "item": "food_processor", "count": 1 }
-      ]
-    },
+    "deconstruct": { "items": [ { "item": "food_processor", "count": 1 } ] },
     "bash": {
       "str_min": 8,
       "str_max": 16,
       "sound": "crunch!",
       "sound_fail": "whump.",
-      "items": [
-        { "item": "food_processor", "count": 1 }
-      ]
+      "items": [ { "item": "food_processor", "count": 1 } ]
     }
   },
   {
@@ -1714,19 +1684,13 @@
     "required_str": -1,
     "crafting_pseudo_item": "fake_gridsoda_machine",
     "flags": [ "TRANSPARENT", "MOUNTABLE", "EASY_DECONSTRUCT" ],
-    "deconstruct": {
-      "items": [
-        { "item": "soda_machine", "count": 1 }
-      ]
-    },
+    "deconstruct": { "items": [ { "item": "soda_machine", "count": 1 } ] },
     "bash": {
       "str_min": 8,
       "str_max": 16,
       "sound": "crunch!",
       "sound_fail": "whump.",
-      "items": [
-        { "item": "soda_machine", "count": 1 }
-      ]
+      "items": [ { "item": "soda_machine", "count": 1 } ]
     }
   },
   {
@@ -1742,19 +1706,13 @@
     "required_str": -1,
     "crafting_pseudo_item": "fake_gridvac_sealer",
     "flags": [ "TRANSPARENT", "MOUNTABLE", "EASY_DECONSTRUCT" ],
-    "deconstruct": {
-      "items": [
-        { "item": "vac_sealer", "count": 1 }
-      ]
-    },
+    "deconstruct": { "items": [ { "item": "vac_sealer", "count": 1 } ] },
     "bash": {
       "str_min": 8,
       "str_max": 16,
       "sound": "crunch!",
       "sound_fail": "whump.",
-      "items": [
-        { "item": "vac_sealer", "count": 1 }
-      ]
+      "items": [ { "item": "vac_sealer", "count": 1 } ]
     }
   },
   {
@@ -1806,19 +1764,13 @@
     "required_str": -1,
     "crafting_pseudo_item": "fake_gridelectrolysis_kit",
     "flags": [ "TRANSPARENT", "MOUNTABLE", "EASY_DECONSTRUCT" ],
-    "deconstruct": {
-      "items": [
-        { "item": "electrolysis_kit", "count": 1 }
-      ]
-    },
+    "deconstruct": { "items": [ { "item": "electrolysis_kit", "count": 1 } ] },
     "bash": {
       "str_min": 8,
       "str_max": 30,
       "sound": "metal screeching!",
       "sound_fail": "clang!",
-      "items": [
-        { "item": "electrolysis_kit", "count": 1 }
-      ]
+      "items": [ { "item": "electrolysis_kit", "count": 1 } ]
     }
   },
   {
@@ -1834,19 +1786,13 @@
     "required_str": -1,
     "crafting_pseudo_item": [ "fake_oven", "fake_chemistry_set" ],
     "flags": [ "TRANSPARENT", "MOUNTABLE", "EASY_DECONSTRUCT" ],
-    "deconstruct": {
-      "items": [
-        { "item": "chemistry_set", "count": 1 }
-      ]
-    },
+    "deconstruct": { "items": [ { "item": "chemistry_set", "count": 1 } ] },
     "bash": {
       "str_min": 8,
       "str_max": 30,
       "sound": "metal screeching!",
       "sound_fail": "clang!",
-      "items": [
-        { "item": "chemistry_set", "count": 1 }
-      ]
+      "items": [ { "item": "chemistry_set", "count": 1 } ]
     }
   },
   {
@@ -1898,19 +1844,13 @@
     "crafting_pseudo_item": "fake_gridsolderingiron",
     "examine_action": "use_furn_fake_item",
     "flags": [ "TRANSPARENT", "MOUNTABLE", "EASY_DECONSTRUCT" ],
-    "deconstruct": {
-      "items": [
-        { "item": "soldering_iron", "count": 1 }
-      ]
-    },
+    "deconstruct": { "items": [ { "item": "soldering_iron", "count": 1 } ] },
     "bash": {
       "str_min": 2,
       "str_max": 10,
       "sound": "metal screeching!",
       "sound_fail": "clang!",
-      "items": [
-        { "item": "soldering_iron", "count": 1 }
-      ]
+      "items": [ { "item": "soldering_iron", "count": 1 } ]
     }
   },
   {
@@ -2441,19 +2381,13 @@
     "move_cost_mod": 2,
     "required_str": -1,
     "flags": [ "TRANSPARENT", "EASY_DECONSTRUCT" ],
-    "deconstruct": {
-      "items": [
-        { "item": "small_space_heater", "count": 1 }
-      ]
-    },
+    "deconstruct": { "items": [ { "item": "small_space_heater", "count": 1 } ] },
     "bash": {
       "str_min": 8,
       "str_max": 30,
       "sound": "metal screeching!",
       "sound_fail": "clang!",
-      "items": [
-        { "item": "small_space_heater", "count": 1 }
-      ]
+      "items": [ { "item": "small_space_heater", "count": 1 } ]
     }
   },
   {
@@ -2524,19 +2458,13 @@
       "charge_watcher",
       { "min_power": 5, "transform": { "id": "f_space_heater_large_on", "msg": "The space heater warms up." } }
     ],
-    "deconstruct": {
-      "items": [
-        { "item": "large_space_heater", "count": 1 }
-      ]
-    },
+    "deconstruct": { "items": [ { "item": "large_space_heater", "count": 1 } ] },
     "bash": {
       "str_min": 8,
       "str_max": 30,
       "sound": "metal screeching!",
       "sound_fail": "clang!",
-      "items": [
-        { "item": "large_space_heater", "count": 1 }
-      ]
+      "items": [ { "item": "large_space_heater", "count": 1 } ]
     }
   },
   {
@@ -2550,19 +2478,13 @@
     "examine_action": "transform",
     "transforms_into": "f_space_heater_large",
     "message": "You turn the heater on.",
-    "deconstruct": {
-      "items": [
-        { "item": "large_space_heater", "count": 1 }
-      ]
-    },
+    "deconstruct": { "items": [ { "item": "large_space_heater", "count": 1 } ] },
     "bash": {
       "str_min": 8,
       "str_max": 30,
       "sound": "metal screeching!",
       "sound_fail": "clang!",
-      "items": [
-        { "item": "large_space_heater", "count": 1 }
-      ]
+      "items": [ { "item": "large_space_heater", "count": 1 } ]
     }
   },
   {
@@ -2589,19 +2511,13 @@
     ],
     "flags": [ "TRANSPARENT", "EASY_DECONSTRUCT", "EMITTER" ],
     "emissions": [ "emit_hot_air2_blast" ],
-    "deconstruct": {
-      "items": [
-        { "item": "large_space_heater", "count": 1 }
-      ]
-    },
+    "deconstruct": { "items": [ { "item": "large_space_heater", "count": 1 } ] },
     "bash": {
       "str_min": 8,
       "str_max": 30,
       "sound": "metal screeching!",
       "sound_fail": "clang!",
-      "items": [
-        { "item": "large_space_heater", "count": 1 }
-      ]
+      "items": [ { "item": "large_space_heater", "count": 1 } ]
     }
   },
   {
@@ -2655,19 +2571,13 @@
     "crafting_pseudo_item": [ "fake_3d_printer" ],
     "examine_action": "use_furn_fake_item",
     "flags": [ "TRANSPARENT", "MOUNTABLE", "EASY_DECONSTRUCT" ],
-    "deconstruct": {
-      "items": [
-        { "item": "3d_printer_basic", "count": 1 }
-      ]
-    },
+    "deconstruct": { "items": [ { "item": "3d_printer_basic", "count": 1 } ] },
     "bash": {
       "str_min": 8,
       "str_max": 30,
       "sound": "metal screeching!",
       "sound_fail": "clang!",
-      "items": [
-        { "item": "3d_printer_basic", "count": 1 }
-      ]
+      "items": [ { "item": "3d_printer_basic", "count": 1 } ]
     }
   },
   {
