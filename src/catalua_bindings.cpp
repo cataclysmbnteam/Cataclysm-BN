@@ -649,6 +649,8 @@ void cata::detail::reg_hooks_examples( sol::state &lua )
     luna::set_fx( lib, "on_game_save", []() {} );
     DOC( "Called right after game has loaded" );
     luna::set_fx( lib, "on_game_load", []() {} );
+    DOC( "Called when character stat gets reset" );
+    luna::set_fx( lib, "on_character_reset_stats", []() {} );
     DOC( "Called every in-game period" );
     luna::set_fx( lib, "on_every_x", []() {} );
     DOC( "Called right after mapgen has completed. "

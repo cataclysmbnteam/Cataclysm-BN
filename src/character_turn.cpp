@@ -3,6 +3,7 @@
 #include "avatar.h"
 #include "bionics.h"
 #include "calendar.h"
+#include "catalua_hooks.h"
 #include "character_effects.h"
 #include "character_functions.h"
 #include "character_stat.h"
@@ -813,6 +814,8 @@ void Character::reset_stats()
 
     recalc_sight_limits();
     recalc_speed_bonus();
+
+    cata::run_hooks( "on_character_reset_stats" );
 }
 
 void Character::environmental_revert_effect()
