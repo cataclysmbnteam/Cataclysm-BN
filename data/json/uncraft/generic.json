@@ -2510,6 +2510,7 @@
     "result": "coin_quarter",
     "type": "uncraft",
     "time": "30 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "//": "5.6 grams of zinc, coin is 6 grams; we don't have nickel so this'll do",
     "components": [ [ [ "zinc_metal", 80 ] ] ],
     "flags": [ "BLIND_EASY" ]
