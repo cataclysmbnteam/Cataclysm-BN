@@ -157,8 +157,6 @@ void Character::recalc_speed_bonus()
         mod_speed_bonus( -20 );
     }
 
-    mod_speed_bonus( get_speedydex_bonus( get_dex() ) );
-
     float speed_modifier = Character::mutation_value( "speed_modifier" );
     mod_speed_mult( speed_modifier - 1 );
 

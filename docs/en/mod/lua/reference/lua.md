@@ -393,6 +393,14 @@ Function `( Character, int )`
 
 Function `( Character, int )`
 
+#### mod_speed_bonus
+
+Function `( Character, int )`
+
+#### set_speed_bonus
+
+Function `( Character, int )`
+
 #### get_healthy
 
 Function `( Character ) -> double`
