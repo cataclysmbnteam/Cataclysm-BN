@@ -242,9 +242,8 @@ void cata::detail::reg_item( sol::state &lua )
 
         luna::set_fx( ut, "get_type", &item::typeId );
         DOC( "Almost for a corpse." );
-        luna::set_fx( ut, "get_mtype", []( const item & it ) {
-            return it.get_mtype() ? it.get_mtype()->id : mtype_id::NULL_ID();
-        } );
+        luna::set_fx( ut, "get_mtype",
+        []( const item & it ) { return it.get_mtype() ? it.get_mtype()->id : mtype_id::NULL_ID(); } );
 
         DOC( "Translated item name with prefixes" );
         luna::set_fx( ut, "tname", &item::tname );
@@ -324,9 +323,7 @@ void cata::detail::reg_item( sol::state &lua )
         luna::set_fx( ut, "is_soft", &item::is_soft );
         luna::set_fx( ut, "is_reloadable", &item::is_reloadable );
         DOC( "DEPRECATED: Items are no longer filthy" );
-        luna::set_fx( ut, "is_filthy", []() {
-            return false;
-        } );
+        luna::set_fx( ut, "is_filthy", []() { return false; } );
         luna::set_fx( ut, "is_active", &item::is_active );
         luna::set_fx( ut, "is_upgrade", &item::is_upgrade );
 
@@ -358,15 +355,9 @@ void cata::detail::reg_item( sol::state &lua )
         luna::set_fx( ut, "is_made_of",
                       sol::resolve < auto( const material_id & ) const -> bool > ( &item::made_of ) );
 
-        luna::set_fx( ut, "get_kcal", []( item & it ) -> int {
-            return it.is_comestible() ? it.get_comestible()->default_nutrition.kcal : 0;
-        } );
-        luna::set_fx( ut, "get_quench", []( item & it ) -> int {
-            return it.is_comestible() ? it.get_comestible()->quench : 0;
-        } );
-        luna::set_fx( ut, "get_comestible_fun", []( item & it ) -> int {
-            return it.get_comestible_fun();
-        } );
+        luna::set_fx( ut, "get_kcal", []( item & it ) -> int { return it.is_comestible() ? it.get_comestible()->default_nutrition.kcal : 0; } );
+        luna::set_fx( ut, "get_quench", []( item & it ) -> int { return it.is_comestible() ? it.get_comestible()->quench : 0; } );
+        luna::set_fx( ut, "get_comestible_fun", []( item & it ) -> int { return it.get_comestible_fun(); } );
         DOC( "Gets the TimeDuration until this item rots" );
         luna::set_fx( ut, "get_rot", &item::get_rot );
 
@@ -534,16 +525,10 @@ void cata::detail::reg_debug_api( sol::state &lua )
     luna::set_fx( lib, "log_warn", &lua_log_warn_impl );
     luna::set_fx( lib, "log_error", &lua_log_error_impl );
     luna::set_fx( lib, "debugmsg", &lua_debugmsg_impl );
-    luna::set_fx( lib, "clear_lua_log", []() {
-        cata::get_lua_log_instance().clear();
-    } );
-    luna::set_fx( lib, "set_log_capacity", []( int v ) {
-        cata::get_lua_log_instance().set_log_capacity( v );
-    } );
+    luna::set_fx( lib, "clear_lua_log", []() { cata::get_lua_log_instance().clear(); } );
+    luna::set_fx( lib, "set_log_capacity", []( int v ) { cata::get_lua_log_instance().set_log_capacity( v ); } );
     luna::set_fx( lib, "reload_lua_code", &cata::reload_lua_code );
-    luna::set_fx( lib, "save_game", []() -> bool {
-        return g->save( false );
-    } );
+    luna::set_fx( lib, "save_game", []() -> bool { return g->save( false ); } );
 
     luna::finalize_lib( lib );
 }
@@ -677,24 +662,16 @@ void cata::detail::reg_time_types( sol::state &lua )
         luna::set_fx( ut, "from_turn", &time_point::from_turn );
 
         // Methods
-        luna::set_fx( ut, "to_turn", []( const time_point & tp ) -> int {
-            return to_turn<int>( tp );
-        } );
+        luna::set_fx( ut, "to_turn", []( const time_point & tp ) -> int { return to_turn<int>( tp ); } );
 
         luna::set_fx( ut, "is_night", &is_night );
         luna::set_fx( ut, "is_day", &is_day );
         luna::set_fx( ut, "is_dusk", &is_dusk );
         luna::set_fx( ut, "is_dawn", &is_dawn );
 
-        luna::set_fx( ut, "second_of_minute", []( const time_point & tp ) -> int {
-            return to_turn<int>( tp ) % 60;
-        } );
-        luna::set_fx( ut, "minute_of_hour", []( const time_point & tp ) -> int {
-            return minute_of_hour<int>( tp );
-        } );
-        luna::set_fx( ut, "hour_of_day", []( const time_point & tp ) -> int {
-            return hour_of_day<int>( tp );
-        } );
+        luna::set_fx( ut, "second_of_minute", []( const time_point & tp ) -> int { return to_turn<int>( tp ) % 60; } );
+        luna::set_fx( ut, "minute_of_hour", []( const time_point & tp ) -> int { return minute_of_hour<int>( tp ); } );
+        luna::set_fx( ut, "hour_of_day", []( const time_point & tp ) -> int { return hour_of_day<int>( tp ); } );
 
         // (De-)Serialization
         reg_serde_functions( ut );
@@ -708,30 +685,19 @@ void cata::detail::reg_time_types( sol::state &lua )
 
         // Equality operator
         // It's defined as inline friend function inside point class, we can't access it and so have to improvise
-        luna::set_fx( ut, sol::meta_function::equal_to, []( const time_point & a, const time_point & b ) {
-            return a == b;
-        } );
+        luna::set_fx( ut, sol::meta_function::equal_to, []( const time_point & a, const time_point & b ) { return a == b; } );
 
         // Less-then operator
         // Same deal as with equality operator
-        luna::set_fx( ut, sol::meta_function::less_than, []( const time_point & a, const time_point & b ) {
-            return a < b;
-        } );
+        luna::set_fx( ut, sol::meta_function::less_than, []( const time_point & a, const time_point & b ) { return a < b; } );
 
         // Arithmetic operators
         luna::set_fx( ut, sol::meta_function::addition,
-        []( const time_point & a, const time_duration & b ) -> time_point {
-            return a + b;
-        }
-                    );
+                      []( const time_point & a, const time_duration & b ) -> time_point { return a + b; } );
         luna::set_fx( ut, sol::meta_function::subtraction,
                       sol::overload(
-        []( const time_point & a, const time_point & b ) -> time_duration {
-            return a - b;
-        },
-        []( const time_point & a, const time_duration & b ) -> time_point {
-            return a - b;
-        }
+                          []( const time_point & a, const time_point & b ) -> time_duration { return a - b; },
+                          []( const time_point & a, const time_duration & b ) -> time_point { return a - b; }
                       ) );
     }
     {
@@ -744,47 +710,21 @@ void cata::detail::reg_time_types( sol::state &lua )
             );
 
         // Constructor methods
-        luna::set_fx( ut, "from_turns", []( int t ) {
-            return time_duration::from_turns( t );
-        } );
-        luna::set_fx( ut, "from_seconds", []( int t ) {
-            return time_duration::from_seconds( t );
-        } );
-        luna::set_fx( ut, "from_minutes", []( int t ) {
-            return time_duration::from_minutes( t );
-        } );
-        luna::set_fx( ut, "from_hours", []( int t ) {
-            return time_duration::from_hours( t );
-        } );
-        luna::set_fx( ut, "from_days", []( int t ) {
-            return time_duration::from_days( t );
-        } );
-        luna::set_fx( ut, "from_weeks", []( int t ) {
-            return time_duration::from_weeks( t );
-        } );
+        luna::set_fx( ut, "from_turns", []( int t ) { return time_duration::from_turns( t ); } );
+        luna::set_fx( ut, "from_seconds", []( int t ) { return time_duration::from_seconds( t ); } );
+        luna::set_fx( ut, "from_minutes", []( int t ) { return time_duration::from_minutes( t ); } );
+        luna::set_fx( ut, "from_hours", []( int t ) { return time_duration::from_hours( t ); } );
+        luna::set_fx( ut, "from_days", []( int t ) { return time_duration::from_days( t ); } );
+        luna::set_fx( ut, "from_weeks", []( int t ) { return time_duration::from_weeks( t ); } );
 
-        luna::set_fx( ut, "make_random", []( const time_duration & lo, const time_duration & hi ) {
-            return rng( lo, hi );
-        } );
+        luna::set_fx( ut, "make_random", []( const time_duration & lo, const time_duration & hi ) { return rng( lo, hi ); } );
 
-        luna::set_fx( ut, "to_turns", []( const time_duration & t ) -> int {
-            return to_turns<int>( t );
-        } );
-        luna::set_fx( ut, "to_seconds", []( const time_duration & t ) -> int {
-            return to_seconds<int>( t );
-        } );
-        luna::set_fx( ut, "to_minutes", []( const time_duration & t ) -> int {
-            return to_minutes<int>( t );
-        } );
-        luna::set_fx( ut, "to_hours", []( const time_duration & t ) -> int {
-            return to_hours<int>( t );
-        } );
-        luna::set_fx( ut, "to_days", []( const time_duration & t ) -> int {
-            return to_days<int>( t );
-        } );
-        luna::set_fx( ut, "to_weeks", []( const time_duration & t ) -> int {
-            return to_weeks<int>( t );
-        } );
+        luna::set_fx( ut, "to_turns", []( const time_duration & t ) -> int { return to_turns<int>( t ); } );
+        luna::set_fx( ut, "to_seconds", []( const time_duration & t ) -> int { return to_seconds<int>( t ); } );
+        luna::set_fx( ut, "to_minutes", []( const time_duration & t ) -> int { return to_minutes<int>( t ); } );
+        luna::set_fx( ut, "to_hours", []( const time_duration & t ) -> int { return to_hours<int>( t ); } );
+        luna::set_fx( ut, "to_days", []( const time_duration & t ) -> int { return to_days<int>( t ); } );
+        luna::set_fx( ut, "to_weeks", []( const time_duration & t ) -> int { return to_weeks<int>( t ); } );
 
         // (De-)Serialization
         reg_serde_functions( ut );
@@ -794,23 +734,13 @@ void cata::detail::reg_time_types( sol::state &lua )
         luna::set_fx( ut, sol::meta_function::to_string,
                       sol::resolve<std::string( const time_duration & )>( to_string ) );
 
-        luna::set_fx( ut, sol::meta_function::addition, []( const time_duration & a,
-        const time_duration & b ) {
-            return a + b;
-        } );
-        luna::set_fx( ut, sol::meta_function::subtraction, []( const time_duration & a,
-        const time_duration & b ) {
-            return a - b;
-        } );
-        luna::set_fx( ut, sol::meta_function::multiplication, []( const time_duration & a, int b ) {
-            return a * b;
-        } );
-        luna::set_fx( ut, sol::meta_function::division, []( const time_duration & a, int b ) {
-            return a / b;
-        } );
-        luna::set_fx( ut, sol::meta_function::unary_minus, []( const time_duration & a ) {
-            return -a;
-        } );
+        luna::set_fx( ut, sol::meta_function::addition,
+        []( const time_duration & a, const time_duration & b ) { return a + b; } );
+        luna::set_fx( ut, sol::meta_function::subtraction,
+        []( const time_duration & a, const time_duration & b ) { return a - b; } );
+        luna::set_fx( ut, sol::meta_function::multiplication, []( const time_duration & a, int b ) { return a * b; } );
+        luna::set_fx( ut, sol::meta_function::division, []( const time_duration & a, int b ) { return a / b; } );
+        luna::set_fx( ut, sol::meta_function::unary_minus, []( const time_duration & a ) { return -a; } );
     }
 }
 
@@ -820,12 +750,8 @@ void cata::detail::reg_testing_library( sol::state &lua )
     luna::userlib lib = luna::begin_lib( lua, "tests_lib" );
 
     // Regression test for https://github.com/ThePhD/sol2/issues/1444
-    luna::set_fx( lib, "my_awesome_lambda_1", []() -> int {
-        return 1;
-    } );
-    luna::set_fx( lib, "my_awesome_lambda_2", []() -> int {
-        return 2;
-    } );
+    luna::set_fx( lib, "my_awesome_lambda_1", []() -> int { return 1; } );
+    luna::set_fx( lib, "my_awesome_lambda_2", []() -> int { return 2; } );
 
     luna::finalize_lib( lib );
 }

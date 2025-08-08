@@ -40,15 +40,11 @@ void cata::detail::reg_point_tripoint( sol::state &lua )
 
         // Equality operator
         // It's defined as inline friend function inside point class, we can't access it and so have to improvise
-        luna::set_fx( ut, sol::meta_function::equal_to, []( const point & a, const point & b ) {
-            return a == b;
-        } );
+        luna::set_fx( ut, sol::meta_function::equal_to, []( const point & a, const point & b ) { return a == b; } );
 
         // Less-then operator
         // Same deal as with equality operator
-        luna::set_fx( ut, sol::meta_function::less_than, []( const point & a, const point & b ) {
-            return a < b;
-        } );
+        luna::set_fx( ut, sol::meta_function::less_than, []( const point & a, const point & b ) { return a < b; } );
 
         // Arithmetic operators
         // point + point
@@ -102,15 +98,11 @@ void cata::detail::reg_point_tripoint( sol::state &lua )
 
         // Equality operator
         // It's defined as inline friend function inside point class, we can't access it and so have to improvise
-        luna::set_fx( ut, sol::meta_function::equal_to, []( const tripoint & a, const tripoint & b ) {
-            return a == b;
-        } );
+        luna::set_fx( ut, sol::meta_function::equal_to, []( const tripoint & a, const tripoint & b ) { return a == b; } );
 
         // Less-then operator
         // Same deal as with equality operator
-        luna::set_fx( ut, sol::meta_function::less_than, []( const tripoint & a, const tripoint & b ) {
-            return a < b;
-        } );
+        luna::set_fx( ut, sol::meta_function::less_than, []( const tripoint & a, const tripoint & b ) { return a < b; } );
 
         // Arithmetic operators
         // tripoint + tripoint (overload 1)
