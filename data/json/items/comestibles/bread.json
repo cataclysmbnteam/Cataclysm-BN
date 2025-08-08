@@ -311,6 +311,7 @@
     "name": { "str": "biscuit" },
     "weight": "30 g",
     "color": "brown",
+    "spoils_in": "7 days 12 hours",
     "container": "box_small",
     "comestible_type": "FOOD",
     "symbol": "%",
