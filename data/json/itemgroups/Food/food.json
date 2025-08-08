@@ -573,9 +573,7 @@
     "type": "item_group",
     "id": "twinkie_van",
     "subtype": "distribution",
-    "entries": [
-      { "item": "twinkie", "count": [ 15, 60 ], "prob": 100 }
-    ]
+    "entries": [ { "item": "twinkie", "count": [ 15, 60 ], "prob": 100 } ]
   },
   {
     "type": "item_group",
