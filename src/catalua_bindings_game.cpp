@@ -70,50 +70,28 @@ void cata::detail::reg_game_api( sol::state &lua )
 
     luna::set_fx( lib, "get_creature_at", []( const tripoint & p,
     sol::optional<bool> allow_hallucination ) -> Creature * {
-        if( allow_hallucination.has_value() )
-        {
-            return g->critter_at<Creature>( p, *allow_hallucination );
-        }
-        return g->critter_at<Creature>( p );
+        return g->critter_at<Creature>( p, allow_hallucination.value_or( false ) );
     } );
     luna::set_fx( lib, "get_monster_at", []( const tripoint & p,
     sol::optional<bool> allow_hallucination ) -> monster * {
-        if( allow_hallucination.has_value() )
-        {
-            return g->critter_at<monster>( p, *allow_hallucination );
-        }
-        return g->critter_at<monster>( p );
+        return g->critter_at<monster>( p, allow_hallucination.value_or( false ) );
     } );
     luna::set_fx( lib, "place_monster_at", []( const mtype_id & id, const tripoint & p ) {
         return g->place_critter_at( id, p );
     } );
     luna::set_fx( lib, "get_character_at", []( const tripoint & p,
     sol::optional<bool> allow_hallucination ) -> Character * {
-        if( allow_hallucination.has_value() )
-        {
-            return g->critter_at<Character>( p, *allow_hallucination );
-        }
-        return g->critter_at<Character>( p );
+        return g->critter_at<Character>( p, allow_hallucination.value_or( false ) );
     } );
     luna::set_fx( lib, "get_npc_at", []( const tripoint & p,
     sol::optional<bool> allow_hallucination ) -> npc * {
-        if( allow_hallucination.has_value() )
-        {
-            return g->critter_at<npc>( p, *allow_hallucination );
-        }
-        return g->critter_at<npc>( p );
+        return g->critter_at<npc>( p, allow_hallucination.value_or( false ) );
     } );
 
     luna::set_fx( lib, "choose_adjacent", []( const std::string & message,
     sol::optional<bool> allow_vertical ) -> sol::optional<tripoint> {
-        std::optional<tripoint> stdOpt;
-        if( allow_vertical.has_value() )
-        {
-            stdOpt = choose_adjacent( message, *allow_vertical );
-        } else
-        {
-            stdOpt = choose_adjacent( message );
-        }
+        std::optional<tripoint> stdOpt = choose_adjacent( message, allow_vertical.value_or( false ) );
+
         if( stdOpt.has_value() )
         {
             return sol::optional<tripoint>( *stdOpt );
@@ -122,14 +100,8 @@ void cata::detail::reg_game_api( sol::state &lua )
     } );
     luna::set_fx( lib, "choose_direction", []( const std::string & message,
     sol::optional<bool> allow_vertical ) -> sol::optional<tripoint> {
-        std::optional<tripoint> stdOpt;
-        if( allow_vertical.has_value() )
-        {
-            stdOpt = choose_direction( message, *allow_vertical );
-        } else
-        {
-            stdOpt = choose_direction( message );
-        }
+        std::optional<tripoint> stdOpt = choose_direction( message, allow_vertical.value_or( false ) );
+
         if( stdOpt.has_value() )
         {
             return sol::optional<tripoint>( *stdOpt );
