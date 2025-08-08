@@ -428,9 +428,9 @@
     ]
   },
   {
-    "id": "twinkie_van",
+    "id": "blinkie_van",
     "type": "vehicle",
-    "name": "Twinkie Van",
+    "name": "Blinkie Van",
     "blueprint": [
       [ "     o " ],
       [ "O----+-O" ],
@@ -564,12 +564,12 @@
       { "x": -5, "y": 3, "part": "roof" }
     ],
     "items": [
-      { "x": -2, "y": 0, "chance": 100, "item_groups": [ "twinkie_van" ] },
-      { "x": -3, "y": 0, "chance": 100, "item_groups": [ "twinkie_van" ] },
-      { "x": -4, "y": 0, "chance": 100, "item_groups": [ "twinkie_van" ] },
-      { "x": -2, "y": 2, "chance": 100, "item_groups": [ "twinkie_van" ] },
-      { "x": -3, "y": 2, "chance": 100, "item_groups": [ "twinkie_van" ] },
-      { "x": -4, "y": 2, "chance": 100, "item_groups": [ "twinkie_van" ] }
+      { "x": -2, "y": 0, "chance": 100, "item_groups": [ "blinkie_van" ] },
+      { "x": -3, "y": 0, "chance": 100, "item_groups": [ "blinkie_van" ] },
+      { "x": -4, "y": 0, "chance": 100, "item_groups": [ "blinkie_van" ] },
+      { "x": -2, "y": 2, "chance": 100, "item_groups": [ "blinkie_van" ] },
+      { "x": -3, "y": 2, "chance": 100, "item_groups": [ "blinkie_van" ] },
+      { "x": -4, "y": 2, "chance": 100, "item_groups": [ "blinkie_van" ] }
     ]
   },
   {

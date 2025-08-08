@@ -465,7 +465,7 @@
   },
   {
     "type": "recipe",
-    "result": "fried_twinkie",
+    "result": "fried_blinkie",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_BREAD",
     "skill_used": "cooking",
@@ -477,7 +477,7 @@
     "qualities": [ { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
     "components": [
-      [ [ "twinkie", 1 ] ],
+      [ [ "blinkie", 1 ] ],
       [ [ "milk_standard_raw", 1, "LIST" ], [ "milk_powder", 1 ] ],
       [ [ "eggs_small_dry", 1, "LIST" ] ],
       [ [ "flour", 1 ] ],

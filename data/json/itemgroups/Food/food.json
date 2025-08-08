@@ -487,7 +487,7 @@
       { "item": "fruit_leather", "prob": 25 },
       { "item": "kernels", "prob": 25 },
       { "item": "pine_nuts", "prob": 5 },
-      { "item": "twinkie", "prob": 5 }
+      { "item": "blinkie", "prob": 5 }
     ]
   },
   {
@@ -566,14 +566,14 @@
       { "item": "pie_maple", "prob": 9 },
       { "group": "dessert", "prob": 20 },
       { "item": "bibimbap", "prob": 4 },
-      { "item": "fried_twinkie", "prob": 1 }
+      { "item": "fried_blinkie", "prob": 1 }
     ]
   },
   {
     "type": "item_group",
-    "id": "twinkie_van",
+    "id": "blinkie_van",
     "subtype": "distribution",
-    "entries": [ { "item": "twinkie", "count": [ 15, 60 ], "prob": 100 } ]
+    "entries": [ { "item": "blinkie", "count": [ 15, 60 ], "prob": 100 } ]
   },
   {
     "type": "item_group",
