@@ -239,7 +239,7 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
     const bool null_source = proj.has_effect( ammo_effect_NULL_SOURCE );
     // Determines whether it can penetrate obstacles
     const bool is_bullet = proj_arg.speed >= 200 &&
-                           !proj.has_effect( ammo_effect_NO_PENETRATE_OBSTACLES );;
+                           !proj.has_effect( ammo_effect_NO_PENETRATE_OBSTACLES );
 
     // If we were targetting a tile rather than a monster, don't overshoot
     // Unless the target was a wall, then we are aiming high enough to overshoot
