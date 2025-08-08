@@ -53,30 +53,6 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "lake_bed_hot_spring" ],
-    "name": "hot spring",
-    "sym": "h",
-    "color": "red",
-    "see_cost": 1
-  },
-  {
-    "type": "overmap_terrain",
-    "id": [ "lake_bed_toxic_dump" ],
-    "name": "underwater toxic waste dump",
-    "sym": "D",
-    "color": "green",
-    "see_cost": 1
-  },
-  {
-    "type": "overmap_terrain",
-    "id": [ "lake_bed_safes" ],
-    "name": "dumped vault safes",
-    "sym": "S",
-    "color": "blue",
-    "see_cost": 1
-  },
-  {
-    "type": "overmap_terrain",
     "id": [ "lake_bed_lab_entrance_roof" ],
     "name": "lake bed (submerged)",
     "sym": "#",

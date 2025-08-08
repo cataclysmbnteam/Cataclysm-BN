@@ -5789,33 +5789,6 @@
   },
   {
     "type": "overmap_special",
-    "id": "lake_bed_hot_spring",
-    "overmaps": [ { "point": [ 0, 0, -5 ], "overmap": "lake_bed_hot_spring_north", "locations": [ "lake_bed" ] } ],
-    "locations": [ "lake_surface" ],
-    "occurrences": [ 0, 5 ],
-    "city_distance": [ 20, -1 ],
-    "flags": [ "LAKE" ]
-  },
-  {
-    "type": "overmap_special",
-    "id": "lake_bed_toxic_dump",
-    "overmaps": [ { "point": [ 0, 0, -5 ], "overmap": "lake_bed_toxic_dump_north", "locations": [ "lake_bed" ] } ],
-    "locations": [ "lake_surface" ],
-    "occurrences": [ 0, 5 ],
-    "city_distance": [ 20, -1 ],
-    "flags": [ "LAKE" ]
-  },
-  {
-    "type": "overmap_special",
-    "id": "lake_bed_safes",
-    "overmaps": [ { "point": [ 0, 0, -5 ], "overmap": "lake_bed_safes_north", "locations": [ "lake_bed" ] } ],
-    "locations": [ "lake_surface" ],
-    "occurrences": [ 0, 5 ],
-    "city_distance": [ 20, -1 ],
-    "flags": [ "LAKE" ]
-  },
-  {
-    "type": "overmap_special",
     "id": "Occupied Chem Lab",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "chemical_lab_ocu_north" },
