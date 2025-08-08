@@ -56,7 +56,7 @@ TEST_CASE( "projectiles_through_obstacles", "[projectile]" )
     }
 
     // Set an obstacle in the way, a wooden wall
-    here.ter_set( range[1], ter_id( "t_wall_wood" ) );
+    here.ter_set( range[1], ter_id( "t_rock" ) );
 
     // Create a gun to fire a projectile from
     detached_ptr<item> gun = item::spawn( itype_id( "m1a" ) );
