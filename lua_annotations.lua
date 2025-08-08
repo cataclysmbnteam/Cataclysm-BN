@@ -1721,6 +1721,7 @@ gdebug = {}
 
 --- Documentation for hooks
 ---@class hooks
+---@field on_character_reset_stats fun() @Called when character stat gets reset
 ---@field on_every_x fun() @Called every in-game period
 ---@field on_game_load fun() @Called right after game has loaded
 ---@field on_game_save fun() @Called when game is about to save

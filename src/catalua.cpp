@@ -8,6 +8,7 @@ constexpr int LUA_API_VERSION = 2;
 
 #include "avatar.h"
 #include "catalua_console.h"
+#include "catalua_hooks.h"
 #include "catalua_impl.h"
 #include "catalua_iuse_actor.h"
 #include "catalua_readonly.h"
@@ -206,9 +207,7 @@ void init_global_state_tables( lua_state &state, const std::vector<mod_id> &modl
     gt["iuse_functions"] = lua.create_table();
 
     // hooks
-    hooks["on_game_load"] = lua.create_table();
-    hooks["on_game_save"] = lua.create_table();
-    hooks["on_mapgen_postprocess"] = lua.create_table();
+    cata::define_hooks( state );
 }
 
 void set_mod_being_loaded( lua_state &state, const mod_id &mod )
@@ -265,7 +264,7 @@ void run_mod_main_script( lua_state &state, const mod_id &mod )
 }
 
 template<typename... Args>
-void run_hooks( lua_state &state, std::string_view hooks_table, Args &&...args )
+static void run_hooks_impl( lua_state &state, std::string_view hooks_table, Args &&...args )
 {
     sol::state &lua = state.lua;
     sol::table hooks = lua.globals()["game"]["hooks"][hooks_table];
@@ -281,6 +280,11 @@ void run_hooks( lua_state &state, std::string_view hooks_table, Args &&...args )
             break;
         }
     }
+}
+
+void run_hooks( std::string_view hooks_table )
+{
+    run_hooks_impl( *DynamicDataLoader::get_instance().lua, hooks_table );
 }
 
 void reg_lua_iuse_actors( lua_state &state, Item_factory &ifactory )
@@ -349,18 +353,18 @@ void lua_state_deleter::operator()( lua_state *state ) const
 
 void run_on_game_save_hooks( lua_state &state )
 {
-    run_hooks( state, "on_game_save" );
+    run_hooks_impl( state, "on_game_save" );
 }
 
 void run_on_game_load_hooks( lua_state &state )
 {
-    run_hooks( state, "on_game_load" );
+    run_hooks_impl( state, "on_game_load" );
 }
 
 void run_on_mapgen_postprocess_hooks( lua_state &state, map &m, const tripoint &p,
                                       const time_point &when )
 {
-    run_hooks( state, "on_mapgen_postprocess", m, p, when );
+    run_hooks_impl( state, "on_mapgen_postprocess", m, p, when );
 }
 
 } // namespace cata
