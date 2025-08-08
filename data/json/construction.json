@@ -1234,6 +1234,7 @@
     "required_skills": [ [ "fabrication", 3 ] ],
     "time": "45 m",
     "components": [ [ [ "log", 2 ] ], [ [ "wood_structural_small", 3, "LIST" ] ] ],
+    "pre_special": "check_empty",
     "post_terrain": "t_wall_log_half"
   },
   {
