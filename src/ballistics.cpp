@@ -238,12 +238,9 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
     const bool do_draw_line = proj.has_effect( ammo_effect_DRAW_AS_LINE ) ||
                               get_option<bool>( "BULLETS_AS_LASERS" );
     const bool null_source = proj.has_effect( ammo_effect_NULL_SOURCE );
-    // Projectiles that deal bashing damage, thrown items, or items explicitly flagged won't penetrate
-    const bool non_penetrating = proj.impact.type_damage( DT_BASH ) > 0 ||
-                                 proj.has_effect( ammo_effect_THROWN ) || proj.has_effect( ammo_effect_NO_PENETRATE_OBSTACLES );
     // Determines whether it can penetrate obstacles
     const bool is_bullet = proj_arg.speed >= 200 &&
-                           !non_penetrating;
+                           !ammo_effect_NO_PENETRATE_OBSTACLES;
 
     // If we were targetting a tile rather than a monster, don't overshoot
     // Unless the target was a wall, then we are aiming high enough to overshoot
@@ -457,7 +454,7 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
             here.shoot( source, tp, proj, !no_item_damage && tp == target );
             has_momentum = proj.impact.total_damage() > 0;
         }
-        if( ( !has_momentum || !is_bullet ) && here.impassable( tp ) &&
+        if( !has_momentum && here.impassable( tp ) &&
             !here.has_flag( flag_THIN_OBSTACLE, tp ) ) {
             // Flamethrowers go through bars but not wall
             traj_len = i;
