@@ -707,9 +707,9 @@ void Character::reset_stats()
     }
 
     // Dodge-related effects
-    mod_dodge_bonus( mabuff_dodge_bonus() -
-                     ( encumb( body_part_leg_l ) + encumb( body_part_leg_r ) ) / 20.0f - encumb(
-                         body_part_torso ) / 10.0f );
+    mod_dodge_bonus( mabuff_dodge_bonus()
+                     - ( ( encumb( body_part_leg_l ) + encumb( body_part_leg_r ) ) / 20.0f )
+                     - ( encumb( body_part_torso ) / 10.0f ) );
     // Whiskers don't work so well if they're covered
     if( has_trait( trait_WHISKERS ) && !wearing_something_on( bodypart_id( "mouth" ) ) ) {
         mod_dodge_bonus( 1.5 );
@@ -799,18 +799,10 @@ void Character::reset_stats()
     int_cur = int_max + get_int_bonus();
 
     // Floor for our stats.  No stat changes should occur after this!
-    if( dex_cur < 0 ) {
-        dex_cur = 0;
-    }
-    if( str_cur < 0 ) {
-        str_cur = 0;
-    }
-    if( per_cur < 0 ) {
-        per_cur = 0;
-    }
-    if( int_cur < 0 ) {
-        int_cur = 0;
-    }
+    dex_cur = std::max( dex_cur, 0 );
+    str_cur = std::max( str_cur, 0 );
+    per_cur = std::max( per_cur, 0 );
+    int_cur = std::max( int_cur, 0 );
 
     recalc_sight_limits();
     recalc_speed_bonus();
