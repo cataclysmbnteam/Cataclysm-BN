@@ -134,13 +134,15 @@ details.
 Most of necessary data and game runtime state is available through global `game` table. It has the
 following members:
 
-game.current_mod Id of mod that's being loaded (available only when script is executed)
-game.active_mods List of active world mods, in load order game.mod_runtime.<mod_id> Runtime data for
-mods (each mod gets its own table named after its id) game.mod_storage.<mod_id> Per-mod storage that
-gets automatically saved/loaded on game save/load. game.cata_internal For internal game purposes,
-please don't use this game.hooks.<hook_id> Hooks exposed to Lua scripts, will be called on
-corresponding events game.iuse.<iuse_id> Item use functions that will be recognized by the item
-factory and called on item use
+| Variable                    | Description                                                                           |
+| --------------------------- | ------------------------------------------------------------------------------------- |
+| `game.current_mod`          | Id of mod that's being loaded (available only when script is executed)                |
+| `game.active_mods`          | List of active world mods, in load order                                              |
+| `game.mod_runtime.<mod_id>` | Runtime data for mods (each mod gets its own table named after its id)                |
+| `game.mod_storage.<mod_id>` | Per-mod storage that gets automatically saved/loaded on game save/load                |
+| `game.cata_internal`        | For internal game purposes, please don't use this                                     |
+| `game.hooks.<hook_id>`      | Hooks exposed to Lua scripts, will be called on corresponding events                  |
+| `game.iuse.<iuse_id>`       | Item use functions that will be recognized by the item factory and called on item use |
 
 ### Game Bindings
 
