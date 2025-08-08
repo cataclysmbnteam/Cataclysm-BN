@@ -110,7 +110,6 @@ static const ammo_effect_str_id ammo_effect_LASER( "LASER" );
 static const ammo_effect_str_id ammo_effect_LIGHTNING( "LIGHTNING" );
 static const ammo_effect_str_id ammo_effect_NO_PENETRATE_OBSTACLES( "NO_PENETRATE_OBSTACLES" );
 static const ammo_effect_str_id ammo_effect_PLASMA( "PLASMA" );
-static const ammo_effect_str_id ammo_effect_THROWN( "THROWN" );
 
 static const fault_id fault_bionic_nonsterile( "fault_bionic_nonsterile" );
 
@@ -3948,7 +3947,7 @@ void map::shoot( const tripoint &origin, const tripoint &p, projectile &proj, co
         if( !hit_items && ( !check( rfi.block_unaimed_chance ) || ( rfi.block_unaimed_chance < 100_pct &&
                             point_blank ) ) ) {
             // Nothing, it's a miss, we're shooting over nearby furniture.
-        } else if( ammo_effect_NO_PENETRATE_OBSTACLES ) {
+        } else if( proj.has_effect( ammo_effect_NO_PENETRATE_OBSTACLES ) ) {
             // We shot something with a flamethrower or other non-penetrating weapon.
             // Try to bash the obstacle and stop the shot.
             add_msg( _( "The shot strikes the %s!" ), furnname( p ) );
