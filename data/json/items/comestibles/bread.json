@@ -254,7 +254,7 @@
     "symbol": "%",
     "healthy": -8,
     "calories": 640,
-    "description": "A sweet, cream-filled snack cake. This one has been removed from the packaging and deep fried, greatly reducing it's shelf life.",
+    "description": "A sweet, cream-filled snack cake.  This one has been removed from the packaging and deep fried, greatly reducing its shelf life.",
     "price": "2 USD",
     "price_postapoc": "3 USD",
     "material": [ "junk", "wheat" ],
