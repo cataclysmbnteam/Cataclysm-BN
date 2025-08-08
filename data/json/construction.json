@@ -502,7 +502,7 @@
     "required_skills": [ [ "fabrication", 4 ] ],
     "time": "24 m",
     "//2": "Added sawing quality since likely splitting the log in half.",
-    "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "AXE", "level": 2 }, { "id": "SAW_W", "level": 2 } ] ],
+    "qualities": [ [ { "id": "AXE", "level": 2 }, { "id": "SAW_W", "level": 2 } ] ],
     "components": [ [ [ "log", 1 ] ], [ [ "wood_structural_small", 2, "LIST" ] ] ],
     "pre_terrain": "t_wall_log_half",
     "post_terrain": "t_fortification_log"
@@ -1233,9 +1233,7 @@
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 3 ] ],
     "time": "45 m",
-    "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
     "components": [ [ [ "log", 2 ] ], [ [ "wood_structural_small", 3, "LIST" ] ] ],
-    "pre_flags": "PIT_SHALLOW",
     "post_terrain": "t_wall_log_half"
   },
   {
@@ -1244,8 +1242,7 @@
     "copy-from": "constr_wall_log_half",
     "//": "Step 2: Finish the log wall",
     "pre_terrain": "t_wall_log_half",
-    "post_terrain": "t_wall_log",
-    "delete": { "pre_flags": "PIT_SHALLOW" }
+    "post_terrain": "t_wall_log"
   },
   {
     "type": "construction",
