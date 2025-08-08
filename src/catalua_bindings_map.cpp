@@ -96,9 +96,7 @@ void cata::detail::reg_map( sol::state &lua )
 
         luna::set_fx( ut, "get_map_size_in_submaps", &map::getmapsize );
         DOC( "In map squares" );
-        luna::set_fx( ut, "get_map_size", []( const map & m ) -> int {
-            return m.getmapsize() * SEEX;
-        } );
+        luna::set_fx( ut, "get_map_size", []( const map & m ) -> int { return m.getmapsize() * SEEX; } );
 
         DOC( "Creates a new item(s) at a position on the map." );
         luna::set_fx( ut, "create_item_at", []( map & m, const tripoint & p, const itype_id & itype,
@@ -122,15 +120,9 @@ void cata::detail::reg_map( sol::state &lua )
         } );
 
         luna::set_fx( ut, "has_items_at", &map::has_items );
-        luna::set_fx( ut, "get_items_at", []( map & m, const tripoint & p ) -> std::unique_ptr<map_stack> {
-            return std::make_unique<map_stack>( m.i_at( p ) );
-        } );
-        luna::set_fx( ut, "remove_item_at", []( map & m, const tripoint & p, item * it ) -> void {
-            m.i_rem( p, it );
-        } );
-        luna::set_fx( ut, "clear_items_at", []( map & m, const tripoint & p ) -> void {
-            m.i_clear( p );
-        } );
+        luna::set_fx( ut, "get_items_at", []( map & m, const tripoint & p ) -> std::unique_ptr<map_stack> { return std::make_unique<map_stack>( m.i_at( p ) ); } );
+        luna::set_fx( ut, "remove_item_at", []( map & m, const tripoint & p, item * it ) -> void { m.i_rem( p, it ); } );
+        luna::set_fx( ut, "clear_items_at", []( map & m, const tripoint & p ) -> void { m.i_clear( p ); } );
 
 
         luna::set_fx( ut, "get_ter_at", sol::resolve<ter_id( const tripoint & )const>( &map::ter ) );
@@ -138,14 +130,10 @@ void cata::detail::reg_map( sol::state &lua )
                       sol::resolve<bool( const tripoint &, const ter_id & )>( &map::ter_set ) );
 
         luna::set_fx( ut, "get_furn_at", sol::resolve<furn_id( const tripoint & )const>( &map::furn ) );
-        luna::set_fx( ut, "set_furn_at", []( map & m, const tripoint & p, const furn_id & id ) {
-            m.furn_set( p, id );
-        } );
+        luna::set_fx( ut, "set_furn_at", []( map & m, const tripoint & p, const furn_id & id ) { m.furn_set( p, id ); } );
 
-        luna::set_fx( ut, "has_field_at", []( const map & m, const tripoint & p,
-        const field_type_id & fid ) -> bool {
-            return !!m.field_at( p ).find_field( fid );
-        } );
+        luna::set_fx( ut, "has_field_at",
+                      []( const map & m, const tripoint & p, const field_type_id & fid ) -> bool { return !!m.field_at( p ).find_field( fid ); } );
         luna::set_fx( ut, "get_field_int_at", &map::get_field_intensity );
         luna::set_fx( ut, "get_field_age_at", &map::get_field_age );
         luna::set_fx( ut, "mod_field_int_at", &map::mod_field_intensity );
@@ -157,9 +145,7 @@ void cata::detail::reg_map( sol::state &lua )
             return m.add_field( p, fid, intensity, age );
         } );
         luna::set_fx( ut, "remove_field_at", &map::remove_field );
-        luna::set_fx( ut, "get_trap_at", []( map & m, const tripoint & p ) -> trap_id {
-            return m.tr_at( p ).loadid;
-        } );
+        luna::set_fx( ut, "get_trap_at", []( map & m, const tripoint & p ) -> trap_id { return m.tr_at( p ).loadid; } );
         DOC( "Set a trap at a position on the map. It can also replace existing trap, even with `trap_null`." );
         luna::set_fx( ut, "set_trap_at", &map::trap_set );
         DOC( "Disarms a trap using your skills and stats, with consequences depending on success or failure." );
@@ -187,9 +173,7 @@ void cata::detail::reg_map( sol::state &lua )
         sol::usertype<map_stack> ut = luna::new_usertype<map_stack>( lua, luna::bases<item_stack>(),
                                       luna::no_constructor );
 
-        luna::set_fx( ut, "as_item_stack", []( map_stack & ref ) -> item_stack& {
-            return ref;
-        } );
+        luna::set_fx( ut, "as_item_stack", []( map_stack & ref ) -> item_stack& { return ref; } );
     }
 }
 
@@ -217,10 +201,8 @@ void cata::detail::reg_distribution_grid( sol::state &lua )
                 luna::no_constructor
             );
 
-        luna::set_fx( ut, "get_grid_at_abs_ms", []( distribution_grid_tracker & tr, const tripoint & p )
-        -> distribution_grid& {
-            return tr.grid_at( tripoint_abs_ms( p ) );
-        } );
+        luna::set_fx( ut, "get_grid_at_abs_ms",
+                      []( distribution_grid_tracker & tr, const tripoint & p ) -> distribution_grid& { return tr.grid_at( tripoint_abs_ms( p ) ); } );
     }
 
 }
