@@ -1,4 +1,16 @@
----@type fun (a: any, b: any): boolean
+---@generic T
+---@param t T[]
+---@param f? fun(a: T, b: T):boolean
+---@return T[]
+function sort_by(t, f)
+  if not f then f = sort_by_tostring end
+  table.sort(t, f)
+  return t
+end
+
+---@param a any
+---@param b any
+---@return boolean
 function sort_by_tostring(a, b)
   if a.k and b.k then return tostring(a.k) < tostring(b.k) end
   return tostring(a) < tostring(b)
@@ -348,15 +360,9 @@ on_mapgen_postprocess = {}
       ret = ret .. "---@class " .. name .. bases_str .. "\n"
 
       -- Process Members (Variables and Functions)
-      local members_sorted = sorted_by(members, function(a, b)
-        local a_priority = field_sort_order(a.v)
-        local b_priority = field_sort_order(b.v)
-
-        if a_priority ~= b_priority then return a_priority < b_priority end
-        return a.v.name < b.v.name
-      end)
-      for _, mem_item in ipairs(members_sorted) do
-        local member = mem_item.v
+      ---@type { member: table, value: string }[]
+      local formatted = {}
+      for _, member in ipairs(members) do
         local member_name_str = tostring(member.name)
 
         -- Skip potentially problematic internal names if necessary
@@ -366,20 +372,36 @@ on_mapgen_postprocess = {}
           -- Determine if it's static based on context (this might need info from `data` if available)
           -- For now, assume instance vars for classes, static for libs unless specified otherwise
           local is_static_var = not is_class -- Simple assumption, may need refinement
-          ret = ret .. fmt_variable_field(member, is_static_var)
+          --   ret = ret .. fmt_variable_field(member, is_static_var)
+          table.insert(formatted, { member = member, value = fmt_variable_field(member, is_static_var) })
         elseif member.type == "func" then
           -- Libraries expose functions statically (.), classes expose methods dynamically (:) by default in sol2
           -- Pass 'is_class' to fmt_function_field to decide if 'self' should be added.
-          ret = ret .. fmt_function_field(member, name, false)
+          table.insert(formatted, { member = member, value = fmt_function_field(member, name, false) })
         else
-          ret = ret
-            .. fmt_variable_field(
+          -- Fallback
+          table.insert(formatted, {
+            member = member,
+            value = fmt_variable_field(
               { name = member_name_str, vartype = "any", comment = "Unknown member type" },
               not is_class
-            ) -- Fallback
+            ),
+          })
         end
       end
 
+      for _, item in
+        ipairs(sort_by(formatted, function(a, b)
+          local a_priority = field_sort_order(a.member)
+          local b_priority = field_sort_order(b.member)
+
+          if a_priority ~= b_priority then return a_priority < b_priority end
+          if a.member.name ~= b.member.name then return a.member.name < b.member.name end
+          return a.value < b.value
+        end))
+      do
+        ret = ret .. item.value
+      end
       ret = ret .. name .. " = {}\n"
 
       if is_class then ret = ret .. fmt_constructor_field(name, ctors) end
