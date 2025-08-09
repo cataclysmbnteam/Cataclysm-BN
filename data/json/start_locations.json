@@ -445,7 +445,7 @@
     "type": "start_location",
     "id": "sloc_marina",
     "name": "Marina",
-    "terrain": [ "marina_4" ]
+    "terrain": [ "marina_11" ]
   },
   {
     "type": "start_location",
@@ -537,11 +537,5 @@
       "convention_3_2_2",
       "convention_4_2_2"
     ]
-  },
-  {
-    "type": "start_location",
-    "id": "sloc_marina",
-    "name": "Marina",
-    "terrain": [ "marina_11" ]
   }
 ]
