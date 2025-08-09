@@ -574,7 +574,8 @@
       [ "fish_trap", 100 ],
       [ "bucket", 100 ],
       [ "fishing_hook_basic", 100 ],
-      [ "fishing_hook_bone", 100 ]
+      [ "fishing_hook_bone", 100 ],
+      [ "waterwaymap", 25 ]
     ]
   },
   {
@@ -2703,21 +2704,13 @@
     "id": "fort_crate",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [
-      { "item": "cannonball_4lb", "prob": 100, "count": [ 1, 10 ] },
-      { "item": "rag", "prob": 50, "count": [ 1, 25 ] },
-      { "item": "gatlingdrum240", "prob": 25 }
-    ]
+    "entries": [ { "group": "supplies_cannonball", "prob": 100 }, { "item": "gatlingdrum240", "prob": 25 } ]
   },
   {
     "id": "fort_powderbarrel",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [
-      { "item": "chem_black_powder", "charges": [ 100, 2500 ], "container-item": "wooden_barrel_small" },
-      { "item": "chem_black_powder", "charges": [ 100, 2500 ], "container-item": "wooden_barrel_small", "prob": 50 },
-      { "item": "4570_low", "charges": [ 1, 240 ], "prob": 50 }
-    ]
+    "entries": [ { "group": "supplies_powder_mag", "prob": 100 }, { "item": "4570_low", "charges": [ 1, 240 ], "prob": 50 } ]
   },
   {
     "type": "item_group",

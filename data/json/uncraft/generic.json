@@ -3759,6 +3759,13 @@
     "flags": [ "BLIND_EASY" ]
   },
   {
+    "result": "waterwaymap",
+    "type": "uncraft",
+    "time": "30 s",
+    "components": [ [ [ "paper", 10 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
     "result": "spectrophotometer",
     "type": "uncraft",
     "skill_used": "electronics",

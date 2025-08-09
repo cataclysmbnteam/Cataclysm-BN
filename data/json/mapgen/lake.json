@@ -25,7 +25,10 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "lake_surface" ],
-    "object": { "fill_ter": "t_water_dp" }
+    "object": {
+      "fill_ter": "t_water_dp",
+      "place_vehicles": [ { "vehicle": "lake_boats", "x": [ 11, 12 ], "y": [ 11, 12 ], "rotation": [ 0, 90, 180, 270 ], "chance": 1 } ]
+    }
   },
   {
     "type": "mapgen",
