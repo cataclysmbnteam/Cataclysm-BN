@@ -258,12 +258,7 @@
       ],
       "palettes": [ "lake_bed_palette" ],
       "items": { "~": { "item": "lake_bed", "chance": 1 } },
-      "terrain": {
-        ">": "t_stairs_down",
-        "W": "t_wall_bulkhead",
-        ".": "t_bulkhead_floor",
-        "D": "t_door_metal_bulkhead_c"
-      }
+      "terrain": { ">": "t_stairs_down", "W": "t_wall_bulkhead", ".": "t_bulkhead_floor", "D": "t_door_metal_bulkhead_c" }
     }
   },
   {
@@ -307,13 +302,8 @@
         "u": "t_thconc_floor_olight",
         "<": "t_stairs_up"
       },
-      "furniture": {
-        "b": "f_bench",
-        "l": "f_locker"
-      },
-      "items": {
-        "l": { "item": "SUS_scuba_gear", "chance": 50 }
-      },
+      "furniture": { "b": "f_bench", "l": "f_locker" },
+      "items": { "l": { "item": "SUS_scuba_gear", "chance": 50 } },
       "place_nested": [ { "chunks": [ "sub_f_crate" ], "x": [ 4, 19 ], "y": [ 15, 19 ], "repeat": 15 } ]
     }
   }
