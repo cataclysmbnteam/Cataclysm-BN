@@ -1610,7 +1610,7 @@
     "type": "terrain",
     "id": "t_rock_ore_lead",
     "copy-from": "t_rock",
-    "name": "copper ore vein",
+    "name": "lead ore vein",
     "description": "Solid rock, with an exposed dull gray and yellow seam of lead ore.",
     "symbol": "#",
     "color": "dark_gray",
