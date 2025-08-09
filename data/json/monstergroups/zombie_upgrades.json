@@ -1,6 +1,17 @@
 [
   {
     "type": "monstergroup",
+    "name": "GROUP_ZOMBIE_ACID",
+    "default": "mon_zombie_acidic",
+    "//": "Acidic zombie upgrades",
+    "monsters": [
+      { "monster": "mon_zombie_corrosive", "freq": 150, "cost_multiplier": 5 },
+      { "monster": "mon_zombie_ichor_brute", "freq": 100, "cost_multiplier": 10 },
+      { "monster": "mon_zombie_ichor_stalker", "freq": 90, "cost_multiplier": 10 }
+    ]
+  },
+  {
+    "type": "monstergroup",
     "name": "GROUP_ZOMBIE_BRUTE",
     "default": "mon_zombie_brute",
     "//": "Brute upgrades",
@@ -82,7 +93,10 @@
       { "monster": "mon_zombie_supply_sergeant", "freq": 100, "cost_multiplier": 2 },
       { "monster": "mon_zombie_soldier_blackops_1", "freq": 100, "cost_multiplier": 2 },
       { "monster": "mon_zombie_soldier_acid_1", "freq": 100, "cost_multiplier": 2 },
-      { "monster": "mon_zombie_soldier_acid_2", "freq": 150, "cost_multiplier": 2 }
+      { "monster": "mon_zombie_soldier_acid_2", "freq": 150, "cost_multiplier": 2 },
+      { "monster": "mon_zombie_soldier_acid_3", "freq": 150, "cost_multiplier": 2 },
+      { "monster": "mon_zombie_soldier_acid_4", "freq": 150, "cost_multiplier": 2 },
+      { "monster": "mon_zombie_soldier_acid_5", "freq": 50, "cost_multiplier": 10 }
     ]
   },
   {
@@ -93,6 +107,9 @@
       { "monster": "mon_zombie_soldier_blackops_1", "freq": 100, "cost_multiplier": 2 },
       { "monster": "mon_zombie_soldier_acid_1", "freq": 100, "cost_multiplier": 2 },
       { "monster": "mon_zombie_soldier_acid_2", "freq": 150, "cost_multiplier": 2 },
+      { "monster": "mon_zombie_soldier_acid_3", "freq": 100, "cost_multiplier": 2 },
+      { "monster": "mon_zombie_soldier_acid_4", "freq": 100, "cost_multiplier": 2 },
+      { "monster": "mon_zombie_soldier_acid_5", "freq": 50, "cost_multiplier": 10 },
       { "monster": "mon_zombie_smoker", "freq": 100, "cost_multiplier": 5 },
       { "monster": "mon_gas_zombie", "freq": 50, "cost_multiplier": 10 },
       { "monster": "mon_zombie_fiend", "freq": 50, "cost_multiplier": 10 }
@@ -102,7 +119,10 @@
     "type": "monstergroup",
     "name": "GROUP_ZOMBIE_DOG_UPGRADE",
     "default": "mon_dog_skeleton",
-    "monsters": [ { "monster": "mon_dog_zombie_rot", "freq": 100, "cost_multiplier": 2 } ]
+    "monsters": [
+      { "monster": "mon_dog_zombie_rot", "freq": 100, "cost_multiplier": 2 },
+      { "monster": "mon_zombie_ichor_beast", "freq": 30, "cost_multiplier": 10 }
+    ]
   },
   {
     "type": "monstergroup",

@@ -139,7 +139,7 @@
     "death_drops": "default_zombie_death_drops",
     "death_function": [ "ACID", "NORMAL" ],
     "burn_into": "mon_zombie_scorched",
-    "upgrades": { "half_life": 28, "into": "mon_zombie_corrosive" },
+    "upgrades": { "half_life": 28, "into_group": "GROUP_ZOMBIE_ACID" },
     "flags": [
       "SEES",
       "HEARS",
@@ -202,5 +202,99 @@
       "REVIVES",
       "PUSH_MON"
     ]
+  },
+  {
+    "id": "mon_unstable_grub",
+    "type": "MONSTER",
+    "name": { "str": "unstable acid grub" },
+    "copy-from": "mon_zombie_dog",
+    "looks_like": "mon_ant_acid_larva",
+    "description": "This unstable small creature was born from the body of an acid spawn zombie. With a horribly twisted body, the maggot is covered in sticky acid and filled with a destructive force that bubbles inside.",
+    "diff": 10,
+    "symbol": "a",
+    "color": "brown_green",
+    "hp": 25,
+    "speed": 100,
+    "melee_skill": 1,
+    "melee_dice": 2,
+    "melee_dice_sides": 1,
+    "melee_cut": 1,
+    "starting_ammo": { "unstable_grub_bomb": 1 },
+    "special_attacks": [ [ "KAMIKAZE", 0 ] ],
+    "death_function": [ "ACID", "MELT" ],
+    "extend": { "flags": [ "INTERIOR_AMMO", "ACIDPROOF", "ACID_BLOOD" ], "harvest": "exempt" }
+  },
+  {
+    "id": "mon_zombie_ichor_brute",
+    "type": "MONSTER",
+    "name": { "str": "ichor brute" },
+    "copy-from": "mon_zombie_brute",
+    "looks_like": "mon_zombie_brute",
+    "description": "A brute zombie with muscles swollen by acidic fluid and covered in festering wounds. The special acid it spews fiercely corrodes everything it touches, neutralizing melee weapons.",
+    "diff": 10,
+    "color": "brown_green",
+    "hp": 180,
+    "special_attacks": [
+      [ "SMASH", 30 ],
+      [ "GRAB", 7 ],
+      {
+        "id": "scratch",
+        "cooldown": 8,
+        "damage_max_instance": [ { "damage_type": "acid", "amount": 10 } ],
+        "effects": [ { "id": "ichor_acid_weaponbreak", "duration": 40 } ]
+      }
+    ],
+    "death_function": [ "ACID", "NORMAL" ],
+    "extend": { "flags": [ "ACIDPROOF", "ACID_BLOOD" ], "harvest": "zombie_acid" }
+  },
+  {
+    "id": "mon_zombie_ichor_beast",
+    "type": "MONSTER",
+    "name": { "str": "ichor beast" },
+    "copy-from": "mon_dog_zombie_rot",
+    "looks_like": "mon_dog_zombie_rot",
+    "description": "A large, bloated zombie dog is covered in acidic slime. Its teeth have grown longer, and its broad back is covered in gnarled muscles and pus-filled wounds. Its body oozes a special acidic fluid that gives it a bright glow, and anything that comes into contact with it is fiercely corroded, rendering weapons useless.",
+    "diff": 10,
+    "color": "brown_green",
+    "hp": 72,
+    "special_attacks": [
+	  [ "SMASH", 30 ],
+      {
+        "type": "bite",
+        "cooldown": 5,
+        "damage_max_instance": [ { "damage_type": "acid", "amount": 6 } ],
+        "effects": [ { "id": "ichor_acid_weaponbreak", "duration": 40 } ]
+      }
+    ],
+    "death_function": [ "ACID", "NORMAL" ],
+    "extend": { "flags": [ "ACIDPROOF", "ACID_BLOOD" ], "harvest": "zombie_acid" }
+  },
+  {
+    "id": "mon_zombie_ichor_stalker",
+    "type": "MONSTER",
+    "name": { "str": "ichor stalker" },
+    "copy-from": "mon_zombie_predator",
+    "looks_like": "mon_zombie_predator",
+    "description": "This monster barely maintains its human form, with its joints bent at strange angles. Bright green liquid constantly oozes from the gaps between its muscles, and it moves with surprising agility. Its teeth and claws are transformed into sharp blades, and it protects itself with a powerful acidic substance that can melt even weapons.",
+    "diff": 10,
+    "color": "brown_green",
+    "hp": 180,
+    "special_attacks": [
+      { "type": "leap", "cooldown": 10, "max_range": 8, "min_consider_range": 3, "max_consider_range": 7 },
+      {
+        "type": "bite",
+        "cooldown": 10,
+        "damage_max_instance": [ { "damage_type": "stab", "amount": 10, "armor_multiplier": 0.2 } ]
+      },
+      { "id": "impale" },
+      {
+        "id": "scratch",
+        "cooldown": 8,
+        "damage_max_instance": [ { "damage_type": "acid", "amount": 10 } ],
+        "effects": [ { "id": "ichor_acid_weaponbreak", "duration": 40  } ]
+      }
+    ],
+    "death_function": [ "ACID", "NORMAL" ],
+    "extend": { "flags": [ "ACIDPROOF", "ACID_BLOOD" ], "harvest": "zombie_acid" }
   }
 ]

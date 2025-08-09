@@ -63,6 +63,7 @@
     "description": "This humanoid has a long bone \"syringe\" in place of one forearm, a large saw as the opposing hand, and a pair of digitigrade legs ending in raptor-like feet.  Its head is featureless, except for its \"human\" eyes, which smile with inhuman malice and scorn.",
     "default_faction": "zombie",
     "color": "light_green_white",
+    "diff": 20,
     "melee_skill": 5,
     "armor_stab": 6,
     "armor_acid": 20,
@@ -101,6 +102,8 @@
     "vision_night": 14,
     "harvest": "CBM_SCI",
     "path_settings": { "max_dist": 10 },
+    "melee_cut": 15,
+    "delete": { "upgrades": { "half_life": 14, "into": "mon_zombie_vivisector" } },
     "special_attacks": [
       {
         "id": "scratch",
