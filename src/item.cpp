@@ -7390,7 +7390,13 @@ bool item::is_reloadable_helper( const itype_id &ammo, bool now ) const
     } else if( is_watertight_container() ) {
         if( ammo.is_empty() ) {
             return now ? !is_container_full() : true;
-        } else if( ammo->phase != LIQUID ) {
+        } else {
+            return now ? ( is_container_empty() || contents.front().typeId() == ammo ) : true;
+        }
+    } else if( is_container() ) {
+        if( ammo.is_empty() ) {
+            return now ? !is_container_full() : true;
+        } else if( ammo->phase == LIQUID ) {
             return false;
         } else {
             return now ? ( is_container_empty() || contents.front().typeId() == ammo ) : true;
@@ -8628,8 +8634,7 @@ void item_reload_option::qty( int val )
     item &ammo_obj = ( ammo_in_container || ammo_in_liquid_container ) ?
                      ammo->contents.front() : *ammo;
 
-    if( ( ammo_in_container && !ammo_obj.is_ammo() ) ||
-        ( ammo_in_liquid_container && !ammo_obj.made_of( LIQUID ) ) ) {
+    if( ammo_in_container && !ammo_obj.is_ammo() ) {
         debugmsg( "Invalid reload option: %s", ammo_obj.tname() );
         return;
     }
@@ -8741,11 +8746,7 @@ bool item::reload( Character &who, item &loc, int qty )
             // NOLINTNEXTLINE(bugprone-use-after-move)
             put_in( std::move( to_reload ) );
         }
-    } else if( is_watertight_container() ) {
-        if( !ammo->made_of( LIQUID ) ) {
-            debugmsg( "Tried to reload liquid container with non-liquid." );
-            return false;
-        }
+    } else if( is_container() ) {
         if( container ) {
             container->on_contents_changed();
         }
@@ -9020,7 +9021,7 @@ int item::get_remaining_capacity_for_liquid( const item &liquid, bool allow_buck
         }
         remaining_capacity = ammo_capacity() - ammo_remaining();
     } else if( is_container() ) {
-        if( !type->container->watertight ) {
+        if( !type->container->watertight && liquid.made_of( LIQUID ) ) {
             return error( string_format( _( "That %s isn't water-tight." ), tname() ) );
         } else if( !type->container->seals && ( !allow_bucket || !is_bucket() ) ) {
             return error( string_format( is_bucket() ?
