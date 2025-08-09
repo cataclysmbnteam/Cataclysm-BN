@@ -219,5 +219,36 @@
       ],
       "message": "You add roads and restaurants to your map."
     }
+  },
+  {
+    "id": "waterwaymap",
+    "copy-from": "abstractmap",
+    "type": "GENERIC",
+    "name": { "str": "waterway map" },
+    "description": "This is a map of local rivers and lakes, along with the location of notable points of interest such as marinas and lighthouses.",
+    "color": "blue",
+    "looks_like": "trailmap",
+    "use_action": {
+      "type": "reveal_map",
+      "radius": 180,
+      "terrain": [
+        "river",
+        "river_shore",
+        "river_center",
+        "bridge_under",
+        "railroad_bridge",
+        "lake_shore",
+        "lake_surface",
+        "island",
+        "lake_dock_small",
+        "lake_shore_dock_small",
+        "boat_rental",
+        "marina",
+        "lighthouse",
+        "sealab_small_surface",
+        "prison_alcatraz"
+      ],
+      "message": "You add local waterways and notable features on the shore to your map."
+    }
   }
 ]

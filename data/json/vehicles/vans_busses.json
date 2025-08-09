@@ -1878,6 +1878,7 @@
       { "x": -3, "y": 0, "chance": 7, "item_groups": [ "methlab" ] },
       { "x": -3, "y": 2, "chance": 25, "items": [ "adderall" ] },
       { "x": -3, "y": 2, "chance": 10, "items": [ "adderall" ] },
+      { "x": -3, "y": 2, "chance": 10, "item_groups": [ "stash_drugrunner" ] },
       { "x": -3, "y": 2, "chance": 8, "items": [ "adderall" ] },
       { "x": -3, "y": 2, "chance": 8, "items": [ "adderall" ] },
       { "x": -3, "y": 2, "chance": 5, "items": [ "adderall" ] },

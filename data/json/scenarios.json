@@ -45,6 +45,7 @@
       "sloc_apartments_house",
       "sloc_hospital",
       "sloc_bastion_fort",
+      "sloc_marina",
       "sloc_convention_center_rooftop"
     ],
     "start_name": "In Large Building",
@@ -93,7 +94,8 @@
       "sloc_horse_ranch",
       "sloc_lighthouse_ground",
       "sloc_cabin_lake",
-      "sloc_freshwater_research_station"
+      "sloc_freshwater_research_station",
+      "sloc_marina"
     ],
     "start_name": "Safe Building",
     "flags": [ "LONE_START" ]
@@ -354,7 +356,8 @@
       "sloc_farm_survivalist",
       "sloc_campsite",
       "sloc_campground",
-      "sloc_bastion_fort"
+      "sloc_bastion_fort",
+      "sloc_marina"
     ],
     "start_name": "Outside Town",
     "surround_groups": [ [ "GROUP_BLACK_ROAD", 70.0 ] ],
@@ -389,7 +392,8 @@
       "sloc_campground",
       "sloc_cabin_lake",
       "sloc_lighthouse_ground",
-      "sloc_bastion_fort"
+      "sloc_bastion_fort",
+      "sloc_marina"
     ],
     "start_name": "Outside Town",
     "flags": [ "SUM_ADV_START", "LONE_START" ],
