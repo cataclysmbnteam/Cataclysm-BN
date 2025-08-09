@@ -76,8 +76,8 @@
 ## 공식 문서
 
 <!-- <p align="middle">
-    <img src="/doc/src/content/docs/en/contributing/img/contributing-doxy1.png" width="48%">
-    <img src="/doc/src/content/docs/en/contributing/img/contributing-doxy2.png" width="48%">
+    <img src="/docs/en/contributing/img/contributing-doxy1.png" width="48%">
+    <img src="/docs/en/contributing/img/contributing-doxy2.png" width="48%">
 </p> -->
 
 자동 생성된 문서를 [깃허브 페이지](https://cataclysmbnteam.github.io/Cataclysm-BN)에서 읽을 수
