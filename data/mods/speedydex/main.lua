@@ -16,7 +16,7 @@ storage.additional_moves_per_dex = 2 -- The amount of moves gained per dex above
 storage.allow_negative_bonus = false
 
 ---Applies SpeedyDex speed bonus to the player every turn.
----@param params { character: Character }
+---@param params OnCharacterResetStatsParams
 mod.speedydex = function(params)
   local character = params.character
 
