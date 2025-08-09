@@ -10174,9 +10174,9 @@ void game::vertical_move( int movez, bool force, bool peeking )
 
             } else {
                 add_msg( m_info, _( "You can't climb here - you need walls and/or furniture to brace against." ) );
-            if( !m.has_flag( "GOES_DOWN", u.pos() ) ) {
-                suggest_auto_walk_to_stairs( u, m, "up" );
-            }
+                if( !m.has_flag( "GOES_DOWN", u.pos() ) ) {
+                    suggest_auto_walk_to_stairs( u, m, "up" );
+                }
             }
             return;
 
