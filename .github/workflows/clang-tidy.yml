@@ -47,8 +47,8 @@ jobs:
     runs-on: ubuntu-latest
     env:
       CMAKE: 1
-      CLANG: /usr/bin/clang++-19
-      COMPILER: /usr/bin/clang++-19
+      CLANG: /usr/bin/clang++-20
+      COMPILER: /usr/bin/clang++-20
       TILES: 1
       SOUND: 1
       BUILD_PATH: "build"
@@ -70,7 +70,7 @@ jobs:
           wget https://apt.llvm.org/llvm.sh
           chmod +x ./llvm.sh
           sudo ./llvm.sh $VERSION all
-          for bin in clang clang++ clang-format clang-tidy run-clang-tidy; do
+          for bin in clang clang++ clang-format clang-tidy run-clang-tidy llvm-config; do
             sudo update-alternatives --install /usr/bin/$bin $bin /usr/bin/$bin-$VERSION 200
           done
 
