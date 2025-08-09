@@ -117,6 +117,13 @@
     "extend": { "flags": [ "FOLDABLE" ] }
   },
   {
+    "id": "sea_scooter_battery",
+    "copy-from": "medium_storage_battery",
+    "type": "vehicle_part",
+    "name": { "str": "sea scooter battery" },
+    "item": "sea_scooter_battery"
+  },
+  {
     "id": "small_storage_battery",
     "copy-from": "storage_battery",
     "type": "vehicle_part",
