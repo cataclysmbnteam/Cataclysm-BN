@@ -23,7 +23,7 @@ mod.speedydex = function(params)
   local dex = character:get_dex()
   local bonus = mod.calc_speedydex_bonus(dex)
 
---   gdebug.log_info(character:get_name() .. "{dex: " .. dex .. " bonus: " .. bonus .. "}")
+  --   gdebug.log_info(character:get_name() .. "{dex: " .. dex .. " bonus: " .. bonus .. "}")
   character:mod_speed_bonus(bonus)
 end
 
