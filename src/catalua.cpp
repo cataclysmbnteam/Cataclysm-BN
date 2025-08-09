@@ -287,6 +287,30 @@ void run_hooks( std::string_view hooks_table )
     run_hooks_impl( *DynamicDataLoader::get_instance().lua, hooks_table );
 }
 
+void run_hooks( std::string_view hooks_table,
+                std::function < auto( sol::table &params ) -> void > init )
+{
+    sol::state &lua = DynamicDataLoader::get_instance().lua->lua;
+    sol::table hooks = lua.globals()["game"]["hooks"][hooks_table];
+
+    auto params = lua.create_table();
+    init( params );
+
+    for( auto &ref : hooks ) {
+        int idx = -1;
+        try {
+            idx = ref.first.as<int>();
+            sol::protected_function func = ref.second;
+            sol::protected_function_result res = func(params );
+            check_func_result( res );
+        } catch( std::runtime_error &e ) {
+            debugmsg( "Failed to run hook %s[%d]: %s", hooks_table, idx, e.what() );
+            break;
+        }
+    }
+}
+
+
 void reg_lua_iuse_actors( lua_state &state, Item_factory &ifactory )
 {
     sol::state &lua = state.lua;
