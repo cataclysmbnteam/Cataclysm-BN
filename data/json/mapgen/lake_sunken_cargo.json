@@ -5,7 +5,7 @@
     "om_terrain": [ [ "cargo_ship_a", "cargo_ship_b", "cargo_ship_c" ] ],
     "weight": 100,
     "object": {
-      "fill_ter": "t_lake_bed",
+      "fill_ter": "t_bulkhead_floor_underwater",
       "rows": [
         "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~",
         "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~",
@@ -72,6 +72,7 @@
         "m": "f_crate_c"
       },
       "terrain": {
+        "~": "t_lake_bed",
         " ": "t_bulkhead_floor_underwater_no_roof",
         "`": "t_bulkhead_roof",
         "+": "t_door_metal_bulkhead_c_underwater",
@@ -106,7 +107,7 @@
     "om_terrain": [ [ "cargo_ship_1_a", "cargo_ship_1_b", "cargo_ship_1_c" ] ],
     "weight": 100,
     "object": {
-      "fill_ter": "t_water_cube",
+      "fill_ter": "t_bulkhead_floor_underwater",
       "rows": [
         "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~",
         "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~",
