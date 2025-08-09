@@ -258,7 +258,7 @@
     "color": "brown_green",
     "hp": 72,
     "special_attacks": [
-	  [ "SMASH", 30 ],
+      [ "SMASH", 30 ],
       {
         "type": "bite",
         "cooldown": 5,
@@ -291,7 +291,7 @@
         "id": "scratch",
         "cooldown": 8,
         "damage_max_instance": [ { "damage_type": "acid", "amount": 10 } ],
-        "effects": [ { "id": "ichor_acid_weaponbreak", "duration": 40  } ]
+        "effects": [ { "id": "ichor_acid_weaponbreak", "duration": 40 } ]
       }
     ],
     "death_function": [ "ACID", "NORMAL" ],

@@ -199,15 +199,15 @@
           "cooldown": 15,
           "move_cost": 50,
           "gun_type": "acid_artillery",
-		  "ammo_type": "acid_artillery_shell",
-		  "no_ammo_sound": "",
+          "ammo_type": "acid_artillery_shell",
+          "no_ammo_sound": "",
           "fake_skills": [ [ "gun", 4 ], [ "launcher", 4 ] ],
           "fake_dex": 6,
           "fake_per": 6,
           "require_targeting_player": false,
           "description": "The acid-artillery zombie launches a giant glob of acid!",
           "ranges": [ [ 10, 40, "DEFAULT" ] ],
-		  "no_crits": true
+          "no_crits": true
         }
       ],
       "death_function": [ "ACID" ],
