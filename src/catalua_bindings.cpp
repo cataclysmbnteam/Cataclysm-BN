@@ -327,6 +327,9 @@ void cata::detail::reg_item( sol::state &lua )
         luna::set_fx( ut, "is_active", &item::is_active );
         luna::set_fx( ut, "is_upgrade", &item::is_upgrade );
 
+        luna::set_fx( ut, "activate", &item::activate );
+        luna::set_fx( ut, "deactivate", &item::deactivate );
+
         DOC( "Is this item an effective melee weapon for the given damage type?" );
         luna::set_fx( ut, "is_melee", sol::resolve<bool( damage_type ) const>
                       ( &item::is_melee ) );

@@ -2641,6 +2641,14 @@ Function `( Item ) -> bool`
 
 Function `( Item ) -> bool`
 
+#### activate
+
+Function `( Item )`
+
+#### deactivate
+
+Function `( Item )`
+
 #### is_melee
 
 Is this item an effective melee weapon for the given damage type?
