@@ -1708,6 +1708,12 @@ void options_manager::add_options_interface()
     translate_marker( "Allows diagonal movement with cursor keys using CTRL and SHIFT modifiers.  Diagonal movement action keys are taken from keybindings, so you need these to be configured." ), { { "none", translate_marker( "None" ) }, { "mode1", translate_marker( "Mode 1: Numpad Emulation" ) }, { "mode2", translate_marker( "Mode 2: CW/CCW" ) }, { "mode3", translate_marker( "Mode 3: L/R Tilt" ) } },
     "none", COPT_CURSES_HIDE );
 
+
+    add( "SUGGEST_AUTOWALK_STAIRCASE", interface, translate_marker( "Suggest autowalk to staircases" ),
+         translate_marker( "If true, upon pressing Ascend Stairs or Descend Stairs, the player will be prompted with an option to walk to the nearest visible staircase." ),
+         true
+       );
+
     add_empty_line();
 
     add( "VEHICLE_ARMOR_COLOR", interface, translate_marker( "Vehicle plating changes part color" ),
