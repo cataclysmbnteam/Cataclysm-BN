@@ -11,15 +11,17 @@ namespace cata
 {
 
 /// Run Lua hooks registered with given name.
-/// an empty table needs to be initialized in `init_global_state_tables` first.
-void run_hooks( std::string_view hooks_table );
-
-/// Run Lua hooks registered with given name.
-/// an empty table needs to be initialized in `init_global_state_tables` first.
+/// Register hooks with an empty table in `init_global_state_tables` first.
 ///
-/// To pass parameters to the hook, use `init` function and set values to table.
-void run_hooks( std::string_view hooks_table,
+/// @param state Lua state to run hooks in. Defaults to the global state.
+/// @param hooks_table Name of the hooks table to run. e.g "on_game_load".
+/// @param init Function to initialize parameter table for the hook.
+void run_hooks( lua_state &state, std::string_view hook_name,
                 std::function < auto( sol::table &params ) -> void > init );
+void run_hooks( std::string_view hook_name,
+                std::function < auto( sol::table &params ) -> void > init );
+void run_hooks( lua_state &state, std::string_view hook_name );
+void run_hooks( std::string_view hook_name );
 
 /// Define all hooks that are used in the game.
 void define_hooks( lua_state &state );

@@ -306,6 +306,16 @@ doc_gen_func.impl = function()
 ---@field current_mod_path string
 ---@field cata_internal table
 game = {}
+
+---@class OnCharacterResetStatsParams
+---@field character Character
+on_character_reset_stats = {}
+
+---@class OnMapgenPostprocessParams
+---@field map Map
+---@field omt Tripoint
+---@field when TimePoint
+on_mapgen_postprocess = {}
 ]]
 
   ---@diagnostic disable-next-line: undefined-global
