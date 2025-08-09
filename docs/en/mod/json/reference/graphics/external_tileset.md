@@ -33,8 +33,10 @@ Links to relevant pull requests, for content covered below:
   [#3221](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/3221)
 - Rewired street lights: [#3273](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/3273)
 - Alternative ear/tail mutation: [#3340](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/3340)
+- Iron ore from bog iron: [#3506](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/3506)
 - New trees: [#3626](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/3626)
 - Alternative sign sprite: [#3670](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/3670)
+- M1874 Gatling gun: [#3815](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/3815)
 - New traps: [#3939](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/3939)
 - New monster: [#4182](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/4182)
 - Furniture form of utility light:
@@ -103,6 +105,8 @@ Ultica are planned for the future.
 - Sprites for bone cuirass and greaves. Reimplementation of previously-obsoleted bone armor specific
   to BN.
 - Additional tooth and stinger weapons, including triffid stinger weapons. Items specific to BN.
+- Iron ore, item ported from DDA we lacked a suitable sprite for.
+- M1874 Gatling gun, including wielded sprite and vehicle turret. Item specific to BN.
 
 ### External_Tileset_DP_terrain_normal.png
 
