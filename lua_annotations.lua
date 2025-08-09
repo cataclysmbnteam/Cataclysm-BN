@@ -674,6 +674,7 @@ function FurnRaw.new() end
 
 ---@class Item
 ---@field charges integer
+---@field activate fun(arg1: Item)
 ---@field add_item_with_id fun(arg1: Item, arg2: ItypeId, arg3: integer) @Adds an item(s) to contents
 ---@field add_technique fun(arg1: Item, arg2: MartialArtsTechniqueId) @Adds the technique. It isn't treated original, but additional.
 ---@field ammo_capacity fun(arg1: Item, arg2: boolean): integer @Gets the maximum capacity of a magazine
@@ -690,6 +691,7 @@ function FurnRaw.new() end
 ---@field convert fun(arg1: Item, arg2: ItypeId) @Converts the item as given `ItypeId`.
 ---@field covers fun(arg1: Item, arg2: BodyPartTypeIntId): boolean @Checks if the item covers a bodypart
 ---@field current_magazine fun(arg1: Item): Item @Gets the current magazine
+---@field deactivate fun(arg1: Item)
 ---@field display_name fun(arg1: Item, arg2: integer): string @Display name with all bells and whistles like ammo and prefixes
 ---@field energy_remaining fun(arg1: Item): Energy
 ---@field erase_var fun(arg1: Item, arg2: string) @Erase variable
