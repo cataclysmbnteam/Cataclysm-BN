@@ -16,23 +16,16 @@ function sort_by_tostring(a, b)
   return tostring(a) < tostring(b)
 end
 
---[[
-Helper function to sort a table by key or using a custom sort function.
-Uses 'pairs' for iteration to be compatible with sol2 table/map proxies.
-]]
+--- wraps sol2 table/map proxies so it can be sorted.
 ---@generic T
----@param t T[]
----@param f? fun(a: T, b: T):boolean
----@return table
-local sorted_by = function(t, f)
-  if not f then f = sort_by_tostring end
-  ---@type T[]
-  local sorted = {}
-  for k, v in pairs(t) do
-    table.insert(sorted, { k = k, v = v })
+---@param t? T[]
+---@return { k: string, v: T }[]
+function wrapped(t)
+  local res = {}
+  for k, v in pairs(t or {}) do
+    table.insert(res, { k = k, v = v })
   end
-  table.sort(sorted, f)
-  return sorted
+  return res
 end
 
 --[[
@@ -340,7 +333,7 @@ on_mapgen_postprocess = {}
   ---@return string Generated Lua code snippet for this section
   local process_section = function(section_name, section_data, is_class)
     local ret = ""
-    local section_sorted = sorted_by(section_data)
+    local section_sorted = sort_by(section_data)
     if #section_sorted == 0 then return "" end -- Skip empty sections
 
     ret = ret .. "--================---- " .. section_name .. " ----================\n\n"
@@ -411,18 +404,16 @@ on_mapgen_postprocess = {}
   end
 
   -- Generate sections
-  full_ret = full_ret .. process_section("Classes", dt["#types"] or {}, true)
-  full_ret = full_ret .. process_section("Libraries", dt["#libs"] or {}, false)
+  full_ret = full_ret .. process_section("Classes", wrapped(dt["#types"]), true)
+  full_ret = full_ret .. process_section("Libraries", wrapped(dt["#libs"]), false)
 
   -- Process Enums (Remain largely unchanged, ensure sorting/formatting is robust)
-  local enums_table = dt["#enums"] or {}
-  local enums_sorted = sorted_by(enums_table)
+  local enums_sorted = sort_by(wrapped(dt["#enums"]))
   if #enums_sorted > 0 then full_ret = full_ret .. "--=================---- Enums ----=================\n\n" end
   for _, item in ipairs(enums_sorted) do
     local enumname = item.k
     local dt_enum = item.v or {}
     local enum_comment = dt_enum.enum_comment
-    local entries = dt_enum["entries"] or {}
 
     local comment_annot = fmt_comment_annotation(enum_comment)
     if comment_annot ~= "" then full_ret = full_ret .. comment_annot .. "\n" end
@@ -430,25 +421,15 @@ on_mapgen_postprocess = {}
     full_ret = full_ret .. "---@enum " .. enumname .. "\n"
     full_ret = full_ret .. enumname .. " = {\n"
 
-    -- Filter and sort enum entries robustly
+    ---@type { k: string, v: string | number | boolean }[]
     local entries_filtered = {}
-    for k, v in pairs(entries) do
+    for k, v in pairs(dt_enum["entries"] or {}) do
       if type(v) == "string" or type(v) == "number" or type(v) == "boolean" then
-        entries_filtered[k] = v
-      else
-        print(
-          "Warning: Skipping non-literal value for enum entry "
-            .. enumname
-            .. "."
-            .. tostring(k)
-            .. " (type: "
-            .. type(v)
-            .. ")\n"
-        )
+        table.insert(entries_filtered, { k = k, v = v })
       end
     end
 
-    local entries_sorted_by_v = sorted_by(entries_filtered, function(a, b) return a.v < b.v end)
+    local entries_sorted_by_v = sort_by(entries_filtered, function(a, b) return a.v < b.v end)
 
     local table_entries = {}
     for _, entry_item in ipairs(entries_sorted_by_v) do
