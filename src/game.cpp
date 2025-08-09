@@ -10135,7 +10135,10 @@ void game::vertical_move( int movez, bool force, bool peeking )
         // Climbing
         if( m.has_floor_or_support( stairs ) ) {
             add_msg( m_info, _( "You can't climb here - there's a ceiling above your head." ) );
-            suggest_auto_walk_to_stairs( u, m, "up" );
+            // Don't prompt the player if they're already standing on stairs, they might've just hit the wrong key
+            if( !m.has_flag( "GOES_DOWN", u.pos() ) ) {
+                suggest_auto_walk_to_stairs( u, m, "up" );
+            }
             return;
         }
 
@@ -10171,7 +10174,9 @@ void game::vertical_move( int movez, bool force, bool peeking )
 
             } else {
                 add_msg( m_info, _( "You can't climb here - you need walls and/or furniture to brace against." ) );
+            if( !m.has_flag( "GOES_DOWN", u.pos() ) ) {
                 suggest_auto_walk_to_stairs( u, m, "up" );
+            }
             }
             return;
 
@@ -10180,7 +10185,9 @@ void game::vertical_move( int movez, bool force, bool peeking )
         if( pts.empty() ) {
             add_msg( m_info,
                      _( "You can't climb here - there is no terrain above you that would support your weight." ) );
-            suggest_auto_walk_to_stairs( u, m, "up" );
+            if( !m.has_flag( "GOES_DOWN", u.pos() ) ) {
+                suggest_auto_walk_to_stairs( u, m, "up" );
+            }
             return;
         } else {
             // TODO: Make it an extended action
@@ -10244,13 +10251,17 @@ void game::vertical_move( int movez, bool force, bool peeking )
 
         if( !can_fly ) {
             add_msg( m_info, _( "You can't go down here!" ) );
-            suggest_auto_walk_to_stairs( u, m, "down" );
+            if( !m.has_flag( "GOES_UP", u.pos() ) ) {
+                suggest_auto_walk_to_stairs( u, m, "down" );
+            }
             return;
         }
 
         if( ( m.impassable( dest ) || !standing_on_air ) && !can_noclip ) {
             add_msg( m_info, _( "You can't go down here!" ) );
-            suggest_auto_walk_to_stairs( u, m, "down" );
+            if( !m.has_flag( "GOES_UP", u.pos() ) ) {
+                suggest_auto_walk_to_stairs( u, m, "down" );
+            }
             return;
         }
 
