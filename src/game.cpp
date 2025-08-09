@@ -572,6 +572,12 @@ std::optional<tripoint> game::find_local_stairs_leading_to( map &mp, const int z
 
 void game::suggest_auto_walk_to_stairs( Character &u, map &m, const std::string &direction )
 {
+    const bool can_autowalk_stairs = get_option<bool>( "SUGGEST_AUTOWALK_STAIRCASE" );
+
+    if( !can_autowalk_stairs ) {
+        return;
+    }
+
     const int z_after = direction == "up" ? u.posz() + 1 : u.posz() - 1;
     std::optional<tripoint> stair_pos = find_local_stairs_leading_to( m, z_after );
 
