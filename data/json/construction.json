@@ -1240,8 +1240,12 @@
   {
     "type": "construction",
     "id": "constr_wall_log",
-    "copy-from": "constr_wall_log_half",
+    "group": "build_log_wall",
     "//": "Step 2: Finish the log wall",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 3 ] ],
+    "time": "45 m",
+    "components": [ [ [ "log", 2 ] ], [ [ "wood_structural_small", 3, "LIST" ] ] ],
     "pre_terrain": "t_wall_log_half",
     "post_terrain": "t_wall_log"
   },
