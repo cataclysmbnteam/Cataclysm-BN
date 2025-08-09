@@ -46,7 +46,11 @@ end
 mod.set_remote_base = function(item, p_omt) item:set_var_tri(mod.var_base, p_omt) end
 
 -- Look for spawned remotes and bind them to given omt
-mod.on_mapgen_postprocess_hook = function(map, p_omt, when)
+---@param params OnMapgenPostprocessParams
+mod.on_mapgen_postprocess_hook = function(params)
+  local map = params.map
+  local p_omt = params.omt
+
   local mapsize = map:get_map_size()
   local item_id = mod.item_id
   for y = 0, mapsize - 1 do

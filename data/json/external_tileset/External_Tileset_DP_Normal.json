@@ -122,7 +122,11 @@
           { "id": "f_metal_bench_flipped", "fg": 107 },
           { "id": "f_tourist_table_flipped", "fg": 108 },
           { "id": "f_table_flipped", "fg": 109 },
-          { "id": "f_coffee_table_flipped", "fg": 110 }
+          { "id": "f_coffee_table_flipped", "fg": 110 },
+          { "id": "iron_ore", "fg": 111 },
+          { "id": "m1874_gatling", "fg": 112 },
+          { "id": "overlay_wielded_m1874_gatling", "fg": 113 },
+          { "id": "vp_mounted_m1874_gatling", "fg": 114 }
         ],
         "sprite_width": 32,
         "sprite_height": 32

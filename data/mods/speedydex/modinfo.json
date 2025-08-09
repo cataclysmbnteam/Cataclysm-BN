@@ -3,7 +3,7 @@
     "type": "MOD_INFO",
     "id": "speedydex",
     "name": "SpeedyDex",
-    "authors": [ "KorGgenT", "Kota" ],
+    "authors": [ "KorGgenT", "Kota", "scarf005" ],
     "description": "Higher dex increases your speed.",
     "category": "rebalance",
     "lua_api_version": 2,

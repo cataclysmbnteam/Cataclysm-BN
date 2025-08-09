@@ -807,7 +807,7 @@ void Character::reset_stats()
     recalc_sight_limits();
     recalc_speed_bonus();
 
-    cata::run_hooks( "on_character_reset_stats" );
+    cata::run_hooks( "on_character_reset_stats", [this]( auto & params ) { params["character"] = this; } );
 }
 
 void Character::environmental_revert_effect()

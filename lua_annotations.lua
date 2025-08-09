@@ -12,6 +12,16 @@
 ---@field current_mod_path string
 ---@field cata_internal table
 game = {}
+
+---@class OnCharacterResetStatsParams
+---@field character Character
+on_character_reset_stats = {}
+
+---@class OnMapgenPostprocessParams
+---@field map Map
+---@field omt Tripoint
+---@field when TimePoint
+on_mapgen_postprocess = {}
 --================---- Classes ----================
 
 ---@class ActivityTypeId
@@ -289,9 +299,9 @@ function BodyPartTypeIntId.new() end
 ---@field mount_creature fun(arg1: Character, arg2: Monster)
 ---@field mutate fun(arg1: Character)
 ---@field mutate_category fun(arg1: Character, arg2: MutationCategoryTraitId)
+---@field mutate_towards fun(arg1: Character, arg2: MutationBranchId[], arg3: integer): boolean
 ---@field mutate_towards fun(arg1: Character, arg2: MutationBranchId[], arg3: integer): boolean | fun(arg1: Character, arg2: MutationBranchId): boolean
 ---@field mutate_towards fun(arg1: Character, arg2: MutationBranchId): boolean
----@field mutate_towards fun(arg1: Character, arg2: MutationBranchId[], arg3: integer): boolean
 ---@field mutation_armor fun(arg1: Character, arg2: BodyPartTypeIntId, arg3: DamageType): number
 ---@field mutation_effect fun(arg1: Character, arg2: MutationBranchId)
 ---@field mutation_loss_effect fun(arg1: Character, arg2: MutationBranchId)
