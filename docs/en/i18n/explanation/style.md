@@ -10,7 +10,7 @@
 ## How to write one for your language
 
 1. [Find your language code.](https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes)
-2. Create `doc/src/content/docs/{your-language-code}/i18n/explanation/style.md`.
+2. Create `/docs/{your-language-code}/i18n/explanation/style.md`.
 3. If it doesn't, add your language to `doc/astro.config.ts` file, for example:
 
 ```diff

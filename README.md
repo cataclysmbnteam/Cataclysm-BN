@@ -90,7 +90,7 @@ details.
 
 ## Documentation
 
-Gameplay and developing documentation is available in the [doc](./doc/src/content/docs/) directory
+Gameplay and developing documentation is available in the [doc](./docs/) directory
 in markdown format. You can also
 
 - visit the [official docs](https://docs.cataclysmbn.org/en/) site
