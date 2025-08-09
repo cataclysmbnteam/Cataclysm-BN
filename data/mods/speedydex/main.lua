@@ -16,14 +16,15 @@ storage.additional_moves_per_dex = 2 -- The amount of moves gained per dex above
 storage.allow_negative_bonus = false
 
 ---Applies SpeedyDex speed bonus to the player every turn.
-function mod.speedydex()
-  local player = gapi.get_avatar()
+---@param params { character: Character }
+mod.speedydex = function(params)
+  local character = params.character
 
-  local dex = player:get_dex()
+  local dex = character:get_dex()
   local bonus = mod.calc_speedydex_bonus(dex)
 
-  gdebug.log_info("SpeedyDex: dex = " .. dex .. ", bonus = " .. bonus)
-  player:mod_speed_bonus(bonus)
+--   gdebug.log_info(character:get_name() .. "{dex: " .. dex .. " bonus: " .. bonus .. "}")
+  character:mod_speed_bonus(bonus)
 end
 
 ---Calculate speed bonus from dexterity value.
