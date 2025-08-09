@@ -33,6 +33,7 @@
 #include "shadowcasting.h"
 #include "type_id.h"
 #include "units.h"
+#include "sounds.h"
 
 enum class spawn_disposition;
 struct scent_block;
@@ -87,6 +88,7 @@ struct pathfinding_settings;
 template<typename T>
 struct weighted_int_list;
 struct rl_vec2d;
+struct sound_event;
 
 
 /** Causes all generated maps to be empty grass and prevents saved maps from being loaded, used by the test suite */
@@ -300,6 +302,7 @@ struct level_cache {
     level_cache( const level_cache &other ) = default;
 
     std::bitset<MAPSIZE *MAPSIZE> transparency_cache_dirty;
+    std::bitset<MAPSIZE *MAPSIZE> absorbtion_cache_dirty;
     bool outside_cache_dirty = false;
     bool floor_cache_dirty = false;
     bool seen_cache_dirty = false;
@@ -353,6 +356,41 @@ struct level_cache {
     std::set<vehicle *> vehicle_list;
     std::set<vehicle *> zone_vehicles;
 
+    // stores cached sound absorbtion amounts of tiles
+    // In 100ths of decibels
+    // This is in level_cache instead of sound cache as this is a function of terrain,
+    // and we dont want to regenerate this for every single sound.
+    short absorbtion_cache[MAPSIZE_X][MAPSIZE_Y];
+};
+//
+struct sound_cache {
+
+    // Zeros all relevant values
+    sound_cache();
+    sound_cache( const sound_cache &other ) = default;
+
+    // The origionating sound, includes volume @1m, tripoint, description, type, etc.
+    sound_event sound;
+
+    // Volume in 100ths of a dB of the sound in question at the specified map coordinates.
+    short volume[MAPSIZE_X][MAPSIZE_Y];
+
+    // NPCs/Monsters/the Player all get a chance to hear a sound.
+    // After everyone has heard the sound, it is deleted.
+    // This requires a little bit of juggling.
+    bool heard_by_player = false;
+    // As NPCs act in the same step as monsters, they hear sounds at the same time as monsters.
+    bool heard_by_monsters = false;
+
+    // Is this noise from movement? For quick filtering, so monsters dont hear their own footsteps and NPCs dont go charging at zombie hordes.
+    bool movement_noise = false;
+    // Dis the player make this noise? for quick filtering.
+    bool from_player = false;
+    // Did a monster make this noise? For quick filtering.
+    bool from_monster = false;
+    // Did an NPC make this noise? For quick filtering.
+    bool from_npc = false;
+    // If the noise was not made by a monster or an NPC, it is either enviornmental noise or made by the player.
 };
 
 /**
@@ -400,12 +438,15 @@ class map
          */
         /*@{*/
 
+        // This will also set the z_levels absorbtion cache to dirty as is almost certainly invalidated as well.
+        void set_transparency_cache_dirty( const int zlev );
+
         // more granular version of the transparency cache invalidation
         // preferred over map::set_transparency_cache_dirty( const int zlev )
         // p is in local coords ("ms")
-        void set_transparency_cache_dirty( const int zlev );
-
         void set_transparency_cache_dirty( const tripoint &p );
+
+        void set_absorbtion_cache_dirty( const tripoint &p );
 
         // invalidates seen cache for the whole zlevel unconditionally
 
@@ -1259,6 +1300,8 @@ class map
         */
         float item_category_spawn_rate( const item &itm );
 
+
+
         /**
          * Place an item on the map, despite the parameter name, this is not necessarily a new item.
          * WARNING: does -not- check volume or stack charges. player functions (drop etc) should use
@@ -1353,6 +1396,12 @@ class map
         */
         std::vector<item *> put_items_from_loc( const item_group_id &loc, const tripoint &p,
                                                 const time_point &turn = calendar::start_of_cataclysm );
+
+        std::vector<item *> put_filtered_items_from_loc(
+            const item_group_id &loc,
+            const tripoint &p,
+            const time_point &turn,
+            const item_category_id &filter_cat );
 
         // Similar to spawn_an_item, but spawns a list of items, or nothing if the list is empty.
         std::vector<detached_ptr<item>> spawn_items( const tripoint &p,
@@ -1799,6 +1848,7 @@ class map
         bool build_vision_transparency_cache( const Character &player );
         // fills lm with sunlight. pzlev is current player's zlevel
         void build_sunlight_cache( int pzlev );
+
     public:
         void build_outside_cache( int zlev );
         // Builds a floor cache and returns true if the cache was invalidated.
@@ -1808,6 +1858,11 @@ class map
         void build_floor_caches();
         // Checks all suspended tiles on a z level and adds those that are invalid to the support_dirty_cache */
         void update_suspension_cache( const int &z );
+        // Builds a sound absorbtion cache and returns true if the cache was invalidated.
+        // If true, update the absorbtion cache. We want this built after the other caches, but before sounds are calced.
+        bool build_absorbtion_cache( int zlev );
+        // Creates a sound_cache by flood filling from a given sound event.
+        void flood_fill_sound( const sound_event soundevent, int zlev );
     protected:
         void generate_lightmap( int zlev );
         void build_seen_cache( const tripoint &origin, int target_z );
@@ -1996,6 +2051,8 @@ class map
          */
         std::array< std::unique_ptr<level_cache>, OVERMAP_LAYERS > caches;
 
+
+
         mutable std::array< std::unique_ptr<pathfinding_cache>, OVERMAP_LAYERS > pathfinding_caches;
         /**
          * Set of submaps that contain active items in absolute coordinates.
@@ -2018,6 +2075,10 @@ class map
             return *caches[zlev + OVERMAP_DEPTH];
         }
 
+        /*sound_cache& get_sound_caches() {
+            return *sound_caches;
+        }*/
+
         pathfinding_cache &get_pathfinding_cache( int zlev ) const;
 
         visibility_variables visibility_variables_cache;
@@ -2030,6 +2091,13 @@ class map
         const level_cache &get_cache_ref( int zlev ) const {
             return *caches[zlev + OVERMAP_DEPTH];
         }
+
+        /**
+        * Holds the caches for sounds. Each cache has a short for 100 * dB volume at [x][y], a sound_event, and some filtering bools.
+        * Make this a vector so that we can easily add or delete sounds. We dont really care what the order of the sounds in the vector is.
+        * After the PC, Monsters, and NPCs have all "heard" a sound an been fed information from it, that sound is deleted.
+        */
+        std::vector< sound_cache > sound_caches;
 
         const pathfinding_cache &get_pathfinding_cache_ref( int zlev ) const;
 

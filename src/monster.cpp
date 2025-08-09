@@ -3339,7 +3339,7 @@ float monster::get_mountable_weight_ratio() const
     return type->mountable_weight_ratio;
 }
 
-void monster::hear_sound( const tripoint &source, const int vol, const int dist )
+void monster::hear_sound( const sound_event &source, const short heard_vol )
 {
     if( !can_hear() ) {
         return;
@@ -3349,43 +3349,46 @@ void monster::hear_sound( const tripoint &source, const int vol, const int dist 
     const bool feral_friend = ( faction == faction_zombie || type->in_species( ZOMBIE ) ) &&
                               g->u.has_trait( trait_PROF_FERAL ) && !g->u.has_effect( effect_feral_infighting_punishment );
 
-    // Hackery: If player is currently a feral and you're a zombie, ignore any sounds close to their position.
-    if( feral_friend && rl_dist( g->u.pos(), source ) <= 10 ) {
+    // Hackery: If player is currently a feral and you're a zombie, ignore any sounds made by the player.
+    if( feral_friend && source.from_player ) {
         return;
     }
 
     const bool goodhearing = has_flag( MF_GOODHEARING );
-    const int volume = goodhearing ? 2 * vol - dist : vol - dist;
-    // Error is based on volume, louder sound = less error
+    // Get our volume back into dB from 100ths of dB.
+    const short volume = std::ceil( heard_vol / 100 );
+    // Error is based on volume and goodhearing. Louder sound contributes lightly, goodhearing contributes greatly.
     if( volume <= 0 ) {
         return;
     }
-
-    int max_error = 0;
-    if( volume < 2 ) {
-        max_error = 10;
-    } else if( volume < 5 ) {
-        max_error = 5;
-    } else if( volume < 10 ) {
-        max_error = 3;
-    } else if( volume < 20 ) {
-        max_error = 1;
+    // Always some error, with more error if the heard sound is very low.
+    // Getting within a few tiles *should* enable them to get better info, or just see their target.
+    int max_error = ( goodhearing ) ? 0 : 3;
+    if( volume < 20 ) {
+        max_error = ( goodhearing ) ? 4 : 12;
+    } else if( volume < 60 ) {
+        max_error = ( goodhearing ) ? 3 : 6;
+    } else if( volume < 100 ) {
+        max_error = ( goodhearing ) ? 2 : 5;
+    } else if( volume < 140 ) {
+        max_error = ( goodhearing ) ? 1 : 4;
     }
 
-    int target_x = source.x + rng( -max_error, max_error );
-    int target_y = source.y + rng( -max_error, max_error );
+    int target_x = source.origin.x + rng( -max_error, max_error );
+    int target_y = source.origin.y + rng( -max_error, max_error );
     // target_z will require some special check due to soil muffling sounds
 
-    int wander_turns = volume * ( goodhearing ? 6 : 1 );
+    // A goodhearing monster will follow a gunshot heard_sound of 100dB for 22 turns.
+    const short wander_turns = std::ceil( ( volume * 0.1 ) + ( goodhearing ? 16 : 4 ) );
 
     process_trigger( mon_trigger::SOUND, volume );
     if( morale >= 0 && anger >= 10 ) {
         // TODO: Add a proper check for fleeing attitude
         // but cache it nicely, because this part is called a lot
-        wander_to( tripoint( target_x, target_y, source.z ), wander_turns );
+        wander_to( tripoint( target_x, target_y, source.origin.z ), wander_turns );
     } else if( morale < 0 ) {
         // Monsters afraid of sound should not go towards sound
-        wander_to( tripoint( 2 * posx() - target_x, 2 * posy() - target_y, 2 * posz() - source.z ),
+        wander_to( tripoint( 2 * posx() - target_x, 2 * posy() - target_y, 2 * posz() - source.origin.z ),
                    wander_turns );
     }
 }
