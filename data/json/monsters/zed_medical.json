@@ -53,8 +53,7 @@
       },
       { "id": "inject", "move_cost": 50, "effects": [ { "id": "poison", "duration": 90, "bp": "torso" } ] }
     ],
-    "upgrades": { "half_life": 14, "into_group": "GROUP_ZOMBIE_UPGRADES_MEDICAL" },
-    "delete": { "upgrades": { "into": "mon_zombie_surgeon" } }
+    "upgrades": { "half_life": 14, "into_group": "GROUP_ZOMBIE_UPGRADES_MEDICAL" }
   },
   {
     "id": "mon_zombie_vivisector",
