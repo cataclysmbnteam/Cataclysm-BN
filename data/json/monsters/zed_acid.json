@@ -204,6 +204,71 @@
     ]
   },
   {
+    "id": "mon_zombie_acid_mortar",
+    "type": "MONSTER",
+    "name": { "str": "acid mortar zombie" },
+    "description": "This zombie's original face is gone, and in its place is a grotesque amalgamation of bio-mortar.  Bone and flesh extending from a swollen, cracked skull form a rounded muzzle, inside of which a constantly bubbling mass of acidic fluid boils.",
+    "copy-from": "mon_zombie_soldier",
+    "looks_like": "mon_zombie_soldier",
+    "diff": 20,
+    "harvest": "zombie_maybe_mil_bionics_acid",
+    "relative": { "hp": 20, "speed": -10, "melee_skill": 2, "armor_bash": 5 },
+    "delete": { "flags": [ "BLEED" ], "categories": [ "CLASSIC" ] },
+    "armor_bash": 10,
+    "armor_cut": 2,
+    "armor_bullet": 2,
+    "armor_stab": 12,
+    "death_drops": "default_zombie_death_drops",
+    "starting_ammo": { "acid_artillery_shell": 100 },
+    "extend": {
+      "special_attacks": [
+        [ "ACID_BARF", 10 ],
+        {
+          "type": "gun",
+          "cooldown": 15,
+          "move_cost": 50,
+          "gun_type": "acid_artillery",
+          "ammo_type": "acid_artillery_shell",
+          "no_ammo_sound": "",
+          "fake_skills": [ [ "gun", 4 ], [ "launcher", 4 ] ],
+          "fake_dex": 6,
+          "fake_per": 6,
+          "require_targeting_player": false,
+          "description": "The acid-artillery zombie launches a giant glob of acid!",
+          "ranges": [ [ 10, 40, "DEFAULT" ] ],
+          "no_crits": true
+        }
+      ],
+      "death_function": [ "ACID" ],
+      "flags": [ "ACIDPROOF", "ACID_BLOOD" ]
+    }
+  },
+  {
+    "id": "mon_zombie_acid_spawner",
+    "type": "MONSTER",
+    "name": { "str": "acid spawner zombie" },
+    "description": "This zombie's head has been horribly melted and fused, its skull horribly twisted and pushed to the side by a giant, swollen, acidic egg sac.  The egg sac pulses incessantly, spewing out self-destructive acid maggots.",
+    "copy-from": "mon_zombie_soldier",
+    "looks_like": "mon_zombie_soldier",
+    "diff": 20,
+    "attack_cost": 100,
+    "harvest": "zombie_maybe_mil_bionics_acid",
+    "relative": { "hp": 20, "speed": -10, "melee_skill": 2, "armor_bash": 5 },
+    "delete": { "flags": [ "BLEED" ], "categories": [ "CLASSIC" ] },
+    "armor_bash": 10,
+    "armor_cut": 2,
+    "armor_bullet": 2,
+    "armor_stab": 12,
+    "vision_day": 45,
+    "death_drops": "default_zombie_death_drops",
+    "starting_ammo": { "bot_unstable_grub": 200 },
+    "extend": {
+      "special_attacks": [ [ "ACID_BARF", 2 ], [ "GRENADIER_ELITE", 10 ], { "id": "slam" } ],
+      "death_function": [ "ACID" ],
+      "flags": [ "ACIDPROOF", "ACID_BLOOD" ]
+    }
+  },
+  {
     "id": "mon_unstable_grub",
     "type": "MONSTER",
     "name": { "str": "unstable acid grub" },

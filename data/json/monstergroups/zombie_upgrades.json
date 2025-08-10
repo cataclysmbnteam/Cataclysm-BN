@@ -6,8 +6,10 @@
     "//": "Acidic zombie upgrades",
     "monsters": [
       { "monster": "mon_zombie_corrosive", "freq": 150, "cost_multiplier": 5 },
-      { "monster": "mon_zombie_ichor_brute", "freq": 100, "cost_multiplier": 10 },
-      { "monster": "mon_zombie_ichor_stalker", "freq": 90, "cost_multiplier": 10 }
+      { "monster": "mon_zombie_acid_mortar", "freq": 150, "cost_multiplier": 5 },
+      { "monster": "mon_zombie_acid_spawner", "freq": 150, "cost_multiplier": 5 },
+      { "monster": "mon_zombie_ichor_brute", "freq": 100, "cost_multiplier": 5 },
+      { "monster": "mon_zombie_ichor_stalker", "freq": 100, "cost_multiplier": 5 }
     ]
   },
   {
@@ -18,6 +20,7 @@
     "monsters": [
       { "monster": "mon_zombie_brute_grappler", "freq": 231, "cost_multiplier": 10 },
       { "monster": "mon_zombie_brute_ninja", "freq": 112, "cost_multiplier": 10 },
+      { "monster": "mon_zombie_ichor_brute", "freq": 100, "cost_multiplier": 10 },
       { "monster": "mon_zombie_hulk", "freq": 100, "cost_multiplier": 50 },
       { "monster": "mon_gas_zombie", "freq": 70, "cost_multiplier": 10 }
     ]
@@ -94,9 +97,7 @@
       { "monster": "mon_zombie_soldier_blackops_1", "freq": 100, "cost_multiplier": 2 },
       { "monster": "mon_zombie_soldier_acid_1", "freq": 100, "cost_multiplier": 2 },
       { "monster": "mon_zombie_soldier_acid_2", "freq": 150, "cost_multiplier": 2 },
-      { "monster": "mon_zombie_soldier_acid_3", "freq": 150, "cost_multiplier": 2 },
-      { "monster": "mon_zombie_soldier_acid_4", "freq": 150, "cost_multiplier": 2 },
-      { "monster": "mon_zombie_soldier_acid_5", "freq": 50, "cost_multiplier": 10 }
+      { "monster": "mon_zombie_soldier_acid_3", "freq": 50, "cost_multiplier": 10 }
     ]
   },
   {
@@ -107,9 +108,7 @@
       { "monster": "mon_zombie_soldier_blackops_1", "freq": 100, "cost_multiplier": 2 },
       { "monster": "mon_zombie_soldier_acid_1", "freq": 100, "cost_multiplier": 2 },
       { "monster": "mon_zombie_soldier_acid_2", "freq": 150, "cost_multiplier": 2 },
-      { "monster": "mon_zombie_soldier_acid_3", "freq": 100, "cost_multiplier": 2 },
-      { "monster": "mon_zombie_soldier_acid_4", "freq": 100, "cost_multiplier": 2 },
-      { "monster": "mon_zombie_soldier_acid_5", "freq": 50, "cost_multiplier": 10 },
+      { "monster": "mon_zombie_soldier_acid_3", "freq": 50, "cost_multiplier": 10 },
       { "monster": "mon_zombie_smoker", "freq": 100, "cost_multiplier": 5 },
       { "monster": "mon_gas_zombie", "freq": 50, "cost_multiplier": 10 },
       { "monster": "mon_zombie_fiend", "freq": 50, "cost_multiplier": 10 }
@@ -163,7 +162,8 @@
     "default": "mon_zombie_kevlar_1",
     "monsters": [
       { "monster": "mon_zombie_tough", "freq": 250, "cost_multiplier": 2 },
-      { "monster": "mon_zombie_hunter", "freq": 100, "cost_multiplier": 2 }
+      { "monster": "mon_zombie_hunter", "freq": 100, "cost_multiplier": 2 },
+      { "monster": "mon_zombie_ichor_stalker", "freq": 50, "cost_multiplier": 10 }
     ]
   }
 ]
