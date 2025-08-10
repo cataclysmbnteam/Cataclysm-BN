@@ -172,8 +172,40 @@
   },
   {
     "type": "furniture",
+    "id": "f_survivors_workbench",
+    "name": "survivor workbench",
+    "description": "A sturdy workbench built out of metal.  It is perfect for crafting large and heavy things.  This one contains a few extra tools and supplies, making it more useful than a standard workbench.",
+    "symbol": "#",
+    "color": "red",
+    "move_cost_mod": 2,
+    "coverage": 50,
+    "required_str": 10,
+    "looks_like": "f_lab_bench",
+    "flags": [ "TRANSPARENT", "PLACE_ITEM", "MOUNTABLE", "FLAT_SURF", "EASY_DECONSTRUCT" ],
+    "crafting_pseudo_item": "toolbox_workshop",
+    "deconstruct": { "items": [ { "item": "survivors_workbench", "count": 1 } ] },
+    "bash": {
+      "str_min": 35,
+      "str_max": 80,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "pipe", "count": [ 4, 6 ] },
+        { "item": "sheet_metal", "count": [ 0, 1 ] },
+        { "item": "sheet_metal_small", "count": [ 12, 24 ] },
+        { "item": "steel_chunk", "count": [ 4, 8 ] },
+        { "item": "scrap", "count": [ 12, 24 ] },
+        { "item": "toolbox_workshop", "count": [ 0, 1 ] }
+      ],
+      "ranged": { "reduction": [ 35, 35 ], "destroy_threshold": 80, "block_unaimed_chance": "25%" }
+    },
+    "examine_action": "workbench",
+    "workbench": { "multiplier": 1.5, "mass": "625 kg", "volume": "250L" }
+  },
+  {
+    "type": "furniture",
     "id": "f_robobench",
-    "name": "Robotic workbench",
+    "name": "robotic workbench",
     "description": "Having upgraded the basic workbench, you've now created a robotic workbench that helps speed up crafting.",
     "symbol": "#",
     "color": "red",
@@ -182,6 +214,7 @@
     "required_str": 10,
     "looks_like": "t_machinery_heavy",
     "flags": [ "TRANSPARENT", "PLACE_ITEM", "MOUNTABLE", "FLAT_SURF", "EASY_DECONSTRUCT" ],
+    "crafting_pseudo_item": "toolbox_workshop",
     "deconstruct": { "items": [ { "item": "robobench", "count": 1 } ] },
     "bash": {
       "str_min": 35,
@@ -193,12 +226,13 @@
         { "item": "sheet_metal", "count": [ 0, 1 ] },
         { "item": "sheet_metal_small", "count": [ 12, 24 ] },
         { "item": "steel_chunk", "count": [ 4, 8 ] },
-        { "item": "scrap", "count": [ 12, 24 ] }
+        { "item": "scrap", "count": [ 12, 24 ] },
+        { "item": "toolbox_workshop", "count": [ 0, 1 ] }
       ],
       "ranged": { "reduction": [ 35, 35 ], "destroy_threshold": 80, "block_unaimed_chance": "25%" }
     },
     "examine_action": "workbench",
-    "workbench": { "multiplier": 1.5, "mass": "500 kg", "volume": "200L" }
+    "workbench": { "multiplier": 1.8, "mass": "750 kg", "volume": "300L" }
   },
   {
     "type": "furniture",
