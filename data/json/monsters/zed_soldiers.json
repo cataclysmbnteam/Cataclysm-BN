@@ -575,10 +575,10 @@
   {
     "id": "mon_zombie_soldier_shieldman",
     "type": "MONSTER",
-    "name": { "str": "zombie shieldman" },
+    "name": { "str": "zombie shieldbearer" },
     "copy-from": "mon_zombie_soldier",
     "looks_like": "mon_zombie_soldier",
-    "description": "It wears a military uniform that suggests it was once a soldier, and carries a dented metal plate in one hand as a shield. This metal shield is used to block attacks, and the creature walks slowly with its body hidden behind it.  Its body is no different from a normal soldier zombie, but the shield makes it seem more defensible.  If you can somehow land a valid attack on it, you should be able to take the shield off.",
+    "description": "Wearing a military uniform, this zombie walks slowly as it hides its body behind a hefty shield. Appearing no different from any other fallen soldier aside from its defenses, a good solid hit should either wreck its precious shield or knock it out of its grasp.",
     "hp": 1,
     "material": [ "steel" ],
     "armor_bash": 40,
@@ -587,8 +587,8 @@
     "vision_day": 25,
     "vision_night": 3,
     "special_attacks": [ { "id": "slam" }, [ "scratch", 20 ] ],
-    "on_death": { "death_function": [ "DISINTEGRATE" ], "spawn_mon": "mon_zombie_soldier" },
-    "death_drops": "",
+    "on_death": { "death_function": [  ], "spawn_mon": "mon_zombie_soldier" },
+    "death_drops": "mon_zombie_soldier_shieldman_death_drops",
     "delete": { "flags": [ "BLEED" ], "categories": [ "CLASSIC" ] }
   }
 ]
