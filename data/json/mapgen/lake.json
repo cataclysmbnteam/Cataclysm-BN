@@ -78,6 +78,7 @@
             [ "lakebed_12x12_hot_spring", 1 ],
             [ "lakebed_12x12_debris", 1 ],
             [ "lakebed_12x12_toxic_waste_dump", 1 ],
+            [ "lakebed_12x12_pests", 1 ],
             [ "lakebed_12x12_safes", 1 ]
           ],
           "x": [ 1, 11 ],
@@ -128,6 +129,17 @@
         { "furn": "f_rubble", "x": [ 0, 11 ], "y": [ 1, 11 ], "repeat": [ 2, 5 ] }
       ],
       "place_items": [ { "item": "lake_bed", "x": [ 0, 11 ], "y": [ 0, 11 ], "repeat": [ 5, 10 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lakebed_12x12_pests",
+    "//": "A group of underwater enemies",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rotation": [ 0, 3 ],
+      "place_monster": [ { "group": "GROUP_UNDERWATER_PEST", "x": [ 0, 11 ], "y": [ 0, 11 ] } ]
     }
   },
   {
