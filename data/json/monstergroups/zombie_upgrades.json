@@ -167,7 +167,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_ZOMBIE_SWAT_UPGRADE",
+    "name": "GROUP_ZOMBIE_UPGRADES_MEDICAL",
     "default": "mon_zombie_vivisector",
     "monsters": [ { "monster": "mon_zombie_conjoiner", "freq": 300, "cost_multiplier": 2 } ]
   }
