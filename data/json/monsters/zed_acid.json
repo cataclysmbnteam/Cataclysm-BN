@@ -241,7 +241,7 @@
         "id": "scratch",
         "cooldown": 8,
         "damage_max_instance": [ { "damage_type": "acid", "amount": 10 } ],
-        "effects": [ { "id": "ichor_acid_weaponbreak", "duration": 40 } ]
+        "effects": [ { "id": "slimed", "duration": 40 } ]
       }
     ],
     "death_function": [ "ACID", "NORMAL" ],
@@ -263,7 +263,7 @@
         "type": "bite",
         "cooldown": 5,
         "damage_max_instance": [ { "damage_type": "acid", "amount": 6 } ],
-        "effects": [ { "id": "ichor_acid_weaponbreak", "duration": 40 } ]
+        "effects": [ { "id": "slimed", "duration": 40 } ]
       }
     ],
     "death_function": [ "ACID", "NORMAL" ],
@@ -291,7 +291,7 @@
         "id": "scratch",
         "cooldown": 8,
         "damage_max_instance": [ { "damage_type": "acid", "amount": 10 } ],
-        "effects": [ { "id": "ichor_acid_weaponbreak", "duration": 40 } ]
+        "effects": [ { "id": "slimed", "duration": 40 } ]
       }
     ],
     "death_function": [ "ACID", "NORMAL" ],
