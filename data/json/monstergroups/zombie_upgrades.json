@@ -2,10 +2,9 @@
   {
     "type": "monstergroup",
     "name": "GROUP_ZOMBIE_ACID",
-    "default": "mon_zombie_acidic",
+    "default": "mon_zombie_corrosive",
     "//": "Acidic zombie upgrades",
     "monsters": [
-      { "monster": "mon_zombie_corrosive", "freq": 150, "cost_multiplier": 5 },
       { "monster": "mon_zombie_acid_mortar", "freq": 150, "cost_multiplier": 5 },
       { "monster": "mon_zombie_acid_spawner", "freq": 150, "cost_multiplier": 5 },
       { "monster": "mon_zombie_ichor_brute", "freq": 100, "cost_multiplier": 5 },
@@ -165,5 +164,11 @@
       { "monster": "mon_zombie_hunter", "freq": 100, "cost_multiplier": 2 },
       { "monster": "mon_zombie_ichor_stalker", "freq": 50, "cost_multiplier": 10 }
     ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_ZOMBIE_SWAT_UPGRADE",
+    "default": "mon_zombie_vivisector",
+    "monsters": [ { "monster": "mon_zombie_conjoiner", "freq": 300, "cost_multiplier": 2 } ]
   }
 ]
