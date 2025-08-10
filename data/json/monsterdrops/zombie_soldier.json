@@ -98,6 +98,25 @@
     ]
   },
   {
+    "id": "mon_zombie_soldier_shieldman_death_drops",
+    "type": "item_group",
+    "subtype": "distribution",
+    "//": "Drops its shield, sometimes intact but damaged, other times just scraps.",
+    "entries": [
+      {
+        "collection": [ { "item": "steel_armor", "count": [ 1, 3 ] }, { "item": "steel_chunk", "count": [ 5, 10 ] } ],
+        "prob": 30
+      },
+      {
+        "collection": [ { "item": "hard_steel_armor", "count": [ 1, 3 ] }, { "item": "steel_chunk", "count": [ 5, 10 ] } ],
+        "prob": 20
+      },
+      { "item": "steel_plate", "prob": 25, "damage": [ 1, 4 ] },
+      { "item": "hard_plate", "prob": 15, "damage": [ 1, 4 ] },
+      { "item": "shield_ballistic", "prob": 10, "damage": [ 1, 4 ] }
+    ]
+  },
+  {
     "id": "military_standard_guns",
     "type": "item_group",
     "subtype": "distribution",
