@@ -532,9 +532,9 @@ std::map<damage_type, float> load_damage_map( const JsonObject &jo )
     load_if_present( "acid", DT_ACID, non_phys ? *non_phys : init_val );
     load_if_present( "heat", DT_HEAT, non_phys ? *non_phys : init_val );
     load_if_present( "cold", DT_COLD, non_phys ? *non_phys : init_val );
-    load_if_present( "cold", DT_DARK, non_phys ? *non_phys : init_val );
-    load_if_present( "cold", DT_LIGHT, non_phys ? *non_phys : init_val );
-    load_if_present( "cold", DT_PSI, non_phys ? *non_phys : init_val );
+    load_if_present( "dark", DT_DARK, non_phys ? *non_phys : init_val );
+    load_if_present( "light", DT_LIGHT, non_phys ? *non_phys : init_val );
+    load_if_present( "psi", DT_PSI, non_phys ? *non_phys : init_val );
     load_if_present( "electric", DT_ELECTRIC, non_phys ? *non_phys : init_val );
 
     // DT_TRUE should never be resisted
