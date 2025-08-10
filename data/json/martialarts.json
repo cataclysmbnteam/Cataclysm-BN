@@ -611,7 +611,18 @@
       "tec_krav_maga_break",
       "tec_krav_maga_counter"
     ],
-    "weapon_category": [ "PISTOLS", "REVOLVERS", "RIFLES", "SHOTGUNS", "SUBMACHINE_GUNS", "MACHINE_GUNS", "GRENADE_LAUNCHERS", "KNIVES", "BATONS", "TONFAS" ]
+    "weapon_category": [
+      "PISTOLS",
+      "REVOLVERS",
+      "RIFLES",
+      "SHOTGUNS",
+      "SUBMACHINE_GUNS",
+      "MACHINE_GUNS",
+      "GRENADE_LAUNCHERS",
+      "KNIVES",
+      "BATONS",
+      "TONFAS"
+    ]
   },
   {
     "type": "martial_art",
