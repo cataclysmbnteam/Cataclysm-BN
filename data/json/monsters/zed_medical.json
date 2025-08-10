@@ -53,7 +53,8 @@
       },
       { "id": "inject", "move_cost": 50, "effects": [ { "id": "poison", "duration": 90, "bp": "torso" } ] }
     ],
-    "upgrades": { "half_life": 14, "into": "mon_zombie_vivisector" }
+    "upgrades": { "half_life": 14, "into_group": "GROUP_ZOMBIE_UPGRADES_MEDICAL" },
+    "delete": { "upgrades": { "into": "mon_zombie_surgeon" } }
   },
   {
     "id": "mon_zombie_vivisector",
@@ -84,7 +85,7 @@
         "effects": [ { "id": "poison", "duration": 90, "bp": "torso" }, { "id": "badpoison", "duration": 30, "bp": "torso" } ]
       }
     ],
-    "upgrades": { "half_life": 14, "into": "mon_zombie_conjoiner" }
+    "delete": { "upgrades": { "half_life": 14, "into_group": "GROUP_ZOMBIE_UPGRADES_MEDICAL" } }
   },
   {
     "id": "mon_zombie_conjoiner",
@@ -103,7 +104,7 @@
     "harvest": "CBM_SCI",
     "path_settings": { "max_dist": 10 },
     "melee_cut": 15,
-    "delete": { "upgrades": { "half_life": 14, "into": "mon_zombie_vivisector" } },
+    "delete": { "upgrades": { "half_life": 14, "into_group": "GROUP_ZOMBIE_UPGRADES_MEDICAL" } },
     "special_attacks": [
       {
         "id": "scratch",
