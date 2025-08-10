@@ -984,11 +984,12 @@
     "points": 2,
     "//": "this ends up with a whopping -30 points when not on freeform, but it is meant as a challenge profession anyways",
     "traits": [
-      "GILLS",
+      "GILLS_CEPH",
       "FRESHWATEROSMOSIS",
       "SLEEK_SCALES",
       "TAIL_FIN",
       "SMELLY2",
+      "MEMBRANE",
       "DEFORMED",
       "COLDBLOOD3",
       "PSYCHOPATH",
