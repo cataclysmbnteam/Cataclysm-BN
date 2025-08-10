@@ -2589,24 +2589,5 @@
     "max_duration": "10 m",
     "base_mods": { "pain_amount": [ 0 ], "pain_max": [ 1 ], "pain_max_val": [ 10 ] },
     "scaling_mods": { "pain_min": [ 1 ], "pain_max": [ 1 ], "pain_chance": [ 10 ], "pain_max_val": [ 10 ] }
-  },
-  {
-    "type": "effect_type",
-    "id": "ichor_acid_weaponbreak",
-    "name": [ "Weapon Erosion", "Weapon Corrosion", "Weapon Dissolution" ],
-    "desc": [
-      "Acid sticks to the weapon, causing minor corrosion. The weapon's efficiency decreases, reducing damage dealt to enemies by 10%.",
-      "The acid residue deeply corrodes the weapon's material. The weapon's power is severely weakened, reducing damage dealt to enemies by 30%.",
-      "The weapon has been completely covered by acidic residue. It has completely lost its functionality as a weapon, reducing damage dealt to enemies by 50%."
-    ],
-    "int_add_val": 1,
-    "int_dur_factor": "1 m",
-    "max_intensity": 3,
-    "max_duration": "3 m",
-    "rating": "bad",
-    "apply_message": "Your weapon's efficiency has decreased due to acidic residue!",
-    "remove_message": "The acidic residue on your weapon has disappeared.",
-    "base_mods": { "bash_mod": [ -0.1 ], "cut_mod": [ -0.1 ] },
-    "scaling_mods": { "bash_mod": [ -0.2 ], "cut_mod": [ -0.2 ] }
   }
 ]
