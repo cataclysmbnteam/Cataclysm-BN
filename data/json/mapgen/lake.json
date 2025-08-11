@@ -73,12 +73,12 @@
       "place_nested": [
         {
           "chunks": [
-            [ "null", 95 ],
+            [ "null", 90 ],
+            [ "lakebed_12x12_pests", 5 ],
             [ "lakebed_12x12_tree", 1 ],
             [ "lakebed_12x12_hot_spring", 1 ],
             [ "lakebed_12x12_debris", 1 ],
             [ "lakebed_12x12_toxic_waste_dump", 1 ],
-            [ "lakebed_12x12_pests", 1 ],
             [ "lakebed_12x12_safes", 1 ]
           ],
           "x": [ 1, 11 ],
