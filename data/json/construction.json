@@ -2301,7 +2301,7 @@
     "components": [ [ [ "survivors_workbench", 1 ] ] ],
     "pre_special": "check_empty",
     "dark_craftable": true,
-    "post_furniture": "f_workbench"
+    "post_furniture": "f_survivors_workbench"
   },
   {
     "type": "construction",
