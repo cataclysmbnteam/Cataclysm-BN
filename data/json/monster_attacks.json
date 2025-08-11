@@ -152,7 +152,6 @@
       "WATERPROOF_GUN",
       "NO_SALVAGE",
       "NO_UNLOAD",
-      "WATERPROOF_GUN",
       "NEVER_JAMS"
     ],
     "skill": "launcher",
