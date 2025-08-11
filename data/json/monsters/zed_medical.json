@@ -107,6 +107,7 @@
     "default_faction": "zombie",
     "color": "red_white",
     "hp": 205,
+    "diff": 20,
     "melee_skill": 6,
     "armor_stab": 6,
     "armor_acid": 20,
