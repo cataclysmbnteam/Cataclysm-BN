@@ -921,7 +921,7 @@
     "id": "t_metal_railing_underwater",
     "looks_like": "t_metal_railing",
     "alias": [ "t_metal__railing_h", "t_metal__railing_v" ],
-    "name": "metal railing",
+    "name": "underwater metal railing",
     "description": "A section of metal railing.",
     "symbol": "LINE_OXOX",
     "color": "dark_gray",

@@ -611,8 +611,8 @@
   {
     "type": "terrain",
     "id": "t_wall_bulkhead_underwater",
-    "name": "bulkhead",
-    "description": "An industrially fabricated thick sheet carefully positioned, this wall is capable of resisting extreme elements as well as hostile forces.",
+    "name": "underwater bulkhead",
+    "description": "An industrially fabricated thick sheet carefully positioned, this wall is capable of resisting extreme elements as well as hostile forces.  Seems to have sprung a leak, however.",
     "symbol": "LINE_OXOX",
     "color": "light_gray",
     "move_cost": 0,

@@ -2322,7 +2322,7 @@
   {
     "type": "terrain",
     "id": "t_door_metal_locked_underwater",
-    "name": "closed metal door",
+    "name": "underwater closed metal door",
     "description": "A galvanized steel door, forged to withstand punishment and impede anyone or anything.  Typically used in conjunction with automated electronic locking mechanisms that require an external source to unlock.",
     "//": "Actually locked",
     "symbol": "+",
@@ -2358,7 +2358,7 @@
   {
     "type": "terrain",
     "id": "t_door_metal_locked_o_underwater",
-    "name": "open metal door",
+    "name": "underwater open metal door",
     "description": "A hanging metal gate.  Typically used in conjunction with mechanical winch.  Probably shouldn't be underneath when it comes down.",
     "symbol": "+",
     "looks_like": "t_door_metal_locked_o",
@@ -2790,8 +2790,8 @@
   {
     "type": "terrain",
     "id": "t_door_metal_bulkhead_c_underwater",
-    "name": "closed bulkhead door",
-    "description": "An extremely resilient door of cast metal, it is watertight and opened using the fly wheel.",
+    "name": "underwater closed bulkhead door",
+    "description": "An extremely resilient door of cast metal, opened using the fly wheel.  It's technically still watertight, but that's a moot point when both sides are flooded.",
     "symbol": "+",
     "looks_like": "t_door_metal_bulkhead_c",
     "color": "light_gray",
@@ -2819,8 +2819,8 @@
   {
     "type": "terrain",
     "id": "t_door_metal_bulkhead_o_underwater",
-    "name": "open bulkhead door",
-    "description": "An extremely resilient door of cast metal, it is watertight and opened using the fly wheel.",
+    "name": "underwater open bulkhead door",
+    "description": "An extremely resilient door of cast metal, currently open and letting all the fish in.",
     "symbol": "'",
     "looks_like": "t_door_metal_bulkhead_o",
     "color": "light_gray",
