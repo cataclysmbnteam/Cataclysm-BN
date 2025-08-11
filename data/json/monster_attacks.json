@@ -144,15 +144,7 @@
     "name": { "str": "acid artillery" },
     "description": "Fake gun that fires acid globs.",
     "material": [ "hflesh" ],
-    "flags": [
-      "PRIMITIVE_RANGED_WEAPON",
-      "NEVER_JAMS",
-      "NONCONDUCTIVE",
-      "NO_REPAIR",
-      "WATERPROOF_GUN",
-      "NO_SALVAGE",
-      "NO_UNLOAD"
-    ],
+    "flags": [ "PRIMITIVE_RANGED_WEAPON", "NEVER_JAMS", "NONCONDUCTIVE", "NO_REPAIR", "WATERPROOF_GUN", "NO_SALVAGE", "NO_UNLOAD" ],
     "skill": "launcher",
     "ammo": [ "40x46mm" ],
     "ammo_effects": [ "NO_PENETRATE_OBSTACLES", "NEVER_MISFIRES" ],
