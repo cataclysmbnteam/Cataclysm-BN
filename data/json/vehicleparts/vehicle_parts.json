@@ -1173,7 +1173,12 @@
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "rope_natural_short", 1 ] ] }
     },
     "flags": [ "FLOATS" ],
-    "breaks_into": [ { "item": "mutant_bug_hydrogen_sacs", "count": [ 144, 288 ] }, { "item": "bag_plastic", "count": [ 2, 10 ] }, { "item": "rigid_plastic_sheet", "count": [ 0, 2 ] },  { "item": "rope_natural", "count": [ 0, 1 ] } ],
+    "breaks_into": [
+      { "item": "mutant_bug_hydrogen_sacs", "count": [ 144, 288 ] },
+      { "item": "bag_plastic", "count": [ 2, 10 ] },
+      { "item": "rigid_plastic_sheet", "count": [ 0, 2 ] },
+      { "item": "rope_natural", "count": [ 0, 1 ] }
+    ],
     "//": "slight damage reduction, like a pillow sort of",
     "damage_reduction": { "all": 2 }
   },

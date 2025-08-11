@@ -172,7 +172,12 @@
     "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "mutant_bug_hydrogen_sacs", 288 ] ], [ [ "bag_plastic", 12 ] ], [ [ "rope_natural", 1, "LIST" ] ], [ [ "rigid_plastic_sheet", 1 ] ] ]
+    "components": [
+      [ [ "mutant_bug_hydrogen_sacs", 288 ] ],
+      [ [ "bag_plastic", 12 ] ],
+      [ [ "rope_natural", 1, "LIST" ] ],
+      [ [ "rigid_plastic_sheet", 1 ] ]
+    ]
   },
   {
     "type": "recipe",
