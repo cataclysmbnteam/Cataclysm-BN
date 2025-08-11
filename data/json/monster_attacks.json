@@ -151,8 +151,7 @@
       "NO_REPAIR",
       "WATERPROOF_GUN",
       "NO_SALVAGE",
-      "NO_UNLOAD",
-      "NEVER_JAMS"
+      "NO_UNLOAD"
     ],
     "skill": "launcher",
     "ammo": [ "40x46mm" ],
