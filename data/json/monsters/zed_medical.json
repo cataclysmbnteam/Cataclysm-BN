@@ -32,13 +32,22 @@
   {
     "id": "mon_zombie_surgeon",
     "type": "MONSTER",
-    "copy-from": "mon_zombie_nurse",
-    "delete": { "categories": [ "CLASSIC" ] },
     "name": { "str": "surgeon" },
     "description": "A dripping stinger where one hand would be, a set of razor-like claws in place of the other one.  This zombie's cold, focused eyes look down at you from above a \"mask\" of melded flesh.",
     "default_faction": "zombie",
+    "bodytype": "human",
+    "categories": [ "CLASSIC" ],
+    "species": [ "ZOMBIE", "HUMAN" ],
+    "volume": "62500 ml",
+    "weight": "81500 g",
     "hp": 150,
+    "speed": 80,
+    "material": [ "flesh" ],
+    "symbol": "Z",
     "color": "light_green_white",
+    "looks_like": "mon_zombie_nurse",
+    "aggression": 100,
+    "morale": 100,
     "melee_skill": 4,
     "armor_acid": 10,
     "vision_day": 45,
@@ -53,8 +62,10 @@
       },
       { "id": "inject", "move_cost": 50, "effects": [ { "id": "poison", "duration": 90, "bp": "torso" } ] }
     ],
-    "delete": { "upgrades": { "half_life": 14, "into": "mon_zombie_surgeon" } },
-    "upgrades": { "half_life": 14, "into_group": "GROUP_ZOMBIE_UPGRADES_MEDICAL" }
+    "death_drops": "mon_zombie_medical_death_drops",
+    "death_function": [ "NORMAL" ],
+    "upgrades": { "half_life": 14, "into_group": "GROUP_ZOMBIE_UPGRADES_MEDICAL" },
+    "flags": [ "SEES", "HEARS", "WARM", "POISON", "BLEED", "NO_BREATHE", "REVIVES" ]
   },
   {
     "id": "mon_zombie_vivisector",
