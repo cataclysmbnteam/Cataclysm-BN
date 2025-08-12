@@ -1059,6 +1059,30 @@
   },
   {
     "type": "furniture",
+    "id": "f_clay_storage",
+    "looks_like": "f_standing_tank",
+    "name": "clay water pots",
+    "description": "Four large water pots together in a corner, holding up to 150 liters of a single type of liquid.  It is quite fragile but can be constructed and removed without tools.",
+    "symbol": "O",
+    "color": "light_gray",
+    "move_cost_mod": -1,
+    "coverage": 90,
+    "required_str": -1,
+    "flags": [ "BASHABLE", "CONTAINER", "EASY_DECONSTRUCT", "LIQUIDCONT", "NOITEM", "SEALED", "TRANSPARENT" ],
+    "deconstruct": { "items": [ { "item": "clay_watercont", "count": 4 } ] },
+    "examine_action": "keg",
+    "keg_capacity": 600,
+    "bash": {
+      "str_min": 10,
+      "str_max": 20,
+      "sound": "ceramic shattering!",
+      "sound_fail": "whunk!",
+      "items": [ { "item": "ceramic_shard", "count": [ 10, 40 ] } ],
+      "ranged": { "reduction": [ 10, 10 ], "destroy_threshold": 20, "block_unaimed_chance": "75%" }
+    }
+  },
+  {
+    "type": "furniture",
     "id": "f_dumpster",
     "name": "dumpster",
     "description": "Stores trash.  Doesn't get picked up anymore.  Note the smell.",

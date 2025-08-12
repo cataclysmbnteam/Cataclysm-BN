@@ -1641,7 +1641,7 @@
         { "item": "withered", "count": [ 2, 12 ] }
       ],
       "//": "Go straight through without taking any damage.",
-      "ranged": { "block_unaimed_chance": "0%" }
+      "ranged": { "block_unaimed_chance": "100%" }
     }
   },
   {
@@ -2305,13 +2305,85 @@
     "color": "cyan",
     "move_cost": 2,
     "roof": "t_flat_roof",
-    "flags": [ "TRANSPARENT", "FLAT", "CONNECT_TO_WALL", "SUPPORTS_ROOF", "ROAD", "INDOORS", "BURROWABLE" ],
+    "flags": [ "TRANSPARENT", "FLAT", "CONNECT_TO_WALL", "SUPPORTS_ROOF", "ROAD", "INDOORS" ],
     "bash": {
       "str_min": 90,
       "str_max": 250,
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "ter_set": "t_null",
+      "items": [
+        { "item": "scrap", "count": [ 12, 24 ] },
+        { "item": "steel_plate", "prob": 75 },
+        { "item": "hinge", "count": [ 1, 3 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_door_metal_locked_underwater",
+    "name": "underwater closed metal door",
+    "description": "A galvanized steel door, forged to withstand punishment and impede anyone or anything.  Typically used in conjunction with automated electronic locking mechanisms that require an external source to unlock.",
+    "//": "Actually locked",
+    "symbol": "+",
+    "looks_like": "t_door_metal_locked",
+    "color": "cyan",
+    "move_cost": 0,
+    "coverage": 95,
+    "roof": "t_flat_roof",
+    "oxytorch": {
+      "result": "t_mdoor_frame",
+      "duration": "15 seconds",
+      "byproducts": [
+        { "item": "steel_plate", "count": [ 0, 1 ] },
+        { "item": "steel_chunk", "count": [ 3, 8 ] },
+        { "item": "hinge", "count": [ 1, 3 ] }
+      ]
+    },
+    "flags": [ "NOITEM", "CONNECT_TO_WALL", "LOCKED", "MINEABLE", "NO_SCENT", "BLOCK_WIND", "LIQUID", "NO_SCENT", "DEEP_WATER" ],
+    "bash": {
+      "str_min": 90,
+      "str_max": 250,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "ter_set": "t_mdoor_frame",
+      "items": [
+        { "item": "scrap", "count": [ 12, 24 ] },
+        { "item": "steel_plate", "prob": 75 },
+        { "item": "hinge", "count": [ 1, 3 ] }
+      ],
+      "ranged": { "reduction": [ 90, 90 ], "destroy_threshold": 250 }
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_door_metal_locked_o_underwater",
+    "name": "underwater open metal door",
+    "description": "A hanging metal gate.  Typically used in conjunction with mechanical winch.  Probably shouldn't be underneath when it comes down.",
+    "symbol": "+",
+    "looks_like": "t_door_metal_locked_o",
+    "color": "cyan",
+    "move_cost": 2,
+    "roof": "t_flat_roof",
+    "flags": [
+      "TRANSPARENT",
+      "FLAT",
+      "CONNECT_TO_WALL",
+      "SUPPORTS_ROOF",
+      "ROAD",
+      "INDOORS",
+      "BURROWABLE",
+      "LIQUID",
+      "NO_SCENT",
+      "SWIMMABLE",
+      "DEEP_WATER"
+    ],
+    "bash": {
+      "str_min": 90,
+      "str_max": 250,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "ter_set": "t_water_cube",
       "items": [
         { "item": "scrap", "count": [ 12, 24 ] },
         { "item": "steel_plate", "prob": 75 },
@@ -2486,7 +2558,7 @@
       "byproducts": [ { "item": "pipe", "count": 12 }, { "item": "hinge", "count": 2 } ]
     },
     "flags": [ "TRANSPARENT", "NOITEM", "PERMEABLE", "CONNECT_TO_WALL", "LOCKED", "THIN_OBSTACLE", "WELDABLE_BARS" ],
-    "examine_action": "locked_object_pickable",
+    "examine_action": "locked_object",
     "oxytorch": {
       "result": "t_mdoor_frame",
       "duration": "10 seconds",
@@ -2505,6 +2577,15 @@
         { "item": "scrap", "count": [ 3, 12 ] },
         { "item": "hinge", "count": [ 1, 2 ] }
       ]
+    },
+    "pry": {
+      "success_message": "You pry open the door.",
+      "fail_message": "You pry, but cannot pry open the door.",
+      "pry_quality": 4,
+      "noise": 24,
+      "sound": "metal screeching!",
+      "difficulty": 4,
+      "new_ter_type": "t_door_bar_o"
     }
   },
   {
@@ -2697,6 +2778,57 @@
     "roof": "t_metal_flat_roof",
     "flags": [ "TRANSPARENT", "INDOORS", "FLAT", "ROAD" ],
     "close": "t_door_metal_bulkhead_c",
+    "bash": {
+      "str_min": 100,
+      "str_max": 300,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "ter_set": "t_mdoor_frame",
+      "items": [ { "item": "scrap", "count": [ 12, 24 ] }, { "item": "steel_plate", "prob": 75 } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_door_metal_bulkhead_c_underwater",
+    "name": "underwater closed bulkhead door",
+    "description": "An extremely resilient door of cast metal, opened using the fly wheel.  It's technically still watertight, but that's a moot point when both sides are flooded.",
+    "symbol": "+",
+    "looks_like": "t_door_metal_bulkhead_c",
+    "color": "light_gray",
+    "move_cost": 0,
+    "coverage": 95,
+    "roof": "t_metal_flat_roof",
+    "//": "Doesn't use WELDABLE_DOOR because we want to turn it into t_door_metal_welded_bulkhead instead",
+    "flags": [ "NOITEM", "DOOR", "CONNECT_TO_WALL", "MINEABLE", "NO_SCENT", "BLOCK_WIND", "LIQUID", "NO_SCENT", "DEEP_WATER" ],
+    "open": "t_door_metal_bulkhead_o_underwater",
+    "oxytorch": {
+      "result": "t_mdoor_frame",
+      "duration": "15 seconds",
+      "byproducts": [ { "item": "steel_plate", "count": [ 0, 1 ] }, { "item": "steel_chunk", "count": [ 3, 8 ] } ]
+    },
+    "bash": {
+      "str_min": 100,
+      "str_max": 300,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "ter_set": "t_water_cube",
+      "items": [ { "item": "scrap", "count": [ 12, 24 ] }, { "item": "steel_plate", "prob": 75 } ],
+      "ranged": { "reduction": [ 100, 100 ], "destroy_threshold": 300 }
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_door_metal_bulkhead_o_underwater",
+    "name": "underwater open bulkhead door",
+    "description": "An extremely resilient door of cast metal, currently open and letting all the fish in.",
+    "symbol": "'",
+    "looks_like": "t_door_metal_bulkhead_o",
+    "color": "light_gray",
+    "move_cost": 2,
+    "coverage": 95,
+    "roof": "t_metal_flat_roof",
+    "flags": [ "TRANSPARENT", "INDOORS", "FLAT", "ROAD", "LIQUID", "NO_SCENT", "SWIMMABLE", "DEEP_WATER" ],
+    "close": "t_door_metal_bulkhead_c_underwater",
     "bash": {
       "str_min": 100,
       "str_max": 300,

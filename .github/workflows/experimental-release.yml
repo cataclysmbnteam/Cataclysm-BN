@@ -6,7 +6,7 @@ on:
   push:
     branches:
       - main
-    paths-ignore: [doc/**, scripts/**, "**.md", "**.mdx"]
+    paths-ignore: [docs/**, scripts/**, "**.md", "**.mdx"]
 
 env:
   VCPKG_BINARY_SOURCES: "default"

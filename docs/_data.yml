@@ -1,0 +1,17 @@
+menu_links:
+  - text: Github Repository
+    href: https://github.com/cataclysmbnteam/Cataclysm-BN
+    icon: github-logo
+  - text: BN Item Guide
+    href: https://cbn-guide.mythoscraft.org
+    icon: book
+  - text: Discord
+    href: https://discord.gg/XW7XhXuZ89
+    icon: discord-logo
+  - text: Reddit
+    href: https://www.reddit.com/r/cataclysmbn/
+    icon: reddit-logo
+
+repo:
+  url: https://github.com/cataclysmbnteam/Cataclysm-BN
+  path: /docs

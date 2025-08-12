@@ -561,6 +561,7 @@
       [ "small_scuba_tank", 5 ],
       [ "dive_bag", 10 ],
       [ "rebreather", 2 ],
+      [ "sea_scooter", 1 ],
       [ "rebreather_filter", 4 ],
       [ "glowstick", 60 ],
       [ "handflare", 40 ],
@@ -573,7 +574,45 @@
       [ "fish_trap", 100 ],
       [ "bucket", 100 ],
       [ "fishing_hook_basic", 100 ],
-      [ "fishing_hook_bone", 100 ]
+      [ "fishing_hook_bone", 100 ],
+      [ "waterwaymap", 25 ]
+    ]
+  },
+  {
+    "id": "fishing_items_trash",
+    "type": "item_group",
+    "//": "For underwater locations, the idea is these items have sunk to the bottom.",
+    "items": [
+      [ "plastic_shopping_bag", 30 ],
+      [ "plastic_sheet", 20 ],
+      [ "rag", 30 ],
+      [ "bag_plastic", 30 ],
+      [ "bottle_plastic", 30 ],
+      [ "bottle_plastic_small", 30 ],
+      [ "bottle_glass", 30 ],
+      [ "bucket", 10 ],
+      [ "can_drink_unsealed", 30 ],
+      [ "can_food_unsealed", 30 ],
+      [ "fishing_hook_basic", 30 ],
+      [ "fishing_hook_bone", 30 ],
+      [ "fishing_rod_professional", 5 ],
+      [ "fishing_rod_basic", 5 ],
+      [ "fish_bait", 5 ],
+      [ "fish_trap", 20 ],
+      [ "rope_6", 10 ],
+      [ "rope_30", 20 ],
+      [ "fishing_waders", 5 ],
+      [ "glowstick", 15 ],
+      [ "grapnel", 10 ],
+      [ "stick", 50 ],
+      [ "log", 50 ],
+      [ "razor_blade", 10 ],
+      [ "glass_shard", 20 ],
+      [ "scrap", 20 ],
+      [ "scrap_copper", 20 ],
+      [ "pipe", 20 ],
+      [ "battery_car", 5 ],
+      [ "wheel", 20 ]
     ]
   },
   {
@@ -2665,21 +2704,13 @@
     "id": "fort_crate",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [
-      { "item": "cannonball_4lb", "prob": 100, "count": [ 1, 10 ] },
-      { "item": "rag", "prob": 50, "count": [ 1, 25 ] },
-      { "item": "gatlingdrum240", "prob": 25 }
-    ]
+    "entries": [ { "group": "supplies_cannonball", "prob": 100 }, { "item": "gatlingdrum240", "prob": 25 } ]
   },
   {
     "id": "fort_powderbarrel",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [
-      { "item": "chem_black_powder", "charges": [ 100, 2500 ], "container-item": "wooden_barrel_small" },
-      { "item": "chem_black_powder", "charges": [ 100, 2500 ], "container-item": "wooden_barrel_small", "prob": 50 },
-      { "item": "4570_low", "charges": [ 1, 240 ], "prob": 50 }
-    ]
+    "entries": [ { "group": "supplies_powder_mag", "prob": 100 }, { "item": "4570_low", "charges": [ 1, 240 ], "prob": 50 } ]
   },
   {
     "type": "item_group",

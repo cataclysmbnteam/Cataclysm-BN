@@ -138,7 +138,7 @@
     "proportional": { "recoil": 0.6, "loudness": 0.8, "dispersion": 1.2 },
     "range": 0,
     "shape": [ "cone", { "half_angle": 15, "length": 8 } ],
-    "extend": { "effects": [ "INCENDIARY", "STREAM", "NOGIB" ] }
+    "extend": { "effects": [ "INCENDIARY", "STREAM", "NOGIB", "NO_PENETRATE_OBSTACLES" ] }
   },
   {
     "id": "shot_flechette",
@@ -164,7 +164,7 @@
     "//2": "currently can't be crafted",
     "count": 5,
     "damage": { "damage_type": "bullet", "amount": 30, "armor_penetration": 10 },
-    "extend": { "effects": [ "EXPLOSIVE" ] }
+    "extend": { "effects": [ "EXPLOSIVE", "NO_PENETRATE_OBSTACLES" ] }
   },
   {
     "id": "shot_scrap",

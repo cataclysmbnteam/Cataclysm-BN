@@ -36,7 +36,9 @@
         { "item": "rope_30", "x": 9, "y": [ 7, 9 ], "chance": 30 },
         { "item": "rope_30", "x": 14, "y": [ 7, 9 ], "chance": 30 },
         { "item": "rope_30", "x": 9, "y": [ 13, 15 ], "chance": 30 },
-        { "item": "rope_30", "x": 14, "y": [ 13, 15 ], "chance": 70 }
+        { "item": "rope_30", "x": 14, "y": [ 13, 15 ], "chance": 70 },
+        { "item": "sea_scooter", "x": [ 14, 15 ], "y": [ 11, 16 ], "chance": 50 },
+        { "item": "sea_scooter", "x": [ 9, 10 ], "y": [ 11, 16 ], "chance": 50 }
       ],
       "items": { "#": { "item": "fishing_items", "chance": 10 } },
       "place_vehicles": [
@@ -256,6 +258,7 @@
       "palettes": [ "underwater_structure" ],
       "place_loot": [
         { "item": "shark_suit", "x": [ 9, 10 ], "y": 12, "chance": 20 },
+        { "item": "waterwaymap", "x": [ 9, 10 ], "y": 12, "chance": 40 },
         { "item": "fish", "x": 13, "y": 12, "chance": 100, "repeat": [ 2, 6 ] },
         { "item": "fish_bait", "x": 13, "y": 12, "chance": 100, "repeat": [ 2, 6 ] }
       ],

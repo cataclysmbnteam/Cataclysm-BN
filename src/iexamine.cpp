@@ -215,6 +215,7 @@ static const bionic_id bio_power_storage_mkII( "bio_power_storage_mkII" );
 static const std::string flag_AUTODOC( "AUTODOC" );
 static const std::string flag_AUTODOC_COUCH( "AUTODOC_COUCH" );
 static const std::string flag_BARRICADABLE_WINDOW_CURTAINS( "BARRICADABLE_WINDOW_CURTAINS" );
+static const std::string flag_CLIMBABLE( "CLIMBABLE" );
 static const std::string flag_CLIMB_SIMPLE( "CLIMB_SIMPLE" );
 static const std::string flag_GROWTH_HARVEST( "GROWTH_HARVEST" );
 static const std::string flag_OPENCLOSE_INSIDE( "OPENCLOSE_INSIDE" );
@@ -1607,6 +1608,9 @@ void iexamine::transform( player &p, const tripoint &pos )
 {
     std::string message;
     std::string prompt;
+    const bool furn_is_deployed = !g->m.furn( pos ).obj().deployed_item.is_empty();
+    const bool can_climb = g->m.has_flag( flag_CLIMBABLE, pos ) ||
+                           g->m.has_flag( flag_CLIMB_SIMPLE, pos );
 
     if( g->m.has_furn( pos ) ) {
         message = g->m.furn( pos ).obj().message;
@@ -1620,6 +1624,12 @@ void iexamine::transform( player &p, const tripoint &pos )
     selection_menu.text = _( "Select an action" );
     selection_menu.addentry( 0, true, 'g', _( "Get items" ) );
     selection_menu.addentry( 1, true, 't', !prompt.empty() ? _( prompt ) : _( "Transform furniture" ) );
+    if( furn_is_deployed ) {
+        selection_menu.addentry( 2, true, 'T', _( "Take down the %s" ), g->m.furnname( pos ) );
+    }
+    if( can_climb ) {
+        selection_menu.addentry( 3, true, 'c', _( "Climb %s" ), g->m.furnname( pos ) );
+    }
     selection_menu.query();
 
     switch( selection_menu.ret ) {
@@ -1639,6 +1649,18 @@ void iexamine::transform( player &p, const tripoint &pos )
                 }
                 g->m.ter_set( pos, g->m.get_ter_transforms_into( pos ) );
             }
+            return;
+        }
+        case 2: {
+            add_msg( m_info, _( "You take down the %s." ),
+                     g->m.furnname( pos ) );
+            const auto furn_item = g->m.furn( pos ).obj().deployed_item;
+            g->m.add_item_or_charges( pos, item::spawn( furn_item, calendar::turn ) );
+            g->m.furn_set( pos, f_null );
+            return;
+        }
+        case 3: {
+            iexamine::chainfence( p, pos );
             return;
         }
         default:

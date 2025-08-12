@@ -55,6 +55,7 @@ static const ammo_effect_str_id ammo_effect_TANGLE( "TANGLE" );
 static const efftype_id effect_bounced( "bounced" );
 
 static const std::string flag_LIQUID( "LIQUID" );
+static const std::string flag_THIN_OBSTACLE( "THIN_OBSTACLE" );
 
 static void drop_or_embed_projectile( dealt_projectile_attack &attack )
 {
@@ -442,7 +443,7 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
                     here.add_splatter_trail( critter->bloodType(), tp, dest );
                 }
                 sfx::do_projectile_hit( *attack.hit_critter );
-                has_momentum = false;
+                has_momentum = proj.impact.total_damage() > 0 && is_bullet;
             } else {
                 attack.missed_by = aim.missed_by;
             }
@@ -452,10 +453,9 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
             here.shoot( source, tp, proj, !no_item_damage && tp == target );
             has_momentum = proj.impact.total_damage() > 0;
         }
-
-        if( ( !has_momentum || !is_bullet ) && here.impassable( tp ) ) {
-            // Don't let flamethrowers go through walls
-            // TODO: Let them go through bars
+        if( !has_momentum && here.impassable( tp ) &&
+            !here.has_flag( flag_THIN_OBSTACLE, tp ) ) {
+            // Flamethrowers go through bars but not wall
             traj_len = i;
             break;
         }

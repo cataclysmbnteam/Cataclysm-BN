@@ -1310,7 +1310,7 @@
   {
     "type": "material",
     "id": "carbide",
-    "name": "layered carbide",
+    "name": "Graphene Composite",
     "density": 30,
     "specific_heat_liquid": 0.82,
     "specific_heat_solid": 0.45,

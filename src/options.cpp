@@ -1550,6 +1550,12 @@ void options_manager::add_options_interface()
 
     add_empty_line();
 
+    add( "HEALTH_STYLE", interface, translate_marker( "Health Display Style" ),
+         translate_marker( "Switch health-related display styling such as HP and hunger" ),
+    {{ "number", translate_marker( "Numerical" )}, {"bar", translate_marker( "Bar" )}},
+    "bar" );
+
+    add_empty_line();
 
     add( "WIKI_DOC_URL", interface, translate_marker( "Wiki URL" ),
          translate_marker( "The URL opened by pressing the open wiki keybind." ),
@@ -2389,12 +2395,12 @@ void options_manager::add_options_world_default()
 
     add( "SPECIALS_DENSITY", world_default, translate_marker( "Overmap specials density" ),
          translate_marker( "A scaling factor that determines density of overmap specials." ),
-         0.0, 10.0, 1, 0.1
+         0.01, 10.0, 1, 0.1
        );
 
     add( "SPECIALS_SPACING", world_default, translate_marker( "Overmap specials spacing" ),
          translate_marker( "A number determing minimum distance between overmap specials.  -1 allows intersections of specials." ),
-         -1, 18, 6
+         -1, 72, 6
        );
 
     add( "VEHICLE_DAMAGE", world_default, translate_marker( "Vehicle damage modifier" ),

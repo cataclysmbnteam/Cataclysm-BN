@@ -38,9 +38,7 @@ void cata::detail::reg_spell_type( sol::state &lua )
 
         // The string conversion function references this object's str_id.
         luna::set_fx( ut, sol::meta_function::to_string,
-        []( const UT_CLASS & id ) -> std::string {
-            return string_format( "%s[%s]", luna::detail::luna_traits<UT_CLASS>::name, id.id.c_str() );
-        } );
+        []( const UT_CLASS & id ) -> std::string { return string_format( "%s[%s]", luna::detail::luna_traits<UT_CLASS>::name, id.id.c_str() ); } );
 
         SET_MEMB_RO( id );
         DOC( "The name of the primary effect this spell will enact." );
@@ -90,9 +88,7 @@ void cata::detail::reg_spell_type( sol::state &lua )
 
         DOC( "Other spells cast by this spell." );
         luna::set_fx( ut, "additional_spells",
-        []( const UT_CLASS & spid ) -> std::vector<fake_spell> {
-            std::vector<fake_spell> rv = spid.additional_spells; return rv;
-        } );
+        []( const UT_CLASS & spid ) -> std::vector<fake_spell> { std::vector<fake_spell> rv = spid.additional_spells; return rv; } );
 
         DOC( "Returns a (long) list of every spell in the game." );
         SET_FX_T( get_all, const std::vector<spell_type> &() );
@@ -117,16 +113,12 @@ void cata::detail::reg_spell_fake( sol::state &lua )
         );
 
         luna::set_fx( ut, sol::meta_function::to_string,
-        []( const UT_CLASS & id ) -> std::string {
-            return string_format( "%s[%s]", luna::detail::luna_traits<UT_CLASS>::name, id.id.c_str() );
-        } );
+        []( const UT_CLASS & id ) -> std::string { return string_format( "%s[%s]", luna::detail::luna_traits<UT_CLASS>::name, id.id.c_str() ); } );
 
         SET_MEMB_RO( id );
 
         DOC( "Returns the defined maximum level of this SpellSimple instance, if defined. Otherwise, returns 0." );
-        luna::set_fx( ut, "max_level", []( UT_CLASS & sp ) -> int {
-            return sp.max_level.has_value() ? *sp.max_level : 0;
-        } );
+        luna::set_fx( ut, "max_level", []( UT_CLASS & sp ) -> int { return sp.max_level.has_value() ? *sp.max_level : 0; } );
 
         // Perhaps this should be writeable?
         SET_MEMB_RO( level );

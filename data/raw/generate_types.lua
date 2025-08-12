@@ -1,26 +1,31 @@
----@type fun (a: any, b: any): boolean
+---@generic T
+---@param t T[]
+---@param f? fun(a: T, b: T):boolean
+---@return T[]
+function sort_by(t, f)
+  if not f then f = sort_by_tostring end
+  table.sort(t, f)
+  return t
+end
+
+---@param a any
+---@param b any
+---@return boolean
 function sort_by_tostring(a, b)
   if a.k and b.k then return tostring(a.k) < tostring(b.k) end
   return tostring(a) < tostring(b)
 end
 
---[[
-Helper function to sort a table by key or using a custom sort function.
-Uses 'pairs' for iteration to be compatible with sol2 table/map proxies.
-]]
+--- wraps sol2 table/map proxies so it can be sorted.
 ---@generic T
----@param t T[]
----@param f? fun(a: T, b: T):boolean
----@return table
-local sorted_by = function(t, f)
-  if not f then f = sort_by_tostring end
-  ---@type T[]
-  local sorted = {}
-  for k, v in pairs(t) do
-    table.insert(sorted, { k = k, v = v })
+---@param t? T[]
+---@return { k: string, v: T }[]
+function wrapped(t)
+  local res = {}
+  for k, v in pairs(t or {}) do
+    table.insert(res, { k = k, v = v })
   end
-  table.sort(sorted, f)
-  return sorted
+  return res
 end
 
 --[[
@@ -93,10 +98,27 @@ local map_cpp_type_to_lua = function(cpp_type)
   else
     -- Clean up namespaces and templates for class names
     local clean_type = string.gsub(cpp_type, "::", "_")
+    -- Clean spaces
+    clean_type = string.gsub(clean_type, "%s+", "")
     -- Try to extract the core type name, handling basic templates roughly
     clean_type = string.match(clean_type, "^[%w_]+%s*<?([%w_]+)?>?$") or clean_type
-    clean_type = string.match(clean_type, "[%w_]+$") -- Get the last part
-    return clean_type or "any"
+    clean_type = string.match(clean_type, "[%w_]+$") or clean_type -- Get the last part
+
+    if clean_type == "..." or string.match(clean_type, "<cppval:") then
+      clean_type = "any"
+    elseif string.match(clean_type, "^Vector%(%w+%)$") then
+      clean_type = string.gsub(clean_type, "^Vector%((%w+)%)$", "%1[]")
+    elseif string.match(clean_type, "^Set%(%w+%)$") then
+      clean_type = string.gsub(clean_type, "^Set%((%w+)%)$", "%1[]")
+    elseif string.match(clean_type, "^Array%((%w+),(%d+)%)$") then
+      clean_type = string.gsub(clean_type, "^Array%((%w+),(%d+)%)$", "%1[]")
+    elseif string.match(clean_type, "^Map%((%w+),(%w+)%)$") then
+      clean_type = string.gsub(clean_type, "^Map%((%w+),(%w+)%)$", "table<%1, %2>")
+    elseif string.match(clean_type, "^Opt%((%w+)%)$") then
+      clean_type = string.gsub(clean_type, "^Opt%((%w+)%)$", "%1?")
+    end
+
+    return clean_type or "any" -- Fallback to 'any' if nothing matches
   end
 end
 
@@ -289,6 +311,16 @@ doc_gen_func.impl = function()
 ---@field current_mod_path string
 ---@field cata_internal table
 game = {}
+
+---@class OnCharacterResetStatsParams
+---@field character Character
+on_character_reset_stats = {}
+
+---@class OnMapgenPostprocessParams
+---@field map Map
+---@field omt Tripoint
+---@field when TimePoint
+on_mapgen_postprocess = {}
 ]]
 
   ---@diagnostic disable-next-line: undefined-global
@@ -301,7 +333,7 @@ game = {}
   ---@return string Generated Lua code snippet for this section
   local process_section = function(section_name, section_data, is_class)
     local ret = ""
-    local section_sorted = sorted_by(section_data)
+    local section_sorted = sort_by(section_data)
     if #section_sorted == 0 then return "" end -- Skip empty sections
 
     ret = ret .. "--================---- " .. section_name .. " ----================\n\n"
@@ -321,15 +353,9 @@ game = {}
       ret = ret .. "---@class " .. name .. bases_str .. "\n"
 
       -- Process Members (Variables and Functions)
-      local members_sorted = sorted_by(members, function(a, b)
-        local a_priority = field_sort_order(a.v)
-        local b_priority = field_sort_order(b.v)
-
-        if a_priority ~= b_priority then return a_priority < b_priority end
-        return a.v.name < b.v.name
-      end)
-      for _, mem_item in ipairs(members_sorted) do
-        local member = mem_item.v
+      ---@type { member: table, value: string }[]
+      local formatted = {}
+      for _, member in ipairs(members) do
         local member_name_str = tostring(member.name)
 
         -- Skip potentially problematic internal names if necessary
@@ -339,20 +365,36 @@ game = {}
           -- Determine if it's static based on context (this might need info from `data` if available)
           -- For now, assume instance vars for classes, static for libs unless specified otherwise
           local is_static_var = not is_class -- Simple assumption, may need refinement
-          ret = ret .. fmt_variable_field(member, is_static_var)
+          --   ret = ret .. fmt_variable_field(member, is_static_var)
+          table.insert(formatted, { member = member, value = fmt_variable_field(member, is_static_var) })
         elseif member.type == "func" then
           -- Libraries expose functions statically (.), classes expose methods dynamically (:) by default in sol2
           -- Pass 'is_class' to fmt_function_field to decide if 'self' should be added.
-          ret = ret .. fmt_function_field(member, name, false)
+          table.insert(formatted, { member = member, value = fmt_function_field(member, name, false) })
         else
-          ret = ret
-            .. fmt_variable_field(
+          -- Fallback
+          table.insert(formatted, {
+            member = member,
+            value = fmt_variable_field(
               { name = member_name_str, vartype = "any", comment = "Unknown member type" },
               not is_class
-            ) -- Fallback
+            ),
+          })
         end
       end
 
+      for _, item in
+        ipairs(sort_by(formatted, function(a, b)
+          local a_priority = field_sort_order(a.member)
+          local b_priority = field_sort_order(b.member)
+
+          if a_priority ~= b_priority then return a_priority < b_priority end
+          if a.member.name ~= b.member.name then return a.member.name < b.member.name end
+          return a.value < b.value
+        end))
+      do
+        ret = ret .. item.value
+      end
       ret = ret .. name .. " = {}\n"
 
       if is_class then ret = ret .. fmt_constructor_field(name, ctors) end
@@ -362,18 +404,16 @@ game = {}
   end
 
   -- Generate sections
-  full_ret = full_ret .. process_section("Classes", dt["#types"] or {}, true)
-  full_ret = full_ret .. process_section("Libraries", dt["#libs"] or {}, false)
+  full_ret = full_ret .. process_section("Classes", wrapped(dt["#types"]), true)
+  full_ret = full_ret .. process_section("Libraries", wrapped(dt["#libs"]), false)
 
   -- Process Enums (Remain largely unchanged, ensure sorting/formatting is robust)
-  local enums_table = dt["#enums"] or {}
-  local enums_sorted = sorted_by(enums_table)
+  local enums_sorted = sort_by(wrapped(dt["#enums"]))
   if #enums_sorted > 0 then full_ret = full_ret .. "--=================---- Enums ----=================\n\n" end
   for _, item in ipairs(enums_sorted) do
     local enumname = item.k
     local dt_enum = item.v or {}
     local enum_comment = dt_enum.enum_comment
-    local entries = dt_enum["entries"] or {}
 
     local comment_annot = fmt_comment_annotation(enum_comment)
     if comment_annot ~= "" then full_ret = full_ret .. comment_annot .. "\n" end
@@ -381,25 +421,15 @@ game = {}
     full_ret = full_ret .. "---@enum " .. enumname .. "\n"
     full_ret = full_ret .. enumname .. " = {\n"
 
-    -- Filter and sort enum entries robustly
+    ---@type { k: string, v: string | number | boolean }[]
     local entries_filtered = {}
-    for k, v in pairs(entries) do
+    for k, v in pairs(dt_enum["entries"] or {}) do
       if type(v) == "string" or type(v) == "number" or type(v) == "boolean" then
-        entries_filtered[k] = v
-      else
-        print(
-          "Warning: Skipping non-literal value for enum entry "
-            .. enumname
-            .. "."
-            .. tostring(k)
-            .. " (type: "
-            .. type(v)
-            .. ")\n"
-        )
+        table.insert(entries_filtered, { k = k, v = v })
       end
     end
 
-    local entries_sorted_by_v = sorted_by(entries_filtered, function(a, b) return a.v < b.v end)
+    local entries_sorted_by_v = sort_by(entries_filtered, function(a, b) return a.v < b.v end)
 
     local table_entries = {}
     for _, entry_item in ipairs(entries_sorted_by_v) do

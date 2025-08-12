@@ -501,7 +501,8 @@
     "difficulty": 3,
     "time": "12 m",
     "charges": 10,
-    "batch_time_factors": [ 75, 4 ],
+    "batch_time_factors": [ 90, 4 ],
+    "autolearn": [ [ "fabrication", 4 ], [ "cooking", 4 ] ],
     "book_learn": [ [ "concrete_book", 3 ], [ "adv_chemistry", 3 ], [ "textbook_chemistry", 3 ], [ "reference_cooking", 4 ] ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 50 ], [ "oxy_torch", 10 ] ] ],
     "components": [ [ [ "material_limestone", 10 ] ] ]
@@ -515,8 +516,9 @@
     "skills_required": [ "cooking", 3 ],
     "difficulty": 4,
     "time": "1 h 30 m",
+    "autolearn": [ [ "cooking", 6 ] ],
     "book_learn": [ [ "concrete_book", 4 ] ],
-    "batch_time_factors": [ 75, 3 ],
+    "batch_time_factors": [ 90, 3 ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 250 ], [ "oxy_torch", 50 ] ] ],
     "components": [ [ [ "material_quicklime", 50 ] ], [ [ "material_sand", 50 ] ] ]
   },
@@ -862,7 +864,7 @@
     "difficulty": 2,
     "time": "40 m",
     "autolearn": true,
-    "batch_time_factors": [ 75, 4 ],
+    "batch_time_factors": [ 90, 4 ],
     "using": [ [ "earthenware_firing", 60 ] ],
     "components": [ [ [ "clay_lump", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
   },

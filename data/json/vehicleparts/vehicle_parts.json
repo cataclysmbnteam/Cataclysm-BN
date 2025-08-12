@@ -1081,6 +1081,36 @@
   },
   {
     "type": "vehicle_part",
+    "id": "survivors_workbench",
+    "name": { "str": "survivors workbench" },
+    "symbol": "#",
+    "looks_like": "veh_table_wood",
+    "color": "red",
+    "broken_symbol": "#",
+    "broken_color": "light_gray",
+    "damage_modifier": 60,
+    "durability": 300,
+    "size": "30 L",
+    "item": "survivors_workbench",
+    "location": "center",
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "15 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "15 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "welding_standard", 5 ], [ "steel_tiny", 1 ] ] }
+    },
+    "flags": [ "CARGO", "OBSTACLE", "FLAT_SURF", "WORKBENCH" ],
+    "breaks_into": [
+      { "item": "pipe", "count": [ 4, 6 ] },
+      { "item": "sheet_metal", "count": [ 0, 1 ] },
+      { "item": "sheet_metal_small", "count": [ 12, 24 ] },
+      { "item": "steel_chunk", "count": [ 4, 8 ] },
+      { "item": "scrap", "count": [ 12, 24 ] }
+    ],
+    "workbench": { "multiplier": 1.5, "mass": "300 kg", "volume": "30L" },
+    "damage_reduction": { "all": 29 }
+  },
+  {
+    "type": "vehicle_part",
     "id": "robobench",
     "name": { "str": "robobench" },
     "symbol": "#",
@@ -1106,7 +1136,7 @@
       { "item": "steel_chunk", "count": [ 4, 8 ] },
       { "item": "scrap", "count": [ 12, 24 ] }
     ],
-    "workbench": { "multiplier": 1.5, "mass": "300 kg", "volume": "30L" },
+    "workbench": { "multiplier": 1.8, "mass": "300 kg", "volume": "30L" },
     "damage_reduction": { "all": 25 }
   },
   {
@@ -1134,11 +1164,60 @@
   },
   {
     "type": "vehicle_part",
+    "id": "raft_board",
+    "name": { "str": "raft boat hull" },
+    "description": "Logs tied together that will keep your boat out of the water.",
+    "symbol": "o",
+    "looks_like": "t_wall_log",
+    "color": "brown",
+    "broken_symbol": "x",
+    "broken_color": "light_gray",
+    "damage_modifier": 50,
+    "durability": 30,
+    "item": "raft_board",
+    "location": "under",
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "30 m", "using": [ [ "rope_natural_short", 2 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "15 m", "qualities": [ { "id": "CUT", "level": 1 } ] },
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "rope_natural_short", 1 ] ] }
+    },
+    "flags": [ "FLOATS" ]
+  },
+  {
+    "type": "vehicle_part",
+    "id": "gas_sac_buoyancy_cell",
+    "name": { "str": "gas sac buoyancy cell" },
+    "description": "Gas sacs tied together to keep your boat out of the water.",
+    "symbol": "o",
+    "looks_like": "t_wall_log",
+    "color": "brown",
+    "broken_symbol": "x",
+    "broken_color": "light_gray",
+    "damage_modifier": 50,
+    "durability": 30,
+    "item": "gas_sac_buoyancy_cell",
+    "location": "under",
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "30 m", "using": [ [ "rope_natural_short", 2 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "15 m", "qualities": [ { "id": "CUT", "level": 1 } ] },
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "rope_natural_short", 1 ] ] }
+    },
+    "flags": [ "FLOATS" ],
+    "breaks_into": [
+      { "item": "mutant_bug_hydrogen_sacs", "count": [ 144, 288 ] },
+      { "item": "bag_plastic", "count": [ 2, 10 ] },
+      { "item": "rigid_plastic_sheet", "count": [ 0, 2 ] }
+    ],
+    "//": "slight damage reduction, like a pillow sort of",
+    "damage_reduction": { "all": 2 }
+  },
+  {
+    "type": "vehicle_part",
     "id": "plastic_boat_hull",
     "name": { "str": "plastic boat hull" },
     "description": "A rigid plastic sheet that keeps water out of your boat.",
     "symbol": "o",
-    "color": "brown",
+    "color": "light_blue",
     "looks_like": "boat_board",
     "broken_symbol": "x",
     "broken_color": "light_gray",
@@ -1152,6 +1231,43 @@
       "repair": { "skills": [ [ "mechanics", 4 ] ], "time": "60 m", "using": [ [ "soldering_standard", 5 ], [ "plastics", 1 ] ] }
     },
     "flags": [ "FLOATS" ],
+    "breaks_into": [ { "item": "plastic_chunk", "count": [ 4, 8 ] } ],
+    "damage_reduction": { "all": 12, "stab": 4, "cut": 4 }
+  },
+  {
+    "type": "vehicle_part",
+    "id": "sea_scooter_hull",
+    "name": { "str": "sea scooter hull" },
+    "description": "The hull of a Rivtech sea scooter. Includes a built-in motor.",
+    "symbol": "o",
+    "color": "brown",
+    "looks_like": "inflatable_airbag",
+    "broken_symbol": "x",
+    "broken_color": "light_gray",
+    "damage_modifier": 50,
+    "epower": 60,
+    "power": 7040,
+    "energy_consumption": 1500,
+    "noise_factor": 5,
+    "m2c": 90,
+    "fuel_type": "battery",
+    "durability": 120,
+    "item": "plastic_boat_hull",
+    "location": "structure",
+    "flags": [
+      "FLOATS",
+      "INITIAL_PART",
+      "MOUNTABLE",
+      "SEAT",
+      "SEAT_REQUIRES_BALANCE",
+      "BOARDABLE",
+      "SOLAR_PANEL",
+      "CONTROLS",
+      "ENGINE",
+      "E_HIGHER_SKILL",
+      "E_HEATER",
+      "LIGHT"
+    ],
     "breaks_into": [ { "item": "plastic_chunk", "count": [ 4, 8 ] } ],
     "damage_reduction": { "all": 12, "stab": 4, "cut": 4 }
   },
@@ -1188,7 +1304,7 @@
     "name": { "str": "carbon fiber boat hull" },
     "description": "A light weight, advanced carbon fiber rigid sheet that keeps the water out of your boat.",
     "symbol": "o",
-    "color": "brown",
+    "color": "dark_gray",
     "looks_like": "boat_board",
     "broken_symbol": "x",
     "broken_color": "light_gray",

@@ -2502,7 +2502,17 @@
     "result": "money_bundle",
     "type": "uncraft",
     "time": "30 s",
-    "components": [ [ [ "paper", 2 ] ] ],
+    "//": "18 grams of paper, item is 20 grams",
+    "components": [ [ [ "paper", 6 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "coin_quarter",
+    "type": "uncraft",
+    "time": "30 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "//": "5.6 grams of zinc, coin is 6 grams; we don't have nickel so this'll do",
+    "components": [ [ [ "zinc_metal", 80 ] ] ],
     "flags": [ "BLIND_EASY" ]
   },
   {
@@ -3749,6 +3759,13 @@
     "flags": [ "BLIND_EASY" ]
   },
   {
+    "result": "waterwaymap",
+    "type": "uncraft",
+    "time": "30 s",
+    "components": [ [ [ "paper", 10 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
     "result": "spectrophotometer",
     "type": "uncraft",
     "skill_used": "electronics",
@@ -4703,6 +4720,50 @@
       [ [ "gun_module", 1 ] ],
       [ [ "targeting_module", 1 ] ],
       [ [ "m14ebr", 1 ] ],
+      [ [ "small_storage_battery", 1 ] ],
+      [ [ "robot_controls", 1 ] ],
+      [ [ "power_supply", 1 ] ],
+      [ [ "turret_chassis", 1 ] ]
+    ]
+  },
+  {
+    "result": "broken_turret_antimateriel",
+    "type": "uncraft",
+    "skill_used": "electronics",
+    "difficulty": 4,
+    "time": "1 h",
+    "using": [ [ "soldering_standard", 10 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [
+      [ [ "ai_module", 1 ] ],
+      [ [ "identification_module", 1 ] ],
+      [ [ "sensor_module", 1 ] ],
+      [ [ "memory_module", 1 ] ],
+      [ [ "gun_module", 1 ] ],
+      [ [ "targeting_module", 1 ] ],
+      [ [ "m2browning", 1 ] ],
+      [ [ "small_storage_battery", 1 ] ],
+      [ [ "robot_controls", 1 ] ],
+      [ [ "power_supply", 1 ] ],
+      [ [ "turret_chassis", 1 ] ]
+    ]
+  },
+  {
+    "result": "broken_turret_mark19",
+    "type": "uncraft",
+    "skill_used": "electronics",
+    "difficulty": 4,
+    "time": "1 h",
+    "using": [ [ "soldering_standard", 10 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [
+      [ [ "ai_module", 1 ] ],
+      [ [ "identification_module", 1 ] ],
+      [ [ "sensor_module", 1 ] ],
+      [ [ "memory_module", 1 ] ],
+      [ [ "gun_module", 1 ] ],
+      [ [ "targeting_module", 1 ] ],
+      [ [ "mark19", 1 ] ],
       [ [ "small_storage_battery", 1 ] ],
       [ [ "robot_controls", 1 ] ],
       [ [ "power_supply", 1 ] ],

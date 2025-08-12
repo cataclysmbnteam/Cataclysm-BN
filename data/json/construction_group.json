@@ -982,7 +982,7 @@
   {
     "type": "construction_group",
     "id": "install_freezer",
-    "name": "Install Freezer"
+    "name": "Plug In Freezer"
   },
   {
     "type": "construction_group",
@@ -992,42 +992,42 @@
   {
     "type": "construction_group",
     "id": "install_glass_freezer",
-    "name": "Install Glass Freezer"
+    "name": "Plug In Glass Freezer"
   },
   {
     "type": "construction_group",
     "id": "install_minifridge",
-    "name": "Install Minifridge"
+    "name": "Plug In Minifridge"
   },
   {
     "type": "construction_group",
     "id": "install_minifreezer",
-    "name": "Install Minifreezer"
+    "name": "Plug In Minifreezer"
   },
   {
     "type": "construction_group",
     "id": "install_oven",
-    "name": "Install Oven"
+    "name": "Plug In Oven"
   },
   {
     "type": "construction_group",
     "id": "install_refrigerator",
-    "name": "Install Refrigerator"
+    "name": "Plug In Refrigerator"
   },
   {
     "type": "construction_group",
     "id": "install_glass_refrigerator",
-    "name": "Install Glass Refrigerator"
+    "name": "Plug In Glass Refrigerator"
   },
   {
     "type": "construction_group",
     "id": "install_plut_generator",
-    "name": "Install Plutonium Generator"
+    "name": "Plug In Plutonium Generator"
   },
   {
     "type": "construction_group",
     "id": "place_3d_printer_basic",
-    "name": "Place 3D Printer"
+    "name": "Plug In 3D Printer"
   },
   {
     "type": "construction_group",
@@ -1042,12 +1042,12 @@
   {
     "type": "construction_group",
     "id": "place_small_space_heater",
-    "name": "Place Small Space Heater"
+    "name": "Plug In Small Space Heater"
   },
   {
     "type": "construction_group",
     "id": "place_large_space_heater",
-    "name": "Place Large Space Heater"
+    "name": "Plug In Large Space Heater"
   },
   {
     "type": "construction_group",
@@ -1212,12 +1212,12 @@
   {
     "type": "construction_group",
     "id": "place_arc_welder",
-    "name": "Place Arc Welder"
+    "name": "Plug In Arc Welder"
   },
   {
     "type": "construction_group",
     "id": "place_gunsmith_kit",
-    "name": "Place Gunsmith Kit"
+    "name": "Plug In Gunsmith Kit"
   },
   {
     "type": "construction_group",
@@ -1227,7 +1227,7 @@
   {
     "type": "construction_group",
     "id": "place_charger",
-    "name": "Place Charger"
+    "name": "Plug In Charger"
   },
   {
     "type": "construction_group",
@@ -1257,12 +1257,12 @@
   {
     "type": "construction_group",
     "id": "place_electrolysis_kit",
-    "name": "Place Electrolysis Kit"
+    "name": "Plug In Electrolysis Kit"
   },
   {
     "type": "construction_group",
     "id": "place_chemisitry_set",
-    "name": "Place Chemistry Set"
+    "name": "Plug In Chemistry Set"
   },
   {
     "type": "construction_group",
@@ -1272,17 +1272,17 @@
   {
     "type": "construction_group",
     "id": "place_food_dehydrator",
-    "name": "Place Food Dehydrator"
+    "name": "Plug In Food Dehydrator"
   },
   {
     "type": "construction_group",
     "id": "place_food_processor",
-    "name": "Place Food Processor"
+    "name": "Plug In Food Processor"
   },
   {
     "type": "construction_group",
     "id": "place_soda_machine",
-    "name": "Place Soda Machine"
+    "name": "Plug In Soda Machine"
   },
   {
     "type": "construction_group",
@@ -1302,7 +1302,7 @@
   {
     "type": "construction_group",
     "id": "place_soldering_iron",
-    "name": "Place soldering iron"
+    "name": "Plug In soldering iron"
   },
   {
     "type": "construction_group",
@@ -1317,7 +1317,7 @@
   {
     "type": "construction_group",
     "id": "place_vaccuum_sealer",
-    "name": "Place Vaccuum Sealer"
+    "name": "Plug In Vaccuum Sealer"
   },
   {
     "type": "construction_group",
@@ -1568,5 +1568,30 @@
     "type": "construction_group",
     "id": "install_f_recycler",
     "name": "Install Metal Compactor"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_fortification",
+    "name": "Build Fortification"
+  },
+  {
+    "type": "construction_group",
+    "id": "carve_fortification",
+    "name": "Carve Fortification"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_clay_pots",
+    "name": "Place Clay Pots"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_adobe_floor",
+    "name": "Build Adobe Floor"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_adobe_roof",
+    "name": "Build Roof Over Adobe Floor"
   }
 ]

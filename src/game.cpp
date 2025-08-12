@@ -241,6 +241,7 @@ static const efftype_id effect_riding( "riding" );
 static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_stunned( "stunned" );
 static const efftype_id effect_tied( "tied" );
+static const efftype_id dashing_effect( "dashing" );
 
 static const bionic_id bio_remote( "bio_remote" );
 static const bionic_id bio_probability_travel( "bio_probability_travel" );
@@ -268,6 +269,7 @@ static const trait_id trait_WEB_ROPE( "WEB_ROPE" );
 static const trait_id trait_WAYFARER( "WAYFARER" );
 
 static const trait_flag_str_id trait_flag_MUTATION_FLIGHT( "MUTATION_FLIGHT" );
+static const trait_flag_str_id trait_flag_TAIL_FIN( "TAIL_FIN" );
 
 static const trap_str_id tr_unfinished_construction( "tr_unfinished_construction" );
 
@@ -7043,7 +7045,7 @@ std::vector<map_item_stack> game::find_nearby_items( int iRadius )
     std::vector<map_item_stack> ret;
     std::vector<std::string> item_order;
 
-    if( u.is_blind() ) {
+    if( u.is_blind() && u.clairvoyance() < 1 ) {
         return ret;
     }
 
@@ -8792,7 +8794,7 @@ bool game::prompt_dangerous_tile( const tripoint &dest_loc ) const
     static const iexamine_function ledge_examine = iexamine_function_from_string( "ledge" );
     std::vector<std::string> harmful_stuff = get_dangerous_tile( dest_loc );
 
-    if( harmful_stuff.empty() ) {
+    if( harmful_stuff.empty() || u.has_effect( dashing_effect ) ) {
         return true;
     }
 
@@ -8824,8 +8826,8 @@ std::vector<std::string> game::get_dangerous_tile( const tripoint &dest_loc ) co
         }
     }
 
-    if( !u.is_blind() ) {
-        const trap &tr = m.tr_at( dest_loc );
+    const trap &tr = m.tr_at( dest_loc );
+    if( !u.is_blind() || u.clairvoyance() < 1 || tr.can_see( dest_loc, u ) ) {
         const bool boardable = static_cast<bool>( m.veh_at( dest_loc ).part_with_feature( "BOARDABLE",
                                true ) );
         // HACK: Hack for now, later ledge should stop being a trap
@@ -10208,7 +10210,7 @@ void game::vertical_move( int movez, bool force, bool peeking )
         }
     }
 
-    if( !force && movez == 1 && !m.has_flag( "GOES_UP", u.pos() ) &&
+    if( !climbing && !force && movez == 1 && !m.has_flag( "GOES_UP", u.pos() ) &&
         !u.is_underwater() ) {
 
         const tripoint dest = u.pos() + tripoint_above;
@@ -10389,7 +10391,8 @@ void game::vertical_move( int movez, bool force, bool peeking )
             else if( movez == 1 ) {
                 // ... and we're already submerged
                 if( u.is_underwater() ) {
-                    if( u.swim_speed() < 500 || u.shoe_type_count( itype_swim_fins ) ) {
+                    if( u.swim_speed() < 500 || u.shoe_type_count( itype_swim_fins ) ||
+                        u.has_trait_flag( trait_flag_TAIL_FIN ) ) {
                         u.set_underwater( false );
                         add_msg( _( "You surface." ) );
                         surfacing = true;
