@@ -729,7 +729,7 @@
     "id": "mon_sewer_fish",
     "type": "MONSTER",
     "name": { "str": "seweranha" },
-    "description": "A large mutant variety of carp.  It has shimmering green scales and a mouth lined with three jagged rows of razor-sharp teeth.",
+    "description": "A large mutant variety of carp, congregating wherever pollution can be found.  It has shimmering green scales and a mouth lined with three jagged rows of razor-sharp teeth.",
     "default_faction": "mutant",
     "bodytype": "fish",
     "species": [ "FISH" ],

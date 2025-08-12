@@ -33,6 +33,23 @@
   },
   {
     "type": "scenario",
+    "id": "lakesurface",
+    "name": "Pond Scum",
+    "points": 1,
+    "description": "Before the cataclysm, you spent your days exploring the local area's lakes and waterways.",
+    "allowed_locs": [
+      "sloc_marina",
+      "sloc_lighthouse_ground",
+      "sloc_freshwater_research_station",
+      "sloc_cabin_lake",
+      "sloc_deserted_island"
+    ],
+    "professions": [ "prof_pirate", "professional_diver", "underwater_welder", "bionic_diver", "fisher", "davy_jones" ],
+    "start_name": "Lake Surface",
+    "flags": [ "LONE_START" ]
+  },
+  {
+    "type": "scenario",
     "id": "largebuilding",
     "name": "Large Building",
     "points": -2,

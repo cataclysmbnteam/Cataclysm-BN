@@ -307,6 +307,29 @@
   },
   {
     "type": "terrain",
+    "id": "t_lake_moss",
+    "name": "water moss",
+    "looks_like": "t_moss",
+    "description": "Moist spongy water moss.",
+    "symbol": ".",
+    "color": "light_green",
+    "move_cost": 2,
+    "flags": [
+      "TRANSPARENT",
+      "LIQUID",
+      "NO_SCENT",
+      "SWIMMABLE",
+      "DEEP_WATER",
+      "WATER_CUBE",
+      "GOES_UP",
+      "DIGGABLE",
+      "FLAT",
+      "PLOWABLE"
+    ],
+    "bash": { "str_min": 4, "str_max": 30, "sound": "swish.", "sound_fail": "blub.", "ter_set": "t_lake_bed" }
+  },
+  {
+    "type": "terrain",
     "id": "t_ocean_bed",
     "//": "for eventual use with water z levels.  Currently non-functional.",
     "name": "ocean bed",
@@ -329,7 +352,7 @@
     "looks_like": "t_metal_flat_roof",
     "color": "light_gray",
     "move_cost": 8,
-    "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "DEEP_WATER", "GOES_UP", "MINEABLE" ],
+    "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "WATER_CUBE", "DEEP_WATER", "GOES_UP", "MINEABLE" ],
     "connects_to": "WATER",
     "examine_action": "water_source"
   },
@@ -346,6 +369,52 @@
     "bash": {
       "sound": "thump",
       "ter_set": "t_null",
+      "str_min": 200,
+      "str_max": 500,
+      "str_min_supported": 200,
+      "items": [
+        { "item": "steel_lump", "count": [ 1, 4 ] },
+        { "item": "steel_chunk", "count": [ 3, 12 ] },
+        { "item": "scrap", "count": [ 9, 36 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_bulkhead_floor_underwater",
+    "name": "underwater bulkhead",
+    "description": "The interior of a submerged structure.  This part has been flooded.",
+    "symbol": "#",
+    "looks_like": "t_metal_floor",
+    "color": "light_gray",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "DEEP_WATER" ],
+    "bash": {
+      "sound": "thump",
+      "ter_set": "t_water_cube",
+      "str_min": 200,
+      "str_max": 500,
+      "str_min_supported": 200,
+      "items": [
+        { "item": "steel_lump", "count": [ 1, 4 ] },
+        { "item": "steel_chunk", "count": [ 3, 12 ] },
+        { "item": "scrap", "count": [ 9, 36 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_bulkhead_floor_underwater_no_roof",
+    "name": "underwater bulkhead",
+    "description": "The interior of a submerged structure.  This part has been flooded.",
+    "symbol": "#",
+    "looks_like": "t_metal_floor",
+    "color": "light_gray",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "WATER_CUBE", "DEEP_WATER", "GOES_UP" ],
+    "bash": {
+      "sound": "thump",
+      "ter_set": "t_water_cube",
       "str_min": 200,
       "str_max": 500,
       "str_min_supported": 200,

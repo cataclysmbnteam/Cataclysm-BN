@@ -177,19 +177,21 @@ new hooks by appending to the hooks table like so:
 
 ```lua
 -- In preload.lua
-local mod = game.mod_runtime[ game.current_mod ]
-game.hooks.on_game_save[ #game.hooks.on_game_save + 1 ] = function( ... )
+local mod = game.mod_runtime[game.current_mod]
+
+table.insert(game.hooks.on_game_save, function(...)
   -- This is essentially a forward declaration.
   -- We declare that the hook exists, it should be called on game_save event,
   -- but we will forward all possible arguments (even if there is none) to,
   -- and return value from, the function that we'll declare later on.
-  return mod.my_awesome_hook( ... )
-end
+  return mod.my_awesome_hook(...)
+end)
 
 -- In main.lua
-local mod = game.mod_runtime[ game.current_mod ]
+local mod = game.mod_runtime[game.current_mod]
+
 mod.my_awesome_hook = function()
-  -- Do actual work here
+  -- Do actual work herede
 end
 ```
 
