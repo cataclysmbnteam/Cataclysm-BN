@@ -159,7 +159,7 @@
     "time": "30 m",
     "reversible": true,
     "autolearn": true,
-    "components": [ [ [ "log", 4 ] ], [ [ "rope_natural", 3, "LIST" ] ] ]
+    "components": [ [ [ "log", 4 ] ], [ [ "rope_natural_short", 2, "LIST" ] ] ]
   },
   {
     "type": "recipe",
