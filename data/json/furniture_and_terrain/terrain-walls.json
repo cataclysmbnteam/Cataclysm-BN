@@ -1582,6 +1582,163 @@
   },
   {
     "type": "terrain",
+    "id": "t_rock_ore_iron",
+    "copy-from": "t_rock",
+    "name": "iron ore vein",
+    "description": "Solid rock, with an exposed seam of reddish-brown iron ore.",
+    "symbol": "#",
+    "color": "brown",
+    "looks_like": "t_fault",
+    "bash": {
+      "str_min": 100,
+      "str_max": 400,
+      "sound": "crash!",
+      "sound_fail": "whump!",
+      "ter_set": "t_rock_floor",
+      "ter_set_bashed_from_above": "t_rock_floor_no_roof",
+      "items": [
+        { "item": "rock", "count": [ 55, 75 ] },
+        { "item": "sharp_rock", "count": [ 5, 9 ] },
+        { "item": "material_limestone", "charges": [ 500, 1000 ], "prob": 40 },
+        { "item": "iron_ore", "count": [ 20, 40 ] }
+      ],
+      "//": "Stone obstacles have double the expected reduction but lower destroy_threshold in return",
+      "ranged": { "reduction": [ 200, 200 ], "destroy_threshold": 200 }
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_rock_ore_copper",
+    "copy-from": "t_rock",
+    "name": "copper ore vein",
+    "description": "Solid rock, with an exposed seam of green copper ore.",
+    "symbol": "#",
+    "color": "green",
+    "looks_like": "t_fault",
+    "bash": {
+      "str_min": 100,
+      "str_max": 400,
+      "sound": "crash!",
+      "sound_fail": "whump!",
+      "ter_set": "t_rock_floor",
+      "ter_set_bashed_from_above": "t_rock_floor_no_roof",
+      "items": [
+        { "item": "rock", "count": [ 55, 75 ] },
+        { "item": "sharp_rock", "count": [ 5, 9 ] },
+        { "item": "material_limestone", "charges": [ 500, 1000 ], "prob": 40 },
+        { "item": "copper_ore", "count": [ 20, 40 ] }
+      ],
+      "//": "Stone obstacles have double the expected reduction but lower destroy_threshold in return",
+      "ranged": { "reduction": [ 200, 200 ], "destroy_threshold": 200 }
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_rock_ore_lead",
+    "copy-from": "t_rock",
+    "name": "lead ore vein",
+    "description": "Solid rock, with an exposed dull gray and yellow seam of lead ore.",
+    "symbol": "#",
+    "color": "dark_gray",
+    "looks_like": "t_fault",
+    "bash": {
+      "str_min": 100,
+      "str_max": 400,
+      "sound": "crash!",
+      "sound_fail": "whump!",
+      "ter_set": "t_rock_floor",
+      "ter_set_bashed_from_above": "t_rock_floor_no_roof",
+      "items": [
+        { "item": "rock", "count": [ 55, 75 ] },
+        { "item": "sharp_rock", "count": [ 5, 9 ] },
+        { "item": "material_limestone", "charges": [ 500, 1000 ], "prob": 40 },
+        { "item": "lead_ore", "count": [ 20, 40 ] }
+      ],
+      "//": "Stone obstacles have double the expected reduction but lower destroy_threshold in return",
+      "ranged": { "reduction": [ 200, 200 ], "destroy_threshold": 200 }
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_rock_ore_tin",
+    "copy-from": "t_rock",
+    "name": "tin ore vein",
+    "description": "Solid rock, with dark gray hints of what you're fairly certain is an ore of tin.",
+    "symbol": "#",
+    "color": "dark_gray",
+    "looks_like": "t_fault",
+    "bash": {
+      "str_min": 100,
+      "str_max": 400,
+      "sound": "crash!",
+      "sound_fail": "whump!",
+      "ter_set": "t_rock_floor",
+      "ter_set_bashed_from_above": "t_rock_floor_no_roof",
+      "items": [
+        { "item": "rock", "count": [ 55, 75 ] },
+        { "item": "sharp_rock", "count": [ 5, 9 ] },
+        { "item": "material_limestone", "charges": [ 500, 1000 ], "prob": 40 },
+        { "item": "tin_ore", "count": [ 15, 30 ] }
+      ],
+      "//": "Stone obstacles have double the expected reduction but lower destroy_threshold in return",
+      "ranged": { "reduction": [ 200, 200 ], "destroy_threshold": 200 }
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_rock_ore_silver",
+    "copy-from": "t_rock",
+    "name": "silver ore vein",
+    "description": "Solid rock, with an exposed gray gleam of silver ore.  There might be a few bits of native silver hidden within, but most of it will need to be processed.",
+    "symbol": "#",
+    "color": "light_gray",
+    "looks_like": "t_fault",
+    "bash": {
+      "str_min": 100,
+      "str_max": 400,
+      "sound": "crash!",
+      "sound_fail": "whump!",
+      "ter_set": "t_rock_floor",
+      "ter_set_bashed_from_above": "t_rock_floor_no_roof",
+      "items": [
+        { "item": "rock", "count": [ 55, 75 ] },
+        { "item": "sharp_rock", "count": [ 5, 9 ] },
+        { "item": "material_limestone", "charges": [ 500, 1000 ], "prob": 40 },
+        { "item": "silver_ore", "count": [ 15, 30 ] },
+        { "item": "silver_small", "charges": [ 50, 100 ], "prob": 25 }
+      ],
+      "//": "Stone obstacles have double the expected reduction but lower destroy_threshold in return",
+      "ranged": { "reduction": [ 200, 200 ], "destroy_threshold": 200 }
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_rock_ore_gold",
+    "copy-from": "t_rock",
+    "name": "gold vein",
+    "description": "Hot damn, you've struck gold!  Gleaming through the rock in its native form, it's almost enough to make one forget how much less valuable it is after the end of the world.",
+    "symbol": "#",
+    "color": "yellow",
+    "looks_like": "t_fault",
+    "bash": {
+      "str_min": 100,
+      "str_max": 400,
+      "sound": "crash!",
+      "sound_fail": "whump!",
+      "ter_set": "t_rock_floor",
+      "ter_set_bashed_from_above": "t_rock_floor_no_roof",
+      "items": [
+        { "item": "rock", "count": [ 55, 75 ] },
+        { "item": "sharp_rock", "count": [ 5, 9 ] },
+        { "item": "material_limestone", "charges": [ 500, 1000 ], "prob": 40 },
+        { "item": "gold_small", "charges": [ 2500, 5000 ] }
+      ],
+      "//": "Stone obstacles have double the expected reduction but lower destroy_threshold in return",
+      "ranged": { "reduction": [ 200, 200 ], "destroy_threshold": 200 }
+    }
+  },
+  {
+    "type": "terrain",
     "id": "t_little_column",
     "name": "little column",
     "looks_like": "t_column",

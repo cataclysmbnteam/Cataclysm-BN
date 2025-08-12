@@ -164,9 +164,9 @@
     "entries": [
       { "item": "copper", "charges": [ 800, 3200 ], "prob": 70 },
       { "item": "lead", "charges": [ 800, 3200 ], "prob": 10 },
-      { "item": "tin", "charges": [ 800, 3200 ], "prob": 10 },
+      { "item": "tin", "charges": [ 400, 1600 ], "prob": 10 },
       { "item": "silver_small", "charges": [ 400, 1600 ], "prob": 5 },
-      { "item": "gold_small", "charges": [ 400, 1600 ], "prob": 5 }
+      { "item": "gold_small", "charges": [ 200, 800 ], "prob": 5 }
     ]
   },
   {
