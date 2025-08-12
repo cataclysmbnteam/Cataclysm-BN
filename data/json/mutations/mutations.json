@@ -4172,7 +4172,7 @@
     "description": "By making the most of your small stature, you can avoid the notice of all but the most perceptive creatures, and your speed is greatly increased.",
     "valid": false,
     "purifiable": false,
-    "prereqs": [ "SMALL_OK" ],
+    "prereqs": [ "SMALL2_OK" ],
     "threshreq": [ "THRESH_MOUSE" ],
     "category": [ "MOUSE" ],
     "stealth_modifier": 40,
