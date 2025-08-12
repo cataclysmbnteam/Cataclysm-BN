@@ -49,13 +49,9 @@
       "set": [ { "square": "radiation", "amount": [ 20, 60 ], "x": 3, "y": 3, "x2": 21, "y2": 16 } ],
       "furniture": { "R": "f_rack", "A": "f_dumpster" },
       "place_signs": [ { "signage": "RESTRICTED AREA! AUTHORIZED PERSONNEL ONLY", "x": 10, "y": 23 } ],
-      "items": {
-        "R": { "item": "toxic_dump_equipment", "chance": 60 },
-        "A": { "item": "sewer", "chance": 60 },
-        "~": { "item": "toxic_waste", "chance": 10 }
-      },
+      "items": { "R": { "item": "toxic_dump_equipment", "chance": 60 }, "A": { "item": "sewer", "chance": 60 } },
       "place_loot": [
-        { "group": "toxic_waste", "x": [ 5, 20 ], "y": [ 5, 16 ], "chance": 40, "repeat": [ 3, 15 ] },
+        { "group": "toxic_waste", "x": [ 5, 20 ], "y": [ 5, 16 ], "chance": 50, "repeat": 10 },
         { "item": "id_military", "x": 3, "y": [ 18, 20 ], "chance": 10 }
       ]
     }

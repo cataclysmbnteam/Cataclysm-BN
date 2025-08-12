@@ -337,7 +337,7 @@
         "~": [
           { "item": "trash", "chance": 50 },
           { "item": "sewer", "chance": 50 },
-          { "item": "sewer", "chance": 50 },
+          { "item": "toxic_waste", "chance": 50 },
           { "item": "nanomaterials", "chance": 3 }
         ]
       },

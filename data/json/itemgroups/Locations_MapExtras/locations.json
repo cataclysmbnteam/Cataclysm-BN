@@ -1722,7 +1722,7 @@
     "type": "item_group",
     "items": [
       { "item": "water_sewage", "container-item": "55gal_drum", "charges": [ 1, 200 ], "prob": 50 },
-      { "item": "nuclear_waste", "prob": 20 },
+      { "item": "nuclear_waste", "container-item": "hazardous_waste_drum", "charges": [ 1, 200 ], "prob": 20 },
       { "item": "plut_slurry", "container-item": "hazardous_waste_drum", "charges": [ 1, 2000 ], "prob": 10 },
       { "item": "plut_slurry_dense", "container-item": "hazardous_waste_drum", "charges": [ 1, 2000 ], "prob": 5 },
       { "item": "cobalt_60", "prob": 5 },
