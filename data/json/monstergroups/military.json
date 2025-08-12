@@ -31,6 +31,7 @@
     "monsters": [
       { "monster": "mon_zombie_soldier", "freq": 100, "cost_multiplier": 2, "pack_size": [ 1, 4 ] },
       { "monster": "mon_zombie_soldier", "freq": 150, "cost_multiplier": 2, "pack_size": [ 2, 6 ] },
+      { "monster": "mon_zombie_soldier_shieldman", "freq": 75, "cost_multiplier": 5, "pack_size": [ 1, 4 ] },
       { "monster": "mon_zombie_flamer", "freq": 100, "cost_multiplier": 30 },
       { "monster": "mon_zombie_military_pilot", "freq": 5, "cost_multiplier": 1 },
       { "monster": "mon_zombie_bio_op", "freq": 50, "cost_multiplier": 5 },
@@ -46,7 +47,10 @@
     "default": "mon_zombie_soldier",
     "monsters": [
       { "monster": "mon_zombie_soldier", "freq": 100, "cost_multiplier": 2 },
+      { "monster": "mon_zombie_soldier_shieldman", "freq": 75, "cost_multiplier": 5, "pack_size": [ 1, 4 ] },
       { "monster": "mon_zombie_soldier_acid_1", "freq": 15, "cost_multiplier": 5 },
+      { "monster": "mon_zombie_soldier_acid_2", "freq": 15, "cost_multiplier": 5 },
+      { "monster": "mon_zombie_soldier_acid_3", "freq": 5, "cost_multiplier": 10 },
       { "monster": "mon_zombie_kevlar_1", "freq": 50, "cost_multiplier": 10 },
       { "monster": "mon_zombie_flamer", "freq": 50, "cost_multiplier": 5 },
       { "monster": "mon_zombie_military_pilot", "freq": 5, "cost_multiplier": 1 },

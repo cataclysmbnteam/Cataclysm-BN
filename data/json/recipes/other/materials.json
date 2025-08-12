@@ -1483,6 +1483,125 @@
     ]
   },
   {
+    "result": "copper",
+    "charges": 250,
+    "id_suffix": "smelt",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "skills_required": [ "survival", 4 ],
+    "time": "75 m",
+    "batch_time_factors": [ 90, 4 ],
+    "autolearn": true,
+    "book_learn": [
+      [ "jewelry_book", 3 ],
+      [ "textbook_survival", 3 ],
+      [ "manual_survival", 3 ],
+      [ "atomic_survival", 3 ],
+      [ "survival_book", 3 ],
+      [ "welding_book", 3 ]
+    ],
+    "using": [ [ "forging_standard", 6 ] ],
+    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
+    "//": "25% yield, coal and flux also used in reduction.",
+    "components": [
+      [ [ "copper_ore", 1 ] ],
+      [ [ "coal_lump", 4 ], [ "charcoal", 16 ] ],
+      [ [ "material_limestone", 2 ], [ "material_quicklime", 2 ], [ "chem_carbide", 40 ] ]
+    ]
+  },
+  {
+    "result": "lead",
+    "charges": 250,
+    "id_suffix": "smelt",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "skills_required": [ "survival", 4 ],
+    "time": "75 m",
+    "batch_time_factors": [ 90, 4 ],
+    "autolearn": true,
+    "book_learn": [
+      [ "recipe_bullets", 3 ],
+      [ "textbook_survival", 3 ],
+      [ "manual_survival", 3 ],
+      [ "atomic_survival", 3 ],
+      [ "survival_book", 3 ],
+      [ "welding_book", 3 ]
+    ],
+    "using": [ [ "forging_standard", 6 ] ],
+    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
+    "//": "25% yield, coal and flux also used in reduction.",
+    "components": [
+      [ [ "lead_ore", 1 ] ],
+      [ [ "coal_lump", 4 ], [ "charcoal", 16 ] ],
+      [ [ "material_limestone", 2 ], [ "material_quicklime", 2 ], [ "chem_carbide", 40 ] ]
+    ]
+  },
+  {
+    "result": "tin",
+    "charges": 250,
+    "id_suffix": "smelt",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "skills_required": [ "survival", 3 ],
+    "time": "75 m",
+    "batch_time_factors": [ 90, 4 ],
+    "autolearn": true,
+    "book_learn": [
+      [ "textbook_survival", 2 ],
+      [ "manual_survival", 2 ],
+      [ "atomic_survival", 2 ],
+      [ "survival_book", 2 ],
+      [ "welding_book", 2 ]
+    ],
+    "using": [ [ "forging_standard", 4 ] ],
+    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
+    "//": "25% yield, coal and flux also used in reduction.",
+    "components": [
+      [ [ "tin_ore", 1 ] ],
+      [ [ "coal_lump", 4 ], [ "charcoal", 16 ] ],
+      [ [ "material_limestone", 2 ], [ "material_quicklime", 2 ], [ "chem_carbide", 40 ] ]
+    ]
+  },
+  {
+    "result": "silver_small",
+    "charges": 250,
+    "id_suffix": "smelt",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "skills_required": [ "survival", 3 ],
+    "time": "75 m",
+    "batch_time_factors": [ 90, 4 ],
+    "autolearn": true,
+    "book_learn": [
+      [ "jewelry_book", 3 ],
+      [ "textbook_survival", 2 ],
+      [ "manual_survival", 2 ],
+      [ "atomic_survival", 2 ],
+      [ "survival_book", 2 ],
+      [ "welding_book", 2 ]
+    ],
+    "using": [ [ "forging_standard", 4 ] ],
+    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
+    "//": "25% yield, coal and flux also used in reduction.",
+    "components": [
+      [ [ "silver_ore", 1 ] ],
+      [ [ "coal_lump", 4 ], [ "charcoal", 16 ] ],
+      [ [ "material_limestone", 2 ], [ "material_quicklime", 2 ], [ "chem_carbide", 40 ] ]
+    ]
+  },
+  {
     "result": "tin",
     "type": "recipe",
     "byproducts": [ [ "scrap", 4 ], [ "water_acid_weak", 3 ] ],
