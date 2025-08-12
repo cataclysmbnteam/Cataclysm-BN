@@ -180,8 +180,8 @@
     "id": "acid_artillery_shell_act",
     "type": "TOOL",
     "category": "weapons",
-    "name": "active acid artillery shell",
-    "description": "The acidic liquid mass is bubbling away. It's about to burst!",
+    "name": "fuming acidic mass",
+    "description": "A congealed mass of roiling acidic goop.  It's expanding as if it's about to burst, get back!",
     "weight": "100 g",
     "volume": "250 ml",
     "material": [ "hflesh" ],
@@ -196,14 +196,12 @@
       "fields_type": "fd_acid",
       "draw_explosion_radius": 3,
       "draw_explosion_color": "light_green",
-      "fields_radius": 4,
-      "fields_min_intensity": 4,
-      "fields_max_intensity": 4,
-      "no_deactivate_msg": "The acidic liquid mass is bubbling away! It's about to burst!",
+      "fields_radius": 6,
+      "fields_min_intensity": 1,
+      "fields_max_intensity": 3,
+      "no_deactivate_msg": "Why are you trying to touch it?  Run!",
       "explosion": {
-        "damage": 8,
-        "radius": 2,
-        "fragment": { "impact": { "damage_type": "acid", "amount": 7, "armor_multiplier": 1 }, "range": 4 }
+        "fragment": { "impact": { "damage_type": "acid", "amount": 10, "armor_multiplier": 3 }, "range": 3 }
       }
     }
   },
