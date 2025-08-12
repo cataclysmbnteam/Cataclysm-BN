@@ -581,7 +581,7 @@
   {
     "id": "fishing_items_trash",
     "type": "item_group",
-    "//": "For underwater locations, the idea is these items have floated to the bottom.",
+    "//": "For underwater locations, the idea is these items have sunk to the bottom.",
     "items": [
       [ "plastic_shopping_bag", 30 ],
       [ "plastic_sheet", 20 ],
