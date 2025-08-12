@@ -981,7 +981,7 @@
     "id": "sharkboy",
     "name": "Sharkboy",
     "description": "You were always infatuated with bodies of water, ocean or lake. You spent your days swimming, diving, and exploring the depths. Now, you find yourself transformed into a creature of the deep. Is this what you desired?",
-    "points": 0,
+    "points": 4,
     "traits": [
       "THRESH_FISH",
       "DEFORMED",
@@ -1008,7 +1008,7 @@
     "id": "davy_jones",
     "name": "Davy Jones",
     "description": "You were robbed, shot in the head and thrown into the sea just before the Cataclysm. Now you have risen undead from the depths, with a thirst for vengeance against those who wronged you, and a desire to reclaim your lost treasures.",
-    "points": 0,
+    "points": 2,
     "traits": [
       "SCHIZOPHRENIC",
       "THRESH_CEPHALOPOD",
