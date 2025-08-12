@@ -939,7 +939,16 @@
     "skills": [ { "level": 3, "name": "swimming" }, { "level": 2, "name": "fabrication" }, { "level": 2, "name": "mechanics" } ],
     "items": {
       "both": {
-        "items": [ "wetsuit", "wetsuit_hood", "dive_bag", "diving_watch", "goggles_swim", "small_scuba_tank", "swim_fins" ],
+        "items": [
+          "wetsuit",
+          "wetsuit_hood",
+          "welding_mask_raised",
+          "dive_bag",
+          "diving_watch",
+          "goggles_swim",
+          "small_scuba_tank",
+          "swim_fins"
+        ],
         "entries": [
           { "group": "charged_flashlight" },
           { "item": "sea_scooter" },
@@ -958,16 +967,7 @@
     "skills": [ { "level": 2, "name": "swimming" }, { "level": 4, "name": "firstaid" }, { "level": 1, "name": "electronics" } ],
     "items": {
       "both": {
-        "items": [
-          "wetsuit",
-          "wetsuit_hood",
-          "welding_mask_raised",
-          "dive_bag",
-          "diving_watch",
-          "goggles_swim",
-          "small_scuba_tank",
-          "swim_fins"
-        ],
+        "items": [ "wetsuit", "wetsuit_hood", "dive_bag", "diving_watch", "goggles_swim", "small_scuba_tank", "swim_fins" ],
         "entries": [
           { "group": "charged_flashlight" },
           { "item": "sea_scooter" },
