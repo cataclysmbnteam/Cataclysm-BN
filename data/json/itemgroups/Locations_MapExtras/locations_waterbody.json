@@ -15,9 +15,6 @@
     "id": "underwater_toxic_waste",
     "type": "item_group",
     "subtype": "distribution",
-    "entries": [
-      { "group": "toxic_waste", "prob": 200 },
-      { "group": "toxic_dump_equipment", "prob": 20 }
-    ]
+    "entries": [ { "group": "toxic_waste", "prob": 200 }, { "group": "toxic_dump_equipment", "prob": 20 } ]
   }
 ]
