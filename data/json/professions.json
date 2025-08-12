@@ -1040,9 +1040,9 @@
     "id": "lagoon_creature",
     "name": "Creature of the Lagoon",
     "description": "Ascending from the muck, you've been granted a new life by the Cataclysm. A far cry from your previous existence, you now find yourself a creature of the deep, struggling to understand your new form and purpose.",
-    "points": 0,
+    "points": 1,
     "traits": [ "UNSTABLE", "SLIME_HANDS", "PER_SLIME", "VISCOUS", "AMORPHOUS", "FRESHWATEROSMOSIS", "THRESH_SLIME" ],
-    "skills": [ { "level": 2, "name": "swimming" }, { "level": 2, "name": "survival" } ],
+    "skills": [ { "level": 2, "name": "swimming" }, { "level": 2, "name": "dodge" } ],
     "flags": [ "SCEN_ONLY" ]
   },
   {
