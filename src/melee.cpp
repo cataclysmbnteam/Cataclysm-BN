@@ -422,7 +422,8 @@ static void melee_train( Character &p, int lo, int hi, const item &weap )
 }
 
 // Broken out of below function for use by other places in the code
-int Character::get_melee_stamina_cost( const item &weapon) {
+int Character::get_melee_stamina_cost( const item &weapon )
+{
     const int melee = get_skill_level( skill_melee );
 
     // Previously calculated as 2_gram * std::max( 1, str_cur )
@@ -435,7 +436,7 @@ int Character::get_melee_stamina_cost( const item &weapon) {
     const float skill_cost = std::max( 0.667f, ( ( 30.0f - melee ) / 30.0f ) );
     /** @EFFECT_MELEE and @EFFECT_STR reduce stamina cost of melee attacks */
     return ( weight_cost + encumbrance_cost - deft_bonus + 50 ) * skill_cost *
-                        ( 0.75f + strbonus );
+           ( 0.75f + strbonus );
 }
 
 // Melee calculation is in parts. This sets up the attack, then in deal_melee_attack,
@@ -653,7 +654,7 @@ void Character::melee_attack( Creature &t, bool allow_special, const matec_id *f
         }
     }
 
-    const int mod_sta = -get_melee_stamina_cost(cur_weapon);
+    const int mod_sta = -get_melee_stamina_cost( cur_weapon );
     mod_stamina( std::min( -50, mod_sta ) );
     add_msg( m_debug, "Stamina burn: %d", std::min( -50, mod_sta ) );
     mod_moves( -move_cost );
