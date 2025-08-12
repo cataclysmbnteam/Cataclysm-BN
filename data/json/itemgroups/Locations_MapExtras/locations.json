@@ -1688,8 +1688,8 @@
       { "item": "plut_slurry", "container-item": "hazardous_waste_drum", "charges": [ 1, 2000 ], "prob": 10 },
       { "item": "plut_slurry_dense", "container-item": "hazardous_waste_drum", "charges": [ 1, 2000 ], "prob": 5 },
       { "item": "cobalt_60", "prob": 5 },
-      { "item": "slime_scrap", "prob": 5 },
-      { "item": "mutagen", "container-item": "55gal_drum", "charges": [ 1, 200 ], "prob": 5 }
+      { "item": "slime_scrap", "prob": 9 },
+      { "item": "mutagen", "container-item": "55gal_drum", "charges": [ 1, 200 ], "prob": 1 }
     ]
   },
   {
