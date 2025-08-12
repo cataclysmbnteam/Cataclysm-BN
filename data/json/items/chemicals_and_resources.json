@@ -1232,9 +1232,9 @@
   },
   {
     "id": "nuclear_waste",
-    "type": "GENERIC",
+    "type": "AMMO",
     "name": { "str_sp": "nuclear waste" },
-    "description": "A small pellet of silvery metal, still warm to the touch.",
+    "description": "A pellet of silvery metal, still warm to the touch.",
     "looks_like": "medium_atomic_battery_cell",
     "weight": "30 g",
     "volume": "250 ml",
@@ -1242,12 +1242,13 @@
     "material": [ "iron" ],
     "symbol": "*",
     "color": "light_green",
+    "ammo_type": "components",
     "flags": [ "RADIOACTIVE", "LEAK_ALWAYS" ]
   },
   {
     "id": "nuclear_fuel",
     "copy-from": "nuclear_waste",
-    "type": "GENERIC",
+    "type": "AMMO",
     "name": { "str": "nuclear fuel pellet" },
     "description": "A small pellet of fissile material.  Handle carefully."
   },
