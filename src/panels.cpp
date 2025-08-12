@@ -853,10 +853,9 @@ static void draw_limb2( avatar &u, const catacurses::window &w )
     // print stamina
     const auto &stamina = get_hp_bar( u.get_stamina(), u.get_stamina_max() );
     mvwprintz( w, point( 22, 0 ), c_light_gray, _( "STM" ) );
-    if (get_option<std::string>( "HEALTH_STYLE" ) == "number"){
+    if( get_option<std::string>( "HEALTH_STYLE" ) == "number" ) {
         mvwprintz( w, point( 26, 0 ), stamina.second, "%d", u.get_stamina() );
-    }
-    else {
+    } else {
         mvwprintz( w, point( 26, 0 ), stamina.second, stamina.first );
     }
 
@@ -1191,10 +1190,9 @@ static void draw_char_narrow( avatar &u, const catacurses::window &w )
     // print stamina
     auto needs_pair = std::make_pair( get_hp_bar( u.get_stamina(), u.get_stamina_max() ).second,
                                       get_hp_bar( u.get_stamina(), u.get_stamina_max() ).first );
-    if (get_option<std::string>( "HEALTH_STYLE" ) == "number") {
+    if( get_option<std::string>( "HEALTH_STYLE" ) == "number" ) {
         mvwprintz( w, point( 8, 1 ), needs_pair.first, "%d", u.get_stamina() );
-    }
-    else {
+    } else {
         mvwprintz( w, point( 8, 1 ), needs_pair.first, needs_pair.second );
         const int width = utf8_width( needs_pair.second );
         for( int i = 0; i < 5 - width; i++ ) {
@@ -1239,10 +1237,9 @@ static void draw_char_wide( avatar &u, const catacurses::window &w )
     // print stamina
     auto needs_pair = std::make_pair( get_hp_bar( u.get_stamina(), u.get_stamina_max() ).second,
                                       get_hp_bar( u.get_stamina(), u.get_stamina_max() ).first );
-    if (get_option<std::string>( "HEALTH_STYLE" ) == "number") {
+    if( get_option<std::string>( "HEALTH_STYLE" ) == "number" ) {
         mvwprintz( w, point( 8, 1 ), needs_pair.first, "%d", u.get_stamina() );
-    }
-    else {
+    } else {
         mvwprintz( w, point( 8, 1 ), needs_pair.first, needs_pair.second );
         const int width = utf8_width( needs_pair.second );
         for( int i = 0; i < 5 - width; i++ ) {
