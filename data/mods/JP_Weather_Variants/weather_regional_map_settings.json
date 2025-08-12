@@ -1,8 +1,8 @@
 [
   {
     "type": "region_settings",
-    "//": "don't know how safe keeping this as 'default' is, so name is changed",
-    "id": "default_copy_jp_weather",
+    "//": "players don't understand they need to change regions, so we are just overwriting the default region",
+    "id": "default",
     "default_oter": "field",
     "default_groundcover": [ [ "t_region_groundcover", 1 ] ],
     "region_terrain_and_furniture": {
@@ -929,6 +929,7 @@
         "s_jewelry_shop": 200,
         "s_antique": 200,
         "s_gardening": 200,
+        "s_dive_shop": 200,
         "museum": 100,
         "s_music": 200,
         "s_laundromat": 100,

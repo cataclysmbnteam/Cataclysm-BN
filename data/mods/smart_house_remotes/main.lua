@@ -122,7 +122,7 @@ mod.get_neighbours_at = function(opts, block, p)
   local v = opts[k]
   if v ~= nil and v.idx == block.idx then
     opts[k] = nil
-    block.points[#block.points + 1] = p
+    table.insert(block.points, p)
     if v.can_open then block.can_open_num = block.can_open_num + 1 end
     if v.can_close then block.can_close_num = block.can_close_num + 1 end
     mod.get_neighbours(opts, block, p)
@@ -218,7 +218,7 @@ mod.build_target_list = function(map, pos_omt)
     block.can_close = block.can_close_num > 0
 
     -- Add block to list
-    ret[#ret + 1] = block
+    table.insert(ret, block)
   end
 
   return ret
@@ -347,17 +347,17 @@ mod.iuse_function = function(who, item, pos)
   local transforms = mod.get_transform_list()
   for block_idx, block in pairs(targets) do
     if block.can_open then
-      sel_list[#sel_list + 1] = {
+      table.insert(sel_list, {
         block = block,
         do_open = true,
         text = transforms[block.idx].name_open .. " #" .. tostring(block_idx),
-      }
+      })
     elseif block.can_close then
-      sel_list[#sel_list + 1] = {
+      table.insert(sel_list, {
         block = block,
         do_open = false,
         text = transforms[block.idx].name_close .. " #" .. tostring(block_idx),
-      }
+      })
     end
   end
 

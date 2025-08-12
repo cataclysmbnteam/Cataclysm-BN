@@ -282,6 +282,14 @@
     "qty": 1
   },
   {
+    "id": "emit_hot_air_geyser",
+    "type": "emit",
+    "field": "fd_hot_air4",
+    "intensity": 3,
+    "qty": 1000,
+    "chance": 100
+  },
+  {
     "id": "emit_hot_air_migo_seep",
     "type": "emit",
     "field": "fd_hot_air_sauna",

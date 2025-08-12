@@ -144,7 +144,7 @@ end
 mod.add_anchor_to_list = function(pos)
   --print("adding to list")
   --print(pos)
-  mod.anchor_list[#mod.anchor_list + 1] = pos
+  table.insert(mod.anchor_list, pos)
   --print(#mod.anchor_list, pos)
   mod.save_anchor_omt()
 end
