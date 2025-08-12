@@ -769,7 +769,6 @@ static int get_int_digits( const int &digits )
 
 static void draw_limb_health( avatar &u, const catacurses::window &w, const bodypart_str_id &bp )
 {
-    const std::string display_type = get_option<std::string>( "HEALTH_STYLE" );
     static auto print_symbol_num = []( const catacurses::window & w, int num, const std::string & sym,
     const nc_color & color ) {
         while( num-- > 0 ) {
@@ -789,7 +788,7 @@ static void draw_limb_health( avatar &u, const catacurses::window &w, const body
                         ( u.mutation_value( "mending_modifier" ) >= 1.0f );
         nc_color color = splinted ? c_blue : c_dark_gray;
 
-        if( display_type == "number" || u.has_effect( effect_got_checked ) ) {
+        if( get_option<std::string>( "HEALTH_STYLE" ) == "number" || u.has_effect( effect_got_checked ) ) {
             color_override = color;
         } else {
             const int num = mend_perc / 20;
@@ -805,7 +804,7 @@ static void draw_limb_health( avatar &u, const catacurses::window &w, const body
         hp.second = *color_override;
     }
 
-    if( display_type == "number" || u.has_effect( effect_got_checked ) ) {
+    if( get_option<std::string>( "HEALTH_STYLE" ) == "number" || u.has_effect( effect_got_checked ) ) {
         wprintz( w, hp.second, "%3d  ", hp_cur );
     } else {
         wprintz( w, hp.second, hp.first );
@@ -854,7 +853,12 @@ static void draw_limb2( avatar &u, const catacurses::window &w )
     // print stamina
     const auto &stamina = get_hp_bar( u.get_stamina(), u.get_stamina_max() );
     mvwprintz( w, point( 22, 0 ), c_light_gray, _( "STM" ) );
-    mvwprintz( w, point( 26, 0 ), stamina.second, stamina.first );
+    if (get_option<std::string>( "HEALTH_STYLE" ) == "number"){
+        mvwprintz( w, point( 26, 0 ), stamina.second, "%d", u.get_stamina() );
+    }
+    else {
+        mvwprintz( w, point( 26, 0 ), stamina.second, stamina.first );
+    }
 
     mvwprintz( w, point( 22, 1 ), c_light_gray, _( "PWR" ) );
     const auto pwr = power_stat( u );
@@ -1187,12 +1191,16 @@ static void draw_char_narrow( avatar &u, const catacurses::window &w )
     // print stamina
     auto needs_pair = std::make_pair( get_hp_bar( u.get_stamina(), u.get_stamina_max() ).second,
                                       get_hp_bar( u.get_stamina(), u.get_stamina_max() ).first );
-    mvwprintz( w, point( 8, 1 ), needs_pair.first, needs_pair.second );
-    const int width = utf8_width( needs_pair.second );
-    for( int i = 0; i < 5 - width; i++ ) {
-        mvwprintz( w, point( 12 - i, 1 ), c_white, "." );
+    if (get_option<std::string>( "HEALTH_STYLE" ) == "number") {
+        mvwprintz( w, point( 8, 1 ), needs_pair.first, "%d", u.get_stamina() );
     }
-
+    else {
+        mvwprintz( w, point( 8, 1 ), needs_pair.first, needs_pair.second );
+        const int width = utf8_width( needs_pair.second );
+        for( int i = 0; i < 5 - width; i++ ) {
+            mvwprintz( w, point( 12 - i, 1 ), c_white, "." );
+        }
+    }
     mvwprintz( w, point( 8, 2 ), focus_color( u.focus_pool ), "%s", u.focus_pool );
     if( u.focus_pool < character_effects::calc_focus_equilibrium( u ) ) {
         mvwprintz( w, point( 11, 2 ), c_light_green, "↥" );
@@ -1231,10 +1239,15 @@ static void draw_char_wide( avatar &u, const catacurses::window &w )
     // print stamina
     auto needs_pair = std::make_pair( get_hp_bar( u.get_stamina(), u.get_stamina_max() ).second,
                                       get_hp_bar( u.get_stamina(), u.get_stamina_max() ).first );
-    mvwprintz( w, point( 8, 1 ), needs_pair.first, needs_pair.second );
-    const int width = utf8_width( needs_pair.second );
-    for( int i = 0; i < 5 - width; i++ ) {
-        mvwprintz( w, point( 12 - i, 1 ), c_white, "." );
+    if (get_option<std::string>( "HEALTH_STYLE" ) == "number") {
+        mvwprintz( w, point( 8, 1 ), needs_pair.first, "%d", u.get_stamina() );
+    }
+    else {
+        mvwprintz( w, point( 8, 1 ), needs_pair.first, needs_pair.second );
+        const int width = utf8_width( needs_pair.second );
+        for( int i = 0; i < 5 - width; i++ ) {
+            mvwprintz( w, point( 12 - i, 1 ), c_white, "." );
+        }
     }
 
     mvwprintz( w, point( 23, 1 ), focus_color( u.get_speed() ), "%s", u.get_speed() );
