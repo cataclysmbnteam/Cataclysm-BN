@@ -17,8 +17,7 @@
     "subtype": "distribution",
     "entries": [
       { "group": "toxic_waste", "prob": 200 },
-      { "group": "toxic_dump_equipment", "prob": 20 },
-      { "item": "mutagen_fish", "prob": 20 }
+      { "group": "toxic_dump_equipment", "prob": 20 }
     ]
   }
 ]
