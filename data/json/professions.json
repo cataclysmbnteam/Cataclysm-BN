@@ -925,7 +925,7 @@
     "skills": [ { "level": 4, "name": "swimming" }, { "level": 1, "name": "survival" } ],
     "items": {
       "both": {
-        "items": [ "wetsuit", "wetsuit_hood", "dive_bag", "diving_watch", "goggles_swim", "scuba_tank", "swim_fins" ],
+        "items": [ "wetsuit", "wetsuit_hood", "dive_bag", "diving_watch", "goggles_swim", "scuba_tank", "swim_fins", "diveknife" ],
         "entries": [ { "group": "charged_flashlight" } ]
       }
     }
@@ -978,34 +978,53 @@
   },
   {
     "type": "profession",
+    "id": "sharkboy",
+    "name": "Sharkboy",
+    "description": "You were always infatuated with bodies of water, ocean or lake. You spent your days swimming, diving, and exploring the depths. Now, you find yourself transformed into a creature of the deep. Is this what you desired?",
+    "points": 4,
+    "traits": [
+      "THRESH_FISH",
+      "DEFORMED",
+      "SLEEK_SCALES",
+      "EYEBULGE",
+      "TAIL_FIN",
+      "SMELLY2",
+      "MEMBRANE",
+      "COLDBLOOD",
+      "CARNIVORE",
+      "GILLS"
+    ],
+    "skills": [ { "level": 5, "name": "swimming" } ],
+    "items": {
+      "both": {
+        "items": [ "wetsuit", "bandana_head", "dive_bag", "diving_watch", "diveknife" ],
+        "entries": [ { "group": "charged_flashlight" } ]
+      }
+    },
+    "flags": [ "SCEN_ONLY" ]
+  },
+  {
+    "type": "profession",
     "id": "davy_jones",
     "name": "Davy Jones",
     "description": "You were robbed, shot in the head and thrown into the sea just before the Cataclysm. Now you have risen undead from the depths, with a thirst for vengeance against those who wronged you, and a desire to reclaim your lost treasures.",
     "points": 2,
-    "//": "this ends up with a whopping -30 points when not on freeform, but it is meant as a challenge profession anyways",
     "traits": [
-      "GILLS_CEPH",
-      "FRESHWATEROSMOSIS",
-      "SLEEK_SCALES",
-      "TAIL_FIN",
-      "SMELLY2",
-      "MEMBRANE",
-      "WEBBED",
-      "DEFORMED",
-      "COLDBLOOD3",
-      "PSYCHOPATH",
       "SCHIZOPHRENIC",
-      "CARNIVORE",
-      "RADIOGENIC",
-      "ROT2",
-      "SAPROVORE",
-      "SORES",
-      "UNSTABLE"
+      "THRESH_CEPHALOPOD",
+      "CEPH_EYES",
+      "GILLS_CEPH",
+      "SLIMY",
+      "DEFORMED",
+      "SLIT_NOSTRILS",
+      "MOUTH_TENTACLES",
+      "LEG_TENTACLES",
+      "COLDBLOOD"
     ],
-    "skills": [ { "level": 1, "name": "swimming" }, { "level": 2, "name": "cutting" }, { "level": 2, "name": "pistol" } ],
+    "skills": [ { "level": 2, "name": "swimming" }, { "level": 2, "name": "cutting" }, { "level": 2, "name": "pistol" } ],
     "items": {
       "both": {
-        "items": [ "boxer_shorts", "tank_top", "mbag", "bastsandals", "bandana_head", "scabbard", "rum" ],
+        "items": [ "tank_top", "mbag", "bandana_head", "scabbard", "rum" ],
         "entries": [
           { "item": "cutlass", "custom-flags": [ "auto_wield" ] },
           { "item": "baldric_holster", "contents-group": "pistols_pirate" },
@@ -1014,6 +1033,16 @@
         ]
       }
     },
+    "flags": [ "SCEN_ONLY" ]
+  },
+  {
+    "type": "profession",
+    "id": "lagoon_creature",
+    "name": "Creature of the Lagoon",
+    "description": "Ascending from the muck, you've been granted a new life by the Cataclysm. A far cry from your previous existence, you now find yourself a creature of the deep, struggling to understand your new form and purpose.",
+    "points": 1,
+    "traits": [ "UNSTABLE", "SLIME_HANDS", "PER_SLIME", "VISCOUS", "AMORPHOUS", "FRESHWATEROSMOSIS", "THRESH_SLIME" ],
+    "skills": [ { "level": 2, "name": "swimming" }, { "level": 2, "name": "dodge" } ],
     "flags": [ "SCEN_ONLY" ]
   },
   {

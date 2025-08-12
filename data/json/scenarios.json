@@ -44,7 +44,16 @@
       "sloc_cabin_lake",
       "sloc_deserted_island"
     ],
-    "professions": [ "prof_pirate", "professional_diver", "underwater_welder", "bionic_diver", "fisher", "davy_jones" ],
+    "professions": [
+      "prof_pirate",
+      "professional_diver",
+      "underwater_welder",
+      "bionic_diver",
+      "fisher",
+      "davy_jones",
+      "lagoon_creature",
+      "sharkboy"
+    ],
     "start_name": "Lake Surface",
     "flags": [ "LONE_START" ]
   },
