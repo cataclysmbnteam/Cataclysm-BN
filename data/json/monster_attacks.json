@@ -196,11 +196,11 @@
       "fields_type": "fd_acid",
       "draw_explosion_radius": 3,
       "draw_explosion_color": "light_green",
-      "fields_radius": 3,
+      "fields_radius": 4,
       "fields_min_intensity": 2,
       "fields_max_intensity": 3,
       "no_deactivate_msg": "Why are you trying to touch it?  Run!",
-      "explosion": { "fragment": { "impact": { "damage_type": "acid", "amount": 15, "armor_multiplier": 3 }, "range": 3 } }
+      "explosion": { "fragment": { "impact": { "damage_type": "acid", "amount": 25, "armor_multiplier": 3 }, "range": 3 } }
     }
   },
   {
