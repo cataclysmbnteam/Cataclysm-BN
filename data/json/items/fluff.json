@@ -3,7 +3,7 @@
     "id": "trade_writ_chemist",
     "type": "GENERIC",
     "name": { "str": "writ of trade (chemist)", "str_pl": "writs of trade (chemist)" },
-    "description": "A few sheets of paper from the chemist living out in the wilderness listing some of the chemical they're capable of making.",
+    "description": "A few sheets of paper from the chemist living out in the wilderness listing some of the chemicals they're capable of making.",
     "weight": "1 g",
     "volume": "5 ml",
     "price": 3000,
