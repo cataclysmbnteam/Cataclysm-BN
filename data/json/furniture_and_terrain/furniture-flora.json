@@ -360,5 +360,101 @@
         { "item": "splinter", "count": [ 12, 38 ] }
       ]
     }
+  },
+  {
+    "type": "furniture",
+    "id": "f_lake_liverwort",
+    "name": "liverwort",
+    "description": "A species of liverwort that grows at the bottom of lakes.",
+    "symbol": "#",
+    "color": "green",
+    "looks_like": "f_burdock",
+    "move_cost_mod": 1,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "TINY", "NOCOLLIDE" ],
+    "bash": {
+      "str_min": 4,
+      "str_max": 30,
+      "sound": "swish.",
+      "sound_fail": "blub.",
+      "items": [ { "item": "withered", "count": [ 1, 2 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_lake_pondweed",
+    "name": "pondweed",
+    "description": "An aquatic pondweed, it's sort of tall and blocks your view.",
+    "symbol": "#",
+    "color": "green",
+    "looks_like": "f_brambles",
+    "move_cost_mod": 4,
+    "coverage": 40,
+    "required_str": -1,
+    "flags": [ "CONTAINER" ],
+    "bash": {
+      "str_min": 4,
+      "str_max": 30,
+      "sound": "swish.",
+      "sound_fail": "blub.",
+      "items": [ { "item": "withered", "count": [ 2, 4 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_lake_eelgrass",
+    "name": "eelgrass",
+    "description": "A species of eelgrass that grows at the bottom of lakes.",
+    "symbol": "#",
+    "color": "green",
+    "looks_like": "f_cattails_harvested",
+    "move_cost_mod": 1,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "TINY", "NOCOLLIDE" ],
+    "bash": {
+      "str_min": 4,
+      "str_max": 30,
+      "sound": "swish.",
+      "sound_fail": "blub.",
+      "items": [ { "item": "withered", "count": [ 1, 2 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_lake_hornwort",
+    "name": "hornwort",
+    "description": "A species of hornwort that grows at the bottom of lakes.",
+    "symbol": "#",
+    "color": "green",
+    "looks_like": "f_chamomile",
+    "move_cost_mod": 1,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "TINY", "NOCOLLIDE" ],
+    "bash": {
+      "str_min": 4,
+      "str_max": 30,
+      "sound": "swish.",
+      "sound_fail": "blub.",
+      "items": [ { "item": "withered", "count": [ 1, 2 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_lake_detritus",
+    "name": "detritus",
+    "description": "A mass of decaying organic matter that accumulates at the bottom of lakes.",
+    "symbol": "#",
+    "color": "green",
+    "looks_like": "f_leaves_pile",
+    "move_cost_mod": 1,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "TINY", "NOCOLLIDE" ],
+    "bash": {
+      "str_min": 4,
+      "str_max": 30,
+      "sound": "swish.",
+      "sound_fail": "blub.",
+      "items": [ { "item": "withered", "count": [ 1, 2 ] } ]
+    }
   }
 ]
