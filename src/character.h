@@ -662,6 +662,9 @@ class Character : public Creature, public location_visitable<Character>
                                  bool crit, bool dodge_counter, bool block_counter );
         void perform_technique( const ma_technique &technique, Creature &t, damage_instance &di,
                                 int &move_cost );
+
+        /** Broken out of below function for the purpose of using it in other places, namely item info displays */
+        int get_melee_stamina_cost( const item &weapon );
         /**
          * Sets up a melee attack and handles melee attack function calls
          * @param t Creature to attack
