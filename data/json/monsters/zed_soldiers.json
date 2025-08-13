@@ -566,7 +566,7 @@
     "armor_bash": 0,
     "armor_cut": 0,
     "armor_bullet": 0,
-    "special_attacks": [ { "type": "bite", "cooldown": 5, "min_mul": 0.8 }, [ "GRAB", 7 ], [ "scratch", 20 ], [ "DISAPPEAR", 100 ] ],
+    "special_attacks": [ { "type": "bite", "cooldown": 5, "min_mul": 0.8 }, [ "GRAB", 7 ], [ "scratch", 20 ] ],
     "death_function": [ "DISAPPEAR" ]
   },
   {
