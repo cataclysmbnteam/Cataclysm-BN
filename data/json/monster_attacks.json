@@ -260,5 +260,38 @@
     "color": "red",
     "use_action": { "type": "place_monster", "monster_id": "mon_unstable_grub", "difficulty": 0, "moves": 0, "place_randomly": true },
     "flags": [ "ACT_ON_RANGED_HIT", "ALLOWS_REMOTE_USE" ]
+  },
+  {
+    "id": "monster_scrap_gun",
+    "type": "GUN",
+    "copy-from": "fake_item",
+    "name": { "str": "scrap metal volley" },
+    "description": "Fake gun that fires bits of scrap metal.",
+    "flags": [ "NEVER_JAMS" ],
+    "modes": [ [ "DEFAULT", "auto", 3 ] ],
+    "ammo_effects": [ "NEVER_MISFIRES" ],
+    "skill": "shotgun",
+    "durability": 10,
+    "range": 15,
+    "dispersion": 1000,
+    "ranged_damage": [ { "damage_type": "cut", "amount": 12, "armor_penetration": 6, "armor_multiplier": 2 } ]
+  },
+  {
+    "id": "monster_emp_gun",
+    "//": "For sound messages",
+    "weapon_category": [ "ENERGY_WEAPONS" ],
+    "type": "GUN",
+    "copy-from": "fake_item",
+    "name": { "str": "monster EMP Projector" },
+    "description": "this a pseudo item",
+    "flags": [ "NEVER_JAMS" ],
+    "skill": "rifle",
+    "durability": 10,
+    "range": 10,
+    "dispersion": 500,
+    "ranged_damage": { "damage_type": "electric", "amount": 10, "armor_penetration": 4 },
+    "loudness": 20,
+    "modes": [ [ "DEFAULT", "semi", 1 ] ],
+    "ammo_effects": [ "NEVER_MISFIRES", "NO_PENETRATE_OBSTACLES", "DRAW_AS_LINE", "WIDE", "EMP" ]
   }
 ]
