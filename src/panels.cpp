@@ -1650,7 +1650,7 @@ static void draw_health_classic( avatar &u, const catacurses::window &w )
     mvwprintz( w, point( 35, 5 ), c_light_gray, _( "Stm" ) );
     if( get_option<std::string>( "HEALTH_STYLE" ) == "number" ) {
         mvwprintz( w, point( 39, 5 ), pair.first, "%d", u.get_stamina() );
-    } else{
+    } else {
         mvwprintz( w, point( 39, 5 ), pair.first, pair.second );
         const int width = utf8_width( pair.second );
         for( int i = 0; i < 5 - width; i++ ) {
