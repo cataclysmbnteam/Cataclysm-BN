@@ -148,7 +148,6 @@
             "fg": [ { "weight": 10, "sprite": 130 }, { "weight": 10, "sprite": 131 } ],
             "animated": false
           },
-
           { "id": "mon_zombie_smoker_evolved_grappler", "fg": 132 },
           { "id": "mon_zombie_smoker_evolved_toxic", "fg": 133 },
           {
