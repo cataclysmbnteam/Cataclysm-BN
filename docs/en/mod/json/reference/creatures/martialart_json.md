@@ -108,11 +108,10 @@ The bonuses arrays contain any number of bonus entries like this:
 }
 ```
 
-"stat": affected statistic, any of: "hit", "dodge", "block", "speed", "movecost", "damage", "armor",
-"arpen", "type": damage type for the affected statistic ("bash", "cut", "heat", etc.), only needed
-if the affected statistic is "damage", "armor", or "arpen". "scale": the value of the bonus itself.
-"scaling-stat": scaling stat, any of: "str", "dex", "int", "per". Optional. If the scaling stat is
-specified, the value of the bonus is multiplied by the corresponding user stat.
+- `"stat"`: affected statistic, any of: "hit", "dodge", "block", "speed", "movecost", "damage", "armor", "arpen", "target_armor_multiplier".
+- `"type"`: damage type for the affected statistic ("bash", "cut", "heat", etc.), only needed if the affected statistic is "damage", "armor", "arpen", or "target_armor_multiplier".
+- `"scale"`: the value of the bonus itself.
+- `"scaling-stat"`: scaling stat, any of: "str", "dex", "int", "per". Optional. If the scaling stat is specified, the value of the bonus is multiplied by the corresponding user stat.
 
 Bonuses must be written in the correct order.
 
@@ -134,10 +133,11 @@ Move cost is decreased by 100% of strength value
 - `flat_bonuses : [ { "stat": "movecost", "scaling-stat": "str", "scale": -1.0 } ]`
 
 Additional fields usable in static_bonuses
-
-"stealthy": true, // All movement will make less noise "quiet": true, // Your attacks will be
-completely silent "wall_adjacent": true, // You must be adjacent to a wall "throw_immune": true, //
-You're immune to being thrown
+```json
+"stealthy": true, // All movement will make less noise "quiet": true, // Your attacks will be completely silent
+"wall_adjacent": true, // You must be adjacent to a wall
+"throw_immune": true, // You're immune to being thrown
+```
 
 ### Place relevant items in the world and chargen
 
