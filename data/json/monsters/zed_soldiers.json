@@ -502,7 +502,7 @@
     "type": "MONSTER",
     "name": { "str": "zombie sergeant" },
     "looks_like": "mon_zombie_military_pilot",
-    "description": "This zombie's tattered uniform indicates it might have been an officer, perhaps an NCO, at one point.  Still miming the actions of its past life, it acts like it's still leading its long-since-fallen comrades into battle against the enemy.",
+    "description": "This zombie's tattered uniform indicates it might have once been an NCO.  A bizarre entity still clinging to past obsessions and a sense of authority, as if it was still leading the charge against the enemy it fell against.  It summons echos of fallen soldiers, with a hoarse voice that perpetually sounds like grumbling.",
     "default_faction": "zombie",
     "bodytype": "human",
     "species": [ "ZOMBIE", "HUMAN" ],
@@ -534,7 +534,7 @@
         "type": "spell",
         "spell_data": { "id": "zombie_supply_sergeant_summoning", "hit_self": true },
         "cooldown": 30,
-        "monster_message": "The zombie sergeant wails an inhuman battlecry, and spectral images answer the call!"
+        "monster_message": "The zombie sergeant gargles with rage, and spectral troops begin to gather around!"
       }
     ],
     "death_drops": "mon_zombie_soldier_death_drops",
