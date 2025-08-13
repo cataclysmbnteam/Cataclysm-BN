@@ -58,6 +58,7 @@
     "material": [ "gold" ],
     "symbol": "[",
     "color": "yellow",
+    "relic_data": { "recharge_scheme": [ { "type": "time", "req": "none", "interval": "24 h", "rate": 1 } ] },
     "initial_charges": 5,
     "max_charges": 5,
     "charges_per_use": 1,
