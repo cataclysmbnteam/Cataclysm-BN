@@ -57,17 +57,51 @@ int foo( int arg1, int *arg2 )
 
 These are less generic guidelines and more pain points we've stumbled across over time.
 
+- Prefer immutable values and declare variables with `const`. Less moving parts mean more predictable code flow.
 - Prefer `int`.
   - `long` in particular is problematic since it is _not_ a larger type than int on some platforms
     we support.
-  - Using integral value larger than 32 bits should be avoided. Use `int64_t` if it's really
-    necessary.
+  - Using integral value larger than 32 bits should be avoided. Use `int64_t` if it's really necessary.
   - `uint` is also a problem, it has poor behavior when overflowing and should be avoided for
     general purpose programming.
     - If you need binary data, `unsigned int` or `unsigned char` are fine, but you should probably
       use a `std::bitset` instead.
   - `float` is to be avoided, but has valid uses.
-- Auto Almost Nothing. Auto has two uses, others should be avoided.
-  - Aliasing for extremely long iterator or functional declarations.
-  - Generic code support (but decltype is better).
-- Avoid using declaration for standard namespaces.
+- Use [`auto` keyword](https://learn.microsoft.com/en-us/cpp/cpp/auto-cpp?view=msvc-170) where it makes sense to do so, for example:
+  - [trailing return types](https://en.wikipedia.org/wiki/Trailing_return_type) in function declarations.
+  ```cpp
+  class Bar;
+  auto foo( int a ) -> int
+  {
+      const Bar &bar = some_function();
+
+      return is_bar_ok( bar ) ? 42 : 404;
+  }
+  ```
+  - Aliasing for long iterator declarations
+  ```diff
+    std::map<int, std::map<std::string, some_long_typename>> some_map;
+
+  - std::map<int, std::map<std::string, some_long_typename>>::iterator iter = some_map.begin();
+  + auto iter = some_map.begin();
+  ```
+  - Required for Lambda declarations
+  ```cpp
+  auto two_times = []( int a ) { return a * 2; };
+  ```
+  - Doesn't otherwise sacrifice readability for expedience. Options for inlay type hinting are available in popular code editor such as [vscode](https://github.com/clangd/vscode-clangd).
+
+- Prefer [trailing return types](https://en.wikipedia.org/wiki/Trailing_return_type). Long return types obscure function name and makes reading class methods a painful experience. You need to use trailing return type for `decltype` generic programming anyways, so no reason to not use them as default.
+- Avoid `using namespace` for standard namespaces.
+- Avoid adding new member methods to classes unless required.
+  ```diff
+  // this function does not access non-public data members or member methods in the class, and thus can be made a free function
+  - units::volume Character::volume_carried() const
+  - {
+  -     return inv.volume();
+  - }
+  + auto volume_carried( const Character &c ) -> units::volume
+  + {
+  +     return c.inv.volume();
+  + }
+  ```
