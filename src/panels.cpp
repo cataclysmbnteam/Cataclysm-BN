@@ -1648,10 +1648,14 @@ static void draw_health_classic( avatar &u, const catacurses::window &w )
     auto pair = std::make_pair( get_hp_bar( u.get_stamina(), u.get_stamina_max() ).second,
                                 get_hp_bar( u.get_stamina(), u.get_stamina_max() ).first );
     mvwprintz( w, point( 35, 5 ), c_light_gray, _( "Stm" ) );
-    mvwprintz( w, point( 39, 5 ), pair.first, pair.second );
-    const int width = utf8_width( pair.second );
-    for( int i = 0; i < 5 - width; i++ ) {
-        mvwprintz( w, point( 43 - i, 5 ), c_white, "." );
+    if( get_option<std::string>( "HEALTH_STYLE" ) == "number" ) {
+        mvwprintz( w, point( 39, 5 ), pair.first, "%d", u.get_stamina() );
+    } else{
+        mvwprintz( w, point( 39, 5 ), pair.first, pair.second );
+        const int width = utf8_width( pair.second );
+        for( int i = 0; i < 5 - width; i++ ) {
+            mvwprintz( w, point( 43 - i, 5 ), c_white, "." );
+        }
     }
 
     // speed
