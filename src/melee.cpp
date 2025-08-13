@@ -396,6 +396,13 @@ void melee::roll_all_damage( const Character &c, bool crit, damage_instance &di,
     roll_bash_damage( c, crit, di, average, weap, attack );
     roll_cut_damage( c, crit, di, average, weap, attack );
     roll_stab_damage( c, crit, di, average, weap, attack );
+    for( int i = 0; i < NUM_DT; i++ ) {
+        auto dt = static_cast<damage_type>(i);
+        if( dt == DT_NULL ){
+            continue; // Escape from DT_NULL
+        }
+        roll_non_physical_damage( c, crit, di, average, weap, attack, dt );
+    }
 }
 
 static void melee_train( Character &p, int lo, int hi, const item &weap )
@@ -1029,6 +1036,7 @@ void melee::roll_bash_damage( const Character &c, bool crit, damage_instance &di
     float armor_mult = attack.damage.get_armor_mult( DT_BASH );
     int arpen = attack.damage.get_armor_pen( DT_BASH );
     arpen += c.mabuff_arpen_bonus( DT_BASH );
+    armor_mult *= c.mabuff_tg_armor_mult( DT_BASH );
 
     // Finally, extra critical effects
     if( crit ) {
@@ -1104,6 +1112,7 @@ void melee::roll_cut_damage( const Character &c, bool crit, damage_instance &di,
     }
 
     arpen += c.mabuff_arpen_bonus( DT_CUT );
+    armor_mult *= c.mabuff_tg_armor_mult( DT_CUT );
 
     cut_mul *= c.mabuff_damage_mult( DT_CUT );
     if( crit ) {
@@ -1173,6 +1182,7 @@ void melee::roll_stab_damage( const Character &c, bool crit, damage_instance &di
     float armor_mult = attack.damage.get_armor_mult( DT_STAB );
     int arpen = attack.damage.get_armor_pen( DT_STAB );
     arpen += c.mabuff_arpen_bonus( DT_STAB );
+    armor_mult *= c.mabuff_tg_armor_mult( DT_STAB );
 
     if( crit ) {
         // Critical damage bonus for stabbing scales with skill
@@ -1182,6 +1192,34 @@ void melee::roll_stab_damage( const Character &c, bool crit, damage_instance &di
     }
 
     di.add_damage( DT_STAB, stab_dam, arpen, armor_mult, stab_mul );
+}
+
+void melee::roll_non_physical_damage( const Character &c, bool crit, damage_instance &di, bool /*average*/,
+                              const item &weap, const attack_statblock &attack, damage_type dt )
+{
+    if ( dt == DT_BASH || dt == DT_CUT || dt == DT_STAB ) {
+        return; // This function is not for physical DTs.
+    }
+    float type_dam = c.mabuff_damage_bonus( dt ) + weap.damage_melee( attack, dt );
+
+    if( type_dam <= 0 ) {
+        return; // No negative damage!
+    }
+
+    float type_mul = 1.0f;
+    type_mul *= c.mabuff_damage_mult( dt );
+
+    float armor_mult = attack.damage.get_armor_mult( dt );
+    int arpen = attack.damage.get_armor_pen( dt );
+    arpen += c.mabuff_arpen_bonus( dt );
+    armor_mult *= c.mabuff_tg_armor_mult( dt );
+
+    if( crit ) {
+        // Critical damage bonus for stabbing scales with skill
+        type_mul *= 1.5;
+    }
+
+    di.add_damage( dt, type_dam, arpen, armor_mult, type_mul );
 }
 
 matec_id Character::pick_technique( Creature &t, const item &weap,
