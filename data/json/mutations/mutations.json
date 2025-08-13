@@ -1981,7 +1981,6 @@
       [ "foot_l", 10 ],
       [ "foot_r", 10 ]
     ],
-    "restricts_gear": [ "head" ],
     "armor": [ { "parts": "ALL", "physical": 12 } ],
     "passive_mods": { "dex_mod": -1 }
   },
@@ -2043,7 +2042,6 @@
     "prereqs": [ "CHITIN_FUR2", "CHITIN3" ],
     "threshreq": [ "THRESH_SPIDER" ],
     "category": [ "SPIDER" ],
-    "restricts_gear": [ "head" ],
     "armor": [ { "parts": "ALL", "physical": 10, "bash": 15 } ],
     "passive_mods": { "dex_mod": -1 }
   },

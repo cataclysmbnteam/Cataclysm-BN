@@ -653,6 +653,10 @@ class item : public location_visitable<item>, public game_object<item>
          * takes. The actual time depends heavily on the attacker, see melee.cpp.
          */
         int attack_cost() const;
+        /**
+         * Stamina consumed to use this weapon in melee
+         */
+        int stamina_cost() const;
 
         /** Damage of given type caused when this item is used as melee weapon */
         int damage_melee( damage_type dt ) const;
