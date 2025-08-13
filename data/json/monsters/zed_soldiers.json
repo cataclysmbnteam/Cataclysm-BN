@@ -500,9 +500,9 @@
   {
     "id": "mon_zombie_supply_sergeant",
     "type": "MONSTER",
-    "name": { "str": "zombie supply sergeant" },
+    "name": { "str": "zombie sergeant" },
     "looks_like": "mon_zombie_military_pilot",
-    "description": "This zombie was once the unit's administrative officer, a bizarre entity still clinging to past obsessions and a sense of authority even after the collapse.  This zombie specializes in command and control rather than direct combat, summoning and directing nearby zombies with a hoarse voice that perpetually sounds like grumbling.",
+    "description": "This zombie's tattered uniform indicates it might have been an officer, perhaps an NCO, at one point.  Still miming the actions of its past life, it acts like it's still leading its long-since-fallen comrades into battle against the enemy.",
     "default_faction": "zombie",
     "bodytype": "human",
     "species": [ "ZOMBIE", "HUMAN" ],
@@ -532,9 +532,9 @@
       [ "scratch", 20 ],
       {
         "type": "spell",
-        "spell_data": { "id": "zombie_supply_sergeant_summoning" },
-        "cooldown": 20,
-        "monster_message": "As the zombie supply sergeant gargles with rage, the available troops begin to gather around!"
+        "spell_data": { "id": "zombie_supply_sergeant_summoning", "hit_self": true },
+        "cooldown": 30,
+        "monster_message": "The zombie sergeant wails an inhuman battlecry, and spectral images answer the call!"
       }
     ],
     "death_drops": "mon_zombie_soldier_death_drops",
@@ -559,18 +559,15 @@
   {
     "id": "mon_zombie_soldier_minion",
     "type": "MONSTER",
-    "name": { "str": "auxiliary zombie force" },
     "copy-from": "mon_zombie_soldier",
     "looks_like": "mon_zombie_soldier",
-    "description": "These are the pathetic beings reluctantly dragged into action under the coercive command of the zombie quartermaster.  They still wear expressions of profound displeasure and exhibit a visibly annoyed demeanor, moving listlessly to commands that are a confused echo of their past lives.  Forcibly deployed, they shamble towards you, but their every movement clearly conveys, \"Why do I have to do this?\"",
-    "hp": 90,
-    "armor_bash": 7,
-    "armor_cut": 15,
-    "armor_bullet": 25,
-    "vision_day": 30,
-    "vision_night": 3,
+    "//": "Look like real zombies, hit like real zombies, but vanish on taking a single hit.",
+    "hp": 1,
+    "armor_bash": 0,
+    "armor_cut": 0,
+    "armor_bullet": 0,
     "special_attacks": [ { "type": "bite", "cooldown": 5, "min_mul": 0.8 }, [ "GRAB", 7 ], [ "scratch", 20 ], [ "DISAPPEAR", 100 ] ],
-    "death_function": [ "MELT" ]
+    "death_function": [ "DISAPPEAR" ]
   },
   {
     "id": "mon_zombie_soldier_shieldman",
