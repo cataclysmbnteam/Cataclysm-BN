@@ -6350,6 +6350,17 @@
   },
   {
     "type": "mutation",
+    "id": "PROF_SWIMMER",
+    "name": { "str": "Experienced Swimmer" },
+    "points": 0,
+    "description": "You have spent a large portion of your life swimming, granting you increased speed in water.",
+    "movecost_swim_modifier": 0.75,
+    "valid": false,
+    "purifiable": false,
+    "profession": true
+  },
+  {
+    "type": "mutation",
     "id": "NPC_BRANDY",
     "name": { "str": "Carries Brandy" },
     "points": 0,
