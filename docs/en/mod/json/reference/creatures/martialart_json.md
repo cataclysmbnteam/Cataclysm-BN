@@ -133,6 +133,7 @@ Move cost is decreased by 100% of strength value
 - `flat_bonuses : [ { "stat": "movecost", "scaling-stat": "str", "scale": -1.0 } ]`
 
 Additional fields usable in static_bonuses
+
 ```json
 "stealthy": true, // All movement will make less noise "quiet": true, // Your attacks will be completely silent
 "wall_adjacent": true, // You must be adjacent to a wall
