@@ -54,7 +54,7 @@ void roll_cut_damage( const Character &c, bool crit, damage_instance &di, bool a
 void roll_stab_damage( const Character &c, bool crit, damage_instance &di, bool average,
                        const item &weap, const attack_statblock &attack );
 void roll_non_physical_damage( const Character &c, bool crit, damage_instance &di, bool average,
-                       const item &weap, const attack_statblock &attack, damage_type dt );
+                               const item &weap, const attack_statblock &attack, damage_type dt );
 
 // Temporary function that returns any attack from the weapon
 // TODO: Remove

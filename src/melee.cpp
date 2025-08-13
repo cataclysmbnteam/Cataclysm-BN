@@ -397,8 +397,8 @@ void melee::roll_all_damage( const Character &c, bool crit, damage_instance &di,
     roll_cut_damage( c, crit, di, average, weap, attack );
     roll_stab_damage( c, crit, di, average, weap, attack );
     for( int i = 0; i < NUM_DT; i++ ) {
-        auto dt = static_cast<damage_type>(i);
-        if( dt == DT_NULL ){
+        auto dt = static_cast<damage_type>( i );
+        if( dt == DT_NULL ) {
             continue; // Escape from DT_NULL
         }
         roll_non_physical_damage( c, crit, di, average, weap, attack, dt );
@@ -1194,10 +1194,11 @@ void melee::roll_stab_damage( const Character &c, bool crit, damage_instance &di
     di.add_damage( DT_STAB, stab_dam, arpen, armor_mult, stab_mul );
 }
 
-void melee::roll_non_physical_damage( const Character &c, bool crit, damage_instance &di, bool /*average*/,
-                              const item &weap, const attack_statblock &attack, damage_type dt )
+void melee::roll_non_physical_damage( const Character &c, bool crit, damage_instance &di,
+                                      bool /*average*/,
+                                      const item &weap, const attack_statblock &attack, damage_type dt )
 {
-    if ( dt == DT_BASH || dt == DT_CUT || dt == DT_STAB ) {
+    if( dt == DT_BASH || dt == DT_CUT || dt == DT_STAB ) {
         return; // This function is not for physical DTs.
     }
     float type_dam = c.mabuff_damage_bonus( dt ) + weap.damage_melee( attack, dt );
