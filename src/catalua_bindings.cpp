@@ -237,6 +237,7 @@ void cata::detail::reg_damage_instance( sol::state &lua )
 
 void cata::detail::reg_item( sol::state &lua )
 {
+#define UT_CLASS item
     {
         sol::usertype<item> ut = luna::new_usertype<item>( lua, luna::no_bases, luna::no_constructor );
 
@@ -468,7 +469,11 @@ void cata::detail::reg_item( sol::state &lua )
                       sol::resolve<void( const std::string &, double )>( &item::set_var ) );
         luna::set_fx( ut, "set_var_tri",
                       sol::resolve<void( const std::string &, const tripoint & )>( &item::set_var ) );
+
+        SET_FX( attack_cost );
+        SET_FX( stamina_cost );
     }
+#undef UT_CLASS // #define UT_CLASS item
 }
 
 

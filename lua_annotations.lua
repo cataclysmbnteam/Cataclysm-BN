@@ -172,6 +172,7 @@ function BodyPartTypeIntId.new() end
 ---@field get_kcal_percent fun(arg1: Character): number
 ---@field get_lowest_hp fun(arg1: Character): integer
 ---@field get_max_power_level fun(arg1: Character): Energy
+---@field get_melee_stamina_cost fun(arg1: Character, arg2: Item): integer
 ---@field get_morale fun(arg1: Character, arg2: MoraleTypeDataId): integer
 ---@field get_morale_level fun(arg1: Character): integer
 ---@field get_movement_mode fun(arg1: Character): CharacterMoveMode
@@ -348,6 +349,7 @@ function BodyPartTypeIntId.new() end
 ---@field sight_impaired fun(arg1: Character): boolean
 ---@field spores fun(arg1: Character)
 ---@field suffer fun(arg1: Character)
+---@field uncanny_dodge fun(arg1: Character): boolean
 ---@field unset_mutation fun(arg1: Character, arg2: MutationBranchId)
 ---@field unwield fun(arg1: Character): boolean
 ---@field volume_capacity fun(arg1: Character): Volume
@@ -685,6 +687,7 @@ function FurnRaw.new() end
 ---@field ammo_required fun(arg1: Item): integer
 ---@field ammo_set fun(arg1: Item, arg2: ItypeId, arg3: integer)
 ---@field ammo_unset fun(arg1: Item)
+---@field attack_cost fun(arg1: Item): integer
 ---@field can_contain fun(arg1: Item, arg2: Item): boolean @Checks if this item can contain another
 ---@field clear_vars fun(arg1: Item) @Erase all variables
 ---@field conductive fun(arg1: Item): boolean
@@ -786,6 +789,7 @@ function FurnRaw.new() end
 ---@field set_var_num fun(arg1: Item, arg2: string, arg3: number)
 ---@field set_var_str fun(arg1: Item, arg2: string, arg3: string)
 ---@field set_var_tri fun(arg1: Item, arg2: string, arg3: Tripoint)
+---@field stamina_cost fun(arg1: Item): integer
 ---@field tname fun(arg1: Item, arg2: integer, arg3: boolean, arg4: integer): string @Translated item name with prefixes
 ---@field total_capacity fun(arg1: Item): Volume @Gets maximum volume this item can hold (liquids, ammo, etc)
 ---@field unset_flag fun(arg1: Item, arg2: JsonFlagId)
