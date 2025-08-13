@@ -561,14 +561,10 @@
     "type": "MONSTER",
     "copy-from": "mon_zombie_soldier",
     "looks_like": "mon_zombie_soldier",
-    "//": "Look like real zombies, hit like real zombies, but vanish on taking a single hit.  Keep the easter egg in the description though, per request.  If you're looking at monster descriptions to sort the real ones from the fakes, your priorities are misplaced since these can still hurt you. :3",
+    "//": "Look like real zombies, hit like real zombies, but overall weaker.  Keep the easter egg in the description though, per request.  If you're looking at monster descriptions to sort the real ones from the fakes, your priorities are misplaced since these can still hurt you. :3",
     "description": "These are the pathetic beings reluctantly dragged into action under the coercive command of their commanding officer.  They still wear expressions of profound displeasure and exhibit a visibly annoyed demeanor, moving listlessly to commands that are a confused echo of their past lives.  Forcibly deployed, they shamble towards you, but their every movement clearly conveys, \"Why do I have to do this?\"",
-    "hp": 1,
-    "armor_bash": 0,
-    "armor_cut": 0,
-    "armor_bullet": 0,
-    "special_attacks": [ { "type": "bite", "cooldown": 5, "min_mul": 0.8 }, [ "GRAB", 7 ], [ "scratch", 20 ] ],
-    "death_function": [ "DISAPPEAR" ]
+    "proportional": { "hp": 0.75, "speed": 0.75, "armor_bash": 0.75, "armor_cut": 0.75, "armor_bullet": 0.75 },
+    "death_function": [ "DISINTEGRATE" ]
   },
   {
     "id": "mon_zombie_soldier_shieldman",
