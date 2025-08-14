@@ -63,15 +63,6 @@
     "components": [ [ [ "scrap", 5 ] ] ]
   },
   {
-    "result": "atgm_spent",
-    "type": "uncraft",
-    "skill_used": "fabrication",
-    "time": "30 m",
-    "qualities": [ { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "steel_chunk", 38 ] ] ],
-    "charges": 1
-  },
-  {
     "result": "mattress",
     "type": "uncraft",
     "skill_used": "tailor",
@@ -2614,14 +2605,6 @@
     "components": [ [ [ "rag", 4 ] ], [ [ "cotton_ball", 20 ] ] ]
   },
   {
-    "result": "pipe",
-    "type": "uncraft",
-    "skill_used": "mechanics",
-    "time": "5 m",
-    "qualities": [ { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "scrap", 7 ] ] ]
-  },
-  {
     "result": "pocketwatch",
     "type": "uncraft",
     "time": "3 m",
@@ -4638,22 +4621,6 @@
     "components": [ [ [ "scrap", 6 ] ] ]
   },
   {
-    "result": "medium_disposable_cell",
-    "type": "uncraft",
-    "skill_used": "fabrication",
-    "time": "5 m",
-    "qualities": [ { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "steel_chunk", 12 ] ] ]
-  },
-  {
-    "result": "heavy_disposable_cell",
-    "type": "uncraft",
-    "skill_used": "fabrication",
-    "time": "5 m",
-    "qualities": [ { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "steel_chunk", 25 ] ] ]
-  },
-  {
     "result": "salt_lick",
     "type": "uncraft",
     "time": "5 m",
@@ -4873,24 +4840,6 @@
   },
   {
     "type": "uncraft",
-    "result": "mic_stand_tall",
-    "skill_used": "fabrication",
-    "difficulty": 1,
-    "time": "12 m",
-    "qualities": [ { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "steel_lump", 1 ] ] ]
-  },
-  {
-    "type": "uncraft",
-    "result": "guitar_stand",
-    "skill_used": "fabrication",
-    "difficulty": 1,
-    "time": "12 m",
-    "qualities": [ { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "steel_chunk", 3 ] ] ]
-  },
-  {
-    "type": "uncraft",
     "result": "mixer_music",
     "skill_used": "fabrication",
     "difficulty": 1,
@@ -4904,51 +4853,6 @@
       [ [ "receiver", 1 ] ],
       [ [ "plastic_chunk", 5 ] ]
     ]
-  },
-  {
-    "type": "uncraft",
-    "result": "engine_block_tiny",
-    "skill_used": "fabrication",
-    "difficulty": 1,
-    "time": "10 m",
-    "qualities": [ { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "steel_lump", 8 ] ] ]
-  },
-  {
-    "type": "uncraft",
-    "result": "engine_block_small",
-    "skill_used": "fabrication",
-    "difficulty": 1,
-    "time": "15 m",
-    "qualities": [ { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "steel_lump", 40 ] ] ]
-  },
-  {
-    "type": "uncraft",
-    "result": "engine_block_medium",
-    "skill_used": "fabrication",
-    "difficulty": 1,
-    "time": "20 m",
-    "qualities": [ { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "steel_lump", 90 ] ] ]
-  },
-  {
-    "type": "uncraft",
-    "result": "engine_block_large",
-    "skill_used": "fabrication",
-    "difficulty": 1,
-    "time": "25 m",
-    "qualities": [ { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "steel_lump", 190 ] ] ]
-  },
-  {
-    "type": "uncraft",
-    "result": "engine_block_massive",
-    "skill_used": "fabrication",
-    "difficulty": 1,
-    "time": "30 m",
-    "qualities": [ { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "steel_lump", 280 ] ] ]
   },
   {
     "result": "pocketwatch_crude",
