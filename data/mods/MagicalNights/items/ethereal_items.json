@@ -32,6 +32,8 @@
       { "type": "firestarter", "moves": 20 },
       { "type": "transform", "msg": "You dim the flame.", "target": "finger_firelighter_off" }
     ],
+    "//": "Roughly +25% fire damage",
+    "attacks": [ { "id": "BASH", "to_hit": 0, "damage": { "values": [ { "damage_type": "heat", "amount": 1 } ] } } ],
     "flags": [ "TRADER_AVOID", "FIRESTARTER", "LIGHT_8", "FLAMING", "WATER_EXTINGUISH" ]
   },
   {
@@ -44,7 +46,7 @@
       { "type": "firestarter", "moves": 20 },
       { "type": "transform", "msg": "You brighten the flame.", "target": "finger_firelighter" }
     ],
-    "flags": [ "TRADER_AVOID", "FIRESTARTER", "FLAMING", "WATER_EXTINGUISH" ]
+    "flags": [ "TRADER_AVOID", "FIRESTARTER", "WATER_EXTINGUISH" ]
   },
   {
     "id": "magic_lamp",
@@ -177,7 +179,13 @@
     ],
     "volume": "1250 ml",
     "bashing": 30,
-    "//electric": 15,
+    "attacks": [
+      {
+        "id": "BASH",
+        "to_hit": 2,
+        "damage": { "values": [ { "damage_type": "bash", "amount": 30 }, { "damage_type": "electric", "amount": 15 } ] }
+      }
+    ],
     "price": "0 cent",
     "qualities": [ [ "HAMMER", 1 ] ]
   },
@@ -213,7 +221,13 @@
     "volume": "250 ml",
     "weight": "1 g",
     "bashing": 10,
-    "//electric": 15,
+    "attacks": [
+      {
+        "id": "BASH",
+        "to_hit": 2,
+        "damage": { "values": [ { "damage_type": "bash", "amount": 10 }, { "damage_type": "electric", "amount": 15 } ] }
+      }
+    ],
     "price": "0 cent",
     "flags": [
       "UNARMED_WEAPON",
@@ -551,14 +565,20 @@
     "techniques": [ "WBLOCK_1", "WIDE", "BRUTAL" ],
     "weight": "1 kg",
     "volume": "1 L",
-    "bashing": 12,
-    "cutting": 2,
-    "to_hit": 2,
     "use_action": { "type": "firestarter", "moves": 50 },
-    "relic_data": {
-      "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "ITEM_DAMAGE_CUT", "add": 8 } ] } ]
-    },
-    "//": "ITEM_DAMAGE_HEAT is not implemented yet, so ITEM_DAMAGE_CUT instead"
+    "attacks": [
+      {
+        "id": "SLASH",
+        "to_hit": 2,
+        "damage": {
+          "values": [
+            { "damage_type": "bash", "amount": 12 },
+            { "damage_type": "cut", "amount": 2 },
+            { "damage_type": "heat", "amount": 8 }
+          ]
+        }
+      }
+    ]
   },
   {
     "id": "decaying_boneclub",
@@ -584,12 +604,13 @@
     "weight": "700 g",
     "volume": "800 ml",
     "price": "0 cent",
-    "to_hit": 3,
-    "relic_data": {
-      "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "ITEM_DAMAGE_BASH", "add": 8 } ] } ]
-    },
-    "//": "ITEM_DAMAGE_BIO is not implemented yet, so ITEM_DAMAGE_BASH instead",
-    "bashing": 12
+    "attacks": [
+      {
+        "id": "BASH",
+        "to_hit": 3,
+        "damage": { "values": [ { "damage_type": "bash", "amount": 12 }, { "damage_type": "biological", "amount": 8 } ] }
+      }
+    ]
   },
   {
     "id": "windrunning_aura",
@@ -624,8 +645,13 @@
     "price": "0 cent",
     "color": "white",
     "material": "concentrated_mana",
-    "bashing": 0,
-    "cutting": 40,
+    "attacks": [
+      {
+        "id": "SLASH",
+        "to_hit": 2,
+        "damage": { "values": [ { "damage_type": "cut", "amount": 35 }, { "damage_type": "light", "amount": 5 } ] }
+      }
+    ],
     "extend": { "flags": [ "LIGHT_10" ] }
   }
 ]
