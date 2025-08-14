@@ -449,6 +449,10 @@ void cata::detail::reg_character( sol::state &lua )
 
         SET_FX_T( is_stealthy, bool() const );
 
+        SET_FX( uncanny_dodge );
+
+        SET_FX( get_melee_stamina_cost );
+
         SET_FX_T( cough, void( bool harmful, int loudness ) );
 
         SET_FX_T( bionic_armor_bonus, float( const bodypart_id &, damage_type ) const );

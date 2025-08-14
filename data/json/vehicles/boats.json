@@ -1145,6 +1145,76 @@
   },
   {
     "type": "vehicle",
+    "id": "boat_motor_police",
+    "name": "Police Boat",
+    "blueprint": [
+      [ "|||| " ],
+      [ "=#'||" ],
+      [ "=#'||" ],
+      [ "|||| " ]
+    ],
+    "parts": [
+      {
+        "x": -1,
+        "y": 0,
+        "parts": [ "xlframe_vertical", "trunk", "engine_v8", "alternator_car", "battery_car", "roof_cloth", "metal_boat_hull" ]
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "parts": [
+          "xlframe_vertical",
+          "seat",
+          "seatbelt",
+          "controls",
+          "dashboard",
+          { "part": "tank", "fuel": "gasoline" },
+          "roof_cloth",
+          "light_red",
+          "metal_boat_hull"
+        ]
+      },
+      { "x": 1, "y": 0, "parts": [ "xlframe_vertical", "windshield", "metal_boat_hull" ] },
+      { "x": 2, "y": 0, "parts": [ "xlframe_horizontal", "metal_boat_hull" ] },
+      { "x": 3, "y": 0, "parts": [ "xlframe_horizontal", "metal_boat_hull" ] },
+      {
+        "x": -1,
+        "y": 1,
+        "parts": [ "xlframe_vertical", "trunk", "engine_v8", "alternator_car", "battery_car", "roof_cloth", "metal_boat_hull" ]
+      },
+      {
+        "x": 0,
+        "y": 1,
+        "parts": [
+          "xlframe_vertical",
+          "seat",
+          "seatbelt",
+          { "part": "tank", "fuel": "gasoline" },
+          "roof_cloth",
+          "light_blue",
+          "metal_boat_hull"
+        ]
+      },
+      { "x": 1, "y": 1, "parts": [ "xlframe_vertical", "windshield", "metal_boat_hull" ] },
+      { "x": 2, "y": 1, "parts": [ "xlframe_horizontal", "metal_boat_hull" ] },
+      { "x": 3, "y": 1, "parts": [ "xlframe_horizontal", "metal_boat_hull" ] },
+      { "x": -1, "y": 2, "parts": [ "xlframe_vertical", "metal_boat_hull" ] },
+      { "x": 0, "y": 2, "parts": [ "xlframe_vertical", "metal_boat_hull" ] },
+      { "x": 1, "y": 2, "parts": [ "xlframe_vertical", "metal_boat_hull" ] },
+      { "x": 2, "y": 2, "parts": [ "xlframe_ne", "metal_boat_hull" ] },
+      { "x": -1, "y": -1, "parts": [ "xlframe_vertical", "metal_boat_hull" ] },
+      { "x": 0, "y": -1, "parts": [ "xlframe_vertical", "metal_boat_hull" ] },
+      { "x": 1, "y": -1, "parts": [ "xlframe_vertical", "metal_boat_hull" ] },
+      { "x": 2, "y": -1, "parts": [ "xlframe_nw", "metal_boat_hull" ] }
+    ],
+    "items": [
+      { "x": -1, "y": 0, "chance": 5, "item_groups": [ "tools_entry" ] },
+      { "x": -1, "y": 0, "chance": 5, "item_groups": [ "cop_gear" ] },
+      { "x": 0, "y": 1, "chance": 3, "magazine": 100, "ammo": 50, "item_groups": [ "cop_weapons" ] }
+    ]
+  },
+  {
+    "type": "vehicle",
     "id": "boat_motor_smuggler",
     "name": "Smuggling Speedboat",
     "//": "Go-fast boats aren't normally armed, but keeps things interesting plus could assume Hell's Raiders up-gunned one.",
