@@ -1874,7 +1874,7 @@ static projectile make_gun_projectile( const item &gun )
         }
 
         if( ammo.drop ) {
-            detached_ptr<item> drop = item::spawn( ammo.drop, calendar::turn, 1 );
+            detached_ptr<item> drop = item::spawn( ammo.drop, calendar::turn, ammo.drop_count );
             if( ammo.drop_active ) {
                 drop->activate();
             }
