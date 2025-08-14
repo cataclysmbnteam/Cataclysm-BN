@@ -1289,27 +1289,7 @@
   },
   {
     "type": "recipe",
-    "result": "shishkebab_off",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
     "result": "firemachete_off",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "broadfire_off",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "firekatana_off",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "zweifire_off",
     "obsolete": true
   },
   {

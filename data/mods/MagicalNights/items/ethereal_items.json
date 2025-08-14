@@ -32,6 +32,8 @@
       { "type": "firestarter", "moves": 20 },
       { "type": "transform", "msg": "You dim the flame.", "target": "finger_firelighter_off" }
     ],
+    "//": "Roughly +25% fire damage",
+    "attacks": [ { "id": "BASH", "to_hit": 0, "damage": { "values": [ { "damage_type": "heat", "amount": 1 } ] } } ],
     "flags": [ "TRADER_AVOID", "FIRESTARTER", "LIGHT_8", "FLAMING", "WATER_EXTINGUISH" ]
   },
   {
@@ -44,7 +46,7 @@
       { "type": "firestarter", "moves": 20 },
       { "type": "transform", "msg": "You brighten the flame.", "target": "finger_firelighter" }
     ],
-    "flags": [ "TRADER_AVOID", "FIRESTARTER", "FLAMING", "WATER_EXTINGUISH" ]
+    "flags": [ "TRADER_AVOID", "FIRESTARTER", "WATER_EXTINGUISH" ]
   },
   {
     "id": "magic_lamp",
