@@ -237,7 +237,7 @@ void complete_salvage( Character &who, item &cut, tripoint_abs_ms pos )
             // This sanity-checks items that have a default stack amount, e.g. silver/gold
             if( result.charges > 1 ) {
                 result.charges = 1;
-             }
+            }
             // Time based on number of components.
             add_msg( m_good, vgettext( "Salvaged %1$i %2$s.", "Salvaged %1$i %2$s.", amount ),
                      amount, result.display_name( amount ) );
