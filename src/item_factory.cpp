@@ -1742,6 +1742,7 @@ void islot_ammo::load( const JsonObject &jo )
     mandatory( jo, was_loaded, "ammo_type", type );
     optional( jo, was_loaded, "casing", casing, std::nullopt );
     optional( jo, was_loaded, "drop", drop, itype_id::NULL_ID() );
+    optional( jo, was_loaded, "drop_count", drop_count, -1 );
     optional( jo, was_loaded, "drop_active", drop_active, true );
     optional( jo, was_loaded, "dont_recover_one_in", dont_recover_one_in, 1 );
     // Damage instance assign reader handles pierce and prop_damage
