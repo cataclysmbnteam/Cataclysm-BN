@@ -943,6 +943,8 @@ class Character : public Creature, public location_visitable<Character>
         int mabuff_speed_bonus() const;
         /** Returns the arpen bonus from martial arts buffs*/
         int mabuff_arpen_bonus( damage_type type ) const;
+        /** Returns the target armor multiplier from martial arts buffs */
+        float mabuff_tg_armor_mult( damage_type type ) const;
         /** Returns the damage multiplier to given type from martial arts buffs */
         float mabuff_damage_mult( damage_type type ) const;
         /** Returns the flat damage bonus to given type from martial arts buffs, applied after the multiplier */

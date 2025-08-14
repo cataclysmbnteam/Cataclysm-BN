@@ -184,6 +184,9 @@ class ma_buff
         int block_bonus( const Character &u ) const;
         int arpen_bonus( const Character &u, damage_type dt ) const;
 
+        //returns armor multipliers for target
+        float tg_armor_mult( const Character &u, damage_type dt ) const;
+
         // returns the armor bonus for various armor stats (equivalent to armor)
         int armor_bonus( const Character &guy, damage_type dt ) const;
 
