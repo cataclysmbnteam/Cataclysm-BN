@@ -693,7 +693,7 @@
     "id": "torch_lit",
     "copy-from": "torch",
     "type": "TOOL",
-    "name": { "str": "torch (lit)", "str_pl": "torch (lit)" },
+    "name": { "str": "torch (lit)", "str_pl": "torches (lit)" },
     "description": "This is a large stick, wrapped in rags that are soaked with a flammable material.  It is burning, producing plenty of light.",
     "color": "red",
     "turns_per_charge": 20,
