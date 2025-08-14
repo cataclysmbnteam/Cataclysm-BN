@@ -376,7 +376,7 @@
     "revert_msg": "The flare sputters out",
     "use_action": { "type": "firestarter", "moves": 50 },
     "thrown_damage": [ { "damage_type": "heat", "amount": 8 } ],
-    "attacks": [ { "id": "BASH", "to_hit": 3, "damage": { "values": [ { "damage_type": "heat", "amount": 4 } ] } } ],
+    "attacks": [ { "id": "BASH", "to_hit": 0, "damage": { "values": [ { "damage_type": "heat", "amount": 4 } ] } } ],
     "flags": [ "FIRE", "LIGHT_240", "CHARGEDIM", "TRADER_AVOID", "FIRESTARTER" ]
   },
   {

@@ -1151,7 +1151,7 @@
     "attacks": [
       {
         "id": "THRUST",
-        "to_hit": 1,
+        "to_hit": 0,
         "damage": {
           "values": [
             { "damage_type": "bash", "amount": 1 },
@@ -1223,7 +1223,7 @@
     "attacks": [
       {
         "id": "THRUST",
-        "to_hit": 1,
+        "to_hit": 0,
         "damage": {
           "values": [
             { "damage_type": "bash", "amount": 3 },
@@ -1294,7 +1294,7 @@
     "attacks": [
       {
         "id": "THRUST",
-        "to_hit": 1,
+        "to_hit": 0,
         "damage": {
           "values": [
             { "damage_type": "bash", "amount": 1 },
@@ -1437,7 +1437,7 @@
     "attacks": [
       {
         "id": "THRUST",
-        "to_hit": 1,
+        "to_hit": 2,
         "damage": {
           "values": [
             { "damage_type": "bash", "amount": 2 },
