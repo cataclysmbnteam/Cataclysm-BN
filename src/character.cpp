@@ -8933,32 +8933,21 @@ void Character::on_hit( Creature *source, bodypart_id bp_hit,
     bool in_skater_vehicle = in_vehicle && veh_part.part_with_feature( "SEAT_REQUIRES_BALANCE", false );
 
     if( ( worn_with_flag( flag_REQUIRES_BALANCE ) || in_skater_vehicle ) && !is_on_ground() ) {
+        int rolls = 4;
         if( worn_with_flag( flag_ROLLER_ONE ) && !in_skater_vehicle ) {
-            if( worn_with_flag( flag_REQUIRES_BALANCE ) && !has_effect( effect_downed ) ) {
-                int rolls = 4;
-                if( worn_with_flag( flag_ROLLER_ONE ) ) {
-                    rolls += 2;
-                }
-                if( has_trait( trait_PROF_SKATER ) ) {
-                    rolls--;
-                }
-                if( has_trait( trait_DEFT ) ) {
-                    rolls--;
-                }
+            rolls += 2;
+        }
+        if( has_trait( trait_PROF_SKATER ) ) {
+            rolls--;
+        }
+        if( has_trait( trait_DEFT ) ) {
+            rolls--;
+        }
 
-                if( stability_roll() < dice( rolls, 10 ) ) {
-                    if( !is_player() ) {
-                        if( u_see ) {
-                            add_msg( _( "%1$s loses their balance while being hit!" ), name );
-                        }
-                    } else {
-                        add_msg( m_bad, _( "You lose your balance while being hit!" ) );
-                    }
-                    if( in_skater_vehicle ) {
-                        g->fling_creature( this, rng_float( 0_degrees, 360_degrees ), 10 );
-                    }
-                    // This kind of downing is not subject to immunity.
-                    add_effect( effect_downed, 2_turns, bodypart_str_id::NULL_ID(), 0, true );
+        if( stability_roll() < dice( rolls, 10 ) ) {
+            if( !is_player() ) {
+                if( u_see ) {
+                    add_msg( _( "%1$s loses their balance while being hit!" ), name );
                 }
             } else {
                 add_msg( m_bad, _( "You lose your balance while being hit!" ) );
