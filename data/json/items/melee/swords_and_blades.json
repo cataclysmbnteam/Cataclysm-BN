@@ -1162,8 +1162,7 @@
       }
     ],
     "extend": { "flags": [ "TRADER_AVOID" ] },
-    "power_draw": 500000,
-    "magazine_well": "500 ml"
+    "power_draw": 500000
   },
   {
     "id": "fencing_epee",
@@ -1235,8 +1234,7 @@
       }
     ],
     "extend": { "flags": [ "TRADER_AVOID" ] },
-    "power_draw": 500000,
-    "magazine_well": "500 ml"
+    "power_draw": 500000
   },
   {
     "id": "fencing_sabre",
@@ -1307,8 +1305,7 @@
       }
     ],
     "extend": { "flags": [ "TRADER_AVOID" ] },
-    "power_draw": 500000,
-    "magazine_well": "500 ml"
+    "power_draw": 500000
   },
   {
     "id": "sword_cane",
@@ -1450,8 +1447,7 @@
         }
       }
     ],
-    "power_draw": 500000,
-    "magazine_well": "500 ml"
+    "power_draw": 500000
   },
   {
     "id": "rapier_fake",

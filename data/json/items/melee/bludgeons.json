@@ -787,8 +787,7 @@
       }
     ],
     "extend": { "flags": [ "TRADER_AVOID" ] },
-    "power_draw": 500000,
-    "magazine_well": "500 ml"
+    "power_draw": 500000
   },
   {
     "id": "rock_sock",
@@ -931,8 +930,7 @@
       }
     ],
     "extend": { "flags": [ "TRADER_AVOID" ] },
-    "power_draw": 500000,
-    "magazine_well": "500 ml"
+    "power_draw": 500000
   },
   {
     "id": "warhammer",
