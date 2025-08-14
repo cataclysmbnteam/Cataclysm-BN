@@ -517,6 +517,15 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "cream_pie",
+    "name": "cream pie",
+    "copy-from": "pie",
+    "description": "A delicious baked pie filled with a white, thick cream.",
+    "material": [ "wheat", "milk" ],
+    "vitamins": [ [ "vitA", 8 ], [ "vitC", 4 ], [ "calcium", 16 ], [ "iron", 17 ], [ "wheat_allergen", 1 ], [ "milk_allergen", 1 ] ]
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "pizza_cheese",
     "name": "cheese pizza",
     "weight": "170 g",
