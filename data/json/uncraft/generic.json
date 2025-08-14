@@ -4622,22 +4622,6 @@
     "components": [ [ [ "scrap", 8 ] ], [ [ "spring", 4 ] ] ]
   },
   {
-    "result": "light_minus_disposable_cell",
-    "type": "uncraft",
-    "skill_used": "fabrication",
-    "time": "5 m",
-    "qualities": [ { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "scrap", 2 ] ] ]
-  },
-  {
-    "result": "light_disposable_cell",
-    "type": "uncraft",
-    "skill_used": "fabrication",
-    "time": "5 m",
-    "qualities": [ { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "scrap", 6 ] ] ]
-  },
-  {
     "result": "medium_disposable_cell",
     "type": "uncraft",
     "skill_used": "fabrication",
