@@ -142,7 +142,8 @@
           { "id": "mon_zombie_ichor_beast", "fg": 126 },
           { "id": "corpse_mon_zombie_ichor_beast", "fg": 127 },
           { "id": "mon_zombie_ichor_stalker", "fg": 128 },
-          { "id": "corpse_mon_zombie_ichor_stalker", "fg": 129 }
+          { "id": "corpse_mon_zombie_ichor_stalker", "fg": 129 },
+          { "id": "cream_pie", "fg": [ { "weight": 10, "sprite": 130 }, { "weight": 10, "sprite": 131 } ] }
         ],
         "sprite_width": 32,
         "sprite_height": 32
