@@ -153,6 +153,12 @@ static q_result prompt_warnings( const Character &who, const item &target,
             return result;
         }
     }
+    if( recipe_dictionary::get_uncraft( target.typeId() ) ) {
+        auto result = yn_ignore_query( _( "This item could be disassembled instead, salvage anyway?" ) );
+        if( result != q_result::yes ) {
+            return result;
+        }
+    }
     return q_result::yes;
 }
 
@@ -228,6 +234,10 @@ void complete_salvage( Character &who, item &cut, tripoint_abs_ms pos )
         int amount = std::floor( salvagable_percent * salvaged.second );
         if( amount > 0 ) {
             item &result = *item::spawn_temporary( salvaged.first, calendar::turn );
+            // This sanity-checks items that have a default stack amount, e.g. silver/gold
+            if( result.charges > 1 ) {
+                result.charges = 1;
+             }
             // Time based on number of components.
             add_msg( m_good, vgettext( "Salvaged %1$i %2$s.", "Salvaged %1$i %2$s.", amount ),
                      amount, result.display_name( amount ) );
