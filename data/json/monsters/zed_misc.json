@@ -997,7 +997,7 @@
     "id": "mon_zombie_squidman",
     "copy-from": "mon_zombie_swimmer",
     "type": "MONSTER",
-    "name": { "str": "zombie squidman" },
+    "name": { "str": "zombie squidman", "str_pl": "zombie squidmen" },
     "description": "This rotting, squid-faced thing somehow used to be human, judging by its tattered swimwear.  Its limbs have split apart and mutated into a mess of slimy tendrils, vomiting up bile when threatened in a twisted imitation of cephalopod ink.",
     "relative": { "hp": 30, "dodge": 1 },
     "armor_bash": 10,
