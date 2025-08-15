@@ -88,10 +88,21 @@
     "type": "vehicle",
     "name": "motorized kayak",
     "blueprint": [ [ "<O>" ] ],
-    "parts": [ 
+    "parts": [
       { "x": 0, "y": 0, "parts": [ "xlframe_horizontal", "seat", "hand_paddles", "carbonfiber_boat_hull" ] },
       { "x": 1, "y": 0, "parts": [ "xlframe_horizontal", "carbonfiber_boat_hull" ] },
-      { "x": -1, "y": 0, "parts": [ "xlframe_horizontal", "carbonfiber_boat_hull", "battery_motorbike", "engine_1cyl", "alternator_motorbike", { "part": "tank_small", "fuel": "gasoline" } ] }
+      {
+        "x": -1,
+        "y": 0,
+        "parts": [
+          "xlframe_horizontal",
+          "carbonfiber_boat_hull",
+          "battery_motorbike",
+          "engine_1cyl",
+          "alternator_motorbike",
+          { "part": "tank_small", "fuel": "gasoline" }
+        ]
+      }
     ]
   },
   {
@@ -99,9 +110,20 @@
     "type": "vehicle",
     "name": "jetski",
     "blueprint": [ [ "<O#" ] ],
-    "parts": [ 
+    "parts": [
       { "x": 0, "y": 0, "parts": [ "xlframe_horizontal", "controls", "seat", "plastic_boat_hull" ] },
-      { "x": 1, "y": 0, "parts": [ "xlframe_horizontal", "plastic_boat_hull", "battery_motorbike", "engine_1cyl_large", "alternator_motorbike", { "part": "tank_small", "fuel": "gasoline" } ] },
+      {
+        "x": 1,
+        "y": 0,
+        "parts": [
+          "xlframe_horizontal",
+          "plastic_boat_hull",
+          "battery_motorbike",
+          "engine_1cyl_large",
+          "alternator_motorbike",
+          { "part": "tank_small", "fuel": "gasoline" }
+        ]
+      },
       { "x": -1, "y": 0, "parts": [ "xlframe_horizontal", "plastic_boat_hull", "cargo_space" ] }
     ],
     "items": [ { "x": -1, "y": 0, "chance": 50, "items": [ "flotation_vest" ] } ]
