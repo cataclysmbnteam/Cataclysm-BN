@@ -926,7 +926,19 @@
     "skills": [ { "level": 4, "name": "swimming" }, { "level": 3, "name": "survival" } ],
     "items": {
       "both": {
-        "items": [ "wetsuit", "wetsuit_hood", "wetsuit_booties", "wetsuit_gloves", "dive_bag", "diving_watch", "goggles_swim", "scuba_tank", "swim_fins", "diveknife", "rebreather" ],
+        "items": [
+          "wetsuit",
+          "wetsuit_hood",
+          "wetsuit_booties",
+          "wetsuit_gloves",
+          "dive_bag",
+          "diving_watch",
+          "goggles_swim",
+          "scuba_tank",
+          "swim_fins",
+          "diveknife",
+          "rebreather"
+        ],
         "entries": [ { "group": "charged_flashlight" } ]
       }
     }
@@ -969,12 +981,33 @@
     "traits": [ "PROF_SWIMMER" ],
     "description": "You were a marine biologist who specialized in extended underwater research.  You have a bionic respirator for emergency situations where you run out of air unexpectedly, and additional implants that enable you to explore the depths easier and surgically examine marine life.",
     "points": 4,
-    "CBMs": [ "bio_batteries", "bio_cable_mkII", "bio_underwater_propellers", "bio_syringe", "bio_gills", "bio_flashlight", "bio_surgical_razor", "bio_power_storage_mkII", "bio_power_storage_mkII" ],
+    "CBMs": [
+      "bio_batteries",
+      "bio_cable_mkII",
+      "bio_underwater_propellers",
+      "bio_syringe",
+      "bio_gills",
+      "bio_flashlight",
+      "bio_surgical_razor",
+      "bio_power_storage_mkII",
+      "bio_power_storage_mkII"
+    ],
     "//": "spawns with a respirator. this is meant for emergencies, and provides up to 5x stamina increase when activated as well",
     "skills": [ { "level": 2, "name": "swimming" }, { "level": 4, "name": "firstaid" }, { "level": 1, "name": "electronics" } ],
     "items": {
       "both": {
-        "items": [ "wetsuit", "wetsuit_hood", "wetsuit_gloves", "wetsuit_booties", "dive_bag", "diving_watch", "goggles_swim", "small_scuba_tank", "swim_fins", "rebreather" ],
+        "items": [
+          "wetsuit",
+          "wetsuit_hood",
+          "wetsuit_gloves",
+          "wetsuit_booties",
+          "dive_bag",
+          "diving_watch",
+          "goggles_swim",
+          "small_scuba_tank",
+          "swim_fins",
+          "rebreather"
+        ],
         "entries": [
           { "item": "sea_scooter", "custom-flags": [ "auto_wield" ] },
           { "item": "airspeargun", "ammo-item": "c_fishspear", "charges": 4 },
