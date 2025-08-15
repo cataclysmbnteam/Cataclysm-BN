@@ -98,7 +98,7 @@
     "type": "tool_quality",
     "id": "HAMMER",
     "name": { "str": "hammering" },
-    "salvagable_materials": [ "copper", "gold", "lead", "platinum", "silver", "tin", "zinc" ]
+    "salvagable_materials": [ "copper", "glass", "gold", "lead", "platinum", "silver", "tin", "zinc" ]
   },
   {
     "type": "tool_quality",
