@@ -717,7 +717,7 @@ ter_id t_null,
        t_fungus_mound, t_fungus, t_shrub_fungal, t_tree_fungal, t_tree_fungal_young, t_marloss_tree,
        // Water, lava, etc.
        t_water_moving_dp, t_water_moving_sh, t_water_sh, t_water_dp, t_swater_sh, t_swater_dp,
-       t_water_cube, t_lake_bed, t_water_pool, t_sewage,
+       t_water_cube, t_lake_bed, t_lake_moss, t_water_pool, t_sewage,
        t_lava,
        // More embellishments than you can shake a stick at.
        t_sandbox, t_slide, t_monkey_bars, t_backboard,
@@ -971,6 +971,7 @@ void set_ter_ids()
     t_swater_dp = ter_id( "t_swater_dp" );
     t_water_cube = ter_id( "t_water_cube" );
     t_lake_bed  = ter_id( "t_lake_bed" );
+    t_lake_moss  = ter_id( "t_lake_moss" );
     t_water_pool = ter_id( "t_water_pool" );
     t_sewage = ter_id( "t_sewage" );
     t_lava = ter_id( "t_lava" );
@@ -1108,7 +1109,8 @@ furn_id f_null,
         f_large_canvas_door, f_large_canvas_door_o, f_center_groundsheet, f_skin_wall, f_skin_door,
         f_skin_door_o, f_skin_groundsheet,
         f_mutpoppy, f_flower_fungal, f_fungal_mass, f_fungal_clump, f_dahlia, f_datura, f_dandelion,
-        f_cattails, f_bluebell,
+        f_cattails, f_bluebell, f_lake_pondweed, f_lake_detritus, f_lake_liverwort, f_lake_eelgrass,
+        f_lake_hornwort,
         f_safe_c, f_safe_l, f_safe_o,
         f_plant_seed, f_plant_seedling, f_plant_mature, f_plant_harvest,
         f_fvat_empty, f_fvat_full,
@@ -1209,6 +1211,11 @@ void set_furn_ids()
     f_datura = furn_id( "f_datura" );
     f_dandelion = furn_id( "f_dandelion" );
     f_cattails = furn_id( "f_cattails" );
+    f_lake_pondweed = furn_id( "f_lake_pondweed" );
+    f_lake_detritus = furn_id( "f_lake_detritus" );
+    f_lake_liverwort = furn_id( "f_lake_liverwort" );
+    f_lake_eelgrass = furn_id( "f_lake_eelgrass" );
+    f_lake_hornwort = furn_id( "f_lake_hornwort" );
     f_safe_c = furn_id( "f_safe_c" );
     f_safe_l = furn_id( "f_safe_l" );
     f_safe_o = furn_id( "f_safe_o" );
