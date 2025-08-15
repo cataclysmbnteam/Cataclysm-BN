@@ -433,8 +433,8 @@ void salvage_activity_actor::start( player_activity &act, Character &who )
                         targets.erase( targets.begin() );
                         // If we skipped everything, cancel or we'll crash.
                         if( targets.empty() ) {
-                             act.set_to_null();
-                             add_msg( _( "Never mind." ) );
+                            act.set_to_null();
+                            add_msg( _( "Never mind." ) );
                         }
                         break;
                     case salvage::q_result::abort:
