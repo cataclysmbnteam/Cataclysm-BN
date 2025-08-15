@@ -1139,7 +1139,6 @@
     "flags": [ "BIONIC_TOGGLED" ],
     "act_cost": "6 J",
     "react_cost": "6 J",
-    "trigger_cost": "2 kJ",
     "time": 1,
     "enchantments": [ "ENCH_BIO_UNDERWATER_PROPELLERS" ]
   },
