@@ -593,7 +593,7 @@
     "difficulty": 3,
     "time": "1 h",
     "autolearn": true,
-    "using": [ [ "blacksmithing_advanced", 2 ], [ "steel_tiny", 2 ] ]
+    "using": [ [ "blacksmithing_advanced", 2 ], [ "steel_standard", 1 ] ]
   },
   {
     "type": "recipe",
