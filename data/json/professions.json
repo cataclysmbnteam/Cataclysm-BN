@@ -920,12 +920,25 @@
     "type": "profession",
     "id": "professional_diver",
     "name": "Professional Diver",
+    "traits": [ "PROF_SWIMMER" ],
     "description": "You spent a large part of your time exploring lakes and diving in the New England region, giving you lots of knowledge about the waters in the local area.",
     "points": 3,
-    "skills": [ { "level": 4, "name": "swimming" }, { "level": 1, "name": "survival" } ],
+    "skills": [ { "level": 4, "name": "swimming" }, { "level": 3, "name": "survival" } ],
     "items": {
       "both": {
-        "items": [ "wetsuit", "wetsuit_hood", "dive_bag", "diving_watch", "goggles_swim", "scuba_tank", "swim_fins", "diveknife" ],
+        "items": [
+          "wetsuit",
+          "wetsuit_hood",
+          "wetsuit_booties",
+          "wetsuit_gloves",
+          "dive_bag",
+          "diving_watch",
+          "goggles_swim",
+          "scuba_tank",
+          "swim_fins",
+          "diveknife",
+          "rebreather"
+        ],
         "entries": [ { "group": "charged_flashlight" } ]
       }
     }
@@ -934,6 +947,7 @@
     "type": "profession",
     "id": "underwater_welder",
     "name": "Underwater Welder",
+    "traits": [ "PROF_SWIMMER" ],
     "description": "Through years of underwater welding, you've honed a deep understanding of submerged structures in the New England region.",
     "points": 3,
     "skills": [ { "level": 3, "name": "swimming" }, { "level": 2, "name": "fabrication" }, { "level": 2, "name": "mechanics" } ],
@@ -942,16 +956,19 @@
         "items": [
           "wetsuit",
           "wetsuit_hood",
+          "wetsuit_gloves",
+          "wetsuit_booties",
           "welding_mask_raised",
           "dive_bag",
           "diving_watch",
           "goggles_swim",
           "small_scuba_tank",
-          "swim_fins"
+          "swim_fins",
+          "rebreather"
         ],
         "entries": [
           { "group": "charged_flashlight" },
-          { "item": "sea_scooter" },
+          { "item": "sea_scooter", "custom-flags": [ "auto_wield" ] },
           { "item": "tinyweldtank", "ammo-item": "oxyacetylene", "charges": 60, "container-item": "oxy_torch" }
         ]
       }
@@ -961,17 +978,40 @@
     "type": "profession",
     "id": "bionic_diver",
     "name": "Bionic Marine Biologist",
-    "description": "You were a marine biologist who specialized in underwater research.  You have bionic implants that allow you to explore the depths and surgically examine marine life.",
+    "traits": [ "PROF_SWIMMER" ],
+    "description": "You were a marine biologist who specialized in extended underwater research.  You have a bionic respirator for emergency situations where you run out of air unexpectedly, and additional implants that enable you to explore the depths easier and surgically examine marine life.",
     "points": 4,
-    "CBMs": [ "bio_batteries", "bio_gills", "bio_surgical_razor", "bio_power_storage_mkII", "bio_power_storage_mkII" ],
+    "CBMs": [
+      "bio_batteries",
+      "bio_cable_mkII",
+      "bio_underwater_propellers",
+      "bio_syringe",
+      "bio_gills",
+      "bio_flashlight",
+      "bio_surgical_razor",
+      "bio_power_storage_mkII",
+      "bio_power_storage_mkII"
+    ],
+    "//": "spawns with a respirator. this is meant for emergencies, and provides up to 5x stamina increase when activated as well",
     "skills": [ { "level": 2, "name": "swimming" }, { "level": 4, "name": "firstaid" }, { "level": 1, "name": "electronics" } ],
     "items": {
       "both": {
-        "items": [ "wetsuit", "wetsuit_hood", "dive_bag", "diving_watch", "goggles_swim", "small_scuba_tank", "swim_fins" ],
+        "items": [
+          "wetsuit",
+          "wetsuit_hood",
+          "wetsuit_gloves",
+          "wetsuit_booties",
+          "dive_bag",
+          "diving_watch",
+          "goggles_swim",
+          "small_scuba_tank",
+          "swim_fins",
+          "rebreather"
+        ],
         "entries": [
-          { "group": "charged_flashlight" },
-          { "item": "sea_scooter" },
-          { "item": "airspeargun", "ammo-item": "fishspear", "charges": 4 }
+          { "item": "sea_scooter", "custom-flags": [ "auto_wield" ] },
+          { "item": "airspeargun", "ammo-item": "c_fishspear", "charges": 4 },
+          { "item": "c_fishspear", "count": 4 }
         ]
       }
     }
@@ -997,7 +1037,7 @@
     "skills": [ { "level": 5, "name": "swimming" } ],
     "items": {
       "both": {
-        "items": [ "wetsuit", "bandana_head", "dive_bag", "diving_watch", "diveknife" ],
+        "items": [ "wetsuit", "wetsuit_gloves", "wetsuit_booties", "bandana_head", "dive_bag", "diving_watch", "diveknife" ],
         "entries": [ { "group": "charged_flashlight" } ]
       }
     },
@@ -1290,7 +1330,7 @@
     "name": "Special Operator",
     "description": "You were the best of the best, the military's finest.  That's why you're still alive, even after all your comrades fell to the undead.  As far as you can tell, military command abandoned you in this hellhole when you missed the emergency evac.",
     "points": 5,
-    "traits": [ "PROF_MILITARY" ],
+    "traits": [ "PROF_MILITARY", "PROF_SWIMMER" ],
     "skills": [
       { "level": 3, "name": "gun" },
       { "level": 3, "name": "smg" },
