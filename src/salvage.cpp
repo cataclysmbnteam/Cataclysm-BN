@@ -233,17 +233,11 @@ void complete_salvage( Character &who, item &cut, tripoint_abs_ms pos )
     for( const auto &salvaged : salvage_results( cut ) ) {
         int amount = std::floor( salvagable_percent * salvaged.second );
         if( amount > 0 ) {
-            item &result = *item::spawn_temporary( salvaged.first, calendar::turn );
-            // This sanity-checks items that have a default stack amount, e.g. silver/gold
-            if( result.charges > 1 ) {
-                result.charges = 1;
-            }
             // Time based on number of components.
             add_msg( m_good, vgettext( "Salvaged %1$i %2$s.", "Salvaged %1$i %2$s.", amount ),
-                     amount, result.display_name( amount ) );
-            for( ; amount > 0; --amount ) {
-                here.add_item_or_charges( pos_here, item::spawn( result ) );
-            }
+                     amount, salvaged.first->nname( amount ) );
+            // Done this way so that items with charges > 1 or no support for charges work correctly
+            here.spawn_item( pos_here, salvaged.first, amount, 1 );
         } else {
             add_msg( m_bad, _( "Could not salvage a %s." ), salvaged.first->nname( 1 ) );
         }
