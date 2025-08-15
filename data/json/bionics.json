@@ -1131,6 +1131,19 @@
     "enchantments": [ "ENCH_UNCANNY_DODGE" ]
   },
   {
+    "id": "bio_underwater_propellers",
+    "type": "bionic",
+    "name": { "str": "Underwater Propellers" },
+    "description": "Your upper torso is fitted with retractable propellers that enable you to swim and maneuver at greater speeds when submerged.",
+    "occupied_bodyparts": [ [ "torso", 6 ], [ "arm_l", 1 ], [ "arm_r", 1 ] ],
+    "flags": [ "BIONIC_TOGGLED" ],
+    "act_cost": "6 J",
+    "react_cost": "6 J",
+    "trigger_cost": "2 kJ",
+    "time": 1,
+    "enchantments": [ "ENCH_BIO_UNDERWATER_PROPELLERS" ]
+  },
+  {
     "id": "bio_ups",
     "type": "bionic",
     "name": { "str": "Internal Unified Power System" },

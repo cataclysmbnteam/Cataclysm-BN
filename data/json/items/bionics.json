@@ -1053,6 +1053,17 @@
     "installation_data": "AID_bio_ups"
   },
   {
+    "id": "bio_underwater_propellers",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": { "str": "Underwater Propellers CBM" },
+    "looks_like": "bio_int_enhancer",
+    "description": "A set of underwater propellers that can be extended or retracted from the users upper torso.  When extended, they grant increased movement speeds if the user is submerged.",
+    "price": "200 USD",
+    "weight": "1000 g",
+    "difficulty": 4
+  },
+  {
     "id": "bio_water_extractor",
     "copy-from": "bionic_general",
     "type": "BIONIC_ITEM",

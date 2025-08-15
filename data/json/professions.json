@@ -926,7 +926,7 @@
     "skills": [ { "level": 4, "name": "swimming" }, { "level": 3, "name": "survival" } ],
     "items": {
       "both": {
-        "items": [ "wetsuit", "wetsuit_hood", "dive_bag", "diving_watch", "goggles_swim", "scuba_tank", "swim_fins", "diveknife", "rebreather" ],
+        "items": [ "wetsuit", "wetsuit_hood", "wetsuit_booties", "wetsuit_gloves", "dive_bag", "diving_watch", "goggles_swim", "scuba_tank", "swim_fins", "diveknife", "rebreather" ],
         "entries": [ { "group": "charged_flashlight" } ]
       }
     }
@@ -944,6 +944,8 @@
         "items": [
           "wetsuit",
           "wetsuit_hood",
+          "wetsuit_gloves",
+          "wetsuit_booties",
           "welding_mask_raised",
           "dive_bag",
           "diving_watch",
@@ -954,7 +956,7 @@
         ],
         "entries": [
           { "group": "charged_flashlight" },
-          { "item": "sea_scooter" },
+          { "item": "sea_scooter", "custom-flags": [ "auto_wield" ] },
           { "item": "tinyweldtank", "ammo-item": "oxyacetylene", "charges": 60, "container-item": "oxy_torch" }
         ]
       }
@@ -965,19 +967,18 @@
     "id": "bionic_diver",
     "name": "Bionic Marine Biologist",
     "traits": [ "PROF_SWIMMER" ],
-    "description": "You were a marine biologist who specialized in underwater research.  You have bionic implants that allow you to explore the depths and surgically examine marine life.",
+    "description": "You were a marine biologist who specialized in extended underwater research.  You have a bionic respirator for emergency situations where you run out of air unexpectedly, and additional implants that enable you to explore the depths easier and surgically examine marine life.",
     "points": 4,
-    "CBMs": [ "bio_batteries", "bio_cable_mkII", "bio_gills", "bio_surgical_razor", "bio_power_storage_mkII", "bio_power_storage_mkII" ],
-    "//": "spawns with a respirator. this drains insanely fast, so gets two methods of quick recharging",
+    "CBMs": [ "bio_batteries", "bio_cable_mkII", "bio_underwater_propellers", "bio_syringe", "bio_gills", "bio_flashlight", "bio_surgical_razor", "bio_power_storage_mkII", "bio_power_storage_mkII" ],
+    "//": "spawns with a respirator. this is meant for emergencies, and provides up to 5x stamina increase when activated as well",
     "skills": [ { "level": 2, "name": "swimming" }, { "level": 4, "name": "firstaid" }, { "level": 1, "name": "electronics" } ],
     "items": {
       "both": {
-        "items": [ "wetsuit", "wetsuit_hood", "dive_bag", "diving_watch", "goggles_swim", "small_scuba_tank", "swim_fins", "rebreather" ],
+        "items": [ "wetsuit", "wetsuit_hood", "wetsuit_gloves", "wetsuit_booties", "dive_bag", "diving_watch", "goggles_swim", "small_scuba_tank", "swim_fins", "rebreather" ],
         "entries": [
-          { "group": "charged_flashlight" },
-          { "item": "sea_scooter" },
+          { "item": "sea_scooter", "custom-flags": [ "auto_wield" ] },
           { "item": "airspeargun", "ammo-item": "c_fishspear", "charges": 4 },
-          { "item": "c_fishspear", "count": 8 }
+          { "item": "c_fishspear", "count": 4 }
         ]
       }
     }
@@ -1003,7 +1004,7 @@
     "skills": [ { "level": 5, "name": "swimming" } ],
     "items": {
       "both": {
-        "items": [ "wetsuit", "bandana_head", "dive_bag", "diving_watch", "diveknife" ],
+        "items": [ "wetsuit", "wetsuit_gloves", "wetsuit_booties", "bandana_head", "dive_bag", "diving_watch", "diveknife" ],
         "entries": [ { "group": "charged_flashlight" } ]
       }
     },
