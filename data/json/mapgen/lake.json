@@ -33,6 +33,16 @@
   {
     "type": "mapgen",
     "method": "json",
+    "om_terrain": [ "river_center" ],
+    "//": "not lake stuff, but seemed like this would be the best spot for this definition",
+    "object": {
+      "fill_ter": "t_water_moving_dp",
+      "place_vehicles": [ { "vehicle": "river_boats", "x": [ 11, 12 ], "y": [ 11, 12 ], "rotation": [ 0, 90, 180, 270 ], "chance": 2 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
     "om_terrain": [ "lake_water_cube" ],
     "object": { "fill_ter": "t_water_cube" }
   },

@@ -700,7 +700,7 @@ struct islot_ammo : common_ranged_data {
      * Control chance for and state of any items dropped at ranged target
      *@{*/
     itype_id drop = itype_id::NULL_ID();
-
+    int drop_count = -1;
     bool drop_active = true;
     /*@}*/
 
