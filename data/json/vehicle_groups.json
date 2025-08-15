@@ -76,7 +76,9 @@
       [ "canoe", 2000 ],
       [ "kayak", 1500 ],
       [ "kayak_racing", 500 ],
+      [ "kayak_motorized", 500 ],
       [ "DUKW", 250 ],
+      [ "jetski", 500 ],
       [ "raft", 2000 ],
       [ "wood_rowboat_double", 1500 ]
     ]
@@ -86,11 +88,13 @@
     "id": "lake_boats",
     "//": "Various boats that might have been abandoned out on the open water.  ~25% small craft, 25% larger commercial boats, 25% police/military, and 25% novelty/replica craft.",
     "vehicles": [
-      [ "canoe", 100 ],
-      [ "kayak", 50 ],
+      [ "canoe", 75 ],
+      [ "kayak", 25 ],
       [ "kayak_racing", 25 ],
+      [ "kayak_motorized", 25 ],
       [ "wood_rowboat_double", 25 ],
       [ "inflatable_boat", 25 ],
+      [ "jetski", 25 ],
       [ "raft", 25 ],
       [ "boat_motor_single", 200 ],
       [ "boat_motor_smuggler", 50 ],
@@ -101,6 +105,26 @@
       [ "pirate_ship", 25 ],
       [ "DUKW", 75 ],
       [ "hovercraft_motor_single", 25 ]
+    ]
+  },
+  {
+    "type": "vehicle_group",
+    "id": "river_boats",
+    "//": "Various boats that might have been abandoned or lost in rivers.  ~50% rafts or kayaks, 40% boats or hovercraft, and 10% police/military/smuggler.",
+    "vehicles": [
+      [ "canoe", 195 ],
+      [ "kayak", 100 ],
+      [ "kayak_racing", 50 ],
+      [ "kayak_motorized", 25 ],
+      [ "wood_rowboat_double", 60 ],
+      [ "inflatable_boat", 115 ],
+      [ "jetski", 30 ],
+      [ "raft", 190 ],
+      [ "boat_motor_single", 115 ],
+      [ "boat_motor_smuggler", 60 ],
+      [ "boat_motor_police", 30 ],
+      [ "CG_patrol_boat", 20 ],
+      [ "hovercraft_motor_single", 125 ]
     ]
   },
   {
@@ -120,7 +144,7 @@
     "type": "vehicle_group",
     "id": "boats_narrow",
     "//": "1 tile wide boats for storage sheds",
-    "vehicles": [ [ "canoe", 2000 ], [ "kayak", 1500 ], [ "kayak_racing", 500 ] ]
+    "vehicles": [ [ "canoe", 2000 ], [ "kayak", 1500 ], [ "kayak_racing", 500 ], [ "kayak_motorized", 250 ], [ "jetski", 250 ] ]
   },
   {
     "type": "vehicle_group",
