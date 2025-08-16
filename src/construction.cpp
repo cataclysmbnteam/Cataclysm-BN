@@ -242,7 +242,7 @@ void finalize()
     }
     std::ranges::sort( constructions_sorted,
     [&]( const construction_id & l, const construction_id & r ) -> bool {
-        lexicographic<construction> cmp;
+        const lexicographic<construction> cmp;
         return cmp( l->id, r->id );
     } );
 }
@@ -352,7 +352,7 @@ static nc_color construction_color( const construction_group_str_id &group, bool
         col = c_white;
     } else if( can_construct( group ) ) {
         const construction *con_first = nullptr;
-        std::vector<const construction *> cons = constructions_by_group( group );
+        std::vector<const construction *> const cons = constructions_by_group( group );
         const inventory &total_inv = player_character.crafting_inventory();
         for( const construction *con : cons ) {
             if( con->requirements->can_make_with_inventory( total_inv, is_crafting_component ) ) {
@@ -363,7 +363,7 @@ static nc_color construction_color( const construction_group_str_id &group, bool
         if( con_first != nullptr ) {
             col = c_white;
             for( const auto &pr : con_first->required_skills ) {
-                int s_lvl = player_character.get_skill_level( pr.first );
+                const int s_lvl = player_character.get_skill_level( pr.first );
                 if( s_lvl < pr.second ) {
                     col = c_red;
                 } else if( s_lvl < pr.second * 1.25 ) {
@@ -495,7 +495,7 @@ std::optional<construction_id> construction_menu( const bool blueprint )
             //construct the project list buffer
 
             // Print stages and their requirement.
-            std::vector<const construction *> options = constructions_by_group( current_group );
+            std::vector<const construction *> const options = constructions_by_group( current_group );
 
             construct_buffers.clear();
             current_construct_breakpoint = 0;
@@ -519,10 +519,10 @@ std::optional<construction_id> construction_menu( const bool blueprint )
                     add_folded( foldstring( line, available_window_width ) );
                 };
 
-                bool pre_is_ter_or_furn = !current_con->pre_terrain.is_empty() ||
-                                          !current_con->pre_furniture.is_empty();
-                bool post_is_ter_or_furn = !current_con->post_terrain.is_empty() ||
-                                           !current_con->post_furniture.is_empty();
+                const bool pre_is_ter_or_furn = !current_con->pre_terrain.is_empty() ||
+                                                !current_con->pre_furniture.is_empty();
+                const bool post_is_ter_or_furn = !current_con->post_terrain.is_empty() ||
+                                                 !current_con->post_furniture.is_empty();
 
                 // Display final product name only if more than one step.
                 // Assume single stage constructions should be clear
@@ -553,11 +553,11 @@ std::optional<construction_id> construction_menu( const bool blueprint )
                 if( current_con->required_skills.empty() ) {
                     add_line( _( "No skills required." ) );
                 } else {
-                    std::string current_line = _( "Required skills: " ) + enumerate_as_string(
-                                                   current_con->required_skills.begin(), current_con->required_skills.end(),
+                    const std::string current_line = _( "Required skills: " ) + enumerate_as_string(
+                                                         current_con->required_skills.begin(), current_con->required_skills.end(),
                     []( const std::pair<skill_id, int> &skill ) {
                         nc_color col;
-                        int s_lvl = g->u.get_skill_level( skill.first );
+                        const int s_lvl = g->u.get_skill_level( skill.first );
                         if( s_lvl < skill.second ) {
                             col = c_red;
                         } else if( s_lvl < skill.second * 1.25 ) {
@@ -581,7 +581,7 @@ std::optional<construction_id> construction_menu( const bool blueprint )
                     } else {
                         require_string = current_con->pre_terrain->name();
                     }
-                    nc_color pre_color = has_pre_terrain( *current_con ) ? c_green : c_red;
+                    const nc_color pre_color = has_pre_terrain( *current_con ) ? c_green : c_red;
                     add_line( _( "Requires: " ) + colorize( require_string, pre_color ) );
                 }
                 if( !current_con->pre_note.empty() ) {
@@ -676,9 +676,9 @@ std::optional<construction_id> construction_menu( const bool blueprint )
         // Print the constructions between offset and max (or how many will fit)
         for( size_t i = 0; static_cast<int>( i ) < w_list_height &&
              ( i + offset ) < constructs.size(); i++ ) {
-            int current = i + offset;
+            const int current = i + offset;
             const construction_group_str_id &group = constructs[current];
-            bool highlight = ( current == select );
+            const bool highlight = ( current == select );
             const point print_from( 0, i );
             if( highlight ) {
                 ui.set_cursor( w_list, print_from );
@@ -945,7 +945,7 @@ std::optional<construction_id> construction_menu( const bool blueprint )
 bool player_can_build( Character &ch, const inventory &inv, const construction_group_str_id &group )
 {
     // check all with the same group to see if player can build any
-    std::vector<const construction *> cons = constructions_by_group( group );
+    std::vector<const construction *> const cons = constructions_by_group( group );
     for( const construction *con : cons ) {
         if( player_can_build( ch, inv, *con ) ) {
             return true;
@@ -972,7 +972,7 @@ bool player_can_see_to_build( Character &ch, const construction_group_str_id &gr
     if( character_funcs::can_see_fine_details( ch ) || ch.has_trait( trait_DEBUG_HS ) ) {
         return true;
     }
-    std::vector<const construction *> cons = constructions_by_group( group );
+    std::vector<const construction *> const cons = constructions_by_group( group );
     for( const construction *con : cons ) {
         if( con->dark_craftable ) {
             return true;
@@ -984,7 +984,7 @@ bool player_can_see_to_build( Character &ch, const construction_group_str_id &gr
 bool can_construct( const construction_group_str_id &group )
 {
     // check all with the same group to see if player can build any
-    std::vector<const construction *> cons = constructions_by_group( group );
+    std::vector<const construction *> const cons = constructions_by_group( group );
     for( const construction *con : cons ) {
         if( can_construct( *con ) ) {
             return true;
@@ -1053,8 +1053,9 @@ void place_construction( const construction_group_str_id &group )
         }
     }
 
-    shared_ptr_fast<game::draw_callback_t> draw_valid = make_shared_fast<game::draw_callback_t>( [&]() {
-        map &here = get_map();
+    const shared_ptr_fast<game::draw_callback_t> draw_valid =
+    make_shared_fast<game::draw_callback_t>( [&]() {
+        const map &here = get_map();
         for( auto &elem : valid ) {
             here.drawsq( g->w_terrain, elem.first, drawsq_params().highlight( true ).show_items( true ) );
         }
@@ -1173,7 +1174,7 @@ void complete_construction( Character &who, tripoint_abs_ms &where )
             }
         }
         if( !dump_spots.empty() ) {
-            tripoint dump_spot = random_entry( dump_spots );
+            const tripoint dump_spot = random_entry( dump_spots );
             map_stack items = here.i_at( local );
             for( map_stack::iterator it = items.begin(); it != items.end(); ) {
                 detached_ptr<item> dumped;
@@ -1249,7 +1250,7 @@ inline std::array<tripoint, 4> get_orthogonal_neighbors( const tripoint &p )
 
 bool construct::check_support( const tripoint &p )
 {
-    map &here = get_map();
+    const map &here = get_map();
     // need two or more orthogonally adjacent supports
     if( here.impassable( p ) ) {
         return false;
@@ -1265,7 +1266,7 @@ bool construct::check_support( const tripoint &p )
 
 bool construct::check_deconstruct( const tripoint &p )
 {
-    map &here = get_map();
+    const map &here = get_map();
     if( here.has_furn( p.xy() ) ) {
         return here.furn( p.xy() ).obj().deconstruct.can_do;
     }
@@ -1298,7 +1299,7 @@ bool construct::check_no_trap( const tripoint &p )
 bool construct::check_ramp_high( const tripoint &p )
 {
     if( check_up_OK( p ) && check_up_OK( p + tripoint_above ) ) {
-        for( point car_d : four_cardinal_directions ) {
+        for( const point car_d : four_cardinal_directions ) {
             // check adjacent points on the z-level above for a completed down ramp
             if( get_map().has_flag( TFLAG_RAMP_DOWN, p + car_d + tripoint_above ) ) {
                 return true;
@@ -1325,7 +1326,7 @@ bool construct::check_empty_ramp_low( const tripoint &p )
 
 void construct::done_trunk_plank( const tripoint &/*p*/ )
 {
-    int num_logs = rng( 2, 3 );
+    const int num_logs = rng( 2, 3 );
     for( int i = 0; i < num_logs; ++i ) {
         iuse::cut_log_into_planks( g->u );
     }
@@ -1334,7 +1335,7 @@ void construct::done_trunk_plank( const tripoint &/*p*/ )
 void construct::done_grave( const tripoint &p )
 {
     map &here = get_map();
-    map_stack its = here.i_at( p );
+    const map_stack its = here.i_at( p );
     // Don't remove furniture when digging shallow graves, but also don't give full morale bonus
     const bool proper_burial = here.furn( p )->has_flag( flag_SEALED );
     const int burial_morale = proper_burial ? 50 : 25;
@@ -1411,7 +1412,7 @@ void construct::done_vehicle( const tripoint &p )
     }
 
     map &m = get_map();
-    avatar &u = get_avatar();
+    const avatar &u = get_avatar();
 
     vehicle *veh = m.add_vehicle( vproto_id( "none" ), p, 270_degrees, 0, 0 );
 
@@ -1477,7 +1478,7 @@ void construct::done_deconstruct( const tripoint &p )
         here.ter_set( p, t.deconstruct.ter_set );
         // Interpret a result of t_null as underlying terrain if any instead of placing nothinginess
         if( here.ter( p ) == t_null ) {
-            tripoint below( p.xy(), p.z - 1 );
+            const tripoint below( p.xy(), p.z - 1 );
             here.ter_set( p, here.get_roof( below, true ) );
         }
         add_msg( _( "The %s is disassembled." ), t.name() );
@@ -1495,7 +1496,7 @@ void construct::done_deconstruct( const tripoint &p )
             }
         }
         if( !dump_spots.empty() ) {
-            tripoint dump_spot = random_entry( dump_spots );
+            const tripoint dump_spot = random_entry( dump_spots );
             here.spawn_items( dump_spot, std::move( items_list ) );
         } else {
             debugmsg( "No space to displace items from construction finishing" );
@@ -1521,10 +1522,11 @@ void construct::done_digormine_stair( const tripoint &p, bool dig )
     tmpmap.load( tripoint( pos_sm.xy(), pos_sm.z - 1 ), false );
     const tripoint local_tmp = tmpmap.getlocal( abs_pos );
 
-    bool dig_muts = g->u.has_trait( trait_PAINRESIST_TROGLO ) || g->u.has_trait( trait_STOCKY_TROGLO );
+    const bool dig_muts = g->u.has_trait( trait_PAINRESIST_TROGLO ) ||
+                          g->u.has_trait( trait_STOCKY_TROGLO );
 
-    int no_mut_penalty = dig_muts ? 10 : 0;
-    int mine_penalty = dig ? 0 : 10;
+    const int no_mut_penalty = dig_muts ? 10 : 0;
+    const int mine_penalty = dig ? 0 : 10;
     g->u.mod_stored_nutr( 5 + mine_penalty + no_mut_penalty );
     g->u.mod_thirst( 5 + mine_penalty + no_mut_penalty );
     g->u.mod_fatigue( 10 + mine_penalty + no_mut_penalty );
@@ -1542,7 +1544,7 @@ void construct::done_digormine_stair( const tripoint &p, bool dig )
         return;
     }
 
-    bool impassable = tmpmap.impassable( local_tmp );
+    const bool impassable = tmpmap.impassable( local_tmp );
     if( !impassable ) {
         add_msg( _( "You dig into a preexisting space, and improvise a ladder." ) );
     } else if( dig ) {
@@ -1595,9 +1597,10 @@ void construct::done_mine_upstair( const tripoint &p )
         return;
     }
 
-    bool dig_muts = g->u.has_trait( trait_PAINRESIST_TROGLO ) || g->u.has_trait( trait_STOCKY_TROGLO );
+    const bool dig_muts = g->u.has_trait( trait_PAINRESIST_TROGLO ) ||
+                          g->u.has_trait( trait_STOCKY_TROGLO );
 
-    int no_mut_penalty = dig_muts ? 15 : 0;
+    const int no_mut_penalty = dig_muts ? 15 : 0;
     g->u.mod_stored_nutr( 20 + no_mut_penalty );
     g->u.mod_thirst( 20 + no_mut_penalty );
     g->u.mod_fatigue( 25 + no_mut_penalty );
@@ -1695,7 +1698,7 @@ void construction::load( const JsonObject &jo, const std::string &/*src*/ )
     if( jo.has_string( "using" ) ) {
         reqs_using = { { requirement_id( jo.get_string( "using" ) ), 1} };
     } else if( jo.has_array( "using" ) ) {
-        for( JsonArray cur : jo.get_array( "using" ) ) {
+        for( const JsonArray cur : jo.get_array( "using" ) ) {
             reqs_using.emplace_back( requirement_id( cur.get_string( 0 ) ), cur.get_int( 1 ) );
         }
     }
@@ -1831,7 +1834,7 @@ void construction::check() const
     }
 
     if( !report.is_empty() ) {
-        std::string s = report.format( "construction", id.str() );
+        const std::string s = report.format( "construction", id.str() );
         debugmsg( s );
     }
 }
@@ -1867,8 +1870,8 @@ void construction::finalize()
     if( !is_valid_construction_category ) {
         debugmsg( "Invalid construction category (%s) defined for construction (%s)", category, id );
     }
-    requirement_data requirements_ = std::accumulate( reqs_using.begin(), reqs_using.end(),
-                                     *requirements,
+    const requirement_data requirements_ = std::accumulate( reqs_using.begin(), reqs_using.end(),
+                                           *requirements,
     []( const requirement_data & lhs, const std::pair<requirement_id, int> &rhs ) {
         return lhs + ( *rhs.first * rhs.second );
     } );
@@ -1922,7 +1925,7 @@ std::string construction::get_time_string() const
 
 std::vector<std::string> construction::get_folded_time_string( int width ) const
 {
-    std::string time_text = get_time_string();
+    const std::string time_text = get_time_string();
     std::vector<std::string> folded_time = foldstring( time_text, width );
     return folded_time;
 }

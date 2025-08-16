@@ -91,7 +91,7 @@ void try_to_sleep( avatar &you, const time_duration &dur )
         webforce = true;
     }
     if( websleep || webforce ) {
-        int web = here.get_field_intensity( you.pos(), fd_web );
+        const int web = here.get_field_intensity( you.pos(), fd_web );
         if( !webforce ) {
             // At this point, it's kinda weird, but surprisingly comfy...
             if( web >= 3 ) {
@@ -374,12 +374,12 @@ void gunmod_add( avatar &you, item &gun, item &mod )
     bool no_magazines = false;
     if( !modded.magazine_integral() && !mod.type->mod->ammo_modifier.empty() ) {
         no_magazines = true;
-        for( itype_id mags : modded.magazine_compatible() ) {
-            item &mag = *item::spawn_temporary( mags );
+        for( const itype_id mags : modded.magazine_compatible() ) {
+            const item &mag = *item::spawn_temporary( mags );
             if( !no_magazines ) {
                 break;
             }
-            for( ammotype at : modded.ammo_types() ) {
+            for( const ammotype at : modded.ammo_types() ) {
                 if( mag.can_reload_with( at ) ) {
                     no_magazines = false;
                     break;
@@ -492,7 +492,7 @@ bool gunmod_remove( avatar &you, item &gun, item &mod )
 
     //If the removed gunmod added mod locations, check to see if any mods are in invalid locations
     if( !modtype->gunmod->add_mod.empty() ) {
-        std::map<gunmod_location, int> mod_locations = gun.get_mod_locations();
+        std::map<gunmod_location, int> const mod_locations = gun.get_mod_locations();
         for( const auto &slot : mod_locations ) {
             int free_slots = gun.get_free_mod_locations( slot.first );
 
@@ -530,7 +530,7 @@ std::pair<int, int> gunmod_installation_odds( const avatar &you, const item &gun
 
     for( const auto &e : mod.type->min_skills ) {
         // gain an additional chance for every level above the minimum requirement
-        skill_id sk = e.first == skill_weapon ? gun.gun_skill() : e.first;
+        const skill_id sk = e.first == skill_weapon ? gun.gun_skill() : e.first;
         chances += std::max( you.get_skill_level( sk ) - e.second, 0 );
     }
     // cap success from skill alone to 1 in 5 (~83% chance)
@@ -607,7 +607,7 @@ void use_item( avatar &you, item &used )
     } else if( used.type->has_use() ) {
         you.invoke_item( &used, used.position() );
     } else if( used.has_flag( flag_SPLINT ) ) {
-        ret_val<bool> need_splint = you.can_wear( used );
+        const ret_val<bool> need_splint = you.can_wear( used );
         if( need_splint.success() ) {
             you.wear_item( used.detach() );
         } else {
@@ -668,8 +668,8 @@ bool unload_item( avatar &you, item &loc )
                 liquids.push_back( &*contained );
                 return std::move( contained );
             }
-            int old_charges = contained->charges;
-            item &obj = *contained;
+            const int old_charges = contained->charges;
+            const item &obj = *contained;
             contained = add_or_drop_with_msg( you, std::move( contained ), true );
             if( !contained || contained->charges != old_charges ) {
                 you.mod_moves( -you.item_handling_cost( obj ) );
@@ -860,7 +860,7 @@ std::vector<npc *> list_potential_theft_witnesses( avatar &you, const faction_id
 
 bool handle_theft_witnesses( avatar &you, const faction_id &owners )
 {
-    std::vector<npc *> witnesses = list_potential_theft_witnesses( you, owners );
+    std::vector<npc *> const witnesses = list_potential_theft_witnesses( you, owners );
     for( npc *guy : witnesses ) {
         guy->say( "<witnessed_thievery>", 7 );
     }

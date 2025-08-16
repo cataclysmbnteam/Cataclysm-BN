@@ -291,7 +291,7 @@ bool Creature::sees( const Creature &critter ) const
         return ch == nullptr || !ch->is_invisible();
     };
 
-    map &here = get_map();
+    const map &here = get_map();
     const Character *ch = critter.as_character();
     const int wanted_range = rl_dist( pos(), critter.pos() );
     // Can always see adjacent monsters on the same level, unless they're through a vehicle wall.
@@ -350,7 +350,7 @@ bool Creature::sees( const tripoint &t, bool is_avatar, int range_mod ) const
         return false;
     }
 
-    map &here = get_map();
+    const map &here = get_map();
     const int range_cur = sight_range( here.ambient_light_at( t ) );
     const int range_day = sight_range( default_daylight_level() );
     const int range_night = sight_range( 0 );
@@ -375,7 +375,7 @@ bool Creature::sees( const tripoint &t, bool is_avatar, int range_mod ) const
         if( is_avatar ) {
             // Special case monster -> player visibility, forcing it to be symmetric with player vision.
             const float player_visibility_factor = g->u.visibility() / 100.0f;
-            int adj_range = std::floor( range * player_visibility_factor );
+            const int adj_range = std::floor( range * player_visibility_factor );
             return adj_range >= wanted_range &&
                    here.get_cache_ref( pos().z ).seen_cache[pos().x][pos().y] > LIGHT_TRANSPARENCY_SOLID;
         } else {
@@ -404,7 +404,7 @@ static bool overlaps_vehicle( const std::set<tripoint> &veh_area, const tripoint
 Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area )
 {
     Creature *target = nullptr;
-    player &u = g->u; // Could easily protect something that isn't the player
+    const player &u = g->u; // Could easily protect something that isn't the player
     constexpr int hostile_adj = 2; // Priority bonus for hostile targets
     const int iff_dist = ( ( range + area ) * 3 / 2 ) + 6; // iff check triggers at this distance
     // iff safety margin (degrees). less accuracy, more paranoia
@@ -415,8 +415,8 @@ Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area 
     bool self_area_iff = false; // Need to check if the target is near the vehicle we're a part of
     bool area_iff = false;      // Need to check distance from target to player
     bool angle_iff = true;      // Need to check if player is in a cone between us and target
-    int pldist = rl_dist( pos(), g->u.pos() );
-    map &here = get_map();
+    const int pldist = rl_dist( pos(), g->u.pos() );
+    const map &here = get_map();
     vehicle *in_veh = is_fake() ? veh_pointer_or_null( here.veh_at( pos() ) ) : nullptr;
     if( pldist < iff_dist && sees( g->u ) ) {
         area_iff = area > 0;
@@ -437,7 +437,7 @@ Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area 
         self_area_iff = true;
     }
 
-    std::vector<Creature *> targets = g->get_creatures_if( [&]( const Creature & critter ) {
+    std::vector<Creature *> const targets = g->get_creatures_if( [&]( const Creature & critter ) {
         if( critter.is_monster() ) {
             // friendly to the player, not a target for us
             return static_cast<const monster *>( &critter )->friendly == 0;
@@ -472,9 +472,9 @@ Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area 
                     }
                 } while( continueFlag );
 
-                tripoint oldPos = pos();
+                const tripoint oldPos = pos();
                 setpos( path_to_target.back() ); //Temporary moving targeting npc on vehicle boundary postion
-                bool seesFromVehBound = sees( *m ); // And look from there
+                const bool seesFromVehBound = sees( *m ); // And look from there
                 setpos( oldPos );
                 if( !seesFromVehBound ) {
                     continue;
@@ -483,13 +483,13 @@ Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area 
                 continue;
             }
         }
-        int dist = rl_dist( pos(), m->pos() ) + 1; // rl_dist can be 0
+        const int dist = rl_dist( pos(), m->pos() ) + 1; // rl_dist can be 0
         if( dist > range + 1 || dist < area ) {
             // Too near or too far
             continue;
         }
         // Prioritize big, armed and hostile stuff
-        float mon_rating = m->power_rating();
+        const float mon_rating = m->power_rating();
         float target_rating = mon_rating / dist;
         if( mon_rating + hostile_adj <= 0 ) {
             // We wouldn't attack it even if it was hostile
@@ -509,8 +509,8 @@ Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area 
         // only when the target is actually "hostile enough"
         bool maybe_boo = false;
         if( angle_iff ) {
-            units::angle tangle = coord_to_angle( pos(), m->pos() );
-            units::angle diff = units::fabs( u_angle - tangle );
+            const units::angle tangle = coord_to_angle( pos(), m->pos() );
+            const units::angle diff = units::fabs( u_angle - tangle );
             // Player is in the angle and not too far behind the target
             if( ( diff + iff_hangle > 360_degrees || diff < iff_hangle ) &&
                 ( dist * 3 / 2 + 6 > pldist ) ) {
@@ -890,7 +890,8 @@ void Creature::deal_projectile_attack( Creature *source, item *source_weapon,
     // The variance can swing hit value into the negatives, which would make alot of shots headshots!
     // We dont want that, so take the absolute value of hit value effectively wrapping the variance around.
     // Use goodhit as opposed to missed_by, the more a target dodges the less likely we are to hit what we want to hit shielding with arms etc.
-    double hit_value = std::abs( goodhit + rng_float( -hit_location_variance, hit_location_variance ) );
+    const double hit_value = std::abs( goodhit + rng_float( -hit_location_variance,
+                                       hit_location_variance ) );
 
     // According to the CDC the greatest predictor of severity of injury or mortality is the location of a gunshot wound, not the number of gunshot wounds.
     // Long story short, its very bad to get hit in the arms and legs, but arms and legs dont contain your vital organs, spine or brain.
@@ -984,7 +985,7 @@ void Creature::deal_projectile_attack( Creature *source, item *source_weapon,
     impact.mult_damage( severity, ( goodhit > accuracy_standard ) );
 
     if( proj.has_effect( ammo_effect_NOGIB ) ) {
-        float dmg_ratio = impact.total_damage() / get_hp_max( bp_hit );
+        const float dmg_ratio = impact.total_damage() / get_hp_max( bp_hit );
         if( dmg_ratio > 1.25f ) {
             impact.mult_damage( 1.0f / dmg_ratio );
         }
@@ -993,7 +994,7 @@ void Creature::deal_projectile_attack( Creature *source, item *source_weapon,
     // Great for parties, less great if you are trying to get food as a starving survivor.
     // If the resulting damage from a normal attack explodes the animal, it explodes.
     if( goodhit < accuracy_critical && has_flag( MF_ANIMAL ) ) {
-        float dmg_ratio = impact.total_damage() / get_hp_max( bp_hit );
+        const float dmg_ratio = impact.total_damage() / get_hp_max( bp_hit );
         if( dmg_ratio > 1.25f ) {
             impact.mult_damage( 1.0f / dmg_ratio );
         }
@@ -1002,7 +1003,7 @@ void Creature::deal_projectile_attack( Creature *source, item *source_weapon,
         impact.mult_damage( 0.0f );
     }
     // Track damage before and after after for overpenetration effects, include divide-by-zero protection.
-    float dmg_before_armor = std::max( 1.0f, impact.total_damage() );
+    const float dmg_before_armor = std::max( 1.0f, impact.total_damage() );
 
     // If we have a shield, it might passively block ranged impacts
     block_ranged_hit( source, bp_hit, impact );
@@ -1010,12 +1011,12 @@ void Creature::deal_projectile_attack( Creature *source, item *source_weapon,
     dealt_dam = deal_damage( source, bp_hit, impact, source_weapon, attack.proj.get_drop() );
     dealt_dam.bp_hit = bp_hit.id();
 
-    float dmg_after_armor = dealt_dam.total_damage();
+    const float dmg_after_armor = dealt_dam.total_damage();
 
     // Modify projectile for overpenetration.
     for( auto &elem : proj.impact.damage_units ) {
         // Ratio of how much armor reduced expected damage, used as a multiplier.
-        float damage_ratio = dmg_after_armor / dmg_before_armor;
+        const float damage_ratio = dmg_after_armor / dmg_before_armor;
         // Take an extra 10 damage and 5 arpen off per target, regardless of damage ratio.
         elem.amount = std::max( 0.0f, ( elem.amount * damage_ratio ) - 10 );
         elem.res_pen = std::max( 0.0f, ( elem.res_pen * damage_ratio ) - 5 );
@@ -1729,7 +1730,7 @@ int Creature::get_perceived_pain() const
 
 std::pair<std::string, nc_color> Creature::get_pain_description() const
 {
-    float scale = get_perceived_pain() / 10.f;
+    const float scale = get_perceived_pain() / 10.f;
     std::string pain_string;
     nc_color pain_color = c_yellow;
     if( scale > 7 ) {
@@ -1857,7 +1858,7 @@ int Creature::get_armor_bullet_bonus() const
 
 int Creature::get_speed() const
 {
-    int speed = std::round( ( get_speed_base() + get_speed_bonus() ) * ( 1 + get_speed_mult() ) );
+    const int speed = std::round( ( get_speed_base() + get_speed_bonus() ) * ( 1 + get_speed_mult() ) );
     return std::max( static_cast<int>( round( 0.25 * get_speed_base() ) ), speed );
 }
 float Creature::get_dodge() const
@@ -1972,14 +1973,14 @@ void Creature::mod_part_healed_total( const bodypart_id &id, int mod )
 
 void Creature::set_all_parts_hp_cur( const int set )
 {
-    for( std::pair<const bodypart_str_id, bodypart> &elem : body ) {
+    for( std::pair<const bodypart_str_id, bodypart>  const &elem : body ) {
         set_part_hp_cur( elem.first, set );
     }
 }
 
 void Creature::set_all_parts_hp_to_max()
 {
-    for( std::pair<const bodypart_str_id, bodypart> &elem : body ) {
+    for( std::pair<const bodypart_str_id, bodypart>  const &elem : body ) {
         set_part_hp_cur( elem.first, get_part_hp_max( elem.first ) );
     }
 }
@@ -2218,7 +2219,8 @@ void Creature::draw( const catacurses::window &w, const tripoint &origin, bool i
         return;
     }
 
-    point draw( -origin.xy() + point( ( getmaxx( w ) / 2 ) + posx(), ( getmaxy( w ) / 2 ) + posy() ) );
+    const point draw( -origin.xy() + point( ( getmaxx( w ) / 2 ) + posx(),
+                                            ( getmaxy( w ) / 2 ) + posy() ) );
     if( inverted ) {
         mvwputch_inv( w, draw, basic_symbol_color(), symbol() );
     } else if( is_symbol_highlighted() ) {
@@ -2235,7 +2237,7 @@ bool Creature::is_symbol_highlighted() const
 
 const bodypart_str_id &Creature::select_body_part( Creature *source, int hit_roll ) const
 {
-    int szdif = source->get_size() - get_size();
+    const int szdif = source->get_size() - get_size();
 
     add_msg( m_debug, "hit roll = %d", hit_roll );
     add_msg( m_debug, "source size = %d", source->get_size() );

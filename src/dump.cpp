@@ -47,8 +47,8 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
 
     int scol = 0; // sorting column
 
-    standard_npc test_npc( "S1", { 0, 0, 2 }, { "gloves_survivor", "mask_lsurvivor" },
-                           4, 8, 10, 8, 10 /* DEX 10, PER 10 */ );
+    const standard_npc test_npc( "S1", { 0, 0, 2 }, { "gloves_survivor", "mask_lsurvivor" },
+                                 4, 8, 10, 8, 10 /* DEX 10, PER 10 */ );
 
     if( what == "AMMO" ) {
         header = {
@@ -133,7 +133,7 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
         };
 
         for( const itype *e : item_controller->all() ) {
-            item &food = *item::spawn_temporary( e, calendar::turn, item::solitary_tag {} );
+            const item &food = *item::spawn_temporary( e, calendar::turn, item::solitary_tag {} );
 
             if( food.is_food() && g->u.can_eat( food ).success() ) {
                 dump( food );
@@ -258,8 +258,8 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
             "Aerodynamics coeff", "Rolling coeff", "Static Drag", "Offroad %"
         };
         auto dump = [&rows]( const vproto_id & obj ) {
-            vehicle veh_empty( obj, 0, 0 );
-            vehicle veh_fueled( obj, 100, 0 );
+            const vehicle veh_empty( obj, 0, 0 );
+            const vehicle veh_fueled( obj, 100, 0 );
 
             std::vector<std::string> r;
             r.push_back( veh_empty.name );
@@ -287,7 +287,7 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
             std::vector<std::string> r;
             r.push_back( obj.name() );
             r.push_back( obj.location );
-            int w = std::ceil( to_gram( item::spawn_temporary( obj.item )->weight() ) / 1000.0 );
+            const int w = std::ceil( to_gram( item::spawn_temporary( obj.item )->weight() ) / 1000.0 );
             r.push_back( std::to_string( w ) );
             r.push_back( std::to_string( obj.size / units::legacy_volume_factor ) );
             rows.push_back( r );

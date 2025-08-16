@@ -76,15 +76,15 @@ void vitamin::load_vitamin( const JsonObject &jo )
         jo.throw_error( "vitamin consumption rate cannot be negative", "rate" );
     }
 
-    for( JsonArray e : jo.get_array( "disease" ) ) {
+    for( const JsonArray e : jo.get_array( "disease" ) ) {
         vit.disease_.emplace_back( e.get_int( 0 ), e.get_int( 1 ) );
     }
 
-    for( JsonArray e : jo.get_array( "disease_excess" ) ) {
+    for( const JsonArray e : jo.get_array( "disease_excess" ) ) {
         vit.disease_excess_.emplace_back( e.get_int( 0 ), e.get_int( 1 ) );
     }
 
-    for( std::string e : jo.get_array( "flags" ) ) {
+    for( const std::string e : jo.get_array( "flags" ) ) {
         vit.flags_.insert( e );
     }
 

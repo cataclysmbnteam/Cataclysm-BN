@@ -235,7 +235,7 @@ tile_item_location::tile_item_location( tripoint position )
 detached_ptr<item> tile_item_location::detach( item *it )
 {
     map &here = get_map();
-    tripoint local = here.getlocal( pos );
+    const tripoint local = here.getlocal( pos );
     map_stack items = here.i_at( local );
     for( auto iter = items.begin(); iter != items.end(); iter++ ) {
         if( *iter == it ) {
@@ -251,14 +251,14 @@ detached_ptr<item> tile_item_location::detach( item *it )
 void tile_item_location::attach( detached_ptr<item> &&obj )
 {
     map &here = get_map();
-    tripoint local = here.getlocal( pos );
+    const tripoint local = here.getlocal( pos );
     map_stack items = here.i_at( local );
     items.insert( std::move( obj ) );
 }
 
 bool tile_item_location::is_loaded( const item * ) const
 {
-    map &here = get_map();
+    const map &here = get_map();
     return here.inbounds( here.getlocal( pos ) );
 }
 
@@ -284,7 +284,7 @@ int tile_item_location::obtain_cost( const Character &ch, int qty, const item *i
 std::string tile_item_location::describe( const Character *ch, const item * ) const
 {
     map &here = get_map();
-    tripoint local = here.getlocal( pos );
+    const tripoint local = here.getlocal( pos );
     std::string res = here.name( local );
     if( ch ) {
         res += std::string( " " ) += direction_suffix( ch->pos(), local );
@@ -437,7 +437,7 @@ int vehicle_item_location::obtain_cost( const Character &ch, int qty, const item
 
 std::string vehicle_item_location::describe( const Character *ch, const item * ) const
 {
-    vpart_position part_pos( *veh, veh->get_part_id_hack( hack_id ) );
+    const vpart_position part_pos( *veh, veh->get_part_id_hack( hack_id ) );
     std::string res;
     if( auto label = part_pos.get_label() ) {
         res = colorize( *label, c_light_blue ) + " ";

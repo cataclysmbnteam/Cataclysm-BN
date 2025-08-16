@@ -118,7 +118,7 @@ void WORLDINFO::load_options( JsonIn &jsin )
 
     jsin.start_array();
     while( !jsin.end_array() ) {
-        JsonObject jo = jsin.get_object();
+        const JsonObject jo = jsin.get_object();
         jo.allow_omitted_members();
         const std::string name = opts.migrateOptionName( jo.get_string( "name" ) );
         const std::string value = opts.migrateOptionValue( jo.get_string( "name" ),
@@ -139,7 +139,7 @@ void WORLDINFO::load_legacy_options( std::istream &fin )
     while( !fin.eof() ) {
         getline( fin, sLine );
         if( !sLine.empty() && sLine[0] != '#' && std::count( sLine.begin(), sLine.end(), ' ' ) == 1 ) {
-            size_t ipos = sLine.find( ' ' );
+            const size_t ipos = sLine.find( ' ' );
             // make sure that the option being loaded is part of the world_default page in OPTIONS
             // In 0.C some lines consisted of a space and nothing else
             const std::string name = opts.migrateOptionName( sLine.substr( 0, ipos ) );
@@ -298,7 +298,7 @@ static void write_to_db( sqlite3 *db, const std::string &path, file_write_fn wri
     std::vector<std::byte> compressedData;
     zlib_compress( data, compressedData );
 
-    size_t basePos = path.find_last_of( "/\\" );
+    const size_t basePos = path.find_last_of( "/\\" );
     auto parent = ( basePos == std::string::npos ) ? "" : path.substr( 0, basePos );
 
     auto sql = R"sql(
@@ -356,9 +356,10 @@ static bool read_from_db( sqlite3 *db, const std::string &path, file_read_fn rea
     if( sqlite3_step( stmt ) == SQLITE_ROW ) {
         // Retrieve the count result
         const void *blobData = sqlite3_column_blob( stmt, 0 );
-        int blobSize = sqlite3_column_bytes( stmt, 0 );
+        const int blobSize = sqlite3_column_bytes( stmt, 0 );
         auto compression_raw = sqlite3_column_text( stmt, 1 );
-        std::string compression = compression_raw ? reinterpret_cast<const char *>( compression_raw ) : "";
+        const std::string compression = compression_raw ? reinterpret_cast<const char *>
+                                        ( compression_raw ) : "";
 
         if( blobData == nullptr ) {
             return false; // Return an empty string if there's no data
@@ -463,10 +464,10 @@ int64_t world::commit_save_tx()
         sqlite3_exec( save_db, "COMMIT", NULL, NULL, NULL );
     }
 
-    int64_t now = std::chrono::duration_cast< std::chrono::milliseconds >(
-                      std::chrono::system_clock::now().time_since_epoch()
-                  ).count();
-    int64_t duration = now - save_tx_start_ts;
+    const int64_t now = std::chrono::duration_cast< std::chrono::milliseconds >(
+                            std::chrono::system_clock::now().time_since_epoch()
+                        ).count();
+    const int64_t duration = now - save_tx_start_ts;
     save_tx_start_ts = 0;
     return duration;
 }
@@ -514,7 +515,7 @@ bool world::read_map_quad( const tripoint &om_addr, file_read_json_fn reader ) c
 bool world::write_map_quad( const tripoint &om_addr, file_write_fn writer ) const
 {
     const std::string dirname = get_quad_dirname( om_addr );
-    std::string quad_path = dirname + "/" + get_quad_filename( om_addr );
+    const std::string quad_path = dirname + "/" + get_quad_filename( om_addr );
 
     // V2 logic
     if( info->world_save_format == save_format::V2_COMPRESSED_SQLITE3 ) {

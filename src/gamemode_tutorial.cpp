@@ -135,7 +135,7 @@ bool tutorial_game::init()
     auto &starting_om = overmap_buffer.get( point_abs_om() );
     for( int i = 0; i < OMAPX; i++ ) {
         for( int j = 0; j < OMAPY; j++ ) {
-            tripoint_om_omt p( i, j, 0 );
+            const tripoint_om_omt p( i, j, 0 );
             starting_om.ter_set( p + tripoint_below, rock );
             // Start with the overmap revealed
             starting_om.seen( p ) = true;
@@ -256,7 +256,7 @@ void tutorial_game::post_action( action_id act )
             if( g->u.has_amount( itype_grenade_act, 1 ) ) {
                 add_message( tut_lesson::LESSON_ACT_GRENADE );
             }
-            map &here = get_map();
+            const map &here = get_map();
             for( const tripoint &dest : here.points_in_radius( g->u.pos(), 1 ) ) {
                 if( here.tr_at( dest ).id == trap_str_id( "tr_bubblewrap" ) ) {
                     add_message( tut_lesson::LESSON_ACT_BUBBLEWRAP );
@@ -276,7 +276,7 @@ void tutorial_game::post_action( action_id act )
             break;
 
         case ACTION_WEAR: {
-            item &it = *item::spawn_temporary( g->u.last_item, calendar::start_of_cataclysm );
+            const item &it = *item::spawn_temporary( g->u.last_item, calendar::start_of_cataclysm );
             if( it.is_armor() ) {
                 if( it.get_avg_coverage() >= 2 || it.get_thickness() >= 2 ) {
                     add_message( tut_lesson::LESSON_WORE_ARMOR );
@@ -301,7 +301,7 @@ void tutorial_game::post_action( action_id act )
             add_message( tut_lesson::LESSON_INTERACT );
         /* fallthrough */
         case ACTION_PICKUP: {
-            item &it = *item::spawn_temporary( g->u.last_item, calendar::start_of_cataclysm );
+            const item &it = *item::spawn_temporary( g->u.last_item, calendar::start_of_cataclysm );
             if( it.is_armor() ) {
                 add_message( tut_lesson::LESSON_GOT_ARMOR );
             } else if( it.is_gun() ) {

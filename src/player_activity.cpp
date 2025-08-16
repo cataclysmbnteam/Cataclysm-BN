@@ -165,10 +165,10 @@ std::vector<npc *> player_activity::get_assistants( const Character &who, unsign
             return false;
         }
         // NPCs can help craft if awake, taking orders, within pickup range and have clear path
-        bool ok = guy.is_npc() && !guy.in_sleep_state() && guy.is_obeying( who ) &&
-                  guy.activity->id() != ACT_ASSIST &&
-                  rl_dist( guy.pos(), who.pos() ) < PICKUP_RANGE &&
-                  get_map().clear_path( who.pos(), guy.pos(), PICKUP_RANGE, 1, 100 );
+        const bool ok = guy.is_npc() && !guy.in_sleep_state() && guy.is_obeying( who ) &&
+                        guy.activity->id() != ACT_ASSIST &&
+                        rl_dist( guy.pos(), who.pos() ) < PICKUP_RANGE &&
+                        get_map().clear_path( who.pos(), guy.pos(), PICKUP_RANGE, 1, 100 );
         if( ok ) {
             n++;
         }
@@ -178,7 +178,7 @@ std::vector<npc *> player_activity::get_assistants( const Character &who, unsign
 
 void player_activity::get_assistants( const Character &who )
 {
-    unsigned short max = type->max_assistants();
+    const unsigned short max = type->max_assistants();
     if( max < 1 ) {
         assistants_ = {};
         return;
@@ -204,7 +204,7 @@ static std::string craft_progress_message( const avatar &u, const player_activit
     const recipe &rec = craft->get_making();
     const tripoint bench_pos = act.coords.front();
     // Ugly
-    bench_type bench_t = bench_type( act.values[1] );
+    const bench_type bench_t = bench_type( act.values[1] );
 
     const bench_location bench{ bench_t, bench_pos };
 
@@ -219,9 +219,10 @@ static std::string craft_progress_message( const avatar &u, const player_activit
     const float total_mult = light_mult * bench_mult * morale_mult * assist_mult * speed_mult;
 
     const double remaining_percentage = 1.0 - ( craft->item_counter / 10'000'000.0 );
-    int remaining_turns = remaining_percentage * base_total_moves / 100 / std::max( 0.01f, total_mult );
-    std::string time_desc = string_format( _( "Time left: %s" ),
-                                           to_string( time_duration::from_turns( remaining_turns ) ) );
+    const int remaining_turns = remaining_percentage * base_total_moves / 100 / std::max( 0.01f,
+                                total_mult );
+    const std::string time_desc = string_format( _( "Time left: %s" ),
+                                  to_string( time_duration::from_turns( remaining_turns ) ) );
 
     const std::array<std::pair<float, std::string>, 6> mults_with_data = { {
             { total_mult, _( "Total" ) },
@@ -236,10 +237,10 @@ static std::string craft_progress_message( const avatar &u, const player_activit
     // Hack to make sure total always shows
     bool first = true;
     for( const std::pair<float, std::string> &p : mults_with_data ) {
-        int percent = static_cast<int>( p.first * 100 );
+        const int percent = static_cast<int>( p.first * 100 );
         if( first || percent != 100 ) {
-            nc_color col = percent > 100 ? c_green : c_red;
-            std::string colorized = colorize( std::to_string( percent ) + '%', col );
+            const nc_color col = percent > 100 ? c_green : c_red;
+            const std::string colorized = colorize( std::to_string( percent ) + '%', col );
             mults_desc += string_format( _( "%s: %s\n" ), p.second, colorized );
         }
         first = false;
@@ -256,12 +257,12 @@ static std::string format_spd( float level, std::string name, int indent = 0,
     if( !force_show && level == 1.0f ) {
         return "";
     }
-    int percent = static_cast<int>( std::roundf( level * 100.0f ) );
-    nc_color col = percent == 100
-                   ? c_white
-                   : percent > 100 ? c_green : c_red;
+    const int percent = static_cast<int>( std::roundf( level * 100.0f ) );
+    const nc_color col = percent == 100
+                         ? c_white
+                         : percent > 100 ? c_green : c_red;
     std::string spaces;
-    std::string colorized = colorize( std::to_string( percent ) + '%', col );
+    const std::string colorized = colorize( std::to_string( percent ) + '%', col );
     return string_format( _( " %s- %s: %s\n" ), spaces.insert( 0, indent, ' ' ), name, colorized );
 }
 
@@ -437,7 +438,7 @@ void player_activity::do_turn( player &p )
 {
     ZoneScopedN( "player_activity::do_turn" );
     active = true;
-    on_out_of_scope _resolve_on_return( [this]() {
+    const on_out_of_scope _resolve_on_return( [this]() {
         this->resolve_active();
     } );
 
@@ -491,7 +492,7 @@ void player_activity::do_turn( player &p )
                 calc_moves( p );
             }
 
-            int moves_total = speed.total_moves();
+            const int moves_total = speed.total_moves();
 
             //fancy new system
             if( actor ) {
@@ -556,7 +557,7 @@ void player_activity::do_turn( player &p )
     // to simulate that the next step will surely use up some stamina anyway
     // this is to ensure that resting will occur when traveling overburdened
 
-    int previous_stamina = p.get_stamina();
+    const int previous_stamina = p.get_stamina();
     const bool travel_activity = id() == ACT_TRAVELLING;
     const int adjusted_stamina = travel_activity ? p.get_stamina() - 1 : p.get_stamina();
     if( adjusted_stamina < previous_stamina && p.get_stamina() < p.get_stamina_max() / 3 ) {
@@ -652,7 +653,7 @@ bool player_activity::can_resume_with( const player_activity &other, const Chara
         if( values.size() != other.values.size() ) {
             return false;
         }
-        for( int foo : other.values ) {
+        for( const int foo : other.values ) {
             if( std::ranges::find( values, foo ) == values.end() ) {
                 return false;
             }

@@ -110,8 +110,8 @@ input_manager inp_mngr;
 void input_manager::init()
 {
     std::map<char, action_id> keymap;
-    std::string keymap_file_loaded_from;
-    std::set<action_id> unbound_keymap;
+    const std::string keymap_file_loaded_from;
+    const std::set<action_id> unbound_keymap;
     init_keycode_mapping();
     reset_timeout();
 
@@ -197,7 +197,7 @@ void input_manager::load( const std::string &file_name, bool is_user_preferences
     jsin.start_array();
     while( !jsin.end_array() ) {
         // JSON object representing the action
-        JsonObject action = jsin.get_object();
+        const JsonObject action = jsin.get_object();
 
         const std::string type = action.get_string( "type", "keybinding" );
         if( type != "keybinding" ) {
@@ -219,7 +219,7 @@ void input_manager::load( const std::string &file_name, bool is_user_preferences
 
         t_input_event_list events;
         for( const JsonObject keybinding : action.get_array( "bindings" ) ) {
-            std::string input_method = keybinding.get_string( "input_method" );
+            const std::string input_method = keybinding.get_string( "input_method" );
             input_event new_event;
             if( input_method == "keyboard" ) {
                 new_event.type = input_event_t::keyboard;
@@ -231,7 +231,7 @@ void input_manager::load( const std::string &file_name, bool is_user_preferences
 
             if( keybinding.has_array( "key" ) ) {
                 for( const std::string line : keybinding.get_array( "key" ) ) {
-                    int loaded_keycode = get_keycode( line );
+                    const int loaded_keycode = get_keycode( line );
                     if( loaded_keycode == '\0' ) {
                         debugmsg( "Invalid keybind %s detected for action %s", line, action_id );
                     } else {
@@ -239,8 +239,8 @@ void input_manager::load( const std::string &file_name, bool is_user_preferences
                     }
                 }
             } else { // assume string if not array, and throw if not string
-                std::string line = keybinding.get_string( "key" );
-                int loaded_keycode = get_keycode( line );
+                const std::string line = keybinding.get_string( "key" );
+                const int loaded_keycode = get_keycode( line );
                 if( loaded_keycode == '\0' ) {
                     debugmsg( "Invalid keybind %s detected for action %s", line, action_id );
                 } else {
@@ -291,7 +291,7 @@ void input_manager::save()
 
                 jsout.member( "id", action.first );
                 jsout.member( "category", a->first );
-                bool is_user_created = action.second.is_user_created;
+                const bool is_user_created = action.second.is_user_created;
                 if( is_user_created ) {
                     jsout.member( "is_user_created", is_user_created );
                 }
@@ -350,7 +350,7 @@ void input_manager::init_keycode_mapping()
     // Between space and tilde, all keys more or less map
     // to themselves(see ASCII table)
     for( char c = char_key_beg; c <= char_key_end; c++ ) {
-        std::string name( 1, c );
+        const std::string name( 1, c );
         add_keycode_pair( c, name );
     }
 
@@ -575,7 +575,7 @@ void input_manager::remove_input_for_action(
     const t_action_contexts::iterator action_context = action_contexts.find( context );
     if( action_context != action_contexts.end() ) {
         t_actions &actions = action_context->second;
-        t_actions::iterator action = actions.find( action_descriptor );
+        const t_actions::iterator action = actions.find( action_descriptor );
         if( action != actions.end() ) {
             if( action->second.is_user_created ) {
                 // Since this is a user created hotkey, remove it so that the
@@ -633,8 +633,10 @@ void input_context::clear_conflicting_keybindings( const input_event &event )
     for( std::vector<std::string>::const_iterator registered_action = registered_actions.begin();
          registered_action != registered_actions.end();
          ++registered_action ) {
-        input_manager::t_actions::iterator default_action = default_actions.find( *registered_action );
-        input_manager::t_actions::iterator category_action = category_actions.find( *registered_action );
+        const input_manager::t_actions::iterator default_action = default_actions.find(
+                    *registered_action );
+        const input_manager::t_actions::iterator category_action = category_actions.find(
+                    *registered_action );
         if( default_action != default_actions.end() ) {
             std::vector<input_event> &events = default_action->second.input_events;
             events.erase( std::remove( events.begin(), events.end(), event ), events.end() );
@@ -671,7 +673,7 @@ const std::string &input_context::input_to_action( const input_event &inp ) cons
 #if defined(__ANDROID__)
 std::list<input_context *> input_context::input_context_stack;
 
-void input_context::register_manual_key( manual_key mk )
+void input_context::register_manual_key( const manual_key mk )
 {
     // Prevent duplicates
     for( const manual_key &manual_key : registered_manual_keys )
@@ -1105,9 +1107,9 @@ action_id input_context::display_menu( const bool permit_execute_action )
         };
     }
     const auto recalc_size = [&]( ui_adaptor & ui ) {
-        int maxwidth = std::max( FULL_SCREEN_WIDTH, TERMX );
+        const int maxwidth = std::max( FULL_SCREEN_WIDTH, TERMX );
         width = min( 80, maxwidth );
-        int maxheight = std::max( FULL_SCREEN_HEIGHT, TERMY );
+        const int maxheight = std::max( FULL_SCREEN_HEIGHT, TERMY );
         height = min( maxheight, static_cast<int>( hotkeys.size() ) + LEGEND_HEIGHT + BORDER_SPACE );
 
         w_help = catacurses::newwin( height - 2, width - 2,
@@ -1224,7 +1226,7 @@ action_id input_context::display_menu( const bool permit_execute_action )
     ui.on_redraw( redraw );
 
     // do not switch IME mode now, but restore previous mode on return
-    ime_sentry sentry( ime_sentry::keep );
+    const ime_sentry sentry( ime_sentry::keep );
     while( true ) {
         ui_manager::redraw();
 
@@ -1323,7 +1325,7 @@ action_id input_context::display_menu( const bool permit_execute_action )
             // Check if this entry is local or global.
             bool is_local = false;
             const action_attributes &actions = inp_mngr.get_action_attributes( action_id, category, &is_local );
-            bool is_empty = actions.input_events.empty();
+            const bool is_empty = actions.input_events.empty();
             const std::string name = get_action_name( action_id );
 
             // We don't want to completely delete a global context entry.

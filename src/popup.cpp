@@ -88,7 +88,7 @@ std::vector<std::vector<std::string>> query_popup::fold_query(
                                        const std::vector<query_option> &options,
                                        const int max_width, const int horz_padding )
 {
-    input_context ctxt( category );
+    const input_context ctxt( category );
 
     std::vector<std::vector<std::string>> folded_query;
     folded_query.emplace_back();
@@ -134,7 +134,7 @@ void query_popup::invalidate_ui() const
         folded_msg.clear();
         buttons.clear();
     }
-    std::shared_ptr<ui_adaptor> ui = adaptor.lock();
+    const std::shared_ptr<ui_adaptor> ui = adaptor.lock();
     if( ui ) {
         ui->mark_resize();
     }
@@ -208,7 +208,7 @@ void query_popup::init() const
     const int win_y = ontop ? 0 : ( TERMY - win_height ) / 2;
     win = catacurses::newwin( win_height, win_width, point( win_x, win_y ) );
 
-    std::shared_ptr<ui_adaptor> ui = adaptor.lock();
+    const std::shared_ptr<ui_adaptor> ui = adaptor.lock();
     if( ui ) {
         ui->position_from_window( win );
     }
@@ -270,7 +270,7 @@ query_popup::result query_popup::query_once()
         return { false, "ERROR", {} };
     }
 
-    std::shared_ptr<ui_adaptor> ui = create_or_get_adaptor();
+    const std::shared_ptr<ui_adaptor> ui = create_or_get_adaptor();
 
     ui_manager::redraw();
 
@@ -347,9 +347,9 @@ query_popup::result query_popup::query_once()
 
 query_popup::result query_popup::query()
 {
-    ime_sentry sentry( ime_sentry::disable );
+    const ime_sentry sentry( ime_sentry::disable );
 
-    std::shared_ptr<ui_adaptor> ui = create_or_get_adaptor();
+    const std::shared_ptr<ui_adaptor> ui = create_or_get_adaptor();
 
     result res;
     do {

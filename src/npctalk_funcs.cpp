@@ -115,12 +115,12 @@ void talk_function::mission_success( npc &p )
         return;
     }
 
-    int miss_val = npc_trading::cash_to_favor( p, miss->get_value() );
-    npc_opinion tmp( 0, 0, 1 + ( miss_val / 5 ), -1, 0 );
+    const int miss_val = npc_trading::cash_to_favor( p, miss->get_value() );
+    const npc_opinion tmp( 0, 0, 1 + ( miss_val / 5 ), -1, 0 );
     p.op_of_u += tmp;
     faction *p_fac = p.get_faction();
     if( p_fac != nullptr ) {
-        int fac_val = std::min( 1 + ( miss_val / 10 ), 10 );
+        const int fac_val = std::min( 1 + ( miss_val / 10 ), 10 );
         p_fac->likes_u += fac_val;
         p_fac->respects_u += fac_val;
         p_fac->power += fac_val;
@@ -135,7 +135,7 @@ void talk_function::mission_failure( npc &p )
         debugmsg( "mission_failure: mission_selected == nullptr" );
         return;
     }
-    npc_opinion tmp( -1, 0, -1, 1, 0 );
+    const npc_opinion tmp( -1, 0, -1, 1, 0 );
     p.op_of_u += tmp;
     miss->fail();
 }
@@ -175,7 +175,7 @@ void talk_function::mission_reward( npc &p )
         return;
     }
 
-    int mission_value = miss->get_value();
+    const int mission_value = miss->get_value();
     p.op_of_u.owed += mission_value;
     npc_trading::trade( p, 0, _( "Reward" ) );
 }
@@ -238,7 +238,7 @@ void talk_function::dismount( npc &p )
 void talk_function::find_mount( npc &p )
 {
     // first find one nearby
-    for( monster &critter : g->all_monsters() ) {
+    for( const monster &critter : g->all_monsters() ) {
         if( p.can_mount( critter ) ) {
             // keep the horse still for some time, so that NPC can catch up to it and mount it.
             p.assign_activity( ACT_FIND_MOUNT );
@@ -402,7 +402,7 @@ void talk_function::bionic_install( npc &p )
     const item *tmp = bionic;
     const itype &it = *tmp->type;
 
-    signed int price = tmp->price( true ) * 2;
+    const signed int price = tmp->price( true ) * 2;
     if( !npc_trading::pay_npc( p, price ) ) {
         return;
     }
@@ -439,8 +439,8 @@ void talk_function::bionic_remove( npc &p )
         }
     }
     // Choose bionic if applicable
-    int bionic_index = uilist( _( "Which bionic do you wish to uninstall?" ),
-                               bionic_names );
+    const int bionic_index = uilist( _( "Which bionic do you wish to uninstall?" ),
+                                     bionic_names );
     // Did we cancel?
     if( bionic_index < 0 ) {
         popup( _( "You decide to hold off…" ) );
@@ -449,8 +449,8 @@ void talk_function::bionic_remove( npc &p )
 
     int price;
     if( bionic_types[bionic_index].is_valid() ) {
-        int tmp = item::spawn_temporary( bionic_types[bionic_index],
-                                         calendar::start_of_cataclysm )->price( true );
+        const int tmp = item::spawn_temporary( bionic_types[bionic_index],
+                                               calendar::start_of_cataclysm )->price( true );
         price = 50000 + ( tmp / 4 );
     } else {
         price = 50000;
@@ -486,7 +486,7 @@ void talk_function::give_equipment( npc &p )
 static void give_aid_to( Character &guy )
 {
     for( const bodypart_id &bp : guy.get_all_body_parts() ) {
-        bodypart_str_id bp_healed = bp->main_part;
+        const bodypart_str_id bp_healed = bp->main_part;
         guy.heal( bp_healed, 5 * rng( 2, 5 ) );
         if( guy.has_effect( effect_bite, bp_healed ) ) {
             guy.remove_effect( effect_bite, bp_healed );
@@ -551,7 +551,7 @@ static void generic_barber( const std::string &mut_type )
         hair_menu.addentry( index, true, MENU_AUTOASSIGN, elem.obj().name() );
     }
     hair_menu.query();
-    int choice = hair_menu.ret;
+    const int choice = hair_menu.ret;
     if( choice != 0 ) {
         if( g->u.has_trait( cur_hair ) ) {
             g->u.remove_mutation( cur_hair, true );
@@ -611,8 +611,8 @@ void talk_function::buy_10_logs( npc &p )
     find_params.search_range = { 0, 1 };
     find_params.search_layers = { 0, 0 };
 
-    std::vector<tripoint_abs_omt> places = overmap_buffer.find_all(
-            get_player_character().global_omt_location(), find_params );
+    const std::vector<tripoint_abs_omt> places = overmap_buffer.find_all(
+                get_player_character().global_omt_location(), find_params );
     if( places.empty() ) {
         debugmsg( "Couldn't find %s", "ranch_camp_67" );
         return;
@@ -642,7 +642,7 @@ void talk_function::buy_100_logs( npc &p )
     find_params.search_range = { 0, 1 };
     find_params.search_layers = { 0, 0 };
 
-    std::vector<tripoint_abs_omt> places =
+    const std::vector<tripoint_abs_omt> places =
         overmap_buffer.find_all( get_player_character().global_omt_location(), find_params );
     if( places.empty() ) {
         debugmsg( "Couldn't find %s", "ranch_camp_67" );
@@ -868,7 +868,7 @@ void talk_function::start_training( npc &p )
         if( knows ) {
             time = 1_hours;
         } else {
-            int seconds = g->u.magic->time_to_learn_spell( g->u, sp_id ) / 50;
+            const int seconds = g->u.magic->time_to_learn_spell( g->u, sp_id ) / 50;
             time = time_duration::from_seconds( clamp( seconds, 7200, 21600 ) );
         }
     } else {

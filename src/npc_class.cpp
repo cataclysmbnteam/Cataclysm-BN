@@ -100,7 +100,7 @@ void apply_all_to_unassigned( T &skills )
     } );
 
     if( iter != skills.end() ) {
-        distribution dis = iter->second;
+        const distribution dis = iter->second;
         skills.erase( iter );
         for( const auto &sk : Skill::skills ) {
             if( skills.count( sk.ident() ) == 0 ) {
@@ -175,12 +175,12 @@ static distribution load_distribution( const JsonObject &jo )
     }
 
     if( jo.has_array( "dice" ) ) {
-        JsonArray jarr = jo.get_array( "dice" );
+        const JsonArray jarr = jo.get_array( "dice" );
         return distribution::dice_roll( jarr.get_int( 0 ), jarr.get_int( 1 ) );
     }
 
     if( jo.has_array( "rng" ) ) {
-        JsonArray jarr = jo.get_array( "rng" );
+        const JsonArray jarr = jo.get_array( "rng" );
         return distribution::rng_roll( jarr.get_int( 0 ), jarr.get_int( 1 ) );
     }
 
@@ -223,7 +223,7 @@ static distribution load_distribution( const JsonObject &jo, const std::string &
     }
 
     if( jo.has_object( name ) ) {
-        JsonObject obj = jo.get_object( name );
+        const JsonObject obj = jo.get_object( name );
         return load_distribution( obj );
     }
 
@@ -253,7 +253,7 @@ void npc_class::load( const JsonObject &jo, const std::string & )
     }
 
     if( jo.has_array( "spells" ) ) {
-        for( JsonObject subobj : jo.get_array( "spells" ) ) {
+        for( const JsonObject subobj : jo.get_array( "spells" ) ) {
             const int level = subobj.get_int( "level" );
             const spell_id sp = spell_id( subobj.get_string( "id" ) );
             _starting_spells.emplace( sp, level );
@@ -286,7 +286,7 @@ void npc_class::load( const JsonObject &jo, const std::string & )
     }
 
     if( jo.has_array( "skills" ) ) {
-        for( JsonObject skill_obj : jo.get_array( "skills" ) ) {
+        for( const JsonObject skill_obj : jo.get_array( "skills" ) ) {
             auto skill_ids = skill_obj.get_tags( "skill" );
             if( skill_obj.has_object( "level" ) ) {
                 const distribution dis = load_distribution( skill_obj, "level" );
@@ -303,9 +303,9 @@ void npc_class::load( const JsonObject &jo, const std::string & )
     }
 
     if( jo.has_array( "bionics" ) ) {
-        for( JsonObject bionic_obj : jo.get_array( "bionics" ) ) {
+        for( const JsonObject bionic_obj : jo.get_array( "bionics" ) ) {
             auto bionic_ids = bionic_obj.get_tags( "id" );
-            int chance = bionic_obj.get_int( "chance" );
+            const int chance = bionic_obj.get_int( "chance" );
             for( const auto &bid : bionic_ids ) {
                 bionic_list[ bionic_id( bid )] = chance;
             }

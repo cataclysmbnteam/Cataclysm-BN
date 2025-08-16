@@ -130,7 +130,7 @@ void apply_ammo_effects( const tripoint &p, const std::set<std::string> &effects
 {
     std::set<ammo_effect_str_id> effect_ids;
     for( const std::string &s : effects ) {
-        ammo_effect_str_id id( s );
+        const ammo_effect_str_id id( s );
         if( id.is_valid() ) {
             effect_ids.emplace( id );
         }
@@ -145,7 +145,7 @@ static int aoe_of( const ammo_effect_str_id &ae_id )
 
 static int aoe_of( const std::string &s )
 {
-    ammo_effect_str_id ae_id( s );
+    const ammo_effect_str_id ae_id( s );
     if( ae_id.is_valid() ) {
         return std::max( ae_id->aoe_size, ae_id->aoe_explosion_data.safe_range() - 1 );
     } else {

@@ -222,7 +222,7 @@ typename location_vector<T>::iterator location_vector<T>::erase( typename
         return location_vector<T>::iterator( contents.end(), *this );
     }
     T *subject = *it;
-    typename std::vector<T *>::iterator ret = contents.erase( it.it );
+    typename std::vector<T *>::iterator const ret = contents.erase( it.it );
     subject->remove_location();
 
     detached_ptr<T> local;

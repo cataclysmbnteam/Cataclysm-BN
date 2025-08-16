@@ -58,7 +58,7 @@ Trait_group_tag trait_group::load_trait_group( const JsonValue &value,
     } else if( value.test_object() ) {
         const Trait_group_tag group = get_unique_trait_group_id();
 
-        JsonObject jo = value.get_object();
+        const JsonObject jo = value.get_object();
         const std::string subtype = jo.get_string( "subtype", default_subtype );
 
         mutation_branch::load_trait_group( jo, group, subtype );

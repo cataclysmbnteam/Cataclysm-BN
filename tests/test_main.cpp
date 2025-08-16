@@ -242,15 +242,15 @@ static std::string extract_user_dir( std::vector<const char *> &arg_vec )
 struct CataListener : Catch::TestEventListenerBase {
     using TestEventListenerBase::TestEventListenerBase;
 
-    void sectionStarting( Catch::SectionInfo const &sectionInfo ) override {
+    void sectionStarting( const Catch::SectionInfo &sectionInfo ) override {
         TestEventListenerBase::sectionStarting( sectionInfo );
         // Initialize the cata RNG with the Catch seed for reproducible tests
         rng_set_engine_seed( m_config->rngSeed() );
     }
 
-    bool assertionEnded( Catch::AssertionStats const &assertionStats ) override {
+    bool assertionEnded( const Catch::AssertionStats &assertionStats ) override {
 #ifdef BACKTRACE
-        Catch::AssertionResult const &result = assertionStats.assertionResult;
+        const Catch::AssertionResult &result = assertionStats.assertionResult;
 
         if( result.getResultType() == Catch::ResultWas::FatalErrorCondition ) {
             // We are in a signal handler for a fatal error condition, so print a

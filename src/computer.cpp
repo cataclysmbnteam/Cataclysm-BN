@@ -190,7 +190,7 @@ void computer::deserialize( JsonIn &jin )
     }
 }
 
-void computer::remove_option( computer_action const action )
+void computer::remove_option( const computer_action action )
 {
     for( auto it = options.begin(); it != options.end(); ++it ) {
         if( it->action == action ) {

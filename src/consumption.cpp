@@ -136,7 +136,7 @@ static const vitamin_id vitamin_wheat_allergen( "wheat_allergen" );
 static const trait_flag_str_id trait_flag_CANNIBAL( "CANNIBAL" );
 
 // note: cannot use constants from flag.h (e.g. flag_ALLERGEN_VEGGY) here, as they
-// might be uninitialized at the time these const arrays are created
+// might be uninitialized at the time const these arrays are created
 static const std::array<vitamin_id, 4> carnivore_blacklist {{
         vitamin_veggy_allergen, vitamin_fruit_allergen,
         vitamin_wheat_allergen, vitamin_nut_allergen
@@ -240,7 +240,7 @@ static int compute_default_effective_kcal( const item &comest, const Character &
     float kcal = comest.get_comestible()->default_nutrition.kcal;
 
     // Many raw foods give less calories, as your body has expends more energy digesting them.
-    bool cooked = comest.has_flag( flag_COOKED ) || extra_flags.count( flag_COOKED );
+    const bool cooked = comest.has_flag( flag_COOKED ) || extra_flags.count( flag_COOKED );
     if( comest.has_flag( flag_RAW ) && !cooked ) {
         kcal *= 0.75f;
     }
@@ -326,7 +326,7 @@ nutrients Character::compute_effective_nutrients( const item &comest ) const
     if( !components.empty() && !comest.has_flag( flag_NUTRIENT_OVERRIDE ) ) {
         nutrients tally{};
         for( const item * const &component : components ) {
-            nutrients component_value =
+            const nutrients component_value =
                 compute_effective_nutrients( *component ) * component->charges;
             if( component->has_flag( flag_BYPRODUCT ) ) {
                 tally -= component_value;
@@ -351,10 +351,10 @@ std::pair<nutrients, nutrients> Character::compute_nutrient_range(
     }
 
     const recipe &rec = *recipe_i;
-    int charges = comest.count();
+    const int charges = comest.count();
     // if item has components, will derive calories from that instead.
     if( comest.has_flag( flag_NUTRIENT_OVERRIDE ) || !g->u.can_make( &rec, charges ) ) {
-        nutrients result = compute_default_effective_nutrients( comest, *this );
+        const nutrients result = compute_default_effective_nutrients( comest, *this );
         return { result, result };
     }
 
@@ -396,8 +396,9 @@ std::pair<nutrients, nutrients> Character::compute_nutrient_range(
     }
 
     for( const std::pair<const itype_id, int> &byproduct : rec.byproducts ) {
-        item &byproduct_it = *item::spawn_temporary( byproduct.first, calendar::turn, byproduct.second );
-        nutrients byproduct_nutr = compute_default_effective_nutrients( byproduct_it, *this );
+        const item &byproduct_it = *item::spawn_temporary( byproduct.first, calendar::turn,
+                                   byproduct.second );
+        const nutrients byproduct_nutr = compute_default_effective_nutrients( byproduct_it, *this );
         tally_min -= byproduct_nutr;
         tally_max -= byproduct_nutr;
     }
@@ -415,7 +416,7 @@ std::pair<nutrients, nutrients> Character::compute_nutrient_range(
         return {};
     }
     //TODO!: wtf is all this shit
-    item &comest_it = *item::spawn_temporary( comest, calendar::turn, 1 );
+    const item &comest_it = *item::spawn_temporary( comest, calendar::turn, 1 );
     // The default nutrients are always a possibility
     nutrients min_nutr = compute_default_effective_nutrients( comest_it, *this, extra_flags );
 
@@ -749,7 +750,7 @@ ret_val<edible_rating> Character::will_eat( const item &food, bool interactive )
 
     const bool edible = comest->comesttype == comesttype_FOOD || food.has_flag( flag_USE_EAT_VERB );
 
-    int food_kcal = compute_effective_nutrients( food ).kcal;
+    const int food_kcal = compute_effective_nutrients( food ).kcal;
     if( food_kcal > 0 && has_effect( effect_nausea ) ) {
         add_consequence( _( "You still feel nauseous and will probably puke it all up again." ),
                          edible_rating::nausea );
@@ -794,7 +795,7 @@ ret_val<edible_rating> Character::will_eat( const item &food, bool interactive )
         }
 
         const bool eat_verb  = food.has_flag( flag_USE_EAT_VERB );
-        std::string food_tname = food.tname();
+        const std::string food_tname = food.tname();
         const nc_color food_color = food.color_in_inventory();
         if( eat_verb || comest->comesttype == comesttype_FOOD ) {
             req += string_format( _( "Eat your %s anyway?" ), colorize( food_tname, food_color ) );
@@ -994,22 +995,22 @@ void Character::modify_stimulation( const islot_comestible &comest )
     if( has_trait( trait_STIMBOOST ) && ( current_stim > 30 ) &&
         ( ( comest.add == add_type::CAFFEINE ) || ( comest.add == add_type::SPEED ) ||
           ( comest.add == add_type::COKE ) || ( comest.add == add_type::CRACK ) ) ) {
-        int hallu_duration = ( current_stim - comest.stim < 30 ) ? current_stim - 30 : comest.stim;
+        const int hallu_duration = ( current_stim - comest.stim < 30 ) ? current_stim - 30 : comest.stim;
         add_effect( effect_visuals, hallu_duration * 30_minutes );
-        std::vector<std::string> stimboost_msg{ _( "The shadows are getting ever closer." ),
-                                                _( "You have a bad feeling about this." ),
-                                                _( "A powerful sense of dread comes over you." ),
-                                                _( "Your skin starts crawling." ),
-                                                _( "They're coming to get you." ),
-                                                _( "This might've been a bad idea…" ),
-                                                _( "You've really done it this time, haven't you?" ),
-                                                _( "You have to stay vigilant.  They're always watching…" ),
-                                                _( "mistake mistake mistake mistake mistake" ),
-                                                _( "Just gotta stay calm, and you'll make it through this." ),
-                                                _( "You're starting to feel very jumpy." ),
-                                                _( "Something is twitching at the edge of your vision." ),
-                                                _( "They know what you've done…" ),
-                                                _( "You're feeling even more paranoid than usual." ) };
+        const std::vector<std::string> stimboost_msg{ _( "The shadows are getting ever closer." ),
+                _( "You have a bad feeling about this." ),
+                _( "A powerful sense of dread comes over you." ),
+                _( "Your skin starts crawling." ),
+                _( "They're coming to get you." ),
+                _( "This might've been a bad idea…" ),
+                _( "You've really done it this time, haven't you?" ),
+                _( "You have to stay vigilant.  They're always watching…" ),
+                _( "mistake mistake mistake mistake mistake" ),
+                _( "Just gotta stay calm, and you'll make it through this." ),
+                _( "You're starting to feel very jumpy." ),
+                _( "Something is twitching at the edge of your vision." ),
+                _( "They know what you've done…" ),
+                _( "You're feeling even more paranoid than usual." ) };
         add_msg_if_player( m_bad, random_entry_ref( stimboost_msg ) );
     }
 }
@@ -1080,7 +1081,7 @@ void Character::modify_morale( item &food, int nutr )
 
 
 
-    std::pair<int, int> fun = fun_for( food );
+    std::pair<int, int> const fun = fun_for( food );
     if( fun.first < 0 ) {
         if( has_active_bionic( bio_taste_blocker ) &&
             get_power_level() > units::from_kilojoule( -fun.first ) ) {
@@ -1156,9 +1157,9 @@ void Character::modify_morale( item &food, int nutr )
             has_trait( trait_THRESH_URSINE ) ) &&
         mutation_category_level[mutation_category_URSINE] > 40 ) {
         // Need at least 5 bear mutations for effect to show, to filter out mutations in common with other categories
-        int honey_fun = has_trait( trait_THRESH_URSINE ) ?
-                        std::min( mutation_category_level[mutation_category_URSINE] / 8, 20 ) :
-                        mutation_category_level[mutation_category_URSINE] / 12;
+        const int honey_fun = has_trait( trait_THRESH_URSINE ) ?
+                              std::min( mutation_category_level[mutation_category_URSINE] / 8, 20 ) :
+                              mutation_category_level[mutation_category_URSINE] / 12;
         if( honey_fun < 10 ) {
             add_msg_if_player( m_good, _( "You find the sweet taste of honey surprisingly palatable." ) );
         } else {
@@ -1194,7 +1195,7 @@ bool Character::consume_effects( item &food )
         const float rottedness = clamp( ( 2 * relative_rot ) - 2.0f, 0.1f, 1.0f );
         // ~-1 health per 1 nutrition at halfway-rotten-away, ~0 at "just got rotten"
         // But always round down
-        int h_loss = -rottedness * comest.get_default_nutr();
+        const int h_loss = -rottedness * comest.get_default_nutr();
         mod_healthy_mod( h_loss, -200 );
         add_msg( m_debug, "%d health from %0.2f%% rotten food", h_loss, rottedness );
     }
@@ -1219,7 +1220,7 @@ bool Character::consume_effects( item &food )
         add_msg_if_player( m_mixed,
                            _( "You feel as though you're going to split open!  In a good way?" ) );
         mod_pain( 5 );
-        int numslime = 1;
+        const int numslime = 1;
         for( int i = 0; i < numslime; i++ ) {
             if( monster *const slime = g->place_critter_around( mon_player_blob, pos(), 1 ) ) {
                 slime->friendly = -1;
@@ -1252,7 +1253,7 @@ bool Character::consume_effects( item &food )
         excess_kcal = 0;
     }
 
-    int excess_quench = -( get_thirst() - comest.quench );
+    const int excess_quench = -( get_thirst() - comest.quench );
     stomach.ingest( ingested );
     mod_thirst( -contained_food.type->comestible->quench );
 
@@ -1566,9 +1567,9 @@ void Character::consume( item &target )
     const bool worn = is_worn( target );
     const bool inv_item = !( wielding || worn );
 
-    bool was_in_container = ( &comest != &target );
+    const bool was_in_container = ( &comest != &target );
     Character &who = *this;
-    bool consumed = comest.attempt_detach( [&who]( detached_ptr<item> &&it ) {
+    const bool consumed = comest.attempt_detach( [&who]( detached_ptr<item> &&it ) {
         return who.consume_item( std::move( it ) );
     } );
 
@@ -1625,8 +1626,8 @@ void Character::consume( item &target )
                 add_msg( _( "You drop the empty %s." ), target.tname() );
                 put_into_vehicle_or_drop( *this, item_drop_reason::deliberate, target.detach() );
             } else {
-                int quantity = inv.const_stack( inv.position_by_item( &target ) ).size();
-                char letter = target.invlet ? target.invlet : ' ';
+                const int quantity = inv.const_stack( inv.position_by_item( &target ) ).size();
+                const char letter = target.invlet ? target.invlet : ' ';
                 add_msg( m_info, _( "%c - %d empty %s" ), letter, quantity, target.tname( quantity ) );
             }
         }

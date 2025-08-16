@@ -165,13 +165,13 @@ static void parse_vp_reqs( const JsonObject &obj, const std::string &id, const s
     if( !obj.has_object( key ) ) {
         return;
     }
-    JsonObject src = obj.get_object( key );
+    const JsonObject src = obj.get_object( key );
 
     auto sk = src.get_array( "skills" );
     if( !sk.empty() ) {
         skills.clear();
     }
-    for( JsonArray cur : sk ) {
+    for( const JsonArray cur : sk ) {
         skills.emplace( skill_id( cur.get_string( 0 ) ), cur.size() >= 2 ? cur.get_int( 1 ) : 1 );
     }
 
@@ -186,7 +186,7 @@ static void parse_vp_reqs( const JsonObject &obj, const std::string &id, const s
         reqs = { { requirement_id( src.get_string( "using" ) ), 1 } };
     } else if( src.has_array( "using" ) ) {
         reqs.clear();
-        for( JsonArray cur : src.get_array( "using" ) ) {
+        for( const JsonArray cur : src.get_array( "using" ) ) {
             reqs.emplace_back( requirement_id( cur.get_string( 0 ) ), cur.get_int( 1 ) );
         }
     } else {
@@ -295,7 +295,7 @@ void vpart_info::load_workbench( std::optional<vpslot_workbench> &wbptr, const J
         wb_info = *wbptr;
     }
 
-    JsonObject wb_jo = jo.get_object( "workbench" );
+    const JsonObject wb_jo = jo.get_object( "workbench" );
 
     assign( wb_jo, "multiplier", wb_info.multiplier );
     assign( wb_jo, "mass", wb_info.allowed_mass );
@@ -360,7 +360,7 @@ void vpart_info::load( const JsonObject &jo, const std::string &src )
     assign( jo, "bonus_fire_warmth_feet", def.bonus_fire_warmth_feet );
 
     if( jo.has_member( "transform_terrain" ) ) {
-        JsonObject jttd = jo.get_object( "transform_terrain" );
+        const JsonObject jttd = jo.get_object( "transform_terrain" );
         for( const std::string pre_flag : jttd.get_array( "pre_flags" ) ) {
             def.transform_terrain.pre_flags.emplace( pre_flag );
         }
@@ -413,13 +413,13 @@ void vpart_info::load( const JsonObject &jo, const std::string &src )
     auto qual = jo.get_array( "qualities" );
     if( !qual.empty() ) {
         def.qualities.clear();
-        for( JsonArray pair : qual ) {
+        for( const JsonArray pair : qual ) {
             def.qualities[ quality_id( pair.get_string( 0 ) ) ] = pair.get_int( 1 );
         }
     }
 
     if( jo.has_member( "damage_reduction" ) ) {
-        JsonObject dred = jo.get_object( "damage_reduction" );
+        const JsonObject dred = jo.get_object( "damage_reduction" );
         def.damage_reduction = load_resistances_instance( dred );
     }
 
@@ -678,7 +678,7 @@ void vpart_info::check()
         std::ranges::none_of( handled, [&part]( const std::string & flag ) {
         return part.has_flag( flag );
         } ) ) {
-            std::string warnings_are_good_docs = enumerate_as_string( handled );
+            const std::string warnings_are_good_docs = enumerate_as_string( handled );
             debugmsg( "%s has non-zero epower, but lacks a flag that would make it affect epower (one of %s)",
                       part.id.c_str(), warnings_are_good_docs.c_str() );
         }
@@ -721,7 +721,7 @@ int vpart_info::format_description( std::string &msg, const nc_color &format_col
         if( flagid == "ALARMCLOCK" || flagid == "WATCH" ) {
             continue;
         }
-        json_flag flag = json_flag::get( flagid );
+        const json_flag flag = json_flag::get( flagid );
         if( !flag.info().empty() ) {
             if( !long_descrip.empty() ) {
                 long_descrip += "  ";
@@ -730,18 +730,19 @@ int vpart_info::format_description( std::string &msg, const nc_color &format_col
         }
     }
     if( ( has_flag( "SEAT" ) || has_flag( "BED" ) ) && !has_flag( "BELTABLE" ) ) {
-        json_flag nobelt = json_flag::get( "NONBELTABLE" );
+        const json_flag nobelt = json_flag::get( "NONBELTABLE" );
         long_descrip += "  " + _( nobelt.info() );
     }
     if( has_flag( "BOARDABLE" ) && has_flag( "OPENABLE" ) ) {
-        json_flag nobelt = json_flag::get( "DOOR" );
+        const json_flag nobelt = json_flag::get( "DOOR" );
         long_descrip += "  " + _( nobelt.info() );
     }
     if( has_flag( "TURRET" ) ) {
         //TODO!: push up
         class::item &base = *item::spawn_temporary( item );
         if( base.ammo_required() && !base.ammo_remaining() ) {
-            itype_id default_ammo = base.magazine_current() ? base.common_ammo_default() : base.ammo_default();
+            const itype_id default_ammo = base.magazine_current() ? base.common_ammo_default() :
+                                          base.ammo_default();
             base.ammo_set( default_ammo );
         }
         long_descrip += string_format( _( "\nRange: %1$5d     Damage: %2$5.0f" ),
@@ -1003,25 +1004,25 @@ void vehicle_prototype::load( const JsonObject &jo )
         jo.get_array( "blueprint" );
     }
 
-    for( JsonObject part : jo.get_array( "parts" ) ) {
-        point pos = point( part.get_int( "x" ), part.get_int( "y" ) );
+    for( const JsonObject part : jo.get_array( "parts" ) ) {
+        const point pos = point( part.get_int( "x" ), part.get_int( "y" ) );
 
         if( part.has_string( "part" ) ) {
             add_part_obj( part, pos );
         } else if( part.has_array( "parts" ) ) {
             for( const JsonValue entry : part.get_array( "parts" ) ) {
                 if( entry.test_string() ) {
-                    std::string part_name = entry.get_string();
+                    const std::string part_name = entry.get_string();
                     add_part_string( part_name, pos );
                 } else {
-                    JsonObject subpart = entry.get_object();
+                    const JsonObject subpart = entry.get_object();
                     add_part_obj( subpart, pos );
                 }
             }
         }
     }
 
-    for( JsonObject spawn_info : jo.get_array( "items" ) ) {
+    for( const JsonObject spawn_info : jo.get_array( "items" ) ) {
         vehicle_item_spawn next_spawn;
         next_spawn.pos.x = spawn_info.get_int( "x" );
         next_spawn.pos.y = spawn_info.get_int( "y" );

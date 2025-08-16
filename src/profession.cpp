@@ -92,7 +92,7 @@ class skilllevel_reader : public generic_typed_reader<skilllevel_reader>
 {
     public:
         std::pair<skill_id, int> get_next( JsonIn &jin ) const {
-            JsonObject jo = jin.get_object();
+            const JsonObject jo = jin.get_object();
             return std::pair<skill_id, int>( skill_id( jo.get_string( "name" ) ), jo.get_int( "level" ) );
         }
         template<typename C>
@@ -108,7 +108,7 @@ class addiction_reader : public generic_typed_reader<addiction_reader>
 {
     public:
         addiction get_next( JsonIn &jin ) const {
-            JsonObject jo = jin.get_object();
+            const JsonObject jo = jin.get_object();
             return addiction( addiction_type( jo.get_string( "type" ) ), jo.get_int( "intensity" ) );
         }
         template<typename C>
@@ -129,7 +129,7 @@ class item_reader : public generic_typed_reader<item_reader>
             if( jin.test_string() ) {
                 return profession::itypedec( jin.get_string() );
             }
-            JsonArray jarr = jin.get_array();
+            const JsonArray jarr = jin.get_array();
             const auto id = jarr.get_string( 0 );
             const snippet_id snippet( jarr.get_string( 1 ) );
             return profession::itypedec( id, snippet );
@@ -148,7 +148,7 @@ void profession::load( const JsonObject &jo, const std::string & )
     // If the "name" is an object then we may have to deal with gender-specific titles
     bool add_name_context = false;
     if( jo.has_object( "name" ) ) {
-        JsonObject name_obj = jo.get_object( "name" );
+        const JsonObject name_obj = jo.get_object( "name" );
         if( name_obj.has_member( "male" ) && name_obj.has_member( "female" ) ) {
             // Gender-specific titles
             _name_male.deserialize( *name_obj.get_raw( "male" ) );
@@ -193,9 +193,9 @@ void profession::load( const JsonObject &jo, const std::string & )
         _starting_vehicle = vproto_id( jo.get_string( "vehicle" ) );
     }
     if( jo.has_array( "pets" ) ) {
-        for( JsonObject subobj : jo.get_array( "pets" ) ) {
-            int count = subobj.get_int( "amount" );
-            mtype_id mon = mtype_id( subobj.get_string( "name" ) );
+        for( const JsonObject subobj : jo.get_array( "pets" ) ) {
+            const int count = subobj.get_int( "amount" );
+            const mtype_id mon = mtype_id( subobj.get_string( "name" ) );
             for( int start = 0; start < count; ++start ) {
                 _starting_pets.push_back( mon );
             }
@@ -203,7 +203,7 @@ void profession::load( const JsonObject &jo, const std::string & )
     }
 
     if( jo.has_array( "spells" ) ) {
-        for( JsonObject subobj : jo.get_array( "spells" ) ) {
+        for( const JsonObject subobj : jo.get_array( "spells" ) ) {
             int level = subobj.get_int( "level" );
             spell_id sp = spell_id( subobj.get_string( "id" ) );
             _starting_spells.emplace( sp, level );
@@ -213,7 +213,7 @@ void profession::load( const JsonObject &jo, const std::string & )
     mandatory( jo, was_loaded, "points", _point_cost );
 
     if( !was_loaded || jo.has_member( "items" ) ) {
-        JsonObject items_obj = jo.get_object( "items" );
+        const JsonObject items_obj = jo.get_object( "items" );
 
         if( items_obj.has_array( "both" ) ) {
             optional( items_obj, was_loaded, "both", legacy_starting_items, item_reader {} );
@@ -415,7 +415,7 @@ std::vector<detached_ptr<item>> profession::items( bool male,
                    std::make_move_iterator( group_gender.begin() ),
                    std::make_move_iterator( group_gender.end() ) );
 
-    std::vector<itype_id> bonus = item_substitutions.get_bonus_items( traits );
+    const std::vector<itype_id> bonus = item_substitutions.get_bonus_items( traits );
     for( const itype_id &elem : bonus ) {
         if( elem != no_bonus ) {
             result.push_back( item::spawn( elem, advanced_spawn_time(), item::default_charges_tag {} ) );
@@ -425,7 +425,7 @@ std::vector<detached_ptr<item>> profession::items( bool male,
         auto sub = item_substitutions.get_substitution( **iter, traits );
         if( !sub.empty() ) {
             iter = result.erase( iter );
-            int offset = std::distance( result.begin(), iter );
+            const int offset = std::distance( result.begin(), iter );
             result.insert( result.end(), std::make_move_iterator( sub.begin() ),
                            std::make_move_iterator( sub.end() ) );
             iter = result.begin();
@@ -588,7 +588,7 @@ void json_item_substitution::load( const JsonObject &jo )
 
         for( const JsonValue sub : jo.get_array( "sub" ) ) {
             substitution s;
-            JsonObject obj = sub.get_object();
+            const JsonObject obj = sub.get_object();
             s.trait_reqs = trait_requirements( obj );
             for( const JsonValue info : obj.get_array( "new" ) ) {
                 s.infos.emplace_back( info );

@@ -148,7 +148,7 @@ void computer_session::use()
     // Main computer loop
     int sel = 0;
     while( true ) {
-        size_t options_size = comp.options.size();
+        const size_t options_size = comp.options.size();
 
         uilist computer_menu;
         computer_menu.text = string_format( _( "%s - Root Menu" ), comp.name );
@@ -166,7 +166,7 @@ void computer_session::use()
         }
 
         sel = computer_menu.ret;
-        computer_option current = comp.options[sel];
+        const computer_option current = comp.options[sel];
         reset_terminal();
         // Once you trip the security, you have to roll every time you want to do something
         if( current.security + comp.alerts > 0 ) {
@@ -217,7 +217,7 @@ bool computer_session::hack_attempt( Character &who, int Security )
     }
 
     ///\EFFECT_COMPUTER increases chance of successful hack attempt, vs Security level
-    bool successful_attempt = ( dice( player_roll, 6 ) >= dice( Security, 6 ) );
+    const bool successful_attempt = ( dice( player_roll, 6 ) >= dice( Security, 6 ) );
     who.practice( skill_computer, successful_attempt ? ( 15 + ( Security * 3 ) ) : 7 );
     return successful_attempt;
 }
@@ -237,8 +237,8 @@ static item *pick_usb()
 
 static void remove_submap_turrets()
 {
-    map &here = get_map();
-    for( monster &critter : g->all_monsters() ) {
+    const map &here = get_map();
+    for( const monster &critter : g->all_monsters() ) {
         // Check 1) same overmap coords, 2) turret, 3) hostile
         if( ms_to_omt_copy( here.getabs( critter.pos() ) ) == ms_to_omt_copy( here.getabs( g->u.pos() ) ) &&
             critter.has_flag( MF_CONSOLE_DESPAWN ) &&
@@ -415,7 +415,7 @@ void computer_session::action_release_bionics()
 void computer_session::action_terminate()
 {
     g->events().send<event_type::terminates_subspace_specimens>();
-    map &here = get_map();
+    const map &here = get_map();
     for( const tripoint &p : here.points_on_zlevel() ) {
         monster *const mon = g->critter_at<monster>( p );
         if( !mon ) {
@@ -458,7 +458,7 @@ void computer_session::action_cascade()
         return;
     }
     g->events().send<event_type::causes_resonance_cascade>();
-    map &here = get_map();
+    const map &here = get_map();
     std::vector<tripoint> cascade_points;
     for( const tripoint &dest : here.points_in_radius( g->u.pos(), 10 ) ) {
         if( here.ter( dest ) == t_radio_tower ) {
@@ -529,7 +529,7 @@ void computer_session::action_map_sewer()
     const tripoint_abs_omt center = player_character.global_omt_location();
     for( int i = -60; i <= 60; i++ ) {
         for( int j = -60; j <= 60; j++ ) {
-            point offset( i, j );
+            const point offset( i, j );
             const oter_id &oter = overmap_buffer.ter( center + offset );
             if( is_ot_match( "sewer", oter, ot_match_type::type ) ||
                 is_ot_match( "sewage", oter, ot_match_type::prefix ) ) {
@@ -548,7 +548,7 @@ void computer_session::action_map_subway()
     const tripoint_abs_omt center = player_character.global_omt_location();
     for( int i = -60; i <= 60; i++ ) {
         for( int j = -60; j <= 60; j++ ) {
-            point offset( i, j );
+            const point offset( i, j );
             const oter_id &oter = overmap_buffer.ter( center + offset );
             if( is_ot_match( "subway", oter, ot_match_type::type ) ||
                 is_ot_match( "lab_train_depot", oter, ot_match_type::contains ) ) {
@@ -1027,7 +1027,7 @@ void computer_session::action_irradiator()
                 for( auto iter = here.i_at( dest ).begin(); iter != here.i_at( dest ).end(); ++iter ) {
                     // actual food processing
                     item *it = *iter;
-                    itype_id irradiated_type( "irradiated_" + it->typeId().str() );
+                    const itype_id irradiated_type( "irradiated_" + it->typeId().str() );
                     if( !it->rotten() && irradiated_type.is_valid() ) {
                         it->convert( irradiated_type );
                     }
@@ -1098,7 +1098,7 @@ void computer_session::action_geiger()
     int sum_rads = 0;
     int peak_rad = 0;
     int tiles_counted = 0;
-    map &here = get_map();
+    const map &here = get_map();
     print_error( _( "RADIATION MEASUREMENTS:" ) );
     for( const tripoint &dest : here.points_in_radius( g->u.pos(), 10 ) ) {
         if( here.ter( dest ) == t_rad_platform ) {
@@ -1313,7 +1313,7 @@ void computer_session::failure_alarm()
 
 void computer_session::failure_manhacks()
 {
-    int num_robots = rng( 4, 8 );
+    const int num_robots = rng( 4, 8 );
     const tripoint_range<tripoint> range =
         get_map().points_in_radius( get_player_character().pos(), 3 );
     for( int i = 0; i < num_robots; i++ ) {
@@ -1325,7 +1325,7 @@ void computer_session::failure_manhacks()
 
 void computer_session::failure_secubots()
 {
-    int num_robots = 1;
+    const int num_robots = 1;
     const tripoint_range<tripoint> range =
         get_map().points_in_radius( get_player_character().pos(), 3 );
     for( int i = 0; i < num_robots; i++ ) {
@@ -1463,7 +1463,7 @@ void computer_session::action_emerg_ref_center()
 
     const mission_type_id &mission_type = mission_type_id( "MISSION_REACH_REFUGEE_CENTER" );
     tripoint_abs_omt mission_target;
-    avatar &player_character = get_avatar();
+    const avatar &player_character = get_avatar();
     // Check completed missions too, so people can't repeatedly get the mission.
     const std::vector<mission *> completed_missions = g->u.get_completed_missions();
     std::vector<mission *> missions = g->u.get_active_missions();
@@ -1616,7 +1616,7 @@ void computer_session::print_text( const std::string &text, Args &&... args )
 void computer_session::print_gibberish_line()
 {
     std::string gibberish;
-    int length = rng( 50, 70 );
+    const int length = rng( 50, 70 );
     for( int i = 0; i < length; i++ ) {
         switch( rng( 0, 4 ) ) {
             case 0:

@@ -328,7 +328,7 @@ units::angle atan2( point p )
 unsigned make_xyz( const tripoint &p )
 {
     static constexpr double sixteenth_arc = M_PI / 8;
-    int vertical_position = ( ( p.z > 0 ) ? 2u : ( p.z < 0 ) ? 1u : 0u ) * 9u;
+    const int vertical_position = ( ( p.z > 0 ) ? 2u : ( p.z < 0 ) ? 1u : 0u ) * 9u;
     if( p.xy() == point_zero ) {
         return vertical_position;
     }
@@ -337,7 +337,7 @@ unsigned make_xyz( const tripoint &p )
     // You can read 'octant' as being "number of 22.5 degree sections away from due south".
     // FIXME: atan2 normally takes arguments in ( y, x ) order.  This is
     // passing ( x, y ).
-    int octant = atan2( p.x, p.y ) / sixteenth_arc;
+    const int octant = atan2( p.x, p.y ) / sixteenth_arc;
     switch( octant ) {
         case 0:
             return direction::SOUTH + vertical_position;
@@ -373,9 +373,9 @@ static std::tuple<double, double, double> slope_of( const std::vector<tripoint> 
 {
     assert( !line.empty() && line.front() != line.back() );
     const double len = trig_dist( line.front(), line.back() );
-    double normDx = ( line.back().x - line.front().x ) / len;
-    double normDy = ( line.back().y - line.front().y ) / len;
-    double normDz = ( line.back().z - line.front().z ) / len;
+    const double normDx = ( line.back().x - line.front().x ) / len;
+    const double normDy = ( line.back().y - line.front().y ) / len;
+    const double normDz = ( line.back().z - line.front().z ) / len;
     // slope of <x, y, z>
     return std::make_tuple( normDx, normDy, normDz );
 }
@@ -653,7 +653,7 @@ std::string direction_name_short( const direction dir )
 
 std::string direction_suffix( const tripoint &p, const tripoint &q )
 {
-    int dist = square_dist( p, q );
+    const int dist = square_dist( p, q );
     if( dist <= 0 ) {
         return std::string();
     }
@@ -705,8 +705,8 @@ std::vector<tripoint> squares_closer_to( const tripoint &from, const tripoint &t
 // and the two squares flanking it.
 std::vector<point> squares_in_direction( point p1, point p2 )
 {
-    int junk = 0;
-    point center_square = line_to( p1, p2, junk )[0];
+    const int junk = 0;
+    const point center_square = line_to( p1, p2, junk )[0];
     std::vector<point> adjacent_squares;
     adjacent_squares.reserve( 3 );
     adjacent_squares.push_back( center_square );

@@ -112,7 +112,7 @@ void activity_speed::calc_light_factor( const Character &who )
 
 void activity_speed::calc_skill_factor( const Character &who, const skill_reqs &skill_req )
 {
-    float ac_f = skills_factor_custom_formula( who, skill_req );
+    const float ac_f = skills_factor_custom_formula( who, skill_req );
     //Any factor above 0 is valid, else - use default calc
     if( ac_f > 0 ) {
         skills = ac_f;
@@ -122,7 +122,7 @@ void activity_speed::calc_skill_factor( const Character &who, const skill_reqs &
     float f = 1.0f;
     std::vector<float> factors;
     for( const auto &skill : skill_req ) {
-        int who_eff_skill = who.get_skill_level( skill.req ) - skill.threshold;
+        const int who_eff_skill = who.get_skill_level( skill.req ) - skill.threshold;
         float bonus = 0;
         if( who_eff_skill != 0 ) {
             bonus = 0.02f * std::pow( who_eff_skill, 3 )
@@ -162,7 +162,7 @@ std::pair<character_stat, float> activity_speed::calc_single_stat( const Charact
         default:
             return std::pair<character_stat, float>( character_stat::DUMMY_STAT, 1.0f );
     }
-    float f = 1.0f + refine_factor( stat.mod * ( who_stat - stat.threshold ) );
+    const float f = 1.0f + refine_factor( stat.mod * ( who_stat - stat.threshold ) );
     return std::pair<character_stat, float>( stat.req, f );
 }
 
@@ -207,16 +207,16 @@ float activity_speed::get_best_qual_mod( const activity_req<quality_id> &q,
 {
     int q_level = 0;
     inv.visit_items( [&q, &q_level]( const item * itm ) {
-        int new_q = itm->get_quality( q.req );
+        const int new_q = itm->get_quality( q.req );
         q_level = std::max( new_q, q_level );
         return VisitResponse::NEXT;
     } );
     q_level = q_level - q.threshold;
 
     if( q.req == qual_CUT_FINE ) {
-        float cut_fine_f = ( 2.0f * std::pow( q_level, 3 ) )
-                           - ( 10.0f * std::pow( q_level, 2 ) )
-                           + ( 32.0f * q_level ) + q.mod;
+        const float cut_fine_f = ( 2.0f * std::pow( q_level, 3 ) )
+                                 - ( 10.0f * std::pow( q_level, 2 ) )
+                                 + ( 32.0f * q_level ) + q.mod;
         return cut_fine_f;
     }
 
@@ -234,7 +234,7 @@ float activity_speed::get_best_qual_mod( const activity_req<quality_id> &q,
 void activity_speed::calc_tools_factor( Character &who, const q_reqs &quality_reqs )
 {
     auto &inv = who.crafting_inventory();
-    float ac_f = tools_factor_custom_formula( quality_reqs, inv );
+    const float ac_f = tools_factor_custom_formula( quality_reqs, inv );
     //Any factor above 0 is valid, else - use default calc
     if( ac_f > 0 ) {
         tools = ac_f;
@@ -259,7 +259,7 @@ void activity_speed::calc_tools_factor( Character &who, const q_reqs &quality_re
 void activity_speed::calc_morale_factor( const Character &who )
 {
     const int p_morale = who.get_morale_level();
-    float ac_morale = morale_factor_custom_formula( who );
+    const float ac_morale = morale_factor_custom_formula( who );
     //Any morale mod above 0 is valid, else - use default morale calc
     if( ac_morale > 0 ) {
         morale = ac_morale;
@@ -285,7 +285,7 @@ void activity_speed::find_best_bench( const tripoint &pos, const metric metrics 
     static const workbench_info_wrapper hands_bench(
         *string_id<furn_t>( "f_fake_bench_hands" )->workbench );
 
-    map &here = get_map();
+    const map &here = get_map();
     bench = bench_loc( ground_bench, pos );
     auto bench_tmp = bench_loc( hands_bench, pos );
 

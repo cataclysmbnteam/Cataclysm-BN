@@ -51,7 +51,7 @@ auto dest( const elevator::tiles &elevator_here,
 {
     elevator::tiles tiles;
     std::ranges::transform( elevator_here, std::back_inserter( tiles ),
-    [turns, &sm_orig, movez]( tripoint const & p ) {
+    [turns, &sm_orig, movez]( const tripoint & p ) {
         return rotate_point_sm( { p.xy(), movez }, sm_orig, turns );
     } );
 
@@ -63,7 +63,7 @@ auto dest( const elevator::tiles &elevator_here,
 auto find_elevators_nearby( const tripoint &pos ) -> std::optional<tripoint>
 {
     constexpr int max_misalign = 3;
-    map &here = get_map();
+    const map &here = get_map();
 
     for( const auto &p : closest_points_first( pos, max_misalign ) ) {
         if( here.has_flag( TFLAG_ELEVATOR, p ) ) {
@@ -215,7 +215,7 @@ auto move_vehicles( const elevator_vehicles &vehs, const tripoint &sm_orig, int 
 
 auto move_player( player &p, const int movez, tripoint_abs_ms old_abs_pos ) -> void
 {
-    map &here = get_map();
+    const map &here = get_map();
 
     g->vertical_shift( movez );
     // yes, this is inefficient, but i'm lazy
@@ -231,7 +231,7 @@ auto move_player( player &p, const int movez, tripoint_abs_ms old_abs_pos ) -> v
 
 void iexamine::elevator( player &p, const tripoint &examp )
 {
-    map &here = get_map();
+    const map &here = get_map();
     const tripoint_abs_ms old_abs_pos = here.getglobal( p.pos() );
     const tripoint_abs_omt this_omt = project_to<coords::omt>( here.getglobal( examp ) );
     const tripoint sm_orig = here.getlocal( project_to<coords::ms>( this_omt ) );

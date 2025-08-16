@@ -393,7 +393,7 @@ void activity_handlers::burrow_do_turn( player_activity *act, player * )
 
 void activity_handlers::burrow_finish( player_activity *act, player *p )
 {
-    tripoint pos = act->placement; // make a copy to avoid use-after-free
+    const tripoint pos = act->placement; // make a copy to avoid use-after-free
     map &here = get_map();
     if( p->is_avatar() ) {
         int act_exertion = act->moves_total;
@@ -1144,7 +1144,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
     }
 
     map &here = get_map();
-    safe_reference<item> &target = act->targets.back();
+    const safe_reference<item> &target = act->targets.back();
     const inventory &inv = p->crafting_inventory();
 
     // Corpses can disappear (rezzing!), so check for that
@@ -1276,12 +1276,12 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
         }
         extract_or_wreck_cbms( cbms, roll, *p );
         // those lines are for XP gain with dissecting. It depends on the size of the corpse, time to dissect the corpse and the amount of bionics you would gather.
-        int time_to_cut = size_factor_in_time_to_cut( corpse->size ) / 100;
-        int level_cap = std::min<int>( MAX_SKILL,
-                                       ( static_cast<int>( corpse->size ) + ( cbms.size() * 2 + 1 ) ) );
-        int size_mult = corpse->size > creature_size::medium ? ( corpse->size * corpse->size ) : 8;
-        int practice_amt = ( size_mult + 1 ) * ( ( time_to_cut / 150 ) + 1 ) *
-                           ( cbms.size() * cbms.size() / 2 + 1 );
+        const int time_to_cut = size_factor_in_time_to_cut( corpse->size ) / 100;
+        const int level_cap = std::min<int>( MAX_SKILL,
+                                             ( static_cast<int>( corpse->size ) + ( cbms.size() * 2 + 1 ) ) );
+        const int size_mult = corpse->size > creature_size::medium ? ( corpse->size * corpse->size ) : 8;
+        const int practice_amt = ( size_mult + 1 ) * ( ( time_to_cut / 150 ) + 1 ) *
+                                 ( cbms.size() * cbms.size() / 2 + 1 );
         p->practice( skill_firstaid, practice_amt, level_cap );
         add_msg( m_debug, "Experience: %d, Level cap: %d, Time to cut: %d", practice_amt, level_cap,
                  time_to_cut );
@@ -1444,7 +1444,7 @@ void activity_handlers::shear_finish( player_activity *act, player *p )
         debugmsg( "shearing activity with no position of monster stored" );
         return;
     }
-    safe_reference<item> &loc = act->targets[ 0 ];
+    const safe_reference<item> &loc = act->targets[ 0 ];
 
     if( !loc ) {
         debugmsg( "shearing item location lost" );
@@ -1479,7 +1479,7 @@ void activity_handlers::milk_finish( player_activity *act, player *p )
         debugmsg( "milking activity with no position of monster stored" );
         return;
     }
-    map &here = get_map();
+    const map &here = get_map();
     const tripoint source_pos = here.getlocal( act->coords.at( 0 ) );
     monster *source_mon = g->critter_at<monster>( source_pos );
     if( source_mon == nullptr ) {
@@ -1519,10 +1519,10 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act, player *p )
     try {
 
         // 1. Prepare source lambda
-        liquid_source_type source_type = static_cast<liquid_source_type>( act_ref.values.at( 0 ) );
+        const liquid_source_type source_type = static_cast<liquid_source_type>( act_ref.values.at( 0 ) );
         auto transfer = [source_type, &here,
                      &act_ref]( const std::function < detached_ptr<item>( detached_ptr<item> &&it ) > & cb ) {
-            tripoint pos = act_ref.coords.at( 0 );
+            const tripoint pos = act_ref.coords.at( 0 );
             static const units::volume volume_per_second = units::from_liter( 4.0F / 6.0F );
             int charges;
             detached_ptr<item> source;
@@ -1544,7 +1544,7 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act, player *p )
                     }
                     item &source_it = base.contents.back();
                     charges = std::max( 1, source_it.charges_per_volume( volume_per_second ) );
-                    int orig = source_it.charges;
+                    const int orig = source_it.charges;
                     source_it.attempt_split( charges, cb );
                     return source_it.charges == 0 || source_it.charges == orig;
             }
@@ -1905,7 +1905,7 @@ void activity_handlers::pulp_do_turn( player_activity *act, player *p )
     ///\EFFECT_STR increases pulping power, with diminishing returns
     float pulp_power = std::sqrt( ( p->str_cur + p->primary_weapon().damage_melee( DT_BASH ) ) *
                                   ( cut_power + 1.0f ) );
-    float pulp_effort = p->str_cur + p->primary_weapon().damage_melee( DT_BASH );
+    const float pulp_effort = p->str_cur + p->primary_weapon().damage_melee( DT_BASH );
     // Multiplier to get the chance right + some bonus for survival skill
     pulp_power *= 40 + p->get_skill_level( skill_survival ) * 5;
 
@@ -1952,7 +1952,7 @@ void activity_handlers::pulp_do_turn( player_activity *act, player *p )
                 p->practice( skill_survival, 2, 2 );
             }
 
-            float stamina_ratio = static_cast<float>( p->get_stamina() ) / p->get_stamina_max();
+            const float stamina_ratio = static_cast<float>( p->get_stamina() ) / p->get_stamina_max();
             moves += 100 / std::max( 0.25f, stamina_ratio );
             if( stamina_ratio < 0.33 || p->is_npc() ) {
                 p->moves = std::min( 0, p->moves - moves );
@@ -2010,7 +2010,7 @@ void activity_handlers::reload_finish( player_activity *act, player *p )
 
     item &reloadable = *act->targets[ 0 ];
     item &ammo = *act->targets[1];
-    std::string ammo_name = ammo.tname();
+    const std::string ammo_name = ammo.tname();
     const int qty = act->index;
     const bool is_speedloader = ammo.has_flag( flag_SPEEDLOADER );
 
@@ -2081,7 +2081,7 @@ void activity_handlers::start_fire_finish( player_activity *act, player *p )
 void activity_handlers::start_fire_do_turn( player_activity *act, player *p )
 {
     map &here = get_map();
-    item &firestarter = *act->tools.front();
+    const item &firestarter = *act->tools.front();
     // Try fueling the fire if we don't already have fuel, OR if the tool needs to look for tinder to work
     if( !here.is_flammable( act->placement ) || ( firestarter.has_flag( flag_REQUIRES_TINDER ) &&
             !here.tinder_at( act->placement ) ) ) {
@@ -2152,10 +2152,10 @@ void activity_handlers::train_finish( player_activity *act, player *p )
     const skill_id sk( act->name );
     if( sk.is_valid() ) {
         const Skill &skill = sk.obj();
-        std::string skill_name = skill.name();
-        int old_skill_level = p->get_skill_level( sk );
+        const std::string skill_name = skill.name();
+        const int old_skill_level = p->get_skill_level( sk );
         p->get_skill_level_object( sk ).train( 100, true );
-        int new_skill_level = p->get_skill_level( sk );
+        const int new_skill_level = p->get_skill_level( sk );
         if( old_skill_level != new_skill_level ) {
             add_msg( m_good, _( "You finish training %s to level %d." ),
                      skill_name, new_skill_level );
@@ -2284,7 +2284,7 @@ void activity_handlers::start_engines_finish( player_activity *act, player *p )
     act->set_to_null();
     // Find the vehicle by looking for a remote vehicle first, then by player relative coordinates
     vehicle *veh = g->remoteveh();
-    map &here = get_map();
+    const map &here = get_map();
     if( !veh ) {
         const tripoint pos = act->placement + g->u.pos();
         veh = veh_pointer_or_null( here.veh_at( pos ) );
@@ -2641,7 +2641,7 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
 
     // Valid Repeat choice and target, attempt repair.
     if( repeat != REPEAT_INIT && act->targets.size() >= 2 ) {
-        safe_reference<item> &fix_location = act->targets[1];
+        const safe_reference<item> &fix_location = act->targets[1];
 
         // Remember our level: we want to stop retrying on level up
         const int old_level = p->get_skill_level( actor->used_skill );
@@ -2988,11 +2988,11 @@ void activity_handlers::travel_do_turn( player_activity *act, player *p )
                                                 ( p->global_omt_location() ) );
             waypoint = clamp( cur_omt_mid, project_bounds<coords::ms>( next_omt ) );
         }
-        map &here = get_map();
+        const map &here = get_map();
         // TODO: fix point types
         tripoint centre_sub = here.getlocal( waypoint.raw() );
         if( !here.passable( centre_sub ) ) {
-            tripoint_range<tripoint> candidates = here.points_in_radius( centre_sub, 2 );
+            const tripoint_range<tripoint> candidates = here.points_in_radius( centre_sub, 2 );
             for( const tripoint &elem : candidates ) {
                 if( here.passable( elem ) ) {
                     centre_sub = elem;
@@ -3060,7 +3060,7 @@ static void rod_fish( player *p, const std::vector<monster *> &fishables )
 
 void activity_handlers::fish_do_turn( player_activity *act, player *p )
 {
-    item &rod = *act->tools.front();
+    const item &rod = *act->tools.front();
     int fish_chance = 1;
     int survival_skill = p->get_skill_level( skill_survival );
     if( rod.has_flag( flag_FISH_POOR ) ) {
@@ -3070,7 +3070,7 @@ void activity_handlers::fish_do_turn( player_activity *act, player *p )
         survival_skill += dice( 4, 9 );
         survival_skill *= 2;
     }
-    std::vector<monster *> fishables = g->get_fishable_monsters( act->coord_set );
+    std::vector<monster *> const fishables = g->get_fishable_monsters( act->coord_set );
     // Fish are always there, even if it dosnt seem like they are visible!
     if( fishables.empty() ) {
         fish_chance += survival_skill / 2;
@@ -3147,7 +3147,7 @@ void activity_handlers::read_do_turn( player_activity *act, player *p )
     }
 
     if( calendar::once_every( 1_minutes ) ) {
-        safe_reference<item> &loc = act->targets[0];
+        const safe_reference<item> &loc = act->targets[0];
         if( !loc || !loc->is_book() ) {
             p->add_msg_if_player( m_bad, _( "You lost your book!  You stop reading." ) );
             act->set_to_null();
@@ -3347,7 +3347,7 @@ void activity_handlers::operation_do_turn( player_activity *act, player *p )
 
     const time_duration half_op_duration = difficulty * 10_minutes;
     const time_duration message_freq = difficulty * 2_minutes;
-    time_duration time_left = time_duration::from_turns( act->moves_left / 100 );
+    const time_duration time_left = time_duration::from_turns( act->moves_left / 100 );
 
     map &here = get_map();
 
@@ -3553,7 +3553,7 @@ void activity_handlers::churn_finish( player_activity *act, player *p )
 void activity_handlers::plant_seed_finish( player_activity *act, player *p )
 {
     map &here = get_map();
-    tripoint examp = here.getlocal( act->placement );
+    const tripoint examp = here.getlocal( act->placement );
     const itype_id seed_id( act->str_values[0] );
     std::vector<detached_ptr<item>> used_seed;
     if( item::count_by_charges( seed_id ) ) {
@@ -3669,7 +3669,7 @@ void activity_handlers::craft_do_turn( player_activity *act, player *p )
     const recipe &rec = craft->get_making();
     const tripoint bench_pos = act->coords.front();
     // Ugly
-    bench_type bench_t = bench_type( act->values[1] );
+    const bench_type bench_t = bench_type( act->values[1] );
     const float crafting_speed = crafting_speed_multiplier( *p, *craft, bench_location{bench_t, bench_pos} );
     const int assistants = p->available_assistant_count( craft->get_making() );
     const bool is_long = act->values[0];
@@ -3736,7 +3736,7 @@ void activity_handlers::craft_do_turn( player_activity *act, player *p )
             }
         }
     } else if( craft->item_counter >= craft->get_next_failure_point() ) {
-        bool destroy = craft->handle_craft_failure( *p );
+        const bool destroy = craft->handle_craft_failure( *p );
         // If the craft needs to be destroyed, do it and stop crafting.
         if( destroy ) {
             p->add_msg_player_or_npc( _( "There is nothing left of the %s to craft from." ),
@@ -3790,7 +3790,7 @@ void activity_handlers::pry_nails_finish( player_activity *act, player *p )
 
 void activity_handlers::chop_tree_do_turn( player_activity *act, player * )
 {
-    map &here = get_map();
+    const map &here = get_map();
     sfx::play_activity_sound( "tool", "axe", sfx::get_heard_volume( here.getlocal( act->placement ) ) );
     if( calendar::once_every( 1_minutes ) ) {
         //~ Sound of a wood chopping tool at work!
@@ -3821,9 +3821,9 @@ void activity_handlers::chop_tree_finish( player_activity *act, player *p )
 
         for( const tripoint &elem : here.points_in_radius( pos, 1 ) ) {
             bool cantuse = false;
-            tripoint direc = elem - pos;
-            tripoint proposed_to = pos + point( 3 * direction.x, 3 * direction.y );
-            std::vector<tripoint> rough_tree_line = line_to( pos, proposed_to );
+            const tripoint direc = elem - pos;
+            const tripoint proposed_to = pos + point( 3 * direction.x, 3 * direction.y );
+            const std::vector<tripoint> rough_tree_line = line_to( pos, proposed_to );
             for( const tripoint &elem : rough_tree_line ) {
                 // Try not to drop onto a critter
                 if( g->critter_at( elem ) ) {
@@ -3831,8 +3831,8 @@ void activity_handlers::chop_tree_finish( player_activity *act, player *p )
                     break;
                 }
 
-                ter_t ter = here.ter( elem ).obj();
-                furn_t furn = here.furn( elem ).obj();
+                const ter_t ter = here.ter( elem ).obj();
+                const furn_t furn = here.furn( elem ).obj();
                 // Furniture / Terrain test
                 if( elem != pos && ( ter.bash.str_max != -1 || ( furn.id && furn.bash.str_max != -1 ) ) ) {
                     cantuse = true;
@@ -3854,7 +3854,7 @@ void activity_handlers::chop_tree_finish( player_activity *act, player *p )
     }
 
     const tripoint to = pos + 3 * direction.xy() + point( rng( -1, 1 ), rng( -1, 1 ) );
-    std::vector<tripoint> tree = line_to( pos, to, rng( 1, 8 ) );
+    const std::vector<tripoint> tree = line_to( pos, to, rng( 1, 8 ) );
     for( const tripoint &elem : tree ) {
         here.batter( elem, 300, 5 );
         here.ter_set( elem, t_trunk );
@@ -3875,7 +3875,7 @@ void activity_handlers::chop_tree_finish( player_activity *act, player *p )
         return;
     }
 
-    safe_reference<item> &loc = act->tools[ 0 ];
+    const safe_reference<item> &loc = act->tools[ 0 ];
     if( !loc ) {
         debugmsg( "woodcutting item location lost" );
         resume_for_multi_activities( *p );
@@ -3938,7 +3938,7 @@ void activity_handlers::chop_logs_finish( player_activity *act, player *p )
 
     // Quality of tool used and assistants can together both reduce intensity of work.
 
-    safe_reference<item> &loc = act->tools[ 0 ];
+    const safe_reference<item> &loc = act->tools[ 0 ];
     if( !loc ) {
         debugmsg( "woodcutting item location lost" );
         return;
@@ -3961,8 +3961,8 @@ void activity_handlers::chop_planks_finish( player_activity *act, player *p )
     const int max_planks = 10;
     /** @EFFECT_FABRICATION increases number of planks cut from a log */
     int planks = normal_roll( 2 + p->get_skill_level( skill_id( "fabrication" ) ), 1 );
-    int wasted_planks = max_planks - planks;
-    int scraps = rng( wasted_planks, wasted_planks * 3 );
+    const int wasted_planks = max_planks - planks;
+    const int scraps = rng( wasted_planks, wasted_planks * 3 );
     planks = std::min( planks, max_planks );
 
     map &here = get_map();
@@ -3983,7 +3983,7 @@ void activity_handlers::chop_planks_finish( player_activity *act, player *p )
 
 void activity_handlers::jackhammer_do_turn( player_activity *act, player * )
 {
-    map &here = get_map();
+    const map &here = get_map();
     sfx::play_activity_sound( "tool", "jackhammer",
                               sfx::get_heard_volume( here.getlocal( act->placement ) ) );
     if( calendar::once_every( 1_minutes ) ) {
@@ -4102,7 +4102,7 @@ template<typename fn>
 static void cleanup_tiles( std::unordered_set<tripoint> &tiles, fn &cleanup )
 {
     auto it = tiles.begin();
-    map &here = get_map();
+    const map &here = get_map();
     while( it != tiles.end() ) {
         auto current = it++;
 
@@ -4121,7 +4121,7 @@ static void perform_zone_activity_turn( player *p,
                                         const std::string &finished_msg )
 {
     const zone_manager &mgr = zone_manager::get_manager();
-    map &here = get_map();
+    const map &here = get_map();
     const tripoint abspos = here.getabs( p->pos() );
     std::unordered_set<tripoint> unsorted_tiles = mgr.get_near( ztype, abspos );
 
@@ -4179,7 +4179,7 @@ void activity_handlers::fertilize_plot_do_turn( player_activity *act, player *p 
 
     const auto reject_tile = [&]( const tripoint & tile ) {
         check_fertilizer();
-        ret_val<bool> can_fert = iexamine::can_fertilize( *p, tile, fertilizer );
+        const ret_val<bool> can_fert = iexamine::can_fertilize( *p, tile, fertilizer );
         return !can_fert.success();
     };
 
@@ -4233,7 +4233,7 @@ void activity_handlers::robot_control_finish( player_activity *act, player *p )
         return;
     }
 
-    shared_ptr_fast<monster> z = act->monsters[0].lock();
+    const shared_ptr_fast<monster> z = act->monsters[0].lock();
     act->monsters.clear();
 
     if( !z || !iuse::robotcontrol_can_target( p, *z ) ) {
@@ -4307,14 +4307,14 @@ void activity_handlers::tree_communion_do_turn( player_activity *act, player *p 
     // Breadth-first search forest tiles until one reveals new overmap tiles.
     std::queue<tripoint_abs_omt> q;
     std::unordered_set<tripoint_abs_omt> seen;
-    tripoint_abs_omt loc = p->global_omt_location();
+    const tripoint_abs_omt loc = p->global_omt_location();
     q.push( loc );
     seen.insert( loc );
     const std::function<bool( const oter_id & )> filter = []( const oter_id & ter ) {
         return ter.obj().is_wooded() || ter.obj().get_name() == "field";
     };
     while( !q.empty() ) {
-        tripoint_abs_omt tpt = q.front();
+        const tripoint_abs_omt tpt = q.front();
         if( overmap_buffer.reveal( tpt, 3, filter ) ) {
             if( p->has_trait( trait_SPIRITUAL ) ) {
                 p->add_morale( MORALE_TREE_COMMUNION, 2, 30, 8_hours, 6_hours );
@@ -4370,7 +4370,7 @@ void activity_handlers::spellcasting_finish( player_activity *act, player *p )
 {
     act->set_to_null();
     const int level_override = act->get_value( 0 );
-    spell_id sp( act->name );
+    const spell_id sp( act->name );
 
     // if level is -1 then we know it's a player spell, otherwise we build it from the ground up
     spell temp_spell( sp );
@@ -4423,8 +4423,8 @@ void activity_handlers::spellcasting_finish( player_activity *act, player *p )
     }
 
     // no turning back now. it's all said and done.
-    bool success = no_fail || rng_float( 0.0f, 1.0f ) >= spell_being_cast.spell_fail( *p );
-    int exp_gained = spell_being_cast.casting_exp( *p );
+    const bool success = no_fail || rng_float( 0.0f, 1.0f ) >= spell_being_cast.spell_fail( *p );
+    const int exp_gained = spell_being_cast.casting_exp( *p );
     if( !success ) {
         p->add_msg_if_player( game_message_params{ m_bad, gmf_bypass_cooldown },
                               _( "You lose your concentration!" ) );
@@ -4448,7 +4448,7 @@ void activity_handlers::spellcasting_finish( player_activity *act, player *p )
 
     if( !no_mana ) {
         // pay the cost
-        int cost = spell_being_cast.energy_cost( *p );
+        const int cost = spell_being_cast.energy_cost( *p );
         switch( spell_being_cast.energy_source() ) {
             case mana_energy:
                 p->magic->mod_mana( *p, -cost );
@@ -4474,7 +4474,7 @@ void activity_handlers::spellcasting_finish( player_activity *act, player *p )
     if( level_override == -1 ) {
         if( !spell_being_cast.is_max_level() ) {
             // reap the reward
-            int old_level = spell_being_cast.get_level();
+            const int old_level = spell_being_cast.get_level();
             if( old_level == 0 ) {
                 spell_being_cast.gain_level();
                 p->add_msg_if_player( m_good,

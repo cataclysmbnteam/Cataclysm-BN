@@ -83,8 +83,8 @@ bool leap_actor::call( monster &z ) const
     }
 
     std::vector<tripoint> options;
-    tripoint target = z.move_target();
-    float best_float = trigdist ? trig_dist( z.pos(), target ) : square_dist( z.pos(), target );
+    const tripoint target = z.move_target();
+    const float best_float = trigdist ? trig_dist( z.pos(), target ) : square_dist( z.pos(), target );
     if( best_float < min_consider_range || best_float > max_consider_range ) {
         return false;
     }
@@ -95,18 +95,18 @@ bool leap_actor::call( monster &z ) const
     if( !allow_no_target && z.attack_target() == nullptr ) {
         return false;
     }
-    map &here = get_map();
+    const map &here = get_map();
     std::multimap<int, tripoint> candidates;
     for( const tripoint &candidate : here.points_in_radius( z.pos(), max_range ) ) {
         if( candidate == z.pos() ) {
             continue;
         }
-        float leap_dist = trigdist ? trig_dist( z.pos(), candidate ) :
-                          square_dist( z.pos(), candidate );
+        const float leap_dist = trigdist ? trig_dist( z.pos(), candidate ) :
+                                square_dist( z.pos(), candidate );
         if( leap_dist > max_range || leap_dist < min_range ) {
             continue;
         }
-        int candidate_dist = rl_dist( candidate, target );
+        const int candidate_dist = rl_dist( candidate, target );
         if( candidate_dist >= best_float ) {
             continue;
         }
@@ -126,7 +126,7 @@ bool leap_actor::call( monster &z ) const
         }
         bool blocked_path = false;
         // check if monster has a clear path to the proposed point
-        std::vector<tripoint> line = here.find_clear_path( z.pos(), dest );
+        const std::vector<tripoint> line = here.find_clear_path( z.pos(), dest );
         tripoint prev_point = z.pos();
         for( auto &i : line ) {
             if( here.impassable( i ) || here.obstructed_by_vehicle_rotation( prev_point, i ) ) {
@@ -170,7 +170,7 @@ std::unique_ptr<mattack_actor> mon_spellcasting_actor::clone() const
 
 void mon_spellcasting_actor::load_internal( const JsonObject &obj, const std::string & )
 {
-    std::string sp_id;
+    const std::string sp_id;
     fake_spell intermediate;
     mandatory( obj, was_loaded, "spell_data", intermediate );
     self = intermediate.self;
@@ -184,7 +184,7 @@ void mon_spellcasting_actor::load_internal( const JsonObject &obj, const std::st
 
 void mon_spellcasting_actor::finalize()
 {
-    avatar fake_player;
+    const avatar fake_player;
     move_cost = spell_data.casting_time( fake_player );
 }
 
@@ -201,7 +201,7 @@ bool mon_spellcasting_actor::call( monster &mon ) const
 
     const tripoint target = self ? mon.pos() : mon.attack_target()->pos();
 
-    std::string fx = spell_data.effect();
+    const std::string fx = spell_data.effect();
     // is the spell an attack that needs to hit the target?
     // examples of spells that don't: summons, teleport self
     const bool targeted_attack = fx == "target_attack" || fx == "projectile_attack" ||
@@ -263,7 +263,7 @@ void melee_actor::load_internal( const JsonObject &obj, const std::string & )
               to_translation( "The %1$s bites <npcname>'s %2$s!" ) );
 
     if( obj.has_array( "body_parts" ) ) {
-        for( JsonArray sub : obj.get_array( "body_parts" ) ) {
+        for( const JsonArray sub : obj.get_array( "body_parts" ) ) {
             const body_part bp = get_body_part_token( sub.get_string( 0 ) );
             const float prob = sub.get_float( 1 );
             body_parts.add_or_replace( bp, prob );
@@ -271,7 +271,7 @@ void melee_actor::load_internal( const JsonObject &obj, const std::string & )
     }
 
     if( obj.has_array( "effects" ) ) {
-        for( JsonObject eff : obj.get_array( "effects" ) ) {
+        for( const JsonObject eff : obj.get_array( "effects" ) ) {
             effects.push_back( load_mon_effect_data( eff ) );
         }
     }
@@ -304,7 +304,7 @@ bool melee_actor::call( monster &z ) const
              target->disp_name() );
 
     const int acc = accuracy >= 0 ? accuracy : z.type->melee_skill;
-    int hitspread = target->deal_melee_attack( &z, dice( acc, 10 ) );
+    const int hitspread = target->deal_melee_attack( &z, dice( acc, 10 ) );
 
     if( hitspread < 0 ) {
         auto msg_type = target->is_avatar() ? m_warning : m_info;
@@ -318,7 +318,7 @@ bool melee_actor::call( monster &z ) const
     damage.add_damage( DT_BASH, z.get_bash_bonus() );
     damage.add_damage( DT_CUT, z.get_cut_bonus() );
 
-    double multiplier = rng_float( min_mul, max_mul );
+    const double multiplier = rng_float( min_mul, max_mul );
     damage.mult_damage( multiplier );
 
     const bodypart_str_id &bp_hit = body_parts.empty() ?
@@ -328,7 +328,7 @@ bool melee_actor::call( monster &z ) const
     dealt_damage_instance dealt_damage = target->deal_damage( &z, bp_hit.id(), damage );
     dealt_damage.bp_hit = bp_hit;
 
-    int damage_total = dealt_damage.total_damage();
+    const int damage_total = dealt_damage.total_damage();
     add_msg( m_debug, "%s's melee_attack did %d damage", z.name(), damage_total );
     if( damage_total > 0 ) {
         on_damage( z, *target, dealt_damage );
@@ -416,7 +416,7 @@ void gun_actor::load_internal( const JsonObject &obj, const std::string & )
     obj.read( "ammo_type", ammo_type );
 
     if( obj.has_array( "fake_skills" ) ) {
-        for( JsonArray cur : obj.get_array( "fake_skills" ) ) {
+        for( const JsonArray cur : obj.get_array( "fake_skills" ) ) {
             fake_skills[skill_id( cur.get_string( 0 ) )] = cur.get_int( 1 );
         }
     }
@@ -426,7 +426,7 @@ void gun_actor::load_internal( const JsonObject &obj, const std::string & )
     obj.read( "fake_int", fake_int );
     obj.read( "fake_per", fake_per );
 
-    for( JsonArray mode : obj.get_array( "ranges" ) ) {
+    for( const JsonArray mode : obj.get_array( "ranges" ) ) {
         if( mode.size() < 2 || mode.get_int( 0 ) > mode.get_int( 1 ) ) {
             obj.throw_error( "incomplete or invalid range specified", "ranges" );
         }
@@ -501,7 +501,7 @@ auto find_target_vehicle( monster &z, int range ) -> std::optional<tripoint>
     map &here = get_map();
     bool found = false;
     tripoint aim_at;
-    for( wrapped_vehicle &v : here.get_vehicles() ) {
+    for( const wrapped_vehicle &v : here.get_vehicles() ) {
         if( is_different_plane( v, z ) || v.v->velocity == 0 ) {
             continue;
         }
@@ -513,7 +513,7 @@ auto find_target_vehicle( monster &z, int range ) -> std::optional<tripoint>
                 continue;
             }
 
-            int new_dist = rl_dist( z.pos(), vp.pos() );
+            const int new_dist = rl_dist( z.pos(), vp.pos() );
             if( new_dist <= range ) {
                 aim_at = vp.pos();
                 range = new_dist;
@@ -524,15 +524,15 @@ auto find_target_vehicle( monster &z, int range ) -> std::optional<tripoint>
 
 
         if( !found_controls ) {
-            std::vector<tripoint> line = here.find_clear_path( z.pos(), v.v->global_pos3() );
+            const std::vector<tripoint> line = here.find_clear_path( z.pos(), v.v->global_pos3() );
             tripoint prev_point = z.pos();
-            for( tripoint &i : line ) {
+            for( const tripoint &i : line ) {
                 if( !z.sees( i ) ||  here.floor_between( prev_point, i ) ) {
                     break;
                 }
                 optional_vpart_position vp = here.veh_at( i );
                 if( vp && &vp->vehicle() == v.v ) {
-                    int new_dist = rl_dist( z.pos(), i );
+                    const int new_dist = rl_dist( z.pos(), i );
                     if( new_dist <= range ) {
                         aim_at = i;
                         range = new_dist;
@@ -564,7 +564,7 @@ bool gun_actor::call( monster &z ) const
     bool untargeted = false;
 
     if( z.friendly ) {
-        int max_range = get_max_range();
+        const int max_range = get_max_range();
 
         int hostiles; // hostiles which cannot be engaged without risking friendly fire
         target = z.auto_find_hostile_target( max_range, hostiles );
@@ -600,7 +600,7 @@ bool gun_actor::call( monster &z ) const
     if( target && z.attitude_to( *target ) == Attitude::A_FRIENDLY ) {
         return false;
     }
-    int dist = rl_dist( z.pos(), aim_at );
+    const int dist = rl_dist( z.pos(), aim_at );
     for( const auto &e : ranges ) {
         if( dist >= e.first.first && dist <= e.first.second ) {
             if( untargeted || try_target( z, *target ) ) {
@@ -667,7 +667,7 @@ void gun_actor::shoot( monster &z, const tripoint &target, const gun_mode_id &mo
     detached_ptr<item> gun = item::spawn( gun_type );
     gun->gun_set_mode( mode );
 
-    itype_id ammo = ammo_type ? ammo_type : gun->ammo_default();
+    const itype_id ammo = ammo_type ? ammo_type : gun->ammo_default();
     if( ammo ) {
         gun->ammo_set( ammo, z.ammo[ammo] );
     }
@@ -691,7 +691,7 @@ void gun_actor::shoot( monster &z, const tripoint &target, const gun_mode_id &mo
     for( const auto &pr : fake_skills ) {
         tmp.set_skill_level( pr.first, pr.second );
     }
-    int qty = gun->gun_current_mode().qty;
+    const int qty = gun->gun_current_mode().qty;
     tmp.set_primary_weapon( std::move( gun ) );
     tmp.i_add( item::spawn( "UPS_off", calendar::turn, 1000 ) );
 

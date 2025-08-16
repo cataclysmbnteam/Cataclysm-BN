@@ -174,7 +174,7 @@ static void eff_fun_fungus( player &u, effect &it )
             break;
         case 3: {
             // Permanent symptoms
-            bool is_fungal_ter = g->m.has_flag_ter( "FUNGUS", u.pos() );
+            const bool is_fungal_ter = g->m.has_flag_ter( "FUNGUS", u.pos() );
             if( !is_fungal_ter && one_in( 600 + ( 4 * bonus ) ) ) {
                 u.add_effect( effect_nausea, 5_minutes );
             }
@@ -403,7 +403,7 @@ static void eff_fun_hot( player &u, effect &it )
             debugmsg( "%s has no head(?!)", u.disp_name() );
             return;
         }
-        int temp_cur = iter->second.get_temp_cur();
+        const int temp_cur = iter->second.get_temp_cur();
         if( one_in( std::max( 25, std::min( 89500, 90000 - temp_cur ) ) ) ) {
             u.vomit();
         }
@@ -454,20 +454,20 @@ static void eff_fun_mutating( player &u, effect &it )
         // "Activate" toxins that would otherwise need to accumulate first
         // There is some loss
         const vitamin &tox = *vitamin_mutant_toxin;
-        int vit_amt = u.vitamin_get( vitamin_mutant_toxin );
-        time_duration extra_duration = it.get_max_duration() / 2 * vit_amt / tox.max();
+        const int vit_amt = u.vitamin_get( vitamin_mutant_toxin );
+        const time_duration extra_duration = it.get_max_duration() / 2 * vit_amt / tox.max();
         it.mod_duration( extra_duration );
         u.vitamin_set( vitamin_mutant_toxin, 0 );
     }
 
     // At intensity 1
     constexpr time_duration base_time_per_mut = 2_days;
-    int mutation_mult = it.get_intensity() * it.get_intensity();
-    float muts_per_second = mutation_mult / to_seconds<float>( base_time_per_mut );
-    float mgen_per_mut = to_seconds<float>( effect_accumulated_mutagen->get_int_dur_factor() );
-    float mgen_per_second = mgen_per_mut * muts_per_second;
+    const int mutation_mult = it.get_intensity() * it.get_intensity();
+    const float muts_per_second = mutation_mult / to_seconds<float>( base_time_per_mut );
+    const float mgen_per_mut = to_seconds<float>( effect_accumulated_mutagen->get_int_dur_factor() );
+    const float mgen_per_second = mgen_per_mut * muts_per_second;
     // How much accumulated mutagen effect do we add per second
-    time_duration mgen_time_mult = 1_seconds * roll_remainder( mgen_per_second );
+    const time_duration mgen_time_mult = 1_seconds * roll_remainder( mgen_per_second );
     u.add_effect( effect_accumulated_mutagen, mgen_time_mult );
     if( u.get_effect_int( effect_accumulated_mutagen ) > 1 ) {
         u.mutate();
@@ -508,9 +508,9 @@ void Character::hardcoded_effects( effect &it )
     }
 
     const time_duration dur = it.get_duration();
-    int intense = it.get_intensity();
-    body_part bp = it.get_bp()->token;
-    bool sleeping = has_effect( effect_sleep );
+    const int intense = it.get_intensity();
+    const body_part bp = it.get_bp()->token;
+    const bool sleeping = has_effect( effect_sleep );
     if( id == effect_dermatik ) {
         bool triggered = false;
         int formication_chance = 3600;
@@ -582,7 +582,7 @@ void Character::hardcoded_effects( effect &it )
             if( dur < 1_hours ) {
                 mod_dex_bonus( 1 );
             } else {
-                int dex_mod = -( dur > 360_minutes ? 10.0 : ( dur - 1_hours ) / 30_minutes );
+                const int dex_mod = -( dur > 360_minutes ? 10.0 : ( dur - 1_hours ) / 30_minutes );
                 mod_dex_bonus( dex_mod );
                 add_miss_reason( _( "Why waste your time on that insignificant speck?" ), -dex_mod );
             }
@@ -591,7 +591,7 @@ void Character::hardcoded_effects( effect &it )
         } else {
             // Major effects, all bad.
             mod_str_bonus( -( dur > 500_minutes ? 10.0 : dur / 50_minutes ) );
-            int dex_mod = -( dur > 600_minutes ? 10.0 : dur / 60_minutes );
+            const int dex_mod = -( dur > 600_minutes ? 10.0 : dur / 60_minutes );
             mod_dex_bonus( dex_mod );
             add_miss_reason( _( "Why waste your time on that insignificant speck?" ), -dex_mod );
             mod_int_bonus( -( dur > 450_minutes ? 10.0 : dur / 45_minutes ) );
@@ -738,8 +738,8 @@ void Character::hardcoded_effects( effect &it )
                     if( g->m.impassable( dest ) ) {
                         g->m.make_rubble( dest, f_rubble_rock );
                     }
-                    MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup(
-                                                           GROUP_NETHER );
+                    const MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup(
+                                GROUP_NETHER );
                     g->place_critter_at( spawn_details.name, dest );
                     if( g->u.sees( dest ) ) {
                         g->cancel_activity_or_ignore_query( distraction_type::hostile_spotted_far,
@@ -788,7 +788,7 @@ void Character::hardcoded_effects( effect &it )
         if( one_in( 5000 ) ) {
             add_msg_if_player( m_bad, _( "A strange sound reverberates around the edges of reality." ) );
             // Comparable to the humming anomaly trap, with a narrower range
-            int volume = rng( 25, 150 );
+            const int volume = rng( 25, 150 );
             std::string sfx;
             if( volume <= 50 ) {
                 sfx = _( "hrmmm" );
@@ -1079,8 +1079,8 @@ void Character::hardcoded_effects( effect &it )
             }
 
             // Check mutation category strengths to see if we're mutated enough to get a dream
-            mutation_category_id highcat = get_highest_category();
-            int highest = mutation_category_level[highcat];
+            const mutation_category_id highcat = get_highest_category();
+            const int highest = mutation_category_level[highcat];
 
             // Determine the strength of effects or dreams based upon category strength
             int strength = 0; // Category too weak for any effect or dream
@@ -1097,7 +1097,7 @@ void Character::hardcoded_effects( effect &it )
             // Get a dream if category strength is high enough.
             if( strength != 0 ) {
                 // Select a dream
-                std::string dream = dreams::get_random_for_category( highcat, strength );
+                const std::string dream = dreams::get_random_for_category( highcat, strength );
                 if( !dream.empty() && x_in_y( strength + 5, 10 ) ) {
                     add_msg( dream );
                 }
@@ -1145,7 +1145,7 @@ void Character::hardcoded_effects( effect &it )
         }
 
         bool woke_up = false;
-        int tirednessVal = rng( 5, 200 ) + rng( 0, std::abs( get_fatigue() * 2 * 5 ) );
+        const int tirednessVal = rng( 5, 200 ) + rng( 0, std::abs( get_fatigue() * 2 * 5 ) );
         if( !is_blind() && !has_effect( effect_narcosis ) ) {
             if( !has_trait(
                     trait_SEESLEEP ) ) { // People who can see while sleeping are acclimated to the light.
@@ -1190,7 +1190,7 @@ void Character::hardcoded_effects( effect &it )
             // Cold or heat may wake you up.
             // Player will sleep through cold or heat if fatigued enough
             for( const auto &pr : get_body() ) {
-                int temp_cur = pr.second.get_temp_cur();
+                const int temp_cur = pr.second.get_temp_cur();
                 if( temp_cur < BODYTEMP_VERY_COLD - get_fatigue() / 2 ) {
                     if( one_in( 30000 ) ) {
                         add_msg_if_player( _( "You toss and turn trying to keep warm." ) );
@@ -1222,7 +1222,7 @@ void Character::hardcoded_effects( effect &it )
                 if( one_in( 2 ) ) {
                     sound_hallu();
                 } else {
-                    int max_count = rng( 1, 3 );
+                    const int max_count = rng( 1, 3 );
                     int count = 0;
                     for( const tripoint &mp : g->m.points_in_radius( pos(), 1 ) ) {
                         if( mp == pos() ) {
@@ -1257,7 +1257,7 @@ void Character::hardcoded_effects( effect &it )
                         activity->set_to_null();
                     } else {
                         // Secure the flag before wake_up() clears the effect
-                        bool slept_through = has_effect( effect_slept_through_alarm );
+                        const bool slept_through = has_effect( effect_slept_through_alarm );
                         wake_up();
                         if( slept_through ) {
                             add_msg_if_player( _( "Your internal chronometer finally wakes you up." ) );

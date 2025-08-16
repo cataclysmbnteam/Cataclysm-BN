@@ -71,7 +71,7 @@ moon_phase get_moon_phase( const time_point &p )
     const time_duration moon_phase_duration =
         calendar::season_ratio() * synodic_month;
     // Reset moon phase at start of the year
-    time_point p_year = calendar::turn_zero + time_past_new_year( p );
+    const time_point p_year = calendar::turn_zero + time_past_new_year( p );
     // Switch moon phase at noon so it stays the same all night
     const int num_middays = to_days<int>( p_year - calendar::turn_zero + 1_days / 2 );
     const time_duration nearest_midnight = num_middays * 1_days;
@@ -176,7 +176,7 @@ double current_daylight_level( const time_point &p )
                            ( calendar::season_length() );
     double modifier = 1.0;
     // For ~Boston: solstices are +/- 25% sunlight intensity from equinoxes
-    static double deviation = 0.25;
+    static const double deviation = 0.25;
 
     switch( season_of_year( p ) ) {
         case SPRING:

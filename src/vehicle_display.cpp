@@ -128,7 +128,7 @@ nc_color vehicle::part_color( const int p, const bool exact ) const
     }
 
     // curtains turn windshields gray
-    int curtains = part_with_feature( p, VPFLAG_CURTAIN, false );
+    const int curtains = part_with_feature( p, VPFLAG_CURTAIN, false );
     if( curtains >= 0 ) {
         if( part_with_feature( p, VPFLAG_WINDOW, true ) >= 0 && !parts[curtains].open ) {
             col = part_info( curtains ).color;
@@ -136,7 +136,7 @@ nc_color vehicle::part_color( const int p, const bool exact ) const
     }
 
     //Invert colors for cargo parts with stuff in them
-    int cargo_part = part_with_feature( p, VPFLAG_CARGO, true );
+    const int cargo_part = part_with_feature( p, VPFLAG_CARGO, true );
     if( cargo_part > 0 && !get_items( cargo_part ).empty() ) {
         return invert_color( col );
     } else {
@@ -198,7 +198,7 @@ int vehicle::print_part_list( const catacurses::window &win, int y1, const int m
                                        volume_units_abbr() );
         }
 
-        bool armor = part_flag( pl[i], "ARMOR" );
+        const bool armor = part_flag( pl[i], "ARMOR" );
         std::string left_sym;
         std::string right_sym;
         if( armor ) {
@@ -211,7 +211,7 @@ int vehicle::print_part_list( const catacurses::window &win, int y1, const int m
             left_sym = "-";
             right_sym = "-";
         }
-        nc_color sym_color = static_cast<int>( i ) == hl ? hilite( c_light_gray ) : c_light_gray;
+        const nc_color sym_color = static_cast<int>( i ) == hl ? hilite( c_light_gray ) : c_light_gray;
         mvwprintz( win, point( 1, y ), sym_color, left_sym );
         trim_and_print( win, point( 2, y ), getmaxx( win ) - 4,
                         static_cast<int>( i ) == hl ? hilite( c_light_gray ) : c_light_gray, partname );
@@ -372,8 +372,8 @@ void vehicle::print_fuel_indicators( const catacurses::window &win, point p, int
     }
 
     int yofs = 0;
-    int max_gauge = ( isHorizontal ? 12 : 5 ) + start_index;
-    int max_size = std::min( static_cast<int>( fuels.size() ), max_gauge );
+    const int max_gauge = ( isHorizontal ? 12 : 5 ) + start_index;
+    const int max_size = std::min( static_cast<int>( fuels.size() ), max_gauge );
 
     for( int i = start_index; i < max_size; i++ ) {
         const itype_id &f = fuels[i];
@@ -400,7 +400,7 @@ void vehicle::print_fuel_indicators( const catacurses::window &win, point p, int
 void vehicle::print_fuel_indicator( const catacurses::window &win, point p,
                                     const itype_id &fuel_type, bool verbose, bool desc )
 {
-    std::map<itype_id, float> fuel_usages;
+    std::map<itype_id, float> const fuel_usages;
     print_fuel_indicator( win, p, fuel_type, fuel_usages, verbose, desc );
 }
 
@@ -410,14 +410,14 @@ void vehicle::print_fuel_indicator( const catacurses::window &win, point p,
                                     bool verbose, bool desc )
 {
     const char fsyms[5] = { 'E', '\\', '|', '/', 'F' };
-    nc_color col_indf1 = c_light_gray;
-    int cap = fuel_capacity( fuel_type );
-    int f_left = fuel_left( fuel_type );
-    nc_color f_color = fuel_type->color;
+    const nc_color col_indf1 = c_light_gray;
+    const int cap = fuel_capacity( fuel_type );
+    const int f_left = fuel_left( fuel_type );
+    const nc_color f_color = fuel_type->color;
     // NOLINTNEXTLINE(cata-text-style): not an ellipsis
     mvwprintz( win, p, col_indf1, "E...F" );
-    int amnt = cap > 0 ? f_left * 99 / cap : 0;
-    int indf = ( amnt / 20 ) % 5;
+    const int amnt = cap > 0 ? f_left * 99 / cap : 0;
+    const int indf = ( amnt / 20 ) % 5;
     mvwprintz( win, p + point( indf, 0 ), f_color, "%c", fsyms[indf] );
     if( verbose ) {
         if( debug_mode ) {
@@ -460,18 +460,18 @@ void vehicle::print_fuel_indicator( const catacurses::window &win, point p,
                 tank_goal = _( "empty" );
             }
             //TODO!: push up
-            item &fitem = *item::spawn_temporary( fuel_type );
-            int charges_per_L = fitem.charges_per_volume( 1_liter );
+            const item &fitem = *item::spawn_temporary( fuel_type );
+            const int charges_per_L = fitem.charges_per_volume( 1_liter );
             if( charges_per_L == 0 || charges_per_L == item::INFINITE_CHARGES ) {
                 return;
             }
-            float charges_per_mL = charges_per_L / 1000.0f;
+            const float charges_per_mL = charges_per_L / 1000.0f;
             tank_use = tank_use / charges_per_mL;
 
             // promote to double so esimate doesn't overflow for high fuel values
             // 3600 * tank_use overflows signed 32 bit when tank_use is over ~596523
-            double turns = to_turns<double>( 60_minutes );
-            time_duration estimate = time_duration::from_turns( turns * tank_use / std::abs( rate ) );
+            const double turns = to_turns<double>( 60_minutes );
+            const time_duration estimate = time_duration::from_turns( turns * tank_use / std::abs( rate ) );
 
             if( debug_mode ) {
                 wprintz( win, tank_color, _( ", %d %s(%4.2f%%)/hour, %s until %s" ),

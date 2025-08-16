@@ -63,8 +63,8 @@ class basic_animation
             long int remain = delay;
             while( remain > 0 ) {
                 // NOLINTNEXTLINE(cata-no-long): timespec uses long int
-                long int do_sleep = std::min( remain, 100'000'000L );
-                timespec to_sleep = timespec { 0, do_sleep };
+                const long int do_sleep = std::min( remain, 100'000'000L );
+                const timespec to_sleep = timespec { 0, do_sleep };
                 nanosleep( &to_sleep, nullptr );
                 inp_mngr.pump_events();
                 remain -= do_sleep;
@@ -137,10 +137,10 @@ void draw_explosion_curses( game &g, const tripoint &center, const int r,
     // TODO: Make it look different from above/below
     const tripoint p = relative_view_pos( g.u, center );
 
-    explosion_animation anim;
+    const explosion_animation anim;
 
     int frame = 0;
-    shared_ptr_fast<game::draw_callback_t> explosion_cb =
+    const shared_ptr_fast<game::draw_callback_t> explosion_cb =
     make_shared_fast<game::draw_callback_t>( [&]() {
         if( r == 0 ) {
             mvwputch( g.w_terrain, point( p.y, p.x ), col, '*' );
@@ -192,10 +192,10 @@ void draw_custom_explosion_curses( game &g,
     const tripoint topleft( center.x - ( getmaxx( g.w_terrain ) / 2 ),
                             center.y - ( getmaxy( g.w_terrain ) / 2 ), 0 );
 
-    explosion_animation anim;
+    const explosion_animation anim;
 
     auto last_layer_it = layers.begin();
-    shared_ptr_fast<game::draw_callback_t> explosion_cb =
+    const shared_ptr_fast<game::draw_callback_t> explosion_cb =
     make_shared_fast<game::draw_callback_t>( [&]() {
         for( auto it = layers.begin(); it != std::next( last_layer_it ); ++it ) {
             for( const auto &pr : *it ) {
@@ -276,10 +276,10 @@ void explosion_handler::draw_explosion( const tripoint &p, const int r, const nc
         return;
     }
 
-    explosion_animation anim;
+    const explosion_animation anim;
 
     int i = 1;
-    shared_ptr_fast<game::draw_callback_t> explosion_cb =
+    const shared_ptr_fast<game::draw_callback_t> explosion_cb =
     make_shared_fast<game::draw_callback_t>( [&]() {
         // TODO: not xpos ypos?
         tilecontext->init_explosion( p, i, exp_name );
@@ -429,11 +429,11 @@ void explosion_handler::draw_custom_explosion( const tripoint &,
         return;
     }
 
-    explosion_animation anim;
+    const explosion_animation anim;
     // We need to draw all explosions up to now
     std::map<tripoint, explosion_tile> combined_layer;
 
-    shared_ptr_fast<game::draw_callback_t> explosion_cb =
+    const shared_ptr_fast<game::draw_callback_t> explosion_cb =
     make_shared_fast<game::draw_callback_t>( [&]() {
         tilecontext->init_custom_explosion_layer( combined_layer, exp_name );
     } );
@@ -467,7 +467,8 @@ void draw_bullet_curses( map &m, const tripoint &t, const char bullet, const tri
         return;
     }
 
-    shared_ptr_fast<game::draw_callback_t> bullet_cb = make_shared_fast<game::draw_callback_t>( [&]() {
+    const shared_ptr_fast<game::draw_callback_t> bullet_cb =
+    make_shared_fast<game::draw_callback_t>( [&]() {
         if( p != nullptr && p->z == vp.z ) {
             m.drawsq( g->w_terrain, *p, drawsq_params().center( vp ) );
         }
@@ -564,7 +565,7 @@ void game::draw_bullet( const tripoint &t, const int i,
         : bullet == '`' ? bullet_shrapnel
         : bullet_unknown;
 
-    shared_ptr_fast<draw_callback_t> bullet_cb = make_shared_fast<draw_callback_t>( [&]() {
+    const shared_ptr_fast<draw_callback_t> bullet_cb = make_shared_fast<draw_callback_t>( [&]() {
         tilecontext->init_draw_bullet( t, bullet_type, rotation );
     } );
     add_draw_callback( bullet_cb );
@@ -590,7 +591,8 @@ void hit_animation( const avatar &u, const tripoint &center, nc_color cColor,
     const tripoint init_pos = relative_view_pos( u, center );
     // Only show animation if initially visible
     if( init_pos.z == 0 && is_valid_in_w_terrain( init_pos.xy() ) ) {
-        shared_ptr_fast<game::draw_callback_t> hit_cb = make_shared_fast<game::draw_callback_t>( [&]() {
+        const shared_ptr_fast<game::draw_callback_t> hit_cb =
+        make_shared_fast<game::draw_callback_t>( [&]() {
             // In case the window is resized during waiting, we always re-calculate the animation position
             const tripoint pos = relative_view_pos( u, center );
             if( pos.z == 0 && is_valid_in_w_terrain( pos.xy() ) ) {
@@ -628,7 +630,7 @@ void game::draw_hit_mon( const tripoint &p, const monster &m, const bool dead )
         return;
     }
 
-    shared_ptr_fast<draw_callback_t> hit_cb = make_shared_fast<draw_callback_t>( [&]() {
+    const shared_ptr_fast<draw_callback_t> hit_cb = make_shared_fast<draw_callback_t>( [&]() {
         tilecontext->init_draw_hit( p, m.type->id.str() );
     } );
     add_draw_callback( hit_cb );
@@ -646,7 +648,7 @@ namespace
 {
 void draw_hit_player_curses( const game &g, const Character &who, const int dam )
 {
-    nc_color const col = !dam ? yellow_background( who.symbol_color() ) : red_background(
+    const nc_color col = !dam ? yellow_background( who.symbol_color() ) : red_background(
                              who.symbol_color() );
     hit_animation( g.u, who.pos(), col, who.symbol() );
 }
@@ -673,7 +675,7 @@ void game::draw_hit_player( const Character &who, const int dam )
     const std::string &type = who.is_player() ? ( who.male ? player_male : player_female )
                               : who.male ? npc_male : npc_female;
 
-    shared_ptr_fast<draw_callback_t> hit_cb = make_shared_fast<draw_callback_t>( [&]() {
+    const shared_ptr_fast<draw_callback_t> hit_cb = make_shared_fast<draw_callback_t>( [&]() {
         tilecontext->init_draw_hit( who.pos(), type );
     } );
     add_draw_callback( hit_cb );
@@ -693,7 +695,7 @@ namespace
 void draw_line_curses( game &g, const tripoint &center, const std::vector<tripoint> &ret,
                        bool noreveal )
 {
-    drawsq_params params = drawsq_params().highlight( true ).center( center );
+    const drawsq_params params = drawsq_params().highlight( true ).center( center );
     for( const tripoint &p : ret ) {
         const auto critter = g.critter_at( p, true );
 
@@ -747,7 +749,7 @@ namespace
 {
 void draw_line_curses( game &g, const std::vector<tripoint> &points )
 {
-    map &here = get_map();
+    const map &here = get_map();
     for( const tripoint &p : points ) {
         here.drawsq( g.w_terrain, p, drawsq_params().highlight( true ) );
     }
@@ -851,8 +853,8 @@ void draw_sct_curses( const game &g )
 
         const bool is_old = text.getStep() >= scrollingcombattext::iMaxSteps / 2;
 
-        nc_color const col1 = msgtype_to_color( text.getMsgType( "first" ),  is_old );
-        nc_color const col2 = msgtype_to_color( text.getMsgType( "second" ), is_old );
+        const nc_color col1 = msgtype_to_color( text.getMsgType( "first" ),  is_old );
+        const nc_color col2 = msgtype_to_color( text.getMsgType( "second" ), is_old );
 
         mvwprintz( g.w_terrain, point( dx, dy ), col1, text.getText( "first" ) );
         wprintz( g.w_terrain, col2, text.getText( "second" ) );
@@ -885,9 +887,9 @@ void draw_zones_curses( const catacurses::window &w, const tripoint &start, cons
         return;
     }
 
-    nc_color    const col = invert_color( c_light_green );
+    const nc_color col = invert_color( c_light_green );
     const std::string line( end.x - start.x + 1, '~' );
-    int         const x = start.x - offset.x;
+    const int x = start.x - offset.x;
 
     for( int y = start.y; y <= end.y; ++y ) {
         mvwprintz( w, point( x, y - offset.y ), col, line );
@@ -1053,7 +1055,7 @@ bucketed_points bucket_by_distance( const tripoint &origin,
 {
     std::map<int, one_bucket> by_distance;
     for( const auto& [pt, val] : to_bucket ) {
-        int dist = trig_dist_squared( origin, pt );
+        const int dist = trig_dist_squared( origin, pt );
         by_distance[dist].emplace_back( point_with_value{ pt, val} );
     }
     bucketed_points buckets;
@@ -1081,14 +1083,14 @@ bucketed_points optimal_bucketing( const bucketed_points &buckets, size_t max_bu
         auto smallest = sizes.begin();
         size_t smallest_sum = *smallest + *( smallest + 1 );
         for( auto iter = sizes.begin() + 1; ( iter + 1 ) != sizes.end(); iter++ ) {
-            size_t sum = *iter + *( iter + 1 );
+            const size_t sum = *iter + *( iter + 1 );
             if( sum < smallest_sum ) {
                 smallest = iter;
                 smallest_sum = sum;
             }
         }
 
-        size_t distance = std::distance( sizes.begin(), smallest );
+        const size_t distance = std::distance( sizes.begin(), smallest );
         sizes[distance] += sizes[distance + 1];
         sizes.erase( smallest + 1 );
         auto left_bucket = std::next( optimal.begin(), distance );
@@ -1109,7 +1111,7 @@ static void draw_cone_aoe_curses( const tripoint &, const bucketed_points &waves
                             center.y - ( catacurses::getmaxy( g->w_terrain ) / 2 ), 0 );
 
     auto it = waves.begin();
-    shared_ptr_fast<game::draw_callback_t> wave_cb =
+    const shared_ptr_fast<game::draw_callback_t> wave_cb =
     make_shared_fast<game::draw_callback_t>( [&]() {
         // All the buckets up until now
         for( auto inner_it = waves.begin(); inner_it != std::next( it ); inner_it++ ) {
@@ -1117,7 +1119,7 @@ static void draw_cone_aoe_curses( const tripoint &, const bucketed_points &waves
                 // update tripoint in relation to top left corner of curses window
                 // mvwputch already filters out of bounds coordinates
                 const tripoint p = pr.pt - topleft;
-                int intensity = ( pr.val >= 1.0 ) + ( pr.val >= 0.5 ) + ( inner_it == it );
+                const int intensity = ( pr.val >= 1.0 ) + ( pr.val >= 0.5 ) + ( inner_it == it );
                 nc_color col;
                 switch( intensity ) {
                     case 3:
@@ -1141,7 +1143,7 @@ static void draw_cone_aoe_curses( const tripoint &, const bucketed_points &waves
     } );
     g->add_draw_callback( wave_cb );
 
-    wave_animation anim;
+    const wave_animation anim;
     for( it = waves.begin(); it != waves.end(); it++ ) {
         anim.progress();
     }
@@ -1155,10 +1157,10 @@ void draw_cone_aoe( const tripoint &origin, const std::map<tripoint, double> &ao
         return;
     }
 
-    bucketed_points buckets = bucket_by_distance( origin, aoe );
+    const bucketed_points buckets = bucket_by_distance( origin, aoe );
     // That hardcoded value could be improved... Not sure about the name
-    size_t max_bucket_count = std::min<size_t>( 10, aoe.size() );
-    bucketed_points waves = optimal_bucketing( buckets, max_bucket_count );
+    const size_t max_bucket_count = std::min<size_t>( 10, aoe.size() );
+    const bucketed_points waves = optimal_bucketing( buckets, max_bucket_count );
 
 #if defined(TILES)
     if( !use_tiles ) {
@@ -1171,9 +1173,9 @@ void draw_cone_aoe( const tripoint &origin, const std::map<tripoint, double> &ao
     one_bucket combined_layer;
     combined_layer.reserve( aoe.size() );
 
-    wave_animation anim;
+    const wave_animation anim;
 
-    shared_ptr_fast<game::draw_callback_t> wave_cb =
+    const shared_ptr_fast<game::draw_callback_t> wave_cb =
     make_shared_fast<game::draw_callback_t>( [&]() {
         tilecontext->init_draw_cone_aoe( origin, combined_layer );
     } );

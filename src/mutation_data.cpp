@@ -61,7 +61,7 @@ static void extract_mod(
     const JsonObject &j, std::unordered_map<std::pair<bool, std::string>, int, cata::tuple_hash> &data,
     const std::string &mod_type, bool active, const std::string &type_key )
 {
-    int val = j.get_int( mod_type, 0 );
+    const int val = j.get_int( mod_type, 0 );
     if( val != 0 ) {
         data[std::make_pair( active, type_key )] = val;
     }
@@ -72,7 +72,7 @@ static void load_mutation_mods(
     std::unordered_map<std::pair<bool, std::string>, int, cata::tuple_hash> &mods )
 {
     if( jsobj.has_object( member ) ) {
-        JsonObject j = jsobj.get_object( member );
+        const JsonObject j = jsobj.get_object( member );
         bool active = false;
         if( member == "active_mods" ) {
             active = true;
@@ -223,14 +223,14 @@ static mut_attack load_mutation_attack( const JsonObject &jo )
     if( jo.has_array( "base_damage" ) ) {
         ret.base_damage = load_damage_instance( jo.get_array( "base_damage" ) );
     } else if( jo.has_object( "base_damage" ) ) {
-        JsonObject jo_dam = jo.get_object( "base_damage" );
+        const JsonObject jo_dam = jo.get_object( "base_damage" );
         ret.base_damage = load_damage_instance( jo_dam );
     }
 
     if( jo.has_array( "strength_damage" ) ) {
         ret.strength_damage = load_damage_instance( jo.get_array( "strength_damage" ) );
     } else if( jo.has_object( "strength_damage" ) ) {
-        JsonObject jo_dam = jo.get_object( "strength_damage" );
+        const JsonObject jo_dam = jo.get_object( "strength_damage" );
         ret.strength_damage = load_damage_instance( jo_dam );
     }
 
@@ -269,7 +269,7 @@ mut_transform::mut_transform() : active( false ), moves( 0 ) {}
 
 bool mut_transform::load( const JsonObject &jsobj, const std::string &member )
 {
-    JsonObject j = jsobj.get_object( member );
+    const JsonObject j = jsobj.get_object( member );
 
     assign( j, "target", target );
     assign( j, "msg_transform", msg_transform );
@@ -339,15 +339,15 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "debug", debug, false );
     optional( jo, was_loaded, "player_display", player_display, true );
 
-    for( JsonArray pair : jo.get_array( "vitamin_rates" ) ) {
+    for( const JsonArray pair : jo.get_array( "vitamin_rates" ) ) {
         vitamin_rates.emplace( vitamin_id( pair.get_string( 0 ) ),
                                time_duration::from_turns( pair.get_int( 1 ) ) );
     }
 
-    for( JsonArray pair : jo.get_array( "vitamins_absorb_multi" ) ) {
+    for( const JsonArray pair : jo.get_array( "vitamins_absorb_multi" ) ) {
         std::map<vitamin_id, double> vit;
         // fill the inner map with vitamins
-        for( JsonArray vitamins : pair.get_array( 1 ) ) {
+        for( const JsonArray vitamins : pair.get_array( 1 ) ) {
             vit.emplace( vitamin_id( vitamins.get_string( 0 ) ), vitamins.get_float( 1 ) );
         }
         // assign the inner vitamin map to the material_id key
@@ -412,19 +412,19 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "mutagen_target_modifier", mutagen_target_modifier, 0 );
 
     if( jo.has_object( "rand_cut_bonus" ) ) {
-        JsonObject sm = jo.get_object( "rand_cut_bonus" );
+        const JsonObject sm = jo.get_object( "rand_cut_bonus" );
         rand_cut_bonus.first = sm.get_int( "min" );
         rand_cut_bonus.second = sm.get_int( "max" );
     }
 
     if( jo.has_object( "rand_bash_bonus" ) ) {
-        JsonObject sm = jo.get_object( "rand_bash_bonus" );
+        const JsonObject sm = jo.get_object( "rand_bash_bonus" );
         rand_bash_bonus.first = sm.get_int( "min" );
         rand_bash_bonus.second = sm.get_int( "max" );
     }
 
     if( jo.has_object( "social_modifiers" ) ) {
-        JsonObject sm = jo.get_object( "social_modifiers" );
+        const JsonObject sm = jo.get_object( "social_modifiers" );
         social_mods = load_mutation_social_mods( sm );
     }
 
@@ -475,24 +475,24 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
 
     }
 
-    for( JsonObject wp : jo.get_array( "wet_protection" ) ) {
-        std::string part_id = wp.get_string( "part" );
-        int ignored = wp.get_int( "ignored", 0 );
-        int neutral = wp.get_int( "neutral", 0 );
-        int good = wp.get_int( "good", 0 );
-        tripoint protect = tripoint( ignored, neutral, good );
+    for( const JsonObject wp : jo.get_array( "wet_protection" ) ) {
+        const std::string part_id = wp.get_string( "part" );
+        const int ignored = wp.get_int( "ignored", 0 );
+        const int neutral = wp.get_int( "neutral", 0 );
+        const int good = wp.get_int( "good", 0 );
+        const tripoint protect = tripoint( ignored, neutral, good );
         protection[get_body_part_token( part_id )] = protect;
     }
 
     for( JsonArray ea : jo.get_array( "encumbrance_always" ) ) {
-        std::string part_id = ea.next_string();
-        int enc = ea.next_int();
+        const std::string part_id = ea.next_string();
+        const int enc = ea.next_int();
         encumbrance_always[get_body_part_token( part_id )] = enc;
     }
 
     for( JsonArray ec : jo.get_array( "encumbrance_covered" ) ) {
-        std::string part_id = ec.next_string();
-        int enc = ec.next_int();
+        const std::string part_id = ec.next_string();
+        const int enc = ec.next_int();
         encumbrance_covered[get_body_part_token( part_id )] = enc;
     }
 
@@ -500,7 +500,7 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
         restricts_gear.insert( get_body_part_token( line ) );
     }
 
-    for( JsonObject ao : jo.get_array( "armor" ) ) {
+    for( const JsonObject ao : jo.get_array( "armor" ) ) {
         auto parts = ao.get_tags( "parts" );
         std::set<body_part> bps;
         for( const std::string &part_string : parts ) {
@@ -512,19 +512,19 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
             }
         }
 
-        resistances res = load_resistances_instance( ao );
+        const resistances res = load_resistances_instance( ao );
 
-        for( body_part bp : bps ) {
+        for( const body_part bp : bps ) {
             armor[ bp ] = res;
         }
     }
 
     if( jo.has_array( "attacks" ) ) {
-        for( JsonObject ao : jo.get_array( "attacks" ) ) {
+        for( const JsonObject ao : jo.get_array( "attacks" ) ) {
             attacks_granted.emplace_back( load_mutation_attack( ao ) );
         }
     } else if( jo.has_object( "attacks" ) ) {
-        JsonObject attack = jo.get_object( "attacks" );
+        const JsonObject attack = jo.get_object( "attacks" );
         attacks_granted.emplace_back( load_mutation_attack( attack ) );
     }
 }
@@ -759,13 +759,13 @@ void mutation_branch::load_trait_group( const JsonArray &entries,
     for( const JsonValue entry : entries ) {
         // Backwards-compatibility with old format ["TRAIT", 100]
         if( entry.test_array() ) {
-            JsonArray subarr = entry.get_array();
+            const JsonArray subarr = entry.get_array();
 
-            trait_id id( subarr.get_string( 0 ) );
+            const trait_id id( subarr.get_string( 0 ) );
             tg.add_entry( std::make_unique<Single_trait_creator>( id, subarr.get_int( 1 ) ) );
             // Otherwise load new format {"trait": ... } or {"group": ...}
         } else {
-            JsonObject subobj = entry.get_object();
+            const JsonObject subobj = entry.get_object();
             add_entry( tg, subobj );
         }
     }
@@ -783,7 +783,7 @@ void mutation_branch::load_trait_group( const JsonObject &jsobj,
 
     // TODO: (sm) Looks like this makes the new code backwards-compatible with the old format. Great if so!
     if( subtype == "old" ) {
-        for( JsonArray pair : jsobj.get_array( "traits" ) ) {
+        for( const JsonArray pair : jsobj.get_array( "traits" ) ) {
             tg.add_trait_entry( trait_id( pair.get_string( 0 ) ), pair.get_int( 1 ) );
         }
         return;
@@ -791,7 +791,7 @@ void mutation_branch::load_trait_group( const JsonObject &jsobj,
 
     // TODO: (sm) Taken from item_factory.cpp almost verbatim. Ensure that these work!
     if( jsobj.has_member( "entries" ) ) {
-        for( JsonObject subobj : jsobj.get_array( "entries" ) ) {
+        for( const JsonObject subobj : jsobj.get_array( "entries" ) ) {
             add_entry( tg, subobj );
         }
     }
@@ -800,10 +800,10 @@ void mutation_branch::load_trait_group( const JsonObject &jsobj,
             if( entry.test_string() ) {
                 tg.add_trait_entry( trait_id( entry.get_string() ), 100 );
             } else if( entry.test_array() ) {
-                JsonArray subtrait = entry.get_array();
+                const JsonArray subtrait = entry.get_array();
                 tg.add_trait_entry( trait_id( subtrait.get_string( 0 ) ), subtrait.get_int( 1 ) );
             } else {
-                JsonObject subobj = entry.get_object();
+                const JsonObject subobj = entry.get_object();
                 add_entry( tg, subobj );
             }
         }
@@ -813,11 +813,11 @@ void mutation_branch::load_trait_group( const JsonObject &jsobj,
             if( entry.test_string() ) {
                 tg.add_group_entry( trait_group::Trait_group_tag( entry.get_string() ), 100 );
             } else if( entry.test_array() ) {
-                JsonArray subtrait = entry.get_array();
+                const JsonArray subtrait = entry.get_array();
                 tg.add_group_entry( trait_group::Trait_group_tag( subtrait.get_string( 0 ) ),
                                     subtrait.get_int( 1 ) );
             } else {
-                JsonObject subobj = entry.get_object();
+                const JsonObject subobj = entry.get_object();
                 add_entry( tg, subobj );
             }
         }
@@ -827,7 +827,7 @@ void mutation_branch::load_trait_group( const JsonObject &jsobj,
 void mutation_branch::add_entry( Trait_group &tg, const JsonObject &obj )
 {
     std::unique_ptr<Trait_creation_data> ptr;
-    int probability = obj.get_int( "prob", 100 );
+    const int probability = obj.get_int( "prob", 100 );
     JsonArray jarr;
 
     if( obj.has_member( "collection" ) ) {
@@ -848,7 +848,7 @@ void mutation_branch::add_entry( Trait_group &tg, const JsonObject &obj )
     }
 
     if( obj.has_member( "trait" ) ) {
-        trait_id id( obj.get_string( "trait" ) );
+        const trait_id id( obj.get_string( "trait" ) );
         ptr = std::make_unique<Single_trait_creator>( id, probability );
     } else if( obj.has_member( "group" ) ) {
         ptr = std::make_unique<Trait_group_creator>( trait_group::Trait_group_tag(

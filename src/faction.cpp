@@ -64,7 +64,7 @@ faction::faction( const faction_template &templ )
 
 void faction_template::load( const JsonObject &jsobj )
 {
-    faction_template fac( jsobj );
+    const faction_template fac( jsobj );
     npc_factions::all_templates.emplace_back( fac );
 }
 
@@ -87,7 +87,7 @@ void faction_template::reset()
 void faction_template::load_relations( const JsonObject &jsobj )
 {
     for( const JsonMember fac : jsobj.get_object( "relations" ) ) {
-        JsonObject rel_jo = fac.get_object();
+        const JsonObject rel_jo = fac.get_object();
         std::bitset<npc_factions::rel_types> fac_relation( 0 );
         for( const auto &rel_flag : npc_factions::relation_strs ) {
             fac_relation.set( rel_flag.second, rel_jo.get_bool( rel_flag.first, false ) );
@@ -296,7 +296,7 @@ std::string fac_wealth_text( int val, int size )
 std::string faction::food_supply_text()
 {
     //Convert to how many days you can support the population
-    int val = food_supply / ( size * 288 );
+    const int val = food_supply / ( size * 288 );
     if( val >= 30 ) {
         return pgettext( "Faction food", "Overflowing" );
     }
@@ -314,7 +314,7 @@ std::string faction::food_supply_text()
 
 nc_color faction::food_supply_color()
 {
-    int val = food_supply / ( size * 288 );
+    const int val = food_supply / ( size * 288 );
     if( val >= 30 ) {
         return c_green;
     } else if( val >= 14 ) {
@@ -469,7 +469,7 @@ const faction &string_id<faction>::obj() const
     if( ptr ) {
         return *ptr;
     } else {
-        static faction null_fac;
+        static const faction null_fac;
         return null_fac;
     }
 }
@@ -495,7 +495,7 @@ int npc::faction_display( const catacurses::window &fac_w, const int width ) con
     int retval = 0;
     int y = 2;
     const nc_color col = c_white;
-    Character &player_character = get_player_character();
+    const Character &player_character = get_player_character();
     const tripoint_abs_omt player_abspos = player_character.global_omt_location();
 
     //get NPC followers, status, direction, location, needs, weapon, etc.
@@ -504,10 +504,10 @@ int npc::faction_display( const catacurses::window &fac_w, const int width ) con
     nc_color see_color;
 
     static const flag_id json_flag_TWO_WAY_RADIO( "TWO_WAY_RADIO" );
-    bool u_has_radio = g->u.has_item_with_flag( json_flag_TWO_WAY_RADIO, true ) ||
-                       g->u.has_bionic( bio_infolink );
-    bool guy_has_radio = has_item_with_flag( json_flag_TWO_WAY_RADIO, true ) ||
-                         has_bionic( bio_infolink );
+    const bool u_has_radio = g->u.has_item_with_flag( json_flag_TWO_WAY_RADIO, true ) ||
+                             g->u.has_bionic( bio_infolink );
+    const bool guy_has_radio = has_item_with_flag( json_flag_TWO_WAY_RADIO, true ) ||
+                               has_bionic( bio_infolink );
     // is the NPC even in the same area as the player?
     if( rl_dist( player_abspos, global_omt_location() ) > 3 ||
         ( rl_dist( g->u.pos(), pos() ) > SEEX * 2 || !g->u.sees( pos() ) ) ) {
@@ -571,8 +571,8 @@ int npc::faction_display( const catacurses::window &fac_w, const int width ) con
                _( "Thirst: " ) + ( thirst_pair.first.empty() ? nominal : thirst_pair.first ) );
     mvwprintz( fac_w, point( width, ++y ), fatigue_pair.second,
                _( "Fatigue: " ) + ( fatigue_pair.first.empty() ? nominal : fatigue_pair.first ) );
-    int lines = fold_and_print( fac_w, point( width, ++y ), getmaxx( fac_w ) - width - 2, c_white,
-                                _( "Wielding: " ) + primary_weapon().tname() );
+    const int lines = fold_and_print( fac_w, point( width, ++y ), getmaxx( fac_w ) - width - 2, c_white,
+                                      _( "Wielding: " ) + primary_weapon().tname() );
     y += lines;
 
     const auto skillslist = Skill::get_skills_sorted_by( [&]( const Skill & a, const Skill & b ) {
@@ -585,15 +585,15 @@ int npc::faction_display( const catacurses::window &fac_w, const int width ) con
     std::vector<std::string> skill_strs;
     for( size_t i = 0; i < skillslist.size() && count < 3; i++ ) {
         if( !skillslist[ i ]->is_combat_skill() ) {
-            std::string skill_str = string_format( "%s: %d", skillslist[i]->name(),
-                                                   get_skill_level( skillslist[i]->ident() ) );
+            const std::string skill_str = string_format( "%s: %d", skillslist[i]->name(),
+                                          get_skill_level( skillslist[i]->ident() ) );
             skill_strs.push_back( skill_str );
             count += 1;
         }
     }
-    std::string best_three_noncombat = _( "Best other skills: " );
-    std::string best_skill_text = string_format( _( "Best combat skill: %s: %d" ),
-                                  best_skill().obj().name(), best_skill_level() );
+    const std::string best_three_noncombat = _( "Best other skills: " );
+    const std::string best_skill_text = string_format( _( "Best combat skill: %s: %d" ),
+                                        best_skill().obj().name(), best_skill_level() );
     mvwprintz( fac_w, point( width, ++y ), col, best_skill_text );
     mvwprintz( fac_w, point( width, ++y ), col, best_three_noncombat + skill_strs[0] );
     mvwprintz( fac_w, point( width + 20, ++y ), col, skill_strs[1] );
@@ -692,7 +692,7 @@ void faction_manager::display() const
                                         followers[i]->disp_name() );
                     }
                     if( guy ) {
-                        int retval = guy->faction_display( w_missions, 31 );
+                        const int retval = guy->faction_display( w_missions, 31 );
                         if( retval == 2 ) {
                             radio_interactable = true;
                         } else if( retval == 1 ) {
@@ -809,7 +809,7 @@ void faction_manager::display() const
         // create a list of NPCs, visible and the ones on overmapbuffer
         followers.clear();
         for( auto &elem : g->get_follower_list() ) {
-            shared_ptr_fast<npc> npc_to_get = overmap_buffer.find_npc( elem );
+            const shared_ptr_fast<npc> npc_to_get = overmap_buffer.find_npc( elem );
             if( !npc_to_get ) {
                 continue;
             }

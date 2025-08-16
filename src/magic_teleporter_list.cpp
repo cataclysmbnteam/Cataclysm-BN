@@ -85,7 +85,7 @@ bool teleporter_list::place_avatar_overmap( Character &you, const tripoint_abs_o
     if( !global_dest ) {
         return false;
     }
-    tripoint local_dest = omt_dest.getlocal( *global_dest ) + point( 60, 60 );
+    const tripoint local_dest = omt_dest.getlocal( *global_dest ) + point( 60, 60 );
     you.add_effect( efftype_id( "ignore_fall_damage" ), 1_seconds, bodypart_str_id::NULL_ID(), 0,
                     true );
     g->place_player_overmap( omt_pt );
@@ -135,7 +135,7 @@ void teleporter_list::serialize( JsonOut &json ) const
 
     json.member( "known_teleporters" );
     json.start_array();
-    for( std::pair<tripoint_abs_omt, std::string> pair : known_teleporters ) {
+    for( std::pair<tripoint_abs_omt, std::string> const pair : known_teleporters ) {
         json.start_object();
         json.member( "position", pair.first );
         json.member( "name", pair.second );
@@ -148,9 +148,9 @@ void teleporter_list::serialize( JsonOut &json ) const
 
 void teleporter_list::deserialize( JsonIn &jsin )
 {
-    JsonObject data = jsin.get_object();
+    const JsonObject data = jsin.get_object();
 
-    for( JsonObject jo : data.get_array( "known_teleporters" ) ) {
+    for( const JsonObject jo : data.get_array( "known_teleporters" ) ) {
         tripoint_abs_omt temp_pos;
         jo.read( "position", temp_pos );
         std::string name;
@@ -176,11 +176,11 @@ class teleporter_callback : public uilist_callback
                 mvwputch( menu->window, point( start_x, i ), c_magenta, LINE_XOXO );
             }
             if( entnum >= 0 && static_cast<size_t>( entnum ) < index_pairs.size() ) {
-                avatar &player_character = get_avatar();
+                const avatar &player_character = get_avatar();
                 overmap_ui::draw_overmap_chunk( menu->window, player_character, index_pairs[entnum],
                                                 point( start_x + 1, 1 ),
                                                 29, 21 );
-                int dist = rl_dist( player_character.global_omt_location(), index_pairs[entnum] );
+                const int dist = rl_dist( player_character.global_omt_location(), index_pairs[entnum] );
                 mvwprintz( menu->window, point( start_x + 2, 1 ), c_white,
                            string_format( _( "Distance: %d %s" ), dist,
                                           index_pairs[entnum].to_string() ) );

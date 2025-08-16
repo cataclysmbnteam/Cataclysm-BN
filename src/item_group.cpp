@@ -243,7 +243,7 @@ detached_ptr<item> Item_modifier::modify( detached_ptr<item> &&new_item ) const
     // no need for dirt if it's a bow
     if( new_item->is_gun() && !new_item->has_flag( flag_PRIMITIVE_RANGED_WEAPON ) &&
         !new_item->has_flag( flag_NON_FOULING ) ) {
-        int random_dirt = rng( dirt.first, dirt.second );
+        const int random_dirt = rng( dirt.first, dirt.second );
         // if gun RNG is dirty, must add dirt fault to allow cleaning
         if( random_dirt > 0 ) {
             new_item->set_var( "dirt", random_dirt );
@@ -338,10 +338,10 @@ detached_ptr<item> Item_modifier::modify( detached_ptr<item> &&new_item ) const
     }
 
     if( new_item->is_tool() || new_item->is_gun() || new_item->is_magazine() ) {
-        bool spawn_ammo = rng( 0, 99 ) < with_ammo && new_item->ammo_remaining() == 0 && ch == -1 &&
-                          ( !new_item->is_tool() || new_item->type->tool->rand_charges.empty() );
-        bool spawn_mag  = rng( 0, 99 ) < with_magazine && !new_item->magazine_current()
-                          && new_item->magazine_default() != itype_id::NULL_ID();
+        const bool spawn_ammo = rng( 0, 99 ) < with_ammo && new_item->ammo_remaining() == 0 && ch == -1 &&
+                                ( !new_item->is_tool() || new_item->type->tool->rand_charges.empty() );
+        const bool spawn_mag  = rng( 0, 99 ) < with_magazine && !new_item->magazine_current()
+                                && new_item->magazine_default() != itype_id::NULL_ID();
 
         if( spawn_mag ) {
             new_item->put_in( item::spawn( new_item->magazine_default(), new_item->birthday() ) );
@@ -568,7 +568,7 @@ std::set<const itype *> Item_group::every_item() const
 {
     std::set<const itype *> result;
     for( const auto &spawn_data : items ) {
-        std::set<const itype *> these_items = spawn_data->every_item();
+        std::set<const itype *> const these_items = spawn_data->every_item();
         result.insert( these_items.begin(), these_items.end() );
     }
     return result;
@@ -658,7 +658,7 @@ item_group_id item_group::load_item_group( const JsonValue &value,
     } else if( value.test_object() ) {
         const item_group_id group = get_unique_group_id();
 
-        JsonObject jo = value.get_object();
+        const JsonObject jo = value.get_object();
         const std::string subtype = jo.get_string( "subtype", default_subtype );
         item_controller->load_item_group( jo, group, subtype );
 
@@ -666,7 +666,7 @@ item_group_id item_group::load_item_group( const JsonValue &value,
     } else if( value.test_array() ) {
         const item_group_id group = get_unique_group_id();
 
-        JsonArray jarr = value.get_array();
+        const JsonArray jarr = value.get_array();
         // load_item_group needs a bool, invalid subtypes are unexpected and most likely errors
         // from the caller of this function.
         if( default_subtype != "collection" && default_subtype != "distribution" ) {

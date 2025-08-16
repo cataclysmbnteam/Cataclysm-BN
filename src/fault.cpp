@@ -57,7 +57,7 @@ void fault::load_fault( const JsonObject &jo )
         if( jo_method.has_string( "requirements" ) ) {
             mandatory( jo_method, false, "requirements", m.requirements );
         } else {
-            JsonObject jo_req = jo_method.get_object( "requirements" );
+            const JsonObject jo_req = jo_method.get_object( "requirements" );
             m.requirements = requirement_id( m.id );
             requirement_data::load_requirement( jo_req, m.requirements );
         }

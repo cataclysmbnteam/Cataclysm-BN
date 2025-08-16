@@ -115,7 +115,8 @@ int ci_find_substr( const std::string &str1, const std::string &str2 )
 {
     std::locale loc = std::locale();
 
-    std::string::const_iterator it = std::search( str1.begin(), str1.end(), str2.begin(), str2.end(),
+    const std::string::const_iterator it = std::search( str1.begin(), str1.end(), str2.begin(),
+                                           str2.end(),
     [&]( const char str1_in, const char str2_in ) {
         return std::toupper( str1_in, loc ) == std::toupper( str2_in, loc );
     } );
@@ -158,7 +159,7 @@ bool wildcard_match( const std::string &text_in, const std::string &pattern_in )
             }
         } else {
             if( !( *it ).empty() ) {
-                int pos = ci_find_substr( text, *it );
+                const int pos = ci_find_substr( text, *it );
                 if( pos == -1 ) {
                     return false;
                 }
@@ -272,8 +273,8 @@ void replace_first( std::string &input, const std::string &what, const std::stri
     if( what.empty() || what == with ) {
         return;
     }
-    size_t len = what.length();
-    size_t offset = input.find( what );
+    const size_t len = what.length();
+    const size_t offset = input.find( what );
     if( offset != std::string::npos ) {
         input.replace( offset, len, with );
     }

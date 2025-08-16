@@ -167,7 +167,7 @@ void scent_map::update( const tripoint &center, map &m )
     std::array < std::array < char, 3 + ( SCENT_RADIUS * 2 ) >,
         1 + ( SCENT_RADIUS * 2 ) > squares_used_y;
 
-    diagonal_blocks( &blocked_cache )[MAPSIZE_X][MAPSIZE_Y] = m.access_cache(
+    diagonal_blocks const( &blocked_cache )[MAPSIZE_X][MAPSIZE_Y] = m.access_cache(
                 center.z ).vehicle_obstructed_cache;
 
     // for loop constants
@@ -190,7 +190,7 @@ void scent_map::update( const tripoint &center, map &m )
     for( int x = 0; x < SCENT_RADIUS * 2 + 3; ++x ) {
         for( int y = 0; y < SCENT_RADIUS * 2 + 1; ++y ) {
 
-            point abs( x + scentmap_minx - 1, y + scentmap_miny );
+            const point abs( x + scentmap_minx - 1, y + scentmap_miny );
 
             // remember the sum of the scent val for the 3 neighboring squares that can defuse into
             sum_3_scent_y[y][x] = 0;

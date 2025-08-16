@@ -129,7 +129,7 @@ void Character::recalc_speed_bonus()
             if( i.second.is_removed() ) {
                 continue;
             }
-            bool reduced = resists_effect( i.second );
+            const bool reduced = resists_effect( i.second );
             mod_speed_bonus( i.second.get_mod( "SPEED", reduced ) );
         }
     }
@@ -160,14 +160,14 @@ void Character::recalc_speed_bonus()
         mod_speed_bonus( -20 );
     }
 
-    float speed_modifier = Character::mutation_value( "speed_modifier" );
+    const float speed_modifier = Character::mutation_value( "speed_modifier" );
     mod_speed_mult( speed_modifier - 1 );
 
     if( has_bionic( bio_speed ) ) { // add 10% speed bonus
         mod_speed_mult( 0.1 );
     }
 
-    double ench_bonus = enchantment_cache->calc_bonus( enchant_vals::mod::SPEED, get_speed() );
+    const double ench_bonus = enchantment_cache->calc_bonus( enchant_vals::mod::SPEED, get_speed() );
     mod_speed_bonus( ench_bonus );
 }
 
@@ -336,9 +336,9 @@ void Character::process_turn()
 
 void Character::process_one_effect( effect &it, bool is_new )
 {
-    bool reduced = resists_effect( it );
+    const bool reduced = resists_effect( it );
     double mod = 1;
-    bodypart_str_id bp = it.get_bp();
+    const bodypart_str_id bp = it.get_bp();
     int val = 0;
 
     // Still hardcoded stuff, do this first since some modify their other traits
@@ -364,9 +364,9 @@ void Character::process_one_effect( effect &it, bool is_new )
     if( val != 0 ) {
         mod = 1;
         if( is_new || it.activated( calendar::turn, "H_MOD", val, reduced, mod ) ) {
-            int bounded = bound_mod_to_vals(
-                              get_healthy_mod(), val, it.get_max_val( "H_MOD", reduced ),
-                              it.get_min_val( "H_MOD", reduced ) );
+            const int bounded = bound_mod_to_vals(
+                                    get_healthy_mod(), val, it.get_max_val( "H_MOD", reduced ),
+                                    it.get_min_val( "H_MOD", reduced ) );
             // This already applies bounds, so we pass them through.
             mod_healthy_mod( bounded, get_healthy_mod() + bounded );
         }
@@ -464,7 +464,7 @@ void Character::process_one_effect( effect &it, bool is_new )
             }
         }
         if( is_new || it.activated( calendar::turn, "PAIN", val, reduced, mod ) ) {
-            int pain_inc = bound_mod_to_vals( get_pain(), val, it.get_max_val( "PAIN", reduced ), 0 );
+            const int pain_inc = bound_mod_to_vals( get_pain(), val, it.get_max_val( "PAIN", reduced ), 0 );
             mod_pain( pain_inc );
             if( pain_inc > 0 ) {
                 character_funcs::add_pain_msg( *this, val, bp );
@@ -752,7 +752,7 @@ void Character::reset_stats()
             if( it.is_removed() ) {
                 continue;
             }
-            bool reduced = resists_effect( it );
+            const bool reduced = resists_effect( it );
             mod_str_bonus( it.get_mod( "STR", reduced ) );
             mod_dex_bonus( it.get_mod( "DEX", reduced ) );
             mod_per_bonus( it.get_mod( "PER", reduced ) );
@@ -844,7 +844,7 @@ void Character::process_items()
         primary_weapon().attempt_detach( process_item );
     }
 
-    std::vector<item *> inv_active = inv.active_items();
+    std::vector<item *> const inv_active = inv.active_items();
     for( item *tmp_it : inv_active ) {
         tmp_it->attempt_detach( process_item );
     }
@@ -859,13 +859,13 @@ void Character::process_items()
 
     // Active item processing done, now we're recharging.
     std::vector<item *> active_worn_items;
-    bool weapon_active = primary_weapon().has_flag( flag_USE_UPS ) &&
-                         primary_weapon().charges < primary_weapon().type->maximum_charges();
+    const bool weapon_active = primary_weapon().has_flag( flag_USE_UPS ) &&
+                               primary_weapon().charges < primary_weapon().type->maximum_charges();
     std::vector<size_t> active_held_items;
     int ch_UPS = 0;
     for( size_t index = 0; index < inv.size(); index++ ) {
-        item &it = inv.find_item( index );
-        itype_id identifier = it.type->get_id();
+        const item &it = inv.find_item( index );
+        const itype_id identifier = it.type->get_id();
         if( identifier == itype_UPS_off ) {
             ch_UPS += it.ammo_remaining();
         } else if( identifier == itype_adv_UPS_off ) {
@@ -903,7 +903,7 @@ void Character::process_items()
 
     // Load all items that use the UPS to their minimal functional charge,
     // The tool is not really useful if its charges are below charges_to_use
-    for( size_t index : active_held_items ) {
+    for( const size_t index : active_held_items ) {
         if( ch_UPS_used >= ch_UPS ) {
             break;
         }
@@ -972,7 +972,7 @@ void update_body_wetness( Character &who, const w_point &weather )
         int drying_chance = pr.second.get_drench_capacity();
         // Body temperature affects duration of wetness
         // Note: Using temp_conv rather than temp_cur, to better approximate environment
-        int temp_conv = pr.second.get_temp_conv();
+        const int temp_conv = pr.second.get_temp_conv();
         if( temp_conv >= BODYTEMP_SCORCHING ) {
             drying_chance *= 2;
         } else if( temp_conv >= BODYTEMP_VERY_HOT ) {
@@ -1046,7 +1046,7 @@ void do_pause( Character &who )
     if( who.has_effect( effect_onfire ) ) {
         time_duration total_removed = 0_turns;
         time_duration total_left = 0_turns;
-        bool on_ground = who.has_effect( effect_downed );
+        const bool on_ground = who.has_effect( effect_downed );
         for( const body_part bp : all_body_parts ) {
             effect &eff = who.get_effect( effect_onfire, convert_bp( bp ) );
             if( eff.is_null() ) {
@@ -1084,13 +1084,13 @@ void do_pause( Character &who )
     }
 
     if( who.in_vehicle && one_in( 8 ) ) {
-        VehicleList vehs = here.get_vehicles();
+        const VehicleList vehs = here.get_vehicles();
         vehicle *veh = nullptr;
         for( auto &v : vehs ) {
             veh = v.v;
             if( veh && veh->is_moving() && veh->player_in_control( who ) ) {
-                double exp_temp = 1 + veh->total_mass() / 400.0_kilogram +
-                                  std::abs( veh->velocity / 3200.0 );
+                const double exp_temp = 1 + veh->total_mass() / 400.0_kilogram +
+                                        std::abs( veh->velocity / 3200.0 );
                 int experience = static_cast<int>( exp_temp );
                 if( exp_temp - experience > 0 && x_in_y( exp_temp - experience, 1.0 ) ) {
                     experience++;

@@ -77,15 +77,15 @@ bool file_exist( const std::string &path )
 bool file_exist( const std::string &path )
 {
     struct stat buffer;
-    bool success = stat( path.c_str(), &buffer ) == 0;
+    const bool success = stat( path.c_str(), &buffer ) == 0;
     return success && S_ISREG( buffer.st_mode );
 }
 #endif
 
 std::string as_norm_dir( const std::string &path )
 {
-    std::filesystem::path dir = std::filesystem::path( path ) / std::filesystem::path{};
-    std::filesystem::path norm = dir.lexically_normal();
+    const std::filesystem::path dir = std::filesystem::path( path ) / std::filesystem::path{};
+    const std::filesystem::path norm = dir.lexically_normal();
     const std::string ret = norm.generic_string();
     if( ret == "." ) {
         return "./"; // TODO Change the many places that use strings instead of paths
@@ -233,7 +233,7 @@ bool is_directory_stat( const std::string &full_path )
     int stat_ret = _wstat( utf8_to_wstr( full_path ).c_str(), &result );
 #else
     struct stat result;
-    int stat_ret = stat( full_path.c_str(), &result );
+    const int stat_ret = stat( full_path.c_str(), &result );
 #endif
     if( stat_ret != 0 ) {
         const auto e_str = strerror( errno );
@@ -466,7 +466,7 @@ bool copy_file( const std::string &source_path, const std::string &dest_path )
     if( !source_stream.is_open() ) {
         return false;
     }
-    bool res = write_to_file( dest_path, [&]( std::ostream & dest_stream ) {
+    const bool res = write_to_file( dest_path, [&]( std::ostream & dest_stream ) {
         dest_stream << source_stream->rdbuf();
     }, "" );
     return res && !source_stream.fail();
