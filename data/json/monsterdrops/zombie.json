@@ -258,5 +258,41 @@
       },
       { "group": "vault_wanderer", "prob": 3 }
     ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "mon_zombie_seaweed_death_drops",
+    "entries": [
+      {
+        "distribution": [
+          { "item": "rag", "count": [ 3, 6 ], "prob": 50 },
+          { "group": "swimmer_wetsuit", "damage": [ 1, 4 ], "prob": 5 },
+          {
+            "collection": [
+              { "group": "swimmer_head", "damage": [ 1, 4 ], "prob": 75 },
+              { "group": "swimmer_torso", "damage": [ 1, 4 ], "prob": 33 },
+              { "group": "swimmer_pants", "damage": [ 1, 4 ] },
+              { "group": "swimmer_shoes", "damage": [ 1, 4 ], "prob": 25 }
+            ],
+            "prob": 45
+          }
+        ]
+      },
+      { "item": "cash_card", "charges-min": 0, "charges-max": 50000, "prob": 10 },
+      { "group": "fishing_items_trash", "count": [ 1, 3 ] },
+      { "item": "withered", "count": [ 5, 10 ] }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "mon_zombie_seaweed2_death_drops",
+    "entries": [
+      { "item": "rag", "count": [ 3, 6 ], "prob": 50 },
+      { "item": "cash_card", "charges-min": 0, "charges-max": 50000, "prob": 10 },
+      { "group": "fishing_items_trash", "count": [ 2, 4 ] },
+      { "item": "withered", "count": [ 10, 20 ] }
+    ]
   }
 ]

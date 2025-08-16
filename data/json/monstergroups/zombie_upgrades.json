@@ -170,5 +170,41 @@
     "name": "GROUP_ZOMBIE_UPGRADES_MEDICAL",
     "default": "mon_zombie_vivisector",
     "monsters": [ { "monster": "mon_zombie_conjoiner", "freq": 300, "cost_multiplier": 2 } ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_ZOMBIE_SCIENCE_UPGRADE",
+    "default": "mon_zombie_scientist_evolved_igor",
+    "monsters": [
+      { "monster": "mon_zombie_scientist_evolved_emp", "freq": 200, "cost_multiplier": 2 },
+      { "monster": "mon_zombie_scientist_evolved_possessed", "freq": 100, "cost_multiplier": 5 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_ZOMBIE_SMOKER_UPGRADE",
+    "default": "mon_zombie_smoker_evolved_grappler",
+    "monsters": [ { "monster": "mon_zombie_smoker_evolved_toxic", "freq": 250, "cost_multiplier": 5 } ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_ZOMBIE_SWIMMER_UPGRADE",
+    "default": "mon_zombie_mancroc",
+    "monsters": [
+      { "monster": "mon_zombie_squidman", "freq": 250, "cost_multiplier": 0 },
+      { "monster": "mon_zombie_seaweed", "freq": 250, "cost_multiplier": 0 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_ZOMBIE_TECHNICIAN_UPGRADE",
+    "default": "mon_zombie_technician_evolved_electric",
+    "monsters": [ { "monster": "mon_zombie_technician_evolved_iron", "freq": 500, "cost_multiplier": 5 } ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_ZOMBIE_MINER_UPGRADE",
+    "default": "mon_zombie_miner_evolved_moleman",
+    "monsters": [ { "monster": "mon_zombie_miner_evolved_shady", "freq": 300, "cost_multiplier": 2 } ]
   }
 ]
