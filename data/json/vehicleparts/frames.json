@@ -207,7 +207,8 @@
       "MUSCLE_LEGS",
       "SEAT_REQUIRES_BALANCE",
       "BOARDABLE",
-      "CONTROLS"
+      "CONTROLS",
+      "CTRL_WO_HANDS"
     ],
     "damage_reduction": { "all": 2 }
   },
