@@ -3252,7 +3252,7 @@ bool cata_tiles::draw_critter_at( const tripoint &p, lit_level ll, int &height_3
 }
 
 bool cata_tiles::draw_underwater_indicator( const tripoint &p, lit_level ll, int &height_3d,
-                                 const bool ( &invisible )[5], int z_drop )
+        const bool ( &invisible )[5], int z_drop )
 {
     if( invisible[0] ) {
         return false;
@@ -3262,7 +3262,7 @@ bool cata_tiles::draw_underwater_indicator( const tripoint &p, lit_level ll, int
         return false;
     }
     return draw_from_id_string( UNDERWATER_INDICATOR, C_NONE, empty_string, p, 0, 0, ll,
-                                        nv_goggles_activated, height_3d, z_drop );
+                                nv_goggles_activated, height_3d, z_drop );
 }
 
 bool cata_tiles::draw_zone_mark( const tripoint &p, lit_level ll, int &height_3d,

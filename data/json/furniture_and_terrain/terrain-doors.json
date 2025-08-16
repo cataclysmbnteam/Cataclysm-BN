@@ -2376,7 +2376,8 @@
       "LIQUID",
       "NO_SCENT",
       "SWIMMABLE",
-      "DEEP_WATER", "WATER_CUBE"
+      "DEEP_WATER",
+      "WATER_CUBE"
     ],
     "bash": {
       "str_min": 90,
@@ -2799,7 +2800,18 @@
     "coverage": 95,
     "roof": "t_metal_flat_roof",
     "//": "Doesn't use WELDABLE_DOOR because we want to turn it into t_door_metal_welded_bulkhead instead",
-    "flags": [ "NOITEM", "DOOR", "CONNECT_TO_WALL", "MINEABLE", "NO_SCENT", "BLOCK_WIND", "LIQUID", "NO_SCENT", "DEEP_WATER", "WATER_CUBE" ],
+    "flags": [
+      "NOITEM",
+      "DOOR",
+      "CONNECT_TO_WALL",
+      "MINEABLE",
+      "NO_SCENT",
+      "BLOCK_WIND",
+      "LIQUID",
+      "NO_SCENT",
+      "DEEP_WATER",
+      "WATER_CUBE"
+    ],
     "open": "t_door_metal_bulkhead_o_underwater",
     "oxytorch": {
       "result": "t_mdoor_frame",

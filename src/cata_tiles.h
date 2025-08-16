@@ -560,7 +560,7 @@ class cata_tiles
         bool draw_critter_at( const tripoint &p, lit_level ll, int &height_3d,
                               const bool ( &invisible )[5], int z_drop );
         bool draw_underwater_indicator( const tripoint &p, lit_level ll, int &height_3d,
-                             const bool ( &invisible )[5], int z_drop );
+                                        const bool ( &invisible )[5], int z_drop );
         bool draw_zone_mark( const tripoint &p, lit_level ll, int &height_3d,
                              const bool ( &invisible )[5], int z_drop );
         bool draw_zombie_revival_indicators( const tripoint &pos, lit_level ll, int &height_3d,
