@@ -162,7 +162,7 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
     }
 
     // If the player is *attempting to* move on the X axis, update facing direction of their sprite to match.
-    point new_d( dest_loc.xy() + point( -you.posx(), -you.posy() ) );
+    const point new_d( dest_loc.xy() + point( -you.posx(), -you.posy() ) );
 
     if( !tile_iso ) {
         if( new_d.x > 0 ) {
@@ -266,7 +266,7 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
         monster &critter = *mon_ptr;
         // Additional checking to make sure we won't take a swing at friendly monsters.
         Character &u = get_player_character();
-        monster_attitude att = critter.attitude( ( &u ) );
+        const monster_attitude att = critter.attitude( ( &u ) );
         if( critter.friendly == 0 &&
             !critter.has_effect( effect_pet ) && att != MATT_FRIEND ) {
             if( you.is_auto_moving() ) {
@@ -334,7 +334,7 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
     vehicle *const veh1 = veh_pointer_or_null( vp1 );
 
     bool veh_closed_door = false;
-    bool outside_vehicle = ( veh0 == nullptr || veh0 != veh1 );
+    const bool outside_vehicle = ( veh0 == nullptr || veh0 != veh1 );
     if( veh1 != nullptr ) {
         dpart = veh1->next_part_to_open( vp1->part_index(), outside_vehicle );
         veh_closed_door = dpart >= 0 && !veh1->part( dpart ).open;
@@ -354,12 +354,12 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
             return false;
         }
     }
-    bool toSwimmable = m.has_flag( flag_SWIMMABLE, dest_loc );
-    bool toDeepWater = m.has_flag( TFLAG_DEEP_WATER, dest_loc );
-    bool fromSwimmable = m.has_flag( flag_SWIMMABLE, you.pos() );
-    bool fromDeepWater = m.has_flag( TFLAG_DEEP_WATER, you.pos() );
-    bool fromBoat = veh0 != nullptr;
-    bool toBoat = veh1 != nullptr;
+    const bool toSwimmable = m.has_flag( flag_SWIMMABLE, dest_loc );
+    const bool toDeepWater = m.has_flag( TFLAG_DEEP_WATER, dest_loc );
+    const bool fromSwimmable = m.has_flag( flag_SWIMMABLE, you.pos() );
+    const bool fromDeepWater = m.has_flag( TFLAG_DEEP_WATER, you.pos() );
+    const bool fromBoat = veh0 != nullptr;
+    const bool toBoat = veh1 != nullptr;
     if( is_riding ) {
         if( !you.check_mount_will_move( dest_loc ) ) {
             if( you.is_auto_moving() ) {
@@ -495,7 +495,7 @@ bool avatar_action::ramp_move( avatar &you, map &m, const tripoint &dest_loc )
 
     // We're moving onto a tile with no support, check if it has a ramp below
     if( !m.has_floor_or_support( dest_loc ) ) {
-        tripoint below( dest_loc.xy(), dest_loc.z - 1 );
+        const tripoint below( dest_loc.xy(), dest_loc.z - 1 );
         if( m.has_flag( TFLAG_RAMP, below ) ) {
             // But we're moving onto one from above
             const tripoint dp = dest_loc - you.pos();
@@ -564,7 +564,7 @@ void avatar_action::swim( map &m, avatar &you, const tripoint &p )
         you.oxygen = 30 + 2 * you.str_cur;
         you.set_underwater( true );
     }
-    int movecost = you.swim_speed();
+    const int movecost = you.swim_speed();
     you.practice( skill_swimming, you.is_underwater() ? 2 : 1 );
     if( movecost >= 500 ) {
         if( !you.is_underwater() &&
@@ -583,7 +583,7 @@ void avatar_action::swim( map &m, avatar &you, const tripoint &p )
             popup( _( "You need to breathe but you can't swim!  Get to dry land, quick!" ) );
         }
     }
-    bool diagonal = ( p.x != you.posx() && p.y != you.posy() );
+    const bool diagonal = ( p.x != you.posx() && p.y != you.posy() );
     if( you.in_vehicle ) {
         m.unboard_vehicle( you.pos() );
     }
@@ -636,7 +636,7 @@ static float rate_critter( const Creature &c )
 
 void avatar_action::autoattack( avatar &you, map &m )
 {
-    int reach = you.primary_weapon().reach_range( you );
+    const int reach = you.primary_weapon().reach_range( you );
     std::vector<Creature *> critters = ranged::targetable_creatures( you, reach );
     critters.erase( std::remove_if( critters.begin(), critters.end(), []( const Creature * c ) {
         if( !c->is_npc() ) {
@@ -652,7 +652,7 @@ void avatar_action::autoattack( avatar &you, map &m )
         return;
     }
 
-    Creature &best = **std::max_element( critters.begin(), critters.end(),
+    const Creature &best = **std::max_element( critters.begin(), critters.end(),
     []( const Creature * l, const Creature * r ) {
         return rate_critter( *l ) > rate_critter( *r );
     } );
@@ -756,7 +756,7 @@ bool avatar_action::can_fire_turret( avatar &you, const map &m, const turret_dat
     std::vector<std::string> messages;
 
     for( const std::pair<const gun_mode_id, gun_mode> &mode_map : weapon.gun_all_modes() ) {
-        bool can_use_mode = ranged::gunmode_checks_common( you, m, messages, mode_map.second );
+        const bool can_use_mode = ranged::gunmode_checks_common( you, m, messages, mode_map.second );
         if( can_use_mode ) {
             return true;
         }
@@ -770,7 +770,7 @@ bool avatar_action::can_fire_turret( avatar &you, const map &m, const turret_dat
 
 void avatar_action::fire_wielded_weapon( avatar &you )
 {
-    item &weapon = you.primary_weapon();
+    const item &weapon = you.primary_weapon();
     if( weapon.is_gunmod() ) {
         add_msg( m_info,
                  _( "The %s must be attached to a gun, it can not be fired separately." ),
@@ -780,7 +780,7 @@ void avatar_action::fire_wielded_weapon( avatar &you )
         return;
     } else if( weapon.ammo_data() && weapon.type->gun &&
                !weapon.ammo_types().contains( weapon.ammo_data()->ammo->type ) ) {
-        std::string ammoname = weapon.ammo_current()->nname( 1 );
+        const std::string ammoname = weapon.ammo_current()->nname( 1 );
         add_msg( m_info, _( "The %s can't be fired while loaded with incompatible ammunition %s" ),
                  weapon.tname(), ammoname );
         return;
@@ -947,7 +947,7 @@ void avatar_action::plthrow( avatar &you, item *loc,
         return;
     }
 
-    int range = you.throw_range( *loc );
+    const int range = you.throw_range( *loc );
     if( range < 0 ) {
         add_msg( m_info, _( "You don't have that item." ) );
         return;
@@ -973,7 +973,7 @@ void avatar_action::plthrow( avatar &you, item *loc,
     }
     // if you're wearing the item you need to be able to take it off
     if( you.is_wearing( loc->typeId() ) ) {
-        ret_val<bool> ret = you.can_takeoff( *loc );
+        const ret_val<bool> ret = you.can_takeoff( *loc );
         if( !ret.success() ) {
             add_msg( m_info, "%s", ret.c_str() );
             return;
@@ -982,7 +982,7 @@ void avatar_action::plthrow( avatar &you, item *loc,
     // you must wield the item to throw it
     // But only if you don't have enough free hands
     const auto &wielded = you.wielded_items();
-    int required_arms = std::accumulate( wielded.begin(), wielded.end(), 0,
+    const int required_arms = std::accumulate( wielded.begin(), wielded.end(), 0,
     [&you]( int acc, const item * it ) {
         return acc + ( it->is_two_handed( you ) ? 2 : 1 );
     } );
@@ -1076,8 +1076,8 @@ void avatar_action::wield( item &loc )
 
     // Can't use loc.obtain() here because that would cause things to spill.
     item *to_wield = &loc;
-    item_location_type location_type = loc.where();
-    tripoint pos = loc.position();
+    const item_location_type location_type = loc.where();
+    const tripoint pos = loc.position();
     int worn_index = INT_MIN;
     if( u.is_worn( loc ) ) {
         auto ret = u.can_takeoff( loc );
@@ -1085,7 +1085,7 @@ void avatar_action::wield( item &loc )
             add_msg( m_info, "%s", ret.c_str() );
             return;
         }
-        int item_pos = u.get_item_position( &loc );
+        const int item_pos = u.get_item_position( &loc );
         if( item_pos != INT_MIN ) {
             worn_index = Character::worn_position_to_index( item_pos );
         }
@@ -1228,7 +1228,7 @@ void avatar_action::reload( item &loc, bool prompt, bool empty )
         return;
     }
 
-    item_reload_option opt = favorite_ammo_or_select( u, *it, empty, prompt );
+    const item_reload_option opt = favorite_ammo_or_select( u, *it, empty, prompt );
 
     if( opt.ammo == nullptr ) {
         return;
@@ -1267,7 +1267,7 @@ void avatar_action::reload_item()
 
 void avatar_action::reload_wielded( bool prompt )
 {
-    avatar &u = get_avatar();
+    const avatar &u = get_avatar();
     for( item *it : u.wielded_items() ) {
         if( it->is_reloadable() ) {
             reload( *it, prompt );
@@ -1288,7 +1288,7 @@ void avatar_action::reload_weapon( bool try_everything )
     // Reload other guns in inventory.
     // Reload misc magazines in inventory.
     avatar &u = get_avatar();
-    map &here = get_map();
+    const map &here = get_map();
     std::set<itype_id> compatible_magazines;
     for( const item *gun : u.wielded_items() ) {
         const std::set<itype_id> &mags = gun->magazine_compatible();
@@ -1334,7 +1334,7 @@ void avatar_action::reload_weapon( bool try_everything )
     vehicle *veh = veh_pointer_or_null( here.veh_at( u.pos() ) );
     turret_data turret;
     if( veh && ( turret = veh->turret_query( u.pos() ) ) && turret.can_reload() ) {
-        item_reload_option opt = character_funcs::select_ammo( u, turret.base(), true );
+        const item_reload_option opt = character_funcs::select_ammo( u, turret.base(), true );
         if( opt ) {
             u.assign_activity( std::make_unique<player_activity>( activity_id( "ACT_RELOAD" ), opt.moves(),
                                opt.qty() ) );

@@ -40,7 +40,7 @@ generic_factory<recipe_group_data> recipe_groups_data( "recipe group type" );
 void recipe_group_data::load( const JsonObject &jo, const std::string & )
 {
     building_type = jo.get_string( "building_type" );
-    for( JsonObject ordering : jo.get_array( "recipes" ) ) {
+    for( const JsonObject ordering : jo.get_array( "recipes" ) ) {
         recipe_id name_id;
         ordering.read( "id", name_id );
         translation desc;
@@ -90,7 +90,7 @@ std::map<recipe_id, translation> recipe_group::get_recipes_by_id( const std::str
     }
     const recipe_group_data &group = recipe_groups_data.obj( group_id( id ) );
     if( om_terrain_id != "ANY" ) {
-        std::string base_om_ter_id = oter_no_dir( oter_id( om_terrain_id ) );
+        const std::string base_om_ter_id = oter_no_dir( oter_id( om_terrain_id ) );
 
         for( const auto &recp : group.recipes ) {
             const auto &recp_terrain = group.om_terrains.find( recp.first );

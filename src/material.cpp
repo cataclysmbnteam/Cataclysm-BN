@@ -83,7 +83,7 @@ void material_type::load( const JsonObject &jsobj, const std::string & )
     optional( jsobj, was_loaded, "soft", _soft, false );
     optional( jsobj, was_loaded, "reinforces", _reinforces, false );
 
-    for( JsonArray pair : jsobj.get_array( "vitamins" ) ) {
+    for( const JsonArray pair : jsobj.get_array( "vitamins" ) ) {
         _vitamins.emplace( vitamin_id( pair.get_string( 0 ) ), pair.get_float( 1 ) );
     }
 
@@ -93,7 +93,7 @@ void material_type::load( const JsonObject &jsobj, const std::string & )
     mandatory( jsobj, was_loaded, "dmg_adj", _dmg_adj, string_reader() );
 
     if( jsobj.has_array( "burn_data" ) ) {
-        for( JsonObject brn : jsobj.get_array( "burn_data" ) ) {
+        for( const JsonObject brn : jsobj.get_array( "burn_data" ) ) {
             _burn_data.emplace_back( load_mat_burn_data( brn ) );
         }
     }
@@ -331,7 +331,7 @@ std::set<material_id> materials::get_rotting()
 
     // freshly created version is guaranteed to be invalid
     if( !material_data.is_valid( version ) ) {
-        material_list all = get_all();
+        const material_list all = get_all();
         rotting.clear();
         for( const material_type &m : all ) {
             if( m.rotting() ) {

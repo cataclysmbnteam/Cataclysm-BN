@@ -495,10 +495,10 @@ void submap::rotate( int turns )
                  *   As you can see, this causes the desired rotation.
                  */
 
-                point p1 = point( i, j );
-                point p2 = rotate_point( p1 );
-                point p3 = rotate_point( p2 );
-                point p4 = rotate_point( p3 );
+                const point p1 = point( i, j );
+                const point p2 = rotate_point( p1 );
+                const point p3 = rotate_point( p2 );
+                const point p4 = rotate_point( p3 );
 
                 swap_soa_tile( p1, p2 );
                 swap_soa_tile( p1, p3 );

@@ -14,7 +14,7 @@ void nutrients::min_in_place( const nutrients &r )
     kcal = std::min( kcal, r.kcal );
     for( const std::pair<const vitamin_id, vitamin> &vit_pair : vitamin::all() ) {
         const vitamin_id &vit = vit_pair.first;
-        int other = r.get_vitamin( vit );
+        const int other = r.get_vitamin( vit );
         if( other == 0 ) {
             vitamins.erase( vit );
         } else {
@@ -31,7 +31,7 @@ void nutrients::max_in_place( const nutrients &r )
     kcal = std::max( kcal, r.kcal );
     for( const std::pair<const vitamin_id, vitamin> &vit_pair : vitamin::all() ) {
         const vitamin_id &vit = vit_pair.first;
-        int other = r.get_vitamin( vit );
+        const int other = r.get_vitamin( vit );
         if( other != 0 ) {
             int &val = vitamins[vit];
             val = std::max( val, other );
@@ -117,7 +117,7 @@ void stomach_contents::serialize( JsonOut &json ) const
 
 void stomach_contents::deserialize( JsonIn &json )
 {
-    JsonObject jo = json.get_object();
+    const JsonObject jo = json.get_object();
     jo.read( "vitamins", nutr.vitamins );
     jo.read( "calories", nutr.kcal );
     jo.read( "last_ate", last_ate );
@@ -132,16 +132,16 @@ void stomach_contents::ingest( const food_summary &ingested )
 food_summary stomach_contents::digest( const needs_rates &metabolic_rates, int five_mins )
 {
     food_summary digested{};
-    stomach_digest_rates rates = get_digest_rates( metabolic_rates );
+    const stomach_digest_rates rates = get_digest_rates( metabolic_rates );
 
     // Digest kCal -- use min_kcal by default, but no more than what's in stomach,
     // and no less than percentage_kcal of what's in stomach.
-    int kcal_fraction = std::lround( nutr.kcal * rates.percent_kcal );
+    const int kcal_fraction = std::lround( nutr.kcal * rates.percent_kcal );
     digested.nutr.kcal = clamp( five_mins * rates.min_kcal, five_mins * kcal_fraction, nutr.kcal );
 
     // Digest vitamins just like we did kCal, but we need to do one at a time.
     for( const std::pair<const vitamin_id, int> &vit : nutr.vitamins ) {
-        int vit_fraction = std::lround( vit.second * rates.percent_vitamin );
+        const int vit_fraction = std::lround( vit.second * rates.percent_vitamin );
         digested.nutr.vitamins[vit.first] =
             five_mins * clamp( rates.min_vitamin, vit_fraction, vit.second );
     }

@@ -14,7 +14,7 @@ static int test_face_size( const std::string &f, int size, int faceIndex )
     if( font ) {
         const char *font_style = TTF_FontFaceStyleName( font.get() );
         if( font_style != nullptr ) {
-            int num_faces = TTF_FontFaces( font.get() );
+            const int num_faces = TTF_FontFaces( font.get() );
             for( int face_i = num_faces - 1; face_i >= 0; face_i-- ) {
                 const TTF_Font_Ptr face( TTF_OpenFontIndex( f.c_str(), size, face_i ) );
                 if( !face ) {
@@ -80,7 +80,7 @@ std::unique_ptr<Font> Font::load_font( SDL_Renderer_Ptr &renderer, SDL_PixelForm
 void Font::draw_ascii_lines( const SDL_Renderer_Ptr &renderer, const GeometryRenderer_Ptr &geometry,
                              unsigned char line_id, point p, unsigned char color ) const
 {
-    SDL_Color sdl_color = palette[color];
+    const SDL_Color sdl_color = palette[color];
     switch( line_id ) {
         // box bottom/top side (horizontal line)
         case LINE_OXOX_C:
@@ -226,7 +226,7 @@ CachedTTFFont::CachedTTFFont(
 {
     int faceIndex = 0;
     std::vector<std::string> typefaces;
-    std::vector<std::string> known_suffixes = { ".ttf", ".otf", ".ttc", ".fon" };
+    const std::vector<std::string> known_suffixes = { ".ttf", ".otf", ".ttc", ".fon" };
     bool add_suffix = true;
     for( const std::string &ks : known_suffixes ) {
         if( typeface.ends_with( ks ) ) {
@@ -393,7 +393,7 @@ void CachedTTFFont::OutputChar( const SDL_Renderer_Ptr &renderer, const Geometry
         // Nothing we can do here )-:
         return;
     }
-    SDL_Rect rect {p.x, p.y, value.width, height};
+    const SDL_Rect rect {p.x, p.y, value.width, height};
     if( opacity != 1.0f ) {
         SDL_SetTextureAlphaMod( value.texture.get(), opacity * 255.0f );
     }
@@ -417,7 +417,7 @@ BitmapFont::BitmapFont(
     if( asciiload->w * asciiload->h < ( width * height * 256 ) ) {
         throw std::runtime_error( "bitmap for font is to small" );
     }
-    Uint32 key = SDL_MapRGB( asciiload->format, 0xFF, 0, 0xFF );
+    const Uint32 key = SDL_MapRGB( asciiload->format, 0xFF, 0, 0xFF );
     SDL_SetColorKey( asciiload.get(), SDL_TRUE, key );
     SDL_Surface_Ptr ascii_surf[std::tuple_size<decltype( ascii )>::value];
     ascii_surf[0].reset( SDL_ConvertSurface( asciiload.get(), format.get(), 0 ) );
@@ -431,9 +431,10 @@ BitmapFont::BitmapFont(
 
     for( size_t a = 0; a < std::tuple_size<decltype( ascii )>::value - 1; ++a ) {
         SDL_LockSurface( ascii_surf[a].get() );
-        int size = ascii_surf[a]->h * ascii_surf[a]->w;
+        const int size = ascii_surf[a]->h * ascii_surf[a]->w;
         Uint32 *pixels = static_cast<Uint32 *>( ascii_surf[a]->pixels );
-        Uint32 color = ( windowsPalette[a].r << 16 ) | ( windowsPalette[a].g << 8 ) | windowsPalette[a].b;
+        const Uint32 color = ( windowsPalette[a].r << 16 ) | ( windowsPalette[a].g << 8 ) |
+                             windowsPalette[a].b;
         for( int i = 0; i < size; i++ ) {
             if( pixels[i] == 0xFFFFFF ) {
                 pixels[i] = color;

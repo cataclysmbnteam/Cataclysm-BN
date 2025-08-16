@@ -14,7 +14,7 @@ void font_loader::load_throws( const std::string &path )
     try {
         cata_ifstream stream = std::move( cata_ifstream().mode( cata_ios_mode::binary ).open( path ) );
         JsonIn json( *stream );
-        JsonObject config = json.get_object();
+        const JsonObject config = json.get_object();
         if( config.has_string( "typeface" ) ) {
             typeface.emplace_back( config.get_string( "typeface" ) );
         } else {
@@ -54,7 +54,7 @@ void font_loader::load()
         }
     }
     if( try_user ) {
-        font_loader copy = *this;
+        const font_loader copy = *this;
         try {
             load_throws( user_fontconfig );
             return;

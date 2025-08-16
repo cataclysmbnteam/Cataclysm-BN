@@ -134,7 +134,7 @@ bool character_martial_arts::pick_style( const avatar &you )  // Style selection
     }
 
     kmenu.query();
-    int selection = kmenu.ret;
+    const int selection = kmenu.ret;
 
     if( selection >= STYLE_OFFSET ) {
         style_selected = selectable_styles[selection - STYLE_OFFSET];
@@ -254,7 +254,7 @@ void character_martial_arts::serialize( JsonOut &json ) const
 
 void character_martial_arts::deserialize( JsonIn &jsin )
 {
-    JsonObject data = jsin.get_object();
+    const JsonObject data = jsin.get_object();
     data.read( "ma_styles", ma_styles );
     data.read( "keep_hands_free", keep_hands_free );
     data.read( "style_selected", style_selected );

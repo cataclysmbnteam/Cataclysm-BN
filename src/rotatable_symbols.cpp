@@ -48,7 +48,7 @@ void load( const JsonObject &jo, const std::string &src )
     }
     std::vector<uint32_t> tuple;
     tuple.reserve( tuple_temp.size() );
-    for( std::string &elem : tuple_temp ) {
+    for( const std::string &elem : tuple_temp ) {
         tuple.emplace_back( UTF8_getch( elem ) );
     }
 

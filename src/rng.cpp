@@ -96,7 +96,7 @@ int dice( int number, int sides )
 int roll_remainder( double value )
 {
     double integ;
-    double frac = modf( value, &integ );
+    const double frac = modf( value, &integ );
     if( value > 0.0 && value > integ && x_in_y( frac, 1.0 ) ) {
         integ++;
     } else if( value < 0.0 && value < integ && x_in_y( -frac, 1.0 ) ) {
@@ -129,7 +129,7 @@ double rng_normal( double lo, double hi )
     if( stddev == 0.0 ) {
         return hi;
     }
-    double val = normal_roll( ( hi + lo ) / 2, stddev );
+    const double val = normal_roll( ( hi + lo ) / 2, stddev );
     return clamp( val, lo, hi );
 }
 

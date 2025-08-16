@@ -185,7 +185,7 @@ struct value_constraint {
     }
 
     void deserialize( JsonIn &jsin ) {
-        JsonObject jo = jsin.get_object();
+        const JsonObject jo = jsin.get_object();
         int equals_int;
         if( jo.read( "equals", equals_int, false ) ) {
             equals_ = cata_variant::make<cata_variant_type::int_>( equals_int );
@@ -219,7 +219,7 @@ struct value_constraint {
                 return;
             }
 
-            cata_variant_type stat_type = ( *equals_statistic_ )->type();
+            const cata_variant_type stat_type = ( *equals_statistic_ )->type();
             if( stat_type != input_type ) {
                 debugmsg( "constraint for event_transformation %s matches statistic %s of "
                           "different type.  Statistic has type %s but value compared with it has "
@@ -250,7 +250,7 @@ struct new_field {
     std::string input_field;
 
     void deserialize( JsonIn &jsin ) {
-        JsonObject jo = jsin.get_object();
+        const JsonObject jo = jsin.get_object();
         if( jo.size() != 1 ) {
             jo.throw_error( "new field specifications must have exactly one entry" );
         }
@@ -435,7 +435,7 @@ struct event_transformation_impl : public event_transformation::impl {
                                      stats_tracker &stats ) const {
         EventVector result = { input_data };
         for( const std::pair<std::string, new_field> &p : new_fields_ ) {
-            EventVector before_this_pass = std::move( result );
+            const EventVector before_this_pass = std::move( result );
             result.clear();
             for( const cata::event::data_type &data : before_this_pass ) {
                 EventVector from_this_event = p.second.transform( data, p.first );
@@ -472,9 +472,9 @@ struct event_transformation_impl : public event_transformation::impl {
         event_multiset result;
 
         for( const std::pair<const cata::event::data_type, int> &p : input ) {
-            cata::event::data_type event_data = p.first;
-            EventVector transformed = match_and_transform( event_data, stats );
-            for( cata::event::data_type &d : transformed ) {
+            const cata::event::data_type event_data = p.first;
+            const EventVector transformed = match_and_transform( event_data, stats );
+            for( const cata::event::data_type &d : transformed ) {
                 result.add( { d, p.second } );
             }
         }
@@ -534,7 +534,7 @@ struct event_transformation_impl : public event_transformation::impl {
         void event_added( const cata::event &e, stats_tracker &stats ) override {
             EventVector transformed = transformation_->match_and_transform( e.data(), stats );
             for( cata::event::data_type &d : transformed ) {
-                cata::event new_event( e.type(), e.time(), std::move( d ) );
+                const cata::event new_event( e.type(), e.time(), std::move( d ) );
                 data_.add( new_event );
                 stats.transformed_set_changed( transformation_->id_, new_event );
             }
@@ -633,7 +633,7 @@ struct event_statistic_count : event_statistic::impl {
     cata::clone_ptr<event_source> source;
 
     cata_variant value( stats_tracker &stats ) const override {
-        int count = source->get( stats ).count();
+        const int count = source->get( stats ).count();
         return cata_variant::make<cata_variant_type::int_>( count );
     }
 
@@ -686,7 +686,7 @@ struct event_statistic_total : event_statistic::impl {
     std::string field;
 
     cata_variant value( stats_tracker &stats ) const override {
-        int total = source->get( stats ).total( field );
+        const int total = source->get( stats ).total( field );
         return cata_variant::make<cata_variant_type::int_>( total );
     }
 
@@ -748,7 +748,7 @@ struct event_statistic_maximum : event_statistic::impl {
     std::string field;
 
     cata_variant value( stats_tracker &stats ) const override {
-        int maximum = source->get( stats ).maximum( field );
+        const int maximum = source->get( stats ).maximum( field );
         return cata_variant::make<cata_variant_type::int_>( maximum );
     }
 
@@ -813,7 +813,7 @@ struct event_statistic_minimum : event_statistic::impl {
     std::string field;
 
     cata_variant value( stats_tracker &stats ) const override {
-        int minimum = source->get( stats ).minimum( field );
+        const int minimum = source->get( stats ).minimum( field );
         return cata_variant::make<cata_variant_type::int_>( minimum );
     }
 
@@ -1027,8 +1027,8 @@ monotonically event_statistic::monotonicity() const
 
 std::string score::description( stats_tracker &stats ) const
 {
-    cata_variant val = value( stats );
-    std::string value_string = value( stats ).get_string();
+    const cata_variant val = value( stats );
+    const std::string value_string = value( stats ).get_string();
     std::string desc;
     if( val.type() == cata_variant_type::int_ ) {
         desc = stat_->description().translated( val.get<int>() );

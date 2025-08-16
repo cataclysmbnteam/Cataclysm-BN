@@ -270,7 +270,7 @@ void addict_effect( Character &u, addiction &add )
  * Returns the name of an addiction. It should be able to finish the sentence
  * "Became addicted to ______".
  */
-std::string addiction_type_name( add_type const cur )
+std::string addiction_type_name( const add_type cur )
 {
     static const std::map<add_type, std::string> type_map = {{
             { add_type::CIG, translate_marker( "nicotine" ) },
@@ -324,7 +324,7 @@ std::string addiction_name( const addiction &cur )
     return "Erroneous addiction";
 }
 
-morale_type addiction_craving( add_type const cur )
+morale_type addiction_craving( const add_type cur )
 {
     static const std::map<add_type, morale_type> type_map = {{
             { add_type::CIG, MORALE_CRAVING_NICOTINE },

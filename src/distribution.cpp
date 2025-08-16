@@ -71,7 +71,7 @@ struct poisson_distribution : int_distribution_impl {
     }
 
     std::string description() const override {
-        std::poisson_distribution<int> dist( mean );
+        const std::poisson_distribution<int> dist( mean );
         return string_format( "Poisson(%.0f)", dist.mean() );
     }
 };
@@ -122,15 +122,15 @@ std::string int_distribution::description() const
 void int_distribution::deserialize( JsonIn &jsin )
 {
     if( jsin.test_int() ) {
-        int v = jsin.get_int();
+        const int v = jsin.get_int();
         impl_ = make_shared_fast<fixed_distribution>( v );
     } else if( jsin.test_object() ) {
-        JsonObject jo = jsin.get_object();
+        const JsonObject jo = jsin.get_object();
         if( jo.has_member( "poisson" ) ) {
-            double mean = jo.get_float( "poisson", true );
+            const double mean = jo.get_float( "poisson", true );
             impl_ = make_shared_fast<poisson_distribution>( mean );
         } else if( jo.has_member( "chance" ) ) {
-            double chance = jo.get_float( "chance", true );
+            const double chance = jo.get_float( "chance", true );
             impl_ = make_shared_fast<chance_distribution>( chance );
         } else {
             jo.throw_error( R"(Expected "poisson" member)" );

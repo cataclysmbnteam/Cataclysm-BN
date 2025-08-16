@@ -165,7 +165,7 @@ detached_ptr<item> vehicle_part::properties_to_item() const
                     tmp->reset_cable();
                 }
                 if( !has_flag( targets_grid ) ) {
-                    map &here = get_map();
+                    const map &here = get_map();
                     const tripoint local_pos = here.getlocal( target.first );
                     if( !here.veh_at( local_pos ) ) {
                         // That vehicle ain't there no more.
@@ -417,7 +417,7 @@ double vehicle_part::consume_energy( const itype_id &ftype, double energy_j )
             fuel.charges -= charges_to_use;
         }
         //TODO!: push up
-        item &fuel_consumed = *item::spawn_temporary( ftype, calendar::turn, charges_to_use );
+        const item &fuel_consumed = *item::spawn_temporary( ftype, calendar::turn, charges_to_use );
         return energy_p_mL * units::to_milliliter<int>( fuel_consumed.volume( true ) );
     }
     return 0.0;

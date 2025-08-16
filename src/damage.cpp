@@ -80,7 +80,7 @@ damage_instance::damage_instance( damage_type dt, float amt, float arpen, float 
 void damage_instance::add_damage( damage_type dt, float amt, float arpen, float arpen_mult,
                                   float dmg_mult )
 {
-    damage_unit du( dt, amt, arpen, arpen_mult, dmg_mult );
+    const damage_unit du( dt, amt, arpen, arpen_mult, dmg_mult );
     add( du );
 }
 
@@ -217,7 +217,7 @@ void damage_instance::deserialize( JsonIn &jsin )
 {
     // TODO: Clean up
     if( jsin.test_object() ) {
-        JsonObject jo = jsin.get_object();
+        const JsonObject jo = jsin.get_object();
         *this = load_damage_instance( jo );
     } else if( jsin.test_array() ) {
         *this = load_damage_instance( jsin.get_array() );
@@ -260,7 +260,7 @@ resistances::resistances( const item &armor, bool to_self )
     // Armors protect, but all items can resist
     if( to_self || armor.is_armor() ) {
         for( int i = 0; i < NUM_DT; i++ ) {
-            damage_type dt = static_cast<damage_type>( i );
+            const damage_type dt = static_cast<damage_type>( i );
             set_resist( dt, armor.damage_resist( dt, to_self ) );
         }
     }
@@ -380,9 +380,9 @@ std::string name_by_dt( const damage_type &dt )
 
 const skill_id &skill_by_dt( damage_type dt )
 {
-    static skill_id skill_bashing( "bashing" );
-    static skill_id skill_cutting( "cutting" );
-    static skill_id skill_stabbing( "stabbing" );
+    static const skill_id skill_bashing( "bashing" );
+    static const skill_id skill_cutting( "cutting" );
+    static const skill_id skill_stabbing( "stabbing" );
 
     switch( dt ) {
         case DT_BASH:
@@ -401,19 +401,19 @@ const skill_id &skill_by_dt( damage_type dt )
 
 static damage_unit load_damage_unit( const JsonObject &curr )
 {
-    damage_type dt = dt_by_name( curr.get_string( "damage_type" ) );
+    const damage_type dt = dt_by_name( curr.get_string( "damage_type" ) );
     if( dt == DT_NULL ) {
         curr.throw_error( "Invalid damage type" );
     }
 
-    float amount = curr.get_float( "amount", 0 );
-    float arpen = curr.get_float( "armor_penetration", 0 );
-    float armor_mul = curr.get_float( "armor_multiplier", 1.0f );
-    float damage_mul = curr.get_float( "damage_multiplier", 1.0f );
+    const float amount = curr.get_float( "amount", 0 );
+    const float arpen = curr.get_float( "armor_penetration", 0 );
+    const float armor_mul = curr.get_float( "armor_multiplier", 1.0f );
+    const float damage_mul = curr.get_float( "damage_multiplier", 1.0f );
 
     // Legacy
-    float unc_armor_mul = curr.get_float( "constant_armor_multiplier", 1.0f );
-    float unc_damage_mul = curr.get_float( "constant_damage_multiplier", 1.0f );
+    const float unc_armor_mul = curr.get_float( "constant_armor_multiplier", 1.0f );
+    const float unc_damage_mul = curr.get_float( "constant_damage_multiplier", 1.0f );
 
     return damage_unit( dt, amount, arpen, armor_mul * unc_armor_mul, damage_mul * unc_damage_mul );
 }
@@ -499,23 +499,23 @@ damage_instance load_damage_instance_inherit( const JsonArray &jarr, const damag
 std::map<damage_type, float> load_damage_map( const JsonObject &jo )
 {
     std::map<damage_type, float> ret;
-    std::optional<float> init_val = jo.has_float( "all" ) ?
-                                    jo.get_float( "all", 0.0f ) :
-                                    std::optional<float>();
+    const std::optional<float> init_val = jo.has_float( "all" ) ?
+                                          jo.get_float( "all", 0.0f ) :
+                                          std::optional<float>();
 
     auto load_if_present = [&ret, &jo]( const std::string & name, damage_type dt,
     std::optional<float> fallback ) {
         if( jo.has_float( name ) ) {
-            float val = jo.get_float( name );
+            const float val = jo.get_float( name );
             ret[dt] = val;
         } else if( fallback ) {
             ret[dt] = *fallback;
         }
     };
 
-    std::optional<float> phys = jo.has_float( "physical" ) ?
-                                jo.get_float( "physical", 0.0f ) :
-                                std::optional<float>();
+    const std::optional<float> phys = jo.has_float( "physical" ) ?
+                                      jo.get_float( "physical", 0.0f ) :
+                                      std::optional<float>();
 
 
     load_if_present( "bash", DT_BASH, phys ? phys : init_val );
@@ -523,9 +523,9 @@ std::map<damage_type, float> load_damage_map( const JsonObject &jo )
     load_if_present( "stab", DT_STAB, phys ? phys : init_val );
     load_if_present( "bullet", DT_BULLET, phys ? phys : init_val );
 
-    std::optional<float> non_phys = jo.has_float( "non_physical" ) ?
-                                    jo.get_float( "non_physical", 0.0f ) :
-                                    std::optional<float>();
+    const std::optional<float> non_phys = jo.has_float( "non_physical" ) ?
+                                          jo.get_float( "non_physical", 0.0f ) :
+                                          std::optional<float>();
 
     load_if_present( "biological", DT_BIOLOGICAL, non_phys ? non_phys : init_val );
     load_if_present( "acid", DT_ACID, non_phys ? non_phys : init_val );
@@ -557,17 +557,17 @@ bool assign( const JsonObject &jo,
     // values
     JsonObject err = jo;
     err.allow_omitted_members();
-    JsonObject relative = jo.get_object( "relative" );
+    const JsonObject relative = jo.get_object( "relative" );
     relative.allow_omitted_members();
-    JsonObject proportional = jo.get_object( "proportional" );
+    const JsonObject proportional = jo.get_object( "proportional" );
     proportional.allow_omitted_members();
 
     if( relative.has_member( name ) ) {
         err = relative;
-        JsonObject jo_relative = err.get_member( name );
+        const JsonObject jo_relative = err.get_member( name );
         const resistances tmp = load_resistances_instance( err );
         for( size_t i = 0; i < val.flat.size(); i++ ) {
-            damage_type dt = static_cast<damage_type>( i );
+            const damage_type dt = static_cast<damage_type>( i );
             auto iter = tmp.flat.find( dt );
             if( iter != tmp.flat.end() ) {
                 val.flat[dt] += iter->second;
@@ -576,10 +576,10 @@ bool assign( const JsonObject &jo,
 
     } else if( proportional.has_member( name ) ) {
         err = relative;
-        JsonObject jo_proportional = err.get_member( name );
+        const JsonObject jo_proportional = err.get_member( name );
         resistances tmp = load_resistances_instance( err );
         for( size_t i = 0; i < val.flat.size(); i++ ) {
-            damage_type dt = static_cast<damage_type>( i );
+            const damage_type dt = static_cast<damage_type>( i );
             auto iter = tmp.flat.find( dt );
             if( iter != tmp.flat.end() ) {
                 val.flat[dt] *= iter->second;
@@ -587,7 +587,7 @@ bool assign( const JsonObject &jo,
         }
 
     } else if( jo.has_object( name ) ) {
-        JsonObject jo_inner = jo.get_object( name );
+        const JsonObject jo_inner = jo.get_object( name );
         val = load_resistances_instance( jo_inner );
     }
 

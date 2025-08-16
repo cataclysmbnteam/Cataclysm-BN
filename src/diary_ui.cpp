@@ -82,9 +82,9 @@ void print_list_scrollable( catacurses::window *win, const std::string &text, in
                             int entries_per_page, int xoffset, int width, bool active, bool border,
                             const report_color_error color_error )
 {
-    int border_space = border ? 1 : 0;
+    const int border_space = border ? 1 : 0;
     // -1 on the left for scroll bar and another -1 on the right reserved for cursor
-    std::vector<std::string> list = foldstring( text, width - 2 - ( border_space * 2 ) );
+    const std::vector<std::string> list = foldstring( text, width - 2 - ( border_space * 2 ) );
     print_list_scrollable( win, list, selection, entries_per_page, xoffset, width, active, border,
                            color_error );
 }
@@ -166,7 +166,7 @@ static int uis_padding()
 
 void diary::show_diary_ui( diary *c_diary )
 {
-    catacurses::window w_diary;
+    const catacurses::window w_diary;
     catacurses::window w_pages; // pages window, left of diary
     catacurses::window w_text; // right part of diary
     catacurses::window w_changes; // left part of diary
@@ -193,10 +193,10 @@ void diary::show_diary_ui( diary *c_diary )
     ui_adaptor ui_diary;
     ui_diary.on_screen_resize( [&]( ui_adaptor & ui ) {
         const std::pair<point, point> beg_and_max = diary_window_position();
-        point beg = ( uis_padding() != 0 ) ? point( uis_padding() + ( MAX_DAIRY_UI_WIDTH / 4 ) - 3,
-                    beg_and_max.first.y - 1 ) : beg_and_max.first + point( uis_padding() - 3, -1 );
-        point max = point( TERMX - beg.x - 5,
-                           beg_and_max.second.y ) - point( uis_padding(), 0 );
+        const point beg = ( uis_padding() != 0 ) ? point( uis_padding() + ( MAX_DAIRY_UI_WIDTH / 4 ) - 3,
+                          beg_and_max.first.y - 1 ) : beg_and_max.first + point( uis_padding() - 3, -1 );
+        const point max = point( TERMX - beg.x - 5,
+                                 beg_and_max.second.y ) - point( uis_padding(), 0 );
         const int midx = max.x / 2;
 
         w_changes = catacurses::newwin( max.y - 3, midx - 1, beg + point_south );
@@ -231,8 +231,8 @@ void diary::show_diary_ui( diary *c_diary )
     ui_adaptor ui_pages;
     ui_pages.on_screen_resize( [&]( ui_adaptor & ui ) {
         const std::pair<point, point> beg_and_max = diary_window_position();
-        point beg = beg_and_max.first;
-        point max = beg_and_max.second;
+        const point beg = beg_and_max.first;
+        const point max = beg_and_max.second;
 
         w_pages = catacurses::newwin( max.y + 5,
                                       ( uis_padding() != 0 ) ? ( MAX_DAIRY_UI_WIDTH / 4 ) - 7 : beg.x - 7, point( uis_padding(),
@@ -255,7 +255,7 @@ void diary::show_diary_ui( diary *c_diary )
     ui_adaptor ui_desc;
     ui_desc.on_screen_resize( [&]( ui_adaptor & ui ) {
         const std::pair<point, point> beg_and_max = diary_window_position();
-        point beg = beg_and_max.first;
+        const point beg = beg_and_max.first;
 
         w_desc = catacurses::newwin( 3, TERMX - ( uis_padding() * 2 ), point( uis_padding(), beg.y - 6 ) );
 
@@ -267,12 +267,12 @@ void diary::show_diary_ui( diary *c_diary )
 
         draw_border( w_desc );
         center_print( w_desc, 0, c_light_gray, string_format( _( "%s's Diary" ), c_diary->owner ) );
-        std::string desc = string_format( _( "%s, %s, %s, %s" ),
-                                          ctxt.get_desc( "NEW_PAGE", _( "New page" ), input_context::allow_all_keys ),
-                                          ctxt.get_desc( "CONFIRM", _( "Edit text" ), input_context::allow_all_keys ),
-                                          ctxt.get_desc( "DELETE PAGE", _( "Delete page" ), input_context::allow_all_keys ),
-                                          ctxt.get_desc( "EXPORT_DIARY", _( "Export diary" ), input_context::allow_all_keys )
-                                        );
+        const std::string desc = string_format( _( "%s, %s, %s, %s" ),
+                                                ctxt.get_desc( "NEW_PAGE", _( "New page" ), input_context::allow_all_keys ),
+                                                ctxt.get_desc( "CONFIRM", _( "Edit text" ), input_context::allow_all_keys ),
+                                                ctxt.get_desc( "DELETE PAGE", _( "Delete page" ), input_context::allow_all_keys ),
+                                                ctxt.get_desc( "EXPORT_DIARY", _( "Export diary" ), input_context::allow_all_keys )
+                                              );
         center_print( w_desc, 1, c_white, desc );
 
         wnoutrefresh( w_desc );
@@ -281,8 +281,8 @@ void diary::show_diary_ui( diary *c_diary )
     ui_adaptor ui_info;
     ui_info.on_screen_resize( [&]( ui_adaptor & ui ) {
         const std::pair<point, point> beg_and_max = diary_window_position();
-        point beg = beg_and_max.first;
-        point max = beg_and_max.second;
+        const point beg = beg_and_max.first;
+        const point max = beg_and_max.second;
 
         w_info = catacurses::newwin( ( TERMY - beg.y - max.y - 2 ) > 7 ? 7 : TERMY - beg.y - max.y - 2,
                                      TERMX - ( uis_padding() * 2 ), point( uis_padding(), beg.y + max.y + 2 ) );

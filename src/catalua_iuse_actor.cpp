@@ -19,7 +19,7 @@ int lua_iuse_actor::use( player &who, item &itm, bool tick, const tripoint &pos 
         try {
             sol::protected_function_result res = luafunc( who.as_character(), itm, pos );
             check_func_result( res );
-            int ret = res;
+            const int ret = res;
             return ret;
         } catch( std::runtime_error &e ) {
             debugmsg( "Failed to run iuse_function k='%s': %s", type, e.what() );

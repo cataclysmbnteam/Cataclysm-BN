@@ -83,8 +83,8 @@ struct bionic_sort_less {
             case bionic_ui_sort_mode::INVLET:
                 return lhs->invlet < rhs->invlet;
             case bionic_ui_sort_mode::POWER: {
-                units::energy lbd_sort_power = bionic_sort_power( lbd );
-                units::energy rbd_sort_power = bionic_sort_power( rbd );
+                const units::energy lbd_sort_power = bionic_sort_power( lbd );
+                const units::energy rbd_sort_power = bionic_sort_power( rbd );
                 if( lbd_sort_power != rbd_sort_power ) {
                     return lbd_sort_power < rbd_sort_power;
                 }
@@ -186,7 +186,7 @@ char get_free_invlet( bionic_collection &bionics )
 static void draw_bionics_titlebar( const catacurses::window &window, Character *who,
                                    bionic_menu_mode mode )
 {
-    input_context ctxt( "BIONICS" );
+    const input_context ctxt( "BIONICS" );
     static const flag_id json_flag_PERPETUAL( "PERPETUAL" );
 
     werase( window );
@@ -359,8 +359,8 @@ static void draw_bionics_tabs( const catacurses::window &win, const size_t activ
     draw_tabs( win, tabs, current_mode );
 
     // Draw symbols to connect additional lines to border
-    int width = getmaxx( win );
-    int height = getmaxy( win );
+    const int width = getmaxx( win );
+    const int height = getmaxy( win );
     for( int i = 0; i < height - 1; ++i ) {
         // |
         mvwputch( win, point( 0, i ), BORDER_COLOR, LINE_XOXO );
@@ -390,7 +390,7 @@ static void draw_description( const catacurses::window &win, const bionic &bio,
 
     // TODO: Unhide when enforcing limits
     if( get_option < bool >( "CBM_SLOTS_ENABLED" ) ) {
-        int body_part_count = who.get_all_body_parts().size();
+        const int body_part_count = who.get_all_body_parts().size();
         const bool each_bp_on_new_line = ypos + body_part_count + 1 < getmaxy( win );
         fold_and_print( win, point( 0, ypos ), width, c_light_gray, list_occupied_bps( bio.id,
                         _( "This bionic occupies the following body parts:" ), each_bp_on_new_line ) );
@@ -501,7 +501,7 @@ static void draw_connectors( const catacurses::window &win, point start,
 static nc_color get_bionic_text_color( const bionic &bio, const bool isHighlightedBionic )
 {
     nc_color type = c_white;
-    bool is_power_source = bio.id->has_flag( STATIC( flag_id( "BIONIC_POWER_SOURCE" ) ) );
+    const bool is_power_source = bio.id->has_flag( STATIC( flag_id( "BIONIC_POWER_SOURCE" ) ) );
     if( bio.id->activated ) {
         if( isHighlightedBionic ) {
             if( bio.powered && !is_power_source ) {
@@ -925,7 +925,7 @@ void show_bionics_ui( Character &who )
                         if( active[i] == tmp ) {
                             tab_mode = TAB_ACTIVE;
                             cursor = static_cast<int>( i );
-                            int max_scroll_check = std::max( 0, static_cast<int>( active.size() ) - LIST_HEIGHT );
+                            const int max_scroll_check = std::max( 0, static_cast<int>( active.size() ) - LIST_HEIGHT );
                             if( static_cast<int>( i ) > max_scroll_check ) {
                                 scroll_position = max_scroll_check;
                             } else {
@@ -938,7 +938,7 @@ void show_bionics_ui( Character &who )
                         if( passive[i] == tmp ) {
                             tab_mode = TAB_PASSIVE;
                             cursor = static_cast<int>( i );
-                            int max_scroll_check = std::max( 0, static_cast<int>( passive.size() ) - LIST_HEIGHT );
+                            const int max_scroll_check = std::max( 0, static_cast<int>( passive.size() ) - LIST_HEIGHT );
                             if( static_cast<int>( i ) > max_scroll_check ) {
                                 scroll_position = max_scroll_check;
                             } else {

@@ -30,7 +30,7 @@ void snake_game::print_header( const catacurses::window &w_snake, bool show_shor
 {
     draw_border( w_snake, BORDER_COLOR, _( "S N A K E" ), c_white );
     if( show_shortcut ) {
-        std::string shortcut = _( "<q>uit" );
+        const std::string shortcut = _( "<q>uit" );
         shortcut_print( w_snake, point( FULL_SCREEN_WIDTH - utf8_width( shortcut ) - 2, 0 ),
                         c_white, c_light_green, shortcut );
     }
@@ -42,7 +42,7 @@ void snake_game::snake_over( const catacurses::window &w_snake, int iScore )
     print_header( w_snake, false );
 
     // Body of dead snake
-    size_t body_length = 3;
+    const size_t body_length = 3;
     for( size_t i = 1; i <= body_length; i++ ) {
         for( size_t j = 0; j <= 1; j++ ) {
             mvwprintz( w_snake, point( 4 + ( j * 65 ), i ), c_green, "|   |" );

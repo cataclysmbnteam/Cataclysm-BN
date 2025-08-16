@@ -142,7 +142,8 @@ void field_type::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "legacy_enum_id", legacy_enum_id, -1 );
     for( const JsonObject jao : jo.get_array( "intensity_levels" ) ) {
         field_intensity_level intensity_level;
-        field_intensity_level fallback_intensity_level = !intensity_levels.empty() ? intensity_levels.back()
+        const field_intensity_level fallback_intensity_level = !intensity_levels.empty() ?
+                intensity_levels.back()
                 : intensity_level;
         optional( jao, was_loaded, "name", intensity_level.name, fallback_intensity_level.name );
         optional( jao, was_loaded, "sym", intensity_level.symbol, unicode_codepoint_from_symbol_reader,
@@ -219,7 +220,7 @@ void field_type::load( const JsonObject &jo, const std::string & )
     }
 
     if( jo.has_object( "npc_complain" ) ) {
-        JsonObject joc = jo.get_object( "npc_complain" );
+        const JsonObject joc = jo.get_object( "npc_complain" );
         int chance;
         std::string issue;
         time_duration duration;
@@ -231,11 +232,11 @@ void field_type::load( const JsonObject &jo, const std::string & )
         npc_complain_data = std::make_tuple( chance, issue, duration, speech );
     }
 
-    JsonObject jid = jo.get_object( "immunity_data" );
+    const JsonObject jid = jo.get_object( "immunity_data" );
     for( const std::string id : jid.get_array( "traits" ) ) {
         immunity_data_traits.emplace_back( id );
     }
-    for( JsonArray jao : jid.get_array( "body_part_env_resistance" ) ) {
+    for( const JsonArray jao : jid.get_array( "body_part_env_resistance" ) ) {
         immunity_data_body_part_env_resistance.emplace_back( get_body_part_token(
                     jao.get_string( 0 ) ), jao.get_int( 1 ) );
     }

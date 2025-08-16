@@ -45,12 +45,12 @@ void help::deserialize( JsonIn &jsin )
 {
     hotkeys.clear();
 
-    std::string note_colors = get_note_colors();
-    std::string dir_grid = get_dir_grid();
+    const std::string note_colors = get_note_colors();
+    const std::string dir_grid = get_dir_grid();
 
     jsin.start_array();
     while( !jsin.end_array() ) {
-        JsonObject jo = jsin.get_object();
+        const JsonObject jo = jsin.get_object();
 
         std::vector<std::string> messages;
         jo.read( "messages", messages );
@@ -68,7 +68,7 @@ void help::deserialize( JsonIn &jsin )
         }
 
         jo.get_string( "type" ); // Mark as visited
-        std::string name = jo.get_string( "name" );
+        const std::string name = jo.get_string( "name" );
         help_texts[jo.get_int( "order" )] = std::make_pair( name, messages );
         hotkeys.push_back( get_hotkeys( name ) );
     }
@@ -94,10 +94,10 @@ std::string help::get_dir_grid()
     for( auto dir : movearray ) {
         std::vector<char> keys = keys_bound_to( dir );
         for( size_t i = 0; i < 2; i++ ) {
-            std::string what = "<" + action_ident( dir ) + string_format( "_%d>", i );
-            std::string with = i < keys.size()
-                               ? string_format( "<color_light_blue>%s</color>", keys[i] )
-                               : "<color_red>?</color>";
+            const std::string what = "<" + action_ident( dir ) + string_format( "_%d>", i );
+            const std::string with = i < keys.size()
+                                     ? string_format( "<color_light_blue>%s</color>", keys[i] )
+                                     : "<color_red>?</color>";
             movement = replace_all( movement, what, with );
         }
     }
@@ -109,14 +109,14 @@ void help::draw_menu( const catacurses::window &win )
 {
     werase( win );
     // NOLINTNEXTLINE(cata-use-named-point-constants)
-    int y = fold_and_print( win, point( 1, 0 ), getmaxx( win ) - 2, c_white,
-                            _( "Please press one of the following for help on that topic:\n"
-                               "Press ESC to return to the game." ) ) + 1;
+    const int y = fold_and_print( win, point( 1, 0 ), getmaxx( win ) - 2, c_white,
+                                  _( "Please press one of the following for help on that topic:\n"
+                                     "Press ESC to return to the game." ) ) + 1;
 
-    size_t half_size = ( help_texts.size() / 2 ) + 1;
+    const size_t half_size = ( help_texts.size() / 2 ) + 1;
     int second_column = divide_round_up( getmaxx( win ), 2 );
     for( size_t i = 0; i < help_texts.size(); i++ ) {
-        std::string cat_name = _( help_texts[i].first );
+        const std::string cat_name = _( help_texts[i].first );
         if( i < half_size ) {
             second_column = std::max( second_column, utf8_width( cat_name ) + 4 );
         }
@@ -176,7 +176,7 @@ void help::display_help()
         ui_manager::redraw();
 
         action = ctxt.handle_input();
-        std::string sInput = ctxt.get_raw_input().text;
+        const std::string sInput = ctxt.get_raw_input().text;
         for( size_t i = 0; i < hotkeys.size(); ++i ) {
             for( const std::string &hotkey : hotkeys[i] ) {
                 if( sInput == hotkey ) {
@@ -187,9 +187,9 @@ void help::display_help()
                         std::string line_proc = _( line );
                         size_t pos = line_proc.find( "<press_", 0, 7 );
                         while( pos != std::string::npos ) {
-                            size_t pos2 = line_proc.find( ">", pos, 1 );
+                            const size_t pos2 = line_proc.find( ">", pos, 1 );
 
-                            std::string action = line_proc.substr( pos + 7, pos2 - pos - 7 );
+                            const std::string action = line_proc.substr( pos + 7, pos2 - pos - 7 );
                             auto replace = "<color_light_blue>" + press_x( look_up_action( action ), "", "" ) + "</color>";
 
                             if( replace.empty() ) {

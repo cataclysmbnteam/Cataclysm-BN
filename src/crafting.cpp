@@ -122,7 +122,7 @@ float lighting_crafting_speed_multiplier( const Character &who, const recipe &re
     }
 
     const SkillLevelMap &char_skills = who.get_all_skills();
-    int skill_bonus = char_skills.exceeds_recipe_requirements( rec );
+    const int skill_bonus = char_skills.exceeds_recipe_requirements( rec );
 
     // This value whould be within [0,1]
     const float darkness =
@@ -149,7 +149,7 @@ float lighting_crafting_speed_multiplier( const Character &who, const recipe &re
 
 float morale_crafting_speed_multiplier( const Character &who, const recipe &rec )
 {
-    int morale = who.get_morale_level();
+    const int morale = who.get_morale_level();
     if( morale >= 0 ) {
         // No bonus for being happy yet
         return 1.0f;
@@ -164,7 +164,7 @@ float morale_crafting_speed_multiplier( const Character &who, const recipe &rec 
     }
 
     // Halve speed at -50 effective morale, quarter at -150
-    float morale_effect = 1.0f + ( ( morale_mult * morale ) / -50.0f );
+    const float morale_effect = 1.0f + ( ( morale_mult * morale ) / -50.0f );
 
     return 1.0f / morale_effect;
 }
@@ -197,7 +197,7 @@ float workbench_crafting_speed_multiplier( const item &craft, const bench_locati
                                          *string_id<furn_t>( "f_fake_bench_hands" )->workbench );
 
     // The whole block below is so ugly because all the benches have different structs with same content
-    map &here = get_map();
+    const map &here = get_map();
     switch( bench.type ) {
         case bench_type::hands: {
             wb_info = workbench_info_wrapper(
@@ -388,7 +388,7 @@ int Character::base_time_to_craft( const recipe &rec, int batch_size ) const
 int Character::expected_time_to_craft( const recipe &rec, int batch_size, bool in_progress ) const
 {
     const size_t assistants = available_assistant_count( rec );
-    float modifier = crafting_speed_multiplier( *this, rec, in_progress );
+    const float modifier = crafting_speed_multiplier( *this, rec, in_progress );
     return rec.batch_time( batch_size, modifier, assistants );
 }
 
@@ -400,7 +400,7 @@ bool Character::check_eligible_containers_for_crafting( const recipe &rec, int b
     all.insert( all.end(), std::make_move_iterator( bps.begin() ),
                 std::make_move_iterator( bps.end() ) );
 
-    map &here = get_map();
+    const map &here = get_map();
     for( detached_ptr<item> &prod : all ) {
         if( !prod->made_of( LIQUID ) ) {
             continue;
@@ -428,11 +428,11 @@ bool Character::check_eligible_containers_for_crafting( const recipe &rec, int b
         if( charges_to_store > 0 ) {
             if( optional_vpart_position vp = here.veh_at( pos() ) ) {
                 const itype_id &ftype = prod->typeId();
-                int fuel_cap = vp->vehicle().fuel_capacity( ftype );
-                int fuel_amnt = vp->vehicle().fuel_left( ftype );
+                const int fuel_cap = vp->vehicle().fuel_capacity( ftype );
+                const int fuel_amnt = vp->vehicle().fuel_left( ftype );
 
                 if( fuel_cap >= 0 ) {
-                    int fuel_space_left = fuel_cap - fuel_amnt;
+                    const int fuel_space_left = fuel_cap - fuel_amnt;
                     charges_to_store -= fuel_space_left;
                 }
             }
@@ -659,11 +659,11 @@ static void set_item_map_or_vehicle( const Character &who, const tripoint &loc,
     if( !newit ) {
         return;
     }
-    map &here = get_map();
+    const map &here = get_map();
     if( const std::optional<vpart_reference> vp = here.veh_at( loc ).part_with_feature( "CARGO",
             false ) ) {
 
-        item &obj = *newit;
+        const item &obj = *newit;
         newit = vp->vehicle().add_item( vp->part_index(), std::move( newit ) );
         if( !newit ) {
             who.add_msg_player_or_npc(
@@ -734,7 +734,8 @@ item *Character::start_craft( craft_command &command, const tripoint & )
     }
 
     bench_location bench = find_best_bench( *this, *craft );
-    std::pair<bench_type, float> best_found_bench = crafting::best_bench_here( *craft, bench.position,
+    std::pair<bench_type, float> const best_found_bench = crafting::best_bench_here( *craft,
+            bench.position,
             bench.type == bench_type::hands );
     if( best_found_bench.second < 1.0f ) {
         add_msg_if_player( m_info, pgettext( "in progress craft",
@@ -1063,8 +1064,8 @@ void complete_craft( Character &who, item &craft )
                 // but also keeps going up as difficulty goes up.
                 // Worst case is lvl 10, which will typically take
                 // 10^4/10 (1,000) minutes, or about 16 hours of crafting it to learn.
-                int difficulty = who.has_recipe( &making, who.crafting_inventory(),
-                                                 character_funcs::get_crafting_helpers( who ) );
+                const int difficulty = who.has_recipe( &making, who.crafting_inventory(),
+                                                       character_funcs::get_crafting_helpers( who ) );
                 ///\EFFECT_INT increases chance to learn recipe when crafting from a book
                 const double learning_speed =
                     std::max( who.get_skill_level( making.skill_used ), 1 ) *
@@ -1227,7 +1228,7 @@ bool Character::can_continue_craft( item &craft )
 
         std::vector<comp_selection<item_comp>> item_selections;
         for( const auto &it : continue_reqs.get_components() ) {
-            comp_selection<item_comp> is = select_item_component( it, batch_size, map_inv, true, filter );
+            const comp_selection<item_comp> is = select_item_component( it, batch_size, map_inv, true, filter );
             if( is.use_from == usage_from::cancel ) {
                 cancel_activity();
                 add_msg( _( "You stop crafting." ) );
@@ -1281,7 +1282,7 @@ bool Character::can_continue_craft( item &craft )
 
         std::vector<comp_selection<tool_comp>> new_tool_selections;
         for( const std::vector<tool_comp> &alternatives : tool_reqs ) {
-            comp_selection<tool_comp> selection =
+            const comp_selection<tool_comp> selection =
                 crafting::select_tool_component( alternatives, batch_size, map_inv, this, true, DEFAULT_HOTKEYS,
                                                  cost_adjustment::continue_only );
             if( selection.use_from == usage_from::cancel ) {
@@ -1310,7 +1311,7 @@ const requirement_data *Character::select_requirements(
     for( const requirement_data *req : alternatives ) {
         // Write with a large width and then just re-join the lines, because
         // uilist does its own wrapping and we want to rely on that.
-        std::vector<std::string> component_lines =
+        const std::vector<std::string> component_lines =
             req->get_folded_components_list( TERMX - 4, c_light_gray, inv, filter, batch, "",
                                              requirement_display_flags::no_unavailable );
         menu.addentry_desc( "", join( component_lines, "\n" ) );
@@ -1341,11 +1342,11 @@ comp_selection<item_comp> Character::select_item_component( const std::vector<it
     comp_selection<item_comp> selected;
 
     for( const auto &component : components ) {
-        itype_id type = component.type;
-        int count = ( component.count > 0 ) ? component.count * batch : std::abs( component.count );
+        const itype_id type = component.type;
+        const int count = ( component.count > 0 ) ? component.count * batch : std::abs( component.count );
 
         if( item::count_by_charges( type ) && count > 0 ) {
-            int map_charges = map_inv.charges_of( type, INT_MAX, filter );
+            const int map_charges = map_inv.charges_of( type, INT_MAX, filter );
 
             // If map has infinite charges, just use them
             if( map_charges == item::INFINITE_CHARGES ) {
@@ -1354,7 +1355,7 @@ comp_selection<item_comp> Character::select_item_component( const std::vector<it
                 return selected;
             }
             if( player_inv ) {
-                int player_charges = charges_of( type, INT_MAX, filter );
+                const int player_charges = charges_of( type, INT_MAX, filter );
                 bool found = false;
                 if( player_charges >= count ) {
                     player_has.push_back( component );
@@ -1426,34 +1427,34 @@ comp_selection<item_comp> Character::select_item_component( const std::vector<it
         uilist cmenu;
         // Populate options with the names of the items
         for( auto &map_ha : map_has ) { // Index 0-(map_has.size()-1)
-            std::string tmpStr = string_format( _( "%s (%d/%d nearby)" ),
-                                                item::nname( map_ha.type ),
-                                                ( map_ha.count * batch ),
-                                                item::count_by_charges( map_ha.type ) ?
-                                                map_inv.charges_of( map_ha.type, INT_MAX, filter ) :
-                                                map_inv.amount_of( map_ha.type, false, INT_MAX, filter ) );
+            const std::string tmpStr = string_format( _( "%s (%d/%d nearby)" ),
+                                       item::nname( map_ha.type ),
+                                       ( map_ha.count * batch ),
+                                       item::count_by_charges( map_ha.type ) ?
+                                       map_inv.charges_of( map_ha.type, INT_MAX, filter ) :
+                                       map_inv.amount_of( map_ha.type, false, INT_MAX, filter ) );
             cmenu.addentry( tmpStr );
         }
         for( auto &player_ha : player_has ) { // Index map_has.size()-(map_has.size()+player_has.size()-1)
-            std::string tmpStr = string_format( _( "%s (%d/%d on person)" ),
-                                                item::nname( player_ha.type ),
-                                                ( player_ha.count * batch ),
-                                                item::count_by_charges( player_ha.type ) ?
-                                                charges_of( player_ha.type, INT_MAX, filter ) :
-                                                amount_of( player_ha.type, false, INT_MAX, filter ) );
+            const std::string tmpStr = string_format( _( "%s (%d/%d on person)" ),
+                                       item::nname( player_ha.type ),
+                                       ( player_ha.count * batch ),
+                                       item::count_by_charges( player_ha.type ) ?
+                                       charges_of( player_ha.type, INT_MAX, filter ) :
+                                       amount_of( player_ha.type, false, INT_MAX, filter ) );
             cmenu.addentry( tmpStr );
         }
         for( auto &component : mixed ) {
             // Index player_has.size()-(map_has.size()+player_has.size()+mixed.size()-1)
-            int available = item::count_by_charges( component.type ) ?
-                            map_inv.charges_of( component.type, INT_MAX, filter ) +
-                            charges_of( component.type, INT_MAX, filter ) :
-                            map_inv.amount_of( component.type, false, INT_MAX, filter ) +
-                            amount_of( component.type, false, INT_MAX, filter );
-            std::string tmpStr = string_format( _( "%s (%d/%d nearby & on person)" ),
-                                                item::nname( component.type ),
-                                                component.count * batch,
-                                                available );
+            const int available = item::count_by_charges( component.type ) ?
+                                  map_inv.charges_of( component.type, INT_MAX, filter ) +
+                                  charges_of( component.type, INT_MAX, filter ) :
+                                  map_inv.amount_of( component.type, false, INT_MAX, filter ) +
+                                  amount_of( component.type, false, INT_MAX, filter );
+            const std::string tmpStr = string_format( _( "%s (%d/%d nearby & on person)" ),
+                                       item::nname( component.type ),
+                                       component.count * batch,
+                                       available );
             cmenu.addentry( tmpStr );
         }
 
@@ -1550,7 +1551,7 @@ std::vector<detached_ptr<item>> Character::consume_items( map &m,
         return ret;
     }
 
-    item_comp selected_comp = is.comp;
+    const item_comp selected_comp = is.comp;
 
     const tripoint &loc = origin;
     const bool by_charges = item::count_by_charges( selected_comp.type ) && selected_comp.count > 0;
@@ -1661,29 +1662,29 @@ find_tool_component( const Character *player_with_inv, const std::vector<tool_co
         return std::make_pair( INT_MAX, INT_MAX );
     };
 
-    bool found_nocharge = false;
+    const bool found_nocharge = false;
     // Use charges of any tools that require charges used
     for( auto it = tools.begin(); it != tools.end() && !found_nocharge; ++it ) {
-        itype_id type = it->type;
+        const itype_id type = it->type;
         if( it->count > 0 ) {
             const std::pair<int, int> &expected_count = calc_charges( *it );
             const int count = expected_count.first;
             const int ideal = expected_count.second;
             if( player_with_inv ) {
                 if( player_with_inv->has_charges( type, count ) ) {
-                    int total_charges = player_with_inv->charges_of( type );
-                    comp_selection<tool_comp> sel( usage_from::player, *it );
+                    const int total_charges = player_with_inv->charges_of( type );
+                    const comp_selection<tool_comp> sel( usage_from::player, *it );
                     available_tools.emplace_back( sel, total_charges, ideal );
                 }
             }
             if( map_inv.has_charges( type, count ) ) {
-                int total_charges = map_inv.charges_of( type );
-                comp_selection<tool_comp> sel( usage_from::map, *it );
+                const int total_charges = map_inv.charges_of( type );
+                const comp_selection<tool_comp> sel( usage_from::map, *it );
                 available_tools.emplace_back( sel, total_charges, ideal );
             }
         } else if( ( player_with_inv && player_with_inv->has_amount( type, 1 ) )
                    || map_inv.has_tools( type, 1 ) ) {
-            comp_selection<tool_comp> sel( usage_from::none, *it );
+            const comp_selection<tool_comp> sel( usage_from::none, *it );
             available_tools.emplace_back( sel, 0, 0 );
         }
     }
@@ -1745,14 +1746,14 @@ query_tool_selection( const std::vector<avail_tool_comp> &available_tools,
             const char *format = tool.comp.use_from == usage_from::map
                                  ? _( "%s (%d/%d charges nearby)" )
                                  : _( "%s (%d/%d charges on person)" );
-            std::string str = string_format( format,
-                                             item::nname( comp_type ), tool.ideal,
-                                             tool.charges );
+            const std::string str = string_format( format,
+                                                   item::nname( comp_type ), tool.ideal,
+                                                   tool.charges );
             tmenu.addentry( str );
         } else {
-            std::string str = tool.comp.use_from == usage_from::map
-                              ? item::nname( comp_type ) + _( " (nearby)" )
-                              : item::nname( comp_type );
+            const std::string str = tool.comp.use_from == usage_from::map
+                                    ? item::nname( comp_type ) + _( " (nearby)" )
+                                    : item::nname( comp_type );
             tmenu.addentry( str );
         }
     }
@@ -1777,9 +1778,10 @@ select_tool_component( const std::vector<tool_comp> &tools, int batch, const inv
                        const std::string &hotkeys,
                        cost_adjustment adjustment )
 {
-    std::vector<avail_tool_comp> options = find_tool_component( player_with_inv, tools, batch, map_inv,
-                                           adjustment );
-    bool is_npc = player_with_inv ? player_with_inv->is_npc() : false;
+    const std::vector<avail_tool_comp> options = find_tool_component( player_with_inv, tools, batch,
+            map_inv,
+            adjustment );
+    const bool is_npc = player_with_inv ? player_with_inv->is_npc() : false;
     return query_tool_selection( options, hotkeys, can_cancel, is_npc );
 }
 
@@ -1809,14 +1811,14 @@ bool Character::craft_consume_tools( item &craft, int mulitplier, bool start_cra
     }
 
     const auto calc_charges = [&craft, &start_craft, &mulitplier]( int charges ) {
-        int ret = charges;
+        const int ret = charges;
 
         if( charges <= 0 ) {
             return ret;
         }
 
         // Account for batch size
-        int full_cost = charges * craft.charges;
+        const int full_cost = charges * craft.charges;
 
         if( start_craft ) {
             return crafting::charges_for_starting( full_cost );
@@ -1834,7 +1836,7 @@ bool Character::craft_consume_tools( item &craft, int mulitplier, bool start_cra
     map_inv.form_from_map( pos(), PICKUP_RANGE, this );
 
     for( const comp_selection<tool_comp> &tool_sel : cached_tool_selections ) {
-        itype_id type = tool_sel.comp.type;
+        const itype_id type = tool_sel.comp.type;
         if( tool_sel.comp.count > 0 ) {
             const int count = calc_charges( tool_sel.comp.count );
             switch( tool_sel.use_from ) {
@@ -1940,14 +1942,14 @@ ret_val<bool> crafting::can_disassemble( const Character &who, const item &obj,
     }
 
     // refuse to disassemble items containing monsters/pets
-    std::string monster = obj.get_var( "contained_name" );
+    const std::string monster = obj.get_var( "contained_name" );
     if( !monster.empty() ) {
         return ret_val<bool>::make_failure( _( "You must remove the %s before you can disassemble this." ),
                                             monster );
     }
 
     if( obj.count_by_charges() ) {
-        int batch_size = r.disassembly_batch_size();
+        const int batch_size = r.disassembly_batch_size();
         if( obj.charges < batch_size ) {
             auto msg = vgettext( "You need at least %d charge of %s.",
                                  "You need at least %d charges of %s.", batch_size );
@@ -2024,7 +2026,7 @@ static disass_prompt_result prompt_disassemble_in_seq( avatar &you, const item &
         }
     }
 
-    int batch_size = r.disassembly_batch_size();
+    const int batch_size = r.disassembly_batch_size();
 
     if( interactive && get_option<bool>( "QUERY_DISASSEMBLE" ) ) {
         std::string msg;
@@ -2097,7 +2099,7 @@ static bool prompt_disassemble_single( avatar &you, item *target, bool interacti
     loc.loc = target;
     loc.count = res.batches ? *res.batches : 1;
 
-    tripoint_abs_ms pos_abs( get_map().getabs( you.pos() ) );
+    const tripoint_abs_ms pos_abs( get_map().getabs( you.pos() ) );
 
     you.assign_activity( std::make_unique<player_activity>
     ( std::make_unique<disassemble_activity_actor>( std::vector<iuse_location> {{ loc }}, pos_abs,
@@ -2121,7 +2123,7 @@ bool crafting::disassemble_all( avatar &you, bool recursively )
 {
     std::vector<iuse_location> targets;
 
-    tripoint pos = you.pos();
+    const tripoint pos = you.pos();
 
     for( item * const &itm : get_map().i_at( pos ) ) {
         disass_prompt_result res = prompt_disassemble_in_seq( you, *itm, false, true );
@@ -2134,7 +2136,7 @@ bool crafting::disassemble_all( avatar &you, bool recursively )
     }
 
     if( !targets.empty() ) {
-        tripoint_abs_ms pos_abs( get_map().getabs( you.pos() ) );
+        const tripoint_abs_ms pos_abs( get_map().getabs( you.pos() ) );
 
         you.assign_activity( std::make_unique<player_activity>
                              ( std::make_unique<disassemble_activity_actor>( std::move(
@@ -2158,7 +2160,7 @@ void crafting::complete_disassemble( Character &who, const iuse_location &target
     // Make a copy to keep its data (damage/components) even after it
     // has been removed.
     item &dis_item = org_item;
-    float component_success_chance = std::min( std::pow( 0.8, dis_item.damage_level( 4 ) ), 1.0 );
+    const float component_success_chance = std::min( std::pow( 0.8, dis_item.damage_level( 4 ) ), 1.0 );
 
     add_msg( _( "You disassemble the %s into its components." ), dis_item.tname() );
     // Remove any batteries, ammo and mods first
@@ -2166,7 +2168,7 @@ void crafting::complete_disassemble( Character &who, const iuse_location &target
     remove_radio_mod( dis_item, *who.as_player() );
 
     if( org_item.count_by_charges() ) {
-        int batch_size = dis.disassembly_batch_size();
+        const int batch_size = dis.disassembly_batch_size();
         org_item.charges -= batch_size * target.count;
     }
 
@@ -2183,10 +2185,10 @@ void crafting::complete_disassemble( Character &who, const iuse_location &target
 
     // Sides on dice is 16 plus your current intelligence
     ///\EFFECT_INT increases success rate for disassembling items
-    int skill_sides = 16 + who.int_cur;
+    const int skill_sides = 16 + who.int_cur;
 
-    int diff_dice = dis.difficulty;
-    int diff_sides = 24; // 16 + 8 (default intelligence)
+    const int diff_dice = dis.difficulty;
+    const int diff_sides = 24; // 16 + 8 (default intelligence)
 
     // disassembly only nets a bit of practice
     if( dis.skill_used ) {
@@ -2276,8 +2278,9 @@ void crafting::complete_disassemble( Character &who, const iuse_location &target
     if( !dis.learn_by_disassembly.empty() && !who.knows_recipe( &dis ) ) {
         if( who.can_learn_by_disassembly( dis ) ) {
             const SkillLevelMap &char_skills = who.get_all_skills();
-            float skill_bonus = ( 1.0f + char_skills.exceeds_recipe_requirements( dis ) ) * std::max( 1.0f,
-                                0.9f + ( who.int_cur * 0.025f ) );
+            const float skill_bonus = ( 1.0f + char_skills.exceeds_recipe_requirements( dis ) ) * std::max(
+                                          1.0f,
+                                          0.9f + ( who.int_cur * 0.025f ) );
             if( x_in_y( skill_bonus, 4.0 ) ) {
                 // TODO: change to forward an id or a reference
                 who.learn_recipe( &*dis.ident() );
@@ -2336,8 +2339,9 @@ void remove_ammo( item &dis_item, Character &who )
 
 bench_location find_best_bench( const Character &who, const item &craft )
 {
-    bool can_lift = who.can_wield( craft ).success() && who.weight_capacity() >= craft.weight();
-    std::pair<bench_type, float> bench_here = crafting::best_bench_here( craft, who.pos(), can_lift );
+    const bool can_lift = who.can_wield( craft ).success() && who.weight_capacity() >= craft.weight();
+    std::pair<bench_type, float> const bench_here = crafting::best_bench_here( craft, who.pos(),
+            can_lift );
     bench_type best_type = bench_here.first;
     float best_bench_multi = bench_here.second;
     tripoint best_loc = who.pos();
@@ -2378,7 +2382,7 @@ std::pair<bench_type, float> best_bench_here( const item &craft, const tripoint 
     bench_type best_type = bench_type::ground;
     float best_mult = workbench_crafting_speed_multiplier( craft, bench_location{ bench_type::ground, loc } );
     if( can_lift ) {
-        float hands_mult = workbench_crafting_speed_multiplier( craft, bench_location{ bench_type::hands, loc } );
+        const float hands_mult = workbench_crafting_speed_multiplier( craft, bench_location{ bench_type::hands, loc } );
         if( hands_mult > best_mult ) {
             best_type = bench_type::hands;
             best_mult = hands_mult;
@@ -2386,7 +2390,7 @@ std::pair<bench_type, float> best_bench_here( const item &craft, const tripoint 
     }
 
     if( g->m.furn( loc )->workbench ) {
-        float furn_mult = workbench_crafting_speed_multiplier( craft, bench_location{ bench_type::furniture, loc } );
+        const float furn_mult = workbench_crafting_speed_multiplier( craft, bench_location{ bench_type::furniture, loc } );
         if( furn_mult > best_mult ) {
             best_type = bench_type::furniture;
             best_mult = furn_mult;
@@ -2395,7 +2399,7 @@ std::pair<bench_type, float> best_bench_here( const item &craft, const tripoint 
 
     if( const std::optional<vpart_reference> vp = g->m.veh_at(
                 loc ).part_with_feature( "WORKBENCH", true ) ) {
-        float veh_mult = workbench_crafting_speed_multiplier( craft, bench_location{ bench_type::vehicle, loc } );
+        const float veh_mult = workbench_crafting_speed_multiplier( craft, bench_location{ bench_type::vehicle, loc } );
         if( veh_mult > best_mult ) {
             best_type = bench_type::vehicle;
             best_mult = veh_mult;
@@ -2410,8 +2414,8 @@ std::set<itype_id> get_books_for_recipe( const Character &c, const inventory &cr
     std::set<itype_id> book_ids;
     const int skill_level = c.get_skill_level( r->skill_used );
     for( auto &book_lvl : r->booksets ) {
-        itype_id book_id = book_lvl.first;
-        int required_skill_level = book_lvl.second;
+        const itype_id book_id = book_lvl.first;
+        const int required_skill_level = book_lvl.second;
         if( skill_level >= required_skill_level && crafting_inv.amount_of( book_id ) > 0 ) {
             book_ids.insert( book_id );
         }

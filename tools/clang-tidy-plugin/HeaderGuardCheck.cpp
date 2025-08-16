@@ -151,7 +151,7 @@ class HeaderGuardPPCallbacks : public PPCallbacks
 
         void PragmaDirective( SourceLocation Loc, PragmaIntroducerKind ) override {
             const char *PragmaData = PP->getSourceManager().getCharacterData( Loc );
-            static constexpr const char *PragmaOnce = "#pragma once";
+            static const constexpr char *PragmaOnce = "#pragma once";
             if( 0 == strncmp( PragmaData, PragmaOnce, strlen( PragmaOnce ) ) ) {
                 FileInfos[GetFileName( Loc )].PragmaOnce = Loc;
             }

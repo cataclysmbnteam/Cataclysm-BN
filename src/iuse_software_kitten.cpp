@@ -16,7 +16,7 @@ static constexpr int KITTEN = 1;
 
 std::string robot_finds_kitten::getmessage( int idx ) const
 {
-    std::string rfimessages[MAXMESSAGES] = {
+    const std::string rfimessages[MAXMESSAGES] = {
         _( "\"I pity the fool who mistakes me for kitten!\", sez Mr. T." ),
         _( "That's just an old tin can." ),
         _( "It's an altar to the horse god." ),
@@ -230,7 +230,7 @@ std::string robot_finds_kitten::getmessage( int idx ) const
 robot_finds_kitten::robot_finds_kitten()
 {
     ret = false;
-    char ktile[83] =
+    const char ktile[83] =
         "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!#&()*+./:;=?![]{|}y";
     int used_messages[MAXMESSAGES];
 
@@ -326,7 +326,7 @@ robot_finds_kitten::robot_finds_kitten()
 
 void robot_finds_kitten::show() const
 {
-    input_context ctxt( "IUSE_SOFTWARE_KITTEN" );
+    const input_context ctxt( "IUSE_SOFTWARE_KITTEN" );
 
     draw_border( bkatwin );
     wnoutrefresh( bkatwin );

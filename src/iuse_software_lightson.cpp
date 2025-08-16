@@ -66,9 +66,9 @@ void lightson_game::draw_level()
     draw_border( w );
     for( int i = 0; i < level_size.y; i++ ) {
         for( int j = 0; j < level_size.x; j++ ) {
-            point current = point( j, i );
-            bool selected = position == current;
-            bool on = get_value_at( current );
+            const point current = point( j, i );
+            const bool selected = position == current;
+            const bool on = get_value_at( current );
             const nc_color fg = on ? c_white : c_dark_gray;
             const char symbol = on ? '#' : '-';
             mvwputch( w, current + point_south_east, selected ? hilite( c_white ) : fg, symbol );
@@ -190,7 +190,7 @@ int lightson_game::start_game()
             new_level();
         }
         ui_manager::redraw();
-        std::string action = ctxt.handle_input();
+        const std::string action = ctxt.handle_input();
         if( const std::optional<tripoint> vec = ctxt.get_direction( action ) ) {
             position.y = clamp( position.y + vec->y, 0, level_size.y - 1 );
             position.x = clamp( position.x + vec->x, 0, level_size.x - 1 );

@@ -104,7 +104,7 @@ void load_recipe_category( const JsonObject &jsobj )
 
 static std::string get_subcat_unprefixed( const std::string &cat, const std::string &prefixed_name )
 {
-    std::string prefix = "CSC_" + get_cat_unprefixed( cat ) + "_";
+    const std::string prefix = "CSC_" + get_cat_unprefixed( cat ) + "_";
 
     if( prefixed_name.starts_with( prefix ) ) {
         return prefixed_name.substr( prefix.size(), prefixed_name.size() - prefix.size() );
@@ -347,10 +347,10 @@ const recipe *select_crafting_recipe( int &batch_size_out )
             item_info_scroll = 0;
             item_info_scroll_popup = 0;
         }
-        std::vector<iteminfo> info = item_info_cache.dummy->info( count );
-        item_info_data data( item_info_cache.dummy->tname( count ),
-                             item_info_cache.dummy->type_name( count ),
-                             info, {}, scroll_pos );
+        const std::vector<iteminfo> info = item_info_cache.dummy->info( count );
+        const item_info_data data( item_info_cache.dummy->tname( count ),
+                                   item_info_cache.dummy->type_name( count ),
+                                   info, {}, scroll_pos );
         return data;
     };
 
@@ -520,12 +520,12 @@ const recipe *select_crafting_recipe( int &batch_size_out )
         mvwputch( w_data, point( width - 1, dataHeight - 1 ), BORDER_COLOR, LINE_XOOX ); // _|
 
         const int max_recipe_name_width = 27;
-        int recmax = current.size();
+        const int recmax = current.size();
 
         // Draw recipes with scroll list
         // get subset to draw
         calcStartPos( recipe_scroll_window_min, line, dataLines, recmax );
-        int recipe_scroll_window_max = std::min( recmax, recipe_scroll_window_min + dataLines );
+        const int recipe_scroll_window_max = std::min( recmax, recipe_scroll_window_min + dataLines );
 
         for( int i = recipe_scroll_window_min; i < recipe_scroll_window_max; ++i ) {
             std::string tmp_name = current[i]->result_name();
@@ -763,7 +763,7 @@ const recipe *select_crafting_recipe( int &batch_size_out )
             recipe_info_scroll += scroll_recipe_info_lines;
             item_info_scroll += scroll_recipe_info_lines;
         } else if( action == "LEFT" ) {
-            std::string start = subtab.cur();
+            const std::string start = subtab.cur();
             do {
                 subtab.prev();
             } while( subtab.cur() != start && shown_recipes.empty_category( tab.cur(),
@@ -775,7 +775,7 @@ const recipe *select_crafting_recipe( int &batch_size_out )
             subtab = list_circularizer<std::string>( craft_subcat_list[tab.cur()] );
             recalc = true;
         } else if( action == "RIGHT" ) {
-            std::string start = subtab.cur();
+            const std::string start = subtab.cur();
             do {
                 subtab.next();
             } while( subtab.cur() != start && shown_recipes.empty_category( tab.cur(),
@@ -823,7 +823,7 @@ const recipe *select_crafting_recipe( int &batch_size_out )
                 std::string example;
                 std::string description;
             };
-            std::vector<SearchPrefix> prefixes = {
+            const std::vector<SearchPrefix> prefixes = {
                 { 'q', _( "metal sawing" ), _( "<color_cyan>quality</color> of resulting item" ) },
                 //~ Example result description search term
                 { 'd', _( "reach attack" ), _( "<color_cyan>full description</color> of resulting item (slow)" ) },
@@ -838,7 +838,7 @@ const recipe *select_crafting_recipe( int &batch_size_out )
             for( const auto &prefix : prefixes ) {
                 max_example_length = std::max( max_example_length, utf8_width( prefix.example ) );
             }
-            std::string spaces( max_example_length, ' ' );
+            const std::string spaces( max_example_length, ' ' );
 
             std::string description =
                 _( "The default is to search result names.  Some single-character prefixes "
@@ -848,7 +848,7 @@ const recipe *select_crafting_recipe( int &batch_size_out )
                    "<color_white>Examples:</color>\n" );
 
             {
-                std::string example_name = _( "shirt" );
+                const std::string example_name = _( "shirt" );
                 auto padding = max_example_length - utf8_width( example_name );
                 description += string_format(
                                    _( "  <color_white>%s</color>%.*s    %s\n" ),
@@ -927,7 +927,7 @@ const recipe *select_crafting_recipe( int &batch_size_out )
                 recalc = true;
                 continue;
             }
-            std::string recipe_name = peek_related_recipe( current[line], shown_recipes );
+            const std::string recipe_name = peek_related_recipe( current[line], shown_recipes );
             if( recipe_name.empty() ) {
                 keepline = true;
             } else {
@@ -1027,7 +1027,7 @@ int related_menu_fill( uilist &rmenu,
 
         // we have different recipes with the same names
         // list only one of them as we show and filter by name only
-        std::string recipe_name = p.second;
+        const std::string recipe_name = p.second;
         if( recipe_name == recipe_name_prev ) {
             continue;
         }
@@ -1055,9 +1055,9 @@ int related_menu_fill( uilist &rmenu,
                 std::string prev_item_name;
                 // 2nd pass: add defferent recipes
                 for( size_t recipe_n = 0; recipe_n < current_part.size(); recipe_n++ ) {
-                    std::string cur_item_name = current_part[recipe_n]->result_name();
+                    const std::string cur_item_name = current_part[recipe_n]->result_name();
                     if( cur_item_name != prev_item_name ) {
-                        std::string sym = recipe_n == current_part.size() - 1 ? "└ " : "├ ";
+                        const std::string sym = recipe_n == current_part.size() - 1 ? "└ " : "├ ";
                         rmenu.addentry( ++np_last, true, -1, sym + cur_item_name );
                     }
                     prev_item_name = cur_item_name;
@@ -1141,7 +1141,7 @@ static void draw_recipe_subtabs( const catacurses::window &w, const std::string 
                                  const recipe_subset &available_recipes, TAB_MODE mode )
 {
     werase( w );
-    int width = getmaxx( w );
+    const int width = getmaxx( w );
     for( int i = 0; i < width; i++ ) {
         if( i == 0 ) {
             mvwputch( w, point( i, 2 ), BORDER_COLOR, LINE_XXXO ); // |-
@@ -1162,9 +1162,9 @@ static void draw_recipe_subtabs( const catacurses::window &w, const std::string 
             // Draw the tabs on each other
             int pos_x = 2;
             // Step between tabs, two for tabs border
-            int tab_step = 3;
+            const int tab_step = 3;
             for( const auto &stt : craft_subcat_list[tab] ) {
-                bool empty = available_recipes.empty_category( tab, stt != "CSC_ALL" ? stt : "" );
+                const bool empty = available_recipes.empty_category( tab, stt != "CSC_ALL" ? stt : "" );
                 draw_subtab( w, pos_x, normalized_names[stt], subtab == stt, true, empty );
                 pos_x += utf8_width( normalized_names[stt] ) + tab_step;
             }

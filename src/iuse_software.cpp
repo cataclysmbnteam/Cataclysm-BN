@@ -24,8 +24,8 @@ bool play_videogame( const std::string &function_name,
         return true; // generic game
     }
     if( function_name == "robot_finds_kitten" ) {
-        robot_finds_kitten findkitten;
-        bool foundkitten = findkitten.ret;
+        const robot_finds_kitten findkitten;
+        const bool foundkitten = findkitten.ret;
         if( foundkitten ) {
             end_message = _( "You found kitten!" );
             score = 30;
@@ -34,7 +34,7 @@ bool play_videogame( const std::string &function_name,
         return foundkitten;
     } else if( function_name == "snake_game" ) {
         snake_game sg;
-        int iScore = sg.start_game();
+        const int iScore = sg.start_game();
 
         if( iScore >= 10000 ) {
             score = 30;
@@ -47,7 +47,7 @@ bool play_videogame( const std::string &function_name,
         return true;
     } else if( function_name == "sokoban_game" ) {
         sokoban_game sg;
-        int iScore = sg.start_game();
+        const int iScore = sg.start_game();
 
         if( iScore >= 5000 ) {
             score = 30;
@@ -65,7 +65,7 @@ bool play_videogame( const std::string &function_name,
         return true;
     } else if( function_name == "lightson_game" ) {
         lightson_game lg;
-        int iScore = lg.start_game();
+        const int iScore = lg.start_game();
         score = std::min( 15, iScore * 3 );
 
         return true;

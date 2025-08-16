@@ -223,7 +223,7 @@ void defense_game::init_constructions()
 
 void defense_game::init_map()
 {
-    background_pane background;
+    const background_pane background;
     static_popup popup;
     popup.message( _( "Please wait as the map generates [%2d%%]" ), 0 );
     ui_manager::redraw();
@@ -232,7 +232,7 @@ void defense_game::init_map()
     auto &starting_om = overmap_buffer.get( point_abs_om() );
     for( int x = 0; x < OMAPX; x++ ) {
         for( int y = 0; y < OMAPY; y++ ) {
-            tripoint_om_omt p( x, y, 0 );
+            const tripoint_om_omt p( x, y, 0 );
             starting_om.ter_set( p, oter_id( "field" ) );
             starting_om.seen( p ) = true;
         }
@@ -275,8 +275,8 @@ void defense_game::init_map()
         for( int j = 0; j <= MAPSIZE * 2; j += 2 ) {
             int mx = 100 - MAPSIZE + i;
             int my = 100 - MAPSIZE + j;
-            int percent = 100 * ( ( j / 2 + MAPSIZE * ( i / 2 ) ) ) /
-                          ( ( MAPSIZE ) * ( MAPSIZE + 1 ) );
+            const int percent = 100 * ( ( j / 2 + MAPSIZE * ( i / 2 ) ) ) /
+                                ( ( MAPSIZE ) * ( MAPSIZE + 1 ) );
             if( percent >= old_percent + 1 ) {
                 popup.message( _( "Please wait as the map generates [%2d%%]" ), percent );
                 ui_manager::redraw();
@@ -296,7 +296,7 @@ void defense_game::init_map()
     }
 
     // For this mode assume we always want overmap zero.
-    tripoint_abs_omt abs_defloc_pos = project_combine( point_abs_om(), defloc_pos );
+    const tripoint_abs_omt abs_defloc_pos = project_combine( point_abs_om(), defloc_pos );
     g->load_map( project_to<coords::sm>( abs_defloc_pos ) );
     Character &player_character = get_player_character();
     player_character.setx( SEEX );
@@ -468,7 +468,7 @@ void defense_game::init_to_style( defense_style new_style )
 
 void defense_game::setup()
 {
-    background_pane bg_pane;
+    const background_pane bg_pane;
 
     catacurses::window w;
 
@@ -482,7 +482,7 @@ void defense_game::setup()
     ui.mark_resize();
 
     int selection = 1;
-    int selection_max = 20;
+    const int selection_max = 20;
 
     ui.on_redraw( [&]( const ui_adaptor & ) {
         refresh_setup( w, selection );
@@ -878,7 +878,7 @@ void defense_game::caravan()
 
     signed total_price = 0;
 
-    background_pane bg_pane;
+    const background_pane bg_pane;
 
     catacurses::window w;
     ui_adaptor ui;
@@ -974,8 +974,9 @@ void defense_game::caravan()
         } else if( action == "RIGHT" ) {
             if( current_window == 1 && !items[category_selected].empty() ) {
                 item_count[category_selected][item_selected]++;
-                itype_id tmp_itm = items[category_selected][item_selected];
-                int item_price = item::spawn_temporary( tmp_itm, calendar::start_of_cataclysm )->price( false );
+                const itype_id tmp_itm = items[category_selected][item_selected];
+                const int item_price = item::spawn_temporary( tmp_itm,
+                                       calendar::start_of_cataclysm )->price( false );
                 total_price += caravan_price( g->u, item_price );
                 if( category_selected == CARAVAN_CART ) { // Find the item in its category
                     for( int i = 1; i < NUM_CARAVAN_CATEGORIES; i++ ) {
@@ -1003,8 +1004,9 @@ void defense_game::caravan()
             if( current_window == 1 && !items[category_selected].empty() &&
                 item_count[category_selected][item_selected] > 0 ) {
                 item_count[category_selected][item_selected]--;
-                itype_id tmp_itm = items[category_selected][item_selected];
-                int item_price = item::spawn_temporary( tmp_itm, calendar::start_of_cataclysm )->price( false );
+                const itype_id tmp_itm = items[category_selected][item_selected];
+                const int item_price = item::spawn_temporary( tmp_itm,
+                                       calendar::start_of_cataclysm )->price( false );
                 total_price -= caravan_price( g->u, item_price );
                 if( category_selected == CARAVAN_CART ) { // Find the item in its category
                     for( int i = 1; i < NUM_CARAVAN_CATEGORIES; i++ ) {
@@ -1147,7 +1149,7 @@ std::vector<itype_id> caravan_items( caravan_category cat )
     std::vector<detached_ptr<item>> item_list = item_group::items_from( item_group_id( group_id ) );
 
     for( auto &it : item_list ) {
-        itype_id item_type = it->typeId();
+        const itype_id item_type = it->typeId();
         ret.emplace_back( item_type );
         // Add the default magazine types for each gun.
         if( it->is_gun() && !it->magazine_integral() ) {
@@ -1244,7 +1246,8 @@ void draw_caravan_items( const catacurses::window &w, std::vector<itype_id> *ite
     }
     // THEN print it--if item_selected is valid
     if( item_selected < static_cast<int>( items->size() ) ) {
-        item &tmp = *item::spawn_temporary( ( *items )[item_selected], calendar::start_of_cataclysm );
+        const item &tmp = *item::spawn_temporary( ( *items )[item_selected],
+                          calendar::start_of_cataclysm );
         fold_and_print( w, point( 1, 12 ), 38, c_white, tmp.info_string( iteminfo_query::no_text ) );
     }
     // Next, clear the item list on the right
@@ -1258,9 +1261,9 @@ void draw_caravan_items( const catacurses::window &w, std::vector<itype_id> *ite
                    item::nname( ( *items )[i], ( *counts )[i] ) );
         wprintz( w, c_white, " x %2d", ( *counts )[i] );
         if( ( *counts )[i] > 0 ) {
-            int item_price = item::spawn_temporary( ( *items )[i],
-                                                    calendar::start_of_cataclysm )->price( false );
-            int price = caravan_price( g->u, item_price * ( *counts )[i] );
+            const int item_price = item::spawn_temporary( ( *items )[i],
+                                   calendar::start_of_cataclysm )->price( false );
+            const int price = caravan_price( g->u, item_price * ( *counts )[i] );
             wprintz( w, ( price > g->u.cash ? c_red : c_green ), " (%s)", format_money( price ) );
         }
     }
@@ -1300,7 +1303,7 @@ void defense_game::spawn_wave()
         }
         const mtype &type = random_entry( valid ).obj();
         if( themed_wave ) {
-            int num = diff / type.difficulty;
+            const int num = diff / type.difficulty;
             if( num >= SPECIAL_WAVE_MIN ) {
                 // TODO: Do we want a special message here?
                 for( int i = 0; i < num; i++ ) {

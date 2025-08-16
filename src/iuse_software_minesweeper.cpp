@@ -104,7 +104,7 @@ void minesweeper_game::new_level()
     for( int y = 0; y < level.y; y++ ) {
         for( int x = 0; x < level.x; x++ ) {
             if( mLevel[y][x] == bomb ) {
-                for( point p : closest_points_first<point>( {x, y}, 1 ) ) {
+                for( const point p : closest_points_first<point>( {x, y}, 1 ) ) {
                     if( p.x >= 0 && p.x < level.x && p.y >= 0 && p.y < level.y ) {
                         if( mLevel[p.y][p.x] != bomb ) {
                             mLevel[p.y][p.x]++;
@@ -262,7 +262,7 @@ int minesweeper_game::start_game()
             mLevelReveal[pt.y][pt.x] = seen;
 
             if( mLevel[pt.y][pt.x] == 0 ) {
-                for( point p : closest_points_first( pt, 1 ) ) {
+                for( const point p : closest_points_first( pt, 1 ) ) {
                     if( p.x >= 0 && p.x < level.x && p.y >= 0 && p.y < level.y ) {
                         if( mLevelReveal[p.y][p.x] != seen ) {
                             rec_reveal( p );

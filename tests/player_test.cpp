@@ -44,7 +44,7 @@ namespace std
 {
 
 template<> struct hash<body_part_temp> {
-    std::size_t operator()( body_part_temp const &bpt ) const noexcept {
+    std::size_t operator()( const body_part_temp &bpt ) const noexcept {
         auto tuple_hash = cata::auto_hash<std::tuple<const bodypart_str_id &, const int &>>();
         return tuple_hash( std::forward_as_tuple( bpt.part, bpt.temperature ) );
     }

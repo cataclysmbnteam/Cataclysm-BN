@@ -145,7 +145,7 @@ void advanced_inv_area::init()
             canputitemsloc = can_store_in_vehicle() || here.can_put_items_ter_furn( pos );
             max_size = MAX_ITEM_IN_SQUARE;
             if( can_store_in_vehicle() ) {
-                std::string part_name = vp->info().name();
+                const std::string part_name = vp->info().name();
                 desc[1] = vp->get_label().value_or( part_name );
             }
             // get graffiti or terrain name
@@ -277,7 +277,7 @@ item *advanced_inv_area::get_container( bool in_vehicle )
             }
         } else if( uistate.adv_inv_container_location == AIM_WORN ) {
             auto &worn = g->u.worn;
-            size_t idx = static_cast<size_t>( uistate.adv_inv_container_index );
+            const size_t idx = static_cast<size_t>( uistate.adv_inv_container_index );
             if( worn.size() > idx ) {
                 auto iter = worn.begin();
                 std::advance( iter, idx );
@@ -299,8 +299,8 @@ item *advanced_inv_area::get_container( bool in_vehicle )
             }
         } else {
             map &here = get_map();
-            bool is_in_vehicle = veh &&
-                                 ( uistate.adv_inv_container_in_vehicle || ( can_store_in_vehicle() && in_vehicle ) );
+            const bool is_in_vehicle = veh &&
+                                       ( uistate.adv_inv_container_in_vehicle || ( can_store_in_vehicle() && in_vehicle ) );
 
             const itemstack &stacks = is_in_vehicle ?
                                       i_stacked( veh->get_items( vstor ) ) :

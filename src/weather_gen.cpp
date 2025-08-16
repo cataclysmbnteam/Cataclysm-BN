@@ -99,7 +99,7 @@ static units::temperature weather_temperature_from_common_data( const weather_ge
     // -1 at coldest_hour, +1 twelve hours later
     const double dayv = std::cos( tau * ( dayFraction + .5 - coldest_hour / 24 ) );
 
-    units::temperature season_factor = season_temp( wg, common.year_fraction );
+    const units::temperature season_factor = season_temp( wg, common.year_fraction );
     const double temperature_celsius =
         units::to_celsius<double>( season_factor ) +
         ( dayv * units::to_celsius<double>( wg.temperature_daily_amplitude ) ) +
@@ -137,20 +137,20 @@ w_point weather_generator::get_weather( const tripoint_abs_ms &location, const t
 
     // Noise factors
     const units::temperature T( weather_temperature_from_common_data( *this, common, t ) );
-    double A( raw_noise_4d( x, y, z, modSEED ) * 8.0 );
+    const double A( raw_noise_4d( x, y, z, modSEED ) * 8.0 );
     double W( raw_noise_4d( x / 2.5, y / 2.5, z / 200, modSEED ) * 10.0 );
 
     // Humidity variation
-    double mod_h = season_stats[static_cast<size_t>( season )].humidity_mod;
+    const double mod_h = season_stats[static_cast<size_t>( season )].humidity_mod;
     // Relative humidity, a percentage.
-    double H = std::min( 100., std::max( 0.,
-                                         base_humidity + mod_h + ( 100 * (
-                                                 .15 * -cgyf +
-                                                 raw_noise_4d( x, y, z, modSEED + 101 ) *
-                                                 .2 * ( cgyf + 2 ) ) ) ) );
+    const double H = std::min( 100., std::max( 0.,
+                               base_humidity + mod_h + ( 100 * (
+                                           .15 * -cgyf +
+                                           raw_noise_4d( x, y, z, modSEED + 101 ) *
+                                           .2 * ( cgyf + 2 ) ) ) ) );
 
     // Pressure
-    double P =
+    const double P =
         base_pressure +
         ( raw_noise_4d( x, y, z, modSEED + 211 ) *
           10 * ( cgyf + 2 ) );
@@ -166,16 +166,16 @@ w_point weather_generator::get_weather( const tripoint_abs_ms &location, const t
         current_winddir = convert_winddir( current_winddir );
     } else {
         // When wind strength is low, wind direction is more variable
-        bool changedir = one_in( W * 2160 );
+        const bool changedir = one_in( W * 2160 );
         if( changedir ) {
             current_winddir = get_wind_direction( season );
             current_winddir = convert_winddir( current_winddir );
         }
     }
-    std::string wind_desc = get_wind_desc( W );
+    const std::string wind_desc = get_wind_desc( W );
     // Acid rains
     const double acid_content = base_acid * A;
-    bool acid = acid_content >= 1.0;
+    const bool acid = acid_content >= 1.0;
     return w_point{ T, H, P, W, wind_desc, current_winddir, acid };
 }
 
@@ -207,7 +207,7 @@ int weather_generator::forecast_priority( const weather_type_id &w ) const
 const weather_type_id &weather_generator::get_weather_conditions( const tripoint &location,
         const time_point &t, unsigned seed ) const
 {
-    w_point w( get_weather( location, t, seed ) );
+    const w_point w( get_weather( location, t, seed ) );
     return get_weather_conditions( w );
 }
 
@@ -216,24 +216,24 @@ const weather_type_id &weather_generator::get_weather_conditions( const w_point 
     const weather_type_id *current_conditions = &weather_type_id::NULL_ID();
     for( const weather_type_id &type : weather_types ) {
         const weather_requirements &wrequires = type->requirements;
-        weather_requirements rq2 = wrequires;
-        bool test_pressure =
+        const weather_requirements rq2 = wrequires;
+        const bool test_pressure =
             wrequires.pressure_max > w.pressure &&
             wrequires.pressure_min < w.pressure;
-        bool test_humidity =
+        const bool test_humidity =
             wrequires.humidity_max > w.humidity &&
             wrequires.humidity_min < w.humidity;
         if( ( wrequires.humidity_and_pressure && !( test_pressure && test_humidity ) ) ||
             ( !wrequires.humidity_and_pressure && !( test_pressure || test_humidity ) ) ) {
             continue;
         }
-        bool test_temperature =
+        const bool test_temperature =
             wrequires.temperature_max > units::to_fahrenheit( w.temperature ) &&
             wrequires.temperature_min < units::to_fahrenheit( w.temperature );
-        bool test_windspeed =
+        const bool test_windspeed =
             wrequires.windpower_max > w.windpower &&
             wrequires.windpower_min < w.windpower;
-        bool test_acidic = !wrequires.acidic || w.acidic;
+        const bool test_acidic = !wrequires.acidic || w.acidic;
         if( !( test_temperature && test_windspeed && test_acidic ) ) {
             continue;
         }
@@ -246,7 +246,7 @@ const weather_type_id &weather_generator::get_weather_conditions( const w_point 
         }
 
         if( wrequires.time != weather_time_requirement_type::both ) {
-            bool day = is_day( calendar::turn );
+            const bool day = is_day( calendar::turn );
             if( ( wrequires.time == weather_time_requirement_type::day && !day ) ||
                 ( wrequires.time == weather_time_requirement_type::night && day ) ) {
                 continue;
@@ -281,7 +281,7 @@ int weather_generator::get_wind_direction( const season_type season ) const
 int weather_generator::convert_winddir( const int inputdir ) const
 {
     // Convert from discrete distribution output to angle
-    float finputdir = inputdir * 22.5;
+    const float finputdir = inputdir * 22.5;
     return static_cast<int>( finputdir );
 }
 
@@ -309,7 +309,7 @@ units::temperature weather_generator::get_water_temperature(
                                             0_c,
                                             [this, location, time, seed, calendar_config]( units::temperature acc,
     const std::pair<time_duration, double> &pr ) {
-        units::temperature weather_temperature =
+        const units::temperature weather_temperature =
             get_weather_temperature( location, time - pr.first, calendar_config, seed );
         return acc + multiply_any_unit( weather_temperature, pr.second );
     } );
@@ -340,11 +340,11 @@ void weather_generator::test_weather( unsigned seed = 1000 ) const
         const time_point begin = calendar::turn;
         const time_point end = begin + 2 * calendar::year_length();
         for( time_point i = begin; i < end; i += 20_minutes ) {
-            w_point w = get_weather( tripoint_zero, i, seed );
+            const w_point w = get_weather( tripoint_zero, i, seed );
             const weather_type_id &conditions = get_weather_conditions( w );
 
-            int year = ( to_turns<int>( i - calendar::turn_zero ) / to_turns<int>
-                         ( calendar::year_length() ) ) + 1;
+            const int year = ( to_turns<int>( i - calendar::turn_zero ) / to_turns<int>
+                               ( calendar::year_length() ) ) + 1;
             const int hour = hour_of_day<int>( i );
             const int minute = minute_of_hour<int>( i );
             int day;
@@ -397,7 +397,7 @@ weather_generator weather_generator::load( const JsonObject &jo )
 
     weather_generator ret;
 
-    float base_temp = jo.get_float( "base_temperature", 0.0 );
+    const float base_temp = jo.get_float( "base_temperature", 0.0 );
     // Handling legacy temperature settings
     // Don't handle legacy settings in strict mode, let it error
     if( !json_report_strict ) {

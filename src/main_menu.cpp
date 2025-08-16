@@ -106,7 +106,7 @@ static int utf8_width_notags( const char *s )
     int w = 0;
     bool inside_tag = false;
     while( len > 0 ) {
-        uint32_t ch = UTF8_getch( &ptr, &len );
+        const uint32_t ch = UTF8_getch( &ptr, &len );
         if( ch == UNKNOWN_UNICODE ) {
             continue;
         }
@@ -137,17 +137,17 @@ std::vector<int> main_menu::print_menu_items( const catacurses::window &w_in,
         }
         ret.push_back( utf8_width_notags( text.c_str() ) );
 
-        std::string temp = shortcut_text( iSel == i ? hilite( c_yellow ) : c_yellow, vItems[i] );
+        const std::string temp = shortcut_text( iSel == i ? hilite( c_yellow ) : c_yellow, vItems[i] );
         text += string_format( "[%s]", colorize( temp,
                                iSel == i ? hilite( c_light_gray ) : c_light_gray ) );
     }
 
-    int text_width = utf8_width_notags( text.c_str() );
+    const int text_width = utf8_width_notags( text.c_str() );
     if( text_width > getmaxx( w_in ) ) {
         offset.y -= std::ceil( text_width / getmaxx( w_in ) );
     }
 
-    std::vector<std::string> menu_txt = foldstring( text, getmaxx( w_in ), ']' );
+    const std::vector<std::string> menu_txt = foldstring( text, getmaxx( w_in ), ']' );
 
     int y_off = 0;
     int sel_opt = 0;
@@ -162,8 +162,8 @@ std::vector<int> main_menu::print_menu_items( const catacurses::window &w_in,
             if( tmp_chars.at( x ) == "[" ) {
                 for( int x2 = x; static_cast<size_t>( x2 ) < tmp_chars.size(); x2++ ) {
                     if( tmp_chars.at( x2 ) == "]" ) {
-                        inclusive_rectangle<point> rec( win_offset + offset + point( x, y_off ),
-                                                        win_offset + offset + point( x2, y_off ) );
+                        const inclusive_rectangle<point> rec( win_offset + offset + point( x, y_off ),
+                                                              win_offset + offset + point( x2, y_off ) );
                         main_menu_button_map.emplace_back( rec, sel_opt++ );
                         break;
                     }
@@ -181,7 +181,7 @@ void main_menu::display_sub_menu( int sel, const point &bottom_left, int sel_lin
     main_menu_sub_button_map.clear();
     std::vector<std::string> sub_opts;
     int xlen = 0;
-    main_menu_opts sel_o = static_cast<main_menu_opts>( sel );
+    const main_menu_opts sel_o = static_cast<main_menu_opts>( sel );
     switch( sel_o ) {
         case main_menu_opts::CREDITS:
             display_text( mmenu_credits, _( "Credits" ), sel_line );
@@ -192,17 +192,17 @@ void main_menu::display_sub_menu( int sel, const point &bottom_left, int sel_lin
             return;
         case main_menu_opts::SETTINGS:
             for( int i = 0; static_cast<size_t>( i ) < vSettingsSubItems.size(); ++i ) {
-                nc_color clr = i == sel2 ? hilite( c_yellow ) : c_yellow;
+                const nc_color clr = i == sel2 ? hilite( c_yellow ) : c_yellow;
                 sub_opts.push_back( shortcut_text( clr, vSettingsSubItems[i] ) );
-                int len = utf8_width( shortcut_text( clr, vSettingsSubItems[i] ), true );
+                const int len = utf8_width( shortcut_text( clr, vSettingsSubItems[i] ), true );
                 xlen = std::max( len, xlen );
             }
             break;
         case main_menu_opts::NEWCHAR:
             for( int i = 0; static_cast<size_t>( i ) < vNewGameSubItems.size(); i++ ) {
-                nc_color clr = i == sel2 ? hilite( c_yellow ) : c_yellow;
+                const nc_color clr = i == sel2 ? hilite( c_yellow ) : c_yellow;
                 sub_opts.push_back( shortcut_text( clr, vNewGameSubItems[i] ) );
-                int len = utf8_width( shortcut_text( clr, vNewGameSubItems[i] ), true );
+                const int len = utf8_width( shortcut_text( clr, vNewGameSubItems[i] ), true );
                 xlen = std::max( len, xlen );
             }
             break;
@@ -216,15 +216,15 @@ void main_menu::display_sub_menu( int sel, const point &bottom_left, int sel_lin
             std::vector<std::string> all_worldnames = world_generator->all_worldnames();
             for( int i = 0; static_cast<size_t>( i ) < all_worldnames.size(); i++ ) {
                 WORLDINFO *world = world_generator->get_world( all_worldnames[i] );
-                int savegames_count = world->world_saves.size();
+                const int savegames_count = world->world_saves.size();
                 nc_color clr = c_white;
-                std::string txt = all_worldnames[i];
+                const std::string txt = all_worldnames[i];
                 if( all_worldnames[i] == "TUTORIAL" || all_worldnames[i] == "DEFENSE" ) {
                     clr = c_light_cyan;
                 }
                 sub_opts.push_back( colorize( string_format( "%s (%d)", txt, savegames_count ),
                                               ( sel2 == i + ( extra_opt ? 1 : 0 ) ) ? hilite( clr ) : clr ) );
-                int len = utf8_width( sub_opts.back(), true );
+                const int len = utf8_width( sub_opts.back(), true );
                 xlen = std::max( len, xlen );
             }
         }
@@ -240,16 +240,17 @@ void main_menu::display_sub_menu( int sel, const point &bottom_left, int sel_lin
     }
 
     const point top_left( bottom_left + point( 0, -( sub_opts.size() + 1 ) ) );
-    catacurses::window w_sub = catacurses::newwin( sub_opts.size() + 2, xlen + 4, top_left );
+    const catacurses::window w_sub = catacurses::newwin( sub_opts.size() + 2, xlen + 4, top_left );
     werase( w_sub );
     draw_border( w_sub, c_light_gray );
     for( int y = 0; static_cast<size_t>( y ) < sub_opts.size(); y++ ) {
         std::string opt = ( sel2 == y ? "» " : "  " ) + sub_opts[y];
-        int padding = ( xlen + 2 ) - utf8_width( opt, true );
+        const int padding = ( xlen + 2 ) - utf8_width( opt, true );
         opt.append( padding, ' ' );
-        nc_color clr = sel2 == y ? hilite( c_light_gray ) : c_light_gray;
+        const nc_color clr = sel2 == y ? hilite( c_light_gray ) : c_light_gray;
         trim_and_print( w_sub, point( 1, y + 1 ), xlen + 2, clr, opt );
-        inclusive_rectangle<point> rec( top_left + point( 1, y + 1 ), top_left + point( xlen + 2, y + 1 ) );
+        const inclusive_rectangle<point> rec( top_left + point( 1, y + 1 ), top_left + point( xlen + 2,
+                                              y + 1 ) );
         main_menu_sub_button_map.emplace_back( rec, std::pair<int, int> { sel, y } );
     }
     wnoutrefresh( w_sub );
@@ -264,8 +265,8 @@ void main_menu::print_menu( const catacurses::window &w_open, int iSel, const po
     werase( w_open );
 
     // Define window size
-    int window_width = getmaxx( w_open );
-    int window_height = getmaxy( w_open );
+    const int window_width = getmaxx( w_open );
+    const int window_height = getmaxy( w_open );
 
     // Draw horizontal line
     for( int i = 1; i < window_width - 1; ++i ) {
@@ -315,7 +316,7 @@ void main_menu::print_menu( const catacurses::window &w_open, int iSel, const po
     if( mmenu_title.size() > 1 ) {
         for( const std::string &i_title : mmenu_title ) {
             nc_color cur_color = c_white;
-            nc_color base_color = c_white;
+            const nc_color base_color = c_white;
             print_colored_text( w_open, point( iOffsetX, iLine++ ), cur_color, base_color, i_title );
         }
     } else {
@@ -516,18 +517,18 @@ void main_menu::display_text( const std::string &text, const std::string &title,
     const int b_height = FULL_SCREEN_HEIGHT - clamp( ( FULL_SCREEN_HEIGHT - w_open_height ) + 4, 0, 4 );
     const int vert_off = clamp( ( w_open_height - FULL_SCREEN_HEIGHT ) / 2, getbegy( w_open ), TERMY );
 
-    catacurses::window w_border = catacurses::newwin( b_height, FULL_SCREEN_WIDTH,
-                                  point( clamp( ( TERMX - FULL_SCREEN_WIDTH ) / 2, 0, TERMX ), vert_off ) );
+    const catacurses::window w_border = catacurses::newwin( b_height, FULL_SCREEN_WIDTH,
+                                        point( clamp( ( TERMX - FULL_SCREEN_WIDTH ) / 2, 0, TERMX ), vert_off ) );
 
-    catacurses::window w_text = catacurses::newwin( b_height - 2, FULL_SCREEN_WIDTH - 2,
-                                point( 1 + clamp( ( TERMX - FULL_SCREEN_WIDTH ) / 2, 0, TERMX ), 1 + vert_off ) );
+    const catacurses::window w_text = catacurses::newwin( b_height - 2, FULL_SCREEN_WIDTH - 2,
+                                      point( 1 + clamp( ( TERMX - FULL_SCREEN_WIDTH ) / 2, 0, TERMX ), 1 + vert_off ) );
 
     draw_border( w_border, BORDER_COLOR, title );
 
-    int width = FULL_SCREEN_WIDTH - 2;
-    int height = b_height - 2;
+    const int width = FULL_SCREEN_WIDTH - 2;
+    const int height = b_height - 2;
     const auto vFolded = foldstring( text, width );
-    int iLines = vFolded.size();
+    const int iLines = vFolded.size();
 
     fold_and_print_from( w_text, point_zero, width, selected, c_light_gray, text );
 
@@ -634,7 +635,7 @@ bool main_menu::opening_screen()
         sel2 = world_generator->get_world_index( world_generator->last_world_name );
     }
 
-    background_pane background;
+    const background_pane background;
 
     ui_adaptor ui;
     ui.on_redraw( [&]( const ui_adaptor & ) {
@@ -653,7 +654,7 @@ bool main_menu::opening_screen()
         // Since this is an index for a mutable array, it should always be regenerated instead of modified.
         const size_t last_world_pos = world_generator->get_world_index( world_generator->last_world_name );
         std::string action = ctxt.handle_input();
-        input_event sInput = ctxt.get_raw_input();
+        const input_event sInput = ctxt.get_raw_input();
 
         // check automatic menu shortcuts
         for( int i = 0; static_cast<size_t>( i ) < vMenuHotkeys.size(); ++i ) {
@@ -719,8 +720,8 @@ bool main_menu::opening_screen()
                    action == "PAGE_UP" || action == "PAGE_DOWN" ||
                    action == "SCROLL_UP" || action == "SCROLL_DOWN" ) {
             int max_item_count = 0;
-            int min_item_val = 0;
-            main_menu_opts opt = static_cast<main_menu_opts>( sel1 );
+            const int min_item_val = 0;
+            const main_menu_opts opt = static_cast<main_menu_opts>( sel1 );
             switch( opt ) {
                 case main_menu_opts::MOTD:
                 case main_menu_opts::CREDITS:
@@ -729,7 +730,7 @@ bool main_menu::opening_screen()
                             sel_line--;
                         }
                     } else if( action == "DOWN" || action == "PAGE_DOWN" || action == "SCROLL_DOWN" ) {
-                        int effective_height = sel_line + FULL_SCREEN_HEIGHT - 2;
+                        const int effective_height = sel_line + FULL_SCREEN_HEIGHT - 2;
                         if( ( opt == main_menu_opts::CREDITS && effective_height < mmenu_credits_len ) ||
                             ( opt == main_menu_opts::MOTD && effective_height < mmenu_motd_len ) ) {
                             sel_line++;
@@ -853,11 +854,11 @@ bool main_menu::new_character_tab()
                 return false;
             }
 
-            std::string res = query_popup()
-                              .context( "LOAD_DELETE_CANCEL" ).default_color( c_light_gray )
-                              .message( _( "What to do with template \"%s\"?" ), templates[opt_val] )
-                              .option( "LOAD" ).option( "DELETE" ).option( "CANCEL" ).cursor( 0 )
-                              .query().action;
+            const std::string res = query_popup()
+                                    .context( "LOAD_DELETE_CANCEL" ).default_color( c_light_gray )
+                                    .message( _( "What to do with template \"%s\"?" ), templates[opt_val] )
+                                    .option( "LOAD" ).option( "DELETE" ).option( "CANCEL" ).cursor( 0 )
+                                    .query().action;
             if( res == "DELETE" &&
                 query_yn( _( "Are you sure you want to delete %s?" ), templates[opt_val] ) ) {
                 const auto path = PATH_INFO::templatedir() + templates[opt_val] + ".template";
@@ -893,8 +894,8 @@ bool main_menu::new_character_tab()
         world = world_generator->make_new_world( special_game_type::DEFENSE );
     } else {
         // Pick a world, suppressing prompts if it's "play now" mode.
-        bool empty_only = sel2 == 3 || sel2 == 4;
-        bool show_prompt = !empty_only;
+        const bool empty_only = sel2 == 3 || sel2 == 4;
+        const bool show_prompt = !empty_only;
         world = world_generator->pick_world( show_prompt, empty_only );
     }
 
@@ -910,7 +911,7 @@ bool main_menu::new_character_tab()
     }
 
     if( g->gamemode ) {
-        bool success = g->gamemode->init();
+        const bool success = g->gamemode->init();
         if( success ) {
             cleanup.cancel();
         }
@@ -1028,7 +1029,7 @@ void main_menu::world_tab( const std::string &worldname )
         mmenu.entries.emplace_back( static_cast<int>( i ), true, vWorldHotkeys[i], vWorldSubItems[i] );
     }
     mmenu.query();
-    int opt_val = mmenu.ret;
+    const int opt_val = mmenu.ret;
     if( opt_val < 0 || static_cast<size_t>( opt_val ) >= vWorldSubItems.size() ) {
         return;
     }

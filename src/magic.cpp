@@ -284,7 +284,7 @@ void spell_type::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "blocker_mutations", blocker_mutations, auto_flags_reader<trait_id> {} );
 
     if( jo.has_array( "extra_effects" ) ) {
-        for( JsonObject fake_spell_obj : jo.get_array( "extra_effects" ) ) {
+        for( const JsonObject fake_spell_obj : jo.get_array( "extra_effects" ) ) {
             fake_spell temp;
             temp.load( fake_spell_obj );
             additional_spells.emplace_back( temp );
@@ -423,7 +423,7 @@ void spell_type::check_consistency()
                           sp_t.effect_str );
             }
         }
-        std::set<spell_id> spell_effect_list;
+        const std::set<spell_id> spell_effect_list;
         if( spell_infinite_loop_check( spell_effect_list, sp_t.id ) ) {
             debugmsg( "ERROR: %s has infinite loop in extra_effects", sp_t.id.c_str() );
         }
@@ -508,7 +508,7 @@ int spell::get_stats_deltas( const Character &guy ) const
 
 double spell::get_stat_mult( bool decrease, const Character &guy ) const
 {
-    double percent = get_option<int>( "MAGIC_STAT_SCALING_PERCENT" ) / 100.0;
+    const double percent = get_option<int>( "MAGIC_STAT_SCALING_PERCENT" ) / 100.0;
     if( decrease ) {
         return std::max( ( 1.0 - ( percent * get_stats_deltas( guy ) ) ),
                          0.1 ); // Max is necessary to avoid negatives / 0
@@ -550,7 +550,7 @@ int spell::damage_as_character( const Character &guy ) const
     // Open-ended for the purposes of further expansion
     double total_damage = damage();
     if( has_flag( spell_flag::ADD_MELEE_DAM ) ) {
-        item &weapon = guy.used_weapon();
+        const item &weapon = guy.used_weapon();
         int weapon_damage = 0;
         if( !weapon.is_null() ) {
             // Just take the max, rather than worrying about how to integrate the other damage types
@@ -1107,7 +1107,7 @@ bool spell::is_valid_target( const Creature &caster, const tripoint &p ) const
 {
     bool valid = false;
     if( Creature *const cr = g->critter_at<Creature>( p ) ) {
-        Attitude cr_att = cr->attitude_to( caster );
+        const Attitude cr_att = cr->attitude_to( caster );
         valid = valid || ( cr_att != Attitude::A_FRIENDLY && is_valid_target( target_hostile ) );
         valid = valid || ( cr_att == Attitude::A_FRIENDLY && is_valid_target( target_ally ) &&
                            p != caster.pos() );
@@ -1252,9 +1252,9 @@ int spell::casting_exp( const Character &guy ) const
 std::string spell::enumerate_targets() const
 {
     std::vector<std::string> all_valid_targets;
-    int last_target = static_cast<int>( valid_target::_LAST );
+    const int last_target = static_cast<int>( valid_target::_LAST );
     for( int i = 0; i < last_target; ++i ) {
-        valid_target t = static_cast<valid_target>( i );
+        const valid_target t = static_cast<valid_target>( i );
         if( is_valid_target( t ) && t != target_none ) {
             all_valid_targets.emplace_back( io::enum_to_string( t ) );
         }
@@ -1364,7 +1364,7 @@ void spell::cast_all_effects( Creature &source, const tripoint &target ) const
                 return;
             }
             const int rand_spell = rng( 0, type->additional_spells.size() - 1 );
-            spell sp = ( iter + rand_spell )->get_spell( get_level() );
+            const spell sp = ( iter + rand_spell )->get_spell( get_level() );
             const bool _self = ( iter + rand_spell )->self;
 
             // This spell flag makes it so the message of the spell that's cast using this spell will be sent.
@@ -1388,7 +1388,7 @@ void spell::cast_all_effects( Creature &source, const tripoint &target ) const
         // first call the effect of the main spell
         cast_spell_effect( source, target );
         for( const fake_spell &extra_spell : type->additional_spells ) {
-            spell sp = extra_spell.get_spell( get_level() );
+            const spell sp = extra_spell.get_spell( get_level() );
             if( sp.has_flag( RANDOM_TARGET ) ) {
                 if( const std::optional<tripoint> new_target = sp.random_valid_target( source,
                         extra_spell.self ? source.pos() : target ) ) {
@@ -1451,13 +1451,13 @@ void known_magic::serialize( JsonOut &json ) const
 
 void known_magic::deserialize( JsonIn &jsin )
 {
-    JsonObject data = jsin.get_object();
+    const JsonObject data = jsin.get_object();
     data.read( "mana", mana );
 
-    for( JsonObject jo : data.get_array( "spellbook" ) ) {
+    for( const JsonObject jo : data.get_array( "spellbook" ) ) {
         std::string id = jo.get_string( "id" );
         spell_id sp = spell_id( id );
-        int xp = jo.get_int( "xp" );
+        const int xp = jo.get_int( "xp" );
         if( !sp.is_valid() ) {
             debugmsg( "Skipping spell with invalid id: %s", sp.c_str() );
         } else if( knows_spell( sp ) ) {
@@ -1614,36 +1614,38 @@ void known_magic::mod_mana( const Character &guy, int add_mana )
 
 int known_magic::max_mana( const Character &guy ) const
 {
-    float int_bonus = ( ( 0.2f + guy.get_int() * 0.1f ) - 1.0f ) * mana_base;
-    float mut_mul = guy.mutation_value( "mana_multiplier" );
-    float mut_add = guy.mutation_value( "mana_modifier" );
-    int natural_cap = std::max( 0.0f, ( ( mana_base + int_bonus ) * mut_mul ) + mut_add );
+    const float int_bonus = ( ( 0.2f + guy.get_int() * 0.1f ) - 1.0f ) * mana_base;
+    const float mut_mul = guy.mutation_value( "mana_multiplier" );
+    const float mut_add = guy.mutation_value( "mana_modifier" );
+    const int natural_cap = std::max( 0.0f, ( ( mana_base + int_bonus ) * mut_mul ) + mut_add );
 
-    int ench_bonus = guy.bonus_from_enchantments( natural_cap, enchant_vals::mod::MANA_CAP, true );
+    const int ench_bonus = guy.bonus_from_enchantments( natural_cap, enchant_vals::mod::MANA_CAP,
+                           true );
 
     return std::max( 0, natural_cap + ench_bonus );
 }
 
 double known_magic::mana_regen_rate( const Character &guy ) const
 {
-    bool is_flat_rate = get_option<bool>( "MANA_REGEN_IS_FLAT" );
+    const bool is_flat_rate = get_option<bool>( "MANA_REGEN_IS_FLAT" );
     double base_rate;
     if( !is_flat_rate ) {
         // mana should replenish in hours_to_regen hours by default.
-        int hours_to_regen = get_option<int>( "MANA_REGEN_HOURS_RATE" );
-        double full_replenish = to_turns<double>( time_duration::from_hours( hours_to_regen ) );
-        double capacity = max_mana( guy );
+        const int hours_to_regen = get_option<int>( "MANA_REGEN_HOURS_RATE" );
+        const double full_replenish = to_turns<double>( time_duration::from_hours( hours_to_regen ) );
+        const double capacity = max_mana( guy );
         base_rate = capacity / full_replenish;
     } else {
         // mana should regen at a rate of flat_rate by default
         base_rate = get_option<int>( "MANA_REGEN_FLAT" ) / to_turns<double>( 1_hours );
     }
 
-    double mut_mul = guy.mutation_value( "mana_regen_multiplier" );
-    double natural_regen = std::max( 0.0, base_rate * mut_mul );
+    const double mut_mul = guy.mutation_value( "mana_regen_multiplier" );
+    const double natural_regen = std::max( 0.0, base_rate * mut_mul );
 
 
-    double ench_bonus = guy.bonus_from_enchantments( natural_regen, enchant_vals::mod::MANA_REGEN );
+    const double ench_bonus = guy.bonus_from_enchantments( natural_regen,
+                              enchant_vals::mod::MANA_REGEN );
 
     return std::max( 0.0, natural_regen + ench_bonus );
 }
@@ -1666,7 +1668,7 @@ std::vector<spell_id> known_magic::spells() const
 // does the Character have enough energy (of the type of the spell) to cast the spell?
 bool known_magic::has_enough_energy( const Character &guy, spell &sp ) const
 {
-    int cost = sp.energy_cost( guy );
+    const int cost = sp.energy_cost( guy );
     switch( sp.energy_source() ) {
         case mana_energy:
             return available_mana() >= cost;
@@ -1758,8 +1760,8 @@ class spellcasting_callback : public uilist_callback
             for( int i = 1; i < menu->w_height - 1; i++ ) {
                 mvwputch( menu->window, point( menu->w_width - menu->pad_right, i ), c_magenta, LINE_XOXO );
             }
-            std::string ignore_string = casting_ignore ? _( "Ignore Distractions" ) :
-                                        _( "Popup Distractions" );
+            const std::string ignore_string = casting_ignore ? _( "Ignore Distractions" ) :
+                                              _( "Popup Distractions" );
             mvwprintz( menu->window, point( menu->w_width - menu->pad_right + 2, 0 ),
                        casting_ignore ? c_red : c_light_green, string_format( "%s %s", "[I]", ignore_string ) );
             const std::string assign_letter = _( "Assign Hotkey [=]" );
@@ -1846,7 +1848,7 @@ static std::string enumerate_traits( const std::set<trait_id> st )
 {
     std::vector<std::string> str_vector;
     if( !st.empty() ) {
-        for( trait_id trait : st ) {
+        for( const trait_id trait : st ) {
             str_vector.push_back( trait->name() );
         }
     } else {
@@ -1869,7 +1871,7 @@ void spellcasting_callback::draw_spell_info( const spell &sp, const uilist *menu
     const std::string fx = sp.effect();
     int line = 1;
     nc_color gray = c_light_gray;
-    nc_color light_green = c_light_green;
+    const nc_color light_green = c_light_green;
     nc_color yellow = c_yellow;
 
     print_colored_text( w_menu, point( h_col1, line++ ), yellow, yellow,
@@ -2310,7 +2312,7 @@ void fake_spell::serialize( JsonOut &json ) const
 
 void fake_spell::deserialize( JsonIn &jsin )
 {
-    JsonObject data = jsin.get_object();
+    const JsonObject data = jsin.get_object();
     load( data );
 }
 
@@ -2318,13 +2320,14 @@ spell fake_spell::get_spell( int min_level_override ) const
 {
     spell sp( id );
     // the max level this spell will be. can be optionally limited
-    int spell_limiter = max_level ? std::min( *max_level, sp.get_max_level() ) : sp.get_max_level();
+    const int spell_limiter = max_level ? std::min( *max_level,
+                              sp.get_max_level() ) : sp.get_max_level();
     // level is the minimum level the fake_spell will output
     min_level_override = std::max( min_level_override, level );
     min_level_override = std::min( min_level_override, spell_limiter );
     // the "level" of the fake spell is the goal, but needs to be clamped to min and max
-    int level_of_spell = clamp( level, min_level_override,  std::min( sp.get_max_level(),
-                                spell_limiter ) );
+    const int level_of_spell = clamp( level, min_level_override,  std::min( sp.get_max_level(),
+                                      spell_limiter ) );
     if( level > spell_limiter ) {
         debugmsg( "ERROR: fake spell %s has higher min_level than max_level", id.c_str() );
         return sp;
@@ -2350,16 +2353,16 @@ void spell_events::notify( const cata::event &e )
 {
     switch( e.type() ) {
         case event_type::player_levels_spell: {
-            spell_id sid = e.get<spell_id>( "spell" );
-            int slvl = e.get<int>( "new_level" );
+            const spell_id sid = e.get<spell_id>( "spell" );
+            const int slvl = e.get<int>( "new_level" );
             spell_type spell_cast = spell_factory.obj( sid );
             for( std::map<std::string, int>::iterator it = spell_cast.learn_spells.begin();
                  it != spell_cast.learn_spells.end(); ++it ) {
                 std::string learn_spell_id = it->first;
-                int learn_at_level = it->second;
+                const int learn_at_level = it->second;
                 if( slvl >= learn_at_level && !g->u.magic->knows_spell( learn_spell_id ) ) {
                     g->u.magic->learn_spell( learn_spell_id, g->u );
-                    spell_type spell_learned = spell_factory.obj( spell_id( learn_spell_id ) );
+                    const spell_type spell_learned = spell_factory.obj( spell_id( learn_spell_id ) );
                     add_msg(
                         _( "Your experience and knowledge in creating and manipulating magical energies to cast %s have opened your eyes to new possibilities, you can now cast %s." ),
                         spell_cast.name, spell_learned.name );

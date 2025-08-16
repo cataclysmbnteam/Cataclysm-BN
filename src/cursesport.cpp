@@ -128,7 +128,7 @@ void catacurses::wborder( const window &win_, chtype ls, chtype rs, chtype ts, c
     }
     int i = 0;
     int j = 0;
-    point old = win->cursor; // methods below move the cursor, save the value!
+    const point old = win->cursor; // methods below move the cursor, save the value!
 
     const chtype border_ls = ls ? ls : LINE_XOXO;
     const chtype border_rs = rs ? rs : LINE_XOXO;
@@ -496,7 +496,7 @@ void catacurses::wattron( const window &win_, const nc_color &attrs )
         return;
     }
 
-    int pairNumber = attrs.to_color_pair_index();
+    const int pairNumber = attrs.to_color_pair_index();
     win->FG = cata_cursesport::colorpairs[pairNumber].FG;
     win->BG = cata_cursesport::colorpairs[pairNumber].BG;
     if( attrs.is_bold() ) {

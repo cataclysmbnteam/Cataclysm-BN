@@ -162,7 +162,7 @@ static bool get_liquid_target( item &liquid, const int radius, liquid_dest_opt &
     for( const auto &e : here.points_in_radius( g->u.pos(), 1 ) ) {
         auto veh = veh_pointer_or_null( here.veh_at( e ) );
         if( veh ) {
-            vehicle_part_range vpr = veh->get_all_parts();
+            const vehicle_part_range vpr = veh->get_all_parts();
             if( veh && std::any_of( vpr.begin(), vpr.end(), [&liquid]( const vpart_reference & pt ) {
             return pt.part().can_reload( &liquid );
             } ) ) {

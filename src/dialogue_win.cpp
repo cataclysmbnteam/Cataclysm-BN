@@ -13,10 +13,10 @@
 
 void dialogue_window::resize_dialogue( ui_adaptor &ui )
 {
-    int win_beginy = TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 4 : 0;
-    int win_beginx = TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 4 : 0;
-    int maxy = win_beginy ? TERMY - ( 2 * win_beginy ) : FULL_SCREEN_HEIGHT;
-    int maxx = win_beginx ? TERMX - ( 2 * win_beginx ) : FULL_SCREEN_WIDTH;
+    const int win_beginy = TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 4 : 0;
+    const int win_beginx = TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 4 : 0;
+    const int maxy = win_beginy ? TERMY - ( 2 * win_beginy ) : FULL_SCREEN_HEIGHT;
+    const int maxx = win_beginx ? TERMX - ( 2 * win_beginx ) : FULL_SCREEN_WIDTH;
     d_win = catacurses::newwin( maxy, maxx, point( win_beginx, win_beginy ) );
     ui.position_from_window( d_win );
     curr_page = 0;
@@ -29,8 +29,8 @@ void dialogue_window::resize_dialogue( ui_adaptor &ui )
 void dialogue_window::print_header( const std::string &name )
 {
     draw_border( d_win );
-    int win_midx = getmaxx( d_win ) / 2;
-    int winy = getmaxy( d_win );
+    const int win_midx = getmaxx( d_win ) / 2;
+    const int winy = getmaxy( d_win );
     mvwvline( d_win, point( win_midx + 1, 1 ), LINE_XOXO, winy - 1 );
     mvwputch( d_win, point( win_midx + 1, 0 ), BORDER_COLOR, LINE_OXXX );
     mvwputch( d_win, point( win_midx + 1, winy - 1 ), BORDER_COLOR, LINE_XXOX );
@@ -48,7 +48,7 @@ void dialogue_window::clear_window_texts()
 
 void dialogue_window::add_to_history( const std::string &msg )
 {
-    size_t idx = history.size();
+    const size_t idx = history.size();
     history.push_back( msg );
     cache_msg( msg, idx );
 }
@@ -61,7 +61,7 @@ void dialogue_window::print_history()
     int curline = getmaxy( d_win ) - 2;
     int curindex = draw_cache.size() - 1;
     // Highligh last message
-    size_t msg_to_highlight = history.size() - 1;
+    const size_t msg_to_highlight = history.size() - 1;
     // Print at line 2 and below, line 1 contains the header, line 0 the border
     while( curindex >= 0 && curline >= 2 ) {
         const std::pair<std::string, size_t> &msg = draw_cache[curindex];
@@ -86,7 +86,7 @@ static std::vector<page> split_to_pages( const std::vector<talk_data> &responses
 {
     page this_page;
     std::vector<page> ret;
-    int fold_width = page_w - 3;
+    const int fold_width = page_w - 3;
     int this_h = 0;
     for( const talk_data &resp : responses ) {
         // Assemble single entry for printing

@@ -64,7 +64,7 @@ struct track {
     tripoint location;
 };
 
-static std::ostream &operator<<( std::ostream &os, track const &value )
+static std::ostream &operator<<( std::ostream &os, const track &value )
 {
     os << value.participant <<
        " l:" << value.location <<

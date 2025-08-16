@@ -47,7 +47,7 @@ void tileray::init( units::angle adir )
     // Clamp adir to the range [0, 360)
     direction = normalize( adir );
     last_d = point_zero;
-    rl_vec2d delta_f( units::cos( direction ), units::sin( direction ) );
+    const rl_vec2d delta_f( units::cos( direction ), units::sin( direction ) );
     delta = ( delta_f * 100 ).as_point();
     abs_d = delta.abs();
     steps = 0;
@@ -210,7 +210,7 @@ void tileray::advance( int num )
     if( num == 0 ) {
         return;
     }
-    int anum = std::abs( num );
+    const int anum = std::abs( num );
     steps += anum;
     const bool vertical = mostly_vertical();
     if( abs_d.x && abs_d.y ) {
@@ -239,7 +239,7 @@ void tileray::advance( int num )
     }
 
     // offset calculated for 0-90 deg quadrant, we need to adjust if direction is other
-    int quadr = quadrant();
+    const int quadr = quadrant();
     last_d.x *= sx[quadr];
     last_d.y *= sy[quadr];
     if( num < 0 ) {

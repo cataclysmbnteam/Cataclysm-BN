@@ -56,13 +56,13 @@ class inventory;
 
 std::vector<char> keys_bound_to( action_id act, const bool restrict_to_printable )
 {
-    input_context ctxt = get_default_mode_input_context();
+    const input_context ctxt = get_default_mode_input_context();
     return ctxt.keys_bound_to( action_ident( act ), restrict_to_printable );
 }
 
 action_id action_from_key( char ch )
 {
-    input_context ctxt = get_default_mode_input_context();
+    const input_context ctxt = get_default_mode_input_context();
     const input_event event( ch, input_event_t::keyboard );
     const std::string &action = ctxt.input_to_action( event );
     return look_up_action( action );
@@ -475,25 +475,25 @@ action_id look_up_action( const std::string &ident )
 // (Press X (or Y)|Try) to Z
 std::string press_x( action_id act )
 {
-    input_context ctxt = get_default_mode_input_context();
+    const input_context ctxt = get_default_mode_input_context();
     return ctxt.press_x( action_ident( act ), _( "Press " ), "", _( "Try" ) );
 }
 std::string press_x( action_id act, const std::string &key_bound, const std::string &key_unbound )
 {
-    input_context ctxt = get_default_mode_input_context();
+    const input_context ctxt = get_default_mode_input_context();
     return ctxt.press_x( action_ident( act ), key_bound, "", key_unbound );
 }
 std::string press_x( action_id act, const std::string &key_bound_pre,
                      const std::string &key_bound_suf,
                      const std::string &key_unbound )
 {
-    input_context ctxt = get_default_mode_input_context();
+    const input_context ctxt = get_default_mode_input_context();
     return ctxt.press_x( action_ident( act ), key_bound_pre, key_bound_suf, key_unbound );
 }
 std::optional<std::string> press_x_if_bound( action_id act )
 {
-    input_context ctxt = get_default_mode_input_context();
-    std::string description = action_ident( act );
+    const input_context ctxt = get_default_mode_input_context();
+    const std::string description = action_ident( act );
     if( ctxt.keys_bound_to( description ).empty() ) {
         return std::nullopt;
     }
@@ -588,7 +588,7 @@ bool can_butcher_at( const tripoint &p )
 
 bool can_move_vertical_at( const tripoint &p, int movez )
 {
-    map &here = get_map();
+    const map &here = get_map();
     // TODO: unify this with game::move_vertical
     if( here.has_flag( flag_SWIMMABLE, p ) && here.has_flag( TFLAG_DEEP_WATER, p ) ) {
         if( movez == -1 ) {
@@ -608,8 +608,8 @@ bool can_move_vertical_at( const tripoint &p, int movez )
 
 bool can_examine_at( const tripoint &p )
 {
-    map &here = get_map();
-    Character &u = get_player_character();
+    const map &here = get_map();
+    const Character &u = get_player_character();
     if( here.veh_at( p ) ) {
         return true;
     }
@@ -639,7 +639,7 @@ bool can_examine_at( const tripoint &p )
 static bool can_pickup_at( const tripoint &p )
 {
     bool veh_has_items = false;
-    map &here = get_map();
+    const map &here = get_map();
     const optional_vpart_position vp = here.veh_at( p );
     if( vp ) {
         const int cargo_part = vp->vehicle().part_with_feature( vp->part_index(), "CARGO", false );
@@ -733,7 +733,7 @@ action_id handle_action_menu()
         action_weightings[ACTION_TOGGLE_CROUCH] = 300;
     }
 
-    map &here = get_map();
+    const map &here = get_map();
     // Check if we're on a vehicle, if so, vehicle controls should be top.
     if( here.veh_at( g->u.pos() ) ) {
         // Make it 300 to prioritize it before examining the vehicle.
@@ -894,7 +894,7 @@ action_id handle_action_menu()
         }
 
         if( category != "back" ) {
-            std::string msg = _( "Back" );
+            const std::string msg = _( "Back" );
             entries.emplace_back( 2 * NUM_ACTIONS, true,
                                   hotkey_for_action( ACTION_ACTIONMENU ), msg + "…" );
         }
@@ -946,7 +946,7 @@ action_id handle_main_menu()
     smenu.settext( _( "MAIN MENU" ) );
     smenu.entries = entries;
     smenu.query();
-    int selection = smenu.ret;
+    const int selection = smenu.ret;
 
     if( selection < 0 || selection >= NUM_ACTIONS ) {
         return ACTION_NULL;

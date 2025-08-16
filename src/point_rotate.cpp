@@ -37,6 +37,6 @@ auto get_rot_turns( const tripoint_abs_omt &here, const tripoint_abs_omt &there 
     const auto this_dir = overmap_buffer.ter( there )->get_dir();
     const auto that_dir = overmap_buffer.ter( here )->get_dir();
 
-    int const diff = static_cast<int>( this_dir ) - static_cast<int>( that_dir );
+    const int diff = static_cast<int>( this_dir ) - static_cast<int>( that_dir );
     return diff >= 0 ? diff : 4 + diff;
 }

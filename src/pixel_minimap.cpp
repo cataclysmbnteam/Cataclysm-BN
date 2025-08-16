@@ -286,7 +286,7 @@ void pixel_minimap::flush_cache_updates()
             }
         }
 
-        for( point p : mcp.second.update_list ) {
+        for( const point p : mcp.second.update_list ) {
             const point tile_pos = projector->get_tile_pos( p, { SEEX, SEEY } );
             const SDL_Color tile_color = mcp.second.color_at( p );
 

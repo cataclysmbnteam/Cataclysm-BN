@@ -95,7 +95,7 @@ void scenario::load( const JsonObject &jo, const std::string & )
         _starting_vehicle = vproto_id( jo.get_string( "vehicle" ) );
     }
 
-    for( JsonArray ja : jo.get_array( "surround_groups" ) ) {
+    for( const JsonArray ja : jo.get_array( "surround_groups" ) ) {
         _surround_groups.emplace_back( mongroup_id( ja.get_string( 0 ) ), ja.get_float( 1 ) );
     }
 }
@@ -313,7 +313,7 @@ std::vector<profession_id> scenario::permitted_professions() const
         const bool present = std::ranges::find( professions,
                                                 p.ident() ) != professions.end();
 
-        bool conflicting_traits = scenario_traits_conflict_with_profession_traits( p );
+        const bool conflicting_traits = scenario_traits_conflict_with_profession_traits( p );
 
         if( blacklist || professions.empty() ) {
             if( !present && !p.has_flag( "SCEN_ONLY" ) && !conflicting_traits ) {

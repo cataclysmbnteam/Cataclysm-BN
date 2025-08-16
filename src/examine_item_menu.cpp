@@ -62,9 +62,9 @@ bool run(
 
     int info_area_scroll_pos = 0;
     constexpr int info_area_scroll_step = 3;
-    temperature_flag temperature = rot::temperature_flag_for_location( get_map(), itm );
-    std::vector<iteminfo> item_info_vals = itm.info( temperature );
-    std::vector<iteminfo> dummy_compare;
+    const temperature_flag temperature = rot::temperature_flag_for_location( get_map(), itm );
+    const std::vector<iteminfo> item_info_vals = itm.info( temperature );
+    const std::vector<iteminfo> dummy_compare;
     item_info_data data( itm.tname(), itm.type_name(), item_info_vals, dummy_compare,
                          info_area_scroll_pos );
 
@@ -108,8 +108,8 @@ bool run(
         ctxt.register_action( act );
 
         std::string bound_key = ctxt.key_bound_to( act );
-        int bound_key_i = bound_key.size() == 1 ? bound_key[0] : '?';
-        std::string act_name = ctxt.get_action_name( act );
+        const int bound_key_i = bound_key.size() == 1 ? bound_key[0] : '?';
+        const std::string act_name = ctxt.get_action_name( act );
         if( number == INT_MIN ) {
             action_list.addentry( actions.size(), true, bound_key_i, act_name );
         } else {
@@ -265,12 +265,12 @@ bool run(
     }
 
     int selected_action = 0;
-    int num_actions = static_cast<int>( actions.size() );
+    const int num_actions = static_cast<int>( actions.size() );
 
     std::unique_ptr<ui_adaptor> ui = std::make_unique<ui_adaptor>();
     ui->on_screen_resize( [&]( ui_adaptor & ui ) {
-        int width = func_width();
-        int pos_x = func_pos_x();
+        const int width = func_width();
+        const int pos_x = func_pos_x();
         w_info = catacurses::newwin( TERMY, width, point( pos_x, 0 ) );
         ui.position_from_window( w_info );
     } );
@@ -317,7 +317,7 @@ bool run(
             selected_action = ( selected_action + 1 + num_actions ) % num_actions;
             action_list.set_selected( selected_action );
         } else {
-            for( action_entry &entry : actions ) {
+            for( const action_entry &entry : actions ) {
                 if( entry.action == action ) {
                     ret_val = entry.on_select();
                     exit = true;

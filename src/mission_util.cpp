@@ -135,7 +135,7 @@ static tripoint_abs_omt random_house_in_city( const city_reference &cref )
 
 tripoint_abs_omt mission_util::random_house_in_closest_city()
 {
-    Character &player_character = get_player_character();
+    const Character &player_character = get_player_character();
     // TODO: fix point types
     const tripoint_abs_sm center( player_character.global_sm_location() );
     const city_reference cref = overmap_buffer.closest_city( center );
@@ -155,12 +155,13 @@ tripoint_abs_omt mission_util::target_closest_lab_entrance(
     find_params.search_layers = std::nullopt;
 
     // Get the surface locations for labs and for spaces above hidden lab stairs.
-    tripoint_abs_omt surface = overmap_buffer.find_closest( tripoint_abs_omt( origin.xy(), 0 ),
-                               find_params );
+    const tripoint_abs_omt surface = overmap_buffer.find_closest( tripoint_abs_omt( origin.xy(), 0 ),
+                                     find_params );
 
     find_params.types.front().first = "hidden_lab_stairs";
-    tripoint_abs_omt underground = overmap_buffer.find_closest( tripoint_abs_omt( origin.xy(), -1 ),
-                                   find_params );
+    const tripoint_abs_omt underground = overmap_buffer.find_closest( tripoint_abs_omt( origin.xy(),
+                                         -1 ),
+                                         find_params );
 
     tripoint_abs_omt closest;
     if( square_dist( surface.xy(), origin.xy() ) <= square_dist( underground.xy(), origin.xy() ) ) {
@@ -300,7 +301,7 @@ std::optional<tripoint_abs_omt> mission_util::assign_mission_target(
     const mission_target_params &params )
 {
     // use the player or NPC's current position, adjust for the z value if any
-    tripoint_abs_omt origin_pos = get_mission_om_origin( params );
+    const tripoint_abs_omt origin_pos = get_mission_om_origin( params );
 
     std::optional<tripoint_abs_omt> target_pos = find_or_create_om_terrain( origin_pos, params );
 
@@ -324,7 +325,7 @@ std::optional<tripoint_abs_omt> mission_util::assign_mission_target(
 tripoint_abs_omt mission_util::get_om_terrain_pos( const mission_target_params &params )
 {
     // use the player or NPC's current position, adjust for the z value if any
-    tripoint_abs_omt origin_pos = get_mission_om_origin( params );
+    const tripoint_abs_omt origin_pos = get_mission_om_origin( params );
 
     tripoint_abs_omt target_pos = origin_pos;
     if( !params.overmap_terrain.empty() ) {
@@ -477,7 +478,7 @@ void mission_util::set_reveal_any( const JsonArray &ja,
 void mission_util::set_assign_om_target( const JsonObject &jo,
         std::vector<std::function<void( mission *miss )>> &funcs )
 {
-    mission_target_params p = parse_mission_om_target( jo );
+    const mission_target_params p = parse_mission_om_target( jo );
     const auto mission_func = [p]( mission * miss ) {
         mission_target_params mtp = p;
         mtp.mission_pointer = miss;
@@ -490,7 +491,7 @@ bool mission_util::set_update_mapgen( const JsonObject &jo,
                                       std::vector<std::function<void( mission *miss )>> &funcs )
 {
     bool defer = false;
-    mapgen_update_func update_map = add_mapgen_update_func( jo, defer );
+    const mapgen_update_func update_map = add_mapgen_update_func( jo, defer );
     if( defer ) {
         jo.allow_omitted_members();
         return false;
@@ -499,13 +500,13 @@ bool mission_util::set_update_mapgen( const JsonObject &jo,
     if( jo.has_member( "om_terrain" ) ) {
         const std::string om_terrain = jo.get_string( "om_terrain" );
         const auto mission_func = [update_map, om_terrain]( mission * miss ) {
-            tripoint_abs_omt update_pos3 = mission_util::reveal_om_ter( om_terrain, 1, false );
+            const tripoint_abs_omt update_pos3 = mission_util::reveal_om_ter( om_terrain, 1, false );
             update_map( update_pos3, miss );
         };
         funcs.emplace_back( mission_func );
     } else {
         const auto mission_func = [update_map]( mission * miss ) {
-            tripoint_abs_omt update_pos3 = miss->get_target();
+            const tripoint_abs_omt update_pos3 = miss->get_target();
             update_map( update_pos3, miss );
         };
         funcs.emplace_back( mission_func );
@@ -522,17 +523,17 @@ bool mission_util::load_funcs( const JsonObject &jo,
     } else if( jo.has_member( "reveal_om_ter" ) ) {
         set_reveal_any( jo.get_array( "reveal_om_ter" ), funcs );
     } else if( jo.has_member( "assign_mission_target" ) ) {
-        JsonObject mission_target = jo.get_object( "assign_mission_target" );
+        const JsonObject mission_target = jo.get_object( "assign_mission_target" );
         set_assign_om_target( mission_target, funcs );
     }
 
     if( jo.has_object( "update_mapgen" ) ) {
-        JsonObject update_mapgen = jo.get_object( "update_mapgen" );
+        const JsonObject update_mapgen = jo.get_object( "update_mapgen" );
         if( !set_update_mapgen( update_mapgen, funcs ) ) {
             return false;
         }
     } else {
-        for( JsonObject update_mapgen : jo.get_array( "update_mapgen" ) ) {
+        for( const JsonObject update_mapgen : jo.get_array( "update_mapgen" ) ) {
             if( !set_update_mapgen( update_mapgen, funcs ) ) {
                 return false;
             }
@@ -570,7 +571,7 @@ bool mission_type::parse_funcs( const JsonObject &jo, std::function<void( missio
         }
     };
 
-    for( talk_effect_fun_t &effect : talk_effects.effects ) {
+    for( const talk_effect_fun_t &effect : talk_effects.effects ) {
         auto rewards = effect.get_likely_rewards();
         if( !rewards.empty() ) {
             likely_rewards.insert( likely_rewards.end(), rewards.begin(), rewards.end() );

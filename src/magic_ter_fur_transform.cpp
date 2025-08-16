@@ -89,7 +89,7 @@ void ter_furn_transform::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "fail_message", fail_message, "" );
 
     if( jo.has_member( "terrain" ) ) {
-        for( JsonObject ter_obj : jo.get_array( "terrain" ) ) {
+        for( const JsonObject ter_obj : jo.get_array( "terrain" ) ) {
             ter_furn_data<ter_str_id> cur_results = ter_furn_data<ter_str_id>();
             cur_results.load( ter_obj );
 
@@ -108,7 +108,7 @@ void ter_furn_transform::load( const JsonObject &jo, const std::string & )
     }
 
     if( jo.has_member( "furniture" ) ) {
-        for( JsonObject furn_obj : jo.get_array( "furniture" ) ) {
+        for( const JsonObject furn_obj : jo.get_array( "furniture" ) ) {
             ter_furn_data<furn_str_id> cur_results = ter_furn_data<furn_str_id>();
             cur_results.load( furn_obj );
 

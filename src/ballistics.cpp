@@ -103,7 +103,7 @@ static void drop_or_embed_projectile( dealt_projectile_attack &attack )
     monster *mon = dynamic_cast<monster *>( attack.hit_critter );
 
     // We can only embed in monsters
-    bool mon_there = mon != nullptr && !mon->is_dead_state();
+    const bool mon_there = mon != nullptr && !mon->is_dead_state();
     // And if we actually want to embed
     bool embed = mon_there && !proj.has_effect( ammo_effect_NO_EMBED ) &&
                  !proj.has_effect( ammo_effect_TANGLE );
@@ -210,10 +210,10 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
 
     Creature *target_critter = g->critter_at( target_arg );
     map &here = get_map();
-    double target_size = target_critter != nullptr ?
-                         target_critter->ranged_target_size() :
-                         here.ranged_target_size( target_arg );
-    projectile_attack_aim aim = projectile_attack_roll( dispersion, range, target_size );
+    const double target_size = target_critter != nullptr ?
+                               target_critter->ranged_target_size() :
+                               here.ranged_target_size( target_arg );
+    const projectile_attack_aim aim = projectile_attack_roll( dispersion, range, target_size );
 
     // TODO: move to-hit roll back in here
 
@@ -252,12 +252,12 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
     std::vector<tripoint> trajectory;
     if( aim.missed_by_tiles >= 1.0 ) {
         // We missed enough to target a different tile
-        double dx = target_arg.x - source.x;
-        double dy = target_arg.y - source.y;
+        const double dx = target_arg.x - source.x;
+        const double dy = target_arg.y - source.y;
         units::angle rad = units::atan2( dy, dx );
 
         // cap wild misses at +/- 30 degrees
-        units::angle dispersion_angle =
+        const units::angle dispersion_angle =
             std::min( units::from_arcmin( aim.dispersion ), 30_degrees );
         rad += ( one_in( 2 ) ? 1 : -1 ) * dispersion_angle;
 
@@ -302,7 +302,7 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
     // Add the first point to the trajectory
     trajectory.insert( trajectory.begin(), source );
 
-    static emit_id muzzle_smoke( "emit_smaller_smoke_plume" );
+    static const emit_id muzzle_smoke( "emit_smaller_smoke_plume" );
     if( proj.has_effect( ammo_effect_MUZZLE_SMOKE ) ) {
         here.emit_field( trajectory.front(), muzzle_smoke );
     }
@@ -520,12 +520,12 @@ double hit_chance( const dispersion_sources &dispersion, double range, double ta
         return 1.0;
     }
 
-    double missed_by_tiles = missed_by * target_size;
+    const double missed_by_tiles = missed_by * target_size;
 
     //          T = (2*D**2 * (1 - cos V)) ** 0.5   (from iso_tangent)
     //      cos V = 1 - T**2 / (2*D**2)
-    double cosV = 1 - ( missed_by_tiles * missed_by_tiles / ( 2 * range * range ) );
-    double needed_dispersion = ( cosV < -1.0 ? M_PI : acos( cosV ) ) * 180 * 60 / M_PI;
+    const double cosV = 1 - ( missed_by_tiles * missed_by_tiles / ( 2 * range * range ) );
+    const double needed_dispersion = ( cosV < -1.0 ? M_PI : acos( cosV ) ) * 180 * 60 / M_PI;
 
     return normal_cdf( needed_dispersion, dispersion.avg(), dispersion.avg() / 2 );
 }

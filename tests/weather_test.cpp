@@ -68,7 +68,7 @@ TEST_CASE( "default season temperatures", "[weather]" )
         const units::temperature max_temperature = std::max(
                     season_stats[current_season].average_temperature,
                     season_stats[next_season].average_temperature ) + max_offset;
-        constexpr const tripoint_abs_ms pos;
+        const constexpr tripoint_abs_ms pos;
         for( time_point current_time = start_season_time;
              current_time < end_season_time;
              current_time += time_duration::from_hours( 1 ) ) {

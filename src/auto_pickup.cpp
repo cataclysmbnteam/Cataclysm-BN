@@ -163,7 +163,7 @@ void user_interface::show()
             if( i >= iStartPos &&
                 i < iStartPos + ( iContentHeight > static_cast<int>( cur_rules.size() ) ?
                                   static_cast<int>( cur_rules.size() ) : iContentHeight ) ) {
-                nc_color cLineColor = cur_rules[i].bActive ? c_white : c_light_gray;
+                const nc_color cLineColor = cur_rules[i].bActive ? c_white : c_light_gray;
 
                 mvwprintz( w, point( 1, i - iStartPos ), cLineColor, "%d", i + 1 );
                 mvwprintz( w, point( 5, i - iStartPos ), cLineColor, "" );
@@ -380,7 +380,7 @@ void user_interface::show()
         return;
     }
 
-    for( tab &t : tabs ) {
+    for( const tab &t : tabs ) {
         t.rules.get() = t.new_rules;
     }
 }
@@ -455,7 +455,7 @@ void rule::test_pattern() const
     init_windows( ui );
     ui.on_screen_resize( init_windows );
 
-    int nmatch = vMatchingItems.size();
+    const int nmatch = vMatchingItems.size();
     const std::string buf = string_format( vgettext( "%1$d item matches: %2$s",
                                            "%1$d items match: %2$s",
                                            nmatch ), nmatch, sRule );
@@ -487,7 +487,7 @@ void rule::test_pattern() const
             if( i >= iStartPos &&
                 i < iStartPos + ( iContentHeight > static_cast<int>( vMatchingItems.size() ) ?
                                   static_cast<int>( vMatchingItems.size() ) : iContentHeight ) ) {
-                nc_color cLineColor = c_white;
+                const nc_color cLineColor = c_white;
 
                 mvwprintz( w_test_rule_content, point( 0, i - iStartPos ), cLineColor, "%d", i + 1 );
                 mvwprintz( w_test_rule_content, point( 4, i - iStartPos ), cLineColor, "" );
@@ -775,7 +775,7 @@ void rule_list::serialize( JsonOut &jsout ) const
 
 void rule::deserialize( JsonIn &jsin )
 {
-    JsonObject jo = jsin.get_object();
+    const JsonObject jo = jsin.get_object();
     sRule = jo.get_string( "rule" );
     bActive = jo.get_bool( "active" );
     bExclude = jo.get_bool( "exclude" );

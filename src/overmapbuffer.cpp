@@ -75,7 +75,7 @@ omt_route_params::~omt_route_params() = default;
 overmap &overmapbuffer::get( const point_abs_om &p )
 {
     {
-        read_lock<std::shared_mutex> _l( mutex );
+        const read_lock<std::shared_mutex> _l( mutex );
         const auto it = overmaps.find( p );
         if( it != overmaps.end() ) {
             return *it->second;
@@ -84,7 +84,7 @@ overmap &overmapbuffer::get( const point_abs_om &p )
 
     overmap *new_om;
     {
-        write_lock<std::shared_mutex> _l( mutex );
+        const write_lock<std::shared_mutex> _l( mutex );
         // Search for it again, but now with a lock since another thread could've loaded this overmap tile first
         const auto it = overmaps.find( p );
         if( it != overmaps.end() ) {
@@ -109,7 +109,7 @@ void overmapbuffer::create_custom_overmap( const point_abs_om &p, overmap_specia
 {
     overmap *new_om;
     {
-        write_lock<std::shared_mutex> _l( mutex );
+        const write_lock<std::shared_mutex> _l( mutex );
         overmaps[p] = std::make_unique<overmap>( p );
         new_om = overmaps[p].get();
     }
@@ -144,7 +144,7 @@ void overmapbuffer::generate( const std::vector<point_abs_om> &locs )
     }
 
     {
-        write_lock<std::shared_mutex> _l( mutex );
+        const write_lock<std::shared_mutex> _l( mutex );
         for( auto &m : async_data ) {
             auto result = m.get();
             overmaps[result.first] = std::move( result.second );
@@ -168,7 +168,7 @@ void overmapbuffer::fix_mongroups( overmap &new_overmap )
             ++it;
             continue;
         }
-        point_abs_sm smabs = project_combine( new_overmap.pos(), mg.pos.xy() );
+        const point_abs_sm smabs = project_combine( new_overmap.pos(), mg.pos.xy() );
         point_abs_om omp;
         point_om_sm sm_rem;
         std::tie( omp, sm_rem ) = project_remain<coords::om>( smabs );
@@ -192,7 +192,7 @@ void overmapbuffer::fix_npcs( overmap &new_overmap )
     // accessed anymore!
     decltype( overmap::npcs ) to_relocate;
     for( auto it = new_overmap.npcs.begin(); it != new_overmap.npcs.end(); ) {
-        npc &np = **it;
+        const npc &np = **it;
         const tripoint_abs_omt npc_omt_pos = np.global_omt_location();
         const point_abs_om npc_om_pos = project_to<coords::om>( npc_omt_pos.xy() );
         const point_abs_om loc = new_overmap.pos();
@@ -239,7 +239,7 @@ void overmapbuffer::fix_npcs( overmap &new_overmap )
 
 void overmapbuffer::save()
 {
-    read_lock<std::shared_mutex> _l( mutex );
+    const read_lock<std::shared_mutex> _l( mutex );
 
     for( auto &omp : overmaps ) {
         // Note: this may throw io errors from std::ofstream
@@ -249,7 +249,7 @@ void overmapbuffer::save()
 
 void overmapbuffer::clear()
 {
-    write_lock<std::shared_mutex> _l( mutex );
+    const write_lock<std::shared_mutex> _l( mutex );
 
     overmaps.clear();
     known_non_existing.clear();
@@ -301,7 +301,7 @@ void overmapbuffer::delete_extra( const tripoint_abs_omt &p )
 overmap *overmapbuffer::get_existing( const point_abs_om &p )
 {
     {
-        read_lock<std::shared_mutex> _l( mutex );
+        const read_lock<std::shared_mutex> _l( mutex );
         const auto it = overmaps.find( p );
         if( it != overmaps.end() ) {
             return it->second.get();
@@ -325,7 +325,7 @@ overmap *overmapbuffer::get_existing( const point_abs_om &p )
     // If the overmap had been created in the mean time, the previous
     // loop would have found and returned it.
     {
-        write_lock<std::shared_mutex> _l( mutex );
+        const write_lock<std::shared_mutex> _l( mutex );
         known_non_existing.insert( p );
     }
     return nullptr;
@@ -374,7 +374,7 @@ overmapbuffer::get_existing_om_global( const tripoint_abs_omt &p )
 
 bool overmapbuffer::is_omt_generated( const tripoint_abs_omt &loc )
 {
-    if( overmap_with_local_coords om_loc = get_existing_om_global( loc ) ) {
+    if( const overmap_with_local_coords om_loc = get_existing_om_global( loc ) ) {
         return om_loc.om->is_omt_generated( om_loc.local );
     }
 
@@ -571,9 +571,9 @@ std::vector<mongroup *> overmapbuffer::monsters_at( const tripoint_abs_omt &p )
 {
     // (x,y) are overmap terrain coordinates, they spawn 2x2 submaps,
     // but monster groups are defined with submap coordinates.
-    tripoint_abs_sm p_sm = project_to<coords::sm>( p );
+    const tripoint_abs_sm p_sm = project_to<coords::sm>( p );
     std::vector<mongroup *> result;
-    for( point offset : std::array<point, 4> { { { point_zero }, { point_south }, { point_east }, { point_south_east } } } ) {
+    for( const point offset : std::array<point, 4> { { { point_zero }, { point_south }, { point_east }, { point_south_east } } } ) {
         std::vector<mongroup *> tmp = groups_at( p_sm + offset );
         result.insert( result.end(), tmp.begin(), tmp.end() );
     }
@@ -608,7 +608,7 @@ std::array<std::array<scent_trace, 3>, 3> overmapbuffer::scents_near( const trip
 
     for( int x = -1; x <= 1 ; ++x ) {
         for( int y = -1; y <= 1; ++y ) {
-            tripoint_abs_omt iter = origin + point( x, y );
+            const tripoint_abs_omt iter = origin + point( x, y );
             found_traces[x + 1][y + 1] = scent_at( iter );
         }
     }
@@ -627,7 +627,7 @@ scent_trace overmapbuffer::scent_at( const tripoint_abs_omt &p )
 void overmapbuffer::set_scent( const tripoint_abs_omt &loc, int strength )
 {
     const overmap_with_local_coords om_loc = get_om_global( loc );
-    scent_trace new_scent( calendar::turn, strength );
+    const scent_trace new_scent( calendar::turn, strength );
     om_loc.om->set_scent( loc, new_scent );
 }
 
@@ -739,7 +739,7 @@ bool overmapbuffer::reveal( const tripoint_abs_omt &center, int radius )
 bool overmapbuffer::reveal( const tripoint_abs_omt &center, int radius,
                             const std::function<bool( const oter_id & )> &filter )
 {
-    int radius_squared = radius * radius;
+    const int radius_squared = radius * radius;
     bool result = false;
     for( int i = -radius; i <= radius; i++ ) {
         for( int j = -radius; j <= radius; j++ ) {
@@ -1062,7 +1062,8 @@ bool overmapbuffer::is_findable_location( const overmap_with_local_coords &om_lo
     }
 
     if( params.om_special ) {
-        bool meets_om_special = om_loc.om->check_overmap_special_type( *params.om_special, om_loc.local );
+        const bool meets_om_special = om_loc.om->check_overmap_special_type( *params.om_special,
+                                      om_loc.local );
         if( !meets_om_special ) {
             return false;
         }
@@ -1089,7 +1090,7 @@ struct find_task_generator {
 
     auto get_om_loc() {
         auto &p = *_it;
-        tripoint_abs_omt loc( p.x, p.y, 0 );
+        const tripoint_abs_omt loc( p.x, p.y, 0 );
         point_abs_om om_pos;
         point_om_omt local;
         std::tie( om_pos, local ) = project_remain<coords::om>( loc.xy() );
@@ -1115,13 +1116,13 @@ struct find_task_generator {
 
         std::vector<std::pair<tripoint_abs_omt, tripoint_om_omt>> v;
         v.reserve( _max_coords );
-        point_abs_om om_loc = _current.first;
+        const point_abs_om om_loc = _current.first;
 
         for( int n = 0; n < _n_steps; n++ ) {
             auto &p = *_it;
             for( int z = _min_z; z <= _max_z; z++ ) {
-                tripoint_abs_omt abs( p.x, p.y, z );
-                tripoint_om_omt om( _current.second, z );
+                const tripoint_abs_omt abs( p.x, p.y, z );
+                const tripoint_om_omt om( _current.second, z );
                 v.emplace_back( abs, om );
             }
 
@@ -1186,7 +1187,7 @@ std::vector<tripoint_abs_omt> overmapbuffer::find_all_sync( const tripoint_abs_o
 
         bool done = false;
         for( const auto &loc : task_omts ) {
-            overmap_with_local_coords q{ om_loc, loc.second };
+            const overmap_with_local_coords q{ om_loc, loc.second };
             if( is_findable_location( q, params ) ) {
                 find_result.push_back( loc.first );
             }
@@ -1291,7 +1292,7 @@ std::vector<tripoint_abs_omt> overmapbuffer::find_all_async( const tripoint_abs_
             }
 
             for( const auto &loc : locals ) {
-                overmap_with_local_coords q{ om_loc, loc.second };
+                const overmap_with_local_coords q{ om_loc, loc.second };
                 if( is_findable_location( q, params ) ) {
                     result.push_back( loc.first );
                 }
@@ -1370,7 +1371,7 @@ tripoint_abs_omt overmapbuffer::find_closest( const tripoint_abs_omt &origin,
 
     // Only care about the absolute nearest points, so only keep those points
     for( auto &p : scan_result ) {
-        int dist = square_dist( origin, p );
+        const int dist = square_dist( origin, p );
         if( dist < min_dist ) {
             near_points.clear();
             min_dist = dist;
@@ -1423,7 +1424,7 @@ shared_ptr_fast<npc> overmapbuffer::remove_npc( const character_id &id )
 
 std::vector<shared_ptr_fast<npc>> overmapbuffer::get_npcs_near_player( int radius )
 {
-    tripoint_abs_omt plpos_omt = get_player_character().global_omt_location();
+    const tripoint_abs_omt plpos_omt = get_player_character().global_omt_location();
     // get_npcs_near needs submap coordinates
     tripoint_abs_sm plpos = project_to<coords::sm>( plpos_omt );
     // INT_MIN is a (a bit ugly) way to inform get_npcs_near not to filter by z-level
@@ -1686,7 +1687,7 @@ std::string overmapbuffer::get_description_at( const tripoint_abs_sm &where )
 void overmapbuffer::spawn_monster( const tripoint_abs_sm &p )
 {
     // Create a copy, so we can reuse x and y later
-    point_abs_sm abs_sm = p.xy();
+    const point_abs_sm abs_sm = p.xy();
     point_om_sm sm;
     point_abs_om omp;
     std::tie( omp, sm ) = project_remain<coords::om>( abs_sm );
@@ -1695,7 +1696,7 @@ void overmapbuffer::spawn_monster( const tripoint_abs_sm &p )
     auto monster_bucket = om.monster_map->equal_range( current_submap_loc );
     std::for_each( monster_bucket.first, monster_bucket.second,
     [&]( std::pair<const tripoint_om_sm, monster> &monster_entry ) {
-        monster &this_monster = monster_entry.second;
+        const monster &this_monster = monster_entry.second;
         // The absolute position in map squares, (x,y) is already global, but it's a
         // submap coordinate, so translate it and add the exact monster position on
         // the submap. modulo because the zombies position might be negative, as it
@@ -1723,7 +1724,7 @@ void overmapbuffer::despawn_monster( const monster &critter )
 {
     // Get absolute coordinates of the monster in map squares, translate to submap position
     // TODO: fix point types
-    tripoint_abs_sm abs_sm( ms_to_sm_copy( get_map().getabs( critter.pos() ) ) );
+    const tripoint_abs_sm abs_sm( ms_to_sm_copy( get_map().getabs( critter.pos() ) ) );
     // Get the overmap coordinates and get the overmap, sm is now local to that overmap
     point_abs_om omp;
     tripoint_om_sm sm;
@@ -1759,7 +1760,7 @@ overmapbuffer::t_extras_vector overmapbuffer::get_extras( int z, const std::stri
         const overmap &om = *it.second;
         for( int i = 0; i < OMAPX; i++ ) {
             for( int j = 0; j < OMAPY; j++ ) {
-                tripoint_om_omt p( i, j, z );
+                const tripoint_om_omt p( i, j, z );
                 const string_id<map_extra> &extra = om.extra( p );
                 if( extra.is_null() ) {
                     continue;
@@ -1870,11 +1871,11 @@ std::set<tripoint_abs_omt> overmapbuffer::electric_grid_at( const tripoint_abs_o
         // It's weired that the game takes a lot of time to copy a tripoint_abs_omt, so use reference here.
         const tripoint_abs_omt &elem = open.front();
         result.emplace( elem );
-        overmap_with_local_coords omc = get_om_global( elem );
+        const overmap_with_local_coords omc = get_om_global( elem );
         const auto &connections_bitset = omc.om->electric_grid_connections[omc.local];
         for( size_t i = 0; i < six_cardinal_directions.size(); i++ ) {
             if( connections_bitset.test( i ) ) {
-                tripoint_abs_omt other = elem + six_cardinal_directions[i];
+                const tripoint_abs_omt other = elem + six_cardinal_directions[i];
                 if( !result.contains( other ) ) {
                     open.emplace( other );
                 }
@@ -1892,7 +1893,7 @@ overmapbuffer::electric_grid_connectivity_at( const tripoint_abs_omt &p )
     std::vector<tripoint_rel_omt> ret;
     ret.reserve( six_cardinal_directions.size() );
 
-    overmap_with_local_coords omc = get_om_global( p );
+    const overmap_with_local_coords omc = get_om_global( p );
     const auto &connections_bitset = omc.om->electric_grid_connections[omc.local];
     for( size_t i = 0; i < six_cardinal_directions.size(); i++ ) {
         if( connections_bitset.test( i ) ) {
@@ -1916,8 +1917,8 @@ bool overmapbuffer::add_grid_connection( const tripoint_abs_omt &lhs, const trip
         return false;
     }
 
-    overmap_with_local_coords lhs_omc = get_om_global( lhs );
-    overmap_with_local_coords rhs_omc = get_om_global( rhs );
+    const overmap_with_local_coords lhs_omc = get_om_global( lhs );
+    const overmap_with_local_coords rhs_omc = get_om_global( rhs );
 
     const auto lhs_iter = std::ranges::find( six_cardinal_directions,
 
@@ -1926,8 +1927,8 @@ bool overmapbuffer::add_grid_connection( const tripoint_abs_omt &lhs, const trip
 
                           -coord_diff.raw() );
 
-    size_t lhs_i = std::distance( six_cardinal_directions.begin(), lhs_iter );
-    size_t rhs_i = std::distance( six_cardinal_directions.begin(), rhs_iter );
+    const size_t lhs_i = std::distance( six_cardinal_directions.begin(), lhs_iter );
+    const size_t rhs_i = std::distance( six_cardinal_directions.begin(), rhs_iter );
 
     std::bitset<six_cardinal_directions.size()> &lhs_bitset =
         lhs_omc.om->electric_grid_connections[lhs_omc.local];
@@ -1957,8 +1958,8 @@ bool overmapbuffer::remove_grid_connection( const tripoint_abs_omt &lhs,
         return false;
     }
 
-    overmap_with_local_coords lhs_omc = get_om_global( lhs );
-    overmap_with_local_coords rhs_omc = get_om_global( rhs );
+    const overmap_with_local_coords lhs_omc = get_om_global( lhs );
+    const overmap_with_local_coords rhs_omc = get_om_global( rhs );
 
     const auto lhs_iter = std::ranges::find( six_cardinal_directions,
 
@@ -1967,8 +1968,8 @@ bool overmapbuffer::remove_grid_connection( const tripoint_abs_omt &lhs,
 
                           -coord_diff.raw() );
 
-    size_t lhs_i = std::distance( six_cardinal_directions.begin(), lhs_iter );
-    size_t rhs_i = std::distance( six_cardinal_directions.begin(), rhs_iter );
+    const size_t lhs_i = std::distance( six_cardinal_directions.begin(), lhs_iter );
+    const size_t rhs_i = std::distance( six_cardinal_directions.begin(), rhs_iter );
 
     std::bitset<six_cardinal_directions.size()> &lhs_bitset =
         lhs_omc.om->electric_grid_connections[lhs_omc.local];

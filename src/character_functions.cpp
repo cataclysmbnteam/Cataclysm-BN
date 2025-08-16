@@ -234,15 +234,15 @@ float fine_detail_vision_mod( const Character &who, const tripoint &p )
         return 11.0;
     }
     // Regular NV trait isn't enough to help at all, while Full Night Vision allows reading at a penalty
-    float nvbonus = who.mutation_value( "night_vision_range" ) >= 8 ? 4 : 0;
+    const float nvbonus = who.mutation_value( "night_vision_range" ) >= 8 ? 4 : 0;
     // Scale linearly as light level approaches LIGHT_AMBIENT_LIT.
     // If we're actually a source of light, assume we can direct it where we need it.
     // Therefore give a hefty bonus relative to ambient light.
-    float own_light = std::max( 1.0f, LIGHT_AMBIENT_LIT - who.active_light() - 2.0f );
+    const float own_light = std::max( 1.0f, LIGHT_AMBIENT_LIT - who.active_light() - 2.0f );
 
     // Same calculation as above, but with a result 3 lower, and night vision is allowed to affect it.
-    float ambient_light = std::max( 1.0f,
-                                    LIGHT_AMBIENT_LIT - get_map().ambient_light_at( p ) - nvbonus + 1.0f );
+    const float ambient_light = std::max( 1.0f,
+                                          LIGHT_AMBIENT_LIT - get_map().ambient_light_at( p ) - nvbonus + 1.0f );
 
     return std::min( own_light, ambient_light );
 }
@@ -267,13 +267,14 @@ comfort_response_t base_comfort_value( const Character &who, const tripoint &p )
 
     comfort_response_t comfort_response;
 
-    bool plantsleep = who.has_trait( trait_CHLOROMORPH );
-    bool fungaloid_cosplay = who.has_trait( trait_M_SKIN3 );
-    bool websleep = who.has_trait( trait_WEB_WALKER );
-    bool webforce = who.has_trait( trait_THRESH_SPIDER ) && ( who.has_trait( trait_WEB_SPINNER ) ||
-                    ( who.has_trait( trait_WEB_WEAVER ) ) );
-    bool in_shell = who.has_active_mutation( trait_SHELL2 );
-    bool watersleep = who.has_trait( trait_WATERSLEEP );
+    const bool plantsleep = who.has_trait( trait_CHLOROMORPH );
+    const bool fungaloid_cosplay = who.has_trait( trait_M_SKIN3 );
+    const bool websleep = who.has_trait( trait_WEB_WALKER );
+    const bool webforce = who.has_trait( trait_THRESH_SPIDER ) &&
+                          ( who.has_trait( trait_WEB_SPINNER ) ||
+                            ( who.has_trait( trait_WEB_WEAVER ) ) );
+    const bool in_shell = who.has_active_mutation( trait_SHELL2 );
+    const bool watersleep = who.has_trait( trait_WATERSLEEP );
 
     map &here = get_map();
     const optional_vpart_position vp = here.veh_at( p );
@@ -282,7 +283,7 @@ comfort_response_t base_comfort_value( const Character &who, const tripoint &p )
     const ter_id ter_at_pos = tile.get_ter();
     const furn_id furn_at_pos = tile.get_furn();
 
-    int web = here.get_field_intensity( p, fd_web );
+    const int web = here.get_field_intensity( p, fd_web );
 
     // Some mutants have different comfort needs
     if( !plantsleep && !webforce ) {
@@ -395,7 +396,7 @@ int rate_sleep_spot( const Character &who, const tripoint &p )
     }
 
     int sleepy = static_cast<int>( comfort_info.level );
-    bool watersleep = who.has_trait( trait_WATERSLEEP );
+    const bool watersleep = who.has_trait( trait_WATERSLEEP );
 
     if( who.has_addiction( add_type::SLEEP ) ) {
         sleepy -= 4;
@@ -460,7 +461,7 @@ bool roll_can_sleep( Character &who )
 
     int sleepy = character_funcs::rate_sleep_spot( who, who.pos() );
     sleepy += rng( -8, 8 );
-    bool result = sleepy > 0;
+    const bool result = sleepy > 0;
 
     if( who.has_active_bionic( bio_soporific ) ) {
         if( who.bio_soporific_powered_at_last_sleep_check && !who.has_power() ) {
@@ -476,7 +477,7 @@ bool roll_can_sleep( Character &who )
 
 bool can_interface_armor( const Character &who )
 {
-    bool okay = std::any_of( who.my_bionics->begin(), who.my_bionics->end(),
+    const bool okay = std::any_of( who.my_bionics->begin(), who.my_bionics->end(),
     []( const bionic & b ) {
         return b.powered && b.info().has_flag( STATIC( flag_id( "BIONIC_ARMOR_INTERFACE" ) ) );
     } );
@@ -497,10 +498,10 @@ std::string fmt_wielded_weapon( const Character &who )
                                            weapon.gun_current_mode()->ammo_remaining(),
                                            weapon.gun_current_mode().tname(), weapon.type_name() );
         // Is either the base item or at least one auxiliary gunmod loaded (includes empty magazines)
-        bool base = weapon.ammo_capacity() > 0 && !weapon.has_flag( flag_RELOAD_AND_SHOOT );
+        const bool base = weapon.ammo_capacity() > 0 && !weapon.has_flag( flag_RELOAD_AND_SHOOT );
 
         const auto mods = weapon.gunmods();
-        bool aux = std::ranges::any_of( mods, [&]( const item * e ) {
+        const bool aux = std::ranges::any_of( mods, [&]( const item * e ) {
             return e->is_gun() && e->ammo_capacity() > 0 && !e->has_flag( flag_RELOAD_AND_SHOOT );
         } );
 
@@ -599,7 +600,7 @@ bool try_wield_contents( Character &who, item &container, item *internal_item, b
             return elem->display_name();
         } );
         if( opts.size() > 1 ) {
-            int pos = uilist( _( "Wield what?" ), opts );
+            const int pos = uilist( _( "Wield what?" ), opts );
             if( pos < 0 ) {
                 return false;
             }
@@ -644,8 +645,8 @@ bool try_wield_contents( Character &who, item &container, item *internal_item, b
      * @EFFECT_CUTTING decreases time taken to draw cutting weapons from scabbards
      * @EFFECT_BASHING decreases time taken to draw bashing weapons from holsters
      */
-    int lvl = who.get_skill_level( internal_item->is_gun() ? internal_item->gun_skill() :
-                                   internal_item->melee_skill() );
+    const int lvl = who.get_skill_level( internal_item->is_gun() ? internal_item->gun_skill() :
+                                         internal_item->melee_skill() );
     mv += who.item_handling_cost( *internal_item, penalties, base_cost ) / ( ( lvl + 10.0f ) / 10.0f );
 
     who.moves -= mv;
@@ -662,8 +663,8 @@ bool try_uncanny_dodge( Character &who )
         return false;
     }
     who.mod_power_level( -trigger_cost );
-    bool is_u = who.is_avatar();
-    bool seen = is_u || get_player_character().sees( who );
+    const bool is_u = who.is_avatar();
+    const bool seen = is_u || get_player_character().sees( who );
     // If successful, dodge for free. If we already burned bonus dodges this turn then get_dodge fails and we're overwhelmed.
     if( x_in_y( who.get_dodge(), 10 ) ) {
         if( is_u ) {
@@ -753,9 +754,9 @@ std::vector<npc *> get_crafting_helpers( const Character &who, int max )
         if( max > 0 && n >= max ) {
             return false;
         }
-        bool ok = !guy.in_sleep_state() && guy.is_obeying( who ) &&
-                  rl_dist( guy.pos(), who.pos() ) < PICKUP_RANGE &&
-                  get_map().clear_path( who.pos(), guy.pos(), PICKUP_RANGE, 1, 100 );
+        const bool ok = !guy.in_sleep_state() && guy.is_obeying( who ) &&
+                        rl_dist( guy.pos(), who.pos() ) < PICKUP_RANGE &&
+                        get_map().clear_path( who.pos(), guy.pos(), PICKUP_RANGE, 1, 100 );
         if( ok ) {
             n += 1;
         }
@@ -810,7 +811,7 @@ bool list_ammo( const Character &who, item &base, std::vector<item_reload_option
     }
 
     bool ammo_match_found = false;
-    int ammo_search_range = who.is_mounted() ? -1 : 1;
+    const int ammo_search_range = who.is_mounted() ? -1 : 1;
     for( item *e : opts ) {
         for( item *ammo : find_ammo_items_or_mags( who, *e, include_empty_mags,
                 ammo_search_range ) ) {
@@ -902,7 +903,7 @@ item_reload_option select_ammo( const player &who, item &base,
     std::vector<std::string> where;
     std::ranges::transform( opts,
     std::back_inserter( where ), [&]( const item_reload_option & e ) {
-        bool is_ammo_container = e.ammo->is_ammo_container();
+        const bool is_ammo_container = e.ammo->is_ammo_container();
         if( is_ammo_container || e.ammo->is_container() ) {
             if( is_ammo_container && who.is_worn( *e.ammo ) ) {
                 return e.ammo->type_name();
@@ -958,18 +959,18 @@ item_reload_option select_ammo( const player &who, item &base,
                 const damage_instance &dam = ammo->ammo->damage;
                 const damage_unit &du = dam.damage_units.front();
                 if( du.damage_multiplier != 1.0f ) {
-                    float dam_amt = du.amount;
+                    const float dam_amt = du.amount;
                     row += string_format( "| %-3d*%3d%% ", static_cast<int>( dam_amt ),
                                           clamp( static_cast<int>( du.damage_multiplier * 100 ), 0, 999 ) );
                 } else {
                     float throw_amt = 0;
                     if( base.gun_skill() == skill_throw ) {
-                        item &tmp = *item::spawn_temporary( item( ammo ) );
+                        const item &tmp = *item::spawn_temporary( item( ammo ) );
                         throw_amt += ranged::throw_damage( tmp,
                                                            who.get_skill_level( skill_throw ),
                                                            who.get_str() );
                     }
-                    float dam_amt = std::max( dam.total_damage(), throw_amt );
+                    const float dam_amt = std::max( dam.total_damage(), throw_amt );
                     row += string_format( "| %-8d ", static_cast<int>( dam_amt ) );
                 }
                 if( du.res_mult != 1.0f ) {
@@ -986,10 +987,10 @@ item_reload_option select_ammo( const player &who, item &base,
     };
 
     const ammotype base_ammotype( base.ammo_default().str() );
-    itype_id last = uistate.lastreload[ base_ammotype ];
+    const itype_id last = uistate.lastreload[ base_ammotype ];
     // We keep the last key so that pressing the key twice (for example, r-r for reload)
     // will always pick the first option on the list.
-    int last_key = inp_mngr.get_previously_pressed_key();
+    const int last_key = inp_mngr.get_previously_pressed_key();
     bool last_key_bound = false;
     // This is the entry that has out default
     int default_to = 0;
@@ -1312,14 +1313,14 @@ int ammo_count_for( const Character &who, const item &gun )
     if( !gun.is_gun() ) {
         return item::INFINITE_CHARGES;
     }
-    int ammo_drain = gun.ammo_required();
-    int energy_drain = gun.get_gun_ups_drain();
+    const int ammo_drain = gun.ammo_required();
+    const int energy_drain = gun.get_gun_ups_drain();
 
-    units::energy power = units::from_kilojoule( who.charges_of( itype_UPS ) );
+    const units::energy power = units::from_kilojoule( who.charges_of( itype_UPS ) );
     int total_ammo = gun.ammo_remaining();
     const std::vector<item *> inv_ammo = find_ammo_items_or_mags( who, gun, true, -1 );
 
-    bool has_mag = gun.magazine_integral();
+    const bool has_mag = gun.magazine_integral();
 
     for( const item * const &it : inv_ammo ) {
         if( it->is_magazine() ) {
@@ -1353,8 +1354,8 @@ void show_skill_capped_notice( const Character &who, const skill_id &id )
     const SkillLevel &level = who.get_skill_level_object( id );
 
     const Skill &skill = id.obj();
-    std::string skill_name = skill.name();
-    int curLevel = level.level();
+    const std::string skill_name = skill.name();
+    const int curLevel = level.level();
 
     add_msg( m_info, _( "This task is too simple to train your %s beyond %d." ),
              skill_name, curLevel );

@@ -19,8 +19,8 @@ void safe_reference<T>::serialize_global( JsonOut &json )
     json.start_array();
     for( auto &it : records_by_id ) {
         //TODO!: better format
-        safe_reference<T>::id_type id = it.second->id;
-        uint32_t count = it.second->json_count;
+        const safe_reference<T>::id_type id = it.second->id;
+        const uint32_t count = it.second->json_count;
         if( count != 0 ) {
             json.write( id );
             json.write( count );
@@ -42,7 +42,7 @@ void safe_reference<T>::deserialize_global( const JsonArray &jsin )
         }
 
         pair = false;
-        uint32_t count = val.get_uint();
+        const uint32_t count = val.get_uint();
         auto *rec = new record( id );
         rec->json_count = count;
         records_by_id.insert( {id, rec} );
@@ -108,7 +108,7 @@ void deserialize<item>( safe_reference<item> &out, JsonIn &js )
             out = safe_reference<item>( it );
         } else if( type == "vehicle" ) {
             vehicle *const veh = veh_pointer_or_null( get_map().veh_at( pos ) );
-            int part = obj.get_int( "part" );
+            const int part = obj.get_int( "part" );
             if( veh && part >= 0 && part < veh->part_count() ) {
                 vehicle_cursor veh_cur( *veh, part );
                 veh_cur.visit_items( find_index );

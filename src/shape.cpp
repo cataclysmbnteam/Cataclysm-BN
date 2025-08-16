@@ -65,7 +65,7 @@ void shape_factory::serialize( JsonOut &jsout ) const
 void shape_factory::deserialize( JsonIn &jsin )
 {
     jsin.start_array();
-    std::string type_string = jsin.get_string();
+    const std::string type_string = jsin.get_string();
     if( type_string == "cone" ) {
         impl = std::make_shared<cone_factory>();
         impl->deserialize( jsin );
