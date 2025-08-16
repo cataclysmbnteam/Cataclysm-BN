@@ -4646,7 +4646,7 @@ T *game::critter_at( const tripoint &p, bool allow_hallucination )
             return dynamic_cast<T *>( mon_ptr.get() );
         }
     }
-    if( !std::is_same_v<T, npc> && !std::is_same_v<T, const npc> ) {
+    if( !std::is_same_v<T, npc> && !std::is_same_v<T, const npc> ) { // *NOPAD*
         if( p == u.pos() ) {
             return dynamic_cast<T *>( &u );
         }
