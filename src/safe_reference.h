@@ -499,14 +499,14 @@ class cache_reference
 
         auto operator->() const -> T* { return get(); } // *NOPAD*
 
-        auto operator<=>( const cache_reference<T> &against ) const { return against.p <=> p; } // *NOPAD*
+        auto operator==( const cache_reference<T> &rhs ) const -> bool = default;
+        auto operator<=>( const cache_reference<T> &rhs ) const = default; // *NOPAD*
 
-        auto operator==( const T &against ) const -> bool { return p == &against;}
+        auto operator==( const T &rhs ) const -> bool { return p == &rhs; }
+        auto operator==( const T *rhs ) const -> bool { return p == rhs; }
 
-        auto operator==( const T *against ) const -> bool { return p == against;}
-
-        template <typename U>
-        auto operator!=( const U against ) const -> bool { return !( *this == against );}
+        auto operator<=>( const T &rhs ) const { return p <=> &rhs; } // *NOPAD*
+        auto operator<=>( const T *rhs ) const { return p <=> rhs; } // *NOPAD*
 };
 
 template<typename T>
