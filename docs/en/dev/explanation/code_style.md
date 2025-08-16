@@ -96,12 +96,12 @@ These are less generic guidelines and more pain points we've stumbled across ove
 - Avoid adding new member methods to classes unless required.
   ```diff
   // this function does not access non-public data members or member methods in the class, and thus can be made a free function
-  - units::volume Character::volume_carried() const
+  - std::string Character::profession_description() const
   - {
-  -     return inv.volume();
+  -     return prof->description( male );
   - }
-  + auto volume_carried( const Character &c ) -> units::volume
+  + auto profession_description( const Character &c ) -> std::string
   + {
-  +     return c.inv.volume();
+  +     return c.prof->description( c.male );
   + }
   ```
