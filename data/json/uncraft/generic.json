@@ -1322,7 +1322,7 @@
     "type": "uncraft",
     "skill_used": "mechanics",
     "difficulty": 4,
-    "time": "1 h 40 m",
+    "time": "1 h 20 m",
     "using": [ [ "soldering_standard", 5 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
     "components": [
@@ -1338,7 +1338,7 @@
     "type": "uncraft",
     "skill_used": "mechanics",
     "difficulty": 4,
-    "time": "1 h 40 m",
+    "time": "1 h",
     "using": [ [ "soldering_standard", 5 ] ],
     "qualities": [ { "id": "SCREW_FINE", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
     "components": [ [ [ "motor_tiny", 24 ] ], [ [ "power_supply", 8 ] ], [ [ "cable", 16 ] ], [ [ "scrap", 14 ] ] ]
@@ -1348,7 +1348,7 @@
     "type": "uncraft",
     "skill_used": "mechanics",
     "difficulty": 4,
-    "time": "1 h 40 m",
+    "time": "1 h",
     "using": [ [ "soldering_standard", 5 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
     "components": [ [ [ "motor_small", 6 ] ], [ [ "power_supply", 6 ] ], [ [ "cable", 12 ] ], [ [ "steel_chunk", 6 ] ] ]
@@ -1358,7 +1358,7 @@
     "type": "uncraft",
     "skill_used": "mechanics",
     "difficulty": 4,
-    "time": "1 h",
+    "time": "40 m",
     "using": [ [ "soldering_standard", 5 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
     "components": [
@@ -1408,7 +1408,7 @@
     "type": "uncraft",
     "skill_used": "mechanics",
     "difficulty": 5,
-    "time": "1 h 40 m",
+    "time": "1 h",
     "using": [ [ "soldering_standard", 5 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
     "components": [
