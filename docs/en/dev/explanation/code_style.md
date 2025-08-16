@@ -78,15 +78,15 @@ These are less generic guidelines and more pain points we've stumbled across ove
       return is_bar_ok( bar ) ? 42 : 404;
   }
   ```
-    - Use for `decltype` style generic functions
-    ```diff
-    template<typename A, typename B>
-    - decltype(std::declval<A&>() * std::declval<B&>()) multiply(A a, B b)
-    + auto multiply( A a, B b ) -> decltype( a * b )
-    {
-        return a*b;
-    }
-    ```
+  - Use for `decltype` style generic functions
+  ```diff
+  template<typename A, typename B>
+  - decltype(std::declval<A&>() * std::declval<B&>()) multiply(A a, B b)
+  + auto multiply( A a, B b ) -> decltype( a * b )
+  {
+      return a*b;
+  }
+  ```
   - Aliasing for long iterator declarations
   ```diff
     std::map<int, std::map<std::string, some_long_typename>> some_map;
