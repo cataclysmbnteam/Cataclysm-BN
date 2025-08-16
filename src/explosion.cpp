@@ -131,10 +131,10 @@ explosion_data load_explosion_data( const JsonObject &jo )
         jo.read( "fragment", ret.fragment );
     } else {
         // Legacy
-        float const power = jo.get_float( "power" );
+        const float power = jo.get_float( "power" );
         ret.damage = power * explosion_handler::power_to_dmg_mult;
         // Don't reuse old formula, it gave way too big blasts
-        float const distance_factor = jo.get_float( "distance_factor", 0.8f );
+        const float distance_factor = jo.get_float( "distance_factor", 0.8f );
         ret.radius = explosion_handler::blast_radius_from_legacy( power, distance_factor );
         if( jo.has_int( "shrapnel" ) ) {
             ret.fragment = explosion_handler::shrapnel_from_legacy( power, ret.radius );
@@ -427,7 +427,7 @@ class ExplosionProcess
 
 void ExplosionProcess::fill_maps()
 {
-    map  const &here = get_map();
+    const map &here = get_map();
 
     const int shrapnel_range = shrapnel.has_value() ? shrapnel.value().range : 0;
     const int aoe_radius = std::max( blast_radius, shrapnel_range );
@@ -495,7 +495,7 @@ inline bool ExplosionProcess::is_occluded( const tripoint from, const tripoint t
         return false;
     }
 
-    map  const &here = get_map();
+    const map &here = get_map();
     tripoint last_position = from;
 
     std::vector<tripoint> line_of_movement = line_to( from, to );
@@ -610,20 +610,20 @@ void ExplosionProcess::project_shrapnel( const tripoint position )
         const auto bps = critter->get_all_body_parts( true );
         // Humans get hit in all body parts
         if( critter->is_player() ) {
-            for( bodypart_id const bp : bps ) {
+            for( const bodypart_id bp : bps ) {
                 // TODO: Apply projectile effects
                 // TODO: Penalize low coverage armor
                 // Halve damage to be closer to what monsters take
                 damage_instance half_impact = fragment.impact;
                 half_impact.mult_damage( 0.5f );
-                dealt_damage_instance const dealt = critter->deal_damage( emitter.value_or( nullptr ), bp,
+                const dealt_damage_instance dealt = critter->deal_damage( emitter.value_or( nullptr ), bp,
                                                     fragment.impact );
                 if( dealt.total_damage() > 0 ) {
                     damage_taken += dealt.total_damage();
                 }
             }
         } else {
-            dealt_damage_instance const dealt = critter->deal_damage( emitter.value_or( nullptr ), bps[0],
+            const dealt_damage_instance dealt = critter->deal_damage( emitter.value_or( nullptr ), bps[0],
                                                 fragment.impact );
             if( dealt.total_damage() > 0 ) {
                 damage_taken += dealt.total_damage();
@@ -694,7 +694,7 @@ void ExplosionProcess::blast_tile( const tripoint position, const int rl_distanc
                         float armor_mul;
                     };
 
-                    static const std::array<blastable_part, 6> blast_parts = { {
+                    const static std::array<blastable_part, 6> blast_parts = { {
                             { bodypart_id( "torso" ), 0.5f, 1.0f, 0.5f },
                             { bodypart_id( "head" ),  0.5f, 1.0f, 0.5f },
                             { bodypart_id( "leg_l" ), 0.75f, 1.25f, 0.4f },
@@ -772,7 +772,7 @@ void ExplosionProcess::blast_tile( const tripoint position, const int rl_distanc
                                             blast_power / ExplosionConstants::MULTIBASH_COUNT;
             assert( blast_force_decay > 0 );
             while( terrain_blast_force > 0 ) {
-                bash_params const bash{
+                const bash_params bash{
                     static_cast<int>( terrain_blast_force ),
                     true,
                     false,
@@ -930,9 +930,9 @@ void ExplosionProcess::move_entity( const tripoint position,
         for( int step = 0; step <= intermediate_steps; step++ ) {
             const float progress = static_cast<float>( step ) / static_cast<float>( intermediate_steps );
             const float cur_distance_travelled = distance_to_travel * progress;
-            rl_vec2d const new_position_vec = datum.position +
+            const rl_vec2d new_position_vec = datum.position +
                                               rl_vec2d( cur_distance_travelled, 0.0 ).rotated( datum.angle );
-            tripoint const maybe_new_position = tripoint( static_cast<int>( new_position_vec.x ),
+            const tripoint maybe_new_position = tripoint( static_cast<int>( new_position_vec.x ),
                                                 static_cast<int>( new_position_vec.y ),
                                                 position.z );
             if( !here.inbounds( maybe_new_position ) ||
@@ -953,7 +953,7 @@ void ExplosionProcess::move_entity( const tripoint position,
         }
     }
 
-    bool const do_next = new_velocity >= 1;
+    const bool do_next = new_velocity >= 1;
 
     if( new_position != position ) {
         if( is_mob ) {
@@ -992,7 +992,7 @@ void ExplosionProcess::run()
     // We need to temporary disable it because
     //   larger explosions may end up filling
     //   the texture pool, causing a crash
-    bool const disable_minimap = is_animated() && pixel_minimap_option;
+    const bool disable_minimap = is_animated() && pixel_minimap_option;
     if( disable_minimap ) {
         g->toggle_pixel_minimap();
     }
@@ -1115,19 +1115,19 @@ static std::map<const Creature *, int> legacy_shrapnel( const tripoint &src,
             auto bps = critter->get_all_body_parts( true );
             // Humans get hit in all body parts
             if( critter->is_player() ) {
-                for( bodypart_id const bp : bps ) {
+                for( const bodypart_id bp : bps ) {
                     // TODO: Apply projectile effects
                     // TODO: Penalize low coverage armor
                     // Halve damage to be closer to what monsters take
                     damage_instance half_impact = proj.impact;
                     half_impact.mult_damage( 0.5f );
-                    dealt_damage_instance const dealt = critter->deal_damage( source, bp, proj.impact );
+                    const dealt_damage_instance dealt = critter->deal_damage( source, bp, proj.impact );
                     if( dealt.total_damage() > 0 ) {
                         damage_taken += dealt.total_damage();
                     }
                 }
             } else {
-                dealt_damage_instance const dealt = critter->deal_damage( source, bps[0], proj.impact );
+                const dealt_damage_instance dealt = critter->deal_damage( source, bps[0], proj.impact );
                 if( dealt.total_damage() > 0 ) {
                     damage_taken += dealt.total_damage();
                 }
@@ -1135,7 +1135,7 @@ static std::map<const Creature *, int> legacy_shrapnel( const tripoint &src,
             damaged[critter] = damage_taken;
         }
         if( here.impassable( target ) ) {
-            int const damage = proj.impact.total_damage();
+            const int damage = proj.impact.total_damage();
             if( optional_vpart_position vp = here.veh_at( target ) ) {
                 vp->vehicle().damage( vp->part_index(), damage / 100 );
             } else {
@@ -1250,9 +1250,9 @@ static std::map<const Creature *, int> legacy_blast( const tripoint &p, const fl
     // 1 . 2
     // 6 4 8
     // 9 and 10 are up and down
-    static const int x_offset[10] = { -1, 1,  0, 0,  1, -1, -1, 1, 0, 0 };
-    static const int y_offset[10] = { 0, 0, -1, 1, -1,  1, -1, 1, 0, 0 };
-    static const int z_offset[10] = { 0, 0,  0, 0,  0,  0,  0, 0, 1, -1 };
+    const static int x_offset[10] = { -1, 1,  0, 0,  1, -1, -1, 1, 0, 0 };
+    const static int y_offset[10] = { 0, 0, -1, 1, -1,  1, -1, 1, 0, 0 };
+    const static int z_offset[10] = { 0, 0,  0, 0,  0,  0,  0, 0, 1, -1 };
     map &here = get_map();
     const size_t max_index = here.has_zlevels() ? 10 : 8;
 
@@ -1288,7 +1288,7 @@ static std::map<const Creature *, int> legacy_blast( const tripoint &p, const fl
 
         // Iterate over all neighbors. Bash all of them, propagate to some
         for( size_t i = 0; i < max_index; i++ ) {
-            tripoint const dest( pt + tripoint( x_offset[i], y_offset[i], z_offset[i] ) );
+            const tripoint dest( pt + tripoint( x_offset[i], y_offset[i], z_offset[i] ) );
             if( closed.contains( dest ) || !here.inbounds( dest ) ||
                 here.obstructed_by_vehicle_rotation( pt, dest ) ) {
                 continue;
@@ -1330,13 +1330,13 @@ static std::map<const Creature *, int> legacy_blast( const tripoint &p, const fl
             continue;
         }
 
-        float const percentage = obstacle_blast_percentage( radius, dist_map.at( pt ) );
+        const float percentage = obstacle_blast_percentage( radius, dist_map.at( pt ) );
         if( percentage > 0.0f ) {
-            static const std::array<nc_color, 3> colors = { {
+            const static std::array<nc_color, 3> colors = { {
                     c_red, c_yellow, c_white
                 }
             };
-            size_t const color_index = ( power > 30 ? 1 : 0 ) + ( percentage > 0.5f ? 1 : 0 );
+            const size_t color_index = ( power > 30 ? 1 : 0 ) + ( percentage > 0.5f ? 1 : 0 );
 
             explosion_colors[pt] = colors[color_index];
         }
@@ -1396,7 +1396,7 @@ static std::map<const Creature *, int> legacy_blast( const tripoint &p, const fl
             float armor_mul;
         };
 
-        static const std::array<blastable_part, 6> blast_parts = { {
+        const static std::array<blastable_part, 6> blast_parts = { {
                 { bodypart_id( "torso" ), 0.5f, 1.0f, 0.5f },
                 { bodypart_id( "head" ),  0.5f, 1.0f, 0.5f },
                 // Hit limbs harder so that it hurts more without being much more deadly
@@ -1474,8 +1474,8 @@ void explosion_funcs::regular( const queued_explosion &qe )
     const std::function<bool( const Creature & )> &predicate ) {
         if( predicate( *pr.first ) && g->u.sees( *pr.first ) ) {
             const Creature *critter = pr.first;
-            bool const blasted = damaged_by_blast.contains( critter );
-            bool const shredded = damaged_by_shrapnel.contains( critter );
+            const bool blasted = damaged_by_blast.contains( critter );
+            const bool shredded = damaged_by_shrapnel.contains( critter );
             std::string const cause_description = ( blasted && shredded ) ? _( "the explosion and shrapnel" ) :
                                                   blasted ? _( "the explosion" ) :
                                                   _( "the shrapnel" );
@@ -1527,7 +1527,7 @@ void flashbang( const tripoint &p, bool player_immune, const std::string &exp_na
 void explosion_funcs::flashbang( const queued_explosion &qe )
 {
     const tripoint &p = qe.pos;
-    map  const &here = get_map();
+    const map &here = get_map();
 
     draw_explosion( p, 8, c_white, qe.graphics_name );
     int dist = rl_dist( g->u.pos(), p );
@@ -1596,7 +1596,7 @@ void explosion_funcs::shockwave( const queued_explosion &qe )
                    false,
                    "misc", "shockwave" );
 
-    for( monster  const &critter : g->all_monsters() ) {
+    for( const monster &critter : g->all_monsters() ) {
         if( critter.posz() != p.z ) {
             continue;
         }
@@ -1606,7 +1606,7 @@ void explosion_funcs::shockwave( const queued_explosion &qe )
         }
     }
     // TODO: combine the two loops and the case for g->u using all_creatures()
-    for( npc  const &guy : g->all_npcs() ) {
+    for( const npc &guy : g->all_npcs() ) {
         if( guy.posz() != p.z ) {
             continue;
         }
@@ -1650,7 +1650,7 @@ void emp_blast( const tripoint &p )
     // TODO: More terrain effects.
     if( here.ter( p ) == t_card_science || here.ter( p ) == t_card_military ||
         here.ter( p ) == t_card_industrial ) {
-        int const rn = rng( 1, 100 );
+        const int rn = rng( 1, 100 );
         if( rn > 92 || rn < 40 ) {
             if( sight ) {
                 add_msg( _( "The card reader is rendered non-functional." ) );
@@ -1663,7 +1663,7 @@ void emp_blast( const tripoint &p )
             }
             for( int i = -3; i <= 3; i++ ) {
                 for( int j = -3; j <= 3; j++ ) {
-                    tripoint const p2 = p + tripoint( i, j, 0 );
+                    const tripoint p2 = p + tripoint( i, j, 0 );
                     if( here.ter( p2 ) == t_door_metal_locked ) {
                         here.ter_set( p2, t_floor );
                     }
@@ -1708,7 +1708,7 @@ void emp_blast( const tripoint &p )
                 if( sight ) {
                     add_msg( _( "The EMP blast fries the %s!" ), critter.name() );
                 }
-                int const dam = dice( 10, 10 );
+                const int dam = dice( 10, 10 );
                 critter.apply_damage( nullptr, bodypart_id( "torso" ), dam );
                 critter.check_dead_state();
                 if( !critter.is_dead() && one_in( 6 ) ) {
@@ -1722,7 +1722,7 @@ void emp_blast( const tripoint &p )
                 }
                 critter.add_effect( effect_emp, 3_minutes );
             } else if( critter.has_effect( effect_emp ) ) {
-                int const dam = dice( 3, 5 );
+                const int dam = dice( 3, 5 );
                 if( sight ) {
                     add_msg( m_good, _( "The %s's disabled electrical field reverses polarity!" ),
                              critter.name() );
@@ -1739,7 +1739,7 @@ void emp_blast( const tripoint &p )
     if( u.pos() == p ) {
         if( u.get_power_level() > 0_kJ ) {
             add_msg( m_bad, _( "The EMP blast drains your power." ) );
-            int const max_drain = ( u.get_power_level() > 1000_kJ ? 1000 : units::to_kilojoule(
+            const int max_drain = ( u.get_power_level() > 1000_kJ ? 1000 : units::to_kilojoule(
                                         u.get_power_level() ) );
             u.mod_power_level( units::from_kilojoule( -rng( 1 + ( max_drain / 3 ), max_drain ) ) );
         }
@@ -1783,8 +1783,8 @@ void explosion_funcs::resonance_cascade( const queued_explosion &qe )
     constexpr half_open_rectangle<point> map_bounds( point_zero, point( MAPSIZE_X, MAPSIZE_Y ) );
     constexpr point cascade_reach( 8, 8 );
 
-    point const start = clamp( p.xy() - cascade_reach, map_bounds );
-    point const end = clamp( p.xy() + cascade_reach, map_bounds );
+    const point start = clamp( p.xy() - cascade_reach, map_bounds );
+    const point end = clamp( p.xy() + cascade_reach, map_bounds );
 
     std::vector<int> const rolls;
 
@@ -1841,7 +1841,7 @@ void explosion_funcs::resonance_cascade( const queued_explosion &qe )
                 case 13:
                 case 14:
                 case 15: {
-                    MonsterGroupResult const spawn_details = MonsterGroupManager::GetResultFromGroup( GROUP_NETHER );
+                    const MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup( GROUP_NETHER );
                     g->place_critter_at( spawn_details.name, dest );
                     break;
                 }
@@ -1867,9 +1867,9 @@ void explosion_funcs::resonance_cascade( const queued_explosion &qe )
 
 projectile shrapnel_from_legacy( int power, float blast_radius )
 {
-    int const range = 2 * blast_radius;
+    const int range = 2 * blast_radius;
     // Damage approximately equal to blast damage at epicenter
-    int const damage = power * power_to_dmg_mult;
+    const int damage = power * power_to_dmg_mult;
     projectile proj;
     proj.speed = 1000;
     proj.range = range;
@@ -1893,7 +1893,7 @@ explosion_queue &get_explosion_queue()
 void explosion_queue::execute()
 {
     while( !elems.empty() ) {
-        queued_explosion const exp = std::move( elems.front() );
+        const queued_explosion exp = std::move( elems.front() );
         elems.pop_front();
         switch( exp.type ) {
             case ExplosionType::Regular:

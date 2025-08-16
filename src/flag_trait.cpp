@@ -66,7 +66,7 @@ json_trait_flag::operator bool() const
 
 const json_trait_flag &json_trait_flag::get( const std::string &id )
 {
-    static const json_trait_flag null_value = json_trait_flag();
+    const static json_trait_flag null_value = json_trait_flag();
     const trait_flag_str_id f_id( id );
     return f_id.is_valid() ? *f_id : null_value;
 }

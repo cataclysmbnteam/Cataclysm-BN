@@ -133,13 +133,13 @@ deserialize_lua_object( sol::state_view lua, const JsonObject &jo )
         std::string const data = jo.get_string( "data" );
         return sol::object( lua, sol::in_place, data );
     } else if( entry_type == "bool" ) {
-        bool const data = jo.get_bool( "data" );
+        const bool data = jo.get_bool( "data" );
         return sol::object( lua, sol::in_place, data );
     } else if( entry_type == "int" ) {
-        int const data = jo.get_int( "data" );
+        const int data = jo.get_int( "data" );
         return sol::object( lua, sol::in_place, data );
     } else if( entry_type == "float" ) {
-        double const data = jo.get_float( "data" );
+        const double data = jo.get_float( "data" );
         return sol::object( lua, sol::in_place, data );
     } else if( entry_type == "lua_table" ) {
         JsonObject data = jo.get_object( "data" );
@@ -189,14 +189,14 @@ void deserialize_lua_table( sol::table t, JsonObject &obj )
         return;
     }
 
-    JsonArray const arr = obj.get_array( "entries" );
+    const JsonArray arr = obj.get_array( "entries" );
     if( arr.size() % 2 != 0 ) {
         debugmsg( "invalid array size %d", arr.size() );
         return;
     }
     for( size_t idx = 0; idx < arr.size(); idx += 2 ) {
-        JsonObject const jo_key = arr.get_object( idx );
-        JsonObject const jo_val = arr.get_object( idx + 1 );
+        const JsonObject jo_key = arr.get_object( idx );
+        const JsonObject jo_val = arr.get_object( idx + 1 );
         sol::object const key = deserialize_lua_object( lua, jo_key );
         sol::object const val = deserialize_lua_object( lua, jo_val );
         t.set( key, val );

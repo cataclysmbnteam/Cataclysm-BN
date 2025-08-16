@@ -50,7 +50,7 @@ void help::deserialize( JsonIn &jsin )
 
     jsin.start_array();
     while( !jsin.end_array() ) {
-        JsonObject const jo = jsin.get_object();
+        const JsonObject jo = jsin.get_object();
 
         std::vector<std::string> messages;
         jo.read( "messages", messages );
@@ -76,7 +76,7 @@ void help::deserialize( JsonIn &jsin )
 
 std::string help::get_dir_grid()
 {
-    static const std::array<action_id, 9> movearray = {{
+    const static std::array<action_id, 9> movearray = {{
             ACTION_MOVE_FORTH_LEFT, ACTION_MOVE_FORTH, ACTION_MOVE_FORTH_RIGHT,
             ACTION_MOVE_LEFT,  ACTION_PAUSE,  ACTION_MOVE_RIGHT,
             ACTION_MOVE_BACK_LEFT, ACTION_MOVE_BACK, ACTION_MOVE_BACK_RIGHT
@@ -109,11 +109,11 @@ void help::draw_menu( const catacurses::window &win )
 {
     werase( win );
     // NOLINTNEXTLINE(cata-use-named-point-constants)
-    int const y = fold_and_print( win, point( 1, 0 ), getmaxx( win ) - 2, c_white,
+    const int y = fold_and_print( win, point( 1, 0 ), getmaxx( win ) - 2, c_white,
                                   _( "Please press one of the following for help on that topic:\n"
                                      "Press ESC to return to the game." ) ) + 1;
 
-    size_t const half_size = ( help_texts.size() / 2 ) + 1;
+    const size_t half_size = ( help_texts.size() / 2 ) + 1;
     int second_column = divide_round_up( getmaxx( win ), 2 );
     for( size_t i = 0; i < help_texts.size(); i++ ) {
         std::string const cat_name = _( help_texts[i].first );
@@ -187,7 +187,7 @@ void help::display_help()
                         std::string line_proc = _( line );
                         size_t pos = line_proc.find( "<press_", 0, 7 );
                         while( pos != std::string::npos ) {
-                            size_t const pos2 = line_proc.find( ">", pos, 1 );
+                            const size_t pos2 = line_proc.find( ">", pos, 1 );
 
                             std::string const action = line_proc.substr( pos + 7, pos2 - pos - 7 );
                             auto replace = "<color_light_blue>" + press_x( look_up_action( action ), "", "" ) + "</color>";

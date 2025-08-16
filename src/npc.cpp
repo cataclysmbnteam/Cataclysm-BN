@@ -173,7 +173,7 @@ npc::npc()
     attitude = NPCATT_NULL;
 
     *path_settings = pathfinding_settings( 0, 1000, 1000, 10, true, true, true, false, true );
-    for( direction const threat_dir : npc_threat_dir ) {
+    for( const direction threat_dir : npc_threat_dir ) {
         ai_cache.threat_map[ threat_dir ] = 0.0f;
     }
 
@@ -288,7 +288,7 @@ const npc_template &string_id<npc_template>::obj() const
     const auto found = npc_templates.find( *this );
     if( found == npc_templates.end() ) {
         debugmsg( "Tried to get invalid npc: %s", c_str() );
-        static const npc_template dummy{};
+        const static npc_template dummy{};
         return dummy;
     }
     return found->second;
@@ -372,7 +372,7 @@ void npc::randomize( const npc_class_id &type )
     per_max = the_class.roll_perception();
 
     for( auto &skill : Skill::skills ) {
-        int const level = myclass->roll_skill( skill.ident() );
+        const int level = myclass->roll_skill( skill.ident() );
 
         set_skill_level( skill.ident(), level );
     }
@@ -454,7 +454,7 @@ void npc::randomize( const npc_class_id &type )
 
     // Run mutation rounds
     for( const auto &mr : type->mutation_rounds ) {
-        int const rounds = mr.second.roll();
+        const int rounds = mr.second.roll();
         for( int i = 0; i < rounds; ++i ) {
             mutate_category( mr.first );
         }
@@ -466,7 +466,7 @@ void npc::randomize( const npc_class_id &type )
 
     // Add bionics
     for( const auto &bl : type->bionic_list ) {
-        int const chance = bl.second;
+        const int chance = bl.second;
         if( rng( 0, 100 ) <= chance ) {
             add_bionic( bl.first );
         }
@@ -917,7 +917,7 @@ int npc::time_to_read( const item &book, const Character &reader ) const
     // Reading speed is assumed to be how well you learn from books (as opposed to hands-on experience)
     const bool try_understand = character_funcs::is_fun_to_read( reader, book ) ||
                                 reader.get_skill_level( skill ) < type->level;
-    int const reading_speed = try_understand ? std::max( reader.read_speed(),
+    const int reading_speed = try_understand ? std::max( reader.read_speed(),
                               read_speed() ) : read_speed();
 
     int retval = type->time * reading_speed;
@@ -951,7 +951,7 @@ void npc::finish_read( item *it )
     const bool display_messages = my_fac->id == faction_id( "your_followers" ) && g->u.sees( pos() );
     bool continuous = false; //whether to continue reading or not
 
-    int const book_fun_for = character_funcs::get_book_fun_for( *this, book );
+    const int book_fun_for = character_funcs::get_book_fun_for( *this, book );
     if( book_fun_for != 0 ) {
         add_morale( MORALE_BOOK, book_fun_for * 5, book_fun_for * 15, 1_hours, 30_minutes, true,
                     book.type );
@@ -976,7 +976,7 @@ void npc::finish_read( item *it )
         max_ex = std::min( max_ex, 10 );
         max_ex = std::max( max_ex, min_ex );
         const std::string &s = activity->get_str_value( 0, "1" );
-        double const penalty = strtod( s.c_str(), nullptr );
+        const double penalty = strtod( s.c_str(), nullptr );
         min_ex *= ( originalSkillLevel + 1 ) * penalty;
         min_ex = std::max( min_ex, 1 );
         max_ex *= ( originalSkillLevel + 1 ) * penalty;
@@ -1032,7 +1032,7 @@ void npc::finish_read( item *it )
 
 void npc::start_read( item &it, Character *pl )
 {
-    item  const &chosen = it;
+    const item &chosen = it;
     const int time_taken = time_to_read( chosen, *pl );
     const double penalty = static_cast<double>( time_taken ) / time_to_read( chosen, *pl );
     std::unique_ptr<player_activity> act = std::make_unique<player_activity>( ACT_READ, time_taken, 0,
@@ -1148,7 +1148,7 @@ void npc::stow_weapon( )
         return;
     }
     detached_ptr<item> detached = remove_primary_weapon();
-    item  const &weapon = *detached;
+    const item &weapon = *detached;
     detached = wear_item( std::move( detached ), false );
     if( !detached ) {
         // Wearing the item was successful, remove weapon and post message.
@@ -1230,7 +1230,7 @@ detached_ptr<item> npc::wield( detached_ptr<item> &&target )
 
     last_item = obj.typeId();
     recoil = MAX_RECOIL;
-    int const mv = item_handling_cost( obj, true, INVENTORY_HANDLING_PENALTY );
+    const int mv = item_handling_cost( obj, true, INVENTORY_HANDLING_PENALTY );
     obj.on_wield( *this, mv );
 
 
@@ -1313,7 +1313,7 @@ void npc::form_opinion( const Character &u )
     }
 
     int u_ugly = 0;
-    for( trait_id  const &mut : u.get_mutations() ) {
+    for( const trait_id &mut : u.get_mutations() ) {
         u_ugly += mut.obj().ugliness;
     }
     op_of_u.fear += u_ugly / 2;
@@ -1430,8 +1430,8 @@ float npc::vehicle_danger( int radius ) const
             // FIXME: this can't be the right way to do this
             units::angle const facing = wrapped_veh.v->face.dir();
 
-            point const a( wrapped_veh.v->global_pos3().xy() );
-            point const b( static_cast<int>( a.x + ( units::cos( facing ) * radius ) ),
+            const point a( wrapped_veh.v->global_pos3().xy() );
+            const point b( static_cast<int>( a.x + ( units::cos( facing ) * radius ) ),
                            static_cast<int>( a.y + ( units::sin( facing ) * radius ) ) );
 
             // fake size
@@ -1443,12 +1443,12 @@ float npc::vehicle_danger( int radius ) const
             for( const vpart_reference &vpr : wrapped_veh.v->get_all_parts() ) {
                 last_part = &vpr.part();
             }
-            int const size = std::max( last_part->mount.x, last_part->mount.y );
+            const int size = std::max( last_part->mount.x, last_part->mount.y );
 
-            double const normal = std::sqrt( static_cast<float>( ( ( b.x - a.x ) * ( b.x - a.x ) ) + ( (
+            const double normal = std::sqrt( static_cast<float>( ( ( b.x - a.x ) * ( b.x - a.x ) ) + ( (
                                                  b.y - a.y ) *
                                              ( b.y - a.y ) ) ) );
-            int const closest = static_cast<int>( std::abs( ( ( posx() - a.x ) * ( b.y - a.y ) ) - ( (
+            const int closest = static_cast<int>( std::abs( ( ( posx() - a.x ) * ( b.y - a.y ) ) - ( (
                     posy() - a.y ) *
                                                   ( b.x - a.x ) ) ) / normal );
 
@@ -1537,9 +1537,9 @@ void npc::decide_needs()
         elem = 20;
     }
     if( primary_weapon().is_gun() ) {
-        int const ups_drain = primary_weapon().get_gun_ups_drain();
+        const int ups_drain = primary_weapon().get_gun_ups_drain();
         if( ups_drain > 0 ) {
-            int const ups_charges = charges_of( itype_UPS_off, ups_drain ) +
+            const int ups_charges = charges_of( itype_UPS_off, ups_drain ) +
                                     charges_of( itype_UPS_off, ups_drain );
             needrank[need_ammo] = static_cast<double>( ups_charges ) / ups_drain;
         } else {
@@ -1556,7 +1556,7 @@ void npc::decide_needs()
     needrank[need_weapon] = npc_ai::wielded_value( *this );
     needrank[need_food] = 15.0f - ( max_stored_kcal() - get_stored_kcal() ) / 10.0f;
     needrank[need_drink] = 15 - get_thirst();
-    const_invslice const slice = inv.const_slice();
+    const const_invslice slice = inv.const_slice();
     for( auto &i : slice ) {
         item &inventory_item = *i->front();
         if( const item *food = inventory_item.get_food() ) {
@@ -1741,7 +1741,7 @@ void npc::shop_restock()
             item *my_currency = item::spawn_temporary( my_fac->currency );
             if( !my_currency->is_null() ) {
                 my_currency->set_owner( *this );
-                int const my_amount = rng( 5, 15 ) * shop_value / 100 / my_currency->price( true );
+                const int my_amount = rng( 5, 15 ) * shop_value / 100 / my_currency->price( true );
                 for( int lcv = 0; lcv < my_amount; lcv++ ) {
                     ret.push_back( item::spawn( *my_currency ) );
                 }
@@ -1790,7 +1790,7 @@ void npc::shop_restock()
 
 std::string npc::get_restock_interval() const
 {
-    time_duration const restock_remaining = restock - calendar::turn;
+    const time_duration restock_remaining = restock - calendar::turn;
     std::string restock_rem = to_string( restock_remaining );
     return restock_rem;
 }
@@ -1813,13 +1813,13 @@ void npc::update_worst_item_value()
 {
     worst_item_value = 99999;
     // TODO: Cache this
-    int const inv_val = inv.worst_item_value( this );
+    const int inv_val = inv.worst_item_value( this );
     worst_item_value = std::min( inv_val, worst_item_value );
 }
 
 int npc::value( const item &it ) const
 {
-    int const market_price = it.price( true );
+    const int market_price = it.price( true );
     return value( it, market_price );
 }
 
@@ -1836,7 +1836,7 @@ int npc::value( const item &it, int market_price ) const
     }
 
     int ret = 0;
-    double const weapon_val = npc_ai::weapon_value( *this, it, it.ammo_capacity() )
+    const double weapon_val = npc_ai::weapon_value( *this, it, it.ammo_capacity() )
                               - npc_ai::wielded_value( *this );
     if( weapon_val > 0 ) {
         ret += weapon_val;
@@ -1866,7 +1866,7 @@ int npc::value( const item &it, int market_price ) const
             ret += 14;
         }
 
-        bool const has_gun_for_ammo = has_item_with( [at]( const item & itm ) {
+        const bool has_gun_for_ammo = has_item_with( [at]( const item & itm ) {
             // item::ammo_type considers the active gunmod.
             return itm.is_gun() && itm.ammo_types().contains( at );
         } );
@@ -2569,8 +2569,8 @@ void npc::die( Creature *nkiller )
     }
 
     if( get_killer() == &g->u && ( !guaranteed_hostile() || hit_by_player ) ) {
-        bool const cannibal = g->u.has_trait( trait_CANNIBAL );
-        bool const psycho = g->u.has_trait( trait_PSYCHOPATH ) || g->u.has_trait( trait_KILLER );
+        const bool cannibal = g->u.has_trait( trait_CANNIBAL );
+        const bool psycho = g->u.has_trait( trait_PSYCHOPATH ) || g->u.has_trait( trait_KILLER );
         if( g->u.has_trait( trait_SAPIOVORE ) || psycho ) {
             // No morale penalty
         } else if( cannibal ) {
@@ -2598,7 +2598,7 @@ void npc::die( Creature *nkiller )
 
 std::string npc_attitude_id( npc_attitude att )
 {
-    static const std::map<npc_attitude, std::string> npc_attitude_ids = {
+    const static std::map<npc_attitude, std::string> npc_attitude_ids = {
         { NPCATT_NULL, "NPCATT_NULL" },
         { NPCATT_TALK, "NPCATT_TALK" },
         { NPCATT_FOLLOW, "NPCATT_FOLLOW" },
@@ -2908,14 +2908,14 @@ void npc::process_turn()
         get_kcal_percent() > 0.95 && get_thirst() < thirst_levels::very_thirsty && op_of_u.trust < 5 ) {
         // Friends who are well fed will like you more
         // 24 checks per day, best case chance at trust 0 is 1 in 48 for +1 trust per 2 days
-        float const trust_chance = 5 - op_of_u.trust;
+        const float trust_chance = 5 - op_of_u.trust;
         // Penalize for bad impression
         // TODO: Penalize for traits and actions (especially murder, unless NPC is psycho)
-        int const op_penalty = std::max( 0, op_of_u.anger ) +
+        const int op_penalty = std::max( 0, op_of_u.anger ) +
                                std::max( 0, -op_of_u.value ) +
                                std::max( 0, op_of_u.fear );
         // Being barely hungry and thirsty, not in pain and not wounded means good care
-        int const state_penalty = ( ( max_stored_kcal() - get_stored_kcal() ) / 10 ) + get_thirst()
+        const int state_penalty = ( ( max_stored_kcal() - get_stored_kcal() ) / 10 ) + get_thirst()
                                   + ( 100 - hp_percentage() ) + get_pain();
         if( x_in_y( trust_chance, 240 + ( 10 * op_penalty ) + state_penalty ) ) {
             op_of_u.trust++;
@@ -3054,7 +3054,7 @@ const pathfinding_settings &npc::get_legacy_pathfinding_settings( bool no_bashin
 std::set<tripoint> npc::get_legacy_path_avoid() const
 {
     std::set<tripoint> ret;
-    for( Creature  const &critter : g->all_creatures() ) {
+    for( const Creature &critter : g->all_creatures() ) {
         // TODO: Cache this somewhere
         ret.insert( critter.pos() );
     }
@@ -3125,9 +3125,9 @@ mfaction_id npc::get_monster_faction() const
 
     // legacy checks
     // Those can't be static int_ids, because mods add factions
-    static const string_id<monfaction> human_fac( "human" );
-    static const string_id<monfaction> player_fac( "player" );
-    static const string_id<monfaction> bee_fac( "bee" );
+    const static string_id<monfaction> human_fac( "human" );
+    const static string_id<monfaction> player_fac( "player" );
+    const static string_id<monfaction> bee_fac( "bee" );
 
     if( is_player_ally() ) {
         return player_fac.id();
@@ -3192,7 +3192,7 @@ void npc::set_companion_mission( npc &p, const std::string &mission_id )
 
 std::pair<std::string, nc_color> npc::hp_description() const
 {
-    int const cur_hp = hp_percentage();
+    const int cur_hp = hp_percentage();
     std::string damage_info;
     std::string pronoun;
     if( male ) {
@@ -3324,8 +3324,8 @@ void npc::set_attitude( npc_attitude new_attitude )
 
     add_msg( m_debug, "%s changes attitude from %s to %s",
              name, npc_attitude_id( attitude ), npc_attitude_id( new_attitude ) );
-    attitude_group const new_group = get_attitude_group( new_attitude );
-    attitude_group const old_group = get_attitude_group( attitude );
+    const attitude_group new_group = get_attitude_group( new_attitude );
+    const attitude_group old_group = get_attitude_group( attitude );
     if( new_group != old_group && !is_fake() && g->u.sees( *this ) ) {
         switch( new_group ) {
             case attitude_group::hostile:

@@ -285,7 +285,7 @@ void mission_type::load( const JsonObject &jo, const std::string &src )
         if( jo.has_string( phase ) ) {
             assign_function( jo, phase, phase_func, mission_function_map );
         } else if( jo.has_member( phase ) ) {
-            JsonObject const j_start = jo.get_object( phase );
+            const JsonObject j_start = jo.get_object( phase );
             if( !parse_funcs( j_start, phase_func ) ) {
                 deferred.emplace_back( jo.get_source_location(), src );
                 jo.allow_omitted_members();
@@ -353,7 +353,7 @@ void mission_type::check_consistency()
 
 mission_type_id mission_type::from_legacy( int old_id )
 {
-    static const std::vector<mission_type_id> old_id_vec = {{
+    const static std::vector<mission_type_id> old_id_vec = {{
             mission_type_id( "MISSION_NULL" ),
             mission_type_id( "MISSION_GET_ANTIBIOTICS" ),
             mission_type_id( "MISSION_GET_SOFTWARE" ),

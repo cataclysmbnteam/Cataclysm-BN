@@ -60,7 +60,7 @@ void furn_transform::serialize( JsonOut &jsout ) const
 
 void furn_transform::deserialize( JsonIn &jsin )
 {
-    JsonObject const jo = jsin.get_object();
+    const JsonObject jo = jsin.get_object();
 
     jo.read( "id", id );
     jo.read( "msg", msg );
@@ -92,7 +92,7 @@ class null_tile_data : public active_tile_data
         }
 
         const std::string &get_type() const override {
-            static const std::string type( "null" );
+            const static std::string type( "null" );
             return type;
         }
         void store( JsonOut & ) const override
@@ -115,20 +115,20 @@ void solar_tile::update_internal( time_point to, const tripoint_abs_ms &p, distr
     constexpr time_point zero = time_point::from_turn( 0 );
     constexpr time_duration tick_length = 10_minutes;
     constexpr int tick_turns = to_turns<int>( tick_length );
-    time_duration const till_then = get_last_updated() - zero;
-    time_duration const till_now = to - zero;
+    const time_duration till_then = get_last_updated() - zero;
+    const time_duration till_now = to - zero;
     // This is just for rounding to nearest tick
-    time_duration const ticks_then = till_then / tick_turns;
-    time_duration const ticks_now = till_now / tick_turns;
+    const time_duration ticks_then = till_then / tick_turns;
+    const time_duration ticks_now = till_now / tick_turns;
     // This is to cut down on sum_conditions
     if( ticks_then == ticks_now ) {
         return;
     }
-    time_duration const rounded_then = ticks_then * tick_turns;
-    time_duration const rounded_now = ticks_now * tick_turns;
+    const time_duration rounded_then = ticks_then * tick_turns;
+    const time_duration rounded_now = ticks_now * tick_turns;
 
     // TODO: Use something that doesn't calc a ton of worthless crap
-    float const sunlight = sum_conditions( zero + rounded_then, zero + rounded_now,
+    const float sunlight = sum_conditions( zero + rounded_then, zero + rounded_now,
                                            p.raw() ).sunlight / default_daylight_level();
     // int64 because we can have years in here
     std::int64_t const produced = power * static_cast<std::int64_t>( sunlight ) / 1000;
@@ -142,7 +142,7 @@ active_tile_data *solar_tile::clone() const
 
 const std::string &solar_tile::get_type() const
 {
-    static const std::string type( "solar" );
+    const static std::string type( "solar" );
     return type;
 }
 
@@ -174,7 +174,7 @@ active_tile_data *battery_tile::clone() const
 
 const std::string &battery_tile::get_type() const
 {
-    static const std::string type( "battery" );
+    const static std::string type( "battery" );
     return type;
 }
 
@@ -213,7 +213,7 @@ int battery_tile::mod_resource( int amt )
 void charge_watcher_tile::update_internal( time_point /*to*/, const tripoint_abs_ms &p,
         distribution_grid &grid )
 {
-    int const amt_stored = grid.get_resource();
+    const int amt_stored = grid.get_resource();
 
     if( amt_stored >= min_power ) {
         get_distribution_grid_tracker().get_transform_queue().add( p, transform.id, transform.msg );
@@ -227,7 +227,7 @@ active_tile_data *charge_watcher_tile::clone() const
 
 const std::string &charge_watcher_tile::get_type() const
 {
-    static const std::string type( "charge_watcher" );
+    const static std::string type( "charge_watcher" );
     return type;
 }
 
@@ -290,7 +290,7 @@ active_tile_data *charger_tile::clone() const
 
 const std::string &charger_tile::get_type() const
 {
-    static const std::string type( "charger" );
+    const static std::string type( "charger" );
     return type;
 }
 
@@ -307,13 +307,13 @@ void charger_tile::load( JsonObject &jo )
 void steady_consumer_tile::update_internal( time_point to, const tripoint_abs_ms &p,
         distribution_grid &grid )
 {
-    int const ticks = ticks_between( get_last_updated(), to, consume_every );
+    const int ticks = ticks_between( get_last_updated(), to, consume_every );
     if( ticks == 0 ) {
         return;
     }
 
     std::int64_t const power = this->power * ticks;
-    int const missing = grid.mod_resource( -power );
+    const int missing = grid.mod_resource( -power );
 
     if( missing == 0 ) {
         return;
@@ -333,7 +333,7 @@ active_tile_data *steady_consumer_tile::clone() const
 
 const std::string &steady_consumer_tile::get_type() const
 {
-    static const std::string type( "steady_consumer" );
+    const static std::string type( "steady_consumer" );
     return type;
 }
 
@@ -363,7 +363,7 @@ active_tile_data *vehicle_connector_tile::clone() const
 
 const std::string &vehicle_connector_tile::get_type() const
 {
-    static const std::string type( "vehicle_connector" );
+    const static std::string type( "vehicle_connector" );
     return type;
 }
 
@@ -400,7 +400,7 @@ active_tile_data *countdown_tile::clone() const
 
 const std::string &countdown_tile::get_type() const
 {
-    static const std::string type( "countdown" );
+    const static std::string type( "countdown" );
     return type;
 }
 
@@ -436,7 +436,7 @@ static std::map<std::string, std::unique_ptr<active_tile_data>> build_type_map()
 
 active_tile_data *active_tile_data::create( const std::string &id )
 {
-    static const auto type_map = build_type_map();
+    const static auto type_map = build_type_map();
     const auto iter = type_map.find( id );
     if( iter == type_map.end() ) {
         debugmsg( "Invalid active_tile_data id %s", id.c_str() );

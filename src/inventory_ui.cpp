@@ -608,7 +608,7 @@ const inventory_entry &inventory_column::get_selected() const
 {
     if( selected_index >= entries.size() || !entries[selected_index].is_item() ) {
         // clang complains if we use the default constructor here
-        static const inventory_entry dummy( nullptr );
+        const static inventory_entry dummy( nullptr );
         return dummy;
     }
     return entries[selected_index];
@@ -644,7 +644,7 @@ void inventory_column::set_stack_favorite( const item *location, bool favorite )
     std::list<item *> to_favorite;
 
     if( location->where() == item_location_type::character ) {
-        int const position = g->u.get_item_position( selected_item );
+        const int position = g->u.get_item_position( selected_item );
 
         if( position < 0 ) {
             g->u.i_at( position ).set_favorite( !selected_item->is_favorite ); // worn/wielded
@@ -897,7 +897,7 @@ void inventory_column::draw( const catacurses::window &win, point pos ) const
 
         int x1 = pos.x + get_entry_indent( entry );
         int x2 = pos.x + std::max( static_cast<int>( reserved_width - get_cells_width() ), 0 );
-        int const yy = pos.y + line;
+        const int yy = pos.y + line;
 
         const bool selected = active && is_selected( entry );
 
@@ -932,7 +932,7 @@ void inventory_column::draw( const catacurses::window &win, point pos ) const
             x2 += cells[cell_index].current_width;
 
             size_t text_width = utf8_width( entry_cell_cache.text[cell_index], true );
-            size_t const text_gap = cell_index > 0 ? std::max( cells[cell_index].gap(), min_cell_gap ) : 0;
+            const size_t text_gap = cell_index > 0 ? std::max( cells[cell_index].gap(), min_cell_gap ) : 0;
             size_t available_width = x2 - x1 - text_gap;
 
             if( text_width > available_width ) {
@@ -1041,7 +1041,7 @@ void selection_column::prepare_paging( const std::string &filter )
 
 void selection_column::on_change( const inventory_entry &entry )
 {
-    inventory_entry const my_entry( entry, &*selected_cat );
+    const inventory_entry my_entry( entry, &*selected_cat );
 
     auto iter = std::find( entries.begin(), entries.end(), my_entry );
 
@@ -1159,7 +1159,7 @@ void inventory_selector::add_entry( inventory_column &target_column,
     }
 
     is_empty = false;
-    inventory_entry const entry( locations, custom_category,
+    const inventory_entry entry( locations, custom_category,
                                  preset.get_denial( locations.front() ).empty() );
 
     target_column.add_entry( entry );
@@ -1570,7 +1570,7 @@ void inventory_selector::set_filter()
         current_ui->mark_resize();
     }
 
-    ime_sentry const sentry;
+    const ime_sentry sentry;
 
     do {
         ui_manager::redraw();
@@ -1624,7 +1624,7 @@ void inventory_selector::draw_columns( const catacurses::window &w ) const
                                    ? free_space % ( columns.size() - 1 ) : 0;
 
     size_t x = border + 1;
-    size_t const y = get_header_height() + border + 1;
+    const size_t y = get_header_height() + border + 1;
     size_t active_x = 0;
 
     for( const auto &elem : columns ) {
@@ -1889,7 +1889,7 @@ void inventory_selector::append_column( inventory_column &column )
 
 const navigation_mode_data &inventory_selector::get_navigation_data( navigation_mode m ) const
 {
-    static const std::map<navigation_mode, navigation_mode_data> mode_data = {
+    const static std::map<navigation_mode, navigation_mode_data> mode_data = {
         { navigation_mode::ITEM,     { navigation_mode::CATEGORY, translation(),                               c_light_gray } },
         { navigation_mode::CATEGORY, { navigation_mode::ITEM,     to_translation( "Category selection mode" ), h_white  } }
     };
@@ -1900,7 +1900,7 @@ const navigation_mode_data &inventory_selector::get_navigation_data( navigation_
 std::string inventory_selector::action_bound_to_key( char key ) const
 {
     for( const std::string &action_descriptor : ctxt.get_registered_actions_copy() ) {
-        for( char const bound_key : ctxt.keys_bound_to( action_descriptor ) ) {
+        for( const char bound_key : ctxt.keys_bound_to( action_descriptor ) ) {
             if( key == bound_key ) {
                 return action_descriptor;
             }

@@ -100,7 +100,7 @@ void dependency_node::inherit_errors()
             std::map<node_error_type, std::vector<std::string > > const cerrors = check->errors();
             for( auto &cerror : cerrors ) {
                 std::vector<std::string> const node_errors = cerror.second;
-                node_error_type const error_type = cerror.first;
+                const node_error_type error_type = cerror.first;
                 std::vector<std::string> cur_errors = all_errors[error_type];
                 for( auto &node_error : node_errors ) {
                     if( std::ranges::find( cur_errors, node_error ) ==

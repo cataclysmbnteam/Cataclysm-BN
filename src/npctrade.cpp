@@ -64,12 +64,12 @@ void npc_trading::transfer_items( std::vector<item_pricing> &stuff, Character &,
 std::vector<item_pricing> npc_trading::init_selling( npc &np )
 {
     std::vector<item_pricing> result;
-    const_invslice const slice = np.inv_const_slice();
-    for( auto const &i : slice ) {
-        item  const &it = *i->front();
+    const const_invslice slice = np.inv_const_slice();
+    for( const auto &i : slice ) {
+        const item &it = *i->front();
 
         const int price = it.price( true );
-        int const val = np.value( it );
+        const int val = np.value( it );
         if( np.wants_to_sell( it, val, price ) ) {
             result.emplace_back( *i, val, static_cast<int>( i->size() ) );
         }
@@ -97,7 +97,7 @@ double npc_trading::net_price_adjustment( const Character &buyer, const Characte
     ///\EFFECT_INT slightly increases bartering price changes, relative to NPC INT
 
     ///\EFFECT_BARTER increases bartering price changes, relative to NPC BARTER
-    double const adjust = ( 0.05 * ( seller.int_cur - buyer.int_cur ) ) +
+    const double adjust = ( 0.05 * ( seller.int_cur - buyer.int_cur ) ) +
                           price_adjustment( seller.get_skill_level( skill_barter ) -
                                             buyer.get_skill_level( skill_barter ) );
     return( std::max( adjust, 1.0 ) );
@@ -124,7 +124,7 @@ std::vector<item_pricing> npc_trading::init_buying( Character &buyer, Character 
     npc &np = *np_p;
     faction *fac = np.get_faction();
 
-    double const adjust = net_price_adjustment( buyer, seller );
+    const double adjust = net_price_adjustment( buyer, seller );
 
     const auto check_item = [fac, adjust, is_npc, &np, &result,
                                   &seller]( const std::vector<item *> &locs,
@@ -133,7 +133,7 @@ std::vector<item_pricing> npc_trading::init_buying( Character &buyer, Character 
         if( it_ptr == nullptr || it_ptr->is_null() ) {
             return;
         }
-        item  const &it = *it_ptr;
+        const item &it = *it_ptr;
 
         // Don't sell items we don't own.
         if( !it.is_owned_by( seller ) ) {
@@ -141,7 +141,7 @@ std::vector<item_pricing> npc_trading::init_buying( Character &buyer, Character 
         }
 
         const int market_price = it.price( true );
-        int const val = np.value( it, market_price );
+        const int val = np.value( it, market_price );
         if( ( is_npc && np.wants_to_sell( it, val, market_price ) ) ||
             np.wants_to_buy( it, val, market_price ) ) {
             result.emplace_back( locs, val, count );
@@ -149,7 +149,7 @@ std::vector<item_pricing> npc_trading::init_buying( Character &buyer, Character 
         }
     };
 
-    const_invslice const slice = seller.inv_const_slice();
+    const const_invslice slice = seller.inv_const_slice();
     for( const auto &i : slice ) {
         check_item( *i, i->size() );
     }
@@ -261,13 +261,13 @@ void trading_window::update_win( npc &np, const std::string &deal )
         }
     }
 
-    bool const npc_out_of_space = volume_left < 0_ml || weight_left < 0_gram;
+    const bool npc_out_of_space = volume_left < 0_ml || weight_left < 0_gram;
 
     // Colors for hinting if the trade will be accepted or not.
     const nc_color trade_color       = npc_will_accept_trade( np ) ? c_green : c_red;
     const nc_color trade_color_light = npc_will_accept_trade( np ) ? c_light_green : c_light_red;
 
-    input_context const ctxt( "NPC_TRADE" );
+    const input_context ctxt( "NPC_TRADE" );
 
     werase( w_head );
     fold_and_print( w_head, point_zero, getmaxx( w_head ), c_white,
@@ -367,7 +367,7 @@ void trading_window::update_win( npc &np, const std::string &deal )
 #endif
 
             std::string const price_str = format_money( ip.price * amount );
-            nc_color const price_color = np.will_exchange_items_freely() ? c_dark_gray :
+            const nc_color price_color = np.will_exchange_items_freely() ? c_dark_gray :
                                          ( ip.selected ? c_white :
                                            c_light_gray );
             mvwprintz( w_whose, point( win_w - utf8_width( price_str ), i - offset + 1 ),
@@ -593,8 +593,8 @@ bool trading_window::perform_trade( npc &np, const std::string &deal )
                         if( focus_them && your_balance > 0 ) {
                             return your_balance / ip.price;
                         } else if( !focus_them && your_balance < 0 ) {
-                            int const amt = your_balance / ip.price;
-                            int const rem = ( std::fmod( your_balance, ip.price ) == 0 ) ? 0 : 1;
+                            const int amt = your_balance / ip.price;
+                            const int rem = ( std::fmod( your_balance, ip.price ) == 0 ) ? 0 : 1;
                             return amt - rem;
                         }
                     }
@@ -610,7 +610,7 @@ bool trading_window::perform_trade( npc &np, const std::string &deal )
                         owner_sells = 0;
                     }
                 } else if( ip.charges > 0 ) {
-                    int const hint = calc_amount_hint();
+                    const int hint = calc_amount_hint();
                     change_amount = get_var_trade( *ip.locs.front(), ip.charges, hint );
                     if( change_amount < 1 ) {
                         continue;
@@ -618,7 +618,7 @@ bool trading_window::perform_trade( npc &np, const std::string &deal )
                     owner_sells_charge = change_amount;
                 } else {
                     if( ip.count > 1 ) {
-                        int const hint = calc_amount_hint();
+                        const int hint = calc_amount_hint();
                         change_amount = get_var_trade( *ip.locs.front(), ip.count, hint );
                         if( change_amount < 1 ) {
                             continue;
@@ -630,7 +630,7 @@ bool trading_window::perform_trade( npc &np, const std::string &deal )
                 if( ip.selected != focus_them ) {
                     change_amount *= -1;
                 }
-                int const delta_price = ip.price * change_amount;
+                const int delta_price = ip.price * change_amount;
                 if( !np.will_exchange_items_freely() ) {
                     your_balance -= delta_price;
                 }
@@ -690,9 +690,9 @@ bool npc_trading::trade( npc &np, int cost, const std::string &deal )
     trading_window trade_win;
     trade_win.setup_trade( cost, np );
 
-    bool const traded = trade_win.perform_trade( np, deal );
+    const bool traded = trade_win.perform_trade( np, deal );
     if( traded ) {
-        int const practice = 0;
+        const int practice = 0;
 
         npc_trading::transfer_items( trade_win.yours, g->u, np, false );
         npc_trading::transfer_items( trade_win.theirs, np, g->u, true );

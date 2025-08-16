@@ -102,17 +102,17 @@ void Skill::load_skill( const JsonObject &jsobj )
     translation desc;
     jsobj.read( "description", desc );
     std::unordered_map<std::string, int> companion_skill_practice;
-    for( JsonObject const jo_csp : jsobj.get_array( "companion_skill_practice" ) ) {
+    for( const JsonObject jo_csp : jsobj.get_array( "companion_skill_practice" ) ) {
         companion_skill_practice.emplace( jo_csp.get_string( "skill" ), jo_csp.get_int( "weight" ) );
     }
     time_info_t time_to_attack;
     if( jsobj.has_object( "time_to_attack" ) ) {
-        JsonObject const jso_tta = jsobj.get_object( "time_to_attack" );
+        const JsonObject jso_tta = jsobj.get_object( "time_to_attack" );
         jso_tta.read( "min_time", time_to_attack.min_time );
         jso_tta.read( "base_time", time_to_attack.base_time );
         jso_tta.read( "time_reduction_per_level", time_to_attack.time_reduction_per_level );
     }
-    skill_displayType_id const display_type = skill_displayType_id(
+    const skill_displayType_id display_type = skill_displayType_id(
                 jsobj.get_string( "display_category" ) );
     Skill sk( ident, name, desc, jsobj.get_tags( "tags" ), display_type );
 
@@ -187,7 +187,7 @@ const SkillDisplayType &SkillDisplayType::get_skill_type( const skill_displayTyp
 
 skill_id Skill::from_legacy_int( const int legacy_id )
 {
-    static const std::array<skill_id, 28> legacy_skills = { {
+    const static std::array<skill_id, 28> legacy_skills = { {
             skill_id::NULL_ID(), skill_id( "dodge" ), skill_id( "melee" ), skill_id( "unarmed" ),
             skill_id( "bashing" ), skill_id( "cutting" ), skill_id( "stabbing" ), skill_id( "throw" ),
             skill_id( "gun" ), skill_id( "pistol" ), skill_id( "shotgun" ), skill_id( "smg" ),
@@ -212,20 +212,20 @@ skill_id Skill::random_skill()
 // used for the pacifist trait
 bool Skill::is_combat_skill() const
 {
-    static const std::string combat_skill( "combat_skill" );
+    const static std::string combat_skill( "combat_skill" );
     return _tags.contains( combat_skill );
 }
 
 bool Skill::is_contextual_skill() const
 {
-    static const std::string contextual_skill( "contextual_skill" );
+    const static std::string contextual_skill( "contextual_skill" );
     return _tags.contains( contextual_skill );
 }
 
 // used to check NPC weapon skills for determining starting weapon
 bool Skill::is_weapon_skill() const
 {
-    static const std::string weapon_skill( "weapon_skill" );
+    const static std::string weapon_skill( "weapon_skill" );
     return _tags.contains( weapon_skill );
 }
 
@@ -262,7 +262,7 @@ time_duration rustRate( int level )
     // -------
     // 2^(18-n)
 
-    unsigned const n = clamp( level, 0, 7 );
+    const unsigned n = clamp( level, 0, 7 );
     return time_duration::from_turns( 1 << ( 18 - n ) );
 }
 } //namespace
@@ -322,7 +322,7 @@ bool SkillLevel::can_train() const
 
 const SkillLevel &SkillLevelMap::get_skill_level_object( const skill_id &ident ) const
 {
-    static const SkillLevel null_skill{};
+    const static SkillLevel null_skill{};
 
     if( ident && ident->is_contextual_skill() ) {
         debugmsg( "Skill \"%s\" is context-dependent.  It cannot be assigned.", ident.str() );

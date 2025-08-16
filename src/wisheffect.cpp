@@ -151,7 +151,7 @@ class effect_select_callback : public uilist_callback
                                       const input_event &,
                                       int,
                                       uilist & );
-        static const std::map<std::string, effect_select_fun> handled_actions;
+        const static std::map<std::string, effect_select_fun> handled_actions;
 
         // This is "almost static", might be cached on finalize
         const std::vector<efftype_id> all_effects = find_all_effect_types();
@@ -163,7 +163,7 @@ class effect_select_callback : public uilist_callback
             : c( c )
         {}
 
-        static const std::map<std::string, effect_select_fun> &get_handled_actions() {
+        const static std::map<std::string, effect_select_fun> &get_handled_actions() {
             return handled_actions;
         }
 
@@ -181,9 +181,9 @@ class effect_select_callback : public uilist_callback
         }
 
         void refresh( uilist *menu ) override {
-            wisheffect_state  const &last_val = uistate.debug_menu.effect;
-            size_t const selected = clamp<size_t>( menu->selected, 0, all_effects.size() - 1 );
-            input_context const ctxt( menu->input_category );
+            const wisheffect_state &last_val = uistate.debug_menu.effect;
+            const size_t selected = clamp<size_t>( menu->selected, 0, all_effects.size() - 1 );
+            const input_context ctxt( menu->input_category );
 
             const point start( menu->w_width - menu->pad_right, 3 );
             const int width = menu->w_width - start.x;
@@ -196,7 +196,7 @@ class effect_select_callback : public uilist_callback
                                  ? last_val.bodypart->name.translated().c_str()
                                  : "Global" );
 
-            time_duration const dur = last_val.duration <= 0_seconds
+            const time_duration dur = last_val.duration <= 0_seconds
                                       ? eff_type->get_max_duration()
                                       : last_val.duration;
             ss << string_format( "[%s] <bold>Duration</bold>: %10d (max: %d)\n",
@@ -262,7 +262,7 @@ class effect_edit_callback : public uilist_callback
                                     const input_event &,
                                     int,
                                     uilist & );
-        static const std::map<std::string, effect_edit_fun> handled_actions;
+        const static std::map<std::string, effect_edit_fun> handled_actions;
 
         Creature &c;
 
@@ -325,7 +325,7 @@ class effect_edit_callback : public uilist_callback
             if( submenu.ret >= 0 && submenu.ret < static_cast<int>( all_effects.size() ) ) {
                 const efftype_id eff_type = all_effects[static_cast<size_t>( submenu.ret )];
                 last_val.last_type_selected_index = submenu.ret;
-                time_duration const duration = last_val.duration <= 0_seconds ? eff_type->get_max_duration() :
+                const time_duration duration = last_val.duration <= 0_seconds ? eff_type->get_max_duration() :
                                                last_val.duration;
                 c.add_effect( eff_type, duration, last_val.bodypart, last_val.intensity, last_val.force );
                 on_creature_changed();
@@ -344,7 +344,7 @@ class effect_edit_callback : public uilist_callback
                      uilist & ) {
             on_creature_changed();
             foreach_effect( c, meta[entnum], [&]( const effect & eff ) {
-                bool const removed = c.remove_effect( eff.get_id(), eff.get_bp() );
+                const bool removed = c.remove_effect( eff.get_id(), eff.get_bp() );
                 if( !removed ) {
                     debugmsg( "Couldn't remove %s from %s",
                               eff.get_id().str(),
@@ -370,7 +370,7 @@ class effect_edit_callback : public uilist_callback
                 auto iter_to = std::ranges::find_if( meta, [bp]( const entry_data & ed ) {
                     return ed.body_part == *bp;
                 } );
-                size_t const bp_index = std::distance( iter_to, meta.begin() ) % meta.size();
+                const size_t bp_index = std::distance( iter_to, meta.begin() ) % meta.size();
                 parent_menu.set_selected( bp_index );
             }
         }

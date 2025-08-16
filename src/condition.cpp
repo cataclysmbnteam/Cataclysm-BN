@@ -78,7 +78,7 @@ void read_condition( const JsonObject &jo, const std::string &member_name,
             return sub_condition( d );
         };
     } else if( jo.has_object( member_name ) ) {
-        JsonObject const con_obj = jo.get_object( member_name );
+        const JsonObject con_obj = jo.get_object( member_name );
         conditional_t<T> const sub_condition( con_obj );
         condition = [sub_condition]( const T & d ) {
             return sub_condition( d );
@@ -278,14 +278,14 @@ void conditional_t<T>::set_has_item( const JsonObject &jo, const std::string &me
 template<class T>
 void conditional_t<T>::set_has_items( const JsonObject &jo, const std::string &member, bool is_npc )
 {
-    JsonObject const has_items = jo.get_object( member );
+    const JsonObject has_items = jo.get_object( member );
     if( !has_items.has_string( "item" ) || !has_items.has_int( "count" ) ) {
         condition = []( const T & ) {
             return false;
         };
     } else {
         const itype_id item_id( has_items.get_string( "item" ) );
-        int const count = has_items.get_int( "count" );
+        const int count = has_items.get_int( "count" );
         condition = [item_id, count, is_npc]( const T & d ) {
             player *actor = d.alpha;
             if( is_npc ) {
@@ -304,7 +304,7 @@ void conditional_t<T>::set_has_item_category( const JsonObject &jo, const std::s
 
     size_t count = 1;
     if( jo.has_int( "count" ) ) {
-        int const tcount = jo.get_int( "count" );
+        const int tcount = jo.get_int( "count" );
         if( tcount > 1 && tcount < INT_MAX ) {
             count = static_cast<size_t>( tcount );
         }
@@ -372,7 +372,7 @@ void conditional_t<T>::set_need( const JsonObject &jo, const std::string &member
         if( is_npc ) {
             actor = dynamic_cast<player *>( d.beta );
         }
-        int const effective_hunger = ( actor->max_stored_kcal() - actor->get_stored_kcal() ) / 10;
+        const int effective_hunger = ( actor->max_stored_kcal() - actor->get_stored_kcal() ) / 10;
         return ( actor->get_fatigue() > amount && need == "fatigue" ) ||
                ( effective_hunger > amount && need == "hunger" ) ||
                ( actor->get_thirst() > amount && need == "thirst" );
@@ -790,7 +790,7 @@ void conditional_t<T>::set_has_stolen_item( bool /*is_npc*/ )
 {
     condition = []( const T & d ) {
         player *actor = d.alpha;
-        npc  const &p = *d.beta;
+        const npc &p = *d.beta;
         bool found_in_inv = false;
         for( auto &elem : actor->inv_dump() ) {
             if( elem->is_old_owner( p, true ) ) {
@@ -813,7 +813,7 @@ template<class T>
 void conditional_t<T>::set_is_outside()
 {
     condition = []( const T & d ) {
-        map  const &here = get_map();
+        const map &here = get_map();
         const tripoint pos = here.getabs( d.beta->pos() );
         return !here.has_flag( TFLAG_INDOORS, pos );
     };
@@ -846,14 +846,14 @@ void conditional_t<T>::set_has_reason()
 template<class T>
 void conditional_t<T>::set_has_skill( const JsonObject &jo, const std::string &member, bool is_npc )
 {
-    JsonObject const has_skill = jo.get_object( member );
+    const JsonObject has_skill = jo.get_object( member );
     if( !has_skill.has_string( "skill" ) || !has_skill.has_int( "level" ) ) {
         condition = []( const T & ) {
             return false;
         };
     } else {
         const skill_id skill( has_skill.get_string( "skill" ) );
-        int const level = has_skill.get_int( "level" );
+        const int level = has_skill.get_int( "level" );
         condition = [skill, level, is_npc]( const T & d ) {
             player *actor = d.alpha;
             if( is_npc ) {
@@ -901,7 +901,7 @@ conditional_t<T>::conditional_t( const JsonObject &jo )
                 conditional_t<T> const type_condition( entry.get_string() );
                 conditionals.emplace_back( type_condition );
             } else {
-                JsonObject const cond = entry.get_object();
+                const JsonObject cond = entry.get_object();
                 conditional_t<T> const type_condition( cond );
                 conditionals.emplace_back( type_condition );
             }
@@ -931,7 +931,7 @@ conditional_t<T>::conditional_t( const JsonObject &jo )
             return false;
         };
     } else if( jo.has_object( "not" ) ) {
-        JsonObject const cond = jo.get_object( "not" );
+        const JsonObject cond = jo.get_object( "not" );
         const conditional_t<T> sub_condition = conditional_t<T>( cond );
         found_sub_member = true;
         condition = [sub_condition]( const T & d ) {

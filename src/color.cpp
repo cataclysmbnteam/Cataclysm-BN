@@ -52,7 +52,7 @@ std::unordered_map<std::string, note_color> color_by_string_map;
 
 void color_manager::finalize()
 {
-    static const std::array<std::string, NUM_HL> hilights = {{
+    const static std::array<std::string, NUM_HL> hilights = {{
             "",
             "red",
             "white",
@@ -160,7 +160,7 @@ nc_color color_manager::get( const color_id id ) const
 
 std::string color_manager::get_name( const nc_color &color ) const
 {
-    color_id const id = color_to_id( color );
+    const color_id id = color_to_id( color );
     return id_to_name( id );
 }
 
@@ -180,7 +180,7 @@ nc_color color_manager::get_random() const
 void color_manager::add_color( const color_id col, const std::string &name,
                                const nc_color &color_pair, const color_id inv_id )
 {
-    color_struct const st = {color_pair, nc_color(), nc_color(), nc_color(), {{nc_color(), nc_color(), nc_color(), nc_color(), nc_color(), nc_color(), nc_color()}}, col, inv_id, name, "", "" };
+    const color_struct st = {color_pair, nc_color(), nc_color(), nc_color(), {{nc_color(), nc_color(), nc_color(), nc_color(), nc_color(), nc_color(), nc_color()}}, col, inv_id, name, "", "" };
     color_array[col] = st;
     inverted_map[color_pair] = col;
     name_map[name] = col;
@@ -212,13 +212,13 @@ nc_color color_manager::highlight_from_names( const std::string &name,
         hi_name = name + "_" + bg_name;
     }
 
-    color_id const id = name_to_id( hi_name );
+    const color_id id = name_to_id( hi_name );
     return color_array[id].color;
 }
 
 void color_manager::load_default()
 {
-    static const auto color_pair = []( const int n ) {
+    const static auto color_pair = []( const int n ) {
         return nc_color::from_color_pair_index( n );
     };
     //        Color         Name      Color Pair      Invert
@@ -648,7 +648,7 @@ color_tag_parse_result get_color_from_tag( const std::string &s,
     if( !s.starts_with( "<color_" ) ) {
         return { color_tag_parse_result::non_color_tag, {} };
     }
-    size_t const tag_close = s.find( '>' );
+    const size_t tag_close = s.find( '>' );
     if( tag_close == std::string::npos ) {
         return { color_tag_parse_result::non_color_tag, {} };
     }
@@ -1012,7 +1012,7 @@ void color_manager::show_gui()
 
     if( bStuffChanged && query_yn( _( "Save changes?" ) ) ) {
         for( const auto &pr : name_color_map ) {
-            color_id const id = name_to_id( pr.first );
+            const color_id id = name_to_id( pr.first );
             color_array[id].name_custom = pr.second.name_custom;
             color_array[id].name_invert_custom = pr.second.name_invert_custom;
         }
@@ -1068,13 +1068,13 @@ void color_manager::deserialize( JsonIn &jsin )
 {
     jsin.start_array();
     while( !jsin.end_array() ) {
-        JsonObject const joColors = jsin.get_object();
+        const JsonObject joColors = jsin.get_object();
 
         const std::string name = joColors.get_string( "name" );
         const std::string name_custom = joColors.get_string( "custom" );
         const std::string name_invert_custom = joColors.get_string( "invertcustom" );
 
-        color_id const id = name_to_id( name );
+        const color_id id = name_to_id( name );
         auto &entry = color_array[id];
 
         if( !name_custom.empty() ) {

@@ -38,7 +38,7 @@ behavior_return node_t::tick( const oracle_t *subject ) const
         return { predicate( subject ), this };
     } else {
         assert( strategy != nullptr );
-        status_t const result = predicate( subject );
+        const status_t result = predicate( subject );
         if( result == running ) {
             return strategy->evaluate( subject, children );
         } else {
@@ -54,7 +54,7 @@ std::string node_t::goal() const
 
 std::string tree::tick( const oracle_t *subject )
 {
-    behavior_return const result = root->tick( subject );
+    const behavior_return result = root->tick( subject );
     active_node = result.result == running ? result.selection : nullptr;
     return goal();
 }

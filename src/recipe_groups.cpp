@@ -40,7 +40,7 @@ generic_factory<recipe_group_data> recipe_groups_data( "recipe group type" );
 void recipe_group_data::load( const JsonObject &jo, const std::string & )
 {
     building_type = jo.get_string( "building_type" );
-    for( JsonObject const ordering : jo.get_array( "recipes" ) ) {
+    for( const JsonObject ordering : jo.get_array( "recipes" ) ) {
         recipe_id name_id;
         ordering.read( "id", name_id );
         translation desc;

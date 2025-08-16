@@ -25,7 +25,7 @@ const harvest_list &string_id<harvest_list>::obj() const
     const auto found = harvest_all.find( *this );
     if( found == harvest_all.end() ) {
         debugmsg( "Tried to get invalid harvest list: %s", c_str() );
-        static const harvest_list null_list{};
+        const static harvest_list null_list{};
         return null_list;
     }
     return found->second;
@@ -212,8 +212,8 @@ std::string harvest_list::describe( int at_skill ) const
             max_f = en.max;
         }
         // TODO: Avoid repetition here by making a common harvest drop function
-        int const max_drops = std::min<int>( en.max, std::round( std::max( 0.0f, max_f ) ) );
-        int const min_drops = std::max<int>( 0.0f, std::round( std::min( min_f, max_f ) ) );
+        const int max_drops = std::min<int>( en.max, std::round( std::max( 0.0f, max_f ) ) );
+        const int min_drops = std::max<int>( 0.0f, std::round( std::min( min_f, max_f ) ) );
         if( max_drops <= 0 ) {
             return std::string();
         }

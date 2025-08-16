@@ -130,17 +130,17 @@ void kill_tracker::notify( const cata::event &e )
 {
     switch( e.type() ) {
         case event_type::character_kills_monster: {
-            character_id const killer = e.get<character_id>( "killer" );
+            const character_id killer = e.get<character_id>( "killer" );
             if( killer != get_avatar().getID() ) {
                 // TODO: add a kill counter for npcs?
                 break;
             }
-            mtype_id const victim_type = e.get<mtype_id>( "victim_type" );
+            const mtype_id victim_type = e.get<mtype_id>( "victim_type" );
             kills[victim_type]++;
             break;
         }
         case event_type::character_kills_character: {
-            character_id const killer = e.get<character_id>( "killer" );
+            const character_id killer = e.get<character_id>( "killer" );
             if( killer != get_avatar().getID() ) {
                 break;
             }

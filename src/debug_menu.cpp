@@ -471,7 +471,7 @@ void spawn_nested_mapgen()
         target_map.load( abs_sub, true );
         // TODO: fix point types
         const tripoint local_ms = target_map.getlocal( abs_ms.raw() );
-        mapgendata const md( abs_omt, target_map, 0.0f, calendar::turn, nullptr );
+        const mapgendata md( abs_omt, target_map, 0.0f, calendar::turn, nullptr );
         const auto &ptr = nested_mapgen[nest_str[nest_choice]].pick();
         if( ptr == nullptr ) {
             return;
@@ -499,7 +499,7 @@ static Character &pick_character( Character &preselected )
     auto iter = std::find_if( locations.begin(), locations.end(), [&preselected]( const tripoint & p ) {
         return p == preselected.pos();
     } );
-    size_t const preselect_index = iter != locations.end() ? std::distance( locations.begin(),
+    const size_t preselect_index = iter != locations.end() ? std::distance( locations.begin(),
                                    iter ) : 0;
 
     pointmenu_cb callback( locations );
@@ -608,7 +608,7 @@ void character_edit_menu( Character &c )
         menu_entries.emplace_back( edit_character::attitude, true, 'A',  _( "Set [A]ttitude" ) );
         menu_entries.emplace_back( edit_character::opinion, true, 'O',  _( "Set [O]pinion" ) );
     }
-    uilist const nmenu( nmenu_label, menu_entries );
+    const uilist nmenu( nmenu_label, menu_entries );
     switch( nmenu.ret ) {
         case edit_character::pick: {
             Character &other = pick_character( c );
@@ -764,10 +764,10 @@ void character_edit_menu( Character &c )
             }
             break;
         case edit_character::morale: {
-            int const current_morale_level = p.get_morale_level();
+            const int current_morale_level = p.get_morale_level();
             int value;
             if( query_int( value, _( "Set the morale to?  Currently: %d" ), current_morale_level ) ) {
-                int const morale_level_delta = value - current_morale_level;
+                const int morale_level_delta = value - current_morale_level;
                 p.add_morale( MORALE_PERM_DEBUG, morale_level_delta );
                 p.apply_persistent_morale();
             }
@@ -1050,7 +1050,7 @@ void character_edit_menu( Character &c )
             attitudes_ui.text = _( "Choose new attitude" );
             std::vector<npc_attitude> attitudes;
             for( int i = NPCATT_NULL; i < NPCATT_END; i++ ) {
-                npc_attitude const att_id = static_cast<npc_attitude>( i );
+                const npc_attitude att_id = static_cast<npc_attitude>( i );
                 std::string const att_name = npc_attitude_name( att_id );
                 attitudes.push_back( att_id );
                 if( att_name == _( "Unknown attitude" ) ) {
@@ -1127,7 +1127,7 @@ void character_edit_menu( Character &c )
                 uile.enabled = !sp->is_max_level();
                 uiles.emplace_back( uile );
             }
-            int const action = uilist( _( "Debug level spell:" ), uiles );
+            const int action = uilist( _( "Debug level spell:" ), uiles );
             if( action < 0 ) {
                 break;
             }
@@ -1152,7 +1152,7 @@ void character_edit_menu( Character &c )
 
 static std::string mission_status_string( mission::mission_status status )
 {
-    static const std::map<mission::mission_status, std::string> desc{ {
+    const static std::map<mission::mission_status, std::string> desc{ {
             { mission::mission_status::yet_to_start, translate_marker( "Yet to start" ) },
             { mission::mission_status::in_progress, translate_marker( "In progress" ) },
             { mission::mission_status::success, translate_marker( "Success" ) },
@@ -1202,7 +1202,7 @@ void mission_debug::edit( Character &who )
 
 void mission_debug::edit_npc( npc &who )
 {
-    npc_chatbin  const &bin = who.chatbin;
+    const npc_chatbin &bin = who.chatbin;
     std::vector<mission *> all_missions;
 
     uilist mmenu;
@@ -1264,7 +1264,7 @@ void mission_debug::edit_player()
 static bool remove_from_vec( std::vector<mission *> &vec, mission *m )
 {
     auto iter = std::remove( vec.begin(), vec.end(), m );
-    bool const ret = iter != vec.end();
+    const bool ret = iter != vec.end();
     vec.erase( iter, vec.end() );
     return ret;
 }
@@ -1423,8 +1423,8 @@ static std::optional<tripoint_range<tripoint>> select_area()
 
 void debug()
 {
-    bool const debug_menu_has_hotkey = hotkey_for_action( ACTION_DEBUG, false ) != -1;
-    int const action = debug_menu_uilist( debug_menu_has_hotkey );
+    const bool debug_menu_has_hotkey = hotkey_for_action( ACTION_DEBUG, false ) != -1;
+    const int action = debug_menu_uilist( debug_menu_has_hotkey );
     avatar &u = g->u;
     map &m = g->m;
     switch( action ) {
@@ -1508,7 +1508,7 @@ void debug()
                 _( "NPCs are NOT going to spawn." ),
                 g->num_creatures() );
             for( const npc &guy : g->all_npcs() ) {
-                tripoint const t = guy.global_sm_location();
+                const tripoint t = guy.global_sm_location();
                 add_msg( m_info, _( "%s: map ( %d:%d ) pos ( %d:%d )" ), guy.name, t.x,
                          t.y, guy.posx(), guy.posy() );
             }
@@ -1614,7 +1614,7 @@ void debug()
                 if( veh_menu.ret >= 0 && veh_menu.ret < static_cast<int>( veh_strings.size() ) ) {
                     // Didn't cancel
                     const vproto_id &selected_opt = veh_strings[veh_menu.ret].second;
-                    tripoint const dest = u.pos();
+                    const tripoint dest = u.pos();
                     uilist veh_cond_menu;
                     veh_cond_menu.text = _( "Vehicle condition" );
                     veh_cond_menu.addentry( 0, true, MENU_AUTOASSIGN, _( "Light damage" ) );
@@ -1639,7 +1639,7 @@ void debug()
 
         case DEBUG_SPAWN_ARTIFACT:
             if( const std::optional<tripoint> center = g->look_around( true ) ) {
-                artifact_natural_property const prop = static_cast<artifact_natural_property>( rng(
+                const artifact_natural_property prop = static_cast<artifact_natural_property>( rng(
                         ARTPROP_NULL + 1,
                         ARTPROP_MAX - 1 ) );
                 m.create_anomaly( *center, prop );
@@ -1892,7 +1892,7 @@ void debug()
             };
 
             uilist smenu;
-            static const auto years = []( const time_point & p ) {
+            const static auto years = []( const time_point & p ) {
                 return static_cast<int>( ( p - calendar::turn_zero ) / calendar::year_length() );
             };
             do {
@@ -1920,7 +1920,7 @@ void debug()
                                   _( "Set season to?  (0 = spring)" ) );
                         if( calendar::eternal_season() ) {
                             // Can't use season_of_year because it checks for eternal
-                            season_type const new_initial_season = static_cast<season_type>(
+                            const season_type new_initial_season = static_cast<season_type>(
                                     to_turn<int>( calendar::turn ) / to_turns<int>( calendar::season_length() ) % 4
                                                                    );
                             season_of_year( calendar::before_time_starts );
@@ -2015,7 +2015,7 @@ void debug()
                 mx_menu.addentry( -1, true, -1, extra );
             }
             mx_menu.query();
-            int const mx_choice = mx_menu.ret;
+            const int mx_choice = mx_menu.ret;
             if( mx_choice >= 0 && mx_choice < static_cast<int>( mx_str.size() ) ) {
                 const tripoint_abs_omt where_omt( ui::omap::choose_point() );
                 if( where_omt != overmap::invalid_tripoint ) {
@@ -2092,7 +2092,7 @@ void debug()
             break;
 
         case DEBUG_BUG_REPORT: {
-            constexpr const char *const bug_report_url =
+            const constexpr char *const bug_report_url =
                 "https://github.com/cataclysmbnteam/Cataclysm-BN/issues/new"
                 "?labels=bug"
                 "&template=bug_report.yml"
@@ -2114,7 +2114,7 @@ void debug()
             std::string popup_msg = _( "Report written to debug.log" );
 #if defined(TILES)
             // copy to clipboard
-            int const clipboard_result = SDL_SetClipboardText( report.c_str() );
+            const int clipboard_result = SDL_SetClipboardText( report.c_str() );
             printErrorIf( clipboard_result != 0, "Error while copying the game report to the clipboard." );
             if( clipboard_result == 0 ) {
                 popup_msg += _( " and to the clipboard." );

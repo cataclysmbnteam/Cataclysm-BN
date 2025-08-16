@@ -249,9 +249,9 @@ void enchantment::load( const JsonObject &jo, const std::string & )
     jo.read( "emitter", emitter );
 
     if( jo.has_object( "intermittent_activation" ) ) {
-        JsonObject const jobj = jo.get_object( "intermittent_activation" );
+        const JsonObject jobj = jo.get_object( "intermittent_activation" );
         for( const JsonObject effect_obj : jobj.get_array( "effects" ) ) {
-            time_duration const freq = read_from_json_string<time_duration>( *effect_obj.get_raw( "frequency" ),
+            const time_duration freq = read_from_json_string<time_duration>( *effect_obj.get_raw( "frequency" ),
                                        time_duration::units );
             if( effect_obj.has_array( "spell_effects" ) ) {
                 for( const JsonObject fake_spell_obj : effect_obj.get_array( "spell_effects" ) ) {
@@ -261,7 +261,7 @@ void enchantment::load( const JsonObject &jo, const std::string & )
                 }
             } else if( effect_obj.has_object( "spell_effects" ) ) {
                 fake_spell fake;
-                JsonObject const fake_spell_obj = effect_obj.get_object( "spell_effects" );
+                const JsonObject fake_spell_obj = effect_obj.get_object( "spell_effects" );
                 fake.load( fake_spell_obj );
                 add_activation( freq, fake );
             }
@@ -272,7 +272,7 @@ void enchantment::load( const JsonObject &jo, const std::string & )
     active_conditions.second = io::string_to_enum<condition>( jo.get_string( "condition",
                                "ALWAYS" ) );
 
-    for( JsonObject const jsobj : jo.get_array( "ench_effects" ) ) {
+    for( const JsonObject jsobj : jo.get_array( "ench_effects" ) ) {
         ench_effects.emplace( efftype_id( jsobj.get_string( "effect" ) ), jsobj.get_int( "intensity" ) );
     }
 
@@ -471,8 +471,8 @@ double enchantment::calc_bonus( enchant_vals::mod value, double base, bool round
         default:
             break;
     }
-    double const add = use_add ? get_value_add( value ) : 0.0;
-    double const mul = get_value_multiply( value );
+    const double add = use_add ? get_value_add( value ) : 0.0;
+    const double mul = get_value_multiply( value );
     double ret = add + ( base * mul );
     if( round ) {
         ret = trunc( ret );

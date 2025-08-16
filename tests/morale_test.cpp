@@ -28,9 +28,9 @@ const std::vector<bodypart_str_id> temperature_body_parts = {{
 
 TEST_CASE( "player_morale", "[morale]" )
 {
-    static const efftype_id effect_cold( "cold" );
-    static const efftype_id effect_hot( "hot" );
-    static const efftype_id effect_took_prozac( "took_prozac" );
+    const static efftype_id effect_cold( "cold" );
+    const static efftype_id effect_hot( "hot" );
+    const static efftype_id effect_took_prozac( "took_prozac" );
 
     player_morale m;
 

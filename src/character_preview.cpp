@@ -40,7 +40,7 @@ class char_preview_adapter : public cata_tiles
             std::string const ent_name = ch.male ? "player_male" : "player_female";
 
             int height_3d = 0;
-            int const prev_height_3d = 0;
+            const int prev_height_3d = 0;
             // depending on the toggle flip sprite left or right
             if( ch.facing == FD_RIGHT ) {
                 draw_from_id_string( ent_name, C_NONE, "", tripoint( p, 0 ), corner, 0, lit_level::BRIGHT, false,
@@ -83,7 +83,7 @@ class char_preview_adapter : public cata_tiles
             // then get mutations
             for( const auto &mut : av.my_mutations ) {
                 std::string const overlay_id = ( mut.second.powered ? "active_" : "" ) + mut.first.str();
-                int const order = get_overlay_order_of_mutation( overlay_id );
+                const int order = get_overlay_order_of_mutation( overlay_id );
                 mutation_sorting.insert( std::pair<int, std::string>( order, overlay_id ) );
             }
 
@@ -95,7 +95,7 @@ class char_preview_adapter : public cata_tiles
             }
             for( const bionic &bio : *t_av.my_bionics ) {
                 std::string const overlay_id = ( bio.powered ? "active_" : "" ) + bio.id.str();
-                int const order = get_overlay_order_of_mutation( overlay_id );
+                const int order = get_overlay_order_of_mutation( overlay_id );
                 mutation_sorting.insert( std::pair<int, std::string>( order, overlay_id ) );
             }
 

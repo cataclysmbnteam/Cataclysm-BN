@@ -327,7 +327,7 @@ void monster::setpos( const tripoint &p )
         return;
     }
 
-    bool const wandering = is_wandering();
+    const bool wandering = is_wandering();
     g->update_zombie_pos( *this, p );
     position = p;
     if( has_effect( effect_ridden ) && mounted_player && mounted_player->pos() != pos() ) {
@@ -346,7 +346,7 @@ const tripoint &monster::pos() const
 
 void monster::poly( const mtype_id &id )
 {
-    double const hp_percentage = static_cast<double>( hp ) / static_cast<double>( type->hp );
+    const double hp_percentage = static_cast<double>( hp ) / static_cast<double>( type->hp );
     type = &id.obj();
     moves = 0;
     Creature::set_speed_base( type->speed );
@@ -493,7 +493,7 @@ void monster::try_reproduce()
     bool season_match = true;
 
     // only 50% of animals should reproduce
-    bool const female = one_in( 2 );
+    const bool female = one_in( 2 );
     for( auto &elem : type->baby_flags ) {
         if( elem == "SUMMER" || elem == "WINTER" || elem == "SPRING" || elem == "AUTUMN" ) {
             season_spawn = true;
@@ -787,7 +787,7 @@ int monster::print_info( const catacurses::window &w, int vStart, int vLines, in
     }
 
     std::vector<std::string> lines = foldstring( type->get_description(), getmaxx( w ) - 1 - column );
-    int const numlines = lines.size();
+    const int numlines = lines.size();
     for( int i = 0; i < numlines && vStart <= vEnd; i++ ) {
         mvwprintz( w, point( column, ++vStart ), c_white, lines[i] );
     }
@@ -1093,7 +1093,7 @@ int monster::sight_range( const int light_level ) const
         ( is_underwater() && !swims() && !has_flag( MF_AQUATIC ) && !digging() ) ) {
         return 1;
     }
-    static const int default_daylight = default_daylight_level();
+    const static int default_daylight = default_daylight_level();
     if( light_level == 0 ) {
         return type->vision_night;
     } else if( light_level == default_daylight ) {
@@ -1286,7 +1286,7 @@ bool monster::is_fleeing( Character &who ) const
     if( anger >= 100 || morale >= 100 ) {
         return false;
     }
-    monster_attitude const att = attitude( &who );
+    const monster_attitude att = attitude( &who );
     return att == MATT_FLEE || ( att == MATT_FOLLOW && rl_dist( pos(), who.pos() ) <= 4 );
 }
 
@@ -1303,7 +1303,7 @@ Attitude monster::attitude_to( const Creature &other ) const
             return Attitude::A_NEUTRAL;
         }
 
-        static const string_id<monfaction> faction_zombie( "zombie" );
+        const static string_id<monfaction> faction_zombie( "zombie" );
         auto faction_att = faction.obj().attitude( m->faction );
         if( ( friendly != 0 && m->friendly != 0 ) ||
             ( friendly == 0 && m->friendly == 0 && faction_att == MFA_FRIENDLY ) ) {
@@ -1404,7 +1404,7 @@ monster_attitude monster::attitude( const Character *u ) const
 
     if( u != nullptr ) {
         // Those are checked quite often, so avoiding string construction is a good idea
-        static const string_id<monfaction> faction_bee( "bee" );
+        const static string_id<monfaction> faction_bee( "bee" );
         if( faction == faction_bee ) {
             if( u->has_trait( trait_BEE ) ) {
                 return MATT_FRIEND;
@@ -1413,7 +1413,7 @@ monster_attitude monster::attitude( const Character *u ) const
             }
         }
 
-        static const string_id<monfaction> faction_zombie( "zombie" );
+        const static string_id<monfaction> faction_zombie( "zombie" );
         if( faction == faction_zombie || type->in_species( ZOMBIE ) ) {
             if( u->has_trait( trait_PROF_FERAL ) && !u->has_effect( effect_feral_infighting_punishment ) ) {
                 return MATT_FRIEND;
@@ -1747,7 +1747,7 @@ bool monster::block_ranged_hit( Creature *, bodypart_id &, damage_instance & )
 
 void monster::absorb_hit( const bodypart_id &, damage_instance &dam )
 {
-    resistances const res = resists();
+    const resistances res = resists();
     for( auto &elem : dam.damage_units ) {
         add_msg( m_debug, "Dam Type: %s :: Ar Pen: %.1f :: Armor Mult: %.1f",
                  name_by_dt( elem.type ), elem.res_pen, elem.res_mult );
@@ -1796,7 +1796,7 @@ void monster::melee_attack( Creature &target, float accuracy )
         return;
     }
 
-    int const hitspread = target.deal_melee_attack( this, melee::melee_hit_range( accuracy ) );
+    const int hitspread = target.deal_melee_attack( this, melee::melee_hit_range( accuracy ) );
 
     if( target.is_player() ||
         ( target.is_npc() && g->u.attitude_to( target ) == Attitude::A_FRIENDLY ) ) {
@@ -1964,7 +1964,7 @@ void monster::deal_projectile_attack( Creature *source, item *source_weapon,
                                       dealt_projectile_attack &attack )
 {
     const auto &proj = attack.proj;
-    double  const &missed_by = attack.missed_by; // We can change this here
+    const double &missed_by = attack.missed_by; // We can change this here
 
     // Whip has a chance to scare wildlife even if it misses
     if( proj.has_effect( ammo_effect_WHIP ) && type->in_category( "WILDLIFE" ) && one_in( 3 ) ) {
@@ -2066,7 +2066,7 @@ bool monster::move_effects( bool )
         return true;
     }
 
-    bool const u_see_me = g->u.sees( *this );
+    const bool u_see_me = g->u.sees( *this );
     if( has_effect( effect_tied ) ) {
         // friendly pet, will stay tied down and obey.
         if( friendly == -1 ) {
@@ -2074,7 +2074,7 @@ bool monster::move_effects( bool )
         }
         // non-friendly monster will struggle to get free occasionally.
         // some monsters can't be tangled up with a net/bolas/lasso etc.
-        bool const immediate_break = type->in_species( FISH ) || type->in_species( MOLLUSK ) ||
+        const bool immediate_break = type->in_species( FISH ) || type->in_species( MOLLUSK ) ||
                                      type->in_species( ROBOT ) || type->bodytype == "snake" || type->bodytype == "blob";
         if( !immediate_break && rng( 0, 900 ) > type->melee_dice * type->melee_sides * 1.5 ) {
             if( u_see_me ) {
@@ -2265,7 +2265,7 @@ int monster::get_armor_bullet( bodypart_id bp ) const
 
 int monster::get_armor_type( damage_type dt, bodypart_id bp ) const
 {
-    int const worn_armor = get_worn_armor_val( dt );
+    const int worn_armor = get_worn_armor_val( dt );
 
     switch( dt ) {
         case DT_TRUE:
@@ -2685,7 +2685,7 @@ void monster::die( Creature *nkiller )
             ch->add_morale( MORALE_KILLER_HAS_KILLED, 5, 10, 6_hours, 4_hours );
             ch->rem_morale( MORALE_KILLER_NEED_TO_KILL );
         }
-        static const string_id<monfaction> faction_zombie( "zombie" );
+        const static string_id<monfaction> faction_zombie( "zombie" );
         // Feral survivors are motivated to kill anything human
         if( ch->has_trait( trait_PROF_FERAL ) && has_flag( MF_HUMAN ) ) {
             if( !ch->has_effect( effect_feral_killed_recently ) ) {
@@ -2785,7 +2785,7 @@ void monster::die( Creature *nkiller )
     }
 
     if( anger_adjust != 0 || morale_adjust != 0 ) {
-        int const light = g->light_level( posz() );
+        const int light = g->light_level( posz() );
         for( monster &critter : g->all_monsters() ) {
             if( !critter.type->same_species( *type ) ) {
                 continue;
@@ -2891,7 +2891,7 @@ void monster::drop_items_on_death()
 void monster::process_one_effect( effect &it, bool is_new )
 {
     // Monsters don't get trait-based reduction, but they do get effect based reduction
-    bool const reduced = resists_effect( it );
+    const bool reduced = resists_effect( it );
     const auto get_effect = [&it, is_new]( const std::string & arg, bool reduced ) {
         if( is_new ) {
             return it.get_amount( arg, reduced );
@@ -2906,7 +2906,7 @@ void monster::process_one_effect( effect &it, bool is_new )
     mod_cut_bonus( get_effect( "CUT", reduced ) );
     mod_size_bonus( get_effect( "SIZE", reduced ) );
 
-    int const val = get_effect( "HURT", reduced );
+    const int val = get_effect( "HURT", reduced );
     if( val > 0 ) {
         if( is_new || it.activated( calendar::turn, "HURT", val, reduced, 1 ) ) {
             apply_damage( nullptr, bodypart_id( "torso" ), val );
@@ -2957,7 +2957,7 @@ void monster::process_effects_internal()
     //Apply effect-triggered regeneration modifiers
     for( const auto &regeneration_modifier : type->regeneration_modifiers ) {
         if( has_effect( regeneration_modifier.first ) ) {
-            effect  const &e = get_effect( regeneration_modifier.first );
+            const effect &e = get_effect( regeneration_modifier.first );
             regen_multiplier = 1.00 + regeneration_modifier.second.base_modifier +
                                ( e.get_intensity() - 1 ) * regeneration_modifier.second.scale_modifier;
             regeneration_amount = std::round( regeneration_amount * regen_multiplier );
@@ -3248,7 +3248,7 @@ float monster::speed_rating() const
     return ret;
 }
 
-void monster::on_hit( Creature *source, bodypart_id, dealt_projectile_attack const *const proj )
+void monster::on_hit( Creature *source, bodypart_id, const dealt_projectile_attack *const proj )
 {
     if( is_hallucination() ) {
         return;
@@ -3276,7 +3276,7 @@ void monster::on_hit( Creature *source, bodypart_id, dealt_projectile_attack con
     }
 
     if( anger_adjust != 0 || morale_adjust != 0 ) {
-        int const light = g->light_level( posz() );
+        const int light = g->light_level( posz() );
         for( monster &critter : g->all_monsters() ) {
             if( !critter.type->same_species( *type ) ) {
                 continue;
@@ -3296,7 +3296,7 @@ void monster::on_hit( Creature *source, bodypart_id, dealt_projectile_attack con
 void monster::on_damage_of_type( int amt, damage_type dt, const bodypart_id &bp )
 {
     Creature::on_damage_of_type( amt, dt, bp );
-    int const full_hp = get_hp_max();
+    const int full_hp = get_hp_max();
     if( has_effect( effect_grabbing ) && ( dt == DT_BASH || dt == DT_CUT || dt == DT_STAB ) &&
         x_in_y( amt * 10, full_hp ) ) {
         remove_effect( effect_grabbing );
@@ -3340,7 +3340,7 @@ void monster::hear_sound( const tripoint &source, const int vol, const int dist 
         return;
     }
 
-    static const string_id<monfaction> faction_zombie( "zombie" );
+    const static string_id<monfaction> faction_zombie( "zombie" );
     const bool feral_friend = ( faction == faction_zombie || type->in_species( ZOMBIE ) ) &&
                               g->u.has_trait( trait_PROF_FERAL ) && !g->u.has_effect( effect_feral_infighting_punishment );
 
@@ -3367,11 +3367,11 @@ void monster::hear_sound( const tripoint &source, const int vol, const int dist 
         max_error = 1;
     }
 
-    int const target_x = source.x + rng( -max_error, max_error );
-    int const target_y = source.y + rng( -max_error, max_error );
+    const int target_x = source.x + rng( -max_error, max_error );
+    const int target_y = source.y + rng( -max_error, max_error );
     // target_z will require some special check due to soil muffling sounds
 
-    int const wander_turns = volume * ( goodhearing ? 6 : 1 );
+    const int wander_turns = volume * ( goodhearing ? 6 : 1 );
 
     process_trigger( mon_trigger::SOUND, volume );
     if( morale >= 0 && anger >= 10 ) {
@@ -3477,7 +3477,7 @@ void monster::on_load()
     const int healed = heal( heal_amount );
     int healed_speed = 0;
     if( healed < heal_amount && get_speed_base() < type->speed ) {
-        int const old_speed = get_speed_base();
+        const int old_speed = get_speed_base();
         set_speed_base( std::min( get_speed_base() + heal_amount - healed, type->speed ) );
         healed_speed = get_speed_base() - old_speed;
     }

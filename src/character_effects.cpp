@@ -40,14 +40,14 @@ namespace character_effects
 stat_mod get_pain_penalty( const Character &ch )
 {
     stat_mod ret;
-    int const pain = ch.get_perceived_pain();
+    const int pain = ch.get_perceived_pain();
     if( pain <= 0 ) {
         return ret;
     }
 
-    int const stat_penalty = std::floor( std::pow( pain, 0.8f ) / 10.0f );
+    const int stat_penalty = std::floor( std::pow( pain, 0.8f ) / 10.0f );
 
-    bool const ceno = ch.has_trait( trait_CENOBITE );
+    const bool ceno = ch.has_trait( trait_CENOBITE );
     if( !ceno ) {
         ret.strength = stat_penalty;
         ret.dexterity = stat_penalty;
@@ -72,7 +72,7 @@ stat_mod get_pain_penalty( const Character &ch )
 
 int get_kcal_speed_penalty( float kcal_percent )
 {
-    static const std::vector<std::pair<float, float>> starv_thresholds = { {
+    const static std::vector<std::pair<float, float>> starv_thresholds = { {
             std::make_pair( 0.0f, -90.0f ),
             std::make_pair( 0.1f, -50.f ),
             std::make_pair( 0.3f, -25.0f ),
@@ -90,7 +90,7 @@ int get_thirst_speed_penalty( int thirst )
 {
     // We die at 1200 thirst
     // Start by dropping speed really fast, but then level it off a bit
-    static const std::vector<std::pair<float, float>> thirst_thresholds = {{
+    const static std::vector<std::pair<float, float>> thirst_thresholds = {{
             std::make_pair( static_cast<float>( thirst_levels::very_thirsty ), 0.0f ),
             std::make_pair( static_cast<float>( thirst_levels::dehydrated ), -25.0f ),
             std::make_pair( static_cast<float>( thirst_levels::parched ), -50.0f ),
@@ -147,7 +147,7 @@ int talk_skill( const Character &ch )
     /** @EFFECT_PER slightly increases talking skill */
 
     /** @EFFECT_SPEECH increases talking skill */
-    int const ret = ch.get_int() + ch.get_per() + ( ch.get_skill_level( skill_id( "speech" ) ) * 3 );
+    const int ret = ch.get_int() + ch.get_per() + ( ch.get_skill_level( skill_id( "speech" ) ) * 3 );
     return ret;
 }
 

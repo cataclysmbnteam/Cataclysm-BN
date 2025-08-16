@@ -208,7 +208,7 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
     }
     // First, check for a simple straight line on flat ground
     // Except when the line contains a pre-closed tile - we need to do regular pathing then
-    static const auto non_normal = PF_SLOW | PF_WALL | PF_VEHICLE | PF_TRAP | PF_SHARP;
+    const static auto non_normal = PF_SLOW | PF_WALL | PF_VEHICLE | PF_TRAP | PF_SHARP;
     if( f.z == t.z ) {
         const auto line_path = line_to( f, t );
         const auto &pf_cache = get_pathfinding_cache_ref( f.z );
@@ -230,13 +230,13 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
         return ret;
     }
 
-    int const max_length = settings.max_length;
-    int const bash = settings.bash_strength;
-    int const climb_cost = settings.climb_cost;
-    bool const doors = settings.allow_open_doors;
-    bool const trapavoid = settings.avoid_traps;
-    bool const roughavoid = settings.avoid_rough_terrain;
-    bool const sharpavoid = settings.avoid_sharp;
+    const int max_length = settings.max_length;
+    const int bash = settings.bash_strength;
+    const int climb_cost = settings.climb_cost;
+    const bool doors = settings.allow_open_doors;
+    const bool trapavoid = settings.avoid_traps;
+    const bool roughavoid = settings.avoid_rough_terrain;
+    const bool sharpavoid = settings.avoid_sharp;
 
     const int pad = 16;  // Should be much bigger - low value makes pathfinders dumb!
     int minx = std::min( f.x, t.x ) - pad;
@@ -424,7 +424,7 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
                             // Special case - ledge in z-levels
                             // Warning: really expensive, needs a cache
                             if( valid_move( p, tripoint( p.xy(), p.z - 1 ), false, true ) ) {
-                                tripoint const below( p.xy(), p.z - 1 );
+                                const tripoint below( p.xy(), p.z - 1 );
                                 if( !has_flag( TFLAG_NO_FLOOR, below ) ) {
                                     // Otherwise this would have been a huge fall
                                     auto &layer = pf.get_layer( p.z - 1 );

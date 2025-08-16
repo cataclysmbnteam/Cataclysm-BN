@@ -181,7 +181,7 @@ void advanced_inv_area::init()
     }
 
     // water?
-    static const std::array<ter_id, 8> ter_water = {
+    const static std::array<ter_id, 8> ter_water = {
         {t_water_dp, t_water_pool, t_swater_dp, t_water_sh, t_swater_sh, t_sewage, t_water_moving_dp, t_water_moving_sh }
     };
     auto ter_check = [this]
@@ -277,7 +277,7 @@ item *advanced_inv_area::get_container( bool in_vehicle )
             }
         } else if( uistate.adv_inv_container_location == AIM_WORN ) {
             auto &worn = g->u.worn;
-            size_t const idx = static_cast<size_t>( uistate.adv_inv_container_index );
+            const size_t idx = static_cast<size_t>( uistate.adv_inv_container_index );
             if( worn.size() > idx ) {
                 auto iter = worn.begin();
                 std::advance( iter, idx );
@@ -299,7 +299,7 @@ item *advanced_inv_area::get_container( bool in_vehicle )
             }
         } else {
             map &here = get_map();
-            bool const is_in_vehicle = veh &&
+            const bool is_in_vehicle = veh &&
                                        ( uistate.adv_inv_container_in_vehicle || ( can_store_in_vehicle() && in_vehicle ) );
 
             const itemstack &stacks = is_in_vehicle ?

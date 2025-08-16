@@ -253,7 +253,7 @@ void distraction_manager_gui::deserialize( JsonIn &jsin )
 {
     jsin.start_array();
     while( !jsin.end_array() ) {
-        JsonObject const jo = jsin.get_object();
+        const JsonObject jo = jsin.get_object();
 
         if( !jo.has_string( "Distraction Type" ) ) {
             continue;

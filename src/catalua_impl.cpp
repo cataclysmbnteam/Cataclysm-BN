@@ -191,12 +191,12 @@ bool compare_values( const sol::object &a, const sol::object &b )
             return false;
         }
         if( is_number_integer( lua, a ) ) {
-            int const num_a = a.as<int>();
-            int const num_b = b.as<int>();
+            const int num_a = a.as<int>();
+            const int num_b = b.as<int>();
             return num_a == num_b;
         } else {
-            double const num_a = a.as<double>();
-            double const num_b = b.as<double>();
+            const double num_a = a.as<double>();
+            const double num_b = b.as<double>();
             // FIXME: not suitable for all cases
             return std::fabs( num_a - num_b ) < 0.0001;
         }

@@ -568,7 +568,7 @@ class comestible_inventory_preset : public inventory_selector_preset
                     case rechargeable_cbm::other:
                         std::vector<bionic_id> const bids = p.get_bionic_fueled_with( get_consumable_item( loc ) );
                         if( !bids.empty() ) {
-                            bionic_id const bid = p.get_most_efficient_bionic( bids );
+                            const bionic_id bid = p.get_most_efficient_bionic( bids );
                             cbm_name = bid->name.translated();
                         }
                         break;
@@ -619,10 +619,10 @@ class comestible_inventory_preset : public inventory_selector_preset
         }
 
         bool sort_compare( const inventory_entry &lhs, const inventory_entry &rhs ) const override {
-            time_duration const time_a = get_time_left( lhs.any_item() );
-            time_duration const time_b = get_time_left( rhs.any_item() );
-            int const order_a = get_order( lhs.any_item(), time_a );
-            int const order_b = get_order( rhs.any_item(), time_b );
+            const time_duration time_a = get_time_left( lhs.any_item() );
+            const time_duration time_b = get_time_left( rhs.any_item() );
+            const int order_a = get_order( lhs.any_item(), time_a );
+            const int order_b = get_order( rhs.any_item(), time_b );
 
             return order_a < order_b
                    || ( order_a == order_b && time_a < time_b )
@@ -662,7 +662,7 @@ class comestible_inventory_preset : public inventory_selector_preset
                 // Ok since can_eat() returns false if is_craft() is true
                 return *it.type->comestible;
             }
-            static const islot_comestible dummy {};
+            const static islot_comestible dummy {};
             return dummy;
         }
 
@@ -690,7 +690,7 @@ class comestible_inventory_preset : public inventory_selector_preset
                 return _( "soon!" );
             }
 
-            time_duration const time_left = get_time_left( loc );
+            const time_duration time_left = get_time_left( loc );
             return to_string_approx( time_left );
         }
 
@@ -1421,7 +1421,7 @@ class salvage_inventory_preset : public pickup_inventory_preset
                 auto components = salvage::salvage_results( *loc );
                 return enumerate_as_string( components.begin(), components.end(),
                 []( const decltype( components )::value_type & comps ) {
-                    int const c = std::floor( comps.second );
+                    const int c = std::floor( comps.second );
                     //%1$s: item name, % 2$d :  count
                     return string_format( "%1$d %2$s", c, comps.first->nname( c ) );
                 } );
@@ -1671,7 +1671,7 @@ void game_menus::inv::reassign_letter( Character &who, item &it, int invlet )
     if( !invlet || inv_chars.valid( invlet ) ) {
         auto &invlets = who.inv_assigned_invlet();
         const auto iter = invlets.find( it.invlet );
-        bool const found = iter != invlets.end();
+        const bool found = iter != invlets.end();
         if( found ) {
             invlets.erase( iter );
         }

@@ -197,7 +197,7 @@ void input_manager::load( const std::string &file_name, bool is_user_preferences
     jsin.start_array();
     while( !jsin.end_array() ) {
         // JSON object representing the action
-        JsonObject const action = jsin.get_object();
+        const JsonObject action = jsin.get_object();
 
         const std::string type = action.get_string( "type", "keybinding" );
         if( type != "keybinding" ) {
@@ -231,7 +231,7 @@ void input_manager::load( const std::string &file_name, bool is_user_preferences
 
             if( keybinding.has_array( "key" ) ) {
                 for( const std::string line : keybinding.get_array( "key" ) ) {
-                    int const loaded_keycode = get_keycode( line );
+                    const int loaded_keycode = get_keycode( line );
                     if( loaded_keycode == '\0' ) {
                         debugmsg( "Invalid keybind %s detected for action %s", line, action_id );
                     } else {
@@ -240,7 +240,7 @@ void input_manager::load( const std::string &file_name, bool is_user_preferences
                 }
             } else { // assume string if not array, and throw if not string
                 std::string const line = keybinding.get_string( "key" );
-                int const loaded_keycode = get_keycode( line );
+                const int loaded_keycode = get_keycode( line );
                 if( loaded_keycode == '\0' ) {
                     debugmsg( "Invalid keybind %s detected for action %s", line, action_id );
                 } else {
@@ -291,7 +291,7 @@ void input_manager::save()
 
                 jsout.member( "id", action.first );
                 jsout.member( "category", a->first );
-                bool const is_user_created = action.second.is_user_created;
+                const bool is_user_created = action.second.is_user_created;
                 if( is_user_created ) {
                     jsout.member( "is_user_created", is_user_created );
                 }
@@ -994,7 +994,7 @@ void rotate_direction_cw( int &dx, int &dy )
     // 1 2 5
     // 0 4 8
     // 3 6 7
-    static const std::array<int, 9> rotate_direction_vec = {{ 1, 2, 5, 0, 4, 8, 3, 6, 7 }};
+    const static std::array<int, 9> rotate_direction_vec = {{ 1, 2, 5, 0, 4, 8, 3, 6, 7 }};
     dir_num = rotate_direction_vec[dir_num];
     // convert back to -1,0,+1
     dx = dir_num % 3 - 1;
@@ -1003,10 +1003,10 @@ void rotate_direction_cw( int &dx, int &dy )
 
 std::optional<tripoint> input_context::get_direction( const std::string &action ) const
 {
-    static const auto noop = static_cast<tripoint( * )( tripoint )>( []( tripoint p ) {
+    const static auto noop = static_cast<tripoint( * )( tripoint )>( []( tripoint p ) {
         return p;
     } );
-    static const auto rotate = static_cast<tripoint( * )( tripoint )>( []( tripoint p ) {
+    const static auto rotate = static_cast<tripoint( * )( tripoint )>( []( tripoint p ) {
         rotate_direction_cw( p.x, p.y );
         return p;
     } );
@@ -1107,9 +1107,9 @@ action_id input_context::display_menu( const bool permit_execute_action )
         };
     }
     const auto recalc_size = [&]( ui_adaptor & ui ) {
-        int const maxwidth = std::max( FULL_SCREEN_WIDTH, TERMX );
+        const int maxwidth = std::max( FULL_SCREEN_WIDTH, TERMX );
         width = min( 80, maxwidth );
-        int const maxheight = std::max( FULL_SCREEN_HEIGHT, TERMY );
+        const int maxheight = std::max( FULL_SCREEN_HEIGHT, TERMY );
         height = min( maxheight, static_cast<int>( hotkeys.size() ) + LEGEND_HEIGHT + BORDER_SPACE );
 
         w_help = catacurses::newwin( height - 2, width - 2,
@@ -1143,9 +1143,9 @@ action_id input_context::display_menu( const bool permit_execute_action )
     } ), org_registered_actions.end() );
 
     // colors of the keybindings
-    static const nc_color global_key = c_light_gray;
-    static const nc_color local_key = c_light_green;
-    static const nc_color unbound_key = c_light_red;
+    const static nc_color global_key = c_light_gray;
+    const static nc_color local_key = c_light_green;
+    const static nc_color unbound_key = c_light_red;
     // (vertical) scroll offset
     size_t scroll_offset = 0;
     // keybindings help
@@ -1226,7 +1226,7 @@ action_id input_context::display_menu( const bool permit_execute_action )
     ui.on_redraw( redraw );
 
     // do not switch IME mode now, but restore previous mode on return
-    ime_sentry const sentry( ime_sentry::keep );
+    const ime_sentry sentry( ime_sentry::keep );
     while( true ) {
         ui_manager::redraw();
 
@@ -1325,7 +1325,7 @@ action_id input_context::display_menu( const bool permit_execute_action )
             // Check if this entry is local or global.
             bool is_local = false;
             const action_attributes &actions = inp_mngr.get_action_attributes( action_id, category, &is_local );
-            bool const is_empty = actions.input_events.empty();
+            const bool is_empty = actions.input_events.empty();
             const std::string name = get_action_name( action_id );
 
             // We don't want to completely delete a global context entry.

@@ -57,7 +57,7 @@ TEST_CASE( "auto_consume_priority", "[auto_consume][food][zone]" )
         }
     };
 
-    static const auto auto_consume = [&]( consume_type consume ) {
+    const static auto auto_consume = [&]( consume_type consume ) {
         return [&you, consume]( int count ) -> bool {
             bool ok = true;
             for( int i = 0; i < count; i++ )
@@ -71,7 +71,7 @@ TEST_CASE( "auto_consume_priority", "[auto_consume][food][zone]" )
     using PosCounts = std::vector<std::pair<tripoint, int>>;
 
     SECTION( "auto_eat" ) {
-        static const auto check_item_count =
+        const static auto check_item_count =
         [&]( const PosCounts & expected ) -> void {
             for( const auto&[ pos, count ] : expected )
             {
@@ -85,7 +85,7 @@ TEST_CASE( "auto_consume_priority", "[auto_consume][food][zone]" )
             }
         };
 
-        static const auto auto_eat = auto_consume( consume_type::FOOD );
+        const static auto auto_eat = auto_consume( consume_type::FOOD );
 
         clear_avatar();
         you.set_stored_kcal( 1000 );
@@ -113,7 +113,7 @@ TEST_CASE( "auto_consume_priority", "[auto_consume][food][zone]" )
     }
 
     SECTION( "auto_drink" ) {
-        static const auto check_drink_amount =
+        const static auto check_drink_amount =
         [&]( const PosCounts & expected ) -> void {
             for( const auto&[ pos, count ] : expected )
             {
@@ -128,7 +128,7 @@ TEST_CASE( "auto_consume_priority", "[auto_consume][food][zone]" )
             }
         };
 
-        static const auto auto_drink = auto_consume( consume_type::DRINK );
+        const static auto auto_drink = auto_consume( consume_type::DRINK );
 
         create_zone( "AUTO_DRINK" );
 

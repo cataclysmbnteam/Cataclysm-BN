@@ -97,13 +97,13 @@ TEST_CASE( "bash_through_roof_can_destroy_multiple_times" )
     map &here = get_map();
     REQUIRE( here.has_zlevels() );
 
-    static const ter_str_id t_fragile_roof( "t_fragile_roof" );
-    static const ter_str_id t_strong_roof( "t_strong_roof" );
-    static const ter_str_id t_rock_floor_no_roof( "t_rock_floor_no_roof" );
-    static const ter_str_id t_open_air( "t_open_air" );
-    static const tripoint p( 65, 65, 1 );
+    const static ter_str_id t_fragile_roof( "t_fragile_roof" );
+    const static ter_str_id t_strong_roof( "t_strong_roof" );
+    const static ter_str_id t_rock_floor_no_roof( "t_rock_floor_no_roof" );
+    const static ter_str_id t_open_air( "t_open_air" );
+    const static tripoint p( 65, 65, 1 );
     WHEN( "A wall has a matching roof above it, but the roof turns to a stronger roof on successful bash" ) {
-        static const ter_str_id t_fragile_wall( "t_fragile_wall" );
+        const static ter_str_id t_fragile_wall( "t_fragile_wall" );
         here.ter_set( p + tripoint_below, t_fragile_wall );
         here.ter_set( p, t_fragile_roof );
         AND_WHEN( "The roof is bashed with only enough strength to destroy the weaker roof type" ) {
@@ -124,7 +124,7 @@ TEST_CASE( "bash_through_roof_can_destroy_multiple_times" )
     }
 
     WHEN( "A passable floor has a matching roof above it, but both the roof and the floor turn into stronger variants on destroy" ) {
-        static const ter_str_id t_fragile_floor( "t_fragile_floor" );
+        const static ter_str_id t_fragile_floor( "t_fragile_floor" );
         here.ter_set( p + tripoint_below, t_fragile_floor );
         here.ter_set( p, t_fragile_roof );
         AND_WHEN( "The roof is bashed with only enough strength to destroy the weaker roof type" ) {

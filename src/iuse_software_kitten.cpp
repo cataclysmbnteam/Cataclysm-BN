@@ -230,7 +230,7 @@ std::string robot_finds_kitten::getmessage( int idx ) const
 robot_finds_kitten::robot_finds_kitten()
 {
     ret = false;
-    char const ktile[83] =
+    const char ktile[83] =
         "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!#&()*+./:;=?![]{|}y";
     int used_messages[MAXMESSAGES];
 
@@ -326,7 +326,7 @@ robot_finds_kitten::robot_finds_kitten()
 
 void robot_finds_kitten::show() const
 {
-    input_context const ctxt( "IUSE_SOFTWARE_KITTEN" );
+    const input_context ctxt( "IUSE_SOFTWARE_KITTEN" );
 
     draw_border( bkatwin );
     wnoutrefresh( bkatwin );

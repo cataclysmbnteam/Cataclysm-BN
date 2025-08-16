@@ -266,7 +266,7 @@ static std::vector<centroid> cluster_sounds( std::vector<std::pair<tripoint, int
                                     tripoint( MAPSIZE_X, MAPSIZE_Y, OVERMAP_HEIGHT ) );
     // Randomly choose cluster seeds.
     for( size_t i = input_sounds.size(); i > stopping_point; i-- ) {
-        size_t const index = rng( 0, i - 1 );
+        const size_t index = rng( 0, i - 1 );
         // The volume and cluster weight are the same for the first element.
         sound_clusters.push_back(
             // Assure the compiler that these int->float conversions are safe.
@@ -284,7 +284,7 @@ static std::vector<centroid> cluster_sounds( std::vector<std::pair<tripoint, int
         for( auto centroid_iter = sound_clusters.begin(); centroid_iter != cluster_end;
              ++centroid_iter ) {
             // Scale the distance between the two by the max possible distance.
-            tripoint const centroid_pos { static_cast<int>( centroid_iter->x ), static_cast<int>( centroid_iter->y ), static_cast<int>( centroid_iter->z ) };
+            const tripoint centroid_pos { static_cast<int>( centroid_iter->x ), static_cast<int>( centroid_iter->y ), static_cast<int>( centroid_iter->z ) };
             const int dist = sound_distance( sound_event_pair.first, centroid_pos );
             if( dist * dist < dist_factor ) {
                 found_centroid = centroid_iter;
@@ -319,7 +319,7 @@ static int get_signal_for_hordes( const centroid &centr )
     const int min_sig_cap = 8; //Signal for hordes can't be lower that this if it pass min_vol_cap
     const int max_sig_cap = 26; //Signal for hordes can't be higher that this
     //Lower the level - lower the sound
-    int const vol_hordes = ( ( centr.z < 0 ) ? vol / ( underground_div * std::abs( centr.z ) ) : vol );
+    const int vol_hordes = ( ( centr.z < 0 ) ? vol / ( underground_div * std::abs( centr.z ) ) : vol );
     if( vol_hordes > min_vol_cap ) {
         //Calculating horde hearing signal
         int sig_power = std::ceil( static_cast<float>( vol_hordes ) / hordes_sig_div );
@@ -347,7 +347,7 @@ void sounds::process_sounds()
         const tripoint source = tripoint( this_centroid.x, this_centroid.y, this_centroid.z );
         // --- Monster sound handling here ---
         // Alert all hordes
-        int const sig_power = get_signal_for_hordes( this_centroid );
+        const int sig_power = get_signal_for_hordes( this_centroid );
         if( sig_power > 0 ) {
 
             const point abs_ms = get_map().getabs( source.xy() );
@@ -484,7 +484,7 @@ void sounds::process_sound_markers( Character *who )
         }
 
         // Secure the flag before wake_up() clears the effect
-        bool const slept_through = who->has_effect( effect_slept_through_alarm );
+        const bool slept_through = who->has_effect( effect_slept_through_alarm );
         // See if we need to wake someone up
         if( who->has_effect( effect_sleep ) ) {
             if( ( ( !( who->has_trait( trait_HEAVYSLEEPER ) ||
@@ -697,7 +697,7 @@ int sfx::set_channel_volume( channel channel, int volume )
     if( test_mode ) {
         return 0;
     }
-    int const ch = static_cast<int>( channel );
+    const int ch = static_cast<int>( channel );
     if( !Mix_Playing( ch ) ) {
         return -1;
     }
@@ -713,7 +713,7 @@ void sfx::do_vehicle_engine_sfx()
         return;
     }
 
-    static const channel ch = channel::interior_engine_sound;
+    const static channel ch = channel::interior_engine_sound;
     const Character &player_character = get_player_character();
     if( !player_character.in_vehicle ) {
         fade_audio_channel( ch, 300 );
@@ -774,7 +774,7 @@ void sfx::do_vehicle_engine_sfx()
         in_reverse = true;
     }
     double pitch = 1.0;
-    int const safe_speed = veh->safe_velocity();
+    const int safe_speed = veh->safe_velocity();
     int current_gear;
     if( in_reverse ) {
         current_gear = -1;
@@ -835,8 +835,8 @@ void sfx::do_vehicle_exterior_engine_sfx()
         return;
     }
 
-    static const channel ch = channel::exterior_engine_sound;
-    static const int ch_int = static_cast<int>( ch );
+    const static channel ch = channel::exterior_engine_sound;
+    const static int ch_int = static_cast<int>( ch );
     const avatar &player_character = get_avatar();
     // early bail-outs for efficiency
     if( player_character.in_vehicle ) {
@@ -852,12 +852,12 @@ void sfx::do_vehicle_exterior_engine_sfx()
         return;
     }
 
-    VehicleList const vehs = get_map().get_vehicles();
+    const VehicleList vehs = get_map().get_vehicles();
     unsigned char noise_factor = 0;
     unsigned char vol = 0;
     vehicle *veh = nullptr;
 
-    for( wrapped_vehicle const vehicle : vehs ) {
+    for( const wrapped_vehicle vehicle : vehs ) {
         if( vehicle.v->vehicle_noise > 0 &&
             vehicle.v->vehicle_noise -
             sound_distance( player_character.pos(), vehicle.v->global_pos3() ) > noise_factor ) {
@@ -928,7 +928,7 @@ void sfx::do_ambient()
         return;
     }
 
-    Character  const &player_character = get_player_character();
+    const Character &player_character = get_player_character();
     if( player_character.in_sleep_state() && !audio_muted ) {
         fade_audio_channel( channel::any, 300 );
         audio_muted = true;
@@ -1162,9 +1162,9 @@ void sfx::sound_thread::operator()() const
     std::this_thread::sleep_for( std::chrono::milliseconds( rng( 1, 2 ) ) );
     std::string variant_used;
 
-    static const skill_id skill_bashing( "bashing" );
-    static const skill_id skill_cutting( "cutting" );
-    static const skill_id skill_stabbing( "stabbing" );
+    const static skill_id skill_bashing( "bashing" );
+    const static skill_id skill_cutting( "cutting" );
+    const static skill_id skill_stabbing( "stabbing" );
 
     if( weapon_skill == skill_bashing && weapon_volume <= 8 ) {
         variant_used = "small_bash";
@@ -1213,7 +1213,7 @@ void sfx::do_projectile_hit( const Creature &target )
     const units::angle angle = get_heard_angle( target.pos() );
     if( target.is_monster() ) {
         const monster &mon = dynamic_cast<const monster &>( target );
-        static const std::set<material_id> fleshy = {
+        const static std::set<material_id> fleshy = {
             material_id( "flesh" ),
             material_id( "hflesh" ),
             material_id( "iflesh" ),
@@ -1247,7 +1247,7 @@ void sfx::do_player_death_hurt( const player &target, bool death )
         return;
     }
 
-    int const heard_volume = get_heard_volume( target.pos() );
+    const int heard_volume = get_heard_volume( target.pos() );
     const bool male = target.male;
     if( !male && !death ) {
         play_variant_sound( "deal_damage", "hurt_f", heard_volume );
@@ -1266,7 +1266,7 @@ void sfx::do_danger_music()
         return;
     }
 
-    avatar  const &player_character = get_avatar();
+    const avatar &player_character = get_avatar();
     if( player_character.in_sleep_state() && !audio_muted ) {
         fade_audio_channel( channel::any, 100 );
         audio_muted = true;
@@ -1321,7 +1321,7 @@ void sfx::do_fatigue()
         return;
     }
 
-    avatar  const &player_character = get_avatar();
+    const avatar &player_character = get_avatar();
     /*15: Stamina 75%
     16: Stamina 50%
     17: Stamina 25%*/
@@ -1415,7 +1415,7 @@ void sfx::do_footstep()
         const avatar &player_character = get_avatar();
         int heard_volume = sfx::get_heard_volume( player_character.pos() );
         const auto terrain = get_map().ter( player_character.pos() ).id();
-        static const std::set<ter_str_id> grass = {
+        const static std::set<ter_str_id> grass = {
             ter_str_id( "t_grass" ),
             ter_str_id( "t_shrub" ),
             ter_str_id( "t_shrub_peanut" ),
@@ -1453,7 +1453,7 @@ void sfx::do_footstep()
             ter_str_id( "t_trunk" ),
             ter_str_id( "t_stump" ),
         };
-        static const std::set<ter_str_id> dirt = {
+        const static std::set<ter_str_id> dirt = {
             ter_str_id( "t_dirt" ),
             ter_str_id( "t_dirtmound" ),
             ter_str_id( "t_dirtmoundfloor" ),
@@ -1488,7 +1488,7 @@ void sfx::do_footstep()
             ter_str_id( "t_railroad_tie_d1" ),
             ter_str_id( "t_railroad_tie_d2" ),
         };
-        static const std::set<ter_str_id> metal = {
+        const static std::set<ter_str_id> metal = {
             ter_str_id( "t_ov_smreb_cage" ),
             ter_str_id( "t_metal_floor" ),
             ter_str_id( "t_grate" ),
@@ -1502,7 +1502,7 @@ void sfx::do_footstep()
             ter_str_id( "t_machinery_old" ),
             ter_str_id( "t_machinery_electronic" ),
         };
-        static const std::set<ter_str_id> water = {
+        const static std::set<ter_str_id> water = {
             ter_str_id( "t_water_moving_sh" ),
             ter_str_id( "t_water_moving_dp" ),
             ter_str_id( "t_water_sh" ),
@@ -1512,7 +1512,7 @@ void sfx::do_footstep()
             ter_str_id( "t_water_pool" ),
             ter_str_id( "t_sewage" ),
         };
-        static const std::set<ter_str_id> chain_fence = {
+        const static std::set<ter_str_id> chain_fence = {
             ter_str_id( "t_chainfence" ),
         };
 
@@ -1573,9 +1573,9 @@ void sfx::do_obstacle( const std::string &obst )
         return;
     }
 
-    int const heard_volume = sfx::get_heard_volume( get_avatar().pos() );
+    const int heard_volume = sfx::get_heard_volume( get_avatar().pos() );
 
-    static const std::set<std::string> water = {
+    const static std::set<std::string> water = {
         "t_water_sh",
         "t_water_dp",
         "t_water_moving_sh",
@@ -1671,7 +1671,7 @@ void sfx::do_obstacle( const std::string & ) { }
 /*@{*/
 int sfx::get_heard_volume( const tripoint &source )
 {
-    int const distance = sound_distance( get_avatar().pos(), source );
+    const int distance = sound_distance( get_avatar().pos(), source );
     // fract = -100 / 24
     const float fract = -4.166666;
     int heard_volume = ( fract * distance ) - 1 + 100;

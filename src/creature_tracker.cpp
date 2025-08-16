@@ -56,7 +56,7 @@ shared_ptr_fast<monster> Creature_tracker::from_temporary_id( const int id )
 bool Creature_tracker::add( const shared_ptr_fast<monster> &critter_ptr )
 {
     assert( critter_ptr );
-    monster  const &critter = *critter_ptr;
+    const monster &critter = *critter_ptr;
 
     if( critter.type->id.is_null() ) { // Don't want to spawn null monsters o.O
         return false;
@@ -94,13 +94,13 @@ bool Creature_tracker::add( const shared_ptr_fast<monster> &critter_ptr )
 void Creature_tracker::add_to_faction_map( const shared_ptr_fast<monster> &critter_ptr )
 {
     assert( critter_ptr );
-    monster  const &critter = *critter_ptr;
+    const monster &critter = *critter_ptr;
 
     // Only 1 faction per mon at the moment.
     if( critter.friendly == 0 ) {
         monster_faction_map_[ critter.faction ].insert( critter_ptr );
     } else {
-        static const mfaction_str_id playerfaction( "player" );
+        const static mfaction_str_id playerfaction( "player" );
         monster_faction_map_[ playerfaction ].insert( critter_ptr );
     }
 }
@@ -266,7 +266,7 @@ void Creature_tracker::swap_positions( monster &first, monster &second )
     }
     // implied: (first_ptr != second_ptr) or (first_ptr == nullptr && second_ptr == nullptr)
 
-    tripoint const temp = second.pos();
+    const tripoint temp = second.pos();
     second.spawn( first.pos() );
     first.spawn( temp );
 

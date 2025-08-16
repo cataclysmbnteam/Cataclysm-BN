@@ -608,7 +608,7 @@ void cata::detail::reg_colors( sol::state &lua )
     constexpr Int max = static_cast<Int>( color_id::num_colors );
 
     for( Int i = 0; i < max; ++i ) {
-        color_id const e = static_cast<color_id>( i );
+        const color_id e = static_cast<color_id>( i );
         std::string const key = get_all_colors().id_to_name( e );
         luna::add_val( et, key, e );
     }

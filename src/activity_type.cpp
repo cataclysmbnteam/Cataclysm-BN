@@ -25,7 +25,7 @@ const activity_type &string_id<activity_type>::obj() const
     const auto found = activity_type_all.find( *this );
     if( found == activity_type_all.end() ) {
         debugmsg( "Tried to get invalid activity_type: %s", c_str() );
-        static const activity_type null_activity_type {};
+        const static activity_type null_activity_type {};
         return null_activity_type;
     }
     return found->second;
@@ -63,7 +63,7 @@ void activity_type::load( const JsonObject &jo )
         result.speed_affected_ = c_moves.get_bool( "speed", false );
         result.morale_affected_ = c_moves.get_bool( "morale", false );
 
-        int const jvalue = c_moves.get_int( "max_assistants", 0 );
+        const int jvalue = c_moves.get_int( "max_assistants", 0 );
         if( jvalue >= 0 || jvalue > 32 ) {
             result.max_assistants_ = jvalue;
         } else {
@@ -75,7 +75,7 @@ void activity_type::load( const JsonObject &jo )
             assign( c_moves, "skills", result.skill_affected_, false );
         } else if( c_moves.has_array( "skills" ) ) {
             result.skill_affected_ = true;
-            for( JsonArray const skillobj : c_moves.get_array( "skills" ) ) {
+            for( const JsonArray skillobj : c_moves.get_array( "skills" ) ) {
                 std::string skill_s = skillobj.get_string( 0 );
                 auto skill = skill_id( skill_s );
                 float mod = 1.0f;
@@ -96,7 +96,7 @@ void activity_type::load( const JsonObject &jo )
             assign( c_moves, "qualities", result.tools_affected_, false );
         } else if( c_moves.has_array( "qualities" ) ) {
             result.tools_affected_ = true;
-            for( JsonArray const q_obj : c_moves.get_array( "qualities" ) ) {
+            for( const JsonArray q_obj : c_moves.get_array( "qualities" ) ) {
                 std::string quality_s = q_obj.get_string( 0 );
                 auto quality = quality_id( quality_s );
                 int mod = 10;
@@ -117,7 +117,7 @@ void activity_type::load( const JsonObject &jo )
             assign( c_moves, "stats", result.stats_affected_, false );
         } else if( c_moves.has_array( "stats" ) ) {
             result.stats_affected_ = true;
-            for( JsonArray const stat_obj : c_moves.get_array( "stats" ) ) {
+            for( const JsonArray stat_obj : c_moves.get_array( "stats" ) ) {
                 auto stat = io::string_to_enum_fallback( stat_obj.get_string( 0 ), character_stat::DUMMY_STAT );
                 if( stat == character_stat::DUMMY_STAT ) {
                     debugmsg( "Unknown stat %s", stat_obj.get_string( 0 ) );

@@ -186,7 +186,7 @@ void monfactions::finalize()
 
     // Traverse the tree (breadth-first), starting from root
     while( !queue.empty() ) {
-        mfaction_id const cur = queue.front();
+        const mfaction_id cur = queue.front();
         queue.pop();
         if( unloaded.contains( cur ) ) {
             unloaded.erase( cur );
@@ -273,9 +273,9 @@ void monfactions::load_monster_faction( const JsonObject &jo )
     prealloc( hate );
 
     std::string name = jo.get_string( "name" );
-    mfaction_id const cur_id = get_or_add_faction( mfaction_str_id( name ) );
+    const mfaction_id cur_id = get_or_add_faction( mfaction_str_id( name ) );
     std::string base_faction = jo.get_string( "base_faction", "" );
-    mfaction_id const base_id = get_or_add_faction( mfaction_str_id( base_faction ) );
+    const mfaction_id base_id = get_or_add_faction( mfaction_str_id( base_faction ) );
     // Don't get the reference until here (to avoid vector reallocation messing it up)
     monfaction &faction = faction_list[cur_id.to_i()];
     faction.base_faction = base_id;

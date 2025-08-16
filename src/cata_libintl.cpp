@@ -105,14 +105,14 @@ struct PlfTStream {
                 continue;
             } else if( c >= '0' && c <= '9' ) {
                 // number
-                size_t const start_pos = pos;
+                const size_t start_pos = pos;
                 while( pos < end && c >= '0' && c <= '9' ) {
                     tok.push_back( c );
                     pos++;
                     c = ( *s )[pos];
                 }
                 try {
-                    size_t const ul = std::stoul( tok );
+                    const size_t ul = std::stoul( tok );
                     if( ul > std::numeric_limits<uint32_t>::max() ) {
                         throw std::out_of_range( "stoul" );
                     }
@@ -174,10 +174,10 @@ ParseRet plf_get_value( const PlfTStream &ts );
 
 PlfNodePtr parse_plural_rules( const std::string &s )
 {
-    PlfTStream const tokstr( &s );
+    const PlfTStream tokstr( &s );
     ParseRet ret = plf_get_expr( tokstr );
     if( ret.ts.has_tokens() ) {
-        PlfToken const tok = ret.ts.peek();
+        const PlfToken tok = ret.ts.peek();
         std::string const e = string_format( "unexpected token at pos %d", tok.start );
         throw std::runtime_error( e );
     }
@@ -207,7 +207,7 @@ ParseRet plf_get_expr( const PlfTStream &ts )
     }
     ParseRet e2 = plf_get_expr( e1.ts.cloned().skip() );
     if( e2.ts.peek().kind != PlfOp::TerDelim ) {
-        PlfToken const tok = e2.ts.peek();
+        const PlfToken tok = e2.ts.peek();
         std::string const e = string_format( "expected ternary delimiter at pos %d", tok.start );
         throw std::runtime_error( e );
     }
@@ -267,12 +267,12 @@ ParseRet plf_get_mod( const PlfTStream &ts )
 
 ParseRet plf_get_value( const PlfTStream &ts )
 {
-    PlfToken const next = ts.peek();
+    const PlfToken next = ts.peek();
     if( next.kind == PlfOp::BrOpen ) {
         // '(' expr ')'
         ParseRet e = plf_get_expr( ts.cloned().skip() );
         if( e.ts.peek().kind != PlfOp::BrClose ) {
-            PlfToken const tok = e.ts.peek();
+            const PlfToken tok = e.ts.peek();
             std::string const e = string_format( "expected closing bracket at pos %d", tok.start );
             throw std::runtime_error( e );
         }
@@ -297,7 +297,7 @@ size_t PlfNode::eval( size_t n ) const
 {
     switch( op ) {
         case PlfOp::Mod: {
-            size_t const right = b->eval( n );
+            const size_t right = b->eval( n );
             if( right == 0 ) {
                 std::string const e = string_format( "DBZ in PlfNode::eval( %d ), node='%s'", n, debug_dump() );
                 throw std::runtime_error( e );
@@ -423,7 +423,7 @@ std::string trans_catalogue::get_metadata() const
     // Since the strings are sorted in lexicographical order, this will be the first string.
     constexpr u32 METADATA_STRING_LEN = 0;
 
-    string_descr const k = get_string_descr_unsafe( offs_orig_table );
+    const string_descr k = get_string_descr_unsafe( offs_orig_table );
 
     if( k.length != METADATA_STRING_LEN ) {
         std::string const e = string_format(
@@ -433,7 +433,7 @@ std::string trans_catalogue::get_metadata() const
         throw std::runtime_error( e );
     }
 
-    string_descr const v = get_string_descr_unsafe( offs_trans_table );
+    const string_descr v = get_string_descr_unsafe( offs_trans_table );
     return std::string( offs_to_cstr( v.offset ) );
 }
 
@@ -449,7 +449,7 @@ void trans_catalogue::process_file_header()
     constexpr u32 OFFS_ORIG_TABLE_BEGIN = 12;
     constexpr u32 OFFS_TRANS_TABLE_BEGIN = 16;
 
-    u32 const magic = this->buffer.size() > 4 ? get_u32( OFFS_MAGIC_NUMBER ) : 0;
+    const u32 magic = this->buffer.size() > 4 ? get_u32( OFFS_MAGIC_NUMBER ) : 0;
     if( magic != MO_MAGIC_NUMBER_LE && magic != MO_MAGIC_NUMBER_BE ) {
         throw std::runtime_error( "not a MO file" );
     }
@@ -473,7 +473,7 @@ void trans_catalogue::check_string_terminators()
     const auto check_string = [this]( u32 offs ) {
         // Check that string with its null terminator (not included in string length)
         // does not extend beyond file boundaries.
-        string_descr const s = get_string_descr( offs );
+        const string_descr s = get_string_descr( offs );
         if( s.offset + s.length + 1 > buf_size() ) {
             std::string const e = string_format(
                                       "string_descr at offs %#x: extends beyond EOF (len:%#x offs:%#x fsize:%#x)",
@@ -482,7 +482,7 @@ void trans_catalogue::check_string_terminators()
             throw std::runtime_error( e );
         }
         // Also check for existence of the null byte.
-        u8 const terminator = get_u8( s.offset + s.length );
+        const u8 terminator = get_u8( s.offset + s.length );
         if( terminator != 0 ) {
             std::string const e = string_format(
                                       "string_descr at offs %#x: missing null terminator",
@@ -501,7 +501,7 @@ void trans_catalogue::check_string_plurals()
 {
     // Skip metadata (the 0th entry)
     for( u32 i = 1; i < number_of_strings; i++ ) {
-        string_descr const info = get_string_descr_unsafe( offs_orig_table + ( i * MO_STRING_DESCR_SIZE ) );
+        const string_descr info = get_string_descr_unsafe( offs_orig_table + ( i * MO_STRING_DESCR_SIZE ) );
 
         // Check for null byte - msgid/msgid_plural separator
         bool has_plurals = false;
@@ -517,8 +517,8 @@ void trans_catalogue::check_string_plurals()
         }
 
         // Count null bytes - each plural form is a null-terminated string (including last one)
-        u32 const offs_tr = offs_trans_table + ( i * MO_STRING_DESCR_SIZE );
-        string_descr const info_tr = get_string_descr_unsafe( offs_tr );
+        const u32 offs_tr = offs_trans_table + ( i * MO_STRING_DESCR_SIZE );
+        const string_descr info_tr = get_string_descr_unsafe( offs_tr );
         size_t plural_forms = 0;
         for( u32 j = info_tr.offset; j <= info_tr.offset + info_tr.length; j++ ) {
             if( get_u8_unsafe( j ) == PLF_SEPARATOR ) {
@@ -552,7 +552,7 @@ void trans_catalogue::check_encoding( const meta_headers &headers )
                 continue;
             }
             found = true;
-            static const std::string expected = "Content-Type: text/plain; charset=UTF-8";
+            const static std::string expected = "Content-Type: text/plain; charset=UTF-8";
             if( entry != expected ) {
                 std::string const e =
                     string_format( "unrecognized value in Content-Type header (wrong charset?). Expected \"%s\"",
@@ -572,7 +572,7 @@ void trans_catalogue::check_encoding( const meta_headers &headers )
                 continue;
             }
             found = true;
-            static const std::string expected = "Content-Transfer-Encoding: 8bit";
+            const static std::string expected = "Content-Transfer-Encoding: 8bit";
             if( entry != expected ) {
                 std::string const e =
                     string_format( "unrecognized value in Content-Transfer-Encoding header.  Expected \"%s\"",
@@ -669,7 +669,7 @@ trans_catalogue::trans_catalogue( std::string buffer )
     process_file_header();
     check_string_terminators();
 
-    meta_headers const headers = string_split( get_metadata(), '\n' );
+    const meta_headers headers = string_split( get_metadata(), '\n' );
 
     check_encoding( headers );
     this->plurals = parse_plf_header( headers );
@@ -679,8 +679,8 @@ trans_catalogue::trans_catalogue( std::string buffer )
 
 bool trans_catalogue::check_nth_translation_has_plf( u32 n ) const
 {
-    u32 const descr_offs = offs_trans_table + ( n * MO_STRING_DESCR_SIZE );
-    string_descr const r = get_string_descr_unsafe( descr_offs );
+    const u32 descr_offs = offs_trans_table + ( n * MO_STRING_DESCR_SIZE );
+    const string_descr r = get_string_descr_unsafe( descr_offs );
 
     for( u32 offs = r.offset; offs < r.offset + r.length; offs++ ) {
         if( get_u8_unsafe( offs ) == PLF_SEPARATOR ) {
@@ -693,26 +693,26 @@ bool trans_catalogue::check_nth_translation_has_plf( u32 n ) const
 
 const char *trans_catalogue::get_nth_orig_string( u32 n ) const
 {
-    u32 const descr_offs = offs_orig_table + ( n * MO_STRING_DESCR_SIZE );
-    string_descr const r = get_string_descr_unsafe( descr_offs );
+    const u32 descr_offs = offs_orig_table + ( n * MO_STRING_DESCR_SIZE );
+    const string_descr r = get_string_descr_unsafe( descr_offs );
 
     return offs_to_cstr( r.offset );
 }
 
 const char *trans_catalogue::get_nth_translation( u32 n ) const
 {
-    u32 const descr_offs = offs_trans_table + ( n * MO_STRING_DESCR_SIZE );
-    string_descr const r = get_string_descr_unsafe( descr_offs );
+    const u32 descr_offs = offs_trans_table + ( n * MO_STRING_DESCR_SIZE );
+    const string_descr r = get_string_descr_unsafe( descr_offs );
 
     return offs_to_cstr( r.offset );
 }
 
 const char *trans_catalogue::get_nth_pl_translation( u32 n, size_t num ) const
 {
-    u32 const descr_offs = offs_trans_table + ( n * MO_STRING_DESCR_SIZE );
-    string_descr const r = get_string_descr_unsafe( descr_offs );
+    const u32 descr_offs = offs_trans_table + ( n * MO_STRING_DESCR_SIZE );
+    const string_descr r = get_string_descr_unsafe( descr_offs );
 
-    size_t const plf = plurals.expr->eval( num );
+    const size_t plf = plurals.expr->eval( num );
 
     if( plf == 0 || plf >= plurals.num ) {
         return offs_to_cstr( r.offset );
@@ -758,7 +758,7 @@ void trans_library::build_string_table()
 
     for( size_t i_cat = 0; i_cat < catalogues.size(); i_cat++ ) {
         const trans_catalogue &cat = catalogues[i_cat];
-        u32 const num = cat.get_num_strings();
+        const u32 num = cat.get_num_strings();
         // 0th entry is the metadata, we skip it
         strings.reserve( num - 1 );
         for( u32 i = 1; i < num; i++ ) {
@@ -770,7 +770,7 @@ void trans_library::build_string_table()
                 return strcmp( a, b ) < 0;
             } );
 
-            library_string_descr const desc = { static_cast<u32>( i_cat ), i };
+            const library_string_descr desc = { static_cast<u32>( i_cat ), i };
             if( it == strings.end() ) {
                 // Not found, or all elements are greater
                 strings.push_back( desc );

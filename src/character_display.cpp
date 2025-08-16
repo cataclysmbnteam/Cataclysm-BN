@@ -85,7 +85,7 @@ nc_color warmth::bodytemp_color( const Character &c, const bodypart_str_id &bp )
         return c_light_gray;    // Eyes don't count towards warmth
     }
 
-    int const temp_conv = get_temp_conv( c, bp );
+    const int temp_conv = get_temp_conv( c, bp );
     if( temp_conv > BODYTEMP_SCORCHING ) {
         return c_red;
     } else if( temp_conv > BODYTEMP_VERY_HOT ) {
@@ -164,7 +164,7 @@ static std::pair<int, int> subindex_around_cursor(
     if( !focused || num_entries <= available_space ) {
         return std::make_pair( 0, std::min( available_space, num_entries ) );
     }
-    int const slice_start = std::min( std::max( 0, cursor_pos - ( available_space / 2 ) ),
+    const int slice_start = std::min( std::max( 0, cursor_pos - ( available_space / 2 ) ),
                                       num_entries - available_space );
     return std::make_pair( slice_start, slice_start + available_space );
 }
@@ -191,7 +191,7 @@ void character_display::print_encumbrance( ui_adaptor &ui, const catacurses::win
      *** armor layers ui shows everything they want :-) -Davek                      ***/
     const char_encumbrance_data enc_data = ch.get_encumbrance();
     for( int i = 0; i < height; ++i ) {
-        int const thisline = firstline + i;
+        const int thisline = firstline + i;
         if( thisline < 0 ) {
             continue;
         }
@@ -210,7 +210,7 @@ void character_display::print_encumbrance( ui_adaptor &ui, const catacurses::win
         // Two different highlighting schemes, highlight if the line is selected as per line being set.
         // Make the text green if this part is covered by the passed in item.
         const bool highlight_line = thisline == line;
-        nc_color const limb_color = highlight_line ?
+        const nc_color limb_color = highlight_line ?
                                     ( highlighted ? h_green : h_light_gray ) :
                                     ( highlighted ? c_green : c_light_gray );
         const int y_pos = 1 + i;
@@ -354,7 +354,7 @@ static bool is_cqb_skill( const skill_id &id )
     // TODO: this skill list here is used in other places as well. Useless redundancy and
     // dependency. Maybe change it into a flag of the skill that indicates it's a skill used
     // by the bionic?
-    static const std::array<skill_id, 5> cqb_skills = { {
+    const static std::array<skill_id, 5> cqb_skills = { {
             skill_id( "melee" ), skill_id( "unarmed" ), skill_id( "cutting" ),
             skill_id( "bashing" ), skill_id( "stabbing" ),
         }
@@ -919,7 +919,7 @@ static void draw_speed_tab( const catacurses::window &w_speed,
     // NOLINTNEXTLINE(cata-use-named-point-constants)
     mvwprintz( w_speed, point( 1, 1 ), c_light_gray, _( "Base Move Cost:" ) );
     mvwprintz( w_speed, point( 1, 2 ), c_light_gray, _( "Current Speed:" ) );
-    int const newmoves = you.get_speed();
+    const int newmoves = you.get_speed();
     int pen = 0;
     unsigned int line = 3;
     if( you.weight_carried() > you.weight_capacity() ) {
@@ -979,13 +979,13 @@ static void draw_speed_tab( const catacurses::window &w_speed,
         }
     }
 
-    int const quick_bonus = static_cast<int>( std::round( ( you.mutation_value( "speed_modifier" ) - 1 )
+    const int quick_bonus = static_cast<int>( std::round( ( you.mutation_value( "speed_modifier" ) - 1 )
                             *
                             100 ) );
-    int const bio_speed_bonus = 10;
+    const int bio_speed_bonus = 10;
     if( quick_bonus != 0 ) {
         std::string const pen_sign = quick_bonus >= 0 ? "+" : "-";
-        nc_color const pen_color = quick_bonus >= 0 ? c_green : c_red;
+        const nc_color pen_color = quick_bonus >= 0 ? c_green : c_red;
         //~ %s: Mutations (already left-justified), %s: sign of bonus/penalty, %2d%%: speed modifier
         mvwprintz( w_speed, point( 1, line ), pen_color, pgettext( "speed bonus", "%s%s%2d%%" ),
                    left_justify( _( "Mutations" ), 20 ), pen_sign, std::abs( quick_bonus ) );
@@ -998,7 +998,7 @@ static void draw_speed_tab( const catacurses::window &w_speed,
     }
 
     for( const std::pair<const std::string, int> &speed_effect : speed_effects ) {
-        nc_color const col = ( speed_effect.second > 0 ? c_green : c_red );
+        const nc_color col = ( speed_effect.second > 0 ? c_green : c_red );
         mvwprintz( w_speed, point( 1, line ), col, "%s", speed_effect.first );
         mvwprintz( w_speed, point( 21, line ), col, ( speed_effect.second > 0 ? "+" : "-" ) );
         mvwprintz( w_speed, point( std::abs( speed_effect.second ) >= 10 ? 22 : 23, line ), col, "%d%%",
@@ -1006,7 +1006,7 @@ static void draw_speed_tab( const catacurses::window &w_speed,
         ++line;
     }
 
-    int const runcost = you.run_cost( 100 );
+    const int runcost = you.run_cost( 100 );
     nc_color col = ( runcost <= 100 ? c_green : c_red );
     mvwprintz( w_speed, point( 21 + ( runcost >= 100 ? 0 : ( runcost < 10 ? 2 : 1 ) ), 1 ), col,
                "%d", runcost );
@@ -1227,7 +1227,7 @@ static std::pair<unsigned, unsigned> calculate_shared_column_win_height(
 {
     if( ( second_win_size_y_max + 1 + first_win_size_y_max ) > available_height ) {
         // maximum space for either window if they're both the same size
-        unsigned const max_shared_y = ( available_height - 1 ) / 2;
+        const unsigned max_shared_y = ( available_height - 1 ) / 2;
         if( std::min( second_win_size_y_max, first_win_size_y_max ) > max_shared_y ) {
             // both are larger than the shared size
             second_win_size_y_max = max_shared_y;
@@ -1338,8 +1338,8 @@ void character_display::disp_info( Character &ch )
 
     const std::vector<const Skill *> player_skill = Skill::get_skills_sorted_by(
     [&]( const Skill & a, const Skill & b ) {
-        skill_displayType_id const type_a = a.display_category();
-        skill_displayType_id const type_b = b.display_category();
+        const skill_displayType_id type_a = a.display_category();
+        const skill_displayType_id type_b = b.display_category();
 
         return localized_compare( std::make_pair( type_a, a.name() ),
                                   std::make_pair( type_b, b.name() ) );
@@ -1389,9 +1389,9 @@ void character_display::disp_info( Character &ch )
     std::map<std::string, int> speed_effects;
     for( auto &elem : ch.get_all_effects() ) {
         for( std::pair<const bodypart_str_id, effect>  const &_effect_it : elem.second ) {
-            effect  const &it = _effect_it.second;
-            bool const reduced = ch.resists_effect( it );
-            int const move_adjust = it.get_mod( "SPEED", reduced );
+            const effect &it = _effect_it.second;
+            const bool reduced = ch.resists_effect( it );
+            const int move_adjust = it.get_mod( "SPEED", reduced );
             if( move_adjust != 0 ) {
                 const std::string dis_text = it.get_speed_name();
                 speed_effects[dis_text] += move_adjust;

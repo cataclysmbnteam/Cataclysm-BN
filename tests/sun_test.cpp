@@ -37,10 +37,10 @@ TEST_CASE( "daily solar cycle", "[sun][night][dawn][day][dusk]" )
 {
     clear_all_state();
     // Use sunrise/sunset on the first day (spring equinox)
-    static const time_point midnight = calendar::turn_zero;
-    static const time_point noon = calendar::turn_zero + 12_hours;
-    static const time_point today_sunrise = sunrise( midnight );
-    static const time_point today_sunset = sunset( midnight );
+    const static time_point midnight = calendar::turn_zero;
+    const static time_point noon = calendar::turn_zero + 12_hours;
+    const static time_point today_sunrise = sunrise( midnight );
+    const static time_point today_sunset = sunset( midnight );
 
     REQUIRE( "Year 1, Spring, day 1 6:00:00 AM" == to_string( today_sunrise ) );
     REQUIRE( "Year 1, Spring, day 1 7:00:00 PM" == to_string( today_sunset ) );
@@ -130,9 +130,9 @@ TEST_CASE( "sunlight and moonlight", "[sun][sunlight][moonlight][.]" )
 {
     clear_all_state();
     // Use sunrise/sunset on the first day (spring equinox)
-    static const time_point midnight = calendar::turn_zero;
-    static const time_point today_sunrise = sunrise( midnight );
-    static const time_point today_sunset = sunset( midnight );
+    const static time_point midnight = calendar::turn_zero;
+    const static time_point today_sunrise = sunrise( midnight );
+    const static time_point today_sunset = sunset( midnight );
 
     // Expected numbers below assume 100.0f maximum daylight level
     // (maximum daylight is different at other times of year - see [daylight] tests)
@@ -177,9 +177,9 @@ TEST_CASE( "sunlight and moonlight", "[sun][sunlight][moonlight][.]" )
     // moon (maximum moonlight). More detailed tests of moon phase and light should be expressed in
     // `moon_test.cpp`. Including here simply to check that `sunlight` also calculates moonlight.
     SECTION( "moonlight" ) {
-        static const time_duration phase_time = calendar::season_length() / 6;
-        static const time_point new_moon = calendar::turn_zero;
-        static const time_point full_moon = new_moon + phase_time;
+        const static time_duration phase_time = calendar::season_length() / 6;
+        const static time_point new_moon = calendar::turn_zero;
+        const static time_point full_moon = new_moon + phase_time;
 
         WHEN( "the moon is new" ) {
             REQUIRE( get_moon_phase( new_moon ) == MOON_NEW );
@@ -201,11 +201,11 @@ TEST_CASE( "sunlight and moonlight", "[sun][sunlight][moonlight][.]" )
 TEST_CASE( "current daylight level", "[sun][daylight][equinox][solstice]" )
 {
     clear_all_state();
-    static const time_duration one_season = calendar::season_length();
-    static const time_point spring = calendar::turn_zero;
-    static const time_point summer = spring + one_season;
-    static const time_point autumn = summer + one_season;
-    static const time_point winter = autumn + one_season;
+    const static time_duration one_season = calendar::season_length();
+    const static time_point spring = calendar::turn_zero;
+    const static time_point summer = spring + one_season;
+    const static time_point autumn = summer + one_season;
+    const static time_point winter = autumn + one_season;
 
     SECTION( "baseline 100 daylight on the spring and autumn equinoxes" ) {
         CHECK( 100.0f == current_daylight_level( spring ) );

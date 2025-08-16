@@ -15,7 +15,7 @@ class IsOneOf : public Catch::MatcherBase<std::string>
         }
         std::string describe() const override {
             std::string s = "is one of {";
-            for( auto const &i : values ) {
+            for( const auto &i : values ) {
                 s += i + ", ";
             }
             s.back() = '}';

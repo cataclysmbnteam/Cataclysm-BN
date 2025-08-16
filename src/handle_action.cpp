@@ -188,8 +188,8 @@ static bool init_weather_anim( const weather_type_id &wtype, weather_printable &
 
 static void generate_weather_anim_frame( const weather_type_id &wtype, weather_printable &wPrint )
 {
-    map  const &m = get_map();
-    avatar  const &u = get_avatar();
+    const map &m = get_map();
+    const avatar &u = get_avatar();
 
     const visibility_variables &cache = m.get_visibility_variables_cache();
     const level_cache &map_cache = m.get_cache_ref( u.posz() );
@@ -286,7 +286,7 @@ input_context game::get_player_input( std::string &action )
     weather_printable wPrint;
     bool animate_weather = false;
     bool animate_sct = false;
-    bool const do_animations = [&]() {
+    const bool do_animations = [&]() {
         if( get_option<bool>( "ANIMATIONS" ) ) {
             const bool weather_has_anim = init_weather_anim( get_weather().weather_id, wPrint );
 
@@ -337,7 +337,7 @@ input_context game::get_player_input( std::string &action )
                     const direction oCurDir = iter->getDirecton();
                     const int width = utf8_width( iter->getText() );
                     for( int i = 0; i < width; ++i ) {
-                        tripoint const tmp( iter->getPosX() + i, iter->getPosY(), get_levz() );
+                        const tripoint tmp( iter->getPosX() + i, iter->getPosY(), get_levz() );
                         const Creature *critter = critter_at( tmp, true );
 
                         if( critter != nullptr && u.sees( *critter ) ) {
@@ -415,7 +415,7 @@ inline static void rcdrive( point d )
         c.deserialize( jsin );
     }, car_location_string );
 
-    map_cursor const mc( c );
+    const map_cursor mc( c );
     std::vector<item *> rc_items = mc.items_with( [&]( const item & it ) {
         return it.has_flag( flag_RADIO_CONTROLLED );
     } );
@@ -435,7 +435,7 @@ inline static void rcdrive( point d )
                        _( "sound of a collision with an obstacle." ), true, "misc", "rc_car_hits_obstacle" );
         return;
     } else {
-        tripoint const src( c );
+        const tripoint src( c );
         detached_ptr<item> det_car = here.i_rem( src, rc_car );
         here.add_item_or_charges( dest, std::move( det_car ) );
         //~ Sound of moving a remote controlled car
@@ -458,7 +458,7 @@ static void pldrive( const tripoint &p )
     vehicle *veh = g->remoteveh();
     bool remote = true;
     int part = -1;
-    map  const &here = get_map();
+    const map &here = get_map();
     if( !veh ) {
         if( const optional_vpart_position vp = here.veh_at( u.pos() ) ) {
             veh = &vp->vehicle();
@@ -472,7 +472,7 @@ static void pldrive( const tripoint &p )
         return;
     }
     if( !remote ) {
-        static const itype_id fuel_type_animal( "animal" );
+        const static itype_id fuel_type_animal( "animal" );
         const bool has_animal_controls = veh->part_with_feature( part, "CONTROL_ANIMAL", true ) >= 0;
         const bool has_controls = veh->part_with_feature( part, "CONTROLS", true ) >= 0;
         const bool has_animal = veh->has_engine_type( fuel_type_animal, false ) &&
@@ -534,10 +534,10 @@ static void open()
 
     if( const optional_vpart_position vp = here.veh_at( openp ) ) {
         vehicle *const veh = &vp->vehicle();
-        int const openable = veh->next_part_to_open( vp->part_index() );
+        const int openable = veh->next_part_to_open( vp->part_index() );
         if( openable >= 0 ) {
             const vehicle *player_veh = veh_pointer_or_null( here.veh_at( u.pos() ) );
-            bool const outside = !player_veh || player_veh != veh;
+            const bool outside = !player_veh || player_veh != veh;
             if( !outside ) {
                 if( !veh->handle_potential_theft( get_avatar() ) ) {
                     u.moves += 100;
@@ -550,7 +550,7 @@ static void open()
                 // If there is, we open everything on tile. This means opening a closed,
                 // curtained door from outside is possible, but it will magically open the
                 // curtains as well.
-                int const outside_openable = veh->next_part_to_open( vp->part_index(), true );
+                const int outside_openable = veh->next_part_to_open( vp->part_index(), true );
                 if( outside_openable == -1 ) {
                     const std::string name = veh->part_info( openable ).name();
                     add_msg( m_info, _( "That %s can only opened from the inside." ), name );
@@ -576,7 +576,7 @@ static void open()
         return;
     }
 
-    bool const didit = here.open_door( openp, !here.is_outside( u.pos() ) );
+    const bool didit = here.open_door( openp, !here.is_outside( u.pos() ) );
 
     if( !didit ) {
         const ter_str_id tid = here.ter( openp ).id();
@@ -658,7 +658,7 @@ static void grab()
 static void haul()
 {
     player &u = g->u;
-    map  const &here = get_map();
+    const map &here = get_map();
 
     if( u.is_hauling() ) {
         u.stop_hauling();
@@ -836,8 +836,8 @@ static void smash()
                 }
 
                 if( to_safety ) {
-                    tripoint const oldpos = u.pos();
-                    tripoint const newpos = u.pos() + *to_safety;
+                    const tripoint oldpos = u.pos();
+                    const tripoint newpos = u.pos() + *to_safety;
                     // game::walk_move will return true even if you don't move
                     if( g->walk_move( newpos ) && u.pos() != oldpos ) {
                         break;
@@ -880,7 +880,7 @@ static void wait()
     uilist as_m;
     player &u = g->u;
     bool setting_alarm = false;
-    map  const &here = get_map();
+    const map &here = get_map();
 
     if( u.controlling_vehicle && ( here.veh_at( u.pos() )->vehicle().velocity ||
                                    here.veh_at( u.pos() )->vehicle().cruise_velocity ) && u.pos().z < 4 ) {
@@ -889,7 +889,7 @@ static void wait()
     }
 
     if( u.has_alarm_clock() ) {
-        int const alarm_query = try_set_alarm();
+        const int alarm_query = try_set_alarm();
         if( alarm_query == UILIST_CANCEL ) {
             return;
         }
@@ -978,7 +978,7 @@ static void wait()
 
     time_duration time_to_wait;
     if( as_m.ret == 13 ) {
-        int const minutes = string_input_popup()
+        const int minutes = string_input_popup()
                             .title( _( "How long?  (in minutes)" ) )
                             .identifier( "wait_duration" )
                             .query_int();
@@ -1111,7 +1111,7 @@ static void sleep()
     }
     if( u.has_alarm_clock() ) {
         /* Reuse menu to ask player whether they want to set an alarm. */
-        bool const can_hibernate = u.get_kcal_percent() > 0.95 && u.has_active_mutation( trait_HIBERNATE );
+        const bool can_hibernate = u.get_kcal_percent() > 0.95 && u.has_active_mutation( trait_HIBERNATE );
 
         as_m.reset();
         as_m.text = can_hibernate ?
@@ -1387,14 +1387,14 @@ static void fire()
             }
         }
         if( !options.empty() ) {
-            int const sel = uilist( _( "Draw what?" ), options );
+            const int sel = uilist( _( "Draw what?" ), options );
             if( sel >= 0 ) {
                 actions[sel]();
             }
         }
     }
 
-    item  const &weapon = u.primary_weapon();
+    const item &weapon = u.primary_weapon();
     if( weapon.is_gun() && !weapon.gun_current_mode().melee() ) {
         avatar_action::fire_wielded_weapon( u );
     } else if( weapon.reach_range( u ) > 1 ) {
@@ -1449,8 +1449,8 @@ static void cast_spell()
 
     bool can_cast_spells = false;
     bool has_brawler_spell = false;
-    for( spell_id const sp : spells ) {
-        spell const temp_spell = u.magic->get_spell( sp );
+    for( const spell_id sp : spells ) {
+        const spell temp_spell = u.magic->get_spell( sp );
         if( temp_spell.can_cast( u ) ) {
             can_cast_spells = true;
         }
@@ -1485,7 +1485,7 @@ static void cast_spell()
 
     std::set<trait_id> const blockers = sp.get_blocker_muts();
     if( !blockers.empty() ) {
-        for( trait_id const blocker : blockers ) {
+        for( const trait_id blocker : blockers ) {
             if( u.has_trait( blocker ) ) {
                 add_msg( game_message_params{ m_bad, gmf_bypass_cooldown },
                          _( "Your %s mutation prevents you from casting this spell!" ), blocker->name() );
@@ -1593,7 +1593,7 @@ bool game::handle_action()
     }
 
     const optional_vpart_position vp = m.veh_at( u.pos() );
-    bool const veh_ctrl = !u.is_dead_state() &&
+    const bool veh_ctrl = !u.is_dead_state() &&
                           ( ( vp && vp->vehicle().player_in_control( u ) ) || remoteveh() != nullptr );
 
     // If performing an action with right mouse button, co-ordinates
@@ -1723,9 +1723,9 @@ bool game::handle_action()
     // This has no action unless we're in a special game mode.
     gamemode->pre_action( act );
 
-    int const soffset = get_option<int>( "MOVE_VIEW_OFFSET" );
+    const int soffset = get_option<int>( "MOVE_VIEW_OFFSET" );
 
-    int const before_action_moves = u.moves;
+    const int before_action_moves = u.moves;
 
     // These actions are allowed while deathcam is active. Registered in game::get_player_input
     if( uquit == QUIT_WATCH || !u.is_dead_state() ) {
@@ -1747,7 +1747,7 @@ bool game::handle_action()
             case ACTION_SHIFT_SW:
             case ACTION_SHIFT_W:
             case ACTION_SHIFT_NW: {
-                static const std::map<action_id, std::pair<point, point>> shift_delta = {
+                const static std::map<action_id, std::pair<point, point>> shift_delta = {
                     { ACTION_SHIFT_N, { point_north, point_north_east } },
                     { ACTION_SHIFT_NE, { point_north_east, point_east } },
                     { ACTION_SHIFT_E, { point_east, point_south_east } },
@@ -1838,7 +1838,7 @@ bool game::handle_action()
                     point dest_delta = get_delta_from_movement_action( act, iso_rotate::yes );
                     if( auto_travel_mode && !u.is_auto_moving() ) {
                         for( int i = 0; i < SEEX; i++ ) {
-                            tripoint const auto_travel_destination( u.posx() + ( dest_delta.x * ( SEEX - i ) ),
+                            const tripoint auto_travel_destination( u.posx() + ( dest_delta.x * ( SEEX - i ) ),
                                                                     u.posy() + ( dest_delta.y * ( SEEX - i ) ),
                                                                     u.posz() );
                             destination_preview = m.route( u.pos(),

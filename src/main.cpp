@@ -582,7 +582,7 @@ int main( int argc, char *argv[] )
                     if( !strcmp( argv[0], arg_handler.flag ) ) {
                         argc--;
                         argv++;
-                        int const args_consumed = arg_handler.handler( argc, const_cast<const char **>( argv ) );
+                        const int args_consumed = arg_handler.handler( argc, const_cast<const char **>( argv ) );
                         if( args_consumed < 0 ) {
                             cata_printf( "Failed parsing parameter '%s'\n", *( argv - 1 ) );
                             exit( 1 );
@@ -607,7 +607,7 @@ int main( int argc, char *argv[] )
                 if( !strcmp( saved_argv[0], arg_handler.flag ) ) {
                     --saved_argc;
                     ++saved_argv;
-                    int const args_consumed = arg_handler.handler( saved_argc, saved_argv );
+                    const int args_consumed = arg_handler.handler( saved_argc, saved_argv );
                     if( args_consumed < 0 ) {
                         cata_printf( "Failed parsing parameter '%s'\n", *( argv - 1 ) );
                         exit( 1 );

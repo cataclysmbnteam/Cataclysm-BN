@@ -449,7 +449,7 @@ void recipe_dictionary::finalize()
 
         for( const auto &bk : r.booksets ) {
             const itype *booktype = &*bk.first;
-            int const req = bk.second > 0 ? bk.second : std::max( booktype->book->req, r.difficulty );
+            const int req = bk.second > 0 ? bk.second : std::max( booktype->book->req, r.difficulty );
             islot_book::recipe_with_description_t const desc{ &r, req, r.result_name(), false };
             const_cast<islot_book &>( *booktype->book ).recipes.insert( desc );
         }
@@ -467,7 +467,7 @@ void recipe_dictionary::finalize()
 
         // books that don't already have an uncrafting recipe
         if( e->book && !recipe_dict.uncraft.contains( rid ) && e->volume > 0_ml ) {
-            int const pages = std::max( 1, static_cast<int>( e->volume / 12.5_ml ) );
+            const int pages = std::max( 1, static_cast<int>( e->volume / 12.5_ml ) );
             auto &bk = recipe_dict.uncraft[rid];
             bk.ident_ = rid;
             bk.result_ = id;

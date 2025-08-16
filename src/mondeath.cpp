@@ -232,13 +232,13 @@ void mdeath::splatter( monster &z )
     gibbed_weight = std::min( static_cast<uint64_t>( gibbed_weight ), z_weight * 15 / 100 );
 
     if( pulverized && gibbable ) {
-        float const overflow_ratio = ( overflow_damage / max_hp ) + 1;
-        int const gib_distance = std::round( rng( 2, 4 ) );
+        const float overflow_ratio = ( overflow_damage / max_hp ) + 1;
+        const int gib_distance = std::round( rng( 2, 4 ) );
         for( const auto &entry : *z.type->harvest ) {
             // only flesh and bones survive.
             if( entry.type == "flesh" || entry.type == "bone" ) {
                 // the larger the overflow damage, the less you get
-                itype_id const item_id( entry.drop );
+                const itype_id item_id( entry.drop );
                 const int chunk_amt = entry.mass_ratio / overflow_ratio / 10 * z_weight /
                                       to_gram( item_id->weight );
                 scatter_chunks( item_id, chunk_amt, z, gib_distance,
@@ -329,8 +329,8 @@ void mdeath::kill_vines( monster &z )
     } );
 
     for( Creature *const vine : vines ) {
-        int const dist = rl_dist( vine->pos(), z.pos() );
-        bool const closer = false;
+        const int dist = rl_dist( vine->pos(), z.pos() );
+        const bool closer = false;
         for( auto &j : hubs ) {
             if( rl_dist( vine->pos(), j->pos() ) < dist ) {
                 break;
@@ -432,8 +432,8 @@ void mdeath::disappear( monster &z )
 void mdeath::guilt( monster &z )
 {
     const int MAX_GUILT_DISTANCE = 5;
-    int const kill_count = g->get_kill_tracker().kill_count( z.type->id );
-    int const maxKills = 100; // this is when the player stop caring altogether.
+    const int kill_count = g->get_kill_tracker().kill_count( z.type->id );
+    const int maxKills = 100; // this is when the player stop caring altogether.
 
     // different message as we kill more of the same monster
     std::string msg = _( "You feel guilty for killing %s." ); // default guilt message
@@ -481,10 +481,10 @@ void mdeath::guilt( monster &z )
     add_msg( msgtype, msg, z.name() );
 
     int moraleMalus = -50 * ( 1.0 - ( static_cast<float>( kill_count ) / maxKills ) );
-    int const maxMalus = -250 * ( 1.0 - ( static_cast<float>( kill_count ) / maxKills ) );
-    time_duration const duration = 30_minutes * ( 1.0 - ( static_cast<float>
+    const int maxMalus = -250 * ( 1.0 - ( static_cast<float>( kill_count ) / maxKills ) );
+    const time_duration duration = 30_minutes * ( 1.0 - ( static_cast<float>
                                    ( kill_count ) / maxKills ) );
-    time_duration const decayDelay = 3_minutes * ( 1.0 - ( static_cast<float>
+    const time_duration decayDelay = 3_minutes * ( 1.0 - ( static_cast<float>
                                      ( kill_count ) / maxKills ) );
     if( z.type->in_species( ZOMBIE ) ) {
         moraleMalus /= 10;
@@ -502,7 +502,7 @@ void mdeath::guilt( monster &z )
 
 void mdeath::blobsplit( monster &z )
 {
-    int const speed = z.get_speed() - rng( 30, 50 );
+    const int speed = z.get_speed() - rng( 30, 50 );
     g->m.spawn_item( z.pos(), "slime_scrap", 1, 0, calendar::turn );
     if( z.get_speed() <= 0 ) {
         if( g->u.sees( z ) ) {
@@ -630,12 +630,12 @@ void mdeath::focused_beam( monster &z )
             add_msg( m_warning, _( "As the final light is destroyed, it erupts in a blinding flare!" ) );
         }
 
-        item  const &settings = *z.get_items()[0];
+        const item &settings = *z.get_items()[0];
 
-        point const p2( z.posx() + settings.get_var( "SL_SPOT_X", 0 ),
+        const point p2( z.posx() + settings.get_var( "SL_SPOT_X", 0 ),
                         z.posy() + settings.get_var( "SL_SPOT_Y",
                                 0 ) );
-        tripoint const p( p2, z.posz() );
+        const tripoint p( p2, z.posz() );
 
         std::vector <tripoint> const traj = line_to( z.pos(), p, 0, 0 );
         tripoint last_point = z.pos();
@@ -672,7 +672,7 @@ void mdeath::broken( monster &z )
     const float overflow_damage = std::max( -z.get_hp(), 0 );
     const float corpse_damage = 2.5 * overflow_damage / max_hp;
     broken_mon->set_damage( static_cast<int>( std::floor( corpse_damage * itype::damage_scale ) ) );
-    item  const &broken_mon_ref = *broken_mon;
+    const item &broken_mon_ref = *broken_mon;
     g->m.add_item_or_charges( z.pos(), std::move( broken_mon ) );
     //TODO!: push up these temporaries
     if( z.type->has_flag( MF_DROPS_AMMO ) ) {
@@ -681,8 +681,8 @@ void mdeath::broken( monster &z )
                 bool spawned = false;
                 for( const std::pair<const std::string, mtype_special_attack> &attack : z.type->special_attacks ) {
                     if( attack.second->id == "gun" ) {
-                        item  const &gun = *item::spawn_temporary( dynamic_cast<const gun_actor *>
-                                           ( attack.second.get() )->gun_type );
+                        const item &gun = *item::spawn_temporary( dynamic_cast<const gun_actor *>
+                                          ( attack.second.get() )->gun_type );
                         bool same_ammo = false;
                         for( const ammotype &at : gun.ammo_types() ) {
                             if( at == item::spawn_temporary( ammo_entry.first )->ammo_type() ) {
@@ -777,7 +777,7 @@ void mdeath::jabberwock( monster &z )
 {
     player *ch = dynamic_cast<player *>( z.get_killer() );
 
-    bool const vorpal = ch && ch->is_player() &&
+    const bool vorpal = ch && ch->is_player() &&
                         ( ch->primary_weapon().damage_melee( DT_CUT ) >= ( ch->primary_weapon().damage_melee(
                                     DT_BASH ) * 1.5 ) ) &&
                         ch->primary_weapon().volume() > 500_ml;
@@ -824,7 +824,7 @@ void mdeath::detonate( monster &z )
             break;
         }
         // Grab one item
-        itype_id const tmp = *amm_list.pick();
+        const itype_id tmp = *amm_list.pick();
         // and reduce its weight by 1
         amm_list.add_or_replace( tmp, amm_list.get_specific_weight( tmp ) - 1 );
         // and stash it for use

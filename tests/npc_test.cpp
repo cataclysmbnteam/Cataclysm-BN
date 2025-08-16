@@ -189,7 +189,7 @@ TEST_CASE( "snippet-tag-test" )
 {
     clear_all_state();
     // Actually used tags
-    static const std::set<std::string> npc_talk_tags = {
+    const static std::set<std::string> npc_talk_tags = {
         {
             "<name_b>", "<thirsty>", "<swear!>",
             "<sad>", "<greet>", "<no>",
@@ -211,7 +211,7 @@ TEST_CASE( "snippet-tag-test" )
     }
 
     // Special tags, those should have no replacements
-    static const std::set<std::string> special_tags = {
+    const static std::set<std::string> special_tags = {
         {
             "<yrwp>", "<mywp>", "<ammo>"
         }

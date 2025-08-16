@@ -30,7 +30,7 @@ const vitamin &string_id<vitamin>::obj() const
     const auto found = vitamins_all.find( *this );
     if( found == vitamins_all.end() ) {
         debugmsg( "Tried to get invalid vitamin: %s", c_str() );
-        static const vitamin null_vitamin{};
+        const static vitamin null_vitamin{};
         return null_vitamin;
     }
     return found->second;
@@ -76,11 +76,11 @@ void vitamin::load_vitamin( const JsonObject &jo )
         jo.throw_error( "vitamin consumption rate cannot be negative", "rate" );
     }
 
-    for( JsonArray const e : jo.get_array( "disease" ) ) {
+    for( const JsonArray e : jo.get_array( "disease" ) ) {
         vit.disease_.emplace_back( e.get_int( 0 ), e.get_int( 1 ) );
     }
 
-    for( JsonArray const e : jo.get_array( "disease_excess" ) ) {
+    for( const JsonArray e : jo.get_array( "disease_excess" ) ) {
         vit.disease_excess_.emplace_back( e.get_int( 0 ), e.get_int( 1 ) );
     }
 

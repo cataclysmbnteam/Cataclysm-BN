@@ -88,7 +88,7 @@ std::vector<std::vector<std::string>> query_popup::fold_query(
                                        const std::vector<query_option> &options,
                                        const int max_width, const int horz_padding )
 {
-    input_context const ctxt( category );
+    const input_context ctxt( category );
 
     std::vector<std::vector<std::string>> folded_query;
     folded_query.emplace_back();
@@ -347,7 +347,7 @@ query_popup::result query_popup::query_once()
 
 query_popup::result query_popup::query()
 {
-    ime_sentry const sentry( ime_sentry::disable );
+    const ime_sentry sentry( ime_sentry::disable );
 
     std::shared_ptr<ui_adaptor> const ui = create_or_get_adaptor();
 
@@ -360,7 +360,7 @@ query_popup::result query_popup::query()
 
 std::string query_popup::wait_text( const std::string &text, const nc_color &bar_color )
 {
-    static const std::array<std::string, 4> phase_icons = {{ "|", "/", "-", "\\" }};
+    const static std::array<std::string, 4> phase_icons = {{ "|", "/", "-", "\\" }};
     static size_t phase = phase_icons.size() - 1;
     phase = ( phase + 1 ) % phase_icons.size();
     return string_format( " %s %s", colorize( phase_icons[phase], bar_color ), text );

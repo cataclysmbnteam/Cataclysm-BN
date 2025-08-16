@@ -90,7 +90,7 @@ void start_location::load( const JsonObject &jo, const std::string & )
         if( entry.test_string() ) {
             ter = entry.get_string();
         } else {
-            JsonObject const jot = entry.get_object();
+            const JsonObject jot = entry.get_object();
             ter = jot.get_string( "om_terrain" );
             ter_match_type = jot.get_enum_value<ot_match_type>( "om_terrain_match_type", ter_match_type );
         }
@@ -217,14 +217,14 @@ tripoint_abs_omt start_location::find_player_initial_location() const
     // Shuffle 8 first ones so that we don't always start at (1,0)
     std::shuffle( overmaps.begin(), overmaps.begin() + 7, rng_get_engine() );
     for( const point_abs_om &omp : overmaps ) {
-        overmap  const &omap = overmap_buffer.get( omp );
+        const overmap &omap = overmap_buffer.get( omp );
         const tripoint_om_omt omtstart = omap.find_random_omt( random_target() );
         if( omtstart.raw() != tripoint_min ) {
             return project_combine( omp, omtstart );
         }
     }
     // Still no location, let's spawn one
-    static const tripoint_om_omt om_mid{ OMAPX / 2, OMAPY / 2, 0 };
+    const static tripoint_om_omt om_mid{ OMAPX / 2, OMAPY / 2, 0 };
 
     // Check terrains where we're allowed to spawn
     for( const auto &loc : _omt_types ) {
@@ -381,7 +381,7 @@ void start_location::place_player( player &u ) const
     };
 
     while( !found_good_spot && tries < 100 ) {
-        tripoint const rand_point( HALF_MAPSIZE_X + rng( 0, ( SEEX * 2 ) - 1 ),
+        const tripoint rand_point( HALF_MAPSIZE_X + rng( 0, ( SEEX * 2 ) - 1 ),
                                    HALF_MAPSIZE_Y + rng( 0, ( SEEY * 2 ) - 1 ),
                                    u.posz() );
         check_spot( rand_point );

@@ -143,7 +143,7 @@ void recipe::load( const JsonObject &jo, const std::string &src )
 
         } else if( sk.has_array( 0 ) ) {
             // multiple requirements
-            for( JsonArray const arr : sk ) {
+            for( const JsonArray arr : sk ) {
                 required_skills[skill_id( arr.get_string( 0 ) )] = arr.get_int( 1 );
             }
 
@@ -159,7 +159,7 @@ void recipe::load( const JsonObject &jo, const std::string &src )
 
     } else if( jo.has_array( "autolearn" ) ) {
         autolearn = true;
-        for( JsonArray const arr : jo.get_array( "autolearn" ) ) {
+        for( const JsonArray arr : jo.get_array( "autolearn" ) ) {
             autolearn_requirements[skill_id( arr.get_string( 0 ) )] = arr.get_int( 1 );
         }
     }
@@ -179,7 +179,7 @@ void recipe::load( const JsonObject &jo, const std::string &src )
             assign( jo, "decomp_learn", learn_by_disassembly[skill_used] );
 
         } else if( jo.has_array( "decomp_learn" ) ) {
-            for( JsonArray const arr : jo.get_array( "decomp_learn" ) ) {
+            for( const JsonArray arr : jo.get_array( "decomp_learn" ) ) {
                 learn_by_disassembly[skill_id( arr.get_string( 0 ) )] = arr.get_int( 1 );
             }
         }
@@ -206,7 +206,7 @@ void recipe::load( const JsonObject &jo, const std::string &src )
 
     } else if( jo.has_array( "using" ) ) {
         reqs_external.clear();
-        for( JsonArray const cur : jo.get_array( "using" ) ) {
+        for( const JsonArray cur : jo.get_array( "using" ) ) {
             reqs_external.emplace_back( requirement_id( cur.get_string( 0 ) ), cur.get_int( 1 ) );
         }
     }
@@ -234,8 +234,8 @@ void recipe::load( const JsonObject &jo, const std::string &src )
                 jo.throw_error( "Recipe cannot be reversible and have byproducts" );
             }
             byproducts.clear();
-            for( JsonArray const arr : jo.get_array( "byproducts" ) ) {
-                itype_id const byproduct( arr.get_string( 0 ) );
+            for( const JsonArray arr : jo.get_array( "byproducts" ) ) {
+                const itype_id byproduct( arr.get_string( 0 ) );
                 byproducts[ byproduct ] += arr.size() == 2 ? arr.get_int( 1 ) : 1;
             }
         }
@@ -554,7 +554,7 @@ std::function<bool( const item & )> recipe::get_component_filter(
     const recipe_filter_flags flags ) const
 {
     detached_ptr<item> const res = create_result();
-    item  const &result = *res;
+    const item &result = *res;
 
     // Disallow crafting of non-perishables with rotten components
     // Make an exception for items with the ALLOW_ROTTEN flag such as seeds

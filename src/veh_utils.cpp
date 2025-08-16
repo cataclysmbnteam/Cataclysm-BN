@@ -108,7 +108,7 @@ bool repair_part( vehicle &veh, vehicle_part &pt, Character &who_c )
 {
     // TODO: Get rid of this cast after moving relevant functions down to Character
     player &who = static_cast<player &>( who_c );
-    int const part_index = veh.index_of_part( &pt );
+    const int part_index = veh.index_of_part( &pt );
     auto &vp = pt.info();
 
     // TODO: Expose base part damage somewhere, don't recalculate it here
@@ -153,10 +153,10 @@ bool repair_part( vehicle &veh, vehicle_part &pt, Character &who_c )
     std::string const partname = pt.name( false );
     const std::string startdurability = colorize( pt.get_base().damage_symbol(),
                                         pt.get_base().damage_color() );
-    bool const wasbroken = pt.is_broken();
+    const bool wasbroken = pt.is_broken();
     if( wasbroken ) {
         const units::angle dir = pt.direction;
-        point const loc = pt.mount;
+        const point loc = pt.mount;
         auto replacement_id = pt.info().get_id();
         get_map().spawn_items( who.pos(), pt.pieces_for_broken_part() );
         veh.remove_part( part_index );

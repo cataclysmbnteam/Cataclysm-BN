@@ -496,7 +496,7 @@ void show_armor_layers_ui( Character &who )
     std::vector<int> tmp_worn;
 
     auto access_tmp_worn = [&]( int index ) {
-        int const worn_index = tmp_worn[index];
+        const int worn_index = tmp_worn[index];
         location_vector<item>::iterator it = who.worn.begin();
         std::advance( it, worn_index );
         return it;
@@ -604,14 +604,14 @@ void show_armor_layers_ui( Character &who )
         // Left list
         const int max_drawindex = std::min( leftListSize - leftListOffset, leftListLines );
         for( int drawindex = 0; drawindex < max_drawindex; drawindex++ ) {
-            int const itemindex = leftListOffset + drawindex;
+            const int itemindex = leftListOffset + drawindex;
 
             if( itemindex == leftListIndex ) {
                 mvwprintz( w_sort_left, point( 0, drawindex + 1 ), c_yellow, ">>" );
             }
 
             std::string const worn_armor_name = ( *access_tmp_worn( itemindex ) )->display_name();
-            item_penalties const penalties =
+            const item_penalties penalties =
                 get_item_penalties( access_tmp_worn( itemindex ), who, bp );
 
             const int offset_x = ( itemindex == selected ) ? 4 : 3;
@@ -705,12 +705,12 @@ void show_armor_layers_ui( Character &who )
                 pos++;
             }
             curr++;
-            for( layering_item_info  const &elem : items_cover_bp( who, cover ) ) {
+            for( const layering_item_info &elem : items_cover_bp( who, cover ) ) {
                 if( curr >= rightListOffset && pos <= rightListLines ) {
-                    nc_color const color = elem.penalties.color_for_stacking_badness();
+                    const nc_color color = elem.penalties.color_for_stacking_badness();
                     trim_and_print( w_sort_right, point( 2, pos ), right_w - 5, color,
                                     elem.name );
-                    char const plus = elem.penalties.badness() > 0 ? '+' : ' ';
+                    const char plus = elem.penalties.badness() > 0 ? '+' : ' ';
                     mvwprintz( w_sort_right, point( right_w - 4, pos ), c_light_gray, "%3d%c",
                                elem.encumber, plus );
                     pos++;
@@ -777,7 +777,7 @@ void show_armor_layers_ui( Character &who )
         leftListSize = tmp_worn.size();
 
         // Ensure leftListIndex is in bounds
-        int const new_index_upper_bound = std::max( 0, leftListSize - 1 );
+        const int new_index_upper_bound = std::max( 0, leftListSize - 1 );
         leftListIndex = std::min( leftListIndex, new_index_upper_bound );
 
         ui_manager::redraw();
@@ -795,7 +795,7 @@ void show_armor_layers_ui( Character &who )
 
                 std::swap( *selected_it, *left_it );
 
-                int const temp = tmp_worn[selected];
+                const int temp = tmp_worn[selected];
                 tmp_worn[selected] = tmp_worn[leftListIndex];
                 tmp_worn[leftListIndex] = temp;
                 selected = leftListIndex;
@@ -884,7 +884,7 @@ void show_armor_layers_ui( Character &who )
             if( loc ) {
                 // wear the item
                 loc->obtain( who );
-                bool const equipped = who.as_player()->wear_possessed( *loc );
+                const bool equipped = who.as_player()->wear_possessed( *loc );
                 if( equipped ) {
                     const bodypart_id &bp = armor_cat[tabindex];
                     if( tabindex == num_of_parts || loc->covers( bp ) ) {

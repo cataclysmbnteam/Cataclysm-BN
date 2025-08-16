@@ -215,7 +215,7 @@ static S set_up_grid_with_consumer( map &m, const furn_str_id &act_tile_id )
 
 static void require_empty_queue( const grid_furn_transform_queue &q )
 {
-    static const grid_furn_transform_queue empty_queue;
+    const static grid_furn_transform_queue empty_queue;
     REQUIRE( q == empty_queue );
 }
 

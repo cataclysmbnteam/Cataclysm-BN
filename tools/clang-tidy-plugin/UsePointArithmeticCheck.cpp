@@ -490,7 +490,7 @@ static void CheckConstructor( UsePointArithmeticCheck &Check,
     std::map<std::string, std::vector<ExpressionComponent>::const_iterator> Positions;
 
     bool AnyWithMultipleComponents = false;
-    for( auto const &Component : Components ) {
+    for( const auto &Component : Components ) {
         if( Component.second.size() > 1 ) {
             AnyWithMultipleComponents = true;
         }
@@ -503,7 +503,7 @@ static void CheckConstructor( UsePointArithmeticCheck &Check,
 
     while( true ) {
         bool XYAtEnd = false;
-        for( auto const &Component : Components ) {
+        for( const auto &Component : Components ) {
             if( Component.first == "z" ) {
                 continue;
             }
@@ -516,7 +516,7 @@ static void CheckConstructor( UsePointArithmeticCheck &Check,
             // We have finished at least one of the lists, so there will be no
             // more matches.  We can simply append all the remainder to the
             // leftovers
-            for( auto const &Component : Components ) {
+            for( const auto &Component : Components ) {
                 const std::string &Key = Component.first;
                 auto Position = Positions.at( Key );
                 while( Position != Component.second.end() ) {
@@ -530,7 +530,7 @@ static void CheckConstructor( UsePointArithmeticCheck &Check,
         // Find the minimum element amongst the next elements
         std::string MinKey = Positions.begin()->first;
         const ExpressionComponent *CurrentMin = &*Positions.begin()->second;
-        for( auto const &Position : Positions ) {
+        for( const auto &Position : Positions ) {
             const std::string &Key = Position.first;
             if( Position.second != Components.at( Key ).end() &&
                 *Position.second < *CurrentMin ) {
@@ -545,7 +545,7 @@ static void CheckConstructor( UsePointArithmeticCheck &Check,
         bool HasZ = false;
         bool CoefficientsEqual = true;
         bool InvolvesMacro = false;
-        for( auto const &Position : Positions ) {
+        for( const auto &Position : Positions ) {
             const std::string &Key = Position.first;
             bool AtEnd = Position.second == Components.at( Key ).end();
             if( !AtEnd && *Position.second < *CurrentMin ) {

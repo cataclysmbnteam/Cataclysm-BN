@@ -109,7 +109,7 @@ bool save_world_lua_state( const world *world, const std::string &path )
     const mod_management::t_mod_list &mods = world_generator->active_world->info->active_mod_order;
     sol::table t = get_mod_storage_table( state );
     run_on_game_save_hooks( state );
-    bool const ret = world->write_to_file( path, [&]( std::ostream & stream ) {
+    const bool ret = world->write_to_file( path, [&]( std::ostream & stream ) {
         JsonOut jsout( stream );
         jsout.start_object();
         for( const mod_id &mod : mods ) {
@@ -131,9 +131,9 @@ bool load_world_lua_state( const world *world, const std::string &path )
     const mod_management::t_mod_list &mods = world_generator->active_world->info->active_mod_order;
     sol::table t = get_mod_storage_table( state );
 
-    bool const ret = world->read_from_file( path, [&]( std::istream & stream ) {
+    const bool ret = world->read_from_file( path, [&]( std::istream & stream ) {
         JsonIn jsin( stream );
-        JsonObject const jsobj = jsin.get_object();
+        const JsonObject jsobj = jsin.get_object();
 
         for( const mod_id &mod : mods ) {
             if( !jsobj.has_object( mod.str() ) ) {

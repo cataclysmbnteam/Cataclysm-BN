@@ -396,7 +396,7 @@ void Character::suffer_from_chemimbalance()
         mod_pain( 3 * rng( 1, 3 ) );
     }
     if( one_turn_in( 6_hours ) ) {
-        int const pkilladd = 5 * rng( -1, 2 );
+        const int pkilladd = 5 * rng( -1, 2 );
         if( pkilladd > 0 ) {
             add_msg_if_player( m_bad, _( "You suddenly feel numb." ) );
         } else if( ( pkilladd < 0 ) && ( !( has_trait( trait_NOPAIN ) ) ) ) {
@@ -409,7 +409,7 @@ void Character::suffer_from_chemimbalance()
         moves -= rng( 10, 30 );
     }
     if( one_turn_in( 6_hours ) ) {
-        int const hungadd = 5 * rng( -1, 3 );
+        const int hungadd = 5 * rng( -1, 3 );
         if( hungadd > 0 ) {
             add_msg_if_player( m_bad, _( "You suddenly feel hungry." ) );
         } else {
@@ -455,7 +455,7 @@ void Character::suffer_from_chemimbalance()
 void Character::suffer_from_schizophrenia()
 {
     std::string i_name_w;
-    item  const &weapon = primary_weapon();
+    const item &weapon = primary_weapon();
     if( !weapon.is_null() ) {
         i_name_w = weapon.has_var( "item_label" ) ? weapon.get_var( "item_label" ) :
                    //~ %1$s: weapon name
@@ -550,7 +550,7 @@ void Character::suffer_from_schizophrenia()
     // Monster dies
     if( one_turn_in( 6_hours ) ) {
         // TODO: move to monster group json
-        static const std::array<mtype_id, 5> monsters = { {
+        const static std::array<mtype_id, 5> monsters = { {
                 mon_zombie, mon_zombie_fat, mon_zombie_fireman, mon_zombie_cop, mon_zombie_soldier
             }
         };
@@ -579,7 +579,7 @@ void Character::suffer_from_schizophrenia()
 
     // Skill raise
     if( one_turn_in( 12_hours ) ) {
-        skill_id const raised_skill = Skill::random_skill();
+        const skill_id raised_skill = Skill::random_skill();
         add_msg_if_player( m_good, _( "You increase %1$s to level %2$d." ), raised_skill.obj().name(),
                            get_skill_level( raised_skill ) + 1 );
         return;
@@ -646,7 +646,7 @@ void Character::suffer_from_asthma( const int current_stim )
     }
     bool auto_use = has_charges( itype_inhaler, 1 ) || has_charges( itype_oxygen_tank, 1 ) ||
                     has_charges( itype_smoxygen_tank, 1 );
-    bool const oxygenator = has_bionic( bio_gills ) &&
+    const bool oxygenator = has_bionic( bio_gills ) &&
                             get_power_level() >= ( bio_gills->power_trigger / 8 );
     if( is_underwater() ) {
         oxygen = oxygen / 2;
@@ -660,7 +660,7 @@ void Character::suffer_from_asthma( const int current_stim )
         inventory map_inv;
         map_inv.form_from_map( g->u.pos(), 2, &g->u );
         // check if an inhaler is somewhere near
-        bool const nearby_use = auto_use || oxygenator || map_inv.has_charges( itype_inhaler, 1 ) ||
+        const bool nearby_use = auto_use || oxygenator || map_inv.has_charges( itype_inhaler, 1 ) ||
                                 map_inv.has_charges( itype_oxygen_tank, 1 ) ||
                                 map_inv.has_charges( itype_smoxygen_tank, 1 );
         // check if character has an oxygenator first
@@ -833,7 +833,7 @@ void Character::suffer_in_sunlight()
     if( leafy ) {
         const bool leafier = has_trait( trait_LEAVES2 ) || has_trait( trait_LEAVES3 );
         const bool leafiest = has_trait( trait_LEAVES3 );
-        double const sleeve_factor = armwear_factor();
+        const double sleeve_factor = armwear_factor();
         const bool has_hat = wearing_something_on( bodypart_id( "head" ) );
         const float weather_factor = ( get_weather().weather_id->sun_intensity >=
                                        sun_intensity_type::normal ) ? 1.0 : 0.5;
@@ -901,13 +901,13 @@ std::map<bodypart_id, float> Character::bodypart_exposure()
     // For every item worn, for every body part, adjust coverage
     for( const item * const &it : worn ) {
         // What body parts does this item cover?
-        body_part_set const covered = it->get_covered_body_parts();
+        const body_part_set covered = it->get_covered_body_parts();
         for( const bodypart_id &bp : all_body_parts )  {
             if( bp.id() && !covered.test( bp.id() ) ) {
                 continue;
             }
             // How much exposure does this item leave on this part? (1.0 == naked)
-            float const part_exposure = 1.0 - ( it->get_coverage( bp ) / 100.0f );
+            const float part_exposure = 1.0 - ( it->get_coverage( bp ) / 100.0f );
             // Coverage multiplies, so two layers with 50% coverage will together give 75%
             bp_exposure[bp] = bp_exposure[bp] * part_exposure;
         }
@@ -1064,7 +1064,7 @@ void Character::suffer_from_other_mutations()
                        "insect_wings" );
     }
 
-    bool const wearing_shoes = is_wearing_shoes( side::LEFT ) || is_wearing_shoes( side::RIGHT );
+    const bool wearing_shoes = is_wearing_shoes( side::LEFT ) || is_wearing_shoes( side::RIGHT );
     int root_vitamins = 0;
     int root_water = 0;
     if( has_trait( trait_ROOTS3 ) && here.has_flag( flag_PLOWABLE, pos() ) && !wearing_shoes ) {
@@ -1092,7 +1092,7 @@ void Character::suffer_from_other_mutations()
             if( bp == bp_head ) {
                 continue;
             }
-            int const sores_pain = 5 + ( 0.4 * std::abs( encumb( convert_bp( bp ) ) ) );
+            const int sores_pain = 5 + ( 0.4 * std::abs( encumb( convert_bp( bp ) ) ) );
             if( get_pain() < sores_pain ) {
                 set_pain( sores_pain );
             }
@@ -1195,7 +1195,7 @@ void Character::suffer_from_radiation()
         if( rad_mut_proc && !kept_in ) {
             // Irradiate a random nearby point
             // If you can't, irradiate the player instead
-            tripoint const rad_point = pos() + point( rng( -3, 3 ), rng( -3, 3 ) );
+            const tripoint rad_point = pos() + point( rng( -3, 3 ), rng( -3, 3 ) );
             // TODO: Radioactive vehicles?
             if( here.get_radiation( rad_point ) < rad_mut ) {
                 here.adjust_radiation( rad_point, 1 );
@@ -1206,7 +1206,7 @@ void Character::suffer_from_radiation()
     }
 
     // Used to control vomiting from radiation to make it not-annoying
-    bool const radiation_increasing = irradiate( rads );
+    const bool radiation_increasing = irradiate( rads );
 
     if( radiation_increasing && calendar::once_every( 3_minutes ) && has_bionic( bio_geiger ) ) {
         add_msg_if_player( m_warning,
@@ -1638,7 +1638,7 @@ bool Character::irradiate( float rads, bool bypass )
             rads *= 0.3f + 0.1f * rad_mut;
         }
 
-        int const rads_max = roll_remainder( rads );
+        const int rads_max = roll_remainder( rads );
         mod_rad( rng( 0, rads_max ) );
 
         // Apply rads to any radiation badges.
@@ -1717,11 +1717,11 @@ void Character::sound_hallu()
     std::string i_desc;
     std::pair<std::string, std::string> i_sound;
     if( one_in( 5 ) ) {
-        int const r_int = rng( 0, desc_big.size() - 1 );
+        const int r_int = rng( 0, desc_big.size() - 1 );
         i_desc = std::get<0>( desc_big[r_int] );
         i_sound = std::make_pair( std::get<1>( desc_big[r_int] ), std::get<2>( desc_big[r_int] ) );
     } else {
-        int const r_int = rng( 0, desc.size() - 1 );
+        const int r_int = rng( 0, desc.size() - 1 );
         i_desc = std::get<0>( desc[r_int] );
         i_sound = std::make_pair( std::get<1>( desc[r_int] ), std::get<2>( desc[r_int] ) );
     }
@@ -1754,8 +1754,8 @@ void Character::drench( int saturation, const body_part_set &flags, bool ignore_
             continue;
         }
         // Different sources will only make the bodypart wet to a limit
-        int const source_wet_max = saturation * bp_wetness_max * 2 / 100;
-        int const wetness_increment = ignore_waterproof ? 100 : 2;
+        const int source_wet_max = saturation * bp_wetness_max * 2 / 100;
+        const int wetness_increment = ignore_waterproof ? 100 : 2;
         // Respect maximums
         const int wetness_max = std::min( source_wet_max, bp_wetness_max );
         if( elem.second.get_wetness() < wetness_max ) {
@@ -1838,7 +1838,7 @@ void Character::apply_wetness_morale( const units::temperature &temperature )
             debugmsg( "%s has no body part %s", disp_name().c_str(), elem.first.c_str() );
             continue;
         }
-        int const temp_cur = iter->second.get_temp_cur();
+        const int temp_cur = iter->second.get_temp_cur();
         // Clamp to [COLD,HOT] and cast to double
         const double part_temperature =
             std::min( BODYTEMP_HOT, std::max( BODYTEMP_COLD, temp_cur ) );

@@ -107,10 +107,10 @@ bool monexamine::pet_menu( monster &z )
 
     uilist amenu;
     std::string pet_name = z.get_name();
-    bool const is_zombie = z.type->in_species( ZOMBIE );
-    bool const can_slaughter = z.type->in_category( "WILDLIFE" );
+    const bool is_zombie = z.type->in_species( ZOMBIE );
+    const bool can_slaughter = z.type->in_category( "WILDLIFE" );
     const auto mon_item_id = z.type->revert_to_itype;
-    avatar  const &you = get_avatar();
+    const avatar &you = get_avatar();
     if( is_zombie ) {
         pet_name = _( "zombie slave" );
     }
@@ -156,7 +156,7 @@ bool monexamine::pet_menu( monster &z )
         amenu.addentry( unleash, true, 'T', _( "Remove leash from %s" ), pet_name );
     }
     if( !z.has_effect( effect_leashed ) && !z.has_flag( MF_RIDEABLE_MECH ) ) {
-        Character  const &player_character = get_player_character();
+        const Character &player_character = get_player_character();
         std::vector<item *> const rope_inv = player_character.items_with( []( const item & it ) {
             return it.has_flag( json_flag_TIE_UP );
         } );
@@ -226,7 +226,7 @@ bool monexamine::pet_menu( monster &z )
         }
     } else {
         const itype &type = *z.type->mech_battery;
-        int const max_charge = type.magazine->capacity;
+        const int max_charge = type.magazine->capacity;
         float charge_percent;
         if( z.get_battery_item() ) {
             charge_percent = static_cast<float>( z.get_battery_item()->ammo_remaining() ) / max_charge * 100;
@@ -271,7 +271,7 @@ bool monexamine::pet_menu( monster &z )
         amenu.addentry( attack, true, 'A', _( "Attack" ) );
     }
     amenu.query();
-    int const choice = amenu.ret;
+    const int choice = amenu.ret;
 
     switch( choice ) {
         case push_zlave:
@@ -445,7 +445,7 @@ void monexamine::insert_battery( monster &z )
         return;
     }
     item *bat_item = bat_inv[index - 1];
-    int const item_pos = you.get_item_position( bat_item );
+    const int item_pos = you.get_item_position( bat_item );
     if( item_pos != INT_MIN ) {
         z.set_battery_item( you.i_rem( item_pos ) );
     }
@@ -453,7 +453,7 @@ void monexamine::insert_battery( monster &z )
 
 bool monexamine::mech_hack( monster &z )
 {
-    itype_id const card_type = ( z.has_flag( MF_MILITARY_MECH ) ? itype_id_military :
+    const itype_id card_type = ( z.has_flag( MF_MILITARY_MECH ) ? itype_id_military :
                                  itype_id_industrial );
     avatar &you = get_avatar();
     if( you.has_amount( card_type, 1 ) ) {
@@ -495,7 +495,7 @@ static int prompt_for_amount( const char *const msg, const int max )
 bool monexamine::pay_bot( monster &z )
 {
     avatar &you = get_avatar();
-    time_duration const friend_time = z.get_effect_dur( effect_pet );
+    const time_duration friend_time = z.get_effect_dur( effect_pet );
     const int charge_count = you.charges_of( itype_cash_card );
 
     int amount = 0;
@@ -516,7 +516,7 @@ bool monexamine::pay_bot( monster &z )
                          vgettext( "How much friendship do you get?  Max: %d minute.  (0 to cancel)",
                                    "How much friendship do you get?  Max: %d minutes.", charge_count / 10 ), charge_count / 10 );
             if( amount > 0 ) {
-                time_duration const time_bought = time_duration::from_minutes( amount );
+                const time_duration time_bought = time_duration::from_minutes( amount );
                 you.use_charges( itype_cash_card, amount * 10 );
                 z.add_effect( effect_pet, time_bought );
                 z.add_effect( effect_paid, time_bought );
@@ -657,7 +657,7 @@ void monexamine::push( monster &z )
 
     add_msg( _( "You pushed the %s." ), pet_name );
 
-    point const delta( z.posx() - you.posx(), z.posy() - you.posy() );
+    const point delta( z.posx() - you.posx(), z.posy() - you.posy() );
     z.move_to( tripoint( z.posx() + delta.x, z.posy() + delta.y, z.posz() ) );
 }
 
@@ -731,11 +731,11 @@ bool monexamine::give_items_to( monster &z )
         return true;
     }
 
-    item  const &storage = *z.get_storage_item();
+    const item &storage = *z.get_storage_item();
     units::mass max_weight = z.weight_capacity() - z.get_carried_weight();
     units::volume max_volume = storage.get_storage() - z.get_carried_volume();
     avatar &you = get_avatar();
-    drop_locations const items = game_menus::inv::multidrop( you );
+    const drop_locations items = game_menus::inv::multidrop( you );
     drop_locations to_move;
     for( const drop_location &itq : items ) {
         item *it_copy = &*itq.loc;
@@ -871,7 +871,7 @@ void monexamine::add_leash( monster &z )
     if( z.has_effect( effect_leashed ) ) {
         return;
     }
-    Character  const &player = get_player_character();
+    const Character &player = get_player_character();
     std::vector<item *> rope_inv = player.items_with( []( const item & it ) {
         return it.has_flag( json_flag_TIE_UP );
     } );
@@ -888,7 +888,7 @@ void monexamine::add_leash( monster &z )
     }
     selection_menu.selected = 1;
     selection_menu.query();
-    int const index = selection_menu.ret;
+    const int index = selection_menu.ret;
     if( index == 0 || index == UILIST_CANCEL || index < 0 ||
         index > static_cast<int>( rope_inv.size() ) ) {
         return;
@@ -1012,7 +1012,7 @@ void monexamine::deactivate_pet( monster &z )
 
 void monexamine::milk_source( monster &source_mon )
 {
-    itype_id const milked_item = source_mon.type->starting_ammo.begin()->first;
+    const itype_id milked_item = source_mon.type->starting_ammo.begin()->first;
     auto milkable_ammo = source_mon.ammo.find( milked_item );
     if( milkable_ammo == source_mon.ammo.end() ) {
         debugmsg( "The %s has no milkable %s.", source_mon.get_name(), milked_item.str() );
@@ -1024,7 +1024,7 @@ void monexamine::milk_source( monster &source_mon )
         you.assign_activity( ACT_MILK, moves, -1 );
         you.activity->coords.push_back( get_map().getabs( source_mon.pos() ) );
         // pin the cow in place if it isn't already
-        bool const temp_tie = !source_mon.has_effect( effect_tied );
+        const bool temp_tie = !source_mon.has_effect( effect_tied );
         if( temp_tie ) {
             source_mon.add_effect( effect_tied, 1_turns );
             you.activity->str_values.emplace_back( "temp_tie" );

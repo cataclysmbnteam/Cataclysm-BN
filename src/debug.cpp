@@ -481,7 +481,7 @@ void realDebugmsg( const char *filename, const char *line, const char *funcname,
     }
 
     // Show excessive repetition prompt once per excessive set
-    bool const excess_repetition = rep_folder.repeat_count == repetition_folder::repetition_threshold;
+    const bool excess_repetition = rep_folder.repeat_count == repetition_folder::repetition_threshold;
 
     if( buffering_debugmsgs ) {
         buffered_prompts().push_back( {filename, line, funcname, text, false } );
@@ -904,12 +904,12 @@ static int bt_full( backtrace_state *const state, int skip, const bt_full_callba
                            // backtrace callback
                            []( void *const data, const uintptr_t pc, const char *const filename,
     const int lineno, const char *const function ) -> int {
-        cb_pair  const &cb = *reinterpret_cast<cb_pair *>( data );
+        const cb_pair &cb = *reinterpret_cast<cb_pair *>( data );
         return cb.first( pc, filename, lineno, function );
     },
     // error callback
     []( void *const data, const char *const msg, const int errnum ) {
-        cb_pair  const &cb = *reinterpret_cast<cb_pair *>( data );
+        const cb_pair &cb = *reinterpret_cast<cb_pair *>( data );
         cb.second( msg, errnum );
     },
     &cb );
@@ -1000,7 +1000,7 @@ static void write_demangled_frame( std::ostream &out, const char *frame )
 {
 #if defined(__linux__)
     // ./cataclysm(_ZN4game13handle_actionEv+0x47e8) [0xaaaae91e80fc]
-    static const std::regex symbol_regex( R"(^(.*)\((.*)\+(0x?[a-f0-9]*)\)\s\[(0x[a-f0-9]+)\]$)" );
+    const static std::regex symbol_regex( R"(^(.*)\((.*)\+(0x?[a-f0-9]*)\)\s\[(0x[a-f0-9]+)\]$)" );
     std::cmatch match_result;
     if( std::regex_search( frame, match_result, symbol_regex ) && match_result.size() == 5 ) {
         std::csub_match file_name = match_result[1];
@@ -1014,7 +1014,7 @@ static void write_demangled_frame( std::ostream &out, const char *frame )
     }
 #elif defined(MACOSX)
     //1   cataclysm-bn-tiles                     0x0000000102ba2244 _ZL9log_crashPKcS0_ + 608
-    static const std::regex symbol_regex( R"(^(.*)(0x[a-f0-9]{16})\s(.*)\s\+\s([0-9]+)$)" );
+    const static std::regex symbol_regex( R"(^(.*)(0x[a-f0-9]{16})\s(.*)\s\+\s([0-9]+)$)" );
     std::cmatch match_result;
     if( std::regex_search( frame, match_result, symbol_regex ) && match_result.size() == 5 ) {
         std::csub_match prefix = match_result[1];
@@ -1027,7 +1027,7 @@ static void write_demangled_frame( std::ostream &out, const char *frame )
         out << "\n    " << frame;
     }
 #elif defined(BSD)
-    static const std::regex symbol_regex( R"(^(0x[a-f0-9]+)\s<(.*)\+(0?x?[a-f0-9]*)>\sat\s(.*)$)" );
+    const static std::regex symbol_regex( R"(^(0x[a-f0-9]+)\s<(.*)\+(0?x?[a-f0-9]*)>\sat\s(.*)$)" );
     std::cmatch match_result;
     if( std::regex_search( frame, match_result, symbol_regex ) && match_result.size() == 5 ) {
         std::csub_match address = match_result[1];
@@ -1053,7 +1053,7 @@ void debug_write_backtrace( std::ostream &out )
     auto bt_full_print = [&out]( const uintptr_t pc, const char *const filename,
     const int lineno, const char *const function ) -> int {
         std::string file = filename ? filename : "[unknown src]";
-        size_t const src = file.find( "/src/" );
+        const size_t src = file.find( "/src/" );
         if( src != std::string::npos )
         {
             file.erase( 0, src );
@@ -1414,11 +1414,11 @@ detail::DebugLogGuard detail::realDebugLog( DL lev, DC cl, const char *filename,
 #if defined(BACKTRACE)
         // Push the first retrieved value back by a second so it won't match.
         static time_t next_backtrace = time( nullptr ) - 1;
-        time_t const now = time( nullptr );
+        const time_t now = time( nullptr );
         if( lev == DL::Error && now >= next_backtrace ) {
             out << "(error message will follow backtrace)";
             debug_write_backtrace( out );
-            time_t const after = time( nullptr );
+            const time_t after = time( nullptr );
             // Cool down for 60s between backtrace emissions.
             next_backtrace = after + 60;
             out << "Backtrace emission took " << after - now << " seconds." << '\n';

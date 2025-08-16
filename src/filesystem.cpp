@@ -77,7 +77,7 @@ bool file_exist( const std::string &path )
 bool file_exist( const std::string &path )
 {
     struct stat buffer;
-    bool const success = stat( path.c_str(), &buffer ) == 0;
+    const bool success = stat( path.c_str(), &buffer ) == 0;
     return success && S_ISREG( buffer.st_mode );
 }
 #endif
@@ -147,9 +147,9 @@ const char *cata_files::eol()
 {
 #if defined(_WIN32)
     // NOLINTNEXTLINE(cata-text-style): carriage return is necessary here
-    static const char local_eol[] = "\r\n";
+    const static char local_eol[] = "\r\n";
 #else
-    static const char local_eol[] = "\n";
+    const static char local_eol[] = "\n";
 #endif
     return local_eol;
 }
@@ -233,7 +233,7 @@ bool is_directory_stat( const std::string &full_path )
     int stat_ret = _wstat( utf8_to_wstr( full_path ).c_str(), &result );
 #else
     struct stat result;
-    int const stat_ret = stat( full_path.c_str(), &result );
+    const int stat_ret = stat( full_path.c_str(), &result );
 #endif
     if( stat_ret != 0 ) {
         const auto e_str = strerror( errno );
@@ -466,7 +466,7 @@ bool copy_file( const std::string &source_path, const std::string &dest_path )
     if( !source_stream.is_open() ) {
         return false;
     }
-    bool const res = write_to_file( dest_path, [&]( std::ostream & dest_stream ) {
+    const bool res = write_to_file( dest_path, [&]( std::ostream & dest_stream ) {
         dest_stream << source_stream->rdbuf();
     }, "" );
     return res && !source_stream.fail();

@@ -172,7 +172,7 @@ static void ClearScreen()
 
 static void InitSDL()
 {
-    int const init_flags = SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_TIMER;
+    const int init_flags = SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_TIMER;
     int ret;
 
 #if defined(SDL_HINT_WINDOWS_DISABLE_THREAD_NAMING)
@@ -405,7 +405,7 @@ static void WinCreate()
     }
 
     // Initialize joysticks.
-    int const numjoy = SDL_NumJoysticks();
+    const int numjoy = SDL_NumJoysticks();
 
     if( get_option<bool>( "ENABLE_JOYSTICK" ) && numjoy >= 1 ) {
         if( numjoy > 1 ) {
@@ -567,7 +567,7 @@ void refresh_display()
 // only update if the set interval has elapsed
 static void try_sdl_update()
 {
-    uint32_t const now = SDL_GetTicks();
+    const uint32_t now = SDL_GetTicks();
     if( now - lastupdate >= interval ) {
         refresh_display();
     } else {
@@ -711,7 +711,7 @@ static std::optional<std::pair<tripoint_abs_omt, std::string>> get_mission_arrow
 
     inclusive_rectangle<point> const area_flat( overmap_area.p_min.xy(), overmap_area.p_max.xy() );
     if( area_flat.contains( mission_target.raw().xy() ) ) {
-        int const area_z = center.z();
+        const int area_z = center.z();
         if( mission_target.z() > area_z ) {
             mission_arrow_variant = "mission_arrow_up";
         } else {
@@ -785,9 +785,9 @@ std::string cata_tiles::get_omt_id_rotation_and_subtile(
         return cur_ter;
     };
 
-    oter_id const ot_id = oter_at( omp );
+    const oter_id ot_id = oter_at( omp );
     const oter_t &ot = *ot_id;
-    oter_type_id const ot_type_id = ot.get_type_id();
+    const oter_type_id ot_type_id = ot.get_type_id();
     const oter_type_t &ot_type = *ot_type_id;
 
     if( ot_type.has_connections() ) {
@@ -852,12 +852,12 @@ void cata_tiles::draw_om( point dest, const tripoint_abs_omt &center_abs_omt, bo
     }
 #endif
 
-    int const width = OVERMAP_WINDOW_TERM_WIDTH * font->width;
-    int const height = OVERMAP_WINDOW_TERM_HEIGHT * font->height;
+    const int width = OVERMAP_WINDOW_TERM_WIDTH * font->width;
+    const int height = OVERMAP_WINDOW_TERM_HEIGHT * font->height;
 
     {
         //set clipping to prevent drawing over stuff we shouldn't
-        SDL_Rect const clipRect = { dest.x, dest.y, width, height };
+        const SDL_Rect clipRect = { dest.x, dest.y, width, height };
         printErrorIf( SDL_RenderSetClipRect( renderer.get(), &clipRect ) != 0,
                       "SDL_RenderSetClipRect failed" );
 
@@ -870,7 +870,7 @@ void cata_tiles::draw_om( point dest, const tripoint_abs_omt &center_abs_omt, bo
     screentile_width = divide_round_up( width, tile_width );
     screentile_height = divide_round_up( height, tile_height );
 
-    window_dimensions const wnd_dim = get_window_dimensions( g->w_overmap );
+    const window_dimensions wnd_dim = get_window_dimensions( g->w_overmap );
 
     const int min_col = 0;
     const int max_col = screentile_width;
@@ -1053,7 +1053,7 @@ void cata_tiles::draw_om( point dest, const tripoint_abs_omt &center_abs_omt, bo
             if( s_ter.p.z == 0 ) {
                 // TODO: fix point types
                 const point_rel_omt rp( om_direction::rotate( s_ter.p.xy(), uistate.omedit_rotation ) );
-                oter_id const rotated_id = s_ter.terrain->get_rotated( uistate.omedit_rotation );
+                const oter_id rotated_id = s_ter.terrain->get_rotated( uistate.omedit_rotation );
                 const oter_t &terrain = *rotated_id;
                 std::string const id = terrain.get_type_id().str();
                 int rotation;
@@ -1126,7 +1126,7 @@ void cata_tiles::draw_om( point dest, const tripoint_abs_omt &center_abs_omt, bo
         const auto label_bg = [&]( const tripoint_abs_sm & pos, const std::string & name ) {
             const int name_length = utf8_width( name );
             const point draw_pos = abs_sm_to_draw_label( pos, name_length );
-            SDL_Rect const clipRect = { draw_pos.x, draw_pos.y, name_length * fontwidth, fontheight };
+            const SDL_Rect clipRect = { draw_pos.x, draw_pos.y, name_length * fontwidth, fontheight };
 
             geometry->rect( renderer, clipRect, SDL_Color() );
 
@@ -1181,7 +1181,7 @@ void cata_tiles::draw_om( point dest, const tripoint_abs_omt &center_abs_omt, bo
 
         const auto draw_note_text = [&]( point  draw_pos, const std::string & name,
         nc_color & color ) {
-            char const note_fg_color = color == c_yellow ? 11 :
+            const char note_fg_color = color == c_yellow ? 11 :
                                        cata_cursesport::colorpairs[color.to_color_pair_index()].FG;
             return draw_string( *font, renderer, geometry, name, draw_pos, note_fg_color );
         };
@@ -1198,7 +1198,7 @@ void cata_tiles::draw_om( point dest, const tripoint_abs_omt &center_abs_omt, bo
         // Draw notes header. Very simple label at the moment
         nc_color header_color = c_white;
         const std::string header_string = _( "-- Notes: --" );
-        SDL_Rect const header_background_rect = {
+        const SDL_Rect header_background_rect = {
             draw_point.x - padding,
             draw_point.y - padding,
             ( fontwidth * utf8_width( header_string ) ) + ( padding * 2 ),
@@ -1213,7 +1213,7 @@ void cata_tiles::draw_om( point dest, const tripoint_abs_omt &center_abs_omt, bo
         for( auto &line : notes_window_text ) {
             const auto color_segments = split_by_color( line.second );
             std::stack<nc_color> color_stack;
-            nc_color const default_color = std::get<0>( line );
+            const nc_color default_color = std::get<0>( line );
             color_stack.push( default_color );
             std::vector<std::tuple<nc_color, std::string>> colored_lines;
 
@@ -1233,13 +1233,13 @@ void cata_tiles::draw_om( point dest, const tripoint_abs_omt &center_abs_omt, bo
                     }
                 }
 
-                nc_color  const &color = color_stack.empty() ? default_color : color_stack.top();
+                const nc_color &color = color_stack.empty() ? default_color : color_stack.top();
                 colored_lines.emplace_back( color, seg );
                 line_length += utf8_width( seg );
             }
 
             // Draw background first for the whole line
-            SDL_Rect const background_rect = {
+            const SDL_Rect background_rect = {
                 draw_point.x - padding,
                 draw_point.y - padding,
                 ( fontwidth * line_length ) + ( padding * 2 ),
@@ -1285,7 +1285,7 @@ static bool draw_window( Font_Ptr &font, const catacurses::window &w, point offs
     invalidate_framebuffer_proportion( win );
 
     // use the oversize buffer when dealing with windows that can have a different font than the main text font
-    bool const use_oversized_framebuffer = g && ( w == g->w_terrain || w == g->w_overmap );
+    const bool use_oversized_framebuffer = g && ( w == g->w_terrain || w == g->w_overmap );
 
     std::vector<curseline> &framebuffer = use_oversized_framebuffer ? oversized_framebuffer :
                                           terminal_framebuffer;
@@ -1317,7 +1317,7 @@ static bool draw_window( Font_Ptr &font, const catacurses::window &w, point offs
     }
 
     // TODO: Get this from UTF system to make sure it is exactly the kind of space we need
-    static const std::string space_string = " ";
+    const static std::string space_string = " ";
 
     bool update = false;
     for( int j = 0; j < win->height; j++ ) {
@@ -1371,7 +1371,7 @@ static bool draw_window( Font_Ptr &font, const catacurses::window &w, point offs
             const int codepoint = UTF8_getch( cell.ch );
             const catacurses::base_color FG = cell.FG;
             const catacurses::base_color BG = cell.BG;
-            int const cw = ( codepoint == UNKNOWN_UNICODE ) ? 1 : utf8_width( cell.ch );
+            const int cw = ( codepoint == UNKNOWN_UNICODE ) ? 1 : utf8_width( cell.ch );
             if( cw < 1 ) {
                 // utf8_width() may return a negative width
                 continue;
@@ -1512,7 +1512,7 @@ void cata_cursesport::curses_drawwindow( const catacurses::window &w )
                 int full_text_length = 0;
                 const auto range = overlay_strings.equal_range( coord );
                 for( auto ri = range.first; ri != range.second; ++ri ) {
-                    utf8_wrapper const rt( ri->second.text );
+                    const utf8_wrapper rt( ri->second.text );
                     full_text_length += rt.display_width();
                 }
 
@@ -1556,10 +1556,10 @@ void cata_cursesport::curses_drawwindow( const catacurses::window &w )
         // to keep various former interface elements from showing through the gaps
 
         //calculate width differences between map_font and font
-        int const partial_width = std::max( ( TERRAIN_WINDOW_TERM_WIDTH * fontwidth ) -
+        const int partial_width = std::max( ( TERRAIN_WINDOW_TERM_WIDTH * fontwidth ) -
                                             ( TERRAIN_WINDOW_WIDTH *
                                               map_font->width ), 0 );
-        int const partial_height = std::max( ( TERRAIN_WINDOW_TERM_HEIGHT * fontheight ) -
+        const int partial_height = std::max( ( TERRAIN_WINDOW_TERM_HEIGHT * fontheight ) -
                                              ( TERRAIN_WINDOW_HEIGHT *
                                                map_font->height ), 0 );
         //Gap between terrain and lower window edge
@@ -1645,7 +1645,7 @@ static int HandleDPad()
         // When someone tries to press a diagonal, they likely will
         // press a single direction first. Wait a few milliseconds to
         // give them time to press both of the buttons for the diagonal.
-        int const button = SDL_JoystickGetHat( joystick, 0 );
+        const int button = SDL_JoystickGetHat( joystick, 0 );
         int lc = ERR;
         if( button == SDL_HAT_LEFT ) {
             lc = JOY_LEFT;
@@ -3153,7 +3153,7 @@ static void CheckMessages()
 #endif
                 is_repeat = ev.key.repeat;
                 if( ev.key.keysym.sym == SDLK_LALT || ev.key.keysym.sym == SDLK_RALT ) {
-                    int const code = end_alt_code();
+                    const int code = end_alt_code();
                     if( code ) {
                         last_input = input_event( code, input_event_t::keyboard );
                         last_input.text = utf32_to_utf8( code );
@@ -3476,7 +3476,7 @@ static void init_term_size_and_scaling_factor()
 
         int max_width, max_height;
 
-        int const current_display_id = std::stoi( get_option<std::string>( "DISPLAY" ) );
+        const int current_display_id = std::stoi( get_option<std::string>( "DISPLAY" ) );
         SDL_DisplayMode current_display;
 
         if( SDL_GetDesktopDisplayMode( current_display_id, &current_display ) == 0 ) {
@@ -3713,7 +3713,7 @@ input_event input_manager::get_input_event()
             SDL_Delay( 1 );
         } while( last_input.type == input_event_t::error );
     } else if( inputdelay > 0 ) {
-        uint32_t const starttime = SDL_GetTicks();
+        const uint32_t starttime = SDL_GetTicks();
         uint32_t endtime = 0;
         bool timedout = false;
         do {
@@ -3829,8 +3829,8 @@ std::optional<tripoint> input_context::get_coordinates( const catacurses::window
 
     const int &fw = dim.scaled_font_size.x;
     const int &fh = dim.scaled_font_size.y;
-    point const win_min = dim.window_pos_pixel;
-    point const win_size = dim.window_size_pixel;
+    const point win_min = dim.window_pos_pixel;
+    const point win_size = dim.window_size_pixel;
     const point win_max = win_min + win_size;
 
     // Translate mouse coordinates to map coordinates based on tile size

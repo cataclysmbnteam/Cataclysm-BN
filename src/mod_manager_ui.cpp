@@ -94,9 +94,9 @@ std::string mod_ui::get_information( const MOD_INFORMATION *mod )
     }
 
     if( mod->lua_api_version ) {
-        nc_color const col_lua = c_light_blue;
-        int const this_api = cata::get_lua_api_version();
-        nc_color const col_api = this_api == *mod->lua_api_version ? c_white : c_yellow;
+        const nc_color col_lua = c_light_blue;
+        const int this_api = cata::get_lua_api_version();
+        const nc_color col_api = this_api == *mod->lua_api_version ? c_white : c_yellow;
         info += string_format(
                     _( "%s: API version %s\n" ),
                     colorize( _( "Needs Lua" ), col_lua ),
@@ -295,8 +295,8 @@ void mod_ui::try_shift( char direction, size_t &selection, std::vector<mod_id> &
         return;
     }
 
-    mod_id const modstring = active_list[newsel];
-    mod_id const selstring = active_list[oldsel];
+    const mod_id modstring = active_list[newsel];
+    const mod_id selstring = active_list[oldsel];
 
     // we can shift!
     // switch values!
@@ -322,10 +322,10 @@ bool mod_ui::can_shift_up( size_t selection, const std::vector<mod_id> &active_l
         return false;
     }
     // see if the mod at selection-1 is a) a core, or b) is depended on by this mod
-    int const newsel = selection - 1;
+    const int newsel = selection - 1;
 
-    mod_id const newsel_id = active_list[newsel];
-    bool const newsel_is_dependency =
+    const mod_id newsel_id = active_list[newsel];
+    const bool newsel_is_dependency =
         std::ranges::find( dependencies, newsel_id ) != dependencies.end();
 
     return !newsel_id->core && !newsel_is_dependency;
@@ -345,12 +345,12 @@ bool mod_ui::can_shift_down( size_t selection, const std::vector<mod_id> &active
         // can't move down, don't bother trying
         return false;
     }
-    int const newsel = selection;
-    int const oldsel = selection + 1;
+    const int newsel = selection;
+    const int oldsel = selection + 1;
 
-    mod_id const modstring = active_list[newsel];
-    mod_id const selstring = active_list[oldsel];
-    bool const sel_is_dependency =
+    const mod_id modstring = active_list[newsel];
+    const mod_id selstring = active_list[oldsel];
+    const bool sel_is_dependency =
         std::ranges::find( dependents, selstring ) != dependents.end();
 
     return !modstring->core && !sel_is_dependency;

@@ -111,7 +111,7 @@ generic_factory<body_part_type> body_part_factory( "body part" );
 
 bool is_legacy_bodypart_id( const std::string &id )
 {
-    static const std::vector<std::string> legacy_body_parts = {
+    const static std::vector<std::string> legacy_body_parts = {
         "TORSO",
         "HEAD",
         "EYES",
@@ -133,7 +133,7 @@ bool is_legacy_bodypart_id( const std::string &id )
 
 static body_part legacy_id_to_enum( const std::string &legacy_id )
 {
-    static const std::unordered_map<std::string, body_part> body_parts = {
+    const static std::unordered_map<std::string, body_part> body_parts = {
         { "TORSO", bp_torso },
         { "HEAD", bp_head },
         { "EYES", bp_eyes },
@@ -224,7 +224,7 @@ body_part get_body_part_token( const std::string &id )
 
 const bodypart_str_id &convert_bp( body_part bp )
 {
-    static const std::vector<bodypart_str_id> body_parts = {
+    const static std::vector<bodypart_str_id> body_parts = {
         bodypart_str_id( "torso" ),
         bodypart_str_id( "head" ),
         bodypart_str_id( "eyes" ),
@@ -583,7 +583,7 @@ void bodypart::serialize( JsonOut &json ) const
 
 void bodypart::deserialize( JsonIn &jsin )
 {
-    JsonObject const jo = jsin.get_object();
+    const JsonObject jo = jsin.get_object();
     jo.read( "id", id, true );
     jo.read( "hp_cur", hp_cur, true );
     jo.read( "hp_max", hp_max, true );

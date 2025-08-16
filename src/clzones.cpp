@@ -243,7 +243,7 @@ blueprint_options::query_con_result blueprint_options::query_con()
 
 loot_options::query_loot_result loot_options::query_loot()
 {
-    int const w_height = TERMY / 2;
+    const int w_height = TERMY / 2;
 
     const int w_width = TERMX / 2;
     const int w_y0 = ( TERMY > w_height ) ? ( TERMY - w_height ) / 4 : 0;
@@ -262,7 +262,7 @@ loot_options::query_loot_result loot_options::query_loot()
 
 plot_options::query_seed_result plot_options::query_seed()
 {
-    player  const &p = g->u;
+    const player &p = g->u;
     map &here = get_map();
 
     std::vector<item *> seed_inv = p.items_with( []( const item & itm ) {
@@ -272,7 +272,7 @@ plot_options::query_seed_result plot_options::query_seed()
     const std::unordered_set<tripoint> &zone_src_set = mgr.get_near( zone_LOOT_SEEDS,
             here.getabs( p.pos() ), 60 );
     for( const tripoint &elem : zone_src_set ) {
-        tripoint const elem_loc = here.getlocal( elem );
+        const tripoint elem_loc = here.getlocal( elem );
         for( item * const &it : here.i_at( elem_loc ) ) {
             if( it->is_seed() ) {
                 seed_inv.push_back( it );
@@ -282,7 +282,7 @@ plot_options::query_seed_result plot_options::query_seed()
     std::vector<seed_tuple> seed_entries = iexamine::get_seed_entries( seed_inv );
     seed_entries.emplace( seed_entries.begin(), itype_id( "null" ), _( "No seed" ), 0 );
 
-    int const seed_index = iexamine::query_seed( seed_entries );
+    const int seed_index = iexamine::query_seed( seed_entries );
 
     if( seed_index > 0 && seed_index < static_cast<int>( seed_entries.size() ) ) {
         const auto &seed_entry = seed_entries[seed_index];
@@ -488,7 +488,7 @@ std::optional<zone_type_id> zone_manager::query_type() const
     if( as_m.ret < 0 ) {
         return {};
     }
-    size_t const index = as_m.ret;
+    const size_t index = as_m.ret;
 
     auto iter = types_vec.begin();
     std::advance( iter, index );
@@ -642,7 +642,7 @@ std::unordered_set<tripoint> zone_manager::get_point_set_loot( const tripoint &w
         int radius, bool npc_search, const faction_id &/*fac*/ ) const
 {
     std::unordered_set<tripoint> res;
-    map  const &here = get_map();
+    const map &here = get_map();
     for( const tripoint elem : here.points_in_radius( here.getlocal( where ), radius ) ) {
         const zone_data *zone = get_zone_at( here.getabs( elem ) );
         // if not a LOOT zone
@@ -796,7 +796,7 @@ std::optional<tripoint> zone_manager::get_nearest( const zone_type_id &type, con
     int nearest_dist = range + 1;
     const std::unordered_set<tripoint> &point_set = get_point_set( type, fac );
     for( const tripoint &p : point_set ) {
-        int const cur_dist = square_dist( p, where );
+        const int cur_dist = square_dist( p, where );
         if( cur_dist < nearest_dist ) {
             nearest_dist = cur_dist;
             nearest_pos = p;
@@ -808,7 +808,7 @@ std::optional<tripoint> zone_manager::get_nearest( const zone_type_id &type, con
 
     const std::unordered_set<tripoint> &vzone_set = get_vzone_set( type, fac );
     for( const tripoint &p : vzone_set ) {
-        int const cur_dist = square_dist( p, where );
+        const int cur_dist = square_dist( p, where );
         if( cur_dist < nearest_dist ) {
             nearest_dist = cur_dist;
             nearest_pos = p;
@@ -962,7 +962,7 @@ void zone_manager::add( const std::string &name, const zone_type_id &type, const
     zone_data new_zone = zone_data( name, type, fac, invert, enabled, start, end,
                                     std::move( options ) );
     //the start is a vehicle tile with cargo space
-    map  const &here = get_map();
+    const map &here = get_map();
     if( const std::optional<vpart_reference> vp = here.veh_at( here.getlocal(
                 start ) ).part_with_feature( "CARGO", false ) ) {
         // TODO:Allow for loot zones on vehicles to be larger than 1x1
@@ -1051,19 +1051,19 @@ void zone_manager::rotate_zones( map &target_map, const int turns )
             ( a_end.x >= z_end.x && a_end.y >= z_end.y ) &&
             ( a_start.z == z_start.z )
           ) {
-            tripoint const z_l_start3 = target_map.getlocal( z_start );
-            tripoint const z_l_end3 = target_map.getlocal( z_end );
+            const tripoint z_l_start3 = target_map.getlocal( z_start );
+            const tripoint z_l_end3 = target_map.getlocal( z_end );
             // don't rotate centered squares
             if( z_l_start3.x == z_l_start3.y && z_l_end3.x == z_l_end3.y && z_l_start3.x + z_l_end3.x == 23 ) {
                 continue;
             }
-            point const z_l_start = z_l_start3.xy().rotate( turns, dim );
-            point const z_l_end = z_l_end3.xy().rotate( turns, dim );
-            point const new_z_start = target_map.getabs( z_l_start );
-            point const new_z_end = target_map.getabs( z_l_end );
-            tripoint const first = tripoint( std::min( new_z_start.x, new_z_end.x ),
+            const point z_l_start = z_l_start3.xy().rotate( turns, dim );
+            const point z_l_end = z_l_end3.xy().rotate( turns, dim );
+            const point new_z_start = target_map.getabs( z_l_start );
+            const point new_z_end = target_map.getabs( z_l_end );
+            const tripoint first = tripoint( std::min( new_z_start.x, new_z_end.x ),
                                              std::min( new_z_start.y, new_z_end.y ), a_start.z );
-            tripoint const second = tripoint( std::max( new_z_start.x, new_z_end.x ),
+            const tripoint second = tripoint( std::max( new_z_start.x, new_z_end.x ),
                                               std::max( new_z_start.y, new_z_end.y ), a_end.z );
             zone.set_position( std::make_pair( first, second ), false );
         }
@@ -1150,7 +1150,7 @@ void zone_data::serialize( JsonOut &json ) const
 
 void zone_data::deserialize( JsonIn &jsin )
 {
-    JsonObject const data = jsin.get_object();
+    const JsonObject data = jsin.get_object();
     data.allow_omitted_members();
     data.read( "name", name );
     data.read( "type", type );

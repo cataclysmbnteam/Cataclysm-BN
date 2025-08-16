@@ -348,7 +348,7 @@ const recipe *select_crafting_recipe( int &batch_size_out )
             item_info_scroll_popup = 0;
         }
         std::vector<iteminfo> const info = item_info_cache.dummy->info( count );
-        item_info_data const data( item_info_cache.dummy->tname( count ),
+        const item_info_data data( item_info_cache.dummy->tname( count ),
                                    item_info_cache.dummy->type_name( count ),
                                    info, {}, scroll_pos );
         return data;
@@ -405,12 +405,12 @@ const recipe *select_crafting_recipe( int &batch_size_out )
         const int wStart = ( TERMX - width ) / 2;
 
         // Keybinding tips
-        static const translation inline_fmt = to_translation(
+        const static translation inline_fmt = to_translation(
                 //~ %1$s: action description text before key,
                 //~ %2$s: key description,
                 //~ %3$s: action description text after key.
                 "keybinding", "%1$s[<color_yellow>%2$s</color>]%3$s" );
-        static const translation separate_fmt = to_translation(
+        const static translation separate_fmt = to_translation(
                 //~ %1$s: key description,
                 //~ %2$s: action description.
                 "keybinding", "[<color_yellow>%1$s</color>]%2$s" );
@@ -520,12 +520,12 @@ const recipe *select_crafting_recipe( int &batch_size_out )
         mvwputch( w_data, point( width - 1, dataHeight - 1 ), BORDER_COLOR, LINE_XOOX ); // _|
 
         const int max_recipe_name_width = 27;
-        int const recmax = current.size();
+        const int recmax = current.size();
 
         // Draw recipes with scroll list
         // get subset to draw
         calcStartPos( recipe_scroll_window_min, line, dataLines, recmax );
-        int const recipe_scroll_window_max = std::min( recmax, recipe_scroll_window_min + dataLines );
+        const int recipe_scroll_window_max = std::min( recmax, recipe_scroll_window_min + dataLines );
 
         for( int i = recipe_scroll_window_min; i < recipe_scroll_window_max; ++i ) {
             std::string tmp_name = current[i]->result_name();
@@ -1141,7 +1141,7 @@ static void draw_recipe_subtabs( const catacurses::window &w, const std::string 
                                  const recipe_subset &available_recipes, TAB_MODE mode )
 {
     werase( w );
-    int const width = getmaxx( w );
+    const int width = getmaxx( w );
     for( int i = 0; i < width; i++ ) {
         if( i == 0 ) {
             mvwputch( w, point( i, 2 ), BORDER_COLOR, LINE_XXXO ); // |-
@@ -1162,9 +1162,9 @@ static void draw_recipe_subtabs( const catacurses::window &w, const std::string 
             // Draw the tabs on each other
             int pos_x = 2;
             // Step between tabs, two for tabs border
-            int const tab_step = 3;
+            const int tab_step = 3;
             for( const auto &stt : craft_subcat_list[tab] ) {
-                bool const empty = available_recipes.empty_category( tab, stt != "CSC_ALL" ? stt : "" );
+                const bool empty = available_recipes.empty_category( tab, stt != "CSC_ALL" ? stt : "" );
                 draw_subtab( w, pos_x, normalized_names[stt], subtab == stt, true, empty );
                 pos_x += utf8_width( normalized_names[stt] ) + tab_step;
             }

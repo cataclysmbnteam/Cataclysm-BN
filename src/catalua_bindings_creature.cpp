@@ -146,7 +146,7 @@ void cata::detail::reg_creature( sol::state &lua )
                                             sol::optional<int> intensity
                                           )
         {
-            int const eint = intensity ? *intensity : 0;
+            const int eint = intensity ? *intensity : 0;
             const bodypart_str_id &bp = bpid ? *bpid : bodypart_str_id::NULL_ID();
             cr.add_effect( eff, dur, bp, eint );
         } );

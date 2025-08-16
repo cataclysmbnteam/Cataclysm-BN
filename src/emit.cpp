@@ -28,7 +28,7 @@ const emit &string_id<emit>::obj() const
     const auto found = emits_all.find( *this );
     if( found == emits_all.end() ) {
         debugmsg( "Tried to get invalid emission data: %s", c_str() );
-        static const emit null_emit{};
+        const static emit null_emit{};
         return null_emit;
     }
     return found->second;

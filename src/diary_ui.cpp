@@ -82,7 +82,7 @@ void print_list_scrollable( catacurses::window *win, const std::string &text, in
                             int entries_per_page, int xoffset, int width, bool active, bool border,
                             const report_color_error color_error )
 {
-    int const border_space = border ? 1 : 0;
+    const int border_space = border ? 1 : 0;
     // -1 on the left for scroll bar and another -1 on the right reserved for cursor
     std::vector<std::string> const list = foldstring( text, width - 2 - ( border_space * 2 ) );
     print_list_scrollable( win, list, selection, entries_per_page, xoffset, width, active, border,
@@ -193,9 +193,9 @@ void diary::show_diary_ui( diary *c_diary )
     ui_adaptor ui_diary;
     ui_diary.on_screen_resize( [&]( ui_adaptor & ui ) {
         const std::pair<point, point> beg_and_max = diary_window_position();
-        point const beg = ( uis_padding() != 0 ) ? point( uis_padding() + ( MAX_DAIRY_UI_WIDTH / 4 ) - 3,
+        const point beg = ( uis_padding() != 0 ) ? point( uis_padding() + ( MAX_DAIRY_UI_WIDTH / 4 ) - 3,
                           beg_and_max.first.y - 1 ) : beg_and_max.first + point( uis_padding() - 3, -1 );
-        point const max = point( TERMX - beg.x - 5,
+        const point max = point( TERMX - beg.x - 5,
                                  beg_and_max.second.y ) - point( uis_padding(), 0 );
         const int midx = max.x / 2;
 
@@ -231,8 +231,8 @@ void diary::show_diary_ui( diary *c_diary )
     ui_adaptor ui_pages;
     ui_pages.on_screen_resize( [&]( ui_adaptor & ui ) {
         const std::pair<point, point> beg_and_max = diary_window_position();
-        point const beg = beg_and_max.first;
-        point const max = beg_and_max.second;
+        const point beg = beg_and_max.first;
+        const point max = beg_and_max.second;
 
         w_pages = catacurses::newwin( max.y + 5,
                                       ( uis_padding() != 0 ) ? ( MAX_DAIRY_UI_WIDTH / 4 ) - 7 : beg.x - 7, point( uis_padding(),
@@ -255,7 +255,7 @@ void diary::show_diary_ui( diary *c_diary )
     ui_adaptor ui_desc;
     ui_desc.on_screen_resize( [&]( ui_adaptor & ui ) {
         const std::pair<point, point> beg_and_max = diary_window_position();
-        point const beg = beg_and_max.first;
+        const point beg = beg_and_max.first;
 
         w_desc = catacurses::newwin( 3, TERMX - ( uis_padding() * 2 ), point( uis_padding(), beg.y - 6 ) );
 
@@ -281,8 +281,8 @@ void diary::show_diary_ui( diary *c_diary )
     ui_adaptor ui_info;
     ui_info.on_screen_resize( [&]( ui_adaptor & ui ) {
         const std::pair<point, point> beg_and_max = diary_window_position();
-        point const beg = beg_and_max.first;
-        point const max = beg_and_max.second;
+        const point beg = beg_and_max.first;
+        const point max = beg_and_max.second;
 
         w_info = catacurses::newwin( ( TERMY - beg.y - max.y - 2 ) > 7 ? 7 : TERMY - beg.y - max.y - 2,
                                      TERMX - ( uis_padding() * 2 ), point( uis_padding(), beg.y + max.y + 2 ) );

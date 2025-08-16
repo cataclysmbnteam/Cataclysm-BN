@@ -267,7 +267,7 @@ class wish_mutate_callback: public uilist_callback
 
             mvwprintz( menu->window, point( startx, menu->w_height - 3 ), c_green, msg );
             msg.clear();
-            input_context const ctxt( menu->input_category );
+            const input_context ctxt( menu->input_category );
             mvwprintw( menu->window, point( startx, menu->w_height - 2 ),
                        _( "[%s] find, [%s] quit, [t] toggle base trait, [c] mutation categories menu" ),
                        ctxt.get_desc( "FILTER" ), ctxt.get_desc( "QUIT" ) );
@@ -377,10 +377,10 @@ void debug_menu::wishbionics( Character &c )
     while( true ) {
         units::energy const power_level = c.get_power_level();
         units::energy const power_max = c.get_max_power_level();
-        size_t const num_installed = c.get_bionic_collection().size();
+        const size_t num_installed = c.get_bionic_collection().size();
 
-        bool const can_uninstall = num_installed > 0;
-        bool const can_uninstall_all = can_uninstall || power_max > 0_J;
+        const bool can_uninstall = num_installed > 0;
+        const bool can_uninstall_all = can_uninstall || power_max > 0_J;
 
         uilist smenu;
         smenu.text += string_format(
@@ -401,7 +401,7 @@ void debug_menu::wishbionics( Character &c )
             case 0: {
                 uilist scbms;
                 for( size_t i = 0; i < cbm_items.size(); i++ ) {
-                    bool const enabled = !c.has_bionic( cbm_items[i]->bionic->id );
+                    const bool enabled = !c.has_bionic( cbm_items[i]->bionic->id );
                     scbms.addentry( i, enabled, MENU_AUTOASSIGN, "%s", cbm_items[i]->nname( 1 ) );
                 }
                 scbms.query();
@@ -549,7 +549,7 @@ class wish_monster_callback: public uilist_callback
 
             mvwprintz( w_info, point( 0, getmaxy( w_info ) - 3 ), c_green, msg );
             msg.clear();
-            input_context const ctxt( menu->input_category );
+            const input_context ctxt( menu->input_category );
             mvwprintw( w_info, point( 0, getmaxy( w_info ) - 2 ),
                        _( "[%s] find, [f]riendly, [h]allucination, [i]ncrease group, [d]ecrease group, [%s] quit" ),
                        ctxt.get_desc( "FILTER" ), ctxt.get_desc( "QUIT" ) );
@@ -605,7 +605,7 @@ void debug_menu::wishmonster( const std::optional<tripoint> &p )
                     }
                     ++num_spawned;
                 }
-                input_context const ctxt( wmenu.input_category );
+                const input_context ctxt( wmenu.input_category );
                 cb.msg = string_format( _( "Spawned %d monsters, choose another or [%s] to quit." ),
                                         num_spawned, ctxt.get_desc( "QUIT" ) );
                 if( num_spawned == 0 ) {
@@ -669,7 +669,7 @@ class wish_item_callback: public uilist_callback
             mvwhline( menu->window, point( startx, 1 ), ' ', menu->pad_right - 1 );
             const int entnum = menu->selected;
             if( entnum >= 0 && static_cast<size_t>( entnum ) < standard_itype_ids.size() ) {
-                item  const &tmp = *item::spawn_temporary( standard_itype_ids[entnum], calendar::turn );
+                const item &tmp = *item::spawn_temporary( standard_itype_ids[entnum], calendar::turn );
                 const std::string header = string_format( "#%d: %s%s%s", entnum,
                                            standard_itype_ids[entnum]->get_id().c_str(),
                                            incontainer ? _( " (contained)" ) : "",
@@ -690,7 +690,7 @@ class wish_item_callback: public uilist_callback
             }
             mvwprintz( menu->window, point( startx, menu->w_height - 3 ), c_green, msg );
             msg.erase();
-            input_context const ctxt( menu->input_category );
+            const input_context ctxt( menu->input_category );
             mvwprintw( menu->window, point( startx, menu->w_height - 2 ),
                        _( "[%s] find, [f] container, [F] flag, [E] everything, [%s] quit" ),
                        ctxt.get_desc( "FILTER" ), ctxt.get_desc( "QUIT" ) );
@@ -741,7 +741,7 @@ void debug_menu::wishitem( Character *who, const tripoint &pos )
 
     for( size_t i = 0; i < opts.size(); i++ ) {
         //TODO!: push up
-        item  const &ity = *item::spawn_temporary( opts[i].second, calendar::start_of_cataclysm );
+        const item &ity = *item::spawn_temporary( opts[i].second, calendar::start_of_cataclysm );
         wmenu.addentry( i, true, 0, opts[i].first );
         mvwzstr &entry_extra_text = wmenu.entries[i].extratxt;
         entry_extra_text.txt = ity.symbol();
@@ -810,7 +810,7 @@ void debug_menu::wishitem( Character *who, const tripoint &pos )
                     wmenu.ret = -1;
                 }
                 if( amount > 0 ) {
-                    input_context const ctxt( wmenu.input_category );
+                    const input_context ctxt( wmenu.input_category );
                     cb.msg = string_format( _( "Wish granted.  Wish for more or hit [%s] to quit." ),
                                             ctxt.get_desc( "QUIT" ) );
                 }
@@ -918,7 +918,7 @@ void debug_menu::wishskill( Character *who )
                 }
                 for( size_t skill_id = 0; skill_id < sorted_skills.size(); skill_id++ ) {
                     const Skill &skill = *sorted_skills[skill_id];
-                    int const changeto = skmod != 0 ? who->get_skill_level( skill.ident() ) + skmod :
+                    const int changeto = skmod != 0 ? who->get_skill_level( skill.ident() ) + skmod :
                                          skset != -1 ? skset : origskills[skill_id];
                     who->set_skill_level( skill.ident(), std::max( 0, changeto ) );
                     skmenu.entries[skill_id + skoffset].txt = string_format( _( "@ %d: %s  " ),

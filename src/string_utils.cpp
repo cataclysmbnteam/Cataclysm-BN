@@ -159,7 +159,7 @@ bool wildcard_match( const std::string &text_in, const std::string &pattern_in )
             }
         } else {
             if( !( *it ).empty() ) {
-                int const pos = ci_find_substr( text, *it );
+                const int pos = ci_find_substr( text, *it );
                 if( pos == -1 ) {
                     return false;
                 }
@@ -273,8 +273,8 @@ void replace_first( std::string &input, const std::string &what, const std::stri
     if( what.empty() || what == with ) {
         return;
     }
-    size_t const len = what.length();
-    size_t const offset = input.find( what );
+    const size_t len = what.length();
+    const size_t offset = input.find( what );
     if( offset != std::string::npos ) {
         input.replace( offset, len, with );
     }
@@ -304,7 +304,7 @@ std::string replace_all( std::string input, const std::string &what, const std::
 
 std::string replace_colors( std::string text )
 {
-    static const std::vector<std::pair<std::string, std::string>> info_colors = {
+    const static std::vector<std::pair<std::string, std::string>> info_colors = {
         {"info", get_all_colors().get_name( c_cyan )},
         {"stat", get_all_colors().get_name( c_light_blue )},
         {"header", get_all_colors().get_name( c_magenta )},

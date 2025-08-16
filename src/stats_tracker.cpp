@@ -252,7 +252,7 @@ void stats_tracker::clear()
 void stats_tracker::unwatch_all()
 {
     auto unsub_all = [&]( auto & map_of_watcher_sets ) {
-        for( auto const &p : map_of_watcher_sets ) {
+        for( const auto &p : map_of_watcher_sets ) {
             const auto &set = p.second;
             set.send_to_all( &base_watcher::on_unsubscribe, this );
         }

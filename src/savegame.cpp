@@ -182,7 +182,7 @@ void game::unserialize( std::istream &fin )
     point com;
     JsonIn jsin( fin );
     try {
-        JsonObject const data = jsin.get_object();
+        const JsonObject data = jsin.get_object();
 
         data.read( "turn", tmpturn );
         data.read( "calendar_start", tmpcalstart );
@@ -423,7 +423,7 @@ void overmap::unserialize( std::istream &fin, const std::string &file_path )
             std::string new_region_id;
             jsin.read( new_region_id );
             if( settings->id != new_region_id ) {
-                t_regional_settings_map_citr const rit = region_settings_map.find( new_region_id );
+                const t_regional_settings_map_citr rit = region_settings_map.find( new_region_id );
                 if( rit != region_settings_map.end() ) {
                     // TODO: optimize
                     settings = &rit->second;
@@ -883,7 +883,7 @@ void overmap::serialize( std::ostream &fout ) const
         for( int j = 0; j < OMAPY; j++ ) {
             // NOLINTNEXTLINE(modernize-loop-convert)
             for( int i = 0; i < OMAPX; i++ ) {
-                oter_id const t = layer_terrain[i][j];
+                const oter_id t = layer_terrain[i][j];
                 if( t != last_tertype ) {
                     if( count ) {
                         json.write( count );
@@ -1076,7 +1076,7 @@ void mongroup::io( Archive &archive )
 
 void mongroup::deserialize( JsonIn &data )
 {
-    JsonObject const jo = data.get_object();
+    const JsonObject jo = data.get_object();
     jo.allow_omitted_members();
     io::JsonObjectInputArchive archive( jo );
     io( archive );
@@ -1171,7 +1171,7 @@ void game::unserialize_master( std::istream &fin )
             } else if( name == "placed_unique_specials" ) {
                 overmap_buffer.deserialize_placed_unique_specials( jsin );
             } else if( name == "weather" ) {
-                JsonObject const w = jsin.get_object();
+                const JsonObject w = jsin.get_object();
                 w.read( "lightning", get_weather().lightning_active );
             } else {
                 // silently ignore anything else

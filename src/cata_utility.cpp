@@ -91,14 +91,14 @@ double logarithmic_range( int min, int max, int pos )
     }
 
     // Normalize the pos to [0,1]
-    double const range = max - min;
-    double const unit_pos = ( pos - min ) / range;
+    const double range = max - min;
+    const double unit_pos = ( pos - min ) / range;
 
     // Scale and flip it to [+LOGI_CUTOFF,-LOGI_CUTOFF]
-    double const scaled_pos = LOGI_CUTOFF - ( 2 * LOGI_CUTOFF * unit_pos );
+    const double scaled_pos = LOGI_CUTOFF - ( 2 * LOGI_CUTOFF * unit_pos );
 
     // Get the raw logistic value.
-    double const raw_logistic = logarithmic( scaled_pos );
+    const double raw_logistic = logarithmic( scaled_pos );
 
     // Scale the output to [0,1]
     return ( raw_logistic - LOGI_MIN ) / LOGI_RANGE;
@@ -142,7 +142,7 @@ double clamp_to_width( double value, int width, int &scale, bool *out_truncated 
     } else if( scale > 0 ) {
         for( int s = 1; s <= scale; s++ ) {
             // 1 decimal separator + "s"
-            int const scale_width = 1 + s;
+            const int scale_width = 1 + s;
             if( width > scale_width && value >= std::pow( 10.0, width - scale_width ) ) {
                 // above the maximum number we can fit in the width with "s" decimals
                 // show this number with one less decimal than "s"
@@ -510,7 +510,7 @@ std::istream &safe_getline( std::istream &ins, std::string &str )
     std::streambuf *sb = ins.rdbuf();
 
     while( true ) {
-        int const c = sb->sbumpc();
+        const int c = sb->sbumpc();
         switch( c ) {
             case '\n':
                 return ins;
@@ -589,7 +589,7 @@ void ofstream_wrapper::close()
     }
 
     file_stream.flush();
-    bool const failed = file_stream.fail();
+    const bool failed = file_stream.fail();
     file_stream.close();
     if( failed ) {
         // Remove the incomplete or otherwise faulty file (if possible).

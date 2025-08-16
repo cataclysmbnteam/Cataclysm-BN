@@ -20,9 +20,9 @@ struct hash<talk_topic_enum> {
 };
 } // namespace std
 
-std::string convert_talk_topic( talk_topic_enum const old_value )
+std::string convert_talk_topic( const talk_topic_enum old_value )
 {
-    static const std::unordered_map<talk_topic_enum, std::string> talk_topic_enum_mapping = { {
+    const static std::unordered_map<talk_topic_enum, std::string> talk_topic_enum_mapping = { {
             // This macro creates the appropriate new names (as string) for each enum value, so one does not
             // have to repeat so much (e.g. 'WRAP(TALK_ARSONIST)' instead of '{ TALK_ARSONIST, "TALK_ARSONIST" }')
             // It also ensures that each name is exactly as the name of the enum value.

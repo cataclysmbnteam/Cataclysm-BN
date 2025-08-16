@@ -101,7 +101,7 @@ std::string utf32_to_utf8( uint32_t ch )
 {
     char out[5];
     char *buf = out;
-    static const unsigned char utf8FirstByte[7] = { 0x00, 0x00, 0xC0, 0xE0, 0xF0, 0xF8, 0xFC };
+    const static unsigned char utf8FirstByte[7] = { 0x00, 0x00, 0xC0, 0xE0, 0xF0, 0xF8, 0xFC };
     int utf8Bytes;
     if( ch < 0x80 ) {
         utf8Bytes = 1;
@@ -149,7 +149,7 @@ int utf8_width( const char *s, const bool ignore_tags )
     const char *ptr = s;
     int w = 0;
     while( len > 0 ) {
-        uint32_t const ch = UTF8_getch( &ptr, &len );
+        const uint32_t ch = UTF8_getch( &ptr, &len );
         if( ch == UNKNOWN_UNICODE ) {
             continue;
         }
@@ -170,7 +170,7 @@ int utf8_width( const utf8_wrapper &str, const bool ignore_tags )
 
 std::string left_justify( const std::string &str, const int width, const bool ignore_tags )
 {
-    int const str_width = utf8_width( str, ignore_tags );
+    const int str_width = utf8_width( str, ignore_tags );
     if( str_width >= width ) {
         return str;
     } else {
@@ -180,7 +180,7 @@ std::string left_justify( const std::string &str, const int width, const bool ig
 
 std::string right_justify( const std::string &str, const int width, const bool ignore_tags )
 {
-    int const str_width = utf8_width( str, ignore_tags );
+    const int str_width = utf8_width( str, ignore_tags );
     if( str_width >= width ) {
         return str;
     } else {
@@ -215,7 +215,7 @@ int cursorx_to_position( const char *line, int cursorx, int *prevpos, int maxlen
         if( utf8str[0] == 0 ) {
             break;
         }
-        uint32_t const ch = UTF8_getch( &utf8str, &len );
+        const uint32_t ch = UTF8_getch( &utf8str, &len );
         int cw = mk_wcwidth( ch );
         len = ANY_LENGTH - len;
         if( len <= 0 ) {
@@ -241,7 +241,7 @@ std::string utf8_truncate( const std::string &s, size_t length )
         return s;
     }
 
-    int const last_pos = cursorx_to_position( s.c_str(), length, nullptr, -1 );
+    const int last_pos = cursorx_to_position( s.c_str(), length, nullptr, -1 );
 
     return s.substr( 0, last_pos );
 }
@@ -279,19 +279,19 @@ std::string base64_encode( const std::string &str )
         return str;
     }
 
-    int const input_length = str.length();
-    int const output_length = 4 * ( ( input_length + 2 ) / 3 );
+    const int input_length = str.length();
+    const int output_length = 4 * ( ( input_length + 2 ) / 3 );
 
     std::string encoded_data( output_length, '\0' );
     const unsigned char *data = reinterpret_cast<const unsigned char *>( str.c_str() );
 
     for( int i = 0, j = 0; i < input_length; ) {
 
-        unsigned const octet_a = i < input_length ? data[i++] : 0;
-        unsigned const octet_b = i < input_length ? data[i++] : 0;
-        unsigned const octet_c = i < input_length ? data[i++] : 0;
+        const unsigned octet_a = i < input_length ? data[i++] : 0;
+        const unsigned octet_b = i < input_length ? data[i++] : 0;
+        const unsigned octet_c = i < input_length ? data[i++] : 0;
 
-        unsigned const triple = ( octet_a << 0x10 ) + ( octet_b << 0x08 ) + octet_c;
+        const unsigned triple = ( octet_a << 0x10 ) + ( octet_b << 0x08 ) + octet_c;
 
         encoded_data[j++] = base64_encoding_table[( triple >> 3 * 6 ) & 0x3F];
         encoded_data[j++] = base64_encoding_table[( triple >> 2 * 6 ) & 0x3F];
@@ -317,7 +317,7 @@ std::string base64_decode( const std::string &str )
 
     std::string const instr = str.substr( 1 );
 
-    int const input_length = instr.length();
+    const int input_length = instr.length();
 
     if( input_length % 4 != 0 ) {
         return str;
@@ -337,20 +337,20 @@ std::string base64_decode( const std::string &str )
 
     for( int i = 0, j = 0; i < input_length; ) {
 
-        unsigned const sextet_a = data[i] == '=' ? 0 & i++ :
+        const unsigned sextet_a = data[i] == '=' ? 0 & i++ :
                                   base64_decoding_table[static_cast<unsigned char>
                                                                ( data[i++] )];
-        unsigned const sextet_b = data[i] == '=' ? 0 & i++ :
+        const unsigned sextet_b = data[i] == '=' ? 0 & i++ :
                                   base64_decoding_table[static_cast<unsigned char>
                                                                ( data[i++] )];
-        unsigned const sextet_c = data[i] == '=' ? 0 & i++ :
+        const unsigned sextet_c = data[i] == '=' ? 0 & i++ :
                                   base64_decoding_table[static_cast<unsigned char>
                                                                ( data[i++] )];
-        unsigned const sextet_d = data[i] == '=' ? 0 & i++ :
+        const unsigned sextet_d = data[i] == '=' ? 0 & i++ :
                                   base64_decoding_table[static_cast<unsigned char>
                                                                ( data[i++] )];
 
-        unsigned const triple = ( sextet_a << 3 * 6 )
+        const unsigned triple = ( sextet_a << 3 * 6 )
                                 + ( sextet_b << 2 * 6 )
                                 + ( sextet_c << 1 * 6 )
                                 + ( sextet_d << 0 * 6 );
@@ -462,9 +462,9 @@ std::vector<std::string> utf8_display_split( const std::string &s )
 
 int center_text_pos( const char *text, int start_pos, int end_pos )
 {
-    int const full_screen = end_pos - start_pos + 1;
-    int const str_len = utf8_width( text );
-    int const position = ( full_screen - str_len ) / 2;
+    const int full_screen = end_pos - start_pos + 1;
+    const int str_len = utf8_width( text );
+    const int position = ( full_screen - str_len ) / 2;
 
     if( position <= 0 ) {
         return start_pos;
@@ -480,9 +480,9 @@ int center_text_pos( const std::string &text, int start_pos, int end_pos )
 
 int center_text_pos( const utf8_wrapper &text, int start_pos, int end_pos )
 {
-    int const full_screen = end_pos - start_pos + 1;
-    int const str_len = text.display_width();
-    int const position = ( full_screen - str_len ) / 2;
+    const int full_screen = end_pos - start_pos + 1;
+    const int str_len = text.display_width();
+    const int position = ( full_screen - str_len ) / 2;
 
     if( position <= 0 ) {
         return start_pos;

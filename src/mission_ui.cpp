@@ -146,7 +146,7 @@ void game::list_missions()
                            miss->get_target().to_string(), pos.to_string() );
             }
         } else {
-            static const std::map< tab_mode, std::string > nope = {
+            const static std::map< tab_mode, std::string > nope = {
                 { tab_mode::TAB_ACTIVE, translate_marker( "You have no active missions!" ) },
                 { tab_mode::TAB_COMPLETED, translate_marker( "You haven't completed any missions!" ) },
                 { tab_mode::TAB_FAILED, translate_marker( "You haven't failed any missions!" ) }

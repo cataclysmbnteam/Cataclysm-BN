@@ -136,7 +136,7 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
 
         wnoutrefresh( w_border );
 
-        static const std::vector<std::string> hotkeys = {{
+        const static std::vector<std::string> hotkeys = {{
                 translate_marker( "<A>dd" ), translate_marker( "<R>emove" ),
                 translate_marker( "<C>opy" ), translate_marker( "<M>ove" ),
                 translate_marker( "<E>nable" ), translate_marker( "<D>isable" ),
@@ -530,7 +530,7 @@ void safemode::test_pattern( const int tab_in, const int row_in )
     init_windows( ui );
     ui.on_screen_resize( init_windows );
 
-    int const nmatch = creature_list.size();
+    const int nmatch = creature_list.size();
     const std::string buf = string_format( vgettext( "%1$d monster matches: %2$s",
                                            "%1$d monsters match: %2$s",
                                            nmatch ), nmatch, temp_rules[row_in].rule.c_str() );
@@ -562,7 +562,7 @@ void safemode::test_pattern( const int tab_in, const int row_in )
         for( int i = start_pos; i < static_cast<int>( creature_list.size() ); i++ ) {
             if( i >= start_pos &&
                 i < start_pos + std::min( content_height, static_cast<int>( creature_list.size() ) ) ) {
-                nc_color const line_color = c_white;
+                const nc_color line_color = c_white;
 
                 mvwprintz( w_test_rule_content, point( 0, i - start_pos ), line_color, "%d", i + 1 );
                 mvwprintz( w_test_rule_content, point( 4, i - start_pos ), line_color, "" );
@@ -840,7 +840,7 @@ void safemode::deserialize( JsonIn &jsin )
 
     jsin.start_array();
     while( !jsin.end_array() ) {
-        JsonObject const jo = jsin.get_object();
+        const JsonObject jo = jsin.get_object();
 
         const std::string rule = jo.get_string( "rule" );
         const bool active = jo.get_bool( "active" );

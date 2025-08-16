@@ -183,13 +183,13 @@ void worldfactory::init()
         auto world_sav_files = get_files_from_path( SAVE_EXTENSION, world_dir, false );
         // split the save file names between the directory and the extension
         for( auto &world_sav_file : world_sav_files ) {
-            size_t const save_index = world_sav_file.find( SAVE_EXTENSION );
+            const size_t save_index = world_sav_file.find( SAVE_EXTENSION );
             world_sav_file = world_sav_file.substr( world_dir.size() + 1,
                                                     save_index - ( world_dir.size() + 1 ) );
         }
         // the directory name is the name of the world
         std::string worldname;
-        size_t const name_index = world_dir.find_last_of( "/\\" );
+        const size_t name_index = world_dir.find_last_of( "/\\" );
         worldname = world_dir.substr( name_index + 1 );
 
         // create and store the world
@@ -384,10 +384,10 @@ WORLDINFO *worldfactory::pick_world( bool show_prompt, bool empty_only )
 
             std::string const world_name = ( world_pages[selpage] )[i];
             WORLDINFO *world = get_world( world_name );
-            size_t const saves_num = world->world_saves.size();
+            const size_t saves_num = world->world_saves.size();
 
             std::string const text = string_format( "%s (%d)", world_name, saves_num );
-            nc_color const col = c_white;
+            const nc_color col = c_white;
 
             if( i == sel ) {
                 wprintz( w_worlds, c_yellow, ">> " );
@@ -404,7 +404,7 @@ WORLDINFO *worldfactory::pick_world( bool show_prompt, bool empty_only )
         for( size_t i = 0; i < num_pages; ++i ) {
             //skip empty pages
             if( !world_pages[i].empty() ) {
-                nc_color const tabcolor = ( selpage == i ) ? hilite( c_white ) : c_white;
+                const nc_color tabcolor = ( selpage == i ) ? hilite( c_white ) : c_white;
                 wprintz( w_worlds_header, c_white, "[" );
                 wprintz( w_worlds_header, tabcolor, _( "Page %lu" ), i + 1 );
                 wprintz( w_worlds_header, c_white, "]" );
@@ -497,7 +497,7 @@ void worldfactory::load_last_world_info()
 
     JsonIn jsin( *file, PATH_INFO::lastworld() );
     try {
-        JsonObject const data = jsin.get_object();
+        const JsonObject data = jsin.get_object();
         last_world_name = data.get_string( "world_name" );
         last_character_name = data.get_string( "character_name" );
     } catch( const std::exception &e ) {
@@ -602,7 +602,7 @@ void worldfactory::draw_mod_list( const catacurses::window &w, int &start, size_
             }
         }
 
-        int const larger = ( iMaxRows > static_cast<int>( iModNum ) ) ? static_cast<int>
+        const int larger = ( iMaxRows > static_cast<int>( iModNum ) ) ? static_cast<int>
                            ( iModNum ) : iMaxRows;
         for( auto iter = mods.begin(); iter != mods.end(); ) {
             if( iNum >= static_cast<size_t>( start ) && iNum < static_cast<size_t>( start + larger ) ) {
@@ -859,7 +859,7 @@ int worldfactory::show_modselection_window( const catacurses::window &win,
         filter_pos = point( 2, TERMY - 8 );
         filter_view_len = iMinScreenWidth / 2 - 11;
         if( fpopup ) {
-            point const inner_pos = filter_pos + point( 2, 0 );
+            const point inner_pos = filter_pos + point( 2, 0 );
             fpopup->window( win, inner_pos, inner_pos.x + filter_view_len );
         }
 
@@ -894,7 +894,7 @@ int worldfactory::show_modselection_window( const catacurses::window &win,
 
     const std::map<std::string, std::string> &cat_tab_map = get_mod_list_cat_tab();
     for( const mod_id &mod : mman->get_all_sorted() ) {
-        int const cat_idx = mod->category.first;
+        const int cat_idx = mod->category.first;
         const std::string &cat_id = get_mod_list_categories()[cat_idx].first;
 
         std::string dest_tab = "tab_default";
@@ -992,7 +992,7 @@ int worldfactory::show_modselection_window( const catacurses::window &win,
     // Also tries to keep cursor position, though it's rather imprecise
     // when multiple mods are added simultaneously.
     const auto recalc_after_add_remove = [&]() {
-        size_t const sel = cursel[0];
+        const size_t sel = cursel[0];
         recalc_visible( current_filter, show_obsolete );
         if( active_header == 0 ) {
             const std::vector<mod_id> &current_tab_mods = all_tabs[iCurrentTab].mods;
@@ -1031,7 +1031,7 @@ int worldfactory::show_modselection_window( const catacurses::window &win,
 
         if( const MOD_INFORMATION *selmod = get_selected_mod() ) {
             // NOLINTNEXTLINE(cata-use-named-point-constants)
-            int const num_lines = fold_and_print( w_description, point( 1, 0 ),
+            const int num_lines = fold_and_print( w_description, point( 1, 0 ),
                                                   getmaxx( w_description ) - 1,
                                                   c_white, mman_ui->get_information( selmod ) );
             auto window_height = catacurses::getmaxy( w_description );
@@ -1094,7 +1094,7 @@ int worldfactory::show_modselection_window( const catacurses::window &win,
         const std::string old_filter = current_filter;
         fpopup->text( current_filter );
 
-        ime_sentry const sentry;
+        const ime_sentry sentry;
 
         // On next redraw, call resize callback which will configure how popup is rendered
         ui.mark_resize();
@@ -1124,11 +1124,11 @@ int worldfactory::show_modselection_window( const catacurses::window &win,
         const int prev_header = ( active_header == 0 ) ? 1 : 0;
 
         size_t selection = ( active_header == 0 ) ? cursel[0] : cursel[1];
-        size_t const last_selection = selection;
+        const size_t last_selection = selection;
         size_t next_selection = selection + 1;
         size_t prev_selection = selection - 1;
         if( active_header == 0 ) {
-            size_t const num_mods = all_tabs[iCurrentTab].mods.size();
+            const size_t num_mods = all_tabs[iCurrentTab].mods.size();
             next_selection = ( next_selection >= num_mods ) ? 0 : next_selection;
             prev_selection = ( prev_selection > num_mods ) ? num_mods - 1 : prev_selection;
         } else {
@@ -1306,7 +1306,7 @@ int worldfactory::show_worldgen_tab_confirm( const catacurses::window &win, WORL
     std::string worldname = world->world_name;
 
     // do not switch IME mode now, but restore previous mode on return
-    ime_sentry const sentry( ime_sentry::keep );
+    const ime_sentry sentry( ime_sentry::keep );
 
     ui.on_redraw( [&]( const ui_adaptor & ) {
         draw_worldgen_tabs( win, 2 );
@@ -1409,8 +1409,8 @@ void worldfactory::draw_modselection_borders( const catacurses::window &win,
     std::array<bool, 5> hv = {{true, true, true, false, false}}; // horizontal line = true, vertical line = false
 
     for( int i = 0; i < 5; ++i ) {
-        point const p( xs[i], ys[i] );
-        int const l = ls[i];
+        const point p( xs[i], ys[i] );
+        const int l = ls[i];
         if( hv[i] ) {
             for( int j = 0; j < l; ++j ) {
                 mvwputch( win, p + point( j, 0 ), BORDER_COLOR, LINE_OXOX ); // -
@@ -1472,7 +1472,7 @@ void worldfactory::draw_worldgen_tabs( const catacurses::window &w, size_t curre
 {
     werase( w );
 
-    static const std::vector<std::string> tab_strings = { {
+    const static std::vector<std::string> tab_strings = { {
             translate_marker( "World Mods" ),
             translate_marker( "World Options" ),
             translate_marker( "Finalize World" )

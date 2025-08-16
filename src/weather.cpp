@@ -86,7 +86,7 @@ void glare( const weather_type_id &w )
 
     time_duration dur = 0_turns;
     const efftype_id *effect = nullptr;
-    season_type const season = season_of_year( calendar::turn );
+    const season_type season = season_of_year( calendar::turn );
     if( season == WINTER ) {
         //Winter snow glare: for both clear & sunny weather
         effect = &effect_snow_glare;
@@ -171,7 +171,7 @@ weather_sum sum_conditions( const time_point &start, const time_point &end,
             tick_size = 1_minutes;
         }
 
-        weather_type_id const wtype = current_weather( location, t );
+        const weather_type_id wtype = current_weather( location, t );
         proc_weather_sum( wtype, data, t, tick_size );
         const weather_manager &weather = get_weather();
         data.wind_amount += get_local_windpower( weather.windspeed,
@@ -195,7 +195,7 @@ void retroactively_fill_from_funnel( item &it, const trap &tr, const time_point 
 
     // bday == last fill check
     it.set_birthday( end );
-    weather_sum const data = sum_conditions( start, end, pos );
+    const weather_sum data = sum_conditions( start, end, pos );
 
     // Technically 0.0 division is OK, but it will be cleaner without it
     if( data.rain_amount > 0 ) {
@@ -231,8 +231,8 @@ void item::add_rain_to_container( bool acid, int charges )
     } else {
         // The container already has a liquid.
         item &liq = contents.front();
-        int const orig = liq.charges;
-        int const added = std::min( charges, capa );
+        const int orig = liq.charges;
+        const int added = std::min( charges, capa );
         if( capa > 0 ) {
             liq.charges += added;
         }
@@ -258,9 +258,9 @@ void item::add_rain_to_container( bool acid, int charges )
                 // The container has water, and the acid rain didn't turn it
                 // into weak acid. Poison the water instead, assuming 1
                 // charge of acid would act like a charge of water with poison 5.
-                int const total_poison = ( liq.poison * orig ) + ( 5 * added );
+                const int total_poison = ( liq.poison * orig ) + ( 5 * added );
                 liq.poison = total_poison / liq.charges;
-                int const leftover_poison = total_poison - ( liq.poison * liq.charges );
+                const int leftover_poison = total_poison - ( liq.poison * liq.charges );
                 if( leftover_poison > rng( 0, liq.charges ) ) {
                     liq.poison++;
                 }
@@ -283,9 +283,9 @@ double funnel_charges_per_turn( const double surface_area_mm2, const double rain
     // Calculate once, because that part is expensive
     // FIXME: make non-static
     //TODO!: yeah... push up
-    item  const &water = *item::spawn_temporary( itype_water, calendar::start_of_cataclysm );
+    const item &water = *item::spawn_temporary( itype_water, calendar::start_of_cataclysm );
     // 250ml
-    static const double charge_ml = static_cast<double>( to_gram( water.weight() ) ) /
+    const static double charge_ml = static_cast<double>( to_gram( water.weight() ) ) /
                                     water.charges;
 
     const double vol_mm3_per_hour = surface_area_mm2 * rain_depth_mm_per_hour;
@@ -473,7 +473,7 @@ void weather_effect::morale( int intensity, int bonus, int bonus_max, time_durat
         return;
     }
 
-    static const morale_type morale_id( morale_id_str );
+    const static morale_type morale_id( morale_id_str );
     if( !morale_id.is_valid() ) {
         debugmsg( "Invalid morale ID: %s", morale_id_str.c_str() );
         return;
@@ -534,7 +534,7 @@ void weather_effect::effect( int intensity, time_duration duration,
     }
 }
 
-double precip_mm_per_hour( precip_class const p )
+double precip_mm_per_hour( const precip_class p )
 // Precipitation rate expressed as the rainfall equivalent if all
 // the precipitation were rain (rather than snow).
 {
@@ -579,7 +579,7 @@ void handle_weather_effects( const weather_type_id &w )
 
 static std::string to_string( const weekdays &d )
 {
-    static const std::array<std::string, 7> weekday_names = {{
+    const static std::array<std::string, 7> weekday_names = {{
             translate_marker( "Sunday" ), translate_marker( "Monday" ),
             translate_marker( "Tuesday" ), translate_marker( "Wednesday" ),
             translate_marker( "Thursday" ), translate_marker( "Friday" ),
@@ -659,7 +659,7 @@ std::string weather_forecast( const point_abs_sm &abs_sm_pos )
 
     const time_point now_hour = calendar::turn - time_duration::from_minutes( minute_of_hour<int>
                                 ( calendar::turn ) );
-    bool const now_is_day = is_day( now_hour );
+    const bool now_is_day = is_day( now_hour );
 
     int last_idx = -1;
     bool last_is_day = now_is_day;
@@ -675,7 +675,7 @@ std::string weather_forecast( const point_abs_sm &abs_sm_pos )
         if( is_dusk( last_hour ) || is_dawn( last_hour ) ) {
             continue;
         }
-        bool const new_is_day = is_day( last_hour );
+        const bool new_is_day = is_day( last_hour );
         if( new_is_day != last_is_day ) {
             last_is_day = new_is_day;
             last_idx += 1;
@@ -691,9 +691,9 @@ std::string weather_forecast( const point_abs_sm &abs_sm_pos )
 
         forecast_period &period = periods[last_idx];
 
-        w_point const w = wgen.get_weather( abs_ms_pos, last_hour, g->get_seed() );
+        const w_point w = wgen.get_weather( abs_ms_pos, last_hour, g->get_seed() );
         const weather_type_id &new_type = wgen.get_weather_conditions( w );
-        int const new_priority = wgen.forecast_priority( new_type );
+        const int new_priority = wgen.forecast_priority( new_type );
         if( !period.type || new_priority > period.type_priority ) {
             period.type_priority = new_priority;
             period.type = &new_type.obj();
@@ -782,7 +782,7 @@ static double local_windchill_lowtemp( double temperature_f, double, double wind
     /// Is also used as a standard in North America.
 
     // This model fails when wind is less than 3 mph
-    double const wind_mph_lowcapped = std::max( 3.0, wind_mph );
+    const double wind_mph_lowcapped = std::max( 3.0, wind_mph );
 
     // Temperature is removed at the end, because get_local_windchill is meant to calculate the difference.
     // Source : http://en.wikipedia.org/wiki/Wind_chill#North_American_and_United_Kingdom_wind_chill_index
@@ -799,15 +799,15 @@ static double local_windchill_hightemp( double temperature_f, double humidity, d
 
     // Source : http://en.wikipedia.org/wiki/Wind_chill#Australian_Apparent_Temperature
     // Convert to meters per second.
-    double const wind_meters_per_sec = wind_mph * 0.44704;
-    double const temperature_c = units::fahrenheit_to_celsius( temperature_f );
+    const double wind_meters_per_sec = wind_mph * 0.44704;
+    const double temperature_c = units::fahrenheit_to_celsius( temperature_f );
 
     // Cap the vapor pressure term to 50C of extra heat, as this term
     // otherwise grows logistically to an asymptotic value of about 2e7
     // for large values of temperature. This is presumably due to the
     // model being designed for reasonable ambient temperature values,
     // rather than extremely high ones.
-    double const windchill_c = ( 0.33 * std::min<float>( 150.00, humidity / 100.00 * 6.105 *
+    const double windchill_c = ( 0.33 * std::min<float>( 150.00, humidity / 100.00 * 6.105 *
                                  std::exp( 17.27 * temperature_c / ( 237.70 + temperature_c ) ) ) )
                                - ( 0.70 * wind_meters_per_sec )
                                - 4.00;
@@ -825,12 +825,12 @@ int get_local_windchill( double temperature_f, double humidity, double wind_mph 
     }
 
     // lerp-ing both functions results in a non-monotonous function
-    double const windchill_f_hightemp = local_windchill_hightemp( high_temp, humidity, wind_mph );
-    double const windchill_f_lowtemp = std::min( windchill_f_hightemp,
+    const double windchill_f_hightemp = local_windchill_hightemp( high_temp, humidity, wind_mph );
+    const double windchill_f_lowtemp = std::min( windchill_f_hightemp,
                                        local_windchill_lowtemp( low_temp,
                                                humidity, wind_mph ) );
 
-    double const t = ( temperature_f - low_temp ) / ( high_temp - low_temp );
+    const double t = ( temperature_f - low_temp ) / ( high_temp - low_temp );
     return std::ceil( lerp( std::min( windchill_f_lowtemp, windchill_f_hightemp ),
                             windchill_f_hightemp,
                             t ) );
@@ -872,7 +872,7 @@ nc_color get_wind_color( double windpower )
 std::string get_shortdirstring( int angle )
 {
     std::string dirstring;
-    int const dirangle = angle;
+    const int dirangle = angle;
     if( dirangle <= 23 || dirangle > 338 ) {
         dirstring = _( "N" );
     } else if( dirangle <= 68 ) {
@@ -897,7 +897,7 @@ std::string get_dirstring( int angle )
 {
     // Convert angle to cardinal directions
     std::string dirstring;
-    int const dirangle = angle;
+    const int dirangle = angle;
     if( dirangle <= 23 || dirangle > 338 ) {
         dirstring = _( "North" );
     } else if( dirangle <= 68 ) {
@@ -966,9 +966,9 @@ double get_local_windpower( double windpower, const oter_id &omter, const tripoi
     if( sheltered ) {
         return 0;
     }
-    rl_vec2d const windvec = convert_wind_to_coord( winddirection );
+    const rl_vec2d windvec = convert_wind_to_coord( winddirection );
     int tmpwind = static_cast<int>( windpower );
-    tripoint const triblocker( location + point( windvec.x, windvec.y ) );
+    const tripoint triblocker( location + point( windvec.x, windvec.y ) );
     // Over map terrain may modify the effect of wind.
     if( is_ot_match( "forest", omter, ot_match_type::type ) ||
         is_ot_match( "forest_water", omter, ot_match_type::type ) ) {
@@ -1026,7 +1026,7 @@ std::string get_wind_desc( double windpower )
 
 rl_vec2d convert_wind_to_coord( const int angle )
 {
-    static const std::array<std::pair<int, rl_vec2d>, 9> outputs = {{
+    const static std::array<std::pair<int, rl_vec2d>, 9> outputs = {{
             { 330, rl_vec2d( 0, -1 ) },
             { 301, rl_vec2d( -1, -1 ) },
             { 240, rl_vec2d( -1, 0 ) },
@@ -1089,7 +1089,7 @@ void weather_manager::update_weather()
 
     const weather_generator &weather_gen = get_cur_weather_gen();
     w = weather_gen.get_weather( g->u.global_square_location(), calendar::turn, g->get_seed() );
-    weather_type_id const old_weather = weather_id;
+    const weather_type_id old_weather = weather_id;
     weather_id = weather_override ? weather_override : weather_gen.get_weather_conditions( w );
     if( !g->u.has_artifact_with( AEP_BAD_WEATHER ) ) {
         weather_override = weather_type_id::NULL_ID();
@@ -1161,8 +1161,8 @@ units::temperature
         return temperatures::annual_average;
     }
 
-    tripoint const abs_ms = project_to<coords::ms>( location ).raw();
-    w_point const w = get_cur_weather_gen().get_weather( abs_ms, calendar::turn, g->get_seed() );
+    const tripoint abs_ms = project_to<coords::ms>( location ).raw();
+    const w_point w = get_cur_weather_gen().get_weather( abs_ms, calendar::turn, g->get_seed() );
     return w.temperature;
 }
 

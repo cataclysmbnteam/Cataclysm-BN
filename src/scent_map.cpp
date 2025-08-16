@@ -20,7 +20,7 @@ static constexpr int SCENT_RADIUS = 40;
 
 static nc_color sev( const size_t level )
 {
-    static const std::array<nc_color, 22> colors = { {
+    const static std::array<nc_color, 22> colors = { {
             c_cyan,
             c_light_cyan,
             c_light_blue,
@@ -190,7 +190,7 @@ void scent_map::update( const tripoint &center, map &m )
     for( int x = 0; x < SCENT_RADIUS * 2 + 3; ++x ) {
         for( int y = 0; y < SCENT_RADIUS * 2 + 1; ++y ) {
 
-            point const abs( x + scentmap_minx - 1, y + scentmap_miny );
+            const point abs( x + scentmap_minx - 1, y + scentmap_miny );
 
             // remember the sum of the scent val for the 3 neighboring squares that can defuse into
             sum_3_scent_y[y][x] = 0;

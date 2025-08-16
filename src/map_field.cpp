@@ -102,9 +102,9 @@ void map::create_burnproducts( std::vector < detached_ptr<item>> &out, const ite
     }
     // Items that are multiple materials are assumed to be equal parts each.
     const units::mass by_weight = burned_mass / all_mats.size();
-    for( material_id  const &mat : all_mats ) {
+    for( const material_id &mat : all_mats ) {
         for( auto &bp : mat->burn_products() ) {
-            itype_id const id = bp.first;
+            const itype_id id = bp.first;
             // Spawning the same item as the one that was just burned is pointless
             // and leads to infinite recursion.
             if( fuel.typeId() == id ) {
@@ -124,7 +124,7 @@ void map::create_burnproducts( std::vector < detached_ptr<item>> &out, const ite
 // Use a helper for a bit less boilerplate
 int map::burn_body_part( player &u, field_entry &cur, body_part bp_token, const int scale )
 {
-    bodypart_str_id const bp = convert_bp( bp_token );
+    const bodypart_str_id bp = convert_bp( bp_token );
     int total_damage = 0;
     const int intensity = cur.get_field_intensity();
     const int damage = rng( 1, ( scale + intensity ) / 2 );
@@ -214,7 +214,7 @@ std::array<std::pair<tripoint, maptile>, 8> map::get_neighbors( const tripoint &
 
 bool map::gas_can_spread_to( field_entry &cur, const tripoint &src, const tripoint &dst )
 {
-    maptile const dst_tile = maptile_at( dst );
+    const maptile dst_tile = maptile_at( dst );
     const field_entry *tmpfld = dst_tile.get_field().find_field( cur.get_field_type() );
     // Candidates are existing weaker fields or navigable/flagged tiles with no field.
     if( tmpfld == nullptr || tmpfld->get_field_intensity() < cur.get_field_intensity() ) {
@@ -255,7 +255,7 @@ void map::gas_spread_to( field_entry &cur, maptile &dst, const tripoint &p )
 void map::spread_gas( field_entry &cur, const tripoint &p, int percent_spread,
                       const time_duration &outdoor_age_speedup, scent_block &sblk )
 {
-    map  const &here = get_map();
+    const map &here = get_map();
     // TODO: fix point types
     const oter_id &cur_om_ter =
         overmap_buffer.ter( tripoint_abs_omt( ms_to_omt_copy( here.getabs( p ) ) ) );
@@ -386,7 +386,7 @@ void map::create_hot_air( const tripoint &p, int intensity )
     }
 
     for( int counter = 0; counter < 5; counter++ ) {
-        tripoint const dst( p + point( rng( -1, 1 ), rng( -1, 1 ) ) );
+        const tripoint dst( p + point( rng( -1, 1 ), rng( -1, 1 ) ) );
         add_field( dst, hot_air, 1 );
     }
 }
@@ -433,7 +433,7 @@ void map::process_fields_in_submap( submap *const current_submap,
             // All submaps are in one long 1d array.
             thep.x = locx + sm_offset.x;
             thep.y = locy + sm_offset.y;
-            // A const reference to the tripoint above, so that the code below doesn't accidentally change it
+            // const A reference to the tripoint above, so that the code below doesn't accidentally change it
             const tripoint &p = thep;
 
             // This should be true only when the field in the current tile changes transparency state,
@@ -490,7 +490,7 @@ void map::process_fields_in_submap( submap *const current_submap,
                 if( cur_fd_type_id == fd_acid ) {
                     // Try to fall by a z-level
                     if( zlevels && p.z > -OVERMAP_DEPTH ) {
-                        tripoint const dst{ p.xy(), p.z - 1 };
+                        const tripoint dst{ p.xy(), p.z - 1 };
                         if( valid_move( p, dst, true, true ) ) {
                             field_entry *acid_there = field_at( dst ).find_field( fd_acid );
                             if( acid_there == nullptr ) {
@@ -552,7 +552,7 @@ void map::process_fields_in_submap( submap *const current_submap,
 
                         fire_data frd( cur.get_field_intensity(), !can_spread );
                         // The highest # of items this fire can remove in one turn
-                        int const max_consume = cur.get_field_intensity() * 2;
+                        const int max_consume = cur.get_field_intensity() * 2;
 
                         for( auto fuel_it = items_here.begin(); fuel_it != items_here.end() && consumed < max_consume; ) {
                             item *fuel = *fuel_it;
@@ -560,7 +560,7 @@ void map::process_fields_in_submap( submap *const current_submap,
                             // destroyed by the fire, this changes the item weight, but may not actually
                             // destroy it. We need to spawn products anyway.
                             const units::mass old_weight = fuel->weight( false );
-                            bool const destroyed = fuel->burn( frd );
+                            const bool destroyed = fuel->burn( frd );
                             // If the item is considered destroyed, it may have negative charge count,
                             // see `item::burn?. This in turn means `item::weight` returns a negative value,
                             // which we can not use, so only call `weight` when it's still an existing item.
@@ -644,7 +644,7 @@ void map::process_fields_in_submap( submap *const current_submap,
 
                     if( ter.has_flag( TFLAG_NO_FLOOR ) && zlevels && p.z > -OVERMAP_DEPTH ) {
                         // We're hanging in the air - let's fall down
-                        tripoint const dst{ p.xy(), p.z - 1 };
+                        const tripoint dst{ p.xy(), p.z - 1 };
                         if( valid_move( p, dst, true, true ) ) {
                             maptile dst_tile = maptile_at_internal( dst );
                             field_entry *fire_there = dst_tile.find_field( fd_fire );
@@ -719,7 +719,7 @@ void map::process_fields_in_submap( submap *const current_submap,
                             // if there is more fire there, make it bigger and give it some fuel.
                             // This is how big fires spend their excess age:
                             // making other fires bigger. Flashpoint.
-                            size_t const end_it = static_cast<size_t>( rng( 0, neighs.size() - 1 ) );
+                            const size_t end_it = static_cast<size_t>( rng( 0, neighs.size() - 1 ) );
                             for( size_t i = ( end_it + 1 ) % neighs.size(), count = 0;
                                  count != neighs.size() && cur.get_field_age() < 0_turns;
                                  i = ( i + 1 ) % neighs.size(), count++ ) {
@@ -790,7 +790,7 @@ void map::process_fields_in_submap( submap *const current_submap,
                                 continue;
                             }
 
-                            tripoint  const &dst_p = neighs[i].first;
+                            const tripoint &dst_p = neighs[i].first;
                             maptile &dst = neighs[i].second;
                             // No bounds checking here: we'll treat the invalid neighbors as valid.
                             // We're using the map tile wrapper, so we can treat invalid tiles as sentinels.
@@ -872,7 +872,7 @@ void map::process_fields_in_submap( submap *const current_submap,
 
                 // Apply radiation
                 if( cur.extra_radiation_max() > 0 ) {
-                    int const extra_radiation = rng( cur.extra_radiation_min(), cur.extra_radiation_max() );
+                    const int extra_radiation = rng( cur.extra_radiation_min(), cur.extra_radiation_max() );
                     adjust_radiation( p, extra_radiation );
                 }
 
@@ -942,9 +942,9 @@ void map::process_fields_in_submap( submap *const current_submap,
                             }
                             // Spread to adjacent space, then
                             if( valid.empty() ) {
-                                tripoint const dst( p + point( rng( -1, 1 ), rng( -1, 1 ) ) );
+                                const tripoint dst( p + point( rng( -1, 1 ), rng( -1, 1 ) ) );
                                 field_entry *elec = get_field( dst ).find_field( fd_electricity );
-                                bool const pass = passable( dst ) && !obstructed_by_vehicle_rotation( p, dst );
+                                const bool pass = passable( dst ) && !obstructed_by_vehicle_rotation( p, dst );
                                 if( pass && elec != nullptr &&
                                     elec->get_field_intensity() < 3 ) {
                                     elec->set_field_intensity( elec->get_field_intensity() + 1 );
@@ -963,11 +963,11 @@ void map::process_fields_in_submap( submap *const current_submap,
                     }
                 }
 
-                int const monster_spawn_chance = cur.monster_spawn_chance();
+                const int monster_spawn_chance = cur.monster_spawn_chance();
                 int monster_spawn_count = cur.monster_spawn_count();
                 if( monster_spawn_count > 0 && monster_spawn_chance > 0 && one_in( monster_spawn_chance ) ) {
                     for( ; monster_spawn_count > 0; monster_spawn_count-- ) {
-                        MonsterGroupResult const spawn_details = MonsterGroupManager::GetResultFromGroup(
+                        const MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup(
                                     cur.monster_spawn_group(), &monster_spawn_count );
                         if( !spawn_details.name ) {
                             continue;
@@ -1001,7 +1001,7 @@ void map::process_fields_in_submap( submap *const current_submap,
                                 }
                             }
                             if( !valid.empty() ) {
-                                tripoint const newp = random_entry( valid );
+                                const tripoint newp = random_entry( valid );
                                 add_item_or_charges( newp, std::move( detached ) );
                                 if( g->u.pos() == newp ) {
                                     add_msg( m_bad, _( "A %s hits you!" ), tmp.tname() );
@@ -1037,7 +1037,7 @@ void map::process_fields_in_submap( submap *const current_submap,
                         }
                     } else {
                         cur.set_field_intensity( 3 );
-                        int const num_bolts = rng( 3, 6 );
+                        const int num_bolts = rng( 3, 6 );
                         for( int i = 0; i < num_bolts; i++ ) {
                             int xdir = 0;
                             int ydir = 0;
@@ -1045,7 +1045,7 @@ void map::process_fields_in_submap( submap *const current_submap,
                                 xdir = rng( -1, 1 );
                                 ydir = rng( -1, 1 );
                             }
-                            int const dist = rng( 4, 12 );
+                            const int dist = rng( 4, 12 );
                             int boltx = p.x;
                             int bolty = p.y;
                             for( int n = 0; n < dist; n++ ) {
@@ -1125,7 +1125,7 @@ void map::process_fields_in_submap( submap *const current_submap,
 
                             std::vector<point> const candidate_positions =
                                 squares_in_direction( p.xy(), point( g->u.posx(), g->u.posy() ) );
-                            for( point const candidate_position : candidate_positions ) {
+                            for( const point candidate_position : candidate_positions ) {
                                 field &target_field = get_field( tripoint( candidate_position, p.z ) );
                                 // Only shift if there are no bees already there.
                                 // TODO: Figure out a way to merge bee fields without allowing
@@ -1145,7 +1145,7 @@ void map::process_fields_in_submap( submap *const current_submap,
                 }
                 if( cur_fd_type_id == fd_incendiary ) {
                     // Needed for variable scope
-                    tripoint const dst( p + point( rng( -1, 1 ), rng( -1, 1 ) ) );
+                    const tripoint dst( p + point( rng( -1, 1 ), rng( -1, 1 ) ) );
                     if( has_flag( TFLAG_FLAMMABLE, dst ) ||
                         has_flag( TFLAG_FLAMMABLE_ASH, dst ) ||
                         has_flag( TFLAG_FLAMMABLE_HARD, dst ) ) {
@@ -1329,21 +1329,21 @@ void map::player_in_field( player &u )
 
                 if( adjusted_intensity >= 1 ) {
                     // Burn message by intensity
-                    static const std::array<std::string, 4> player_burn_msg = { {
+                    const static std::array<std::string, 4> player_burn_msg = { {
                             translate_marker( "You burn your legs and feet!" ),
                             translate_marker( "You're burning up!" ),
                             translate_marker( "You're set ablaze!" ),
                             translate_marker( "Your whole body is burning!" )
                         }
                     };
-                    static const std::array<std::string, 4> npc_burn_msg = { {
+                    const static std::array<std::string, 4> npc_burn_msg = { {
                             translate_marker( "<npcname> burns their legs and feet!" ),
                             translate_marker( "<npcname> is burning up!" ),
                             translate_marker( "<npcname> is set ablaze!" ),
                             translate_marker( "<npcname>s whole body is burning!" )
                         }
                     };
-                    static const std::array<std::string, 4> player_warn_msg = { {
+                    const static std::array<std::string, 4> player_warn_msg = { {
                             translate_marker( "You're standing in a fire!" ),
                             translate_marker( "You're waist-deep in a fire!" ),
                             translate_marker( "You're surrounded by raging fire!" ),
@@ -1496,7 +1496,7 @@ void map::player_in_field( player &u )
                 const int intensity = cur.get_field_intensity();
                 // Bees will try to sting you in random body parts, up to 8 times.
                 for( int i = 0; i < rng( 1, 7 ); i++ ) {
-                    bodypart_id const bp = u.get_random_body_part();
+                    const bodypart_id bp = u.get_random_body_part();
                     int sum_cover = 0;
                     for( const item * const &i : u.worn ) {
                         if( i->covers( bp ) ) {
@@ -1892,7 +1892,7 @@ void map::monster_in_field( monster &z )
 std::tuple<maptile, maptile, maptile> map::get_wind_blockers( const int &winddirection,
         const tripoint &pos )
 {
-    static const std::array<std::pair<int, std::tuple< point, point, point >>, 9> outputs = {{
+    const static std::array<std::pair<int, std::tuple< point, point, point >>, 9> outputs = {{
             { 330, std::make_tuple( point_east, point_north_east, point_south_east ) },
             { 301, std::make_tuple( point_south_east, point_east, point_south ) },
             { 240, std::make_tuple( point_south, point_south_west, point_south_east ) },
@@ -1965,10 +1965,10 @@ void map::propagate_field( const tripoint &center, const field_type_id &type, in
             open.pop();
         }
 
-        int const increment = std::max<int>( 1, amount / gas_front.size() );
+        const int increment = std::max<int>( 1, amount / gas_front.size() );
 
         while( !gas_front.empty() ) {
-            gas_blast const gp = random_entry_removed( gas_front );
+            const gas_blast gp = random_entry_removed( gas_front );
             closed.insert( gp.second );
             const int cur_intensity = get_field_intensity( gp.second, type );
             if( cur_intensity < max_intensity ) {
@@ -1983,10 +1983,10 @@ void map::propagate_field( const tripoint &center, const field_type_id &type, in
                 return;
             }
 
-            static const std::array<int, 8> x_offset = {{ -1, 1,  0, 0,  1, -1, -1, 1  }};
-            static const std::array<int, 8> y_offset = {{  0, 0, -1, 1, -1,  1, -1, 1  }};
+            const static std::array<int, 8> x_offset = {{ -1, 1,  0, 0,  1, -1, -1, 1  }};
+            const static std::array<int, 8> y_offset = {{  0, 0, -1, 1, -1,  1, -1, 1  }};
             for( size_t i = 0; i < 8; i++ ) {
-                tripoint const pt = gp.second + point( x_offset[ i ], y_offset[ i ] );
+                const tripoint pt = gp.second + point( x_offset[ i ], y_offset[ i ] );
                 if( closed.contains( pt ) ) {
                     continue;
                 }

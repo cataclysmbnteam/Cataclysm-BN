@@ -179,14 +179,14 @@ std::string map_data_common_t::extended_description() const
     std::stringstream ss;
     ss << "<header>" << string_format( _( "That is a %s." ), name() ) << "</header>" << '\n';
     ss << description << '\n';
-    bool const has_any_harvest = std::ranges::any_of( harvest_by_season,
+    const bool has_any_harvest = std::ranges::any_of( harvest_by_season,
     []( const harvest_id & hv ) {
         return !hv.obj().empty();
     } );
 
     if( has_any_harvest ) {
         ss << "--" << '\n';
-        int const player_skill = get_avatar().get_skill_level( skill_survival );
+        const int player_skill = get_avatar().get_skill_level( skill_survival );
         ss << _( "You could harvest the following things from it:" ) << '\n';
         // Group them by identical ids to avoid repeating same blocks of data
         // First, invert the mapping: season->id to id->seasons

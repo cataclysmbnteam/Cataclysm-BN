@@ -66,9 +66,9 @@ void lightson_game::draw_level()
     draw_border( w );
     for( int i = 0; i < level_size.y; i++ ) {
         for( int j = 0; j < level_size.x; j++ ) {
-            point const current = point( j, i );
-            bool const selected = position == current;
-            bool const on = get_value_at( current );
+            const point current = point( j, i );
+            const bool selected = position == current;
+            const bool on = get_value_at( current );
             const nc_color fg = on ? c_white : c_dark_gray;
             const char symbol = on ? '#' : '-';
             mvwputch( w, current + point_south_east, selected ? hilite( c_white ) : fg, symbol );

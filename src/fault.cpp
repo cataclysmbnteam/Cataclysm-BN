@@ -25,7 +25,7 @@ const fault &string_id<fault>::obj() const
     const auto found = faults_all.find( *this );
     if( found == faults_all.end() ) {
         debugmsg( "Tried to get invalid fault: %s", c_str() );
-        static const fault null_fault{};
+        const static fault null_fault{};
         return null_fault;
     }
     return found->second;
@@ -57,7 +57,7 @@ void fault::load_fault( const JsonObject &jo )
         if( jo_method.has_string( "requirements" ) ) {
             mandatory( jo_method, false, "requirements", m.requirements );
         } else {
-            JsonObject const jo_req = jo_method.get_object( "requirements" );
+            const JsonObject jo_req = jo_method.get_object( "requirements" );
             m.requirements = requirement_id( m.id );
             requirement_data::load_requirement( jo_req, m.requirements );
         }

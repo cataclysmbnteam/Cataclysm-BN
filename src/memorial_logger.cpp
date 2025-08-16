@@ -135,7 +135,7 @@ void memorial_logger::load( std::istream &fin )
  */
 std::string memorial_logger::dump() const
 {
-    static const char *eol = cata_files::eol();
+    const static char *eol = cata_files::eol();
     std::string output;
 
     for( auto &elem : log ) {
@@ -149,7 +149,7 @@ std::string memorial_logger::dump() const
 void memorial_logger::write( std::ostream &file, const std::string &epitaph ) const
 {
     avatar &u = g->u;
-    static const char *eol = cata_files::eol();
+    const static char *eol = cata_files::eol();
 
     //Size of indents in the memorial file
     const std::string indent = "  ";
@@ -247,7 +247,7 @@ void memorial_logger::write( std::ostream &file, const std::string &epitaph ) co
     // map <name, sym> to kill count
     const kill_tracker &kills = g->get_kill_tracker();
     for( const mtype &type : MonsterGenerator::generator().get_all_mtypes() ) {
-        int const this_count = kills.kill_count( type.id );
+        const int this_count = kills.kill_count( type.id );
         if( this_count > 0 ) {
             kill_counts[std::make_tuple( type.nname(), type.sym )] += this_count;
             total_kills += this_count;
@@ -333,7 +333,7 @@ void memorial_logger::write( std::ostream &file, const std::string &epitaph ) co
     //Inventory
     file << _( "Inventory:" ) << eol;
     u.inv_restack( );
-    const_invslice const slice = u.inv_const_slice();
+    const const_invslice slice = u.inv_const_slice();
     for( const std::vector<item *> *elem : slice ) {
         const item &next_item = *elem->front();
         file << indent << next_item.invlet << " - " <<
@@ -367,7 +367,7 @@ void memorial_logger::notify( const cata::event &e )
 {
     switch( e.type() ) {
         case event_type::activates_artifact: {
-            character_id const ch = e.get<character_id>( "character" );
+            const character_id ch = e.get<character_id>( "character" );
             if( ch == g->u.getID() ) {
                 std::string const item_name = e.get<cata_variant_type::string>( "item_name" );
                 //~ %s is artifact name
@@ -378,7 +378,7 @@ void memorial_logger::notify( const cata::event &e )
             break;
         }
         case event_type::activates_mininuke: {
-            character_id const ch = e.get<character_id>( "character" );
+            const character_id ch = e.get<character_id>( "character" );
             if( ch == g->u.getID() ) {
                 add( pgettext( "memorial_male", "Activated a mininuke." ),
                      pgettext( "memorial_female", "Activated a mininuke." ) );
@@ -386,9 +386,9 @@ void memorial_logger::notify( const cata::event &e )
             break;
         }
         case event_type::administers_mutagen: {
-            character_id const ch = e.get<character_id>( "character" );
+            const character_id ch = e.get<character_id>( "character" );
             if( ch == g->u.getID() ) {
-                mutagen_technique const technique = e.get<mutagen_technique>( "technique" );
+                const mutagen_technique technique = e.get<mutagen_technique>( "technique" );
                 switch( technique ) {
                     case mutagen_technique::consumed_mutagen:
                         add( pgettext( "memorial_male", "Consumed mutagen." ),
@@ -427,7 +427,7 @@ void memorial_logger::notify( const cata::event &e )
             break;
         }
         case event_type::becomes_wanted: {
-            character_id const ch = e.get<character_id>( "character" );
+            const character_id ch = e.get<character_id>( "character" );
             if( ch == g->u.getID() ) {
                 add( pgettext( "memorial_male", "Became wanted by the police!" ),
                      pgettext( "memorial_female", "Became wanted by the police!" ) );
@@ -435,9 +435,9 @@ void memorial_logger::notify( const cata::event &e )
             break;
         }
         case event_type::broken_bone_mends: {
-            character_id const ch = e.get<character_id>( "character" );
+            const character_id ch = e.get<character_id>( "character" );
             if( ch == g->u.getID() ) {
-                body_part const part = e.get<body_part>( "part" );
+                const body_part part = e.get<body_part>( "part" );
                 //~ %s is bodypart
                 add( pgettext( "memorial_male", "Broken %s began to mend." ),
                      pgettext( "memorial_female", "Broken %s began to mend." ),
@@ -446,7 +446,7 @@ void memorial_logger::notify( const cata::event &e )
             break;
         }
         case event_type::buries_corpse: {
-            character_id const ch = e.get<character_id>( "character" );
+            const character_id ch = e.get<character_id>( "character" );
             if( ch == g->u.getID() ) {
                 const mtype &corpse_type = e.get<mtype_id>( "corpse_type" ).obj();
                 std::string const corpse_name = e.get<cata_variant_type::string>( "corpse_name" );
@@ -471,7 +471,7 @@ void memorial_logger::notify( const cata::event &e )
             break;
         }
         case event_type::character_gains_effect: {
-            character_id const ch = e.get<character_id>( "character" );
+            const character_id ch = e.get<character_id>( "character" );
             if( ch == g->u.getID() ) {
                 const effect_type &type = e.get<efftype_id>( "effect" ).obj();
                 const std::string message = type.get_apply_memorial_log();
@@ -483,11 +483,11 @@ void memorial_logger::notify( const cata::event &e )
             break;
         }
         case event_type::character_kills_character: {
-            character_id const ch = e.get<character_id>( "killer" );
+            const character_id ch = e.get<character_id>( "killer" );
             if( ch == g->u.getID() ) {
                 std::string const name = e.get<cata_variant_type::string>( "victim_name" );
-                bool const cannibal = g->u.has_trait( trait_CANNIBAL );
-                bool const psycho = g->u.has_trait( trait_PSYCHOPATH );
+                const bool cannibal = g->u.has_trait( trait_CANNIBAL );
+                const bool psycho = g->u.has_trait( trait_PSYCHOPATH );
                 if( g->u.has_trait( trait_SAPIOVORE ) ) {
                     add( pgettext( "memorial_male",
                                    "Caught and killed an ape.  Prey doesn't have a name." ),
@@ -522,9 +522,9 @@ void memorial_logger::notify( const cata::event &e )
             break;
         }
         case event_type::character_kills_monster: {
-            character_id const ch = e.get<character_id>( "killer" );
+            const character_id ch = e.get<character_id>( "killer" );
             if( ch == g->u.getID() ) {
-                mtype_id const victim_type = e.get<mtype_id>( "victim_type" );
+                const mtype_id victim_type = e.get<mtype_id>( "victim_type" );
                 if( victim_type->difficulty >= 30 ) {
                     add( pgettext( "memorial_male", "Killed a %s." ),
                          pgettext( "memorial_female", "Killed a %s." ),
@@ -534,7 +534,7 @@ void memorial_logger::notify( const cata::event &e )
             break;
         }
         case event_type::character_loses_effect: {
-            character_id const ch = e.get<character_id>( "character" );
+            const character_id ch = e.get<character_id>( "character" );
             if( ch == g->u.getID() ) {
                 const effect_type &type = e.get<efftype_id>( "effect" ).obj();
                 const std::string message = type.get_remove_memorial_log();
@@ -546,9 +546,9 @@ void memorial_logger::notify( const cata::event &e )
             break;
         }
         case event_type::character_triggers_trap: {
-            character_id const ch = e.get<character_id>( "character" );
+            const character_id ch = e.get<character_id>( "character" );
             if( ch == g->u.getID() ) {
-                trap_str_id const trap = e.get<trap_str_id>( "trap" );
+                const trap_str_id trap = e.get<trap_str_id>( "trap" );
                 if( trap == tr_bubblewrap ) {
                     add( pgettext( "memorial_male", "Stepped on bubble wrap." ),
                          pgettext( "memorial_female", "Stepped on bubble wrap." ) );
@@ -635,9 +635,9 @@ void memorial_logger::notify( const cata::event &e )
             break;
         }
         case event_type::consumes_marloss_item: {
-            character_id const ch = e.get<character_id>( "character" );
+            const character_id ch = e.get<character_id>( "character" );
             if( ch == g->u.getID() ) {
-                itype_id const it = e.get<cata_variant_type::itype_id>( "itype" );
+                const itype_id it = e.get<cata_variant_type::itype_id>( "itype" );
                 std::string const itname = it->nname( 1 );
                 add( pgettext( "memorial_male", "Consumed a %s." ),
                      pgettext( "memorial_female", "Consumed a %s." ), itname );
@@ -645,7 +645,7 @@ void memorial_logger::notify( const cata::event &e )
             break;
         }
         case event_type::crosses_marloss_threshold: {
-            character_id const ch = e.get<character_id>( "character" );
+            const character_id ch = e.get<character_id>( "character" );
             if( ch == g->u.getID() ) {
                 add( pgettext( "memorial_male", "Opened the Marloss Gateway." ),
                      pgettext( "memorial_female", "Opened the Marloss Gateway." ) );
@@ -653,9 +653,9 @@ void memorial_logger::notify( const cata::event &e )
             break;
         }
         case event_type::crosses_mutation_threshold: {
-            character_id const ch = e.get<character_id>( "character" );
+            const character_id ch = e.get<character_id>( "character" );
             if( ch == g->u.getID() ) {
-                mutation_category_id const category_id =
+                const mutation_category_id category_id =
                     e.get<cata_variant_type::mutation_category_id>( "category" );
                 const mutation_category_trait &category =
                     mutation_category_trait::get_category( category_id );
@@ -665,7 +665,7 @@ void memorial_logger::notify( const cata::event &e )
             break;
         }
         case event_type::crosses_mycus_threshold: {
-            character_id const ch = e.get<character_id>( "character" );
+            const character_id ch = e.get<character_id>( "character" );
             if( ch == g->u.getID() ) {
                 add( pgettext( "memorial_male", "Became one with the Mycus." ),
                      pgettext( "memorial_female", "Became one with the Mycus." ) );
@@ -673,7 +673,7 @@ void memorial_logger::notify( const cata::event &e )
             break;
         }
         case event_type::dermatik_eggs_hatch: {
-            character_id const ch = e.get<character_id>( "character" );
+            const character_id ch = e.get<character_id>( "character" );
             if( ch == g->u.getID() ) {
                 add( pgettext( "memorial_male", "Dermatik eggs hatched." ),
                      pgettext( "memorial_female", "Dermatik eggs hatched." ) );
@@ -681,7 +681,7 @@ void memorial_logger::notify( const cata::event &e )
             break;
         }
         case event_type::dermatik_eggs_injected: {
-            character_id const ch = e.get<character_id>( "character" );
+            const character_id ch = e.get<character_id>( "character" );
             if( ch == g->u.getID() ) {
                 add( pgettext( "memorial_male", "Injected with dermatik eggs." ),
                      pgettext( "memorial_female", "Injected with dermatik eggs." ) );
@@ -694,7 +694,7 @@ void memorial_logger::notify( const cata::event &e )
             break;
         }
         case event_type::dies_from_asthma_attack: {
-            character_id const ch = e.get<character_id>( "character" );
+            const character_id ch = e.get<character_id>( "character" );
             if( ch == g->u.getID() ) {
                 add( pgettext( "memorial_male", "Succumbed to an asthma attack." ),
                      pgettext( "memorial_female", "Succumbed to an asthma attack." ) );
@@ -702,9 +702,9 @@ void memorial_logger::notify( const cata::event &e )
             break;
         }
         case event_type::dies_from_drug_overdose: {
-            character_id const ch = e.get<character_id>( "character" );
+            const character_id ch = e.get<character_id>( "character" );
             if( ch == g->u.getID() ) {
-                efftype_id const effect = e.get<efftype_id>( "effect" );
+                const efftype_id effect = e.get<efftype_id>( "effect" );
                 if( effect == effect_datura ) {
                     add( pgettext( "memorial_male", "Died of datura overdose." ),
                          pgettext( "memorial_female", "Died of datura overdose." ) );
@@ -722,7 +722,7 @@ void memorial_logger::notify( const cata::event &e )
             break;
         }
         case event_type::dies_of_infection: {
-            character_id const ch = e.get<character_id>( "character" );
+            const character_id ch = e.get<character_id>( "character" );
             if( ch == g->u.getID() ) {
                 add( pgettext( "memorial_male", "Succumbed to the infection." ),
                      pgettext( "memorial_female", "Succumbed to the infection." ) );
@@ -730,7 +730,7 @@ void memorial_logger::notify( const cata::event &e )
             break;
         }
         case event_type::dies_of_starvation: {
-            character_id const ch = e.get<character_id>( "character" );
+            const character_id ch = e.get<character_id>( "character" );
             if( ch == g->u.getID() ) {
                 add( pgettext( "memorial_male", "Died of starvation." ),
                      pgettext( "memorial_female", "Died of starvation." ) );
@@ -738,7 +738,7 @@ void memorial_logger::notify( const cata::event &e )
             break;
         }
         case event_type::dies_of_thirst: {
-            character_id const ch = e.get<character_id>( "character" );
+            const character_id ch = e.get<character_id>( "character" );
             if( ch == g->u.getID() ) {
                 add( pgettext( "memorial_male", "Died of thirst." ),
                      pgettext( "memorial_female", "Died of thirst." ) );
@@ -761,10 +761,10 @@ void memorial_logger::notify( const cata::event &e )
             break;
         }
         case event_type::evolves_mutation: {
-            character_id const ch = e.get<character_id>( "character" );
+            const character_id ch = e.get<character_id>( "character" );
             if( ch == g->u.getID() ) {
-                trait_id const from = e.get<trait_id>( "from_trait" );
-                trait_id const to = e.get<trait_id>( "to_trait" );
+                const trait_id from = e.get<trait_id>( "from_trait" );
+                const trait_id to = e.get<trait_id>( "to_trait" );
                 add( pgettext( "memorial_male", "'%s' mutation turned into '%s'" ),
                      pgettext( "memorial_female", "'%s' mutation turned into '%s'" ),
                      from->name(), to->name() );
@@ -772,7 +772,7 @@ void memorial_logger::notify( const cata::event &e )
             break;
         }
         case event_type::exhumes_grave: {
-            character_id const ch = e.get<character_id>( "character" );
+            const character_id ch = e.get<character_id>( "character" );
             if( ch == g->u.getID() ) {
                 add( pgettext( "memorial_male", "Exhumed a grave." ),
                      pgettext( "memorial_female", "Exhumed a grave." ) );
@@ -780,7 +780,7 @@ void memorial_logger::notify( const cata::event &e )
             break;
         }
         case event_type::fails_to_install_cbm: {
-            character_id const ch = e.get<character_id>( "character" );
+            const character_id ch = e.get<character_id>( "character" );
             if( ch == g->u.getID() ) {
                 std::string const cbm_name = e.get<bionic_id>( "bionic" )->name.translated();
                 add( pgettext( "memorial_male", "Failed install of bionic: %s." ),
@@ -790,7 +790,7 @@ void memorial_logger::notify( const cata::event &e )
             break;
         }
         case event_type::fails_to_remove_cbm: {
-            character_id const ch = e.get<character_id>( "character" );
+            const character_id ch = e.get<character_id>( "character" );
             if( ch == g->u.getID() ) {
                 std::string const cbm_name = e.get<bionic_id>( "bionic" )->name.translated();
                 add( pgettext( "memorial_male", "Failed to remove bionic: %s." ),
@@ -800,7 +800,7 @@ void memorial_logger::notify( const cata::event &e )
             break;
         }
         case event_type::falls_asleep_from_exhaustion: {
-            character_id const ch = e.get<character_id>( "character" );
+            const character_id ch = e.get<character_id>( "character" );
             if( ch == g->u.getID() ) {
                 add( pgettext( "memorial_male", "Succumbed to lack of sleep." ),
                      pgettext( "memorial_female", "Succumbed to lack of sleep." ) );
@@ -815,9 +815,9 @@ void memorial_logger::notify( const cata::event &e )
             break;
         }
         case event_type::gains_addiction: {
-            character_id const ch = e.get<character_id>( "character" );
+            const character_id ch = e.get<character_id>( "character" );
             if( ch == g->u.getID() ) {
-                add_type const type = e.get<add_type>( "add_type" );
+                const add_type type = e.get<add_type>( "add_type" );
                 const std::string &type_name = addiction_type_name( type );
                 //~ %s is addiction name
                 add( pgettext( "memorial_male", "Became addicted to %s." ),
@@ -827,9 +827,9 @@ void memorial_logger::notify( const cata::event &e )
             break;
         }
         case event_type::gains_mutation: {
-            character_id const ch = e.get<character_id>( "character" );
+            const character_id ch = e.get<character_id>( "character" );
             if( ch == g->u.getID() ) {
-                trait_id const trait = e.get<trait_id>( "trait" );
+                const trait_id trait = e.get<trait_id>( "trait" );
                 add( pgettext( "memorial_male", "Gained the mutation '%s'." ),
                      pgettext( "memorial_female", "Gained the mutation '%s'." ),
                      trait->name() );
@@ -837,10 +837,10 @@ void memorial_logger::notify( const cata::event &e )
             break;
         }
         case event_type::gains_skill_level: {
-            character_id const ch = e.get<character_id>( "character" );
+            const character_id ch = e.get<character_id>( "character" );
             if( ch == g->u.getID() ) {
-                skill_id const skill = e.get<skill_id>( "skill" );
-                int const new_level = e.get<int>( "new_level" );
+                const skill_id skill = e.get<skill_id>( "skill" );
+                const int new_level = e.get<int>( "new_level" );
                 if( new_level % 4 == 0 ) {
                     add( pgettext( "memorial_male",
                                    //~ %d is skill level %s is skill name
@@ -854,7 +854,7 @@ void memorial_logger::notify( const cata::event &e )
             break;
         }
         case event_type::game_over: {
-            bool const suicide = e.get<bool>( "is_suicide" );
+            const bool suicide = e.get<bool>( "is_suicide" );
             std::string const last_words = e.get<cata_variant_type::string>( "last_words" );
             if( suicide ) {
                 add( pgettext( "memorial_male", "%s committed suicide." ),
@@ -880,7 +880,7 @@ void memorial_logger::notify( const cata::event &e )
             break;
         }
         case event_type::installs_cbm: {
-            character_id const ch = e.get<character_id>( "character" );
+            const character_id ch = e.get<character_id>( "character" );
             if( ch == g->u.getID() ) {
                 std::string const cbm_name = e.get<bionic_id>( "bionic" )->name.translated();
                 add( pgettext( "memorial_male", "Installed bionic: %s." ),
@@ -890,7 +890,7 @@ void memorial_logger::notify( const cata::event &e )
             break;
         }
         case event_type::installs_faulty_cbm: {
-            character_id const ch = e.get<character_id>( "character" );
+            const character_id ch = e.get<character_id>( "character" );
             if( ch == g->u.getID() ) {
                 std::string const cbm_name = e.get<bionic_id>( "bionic" )->name.translated();
                 add( pgettext( "memorial_male", "Installed bad bionic: %s." ),
@@ -900,9 +900,9 @@ void memorial_logger::notify( const cata::event &e )
             break;
         }
         case event_type::learns_martial_art: {
-            character_id const ch = e.get<character_id>( "character" );
+            const character_id ch = e.get<character_id>( "character" );
             if( ch == g->u.getID() ) {
-                matype_id const mastyle = e.get<matype_id>( "martial_art" );
+                const matype_id mastyle = e.get<matype_id>( "martial_art" );
                 //~ %s is martial art
                 add( pgettext( "memorial_male", "Learned %s." ),
                      pgettext( "memorial_female", "Learned %s." ),
@@ -911,9 +911,9 @@ void memorial_logger::notify( const cata::event &e )
             break;
         }
         case event_type::loses_addiction: {
-            character_id const ch = e.get<character_id>( "character" );
+            const character_id ch = e.get<character_id>( "character" );
             if( ch == g->u.getID() ) {
-                add_type const type = e.get<add_type>( "add_type" );
+                const add_type type = e.get<add_type>( "add_type" );
                 const std::string &type_name = addiction_type_name( type );
                 //~ %s is addiction name
                 add( pgettext( "memorial_male", "Overcame addiction to %s." ),
@@ -952,7 +952,7 @@ void memorial_logger::notify( const cata::event &e )
             break;
         }
         case event_type::removes_cbm: {
-            character_id const ch = e.get<character_id>( "character" );
+            const character_id ch = e.get<character_id>( "character" );
             if( ch == g->u.getID() ) {
                 std::string const cbm_name = e.get<bionic_id>( "bionic" )->name.translated();
                 add( pgettext( "memorial_male", "Removed bionic: %s." ),
@@ -967,7 +967,7 @@ void memorial_logger::notify( const cata::event &e )
             break;
         }
         case event_type::telefrags_creature: {
-            character_id const ch = e.get<character_id>( "character" );
+            const character_id ch = e.get<character_id>( "character" );
             if( ch == g->u.getID() ) {
                 std::string const victim_name = e.get<cata_variant_type::string>( "victim_name" );
                 add( pgettext( "memorial_male", "Telefragged a %s." ),
@@ -977,7 +977,7 @@ void memorial_logger::notify( const cata::event &e )
             break;
         }
         case event_type::teleglow_teleports: {
-            character_id const ch = e.get<character_id>( "character" );
+            const character_id ch = e.get<character_id>( "character" );
             if( ch == g->u.getID() ) {
                 add( pgettext( "memorial_male", "Spontaneous teleport." ),
                      pgettext( "memorial_female", "Spontaneous teleport." ) );
@@ -985,7 +985,7 @@ void memorial_logger::notify( const cata::event &e )
             break;
         }
         case event_type::teleports_into_wall: {
-            character_id const ch = e.get<character_id>( "character" );
+            const character_id ch = e.get<character_id>( "character" );
             if( ch == g->u.getID() ) {
                 std::string const obstacle_name = e.get<cata_variant_type::string>( "obstacle_name" );
                 add( pgettext( "memorial_male", "Teleported into a %s." ),
@@ -1000,7 +1000,7 @@ void memorial_logger::notify( const cata::event &e )
             break;
         }
         case event_type::throws_up: {
-            character_id const ch = e.get<character_id>( "character" );
+            const character_id ch = e.get<character_id>( "character" );
             if( ch == g->u.getID() ) {
                 add( pgettext( "memorial_male", "Threw up." ),
                      pgettext( "memorial_female", "Threw up." ) );

@@ -79,7 +79,7 @@ void comp_selection<CompType>::serialize( JsonOut &jsout ) const
 template<typename CompType>
 void comp_selection<CompType>::deserialize( JsonIn &jsin )
 {
-    JsonObject const data = jsin.get_object();
+    const JsonObject data = jsin.get_object();
 
     std::string use_from_str;
     data.read( "use_from", use_from_str );
@@ -296,7 +296,7 @@ std::vector<comp_selection<item_comp>> craft_command::check_item_components_miss
     const auto filter = rec->get_component_filter( flags );
 
     for( const auto &item_sel : item_selections ) {
-        itype_id const type = item_sel.comp.type;
+        const itype_id type = item_sel.comp.type;
         const item_comp component = item_sel.comp;
         const int count = component.count > 0 ? component.count * batch_size : std::abs( component.count );
 
@@ -359,7 +359,7 @@ std::vector<comp_selection<tool_comp>> craft_command::check_tool_components_miss
     std::vector<comp_selection<tool_comp>> missing;
 
     for( const auto &tool_sel : tool_selections ) {
-        itype_id const type = tool_sel.comp.type;
+        const itype_id type = tool_sel.comp.type;
         if( tool_sel.comp.count > 0 ) {
             const int count = tool_sel.comp.count * batch_size;
             switch( tool_sel.use_from ) {

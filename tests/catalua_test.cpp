@@ -440,7 +440,7 @@ TEST_CASE( "id_conversions", "[lua]" )
 
     };
 
-    static const ter_str_id t_fragile_roof( "t_fragile_roof" );
+    const static ter_str_id t_fragile_roof( "t_fragile_roof" );
     REQUIRE( t_fragile_roof.is_valid() );
 
     const ter_t *raw_ptr = &t_fragile_roof.obj();

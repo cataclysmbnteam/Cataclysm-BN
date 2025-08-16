@@ -230,7 +230,7 @@ void avatar::randomize( const bool random_scenario, points_left &points, bool pl
     init_age = rng( 16, 55 );
     // if adjusting min and max height from 145 and 200, make sure to see set_description()
     init_height = rng( 145, 200 );
-    bool const cities_enabled =
+    const bool cities_enabled =
         world_generator->active_world->info->WORLD_OPTIONS["CITY_SIZE"].getValue() !=
         "0";
     if( random_scenario ) {
@@ -243,7 +243,7 @@ void avatar::randomize( const bool random_scenario, points_left &points, bool pl
         }
         g->scen = random_entry( scenarios );
     } else if( !cities_enabled ) {
-        static const string_id<scenario> wilderness_only_scenario( "wilderness" );
+        const static string_id<scenario> wilderness_only_scenario( "wilderness" );
         g->scen = &wilderness_only_scenario.obj();
     }
 
@@ -332,7 +332,7 @@ void avatar::randomize( const bool random_scenario, points_left &points, bool pl
     while( points.has_spare() && loops <= 100000 ) {
         const bool allow_stats = points.stat_points_left() > 0;
         const bool allow_traits = points.trait_points_left() > 0 && num_gtraits < max_trait_points;
-        int const r = rng( 1, 9 );
+        const int r = rng( 1, 9 );
         trait_id rn;
         switch( r ) {
             case 1:
@@ -595,7 +595,7 @@ bool avatar::create( character_type type, const std::string &tempname )
             learn_recipe( &r );
         }
     }
-    for( mtype_id const elem : prof->pets() ) {
+    for( const mtype_id elem : prof->pets() ) {
         starting_pets.push_back( elem );
     }
 
@@ -702,7 +702,7 @@ static void draw_points( const catacurses::window &w, points_left &points, int n
     // Clear line (except borders)
     mvwprintz( w, point( 2, 3 ), c_black, std::string( getmaxx( w ) - 3, ' ' ) );
     std::string const points_msg = points.to_string();
-    int const pMsg_length = utf8_width( remove_color_tags( points_msg ), true );
+    const int pMsg_length = utf8_width( remove_color_tags( points_msg ), true );
     nc_color color = c_light_gray;
     print_colored_text( w, point( 2, 3 ), color, c_light_gray, points_msg );
     if( netPointCost > 0 ) {
@@ -1182,8 +1182,8 @@ tab_direction set_traits( avatar &u, points_left &points )
 
         for( int i = 0; i < 3; i++ ) {
             // Shift start position to avoid iterating beyond end
-            int const total = static_cast<int>( traits_size[i] );
-            int const heigth = static_cast<int>( iContentHeight );
+            const int total = static_cast<int>( traits_size[i] );
+            const int heigth = static_cast<int>( iContentHeight );
             iStartPos[i] = std::min( iStartPos[i], std::max( 0, total - heigth ) );
         }
     };
@@ -1255,16 +1255,16 @@ tab_direction set_traits( avatar &u, points_left &points )
             }
 
             int &start = iStartPos[iCurrentPage];
-            int const current = iCurrentLine[iCurrentPage];
+            const int current = iCurrentLine[iCurrentPage];
             calcStartPos( start, current, iContentHeight, traits_size[iCurrentPage] );
-            int const end = start + static_cast<int>( std::min( traits_size[iCurrentPage], iContentHeight ) );
+            const int end = start + static_cast<int>( std::min( traits_size[iCurrentPage], iContentHeight ) );
 
             for( int i = start; i < end; i++ ) {
                 const trait_entry &entry = vStartingTraits[iCurrentPage][i];
                 const mutation_branch &mdata = entry.id.obj();
                 if( current == i && iCurrentPage == iCurWorkingPage ) {
                     int points = mdata.points;
-                    bool const negativeTrait = points < 0;
+                    const bool negativeTrait = points < 0;
                     if( negativeTrait ) {
                         points *= -1;
                     }
@@ -1300,8 +1300,8 @@ tab_direction set_traits( avatar &u, points_left &points )
                     }
                 }
 
-                int const cur_y = 5 + i - start;
-                int const cur_x = 2 + ( iCurrentPage * page_width );
+                const int cur_y = 5 + i - start;
+                const int cur_x = 2 + ( iCurrentPage * page_width );
                 mvwprintz( w, point( cur_x, cur_y ), col, utf8_truncate( mdata.name(), page_width - 2 ) );
             }
 
@@ -1554,15 +1554,15 @@ tab_direction set_profession( avatar &u, points_left &points,
 
         werase( w_description );
         if( cur_id_is_valid ) {
-            int const netPointCost = sorted_profs[cur_id]->point_cost() - u.prof->point_cost();
-            bool const can_pick = can_pick_prof( *sorted_profs[cur_id], u, points.skill_points_left() );
+            const int netPointCost = sorted_profs[cur_id]->point_cost() - u.prof->point_cost();
+            const bool can_pick = can_pick_prof( *sorted_profs[cur_id], u, points.skill_points_left() );
             const std::string clear_line( getmaxx( w ) - 2, ' ' );
 
             // Clear the bottom of the screen and header.
             mvwprintz( w, point( 1, 3 ), c_light_gray, clear_line );
 
             int pointsForProf = sorted_profs[cur_id]->point_cost();
-            bool const negativeProf = pointsForProf < 0;
+            const bool negativeProf = pointsForProf < 0;
             if( negativeProf ) {
                 pointsForProf *= -1;
             }
@@ -1581,7 +1581,7 @@ tab_direction set_profession( avatar &u, points_left &points,
                                           pointsForProf );
             }
 
-            int const pMsg_length = utf8_width( remove_color_tags( points.to_string() ) );
+            const int pMsg_length = utf8_width( remove_color_tags( points.to_string() ) );
             mvwprintz( w, point( pMsg_length + 9, 3 ), can_pick ? c_green : c_light_red, prof_msg_temp.c_str(),
                        sorted_profs[cur_id]->gender_appropriate_name( u.male ),
                        pointsForProf );
@@ -1722,14 +1722,14 @@ tab_direction set_profession( avatar &u, points_left &points,
             if( !sorted_profs[cur_id]->pets().empty() ) {
                 buffer += colorize( _( "Pets:" ), c_light_blue ) + "\n";
                 for( auto elem : sorted_profs[cur_id]->pets() ) {
-                    monster const mon( elem );
+                    const monster mon( elem );
                     buffer += mon.get_name() + "\n";
                 }
             }
             // Profession vehicle
             if( sorted_profs[cur_id]->vehicle() ) {
                 buffer += colorize( _( "Vehicle:" ), c_light_blue ) + "\n";
-                vproto_id const veh_id = sorted_profs[cur_id]->vehicle();
+                const vproto_id veh_id = sorted_profs[cur_id]->vehicle();
                 buffer += veh_id->name;
             }
             // Profession spells
@@ -1974,8 +1974,8 @@ tab_direction set_skills( avatar &u, points_left &points )
             }
             //Find out if the current skill and its level is in the requirement list
             auto req_skill = r.required_skills.find( currentSkill->ident() );
-            int const skill = req_skill != r.required_skills.end() ? req_skill->second : 0;
-            bool const would_autolearn_recipe =
+            const int skill = req_skill != r.required_skills.end() ? req_skill->second : 0;
+            const bool would_autolearn_recipe =
                 recipe_dict.all_autolearn().contains( &r ) &&
                 with_prof_skills.meets_skill_requirements( r.autolearn_requirements );
 
@@ -2015,7 +2015,7 @@ tab_direction set_skills( avatar &u, points_left &points )
         rec_disp = currentSkill->description() + rec_disp;
 
         const auto vFolded = foldstring( rec_disp, getmaxx( w_description ) );
-        int const iLines = vFolded.size();
+        const int iLines = vFolded.size();
 
         if( selected < 0 ) {
             selected = 0;
@@ -2217,15 +2217,15 @@ tab_direction set_scenario( avatar &u, points_left &points,
 
         werase( w_description );
         if( cur_id_is_valid ) {
-            int const netPointCost = sorted_scens[cur_id]->point_cost() - g->scen->point_cost();
-            bool const can_pick = sorted_scens[cur_id]->can_pick( *g->scen, points.skill_points_left() );
+            const int netPointCost = sorted_scens[cur_id]->point_cost() - g->scen->point_cost();
+            const bool can_pick = sorted_scens[cur_id]->can_pick( *g->scen, points.skill_points_left() );
             const std::string clear_line( getmaxx( w_description ), ' ' );
 
             // Clear the bottom of the screen and header.
             mvwprintz( w, point( 1, 3 ), c_light_gray, clear_line );
 
             int pointsForScen = sorted_scens[cur_id]->point_cost();
-            bool const negativeScen = pointsForScen < 0;
+            const bool negativeScen = pointsForScen < 0;
             if( negativeScen ) {
                 pointsForScen *= -1;
             }
@@ -2246,7 +2246,7 @@ tab_direction set_scenario( avatar &u, points_left &points,
                                           pointsForScen );
             }
 
-            int const pMsg_length = utf8_width( remove_color_tags( points.to_string() ) );
+            const int pMsg_length = utf8_width( remove_color_tags( points.to_string() ) );
             mvwprintz( w, point( pMsg_length + 9, 3 ), can_pick ? c_green : c_light_red, scen_msg_temp.c_str(),
                        sorted_scens[cur_id]->gender_appropriate_name( u.male ),
                        pointsForScen );
@@ -2502,7 +2502,7 @@ static void draw_height( const catacurses::window &w_height, const avatar &you,
 {
     werase( w_height );
     mvwprintz( w_height, point_zero, highlight ? h_light_gray : c_light_gray, _( "Height:" ) );
-    unsigned const height_pos = 1 + utf8_width( _( "Height:" ) );
+    const unsigned height_pos = 1 + utf8_width( _( "Height:" ) );
     mvwprintz( w_height, point( height_pos, 0 ), c_white, string_format( "%d cm",
                you.base_height() ) );
     wnoutrefresh( w_height );
@@ -2512,7 +2512,7 @@ static void draw_age( const catacurses::window &w_age, const avatar &you, const 
 {
     werase( w_age );
     mvwprintz( w_age, point_zero, highlight ? h_light_gray : c_light_gray, _( "Age:" ) );
-    unsigned const age_pos = 1 + utf8_width( _( "Age:" ) );
+    const unsigned age_pos = 1 + utf8_width( _( "Age:" ) );
     mvwprintz( w_age, point( age_pos, 0 ), c_white, string_format( "%d", you.base_age() ) );
     wnoutrefresh( w_age );
 }
@@ -2582,12 +2582,12 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
     int offset = 1;
     const std::string random_start_location_text = string_format( RANDOM_START_LOC_TEXT_TEMPLATE,
             g->scen->start_location_targets_count() );
-    uilist_entry const entry_random_start_location( RANDOM_START_LOC_ENTRY, true, -1,
+    const uilist_entry entry_random_start_location( RANDOM_START_LOC_ENTRY, true, -1,
             random_start_location_text );
     select_location.entries.emplace_back( entry_random_start_location );
     for( const auto &loc : start_locations::get_all() ) {
         if( g->scen->allowed_start( loc.id ) ) {
-            uilist_entry const entry( loc.id.id().to_i(), true, -1,
+            const uilist_entry entry( loc.id.id().to_i(), true, -1,
                                       string_format( START_LOC_TEXT_TEMPLATE, loc.name(), loc.targets_count() ) );
 
             select_location.entries.emplace_back( entry );
@@ -2817,13 +2817,13 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
     } );
 
     // do not switch IME mode now, but restore previous mode on return
-    ime_sentry const sentry( ime_sentry::keep );
+    const ime_sentry sentry( ime_sentry::keep );
 
-    int const min_allowed_age = 16;
-    int const max_allowed_age = 55;
+    const int min_allowed_age = 16;
+    const int max_allowed_age = 55;
     // in centimeters. 2 std. deviations below average female height
-    int const min_allowed_height = 145;
-    int const max_allowed_height = 200;
+    const int min_allowed_height = 145;
+    const int max_allowed_height = 200;
 
     do {
         ui_manager::redraw();
@@ -3104,7 +3104,7 @@ trait_id Character::get_random_trait( const std::function<bool( const mutation_b
 
 void Character::randomize_cosmetic_trait( std::string mutation_type )
 {
-    trait_id const trait = get_random_trait( [mutation_type]( const mutation_branch & mb ) {
+    const trait_id trait = get_random_trait( [mutation_type]( const mutation_branch & mb ) {
         return mb.points == 0 && mb.types.contains( mutation_type );
     } );
 
@@ -3119,7 +3119,7 @@ void Character::randomize_cosmetic_trait( std::string mutation_type )
 
 std::optional<std::string> query_for_template_name()
 {
-    static const std::set<int> fname_char_blacklist = {
+    const static std::set<int> fname_char_blacklist = {
 #if defined(_WIN32)
         '\"', '*', '/', ':', '<', '>', '?', '\\', '|',
         '\x01', '\x02', '\x03', '\x04', '\x05', '\x06', '\x07',         '\x09',
@@ -3200,7 +3200,7 @@ bool avatar::load_template( const std::string &template_name, points_left &point
                 return;
             }
 
-            JsonObject const jobj = jsin.get_object();
+            const JsonObject jobj = jsin.get_object();
 
             points.stat_points = jobj.get_int( "stat_points" );
             points.trait_points = jobj.get_int( "trait_points" );
