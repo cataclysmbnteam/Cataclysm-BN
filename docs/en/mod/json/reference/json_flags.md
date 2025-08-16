@@ -1610,6 +1610,7 @@ Those flags are added by the game code to specific items (that specific welder, 
 - `CRAFTRIG` Acts as a dehydrator, vacuum sealer and reloading press for crafting purposes.
   Potentially to include additional tools in the future.
 - `CTRL_ELECTRONIC` Controls electrical and electronic systems of the vehicle.
+- `CTRL_WO_HANDS` Allows you fire the gun need two hands while driving. Can only be installed on a part with `STEERABLE` flag.
 - `CURTAIN` Can be installed over a part flagged with `WINDOW`, and functions the same as blinds
   found on windows in buildings.
 - `DIFFICULTY_REMOVE`

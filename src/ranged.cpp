@@ -3917,7 +3917,7 @@ bool ranged::gunmode_checks_common( avatar &you, const map &m, std::vector<std::
                 }
             }
             else { // not in air/water, its ctrl is handsfree, wheels aren't here or not steerable
-                messages.push_back( string_format( _( "You can't fire your %s while driving; this vehicle's setup doesn't support it." ),
+                messages.push_back( string_format( _( "You can't fire your %s while driving; you can't steer this vehicle at here." ),
                                             gmode->tname() ) );
                 result = false;
             }

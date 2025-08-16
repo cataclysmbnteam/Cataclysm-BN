@@ -58,7 +58,8 @@
     "id": "CTRL_WO_HANDS",
     "type": "json_flag",
     "context": [ "vehicle_part" ],
-    "info": "You can fire a gun needed two hands while drive here."
+    "info": "You can fire a gun needed two hands while drive here.",
+    "requires_flag": "STEERABLE"
   },
   {
     "id": "COVERED",
