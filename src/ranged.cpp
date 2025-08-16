@@ -3891,40 +3891,39 @@ bool ranged::gunmode_checks_common( avatar &you, const map &m, std::vector<std::
     if( vp && vp->vehicle().player_in_control( you ) && ( gmode->is_two_handed( you ) ||
             gmode->has_flag( flag_FIRE_TWOHAND ) ) ) {
 
-            const auto vp_control = vp->part_with_feature( "CONTROLS", true );
-            const bool ctrl_handsfree = vp_control && vp_control->has_feature( "CTRL_WO_HANDS" );
-            const auto vp_steerable = vp->part_with_feature( "STEERABLE", true );
-            const auto vp_wheel = vp->part_with_feature( "WHEEL", true );
-            const bool strbl_whl = vp_steerable && vp_wheel; // is there a steerable stuff and a wheel?
-            const bool using_arms = vp->vehicle().has_part( "MUSCLE_ARMS", true );
-            // well, probably someone want to be a mounted air/waterborne archer so...
-            const bool in_air_or_water = vp && ( vp->vehicle().is_flying_in_air() || vp->vehicle().is_watercraft() );
+        const auto vp_control = vp->part_with_feature( "CONTROLS", true );
+        const bool ctrl_handsfree = vp_control && vp_control->has_feature( "CTRL_WO_HANDS" );
+        const auto vp_steerable = vp->part_with_feature( "STEERABLE", true );
+        const auto vp_wheel = vp->part_with_feature( "WHEEL", true );
+        const bool strbl_whl = vp_steerable && vp_wheel; // is there a steerable stuff and a wheel?
+        const bool using_arms = vp->vehicle().has_part( "MUSCLE_ARMS", true );
+        // well, probably someone want to be a mounted air/waterborne archer so...
+        const bool in_air_or_water = vp && ( vp->vehicle().is_flying_in_air() ||
+                                             vp->vehicle().is_watercraft() );
 
         if( ctrl_handsfree ) { // check this vehicle is steerable and able to be controlled without hands.
             if( strbl_whl || in_air_or_water ) {
-                if( using_arms ){
-                    messages.push_back( string_format( _( "You can't fire your %s while driving; this vehicle is hand-powered." ),
+                if( using_arms ) {
+                    messages.push_back( string_format(
+                                            _( "You can't fire your %s while driving; this vehicle is hand-powered." ),
                                             gmode->tname() ) );
                     result = false;
-                }
-                else if( you.get_skill_level( skill_driving ) < 3 ) {
-                    messages.push_back( string_format( 
-                        _( "Your driving skill isn't high enough to fire your %s while driving." ), gmode->tname() ) );
+                } else if( you.get_skill_level( skill_driving ) < 3 ) {
+                    messages.push_back( string_format(
+                                            _( "Your driving skill isn't high enough to fire your %s while driving." ), gmode->tname() ) );
                     result = false;
-                }
-                else {
+                } else {
                     result = true;
                 }
-            }
-            else { // not in air/water, its ctrl is handsfree, wheels aren't here or not steerable
-                messages.push_back( string_format( _( "You can't fire your %s while driving; you can't steer this vehicle at here." ),
-                                            gmode->tname() ) );
+            } else { // not in air/water, its ctrl is handsfree, wheels aren't here or not steerable
+                messages.push_back( string_format(
+                                        _( "You can't fire your %s while driving; you can't steer this vehicle at here." ),
+                                        gmode->tname() ) );
                 result = false;
             }
-        }
-        else { // You are driving with your own hands!
+        } else { // You are driving with your own hands!
             messages.push_back( string_format( _( "You can't fire your %s while driving." ),
-                                            gmode->tname() ) );
+                                               gmode->tname() ) );
             result = false;
         }
     }
