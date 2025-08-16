@@ -187,6 +187,15 @@
     "type": "vehicle_part"
   },
   {
+    "copy-from": "saddle_abstract",
+    "id": "saddle_control",
+    "name": { "str": "controllable saddle" },
+    "symbol": "#",
+    "type": "vehicle_part",
+    "looks_like": "saddle_pedal",
+    "extend": { "flags": [ "CONTROLS", "CTRL_WO_HANDS" ] }
+  },
+  {
     "copy-from": "folding_seat_abstract",
     "id": "folding_seat",
     "symbol": "#",
