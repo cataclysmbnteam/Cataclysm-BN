@@ -41,7 +41,7 @@ static Trait_group_tag get_unique_trait_group_id()
     // Prefixing with a character outside the ASCII range, so it is hopefully unique and
     // (if actually printed somewhere) stands out. Theoretically those auto-generated group
     // names should not be seen anywhere.
-    const static std::string unique_prefix = "\u01F7 ";
+    static const std::string unique_prefix = "\u01F7 ";
     while( true ) {
         const Trait_group_tag new_group( unique_prefix + std::to_string( next_id++ ) );
         if( !new_group.is_valid() ) {

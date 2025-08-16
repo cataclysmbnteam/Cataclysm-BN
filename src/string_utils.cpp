@@ -304,7 +304,7 @@ std::string replace_all( std::string input, const std::string &what, const std::
 
 std::string replace_colors( std::string text )
 {
-    const static std::vector<std::pair<std::string, std::string>> info_colors = {
+    static const std::vector<std::pair<std::string, std::string>> info_colors = {
         {"info", get_all_colors().get_name( c_cyan )},
         {"stat", get_all_colors().get_name( c_light_blue )},
         {"header", get_all_colors().get_name( c_magenta )},

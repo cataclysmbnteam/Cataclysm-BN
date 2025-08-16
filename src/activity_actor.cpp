@@ -476,7 +476,7 @@ void dig_activity_actor::finish( player_activity &act, Character &who )
 
     if( grave ) {
         if( one_in( 10 ) ) {
-            const static std::array<mtype_id, 5> monids = { {
+            static const std::array<mtype_id, 5> monids = { {
                     mon_zombie, mon_zombie_fat,
                     mon_zombie_rot, mon_skeleton,
                     mon_zombie_crawler

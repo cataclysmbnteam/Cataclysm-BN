@@ -285,7 +285,7 @@ double funnel_charges_per_turn( const double surface_area_mm2, const double rain
     //TODO!: yeah... push up
     const item &water = *item::spawn_temporary( itype_water, calendar::start_of_cataclysm );
     // 250ml
-    const static double charge_ml = static_cast<double>( to_gram( water.weight() ) ) /
+    static const double charge_ml = static_cast<double>( to_gram( water.weight() ) ) /
                                     water.charges;
 
     const double vol_mm3_per_hour = surface_area_mm2 * rain_depth_mm_per_hour;
@@ -473,7 +473,7 @@ void weather_effect::morale( int intensity, int bonus, int bonus_max, time_durat
         return;
     }
 
-    const static morale_type morale_id( morale_id_str );
+    static const morale_type morale_id( morale_id_str );
     if( !morale_id.is_valid() ) {
         debugmsg( "Invalid morale ID: %s", morale_id_str.c_str() );
         return;
@@ -579,7 +579,7 @@ void handle_weather_effects( const weather_type_id &w )
 
 static std::string to_string( const weekdays &d )
 {
-    const static std::array<std::string, 7> weekday_names = {{
+    static const std::array<std::string, 7> weekday_names = {{
             translate_marker( "Sunday" ), translate_marker( "Monday" ),
             translate_marker( "Tuesday" ), translate_marker( "Wednesday" ),
             translate_marker( "Thursday" ), translate_marker( "Friday" ),
@@ -1026,7 +1026,7 @@ std::string get_wind_desc( double windpower )
 
 rl_vec2d convert_wind_to_coord( const int angle )
 {
-    const static std::array<std::pair<int, rl_vec2d>, 9> outputs = {{
+    static const std::array<std::pair<int, rl_vec2d>, 9> outputs = {{
             { 330, rl_vec2d( 0, -1 ) },
             { 301, rl_vec2d( -1, -1 ) },
             { 240, rl_vec2d( -1, 0 ) },

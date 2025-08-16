@@ -141,7 +141,7 @@ const std::vector<item *> &inventory::const_stack( int i ) const
 {
     if( i < 0 || i >= static_cast<int>( items.size() ) ) {
         debugmsg( "Attempted to access stack %d in an inventory (size %d)", i, items.size() );
-        const static std::vector<item *> nullstack{};
+        static const std::vector<item *> nullstack{};
         return nullstack;
     }
 
@@ -591,9 +591,9 @@ void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Characte
             found_parts.insert( &*faupart );
         }
 
-        const static flag_id flag_PSEUDO( "PSEUDO" );
-        const static flag_id flag_HEATS_FOOD( "HEATS_FOOD" );
-        const static flag_id flag_FLATSURF( "FLAT_SURFACE" );
+        static const flag_id flag_PSEUDO( "PSEUDO" );
+        static const flag_id flag_HEATS_FOOD( "HEATS_FOOD" );
+        static const flag_id flag_FLATSURF( "FLAT_SURFACE" );
 
         if( kpart && !found_parts.contains( &*kpart ) ) {
             item &hotplate = *item::spawn_temporary( "hotplate", bday );

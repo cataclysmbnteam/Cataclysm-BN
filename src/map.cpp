@@ -1744,7 +1744,7 @@ const harvest_id &map::get_harvest( const tripoint &pos ) const
 
 const std::set<std::string> &map::get_harvest_names( const tripoint &pos ) const
 {
-    const static std::set<std::string> null_harvest_names = {};
+    static const std::set<std::string> null_harvest_names = {};
     const auto furn_here = furn( pos );
     if( furn_here->examine != iexamine::none ) {
         if( furn_here->has_flag( TFLAG_HARVESTED ) ) {
@@ -2964,7 +2964,7 @@ bool map::mop_spills( const tripoint &p )
     }
 
     field &fld = field_at( p );
-    const static std::vector<field_type_id> to_check = {
+    static const std::vector<field_type_id> to_check = {
         fd_blood,
         fd_blood_veggy,
         fd_blood_insect,
@@ -3389,7 +3389,7 @@ bash_results map::bash_ter_success( const tripoint &p, const bash_params &params
     spawn_items( p, item_group::items_from( bash.drop_group, calendar::turn ) );
 
     if( !bash.sound.empty() && !params.silent ) {
-        const static std::string soundfxid = "smash_success";
+        static const std::string soundfxid = "smash_success";
         const int sound_volume = get_sound_volume( bash );
         sounds::sound( p, sound_volume, sounds::sound_t::combat, bash.sound, false,
                        soundfxid, soundfxvariant );
@@ -3565,7 +3565,7 @@ bash_results map::bash_furn_success( const tripoint &p, const bash_params &param
     }
 
     if( !bash.sound.empty() && !params.silent ) {
-        const static std::string soundfxid = "smash_success";
+        static const std::string soundfxid = "smash_success";
         const int sound_volume = get_sound_volume( bash );
         sounds::sound( p, sound_volume, sounds::sound_t::combat, bash.sound, false,
                        soundfxid, soundfxvariant );
@@ -4834,7 +4834,7 @@ static void process_vehicle_items( vehicle &cur_veh, int part )
 {
 
     const int recharge_part_idx = cur_veh.part_with_feature( part, VPFLAG_RECHARGE, true );
-    const static vehicle_part null_part;
+    static const vehicle_part null_part;
     const vehicle_part &recharge_part = recharge_part_idx >= 0 ?
                                         cur_veh.part( recharge_part_idx ) :
                                         null_part;
@@ -5072,7 +5072,7 @@ bool map::could_see_items( const tripoint &p, const Creature &who ) const
 
 bool map::could_see_items( const tripoint &p, const tripoint &from ) const
 {
-    const static std::string container_string( "CONTAINER" );
+    static const std::string container_string( "CONTAINER" );
     const bool container = has_flag_ter_or_furn( container_string, p );
     const bool sealed = has_flag_ter_or_furn( TFLAG_SEALED, p );
     if( sealed && container ) {
@@ -5217,7 +5217,7 @@ static void use_charges_from_furn( const furn_t &f, const itype_id &type, int &q
     }
 
     const std::vector<itype> item_list = f.crafting_pseudo_item_types();
-    const static flag_id json_flag_USES_GRID_POWER( flag_USES_GRID_POWER );
+    static const flag_id json_flag_USES_GRID_POWER( flag_USES_GRID_POWER );
     for( const itype &itt : item_list ) {
         if( itt.has_flag( json_flag_USES_GRID_POWER ) ) {
             const tripoint_abs_ms abspos( m->getabs( p ) );
@@ -6404,7 +6404,7 @@ bool map::draw_maptile( const catacurses::window &w, const tripoint &p,
 void map::draw_from_above( const catacurses::window &w, const tripoint &p,
                            const maptile &curr_tile, const drawsq_params &params ) const
 {
-    const static int AUTO_WALL_PLACEHOLDER = 2; // this should never appear as a real symbol!
+    static const int AUTO_WALL_PLACEHOLDER = 2; // this should never appear as a real symbol!
 
     nc_color tercol = c_dark_gray;
     int sym = ' ';
@@ -7341,8 +7341,8 @@ static void generate_uniform( const tripoint &p, const ter_id &terrain_type )
 void map::loadn( const tripoint &grid, const bool update_vehicles )
 {
     // Cache empty overmap types
-    const static oter_id rock( "empty_rock" );
-    const static oter_id air( "open_air" );
+    static const oter_id rock( "empty_rock" );
+    static const oter_id air( "open_air" );
 
     const tripoint grid_abs_sub = abs_sub.xy() + grid;
     const size_t gridn = get_nonant( grid );
@@ -7684,7 +7684,7 @@ void map::produce_sap( const tripoint &p, const time_duration &time_since_last_a
     }
 
     // Amount of maple sap liters produced per season per tap
-    const static int maple_sap_per_season = 56;
+    static const int maple_sap_per_season = 56;
 
     // How many turns to produce 1 charge (250 ml) of sap?
     const time_duration producing_length = 0.75 * calendar::season_length();
@@ -7793,7 +7793,7 @@ void map::rad_scorch( const tripoint &p, const time_duration &time_since_last_ac
 
     const ter_id tid = ter( p );
     // TODO: De-hardcode this
-    const static std::map<ter_id, ter_str_id> dies_into {{
+    static const std::map<ter_id, ter_str_id> dies_into {{
             {t_grass, ter_str_id( "t_dirt" )},
             {t_tree_young, ter_str_id( "t_dirt" )},
             {t_tree_pine, ter_str_id( "t_tree_deadpine" )},
@@ -7967,7 +7967,7 @@ void map::spawn_monsters_submap_group( const tripoint &gp, mongroup &group, bool
         ignore_sight = true;
     }
 
-    const static auto allow_on_terrain = [&]( const tripoint & p ) {
+    static const auto allow_on_terrain = [&]( const tripoint & p ) {
         // TODO: flying creatures should be allowed to spawn without a floor,
         // but the new creature is created *after* determining the terrain, so
         // we can't check for it here.
@@ -8266,7 +8266,7 @@ void map::delete_graffiti( const tripoint &p )
 const std::string &map::graffiti_at( const tripoint &p ) const
 {
     if( !inbounds( p ) ) {
-        const static std::string empty_string;
+        static const std::string empty_string;
         return empty_string;
     }
     point l;

@@ -2309,7 +2309,7 @@ bool cata_tiles::draw_from_id_string( const std::string &id, TILE_CATEGORY categ
         if( seed_from_map_coords ) {
             seed = simple_point_hash( g->m.getabs( pos ) );
         }
-        const static auto rot32 = []( const unsigned int x, const int k ) {
+        static const auto rot32 = []( const unsigned int x, const int k ) {
             return ( x << k ) | ( x >> ( 32 - k ) );
         };
         // use a fair mix function to turn the "random" seed into a random int
@@ -3693,7 +3693,7 @@ void cata_tiles::draw_cone_aoe_frame()
         const tripoint diff = pv.pt - cone_aoe_origin;
         const int rotation = ( sgn( diff.x ) == sgn( diff.y ) ? 1 : 0 );
         // Should probably jsonize for flamethrower, dragon breath etc.
-        const static std::array<std::string, 3> sprite_ids = {{
+        static const std::array<std::string, 3> sprite_ids = {{
                 "shot_cone_weak",
                 "shot_cone_medium",
                 "shot_cone_strong"
@@ -3713,7 +3713,7 @@ void cata_tiles::void_cone_aoe()
 
 void cata_tiles::draw_bullet_frame()
 {
-    const static std::string bullet_fallback {"animation_bullet_normal"};
+    static const std::string bullet_fallback {"animation_bullet_normal"};
     const auto supports_directional = find_tile_looks_like( bul_id, C_BULLET );
 
     draw_from_id_string( supports_directional ? bul_id : bullet_fallback, C_BULLET, empty_string,
@@ -3827,9 +3827,9 @@ void cata_tiles::draw_zones_frame()
 
 void cata_tiles::draw_footsteps_frame( const tripoint &center )
 {
-    const static std::string id_footstep = "footstep";
-    const static std::string id_footstep_above = "footstep_above";
-    const static std::string id_footstep_below = "footstep_below";
+    static const std::string id_footstep = "footstep";
+    static const std::string id_footstep_above = "footstep_above";
+    static const std::string id_footstep_below = "footstep_below";
 
     for( const tripoint &pos : sounds::get_footstep_markers() ) {
         if( pos.z == center.z ) {

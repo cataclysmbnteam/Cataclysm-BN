@@ -429,7 +429,7 @@ bool vehicle::remote_controlled( const Character &who ) const
  * loading from a game saved before the vehicle construction rules overhaul). */
 void vehicle::add_missing_frames()
 {
-    const static vpart_id frame_id( "frame_vertical" );
+    static const vpart_id frame_id( "frame_vertical" );
     //No need to check the same spot more than once
     std::set<point> locations_checked;
     for( auto &i : parts ) {
@@ -1723,7 +1723,7 @@ int vehicle::install_part( point dp, vehicle_part &&new_part )
         enable = true;
     } else {
         // TODO: read toggle groups from JSON
-        const static std::vector<std::string> enable_like = {{
+        static const std::vector<std::string> enable_like = {{
                 "CONE_LIGHT",
                 "CIRCLE_LIGHT",
                 "AISLE_LIGHT",
@@ -4005,7 +4005,7 @@ void vehicle::spew_field( double joules, int part, field_type_id type, int inten
  */
 void vehicle::noise_and_smoke( int load, time_duration time )
 {
-    const static std::array<std::pair<std::string, int>, 8> sounds = { {
+    static const std::array<std::pair<std::string, int>, 8> sounds = { {
             { translate_marker( "hmm" ), 0 }, { translate_marker( "hummm!" ), 15 },
             { translate_marker( "whirrr!" ), 30 }, { translate_marker( "vroom!" ), 60 },
             { translate_marker( "roarrr!" ), 100 }, { translate_marker( "ROARRR!" ), 140 },
@@ -4712,7 +4712,7 @@ std::map<itype_id, int> vehicle::fuel_usage() const
 
         const size_t e = engines[ i ];
         const auto &info = part_info( e );
-        const static itype_id null_fuel_type( "null" );
+        static const itype_id null_fuel_type( "null" );
         const itype_id &cur_fuel = parts[ e ].fuel_current();
         if( cur_fuel  == null_fuel_type ) {
             continue;

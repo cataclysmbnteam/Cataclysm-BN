@@ -92,7 +92,7 @@ class null_tile_data : public active_tile_data
         }
 
         const std::string &get_type() const override {
-            const static std::string type( "null" );
+            static const std::string type( "null" );
             return type;
         }
         void store( JsonOut & ) const override
@@ -142,7 +142,7 @@ active_tile_data *solar_tile::clone() const
 
 const std::string &solar_tile::get_type() const
 {
-    const static std::string type( "solar" );
+    static const std::string type( "solar" );
     return type;
 }
 
@@ -174,7 +174,7 @@ active_tile_data *battery_tile::clone() const
 
 const std::string &battery_tile::get_type() const
 {
-    const static std::string type( "battery" );
+    static const std::string type( "battery" );
     return type;
 }
 
@@ -227,7 +227,7 @@ active_tile_data *charge_watcher_tile::clone() const
 
 const std::string &charge_watcher_tile::get_type() const
 {
-    const static std::string type( "charge_watcher" );
+    static const std::string type( "charge_watcher" );
     return type;
 }
 
@@ -290,7 +290,7 @@ active_tile_data *charger_tile::clone() const
 
 const std::string &charger_tile::get_type() const
 {
-    const static std::string type( "charger" );
+    static const std::string type( "charger" );
     return type;
 }
 
@@ -333,7 +333,7 @@ active_tile_data *steady_consumer_tile::clone() const
 
 const std::string &steady_consumer_tile::get_type() const
 {
-    const static std::string type( "steady_consumer" );
+    static const std::string type( "steady_consumer" );
     return type;
 }
 
@@ -363,7 +363,7 @@ active_tile_data *vehicle_connector_tile::clone() const
 
 const std::string &vehicle_connector_tile::get_type() const
 {
-    const static std::string type( "vehicle_connector" );
+    static const std::string type( "vehicle_connector" );
     return type;
 }
 
@@ -400,7 +400,7 @@ active_tile_data *countdown_tile::clone() const
 
 const std::string &countdown_tile::get_type() const
 {
-    const static std::string type( "countdown" );
+    static const std::string type( "countdown" );
     return type;
 }
 
@@ -436,7 +436,7 @@ static std::map<std::string, std::unique_ptr<active_tile_data>> build_type_map()
 
 active_tile_data *active_tile_data::create( const std::string &id )
 {
-    const static auto type_map = build_type_map();
+    static const auto type_map = build_type_map();
     const auto iter = type_map.find( id );
     if( iter == type_map.end() ) {
         debugmsg( "Invalid active_tile_data id %s", id.c_str() );

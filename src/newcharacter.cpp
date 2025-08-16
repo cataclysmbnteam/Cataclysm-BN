@@ -243,7 +243,7 @@ void avatar::randomize( const bool random_scenario, points_left &points, bool pl
         }
         g->scen = random_entry( scenarios );
     } else if( !cities_enabled ) {
-        const static string_id<scenario> wilderness_only_scenario( "wilderness" );
+        static const string_id<scenario> wilderness_only_scenario( "wilderness" );
         g->scen = &wilderness_only_scenario.obj();
     }
 
@@ -3119,7 +3119,7 @@ void Character::randomize_cosmetic_trait( std::string mutation_type )
 
 std::optional<std::string> query_for_template_name()
 {
-    const static std::set<int> fname_char_blacklist = {
+    static const std::set<int> fname_char_blacklist = {
 #if defined(_WIN32)
         '\"', '*', '/', ':', '<', '>', '?', '\\', '|',
         '\x01', '\x02', '\x03', '\x04', '\x05', '\x06', '\x07',         '\x09',

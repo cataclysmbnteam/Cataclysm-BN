@@ -201,8 +201,8 @@ struct navigation_node {
 
 const std::vector<direction> &enumerate_directions( bool allow_z_change )
 {
-    const static std::vector<direction> cardinal_dirs = {direction::EAST, direction::SOUTH, direction::WEST, direction::NORTH};
-    const static std::vector<direction> all_dirs = [&]() {
+    static const std::vector<direction> cardinal_dirs = {direction::EAST, direction::SOUTH, direction::WEST, direction::NORTH};
+    static const std::vector<direction> all_dirs = [&]() {
         std::vector<direction> ret = cardinal_dirs;
         ret.push_back( direction::ABOVECENTER );
         ret.push_back( direction::BELOWCENTER );

@@ -1327,14 +1327,14 @@ void game::calc_driving_offset( vehicle *veh )
 
     // The maximal offset will leave at least this many tiles
     // between the PC and the edge of the main window.
-    const static int border_range = 2;
+    static const int border_range = 2;
     const point max_offset( ( ( getmaxx( w_terrain ) + 1 ) / 2 ) - border_range - 1,
                             ( ( getmaxy( w_terrain ) + 1 ) / 2 ) - border_range - 1 );
 
     // velocity at or below this results in no offset at all
-    const static float min_offset_vel = 1 * vehicles::vmiph_per_tile;
+    static const float min_offset_vel = 1 * vehicles::vmiph_per_tile;
     // velocity at or above this results in maximal offset
-    const static float max_offset_vel = std::min( max_offset.y, max_offset.x ) *
+    static const float max_offset_vel = std::min( max_offset.y, max_offset.x ) *
                                         vehicles::vmiph_per_tile;
     float velocity = veh->velocity;
     rl_vec2d offset = veh->move_vec();
@@ -5269,7 +5269,7 @@ void game::moving_vehicle_dismount( const tripoint &dest_loc )
 
 void game::control_vehicle()
 {
-    const static itype_id fuel_type_animal( "animal" );
+    static const itype_id fuel_type_animal( "animal" );
     int veh_part = -1;
     vehicle *veh = remoteveh();
     if( veh == nullptr ) {
@@ -5431,7 +5431,7 @@ bool game::npc_menu( npc &who )
         who.body_window( _( "Limbs of: " ) + who.disp_name(), true, precise, 0, 0, 0, 0.0f, 0.0f, 0.0f,
                          0.0f, 0.0f );
     } else if( choice == use_item ) {
-        const static std::string heal_string( "heal" );
+        static const std::string heal_string( "heal" );
         const auto will_accept = []( const item & it ) {
             const auto use_fun = it.get_use( heal_string );
             if( use_fun == nullptr ) {
@@ -8781,7 +8781,7 @@ bool game::is_dangerous_tile( const tripoint &dest_loc ) const
 
 bool game::prompt_dangerous_tile( const tripoint &dest_loc ) const
 {
-    const static iexamine_function ledge_examine = iexamine_function_from_string( "ledge" );
+    static const iexamine_function ledge_examine = iexamine_function_from_string( "ledge" );
     std::vector<std::string> const harmful_stuff = get_dangerous_tile( dest_loc );
 
     if( harmful_stuff.empty() || u.has_effect( dashing_effect ) ) {
@@ -8832,7 +8832,7 @@ std::vector<std::string> game::get_dangerous_tile( const tripoint &dest_loc ) co
             harmful_stuff.emplace_back( tr.name() );
         }
 
-        const static std::set< body_part > sharp_bps = {
+        static const std::set< body_part > sharp_bps = {
             bp_eyes, bp_mouth, bp_head, bp_leg_l, bp_leg_r, bp_foot_l, bp_foot_r, bp_arm_l, bp_arm_r,
             bp_hand_l, bp_hand_r, bp_torso
         };
@@ -9351,7 +9351,7 @@ point game::place_player( const tripoint &dest_loc )
 
     //Auto pulp or butcher and Auto foraging
     if( get_option<bool>( "AUTO_FEATURES" ) && mostseen == 0  && !u.is_mounted() ) {
-        const static direction adjacentDir[8] = { direction::NORTH, direction::NORTHEAST, direction::EAST, direction::SOUTHEAST, direction::SOUTH, direction::SOUTHWEST, direction::WEST, direction::NORTHWEST };
+        static const direction adjacentDir[8] = { direction::NORTH, direction::NORTHEAST, direction::EAST, direction::SOUTHEAST, direction::SOUTH, direction::SOUTHWEST, direction::WEST, direction::NORTHWEST };
 
         const std::string forage_type = get_option<std::string>( "AUTO_FORAGING" );
         if( forage_type != "off" ) {
@@ -10924,7 +10924,7 @@ void game::vertical_notes( int z_before, int z_after )
     }
     // Figure out where we know there are up/down connectors
     // Fill in all the tiles we know about (e.g. subway stations)
-    const static int REVEAL_RADIUS = 40;
+    static const int REVEAL_RADIUS = 40;
     for( const tripoint_abs_omt &p : points_in_radius( u.global_omt_location(), REVEAL_RADIUS ) ) {
         const tripoint_abs_omt cursp_before( p.xy(), z_before );
         const tripoint_abs_omt cursp_after( p.xy(), z_after );

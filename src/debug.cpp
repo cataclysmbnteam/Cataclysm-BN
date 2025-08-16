@@ -1000,7 +1000,7 @@ static void write_demangled_frame( std::ostream &out, const char *frame )
 {
 #if defined(__linux__)
     // ./cataclysm(_ZN4game13handle_actionEv+0x47e8) [0xaaaae91e80fc]
-    const static std::regex symbol_regex( R"(^(.*)\((.*)\+(0x?[a-f0-9]*)\)\s\[(0x[a-f0-9]+)\]$)" );
+    static const std::regex symbol_regex( R"(^(.*)\((.*)\+(0x?[a-f0-9]*)\)\s\[(0x[a-f0-9]+)\]$)" );
     std::cmatch match_result;
     if( std::regex_search( frame, match_result, symbol_regex ) && match_result.size() == 5 ) {
         std::csub_match file_name = match_result[1];
@@ -1014,7 +1014,7 @@ static void write_demangled_frame( std::ostream &out, const char *frame )
     }
 #elif defined(MACOSX)
     //1   cataclysm-bn-tiles                     0x0000000102ba2244 _ZL9log_crashPKcS0_ + 608
-    const static std::regex symbol_regex( R"(^(.*)(0x[a-f0-9]{16})\s(.*)\s\+\s([0-9]+)$)" );
+    static const std::regex symbol_regex( R"(^(.*)(0x[a-f0-9]{16})\s(.*)\s\+\s([0-9]+)$)" );
     std::cmatch match_result;
     if( std::regex_search( frame, match_result, symbol_regex ) && match_result.size() == 5 ) {
         std::csub_match prefix = match_result[1];
@@ -1027,7 +1027,7 @@ static void write_demangled_frame( std::ostream &out, const char *frame )
         out << "\n    " << frame;
     }
 #elif defined(BSD)
-    const static std::regex symbol_regex( R"(^(0x[a-f0-9]+)\s<(.*)\+(0?x?[a-f0-9]*)>\sat\s(.*)$)" );
+    static const std::regex symbol_regex( R"(^(0x[a-f0-9]+)\s<(.*)\+(0?x?[a-f0-9]*)>\sat\s(.*)$)" );
     std::cmatch match_result;
     if( std::regex_search( frame, match_result, symbol_regex ) && match_result.size() == 5 ) {
         std::csub_match address = match_result[1];

@@ -328,15 +328,15 @@ SDL_Texture_Ptr CachedTTFFont::create_glyph( const SDL_Renderer_Ptr &renderer,
     /* SDL interprets each pixel as a 32-bit number, so our masks must depend
        on the endianness (byte order) of the machine */
 #if SDL_BYTEORDER == SDL_BIG_ENDIAN
-    const static Uint32 rmask = 0xff000000;
-    const static Uint32 gmask = 0x00ff0000;
-    const static Uint32 bmask = 0x0000ff00;
-    const static Uint32 amask = 0x000000ff;
+    static const Uint32 rmask = 0xff000000;
+    static const Uint32 gmask = 0x00ff0000;
+    static const Uint32 bmask = 0x0000ff00;
+    static const Uint32 amask = 0x000000ff;
 #else
-    const static Uint32 rmask = 0x000000ff;
-    const static Uint32 gmask = 0x0000ff00;
-    const static Uint32 bmask = 0x00ff0000;
-    const static Uint32 amask = 0xff000000;
+    static const Uint32 rmask = 0x000000ff;
+    static const Uint32 gmask = 0x0000ff00;
+    static const Uint32 bmask = 0x00ff0000;
+    static const Uint32 amask = 0xff000000;
 #endif
     const int wf = utf8_wrapper( ch ).display_width();
     // Note: bits per pixel must be 8 to be synchronized with the surface

@@ -734,7 +734,7 @@ void monster::move()
             add_msg( _( "The %s flows around the objects on the floor and they are quickly dissolved!" ),
                      name() );
         }
-        const static auto volume_per_hp = 250_ml;
+        static const auto volume_per_hp = 250_ml;
         for( auto &elem : g->m.i_at( pos() ) ) {
             hp += elem->volume() / volume_per_hp; // Yeah this means it can get more HP than normal.
             // Don't split if we're still recovering from last time

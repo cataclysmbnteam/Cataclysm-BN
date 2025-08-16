@@ -1093,7 +1093,7 @@ int monster::sight_range( const int light_level ) const
         ( is_underwater() && !swims() && !has_flag( MF_AQUATIC ) && !digging() ) ) {
         return 1;
     }
-    const static int default_daylight = default_daylight_level();
+    static const int default_daylight = default_daylight_level();
     if( light_level == 0 ) {
         return type->vision_night;
     } else if( light_level == default_daylight ) {
@@ -1303,7 +1303,7 @@ Attitude monster::attitude_to( const Creature &other ) const
             return Attitude::A_NEUTRAL;
         }
 
-        const static string_id<monfaction> faction_zombie( "zombie" );
+        static const string_id<monfaction> faction_zombie( "zombie" );
         auto faction_att = faction.obj().attitude( m->faction );
         if( ( friendly != 0 && m->friendly != 0 ) ||
             ( friendly == 0 && m->friendly == 0 && faction_att == MFA_FRIENDLY ) ) {
@@ -1404,7 +1404,7 @@ monster_attitude monster::attitude( const Character *u ) const
 
     if( u != nullptr ) {
         // Those are checked quite often, so avoiding string construction is a good idea
-        const static string_id<monfaction> faction_bee( "bee" );
+        static const string_id<monfaction> faction_bee( "bee" );
         if( faction == faction_bee ) {
             if( u->has_trait( trait_BEE ) ) {
                 return MATT_FRIEND;
@@ -1413,7 +1413,7 @@ monster_attitude monster::attitude( const Character *u ) const
             }
         }
 
-        const static string_id<monfaction> faction_zombie( "zombie" );
+        static const string_id<monfaction> faction_zombie( "zombie" );
         if( faction == faction_zombie || type->in_species( ZOMBIE ) ) {
             if( u->has_trait( trait_PROF_FERAL ) && !u->has_effect( effect_feral_infighting_punishment ) ) {
                 return MATT_FRIEND;
@@ -2685,7 +2685,7 @@ void monster::die( Creature *nkiller )
             ch->add_morale( MORALE_KILLER_HAS_KILLED, 5, 10, 6_hours, 4_hours );
             ch->rem_morale( MORALE_KILLER_NEED_TO_KILL );
         }
-        const static string_id<monfaction> faction_zombie( "zombie" );
+        static const string_id<monfaction> faction_zombie( "zombie" );
         // Feral survivors are motivated to kill anything human
         if( ch->has_trait( trait_PROF_FERAL ) && has_flag( MF_HUMAN ) ) {
             if( !ch->has_effect( effect_feral_killed_recently ) ) {
@@ -3340,7 +3340,7 @@ void monster::hear_sound( const tripoint &source, const int vol, const int dist 
         return;
     }
 
-    const static string_id<monfaction> faction_zombie( "zombie" );
+    static const string_id<monfaction> faction_zombie( "zombie" );
     const bool feral_friend = ( faction == faction_zombie || type->in_species( ZOMBIE ) ) &&
                               g->u.has_trait( trait_PROF_FERAL ) && !g->u.has_effect( effect_feral_infighting_punishment );
 

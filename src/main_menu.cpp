@@ -1106,7 +1106,7 @@ void main_menu::world_tab( const std::string &worldname )
 
 std::string main_menu::halloween_spider()
 {
-    const static std::string spider =
+    static const std::string spider =
         "\\ \\ \\/ / / / / / / /\n"
         " \\ \\/\\/ / / / / / /\n"
         "\\ \\/__\\/ / / / / /\n"
@@ -1137,7 +1137,7 @@ std::string main_menu::halloween_spider()
 
 std::string main_menu::halloween_graves()
 {
-    const static std::string graves =
+    static const std::string graves =
         "                    _\n"
         "        -q       __(\")_\n"
         "         (\\      \\_  _/\n"

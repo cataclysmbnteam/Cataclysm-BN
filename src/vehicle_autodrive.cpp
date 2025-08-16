@@ -359,7 +359,7 @@ class vehicle::autodrive_controller
 
 static const std::array<orientation, NUM_ORIENTATIONS> &all_orientations()
 {
-    const static auto orientations_array = [] {
+    static const auto orientations_array = [] {
         std::array<orientation, NUM_ORIENTATIONS> ret;
         for( int i = 0; i < NUM_ORIENTATIONS; i++ )
         {
@@ -497,7 +497,7 @@ static orientation approx_orientation( int dx, int dy )
     if( dy > dx ) {
         ret = ret + quad_rotation::d90 - approx_orientation( dy, dx );
     } else if( dy > 0 ) {
-        const static auto atan_table = [] {
+        static const auto atan_table = [] {
             constexpr int table_size = 101;
             std::array<orientation, table_size> table;
             for( int i = 0; i <  table_size; i++ )
@@ -852,7 +852,7 @@ scored_address vehicle::autodrive_controller::compute_node_score( const node_add
     if( node.is_goal ) {
         return ret;
     }
-    const static point neighbor_deltas[4] = { point_east, point_south, point_west, point_north };
+    static const point neighbor_deltas[4] = { point_east, point_south, point_west, point_north };
     for( const point neighbor_delta : neighbor_deltas ) {
         const point p = addr.get_point() + neighbor_delta;
         if( !data.nav_bounds.contains( p ) || !data.valid_position( addr.facing_dir, p ) ) {
@@ -1109,7 +1109,7 @@ std::optional<navigation_step> vehicle::autodrive_controller::compute_next_step(
 
 std::vector<std::tuple<point, int, std::string>> vehicle::get_debug_overlay_data() const
 {
-    const static std::vector<std::string> debug_what = { "valid_position", "omt" };
+    static const std::vector<std::string> debug_what = { "valid_position", "omt" };
     std::vector<std::tuple<point, int, std::string>> ret;
 
     const tripoint_abs_ms veh_pos = global_square_location();
@@ -1181,7 +1181,7 @@ std::vector<std::tuple<point, int, std::string>> vehicle::get_debug_overlay_data
             }
         } else if( debug_str == "omt" ) {
             const point offset = ( project_to<coords::ms>( data.current_omt ) - veh_pos ).raw().xy();
-            const static std::vector<point> corners = {point_zero, {0, OMT_SIZE - 1}, {OMT_SIZE - 1, 0}, {OMT_SIZE - 1, OMT_SIZE - 1}};
+            static const std::vector<point> corners = {point_zero, {0, OMT_SIZE - 1}, {OMT_SIZE - 1, 0}, {OMT_SIZE - 1, OMT_SIZE - 1}};
             for( const point corner : corners ) {
                 ret.emplace_back( corner + offset, catacurses::cyan, "+" );
             }

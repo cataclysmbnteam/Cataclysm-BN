@@ -472,7 +472,7 @@ static void pldrive( const tripoint &p )
         return;
     }
     if( !remote ) {
-        const static itype_id fuel_type_animal( "animal" );
+        static const itype_id fuel_type_animal( "animal" );
         const bool has_animal_controls = veh->part_with_feature( part, "CONTROL_ANIMAL", true ) >= 0;
         const bool has_controls = veh->part_with_feature( part, "CONTROLS", true ) >= 0;
         const bool has_animal = veh->has_engine_type( fuel_type_animal, false ) &&
@@ -1747,7 +1747,7 @@ bool game::handle_action()
             case ACTION_SHIFT_SW:
             case ACTION_SHIFT_W:
             case ACTION_SHIFT_NW: {
-                const static std::map<action_id, std::pair<point, point>> shift_delta = {
+                static const std::map<action_id, std::pair<point, point>> shift_delta = {
                     { ACTION_SHIFT_N, { point_north, point_north_east } },
                     { ACTION_SHIFT_NE, { point_north_east, point_east } },
                     { ACTION_SHIFT_E, { point_east, point_south_east } },

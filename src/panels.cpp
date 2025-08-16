@@ -302,10 +302,10 @@ static void decorate_panel( const std::string &name, const catacurses::window &w
     werase( w );
     draw_border( w );
 
-    const static char *title_prefix = " ";
+    static const char *title_prefix = " ";
     const std::string &title = name;
-    const static char *title_suffix = " ";
-    const static std::string full_title = string_format( "%s%s%s",
+    static const char *title_suffix = " ";
+    static const std::string full_title = string_format( "%s%s%s",
                                           title_prefix, title, title_suffix );
     const int start_pos = center_text_pos( full_title, 0, getmaxx( w ) - 1 );
     mvwprintz( w, point( start_pos, 0 ), c_white, title_prefix );

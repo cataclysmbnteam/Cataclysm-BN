@@ -224,7 +224,7 @@ tripoint_abs_omt start_location::find_player_initial_location() const
         }
     }
     // Still no location, let's spawn one
-    const static tripoint_om_omt om_mid{ OMAPX / 2, OMAPY / 2, 0 };
+    static const tripoint_om_omt om_mid{ OMAPX / 2, OMAPY / 2, 0 };
 
     // Check terrains where we're allowed to spawn
     for( const auto &loc : _omt_types ) {

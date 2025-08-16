@@ -609,7 +609,7 @@ TEST_CASE( "total crafting time with or without interruption", "[crafting][time]
 TEST_CASE( "debug hammerspace", "[crafting]" )
 {
     clear_all_state();
-    const static recipe_id test_recipe( "nodachi" );
+    static const recipe_id test_recipe( "nodachi" );
 
     GIVEN( "A character with debug hammerspace trait" ) {
         avatar dummy;

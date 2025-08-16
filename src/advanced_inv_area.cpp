@@ -181,7 +181,7 @@ void advanced_inv_area::init()
     }
 
     // water?
-    const static std::array<ter_id, 8> ter_water = {
+    static const std::array<ter_id, 8> ter_water = {
         {t_water_dp, t_water_pool, t_swater_dp, t_water_sh, t_swater_sh, t_sewage, t_water_moving_dp, t_water_moving_sh }
     };
     auto ter_check = [this]

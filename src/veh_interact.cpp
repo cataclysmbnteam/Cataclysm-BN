@@ -902,7 +902,7 @@ static void sort_uilist_entries_by_line_drawing( std::vector<uilist_entry> &shap
 {
     // An ordering of the line drawing symbols that does not result in
     // connecting when placed adjacent to each other vertically.
-    const static std::map<int, int> symbol_order = {
+    static const std::map<int, int> symbol_order = {
         { LINE_XOXO, 0 }, { LINE_OXOX, 1 },
         { LINE_XOOX, 2 }, { LINE_XXOO, 3 },
         { LINE_XXXX, 4 }, { LINE_OXXO, 5 },
@@ -2654,13 +2654,13 @@ void veh_interact::display_name()
 static std::string veh_act_desc( const input_context &ctxt, const std::string &id,
                                  const std::string &desc, const task_reason reason )
 {
-    const static translation inline_fmt_enabled = to_translation(
+    static const translation inline_fmt_enabled = to_translation(
                 "keybinding", "<color_light_gray>%1$s<color_light_green>%2$s</color>%3$s</color>" );
-    const static translation inline_fmt_disabled = to_translation(
+    static const translation inline_fmt_disabled = to_translation(
                 "keybinding", "<color_dark_gray>%1$s<color_green>%2$s</color>%3$s</color>" );
-    const static translation separate_fmt_enabled = to_translation(
+    static const translation separate_fmt_enabled = to_translation(
                 "keybinding", "<color_light_gray><color_light_green>%1$s</color>-%2$s</color>" );
-    const static translation separate_fmt_disabled = to_translation(
+    static const translation separate_fmt_disabled = to_translation(
                 "keybinding", "<color_dark_gray><color_green>%1$s</color>-%2$s</color>" );
     if( reason == task_reason::CAN_DO ) {
         return ctxt.get_desc( id, desc, input_context::allow_all_keys,

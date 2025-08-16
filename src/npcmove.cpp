@@ -718,7 +718,7 @@ void npc::move()
 
     npc_action action = npc_undecided;
 
-    const static std::string no_target_str = "none";
+    static const std::string no_target_str = "none";
     const Creature *target = current_target();
     const std::string &target_name = target != nullptr ? target->disp_name() : no_target_str;
     add_msg( m_debug, "NPC %s: target = %s, danger = %.1f, range = %d",
@@ -2771,7 +2771,7 @@ void npc::find_item()
     //int range = sight_range( g->light_level( posz() ) );
     //range = std::max( 1, std::min( 12, range ) );
 
-    const static zone_type_id zone_type_no_npc_pickup( "NO_NPC_PICKUP" );
+    static const zone_type_id zone_type_no_npc_pickup( "NO_NPC_PICKUP" );
 
     const item *wanted = nullptr;
 
@@ -2888,14 +2888,14 @@ void npc::find_item()
             continue;
         }
         const std::optional<vpart_reference> cargo = vp.part_with_feature( VPFLAG_CARGO, true );
-        const static std::string locked_string( "LOCKED" );
+        static const std::string locked_string( "LOCKED" );
         // TODO: Let player know what parts are safe from NPC thieves
         if( !cargo || cargo->has_feature( locked_string ) ) {
             cache_tile();
             continue;
         }
 
-        const static std::string cargo_locking_string( "CARGO_LOCKING" );
+        static const std::string cargo_locking_string( "CARGO_LOCKING" );
         if( vp.part_with_feature( cargo_locking_string, true ) ) {
             cache_tile();
             continue;
@@ -4463,13 +4463,13 @@ bool npc::complain_about( const std::string &issue, const time_duration &dur,
 
 bool npc::complain()
 {
-    const static std::string infected_string = "infected";
-    const static std::string fatigue_string = "fatigue";
-    const static std::string bite_string = "bite";
-    const static std::string bleed_string = "bleed";
-    const static std::string radiation_string = "radiation";
-    const static std::string hunger_string = "hunger";
-    const static std::string thirst_string = "thirst";
+    static const std::string infected_string = "infected";
+    static const std::string fatigue_string = "fatigue";
+    static const std::string bite_string = "bite";
+    static const std::string bleed_string = "bleed";
+    static const std::string radiation_string = "radiation";
+    static const std::string hunger_string = "hunger";
+    static const std::string thirst_string = "thirst";
 
     if( !is_player_ally() || !get_player_character().sees( *this ) ) {
         return false;

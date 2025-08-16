@@ -595,7 +595,7 @@ namespace
 std::string direction_name_impl( const direction dir, const bool short_name )
 {
     enum : int { size = 3 * 3 * 3 };
-    const static auto names = [] {
+    static const auto names = [] {
         using pair_t = std::pair<std::string, std::string>;
         std::array < pair_t, size + 1 > result;
 

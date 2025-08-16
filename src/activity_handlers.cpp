@@ -1523,7 +1523,7 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act, player *p )
         auto transfer = [source_type, &here,
                      &act_ref]( const std::function < detached_ptr<item>( detached_ptr<item> &&it ) > & cb ) {
             const tripoint pos = act_ref.coords.at( 0 );
-            const static units::volume volume_per_second = units::from_liter( 4.0F / 6.0F );
+            static const units::volume volume_per_second = units::from_liter( 4.0F / 6.0F );
             int charges;
             detached_ptr<item> source;
             switch( source_type ) {
@@ -1603,7 +1603,7 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act, player *p )
 
 void activity_handlers::firstaid_finish( player_activity *act, player *p )
 {
-    const static std::string iuse_name_string( "heal" );
+    static const std::string iuse_name_string( "heal" );
 
     item &it = *act->targets.front();
     item *used_tool = it.get_usable_item( iuse_name_string );
@@ -2050,7 +2050,7 @@ void activity_handlers::reload_finish( player_activity *act, player *p )
 
 void activity_handlers::start_fire_finish( player_activity *act, player *p )
 {
-    const static std::string iuse_name_string( "firestarter" );
+    static const std::string iuse_name_string( "firestarter" );
 
     item &it = *act->tools.front();
     item *used_tool = it.get_usable_item( iuse_name_string );

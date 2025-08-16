@@ -62,7 +62,7 @@ static bool nameExistsInContext( const DeclContext *Context, const std::string &
 
 static bool isKeyword( const std::string &S )
 {
-    const static std::unordered_set<std::string> keywords = {
+    static const std::unordered_set<std::string> keywords = {
         "alignas", "alignof", "and", "and_eq", "asm", "atomic_cancel", "atomic_commit",
         "atomic_noexcept", "auto", "bitand", "bitor", "bool", "break", "case", "catch", "char",
         "char8_t", "char16_t", "char32_t", "class", "compl", "concept", "const", "consteval",

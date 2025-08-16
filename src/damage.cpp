@@ -374,7 +374,7 @@ std::string name_by_dt( const damage_type &dt )
         }
         iter++;
     }
-    const static std::string err_msg( "dt_not_found" );
+    static const std::string err_msg( "dt_not_found" );
     return err_msg;
 }
 

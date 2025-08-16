@@ -1402,7 +1402,7 @@ bool mattack::science( monster *const z ) // I said SCIENCE again!
             break;
         case att_flavor : {
             // flavor messages
-            const static std::array<std::string, 4> m_flavor = {{
+            static const std::array<std::string, 4> m_flavor = {{
                     translate_marker( "The %s shudders, letting out an eery metallic whining noise!" ),
                     translate_marker( "The %s scratches its long legs along the floor, shooting sparks." ),
                     translate_marker( "The %s bleeps inquiringly and focuses a red camera-eye on you." ),

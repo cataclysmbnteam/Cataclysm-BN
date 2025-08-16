@@ -29,7 +29,7 @@ bool cata::string_formatter::consume_next_input_if( const char c )
 
 void cata::string_formatter::read_flags()
 {
-    const static std::string flag_characters( "#0 +'I-" );
+    static const std::string flag_characters( "#0 +'I-" );
     while( flag_characters.find( get_current_input() ) != std::string::npos ) {
         current_format.push_back( consume_next_input() );
     }

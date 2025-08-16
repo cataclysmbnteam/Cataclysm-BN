@@ -128,7 +128,7 @@ std::string give_item_to( npc &p, bool allow_use );
 
 std::string talk_trial::name() const
 {
-    const static std::array<std::string, NUM_TALK_TRIALS> texts = { {
+    static const std::array<std::string, NUM_TALK_TRIALS> texts = { {
             "", translate_marker( "LIE" ), translate_marker( "PERSUADE" ), translate_marker( "INTIMIDATE" ), ""
         }
     };
@@ -1083,7 +1083,7 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
 
     const auto &p = beta; // for compatibility, later replace it in the code below
     // Those topics are handled by the mission system, see there.
-    const static std::unordered_set<std::string> mission_topics = { {
+    static const std::unordered_set<std::string> mission_topics = { {
             "TALK_MISSION_DESCRIBE", "TALK_MISSION_DESCRIBE_URGENT",
             "TALK_MISSION_OFFER", "TALK_MISSION_ACCEPTED",
             "TALK_MISSION_REJECTED", "TALK_MISSION_ADVICE", "TALK_MISSION_INQUIRE",
@@ -1647,7 +1647,7 @@ int topic_category( const talk_topic &the_topic )
     // TODO: ideally, this would be a property of the topic itself.
     // How this works: each category has a set of topics that belong to it, each set is checked
     // for the given topic and if a set contains, the category number is returned.
-    const static std::unordered_set<std::string> topic_1 = { {
+    static const std::unordered_set<std::string> topic_1 = { {
             "TALK_MISSION_START", "TALK_MISSION_DESCRIBE", "TALK_MISSION_OFFER",
             "TALK_MISSION_ACCEPTED", "TALK_MISSION_REJECTED", "TALK_MISSION_ADVICE",
             "TALK_MISSION_INQUIRE", "TALK_MISSION_SUCCESS", "TALK_MISSION_SUCCESS_LIE",
@@ -1658,63 +1658,63 @@ int topic_category( const talk_topic &the_topic )
     if( topic_1.contains( topic ) ) {
         return 1;
     }
-    const static std::unordered_set<std::string> topic_2 = { {
+    static const std::unordered_set<std::string> topic_2 = { {
             "TALK_SHARE_EQUIPMENT", "TALK_GIVE_EQUIPMENT", "TALK_DENY_EQUIPMENT"
         }
     };
     if( topic_2.contains( topic ) ) {
         return 2;
     }
-    const static std::unordered_set<std::string> topic_3 = { {
+    static const std::unordered_set<std::string> topic_3 = { {
             "TALK_SUGGEST_FOLLOW", "TALK_AGREE_FOLLOW", "TALK_DENY_FOLLOW",
         }
     };
     if( topic_3.contains( topic ) ) {
         return 3;
     }
-    const static std::unordered_set<std::string> topic_4 = { {
+    static const std::unordered_set<std::string> topic_4 = { {
             "TALK_COMBAT_ENGAGEMENT",
         }
     };
     if( topic_4.contains( topic ) ) {
         return 4;
     }
-    const static std::unordered_set<std::string> topic_5 = { {
+    static const std::unordered_set<std::string> topic_5 = { {
             "TALK_COMBAT_COMMANDS",
         }
     };
     if( topic_5.contains( topic ) ) {
         return 5;
     }
-    const static std::unordered_set<std::string> topic_6 = { {
+    static const std::unordered_set<std::string> topic_6 = { {
             "TALK_TRAIN", "TALK_TRAIN_START", "TALK_TRAIN_FORCE"
         }
     };
     if( topic_6.contains( topic ) ) {
         return 6;
     }
-    const static std::unordered_set<std::string> topic_7 = { {
+    static const std::unordered_set<std::string> topic_7 = { {
             "TALK_MISC_RULES",
         }
     };
     if( topic_7.contains( topic ) ) {
         return 7;
     }
-    const static std::unordered_set<std::string> topic_8 = { {
+    static const std::unordered_set<std::string> topic_8 = { {
             "TALK_AIM_RULES",
         }
     };
     if( topic_8.contains( topic ) ) {
         return 8;
     }
-    const static std::unordered_set<std::string> topic_9 = { {
+    static const std::unordered_set<std::string> topic_9 = { {
             "TALK_FRIEND", "TALK_GIVE_ITEM", "TALK_USE_ITEM",
         }
     };
     if( topic_9.contains( topic ) ) {
         return 9;
     }
-    const static std::unordered_set<std::string> topic_99 = { {
+    static const std::unordered_set<std::string> topic_99 = { {
             "TALK_SIZE_UP", "TALK_LOOK_AT", "TALK_OPINION", "TALK_SHOUT"
         }
     };
@@ -1873,7 +1873,7 @@ dialogue_consequence talk_effect_t::get_consequence( const dialogue &d ) const
 
 const talk_topic &special_talk( char ch )
 {
-    const static std::map<char, talk_topic> key_map = {{
+    static const std::map<char, talk_topic> key_map = {{
             { 'L', talk_topic( "TALK_LOOK_AT" ) },
             { 'S', talk_topic( "TALK_SIZE_UP" ) },
             { 'O', talk_topic( "TALK_OPINION" ) },
@@ -1886,7 +1886,7 @@ const talk_topic &special_talk( char ch )
         return iter->second;
     }
 
-    const static talk_topic no_topic = talk_topic( "TALK_NONE" );
+    static const talk_topic no_topic = talk_topic( "TALK_NONE" );
     return no_topic;
 }
 
@@ -2011,7 +2011,7 @@ talk_topic dialogue::opt( dialogue_window &d_win, const std::string &npc_name,
 
 talk_trial::talk_trial( const JsonObject &jo )
 {
-    const static std::unordered_map<std::string, talk_trial_type> types_map = { {
+    static const std::unordered_map<std::string, talk_trial_type> types_map = { {
 #define WRAP(value) { #value, TALK_TRIAL_##value }
             WRAP( NONE ),
             WRAP( LIE ),
@@ -2851,7 +2851,7 @@ void talk_effect_t::parse_sub_effect( const JsonObject &jo )
 
 void talk_effect_t::parse_string_effect( const std::string &effect_id, const JsonObject &jo )
 {
-    const static std::unordered_map<std::string, void( * )( npc & )> static_functions_map = {
+    static const std::unordered_map<std::string, void( * )( npc & )> static_functions_map = {
         {
 #define WRAP( function ) { #function, &talk_function::function }
             WRAP( assign_mission ),
@@ -2965,7 +2965,7 @@ void talk_effect_t::load_effect( const JsonObject &jo )
         // Same format as when saving a game (-:
         mission_opinion.deserialize( *ji );
     }
-    const static std::string member_name( "effect" );
+    static const std::string member_name( "effect" );
     if( !jo.has_member( member_name ) ) {
         return;
     } else if( jo.has_string( member_name ) ) {

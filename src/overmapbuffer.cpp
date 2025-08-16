@@ -412,7 +412,7 @@ const std::string &overmapbuffer::note( const tripoint_abs_omt &p )
     if( const overmap_with_local_coords om_loc = get_existing_om_global( p ) ) {
         return om_loc.om->note( om_loc.local );
     }
-    const static std::string empty_string;
+    static const std::string empty_string;
     return empty_string;
 }
 
@@ -429,7 +429,7 @@ const string_id<map_extra> &overmapbuffer::extra( const tripoint_abs_omt &p )
     if( const overmap_with_local_coords om_loc = get_existing_om_global( p ) ) {
         return om_loc.om->extra( om_loc.local );
     }
-    const static string_id<map_extra> id;
+    static const string_id<map_extra> id;
     return id;
 }
 
@@ -698,7 +698,7 @@ const oter_id &overmapbuffer::ter( const tripoint_abs_omt &p )
 
 const oter_id &overmapbuffer::ter_existing( const tripoint_abs_omt &p )
 {
-    const static oter_id ot_null;
+    static const oter_id ot_null;
     const overmap_with_local_coords om_loc = get_existing_om_global( p );
     if( !om_loc.om ) {
         return ot_null;
@@ -901,9 +901,9 @@ bool overmapbuffer::reveal_route( const tripoint_abs_omt &source, const tripoint
                                   const omt_route_params &params )
 {
     // Maximal radius of search (in overmaps)
-    const static int RADIUS = 4;
+    static const int RADIUS = 4;
     // half-size of the area to search in
-    const static point_rel_omt O( RADIUS * OMAPX, RADIUS * OMAPY );
+    static const point_rel_omt O( RADIUS * OMAPX, RADIUS * OMAPY );
 
     if( source == overmap::invalid_tripoint || dest == overmap::invalid_tripoint ) {
         return false;

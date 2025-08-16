@@ -151,7 +151,7 @@ class effect_select_callback : public uilist_callback
                                       const input_event &,
                                       int,
                                       uilist & );
-        const static std::map<std::string, effect_select_fun> handled_actions;
+        static const std::map<std::string, effect_select_fun> handled_actions;
 
         // This is "almost static", might be cached on finalize
         const std::vector<efftype_id> all_effects = find_all_effect_types();
@@ -163,7 +163,7 @@ class effect_select_callback : public uilist_callback
             : c( c )
         {}
 
-        const static std::map<std::string, effect_select_fun> &get_handled_actions() {
+        static const std::map<std::string, effect_select_fun> &get_handled_actions() {
             return handled_actions;
         }
 
@@ -262,7 +262,7 @@ class effect_edit_callback : public uilist_callback
                                     const input_event &,
                                     int,
                                     uilist & );
-        const static std::map<std::string, effect_edit_fun> handled_actions;
+        static const std::map<std::string, effect_edit_fun> handled_actions;
 
         Creature &c;
 

@@ -68,7 +68,7 @@ const explosion_data &projectile::get_custom_explosion() const
         return *custom_explosion;
     }
 
-    const static explosion_data null_explosion{};
+    static const explosion_data null_explosion{};
     return null_explosion;
 }
 

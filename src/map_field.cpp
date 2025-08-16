@@ -1329,21 +1329,21 @@ void map::player_in_field( player &u )
 
                 if( adjusted_intensity >= 1 ) {
                     // Burn message by intensity
-                    const static std::array<std::string, 4> player_burn_msg = { {
+                    static const std::array<std::string, 4> player_burn_msg = { {
                             translate_marker( "You burn your legs and feet!" ),
                             translate_marker( "You're burning up!" ),
                             translate_marker( "You're set ablaze!" ),
                             translate_marker( "Your whole body is burning!" )
                         }
                     };
-                    const static std::array<std::string, 4> npc_burn_msg = { {
+                    static const std::array<std::string, 4> npc_burn_msg = { {
                             translate_marker( "<npcname> burns their legs and feet!" ),
                             translate_marker( "<npcname> is burning up!" ),
                             translate_marker( "<npcname> is set ablaze!" ),
                             translate_marker( "<npcname>s whole body is burning!" )
                         }
                     };
-                    const static std::array<std::string, 4> player_warn_msg = { {
+                    static const std::array<std::string, 4> player_warn_msg = { {
                             translate_marker( "You're standing in a fire!" ),
                             translate_marker( "You're waist-deep in a fire!" ),
                             translate_marker( "You're surrounded by raging fire!" ),
@@ -1892,7 +1892,7 @@ void map::monster_in_field( monster &z )
 std::tuple<maptile, maptile, maptile> map::get_wind_blockers( const int &winddirection,
         const tripoint &pos )
 {
-    const static std::array<std::pair<int, std::tuple< point, point, point >>, 9> outputs = {{
+    static const std::array<std::pair<int, std::tuple< point, point, point >>, 9> outputs = {{
             { 330, std::make_tuple( point_east, point_north_east, point_south_east ) },
             { 301, std::make_tuple( point_south_east, point_east, point_south ) },
             { 240, std::make_tuple( point_south, point_south_west, point_south_east ) },
@@ -1983,8 +1983,8 @@ void map::propagate_field( const tripoint &center, const field_type_id &type, in
                 return;
             }
 
-            const static std::array<int, 8> x_offset = {{ -1, 1,  0, 0,  1, -1, -1, 1  }};
-            const static std::array<int, 8> y_offset = {{  0, 0, -1, 1, -1,  1, -1, 1  }};
+            static const std::array<int, 8> x_offset = {{ -1, 1,  0, 0,  1, -1, -1, 1  }};
+            static const std::array<int, 8> y_offset = {{  0, 0, -1, 1, -1,  1, -1, 1  }};
             for( size_t i = 0; i < 8; i++ ) {
                 const tripoint pt = gp.second + point( x_offset[ i ], y_offset[ i ] );
                 if( closed.contains( pt ) ) {

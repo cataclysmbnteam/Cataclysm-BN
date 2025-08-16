@@ -686,7 +686,7 @@ void Character::reset_stats()
     // Starvation
     if( get_kcal_percent() < 0.95f ) {
         // kcal->percentage of base str
-        const static std::vector<std::pair<float, float>> starv_thresholds = { {
+        static const std::vector<std::pair<float, float>> starv_thresholds = { {
                 std::make_pair( 0.0f, 0.5f ),
                 std::make_pair( 0.8f, 0.1f ),
                 std::make_pair( 0.95f, 0.0f )
@@ -726,7 +726,7 @@ void Character::reset_stats()
     }
     // Spider hair is basically a full-body set of whiskers, once you get the brain for it
     if( has_trait( trait_CHITIN_FUR3 ) ) {
-        const static std::array<bodypart_id, 5> parts{ { bodypart_id( "head" ), bodypart_id( "arm_r" ), bodypart_id( "arm_l" ), bodypart_id( "leg_r" ), bodypart_id( "leg_l" ) } };
+        static const std::array<bodypart_id, 5> parts{ { bodypart_id( "head" ), bodypart_id( "arm_r" ), bodypart_id( "arm_l" ), bodypart_id( "leg_r" ), bodypart_id( "leg_l" ) } };
         for( const bodypart_id &bp : parts ) {
             if( !wearing_something_on( bp ) ) {
                 mod_dodge_bonus( +1 );

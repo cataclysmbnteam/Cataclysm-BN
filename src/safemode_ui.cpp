@@ -136,7 +136,7 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
 
         wnoutrefresh( w_border );
 
-        const static std::vector<std::string> hotkeys = {{
+        static const std::vector<std::string> hotkeys = {{
                 translate_marker( "<A>dd" ), translate_marker( "<R>emove" ),
                 translate_marker( "<C>opy" ), translate_marker( "<M>ove" ),
                 translate_marker( "<E>nable" ), translate_marker( "<D>isable" ),

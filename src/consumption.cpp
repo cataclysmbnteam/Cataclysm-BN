@@ -588,8 +588,8 @@ bool Character::vitamin_set( const vitamin_id &vit, int qty )
 
 float Character::metabolic_rate_base() const
 {
-    const static std::string hunger_rate_string( "PLAYER_HUNGER_RATE" );
-    const static std::string metabolism_modifier( "metabolism_modifier" );
+    static const std::string hunger_rate_string( "PLAYER_HUNGER_RATE" );
+    static const std::string metabolism_modifier( "metabolism_modifier" );
 
     const float hunger_rate = get_option< float >( hunger_rate_string );
     const float mut_bonus = 1.0f + mutation_value( metabolism_modifier );
@@ -607,7 +607,7 @@ float Character::metabolic_rate() const
 morale_type Character::allergy_type( const item &food ) const
 {
     using allergy_tuple = std::tuple<trait_id, vitamin_id, morale_type>;
-    const static std::array<allergy_tuple, 8> allergy_tuples = {{
+    static const std::array<allergy_tuple, 8> allergy_tuples = {{
             std::make_tuple( trait_VEGETARIAN, vitamin_meat_allergen, MORALE_VEGETARIAN ),
             std::make_tuple( trait_MEATARIAN, vitamin_veggy_allergen, MORALE_MEATARIAN ),
             std::make_tuple( trait_LACTOSE, vitamin_milk_allergen, MORALE_LACTOSE ),

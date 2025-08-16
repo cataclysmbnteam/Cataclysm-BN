@@ -102,7 +102,7 @@ void gate_data::load( const JsonObject &jo, const std::string & )
 
 void gate_data::check() const
 {
-    const static iexamine_function controls_gate( iexamine_function_from_string( "controls_gate" ) );
+    static const iexamine_function controls_gate( iexamine_function_from_string( "controls_gate" ) );
     const ter_str_id winch_tid( id.str() );
 
     if( !winch_tid.is_valid() ) {

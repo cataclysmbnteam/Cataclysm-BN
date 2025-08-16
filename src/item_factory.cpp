@@ -86,7 +86,7 @@ template<>
 const itype &string_id<itype>::obj() const
 {
     const itype *result = item_controller->find_template( *this );
-    const static itype dummy{};
+    static const itype dummy{};
     return result ? *result : dummy;
 }
 
@@ -300,7 +300,7 @@ void Item_factory::finalize_pre( itype &obj )
             const auto &ammo_effects = obj.ammo->ammo_effects;
             obj.ammo->cookoff = ammo_effects.contains( ammo_effect_INCENDIARY ) ||
                                 ammo_effects.contains( ammo_effect_COOKOFF );
-            const static std::set<ammo_effect_str_id> special_cookoff_tags = {{
+            static const std::set<ammo_effect_str_id> special_cookoff_tags = {{
                     ammo_effect_EXPLOSIVE, ammo_effect_EXPLOSIVE_BIG, ammo_effect_EXPLOSIVE_HUGE, ammo_effect_EXPLOSIVE_SMALL, ammo_effect_FLASHBANG, ammo_effect_FRAG, ammo_effect_NAPALM, ammo_effect_NAPALM_BIG, ammo_effect_SMOKE, ammo_effect_SMOKE_BIG, ammo_effect_TOXICGAS,
                 }
             };
@@ -2513,7 +2513,7 @@ void Item_factory::load_generic( const JsonObject &jo, const std::string &src )
 // Set for all items (not just food and clothing) to avoid edge cases
 void Item_factory::set_allergy_flags( itype &item_template )
 {
-    const static std::pair<material_id, flag_id> all_pairs[] = {
+    static const std::pair<material_id, flag_id> all_pairs[] = {
         // First allergens:
         // An item is an allergen even if it has trace amounts of allergenic material
 
@@ -2657,7 +2657,7 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
 
     // NOTE: please also change `needs_plural` in `lang/extract_json_string.py`
     // when changing this list
-    const static std::set<std::string> needs_plural = {
+    static const std::set<std::string> needs_plural = {
         "AMMO",
         "ARMOR",
         "BATTERY",

@@ -76,7 +76,7 @@ void help::deserialize( JsonIn &jsin )
 
 std::string help::get_dir_grid()
 {
-    const static std::array<action_id, 9> movearray = {{
+    static const std::array<action_id, 9> movearray = {{
             ACTION_MOVE_FORTH_LEFT, ACTION_MOVE_FORTH, ACTION_MOVE_FORTH_RIGHT,
             ACTION_MOVE_LEFT,  ACTION_PAUSE,  ACTION_MOVE_RIGHT,
             ACTION_MOVE_BACK_LEFT, ACTION_MOVE_BACK, ACTION_MOVE_BACK_RIGHT

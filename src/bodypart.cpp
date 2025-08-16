@@ -111,7 +111,7 @@ generic_factory<body_part_type> body_part_factory( "body part" );
 
 bool is_legacy_bodypart_id( const std::string &id )
 {
-    const static std::vector<std::string> legacy_body_parts = {
+    static const std::vector<std::string> legacy_body_parts = {
         "TORSO",
         "HEAD",
         "EYES",
@@ -133,7 +133,7 @@ bool is_legacy_bodypart_id( const std::string &id )
 
 static body_part legacy_id_to_enum( const std::string &legacy_id )
 {
-    const static std::unordered_map<std::string, body_part> body_parts = {
+    static const std::unordered_map<std::string, body_part> body_parts = {
         { "TORSO", bp_torso },
         { "HEAD", bp_head },
         { "EYES", bp_eyes },
@@ -224,7 +224,7 @@ body_part get_body_part_token( const std::string &id )
 
 const bodypart_str_id &convert_bp( body_part bp )
 {
-    const static std::vector<bodypart_str_id> body_parts = {
+    static const std::vector<bodypart_str_id> body_parts = {
         bodypart_str_id( "torso" ),
         bodypart_str_id( "head" ),
         bodypart_str_id( "eyes" ),

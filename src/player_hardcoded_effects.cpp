@@ -254,7 +254,7 @@ static void eff_fun_hallu( player &u, effect &it )
             }
         }
         if( u.is_npc() && one_in( 1200 ) ) {
-            const static std::array<std::string, 4> npc_hallu = {{
+            static const std::array<std::string, 4> npc_hallu = {{
                     translate_marker( "\"I think it's starting to kick in.\"" ),
                     translate_marker( "\"Oh God, what's happening?\"" ),
                     translate_marker( "\"Of course… it's all fractals!\"" ),
@@ -336,7 +336,7 @@ struct temperature_effect {
 static void eff_fun_cold( player &u, effect &it )
 {
     // { body_part, intensity }, { str_pen, dex_pen, int_pen, per_pen, msg, msg_chance, miss_msg }
-    const static std::map<std::pair<body_part, int>, temperature_effect> effs = {{
+    static const std::map<std::pair<body_part, int>, temperature_effect> effs = {{
             { { bp_head, 3 }, { 0, 0, 3, 0, translate_marker( "Your thoughts are unclear." ), 2400, "" } },
             { { bp_head, 2 }, { 0, 0, 1, 0, "", 0, "" } },
             { { bp_mouth, 3 }, { 0, 0, 0, 3, translate_marker( "Your face is stiff from the cold." ), 2400, "" } },
@@ -370,7 +370,7 @@ static void eff_fun_cold( player &u, effect &it )
 static void eff_fun_hot( player &u, effect &it )
 {
     // { body_part, intensity }, { str_pen, dex_pen, int_pen, per_pen, msg, msg_chance, miss_msg }
-    const static std::map<std::pair<body_part, int>, temperature_effect> effs = {{
+    static const std::map<std::pair<body_part, int>, temperature_effect> effs = {{
             { { bp_head, 3 }, { 0, 0, 0, 0, translate_marker( "Your head is pounding from the heat." ), 2400, "" } },
             { { bp_head, 2 }, { 0, 0, 0, 0, "", 0, "" } },
             { { bp_torso, 3 }, { 2, 0, 0, 0, translate_marker( "You are sweating profusely." ), 2400, "" } },
@@ -416,7 +416,7 @@ static void eff_fun_hot( player &u, effect &it )
 static void eff_fun_frostbite( player &u, effect &it )
 {
     // { body_part, intensity }, { str_pen, dex_pen, int_pen, per_pen, msg, msg_chance, miss_msg }
-    const static std::map<std::pair<body_part, int>, temperature_effect> effs = {{
+    static const std::map<std::pair<body_part, int>, temperature_effect> effs = {{
             { { bp_hand_l, 2 }, { 0, 2, 0, 0, "", 0, translate_marker( "You have trouble grasping with your numb fingers." ) } },
             { { bp_hand_r, 2 }, { 0, 2, 0, 0, "", 0, translate_marker( "You have trouble grasping with your numb fingers." ) } },
             { { bp_foot_l, 2 }, { 0, 0, 0, 0, translate_marker( "Your foot has gone numb." ), 4800, "" } },
@@ -485,7 +485,7 @@ void Character::hardcoded_effects( effect &it )
         return;
     }
     using hc_effect_fun = std::function<void( player &, effect & )>;
-    const static std::map<efftype_id, hc_effect_fun> hc_effect_map = {{
+    static const std::map<efftype_id, hc_effect_fun> hc_effect_map = {{
             { effect_onfire, eff_fun_onfire },
             { effect_spores, eff_fun_spores },
             { effect_fungus, eff_fun_fungus },

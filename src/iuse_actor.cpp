@@ -1951,7 +1951,7 @@ static heal_actor prepare_dummy()
 bool cauterize_actor::cauterize_effect( player &p, item &it, bool force )
 {
     // TODO: Make this less hacky
-    const static heal_actor dummy = prepare_dummy();
+    static const heal_actor dummy = prepare_dummy();
     const bodypart_str_id hpart = dummy.use_healing_item( p, p, it, force );
     if( hpart ) {
         p.add_msg_if_player( m_neutral, _( "You cauterize yourself." ) );
@@ -3566,7 +3566,7 @@ repair_item_actor::attempt_hint repair_item_actor::repair( player &pl, item &too
 
 std::string repair_item_actor::action_description( repair_item_actor::repair_type rt )
 {
-    const static std::array<std::string, NUM_REPAIR_TYPES> arr = {{
+    static const std::array<std::string, NUM_REPAIR_TYPES> arr = {{
             translate_marker( "Nothing" ),
             translate_marker( "Repairing" ),
             translate_marker( "Refitting" ),
@@ -4783,7 +4783,7 @@ int gps_device_actor::use( player &p, item &it, bool, const tripoint & ) const
 
     // Exclude natural terrain types. This item should NOT obsolete other items, just be useful for the player.
     // This helps with that philosophy, since to actually properly survey the area you still need to get to high ground.
-    const static std::vector<std::string> natural_terrains = {
+    static const std::vector<std::string> natural_terrains = {
         "air", "forest", "forest_thick", "forest_water", "field", "lake_surface", "lake_shore",
         "swamp", "stream", "stream_corner", "stream_end", "river_center", "river_shore", "river_bank", "deep_water", "shallow_water"
     };
@@ -5046,7 +5046,7 @@ int sew_advanced_actor::use( player &p, item &it, bool, const tripoint & ) const
         std::string prompt;
         // TODO: Fix for UTF-8 strings
         // TODO: find other places where this is used and make a global function for all
-        const static auto tolower = []( std::string t ) {
+        static const auto tolower = []( std::string t ) {
             if( !t.empty() ) {
                 t.front() = std::tolower( t.front() );
             }

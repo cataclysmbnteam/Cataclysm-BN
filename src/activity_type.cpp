@@ -25,7 +25,7 @@ const activity_type &string_id<activity_type>::obj() const
     const auto found = activity_type_all.find( *this );
     if( found == activity_type_all.end() ) {
         debugmsg( "Tried to get invalid activity_type: %s", c_str() );
-        const static activity_type null_activity_type {};
+        static const activity_type null_activity_type {};
         return null_activity_type;
     }
     return found->second;

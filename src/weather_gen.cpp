@@ -378,17 +378,17 @@ inline bool maybe_temperature_reader( const JsonObject &jo, const std::string &m
 
 weather_generator weather_generator::load( const JsonObject &jo )
 {
-    const static std::array<std::pair<std::string, int>, NUM_SEASONS> legacy_temp_id_values = {{
+    static const std::array<std::pair<std::string, int>, NUM_SEASONS> legacy_temp_id_values = {{
             {"spring_temp_manual_mod", 0},
             {"summer_temp_manual_mod", 10},
             {"autumn_temp_manual_mod", 0},
             {"winter_temp_manual_mod", -15},
         }
     };
-    const static std::array<std::string, NUM_SEASONS> season_temp_ids = {
+    static const std::array<std::string, NUM_SEASONS> season_temp_ids = {
         "spring_temp", "summer_temp", "autumn_temp", "winter_temp"
     };
-    const static std::array<std::string, NUM_SEASONS> season_humidity_ids = {
+    static const std::array<std::string, NUM_SEASONS> season_humidity_ids = {
         "spring_humidity_manual_mod",
         "summer_humidity_manual_mod",
         "autumn_humidity_manual_mod",

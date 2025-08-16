@@ -111,7 +111,7 @@ const translation &snippet_library::get_snippet_ref_by_id( const snippet_id &id 
 {
     const auto it = snippets_by_id.find( id );
     if( it == snippets_by_id.end() ) {
-        const static translation empty_translation;
+        static const translation empty_translation;
         return empty_translation;
     }
     return it->second;

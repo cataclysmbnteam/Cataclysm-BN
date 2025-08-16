@@ -90,7 +90,7 @@ time_point sunrise( const time_point &p )
     static_assert( static_cast<int>( SPRING ) == 0,
                    "Expected spring to be the first season.  If not, code below will use wrong index into array" );
 
-    const static std::array<int, 4> start_hours = { { sunrise_equinox, sunrise_summer, sunrise_equinox, sunrise_winter, } };
+    static const std::array<int, 4> start_hours = { { sunrise_equinox, sunrise_summer, sunrise_equinox, sunrise_winter, } };
     const size_t season = static_cast<size_t>( season_of_year( p ) );
     assert( season < start_hours.size() );
 
@@ -110,7 +110,7 @@ time_point sunset( const time_point &p )
     static_assert( static_cast<int>( SPRING ) == 0,
                    "Expected spring to be the first season.  If not, code below will use wrong index into array" );
 
-    const static std::array<int, 4> start_hours = { { sunset_equinox, sunset_summer, sunset_equinox, sunset_winter, } };
+    static const std::array<int, 4> start_hours = { { sunset_equinox, sunset_summer, sunset_equinox, sunset_winter, } };
     const size_t season = static_cast<size_t>( season_of_year( p ) );
     assert( season < start_hours.size() );
 
@@ -450,7 +450,7 @@ weekdays day_of_week( const time_point &p )
      * <kevingranade> sounds like consensus to me
      * <kevingranade> Thursday it is */
     const int day_since_cataclysm = to_days<int>( p - calendar::turn_zero );
-    const static weekdays start_day = weekdays::THURSDAY;
+    static const weekdays start_day = weekdays::THURSDAY;
     const int result = day_since_cataclysm + static_cast<int>( start_day );
     return static_cast<weekdays>( result % 7 );
 }
@@ -496,7 +496,7 @@ bool calendar::once_every( const time_duration &event_frequency )
 
 std::string calendar::name_season( season_type s )
 {
-    const static std::array<std::string, 5> season_names_untranslated = {{
+    static const std::array<std::string, 5> season_names_untranslated = {{
             //~First letter is supposed to be uppercase
             std::string( translate_marker( "Spring" ) ),
             //~First letter is supposed to be uppercase

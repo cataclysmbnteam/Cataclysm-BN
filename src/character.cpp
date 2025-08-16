@@ -737,7 +737,7 @@ bool Character::is_warm() const
 
 const std::string &Character::symbol() const
 {
-    const static std::string character_symbol( "@" );
+    static const std::string character_symbol( "@" );
     return character_symbol;
 }
 
@@ -2028,7 +2028,7 @@ float Character::get_vision_threshold( float light_level ) const
     // TODO: Correct test cases and drop the ugliness
 
     // This guarantees at least 1 tile of range
-    const static float threshold_cap = vision::threshold_for_nv_range( 1 - 1 ) * LIGHT_AMBIENT_LOW /
+    static const float threshold_cap = vision::threshold_for_nv_range( 1 - 1 ) * LIGHT_AMBIENT_LOW /
                                        LIGHT_AMBIENT_MINIMAL;
 
     return std::min( {static_cast<float>( LIGHT_AMBIENT_LOW ),
@@ -4690,7 +4690,7 @@ void Character::print_health() const
         add_msg_if_player( _( "Your current health value is %d." ), current_health );
     }
 
-    const static std::map<int, std::string> msg_categories = {
+    static const std::map<int, std::string> msg_categories = {
         { -100, "health_horrible" },
         { -50, "health_very_bad" },
         { -10, "health_bad" },
@@ -5402,18 +5402,18 @@ needs_rates Character::calc_needs_rates() const
 
     add_msg_if_player( m_debug, "Metabolic rate: %.2f", rates.hunger );
 
-    const static std::string player_thirst_rate( "PLAYER_THIRST_RATE" );
+    static const std::string player_thirst_rate( "PLAYER_THIRST_RATE" );
     rates.thirst = get_option< float >( player_thirst_rate );
-    const static std::string thirst_modifier( "thirst_modifier" );
+    static const std::string thirst_modifier( "thirst_modifier" );
     rates.thirst *= 1.0f + mutation_value( thirst_modifier ) +
                     bonus_from_enchantments( 1.0, enchant_vals::mod::THIRST );
     if( worn_with_flag( flag_SLOWS_THIRST ) ) {
         rates.thirst *= 0.7f;
     }
 
-    const static std::string player_fatigue_rate( "PLAYER_FATIGUE_RATE" );
+    static const std::string player_fatigue_rate( "PLAYER_FATIGUE_RATE" );
     rates.fatigue = get_option< float >( player_fatigue_rate );
-    const static std::string fatigue_modifier( "fatigue_modifier" );
+    static const std::string fatigue_modifier( "fatigue_modifier" );
     rates.fatigue *= 1.0f + mutation_value( fatigue_modifier ) +
                      bonus_from_enchantments( 1.0, enchant_vals::mod::FATIGUE );
 
@@ -5425,7 +5425,7 @@ needs_rates Character::calc_needs_rates() const
     }
 
     if( asleep ) {
-        const static std::string fatigue_regen_modifier( "fatigue_regen_modifier" );
+        static const std::string fatigue_regen_modifier( "fatigue_regen_modifier" );
         // Multiplied by 2 to account for legacy (bugged to always apply)
         // bonus for sleeping over 2 hours
         rates.recovery = 2.0f * ( 1.0f + mutation_value( fatigue_regen_modifier ) );
@@ -5979,8 +5979,8 @@ void Character::update_bodytemp( const map &m, const weather_manager &weather )
         }
         // exp(-0.001) : half life of 60 minutes, exp(-0.002) : half life of 30 minutes,
         // exp(-0.003) : half life of 20 minutes, exp(-0.004) : half life of 15 minutes
-        const static double change_mult_air = std::exp( -0.002 );
-        const static double change_mult_water = std::exp( -0.008 );
+        static const double change_mult_air = std::exp( -0.002 );
+        static const double change_mult_water = std::exp( -0.008 );
         const double change_mult = submerged_bp ? change_mult_water : change_mult_air;
         if( bp_stats.get_temp_cur() != bp_conv ) {
             bp_stats.set_temp_cur( static_cast<int>( temp_difference * change_mult )
@@ -6730,7 +6730,7 @@ int Character::throw_range( const item &it ) const
                         : 10 - static_cast<int>( tmp.weight() / 15_gram );
     int ret = ( str_override * 10 ) / divisor;
     ret -= tmp.volume() / 1_liter;
-    const static std::set<material_id> affected_materials = { material_id( "iron" ), material_id( "steel" ) };
+    static const std::set<material_id> affected_materials = { material_id( "iron" ), material_id( "steel" ) };
     if( has_active_bionic( bio_railgun ) && tmp.made_of_any( affected_materials ) ) {
         ret *= 2;
     }
@@ -7571,8 +7571,8 @@ int Character::get_stamina() const
 
 int Character::get_stamina_max() const
 {
-    const static std::string player_max_stamina( "PLAYER_MAX_STAMINA" );
-    const static std::string max_stamina_modifier( "max_stamina_modifier" );
+    static const std::string player_max_stamina( "PLAYER_MAX_STAMINA" );
+    static const std::string max_stamina_modifier( "max_stamina_modifier" );
     const int baseMaxStamina = get_option< int >( player_max_stamina );
     int maxStamina = baseMaxStamina;
     maxStamina *= Character::mutation_value( max_stamina_modifier );
@@ -7652,8 +7652,8 @@ float Character::running_move_cost_modifier() const
 
 void Character::update_stamina( int turns )
 {
-    const static std::string player_base_stamina_regen_rate( "PLAYER_BASE_STAMINA_REGEN_RATE" );
-    const static std::string stamina_regen_modifier( "stamina_regen_modifier" );
+    static const std::string player_base_stamina_regen_rate( "PLAYER_BASE_STAMINA_REGEN_RATE" );
+    static const std::string stamina_regen_modifier( "stamina_regen_modifier" );
     const float base_regen_rate = get_option<float>( player_base_stamina_regen_rate );
     const int current_stim = get_stim();
     float stamina_recovery = 0.0f;
@@ -8803,7 +8803,7 @@ std::map<bodypart_id, int> Character::get_armor_fire( const
 
 void Character::on_dodge( Creature *source, int difficulty )
 {
-    const static matec_id tec_none( "tec_none" );
+    static const matec_id tec_none( "tec_none" );
 
     // Each avoided hit consumes an available dodge
     // When no more available we are likely to fail player::dodge_roll
@@ -10034,7 +10034,7 @@ std::map<bodypart_id, int> from_effects( const Character &c )
 
 bool Character::can_use_floor_warmth() const
 {
-    const static auto allowed_activities = std::vector<activity_id> {
+    static const auto allowed_activities = std::vector<activity_id> {
         activity_id( "ACT_WAIT" ),
         activity_id( "ACT_WAIT_NPC" ),
         activity_id( "ACT_WAIT_STAMINA" ),

@@ -1219,7 +1219,7 @@ static bool are_requirements_nearby( const std::vector<tripoint> &loot_spots,
     inventory temp_inv;
     units::volume const volume_allowed = p.volume_capacity() - p.volume_carried();
     units::mass const weight_allowed = p.weight_capacity() - p.weight_carried();
-    const static auto check_weight_if = []( const activity_id & id ) {
+    static const auto check_weight_if = []( const activity_id & id ) {
         return id == ACT_MULTIPLE_FARM ||
                id == ACT_MULTIPLE_CHOP_PLANKS ||
                id == ACT_MULTIPLE_BUTCHER ||

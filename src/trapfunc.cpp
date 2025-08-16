@@ -1484,7 +1484,7 @@ bool trapfunc::snake( const tripoint &p, Creature *, item * )
  */
 const trap_function &trap_function_from_string( const std::string &function_name )
 {
-    const static std::unordered_map<std::string, trap_function> funmap = {{
+    static const std::unordered_map<std::string, trap_function> funmap = {{
             { "none", trapfunc::none },
             { "bubble", trapfunc::bubble },
             { "glass", trapfunc::glass },
@@ -1529,6 +1529,6 @@ const trap_function &trap_function_from_string( const std::string &function_name
     }
 
     debugmsg( "Could not find a trapfunc function matching '%s'!", function_name );
-    const static trap_function null_fun = trapfunc::none;
+    static const trap_function null_fun = trapfunc::none;
     return null_fun;
 }

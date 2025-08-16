@@ -1397,7 +1397,7 @@ static vpart_id vpart_from_item( const itype_id &item_id )
         }
     }
     debugmsg( "item %s used by construction is not base item of any vehicle part!", item_id.c_str() );
-    const static vpart_id frame_id( "frame_vertical_2" );
+    static const vpart_id frame_id( "frame_vertical_2" );
     return frame_id;
 }
 
@@ -1585,7 +1585,7 @@ void construct::done_mine_upstair( const tripoint &p )
         return;
     }
 
-    const static std::set<ter_id> liquids = {{
+    static const std::set<ter_id> liquids = {{
             t_water_sh, t_sewage, t_water_dp, t_water_pool, t_water_moving_sh, t_water_moving_dp,
         }
     };
@@ -1719,7 +1719,7 @@ void construction::load( const JsonObject &jo, const std::string &/*src*/ )
                                "collection" );
     }
 
-    const static std::map<std::string, std::function<bool( const tripoint & )>> pre_special_map = { {
+    static const std::map<std::string, std::function<bool( const tripoint & )>> pre_special_map = { {
             { "", construct::check_nothing },
             { "check_empty", construct::check_empty },
             { "check_support", construct::check_support },
@@ -1734,7 +1734,7 @@ void construction::load( const JsonObject &jo, const std::string &/*src*/ )
             { "check_empty_ramp_high", construct::check_empty_ramp_high }
         }
     };
-    const static std::map<std::string, std::function<void( const tripoint & )>> post_special_map = { {
+    static const std::map<std::string, std::function<void( const tripoint & )>> post_special_map = { {
             { "", construct::done_nothing },
             { "done_trunk_plank", construct::done_trunk_plank },
             { "done_grave", construct::done_grave },

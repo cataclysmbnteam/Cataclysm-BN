@@ -229,7 +229,7 @@ const resistances &mutation_branch::damage_resistance( body_part bp ) const
 {
     const auto iter = armor.find( bp );
     if( iter == armor.end() ) {
-        const static resistances nulres;
+        static const resistances nulres;
         return nulres;
     }
 
@@ -1503,7 +1503,7 @@ static mutagen_rejection try_reject_mutagen( Character &guy, const item &it, boo
         return mutagen_rejection::rejected;
     }
 
-    const static std::vector<std::string> safe = {{
+    static const std::vector<std::string> safe = {{
             "MYCUS", "MARLOSS", "MARLOSS_SEED", "MARLOSS_GEL"
         }
     };

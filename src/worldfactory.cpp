@@ -1472,7 +1472,7 @@ void worldfactory::draw_worldgen_tabs( const catacurses::window &w, size_t curre
 {
     werase( w );
 
-    const static std::vector<std::string> tab_strings = { {
+    static const std::vector<std::string> tab_strings = { {
             translate_marker( "World Mods" ),
             translate_marker( "World Options" ),
             translate_marker( "Finalize World" )

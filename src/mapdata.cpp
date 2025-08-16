@@ -590,7 +590,7 @@ const harvest_id &map_data_common_t::get_harvest() const
 
 const std::set<std::string> &map_data_common_t::get_harvest_names() const
 {
-    const static std::set<std::string> null_names = {};
+    static const std::set<std::string> null_names = {};
     const harvest_id &hid = get_harvest();
     return hid.is_null() ? null_names : hid->names();
 }

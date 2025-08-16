@@ -1152,7 +1152,7 @@ void character_edit_menu( Character &c )
 
 static std::string mission_status_string( mission::mission_status status )
 {
-    const static std::map<mission::mission_status, std::string> desc{ {
+    static const std::map<mission::mission_status, std::string> desc{ {
             { mission::mission_status::yet_to_start, translate_marker( "Yet to start" ) },
             { mission::mission_status::in_progress, translate_marker( "In progress" ) },
             { mission::mission_status::success, translate_marker( "Success" ) },
@@ -1892,7 +1892,7 @@ void debug()
             };
 
             uilist smenu;
-            const static auto years = []( const time_point & p ) {
+            static const auto years = []( const time_point & p ) {
                 return static_cast<int>( ( p - calendar::turn_zero ) / calendar::year_length() );
             };
             do {

@@ -641,7 +641,7 @@ static item_group_id get_unique_group_id()
     // Prefixing with a character outside the ASCII range, so it is hopefully unique and
     // (if actually printed somewhere) stands out. Theoretically those auto-generated group
     // names should not be seen anywhere.
-    const static std::string unique_prefix = "\u01F7 ";
+    static const std::string unique_prefix = "\u01F7 ";
     while( true ) {
         const item_group_id new_group = item_group_id( unique_prefix + std::to_string( next_id++ ) );
         if( !item_group::group_is_defined( new_group ) ) {

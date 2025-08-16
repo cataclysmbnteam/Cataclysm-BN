@@ -25,7 +25,7 @@ const harvest_list &string_id<harvest_list>::obj() const
     const auto found = harvest_all.find( *this );
     if( found == harvest_all.end() ) {
         debugmsg( "Tried to get invalid harvest list: %s", c_str() );
-        const static harvest_list null_list{};
+        static const harvest_list null_list{};
         return null_list;
     }
     return found->second;

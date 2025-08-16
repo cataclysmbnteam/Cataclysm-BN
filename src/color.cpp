@@ -52,7 +52,7 @@ std::unordered_map<std::string, note_color> color_by_string_map;
 
 void color_manager::finalize()
 {
-    const static std::array<std::string, NUM_HL> hilights = {{
+    static const std::array<std::string, NUM_HL> hilights = {{
             "",
             "red",
             "white",
@@ -218,7 +218,7 @@ nc_color color_manager::highlight_from_names( const std::string &name,
 
 void color_manager::load_default()
 {
-    const static auto color_pair = []( const int n ) {
+    static const auto color_pair = []( const int n ) {
         return nc_color::from_color_pair_index( n );
     };
     //        Color         Name      Color Pair      Invert

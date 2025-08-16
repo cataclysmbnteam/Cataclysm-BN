@@ -360,7 +360,7 @@ void MonsterGroupManager::LoadMonsterGroup( const JsonObject &jo )
                 pack_min = packarr.next_int();
                 pack_max = packarr.next_int();
             }
-            const static time_duration tdfactor = 1_hours;
+            static const time_duration tdfactor = 1_hours;
             time_duration starts = 0_turns;
             time_duration ends = 0_turns;
             if( mon.has_member( "starts" ) ) {

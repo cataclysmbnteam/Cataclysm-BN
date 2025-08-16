@@ -157,7 +157,7 @@ int minesweeper_game::start_game()
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
 
-    const static std::array<nc_color, 9> aColors = {{
+    static const std::array<nc_color, 9> aColors = {{
             c_white,
             c_light_gray,
             c_cyan,

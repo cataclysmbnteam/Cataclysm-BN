@@ -147,9 +147,9 @@ const char *cata_files::eol()
 {
 #if defined(_WIN32)
     // NOLINTNEXTLINE(cata-text-style): carriage return is necessary here
-    const static char local_eol[] = "\r\n";
+    static const char local_eol[] = "\r\n";
 #else
-    const static char local_eol[] = "\n";
+    static const char local_eol[] = "\n";
 #endif
     return local_eol;
 }

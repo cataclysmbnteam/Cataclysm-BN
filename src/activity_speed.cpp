@@ -279,10 +279,10 @@ void activity_speed::calc_morale_factor( const Character &who )
 
 void activity_speed::find_best_bench( const tripoint &pos, const metric metrics )
 {
-    const static std::string feature_wb = "WORKBENCH";
-    const static workbench_info_wrapper ground_bench(
+    static const std::string feature_wb = "WORKBENCH";
+    static const workbench_info_wrapper ground_bench(
         *string_id<furn_t>( "f_ground_crafting_spot" )->workbench );
-    const static workbench_info_wrapper hands_bench(
+    static const workbench_info_wrapper hands_bench(
         *string_id<furn_t>( "f_fake_bench_hands" )->workbench );
 
     const map &here = get_map();

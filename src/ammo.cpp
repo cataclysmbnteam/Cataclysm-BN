@@ -48,7 +48,7 @@ const ammunition_type &string_id<ammunition_type>::obj() const
     }
 
     debugmsg( "Tried to get invalid ammunition: %s", c_str() );
-    const static ammunition_type null_ammunition {
+    static const ammunition_type null_ammunition {
         "null"
     };
     return null_ammunition;

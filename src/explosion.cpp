@@ -694,7 +694,7 @@ void ExplosionProcess::blast_tile( const tripoint position, const int rl_distanc
                         float armor_mul;
                     };
 
-                    const static std::array<blastable_part, 6> blast_parts = { {
+                    static const std::array<blastable_part, 6> blast_parts = { {
                             { bodypart_id( "torso" ), 0.5f, 1.0f, 0.5f },
                             { bodypart_id( "head" ),  0.5f, 1.0f, 0.5f },
                             { bodypart_id( "leg_l" ), 0.75f, 1.25f, 0.4f },
@@ -1250,9 +1250,9 @@ static std::map<const Creature *, int> legacy_blast( const tripoint &p, const fl
     // 1 . 2
     // 6 4 8
     // 9 and 10 are up and down
-    const static int x_offset[10] = { -1, 1,  0, 0,  1, -1, -1, 1, 0, 0 };
-    const static int y_offset[10] = { 0, 0, -1, 1, -1,  1, -1, 1, 0, 0 };
-    const static int z_offset[10] = { 0, 0,  0, 0,  0,  0,  0, 0, 1, -1 };
+    static const int x_offset[10] = { -1, 1,  0, 0,  1, -1, -1, 1, 0, 0 };
+    static const int y_offset[10] = { 0, 0, -1, 1, -1,  1, -1, 1, 0, 0 };
+    static const int z_offset[10] = { 0, 0,  0, 0,  0,  0,  0, 0, 1, -1 };
     map &here = get_map();
     const size_t max_index = here.has_zlevels() ? 10 : 8;
 
@@ -1332,7 +1332,7 @@ static std::map<const Creature *, int> legacy_blast( const tripoint &p, const fl
 
         const float percentage = obstacle_blast_percentage( radius, dist_map.at( pt ) );
         if( percentage > 0.0f ) {
-            const static std::array<nc_color, 3> colors = { {
+            static const std::array<nc_color, 3> colors = { {
                     c_red, c_yellow, c_white
                 }
             };
@@ -1396,7 +1396,7 @@ static std::map<const Creature *, int> legacy_blast( const tripoint &p, const fl
             float armor_mul;
         };
 
-        const static std::array<blastable_part, 6> blast_parts = { {
+        static const std::array<blastable_part, 6> blast_parts = { {
                 { bodypart_id( "torso" ), 0.5f, 1.0f, 0.5f },
                 { bodypart_id( "head" ),  0.5f, 1.0f, 0.5f },
                 // Hit limbs harder so that it hurts more without being much more deadly

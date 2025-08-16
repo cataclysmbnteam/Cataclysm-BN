@@ -622,17 +622,17 @@ bool is_river_or_lake( const oter_id &ter )
 bool is_ot_match( const std::string &name, const oter_id &oter,
                   const ot_match_type match_type )
 {
-    const static auto is_ot = []( const std::string & otype, const oter_id & oter ) {
+    static const auto is_ot = []( const std::string & otype, const oter_id & oter ) {
         return otype == oter.id().str();
     };
 
-    const static auto is_ot_type = []( const std::string & otype, const oter_id & oter ) {
+    static const auto is_ot_type = []( const std::string & otype, const oter_id & oter ) {
         // Is a match if the base type is the same which will allow for handling rotations/linear features
         // but won't incorrectly match other locations that happen to contain the substring.
         return otype == oter->get_type_id().str();
     };
 
-    const static auto is_ot_prefix = []( const std::string & otype, const oter_id & oter ) {
+    static const auto is_ot_prefix = []( const std::string & otype, const oter_id & oter ) {
         const size_t oter_size = oter.id().str().size();
         const size_t compare_size = otype.size();
         if( compare_size > oter_size ) {
@@ -653,7 +653,7 @@ bool is_ot_match( const std::string &name, const oter_id &oter,
         return oter_str.str()[compare_size] == '_';
     };
 
-    const static auto is_ot_subtype = []( const std::string & otype, const oter_id & oter ) {
+    static const auto is_ot_subtype = []( const std::string & otype, const oter_id & oter ) {
         // Checks for any partial match.
         return strstr( oter.id().c_str(), otype.c_str() );
     };
@@ -905,7 +905,7 @@ bool oter_t::type_is( const oter_type_t &type ) const
 bool oter_t::has_connection( om_direction::type dir ) const
 {
     // TODO: It's a DAMN UGLY hack. Remove it as soon as possible.
-    const static oter_str_id road_manhole( "road_nesw_manhole" );
+    static const oter_str_id road_manhole( "road_nesw_manhole" );
     if( id == road_manhole ) {
         return true;
     }
@@ -915,7 +915,7 @@ bool oter_t::has_connection( om_direction::type dir ) const
 bool oter_t::is_hardcoded() const
 {
     // TODO: This set only exists because so does the monstrous 'if-else' statement in @ref map::draw_map(). Get rid of both.
-    const static std::set<std::string> hardcoded_mapgen = {
+    static const std::set<std::string> hardcoded_mapgen = {
         "ants_lab",
         "ants_lab_stairs",
         "ice_lab",
@@ -2926,8 +2926,8 @@ oter_id overmap::get_default_terrain( int z ) const
         return settings->default_oter.id();
     } else {
         // // TODO: Get rid of the hard-coded ids.
-        const static oter_str_id open_air( "open_air" );
-        const static oter_str_id empty_rock( "empty_rock" );
+        static const oter_str_id open_air( "open_air" );
+        static const oter_str_id empty_rock( "empty_rock" );
 
         return z > 0 ? open_air.id() : empty_rock.id();
     }
@@ -3157,7 +3157,7 @@ bool overmap::is_marked_dangerous( const tripoint_om_omt &p ) const
 
 const std::vector<om_note> &overmap::all_notes( int z ) const
 {
-    const static std::vector<om_note> fallback;
+    static const std::vector<om_note> fallback;
 
     if( z < -OVERMAP_DEPTH || z > OVERMAP_HEIGHT ) {
         return fallback;
@@ -3168,7 +3168,7 @@ const std::vector<om_note> &overmap::all_notes( int z ) const
 
 const std::string &overmap::note( const tripoint_om_omt &p ) const
 {
-    const static std::string fallback {};
+    static const std::string fallback {};
 
     const auto &notes = all_notes( p.z() );
     const auto it = std::find_if( begin( notes ), end( notes ), [&]( const om_note & n ) {
@@ -3243,7 +3243,7 @@ bool overmap::has_extra( const tripoint_om_omt &p ) const
 
 const string_id<map_extra> &overmap::extra( const tripoint_om_omt &p ) const
 {
-    const static string_id<map_extra> fallback{};
+    static const string_id<map_extra> fallback{};
 
     if( p.z() < -OVERMAP_DEPTH || p.z() > OVERMAP_HEIGHT ) {
         return fallback;
@@ -3313,7 +3313,7 @@ bool overmap::inbounds( const tripoint_om_omt &p, int clearance )
 
 const scent_trace &overmap::scent_at( const tripoint_abs_omt &loc ) const
 {
-    const static scent_trace null_scent;
+    static const scent_trace null_scent;
     const auto &scent_found = scents.find( loc );
     if( scent_found != scents.end() ) {
         return scent_found->second;
@@ -5048,7 +5048,7 @@ const std::vector<point_om_omt> &overmap_connection_cache::get_all( const overma
         }
     }
     // Return an empty vector if the keys do not exist
-    const static std::vector<point_om_omt> empty;
+    static const std::vector<point_om_omt> empty;
     return empty;
 }
 
@@ -5371,7 +5371,7 @@ void overmap::polish_rivers( const overmap *north, const overmap *east, const ov
 
 std::string om_direction::name( type dir )
 {
-    const static std::array < std::string, size + 1 > names = {{
+    static const std::array < std::string, size + 1 > names = {{
             translate_marker( "invalid" ), translate_marker( "north" ),
             translate_marker( "east" ), translate_marker( "south" ),
             translate_marker( "west" )
@@ -5865,7 +5865,7 @@ void overmap::place_specials( overmap_special_batch &enabled_specials )
     const int RANGE = std::max( 0, get_option<int>( "SPECIALS_SPACING" ) );
     const float DENSITY = get_option<float>( "SPECIALS_DENSITY" );
 
-    const static overmap_location_id water( "water" );
+    static const overmap_location_id water( "water" );
 
     // We have four zones with individual point pools:
     // land surface, land underground, all lakes, all rivers
@@ -5971,7 +5971,7 @@ void overmap::place_specials( overmap_special_batch &enabled_specials )
         }
     }
 
-    const static float OMAP_AREA = static_cast<float>( OMAPX * OMAPY );
+    static const float OMAP_AREA = static_cast<float>( OMAPX * OMAPY );
     float zone_ratio[zone::last];
     for( int i = 0; i < zone::river; i++ ) {
         // Most of the setups should end with x1 multiplier, but some dire combinations
@@ -6314,8 +6314,8 @@ void overmap::set_electric_grid_connections( const tripoint_om_omt &p,
 overmap_special_id overmap_specials::create_building_from( const oter_type_str_id &base )
 {
     // TODO: Get rid of the hard-coded ids.
-    const static overmap_location_id land( "land" );
-    const static overmap_location_id swamp( "swamp" );
+    static const overmap_location_id land( "land" );
+    static const overmap_location_id swamp( "swamp" );
 
     overmap_special_terrain ter;
     ter.terrain = base.obj().get_first().id();

@@ -219,7 +219,7 @@ void player_activity::serialize( JsonOut &json ) const
 
 void player_activity::deserialize( JsonIn &jsin )
 {
-    const static activity_id ACT_MIGRATION_CANCEL( "ACT_MIGRATION_CANCEL" );
+    static const activity_id ACT_MIGRATION_CANCEL( "ACT_MIGRATION_CANCEL" );
     const JsonObject data = jsin.get_object();
     data.allow_omitted_members();
     data.read( "type", type );
@@ -1545,7 +1545,7 @@ void npc::load( const JsonObject &data )
     data.read( "wander_pos", wander_pos );
     if( data.read( "mission", misstmp ) ) {
         mission = static_cast<npc_mission>( misstmp );
-        const static std::set<npc_mission> legacy_missions = {{
+        static const std::set<npc_mission> legacy_missions = {{
                 NPC_MISSION_LEGACY_1, NPC_MISSION_LEGACY_2,
                 NPC_MISSION_LEGACY_3
             }
@@ -1556,7 +1556,7 @@ void npc::load( const JsonObject &data )
     }
     if( data.read( "previous_mission", misstmp ) ) {
         previous_mission = static_cast<npc_mission>( misstmp );
-        const static std::set<npc_mission> legacy_missions = {{
+        static const std::set<npc_mission> legacy_missions = {{
                 NPC_MISSION_LEGACY_1, NPC_MISSION_LEGACY_2,
                 NPC_MISSION_LEGACY_3
             }
@@ -1578,7 +1578,7 @@ void npc::load( const JsonObject &data )
 
     if( data.read( "attitude", atttmp ) ) {
         attitude = static_cast<npc_attitude>( atttmp );
-        const static std::set<npc_attitude> legacy_attitudes = {{
+        static const std::set<npc_attitude> legacy_attitudes = {{
                 NPCATT_LEGACY_1, NPCATT_LEGACY_2, NPCATT_LEGACY_3,
                 NPCATT_LEGACY_4, NPCATT_LEGACY_5, NPCATT_LEGACY_6
             }
@@ -1589,7 +1589,7 @@ void npc::load( const JsonObject &data )
     }
     if( data.read( "previous_attitude", atttmp ) ) {
         previous_attitude = static_cast<npc_attitude>( atttmp );
-        const static std::set<npc_attitude> legacy_attitudes = {{
+        static const std::set<npc_attitude> legacy_attitudes = {{
                 NPCATT_LEGACY_1, NPCATT_LEGACY_2, NPCATT_LEGACY_3,
                 NPCATT_LEGACY_4, NPCATT_LEGACY_5, NPCATT_LEGACY_6
             }
@@ -2277,7 +2277,7 @@ void item::io( Archive &archive )
     archive.io( "light_width", light.width, nolight.width );
     archive.io( "light_dir", light.direction, nolight.direction );
 
-    const static cata::value_ptr<relic> null_relic_ptr = nullptr;
+    static const cata::value_ptr<relic> null_relic_ptr = nullptr;
     archive.io( "relic_data", relic_data, null_relic_ptr );
 
     archive.io( "drop_token", drop_token, decltype( drop_token )() );

@@ -2178,7 +2178,7 @@ std::string melee_message( const ma_technique &tec, Character &p, const dealt_da
     // Those could be extracted to a json
 
     // Three last values are for low damage
-    const static std::array<std::string, 6> player_stab = { {
+    static const std::array<std::string, 6> player_stab = { {
             translate_marker( "You impale %s" ),
             translate_marker( "You gouge %s" ),
             translate_marker( "You run %s through" ),
@@ -2187,7 +2187,7 @@ std::string melee_message( const ma_technique &tec, Character &p, const dealt_da
             translate_marker( "You poke %s" )
         }
     };
-    const static std::array<std::string, 6> npc_stab = { {
+    static const std::array<std::string, 6> npc_stab = { {
             translate_marker( "<npcname> impales %s" ),
             translate_marker( "<npcname> gouges %s" ),
             translate_marker( "<npcname> runs %s through" ),
@@ -2197,7 +2197,7 @@ std::string melee_message( const ma_technique &tec, Character &p, const dealt_da
         }
     };
     // First 5 are for high damage, next 2 for medium, then for low and then for v. low
-    const static std::array<std::string, 9> player_cut = { {
+    static const std::array<std::string, 9> player_cut = { {
             translate_marker( "You gut %s" ),
             translate_marker( "You chop %s" ),
             translate_marker( "You slash %s" ),
@@ -2209,7 +2209,7 @@ std::string melee_message( const ma_technique &tec, Character &p, const dealt_da
             translate_marker( "You nick %s" )
         }
     };
-    const static std::array<std::string, 9> npc_cut = { {
+    static const std::array<std::string, 9> npc_cut = { {
             translate_marker( "<npcname> guts %s" ),
             translate_marker( "<npcname> chops %s" ),
             translate_marker( "<npcname> slashes %s" ),
@@ -2223,7 +2223,7 @@ std::string melee_message( const ma_technique &tec, Character &p, const dealt_da
     };
 
     // Three last values are for low damage
-    const static std::array<std::string, 6> player_bash = { {
+    static const std::array<std::string, 6> player_bash = { {
             translate_marker( "You clobber %s" ),
             translate_marker( "You smash %s" ),
             translate_marker( "You thrash %s" ),
@@ -2232,7 +2232,7 @@ std::string melee_message( const ma_technique &tec, Character &p, const dealt_da
             translate_marker( "You hit %s" )
         }
     };
-    const static std::array<std::string, 6> npc_bash = { {
+    static const std::array<std::string, 6> npc_bash = { {
             translate_marker( "<npcname> clobbers %s" ),
             translate_marker( "<npcname> smashes %s" ),
             translate_marker( "<npcname> thrashes %s" ),

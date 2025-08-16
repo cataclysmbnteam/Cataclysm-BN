@@ -495,11 +495,11 @@ void game::draw_bullet( const tripoint &t, const int i,
         return;
     }
 
-    const static std::string bullet_unknown  {};
-    const static std::string bullet_normal_0deg {"animation_bullet_normal_0deg"};
-    const static std::string bullet_normal_45deg {"animation_bullet_normal_45deg"};
-    const static std::string bullet_flame    {"animation_bullet_flame"};
-    const static std::string bullet_shrapnel {"animation_bullet_shrapnel"};
+    static const std::string bullet_unknown  {};
+    static const std::string bullet_normal_0deg {"animation_bullet_normal_0deg"};
+    static const std::string bullet_normal_45deg {"animation_bullet_normal_45deg"};
+    static const std::string bullet_flame    {"animation_bullet_flame"};
+    static const std::string bullet_shrapnel {"animation_bullet_shrapnel"};
 
     // to send to
     enum rotation_impl : unsigned {
@@ -526,7 +526,7 @@ void game::draw_bullet( const tripoint &t, const int i,
     };
 
     // converts direction into cata_tiles compatible rotation value
-    const static auto get_rotation = []( direction dir ) {
+    static const auto get_rotation = []( direction dir ) {
         switch( dir ) {
             default:
             case direction::NORTH:
@@ -667,10 +667,10 @@ void game::draw_hit_player( const Character &who, const int dam )
         return;
     }
 
-    const static std::string player_male   {"player_male"};
-    const static std::string player_female {"player_female"};
-    const static std::string npc_male      {"npc_male"};
-    const static std::string npc_female    {"npc_female"};
+    static const std::string player_male   {"player_male"};
+    static const std::string player_female {"player_female"};
+    static const std::string npc_male      {"npc_male"};
+    static const std::string npc_female    {"npc_female"};
 
     const std::string &type = who.is_player() ? ( who.male ? player_male : player_female )
                               : who.male ? npc_male : npc_female;

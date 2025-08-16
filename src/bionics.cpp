@@ -790,7 +790,7 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
         conduct_blood_analysis();
     } else if( bio.id == bio_blood_filter ) {
         add_msg_activate();
-        const static std::vector<efftype_id> removable = {{
+        static const std::vector<efftype_id> removable = {{
                 effect_adrenaline,
                 effect_fungus, effect_dermatik, effect_bloodworms,
                 effect_poison, effect_stung, effect_badpoison,
@@ -864,7 +864,7 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
         bool no_target = true;
         bool extracted = false;
         for( item *&it : here.i_at( pos() ) ) {
-            const static auto volume_per_water_charge = 500_ml;
+            static const auto volume_per_water_charge = 500_ml;
             if( it->is_corpse() ) {
                 const int avail = it->get_var( "remaining_water", it->volume() / volume_per_water_charge );
                 if( avail > 0 ) {
@@ -893,7 +893,7 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
         }
     } else if( bio.id == bio_magnet ) {
         add_msg_activate();
-        const static std::set<material_id> affected_materials =
+        static const std::set<material_id> affected_materials =
         { material_id( "iron" ), material_id( "steel" ) };
         // Remember all items that will be affected, then affect them
         // Don't "snowball" by affecting some items multiple times
@@ -923,7 +923,7 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
             proj.impact = damage_instance::physical( pr.first->weight() / 250_gram, 0, 0, 0 );
             // make the projectile stop one tile short to prevent hitting the player
             proj.range = rl_dist( pr.second, pos() ) - 1;
-            const static std::set<ammo_effect_str_id> ammo_effects = {{
+            static const std::set<ammo_effect_str_id> ammo_effects = {{
                     ammo_effect_str_id( "NO_ITEM_DAMAGE" ),
                     ammo_effect_str_id( "DRAW_AS_LINE" ),
                     ammo_effect_str_id( "NO_DAMAGE_SCALING" ),
@@ -1521,7 +1521,7 @@ itype_id Character::find_remote_fuel( bool look_only )
                 }
                 continue;
             case state_UPS: {
-                const static item_filter used_ups = [&]( const item & itm ) {
+                static const item_filter used_ups = [&]( const item & itm ) {
                     return itm.get_var( "cable" ) == "plugged_in";
                 };
                 if( !look_only ) {
@@ -1584,7 +1584,7 @@ units::energy Character::consume_remote_fuel( units::energy amount )
                 break;
             }
             case state_UPS: {
-                const static item_filter used_ups = [&]( const item & itm ) {
+                static const item_filter used_ups = [&]( const item & itm ) {
                     return itm.get_var( "cable" ) == "plugged_in";
                 };
                 if( has_charges( itype_UPS_off, amount_kj, used_ups ) ) {

@@ -82,7 +82,7 @@ tripoint rotate_point( const tripoint &p, int rotations )
 
 building_gen_pointer get_mapgen_cfunction( const std::string &ident )
 {
-    const static std::map<std::string, building_gen_pointer> pointers = { {
+    static const std::map<std::string, building_gen_pointer> pointers = { {
             { "null",             &mapgen_null },
             { "test",             &mapgen_test },
             { "crater",           &mapgen_crater },

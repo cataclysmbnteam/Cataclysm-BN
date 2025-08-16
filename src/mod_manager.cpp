@@ -29,7 +29,7 @@ const MOD_INFORMATION &string_id<MOD_INFORMATION>::obj() const
     const auto iter = map.find( *this );
     if( iter == map.end() ) {
         debugmsg( "Invalid mod %s requested", str() );
-        const static MOD_INFORMATION dummy{};
+        static const MOD_INFORMATION dummy{};
         return dummy;
     }
     return iter->second;
@@ -59,7 +59,7 @@ std::string MOD_INFORMATION::description() const
 
 const std::vector<std::pair<std::string, std::string> > &get_mod_list_categories()
 {
-    const static std::vector<std::pair<std::string, std::string> > mod_list_categories = {
+    static const std::vector<std::pair<std::string, std::string> > mod_list_categories = {
         {"core", translate_marker( "CORE GAME DATA" )},
         {"content", translate_marker( "CONTENT PACKS" )},
         {"items", translate_marker( "ITEM ADDITION MODS" )},
@@ -80,7 +80,7 @@ const std::vector<std::pair<std::string, std::string> > &get_mod_list_categories
 
 const std::vector<std::pair<std::string, std::string> > &get_mod_list_tabs()
 {
-    const static std::vector<std::pair<std::string, std::string> > mod_list_tabs = {
+    static const std::vector<std::pair<std::string, std::string> > mod_list_tabs = {
         {"tab_default", translate_marker( "Default" )},
         {"tab_blacklist", translate_marker( "Blacklist" )},
         {"tab_balance", translate_marker( "Balance" )}
@@ -91,7 +91,7 @@ const std::vector<std::pair<std::string, std::string> > &get_mod_list_tabs()
 
 const std::map<std::string, std::string> &get_mod_list_cat_tab()
 {
-    const static std::map<std::string, std::string> mod_list_cat_tab = {
+    static const std::map<std::string, std::string> mod_list_cat_tab = {
         {"item_exclude", "tab_blacklist"},
         {"monster_exclude", "tab_blacklist"},
         {"rebalance", "tab_balance"}

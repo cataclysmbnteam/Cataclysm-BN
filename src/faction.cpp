@@ -503,7 +503,7 @@ int npc::faction_display( const catacurses::window &fac_w, const int width ) con
     std::string can_see;
     nc_color see_color;
 
-    const static flag_id json_flag_TWO_WAY_RADIO( "TWO_WAY_RADIO" );
+    static const flag_id json_flag_TWO_WAY_RADIO( "TWO_WAY_RADIO" );
     const bool u_has_radio = g->u.has_item_with_flag( json_flag_TWO_WAY_RADIO, true ) ||
                              g->u.has_bionic( bio_infolink );
     const bool guy_has_radio = has_item_with_flag( json_flag_TWO_WAY_RADIO, true ) ||

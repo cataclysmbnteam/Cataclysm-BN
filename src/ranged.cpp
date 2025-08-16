@@ -1326,7 +1326,7 @@ dealt_projectile_attack throw_item( Character &who, const tripoint &target,
         skill_level = std::max( 0, skill_level - 5 );
     }
 
-    const static std::set<material_id> ferric = { material_id( "iron" ), material_id( "steel" ) };
+    static const std::set<material_id> ferric = { material_id( "iron" ), material_id( "steel" ) };
     const bool do_railgun = who.has_active_bionic( bio_railgun ) && thrown.made_of_any( ferric ) &&
                             !throw_assist;
     const int effective_strength =
@@ -1737,7 +1737,7 @@ static int print_aim( const Character &p, const catacurses::window &w, int line_
     const double steadiness = 1.0 - ( steady_score / steadiness_range );
 
     // This could be extracted, to allow more/less verbose displays
-    const static std::vector<confidence_rating> confidence_config = {{
+    static const std::vector<confidence_rating> confidence_config = {{
             { accuracy_critical, '*', "green", translate_marker_context( "aim_confidence", "Great" ) },
             { accuracy_standard, '+', "light_gray", translate_marker_context( "aim_confidence", "Normal" ) },
             { accuracy_grazing, '|', "magenta", translate_marker_context( "aim_confidence", "Graze" ) }
@@ -1775,13 +1775,13 @@ static int draw_throw_aim( const player &p, const catacurses::window &w, int lin
 
     const double target_size = target != nullptr ? target->ranged_target_size() : 1.0f;
 
-    const static std::vector<confidence_rating> confidence_config_critter = {{
+    static const std::vector<confidence_rating> confidence_config_critter = {{
             { accuracy_critical, '*', "green", translate_marker_context( "aim_confidence", "Great" ) },
             { accuracy_standard, '+', "light_gray", translate_marker_context( "aim_confidence", "Normal" ) },
             { accuracy_grazing, '|', "magenta", translate_marker_context( "aim_confidence", "Graze" ) }
         }
     };
-    const static std::vector<confidence_rating> confidence_config_object = {{
+    static const std::vector<confidence_rating> confidence_config_object = {{
             { accuracy_grazing, '*', "white", translate_marker_context( "aim_confidence", "Hit" ) }
         }
     };
@@ -2205,7 +2205,7 @@ double npc_ai::gun_value( const Character &who, const item &weap, int ammo )
 
     // "Medium range" below means 9 tiles, "short range" means 4
     // Those are guarantees (assuming maximum time spent aiming)
-    const static std::vector<std::pair<float, float>> dispersion_thresholds = {
+    static const std::vector<std::pair<float, float>> dispersion_thresholds = {
         {
             // Headshots all the time
             { 0.0f, 2.0f },

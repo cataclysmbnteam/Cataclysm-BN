@@ -69,7 +69,7 @@ const requirement_data &string_id<requirement_data>::obj() const
     const auto found = requirements_all.find( *this );
     if( found == requirements_all.end() ) {
         debugmsg( "Tried to get invalid requirements: %s", c_str() );
-        const static requirement_data null_requirement{};
+        static const requirement_data null_requirement{};
         return null_requirement;
     }
     return found->second;

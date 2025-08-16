@@ -461,7 +461,7 @@ void cata_cursesport::curses_drawwindow( const catacurses::window &w )
                 int FG = cell.FG;
                 int BG = cell.BG;
                 FillRectDIB( drawx, drawy, fontwidth, fontheight, BG );
-                const static std::string space_string = " ";
+                static const std::string space_string = " ";
                 // Spaces don't need any drawing except background
                 if( cell.ch == space_string ) {
                     continue;

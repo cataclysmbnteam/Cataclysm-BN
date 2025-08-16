@@ -688,7 +688,7 @@ void computer_session::action_amigara_start()
 void computer_session::action_complete_disable_external_power()
 {
     for( auto miss : g->u.get_active_missions() ) {
-        const static mission_type_id commo_2 = mission_type_id( "MISSION_OLD_GUARD_NEC_COMMO_2" );
+        static const mission_type_id commo_2 = mission_type_id( "MISSION_OLD_GUARD_NEC_COMMO_2" );
         if( miss->mission_id() == commo_2 ) {
             print_error( _( "--ACCESS GRANTED--" ) );
             print_error( _( "Mission Complete!" ) );
@@ -705,7 +705,7 @@ void computer_session::action_repeater_mod()
 {
     if( g->u.has_amount( itype_radio_repeater_mod, 1 ) ) {
         for( auto miss : g->u.get_active_missions() ) {
-            const static mission_type_id commo_3 = mission_type_id( "MISSION_OLD_GUARD_NEC_COMMO_3" ),
+            static const mission_type_id commo_3 = mission_type_id( "MISSION_OLD_GUARD_NEC_COMMO_3" ),
                                          commo_4 = mission_type_id( "MISSION_OLD_GUARD_NEC_COMMO_4" );
             if( miss->mission_id() == commo_3 || miss->mission_id() == commo_4 ) {
                 miss->step_complete( 1 );
@@ -1251,7 +1251,7 @@ void computer_session::action_deactivate_shock_vent()
 void computer_session::activate_random_failure()
 {
     comp.next_attempt = calendar::turn + 45_minutes;
-    const static computer_failure default_failure( COMPFAIL_SHUTDOWN );
+    static const computer_failure default_failure( COMPFAIL_SHUTDOWN );
     const computer_failure &fail = random_entry( comp.failures, default_failure );
     activate_failure( fail.type );
 }

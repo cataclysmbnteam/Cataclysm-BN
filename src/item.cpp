@@ -196,7 +196,7 @@ std::string rad_badge_color( const int rad )
 {
     using pair_t = std::pair<const int, const translation>;
 
-    const static std::array<pair_t, 6> values = {{
+    static const std::array<pair_t, 6> values = {{
             pair_t {  0, to_translation( "color", "green" ) },
             pair_t { 30, to_translation( "color", "blue" )  },
             pair_t { 60, to_translation( "color", "yellow" )},
@@ -1835,7 +1835,7 @@ void item::basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
             info.emplace_back( "BASE", _( "burn: " ), "", iteminfo::lower_is_better,
                                burnt );
 
-            const static auto f = []( const flag_id & f ) -> std::string { return f.str(); };
+            static const auto f = []( const flag_id & f ) -> std::string { return f.str(); };
             const std::string itype_tags_listed = enumerate_as_string( type->item_tags, f,
                                                   enumeration_conjunction::none );
             info.emplace_back( "BASE", string_format( _( "itype tags: %s" ), itype_tags_listed ) );
@@ -2186,7 +2186,7 @@ void item::ammo_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
         }
 
         // Ugly, but handles edge cases better than mandatory space
-        const static std::string no_space;
+        static const std::string no_space;
         const std::string &maybe_space = didnt_print_dmg ? no_space : space;
 
         if( has_flat_arpen && display_flat_arpen
@@ -5102,7 +5102,7 @@ std::string item::display_name( unsigned int quantity ) const
             break;
     }
     const avatar &you = get_avatar();
-    const static itype_id itype_battery( "battery" );
+    static const itype_id itype_battery( "battery" );
     int amount = 0;
     int max_amount = 0;
     const bool has_item = is_container() && contents.num_item_stacks() == 1;
@@ -5699,7 +5699,7 @@ int item::reach_range( const Character &guy ) const
 
 bool item::can_shatter() const
 {
-    const static std::set<material_id> is_glass{ material_id( "glass" ) };
+    static const std::set<material_id> is_glass{ material_id( "glass" ) };
     return only_made_of( is_glass ) || has_flag( flag_SHATTERS );
 }
 
@@ -6463,7 +6463,7 @@ time_duration item::brewing_time() const
 
 const std::vector<itype_id> &item::brewing_results() const
 {
-    const static std::vector<itype_id> nulresult{};
+    static const std::vector<itype_id> nulresult{};
     return is_brewable() ? type->brewable->results : nulresult;
 }
 
@@ -7481,7 +7481,7 @@ bool item::is_relic() const
 const std::vector<enchantment> &item::get_enchantments() const
 {
     if( !is_relic() ) {
-        const static std::vector<enchantment> fallback;
+        static const std::vector<enchantment> fallback;
         return fallback;
     }
     return relic_data->get_enchantments();
@@ -10016,7 +10016,7 @@ detached_ptr<item> item::process_cable( detached_ptr<item> &&self, player *carri
                 }
                 return std::move( self );
             case state_UPS: {
-                const static item_filter used_ups = [&]( const item & itm ) {
+                static const item_filter used_ups = [&]( const item & itm ) {
                     return itm.get_var( "cable" ) == "plugged_in";
                 };
 
@@ -10827,7 +10827,7 @@ const recipe &item::get_making() const
 {
     if( !craft_data_ ) {
         debugmsg( "'%s' is not a craft or has a null recipe", tname() );
-        const static recipe dummy{};
+        static const recipe dummy{};
         return dummy;
     }
     assert( craft_data_->making );
@@ -10881,7 +10881,7 @@ namespace
 {
 const std::string &get_clothing_mod_val_key( clothing_mod_type type )
 {
-    const static auto cache = ( []() {
+    static const auto cache = ( []() {
         std::array<std::string, clothing_mods::all_clothing_mod_types.size()> res;
         for( const clothing_mod_type &type : clothing_mods::all_clothing_mod_types ) {
             res[type] = CLOTHING_MOD_VAR_PREFIX

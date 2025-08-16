@@ -151,7 +151,7 @@ const vpart_info &string_id<vpart_info>::obj() const
     const auto found = vpart_info_all.find( *this );
     if( found == vpart_info_all.end() ) {
         debugmsg( "Tried to get invalid vehicle part: %s", c_str() );
-        const static vpart_info null_part{};
+        static const vpart_info null_part{};
         return null_part;
     }
     return found->second;
@@ -668,7 +668,7 @@ void vpart_info::check()
             debugmsg( "%s is set to drain epower, but has epower == 0", part.id.c_str() );
         }
         // Parts with non-zero epower must have a flag that affects epower usage
-        const static std::vector<std::string> handled = {{
+        static const std::vector<std::string> handled = {{
                 "ENABLED_DRAINS_EPOWER", "SECURITY", "ENGINE",
                 "ALTERNATOR", "SOLAR_PANEL", "POWER_TRANSFER",
                 "REACTOR", "WIND_TURBINE", "WATER_WHEEL"
@@ -925,7 +925,7 @@ const vehicle_prototype &string_id<vehicle_prototype>::obj() const
     const auto iter = vtypes.find( *this );
     if( iter == vtypes.end() ) {
         debugmsg( "invalid vehicle prototype id %s", c_str() );
-        const static vehicle_prototype dummy = {
+        static const vehicle_prototype dummy = {
             "",
             std::vector<vehicle_prototype::part_def>{},
             std::vector<vehicle_item_spawn>{},

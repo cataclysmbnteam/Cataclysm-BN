@@ -994,7 +994,7 @@ void rotate_direction_cw( int &dx, int &dy )
     // 1 2 5
     // 0 4 8
     // 3 6 7
-    const static std::array<int, 9> rotate_direction_vec = {{ 1, 2, 5, 0, 4, 8, 3, 6, 7 }};
+    static const std::array<int, 9> rotate_direction_vec = {{ 1, 2, 5, 0, 4, 8, 3, 6, 7 }};
     dir_num = rotate_direction_vec[dir_num];
     // convert back to -1,0,+1
     dx = dir_num % 3 - 1;
@@ -1003,10 +1003,10 @@ void rotate_direction_cw( int &dx, int &dy )
 
 std::optional<tripoint> input_context::get_direction( const std::string &action ) const
 {
-    const static auto noop = static_cast<tripoint( * )( tripoint )>( []( tripoint p ) {
+    static const auto noop = static_cast<tripoint( * )( tripoint )>( []( tripoint p ) {
         return p;
     } );
-    const static auto rotate = static_cast<tripoint( * )( tripoint )>( []( tripoint p ) {
+    static const auto rotate = static_cast<tripoint( * )( tripoint )>( []( tripoint p ) {
         rotate_direction_cw( p.x, p.y );
         return p;
     } );
@@ -1143,9 +1143,9 @@ action_id input_context::display_menu( const bool permit_execute_action )
     } ), org_registered_actions.end() );
 
     // colors of the keybindings
-    const static nc_color global_key = c_light_gray;
-    const static nc_color local_key = c_light_green;
-    const static nc_color unbound_key = c_light_red;
+    static const nc_color global_key = c_light_gray;
+    static const nc_color local_key = c_light_green;
+    static const nc_color unbound_key = c_light_red;
     // (vertical) scroll offset
     size_t scroll_offset = 0;
     // keybindings help

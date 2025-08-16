@@ -25,7 +25,7 @@ const fault &string_id<fault>::obj() const
     const auto found = faults_all.find( *this );
     if( found == faults_all.end() ) {
         debugmsg( "Tried to get invalid fault: %s", c_str() );
-        const static fault null_fault{};
+        static const fault null_fault{};
         return null_fault;
     }
     return found->second;

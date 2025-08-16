@@ -30,7 +30,7 @@ const vitamin &string_id<vitamin>::obj() const
     const auto found = vitamins_all.find( *this );
     if( found == vitamins_all.end() ) {
         debugmsg( "Tried to get invalid vitamin: %s", c_str() );
-        const static vitamin null_vitamin{};
+        static const vitamin null_vitamin{};
         return null_vitamin;
     }
     return found->second;

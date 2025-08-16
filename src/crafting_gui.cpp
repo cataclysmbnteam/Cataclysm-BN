@@ -405,12 +405,12 @@ const recipe *select_crafting_recipe( int &batch_size_out )
         const int wStart = ( TERMX - width ) / 2;
 
         // Keybinding tips
-        const static translation inline_fmt = to_translation(
+        static const translation inline_fmt = to_translation(
                 //~ %1$s: action description text before key,
                 //~ %2$s: key description,
                 //~ %3$s: action description text after key.
                 "keybinding", "%1$s[<color_yellow>%2$s</color>]%3$s" );
-        const static translation separate_fmt = to_translation(
+        static const translation separate_fmt = to_translation(
                 //~ %1$s: key description,
                 //~ %2$s: action description.
                 "keybinding", "[<color_yellow>%1$s</color>]%2$s" );

@@ -187,7 +187,7 @@ const SkillDisplayType &SkillDisplayType::get_skill_type( const skill_displayTyp
 
 skill_id Skill::from_legacy_int( const int legacy_id )
 {
-    const static std::array<skill_id, 28> legacy_skills = { {
+    static const std::array<skill_id, 28> legacy_skills = { {
             skill_id::NULL_ID(), skill_id( "dodge" ), skill_id( "melee" ), skill_id( "unarmed" ),
             skill_id( "bashing" ), skill_id( "cutting" ), skill_id( "stabbing" ), skill_id( "throw" ),
             skill_id( "gun" ), skill_id( "pistol" ), skill_id( "shotgun" ), skill_id( "smg" ),
@@ -212,20 +212,20 @@ skill_id Skill::random_skill()
 // used for the pacifist trait
 bool Skill::is_combat_skill() const
 {
-    const static std::string combat_skill( "combat_skill" );
+    static const std::string combat_skill( "combat_skill" );
     return _tags.contains( combat_skill );
 }
 
 bool Skill::is_contextual_skill() const
 {
-    const static std::string contextual_skill( "contextual_skill" );
+    static const std::string contextual_skill( "contextual_skill" );
     return _tags.contains( contextual_skill );
 }
 
 // used to check NPC weapon skills for determining starting weapon
 bool Skill::is_weapon_skill() const
 {
-    const static std::string weapon_skill( "weapon_skill" );
+    static const std::string weapon_skill( "weapon_skill" );
     return _tags.contains( weapon_skill );
 }
 
@@ -322,7 +322,7 @@ bool SkillLevel::can_train() const
 
 const SkillLevel &SkillLevelMap::get_skill_level_object( const skill_id &ident ) const
 {
-    const static SkillLevel null_skill{};
+    static const SkillLevel null_skill{};
 
     if( ident && ident->is_contextual_skill() ) {
         debugmsg( "Skill \"%s\" is context-dependent.  It cannot be assigned.", ident.str() );

@@ -1317,7 +1317,7 @@ static bool draw_window( Font_Ptr &font, const catacurses::window &w, point offs
     }
 
     // TODO: Get this from UTF system to make sure it is exactly the kind of space we need
-    const static std::string space_string = " ";
+    static const std::string space_string = " ";
 
     bool update = false;
     for( int j = 0; j < win->height; j++ ) {

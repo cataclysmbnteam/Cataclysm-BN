@@ -218,7 +218,7 @@ static void dead_vegetation_parser( map &m, const tripoint &loc )
     }
     // terrain specific conversions
     const ter_id tid = m.ter( loc );
-    const static std::map<ter_id, ter_str_id> dies_into {{
+    static const std::map<ter_id, ter_str_id> dies_into {{
             {t_grass, ter_grass_dead},
             {t_grass_long, ter_grass_dead},
             {t_grass_tall, ter_grass_dead},
@@ -1461,7 +1461,7 @@ static bool mx_portal_in( map &m, const tripoint &abs_sub )
                 const point p2{ rng( SEEX, ( SEEX * 2 ) - 3 ), rng( SEEY, ( SEEY * 2 ) - 3 ) };
                 // Pick a random cardinal direction to also spawn lava in
                 // This will make the lava a single connected line, not just on diagonals
-                const static std::array<direction, 4> possibilities = { { direction::EAST, direction::WEST, direction::NORTH, direction::SOUTH } };
+                static const std::array<direction, 4> possibilities = { { direction::EAST, direction::WEST, direction::NORTH, direction::SOUTH } };
                 const direction extra_lava_dir = random_entry( possibilities );
                 point extra;
                 switch( extra_lava_dir ) {
@@ -1832,7 +1832,7 @@ static void burned_ground_parser( map &m, const tripoint &loc )
     // grass is converted separately
     // this method is deliberate to allow adding new post-terrains
     // (TODO: expand this list when new destroyed terrain is added)
-    const static std::map<ter_id, ter_str_id> dies_into {{
+    static const std::map<ter_id, ter_str_id> dies_into {{
             {t_grass, ter_grass_dead},
             {t_grass_long, ter_grass_dead},
             {t_grass_tall, ter_grass_dead},

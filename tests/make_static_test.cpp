@@ -35,13 +35,13 @@ TEST_CASE( "make_static_macro_benchmark_string_id", "[.][make_static_macro][benc
 {
     using test_id_type = string_id<int>;
 
-    const static test_id_type test_id( "test" );
+    static const test_id_type test_id( "test" );
     BENCHMARK( "static variable outside" ) {
         return test_id.is_empty();
     };
 
     BENCHMARK( "static variable inside" ) {
-        const static test_id_type test_id( "test" );
+        static const test_id_type test_id( "test" );
         return test_id.is_empty();
     };
 
@@ -51,7 +51,7 @@ TEST_CASE( "make_static_macro_benchmark_string_id", "[.][make_static_macro][benc
 
     BENCHMARK( "static in a lambda" ) {
         return ( []() -> const auto & {
-            const static test_id_type test_id( "test" );
+            static const test_id_type test_id( "test" );
             return test_id;
         } )().is_empty();
     };

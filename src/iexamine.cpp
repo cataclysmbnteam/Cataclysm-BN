@@ -347,7 +347,7 @@ void iexamine::gaspump( player &p, const tripoint &examp )
             ///\EFFECT_DEX decreases chance of spilling gas from a pump
             if( one_in( 10 + p.get_dex() ) ) {
                 add_msg( m_bad, _( "You accidentally spill the %s." ), content->type_name() );
-                const static auto max_spill_volume = units::from_liter( 1 );
+                static const auto max_spill_volume = units::from_liter( 1 );
                 const int max_spill_charges = std::max( 1, content->charges_per_volume( max_spill_volume ) );
                 ///\EFFECT_DEX decreases amount of gas spilled from a pump
                 const int qty = rng( 1, max_spill_charges * 8.0 / std::max( 1, p.get_dex() ) );
@@ -2625,7 +2625,7 @@ void iexamine::kiln_empty( player &p, const tripoint &examp )
         return;
     }
 
-    const static std::set<material_id> kilnable{ material_id( "wood" ), material_id( "bone" ), material_id( "bone_heavy" ) };
+    static const std::set<material_id> kilnable{ material_id( "wood" ), material_id( "bone" ), material_id( "bone_heavy" ) };
     bool fuel_present = false;
     auto items = here.i_at( examp );
     for( const item * const &i : items ) {
@@ -2755,7 +2755,7 @@ void iexamine::arcfurnace_empty( player &p, const tripoint &examp )
         return;
     }
 
-    const static std::set<material_id> arcfurnaceable{ material_id( "cac2powder" ) };
+    static const std::set<material_id> arcfurnaceable{ material_id( "cac2powder" ) };
     bool fuel_present = false;
     auto items = here.i_at( examp );
     for( const item * const &i : items ) {
@@ -3044,7 +3044,7 @@ void iexamine::fvat_empty( player &p, const tripoint &examp )
     itype_id brew_type;
     std::string brew_nname;
     bool to_deposit = false;
-    const static auto vat_volume = units::from_liter( 50 );
+    static const auto vat_volume = units::from_liter( 50 );
     bool vat_full = false;
     bool ferment = false;
     bool brew_present = false;
@@ -3793,7 +3793,7 @@ void iexamine::recycle_compactor( player &, const tripoint &examp )
 
     // See below for recover_factor (rng(6,9)/10), this
     // is the normal value of that recover factor.
-    const static double norm_recover_factor = 8.0 / 10.0;
+    static const double norm_recover_factor = 8.0 / 10.0;
     const units::mass norm_recover_weight = sum_weight * norm_recover_factor;
 
     // choose output
@@ -4388,7 +4388,7 @@ static std::string getGasDiscountName( int discount )
 static int getGasPricePerLiter( int discount )
 {
     // Those prices are in cents
-    const static int prices[4] = { 1400, 1320, 1200, 1000 };
+    static const int prices[4] = { 1400, 1320, 1200, 1000 };
     if( discount < 0 || discount > 3 ) {
         return prices[0];
     } else {
@@ -6406,7 +6406,7 @@ void iexamine::cardreader_plutgen( player &p, const tripoint &examp )
  */
 iexamine_function iexamine_function_from_string( const std::string &function_name )
 {
-    const static std::map<std::string, iexamine_function> function_map = {{
+    static const std::map<std::string, iexamine_function> function_map = {{
             { "none", &iexamine::none },
             { "deployed_furniture", &iexamine::deployed_furniture },
             { "cvdmachine", &iexamine::cvdmachine },

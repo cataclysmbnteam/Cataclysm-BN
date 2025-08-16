@@ -85,8 +85,8 @@ TEST_CASE( "custom named item", "[item][type_name][named]" )
 
 TEST_CASE( "corpse item", "[item][type_name][corpse]" )
 {
-    const static mtype_id mon_zombie( "mon_zombie" );
-    const static mtype_id mon_chicken( "mon_chicken" );
+    static const mtype_id mon_zombie( "mon_zombie" );
+    static const mtype_id mon_chicken( "mon_chicken" );
 
     // Anonymous corpses
 

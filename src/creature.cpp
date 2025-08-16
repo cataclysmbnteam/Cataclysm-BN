@@ -1920,7 +1920,7 @@ const bodypart &Creature::get_part( const bodypart_id &id ) const
     auto found = body.find( id.id() );
     if( found == body.end() ) {
         debugmsg( "Could not find bodypart %s in %s's body", id.id().c_str(), get_name() );
-        const static bodypart nullpart( new fake_item_location() );
+        static const bodypart nullpart( new fake_item_location() );
         return nullpart;
     }
     return found->second;
@@ -2271,7 +2271,7 @@ std::string Creature::attitude_raw_string( Attitude att )
 const std::pair<translation, nc_color> &Creature::get_attitude_ui_data( Attitude att )
 {
     using pair_t = std::pair<translation, nc_color>;
-    const static std::array<pair_t, 5> strings {
+    static const std::array<pair_t, 5> strings {
         {
             pair_t {to_translation( "Hostile" ), c_red},
             pair_t {to_translation( "Neutral" ), h_white},

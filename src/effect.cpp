@@ -51,7 +51,7 @@ const effect_type &string_id<effect_type>::obj() const
     const auto iter = effect_types.find( *this );
     if( iter == effect_types.end() ) {
         debugmsg( "invalid effect type id %s", c_str() );
-        const static effect_type dummy{};
+        static const effect_type dummy{};
         return dummy;
     }
     return iter->second;
@@ -1405,7 +1405,7 @@ void load_effect_type( const JsonObject &jo )
     }
 
     // TODO: Implement handling of reduced morale, remove this
-    const static std::vector<std::string> mod_types = {{
+    static const std::vector<std::string> mod_types = {{
             {"base_mods"}, {"scaling_mods"}
         }
     };

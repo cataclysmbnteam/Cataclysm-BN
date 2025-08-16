@@ -550,7 +550,7 @@ void Character::suffer_from_schizophrenia()
     // Monster dies
     if( one_turn_in( 6_hours ) ) {
         // TODO: move to monster group json
-        const static std::array<mtype_id, 5> monsters = { {
+        static const std::array<mtype_id, 5> monsters = { {
                 mon_zombie, mon_zombie_fat, mon_zombie_fireman, mon_zombie_cop, mon_zombie_soldier
             }
         };

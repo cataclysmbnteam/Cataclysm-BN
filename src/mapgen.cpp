@@ -1832,7 +1832,7 @@ class jmapgen_gaspump : public jmapgen_piece
         void check( const std::string &oter_name, const mapgen_parameters &parameters
                   ) const override {
             fuel.check( oter_name, parameters );
-            const static std::unordered_set<itype_id> valid_fuels = {
+            static const std::unordered_set<itype_id> valid_fuels = {
                 itype_id::NULL_ID(), itype_gasoline, itype_diesel, itype_jp8, itype_avgas
             };
             for( const itype_id &possible_fuel : fuel.all_possible_results( parameters ) ) {
@@ -3146,7 +3146,7 @@ const mapgen_palette &string_id<mapgen_palette>::obj() const
 {
     auto it = palettes.find( *this );
     if( it == palettes.end() ) {
-        const static mapgen_palette null_palette;
+        static const mapgen_palette null_palette;
         return null_palette;
     }
     return it->second;
@@ -5551,7 +5551,7 @@ void map::draw_temple( const mapgendata &dat )
                     int x = rng( SEEX - 1, SEEX + 2 ), y = 2;
                     std::vector<point> path; // Path, from end to start
                     while( x < SEEX - 1 || x > SEEX + 2 || y < SEEY * 2 - 2 ) {
-                        const static std::vector<ter_id> terrains = {
+                        static const std::vector<ter_id> terrains = {
                             t_floor_red, t_floor_green, t_floor_blue,
                         };
                         path.emplace_back( x, y );
@@ -5607,7 +5607,7 @@ void map::draw_temple( const mapgendata &dat )
                         for( int j = 2; j <= SEEY * 2 - 2; j++ ) {
                             mtrap_set( this, point( i, j ), tr_temple_toggle );
                             if( ter( point( i, j ) ) == t_rock_floor ) {
-                                const static std::vector<ter_id> terrains = {
+                                static const std::vector<ter_id> terrains = {
                                     t_rock_red, t_rock_green, t_rock_blue,
                                     t_floor_red, t_floor_green, t_floor_blue,
                                 };

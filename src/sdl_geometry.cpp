@@ -36,15 +36,15 @@ void DefaultGeometryRenderer::rect( const SDL_Renderer_Ptr &renderer, const SDL_
 ColorModulatedGeometryRenderer::ColorModulatedGeometryRenderer( const SDL_Renderer_Ptr &renderer )
 {
 #if SDL_BYTEORDER == SDL_BIG_ENDIAN
-    const static Uint32 rmask = 0xff000000;
-    const static Uint32 gmask = 0x00ff0000;
-    const static Uint32 bmask = 0x0000ff00;
-    const static Uint32 amask = 0x000000ff;
+    static const Uint32 rmask = 0xff000000;
+    static const Uint32 gmask = 0x00ff0000;
+    static const Uint32 bmask = 0x0000ff00;
+    static const Uint32 amask = 0x000000ff;
 #else
-    const static Uint32 rmask = 0x000000ff;
-    const static Uint32 gmask = 0x0000ff00;
-    const static Uint32 bmask = 0x00ff0000;
-    const static Uint32 amask = 0xff000000;
+    static const Uint32 rmask = 0x000000ff;
+    static const Uint32 gmask = 0x0000ff00;
+    static const Uint32 bmask = 0x00ff0000;
+    static const Uint32 amask = 0xff000000;
 #endif
     SDL_Surface_Ptr alt_surf( SDL_CreateRGBSurface( 0, 1, 1, 32, rmask, gmask, bmask, amask ) );
     if( alt_surf ) {

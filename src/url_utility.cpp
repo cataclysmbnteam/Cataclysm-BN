@@ -7,7 +7,7 @@
 
 void open_url( const std::string &url )
 {
-    const static std::string executable =
+    static const std::string executable =
 #if defined(_WIN32)
         "start \"\"";
 #elif defined(__linux__) || defined(__FreeBSD__)

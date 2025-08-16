@@ -76,14 +76,14 @@ TEST_CASE( "bionics", "[bionics] [item]" )
     SECTION( "bio_batteries" ) {
         give_and_activate_bionic( dummy, bionic_id( "bio_batteries" ) );
 
-        const static std::list<std::string> always = {
+        static const std::list<std::string> always = {
             "battery" // old-school
         };
         for( auto it : always ) {
             test_consumable_charges( dummy, it, true, true );
         }
 
-        const static std::list<std::string> never = {
+        static const std::list<std::string> never = {
             "flashlight",  // !is_magazine()
             "laser_rifle", // NO_UNLOAD, uses ups_charges
             "UPS_off",     // NO_UNLOAD, !is_magazine()

@@ -37,7 +37,7 @@ static std::string utf16_to_utf8( uint32_t ch )
 {
     char out[5];
     char *buf = out;
-    const static unsigned char utf8FirstByte[7] = { 0x00, 0x00, 0xC0, 0xE0, 0xF0, 0xF8, 0xFC };
+    static const unsigned char utf8FirstByte[7] = { 0x00, 0x00, 0xC0, 0xE0, 0xF0, 0xF8, 0xFC };
     int utf8Bytes;
     if( ch < 0x80 ) {
         utf8Bytes = 1;

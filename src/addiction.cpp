@@ -272,7 +272,7 @@ void addict_effect( Character &u, addiction &add )
  */
 std::string addiction_type_name( const add_type cur )
 {
-    const static std::map<add_type, std::string> type_map = {{
+    static const std::map<add_type, std::string> type_map = {{
             { add_type::CIG, translate_marker( "nicotine" ) },
             { add_type::CAFFEINE, translate_marker( "caffeine" ) },
             { add_type::ALCOHOL, translate_marker( "alcohol" ) },
@@ -299,7 +299,7 @@ std::string addiction_type_name( const add_type cur )
 
 std::string addiction_name( const addiction &cur )
 {
-    const static std::map<add_type, std::string> type_map = {{
+    static const std::map<add_type, std::string> type_map = {{
             { add_type::CIG, translate_marker( "Nicotine Withdrawal" ) },
             { add_type::CAFFEINE, translate_marker( "Caffeine Withdrawal" ) },
             { add_type::ALCOHOL, translate_marker( "Alcohol Withdrawal" ) },
@@ -326,7 +326,7 @@ std::string addiction_name( const addiction &cur )
 
 morale_type addiction_craving( const add_type cur )
 {
-    const static std::map<add_type, morale_type> type_map = {{
+    static const std::map<add_type, morale_type> type_map = {{
             { add_type::CIG, MORALE_CRAVING_NICOTINE },
             { add_type::CAFFEINE, MORALE_CRAVING_CAFFEINE },
             { add_type::ALCOHOL, MORALE_CRAVING_ALCOHOL },
@@ -352,7 +352,7 @@ morale_type addiction_craving( const add_type cur )
 
 add_type addiction_type( const std::string &name )
 {
-    const static std::map<std::string, add_type> type_map = {{
+    static const std::map<std::string, add_type> type_map = {{
             { "nicotine", add_type::CIG },
             { "caffeine", add_type::CAFFEINE },
             { "alcohol", add_type::ALCOHOL },
@@ -380,7 +380,7 @@ add_type addiction_type( const std::string &name )
 
 std::string addiction_text( const addiction &cur )
 {
-    const static std::map<add_type, std::string> addiction_msg = {{
+    static const std::map<add_type, std::string> addiction_msg = {{
             { add_type::CIG, translate_marker( "Intelligence - 1;   Occasional cravings" ) },
             { add_type::CAFFEINE, translate_marker( "Strength - 1;   Slight sluggishness;   Occasional cravings" )  },
             {

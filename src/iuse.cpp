@@ -1120,7 +1120,7 @@ static void spawn_spores( const player &p )
 
 static void marloss_common( player &p, item &it, const trait_id &current_color )
 {
-    const static std::map<trait_id, add_type> mycus_colors = {{
+    static const std::map<trait_id, add_type> mycus_colors = {{
             { trait_MARLOSS_BLUE, add_type::MARLOSS_B }, { trait_MARLOSS_YELLOW, add_type::MARLOSS_Y }, { trait_MARLOSS, add_type::MARLOSS_R }
         }
     };
@@ -4461,7 +4461,7 @@ int iuse::oxytorch( player *p, item *it, bool, const tripoint & )
         p->add_msg_if_player( m_info, _( "You cannot do that while mounted." ) );
         return 0;
     }
-    const static quality_id GLARE( "GLARE" );
+    static const quality_id GLARE( "GLARE" );
     if( !p->has_quality( GLARE, 2 ) ) {
         p->add_msg_if_player( m_info, _( "You need welding goggles to do that." ) );
         return 0;
@@ -5851,7 +5851,7 @@ static bool einkpc_download_memory_card( player &p, item &eink, item &mc )
 
 static std::string photo_quality_name( const int index )
 {
-    const static std::array<std::string, 6> names {
+    static const std::array<std::string, 6> names {
         {
             //~ photo quality adjective
             { translate_marker( "awful" ) }, { translate_marker( "bad" ) }, { translate_marker( "not bad" ) }, { translate_marker( "good" ) }, { translate_marker( "fine" ) }, { translate_marker( "exceptional" ) }
@@ -6339,7 +6339,7 @@ static std::string effects_description_for_creature( Creature *const creature, s
         ef_con( const translation &status ) :
             status( status ), intensity_lower_limit( 0 ) {}
     };
-    const static std::unordered_map<efftype_id, ef_con> vec_effect_status = {
+    static const std::unordered_map<efftype_id, ef_con> vec_effect_status = {
         { effect_onfire, ef_con( to_translation( " is on <color_red>fire</color>. " ) ) },
         { effect_bleed, ef_con( to_translation( " is <color_red>bleeding</color>. " ), 1 ) },
         { effect_happy, ef_con( to_translation( " looks <color_green>happy</color>. " ), 13 ) },
@@ -7686,8 +7686,8 @@ static bool hackveh( player &p, item &it, vehicle &veh )
 
 static vehicle *pickveh( const tripoint &center, bool advanced )
 {
-    const static std::string ctrl = "CTRL_ELECTRONIC";
-    const static std::string advctrl = "REMOTE_CONTROLS";
+    static const std::string ctrl = "CTRL_ELECTRONIC";
+    static const std::string advctrl = "REMOTE_CONTROLS";
     uilist pmenu;
     pmenu.title = _( "Select vehicle to access" );
     std::vector< vehicle * > vehs;
@@ -7863,8 +7863,8 @@ int iuse::autoclave( player *p, item *, bool, const tripoint &pos )
 
 int iuse::multicooker( player *p, item *it, bool t, const tripoint &pos )
 {
-    const static std::set<std::string> multicooked_subcats = { "CSC_FOOD_MEAT", "CSC_FOOD_VEGGI", "CSC_FOOD_PASTA" };
-    const static int charges_to_start = 50;
+    static const std::set<std::string> multicooked_subcats = { "CSC_FOOD_MEAT", "CSC_FOOD_VEGGI", "CSC_FOOD_PASTA" };
+    static const int charges_to_start = 50;
     if( t ) {
         if( !it->units_sufficient( *p ) ) {
             it->deactivate();
@@ -8108,7 +8108,7 @@ int iuse::multicooker( player *p, item *it, bool t, const tripoint &pos )
                 has_tools = false;
             }
 
-            const static quality_id SCREW_FINE( "SCREW_FINE" );
+            static const quality_id SCREW_FINE( "SCREW_FINE" );
             if( !cinv.has_quality( SCREW_FINE ) ) {
                 p->add_msg_if_player( m_warning, _( "You need an item with %s of 1 or more to disassemble this." ),
                                       SCREW_FINE.obj().name );
@@ -9044,7 +9044,7 @@ int iuse::magic_8_ball( player *p, item *it, bool, const tripoint & )
         BALL8_UNK = 10,
         BALL8_BAD = 15
     };
-    const static std::array<const char *, 20> tab = {{
+    static const std::array<const char *, 20> tab = {{
             translate_marker( "It is certain." ),
             translate_marker( "It is decidedly so." ),
             translate_marker( "Without a doubt." ),
@@ -9077,7 +9077,7 @@ int iuse::magic_8_ball( player *p, item *it, bool, const tripoint & )
 
 int iuse::toggle_heats_food( player *p, item *it, bool, const tripoint & )
 {
-    const static flag_id json_flag_HEATS_FOOD( flag_HEATS_FOOD );
+    static const flag_id json_flag_HEATS_FOOD( flag_HEATS_FOOD );
     if( !it->has_flag( json_flag_HEATS_FOOD ) ) {
         it->item_tags.insert( json_flag_HEATS_FOOD );
         p->add_msg_if_player(
@@ -9093,7 +9093,7 @@ int iuse::toggle_heats_food( player *p, item *it, bool, const tripoint & )
 
 int iuse::toggle_ups_charging( player *p, item *it, bool, const tripoint & )
 {
-    const static flag_id json_flag_USE_UPS( flag_USE_UPS );
+    static const flag_id json_flag_USE_UPS( flag_USE_UPS );
     if( !it->has_flag( json_flag_USE_UPS ) ) {
         it->item_tags.insert( json_flag_USE_UPS );
         p->add_msg_if_player(

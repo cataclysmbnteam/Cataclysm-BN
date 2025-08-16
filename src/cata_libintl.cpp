@@ -552,7 +552,7 @@ void trans_catalogue::check_encoding( const meta_headers &headers )
                 continue;
             }
             found = true;
-            const static std::string expected = "Content-Type: text/plain; charset=UTF-8";
+            static const std::string expected = "Content-Type: text/plain; charset=UTF-8";
             if( entry != expected ) {
                 std::string const e =
                     string_format( "unrecognized value in Content-Type header (wrong charset?). Expected \"%s\"",
@@ -572,7 +572,7 @@ void trans_catalogue::check_encoding( const meta_headers &headers )
                 continue;
             }
             found = true;
-            const static std::string expected = "Content-Transfer-Encoding: 8bit";
+            static const std::string expected = "Content-Transfer-Encoding: 8bit";
             if( entry != expected ) {
                 std::string const e =
                     string_format( "unrecognized value in Content-Transfer-Encoding header.  Expected \"%s\"",

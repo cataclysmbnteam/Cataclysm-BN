@@ -34,7 +34,7 @@ struct repl_test_data {
 
 TEST_CASE( "replace_all", "[utility]" )
 {
-    const static std::vector<repl_test_data> data = {{
+    static const std::vector<repl_test_data> data = {{
             {0, "aaaaaaa", "aa", "aaab", "aaabaaabaaaba"},
             {1, "aaaaaaa", "bb", "aa", "aaaaaaa"},
             {2, "", "", "", ""},
@@ -54,7 +54,7 @@ TEST_CASE( "replace_all", "[utility]" )
 
 TEST_CASE( "replace_first", "[utility]" )
 {
-    const static std::vector<repl_test_data> data = {{
+    static const std::vector<repl_test_data> data = {{
             {0, "aaaaaaa", "aa", "aaab", "aaabaaaaa"},
             {1, "aaaaaaa", "bb", "aa", "aaaaaaa"},
             {2, "", "", "", ""},

@@ -713,7 +713,7 @@ void sfx::do_vehicle_engine_sfx()
         return;
     }
 
-    const static channel ch = channel::interior_engine_sound;
+    static const channel ch = channel::interior_engine_sound;
     const Character &player_character = get_player_character();
     if( !player_character.in_vehicle ) {
         fade_audio_channel( ch, 300 );
@@ -835,8 +835,8 @@ void sfx::do_vehicle_exterior_engine_sfx()
         return;
     }
 
-    const static channel ch = channel::exterior_engine_sound;
-    const static int ch_int = static_cast<int>( ch );
+    static const channel ch = channel::exterior_engine_sound;
+    static const int ch_int = static_cast<int>( ch );
     const avatar &player_character = get_avatar();
     // early bail-outs for efficiency
     if( player_character.in_vehicle ) {
@@ -1162,9 +1162,9 @@ void sfx::sound_thread::operator()() const
     std::this_thread::sleep_for( std::chrono::milliseconds( rng( 1, 2 ) ) );
     std::string variant_used;
 
-    const static skill_id skill_bashing( "bashing" );
-    const static skill_id skill_cutting( "cutting" );
-    const static skill_id skill_stabbing( "stabbing" );
+    static const skill_id skill_bashing( "bashing" );
+    static const skill_id skill_cutting( "cutting" );
+    static const skill_id skill_stabbing( "stabbing" );
 
     if( weapon_skill == skill_bashing && weapon_volume <= 8 ) {
         variant_used = "small_bash";
@@ -1213,7 +1213,7 @@ void sfx::do_projectile_hit( const Creature &target )
     const units::angle angle = get_heard_angle( target.pos() );
     if( target.is_monster() ) {
         const monster &mon = dynamic_cast<const monster &>( target );
-        const static std::set<material_id> fleshy = {
+        static const std::set<material_id> fleshy = {
             material_id( "flesh" ),
             material_id( "hflesh" ),
             material_id( "iflesh" ),
@@ -1415,7 +1415,7 @@ void sfx::do_footstep()
         const avatar &player_character = get_avatar();
         int heard_volume = sfx::get_heard_volume( player_character.pos() );
         const auto terrain = get_map().ter( player_character.pos() ).id();
-        const static std::set<ter_str_id> grass = {
+        static const std::set<ter_str_id> grass = {
             ter_str_id( "t_grass" ),
             ter_str_id( "t_shrub" ),
             ter_str_id( "t_shrub_peanut" ),
@@ -1453,7 +1453,7 @@ void sfx::do_footstep()
             ter_str_id( "t_trunk" ),
             ter_str_id( "t_stump" ),
         };
-        const static std::set<ter_str_id> dirt = {
+        static const std::set<ter_str_id> dirt = {
             ter_str_id( "t_dirt" ),
             ter_str_id( "t_dirtmound" ),
             ter_str_id( "t_dirtmoundfloor" ),
@@ -1488,7 +1488,7 @@ void sfx::do_footstep()
             ter_str_id( "t_railroad_tie_d1" ),
             ter_str_id( "t_railroad_tie_d2" ),
         };
-        const static std::set<ter_str_id> metal = {
+        static const std::set<ter_str_id> metal = {
             ter_str_id( "t_ov_smreb_cage" ),
             ter_str_id( "t_metal_floor" ),
             ter_str_id( "t_grate" ),
@@ -1502,7 +1502,7 @@ void sfx::do_footstep()
             ter_str_id( "t_machinery_old" ),
             ter_str_id( "t_machinery_electronic" ),
         };
-        const static std::set<ter_str_id> water = {
+        static const std::set<ter_str_id> water = {
             ter_str_id( "t_water_moving_sh" ),
             ter_str_id( "t_water_moving_dp" ),
             ter_str_id( "t_water_sh" ),
@@ -1512,7 +1512,7 @@ void sfx::do_footstep()
             ter_str_id( "t_water_pool" ),
             ter_str_id( "t_sewage" ),
         };
-        const static std::set<ter_str_id> chain_fence = {
+        static const std::set<ter_str_id> chain_fence = {
             ter_str_id( "t_chainfence" ),
         };
 
@@ -1575,7 +1575,7 @@ void sfx::do_obstacle( const std::string &obst )
 
     const int heard_volume = sfx::get_heard_volume( get_avatar().pos() );
 
-    const static std::set<std::string> water = {
+    static const std::set<std::string> water = {
         "t_water_sh",
         "t_water_dp",
         "t_water_moving_sh",

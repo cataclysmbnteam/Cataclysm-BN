@@ -354,7 +354,7 @@ static bool is_cqb_skill( const skill_id &id )
     // TODO: this skill list here is used in other places as well. Useless redundancy and
     // dependency. Maybe change it into a flag of the skill that indicates it's a skill used
     // by the bionic?
-    const static std::array<skill_id, 5> cqb_skills = { {
+    static const std::array<skill_id, 5> cqb_skills = { {
             skill_id( "melee" ), skill_id( "unarmed" ), skill_id( "cutting" ),
             skill_id( "bashing" ), skill_id( "stabbing" ),
         }

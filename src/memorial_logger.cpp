@@ -135,7 +135,7 @@ void memorial_logger::load( std::istream &fin )
  */
 std::string memorial_logger::dump() const
 {
-    const static char *eol = cata_files::eol();
+    static const char *eol = cata_files::eol();
     std::string output;
 
     for( auto &elem : log ) {
@@ -149,7 +149,7 @@ std::string memorial_logger::dump() const
 void memorial_logger::write( std::ostream &file, const std::string &epitaph ) const
 {
     avatar &u = g->u;
-    const static char *eol = cata_files::eol();
+    static const char *eol = cata_files::eol();
 
     //Size of indents in the memorial file
     const std::string indent = "  ";

@@ -1631,7 +1631,7 @@ std::pair<std::string, nc_color> get_stamina_bar( int cur_stam, int max_stam )
 std::pair<std::string, nc_color> get_light_level( const float light )
 {
     using pair_t = std::pair<std::string, nc_color>;
-    const static std::array<pair_t, 6> strings {
+    static const std::array<pair_t, 6> strings {
         {
             pair_t {translate_marker( "unknown" ), c_pink},
             pair_t {translate_marker( "bright" ), c_yellow},
@@ -1642,7 +1642,7 @@ std::pair<std::string, nc_color> get_light_level( const float light )
         }
     };
     // Avoid magic number
-    const static int maximum_light_level = static_cast< int >( strings.size() ) - 1;
+    static const int maximum_light_level = static_cast< int >( strings.size() ) - 1;
     const int light_level = clamp( static_cast< int >( std::ceil( light ) ), 0, maximum_light_level );
     const size_t array_index = static_cast< size_t >( light_level );
     return pair_t{ _( strings[array_index].first ), strings[array_index].second };
@@ -2011,7 +2011,7 @@ std::string string_from_int( const catacurses::chtype ch )
 
 nc_color msgtype_to_color( const game_message_type type, const bool bOldMsg )
 {
-    const static std::map<game_message_type, std::pair<nc_color, nc_color>> colors {
+    static const std::map<game_message_type, std::pair<nc_color, nc_color>> colors {
         {m_good,     {c_light_green, c_green}},
         {m_bad,      {c_light_red,   c_red}},
         {m_mixed,    {c_pink,    c_magenta}},

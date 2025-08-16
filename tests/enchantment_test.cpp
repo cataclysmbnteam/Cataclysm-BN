@@ -868,7 +868,7 @@ TEST_CASE( "Item enchantments modify item damage", "[magic][enchantment]" )
 
 static int calc_damage_absorb( Character &guy, damage_type dt, int amount )
 {
-    const static bodypart_id torso( "torso" );
+    static const bodypart_id torso( "torso" );
     damage_instance dmg( dt, amount );
     guy.absorb_hit( torso, dmg );
     assert( dmg.damage_units.size() == 1 );

@@ -608,7 +608,7 @@ const inventory_entry &inventory_column::get_selected() const
 {
     if( selected_index >= entries.size() || !entries[selected_index].is_item() ) {
         // clang complains if we use the default constructor here
-        const static inventory_entry dummy( nullptr );
+        static const inventory_entry dummy( nullptr );
         return dummy;
     }
     return entries[selected_index];
@@ -1889,7 +1889,7 @@ void inventory_selector::append_column( inventory_column &column )
 
 const navigation_mode_data &inventory_selector::get_navigation_data( navigation_mode m ) const
 {
-    const static std::map<navigation_mode, navigation_mode_data> mode_data = {
+    static const std::map<navigation_mode, navigation_mode_data> mode_data = {
         { navigation_mode::ITEM,     { navigation_mode::CATEGORY, translation(),                               c_light_gray } },
         { navigation_mode::CATEGORY, { navigation_mode::ITEM,     to_translation( "Category selection mode" ), h_white  } }
     };

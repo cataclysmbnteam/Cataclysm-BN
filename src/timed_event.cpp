@@ -222,7 +222,7 @@ void timed_event::actualize()
         break;
 
         case TIMED_EVENT_TEMPLE_SPAWN: {
-            const static std::array<mtype_id, 4> temple_monsters = { {
+            static const std::array<mtype_id, 4> temple_monsters = { {
                     mon_sewer_snake, mon_dermatik, mon_spider_widow_giant, mon_spider_cellar_giant
                 }
             };

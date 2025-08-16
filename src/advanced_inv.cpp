@@ -1831,10 +1831,10 @@ void advanced_inventory::refresh_minimap()
 void advanced_inventory::draw_minimap()
 {
     // if player is in one of the below, invert the player cell
-    const static std::array<aim_location, 3> player_locations = {
+    static const std::array<aim_location, 3> player_locations = {
         {AIM_CENTER, AIM_INVENTORY, AIM_WORN}
     };
-    const static std::array<side, NUM_PANES> sides = {{left, right}};
+    static const std::array<side, NUM_PANES> sides = {{left, right}};
     // get the center of the window
     const tripoint pc = {getmaxx( minimap ) / 2, getmaxy( minimap ) / 2, 0};
     // draw the 3x3 tiles centered around player
@@ -1870,9 +1870,9 @@ void advanced_inventory::draw_minimap()
 
 char advanced_inventory::get_minimap_sym( side p ) const
 {
-    const static std::array<char, NUM_PANES> c_side = {{'L', 'R'}};
-    const static std::array<char, NUM_PANES> d_side = {{'^', 'v'}};
-    const static std::array<char, NUM_AIM_LOCATIONS> g_nome = {{
+    static const std::array<char, NUM_PANES> c_side = {{'L', 'R'}};
+    static const std::array<char, NUM_PANES> d_side = {{'^', 'v'}};
+    static const std::array<char, NUM_AIM_LOCATIONS> g_nome = {{
             '@', '#', '#', '#', '#', '@', '#',
             '#', '#', '#', 'D', '^', 'C', '@'
         }

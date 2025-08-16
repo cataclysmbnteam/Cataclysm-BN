@@ -288,7 +288,7 @@ const npc_template &string_id<npc_template>::obj() const
     const auto found = npc_templates.find( *this );
     if( found == npc_templates.end() ) {
         debugmsg( "Tried to get invalid npc: %s", c_str() );
-        const static npc_template dummy{};
+        static const npc_template dummy{};
         return dummy;
     }
     return found->second;
@@ -2598,7 +2598,7 @@ void npc::die( Creature *nkiller )
 
 std::string npc_attitude_id( npc_attitude att )
 {
-    const static std::map<npc_attitude, std::string> npc_attitude_ids = {
+    static const std::map<npc_attitude, std::string> npc_attitude_ids = {
         { NPCATT_NULL, "NPCATT_NULL" },
         { NPCATT_TALK, "NPCATT_TALK" },
         { NPCATT_FOLLOW, "NPCATT_FOLLOW" },
@@ -3125,9 +3125,9 @@ mfaction_id npc::get_monster_faction() const
 
     // legacy checks
     // Those can't be static int_ids, because mods add factions
-    const static string_id<monfaction> human_fac( "human" );
-    const static string_id<monfaction> player_fac( "player" );
-    const static string_id<monfaction> bee_fac( "bee" );
+    static const string_id<monfaction> human_fac( "human" );
+    static const string_id<monfaction> player_fac( "player" );
+    static const string_id<monfaction> bee_fac( "bee" );
 
     if( is_player_ally() ) {
         return player_fac.id();
