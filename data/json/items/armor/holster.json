@@ -257,5 +257,12 @@
       "flags": [ "HOLSTER_PISTOL" ]
     },
     "flags": [ "WAIST", "COMPACT", "OVERSIZE" ]
+  },
+  {
+    "id": "survivor_vest_armored",
+    "type": "ARMOR",
+    "name": { "str": "armored survivor harness", "str_pl": "armored survivor harnesses" },
+    "copy-from": "survivor_vest",
+    "material": [ "leather", "kevlar" ]
   }
 ]
