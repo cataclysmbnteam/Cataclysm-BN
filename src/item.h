@@ -597,7 +597,7 @@ class item : public location_visitable<item>, public game_object<item>
          * If `practical` is false, returns pre-cataclysm market value,
          * otherwise returns approximate post-cataclysm value.
          */
-        int price( bool practical ) const;
+        auto price( bool practical ) const -> float;
 
         /**
          * Whether two items should stack when displayed in a inventory menu.

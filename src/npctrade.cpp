@@ -1,6 +1,7 @@
 #include "npctrade.h"
 
 #include <algorithm>
+#include <cmath>
 #include <cstdlib>
 #include <list>
 #include <memory>
@@ -596,7 +597,7 @@ bool trading_window::perform_trade( npc &np, const std::string &deal )
                             return your_balance / ip.price;
                         } else if( !focus_them && your_balance < 0 ) {
                             int amt = your_balance / ip.price;
-                            int rem = ( your_balance % ip.price ) == 0 ? 0 : 1;
+                            int rem = ( std::fmod( your_balance, ip.price ) == 0 ) ? 0 : 1;
                             return amt - rem;
                         }
                     }

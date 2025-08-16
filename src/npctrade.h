@@ -24,14 +24,14 @@ class item_pricing
 {
     public:
 
-        item_pricing( std::vector<item *>l, int v, int count ) : locs( l ), price( v ) {
+        item_pricing( std::vector<item *>l, float v, int count ) : locs( l ), price( v ) {
             set_values( count );
         }
         void set_values( int ip_count );
         void adjust_values( double adjust, const faction *fac );
 
         std::vector<item *>locs;
-        int price;
+        float price;
         // Whether this is selected for trading
         bool selected = false;
         bool is_container;

@@ -5210,9 +5210,9 @@ nc_color item::color() const
     return type->color;
 }
 
-int item::price( bool practical ) const
+auto item::price( bool practical ) const -> float
 {
-    int res = 0;
+    float res = 0;
 
     visit_items( [&res, practical]( const item * e ) {
         if( e->rotten() ) {
@@ -5220,7 +5220,7 @@ int item::price( bool practical ) const
             return VisitResponse::NEXT;
         }
 
-        int child = units::to_cent( practical ? e->type->price_post : e->type->price );
+        float child = units::to_cent( practical ? e->type->price_post : e->type->price );
         if( e->damage() > 0 ) {
             // maximal damage level is 4, maximal reduction is 40% of the value.
             child -= child * static_cast<double>( e->damage_level( 4 ) ) / 10;
