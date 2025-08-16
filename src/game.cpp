@@ -1145,7 +1145,7 @@ bool game::cleanup_at_end()
                         ncColor = c_red;
                     }
 
-                    mvwputch( w_rip, point( iX + FULL_SCREEN_WIDTH / 2 - ( iMaxWidth / 2 ), iY + 1 ), ncColor,
+                    mvwputch( w_rip, point( iX + ( FULL_SCREEN_WIDTH / 2 ) - ( iMaxWidth / 2 ), iY + 1 ), ncColor,
                               cTemp );
                 }
                 iX += mk_wcwidth( cTemp );
@@ -1174,25 +1174,26 @@ bool game::cleanup_at_end()
         const int iTotalKills = get_kill_tracker().monster_kill_count();
 
         sTemp = _( "Kills:" );
-        mvwprintz( w_rip, point( FULL_SCREEN_WIDTH / 2 - 5, 1 + iInfoLine++ ), c_light_gray,
+        mvwprintz( w_rip, point( ( FULL_SCREEN_WIDTH / 2 ) - 5, 1 + iInfoLine++ ), c_light_gray,
                    ( sTemp + " " ) );
         wprintz( w_rip, c_magenta, "%d", iTotalKills );
 
         sTemp = _( "In memory of:" );
-        mvwprintz( w_rip, point( FULL_SCREEN_WIDTH / 2 - utf8_width( sTemp ) / 2, iNameLine++ ),
+        mvwprintz( w_rip, point( ( FULL_SCREEN_WIDTH / 2 ) - ( utf8_width( sTemp ) / 2 ), iNameLine++ ),
                    c_light_gray,
                    sTemp );
 
         sTemp = u.name;
-        mvwprintz( w_rip, point( FULL_SCREEN_WIDTH / 2 - utf8_width( sTemp ) / 2, iNameLine++ ), c_white,
+        mvwprintz( w_rip, point( ( FULL_SCREEN_WIDTH / 2 ) - ( utf8_width( sTemp ) / 2 ), iNameLine++ ),
+                   c_white,
                    sTemp );
 
         sTemp = _( "Last Words:" );
-        mvwprintz( w_rip, point( FULL_SCREEN_WIDTH / 2 - utf8_width( sTemp ) / 2, iNameLine++ ),
+        mvwprintz( w_rip, point( ( FULL_SCREEN_WIDTH / 2 ) - ( utf8_width( sTemp ) / 2 ), iNameLine++ ),
                    c_light_gray,
                    sTemp );
 
-        int iStartX = FULL_SCREEN_WIDTH / 2 - ( ( iMaxWidth - 4 ) / 2 );
+        int iStartX = ( FULL_SCREEN_WIDTH / 2 ) - ( ( iMaxWidth - 4 ) / 2 );
         std::string sLastWords = string_input_popup()
                                  .window( w_rip, point( iStartX, iNameLine ), iStartX + iMaxWidth - 4 - 1 )
                                  .max_length( iMaxWidth - 4 - 1 )
@@ -1327,8 +1328,8 @@ void game::calc_driving_offset( vehicle *veh )
     // The maximal offset will leave at least this many tiles
     // between the PC and the edge of the main window.
     static const int border_range = 2;
-    point max_offset( ( getmaxx( w_terrain ) + 1 ) / 2 - border_range - 1,
-                      ( getmaxy( w_terrain ) + 1 ) / 2 - border_range - 1 );
+    point max_offset( ( ( getmaxx( w_terrain ) + 1 ) / 2 ) - border_range - 1,
+                      ( ( getmaxy( w_terrain ) + 1 ) / 2 ) - border_range - 1 );
 
     // velocity at or below this results in no offset at all
     static const float min_offset_vel = 1 * vehicles::vmiph_per_tile;
@@ -3138,8 +3139,8 @@ static shared_ptr_fast<game::draw_callback_t> create_zone_callback(
             }
         }
         if( zone_blink && zone_start && zone_end ) {
-            const point offset2( g->u.view_offset.xy() + point( g->u.posx() - getmaxx( g->w_terrain ) / 2,
-                                 g->u.posy() - getmaxy( g->w_terrain ) / 2 ) );
+            const point offset2( g->u.view_offset.xy() + point( g->u.posx() - ( getmaxx( g->w_terrain ) / 2 ),
+                                 g->u.posy() - ( getmaxy( g->w_terrain ) / 2 ) ) );
 
             tripoint offset;
 #if defined(TILES)
@@ -3541,22 +3542,14 @@ void game::draw_minimap()
             if( std::fabs( slope ) >= 1. ) { // y diff is bigger!
                 arrowy = targ.y() > curs2.y() ? 6 : 0;
                 arrowx =
-                    static_cast<int>( 3 + 3 * ( targ.y() > curs2.y() ? slope : ( 0 - slope ) ) );
-                if( arrowx < 0 ) {
-                    arrowx = 0;
-                }
-                if( arrowx > 6 ) {
-                    arrowx = 6;
-                }
+                    static_cast<int>( 3 + ( 3 * ( targ.y() > curs2.y() ? slope : ( 0 - slope ) ) ) );
+                arrowx = std::max( arrowx, 0 );
+                arrowx = std::min( arrowx, 6 );
             } else {
                 arrowx = targ.x() > curs2.x() ? 6 : 0;
-                arrowy = static_cast<int>( 3 + 3 * ( targ.x() > curs2.x() ? slope : -slope ) );
-                if( arrowy < 0 ) {
-                    arrowy = 0;
-                }
-                if( arrowy > 6 ) {
-                    arrowy = 6;
-                }
+                arrowy = static_cast<int>( 3 + ( 3 * ( targ.x() > curs2.x() ? slope : -slope ) ) );
+                arrowy = std::max( arrowy, 0 );
+                arrowy = std::min( arrowy, 6 );
             }
             char glyph = '*';
             if( targ.z() > u.posz() ) {
@@ -3719,7 +3712,7 @@ std::unordered_set<tripoint> game::get_fishable_locations( int distance, const t
             to_check.pop();
 
             // We've been here before, so bail.
-            if( visited.find( current_point ) != visited.end() ) {
+            if( visited.contains( current_point ) ) {
                 continue;
             }
 
@@ -3760,7 +3753,7 @@ std::vector<monster *> game::get_fishable_monsters( std::unordered_set<tripoint>
         if( critter.has_flag( MF_FISHABLE ) ) {
             const tripoint critter_pos = critter.pos();
             // ...and it is in a fishable location.
-            if( fishable_locations.find( critter_pos ) != fishable_locations.end() ) {
+            if( fishable_locations.contains( critter_pos ) ) {
                 unique_fish.push_back( &critter );
             }
         }
@@ -3777,7 +3770,7 @@ void game::mon_info( const catacurses::window &w, int hor_padding )
     const auto &unique_mons = mon_visible.unique_mons;
     const auto &dangerous = mon_visible.dangerous;
 
-    const int width = getmaxx( w ) - 2 * hor_padding;
+    const int width = getmaxx( w ) - ( 2 * hor_padding );
     const int maxheight = getmaxy( w );
 
     const int startrow = 0;
@@ -4646,13 +4639,13 @@ T *game::critter_at( const tripoint &p, bool allow_hallucination )
         // otherwise, keep looking for the rider.
         // critter_at<creature> or critter_at() with no template will still default to returning monster first,
         // which is ok for the occasions where that happens.
-        if( !mon_ptr->has_effect( effect_ridden ) || ( std::is_same<T, monster>::value ||
-                std::is_same<T, Creature>::value || std::is_same<T, const monster>::value ||
-                std::is_same<T, const Creature>::value ) ) {
+        if( !mon_ptr->has_effect( effect_ridden ) || ( std::is_same_v<T, monster> ||
+                std::is_same_v<T, Creature> || std::is_same_v<T, const monster> ||
+                std::is_same_v<T, const Creature> ) ) {
             return dynamic_cast<T *>( mon_ptr.get() );
         }
     }
-    if( !std::is_same<T, npc>::value && !std::is_same<T, const npc>::value ) {
+    if( !std::is_same_v<T, npc> && !std::is_same_v<T, const npc> ) { // *NOPAD*
         if( p == u.pos() ) {
             return dynamic_cast<T *>( &u );
         }
@@ -6508,9 +6501,7 @@ void game::zones_manager()
                     zones = get_zones();
                     active_index--;
 
-                    if( active_index < 0 ) {
-                        active_index = 0;
-                    }
+                    active_index = std::max( active_index, 0 );
                 }
                 blink = false;
                 stuff_changed = true;
@@ -6720,9 +6711,7 @@ look_around_result game::look_around( bool show_window, tripoint &center,
 
             // If particularly small, base height on panel width irrespective of other elements.
             // Value here is attempting to get a square-ish result assuming 1x2 proportioned font.
-            if( height < panel_width / 2 ) {
-                height = panel_width / 2;
-            }
+            height = std::max( height, panel_width / 2 );
 
             int la_y = 0;
             int la_x = TERMX - panel_width;
@@ -7053,7 +7042,7 @@ std::vector<map_item_stack> game::find_nearby_items( int iRadius )
     int center_z = u.pos().z;
 
     for( int i = 1; i <= range; i++ ) {
-        int z = i % 2 ? center_z - i / 2 : center_z + i / 2;
+        int z = i % 2 ? center_z - ( i / 2 ) : center_z + ( i / 2 );
         for( auto &points_p_it : closest_points_first<tripoint>( {u.pos().xy(), z}, iRadius ) ) {
             if( points_p_it.y >= u.posy() - iRadius && points_p_it.y <= u.posy() + iRadius &&
                 u.sees( points_p_it ) &&
@@ -7350,7 +7339,7 @@ void game::reset_item_list_state( const catacurses::window &window, int height,
     int usedwidth = letters;
     const int gap_spaces = ( width - usedwidth ) / gaps;
     usedwidth += gap_spaces * gaps;
-    point pos( gap_spaces + ( width - usedwidth ) / 2, TERMY - height - 1 );
+    point pos( gap_spaces + ( ( width - usedwidth ) / 2 ), TERMY - height - 1 );
 
     for( int i = 0; i < n; i++ ) {
         pos.x += shortcut_print( window, pos, c_white, c_light_green,
@@ -7414,9 +7403,7 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
     //find max length of item name and resize window width
     for( const map_item_stack &cur_item : ground_items ) {
         const int item_len = utf8_width( remove_color_tags( cur_item.example->display_name() ) ) + 15;
-        if( item_len > max_name_width ) {
-            max_name_width = item_len;
-        }
+        max_name_width = std::max( item_len, max_name_width );
     }
 
     tripoint active_pos;
@@ -7591,7 +7578,7 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
                     iNum++;
                 }
             }
-            mvwprintz( w_items_border, point( ( width - 9 ) / 2 + ( iItemNum > 9 ? 0 : 1 ), 0 ),
+            mvwprintz( w_items_border, point( ( ( width - 9 ) / 2 ) + ( iItemNum > 9 ? 0 : 1 ), 0 ),
                        c_light_green, " %*d", iItemNum > 9 ? 2 : 1, iItemNum > 0 ? iActive - iNum + 1 : 0 );
             wprintz( w_items_border, c_white, " / %*d ", iItemNum > 9 ? 2 : 1, iItemNum - iCatSortNum );
             werase( w_item_info );
@@ -9250,7 +9237,7 @@ point game::place_player( const tripoint &dest_loc )
         }
     }
     ///\EFFECT_DEX increases chance of avoiding cuts on sharp terrain
-    if( m.has_flag( "SHARP", dest_loc ) && !one_in( 3 ) && !x_in_y( 1 + u.dex_cur / 2.0, 40 ) &&
+    if( m.has_flag( "SHARP", dest_loc ) && !one_in( 3 ) && !x_in_y( 1 + ( u.dex_cur / 2.0 ), 40 ) &&
         ( !u.in_vehicle && !m.veh_at( dest_loc ) ) &&
         ( u.mutation_value( "movecost_obstacle_modifier" ) > 0.5f ||
           one_in( 4 ) ) && ( u.has_trait( trait_THICKSKIN ) ? !one_in( 8 ) : true ) ) {
@@ -10046,7 +10033,7 @@ void game::fling_creature( Creature *c, const units::angle &dir, float flvel, bo
             // Fall on ground
             int force = rng( flvel, flvel * 2 ) / 9;
             if( controlled ) {
-                force = std::max( force / 2 - 5, 0 );
+                force = std::max( ( force / 2 ) - 5, 0 );
             }
             if( force > 0 ) {
                 int dmg = c->impact( force, c->pos() );
@@ -10307,11 +10294,11 @@ void game::vertical_move( int movez, bool force, bool peeking )
         ///\EFFECT_DEX increases chance of moving past monsters on stairs
 
         ///\EFFECT_DODGE increases chance of moving past monsters on stairs
-        int dexroll = dice( 6, u.dex_cur + u.get_skill_level( skill_dodge ) * 2 );
+        int dexroll = dice( 6, u.dex_cur + ( u.get_skill_level( skill_dodge ) * 2 ) );
         ///\EFFECT_STR increases chance of moving past monsters on stairs
 
         ///\EFFECT_MELEE increases chance of moving past monsters on stairs
-        int strroll = dice( 3, u.str_cur + u.get_skill_level( skill_melee ) * 1.5 );
+        int strroll = dice( 3, u.str_cur + ( u.get_skill_level( skill_melee ) * 1.5 ) );
         if( coming_to_stairs.size() > 4 ) {
             add_msg( _( "The are a lot of them on the %s!" ), m.tername( u.pos() ) );
             dexroll /= 4;
@@ -11076,7 +11063,7 @@ void game::update_overmap_seen()
     overmap_buffer.set_seen( ompos, true );
     for( const tripoint_abs_omt &p : points_in_radius( ompos, dist ) ) {
         const point_rel_omt delta = p.xy() - ompos.xy();
-        const int h_squared = delta.x() * delta.x() + delta.y() * delta.y();
+        const int h_squared = ( delta.x() * delta.x() ) + ( delta.y() * delta.y() );
         if( trigdist && h_squared > dist_squared ) {
             continue;
         }
@@ -11954,7 +11941,7 @@ void game::start_calendar()
         int initial_days = get_option<int>( "INITIAL_DAY" );
         if( initial_days == -1 ) {
             // 0 - 363 for a 91 day season
-            initial_days = rng( 0, get_option<int>( "SEASON_LENGTH" ) * 4 - 1 );
+            initial_days = rng( 0, ( get_option<int>( "SEASON_LENGTH" ) * 4 ) - 1 );
         }
         calendar_config._start_of_cataclysm = calendar::turn_zero + 1_days * initial_days;
 

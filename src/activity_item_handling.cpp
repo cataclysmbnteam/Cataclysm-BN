@@ -440,13 +440,13 @@ void put_into_vehicle_or_drop( Character &c, item_drop_reason reason,
 {
     std::vector<detached_ptr<item>> vec;
     vec.push_back( std::move( it ) );
-    return put_into_vehicle_or_drop( c, reason, vec, c.pos() );
+    put_into_vehicle_or_drop( c, reason, vec, c.pos() );
 }
 
 void put_into_vehicle_or_drop( Character &c, item_drop_reason reason,
                                std::vector<detached_ptr<item>> &items )
 {
-    return put_into_vehicle_or_drop( c, reason, items, c.pos() );
+    put_into_vehicle_or_drop( c, reason, items, c.pos() );
 }
 
 void put_into_vehicle_or_drop( Character &c, item_drop_reason reason,

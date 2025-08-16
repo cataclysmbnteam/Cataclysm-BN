@@ -107,7 +107,7 @@ nc_color warmth::bodytemp_color( const Character &c, const bodypart_str_id &bp )
 // Rescale temperature value to one that the player sees
 static int temperature_print_rescaling( int temp )
 {
-    return ( temp / 100.0 ) * 2 - 100;
+    return ( ( temp / 100.0 ) * 2 ) - 100;
 }
 
 static bool should_combine_bps( const Character &ch,
@@ -164,7 +164,7 @@ static std::pair<int, int> subindex_around_cursor(
     if( !focused || num_entries <= available_space ) {
         return std::make_pair( 0, std::min( available_space, num_entries ) );
     }
-    int slice_start = std::min( std::max( 0, cursor_pos - available_space / 2 ),
+    int slice_start = std::min( std::max( 0, cursor_pos - ( available_space / 2 ) ),
                                 num_entries - available_space );
     return std::make_pair( slice_start, slice_start + available_space );
 }
@@ -182,7 +182,7 @@ void character_display::print_encumbrance( ui_adaptor &ui, const catacurses::win
     const bool do_draw_scrollbar = height < static_cast<int>( bps.size() );
     const int width = getmaxx( win ) - ( do_draw_scrollbar ? 1 : 0 );
     // index of the first printed bodypart from `bps`
-    const int firstline = clamp( line - height / 2, 0, std::max( 0,
+    const int firstline = clamp( line - ( height / 2 ), 0, std::max( 0,
                                  static_cast<int>( bps.size() ) - height ) );
 
     /*** I chose to instead only display X+Y instead of X+Y=Z. More room was needed ***
@@ -893,9 +893,7 @@ static void draw_skills_info( const catacurses::window &w_info, unsigned int lin
                               const std::vector<HeaderSkill> &skillslist )
 {
     werase( w_info );
-    if( line < 1 ) {
-        line = 1;
-    }
+    line = std::max<unsigned int>( line, 1 );
     const Skill *selectedSkill = nullptr;
     if( line < skillslist.size() && !skillslist[line].is_header ) {
         selectedSkill = skillslist[line].skill;
@@ -1527,10 +1525,10 @@ void character_display::disp_info( Character &ch )
             effect_win_size_y = maxy - infooffsetybottom;
         }
         w_effects = catacurses::newwin( effect_win_size_y, grid_width,
-                                        point( grid_width * 2 + 2, infooffsetybottom ) );
+                                        point( ( grid_width * 2 ) + 2, infooffsetybottom ) );
         w_effects_border = catacurses::newwin( effect_win_size_y + 1, grid_width + 1,
-                                               point( grid_width * 2 + 2, infooffsetybottom ) );
-        border_effects.set( point( grid_width * 2 + 1, infooffsetybottom - 1 ),
+                                               point( ( grid_width * 2 ) + 2, infooffsetybottom ) );
+        border_effects.set( point( ( grid_width * 2 ) + 1, infooffsetybottom - 1 ),
                             point( grid_width + 2, effect_win_size_y + 2 ) );
         ui_effects.position_from_window( w_effects_border );
     } );
@@ -1548,10 +1546,10 @@ void character_display::disp_info( Character &ch )
     border_helper::border_info &border_speed = borders.add_border();
     ui_adaptor ui_speed;
     ui_speed.on_screen_resize( [&]( ui_adaptor & ui_speed ) {
-        w_speed = catacurses::newwin( grid_height, grid_width, point( grid_width * 2 + 2, 1 ) );
+        w_speed = catacurses::newwin( grid_height, grid_width, point( ( grid_width * 2 ) + 2, 1 ) );
         w_speed_border = catacurses::newwin( grid_height + 1, grid_width + 1,
-                                             point( grid_width * 2 + 2, 1 ) );
-        border_speed.set( point( grid_width * 2 + 1, 0 ),
+                                             point( ( grid_width * 2 ) + 2, 1 ) );
+        border_speed.set( point( ( grid_width * 2 ) + 1, 0 ),
                           point( grid_width + 2, grid_height + 2 ) );
         ui_speed.position_from_window( w_speed_border );
     } );

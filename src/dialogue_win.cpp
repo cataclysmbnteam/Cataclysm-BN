@@ -15,8 +15,8 @@ void dialogue_window::resize_dialogue( ui_adaptor &ui )
 {
     int win_beginy = TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 4 : 0;
     int win_beginx = TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 4 : 0;
-    int maxy = win_beginy ? TERMY - 2 * win_beginy : FULL_SCREEN_HEIGHT;
-    int maxx = win_beginx ? TERMX - 2 * win_beginx : FULL_SCREEN_WIDTH;
+    int maxy = win_beginy ? TERMY - ( 2 * win_beginy ) : FULL_SCREEN_HEIGHT;
+    int maxx = win_beginx ? TERMX - ( 2 * win_beginx ) : FULL_SCREEN_WIDTH;
     d_win = catacurses::newwin( maxy, maxx, point( win_beginx, win_beginy ) );
     ui.position_from_window( d_win );
     curr_page = 0;
@@ -118,7 +118,7 @@ static std::vector<page> split_to_pages( const std::vector<talk_data> &responses
 static void print_responses( const catacurses::window &w, const page &responses )
 {
     // Responses go on the right side of the window, add 2 for border + space
-    const size_t x_start = getmaxx( w ) / 2 + 2;
+    const size_t x_start = ( getmaxx( w ) / 2 ) + 2;
     // First line we can print on, +1 for border, +2 for your name + newline
     const int y_start = 2 + 1;
 
@@ -135,7 +135,7 @@ static void print_responses( const catacurses::window &w, const page &responses 
 static void print_keybindings( const catacurses::window &w )
 {
     // Responses go on the right side of the window, add 2 for border + space
-    const size_t x = getmaxx( w ) / 2 + 2;
+    const size_t x = ( getmaxx( w ) / 2 ) + 2;
     const size_t y = getmaxy( w ) - 5;
     mvwprintz( w, point( x, y ), c_magenta, _( "Shift+L: Look at" ) );
     mvwprintz( w, point( x, y + 1 ), c_magenta, _( "Shift+S: Size up stats" ) );
@@ -188,7 +188,7 @@ void dialogue_window::display_responses( const std::vector<talk_data> &responses
     // TODO: cache paged entries
     // -2 for borders, -2 for your name + newline, -4 for keybindings
     const int page_h = getmaxy( d_win ) - 2 - 2 - 4;
-    const int page_w = getmaxx( d_win ) / 2 - 4; // -4 for borders + padding
+    const int page_w = ( getmaxx( d_win ) / 2 ) - 4; // -4 for borders + padding
     const std::vector<page> pages = split_to_pages( responses, page_w, page_h );
     if( !pages.empty() ) {
         if( curr_page >= pages.size() ) {

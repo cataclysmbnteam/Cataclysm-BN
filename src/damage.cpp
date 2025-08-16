@@ -2,7 +2,6 @@
 
 #include <algorithm>
 #include <cstddef>
-#include <algorithm>
 #include <map>
 #include <numeric>
 #include <utility>
@@ -26,7 +25,7 @@ bool damage_unit::operator==( const damage_unit &other ) const
            damage_multiplier == other.damage_multiplier;
 }
 
-const std::string damage_unit::get_name() const
+std::string damage_unit::get_name() const
 {
     switch( type ) {
         case DT_NULL:
@@ -519,23 +518,23 @@ std::map<damage_type, float> load_damage_map( const JsonObject &jo )
                                 std::optional<float>();
 
 
-    load_if_present( "bash", DT_BASH, phys ? *phys : init_val );
-    load_if_present( "cut", DT_CUT, phys ? *phys : init_val );
-    load_if_present( "stab", DT_STAB, phys ? *phys : init_val );
-    load_if_present( "bullet", DT_BULLET, phys ? *phys : init_val );
+    load_if_present( "bash", DT_BASH, phys ? phys : init_val );
+    load_if_present( "cut", DT_CUT, phys ? phys : init_val );
+    load_if_present( "stab", DT_STAB, phys ? phys : init_val );
+    load_if_present( "bullet", DT_BULLET, phys ? phys : init_val );
 
     std::optional<float> non_phys = jo.has_float( "non_physical" ) ?
                                     jo.get_float( "non_physical", 0.0f ) :
                                     std::optional<float>();
 
-    load_if_present( "biological", DT_BIOLOGICAL, non_phys ? *non_phys : init_val );
-    load_if_present( "acid", DT_ACID, non_phys ? *non_phys : init_val );
-    load_if_present( "heat", DT_HEAT, non_phys ? *non_phys : init_val );
-    load_if_present( "cold", DT_COLD, non_phys ? *non_phys : init_val );
-    load_if_present( "dark", DT_DARK, non_phys ? *non_phys : init_val );
-    load_if_present( "light", DT_LIGHT, non_phys ? *non_phys : init_val );
-    load_if_present( "psi", DT_PSI, non_phys ? *non_phys : init_val );
-    load_if_present( "electric", DT_ELECTRIC, non_phys ? *non_phys : init_val );
+    load_if_present( "biological", DT_BIOLOGICAL, non_phys ? non_phys : init_val );
+    load_if_present( "acid", DT_ACID, non_phys ? non_phys : init_val );
+    load_if_present( "heat", DT_HEAT, non_phys ? non_phys : init_val );
+    load_if_present( "cold", DT_COLD, non_phys ? non_phys : init_val );
+    load_if_present( "dark", DT_DARK, non_phys ? non_phys : init_val );
+    load_if_present( "light", DT_LIGHT, non_phys ? non_phys : init_val );
+    load_if_present( "psi", DT_PSI, non_phys ? non_phys : init_val );
+    load_if_present( "electric", DT_ELECTRIC, non_phys ? non_phys : init_val );
 
     // DT_TRUE should never be resisted
     ret[ DT_TRUE ] = 0.0f;

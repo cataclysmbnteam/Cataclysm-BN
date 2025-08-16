@@ -920,7 +920,7 @@ int iuse::blech( player *p, item *it, bool, const tripoint & )
         //reverse the harmful values of drinking this acid.
         double multiplier = -1;
         p->mod_stored_kcal( 10 * p->nutrition_for( *it ) * multiplier );
-        p->mod_thirst( -it->get_comestible()->quench * multiplier + 20 );
+        p->mod_thirst( ( -it->get_comestible()->quench * multiplier ) + 20 );
         p->mod_healthy_mod( it->get_comestible()->healthy * multiplier,
                             it->get_comestible()->healthy * multiplier );
         p->add_morale( MORALE_FOOD_BAD, it->get_comestible_fun() * multiplier, 60, 1_hours, 30_minutes,
@@ -1033,9 +1033,7 @@ int iuse::purify_iv( player *p, item *it, bool, const tripoint & )
     }
     int num_cured = rng( 4,
                          valid.size() ); //Essentially a double-strength purifier, but guaranteed at least 4.  Double-edged and all
-    if( num_cured > 8 ) {
-        num_cured = 8;
-    }
+    num_cured = std::min( num_cured, 8 );
     for( int i = 0; i < num_cured && !valid.empty(); i++ ) {
         const trait_id id = random_entry_removed( valid );
         if( id->purifiable ) {
@@ -1111,7 +1109,7 @@ static void spawn_spores( const player &p )
         if( g->critter_at( dest ) != nullptr ) {
             continue;
         }
-        if( one_in( 10 + 5 * dist ) && one_in( spores_spawned * 2 ) ) {
+        if( one_in( 10 + ( 5 * dist ) ) && one_in( spores_spawned * 2 ) ) {
             if( monster *const spore = g->place_critter_at( mon_spore, dest ) ) {
                 spore->friendly = -1;
                 spores_spawned++;
@@ -1453,7 +1451,7 @@ int iuse::petfood( player *p, item *it, bool, const tripoint & )
         const std::set<std::string> &itemfood = it->get_comestible()->petfood;
         if( !petfood.food.empty() ) {
             for( const std::string &food : petfood.food ) {
-                if( itemfood.find( food ) != itemfood.end() ) {
+                if( itemfood.contains( food ) ) {
                     can_feed = true;
                     break;
                 }
@@ -1712,9 +1710,7 @@ int iuse::fish_trap( player *p, item *it, bool t, const tripoint &pos )
             }
 
             it->charges = rng( -1, it->charges );
-            if( it->charges < 0 ) {
-                it->charges = 0;
-            }
+            it->charges = std::max( it->charges, 0 );
 
             int fishes = 0;
 
@@ -2313,7 +2309,7 @@ int iuse::crowbar( player *p, item *it, bool, const tripoint &pos )
     diff -= ( ( pry_level - pry->pry_quality ) * pry->pry_bonus_mult );
 
     /** @EFFECT_STR speeds up crowbar prying attempts */
-    p->mod_moves( -std::max( 20, diff * 50 - p->str_cur * 10 ) );
+    p->mod_moves( -std::max( 20, ( diff * 50 ) - ( p->str_cur * 10 ) ) );
     /** @EFFECT_STR increases chance of crowbar prying success */
 
     if( dice( 4, diff ) < dice( 4, p->str_cur ) ) {
@@ -2834,7 +2830,7 @@ int iuse::pick_lock( player *p, item *it, bool, const tripoint &pos )
     } else {
         duration = std::max( to_moves<int>( 10_seconds ),
                              to_moves<int>( 10_minutes - time_duration::from_minutes( qual ) ) -
-                             ( you.dex_cur + you.get_skill_level( skill_mechanics ) ) * 2300 );
+                             ( ( you.dex_cur + you.get_skill_level( skill_mechanics ) ) * 2300 ) );
     }
 
     you.assign_activity( std::make_unique<player_activity>( lockpick_activity_actor::use_item( duration,
@@ -3435,9 +3431,7 @@ int iuse::firecracker_pack_act( player *, item *it, bool, const tripoint &pos )
     } else if( it->charges > 0 ) {
         int ex = rng( 4, 6 );
         int i = 0;
-        if( ex > it->charges ) {
-            ex = it->charges;
-        }
+        ex = std::min( ex, it->charges );
         for( i = 0; i < ex; i++ ) {
             sounds::sound( pos, 20, sounds::sound_t::combat, _( "Bang!" ), false, "explosion", "small" );
         }
@@ -3597,7 +3591,7 @@ int iuse::tazer( player *p, item *it, bool, const tripoint &pos )
 
     /** @EFFECT_DEX slightly increases chance of successfully using tazer */
     /** @EFFECT_MELEE increases chance of successfully using a tazer */
-    int numdice = 3 + ( p->dex_cur / 2.5 ) + p->get_skill_level( skill_melee ) * 2;
+    int numdice = 3 + ( p->dex_cur / 2.5 ) + ( p->get_skill_level( skill_melee ) * 2 );
     p->moves -= to_moves<int>( 1_seconds );
 
     /** @EFFECT_DODGE increases chance of dodging a tazer attack */
@@ -4426,7 +4420,7 @@ int iuse::chop_logs( player *p, item *it, bool t, const tripoint & )
     };
     const std::function<bool( const tripoint & )> f = [&allowed_ter_id]( const tripoint & pnt ) {
         const ter_id type = g->m.ter( pnt );
-        const bool is_allowed_terrain = allowed_ter_id.find( type ) != allowed_ter_id.end();
+        const bool is_allowed_terrain = allowed_ter_id.contains( type );
         return is_allowed_terrain;
     };
 
@@ -4874,7 +4868,7 @@ int iuse::artifact( player *p, item *it, bool, const tripoint & )
                 std::vector<tripoint> ps = closest_points_first( p->pos(), 3 );
                 for( auto p_it : ps ) {
                     if( !one_in( 3 ) ) {
-                        g->m.add_field( p_it, fd_fire, 1 + rng( 0, 1 ) * rng( 0, 1 ), 3_minutes );
+                        g->m.add_field( p_it, fd_fire, 1 + ( rng( 0, 1 ) * rng( 0, 1 ) ), 3_minutes );
                     }
                 }
                 break;
@@ -5577,7 +5571,8 @@ int iuse::robotcontrol( player *p, item *it, bool, const tripoint & )
 
             /** @EFFECT_INT speeds up hacking preperation */
             /** @EFFECT_COMPUTER speeds up hacking preperation */
-            int move_cost = std::max( 100, 1000 - p->int_cur * 10 - p->get_skill_level( skill_computer ) * 10 );
+            int move_cost = std::max( 100,
+                                      1000 - ( p->int_cur * 10 ) - ( p->get_skill_level( skill_computer ) * 10 ) );
             std::unique_ptr<player_activity> act = std::make_unique<player_activity>( ACT_ROBOT_CONTROL,
                                                    move_cost );
             act->monsters.emplace_back( z );
@@ -6170,9 +6165,9 @@ int iuse::einktabletpc( player *p, item *it, bool t, const tripoint &pos )
             /** @EFFECT_INT increases chance of safely decrypting memory card */
 
             /** @EFFECT_COMPUTER increases chance of safely decrypting memory card */
-            const int success = p->get_skill_level( skill_computer ) * rng( 1,
-                                p->get_skill_level( skill_computer ) ) *
-                                rng( 1, p->int_cur ) - rng( 30, 80 );
+            const int success = ( p->get_skill_level( skill_computer ) * rng( 1,
+                                  p->get_skill_level( skill_computer ) ) *
+                                  rng( 1, p->int_cur ) ) - rng( 30, 80 );
             if( success > 0 ) {
                 p->practice( skill_computer, rng( 5, 10 ) );
                 p->add_msg_if_player( m_good, _( "You successfully decrypted content on %s!" ),
@@ -6448,7 +6443,7 @@ static object_names_collection enumerate_objects_around_point( const tripoint &p
     for( const tripoint &point_around_figure : points_in_radius ) {
         if( !bounds.is_point_inside( point_around_figure ) ||
             !g->m.sees( camera_pos, point_around_figure, dist + radius ) ||
-            ( ignored_points.find( point_around_figure ) != ignored_points.end() &&
+            ( ignored_points.contains( point_around_figure ) &&
               !( point_around_figure == point && create_figure_desc ) ) ) {
             continue; // disallow photos with not visible objects
         }
@@ -6481,7 +6476,7 @@ static object_names_collection enumerate_objects_around_point( const tripoint &p
             const std::string veh_name = colorize( veh.disp_name(), c_light_blue );
             const vehicle *veh_hash = &veh_part_pos->vehicle();
 
-            if( local_vehicles_recorded.find( veh_hash ) == local_vehicles_recorded.end() &&
+            if( !local_vehicles_recorded.contains( veh_hash ) &&
                 point != point_around_figure ) {
                 // new vehicle, point is not center
                 ret_obj.vehicles[ veh_name ] ++;
@@ -6490,8 +6485,8 @@ static object_names_collection enumerate_objects_around_point( const tripoint &p
                 //~ %1$s: vehicle part name, %2$s: vehicle name
                 description_part_on_figure = string_format( pgettext( "vehicle part", "%1$s from %2$s" ),
                                              veh_part_pos.part_displayed()->part().name(), veh_name );
-                if( ret_obj.vehicles.find( veh_name ) != ret_obj.vehicles.end() &&
-                    local_vehicles_recorded.find( veh_hash ) != local_vehicles_recorded.end() ) {
+                if( ret_obj.vehicles.contains( veh_name ) &&
+                    local_vehicles_recorded.contains( veh_hash ) ) {
                     // remove vehicle name only if we previously added THIS vehicle name (in case of same name)
                     ret_obj.vehicles[ veh_name ] --;
                     if( ret_obj.vehicles[ veh_name ] <= 0 ) {
@@ -6593,7 +6588,7 @@ static extended_photo_def photo_def_for_camera_point( const tripoint &aim_point,
 
     const auto map_deincrement_or_erase = []( std::unordered_map<std::string, int> &obj_map,
     const std::string & key ) {
-        if( obj_map.find( key ) != obj_map.end() ) {
+        if( obj_map.contains( key ) ) {
             obj_map[ key ] --;
             if( obj_map[ key ] <= 0 ) {
                 obj_map.erase( key );
@@ -7037,13 +7032,9 @@ int iuse::camera( player *p, item *it, bool, const tripoint & )
                 int dist = rl_dist( p->pos(), trajectory_point );
 
                 int camera_bonus = it->has_flag( flag_CAMERA_PRO ) ? 10 : 0;
-                int photo_quality = 20 - rng( dist, dist * 2 ) * 2 + rng( camera_bonus / 2, camera_bonus );
-                if( photo_quality > 5 ) {
-                    photo_quality = 5;
-                }
-                if( photo_quality < 0 ) {
-                    photo_quality = 0;
-                }
+                int photo_quality = 20 - ( rng( dist, dist * 2 ) * 2 ) + rng( camera_bonus / 2, camera_bonus );
+                photo_quality = std::min( photo_quality, 5 );
+                photo_quality = std::max( photo_quality, 0 );
                 if( p->is_blind() ) {
                     photo_quality /= 2;
                 }
@@ -7324,9 +7315,7 @@ int iuse::ehandcuffs( player *p, item *it, bool t, const tripoint &pos )
             }
 
             it->charges -= 50;
-            if( it->charges < 1 ) {
-                it->charges = 1;
-            }
+            it->charges = std::max( it->charges, 1 );
 
             it->set_var( "HANDCUFFS_X", pos.x );
             it->set_var( "HANDCUFFS_Y", pos.y );
@@ -7360,8 +7349,8 @@ int iuse::foodperson( player *p, item *it, bool t, const tripoint &pos )
         return it->type->charges_to_use();
     }
 
-    time_duration shift = time_duration::from_turns( it->magazine_current()->ammo_remaining() *
-                          it->type->tool->turns_per_charge - it->type->tool->turns_active );
+    time_duration shift = time_duration::from_turns( ( it->magazine_current()->ammo_remaining() *
+                          it->type->tool->turns_per_charge ) - it->type->tool->turns_active );
 
     p->add_msg_if_player( m_info, _( "Your HUD lights-up: \"Your shift ends in %s\"." ),
                           to_string( shift ) );
@@ -8058,7 +8047,7 @@ int iuse::multicooker( player *p, item *it, bool t, const tripoint &pos )
                     mealtime = meal->time * 2;
                 }
 
-                const int all_charges = charges_to_start + mealtime / ( it->type->tool->power_draw / 10000 );
+                const int all_charges = charges_to_start + ( mealtime / ( it->type->tool->power_draw / 10000 ) );
 
                 if( it->ammo_remaining() < all_charges ) {
 
@@ -9046,7 +9035,7 @@ int iuse::play_game( player *p, item *it, bool t, const tripoint & )
 int iuse::magic_8_ball( player *p, item *it, bool, const tripoint & )
 {
     enum {
-        BALL8_GOOD,
+        BALL8_GOOD = 0,
         BALL8_UNK = 10,
         BALL8_BAD = 15
     };

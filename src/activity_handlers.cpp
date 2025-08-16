@@ -881,8 +881,8 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
     map &here = get_map();
     for( const harvest_entry &entry : *mt.harvest ) {
         const int butchery = roll_butchery();
-        const float min_num = entry.base_num.first + butchery * entry.scale_num.first;
-        const float max_num = entry.base_num.second + butchery * entry.scale_num.second;
+        const float min_num = entry.base_num.first + ( butchery * entry.scale_num.first );
+        const float max_num = entry.base_num.second + ( butchery * entry.scale_num.second );
         int roll = 0;
         // mass_ratio will override the use of base_num, scale_num, and max
         if( entry.mass_ratio != 0.00f ) {
@@ -1257,7 +1257,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
     // function just for drop yields
     const auto roll_drops = [&]() {
         factor = std::max( factor, -50 );
-        return 0.5 * skill_level / 10 + 0.3 * ( factor + 50 ) / 100 + 0.2 * p->dex_cur / 20;
+        return ( 0.5 * skill_level / 10 ) + ( 0.3 * ( factor + 50 ) / 100 ) + ( 0.2 * p->dex_cur / 20 );
     };
     // all action types - yields
     butchery_drops_harvest( &corpse_item, *corpse, *p, roll_butchery, action, roll_drops );
@@ -2832,7 +2832,7 @@ void activity_handlers::mend_item_finish( player_activity *act, player *p )
 
     // iterate over attachments and apply the same changes if they have the same fault
     for( const auto &mod : target->gunmods() ) {
-        if( mod->faults.find( fault_id( act->name ) ) == mod->faults.end() ) {
+        if( !mod->faults.contains( fault_id( act->name ) ) ) {
             continue;
         }
         mend( mod );
@@ -3694,7 +3694,7 @@ void activity_handlers::craft_do_turn( player_activity *act, player *p )
                                   ? p->get_moves() * base_total_moves / cur_total_moves
                                   : 0;
     // Current progress in moves
-    const double current_progress = craft->item_counter * base_total_moves / 10'000'000.0 +
+    const double current_progress = ( craft->item_counter * base_total_moves / 10'000'000.0 ) +
                                     delta_progress;
     // Current progress as a percent of base_total_moves to 2 decimal places
     craft->item_counter = std::round( current_progress / base_total_moves * 10'000'000.0 );
@@ -3704,7 +3704,7 @@ void activity_handlers::craft_do_turn( player_activity *act, player *p )
     craft->item_counter = std::min( craft->item_counter, 10'000'000 );
 
     // Skill and tools are gained/consumed after every 5% progress
-    int five_percent_steps = craft->item_counter / 500'000 - old_counter / 500'000;
+    int five_percent_steps = ( craft->item_counter / 500'000 ) - ( old_counter / 500'000 );
     if( five_percent_steps > 0 ) {
         p->craft_skill_gain( *craft, five_percent_steps );
     }
@@ -4247,7 +4247,7 @@ void activity_handlers::robot_control_finish( player_activity *act, player *p )
     /** @EFFECT_COMPUTER increases chance of successful robot reprogramming, vs difficulty */
     const int computer_skill = p->get_skill_level( skill_id( "computer" ) );
     const float randomized_skill = rng( 2, p->int_cur ) + computer_skill;
-    float success = computer_skill - 3 * z->type->difficulty / randomized_skill;
+    float success = computer_skill - ( 3 * z->type->difficulty / randomized_skill );
     if( z->has_flag( MF_RIDEABLE_MECH ) ) {
         success = randomized_skill - rng( 1, 11 );
     }
@@ -4328,7 +4328,7 @@ void activity_handlers::tree_communion_do_turn( player_activity *act, player *p 
             return;
         }
         for( const tripoint_abs_omt &neighbor : points_in_radius( tpt, 1 ) ) {
-            if( seen.find( neighbor ) != seen.end() ) {
+            if( seen.contains( neighbor ) ) {
                 continue;
             }
             seen.insert( neighbor );
