@@ -1093,7 +1093,7 @@ void load_artifacts( const world *world, const std::string &path )
         artifact_json.start_array();
         while( !artifact_json.end_array() ) {
             const JsonObject jo = artifact_json.get_object();
-            std::string const type = jo.get_string( "type" );
+            const std::string type = jo.get_string( "type" );
             if( type == "artifact_tool" ) {
                 item_controller->add_item_type( static_cast<const itype &>( it_artifact_tool( jo ) ) );
             } else if( type == "artifact_armor" ) {

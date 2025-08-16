@@ -1183,7 +1183,7 @@ class mapgen_value
             }
 
             Id get( const mapgendata &dat ) const override {
-                std::string const based_on = on->get( dat );
+                const std::string based_on = on->get( dat );
                 auto it = cases.find( based_on );
                 if( it == cases.end() ) {
                     debugmsg( "switch does not handle case %s", based_on );
@@ -1589,7 +1589,7 @@ class jmapgen_npc : public jmapgen_piece
             npc_class( jsi.get_member( "class" ) )
             , target( jsi.get_bool( "target", false ) ) {
             if( jsi.has_string( "add_trait" ) ) {
-                std::string const new_trait = jsi.get_string( "add_trait" );
+                const std::string new_trait = jsi.get_string( "add_trait" );
                 traits.emplace_back();
                 jsi.read( "add_trait", traits.back() );
             } else if( jsi.has_array( "add_trait" ) ) {
@@ -2491,7 +2491,7 @@ class jmapgen_sealed_item : public jmapgen_piece
         }
 
         void check( const std::string &oter_name, const mapgen_parameters &params ) const override {
-            std::string const short_summary =
+            const std::string short_summary =
                 string_format( "sealed_item special in json mapgen for %s", oter_name );
             if( !item_spawner && !item_group_spawner ) {
                 debugmsg( "%s specifies neither an item nor an item group.  "
@@ -2501,7 +2501,7 @@ class jmapgen_sealed_item : public jmapgen_piece
             }
 
             for( const furn_str_id &f : furniture.all_possible_results( params ) ) {
-                std::string const summary =
+                const std::string summary =
                     string_format( "%s using furniture %s", short_summary, f.str() );
 
                 if( !f.is_valid() ) {
@@ -2763,7 +2763,7 @@ class jmapgen_nested : public jmapgen_piece
                 std::unordered_map<om_direction::type, std::set<overmap_connection_id>> neighbors;
             public:
                 neighbor_connection_check( const JsonObject &jsi ) {
-                    for( om_direction::type const dir : om_direction::all ) {
+                    for( const om_direction::type dir : om_direction::all ) {
                         std::set<overmap_connection_id> dir_connections = jsi.get_tags<overmap_connection_id>
                                 ( io::enum_to_string( dir ) );
                         if( !dir_connections.empty() ) {
@@ -3160,10 +3160,10 @@ bool string_id<mapgen_palette>::is_valid() const
 
 void mapgen_palette::check()
 {
-    std::string const context = "palette " + id.str();
+    const std::string context = "palette " + id.str();
     const mapgen_parameters no_parameters;
     for( const std::pair<const std::string, mapgen_parameter> &param : parameters.map ) {
-        std::string const this_context = string_format( "parameter %s in %s", param.first, context );
+        const std::string this_context = string_format( "parameter %s in %s", param.first, context );
         param.second.check( no_parameters, this_context );
     }
     for( const std::pair<const map_key, std::vector<shared_ptr_fast<const jmapgen_piece>>> &p :
@@ -3243,13 +3243,13 @@ void mapgen_palette::add( const palette_id &rh, const add_palette_context &conte
 
 void mapgen_palette::add( const mapgen_palette &rh, const add_palette_context &context )
 {
-    std::string const actual_context = id.is_empty() ? context.context : "palette " + id.str();
+    const std::string actual_context = id.is_empty() ? context.context : "palette " + id.str();
 
     if( !rh.id.is_empty() ) {
         const std::vector<palette_id> &ancestors = context.ancestors;
         auto loop_start = std::find( ancestors.begin(), ancestors.end(), rh.id );
         if( loop_start != ancestors.end() ) {
-            std::string const loop_ids = enumerate_as_string( loop_start, ancestors.end(),
+            const std::string loop_ids = enumerate_as_string( loop_start, ancestors.end(),
             []( const palette_id & i ) {
                 return i.str();
             }, enumeration_conjunction::arrow );
@@ -3319,7 +3319,7 @@ mapgen_palette mapgen_palette::load_internal( const JsonObject &jo, const std::s
         }
     }
 
-    std::string const c = "palette " + new_pal.id.str();
+    const std::string c = "palette " + new_pal.id.str();
     new_pal.load_place_mapings<jmapgen_terrain>( jo, "terrain", format_placings );
     new_pal.load_place_mapings<jmapgen_furniture>( jo, "furniture", format_placings );
     new_pal.load_place_mapings<jmapgen_field>( jo, "fields", format_placings );

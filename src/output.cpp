@@ -81,7 +81,7 @@ std::vector<std::string> foldstring( const std::string &str, int width, const ch
             // if the line is empty.
             lines.emplace_back();
         } else {
-            std::string const wrapped = word_rewrap( strline, width, split );
+            const std::string wrapped = word_rewrap( strline, width, split );
             std::stringstream swrapped( wrapped );
             std::string wline;
             while( std::getline( swrapped, wline, '\n' ) ) {
@@ -216,7 +216,7 @@ void trim_and_print( const catacurses::window &w, point begin,
                      const std::string &text,
                      const report_color_error color_error )
 {
-    std::string const sText = trim_by_length( text, width );
+    const std::string sText = trim_by_length( text, width );
     nc_color dummy = base_color;
     print_colored_text( w, begin, dummy, base_color, sText, color_error );
 }
@@ -793,7 +793,7 @@ int popup( const std::string &text, PopupFlags flags )
 input_event draw_item_info( const int iLeft, const int iWidth, const int iTop, const int iHeight,
                             item_info_data &data )
 {
-    catacurses::window const win =
+    const catacurses::window win =
         catacurses::newwin( iHeight, iWidth,
                             point( iLeft, iTop ) );
 
@@ -874,7 +874,7 @@ std::string format_item_info( const std::vector<iteminfo> &item_display,
                 buffer += i.sName;
             }
 
-            std::string const sFmt = i.sFmt;
+            const std::string sFmt = i.sFmt;
             std::string sPost;
 
             //A bit tricky, find %d and split the string
@@ -1561,7 +1561,7 @@ size_t shortcut_print( const catacurses::window &w, point p, nc_color text_color
 size_t shortcut_print( const catacurses::window &w, nc_color text_color, nc_color shortcut_color,
                        const std::string &fmt )
 {
-    std::string const text = shortcut_text( shortcut_color, fmt );
+    const std::string text = shortcut_text( shortcut_color, fmt );
     // NOLINTNEXTLINE(cata-use-named-point-constants)
     print_colored_text( w, point( -1, -1 ), text_color, text_color, text );
 
@@ -1575,9 +1575,9 @@ std::string shortcut_text( nc_color shortcut_color, const std::string &fmt )
     const size_t pos_end = fmt.find_first_of( '>' );
     if( pos_end != std::string::npos && pos < pos_end ) {
         const size_t sep = std::min( fmt.find_first_of( '|', pos ), pos_end );
-        std::string const prestring = fmt.substr( 0, pos );
-        std::string const poststring = fmt.substr( pos_end + 1, std::string::npos );
-        std::string const shortcut = fmt.substr( pos + 1, sep - pos - 1 );
+        const std::string prestring = fmt.substr( 0, pos );
+        const std::string poststring = fmt.substr( pos_end + 1, std::string::npos );
+        const std::string shortcut = fmt.substr( pos + 1, sep - pos - 1 );
 
         return prestring + colorize( shortcut, shortcut_color ) + poststring;
     }

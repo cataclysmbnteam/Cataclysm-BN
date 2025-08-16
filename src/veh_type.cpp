@@ -678,7 +678,7 @@ void vpart_info::check()
         std::ranges::none_of( handled, [&part]( const std::string & flag ) {
         return part.has_flag( flag );
         } ) ) {
-            std::string const warnings_are_good_docs = enumerate_as_string( handled );
+            const std::string warnings_are_good_docs = enumerate_as_string( handled );
             debugmsg( "%s has non-zero epower, but lacks a flag that would make it affect epower (one of %s)",
                       part.id.c_str(), warnings_are_good_docs.c_str() );
         }
@@ -1012,7 +1012,7 @@ void vehicle_prototype::load( const JsonObject &jo )
         } else if( part.has_array( "parts" ) ) {
             for( const JsonValue entry : part.get_array( "parts" ) ) {
                 if( entry.test_string() ) {
-                    std::string const part_name = entry.get_string();
+                    const std::string part_name = entry.get_string();
                     add_part_string( part_name, pos );
                 } else {
                     const JsonObject subpart = entry.get_object();

@@ -1427,7 +1427,7 @@ comp_selection<item_comp> Character::select_item_component( const std::vector<it
         uilist cmenu;
         // Populate options with the names of the items
         for( auto &map_ha : map_has ) { // Index 0-(map_has.size()-1)
-            std::string const tmpStr = string_format( _( "%s (%d/%d nearby)" ),
+            const std::string tmpStr = string_format( _( "%s (%d/%d nearby)" ),
                                        item::nname( map_ha.type ),
                                        ( map_ha.count * batch ),
                                        item::count_by_charges( map_ha.type ) ?
@@ -1436,7 +1436,7 @@ comp_selection<item_comp> Character::select_item_component( const std::vector<it
             cmenu.addentry( tmpStr );
         }
         for( auto &player_ha : player_has ) { // Index map_has.size()-(map_has.size()+player_has.size()-1)
-            std::string const tmpStr = string_format( _( "%s (%d/%d on person)" ),
+            const std::string tmpStr = string_format( _( "%s (%d/%d on person)" ),
                                        item::nname( player_ha.type ),
                                        ( player_ha.count * batch ),
                                        item::count_by_charges( player_ha.type ) ?
@@ -1451,7 +1451,7 @@ comp_selection<item_comp> Character::select_item_component( const std::vector<it
                                   charges_of( component.type, INT_MAX, filter ) :
                                   map_inv.amount_of( component.type, false, INT_MAX, filter ) +
                                   amount_of( component.type, false, INT_MAX, filter );
-            std::string const tmpStr = string_format( _( "%s (%d/%d nearby & on person)" ),
+            const std::string tmpStr = string_format( _( "%s (%d/%d nearby & on person)" ),
                                        item::nname( component.type ),
                                        component.count * batch,
                                        available );
@@ -1746,12 +1746,12 @@ query_tool_selection( const std::vector<avail_tool_comp> &available_tools,
             const char *format = tool.comp.use_from == usage_from::map
                                  ? _( "%s (%d/%d charges nearby)" )
                                  : _( "%s (%d/%d charges on person)" );
-            std::string const str = string_format( format,
+            const std::string str = string_format( format,
                                                    item::nname( comp_type ), tool.ideal,
                                                    tool.charges );
             tmenu.addentry( str );
         } else {
-            std::string const str = tool.comp.use_from == usage_from::map
+            const std::string str = tool.comp.use_from == usage_from::map
                                     ? item::nname( comp_type ) + _( " (nearby)" )
                                     : item::nname( comp_type );
             tmenu.addentry( str );
@@ -1942,7 +1942,7 @@ ret_val<bool> crafting::can_disassemble( const Character &who, const item &obj,
     }
 
     // refuse to disassemble items containing monsters/pets
-    std::string const monster = obj.get_var( "contained_name" );
+    const std::string monster = obj.get_var( "contained_name" );
     if( !monster.empty() ) {
         return ret_val<bool>::make_failure( _( "You must remove the %s before you can disassemble this." ),
                                             monster );

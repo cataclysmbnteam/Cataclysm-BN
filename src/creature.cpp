@@ -509,8 +509,8 @@ Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area 
         // only when the target is actually "hostile enough"
         bool maybe_boo = false;
         if( angle_iff ) {
-            units::angle const tangle = coord_to_angle( pos(), m->pos() );
-            units::angle const diff = units::fabs( u_angle - tangle );
+            const units::angle tangle = coord_to_angle( pos(), m->pos() );
+            const units::angle diff = units::fabs( u_angle - tangle );
             // Player is in the angle and not too far behind the target
             if( ( diff + iff_hangle > 360_degrees || diff < iff_hangle ) &&
                 ( dist * 3 / 2 + 6 > pldist ) ) {

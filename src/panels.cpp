@@ -201,7 +201,7 @@ void overmap_ui::draw_overmap_chunk( const catacurses::window &w_minimap, const 
                         colorStart = symbolIndex + 1;
                     }
 
-                    std::string const sym = note_text.substr( colorStart, colorIndex - colorStart );
+                    const std::string sym = note_text.substr( colorStart, colorIndex - colorStart );
 
                     ter_color = get_note_color( sym );
                 }
@@ -840,7 +840,7 @@ static void draw_limb2( avatar &u, const catacurses::window &w )
     // print mood
     std::pair<nc_color, int> const morale_pair = morale_stat( u );
     const bool m_style = get_option<std::string>( "MORALE_STYLE" ) == "horizontal";
-    std::string const smiley = morale_emotion( morale_pair.second, get_face_type( u ), m_style );
+    const std::string smiley = morale_emotion( morale_pair.second, get_face_type( u ), m_style );
 
     // print safe mode
     std::string safe_str;
@@ -920,7 +920,7 @@ static void draw_stealth( avatar &u, const catacurses::window &w )
     mvwprintz( w, point_zero, c_light_gray, _( "Speed" ) );
     mvwprintz( w, point( 7, 0 ), value_color( u.get_speed() ), "%s", u.get_speed() );
     const nc_color move_color = move_mode_color( u );
-    std::string const move_string = std::to_string( u.movecounter ) + move_mode_string( u );
+    const std::string move_string = std::to_string( u.movecounter ) + move_mode_string( u );
     mvwprintz( w, point( 15 - utf8_width( move_string ), 0 ), move_color, move_string );
     if( u.is_deaf() ) {
         mvwprintz( w, point( 22, 0 ), c_red, _( "DEAF" ) );
@@ -982,7 +982,7 @@ static void draw_time( const avatar &u, const catacurses::window &w )
     werase( w );
     // display date
     mvwprintz( w, point_zero, c_light_gray, calendar::name_season( season_of_year( calendar::turn ) ) );
-    std::string const day = std::to_string( day_of_season<int>( calendar::turn ) + 1 );
+    const std::string day = std::to_string( day_of_season<int>( calendar::turn ) + 1 );
     mvwprintz( w, point( 10 - utf8_width( day ), 0 ), c_light_gray, day );
     // display time
     if( u.has_watch() ) {
@@ -1157,7 +1157,7 @@ static void draw_limb_wide( avatar &u, const catacurses::window &w )
         const int offset = i * 15;
         const int ny = offset / 45;
         const int nx = offset % 45;
-        std::string const str = string_format( " %s: ",
+        const std::string str = string_format( " %s: ",
                                                left_justify( body_part_hp_bar_ui_text( bp.id() ), 5 ) );
         nc_color part_color = u.limb_color( bp.id(), true, true, true );
         print_colored_text( w, point( nx, ny ), part_color, c_white, str );
@@ -1181,10 +1181,10 @@ static void draw_char_narrow( avatar &u, const catacurses::window &w )
     mvwprintz( w, point( 19, 2 ), c_light_gray, _( "Move :" ) );
 
     const nc_color move_color =  move_mode_color( u );
-    std::string const move_char = move_mode_string( u );
-    std::string const movecost = std::to_string( u.movecounter ) + "(" + move_char + ")";
+    const std::string move_char = move_mode_string( u );
+    const std::string movecost = std::to_string( u.movecounter ) + "(" + move_char + ")";
     const bool m_style = get_option<std::string>( "MORALE_STYLE" ) == "horizontal";
-    std::string const smiley = morale_emotion( morale_pair.second, get_face_type( u ), m_style );
+    const std::string smiley = morale_emotion( morale_pair.second, get_face_type( u ), m_style );
     mvwprintz( w, point( 8, 0 ), c_light_gray, "%s", u.volume );
 
     // print stamina
@@ -1225,10 +1225,10 @@ static void draw_char_wide( avatar &u, const catacurses::window &w )
     mvwprintz( w, point( 31, 1 ), c_light_gray, _( "Move :" ) );
 
     const nc_color move_color =  move_mode_color( u );
-    std::string const move_char = move_mode_string( u );
-    std::string const movecost = std::to_string( u.movecounter ) + "(" + move_char + ")";
+    const std::string move_char = move_mode_string( u );
+    const std::string movecost = std::to_string( u.movecounter ) + "(" + move_char + ")";
     const bool m_style = get_option<std::string>( "MORALE_STYLE" ) == "horizontal";
-    std::string const smiley = morale_emotion( morale_pair.second, get_face_type( u ), m_style );
+    const std::string smiley = morale_emotion( morale_pair.second, get_face_type( u ), m_style );
 
     mvwprintz( w, point( 8, 0 ), c_light_gray, "%s", u.volume );
     mvwprintz( w, point( 23, 0 ), morale_pair.first, "%s", smiley );
@@ -1419,7 +1419,7 @@ static void draw_weightvolume_labels( const avatar &u, const catacurses::window 
 
     // NOLINTNEXTLINE(cata-use-named-point-constants)
     mvwprintz( w, point( 1, 0 ), c_light_gray, _( "Wgt  :" ) );
-    std::string const weight_string = carry_weight_string( u );
+    const std::string weight_string = carry_weight_string( u );
     if( u.weight_carried() > u.weight_capacity() ) {
         mvwprintz( w, point( 8, 0 ), c_red, weight_string );
     } else if( u.weight_carried() > u.weight_capacity() * 0.75 ) {
@@ -1429,7 +1429,7 @@ static void draw_weightvolume_labels( const avatar &u, const catacurses::window 
     }
     // NOLINTNEXTLINE(cata-use-named-point-constants)
     mvwprintz( w, point( 23, 0 ), c_light_gray, _( "Volume:" ) );
-    std::string const volume_string = carry_volume_string( u );
+    const std::string volume_string = carry_volume_string( u );
     if( u.volume_carried() > u.volume_capacity() * 0.85 ) {
         mvwprintz( w, point( 30, 0 ), c_red, volume_string );
     } else if( u.volume_carried() > u.volume_capacity() * 0.65 ) {
@@ -1548,7 +1548,7 @@ static void draw_env_compact( avatar &u, const catacurses::window &w )
 
     if( u.has_item_with_flag( json_flag_THERMOMETER ) ||
         u.has_bionic( bionic_id( "bio_infolink" ) ) ) {
-        std::string const temp = print_temperature( weather.get_temperature( u.pos() ) );
+        const std::string temp = print_temperature( weather.get_temperature( u.pos() ) );
         mvwprintz( w, point( 31 - utf8_width( temp ), 5 ), c_light_gray, temp );
     }
 
@@ -1622,7 +1622,7 @@ static void draw_health_classic( avatar &u, const catacurses::window &w )
     // print mood
     std::pair<nc_color, int> const morale_pair = morale_stat( u );
     const bool m_style = get_option<std::string>( "MORALE_STYLE" ) == "horizontal";
-    std::string const smiley = morale_emotion( morale_pair.second, get_face_type( u ), m_style );
+    const std::string smiley = morale_emotion( morale_pair.second, get_face_type( u ), m_style );
     mvwprintz( w, point( 34, 1 ), morale_pair.first, smiley );
 
     if( !veh ) {
@@ -1663,7 +1663,7 @@ static void draw_health_classic( avatar &u, const catacurses::window &w )
         mvwprintz( w, point( 21, 5 ), u.get_speed() < 100 ? c_red : c_white,
                    _( "Spd " ) + std::to_string( u.get_speed() ) );
         const nc_color move_color = u.movement_mode_is( CMM_WALK ) ? c_white : move_mode_color( u );
-        std::string const move_string = std::to_string( u.movecounter ) + " " + move_mode_string( u );
+        const std::string move_string = std::to_string( u.movecounter ) + " " + move_mode_string( u );
         mvwprintz( w, point( 29, 5 ), move_color, move_string );
     }
 
@@ -1754,8 +1754,8 @@ static std::string get_armor_comp( const avatar &u, bodypart_id bp )
 {
     for( auto it = u.worn.rbegin(); it != u.worn.rend(); ++it ) {
         if( ( *it )->covers( bp ) ) {
-            std::string const armor_name = ( *it )->tname( 1, true );  // Get full name
-            std::size_t const end_pos = armor_name.find( "</color>" );
+            const std::string armor_name = ( *it )->tname( 1, true );  // Get full name
+            const std::size_t end_pos = armor_name.find( "</color>" );
             if( end_pos != std::string::npos ) {
                 return armor_name.substr( 0, end_pos + 8 );  // Include everything until </color>
             } else {
@@ -1882,7 +1882,7 @@ static void draw_simple_compass( avatar &u, const catacurses::window &w )
 
     for( const auto &creature : visible_creatures ) {
         const tripoint enemy_pos = creature->pos();
-        std::string const direction = direction_to_enemy_improved( enemy_pos, player_pos );
+        const std::string direction = direction_to_enemy_improved( enemy_pos, player_pos );
         direction_count[direction]++;
     }
 
@@ -1974,7 +1974,7 @@ static void draw_ai_goal( const avatar &u, const catacurses::window &w )
     behavior::tree needs;
     needs.add( &string_id<behavior::node_t>( "npc_needs" ).obj() );
     behavior::character_oracle_t player_oracle( &u );
-    std::string const current_need = needs.tick( &player_oracle );
+    const std::string current_need = needs.tick( &player_oracle );
     // NOLINTNEXTLINE(cata-use-named-point-constants)
     mvwprintz( w, point( 1, 0 ), c_light_gray, _( "Goal: %s" ), current_need );
     wnoutrefresh( w );
@@ -2076,7 +2076,7 @@ static void draw_time_classic( const avatar &u, const catacurses::window &w )
     // display date
     mvwprintz( w, point_zero, c_white,
                calendar::name_season( season_of_year( calendar::turn ) ) + "," );
-    std::string const day = std::to_string( day_of_season<int>( calendar::turn ) + 1 );
+    const std::string day = std::to_string( day_of_season<int>( calendar::turn ) + 1 );
     mvwprintz( w, point( 8, 0 ), c_white, _( "Day " ) + day );
     // display time
     if( u.has_watch() ) {
@@ -2091,7 +2091,7 @@ static void draw_time_classic( const avatar &u, const catacurses::window &w )
 
     if( u.has_item_with_flag( json_flag_THERMOMETER ) ||
         u.has_bionic( bionic_id( "bio_infolink" ) ) ) {
-        std::string const temp = print_temperature( get_weather().get_temperature( u.pos() ) );
+        const std::string temp = print_temperature( get_weather().get_temperature( u.pos() ) );
         mvwprintz( w, point( 31, 0 ), c_light_gray, _( "Temp : " ) + temp );
     }
 
@@ -2101,7 +2101,7 @@ static void draw_time_classic( const avatar &u, const catacurses::window &w )
 static void draw_hint( const avatar &, const catacurses::window &w )
 {
     werase( w );
-    std::string const press = press_x( ACTION_TOGGLE_PANEL_ADM );
+    const std::string press = press_x( ACTION_TOGGLE_PANEL_ADM );
     // NOLINTNEXTLINE(cata-use-named-point-constants)
     mvwprintz( w, point( 1, 0 ), c_light_green, press );
     mvwprintz( w, point( 2 + utf8_width( press ), 0 ), c_white, _( "to open sidebar options" ) );
@@ -2432,12 +2432,12 @@ void panel_manager::deserialize( JsonIn &jsin )
 
     current_layout_id = joLayouts.get_string( "current_layout_id" );
     for( const JsonObject joLayout : joLayouts.get_array( "layouts" ) ) {
-        std::string const layout_id = joLayout.get_string( "layout_id" );
+        const std::string layout_id = joLayout.get_string( "layout_id" );
         auto &layout = layouts.find( layout_id )->second;
         auto it = layout.begin();
 
         for( const JsonObject joPanel : joLayout.get_array( "panels" ) ) {
-            std::string const name = joPanel.get_string( "name" );
+            const std::string name = joPanel.get_string( "name" );
             const bool toggle = joPanel.get_bool( "toggle" );
 
             for( auto it2 = layout.begin() + std::distance( layout.begin(), it ); it2 != layout.end(); ++it2 ) {
@@ -2504,7 +2504,7 @@ void panel_manager::show_adm()
         decorate_panel( _( "SIDEBAR OPTIONS" ), w );
 
         for( std::pair<size_t, size_t> const row_indx : row_indices ) {
-            std::string const name = _( panels[row_indx.second].get_name() );
+            const std::string name = _( panels[row_indx.second].get_name() );
             if( swapping && source_index == row_indx.second ) {
                 mvwprintz( w, point( 5, current_row + 1 ), c_yellow, name );
             } else {

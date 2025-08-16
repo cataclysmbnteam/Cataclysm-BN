@@ -585,14 +585,14 @@ int npc::faction_display( const catacurses::window &fac_w, const int width ) con
     std::vector<std::string> skill_strs;
     for( size_t i = 0; i < skillslist.size() && count < 3; i++ ) {
         if( !skillslist[ i ]->is_combat_skill() ) {
-            std::string const skill_str = string_format( "%s: %d", skillslist[i]->name(),
+            const std::string skill_str = string_format( "%s: %d", skillslist[i]->name(),
                                           get_skill_level( skillslist[i]->ident() ) );
             skill_strs.push_back( skill_str );
             count += 1;
         }
     }
-    std::string const best_three_noncombat = _( "Best other skills: " );
-    std::string const best_skill_text = string_format( _( "Best combat skill: %s: %d" ),
+    const std::string best_three_noncombat = _( "Best other skills: " );
+    const std::string best_skill_text = string_format( _( "Best combat skill: %s: %d" ),
                                         best_skill().obj().name(), best_skill_level() );
     mvwprintz( fac_w, point( width, ++y ), col, best_skill_text );
     mvwprintz( fac_w, point( width, ++y ), col, best_three_noncombat + skill_strs[0] );

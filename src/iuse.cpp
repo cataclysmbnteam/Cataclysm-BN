@@ -1603,7 +1603,7 @@ static bool good_fishing_spot( tripoint pos )
     // TODO: fix point types
     const oter_id &cur_omt =
         overmap_buffer.ter( tripoint_abs_omt( ms_to_omt_copy( here.getabs( pos ) ) ) );
-    std::string const om_id = cur_omt.id().c_str();
+    const std::string om_id = cur_omt.id().c_str();
     if( fishables.empty() && !g->m.has_flag( "CURRENT", pos ) &&
         om_id.find( "river_" ) == std::string::npos && !cur_omt->is_lake() && !cur_omt->is_lake_shore() ) {
         g->u.add_msg_if_player( m_info, _( "You doubt you will have much luck catching fish here" ) );
@@ -2157,7 +2157,7 @@ int iuse::note_bionics( player *p, item *it, bool t, const tripoint &pos )
             corpse->set_var( "bionics_scanned_by", p->getID().get_value() );
             if( !cbms.empty() ) {
                 corpse->set_flag( flag_CBM_SCANNED );
-                std::string const bionics_string =
+                const std::string bionics_string =
                     enumerate_as_string( cbms.begin(), cbms.end(),
                 []( const item * entry ) -> std::string {
                     return entry->display_name();
@@ -2955,9 +2955,9 @@ int iuse::geiger( player *p, item *it, bool t, const tripoint &pos )
         if( rads == 0 ) {
             return it->type->charges_to_use();
         }
-        std::string const description = rads > 50 ? _( "buzzing" ) :
+        const std::string description = rads > 50 ? _( "buzzing" ) :
                                         rads > 25 ? _( "rapid clicking" ) : _( "clicking" );
-        std::string const sound_var = rads > 50 ? _( "geiger_high" ) :
+        const std::string sound_var = rads > 50 ? _( "geiger_high" ) :
                                       rads > 25 ? _( "geiger_medium" ) : _( "geiger_low" );
 
         sounds::sound( pos, 6, sounds::sound_t::alarm, description, true, "tool", sound_var );
@@ -4984,7 +4984,7 @@ int iuse::handle_ground_graffiti( player &p, item *it, const std::string &prefix
                                   const tripoint &where )
 {
     string_input_popup popup;
-    std::string const message = popup
+    const std::string message = popup
                                 .description( prefix + " " + _( "(To delete, clear the text and confirm)" ) )
                                 .text( g->m.has_graffiti_at( where ) ? g->m.graffiti_at( where ) : std::string() )
                                 .identifier( "graffiti" )
@@ -6217,7 +6217,7 @@ static std::string colorized_field_description_at( const tripoint &point )
 static std::string colorized_item_name( const item &item )
 {
     const nc_color color = item.color_in_inventory();
-    std::string const damtext = item.damage() != 0 ? item.durability_indicator() : "";
+    const std::string damtext = item.damage() != 0 ? item.durability_indicator() : "";
     return damtext + colorize( item.tname( 1, false ), color );
 }
 
@@ -6287,7 +6287,7 @@ static std::string colorized_feature_description_at( const tripoint &center_poin
     const furn_id furn = g->m.furn( center_point );
     if( furn != f_null && furn.is_valid() ) {
         std::string furn_str = colorize( furn->name(), c_yellow );
-        std::string const sign_message = g->m.get_signage( center_point );
+        const std::string sign_message = g->m.get_signage( center_point );
         if( !sign_message.empty() ) {
             furn_str += string_format( _( " with message \"%s\"" ), sign_message );
         }
@@ -6448,7 +6448,7 @@ static object_names_collection enumerate_objects_around_point( const tripoint &p
               !( point_around_figure == point && create_figure_desc ) ) ) {
             continue; // disallow photos with not visible objects
         }
-        units::volume const volume_to_search = point_around_figure == bounds_center_point ? 0_ml :
+        const units::volume volume_to_search = point_around_figure == bounds_center_point ? 0_ml :
                                                min_visible_volume;
 
         std::string furn_desc = colorized_feature_description_at( point_around_figure, item_found,
@@ -6557,7 +6557,7 @@ static object_names_collection enumerate_objects_around_point( const tripoint &p
         }
         if( !objects_combined_desc.empty() ) {
             // store objects to description_figures_status
-            std::string const objects_text = enumerate_as_string( objects_combined_desc );
+            const std::string objects_text = enumerate_as_string( objects_combined_desc );
             ret_obj.obj_nearby_text = string_format( vgettext( "Nearby is %s.", "Nearby are %s.",
                                       objects_combined_num ), objects_text );
         }
@@ -6578,7 +6578,7 @@ static extended_photo_def photo_def_for_camera_point( const tripoint &aim_point,
     std::unordered_map<std::string, std::string> description_figures_appearance;
     std::vector<std::pair<std::string, std::string>> description_figures_status;
 
-    std::string const timestamp = to_string( time_point( calendar::turn ) );
+    const std::string timestamp = to_string( time_point( calendar::turn ) );
     const int dist = rl_dist( camera_pos, aim_point );
     const map &here = get_map();
     const tripoint_range<tripoint> bounds = here.points_in_radius( aim_point, 2 );
@@ -6697,7 +6697,7 @@ static extended_photo_def photo_def_for_camera_point( const tripoint &aim_point,
     const furn_id furn_aim = g->m.furn( aim_point );
 
     if( !description_figures_status.empty() ) {
-        std::string const names = enumerate_as_string( description_figures_status.begin(),
+        const std::string names = enumerate_as_string( description_figures_status.begin(),
                                   description_figures_status.end(),
         []( const std::pair<std::string, std::string> &it ) {
             return colorize( it.first, c_light_blue );
@@ -6758,14 +6758,14 @@ static extended_photo_def photo_def_for_camera_point( const tripoint &aim_point,
     };
 
     if( !obj_coll.items.empty() ) {
-        std::string const obj_list = enumerate_as_string( obj_coll.items.begin(), obj_coll.items.end(),
+        const std::string obj_list = enumerate_as_string( obj_coll.items.begin(), obj_coll.items.end(),
                                      format_object_pair_article );
         photo_text += "\n\n" + string_format( vgettext( "There is something lying on the ground: %s.",
                                               "There are some things lying on the ground: %s.", num_of( obj_coll.items ) ),
                                               obj_list );
     }
     if( !obj_coll.furniture.empty() ) {
-        std::string const obj_list = enumerate_as_string( obj_coll.furniture.begin(),
+        const std::string obj_list = enumerate_as_string( obj_coll.furniture.begin(),
                                      obj_coll.furniture.end(),
                                      format_object_pair_article );
         photo_text += "\n\n" + string_format( vgettext( "Something is visible in the background: %s.",
@@ -6773,7 +6773,7 @@ static extended_photo_def photo_def_for_camera_point( const tripoint &aim_point,
                                               obj_list );
     }
     if( !obj_coll.vehicles.empty() ) {
-        std::string const obj_list = enumerate_as_string( obj_coll.vehicles.begin(),
+        const std::string obj_list = enumerate_as_string( obj_coll.vehicles.begin(),
                                      obj_coll.vehicles.end(),
                                      format_object_pair_no_article );
         photo_text += "\n\n" + string_format( vgettext( "There is %s parked in the background.",
@@ -6781,7 +6781,7 @@ static extended_photo_def photo_def_for_camera_point( const tripoint &aim_point,
                                               obj_list );
     }
     if( !obj_coll.terrain.empty() ) {
-        std::string const obj_list = enumerate_as_string( obj_coll.terrain.begin(), obj_coll.terrain.end(),
+        const std::string obj_list = enumerate_as_string( obj_coll.terrain.begin(), obj_coll.terrain.end(),
                                      format_object_pair_article );
         photo_text += "\n\n" + string_format( vgettext( "There is %s in the background.",
                                               "There are %s in the background.", num_of( obj_coll.terrain ) ),
@@ -8686,7 +8686,7 @@ int iuse::weather_tool( player *p, item *it, bool, const tripoint & )
         /* windpower defined in internal velocity units (=.01 mph) */
         const double windpower = 100 * get_local_windpower( weather.windspeed + vehwindspeed, cur_om_ter,
                                  p->pos(), weather.winddirection, g->is_sheltered( p->pos() ) );
-        std::string const dirstring = get_dirstring( weather.winddirection );
+        const std::string dirstring = get_dirstring( weather.winddirection );
         p->add_msg_if_player( m_neutral, _( "Wind: %.1f %2$s from the %3$s.\nFeels like: %4$s." ),
                               convert_velocity( windpower, VU_VEHICLE ),
                               velocity_units( VU_VEHICLE ), dirstring, print_temperature(
@@ -9157,7 +9157,7 @@ int iuse::modify_grid_connections( player *p, item *it, bool, const tripoint &po
         const tripoint &delta = six_cardinal_directions[i];
         connection_present[i] = std::count( connections.begin(), connections.end(),
                                             tripoint_rel_omt( delta ) );
-        std::string const name = direction_name( direction_from( delta ) );
+        const std::string name = direction_name( direction_from( delta ) );
         const int i_int = static_cast<int>( i );
         const char *format = connection_present[i]
                              ? _( "Remove connection in direction: %s" )

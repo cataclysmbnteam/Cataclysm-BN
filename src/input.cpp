@@ -110,7 +110,7 @@ input_manager inp_mngr;
 void input_manager::init()
 {
     std::map<char, action_id> keymap;
-    std::string const keymap_file_loaded_from;
+    const std::string keymap_file_loaded_from;
     std::set<action_id> const unbound_keymap;
     init_keycode_mapping();
     reset_timeout();
@@ -219,7 +219,7 @@ void input_manager::load( const std::string &file_name, bool is_user_preferences
 
         t_input_event_list events;
         for( const JsonObject keybinding : action.get_array( "bindings" ) ) {
-            std::string const input_method = keybinding.get_string( "input_method" );
+            const std::string input_method = keybinding.get_string( "input_method" );
             input_event new_event;
             if( input_method == "keyboard" ) {
                 new_event.type = input_event_t::keyboard;
@@ -239,7 +239,7 @@ void input_manager::load( const std::string &file_name, bool is_user_preferences
                     }
                 }
             } else { // assume string if not array, and throw if not string
-                std::string const line = keybinding.get_string( "key" );
+                const std::string line = keybinding.get_string( "key" );
                 const int loaded_keycode = get_keycode( line );
                 if( loaded_keycode == '\0' ) {
                     debugmsg( "Invalid keybind %s detected for action %s", line, action_id );
@@ -350,7 +350,7 @@ void input_manager::init_keycode_mapping()
     // Between space and tilde, all keys more or less map
     // to themselves(see ASCII table)
     for( char c = char_key_beg; c <= char_key_end; c++ ) {
-        std::string const name( 1, c );
+        const std::string name( 1, c );
         add_keycode_pair( c, name );
     }
 
@@ -575,7 +575,7 @@ void input_manager::remove_input_for_action(
     const t_action_contexts::iterator action_context = action_contexts.find( context );
     if( action_context != action_contexts.end() ) {
         t_actions &actions = action_context->second;
-        t_actions::iterator const action = actions.find( action_descriptor );
+        const t_actions::iterator action = actions.find( action_descriptor );
         if( action != actions.end() ) {
             if( action->second.is_user_created ) {
                 // Since this is a user created hotkey, remove it so that the
@@ -633,9 +633,9 @@ void input_context::clear_conflicting_keybindings( const input_event &event )
     for( std::vector<std::string>::const_iterator registered_action = registered_actions.begin();
          registered_action != registered_actions.end();
          ++registered_action ) {
-        input_manager::t_actions::iterator const default_action = default_actions.find(
+        const input_manager::t_actions::iterator default_action = default_actions.find(
                     *registered_action );
-        input_manager::t_actions::iterator const category_action = category_actions.find(
+        const input_manager::t_actions::iterator category_action = category_actions.find(
                     *registered_action );
         if( default_action != default_actions.end() ) {
             std::vector<input_event> &events = default_action->second.input_events;

@@ -137,7 +137,7 @@ std::vector<int> main_menu::print_menu_items( const catacurses::window &w_in,
         }
         ret.push_back( utf8_width_notags( text.c_str() ) );
 
-        std::string const temp = shortcut_text( iSel == i ? hilite( c_yellow ) : c_yellow, vItems[i] );
+        const std::string temp = shortcut_text( iSel == i ? hilite( c_yellow ) : c_yellow, vItems[i] );
         text += string_format( "[%s]", colorize( temp,
                                iSel == i ? hilite( c_light_gray ) : c_light_gray ) );
     }
@@ -218,7 +218,7 @@ void main_menu::display_sub_menu( int sel, const point &bottom_left, int sel_lin
                 WORLDINFO *world = world_generator->get_world( all_worldnames[i] );
                 const int savegames_count = world->world_saves.size();
                 nc_color clr = c_white;
-                std::string const txt = all_worldnames[i];
+                const std::string txt = all_worldnames[i];
                 if( all_worldnames[i] == "TUTORIAL" || all_worldnames[i] == "DEFENSE" ) {
                     clr = c_light_cyan;
                 }
@@ -240,7 +240,7 @@ void main_menu::display_sub_menu( int sel, const point &bottom_left, int sel_lin
     }
 
     const point top_left( bottom_left + point( 0, -( sub_opts.size() + 1 ) ) );
-    catacurses::window const w_sub = catacurses::newwin( sub_opts.size() + 2, xlen + 4, top_left );
+    const catacurses::window w_sub = catacurses::newwin( sub_opts.size() + 2, xlen + 4, top_left );
     werase( w_sub );
     draw_border( w_sub, c_light_gray );
     for( int y = 0; static_cast<size_t>( y ) < sub_opts.size(); y++ ) {
@@ -517,10 +517,10 @@ void main_menu::display_text( const std::string &text, const std::string &title,
     const int b_height = FULL_SCREEN_HEIGHT - clamp( ( FULL_SCREEN_HEIGHT - w_open_height ) + 4, 0, 4 );
     const int vert_off = clamp( ( w_open_height - FULL_SCREEN_HEIGHT ) / 2, getbegy( w_open ), TERMY );
 
-    catacurses::window const w_border = catacurses::newwin( b_height, FULL_SCREEN_WIDTH,
+    const catacurses::window w_border = catacurses::newwin( b_height, FULL_SCREEN_WIDTH,
                                         point( clamp( ( TERMX - FULL_SCREEN_WIDTH ) / 2, 0, TERMX ), vert_off ) );
 
-    catacurses::window const w_text = catacurses::newwin( b_height - 2, FULL_SCREEN_WIDTH - 2,
+    const catacurses::window w_text = catacurses::newwin( b_height - 2, FULL_SCREEN_WIDTH - 2,
                                       point( 1 + clamp( ( TERMX - FULL_SCREEN_WIDTH ) / 2, 0, TERMX ), 1 + vert_off ) );
 
     draw_border( w_border, BORDER_COLOR, title );
@@ -854,7 +854,7 @@ bool main_menu::new_character_tab()
                 return false;
             }
 
-            std::string const res = query_popup()
+            const std::string res = query_popup()
                                     .context( "LOAD_DELETE_CANCEL" ).default_color( c_light_gray )
                                     .message( _( "What to do with template \"%s\"?" ), templates[opt_val] )
                                     .option( "LOAD" ).option( "DELETE" ).option( "CANCEL" ).cursor( 0 )

@@ -1083,7 +1083,7 @@ void npc::execute_action( npc_action action )
             const gun_mode mode = cbm_active.is_null() ? primary_weapon().gun_current_mode() :
                                   cbm_fake_active->gun_current_mode();
             if( !mode ) {
-                std::string const error_weapon = cbm_active.is_null() ? primary_weapon().tname() :
+                const std::string error_weapon = cbm_active.is_null() ? primary_weapon().tname() :
                                                  cbm_fake_active->tname();
                 debugmsg( "NPC tried to aim %s without valid mode.", error_weapon );
             }
@@ -1100,7 +1100,7 @@ void npc::execute_action( npc_action action )
             gun_mode mode = cbm_active.is_null() ? primary_weapon().gun_current_mode() :
                             cbm_fake_active->gun_current_mode();
             if( !mode ) {
-                std::string const error_weapon = cbm_active.is_null() ? primary_weapon().tname() :
+                const std::string error_weapon = cbm_active.is_null() ? primary_weapon().tname() :
                                                  cbm_fake_active->tname();
                 debugmsg( "NPC tried to shoot %s without valid mode.", error_weapon );
             }
@@ -2133,10 +2133,10 @@ bool npc::wont_hit_friend( const tripoint &tar, const item &it, bool throwing ) 
         return true;    // If we're *really* sure that our aim is dead-on
     }
 
-    units::angle const target_angle = coord_to_angle( pos(), tar );
+    const units::angle target_angle = coord_to_angle( pos(), tar );
 
     // TODO: Base on dispersion
-    units::angle const safe_angle = 30_degrees;
+    const units::angle safe_angle = 30_degrees;
 
     for( const auto &fr : ai_cache.friends ) {
         const shared_ptr_fast<Creature> ally_p = fr.lock();
@@ -2152,7 +2152,7 @@ bool npc::wont_hit_friend( const tripoint &tar, const item &it, bool throwing ) 
             safe_angle_ally += ( 3 - ally_dist ) * 30_degrees;
         }
 
-        units::angle const ally_angle = coord_to_angle( pos(), ally.pos() );
+        const units::angle ally_angle = coord_to_angle( pos(), ally.pos() );
         units::angle angle_diff = units::fabs( ally_angle - target_angle );
         angle_diff = std::min( 360_degrees - angle_diff, angle_diff );
         if( angle_diff < safe_angle_ally ) {
@@ -2197,7 +2197,7 @@ bool npc::aim()
     const gun_mode mode = cbm_active.is_null() ? primary_weapon().gun_current_mode() :
                           cbm_fake_active->gun_current_mode();
     if( !mode ) {
-        std::string const error_weapon = cbm_active.is_null() ? primary_weapon().tname() :
+        const std::string error_weapon = cbm_active.is_null() ? primary_weapon().tname() :
                                          cbm_fake_active->tname();
         debugmsg( "NPC tried to aim %s without valid mode.", error_weapon );
     }
@@ -2764,8 +2764,8 @@ void npc::find_item()
     fetching_item = false;
     int best_value = minimum_item_value();
     // Not perfect, but has to mirror pickup code
-    units::volume const volume_allowed = volume_capacity() - volume_carried();
-    units::mass   const weight_allowed = weight_capacity() - weight_carried();
+    const units::volume volume_allowed = volume_capacity() - volume_carried();
+    const units::mass   weight_allowed = weight_capacity() - weight_carried();
     // For some reason range limiting by vision doesn't work properly
     const int range = 6;
     //int range = sight_range( g->light_level( posz() ) );
@@ -4129,7 +4129,7 @@ void npc::set_omt_destination()
         needs.push_back( need_none );
     }
 
-    std::string const dest_type;
+    const std::string dest_type;
     for( const auto &fulfill : needs ) {
         auto cache_iter = goal_cache.find( fulfill );
         if( cache_iter != goal_cache.end() && cache_iter->second.omt_loc == surface_omt_loc ) {
@@ -4511,7 +4511,7 @@ bool npc::complain()
     // Radiation every 10 minutes
     if( get_rad() > 90 ) {
         activate_bionic_by_id( bio_radscrubber );
-        std::string const speech = _( "I'm suffering from radiation sickness…" );
+        const std::string speech = _( "I'm suffering from radiation sickness…" );
         if( complain_about( radiation_string, 10_minutes, speech, get_rad() > 150 ) ) {
             return true;
         }
@@ -4537,7 +4537,7 @@ bool npc::complain()
     //Bleeding every 5 minutes
     if( has_effect( effect_bleed ) ) {
         const bodypart_str_id bp = bp_affected( *this, effect_bleed );
-        std::string const speech = string_format( _( "My %s is bleeding!" ), body_part_name( bp ) );
+        const std::string speech = string_format( _( "My %s is bleeding!" ), body_part_name( bp ) );
         if( complain_about( bleed_string, 5_minutes, speech ) ) {
             return true;
         }

@@ -439,7 +439,7 @@ void overmap::unserialize( std::istream &fin, const std::string &file_path )
                 jsin.start_object();
                 city new_city;
                 while( !jsin.end_object() ) {
-                    std::string const city_member_name = jsin.get_member_name();
+                    const std::string city_member_name = jsin.get_member_name();
                     if( city_member_name == "name" ) {
                         jsin.read( new_city.name );
                     } else if( city_member_name == "x" ) {
@@ -519,7 +519,7 @@ void overmap::unserialize( std::istream &fin, const std::string &file_path )
                 om_vehicle new_tracker;
                 int id;
                 while( !jsin.end_object() ) {
-                    std::string const tracker_member_name = jsin.get_member_name();
+                    const std::string tracker_member_name = jsin.get_member_name();
                     if( tracker_member_name == "id" ) {
                         jsin.read( id );
                     } else if( tracker_member_name == "x" ) {
@@ -540,7 +540,7 @@ void overmap::unserialize( std::istream &fin, const std::string &file_path )
                 time_point time = calendar::before_time_starts;
                 int strength = 0;
                 while( !jsin.end_object() ) {
-                    std::string const scent_member_name = jsin.get_member_name();
+                    const std::string scent_member_name = jsin.get_member_name();
                     if( scent_member_name == "pos" ) {
                         jsin.read( pos );
                     } else if( scent_member_name == "time" ) {
@@ -567,7 +567,7 @@ void overmap::unserialize( std::istream &fin, const std::string &file_path )
                 jsin.start_object();
                 overmap_special_id s;
                 while( !jsin.end_object() ) {
-                    std::string const name = jsin.get_member_name();
+                    const std::string name = jsin.get_member_name();
                     if( name == "special" ) {
                         jsin.read( s );
                     } else if( name == "placements" ) {
@@ -575,14 +575,14 @@ void overmap::unserialize( std::istream &fin, const std::string &file_path )
                         while( !jsin.end_array() ) {
                             jsin.start_object();
                             while( !jsin.end_object() ) {
-                                std::string const name = jsin.get_member_name();
+                                const std::string name = jsin.get_member_name();
                                 if( name == "points" ) {
                                     jsin.start_array();
                                     while( !jsin.end_array() ) {
                                         jsin.start_object();
                                         tripoint_om_omt p;
                                         while( !jsin.end_object() ) {
-                                            std::string const name = jsin.get_member_name();
+                                            const std::string name = jsin.get_member_name();
                                             if( name == "p" ) {
                                                 jsin.read( p );
                                                 overmap_special_placements[p] = s;
@@ -1092,7 +1092,7 @@ void mongroup::deserialize_legacy( JsonIn &json )
 {
     json.start_object();
     while( !json.end_object() ) {
-        std::string const name = json.get_member_name();
+        const std::string name = json.get_member_name();
         if( name == "type" ) {
             type = mongroup_id( json.get_string() );
         } else if( name == "pos" ) {
@@ -1157,7 +1157,7 @@ void game::unserialize_master( std::istream &fin )
         JsonIn jsin( fin );
         jsin.start_object();
         while( !jsin.end_object() ) {
-            std::string const name = jsin.get_member_name();
+            const std::string name = jsin.get_member_name();
             if( name == "next_mission_id" ) {
                 next_mission_id = jsin.get_int();
             } else if( name == "next_npc_id" ) {

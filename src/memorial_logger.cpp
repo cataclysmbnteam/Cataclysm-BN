@@ -104,7 +104,7 @@ void memorial_logger::add( const std::string &male_msg,
     const oter_id &cur_ter = overmap_buffer.ter( g->u.global_omt_location() );
     const std::string &location = cur_ter->get_name();
 
-    std::string const log_message = "| " + to_string( calendar::turn ) + " | " + location + " | " + msg;
+    const std::string log_message = "| " + to_string( calendar::turn ) + " | " + location + " | " + msg;
 
     log.push_back( log_message );
 }
@@ -369,7 +369,7 @@ void memorial_logger::notify( const cata::event &e )
         case event_type::activates_artifact: {
             const character_id ch = e.get<character_id>( "character" );
             if( ch == g->u.getID() ) {
-                std::string const item_name = e.get<cata_variant_type::string>( "item_name" );
+                const std::string item_name = e.get<cata_variant_type::string>( "item_name" );
                 //~ %s is artifact name
                 add( pgettext( "memorial_male", "Activated the %s." ),
                      pgettext( "memorial_female", "Activated the %s." ),
@@ -449,7 +449,7 @@ void memorial_logger::notify( const cata::event &e )
             const character_id ch = e.get<character_id>( "character" );
             if( ch == g->u.getID() ) {
                 const mtype &corpse_type = e.get<mtype_id>( "corpse_type" ).obj();
-                std::string const corpse_name = e.get<cata_variant_type::string>( "corpse_name" );
+                const std::string corpse_name = e.get<cata_variant_type::string>( "corpse_name" );
                 if( corpse_name.empty() ) {
                     if( corpse_type.has_flag( MF_HUMAN ) ) {
                         add( pgettext( "memorial_male",
@@ -485,7 +485,7 @@ void memorial_logger::notify( const cata::event &e )
         case event_type::character_kills_character: {
             const character_id ch = e.get<character_id>( "killer" );
             if( ch == g->u.getID() ) {
-                std::string const name = e.get<cata_variant_type::string>( "victim_name" );
+                const std::string name = e.get<cata_variant_type::string>( "victim_name" );
                 const bool cannibal = g->u.has_trait( trait_CANNIBAL );
                 const bool psycho = g->u.has_trait( trait_PSYCHOPATH );
                 if( g->u.has_trait( trait_SAPIOVORE ) ) {
@@ -638,7 +638,7 @@ void memorial_logger::notify( const cata::event &e )
             const character_id ch = e.get<character_id>( "character" );
             if( ch == g->u.getID() ) {
                 const itype_id it = e.get<cata_variant_type::itype_id>( "itype" );
-                std::string const itname = it->nname( 1 );
+                const std::string itname = it->nname( 1 );
                 add( pgettext( "memorial_male", "Consumed a %s." ),
                      pgettext( "memorial_female", "Consumed a %s." ), itname );
             }
@@ -782,7 +782,7 @@ void memorial_logger::notify( const cata::event &e )
         case event_type::fails_to_install_cbm: {
             const character_id ch = e.get<character_id>( "character" );
             if( ch == g->u.getID() ) {
-                std::string const cbm_name = e.get<bionic_id>( "bionic" )->name.translated();
+                const std::string cbm_name = e.get<bionic_id>( "bionic" )->name.translated();
                 add( pgettext( "memorial_male", "Failed install of bionic: %s." ),
                      pgettext( "memorial_female", "Failed install of bionic: %s." ),
                      cbm_name );
@@ -792,7 +792,7 @@ void memorial_logger::notify( const cata::event &e )
         case event_type::fails_to_remove_cbm: {
             const character_id ch = e.get<character_id>( "character" );
             if( ch == g->u.getID() ) {
-                std::string const cbm_name = e.get<bionic_id>( "bionic" )->name.translated();
+                const std::string cbm_name = e.get<bionic_id>( "bionic" )->name.translated();
                 add( pgettext( "memorial_male", "Failed to remove bionic: %s." ),
                      pgettext( "memorial_female", "Failed to remove bionic: %s." ),
                      cbm_name );
@@ -808,7 +808,7 @@ void memorial_logger::notify( const cata::event &e )
             break;
         }
         case event_type::fuel_tank_explodes: {
-            std::string const name = e.get<cata_variant_type::string>( "vehicle_name" );
+            const std::string name = e.get<cata_variant_type::string>( "vehicle_name" );
             add( pgettext( "memorial_male", "The fuel tank of the %s exploded!" ),
                  pgettext( "memorial_female", "The fuel tank of the %s exploded!" ),
                  name );
@@ -855,7 +855,7 @@ void memorial_logger::notify( const cata::event &e )
         }
         case event_type::game_over: {
             const bool suicide = e.get<bool>( "is_suicide" );
-            std::string const last_words = e.get<cata_variant_type::string>( "last_words" );
+            const std::string last_words = e.get<cata_variant_type::string>( "last_words" );
             if( suicide ) {
                 add( pgettext( "memorial_male", "%s committed suicide." ),
                      pgettext( "memorial_female", "%s committed suicide." ),
@@ -882,7 +882,7 @@ void memorial_logger::notify( const cata::event &e )
         case event_type::installs_cbm: {
             const character_id ch = e.get<character_id>( "character" );
             if( ch == g->u.getID() ) {
-                std::string const cbm_name = e.get<bionic_id>( "bionic" )->name.translated();
+                const std::string cbm_name = e.get<bionic_id>( "bionic" )->name.translated();
                 add( pgettext( "memorial_male", "Installed bionic: %s." ),
                      pgettext( "memorial_female", "Installed bionic: %s." ),
                      cbm_name );
@@ -892,7 +892,7 @@ void memorial_logger::notify( const cata::event &e )
         case event_type::installs_faulty_cbm: {
             const character_id ch = e.get<character_id>( "character" );
             if( ch == g->u.getID() ) {
-                std::string const cbm_name = e.get<bionic_id>( "bionic" )->name.translated();
+                const std::string cbm_name = e.get<bionic_id>( "bionic" )->name.translated();
                 add( pgettext( "memorial_male", "Installed bad bionic: %s." ),
                      pgettext( "memorial_female", "Installed bad bionic: %s." ),
                      cbm_name );
@@ -923,7 +923,7 @@ void memorial_logger::notify( const cata::event &e )
             break;
         }
         case event_type::npc_becomes_hostile: {
-            std::string const name = e.get<cata_variant_type::string>( "npc_name" );
+            const std::string name = e.get<cata_variant_type::string>( "npc_name" );
             add( pgettext( "memorial_male", "%s became hostile." ),
                  pgettext( "memorial_female", "%s became hostile." ),
                  name );
@@ -940,7 +940,7 @@ void memorial_logger::notify( const cata::event &e )
             break;
         }
         case event_type::player_levels_spell: {
-            std::string const spell_name = e.get<spell_id>( "spell" )->name.translated();
+            const std::string spell_name = e.get<spell_id>( "spell" )->name.translated();
             add( pgettext( "memorial_male", "Gained a spell level on %s." ),
                  pgettext( "memorial_female", "Gained a spell level on %s." ),
                  spell_name );
@@ -954,7 +954,7 @@ void memorial_logger::notify( const cata::event &e )
         case event_type::removes_cbm: {
             const character_id ch = e.get<character_id>( "character" );
             if( ch == g->u.getID() ) {
-                std::string const cbm_name = e.get<bionic_id>( "bionic" )->name.translated();
+                const std::string cbm_name = e.get<bionic_id>( "bionic" )->name.translated();
                 add( pgettext( "memorial_male", "Removed bionic: %s." ),
                      pgettext( "memorial_female", "Removed bionic: %s." ),
                      cbm_name );
@@ -969,7 +969,7 @@ void memorial_logger::notify( const cata::event &e )
         case event_type::telefrags_creature: {
             const character_id ch = e.get<character_id>( "character" );
             if( ch == g->u.getID() ) {
-                std::string const victim_name = e.get<cata_variant_type::string>( "victim_name" );
+                const std::string victim_name = e.get<cata_variant_type::string>( "victim_name" );
                 add( pgettext( "memorial_male", "Telefragged a %s." ),
                      pgettext( "memorial_female", "Telefragged a %s." ),
                      victim_name );
@@ -987,7 +987,7 @@ void memorial_logger::notify( const cata::event &e )
         case event_type::teleports_into_wall: {
             const character_id ch = e.get<character_id>( "character" );
             if( ch == g->u.getID() ) {
-                std::string const obstacle_name = e.get<cata_variant_type::string>( "obstacle_name" );
+                const std::string obstacle_name = e.get<cata_variant_type::string>( "obstacle_name" );
                 add( pgettext( "memorial_male", "Teleported into a %s." ),
                      pgettext( "memorial_female", "Teleported into a %s." ),
                      obstacle_name );

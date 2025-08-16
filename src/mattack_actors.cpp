@@ -170,7 +170,7 @@ std::unique_ptr<mattack_actor> mon_spellcasting_actor::clone() const
 
 void mon_spellcasting_actor::load_internal( const JsonObject &obj, const std::string & )
 {
-    std::string const sp_id;
+    const std::string sp_id;
     fake_spell intermediate;
     mandatory( obj, was_loaded, "spell_data", intermediate );
     self = intermediate.self;
@@ -201,7 +201,7 @@ bool mon_spellcasting_actor::call( monster &mon ) const
 
     const tripoint target = self ? mon.pos() : mon.attack_target()->pos();
 
-    std::string const fx = spell_data.effect();
+    const std::string fx = spell_data.effect();
     // is the spell an attack that needs to hit the target?
     // examples of spells that don't: summons, teleport self
     const bool targeted_attack = fx == "target_attack" || fx == "projectile_attack" ||

@@ -131,7 +131,7 @@ void solar_tile::update_internal( time_point to, const tripoint_abs_ms &p, distr
     const float sunlight = sum_conditions( zero + rounded_then, zero + rounded_now,
                                            p.raw() ).sunlight / default_daylight_level();
     // int64 because we can have years in here
-    std::int64_t const produced = power * static_cast<std::int64_t>( sunlight ) / 1000;
+    const std::int64_t produced = power * static_cast<std::int64_t>( sunlight ) / 1000;
     grid.mod_resource( static_cast<int>( std::min( static_cast<std::int64_t>( INT_MAX ), produced ) ) );
 }
 
@@ -197,7 +197,7 @@ int battery_tile::get_resource() const
 int battery_tile::mod_resource( int amt )
 {
     // TODO: Avoid int64 math if possible
-    std::int64_t const sum = static_cast<std::int64_t>( stored ) + amt;
+    const std::int64_t sum = static_cast<std::int64_t>( stored ) + amt;
     if( sum >= max_stored ) {
         stored = max_stored;
         return sum - max_stored;
@@ -312,7 +312,7 @@ void steady_consumer_tile::update_internal( time_point to, const tripoint_abs_ms
         return;
     }
 
-    std::int64_t const power = this->power * ticks;
+    const std::int64_t power = this->power * ticks;
     const int missing = grid.mod_resource( -power );
 
     if( missing == 0 ) {

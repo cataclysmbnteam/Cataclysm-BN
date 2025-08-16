@@ -780,7 +780,7 @@ void avatar_action::fire_wielded_weapon( avatar &you )
         return;
     } else if( weapon.ammo_data() && weapon.type->gun &&
                !weapon.ammo_types().contains( weapon.ammo_data()->ammo->type ) ) {
-        std::string const ammoname = weapon.ammo_current()->nname( 1 );
+        const std::string ammoname = weapon.ammo_current()->nname( 1 );
         add_msg( m_info, _( "The %s can't be fired while loaded with incompatible ammunition %s" ),
                  weapon.tname(), ammoname );
         return;

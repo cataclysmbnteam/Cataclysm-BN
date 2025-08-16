@@ -755,8 +755,8 @@ bool game::start_game()
         start_loc.handle_heli_crash( u );
         bool success = false;
         for( auto v : m.get_vehicles() ) {
-            std::string const name = v.v->type.str();
-            std::string const search = std::string( "helicopter" );
+            const std::string name = v.v->type.str();
+            const std::string search = std::string( "helicopter" );
             if( name.find( search ) != std::string::npos ) {
                 for( const vpart_reference &vp : v.v->get_any_parts( VPFLAG_CONTROLS ) ) {
                     const tripoint pos = vp.pos();
@@ -995,7 +995,7 @@ static std::string generate_memorial_filename( const std::string &char_name )
 
     // Add a timestamp for uniqueness.
     char buffer[suffix_len] {};
-    std::time_t const t = std::time( nullptr );
+    const std::time_t t = std::time( nullptr );
     std::strftime( buffer, suffix_len, "%Y-%m-%d-%H-%M-%S", std::localtime( &t ) );
     memorial_file_path << buffer;
 
@@ -1114,7 +1114,7 @@ bool game::cleanup_at_end()
         const int iOffsetX = TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0;
         const int iOffsetY = TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0;
 
-        catacurses::window const w_rip = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
+        const catacurses::window w_rip = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
                                          point( iOffsetX, iOffsetY ) );
         draw_border( w_rip );
 
@@ -1194,7 +1194,7 @@ bool game::cleanup_at_end()
                    sTemp );
 
         const int iStartX = ( FULL_SCREEN_WIDTH / 2 ) - ( ( iMaxWidth - 4 ) / 2 );
-        std::string const sLastWords = string_input_popup()
+        const std::string sLastWords = string_input_popup()
                                        .window( w_rip, point( iStartX, iNameLine ), iStartX + iMaxWidth - 4 - 1 )
                                        .max_length( iMaxWidth - 4 - 1 )
                                        .query_string();
@@ -1202,7 +1202,7 @@ bool game::cleanup_at_end()
         const bool is_suicide = uquit == QUIT_SUICIDE;
         events().send<event_type::game_over>( is_suicide, sLastWords );
         // Struck the save_player_data here to forestall Weirdness
-        std::string const char_filename = generate_memorial_filename( u.name );
+        const std::string char_filename = generate_memorial_filename( u.name );
         move_save_to_graveyard( char_filename );
         write_memorial_file( char_filename, sLastWords );
         memorial().clear();
@@ -1220,7 +1220,7 @@ bool game::cleanup_at_end()
 
             if( get_option<std::string>( "WORLD_END" ) == "query" ) {
                 bool decided = false;
-                std::string const buffer = _( "Warning: NPC interactions and some other global flags "
+                const std::string buffer = _( "Warning: NPC interactions and some other global flags "
                                               "will not all reset when starting a new character in an "
                                               "already-played world.  This can lead to some strange "
                                               "behavior.\n\n"
@@ -2884,7 +2884,7 @@ void game::write_memorial_file( const std::string &filename, std::string sLastWo
         return;
     }
 
-    std::string const path = memorial_active_world_dir + filename + ".txt";
+    const std::string path = memorial_active_world_dir + filename + ".txt";
 
     write_to_file( path, [&]( std::ostream & fout ) {
         memorial().write( fout, sLastWords );
@@ -3457,7 +3457,7 @@ void game::draw_minimap()
                         colorStart = symbolIndex + 1;
                     }
 
-                    std::string const sym = note_text.substr( colorStart, colorIndex - colorStart );
+                    const std::string sym = note_text.substr( colorStart, colorIndex - colorStart );
 
                     if( sym.length() == 2 ) {
                         if( sym == "br" ) {
@@ -4167,7 +4167,7 @@ void game::monmove()
     for( monster &critter : all_monsters() ) {
         // Critters in impassable tiles get pushed away, unless it's not impassable for them
         if( !critter.is_dead() && m.impassable( critter.pos() ) && !critter.can_move_to( critter.pos() ) ) {
-            std::string const msg = string_format( "%s can't move to its location!  %s  %s", critter.name(),
+            const std::string msg = string_format( "%s can't move to its location!  %s  %s", critter.name(),
                                                    critter.pos().to_string(), m.tername( critter.pos() ) );
             dbg( DL::Error ) << msg;
             add_msg( m_debug, msg );
@@ -5966,7 +5966,7 @@ void game::print_terrain_info( const tripoint &lp, const catacurses::window &w_l
         return ret;
     };
 
-    std::string const tile = string_format( "(%s) %s", area_name, fmt_tile_info( lp ) );
+    const std::string tile = string_format( "(%s) %s", area_name, fmt_tile_info( lp ) );
 
     if( m.impassable( lp ) ) {
         line += fold_and_print( w_look, point( column, line ), max_width, c_light_gray,
@@ -5983,7 +5983,7 @@ void game::print_terrain_info( const tripoint &lp, const catacurses::window &w_l
         wprintz( w_look, ll.second, ll.first );
     }
 
-    std::string const signage = m.get_signage( lp );
+    const std::string signage = m.get_signage( lp );
     if( !signage.empty() ) {
         trim_and_print( w_look, point( column, line++ ), max_width, c_dark_gray,
                         // NOLINTNEXTLINE(cata-text-style): the question mark does not end a sentence
@@ -5993,7 +5993,7 @@ void game::print_terrain_info( const tripoint &lp, const catacurses::window &w_l
     if( m.has_zlevels() && lp.z > -OVERMAP_DEPTH && !m.has_floor( lp ) ) {
         // Print info about stuff below
         const tripoint below( lp.xy(), lp.z - 1 );
-        std::string const tile_below = fmt_tile_info( below );
+        const std::string tile_below = fmt_tile_info( below );
 
         if( !m.has_floor_or_support( lp ) ) {
             line += fold_and_print( w_look, point( column, line ), max_width, c_dark_gray,
@@ -6282,7 +6282,7 @@ void game::zones_manager()
             zones = mgr.get_zones();
         } else {
             const tripoint &u_abs_pos = m.getabs( u.pos() );
-            for( zone_manager::ref_zone_data  const &ref : mgr.get_zones() ) {
+            for( const zone_manager::ref_zone_data  &ref : mgr.get_zones() ) {
                 const tripoint &zone_abs_pos = ref.get().get_center_point();
                 if( u_abs_pos.z == zone_abs_pos.z && rl_dist( u_abs_pos, zone_abs_pos ) <= 50 ) {
                     zones.emplace_back( ref );
@@ -6718,7 +6718,7 @@ look_around_result game::look_around( bool show_window, tripoint &center,
 
             const int la_y = 0;
             int la_x = TERMX - panel_width;
-            std::string const position = get_option<std::string>( "LOOKAROUND_POSITION" );
+            const std::string position = get_option<std::string>( "LOOKAROUND_POSITION" );
             if( position == "left" ) {
                 if( get_option<std::string>( "SIDEBAR_POSITION" ) == "right" ) {
                     la_x = panel_manager::get_manager().get_width_left();
@@ -6795,14 +6795,14 @@ look_around_result game::look_around( bool show_window, tripoint &center,
 
             center_print( w_info, 0, c_white, string_format( _( "< <color_green>Look Around</color> >" ) ) );
 
-            std::string const extended_descr_text = string_format( _( "%s - %s" ),
+            const std::string extended_descr_text = string_format( _( "%s - %s" ),
                                                     ctxt.get_desc( "EXTENDED_DESCRIPTION" ),
                                                     ctxt.get_action_name( "EXTENDED_DESCRIPTION" ) );
-            std::string const fast_scroll_text = string_format( _( "%s - %s" ),
+            const std::string fast_scroll_text = string_format( _( "%s - %s" ),
                                                  ctxt.get_desc( "TOGGLE_FAST_SCROLL" ),
                                                  ctxt.get_action_name( "TOGGLE_FAST_SCROLL" ) );
 #if defined(TILES)
-            std::string const pixel_minimap_text = string_format( _( "%s - %s" ),
+            const std::string pixel_minimap_text = string_format( _( "%s - %s" ),
                                                    ctxt.get_desc( "toggle_pixel_minimap" ),
                                                    ctxt.get_action_name( "toggle_pixel_minimap" ) );
 #endif // TILES
@@ -7244,12 +7244,12 @@ bool game::take_screenshot( const std::string &path ) const
 bool game::take_screenshot() const
 {
     // check that the current '<world>/screenshots' directory exists
-    std::string const map_directory = get_active_world()->info->folder_path() + "/screenshots/";
+    const std::string map_directory = get_active_world()->info->folder_path() + "/screenshots/";
     assure_dir_exist( map_directory );
 
     // build file name: <map_dir>/screenshots/[<character_name>]_<date>.png
     // Date format is a somewhat ISO-8601 compliant GMT time date (except for some characters that wouldn't pass on most file systems like ':').
-    std::time_t const time = std::time( nullptr );
+    const std::time_t time = std::time( nullptr );
     std::stringstream date_buffer;
     date_buffer << std::put_time( std::gmtime( &time ), "%F_%H-%M-%S_%z" );
     const std::string tmp_file_name = string_format( "[%s]_%s.png", get_player_character().get_name(),
@@ -9029,9 +9029,9 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp )
 
         // u.run_cost(mcost, diag) while mounted just returns mcost itself
         const double base_moves = mcost * 100.0 / crit->get_speed();
-        units::mass const carried_weight = crit->get_carried_weight() + u.get_weight();
-        units::mass const max_carry_weight = crit->weight_capacity();
-        units::mass const weight_overload = std::max( 0_gram, carried_weight - max_carry_weight );
+        const units::mass carried_weight = crit->get_carried_weight() + u.get_weight();
+        const units::mass max_carry_weight = crit->weight_capacity();
+        const units::mass weight_overload = std::max( 0_gram, carried_weight - max_carry_weight );
         const double encumb_moves = weight_overload / 5_kilogram;
 
         u.moves -= static_cast<int>( std::ceil( base_moves + encumb_moves ) );
@@ -9209,7 +9209,7 @@ point game::place_player( const tripoint &dest_loc )
     if( const std::optional<std::string> label = vp1.get_label() ) {
         add_msg( m_info, _( "Label here: %s" ), *label );
     }
-    std::string const signage = m.get_signage( dest_loc );
+    const std::string signage = m.get_signage( dest_loc );
     if( !signage.empty() ) {
         if( !u.has_trait( trait_ILLITERATE ) ) {
             add_msg( m_info, _( "The sign says: %s" ), signage );
@@ -9463,8 +9463,8 @@ point game::place_player( const tripoint &dest_loc )
                 std::vector<item *> items;
                 for( auto &tmpitem : m.i_at( u.pos() ) ) {
 
-                    std::string const next_tname = tmpitem->tname();
-                    std::string const next_dname = tmpitem->display_name();
+                    const std::string next_tname = tmpitem->tname();
+                    const std::string next_dname = tmpitem->display_name();
                     const bool by_charges = tmpitem->count_by_charges();
                     bool got_it = false;
                     for( size_t i = 0; i < names.size(); ++i ) {
@@ -9502,7 +9502,7 @@ point game::place_player( const tripoint &dest_loc )
                 int and_the_rest = 0;
                 for( size_t i = 0; i < names.size(); ++i ) {
                     //~ number of items: "<number> <item>"
-                    std::string const fmt = vgettext( "%1$d %2$s", "%1$d %2$s", counts[i] );
+                    const std::string fmt = vgettext( "%1$d %2$s", "%1$d %2$s", counts[i] );
                     names[i] = string_format( fmt, counts[i], names[i] );
                     // Skip the first two.
                     if( i > 1 ) {
@@ -9611,7 +9611,7 @@ bool game::phasing_move( const tripoint &dest_loc, const bool via_ramp )
         dest.y += d.y;
     }
 
-    units::energy const power_cost = bio_probability_travel->power_activate;
+    const units::energy power_cost = bio_probability_travel->power_activate;
 
     if( tunneldist != 0 ) {
         // -1 because power_cost for the first tile was already taken up by the bionic's activation
@@ -10741,7 +10741,7 @@ std::optional<tripoint> game::find_stairs( map &mp, const int z_after, bool peek
             monster *mon = dynamic_cast<monster *>( blocking_creature );
             const bool would_move = ( guy && !guy->is_enemy() ) || ( mon && mon->friendly == -1 );
             const bool can_displace = find_empty_spot_nearby( *stairs ).has_value();
-            std::string const cr_name = blocking_creature->get_name();
+            const std::string cr_name = blocking_creature->get_name();
             std::string msg;
             if( guy ) {
                 //~ %s is the name of hostile NPC

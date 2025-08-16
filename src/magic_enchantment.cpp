@@ -280,8 +280,8 @@ void enchantment::load( const JsonObject &jo, const std::string & )
 
     if( jo.has_array( "values" ) ) {
         for( const JsonObject value_obj : jo.get_array( "values" ) ) {
-            std::string const value_raw = value_obj.get_string( "value" );
-            std::string const value_new = migrate_ench_vals_enums( value_raw );
+            const std::string value_raw = value_obj.get_string( "value" );
+            const std::string value_new = migrate_ench_vals_enums( value_raw );
             if( json_report_strict && value_new != value_raw ) {
                 value_obj.show_warning(
                     string_format( "%s has been renamed to %s", value_raw, value_new ), "value" );
@@ -372,7 +372,7 @@ void enchantment::serialize( JsonOut &jsout ) const
     jsout.member( "values" );
     jsout.start_array();
     for( int value = 0; value < static_cast<int>( enchant_vals::mod::NUM_MOD ); value++ ) {
-        enchant_vals::mod const enum_value = static_cast<enchant_vals::mod>( value );
+        const enchant_vals::mod enum_value = static_cast<enchant_vals::mod>( value );
         if( get_value_add( enum_value ) == 0 && get_value_multiply( enum_value ) == 0.0 ) {
             continue;
         }

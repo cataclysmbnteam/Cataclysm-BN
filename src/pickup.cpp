@@ -197,7 +197,7 @@ bool pickup::query_thief()
     const bool force_uc = get_option<bool>( "FORCE_CAPITAL_YN" );
     const auto &allow_key = force_uc ? input_context::disallow_lower_case
                             : input_context::allow_all_keys;
-    std::string const answer = query_popup()
+    const std::string answer = query_popup()
                                .allow_cancel( false )
                                .context( "YES_NO_ALWAYS_NEVER" )
                                .message( "%s", force_uc
@@ -733,7 +733,7 @@ void pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
             }
 
             pickupX = 0;
-            std::string const position = get_option<std::string>( "PICKUP_POSITION" );
+            const std::string position = get_option<std::string>( "PICKUP_POSITION" );
             if( position == "left" ) {
                 pickupX = panel_manager::get_manager().get_width_left();
             } else if( position == "right" ) {

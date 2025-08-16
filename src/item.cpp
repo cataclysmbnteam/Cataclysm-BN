@@ -522,7 +522,7 @@ detached_ptr<item> item::make_corpse( const mtype_id &mt, time_point turn, const
         debugmsg( "tried to make a corpse with an invalid mtype id" );
     }
 
-    std::string const corpse_type = mt == mtype_id::NULL_ID() ? "corpse_generic_human" : "corpse";
+    const std::string corpse_type = mt == mtype_id::NULL_ID() ? "corpse_generic_human" : "corpse";
 
     detached_ptr<item> result = item::spawn( corpse_type, turn );
 
@@ -990,7 +990,7 @@ int item::charges_per_volume( const units::volume &vol ) const
         // dimension
         return vol * static_cast<int64_t>( type->stack_size ) / type->volume;
     } else {
-        units::volume const my_volume = volume();
+        const units::volume my_volume = volume();
         if( my_volume == 0_ml ) {
             debugmsg( "Item '%s' with zero volume", tname() );
             return INFINITE_CHARGES;
@@ -1882,7 +1882,7 @@ void item::med_info( const item *med_item, std::vector<iteminfo> &info, const it
     }
 
     if( med_com->stim != 0 && parts->test( iteminfo_parts::MED_STIMULATION ) ) {
-        std::string const name = string_format( "%s <stat>%s</stat>", _( "Stimulation:" ),
+        const std::string name = string_format( "%s <stat>%s</stat>", _( "Stimulation:" ),
                                                 med_com->stim > 0 ? _( "Upper" ) : _( "Downer" ) );
         info.emplace_back( "MED", name );
     }
@@ -2072,7 +2072,7 @@ void item::food_info( const item *food_item, std::vector<iteminfo> &info,
 
             if( print_freshness_duration ) {
                 const time_duration remaining_fresh = food_item->minimum_freshness_duration( temperature );
-                std::string const time_string = to_string_clipped( remaining_fresh );
+                const std::string time_string = to_string_clipped( remaining_fresh );
                 info.emplace_back( "DESCRIPTION", string_format( temperature_description, time_string ) );
             } else {
                 info.emplace_back( "DESCRIPTION", temperature_description );
@@ -2161,9 +2161,9 @@ void item::ammo_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
         const bool has_armor_mult = get_ranged_armor_mult( ammo ) != 1.0;
         const bool display_armor_mult = parts->test( iteminfo_parts::AMMO_DAMAGE_AP_PROPORTIONAL );
 
-        iteminfo::flags const f = ( has_flat_arpen ||
+        const iteminfo::flags f = ( has_flat_arpen ||
                                     has_armor_mult ) ? iteminfo::no_newline : iteminfo::no_flags;
-        iteminfo::flags const fd = ( has_flat_arpen ||
+        const iteminfo::flags fd = ( has_flat_arpen ||
                                      has_armor_mult ) ? iteminfo::no_newline | iteminfo::is_decimal : iteminfo::is_decimal;
 
         if( has_flat_dmg && has_dmg_multiplier
@@ -2639,7 +2639,7 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
 
     if( mod->casings_count() && parts->test( iteminfo_parts::DESCRIPTION_GUN_CASINGS ) ) {
         insert_separation_line( info );
-        std::string const tmp = vgettext( "Contains <stat>%i</stat> casing",
+        const std::string tmp = vgettext( "Contains <stat>%i</stat> casing",
                                           "Contains <stat>%i</stat> casings", mod->casings_count() );
         info.emplace_back( "DESCRIPTION", string_format( tmp, mod->casings_count() ) );
     }
@@ -2968,7 +2968,7 @@ void item::armor_fit_info( std::vector<iteminfo> &info, const iteminfo_query *pa
                         break;
                 }
                 if( !resize_str.empty() ) {
-                    std::string const info_str = string_format( _( "* This clothing %s." ), resize_str );
+                    const std::string info_str = string_format( _( "* This clothing %s." ), resize_str );
                     info.emplace_back( "DESCRIPTION", info_str );
                 }
             } else {
@@ -2990,7 +2990,7 @@ void item::armor_fit_info( std::vector<iteminfo> &info, const iteminfo_query *pa
                     default:
                         break;
                 }
-                std::string const info_str = string_format( _( "* This clothing <info>can be "
+                const std::string info_str = string_format( _( "* This clothing <info>can be "
                                              "refitted</info>%s." ), resize_str );
                 info.emplace_back( "DESCRIPTION", info_str );
             }
@@ -3120,7 +3120,7 @@ void item::book_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
 
     if( book.chapters > 0 && parts->test( iteminfo_parts::BOOK_NUMUNREADCHAPTERS ) ) {
         const int unread = get_remaining_chapters( you );
-        std::string const fmt = vgettext( "This book has <num> <info>unread chapter</info>.",
+        const std::string fmt = vgettext( "This book has <num> <info>unread chapter</info>.",
                                           "This book has <num> <info>unread chapters</info>.",
                                           unread );
         info.emplace_back( "BOOK", "", fmt, iteminfo::no_flags, unread );
@@ -3147,7 +3147,7 @@ void item::book_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
     }
 
     if( !recipe_list.empty() && parts->test( iteminfo_parts::DESCRIPTION_BOOK_RECIPES ) ) {
-        std::string const recipe_line =
+        const std::string recipe_line =
             string_format( vgettext( "This book contains %1$d crafting recipe: %2$s",
                                      "This book contains %1$d crafting recipes: %2$s",
                                      recipe_list.size() ),
@@ -3275,7 +3275,7 @@ void item::component_info( std::vector<iteminfo> &info, const iteminfo_query *pa
                            _( components_to_string() ) ) );
     } else if( get_var( "bionics_scanned_by", -1 ) == get_avatar().getID().get_value() ) {
         // TODO: Extract into a more proper place (function in namespace)
-        std::string const bionics_string = enumerate_as_string( components.begin(), components.end(),
+        const std::string bionics_string = enumerate_as_string( components.begin(), components.end(),
         []( const item * const & entry ) -> std::string {
             return entry->is_bionic() ? entry->display_name() : "";
         }, enumeration_conjunction::none );
@@ -3814,7 +3814,7 @@ void item::contents_info( std::vector<iteminfo> &info, const iteminfo_query *par
             const translation &description = contents_item->type->description;
 
             if( contents_item->made_of( LIQUID ) ) {
-                units::volume const contents_volume = contents_item->volume() * batch;
+                const units::volume contents_volume = contents_item->volume() * batch;
                 int converted_volume_scale = 0;
                 const double converted_volume =
                     round_up( convert_volume( contents_volume.value(),
@@ -5269,7 +5269,7 @@ units::mass item::weight( bool include_contents, bool integral ) const
     }
 
     units::mass ret;
-    std::string const local_str_mass = integral ? get_var( "integral_weight" ) : get_var( "weight" );
+    const std::string local_str_mass = integral ? get_var( "integral_weight" ) : get_var( "weight" );
     if( local_str_mass.empty() ) {
         ret = integral ? type->integral_weight : type->weight;
     } else {
@@ -5308,7 +5308,7 @@ units::mass item::weight( bool include_contents, bool integral ) const
 
     } else if( magazine_integral() && !is_magazine() ) {
         if( ammo_current() == itype_plut_cell ) {
-            units::mass const w = ( *ammo_types().begin() )->default_ammotype()->weight;
+            const units::mass w = ( *ammo_types().begin() )->default_ammotype()->weight;
             ret += ammo_remaining() * w / PLUTONIUM_CHARGES;
         } else if( ammo_data() ) {
             ret += ammo_remaining() * ammo_data()->weight;
@@ -7679,8 +7679,8 @@ bool item::operator<( const item &other ) const
             }
             return me->charges < rhs->charges;
         } else {
-            std::string const n1 = me_type->nname( 1 );
-            std::string const n2 = rhs_type->nname( 1 );
+            const std::string n1 = me_type->nname( 1 );
+            const std::string n2 = rhs_type->nname( 1 );
             return localized_compare( n1, n2 );
         }
     }
@@ -8765,7 +8765,7 @@ bool item::reload( Character &who, item &loc, int qty )
         // if we already have a magazine loaded prompt to eject it
         if( magazine_current() ) {
             //~ %1$s: magazine name, %2$s: weapon name
-            std::string const prompt = string_format( pgettext( "magazine", "Eject %1$s from %2$s?" ),
+            const std::string prompt = string_format( pgettext( "magazine", "Eject %1$s from %2$s?" ),
                                        magazine_current()->tname(), tname() );
 
             if( !who.dispose_item( *magazine_current(), prompt ) ) {
@@ -8925,7 +8925,7 @@ bool item::flammable( int threshold ) const
     }
 
     volume_per_turn /= mats.size();
-    units::volume const vol = base_volume();
+    const units::volume vol = base_volume();
     if( volume_per_turn > 0_ml && volume_per_turn < vol ) {
         flammability = flammability * volume_per_turn / vol;
     } else {
@@ -9613,7 +9613,7 @@ detached_ptr<item>  item::process_rot( detached_ptr<item> &&self, const bool sea
     temp = clip_by_temperature_flag( temp, flag );
 
     time_point time = self->last_rot_check;
-    item_internal::scoped_goes_bad_cache const _cache( &*self );
+    const item_internal::scoped_goes_bad_cache _cache( &*self );
 
     if( now - time > 1_hours ) {
         // This code is for items that were left out of reality bubble for long time
@@ -9621,7 +9621,7 @@ detached_ptr<item>  item::process_rot( detached_ptr<item> &&self, const bool sea
         const weather_generator &wgen = weather.get_cur_weather_gen();
         const unsigned int seed = g->get_seed();
         // It's a modifier, so we need to subtract 0_f
-        units::temperature const local_mod = units::from_fahrenheit( g->new_game
+        const units::temperature local_mod = units::from_fahrenheit( g->new_game
                                              ? 0
                                              : get_map().get_temperature( pos ) ) - 0_f;
 
@@ -9635,14 +9635,14 @@ detached_ptr<item>  item::process_rot( detached_ptr<item> &&self, const bool sea
             units::temperature env_temperature_raw;
             if( pos.z >= 0 ) {
                 const tripoint_abs_ms location = tripoint_abs_ms( get_map().getabs( pos ) );
-                units::temperature const weather_temperature = wgen.get_weather_temperature( location, time,
+                const units::temperature weather_temperature = wgen.get_weather_temperature( location, time,
                         calendar::config, seed );
                 env_temperature_raw = weather_temperature + local_mod;
             } else {
                 env_temperature_raw = temperatures::annual_average + local_mod;
             }
 
-            units::temperature const env_temperature_clipped = clip_by_temperature_flag( env_temperature_raw,
+            const units::temperature env_temperature_clipped = clip_by_temperature_flag( env_temperature_raw,
                     flag );
 
             // Calculate item rot

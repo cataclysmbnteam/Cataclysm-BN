@@ -166,7 +166,7 @@ static int uis_padding()
 
 void diary::show_diary_ui( diary *c_diary )
 {
-    catacurses::window const w_diary;
+    const catacurses::window w_diary;
     catacurses::window w_pages; // pages window, left of diary
     catacurses::window w_text; // right part of diary
     catacurses::window w_changes; // left part of diary
@@ -267,7 +267,7 @@ void diary::show_diary_ui( diary *c_diary )
 
         draw_border( w_desc );
         center_print( w_desc, 0, c_light_gray, string_format( _( "%s's Diary" ), c_diary->owner ) );
-        std::string const desc = string_format( _( "%s, %s, %s, %s" ),
+        const std::string desc = string_format( _( "%s, %s, %s, %s" ),
                                                 ctxt.get_desc( "NEW_PAGE", _( "New page" ), input_context::allow_all_keys ),
                                                 ctxt.get_desc( "CONFIRM", _( "Edit text" ), input_context::allow_all_keys ),
                                                 ctxt.get_desc( "DELETE PAGE", _( "Delete page" ), input_context::allow_all_keys ),

@@ -652,7 +652,7 @@ color_tag_parse_result get_color_from_tag( const std::string &s,
     if( tag_close == std::string::npos ) {
         return { color_tag_parse_result::non_color_tag, {} };
     }
-    std::string const color_name = s.substr( 7, tag_close - 7 );
+    const std::string color_name = s.substr( 7, tag_close - 7 );
     const nc_color color = color_from_string( color_name, color_error );
     if( color != c_unset ) {
         return { color_tag_parse_result::open_color_tag, color };
@@ -968,8 +968,8 @@ void color_manager::show_gui()
 
             int i = 0;
             for( auto &iter : name_color_map ) {
-                std::string const sColor = iter.first;
-                std::string const sType = _( "default" );
+                const std::string sColor = iter.first;
+                const std::string sType = _( "default" );
 
                 std::string name_custom;
 

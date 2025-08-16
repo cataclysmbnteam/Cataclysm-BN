@@ -561,7 +561,7 @@ void game::chat()
             // Iterate through all effect types to create dynamic emote entries
             for( const efftype_id &effect_id : all_effects ) {
                 const effect_type &etype = effect_id.obj();
-                std::string const effect_str = effect_id.str();
+                const std::string effect_str = effect_id.str();
 
                 if( !effect_str.ends_with( "_emote" ) ) {
                     continue;
@@ -604,7 +604,7 @@ void game::chat()
             message = _( "loudly." );
             break;
         case NPC_CHAT_SENTENCE: {
-            std::string const popupdesc = _( "Enter a sentence to yell" );
+            const std::string popupdesc = _( "Enter a sentence to yell" );
             string_input_popup popup;
             popup.title( _( "Yell a sentence" ) )
             .width( 64 )
@@ -617,7 +617,7 @@ void game::chat()
             break;
         }
         case NPC_CHAT_MONOLOGUE: {
-            std::string const popupdesc =
+            const std::string popupdesc =
                 _( "What do you want to monologue?  (This has no in-game effect! Use +, -, or ? at the start to add context.)" );
             string_input_popup popup;
             popup.title( _( "Monologue" ) )
@@ -1492,7 +1492,7 @@ void dialogue::gen_responses( const talk_topic &the_topic )
             const int next_level_exercise = skill_level_obj.exercise();
 
             //~Skill name: current level (exercise) -> next level (exercise) (cost in dollars)
-            std::string const text = string_format( cost > 0 ? _( "%s: %d (%d%%) -> %d (%d%%) (cost $%d)" ) :
+            const std::string text = string_format( cost > 0 ? _( "%s: %d (%d%%) -> %d (%d%%) (cost $%d)" ) :
                                                     _( "%s: %d (%d%%) -> %d (%d%%)" ),
                                                     trained.obj().name(), cur_level, cur_level_exercise,
                                                     next_level, next_level_exercise, cost / 100 );
@@ -1779,7 +1779,7 @@ void parse_tags( std::string &phrase, const Character &u, const Character &me,
                     break;
             }
         } else if( tag == "<mypronoun>" ) {
-            std::string const npcstr = me.male ? pgettext( "npc", "He" ) : pgettext( "npc", "She" );
+            const std::string npcstr = me.male ? pgettext( "npc", "He" ) : pgettext( "npc", "She" );
             phrase.replace( fa, l, npcstr );
         } else if( tag == "<topic_item>" ) {
             phrase.replace( fa, l, item::nname( item_type, 2 ) );
@@ -1981,7 +1981,7 @@ talk_topic dialogue::opt( dialogue_window &d_win, const std::string &npc_name,
     } while( !okay );
 
     const talk_response chosen = responses[ch];
-    std::string const response_printed = string_format( pgettext( "you say something", "You: %s" ),
+    const std::string response_printed = string_format( pgettext( "you say something", "You: %s" ),
                                          response_lines[ch].text );
     d_win.add_to_history( response_printed );
 
@@ -2114,7 +2114,7 @@ void talk_effect_fun_t::set_add_effect( const JsonObject &jo, const std::string 
 void talk_effect_fun_t::set_remove_effect( const JsonObject &jo, const std::string &member,
         bool is_npc )
 {
-    std::string const old_effect = jo.get_string( member );
+    const std::string old_effect = jo.get_string( member );
     function = [is_npc, old_effect]( const dialogue & d ) {
         player *actor = d.alpha;
         if( is_npc ) {
@@ -2127,7 +2127,7 @@ void talk_effect_fun_t::set_remove_effect( const JsonObject &jo, const std::stri
 void talk_effect_fun_t::set_add_trait( const JsonObject &jo, const std::string &member,
                                        bool is_npc )
 {
-    std::string const new_trait = jo.get_string( member );
+    const std::string new_trait = jo.get_string( member );
     function = [is_npc, new_trait]( const dialogue & d ) {
         player *actor = d.alpha;
         if( is_npc ) {
@@ -2140,7 +2140,7 @@ void talk_effect_fun_t::set_add_trait( const JsonObject &jo, const std::string &
 void talk_effect_fun_t::set_remove_trait( const JsonObject &jo, const std::string &member,
         bool is_npc )
 {
-    std::string const old_trait = jo.get_string( member );
+    const std::string old_trait = jo.get_string( member );
     function = [is_npc, old_trait]( const dialogue & d ) {
         player *actor = d.alpha;
         if( is_npc ) {
@@ -2152,7 +2152,7 @@ void talk_effect_fun_t::set_remove_trait( const JsonObject &jo, const std::strin
 
 void talk_effect_fun_t::set_assign_mission( const JsonObject &jo, const std::string &member )
 {
-    std::string const mission_name = jo.get_string( member );
+    const std::string mission_name = jo.get_string( member );
     function = [mission_name]( const dialogue & ) {
         avatar &player_character = get_avatar();
 
@@ -2164,7 +2164,7 @@ void talk_effect_fun_t::set_assign_mission( const JsonObject &jo, const std::str
 
 void talk_effect_fun_t::set_finish_mission( const JsonObject &jo, const std::string &member )
 {
-    std::string const mission_name = jo.get_string( member );
+    const std::string mission_name = jo.get_string( member );
     const bool success = jo.get_bool( "success" );
     function = [mission_name, success]( const dialogue & ) {
         const avatar &player_character = get_avatar();
@@ -2782,13 +2782,13 @@ void talk_effect_t::parse_sub_effect( const JsonObject &jo )
             subeffect_fun.set_remove_item_with( jo, "npc_remove_item_with", is_npc );
         }
     } else if( jo.has_string( "npc_change_class" ) ) {
-        std::string const class_name = jo.get_string( "npc_change_class" );
+        const std::string class_name = jo.get_string( "npc_change_class" );
         subeffect_fun.set_npc_change_class( class_name );
     } else if( jo.has_string( "add_mission" ) ) {
-        std::string const mission_id = jo.get_string( "add_mission" );
+        const std::string mission_id = jo.get_string( "add_mission" );
         subeffect_fun.set_add_mission( mission_id );
     } else if( jo.has_string( "npc_change_faction" ) ) {
-        std::string const faction_name = jo.get_string( "npc_change_faction" );
+        const std::string faction_name = jo.get_string( "npc_change_faction" );
         subeffect_fun.set_npc_change_faction( faction_name );
     } else if( jo.has_int( "u_faction_rep" ) ) {
         const int faction_rep = jo.get_int( "u_faction_rep" );

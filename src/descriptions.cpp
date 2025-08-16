@@ -149,7 +149,7 @@ void game::extended_description( const tripoint &p )
                 break;
         }
 
-        std::string const signage = m.get_signage( p );
+        const std::string signage = m.get_signage( p );
         if( !signage.empty() ) {
             // NOLINTNEXTLINE(cata-text-style): the question mark does not end a sentence
             desc += u.has_trait( trait_ILLITERATE ) ? _( "\nSign: ???" ) : string_format( _( "\nSign: %s" ),
@@ -245,7 +245,7 @@ std::string map_data_common_t::extended_description() const
     }
 
     if( bash.ranged && bash.ranged->reduction.min > 0 ) {
-        static std::string const indent = "    ";
+        static const std::string indent = "    ";
         ss << "\n" << "Cover:" << "\n";
         if( bash.ranged->reduction.min == bash.ranged->reduction.max ) {
             ss << indent << "Damage Reduction: " << bash.ranged->reduction.min << "\n";

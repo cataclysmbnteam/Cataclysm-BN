@@ -2692,7 +2692,7 @@ void vehicle::deserialize( JsonIn &jsin )
         last_update = calendar::turn;
     }
 
-    units::angle const fdir_angle = units::from_degrees( fdir );
+    const units::angle fdir_angle = units::from_degrees( fdir );
     face.init( fdir_angle );
     move.init( units::from_degrees( mdir ) );
     data.read( "name", name );
@@ -4102,7 +4102,7 @@ void submap::load( JsonIn &jsin, const std::string &member_name, int version,
             const int faction_id = jsin.get_int();
             const int mission_id = jsin.get_int();
             const bool friendly = jsin.get_bool();
-            std::string const name = jsin.get_string();
+            const std::string name = jsin.get_string();
             jsin.end_array();
             const spawn_point tmp( type, count, p, faction_id, mission_id,
                                    spawn_point::friendly_to_spawn_disposition( friendly ), name );

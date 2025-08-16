@@ -567,7 +567,7 @@ void Character::suffer_from_schizophrenia()
 
     // NPC chat
     if( one_turn_in( 4_hours ) ) {
-        std::string const i_name = Name::generate( one_in( 2 ) );
+        const std::string i_name = Name::generate( one_in( 2 ) );
 
         std::string i_talk = SNIPPET.expand( SNIPPET.random_from_category( "<lets_talk>" ).value_or(
                 translation() ).translated() );
@@ -997,7 +997,7 @@ void Character::suffer_from_sunburn()
         }
     }
     // Get singular or plural body part name; append "and other body parts" if appropriate
-    std::string const bp_name = body_part_name( most_exposed_bp, count_limbs );
+    const std::string bp_name = body_part_name( most_exposed_bp, count_limbs );
     if( count_affected_bp == count_limbs ) {
         add_msg_if_player( m_bad, _( "%s your %s." ), sunlight_effect, bp_name );
     } else {

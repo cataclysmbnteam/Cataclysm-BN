@@ -303,8 +303,8 @@ void diary::kill_changes()
             for( const std::pair<const string_id<mtype>, int> &elem : curr_page->kills ) {
                 const mtype &m = elem.first.obj();
                 const nc_color color = m.color;
-                std::string const symbol = m.sym;
-                std::string const nname = m.nname( elem.second );
+                const std::string symbol = m.sym;
+                const std::string nname = m.nname( elem.second );
                 add_to_change_list( string_format( "%4d ", elem.second ) + colorize( symbol,
                                     color ) + " " + colorize( nname, c_light_gray ), m.get_description() );
             }
@@ -326,8 +326,8 @@ void diary::kill_changes()
             for( const std::pair<const string_id<mtype>, int> &elem : curr_page->kills ) {
                 const mtype &m = elem.first.obj();
                 const nc_color color = m.color;
-                std::string const symbol = m.sym;
-                std::string const nname = m.nname( elem.second );
+                const std::string symbol = m.sym;
+                const std::string nname = m.nname( elem.second );
                 int kills = elem.second;
                 if( prev_page->kills.contains( elem.first ) ) {
                     const int prev_kills = prev_page->kills[elem.first];
@@ -654,14 +654,14 @@ std::vector<std::string> diary::get_head_text()
         //~ %1$d is the current page number, %2$d is the number of pages in total
         std::vector<std::string> head_text = { string_format( _( "Entry: %1$d/%2$d" ), opened_page + 1, pages.size() ) };
 
-        std::string const complete_time_text = to_string( get_page_ptr()->turn ); // get complete time
+        const std::string complete_time_text = to_string( get_page_ptr()->turn ); // get complete time
         std::string day_and_time_text = complete_time_text.substr( complete_time_text.find_last_of( ',' ) +
                                         2 );
         day_and_time_text[0] = std::toupper( day_and_time_text[0] );
-        std::string const year_and_season_text = complete_time_text.substr( 0,
+        const std::string year_and_season_text = complete_time_text.substr( 0,
                 complete_time_text.find_last_of( ',' ) + 1 );
 
-        std::string const overmap_position_text = ( !get_page_ptr()->overmap_position_str.empty() ) ?
+        const std::string overmap_position_text = ( !get_page_ptr()->overmap_position_str.empty() ) ?
                 string_format(
                     //~ %1$s is the player's position on the overmap when writing the page
                     _( "Location: %1$s" ),
@@ -782,7 +782,7 @@ bool diary::store()
         return false;
     }
 
-    std::string const name = base64_encode( get_avatar().get_save_id() + "_diary" );
+    const std::string name = base64_encode( get_avatar().get_save_id() + "_diary" );
     const bool is_writen = g->get_active_world()->write_to_file( name + ".json", [&](
     std::ostream & fout ) {
         serialize( fout );
@@ -837,7 +837,7 @@ void diary::load()
         return;
     }
 
-    std::string const name = base64_encode( get_avatar().get_save_id() + "_diary" );
+    const std::string name = base64_encode( get_avatar().get_save_id() + "_diary" );
     if( g->get_active_world()->file_exist( name + ".json" ) ) {
         g->get_active_world()->read_from_file( name + ".json", [&]( std::istream & fin ) {
             deserialize( fin );

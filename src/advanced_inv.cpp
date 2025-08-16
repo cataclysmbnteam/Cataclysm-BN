@@ -217,7 +217,7 @@ void advanced_inventory::print_items( const advanced_inventory_pane &pane, bool 
     const bool compact = TERMX <= 100;
 
     const int columns = getmaxx( window );
-    std::string const spaces( columns - 4, ' ' );
+    const std::string spaces( columns - 4, ' ' );
 
     const nc_color norm = active ? c_white : c_dark_gray;
 
@@ -225,8 +225,8 @@ void advanced_inventory::print_items( const advanced_inventory_pane &pane, bool 
     if( pane.get_area() == AIM_INVENTORY || pane.get_area() == AIM_WORN ) {
         const double weight_carried = convert_weight( g->u.weight_carried() );
         const double weight_capacity = convert_weight( g->u.weight_capacity() );
-        std::string const volume_carried = format_volume( g->u.volume_carried() );
-        std::string const volume_capacity = format_volume( g->u.volume_capacity() );
+        const std::string volume_carried = format_volume( g->u.volume_carried() );
+        const std::string volume_capacity = format_volume( g->u.volume_capacity() );
         // align right, so calculate formatted head length
         const std::string formatted_head = string_format( "%.1f/%.1f %s  %s/%s %s",
                                            weight_carried, weight_capacity, weight_units(),
@@ -395,7 +395,7 @@ void advanced_inventory::print_items( const advanced_inventory_pane &pane, bool 
         //print volume column
         bool it_vol_truncated = false;
         double it_vol_value = 0.0;
-        std::string const it_vol = format_volume( sitem.volume, 5, &it_vol_truncated, &it_vol_value );
+        const std::string it_vol = format_volume( sitem.volume, 5, &it_vol_truncated, &it_vol_value );
         if( it_vol_truncated && it_vol_value > 0.0 ) {
             print_color = selected ? hilite( c_red ) : c_red;
         } else {
@@ -674,8 +674,8 @@ void advanced_inventory::redraw_pane( side p )
         mvwprintw( w, point( ( w_width / 2 ) - fmtw, 0 ), "< %d/%d >", itemcount, max );
     }
 
-    std::string const fprefix = string_format( _( "[%s] Filter" ), ctxt.get_desc( "FILTER" ) );
-    std::string const fsuffix = string_format( _( "[%s] Reset" ), ctxt.get_desc( "RESET_FILTER" ) );
+    const std::string fprefix = string_format( _( "[%s] Filter" ), ctxt.get_desc( "FILTER" ) );
+    const std::string fsuffix = string_format( _( "[%s] Reset" ), ctxt.get_desc( "RESET_FILTER" ) );
     if( !filter_edit ) {
         if( !pane.filter.empty() ) {
             mvwprintw( w, point( 2, getmaxy( w ) - 1 ), "< %s: %s >", fprefix, pane.filter );
@@ -1476,7 +1476,7 @@ void advanced_inventory::display()
                 recalc = true;
             }
         } else if( action == "FILTER" ) {
-            std::string const filter = spane.filter;
+            const std::string filter = spane.filter;
             filter_edit = true;
             if( ui ) {
                 spopup = std::make_unique<string_input_popup>();
@@ -1490,7 +1490,7 @@ void advanced_inventory::display()
                 if( ui ) {
                     ui_manager::redraw();
                 }
-                std::string const new_filter = spopup->query_string( false );
+                const std::string new_filter = spopup->query_string( false );
                 if( spopup->canceled() ) {
                     // restore original filter
                     spane.set_filter( filter );
@@ -1597,7 +1597,7 @@ void query_destination_callback::draw_squares( const uilist *menu )
     }
     for( int i = 1; i < 10; i++ ) {
         const aim_location loc = _adv_inv.screen_relative_location( static_cast <aim_location>( i ) );
-        std::string const key = _adv_inv.get_location_key( loc );
+        const std::string key = _adv_inv.get_location_key( loc );
         advanced_inv_area &square = _adv_inv.get_one_square( loc );
         const bool in_vehicle = square.can_store_in_vehicle();
         const char *bracket = in_vehicle ? "<>" : "[]";

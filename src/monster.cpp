@@ -775,7 +775,7 @@ int monster::print_info( const catacurses::window &w, int vStart, int vLines, in
     const auto speed_desc = speed_description( speed_rating(), has_flag( MF_IMMOBILE ) );
     mvwprintz( w, point( column, ++vStart ), speed_desc.second, speed_desc.first );
 
-    std::string const effects = get_effect_status();
+    const std::string effects = get_effect_status();
     if( !effects.empty() ) {
         trim_and_print( w, point( column, ++vStart ), getmaxx( w ) - 2, h_white, effects );
     }
@@ -799,7 +799,7 @@ std::string monster::extended_description() const
 {
     std::string ss;
     const std::pair<std::string, nc_color> att = get_attitude();
-    std::string const att_colored = colorize( att.first, att.second );
+    const std::string att_colored = colorize( att.first, att.second );
     std::string difficulty_str;
     if( debug_mode ) {
         difficulty_str = _( "Difficulty " ) + std::to_string( type->difficulty );
@@ -871,7 +871,7 @@ std::string monster::extended_description() const
                                     std::string_view format,
                                     const std::vector<flag_description> &&flags_names,
     std::string_view if_empty = "" ) {
-        std::string const flag_descriptions = enumerate_as_string( flags_names.begin(),
+        const std::string flag_descriptions = enumerate_as_string( flags_names.begin(),
         flags_names.end(), [this]( const flag_description & fd ) {
             return type->has_flag( fd.first ) ? fd.second : "";
         } );
@@ -888,7 +888,7 @@ std::string monster::extended_description() const
                                          std::string_view format,
                                          const std::vector<property_description> &property_names,
     std::string_view if_empty = "" ) {
-        std::string const property_descriptions = enumerate_as_string( property_names.begin(),
+        const std::string property_descriptions = enumerate_as_string( property_names.begin(),
         property_names.end(), []( const property_description & pd ) {
             return pd.first ? pd.second : "";
         } );

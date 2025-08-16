@@ -150,7 +150,7 @@ bool repair_part( vehicle &veh, vehicle_part &pt, Character &who_c )
     }
 
     // If part is broken, it will be destroyed and references invalidated
-    std::string const partname = pt.name( false );
+    const std::string partname = pt.name( false );
     const std::string startdurability = colorize( pt.get_base().damage_symbol(),
                                         pt.get_base().damage_color() );
     const bool wasbroken = pt.is_broken();

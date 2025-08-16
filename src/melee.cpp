@@ -584,7 +584,7 @@ void Character::melee_attack( Creature &t, bool allow_special, const matec_id *f
         // Proceed with melee attack.
         if( !t.is_dead_state() ) {
             // Handles speed penalties to monster & us, etc
-            std::string const specialmsg = melee_special_effects( t, d, cur_weapon );
+            const std::string specialmsg = melee_special_effects( t, d, cur_weapon );
 
             // gets overwritten with the dealt damage values
             dealt_damage_instance dealt_dam;
@@ -634,7 +634,7 @@ void Character::melee_attack( Creature &t, bool allow_special, const matec_id *f
 
             // Treat monster as seen if we see it before or after the attack
             if( seen || g->u.sees( t ) ) {
-                std::string const message = melee_message( technique, *this, dealt_dam );
+                const std::string message = melee_message( technique, *this, dealt_dam );
                 player_hit_message( this, message, t, dam, critical_hit );
             } else {
                 add_msg_player_or_npc( m_good, _( "You hit something." ),
@@ -1933,7 +1933,7 @@ std::string Character::melee_special_effects( Creature &t, damage_instance &d, i
 {
     std::string dump;
 
-    std::string const target = t.disp_name();
+    const std::string target = t.disp_name();
 
     const bionic_id bio_shock( "bio_shock" );
     if( has_active_bionic( bio_shock ) && get_power_level() >= bio_shock->power_trigger &&
@@ -2098,7 +2098,7 @@ std::vector<special_attack> Character::mutation_attacks( Creature &t ) const
 {
     std::vector<special_attack> ret;
 
-    std::string const target = t.disp_name();
+    const std::string target = t.disp_name();
 
     const body_part_set usable_body_parts = exclusive_flag_coverage( flag_ALLOWS_NATURAL_ATTACKS );
     const int unarmed = get_skill_level( skill_unarmed );

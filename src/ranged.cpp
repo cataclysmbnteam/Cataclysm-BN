@@ -1471,7 +1471,7 @@ static int print_steadiness( const catacurses::window &w, int line_number, doubl
     const int window_width = getmaxx( w ) - 2; // Window width minus borders.
 
     if( get_option<std::string>( "ACCURACY_DISPLAY" ) == "numbers" ) {
-        std::string const steadiness_s = string_format( "%s: %d%%", _( "Steadiness" ),
+        const std::string steadiness_s = string_format( "%s: %d%%", _( "Steadiness" ),
                                          static_cast<int>( 100.0 * steadiness ) );
         mvwprintw( w, point( 1, line_number++ ), steadiness_s );
     } else {
@@ -1549,30 +1549,30 @@ static int print_ranged_chance( const catacurses::window &w, int line_number,
                                 double range, double target_size )
 {
     int window_width = getmaxx( w ) - 2; // Window width minus borders.
-    std::string const display_type = get_option<std::string>( "ACCURACY_DISPLAY" );
-    std::string const panel_type = panel_manager::get_manager().get_current_layout_id();
+    const std::string display_type = get_option<std::string>( "ACCURACY_DISPLAY" );
+    const std::string panel_type = panel_manager::get_manager().get_current_layout_id();
     const int bars_pad = 3; // Padding for "bars" to fit moves_to_fire value.
     if( ( panel_type == "compact" || panel_type == "labels-narrow" ) && display_type != "numbers" ) {
         window_width -= bars_pad;
     }
 
-    std::string const label_m = _( "Moves" );
+    const std::string label_m = _( "Moves" );
     std::vector<std::string> t_aims( 4 ), t_confidence( 16 );
     int aim_iter = 0, conf_iter = 0;
 
     nc_color col = c_dark_gray;
 
     if( display_type != "numbers" ) {
-        std::string const symbols;
+        const std::string symbols;
         int column_number = 1;
         if( !( panel_type == "compact" || panel_type == "labels-narrow" ) ) {
-            std::string const label = _( "Symbols:" );
+            const std::string label = _( "Symbols:" );
             mvwprintw( w, point( column_number, line_number ), label );
             column_number += utf8_width( label ) + 1; // 1 for whitespace after 'Symbols:'
         }
         for( const confidence_rating &cr : confidence_config ) {
-            std::string const label = pgettext( "aim_confidence", cr.label.c_str() );
-            std::string const symbols = string_format( "<color_%s>%s</color> = %s", cr.color, cr.symbol,
+            const std::string label = pgettext( "aim_confidence", cr.label.c_str() );
+            const std::string symbols = string_format( "<color_%s>%s</color> = %s", cr.color, cr.symbol,
                                         label );
             const int line_len = utf8_width( label ) + 5; // 5 for '# = ' and whitespace at end
             if( ( window_width + bars_pad - column_number ) < line_len ) {
@@ -1585,7 +1585,7 @@ static int print_ranged_chance( const catacurses::window &w, int line_number,
         line_number++;
     }
     if( ( panel_type == "compact" || panel_type == "labels-narrow" ) && display_type == "numbers" ) {
-        std::string const symbols = _( " <color_green>Great</color> - <color_light_gray>Normal</color>"
+        const std::string symbols = _( " <color_green>Great</color> - <color_light_gray>Normal</color>"
                                        " - <color_magenta>Graze</color> - <color_light_blue>Moves</color>" );
         fold_and_print( w, point( 1, line_number++ ), window_width + bars_pad,
                         c_dark_gray, symbols );
@@ -1606,7 +1606,7 @@ static int print_ranged_chance( const catacurses::window &w, int line_number,
     for( const ranged::aim_type &type : aim_types ) {
         const dispersion_sources current_dispersion = dispersion_fun( type );
         std::string label = _( "Current" );
-        std::string const aim_l = _( "Aim" );
+        const std::string aim_l = _( "Aim" );
         if( type.has_threshold ) {
             label = type.name;
         }
@@ -1648,7 +1648,7 @@ static int print_ranged_chance( const catacurses::window &w, int line_number,
                 aim_iter++;
             } else {
                 int last_chance = 0;
-                std::string const confidence_s = enumerate_as_string( confidence_config.begin(),
+                const std::string confidence_s = enumerate_as_string( confidence_config.begin(),
                                                  confidence_config.end(),
                 [&]( const confidence_rating & config ) {
                     // TODO: Consider not printing 0 chances, but only if you can print something (at least miss 100% or so)
@@ -2398,7 +2398,7 @@ target_handler::trajectory target_ui::run()
     if( mode == TargetMode::Fire && !activity->action.empty() ) {
         // We were in this UI during previous turn...
         reentered = true;
-        std::string const act_data = activity->action;
+        const std::string act_data = activity->action;
         if( act_data == "AIM" ) {
             // ...and ran out of moves while aiming.
         } else {
@@ -2594,8 +2594,8 @@ target_handler::trajectory target_ui::run()
 
 void target_ui::init_window_and_input()
 {
-    std::string const display_type = get_option<std::string>( "ACCURACY_DISPLAY" );
-    std::string const panel_type = panel_manager::get_manager().get_current_layout_id();
+    const std::string display_type = get_option<std::string>( "ACCURACY_DISPLAY" );
+    const std::string panel_type = panel_manager::get_manager().get_current_layout_id();
     narrow = ( panel_type == "compact" || panel_type == "labels-narrow" );
 
     const int top = 0;
@@ -2659,7 +2659,7 @@ void target_ui::init_window_and_input()
         ctxt.register_action( "AIM" );
 
         aim_types = ranged::get_aim_types( *you, *relevant );
-        for( ranged::aim_type  const &type : aim_types ) {
+        for( const ranged::aim_type  &type : aim_types ) {
             if( type.has_threshold ) {
                 ctxt.register_action( type.action );
             }
@@ -3578,18 +3578,18 @@ void target_ui::draw_controls_list( int text_y )
         lines.push_back( { 8, colored( col_move, _( "Move cursor with directional keys" ) ) } );
     }
     if( is_mouse_enabled() ) {
-        std::string const move = _( "Mouse: LMB: Target, Wheel: Cycle," );
-        std::string const fire = _( "RMB: Fire" );
+        const std::string move = _( "Mouse: LMB: Target, Wheel: Cycle," );
+        const std::string fire = _( "RMB: Fire" );
         lines.push_back( { 7, colored( col_move, move ) + " " + colored( col_fire, fire ) } );
     }
     {
-        std::string const cycle = string_format( _( "[%s] Cycle targets;" ), ctxt.get_desc( "NEXT_TARGET",
+        const std::string cycle = string_format( _( "[%s] Cycle targets;" ), ctxt.get_desc( "NEXT_TARGET",
                                   1 ) );
-        std::string const fire = string_format( _( "[%c] %s." ), bound_key( "FIRE" ), uitext_fire() );
+        const std::string fire = string_format( _( "[%c] %s." ), bound_key( "FIRE" ), uitext_fire() );
         lines.push_back( { 0, colored( col_move, cycle ) + " " + colored( col_fire, fire ) } );
     }
     {
-        std::string const text = string_format( _( "[%c] target self; [%c] toggle snap-to-target" ),
+        const std::string text = string_format( _( "[%c] target self; [%c] toggle snap-to-target" ),
                                                 bound_key( "CENTER" ), bound_key( "TOGGLE_SNAP_TO_TARGET" ) );
         lines.push_back( { 3, colored( col_enabled, text ) } );
     }
@@ -3602,7 +3602,7 @@ void target_ui::draw_controls_list( int text_y )
         }
         aim_and_fire += _( "to aim and fire." );
 
-        std::string const aim = string_format( _( "[%c] to steady your aim.  (10 moves)" ),
+        const std::string aim = string_format( _( "[%c] to steady your aim.  (10 moves)" ),
                                                bound_key( "AIM" ) );
 
         lines.push_back( { 2, colored( col_fire, aim ) } );
@@ -3681,7 +3681,7 @@ void target_ui::panel_cursor_info( int &text_y )
 void target_ui::panel_gun_info( int &text_y )
 {
     gun_mode m = relevant->gun_current_mode();
-    std::string const mode_name = m.tname();
+    const std::string mode_name = m.tname();
     std::string gunmod_name;
     if( m.target != relevant ) {
         // Gun mode comes from a gunmod, not base gun. Add gunmod's name
@@ -3855,7 +3855,7 @@ void target_ui::panel_turret_list( int &text_y )
                vturrets->size() );
 
     for( const turret_with_lof &it : turrets_in_range ) {
-        std::string const str = string_format( "* %s", it.turret->name() );
+        const std::string str = string_format( "* %s", it.turret->name() );
         nc_color clr = c_white;
         print_colored_text( w_target, point( 1, text_y++ ), clr, clr, str );
     }

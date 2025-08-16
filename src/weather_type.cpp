@@ -144,13 +144,13 @@ void weather_type::load( const JsonObject &jo, const std::string & )
     mandatory( jo, was_loaded, "sun_intensity", sun_intensity );
 
     for( const JsonObject weather_effect : jo.get_array( "effects" ) ) {
-        std::string const name = weather_effect.get_string( "name" );
+        const std::string name = weather_effect.get_string( "name" );
         const int intensity = weather_effect.get_int( "intensity" );
 
         // this is a terrible hardcoded implementation, but only way i could figure out how to satisfy JSON and get it to function
         if( name == "morale" ) {
-            std::string const id_str = weather_effect.get_string( "morale_id_str" );
-            std::string const msg = weather_effect.get_string( "morale_msg" );
+            const std::string id_str = weather_effect.get_string( "morale_id_str" );
+            const std::string msg = weather_effect.get_string( "morale_msg" );
             const int freq = weather_effect.get_int( "morale_msg_frequency" );
             const int bonus = weather_effect.get_int( "bonus" );
             const int bonus_max = weather_effect.get_int( "bonus_max" );
@@ -175,8 +175,8 @@ void weather_type::load( const JsonObject &jo, const std::string & )
 
         // same as above
         if( name == "effect" ) {
-            std::string const id_str = weather_effect.get_string( "effect_id_str" );
-            std::string const msg = weather_effect.get_string( "effect_msg" );
+            const std::string id_str = weather_effect.get_string( "effect_id_str" );
+            const std::string msg = weather_effect.get_string( "effect_msg" );
             const int freq = weather_effect.get_int( "effect_msg_frequency" );
             const int effect_intensity = weather_effect.get_int( "effect_intensity" );
             std::string bodypart_string = weather_effect.get_string( "bodypart_string", "" );
@@ -189,7 +189,7 @@ void weather_type::load( const JsonObject &jo, const std::string & )
                 bp_id = bodypart_str_id( bodypart_string );
             }
 
-            std::string const precipitation_name = weather_effect.get_string( "precipitation_name" );
+            const std::string precipitation_name = weather_effect.get_string( "precipitation_name" );
             const bool ignore_armor = weather_effect.get_bool( "ignore_armor" );
             const int message_type = weather_effect.get_int( "message_type" );
             const int clothing_protection = weather_effect.get_int( "clothing_protection" );

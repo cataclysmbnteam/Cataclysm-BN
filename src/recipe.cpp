@@ -459,7 +459,7 @@ std::string required_skills_as_string( Iter first, Iter last, const Character *c
     return enumerate_as_string( first, last,
     [&]( const std::pair<skill_id, int> &skill ) {
         const int player_skill = c ? c->get_skill_level( skill.first ) : 0;
-        std::string const difficulty_color = skill.second > player_skill ? "yellow" : "green";
+        const std::string difficulty_color = skill.second > player_skill ? "yellow" : "green";
         std::string skill_level_string = print_skill_level ? "" : ( std::to_string( player_skill ) + "/" );
         skill_level_string += std::to_string( skill.second );
         return string_format( "<color_cyan>%s</color> <color_%s>(%s)</color>",

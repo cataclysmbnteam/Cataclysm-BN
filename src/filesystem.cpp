@@ -84,8 +84,8 @@ bool file_exist( const std::string &path )
 
 std::string as_norm_dir( const std::string &path )
 {
-    std::filesystem::path const dir = std::filesystem::path( path ) / std::filesystem::path{};
-    std::filesystem::path const norm = dir.lexically_normal();
+    const std::filesystem::path dir = std::filesystem::path( path ) / std::filesystem::path{};
+    const std::filesystem::path norm = dir.lexically_normal();
     const std::string ret = norm.generic_string();
     if( ret == "." ) {
         return "./"; // TODO Change the many places that use strings instead of paths

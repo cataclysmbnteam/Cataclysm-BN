@@ -351,7 +351,7 @@ ret_val<bool> iuse_transform::can_use( const Character &p, const item &, bool,
     if( unmet_reqs.empty() ) {
         return ret_val<bool>::make_success();
     }
-    std::string const unmet_reqs_string = enumerate_as_string( unmet_reqs.begin(), unmet_reqs.end(),
+    const std::string unmet_reqs_string = enumerate_as_string( unmet_reqs.begin(), unmet_reqs.end(),
     [&]( const std::pair<quality_id, int> &unmet_req ) {
         return string_format( "%s %d", unmet_req.first.obj().name, unmet_req.second );
     } );
@@ -1322,7 +1322,7 @@ void deploy_furn_actor::info( const item &, std::vector<iteminfo> &dump ) const
                            string_format( _( "Can be <info>activated</info> to deploy as furniture (<stat>%s</stat>)." ),
                                           furn_name ) );
     } else {
-        std::string const furn_usages = enumerate_as_string( can_function_as,
+        const std::string furn_usages = enumerate_as_string( can_function_as,
                                         enumeration_conjunction::or_ );
         dump.emplace_back( "DESCRIPTION",
                            string_format(
@@ -1844,7 +1844,7 @@ bool inscribe_actor::item_inscription( item &tool, item &cut ) const
     }
 
     const bool hasnote = cut.has_var( carving );
-    std::string const messageprefix = ( hasnote ? _( "(To delete, clear the text and confirm)\n" ) :
+    const std::string messageprefix = ( hasnote ? _( "(To delete, clear the text and confirm)\n" ) :
                                         "" ) +
                                       //~ %1$s: gerund (e.g. carved), %2$s: item name
                                       string_format( pgettext( "carving", "%1$s on the %2$s is: " ),
@@ -2766,7 +2766,7 @@ int holster_actor::use( player &p, item &it, bool, const tripoint & ) const
     std::vector<std::string> opts;
 
     if( static_cast<int>( it.contents.num_item_stacks() ) < multi ) {
-        std::string const prompt = holster_prompt.empty() ? _( "Holster item" ) : _( holster_prompt );
+        const std::string prompt = holster_prompt.empty() ? _( "Holster item" ) : _( holster_prompt );
         opts.push_back( prompt );
         pos = -1;
     }
@@ -2827,7 +2827,7 @@ int holster_actor::use( player &p, item &it, bool, const tripoint & ) const
 
 void holster_actor::info( const item &, std::vector<iteminfo> &dump ) const
 {
-    std::string const message = vgettext( "Can be activated to store a suitable item.",
+    const std::string message = vgettext( "Can be activated to store a suitable item.",
                                           "Can be activated to store suitable items.", multi );
     dump.emplace_back( "DESCRIPTION", message );
     dump.emplace_back( "TOOL", _( "Num items: " ), "<num>", iteminfo::no_flags, multi );
@@ -4771,7 +4771,7 @@ int gps_device_actor::use( player &p, item &it, bool, const tripoint & ) const
     float charges_built_up = 1.0;
     const tripoint_abs_omt center = p.global_omt_location();
 
-    std::string const query = string_input_popup()
+    const std::string query = string_input_popup()
                               .title( _( "Search for location:" ) )
                               .width( 40 )
                               .query_string();

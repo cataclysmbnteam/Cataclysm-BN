@@ -1023,7 +1023,7 @@ void vehicle::selfdrive( point p )
             }
         }
     }
-    units::angle const turn_delta = 15_degrees * p.x;
+    const units::angle turn_delta = 15_degrees * p.x;
     const float handling_diff = handling_difficulty();
     if( turn_delta != 0_degrees ) {
         const float eff = steering_effectiveness();
@@ -1815,7 +1815,7 @@ units::angle map::shake_vehicle( vehicle &veh, const int velocity_before,
                                             _( "<npcname> loses control of the %s." ), veh.name );
                 int turn_amount = rng( 1, 3 ) * std::sqrt( std::abs( veh.velocity ) ) / 30;
                 turn_amount = std::max( turn_amount, 1 );
-                units::angle const turn_angle = std::min( turn_amount * 15_degrees, 120_degrees );
+                const units::angle turn_angle = std::min( turn_amount * 15_degrees, 120_degrees );
                 coll_turn = one_in( 2 ) ? turn_angle : -turn_angle;
             }
         }
@@ -1965,9 +1965,9 @@ rail_processing_result process_movement_on_rails( const map &m, const vehicle &v
     const int face_dir_degrees = std::round( units::to_degrees( veh.face.dir() ) );
     const int face_dir_snapped = ( face_dir_degrees / 45 ) * 45;
 
-    units::angle const dir_straight = normalize( units::from_degrees( face_dir_snapped ) );
-    units::angle const dir_left = normalize( dir_straight - 45_degrees );
-    units::angle const dir_right = normalize( dir_straight + 45_degrees );
+    const units::angle dir_straight = normalize( units::from_degrees( face_dir_snapped ) );
+    const units::angle dir_left = normalize( dir_straight - 45_degrees );
+    const units::angle dir_right = normalize( dir_straight + 45_degrees );
 
     const int vel_sign = veh.velocity > 0 ? 1 : -1;
 
@@ -2010,7 +2010,7 @@ rail_processing_result process_movement_on_rails( const map &m, const vehicle &v
             }
         } else {
             // Manual movement - prefer going in turn direction.
-            units::angle const dir_delta = normalize( veh.turn_dir - veh.face.dir() );
+            const units::angle dir_delta = normalize( veh.turn_dir - veh.face.dir() );
             if( dir_delta < 180_degrees ) {
                 // Trying to turn right
                 if( can_turn_right ) {
@@ -2059,7 +2059,7 @@ bool is_on_rails( const map &m, const vehicle &veh )
     }
 
     // Must have valid rail segment in front of or behind us
-    units::angle const dir_straight = normalize( units::from_degrees( face_dir_snapped ) );
+    const units::angle dir_straight = normalize( units::from_degrees( face_dir_snapped ) );
     return scan_rails_at_shift( m, veh, 1, dir_straight, 0 ) ||
            scan_rails_at_shift( m, veh, -1, dir_straight, 0 );
 }

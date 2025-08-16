@@ -863,7 +863,7 @@ bool veh_interact::update_part_requirements()
         }
 
         //~ %1$s is quality name, %2$d is quality level
-        std::string const aid_string = string_format( _( "1 tool with %1$s %2$d" ),
+        const std::string aid_string = string_format( _( "1 tool with %1$s %2$d" ),
                                        qual.obj().name, lvl );
         additional_requirements += string_format( _( "> %1$s <color_white>OR</color> %2$s" ),
                                    colorize( aid_string, aid_color ),
@@ -1502,7 +1502,7 @@ void veh_interact::calc_overview()
                     if( it.rotten() ) {
                         specials += _( " (rotten)" );
                     }
-                    units::volume const vol = pt.base->contents.front().volume();
+                    const units::volume vol = pt.base->contents.front().volume();
                     const itype *pt_ammo_cur = &*pt.ammo_current();
                     int offset = 1;
                     std::string fmtstring = "%s %s  %5.1fL";
@@ -1515,7 +1515,7 @@ void veh_interact::calc_overview()
                                                 round_up( to_liter( vol ), 1 ) ) );
                 } else {
                     if( pt.is_leaking() ) {
-                        std::string const outputstr = leak_marker + "      " + leak_marker;
+                        const std::string outputstr = leak_marker + "      " + leak_marker;
                         right_print( w, y, 0, c_light_gray, outputstr );
                     }
                 }
@@ -1828,7 +1828,7 @@ bool veh_interact::can_remove_part( int idx, const Character &who )
         const nc_color str_color = use_str ? c_green : ( use_aid ? c_dark_gray : c_red );
         const auto helpers = character_funcs::get_crafting_helpers( who );
         //~ %1$s is quality name, %2$d is quality level
-        std::string const aid_string = string_format( _( "1 tool with %1$s %2$d" ),
+        const std::string aid_string = string_format( _( "1 tool with %1$s %2$d" ),
                                        qual.obj().name, lvl );
 
         std::string str_string;
@@ -2079,7 +2079,7 @@ void veh_interact::do_assign_crew()
 
 void veh_interact::do_rename()
 {
-    std::string const name = string_input_popup()
+    const std::string name = string_input_popup()
                              .title( _( "Enter new vehicle name:" ) )
                              .width( 20 )
                              .query_string();
@@ -2101,7 +2101,7 @@ void veh_interact::do_relabel()
     }
 
     const vpart_position vp( *veh, cpart );
-    std::string const text = string_input_popup()
+    const std::string text = string_input_popup()
                              .title( _( "New label:" ) )
                              .width( 20 )
                              .text( vp.get_label().value_or( "" ) )
@@ -2520,7 +2520,7 @@ void veh_interact::display_stats() const
         convert_weight( veh->total_mass() ), weight_units() );
     if( veh->has_part( "ROTOR" ) ) {
         // convert newton to kg.
-        units::mass const lift_as_mass = units::from_newton(
+        const units::mass lift_as_mass = units::from_newton(
                                              veh->lift_thrust_of_rotorcraft( true ) );
         print_stat(
             _( "Maximum Lift: <color_light_blue>%5.0f</color> %s" ),
@@ -2529,7 +2529,7 @@ void veh_interact::display_stats() const
     }
     if( is_boat ) {
         // convert newton to kg.
-        units::mass const buoyancy_as_mass = units::from_newton(
+        const units::mass buoyancy_as_mass = units::from_newton(
                 veh->max_buoyancy() );
         print_stat(
             _( "Maximum Buoyancy: <color_light_blue>%5.0f</color> %s" ),
@@ -2600,7 +2600,7 @@ void veh_interact::display_stats() const
     if( is_boat ) {
 
         const double water_clearance = veh->water_hull_height() - veh->water_draft();
-        std::string const draft_string = water_clearance > 0 ?
+        const std::string draft_string = water_clearance > 0 ?
                                          _( "Draft/Clearance:<color_light_blue>%4.2f</color>m/<color_light_blue>%4.2f</color>m" ) :
                                          _( "Draft/Clearance:<color_light_blue>%4.2f</color>m/<color_light_red>%4.2f</color>m" );
 
@@ -2765,7 +2765,7 @@ void veh_interact::display_list( size_t pos, const std::vector<const vpart_info 
         // draw tab menu
         int tab_x = 0;
         for( size_t i = 0; i < tab_list.size(); i++ ) {
-            std::string const tab_name = ( tab == i ) ? tab_list[i] :
+            const std::string tab_name = ( tab == i ) ? tab_list[i] :
                                          tab_list_short[i]; // full name for selected tab
             tab_x += ( tab == i ); // add a space before selected tab
             draw_subtab( w_list, tab_x, tab_name, tab == i, false );
@@ -2980,7 +2980,7 @@ void act_vehicle_siphon( vehicle *veh )
         return;
     }
 
-    std::string const title = _( "Select tank to siphon:" );
+    const std::string title = _( "Select tank to siphon:" );
     auto sel = []( const vehicle_part & pt ) {
         return pt.is_tank() && pt.get_base().contents_made_of( LIQUID );
     };
@@ -3165,7 +3165,7 @@ void veh_interact::complete_vehicle( Character &who )
                     u->view_offset = old_view_offset;
                 }
 
-                units::angle const dir = normalize( atan2( delta ) - veh->face.dir() );
+                const units::angle dir = normalize( atan2( delta ) - veh->face.dir() );
 
                 veh->part( partnum ).direction = dir;
             }

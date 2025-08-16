@@ -319,9 +319,9 @@ std::string PATH_INFO::motd()
 
 std::string PATH_INFO::title( const holiday )
 {
-    std::string const theme_basepath = datadir_value + "title/";
-    std::string const theme_extension = ".title";
-    std::string const theme_fallback = theme_basepath + "en.title";
+    const std::string theme_basepath = datadir_value + "title/";
+    const std::string theme_extension = ".title";
+    const std::string theme_fallback = theme_basepath + "en.title";
     return find_translated_file( theme_basepath, theme_extension, theme_fallback );
 }
 

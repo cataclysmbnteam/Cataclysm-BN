@@ -16,7 +16,7 @@ static constexpr int KITTEN = 1;
 
 std::string robot_finds_kitten::getmessage( int idx ) const
 {
-    std::string const rfimessages[MAXMESSAGES] = {
+    const std::string rfimessages[MAXMESSAGES] = {
         _( "\"I pity the fool who mistakes me for kitten!\", sez Mr. T." ),
         _( "That's just an old tin can." ),
         _( "It's an altar to the horse god." ),

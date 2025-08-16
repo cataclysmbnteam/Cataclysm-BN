@@ -109,7 +109,7 @@ void edit_json( SAVEOBJ &it )
 {
     int tmret = -1;
     std::string save1 = serialize( it );
-    std::string const osave1 = save1;
+    const std::string osave1 = save1;
     std::vector<std::string> fs1 = fld_string( save1, TERMX - 10 );
     do {
         uilist tm;
@@ -123,7 +123,7 @@ void edit_json( SAVEOBJ &it )
             } catch( const std::exception &err ) {
                 popup( "Error on deserialization: %s", err.what() );
             }
-            std::string const save2 = serialize( it );
+            const std::string save2 = serialize( it );
             std::vector<std::string> fs2 = fld_string( save2, TERMX - 10 );
 
             tm.addentry( -1, false, -2, "== Reloaded: =====================" );
@@ -139,7 +139,7 @@ void edit_json( SAVEOBJ &it )
             fs2.clear();
         } else if( tmret == 1 ) {
             string_input_popup popup;
-            std::string const ret = popup
+            const std::string ret = popup
                                     .text( save1 )
                                     .query_string();
             if( popup.confirmed() ) {
@@ -642,7 +642,7 @@ void editmap::draw_main_ui_overlay()
                         const vpart_id &vp_id = veh.part_id_string( veh_part, false, part_mod );
                         const std::optional<vpart_reference> cargopart = vp.part_with_feature( "CARGO", true );
                         const bool draw_highlight = cargopart && !veh.get_items( cargopart->part_index() ).empty();
-                        units::angle const veh_dir = veh.face.dir();
+                        const units::angle veh_dir = veh.face.dir();
                         g->draw_vpart_override( map_p, vp_id, part_mod, veh_dir, draw_highlight, vp->mount() );
                     } else {
                         g->draw_vpart_override( map_p, vpart_id::NULL_ID(), 0, 0_degrees, false,
@@ -745,7 +745,7 @@ void editmap::update_view_with_help( const std::string &txt, const std::string &
                map_cache.seen_cache[target.x][target.y],
                map_cache.camera_cache[target.x][target.y]
              );
-    map::apparent_light_info const al = map::apparent_light_helper( map_cache, target );
+    const map::apparent_light_info al = map::apparent_light_helper( map_cache, target );
     const int apparent_light = static_cast<int>(
                                    here.apparent_light_at( target, here.get_visibility_variables_cache() ) );
     mvwprintw( w_info, point( 1, off++ ), _( "outside: %d obstructed: %d floor: %d" ),

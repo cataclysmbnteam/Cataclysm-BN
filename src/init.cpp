@@ -481,7 +481,7 @@ void DynamicDataLoader::load_data_from_path( const std::string &path, const std:
     // get a list of all files in the directory
     str_vec files = get_files_from_path( ".json", path, true, true );
     if( files.empty() ) {
-        std::ifstream const tmp( path.c_str(), std::ios::in );
+        const std::ifstream tmp( path.c_str(), std::ios::in );
         if( tmp ) {
             // path is actually a file, don't checking the extension,
             // assume we want to load this file anyway
@@ -1032,7 +1032,7 @@ bool init::check_mods_for_errors( loading_ui &ui, const std::vector<mod_id> &opt
             std::cerr << "Error loading data: " << err.what() << '\n';
         }
 
-        std::string const world_name = world_generator->active_world->info->world_name;
+        const std::string world_name = world_generator->active_world->info->world_name;
         world_generator->delete_world( world_name, true );
 
         // TODO: Why would we need these calls?

@@ -559,7 +559,7 @@ std::list<act_item> reorder_for_dropping( Character &p, const drop_locations &dr
     } );
 
     // Avoid tumbling to the ground. Unload cleanly.
-    units::volume const dropped_inv_contents = std::accumulate( inv.begin(), inv.end(), 0_ml,
+    const units::volume dropped_inv_contents = std::accumulate( inv.begin(), inv.end(), 0_ml,
     []( units::volume acc, const act_item & ait ) {
         return acc + ait.loc->volume();
     } );
@@ -614,7 +614,7 @@ std::list<act_item> reorder_for_dropping( Character &p, const drop_locations &dr
         worn.pop_front();
         remaining_dropped_storage -= front_storage;
         while( !inv.empty() ) {
-            units::volume const inventory_item_volume = inv.front().loc->volume();
+            const units::volume inventory_item_volume = inv.front().loc->volume();
             if( front_storage < inventory_item_volume ) {
                 break;
             }
@@ -869,7 +869,7 @@ static int move_cost( const item &it, const tripoint &src, const tripoint &dest 
                     cart_position ).part_with_feature( "CARGO", false ) ) {
             const vehicle &veh = vp->vehicle();
             const size_t vstor = vp->part_index();
-            units::volume const capacity = veh.free_volume( vstor );
+            const units::volume capacity = veh.free_volume( vstor );
 
             return move_cost_cart( it, src, dest, capacity );
         }
@@ -1217,8 +1217,8 @@ static bool are_requirements_nearby( const std::vector<tripoint> &loot_spots,
 {
     const zone_manager &mgr = zone_manager::get_manager();
     inventory temp_inv;
-    units::volume const volume_allowed = p.volume_capacity() - p.volume_carried();
-    units::mass const weight_allowed = p.weight_capacity() - p.weight_carried();
+    const units::volume volume_allowed = p.volume_capacity() - p.volume_carried();
+    const units::mass weight_allowed = p.weight_capacity() - p.weight_carried();
     static const auto check_weight_if = []( const activity_id & id ) {
         return id == ACT_MULTIPLE_FARM ||
                id == ACT_MULTIPLE_CHOP_PLANKS ||

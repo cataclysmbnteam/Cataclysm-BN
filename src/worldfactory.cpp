@@ -229,7 +229,7 @@ void worldfactory::init()
             const std::string origin_path = old_world.folder_path();
             // move files from origin_path into new world path
             for( auto &origin_file : get_files_from_path( ".", origin_path, false ) ) {
-                std::string const filename = origin_file.substr( origin_file.find_last_of( "/\\" ) );
+                const std::string filename = origin_file.substr( origin_file.find_last_of( "/\\" ) );
 
                 rename( origin_file.c_str(), ( newworld->folder_path() + filename ).c_str() );
             }
@@ -382,11 +382,11 @@ WORLDINFO *worldfactory::pick_world( bool show_prompt, bool empty_only )
             mvwprintz( w_worlds, point( 0, static_cast<int>( i ) ), c_white, "%d", i + 1 );
             wmove( w_worlds, point( 4, static_cast<int>( i ) ) );
 
-            std::string const world_name = ( world_pages[selpage] )[i];
+            const std::string world_name = ( world_pages[selpage] )[i];
             WORLDINFO *world = get_world( world_name );
             const size_t saves_num = world->world_saves.size();
 
-            std::string const text = string_format( "%s (%d)", world_name, saves_num );
+            const std::string text = string_format( "%s (%d)", world_name, saves_num );
             const nc_color col = c_white;
 
             if( i == sel ) {
@@ -949,7 +949,7 @@ int worldfactory::show_modselection_window( const catacurses::window &win,
                     continue;
                 }
                 if( !filter_str.empty() ) {
-                    std::string const name = ( *mod ).name();
+                    const std::string name = ( *mod ).name();
                     if( !lcmatch( name, filter_str ) ) {
                         continue;
                     }
@@ -1039,7 +1039,7 @@ int worldfactory::show_modselection_window( const catacurses::window &win,
             if( num_lines > window_height ) {
                 // The description didn't fit in the window, so provide a
                 // hint for how to see the whole thing
-                std::string const message = string_format( _( "…%s = View full description " ),
+                const std::string message = string_format( _( "…%s = View full description " ),
                                             ctxt.get_desc( "VIEW_MOD_DESCRIPTION" ) );
                 nc_color color = c_green;
                 print_colored_text( w_description, point( window_width - utf8_width( message ), window_height - 1 ),
@@ -1154,7 +1154,7 @@ int worldfactory::show_modselection_window( const catacurses::window &win,
                 const mod_id &to_add = current_tab_mods[cursel[0]];
                 ret_val<bool> const ret = mman_ui->try_add( to_add, active_mod_order );
                 if( !ret.success() ) {
-                    std::string const msg = string_format( _( "Cannot add mod %s [%s].\n\n%s" ),
+                    const std::string msg = string_format( _( "Cannot add mod %s [%s].\n\n%s" ),
                                                            to_add->name(), to_add, ret.str() );
                     popup( msg );
                 }
@@ -1462,7 +1462,7 @@ void worldfactory::draw_modselection_borders( const catacurses::window &win,
     strings.push_back( string_format(
                            _( "[<color_yellow>%s</color>] = keybindings" ),
                            ctxtp.get_desc( "HELP_KEYBINDINGS" ) ) );
-    std::string const msg = join( strings, "  " );
+    const std::string msg = join( strings, "  " );
 
     fold_and_print( win, point( 2, TERMY - 7 ), getmaxx( win ) - 4, c_light_gray, msg );
     wnoutrefresh( win );
@@ -1555,7 +1555,7 @@ void worldfactory::delete_world( const std::string &worldname, const bool delete
         set_active_world( nullptr );
     }
 
-    std::string const worldpath = get_world( worldname )->folder_path();
+    const std::string worldpath = get_world( worldname )->folder_path();
     std::set<std::string> directory_paths;
 
     auto file_paths = get_files_from_path( "", worldpath, true, true );
@@ -1616,7 +1616,7 @@ void worldfactory::convert_to_v2( const std::string &worldname )
         return;
     }
 
-    std::string const backup_name = worldname + " (V2 Conversion Backup)";
+    const std::string backup_name = worldname + " (V2 Conversion Backup)";
     if( has_world( backup_name ) ) {
         popup( _( "Backup world '%s' already exists, aborting conversion" ), backup_name );
         return;

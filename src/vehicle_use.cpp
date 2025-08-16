@@ -1699,7 +1699,7 @@ void vehicle::use_harness( int part, const tripoint &pos )
         return;
     }
     monster &m = *mon_ptr;
-    std::string const Harness_Bodytype = "HARNESS_" + m.type->bodytype;
+    const std::string Harness_Bodytype = "HARNESS_" + m.type->bodytype;
     if( m.friendly == 0 ) {
         add_msg( m_info, _( "This creature is not friendly!" ) );
         return;

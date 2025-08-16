@@ -1610,10 +1610,10 @@ void game_menus::inv::compare( const item &l, const item &r )
 
     std::vector<iteminfo> const lhs_info = l.info();
     std::vector<iteminfo> const rhs_info = r.info();
-    std::string const lhs_tname = l.tname();
-    std::string const rhs_tname = r.tname();
-    std::string const lhs_type_name = l.type_name();
-    std::string const rhs_type_name = r.type_name();
+    const std::string lhs_tname = l.tname();
+    const std::string rhs_tname = r.tname();
+    const std::string lhs_type_name = l.type_name();
+    const std::string rhs_type_name = r.type_name();
 
     int lhs_scroll_pos = 0;
     int rhs_scroll_pos = 0;

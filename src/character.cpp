@@ -3883,7 +3883,7 @@ void Character::practice( const skill_id &id, int amount, int cap, bool suppress
 {
     const SkillLevel &level = get_skill_level_object( id );
     const Skill &skill = id.obj();
-    std::string const skill_name = skill.name();
+    const std::string skill_name = skill.name();
 
     if( !level.can_train() && !in_sleep_state() ) {
         // If leveling is disabled, don't train, don't drain focus, don't print anything
@@ -4037,7 +4037,7 @@ void Character::apply_skill_boost()
         // For migration, reset previously applied bonus.
         // Remove after 0.E or so.
         const std::string bonus_name = boost.stat() + std::string( "_bonus" );
-        std::string const previous_bonus = get_value( bonus_name );
+        const std::string previous_bonus = get_value( bonus_name );
         if( !previous_bonus.empty() ) {
             if( boost.stat() == "str" ) {
                 str_max -= atoi( previous_bonus.c_str() );
@@ -4140,7 +4140,7 @@ char_encumbrance_data Character::calc_encumbrance( const item &new_item ) const
 units::mass Character::get_weight() const
 {
     units::mass ret = 0_gram;
-    units::mass const wornWeight = std::accumulate( worn.begin(), worn.end(), 0_gram,
+    const units::mass wornWeight = std::accumulate( worn.begin(), worn.end(), 0_gram,
     []( units::mass sum, const item * const & itm ) {
         return sum + itm->weight();
     } );
@@ -7267,7 +7267,7 @@ int Character::age() const
 std::string Character::age_string() const
 {
     //~ how old the character is in years. try to limit number of characters to fit on the screen
-    std::string const unformatted = _( "%d years" );
+    const std::string unformatted = _( "%d years" );
     return string_format( unformatted, age() );
 }
 
@@ -7291,7 +7291,7 @@ std::string Character::height_string() const
     const bool metric = get_option<std::string>( "DISTANCE_UNITS" ) == "metric";
 
     if( metric ) {
-        std::string const metric_string = _( "%d cm" );
+        const std::string metric_string = _( "%d cm" );
         return string_format( metric_string, height() );
     }
 
@@ -7598,9 +7598,9 @@ void Character::mod_stamina( int mod )
 void Character::burn_move_stamina( int moves )
 {
     int overburden_percentage = 0;
-    units::mass const current_weight = weight_carried();
+    const units::mass current_weight = weight_carried();
     // Make it at least 1 gram to avoid divide-by-zero warning
-    units::mass const max_weight = std::max( weight_capacity(), 1_gram );
+    const units::mass max_weight = std::max( weight_capacity(), 1_gram );
     if( current_weight > max_weight ) {
         overburden_percentage = ( current_weight - max_weight ) * 100 / max_weight;
     }
@@ -8583,7 +8583,7 @@ void Character::absorb_hit( const bodypart_id &bp, damage_instance &dam )
             } else if( elem.type == DT_BULLET ) {
                 elem_multi = 0.25;
             }
-            units::energy const ads_cost = elem.amount * 500_J;
+            const units::energy ads_cost = elem.amount * 500_J;
             if( bio.energy_stored >= ads_cost ) {
                 dam.mult_damage( elem_multi );
                 bio.energy_stored -= ads_cost;
@@ -8742,14 +8742,14 @@ bool Character::armor_absorb( damage_unit &du, item &armor, const bodypart_id &b
     }
 
     const material_type &material = armor.get_random_material();
-    std::string const damage_verb = ( du.type == DT_BASH ) ? material.bash_dmg_verb() :
+    const std::string damage_verb = ( du.type == DT_BASH ) ? material.bash_dmg_verb() :
                                     material.cut_dmg_verb();
 
     const std::string pre_damage_name = armor.tname();
     const std::string pre_damage_adj = armor.get_base_material().dmg_adj( armor.damage_level( 4 ) );
 
     // add "further" if the damage adjective and verb are the same
-    std::string const format_string = ( pre_damage_adj == damage_verb ) ?
+    const std::string format_string = ( pre_damage_adj == damage_verb ) ?
                                       _( "Your %1$s is %2$s further!" ) : _( "Your %1$s is %2$s!" );
     add_msg_if_player( m_bad, format_string, pre_damage_name, damage_verb );
     //item is damaged
@@ -8857,7 +8857,7 @@ void Character::on_hit( Creature *source, bodypart_id bp_hit,
     }
 
     const bool u_see = g->u.sees( *this );
-    units::energy const trigger_cost_base = bio_ods->power_trigger;
+    const units::energy trigger_cost_base = bio_ods->power_trigger;
     if( has_active_bionic( bio_ods ) && get_power_level() >= trigger_cost_base * 4 ) {
         if( is_player() ) {
             add_msg( m_good, _( "Your offensive defense system shocks %s in mid-attack!" ),
@@ -9863,7 +9863,7 @@ void Character::resume_backlog_activity()
 void Character::fall_asleep()
 {
     // Communicate to the player that he is using items on the floor
-    std::string const item_name = is_snuggling();
+    const std::string item_name = is_snuggling();
     if( item_name == "many" ) {
         if( one_in( 15 ) ) {
             add_msg_if_player( _( "You nestle your pile of clothes for warmth." ) );
@@ -11040,7 +11040,7 @@ std::vector<std::string> Character::short_description_parts() const
 {
     std::vector<std::string> result;
 
-    std::string const gender = male ? _( "Male" ) : _( "Female" );
+    const std::string gender = male ? _( "Male" ) : _( "Female" );
     result.push_back( name +  ", "  + gender );
     if( is_armed() ) {
         result.push_back( _( "Wielding: " ) + primary_weapon().tname() );

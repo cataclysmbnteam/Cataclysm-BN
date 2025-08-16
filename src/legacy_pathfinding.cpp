@@ -165,10 +165,10 @@ bool is_disjoint( const Set1 &set1, const Set2 &set2 )
     }
 
     typename Set1::const_iterator it1 = set1.begin();
-    typename Set1::const_iterator const it1_end = set1.end();
+    typename const Set1::const_iterator it1_end = set1.end();
 
     typename Set2::const_iterator it2 = set2.begin();
-    typename Set2::const_iterator const it2_end = set2.end();
+    typename const Set2::const_iterator it2_end = set2.end();
 
     if( *set2.rbegin() < *it1 || *set1.rbegin() < *it2 ) {
         return true;

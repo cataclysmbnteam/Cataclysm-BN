@@ -126,7 +126,7 @@ std::string to_valid_language( const std::string &lang )
     }
     const size_t p = lang.find( '_' );
     if( p != std::string::npos ) {
-        std::string const lang2 = lang.substr( 0, p );
+        const std::string lang2 = lang.substr( 0, p );
         for( const language_info &info : lang_options ) {
             if( lang2.starts_with( info.id ) ) {
                 return info.id;
@@ -284,7 +284,7 @@ bool init_language_system()
         lang_options = { fallback_language };
     }
 
-    std::string const lang = getSystemUILang();
+    const std::string lang = getSystemUILang();
     if( lang.empty() ) {
         system_language = nullptr;
         dbg( DL::Warn ) << "Failed to detect system UI language.";
@@ -342,7 +342,7 @@ void update_global_locale()
         dbg( DL::Warn ) << "Error while setlocale(LC_ALL, '.1252').";
     }
 #else // _WIN32
-    std::string const lang = ::get_option<std::string>( "USE_LANG" );
+    const std::string lang = ::get_option<std::string>( "USE_LANG" );
 
     bool set_user = false;
     if( lang.empty() ) {
@@ -388,7 +388,7 @@ std::vector<std::string> get_lang_path_substring( const std::string &lang_id )
     } else {
         // Id with dialect specified ('en_US', 'fr_FR', etc.)
         // First try loading exact resource, then try dialect-agnostic resource.
-        std::string const lang_only = lang_id.substr( 0, p );
+        const std::string lang_only = lang_id.substr( 0, p );
         ret.push_back( lang_id );
         ret.push_back( lang_only );
     }
@@ -400,7 +400,7 @@ bool translations_exists_for_lang( const std::string &lang_id )
 
     std::vector<std::string> const opts = get_lang_path_substring( lang_id );
     for( const std::string &s : opts ) {
-        std::string const path = PATH_INFO::base_path() + "lang/mo/" + s + "/LC_MESSAGES/cataclysm-bn.mo";
+        const std::string path = PATH_INFO::base_path() + "lang/mo/" + s + "/LC_MESSAGES/cataclysm-bn.mo";
         if( file_exist( path ) ) {
             return true;
         }
@@ -469,7 +469,7 @@ static void add_cat_if_exists( std::vector<trans_catalogue> &list, const std::st
 {
     std::vector<std::string> const opts = get_lang_path_substring( lang_id );
     for( const std::string &s : opts ) {
-        std::string const path = path_start + s + path_end;
+        const std::string path = path_start + s + path_end;
         if( !file_exist( path ) ) {
             continue;
         }

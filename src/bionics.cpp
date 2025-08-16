@@ -1003,7 +1003,7 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
                                get_local_windchill( units::to_fahrenheit( weatherPoint.temperature ),
                                        weatherPoint.humidity,
                                        windpower / 100 ) + units::to_fahrenheit( player_local_temp ) ) );
-        std::string const dirstring = get_dirstring( weather.winddirection );
+        const std::string dirstring = get_dirstring( weather.winddirection );
         add_msg_if_player( m_info, _( "Wind Direction: From the %s." ), dirstring );
     } else if( bio.id == bio_remote ) {
         add_msg_activate();
@@ -1668,7 +1668,7 @@ static bool attempt_recharge( Character &p, bionic &bio, units::energy &amount, 
                               int rate = 1 )
 {
     const bionic_data &info = bio.info();
-    units::energy const power_cost = info.power_over_time * factor;
+    const units::energy power_cost = info.power_over_time * factor;
     bool recharged = false;
 
     if( power_cost > 0_kJ ) {
@@ -1882,7 +1882,7 @@ void Character::process_bionic( bionic &bio )
             if( bio.charge_timer > 2 ) {
                 max_rate /= 2;
             }
-            units::energy const ads_recharge = std::min( max_rate, 150_kJ - bio.energy_stored );
+            const units::energy ads_recharge = std::min( max_rate, 150_kJ - bio.energy_stored );
             if( ads_recharge < get_power_level() ) {
                 mod_power_level( - ads_recharge );
                 bio.energy_stored += ads_recharge;
@@ -1918,7 +1918,7 @@ void Character::process_bionic( bionic &bio )
                     }
                 }
 
-                units::energy const enrg = cbms.size() * bio.info().power_trigger;
+                const units::energy enrg = cbms.size() * bio.info().power_trigger;
                 if( get_power_level() >= enrg ) {
                     mod_power_level( -enrg );
                 } else {
@@ -1935,7 +1935,7 @@ void Character::process_bionic( bionic &bio )
                 corpse->set_var( "bionics_scanned_by", getID().get_value() );
                 if( !cbms.empty() ) {
                     corpse->set_flag( flag_CBM_SCANNED );
-                    std::string const bionics_string =
+                    const std::string bionics_string =
                         enumerate_as_string( cbms.begin(), cbms.end(),
                     []( const item * entry ) -> std::string {
                         return entry->display_name();
@@ -2700,7 +2700,7 @@ void Character::bionics_install_failure( const std::string &installer,
             // We've got all the bad bionics!
             if( valid.empty() ) {
                 if( has_max_power() ) {
-                    units::energy const old_power = get_max_power_level();
+                    const units::energy old_power = get_max_power_level();
                     add_msg( m_bad, _( "%s lose power capacity!" ), disp_name() );
                     set_max_power_level( units::from_kilojoule( rng( 0,
                                          units::to_kilojoule( get_max_power_level() ) - 25 ) ) );

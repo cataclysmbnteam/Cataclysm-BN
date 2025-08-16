@@ -257,7 +257,7 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
         units::angle rad = units::atan2( dy, dx );
 
         // cap wild misses at +/- 30 degrees
-        units::angle const dispersion_angle =
+        const units::angle dispersion_angle =
             std::min( units::from_arcmin( aim.dispersion ), 30_degrees );
         rad += ( one_in( 2 ) ? 1 : -1 ) * dispersion_angle;
 

@@ -718,7 +718,7 @@ void iexamine::vending( player &p, const tripoint &examp )
     for( item *&it : vend_items ) {
         // |# {name}|
         // 123      4
-        std::string const name = it->tname();
+        const std::string name = it->tname();
         bool found = false;
         for( auto item_list : item_map ) {
             if( item_list.front()->tname() == name ) {
@@ -1416,7 +1416,7 @@ void iexamine::safe( player &p, const tripoint &examp )
 
     if( query_yn(
             _( "Attempt to crack the safe?\n\nUses a stethoscope, augmented hearing, or mechanics skill of 5 or higher." ) ) ) {
-        std::string const safecracking_message = can_decode ?
+        const std::string safecracking_message = can_decode ?
                 _( "You begin to expertly decode the safe." ) :
                 _( "You start cracking the safe." );
         add_msg( m_info, safecracking_message );
@@ -1592,7 +1592,7 @@ void iexamine::fault( player &, const tripoint & )
  */
 void iexamine::notify( player &, const tripoint &pos )
 {
-    std::string const message = g->m.has_furn( pos ) ?
+    const std::string message = g->m.has_furn( pos ) ?
                                 g->m.furn( pos ).obj().message :
                                 g->m.ter( pos ).obj().message;
     if( !message.empty() ) {
@@ -2268,7 +2268,7 @@ int iexamine::query_seed( const std::vector<seed_tuple> &seed_entries )
         const std::string &seed_name = std::get<1>( entry );
         const int seed_count = std::get<2>( entry );
 
-        std::string const format = seed_count > 0 ? "%s (%d)" : "%s";
+        const std::string format = seed_count > 0 ? "%s (%d)" : "%s";
 
         smenu.addentry( count++, true, MENU_AUTOASSIGN, format.c_str(),
                         seed_name, seed_count );
@@ -2658,7 +2658,7 @@ void iexamine::kiln_empty( player &p, const tripoint &examp )
         total_volume += i->volume();
     }
 
-    units::volume const char_volume = ( 100 - loss ) * total_volume / 100;
+    const units::volume char_volume = ( 100 - loss ) * total_volume / 100;
     const int char_charges = itype_unfinished_charcoal->charges_per_volume( char_volume );
     if( char_charges < 1 ) {
         add_msg( _( "The batch in this kiln is too small to yield any charcoal." ) );
@@ -2788,7 +2788,7 @@ void iexamine::arcfurnace_empty( player &p, const tripoint &examp )
         total_volume += i->volume();
     }
 
-    units::volume const char_volume = ( 100 - loss ) * total_volume / 100;
+    const units::volume char_volume = ( 100 - loss ) * total_volume / 100;
     const int char_charges = itype_unfinished_cac2->charges_per_volume( char_volume );
     if( char_charges < 1 ) {
         add_msg( _( "The batch in this furance is too small to yield usable calcium carbide." ) );
@@ -3292,7 +3292,7 @@ void iexamine::keg( player &p, const tripoint &examp )
     none( p, examp );
     map &here = get_map();
     const auto keg_name = here.name( examp );
-    units::volume const keg_cap = get_keg_capacity( examp );
+    const units::volume keg_cap = get_keg_capacity( examp );
 
     const bool has_container_with_liquid = map_cursor( examp ).has_item_with( []( const item & it ) {
         return !it.is_container_empty() && it.can_unload_liquid();
@@ -4229,7 +4229,7 @@ void iexamine::curtains( player &p, const tripoint &examp )
 void iexamine::sign( player &p, const tripoint &examp )
 {
     const map &here = get_map();
-    std::string const existing_signage = here.get_signage( examp );
+    const std::string existing_signage = here.get_signage( examp );
     const bool previous_signage_exists = !existing_signage.empty();
 
     // Display existing message, or lack thereof.
@@ -4253,19 +4253,19 @@ void iexamine::sign( player &p, const tripoint &examp )
 
     if( !tools.empty() ) {
         // Different messages if the sign already has writing associated with it.
-        std::string const query_message = previous_signage_exists ?
+        const std::string query_message = previous_signage_exists ?
                                           _( "Overwrite the existing message on the sign?" ) :
                                           _( "Add a message to the sign?" );
-        std::string const ignore_message = _( "You leave the sign alone." );
+        const std::string ignore_message = _( "You leave the sign alone." );
         if( query_yn( query_message ) ) {
-            std::string const signage = string_input_popup()
+            const std::string signage = string_input_popup()
                                         .title( _( "Write what?" ) )
                                         .identifier( "signage" )
                                         .query_string();
             if( signage.empty() ) {
                 p.add_msg_if_player( m_neutral, ignore_message );
             } else {
-                std::string const spray_painted_message = previous_signage_exists ?
+                const std::string spray_painted_message = previous_signage_exists ?
                         _( "You overwrite the previous message on the sign with your graffiti." ) :
                         _( "You graffiti a message onto the sign." );
                 here.set_signage( examp, signage );
@@ -4516,7 +4516,7 @@ void iexamine::pay_gas( player &p, const tripoint &examp )
     }
 
     const int discount = findBestGasDiscount( p );
-    std::string const discountName = getGasDiscountName( discount );
+    const std::string discountName = getGasDiscountName( discount );
 
     const int pricePerUnit = getGasPricePerLiter( discount );
 
@@ -4532,7 +4532,7 @@ void iexamine::pay_gas( player &p, const tripoint &examp )
     amenu.addentry( buy_gas, true, 'b', str_to_illiterate_str( _( "Buy gas." ) ) );
     amenu.addentry( refund, true, 'r', str_to_illiterate_str( _( "Refund cash." ) ) );
 
-    std::string const gaspumpselected = str_to_illiterate_str( _( "Current gas pump: " ) ) +
+    const std::string gaspumpselected = str_to_illiterate_str( _( "Current gas pump: " ) ) +
                                         std::to_string( uistate.ags_pay_gas_selected_pump + 1 );
     amenu.addentry( 0, false, -1, gaspumpselected );
     amenu.addentry( choose_pump, true, 'p', str_to_illiterate_str( _( "Choose a gas pump." ) ) );
@@ -4583,7 +4583,7 @@ void iexamine::pay_gas( player &p, const tripoint &examp )
 
         const int maximum_liters = std::min( money / pricePerUnit, tankGasUnits / 1000 );
 
-        std::string const popupmsg = string_format(
+        const std::string popupmsg = string_format(
                                          _( "How many liters of gasoline to buy?  Max: %d L.  (0 to cancel)" ), maximum_liters );
         int liters = string_input_popup()
                      .title( popupmsg )

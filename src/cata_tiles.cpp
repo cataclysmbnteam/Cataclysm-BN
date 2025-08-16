@@ -858,7 +858,7 @@ void tileset_loader::load( const std::string &tileset_id, const bool precheck,
     }
 
     std::string json_path = tileset_root + '/' + json_conf;
-    std::string const img_path = tileset_root + '/' + tileset_path;
+    const std::string img_path = tileset_root + '/' + tileset_path;
 
     dbg( DL::Info ) << "Attempting to Load JSON file " << json_path;
     std::ifstream config_file( json_path.c_str(), std::ifstream::in | std::ifstream::binary );
@@ -1538,7 +1538,7 @@ void cata_tiles::draw( point dest, const tripoint &center, int width, int height
                 color_blocks.second.emplace( player_to_screen( point( temp_x, temp_y ) ), block_color );
 
                 // overlay string
-                std::string const visibility_str = visibility ? "+" : "-";
+                const std::string visibility_str = visibility ? "+" : "-";
                 overlay_strings.emplace(
                     player_to_screen( point( temp_x, temp_y ) ) + point( tile_width / 4, tile_height / 4 ),
                     formatted_text( visibility_str, catacurses::black, direction::NORTH ) );
@@ -2390,7 +2390,7 @@ void cata_tiles::draw_om_tile_recursively( const tripoint_abs_omt omp, const std
         //So current tile has transparent pixels, so we need to render below one first
         const tripoint_abs_omt new_pos = omp + tripoint( 0, 0, -1 );
         int new_rotation = 0, new_subtile = 0;
-        std::string const new_id = get_omt_id_rotation_and_subtile( new_pos, new_rotation, new_subtile );
+        const std::string new_id = get_omt_id_rotation_and_subtile( new_pos, new_rotation, new_subtile );
         draw_om_tile_recursively( new_pos, new_id, new_rotation, new_subtile, base_z_offset + 1 );
     }
 
@@ -3722,7 +3722,7 @@ void cata_tiles::draw_bullet_frame()
 }
 void cata_tiles::draw_hit_frame()
 {
-    std::string const hit_overlay = "animation_hit";
+    const std::string hit_overlay = "animation_hit";
 
     draw_from_id_string( hit_entity_id, C_HIT_ENTITY, empty_string, hit_pos, 0, 0,
                          lit_level::LIT, false, 0 );
@@ -3733,7 +3733,7 @@ void cata_tiles::draw_line()
     if( line_trajectory.empty() ) {
         return;
     }
-    static std::string const line_overlay = "animation_line";
+    static const std::string line_overlay = "animation_line";
     if( !is_target_line || g->u.sees( line_pos ) ) {
         for( auto it = line_trajectory.begin(); it != line_trajectory.end() - 1; ++it ) {
             draw_from_id_string( line_overlay, *it, 0, 0, lit_level::LIT, false, 0 );
@@ -3781,7 +3781,7 @@ void cata_tiles::draw_sct_frame( std::multimap<point, formatted_text> &overlay_s
         int iOffsetY = 0;
 
         for( int j = 0; j < 2; ++j ) {
-            std::string const sText = iter->getText( ( j == 0 ) ? "first" : "second" );
+            const std::string sText = iter->getText( ( j == 0 ) ? "first" : "second" );
             const int FG = msgtype_to_tilecolor( iter->getMsgType( ( j == 0 ) ? "first" : "second" ),
                                                  iter->getStep() >= scrollingcombattext::iMaxSteps / 2 );
 

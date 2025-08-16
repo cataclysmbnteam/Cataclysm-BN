@@ -472,9 +472,9 @@ struct event_transformation_impl : public event_transformation::impl {
         event_multiset result;
 
         for( const std::pair<const cata::event::data_type, int> &p : input ) {
-            cata::event::data_type const event_data = p.first;
+            const cata::event::data_type event_data = p.first;
             const EventVector transformed = match_and_transform( event_data, stats );
-            for( cata::event::data_type  const &d : transformed ) {
+            for( const cata::event::data_type  &d : transformed ) {
                 result.add( { d, p.second } );
             }
         }
@@ -534,7 +534,7 @@ struct event_transformation_impl : public event_transformation::impl {
         void event_added( const cata::event &e, stats_tracker &stats ) override {
             EventVector transformed = transformation_->match_and_transform( e.data(), stats );
             for( cata::event::data_type &d : transformed ) {
-                cata::event const new_event( e.type(), e.time(), std::move( d ) );
+                const cata::event new_event( e.type(), e.time(), std::move( d ) );
                 data_.add( new_event );
                 stats.transformed_set_changed( transformation_->id_, new_event );
             }
@@ -1028,7 +1028,7 @@ monotonically event_statistic::monotonicity() const
 std::string score::description( stats_tracker &stats ) const
 {
     const cata_variant val = value( stats );
-    std::string const value_string = value( stats ).get_string();
+    const std::string value_string = value( stats ).get_string();
     std::string desc;
     if( val.type() == cata_variant_type::int_ ) {
         desc = stat_->description().translated( val.get<int>() );

@@ -2139,7 +2139,7 @@ void options_manager::add_options_graphics()
     "software", COPT_CURSES_HIDE );
 #   else
     std::vector<options_manager::id_and_option> renderer_list = cata_tiles::build_renderer_list();
-    std::string const default_renderer = renderer_list.front().first;
+    const std::string default_renderer = renderer_list.front().first;
 #   if defined(_WIN32)
     for( const id_and_option &renderer : renderer_list ) {
         if( renderer.first == "direct3d11" ) {
@@ -3264,7 +3264,7 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
             switch( it.type )
             {
                 case ItemType::BlankLine: {
-                    std::string const name = it.group.empty() ? "" : IN_GROUP_PREFIX;
+                    const std::string name = it.group.empty() ? "" : IN_GROUP_PREFIX;
                     return { string_col( name, c_white ), string_col() };
                 }
                 case ItemType::GroupHeader: {
@@ -3278,7 +3278,7 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
                     const bool hasPrerequisite = opt.hasPrerequisite();
                     const bool hasPrerequisiteFulfilled = opt.checkPrerequisite();
 
-                    std::string const name_prefix = it.group.empty() ? "" : IN_GROUP_PREFIX;
+                    const std::string name_prefix = it.group.empty() ? "" : IN_GROUP_PREFIX;
                     const string_col name( name_prefix + opt.getMenuText(), !hasPrerequisite ||
                                            hasPrerequisiteFulfilled ? c_white : c_light_gray );
 
@@ -3367,7 +3367,7 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
         wnoutrefresh( w_options_header );
 
         const PageItem &curr_item = page_items[iCurrentLine];
-        std::string const tooltip = curr_item.fmt_tooltip( find_group( curr_item.group ), cOPTIONS );
+        const std::string tooltip = curr_item.fmt_tooltip( find_group( curr_item.group ), cOPTIONS );
         fold_and_print( w_options_tooltip, point_zero, iMinScreenWidth - 2, c_white, tooltip );
 
         if( ingame && iCurrentPage == iWorldOptPage ) {

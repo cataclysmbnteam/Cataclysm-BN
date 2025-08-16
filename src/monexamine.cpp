@@ -651,7 +651,7 @@ void monexamine::mount_pet( monster &z )
 
 void monexamine::push( monster &z )
 {
-    std::string const pet_name = z.get_name();
+    const std::string pet_name = z.get_name();
     avatar &you = get_avatar();
     you.moves -= 30;
 
@@ -663,7 +663,7 @@ void monexamine::push( monster &z )
 
 void monexamine::rename_pet( monster &z )
 {
-    std::string const unique_name = string_input_popup()
+    const std::string unique_name = string_input_popup()
                                     .title( _( "Enter new pet name:" ) )
                                     .width( 20 )
                                     .query_string();
@@ -674,7 +674,7 @@ void monexamine::rename_pet( monster &z )
 
 void monexamine::attach_bag_to( monster &z )
 {
-    std::string const pet_name = z.get_name();
+    const std::string pet_name = z.get_name();
 
     auto filter = []( const item & it ) {
         return it.is_armor() && it.get_storage() > 0_ml;
@@ -699,7 +699,7 @@ void monexamine::attach_bag_to( monster &z )
 
 void monexamine::remove_bag_from( monster &z )
 {
-    std::string const pet_name = z.get_name();
+    const std::string pet_name = z.get_name();
     if( z.get_storage_item() ) {
         if( !z.get_items().empty() ) {
             dump_items( z );
@@ -716,7 +716,7 @@ void monexamine::remove_bag_from( monster &z )
 
 void monexamine::dump_items( monster &z )
 {
-    std::string const pet_name = z.get_name();
+    const std::string pet_name = z.get_name();
     avatar &you = get_avatar();
     z.drop_items( you.pos() );
     add_msg( _( "You dump the contents of the %s's bag on the ground." ), pet_name );
@@ -725,7 +725,7 @@ void monexamine::dump_items( monster &z )
 
 bool monexamine::give_items_to( monster &z )
 {
-    std::string const pet_name = z.get_name();
+    const std::string pet_name = z.get_name();
     if( !z.get_storage_item() ) {
         add_msg( _( "There is no container on your %s to put things in!" ), pet_name );
         return true;
@@ -744,8 +744,8 @@ bool monexamine::give_items_to( monster &z )
             it_copy->charges = itq.count;
         }
 
-        units::volume const item_volume = it_copy->volume();
-        units::mass const item_weight = it_copy->weight();
+        const units::volume item_volume = it_copy->volume();
+        const units::mass item_weight = it_copy->weight();
         if( max_weight < item_weight ) {
             add_msg( _( "The %1$s is too heavy for the %2$s to carry." ), it_copy->tname(), pet_name );
             continue;
@@ -800,7 +800,7 @@ void monexamine::take_items_from( monster &z )
 
 bool monexamine::add_armor( monster &z )
 {
-    std::string const pet_name = z.get_name();
+    const std::string pet_name = z.get_name();
     item *loc = pet_armor_loc( z );
 
     if( !loc ) {
@@ -809,7 +809,7 @@ bool monexamine::add_armor( monster &z )
     }
 
     item &armor = *loc;
-    units::mass const max_weight = z.weight_capacity() - z.get_carried_weight();
+    const units::mass max_weight = z.weight_capacity() - z.get_carried_weight();
     if( max_weight <= armor.weight() ) {
         add_msg( pgettext( "pet armor", "Your %1$s is too heavy for your %2$s." ), armor.tname( 1 ),
                  pet_name );
@@ -834,7 +834,7 @@ void monexamine::remove_harness( monster &z )
 
 void monexamine::remove_armor( monster &z )
 {
-    std::string const pet_name = z.get_name();
+    const std::string pet_name = z.get_name();
     if( z.get_armor_item() ) {
         z.get_armor_item()->erase_var( "pet_armor" );
         item *armor = z.get_armor_item();
@@ -851,7 +851,7 @@ void monexamine::remove_armor( monster &z )
 
 void monexamine::play_with( monster &z )
 {
-    std::string const pet_name = z.get_name();
+    const std::string pet_name = z.get_name();
     avatar &you = get_avatar();
     you.assign_activity( ACT_PLAY_WITH_PET, rng( 50, 125 ) * 100 );
     you.activity->str_values.push_back( pet_name );

@@ -2010,7 +2010,7 @@ void activity_handlers::reload_finish( player_activity *act, player *p )
 
     item &reloadable = *act->targets[ 0 ];
     item &ammo = *act->targets[1];
-    std::string const ammo_name = ammo.tname();
+    const std::string ammo_name = ammo.tname();
     const int qty = act->index;
     const bool is_speedloader = ammo.has_flag( flag_SPEEDLOADER );
 
@@ -2152,7 +2152,7 @@ void activity_handlers::train_finish( player_activity *act, player *p )
     const skill_id sk( act->name );
     if( sk.is_valid() ) {
         const Skill &skill = sk.obj();
-        std::string const skill_name = skill.name();
+        const std::string skill_name = skill.name();
         const int old_skill_level = p->get_skill_level( sk );
         p->get_skill_level_object( sk ).train( 100, true );
         const int new_skill_level = p->get_skill_level( sk );

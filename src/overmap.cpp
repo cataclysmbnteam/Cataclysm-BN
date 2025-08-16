@@ -485,7 +485,7 @@ void overmap_special_connection::deserialize( const JsonObject &jo )
         }
 
         if( !jo.has_member( "connection" ) ) {
-            std::string const t = jo.get_string( "terrain" );
+            const std::string t = jo.get_string( "terrain" );
             if( t == "sewer" ) {
                 connection = overmap_connection_id( "sewer_tunnel" );
             } else if( t == "subway" ) {
@@ -766,7 +766,7 @@ void oter_type_t::finalize()
     directional_peers.clear();  // In case of a second finalization.
 
     if( is_rotatable() ) {
-        for( om_direction::type const dir : om_direction::all ) {
+        for( const om_direction::type dir : om_direction::all ) {
             register_terrain( oter_t( *this, dir ), static_cast<size_t>( dir ), om_direction::size );
         }
     } else if( has_flag( oter_flags::line_drawing ) ) {
@@ -1417,7 +1417,7 @@ struct z_constraints {
             max = ja.get_int( 1 );
             type = constraint_type::range;
         } else if( jsin.test_string() ) {
-            std::string const type_string = jsin.get_string();
+            const std::string type_string = jsin.get_string();
             if( type_string == "top" ) {
                 type = constraint_type::top;
             } else if( type_string == "bottom" ) {
@@ -1499,7 +1499,7 @@ struct mutable_overmap_terrain {
         jo.read( "locations", locations );
         for( int i = 0; i != static_cast<int>( cube_direction::last ); ++i ) {
             const cube_direction dir = static_cast<cube_direction>( i );
-            std::string const dir_s = io::enum_to_string( dir );
+            const std::string dir_s = io::enum_to_string( dir );
             if( jo.has_member( dir_s ) ) {
                 jo.read( dir_s, joins[dir], true );
             }
@@ -2180,7 +2180,7 @@ struct mutable_overmap_phase_remainder {
                 continue;
             }
 
-            for( om_direction::type const dir : om_direction::all ) {
+            for( const om_direction::type dir : om_direction::all ) {
                 for( const tripoint_rel_omt &piece_pos : rule.positions( dir ) ) {
                     const tripoint_om_omt origin = pos - piece_pos;
 
@@ -2207,13 +2207,13 @@ struct mutable_overmap_phase_remainder {
                 options.add( *chosen_result, rule.get_weight() );
             }
         }
-        std::string const joins_s = enumerate_as_string( unresolved.all_unresolved_at( pos ),
+        const std::string joins_s = enumerate_as_string( unresolved.all_unresolved_at( pos ),
         []( const joins_tracker::join * j ) {
             return string_format( "%s: %s", io::enum_to_string( j->where.dir ), j->join->id );
         } );
 
         if( satisfy_result *picked = options.pick() ) {
-            om_direction::type const dir = picked->dir;
+            const om_direction::type dir = picked->dir;
             const mutable_overmap_placement_rule_remainder &rule = *picked->rule;
             picked->description =
                 string_format(
@@ -2226,7 +2226,7 @@ struct mutable_overmap_phase_remainder {
             picked->rule->decrement();
             return *picked;
         } else {
-            std::string const rules_s = enumerate_as_string( rules,
+            const std::string rules_s = enumerate_as_string( rules,
             []( const mutable_overmap_placement_rule_remainder & rule ) {
                 if( rule.is_exhausted() ) {
                     return string_format( "(%s)", rule.description() );
@@ -2507,7 +2507,7 @@ struct mutable_overmap_special_data : overmap_special_data {
             const mutable_overmap_placement_rule_remainder *rule = satisfy_result.rule;
             if( rule ) {
                 const tripoint_om_omt &origin = satisfy_result.origin;
-                om_direction::type const rot = satisfy_result.dir;
+                const om_direction::type rot = satisfy_result.dir;
                 std::vector<mutable_overmap_piece_candidate> const pieces = rule->pieces( origin, rot );
                 for( const mutable_overmap_piece_candidate &piece : pieces ) {
                     const mutable_overmap_terrain &ter = *piece.overmap;
@@ -2535,7 +2535,7 @@ struct mutable_overmap_special_data : overmap_special_data {
             const tripoint_om_omt p = unresolved.pick_top_priority();
 
             const oter_id &current_terrain = om.ter( p );
-            std::string const joins = enumerate_as_string( unresolved.all_unresolved_at( p ),
+            const std::string joins = enumerate_as_string( unresolved.all_unresolved_at( p ),
             []( const joins_tracker::join * dir_join ) {
                 return string_format( "%s: %s", io::enum_to_string( dir_join->where.dir ),
                                       dir_join->join->id );
@@ -2786,9 +2786,9 @@ void overmap_special::finalize_mapgen_parameters()
 {
     // Extract all the map_special-scoped params from the constituent terrains
     // and put them here
-    std::string const context = string_format( "overmap_special %s", id.str() );
+    const std::string context = string_format( "overmap_special %s", id.str() );
     for( const oter_str_id &t : all_terrains() ) {
-        std::string const mapgen_id = t->get_mapgen_id();
+        const std::string mapgen_id = t->get_mapgen_id();
         mapgen_params_.check_and_merge( get_map_special_params( mapgen_id ), context );
     }
 }
@@ -3433,7 +3433,7 @@ static void elevate_bridges(
         const bool is_bridge_bck = is_ot_match( type_here, om.ter( bp_om - vec ), ot_match_type::type );
 
         if( is_bridge_fwd ^ is_bridge_bck ) {
-            om_direction::type const ramp_facing = is_bridge_fwd ? om_direction::opposite( dir ) : dir;
+            const om_direction::type ramp_facing = is_bridge_fwd ? om_direction::opposite( dir ) : dir;
             bridgehead_points.emplace_back( bp, ramp_facing );
         } else if( !is_bridge_fwd && !is_bridge_bck ) {
             flatten_points.emplace( bp );
@@ -3442,7 +3442,7 @@ static void elevate_bridges(
     // Flatten 1-tile-long bridges
     for( const point_om_omt &bp : flatten_points ) {
         const tripoint_om_omt p( bp, 0 );
-        om_direction::type const rot = oter_get_rotation_dir( om.ter( p ) );
+        const om_direction::type rot = oter_get_rotation_dir( om.ter( p ) );
         if( rot == om_direction::type::east || rot == om_direction::type::west ) {
             om.ter_set( p, oter_id( bridge_flat_ew_id ) );
         } else {
@@ -5502,7 +5502,7 @@ om_direction::type overmap::random_special_rotation( const overmap_special &spec
 
     int top_score = 0; // Maximal number of existing connections (roads).
     // Try to find the most suitable rotation: satisfy as many connections as possible with the existing terrain.
-    for( om_direction::type const r : om_direction::all ) {
+    for( const om_direction::type r : om_direction::all ) {
         int score = 0; // Number of existing connections when rotated by 'r'.
         bool valid = true;
 
@@ -6136,7 +6136,7 @@ void overmap::place_radios()
                                             "  This is FEMA camp %d%d.  A designated long-term emergency shelter." ), i, j, i, j );
                 radios.emplace_back( pos_sm, strength(), message );
             } else if( ter( pos_omt ) == "central_lab_entrance" && pos() == point_abs_om() ) {
-                std::string const message =
+                const std::string message =
                     _( "If you can hear this message, the probe to 021XC is functioning correctly." );
                 // Repeat the message on different frequencies
                 for( int i = 0; i < 10; i++ ) {

@@ -358,7 +358,7 @@ static bool read_from_db( sqlite3 *db, const std::string &path, file_read_fn rea
         const void *blobData = sqlite3_column_blob( stmt, 0 );
         const int blobSize = sqlite3_column_bytes( stmt, 0 );
         auto compression_raw = sqlite3_column_text( stmt, 1 );
-        std::string const compression = compression_raw ? reinterpret_cast<const char *>
+        const std::string compression = compression_raw ? reinterpret_cast<const char *>
                                         ( compression_raw ) : "";
 
         if( blobData == nullptr ) {
@@ -515,7 +515,7 @@ bool world::read_map_quad( const tripoint &om_addr, file_read_json_fn reader ) c
 bool world::write_map_quad( const tripoint &om_addr, file_write_fn writer ) const
 {
     const std::string dirname = get_quad_dirname( om_addr );
-    std::string const quad_path = dirname + "/" + get_quad_filename( om_addr );
+    const std::string quad_path = dirname + "/" + get_quad_filename( om_addr );
 
     // V2 logic
     if( info->world_save_format == save_format::V2_COMPRESSED_SQLITE3 ) {

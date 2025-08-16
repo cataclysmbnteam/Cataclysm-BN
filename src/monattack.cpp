@@ -506,12 +506,12 @@ bool mattack::shriek_stun( monster *z )
         return false;
     }
 
-    units::angle const target_angle = coord_to_angle( z->pos(), target->pos() );
-    units::angle const cone_angle = 20_degrees;
+    const units::angle target_angle = coord_to_angle( z->pos(), target->pos() );
+    const units::angle cone_angle = 20_degrees;
     map &here = get_map();
     for( const tripoint &cone : here.points_in_radius( z->pos(), 4 ) ) {
-        units::angle const tile_angle = coord_to_angle( z->pos(), cone );
-        units::angle const diff = units::fabs( target_angle - tile_angle );
+        const units::angle tile_angle = coord_to_angle( z->pos(), cone );
+        const units::angle diff = units::fabs( target_angle - tile_angle );
         // Skip the target, because it's outside cone or it's the source
         if( diff + cone_angle > 360_degrees || diff > cone_angle || cone == z->pos() ) {
             continue;
@@ -4168,7 +4168,7 @@ bool mattack::upgrade( monster *z )
 
     monster *target = random_entry( targets );
 
-    std::string const old_name = target->name();
+    const std::string old_name = target->name();
     const auto could_see = g->u.sees( *target );
     target->hasten_upgrade();
     target->try_upgrade( false );

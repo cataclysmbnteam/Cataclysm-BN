@@ -1316,7 +1316,7 @@ int ammo_count_for( const Character &who, const item &gun )
     const int ammo_drain = gun.ammo_required();
     const int energy_drain = gun.get_gun_ups_drain();
 
-    units::energy const power = units::from_kilojoule( who.charges_of( itype_UPS ) );
+    const units::energy power = units::from_kilojoule( who.charges_of( itype_UPS ) );
     int total_ammo = gun.ammo_remaining();
     const std::vector<item *> inv_ammo = find_ammo_items_or_mags( who, gun, true, -1 );
 
@@ -1354,7 +1354,7 @@ void show_skill_capped_notice( const Character &who, const skill_id &id )
     const SkillLevel &level = who.get_skill_level_object( id );
 
     const Skill &skill = id.obj();
-    std::string const skill_name = skill.name();
+    const std::string skill_name = skill.name();
     const int curLevel = level.level();
 
     add_msg( m_info, _( "This task is too simple to train your %s beyond %d." ),

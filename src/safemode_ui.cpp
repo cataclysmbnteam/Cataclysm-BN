@@ -44,7 +44,7 @@ void safemode::show()
 
 std::string safemode::npc_type_name()
 {
-    static std::string const name = "human";
+    static const std::string name = "human";
     return name;
 }
 
@@ -498,7 +498,7 @@ void safemode::test_pattern( const int tab_in, const int row_in )
 
     //Loop through all monster mtypes
     for( const auto &mtype : MonsterGenerator::generator().get_all_mtypes() ) {
-        std::string const creature_name = mtype.nname();
+        const std::string creature_name = mtype.nname();
         if( wildcard_match( creature_name, temp_rules[row_in].rule ) ) {
             creature_list.push_back( creature_name );
         }
@@ -802,7 +802,7 @@ void safemode::load( const bool is_character_in )
         }
     };
 
-    std::ifstream const fin;
+    const std::ifstream fin;
     if( is_character ) {
         g->get_active_world()->read_from_player_file_json( ".sfm.json", loader, true );
     } else {

@@ -143,7 +143,7 @@ class ma_weapon_damage_reader : public generic_typed_reader<ma_weapon_damage_rea
 
         std::pair<damage_type, int> get_next( JsonIn &jin ) const {
             const JsonObject jo = jin.get_object();
-            std::string const type = jo.get_string( "type" );
+            const std::string type = jo.get_string( "type" );
             const auto iter = get_dt_map().find( type );
             if( iter == get_dt_map().end() ) {
                 jo.throw_error( "Invalid damage type" );
@@ -154,7 +154,7 @@ class ma_weapon_damage_reader : public generic_typed_reader<ma_weapon_damage_rea
         template<typename C>
         void erase_next( JsonIn &jin, C &container ) const {
             const JsonObject jo = jin.get_object();
-            std::string const type = jo.get_string( "type" );
+            const std::string type = jo.get_string( "type" );
             const auto iter = get_dt_map().find( type );
             if( iter == get_dt_map().end() ) {
                 jo.throw_error( "Invalid damage type" );
@@ -305,9 +305,9 @@ void martialart::load( const JsonObject &jo, const std::string & )
     mandatory( jo, was_loaded, "description", description );
     mandatory( jo, was_loaded, "initiate", initiate );
     for( const JsonArray skillArray : jo.get_array( "autolearn" ) ) {
-        std::string const skill_name = skillArray.get_string( 0 );
+        const std::string skill_name = skillArray.get_string( 0 );
         int skill_level = 0;
-        std::string const skill_level_string = skillArray.get_string( 1 );
+        const std::string skill_level_string = skillArray.get_string( 1 );
         skill_level = stoi( skill_level_string );
         autolearn_skills.emplace_back( skill_name, skill_level );
     }
@@ -815,7 +815,7 @@ std::string ma_buff::get_description( bool passive ) const
     std::string dump;
     dump += string_format( _( "<bold>Buff technique:</bold> %s" ), _( name ) ) + "\n";
 
-    std::string const temp = bonuses.get_description();
+    const std::string temp = bonuses.get_description();
     if( !temp.empty() ) {
         dump += string_format( _( "<bold>%s:</bold> " ),
                                vgettext( "Bonus", "Bonus/stack", max_stacks ) ) + "\n" + temp;
@@ -1425,7 +1425,7 @@ std::string ma_technique::get_description() const
 
     dump += string_format( _( "<bold>Type:</bold> %s" ), type ) + "\n";
 
-    std::string const temp = bonuses.get_description();
+    const std::string temp = bonuses.get_description();
     if( !temp.empty() ) {
         dump += _( "<bold>Bonus:</bold> " ) + std::string( "\n" ) + temp;
     }
@@ -1641,7 +1641,7 @@ bool ma_style_callback::key( const input_context &ctxt, const input_event &event
                     if( std::any_of( itp->weapon_category.begin(),
                                      itp->weapon_category.end(), cat_check ) ) {
                         // If so, add it to the categories it applies to.
-                        std::string const weaponname = wielded ? colorize( item::nname( weap_id ) + _( " [wielded]" ),
+                        const std::string weaponname = wielded ? colorize( item::nname( weap_id ) + _( " [wielded]" ),
                                                        c_light_cyan ) :
                                                        carried ? colorize( item::nname( weap_id ), c_yellow ) : item::nname( weap_id );
                         weapons_by_category[cat].push_back( weaponname );
@@ -1657,7 +1657,7 @@ bool ma_style_callback::key( const input_context &ctxt, const input_event &event
                 // then sort weapons within alphabetically.
                 std::sort( list.second.begin(), list.second.end(), localized_compare );
                 // If item factory somehow manages to crap out and it has no translation/name, use the ID.
-                std::string const cat_name = list.first.is_valid() ? list.first->name().translated()
+                const std::string cat_name = list.first.is_valid() ? list.first->name().translated()
                                              : colorize( "ID: " + std::string( list.first ), c_red );
                 buffer += std::string( "<header>" ) + cat_name + ": " +
                           std::string( "</header>" );
@@ -1672,7 +1672,7 @@ bool ma_style_callback::key( const input_context &ctxt, const input_event &event
                     const bool carried = player.has_item_with( [weap_id]( const item & it ) {
                         return it.typeId() == weap_id;
                     } );
-                    std::string const weaponname = wielded ? colorize( item::nname( wid ) + _( " [wielded]" ),
+                    const std::string weaponname = wielded ? colorize( item::nname( wid ) + _( " [wielded]" ),
                                                    c_light_cyan ) :
                                                    carried ? colorize( item::nname( wid ), c_yellow ) : item::nname( wid );
                     weapons.push_back( weaponname );
@@ -1691,7 +1691,7 @@ bool ma_style_callback::key( const input_context &ctxt, const input_event &event
             buffer += _( "<bold>Mutations:</bold>" ) + std::string( "\n" );
             std::vector<std::string> mutations;
             for( const trait_id &mut : ma.mutation ) {
-                std::string const mutname = player.has_trait( mut ) ? colorize( mut->name() + _( " [have]" ),
+                const std::string mutname = player.has_trait( mut ) ? colorize( mut->name() + _( " [have]" ),
                                             c_light_cyan ) : mut->name();
                 mutations.push_back( mutname );
             }
@@ -1756,7 +1756,7 @@ bool ma_style_callback::key( const input_context &ctxt, const input_event &event
 
             ui_manager::redraw();
             const int scroll_lines = catacurses::getmaxy( w ) - 4;
-            std::string const action = ict.handle_input();
+            const std::string action = ict.handle_input();
 
             if( action == "QUIT" ) {
                 break;

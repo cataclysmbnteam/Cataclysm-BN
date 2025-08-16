@@ -221,7 +221,7 @@ void Item_factory::finalize_pre( itype &obj )
     }
 
     if( obj.mod ) {
-        std::string const func = obj.gunmod ? "GUNMOD_ATTACH" : "TOOLMOD_ATTACH";
+        const std::string func = obj.gunmod ? "GUNMOD_ATTACH" : "TOOLMOD_ATTACH";
         emplace_usage( obj.use_methods, func );
     } else if( obj.gun ) {
         const std::string func = "detach_gunmods";
@@ -883,7 +883,7 @@ void Item_factory::add_iuse( const std::string &type, const use_function_pointer
 
 void Item_factory::add_actor( std::unique_ptr<iuse_actor> ptr )
 {
-    std::string const type = ptr->type;
+    const std::string type = ptr->type;
     iuse_function_list[ type ] = use_function( std::move( ptr ) );
 }
 
@@ -1428,7 +1428,7 @@ void Item_factory::check_definitions() const
                 }
                 for( const std::unordered_set<weapon_category_id> &test_wv : type->gunmod->usable_category ) {
                     if( wv == test_wv ) {
-                        std::string const group_format = ( "[" ) + enumerate_as_string( wv.begin(),
+                        const std::string group_format = ( "[" ) + enumerate_as_string( wv.begin(),
                         wv.end(), []( const weapon_category_id & wcid ) {
                             return string_format( "%s", wcid.c_str() );
                         }, enumeration_conjunction::none ) + ( "]" );
@@ -1628,7 +1628,7 @@ const itype *Item_factory::find_template( const itype_id &id ) const
 
 Item_spawn_data *Item_factory::get_group( const item_group_id &item_group_id )
 {
-    GroupMap::iterator const group_iter = m_template_groups.find( item_group_id );
+    const GroupMap::iterator group_iter = m_template_groups.find( item_group_id );
     if( group_iter != m_template_groups.end() ) {
         return group_iter->second.get();
     }
@@ -2255,7 +2255,7 @@ void Item_factory::load( islot_comestible &slot, const JsonObject &jo, const std
 
     bool is_not_boring = false;
     if( jo.has_member( "primary_material" ) ) {
-        std::string const mat = jo.get_string( "primary_material" );
+        const std::string mat = jo.get_string( "primary_material" );
         is_not_boring = is_not_boring || mat == "junk";
     }
     if( jo.has_member( "material" ) ) {
@@ -2634,7 +2634,7 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
         // TODO: Implement "proportional" and "relative"
         const JsonArray jarr = jo.get_array( "attacks" );
         for( const JsonObject jo : jarr ) {
-            std::string const id = jo.get_string( "id" );
+            const std::string id = jo.get_string( "id" );
             attack_statblock att = def.attacks[id];
             att.to_hit = jo.get_int( "to_hit", att.to_hit );
             const JsonObject damage = jo.get_object( "damage" );
@@ -3299,7 +3299,7 @@ void Item_factory::set_use_methods_from_json( const JsonObject &jo, const std::s
         if( jo.has_array( member ) ) {
             set_use_methods_from_array( jo.get_array( member ), use_methods ) ;
         } else if( jo.has_string( member ) ) {
-            std::string const type = jo.get_string( member );
+            const std::string type = jo.get_string( member );
             emplace_usage( use_methods, type );
         } else if( jo.has_object( member ) ) {
             auto obj = jo.get_object( member );
@@ -3321,7 +3321,7 @@ void Item_factory::set_use_methods_from_array( const JsonArray &array,
 {
     for( const JsonValue entry : array ) {
         if( entry.test_string() ) {
-            std::string const type = entry.get_string();
+            const std::string type = entry.get_string();
             emplace_usage( use_methods, type );
         } else if( entry.test_object() ) {
             auto obj = entry.get_object();
@@ -3460,7 +3460,7 @@ item_category_id calc_category( const itype &obj )
 std::vector<item_group_id> Item_factory::get_all_group_names()
 {
     std::vector<item_group_id> rval;
-    for( GroupMap::value_type  const &group_pair : m_template_groups ) {
+    for( const GroupMap::value_type  &group_pair : m_template_groups ) {
         rval.emplace_back( group_pair.first );
     }
     return rval;

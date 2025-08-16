@@ -221,7 +221,7 @@ static std::string craft_progress_message( const avatar &u, const player_activit
     const double remaining_percentage = 1.0 - ( craft->item_counter / 10'000'000.0 );
     const int remaining_turns = remaining_percentage * base_total_moves / 100 / std::max( 0.01f,
                                 total_mult );
-    std::string const time_desc = string_format( _( "Time left: %s" ),
+    const std::string time_desc = string_format( _( "Time left: %s" ),
                                   to_string( time_duration::from_turns( remaining_turns ) ) );
 
     const std::array<std::pair<float, std::string>, 6> mults_with_data = { {
@@ -240,7 +240,7 @@ static std::string craft_progress_message( const avatar &u, const player_activit
         const int percent = static_cast<int>( p.first * 100 );
         if( first || percent != 100 ) {
             const nc_color col = percent > 100 ? c_green : c_red;
-            std::string const colorized = colorize( std::to_string( percent ) + '%', col );
+            const std::string colorized = colorize( std::to_string( percent ) + '%', col );
             mults_desc += string_format( _( "%s: %s\n" ), p.second, colorized );
         }
         first = false;
@@ -262,7 +262,7 @@ static std::string format_spd( float level, std::string name, int indent = 0,
                          ? c_white
                          : percent > 100 ? c_green : c_red;
     std::string spaces;
-    std::string const colorized = colorize( std::to_string( percent ) + '%', col );
+    const std::string colorized = colorize( std::to_string( percent ) + '%', col );
     return string_format( _( " %s- %s: %s\n" ), spaces.insert( 0, indent, ' ' ), name, colorized );
 }
 

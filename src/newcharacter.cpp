@@ -701,7 +701,7 @@ static void draw_points( const catacurses::window &w, points_left &points, int n
 {
     // Clear line (except borders)
     mvwprintz( w, point( 2, 3 ), c_black, std::string( getmaxx( w ) - 3, ' ' ) );
-    std::string const points_msg = points.to_string();
+    const std::string points_msg = points.to_string();
     const int pMsg_length = utf8_width( remove_color_tags( points_msg ), true );
     nc_color color = c_light_gray;
     print_colored_text( w, point( 2, 3 ), color, c_light_gray, points_msg );
@@ -1218,7 +1218,7 @@ tab_direction set_traits( avatar &u, points_left &points )
         int full_string_length = 0;
         const int remaining_points_length = utf8_width( points.to_string(), true );
         if( !points.is_freeform() ) {
-            std::string const full_string =
+            const std::string full_string =
                 string_format( "<color_light_green>%2d/%-2d</color> <color_light_red>%3d/-%-2d</color>",
                                num_good, max_trait_points, num_bad, max_trait_points );
             fold_and_print( w, point( remaining_points_length + 3, 3 ), getmaxx( w ) - 2, c_white,
@@ -1747,7 +1747,7 @@ tab_direction set_profession( avatar &u, points_left &points,
 
             draw_sorting_indicator( w_sorting, ctxt, profession_sorter );
 
-            std::string const g_switch_msg = u.male ?
+            const std::string g_switch_msg = u.male ?
                                              //~ Gender switch message. 1s - change key name, 2s - profession name.
                                              _( "Press <color_light_green>%1$s</color> to switch "
                                                 "to <color_magenta>%2$s</color> (<color_pink>female</color>)." ) :
@@ -2676,7 +2676,7 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
 
         int line = 1;
         bool has_skills = false;
-        profession::StartingSkillList const list_skills = you.prof->skills();
+        const profession::StartingSkillList list_skills = you.prof->skills();
         skill_displayType_id last_category = skill_displayType_id::NULL_ID();
         for( auto &elem : skillslist ) {
             int level = you.get_skill_level( elem->ident() );
@@ -3130,8 +3130,8 @@ std::optional<std::string> query_for_template_name()
         '/'
 #endif
     };
-    std::string const title = _( "Name of template:" );
-    std::string const desc = _( "Keep in mind you may not use special characters like / in filenames" );
+    const std::string title = _( "Name of template:" );
+    const std::string desc = _( "Keep in mind you may not use special characters like / in filenames" );
 
     string_input_popup spop;
     spop.title( title );
@@ -3163,7 +3163,7 @@ void avatar::character_to_template( const std::string &name )
 
 void avatar::save_template( const std::string &name, const points_left &points )
 {
-    std::string const name_san = ensure_valid_file_name( name );
+    const std::string name_san = ensure_valid_file_name( name );
     write_to_file( PATH_INFO::templatedir() + name_san + ".template", [&]( std::ostream & fout ) {
         JsonOut jsout( fout, true );
 

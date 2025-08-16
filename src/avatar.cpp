@@ -735,7 +735,7 @@ static void skim_book_msg( const item &book, avatar &u )
         recipe_list.push_back( elem.name );
     }
     if( !recipe_list.empty() ) {
-        std::string const recipe_line =
+        const std::string recipe_line =
             string_format( vgettext( "This book contains %1$zu crafting recipe: %2$s",
                                      "This book contains %1$zu crafting recipes: %2$s",
                                      recipe_list.size() ),
@@ -844,7 +844,7 @@ void avatar::do_read( item *loc )
 
             skill_level.readBook( min_ex, max_ex, reading->level );
 
-            std::string const skill_name = skill.obj().name();
+            const std::string skill_name = skill.obj().name();
 
             if( skill_level != originalSkillLevel ) {
                 g->events().send<event_type::gains_skill_level>(
@@ -986,7 +986,7 @@ void avatar::add_snippet( snippet_id snippet )
     // Optional: caller can check !has_seen_snippet(snippet) before calling this
     // to avoid doing unnecessary work. This function is safe to call multiple times:
     // set_value() and emplace() won't change anything if the snippet was already added.
-    std::string const combined_name = "has_seen_snippet_" + snippet.str();
+    const std::string combined_name = "has_seen_snippet_" + snippet.str();
     get_avatar().set_value( combined_name, "true" );
     snippets_read.emplace( snippet );
 }

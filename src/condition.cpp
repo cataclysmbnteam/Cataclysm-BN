@@ -547,7 +547,7 @@ void conditional_t<T>::set_npc_cbm_recharge_rule( const JsonObject &jo )
 template<class T>
 void conditional_t<T>::set_npc_rule( const JsonObject &jo )
 {
-    std::string const rule = jo.get_string( "npc_rule" );
+    const std::string rule = jo.get_string( "npc_rule" );
     condition = [rule]( const T & d ) {
         auto flag = ally_rule_strs.find( rule );
         if( flag != ally_rule_strs.end() ) {
@@ -560,7 +560,7 @@ void conditional_t<T>::set_npc_rule( const JsonObject &jo )
 template<class T>
 void conditional_t<T>::set_npc_override( const JsonObject &jo )
 {
-    std::string const rule = jo.get_string( "npc_override" );
+    const std::string rule = jo.get_string( "npc_override" );
     condition = [rule]( const T & d ) {
         auto flag = ally_rule_strs.find( rule );
         if( flag != ally_rule_strs.end() ) {
@@ -582,7 +582,7 @@ void conditional_t<T>::set_days_since( const JsonObject &jo )
 template<class T>
 void conditional_t<T>::set_is_season( const JsonObject &jo )
 {
-    std::string const season_name = jo.get_string( "is_season" );
+    const std::string season_name = jo.get_string( "is_season" );
     condition = [season_name]( const T & ) {
         const auto season = season_of_year( calendar::turn );
         return ( season == SPRING && season_name == "spring" ) ||
@@ -595,7 +595,7 @@ void conditional_t<T>::set_is_season( const JsonObject &jo )
 template<class T>
 void conditional_t<T>::set_mission_goal( const JsonObject &jo )
 {
-    std::string const mission_goal_str = jo.get_string( "mission_goal" );
+    const std::string mission_goal_str = jo.get_string( "mission_goal" );
     condition = [mission_goal_str]( const T & d ) {
         mission *miss = d.beta->chatbin.mission_selected;
         if( !miss ) {

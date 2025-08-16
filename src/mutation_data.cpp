@@ -476,7 +476,7 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
     }
 
     for( const JsonObject wp : jo.get_array( "wet_protection" ) ) {
-        std::string const part_id = wp.get_string( "part" );
+        const std::string part_id = wp.get_string( "part" );
         const int ignored = wp.get_int( "ignored", 0 );
         const int neutral = wp.get_int( "neutral", 0 );
         const int good = wp.get_int( "good", 0 );
@@ -485,13 +485,13 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
     }
 
     for( JsonArray ea : jo.get_array( "encumbrance_always" ) ) {
-        std::string const part_id = ea.next_string();
+        const std::string part_id = ea.next_string();
         const int enc = ea.next_int();
         encumbrance_always[get_body_part_token( part_id )] = enc;
     }
 
     for( JsonArray ec : jo.get_array( "encumbrance_covered" ) ) {
-        std::string const part_id = ec.next_string();
+        const std::string part_id = ec.next_string();
         const int enc = ec.next_int();
         encumbrance_covered[get_body_part_token( part_id )] = enc;
     }

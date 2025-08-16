@@ -83,8 +83,8 @@ struct bionic_sort_less {
             case bionic_ui_sort_mode::INVLET:
                 return lhs->invlet < rhs->invlet;
             case bionic_ui_sort_mode::POWER: {
-                units::energy const lbd_sort_power = bionic_sort_power( lbd );
-                units::energy const rbd_sort_power = bionic_sort_power( rbd );
+                const units::energy lbd_sort_power = bionic_sort_power( lbd );
+                const units::energy rbd_sort_power = bionic_sort_power( rbd );
                 if( lbd_sort_power != rbd_sort_power ) {
                     return lbd_sort_power < rbd_sort_power;
                 }

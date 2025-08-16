@@ -390,7 +390,7 @@ std::string achievement::kill_ui_text( achievement_completion completion,
     for( const auto& [m_id, pair] : kill_requirements() ) {
         auto& [comp, count] = pair;
         std::string cur_kills;
-        std::string const mon_name = m_id == mtype_id::NULL_ID() ? count > 1 ? "monsters" : "monster" :
+        const std::string mon_name = m_id == mtype_id::NULL_ID() ? count > 1 ? "monsters" : "monster" :
                                      m_id->nname( count );
         int kill_count = 0;
         std::string progress;
@@ -440,7 +440,7 @@ std::string achievement::kill_ui_text( achievement_completion completion,
     for( const auto& [fac_id, pair] : species_kill_requirements() ) {
         auto& [comp, count] = pair;
         std::string cur_kills;
-        std::string const fac_name = fac_id->name.translated( count );
+        const std::string fac_name = fac_id->name.translated( count );
         int kill_count = 0;
         std::string progress;
         bool comp_pass = false;
@@ -542,7 +542,7 @@ std::string achievement::time_bound::time_ui_text( const achievement_completion 
         abort();
     };
 
-    std::string const message = [&]() {
+    const std::string message = [&]() {
         switch( comp ) {
             case achievement_completion::pending:
                 return string_format( _( "At least %s from %s (%s remaining)" ),
@@ -771,7 +771,7 @@ std::string achievement_state::ui_text( const achievement *ach, const kill_track
     }
 
     if( completion == achievement_completion::completed ) {
-        std::string const message = string_format(
+        const std::string message = string_format(
                                         _( "Completed %s" ), to_string( last_state_change ) );
         result += "  " + colorize( message, c ) + "\n";
     } else {

@@ -1760,7 +1760,7 @@ class spellcasting_callback : public uilist_callback
             for( int i = 1; i < menu->w_height - 1; i++ ) {
                 mvwputch( menu->window, point( menu->w_width - menu->pad_right, i ), c_magenta, LINE_XOXO );
             }
-            std::string const ignore_string = casting_ignore ? _( "Ignore Distractions" ) :
+            const std::string ignore_string = casting_ignore ? _( "Ignore Distractions" ) :
                                               _( "Popup Distractions" );
             mvwprintz( menu->window, point( menu->w_width - menu->pad_right + 2, 0 ),
                        casting_ignore ? c_red : c_light_green, string_format( "%s %s", "[I]", ignore_string ) );

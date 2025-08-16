@@ -375,8 +375,8 @@ void debug_menu::wishbionics( Character &c )
     } );
 
     while( true ) {
-        units::energy const power_level = c.get_power_level();
-        units::energy const power_max = c.get_max_power_level();
+        const units::energy power_level = c.get_power_level();
+        const units::energy power_max = c.get_max_power_level();
         const size_t num_installed = c.get_bionic_collection().size();
 
         const bool can_uninstall = num_installed > 0;
@@ -521,7 +521,7 @@ class wish_monster_callback: public uilist_callback
         }
 
         void refresh( uilist *menu ) override {
-            catacurses::window const w_info = catacurses::newwin( menu->w_height - 2, menu->pad_right,
+            const catacurses::window w_info = catacurses::newwin( menu->w_height - 2, menu->pad_right,
                                               point( menu->w_x + menu->w_width - 1 - menu->pad_right, 1 ) );
 
             const int entnum = menu->selected;
@@ -542,7 +542,7 @@ class wish_monster_callback: public uilist_callback
             if( valid_entnum ) {
                 tmp->print_info( w_info, 2, 5, 1 );
 
-                std::string const header = string_format( "#%d: %s (%d)%s", entnum, tmp->type->nname(),
+                const std::string header = string_format( "#%d: %s (%d)%s", entnum, tmp->type->nname(),
                                            group, hallucination ? _( " (hallucination)" ) : "" );
                 mvwprintz( w_info, point( ( getmaxx( w_info ) - utf8_width( header ) ) / 2, 0 ), c_cyan, header );
             }
@@ -679,7 +679,7 @@ class wish_item_callback: public uilist_callback
                            c_cyan, header );
 
                 std::vector<iteminfo> const info = tmp.info();
-                std::string const info_string = format_item_info( info, {} );
+                const std::string info_string = format_item_info( info, {} );
                 fold_and_print( menu->window, point( startx, starty ), menu->pad_right - 1, c_light_gray,
                                 info_string );
             }

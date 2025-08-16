@@ -123,7 +123,7 @@ std::optional<time_duration> query_duration()
     wisheffect_state &last_val = uistate.debug_menu.effect;
     string_input_popup popup;
     popup.title( _( "Input new duration followed by unit (s, m, h, d)" ) );
-    std::string const dur_string = popup.query_string();
+    const std::string dur_string = popup.query_string();
     if( !popup.confirmed() ) {
         return std::nullopt;
     }
@@ -444,7 +444,7 @@ void effect_edit_menu( Creature &c )
         size_t i = 0;
         const auto add_effect_entry = [&menu, &i]( const effect & eff ) {
             // TODO: Columns
-            std::string const effect_description = string_format(
+            const std::string effect_description = string_format(
                     "- %s %d, %d s",
                     eff.get_id().str(),
                     eff.get_intensity(),

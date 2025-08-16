@@ -951,7 +951,7 @@ void vehicle::drive_to_local_target( const tripoint &target, bool follow_protoco
     }
     refresh();
     const tripoint vehpos = global_square_location().raw();
-    units::angle const angle = get_angle_from_targ( target );
+    const units::angle angle = get_angle_from_targ( target );
     // now we got the angle to the target, we can work out when we are heading towards disaster.
     // Check the tileray in the direction we need to head towards.
     std::set<point> const points_to_check = immediate_path( angle );
@@ -1141,7 +1141,7 @@ void vehicle::smash( map &m, float hp_percent_loss_min, float hp_percent_loss_ma
 
 int vehicle::lift_strength() const
 {
-    units::mass const mass = total_mass();
+    const units::mass mass = total_mass();
     return std::max<std::int64_t>( mass / 10000_gram, 1 );
 }
 
@@ -1838,8 +1838,8 @@ bool vehicle::merge_rackable_vehicle( vehicle *carry_veh, const std::vector<int>
     }
 
     units::angle relative_dir = normalize( carry_veh->face.dir() - face.dir() );
-    units::angle const relative_180 = units::fmod( relative_dir, 180_degrees );
-    units::angle const face_dir_180 = normalize( face.dir(), 180_degrees );
+    const units::angle relative_180 = units::fmod( relative_dir, 180_degrees );
+    const units::angle face_dir_180 = normalize( face.dir(), 180_degrees );
 
     // if the carrier is skewed N/S and the carried vehicle isn't aligned with
     // the carrier, force the carried vehicle to be at a right angle
@@ -1907,9 +1907,9 @@ bool vehicle::merge_rackable_vehicle( vehicle *carry_veh, const std::vector<int>
     if( found_all_parts ) {
         decltype( loot_zones ) new_zones;
         for( const auto &carry_map : carry_data ) {
-            std::string const offset = string_format( "%s%3d", carry_map.old_mount == mount_zero ? axis : " ",
+            const std::string offset = string_format( "%s%3d", carry_map.old_mount == mount_zero ? axis : " ",
                                        axis == "X" ? carry_map.old_mount.x : carry_map.old_mount.y );
-            std::string const unique_id = string_format( "%s%3d%s", offset,
+            const std::string unique_id = string_format( "%s%3d%s", offset,
                                           static_cast<int>( to_degrees( relative_dir ) ),
                                           carry_veh->name );
             for( const int carry_part : carry_map.carry_parts_here ) {
@@ -2174,7 +2174,7 @@ bool vehicle::remove_carried_vehicle( const std::vector<int> &carried_parts )
         }
         const auto &carry_names = parts[carried_part].carry_names;
         if( !carry_names.empty() ) {
-            std::string const id_string = carry_names.top().substr( 0, 1 );
+            const std::string id_string = carry_names.top().substr( 0, 1 );
             if( id_string == "X" || id_string == "Y" ) {
                 veh_record = carry_names.top();
                 new_pos3 = global_part_pos3( carried_part );
@@ -2188,7 +2188,7 @@ bool vehicle::remove_carried_vehicle( const std::vector<int> &carried_parts )
     }
     units::angle new_dir =
         normalize( units::from_degrees( std::stoi( veh_record.substr( 4, 3 ) ) ) + face.dir() );
-    units::angle const host_dir = normalize( face.dir(), 180_degrees );
+    const units::angle host_dir = normalize( face.dir(), 180_degrees );
     // if the host is skewed N/S, and the carried vehicle is going to come at an angle,
     // force it to east/west instead
     if( host_dir >= 45_degrees && host_dir <= 135_degrees ) {
@@ -2468,7 +2468,7 @@ bool vehicle::split_vehicles( const std::vector<std::vector <int>> &new_vehs,
             // remove labels associated with the mov_part
             const auto iter = labels.find( label( cur_mount ) );
             if( iter != labels.end() ) {
-                std::string const label_str = iter->text;
+                const std::string label_str = iter->text;
                 labels.erase( iter );
                 new_labels.insert( label( new_mount, label_str ) );
             }
@@ -6167,7 +6167,7 @@ void vehicle::do_towing_move()
     const tripoint tower_tow_point = g->m.getabs( global_part_pos3( tow_index ) );
     const tripoint towed_tow_point = g->m.getabs( towed_veh->global_part_pos3( other_tow_index ) );
     // same as above, but where the pulling vehicle is pulling from
-    units::angle const towing_veh_angle = towed_veh->get_angle_from_targ( tower_tow_point );
+    const units::angle towing_veh_angle = towed_veh->get_angle_from_targ( tower_tow_point );
     const bool reverse = towed_veh->tow_data.tow_direction == TOW_BACK;
     int accel_y = 0;
     const tripoint vehpos = global_square_location().raw();

@@ -421,7 +421,7 @@ auto game_info::game_report() -> std::string
     }
     std::stringstream report;
 
-    std::string const lang = get_option<std::string>( "USE_LANG" );
+    const std::string lang = get_option<std::string>( "USE_LANG" );
     std::string lang_translated;
     for( const language_info &info : list_available_languages() ) {
         if( lang == info.id ) {

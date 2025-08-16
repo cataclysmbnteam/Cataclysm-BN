@@ -823,7 +823,7 @@ static void draw_skills_tab( ui_adaptor &ui, const catacurses::window &w_skills,
 
         if( skillslist[i].is_header ) {
             const SkillDisplayType t = SkillDisplayType::get_skill_type( aSkill->display_category() );
-            std::string const type_name = t.display_string();
+            const std::string type_name = t.display_string();
             mvwprintz( w_skills, point( 0, y_pos ), c_light_gray, header_spaces );
             center_print( w_skills, y_pos, c_yellow, type_name );
         } else {
@@ -984,7 +984,7 @@ static void draw_speed_tab( const catacurses::window &w_speed,
                             100 ) );
     const int bio_speed_bonus = 10;
     if( quick_bonus != 0 ) {
-        std::string const pen_sign = quick_bonus >= 0 ? "+" : "-";
+        const std::string pen_sign = quick_bonus >= 0 ? "+" : "-";
         const nc_color pen_color = quick_bonus >= 0 ? c_green : c_red;
         //~ %s: Mutations (already left-justified), %s: sign of bonus/penalty, %2d%%: speed modifier
         mvwprintz( w_speed, point( 1, line ), pen_color, pgettext( "speed bonus", "%s%s%2d%%" ),
@@ -1151,7 +1151,7 @@ static bool handle_player_display_action( Character &you, unsigned int &line,
     }
 
     bool done = false;
-    std::string const action = ctxt.handle_input();
+    const std::string action = ctxt.handle_input();
 
     if( action == "UP" ) {
         if( line > line_beg ) {

@@ -230,7 +230,7 @@ static bool SetupRenderTarget()
 //Registers, creates, and shows the Window!!
 static void WinCreate()
 {
-    std::string const version = string_format( "Cataclysm: Bright Nights - %s", getVersionString() );
+    const std::string version = string_format( "Cataclysm: Bright Nights - %s", getVersionString() );
 
     // Common flags used for fulscreen and for windowed
     int window_flags = 0;
@@ -1031,7 +1031,7 @@ void cata_tiles::draw_om( point dest, const tripoint_abs_omt &center_abs_omt, bo
                 std::tie( ter_sym, ter_color, std::ignore ) =
                     overmap_ui::get_note_display_info( overmap_buffer.note( omp ) );
 
-                std::string const note_name = "note_" + ter_sym + "_" + string_from_color( ter_color );
+                const std::string note_name = "note_" + ter_sym + "_" + string_from_color( ter_color );
                 draw_from_id_string( note_name, TILE_CATEGORY::C_OVERMAP_NOTE, "overmap_note",
                                      omp.raw(), 0, 0, lit_level::LIT, false, 0 );
             }
@@ -1041,7 +1041,7 @@ void cata_tiles::draw_om( point dest, const tripoint_abs_omt &center_abs_omt, bo
     if( uistate.place_terrain ) {
         const oter_str_id &terrain_id = uistate.place_terrain->id;
         const oter_t &terrain = *terrain_id;
-        std::string const id = terrain.get_type_id().str();
+        const std::string id = terrain.get_type_id().str();
         int rotation;
         int subtile;
         terrain.get_rotation_and_subtile( rotation, subtile );
@@ -1055,7 +1055,7 @@ void cata_tiles::draw_om( point dest, const tripoint_abs_omt &center_abs_omt, bo
                 const point_rel_omt rp( om_direction::rotate( s_ter.p.xy(), uistate.omedit_rotation ) );
                 const oter_id rotated_id = s_ter.terrain->get_rotated( uistate.omedit_rotation );
                 const oter_t &terrain = *rotated_id;
-                std::string const id = terrain.get_type_id().str();
+                const std::string id = terrain.get_type_id().str();
                 int rotation;
                 int subtile;
                 terrain.get_rotation_and_subtile( rotation, subtile );
@@ -1249,7 +1249,7 @@ void cata_tiles::draw_om( point dest, const tripoint_abs_omt &center_abs_omt, bo
 
             // Draw colored text segments
             for( auto &colored_line : colored_lines ) {
-                std::string  const &text = std::get<1>( colored_line );
+                const std::string  &text = std::get<1>( colored_line );
                 draw_point.x = draw_note_text( draw_point, text, std::get<0>( colored_line ) ).x;
             }
 

@@ -493,7 +493,7 @@ std::string press_x( action_id act, const std::string &key_bound_pre,
 std::optional<std::string> press_x_if_bound( action_id act )
 {
     const input_context ctxt = get_default_mode_input_context();
-    std::string const description = action_ident( act );
+    const std::string description = action_ident( act );
     if( ctxt.keys_bound_to( description ).empty() ) {
         return std::nullopt;
     }
@@ -894,7 +894,7 @@ action_id handle_action_menu()
         }
 
         if( category != "back" ) {
-            std::string const msg = _( "Back" );
+            const std::string msg = _( "Back" );
             entries.emplace_back( 2 * NUM_ACTIONS, true,
                                   hotkey_for_action( ACTION_ACTIONMENU ), msg + "…" );
         }

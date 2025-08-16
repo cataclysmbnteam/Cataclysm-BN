@@ -104,7 +104,7 @@ void load_recipe_category( const JsonObject &jsobj )
 
 static std::string get_subcat_unprefixed( const std::string &cat, const std::string &prefixed_name )
 {
-    std::string const prefix = "CSC_" + get_cat_unprefixed( cat ) + "_";
+    const std::string prefix = "CSC_" + get_cat_unprefixed( cat ) + "_";
 
     if( prefixed_name.starts_with( prefix ) ) {
         return prefixed_name.substr( prefix.size(), prefixed_name.size() - prefix.size() );
@@ -763,7 +763,7 @@ const recipe *select_crafting_recipe( int &batch_size_out )
             recipe_info_scroll += scroll_recipe_info_lines;
             item_info_scroll += scroll_recipe_info_lines;
         } else if( action == "LEFT" ) {
-            std::string const start = subtab.cur();
+            const std::string start = subtab.cur();
             do {
                 subtab.prev();
             } while( subtab.cur() != start && shown_recipes.empty_category( tab.cur(),
@@ -775,7 +775,7 @@ const recipe *select_crafting_recipe( int &batch_size_out )
             subtab = list_circularizer<std::string>( craft_subcat_list[tab.cur()] );
             recalc = true;
         } else if( action == "RIGHT" ) {
-            std::string const start = subtab.cur();
+            const std::string start = subtab.cur();
             do {
                 subtab.next();
             } while( subtab.cur() != start && shown_recipes.empty_category( tab.cur(),
@@ -838,7 +838,7 @@ const recipe *select_crafting_recipe( int &batch_size_out )
             for( const auto &prefix : prefixes ) {
                 max_example_length = std::max( max_example_length, utf8_width( prefix.example ) );
             }
-            std::string const spaces( max_example_length, ' ' );
+            const std::string spaces( max_example_length, ' ' );
 
             std::string description =
                 _( "The default is to search result names.  Some single-character prefixes "
@@ -848,7 +848,7 @@ const recipe *select_crafting_recipe( int &batch_size_out )
                    "<color_white>Examples:</color>\n" );
 
             {
-                std::string const example_name = _( "shirt" );
+                const std::string example_name = _( "shirt" );
                 auto padding = max_example_length - utf8_width( example_name );
                 description += string_format(
                                    _( "  <color_white>%s</color>%.*s    %s\n" ),
@@ -927,7 +927,7 @@ const recipe *select_crafting_recipe( int &batch_size_out )
                 recalc = true;
                 continue;
             }
-            std::string const recipe_name = peek_related_recipe( current[line], shown_recipes );
+            const std::string recipe_name = peek_related_recipe( current[line], shown_recipes );
             if( recipe_name.empty() ) {
                 keepline = true;
             } else {
@@ -1027,7 +1027,7 @@ int related_menu_fill( uilist &rmenu,
 
         // we have different recipes with the same names
         // list only one of them as we show and filter by name only
-        std::string const recipe_name = p.second;
+        const std::string recipe_name = p.second;
         if( recipe_name == recipe_name_prev ) {
             continue;
         }
@@ -1055,9 +1055,9 @@ int related_menu_fill( uilist &rmenu,
                 std::string prev_item_name;
                 // 2nd pass: add defferent recipes
                 for( size_t recipe_n = 0; recipe_n < current_part.size(); recipe_n++ ) {
-                    std::string const cur_item_name = current_part[recipe_n]->result_name();
+                    const std::string cur_item_name = current_part[recipe_n]->result_name();
                     if( cur_item_name != prev_item_name ) {
-                        std::string const sym = recipe_n == current_part.size() - 1 ? "└ " : "├ ";
+                        const std::string sym = recipe_n == current_part.size() - 1 ? "└ " : "├ ";
                         rmenu.addentry( ++np_last, true, -1, sym + cur_item_name );
                     }
                     prev_item_name = cur_item_name;

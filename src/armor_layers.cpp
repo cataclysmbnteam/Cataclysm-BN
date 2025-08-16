@@ -164,13 +164,13 @@ void draw_mid_pane( const catacurses::window &w_sort_middle,
                                worn_item->type_name( 1 ) ) - 1;
     std::vector<std::string> const props = clothing_properties( *worn_item, win_width - 3, c, bp );
     nc_color color = c_light_gray;
-    for( std::string  const &iter : props ) {
+    for( const std::string  &iter : props ) {
         print_colored_text( w_sort_middle, point( 2, ++i ), color, c_light_gray, iter );
     }
 
     std::vector<std::string> const prot = clothing_protection( *worn_item, win_width - 3 );
     if( i + prot.size() < win_height ) {
-        for( std::string  const &iter : prot ) {
+        for( const std::string  &iter : prot ) {
             print_colored_text( w_sort_middle, point( 2, ++i ), color, c_light_gray, iter );
         }
     } else {
@@ -180,7 +180,7 @@ void draw_mid_pane( const catacurses::window &w_sort_middle,
     i++;
     std::vector<std::string> const layer_desc = foldstring( clothing_layer( *worn_item ), win_width );
     if( i + layer_desc.size() < win_height && !clothing_layer( *worn_item ).empty() ) {
-        for( std::string  const &iter : layer_desc ) {
+        for( const std::string  &iter : layer_desc ) {
             mvwprintz( w_sort_middle, point( 0, ++i ), c_light_blue, iter );
         }
     }
@@ -196,7 +196,7 @@ void draw_mid_pane( const catacurses::window &w_sort_middle,
     const item_penalties penalties = get_item_penalties( worn_item_it, c, bp );
 
     if( !penalties.body_parts_with_stacking_penalty.empty() ) {
-        std::string const layer_description = [&]() {
+        const std::string layer_description = [&]() {
             switch( worn_item->get_layer() ) {
                 case PERSONAL_LAYER:
                     return _( "in your <color_light_blue>personal aura</color>" );
@@ -217,9 +217,9 @@ void draw_mid_pane( const catacurses::window &w_sort_middle,
             }
         }
         ();
-        std::string const body_parts =
+        const std::string body_parts =
             body_part_names( penalties.body_parts_with_stacking_penalty );
-        std::string const message =
+        const std::string message =
             string_format(
                 vgettext( "Wearing multiple items %s on your "
                           "<color_light_red>%s</color> is adding encumbrance there.",
@@ -232,7 +232,7 @@ void draw_mid_pane( const catacurses::window &w_sort_middle,
     }
 
     if( !penalties.body_parts_with_out_of_order_penalty.empty() ) {
-        std::string const body_parts =
+        const std::string body_parts =
             body_part_names( penalties.body_parts_with_out_of_order_penalty );
         std::string message;
 
@@ -246,7 +246,7 @@ void draw_mid_pane( const catacurses::window &w_sort_middle,
                           body_parts
                       );
         } else {
-            std::string const bad_item_name = *penalties.bad_items_within.begin();
+            const std::string bad_item_name = *penalties.bad_items_within.begin();
             message = string_format(
                           vgettext( "Wearing this outside your <color_light_blue>%s</color> "
                                     "is adding encumbrance to your <color_light_red>%s</color>.",
@@ -610,7 +610,7 @@ void show_armor_layers_ui( Character &who )
                 mvwprintz( w_sort_left, point( 0, drawindex + 1 ), c_yellow, ">>" );
             }
 
-            std::string const worn_armor_name = ( *access_tmp_worn( itemindex ) )->display_name();
+            const std::string worn_armor_name = ( *access_tmp_worn( itemindex ) )->display_name();
             const item_penalties penalties =
                 get_item_penalties( access_tmp_worn( itemindex ), who, bp );
 

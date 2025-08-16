@@ -984,7 +984,7 @@ void npc::finish_read( item *it )
 
         skill_level.readBook( min_ex, max_ex, reading->level );
 
-        std::string const skill_name = skill.obj().name();
+        const std::string skill_name = skill.obj().name();
 
         if( skill_level != originalSkillLevel ) {
             g->events().send<event_type::gains_skill_level>( getID(), skill, skill_level.level() );
@@ -1428,7 +1428,7 @@ float npc::vehicle_danger( int radius ) const
         const wrapped_vehicle &wrapped_veh = vehicles[i];
         if( wrapped_veh.v->is_moving() ) {
             // FIXME: this can't be the right way to do this
-            units::angle const facing = wrapped_veh.v->face.dir();
+            const units::angle facing = wrapped_veh.v->face.dir();
 
             const point a( wrapped_veh.v->global_pos3().xy() );
             const point b( static_cast<int>( a.x + ( units::cos( facing ) * radius ) ),
@@ -1599,7 +1599,7 @@ void npc::say( const std::string &line, const sounds::sound_t spriority ) const
         return;
     }
 
-    std::string const sound = string_format( _( "%1$s saying \"%2$s\"" ), name, formatted_line );
+    const std::string sound = string_format( _( "%1$s saying \"%2$s\"" ), name, formatted_line );
     if( g->u.sees( *this ) && g->u.is_deaf() ) {
         add_msg( m_warning, _( "%1$s says something but you can't hear it!" ), name );
     }

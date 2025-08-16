@@ -250,7 +250,7 @@ void mapbuffer::deserialize( JsonIn &jsin )
         jsin.start_object();
         int version = 0;
         while( !jsin.end_object() ) {
-            std::string const submap_member_name = jsin.get_member_name();
+            const std::string submap_member_name = jsin.get_member_name();
             if( submap_member_name == "version" ) {
                 version = jsin.get_int();
             } else if( submap_member_name == "coordinates" ) {

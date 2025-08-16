@@ -256,11 +256,11 @@ static void debug_error_prompt(
         return;
     }
 
-    std::string const formatted_report = [&]() {
+    const std::string formatted_report = [&]() {
         const char *repetition_string =
             _( "Excessive error repetition detected.  Please file a bug report at https://github.com/cataclysmbnteam/Cataclysm-BN/issues" );
         // try to prepend repetition string if we are forcing the display. Right now that's the only reason for this prompt to display.
-        std::string const pre = force ? string_format(
+        const std::string pre = force ? string_format(
                                     "            %s\n",
                                     repetition_string
                                 ) : "";
@@ -277,7 +277,7 @@ static void debug_error_prompt(
     ();
 
 #if defined(BACKTRACE)
-    std::string const backtrace_instructions =
+    const std::string backtrace_instructions =
         string_format(
             _( "See %s for a full stack backtrace" ),
             PATH_INFO::debug()

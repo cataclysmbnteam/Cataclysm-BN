@@ -85,7 +85,7 @@ JsonObject::JsonObject( JsonIn &j )
     // cache the position of the value for each member
     jsin->start_object();
     while( !jsin->end_object() ) {
-        std::string const n = jsin->get_member_name();
+        const std::string n = jsin->get_member_name();
         const int p = jsin->tell();
         if( positions.contains( n ) ) {
             j.error( "duplicate entry in json object" );
@@ -2255,7 +2255,7 @@ void JsonOut::write( const std::bitset<N> &b )
     if( need_separator ) {
         write_separator();
     }
-    std::string const converted = b.to_string();
+    const std::string converted = b.to_string();
     stream->put( '"' );
     for( auto &i : converted ) {
         unsigned const char ch = i;

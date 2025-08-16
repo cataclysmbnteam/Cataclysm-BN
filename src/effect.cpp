@@ -537,8 +537,8 @@ bool effect_type::load_decay_msgs( const JsonObject &jo, const std::string &memb
 {
     if( jo.has_array( member ) ) {
         for( const JsonArray inner : jo.get_array( member ) ) {
-            std::string const msg = inner.get_string( 0 );
-            std::string const r = inner.get_string( 1 );
+            const std::string msg = inner.get_string( 0 );
+            const std::string r = inner.get_string( 1 );
             game_message_type rate = m_neutral;
             if( r == "good" ) {
                 rate = m_good;
@@ -1314,7 +1314,7 @@ void load_effect_type( const JsonObject &jo )
     new_etype.part_descs = jo.get_bool( "part_descs", false );
 
     if( jo.has_member( "rating" ) ) {
-        std::string const r = jo.get_string( "rating" );
+        const std::string r = jo.get_string( "rating" );
         if( r == "good" ) {
             new_etype.rating = e_good;
         } else if( r == "neutral" ) {

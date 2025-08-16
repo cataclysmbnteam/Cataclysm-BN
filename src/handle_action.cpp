@@ -167,7 +167,7 @@ class user_turn
                 return 0;
             }
             auto now = std::chrono::steady_clock::now();
-            std::chrono::milliseconds const elapsed_ms =
+            const std::chrono::milliseconds elapsed_ms =
                 std::chrono::duration_cast<std::chrono::milliseconds>( now - user_turn_start );
             return elapsed_ms.count() / ( 10.0 * turn_duration );
         }
@@ -403,7 +403,7 @@ inline static void rcdrive( point d )
 {
     player &u = g->u;
     map &here = get_map();
-    std::string const car_location_string = u.get_value( "remote_controlling" );
+    const std::string car_location_string = u.get_value( "remote_controlling" );
 
     if( car_location_string.empty() ) {
         u.add_msg_if_player( m_warning, _( "No radio car connected." ) );

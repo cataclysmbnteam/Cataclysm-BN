@@ -138,7 +138,7 @@ struct grids_draw_data {
             std::vector<tripoint_abs_omt> sorted( grid.begin(), grid.end() );
             std::sort( sorted.begin(), sorted.end() );
 
-            std::size_t const id = cata::range_hash{}( sorted );
+            const std::size_t id = cata::range_hash{}( sorted );
 
             auto it = list_inactive.find( id );
             if( it != list_inactive.end() ) {
@@ -172,7 +172,7 @@ struct grids_draw_data {
         // Fn(char) -> bool
         template<typename Fn>
         std::optional<char> pick_char( Fn filter_func ) {
-            static std::string const candidates( "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ" );
+            static const std::string candidates( "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ" );
             for( char c : candidates ) {
                 if( filter_func( c ) ) {
                     return c;
@@ -604,7 +604,7 @@ static tripoint_abs_omt show_notes_manager( const tripoint_abs_omt &origin )
 
         std::vector<note_cached> notes;
         for( int zlev = -OVERMAP_DEPTH; zlev <= OVERMAP_HEIGHT; zlev++ ) {
-            overmapbuffer::t_notes_vector const notes_raw = overmap_buffer.get_all_notes( zlev );
+            const overmapbuffer::t_notes_vector notes_raw = overmap_buffer.get_all_notes( zlev );
             notes.reserve( notes.size() + notes_raw.size() );
             for( const auto &it : notes_raw ) {
                 auto om_symbol = get_note_display_info( it.second );
@@ -1474,13 +1474,13 @@ static void create_note( const tripoint_abs_omt &curs )
                                       _( color_pair.second ), replace_all( color_pair.second, " ", "_" ) );
     }
 
-    std::string const helper_text = string_format( ".\n\n%s\n%s\n%s\n",
+    const std::string helper_text = string_format( ".\n\n%s\n%s\n%s\n",
                                     _( "Type GLYPH:TEXT to set a custom glyph." ),
                                     _( "Type COLOR;TEXT to set a custom color." ),
                                     // NOLINTNEXTLINE(cata-text-style): literal exclaimation mark
                                     _( "Examples: B:Base | g;Loot | !:R;Minefield" ) );
     color_notes = color_notes.replace( color_notes.end() - 2, color_notes.end(), helper_text );
-    std::string const title = _( "Note:" );
+    const std::string title = _( "Note:" );
 
     const std::string old_note = overmap_buffer.note( curs );
     std::string new_note = old_note;
@@ -1747,7 +1747,7 @@ static void place_ter_or_special( const ui_adaptor &om_ui, tripoint_abs_omt &cur
         uistate.omedit_rotation = om_direction::type::none;
         // If user chose an already rotated submap, figure out its direction
         if( terrain && can_rotate ) {
-            for( om_direction::type const r : om_direction::all ) {
+            for( const om_direction::type r : om_direction::all ) {
                 if( uistate.place_terrain->id.id() == uistate.place_terrain->get_rotated( r ) ) {
                     uistate.omedit_rotation = r;
                     break;
@@ -2190,7 +2190,7 @@ void ui::omap::display()
 
 void ui::omap::display_hordes()
 {
-    overmap_ui::draw_data_t const data;
+    const overmap_ui::draw_data_t data;
     uistate.overmap_debug_mongroup = true;
     overmap_ui::display( get_player_character().global_omt_location(), data );
     uistate.overmap_debug_mongroup = false;
@@ -2198,7 +2198,7 @@ void ui::omap::display_hordes()
 
 void ui::omap::display_weather()
 {
-    overmap_ui::draw_data_t const data;
+    const overmap_ui::draw_data_t data;
     uistate.overmap_debug_weather = true;
     tripoint_abs_omt pos = get_player_character().global_omt_location();
     pos.z() = 10;
@@ -2208,7 +2208,7 @@ void ui::omap::display_weather()
 
 void ui::omap::display_visible_weather()
 {
-    overmap_ui::draw_data_t const data;
+    const overmap_ui::draw_data_t data;
     uistate.overmap_visible_weather = true;
     tripoint_abs_omt pos = get_player_character().global_omt_location();
     pos.z() = 10;

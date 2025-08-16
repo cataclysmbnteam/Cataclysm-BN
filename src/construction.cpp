@@ -553,7 +553,7 @@ std::optional<construction_id> construction_menu( const bool blueprint )
                 if( current_con->required_skills.empty() ) {
                     add_line( _( "No skills required." ) );
                 } else {
-                    std::string const current_line = _( "Required skills: " ) + enumerate_as_string(
+                    const std::string current_line = _( "Required skills: " ) + enumerate_as_string(
                                                          current_con->required_skills.begin(), current_con->required_skills.end(),
                     []( const std::pair<skill_id, int> &skill ) {
                         nc_color col;
@@ -1834,7 +1834,7 @@ void construction::check() const
     }
 
     if( !report.is_empty() ) {
-        std::string const s = report.format( "construction", id.str() );
+        const std::string s = report.format( "construction", id.str() );
         debugmsg( s );
     }
 }
@@ -1925,7 +1925,7 @@ std::string construction::get_time_string() const
 
 std::vector<std::string> construction::get_folded_time_string( int width ) const
 {
-    std::string const time_text = get_time_string();
+    const std::string time_text = get_time_string();
     std::vector<std::string> folded_time = foldstring( time_text, width );
     return folded_time;
 }

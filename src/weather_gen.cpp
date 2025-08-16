@@ -99,7 +99,7 @@ static units::temperature weather_temperature_from_common_data( const weather_ge
     // -1 at coldest_hour, +1 twelve hours later
     const double dayv = std::cos( tau * ( dayFraction + .5 - coldest_hour / 24 ) );
 
-    units::temperature const season_factor = season_temp( wg, common.year_fraction );
+    const units::temperature season_factor = season_temp( wg, common.year_fraction );
     const double temperature_celsius =
         units::to_celsius<double>( season_factor ) +
         ( dayv * units::to_celsius<double>( wg.temperature_daily_amplitude ) ) +
@@ -172,7 +172,7 @@ w_point weather_generator::get_weather( const tripoint_abs_ms &location, const t
             current_winddir = convert_winddir( current_winddir );
         }
     }
-    std::string const wind_desc = get_wind_desc( W );
+    const std::string wind_desc = get_wind_desc( W );
     // Acid rains
     const double acid_content = base_acid * A;
     const bool acid = acid_content >= 1.0;
@@ -309,7 +309,7 @@ units::temperature weather_generator::get_water_temperature(
                                             0_c,
                                             [this, location, time, seed, calendar_config]( units::temperature acc,
     const std::pair<time_duration, double> &pr ) {
-        units::temperature const weather_temperature =
+        const units::temperature weather_temperature =
             get_weather_temperature( location, time - pr.first, calendar_config, seed );
         return acc + multiply_any_unit( weather_temperature, pr.second );
     } );

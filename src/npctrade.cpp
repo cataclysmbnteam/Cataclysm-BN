@@ -321,7 +321,7 @@ void trading_window::update_win( npc &np, const std::string &deal )
         const size_t &offset = they ? them_off : you_off;
         const player &person = they ? static_cast<player &>( np ) :
                                static_cast<player &>( g->u );
-        catacurses::window  const &w_whose = they ? w_them : w_you;
+        const catacurses::window  &w_whose = they ? w_them : w_you;
         int win_w = getmaxx( w_whose );
         // Borders
         win_w -= 2;
@@ -366,7 +366,7 @@ void trading_window::update_win( npc &np, const std::string &deal )
             ctxt.register_manual_key( keychar, itname );
 #endif
 
-            std::string const price_str = format_money( ip.price * amount );
+            const std::string price_str = format_money( ip.price * amount );
             const nc_color price_color = np.will_exchange_items_freely() ? c_dark_gray :
                                          ( ip.selected ? c_white :
                                            c_light_gray );

@@ -1097,7 +1097,7 @@ void Character::hardcoded_effects( effect &it )
             // Get a dream if category strength is high enough.
             if( strength != 0 ) {
                 // Select a dream
-                std::string const dream = dreams::get_random_for_category( highcat, strength );
+                const std::string dream = dreams::get_random_for_category( highcat, strength );
                 if( !dream.empty() && x_in_y( strength + 5, 10 ) ) {
                     add_msg( dream );
                 }

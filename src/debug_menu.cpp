@@ -1051,7 +1051,7 @@ void character_edit_menu( Character &c )
             std::vector<npc_attitude> attitudes;
             for( int i = NPCATT_NULL; i < NPCATT_END; i++ ) {
                 const npc_attitude att_id = static_cast<npc_attitude>( i );
-                std::string const att_name = npc_attitude_name( att_id );
+                const std::string att_name = npc_attitude_name( att_id );
                 attitudes.push_back( att_id );
                 if( att_name == _( "Unknown attitude" ) ) {
                     continue;
@@ -1706,7 +1706,7 @@ void debug()
                                       _( "Disable speed forcing" ) : _( "Keep normal wind speed" ) );
             int count = 1;
             for( int speed = 0; speed <= 100; speed += 10 ) {
-                std::string const speedstring = std::to_string( speed ) + " " + velocity_units( VU_WIND );
+                const std::string speedstring = std::to_string( speed ) + " " + velocity_units( VU_WIND );
                 wind_speed_menu.addentry( count, true, MENU_AUTOASSIGN, speedstring );
                 count += 1;
             }

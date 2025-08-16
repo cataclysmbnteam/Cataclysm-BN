@@ -249,7 +249,7 @@ loot_options::query_loot_result loot_options::query_loot()
     const int w_y0 = ( TERMY > w_height ) ? ( TERMY - w_height ) / 4 : 0;
     const int w_x0 = ( TERMX > w_width ) ? ( TERMX - w_width ) / 2 : 0;
 
-    catacurses::window const w_con = catacurses::newwin( w_height, w_width, point( w_x0, w_y0 ) );
+    const catacurses::window w_con = catacurses::newwin( w_height, w_width, point( w_x0, w_y0 ) );
     draw_item_filter_rules( w_con, 1, w_height - 1, item_filter_type::FILTER );
     string_input_popup()
     .title( _( "Filter:" ) )
@@ -741,7 +741,7 @@ bool zone_manager::custom_loot_has( const tripoint &where, const item *it ) cons
         return false;
     }
     const loot_options &options = dynamic_cast<const loot_options &>( zone->get_options() );
-    std::string const filter_string = options.get_mark();
+    const std::string filter_string = options.get_mark();
     auto z = item_filter_from_string( filter_string );
 
     return z( *it );

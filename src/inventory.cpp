@@ -100,7 +100,7 @@ void invlet_favorites::erase( char invlet )
         return;
     }
     std::string &invlets = invlets_by_id[id];
-    std::string::iterator const it = std::ranges::find( invlets, invlet );
+    const std::string::iterator it = std::ranges::find( invlets, invlet );
     invlets.erase( it );
     ids_by_invlet[invlet_u] = itype_id();
 }

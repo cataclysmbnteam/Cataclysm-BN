@@ -1476,10 +1476,10 @@ void explosion_funcs::regular( const queued_explosion &qe )
             const Creature *critter = pr.first;
             const bool blasted = damaged_by_blast.contains( critter );
             const bool shredded = damaged_by_shrapnel.contains( critter );
-            std::string const cause_description = ( blasted && shredded ) ? _( "the explosion and shrapnel" ) :
+            const std::string cause_description = ( blasted && shredded ) ? _( "the explosion and shrapnel" ) :
                                                   blasted ? _( "the explosion" ) :
                                                   _( "the shrapnel" );
-            std::string const damage_description = ( pr.second > 0 ) ?
+            const std::string damage_description = ( pr.second > 0 ) ?
                                                    string_format( _( "taking %d damage" ), pr.second ) :
                                                    _( "but takes no damage" );
             if( critter->is_player() ) {
