@@ -3,23 +3,17 @@
 #include <algorithm>
 #include <cmath>
 #include <cstdlib>
-#include <list>
 #include <memory>
-#include <optional>
-#include <ostream>
 #include <set>
 #include <string>
 #include <vector>
 
 #include "avatar.h"
-#include "cata_utility.h"
 #include "catacharset.h"
 #include "color.h"
 #include "cursesdef.h"
-#include "debug.h"
 #include "faction.h"
 #include "game.h"
-#include "game_constants.h"
 #include "input.h"
 #include "item.h"
 #include "item_category.h"
@@ -35,7 +29,6 @@
 #include "translations.h"
 #include "type_id.h"
 #include "ui_manager.h"
-#include "units.h"
 #include "units_utility.h"
 #include "vehicle_selector.h"
 #include "visitable.h"
@@ -338,6 +331,7 @@ void trading_window::update_win( npc &np, const std::string &deal )
             auto color = it == &person.primary_weapon() ? c_yellow : c_light_gray;
             const int &owner_sells = they ? ip.u_has : ip.npc_has;
             const int &owner_sells_charge = they ? ip.u_charges : ip.npc_charges;
+            int amount = ip.charges > 0 ? ip.charges : 1;
             std::string itname = it->display_name();
 
             if( np.will_exchange_items_freely() && ip.locs.front()->where() != item_location_type::character ) {
@@ -347,12 +341,14 @@ void trading_window::update_win( npc &np, const std::string &deal )
 
             if( ip.charges > 0 && owner_sells_charge > 0 ) {
                 itname += string_format( _( ": trading %d" ), owner_sells_charge );
+                amount = owner_sells_charge;
             } else {
                 if( ip.count > 1 ) {
                     itname += string_format( _( " (%d)" ), ip.count );
                 }
                 if( owner_sells ) {
                     itname += string_format( _( ": trading %d" ), owner_sells );
+                    amount = owner_sells;
                 }
             }
 
@@ -370,7 +366,7 @@ void trading_window::update_win( npc &np, const std::string &deal )
             ctxt.register_manual_key( keychar, itname );
 #endif
 
-            std::string price_str = format_money( ip.price );
+            std::string price_str = format_money( ip.price * amount );
             nc_color price_color = np.will_exchange_items_freely() ? c_dark_gray : ( ip.selected ? c_white :
                                    c_light_gray );
             mvwprintz( w_whose, point( win_w - utf8_width( price_str ), i - offset + 1 ),
