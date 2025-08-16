@@ -499,14 +499,20 @@ class cache_reference
 
         auto operator->() const -> T* { return get(); } // *NOPAD*
 
-        auto operator==( const cache_reference<T> &rhs ) const -> bool = default;
-        auto operator<=>( const cache_reference<T> &rhs ) const = default; // *NOPAD*
+        auto operator==( const cache_reference<T> & ) const -> bool = default;
+        auto operator<=>( const cache_reference<T> & ) const = default; // *NOPAD*
 
-        auto operator==( const T &rhs ) const -> bool { return p == &rhs; }
-        auto operator==( const T *rhs ) const -> bool { return p == rhs; }
+        friend auto operator==( const cache_reference<T> &lhs, const T &rhs ) -> bool { return lhs.p == &rhs; }
+        friend auto operator==( const T &lhs, const cache_reference<T> &rhs ) -> bool { return &lhs == rhs.p; }
 
-        auto operator<=>( const T &rhs ) const { return p <=> &rhs; } // *NOPAD*
-        auto operator<=>( const T *rhs ) const { return p <=> rhs; } // *NOPAD*
+        friend auto operator==( const cache_reference<T> &lhs, const T *rhs ) -> bool { return lhs.p == rhs; }
+        friend auto operator==( const T *lhs, const cache_reference<T> &rhs ) -> bool { return lhs == rhs.p; }
+
+        friend auto operator<=>( const cache_reference<T> &lhs, const T &rhs ) { return lhs.p <=> &rhs; } // *NOPAD*
+        friend auto operator<=>( const T &lhs, const cache_reference<T> &rhs ) { return &lhs <=> rhs.p; } // *NOPAD*
+
+        friend auto operator<=>( const cache_reference<T> &lhs, const T *rhs ) { return lhs.p <=> rhs; } // *NOPAD*
+        friend auto operator<=>( const T *lhs, const cache_reference<T> &rhs ) { return lhs <=> rhs.p; } // *NOPAD*
 };
 
 template<typename T>
