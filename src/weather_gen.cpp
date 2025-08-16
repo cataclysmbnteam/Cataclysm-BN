@@ -57,7 +57,7 @@ static weather_gen_common get_common_data( const point_abs_ms &location, const t
     result.modSEED = seed % SIMPLEX_NOISE_RANDOM_SEED_LIMIT;
     // Eternal season = midpoint of initial season all the time
     const double year_fraction = calendar_config.eternal_season() ?
-                                 ( 0.25 * static_cast<double>( calendar_config.initial_season() ) + 0.125 ) :
+                                 ( ( 0.25 * static_cast<double>( calendar_config.initial_season() ) ) + 0.125 ) :
                                  ( time_past_new_year( t ) / calendar::year_length() );
 
     result.year_fraction = year_fraction;
@@ -102,8 +102,8 @@ static units::temperature weather_temperature_from_common_data( const weather_ge
     units::temperature season_factor = season_temp( wg, common.year_fraction );
     const double temperature_celsius =
         units::to_celsius<double>( season_factor ) +
-        dayv * units::to_celsius<double>( wg.temperature_daily_amplitude ) +
-        raw_noise_4d( x, y, z, modSEED ) * units::to_celsius<double>( wg.temperature_noise_amplitude );
+        ( dayv * units::to_celsius<double>( wg.temperature_daily_amplitude ) ) +
+        ( raw_noise_4d( x, y, z, modSEED ) * units::to_celsius<double>( wg.temperature_noise_amplitude ) );
 
     return units::from_celsius( temperature_celsius );
 }
@@ -144,21 +144,22 @@ w_point weather_generator::get_weather( const tripoint_abs_ms &location, const t
     double mod_h = season_stats[static_cast<size_t>( season )].humidity_mod;
     // Relative humidity, a percentage.
     double H = std::min( 100., std::max( 0.,
-                                         base_humidity + mod_h + 100 * (
+                                         base_humidity + mod_h + ( 100 * (
                                                  .15 * -cgyf +
                                                  raw_noise_4d( x, y, z, modSEED + 101 ) *
-                                                 .2 * ( cgyf + 2 ) ) ) );
+                                                 .2 * ( cgyf + 2 ) ) ) ) );
 
     // Pressure
     double P =
         base_pressure +
-        raw_noise_4d( x, y, z, modSEED + 211 ) *
-        10 * ( cgyf + 2 );
+        ( raw_noise_4d( x, y, z, modSEED + 211 ) *
+          10 * ( cgyf + 2 ) );
 
     // Wind power
-    W = std::max( 0, static_cast<int>( base_wind * rng( 1, 2 ) / std::pow( ( P + W ) / 1014.78, rng( 9,
-                                       base_wind_distrib_peaks ) ) +
-                                       -cgyf / base_wind_season_variation * rng( 1, 2 ) ) );
+    W = std::max( 0, static_cast<int>( ( base_wind * rng( 1, 2 ) / std::pow( ( P + W ) / 1014.78,
+                                         rng( 9,
+                                                 base_wind_distrib_peaks ) ) ) +
+                                       ( -cgyf / base_wind_season_variation * rng( 1, 2 ) ) ) );
     // Initial static variable
     if( current_winddir == 1000 ) {
         current_winddir = get_wind_direction( season );
@@ -212,7 +213,6 @@ const weather_type_id &weather_generator::get_weather_conditions( const tripoint
 
 const weather_type_id &weather_generator::get_weather_conditions( const w_point &w ) const
 {
-    w_point wp2 = w;
     const weather_type_id *current_conditions = &weather_type_id::NULL_ID();
     for( const weather_type_id &type : weather_types ) {
         const weather_requirements &wrequires = type->requirements;
@@ -343,8 +343,8 @@ void weather_generator::test_weather( unsigned seed = 1000 ) const
             w_point w = get_weather( tripoint_zero, i, seed );
             const weather_type_id &conditions = get_weather_conditions( w );
 
-            int year = to_turns<int>( i - calendar::turn_zero ) / to_turns<int>
-                       ( calendar::year_length() ) + 1;
+            int year = ( to_turns<int>( i - calendar::turn_zero ) / to_turns<int>
+                         ( calendar::year_length() ) ) + 1;
             const int hour = hour_of_day<int>( i );
             const int minute = minute_of_hour<int>( i );
             int day;

@@ -294,9 +294,7 @@ detached_ptr<item> Item_modifier::modify( detached_ptr<item> &&new_item ) const
             charges_max = max_capacity;
         }
 
-        if( charges_min > charges_max ) {
-            charges_min = charges_max;
-        }
+        charges_min = std::min( charges_min, charges_max );
 
         ch = charges_min == charges_max ? charges_min : rng( charges_min,
                 charges_max );

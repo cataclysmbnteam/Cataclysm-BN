@@ -2,7 +2,6 @@
 
 #include <algorithm>
 #include <cstdlib>
-#include <algorithm>
 
 #include "debug.h"
 #include "generic_factory.h"
@@ -308,7 +307,7 @@ std::vector<profession_id> scenario::permitted_professions() const
         return cached_permitted_professions;
     }
 
-    const auto all = profession::get_all();
+    const auto &all = profession::get_all();
     std::vector<profession_id> &res = cached_permitted_professions;
     for( const profession &p : all ) {
         const bool present = std::ranges::find( professions,

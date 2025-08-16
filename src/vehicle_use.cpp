@@ -166,7 +166,7 @@ void handbrake()
         add_msg( m_warning, _( "You lose control of %s." ), veh->name );
         veh->turn( veh->last_turn > 0_degrees ? 60_degrees : -60_degrees );
     } else {
-        int braking_power = std::abs( veh->velocity ) / 2 + 10 * 100;
+        int braking_power = ( std::abs( veh->velocity ) / 2 ) + ( 10 * 100 );
         if( std::abs( veh->velocity ) < braking_power ) {
             veh->stop();
         } else {
@@ -1000,7 +1000,7 @@ int vehicle::engine_start_time( const int e ) const
     // watts to old vhp = watts / 373
     // divided by magic 16 = watts / 6000
     const double watts_per_time = 6000;
-    return part_vpower_w( engines[ e ], true ) / watts_per_time + 100 * dmg + cold;
+    return ( part_vpower_w( engines[ e ], true ) / watts_per_time ) + ( 100 * dmg ) + cold;
 }
 
 bool vehicle::start_engine( const int e )
@@ -1516,7 +1516,7 @@ void vehicle::operate_scoop()
                 that_item_there->inc_damage( DT_BASH );
                 //The scoop gets a lot louder when breaking an item.
                 sounds::sound( position, rng( 10,
-                                              that_item_there->volume() / units::legacy_volume_factor * 2 + 10 ),
+                                              ( that_item_there->volume() / units::legacy_volume_factor * 2 ) + 10 ),
                                sounds::sound_t::combat, _( "BEEEThump" ), false, "vehicle", "scoop_thump" );
             }
             //This attempts to add the item to the scoop inventory and if successful, removes it from the map.
@@ -1638,7 +1638,7 @@ void vehicle::open_or_close( const int part_index, const bool opening )
     const int dist = rl_dist( get_player_character().pos(), part_location );
     if( dist < 20 ) {
         sfx::play_variant_sound( opening ? "vehicle_open" : "vehicle_close",
-                                 parts[ part_index ].info().get_id().str(), 100 - dist * 3 );
+                                 parts[ part_index ].info().get_id().str(), 100 - ( dist * 3 ) );
     }
     for( auto const &vec : find_lines_of_parts( part_index, "OPENABLE" ) ) {
         for( auto const &partID : vec ) {

@@ -806,9 +806,7 @@ void show_armor_layers_ui( Character &who )
         if( action == "UP" && leftListSize > 0 ) {
             if( leftListIndex > 0 ) {
                 leftListIndex--;
-                if( leftListIndex < leftListOffset ) {
-                    leftListOffset = leftListIndex;
-                }
+                leftListOffset = std::min( leftListIndex, leftListOffset );
             } else {
                 leftListIndex = leftListSize - 1;
                 if( leftListLines >= leftListSize ) {

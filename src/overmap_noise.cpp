@@ -16,7 +16,7 @@ float om_noise_layer_forest::noise_at( const point_om_omt &local_omt_pos ) const
     float d = scaled_octave_noise_3d( 12, 0.5, 0.07, 0, 1, p.x(), p.y(), get_seed() );
     d = std::pow( d, 3.0f );
 
-    return std::max( 0.0f, r - d * 0.5f );
+    return std::max( 0.0f, r - ( d * 0.5f ) );
 }
 
 float om_noise_layer_floodplain::noise_at( const point_om_omt &local_omt_pos ) const

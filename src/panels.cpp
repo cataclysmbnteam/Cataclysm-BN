@@ -251,11 +251,11 @@ void overmap_ui::draw_overmap_chunk( const catacurses::window &w_minimap, const 
             int arrowy = -1;
             if( std::fabs( slope ) >= 1.0 ) {  // y diff is bigger!
                 arrowy = ( targ.y() > curs.y() ? 6 : 0 );
-                arrowx = static_cast<int>( 3 + 3 * ( targ.y() > curs.y() ? slope : ( 0 - slope ) ) );
+                arrowx = static_cast<int>( 3 + ( 3 * ( targ.y() > curs.y() ? slope : ( 0 - slope ) ) ) );
                 arrowx = clamp( arrowx, 0, 6 );
             } else {
                 arrowx = ( targ.x() > curs.x() ? 6 : 0 );
-                arrowy = static_cast<int>( 3 + 3 * ( targ.x() > curs.x() ? slope : ( 0 - slope ) ) );
+                arrowy = static_cast<int>( 3 + ( 3 * ( targ.x() > curs.x() ? slope : ( 0 - slope ) ) ) );
                 arrowy = clamp( arrowy, 0, 6 );
             }
             char glyph = '*';
@@ -1849,7 +1849,7 @@ std::string direction_to_enemy_improved( const tripoint &enemy_pos, const tripoi
 
     auto between = []( int cx, int cy, const wedge_range & wr ) {
         auto side_of_sign = []( int ax, int ay, int bx, int by ) {
-            int dot = ax * by - ay * bx;
+            int dot = ( ax * by ) - ( ay * bx );
             return ( dot > 0 ) - ( dot < 0 );
         };
 
@@ -2443,7 +2443,7 @@ void panel_manager::deserialize( JsonIn &jsin )
             for( auto it2 = layout.begin() + std::distance( layout.begin(), it ); it2 != layout.end(); ++it2 ) {
                 if( it2->get_name() == name ) {
                     if( it->get_name() != name ) {
-                        window_panel panel = *it2;
+                        const window_panel &panel = *it2;
                         layout.erase( it2 );
                         it = layout.insert( it, panel );
                     }

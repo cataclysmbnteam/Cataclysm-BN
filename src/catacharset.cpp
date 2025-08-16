@@ -1,5 +1,6 @@
 #include "catacharset.h"
 
+#include <algorithm>
 #include <cstdlib>
 #include <cstring>
 #include <array>
@@ -224,9 +225,7 @@ int cursorx_to_position( const char *line, int cursorx, int *prevpos, int maxlen
             break;
         }
         i += len;
-        if( cw <= 0 ) {
-            cw = 0;
-        }
+        cw = std::max( cw, 0 );
         c += cw;
         if( c <= cursorx ) {
             *p = i;

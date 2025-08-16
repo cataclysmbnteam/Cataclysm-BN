@@ -91,7 +91,7 @@ void color_manager::finalize()
                                       ( root.find( "light_" ) != std::string::npos ) -
                                       ( root.find( "dark_" ) != std::string::npos );
         // do not try to highlight color pairs, highlighted, background, and invalid colors
-        if( my_name.substr( 0, 2 ) == "c_" && root != "unset" && underscore_num < 1 ) {
+        if( my_name.starts_with( "c_" ) && root != "unset" && underscore_num < 1 ) {
             for( size_t j = 0; j < NUM_HL; j++ ) {
                 entry.highlight[j] = highlight_from_names( my_name, hilights[j] );
             }
@@ -642,10 +642,10 @@ color_tag_parse_result get_color_from_tag( const std::string &s,
     if( s.empty() || s[0] != '<' ) {
         return { color_tag_parse_result::non_color_tag, {} };
     }
-    if( s.substr( 0, 8 ) == "</color>" ) {
+    if( s.starts_with( "</color>" ) ) {
         return { color_tag_parse_result::close_color_tag, {} };
     }
-    if( s.substr( 0, 7 ) != "<color_" ) {
+    if( !s.starts_with( "<color_" ) ) {
         return { color_tag_parse_result::non_color_tag, {} };
     }
     size_t tag_close = s.find( '>' );

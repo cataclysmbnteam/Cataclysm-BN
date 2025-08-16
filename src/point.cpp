@@ -54,9 +54,9 @@ spiral_generator_impl::spiral_generator_impl( point center, int min_dist, int ma
     : center( center )
     , min_dist( min_dist )
     , max_dist( max_dist )
-    , min_edge( min_dist * 2 + 1 )
-    , max_edge( max_dist * 2 + 1 )
-    , n( ( max_edge * max_edge ) - ( min_edge - 2 ) * ( min_edge - 2 ) )
+    , min_edge( ( min_dist * 2 ) + 1 )
+    , max_edge( ( max_dist * 2 ) + 1 )
+    , n( ( max_edge * max_edge ) - ( ( min_edge - 2 ) * ( min_edge - 2 ) ) )
     , is_center_included( min_dist == 0 )
 {
     i = is_center_included ? -1 : 0;

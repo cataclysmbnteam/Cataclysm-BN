@@ -56,7 +56,7 @@ void sokoban_game::parse_level( std::istream &fin )
     while( !fin.eof() ) {
         safe_getline( fin, sLine );
 
-        if( sLine.substr( 0, 3 ) == "; #" ) {
+        if( sLine.starts_with( "; #" ) ) {
             iNumLevel++;
             continue;
         } else if( sLine[0] == ';' ) {
@@ -74,9 +74,7 @@ void sokoban_game::parse_level( std::istream &fin )
             continue;
         }
 
-        if( mLevelInfo[iNumLevel]["MaxLevelX"] < sLine.length() ) {
-            mLevelInfo[iNumLevel]["MaxLevelX"] = sLine.length();
-        }
+        mLevelInfo[iNumLevel]["MaxLevelX"] = std::max( mLevelInfo[iNumLevel]["MaxLevelX"], sLine.length() );
 
         for( size_t i = 0; i < sLine.length(); i++ ) {
             if( sLine[i] == '@' ) {

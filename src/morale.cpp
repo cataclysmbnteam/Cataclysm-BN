@@ -1055,7 +1055,7 @@ void player_morale::update_stylish_bonus()
             }
         }
         bonus = std::min( static_cast<int>( 2 * super_fancy_items.size() ) +
-                          2 * std::min( static_cast<int>( no_body_part.fancy ), 3 ) + static_cast<int>( tmp_bonus ), 20 );
+                          ( 2 * std::min( static_cast<int>( no_body_part.fancy ), 3 ) ) + static_cast<int>( tmp_bonus ), 20 );
     }
     set_permanent( MORALE_PERM_FANCY, bonus );
 }

@@ -79,9 +79,7 @@ int recipe::batch_time( int batch, float multiplier, size_t assistants ) const
     } else if( assistants >= 2 ) {
         total_time = total_time * .60;
     }
-    if( total_time < local_time ) {
-        total_time = local_time;
-    }
+    total_time = std::max( total_time, local_time );
 
     return static_cast<int>( total_time );
 }
@@ -528,7 +526,7 @@ std::string recipe::batch_savings_string() const
 std::string recipe::result_name() const
 {
     std::string name = item::nname( result_ );
-    if( uistate.favorite_recipes.find( this->ident() ) != uistate.favorite_recipes.end() ) {
+    if( uistate.favorite_recipes.contains( this->ident() ) ) {
         name = "* " + name;
     }
 

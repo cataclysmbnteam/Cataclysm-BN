@@ -239,7 +239,8 @@ void iexamine::elevator( player &p, const tripoint &examp )
     const auto elevator_here = elevator::here( p );
     const auto vehs = elevator::vehicles_on( elevator_here );
     if( vehs.blocking ) {
-        return warn_blocking( vehs, _( "here" ) );
+        warn_blocking( vehs, _( "here" ) );
+        return;
     }
 
     const int movez = elevator::choose_floor( examp, this_omt, sm_orig );
@@ -253,7 +254,8 @@ void iexamine::elevator( player &p, const tripoint &examp )
     const auto elevator_dest = elevator::dest( elevator_here, sm_orig, turns, movez );
     const auto vehicles_dest = elevator::vehicles_on( elevator_dest );
     if( !vehicles_dest.v.empty() ) {
-        return warn_blocking( vehicles_dest, _( "at the destination floor" ) );
+        warn_blocking( vehicles_dest, _( "at the destination floor" ) );
+        return;
     }
 
     elevator::move_creatures_away( elevator_dest );

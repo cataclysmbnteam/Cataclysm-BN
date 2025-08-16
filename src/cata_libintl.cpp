@@ -490,8 +490,8 @@ void trans_catalogue::check_string_terminators()
         }
     };
     for( u32 i = 0; i < number_of_strings; i++ ) {
-        check_string( offs_orig_table + i * MO_STRING_DESCR_SIZE );
-        check_string( offs_trans_table + i * MO_STRING_DESCR_SIZE );
+        check_string( offs_orig_table + ( i * MO_STRING_DESCR_SIZE ) );
+        check_string( offs_trans_table + ( i * MO_STRING_DESCR_SIZE ) );
     }
 }
 
@@ -499,7 +499,7 @@ void trans_catalogue::check_string_plurals()
 {
     // Skip metadata (the 0th entry)
     for( u32 i = 1; i < number_of_strings; i++ ) {
-        string_descr info = get_string_descr_unsafe( offs_orig_table + i * MO_STRING_DESCR_SIZE );
+        string_descr info = get_string_descr_unsafe( offs_orig_table + ( i * MO_STRING_DESCR_SIZE ) );
 
         // Check for null byte - msgid/msgid_plural separator
         bool has_plurals = false;
@@ -515,7 +515,7 @@ void trans_catalogue::check_string_plurals()
         }
 
         // Count null bytes - each plural form is a null-terminated string (including last one)
-        u32 offs_tr = offs_trans_table + i * MO_STRING_DESCR_SIZE;
+        u32 offs_tr = offs_trans_table + ( i * MO_STRING_DESCR_SIZE );
         string_descr info_tr = get_string_descr_unsafe( offs_tr );
         size_t plural_forms = 0;
         for( u32 j = info_tr.offset; j <= info_tr.offset + info_tr.length; j++ ) {
@@ -676,7 +676,7 @@ trans_catalogue::trans_catalogue( std::string buffer )
 
 bool trans_catalogue::check_nth_translation_has_plf( u32 n ) const
 {
-    u32 descr_offs = offs_trans_table + n * MO_STRING_DESCR_SIZE;
+    u32 descr_offs = offs_trans_table + ( n * MO_STRING_DESCR_SIZE );
     string_descr r = get_string_descr_unsafe( descr_offs );
 
     for( u32 offs = r.offset; offs < r.offset + r.length; offs++ ) {
@@ -690,7 +690,7 @@ bool trans_catalogue::check_nth_translation_has_plf( u32 n ) const
 
 const char *trans_catalogue::get_nth_orig_string( u32 n ) const
 {
-    u32 descr_offs = offs_orig_table + n * MO_STRING_DESCR_SIZE;
+    u32 descr_offs = offs_orig_table + ( n * MO_STRING_DESCR_SIZE );
     string_descr r = get_string_descr_unsafe( descr_offs );
 
     return offs_to_cstr( r.offset );
@@ -698,7 +698,7 @@ const char *trans_catalogue::get_nth_orig_string( u32 n ) const
 
 const char *trans_catalogue::get_nth_translation( u32 n ) const
 {
-    u32 descr_offs = offs_trans_table + n * MO_STRING_DESCR_SIZE;
+    u32 descr_offs = offs_trans_table + ( n * MO_STRING_DESCR_SIZE );
     string_descr r = get_string_descr_unsafe( descr_offs );
 
     return offs_to_cstr( r.offset );
@@ -706,7 +706,7 @@ const char *trans_catalogue::get_nth_translation( u32 n ) const
 
 const char *trans_catalogue::get_nth_pl_translation( u32 n, size_t num ) const
 {
-    u32 descr_offs = offs_trans_table + n * MO_STRING_DESCR_SIZE;
+    u32 descr_offs = offs_trans_table + ( n * MO_STRING_DESCR_SIZE );
     string_descr r = get_string_descr_unsafe( descr_offs );
 
     size_t plf = plurals.expr->eval( num );

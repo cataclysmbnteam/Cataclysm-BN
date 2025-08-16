@@ -441,12 +441,15 @@ struct repetition_folder {
     bool timed_out() {
         const time_info now = get_time();
 
-        const int now_raw = now.mseconds + 1000 * now.seconds + 60000 * now.minutes + 3600000 * now.hours;
-        const int old_raw = m_time.mseconds + 1000 * m_time.seconds + 60000 * m_time.minutes + 3600000 *
-                            m_time.hours;
+        const int now_raw = now.mseconds + ( 1000 * now.seconds ) + ( 60000 * now.minutes ) +
+                            ( 3600000 * now.hours );
+        const int old_raw = m_time.mseconds + ( 1000 * m_time.seconds ) + ( 60000 * m_time.minutes ) +
+                            ( 3600000 *
+                              m_time.hours );
 
-        const int timeout_raw = timeout.mseconds + 1000 * timeout.seconds + 60000 * timeout.minutes +
-                                3600000 * timeout.hours;
+        const int timeout_raw = timeout.mseconds + ( 1000 * timeout.seconds ) +
+                                ( 60000 * timeout.minutes ) +
+                                ( 3600000 * timeout.hours );
 
         return ( now_raw - old_raw ) > timeout_raw;
     }

@@ -258,9 +258,9 @@ void item::add_rain_to_container( bool acid, int charges )
                 // The container has water, and the acid rain didn't turn it
                 // into weak acid. Poison the water instead, assuming 1
                 // charge of acid would act like a charge of water with poison 5.
-                int total_poison = liq.poison * orig + 5 * added;
+                int total_poison = ( liq.poison * orig ) + ( 5 * added );
                 liq.poison = total_poison / liq.charges;
-                int leftover_poison = total_poison - liq.poison * liq.charges;
+                int leftover_poison = total_poison - ( liq.poison * liq.charges );
                 if( leftover_poison > rng( 0, liq.charges ) ) {
                     liq.poison++;
                 }
@@ -403,8 +403,8 @@ void weather_effect::wet_player( int amount )
         }
     }
     std::map<bodypart_id, int> warmth_bp = target.warmth( clothing_map );
-    const int warmth_delay = warmth_bp[body_part_torso] * 0.8 +
-                             warmth_bp[body_part_head] * 0.2;
+    const int warmth_delay = ( warmth_bp[body_part_torso] * 0.8 ) +
+                             ( warmth_bp[body_part_head] * 0.2 );
     if( rng( 0, 100 - amount + warmth_delay ) > 10 ) {
         // Thick clothing slows down (but doesn't cap) soaking
         return;
@@ -505,14 +505,18 @@ void weather_effect::effect( int intensity, time_duration duration,
         auto &you = get_avatar();
         bool has_helmet = false;
         if( one_in( umbrella_protection ) && you.primary_weapon().has_flag( json_flag_RAIN_PROTECT ) ) {
-            return add_msg( _( "Your umbrella protects you from the %s." ), precipitation_name );
+            add_msg( _( "Your umbrella protects you from the %s." ), precipitation_name );
+            return;
         } else if( one_in( umbrella_protection ) && you.worn_with_flag( json_flag_RAINPROOF ) ) {
-            return add_msg( _( "Your rainproof clothing protects you from the %s." ), precipitation_name );
+            add_msg( _( "Your rainproof clothing protects you from the %s." ), precipitation_name );
+            return;
         } else if( one_in( clothing_protection ) ) {
-            return add_msg( _( "Your clothing protects you from the %s." ), precipitation_name );
+            add_msg( _( "Your clothing protects you from the %s." ), precipitation_name );
+            return;
         } else if( you.is_wearing_power_armor( &has_helmet ) && ( has_helmet ||
                    !one_in( clothing_protection ) ) ) {
-            return add_msg( _( "Your power armor protects you from the %s." ), precipitation_name );
+            add_msg( _( "Your power armor protects you from the %s." ), precipitation_name );
+            return;
         }
     }
 
@@ -783,9 +787,9 @@ static double local_windchill_lowtemp( double temperature_f, double, double wind
     // Temperature is removed at the end, because get_local_windchill is meant to calculate the difference.
     // Source : http://en.wikipedia.org/wiki/Wind_chill#North_American_and_United_Kingdom_wind_chill_index
     return 35.74
-           + 0.6215 * temperature_f
-           - 35.75 * std::pow( wind_mph_lowcapped, 0.16 )
-           + 0.4275 * temperature_f * std::pow( wind_mph_lowcapped, 0.16 )
+           + ( 0.6215 * temperature_f )
+           - ( 35.75 * std::pow( wind_mph_lowcapped, 0.16 ) )
+           + ( 0.4275 * temperature_f * std::pow( wind_mph_lowcapped, 0.16 ) )
            - temperature_f;
 }
 
@@ -803,9 +807,9 @@ static double local_windchill_hightemp( double temperature_f, double humidity, d
     // for large values of temperature. This is presumably due to the
     // model being designed for reasonable ambient temperature values,
     // rather than extremely high ones.
-    double windchill_c = 0.33 * std::min<float>( 150.00, humidity / 100.00 * 6.105 *
-                         std::exp( 17.27 * temperature_c / ( 237.70 + temperature_c ) ) )
-                         - 0.70 * wind_meters_per_sec
+    double windchill_c = ( 0.33 * std::min<float>( 150.00, humidity / 100.00 * 6.105 *
+                           std::exp( 17.27 * temperature_c / ( 237.70 + temperature_c ) ) ) )
+                         - ( 0.70 * wind_meters_per_sec )
                          - 4.00;
     // Convert to Fahrenheit, but omit the '+ 32' because we are only dealing with a piece of the felt air temperature equation.
     return windchill_c * 9 / 5;

@@ -2,7 +2,6 @@
 
 #include <algorithm>
 #include <limits>
-#include <algorithm>
 #include <memory>
 
 #include "character.h"
