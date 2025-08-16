@@ -90,6 +90,7 @@ static const itype_id itype_corpse( "corpse" );
 
 static const std::string ITEM_HIGHLIGHT( "highlight_item" );
 static const std::string ZOMBIE_REVIVAL_INDICATOR( "zombie_revival_indicator" );
+static const std::string UNDERWATER_INDICATOR( "underwater_indicator" );
 
 static const std::array<std::string, 8> multitile_keys = {{
         "center",
@@ -1678,8 +1679,8 @@ void cata_tiles::draw( point dest, const tripoint &center, int width, int height
             }
         };
 
-        const std::array<decltype( &cata_tiles::draw_furniture ), 2> final_drawing_layers = {{
-                &cata_tiles::draw_zone_mark, &cata_tiles::draw_zombie_revival_indicators
+        const std::array<decltype( &cata_tiles::draw_furniture ), 3> final_drawing_layers = {{
+                &cata_tiles::draw_underwater_indicator, &cata_tiles::draw_zone_mark, &cata_tiles::draw_zombie_revival_indicators
             }
         };
 
@@ -3248,6 +3249,20 @@ bool cata_tiles::draw_critter_at( const tripoint &p, lit_level ll, int &height_3
     }
     return result;
 
+}
+
+bool cata_tiles::draw_underwater_indicator( const tripoint &p, lit_level ll, int &height_3d,
+                                 const bool ( &invisible )[5], int z_drop )
+{
+    if( invisible[0] ) {
+        return false;
+    }
+    map &here = get_map();
+    if( !here.has_flag( "WATER_CUBE", p ) ) {
+        return false;
+    }
+    return draw_from_id_string( UNDERWATER_INDICATOR, C_NONE, empty_string, p, 0, 0, ll,
+                                        nv_goggles_activated, height_3d, z_drop );
 }
 
 bool cata_tiles::draw_zone_mark( const tripoint &p, lit_level ll, int &height_3d,

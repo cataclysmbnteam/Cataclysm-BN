@@ -78,7 +78,8 @@
                 ]
               }
             ]
-          }
+          },
+          { "id": "underwater_indicator", "fg": 75 }
         ],
         "sprite_width": 32,
         "sprite_height": 32
