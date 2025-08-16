@@ -569,7 +569,7 @@ bool can_butcher_at( const tripoint &p )
     // TODO: unify this with game::butcher
     const int factor = you.max_quality( qual_BUTCHER );
     const int factorD = you.max_quality( qual_CUT_FINE );
-    const map_stack items = get_map().i_at( p );
+    map_stack items = get_map().i_at( p );
     bool has_item = false;
     bool has_corpse = false;
 

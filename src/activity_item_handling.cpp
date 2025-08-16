@@ -3250,7 +3250,7 @@ void try_fuel_fire( player_activity &act, player &p, const bool starting_fire )
 
     // Maybe TODO: - refueling in the rain could use more fuel
     // First, simulate expected burn per turn, to see if we need more fuel
-    const map_stack fuel_on_fire = here.i_at( *best_fire );
+    map_stack fuel_on_fire = here.i_at( *best_fire );
     for( item *&it : fuel_on_fire ) {
         it->simulate_burn( fd );
         // Unconstrained fires grow below -50_minutes age
@@ -3270,7 +3270,7 @@ void try_fuel_fire( player_activity &act, player &p, const bool starting_fire )
     }
 
     // We need to move fuel from stash to fire
-    const map_stack potential_fuel = here.i_at( *refuel_spot );
+    map_stack potential_fuel = here.i_at( *refuel_spot );
     item *found = nullptr;
     item *found_tinder = nullptr;
     for( item *&it : potential_fuel ) {

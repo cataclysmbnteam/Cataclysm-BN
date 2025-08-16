@@ -1497,7 +1497,7 @@ void vehicle::operate_scoop()
                 continue;
             }
             item *that_item_there = nullptr;
-            const map_stack items = g->m.i_at( position );
+            map_stack items = g->m.i_at( position );
             if( g->m.has_flag( "SEALED", position ) ) {
                 // Ignore it. Street sweepers are not known for their ability to harvest crops.
                 continue;

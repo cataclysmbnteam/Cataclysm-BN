@@ -4949,7 +4949,7 @@ void map::process_items_in_submap( submap &current_submap, const tripoint &gridp
     // Get a COPY of the active item list for this submap.
     // If more are added as a side effect of processing, they are ignored this turn.
     // If they are destroyed before processing, they don't get processed.
-    std::vector<item *> const active_items = current_submap.active_items.get_for_processing();
+    std::vector<item *> active_items = current_submap.active_items.get_for_processing();
     const point grid_offset( gridp.x * SEEX, gridp.y * SEEY );
     for( item *&active_item_ref : active_items ) {
         if( !active_item_ref || !active_item_ref->is_loaded() ) {
@@ -5111,7 +5111,7 @@ std::vector<detached_ptr<item>> use_amount_stack( Stack stack, const itype_id &t
         if( quantity <= 0 ) {
             return std::move( it );
         }
-        detached_ptr<item> const new_it = item::use_amount( std::move( it ), type, quantity, ret, filter );
+        detached_ptr<item> new_it = item::use_amount( std::move( it ), type, quantity, ret, filter );
         // NOLINTNEXTLINE(bugprone-use-after-move)
         if( it && !new_it ) {
             ret.push_back( std::move( it ) );
@@ -5175,8 +5175,7 @@ std::vector<detached_ptr<item>> use_charges_from_stack( Stack stack, const itype
         if( quantity <= 0 || it->made_of( LIQUID ) ) {
             return std::move( it );
         }
-        detached_ptr<item> const new_it = item::use_charges( std::move( it ), type, quantity, ret, pos,
-                                          filter );
+        detached_ptr<item> new_it = item::use_charges( std::move( it ), type, quantity, ret, pos, filter );
         // NOLINTNEXTLINE(bugprone-use-after-move)
         if( it && !new_it ) {
             ret.push_back( std::move( it ) );

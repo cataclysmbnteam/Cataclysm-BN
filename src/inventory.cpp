@@ -1042,7 +1042,7 @@ void for_each_item_in_both(
     }
 
     for( const auto &elem : items ) {
-        const item &representative = *elem.front();
+        item &representative = *elem.front();
         auto other_it = other.find( &representative );
         if( other_it == other.end() ) {
             continue;

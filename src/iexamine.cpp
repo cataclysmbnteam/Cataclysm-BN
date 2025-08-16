@@ -5407,7 +5407,7 @@ static void mill_activate( player &p, const tripoint &examp )
         return;
     }
     bool food_present = false;
-    const map_stack items = here.i_at( examp );
+    map_stack items = here.i_at( examp );
     units::volume food_volume = 0_ml;
 
     for( item *&it : items ) {

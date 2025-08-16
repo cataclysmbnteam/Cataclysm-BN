@@ -7347,7 +7347,7 @@ bool item::has_explosion_data() const
 
 struct fuel_explosion item::get_explosion_data()
 {
-    static struct const fuel_explosion null_data;
+    static const struct fuel_explosion null_data;
     return has_explosion_data() ? type->fuel->explosion_data : null_data;
 }
 

@@ -869,7 +869,7 @@ void npc_chatbin::check_missions()
 {
     // TODO: or simply fail them? Some missions might only need to be reported.
     auto &ma = missions_assigned;
-    const auto last = std::remove_if( ma.begin(), ma.end(), []( class const mission * m ) {
+    const auto last = std::remove_if( ma.begin(), ma.end(), []( const class mission * m ) {
         return !m->is_assigned();
     } );
     std::copy( last, ma.end(), std::back_inserter( missions ) );
