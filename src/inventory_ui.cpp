@@ -348,7 +348,7 @@ void inventory_column::select( size_t new_index, scroll_direction dir )
 
         selected_index = new_index;
         page_offset = ( new_index == static_cast<size_t>( -1 ) ) ?
-                      0 : selected_index - selected_index % entries_per_page;
+                      0 : selected_index - ( selected_index % entries_per_page );
     }
 }
 
@@ -644,7 +644,7 @@ void inventory_column::set_stack_favorite( const item *location, bool favorite )
     std::list<item *> to_favorite;
 
     if( location->where() == item_location_type::character ) {
-        int position = g->u.get_item_position( selected_item );
+        const int position = g->u.get_item_position( selected_item );
 
         if( position < 0 ) {
             g->u.i_at( position ).set_favorite( !selected_item->is_favorite ); // worn/wielded
@@ -699,7 +699,7 @@ void inventory_column::on_input( const inventory_input &input )
     } else if( input.action == "EXAMINE" ) {
         const auto &highlighed =  get_selected().any_item();
 
-        std::vector<iteminfo> this_item = highlighed->info();
+        std::vector<iteminfo> const this_item = highlighed->info();
         item_info_data dummy( highlighed->display_name(), {}, this_item, {} );
         dummy.handle_scrolling = true;
         draw_item_info( []() -> catacurses::window {
@@ -897,7 +897,7 @@ void inventory_column::draw( const catacurses::window &win, point pos ) const
 
         int x1 = pos.x + get_entry_indent( entry );
         int x2 = pos.x + std::max( static_cast<int>( reserved_width - get_cells_width() ), 0 );
-        int yy = pos.y + line;
+        const int yy = pos.y + line;
 
         const bool selected = active && is_selected( entry );
 
@@ -932,7 +932,7 @@ void inventory_column::draw( const catacurses::window &win, point pos ) const
             x2 += cells[cell_index].current_width;
 
             size_t text_width = utf8_width( entry_cell_cache.text[cell_index], true );
-            size_t text_gap = cell_index > 0 ? std::max( cells[cell_index].gap(), min_cell_gap ) : 0;
+            const size_t text_gap = cell_index > 0 ? std::max( cells[cell_index].gap(), min_cell_gap ) : 0;
             size_t available_width = x2 - x1 - text_gap;
 
             if( text_width > available_width ) {
@@ -1041,7 +1041,7 @@ void selection_column::prepare_paging( const std::string &filter )
 
 void selection_column::on_change( const inventory_entry &entry )
 {
-    inventory_entry my_entry( entry, &*selected_cat );
+    const inventory_entry my_entry( entry, &*selected_cat );
 
     auto iter = std::find( entries.begin(), entries.end(), my_entry );
 
@@ -1159,12 +1159,12 @@ void inventory_selector::add_entry( inventory_column &target_column,
     }
 
     is_empty = false;
-    inventory_entry entry( locations, custom_category,
-                           preset.get_denial( locations.front() ).empty() );
+    const inventory_entry entry( locations, custom_category,
+                                 preset.get_denial( locations.front() ).empty() );
 
     target_column.add_entry( entry );
 
-    shared_ptr_fast<ui_adaptor> current_ui = ui.lock();
+    shared_ptr_fast<ui_adaptor> const current_ui = ui.lock();
     if( current_ui ) {
         current_ui->mark_resize();
     }
@@ -1354,7 +1354,7 @@ void inventory_selector::prepare_layout()
     };
 
     const int nc_width = 2 * ( 1 + border );
-    const int nc_height = get_header_height() + 1 + 2 * border;
+    const int nc_height = get_header_height() + 1 + ( 2 * border );
 
     prepare_layout( TERMX - nc_width, TERMY - nc_height );
 
@@ -1443,11 +1443,14 @@ size_t inventory_selector::get_footer_min_width() const
 
 void inventory_selector::draw_header( const catacurses::window &w ) const
 {
-    trim_and_print( w, point( border + 1, border ), getmaxx( w ) - 2 * ( border + 1 ), c_white, title );
-    fold_and_print( w, point( border + 1, border + 1 ), getmaxx( w ) - 2 * ( border + 1 ), c_dark_gray,
+    trim_and_print( w, point( border + 1, border ), getmaxx( w ) - ( 2 * ( border + 1 ) ), c_white,
+                    title );
+    fold_and_print( w, point( border + 1, border + 1 ), getmaxx( w ) - ( 2 * ( border + 1 ) ),
+                    c_dark_gray,
                     hint );
 
-    mvwhline( w, point( border, border + get_header_height() ), LINE_OXOX, getmaxx( w ) - 2 * border );
+    mvwhline( w, point( border, border + get_header_height() ), LINE_OXOX,
+              getmaxx( w ) - ( 2 * border ) );
 
     if( display_stats ) {
         size_t y = border;
@@ -1536,7 +1539,7 @@ void inventory_selector::resize_window( int width, int height )
     if( spopup ) {
         spopup->window( w_inv, point( 4, getmaxy( w_inv ) - 1 ), ( getmaxx( w_inv ) / 2 ) - 4 );
     }
-    shared_ptr_fast<ui_adaptor> current_ui = ui.lock();
+    shared_ptr_fast<ui_adaptor> const current_ui = ui.lock();
     if( current_ui ) {
         current_ui->position_from_window( w_inv );
     }
@@ -1562,12 +1565,12 @@ void inventory_selector::set_filter()
     spopup->max_length( 256 ).identifier( "inventory" )
     .text( filter );
 
-    shared_ptr_fast<ui_adaptor> current_ui = ui.lock();
+    shared_ptr_fast<ui_adaptor> const current_ui = ui.lock();
     if( current_ui ) {
         current_ui->mark_resize();
     }
 
-    ime_sentry sentry;
+    const ime_sentry sentry;
 
     do {
         ui_manager::redraw();
@@ -1594,7 +1597,7 @@ void inventory_selector::set_filter( const std::string &str )
     for( const auto elem : columns ) {
         elem->set_filter( filter );
     }
-    shared_ptr_fast<ui_adaptor> current_ui = ui.lock();
+    shared_ptr_fast<ui_adaptor> const current_ui = ui.lock();
     if( current_ui ) {
         current_ui->mark_resize();
     }
@@ -1609,7 +1612,7 @@ void inventory_selector::draw_columns( const catacurses::window &w ) const
 {
     const auto columns = get_visible_columns();
 
-    const int screen_width = getmaxx( w ) - 2 * ( border + 1 );
+    const int screen_width = getmaxx( w ) - ( 2 * ( border + 1 ) );
     const bool centered = are_columns_centered( screen_width );
 
     const int free_space = screen_width - get_columns_width( columns );
@@ -1621,7 +1624,7 @@ void inventory_selector::draw_columns( const catacurses::window &w ) const
                                    ? free_space % ( columns.size() - 1 ) : 0;
 
     size_t x = border + 1;
-    size_t y = get_header_height() + border + 1;
+    const size_t y = get_header_height() + border + 1;
     size_t active_x = 0;
 
     for( const auto &elem : columns ) {
@@ -1672,8 +1675,8 @@ void inventory_selector::draw_footer( const catacurses::window &w ) const
     } else {
         int filter_offset = 0;
         if( has_available_choices() || !filter.empty() ) {
-            std::string text = string_format( filter.empty() ? _( "[%s] Filter" ) : _( "[%s] Filter: " ),
-                                              ctxt.get_desc( "INVENTORY_FILTER" ) );
+            std::string const text = string_format( filter.empty() ? _( "[%s] Filter" ) : _( "[%s] Filter: " ),
+                                                    ctxt.get_desc( "INVENTORY_FILTER" ) );
             filter_offset = utf8_width( text + filter ) + 6;
 
             mvwprintz( w, point( 2, getmaxy( w ) - border ), c_light_gray, "< " );
@@ -1685,7 +1688,7 @@ void inventory_selector::draw_footer( const catacurses::window &w ) const
         const auto footer = get_footer( mode );
         if( !footer.first.empty() ) {
             const int string_width = utf8_width( footer.first );
-            const int x1 = filter_offset + std::max( getmaxx( w ) - string_width - filter_offset, 0 ) / 2;
+            const int x1 = filter_offset + ( std::max( getmaxx( w ) - string_width - filter_offset, 0 ) / 2 );
             const int x2 = x1 + string_width - 1;
             const int y = getmaxy( w ) - border;
 
@@ -1829,8 +1832,8 @@ double inventory_selector::get_columns_occupancy_ratio( size_t client_width ) co
 {
     const auto visible_columns = get_visible_columns();
     const int free_width = client_width - get_columns_width( visible_columns )
-                           - min_column_gap * std::max( static_cast<int>( visible_columns.size() ) - 1, 0 );
-    return 1.0 - static_cast<double>( free_width ) / client_width;
+                           - ( min_column_gap * std::max( static_cast<int>( visible_columns.size() ) - 1, 0 ) );
+    return 1.0 - ( static_cast<double>( free_width ) / client_width );
 }
 
 bool inventory_selector::are_columns_centered( size_t client_width ) const
@@ -1897,7 +1900,7 @@ const navigation_mode_data &inventory_selector::get_navigation_data( navigation_
 std::string inventory_selector::action_bound_to_key( char key ) const
 {
     for( const std::string &action_descriptor : ctxt.get_registered_actions_copy() ) {
-        for( char bound_key : ctxt.keys_bound_to( action_descriptor ) ) {
+        for( const char bound_key : ctxt.keys_bound_to( action_descriptor ) ) {
             if( key == bound_key ) {
                 return action_descriptor;
             }
@@ -1918,7 +1921,7 @@ std::vector<char> inventory_selector::all_bound_keys() const
 
 item *inventory_pick_selector::execute()
 {
-    shared_ptr_fast<ui_adaptor> ui = create_or_get_ui_adaptor();
+    shared_ptr_fast<ui_adaptor> const ui = create_or_get_ui_adaptor();
     while( true ) {
         ui_manager::redraw();
 
@@ -1975,7 +1978,7 @@ inventory_compare_selector::inventory_compare_selector( player &p ) :
 
 std::pair<const item *, const item *> inventory_compare_selector::execute()
 {
-    shared_ptr_fast<ui_adaptor> ui = create_or_get_ui_adaptor();
+    shared_ptr_fast<ui_adaptor> const ui = create_or_get_ui_adaptor();
     while( true ) {
         ui_manager::redraw();
 
@@ -2052,7 +2055,7 @@ inventory_iuse_selector::inventory_iuse_selector(
 
 std::vector<iuse_location> inventory_iuse_selector::execute()
 {
-    shared_ptr_fast<ui_adaptor> ui = create_or_get_ui_adaptor();
+    shared_ptr_fast<ui_adaptor> const ui = create_or_get_ui_adaptor();
 
     int count = 0;
     while( true ) {
@@ -2126,8 +2129,8 @@ void inventory_iuse_selector::set_chosen_count( inventory_entry &entry, size_t c
             to_use.erase( iter );
         }
     } else {
-        entry.chosen_count = std::min( std::min( count, static_cast<size_t>( max_chosen_count ) ),
-                                       entry.get_available_count() );
+        entry.chosen_count = std::min( { count, static_cast<size_t>( max_chosen_count ),
+                                         entry.get_available_count()} );
         to_use[it].clear();
         if( entry.locations.size() == 1 ) {
             to_use[it].emplace_back( *entry.locations[0], static_cast<int>( entry.chosen_count ) );
@@ -2189,7 +2192,7 @@ void inventory_drop_selector::process_selected( int &count,
 
 drop_locations inventory_drop_selector::execute()
 {
-    shared_ptr_fast<ui_adaptor> ui = create_or_get_ui_adaptor();
+    shared_ptr_fast<ui_adaptor> const ui = create_or_get_ui_adaptor();
     this->keep_open = false;
 
     // if we favorited an item, we exited this function and entered it again
@@ -2322,8 +2325,8 @@ void inventory_drop_selector::set_chosen_count( inventory_entry &entry, size_t c
             dropping.erase( iter );
         }
     } else {
-        entry.chosen_count = std::min( std::min( count, static_cast<size_t>( max_chosen_count ) ),
-                                       entry.get_available_count() );
+        entry.chosen_count = std::min( { count, static_cast<size_t>( max_chosen_count ),
+                                         entry.get_available_count()} );
         dropping[it] = entry.chosen_count;
     }
 

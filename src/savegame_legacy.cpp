@@ -20,7 +20,7 @@ struct hash<talk_topic_enum> {
 };
 } // namespace std
 
-std::string convert_talk_topic( talk_topic_enum const old_value )
+std::string convert_talk_topic( const talk_topic_enum old_value )
 {
     static const std::unordered_map<talk_topic_enum, std::string> talk_topic_enum_mapping = { {
             // This macro creates the appropriate new names (as string) for each enum value, so one does not

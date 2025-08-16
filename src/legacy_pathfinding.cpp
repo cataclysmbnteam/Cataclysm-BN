@@ -2,7 +2,6 @@
 
 #include <algorithm>
 #include <cstdlib>
-#include <algorithm>
 #include <optional>
 #include <queue>
 #include <set>
@@ -133,12 +132,8 @@ bool vertical_move_destination( const map &m, tripoint &t )
     point end = start + point( SEEX * 2, SEEY * 2 );
 
     // Exclude submaps not loaded into bubble
-    if( start.x < 0 ) {
-        start.x = 0;
-    }
-    if( start.y < 0 ) {
-        start.y = 0;
-    }
+    start.x = std::max( start.x, 0 );
+    start.y = std::max( start.y, 0 );
     if( end.x >= MAPSIZE_X ) {
         end.x = MAPSIZE_X - 1;
     }
@@ -170,10 +165,10 @@ bool is_disjoint( const Set1 &set1, const Set2 &set2 )
     }
 
     typename Set1::const_iterator it1 = set1.begin();
-    typename Set1::const_iterator it1_end = set1.end();
+    const typename Set1::const_iterator it1_end = set1.end();
 
     typename Set2::const_iterator it2 = set2.begin();
-    typename Set2::const_iterator it2_end = set2.end();
+    const typename Set2::const_iterator it2_end = set2.end();
 
     if( *set2.rbegin() < *it1 || *set1.rbegin() < *it2 ) {
         return true;
@@ -235,13 +230,13 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
         return ret;
     }
 
-    int max_length = settings.max_length;
-    int bash = settings.bash_strength;
-    int climb_cost = settings.climb_cost;
-    bool doors = settings.allow_open_doors;
-    bool trapavoid = settings.avoid_traps;
-    bool roughavoid = settings.avoid_rough_terrain;
-    bool sharpavoid = settings.avoid_sharp;
+    const int max_length = settings.max_length;
+    const int bash = settings.bash_strength;
+    const int climb_cost = settings.climb_cost;
+    const bool doors = settings.allow_open_doors;
+    const bool trapavoid = settings.avoid_traps;
+    const bool roughavoid = settings.avoid_rough_terrain;
+    const bool sharpavoid = settings.avoid_sharp;
 
     const int pad = 16;  // Should be much bigger - low value makes pathfinders dumb!
     int minx = std::min( f.x, t.x ) - pad;
@@ -429,13 +424,13 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
                             // Special case - ledge in z-levels
                             // Warning: really expensive, needs a cache
                             if( valid_move( p, tripoint( p.xy(), p.z - 1 ), false, true ) ) {
-                                tripoint below( p.xy(), p.z - 1 );
+                                const tripoint below( p.xy(), p.z - 1 );
                                 if( !has_flag( TFLAG_NO_FLOOR, below ) ) {
                                     // Otherwise this would have been a huge fall
                                     auto &layer = pf.get_layer( p.z - 1 );
                                     // From cur, not p, because we won't be walking on air
                                     pf.add_point( layer.gscore[parent_index] + 10,
-                                                  layer.score[parent_index] + 10 + 2 * rl_dist( below, t ),
+                                                  layer.score[parent_index] + 10 + ( 2 * rl_dist( below, t ) ),
                                                   cur, below );
                                 }
 
@@ -459,7 +454,7 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
             // If not visited, add as open
             // If visited, add it only if we can do so with better score
             if( layer.state[index] == ASL_NONE || newg < layer.gscore[index] ) {
-                pf.add_point( newg, newg + 2 * rl_dist( p, t ), cur, p );
+                pf.add_point( newg, newg + ( 2 * rl_dist( p, t ) ), cur, p );
             }
         }
 
@@ -475,7 +470,7 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
             if( vertical_move_destination<TFLAG_GOES_UP>( *this, dest ) ) {
                 auto &layer = pf.get_layer( dest.z );
                 pf.add_point( layer.gscore[parent_index] + 2,
-                              layer.score[parent_index] + 2 * rl_dist( dest, t ),
+                              layer.score[parent_index] + ( 2 * rl_dist( dest, t ) ),
                               cur, dest );
             }
         }
@@ -484,7 +479,7 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
             if( vertical_move_destination<TFLAG_GOES_DOWN>( *this, dest ) ) {
                 auto &layer = pf.get_layer( dest.z );
                 pf.add_point( layer.gscore[parent_index] + 2,
-                              layer.score[parent_index] + 2 * rl_dist( dest, t ),
+                              layer.score[parent_index] + ( 2 * rl_dist( dest, t ) ),
                               cur, dest );
             }
         }
@@ -494,7 +489,7 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
             for( size_t it = 0; it < 8; it++ ) {
                 const tripoint above( cur.x + x_offset[it], cur.y + y_offset[it], cur.z + 1 );
                 pf.add_point( layer.gscore[parent_index] + 4,
-                              layer.score[parent_index] + 4 + 2 * rl_dist( above, t ),
+                              layer.score[parent_index] + 4 + ( 2 * rl_dist( above, t ) ),
                               cur, above );
             }
         }
@@ -504,7 +499,7 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
             for( size_t it = 0; it < 8; it++ ) {
                 const tripoint above( cur.x + x_offset[it], cur.y + y_offset[it], cur.z + 1 );
                 pf.add_point( layer.gscore[parent_index] + 4,
-                              layer.score[parent_index] + 4 + 2 * rl_dist( above, t ),
+                              layer.score[parent_index] + 4 + ( 2 * rl_dist( above, t ) ),
                               cur, above );
             }
         }
@@ -514,7 +509,7 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
             for( size_t it = 0; it < 8; it++ ) {
                 const tripoint below( cur.x + x_offset[it], cur.y + y_offset[it], cur.z - 1 );
                 pf.add_point( layer.gscore[parent_index] + 4,
-                              layer.score[parent_index] + 4 + 2 * rl_dist( below, t ),
+                              layer.score[parent_index] + 4 + ( 2 * rl_dist( below, t ) ),
                               cur, below );
             }
         }

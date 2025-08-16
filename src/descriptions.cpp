@@ -149,7 +149,7 @@ void game::extended_description( const tripoint &p )
                 break;
         }
 
-        std::string signage = m.get_signage( p );
+        const std::string signage = m.get_signage( p );
         if( !signage.empty() ) {
             // NOLINTNEXTLINE(cata-text-style): the question mark does not end a sentence
             desc += u.has_trait( trait_ILLITERATE ) ? _( "\nSign: ???" ) : string_format( _( "\nSign: %s" ),
@@ -179,14 +179,14 @@ std::string map_data_common_t::extended_description() const
     std::stringstream ss;
     ss << "<header>" << string_format( _( "That is a %s." ), name() ) << "</header>" << '\n';
     ss << description << '\n';
-    bool has_any_harvest = std::ranges::any_of( harvest_by_season,
+    const bool has_any_harvest = std::ranges::any_of( harvest_by_season,
     []( const harvest_id & hv ) {
         return !hv.obj().empty();
     } );
 
     if( has_any_harvest ) {
         ss << "--" << '\n';
-        int player_skill = get_avatar().get_skill_level( skill_survival );
+        const int player_skill = get_avatar().get_skill_level( skill_survival );
         ss << _( "You could harvest the following things from it:" ) << '\n';
         // Group them by identical ids to avoid repeating same blocks of data
         // First, invert the mapping: season->id to id->seasons
@@ -245,7 +245,7 @@ std::string map_data_common_t::extended_description() const
     }
 
     if( bash.ranged && bash.ranged->reduction.min > 0 ) {
-        static std::string indent = "    ";
+        static const std::string indent = "    ";
         ss << "\n" << "Cover:" << "\n";
         if( bash.ranged->reduction.min == bash.ranged->reduction.max ) {
             ss << indent << "Damage Reduction: " << bash.ranged->reduction.min << "\n";

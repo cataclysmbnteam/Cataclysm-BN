@@ -168,7 +168,7 @@ TEST_CASE( "translations_actually_translate", "[translations][i18n]" )
         }
     }
 
-    const static std::string USE_LANG( "USE_LANG" );
+    static const std::string USE_LANG( "USE_LANG" );
 
     for( const auto &test : test_cases ) {
         CAPTURE( test.id );

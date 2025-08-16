@@ -16,7 +16,7 @@ static constexpr int KITTEN = 1;
 
 std::string robot_finds_kitten::getmessage( int idx ) const
 {
-    std::string rfimessages[MAXMESSAGES] = {
+    const std::string rfimessages[MAXMESSAGES] = {
         _( "\"I pity the fool who mistakes me for kitten!\", sez Mr. T." ),
         _( "That's just an old tin can." ),
         _( "It's an altar to the horse god." ),
@@ -230,7 +230,7 @@ std::string robot_finds_kitten::getmessage( int idx ) const
 robot_finds_kitten::robot_finds_kitten()
 {
     ret = false;
-    char ktile[83] =
+    const char ktile[83] =
         "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!#&()*+./:;=?![]{|}y";
     int used_messages[MAXMESSAGES];
 
@@ -326,7 +326,7 @@ robot_finds_kitten::robot_finds_kitten()
 
 void robot_finds_kitten::show() const
 {
-    input_context ctxt( "IUSE_SOFTWARE_KITTEN" );
+    const input_context ctxt( "IUSE_SOFTWARE_KITTEN" );
 
     draw_border( bkatwin );
     wnoutrefresh( bkatwin );
@@ -388,13 +388,13 @@ void robot_finds_kitten::show() const
         case ui_state::end_animation: {
             /* The grand cinema scene. */
             const int c = std::min( end_animation_frame, 3 );
-            wmove( w, point( rfkCOLS / 2 - 4 + c, 1 ) );
+            wmove( w, point( ( rfkCOLS / 2 ) - 4 + c, 1 ) );
             if( end_animation_last_input_left_or_up ) {
                 draw_kitten();
             } else {
                 draw_robot();
             }
-            wmove( w, point( rfkCOLS / 2 + 3 - c, 1 ) );
+            wmove( w, point( ( rfkCOLS / 2 ) + 3 - c, 1 ) );
             if( end_animation_last_input_left_or_up ) {
                 draw_robot();
             } else {
@@ -402,7 +402,7 @@ void robot_finds_kitten::show() const
             }
             if( end_animation_frame >= 4 ) {
                 /* They're in love! */
-                mvwprintz( w, point( ( rfkCOLS - 6 ) / 2 - 1, 0 ), c_light_red, "<3<3<3" );
+                mvwprintz( w, point( ( ( rfkCOLS - 6 ) / 2 ) - 1, 0 ), c_light_red, "<3<3<3" );
             }
             if( end_animation_frame >= 5 ) {
                 mvwprintz( w, point_zero, c_white, _( "You found kitten!  Way to go, robot!" ) );

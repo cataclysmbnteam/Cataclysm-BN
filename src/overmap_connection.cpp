@@ -2,7 +2,6 @@
 
 #include <algorithm>
 #include <cstddef>
-#include <algorithm>
 #include <cassert>
 #include <map>
 #include <memory>
@@ -81,7 +80,7 @@ void overmap_connection::subtype::load( const JsonObject &jo )
 
 void overmap_connection::subtype::deserialize( JsonIn &jsin )
 {
-    JsonObject jo = jsin.get_object();
+    const JsonObject jo = jsin.get_object();
     load( jo );
 }
 

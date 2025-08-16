@@ -65,7 +65,7 @@ static void load( JsonIn &jsin )
     jsin.start_array();
 
     while( !jsin.end_array() ) {
-        JsonObject jo = jsin.get_object();
+        const JsonObject jo = jsin.get_object();
 
         // get flags of name.
         const nameFlags type =

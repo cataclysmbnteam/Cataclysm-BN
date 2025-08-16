@@ -7,21 +7,21 @@
 void GeometryRenderer::horizontal_line( const SDL_Renderer_Ptr &renderer, point pos, int x2,
                                         int thickness, const SDL_Color &color ) const
 {
-    SDL_Rect rect { pos.x, pos.y, x2 - pos.x, thickness };
+    const SDL_Rect rect { pos.x, pos.y, x2 - pos.x, thickness };
     this->rect( renderer, rect, color );
 }
 
 void GeometryRenderer::vertical_line( const SDL_Renderer_Ptr &renderer, point pos, int y2,
                                       int thickness, const SDL_Color &color ) const
 {
-    SDL_Rect rect { pos.x, pos.y, thickness, y2 - pos.y };
+    const SDL_Rect rect { pos.x, pos.y, thickness, y2 - pos.y };
     this->rect( renderer, rect, color );
 }
 
 void GeometryRenderer::rect( const SDL_Renderer_Ptr &renderer, point pos, int width,
                              int height, const SDL_Color &color ) const
 {
-    SDL_Rect rect { pos.x, pos.y, width, height };
+    const SDL_Rect rect { pos.x, pos.y, width, height };
     this->rect( renderer, rect, color );
 }
 
@@ -54,7 +54,7 @@ ColorModulatedGeometryRenderer::ColorModulatedGeometryRenderer( const SDL_Render
         alt_surf.reset();
 
         // Test to make sure color modulation is supported by renderer
-        bool tex_enable = !SetTextureColorMod( tex, 0, 0, 0 );
+        const bool tex_enable = !SetTextureColorMod( tex, 0, 0, 0 );
         if( !tex_enable ) {
             tex.reset();
         }

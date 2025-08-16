@@ -70,7 +70,7 @@ const recipe &string_id<recipe>::obj() const
 template<>
 bool string_id<recipe>::is_valid() const
 {
-    return recipe_dict.recipes.find( *this ) != recipe_dict.recipes.end();
+    return recipe_dict.recipes.contains( *this );
 }
 
 const recipe &recipe_dictionary::get_uncraft( const itype_id &id )
@@ -124,7 +124,7 @@ std::vector<const recipe *> recipe_subset::favorite() const
         if( !*r || r->obsolete ) {
             return false;
         }
-        return uistate.favorite_recipes.find( r->ident() ) != uistate.favorite_recipes.end();
+        return uistate.favorite_recipes.contains( r->ident() );
     } );
 
     return res;
@@ -138,7 +138,7 @@ std::vector<const recipe *> recipe_subset::hidden() const
         if( !*r || r->obsolete ) {
             return false;
         }
-        return uistate.hidden_recipes.find( r->ident() ) != uistate.hidden_recipes.end();
+        return uistate.hidden_recipes.contains( r->ident() );
     } );
 
     return res;
@@ -242,7 +242,7 @@ std::vector<const recipe *> recipe_subset::search_result( const itype_id &item )
             return false;
         }
         return item == r->result() ||
-               ( r->has_byproducts() && r->byproducts.find( item ) != r->byproducts.end() );
+               ( r->has_byproducts() && r->byproducts.contains( item ) );
     } );
 
     return res;
@@ -413,7 +413,7 @@ void recipe_dictionary::find_items_on_loops()
     }
 
     // Now check that graph for loops
-    std::vector<std::vector<itype_id>> loops = cata::find_cycles( potential_components_of );
+    std::vector<std::vector<itype_id>> const loops = cata::find_cycles( potential_components_of );
     for( const std::vector<itype_id> &loop : loops ) {
         std::string error_message =
             "loop in comestible recipes detected: " + loop.back().str();
@@ -449,8 +449,8 @@ void recipe_dictionary::finalize()
 
         for( const auto &bk : r.booksets ) {
             const itype *booktype = &*bk.first;
-            int req = bk.second > 0 ? bk.second : std::max( booktype->book->req, r.difficulty );
-            islot_book::recipe_with_description_t desc{ &r, req, r.result_name(), false };
+            const int req = bk.second > 0 ? bk.second : std::max( booktype->book->req, r.difficulty );
+            islot_book::recipe_with_description_t const desc{ &r, req, r.result_name(), false };
             const_cast<islot_book &>( *booktype->book ).recipes.insert( desc );
         }
 
@@ -467,7 +467,7 @@ void recipe_dictionary::finalize()
 
         // books that don't already have an uncrafting recipe
         if( e->book && !recipe_dict.uncraft.contains( rid ) && e->volume > 0_ml ) {
-            int pages = std::max( 1, static_cast<int>( e->volume / 12.5_ml ) );
+            const int pages = std::max( 1, static_cast<int>( e->volume / 12.5_ml ) );
             auto &bk = recipe_dict.uncraft[rid];
             bk.ident_ = rid;
             bk.result_ = id;

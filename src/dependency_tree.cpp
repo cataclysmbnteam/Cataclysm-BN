@@ -97,10 +97,10 @@ void dependency_node::inherit_errors()
 
         // add check errors
         if( !check->errors().empty() ) {
-            std::map<node_error_type, std::vector<std::string > > cerrors = check->errors();
+            std::map<node_error_type, std::vector<std::string > > const cerrors = check->errors();
             for( auto &cerror : cerrors ) {
-                std::vector<std::string> node_errors = cerror.second;
-                node_error_type error_type = cerror.first;
+                std::vector<std::string> const node_errors = cerror.second;
+                const node_error_type error_type = cerror.first;
                 std::vector<std::string> cur_errors = all_errors[error_type];
                 for( auto &node_error : node_errors ) {
                     if( std::ranges::find( cur_errors, node_error ) ==
@@ -110,7 +110,7 @@ void dependency_node::inherit_errors()
                 }
             }
         }
-        if( nodes_visited.find( check->key ) != nodes_visited.end() ) {
+        if( nodes_visited.contains( check->key ) ) {
             continue;
         }
         // add check parents, if exist, to stack
@@ -127,7 +127,7 @@ std::vector<mod_id> dependency_node::get_dependencies_as_strings() const
 {
     std::vector<mod_id> ret;
 
-    std::vector<dependency_node *> as_nodes = get_dependencies_as_nodes();
+    std::vector<dependency_node *> const as_nodes = get_dependencies_as_nodes();
 
     ret.reserve( as_nodes.size() );
 
@@ -156,7 +156,7 @@ std::vector<dependency_node *> dependency_node::get_dependencies_as_nodes() cons
         nodes_to_check.pop();
 
         // make sure that the one we are checking is not THIS one
-        if( found.find( check->key ) != found.end() ) {
+        if( found.contains( check->key ) ) {
             continue; // just keep going, we aren't really caring about availability right now
         }
 
@@ -188,7 +188,7 @@ std::vector<mod_id> dependency_node::get_dependents_as_strings() const
 {
     std::vector<mod_id> ret;
 
-    std::vector<dependency_node *> as_nodes = get_dependents_as_nodes();
+    std::vector<dependency_node *> const as_nodes = get_dependents_as_nodes();
 
     ret.reserve( as_nodes.size() );
 
@@ -216,7 +216,7 @@ std::vector<dependency_node *> dependency_node::get_dependents_as_nodes() const
         dependency_node *check = nodes_to_check.top();
         nodes_to_check.pop();
 
-        if( found.find( check->key ) != found.end() ) {
+        if( found.contains( check->key ) ) {
             // skip it because we recursed for some reason
             continue;
         }
@@ -256,7 +256,7 @@ void dependency_tree::build_node_map(
 {
     for( auto &elem : key_dependency_map ) {
         // check to see if the master node map knows the key
-        if( master_node_map.find( elem.first ) == master_node_map.end() ) {
+        if( !master_node_map.contains( elem.first ) ) {
             master_node_map.emplace( elem.first, elem.first );
         }
     }
@@ -273,7 +273,7 @@ void dependency_tree::build_connections(
             dependency_node *knode = &iter->second;
 
             // apply parents list
-            std::vector<mod_id> vnode_parents = elem.second;
+            std::vector<mod_id> const vnode_parents = elem.second;
             for( auto &vnode_parent : vnode_parents ) {
                 const auto iter = master_node_map.find( vnode_parent );
                 if( iter != master_node_map.end() ) {
@@ -393,7 +393,7 @@ void dependency_tree::check_for_strongly_connected_components()
         }
     }
 
-    for( std::vector<dependency_node *> &list : strongly_connected_components ) {
+    for( std::vector<dependency_node *>  const &list : strongly_connected_components ) {
         if( list.size() <= 1 ) {
             continue;
         }
@@ -470,7 +470,8 @@ void dependency_tree::check_for_conflicting_dependencies()
             for( const dependency_node *this_dep_conf : both ) {
                 //~ Single entry in list of conflicting dependencies, both %s are mod ids.
                 //~ Example of final string: "[aftershock] with [classic-zombies]"
-                std::string msg = string_format( _( "[%1$s] with [%2$s]" ), this_dep->key, this_dep_conf->key );
+                std::string const msg = string_format( _( "[%1$s] with [%2$s]" ), this_dep->key,
+                                                       this_dep_conf->key );
                 this_node->all_errors[node_error_type::conflicting_deps].push_back( msg );
             }
         }

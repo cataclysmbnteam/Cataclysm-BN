@@ -163,7 +163,7 @@ void user_interface::show()
             if( i >= iStartPos &&
                 i < iStartPos + ( iContentHeight > static_cast<int>( cur_rules.size() ) ?
                                   static_cast<int>( cur_rules.size() ) : iContentHeight ) ) {
-                nc_color cLineColor = cur_rules[i].bActive ? c_white : c_light_gray;
+                const nc_color cLineColor = cur_rules[i].bActive ? c_white : c_light_gray;
 
                 mvwprintz( w, point( 1, i - iStartPos ), cLineColor, "%d", i + 1 );
                 mvwprintz( w, point( 5, i - iStartPos ), cLineColor, "" );
@@ -256,9 +256,7 @@ void user_interface::show()
             if( iLine > static_cast<int>( cur_rules.size() ) - 1 ) {
                 iLine--;
             }
-            if( iLine < 0 ) {
-                iLine = 0;
-            }
+            iLine = std::max( iLine, 0 );
         } else if( action == "COPY_RULE" && currentPageNonEmpty ) {
             bStuffChanged = true;
             cur_rules.push_back( cur_rules[iLine] );
@@ -287,9 +285,9 @@ void user_interface::show()
                 const auto init_help_window = [&]( ui_adaptor & help_ui ) {
                     const point iOffset( TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0,
                                          TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0 );
-                    w_help = catacurses::newwin( FULL_SCREEN_HEIGHT / 2 + 2,
+                    w_help = catacurses::newwin( ( FULL_SCREEN_HEIGHT / 2 ) + 2,
                                                  FULL_SCREEN_WIDTH * 3 / 4,
-                                                 iOffset + point( 19 / 2, 7 + FULL_SCREEN_HEIGHT / 2 / 2 ) );
+                                                 iOffset + point( 19 / 2, 7 + ( FULL_SCREEN_HEIGHT / 2 / 2 ) ) );
                     help_ui.position_from_window( w_help );
                 };
                 init_help_window( help_ui );
@@ -382,7 +380,7 @@ void user_interface::show()
         return;
     }
 
-    for( tab &t : tabs ) {
+    for( const tab &t : tabs ) {
         t.rules.get() = t.new_rules;
     }
 }
@@ -457,7 +455,7 @@ void rule::test_pattern() const
     init_windows( ui );
     ui.on_screen_resize( init_windows );
 
-    int nmatch = vMatchingItems.size();
+    const int nmatch = vMatchingItems.size();
     const std::string buf = string_format( vgettext( "%1$d item matches: %2$s",
                                            "%1$d items match: %2$s",
                                            nmatch ), nmatch, sRule );
@@ -489,7 +487,7 @@ void rule::test_pattern() const
             if( i >= iStartPos &&
                 i < iStartPos + ( iContentHeight > static_cast<int>( vMatchingItems.size() ) ?
                                   static_cast<int>( vMatchingItems.size() ) : iContentHeight ) ) {
-                nc_color cLineColor = c_white;
+                const nc_color cLineColor = c_white;
 
                 mvwprintz( w_test_rule_content, point( 0, i - iStartPos ), cLineColor, "%d", i + 1 );
                 mvwprintz( w_test_rule_content, point( 4, i - iStartPos ), cLineColor, "" );
@@ -777,7 +775,7 @@ void rule_list::serialize( JsonOut &jsout ) const
 
 void rule::deserialize( JsonIn &jsin )
 {
-    JsonObject jo = jsin.get_object();
+    const JsonObject jo = jsin.get_object();
     sRule = jo.get_string( "rule" );
     bActive = jo.get_bool( "active" );
     bExclude = jo.get_bool( "exclude" );

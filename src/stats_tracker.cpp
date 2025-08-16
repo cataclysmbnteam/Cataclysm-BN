@@ -76,9 +76,7 @@ int event_multiset::minimum( const std::string &field ) const
             continue;
         }
         const int potential = it->second.get<cata_variant_type::int_>();
-        if( potential < minimum ) {
-            minimum = potential;
-        }
+        minimum = std::min( potential, minimum );
     }
     return minimum;
 }
@@ -92,9 +90,7 @@ int event_multiset::maximum( const std::string &field ) const
             continue;
         }
         const int potential = it->second.get<cata_variant_type::int_>();
-        if( potential > maximum ) {
-            maximum = potential;
-        }
+        maximum = std::max( potential, maximum );
     }
     return maximum;
 }
@@ -256,7 +252,7 @@ void stats_tracker::clear()
 void stats_tracker::unwatch_all()
 {
     auto unsub_all = [&]( auto & map_of_watcher_sets ) {
-        for( auto const &p : map_of_watcher_sets ) {
+        for( const auto &p : map_of_watcher_sets ) {
             const auto &set = p.second;
             set.send_to_all( &base_watcher::on_unsubscribe, this );
         }

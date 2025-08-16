@@ -123,7 +123,7 @@ std::optional<time_duration> query_duration()
     wisheffect_state &last_val = uistate.debug_menu.effect;
     string_input_popup popup;
     popup.title( _( "Input new duration followed by unit (s, m, h, d)" ) );
-    std::string dur_string = popup.query_string();
+    const std::string dur_string = popup.query_string();
     if( !popup.confirmed() ) {
         return std::nullopt;
     }
@@ -181,9 +181,9 @@ class effect_select_callback : public uilist_callback
         }
 
         void refresh( uilist *menu ) override {
-            wisheffect_state &last_val = uistate.debug_menu.effect;
-            size_t selected = clamp<size_t>( menu->selected, 0, all_effects.size() - 1 );
-            input_context ctxt( menu->input_category );
+            const wisheffect_state &last_val = uistate.debug_menu.effect;
+            const size_t selected = clamp<size_t>( menu->selected, 0, all_effects.size() - 1 );
+            const input_context ctxt( menu->input_category );
 
             const point start( menu->w_width - menu->pad_right, 3 );
             const int width = menu->w_width - start.x;
@@ -196,9 +196,9 @@ class effect_select_callback : public uilist_callback
                                  ? last_val.bodypart->name.translated().c_str()
                                  : "Global" );
 
-            time_duration dur = last_val.duration <= 0_seconds
-                                ? eff_type->get_max_duration()
-                                : last_val.duration;
+            const time_duration dur = last_val.duration <= 0_seconds
+                                      ? eff_type->get_max_duration()
+                                      : last_val.duration;
             ss << string_format( "[%s] <bold>Duration</bold>: %10d (max: %d)\n",
                                  ctxt.get_desc( "CHANGE_DURATION" ),
                                  to_turns<int>( dur ),
@@ -325,8 +325,8 @@ class effect_edit_callback : public uilist_callback
             if( submenu.ret >= 0 && submenu.ret < static_cast<int>( all_effects.size() ) ) {
                 const efftype_id eff_type = all_effects[static_cast<size_t>( submenu.ret )];
                 last_val.last_type_selected_index = submenu.ret;
-                time_duration duration = last_val.duration <= 0_seconds ? eff_type->get_max_duration() :
-                                         last_val.duration;
+                const time_duration duration = last_val.duration <= 0_seconds ? eff_type->get_max_duration() :
+                                               last_val.duration;
                 c.add_effect( eff_type, duration, last_val.bodypart, last_val.intensity, last_val.force );
                 on_creature_changed();
             }
@@ -344,7 +344,7 @@ class effect_edit_callback : public uilist_callback
                      uilist & ) {
             on_creature_changed();
             foreach_effect( c, meta[entnum], [&]( const effect & eff ) {
-                bool removed = c.remove_effect( eff.get_id(), eff.get_bp() );
+                const bool removed = c.remove_effect( eff.get_id(), eff.get_bp() );
                 if( !removed ) {
                     debugmsg( "Couldn't remove %s from %s",
                               eff.get_id().str(),
@@ -370,7 +370,7 @@ class effect_edit_callback : public uilist_callback
                 auto iter_to = std::ranges::find_if( meta, [bp]( const entry_data & ed ) {
                     return ed.body_part == *bp;
                 } );
-                size_t bp_index = std::distance( iter_to, meta.begin() ) % meta.size();
+                const size_t bp_index = std::distance( iter_to, meta.begin() ) % meta.size();
                 parent_menu.set_selected( bp_index );
             }
         }
@@ -444,11 +444,11 @@ void effect_edit_menu( Creature &c )
         size_t i = 0;
         const auto add_effect_entry = [&menu, &i]( const effect & eff ) {
             // TODO: Columns
-            std::string effect_description = string_format(
-                                                 "- %s %d, %d s",
-                                                 eff.get_id().str(),
-                                                 eff.get_intensity(),
-                                                 to_seconds<int>( eff.get_duration() ) );
+            const std::string effect_description = string_format(
+                    "- %s %d, %d s",
+                    eff.get_id().str(),
+                    eff.get_intensity(),
+                    to_seconds<int>( eff.get_duration() ) );
             menu.addentry( i++, true, 0, effect_description );
         };
         menu.addentry( i++, true, -1, _( "Global" ) );

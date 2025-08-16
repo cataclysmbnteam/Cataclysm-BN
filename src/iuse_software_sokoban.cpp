@@ -56,7 +56,7 @@ void sokoban_game::parse_level( std::istream &fin )
     while( !fin.eof() ) {
         safe_getline( fin, sLine );
 
-        if( sLine.substr( 0, 3 ) == "; #" ) {
+        if( sLine.starts_with( "; #" ) ) {
             iNumLevel++;
             continue;
         } else if( sLine[0] == ';' ) {
@@ -74,9 +74,7 @@ void sokoban_game::parse_level( std::istream &fin )
             continue;
         }
 
-        if( mLevelInfo[iNumLevel]["MaxLevelX"] < sLine.length() ) {
-            mLevelInfo[iNumLevel]["MaxLevelX"] = sLine.length();
-        }
+        mLevelInfo[iNumLevel]["MaxLevelX"] = std::max( mLevelInfo[iNumLevel]["MaxLevelX"], sLine.length() );
 
         for( size_t i = 0; i < sLine.length(); i++ ) {
             if( sLine[i] == '@' ) {
@@ -327,7 +325,7 @@ int sokoban_game::start_game()
                 if( vUndo[vUndo.size() - 1].sTileOld == "$" ||
                     vUndo[vUndo.size() - 1].sTileOld == "*" ) {
                     mLevel[pl.y][pl.x] = mLevel[pl.y][pl.x] == "." ? "*" : "$";
-                    point np = pl + dir;
+                    const point np = pl + dir;
                     mLevel[np.y][np.x] = mLevel[np.y][np.x] == "*" ?
                                          "." : " ";
 
@@ -359,14 +357,14 @@ int sokoban_game::start_game()
 
         if( bMoved ) {
             //check if we can move the player
-            std::string sMoveTo = mLevel[pl.y + dir.y][pl.x + dir.x];
+            const std::string sMoveTo = mLevel[pl.y + dir.y][pl.x + dir.x];
             bool bMovePlayer = false;
 
             if( sMoveTo != "#" ) {
                 if( sMoveTo == "$" || sMoveTo == "*" ) {
                     //Check if we can move the package
-                    point p_pack = pl + dir * 2;
-                    std::string sMovePackTo = mLevel[p_pack.y][p_pack.x];
+                    const point p_pack = pl + dir * 2;
+                    const std::string sMovePackTo = mLevel[p_pack.y][p_pack.x];
                     if( sMovePackTo == "." || sMovePackTo == " " ) {
                         //move both
                         bMovePlayer = true;

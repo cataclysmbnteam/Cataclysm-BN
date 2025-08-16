@@ -63,7 +63,7 @@ void activity_type::load( const JsonObject &jo )
         result.speed_affected_ = c_moves.get_bool( "speed", false );
         result.morale_affected_ = c_moves.get_bool( "morale", false );
 
-        int jvalue = c_moves.get_int( "max_assistants", 0 );
+        const int jvalue = c_moves.get_int( "max_assistants", 0 );
         if( jvalue >= 0 || jvalue > 32 ) {
             result.max_assistants_ = jvalue;
         } else {
@@ -75,7 +75,7 @@ void activity_type::load( const JsonObject &jo )
             assign( c_moves, "skills", result.skill_affected_, false );
         } else if( c_moves.has_array( "skills" ) ) {
             result.skill_affected_ = true;
-            for( JsonArray skillobj : c_moves.get_array( "skills" ) ) {
+            for( const JsonArray skillobj : c_moves.get_array( "skills" ) ) {
                 std::string skill_s = skillobj.get_string( 0 );
                 auto skill = skill_id( skill_s );
                 float mod = 1.0f;
@@ -96,7 +96,7 @@ void activity_type::load( const JsonObject &jo )
             assign( c_moves, "qualities", result.tools_affected_, false );
         } else if( c_moves.has_array( "qualities" ) ) {
             result.tools_affected_ = true;
-            for( JsonArray q_obj : c_moves.get_array( "qualities" ) ) {
+            for( const JsonArray q_obj : c_moves.get_array( "qualities" ) ) {
                 std::string quality_s = q_obj.get_string( 0 );
                 auto quality = quality_id( quality_s );
                 int mod = 10;
@@ -117,7 +117,7 @@ void activity_type::load( const JsonObject &jo )
             assign( c_moves, "stats", result.stats_affected_, false );
         } else if( c_moves.has_array( "stats" ) ) {
             result.stats_affected_ = true;
-            for( JsonArray stat_obj : c_moves.get_array( "stats" ) ) {
+            for( const JsonArray stat_obj : c_moves.get_array( "stats" ) ) {
                 auto stat = io::string_to_enum_fallback( stat_obj.get_string( 0 ), character_stat::DUMMY_STAT );
                 if( stat == character_stat::DUMMY_STAT ) {
                     debugmsg( "Unknown stat %s", stat_obj.get_string( 0 ) );
@@ -139,7 +139,7 @@ void activity_type::load( const JsonObject &jo )
         }
     }
 
-    if( activity_type_all.find( result.id_ ) != activity_type_all.end() ) {
+    if( activity_type_all.contains( result.id_ ) ) {
         debugmsg( "Redefinition of %s", result.id_.c_str() );
     } else {
         activity_type_all.insert( { result.id_, result } );
@@ -152,10 +152,8 @@ void activity_type::check_consistency()
         if( pair.second.verb_.empty() ) {
             debugmsg( "%s doesn't have a verb", pair.first.c_str() );
         }
-        const bool has_actor = activity_actors::deserialize_functions.find( pair.second.id_ ) !=
-                               activity_actors::deserialize_functions.end();
-        const bool has_turn_func = activity_handlers::do_turn_functions.find( pair.second.id_ ) !=
-                                   activity_handlers::do_turn_functions.end();
+        const bool has_actor = activity_actors::deserialize_functions.contains( pair.second.id_ );
+        const bool has_turn_func = activity_handlers::do_turn_functions.contains( pair.second.id_ );
 
         if( pair.second.special_ && !( has_turn_func || has_actor ) ) {
             debugmsg( "%s needs a do_turn function or activity actor if it expects a special behaviour.",
@@ -173,14 +171,14 @@ void activity_type::check_consistency()
     }
 
     for( const auto &pair : activity_handlers::do_turn_functions ) {
-        if( activity_type_all.find( pair.first ) == activity_type_all.end() ) {
+        if( !activity_type_all.contains( pair.first ) ) {
             debugmsg( "The do_turn function %s doesn't correspond to a valid activity_type.",
                       pair.first.c_str() );
         }
     }
 
     for( const auto &pair : activity_handlers::finish_functions ) {
-        if( activity_type_all.find( pair.first ) == activity_type_all.end() ) {
+        if( !activity_type_all.contains( pair.first ) ) {
             debugmsg( "The finish_function %s doesn't correspond to a valid activity_type",
                       pair.first.c_str() );
         }

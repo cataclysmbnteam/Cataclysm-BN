@@ -23,7 +23,7 @@ inline static ReverseLookupVecType &get_reverse_lookup_vec()
 template<typename S>
 inline static int universal_string_id_intern( S &&s )
 {
-    int next_id = get_reverse_lookup_vec().size();
+    const int next_id = get_reverse_lookup_vec().size();
     const auto &pair = get_intern_map().emplace( std::forward<S>( s ), next_id );
     if( pair.second ) { // inserted
         get_reverse_lookup_vec().push_back( &pair.first->first );
@@ -53,6 +53,6 @@ const std::string &string_identity_static::get_interned_string( int id )
 
 int string_identity_static::empty_interned_string()
 {
-    static int empty_string_id = string_id_intern( "" );
+    static const int empty_string_id = string_id_intern( "" );
     return empty_string_id;
 }

@@ -27,7 +27,7 @@ bool unicode_codepoint_from_symbol_reader( const JsonObject &jo,
             sym_as_string = string_from_int( sym_as_int );
         }
     }
-    uint32_t sym_as_codepoint = UTF8_getch( sym_as_string );
+    const uint32_t sym_as_codepoint = UTF8_getch( sym_as_string );
     if( mk_wcwidth( sym_as_codepoint ) != 1 ) {
         jo.throw_error( member_name + " must be exactly one console cell wide", member_name );
     }

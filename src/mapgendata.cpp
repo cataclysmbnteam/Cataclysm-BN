@@ -41,7 +41,7 @@ mapgendata::mapgendata( map &mp, dummy_settings_t )
     , m( mp )
     , default_groundcover( region.default_groundcover )
 {
-    oter_id any = oter_id( "field" );
+    const oter_id any = oter_id( "field" );
     t_above = t_below = terrain_type_ = any;
     std::ranges::fill( t_nesw, any );
 }
@@ -59,7 +59,7 @@ mapgendata::mapgendata( const tripoint_abs_omt &over, map &mp, const float densi
     , m( mp )
     , default_groundcover( region.default_groundcover )
 {
-    bool ignore_rotation = terrain_type_->has_flag( oter_flags::ignore_rotation_for_adjacency );
+    const bool ignore_rotation = terrain_type_->has_flag( oter_flags::ignore_rotation_for_adjacency );
     int rotation = ignore_rotation ? 0 : terrain_type_->get_rotation();
     auto set_neighbour = [&]( int index, direction dir ) {
         t_nesw[index] =
@@ -73,7 +73,7 @@ mapgendata::mapgendata( const tripoint_abs_omt &over, map &mp, const float densi
     set_neighbour( 5, direction::SOUTHEAST );
     set_neighbour( 6, direction::SOUTHWEST );
     set_neighbour( 7, direction::NORTHWEST );
-    for( cube_direction dir : all_enum_values<cube_direction>() ) {
+    for( const cube_direction dir : all_enum_values<cube_direction>() ) {
         if( std::string *join = overmap_buffer.join_used_at( { over, dir } ) ) {
             cube_direction rotated_dir = dir - rotation;
             joins.emplace( rotated_dir, *join );

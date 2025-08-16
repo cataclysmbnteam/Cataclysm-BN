@@ -73,7 +73,7 @@ std::string mtype::nname( unsigned int quantity ) const
 
 bool mtype::has_special_attack( const std::string &attack_name ) const
 {
-    return special_attacks.find( attack_name ) != special_attacks.end();
+    return special_attacks.contains( attack_name );
 }
 
 bool mtype::has_flag( m_flag flag ) const
@@ -120,7 +120,7 @@ bool mtype::has_placate_trigger( mon_trigger trigger ) const
 
 bool mtype::in_category( const std::string &category ) const
 {
-    return categories.find( category ) != categories.end();
+    return categories.contains( category );
 }
 
 bool mtype::in_species( const species_id &spec ) const
@@ -292,7 +292,7 @@ void mtype::faction_display( catacurses::window &w, const point &top_left, const
     trim_and_print( w, top_left + point( 0, ++y ), width, c_light_gray,
                     string_format( "%s: %s", colorize( _( "Difficulty" ), c_white ), diff_str ) );
     // Origin
-    std::vector<std::string> origin_list =
+    std::vector<std::string> const origin_list =
         foldstring( string_format( "%s: %s", colorize( _( "Origin" ), c_white ),
                                    enumerate_as_string( src.begin(), src.end(),
     []( const std::pair<mtype_id, mod_id> &source ) {
@@ -314,7 +314,7 @@ void mtype::faction_display( catacurses::window &w, const point &top_left, const
                     string_format( "%s: %s", colorize( _( "Size" ), c_white ),
                                    size_iter == size_map.end() ? _( "Unknown" ) : _( size_iter->second ) ) );
     // Species
-    std::vector<std::string> species_list =
+    std::vector<std::string> const species_list =
         foldstring( string_format( "%s: %s", colorize( _( "Species" ), c_white ),
     enumerate_as_string( species_descriptions(), []( const std::string & sp ) {
         return colorize( sp, c_yellow );

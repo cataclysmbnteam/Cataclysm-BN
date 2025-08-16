@@ -95,7 +95,7 @@ status_t character_oracle_t::can_take_shelter() const
 status_t character_oracle_t::has_water() const
 {
     // Check if we know about water somewhere
-    bool found_water = subject->has_item_with( []( const item & cand ) {
+    const bool found_water = subject->has_item_with( []( const item & cand ) {
         return cand.is_food() && cand.get_comestible()->quench > 0;
     } );
     return found_water ? running : failure;
@@ -104,7 +104,7 @@ status_t character_oracle_t::has_water() const
 status_t character_oracle_t::has_food() const
 {
     // Check if we know about food somewhere
-    bool found_food = subject->has_item_with( []( const item & cand ) {
+    const bool found_food = subject->has_item_with( []( const item & cand ) {
         return cand.is_food() && cand.get_comestible()->has_calories();
     } );
     return found_food ? running : failure;

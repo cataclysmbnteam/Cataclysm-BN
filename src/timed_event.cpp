@@ -61,8 +61,8 @@ void timed_event::actualize()
                 const mtype_id &robot_type = one_in( 2 ) ? mon_copbot : mon_riotbot;
 
                 g->events().send<event_type::becomes_wanted>( g->u.getID() );
-                point rob( u_pos.x > map_point.x ? 0 - SEEX * 2 : SEEX * 4,
-                           u_pos.y > map_point.y ? 0 - SEEY * 2 : SEEY * 4 );
+                const point rob( u_pos.x > map_point.x ? 0 - ( SEEX * 2 ) : SEEX * 4,
+                                 u_pos.y > map_point.y ? 0 - ( SEEY * 2 ) : SEEY * 4 );
                 g->place_critter_at( robot_type, tripoint( rob, g->u.posz() ) );
             }
         }
@@ -95,7 +95,7 @@ void timed_event::actualize()
 
         case TIMED_EVENT_AMIGARA: {
             g->events().send<event_type::angers_amigara_horrors>();
-            int num_horrors = rng( 3, 5 );
+            const int num_horrors = rng( 3, 5 );
             std::optional<tripoint> fault_point;
             bool horizontal = false;
             for( const tripoint &p : g->m.points_on_zlevel() ) {
@@ -109,7 +109,7 @@ void timed_event::actualize()
                 for( int tries = 0; tries < 10; ++tries ) {
                     tripoint monp = g->u.pos();
                     if( horizontal ) {
-                        monp.x = rng( fault_point->x, fault_point->x + 2 * SEEX - 8 );
+                        monp.x = rng( fault_point->x, fault_point->x + ( 2 * SEEX ) - 8 );
                         for( int n = -1; n <= 1; n++ ) {
                             if( g->m.ter( point( monp.x, fault_point->y + n ) ) == t_rock_floor ) {
                                 monp.y = fault_point->y + n;
@@ -117,7 +117,7 @@ void timed_event::actualize()
                         }
                     } else {
                         // Vertical fault
-                        monp.y = rng( fault_point->y, fault_point->y + 2 * SEEY - 8 );
+                        monp.y = rng( fault_point->y, fault_point->y + ( 2 * SEEY ) - 8 );
                         for( int n = -1; n <= 1; n++ ) {
                             if( g->m.ter( point( fault_point->x + n, monp.y ) ) == t_rock_floor ) {
                                 monp.x = fault_point->x + n;
@@ -243,7 +243,7 @@ void timed_event::per_turn()
         case TIMED_EVENT_WANTED: {
             // About once every 5 minutes. Suppress in classic zombie mode.
             if( g->get_levz() >= 0 && one_in( 50 ) && !get_option<bool>( "DISABLE_ROBOT_RESPONSE" ) ) {
-                point place = g->m.random_outdoor_tile();
+                const point place = g->m.random_outdoor_tile();
                 if( place.x == -1 && place.y == -1 ) {
                     // We're safely indoors!
                     return;

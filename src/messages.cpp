@@ -43,7 +43,7 @@ struct game_message : public JsonDeserializer, public JsonSerializer {
     game_message_type type  = m_neutral;
 
     game_message() = default;
-    game_message( std::string &&msg, game_message_type const t ) :
+    game_message( std::string &&msg, const game_message_type t ) :
         message( std::move( msg ) ),
         timestamp_in_turns( calendar::turn ),
         timestamp_in_user_actions( g->get_user_action_counter() ),
@@ -92,7 +92,7 @@ struct game_message : public JsonDeserializer, public JsonSerializer {
     }
 
     void deserialize( JsonIn &jsin ) override {
-        JsonObject obj = jsin.get_object();
+        const JsonObject obj = jsin.get_object();
         obj.read( "turn", timestamp_in_turns );
         message = obj.get_string( "message" );
         count = obj.get_int( "count" );
@@ -166,7 +166,7 @@ class messages_impl
             add_msg_string( std::move( msg ), params.type, params.flags );
         }
 
-        void add_msg_string( std::string &&msg, game_message_type const type,
+        void add_msg_string( std::string &&msg, const game_message_type type,
                              const game_message_flags flags ) {
             if( msg.empty() || !active ) {
                 return;
@@ -189,7 +189,7 @@ class messages_impl
                 return;
             }
 
-            unsigned int message_limit = get_option<int>( "MESSAGE_LIMIT" );
+            unsigned const int message_limit = get_option<int>( "MESSAGE_LIMIT" );
             while( messages.size() > message_limit ) {
                 messages.pop_front();
             }
@@ -333,7 +333,7 @@ void Messages::deserialize( const JsonObject &json )
         return;
     }
 
-    JsonObject obj = json.get_object( "player_messages" );
+    const JsonObject obj = json.get_object( "player_messages" );
     obj.read( "messages", player_messages.messages );
     obj.read( "curmes", player_messages.curmes );
 }
@@ -523,12 +523,12 @@ void Messages::dialog::init( ui_adaptor &ui )
         return;
     }
     msg_width = w_width - border_width * 2 - time_width - padding_width;
-    max_lines = static_cast<size_t>( w_height - border_width * 2 );
+    max_lines = static_cast<size_t>( w_height - ( border_width * 2 ) );
 
     // Initialize filter help text and window
     w_fh_width = w_width;
     w_fh_x = w_x;
-    help_text = filter_help_text( w_fh_width - border_width * 2 );
+    help_text = filter_help_text( w_fh_width - ( border_width * 2 ) );
     w_fh_height = static_cast<int>( help_text.size() ) + border_width * 2;
     w_fh_y = w_y + w_height - w_fh_height;
     w_filter_help = catacurses::newwin( w_fh_height, w_fh_width, point( w_fh_x, w_fh_y ) );

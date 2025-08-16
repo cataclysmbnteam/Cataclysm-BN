@@ -65,7 +65,7 @@ std::string gettext_gendered( const GenderMap &genders, const std::string &msg )
         }
         chosen_genders.push_back( subject_genders.first + ":" + chosen_gender );
     }
-    std::string context = join( chosen_genders, " " );
+    const std::string context = join( chosen_genders, " " );
     return pgettext( context.c_str(), msg.c_str() );
 }
 
@@ -194,7 +194,7 @@ void translation::deserialize( JsonIn &jsin )
         }
         needs_translation = true;
     } else {
-        JsonObject jsobj = jsin.get_object();
+        const JsonObject jsobj = jsin.get_object();
         if( jsobj.has_string( "ctxt" ) ) {
             ctxt = cata::make_value<std::string>( jsobj.get_string( "ctxt" ) );
         } else {

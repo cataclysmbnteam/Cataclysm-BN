@@ -88,7 +88,7 @@ void gate_data::load( const JsonObject &jo, const std::string & )
     mandatory( jo, was_loaded, "walls", walls, string_id_reader<ter_t> {} );
 
     if( !was_loaded || jo.has_member( "messages" ) ) {
-        JsonObject messages_obj = jo.get_object( "messages" );
+        const JsonObject messages_obj = jo.get_object( "messages" );
 
         optional( messages_obj, was_loaded, "pull", pull_message );
         optional( messages_obj, was_loaded, "open", open_message );
@@ -180,14 +180,14 @@ void gates::toggle_gate( const tripoint &pos )
     bool fail = false;
 
     map &here = get_map();
-    for( point wall_offset : four_adjacent_offsets ) {
+    for( const point wall_offset : four_adjacent_offsets ) {
         const tripoint wall_pos = pos + wall_offset;
 
         if( !gate.is_suitable_wall( wall_pos ) ) {
             continue;
         }
 
-        for( point gate_offset : four_adjacent_offsets ) {
+        for( const point gate_offset : four_adjacent_offsets ) {
             const tripoint gate_pos = wall_pos + gate_offset;
 
             if( gate_pos == pos ) {

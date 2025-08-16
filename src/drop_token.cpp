@@ -16,7 +16,7 @@ void item_drop_token::serialize( JsonOut &jsout ) const
 
 void item_drop_token::deserialize( JsonIn &jsin )
 {
-    JsonObject jo = jsin.get_object();
+    const JsonObject jo = jsin.get_object();
     jo.read( "turn", turn );
     jo.read( "drop_number", drop_number );
     jo.read( "parent_number", parent_number );
@@ -52,7 +52,7 @@ void drop_token_provider::serialize( JsonOut &jsout ) const
 
 void drop_token_provider::deserialize( JsonIn &jsin )
 {
-    JsonObject jo = jsin.get_object();
+    const JsonObject jo = jsin.get_object();
     jo.read( "last_turn", last_turn );
     jo.read( "last_drop", last_drop );
 }

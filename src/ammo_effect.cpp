@@ -65,7 +65,7 @@ int_id<ammo_effect>::int_id( const string_id<ammo_effect> &id ) : _id( id.id() )
 void ammo_effect::load( const JsonObject &jo, const std::string & )
 {
     if( jo.has_member( "aoe" ) ) {
-        JsonObject joa = jo.get_object( "aoe" );
+        const JsonObject joa = jo.get_object( "aoe" );
         optional( joa, was_loaded, "field_type", aoe_field_type_name, "fd_null" );
         optional( joa, was_loaded, "intensity_min", aoe_intensity_min, 0 );
         optional( joa, was_loaded, "intensity_max", aoe_intensity_max, 0 );
@@ -78,14 +78,14 @@ void ammo_effect::load( const JsonObject &jo, const std::string & )
         optional( joa, was_loaded, "check_sees_radius", aoe_check_sees_radius, 0 );
     }
     if( jo.has_member( "trail" ) ) {
-        JsonObject joa = jo.get_object( "trail" );
+        const JsonObject joa = jo.get_object( "trail" );
         optional( joa, was_loaded, "field_type", trail_field_type_name, "fd_null" );
         optional( joa, was_loaded, "intensity_min", trail_intensity_min, 0 );
         optional( joa, was_loaded, "intensity_max", trail_intensity_max, 0 );
         optional( joa, was_loaded, "chance", trail_chance, 100 );
     }
     if( jo.has_member( "explosion" ) ) {
-        JsonObject joe = jo.get_object( "explosion" );
+        const JsonObject joe = jo.get_object( "explosion" );
         aoe_explosion_data = load_explosion_data( joe );
     }
     optional( jo, was_loaded, "do_flashbang", do_flashbang, false );

@@ -158,14 +158,14 @@ detached_ptr<item> vehicle_part::properties_to_item() const
         } else {
             if( data->intermap_connection() ) {
                 if( data->con1.point.raw() == target.first ) {
-                    data->unset_con2( tmp.get() );
+                    cable_connection_data::unset_con2( tmp.get() );
                 } else if( data->con2.point.raw() == target.first ) {
-                    data->unset_con1( tmp.get() );
+                    cable_connection_data::unset_con1( tmp.get() );
                 } else {
                     tmp->reset_cable();
                 }
                 if( !has_flag( targets_grid ) ) {
-                    map &here = get_map();
+                    const map &here = get_map();
                     const tripoint local_pos = here.getlocal( target.first );
                     if( !here.veh_at( local_pos ) ) {
                         // That vehicle ain't there no more.
@@ -228,7 +228,7 @@ int vehicle_part::hp() const
 {
     const int dur = info().durability;
     if( base->max_damage() > 0 ) {
-        return dur - dur * base->damage() / base->max_damage();
+        return dur - ( dur * base->damage() / base->max_damage() );
     } else {
         return dur;
     }
@@ -251,7 +251,7 @@ int vehicle_part::damage_level( int max ) const
 
 double vehicle_part::health_percent() const
 {
-    return 1.0 - static_cast<double>( base->damage() ) / base->max_damage();
+    return 1.0 - ( static_cast<double>( base->damage() ) / base->max_damage() );
 }
 
 double vehicle_part::damage_percent() const
@@ -417,7 +417,7 @@ double vehicle_part::consume_energy( const itype_id &ftype, double energy_j )
             fuel.charges -= charges_to_use;
         }
         //TODO!: push up
-        item &fuel_consumed = *item::spawn_temporary( ftype, calendar::turn, charges_to_use );
+        const item &fuel_consumed = *item::spawn_temporary( ftype, calendar::turn, charges_to_use );
         return energy_p_mL * units::to_milliliter<int>( fuel_consumed.volume( true ) );
     }
     return 0.0;
@@ -635,7 +635,8 @@ void vehicle::set_hp( vehicle_part &pt, int qty )
         pt.base->set_damage( pt.base->max_damage() );
 
     } else {
-        pt.base->set_damage( pt.base->max_damage() - pt.base->max_damage() * qty / pt.info().durability );
+        pt.base->set_damage( pt.base->max_damage() - ( pt.base->max_damage() * qty /
+                             pt.info().durability ) );
     }
 }
 

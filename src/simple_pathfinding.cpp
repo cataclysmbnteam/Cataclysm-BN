@@ -48,7 +48,7 @@ directed_path<point> greedy_path( point source, point dest, point max,
         return p.x >= 0 && p.x < max.x && p.y >= 0 && p.y < max.y;
     };
     const auto map_index = [ max ]( point  p ) {
-        return p.y * max.x + p.x;
+        return ( p.y * max.x ) + p.x;
     };
 
     directed_path<point> res;
@@ -90,7 +90,7 @@ directed_path<point> greedy_path( point source, point dest, point max,
             res.nodes.emplace_back( p );
             return res;
         }
-        for( om_direction::type dir : om_direction::all ) {
+        for( om_direction::type const dir : om_direction::all ) {
             const point p = mn.pos + om_direction::displace( dir );
             const int n = map_index( p );
             // don't allow out of bounds or already traversed tiles
@@ -254,10 +254,10 @@ simple_path<tripoint_abs_omt> find_overmap_path( const tripoint_abs_omt &source,
     std::unordered_map<tripoint_abs_omt, navigation_node> &other_known_nodes ) {
         const tripoint_abs_omt cur_addr = open_set.top().addr;
         open_set.pop();
-        if( other_known_nodes.find( cur_addr ) != other_known_nodes.end() ) {
+        if( other_known_nodes.contains( cur_addr ) ) {
             meet = true;
             tripoint_abs_omt addr = cur_addr;
-            tripoint_abs_omt other_start = start == source ? dest : source;
+            const tripoint_abs_omt other_start = start == source ? dest : source;
             while( addr != other_start ) {
                 ret.points.emplace_back( addr );
                 addr = addr + direction_to_tripoint( other_known_nodes.at( addr ).get_prev_dir() );
@@ -271,7 +271,7 @@ simple_path<tripoint_abs_omt> find_overmap_path( const tripoint_abs_omt &source,
             return;
         }
         const navigation_node &cur_node = known_nodes.at( cur_addr );
-        for( direction dir : enumerate_directions( cur_node.allow_z_change ) ) {
+        for( const direction dir : enumerate_directions( cur_node.allow_z_change ) ) {
             if( dir == cur_node.prev_dir ) {
                 continue; // don't go back the way we just came
             }
