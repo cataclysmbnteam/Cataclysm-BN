@@ -1148,9 +1148,7 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
             int miles = dist / 25; // *100, e.g. quarter mile is "25"
             miles -= miles % 25; // Round to nearest quarter-mile
             int fullmiles = ( miles - miles % 100 ) / 100; // Left of the decimal point
-            if( fullmiles <= 0 ) {
-                fullmiles = 0;
-            }
+            fullmiles = std::max( fullmiles, 0 );
             response = string_format( _( "%d.%d miles." ), fullmiles, miles );
         } else {
             response = string_format( vgettext( "%d foot.", "%d feet.", dist ), dist );
@@ -1189,7 +1187,7 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
         ///\EFFECT_PER affects whether player can size up NPCs
 
         ///\EFFECT_INT slightly affects whether player can size up NPCs
-        int ability = you.per_cur * 3 + you.int_cur;
+        int ability = ( you.per_cur * 3 ) + you.int_cur;
         if( ability <= 10 ) {
             return _( "&You can't make anything out." );
         }
@@ -2514,7 +2512,7 @@ void talk_effect_fun_t::set_bulk_trade_accept( bool is_trade, bool is_npc )
         detached_ptr<item> tmp = item::spawn( d.cur_item );
         tmp->charges = seller_has;
         if( is_trade ) {
-            int price = tmp->price( true ) * ( is_npc ? -1 : 1 ) + d.beta->op_of_u.owed;
+            int price = ( tmp->price( true ) * ( is_npc ? -1 : 1 ) ) + d.beta->op_of_u.owed;
             if( d.beta->get_faction() && !d.beta->get_faction()->currency.is_empty() ) {
                 const itype_id &pay_in = d.beta->get_faction()->currency;
                 item *pay = item::spawn_temporary( pay_in );

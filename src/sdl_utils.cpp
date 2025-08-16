@@ -211,7 +211,7 @@ SDL_Rect fit_rect_inside( const SDL_Rect &inner, const SDL_Rect &outer )
 
     const int w = factor * inner.w;
     const int h = factor * inner.h;
-    const point p( outer.x + ( outer.w - w ) / 2, outer.y + ( outer.h - h ) / 2 );
+    const point p( outer.x + ( ( outer.w - w ) / 2 ), outer.y + ( ( outer.h - h ) / 2 ) );
 
     return SDL_Rect{ p.x, p.y, w, h };
 }

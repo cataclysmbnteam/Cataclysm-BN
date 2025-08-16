@@ -1,5 +1,6 @@
 #include "gamemode_defense.h" // IWYU pragma: associated
 
+#include <algorithm>
 #include <cassert>
 #include <cstddef>
 #include <memory>
@@ -964,9 +965,7 @@ void defense_game::caravan()
                 } else {
                     item_selected = items[category_selected].size() - 1;
                     offset = item_selected - 12;
-                    if( offset < 0 ) {
-                        offset = 0;
-                    }
+                    offset = std::max( offset, 0 );
                 }
                 if( item_selected < offset ) {
                     offset--;
@@ -1280,7 +1279,7 @@ int caravan_price( Character &who, int price )
 void defense_game::spawn_wave()
 {
     add_msg( m_info, "********" );
-    int diff = initial_difficulty + current_wave * wave_difficulty;
+    int diff = initial_difficulty + ( current_wave * wave_difficulty );
     bool themed_wave = one_in( SPECIAL_WAVE_CHANCE ); // All a single monster type
     g->u.cash += cash_per_wave + ( current_wave - 1 ) * cash_increase;
     std::vector<mtype_id> valid = pick_monster_wave();

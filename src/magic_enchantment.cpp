@@ -473,7 +473,7 @@ double enchantment::calc_bonus( enchant_vals::mod value, double base, bool round
     }
     double add = use_add ? get_value_add( value ) : 0.0;
     double mul = get_value_multiply( value );
-    double ret = add + base * mul;
+    double ret = add + ( base * mul );
     if( round ) {
         ret = trunc( ret );
     }

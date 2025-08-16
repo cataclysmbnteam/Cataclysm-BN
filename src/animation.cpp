@@ -29,7 +29,6 @@
 #include "sdltiles.h"
 #endif
 
-#include <algorithm>
 #include <list>
 #include <map>
 #include <string>
@@ -190,8 +189,8 @@ void draw_custom_explosion_curses( game &g,
 {
     // calculate screen offset relative to player + view offset position
     const tripoint center = g.u.pos() + g.u.view_offset;
-    const tripoint topleft( center.x - getmaxx( g.w_terrain ) / 2,
-                            center.y - getmaxy( g.w_terrain ) / 2, 0 );
+    const tripoint topleft( center.x - ( getmaxx( g.w_terrain ) / 2 ),
+                            center.y - ( getmaxy( g.w_terrain ) / 2 ), 0 );
 
     explosion_animation anim;
 
@@ -706,8 +705,8 @@ void draw_line_curses( game &g, const tripoint &center, const std::vector<tripoi
             const char sym = '?';
             const nc_color col = c_dark_gray;
             const catacurses::window &w = g.w_terrain;
-            const int k = p.x + getmaxx( w ) / 2 - center.x;
-            const int j = p.y + getmaxy( w ) / 2 - center.y;
+            const int k = p.x + ( getmaxx( w ) / 2 ) - center.x;
+            const int j = p.y + ( getmaxy( w ) / 2 ) - center.y;
             mvwputch( w, point( k, j ), col, sym );
         } else {
             // This function reveals tile at p and writes it to the player's memory
@@ -1106,8 +1105,8 @@ static void draw_cone_aoe_curses( const tripoint &, const bucketed_points &waves
     // Calculate screen offset relative to player + view offset position
     const avatar &u = get_avatar();
     const tripoint center = u.pos() + u.view_offset;
-    const tripoint topleft( center.x - catacurses::getmaxx( g->w_terrain ) / 2,
-                            center.y - catacurses::getmaxy( g->w_terrain ) / 2, 0 );
+    const tripoint topleft( center.x - ( catacurses::getmaxx( g->w_terrain ) / 2 ),
+                            center.y - ( catacurses::getmaxy( g->w_terrain ) / 2 ), 0 );
 
     auto it = waves.begin();
     shared_ptr_fast<game::draw_callback_t> wave_cb =

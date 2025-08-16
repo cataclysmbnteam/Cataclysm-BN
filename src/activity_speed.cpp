@@ -173,9 +173,9 @@ void activity_speed::calc_assistants_factor( const Character &who )
         assist = 1.0f;
     }
 
-    float f = 0.5f * std::pow( assistant_count, 3 )
-              - 7 * std::pow( assistant_count, 2 )
-              + 45 * assistant_count;
+    float f = ( 0.5f * std::pow( assistant_count, 3 ) )
+              - ( 7 * std::pow( assistant_count, 2 ) )
+              + ( 45 * assistant_count );
 
     // range [0.8:1.2] based on speech
     f *= 0.8f + 0.04f * who.get_skill_level( stat_speech );
@@ -208,17 +208,15 @@ float activity_speed::get_best_qual_mod( const activity_req<quality_id> &q,
     int q_level = 0;
     inv.visit_items( [&q, &q_level]( const item * itm ) {
         int new_q = itm->get_quality( q.req );
-        if( new_q > q_level ) {
-            q_level = new_q;
-        }
+        q_level = std::max( new_q, q_level );
         return VisitResponse::NEXT;
     } );
     q_level = q_level - q.threshold;
 
     if( q.req == qual_CUT_FINE ) {
-        float cut_fine_f = 2.0f * std::pow( q_level, 3 )
-                           - 10.0f * std::pow( q_level, 2 )
-                           + 32.0f * q_level + q.mod;
+        float cut_fine_f = ( 2.0f * std::pow( q_level, 3 ) )
+                           - ( 10.0f * std::pow( q_level, 2 ) )
+                           + ( 32.0f * q_level ) + q.mod;
         return cut_fine_f;
     }
 
