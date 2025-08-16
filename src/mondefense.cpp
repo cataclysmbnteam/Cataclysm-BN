@@ -179,7 +179,7 @@ void mdefense::return_fire( monster &m, Creature *source, const dealt_projectile
     // TODO: implement different rule, dependent on sound and probably some other things
     const tripoint fire_point = source->pos();
     // Add some innacuracy since it is blind fire
-    int dispersion = 150;
+    int const dispersion = 150;
 
     for( const std::pair<const std::string, mtype_special_attack> &attack : m.type->special_attacks ) {
         if( attack.second->id == "gun" ) {
@@ -218,7 +218,7 @@ void mdefense::revenge_aggro( monster &m, Creature *source, const dealt_projecti
                 aggroed++;
             }
 
-            time_duration buff_dur = ally.get_effect_dur( effect_command_buff );
+            time_duration const buff_dur = ally.get_effect_dur( effect_command_buff );
             if( buff_dur < effect_command_buff->get_max_duration() ) {
                 ally.add_effect( effect_command_buff,
                                  effect_command_buff->get_max_duration() - buff_dur );

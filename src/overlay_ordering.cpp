@@ -16,8 +16,8 @@ void load_overlay_ordering( const JsonObject &jsobj )
 void load_overlay_ordering_into_array( const JsonObject &jsobj,
                                        std::map<std::string, int> &orderarray )
 {
-    for( JsonObject ordering : jsobj.get_array( "overlay_ordering" ) ) {
-        int order = ordering.get_int( "order" );
+    for( JsonObject const ordering : jsobj.get_array( "overlay_ordering" ) ) {
+        int const order = ordering.get_int( "order" );
         for( auto &id : ordering.get_tags( "id" ) ) {
             orderarray[id] = order;
         }

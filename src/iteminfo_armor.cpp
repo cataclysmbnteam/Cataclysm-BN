@@ -224,8 +224,8 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         return;
     }
 
-    avatar &you = get_avatar();
-    body_part_set covered_parts = get_covered_body_parts();
+    avatar  const &you = get_avatar();
+    body_part_set const covered_parts = get_covered_body_parts();
     const bool covers_anything = covered_parts.any();
 
     int converted_storage_scale = 0;
@@ -354,8 +354,8 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
             // Handle things that use both sides to avoid showing L. Arm R. Arm etc when both are the same
             if( !armor->sided ) {
                 for( const body_part &legacy_part : all_body_parts ) {
-                    bodypart_str_id bp( convert_bp( legacy_part ) );
-                    bodypart_str_id opposite = bp->opposite_part;
+                    bodypart_str_id const bp( convert_bp( legacy_part ) );
+                    bodypart_str_id const opposite = bp->opposite_part;
                     if( opposite != bp && covers( bp ) && covers( opposite )
                         && to_display_data.at( bp ).portion == to_display_data.at( opposite ).portion
                         && to_display_data.at( opposite ).active ) {

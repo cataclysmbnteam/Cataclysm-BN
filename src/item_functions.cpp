@@ -48,9 +48,9 @@ int shots_remaining( const Character &who, const item &it )
         return 0;
     }
 
-    int ammo_drain = it.ammo_required();
-    int energy_drain = it.get_gun_ups_drain();
-    int power = who.charges_of( itype_UPS );
+    int const ammo_drain = it.ammo_required();
+    int const energy_drain = it.get_gun_ups_drain();
+    int const power = who.charges_of( itype_UPS );
 
     if( ammo_drain > 0 && energy_drain > 0 ) {
         // Both UPS and ammo, lower is limiting.

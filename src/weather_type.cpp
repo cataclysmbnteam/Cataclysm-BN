@@ -144,24 +144,24 @@ void weather_type::load( const JsonObject &jo, const std::string & )
     mandatory( jo, was_loaded, "sun_intensity", sun_intensity );
 
     for( const JsonObject weather_effect : jo.get_array( "effects" ) ) {
-        std::string name = weather_effect.get_string( "name" );
-        int intensity = weather_effect.get_int( "intensity" );
+        std::string const name = weather_effect.get_string( "name" );
+        int const intensity = weather_effect.get_int( "intensity" );
 
         // this is a terrible hardcoded implementation, but only way i could figure out how to satisfy JSON and get it to function
         if( name == "morale" ) {
-            std::string id_str = weather_effect.get_string( "morale_id_str" );
-            std::string msg = weather_effect.get_string( "morale_msg" );
-            int freq = weather_effect.get_int( "morale_msg_frequency" );
-            int bonus = weather_effect.get_int( "bonus" );
-            int bonus_max = weather_effect.get_int( "bonus_max" );
-            time_duration duration = read_from_json_string<time_duration>
-                                     ( *weather_effect.get_raw( "duration" ),
-                                       time_duration::units );
-            time_duration decay_start = read_from_json_string<time_duration>
-                                        ( *weather_effect.get_raw( "decay_start" ),
-                                          time_duration::units );
-            int message_type = weather_effect.get_int( "message_type" );
-            game_message_type gmt = static_cast<game_message_type>( message_type );
+            std::string const id_str = weather_effect.get_string( "morale_id_str" );
+            std::string const msg = weather_effect.get_string( "morale_msg" );
+            int const freq = weather_effect.get_int( "morale_msg_frequency" );
+            int const bonus = weather_effect.get_int( "bonus" );
+            int const bonus_max = weather_effect.get_int( "bonus_max" );
+            time_duration const duration = read_from_json_string<time_duration>
+                                           ( *weather_effect.get_raw( "duration" ),
+                                             time_duration::units );
+            time_duration const decay_start = read_from_json_string<time_duration>
+                                              ( *weather_effect.get_raw( "decay_start" ),
+                                                time_duration::units );
+            int const message_type = weather_effect.get_int( "message_type" );
+            game_message_type const gmt = static_cast<game_message_type>( message_type );
 
             effects.emplace_back(
             [ = ]( int intensity ) {
@@ -175,26 +175,26 @@ void weather_type::load( const JsonObject &jo, const std::string & )
 
         // same as above
         if( name == "effect" ) {
-            std::string id_str = weather_effect.get_string( "effect_id_str" );
-            std::string msg = weather_effect.get_string( "effect_msg" );
-            int freq = weather_effect.get_int( "effect_msg_frequency" );
-            int effect_intensity = weather_effect.get_int( "effect_intensity" );
+            std::string const id_str = weather_effect.get_string( "effect_id_str" );
+            std::string const msg = weather_effect.get_string( "effect_msg" );
+            int const freq = weather_effect.get_int( "effect_msg_frequency" );
+            int const effect_intensity = weather_effect.get_int( "effect_intensity" );
             std::string bodypart_string = weather_effect.get_string( "bodypart_string", "" );
-            time_duration duration = read_from_json_string<time_duration>
-                                     ( *weather_effect.get_raw( "duration" ),
-                                       time_duration::units );
+            time_duration const duration = read_from_json_string<time_duration>
+                                           ( *weather_effect.get_raw( "duration" ),
+                                             time_duration::units );
 
             bodypart_str_id bp_id = bodypart_str_id::NULL_ID();
             if( !bodypart_string.empty() ) {
                 bp_id = bodypart_str_id( bodypart_string );
             }
 
-            std::string precipitation_name = weather_effect.get_string( "precipitation_name" );
-            bool ignore_armor = weather_effect.get_bool( "ignore_armor" );
-            int message_type = weather_effect.get_int( "message_type" );
-            int clothing_protection = weather_effect.get_int( "clothing_protection" );
-            int umbrella_protection = weather_effect.get_int( "umbrella_protection" );
-            game_message_type gmt = static_cast<game_message_type>( message_type );
+            std::string const precipitation_name = weather_effect.get_string( "precipitation_name" );
+            bool const ignore_armor = weather_effect.get_bool( "ignore_armor" );
+            int const message_type = weather_effect.get_int( "message_type" );
+            int const clothing_protection = weather_effect.get_int( "clothing_protection" );
+            int const umbrella_protection = weather_effect.get_int( "umbrella_protection" );
+            game_message_type const gmt = static_cast<game_message_type>( message_type );
 
             effects.emplace_back(
             [ = ]( int intensity ) {
@@ -224,7 +224,7 @@ void weather_type::load( const JsonObject &jo, const std::string & )
 
     if( jo.has_member( "animation" ) ) {
         animation = {};
-        JsonObject j = jo.get_object( "animation" );
+        JsonObject const j = jo.get_object( "animation" );
 
         mandatory( j, was_loaded, "factor", animation.factor );
         mandatory( j, was_loaded, "tile", animation.tile );
@@ -234,7 +234,7 @@ void weather_type::load( const JsonObject &jo, const std::string & )
 
     if( jo.has_member( "requirements" ) ) {
         requirements = {};
-        JsonObject j = jo.get_object( "requirements" );
+        JsonObject const j = jo.get_object( "requirements" );
 
         optional( j, was_loaded, "pressure_min", requirements.pressure_min, INT_MIN );
         optional( j, was_loaded, "pressure_max", requirements.pressure_max, INT_MAX );
