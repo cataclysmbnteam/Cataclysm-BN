@@ -47,7 +47,7 @@
     "copy-from": "generic_water",
     "name": "lake bed (submerged)",
     "sym": "#",
-    "color": "blue",
+    "color": "cyan",
     "see_cost": 1,
     "flags": [ "NO_ROTATE", "LAKE", "SOURCE_DRINK" ]
   },
