@@ -1283,8 +1283,8 @@ void monster::footsteps( const tripoint &p )
     if( volume == 0 ) {
         return;
     }
-    int dist = rl_dist( p, g->u.pos() );
-    sounds::add_footstep( p, volume, dist, this, type->get_footsteps() );
+    // Removed distance calc and pointer to source monster, as they are not used.
+    sounds::add_footstep( p, volume, type->get_footsteps() );
     return;
 }
 
