@@ -86,6 +86,7 @@ Checks: >
   -readability-qualified-auto,
   -readability-redundant-access-specifiers,
   -readability-use-anyofallof,
+  -readability-suspicious-call-argument,
 
   -bugprone-throw-keyword-missing,
   -readability-identifier-naming,
@@ -102,10 +103,25 @@ Checks: >
   -clang-analyzer-optin.*,
   -performance-enum-size,
   -cert-dcl58-cpp,
+
+  -modernize-use-designated-initializers,
+  -misc-use-internal-linkage,
+
+  -modernize-use-ranges,
+  -modernize-use-integer-sign-comparison,
+
+  -clang-analyzer-security*,
+  -clang-analyzer-osx.cocoa.*,
+
+  -bugprone-implicit-widening-of-multiplication-result,
 # https://github.com/llvm/llvm-project/issues/59572
 # https://github.com/llvm/llvm-project/issues/111003
 # performance-enum-size: no automatic fix available
 # cert-dcl58-cpp: too many issues with LUNA
+# bugprone-implicit-widening-of-multiplication-result: fix causes syntax errors
+# modernize-use-integer-sign-comparison: fix causes syntax errors
+# modernize-use-ranges: fix doesn't work most of the time
+
 
 # Turn back on when all the fixes are applied
 # WarningsAsErrors: '*'
