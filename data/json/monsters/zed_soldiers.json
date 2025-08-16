@@ -389,7 +389,8 @@
       "REVIVES",
       "BLEED",
       "PUSH_MON",
-      "DRIPS_NAPALM"
+      "DRIPS_NAPALM",
+      "VOLATILE"
     ]
   },
   {
