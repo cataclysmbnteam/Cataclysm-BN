@@ -619,7 +619,7 @@
     "coverage": 100,
     "looks_like": "t_wall_metal",
     "roof": "t_metal_flat_roof",
-    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
+    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND", "WATER_CUBE" ],
     "bash": {
       "str_min": 200,
       "str_max": 600,
