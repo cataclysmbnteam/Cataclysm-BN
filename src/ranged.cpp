@@ -3893,14 +3893,15 @@ bool ranged::gunmode_checks_common( avatar &you, const map &m, std::vector<std::
 
             const auto vp_control = vp->part_with_feature( "CONTROLS", true );
             const bool ctrl_handsfree = vp_control && vp_control->has_feature( "CTRL_WO_HANDS" );
+            const auto vp_steerable = vp->part_with_feature( "STEERABLE", true );
             const auto vp_wheel = vp->part_with_feature( "WHEEL", true );
-            const bool wheel_stb = vp_wheel && vp_wheel->has_feature( "STEERABLE" );
+            const bool strbl_whl = vp_steerable && vp_wheel; // is there a steerable stuff and a wheel?
             const bool using_arms = vp->vehicle().has_part( "MUSCLE_ARMS", true );
             // well, probably someone want to be a mounted air/waterborne archer so...
             const bool in_air_or_water = vp && ( vp->vehicle().is_flying_in_air() || vp->vehicle().is_watercraft() );
 
         if( ctrl_handsfree ) { // check this vehicle is steerable and able to be controlled without hands.
-            if( wheel_stb || in_air_or_water ) {
+            if( strbl_whl || in_air_or_water ) {
                 if( using_arms ){
                     messages.push_back( string_format( _( "You can't fire your %s while driving; this vehicle is hand-powered." ),
                                             gmode->tname() ) );
