@@ -68,7 +68,7 @@ These are less generic guidelines and more pain points we've stumbled across ove
       use a `std::bitset` instead.
   - `float` is to be avoided, but has valid uses.
 - Use [`auto` keyword](https://learn.microsoft.com/en-us/cpp/cpp/auto-cpp?view=msvc-170) where it makes sense to do so, for example:
-  - [trailing return types](https://en.wikipedia.org/wiki/Trailing_return_type) in function declarations.
+  - Prefer [trailing return types](https://en.wikipedia.org/wiki/Trailing_return_type) in function declarations. Long return types obscure function name and makes reading class methods a painful experience.
   ```cpp
   class Bar;
   auto foo( int a ) -> int
@@ -78,6 +78,15 @@ These are less generic guidelines and more pain points we've stumbled across ove
       return is_bar_ok( bar ) ? 42 : 404;
   }
   ```
+    - Use for `decltype` style generic functions
+    ```diff
+    template<typename A, typename B>
+    - decltype(std::declval<A&>() * std::declval<B&>()) multiply(A a, B b)
+    + auto multiply( A a, B b ) -> decltype( a * b )
+    {
+        return a*b;
+    }
+    ```
   - Aliasing for long iterator declarations
   ```diff
     std::map<int, std::map<std::string, some_long_typename>> some_map;
@@ -91,7 +100,6 @@ These are less generic guidelines and more pain points we've stumbled across ove
   ```
   - Doesn't otherwise sacrifice readability for expedience. Options for inlay type hinting are available in popular code editor such as [vscode](https://github.com/clangd/vscode-clangd).
 
-- Prefer [trailing return types](https://en.wikipedia.org/wiki/Trailing_return_type). Long return types obscure function name and makes reading class methods a painful experience. You need to use trailing return type for `decltype` generic programming anyways, so no reason to not use them as default.
 - Avoid `using namespace` for standard namespaces.
 - Avoid adding new member methods to classes unless required.
   ```diff
