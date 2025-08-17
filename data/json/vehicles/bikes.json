@@ -272,11 +272,7 @@
     "name": "Unicycle",
     "blueprint": [ "#" ],
     "parts": [
-      {
-        "x": 0,
-        "y": 0,
-        "parts": [ "frame_handle", "saddle_controllable", "foot_pedals", "wheel_mount_light", "wheel_unicycle" ]
-      }
+      { "x": 0, "y": 0, "parts": [ "frame_handle", "saddle_control", "foot_pedals", "wheel_mount_light", "wheel_unicycle" ] }
     ]
   },
   {
