@@ -2,61 +2,97 @@
   {
     "id": "mon_worm",
     "type": "MONSTER",
-	"copy-from": "mon_worm",
-    "petfood": {"food": ["INSECTCARNIVOREFOOD"], "feed": "The %s seems to like you!", "pet": "The %s crawls around you, drooling 'happy' saliva on your feet."}
+    "copy-from": "mon_worm",
+    "petfood": {
+      "food": [ "INSECTCARNIVOREFOOD" ],
+      "feed": "The %s seems to like you!",
+      "pet": "The %s crawls around you, drooling 'happy' saliva on your feet."
+    }
   },
   {
     "id": "mon_bee",
     "type": "MONSTER",
-	"copy-from": "mon_bee",
-	"petfood": {"food": ["JELLIEDHONEYFOOD"], "feed": "The %s seems to like you!", "pet": "The %s buzzes happily around you."}
+    "copy-from": "mon_bee",
+    "petfood": { "food": [ "JELLIEDHONEYFOOD" ], "feed": "The %s seems to like you!", "pet": "The %s buzzes happily around you." }
   },
   {
     "id": "mon_centipede_giant",
     "type": "MONSTER",
-	"copy-from": "mon_centipede_giant",
-	"petfood": {"food": ["INSECTCARNIVOREFOOD"], "feed": "The %s seems to like you!", "pet": "The %s crawls around you, drooling 'happy' saliva on your feet."}
+    "copy-from": "mon_centipede_giant",
+    "petfood": {
+      "food": [ "INSECTCARNIVOREFOOD" ],
+      "feed": "The %s seems to like you!",
+      "pet": "The %s crawls around you, drooling 'happy' saliva on your feet."
+    }
   },
   {
     "id": "mon_mosquito_giant",
     "type": "MONSTER",
-	"copy-from": "mon_mosquito_giant",
-	"petfood": {"food": ["JELLIEDBLOODFOOD"], "feed": "The %s seems to like you!", "pet": "The %s flies around you, not quite agressively."}
+    "copy-from": "mon_mosquito_giant",
+    "petfood": {
+      "food": [ "JELLIEDBLOODFOOD" ],
+      "feed": "The %s seems to like you!",
+      "pet": "The %s flies around you, not quite agressively."
+    }
   },
   {
     "id": "mon_spider_cellar_giant_s",
     "type": "MONSTER",
-	"copy-from": "mon_spider_cellar_giant_s",
-	"petfood": {"food": ["INSECTCARNIVOREFOOD"], "feed": "The %s seems to like you!", "pet": "The %s peers at you with big puppy eyes, many of them."}
+    "copy-from": "mon_spider_cellar_giant_s",
+    "petfood": {
+      "food": [ "INSECTCARNIVOREFOOD" ],
+      "feed": "The %s seems to like you!",
+      "pet": "The %s peers at you with big puppy eyes, many of them."
+    }
   },
   {
     "id": "mon_spider_web_s",
     "type": "MONSTER",
-	"copy-from": "mon_spider_web_s",
-	"petfood": {"food": ["INSECTCARNIVOREFOOD"], "feed": "The %s seems to like you!", "pet": "The %s peers at you with big puppy eyes, many of them."}
+    "copy-from": "mon_spider_web_s",
+    "petfood": {
+      "food": [ "INSECTCARNIVOREFOOD" ],
+      "feed": "The %s seems to like you!",
+      "pet": "The %s peers at you with big puppy eyes, many of them."
+    }
   },
   {
     "id": "mon_spider_widow_giant_s",
     "type": "MONSTER",
-	"copy-from": "mon_spider_widow_giant_s",
-	"petfood": {"food": ["INSECTCARNIVOREFOOD"], "feed": "The %s seems to like you!", "pet": "The %s peers at you with big puppy eyes, many of them."}
+    "copy-from": "mon_spider_widow_giant_s",
+    "petfood": {
+      "food": [ "INSECTCARNIVOREFOOD" ],
+      "feed": "The %s seems to like you!",
+      "pet": "The %s peers at you with big puppy eyes, many of them."
+    }
   },
   {
     "id": "mon_wasp_larva",
     "type": "MONSTER",
-	"copy-from": "mon_wasp_larva",
-	"petfood": {"food": ["JELLIEDHONEYFOOD"], "feed": "The %s seems to like you!", "pet": "The %s wiggles and curls towards you, drooling friendly saliva."}
+    "copy-from": "mon_wasp_larva",
+    "petfood": {
+      "food": [ "JELLIEDHONEYFOOD" ],
+      "feed": "The %s seems to like you!",
+      "pet": "The %s wiggles and curls towards you, drooling friendly saliva."
+    }
   },
   {
     "id": "mon_dermatik_larva",
     "type": "MONSTER",
-	"copy-from": "mon_dermatik_larva",
-	"petfood": {"food": ["JELLIEDHONEYFOOD"], "feed": "The %s seems to like you!", "pet": "The %s wiggles and curls towards you, drooling friendly saliva."}
+    "copy-from": "mon_dermatik_larva",
+    "petfood": {
+      "food": [ "JELLIEDHONEYFOOD" ],
+      "feed": "The %s seems to like you!",
+      "pet": "The %s wiggles and curls towards you, drooling friendly saliva."
+    }
   },
   {
     "id": "mon_ant_larva",
     "type": "MONSTER",
-	"copy-from": "mon_ant_larva",
-	"petfood": {"food": ["JELLIEDHONEYFOOD"], "feed": "The %s seems to like you!", "pet": "The %s wiggles and curls towards you, drooling friendly saliva."}
+    "copy-from": "mon_ant_larva",
+    "petfood": {
+      "food": [ "JELLIEDHONEYFOOD" ],
+      "feed": "The %s seems to like you!",
+      "pet": "The %s wiggles and curls towards you, drooling friendly saliva."
+    }
   }
 ]

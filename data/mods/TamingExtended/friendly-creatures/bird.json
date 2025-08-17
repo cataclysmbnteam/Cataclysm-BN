@@ -2,7 +2,7 @@
   {
     "id": "mon_crow",
     "type": "MONSTER",
-	"copy-from": "mon_crow",
+    "copy-from": "mon_crow",
     "petfood": {
       "food": [ "BIRDFOOD" ],
       "feed": "The %s seems to like you!",
@@ -12,7 +12,7 @@
   {
     "id": "mon_duck",
     "type": "MONSTER",
-	"copy-from": "mon_duck",
+    "copy-from": "mon_duck",
     "petfood": {
       "food": [ "BIRDFOOD" ],
       "feed": "The %s seems to like you!",
@@ -22,7 +22,7 @@
   {
     "id": "mon_turkey",
     "type": "MONSTER",
-	"copy-from": "mon_turkey",
+    "copy-from": "mon_turkey",
     "petfood": {
       "food": [ "BIRDFOOD" ],
       "feed": "The %s seems to like you!",
@@ -32,7 +32,7 @@
   {
     "id": "mon_cockatrice",
     "type": "MONSTER",
-	"copy-from": "mon_cockatrice",
+    "copy-from": "mon_cockatrice",
     "petfood": {
       "food": [ "BIRDFOOD" ],
       "feed": "The %s seems to like you!",

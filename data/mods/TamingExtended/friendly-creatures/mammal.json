@@ -2,74 +2,86 @@
   {
     "id": "mon_bat",
     "type": "MONSTER",
-	"copy-from": "mon_bat",
-    "petfood": {"food": ["JELLIEDINSECTFOOD"], "feed": "The %s seems to like you!", "pet": "The %s flies around you, screeching a song of friendship."}
+    "copy-from": "mon_bat",
+    "petfood": {
+      "food": [ "JELLIEDINSECTFOOD" ],
+      "feed": "The %s seems to like you!",
+      "pet": "The %s flies around you, screeching a song of friendship."
+    }
   },
   {
     "id": "mon_bear_cub",
     "type": "MONSTER",
     "copy-from": "mon_bear",
-	"petfood": {"food": ["DOGFOOD"], "feed": "The %s seems to like you!", "pet": "The %s looks at you with big puppy eyes."}
+    "petfood": { "food": [ "DOGFOOD" ], "feed": "The %s seems to like you!", "pet": "The %s looks at you with big puppy eyes." }
   },
   {
     "id": "mon_black_rat",
     "type": "MONSTER",
     "copy-from": "mon_black_rat",
-	"petfood": {"food": ["DOGFOOD", "CATFOOD"], "feed": "The %s seems to like you!", "pet": "The %s squeaks contently at you."}
+    "petfood": { "food": [ "DOGFOOD", "CATFOOD" ], "feed": "The %s seems to like you!", "pet": "The %s squeaks contently at you." }
   },
   {
     "id": "mon_boar_wild_piglet",
     "type": "MONSTER",
     "copy-from": "mon_boar_wild_piglet",
-	"petfood": {"food": ["DOGFOOD"], "feed": "The %s seems to like you!", "pet": "The %s squeals happily at you."}
+    "petfood": { "food": [ "DOGFOOD" ], "feed": "The %s seems to like you!", "pet": "The %s squeals happily at you." }
   },
   {
     "id": "mon_cougar",
     "type": "MONSTER",
     "copy-from": "mon_cougar",
-	"petfood": {"food": ["CATFOOD"], "feed": "The %s seems to like you!", "pet": "The %s purrs happily at you."}
+    "petfood": { "food": [ "CATFOOD" ], "feed": "The %s seems to like you!", "pet": "The %s purrs happily at you." }
   },
   {
     "id": "mon_coyote_wolf",
     "type": "MONSTER",
     "copy-from": "mon_coyote_wolf",
-	"petfood": {"food": ["DOGFOOD"], "feed": "The %s seems to like you!", "pet": "The %s lovingly rubs its muzzle on you."}
+    "petfood": { "food": [ "DOGFOOD" ], "feed": "The %s seems to like you!", "pet": "The %s lovingly rubs its muzzle on you." }
   },
   {
     "id": "mon_deer_fawn",
     "type": "MONSTER",
     "copy-from": "mon_deer_fawn",
-	"petfood": {"food": ["CATTLEFOOD"], "feed": "The %s seems to like you!", "pet": "The %s kicks its leg happily as you scratch it."}
+    "petfood": {
+      "food": [ "CATTLEFOOD" ],
+      "feed": "The %s seems to like you!",
+      "pet": "The %s kicks its leg happily as you scratch it."
+    }
   },
   {
     "id": "mon_deer",
     "type": "MONSTER",
     "copy-from": "mon_deer",
-	"petfood": {"food": ["CATTLEFOOD"], "feed": "The %s seems to like you!", "pet": "The %s kicks its leg happily as you scratch it."}
+    "petfood": {
+      "food": [ "CATTLEFOOD" ],
+      "feed": "The %s seems to like you!",
+      "pet": "The %s kicks its leg happily as you scratch it."
+    }
   },
   {
     "id": "mon_fox_gray",
     "type": "MONSTER",
     "copy-from": "mon_fox_gray",
-	"petfood": {"food": ["CATFOOD", "DOGFOOD"], "feed": "The %s seems to like you!", "pet": "The %s looks at you lovingly."}
+    "petfood": { "food": [ "CATFOOD", "DOGFOOD" ], "feed": "The %s seems to like you!", "pet": "The %s looks at you lovingly." }
   },
   {
     "id": "mon_fox_red",
     "type": "MONSTER",
     "copy-from": "mon_fox_red",
-	"petfood": {"food": ["CATFOOD", "DOGFOOD"], "feed": "The %s seems to like you!", "pet": "The %s looks at you lovingly."}
+    "petfood": { "food": [ "CATFOOD", "DOGFOOD" ], "feed": "The %s seems to like you!", "pet": "The %s looks at you lovingly." }
   },
   {
     "id": "mon_raccoon",
     "type": "MONSTER",
     "copy-from": "mon_raccoon",
-	"petfood": {"food": ["CATFOOD", "DOGFOOD"], "feed": "The %s seems to like you!", "pet": "The %s looks at you lovingly."}
+    "petfood": { "food": [ "CATFOOD", "DOGFOOD" ], "feed": "The %s seems to like you!", "pet": "The %s looks at you lovingly." }
   },
   {
     "id": "mon_sewer_rat",
     "type": "MONSTER",
     "copy-from": "mon_sewer_rat",
-	"petfood": {"food": ["DOGFOOD", "CATFOOD"], "feed": "The %s seems to like you!", "pet": "The %s squeaks contently at you."}
+    "petfood": { "food": [ "DOGFOOD", "CATFOOD" ], "feed": "The %s seems to like you!", "pet": "The %s squeaks contently at you." }
   },
   {
     "id": "mon_sheep_lamb",
@@ -81,6 +93,6 @@
     "id": "mon_wolf",
     "type": "MONSTER",
     "copy-from": "mon_wolf",
-	"petfood": {"food": ["DOGFOOD"], "feed": "The %s seems to like you!", "pet": "The %s sits and looks at you lovingly."}
+    "petfood": { "food": [ "DOGFOOD" ], "feed": "The %s seems to like you!", "pet": "The %s sits and looks at you lovingly." }
   }
 ]
