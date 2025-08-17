@@ -173,7 +173,7 @@
     "volume": "62500 ml",
     "weight": "81500 g",
     "hp": 200,
-    "speed": 80,
+    "speed": 100,
     "attack_cost": 105,
     "material": [ "flesh" ],
     "symbol": "Z",
