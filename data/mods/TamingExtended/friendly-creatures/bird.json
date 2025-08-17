@@ -1,0 +1,42 @@
+[
+  {
+    "id": "mon_crow",
+    "type": "MONSTER",
+	"copy-from": "mon_crow",
+    "petfood": {
+      "food": [ "BIRDFOOD" ],
+      "feed": "The %s seems to like you!",
+      "pet": "The %s flies around you and briefly perches on your arm."
+    }
+  },
+  {
+    "id": "mon_duck",
+    "type": "MONSTER",
+	"copy-from": "mon_duck",
+    "petfood": {
+      "food": [ "BIRDFOOD" ],
+      "feed": "The %s seems to like you!",
+      "pet": "The %s quacks happily at you as you pat its head."
+    }
+  },
+  {
+    "id": "mon_turkey",
+    "type": "MONSTER",
+	"copy-from": "mon_turkey",
+    "petfood": {
+      "food": [ "BIRDFOOD" ],
+      "feed": "The %s seems to like you!",
+      "pet": "The %s clucks happily at you as you pat its head."
+    }
+  },
+  {
+    "id": "mon_cockatrice",
+    "type": "MONSTER",
+	"copy-from": "mon_cockatrice",
+    "petfood": {
+      "food": [ "BIRDFOOD" ],
+      "feed": "The %s seems to like you!",
+      "pet": "The %s looks lovingly at you as you pat its head."
+    }
+  }
+]
