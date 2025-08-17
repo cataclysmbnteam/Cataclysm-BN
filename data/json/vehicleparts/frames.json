@@ -208,7 +208,7 @@
       "SEAT_REQUIRES_BALANCE",
       "BOARDABLE",
       "CONTROLS",
-      "CTRL_WITHOUT_HANDS"
+      "CONTROL_WITHOUT_HANDS"
     ],
     "damage_reduction": { "all": 2 }
   },
