@@ -18,6 +18,12 @@
     "components": [ [ [ "nail", 1 ], [ "adhesive_proper", 1, "LIST" ] ] ]
   },
   {
+    "id": "nail_any_adhesive",
+    "type": "requirement",
+    "//": "For items that can be repaired with nails, glue, or tape.",
+    "components": [ [ [ "nail", 1 ], [ "adhesive", 1, "LIST" ] ] ]
+  },
+  {
     "id": "ammo_bullet",
     "type": "requirement",
     "//": "Materials used when forming bullets",

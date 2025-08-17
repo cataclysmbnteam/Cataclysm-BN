@@ -57,17 +57,59 @@ int foo( int arg1, int *arg2 )
 
 These are less generic guidelines and more pain points we've stumbled across over time.
 
+- Prefer immutable values and declare variables with `const`. Less moving parts mean more predictable code flow.
 - Prefer `int`.
   - `long` in particular is problematic since it is _not_ a larger type than int on some platforms
     we support.
-  - Using integral value larger than 32 bits should be avoided. Use `int64_t` if it's really
-    necessary.
+  - Using integral value larger than 32 bits should be avoided. Use `int64_t` if it's really necessary.
   - `uint` is also a problem, it has poor behavior when overflowing and should be avoided for
     general purpose programming.
     - If you need binary data, `unsigned int` or `unsigned char` are fine, but you should probably
       use a `std::bitset` instead.
   - `float` is to be avoided, but has valid uses.
-- Auto Almost Nothing. Auto has two uses, others should be avoided.
-  - Aliasing for extremely long iterator or functional declarations.
-  - Generic code support (but decltype is better).
-- Avoid using declaration for standard namespaces.
+- Use [`auto` keyword](https://learn.microsoft.com/en-us/cpp/cpp/auto-cpp?view=msvc-170) where it makes sense to do so, for example:
+  - Prefer [trailing return types](https://en.wikipedia.org/wiki/Trailing_return_type) in function declarations. Long return types obscure function name and makes reading class methods a painful experience.
+  ```cpp
+  class Bar;
+  auto foo( int a ) -> int
+  {
+      const Bar &bar = some_function();
+
+      return is_bar_ok( bar ) ? 42 : 404;
+  }
+  ```
+  - Use for `decltype` style generic functions
+  ```diff
+  template<typename A, typename B>
+  - decltype(std::declval<A&>() * std::declval<B&>()) multiply(A a, B b)
+  + auto multiply( A a, B b ) -> decltype( a * b )
+  {
+      return a*b;
+  }
+  ```
+  - Aliasing for long iterator declarations
+  ```diff
+    std::map<int, std::map<std::string, some_long_typename>> some_map;
+
+  - std::map<int, std::map<std::string, some_long_typename>>::iterator iter = some_map.begin();
+  + auto iter = some_map.begin();
+  ```
+  - Required for Lambda declarations
+  ```cpp
+  auto two_times = []( int a ) { return a * 2; };
+  ```
+  - Doesn't otherwise sacrifice readability for expedience. Options for inlay type hinting are available in popular code editor such as [vscode](https://github.com/clangd/vscode-clangd).
+
+- Avoid `using namespace` for standard namespaces.
+- Avoid adding new member methods to classes unless required.
+  ```diff
+  // this function does not access non-public data members or member methods in the class, and thus can be made a free function
+  - std::string Character::profession_description() const
+  - {
+  -     return prof->description( male );
+  - }
+  + auto profession_description( const Character &c ) -> std::string
+  + {
+  +     return c.prof->description( c.male );
+  + }
+  ```

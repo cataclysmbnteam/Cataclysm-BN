@@ -663,7 +663,11 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 0 ] ], "time": "5 m", "qualities": [ { "id": "WRENCH", "level": 1 } ] },
       "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "5 m", "qualities": [ { "id": "SAW_W", "level": 1 } ] },
-      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "50 s", "using": [ [ "adhesive", 1 ], [ "wood_structural_small", 1 ] ] }
+      "repair": {
+        "skills": [ [ "mechanics", 2 ] ],
+        "time": "50 s",
+        "using": [ [ "nail_any_adhesive", 1 ], [ "wood_structural_small", 1 ] ]
+      }
     },
     "rolling_resistance": 2.15,
     "wheel_type": "rigid",
@@ -730,7 +734,11 @@
     "requirements": {
       "install": { "skills": [ [ "survival", 0 ] ], "time": "15 m", "using": [ [ "nail_glue", 1 ] ] },
       "removal": { "skills": [ [ "survival", 0 ] ], "time": "10 m" },
-      "repair": { "skills": [ [ "survival", 1 ] ], "time": "15 m", "using": [ [ "adhesive", 1 ], [ "vehicle_repair_small_wood", 2 ] ] }
+      "repair": {
+        "skills": [ [ "survival", 1 ] ],
+        "time": "15 m",
+        "using": [ [ "nail_any_adhesive", 1 ], [ "vehicle_repair_small_wood", 2 ] ]
+      }
     },
     "damage_reduction": { "all": 8 }
   }
