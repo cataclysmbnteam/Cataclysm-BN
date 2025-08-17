@@ -1014,10 +1014,24 @@ void Creature::deal_projectile_attack( Creature *source, item *source_weapon,
 
     float dmg_after_armor = dealt_dam.total_damage();
 
+    // Cutting, stabbing, and bashing projectiles overpenetrate less than bullets
+    bool modify_overpentration = proj.impact.type_damage( DT_BASH ) > 0 ||
+                      proj.impact.type_damage( DT_CUT ) > 0 ||
+                      proj.impact.type_damage( DT_STAB ) > 0;
+    float overpenetration_modifier = ( proj.impact.type_damage( DT_CUT ) +
+                proj.impact.type_damage( DT_STAB ) >=
+                proj.impact.type_damage( DT_BASH ) ) ? 0.75f : 0.5f;
+
     // Modify projectile for overpenetration.
     for( auto &elem : proj.impact.damage_units ) {
         // Ratio of how much armor reduced expected damage, used as a multiplier.
         float damage_ratio = dmg_after_armor / dmg_before_armor;
+        // Non-ballistic physical projectiles take an extra nerf to overpenetration.
+        if( modify_overpentration ) {
+        elem.amount *= overpenetration_modifier;
+        elem.res_pen *= overpenetration_modifier;
+            add_msg( m_debug, "Bullet overpenetration modified by %.0f", overpenetration_modifier );
+        }
         // Take an extra 10 damage and 5 arpen off per target, regardless of damage ratio.
         elem.amount = std::max( 0.0f, ( elem.amount * damage_ratio ) - 10 );
         elem.res_pen = std::max( 0.0f, ( elem.res_pen * damage_ratio ) - 5 );

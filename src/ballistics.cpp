@@ -320,6 +320,13 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
     while( traj_len > 0 && rl_dist( source, trajectory[traj_len - 1] ) > proj_arg.range ) {
         --traj_len;
     }
+    // Non-ballistic physical projectiles lose range if they overpenetrate.
+    bool modify_overpentration = proj.impact.type_damage( DT_BASH ) > 0 ||
+                      proj.impact.type_damage( DT_CUT ) > 0 ||
+                      proj.impact.type_damage( DT_STAB ) > 0;
+    float overpenetration_modifier = ( proj.impact.type_damage( DT_CUT ) +
+                proj.impact.type_damage( DT_STAB ) >=
+                proj.impact.type_damage( DT_BASH ) ) ? 0.75f : 0.5f;
 
     const float projectile_skip_multiplier = 0.1;
     // Randomize the skip so that bursts look nicer
@@ -442,16 +449,28 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
                     const tripoint &dest = move_along_line( tp, trajectory, bt_len );
                     here.add_splatter_trail( critter->bloodType(), tp, dest );
                 }
+                // Track damage before processing so we'll know if overpenetration affected range any.
+                float dmg_before_penetration = proj.impact.total_damage();
                 sfx::do_projectile_hit( *attack.hit_critter );
                 has_momentum = proj.impact.total_damage() > 0 && is_bullet;
+                if( has_momentum && dmg_before_penetration > proj.impact.total_damage() ) {
+                    traj_len *= overpenetration_modifier;
+                    add_msg( m_debug, "Projectile range modified by %.0f", overpenetration_modifier );
+                }
             } else {
                 attack.missed_by = aim.missed_by;
             }
         } else if( in_veh != nullptr && veh_pointer_or_null( here.veh_at( tp ) ) == in_veh ) {
             // Don't do anything, especially don't call map::shoot as this would damage the vehicle
         } else {
+            // Track damage before processing so we'll know if overpenetration affected range any.
+            float dmg_before_penetration = proj.impact.total_damage();
             here.shoot( source, tp, proj, !no_item_damage && tp == target );
             has_momentum = proj.impact.total_damage() > 0;
+            if( has_momentum && dmg_before_penetration > proj.impact.total_damage() ) {
+                traj_len *= overpenetration_modifier;
+                add_msg( m_debug, "Projectile range modified by %.0f", overpenetration_modifier );
+            }
         }
         if( !has_momentum && here.impassable( tp ) &&
             !here.has_flag( flag_THIN_OBSTACLE, tp ) ) {
