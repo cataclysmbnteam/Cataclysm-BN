@@ -10425,9 +10425,15 @@ void game::vertical_move( int movez, bool force, bool peeking )
             }
             // ...and we're trying to move up
             else if( movez == 1 ) {
-                // ...and there's more water above us us.
-                if( target_ter->has_flag( TFLAG_WATER_CUBE ) ||
-                    target_ter->has_flag( TFLAG_DEEP_WATER ) ) {
+                const std::optional<vpart_reference> vp = get_map().veh_at( u.pos() + tripoint( 0, 0,
+                        movez ) ).part_with_feature( VPFLAG_BOARDABLE,
+                                                     true );
+                if( vp ) {
+                    add_msg( m_info, _( "You can't board a boat from underneath it!" ) );
+                    return;
+                    // ...and there's more water above us, but no boats blocking the way.
+                } else if( target_ter->has_flag( TFLAG_WATER_CUBE ) ||
+                           target_ter->has_flag( TFLAG_DEEP_WATER ) ) {
                     // Then go ahead and move up.
                     add_msg( _( "You swim up." ) );
                 } else {
