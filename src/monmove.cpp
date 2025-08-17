@@ -1761,6 +1761,10 @@ bool monster::move_to( const tripoint &p, bool force, bool step_on_critter,
     setpos( destination );
     footsteps( destination );
     set_underwater( will_be_water );
+    // If an aquatic monster is aggressive and on the surface, have it swim where the player can see it
+    if( g->m.is_divable( destination ) && !g->m.has_flag( TFLAG_WATER_CUBE, destination ) && anger > 10 && has_flag( MF_AQUATIC ) ) {
+        set_underwater( false );
+    }
     if( is_hallucination() ) {
         //Hallucinations don't do any of the stuff after this point
         return true;
