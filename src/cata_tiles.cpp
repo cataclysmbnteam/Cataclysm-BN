@@ -90,7 +90,6 @@ static const itype_id itype_corpse( "corpse" );
 
 static const std::string ITEM_HIGHLIGHT( "highlight_item" );
 static const std::string ZOMBIE_REVIVAL_INDICATOR( "zombie_revival_indicator" );
-static const std::string UNDERWATER_INDICATOR( "underwater_indicator" );
 
 static const std::array<std::string, 8> multitile_keys = {{
         "center",
@@ -487,11 +486,13 @@ bool tileset_loader::create_textures_from_tile_atlas( const SDL_Surface_Ptr &til
 
     /** perform color filter conversion here */
     using tiles_pixel_color_entry = std::tuple<std::vector<texture>*, std::string>;
-    std::array<tiles_pixel_color_entry, 6> tile_values_data = {{
+    std::array<tiles_pixel_color_entry, 8> tile_values_data = {{
             { std::make_tuple( &ts.tile_values, "color_pixel_none" ) },
             { std::make_tuple( &ts.shadow_tile_values, "color_pixel_grayscale" ) },
             { std::make_tuple( &ts.night_tile_values, "color_pixel_nightvision" ) },
             { std::make_tuple( &ts.overexposed_tile_values, "color_pixel_overexposed" ) },
+            { std::make_tuple( &ts.underwater_tile_values, "color_pixel_underwater" ) },
+            { std::make_tuple( &ts.underwater_dark_tile_values, "color_pixel_underwater_dark" ) },
             { std::make_tuple( &ts.z_overlay_values, "color_pixel_zoverlay" ) },
             { std::make_tuple( &ts.memory_tile_values, tilecontext->memory_map_mode ) }
         }
@@ -591,6 +592,8 @@ void tileset_loader::load_tileset( const std::string &img_path, const bool pump_
     extend_vector_by( ts.shadow_tile_values, expected_tilecount );
     extend_vector_by( ts.night_tile_values, expected_tilecount );
     extend_vector_by( ts.overexposed_tile_values, expected_tilecount );
+    extend_vector_by( ts.underwater_tile_values, expected_tilecount );
+    extend_vector_by( ts.underwater_dark_tile_values, expected_tilecount );
     extend_vector_by( ts.z_overlay_values, expected_tilecount );
     extend_vector_by( ts.memory_tile_values, expected_tilecount );
 
@@ -1679,8 +1682,8 @@ void cata_tiles::draw( point dest, const tripoint &center, int width, int height
             }
         };
 
-        const std::array<decltype( &cata_tiles::draw_furniture ), 3> final_drawing_layers = {{
-                &cata_tiles::draw_underwater_indicator, &cata_tiles::draw_zone_mark, &cata_tiles::draw_zombie_revival_indicators
+        const std::array<decltype( &cata_tiles::draw_furniture ), 2> final_drawing_layers = {{
+                &cata_tiles::draw_zone_mark, &cata_tiles::draw_zombie_revival_indicators
             }
         };
 
@@ -2456,6 +2459,16 @@ bool cata_tiles::draw_sprite_at(
     } else if( overlay_alpha > 0 && static_z_effect ) {
         if( const auto ptr = tileset_ptr->get_z_overlay( spritelist[sprite_num] ) ) {
             sprite_tex = ptr;
+        }
+    } else if( g->u.is_underwater() ) {
+        if( ll != lit_level::LOW ) {
+            if( const auto ptr = tileset_ptr->get_underwater_tile( spritelist[sprite_num] ) ) {
+                sprite_tex = ptr;
+            }
+        } else {
+            if( const auto ptr = tileset_ptr->get_underwater_dark_tile( spritelist[sprite_num] ) ) {
+                sprite_tex = ptr;
+            }
         }
     } else if( ll == lit_level::LOW ) {
         if( const auto ptr = tileset_ptr->get_shadow_tile( spritelist[sprite_num] ) ) {
@@ -3249,20 +3262,6 @@ bool cata_tiles::draw_critter_at( const tripoint &p, lit_level ll, int &height_3
     }
     return result;
 
-}
-
-bool cata_tiles::draw_underwater_indicator( const tripoint &p, lit_level ll, int &height_3d,
-        const bool ( &invisible )[5], int z_drop )
-{
-    if( invisible[0] ) {
-        return false;
-    }
-    map &here = get_map();
-    if( !here.has_flag( "WATER_CUBE", p ) ) {
-        return false;
-    }
-    return draw_from_id_string( UNDERWATER_INDICATOR, C_NONE, empty_string, p, 0, 0, ll,
-                                nv_goggles_activated, height_3d, z_drop );
 }
 
 bool cata_tiles::draw_zone_mark( const tripoint &p, lit_level ll, int &height_3d,
