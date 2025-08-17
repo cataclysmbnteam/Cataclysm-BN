@@ -930,7 +930,6 @@
     "flags": [
       "TRANSPARENT",
       "LIQUID",
-      "NO_SCENT",
       "SWIMMABLE",
       "WATER_CUBE",
       "DEEP_WATER",

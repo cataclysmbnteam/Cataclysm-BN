@@ -1357,6 +1357,8 @@ tripoint monster::scent_move()
             continue;
         }
         if( g->m.valid_move( pos(), dest, can_bash, true ) &&
+            // Waterbound monsters can only smell you if you're in deep water.
+            ( !has_flag( MF_AQUATIC ) || g->m.is_divable( dest ) ) &&
             ( ( can_move_to( dest ) && !get_map().obstructed_by_vehicle_rotation( pos(), dest ) ) ||
               ( dest == g->u.pos() ) ||
               ( can_bash && g->m.bash_rating( bash_estimate(), dest ) > 0 ) ) ) {
@@ -1524,6 +1526,10 @@ bool monster::bash_at( const tripoint &p )
     }
 
     int bashskill = group_bash_skill( p );
+    // Non-aquatic enemies currently in deep water bash less effectively.
+    if( here.is_divable( pos() ) && !has_flag( MF_AQUATIC ) ) {
+        bashskill *= 0.5;
+    }
     g->m.bash( p, bashskill );
     moves -= 100;
     return true;
