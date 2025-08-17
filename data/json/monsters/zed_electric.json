@@ -205,15 +205,15 @@
       "SEES",
       "HEARS",
       "SMELLS",
-      "STUMBLES",
       "WARM",
       "BASHES",
-      "GROUP_BASH",
       "POISON",
+      "PATH_AVOID_DANGER_2",
+      "PRIORITIZE_TARGETS",
+      "NO_FUNG_DMG",
       "ELECTRIC",
       "NO_BREATHE",
-      "REVIVES",
-      "ELECTRIC_FIELD"
+      "REVIVES"
     ]
   },
   {
@@ -227,7 +227,7 @@
     "volume": "62500 ml",
     "weight": "81500 g",
     "hp": 10,
-    "speed": 70,
+    "speed": 80,
     "material": [ "powder" ],
     "symbol": "V",
     "color": "i_cyan",
@@ -241,6 +241,6 @@
     "emit_fields": [ { "emit_id": "emit_shock_cloud", "delay": "1 s" } ],
     "special_attacks": [ [ "DISAPPEAR", 60 ] ],
     "death_function": [ "MELT" ],
-    "flags": [ "SEES", "HEARS", "GOODHEARING", "NOHEAD", "NO_BREATHE", "ELECTRIC", "STUMBLES" ]
+    "flags": [ "SEES", "HEARS", "GOODHEARING", "NOHEAD", "NO_BREATHE", "ELECTRIC", "ELECTRIC_FIELD" ]
   }
 ]
