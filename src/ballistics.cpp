@@ -322,11 +322,11 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
     }
     // Non-ballistic physical projectiles lose range if they overpenetrate.
     bool modify_overpentration = proj.impact.type_damage( DT_BASH ) > 0 ||
-                      proj.impact.type_damage( DT_CUT ) > 0 ||
-                      proj.impact.type_damage( DT_STAB ) > 0;
+                                 proj.impact.type_damage( DT_CUT ) > 0 ||
+                                 proj.impact.type_damage( DT_STAB ) > 0;
     float overpenetration_modifier = ( proj.impact.type_damage( DT_CUT ) +
-                proj.impact.type_damage( DT_STAB ) >=
-                proj.impact.type_damage( DT_BASH ) ) ? 0.75f : 0.5f;
+                                       proj.impact.type_damage( DT_STAB ) >=
+                                       proj.impact.type_damage( DT_BASH ) ) ? 0.75f : 0.5f;
 
     const float projectile_skip_multiplier = 0.1;
     // Randomize the skip so that bursts look nicer

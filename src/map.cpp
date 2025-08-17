@@ -3949,11 +3949,11 @@ void map::shoot( const tripoint &origin, const tripoint &p, projectile &proj, co
 
     // Cutting, stabbing, and bashing projectiles overpenetrate less than bullets
     bool modify_overpentration = proj.impact.type_damage( DT_BASH ) > 0 ||
-                      proj.impact.type_damage( DT_CUT ) > 0 ||
-                      proj.impact.type_damage( DT_STAB ) > 0;
+                                 proj.impact.type_damage( DT_CUT ) > 0 ||
+                                 proj.impact.type_damage( DT_STAB ) > 0;
     float overpenetration_modifier = ( proj.impact.type_damage( DT_CUT ) +
-                proj.impact.type_damage( DT_STAB ) >=
-                proj.impact.type_damage( DT_BASH ) ) ? 0.75f : 0.5f;
+                                       proj.impact.type_damage( DT_STAB ) >=
+                                       proj.impact.type_damage( DT_BASH ) ) ? 0.75f : 0.5f;
 
     double range = rl_dist( origin, p );
     const bool point_blank = range <= 1;
@@ -3990,12 +3990,12 @@ void map::shoot( const tripoint &origin, const tripoint &p, projectile &proj, co
                     add_msg( _( "The shot hits the %s and punches through!" ), furnname( p ) );
                 }
             }
-        // Non-ballistic physical projectiles take an extra nerf to overpenetration.
-        if( modify_overpentration ) {
-        dam *= overpenetration_modifier;
-        pen *= overpenetration_modifier;
-            add_msg( m_debug, "Bullet overpenetration modified by %.0f", overpenetration_modifier );
-        }
+            // Non-ballistic physical projectiles take an extra nerf to overpenetration.
+            if( modify_overpentration ) {
+                dam *= overpenetration_modifier;
+                pen *= overpenetration_modifier;
+                add_msg( m_debug, "Bullet overpenetration modified by %.0f", overpenetration_modifier );
+            }
             add_msg( m_debug, "%s: damage: %.0f -> %.0f, arpen: %.0f -> %.0f", furn.name(), initial_damage, dam,
                      initial_arpen,
                      pen );
@@ -4045,11 +4045,11 @@ void map::shoot( const tripoint &origin, const tripoint &p, projectile &proj, co
                     add_msg( _( "The shot hits the %s and punches through!" ), tername( p ) );
                 }
             }
-        // Non-ballistic physical projectiles take an extra nerf to overpenetration.
-        if( modify_overpentration ) {
-        dam *= overpenetration_modifier;
-        pen *= overpenetration_modifier;
-        }
+            // Non-ballistic physical projectiles take an extra nerf to overpenetration.
+            if( modify_overpentration ) {
+                dam *= overpenetration_modifier;
+                pen *= overpenetration_modifier;
+            }
             add_msg( m_debug, "%s: damage: %.0f -> %.0f, arpen: %.0f -> %.0f", ter.name(), modified_dam, dam,
                      modified_pen,
                      pen );
