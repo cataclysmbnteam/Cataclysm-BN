@@ -142,7 +142,7 @@ bool monster::will_move_to( const tripoint &p ) const
         return false;
     }
 
-    if( has_flag( MF_AQUATIC ) && !g->m.has_flag( "SWIMMABLE", p ) ) {
+    if( has_flag( MF_AQUATIC ) && ( !g->m.has_flag( "SWIMMABLE", p ) || g->m.veh_at( p ).part_with_feature( "BOARDABLE", true ) ) ) {
         return false;
     }
 
