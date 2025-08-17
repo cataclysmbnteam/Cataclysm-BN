@@ -3892,7 +3892,7 @@ bool ranged::gunmode_checks_common( avatar &you, const map &m, std::vector<std::
             gmode->has_flag( flag_FIRE_TWOHAND ) ) ) {
 
         const auto vp_control = vp->part_with_feature( "CONTROLS", true );
-        const bool ctrl_handsfree = vp_control && vp_control->has_feature( "CTRL_WO_HANDS" );
+        const bool ctrl_handsfree = vp_control && vp_control->has_feature( "CTRL_WITHOUT_HANDS" );
         const auto vp_steerable = vp->part_with_feature( "STEERABLE", true );
         const auto vp_wheel = vp->part_with_feature( "WHEEL", true );
         const bool strbl_whl = vp_steerable && vp_wheel; // is there a steerable stuff and a wheel?
