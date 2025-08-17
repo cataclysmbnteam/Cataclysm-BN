@@ -58,7 +58,7 @@
     "id": "CONTROL_WITHOUT_HANDS",
     "type": "json_flag",
     "context": [ "vehicle_part" ],
-    "info": "You can fire a gun needed two hands while drive here.",
+    "info": "Allows you to fire two-handed weapons while driving."
     "requires_flag": "STEERABLE"
   },
   {
