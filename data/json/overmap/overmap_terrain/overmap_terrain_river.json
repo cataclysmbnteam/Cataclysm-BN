@@ -19,8 +19,7 @@
   {
     "type": "overmap_terrain",
     "id": "river_center",
-    "copy-from": "generic_river",
-    "mapgen": [ { "method": "builtin", "name": "river_center" } ]
+    "copy-from": "generic_river"
   },
   {
     "type": "overmap_terrain",
