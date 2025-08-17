@@ -116,8 +116,8 @@ SDL_Color color_pixel_underwater( const SDL_Color &color )
     }
 
     return {
-        std::max<Uint8>( 150 * color.r >> 8, 0x01 ),
-        std::max<Uint8>( 200 * color.g >> 8, 0x01 ),
+        std::max<Uint8>( 200 * color.r >> 8, 0x01 ),
+        std::max<Uint8>( 225 * color.g >> 8, 0x01 ),
         std::max<Uint8>( 250 * color.b >> 8, 0x01 ),
         color.a
     };
@@ -130,8 +130,8 @@ SDL_Color color_pixel_underwater_dark( const SDL_Color &color )
     }
 
     return {
-        std::max<Uint8>( 75 * color.r >> 8, 0x01 ),
-        std::max<Uint8>( 100 * color.g >> 8, 0x01 ),
+        std::max<Uint8>( 100 * color.r >> 8, 0x01 ),
+        std::max<Uint8>( 113 * color.g >> 8, 0x01 ),
         std::max<Uint8>( 125 * color.b >> 8, 0x01 ),
         color.a
     };
