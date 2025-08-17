@@ -193,7 +193,7 @@
     "symbol": "#",
     "type": "vehicle_part",
     "looks_like": "saddle_pedal",
-    "extend": { "flags": [ "CONTROLS", "CTRL_WO_HANDS" ] }
+    "extend": { "flags": [ "CONTROLS", "CTRL_WITHOUT_HANDS" ] }
   },
   {
     "copy-from": "folding_seat_abstract",
