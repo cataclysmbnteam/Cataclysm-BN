@@ -1116,6 +1116,11 @@
   },
   {
     "type": "construction_group",
+    "id": "make_trash_island",
+    "name": "Make Trash Island"
+  },
+  {
+    "type": "construction_group",
     "id": "make_woodchip_floor",
     "name": "Make Woodchip Floor"
   },

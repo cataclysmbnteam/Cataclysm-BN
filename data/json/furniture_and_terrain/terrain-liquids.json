@@ -388,7 +388,7 @@
     "looks_like": "t_metal_floor",
     "color": "light_gray",
     "move_cost": 2,
-    "flags": [ "TRANSPARENT", "LIQUID", "SWIMMABLE", "DEEP_WATER" ],
+    "flags": [ "TRANSPARENT", "LIQUID", "SWIMMABLE", "DEEP_WATER", "WATER_CUBE" ],
     "bash": {
       "sound": "thump",
       "ter_set": "t_water_cube",

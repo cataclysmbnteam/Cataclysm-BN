@@ -214,7 +214,7 @@ jobs:
           TIMESTAMP=$(date "+%F %T")
 
           gh release upload experimental --clobber cbn-${{ matrix.artifact }}-experimental.${{ matrix.ext }}
-          gh release edit experimental --title "Experimental @ $TIMESTAMP (\`$SHA_SHORT\`)" --notes "Experimental build for commit $SHA_SHORT on $TIMESTAMP"
+          gh release edit experimental --title "Experimental @ $TIMESTAMP ($SHA_SHORT)" --notes "Experimental build for commit $SHA_SHORT on $TIMESTAMP"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         shell: bash

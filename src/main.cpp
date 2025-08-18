@@ -45,6 +45,7 @@
 #include "type_id.h"
 #include "ui_manager.h"
 #include "path_display.h"
+#include "get_version.h"
 
 #if defined(PREFIX)
 #   undef PREFIX
@@ -571,6 +572,9 @@ int main( int argc, char *argv[] )
                 printHelpMessage( first_pass_arguments.data(), num_first_pass_arguments,
                                   second_pass_arguments.data(), num_second_pass_arguments );
                 return 0;
+            } else if( !strcmp( argv[0], "--version" ) ) {
+                cata_printf( "%s\n", getVersionString() );
+                return 0;
             } else if( !strcmp( argv[0], "--paths" ) ) {
                 asked_game_path = true;
                 argc--;
@@ -851,6 +855,8 @@ void printHelpMessage( const arg_handler *first_pass_arguments,
     cata_printf( R"(Info:
 --help
     print this message and exit
+--version
+    print the version and exit
 --paths
     print the paths used by the game and exit
 
