@@ -166,7 +166,7 @@
     "color": "brown",
     "symbol": "/",
     "material": [ "superalloy" ],
-    "techniques": [ "WBLOCK_2", "BRUTAL", "SWEEP" ],
+    "techniques": [ "WBLOCK_1", "BRUTAL" ],
     "flags": [
       "NONCONDUCTIVE",
       "BELT_CLIP",
@@ -178,12 +178,11 @@
       "MAGIC_FOCUS"
     ],
     "volume": "1250 ml",
-    "bashing": 30,
     "attacks": [
       {
         "id": "BASH",
         "to_hit": 2,
-        "damage": { "values": [ { "damage_type": "bash", "amount": 30 }, { "damage_type": "electric", "amount": 15 } ] }
+        "damage": { "values": [ { "damage_type": "bash", "amount": 25 }, { "damage_type": "electric", "amount": 15 } ] }
       }
     ],
     "price": "0 cent",
@@ -220,7 +219,6 @@
     "material": [ "superalloy" ],
     "volume": "250 ml",
     "weight": "1 g",
-    "bashing": 10,
     "attacks": [
       {
         "id": "BASH",
@@ -253,7 +251,7 @@
     "volume": "1500 ml",
     "price": "0 cent",
     "material": [ "iron", "leather" ],
-    "techniques": [ "PRECISE", "RAPID", "WBLOCK_2" ],
+    "techniques": [ "PRECISE", "RAPID" ],
     "flags": [
       "REACH_ATTACK",
       "REACH3",
@@ -319,7 +317,7 @@
       "NO_SALVAGE",
       "MAGIC_FOCUS"
     ],
-    "techniques": [ "WBLOCK_2", "WIDE", "SWEEP", "BRUTAL" ],
+    "techniques": [ "WBLOCK_1", "WIDE", "SWEEP", "BRUTAL" ],
     "weight": "2175 g",
     "volume": "2500 ml",
     "price": "0 cent",
@@ -348,7 +346,8 @@
       "ONLY_ONE",
       "NO_REPAIR",
       "NO_SALVAGE",
-      "NO_UNLOAD"
+      "NO_UNLOAD",
+      "MAGIC_FOCUS"
     ],
     "skill": "archery",
     "min_strength": 9,
@@ -561,7 +560,7 @@
     "description": "This wooden sword is ablaze!  It seems to be safe-ish to hold, but will burn up soon.",
     "material": [ "wood" ],
     "price": "0 cent",
-    "flags": [ "UNBREAKABLE_MELEE", "NONCONDUCTIVE", "NO_REPAIR", "NO_SALVAGE", "MAGIC_FOCUS", "LIGHT_10", "FIRESTARTER", "FIRE" ],
+    "flags": [ "UNBREAKABLE_MELEE", "NONCONDUCTIVE", "NO_REPAIR", "NO_SALVAGE", "LIGHT_10", "FIRESTARTER", "FIRE" ],
     "techniques": [ "WBLOCK_1", "WIDE", "BRUTAL" ],
     "weight": "1 kg",
     "volume": "1 L",
@@ -590,16 +589,7 @@
     "description": "A pulsating club made of bone, stained with an ever-moving blood coating eager to absorb the living.",
     "material": [ "bone", "flesh" ],
     "weapon_category": [ "BATONS" ],
-    "flags": [
-      "UNBREAKABLE_MELEE",
-      "NONCONDUCTIVE",
-      "ONLY_ONE",
-      "NO_REPAIR",
-      "NO_SALVAGE",
-      "MAGIC_FOCUS",
-      "BELT_CLIP",
-      "TRADER_AVOID"
-    ],
+    "flags": [ "UNBREAKABLE_MELEE", "NONCONDUCTIVE", "ONLY_ONE", "NO_REPAIR", "NO_SALVAGE", "BELT_CLIP", "TRADER_AVOID" ],
     "techniques": [ "WBLOCK_2", "RAPID", "PRECISE" ],
     "weight": "700 g",
     "volume": "800 ml",
@@ -649,9 +639,9 @@
       {
         "id": "SLASH",
         "to_hit": 2,
-        "damage": { "values": [ { "damage_type": "cut", "amount": 35 }, { "damage_type": "light", "amount": 5 } ] }
+        "damage": { "values": [ { "damage_type": "cut", "amount": 25 }, { "damage_type": "light", "amount": 15 } ] }
       }
     ],
-    "extend": { "flags": [ "LIGHT_10" ] }
+    "extend": { "flags": [ "LIGHT_10", "MAGIC_FOCUS" ] }
   }
 ]

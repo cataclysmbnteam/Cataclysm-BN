@@ -29,10 +29,7 @@
     "skills_required": [ "survival", 1 ],
     "time": "2 m",
     "autolearn": true,
-    "components": [
-		[[ "edible_tallow_lard", 1, "LIST" ]], 
-		[[ "meat_red", 1, "LIST" ]]
-	]
+    "components": [ [ [ "edible_tallow_lard", 1, "LIST" ] ], [ [ "meat_red", 1, "LIST" ] ] ]
   },
   {
     "id": "jellied_honey_food",
@@ -63,10 +60,7 @@
     "skills_required": [ "survival", 1 ],
     "time": "2 m",
     "autolearn": true,
-    "components": [
-      [[ "edible_tallow_lard", 1, "LIST" ]],
-      [[ "honeycomb", 1 ], [ "honey_bottled", 1 ], [ "honey_glassed", 2 ]]
-    ]
+    "components": [ [ [ "edible_tallow_lard", 1, "LIST" ] ], [ [ "honeycomb", 1 ], [ "honey_bottled", 1 ], [ "honey_glassed", 2 ] ] ]
   },
   {
     "id": "jellied_blood_concentrate_food",
@@ -97,7 +91,7 @@
     "skills_required": [ "survival", 1 ],
     "time": "2 m",
     "autolearn": true,
-    "components": [[[ "edible_tallow_lard", 1, "LIST" ]], [[ "edible_blood_concentrate", 1 , "LIST" ]]]
+    "components": [ [ [ "edible_tallow_lard", 1, "LIST" ] ], [ [ "edible_blood_concentrate", 1, "LIST" ] ] ]
   },
   {
     "id": "jellied_insects_food",
@@ -128,9 +122,6 @@
     "skills_required": [ "survival", 1 ],
     "time": "2 m",
     "autolearn": true,
-    "components": [
-		[[ "edible_tallow_lard", 1, "LIST" ]], 
-		[[ "mutant_bug_lungs", 1 ], [ "mutant_bug_organs", 1 ]]
-	]
+    "components": [ [ [ "edible_tallow_lard", 1, "LIST" ] ], [ [ "mutant_bug_lungs", 1 ], [ "mutant_bug_organs", 1 ] ] ]
   }
 ]
