@@ -2374,7 +2374,6 @@
       "INDOORS",
       "BURROWABLE",
       "LIQUID",
-      "NO_SCENT",
       "SWIMMABLE",
       "DEEP_WATER",
       "WATER_CUBE"
@@ -2839,7 +2838,7 @@
     "move_cost": 2,
     "coverage": 95,
     "roof": "t_metal_flat_roof",
-    "flags": [ "TRANSPARENT", "INDOORS", "FLAT", "ROAD", "LIQUID", "NO_SCENT", "SWIMMABLE", "DEEP_WATER", "WATER_CUBE" ],
+    "flags": [ "TRANSPARENT", "INDOORS", "FLAT", "ROAD", "LIQUID", "SWIMMABLE", "DEEP_WATER", "WATER_CUBE" ],
     "close": "t_door_metal_bulkhead_c_underwater",
     "bash": {
       "str_min": 100,
