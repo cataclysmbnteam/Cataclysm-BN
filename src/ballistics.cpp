@@ -480,11 +480,12 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
             // Don't do anything, especially don't call map::shoot as this would damage the vehicle
         } else {
             // Track damage before processing so we'll know if we actually hit any cover.
-            float dmg_before_penetration = proj.impact.total_damage();
+            const float dmg_before_penetration = proj.impact.total_damage();
             here.shoot( source, tp, proj, !no_item_damage && tp == target );
-            has_momentum = proj.impact.total_damage() > 0;
+            const float dmg_after_penetration = proj.impact.total_damage();
+            has_momentum = dmg_after_penetration > 0;
             // We lost momentum from hitting something, penalize range.
-            if( dmg_before_penetration > proj.impact.total_damage() ) {
+            if( dmg_before_penetration > dmg_after_penetration ) {
                 apply_overpenetration_penalty( is_projectile_modify_overpenetration );
             }
         }
