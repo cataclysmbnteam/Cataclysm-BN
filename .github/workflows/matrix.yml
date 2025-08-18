@@ -65,18 +65,6 @@ jobs:
             ccache_key: linux-gcc-cmake-tiles
             upload-artifact: true
 
-          - title: GCC, Ubuntu, Tiles, Sound
-            compiler: g++
-            os: ubuntu-latest
-            cmake: 1
-            tiles: 1
-            sound: 1
-            test-stage: 1
-            libbacktrace: 1
-            native: linux64
-            ccache_limit: 1G
-            ccache_key: linux-gcc-tiles
-
     name: ${{ matrix.title }}
     runs-on: ${{ matrix.os }}
     env:
