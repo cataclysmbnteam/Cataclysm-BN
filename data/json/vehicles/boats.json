@@ -108,7 +108,7 @@
   {
     "id": "jetski",
     "type": "vehicle",
-    "name": "jetski",
+    "name": "Jetski",
     "blueprint": [ [ "<O#" ] ],
     "parts": [
       { "x": 0, "y": 0, "parts": [ "xlframe_horizontal", "controls", "seat", "plastic_boat_hull" ] },
@@ -124,7 +124,7 @@
           { "part": "tank_small", "fuel": "gasoline" }
         ]
       },
-      { "x": -1, "y": 0, "parts": [ "xlframe_horizontal", "plastic_boat_hull", "cargo_space" ] }
+      { "x": -1, "y": 0, "parts": [ "xlframe_horizontal", "plastic_boat_hull", "trunk" ] }
     ],
     "items": [ { "x": -1, "y": 0, "chance": 50, "items": [ "flotation_vest" ] } ]
   },
