@@ -1959,8 +1959,6 @@
       { "group": "clothing_tactical_torso", "prob": 75 },
       { "group": "clothing_tactical_leg", "prob": 50 },
       { "group": "military_ballistic_armor", "prob": 200 },
-      { "group": "pwr_armor", "prob": 10 },
-      { "group": "pwr_armor_acc", "prob": 10 },
       { "group": "mil_armor_electronics", "prob": 20 },
       [ "chestguard_hard", 20 ],
       [ "armguard_hard", 20 ],
