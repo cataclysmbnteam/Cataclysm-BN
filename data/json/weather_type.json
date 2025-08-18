@@ -205,7 +205,7 @@
     "glyph": "#",
     "ranged_penalty": 4,
     "sight_penalty": 1.25,
-    "light_modifier": 1,
+    "light_modifier": -45,
     "sound_attn": 8,
     "dangerous": false,
     "precip": "heavy",
