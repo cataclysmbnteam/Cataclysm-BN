@@ -1014,14 +1014,6 @@ void Creature::deal_projectile_attack( Creature *source, item *source_weapon,
 
     float dmg_after_armor = dealt_dam.total_damage();
 
-    // Cutting, stabbing, and bashing projectiles overpenetrate less than bullets
-    bool modify_overpentration = proj.impact.type_damage( DT_BASH ) > 0 ||
-                                 proj.impact.type_damage( DT_CUT ) > 0 ||
-                                 proj.impact.type_damage( DT_STAB ) > 0;
-    float overpenetration_modifier = ( proj.impact.type_damage( DT_CUT ) +
-                                       proj.impact.type_damage( DT_STAB ) >=
-                                       proj.impact.type_damage( DT_BASH ) ) ? 0.75f : 0.5f;
-
     // Modify projectile for overpenetration.
     for( auto &elem : proj.impact.damage_units ) {
         // Ratio of how much armor reduced expected damage, used as a multiplier.

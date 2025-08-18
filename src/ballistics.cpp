@@ -451,11 +451,17 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
                 }
                 sfx::do_projectile_hit( *attack.hit_critter );
                 has_momentum = proj.impact.total_damage() > 0 && is_bullet;
-                // Non-ballistic projectiles take an additional penalty from overpenetration
+                // Penalize damage and/or range on overpenetration.
+                // Arrow, sling or the like; 0.75x or 0.5x penalty depending on which damagetype was highest.
                 if( modify_overpentration ) {
                     proj.impact.mult_damage( overpenetration_modifier );
                     traj_len *= overpenetration_modifier;
                     add_msg( m_debug, "Projectile damage and range modified by %s", overpenetration_modifier );
+                // Bullets, lasers, or other projectiles; 0.9x range penalty but no additional damage penalty.
+                } else {
+                overpenetration_modifier = 0.9f;
+                traj_len *= overpenetration_modifier;
+                add_msg( m_debug, "Projectile range modified by %s", overpenetration_modifier );
                 }
             } else {
                 attack.missed_by = aim.missed_by;
@@ -467,11 +473,19 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
             float dmg_before_penetration = proj.impact.total_damage();
             here.shoot( source, tp, proj, !no_item_damage && tp == target );
             has_momentum = proj.impact.total_damage() > 0;
-            // Non-ballistic projectile and we lost momentum from hitting something, penalize.
-            if( modify_overpentration && dmg_before_penetration > proj.impact.total_damage() ) {
+            // We lost momentum from hitting something, penalize range.
+            if( dmg_before_penetration > proj.impact.total_damage() ) {
+                // Arrow, sling or the like; 0.75x or 0.5x penalty depending on which damagetype was highest.
+                if( modify_overpentration ) {
                 proj.impact.mult_damage( overpenetration_modifier );
                 traj_len *= overpenetration_modifier;
                 add_msg( m_debug, "Projectile damage and range modified by %s", overpenetration_modifier );
+                // Bullets, lasers, or other projectiles; 0.9x range penalty but no additional damage penalty.
+                } else {
+                overpenetration_modifier = 0.9f;
+                traj_len *= overpenetration_modifier;
+                add_msg( m_debug, "Projectile range modified by %s", overpenetration_modifier );
+                }
             }
         }
         if( !has_momentum && here.impassable( tp ) &&
