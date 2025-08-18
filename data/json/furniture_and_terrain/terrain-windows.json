@@ -2914,7 +2914,7 @@
   {
     "type": "terrain",
     "id": "t_plastic_window",
-    "name": "Plastic window",
+    "name": "plastic window",
     "description": "A makeshift window comprising a sheet of translucent, rigid plastic secured in a wooden frame.  It'll do in a pinch.",
     "looks_like": "t_window_no_curtains",
     "symbol": "|",
@@ -2934,23 +2934,23 @@
     ],
     "examine_action": "locked_object",
     "open": "t_plastic_window_open",
-    "deconstruct": { "ter_set": "t_window_empty", "items": [ { "item": "plastic_sheet", "count": 1 } ] },
+    "deconstruct": { "ter_set": "t_window_empty", "items": [ { "item": "rigid_plastic_sheet", "count": 1 } ] },
     "bash": {
-      "str_min": 3,
-      "str_max": 5,
+      "str_min": 5,
+      "str_max": 10,
       "sound": "whump!",
       "sound_fail": "whack!",
       "sound_vol": 16,
       "sound_fail_vol": 10,
-      "ter_set": "t_window_frame",
-      "items": [ { "item": "stick", "count": 1 }, { "item": "nail", "charges": [ 3, 4 ] }, { "item": "plastic_sheet", "count": 1 } ],
-      "ranged": { "reduction": [ 3, 3 ], "destroy_threshold": 5 }
+      "ter_set": "t_window_empty",
+      "items": [ { "item": "plastic_chunk", "count": [ 10, 20 ] } ],
+      "ranged": { "reduction": [ 5, 5 ], "destroy_threshold": 10 }
     }
   },
   {
     "type": "terrain",
     "id": "t_plastic_window_open",
-    "name": "Plastic window",
+    "name": "open plastic window",
     "description": "An opened makeshift window comprising a sheet of translucent, rigid plastic secured in a wooden frame.  It'll do in a pinch.",
     "looks_like": "t_window_no_curtains_open",
     "symbol": "|",
@@ -2971,22 +2971,22 @@
       "PERMEABLE"
     ],
     "close": "t_plastic_window",
-    "deconstruct": { "ter_set": "t_window_empty", "items": [ { "item": "plastic_sheet", "count": 1 } ] },
+    "deconstruct": { "ter_set": "t_window_empty", "items": [ { "item": "rigid_plastic_sheet", "count": 1 } ] },
     "bash": {
-      "str_min": 3,
-      "str_max": 5,
+      "str_min": 5,
+      "str_max": 10,
       "sound": "whump!",
       "sound_fail": "whack!",
       "sound_vol": 16,
       "sound_fail_vol": 10,
-      "ter_set": "t_window_frame",
-      "items": [ { "item": "stick", "count": 1 }, { "item": "nail", "charges": [ 3, 4 ] }, { "item": "plastic_sheet", "count": 1 } ]
+      "ter_set": "t_window_empty",
+      "items": [ { "item": "plastic_chunk", "count": [ 10, 20 ] } ]
     }
   },
   {
     "type": "terrain",
     "id": "t_plastic_window_with_curtain",
-    "name": "Plastic window with a curtain",
+    "name": "plastic window with closed curtains",
     "description": "A makeshift window with a closed curtain.  Comprising a sheet of translucent, rigid plastic secured in a wooden frame.  There are sheets drawn across it to block the light.  It'll do in a pinch.",
     "looks_like": "t_curtains",
     "symbol": "|",
@@ -3012,28 +3012,33 @@
       "items": [
         { "item": "stick", "count": 1 },
         { "item": "sheet", "count": 2 },
-        { "item": "plastic_sheet", "count": 1 },
-        { "item": "nail", "charges": [ 3, 4 ] },
+        { "item": "rigid_plastic_sheet", "count": 1 },
+        { "item": "nail", "charges": 4 },
         { "item": "string_36", "count": 1 }
       ]
     },
     "bash": {
-      "str_min": 3,
-      "str_max": 5,
+      "str_min": 5,
+      "str_max": 10,
       "sound": "whump!",
       "sound_fail": "whack!",
       "sound_vol": 16,
       "sound_fail_vol": 10,
-      "ter_set": "t_window_frame",
-      "items": [ { "item": "stick", "count": 1 }, { "item": "nail", "charges": [ 3, 4 ] }, { "item": "plastic_sheet", "count": 1 } ],
-      "ranged": { "reduction": [ 3, 3 ], "destroy_threshold": 5 }
+      "ter_set": "t_window_empty",
+      "items": [
+        { "item": "plastic_chunk", "count": [ 10, 20 ] },
+        { "item": "sheet", "count": 2 },
+        { "item": "stick", "count": 1 },
+        { "item": "string_36", "count": 1 }
+      ],
+      "ranged": { "reduction": [ 5, 5 ], "destroy_threshold": 10 }
     }
   },
   {
     "type": "terrain",
     "id": "t_plastic_window_with_curtain_open_window_closed",
-    "name": "Plastic window with a curtain",
-    "description": "A makeshift window with a opened curtain.  Comprising a sheet of translucent, rigid plastic secured in a wooden frame, with sheets strung about it to block the light as required.  It'll do in a pinch.",
+    "name": "plastic window with curtains",
+    "description": "A makeshift window with an opened curtain.  Comprising a sheet of translucent, rigid plastic secured in a wooden frame, with sheets strung about it to block the light as required.  It'll do in a pinch.",
     "looks_like": "t_window_domestic",
     "symbol": "|",
     "color": "light_blue",
@@ -3059,28 +3064,33 @@
       "items": [
         { "item": "stick", "count": 1 },
         { "item": "sheet", "count": 2 },
-        { "item": "plastic_sheet", "count": 1 },
-        { "item": "nail", "charges": [ 3, 4 ] },
+        { "item": "rigid_plastic_sheet", "count": 1 },
+        { "item": "nail", "charges": 4 },
         { "item": "string_36", "count": 1 }
       ]
     },
     "bash": {
-      "str_min": 3,
-      "str_max": 5,
+      "str_min": 5,
+      "str_max": 10,
       "sound": "whump!",
       "sound_fail": "whack!",
       "sound_vol": 16,
       "sound_fail_vol": 10,
-      "ter_set": "t_window_frame",
-      "items": [ { "item": "stick", "count": 1 }, { "item": "nail", "charges": [ 3, 4 ] }, { "item": "plastic_sheet", "count": 1 } ],
-      "ranged": { "reduction": [ 3, 3 ], "destroy_threshold": 5 }
+      "ter_set": "t_window_empty",
+      "items": [
+        { "item": "plastic_chunk", "count": [ 10, 20 ] },
+        { "item": "sheet", "count": 2 },
+        { "item": "stick", "count": 1 },
+        { "item": "string_36", "count": 1 }
+      ],
+      "ranged": { "reduction": [ 5, 5 ], "destroy_threshold": 10 }
     }
   },
   {
     "type": "terrain",
     "id": "t_plastic_window_with_curtain_open",
-    "name": "Plastic window with a curtain",
-    "description": "An opened makeshift window with a opened curtain.  Comprising a sheet of translucent, rigid plastic secured in a wooden frame, with sheets strung about it to block the light as required.  It'll do in a pinch.",
+    "name": "open plastic window with curtains",
+    "description": "An opened makeshift window with an opened curtain.  Comprising a sheet of translucent, rigid plastic secured in a wooden frame, with sheets strung about it to block the light as required.  It'll do in a pinch.",
     "looks_like": "t_window_open",
     "symbol": "|",
     "color": "light_blue",
@@ -3107,26 +3117,31 @@
       "items": [
         { "item": "stick", "count": 1 },
         { "item": "sheet", "count": 2 },
-        { "item": "plastic_sheet", "count": 1 },
-        { "item": "nail", "charges": [ 3, 4 ] },
+        { "item": "rigid_plastic_sheet", "count": 1 },
+        { "item": "nail", "charges": 4 },
         { "item": "string_36", "count": 1 }
       ]
     },
     "bash": {
-      "str_min": 3,
-      "str_max": 5,
+      "str_min": 5,
+      "str_max": 10,
       "sound": "whump!",
       "sound_fail": "whack!",
       "sound_vol": 16,
       "sound_fail_vol": 10,
-      "ter_set": "t_window_frame",
-      "items": [ { "item": "stick", "count": 1 }, { "item": "nail", "charges": [ 3, 4 ] }, { "item": "plastic_sheet", "count": 1 } ]
+      "ter_set": "t_window_empty",
+      "items": [
+        { "item": "plastic_chunk", "count": [ 10, 20 ] },
+        { "item": "sheet", "count": 2 },
+        { "item": "stick", "count": 1 },
+        { "item": "string_36", "count": 1 }
+      ]
     }
   },
   {
     "type": "terrain",
     "id": "t_reinforced_plastic_window",
-    "name": "Reinforced plastic window",
+    "name": "reinforced plastic window",
     "description": "A makeshift window comprising three sheets of translucent, rigid plastic secured in a wooden frame.  It'll do in a pinch.",
     "looks_like": "t_window_no_curtains",
     "symbol": "|",
@@ -3146,27 +3161,23 @@
     ],
     "examine_action": "locked_object",
     "open": "t_reinforced_plastic_window_open",
-    "deconstruct": { "ter_set": "t_window_empty", "items": [ { "item": "plastic_sheet", "count": 2 } ] },
+    "deconstruct": { "ter_set": "t_window_empty", "items": [ { "item": "rigid_plastic_sheet", "count": 3 } ] },
     "bash": {
       "str_min": 10,
-      "str_max": 15,
+      "str_max": 20,
       "sound": "whump!",
       "sound_fail": "whack!",
       "sound_vol": 16,
       "sound_fail_vol": 10,
-      "ter_set": "t_window_frame",
-      "items": [
-        { "item": "stick", "count": 1 },
-        { "item": "nail", "charges": [ 3, 4 ] },
-        { "item": "plastic_sheet", "count": [ 1, 2 ] }
-      ],
-      "ranged": { "reduction": [ 10, 10 ], "destroy_threshold": 15 }
+      "ter_set": "t_window_empty",
+      "items": [ { "item": "plastic_chunk", "count": [ 30, 60 ] } ],
+      "ranged": { "reduction": [ 10, 10 ], "destroy_threshold": 20 }
     }
   },
   {
     "type": "terrain",
     "id": "t_reinforced_plastic_window_open",
-    "name": "Reinforced Plastic window",
+    "name": "open reinforced plastic window",
     "description": "An open makeshift window comprising three sheets of translucent, rigid plastic secured in a wooden frame.  It'll do in a pinch.",
     "looks_like": "t_window_no_curtains_open",
     "symbol": "|",
@@ -3187,27 +3198,22 @@
       "PERMEABLE"
     ],
     "close": "t_reinforced_plastic_window",
-    "deconstruct": { "ter_set": "t_window_empty", "items": [ { "item": "plastic_sheet", "count": 2 } ] },
+    "deconstruct": { "ter_set": "t_window_empty", "items": [ { "item": "rigid_plastic_sheet", "count": 3 } ] },
     "bash": {
       "str_min": 10,
-      "str_max": 15,
+      "str_max": 20,
       "sound": "whump!",
       "sound_fail": "whack!",
       "sound_vol": 16,
       "sound_fail_vol": 10,
-      "ter_set": "t_window_frame",
-      "items": [
-        { "item": "stick", "count": 1 },
-        { "item": "nail", "charges": [ 3, 4 ] },
-        { "item": "plastic_sheet", "count": [ 1, 2 ] }
-      ],
-      "ranged": { "reduction": [ 10, 10 ], "destroy_threshold": 15 }
+      "ter_set": "t_window_empty",
+      "items": [ { "item": "plastic_chunk", "count": [ 30, 60 ] } ]
     }
   },
   {
     "type": "terrain",
     "id": "t_reinforced_plastic_window_with_curtain",
-    "name": "Reinforced plastic window with a curtain",
+    "name": "reinforced plastic window with closed curtains",
     "description": "A makeshift window with a closed curtain.  Comprising three sheets of translucent, rigid plastic secured in a wooden frame.  It'll do in a pinch.",
     "looks_like": "t_curtains",
     "symbol": "|",
@@ -3233,32 +3239,33 @@
       "items": [
         { "item": "stick", "count": 1 },
         { "item": "sheet", "count": 2 },
-        { "item": "plastic_sheet", "count": 3 },
-        { "item": "nail", "charges": [ 3, 4 ] },
+        { "item": "rigid_plastic_sheet", "count": 3 },
+        { "item": "nail", "charges": 4 },
         { "item": "string_36", "count": 1 }
       ]
     },
     "bash": {
-      "str_min": 10,
-      "str_max": 15,
+      "str_min": 5,
+      "str_max": 10,
       "sound": "whump!",
       "sound_fail": "whack!",
       "sound_vol": 16,
       "sound_fail_vol": 10,
-      "ter_set": "t_window_frame",
+      "ter_set": "t_window_empty",
       "items": [
+        { "item": "plastic_chunk", "count": [ 30, 60 ] },
+        { "item": "sheet", "count": 2 },
         { "item": "stick", "count": 1 },
-        { "item": "nail", "charges": [ 3, 4 ] },
-        { "item": "plastic_sheet", "count": [ 1, 2 ] }
+        { "item": "string_36", "count": 1 }
       ],
-      "ranged": { "reduction": [ 10, 10 ], "destroy_threshold": 15 }
+      "ranged": { "reduction": [ 10, 10 ], "destroy_threshold": 20 }
     }
   },
   {
     "type": "terrain",
     "id": "t_reinforced_plastic_window_with_curtain_open_window_closed",
-    "name": "Reinforced plastic window with a curtain",
-    "description": "A makeshift window with a opened curtain.  Comprising three sheets of translucent, rigid plastic secured in a wooden frame.  It'll do in a pinch.",
+    "name": "reinforced plastic window with curtains",
+    "description": "A makeshift window with an opened curtain.  Comprising three sheets of translucent, rigid plastic secured in a wooden frame.  It'll do in a pinch.",
     "looks_like": "t_window_domestic",
     "symbol": "|",
     "color": "light_blue",
@@ -3284,31 +3291,32 @@
       "items": [
         { "item": "stick", "count": 1 },
         { "item": "sheet", "count": 2 },
-        { "item": "plastic_sheet", "count": 3 },
-        { "item": "nail", "charges": [ 3, 4 ] },
+        { "item": "rigid_plastic_sheet", "count": 3 },
+        { "item": "nail", "charges": 4 },
         { "item": "string_36", "count": 1 }
       ]
     },
     "bash": {
-      "str_min": 10,
-      "str_max": 15,
+      "str_min": 5,
+      "str_max": 10,
       "sound": "whump!",
       "sound_fail": "whack!",
       "sound_vol": 16,
       "sound_fail_vol": 10,
-      "ter_set": "t_window_frame",
+      "ter_set": "t_window_empty",
       "items": [
+        { "item": "plastic_chunk", "count": [ 30, 60 ] },
+        { "item": "sheet", "count": 2 },
         { "item": "stick", "count": 1 },
-        { "item": "nail", "charges": [ 3, 4 ] },
-        { "item": "plastic_sheet", "count": [ 1, 2 ] }
+        { "item": "string_36", "count": 1 }
       ],
-      "ranged": { "reduction": [ 10, 10 ], "destroy_threshold": 15 }
+      "ranged": { "reduction": [ 10, 10 ], "destroy_threshold": 20 }
     }
   },
   {
     "type": "terrain",
     "id": "t_reinforced_plastic_window_with_curtain_open",
-    "name": "Reinforced plastic window With a curtain",
+    "name": "open reinforced plastic window with curtains",
     "description": "An open makeshift window with a opened curtain.  Comprising three sheets of translucent, rigid plastic secured in a wooden frame.  It'll do in a pinch.",
     "looks_like": "t_window_open",
     "symbol": "|",
@@ -3336,20 +3344,25 @@
       "items": [
         { "item": "stick", "count": 1 },
         { "item": "sheet", "count": 2 },
-        { "item": "plastic_sheet", "count": 2 },
-        { "item": "nail", "charges": [ 3, 4 ] },
+        { "item": "rigid_plastic_sheet", "count": 3 },
+        { "item": "nail", "charges": 4 },
         { "item": "string_36", "count": 1 }
       ]
     },
     "bash": {
-      "str_min": 10,
-      "str_max": 15,
+      "str_min": 5,
+      "str_max": 10,
       "sound": "whump!",
       "sound_fail": "whack!",
       "sound_vol": 16,
       "sound_fail_vol": 10,
-      "ter_set": "t_window_frame",
-      "items": [ { "item": "stick", "count": 1 }, { "item": "nail", "charges": [ 3, 4 ] }, { "item": "plastic_sheet", "count": 1 } ]
+      "ter_set": "t_window_empty",
+      "items": [
+        { "item": "plastic_chunk", "count": [ 30, 60 ] },
+        { "item": "sheet", "count": 2 },
+        { "item": "stick", "count": 1 },
+        { "item": "string_36", "count": 1 }
+      ]
     }
   },
   {

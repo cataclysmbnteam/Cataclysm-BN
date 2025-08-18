@@ -4718,7 +4718,7 @@
     "category": "WINDOWS",
     "required_skills": [ [ "fabrication", 2 ] ],
     "time": "40 m",
-    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_M", "level": 1 } ] ],
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 1 } ] ],
     "components": [ [ [ "rigid_plastic_sheet", 1 ] ], [ [ "nail", 16 ] ], [ [ "2x4", 4 ] ] ],
     "pre_terrain": "t_window_empty",
     "post_terrain": "t_plastic_window"
@@ -4731,7 +4731,7 @@
     "category": "WINDOWS",
     "required_skills": [ [ "fabrication", 2 ] ],
     "time": "30 m",
-    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_M", "level": 1 } ] ],
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 1 } ] ],
     "components": [ [ [ "nail", 4 ] ], [ [ "sheet", 1 ] ], [ [ "stick", 1 ] ], [ [ "string_36", 1 ] ] ],
     "pre_terrain": "t_plastic_window",
     "post_terrain": "t_plastic_window_with_curtain"
@@ -4744,9 +4744,9 @@
     "category": "REINFORCE",
     "required_skills": [ [ "fabrication", 2 ] ],
     "time": "40 m",
-    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_M", "level": 1 } ] ],
-    "components": [ [ [ "rigid_plastic_sheet", 2 ] ], [ [ "nail", 16 ] ], [ [ "2x4", 4 ] ] ],
-    "pre_terrain": "t_window_empty",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
+    "components": [ [ [ "rigid_plastic_sheet", 2 ] ], [ [ "nail", 4 ] ] ],
+    "pre_terrain": "t_plastic_window",
     "post_terrain": "t_reinforced_plastic_window"
   },
   {
@@ -4757,7 +4757,7 @@
     "category": "REINFORCE",
     "required_skills": [ [ "fabrication", 2 ] ],
     "time": "30 m",
-    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_M", "level": 1 } ] ],
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 1 } ] ],
     "components": [ [ [ "nail", 4 ] ], [ [ "sheet", 1 ] ], [ [ "stick", 1 ] ], [ [ "string_36", 1 ] ] ],
     "pre_terrain": "t_reinforced_plastic_window",
     "post_terrain": "t_reinforced_plastic_window_with_curtain"
