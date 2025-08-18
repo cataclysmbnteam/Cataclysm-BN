@@ -1811,6 +1811,26 @@
   },
   {
     "type": "vehicle_part",
+    "id": "v_woodshutter",
+    "copy-from": "v_shutter",
+    "name": { "str": "wooden shutter" },
+    "durability": 250,
+    "description": "Wooden shutters to protect a window, which can be opened or closed.",
+    "item": "wood_plate",
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "30 m", "using": [ [ "vehicle_nail_install", 10 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "15 m", "using": [ [ "vehicle_nail_removal", 1 ] ] },
+      "repair": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": "30 m",
+        "using": [ [ "nail_any_adhesive", 2 ], [ "wood_structural_small", 1 ] ]
+      }
+    },
+    "breaks_into": "ig_vp_wood_plate",
+    "damage_reduction": { "all": 16, "cut": 8, "stab": 8 }
+  },
+  {
+    "type": "vehicle_part",
     "id": "aisle_curtain",
     "name": { "str": "aisle curtain" },
     "symbol": "\"",

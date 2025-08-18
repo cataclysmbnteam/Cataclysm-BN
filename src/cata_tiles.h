@@ -126,6 +126,8 @@ class tileset
         std::vector<texture> shadow_tile_values;
         std::vector<texture> night_tile_values;
         std::vector<texture> overexposed_tile_values;
+        std::vector<texture> underwater_tile_values;
+        std::vector<texture> underwater_dark_tile_values;
         std::vector<texture> memory_tile_values;
         std::vector<texture> z_overlay_values;
 
@@ -166,6 +168,12 @@ class tileset
         }
         const texture *get_overexposed_tile( const size_t index ) const {
             return get_if_available( index, overexposed_tile_values );
+        }
+        const texture *get_underwater_tile( const size_t index ) const {
+            return get_if_available( index, underwater_tile_values );
+        }
+        const texture *get_underwater_dark_tile( const size_t index ) const {
+            return get_if_available( index, underwater_dark_tile_values );
         }
         const texture *get_memory_tile( const size_t index ) const {
             return get_if_available( index, memory_tile_values );

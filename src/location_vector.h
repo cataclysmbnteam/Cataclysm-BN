@@ -86,6 +86,11 @@ class location_vector
                     return *this;
                 }
 
+                iterator &operator-=( difference_type t ) {
+                    it -= t;
+                    return *this;
+                }
+
                 difference_type operator-( const iterator &rhs ) const {
                     return it - rhs.it;
                 }
@@ -176,6 +181,11 @@ class location_vector
 
                 const_iterator &operator+=( difference_type t ) {
                     it += t;
+                    return *this;
+                }
+
+                const_iterator &operator-=( difference_type t ) {
+                    it -= t;
                     return *this;
                 }
 

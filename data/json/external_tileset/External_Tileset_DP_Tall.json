@@ -51,7 +51,10 @@
           { "id": "t_treetop_season_autumn", "fg": 31 },
           { "id": "t_treetop_season_winter", "fg": 32 },
           { "id": "t_treetop_evergreen", "fg": 33 },
-          { "id": "t_treetop_dead", "fg": 34 }
+          { "id": "t_treetop_dead", "fg": 34 },
+          { "id": "mon_zombie_scientist_evolved_emp", "fg": 35 },
+          { "id": "mon_zombie_seaweed_brute", "fg": 36 },
+          { "id": "mon_zombie_technician_evolved_iron2", "fg": 37 }
         ],
         "sprite_width": 64,
         "sprite_height": 80,
