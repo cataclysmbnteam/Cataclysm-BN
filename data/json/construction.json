@@ -5829,5 +5829,73 @@
     ],
     "pre_special": "check_support",
     "post_terrain": "t_adobe_brick_floor"
+  },
+  {
+    "type": "construction",
+    "id": "constr_concrete_rock_floor",
+    "group": "build_concrete_roof",
+    "//": "Builds a concrete floor and roof from rock floor, with minimal smoothing from tools, BEDROCK IS A FOUNDATION.",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 3 ] ],
+    "time": "40 m",
+    "tools": [ [ [ "con_mix", 25 ] ], [ [ "pickaxe", -1 ], [ "jackhammer", 20 ], [ "elec_jackhammer", 1000 ] ] ],
+    "qualities": [ [ { "id": "SMOOTH", "level": 1 } ] ],
+    "components": [ [ [ "concrete", 2 ] ], [ [ "water", 2 ] ] ],
+    "pre_terrain": "t_rock_floor",
+    "post_terrain": "t_thconc_floor"
+  },
+  {
+    "type": "construction",
+    "id": "constr_reb_cage_column_rock_floor",
+    "group": "build_concrete_column",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 6 ] ],
+    "time": "65 m",
+    "tools": [ [ [ "pickaxe", -1 ], [ "jackhammer", 20 ], [ "elec_jackhammer", 1000 ] ] ],
+    "qualities": [ [ { "id": "WELD", "level": 2 } ], [ { "id": "GLARE", "level": 2 } ] ],
+    "components": [ [ [ "rebar", 16 ] ] ],
+    "pre_terrain": "t_rock_floor",
+    "post_terrain": "t_reb_cage"
+  },
+  {
+    "type": "construction",
+    "id": "constr_ov_reb_cage_strconc_floor_rock_floor",
+    "group": "build_reinforced_concrete_roof",
+    "//": "Step 1: rebar cage & supports",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 6 ] ],
+    "time": "60 m",
+    "qualities": [ [ { "id": "WELD", "level": 2 } ], [ { "id": "GLARE", "level": 2 } ] ],
+    "components": [ [ [ "rebar", 12 ] ], [ [ "2x4", 12 ] ], [ [ "pipe", 4 ] ] ],
+    "pre_terrain": "t_rock_floor",
+    "post_terrain": "t_ov_reb_cage"
+  },
+  {
+    "type": "construction",
+    "id": "constr_strconc_wall_rock_wall",
+    "group": "build_reinforced_concrete_wall",
+    "//": "Frontload the whole thing so we don't update line of sight. Makes nicer looking basements.",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 6 ] ],
+    "time": "120 m",
+    "tools": [ [ [ "con_mix", 100 ] ], [ [ "pickaxe", -1 ], [ "jackhammer", 100 ], [ "elec_jackhammer", 5000 ] ] ],
+    "qualities": [ [ { "id": "WELD", "level": 2 } ], [ { "id": "GLARE", "level": 2 } ], [ { "id": "SMOOTH", "level": 2 } ] ],
+    "components": [ [ [ "rebar", 16 ] ], [ [ "concrete", 12 ] ], [ [ "2x4", 24 ] ], [ [ "water", 8 ], [ "water_clean", 8 ] ] ],
+    "pre_terrain": "t_rock",
+    "post_terrain": "t_strconc_wall"
+  },
+  {
+    "type": "construction",
+    "id": "constr_sconc_wall_rock_wall",
+    "group": "build_simple_concrete_wall",
+    "//": "Frontload the whole thing so we don't update line of sight. Makes nicer looking basements.",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 4 ] ],
+    "time": "60 m",
+    "tools": [ [ [ "con_mix", 100 ] ] ],
+    "qualities": [ [ { "id": "SMOOTH", "level": 1 } ] ],
+    "components": [ [ [ "concrete", 8 ] ], [ [ "2x4", 24 ] ], [ [ "water", 8 ], [ "water_clean", 8 ] ] ],
+    "pre_terrain": "t_rock",
+    "post_terrain": "t_sconc_wall"
   }
 ]
