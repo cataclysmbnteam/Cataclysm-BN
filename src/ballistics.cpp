@@ -320,15 +320,25 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
     while( traj_len > 0 && rl_dist( source, trajectory[traj_len - 1] ) > proj_arg.range ) {
         --traj_len;
     }
-    // Non-ballistic physical projectiles lose range if they overpenetrate.
-    bool modify_overpentration = proj.impact.type_damage( DT_BASH ) > 0 ||
-                                 proj.impact.type_damage( DT_CUT ) > 0 ||
-                                 proj.impact.type_damage( DT_STAB ) > 0;
-    float overpenetration_modifier = ( proj.impact.type_damage( DT_CUT ) +
-                                       proj.impact.type_damage( DT_STAB ) >=
-                                       proj.impact.type_damage( DT_BASH ) ) ? 0.75f : 0.5f;
 
-    const float projectile_skip_multiplier = 0.1;
+    // Non-ballistic physical projectiles lose range if they overpenetrate.
+    const bool is_projectile_modify_overpenetration =
+        proj.impact.type_damage( DT_BASH ) > 0 ||
+        proj.impact.type_damage( DT_CUT ) > 0 ||
+        proj.impact.type_damage( DT_STAB ) > 0;
+
+    // Arrow, sling or the like; 0.75x or 0.5x penalty depending on which damagetype was highest.
+    const float projectile_overpenetration_modifier =
+        ( proj.impact.type_damage( DT_CUT ) + proj.impact.type_damage( DT_STAB )
+          >= proj.impact.type_damage( DT_BASH ) ) ? 0.75f : 0.5f;
+
+    // Bullets, lasers, or other projectiles; 0.9x range penalty but no additional damage penalty.
+    const float overpenetration_modifier = is_projectile_modify_overpenetration
+                                           ? projectile_overpenetration_modifier
+                                           : 0.9f;
+
+    constexpr float projectile_skip_multiplier = 0.1f;
+
     // Randomize the skip so that bursts look nicer
     int projectile_skip_calculation = range * projectile_skip_multiplier;
     int projectile_skip_current_frame = rng( 0, projectile_skip_calculation );
@@ -452,14 +462,11 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
                 sfx::do_projectile_hit( *attack.hit_critter );
                 has_momentum = proj.impact.total_damage() > 0 && is_bullet;
                 // Penalize damage and/or range on overpenetration.
-                // Arrow, sling or the like; 0.75x or 0.5x penalty depending on which damagetype was highest.
-                if( modify_overpentration ) {
+                if( is_projectile_modify_overpenetration ) {
                     proj.impact.mult_damage( overpenetration_modifier );
                     traj_len *= overpenetration_modifier;
                     add_msg( m_debug, "Projectile damage and range modified by %s", overpenetration_modifier );
-                    // Bullets, lasers, or other projectiles; 0.9x range penalty but no additional damage penalty.
                 } else {
-                    overpenetration_modifier = 0.9f;
                     traj_len *= overpenetration_modifier;
                     add_msg( m_debug, "Projectile range modified by %s", overpenetration_modifier );
                 }
@@ -475,14 +482,11 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
             has_momentum = proj.impact.total_damage() > 0;
             // We lost momentum from hitting something, penalize range.
             if( dmg_before_penetration > proj.impact.total_damage() ) {
-                // Arrow, sling or the like; 0.75x or 0.5x penalty depending on which damagetype was highest.
-                if( modify_overpentration ) {
+                if( is_projectile_modify_overpenetration ) {
                     proj.impact.mult_damage( overpenetration_modifier );
                     traj_len *= overpenetration_modifier;
                     add_msg( m_debug, "Projectile damage and range modified by %s", overpenetration_modifier );
-                    // Bullets, lasers, or other projectiles; 0.9x range penalty but no additional damage penalty.
                 } else {
-                    overpenetration_modifier = 0.9f;
                     traj_len *= overpenetration_modifier;
                     add_msg( m_debug, "Projectile range modified by %s", overpenetration_modifier );
                 }
