@@ -1497,11 +1497,7 @@
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 1 ] ],
     "time": "5 m",
-    "components": [
-      [
-        [ "material_sand", 100 ]
-      ]
-    ],
+    "components": [ [ [ "material_sand", 100 ] ] ],
     "dark_craftable": true,
     "pre_terrain": "t_floating_plastic",
     "post_terrain": "t_floating_plastic_sand"
