@@ -457,11 +457,11 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
                     proj.impact.mult_damage( overpenetration_modifier );
                     traj_len *= overpenetration_modifier;
                     add_msg( m_debug, "Projectile damage and range modified by %s", overpenetration_modifier );
-                // Bullets, lasers, or other projectiles; 0.9x range penalty but no additional damage penalty.
+                    // Bullets, lasers, or other projectiles; 0.9x range penalty but no additional damage penalty.
                 } else {
-                overpenetration_modifier = 0.9f;
-                traj_len *= overpenetration_modifier;
-                add_msg( m_debug, "Projectile range modified by %s", overpenetration_modifier );
+                    overpenetration_modifier = 0.9f;
+                    traj_len *= overpenetration_modifier;
+                    add_msg( m_debug, "Projectile range modified by %s", overpenetration_modifier );
                 }
             } else {
                 attack.missed_by = aim.missed_by;
@@ -477,14 +477,14 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
             if( dmg_before_penetration > proj.impact.total_damage() ) {
                 // Arrow, sling or the like; 0.75x or 0.5x penalty depending on which damagetype was highest.
                 if( modify_overpentration ) {
-                proj.impact.mult_damage( overpenetration_modifier );
-                traj_len *= overpenetration_modifier;
-                add_msg( m_debug, "Projectile damage and range modified by %s", overpenetration_modifier );
-                // Bullets, lasers, or other projectiles; 0.9x range penalty but no additional damage penalty.
+                    proj.impact.mult_damage( overpenetration_modifier );
+                    traj_len *= overpenetration_modifier;
+                    add_msg( m_debug, "Projectile damage and range modified by %s", overpenetration_modifier );
+                    // Bullets, lasers, or other projectiles; 0.9x range penalty but no additional damage penalty.
                 } else {
-                overpenetration_modifier = 0.9f;
-                traj_len *= overpenetration_modifier;
-                add_msg( m_debug, "Projectile range modified by %s", overpenetration_modifier );
+                    overpenetration_modifier = 0.9f;
+                    traj_len *= overpenetration_modifier;
+                    add_msg( m_debug, "Projectile range modified by %s", overpenetration_modifier );
                 }
             }
         }
