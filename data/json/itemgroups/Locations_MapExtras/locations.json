@@ -618,6 +618,19 @@
     ]
   },
   {
+    "id": "fishing_boat_fridge",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "water_clean", "prob": 50, "count": [ 1, 3 ] },
+      { "item": "water_mineral", "prob": 20, "count": [ 1, 2 ] },
+      { "group": "alcohol_bottled_canned", "prob": 95 },
+      { "group": "alcohol_bottled_canned", "prob": 95 },
+      { "group": "alcohol_bottled_canned", "prob": 95 },
+      { "item": "fish", "prob": 95, "count": [ 10, 40 ] }
+    ]
+  },
+  {
     "id": "recycle_paper",
     "type": "item_group",
     "items": [
