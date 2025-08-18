@@ -15,6 +15,8 @@ CataclysmBN:
 
 - General
   - `cmake` >= 3.0.0
+  - `gcc` >= 14
+  - `clang` >= 19
   - `gcc-libs`
   - `glibc`
   - `zlib`
