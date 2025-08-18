@@ -3623,5 +3623,31 @@
       "//": "Variable reduction since might hit more or less material.",
       "ranged": { "reduction": [ 25, 50 ], "reduction_laser": [ 0, 5 ], "destroy_threshold": 75 }
     }
+  },
+  {
+    "type": "terrain",
+    "id": "t_porthole_underwater",
+    "copy-from": "t_porthole",
+    "name": "underwater porthole",
+    "description": "A thick round window surrounded with a strong metal frame, the window seems to be leaking a bit.",
+    "symbol": "o",
+    "color": "light_gray",
+    "looks_like": "t_porthole",
+    "extend": { "flags": [ "WATER_CUBE" ] },
+    "bash": {
+      "str_min": 50,
+      "str_max": 75,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "ter_set": "t_metal_floor_underwater",
+      "items": [
+        { "item": "steel_lump", "prob": 55 },
+        { "item": "steel_chunk", "count": [ 1, 4 ] },
+        { "item": "scrap", "count": [ 1, 5 ] },
+        { "item": "glass_shard", "count": [ 20, 50 ] }
+      ],
+      "//": "Variable reduction since might hit more or less material.",
+      "ranged": { "reduction": [ 25, 50 ], "reduction_laser": [ 0, 5 ], "destroy_threshold": 75 }
+    }
   }
 ]
