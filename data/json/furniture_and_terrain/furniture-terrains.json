@@ -755,7 +755,7 @@
   {
     "type": "furniture",
     "id": "f_rubble_water",
-    "name": "floating trash",
+    "name": "pile of floating trash",
     "looks_like": "f_rubble_landfill",
     "description": "Trash floating in the water. I guess it really does all end up here...",
     "symbol": "#",
@@ -776,8 +776,8 @@
       "RUBBLE"
     ],
     "bash": {
-      "str_min": 16,
-      "str_max": 40,
+      "str_min": 8,
+      "str_max": 20,
       "sound": "smash!",
       "sound_fail": "thump.",
       "items": [
