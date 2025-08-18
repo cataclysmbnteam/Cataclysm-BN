@@ -43,7 +43,6 @@ jobs:
           - title: GCC, Ubuntu, Curses
             compiler: g++
             os: ubuntu-latest
-            cmake: 0
             tiles: 0
             sound: 0
             test-stage: 1
@@ -56,7 +55,6 @@ jobs:
           - title: GCC, Ubuntu, Tiles, Sound, CMake, Languages
             compiler: g++
             os: ubuntu-latest
-            cmake: 1
             tiles: 1
             sound: 1
             languages: all
@@ -69,7 +67,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     env:
       ZSTD_CLEVEL: 17
-      CMAKE: ${{ matrix.cmake }}
+      CMAKE: 1
       COMPILER: ${{ matrix.compiler }}
       OS: ${{ matrix.os }}
       TILES: ${{ matrix.tiles }}
