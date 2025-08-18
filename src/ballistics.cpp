@@ -441,6 +441,16 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
             }
         }
 
+        // Penalize damage and/or range on overpenetration.
+        auto apply_overpenetration_penalty = [&]( bool modify_damage ) {
+            traj_len *= overpenetration_modifier;
+            if( modify_damage ) {
+                proj.impact.mult_damage( overpenetration_modifier );
+                add_msg( m_debug, "Projectile damage and range *= %.1f", overpenetration_modifier );
+            } else {
+                add_msg( m_debug, "Projectile range *= %.1f", overpenetration_modifier );
+            }
+        };
 
         if( critter != nullptr && cur_missed_by < 1.0 ) {
             if( in_veh != nullptr && veh_pointer_or_null( here.veh_at( tp ) ) == in_veh &&
@@ -461,15 +471,8 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
                 }
                 sfx::do_projectile_hit( *attack.hit_critter );
                 has_momentum = proj.impact.total_damage() > 0 && is_bullet;
-                // Penalize damage and/or range on overpenetration.
-                if( is_projectile_modify_overpenetration ) {
-                    proj.impact.mult_damage( overpenetration_modifier );
-                    traj_len *= overpenetration_modifier;
-                    add_msg( m_debug, "Projectile damage and range *= %.1f", overpenetration_modifier );
-                } else {
-                    traj_len *= overpenetration_modifier;
-                    add_msg( m_debug, "Projectile range *= %.1f", overpenetration_modifier );
-                }
+
+                apply_overpenetration_penalty( is_projectile_modify_overpenetration );
             } else {
                 attack.missed_by = aim.missed_by;
             }
@@ -482,14 +485,7 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
             has_momentum = proj.impact.total_damage() > 0;
             // We lost momentum from hitting something, penalize range.
             if( dmg_before_penetration > proj.impact.total_damage() ) {
-                if( is_projectile_modify_overpenetration ) {
-                    proj.impact.mult_damage( overpenetration_modifier );
-                    traj_len *= overpenetration_modifier;
-                    add_msg( m_debug, "Projectile damage and range *= %.1f", overpenetration_modifier );
-                } else {
-                    traj_len *= overpenetration_modifier;
-                    add_msg( m_debug, "Projectile range *= %.1f", overpenetration_modifier );
-                }
+                apply_overpenetration_penalty( is_projectile_modify_overpenetration );
             }
         }
         if( !has_momentum && here.impassable( tp ) &&
