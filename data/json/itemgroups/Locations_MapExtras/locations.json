@@ -586,6 +586,8 @@
       [ "plastic_shopping_bag", 30 ],
       [ "plastic_sheet", 20 ],
       [ "rag", 30 ],
+      [ "wire", 30 ],
+      [ "chain", 10 ],
       [ "bag_plastic", 30 ],
       [ "bottle_plastic", 30 ],
       [ "bottle_plastic_small", 30 ],

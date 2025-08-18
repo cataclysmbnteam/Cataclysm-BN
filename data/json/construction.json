@@ -1467,6 +1467,47 @@
   },
   {
     "type": "construction",
+    "id": "constr_floating_trash",
+    "group": "make_trash_island",
+    "//": "step 1: Bundles a bunch of garbage together to create a floating platform that can be walked on.",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 1 ] ],
+    "time": "10 m",
+    "components": [
+      [ [ "plastic_chunk", 30 ] ],
+      [
+        [ "wire", 3 ],
+        [ "rope_6", 1 ],
+        [ "rope_makeshift_6", 1 ],
+        [ "rope_6_plastic", 1 ],
+        [ "chain", 1 ],
+        [ "vine_6", 1 ],
+        [ "bag_canvas", 1 ]
+      ]
+    ],
+    "dark_craftable": true,
+    "pre_terrain": "t_water_dp",
+    "post_terrain": "t_floating_plastic"
+  },
+  {
+    "type": "construction",
+    "id": "constr_floating_trash_sand",
+    "group": "make_trash_island",
+    "//": "step 2: Adds sand and soil to the island, making it more stable to walk on and eventually able to grow plants hopefully.",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 1 ] ],
+    "time": "5 m",
+    "components": [
+      [
+        [ "material_sand", 100 ]
+      ]
+    ],
+    "dark_craftable": true,
+    "pre_terrain": "t_floating_plastic",
+    "post_terrain": "t_floating_plastic_sand"
+  },
+  {
+    "type": "construction",
     "id": "constr_railroad_track_small",
     "group": "build_straight_small_railroad_track",
     "category": "CONSTRUCT",
