@@ -465,10 +465,10 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
                 if( is_projectile_modify_overpenetration ) {
                     proj.impact.mult_damage( overpenetration_modifier );
                     traj_len *= overpenetration_modifier;
-                    add_msg( m_debug, "Projectile damage and range modified by %s", overpenetration_modifier );
+                    add_msg( m_debug, "Projectile damage and range *= %.1f", overpenetration_modifier );
                 } else {
                     traj_len *= overpenetration_modifier;
-                    add_msg( m_debug, "Projectile range modified by %s", overpenetration_modifier );
+                    add_msg( m_debug, "Projectile range *= %.1f", overpenetration_modifier );
                 }
             } else {
                 attack.missed_by = aim.missed_by;
@@ -485,10 +485,10 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
                 if( is_projectile_modify_overpenetration ) {
                     proj.impact.mult_damage( overpenetration_modifier );
                     traj_len *= overpenetration_modifier;
-                    add_msg( m_debug, "Projectile damage and range modified by %s", overpenetration_modifier );
+                    add_msg( m_debug, "Projectile damage and range *= %.1f", overpenetration_modifier );
                 } else {
                     traj_len *= overpenetration_modifier;
-                    add_msg( m_debug, "Projectile range modified by %s", overpenetration_modifier );
+                    add_msg( m_debug, "Projectile range *= %.1f", overpenetration_modifier );
                 }
             }
         }
