@@ -22,12 +22,6 @@
     "petfood": { "food": [ "DOGFOOD", "CATFOOD" ], "feed": "The %s seems to like you!", "pet": "The %s squeaks contently at you." }
   },
   {
-    "id": "mon_boar_wild_piglet",
-    "type": "MONSTER",
-    "copy-from": "mon_boar_wild_piglet",
-    "petfood": { "food": [ "DOGFOOD" ], "feed": "The %s seems to like you!", "pet": "The %s squeals happily at you." }
-  },
-  {
     "id": "mon_cougar",
     "type": "MONSTER",
     "copy-from": "mon_cougar",
@@ -38,26 +32,6 @@
     "type": "MONSTER",
     "copy-from": "mon_coyote_wolf",
     "petfood": { "food": [ "DOGFOOD" ], "feed": "The %s seems to like you!", "pet": "The %s lovingly rubs its muzzle on you." }
-  },
-  {
-    "id": "mon_deer_fawn",
-    "type": "MONSTER",
-    "copy-from": "mon_deer_fawn",
-    "petfood": {
-      "food": [ "CATTLEFOOD" ],
-      "feed": "The %s seems to like you!",
-      "pet": "The %s kicks its leg happily as you scratch it."
-    }
-  },
-  {
-    "id": "mon_deer",
-    "type": "MONSTER",
-    "copy-from": "mon_deer",
-    "petfood": {
-      "food": [ "CATTLEFOOD" ],
-      "feed": "The %s seems to like you!",
-      "pet": "The %s kicks its leg happily as you scratch it."
-    }
   },
   {
     "id": "mon_fox_gray",
@@ -72,22 +46,10 @@
     "petfood": { "food": [ "CATFOOD", "DOGFOOD" ], "feed": "The %s seems to like you!", "pet": "The %s looks at you lovingly." }
   },
   {
-    "id": "mon_raccoon",
-    "type": "MONSTER",
-    "copy-from": "mon_raccoon",
-    "petfood": { "food": [ "CATFOOD", "DOGFOOD" ], "feed": "The %s seems to like you!", "pet": "The %s looks at you lovingly." }
-  },
-  {
     "id": "mon_sewer_rat",
     "type": "MONSTER",
     "copy-from": "mon_sewer_rat",
     "petfood": { "food": [ "DOGFOOD", "CATFOOD" ], "feed": "The %s seems to like you!", "pet": "The %s squeaks contently at you." }
-  },
-  {
-    "id": "mon_sheep_lamb",
-    "type": "MONSTER",
-    "copy-from": "mon_sheep_lamb",
-    "petfood": { "food": [ "CATTLEFOOD" ], "feed": "The %s seems to like you! It lets you pat its head and seems friendly." }
   },
   {
     "id": "mon_wolf",
