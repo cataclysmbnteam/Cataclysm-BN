@@ -329,8 +329,8 @@ void ui_adaptor::redraw_invalidated()
         return;
     }
 
-    restore_on_out_of_scope<bool> prev_redraw_in_progress( redraw_in_progress );
-    restore_on_out_of_scope<bool> prev_restart_redrawing( restart_redrawing );
+    const restore_on_out_of_scope<bool> prev_redraw_in_progress( redraw_in_progress );
+    const restore_on_out_of_scope<bool> prev_restart_redrawing( restart_redrawing );
     redraw_in_progress = true;
 
     do {
@@ -360,7 +360,7 @@ void ui_adaptor::redraw_invalidated()
         // Apply deferred resizing.
         bool needs_resize = false;
         for( auto it = first_enabled; !needs_resize && it != ui_stack_orig->end(); ++it ) {
-            ui_adaptor &ui = *it;
+            const ui_adaptor &ui = *it;
             if( ui.deferred_resize && ui.screen_resized_cb ) {
                 needs_resize = true;
             }

@@ -36,7 +36,7 @@ static std::string get_achievements_text( const achievements_tracker &achievemen
     std::transform( valid_achievements.begin(), valid_achievements.end(),
                     std::back_inserter( sortable_achievements ),
     [&]( const achievement * ach ) {
-        achievement_completion comp = achievements.is_completed( ach->id );
+        const achievement_completion comp = achievements.is_completed( ach->id );
         return std::make_tuple( comp, ach->name().translated(), ach );
     } );
     std::sort( sortable_achievements.begin(), sortable_achievements.end(), localized_compare );
@@ -54,7 +54,7 @@ static std::string get_achievements_text( const achievements_tracker &achievemen
 static std::string get_scores_text( stats_tracker &stats )
 {
     std::string os;
-    std::vector<const score *> valid_scores = stats.valid_scores();
+    std::vector<const score *> const valid_scores = stats.valid_scores();
     for( const score *scr : valid_scores ) {
         os += scr->description( stats ) + "\n";
     }
@@ -72,10 +72,10 @@ void show_scores_ui( const achievements_tracker &achievements, stats_tracker &st
     catacurses::window w;
 
     enum class tab_mode {
-        achievements,
-        scores,
-        kills,
-        num_tabs,
+        achievements = 0,
+        scores = 1,
+        kills = 2,
+        num_tabs = 3,
         first_tab = achievements,
     };
 

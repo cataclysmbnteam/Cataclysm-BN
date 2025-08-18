@@ -79,7 +79,7 @@ static auto shell_exec( const std::string &command ) -> std::string
         }
     };
     try {
-        std::unique_ptr<FILE, file_closer_deleter> pipe( popen( command.c_str(), "r" ) );
+        std::unique_ptr<FILE, file_closer_deleter> const pipe( popen( command.c_str(), "r" ) );
         if( pipe ) {
             while( fgets( buffer.data(), buffer.size(), pipe.get() ) != nullptr ) {
                 output += buffer.data();
@@ -421,7 +421,7 @@ auto game_info::game_report() -> std::string
     }
     std::stringstream report;
 
-    std::string lang = get_option<std::string>( "USE_LANG" );
+    const std::string lang = get_option<std::string>( "USE_LANG" );
     std::string lang_translated;
     for( const language_info &info : list_available_languages() ) {
         if( lang == info.id ) {

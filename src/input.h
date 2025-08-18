@@ -424,12 +424,9 @@ class input_context
 
         // HACK: hack to allow creating manual keybindings for getch() instances, uilists etc. that don't use an input_context outside of the Android version
         struct manual_key {
-            manual_key( int _key, const std::string &_text ) : key( _key ), text( _text ) {}
             int key;
             std::string text;
-            bool operator==( const manual_key &other ) const {
-                return key == other.key && text == other.text;
-            }
+            auto operator<=>( const manual_key & ) const = default; // *NOPAD*
         };
 
         std::vector<manual_key> registered_manual_keys;
@@ -438,7 +435,7 @@ class input_context
         // NOTE: This won't auto-bring up the virtual keyboard, for that use sdltiles.cpp is_string_input()
         bool allow_text_entry;
 
-        void register_manual_key( manual_key mk );
+        void register_manual_key( const manual_key mk );
         void register_manual_key( int key, const std::string text = "" );
 
         std::string get_action_name_for_manual_key( int key ) {

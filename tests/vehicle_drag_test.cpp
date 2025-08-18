@@ -72,7 +72,7 @@ static vehicle *setup_drag_test( const vproto_id &veh_id )
     }
     // close the doors
     const auto doors = veh_ptr->get_avail_parts( "OPENABLE" );
-    for( const vpart_reference vp :  doors ) {
+    for( const vpart_reference vp : doors ) {
         const size_t door = vp.part_index();
         veh_ptr->close( door );
     }

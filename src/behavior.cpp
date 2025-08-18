@@ -38,7 +38,7 @@ behavior_return node_t::tick( const oracle_t *subject ) const
         return { predicate( subject ), this };
     } else {
         assert( strategy != nullptr );
-        status_t result = predicate( subject );
+        const status_t result = predicate( subject );
         if( result == running ) {
             return strategy->evaluate( subject, children );
         } else {
@@ -54,7 +54,7 @@ std::string node_t::goal() const
 
 std::string tree::tick( const oracle_t *subject )
 {
-    behavior_return result = root->tick( subject );
+    const behavior_return result = root->tick( subject );
     active_node = result.result == running ? result.selection : nullptr;
     return goal();
 }
@@ -110,7 +110,7 @@ void node_t::load( const JsonObject &jo, const std::string & )
         optional( jo, was_loaded, "children", new_data.children );
     }
     if( jo.has_string( "strategy" ) ) {
-        std::unordered_map<std::string, const strategy_t *>::iterator new_strategy =
+        std::unordered_map<std::string, const strategy_t *>::iterator const new_strategy =
             behavior::strategy_map.find( jo.get_string( "strategy" ) );
         if( new_strategy != strategy_map.end() ) {
             strategy = new_strategy->second;

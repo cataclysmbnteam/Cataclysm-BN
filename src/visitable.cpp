@@ -340,7 +340,7 @@ template <>
 int visitable<vehicle_cursor>::max_quality( const quality_id &qual ) const
 {
     auto self = static_cast<const vehicle_cursor *>( this );
-    int vpart = self->ignore_vpart ? 0 : max_quality_from_vpart( self->veh, self->part, qual );
+    const int vpart = self->ignore_vpart ? 0 : max_quality_from_vpart( self->veh, self->part, qual );
     return std::max( vpart, max_quality_internal( *this, qual ) );
 }
 
@@ -561,7 +561,7 @@ VisitResponse visitable<vehicle_cursor>::visit_items(
 {
     auto self = static_cast<vehicle_cursor *>( this );
 
-    int idx = self->veh.part_with_feature( self->part, "CARGO", true );
+    const int idx = self->veh.part_with_feature( self->part, "CARGO", true );
     if( idx >= 0 ) {
         for( auto *&e : self->veh.get_items( idx ) ) {
             if( visit_internal( func, e ) == VisitResponse::ABORT ) {
@@ -824,8 +824,8 @@ void location_visitable<map_cursor>::remove_items_with( const
     submap *sub = here.get_submap_at( *cur, offset );
 
     visit_internal( [&filter, sub, offset]( detached_ptr<item> &&e ) {
-        item &obj = *e;
-        VisitResponse res = filter( std::move( e ) );
+        const item &obj = *e;
+        const VisitResponse res = filter( std::move( e ) );
         // NOLINTNEXTLINE(bugprone-use-after-move)
         if( !e ) {
             // remove from the active items cache (if it isn't there does nothing)
@@ -867,7 +867,7 @@ void location_visitable<vehicle_cursor>::remove_items_with( const
 {
     auto cur = static_cast<vehicle_cursor *>( this );
 
-    int idx = cur->veh.part_with_feature( cur->part, "CARGO", false );
+    const int idx = cur->veh.part_with_feature( cur->part, "CARGO", false );
     if( idx < 0 ) {
         return;
     }
@@ -876,7 +876,7 @@ void location_visitable<vehicle_cursor>::remove_items_with( const
     bool removed = false;
 
     visit_internal( [&filter, &removed]( detached_ptr<item> &&e ) {
-        VisitResponse ret = filter( std::move( e ) );
+        const VisitResponse ret = filter( std::move( e ) );
         // NOLINTNEXTLINE(bugprone-use-after-move)
         if( !e ) {
             removed = true;

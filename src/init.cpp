@@ -169,9 +169,9 @@ void DynamicDataLoader::load_deferred( deferred_json &data )
                 debugmsg( "JSON source location has null path, data may load incorrectly" );
             } else {
                 try {
-                    shared_ptr_fast<std::istream> stream = get_cached_stream( *it->first.path );
+                    const shared_ptr_fast<std::istream> stream = get_cached_stream( *it->first.path );
                     JsonIn jsin( *stream, it->first );
-                    JsonObject jo = jsin.get_object();
+                    const JsonObject jo = jsin.get_object();
                     load_object( jo, it->second );
                 } catch( const JsonError &err ) {
                     debugmsg( "(json-error)\n%s", err.what() );
@@ -481,7 +481,7 @@ void DynamicDataLoader::load_data_from_path( const std::string &path, const std:
     // get a list of all files in the directory
     str_vec files = get_files_from_path( ".json", path, true, true );
     if( files.empty() ) {
-        std::ifstream tmp( path.c_str(), std::ios::in );
+        const std::ifstream tmp( path.c_str(), std::ios::in );
         if( tmp ) {
             // path is actually a file, don't checking the extension,
             // assume we want to load this file anyway
@@ -649,7 +649,7 @@ void DynamicDataLoader::finalize_loaded_data( loading_ui &ui )
     assert( !finalized && "Can't finalize the data twice." );
     assert( !stream_cache && "Expected stream cache to be null before finalization" );
 
-    on_out_of_scope reset_stream_cache( [this]() {
+    const on_out_of_scope reset_stream_cache( [this]() {
         stream_cache.reset();
     } );
     stream_cache = std::make_unique<cached_streams>();
@@ -1032,7 +1032,7 @@ bool init::check_mods_for_errors( loading_ui &ui, const std::vector<mod_id> &opt
             std::cerr << "Error loading data: " << err.what() << '\n';
         }
 
-        std::string world_name = world_generator->active_world->info->world_name;
+        const std::string world_name = world_generator->active_world->info->world_name;
         world_generator->delete_world( world_name, true );
 
         // TODO: Why would we need these calls?

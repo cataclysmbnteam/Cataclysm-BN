@@ -655,7 +655,7 @@ TEST_CASE( "bench_get_translated_string", "[libintl][i18n][benchmark][.]" )
     cata_printf( "N strings: %d\n", originals.size() );
     BENCHMARK( "get_all_strings" ) {
         for( const std::string &s : originals ) {
-            volatile const char *res = lib.get( s.c_str() );
+            const volatile char *res = lib.get( s.c_str() );
             ( void )res;
         }
     };

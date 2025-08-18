@@ -592,7 +592,7 @@ void reg_enum( sol::state &lua )
 
     for( Int i = 0; i < max; ++i ) {
         E e = static_cast<E>( i );
-        std::string key = io::enum_to_string<E>( e );
+        const std::string key = io::enum_to_string<E>( e );
         luna::add_val( et, key, e );
     }
 
@@ -608,8 +608,8 @@ void cata::detail::reg_colors( sol::state &lua )
     constexpr Int max = static_cast<Int>( color_id::num_colors );
 
     for( Int i = 0; i < max; ++i ) {
-        color_id e = static_cast<color_id>( i );
-        std::string key = get_all_colors().id_to_name( e );
+        const color_id e = static_cast<color_id>( i );
+        const std::string key = get_all_colors().id_to_name( e );
         luna::add_val( et, key, e );
     }
 

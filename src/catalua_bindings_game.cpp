@@ -22,7 +22,7 @@ void add_msg_lua( game_message_type t, sol::variadic_args va )
         return;
     }
 
-    std::string msg = cata::detail::fmt_lua_va( va );
+    const std::string msg = cata::detail::fmt_lua_va( va );
     add_msg( t, msg );
 }
 

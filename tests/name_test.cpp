@@ -10,12 +10,12 @@ class IsOneOf : public Catch::MatcherBase<std::string>
         std::set< std::string > values;
     public:
         IsOneOf( std::set< std::string > v ): values{v} {}
-        bool match( std::string const &s ) const override {
+        bool match( const std::string &s ) const override {
             return values.contains( s );
         }
         std::string describe() const override {
             std::string s = "is one of {";
-            for( auto const &i : values ) {
+            for( const auto &i : values ) {
                 s += i + ", ";
             }
             s.back() = '}';

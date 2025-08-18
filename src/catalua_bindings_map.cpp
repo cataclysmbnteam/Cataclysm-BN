@@ -110,10 +110,10 @@ void cata::detail::reg_map( sol::state &lua )
                       sol::optional<mtype_id> mtype,
                       sol::optional<time_point> turn, sol::optional<std::string> name,
         sol::optional<int> upgrade_time ) -> void {
-            mtype_id the_id = mtype.value_or( mtype_id::NULL_ID() );
-            time_point the_tp = turn.value_or( calendar::turn );
-            std::string the_name = name.value_or( "" );
-            int the_upgrade = upgrade_time.value_or( -1 );
+            const mtype_id the_id = mtype.value_or( mtype_id::NULL_ID() );
+            const time_point the_tp = turn.value_or( calendar::turn );
+            const std::string the_name = name.value_or( "" );
+            const int the_upgrade = upgrade_time.value_or( -1 );
 
             detached_ptr<item> new_corpse = item::make_corpse( the_id, the_tp, the_name, the_upgrade );
             m.add_item_or_charges( p, std::move( new_corpse ) );

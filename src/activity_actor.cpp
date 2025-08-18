@@ -1,6 +1,7 @@
 #include "activity_actor.h"
 #include "activity_actor_definitions.h"
 
+#include <algorithm>
 #include <cmath>
 #include <list>
 #include <memory>
@@ -81,7 +82,7 @@ static const std::string has_thievery_witness( "has_thievery_witness" );
 
 int simple_task::to_counter() const
 {
-    double ret = 10'000'000.0 / moves_total * ( moves_total - moves_left );
+    const double ret = 10'000'000.0 / moves_total * ( moves_total - moves_left );
     return std::round( ret );
 }
 
@@ -226,7 +227,7 @@ void aim_activity_actor::finish( player_activity &act, Character &who )
 
     item *ammo_loc = reload_loc ? &*reload_loc : nullptr;
 
-    int shots_fired = ranged::fire_gun( who, fin_trajectory.back(), gun.qty, *gun, ammo_loc );
+    const int shots_fired = ranged::fire_gun( who, fin_trajectory.back(), gun.qty, *gun, ammo_loc );
 
     if( shots_fired > 0 ) {
         // TODO: bionic power cost of firing should be derived from a value of the relevant weapon.
@@ -251,7 +252,7 @@ void aim_activity_actor::finish( player_activity &act, Character &who )
     aim_actor->initial_view_offset = this->initial_view_offset;
 
     // if invalid target or it's dead - reset it so a new one is acquired
-    shared_ptr_fast<Creature> last_target = who.last_target.lock();
+    const shared_ptr_fast<Creature> last_target = who.last_target.lock();
     if( last_target && last_target->is_dead_state() ) {
         who.last_target.reset();
     }
@@ -290,7 +291,7 @@ std::unique_ptr<activity_actor> aim_activity_actor::deserialize( JsonIn &jsin )
 {
     std::unique_ptr<aim_activity_actor> actor( new aim_activity_actor() );
 
-    JsonObject data = jsin.get_object();
+    const JsonObject data = jsin.get_object();
 
     data.read( "progress", actor->progress );
     data.read( "fake_weapon", actor->fake_weapon );
@@ -327,7 +328,7 @@ item *aim_activity_actor::get_weapon()
 void aim_activity_actor::restore_view()
 {
     avatar &player_character = get_avatar();
-    bool changed_z = player_character.view_offset.z != initial_view_offset.z;
+    const bool changed_z = player_character.view_offset.z != initial_view_offset.z;
     player_character.view_offset = initial_view_offset;
     if( changed_z ) {
         get_map().invalidate_map_cache( player_character.view_offset.z );
@@ -365,8 +366,8 @@ bool aim_activity_actor::load_RAS_weapon()
         }
         return true;
     };
-    item_reload_option opt = ammo_location_is_valid() ? item_reload_option( &you, weapon,
-                             weapon, *you.ammo_location ) : character_funcs::select_ammo( you, *gun );
+    const item_reload_option opt = ammo_location_is_valid() ? item_reload_option( &you, weapon,
+                                   weapon, *you.ammo_location ) : character_funcs::select_ammo( you, *gun );
     if( !opt ) {
         // Menu canceled
         return false;
@@ -401,11 +402,7 @@ void autodrive_activity_actor::do_turn( player_activity &/* act */, Character &w
         }
         switch( player_vehicle->do_autodrive( who ) ) {
             case autodrive_result::ok:
-                if( who.moves > 0 ) {
-                    // if do_autodrive() didn't eat up all our moves, end the turn
-                    // equivalent to player pressing the "pause" button
-                    who.moves = 0;
-                }
+                who.moves = std::min( who.moves, 0 );
                 sounds::reset_markers();
                 break;
             case autodrive_result::abort:
@@ -450,8 +447,8 @@ std::unique_ptr<activity_actor> autodrive_activity_actor::deserialize( JsonIn & 
 
 void dig_activity_actor::start( player_activity &/*act*/, Character & )
 {
-    map &here = get_map();
-    ter_id ter_here = here.ter( location );
+    const map &here = get_map();
+    const ter_id ter_here = here.ter( location );
     const bool grave = ter_here == t_grave;
     const std::string name = grave
                              ? "grave"
@@ -493,9 +490,10 @@ void dig_activity_actor::finish( player_activity &act, Character &who )
             here.spawn_item( location, itype_bone_human, rng( 5, 15 ) );
             here.furn_set( location, f_coffin_c );
         }
-        std::vector<item *> dropped = get_map().place_items( item_group_id( "allclothes" ), 50, location,
-                                      location, false,
-                                      calendar::turn );
+        std::vector<item *> const dropped = get_map().place_items( item_group_id( "allclothes" ), 50,
+                                            location,
+                                            location, false,
+                                            calendar::turn );
         get_map().place_items( item_group_id( "grave" ), 25, location, location, false, calendar::turn );
         get_map().place_items( item_group_id( "jewelry_front" ), 20, location, location, false,
                                calendar::turn );
@@ -547,7 +545,7 @@ std::unique_ptr<activity_actor> dig_activity_actor::deserialize( JsonIn &jsin )
     std::unique_ptr<dig_activity_actor> actor( new dig_activity_actor( 0, tripoint_zero,
             {}, tripoint_zero, {} ) );
 
-    JsonObject data = jsin.get_object();
+    const JsonObject data = jsin.get_object();
 
     data.read( "progress", actor->progress );
     data.read( "moves", actor->moves_total );
@@ -561,7 +559,7 @@ std::unique_ptr<activity_actor> dig_activity_actor::deserialize( JsonIn &jsin )
 
 void dig_channel_activity_actor::start( player_activity &/*act*/, Character & )
 {
-    map &here = get_map();
+    const map &here = get_map();
     progress.emplace( here.ter( location )->name(), moves_total );
 }
 
@@ -617,7 +615,7 @@ std::unique_ptr<activity_actor> dig_channel_activity_actor::deserialize( JsonIn 
     std::unique_ptr<dig_channel_activity_actor> actor( new dig_channel_activity_actor( 0, tripoint_zero,
             {}, tripoint_zero, {} ) );
 
-    JsonObject data = jsin.get_object();
+    const JsonObject data = jsin.get_object();
 
     data.read( "progress", actor->progress );
     data.read( "moves", actor->moves_total );
@@ -656,7 +654,7 @@ inline void disassemble_activity_actor::process_target( player_activity &/*act*/
 {
     const item &itm = *target.loc;
     const recipe &dis = recipe_dictionary::get_uncraft( itm.typeId() );
-    int moves_needed = dis.time * target.count;
+    const int moves_needed = dis.time * target.count;
     progress.emplace( itm.tname( target.count ), moves_needed );
 }
 
@@ -708,7 +706,7 @@ void disassemble_activity_actor::finish( player_activity &act, Character &who )
         debugmsg( "disassemble_activity_actor call finish function while able to start new disassembly" );
     }
     // Make a copy to avoid use-after-free
-    bool recurse = this->recursive;
+    const bool recurse = this->recursive;
 
     act.set_to_null();
 
@@ -733,7 +731,7 @@ std::unique_ptr<activity_actor> disassemble_activity_actor::deserialize( JsonIn 
 {
     std::unique_ptr<disassemble_activity_actor> actor( new disassemble_activity_actor() );
 
-    JsonObject data = jsin.get_object();
+    const JsonObject data = jsin.get_object();
 
     data.read( "progress", actor->progress );
     data.read( "targets", actor->targets );
@@ -772,7 +770,7 @@ std::unique_ptr<activity_actor> drop_activity_actor::deserialize( JsonIn &jsin )
 {
     std::unique_ptr<drop_activity_actor> actor( new drop_activity_actor() );
 
-    JsonObject data = jsin.get_object();
+    const JsonObject data = jsin.get_object();
 
     data.read( "progress", actor->progress );
     data.read( "items", actor->items );
@@ -814,7 +812,7 @@ static hack_type get_hack_type( tripoint examp )
 
 void hacking_activity_actor::start( player_activity &act, Character & )
 {
-    hack_type type = get_hack_type( act.placement );
+    const hack_type type = get_hack_type( act.placement );
     std::string name;
 
     switch( type ) {
@@ -849,7 +847,7 @@ static int hack_level( const Character &who )
     // odds go up with int>8, down with int<8
     // 4 int stat is worth 1 computer skill here
     ///\EFFECT_INT increases success chance of hacking card readers
-    return who.get_skill_level( skill_computer ) + ( who.int_cur - 8 ) / 4;
+    return who.get_skill_level( skill_computer ) + ( ( who.int_cur - 8 ) / 4 );
 }
 
 static hack_result hack_attempt( Character &who, const bool using_bionic )
@@ -858,7 +856,7 @@ static hack_result hack_attempt( Character &who, const bool using_bionic )
     // only skilled supergenius never cause short circuits, but the odds are low for people
     // with moderate skills
     const int hack_stddev = 5;
-    int success = std::ceil( normal_roll( hack_level( who ), hack_stddev ) );
+    const int success = std::ceil( normal_roll( hack_level( who ), hack_stddev ) );
     if( success < 0 ) {
         who.add_msg_if_player( _( "You cause a short circuit!" ) );
         if( using_bionic ) {
@@ -892,8 +890,8 @@ hacking_activity_actor::hacking_activity_actor( use_bionic )
 
 void hacking_activity_actor::finish( player_activity &act, Character &who )
 {
-    tripoint examp = act.placement;
-    hack_type type = get_hack_type( examp );
+    const tripoint examp = act.placement;
+    const hack_type type = get_hack_type( examp );
     map &here = get_map();
     switch( hack_attempt( who, using_bionic ) ) {
         case HACK_UNABLE:
@@ -967,7 +965,7 @@ std::unique_ptr<activity_actor> hacking_activity_actor::deserialize( JsonIn &jsi
         // it was an item.
         actor->using_bionic = false;
     } else {
-        JsonObject jsobj = jsin.get_object();
+        const JsonObject jsobj = jsin.get_object();
         jsobj.read( "using_bionic", actor->using_bionic );
         jsobj.read( "progress", actor->progress );
     }
@@ -979,7 +977,7 @@ void move_items_activity_actor::do_turn( player_activity &act, Character &who )
     const tripoint dest = relative_destination + who.pos();
 
     while( who.moves > 0 && !target_items.empty() ) {
-        safe_reference<item> target = std::move( target_items.back() );
+        const safe_reference<item> target = std::move( target_items.back() );
         const int quantity = quantities.back();
         target_items.pop_back();
         quantities.pop_back();
@@ -1046,7 +1044,7 @@ std::unique_ptr<activity_actor> move_items_activity_actor::deserialize( JsonIn &
     std::unique_ptr<move_items_activity_actor> actor( new move_items_activity_actor( {}, {}, false,
             tripoint_zero ) );
 
-    JsonObject data = jsin.get_object();
+    const JsonObject data = jsin.get_object();
 
     data.read( "progress", actor->progress );
     data.read( "target_items", actor->target_items );
@@ -1129,7 +1127,7 @@ std::unique_ptr<activity_actor> pickup_activity_actor::deserialize( JsonIn &jsin
 {
     std::unique_ptr<pickup_activity_actor> actor( new pickup_activity_actor( {}, std::nullopt ) );
 
-    JsonObject data = jsin.get_object();
+    const JsonObject data = jsin.get_object();
 
     data.read( "progress", actor->progress );
     data.read( "target_items", actor->target_items );
@@ -1285,7 +1283,7 @@ std::unique_ptr<activity_actor> hacksaw_activity_actor::deserialize( JsonIn &jsi
 {
     std::unique_ptr<hacksaw_activity_actor> actor( new hacksaw_activity_actor(
                 tripoint_zero, safe_reference<item>() ) );
-    JsonObject data = jsin.get_object();
+    const JsonObject data = jsin.get_object();
     data.read( "progress", actor->progress );
     data.read( "target", actor->target );
     data.read( "tool", actor->tool );
@@ -1444,7 +1442,7 @@ std::unique_ptr<activity_actor> boltcutting_activity_actor::deserialize( JsonIn 
     std::unique_ptr<boltcutting_activity_actor> actor( new boltcutting_activity_actor(
                 tripoint_zero, safe_reference<item>() ) );
 
-    JsonObject data = jsin.get_object();
+    const JsonObject data = jsin.get_object();
     data.read( "progress", actor->progress );
     data.read( "target", actor->target );
     data.read( "tool", actor->tool );
@@ -1552,16 +1550,16 @@ void lockpick_activity_actor::finish( player_activity &act, Character &who )
         }
     }
 
-    bool perfect = it->has_flag( flag_PERFECT_LOCKPICK );
+    const bool perfect = it->has_flag( flag_PERFECT_LOCKPICK );
     bool destroy = false;
 
     /** @EFFECT_DEX improves chances of successfully picking door lock, reduces chances of bad outcomes */
     /** @EFFECT_MECHANICS improves chances of successfully picking door lock, reduces chances of bad outcomes */
-    int pick_roll = 5 *
-                    ( std::pow( 1.3, who.get_skill_level( skill_mechanics ) ) +
-                      it->get_quality( qual_LOCKPICK ) - it->damage() / 2000.0 ) +
-                    who.dex_cur / 4.0;
-    int lock_roll = rng( 1, 120 );
+    const int pick_roll = ( 5 *
+                            ( std::pow( 1.3, who.get_skill_level( skill_mechanics ) ) +
+                              it->get_quality( qual_LOCKPICK ) - it->damage() / 2000.0 ) ) +
+                          ( who.dex_cur / 4.0 );
+    const int lock_roll = rng( 1, 120 );
     int xp_gain = 0;
     if( perfect || ( pick_roll >= lock_roll ) ) {
         xp_gain += lock_roll;
@@ -1658,7 +1656,7 @@ std::unique_ptr<activity_actor> lockpick_activity_actor::deserialize( JsonIn &js
     std::unique_ptr<lockpick_activity_actor> actor( new lockpick_activity_actor( 0,
             safe_reference<item>(), detached_ptr<item>(), tripoint_zero ) );
 
-    JsonObject data = jsin.get_object();
+    const JsonObject data = jsin.get_object();
 
     data.read( "progress", actor->progress );
     data.read( "moves_total", actor->moves_total );
@@ -1818,7 +1816,7 @@ std::unique_ptr<activity_actor> oxytorch_activity_actor::deserialize( JsonIn &js
 {
     std::unique_ptr<oxytorch_activity_actor> actor( new oxytorch_activity_actor(
                 tripoint_zero, safe_reference<item>() ) );
-    JsonObject data = jsin.get_object();
+    const JsonObject data = jsin.get_object();
     data.read( "progress", actor->progress );
     data.read( "target", actor->target );
     data.read( "tool", actor->tool );
@@ -1888,7 +1886,7 @@ std::unique_ptr<activity_actor> toggle_gate_activity_actor::deserialize( JsonIn 
     std::unique_ptr<toggle_gate_activity_actor> actor( new toggle_gate_activity_actor( 0,
             tripoint_zero ) );
 
-    JsonObject data = jsin.get_object();
+    const JsonObject data = jsin.get_object();
 
     data.read( "progress", actor->progress );
     data.read( "moves", actor->moves_total );
@@ -1925,7 +1923,7 @@ std::unique_ptr<activity_actor> stash_activity_actor::deserialize( JsonIn &jsin 
 {
     std::unique_ptr<stash_activity_actor> actor( new stash_activity_actor() );
 
-    JsonObject data = jsin.get_object();
+    const JsonObject data = jsin.get_object();
 
     data.read( "progress", actor->progress );
     data.read( "items", actor->items );
@@ -1977,7 +1975,7 @@ void throw_activity_actor::do_turn( player_activity &act, Character &who )
 
     if( it != &who.primary_weapon() ) {
         // This is to represent "implicit offhand wielding"
-        int extra_cost = who.item_handling_cost( *it, true, INVENTORY_HANDLING_PENALTY / 2 );
+        const int extra_cost = who.item_handling_cost( *it, true, INVENTORY_HANDLING_PENALTY / 2 );
         who.mod_moves( -extra_cost );
     }
     detached_ptr<item> det = target->split( 1 );
@@ -1999,7 +1997,7 @@ std::unique_ptr<activity_actor> throw_activity_actor::deserialize( JsonIn &jsin 
 {
     std::unique_ptr<throw_activity_actor> actor( new throw_activity_actor() );
 
-    JsonObject data = jsin.get_object();
+    const JsonObject data = jsin.get_object();
 
     data.read( "progress", actor->progress );
     data.read( "target_loc", actor->target );
@@ -2053,10 +2051,10 @@ void construction_activity_actor::start( player_activity &/*act*/, Character &/*
                : built.post_terrain->name();
     }
 
-    int total_time = std::max( 1, built.adjusted_time() );
-    int left = pc->counter == 0
-               ? total_time
-               : total_time - pc->counter / 10'000'000.0 * total_time;
+    const int total_time = std::max( 1, built.adjusted_time() );
+    const int left = pc->counter == 0
+                     ? total_time
+                     : total_time - ( pc->counter / 10'000'000.0 * total_time );
 
     progress.emplace( name, total_time, left );
 }
@@ -2111,7 +2109,7 @@ std::unique_ptr<activity_actor> construction_activity_actor::deserialize( JsonIn
 {
     std::unique_ptr<construction_activity_actor> actor( new construction_activity_actor(
                 tripoint_abs_ms( tripoint_zero ) ) );
-    JsonObject data = jsin.get_object();
+    const JsonObject data = jsin.get_object();
     data.read( "progress", actor->progress );
     data.read( "target", actor->target );
     return actor;
@@ -2137,7 +2135,7 @@ std::unique_ptr<activity_actor> salvage_activity_actor::deserialize( JsonIn &jsi
 {
     std::unique_ptr<salvage_activity_actor> actor( new salvage_activity_actor() );
 
-    JsonObject data = jsin.get_object();
+    const JsonObject data = jsin.get_object();
 
     data.read( "progress", actor->progress );
     data.read( "targets", actor->targets );
@@ -2195,7 +2193,7 @@ void deserialize( std::unique_ptr<activity_actor> &actor, JsonIn &jsin )
     if( jsin.test_null() ) {
         actor = nullptr;
     } else {
-        JsonObject data = jsin.get_object();
+        const JsonObject data = jsin.get_object();
         if( data.has_member( "actor_data" ) ) {
             activity_id actor_type;
             data.read( "actor_type", actor_type );

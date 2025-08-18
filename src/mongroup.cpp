@@ -331,13 +331,13 @@ void MonsterGroupManager::FinalizeMonsterGroups()
 
 void MonsterGroupManager::LoadMonsterGroup( const JsonObject &jo )
 {
-    float mon_upgrade_factor = get_option<float>( "MONSTER_UPGRADE_FACTOR" );
+    const float mon_upgrade_factor = get_option<float>( "MONSTER_UPGRADE_FACTOR" );
 
     MonsterGroup g;
 
     g.name = mongroup_id( jo.get_string( "name" ) );
     bool extending = false;  //If already a group with that name, add to it instead of overwriting it
-    bool allow_override = jo.get_bool( "override", false );
+    const bool allow_override = jo.get_bool( "override", false );
     if( monsterGroupMap.contains( g.name ) && !allow_override ) {
         g = monsterGroupMap[g.name];
         extending = true;
@@ -348,11 +348,11 @@ void MonsterGroupManager::LoadMonsterGroup( const JsonObject &jo )
     }
     g.is_animal = jo.get_bool( "is_animal", false );
     if( jo.has_array( "monsters" ) ) {
-        for( JsonObject mon : jo.get_array( "monsters" ) ) {
+        for( const JsonObject mon : jo.get_array( "monsters" ) ) {
             const mtype_id name = mtype_id( mon.get_string( "monster" ) );
 
-            int freq = mon.get_int( "freq" );
-            int cost = mon.get_int( "cost_multiplier" );
+            const int freq = mon.get_int( "freq" );
+            const int cost = mon.get_int( "cost_multiplier" );
             int pack_min = 1;
             int pack_max = 1;
             if( mon.has_member( "pack_size" ) ) {
@@ -389,7 +389,7 @@ void MonsterGroupManager::LoadMonsterGroup( const JsonObject &jo )
     g.freq_total = jo.get_int( "freq_total", ( extending ? g.freq_total : 1000 ) );
     if( jo.get_bool( "auto_total", false ) ) { //Fit the max size to the sum of all freqs
         int total = 0;
-        for( MonsterGroupEntry &mon : g.monsters ) {
+        for( const MonsterGroupEntry &mon : g.monsters ) {
             total += mon.frequency;
         }
         g.freq_total = total;

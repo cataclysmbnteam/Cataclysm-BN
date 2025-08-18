@@ -566,9 +566,9 @@ class comestible_inventory_preset : public inventory_selector_preset
                         cbm_name = _( "Furnace" );
                         break;
                     case rechargeable_cbm::other:
-                        std::vector<bionic_id> bids = p.get_bionic_fueled_with( get_consumable_item( loc ) );
+                        const std::vector<bionic_id> bids = p.get_bionic_fueled_with( get_consumable_item( loc ) );
                         if( !bids.empty() ) {
-                            bionic_id bid = p.get_most_efficient_bionic( bids );
+                            const bionic_id bid = p.get_most_efficient_bionic( bids );
                             cbm_name = bid->name.translated();
                         }
                         break;
@@ -619,10 +619,10 @@ class comestible_inventory_preset : public inventory_selector_preset
         }
 
         bool sort_compare( const inventory_entry &lhs, const inventory_entry &rhs ) const override {
-            time_duration time_a = get_time_left( lhs.any_item() );
-            time_duration time_b = get_time_left( rhs.any_item() );
-            int order_a = get_order( lhs.any_item(), time_a );
-            int order_b = get_order( rhs.any_item(), time_b );
+            const time_duration time_a = get_time_left( lhs.any_item() );
+            const time_duration time_b = get_time_left( rhs.any_item() );
+            const int order_a = get_order( lhs.any_item(), time_a );
+            const int order_b = get_order( rhs.any_item(), time_b );
 
             return order_a < order_b
                    || ( order_a == order_b && time_a < time_b )
@@ -690,7 +690,7 @@ class comestible_inventory_preset : public inventory_selector_preset
                 return _( "soon!" );
             }
 
-            time_duration time_left = get_time_left( loc );
+            const time_duration time_left = get_time_left( loc );
             return to_string_approx( time_left );
         }
 
@@ -1421,7 +1421,7 @@ class salvage_inventory_preset : public pickup_inventory_preset
                 auto components = salvage::salvage_results( *loc );
                 return enumerate_as_string( components.begin(), components.end(),
                 []( const decltype( components )::value_type & comps ) {
-                    int c = std::floor( comps.second );
+                    const int c = std::floor( comps.second );
                     //%1$s: item name, % 2$d :  count
                     return string_format( "%1$d %2$s", c, comps.first->nname( c ) );
                 } );
@@ -1608,12 +1608,12 @@ void game_menus::inv::compare( const item &l, const item &r )
     ctxt.register_action( "PAGE_UP" );
     ctxt.register_action( "PAGE_DOWN" );
 
-    std::vector<iteminfo> lhs_info = l.info();
-    std::vector<iteminfo> rhs_info = r.info();
-    std::string lhs_tname = l.tname();
-    std::string rhs_tname = r.tname();
-    std::string lhs_type_name = l.type_name();
-    std::string rhs_type_name = r.type_name();
+    const std::vector<iteminfo> lhs_info = l.info();
+    const std::vector<iteminfo> rhs_info = r.info();
+    const std::string lhs_tname = l.tname();
+    const std::string rhs_tname = r.tname();
+    const std::string lhs_type_name = l.type_name();
+    const std::string rhs_type_name = r.type_name();
 
     int lhs_scroll_pos = 0;
     int rhs_scroll_pos = 0;
@@ -1671,7 +1671,7 @@ void game_menus::inv::reassign_letter( Character &who, item &it, int invlet )
     if( !invlet || inv_chars.valid( invlet ) ) {
         auto &invlets = who.inv_assigned_invlet();
         const auto iter = invlets.find( it.invlet );
-        bool found = iter != invlets.end();
+        const bool found = iter != invlets.end();
         if( found ) {
             invlets.erase( iter );
         }
@@ -1772,8 +1772,8 @@ static item *autodoc_internal( player &u, player &patient,
         }
     }
 
-    std::vector<item *> install_programs = patient.crafting_inventory().items_with( [](
-            const item & it ) -> bool { return it.has_flag( flag_BIONIC_INSTALLATION_DATA ); } );
+    std::vector<item *> const install_programs = patient.crafting_inventory().items_with( [](
+                const item & it ) -> bool { return it.has_flag( flag_BIONIC_INSTALLATION_DATA ); } );
 
     if( !install_programs.empty() ) {
         hint += string_format(
@@ -1887,8 +1887,8 @@ class bionic_install_preset: public inventory_selector_preset
             int chance_of_failure = 100;
             player &installer = p;
 
-            std::vector<item *> install_programs = p.crafting_inventory().items_with( [loc](
-                    const item & it ) -> bool { return it.typeId() == loc->type->bionic->installation_data; } );
+            std::vector<item *> const install_programs = p.crafting_inventory().items_with( [loc](
+                        const item & it ) -> bool { return it.typeId() == loc->type->bionic->installation_data; } );
 
             const bool has_install_program = !install_programs.empty();
 

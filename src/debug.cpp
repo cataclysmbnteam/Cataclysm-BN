@@ -256,14 +256,14 @@ static void debug_error_prompt(
         return;
     }
 
-    std::string formatted_report = [&]() {
+    const std::string formatted_report = [&]() {
         const char *repetition_string =
             _( "Excessive error repetition detected.  Please file a bug report at https://github.com/cataclysmbnteam/Cataclysm-BN/issues" );
         // try to prepend repetition string if we are forcing the display. Right now that's the only reason for this prompt to display.
-        std::string pre = force ? string_format(
-                              "            %s\n",
-                              repetition_string
-                          ) : "";
+        const std::string pre = force ? string_format(
+                                    "            %s\n",
+                                    repetition_string
+                                ) : "";
         return string_format(
                    "%s"
                    " DEBUG    : %s\n\n"
@@ -277,7 +277,7 @@ static void debug_error_prompt(
     ();
 
 #if defined(BACKTRACE)
-    std::string backtrace_instructions =
+    const std::string backtrace_instructions =
         string_format(
             _( "See %s for a full stack backtrace" ),
             PATH_INFO::debug()
@@ -441,12 +441,15 @@ struct repetition_folder {
     bool timed_out() {
         const time_info now = get_time();
 
-        const int now_raw = now.mseconds + 1000 * now.seconds + 60000 * now.minutes + 3600000 * now.hours;
-        const int old_raw = m_time.mseconds + 1000 * m_time.seconds + 60000 * m_time.minutes + 3600000 *
-                            m_time.hours;
+        const int now_raw = now.mseconds + ( 1000 * now.seconds ) + ( 60000 * now.minutes ) +
+                            ( 3600000 * now.hours );
+        const int old_raw = m_time.mseconds + ( 1000 * m_time.seconds ) + ( 60000 * m_time.minutes ) +
+                            ( 3600000 *
+                              m_time.hours );
 
-        const int timeout_raw = timeout.mseconds + 1000 * timeout.seconds + 60000 * timeout.minutes +
-                                3600000 * timeout.hours;
+        const int timeout_raw = timeout.mseconds + ( 1000 * timeout.seconds ) +
+                                ( 60000 * timeout.minutes ) +
+                                ( 3600000 * timeout.hours );
 
         return ( now_raw - old_raw ) > timeout_raw;
     }
@@ -478,7 +481,7 @@ void realDebugmsg( const char *filename, const char *line, const char *funcname,
     }
 
     // Show excessive repetition prompt once per excessive set
-    bool excess_repetition = rep_folder.repeat_count == repetition_folder::repetition_threshold;
+    const bool excess_repetition = rep_folder.repeat_count == repetition_folder::repetition_threshold;
 
     if( buffering_debugmsgs ) {
         buffered_prompts().push_back( {filename, line, funcname, text, false } );
@@ -664,7 +667,7 @@ std::ostream &DebugFile::get_file()
 
 void DebugFile::init( DebugOutput output_mode, const std::string &filename )
 {
-    std::shared_ptr<std::ostringstream> str_buffer = std::dynamic_pointer_cast<std::ostringstream>
+    const std::shared_ptr<std::ostringstream> str_buffer = std::dynamic_pointer_cast<std::ostringstream>
             ( file );
 
     switch( output_mode ) {
@@ -901,12 +904,12 @@ static int bt_full( backtrace_state *const state, int skip, const bt_full_callba
                            // backtrace callback
                            []( void *const data, const uintptr_t pc, const char *const filename,
     const int lineno, const char *const function ) -> int {
-        cb_pair &cb = *reinterpret_cast<cb_pair *>( data );
+        const cb_pair &cb = *reinterpret_cast<cb_pair *>( data );
         return cb.first( pc, filename, lineno, function );
     },
     // error callback
     []( void *const data, const char *const msg, const int errnum ) {
-        cb_pair &cb = *reinterpret_cast<cb_pair *>( data );
+        const cb_pair &cb = *reinterpret_cast<cb_pair *>( data );
         cb.second( msg, errnum );
     },
     &cb );
@@ -1050,7 +1053,7 @@ void debug_write_backtrace( std::ostream &out )
     auto bt_full_print = [&out]( const uintptr_t pc, const char *const filename,
     const int lineno, const char *const function ) -> int {
         std::string file = filename ? filename : "[unknown src]";
-        size_t src = file.find( "/src/" );
+        const size_t src = file.find( "/src/" );
         if( src != std::string::npos )
         {
             file.erase( 0, src );
@@ -1411,11 +1414,11 @@ detail::DebugLogGuard detail::realDebugLog( DL lev, DC cl, const char *filename,
 #if defined(BACKTRACE)
         // Push the first retrieved value back by a second so it won't match.
         static time_t next_backtrace = time( nullptr ) - 1;
-        time_t now = time( nullptr );
+        const time_t now = time( nullptr );
         if( lev == DL::Error && now >= next_backtrace ) {
             out << "(error message will follow backtrace)";
             debug_write_backtrace( out );
-            time_t after = time( nullptr );
+            const time_t after = time( nullptr );
             // Cool down for 60s between backtrace emissions.
             next_backtrace = after + 60;
             out << "Backtrace emission took " << after - now << " seconds." << '\n';

@@ -31,27 +31,27 @@ sol::state make_lua_state()
 
 void run_lua_script( sol::state &lua, const std::string &script_name )
 {
-    sol::load_result load_res = lua.load_file( script_name );
+    const sol::load_result load_res = lua.load_file( script_name );
 
     if( !load_res.valid() ) {
-        sol::error err = load_res;
+        const sol::error err = load_res;
         throw std::runtime_error(
             string_format( "Failed to load script %s: %s", script_name, err.what() )
         );
     }
 
-    sol::protected_function exec = load_res;
+    const sol::protected_function exec = load_res;
 
     // Sandboxing: create environment that uses globals table as fallback
     // to prevent script from accidentally (or intentionally) modifying globals table.
     // All modifications will be stored in an environment which then gets discarded.
-    sol::environment my_env( lua, sol::create, lua.globals() );
+    const sol::environment my_env( lua, sol::create, lua.globals() );
     sol::set_environment( my_env, exec );
 
-    sol::protected_function_result exec_res = exec();
+    const sol::protected_function_result exec_res = exec();
 
     if( !exec_res.valid() ) {
-        sol::error err = exec_res;
+        const sol::error err = exec_res;
         throw std::runtime_error(
             string_format( "Script runtime error in %s: %s", script_name, err.what() )
         );
@@ -66,11 +66,11 @@ void run_console_input( sol::state &lua, const std::string &chunk )
         std::string( chunk )
     );
 
-    sol::load_result load_res = lua.load( chunk, "console input" );
+    const sol::load_result load_res = lua.load( chunk, "console input" );
 
     if( !load_res.valid() ) {
         // No need to use obnoxious debugmsgs, user will see the error in log
-        sol::error err = load_res;
+        const sol::error err = load_res;
         cata::get_lua_log_instance().add(
             cata::LuaLogLevel::Error,
             string_format( "Failed to load: %s", err.what() )
@@ -78,15 +78,15 @@ void run_console_input( sol::state &lua, const std::string &chunk )
         return;
     }
 
-    sol::protected_function exec = load_res;
+    const sol::protected_function exec = load_res;
 
     // No sandboxing here, we trust console user :)
 
-    sol::protected_function_result exec_res = exec();
+    const sol::protected_function_result exec_res = exec();
 
     if( !exec_res.valid() ) {
         // No need to use obnoxious debugmsgs, user will see the error in log
-        sol::error err = exec_res;
+        const sol::error err = exec_res;
         cata::get_lua_log_instance().add(
             cata::LuaLogLevel::Error,
             string_format( "Runtime error: %s", err.what() )
@@ -95,12 +95,12 @@ void run_console_input( sol::state &lua, const std::string &chunk )
     }
 
     try {
-        sol::object retval = exec_res;
+        const sol::object retval = exec_res;
         if( retval == sol::nil ) {
             // No return - don't spam
             return;
         }
-        std::string val = lua["tostring"]( retval );
+        const std::string val = lua["tostring"]( retval );
         cata::get_lua_log_instance().add(
             cata::LuaLogLevel::Info,
             string_format( "# %s", val )
@@ -116,7 +116,7 @@ void run_console_input( sol::state &lua, const std::string &chunk )
 void check_func_result( sol::protected_function_result &res )
 {
     if( !res.valid() ) {
-        sol::error err = res;
+        const sol::error err = res;
         throw std::runtime_error(
             string_format( "Script runtime error: %s", err.what() )
         );
@@ -129,24 +129,25 @@ bool is_number_integer( sol::state_view lua, const sol::object &val )
         throw std::runtime_error( "is_number_integer: called on a non-number type" );
     }
     // HACK: get_type() does not report precise number type, so we have to improvise
-    sol::protected_function math_type = lua.script( "return math.type" );
+    const sol::protected_function math_type = lua.script( "return math.type" );
     if( !math_type ) {
         throw std::runtime_error( "is_number_integer: failed to obtain math.type" );
     }
-    sol::protected_function_result res = math_type( val );
+    const sol::protected_function_result res = math_type( val );
     if( res.status() != sol::call_status::ok ) {
-        sol::error err = res;
-        std::string msg = string_format( "is_number_integer runtime error: %s", err.what() );
+        const sol::error err = res;
+        const std::string msg = string_format( "is_number_integer runtime error: %s", err.what() );
         throw std::runtime_error( msg );
     }
-    std::string mtype = res;
+    const std::string mtype = res;
     if( mtype == "integer" ) {
         return true;
     } else if( mtype == "float" ) {
         return false;
     } else {
-        std::string msg = string_format( "is_number_integer runtime error: unexpected return value %s",
-                                         mtype );
+        const std::string msg =
+            string_format( "is_number_integer runtime error: unexpected return value %s",
+                           mtype );
         throw std::runtime_error( msg );
     }
 }
@@ -155,11 +156,11 @@ std::optional<std::string> get_luna_type( const sol::object &val )
 {
     sol::state_view lua( val.lua_state() );
     if( val.get_type() == sol::type::userdata ) {
-        sol::protected_function glt = lua.script( "return function(a) return a:get_luna_type() end" );
+        const sol::protected_function glt = lua.script( "return function(a) return a:get_luna_type() end" );
         if( glt ) {
-            sol::protected_function_result res = glt( val );
+            const sol::protected_function_result res = glt( val );
             if( res.status() == sol::call_status::ok ) {
-                sol::object retval = res;
+                const sol::object retval = res;
                 return retval.as<std::string>();
             }
         } else {
@@ -172,7 +173,7 @@ std::optional<std::string> get_luna_type( const sol::object &val )
 bool compare_values( const sol::object &a, const sol::object &b )
 {
     sol::state_view lua( a.lua_state() );
-    sol::type type = a.get_type();
+    const sol::type type = a.get_type();
     if( type != b.get_type() ) {
         return false;
     }
@@ -190,33 +191,33 @@ bool compare_values( const sol::object &a, const sol::object &b )
             return false;
         }
         if( is_number_integer( lua, a ) ) {
-            int num_a = a.as<int>();
-            int num_b = b.as<int>();
+            const int num_a = a.as<int>();
+            const int num_b = b.as<int>();
             return num_a == num_b;
         } else {
-            double num_a = a.as<double>();
-            double num_b = b.as<double>();
+            const double num_a = a.as<double>();
+            const double num_b = b.as<double>();
             // FIXME: not suitable for all cases
             return std::fabs( num_a - num_b ) < 0.0001;
         }
         return false;
     }
     if( type == sol::type::userdata ) {
-        std::optional<std::string> luna_a = get_luna_type( a );
-        std::optional<std::string> luna_b = get_luna_type( b );
+        const std::optional<std::string> luna_a = get_luna_type( a );
+        const std::optional<std::string> luna_b = get_luna_type( b );
         if( luna_a != luna_b ) {
             return false;
         }
     }
     // HACK: We depend on presumption that type implements eq operator.
     //       If not, Lua WILL compare by reference, and not by value.
-    sol::protected_function cmp_func = lua.script( "return function(a, b) return a == b end" );
-    sol::protected_function_result res = cmp_func( a, b );
+    const sol::protected_function cmp_func = lua.script( "return function(a, b) return a == b end" );
+    const sol::protected_function_result res = cmp_func( a, b );
     if( res.status() != sol::call_status::ok ) {
-        sol::error err = res;
+        const sol::error err = res;
         throw std::runtime_error( string_format( "compare_values - lua error: %s", err.what() ) );
     }
-    sol::object retval = res;
+    const sol::object retval = res;
     return retval.as<bool>();
 }
 
@@ -246,12 +247,12 @@ bool compare_tables( sol::table a, sol::table b )
             // Short-circuit
             return;
         }
-        sol::object b_key = find_equivalent_key( b, std::move( a_key ) );
+        const sol::object b_key = find_equivalent_key( b, std::move( a_key ) );
         if( b_key == sol::nil ) {
             are_equal = false;
             return;
         } else {
-            sol::object b_val = b[b_key];
+            const sol::object b_val = b[b_key];
             if( b_val == sol::nil ) {
                 are_equal = false;
             } else if( !compare_values( a_val, b_val ) ) {
@@ -261,11 +262,11 @@ bool compare_tables( sol::table a, sol::table b )
     } );
     if( are_equal ) {
         b.for_each( [&]( sol::object b_key, const sol::object & /*b_val*/ ) {
-            sol::object a_key = find_equivalent_key( a, std::move( b_key ) );
+            const sol::object a_key = find_equivalent_key( a, std::move( b_key ) );
             if( a_key == sol::nil ) {
                 are_equal = false;
             } else {
-                sol::object a_val = a[a_key];
+                const sol::object a_val = a[a_key];
                 if( a_val == sol::nil ) {
                     are_equal = false;
                 }

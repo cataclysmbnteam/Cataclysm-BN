@@ -296,17 +296,17 @@ void mission::wrap_up()
             std::vector<item *> items = std::vector<item *>();
             tmp_inv.dump( items );
             item_group_id grp_type = type->group_id;
-            itype_id container = type->container_id;
+            const itype_id container = type->container_id;
             bool specific_container_required = !container.is_null();
-            bool remove_container = type->remove_container;
-            itype_id empty_container = type->empty_container;
+            const bool remove_container = type->remove_container;
+            const itype_id empty_container = type->empty_container;
 
             std::map<itype_id, int> matches = std::map<itype_id, int>();
             get_all_item_group_matches(
                 items, grp_type, matches,
                 container, itype_id::NULL_ID(), specific_container_required );
 
-            for( std::pair<const itype_id, int> &cnt : matches ) {
+            for( std::pair<const itype_id, int>  const &cnt : matches ) {
                 if( cnt.second >= type->item_count ) {
                     comps.emplace_back( cnt.first, type->item_count );
                 }
@@ -365,7 +365,7 @@ bool mission::is_complete( const character_id &_npc_id ) const
             std::vector<item *> items = std::vector<item *>();
             tmp_inv.dump( items );
             item_group_id grp_type = type->group_id;
-            itype_id container = type->container_id;
+            const itype_id container = type->container_id;
             bool specific_container_required = !container.is_null();
 
             std::map<itype_id, int> matches = std::map<itype_id, int>();
@@ -373,7 +373,7 @@ bool mission::is_complete( const character_id &_npc_id ) const
                 items, grp_type, matches,
                 container, itype_id::NULL_ID(), specific_container_required );
 
-            for( std::pair<const itype_id, int> &pair : matches ) {
+            for( std::pair<const itype_id, int>  const &pair : matches ) {
                 if( pair.second >= type->item_count ) {
                     return true;
                 }
@@ -470,10 +470,10 @@ void mission::get_all_item_group_matches( std::vector<item *> &items,
         bool &specific_container_required )
 {
     for( item *itm : items ) {
-        bool correct_container = ( required_container == actual_container ) ||
-                                 !specific_container_required;
+        const bool correct_container = ( required_container == actual_container ) ||
+                                       !specific_container_required;
 
-        bool item_in_group = item_group::group_contains_item( grp_type, itm->typeId() );
+        const bool item_in_group = item_group::group_contains_item( grp_type, itm->typeId() );
 
         //check whether item itself is target
         if( item_in_group && correct_container ) {

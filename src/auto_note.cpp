@@ -153,7 +153,7 @@ auto_note_manager_gui::auto_note_manager_gui()
             continue;
         }
 
-        bool isAutoNoteEnabled = settings.has_auto_note_enabled( extra.id );
+        const bool isAutoNoteEnabled = settings.has_auto_note_enabled( extra.id );
 
         mapExtraCache.emplace( extra.id, std::make_pair( extra,
                                isAutoNoteEnabled ) );

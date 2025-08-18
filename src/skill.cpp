@@ -102,17 +102,18 @@ void Skill::load_skill( const JsonObject &jsobj )
     translation desc;
     jsobj.read( "description", desc );
     std::unordered_map<std::string, int> companion_skill_practice;
-    for( JsonObject jo_csp : jsobj.get_array( "companion_skill_practice" ) ) {
+    for( const JsonObject jo_csp : jsobj.get_array( "companion_skill_practice" ) ) {
         companion_skill_practice.emplace( jo_csp.get_string( "skill" ), jo_csp.get_int( "weight" ) );
     }
     time_info_t time_to_attack;
     if( jsobj.has_object( "time_to_attack" ) ) {
-        JsonObject jso_tta = jsobj.get_object( "time_to_attack" );
+        const JsonObject jso_tta = jsobj.get_object( "time_to_attack" );
         jso_tta.read( "min_time", time_to_attack.min_time );
         jso_tta.read( "base_time", time_to_attack.base_time );
         jso_tta.read( "time_reduction_per_level", time_to_attack.time_reduction_per_level );
     }
-    skill_displayType_id display_type = skill_displayType_id( jsobj.get_string( "display_category" ) );
+    const skill_displayType_id display_type = skill_displayType_id(
+                jsobj.get_string( "display_category" ) );
     Skill sk( ident, name, desc, jsobj.get_tags( "tags" ), display_type );
 
     sk._time_to_attack = time_to_attack;
@@ -247,9 +248,7 @@ void SkillLevel::train( int amount, bool skip_scaling )
     if( _exercise >= 100 * ( _level + 1 ) * ( _level + 1 ) ) {
         _exercise = 0;
         ++_level;
-        if( _level > _highestLevel ) {
-            _highestLevel = _level;
-        }
+        _highestLevel = std::max( _level, _highestLevel );
     }
 }
 
@@ -263,7 +262,7 @@ time_duration rustRate( int level )
     // -------
     // 2^(18-n)
 
-    unsigned const n = clamp( level, 0, 7 );
+    const unsigned n = clamp( level, 0, 7 );
     return time_duration::from_turns( 1 << ( 18 - n ) );
 }
 } //namespace

@@ -113,7 +113,7 @@ void show_mutations_ui( Character &who )
     // Mutation selection UI obscures the terrain,
     // but some mutations may ask to select a tile when activated.
     // As such, we must (de-)activate only after destroying the UI.
-    detail::mutations_ui_result res = detail::show_mutations_ui_internal( who );
+    const detail::mutations_ui_result res = detail::show_mutations_ui_internal( who );
 
     switch( res.cmd ) {
         case detail::mutations_ui_cmd::exit:

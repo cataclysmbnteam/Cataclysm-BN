@@ -11,13 +11,13 @@ void zlib_compress( const std::string &input, std::vector<std::byte> &output )
     uLongf compressedSize = compressBound( input.size() );
     output.resize( compressedSize );
 
-    int result = compress2(
-                     reinterpret_cast<Bytef *>( output.data() ),
-                     &compressedSize,
-                     reinterpret_cast<const Bytef *>( input.data() ),
-                     input.size(),
-                     Z_BEST_SPEED
-                 );
+    const int result = compress2(
+                           reinterpret_cast<Bytef *>( output.data() ),
+                           &compressedSize,
+                           reinterpret_cast<const Bytef *>( input.data() ),
+                           input.size(),
+                           Z_BEST_SPEED
+                       );
 
     if( result != Z_OK ) {
         throw std::runtime_error( "Zlib compression error" );

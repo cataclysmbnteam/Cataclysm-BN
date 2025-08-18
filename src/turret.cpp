@@ -215,8 +215,8 @@ bool turret_data::in_range( const tripoint &target ) const
     if( !veh || !part ) {
         return false;
     }
-    int range = veh->turret_query( *part ).range();
-    int dist = rl_dist( veh->global_part_pos3( *part ), target );
+    const int range = veh->turret_query( *part ).range();
+    const int dist = rl_dist( veh->global_part_pos3( *part ), target );
     return range >= dist;
 }
 
@@ -277,8 +277,8 @@ void turret_data::prepare_fire( Character &who )
     // set fuel tank fluid as ammo, if appropriate
     if( part->info().has_flag( "USE_TANKS" ) ) {
         auto mode = base().gun_current_mode();
-        int qty  = mode->ammo_required();
-        int fuel_left = veh->fuel_left( ammo_current() );
+        const int qty  = mode->ammo_required();
+        const int fuel_left = veh->fuel_left( ammo_current() );
         mode->ammo_set( ammo_current(), std::min( qty * mode.qty, fuel_left ) );
     }
 }
@@ -325,7 +325,7 @@ void vehicle::turrets_aim_and_fire_single( avatar &you )
 
     // Find all turrets that are ready to fire
     for( auto &t : turrets() ) {
-        turret_data data = turret_query( *t );
+        const turret_data data = turret_query( *t );
         if( data.query() == turret_data::status::ready && !is_manual_turret( *t ) ) {
             option_names.push_back( t->name() );
             options.push_back( t );
@@ -384,7 +384,7 @@ int vehicle::turrets_aim_and_fire( std::vector<vehicle_part *> &turrets )
     int shots = 0;
     if( turrets_aim( turrets ) ) {
         for( vehicle_part *t : turrets ) {
-            bool has_target = t->target.first != t->target.second;
+            const bool has_target = t->target.first != t->target.second;
             if( has_target ) {
                 turret_data turret = turret_query( *t );
                 std::unique_ptr<npc> cpu = get_targeting_npc( *t );
@@ -410,9 +410,9 @@ bool vehicle::turrets_aim( std::vector<vehicle_part *> &turrets )
     // Get target
     target_handler::trajectory trajectory = target_handler::mode_turrets( g->u, *this, turrets );
 
-    bool got_target = !trajectory.empty();
+    const bool got_target = !trajectory.empty();
     if( got_target ) {
-        tripoint target = trajectory.back();
+        const tripoint target = trajectory.back();
         // Set target for any turret in range
         for( vehicle_part *t : turrets ) {
             if( turret_query( *t ).in_range( target ) ) {
@@ -492,7 +492,7 @@ void vehicle::turrets_set_targeting()
         }
 
         // clear the turret's current targets to prevent unwanted auto-firing
-        tripoint pos = locations[ sel ];
+        const tripoint pos = locations[ sel ];
         turrets[ sel ]->reset_target( pos );
     }
 }
@@ -569,7 +569,7 @@ int vehicle::automatic_fire_turret( vehicle_part &pt )
     }
 
     // The position of the vehicle part.
-    tripoint pos = global_part_pos3( pt );
+    const tripoint pos = global_part_pos3( pt );
 
     // Create the targeting computer's npc
     std::unique_ptr<npc> cpu = get_targeting_npc( pt );
@@ -592,8 +592,8 @@ int vehicle::automatic_fire_turret( vehicle_part &pt )
         int boo_hoo;
 
         // TODO: calculate chance to hit and cap range based upon this
-        int max_range = 20;
-        int range = std::min( gun.range(), max_range );
+        const int max_range = 20;
+        const int range = std::min( gun.range(), max_range );
         Creature *auto_target = cpu->auto_find_hostile_target( range, boo_hoo, area );
         if( auto_target == nullptr ) {
             if( boo_hoo ) {
@@ -627,7 +627,7 @@ int vehicle::automatic_fire_turret( vehicle_part &pt )
     }
 
     // Get the turret's target and reset it
-    tripoint targ = target.second;
+    const tripoint targ = target.second;
     pt.reset_target( pos );
 
     shots = gun.fire( *cpu, targ );

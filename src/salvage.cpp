@@ -197,7 +197,7 @@ void complete_salvage( Character &who, item &cut, tripoint_abs_ms pos )
     float salvagable_percent = 1.0f;
     // Chance of us losing a material component to entropy.
     /** @EFFECT_FABRICATION reduces chance of losing components when cutting items up */
-    int entropy_threshold = std::max( 5, 10 - who.get_skill_level( skill_fabrication ) );
+    const int entropy_threshold = std::max( 5, 10 - who.get_skill_level( skill_fabrication ) );
     // Not much practice, and you won't get very far ripping things up.
     who.practice( skill_fabrication, rng( 0, 5 ), 1 );
     // Higher fabrication, less chance of entropy, but still a chance.
@@ -213,8 +213,8 @@ void complete_salvage( Character &who, item &cut, tripoint_abs_ms pos )
     // chance of losing more components if the item is damaged.
     // If the item being cut is not damaged, no additional losses will be incurred.
     if( cut.damage() > 0 ) {
-        float component_success_chance = std::min( std::pow( 0.8, cut.damage_level( 4 ) ),
-                                         1.0 );
+        const float component_success_chance = std::min( std::pow( 0.8, cut.damage_level( 4 ) ),
+                                               1.0 );
         salvagable_percent *= component_success_chance;
     }
 
@@ -231,7 +231,7 @@ void complete_salvage( Character &who, item &cut, tripoint_abs_ms pos )
     auto pos_here = here.getlocal( pos );
 
     for( const auto &salvaged : salvage_results( cut ) ) {
-        int amount = std::floor( salvagable_percent * salvaged.second );
+        const int amount = std::floor( salvagable_percent * salvaged.second );
         if( amount > 0 ) {
             // Time based on number of components.
             add_msg( m_good, vgettext( "Salvaged %1$i %2$s.", "Salvaged %1$i %2$s.", amount ),
@@ -321,13 +321,13 @@ bool prompt_salvage_single( Character &who, item &target )
         return false;
     }
 
-    map &here = get_map();
+    const map &here = get_map();
     std::string msg;
     msg += string_format( _( "Salvaging the %s may yield:\n" ),
                           colorize( target.tname(), target.color_in_inventory() ) );
     const auto components = salvage_results( target );
     for( const auto &component : components ) {
-        int c = std::floor( component.second );
+        const int c = std::floor( component.second );
         //%1$s: item name, % 2$d :  count
         msg += string_format( " - %1$d %2$s\n", c, component.first->nname( c ) );
     }
@@ -338,7 +338,7 @@ bool prompt_salvage_single( Character &who, item &target )
         return false;
     }
 
-    iuse_location loc( target, 0 );
+    const iuse_location loc( target, 0 );
     who.assign_activity( std::make_unique<player_activity>(
                              std::make_unique<salvage_activity_actor>(
                                  iuse_locations{ loc }, here.getglobal( who.pos() ) ) ) );
@@ -347,7 +347,7 @@ bool prompt_salvage_single( Character &who, item &target )
 
 bool salvage_single( Character &who, item &target )
 {
-    map &here = get_map();
+    const map &here = get_map();
     quality_cache cache = who.crafting_inventory().get_quality_cache();
 
     if( auto res = try_salvage( target, cache ); !res.success() ) {
@@ -355,7 +355,7 @@ bool salvage_single( Character &who, item &target )
         return false;
     }
 
-    iuse_location loc( target, 0 );
+    const iuse_location loc( target, 0 );
 
     who.assign_activity( std::make_unique<player_activity>(
                              std::make_unique<salvage_activity_actor>(
@@ -366,7 +366,7 @@ bool salvage_single( Character &who, item &target )
 bool salvage_all( Character &who )
 {
     map &here = get_map();
-    tripoint pos = who.pos();
+    const tripoint pos = who.pos();
     std::vector<iuse_location> targets;
     //yes this should NOT be a reference
     quality_cache cache = who.crafting_inventory().get_quality_cache();
@@ -380,7 +380,7 @@ bool salvage_all( Character &who )
     }
 
     if( !targets.empty() ) {
-        tripoint_abs_ms pos_abs( here.getabs( pos ) );
+        const tripoint_abs_ms pos_abs( here.getabs( pos ) );
 
         who.assign_activity( std::make_unique<player_activity>
                              ( std::make_unique<salvage_activity_actor>( std::move(

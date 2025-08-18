@@ -41,19 +41,19 @@ static std::string sys_c_locale;
 static std::string sys_cpp_locale;
 
 // System user preferred UI language (nullptr if failed to detect)
-static language_info const *system_language = nullptr;
+static const language_info *system_language = nullptr;
 
 // Cached current game language.
 // Unlike USE_LANG option value, it's synchronized with whatever language
 // gettext should be using.
 // May be nullptr if language hasn't been set yet.
-static language_info const *current_language = nullptr;
+static const language_info *current_language = nullptr;
 
 static language_info fallback_language = { "en", R"(English)", "en_US.UTF-8", { "n" }, "", { 1033 } };
 
 std::vector<language_info> lang_options = { fallback_language };
 
-static language_info const *get_lang_info( const std::string &lang )
+static const language_info *get_lang_info( const std::string &lang )
 {
     for( const language_info &li : lang_options ) {
         if( li.id == lang ) {
@@ -126,7 +126,7 @@ std::string to_valid_language( const std::string &lang )
     }
     const size_t p = lang.find( '_' );
     if( p != std::string::npos ) {
-        std::string lang2 = lang.substr( 0, p );
+        const std::string lang2 = lang.substr( 0, p );
         for( const language_info &info : lang_options ) {
             if( lang2.starts_with( info.id ) ) {
                 return info.id;
@@ -214,7 +214,7 @@ static std::vector<language_info> load_languages( const std::string &filepath )
             throw std::runtime_error( string_format( "File '%s' not found", filepath ) );
         }
         JsonIn json( stream );
-        JsonArray arr = json.get_array();
+        const JsonArray arr = json.get_array();
         for( const JsonObject &obj : arr ) {
             language_info info;
             info.id = obj.get_string( "id" );
@@ -284,7 +284,7 @@ bool init_language_system()
         lang_options = { fallback_language };
     }
 
-    std::string lang = getSystemUILang();
+    const std::string lang = getSystemUILang();
     if( lang.empty() ) {
         system_language = nullptr;
         dbg( DL::Warn ) << "Failed to detect system UI language.";
@@ -342,7 +342,7 @@ void update_global_locale()
         dbg( DL::Warn ) << "Error while setlocale(LC_ALL, '.1252').";
     }
 #else // _WIN32
-    std::string lang = ::get_option<std::string>( "USE_LANG" );
+    const std::string lang = ::get_option<std::string>( "USE_LANG" );
 
     bool set_user = false;
     if( lang.empty() ) {
@@ -388,7 +388,7 @@ std::vector<std::string> get_lang_path_substring( const std::string &lang_id )
     } else {
         // Id with dialect specified ('en_US', 'fr_FR', etc.)
         // First try loading exact resource, then try dialect-agnostic resource.
-        std::string lang_only = lang_id.substr( 0, p );
+        const std::string lang_only = lang_id.substr( 0, p );
         ret.push_back( lang_id );
         ret.push_back( lang_only );
     }
@@ -398,9 +398,9 @@ std::vector<std::string> get_lang_path_substring( const std::string &lang_id )
 bool translations_exists_for_lang( const std::string &lang_id )
 {
 
-    std::vector<std::string> opts = get_lang_path_substring( lang_id );
+    const std::vector<std::string> opts = get_lang_path_substring( lang_id );
     for( const std::string &s : opts ) {
-        std::string path = PATH_INFO::base_path() + "lang/mo/" + s + "/LC_MESSAGES/cataclysm-bn.mo";
+        const std::string path = PATH_INFO::base_path() + "lang/mo/" + s + "/LC_MESSAGES/cataclysm-bn.mo";
         if( file_exist( path ) ) {
             return true;
         }
@@ -467,9 +467,9 @@ static void set_library( trans_library lib )
 static void add_cat_if_exists( std::vector<trans_catalogue> &list, const std::string &lang_id,
                                const std::string &path_start, const std::string &path_end )
 {
-    std::vector<std::string> opts = get_lang_path_substring( lang_id );
+    const std::vector<std::string> opts = get_lang_path_substring( lang_id );
     for( const std::string &s : opts ) {
-        std::string path = path_start + s + path_end;
+        const std::string path = path_start + s + path_end;
         if( !file_exist( path ) ) {
             continue;
         }
@@ -568,7 +568,7 @@ void translatable_mod_info::update()
     if( list.empty() ) {
         return;
     }
-    trans_library lib = trans_library::create( std::move( list ) );
+    const trans_library lib = trans_library::create( std::move( list ) );
 
     name_tr = lib.get( name_raw.c_str() );
     description_tr = lib.get( description_raw.c_str() );

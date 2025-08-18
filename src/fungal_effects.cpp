@@ -138,7 +138,7 @@ void fungal_effects::marlossify( const tripoint &p )
         return;
     }
     for( int i = 0; i < 25; i++ ) {
-        bool is_fungi = m.has_flag_ter( flag_FUNGUS, p );
+        const bool is_fungi = m.has_flag_ter( flag_FUNGUS, p );
         spread_fungus( p );
         if( is_fungi ) {
             return;
@@ -254,7 +254,7 @@ void fungal_effects::spread_fungus_one_tile( const tripoint &p, const int growth
 void fungal_effects::spread_fungus( const tripoint &p )
 {
     int growth = 1;
-    map &here = get_map();
+    const map &here = get_map();
     for( const tripoint &tmp : here.points_in_radius( p, 1 ) ) {
         if( tmp == p ) {
             continue;

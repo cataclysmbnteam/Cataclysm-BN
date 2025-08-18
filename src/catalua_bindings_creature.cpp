@@ -146,7 +146,7 @@ void cata::detail::reg_creature( sol::state &lua )
                                             sol::optional<int> intensity
                                           )
         {
-            int eint = intensity ? *intensity : 0;
+            const int eint = intensity ? *intensity : 0;
             const bodypart_str_id &bp = bpid ? *bpid : bodypart_str_id::NULL_ID();
             cr.add_effect( eff, dur, bp, eint );
         } );
@@ -823,7 +823,7 @@ void cata::detail::reg_player( sol::state &lua )
     {
         // Note(AluminumAlman): skipping binding members and methods of this class because
         // most of the methods and members are already binded through Character.
-        sol::usertype<player> ut =
+        const sol::usertype<player> ut =
             luna::new_usertype<player>(
                 lua,
                 luna::bases<Character, Creature>(),
@@ -972,7 +972,7 @@ void cata::detail::reg_avatar( sol::state &lua )
     {
         // Note(AluminumAlman): skipping binding members and methods of this class because
         // most of the methods and members are already binded through Character.
-        sol::usertype<avatar> ut =
+        const sol::usertype<avatar> ut =
             luna::new_usertype<avatar>(
                 lua,
                 luna::bases<player, Character, Creature>(),

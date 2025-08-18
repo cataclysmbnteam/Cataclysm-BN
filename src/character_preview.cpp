@@ -37,10 +37,10 @@ class char_preview_adapter : public cata_tiles
         // This will need to stay in sync with cata_tiles::draw_entity_with_overlays
         void display_avatar_preview_with_overlays( const avatar &ch, const point &p, bool with_clothing ) {
             // ch is never an npc so we can set ent_name directly
-            std::string ent_name = ch.male ? "player_male" : "player_female";
+            const std::string ent_name = ch.male ? "player_male" : "player_female";
 
             int height_3d = 0;
-            int prev_height_3d = 0;
+            const int prev_height_3d = 0;
             // depending on the toggle flip sprite left or right
             if( ch.facing == FD_RIGHT ) {
                 draw_from_id_string( ent_name, C_NONE, "", tripoint( p, 0 ), corner, 0, lit_level::BRIGHT, false,
@@ -51,7 +51,7 @@ class char_preview_adapter : public cata_tiles
             }
 
             // next up, draw all the overlays, need to construct them locally
-            std::vector<std::string> overlays = get_overlay_ids( ch, with_clothing );
+            const std::vector<std::string> overlays = get_overlay_ids( ch, with_clothing );
             for( const std::string &overlay : overlays ) {
                 std::string draw_id = overlay;
                 if( find_overlay_looks_like( ch.male, overlay, draw_id ) ) {
@@ -82,8 +82,8 @@ class char_preview_adapter : public cata_tiles
             }
             // then get mutations
             for( const auto &mut : av.my_mutations ) {
-                std::string overlay_id = ( mut.second.powered ? "active_" : "" ) + mut.first.str();
-                int order = get_overlay_order_of_mutation( overlay_id );
+                const std::string overlay_id = ( mut.second.powered ? "active_" : "" ) + mut.first.str();
+                const int order = get_overlay_order_of_mutation( overlay_id );
                 mutation_sorting.insert( std::pair<int, std::string>( order, overlay_id ) );
             }
 
@@ -94,8 +94,8 @@ class char_preview_adapter : public cata_tiles
                 t_av.add_bionic( bio );
             }
             for( const bionic &bio : *t_av.my_bionics ) {
-                std::string overlay_id = ( bio.powered ? "active_" : "" ) + bio.id.str();
-                int order = get_overlay_order_of_mutation( overlay_id );
+                const std::string overlay_id = ( bio.powered ? "active_" : "" ) + bio.id.str();
+                const int order = get_overlay_order_of_mutation( overlay_id );
                 mutation_sorting.insert( std::pair<int, std::string>( order, overlay_id ) );
             }
 
@@ -145,8 +145,8 @@ void character_preview_window::prepare( const int nlines, const int ncols,
     }
 
     // Final size of character preview window
-    const int box_ncols = t_width / termx_pixels + 4;
-    const int box_nlines = t_height / termy_pixels + 3;
+    const int box_ncols = ( t_width / termx_pixels ) + 4;
+    const int box_nlines = ( t_height / termy_pixels ) + 3;
 
     // Setting window just a little bit more than a tile itself
     point start;
@@ -178,8 +178,8 @@ auto character_preview_window::calc_character_pos() const -> point
     const int t_width = tilecontext->get_tile_width();
     const int t_height = tilecontext->get_tile_height();
     return point(
-               pos.x * termx_pixels + ncols_width * termx_pixels / 2 - t_width / 2,
-               pos.y * termy_pixels + nlines_width * termy_pixels / 2 - t_height / 2
+               ( pos.x * termx_pixels ) + ( ncols_width * termx_pixels / 2 ) - ( t_width / 2 ),
+               ( pos.y * termy_pixels ) + ( nlines_width * termy_pixels / 2 ) - ( t_height / 2 )
            );
 }
 

@@ -1092,8 +1092,8 @@ void load_artifacts( const world *world, const std::string &path )
     world->read_from_file_json( path, []( JsonIn & artifact_json ) {
         artifact_json.start_array();
         while( !artifact_json.end_array() ) {
-            JsonObject jo = artifact_json.get_object();
-            std::string type = jo.get_string( "type" );
+            const JsonObject jo = artifact_json.get_object();
+            const std::string type = jo.get_string( "type" );
             if( type == "artifact_tool" ) {
                 item_controller->add_item_type( static_cast<const itype &>( it_artifact_tool( jo ) ) );
             } else if( type == "artifact_armor" ) {
@@ -1392,7 +1392,7 @@ void it_artifact_armor::serialize( JsonOut &json ) const
     json.member( "techniques", techniques );
 
     // armor data
-    armor_portion_data tempData;
+    const armor_portion_data tempData;
     json.member( "encumber", tempData.encumber );
     json.member( "max_encumber", tempData.max_encumber );
     json.member( "coverage", tempData.coverage );

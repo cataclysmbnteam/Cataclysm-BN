@@ -79,7 +79,7 @@ void comp_selection<CompType>::serialize( JsonOut &jsout ) const
 template<typename CompType>
 void comp_selection<CompType>::deserialize( JsonIn &jsin )
 {
-    JsonObject data = jsin.get_object();
+    const JsonObject data = jsin.get_object();
 
     std::string use_from_str;
     data.read( "use_from", use_from_str );
@@ -108,8 +108,10 @@ void craft_command::execute( const tripoint &new_loc )
     map_inv.form_from_map( crafter->pos(), PICKUP_RANGE, crafter );
 
     if( has_cached_selections() ) {
-        std::vector<comp_selection<item_comp>> missing_items = check_item_components_missing( map_inv );
-        std::vector<comp_selection<tool_comp>> missing_tools = check_tool_components_missing( map_inv );
+        const std::vector<comp_selection<item_comp>> missing_items = check_item_components_missing(
+                    map_inv );
+        const std::vector<comp_selection<tool_comp>> missing_tools = check_tool_components_missing(
+                    map_inv );
 
         if( missing_items.empty() && missing_tools.empty() ) {
             // All items we used previously are still there, so we don't need to do selection.
@@ -151,7 +153,7 @@ void craft_command::execute( const tripoint &new_loc )
         }
 
         for( const auto &it : needs->get_components() ) {
-            comp_selection<item_comp> is =
+            const comp_selection<item_comp> is =
                 crafter->select_item_component( it, batch_size, map_inv, true, filter );
             if( is.use_from == usage_from::cancel ) {
                 return;
@@ -161,10 +163,10 @@ void craft_command::execute( const tripoint &new_loc )
 
         tool_selections.clear();
         for( const auto &it : needs->get_tools() ) {
-            comp_selection<tool_comp> ts = crafting::select_tool_component(
-                                               it, batch_size, map_inv, crafter, true,
-                                               DEFAULT_HOTKEYS,
-                                               cost_adjustment::start_only );
+            const comp_selection<tool_comp> ts = crafting::select_tool_component(
+                    it, batch_size, map_inv, crafter, true,
+                    DEFAULT_HOTKEYS,
+                    cost_adjustment::start_only );
             if( ts.use_from == usage_from::cancel ) {
                 return;
             }
@@ -294,7 +296,7 @@ std::vector<comp_selection<item_comp>> craft_command::check_item_components_miss
     const auto filter = rec->get_component_filter( flags );
 
     for( const auto &item_sel : item_selections ) {
-        itype_id type = item_sel.comp.type;
+        const itype_id type = item_sel.comp.type;
         const item_comp component = item_sel.comp;
         const int count = component.count > 0 ? component.count * batch_size : std::abs( component.count );
 
@@ -357,7 +359,7 @@ std::vector<comp_selection<tool_comp>> craft_command::check_tool_components_miss
     std::vector<comp_selection<tool_comp>> missing;
 
     for( const auto &tool_sel : tool_selections ) {
-        itype_id type = tool_sel.comp.type;
+        const itype_id type = tool_sel.comp.type;
         if( tool_sel.comp.count > 0 ) {
             const int count = tool_sel.comp.count * batch_size;
             switch( tool_sel.use_from ) {

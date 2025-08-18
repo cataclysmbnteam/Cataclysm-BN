@@ -582,7 +582,7 @@ int main( int argc, char *argv[] )
                     if( !strcmp( argv[0], arg_handler.flag ) ) {
                         argc--;
                         argv++;
-                        int args_consumed = arg_handler.handler( argc, const_cast<const char **>( argv ) );
+                        const int args_consumed = arg_handler.handler( argc, const_cast<const char **>( argv ) );
                         if( args_consumed < 0 ) {
                             cata_printf( "Failed parsing parameter '%s'\n", *( argv - 1 ) );
                             exit( 1 );
@@ -607,7 +607,7 @@ int main( int argc, char *argv[] )
                 if( !strcmp( saved_argv[0], arg_handler.flag ) ) {
                     --saved_argc;
                     ++saved_argv;
-                    int args_consumed = arg_handler.handler( saved_argc, saved_argv );
+                    const int args_consumed = arg_handler.handler( saved_argc, saved_argv );
                     if( args_consumed < 0 ) {
                         cata_printf( "Failed parsing parameter '%s'\n", *( argv - 1 ) );
                         exit( 1 );
@@ -633,38 +633,38 @@ int main( int argc, char *argv[] )
     std::string current_path = std::filesystem::current_path().string();
 
     if( !dir_exist( PATH_INFO::datadir() ) ) {
-        std::string msg = string_format(
-                              "Can't find data directory \"%s\"\n"
-                              "Current path: \"%s\"\n"
-                              "Please ensure the current working directory is correct.\n"
-                              "Perhaps you meant to start \"cataclysm-launcher\"?\n",
-                              PATH_INFO::datadir(),
-                              current_path
-                          );
+        const std::string msg = string_format(
+                                    "Can't find data directory \"%s\"\n"
+                                    "Current path: \"%s\"\n"
+                                    "Please ensure the current working directory is correct.\n"
+                                    "Perhaps you meant to start \"cataclysm-launcher\"?\n",
+                                    PATH_INFO::datadir(),
+                                    current_path
+                                );
         report_fatal_error( msg );
         exit( 1 );
     }
 
     const auto check_dir_good = [&current_path]( const std::string & dir ) {
         if( !assure_dir_exist( dir ) ) {
-            std::string msg = string_format(
-                                  "Can't open or create \"%s\"\n"
-                                  "Current path: \"%s\"\n"
-                                  "Please ensure you have write permission.\n",
-                                  dir.c_str(),
-                                  current_path
-                              );
+            const std::string msg = string_format(
+                                        "Can't open or create \"%s\"\n"
+                                        "Current path: \"%s\"\n"
+                                        "Please ensure you have write permission.\n",
+                                        dir.c_str(),
+                                        current_path
+                                    );
             report_fatal_error( msg );
             exit( 1 );
         }
         if( !can_write_to_dir( dir ) ) {
-            std::string msg = string_format(
-                                  "Can't write to \"%s\"\n"
-                                  "Current path: \"%s\"\n"
-                                  "Please ensure you have write permission and free storage space.\n",
-                                  dir.c_str(),
-                                  current_path
-                              );
+            const std::string msg = string_format(
+                                        "Can't write to \"%s\"\n"
+                                        "Current path: \"%s\"\n"
+                                        "Please ensure you have write permission and free storage space.\n",
+                                        dir.c_str(),
+                                        current_path
+                                    );
             report_fatal_error( msg );
             exit( 1 );
         }
@@ -814,7 +814,7 @@ int main( int argc, char *argv[] )
             }
         }
 
-        shared_ptr_fast<ui_adaptor> ui = g->create_or_get_main_ui_adaptor();
+        const shared_ptr_fast<ui_adaptor> ui = g->create_or_get_main_ui_adaptor();
         options_manager::cache_balance_options();
         while( !g->do_turn() );
     }

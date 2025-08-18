@@ -134,7 +134,7 @@ void cata::detail::reg_spell_fake( sol::state &lua )
                           const tripoint & target,
                           sol::optional<int> min_lvl_override )
         {
-            int mlo = min_lvl_override.has_value() ? *min_lvl_override : 0;
+            const int mlo = min_lvl_override.has_value() ? *min_lvl_override : 0;
             sp.get_spell( mlo ).cast_all_effects( source, target );
         }
                     );
@@ -153,7 +153,7 @@ void cata::detail::reg_spell_fake( sol::state &lua )
              */
             avatar &avvy = get_avatar();
             // If target is avatar's location, assume we want to hit self
-            bool hit_self = avvy.pos() == target;
+            const bool hit_self = avvy.pos() == target;
             sp = fake_spell( spid, hit_self );
 
             // If a level is given, forcefully clamp to that level.

@@ -88,7 +88,7 @@ std::vector<std::vector<std::string>> query_popup::fold_query(
                                        const std::vector<query_option> &options,
                                        const int max_width, const int horz_padding )
 {
-    input_context ctxt( category );
+    const input_context ctxt( category );
 
     std::vector<std::vector<std::string>> folded_query;
     folded_query.emplace_back();
@@ -134,7 +134,7 @@ void query_popup::invalidate_ui() const
         folded_msg.clear();
         buttons.clear();
     }
-    std::shared_ptr<ui_adaptor> ui = adaptor.lock();
+    const std::shared_ptr<ui_adaptor> ui = adaptor.lock();
     if( ui ) {
         ui->mark_resize();
     }
@@ -146,7 +146,7 @@ void query_popup::init() const
 {
     constexpr int horz_padding = 2;
     constexpr int vert_padding = 1;
-    const int max_line_width = FULL_SCREEN_WIDTH - border_width * 2;
+    const int max_line_width = FULL_SCREEN_WIDTH - ( border_width * 2 );
 
     // Fold message text
     folded_msg = foldstring( text, max_line_width );
@@ -170,7 +170,7 @@ void query_popup::init() const
                 button_width += utf8_width( opt, true );
             }
             msg_width = std::max( msg_width, button_width +
-                                  horz_padding * static_cast<int>( line.size() - 1 ) );
+                                  ( horz_padding * static_cast<int>( line.size() - 1 ) ) );
         }
     }
     msg_width = std::min( msg_width, max_line_width );
@@ -188,7 +188,7 @@ void query_popup::init() const
                 // Right align.
                 // TODO: multi-line buttons
                 int button_x = std::max( 0, msg_width - button_width -
-                                         horz_padding * static_cast<int>( line.size() - 1 ) );
+                                         ( horz_padding * static_cast<int>( line.size() - 1 ) ) );
                 for( const auto &opt : line ) {
                     buttons.emplace_back( opt, point( button_x, msg_height ) );
                     button_x += utf8_width( opt, true ) + horz_padding;
@@ -201,14 +201,14 @@ void query_popup::init() const
 
     // Calculate window size
     const int win_width = std::min( TERMX,
-                                    fullscr ? FULL_SCREEN_WIDTH : msg_width + border_width * 2 );
+                                    fullscr ? FULL_SCREEN_WIDTH : msg_width + ( border_width * 2 ) );
     const int win_height = std::min( TERMY,
-                                     fullscr ? FULL_SCREEN_HEIGHT : msg_height + border_width * 2 );
+                                     fullscr ? FULL_SCREEN_HEIGHT : msg_height + ( border_width * 2 ) );
     const int win_x = ( TERMX - win_width ) / 2;
     const int win_y = ontop ? 0 : ( TERMY - win_height ) / 2;
     win = catacurses::newwin( win_height, win_width, point( win_x, win_y ) );
 
-    std::shared_ptr<ui_adaptor> ui = adaptor.lock();
+    const std::shared_ptr<ui_adaptor> ui = adaptor.lock();
     if( ui ) {
         ui->position_from_window( win );
     }
@@ -270,7 +270,7 @@ query_popup::result query_popup::query_once()
         return { false, "ERROR", {} };
     }
 
-    std::shared_ptr<ui_adaptor> ui = create_or_get_adaptor();
+    const std::shared_ptr<ui_adaptor> ui = create_or_get_adaptor();
 
     ui_manager::redraw();
 
@@ -347,9 +347,9 @@ query_popup::result query_popup::query_once()
 
 query_popup::result query_popup::query()
 {
-    ime_sentry sentry( ime_sentry::disable );
+    const ime_sentry sentry( ime_sentry::disable );
 
-    std::shared_ptr<ui_adaptor> ui = create_or_get_adaptor();
+    const std::shared_ptr<ui_adaptor> ui = create_or_get_adaptor();
 
     result res;
     do {

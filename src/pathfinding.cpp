@@ -268,7 +268,7 @@ void Pathfinding::update_z_caches( bool update_open_air )
 
     const point anti_shift = Pathfinding::z_area - cur_z_area;
     // This cuboid will contain negative values, it's fine
-    half_open_cuboid<tripoint> prev_z_volume_local(
+    const half_open_cuboid<tripoint> prev_z_volume_local(
         tripoint( here.getlocal( Pathfinding::z_area ), -OVERMAP_DEPTH ),
         tripoint( here.getlocal( Pathfinding::z_area + point( MAPSIZE_X, MAPSIZE_Y ) ), OVERMAP_HEIGHT + 1 )
     );
@@ -616,7 +616,7 @@ Pathfinding::ExpansionOutcome Pathfinding::expand_2d_up_to(
             const bool is_g_calc_needed = cur_g == 0.0;
 
             if( is_g_calc_needed ) {
-                bool is_diag = dir.x != 0 && dir.y != 0;
+                const bool is_diag = dir.x != 0 && dir.y != 0;
                 cur_g += is_diag ? 0.75 * move_cost : 0.5 * move_cost;
                 cur_g *= this->settings.move_cost_coeff;
 
@@ -765,7 +765,8 @@ Pathfinding::ExpansionOutcome Pathfinding::expand_2d_up_to(
         }
     }
 
-    bool is_fully_explored = !route_settings.is_relative_search_domain() && biased_frontier.empty();
+    const bool is_fully_explored = !route_settings.is_relative_search_domain() &&
+                                   biased_frontier.empty();
 
     // We will be rebuilding on next search anyway if we had a relative search this time
     if( this->domain == MapDomain::ABSOLUTE_DOMAIN ) {
@@ -906,11 +907,11 @@ std::vector<tripoint> Pathfinding::get_route_3d(
     std::vector<ZLevelChange> z_path;
     {
         tripoint cur_origin = to;
-        point cur_origin_point = to.xy();
+        const point cur_origin_point = to.xy();
 
         while( cur_origin.z != from.z ) {
             Pathfinding::ZLevelChange best_z_change;
-            std::tuple<bool, int, tripoint> cache_pair{ we_go_up, path_settings.z_move_type(), cur_origin };
+            std::tuple<bool, int, tripoint> const cache_pair{ we_go_up, path_settings.z_move_type(), cur_origin };
 
             if( Pathfinding::cached_closest_z_changes.contains( cache_pair ) ) {
                 best_z_change = Pathfinding::cached_closest_z_changes.at( cache_pair );
@@ -1078,10 +1079,10 @@ std::vector<tripoint> Pathfinding::route(
     here.clip_to_bounds( from );
     here.clip_to_bounds( to );
 
-    PathfindingSettings path_settings = maybe_path_settings.has_value() ? *maybe_path_settings :
-                                        PathfindingSettings();
-    RouteSettings route_settings = maybe_route_settings.has_value() ? *maybe_route_settings :
-                                   RouteSettings();
+    const PathfindingSettings path_settings = maybe_path_settings.has_value() ? *maybe_path_settings :
+            PathfindingSettings();
+    const RouteSettings route_settings = maybe_route_settings.has_value() ? *maybe_route_settings :
+                                         RouteSettings();
 
     if( rl_dist_exact( from, to ) > route_settings.max_dist ) {
         return std::vector<tripoint>();
