@@ -271,9 +271,7 @@
     "type": "vehicle",
     "name": "Unicycle",
     "blueprint": [ "#" ],
-    "parts": [
-      { "x": 0, "y": 0, "parts": [ "frame_handle", "saddle_control", "foot_pedals", "wheel_mount_light", "wheel_unicycle" ] }
-    ]
+    "parts": [ { "x": 0, "y": 0, "parts": [ "frame_handle", "saddle", "foot_pedals", "wheel_mount_light", "wheel_unicycle" ] } ]
   },
   {
     "id": "bicycle_plastic",

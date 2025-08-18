@@ -140,7 +140,7 @@
         "using": [ [ "sewing_standard", 10 ], [ "fabric_hides_any", 1 ] ]
       }
     },
-    "flags": [ "SEAT", "BOARDABLE", "FOLDABLE" ],
+    "flags": [ "SEAT", "BOARDABLE", "FOLDABLE", "CONTROLS", "CONTROL_WITHOUT_HANDS" ],
     "breaks_into": [ { "item": "leather", "prob": 50 }, { "item": "scrap", "count": [ 1, 2 ] } ]
   },
   {
@@ -211,15 +211,6 @@
     "id": "saddle_motor",
     "symbol": "#",
     "type": "vehicle_part"
-  },
-  {
-    "copy-from": "saddle_abstract",
-    "id": "saddle_control",
-    "name": { "str": "controllable saddle" },
-    "symbol": "#",
-    "type": "vehicle_part",
-    "looks_like": "saddle_pedal",
-    "extend": { "flags": [ "CONTROLS", "CONTROL_WITHOUT_HANDS" ] }
   },
   {
     "copy-from": "folding_seat_abstract",
