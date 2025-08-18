@@ -3895,7 +3895,7 @@ bool ranged::gunmode_checks_common( avatar &you, const map &m, std::vector<std::
         const bool ctrl_handsfree = vp_control && vp_control->has_feature( "CONTROL_WITHOUT_HANDS" );
         const bool using_arms = vp->vehicle().has_part( "MUSCLE_ARMS", true );
         const bool single_tile_veh = vp->vehicle().all_parts_at_location( "structure" ).size() < 2 ;
-        
+
         if( ctrl_handsfree ) { // check this vehicle is steerable and able to be controlled without hands.
             if( single_tile_veh ) {
                 if( using_arms ) {
