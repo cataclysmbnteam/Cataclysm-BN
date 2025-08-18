@@ -449,13 +449,13 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
                     const tripoint &dest = move_along_line( tp, trajectory, bt_len );
                     here.add_splatter_trail( critter->bloodType(), tp, dest );
                 }
-                // Track damage before processing so we'll know if overpenetration affected range any.
-                float dmg_before_penetration = proj.impact.total_damage();
                 sfx::do_projectile_hit( *attack.hit_critter );
                 has_momentum = proj.impact.total_damage() > 0 && is_bullet;
-                if( has_momentum && dmg_before_penetration > proj.impact.total_damage() ) {
+                // Non-ballistic projectiles take an additional penalty from overpenetration
+                if( modify_overpentration ) {
+                    proj.impact.mult_damage( overpenetration_modifier );
                     traj_len *= overpenetration_modifier;
-                    add_msg( m_debug, "Projectile range modified by %.0f", overpenetration_modifier );
+                    add_msg( m_debug, "Projectile damage and range modified by %s", overpenetration_modifier );
                 }
             } else {
                 attack.missed_by = aim.missed_by;
@@ -463,13 +463,15 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
         } else if( in_veh != nullptr && veh_pointer_or_null( here.veh_at( tp ) ) == in_veh ) {
             // Don't do anything, especially don't call map::shoot as this would damage the vehicle
         } else {
-            // Track damage before processing so we'll know if overpenetration affected range any.
+            // Track damage before processing so we'll know if we actually hit any cover.
             float dmg_before_penetration = proj.impact.total_damage();
             here.shoot( source, tp, proj, !no_item_damage && tp == target );
             has_momentum = proj.impact.total_damage() > 0;
-            if( has_momentum && dmg_before_penetration > proj.impact.total_damage() ) {
+            // Non-ballistic projectile and we lost momentum from hitting something, penalize.
+            if( modify_overpentration && dmg_before_penetration > proj.impact.total_damage() ) {
+                proj.impact.mult_damage( overpenetration_modifier );
                 traj_len *= overpenetration_modifier;
-                add_msg( m_debug, "Projectile range modified by %.0f", overpenetration_modifier );
+                add_msg( m_debug, "Projectile damage and range modified by %s", overpenetration_modifier );
             }
         }
         if( !has_momentum && here.impassable( tp ) &&
