@@ -190,7 +190,7 @@
     "sound_category": "thunder",
     "sun_intensity": "none",
     "requirements": {
-      "pressure_max": 993,
+      "pressure_max": 990,
       "humidity_min": 97,
       "humidity_and_pressure": false,
       "required_weathers": [ "cloudy", "light_drizzle", "drizzle", "rain", "heavy_rain" ]
@@ -216,7 +216,7 @@
     "sound_category": "thunder",
     "sun_intensity": "none",
     "requirements": {
-      "pressure_max": 980,
+      "pressure_max": 988,
       "humidity_min": 99,
       "humidity_and_pressure": false,
       "required_weathers": [ "cloudy", "light_drizzle", "drizzle", "rain", "heavy_rain", "thunder" ]
