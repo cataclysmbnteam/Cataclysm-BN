@@ -69,7 +69,7 @@
     "price_postapoc": "10 cent",
     "volume": "250 ml",
     "cutting": 6,
-    "flags": [ "STAB", "SHEATH_KNIFE", "CONDUCTIVE", "FRAGILE_MELEE" ],
+    "flags": [ "SHEATH_KNIFE", "CONDUCTIVE", "FRAGILE_MELEE" ],
     "qualities": [ [ "BUTCHER", -18 ] ]
   },
   {
@@ -83,6 +83,7 @@
     "volume": "188 ml",
     "cutting": 12,
     "material": "alien_resin",
+    "flags": [ "STAB", "SHEATH_KNIFE", "CONDUCTIVE", "FRAGILE_MELEE" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ]
   },
   {
