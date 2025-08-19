@@ -2717,7 +2717,7 @@ bool cata_tiles::draw_terrain( const tripoint &p, const lit_level ll, int &heigh
             // tile overrides are never memorized
             // tile overrides are always shown with full visibility
             const lit_level lit = overridden ? lit_level::LIT : ll;
-            const bool nv = overridden ? false : true;
+            const bool nv = !overridden;
             return draw_from_id_string( tname, C_TERRAIN, empty_string, p, subtile, rotation, lit, nv,
                                         height_3d, z_drop );
         }
@@ -2904,7 +2904,7 @@ bool cata_tiles::draw_furniture( const tripoint &p, const lit_level ll, int &hei
             // tile overrides are never memorized
             // tile overrides are always shown with full visibility
             const lit_level lit = overridden ? lit_level::LIT : ll;
-            const bool nv = overridden ? false : true;
+            const bool nv = !overridden;
             return draw_from_id_string( fname, C_FURNITURE, empty_string, p, subtile, rotation, lit, nv,
                                         height_3d, z_drop );
         }
@@ -2979,7 +2979,7 @@ bool cata_tiles::draw_trap( const tripoint &p, const lit_level ll, int &height_3
             // tile overrides are never memorized
             // tile overrides are always shown with full visibility
             const lit_level lit = overridden ? lit_level::LIT : ll;
-            const bool nv = overridden ? false : true;
+            const bool nv = !overridden;
             return draw_from_id_string( trname, C_TRAP, empty_string, p, subtile, rotation, lit, nv,
                                         height_3d, z_drop );
         }
@@ -3020,7 +3020,7 @@ bool cata_tiles::draw_field_or_item( const tripoint &p, const lit_level ll, int 
     bool ret_draw_items = false;
     if( ( fld_overridden || !invisible[0] ) && fld.obj().display_field ) {
         const lit_level lit = fld_overridden ? lit_level::LIT : ll;
-        const bool nv = fld_overridden ? false : true;
+        const bool nv = !fld_overridden;
 
         auto field_at = [&]( const tripoint & q, const bool invis ) -> field_type_id {
             const auto it = field_override.find( q );
@@ -3071,7 +3071,7 @@ bool cata_tiles::draw_field_or_item( const tripoint &p, const lit_level ll, int 
                                         "corpse_" + mon_id.str() : it_id.str();
             const std::string it_category = it_type->get_item_type_string();
             const lit_level lit = it_overridden ? lit_level::LIT : ll;
-            const bool nv = it_overridden ? false : true;
+            const bool nv = !it_overridden;
 
             ret_draw_items = draw_from_id_string( disp_id, C_ITEM, it_category, p, 0, 0, lit,
                                                   nv, height_3d, z_drop );
