@@ -1168,7 +1168,7 @@ bool vehicle::can_enable_muscle_engine( int e, std::string &failure_reason ) con
     const int part_idx = engines[e];
     const vpart_info &engine_info = part_info( part_idx );
     const point engine_mount = parts[part_idx].mount;
-    
+
     for( const vpart_reference &vpr : get_all_parts() ) {
         if( vpr.mount() == engine_mount && vpr.part().has_flag( vehicle_part::passenger_flag ) ) {
             const player *passenger = get_passenger( vpr.part_index() );
@@ -1187,8 +1187,9 @@ bool vehicle::can_enable_muscle_engine( int e, std::string &failure_reason ) con
             }
         }
     }
-    
-    failure_reason = string_format( _( "The %s cannot operate without an occupant." ), engine_info.name() );
+
+    failure_reason = string_format( _( "The %s cannot operate without an occupant." ),
+                                    engine_info.name() );
     return false;
 }
 
@@ -1197,7 +1198,7 @@ bool vehicle::has_muscle_engine_operator( int e ) const
     const int part_idx = engines[e];
     const vpart_info &engine_info = part_info( part_idx );
     const point engine_mount = parts[part_idx].mount;
-    
+
     for( const vpart_reference &vpr : get_all_parts() ) {
         if( vpr.mount() == engine_mount && vpr.part().has_flag( vehicle_part::passenger_flag ) ) {
             const player *passenger = get_passenger( vpr.part_index() );

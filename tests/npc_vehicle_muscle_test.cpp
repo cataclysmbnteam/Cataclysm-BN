@@ -189,9 +189,9 @@ TEST_CASE( "player_and_npc_muscle_power_combined", "[vehicle][muscle][npc][playe
         build_test_map( ter_id( "t_pavement" ) );
         map &here = get_map();
         avatar &player = get_avatar();
-        
+
         const tripoint bike_origin( 60, 60, 0 );  // Use same coordinates as working test
-        
+
         vehicle *veh_ptr = here.add_vehicle( vproto_id( "tandem" ), bike_origin, 0_degrees, 0, 0 );
         REQUIRE( veh_ptr != nullptr );
 
