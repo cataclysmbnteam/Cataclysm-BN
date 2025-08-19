@@ -1166,89 +1166,42 @@ void vehicle::toggle_specific_part( int p, bool on )
 bool vehicle::can_enable_muscle_engine( int e, std::string &failure_reason ) const
 {
     const int part_idx = engines[e];
-    const vehicle_part &engine_part = parts[part_idx];
     const vpart_info &engine_info = part_info( part_idx );
-
-    // Check if engine has an operator (player or NPC)
-    const tripoint engine_global_pos = global_part_pos3( part_idx );
-    bool has_player = false;
-    bool has_npc = false;
-
-    // Check if player is at this engine position
-    if( g->u.pos() == engine_global_pos ) {
-        has_player = true;
-        // Check if player has functional limbs for this engine type
-        if( engine_info.has_flag( "MUSCLE_LEGS" ) && g->u.get_working_leg_count() < 2 ) {
-            failure_reason = string_format(
-                                 _( "%s strains, but is unable to operate the %s due to injured legs." ),
-                                 g->u.name, engine_info.name() );
-            return false;
-        }
-        if( engine_info.has_flag( "MUSCLE_ARMS" ) && g->u.get_working_arm_count() < 2 ) {
-            failure_reason = string_format(
-                                 _( "%s strains, but is unable to operate the %s due to injured arms." ),
-                                 g->u.name, engine_info.name() );
-            return false;
-        }
-    }
-
-    // Check if NPC is assigned to a seat at the same position as this engine
-    const point engine_mount = engine_part.mount;
+    const point engine_mount = parts[part_idx].mount;
+    
     for( const vpart_reference &vpr : get_all_parts() ) {
-        if( vpr.part().is_seat() && vpr.mount() == engine_mount ) {
-            // First try the standard crew() method
-            const npc *crew_member = vpr.part().crew();
-
-            // If that fails, check if there's a crew_id assigned but crew() failed
-            if( crew_member == nullptr && vpr.part().crew_id.is_valid() ) {
-                // Try to find the NPC directly
-                npc *found_npc = g->critter_by_id<npc>( vpr.part().crew_id );
-                if( found_npc != nullptr ) {
-                    crew_member = found_npc;
-                }
-            }
-
-            if( crew_member != nullptr ) {
-                has_npc = true;
-                // Check if NPC has functional limbs for this engine type
-                if( engine_info.has_flag( "MUSCLE_LEGS" ) && crew_member->get_working_leg_count() < 2 ) {
+        if( vpr.mount() == engine_mount && vpr.part().has_flag( vehicle_part::passenger_flag ) ) {
+            const player *passenger = get_passenger( vpr.part_index() );
+            if( passenger != nullptr ) {
+                if( engine_info.has_flag( "MUSCLE_LEGS" ) && passenger->get_working_leg_count() < 2 ) {
                     failure_reason = string_format( _( "%s cannot operate the %s due to injured legs." ),
-                                                    crew_member->name, engine_info.name() );
+                                                    passenger->name, engine_info.name() );
                     return false;
                 }
-                if( engine_info.has_flag( "MUSCLE_ARMS" ) && crew_member->get_working_arm_count() < 2 ) {
+                if( engine_info.has_flag( "MUSCLE_ARMS" ) && passenger->get_working_arm_count() < 2 ) {
                     failure_reason = string_format( _( "%s cannot operate the %s due to injured arms." ),
-                                                    crew_member->name, engine_info.name() );
+                                                    passenger->name, engine_info.name() );
                     return false;
                 }
-                break; // Found crew at this position
+                return true;
             }
         }
     }
-
-    // Must have at least one operator
-    if( !has_player && !has_npc ) {
-        failure_reason = string_format( _( "The %s cannot operate without an occupant." ),
-                                        engine_info.name() );
-        return false;
-    }
-
-    return true;
+    
+    failure_reason = string_format( _( "The %s cannot operate without an occupant." ), engine_info.name() );
+    return false;
 }
 
 bool vehicle::has_muscle_engine_operator( int e ) const
 {
     const int part_idx = engines[e];
-    const vehicle_part &engine_part = parts[part_idx];
     const vpart_info &engine_info = part_info( part_idx );
-    const point engine_mount = engine_part.mount;
-
-    // Check all parts at the same position as this engine for passengers
+    const point engine_mount = parts[part_idx].mount;
+    
     for( const vpart_reference &vpr : get_all_parts() ) {
         if( vpr.mount() == engine_mount && vpr.part().has_flag( vehicle_part::passenger_flag ) ) {
             const player *passenger = get_passenger( vpr.part_index() );
             if( passenger != nullptr ) {
-                // Check passenger limb functionality for this engine type
                 if( engine_info.has_flag( "MUSCLE_LEGS" ) && passenger->get_working_leg_count() >= 2 ) {
                     return true;
                 }
@@ -1258,7 +1211,6 @@ bool vehicle::has_muscle_engine_operator( int e ) const
             }
         }
     }
-
     return false;
 }
 
@@ -1269,53 +1221,9 @@ void vehicle::validate_muscle_engines()
             if( !has_muscle_engine_operator( e ) ) {
                 const int part_idx = engines[e];
                 const vpart_info &engine_info = part_info( part_idx );
-
-                // Auto-disable the engine with appropriate message
                 parts[part_idx].enabled = false;
-
-                // Determine why it was disabled
-                const tripoint engine_global_pos = global_part_pos3( part_idx );
-                const point engine_mount = parts[part_idx].mount;
-
-                // Find crew member at the same position
-                const npc *crew_member = nullptr;
-                for( const vpart_reference &vpr : get_all_parts() ) {
-                    if( vpr.part().is_seat() && vpr.mount() == engine_mount ) {
-                        crew_member = vpr.part().crew();
-                        // If crew() failed, try direct lookup
-                        if( crew_member == nullptr && vpr.part().crew_id.is_valid() ) {
-                            npc *found_npc = g->critter_by_id<npc>( vpr.part().crew_id );
-                            if( found_npc != nullptr ) {
-                                crew_member = found_npc;
-                            }
-                        }
-                        break;
-                    }
-                }
-
-                if( g->u.pos() == engine_global_pos ) {
-                    // Player is there but can't operate
-                    if( engine_info.has_flag( "MUSCLE_LEGS" ) ) {
-                        add_msg( m_info, _( "The %s shuts down - %s needs functioning legs to operate it." ),
-                                 engine_info.name(), g->u.name );
-                    } else if( engine_info.has_flag( "MUSCLE_ARMS" ) ) {
-                        add_msg( m_info, _( "The %s shuts down - %s needs functioning arms to operate it." ),
-                                 engine_info.name(), g->u.name );
-                    }
-                } else if( crew_member != nullptr ) {
-                    // NPC is assigned but can't operate
-                    if( engine_info.has_flag( "MUSCLE_LEGS" ) ) {
-                        add_msg( m_info, _( "The %s shuts down - %s needs functioning legs to operate it." ),
-                                 engine_info.name(), crew_member->name );
-                    } else if( engine_info.has_flag( "MUSCLE_ARMS" ) ) {
-                        add_msg( m_info, _( "The %s shuts down - %s needs functioning arms to operate it." ),
-                                 engine_info.name(), crew_member->name );
-                    }
-                } else {
-                    // No operator at all
-                    add_msg( m_info, _( "The %s shuts down - it cannot operate without an occupant." ),
-                             engine_info.name() );
-                }
+                add_msg( m_info, _( "The %s shuts down - it cannot operate without an occupant." ),
+                         engine_info.name() );
             }
         }
     }
@@ -3704,11 +3612,8 @@ int vehicle::fuel_left( const itype_id &ftype, bool recurse ) const
         distribution_graph::traverse( *this, fuel_counting_visitor, power_counting_visitor );
     }
 
-    //muscle engines have infinite fuel - aggregate power system
     if( ftype == fuel_type_muscle ) {
-        // Count total valid muscle engine operators for aggregate power calculation
         int active_operators = 0;
-
         for( int ep = 0; ep < static_cast<int>( engines.size() ); ep++ ) {
             if( is_engine_type( ep, fuel_type_muscle ) && is_engine_on( ep ) ) {
                 if( has_muscle_engine_operator( ep ) ) {
@@ -3716,9 +3621,6 @@ int vehicle::fuel_left( const itype_id &ftype, bool recurse ) const
                 }
             }
         }
-
-        // Aggregate muscle power: base fuel amount times number of active operators
-        // This allows load sharing across multiple muscle engines
         if( active_operators > 0 ) {
             fl += 10 * active_operators;
         }

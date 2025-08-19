@@ -223,7 +223,9 @@ TEST_CASE( "player_and_npc_muscle_power_combined", "[vehicle][muscle][npc][playe
         // Position player at front seat (controlling position)
         const tripoint front_seat_pos = bike_origin;
         player.setpos( front_seat_pos );
-        here.board_vehicle( front_seat_pos, &player );
+        if( !player.in_vehicle ) {
+            here.board_vehicle( front_seat_pos, &player );
+        }
         REQUIRE( player.in_vehicle );
 
         // Position NPC at rear seat and board them
