@@ -1477,12 +1477,7 @@
       { "level": 2, "name": "survival" }
     ],
     "items": {
-      "both": {
-        "items": [ "loincloth", "footrags" ],
-        "entries": [
-          { "item": "resin_knife", "custom-flags": [ "auto_wield" ] }
-        ]
-      },
+      "both": { "items": [ "loincloth", "footrags" ], "entries": [ { "item": "resin_knife", "custom-flags": [ "auto_wield" ] } ] },
       "female": [ "chestwrap" ]
     },
     "flags": [ "SCEN_ONLY" ]
