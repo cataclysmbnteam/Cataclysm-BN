@@ -1180,6 +1180,15 @@ void Creature::deal_damage_handle_type( const damage_unit &du, bodypart_id bp, i
 
     float div = 4.0f;
 
+    auto set_volatiles_on_fire = [ &, this]( int chances ) {
+        if( has_flag( MF_VOLATILE ) && one_in( chances ) ) {
+            add_effect( effect_onfire, rng( 1_turns, 3_turns ), bp.id() );
+            if( get_avatar().sees( *this ) ) {
+                add_msg( m_warning, _( "The %s goes up in flames!" ), get_name() );
+            }
+            adjusted_damage *= 10;
+        }
+    };
     switch( du.type ) {
         case DT_BASH:
             // Bashing damage is less painful
@@ -1192,15 +1201,11 @@ void Creature::deal_damage_handle_type( const damage_unit &du, bodypart_id bp, i
 
         case DT_HEAT:
             // heat damage sets us on fire sometimes
-            // Volatile enemies always ignite from fire damage, may take increased damage
+            // Volatile enemies always ignite from fire damage
             if( rng( 0, 100 ) < adjusted_damage || has_flag( MF_VOLATILE ) ) {
                 add_effect( effect_onfire, rng( 1_turns, 3_turns ), bp.id() );
-                if( has_flag( MF_VOLATILE ) && one_in( 4 ) ) {
-                    if( g->u.sees( *this ) ) {
-                        add_msg( m_warning, _( "The %s goes up in flames!" ), get_name() );
-                    }
-                    adjusted_damage *= 10;
-                }
+                // High chance of taking additional damage if volatile
+                set_volatiles_on_fire( 4 );
             }
             break;
 
@@ -1208,24 +1213,12 @@ void Creature::deal_damage_handle_type( const damage_unit &du, bodypart_id bp, i
             // Electrical damage adds a major speed/dex debuff
             add_effect( effect_zapped, 1_turns * std::max( adjusted_damage, 2 ) );
             // Volatile enemies might get set off
-            if( has_flag( MF_VOLATILE ) && one_in( 8 ) ) {
-                if( g->u.sees( *this ) ) {
-                    add_msg( m_warning, _( "The %s goes up in flames!" ), get_name() );
-                }
-                add_effect( effect_onfire, rng( 1_turns, 3_turns ), bp.id() );
-                adjusted_damage *= 10;
-            }
+            set_volatiles_on_fire( 8 );
             break;
 
         case DT_BULLET:
             // Volatile enemies sometimes go up
-            if( has_flag( MF_VOLATILE ) && one_in( 16 ) ) {
-                if( g->u.sees( *this ) ) {
-                    add_msg( m_warning, _( "The %s goes up in flames!" ), get_name() );
-                }
-                add_effect( effect_onfire, rng( 1_turns, 3_turns ), bp.id() );
-                adjusted_damage *= 10;
-            }
+            set_volatiles_on_fire( 16 );
             break;
 
         case DT_ACID:
