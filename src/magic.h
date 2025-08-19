@@ -60,6 +60,7 @@ enum spell_flag {
     BRAWL, // this spell can be used by brawlers
     DUPE_SOUND, // this spell will play 'duplicate' sounds, if relevant to the spell effect
     ADD_MELEE_DAM, // Add melee damage to the spell's damage
+    PHYSICAL, // IMPLIES BRAWL. This spell is actually a Physical Technique / Weapon Arte / similar, and is sort-of a replacement of martial arts.
     LAST
 };
 

@@ -54,6 +54,7 @@
 #include "units.h"
 
 static const trait_id trait_NONE( "NONE" );
+static const trait_id trait_BRAWLER("BRAWLER");
 static const trait_flag_str_id trait_flag_SUBTLE_SPELL( "SUBTLE_SPELL" );
 static const trait_flag_str_id trait_flag_SILENT_SPELL( "SILENT_SPELL" );
 
@@ -106,6 +107,7 @@ std::string enum_to_string<spell_flag>( spell_flag data )
         case spell_flag::BRAWL: return "BRAWL";
         case spell_flag::DUPE_SOUND: return "DUPE_SOUND";
         case spell_flag::ADD_MELEE_DAM: return "ADD_MELEE_DAM";
+        case spell_flag::PHYSICAL: return "PHYSICAL";
         case spell_flag::LAST: break;
     }
     debugmsg( "Invalid spell_flag" );
@@ -559,6 +561,9 @@ int spell::damage_as_character( const Character &guy ) const
         }
         total_damage += weapon_damage;
     }
+    if (has_flag(spell_flag::PHYSICAL) && guy.has_trait(trait_BRAWLER)) {
+        total_damage *= 1.2; // Brawlers get a damage boost for Physical Techniques
+    }
 
     total_damage *= get_stat_mult( false,
                                    guy ); // This should safely result in 1x mult if no stats are set to scale
@@ -890,13 +895,16 @@ float spell::spell_fail( const Character &guy ) const
         stats_vals += guy.get_int();
     }
 
+    // Brawlers get a boost to effective skill for physical techniques
+    int brawler_bonus = (has_flag(spell_flag::PHYSICAL) && guy.has_trait(trait_BRAWLER)) ? 5 : 0;
+
     // formula is based on the following:
     // exponential curve
     // effective skill of 0 or less is 100% failure
     // effective skill of 8 (8 of relevant stats, 0 spellcraft, 0 spell level, spell difficulty 0) is ~50% failure
     // effective skill of 30 is 0% failure
     const float effective_skill = ( 2 * ( get_level() - get_difficulty() ) ) + stats_vals +
-                                  guy.get_skill_level( skill() );
+                                  guy.get_skill_level( skill() ) + brawler_bonus;
     // add an if statement in here because sufficiently large numbers will definitely overflow because of exponents
     if( effective_skill > 30.0f ) {
         return 0.0f;
@@ -1821,6 +1829,9 @@ static std::string enumerate_spell_data( const spell &sp )
     }
     if( sp.has_flag( spell_flag::BRAWL ) ) {
         spell_data.emplace_back( _( "can be used by Brawlers" ) );
+    }
+    if (sp.has_flag(spell_flag::PHYSICAL)) {
+        spell_data.emplace_back(_("is a physical technique and can be used by Brawlers"));
     }
     if( sp.has_flag( spell_flag::ADD_MELEE_DAM ) ) {
         spell_data.emplace_back( _( "can be augmented by melee weapon damage" ) );
