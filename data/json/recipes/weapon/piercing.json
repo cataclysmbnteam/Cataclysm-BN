@@ -427,6 +427,21 @@
   },
   {
     "type": "recipe",
+    "result": "glass_shiv",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_PIERCING",
+    "skill_used": "fabrication",
+    "time": "1 m",
+    "reversible": true,
+    "autolearn": true,
+    "tools": [  ],
+    "components": [
+      [ [ "glass_shard", 1 ] ],
+      [ [ "fabric_standard", 1, "LIST" ], [ "fabric_hides_any", 1, "LIST" ], [ "duct_tape", 10 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
     "result": "bone_knife",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_PIERCING",
@@ -435,6 +450,26 @@
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "bone_sturdy", 1, "LIST" ], [ "bone_heavy", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "resin_knife",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_PIERCING",
+    "skill_used": "survival",
+    "time": "5 m",
+    "autolearn": true,
+    "qualities": [ { "id": "SANDING", "level": 1 } ],
+    "components": [
+      [ [ "resin_chunk", 1 ] ],
+      [
+        [ "cordage_short", 2, "LIST" ],
+        [ "filament", 100, "LIST" ],
+        [ "fabric_standard", 1, "LIST" ],
+        [ "fabric_hides_any", 1, "LIST" ],
+        [ "duct_tape", 10 ]
+      ]
+    ]
   },
   {
     "type": "recipe",
