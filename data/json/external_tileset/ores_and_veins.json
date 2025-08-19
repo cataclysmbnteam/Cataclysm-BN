@@ -1,0 +1,25 @@
+[
+  {
+    "type": "mod_tileset",
+    "compatibility": [ "UNDEAD_PEOPLE_BASE", "UNDEAD_PEOPLE" ],
+    "tiles-new": [
+      {
+        "file": "external_tileset/ores_and_veins.png",
+        "tiles": [
+          { "id": "copper_ore", "fg": 0 },
+          { "id": "lead_ore", "fg": 1 },
+          { "id": "tin_ore", "fg": 2 },
+          { "id": "silver_ore", "fg": 3 },
+          { "id": "t_rock_ore_iron", "fg": 4 },
+          { "id": "t_rock_ore_copper", "fg": 5 },
+          { "id": "t_rock_ore_lead", "fg": 6 },
+          { "id": "t_rock_ore_tin", "fg": 7 },
+          { "id": "t_rock_ore_silver", "fg": 8 },
+          { "id": "t_rock_ore_gold", "fg": 9 }
+        ],
+        "sprite_width": 32,
+        "sprite_height": 32
+      }
+    ]
+  }
+]

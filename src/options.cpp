@@ -1708,6 +1708,12 @@ void options_manager::add_options_interface()
     translate_marker( "Allows diagonal movement with cursor keys using CTRL and SHIFT modifiers.  Diagonal movement action keys are taken from keybindings, so you need these to be configured." ), { { "none", translate_marker( "None" ) }, { "mode1", translate_marker( "Mode 1: Numpad Emulation" ) }, { "mode2", translate_marker( "Mode 2: CW/CCW" ) }, { "mode3", translate_marker( "Mode 3: L/R Tilt" ) } },
     "none", COPT_CURSES_HIDE );
 
+
+    add( "SUGGEST_AUTOWALK_STAIRCASE", interface, translate_marker( "Suggest autowalk to staircases" ),
+         translate_marker( "If true, upon pressing Ascend Stairs or Descend Stairs, the player will be prompted with an option to walk to the nearest visible staircase." ),
+         true
+       );
+
     add_empty_line();
 
     add( "VEHICLE_ARMOR_COLOR", interface, translate_marker( "Vehicle plating changes part color" ),
@@ -2389,12 +2395,12 @@ void options_manager::add_options_world_default()
 
     add( "SPECIALS_DENSITY", world_default, translate_marker( "Overmap specials density" ),
          translate_marker( "A scaling factor that determines density of overmap specials." ),
-         0.0, 10.0, 1, 0.1
+         0.01, 10.0, 1, 0.1
        );
 
     add( "SPECIALS_SPACING", world_default, translate_marker( "Overmap specials spacing" ),
          translate_marker( "A number determing minimum distance between overmap specials.  -1 allows intersections of specials." ),
-         -1, 18, 6
+         -1, 72, 6
        );
 
     add( "VEHICLE_DAMAGE", world_default, translate_marker( "Vehicle damage modifier" ),

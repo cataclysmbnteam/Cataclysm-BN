@@ -1355,7 +1355,6 @@ static bool mx_crater( map &m, const tripoint &abs_sub )
             //Pythagoras to the rescue, x^2 + y^2 = hypotenuse^2
             if( !trigdist || ( i - p.x ) * ( i - p.x ) + ( j - p.y ) * ( j - p.y ) <= size_squared ) {
                 m.bash( tripoint( i,  j, abs_sub.z ), 999, true );
-                m.adjust_radiation( point( i, j ), rng( 20, 40 ) );
             }
         }
     }

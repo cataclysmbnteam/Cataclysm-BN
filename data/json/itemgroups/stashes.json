@@ -73,5 +73,24 @@
       [ "diazepam", 1 ],
       [ "lsd", 6 ]
     ]
+  },
+  {
+    "id": "stash_drugrunner",
+    "//": "Large supplies of hard drugs (or occasionally tax-free marijuana) and cash, used by smuggler and drug deal locations.",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      { "item": "coke", "charges": [ 50, 500 ], "container-item": "bag_plastic", "prob": 75 },
+      {
+        "distribution": [
+          { "item": "meth", "charges": [ 50, 500 ], "container-item": "bag_plastic", "prob": 40 },
+          { "item": "crack", "charges": [ 50, 500 ], "container-item": "bag_plastic", "prob": 25 },
+          { "item": "heroin", "charges": [ 50, 500 ], "container-item": "bag_plastic", "prob": 25 },
+          { "item": "weed", "charges": [ 50, 500 ], "container-item": "bag_plastic", "prob": 10 }
+        ],
+        "prob": 50
+      },
+      { "item": "money_bundle", "count": [ 5, 50 ], "prob": 50 }
+    ]
   }
 ]

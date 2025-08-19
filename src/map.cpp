@@ -2730,7 +2730,12 @@ bool map::is_water_shallow_current( const tripoint &p ) const
 
 bool map::is_divable( const tripoint &p ) const
 {
-    return has_flag( "SWIMMABLE", p ) && has_flag( TFLAG_DEEP_WATER, p );
+    const std::optional<vpart_reference> vp = veh_at( p ).part_with_feature( VPFLAG_BOARDABLE,
+            true );
+    if( !vp ) {
+        return has_flag( "SWIMMABLE", p ) && has_flag( TFLAG_DEEP_WATER, p );
+    }
+    return false;
 }
 
 bool map::is_outside( const tripoint &p ) const

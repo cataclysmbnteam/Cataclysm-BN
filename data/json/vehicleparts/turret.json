@@ -53,6 +53,19 @@
     "requirements": { "install": { "skills": [ [ "mechanics", 3 ], [ "rifle", 1 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
+    "id": "mounted_carbon_rep_crossbow",
+    "copy-from": "turret",
+    "type": "vehicle_part",
+    "name": { "str": "mounted carbon fiber repeating crossbow" },
+    "item": "crossbow_carbon",
+    "folded_volume": "2500 ml",
+    "looks_like": "mounted_rep_crossbow",
+    "color": "green",
+    "broken_color": "green",
+    "breaks_into": [ { "item": "carbon_fiber_filament", "charges": [ 50, 100 ] }, { "item": "string_6", "count": [ 1, 2 ] } ],
+    "requirements": { "install": { "skills": [ [ "mechanics", 3 ], [ "rifle", 1 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
+  },
+  {
     "id": "mounted_emp_gun",
     "copy-from": "turret",
     "type": "vehicle_part",
@@ -572,6 +585,22 @@
     "folded_volume": "2750 ml",
     "color": "magenta",
     "broken_color": "magenta",
+    "breaks_into": [ { "item": "scrap", "count": 13 }, { "item": "steel_chunk", "count": 4 }, { "item": "steel_lump", "count": 1 } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 5 ], [ "electronics", 5 ] ] },
+      "removal": { "skills": [ [ "mechanics", 3 ] ] }
+    }
+  },
+  {
+    "id": "mounted_nailrifle",
+    "copy-from": "turret",
+    "type": "vehicle_part",
+    "name": { "str": "mounted nail rifle" },
+    "item": "nailrifle",
+    "folded_volume": "2250 ml",
+    "color": "yellow",
+    "broken_color": "yellow",
+    "looks_like": "mounted_coilgun",
     "breaks_into": [ { "item": "scrap", "count": 13 }, { "item": "steel_chunk", "count": 4 }, { "item": "steel_lump", "count": 1 } ],
     "requirements": {
       "install": { "skills": [ [ "mechanics", 5 ], [ "electronics", 5 ] ] },

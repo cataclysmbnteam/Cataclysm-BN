@@ -122,7 +122,42 @@
           { "id": "f_metal_bench_flipped", "fg": 107 },
           { "id": "f_tourist_table_flipped", "fg": 108 },
           { "id": "f_table_flipped", "fg": 109 },
-          { "id": "f_coffee_table_flipped", "fg": 110 }
+          { "id": "f_coffee_table_flipped", "fg": 110 },
+          { "id": "iron_ore", "fg": 111 },
+          { "id": "m1874_gatling", "fg": 112 },
+          { "id": "overlay_wielded_m1874_gatling", "fg": 113 },
+          { "id": "vp_mounted_m1874_gatling", "fg": 114 },
+          { "id": "mon_zombie_acid_mortar", "fg": 115 },
+          { "id": "corpse_mon_zombie_acid_mortar", "fg": 116 },
+          { "id": "mon_zombie_acid_spawner", "fg": 117 },
+          { "id": "corpse_mon_zombie_acid_spawner", "fg": 118 },
+          { "id": "acid_artillery_shell", "fg": 119 },
+          { "id": "acid_artillery_shell_act", "fg": 119 },
+          { "id": "mon_unstable_grub", "fg": 120 },
+          { "id": "mon_zombie_soldier_acid_3", "fg": 121 },
+          { "id": "corpse_mon_zombie_soldier_acid_3", "fg": 122 },
+          { "id": "mon_zombie_soldier_shieldman", "fg": 123 },
+          { "id": "mon_zombie_ichor_brute", "fg": 124 },
+          { "id": "zorpse_mon_zombie_ichor_brute", "fg": 125 },
+          { "id": "mon_zombie_ichor_beast", "fg": 126 },
+          { "id": "corpse_mon_zombie_ichor_beast", "fg": 127 },
+          { "id": "mon_zombie_ichor_stalker", "fg": 128 },
+          { "id": "corpse_mon_zombie_ichor_stalker", "fg": 129 },
+          { "id": "cream_pie", "fg": 130 },
+          {
+            "id": "mon_zombie_scientist_evolved_possessed",
+            "fg": [ { "weight": 10, "sprite": 131 }, { "weight": 10, "sprite": 132 } ],
+            "animated": false
+          },
+          { "id": "mon_zombie_smoker_evolved_grappler", "fg": 133 },
+          { "id": "mon_zombie_smoker_evolved_toxic", "fg": 134 },
+          {
+            "id": "mon_zombie_squidman",
+            "fg": [ { "weight": 10, "sprite": 135 }, { "weight": 10, "sprite": 136 } ],
+            "animated": false
+          },
+          { "id": "mon_zombie_technician_evolved_iron", "fg": 137 },
+          { "id": "mon_zombie_miner_evolved_moleman", "fg": 138 }
         ],
         "sprite_width": 32,
         "sprite_height": 32

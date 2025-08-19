@@ -918,6 +918,175 @@
   },
   {
     "type": "profession",
+    "id": "professional_diver",
+    "name": "Professional Diver",
+    "traits": [ "PROF_SWIMMER" ],
+    "description": "You spent a large part of your time exploring lakes and diving in the New England region, giving you lots of knowledge about the waters in the local area.",
+    "points": 3,
+    "skills": [ { "level": 4, "name": "swimming" }, { "level": 3, "name": "survival" } ],
+    "items": {
+      "both": {
+        "items": [
+          "wetsuit",
+          "wetsuit_hood",
+          "wetsuit_booties",
+          "wetsuit_gloves",
+          "dive_bag",
+          "diving_watch",
+          "goggles_swim",
+          "scuba_tank",
+          "swim_fins",
+          "diveknife",
+          "rebreather"
+        ],
+        "entries": [ { "group": "charged_flashlight" } ]
+      }
+    }
+  },
+  {
+    "type": "profession",
+    "id": "underwater_welder",
+    "name": "Underwater Welder",
+    "traits": [ "PROF_SWIMMER" ],
+    "description": "Through years of underwater welding, you've honed a deep understanding of submerged structures in the New England region.",
+    "points": 3,
+    "skills": [ { "level": 3, "name": "swimming" }, { "level": 2, "name": "fabrication" }, { "level": 2, "name": "mechanics" } ],
+    "items": {
+      "both": {
+        "items": [
+          "wetsuit",
+          "wetsuit_hood",
+          "wetsuit_gloves",
+          "wetsuit_booties",
+          "welding_mask_raised",
+          "dive_bag",
+          "diving_watch",
+          "goggles_swim",
+          "small_scuba_tank",
+          "swim_fins",
+          "rebreather"
+        ],
+        "entries": [
+          { "group": "charged_flashlight" },
+          { "item": "sea_scooter", "custom-flags": [ "auto_wield" ] },
+          { "item": "tinyweldtank", "ammo-item": "oxyacetylene", "charges": 60, "container-item": "oxy_torch" }
+        ]
+      }
+    }
+  },
+  {
+    "type": "profession",
+    "id": "bionic_diver",
+    "name": "Bionic Marine Biologist",
+    "traits": [ "PROF_SWIMMER" ],
+    "description": "You were a marine biologist who specialized in extended underwater research.  You have a bionic respirator for emergency situations where you run out of air unexpectedly, and additional implants that enable you to explore the depths easier and surgically examine marine life.",
+    "points": 4,
+    "CBMs": [
+      "bio_batteries",
+      "bio_cable_mkII",
+      "bio_underwater_propellers",
+      "bio_syringe",
+      "bio_gills",
+      "bio_flashlight",
+      "bio_surgical_razor",
+      "bio_power_storage_mkII",
+      "bio_power_storage_mkII"
+    ],
+    "//": "spawns with a respirator. this is meant for emergencies, and provides up to 5x stamina increase when activated as well",
+    "skills": [ { "level": 2, "name": "swimming" }, { "level": 4, "name": "firstaid" }, { "level": 1, "name": "electronics" } ],
+    "items": {
+      "both": {
+        "items": [
+          "wetsuit",
+          "wetsuit_hood",
+          "wetsuit_gloves",
+          "wetsuit_booties",
+          "dive_bag",
+          "diving_watch",
+          "goggles_swim",
+          "small_scuba_tank",
+          "swim_fins",
+          "rebreather"
+        ],
+        "entries": [
+          { "item": "sea_scooter", "custom-flags": [ "auto_wield" ] },
+          { "item": "airspeargun", "ammo-item": "c_fishspear", "charges": 4 },
+          { "item": "c_fishspear", "count": 4 }
+        ]
+      }
+    }
+  },
+  {
+    "type": "profession",
+    "id": "sharkboy",
+    "name": "Sharkboy",
+    "description": "You were always infatuated with bodies of water, ocean or lake. You spent your days swimming, diving, and exploring the depths. Now, you find yourself transformed into a creature of the deep. Is this what you desired?",
+    "points": 4,
+    "traits": [
+      "THRESH_FISH",
+      "DEFORMED",
+      "SLEEK_SCALES",
+      "EYEBULGE",
+      "TAIL_FIN",
+      "SMELLY2",
+      "MEMBRANE",
+      "COLDBLOOD",
+      "CARNIVORE",
+      "GILLS"
+    ],
+    "skills": [ { "level": 5, "name": "swimming" } ],
+    "items": {
+      "both": {
+        "items": [ "wetsuit", "wetsuit_gloves", "wetsuit_booties", "bandana_head", "dive_bag", "diving_watch", "diveknife" ],
+        "entries": [ { "group": "charged_flashlight" } ]
+      }
+    },
+    "flags": [ "SCEN_ONLY" ]
+  },
+  {
+    "type": "profession",
+    "id": "davy_jones",
+    "name": "Davy Jones",
+    "description": "You were robbed, shot in the head and thrown into the sea just before the Cataclysm. Now you have risen undead from the depths, with a thirst for vengeance against those who wronged you, and a desire to reclaim your lost treasures.",
+    "points": 2,
+    "traits": [
+      "SCHIZOPHRENIC",
+      "THRESH_CEPHALOPOD",
+      "CEPH_EYES",
+      "GILLS_CEPH",
+      "SLIMY",
+      "DEFORMED",
+      "SLIT_NOSTRILS",
+      "MOUTH_TENTACLES",
+      "LEG_TENTACLES",
+      "COLDBLOOD"
+    ],
+    "skills": [ { "level": 2, "name": "swimming" }, { "level": 2, "name": "cutting" }, { "level": 2, "name": "pistol" } ],
+    "items": {
+      "both": {
+        "items": [ "tank_top", "mbag", "bandana_head", "scabbard", "rum" ],
+        "entries": [
+          { "item": "cutlass", "custom-flags": [ "auto_wield" ] },
+          { "item": "baldric_holster", "contents-group": "pistols_pirate" },
+          { "item": "flintlock_pouch", "contents-group": "flintlock_pouch_reenactor" },
+          { "item": "flintlock_ammo", "charges": 4 }
+        ]
+      }
+    },
+    "flags": [ "SCEN_ONLY" ]
+  },
+  {
+    "type": "profession",
+    "id": "lagoon_creature",
+    "name": "Creature of the Lagoon",
+    "description": "Ascending from the muck, you've been granted a new life by the Cataclysm. A far cry from your previous existence, you now find yourself a creature of the deep, struggling to understand your new form and purpose.",
+    "points": 1,
+    "traits": [ "UNSTABLE", "SLIME_HANDS", "PER_SLIME", "VISCOUS", "AMORPHOUS", "FRESHWATEROSMOSIS", "THRESH_SLIME" ],
+    "skills": [ { "level": 2, "name": "swimming" }, { "level": 2, "name": "dodge" } ],
+    "flags": [ "SCEN_ONLY" ]
+  },
+  {
+    "type": "profession",
     "id": "soldier",
     "name": "Military Rifleman",
     "description": "You were hoping to see some action, only to get more than you bargained for deployed stateside responding to a national emergency.  As far as you can tell, military command abandoned you to this hellhole.",
@@ -1161,7 +1330,7 @@
     "name": "Special Operator",
     "description": "You were the best of the best, the military's finest.  That's why you're still alive, even after all your comrades fell to the undead.  As far as you can tell, military command abandoned you in this hellhole when you missed the emergency evac.",
     "points": 5,
-    "traits": [ "PROF_MILITARY" ],
+    "traits": [ "PROF_MILITARY", "PROF_SWIMMER" ],
     "skills": [
       { "level": 3, "name": "gun" },
       { "level": 3, "name": "smg" },

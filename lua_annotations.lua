@@ -12,6 +12,16 @@
 ---@field current_mod_path string
 ---@field cata_internal table
 game = {}
+
+---@class OnCharacterResetStatsParams
+---@field character Character
+on_character_reset_stats = {}
+
+---@class OnMapgenPostprocessParams
+---@field map Map
+---@field omt Tripoint
+---@field when TimePoint
+on_mapgen_postprocess = {}
 --================---- Classes ----================
 
 ---@class ActivityTypeId
@@ -162,6 +172,7 @@ function BodyPartTypeIntId.new() end
 ---@field get_kcal_percent fun(arg1: Character): number
 ---@field get_lowest_hp fun(arg1: Character): integer
 ---@field get_max_power_level fun(arg1: Character): Energy
+---@field get_melee_stamina_cost fun(arg1: Character, arg2: Item): integer
 ---@field get_morale fun(arg1: Character, arg2: MoraleTypeDataId): integer
 ---@field get_morale_level fun(arg1: Character): integer
 ---@field get_movement_mode fun(arg1: Character): CharacterMoveMode
@@ -289,9 +300,9 @@ function BodyPartTypeIntId.new() end
 ---@field mount_creature fun(arg1: Character, arg2: Monster)
 ---@field mutate fun(arg1: Character)
 ---@field mutate_category fun(arg1: Character, arg2: MutationCategoryTraitId)
+---@field mutate_towards fun(arg1: Character, arg2: MutationBranchId[], arg3: integer): boolean
 ---@field mutate_towards fun(arg1: Character, arg2: MutationBranchId[], arg3: integer): boolean | fun(arg1: Character, arg2: MutationBranchId): boolean
 ---@field mutate_towards fun(arg1: Character, arg2: MutationBranchId): boolean
----@field mutate_towards fun(arg1: Character, arg2: MutationBranchId[], arg3: integer): boolean
 ---@field mutation_armor fun(arg1: Character, arg2: BodyPartTypeIntId, arg3: DamageType): number
 ---@field mutation_effect fun(arg1: Character, arg2: MutationBranchId)
 ---@field mutation_loss_effect fun(arg1: Character, arg2: MutationBranchId)
@@ -338,6 +349,7 @@ function BodyPartTypeIntId.new() end
 ---@field sight_impaired fun(arg1: Character): boolean
 ---@field spores fun(arg1: Character)
 ---@field suffer fun(arg1: Character)
+---@field uncanny_dodge fun(arg1: Character): boolean
 ---@field unset_mutation fun(arg1: Character, arg2: MutationBranchId)
 ---@field unwield fun(arg1: Character): boolean
 ---@field volume_capacity fun(arg1: Character): Volume
@@ -664,6 +676,7 @@ function FurnRaw.new() end
 
 ---@class Item
 ---@field charges integer
+---@field activate fun(arg1: Item)
 ---@field add_item_with_id fun(arg1: Item, arg2: ItypeId, arg3: integer) @Adds an item(s) to contents
 ---@field add_technique fun(arg1: Item, arg2: MartialArtsTechniqueId) @Adds the technique. It isn't treated original, but additional.
 ---@field ammo_capacity fun(arg1: Item, arg2: boolean): integer @Gets the maximum capacity of a magazine
@@ -674,12 +687,14 @@ function FurnRaw.new() end
 ---@field ammo_required fun(arg1: Item): integer
 ---@field ammo_set fun(arg1: Item, arg2: ItypeId, arg3: integer)
 ---@field ammo_unset fun(arg1: Item)
+---@field attack_cost fun(arg1: Item): integer
 ---@field can_contain fun(arg1: Item, arg2: Item): boolean @Checks if this item can contain another
 ---@field clear_vars fun(arg1: Item) @Erase all variables
 ---@field conductive fun(arg1: Item): boolean
 ---@field convert fun(arg1: Item, arg2: ItypeId) @Converts the item as given `ItypeId`.
 ---@field covers fun(arg1: Item, arg2: BodyPartTypeIntId): boolean @Checks if the item covers a bodypart
 ---@field current_magazine fun(arg1: Item): Item @Gets the current magazine
+---@field deactivate fun(arg1: Item)
 ---@field display_name fun(arg1: Item, arg2: integer): string @Display name with all bells and whistles like ammo and prefixes
 ---@field energy_remaining fun(arg1: Item): Energy
 ---@field erase_var fun(arg1: Item, arg2: string) @Erase variable
@@ -774,6 +789,7 @@ function FurnRaw.new() end
 ---@field set_var_num fun(arg1: Item, arg2: string, arg3: number)
 ---@field set_var_str fun(arg1: Item, arg2: string, arg3: string)
 ---@field set_var_tri fun(arg1: Item, arg2: string, arg3: Tripoint)
+---@field stamina_cost fun(arg1: Item): integer
 ---@field tname fun(arg1: Item, arg2: integer, arg3: boolean, arg4: integer): string @Translated item name with prefixes
 ---@field total_capacity fun(arg1: Item): Volume @Gets maximum volume this item can hold (liquids, ammo, etc)
 ---@field unset_flag fun(arg1: Item, arg2: JsonFlagId)

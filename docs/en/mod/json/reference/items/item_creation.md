@@ -101,7 +101,10 @@
 "stack_size" : 50,          // (Optional) How many rounds are in the above-defined volume. If omitted, is the same as 'count'
 "show_stats" : true,        // (Optional) Force stat display for combat ammo. (for projectiles lacking both damage and prop_damage)
 "dont_recover_one_in": 1    // (Optional) 1 in x chance of not recovering the ammo (100 means you have a 99% chance of getting it back)
-"drop": "nail"              // (Optional) Defines an object that drops at the projectile location at a 100% chance.
+"drop": "nail",             // (Optional) Defines an object that drops at the projectile location at a 100% chance.
+"drop_active": false        // (Optional) Whether the object starts active. Default is true.
+"drop_count": 1,            // (Optional) Number of items to drop. For tools, this sets their charges. 
+                            // If omitted, the drop amount defaults to the 'count' defined in its itype.
 "effects" : ["COOKOFF", "SHOT"]
 ```
 

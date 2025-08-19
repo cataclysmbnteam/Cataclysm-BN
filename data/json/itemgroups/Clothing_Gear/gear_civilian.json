@@ -175,7 +175,8 @@
     "items": [
       [ "daypack", 20 ],
       [ "roadmap", 6 ],
-      [ "trailmap", 6 ],
+      [ "trailmap", 5 ],
+      [ "waterwaymap", 1 ],
       [ "touristmap", 4 ],
       [ "regionaltransportmap", 4 ],
       [ "lighter", 60 ],

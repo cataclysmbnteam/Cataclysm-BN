@@ -257,11 +257,13 @@ Monster dodge skill. See GAME_BALANCE.txt for an explanation of dodge mechanics.
 
 (array of objects, optional)
 
-List of damage instances added to die roll on monster melee attack. - `damage_type` valid entries
-are : "true", "biological", "bash", "cut", "acid", "stab", "heat", "cold" and "electric". - `amount`
-amount of damage. - `armor_penetration` how much of the armor the damage instance ignores. -
-`armor_multiplier` is a multiplier on `armor_penetration`. - `damage_multiplier` is a multiplier on
-`amount`.
+| Property            | Description                                                                                                                                                                 |
+| ------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `damage_type`       | Type of damage. Valid entries: `"true"`, `"bash"`, `"cut"`, `"stab"`, `"bullet"`, `"biological"`, `"acid"`, `"heat"`, `"cold"`, `"dark"`, `"light"`, `"psi"`, `"electric"`. |
+| `amount`            | Amount of damage dealt.                                                                                                                                                     |
+| `armor_penetration` | Amount of armor ignored by this damage instance.                                                                                                                            |
+| `armor_multiplier`  | Multiplier applied to `armor_penetration`.                                                                                                                                  |
+| `damage_multiplier` | Multiplier applied to `amount`.                                                                                                                                             |
 
 ```json
 "melee_damage": [ { "damage_type": "electric", "amount": 4.0, "armor_penetration": 1, "armor_multiplier": 1.2, "damage_multiplier": 1.4 } ],

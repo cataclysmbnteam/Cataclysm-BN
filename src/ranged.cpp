@@ -1874,7 +1874,7 @@ static projectile make_gun_projectile( const item &gun )
         }
 
         if( ammo.drop ) {
-            detached_ptr<item> drop = item::spawn( ammo.drop, calendar::turn, 1 );
+            detached_ptr<item> drop = item::spawn( ammo.drop, calendar::turn, ammo.drop_count );
             if( ammo.drop_active ) {
                 drop->activate();
             }
@@ -3890,9 +3890,37 @@ bool ranged::gunmode_checks_common( avatar &you, const map &m, std::vector<std::
     const optional_vpart_position vp = m.veh_at( you.pos() );
     if( vp && vp->vehicle().player_in_control( you ) && ( gmode->is_two_handed( you ) ||
             gmode->has_flag( flag_FIRE_TWOHAND ) ) ) {
-        messages.push_back( string_format( _( "You can't fire your %s while driving." ),
-                                           gmode->tname() ) );
-        result = false;
+
+        const auto vp_control = vp->part_with_feature( "CONTROLS", true );
+        const bool ctrl_handsfree = vp_control && vp_control->has_feature( "CONTROL_WITHOUT_HANDS" );
+        const bool using_arms = vp->vehicle().has_part( "MUSCLE_ARMS", true );
+        const bool single_tile_veh = vp->vehicle().all_parts_at_location( "structure" ).size() < 2 ;
+
+        if( ctrl_handsfree ) { // check this vehicle is steerable and able to be controlled without hands.
+            if( single_tile_veh ) {
+                if( using_arms ) {
+                    messages.push_back( string_format(
+                                            _( "You can't fire your %s while driving; this vehicle is hand-powered." ),
+                                            gmode->tname() ) );
+                    result = false;
+                } else if( you.get_skill_level( skill_driving ) < 3 ) {
+                    messages.push_back( string_format(
+                                            _( "Your driving skill isn't high enough to fire your %s while driving." ), gmode->tname() ) );
+                    result = false;
+                } else {
+                    result = true;
+                }
+            } else { // its ctrl is handsfree, but the vehicle is too big.
+                messages.push_back( string_format(
+                                        _( "You can't fire your %s while driving; this vehicle is too large to handle." ),
+                                        gmode->tname() ) );
+                result = false;
+            }
+        } else { // You are driving with your own hands!
+            messages.push_back( string_format( _( "You can't fire your %s while driving." ),
+                                               gmode->tname() ) );
+            result = false;
+        }
     }
 
     if( gmode->has_flag( flag_FIRE_TWOHAND ) && ( !you.has_two_arms() ||

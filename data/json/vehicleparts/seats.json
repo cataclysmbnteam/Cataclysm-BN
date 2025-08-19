@@ -42,7 +42,11 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_bolt", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "vehicle_bolt", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "welding_standard", 5 ], [ "steel_tiny", 1 ] ] }
+      "repair": {
+        "skills": [ [ "mechanics", 2 ], [ "tailor", 2 ] ],
+        "time": "30 m",
+        "using": [ [ "sewing_standard", 10 ], [ "fabric_standard", 1 ] ]
+      }
     },
     "size": "25 L",
     "symbol": "#",
@@ -55,7 +59,14 @@
     "item": "seat_leather",
     "looks_like": "seat",
     "name": { "str": "leather seat" },
-    "type": "vehicle_part"
+    "type": "vehicle_part",
+    "requirements": {
+      "repair": {
+        "skills": [ [ "mechanics", 2 ], [ "tailor", 2 ] ],
+        "time": "30 m",
+        "using": [ [ "sewing_standard", 10 ], [ "fabric_hides_any", 1 ] ]
+      }
+    }
   },
   {
     "abstract": "reclining_seat_abstract",
@@ -77,7 +88,11 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_bolt", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "vehicle_bolt", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "welding_standard", 5 ], [ "steel_tiny", 1 ] ] }
+      "repair": {
+        "skills": [ [ "mechanics", 2 ], [ "tailor", 2 ] ],
+        "time": "30 m",
+        "using": [ [ "sewing_standard", 10 ], [ "fabric_standard", 1 ] ]
+      }
     },
     "size": "6250 ml",
     "symbol": "#",
@@ -90,7 +105,14 @@
     "item": "seat_leather",
     "looks_like": "seat_leather",
     "name": { "str": "reclining leather seat" },
-    "type": "vehicle_part"
+    "type": "vehicle_part",
+    "requirements": {
+      "repair": {
+        "skills": [ [ "mechanics", 2 ], [ "tailor", 2 ] ],
+        "time": "30 m",
+        "using": [ [ "sewing_standard", 10 ], [ "fabric_hides_any", 1 ] ]
+      }
+    }
   },
   {
     "type": "vehicle_part",
@@ -113,12 +135,12 @@
       "install": { "skills": [ [ "mechanics", 1 ] ], "time": "200 s", "qualities": [ { "id": "WRENCH", "level": 1 } ] },
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "200 s", "qualities": [ { "id": "WRENCH", "level": 1 } ] },
       "repair": {
-        "skills": [ [ "mechanics", 2 ] ],
+        "skills": [ [ "mechanics", 2 ], [ "tailor", 2 ] ],
         "time": "20 s",
-        "using": [ [ "welding_standard", 5 ], [ "vehicle_repair_small_metal", 3 ] ]
+        "using": [ [ "sewing_standard", 10 ], [ "fabric_hides_any", 1 ] ]
       }
     },
-    "flags": [ "SEAT", "BOARDABLE", "FOLDABLE" ],
+    "flags": [ "SEAT", "BOARDABLE", "FOLDABLE", "CONTROLS", "CONTROL_WITHOUT_HANDS" ],
     "breaks_into": [ { "item": "leather", "prob": 50 }, { "item": "scrap", "count": [ 1, 2 ] } ]
   },
   {
@@ -139,7 +161,11 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 0 ] ], "time": "30 m", "using": [ [ "vehicle_nail_install", 5 ] ] },
       "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "15 m", "using": [ [ "vehicle_nail_removal", 1 ] ] },
-      "repair": { "skills": [ [ "tailor", 1 ] ], "time": "150 s", "using": [ [ "sewing_standard", 50 ], [ "fabric_standard", 1 ] ] }
+      "repair": {
+        "skills": [ [ "mechanics", 1 ], [ "tailor", 1 ] ],
+        "time": "150 s",
+        "using": [ [ "sewing_standard", 10 ], [ "fabric_standard", 1 ] ]
+      }
     },
     "flags": [ "SEAT", "BOARDABLE", "FOLDABLE" ],
     "breaks_into": [ { "item": "rag", "count": [ 1, 6 ] } ]

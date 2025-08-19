@@ -15,7 +15,8 @@ deno task dprint fmt
 
 ### Formatting Lua files in VSCode
 
-add following lines on `.vscode/settings.json`:
+1. Install [dprint vscode extension](https://marketplace.visualstudio.com/items?itemName=dprint.dprint).
+2. Add following lines on `.vscode/settings.json`:
 
 ```json
 {

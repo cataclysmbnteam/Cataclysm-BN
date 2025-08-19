@@ -762,6 +762,58 @@
     "bashing": 2
   },
   {
+    "type": "GENERIC",
+    "id": "copper_ore",
+    "copy-from": "iron_ore",
+    "name": { "str": "chunk of copper ore", "str_pl": "chunks of copper ore" },
+    "color": "green",
+    "looks_like": "chem_chromium_oxide",
+    "description": "A small green chunk of copper ore, from one source or another.  With the right knowhow, it could be smelted into usable metal.",
+    "volume": "500 ml",
+    "//": "~3.86 grams/cc for malachite, rounded up to 4.",
+    "weight": "2 kg",
+    "bashing": 1
+  },
+  {
+    "type": "GENERIC",
+    "id": "lead_ore",
+    "copy-from": "iron_ore",
+    "name": { "str": "chunk of lead ore", "str_pl": "chunks of lead ore" },
+    "color": "dark_gray",
+    "looks_like": "lead",
+    "description": "A small yet dense chunk of lead ore, from one source or another.  With the right knowhow, it could be smelted into usable metal.",
+    "volume": "400 ml",
+    "//": "Galena, rounded down from 7.6 grams/cc to 7.5.",
+    "weight": "3 kg",
+    "bashing": 2
+  },
+  {
+    "type": "GENERIC",
+    "id": "tin_ore",
+    "copy-from": "iron_ore",
+    "name": { "str": "chunk of tin ore", "str_pl": "chunks of tin ore" },
+    "color": "dark_gray",
+    "looks_like": "steel_lump",
+    "description": "A small, nondescript lump of metallic ore, seems to be tin.  With the right knowhow, it could be smelted into usable metal.",
+    "volume": "300 ml",
+    "//": "About 7 grams/cc for cassiterite, rounded up from ~285 ml to 300 ml.",
+    "weight": "2 kg",
+    "bashing": 2
+  },
+  {
+    "type": "GENERIC",
+    "id": "silver_ore",
+    "copy-from": "iron_ore",
+    "name": { "str": "chunk of silver ore", "str_pl": "chunks of silver ore" },
+    "color": "light_gray",
+    "looks_like": "steel_lump",
+    "description": "Silver with a few million years of tarnish on it.  With the right knowhow, it could be smelted into usable metal.",
+    "volume": "450 ml",
+    "//": "7.2 grams/cc for acanthite, result rounded up from ~416 ml to 450 ml to not be same density as lead ore.",
+    "weight": "3 kg",
+    "bashing": 3
+  },
+  {
     "type": "AMMO",
     "id": "chem_aluminium_sulphate",
     "category": "chems",
@@ -1232,9 +1284,9 @@
   },
   {
     "id": "nuclear_waste",
-    "type": "GENERIC",
+    "type": "AMMO",
     "name": { "str_sp": "nuclear waste" },
-    "description": "A small pellet of silvery metal, still warm to the touch.",
+    "description": "A pellet of silvery metal, still warm to the touch.",
     "looks_like": "medium_atomic_battery_cell",
     "weight": "30 g",
     "volume": "250 ml",
@@ -1242,12 +1294,13 @@
     "material": [ "iron" ],
     "symbol": "*",
     "color": "light_green",
+    "ammo_type": "components",
     "flags": [ "RADIOACTIVE", "LEAK_ALWAYS" ]
   },
   {
     "id": "nuclear_fuel",
     "copy-from": "nuclear_waste",
-    "type": "GENERIC",
+    "type": "AMMO",
     "name": { "str": "nuclear fuel pellet" },
     "description": "A small pellet of fissile material.  Handle carefully."
   },

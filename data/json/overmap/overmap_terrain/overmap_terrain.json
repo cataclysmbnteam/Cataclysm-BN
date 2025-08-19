@@ -742,5 +742,23 @@
     "name": "wind turbine",
     "sym": "Y",
     "color": "white"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "surface_vein_indicator",
+    "looks_like": "crater",
+    "name": "rocky outcropping",
+    "sym": ".",
+    "color": "light_gray",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ore_vein",
+    "looks_like": "empty_rock",
+    "name": "mineral vein",
+    "sym": "%",
+    "color": "light_gray",
+    "see_cost": 5
   }
 ]

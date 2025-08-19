@@ -38,7 +38,11 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 1 ] ], "time": "30 m", "using": [ [ "vehicle_nail_install", 10 ] ] },
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "15 m", "using": [ [ "vehicle_nail_removal", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "30 m", "using": [ [ "adhesive", 2 ], [ "wood_structural_small", 1 ] ] }
+      "repair": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": "30 m",
+        "using": [ [ "nail_any_adhesive", 2 ], [ "wood_structural_small", 1 ] ]
+      }
     },
     "flags": [ "INITIAL_PART", "MOUNTABLE", "FOLDABLE" ],
     "damage_reduction": { "all": 12 }
@@ -74,7 +78,11 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 0 ] ], "time": "30 m", "using": [ [ "vehicle_nail_install", 20 ] ] },
       "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "15 m", "using": [ [ "vehicle_nail_removal", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "adhesive", 2 ], [ "wood_structural_small", 1 ] ] }
+      "repair": {
+        "skills": [ [ "mechanics", 2 ] ],
+        "time": "30 m",
+        "using": [ [ "nail_any_adhesive", 2 ], [ "wood_structural_small", 1 ] ]
+      }
     },
     "damage_reduction": { "all": 52 }
   },
@@ -91,7 +99,11 @@
     "breaks_into": [ { "item": "splinter", "count": [ 3, 5 ] }, { "item": "string_36", "count": [ 10, 15 ] } ],
     "requirements": {
       "install": { "skills": [ [ "mechanics", 0 ] ], "time": "10 m", "using": [ [ "rope_natural_short", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 0 ] ], "time": "5 m", "using": [ [ "adhesive", 1 ], [ "vehicle_repair_small_wood", 4 ] ] }
+      "repair": {
+        "skills": [ [ "mechanics", 0 ] ],
+        "time": "5 m",
+        "using": [ [ "nail_any_adhesive", 1 ], [ "vehicle_repair_small_wood", 4 ] ]
+      }
     },
     "damage_reduction": { "all": 46 }
   },
@@ -207,7 +219,8 @@
       "MUSCLE_LEGS",
       "SEAT_REQUIRES_BALANCE",
       "BOARDABLE",
-      "CONTROLS"
+      "CONTROLS",
+      "CONTROL_WITHOUT_HANDS"
     ],
     "damage_reduction": { "all": 2 }
   },

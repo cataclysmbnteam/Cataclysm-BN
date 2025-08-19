@@ -573,6 +573,14 @@ Function `( Character ) -> bool`
 
 Function `( Character ) -> bool`
 
+#### uncanny_dodge
+
+Function `( Character ) -> bool`
+
+#### get_melee_stamina_cost
+
+Function `( Character, Item ) -> int`
+
 #### cough
 
 Function `( Character, bool, int )`
@@ -2641,6 +2649,14 @@ Function `( Item ) -> bool`
 
 Function `( Item ) -> bool`
 
+#### activate
+
+Function `( Item )`
+
+#### deactivate
+
+Function `( Item )`
+
 #### is_melee
 
 Is this item an effective melee weapon for the given damage type?
@@ -2882,6 +2898,14 @@ Function `( Item, string, double )`
 #### set_var_tri
 
 Function `( Item, string, Tripoint )`
+
+#### attack_cost
+
+Function `( Item ) -> int`
+
+#### stamina_cost
+
+Function `( Item ) -> int`
 
 ## ItemStack
 

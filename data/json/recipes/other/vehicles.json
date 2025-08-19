@@ -38,7 +38,7 @@
     "book_learn": [ [ "recipe_lab_elec", 6 ], [ "recipe_mil_augs", 6 ], [ "textbook_robots", 6 ] ],
     "using": [ [ "welding_standard", 15 ], [ "soldering_standard", 40 ] ],
     "components": [
-      [ [ "workbench", 1 ] ],
+      [ [ "survivors_workbench", 1 ] ],
       [ [ "plut_cell", 2 ] ],
       [ [ "motor_small", 6 ] ],
       [ [ "cable", 60 ] ],
@@ -1701,6 +1701,20 @@
     "autolearn": true,
     "using": [ [ "welding_standard", 5 ] ],
     "components": [ [ [ "pipe", 8 ] ], [ [ "sheet_metal", 2 ] ], [ [ "sheet_metal_small", 4 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "survivors_workbench",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_VEHICLE",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "//": "5 mins to put things away inside of the workbench and organize",
+    "time": "5 m",
+    "reversible": true,
+    "decomp_learn": 1,
+    "autolearn": true,
+    "components": [ [ [ "workbench", 1 ] ], [ [ "toolbox_workshop", 1 ] ] ]
   },
   {
     "type": "recipe",

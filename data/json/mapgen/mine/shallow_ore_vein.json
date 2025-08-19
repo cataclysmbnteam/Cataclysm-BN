@@ -1,0 +1,42 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "surface_vein_indicator" ],
+    "object": {
+      "fill_ter": "t_region_groundcover",
+      "place_terrain": [
+        { "ter": "t_region_groundcover_barren", "x": [ 4, 19 ], "y": [ 4, 19 ], "repeat": [ 20, 30 ] },
+        { "ter": "t_rock_floor_no_roof", "x": [ 10, 13 ], "y": [ 10, 13 ], "repeat": [ 5, 10 ] }
+      ],
+      "place_furniture": [
+        { "furn": "f_rubble_rock", "x": [ 1, 22 ], "y": [ 1, 22 ], "repeat": [ 10, 20 ] },
+        { "furn": "f_boulder_small", "x": [ 4, 19 ], "y": [ 4, 19 ], "repeat": [ 10, 20 ] },
+        { "furn": "f_boulder_medium", "x": [ 7, 16 ], "y": [ 7, 19 ], "repeat": [ 5, 10 ] },
+        { "furn": "f_boulder_large", "x": [ 10, 13 ], "y": [ 10, 13 ], "repeat": [ 2, 5 ] }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "ore_vein" ],
+    "object": {
+      "fill_ter": "t_rock",
+      "place_nested": [
+        {
+          "chunks": [
+            [ "ore_vein_copper", 25 ],
+            [ "ore_vein_iron", 25 ],
+            [ "ore_vein_lead", 25 ],
+            [ "ore_vein_tin", 10 ],
+            [ "ore_vein_silver", 10 ],
+            [ "ore_vein_gold", 5 ]
+          ],
+          "x": [ 0, 0 ],
+          "y": [ 0, 0 ]
+        }
+      ]
+    }
+  }
+]

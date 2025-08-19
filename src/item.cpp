@@ -3582,6 +3582,8 @@ void item::combat_info( std::vector<iteminfo> &info, const iteminfo_query *parts
             if( parts->test( iteminfo_parts::BASE_MOVES ) ) {
                 info.emplace_back( "BASE", _( "Moves per attack: " ), "",
                                    iteminfo::lower_is_better, attack_cost() );
+                // This would be a bar if iteminfo was not very insistent on numbers
+                info.emplace_back( "BASE", _( "Stamina Cost: " ), "", iteminfo::lower_is_better, stamina_cost() );
                 info.emplace_back( "BASE", _( "Typical damage per second:" ), "" );
                 const std::map<std::string, double> &dps_data = dps( true, false, attack );
                 std::string sep;
@@ -3621,6 +3623,8 @@ void item::combat_info( std::vector<iteminfo> &info, const iteminfo_query *parts
             if( parts->test( iteminfo_parts::BASE_MOVES ) ) {
                 info.emplace_back( "BASE", _( "Moves per attack: " ), "",
                                    iteminfo::lower_is_better, attack_cost() );
+                // This would be a bar if iteminfo was not very insistent on numbers
+                info.emplace_back( "BASE", _( "Stamina Cost: " ), "", iteminfo::lower_is_better, stamina_cost() );
                 info.emplace_back( "BASE", _( "Typical damage per second:" ), "" );
                 const std::map<std::string, double> &dps_data = dps( true, false, attack );
                 std::string sep;
@@ -5206,9 +5210,9 @@ nc_color item::color() const
     return type->color;
 }
 
-int item::price( bool practical ) const
+auto item::price( bool practical ) const -> float
 {
-    int res = 0;
+    float res = 0;
 
     visit_items( [&res, practical]( const item * e ) {
         if( e->rotten() ) {
@@ -5216,7 +5220,7 @@ int item::price( bool practical ) const
             return VisitResponse::NEXT;
         }
 
-        int child = units::to_cent( practical ? e->type->price_post : e->type->price );
+        float child = units::to_cent( practical ? e->type->price_post : e->type->price );
         if( e->damage() > 0 ) {
             // maximal damage level is 4, maximal reduction is 40% of the value.
             child -= child * static_cast<double>( e->damage_level( 4 ) ) / 10;
@@ -5478,6 +5482,11 @@ int item::attack_cost() const
     int base = 65 + ( volume() / 62.5_ml + weight() / 60_gram ) / count();
     int bonus = bonus_from_enchantments_wielded( base, enchant_vals::mod::ITEM_ATTACK_COST, true );
     return std::max( 0, base + bonus );
+}
+
+int item::stamina_cost() const
+{
+    return get_avatar().get_melee_stamina_cost( *this );
 }
 
 int item::damage_melee( damage_type dt ) const

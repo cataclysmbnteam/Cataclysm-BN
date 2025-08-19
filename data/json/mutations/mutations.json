@@ -1981,7 +1981,6 @@
       [ "foot_l", 10 ],
       [ "foot_r", 10 ]
     ],
-    "restricts_gear": [ "head" ],
     "armor": [ { "parts": "ALL", "physical": 12 } ],
     "passive_mods": { "dex_mod": -1 }
   },
@@ -2043,7 +2042,6 @@
     "prereqs": [ "CHITIN_FUR2", "CHITIN3" ],
     "threshreq": [ "THRESH_SPIDER" ],
     "category": [ "SPIDER" ],
-    "restricts_gear": [ "head" ],
     "armor": [ { "parts": "ALL", "physical": 10, "bash": 15 } ],
     "passive_mods": { "dex_mod": -1 }
   },
@@ -4172,7 +4170,7 @@
     "description": "By making the most of your small stature, you can avoid the notice of all but the most perceptive creatures, and your speed is greatly increased.",
     "valid": false,
     "purifiable": false,
-    "prereqs": [ "SMALL_OK" ],
+    "prereqs": [ "SMALL2_OK" ],
     "threshreq": [ "THRESH_MOUSE" ],
     "category": [ "MOUSE" ],
     "stealth_modifier": 40,
@@ -5696,7 +5694,7 @@
     "id": "THRESH_BIRD",
     "name": { "str": "Bird" },
     "points": 1,
-    "description": "You're sure you'll fly someday.  In the meantime, there are still nests to build.",
+    "description": "The skies are your domain now.  And the land too, there are still nests to build after all.",
     "valid": false,
     "purifiable": false,
     "threshold": true,
@@ -6344,6 +6342,18 @@
     "name": { "str": "Military Remnant" },
     "points": 0,
     "description": "You are a member of the United States Armed Forces, or what's left of it at least.",
+    "valid": false,
+    "purifiable": false,
+    "profession": true
+  },
+  {
+    "type": "mutation",
+    "id": "PROF_SWIMMER",
+    "name": { "str": "Experienced Swimmer" },
+    "points": 0,
+    "description": "You have spent a large portion of your life swimming, granting you increased speed in water.",
+    "movecost_swim_modifier": 0.75,
+    "max_stamina_modifier": 1.2,
     "valid": false,
     "purifiable": false,
     "profession": true

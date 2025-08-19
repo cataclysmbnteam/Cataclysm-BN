@@ -237,6 +237,7 @@ void cata::detail::reg_damage_instance( sol::state &lua )
 
 void cata::detail::reg_item( sol::state &lua )
 {
+#define UT_CLASS item
     {
         sol::usertype<item> ut = luna::new_usertype<item>( lua, luna::no_bases, luna::no_constructor );
 
@@ -326,6 +327,9 @@ void cata::detail::reg_item( sol::state &lua )
         luna::set_fx( ut, "is_filthy", []() { return false; } );
         luna::set_fx( ut, "is_active", &item::is_active );
         luna::set_fx( ut, "is_upgrade", &item::is_upgrade );
+
+        luna::set_fx( ut, "activate", &item::activate );
+        luna::set_fx( ut, "deactivate", &item::deactivate );
 
         DOC( "Is this item an effective melee weapon for the given damage type?" );
         luna::set_fx( ut, "is_melee", sol::resolve<bool( damage_type ) const>
@@ -465,7 +469,11 @@ void cata::detail::reg_item( sol::state &lua )
                       sol::resolve<void( const std::string &, double )>( &item::set_var ) );
         luna::set_fx( ut, "set_var_tri",
                       sol::resolve<void( const std::string &, const tripoint & )>( &item::set_var ) );
+
+        SET_FX( attack_cost );
+        SET_FX( stamina_cost );
     }
+#undef UT_CLASS // #define UT_CLASS item
 }
 
 
