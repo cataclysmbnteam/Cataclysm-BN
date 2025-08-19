@@ -45,7 +45,7 @@ static npc &create_test_npc()
     model_npc->set_stored_kcal( model_npc->max_stored_kcal() );
     model_npc->set_thirst( 0 );
     model_npc->set_fatigue( 0 );
-    
+
     // Make NPC an ally so they can be assigned to seats
     model_npc->set_attitude( NPCATT_FOLLOW );
     model_npc->set_fac( faction_id( "your_followers" ) );
@@ -74,10 +74,10 @@ TEST_CASE( "multiple_manual_engines_allowed", "[vehicle][muscle][engine]" )
                     engine.fuel_set( fuel_type_muscle );
                 }
             }
-            
+
             int muscle_engine_count = 0;
             CAPTURE( veh_ptr->engines.size() );
-            
+
             // Now check the engines
             for( size_t e = 0; e < veh_ptr->engines.size(); e++ ) {
                 if( veh_ptr->is_engine_type( e, fuel_type_muscle ) ) {
@@ -98,14 +98,14 @@ TEST_CASE( "npc_muscle_engine_fuel_availability", "[vehicle][muscle][npc]" )
     clear_all_state();
     build_test_map( ter_id( "t_pavement" ) );
     map &here = get_map();
-    
+
     GIVEN( "a tandem bicycle with an NPC assigned to rear seat" ) {
         const tripoint bike_origin( 10, 10, 0 );
         vehicle *veh_ptr = here.add_vehicle( vproto_id( "tandem" ), bike_origin, 0_degrees, 0, 0 );
         REQUIRE( veh_ptr != nullptr );
-        
+
         npc &test_npc = create_test_npc();
-        
+
         // Find the rear seat with foot pedals at position x=-1
         int rear_seat_part = -1;
         for( const vpart_reference &vpr : veh_ptr->get_all_parts() ) {
@@ -115,7 +115,7 @@ TEST_CASE( "npc_muscle_engine_fuel_availability", "[vehicle][muscle][npc]" )
             }
         }
         REQUIRE( rear_seat_part >= 0 );
-        
+
         WHEN( "NPC is boarded to the rear seat" ) {
             // Enable all engines first (like player would do via engine config menu)
             for( size_t e = 0; e < veh_ptr->engines.size(); e++ ) {
@@ -126,24 +126,24 @@ TEST_CASE( "npc_muscle_engine_fuel_availability", "[vehicle][muscle][npc]" )
                     engine.fuel_set( fuel_type_muscle );
                 }
             }
-            
+
             // Position NPC at rear seat and board them
             const tripoint rear_seat_pos = veh_ptr->global_part_pos3( rear_seat_part );
             test_npc.setpos( rear_seat_pos );
             here.board_vehicle( rear_seat_pos, &test_npc );
             REQUIRE( test_npc.in_vehicle );
-            
+
             // Find the muscle engine at the rear position
             int rear_engine_idx = -1;
             CAPTURE( veh_ptr->engines.size() );
-            
+
             for( size_t e = 0; e < veh_ptr->engines.size(); e++ ) {
                 if( veh_ptr->is_engine_type( e, fuel_type_muscle ) ) {
                     // Get the part at this engine index
                     const vehicle_part &engine_part = veh_ptr->part( veh_ptr->engines[e] );
                     const vpart_info &engine_info = veh_ptr->part_info( veh_ptr->engines[e] );
                     CAPTURE( e, engine_info.get_id().str(), engine_part.mount.x, engine_part.mount.y );
-                    
+
                     if( engine_part.mount.x == -1 ) { // Rear position
                         rear_engine_idx = static_cast<int>( e );
                         break;
@@ -151,21 +151,21 @@ TEST_CASE( "npc_muscle_engine_fuel_availability", "[vehicle][muscle][npc]" )
                 }
             }
             REQUIRE( rear_engine_idx >= 0 );
-            
+
             AND_WHEN( "the rear muscle engine is turned on" ) {
                 veh_ptr->toggle_specific_engine( rear_engine_idx, true );
                 REQUIRE( veh_ptr->is_engine_on( rear_engine_idx ) );
-                
+
                 THEN( "muscle fuel should be available" ) {
                     int muscle_fuel = veh_ptr->fuel_left( fuel_type_muscle );
                     CHECK( muscle_fuel >= 10 ); // Each working muscle engine adds 10
                 }
-                
+
                 AND_THEN( "NPC should be providing power" ) {
                     // Check that the NPC is boarded at the same position as the engine
                     const vehicle_part &engine_part = veh_ptr->part( veh_ptr->engines[rear_engine_idx] );
                     const point engine_mount = engine_part.mount;
-                    
+
                     const player *passenger = nullptr;
                     for( const vpart_reference &vpr : veh_ptr->get_all_parts() ) {
                         if( vpr.mount() == engine_mount && vpr.part().has_flag( vehicle_part::passenger_flag ) ) {
@@ -173,7 +173,7 @@ TEST_CASE( "npc_muscle_engine_fuel_availability", "[vehicle][muscle][npc]" )
                             break;
                         }
                     }
-                    
+
                     CHECK( passenger != nullptr );
                     CHECK( passenger->getID() == test_npc.getID() );
                 }
@@ -188,14 +188,14 @@ TEST_CASE( "player_and_npc_muscle_power_combined", "[vehicle][muscle][npc][playe
     build_test_map( ter_id( "t_pavement" ) );
     map &here = get_map();
     avatar &player = get_avatar();
-    
+
     GIVEN( "a tandem bicycle with player and NPC both seated" ) {
         const tripoint bike_origin( 10, 10, 0 );
         vehicle *veh_ptr = here.add_vehicle( vproto_id( "tandem" ), bike_origin, 0_degrees, 0, 0 );
         REQUIRE( veh_ptr != nullptr );
-        
+
         npc &test_npc = create_test_npc();
-        
+
         // Enable all engines first
         for( size_t e = 0; e < veh_ptr->engines.size(); e++ ) {
             vehicle_part &engine = veh_ptr->part( veh_ptr->engines[e] );
@@ -204,7 +204,7 @@ TEST_CASE( "player_and_npc_muscle_power_combined", "[vehicle][muscle][npc][playe
                 engine.fuel_set( fuel_type_muscle );
             }
         }
-        
+
         // Find front and rear seats
         int front_seat_part = -1;
         int rear_seat_part = -1;
@@ -219,19 +219,19 @@ TEST_CASE( "player_and_npc_muscle_power_combined", "[vehicle][muscle][npc][playe
         }
         REQUIRE( front_seat_part >= 0 );
         REQUIRE( rear_seat_part >= 0 );
-        
+
         // Position player at front seat (controlling position)
         const tripoint front_seat_pos = bike_origin;
         player.setpos( front_seat_pos );
         here.board_vehicle( front_seat_pos, &player );
         REQUIRE( player.in_vehicle );
-        
-        // Position NPC at rear seat and board them  
+
+        // Position NPC at rear seat and board them
         const tripoint rear_seat_pos = veh_ptr->global_part_pos3( rear_seat_part );
         test_npc.setpos( rear_seat_pos );
         here.board_vehicle( rear_seat_pos, &test_npc );
         REQUIRE( test_npc.in_vehicle );
-        
+
         WHEN( "both muscle engines are turned on" ) {
             // Engines already enabled above, just check they're on
             for( size_t e = 0; e < veh_ptr->engines.size(); e++ ) {
@@ -239,7 +239,7 @@ TEST_CASE( "player_and_npc_muscle_power_combined", "[vehicle][muscle][npc][playe
                     REQUIRE( veh_ptr->is_engine_on( e ) );
                 }
             }
-            
+
             THEN( "total muscle fuel should reflect both contributors" ) {
                 int muscle_fuel = veh_ptr->fuel_left( fuel_type_muscle );
                 CHECK( muscle_fuel >= 20 ); // Player (10) + NPC (10)
@@ -253,17 +253,17 @@ TEST_CASE( "npc_muscle_engine_energy_consumption", "[vehicle][muscle][npc][energ
     clear_all_state();
     build_test_map( ter_id( "t_pavement" ) );
     map &here = get_map();
-    
+
     // Ensure NPC needs are enabled for this test
     override_option opt( "NO_NPC_FOOD", "false" );
-    
+
     GIVEN( "an NPC powering a muscle engine under load" ) {
         const tripoint bike_origin( 10, 10, 0 );
         vehicle *veh_ptr = here.add_vehicle( vproto_id( "bicycle" ), bike_origin, 0_degrees, 0, 0 );
         REQUIRE( veh_ptr != nullptr );
-        
+
         npc &test_npc = create_test_npc();
-        
+
         // Enable all engines first
         for( size_t e = 0; e < veh_ptr->engines.size(); e++ ) {
             vehicle_part &engine = veh_ptr->part( veh_ptr->engines[e] );
@@ -272,8 +272,8 @@ TEST_CASE( "npc_muscle_engine_energy_consumption", "[vehicle][muscle][npc][energ
                 engine.fuel_set( fuel_type_muscle );
             }
         }
-        
-        // Board NPC to the seat with foot pedals  
+
+        // Board NPC to the seat with foot pedals
         int seat_part = -1;
         for( const vpart_reference &vpr : veh_ptr->get_all_parts() ) {
             if( vpr.part().is_seat() && vpr.mount().x == 0 ) {
@@ -282,23 +282,23 @@ TEST_CASE( "npc_muscle_engine_energy_consumption", "[vehicle][muscle][npc][energ
             }
         }
         REQUIRE( seat_part >= 0 );
-        
+
         const tripoint seat_pos = veh_ptr->global_part_pos3( seat_part );
         test_npc.setpos( seat_pos );
         here.board_vehicle( seat_pos, &test_npc );
         REQUIRE( test_npc.in_vehicle );
-        
+
         // Record initial energy levels
         int initial_stamina = test_npc.get_stamina();
         int initial_kcal = test_npc.get_stored_kcal();
         int initial_thirst = test_npc.get_thirst();
         int initial_fatigue = test_npc.get_fatigue();
-        
+
         WHEN( "the vehicle operates with muscle engine load" ) {
             // Simulate vehicle load - idle() doesn't take time_duration
             // Instead we'll test the fuel_left function directly which is what matters
             int initial_fuel = veh_ptr->fuel_left( fuel_type_muscle );
-            
+
             THEN( "muscle fuel should be available from NPC" ) {
                 CHECK( initial_fuel >= 10 ); // NPC should contribute fuel
             }
@@ -311,17 +311,17 @@ TEST_CASE( "npc_muscle_engine_with_disabled_needs", "[vehicle][muscle][npc][ener
     clear_all_state();
     build_test_map( ter_id( "t_pavement" ) );
     map &here = get_map();
-    
+
     // Disable NPC needs for this test
     override_option opt( "NO_NPC_FOOD", "true" );
-    
+
     GIVEN( "an NPC powering a muscle engine with needs disabled" ) {
         const tripoint bike_origin( 10, 10, 0 );
         vehicle *veh_ptr = here.add_vehicle( vproto_id( "bicycle" ), bike_origin, 0_degrees, 0, 0 );
         REQUIRE( veh_ptr != nullptr );
-        
+
         npc &test_npc = create_test_npc();
-        
+
         // Enable all engines first
         for( size_t e = 0; e < veh_ptr->engines.size(); e++ ) {
             vehicle_part &engine = veh_ptr->part( veh_ptr->engines[e] );
@@ -330,7 +330,7 @@ TEST_CASE( "npc_muscle_engine_with_disabled_needs", "[vehicle][muscle][npc][ener
                 engine.fuel_set( fuel_type_muscle );
             }
         }
-        
+
         // Board NPC to seat
         int seat_part = -1;
         for( const vpart_reference &vpr : veh_ptr->get_all_parts() ) {
@@ -340,17 +340,17 @@ TEST_CASE( "npc_muscle_engine_with_disabled_needs", "[vehicle][muscle][npc][ener
             }
         }
         REQUIRE( seat_part >= 0 );
-        
+
         const tripoint seat_pos = veh_ptr->global_part_pos3( seat_part );
         test_npc.setpos( seat_pos );
         here.board_vehicle( seat_pos, &test_npc );
         REQUIRE( test_npc.in_vehicle );
-        
+
         int initial_stamina = test_npc.get_stamina();
-        
+
         WHEN( "the vehicle operates with muscle engine load" ) {
             int fuel_available = veh_ptr->fuel_left( fuel_type_muscle );
-            
+
             THEN( "NPC should still provide muscle power even with needs disabled" ) {
                 CHECK( fuel_available >= 10 ); // NPC should contribute fuel
             }
@@ -363,14 +363,14 @@ TEST_CASE( "npc_muscle_engine_broken_limbs", "[vehicle][muscle][npc][injury]" )
     clear_all_state();
     build_test_map( ter_id( "t_pavement" ) );
     map &here = get_map();
-    
+
     GIVEN( "an NPC with broken legs assigned to foot pedals" ) {
         const tripoint bike_origin( 10, 10, 0 );
         vehicle *veh_ptr = here.add_vehicle( vproto_id( "bicycle" ), bike_origin, 0_degrees, 0, 0 );
         REQUIRE( veh_ptr != nullptr );
-        
+
         npc &test_npc = create_test_npc();
-        
+
         // Break the NPC's legs by adding the disabled effect
         test_npc.add_effect( efftype_id( "disabled" ), 1_hours, bodypart_str_id( "leg_l" ) );
         test_npc.add_effect( efftype_id( "disabled" ), 1_hours, bodypart_str_id( "leg_r" ) );
@@ -378,7 +378,7 @@ TEST_CASE( "npc_muscle_engine_broken_limbs", "[vehicle][muscle][npc][injury]" )
         CAPTURE( test_npc.has_effect( efftype_id( "disabled" ), bodypart_str_id( "leg_r" ) ) );
         CAPTURE( test_npc.get_working_leg_count() );
         REQUIRE( test_npc.get_working_leg_count() < 2 );
-        
+
         // Enable engines first
         for( size_t e = 0; e < veh_ptr->engines.size(); e++ ) {
             vehicle_part &engine = veh_ptr->part( veh_ptr->engines[e] );
@@ -387,7 +387,7 @@ TEST_CASE( "npc_muscle_engine_broken_limbs", "[vehicle][muscle][npc][injury]" )
                 engine.fuel_set( fuel_type_muscle );
             }
         }
-        
+
         // Board NPC to seat
         int seat_part = -1;
         for( const vpart_reference &vpr : veh_ptr->get_all_parts() ) {
@@ -397,15 +397,15 @@ TEST_CASE( "npc_muscle_engine_broken_limbs", "[vehicle][muscle][npc][injury]" )
             }
         }
         REQUIRE( seat_part >= 0 );
-        
+
         const tripoint seat_pos = veh_ptr->global_part_pos3( seat_part );
         test_npc.setpos( seat_pos );
         here.board_vehicle( seat_pos, &test_npc );
         REQUIRE( test_npc.in_vehicle );
-        
+
         WHEN( "checking muscle fuel availability" ) {
             int muscle_fuel = veh_ptr->fuel_left( fuel_type_muscle );
-            
+
             THEN( "NPC should not contribute power due to broken limbs" ) {
                 // Should be 0 or very low since NPC can't contribute with broken legs
                 CHECK( muscle_fuel == 0 );

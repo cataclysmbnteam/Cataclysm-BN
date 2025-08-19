@@ -1155,7 +1155,7 @@ void vehicle::toggle_specific_engine( int e, bool on )
             return; // Don't enable the engine
         }
     }
-    
+
     toggle_specific_part( engines[e], on );
 }
 void vehicle::toggle_specific_part( int p, bool on )
@@ -1168,35 +1168,37 @@ bool vehicle::can_enable_muscle_engine( int e, std::string &failure_reason ) con
     const int part_idx = engines[e];
     const vehicle_part &engine_part = parts[part_idx];
     const vpart_info &engine_info = part_info( part_idx );
-    
+
     // Check if engine has an operator (player or NPC)
     const tripoint engine_global_pos = global_part_pos3( part_idx );
     bool has_player = false;
     bool has_npc = false;
-    
+
     // Check if player is at this engine position
     if( g->u.pos() == engine_global_pos ) {
         has_player = true;
         // Check if player has functional limbs for this engine type
         if( engine_info.has_flag( "MUSCLE_LEGS" ) && g->u.get_working_leg_count() < 2 ) {
-            failure_reason = string_format( _( "%s strains, but is unable to operate the %s due to injured legs." ),
-                                          g->u.name, engine_info.name() );
+            failure_reason = string_format(
+                                 _( "%s strains, but is unable to operate the %s due to injured legs." ),
+                                 g->u.name, engine_info.name() );
             return false;
         }
         if( engine_info.has_flag( "MUSCLE_ARMS" ) && g->u.get_working_arm_count() < 2 ) {
-            failure_reason = string_format( _( "%s strains, but is unable to operate the %s due to injured arms." ),
-                                          g->u.name, engine_info.name() );
+            failure_reason = string_format(
+                                 _( "%s strains, but is unable to operate the %s due to injured arms." ),
+                                 g->u.name, engine_info.name() );
             return false;
         }
     }
-    
+
     // Check if NPC is assigned to a seat at the same position as this engine
     const point engine_mount = engine_part.mount;
     for( const vpart_reference &vpr : get_all_parts() ) {
         if( vpr.part().is_seat() && vpr.mount() == engine_mount ) {
             // First try the standard crew() method
             const npc *crew_member = vpr.part().crew();
-            
+
             // If that fails, check if there's a crew_id assigned but crew() failed
             if( crew_member == nullptr && vpr.part().crew_id.is_valid() ) {
                 // Try to find the NPC directly
@@ -1205,31 +1207,32 @@ bool vehicle::can_enable_muscle_engine( int e, std::string &failure_reason ) con
                     crew_member = found_npc;
                 }
             }
-            
+
             if( crew_member != nullptr ) {
                 has_npc = true;
                 // Check if NPC has functional limbs for this engine type
                 if( engine_info.has_flag( "MUSCLE_LEGS" ) && crew_member->get_working_leg_count() < 2 ) {
                     failure_reason = string_format( _( "%s cannot operate the %s due to injured legs." ),
-                                                  crew_member->name, engine_info.name() );
+                                                    crew_member->name, engine_info.name() );
                     return false;
                 }
                 if( engine_info.has_flag( "MUSCLE_ARMS" ) && crew_member->get_working_arm_count() < 2 ) {
                     failure_reason = string_format( _( "%s cannot operate the %s due to injured arms." ),
-                                                  crew_member->name, engine_info.name() );
+                                                    crew_member->name, engine_info.name() );
                     return false;
                 }
                 break; // Found crew at this position
             }
         }
     }
-    
+
     // Must have at least one operator
     if( !has_player && !has_npc ) {
-        failure_reason = string_format( _( "The %s cannot operate without an occupant." ), engine_info.name() );
+        failure_reason = string_format( _( "The %s cannot operate without an occupant." ),
+                                        engine_info.name() );
         return false;
     }
-    
+
     return true;
 }
 
@@ -1239,7 +1242,7 @@ bool vehicle::has_muscle_engine_operator( int e ) const
     const vehicle_part &engine_part = parts[part_idx];
     const vpart_info &engine_info = part_info( part_idx );
     const point engine_mount = engine_part.mount;
-    
+
     // Check all parts at the same position as this engine for passengers
     for( const vpart_reference &vpr : get_all_parts() ) {
         if( vpr.mount() == engine_mount && vpr.part().has_flag( vehicle_part::passenger_flag ) ) {
@@ -1255,7 +1258,7 @@ bool vehicle::has_muscle_engine_operator( int e ) const
             }
         }
     }
-    
+
     return false;
 }
 
@@ -1266,14 +1269,14 @@ void vehicle::validate_muscle_engines()
             if( !has_muscle_engine_operator( e ) ) {
                 const int part_idx = engines[e];
                 const vpart_info &engine_info = part_info( part_idx );
-                
+
                 // Auto-disable the engine with appropriate message
                 parts[part_idx].enabled = false;
-                
+
                 // Determine why it was disabled
                 const tripoint engine_global_pos = global_part_pos3( part_idx );
                 const point engine_mount = parts[part_idx].mount;
-                
+
                 // Find crew member at the same position
                 const npc *crew_member = nullptr;
                 for( const vpart_reference &vpr : get_all_parts() ) {
@@ -1289,29 +1292,29 @@ void vehicle::validate_muscle_engines()
                         break;
                     }
                 }
-                
+
                 if( g->u.pos() == engine_global_pos ) {
                     // Player is there but can't operate
                     if( engine_info.has_flag( "MUSCLE_LEGS" ) ) {
                         add_msg( m_info, _( "The %s shuts down - %s needs functioning legs to operate it." ),
-                               engine_info.name(), g->u.name );
+                                 engine_info.name(), g->u.name );
                     } else if( engine_info.has_flag( "MUSCLE_ARMS" ) ) {
                         add_msg( m_info, _( "The %s shuts down - %s needs functioning arms to operate it." ),
-                               engine_info.name(), g->u.name );
+                                 engine_info.name(), g->u.name );
                     }
                 } else if( crew_member != nullptr ) {
                     // NPC is assigned but can't operate
                     if( engine_info.has_flag( "MUSCLE_LEGS" ) ) {
                         add_msg( m_info, _( "The %s shuts down - %s needs functioning legs to operate it." ),
-                               engine_info.name(), crew_member->name );
+                                 engine_info.name(), crew_member->name );
                     } else if( engine_info.has_flag( "MUSCLE_ARMS" ) ) {
                         add_msg( m_info, _( "The %s shuts down - %s needs functioning arms to operate it." ),
-                               engine_info.name(), crew_member->name );
+                                 engine_info.name(), crew_member->name );
                     }
                 } else {
                     // No operator at all
                     add_msg( m_info, _( "The %s shuts down - it cannot operate without an occupant." ),
-                           engine_info.name() );
+                             engine_info.name() );
                 }
             }
         }
@@ -3705,7 +3708,7 @@ int vehicle::fuel_left( const itype_id &ftype, bool recurse ) const
     if( ftype == fuel_type_muscle ) {
         // Count total valid muscle engine operators for aggregate power calculation
         int active_operators = 0;
-        
+
         for( int ep = 0; ep < static_cast<int>( engines.size() ); ep++ ) {
             if( is_engine_type( ep, fuel_type_muscle ) && is_engine_on( ep ) ) {
                 if( has_muscle_engine_operator( ep ) ) {
@@ -3713,7 +3716,7 @@ int vehicle::fuel_left( const itype_id &ftype, bool recurse ) const
                 }
             }
         }
-        
+
         // Aggregate muscle power: base fuel amount times number of active operators
         // This allows load sharing across multiple muscle engines
         if( active_operators > 0 ) {
@@ -4954,7 +4957,7 @@ void vehicle::consume_fuel( int load, const int t_seconds, bool skip_electric )
         int base_burn = static_cast<int>( get_option<float>( "PLAYER_BASE_STAMINA_REGEN_RATE" ) ) -
                         3;
         base_burn = std::max( eff_load / 3, base_burn );
-        
+
         // Check if player is contributing muscle power
         const optional_vpart_position vp = g->m.veh_at( g->u.pos() );
         bool player_contributing = false;
@@ -4967,7 +4970,7 @@ void vehicle::consume_fuel( int load, const int t_seconds, bool skip_electric )
                 }
             }
         }
-        
+
         if( player_contributing ) {
             //charge bionics when using muscle engine
             const item &muscle = *item::spawn_temporary( "muscle" );
@@ -4998,24 +5001,24 @@ void vehicle::consume_fuel( int load, const int t_seconds, bool skip_electric )
             add_msg( m_debug, "Mod: %d", mod );
             add_msg( m_debug, "Burn: %d", -( base_burn + mod ) );
         }
-        
+
         // Apply energy cost to NPCs powering muscle engines
         const bool npc_needs_enabled = !get_option<bool>( "NO_NPC_FOOD" );
         for( int ep = 0; ep < static_cast<int>( engines.size() ); ep++ ) {
             if( is_engine_type( ep, fuel_type_muscle ) && is_engine_on( ep ) ) {
                 const vehicle_part &engine_part = parts[engines[ep]];
-                npc *crew_member = const_cast<npc*>( engine_part.crew() );
+                npc *crew_member = const_cast<npc *>( engine_part.crew() );
                 if( crew_member != nullptr ) {
                     // Check NPC limb functionality
-                    if( ( part_info( engines[ep] ).has_flag( "MUSCLE_LEGS" ) && 
+                    if( ( part_info( engines[ep] ).has_flag( "MUSCLE_LEGS" ) &&
                           ( crew_member->get_working_leg_count() >= 2 ) ) ||
-                        ( part_info( engines[ep] ).has_flag( "MUSCLE_ARMS" ) && 
+                        ( part_info( engines[ep] ).has_flag( "MUSCLE_ARMS" ) &&
                           ( crew_member->get_working_arm_count() >= 2 ) ) ) {
                         // Apply same energy costs as player
                         int npc_mod = 4 * st; // strain
                         int npc_base_burn = static_cast<int>( get_option<float>( "PLAYER_BASE_STAMINA_REGEN_RATE" ) ) - 3;
                         npc_base_burn = std::max( eff_load / 3, npc_base_burn );
-                        
+
                         // Only consume energy if NPC needs are enabled
                         if( npc_needs_enabled ) {
                             if( one_in( 1000 / load ) && one_in( 10 ) ) {
