@@ -1429,20 +1429,22 @@ void explosion_funcs::regular( const queued_explosion &qe )
     const explosion_data &ex = qe.exp_data;
     auto &shr = ex.fragment;
 
-    int base_noise = ex.damage;
-    if( shr ) {
-        base_noise = shr.value().impact.total_damage();
-    }
-
-    const int noise = base_noise * ( ex.fire ? 2 : 10 );
-    if( noise >= 1000 ) {
+    // Explosions are very, very loud. A *small* landmine going off is about 155dB 1m away.
+    // An antipersonel grenade/flashbang going off 1m away is about 170-180dB.
+    // Large explosions that generate a blast wave will always be ~191dB after the blast waves ceases being supersonic.
+    int base_noise = ( shr ) ? std::max( ex.damage * 1.0f,
+                                         shr.value().impact.total_damage() ) : ex.damage;
+    // Incendiaries are not as loud.
+    // This puts landmines and standard grenades at 170 dB (90 + 80)
+    const int noise = base_noise + ( ex.fire ? 70 : 90 );
+    if( noise >= 180 ) {
         sounds::sound( p, noise, sounds::sound_t::combat, _( "a huge explosion!" ), false, "explosion",
                        "huge" );
-    } else if( noise >= 100 ) {
+    } else if( noise >= 120 ) {
         sounds::sound( p, noise, sounds::sound_t::combat, _( "an explosion!" ), false, "explosion",
                        "default" );
     } else if( noise > 0 ) {
-        sounds::sound( p, 3, sounds::sound_t::combat, _( "a loud pop!" ), false, "explosion", "small" );
+        sounds::sound( p, noise, sounds::sound_t::combat, _( "a loud pop!" ), false, "explosion", "small" );
     }
 
     std::map<const Creature *, int> damaged_by_blast;
@@ -1571,7 +1573,7 @@ void explosion_funcs::flashbang( const queued_explosion &qe )
             }
         }
     }
-    sounds::sound( p, 12, sounds::sound_t::combat, _( "a huge boom!" ), false, "misc", "flashbang" );
+    sounds::sound( p, 170, sounds::sound_t::combat, _( "a huge boom!" ), false, "misc", "flashbang" );
     // TODO: Blind/deafen NPC
 }
 

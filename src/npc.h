@@ -876,8 +876,6 @@ class npc : public player
         void talk_to_u( bool radio_contact = false );
         // Re-roll the inventory of a shopkeeper
         void shop_restock();
-        std::string get_restock_interval() const;
-        bool is_shopkeeper() const;
         // Use and assessment of items
         // The minimum value to want to pick up an item
         int minimum_item_value() const;
@@ -996,8 +994,7 @@ class npc : public player
 
         int calc_spell_training_cost( bool knows, int difficulty, int level );
 
-        void handle_sound( sounds::sound_t priority, const std::string &description,
-                           int heard_volume, const tripoint &spos );
+        void handle_sound( const short heard_vol, sound_event sound );
 
         /* shift() works much like monster::shift(), and is called when the player moves
          * from one submap to an adjacent submap.  It updates our position (shifting by

@@ -385,7 +385,7 @@ void activity_handlers::burrow_do_turn( player_activity *act, player * )
 {
     sfx::play_activity_sound( "activity", "burrow", sfx::get_heard_volume( act->placement ) );
     if( calendar::once_every( 1_minutes ) ) {
-        sounds::sound( act->placement, 10, sounds::sound_t::movement,
+        sounds::sound( act->placement, 70, sounds::sound_t::movement,
                        //~ Sound of a Rat mutant burrowing!
                        _( "ScratchCrunchScrabbleScurry." ) );
     }
@@ -1851,7 +1851,7 @@ void activity_handlers::pickaxe_do_turn( player_activity *act, player * )
     // each turn is too much
     if( calendar::once_every( 1_minutes ) ) {
         //~ Sound of a Pickaxe at work!
-        sounds::sound( pos, 30, sounds::sound_t::destructive_activity, _( "CHNK!  CHNK!  CHNK!" ) );
+        sounds::sound( pos, 90, sounds::sound_t::destructive_activity, _( "CHNK!  CHNK!  CHNK!" ) );
     }
 }
 
@@ -2037,9 +2037,27 @@ void activity_handlers::reload_finish( player_activity *act, player *p )
             }
         }
         if( reloadable.type->gun->reload_noise_volume > 0 ) {
+            // This is a work around for mods that have their gun reload noise set to tiles instead of dB.
+            // A volume of less than 20 is considered valid for update. 0-2 ~20dB, 3-4 ~30dB, 5-6 ~40dB, 7-10 ~50dB, 10-15 ~60dB, 15-20 ~70dB
+            int reload_volume = reloadable.type->gun->reload_noise_volume;
+            if( reload_volume < 20 ) {
+                if( reload_volume <= 2 ) {
+                    reload_volume = 20;
+                } else if( reload_volume <= 4 ) {
+                    reload_volume = 30;
+                } else if( reload_volume <= 6 ) {
+                    reload_volume = 40;
+                } else if( reload_volume <= 10 ) {
+                    reload_volume = 50;
+                } else if( reload_volume <= 15 ) {
+                    reload_volume = 60;
+                } else {
+                    reload_volume = 70;
+                }
+            }
             sfx::play_variant_sound( "reload", reloadable.typeId().str(),
                                      sfx::get_heard_volume( p->pos() ) );
-            sounds::ambient_sound( p->pos(), reloadable.type->gun->reload_noise_volume,
+            sounds::ambient_sound( p->pos(), reload_volume,
                                    sounds::sound_t::activity, reloadable.type->gun->reload_noise );
         }
     } else if( reloadable.is_watertight_container() ) {
@@ -3491,8 +3509,8 @@ void activity_handlers::operation_finish( player_activity *act, player *p )
             const std::list<tripoint> autodocs = here.find_furnitures_or_vparts_with_flag_in_radius( p->pos(),
                                                  1,
                                                  flag_AUTODOC );
-            sounds::sound( autodocs.front(), 10, sounds::sound_t::music,
-                           _( "a short upbeat jingle: \"Operation successful\"" ), true,
+            sounds::sound( autodocs.front(), 60, sounds::sound_t::music,
+                           _( "a short upbeat jingle: \"Operation successful\"" ), false, false, false, false,
                            "Autodoc",
                            "success" );
         } else {
@@ -3502,9 +3520,9 @@ void activity_handlers::operation_finish( player_activity *act, player *p )
                 const std::list<tripoint> autodocs = here.find_furnitures_or_vparts_with_flag_in_radius( p->pos(),
                                                      1,
                                                      flag_AUTODOC );
-                sounds::sound( autodocs.front(), 10, sounds::sound_t::music,
+                sounds::sound( autodocs.front(), 60, sounds::sound_t::music,
                                _( "a sad beeping noise: \"Complications detected!  Report to medical personnel immediately!\"" ),
-                               true,
+                               false, false, false, false,
                                "Autodoc",
                                "failure" );
             } else {
@@ -3513,8 +3531,8 @@ void activity_handlers::operation_finish( player_activity *act, player *p )
                 const std::list<tripoint> autodocs = here.find_furnitures_or_vparts_with_flag_in_radius( p->pos(),
                                                      1,
                                                      flag_AUTODOC );
-                sounds::sound( autodocs.front(), 10, sounds::sound_t::music,
-                               _( "a sad beeping noise: \"Operation failed\"" ), true,
+                sounds::sound( autodocs.front(), 60, sounds::sound_t::music,
+                               _( "a sad beeping noise: \"Operation failed\"" ), false, false, false, false,
                                "Autodoc",
                                "failure" );
             }
@@ -3794,7 +3812,7 @@ void activity_handlers::chop_tree_do_turn( player_activity *act, player * )
     sfx::play_activity_sound( "tool", "axe", sfx::get_heard_volume( here.getlocal( act->placement ) ) );
     if( calendar::once_every( 1_minutes ) ) {
         //~ Sound of a wood chopping tool at work!
-        sounds::sound( here.getlocal( act->placement ), 15, sounds::sound_t::activity, _( "CHK!" ) );
+        sounds::sound( here.getlocal( act->placement ), 90, sounds::sound_t::activity, _( "CHK!" ) );
     }
 }
 
@@ -3987,7 +4005,7 @@ void activity_handlers::jackhammer_do_turn( player_activity *act, player * )
     sfx::play_activity_sound( "tool", "jackhammer",
                               sfx::get_heard_volume( here.getlocal( act->placement ) ) );
     if( calendar::once_every( 1_minutes ) ) {
-        sounds::sound( here.getlocal( act->placement ), 15, sounds::sound_t::destructive_activity,
+        sounds::sound( here.getlocal( act->placement ), 130, sounds::sound_t::destructive_activity,
                        //~ Sound of a jackhammer at work!
                        _( "TATATATATATATAT!" ) );
     }
@@ -4038,7 +4056,7 @@ void activity_handlers::fill_pit_do_turn( player_activity *act, player * )
     sfx::play_activity_sound( "tool", "shovel", 100 );
     if( calendar::once_every( 1_minutes ) ) {
         //~ Sound of a shovel filling a pit or mound at work!
-        sounds::sound( act->placement, 10, sounds::sound_t::activity, _( "hsh!" ) );
+        sounds::sound( act->placement, 60, sounds::sound_t::activity, _( "hsh!" ) );
     }
 }
 
@@ -4439,7 +4457,7 @@ void activity_handlers::spellcasting_finish( player_activity *act, player *p )
 
     if( spell_being_cast.has_flag( spell_flag::VERBAL ) ) {
         sounds::sound( p->pos(), p->get_shout_volume() / 2, sounds::sound_t::speech, _( "cast a spell" ),
-                       false );
+                       false, true, false, false );
     }
 
     p->add_msg_if_player( spell_being_cast.message(), spell_being_cast.name() );
@@ -4500,11 +4518,6 @@ void activity_handlers::spellcasting_finish( player_activity *act, player *p )
 
 void activity_handlers::study_spell_do_turn( player_activity *act, player *p )
 {
-    // moves_left decreases by player speed each turn and thus is a pain to work with
-    // But we want a persistent value
-    if( act->values.size() < 4 ) {
-        act->values.push_back( 0 );
-    }
     if( !character_funcs::can_see_fine_details( *p ) ) {
         act->values[2] = -1;
         act->moves_left = 0;
@@ -4517,19 +4530,6 @@ void activity_handlers::study_spell_do_turn( player_activity *act, player *p )
 
         act->values[0] += xp;
         studying.gain_exp( xp );
-
-        // This should trigger infrequently
-        if( act->values[3] % 600 == 599 ) {
-            // if we are at the first run through, we need to set spot 3 as 0.
-            if( act->values.size() < 5 ) {
-                act->values.push_back( 0 );
-            }
-            p->add_msg_if_player( m_good, _( "You gained %i experience in %s" ),
-                                  act->values[0] - act->values[4], studying.name() );
-            // This way we only display the difference
-            act->values[4] = act->values[0];
-        }
-
         // Every time we use get_level the level is recalculated, this is suboptimal, so we remember it here.
         const int new_level = studying.get_level();
 
@@ -4543,8 +4543,6 @@ void activity_handlers::study_spell_do_turn( player_activity *act, player *p )
             act->moves_left = 1000000;
         }
     }
-    // increment
-    act->values[3] += 1;
 }
 
 void activity_handlers::study_spell_finish( player_activity *act, player *p )

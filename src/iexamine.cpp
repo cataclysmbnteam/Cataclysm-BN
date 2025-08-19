@@ -191,7 +191,6 @@ static const trait_id trait_PROBOSCIS( "PROBOSCIS" );
 static const trait_id trait_THRESH_MARLOSS( "THRESH_MARLOSS" );
 static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
 static const trait_id trait_WEB_BRIDGE( "WEB_BRIDGE" );
-static const trait_id trait_DEBUG_NOCLIP( "DEBUG_NOCLIP" );
 
 static const quality_id qual_ANESTHESIA( "ANESTHESIA" );
 static const quality_id qual_DIG( "DIG" );
@@ -215,7 +214,6 @@ static const bionic_id bio_power_storage_mkII( "bio_power_storage_mkII" );
 static const std::string flag_AUTODOC( "AUTODOC" );
 static const std::string flag_AUTODOC_COUCH( "AUTODOC_COUCH" );
 static const std::string flag_BARRICADABLE_WINDOW_CURTAINS( "BARRICADABLE_WINDOW_CURTAINS" );
-static const std::string flag_CLIMBABLE( "CLIMBABLE" );
 static const std::string flag_CLIMB_SIMPLE( "CLIMB_SIMPLE" );
 static const std::string flag_GROWTH_HARVEST( "GROWTH_HARVEST" );
 static const std::string flag_OPENCLOSE_INSIDE( "OPENCLOSE_INSIDE" );
@@ -1004,8 +1002,8 @@ void iexamine::cardreader_foodplace( player &p, const tripoint &examp )
         if( open ) {
             add_msg( _( "You press your face on the reader." ) );
             add_msg( m_good, _( "The nearby doors are unlocked." ) );
-            sounds::sound( examp, 6, sounds::sound_t::electronic_speech,
-                           _( "\"Hello Foodperson.  Welcome home.\"" ), true, "speech", "welcome" );
+            sounds::sound( examp, 60, sounds::sound_t::electronic_speech,
+                           _( "\"Hello Foodperson.  Welcome home.\"" ), false, false, false, false, "speech", "welcome" );
         } else {
             add_msg( _( "The nearby doors are already unlocked." ) );
             if( query_yn( _( "Lock doors?" ) ) ) {
@@ -1022,12 +1020,12 @@ void iexamine::cardreader_foodplace( player &p, const tripoint &examp )
         }
     } else if( p.has_amount( itype_id( "foodperson_mask" ), 1 ) ||
                p.has_amount( itype_id( "foodperson_mask_on" ), 1 ) ) {
-        sounds::sound( examp, 6, sounds::sound_t::electronic_speech,
-                       _( "\"FOODPERSON DETECTED.  Please make yourself presentable.\"" ), true,
+        sounds::sound( examp, 60, sounds::sound_t::electronic_speech,
+                       _( "\"FOODPERSON DETECTED.  Please make yourself presentable.\"" ), false, false, false, false,
                        "speech", "welcome" );
     } else {
-        sounds::sound( examp, 6, sounds::sound_t::electronic_speech,
-                       _( "\"Your face is inadequate.  Please go away.\"" ), true,
+        sounds::sound( examp, 60, sounds::sound_t::electronic_speech,
+                       _( "\"Your face is inadequate.  Please go away.\"" ), false, false, false, false,
                        "speech", "welcome" );
         if( query_yn( _( "Attempt to hack this card-reader?" ) ) ) {
             try_start_hacking( p, examp );
@@ -1608,9 +1606,6 @@ void iexamine::transform( player &p, const tripoint &pos )
 {
     std::string message;
     std::string prompt;
-    const bool furn_is_deployed = !g->m.furn( pos ).obj().deployed_item.is_empty();
-    const bool can_climb = g->m.has_flag( flag_CLIMBABLE, pos ) ||
-                           g->m.has_flag( flag_CLIMB_SIMPLE, pos );
 
     if( g->m.has_furn( pos ) ) {
         message = g->m.furn( pos ).obj().message;
@@ -1624,12 +1619,6 @@ void iexamine::transform( player &p, const tripoint &pos )
     selection_menu.text = _( "Select an action" );
     selection_menu.addentry( 0, true, 'g', _( "Get items" ) );
     selection_menu.addentry( 1, true, 't', !prompt.empty() ? _( prompt ) : _( "Transform furniture" ) );
-    if( furn_is_deployed ) {
-        selection_menu.addentry( 2, true, 'T', _( "Take down the %s" ), g->m.furnname( pos ) );
-    }
-    if( can_climb ) {
-        selection_menu.addentry( 3, true, 'c', _( "Climb %s" ), g->m.furnname( pos ) );
-    }
     selection_menu.query();
 
     switch( selection_menu.ret ) {
@@ -1649,18 +1638,6 @@ void iexamine::transform( player &p, const tripoint &pos )
                 }
                 g->m.ter_set( pos, g->m.get_ter_transforms_into( pos ) );
             }
-            return;
-        }
-        case 2: {
-            add_msg( m_info, _( "You take down the %s." ),
-                     g->m.furnname( pos ) );
-            const auto furn_item = g->m.furn( pos ).obj().deployed_item;
-            g->m.add_item_or_charges( pos, item::spawn( furn_item, calendar::turn ) );
-            g->m.furn_set( pos, f_null );
-            return;
-        }
-        case 3: {
-            iexamine::chainfence( p, pos );
             return;
         }
         default:
@@ -1691,7 +1668,8 @@ void iexamine::pedestal_wyrm( player &p, const tripoint &examp )
                 }
             }
 
-            sounds::sound( examp, 80, sounds::sound_t::combat, _( "an ominous grinding noise…" ), true,
+            sounds::sound( examp, 80, sounds::sound_t::combat, _( "an ominous grinding noise…" ), false,
+                           false, false, false,
                            "misc", "stones_grinding" );
             add_msg( _( "The pedestal sinks into the ground…" ) );
             here.ter_set( examp, t_rock_floor );
@@ -3824,7 +3802,8 @@ void iexamine::recycle_compactor( player &, const tripoint &examp )
     // produce outputs
     double recover_factor = rng( 6, 9 ) / 10.0;
     sum_weight = sum_weight * recover_factor;
-    sounds::sound( examp, 80, sounds::sound_t::combat, _( "Ka-klunk!" ), true, "tool", "compactor" );
+    sounds::sound( examp, 80, sounds::sound_t::combat, _( "Ka-klunk!" ), false, false, false, false,
+                   "tool", "compactor" );
     bool out_desired = false;
     bool out_any = false;
     for( auto it = m.compacts_into().begin() + o_idx; it != m.compacts_into().end(); ++it ) {
@@ -4606,7 +4585,8 @@ void iexamine::pay_gas( player &p, const tripoint &examp )
             return;
         }
 
-        sounds::sound( p.pos(), 6, sounds::sound_t::activity, _( "Glug Glug Glug" ), true, "tool",
+        sounds::sound( p.pos(), 40, sounds::sound_t::activity, _( "Glug Glug Glug" ), false, false, false,
+                       false, "tool",
                        "gaspump" );
 
         int cost = liters * pricePerUnit;
@@ -4636,7 +4616,8 @@ void iexamine::pay_gas( player &p, const tripoint &examp )
                 uistate.ags_pay_gas_selected_pump );
         int amount = pGasPump ? fromPumpFuel( pTank, *pGasPump ) : 0;
         if( amount >= 0 ) {
-            sounds::sound( p.pos(), 6, sounds::sound_t::activity, _( "Glug Glug Glug" ), true, "tool",
+            sounds::sound( p.pos(), 40, sounds::sound_t::activity, _( "Glug Glug Glug" ), false, false, false,
+                           false, "tool",
                            "gaspump" );
             cashcard->charges += amount * pricePerUnit / 1000.0f;
             add_msg( m_info, _( "Your cash cards now hold %s." ),
@@ -4653,27 +4634,6 @@ void iexamine::pay_gas( player &p, const tripoint &examp )
 void iexamine::ledge( player &p, const tripoint &examp )
 {
     enum ledge_action : int { jump_over, climb_down, spin_web_bridge };
-
-    if( get_map().ter( p.pos() ).id().str() == "t_open_air" && !character_funcs::can_fly( p ) ) {
-        tripoint where = p.pos();
-        tripoint below = where;
-        below.z--;
-
-        // Keep going down until we find a tile that is NOT open air
-        while( get_map().ter( below ).id().str() == "t_open_air" &&
-               get_map().valid_move( where, below, false, true ) ) {
-            where.z--;
-            below.z--;
-        }
-
-        // where now represents the first NON-open-air tile or the last valid move before hitting one
-        const int height = p.pos().z - below.z;
-
-        if( height > 0 ) {
-            g->vertical_move( -height, true );  // fall onto the solid tile
-            return;
-        }
-    }
 
     uilist cmenu;
     cmenu.text = _( "There is a ledge here.  What do you want to do?" );

@@ -287,10 +287,19 @@ void Item_factory::finalize_pre( itype &obj )
 
     if( obj.ammo ) {
         // for ammo not specifying loudness (or an explicit zero) derive value from other properties
+        // 343 is the speed of sound in atmosphere, but guns are still loud.
+        // Very few firearms have projectiles with speeds lower than 200m/s, so we use that as the cutoff.
+        // For reference, arrows/bolts are sub 140 speed.
         if( obj.ammo->loudness < 0 ) {
-            obj.ammo->loudness = obj.ammo->range * 2;
-            for( const damage_unit &du : obj.ammo->damage ) {
-                obj.ammo->loudness += ( du.amount * 2 ) + du.res_pen;
+            if( obj.ammo->speed > 200 ) {
+                obj.ammo->loudness = obj.ammo->range * 2;
+                for( const damage_unit &du : obj.ammo->damage ) {
+                    obj.ammo->loudness += ( du.amount * 2 ) + du.res_pen;
+                }
+                obj.ammo->loudness = 130 + std::floor( 20 * std::log10( obj.ammo->loudness ) );
+            } else {
+                // 20dB is very quiet.
+                obj.ammo->loudness = 20;
             }
         }
 
@@ -1742,7 +1751,6 @@ void islot_ammo::load( const JsonObject &jo )
     mandatory( jo, was_loaded, "ammo_type", type );
     optional( jo, was_loaded, "casing", casing, std::nullopt );
     optional( jo, was_loaded, "drop", drop, itype_id::NULL_ID() );
-    optional( jo, was_loaded, "drop_count", drop_count, -1 );
     optional( jo, was_loaded, "drop_active", drop_active, true );
     optional( jo, was_loaded, "dont_recover_one_in", dont_recover_one_in, 1 );
     // Damage instance assign reader handles pierce and prop_damage
@@ -1874,7 +1882,7 @@ void Item_factory::load( islot_gun &slot, const JsonObject &jo, const std::strin
     assign( jo, "clip_size", slot.clip, strict, 0 );
     assign( jo, "reload", slot.reload_time, strict, 0 );
     assign( jo, "reload_noise", slot.reload_noise, strict );
-    assign( jo, "reload_noise_volume", slot.reload_noise_volume, strict, 0 );
+    assign( jo, "reload_noise_volume", slot.reload_noise_volume, strict, 40 );
     assign( jo, "barrel_length", slot.barrel_length, strict, 0_ml );
     assign( jo, "built_in_mods", slot.built_in_mods, strict );
     assign( jo, "default_mods", slot.default_mods, strict );
@@ -1963,6 +1971,8 @@ void Item_factory::load( islot_armor &slot, const JsonObject &jo, const std::str
     assign( jo, "storage", slot.storage, strict, 0_ml );
     assign( jo, "weight_capacity_modifier", slot.weight_capacity_modifier );
     assign( jo, "weight_capacity_bonus", slot.weight_capacity_bonus, strict, 0_gram );
+    assign( jo, "hearing_protection", slot.hearing_protection, strict, 0 );
+    assign( jo, "adv_hearing_protection", slot.adv_hearing_protection, strict, 0 );
     assign( jo, "valid_mods", slot.valid_mods, strict );
 
     if( jo.has_array( "armor_portion_data" ) ) {

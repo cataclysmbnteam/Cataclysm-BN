@@ -142,8 +142,7 @@ bool monster::will_move_to( const tripoint &p ) const
         return false;
     }
 
-    if( has_flag( MF_AQUATIC ) && ( !g->m.has_flag( "SWIMMABLE", p ) ||
-                                    g->m.veh_at( p ).part_with_feature( "BOARDABLE", true ) ) ) {
+    if( has_flag( MF_AQUATIC ) && !g->m.has_flag( "SWIMMABLE", p ) ) {
         return false;
     }
 
@@ -296,8 +295,10 @@ void monster::unset_dest()
 // "Stupid" movement; "if (wander_pos.x < posx) posx--;" etc.
 void monster::wander_to( const tripoint &p, int f )
 {
-    wander_pos = p;
-    wandf = f;
+    if( f > wandf ) {
+        wander_pos = p;
+        wandf = f;
+    }
 }
 
 float monster::rate_target( Creature &c, float best, bool smart ) const
@@ -1217,7 +1218,7 @@ void monster::nursebot_operate( player *dragged_foe )
             add_effect( effect_countdown, 2_turns );
             add_msg( m_bad, _( "The %s produces a syringe full of some translucent liquid." ), name() );
         } else if( g->critter_at( goal ) != nullptr && has_effect( effect_dragging ) ) {
-            sounds::sound( pos(), 8, sounds::sound_t::electronic_speech,
+            sounds::sound( pos(), 60, sounds::sound_t::electronic_speech,
                            string_format(
                                _( "a soft robotic voice say, \"Please step away from the autodoc, this patient needs immediate care.\"" ) ) );
             // TODO: Make it able to push NPC/player
@@ -1247,18 +1248,19 @@ void monster::nursebot_operate( player *dragged_foe )
 
 // footsteps will determine how loud a monster's normal movement is
 // and create a sound in the monsters location when they move
+// Values converted from tiles to decibels
 void monster::footsteps( const tripoint &p )
 {
     if( made_footstep ) {
         return;
     }
     made_footstep = true;
-    int volume = 6; // same as player's footsteps
+    short volume = 40; // same as player's footsteps
     if( flies() ) {
         volume = 0;    // Flying monsters don't have footsteps!
     }
     if( digging() ) {
-        volume = 10;
+        volume = 60; // Digging is much louder.
     }
     switch( type->size ) {
         case creature_size::tiny:
@@ -1279,13 +1281,13 @@ void monster::footsteps( const tripoint &p )
             break;
     }
     if( has_flag( MF_LOUDMOVES ) ) {
-        volume += 6;
+        volume += 20;
     }
     if( volume == 0 ) {
         return;
     }
-    int dist = rl_dist( p, g->u.pos() );
-    sounds::add_footstep( p, volume, dist, this, type->get_footsteps() );
+    // Removed distance calc and pointer to source monster, as they are not used.
+    sounds::add_footstep( p, volume, type->get_footsteps(), this->faction.id() );
     return;
 }
 
@@ -1358,8 +1360,6 @@ tripoint monster::scent_move()
             continue;
         }
         if( g->m.valid_move( pos(), dest, can_bash, true ) &&
-            // Waterbound monsters can only smell you if you're in deep water.
-            ( !has_flag( MF_AQUATIC ) || g->m.is_divable( dest ) ) &&
             ( ( can_move_to( dest ) && !get_map().obstructed_by_vehicle_rotation( pos(), dest ) ) ||
               ( dest == g->u.pos() ) ||
               ( can_bash && g->m.bash_rating( bash_estimate(), dest ) > 0 ) ) ) {
@@ -1527,10 +1527,6 @@ bool monster::bash_at( const tripoint &p )
     }
 
     int bashskill = group_bash_skill( p );
-    // Non-aquatic enemies currently in deep water bash less effectively.
-    if( here.is_divable( pos() ) && !has_flag( MF_AQUATIC ) ) {
-        bashskill *= 0.5;
-    }
     g->m.bash( p, bashskill );
     moves -= 100;
     return true;
@@ -1762,11 +1758,6 @@ bool monster::move_to( const tripoint &p, bool force, bool step_on_critter,
     setpos( destination );
     footsteps( destination );
     set_underwater( will_be_water );
-    // If an aquatic monster is aggressive and on the surface, have it swim where the player can see it
-    if( g->m.is_divable( destination ) && !g->m.has_flag( TFLAG_WATER_CUBE, destination ) &&
-        anger > 10 && has_flag( MF_AQUATIC ) ) {
-        set_underwater( false );
-    }
     if( is_hallucination() ) {
         //Hallucinations don't do any of the stuff after this point
         return true;

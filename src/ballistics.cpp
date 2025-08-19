@@ -55,7 +55,6 @@ static const ammo_effect_str_id ammo_effect_TANGLE( "TANGLE" );
 static const efftype_id effect_bounced( "bounced" );
 
 static const std::string flag_LIQUID( "LIQUID" );
-static const std::string flag_THIN_OBSTACLE( "THIN_OBSTACLE" );
 
 static void drop_or_embed_projectile( dealt_projectile_attack &attack )
 {
@@ -82,7 +81,7 @@ static void drop_or_embed_projectile( dealt_projectile_attack &attack )
 
         // TODO: Non-glass breaking
         // TODO: Wine glass breaking vs. entire sheet of glass breaking
-        sounds::sound( pt, 16, sounds::sound_t::combat, _( "glass breaking!" ), false, "bullet_hit",
+        sounds::sound( pt, 70, sounds::sound_t::combat, _( "glass breaking!" ), false, "bullet_hit",
                        "hit_glass" );
         return;
     }
@@ -149,9 +148,9 @@ static void drop_or_embed_projectile( dealt_projectile_attack &attack )
 
         if( proj.has_effect( ammo_effect_HEAVY_HIT ) ) {
             if( here.has_flag( flag_LIQUID, pt ) ) {
-                sounds::sound( pt, 10, sounds::sound_t::combat, _( "splash!" ), false, "bullet_hit", "hit_water" );
+                sounds::sound( pt, 60, sounds::sound_t::combat, _( "splash!" ), false, "bullet_hit", "hit_water" );
             } else {
-                sounds::sound( pt, 8, sounds::sound_t::combat, _( "thud." ), false, "bullet_hit", "hit_wall" );
+                sounds::sound( pt, 50, sounds::sound_t::combat, _( "thud." ), false, "bullet_hit", "hit_wall" );
             }
             const trap &tr = here.tr_at( pt );
             if( tr.triggered_by_item( drop_item ) ) {
@@ -321,24 +320,7 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
         --traj_len;
     }
 
-    // Non-ballistic physical projectiles lose range if they overpenetrate.
-    const bool is_projectile_modify_overpenetration =
-        proj.impact.type_damage( DT_BASH ) > 0 ||
-        proj.impact.type_damage( DT_CUT ) > 0 ||
-        proj.impact.type_damage( DT_STAB ) > 0;
-
-    // Arrow, sling or the like; 0.75x or 0.5x penalty depending on which damagetype was highest.
-    const float projectile_overpenetration_modifier =
-        ( proj.impact.type_damage( DT_CUT ) + proj.impact.type_damage( DT_STAB )
-          >= proj.impact.type_damage( DT_BASH ) ) ? 0.75f : 0.5f;
-
-    // Bullets, lasers, or other projectiles; 0.9x range penalty but no additional damage penalty.
-    const float overpenetration_modifier = is_projectile_modify_overpenetration
-                                           ? projectile_overpenetration_modifier
-                                           : 0.9f;
-
-    constexpr float projectile_skip_multiplier = 0.1f;
-
+    const float projectile_skip_multiplier = 0.1;
     // Randomize the skip so that bursts look nicer
     int projectile_skip_calculation = range * projectile_skip_multiplier;
     int projectile_skip_current_frame = rng( 0, projectile_skip_calculation );
@@ -441,16 +423,6 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
             }
         }
 
-        // Penalize damage and/or range on overpenetration.
-        auto apply_overpenetration_penalty = [&]( bool modify_damage ) {
-            traj_len *= overpenetration_modifier;
-            if( modify_damage ) {
-                proj.impact.mult_damage( overpenetration_modifier );
-                add_msg( m_debug, "Projectile damage and range *= %.1f", overpenetration_modifier );
-            } else {
-                add_msg( m_debug, "Projectile range *= %.1f", overpenetration_modifier );
-            }
-        };
 
         if( critter != nullptr && cur_missed_by < 1.0 ) {
             if( in_veh != nullptr && veh_pointer_or_null( here.veh_at( tp ) ) == in_veh &&
@@ -470,28 +442,20 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
                     here.add_splatter_trail( critter->bloodType(), tp, dest );
                 }
                 sfx::do_projectile_hit( *attack.hit_critter );
-                has_momentum = proj.impact.total_damage() > 0 && is_bullet;
-
-                apply_overpenetration_penalty( is_projectile_modify_overpenetration );
+                has_momentum = false;
             } else {
                 attack.missed_by = aim.missed_by;
             }
         } else if( in_veh != nullptr && veh_pointer_or_null( here.veh_at( tp ) ) == in_veh ) {
             // Don't do anything, especially don't call map::shoot as this would damage the vehicle
         } else {
-            // Track damage before processing so we'll know if we actually hit any cover.
-            const float dmg_before_penetration = proj.impact.total_damage();
             here.shoot( source, tp, proj, !no_item_damage && tp == target );
-            const float dmg_after_penetration = proj.impact.total_damage();
-            has_momentum = dmg_after_penetration > 0;
-            // We lost momentum from hitting something, penalize range.
-            if( dmg_before_penetration > dmg_after_penetration ) {
-                apply_overpenetration_penalty( is_projectile_modify_overpenetration );
-            }
+            has_momentum = proj.impact.total_damage() > 0;
         }
-        if( !has_momentum && here.impassable( tp ) &&
-            !here.has_flag( flag_THIN_OBSTACLE, tp ) ) {
-            // Flamethrowers go through bars but not wall
+
+        if( ( !has_momentum || !is_bullet ) && here.impassable( tp ) ) {
+            // Don't let flamethrowers go through walls
+            // TODO: Let them go through bars
             traj_len = i;
             break;
         }

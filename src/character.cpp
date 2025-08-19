@@ -152,7 +152,6 @@ static const efftype_id effect_disabled( "disabled" );
 static const efftype_id effect_disinfected( "disinfected" );
 static const efftype_id effect_downed( "downed" );
 static const efftype_id effect_drunk( "drunk" );
-static const efftype_id effect_took_antinarcoleptic( "took_antinarcoleptic" );
 static const efftype_id effect_earphones( "earphones" );
 static const efftype_id effect_foodpoison( "foodpoison" );
 static const efftype_id effect_frostbite( "frostbite" );
@@ -329,6 +328,7 @@ static const trait_id trait_ROOTS2( "ROOTS2" );
 static const trait_id trait_ROOTS3( "ROOTS3" );
 static const trait_id trait_SAVANT( "SAVANT" );
 static const trait_id trait_SEESLEEP( "SEESLEEP" );
+static const trait_id trait_SELFAWARE( "SELFAWARE" );
 static const trait_id trait_SHELL( "SHELL" );
 static const trait_id trait_SHELL2( "SHELL2" );
 static const trait_id trait_SHOUT2( "SHOUT2" );
@@ -4610,6 +4610,15 @@ int Character::get_int_bonus() const
     return int_bonus;
 }
 
+int get_speedydex_bonus( const int dex )
+{
+    static const std::string speedydex_min_dex( "SPEEDYDEX_MIN_DEX" );
+    static const std::string speedydex_dex_speed( "SPEEDYDEX_DEX_SPEED" );
+    // this is the number to be multiplied by the increment
+    const int modified_dex = std::max( dex - get_option<int>( speedydex_min_dex ), 0 );
+    return modified_dex * get_option<int>( speedydex_dex_speed );
+}
+
 int Character::get_speed() const
 {
     if( is_mounted() ) {
@@ -4637,6 +4646,14 @@ float Character::get_healthy() const
 float Character::get_healthy_mod() const
 {
     return healthy_mod;
+}
+int Character::get_char_hearing_protection( bool advanced ) const
+{
+    int ret = 0;
+    for( auto &item : worn ) {
+        ret += item->get_hearing_protection( advanced );
+    }
+    return ret;
 }
 
 /*
@@ -4690,7 +4707,7 @@ void Character::print_health() const
         return;
     }
     int current_health = get_healthy();
-    if( get_option<std::string>( "HEALTH_STYLE" ) == "number" ) {
+    if( has_trait( trait_SELFAWARE ) ) {
         add_msg_if_player( _( "Your current health value is %d." ), current_health );
     }
 
@@ -4878,7 +4895,7 @@ std::pair<std::string, nc_color> Character::get_hunger_description() const
         hunger_color = c_red;
     }
 
-    if( get_option<std::string>( "HEALTH_STYLE" ) == "number" ) {
+    if( has_trait( trait_SELFAWARE ) ) {
         hunger_string = string_format( "%d kcal", total_kcal );
     }
 
@@ -4966,7 +4983,7 @@ std::pair<std::string, nc_color> Character::get_pain_description() const
         pain_color = c_light_red;
     }
     // get pain string
-    if( ( get_option<std::string>( "HEALTH_STYLE" ) == "number" || has_effect( effect_got_checked ) ) &&
+    if( ( has_trait( trait_SELFAWARE ) || has_effect( effect_got_checked ) ) &&
         get_perceived_pain() > 0 ) {
         pain_string = string_format( "%s %d", _( "Pain " ), get_perceived_pain() );
     } else if( get_perceived_pain() > 0 ) {
@@ -5484,11 +5501,6 @@ void Character::check_needs_extremes()
     } else if( get_stim() < -200 || get_painkiller() > 240 ) {
         add_msg_if_player( m_bad, _( "Your breathing stops completely." ) );
         g->events().send<event_type::dies_from_drug_overdose>( getID(), efftype_id() );
-        set_part_hp_cur( bodypart_id( "torso" ), 0 );
-        // taking GHB greatly reduces the amount of stimulation needed to die
-    } else if( get_effect_int( effect_took_antinarcoleptic )  && get_stim() < -80 ) {
-        add_msg_if_player( m_bad, _( "Your breathing slows down to a stop." ) );
-        g->events().send<event_type::dies_from_drug_overdose>( getID(), effect_took_antinarcoleptic );
         set_part_hp_cur( bodypart_id( "torso" ), 0 );
     } else if( has_effect( effect_jetinjector ) && get_effect_dur( effect_jetinjector ) > 40_minutes ) {
         if( !( has_trait( trait_NOPAIN ) ) ) {
@@ -8067,7 +8079,8 @@ void Character::cough( bool harmful, int loudness )
     if( !is_npc() ) {
         add_msg( m_bad, _( "You cough heavily." ) );
     }
-    sounds::sound( pos(), loudness, sounds::sound_t::speech, _( "a hacking cough." ), false, "misc",
+    sounds::sound( pos(), loudness, sounds::sound_t::speech, _( "a hacking cough." ), false, true,
+                   false, false, "misc",
                    "cough" );
 
     moves -= 80;
@@ -8090,15 +8103,15 @@ void Character::wake_up()
 
 int Character::get_shout_volume() const
 {
-    int base = 10;
+    int base = 70;
     int shout_multiplier = 2;
 
     // Mutations make shouting louder, they also define the default message
     if( has_trait( trait_SHOUT3 ) ) {
         shout_multiplier = 4;
-        base = 20;
+        base = 80;
     } else if( has_trait( trait_SHOUT2 ) ) {
-        base = 15;
+        base = 75;
         shout_multiplier = 3;
     }
 
@@ -8117,8 +8130,8 @@ int Character::get_shout_volume() const
     int noise = base + str_cur * shout_multiplier - penalty;
 
     // Minimum noise volume possible after all reductions.
-    // Volume 1 can't be heard even by player
-    constexpr int minimum_noise = 2;
+    // Volume 20dB or less is frequently inaudible.
+    constexpr int minimum_noise = 20;
 
     if( noise <= base ) {
         noise = std::max( minimum_noise, noise );
@@ -8933,21 +8946,32 @@ void Character::on_hit( Creature *source, bodypart_id bp_hit,
     bool in_skater_vehicle = in_vehicle && veh_part.part_with_feature( "SEAT_REQUIRES_BALANCE", false );
 
     if( ( worn_with_flag( flag_REQUIRES_BALANCE ) || in_skater_vehicle ) && !is_on_ground() ) {
-        int rolls = 4;
         if( worn_with_flag( flag_ROLLER_ONE ) && !in_skater_vehicle ) {
-            rolls += 2;
-        }
-        if( has_trait( trait_PROF_SKATER ) ) {
-            rolls--;
-        }
-        if( has_trait( trait_DEFT ) ) {
-            rolls--;
-        }
+            if( worn_with_flag( flag_REQUIRES_BALANCE ) && !has_effect( effect_downed ) ) {
+                int rolls = 4;
+                if( worn_with_flag( flag_ROLLER_ONE ) ) {
+                    rolls += 2;
+                }
+                if( has_trait( trait_PROF_SKATER ) ) {
+                    rolls--;
+                }
+                if( has_trait( trait_DEFT ) ) {
+                    rolls--;
+                }
 
-        if( stability_roll() < dice( rolls, 10 ) ) {
-            if( !is_player() ) {
-                if( u_see ) {
-                    add_msg( _( "%1$s loses their balance while being hit!" ), name );
+                if( stability_roll() < dice( rolls, 10 ) ) {
+                    if( !is_player() ) {
+                        if( u_see ) {
+                            add_msg( _( "%1$s loses their balance while being hit!" ), name );
+                        }
+                    } else {
+                        add_msg( m_bad, _( "You lose your balance while being hit!" ) );
+                    }
+                    if( in_skater_vehicle ) {
+                        g->fling_creature( this, rng_float( 0_degrees, 360_degrees ), 10 );
+                    }
+                    // This kind of downing is not subject to immunity.
+                    add_effect( effect_downed, 2_turns, bodypart_str_id::NULL_ID(), 0, true );
                 }
             } else {
                 add_msg( m_bad, _( "You lose your balance while being hit!" ) );
@@ -9347,7 +9371,8 @@ void Character::spores()
     map &here = get_map();
     fungal_effects fe( *g, here );
     //~spore-release sound
-    sounds::sound( pos(), 10, sounds::sound_t::combat, _( "Pouf!" ), false, "misc", "puff" );
+    sounds::sound( pos(), 50, sounds::sound_t::combat, _( "Pouf!" ), false, true, false, false, "misc",
+                   "puff" );
     for( const tripoint &sporep : here.points_in_radius( pos(), 1 ) ) {
         if( sporep == pos() ) {
             continue;
@@ -9359,7 +9384,8 @@ void Character::spores()
 void Character::blossoms()
 {
     // Player blossoms are shorter-ranged, but you can fire much more frequently if you like.
-    sounds::sound( pos(), 10, sounds::sound_t::combat, _( "Pouf!" ), false, "misc", "puff" );
+    sounds::sound( pos(), 50, sounds::sound_t::combat, _( "Pouf!" ), false, true, false, false, "misc",
+                   "puff" );
     map &here = get_map();
     for( const tripoint &tmp : here.points_in_radius( pos(), 2 ) ) {
         here.add_field( tmp, fd_fungal_haze, rng( 1, 2 ) );

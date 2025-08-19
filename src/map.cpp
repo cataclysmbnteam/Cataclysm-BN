@@ -108,7 +108,6 @@ using ammo_effect_str_id = string_id<ammo_effect>;
 static const ammo_effect_str_id ammo_effect_INCENDIARY( "INCENDIARY" );
 static const ammo_effect_str_id ammo_effect_LASER( "LASER" );
 static const ammo_effect_str_id ammo_effect_LIGHTNING( "LIGHTNING" );
-static const ammo_effect_str_id ammo_effect_NO_PENETRATE_OBSTACLES( "NO_PENETRATE_OBSTACLES" );
 static const ammo_effect_str_id ammo_effect_PLASMA( "PLASMA" );
 
 static const fault_id fault_bionic_nonsterile( "fault_bionic_nonsterile" );
@@ -211,7 +210,10 @@ void map::set_transparency_cache_dirty( const int zlev )
 {
     if( inbounds_z( zlev ) ) {
         get_cache( zlev ).transparency_cache_dirty.set();
+        // If we are invalidating the entire transparency cache for this zlevel, the sound absorbtion cache will also be invalidated.
+        get_cache( zlev ).absorbtion_cache_dirty.set();
     }
+
 }
 
 void map::set_seen_cache_dirty( const tripoint change_location )
@@ -262,6 +264,14 @@ void map::set_transparency_cache_dirty( const tripoint &p )
     if( inbounds( p ) ) {
         const tripoint smp = ms_to_sm_copy( p );
         get_cache( smp.z ).transparency_cache_dirty.set( smp.x * MAPSIZE + smp.y );
+    }
+}
+
+void map::set_absorbtion_cache_dirty( const tripoint &p )
+{
+    if( inbounds( p ) ) {
+        const tripoint smp = ms_to_sm_copy( p );
+        get_cache( smp.z ).absorbtion_cache_dirty.set( smp.x * MAPSIZE + smp.y );
     }
 }
 
@@ -723,7 +733,7 @@ vehicle *map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &fac
     if( impulse > 0 ) {
         coll_turn = shake_vehicle( veh, velocity_before, facing.dir() );
         veh.stop_autodriving();
-        const int volume = std::min<int>( 100, std::sqrt( impulse ) );
+        const int volume = std::min<int>( 120, std::sqrt( impulse ) );
         // TODO: Center the sound at weighted (by impulse) average of collisions
         sounds::sound( veh.global_pos3(), volume, sounds::sound_t::combat, _( "crash!" ),
                        false, "smash_success", "hit_vehicle" );
@@ -805,7 +815,7 @@ vehicle *map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &fac
         for( auto &w : wheel_indices ) {
             const tripoint wheel_p = veh.global_part_pos3( w );
             if( one_in( 2 ) && displace_water( wheel_p ) ) {
-                sounds::sound( wheel_p, 4,  sounds::sound_t::movement, _( "splash!" ), false,
+                sounds::sound( wheel_p, 50,  sounds::sound_t::movement, _( "splash!" ), false,
                                "environment", "splash" );
             }
 
@@ -1853,6 +1863,14 @@ bool map::ter_set( const tripoint &p, const ter_id &new_terrain )
         }
     }
 
+    if( new_t.has_flag( "BLOCK_WIND" ) != old_t.has_flag( "BLOCK_WIND" ) ) {
+        set_absorbtion_cache_dirty( p );
+    }
+
+    if( new_t.has_flag( "CONNECT_TO_WALL" ) != old_t.has_flag( "CONNECT_TO_WALL" ) ) {
+        set_absorbtion_cache_dirty( p );
+    }
+
     invalidate_max_populated_zlev( p.z );
     set_memory_seen_cache_dirty( p );
 
@@ -1862,7 +1880,6 @@ bool map::ter_set( const tripoint &p, const ter_id &new_terrain )
     tripoint above( p.xy(), p.z + 1 );
     // Make sure that if we supported something and no longer do so, it falls down
     support_dirty( above );
-
     return true;
 }
 
@@ -2713,12 +2730,7 @@ bool map::is_water_shallow_current( const tripoint &p ) const
 
 bool map::is_divable( const tripoint &p ) const
 {
-    const std::optional<vpart_reference> vp = veh_at( p ).part_with_feature( VPFLAG_BOARDABLE,
-            true );
-    if( !vp ) {
-        return has_flag( "SWIMMABLE", p ) && has_flag( TFLAG_DEEP_WATER, p );
-    }
-    return false;
+    return has_flag( "SWIMMABLE", p ) && has_flag( TFLAG_DEEP_WATER, p );
 }
 
 bool map::is_outside( const tripoint &p ) const
@@ -3396,7 +3408,7 @@ bash_results map::bash_ter_success( const tripoint &p, const bash_params &params
     if( !bash.sound.empty() && !params.silent ) {
         static const std::string soundfxid = "smash_success";
         int sound_volume = get_sound_volume( bash );
-        sounds::sound( p, sound_volume, sounds::sound_t::combat, bash.sound, false,
+        sounds::sound( p, sound_volume, sounds::sound_t::combat, bash.sound, false, false, false, false,
                        soundfxid, soundfxvariant );
     }
 
@@ -3572,7 +3584,7 @@ bash_results map::bash_furn_success( const tripoint &p, const bash_params &param
     if( !bash.sound.empty() && !params.silent ) {
         static const std::string soundfxid = "smash_success";
         int sound_volume = get_sound_volume( bash );
-        sounds::sound( p, sound_volume, sounds::sound_t::combat, bash.sound, false,
+        sounds::sound( p, sound_volume, sounds::sound_t::combat, bash.sound, false, false, false, false,
                        soundfxid, soundfxvariant );
     }
 
@@ -3627,8 +3639,8 @@ bash_results map::bash_ter_furn( const tripoint &p, const bash_params &params )
 
     // TODO: what if silent is true?
     if( has_flag( "ALARMED", p ) && !g->timed_events.queued( TIMED_EVENT_WANTED ) ) {
-        sounds::sound( p, 40, sounds::sound_t::alarm, _( "an alarm go off!" ),
-                       false, "environment", "alarm" );
+        sounds::sound( p, 90, sounds::sound_t::alarm, _( "an alarm go off!" ),
+                       false, false, false, false, "environment", "alarm" );
         // Blame nearby player
         if( rl_dist( g->u.pos(), p ) <= 3 ) {
             g->events().send<event_type::triggers_alarm>( g->u.getID() );
@@ -3642,8 +3654,8 @@ bash_results map::bash_ter_furn( const tripoint &p, const bash_params &params )
         // Nothing bashable here
         if( impassable( p ) ) {
             if( !params.silent ) {
-                sounds::sound( p, 18, sounds::sound_t::combat, _( "thump!" ),
-                               false, "smash_fail", "default" );
+                sounds::sound( p, 80, sounds::sound_t::combat, _( "thump!" ),
+                               false, false, false, false, "smash_fail", "default" );
             }
 
             result.did_bash = true;
@@ -3690,11 +3702,12 @@ bash_results map::bash_ter_furn( const tripoint &p, const bash_params &params )
     }
 
     if( !result.success ) {
-        int sound_volume = bash->sound_fail_vol.value_or( 12 );
+        int sound_volume = bash->sound_fail_vol.value_or( 70 );
 
         result.did_bash = true;
         if( !params.silent ) {
-            sounds::sound( p, sound_volume, sounds::sound_t::combat, bash->sound_fail, false,
+            sounds::sound( p, sound_volume, sounds::sound_t::combat, bash->sound_fail, false, false, false,
+                           false,
                            "smash_fail", soundfxvariant );
         }
     } else {
@@ -3775,7 +3788,7 @@ bash_results map::bash_items( const tripoint &p, const bash_params &params )
 
     // Add a glass sound even when something else also breaks
     if( smashed_glass && !params.silent ) {
-        sounds::sound( p, 12, sounds::sound_t::combat, _( "glass shattering" ), false,
+        sounds::sound( p, 70, sounds::sound_t::combat, _( "glass shattering" ), false, false, false, false,
                        "smash_success", "smash_glass_contents" );
     }
     return result;
@@ -3788,7 +3801,7 @@ bash_results map::bash_vehicle( const tripoint &p, const bash_params &params )
     if( const optional_vpart_position vp = veh_at( p ) ) {
         vp->vehicle().damage( vp->part_index(), params.strength, DT_BASH );
         if( !params.silent ) {
-            sounds::sound( p, 18, sounds::sound_t::combat, _( "crash!" ), false,
+            sounds::sound( p, 80, sounds::sound_t::combat, _( "crash!" ), false, false, false, false,
                            "smash_success", "hit_vehicle" );
         }
 
@@ -3922,10 +3935,10 @@ void map::shoot( const tripoint &origin, const tripoint &p, projectile &proj, co
     }
 
     float dam = initial_damage;
-    float pen = initial_arpen;
 
     if( has_flag( "ALARMED", p ) && !g->timed_events.queued( TIMED_EVENT_WANTED ) ) {
-        sounds::sound( p, 30, sounds::sound_t::alarm, _( "an alarm sound!" ), true, "environment",
+        sounds::sound( p, 90, sounds::sound_t::alarm, _( "an alarm sound!" ), false, false, false, false,
+                       "environment",
                        "alarm" );
         const tripoint abs = ms_to_sm_copy( getabs( p ) );
         g->timed_events.add( TIMED_EVENT_WANTED, calendar::turn + 30_minutes, 0, abs );
@@ -3933,10 +3946,6 @@ void map::shoot( const tripoint &origin, const tripoint &p, projectile &proj, co
 
     const bool inc = proj.has_effect( ammo_effect_INCENDIARY ) ||
                      proj.impact.type_damage( DT_HEAT ) > 0;
-    const bool phys = proj.impact.type_damage( DT_BASH ) > 0 ||
-                      proj.impact.type_damage( DT_CUT ) > 0 ||
-                      proj.impact.type_damage( DT_STAB ) > 0 ||
-                      proj.impact.type_damage( DT_BULLET ) > 0;
     if( const optional_vpart_position vp = veh_at( p ) ) {
         dam = vp->vehicle().damage( vp->part_index(), dam, inc ? DT_HEAT : DT_STAB, hit_items );
     }
@@ -3947,45 +3956,31 @@ void map::shoot( const tripoint &origin, const tripoint &p, projectile &proj, co
     ter_id terrain = ter( p );
     ter_t ter = terrain.obj();
 
-    double range = rl_dist( origin, p );
-    const bool point_blank = range <= 1;
     if( furn.bash.ranged ) {
-        // Damage cover like a crit if we're breaching at point blank range, otherwise randomize like a normal hit.
-        float destroy_roll = point_blank ? dam * 1.5 : dam * rng_float( 0.9, 1.1 );
+        double range = rl_dist( origin, p );
+        const bool point_blank = range <= 1;
         const ranged_bash_info &rfi = *furn.bash.ranged;
+        // Damage obstacles like a crit if we're breaching at point blank range, otherwise randomize like a normal hit.
+        float destroy_roll = point_blank ? dam * 1.5 : dam * rng_float( 0.9, 1.1 );
         if( !hit_items && ( !check( rfi.block_unaimed_chance ) || ( rfi.block_unaimed_chance < 100_pct &&
                             point_blank ) ) ) {
-            // Nothing, it's a miss, we're shooting over nearby furniture.
-        } else if( proj.has_effect( ammo_effect_NO_PENETRATE_OBSTACLES ) ) {
-            // We shot something with a flamethrower or other non-penetrating weapon.
-            // Try to bash the obstacle and stop the shot.
-            add_msg( _( "The shot strikes the %s!" ), furnname( p ) );
-            if( phys ) {
-                bash( p, dam, false );
-            }
-            dam = 0;
+            // Nothing, it's a miss or we're shooting over nearby furniture
         } else if( rfi.reduction_laser && proj.has_effect( ammo_effect_LASER ) ) {
             dam -= std::max( ( rng( rfi.reduction_laser->min,
-                                    rfi.reduction_laser->max ) - pen ) * initial_armor_mult, 0.0f );
+                                    rfi.reduction_laser->max ) - initial_arpen ) * initial_armor_mult, 0.0f );
         } else {
             // Roll damage reduction value, reduce result by arpen, multiply by any armor mult, then finally set to zero if negative result
-            const float pen_reduction = rng( rfi.reduction.min, rfi.reduction.max );
-            dam = std::max( dam - ( std::max( pen_reduction - pen, 0.0f ) * initial_armor_mult ),
-                            0.0f );
-            pen = std::max( 0.0f, pen - pen_reduction );
+            dam -= std::max( ( rng( rfi.reduction.min,
+                                    rfi.reduction.max ) - initial_arpen ) * initial_armor_mult, 0.0f );
             // Only print if we hit something we can see enemies through, so we know cover did its job
             if( get_avatar().sees( p ) ) {
                 if( dam <= 0 ) {
                     add_msg( _( "The shot is stopped by the %s!" ), furnname( p ) );
-                    // Only bother mentioning it punched through if it had any resistance, so zip through canvas with no message.
-                } else if( rfi.reduction.min > 0 ) {
+                } else {
                     add_msg( _( "The shot hits the %s and punches through!" ), furnname( p ) );
                 }
             }
-            add_msg( m_debug, "%s: damage: %.0f -> %.0f, arpen: %.0f -> %.0f", furn.name(), initial_damage, dam,
-                     initial_arpen,
-                     pen );
-            if( destroy_roll > rfi.destroy_threshold && rfi.reduction.min > 0 ) {
+            if( destroy_roll > rfi.destroy_threshold ) {
                 bash_params params{0, false, true, hit_items, 1.0, false};
                 bash_furn_success( p, params );
             }
@@ -3993,49 +3988,31 @@ void map::shoot( const tripoint &origin, const tripoint &p, projectile &proj, co
                 add_field( p, fd_fire, 1 );
             }
         }
-        // Check furniture and terrain separately, if this was an if/else then getting partial cover embedded in a wall would let you fire through it.
-    }
-    if( ter.bash.ranged ) {
-        // New values are used for debug message in case furniture did something.
-        float modified_dam = dam;
-        float modified_pen = pen;
-        // Separate hit roll since damage might have been lowered by furniture first.
-        float destroy_roll = point_blank ? dam * 1.5 : dam * rng_float( 0.9, 1.1 );
+    } else if( ter.bash.ranged ) {
+        double range = rl_dist( origin, p );
+        const bool point_blank = range <= 1;
         const ranged_bash_info &ri = *ter.bash.ranged;
+        // Damage obstacles like a crit if we're breaching at point blank range, otherwise randomize like a normal hit.
+        float destroy_roll = point_blank ? dam * 1.5 : dam * rng_float( 0.9, 1.1 );
         if( !hit_items && ( !check( ri.block_unaimed_chance ) || ( ri.block_unaimed_chance < 100_pct &&
                             point_blank ) ) ) {
             // Nothing, it's a miss or we're shooting over nearby terrain
-        } else if( proj.has_effect( ammo_effect_NO_PENETRATE_OBSTACLES ) ) {
-            // We shot something with a flamethrower or other non-penetrating weapon.
-            // Try to bash the obstacle if it was a thrown rock or the like, then stop the shot.
-            add_msg( _( "The shot strikes the %s!" ), tername( p ) );
-            if( phys ) {
-                bash( p, dam, false );
-            }
-            dam = 0;
         } else if( ri.reduction_laser && proj.has_effect( ammo_effect_LASER ) ) {
             dam -= std::max( ( rng( ri.reduction_laser->min,
-                                    ri.reduction_laser->max ) - pen ) * initial_armor_mult, 0.0f );
+                                    ri.reduction_laser->max ) - initial_arpen ) * initial_armor_mult, 0.0f );
         } else {
             // Roll damage reduction value, reduce result by arpen, multiply by any armor mult, then finally set to zero if negative result
-            const float pen_reduction = rng( ri.reduction.min, ri.reduction.max );
-            dam = std::max( dam - ( std::max( pen_reduction - pen, 0.0f ) * initial_armor_mult ),
-                            0.0f );
-            pen = std::max( 0.0f, pen - pen_reduction );
+            dam -= std::max( ( rng( ri.reduction.min,
+                                    ri.reduction.max ) - initial_arpen ) * initial_armor_mult, 0.0f );
             // Only print if we hit something we can see enemies through, so we know cover did its job
             if( get_avatar().sees( p ) ) {
                 if( dam <= 0 ) {
                     add_msg( _( "The shot is stopped by the %s!" ), tername( p ) );
-                    // Only bother mentioning it punched through if it had any resistance, so zip through canvas with no message.
-                } else if( ri.reduction.min > 0 ) {
+                } else {
                     add_msg( _( "The shot hits the %s and punches through!" ), tername( p ) );
                 }
             }
-            add_msg( m_debug, "%s: damage: %.0f -> %.0f, arpen: %.0f -> %.0f", ter.name(), modified_dam, dam,
-                     modified_pen,
-                     pen );
-            // Destroy if the damage exceeds threshold, unless the target was meant to be shot through with zero resistance like canvas.
-            if( destroy_roll > ri.destroy_threshold && ri.reduction.min > 0 ) {
+            if( destroy_roll > ri.destroy_threshold ) {
                 bash_params params{0, false, true, hit_items, 1.0, false};
                 bash_ter_success( p, params );
             }
@@ -4058,6 +4035,8 @@ void map::shoot( const tripoint &origin, const tripoint &p, projectile &proj, co
         }
     }
 
+    dam = std::max( 0.0f, dam );
+
     // Check fields?
     const field_entry *fieldhit = get_field( p, fd_web );
     if( fieldhit != nullptr ) {
@@ -4065,7 +4044,7 @@ void map::shoot( const tripoint &origin, const tripoint &p, projectile &proj, co
             add_field( p, fd_fire, fieldhit->get_field_intensity() - 1 );
         } else if( dam > 5 + fieldhit->get_field_intensity() * 5 &&
                    one_in( 5 - fieldhit->get_field_intensity() ) ) {
-            dam -= rng( 1, 2 + ( fieldhit->get_field_intensity() * 2 ) );
+            dam -= rng( 1, 2 + fieldhit->get_field_intensity() * 2 );
             remove_field( p, fd_web );
         }
     }
@@ -4076,15 +4055,6 @@ void map::shoot( const tripoint &origin, const tripoint &p, projectile &proj, co
         return;
     } else if( dam < initial_damage ) {
         proj.impact.mult_damage( dam / static_cast<double>( initial_damage ) );
-    }
-    if( pen <= 0 ) {
-        for( auto &elem : proj.impact.damage_units ) {
-            elem.res_pen = 0.0f;
-        }
-    } else if( pen < initial_arpen ) {
-        for( auto &elem : proj.impact.damage_units ) {
-            elem.res_pen *= ( pen / static_cast<double>( initial_arpen ) );
-        }
     }
 
     //Projectiles with NO_ITEM_DAMAGE flag won't damage items at all
@@ -4176,7 +4146,7 @@ bool map::open_door( const tripoint &p, const bool inside, const bool check_only
             }
         }
         if( !check_only ) {
-            sounds::sound( p, 6, sounds::sound_t::movement, _( "swish" ), true,
+            sounds::sound( p, 50, sounds::sound_t::movement, _( "swish" ), true, false, false, false,
                            "open_door", ter.id.str() );
             ter_set( p, ter.open );
 
@@ -4201,7 +4171,7 @@ bool map::open_door( const tripoint &p, const bool inside, const bool check_only
         }
 
         if( !check_only ) {
-            sounds::sound( p, 6, sounds::sound_t::movement, _( "swish" ), true,
+            sounds::sound( p, 50, sounds::sound_t::movement, _( "swish" ), true, false, false, false,
                            "open_door", furn.id.str() );
             furn_set( p, furn.open );
         }
@@ -4284,14 +4254,14 @@ bool map::close_door( const tripoint &p, const bool inside, const bool check_onl
     const auto &furn = this->furn( p ).obj();
     if( ter.close && !furn.id ) {
         if( !check_only ) {
-            sounds::sound( p, 10, sounds::sound_t::movement, _( "swish" ), true,
+            sounds::sound( p, 60, sounds::sound_t::movement, _( "swish" ), true, false, false, false,
                            "close_door", ter.id.str() );
             ter_set( p, ter.close );
         }
         return true;
     } else if( furn.close ) {
         if( !check_only ) {
-            sounds::sound( p, 10, sounds::sound_t::movement, _( "swish" ), true,
+            sounds::sound( p, 60, sounds::sound_t::movement, _( "swish" ), true, false, false, false,
                            "close_door", furn.id.str() );
             furn_set( p, furn.close );
         }
@@ -4477,14 +4447,14 @@ float map::item_category_spawn_rate( const item &itm )
 {
     const std::string &cat = itm.get_category().id.c_str();
     float spawn_rate = get_option<float>( "SPAWN_RATE_" + cat );
-
-    // strictly search for canned foods only in the first check
-    if( itm.goes_bad_after_opening( true ) ) {
-        float spawn_rate_mod = get_option<float>( "SPAWN_RATE_perishables_canned" );
-        spawn_rate *= spawn_rate_mod;
-    } else if( itm.goes_bad() ) {
-        float spawn_rate_mod = get_option<float>( "SPAWN_RATE_perishables" );
-        spawn_rate *= spawn_rate_mod;
+    if( itm.goes_bad() ) {
+        const float spawn_rate_mod = get_option<float>( "SPAWN_RATE_perishables" );
+        spawn_rate = spawn_rate / 2;
+        spawn_rate += spawn_rate_mod / 2;
+    } else if( itm.goes_bad_after_opening( true ) ) {
+        const float spawn_rate_mod = get_option<float>( "SPAWN_RATE_perishables_canned" );
+        spawn_rate = spawn_rate / 2;
+        spawn_rate += spawn_rate_mod / 2;
     }
 
     return spawn_rate > 1.0f ? roll_remainder( spawn_rate ) : spawn_rate;
@@ -5390,7 +5360,7 @@ std::vector<detached_ptr<item>> map::use_charges( const tripoint &origin, const 
 
             // TODO: add a sane birthday arg
             detached_ptr<item> tmp = item::spawn( type, calendar::start_of_cataclysm );
-            tmp->charges = butcherpart->vehicle().drain( ftype, quantity );
+            tmp->charges = forgepart->vehicle().drain( ftype, quantity );
             quantity -= tmp->charges;
             ret.push_back( std::move( tmp ) );
 
@@ -8669,6 +8639,7 @@ void map::build_map_cache( const int zlev, bool skip_lightmap )
         const bool affects_seen_cache =  z == zlev || fov_3d;
         build_outside_cache( z );
         build_transparency_cache( z );
+        build_absorbtion_cache( z );
         update_suspension_cache( z );
         seen_cache_dirty |= ( build_floor_cache( z ) && affects_seen_cache );
         seen_cache_dirty |= get_cache( z ).seen_cache_dirty && affects_seen_cache;
@@ -9230,6 +9201,7 @@ level_cache::level_cache()
 {
     const int map_dimensions = MAPSIZE_X * MAPSIZE_Y;
     transparency_cache_dirty.set();
+    absorbtion_cache_dirty.set();
     outside_cache_dirty = true;
     floor_cache_dirty = false;
     constexpr four_quadrants four_zeros( 0.0f );
@@ -9247,6 +9219,18 @@ level_cache::level_cache()
     std::fill_n( &visibility_cache[0][0], map_dimensions, lit_level::DARK );
     veh_in_active_range = false;
     std::fill_n( &veh_exists_at[0][0], map_dimensions, false );
+    std::fill_n( &absorbtion_cache[0][0], map_dimensions, 0 );
+}
+
+sound_cache::sound_cache()
+{
+    const int map_dimensions = MAPSIZE_X * MAPSIZE_Y;
+    std::fill_n( &volume[0][0], map_dimensions, 0 );
+    heard_by_player = false;
+    heard_by_monsters = false;
+    movement_noise = false;
+    from_monster = false;
+    from_npc = false;
 }
 
 pathfinding_cache::pathfinding_cache()
@@ -9292,6 +9276,7 @@ void map::invalidate_map_cache( const int zlev )
         level_cache &ch = get_cache( zlev );
         ch.floor_cache_dirty = true;
         ch.transparency_cache_dirty.set();
+        ch.absorbtion_cache_dirty.set();
         ch.seen_cache_dirty = true;
         ch.outside_cache_dirty = true;
         ch.suspension_cache_dirty = true;

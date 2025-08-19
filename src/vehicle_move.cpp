@@ -878,7 +878,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
             if( part_flag( ret.part, "SHARP" ) ) {
                 critter->bleed();
             } else {
-                sounds::sound( p, 20, sounds::sound_t::combat, snd, false, "smash_success", "hit_vehicle" );
+                sounds::sound( p, 70, sounds::sound_t::combat, snd, false, "smash_success", "hit_vehicle" );
             }
         }
     } else {
@@ -894,7 +894,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
             }
         }
 
-        sounds::sound( p, smashed ? 80 : 50, sounds::sound_t::combat, snd, false, "smash_success",
+        sounds::sound( p, smashed ? 90 : 70, sounds::sound_t::combat, snd, false, "smash_success",
                        "hit_vehicle" );
     }
 
@@ -958,7 +958,8 @@ void vehicle::handle_trap( const tripoint &p, int part )
 
     if( veh_data.chance >= rng( 1, 100 ) ) {
         if( veh_data.sound_volume > 0 ) {
-            sounds::sound( p, veh_data.sound_volume, sounds::sound_t::combat, veh_data.sound, false,
+            sounds::sound( p, veh_data.sound_volume, sounds::sound_t::combat, veh_data.sound, false, false,
+                           false, false,
                            veh_data.sound_type, veh_data.sound_variant );
         }
         if( veh_data.do_explosion ) {

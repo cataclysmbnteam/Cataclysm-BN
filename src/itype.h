@@ -296,6 +296,17 @@ struct islot_armor {
     * Bonus to weight capacity
     */
     units::mass weight_capacity_bonus = 0_gram;
+    /**
+    * Sound dampening in dB spl provided by the item when worn.
+    * This value decreased the volume of all heard sounds.
+    */
+    int hearing_protection = 0;
+    /**
+    * Advanced sound dampening in dB spl provided by the item when worn.
+    * This value only decreases heard volume for purposes of determining deafness,
+    * allowing the wearer to hear other sounds normally.
+    */
+    int adv_hearing_protection = 0;
 
     bool was_loaded;
     /**
@@ -455,7 +466,7 @@ struct common_ranged_data {
     * Supersonic projectiles can not be fully suppressed.
     * This is placed here so that guns and gunmods can effect projectile speed.
     */
-    int speed = 1000;
+    int speed = 10;
 };
 
 struct islot_engine {
@@ -522,7 +533,7 @@ struct islot_gun : common_ranged_data {
     /**
      * Volume of the noise made when reloading this weapon.
      */
-    int reload_noise_volume = 0;
+    int reload_noise_volume = 40;
 
     /** Maximum aim achievable using base weapon sights */
     int sight_dispersion = 30;
@@ -700,7 +711,7 @@ struct islot_ammo : common_ranged_data {
      * Control chance for and state of any items dropped at ranged target
      *@{*/
     itype_id drop = itype_id::NULL_ID();
-    int drop_count = -1;
+
     bool drop_active = true;
     /*@}*/
 

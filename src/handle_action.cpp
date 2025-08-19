@@ -431,15 +431,17 @@ inline static void rcdrive( point d )
     tripoint dest( c + d );
     if( here.impassable( dest ) || !here.can_put_items_ter_furn( dest ) ||
         here.has_furn( dest ) ) {
-        sounds::sound( dest, 7, sounds::sound_t::combat,
-                       _( "sound of a collision with an obstacle." ), true, "misc", "rc_car_hits_obstacle" );
+        sounds::sound( dest, 65, sounds::sound_t::combat,
+                       _( "sound of a collision with an obstacle." ), false, false, false, false, "misc",
+                       "rc_car_hits_obstacle" );
         return;
     } else {
         tripoint src( c );
         detached_ptr<item> det_car = here.i_rem( src, rc_car );
         here.add_item_or_charges( dest, std::move( det_car ) );
         //~ Sound of moving a remote controlled car
-        sounds::sound( src, 6, sounds::sound_t::movement, _( "zzz…" ), true, "misc", "rc_car_drives" );
+        sounds::sound( src, 60, sounds::sound_t::movement, _( "zzz…" ), false, false, false, false,
+                       "misc", "rc_car_drives" );
         u.moves -= 50;
 
         u.set_value( "remote_controlling", serialize_wrapper( [&]( JsonOut & jo ) {
@@ -801,7 +803,8 @@ static void smash()
                 rng( 0, vol + 3 ) < vol ) {
                 add_msg( m_bad, _( "Your %s shatters!" ), weapon.tname() );
                 weapon.spill_contents( u.pos() );
-                sounds::sound( u.pos(), 24, sounds::sound_t::combat, "CRACK!", true, "smash", "glass" );
+                sounds::sound( u.pos(), 80, sounds::sound_t::combat, "CRACK!", false, false, false, false, "smash",
+                               "glass" );
                 u.deal_damage( nullptr, bodypart_id( "hand_r" ), damage_instance( DT_CUT, rng( 0, vol ) ) );
                 if( vol > 20 ) {
                     // Hurt left arm too, if it was big

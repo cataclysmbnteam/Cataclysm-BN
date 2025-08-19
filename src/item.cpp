@@ -3582,8 +3582,6 @@ void item::combat_info( std::vector<iteminfo> &info, const iteminfo_query *parts
             if( parts->test( iteminfo_parts::BASE_MOVES ) ) {
                 info.emplace_back( "BASE", _( "Moves per attack: " ), "",
                                    iteminfo::lower_is_better, attack_cost() );
-                // This would be a bar if iteminfo was not very insistent on numbers
-                info.emplace_back( "BASE", _( "Stamina Cost: " ), "", iteminfo::lower_is_better, stamina_cost() );
                 info.emplace_back( "BASE", _( "Typical damage per second:" ), "" );
                 const std::map<std::string, double> &dps_data = dps( true, false, attack );
                 std::string sep;
@@ -3623,8 +3621,6 @@ void item::combat_info( std::vector<iteminfo> &info, const iteminfo_query *parts
             if( parts->test( iteminfo_parts::BASE_MOVES ) ) {
                 info.emplace_back( "BASE", _( "Moves per attack: " ), "",
                                    iteminfo::lower_is_better, attack_cost() );
-                // This would be a bar if iteminfo was not very insistent on numbers
-                info.emplace_back( "BASE", _( "Stamina Cost: " ), "", iteminfo::lower_is_better, stamina_cost() );
                 info.emplace_back( "BASE", _( "Typical damage per second:" ), "" );
                 const std::map<std::string, double> &dps_data = dps( true, false, attack );
                 std::string sep;
@@ -5210,9 +5206,9 @@ nc_color item::color() const
     return type->color;
 }
 
-auto item::price( bool practical ) const -> float
+int item::price( bool practical ) const
 {
-    float res = 0;
+    int res = 0;
 
     visit_items( [&res, practical]( const item * e ) {
         if( e->rotten() ) {
@@ -5220,7 +5216,7 @@ auto item::price( bool practical ) const -> float
             return VisitResponse::NEXT;
         }
 
-        float child = units::to_cent( practical ? e->type->price_post : e->type->price );
+        int child = units::to_cent( practical ? e->type->price_post : e->type->price );
         if( e->damage() > 0 ) {
             // maximal damage level is 4, maximal reduction is 40% of the value.
             child -= child * static_cast<double>( e->damage_level( 4 ) ) / 10;
@@ -5482,11 +5478,6 @@ int item::attack_cost() const
     int base = 65 + ( volume() / 62.5_ml + weight() / 60_gram ) / count();
     int bonus = bonus_from_enchantments_wielded( base, enchant_vals::mod::ITEM_ATTACK_COST, true );
     return std::max( 0, base + bonus );
-}
-
-int item::stamina_cost() const
-{
-    return get_avatar().get_melee_stamina_cost( *this );
 }
 
 int item::damage_melee( damage_type dt ) const
@@ -5957,11 +5948,10 @@ bool item::goes_bad_after_opening( bool strict ) const
         if( type->container && type->container->preserves &&
             !contents.empty() && contents.front().goes_bad() ) {
             return true;
-        } else {
-            return false;
         }
+    } else {
+        return false;
     }
-
     return goes_bad() || ( type->container && type->container->preserves &&
                            !contents.empty() && contents.front().goes_bad() );
 }
@@ -6541,6 +6531,20 @@ bool item::craft_has_charges()
 // Deal with MSVC compiler bug (#17791, #17958)
 #pragma optimize( "", off )
 #endif
+
+// Get the hearing protection provided by this item.
+int item::get_hearing_protection( bool advanced ) const
+{
+    if( this->is_armor() ) {
+        const islot_armor *armor = find_armor_data();
+        if( armor == nullptr ) {
+            return 0;
+        }
+        return ( advanced ) ? armor->adv_hearing_protection : armor->hearing_protection;
+    } else {
+        return 0;
+    }
+}
 
 template<typename ResistGetter>
 static int phys_resist( const item &it, damage_type dt, clothing_mod_type cmt,

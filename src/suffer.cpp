@@ -103,7 +103,6 @@ static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_stunned( "stunned" );
 static const efftype_id effect_took_antiasthmatic( "took_antiasthmatic" );
 static const efftype_id effect_took_thorazine( "took_thorazine" );
-static const efftype_id effect_took_antinarcoleptic( "took_antinarcoleptic" );
 static const efftype_id effect_valium( "valium" );
 static const efftype_id effect_visuals( "visuals" );
 
@@ -326,8 +325,7 @@ void Character::suffer_while_awake( const int current_stim )
         suffer_from_schizophrenia();
     }
 
-    if( ( has_trait( trait_NARCOLEPTIC ) || has_artifact_with( AEP_SCHIZO ) ) &&
-        !has_effect( effect_took_antinarcoleptic ) ) {
+    if( ( has_trait( trait_NARCOLEPTIC ) || has_artifact_with( AEP_SCHIZO ) ) ) {
         if( one_turn_in( 8_hours ) ) {
             add_msg_player_or_npc( m_bad,
                                    _( "You're suddenly overcome with the urge to sleep and you pass out." ),
@@ -513,10 +511,15 @@ void Character::suffer_from_schizophrenia()
         shout( SNIPPET.random_from_category( "schizo_self_shout" ).value_or( translation() ).translated() );
         return;
     }
-    // Focus debuff
-    if( one_turn_in( 8_hours ) ) {
-        add_msg_if_player( m_bad, _( "You find it hard to focus all of a sudden." ) );
-        focus_pool -= rng( 20, 40 );
+    // Drop weapon
+    if( one_turn_in( 2_days ) && !weapon.is_null() ) {
+        const translation snip = SNIPPET.random_from_category( "schizo_weapon_drop" ).value_or(
+                                     translation() );
+        std::string str = string_format( snip, i_name_w );
+        str[0] = toupper( str[0] );
+
+        add_msg_if_player( m_bad, "%s", str );
+        drop( primary_weapon(), pos() );
         return;
     }
     // Talk to self
@@ -1059,7 +1062,7 @@ void Character::suffer_from_other_mutations()
 
     if( has_active_mutation( trait_WINGS_INSECT ) ) {
         //~Sound of buzzing Insect Wings
-        sounds::sound( pos(), 10, sounds::sound_t::movement, _( "BZZZZZ" ), false, "misc",
+        sounds::sound( pos(), 60, sounds::sound_t::movement, _( "BZZZZZ" ), false, "misc",
                        "insect_wings" );
     }
 
@@ -1344,7 +1347,7 @@ void Character::suffer_from_bad_bionics()
             add_msg_if_player( m_bad, _( "You feel your faulty bionic shuddering." ) );
             sfx::play_variant_sound( "bionics", "elec_blast_muffled", 100 );
         }
-        sounds::sound( pos(), 60, sounds::sound_t::movement, _( "Crackle!" ) ); //sfx above
+        sounds::sound( pos(), 90, sounds::sound_t::movement, _( "Crackle!" ) ); //sfx above
     }
     if( has_bionic( bio_power_weakness ) && has_max_power() &&
         get_power_level() >= get_max_power_level() * .75 ) {

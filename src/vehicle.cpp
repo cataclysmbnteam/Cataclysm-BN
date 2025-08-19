@@ -997,7 +997,7 @@ void vehicle::drive_to_local_target( const tripoint &target, bool follow_protoco
     }
     if( stop ) {
         if( autopilot_on ) {
-            sounds::sound( global_pos3(), 30, sounds::sound_t::alert,
+            sounds::sound( global_pos3(), 60, sounds::sound_t::alert,
                            string_format( _( "the %s emitting a beep and saying \"Obstacle detected!\"" ),
                                           name ) );
         }

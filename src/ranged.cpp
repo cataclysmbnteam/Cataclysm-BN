@@ -852,12 +852,18 @@ static int calc_gun_volume( const item &gun )
     // Inherit suppressor modifiers if relevant (e.g. KSG second mag) but still use current ammo
     const item &parent = ( gun.parent_item() != nullptr &&
                            gun.has_flag( flag_USE_PARENT_GUN ) ) ? *gun.parent_item() : gun;
+    // If our ammo is subsonic, loudness mods from the gun and gunmods can reduce noise freely.
+    // If the ammo is not subsonic, loudness cannot be reduced below 120 as the bullet will make a sonic boom.
     int noise = parent.type->gun->loudness;
     for( const auto mod : parent.gunmods() ) {
         noise += mod->type->gunmod->loudness;
     }
     if( gun.ammo_data() ) {
         noise += gun.ammo_data()->ammo->loudness;
+        // Speed of sound at sea level is around 343 meters per second.
+        if( gun.ammo_data()->ammo->speed > 342 ) {
+            noise = std::max( 120, noise );
+        }
     }
 
     noise = std::max( noise, 0 );
@@ -1874,7 +1880,7 @@ static projectile make_gun_projectile( const item &gun )
         }
 
         if( ammo.drop ) {
-            detached_ptr<item> drop = item::spawn( ammo.drop, calendar::turn, ammo.drop_count );
+            detached_ptr<item> drop = item::spawn( ammo.drop, calendar::turn, 1 );
             if( ammo.drop_active ) {
                 drop->activate();
             }
@@ -1989,7 +1995,7 @@ item::sound_data item::gun_noise( const bool burst ) const
             return { noise, burst ? _( "tz-tz-tzk!" ) : _( "tzk!" ) };
         } else if( noise < 80 ) {
             return { noise, burst ? _( "Brzzip!" ) : _( "tz-Zing!" ) };
-        } else if( noise < 200 ) {
+        } else if( noise < 160 ) {
             return { noise, burst ? _( "tzz-CR-CR-CRAck!" ) : _( "tz-CRACKck!" ) };
         } else {
             return { noise, burst ? _( "tzz-BOOOM!" ) : _( "tzk-BLAM!" ) };
@@ -2036,9 +2042,9 @@ item::sound_data item::gun_noise( const bool burst ) const
     } else if( noise > 0 ) {
         if( noise < 50 ) {
             return { noise, burst ? _( "Brrrip!" ) : _( "plink!" ) };
-        } else if( noise < 150 ) {
+        } else if( noise < 120 ) {
             return { noise, burst ? _( "Brrrap!" ) : _( "bang!" ) };
-        } else if( noise < 175 ) {
+        } else if( noise < 160 ) {
             return { noise, burst ? _( "P-p-p-pow!" ) : _( "blam!" ) };
         } else {
             return { noise, burst ? _( "Kaboom!" ) : _( "kerblam!" ) };
@@ -3890,37 +3896,9 @@ bool ranged::gunmode_checks_common( avatar &you, const map &m, std::vector<std::
     const optional_vpart_position vp = m.veh_at( you.pos() );
     if( vp && vp->vehicle().player_in_control( you ) && ( gmode->is_two_handed( you ) ||
             gmode->has_flag( flag_FIRE_TWOHAND ) ) ) {
-
-        const auto vp_control = vp->part_with_feature( "CONTROLS", true );
-        const bool ctrl_handsfree = vp_control && vp_control->has_feature( "CONTROL_WITHOUT_HANDS" );
-        const bool using_arms = vp->vehicle().has_part( "MUSCLE_ARMS", true );
-        const bool single_tile_veh = vp->vehicle().all_parts_at_location( "structure" ).size() < 2 ;
-
-        if( ctrl_handsfree ) { // check this vehicle is steerable and able to be controlled without hands.
-            if( single_tile_veh ) {
-                if( using_arms ) {
-                    messages.push_back( string_format(
-                                            _( "You can't fire your %s while driving; this vehicle is hand-powered." ),
-                                            gmode->tname() ) );
-                    result = false;
-                } else if( you.get_skill_level( skill_driving ) < 3 ) {
-                    messages.push_back( string_format(
-                                            _( "Your driving skill isn't high enough to fire your %s while driving." ), gmode->tname() ) );
-                    result = false;
-                } else {
-                    result = true;
-                }
-            } else { // its ctrl is handsfree, but the vehicle is too big.
-                messages.push_back( string_format(
-                                        _( "You can't fire your %s while driving; this vehicle is too large to handle." ),
-                                        gmode->tname() ) );
-                result = false;
-            }
-        } else { // You are driving with your own hands!
-            messages.push_back( string_format( _( "You can't fire your %s while driving." ),
-                                               gmode->tname() ) );
-            result = false;
-        }
+        messages.push_back( string_format( _( "You can't fire your %s while driving." ),
+                                           gmode->tname() ) );
+        result = false;
     }
 
     if( gmode->has_flag( flag_FIRE_TWOHAND ) && ( !you.has_two_arms() ||

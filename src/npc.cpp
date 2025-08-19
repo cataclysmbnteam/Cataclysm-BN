@@ -53,7 +53,6 @@
 #include "mtype.h"
 #include "mutation.h"
 #include "npc_class.h"
-#include "options.h"
 #include "output.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
@@ -322,7 +321,7 @@ void npc::load_npc_template( const string_id<npc_template> &ident )
     attitude = tguy.attitude;
     mission = tguy.mission;
     // If we're a shopkeeper force spawn of shopkeeper items here
-    if( is_shopkeeper() ) {
+    if( mission == NPC_MISSION_SHOPKEEP ) {
         const item_group_id &from = myclass->get_shopkeeper_items();
         if( from != item_group_id( "EMPTY_GROUP" ) ) {
             inv_clear();
@@ -1618,7 +1617,7 @@ void npc::say( const std::string &line, const sounds::sound_t spriority ) const
         sounds::sound( pos(), get_shout_volume(), spriority, sound, false, "speech",
                        male ? "NPC_m" : "NPC_f" );
     } else {
-        sounds::sound( pos(), 16, sounds::sound_t::speech, sound, false, "speech",
+        sounds::sound( pos(), 70, sounds::sound_t::speech, sound, false, "speech",
                        male ? "NPC_m_loud" : "NPC_f_loud" );
     }
 }
@@ -1718,23 +1717,21 @@ int npc::max_willing_to_owe() const
 
 void npc::shop_restock()
 {
-    if( ( restock != calendar::turn_zero ) &&
-        ( ( calendar::turn - restock ) < 3_days * get_option<float>( "RESTOCK_DELAY_MULT" ) ) ) {
+    if( ( restock != calendar::turn_zero ) && ( ( calendar::turn - restock ) < 3_days ) ) {
         return;
     }
 
-    restock = calendar::turn + 3_days * get_option<float>( "RESTOCK_DELAY_MULT" );
+    restock = calendar::turn + 3_days;
     if( is_player_ally() ) {
         return;
     }
-
     const item_group_id &from = myclass->get_shopkeeper_items();
     if( from == item_group_id( "EMPTY_GROUP" ) ) {
         return;
     }
 
     units::volume total_space = volume_capacity();
-    if( is_shopkeeper() ) {
+    if( mission == NPC_MISSION_SHOPKEEP ) {
         total_space = units::from_liter( 5000 );
     }
 
@@ -1742,7 +1739,7 @@ void npc::shop_restock()
     int shop_value = 75000;
     if( my_fac ) {
         shop_value = my_fac->wealth * 0.0075;
-        if( is_shopkeeper() && !my_fac->currency.is_empty() ) {
+        if( mission == NPC_MISSION_SHOPKEEP && !my_fac->currency.is_empty() ) {
             item *my_currency = item::spawn_temporary( my_fac->currency );
             if( !my_currency->is_null() ) {
                 my_currency->set_owner( *this );
@@ -1791,19 +1788,6 @@ void npc::shop_restock()
         inv.clear();
         inv.add_items( ret, false );
     }
-}
-
-std::string npc::get_restock_interval() const
-{
-    time_duration const restock_remaining = restock - calendar::turn;
-    std::string restock_rem = to_string( restock_remaining );
-    return restock_rem;
-}
-
-bool npc::is_shopkeeper() const
-{
-    const item_group_id &from = myclass->get_shopkeeper_items();
-    return mission == NPC_MISSION_SHOPKEEP || from != item_group_id( "EMPTY_GROUP" );
 }
 
 int npc::minimum_item_value() const

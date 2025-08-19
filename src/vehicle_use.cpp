@@ -721,7 +721,7 @@ void vehicle::use_controls( const tripoint &pos )
                 } else if( engine_on && has_engine_type_not( fuel_type_muscle, true ) )
                 {
                     add_msg( _( "You turn the engine off and let go of the controls." ) );
-                    sounds::sound( pos, 2, sounds::sound_t::movement,
+                    sounds::sound( pos, 40, sounds::sound_t::movement,
                                    _( "the engine go silent" ) );
                 } else
                 {
@@ -763,7 +763,7 @@ void vehicle::use_controls( const tripoint &pos )
                 if( engine_on )
                 {
                     engine_on = false;
-                    sounds::sound( pos, 2, sounds::sound_t::movement,
+                    sounds::sound( pos, 40, sounds::sound_t::movement,
                                    _( "the engine go silent" ) );
                     stop_engines();
                 } else
@@ -1057,7 +1057,7 @@ bool vehicle::start_engine( const int e )
         if( ( 1 - dmg ) < einfo.engine_backfire_threshold() && one_in( einfo.engine_backfire_freq() ) ) {
             backfire( e );
         } else {
-            sounds::sound( pos, start_moves / 10, sounds::sound_t::movement,
+            sounds::sound( pos, start_moves, sounds::sound_t::movement,
                            string_format( _( "the %s bang as it starts" ), eng.name() ), true, "vehicle",
                            "engine_bangs_start" );
         }
@@ -1065,7 +1065,7 @@ bool vehicle::start_engine( const int e )
 
     // Immobilizers need removing before the vehicle can be started
     if( eng.faults().contains( fault_immobiliser ) ) {
-        sounds::sound( pos, 5, sounds::sound_t::alarm,
+        sounds::sound( pos, 60, sounds::sound_t::alarm,
                        string_format( _( "the %s making a long beep" ), eng.name() ), true, "vehicle",
                        "fault_immobiliser_beep" );
         return false;
@@ -1306,7 +1306,7 @@ void vehicle::beeper_sound()
 void vehicle::play_music()
 {
     for( const vpart_reference &vp : get_enabled_parts( "STEREO" ) ) {
-        iuse::play_music( g->u, vp.pos(), 15, 30 );
+        iuse::play_music( g->u, vp.pos(), 80, 30 );
     }
 }
 
@@ -1317,7 +1317,7 @@ void vehicle::play_chimes()
     }
 
     for( const vpart_reference &vp : get_enabled_parts( "CHIMES" ) ) {
-        sounds::sound( vp.pos(), 40, sounds::sound_t::music,
+        sounds::sound( vp.pos(), 80, sounds::sound_t::music,
                        _( "a simple melody blaring from the loudspeakers." ), false, "vehicle", "chimes" );
     }
 }
@@ -1350,7 +1350,7 @@ void vehicle::crash_terrain_around()
             velocity = 0;
             cruise_velocity = 0;
             g->m.destroy( crush_target );
-            sounds::sound( crush_target, 500, sounds::sound_t::combat, _( "Clanggggg!" ), false,
+            sounds::sound( crush_target, rng( 50, 120 ), sounds::sound_t::combat, _( "Clanggggg!" ), false,
                            "smash_success", "hit_vehicle" );
         }
     }
@@ -1385,7 +1385,7 @@ void vehicle::transform_terrain()
             const int speed = std::abs( velocity );
             int v_damage = rng( 3, speed );
             damage( vp.part_index(), v_damage, DT_BASH, false );
-            sounds::sound( start_pos, v_damage, sounds::sound_t::combat, _( "Clanggggg!" ), false,
+            sounds::sound( start_pos, rng( 50, 120 ), sounds::sound_t::combat, _( "Clanggggg!" ), false,
                            "smash_success", "hit_vehicle" );
         }
     }
@@ -1421,7 +1421,7 @@ void vehicle::operate_reaper()
                  seed_type, plant_produced, seed_produced, false ) ) {
             g->m.add_item_or_charges( reaper_pos, std::move( i ) );
         }
-        sounds::sound( reaper_pos, rng( 10, 25 ), sounds::sound_t::combat, _( "Swish" ), false, "vehicle",
+        sounds::sound( reaper_pos, rng( 50, 80 ), sounds::sound_t::combat, _( "Swish" ), false, "vehicle",
                        "reaper" );
         if( vp.has_feature( "CARGO" ) ) {
             items.remove_top_items_with( [&max_pickup_volume, this, reaper_id]( detached_ptr<item> &&it ) {
@@ -1453,7 +1453,7 @@ void vehicle::operate_planter()
                 } else if( !g->m.has_flag( "PLOWABLE", loc ) ) {
                     //If it isn't plowable terrain, then it will most likely be damaged.
                     damage( planter_id, rng( 1, 10 ), DT_BASH, false );
-                    sounds::sound( loc, rng( 10, 20 ), sounds::sound_t::combat, _( "Clink" ), false, "smash_success",
+                    sounds::sound( loc, rng( 60, 70 ), sounds::sound_t::combat, _( "Clink" ), false, "smash_success",
                                    "hit_vehicle" );
                 }
                 if( !i->count_by_charges() || i->charges == 1 ) {
@@ -1484,7 +1484,7 @@ void vehicle::operate_scoop()
                 _( "Whirrrr" ), _( "Ker-chunk" ), _( "Swish" ), _( "Cugugugugug" )
             }
         };
-        sounds::sound( global_part_pos3( scoop ), rng( 20, 35 ), sounds::sound_t::combat,
+        sounds::sound( global_part_pos3( scoop ), rng( 60, 95 ), sounds::sound_t::combat,
                        random_entry_ref( sound_msgs ), false, "vehicle", "scoop" );
         std::vector<tripoint> parts_points;
         for( const tripoint &current :
@@ -1515,8 +1515,8 @@ void vehicle::operate_scoop()
                 //The scoop will not destroy the item, but it may damage it a bit.
                 that_item_there->inc_damage( DT_BASH );
                 //The scoop gets a lot louder when breaking an item.
-                sounds::sound( position, rng( 10,
-                                              that_item_there->volume() / units::legacy_volume_factor * 2 + 10 ),
+                sounds::sound( position, rng( 50,
+                                              that_item_there->volume() / units::legacy_volume_factor * 2 + 30 ),
                                sounds::sound_t::combat, _( "BEEEThump" ), false, "vehicle", "scoop_thump" );
             }
             //This attempts to add the item to the scoop inventory and if successful, removes it from the map.
@@ -1541,7 +1541,7 @@ void vehicle::alarm()
                     _( "WHOOP WHOOP" ), _( "NEEeu NEEeu NEEeu" ), _( "BLEEEEEEP" ), _( "WREEP" )
                 }
             };
-            sounds::sound( global_pos3(), rng( 45, 80 ),
+            sounds::sound( global_pos3(), rng( 80, 140 ),
                            sounds::sound_t::alarm,  random_entry_ref( sound_msgs ), false, "vehicle", "car_alarm" );
             if( one_in( 1000 ) ) {
                 is_alarm_on = false;

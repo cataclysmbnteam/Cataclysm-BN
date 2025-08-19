@@ -597,7 +597,7 @@ class item : public location_visitable<item>, public game_object<item>
          * If `practical` is false, returns pre-cataclysm market value,
          * otherwise returns approximate post-cataclysm value.
          */
-        auto price( bool practical ) const -> float;
+        int price( bool practical ) const;
 
         /**
          * Whether two items should stack when displayed in a inventory menu.
@@ -653,10 +653,6 @@ class item : public location_visitable<item>, public game_object<item>
          * takes. The actual time depends heavily on the attacker, see melee.cpp.
          */
         int attack_cost() const;
-        /**
-         * Stamina consumed to use this weapon in melee
-         */
-        int stamina_cost() const;
 
         /** Damage of given type caused when this item is used as melee weapon */
         int damage_melee( damage_type dt ) const;
@@ -1096,6 +1092,13 @@ class item : public location_visitable<item>, public game_object<item>
         int stab_resist( bool to_self = false ) const;
         int bullet_resist( bool to_self = false ) const;
         /*@}*/
+
+        /**
+        * Returns the normal hearing protection of the item, in dB spl
+        * If advanced is true, returns the advanced hearing protection of the item, in dB spl.
+        */
+        int get_hearing_protection( bool advanced = false ) const;
+
 
         /**
          * Assuming that specified du hit the armor, reduce du based on the item's resistance to the

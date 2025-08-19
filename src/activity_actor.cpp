@@ -468,7 +468,7 @@ void dig_activity_actor::do_turn( player_activity &/*act*/, Character & )
     sfx::play_activity_sound( "tool", "shovel", sfx::get_heard_volume( location ) );
     if( calendar::once_every( 1_minutes ) ) {
         //~ Sound of a shovel digging a pit at work!
-        sounds::sound( location, 10, sounds::sound_t::activity, _( "hsh!" ) );
+        sounds::sound( location, 70, sounds::sound_t::activity, _( "hsh!" ) );
     }
 }
 
@@ -574,7 +574,7 @@ void dig_channel_activity_actor::do_turn( player_activity &/*act*/, Character & 
     sfx::play_activity_sound( "tool", "shovel", sfx::get_heard_volume( location ) );
     if( calendar::once_every( 1_minutes ) ) {
         //~ Sound of a shovel digging a pit at work!
-        sounds::sound( location, 10, sounds::sound_t::activity, _( "hsh!" ) );
+        sounds::sound( location, 70, sounds::sound_t::activity, _( "hsh!" ) );
     }
 }
 
@@ -903,7 +903,7 @@ void hacking_activity_actor::finish( player_activity &act, Character &who )
             // currently all things that can be hacked have equivalent alarm failure states.
             // this may not always be the case with new hackable things.
             g->events().send<event_type::triggers_alarm>( who.getID() );
-            sounds::sound( who.pos(), 60, sounds::sound_t::music, _( "an alarm sound!" ), true, "environment",
+            sounds::sound( who.pos(), 120, sounds::sound_t::music, _( "an alarm sound!" ), true, "environment",
                            "alarm" );
             if( examp.z > 0 && !g->timed_events.queued( TIMED_EVENT_WANTED ) ) {
                 g->timed_events.add( TIMED_EVENT_WANTED, calendar::turn + 30_minutes, 0,
@@ -925,8 +925,9 @@ void hacking_activity_actor::finish( player_activity &act, Character &who )
                         uistate.ags_pay_gas_selected_pump );
                 if( pGasPump && iexamine::toPumpFuel( pTank, *pGasPump, tankGasUnits ) ) {
                     who.add_msg_if_player( _( "You hack the terminal and route all available fuel to your pump!" ) );
-                    sounds::sound( examp, 6, sounds::sound_t::activity,
-                                   _( "Glug Glug Glug Glug Glug Glug Glug Glug Glug" ), true, "tool", "gaspump" );
+                    sounds::sound( examp, 40, sounds::sound_t::activity,
+                                   _( "Glug Glug Glug Glug Glug Glug Glug Glug Glug" ), false, false, false, false, "tool",
+                                   "gaspump" );
                 } else {
                     who.add_msg_if_player( _( "Nothing happens." ) );
                 }
@@ -1182,7 +1183,7 @@ void hacksaw_activity_actor::do_turn( player_activity &/* act */, Character &who
         sfx::play_activity_sound( "tool", "hacksaw", sfx::get_heard_volume( target ) );
         if( calendar::once_every( 1_minutes ) ) {
             //~ Sound of a metal sawing tool at work!
-            sounds::sound( target, 15, sounds::sound_t::destructive_activity, _( "grnd grnd grnd" ) );
+            sounds::sound( target, 90, sounds::sound_t::destructive_activity, _( "grnd grnd grnd" ) );
         }
     } else {
         if( who.is_avatar() ) {
@@ -1402,11 +1403,11 @@ void boltcutting_activity_actor::finish( player_activity &act, Character &who )
     }
 
     if( data->sound().empty() ) {
-        sounds::sound( target, 5, sounds::sound_t::combat, _( "Snick, snick, gachunk!" ),
-                       true, "tool", "boltcutters" );
+        sounds::sound( target, 70, sounds::sound_t::combat, _( "Snick, snick, gachunk!" ),
+                       false, false, false, false, "tool", "boltcutters" );
     } else {
-        sounds::sound( target, 5, sounds::sound_t::combat, data->sound().translated(),
-                       true, "tool", "boltcutters" );
+        sounds::sound( target, 70, sounds::sound_t::combat, data->sound().translated(),
+                       false, false, false, false, "tool", "boltcutters" );
     }
 
 
@@ -1590,7 +1591,7 @@ void lockpick_activity_actor::finish( player_activity &act, Character &who )
 
     if( !perfect && get_map().has_flag( "ALARMED", target ) &&
         ( lock_roll + dice( 1, 30 ) ) > pick_roll ) {
-        sounds::sound( who.pos(), 40, sounds::sound_t::alarm, _( "an alarm sound!" ),
+        sounds::sound( who.pos(), 90, sounds::sound_t::alarm, _( "an alarm sound!" ),
                        true, "environment", "alarm" );
         if( !g->timed_events.queued( TIMED_EVENT_WANTED ) ) {
             g->timed_events.add( TIMED_EVENT_WANTED, calendar::turn + 30_minutes, 0,
@@ -1709,7 +1710,7 @@ void oxytorch_activity_actor::do_turn( player_activity &/*act*/, Character &who 
         tool->ammo_consume( tool->ammo_required(), tool->position() );
         sfx::play_activity_sound( "tool", "oxytorch", sfx::get_heard_volume( target ) );
         if( calendar::once_every( 2_turns ) ) {
-            sounds::sound( target, 10, sounds::sound_t::destructive_activity, _( "hissssssssss!" ) );
+            sounds::sound( target, 80, sounds::sound_t::destructive_activity, _( "hissssssssss!" ) );
         }
     } else {
         if( who.is_avatar() ) {
