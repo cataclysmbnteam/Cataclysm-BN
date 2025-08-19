@@ -4156,7 +4156,7 @@
     "time": "90 m",
     "qualities": [ { "id": "SMOOTH", "level": 1 } ],
     "components": [ [ [ "alien_pod_resin", 2 ] ] ],
-    "pre_special": "check_empty",
+    "pre_special": "check_support",
     "post_terrain": "t_floor_resin"
   },
   {
@@ -5702,6 +5702,56 @@
     "pre_note": "Will only work if constructed in/on a building that has an electric grid with a mounted battery.",
     "pre_special": "check_empty",
     "post_furniture": "f_3d_printer_advanced"
+  },
+  {
+    "type": "construction",
+    "id": "constr_clog_emitter",
+    "group": "clog_migo_emitter_resin",
+    "//": "Pours concrete over a scarred lump, its faster because we're not doing this smoothly.",
+    "category": "OTHER",
+    "required_skills": [ [ "survival", 0 ] ],
+    "time": "5 m",
+    "components": [ [ [ "alien_pod_resin", 5 ] ] ],
+    "pre_furniture": "f_alien_gasper",
+    "post_furniture": "f_alien_gasper_clogged",
+    "dark_craftable": true
+  },
+  {
+    "type": "construction",
+    "id": "constr_clog_emitter_lump",
+    "group": "clog_migo_emitter_resin",
+    "//": "Pours concrete over a scarred lump, its faster because we're not doing this smoothly.",
+    "category": "OTHER",
+    "required_skills": [ [ "survival", 0 ] ],
+    "time": "5 m",
+    "components": [ [ [ "alien_pod_resin", 3 ] ] ],
+    "pre_furniture": "f_alien_scar",
+    "post_furniture": "f_alien_scar_clogged",
+    "dark_craftable": true
+  },
+  {
+    "type": "construction",
+    "id": "constr_clog_emitter_lump_small",
+    "group": "clog_migo_emitter_resin",
+    "category": "OTHER",
+    "required_skills": [ [ "survival", 0 ] ],
+    "time": "2 m",
+    "components": [ [ [ "alien_pod_resin", 2 ] ] ],
+    "pre_furniture": "f_alien_scar_small",
+    "post_furniture": "f_alien_scar_small_clogged",
+    "dark_craftable": true
+  },
+  {
+    "type": "construction",
+    "id": "constr_clog_emitter_anemone",
+    "group": "clog_migo_emitter_resin",
+    "category": "OTHER",
+    "required_skills": [ [ "survival", 0 ] ],
+    "time": "2 m",
+    "components": [ [ [ "alien_pod_resin", 1 ] ] ],
+    "pre_furniture": "f_alien_anemone",
+    "post_furniture": "f_alien_anemone_clogged",
+    "dark_craftable": true
   },
   {
     "type": "construction",
