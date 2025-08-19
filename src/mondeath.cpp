@@ -973,7 +973,7 @@ void mdeath::preg_roach( monster &z )
 
 void mdeath::fireball( monster &z )
 {
-    // If we died from being set on fire, 25% chance to explode.
+    // If we died from being set on fire, 50% chance to explode.
     if( z.has_effect( effect_onfire ) && one_in( 2 ) ) {
         g->m.propagate_field( z.pos(), fd_fire, 15, 3 );
         std::string explode = string_format( _( "a %s explode!" ),
