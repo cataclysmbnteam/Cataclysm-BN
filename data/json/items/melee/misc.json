@@ -81,7 +81,7 @@
     "color": "light_gray",
     "weight": "60 g",
     "volume": "188 ml",
-    "cutting": 12,
+    "cutting": 16,
     "material": "alien_resin",
     "flags": [ "STAB", "SHEATH_KNIFE", "CONDUCTIVE", "FRAGILE_MELEE" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ]
