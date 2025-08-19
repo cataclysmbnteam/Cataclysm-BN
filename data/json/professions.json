@@ -1429,6 +1429,14 @@
   },
   {
     "type": "profession",
+    "id": "captive",
+    "name": { "male": "Captive", "female": "Captive" },
+    "description": "You were following a road at night trying to get away from the horrors of the city, when you heard a voice calling out in the dark.  As you stepped away to investigate, you suddenly felt a searing pain in your head and blacked out.  You just woke up in this place… Are you even on earth anymore?",
+    "points": -2,
+    "flags": [ "SCEN_ONLY" ]
+  },
+  {
+    "type": "profession",
     "id": "rescuer",
     "name": { "male": "Rescuer", "female": "Rescuer" },
     "description": "You were ready.  You went in determined to find and rescue your friends.  But now as you walk through those strange corridors, the atmosphere grows heavy and you're not so sure anymore.  You might be the one in need of a rescue now.",
@@ -1454,14 +1462,6 @@
       "male": [ "boxer_shorts" ],
       "female": [ "sports_bra", "panties" ]
     },
-    "flags": [ "SCEN_ONLY" ]
-  },
-  {
-    "type": "profession",
-    "id": "captive",
-    "name": { "male": "Captive", "female": "Captive" },
-    "description": "You were following a road at night trying to get away from the horrors of the city, when you heard a voice calling out in the dark.  As you stepped away to investigate, you suddenly felt a searing pain in your head and blacked out.  You just woke up in this place… Are you even on earth anymore?",
-    "points": -2,
     "flags": [ "SCEN_ONLY" ]
   },
   {
