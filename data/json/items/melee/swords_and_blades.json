@@ -289,7 +289,7 @@
     "type": "TOOL",
     "category": "tools_workshop",
     "weapon_category": [ "KNIVES" ],
-    "description": "A femur or other bone, at least 30 cm long, which has been broken at one end and sharpened into a cutting tool.  Its jagged edge is wicked but fragile.",
+    "description": "A femur or other bone, at least 30 cm long, which has been broken at one end and sharpened into a cutting tool.  Its jagged edge is serviceable but fragile.",
     "symbol": "/",
     "color": "white",
     "weight": "169 g",
@@ -298,9 +298,9 @@
     "price": "0 cent",
     "price_postapoc": "0 cent",
     "bashing": 4,
-    "cutting": 20,
+    "cutting": 8,
     "material": [ "bone" ],
-    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 12 ] ],
+    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 11 ] ],
     "flags": [ "STAB", "SHEATH_KNIFE", "FRAGILE_MELEE" ]
   },
   {
