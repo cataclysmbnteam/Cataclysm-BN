@@ -146,7 +146,11 @@
       "str_max": 40,
       "sound": "splorch!",
       "sound_fail": "whump.",
-      "items": [ { "item": "resin_chunk", "count": [ 0, 2 ] }, { "item": "fetid_goop", "count": [ 0, 2 ] }, { "group": "migo_pod_storage", "prob": 50 } ],
+      "items": [
+        { "item": "resin_chunk", "count": [ 0, 2 ] },
+        { "item": "fetid_goop", "count": [ 0, 2 ] },
+        { "group": "migo_pod_storage", "prob": 50 }
+      ],
       "//": "Variable reduction since might hit more or less material.",
       "ranged": { "reduction": [ 4, 8 ], "destroy_threshold": 40, "block_unaimed_chance": "25%" }
     }
@@ -171,7 +175,11 @@
       "str_max": 40,
       "sound": "splorch!",
       "sound_fail": "whump.",
-      "items": [ { "item": "resin_chunk", "count": [ 0, 2 ] }, { "item": "fetid_goop", "count": [ 0, 2 ] }, { "group": "migo_pod_samples", "prob": 50, "count": [ 1, 2 ] } ],
+      "items": [
+        { "item": "resin_chunk", "count": [ 0, 2 ] },
+        { "item": "fetid_goop", "count": [ 0, 2 ] },
+        { "group": "migo_pod_samples", "prob": 50, "count": [ 1, 2 ] }
+      ],
       "//": "Variable reduction since might hit more or less material.",
       "ranged": { "reduction": [ 4, 8 ], "destroy_threshold": 40, "block_unaimed_chance": "25%" }
     }
