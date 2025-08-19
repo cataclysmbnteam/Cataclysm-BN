@@ -444,7 +444,7 @@
     "skill_used": "survival",
     "time": "5 m",
     "autolearn": true,
-    "qualities": [ { "id": "SANDING", "level": 1 } ],
+    "reversible": true,
     "components": [
       [ [ "resin_chunk", 1 ] ],
       [
