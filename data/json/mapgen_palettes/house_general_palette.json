@@ -271,6 +271,30 @@
   },
   {
     "type": "palette",
+    "id": "parameterized_linoleum_color_kitchen",
+    "//1": "Intended to be used in conjunction with standard_domestic_palette.",
+    "//2": "Load the domestic palette first, then this one to add white or gray linoleum flooring under kitchen furniture.",
+    "parameters": {
+      "linoleum_color_kitchen": { "type": "ter_str_id", "default": { "distribution": [ [ "t_linoleum_white", 1 ], [ "t_linoleum_gray", 1 ] ] } }
+    },
+    "terrain": {
+      "O": { "param": "linoleum_color_kitchen", "fallback": "t_linoleum_white" },
+      "F": { "param": "linoleum_color_kitchen", "fallback": "t_linoleum_white" },
+      "m": { "param": "linoleum_color_kitchen", "fallback": "t_linoleum_white" },
+      "5": { "param": "linoleum_color_kitchen", "fallback": "t_linoleum_white" },
+      "n": { "param": "linoleum_color_kitchen", "fallback": "t_linoleum_white" },
+      "J": { "param": "linoleum_color_kitchen", "fallback": "t_linoleum_white" },
+      "1": { "param": "linoleum_color_kitchen", "fallback": "t_linoleum_white" },
+      "2": { "param": "linoleum_color_kitchen", "fallback": "t_linoleum_white" },
+      "3": { "param": "linoleum_color_kitchen", "fallback": "t_linoleum_white" },
+      "4": { "param": "linoleum_color_kitchen", "fallback": "t_linoleum_white" },
+      "6": { "param": "linoleum_color_kitchen", "fallback": "t_linoleum_white" },
+      "7": { "param": "linoleum_color_kitchen", "fallback": "t_linoleum_white" },
+      "˙": { "param": "linoleum_color_kitchen", "fallback": "t_linoleum_white" }
+    }
+  },
+  {
+    "type": "palette",
     "id": "parameterized_linoleum_color_bathroom",
     "//1": "Intended to be used in conjunction with standard_domestic_palette.",
     "//2": "Load the domestic palette first, then this one to add white or gray linoleum flooring under bathroom furniture.",
