@@ -2799,7 +2799,7 @@ void monster::die( Creature *nkiller )
             }
         }
     }
-    cata::run_hooks( "on_mon_death", [&,this]( auto & params ){ 
+    cata::run_hooks( "on_mon_death", [ &, this]( auto & params ) {
         params["mon"] = this;
         params["killer"] = get_killer();
     } );
