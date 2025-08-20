@@ -43,10 +43,7 @@
     "time": "30 m",
     "autolearn": true,
     "book_learn": [ [ "recipe_arrows", 3 ] ],
-    "qualities": [
-      { "id": "CUT", "level": 1 },
-      { "id": "SANDING", "level": 1 }
-    ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SANDING", "level": 1 } ],
     "components": [
       [ [ "adhesive", 1, "LIST" ], [ "filament", 20, "LIST" ] ],
       [ [ "steel_tiny", 1, "LIST" ], [ "scrap_bronze", 1 ] ],
@@ -66,10 +63,7 @@
     "time": "30 m",
     "autolearn": true,
     "book_learn": [ [ "recipe_arrows", 3 ] ],
-    "qualities": [
-      { "id": "CUT", "level": 1 },
-      { "id": "SANDING", "level": 1 }
-    ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SANDING", "level": 1 } ],
     "components": [
       [ [ "adhesive", 1, "LIST" ], [ "filament", 20, "LIST" ] ],
       [ [ "steel_tiny", 1, "LIST" ] ],
@@ -89,10 +83,7 @@
     "time": "30 m",
     "autolearn": true,
     "book_learn": [ [ "recipe_arrows", 3 ] ],
-    "qualities": [
-      { "id": "CUT", "level": 1 },
-      { "id": "SANDING", "level": 1 }
-    ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SANDING", "level": 1 } ],
     "components": [
       [ [ "adhesive", 1, "LIST" ], [ "filament", 20, "LIST" ] ],
       [ [ "steel_tiny", 1, "LIST" ] ],
@@ -240,10 +231,7 @@
     "time": "30 m",
     "autolearn": true,
     "book_learn": [ [ "recipe_arrows", 3 ] ],
-    "qualities": [
-      { "id": "CUT", "level": 1 },
-      { "id": "SANDING", "level": 1 }
-    ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SANDING", "level": 1 } ],
     "components": [
       [ [ "adhesive", 1, "LIST" ], [ "filament", 20, "LIST" ] ],
       [ [ "steel_tiny", 1, "LIST" ], [ "scrap_bronze", 1 ] ],
@@ -263,10 +251,7 @@
     "time": "30 m",
     "autolearn": true,
     "book_learn": [ [ "recipe_arrows", 3 ] ],
-    "qualities": [
-      { "id": "CUT", "level": 1 },
-      { "id": "SANDING", "level": 1 }
-    ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SANDING", "level": 1 } ],
     "components": [
       [ [ "adhesive", 1, "LIST" ], [ "filament", 20, "LIST" ] ],
       [ [ "steel_tiny", 1, "LIST" ] ],
@@ -286,10 +271,7 @@
     "time": "30 m",
     "autolearn": true,
     "book_learn": [ [ "recipe_arrows", 3 ] ],
-    "qualities": [
-      { "id": "CUT", "level": 1 },
-      { "id": "SANDING", "level": 1 }
-    ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SANDING", "level": 1 } ],
     "components": [
       [ [ "adhesive", 1, "LIST" ], [ "filament", 20, "LIST" ] ],
       [ [ "steel_tiny", 1, "LIST" ] ],

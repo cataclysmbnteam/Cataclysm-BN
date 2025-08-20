@@ -484,9 +484,7 @@
     "time": "1 h",
     "autolearn": true,
     "using": [ [ "glassblowing_easy", 15 ] ],
-    "tools": [
-      [ [ "tool_flat_press_large", 1, "LIST" ] ]
-    ],
+    "tools": [ [ [ "tool_flat_press_large", 1, "LIST" ] ] ],
     "components": [ [ [ "glass_shard", 18 ], [ "jar_glass", 9 ], [ "flask_glass", 18 ], [ "test_tube", 36 ] ] ]
   },
   {
@@ -1190,9 +1188,7 @@
     "time": "1 h",
     "autolearn": true,
     "using": [ [ "glassblowing_easy", 15 ] ],
-    "tools": [
-      [ [ "tool_flat_press_large", 1, "LIST" ] ]
-    ],
+    "tools": [ [ [ "tool_flat_press_large", 1, "LIST" ] ] ],
     "components": [ [ [ "glass_shard", 40 ], [ "flask_glass", 12 ], [ "jar_glass", 4 ] ] ]
   },
   {
@@ -1721,9 +1717,7 @@
     "batch_time_factors": [ 90, 2 ],
     "using": [ [ "glassblowing_easy", 12 ] ],
     "qualities": [ { "id": "CHEM", "level": 1 } ],
-    "tools": [
-      [ [ "tool_flat_press_large", 1, "LIST" ], [ "tool_flat_press_small", 1, "LIST" ] ]
-    ],
+    "tools": [ [ [ "tool_flat_press_large", 1, "LIST" ], [ "tool_flat_press_small", 1, "LIST" ] ] ],
     "components": [ [ [ "glass_shard", 2 ] ], [ [ "chem_sulphur", 1 ] ], [ [ "scrap", 1 ] ], [ [ "charcoal", 1 ] ] ]
   },
   {
