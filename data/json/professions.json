@@ -1773,8 +1773,6 @@
       "female": [ "bra", "panties" ]
     }
   },
-
-
   {
     "type": "profession",
     "id": "smuggler",
@@ -1817,7 +1815,6 @@
     },
     "flags": [ "SCEN_ONLY" ]
   },
-
   {
     "type": "profession",
     "id": "security",
@@ -4607,8 +4604,6 @@
       "female": [ "bikini_top_fur", "hot_pants_fur" ]
     }
   },
-
-
   {
     "type": "profession",
     "id": "castaway",
@@ -4635,16 +4630,12 @@
           "bottle_plastic",
           "needle_bone"
         ],
-        "entries": [
-          { "item": "primitive_axe", "custom-flags": [ "auto_wield" ] }
-        ]
+        "entries": [ { "item": "primitive_axe", "custom-flags": [ "auto_wield" ] } ]
       },
       "female": [ "chestwrap" ]
     },
     "flags": [ "SCEN_ONLY" ]
   },
-
-
   {
     "type": "profession",
     "id": "fisher",
@@ -4858,7 +4849,6 @@
       "female": [ "boy_shorts", "sports_bra" ]
     }
   },
-
   {
     "type": "profession",
     "id": "prof_pirate_captain",
@@ -4901,7 +4891,6 @@
     },
     "flags": [ "SCEN_ONLY" ]
   },
-
   {
     "type": "profession",
     "id": "drone_op",
