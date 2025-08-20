@@ -259,5 +259,18 @@
         [ "wood_sheet", -1 ]
       ]
     ]
+  },
+  {
+    "id": "glassblowing_easy",
+    "type": "requirement",
+    "//": "Forge, crucible, tongs, glassblowing pipe. Units of 5 because someone made test tubes craftable at 5 forge.",
+    "tools": [ [ [ "forge", 5 ], [ "oxy_torch", 5 ] ], [ [ "tongs", -1 ] ], [ [ "pipe", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ]
+  },
+  {
+    "id": "glassblowing_standard",
+    "type": "requirement",
+    "//": "Because apparently we need chiseling.",
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "forge", 5 ], [ "oxy_torch", 5 ] ], [ [ "tongs", -1 ] ], [ [ "pipe", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ]
   }
 ]
