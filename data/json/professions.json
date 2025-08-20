@@ -6109,15 +6109,20 @@
   {
     "type": "profession",
     "id": "prof_feral_mutant",
-    "copy-from": "prof_feral_mutant",
+    "copy-from": "prof_feral_unemployed",
     "name": "Feral Mutant",
-    "description": "Your dreamed of becoming a super-human mutant through genetic alteration.  So what if you're a freak of nature now?  ",
-    "traits": [ "PROF_FERAL", "PATCHSKIN1", "SABER_TEETH", "HOOVES", "LARGE", "THRESH_CHIMERA" ],
-    "//": "Contains a Powerwolf reference.  +2 points due to skills but balanced out by mixed bag of Chimera mutations.",
+    "//": "Contains a Powerwolf reference.  +2 points over volunteer mutant due to skills but balanced out by mixed bag of Chimera mutations.",
+    "description": "You dreamed of becoming a super-human mutant through genetic alteration.  Who cares if you're a freak of nature now?  All you need is flesh and blood.",
+    "traits": [ "PROF_FERAL", "PATCHSKIN1", "SABER_TEETH", "HORNS_CURLED", "LARGE", "THRESH_CHIMERA" ],
     "points": 3,
-    "skills": [ { "level": 2, "name": "cooking" }, { "level": 2, "name": "electronics" } ],
+    "skills": [
+      { "level": 2, "name": "cooking" },
+      { "level": 2, "name": "electronics" },
+      { "level": 2, "name": "melee" },
+      { "level": 2, "name": "unarmed" }
+    ],
     "items": {
-      "both": [ "dress_shirt", "pants", "socks", "boots", "knit_scarf", "coat_lab", "glasses_safety", "wristwatch" ],
+      "both": [ "dress_shirt", "pants", "socks", "boots", "coat_lab", "glasses_safety", "wristwatch" ],
       "male": [ "briefs" ],
       "female": [ "bra", "panties" ]
     }
