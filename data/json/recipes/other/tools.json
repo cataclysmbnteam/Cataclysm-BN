@@ -1102,9 +1102,7 @@
     "difficulty": 4,
     "time": "2 h 20 m",
     "autolearn": true,
-    "using": [ [ "forging_standard", 12 ], [ "steel_standard", 2 ] ],
-    "qualities": [ { "id": "ANVIL", "level": 1 }, { "id": "HAMMER", "level": 2 } ],
-    "tools": [ [ [ "tongs", -1 ] ] ],
+    "using": [ [ "blacksmithing_standard", 12 ], [ "steel_standard", 2 ] ],
     "components": [ [ [ "2x4", 1 ], [ "stick", 2 ], [ "splinter", 6 ] ] ]
   },
   {
@@ -1791,7 +1789,7 @@
     "difficulty": 4,
     "time": "30 m",
     "book_learn": [ [ "glassblowing_book", 3 ] ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 75 ] ] ],
+    "using": [ [ "glassblowing_easy", 15 ] ],
     "components": [ [ [ "glass_sheet", 1 ] ], [ [ "silver_small", 10 ] ] ]
   },
   {
@@ -1805,7 +1803,8 @@
     "time": "10 m",
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 2 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "polisher", 20 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 50 ] ] ],
+    "using": [ [ "glassblowing_easy", 10 ] ],
+    "tools": [ [ [ "polisher", 20 ] ] ],
     "components": [ [ [ "steel_chunk", 3 ] ] ]
   },
   {
@@ -1817,8 +1816,7 @@
     "difficulty": 4,
     "time": "1 h",
     "book_learn": [ [ "glassblowing_book", 6 ] ],
-    "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "pipe", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 25 ] ] ],
+    "using": [ [ "glassblowing_standard", 5 ] ],
     "components": [ [ [ "glass_shard", 3 ], [ "bottle_glass", 1 ], [ "flask_glass", 3 ], [ "test_tube", 6 ], [ "marble", 75 ] ] ]
   },
   {
@@ -2245,10 +2243,8 @@
     "difficulty": 4,
     "time": "90 m",
     "autolearn": true,
-    "using": [ [ "forging_standard", 4 ] ],
+    "using": [ [ "blacksmithing_advanced", 4 ] ],
     "book_learn": [ [ "textbook_tailor", 3 ], [ "manual_tailor", 3 ] ],
-    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ] ],
     "components": [ [ [ "scrap", 2 ] ] ]
   },
   {
