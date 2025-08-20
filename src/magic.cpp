@@ -363,7 +363,18 @@ void spell_type::load( const JsonObject &jo, const std::string & )
     std::vector<std::string> default_vector;
     optional(jo, was_loaded, "melee_dam", temp_vector, default_vector );
     for (auto d : temp_vector) {
-        melee_dam.push_back(damage_type_from_string(d));
+        // phys and ele provided for convenience when you want entire categories
+        std::array<damage_type, 3> phys = {DT_BASH, DT_CUT, DT_STAB}; // Ballistic not included because why would ballistic be on a melee anyway
+        std::array<damage_type, 8> ele = {DT_ACID, DT_HEAT, DT_COLD, DT_DARK, DT_PSI, DT_LIGHT, DT_BIOLOGICAL, DT_ELECTRIC}; // True not included
+        if (d == "physical") {
+            melee_dam.insert(melee_dam.end(), phys.begin(), phys.end());
+        }
+        else if (d == "elemental") {
+            melee_dam.insert(melee_dam.end(), ele.begin(), ele.end());
+        }
+        else {
+            melee_dam.push_back(damage_type_from_string(d));
+        }
     }
 
     for( const JsonMember member : jo.get_object( "learn_spells" ) ) {
