@@ -160,7 +160,10 @@
           { "id": "mon_zombie_miner_evolved_moleman", "fg": 138 },
           { "id": [ "overlay_female_mutation_PATCHSKIN1", "overlay_female_mutation_PATCHSKIN2" ], "fg": 139 },
           { "id": [ "overlay_male_mutation_PATCHSKIN1", "overlay_male_mutation_PATCHSKIN2" ], "fg": 140 },
-          { "id": [ "folding_skateboard", "frame_wood_deck", "overlay_wielded_folding_skateboard", "overlay_wielded_frame_wood_deck" ], "fg": 141 },
+          {
+            "id": [ "folding_skateboard", "frame_wood_deck", "overlay_wielded_folding_skateboard", "overlay_wielded_frame_wood_deck" ],
+            "fg": 141
+          },
           { "id": "vp_frame_wood_deck", "fg": 142, "rotates": true },
           { "id": "vp_wheel_skateboard", "fg": 143, "rotates": true },
           { "id": [ "sea_scooter", "overlay_wielded_sea_scooter" ], "fg": 144 },
