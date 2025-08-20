@@ -42,6 +42,13 @@
     "tools": [ [ [ "forge", 20 ], [ "oxy_torch", 20 ] ] ]
   },
   {
+    "id": "blacksmithing_easy",
+    "type": "requirement",
+    "//": "As easy as it can get, until we add wooden tongs.",
+    "qualities": [ { "id": "ANVIL", "level": 1 }, { "id": "HAMMER", "level": 2 } ],
+    "tools": [ [ [ "forge", 20 ], [ "oxy_torch", 20 ] ], [ [ "tongs", -1 ] ] ]
+  },
+  {
     "id": "blacksmithing_standard",
     "type": "requirement",
     "//": "Includes forging resources as well as tools needed for basic blacksmithing.  Permits working hot metal on stone surfaces.",

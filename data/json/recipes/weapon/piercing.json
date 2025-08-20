@@ -62,7 +62,7 @@
     "difficulty": 4,
     "time": "5 h",
     "autolearn": true,
-    "using": [ [ "blacksmithing_advanced", 4 ], [ "steel_standard", 1 ] ],
+    "using": [ [ "blacksmithing_easy", 4 ], [ "steel_standard", 1 ] ],
     "components": [ [ [ "fabric_hides_any", 1, "LIST" ] ] ]
   },
   {
@@ -251,7 +251,7 @@
     "difficulty": 3,
     "time": "1 h",
     "autolearn": true,
-    "using": [ [ "blacksmithing_intermediate", 1 ] ],
+    "using": [ [ "blacksmithing_easy", 1 ] ],
     "components": [ [ [ "javelin", 1 ] ], [ [ "scrap", 1 ] ] ]
   },
   {
@@ -668,7 +668,7 @@
     "skills_required": [ "melee", 5 ],
     "time": "5 m",
     "autolearn": true,
-    "using": [ [ "blacksmithing_advanced", 5 ] ],
+    "using": [ [ "blacksmithing_easy", 5 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
     "components": [ [ [ "blade", 1 ] ], [ [ "spike", 1 ] ], [ [ "pipe", 2 ] ], [ [ "duct_tape", 100 ] ] ]
   },

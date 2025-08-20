@@ -403,7 +403,7 @@
     "difficulty": 5,
     "time": "5 h",
     "autolearn": true,
-    "using": [ [ "blacksmithing_advanced", 12 ], [ "steel_standard", 3 ] ],
+    "using": [ [ "blacksmithing_easy", 12 ], [ "steel_standard", 3 ] ],
     "components": [ [ [ "2x4", 1 ], [ "stick", 2 ] ], [ [ "fabric_hides_any", 1, "LIST" ] ] ]
   },
   {
