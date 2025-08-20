@@ -755,13 +755,13 @@ int spell::energy_cost( const Character &guy ) const
         // Special overload of default behavior to instead use it as a multiplier ala Rapid Strike
         cost *= type->energy_increment; 
     } else if( type->base_energy_cost < type->final_energy_cost ) {
-        cost = std::min( type->final_energy_cost,
+        cost += std::min( type->final_energy_cost,
                          static_cast<int>( std::round( type->base_energy_cost + type->energy_increment * get_level() ) ) );
     } else if( type->base_energy_cost > type->final_energy_cost ) {
-        cost = std::max( type->final_energy_cost,
+        cost += std::max( type->final_energy_cost,
                          static_cast<int>( std::round( type->base_energy_cost + type->energy_increment * get_level() ) ) );
     } else {
-        cost = type->base_energy_cost;
+        cost += type->base_energy_cost;
     }
     if( !has_flag( spell_flag::NO_HANDS ) ) {
         // the first 10 points of combined encumbrance is ignored, but quickly adds up
