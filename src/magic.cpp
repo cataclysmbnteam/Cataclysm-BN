@@ -359,6 +359,13 @@ void spell_type::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "final_casting_time", final_casting_time, base_casting_time );
     optional( jo, was_loaded, "casting_time_increment", casting_time_increment, 0.0f );
 
+    std::vector<std::string> temp_vector;
+    std::vector<std::string> default_vector;
+    optional(jo, was_loaded, "melee_dam", temp_vector, default_vector );
+    for (auto d : temp_vector) {
+        melee_dam.push_back(damage_type_from_string(d));
+    }
+
     for( const JsonMember member : jo.get_object( "learn_spells" ) ) {
         learn_spells.insert( std::pair<std::string, int>( member.name(), member.get_int() ) );
     }
@@ -551,13 +558,23 @@ int spell::damage_as_character( const Character &guy ) const
 {
     // Open-ended for the purposes of further expansion
     double total_damage = damage();
-    if( has_flag( spell_flag::ADD_MELEE_DAM ) ) {
+    if( !type->melee_dam.empty() || has_flag( spell_flag::ADD_MELEE_DAM ) ) {
+
         item &weapon = guy.used_weapon();
         int weapon_damage = 0;
         if( !weapon.is_null() ) {
-            // Just take the max, rather than worrying about how to integrate the other damage types
-            // Also assumes that weapons aren't dealing other damage types
-            weapon_damage = std::max( {weapon.damage_melee( DT_STAB ), weapon.damage_melee( DT_CUT ), weapon.damage_melee( DT_BASH )} );
+            if (has_flag(spell_flag::ADD_MELEE_DAM)) {
+                // Legacy code, to be likely removed or reworked later
+                // Just take the max, rather than worrying about how to integrate the other damage types
+                // Also assumes that weapons aren't dealing other damage types (Which is no-longer a good assumption)
+                weapon_damage = std::max( {weapon.damage_melee( DT_STAB ), weapon.damage_melee( DT_CUT ), weapon.damage_melee( DT_BASH )} );
+            } else {
+                // Add up the relevant damage types present
+                // Allows for proper customization of damage types taken
+                for (auto d : type->melee_dam) {
+                    weapon_damage += weapon.damage_melee(d);
+                }
+            }
         }
         total_damage += weapon_damage;
     }
@@ -1835,6 +1852,11 @@ static std::string enumerate_spell_data( const spell &sp )
     }
     if( sp.has_flag( spell_flag::ADD_MELEE_DAM ) ) {
         spell_data.emplace_back( _( "can be augmented by melee weapon damage" ) );
+    }
+    if (!sp.type->melee_dam.empty()) {
+        for (auto d : sp.type->melee_dam) {
+            spell_data.emplace_back(string_format(_("can be augmented by %s damage from your melee weapon"), name_by_dt(d)));
+        }
     }
     if( sp.type->scale_str ) {
         spell_data.emplace_back( _( "scales off of strength stat" ) );

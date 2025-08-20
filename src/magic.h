@@ -59,7 +59,7 @@ enum spell_flag {
     NO_FAIL, // this spell cannot fail when you cast it
     BRAWL, // this spell can be used by brawlers
     DUPE_SOUND, // this spell will play 'duplicate' sounds, if relevant to the spell effect
-    ADD_MELEE_DAM, // Add melee damage to the spell's damage
+    ADD_MELEE_DAM, // Add melee damage to the spell's damage. Legacy method, "melee_dam" vector is preferred instead
     PHYSICAL, // IMPLIES BRAWL. This spell is actually a Physical Technique / Weapon Arte / similar, and is sort-of a replacement of martial arts.
     LAST
 };
@@ -293,6 +293,9 @@ class spell_type
         energy_type energy_source = energy_type::none_energy;
 
         damage_type dmg_type = damage_type::DT_NULL;
+
+        // Melee damage types that the 'spell' uses
+        std::vector<damage_type> melee_dam;
 
         // list of valid targets to be affected by the area of effect.
         enum_bitset<valid_target> effect_targets;
