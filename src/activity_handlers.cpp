@@ -4518,6 +4518,11 @@ void activity_handlers::spellcasting_finish( player_activity *act, player *p )
 
 void activity_handlers::study_spell_do_turn( player_activity *act, player *p )
 {
+     // moves_left decreases by player speed each turn and thus is a pain to work with
+    // But we want a persistent value
+    if( act->values.size() < 4 ) {
+        act->values.push_back( 0 );
+    }
     if( !character_funcs::can_see_fine_details( *p ) ) {
         act->values[2] = -1;
         act->moves_left = 0;
@@ -4530,6 +4535,19 @@ void activity_handlers::study_spell_do_turn( player_activity *act, player *p )
 
         act->values[0] += xp;
         studying.gain_exp( xp );
+
+        // This should trigger infrequently
+        if( act->values[3] % 600 == 599 ) {
+            // if we are at the first run through, we need to set spot 3 as 0.
+            if( act->values.size() < 5 ) {
+                act->values.push_back( 0 );
+            }
+            p->add_msg_if_player( m_good, _( "You gained %i experience in %s" ),
+                                  act->values[0] - act->values[4], studying.name() );
+            // This way we only display the difference
+            act->values[4] = act->values[0];
+        }
+
         // Every time we use get_level the level is recalculated, this is suboptimal, so we remember it here.
         const int new_level = studying.get_level();
 
@@ -4543,6 +4561,8 @@ void activity_handlers::study_spell_do_turn( player_activity *act, player *p )
             act->moves_left = 1000000;
         }
     }
+        // increment
+    act->values[3] += 1;
 }
 
 void activity_handlers::study_spell_finish( player_activity *act, player *p )

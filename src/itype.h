@@ -466,7 +466,7 @@ struct common_ranged_data {
     * Supersonic projectiles can not be fully suppressed.
     * This is placed here so that guns and gunmods can effect projectile speed.
     */
-    int speed = 10;
+    int speed = 1000;
 };
 
 struct islot_engine {
@@ -711,7 +711,7 @@ struct islot_ammo : common_ranged_data {
      * Control chance for and state of any items dropped at ranged target
      *@{*/
     itype_id drop = itype_id::NULL_ID();
-
+    int drop_count = -1;
     bool drop_active = true;
     /*@}*/
 

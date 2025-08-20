@@ -30,6 +30,8 @@
 #include "enum_int_operators.h"
 #include "enums.h"
 #include "flat_set.h"
+#include "mutation.h"
+#include "bionics.h"
 #include "game_constants.h"
 #include "inventory.h"
 #include "item.h"
@@ -660,6 +662,9 @@ class Character : public Creature, public location_visitable<Character>
                                  bool crit, bool dodge_counter, bool block_counter );
         void perform_technique( const ma_technique &technique, Creature &t, damage_instance &di,
                                 int &move_cost );
+
+        /** Broken out of below function for the purpose of using it in other places, namely item info displays */
+        int get_melee_stamina_cost( const item &weapon );
         /**
          * Sets up a melee attack and handles melee attack function calls
          * @param t Creature to attack
@@ -938,6 +943,8 @@ class Character : public Creature, public location_visitable<Character>
         int mabuff_speed_bonus() const;
         /** Returns the arpen bonus from martial arts buffs*/
         int mabuff_arpen_bonus( damage_type type ) const;
+        /** Returns the target armor multiplier from martial arts buffs */
+        float mabuff_tg_armor_mult( damage_type type ) const;
         /** Returns the damage multiplier to given type from martial arts buffs */
         float mabuff_damage_mult( damage_type type ) const;
         /** Returns the flat damage bonus to given type from martial arts buffs, applied after the multiplier */
@@ -1870,7 +1877,6 @@ class Character : public Creature, public location_visitable<Character>
         */
         int get_char_hearing_protection( bool advanced = false ) const;
 
-
         int get_stim() const;
         void set_stim( int new_stim );
         void mod_stim( int mod );
@@ -2611,8 +2617,4 @@ nc_color bodytemp_color( const Character &c, const bodypart_str_id &bp );
 
 /** Returns true if the player has a psyshield artifact, or sometimes if wearing tinfoil */
 bool has_psy_protection( const Character &c, int partial_chance );
-
-/** Returns value of speedydex bonus if enabled */
-int get_speedydex_bonus( const int dex );
-
 

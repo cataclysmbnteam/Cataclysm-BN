@@ -79,6 +79,7 @@
 #include "field.h"
 #include "field_type.h"
 #include "filesystem.h"
+#include "flag_trait.h"
 #include "flag.h"
 #include "fstream_utils.h"
 #include "game_constants.h"
@@ -240,6 +241,7 @@ static const efftype_id effect_riding( "riding" );
 static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_stunned( "stunned" );
 static const efftype_id effect_tied( "tied" );
+static const efftype_id dashing_effect( "dashing" );
 
 static const bionic_id bio_remote( "bio_remote" );
 static const bionic_id bio_probability_travel( "bio_probability_travel" );
@@ -265,6 +267,9 @@ static const trait_id trait_VINES3( "VINES3" );
 static const trait_id trait_THICKSKIN( "THICKSKIN" );
 static const trait_id trait_WEB_ROPE( "WEB_ROPE" );
 static const trait_id trait_WAYFARER( "WAYFARER" );
+
+static const trait_flag_str_id trait_flag_MUTATION_FLIGHT( "MUTATION_FLIGHT" );
+static const trait_flag_str_id trait_flag_TAIL_FIN( "TAIL_FIN" );
 
 static const trap_str_id tr_unfinished_construction( "tr_unfinished_construction" );
 
@@ -546,6 +551,60 @@ void game::load_map( const tripoint_abs_sm &pos_sm,
 {
     m.load( pos_sm, true, pump_events );
     grid_tracker_ptr->load( m );
+}
+
+std::optional<tripoint> game::find_local_stairs_leading_to( map &mp, const int z_after )
+{
+    const int movez = z_after - get_levz();
+    const bool going_down = movez == -1;
+    const bool going_up = movez == 1;
+
+    //i tried 40, 80, and 100 here and got the same result almost every time? works for our purposes though
+    for( const tripoint &candidate : closest_points_first( u.pos(), 80 ) ) {
+        if( ( going_up && ( mp.has_flag( TFLAG_GOES_UP, candidate ) ||
+                            mp.has_flag( TFLAG_ELEVATOR, candidate ) ) ) ||
+            ( going_down && ( mp.has_flag( TFLAG_GOES_DOWN, candidate ) ||
+                              mp.has_flag( TFLAG_ELEVATOR, candidate ) ) ) ) {
+            return candidate;
+        }
+    }
+
+    return std::nullopt;
+}
+
+void game::suggest_auto_walk_to_stairs( Character &u, map &m, const std::string &direction )
+{
+    const bool can_autowalk_stairs = get_option<bool>( "SUGGEST_AUTOWALK_STAIRCASE" );
+
+    if( !can_autowalk_stairs ) {
+        return;
+    }
+
+    const int z_after = direction == "up" ? u.posz() + 1 : u.posz() - 1;
+    std::optional<tripoint> stair_pos = find_local_stairs_leading_to( m, z_after );
+
+    if( !stair_pos || !u.sees( *stair_pos ) ) {
+        return;
+    }
+
+    auto route = m.route( u.pos(), *stair_pos, u.get_legacy_pathfinding_settings(),
+                          u.get_legacy_path_avoid() );
+    if( route.size() <= 1 ) {
+        return;
+    }
+
+    // Detect if it's an elevator
+    bool is_elevator = m.has_flag( TFLAG_ELEVATOR, *stair_pos );
+    // Choose message depending on type
+    std::string dir_text;
+    if( !is_elevator ) {
+        dir_text = direction == "up" ? " (up)" : " (down)";
+    }
+    if( query_yn( "Walk to %s%s?", m.ter( *stair_pos ).obj().name(), dir_text ) ) {
+        route.pop_back();
+        u.set_destination( route, u.remove_activity() );
+        u.activity = std::make_unique<player_activity>();
+    }
 }
 
 // Set up all default values for a new game
@@ -6983,7 +7042,7 @@ std::vector<map_item_stack> game::find_nearby_items( int iRadius )
     std::vector<map_item_stack> ret;
     std::vector<std::string> item_order;
 
-    if( u.is_blind() ) {
+    if( u.is_blind() && u.clairvoyance() < 1 ) {
         return ret;
     }
 
@@ -8199,7 +8258,7 @@ static void add_salvagables( uilist &menu,
             const item &it = *stack.first;
 
             //~ Name and number of items listed for cutting up
-            const auto &msg = string_format( pgettext( "butchery menu", "Cut up %s (%d)" ),
+            const auto &msg = string_format( pgettext( "butchery menu", "Salvage %s (%d)" ),
                                              it.tname(), stack.second );
             menu.addentry_col( menu_index++, true, hotkey, msg,
                                to_string_clipped( time_duration::from_turns( salvage::moves_to_salvage( it ) / 100 ) ) );
@@ -8568,7 +8627,7 @@ void game::butcher()
                 time_to_salvage += salvage::moves_to_salvage( *stack.first ) * stack.second;
             }
 
-            kmenu.addentry_col( MULTISALVAGE, true, 'z', _( "Cut up everything" ),
+            kmenu.addentry_col( MULTISALVAGE, true, 'z', _( "Salvage everything" ),
                                 to_string_clipped( time_duration::from_turns( time_to_salvage / 100 ) ) );
         }
 
@@ -8732,7 +8791,7 @@ bool game::prompt_dangerous_tile( const tripoint &dest_loc ) const
     static const iexamine_function ledge_examine = iexamine_function_from_string( "ledge" );
     std::vector<std::string> harmful_stuff = get_dangerous_tile( dest_loc );
 
-    if( harmful_stuff.empty() ) {
+    if( harmful_stuff.empty() || u.has_effect( dashing_effect ) ) {
         return true;
     }
 
@@ -8741,6 +8800,9 @@ bool game::prompt_dangerous_tile( const tripoint &dest_loc ) const
     }
 
     if( !u.is_mounted() ) {
+        if( character_funcs::can_fly( get_avatar() ) ) {
+            return true;
+        }
         ledge_examine( u, dest_loc );
         return false;
     }
@@ -8761,15 +8823,17 @@ std::vector<std::string> game::get_dangerous_tile( const tripoint &dest_loc ) co
         }
     }
 
-    if( !u.is_blind() ) {
         const trap &tr = m.tr_at( dest_loc );
+    if( !u.is_blind() || u.clairvoyance() < 1 || tr.can_see( dest_loc, u ) ) {
         const bool boardable = static_cast<bool>( m.veh_at( dest_loc ).part_with_feature( "BOARDABLE",
                                true ) );
         // HACK: Hack for now, later ledge should stop being a trap
         // Note: in non-z-level mode, ledges obey different rules and so should be handled as regular traps
         if( tr.loadid == tr_ledge && m.has_zlevels() ) {
+            if( !character_funcs::can_fly( get_avatar() ) ) {
             if( !boardable ) {
                 harmful_stuff.emplace_back( tr.name() );
+                }
             }
         } else if( tr.can_see( dest_loc, u ) && !tr.is_benign() && !boardable ) {
             harmful_stuff.emplace_back( tr.name() );
@@ -8876,7 +8940,8 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp )
         u.grab( OBJECT_NONE );
     }
 
-    if( m.impassable( dest_loc ) && !pushing && !shifting_furniture ) {
+    if( ( m.impassable( dest_loc ) && !character_funcs::can_noclip( u ) ) && !pushing &&
+        !shifting_furniture ) {
         if( vp_there && u.mounted_creature && u.mounted_creature->has_flag( MF_RIDEABLE_MECH ) &&
             vp_there->vehicle().handle_potential_theft( u ) ) {
             tripoint diff = dest_loc - u.pos();
@@ -8946,11 +9011,15 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp )
 
     const int mcost = m.combined_movecost( u.pos(), dest_loc, grabbed_vehicle, modifier,
                                            via_ramp ) * multiplier;
+    // only do this check if we can't noclip
+    if( !character_funcs::can_noclip( u ) ) {
     if( grabbed_move( dest_loc - u.pos() ) ) {
         return true;
     } else if( mcost == 0 ) {
         return false;
     }
+    }
+
     bool diag = trigdist && u.posx() != dest_loc.x && u.posy() != dest_loc.y;
     const int previous_moves = u.moves;
     if( u.is_mounted() ) {
@@ -8990,6 +9059,17 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp )
         */
         if( grabbed_vehicle == nullptr || grabbed_vehicle->wheelcache.empty() ) {
             //Burn normal amount of stamina if no vehicle grabbed or vehicle lacks wheels
+            if( character_funcs::can_fly( get_avatar() ) &&
+                get_map().ter( u.pos() ).id().str() == "t_open_air" ) {
+                // add flying flavor text here
+                for( const trait_id &tid : u.get_mutations() ) {
+                    const mutation_branch &mdata = tid.obj();
+                    if( mdata.flags.contains( trait_flag_MUTATION_FLIGHT ) ) {
+                        u.mutation_spend_resources( tid );
+                    }
+                }
+
+            }
             u.burn_move_stamina( previous_moves - u.moves );
         } else {
             //Burn half as much stamina if vehicle has wheels, without changing move time
@@ -9106,7 +9186,7 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp )
     }
 
     if( dest_loc != u.pos() ) {
-        cata_event_dispatch::avatar_moves( u, m, dest_loc );
+        //cata_event_dispatch::avatar_moves( u, m, dest_loc );
     }
 
     tripoint oldpos = u.pos();
@@ -10053,13 +10133,20 @@ void game::vertical_move( int movez, bool force, bool peeking )
 
     // Force means we're going down, even if there's no staircase, etc.
     bool climbing = false;
+    const bool can_fly = character_funcs::can_fly( get_avatar() );
+    const bool can_noclip = character_funcs::can_noclip( get_avatar() );
     int move_cost = 100;
     tripoint stairs( u.posx(), u.posy(), u.posz() + movez );
     if( m.has_zlevels() && !force && movez == 1 && !m.has_flag( "GOES_UP", u.pos() ) &&
-        !u.is_underwater() ) {
+        !u.is_underwater() && !can_fly ) {
+
         // Climbing
         if( m.has_floor_or_support( stairs ) ) {
             add_msg( m_info, _( "You can't climb here - there's a ceiling above your head." ) );
+            // Don't prompt the player if they're already standing on stairs, they might've just hit the wrong key
+            if( !m.has_flag( "GOES_DOWN", u.pos() ) ) {
+                suggest_auto_walk_to_stairs( u, m, "up" );
+            }
             return;
         }
 
@@ -10070,7 +10157,6 @@ void game::vertical_move( int movez, bool force, bool peeking )
                 pts.push_back( pt );
             }
         }
-
 
         const auto cost = map_funcs::climbing_cost( m, u.pos(), stairs );
 
@@ -10096,7 +10182,9 @@ void game::vertical_move( int movez, bool force, bool peeking )
 
             } else {
                 add_msg( m_info, _( "You can't climb here - you need walls and/or furniture to brace against." ) );
-
+                if( !m.has_flag( "GOES_DOWN", u.pos() ) ) {
+                    suggest_auto_walk_to_stairs( u, m, "up" );
+                }
             }
             return;
 
@@ -10105,6 +10193,9 @@ void game::vertical_move( int movez, bool force, bool peeking )
         if( pts.empty() ) {
             add_msg( m_info,
                      _( "You can't climb here - there is no terrain above you that would support your weight." ) );
+            if( !m.has_flag( "GOES_DOWN", u.pos() ) ) {
+                suggest_auto_walk_to_stairs( u, m, "up" );
+            }
             return;
         } else {
             // TODO: Make it an extended action
@@ -10119,14 +10210,69 @@ void game::vertical_move( int movez, bool force, bool peeking )
         }
     }
 
-    if( !force && movez == -1 && !m.has_flag( "GOES_DOWN", u.pos() ) &&
+    if( !climbing && !force && movez == 1 && !m.has_flag( "GOES_UP", u.pos() ) &&
         !u.is_underwater() ) {
-        add_msg( m_info, _( "You can't go down here!" ) );
+
+        const tripoint dest = u.pos() + tripoint_above;
+        const ter_id dest_terrain = m.ter( dest );
+        const bool dest_is_air = dest_terrain == t_open_air;
+
+        const auto &mutations = get_avatar().get_mutations();
+
+        if( !can_fly ) {
+            add_msg( m_info, _( "You can't go up here!" ) );
         return;
-    } else if( !climbing && !force && movez == 1 && !m.has_flag( "GOES_UP", u.pos() ) &&
+        }
+
+        if( m.impassable( dest ) || !dest_is_air ) {
+            if( !can_noclip ) {
+                for( const trait_id &tid : mutations ) {
+                    const auto &mdata = tid.obj();
+                    if( mdata.flags.contains( trait_flag_MUTATION_FLIGHT ) ) {
+                        get_avatar().mutation_spend_resources( tid );
+                    }
+                }
+                add_msg( m_info, _( "There is something above blocking your way." ) );
+                return;
+            }
+        }
+
+        // dest is air and no noclip: spend resources
+        if( dest_is_air && !can_noclip ) {
+            for( const trait_id &tid : mutations ) {
+                const auto &mdata = tid.obj();
+                if( mdata.flags.contains( trait_flag_MUTATION_FLIGHT ) ) {
+                    get_avatar().mutation_spend_resources( tid );
+                }
+            }
+            // add flying flavor text here
+        }
+
+    } else if( !force && movez == -1 && !m.has_flag( "GOES_DOWN", u.pos() ) &&
                !u.is_underwater() ) {
-        add_msg( m_info, _( "You can't go up here!" ) );
+
+        const tripoint dest = u.pos() + tripoint_below;
+
+        // Check if player is standing on open air
+        const ter_id here_terrain = m.ter( u.pos() );
+        const bool standing_on_air = here_terrain == t_open_air;
+
+        if( !can_fly ) {
+            add_msg( m_info, _( "You can't go down here!" ) );
+            if( !m.has_flag( "GOES_UP", u.pos() ) ) {
+                suggest_auto_walk_to_stairs( u, m, "down" );
+            }
         return;
+        }
+
+        if( ( m.impassable( dest ) || !standing_on_air ) && !can_noclip ) {
+            add_msg( m_info, _( "You can't go down here!" ) );
+            if( !m.has_flag( "GOES_UP", u.pos() ) ) {
+                suggest_auto_walk_to_stairs( u, m, "down" );
+            }
+            return;
+        }
+
     }
 
     if( force ) {
@@ -10245,7 +10391,8 @@ void game::vertical_move( int movez, bool force, bool peeking )
             else if( movez == 1 ) {
                 // ... and we're already submerged
                 if( u.is_underwater() ) {
-                    if( u.swim_speed() < 500 || u.shoe_type_count( itype_swim_fins ) ) {
+                    if( u.swim_speed() < 500 || u.shoe_type_count( itype_swim_fins ) ||
+                        u.has_trait_flag( trait_flag_TAIL_FIN ) ) {
                         u.set_underwater( false );
                         add_msg( _( "You surface." ) );
                         surfacing = true;
@@ -10278,8 +10425,14 @@ void game::vertical_move( int movez, bool force, bool peeking )
             }
             // ...and we're trying to move up
             else if( movez == 1 ) {
-                // ...and there's more water above us us.
-                if( target_ter->has_flag( TFLAG_WATER_CUBE ) ||
+                const std::optional<vpart_reference> vp = get_map().veh_at( u.pos() + tripoint( 0, 0,
+                        movez ) ).part_with_feature( VPFLAG_BOARDABLE,
+                                                     true );
+                if( vp ) {
+                    add_msg( m_info, _( "You can't board a boat from underneath it!" ) );
+                    return;
+                    // ...and there's more water above us, but no boats blocking the way.
+                } else if( target_ter->has_flag( TFLAG_WATER_CUBE ) ||
                     target_ter->has_flag( TFLAG_DEEP_WATER ) ) {
                     // Then go ahead and move up.
                     add_msg( _( "You swim up." ) );
@@ -10294,7 +10447,9 @@ void game::vertical_move( int movez, bool force, bool peeking )
     // Find the corresponding staircase
     bool rope_ladder = false;
     // TODO: Remove the stairfinding, make the mapgen gen aligned maps
-    if( !force && !climbing && !swimming ) {
+    const bool special_move = climbing || swimming || can_fly;
+
+    if( !force && !special_move ) {
         const std::optional<tripoint> pnt = find_or_make_stairs( maybetmp, z_after, rope_ladder, peeking );
         if( !pnt ) {
             return;
@@ -10560,9 +10715,20 @@ void game::start_hauling( const tripoint &pos )
                        ) ) );
 }
 
-std::optional<tripoint> game::find_or_make_stairs( map &mp, const int z_after, bool &rope_ladder,
-        bool peeking )
+std::optional<tripoint> game::find_stairs( map &mp, const int z_after, bool peeking )
 {
+    const int movez = z_after - get_levz();
+    const bool going_down_1 = movez == -1;
+    const bool going_up_1 = movez == 1;
+    // If there are stairs on the same x and y as we currently are, use those
+    if( going_down_1 && mp.has_flag( TFLAG_GOES_UP, u.pos() + tripoint_below ) ) {
+        return u.pos() + tripoint_below;
+    }
+    if( going_up_1 && mp.has_flag( TFLAG_GOES_DOWN, u.pos() + tripoint_above ) &&
+        !mp.has_flag( TFLAG_DEEP_WATER, u.pos() + tripoint_below ) ) {
+        return u.pos() + tripoint_above;
+    }
+    // We did not find stairs directly above or below, so search the map for them
     const int omtilesz = SEEX * 2;
     real_coords rc( m.getabs( point( u.posx(), u.posy() ) ) );
     tripoint omtile_align_start( m.getlocal( rc.begin_om_pos() ), z_after );
@@ -10571,18 +10737,6 @@ std::optional<tripoint> game::find_or_make_stairs( map &mp, const int z_after, b
     // Try to find the stairs.
     std::optional<tripoint> stairs;
     int best = INT_MAX;
-    const int movez = z_after - get_levz();
-    const bool going_down_1 = movez == -1;
-    const bool going_up_1 = movez == 1;
-    // If there are stairs on the same x and y as we currently are, use those
-    if( going_down_1 && mp.has_flag( TFLAG_GOES_UP, u.pos() + tripoint_below ) ) {
-        stairs.emplace( u.pos() + tripoint_below );
-    }
-    if( going_up_1 && mp.has_flag( TFLAG_GOES_DOWN, u.pos() + tripoint_above ) &&
-        !mp.has_flag( TFLAG_DEEP_WATER, u.pos() + tripoint_below ) ) {
-        stairs.emplace( u.pos() + tripoint_above );
-    }
-    // We did not find stairs directly above or below, so search the map for them
     if( !stairs.has_value() ) {
         for( const tripoint &dest : m.points_in_rectangle( omtile_align_start, omtile_align_end ) ) {
             if( rl_dist( u.pos(), dest ) <= best &&
@@ -10620,6 +10774,20 @@ std::optional<tripoint> game::find_or_make_stairs( map &mp, const int z_after, b
                 return std::nullopt;
             }
         }
+    }
+
+    return stairs;
+}
+std::optional<tripoint> game::find_or_make_stairs( map &mp, const int z_after, bool &rope_ladder,
+        bool peeking )
+{
+    const int movez = z_after - u.pos().z;
+
+    // Try to find the stairs.
+    std::optional<tripoint> stairs = find_stairs( mp, z_after, peeking );
+    // Check the destination area for lava.
+    if( stairs.has_value() ) {
+        // Defensive: should never happen, but bail out safely
         return stairs;
     }
 
@@ -10627,7 +10795,7 @@ std::optional<tripoint> game::find_or_make_stairs( map &mp, const int z_after, b
     rope_ladder = false;
     stairs.emplace( u.pos() );
     stairs->z = z_after;
-    // Check the destination area for lava.
+
     if( mp.ter( *stairs ) == t_lava ) {
         if( movez < 0 &&
             !query_yn(
@@ -10642,13 +10810,15 @@ std::optional<tripoint> game::find_or_make_stairs( map &mp, const int z_after, b
         return stairs;
     }
 
+    const bool can_fly = character_funcs::can_fly( get_avatar() );
+
     if( movez > 0 ) {
         if( mp.has_flag( "DEEP_WATER", *stairs ) ) {
             if( !query_yn(
                     _( "There is a huge blob of water!  You may be unable to return back down these stairs.  Continue up?" ) ) ) {
                 return std::nullopt;
             }
-        } else if( !mp.has_flag( "GOES_DOWN", *stairs ) ) {
+        } else if( !mp.has_flag( "GOES_DOWN", *stairs ) && !can_fly ) {
             if( !query_yn( _( "You may be unable to return back down these stairs.  Continue up?" ) ) ) {
                 return std::nullopt;
             }
@@ -10710,8 +10880,10 @@ std::optional<tripoint> game::find_or_make_stairs( map &mp, const int z_after, b
         } else {
             return std::nullopt;
         }
-    } else if( !query_yn( _( "There is a sheer drop halfway down.  Jump?" ) ) ) {
+    } else if( !can_fly ) {
+        if( query_yn( _( "There is a sheer drop halfway down.  Jump?" ) ) ) {
         return std::nullopt;
+        }
     }
 
     return stairs;

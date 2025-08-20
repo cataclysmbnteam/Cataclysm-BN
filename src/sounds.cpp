@@ -686,9 +686,11 @@ static int sound_distance( const tripoint &source, const tripoint &sink )
     const int vertical_displacement = upper_z - lower_z;
     int vertical_attenuation = vertical_displacement;
     if( lower_z < 0 && vertical_displacement > 0 ) {
-        // If the sound is coming from underground, apply a large additional attenuation (100x) per level.
+        // Apply a moderate bonus attenuation (5x) for the first level of vertical displacement.
+        vertical_attenuation += 4;
+        // At displacements greater than one, apply a large additional attenuation (100x) per level.
         const int underground_displacement = std::min( -lower_z, vertical_displacement );
-        vertical_attenuation += underground_displacement  * 100;
+        vertical_attenuation += ( underground_displacement - 1 ) * 20;
     }
     // Regardless of underground effects, scale the vertical distance by 5x.
     vertical_attenuation *= 5;

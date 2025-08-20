@@ -56,6 +56,7 @@
 #include "npc_class.h"
 #include "npctalk.h"
 #include "npctrade.h"
+#include "options.h"
 #include "output.h"
 #include "pimpl.h"
 #include "player.h"
@@ -1796,6 +1797,15 @@ void parse_tags( std::string &phrase, const Character &u, const Character &me,
             item *tmp = item::spawn_temporary( item_type );
             tmp->charges = u.charges_of( item_type );
             phrase.replace( fa, l, format_money( tmp->price( true ) ) );
+        } else if( tag == "<interval>" ) {
+            npc *guy = const_cast<npc *>( me.as_npc() ); // remove const-ness from pointer
+            time_duration const restock_remaining = guy->restock - calendar::turn;
+            // reset if the restock rate is higher than the possible max, or null (setting has changed or not oponed shop yet)
+            if( restock_remaining < -1_seconds ||
+                restock_remaining > 3_days * get_option<float>( "RESTOCK_DELAY_MULT" ) ) {
+                guy->restock = calendar::turn + 3_days * get_option<float>( "RESTOCK_DELAY_MULT" );
+            }
+            phrase.replace( fa, l, guy->get_restock_interval() );
         } else if( !tag.empty() ) {
             debugmsg( "Bad tag.  '%s' (%d - %d)", tag.c_str(), fa, fb );
             phrase.replace( fa, fb - fa + 1, "????" );

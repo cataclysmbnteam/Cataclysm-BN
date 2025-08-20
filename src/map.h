@@ -1300,8 +1300,6 @@ class map
         */
         float item_category_spawn_rate( const item &itm );
 
-
-
         /**
          * Place an item on the map, despite the parameter name, this is not necessarily a new item.
          * WARNING: does -not- check volume or stack charges. player functions (drop etc) should use
@@ -1396,12 +1394,6 @@ class map
         */
         std::vector<item *> put_items_from_loc( const item_group_id &loc, const tripoint &p,
                                                 const time_point &turn = calendar::start_of_cataclysm );
-
-        std::vector<item *> put_filtered_items_from_loc(
-            const item_group_id &loc,
-            const tripoint &p,
-            const time_point &turn,
-            const item_category_id &filter_cat );
 
         // Similar to spawn_an_item, but spawns a list of items, or nothing if the list is empty.
         std::vector<detached_ptr<item>> spawn_items( const tripoint &p,
@@ -1848,7 +1840,6 @@ class map
         bool build_vision_transparency_cache( const Character &player );
         // fills lm with sunlight. pzlev is current player's zlevel
         void build_sunlight_cache( int pzlev );
-
     public:
         void build_outside_cache( int zlev );
         // Builds a floor cache and returns true if the cache was invalidated.
@@ -2054,8 +2045,6 @@ class map
          */
         std::array< std::unique_ptr<level_cache>, OVERMAP_LAYERS > caches;
 
-
-
         mutable std::array< std::unique_ptr<pathfinding_cache>, OVERMAP_LAYERS > pathfinding_caches;
         /**
          * Set of submaps that contain active items in absolute coordinates.
@@ -2077,10 +2066,6 @@ class map
         level_cache &get_cache( int zlev ) const {
             return *caches[zlev + OVERMAP_DEPTH];
         }
-
-        /*sound_cache& get_sound_caches() {
-            return *sound_caches;
-        }*/
 
         pathfinding_cache &get_pathfinding_cache( int zlev ) const;
 

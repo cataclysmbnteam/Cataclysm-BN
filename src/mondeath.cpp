@@ -587,23 +587,24 @@ void mdeath::explode( monster &z )
 {
     int size = 0;
     switch( z.type->size ) {
+        // Roughly 10 damage per size category
         case creature_size::tiny:
-            size = 4;
+            size = 75;
             break;
         case creature_size::small:
-            size = 8;
+            size = 150;
             break;
         case creature_size::medium:
-            size = 14;
+            size = 225;
             break;
         case creature_size::large:
-            size = 20;
+            size = 300;
             break;
         case creature_size::huge:
-            size = 26;
+            size = 375;
             break;
         default:
-            size = 15;
+            size = 150;
             break;
     }
     explosion_handler::explosion( z.pos(), &z, size );
@@ -646,7 +647,8 @@ void mdeath::focused_beam( monster &z )
 
     z.clear_items();
 
-    explosion_handler::explosion( z.pos(), &z, 8 );
+    // Roughly 20 damage
+    explosion_handler::explosion( z.pos(), &z, 150 );
     explosion_handler::get_explosion_queue().execute();
 }
 
