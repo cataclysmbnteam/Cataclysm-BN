@@ -271,6 +271,24 @@
   },
   {
     "type": "palette",
+    "id": "parameterized_linoleum_color_bathroom",
+    "//1": "Intended to be used in conjunction with standard_domestic_palette.",
+    "//2": "Load the domestic palette first, then this one to add white or gray linoleum flooring under bathroom furniture.",
+    "parameters": {
+      "linoleum_color_bathroom": { "type": "ter_str_id", "default": { "distribution": [ [ "t_linoleum_white", 1 ], [ "t_linoleum_gray", 1 ] ] } }
+    },
+    "terrain": {
+      "B": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_white" },
+      "9": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_white" },
+      "t": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_white" },
+      "S": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_white" },
+      "8": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_white" },
+      "Q": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_white" },
+      "w": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_white" }
+    }
+  },
+  {
+    "type": "palette",
     "id": "standard_domestic_landscaping_palette",
     "//": "Intended to be used in conjunction with standard_domestic_palette. Load the domestic palette first, then this one to use open symbols for landscaping.",
     "terrain": {
