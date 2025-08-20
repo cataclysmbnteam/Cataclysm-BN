@@ -2154,7 +2154,6 @@
     "flags": [
       "TRANSPARENT",
       "LIQUID",
-      "NO_SCENT",
       "SWIMMABLE",
       "DEEP_WATER",
       "WATER_CUBE",
