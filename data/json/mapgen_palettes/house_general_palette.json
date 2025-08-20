@@ -284,7 +284,8 @@
       "S": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_white" },
       "8": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_white" },
       "Q": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_white" },
-      "w": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_white" }
+      "w": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_white" },
+      "¨": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_white" }
     }
   },
   {
