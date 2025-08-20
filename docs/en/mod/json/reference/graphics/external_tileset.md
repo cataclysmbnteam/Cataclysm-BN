@@ -13,8 +13,9 @@ covers divergences in content were, by nessecity, a different sprite is a better
 
 Links to relevant pull requests, for content covered below:
 
-- Steam turbine: [#2815](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/2815)
+- Patchwork Skin port from DDA: [#1298](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/1298)
 - Bullet animations: [#1861](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/1681)
+- Steam turbine: [#2815](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/2815)
 - Wooden shields, riot shields, and ballistic shields:
   [#2851](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/2851)
 - Lead sling bullet: [#2709](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/2709)
@@ -56,8 +57,10 @@ Links to relevant pull requests, for content covered below:
 - More tooth and bone weapons, triffid weapons:
   [#5712](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/5712)
 - Treetops ported from DDA: [#5167](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/5167)
+- Skateboards ported from DDA: [#5849](hhttps://github.com/cataclysmbnteam/Cataclysm-BN/pull/5849)
 - Ability to weld shut doors: [#6182](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/6182)
 - Scouting visor: [#6687](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/6687)
+- Skeletal lich and master ported from DDA: [#6831](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/6831)
 - New elite zombies: [#6854](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/6854)
 - Flipping tables/benches for cover: [#6857](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/6857)
 - Arrow slits/fortifications: [#6864](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/6864)
@@ -116,6 +119,10 @@ Ultica are planned for the future.
 - Flipped variants of benches and tables. Furniture specific to BN.
 - Iron ore, item ported from DDA we lacked a suitable sprite for.
 - M1874 Gatling gun, including wielded sprite and vehicle turret. Item specific to BN.
+- Patchwork Skin, ported from DDA but our version of UDP lacked a sprite for it.
+- Skateboard, item and vehicleparts. Port from DDA lacking sprites in UDP.
+- Sea scooter, item and vehiclepart. Item unique to BN.
+- Skeletal lich and skeletal master. Port from DDA that UDP lacked a sprite for.
 
 ### External_Tileset_DP_terrain_normal.png
 
