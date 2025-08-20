@@ -9,12 +9,7 @@ mod.chicken_death = function(params)
   if killer:is_avatar() then
     if killed:get_type():str() == "mon_chicken" then
       gdebug.log_info("Good job. You killed it.")
-      gapi.add_msg(
-        MsgType.mixed,
-        string.format(
-          "At somewhere, killing a chicken might be illegal."
-        )
-      )
+      gapi.add_msg(MsgType.mixed, string.format("At somewhere, killing a chicken might be illegal."))
     end
   end
 end
