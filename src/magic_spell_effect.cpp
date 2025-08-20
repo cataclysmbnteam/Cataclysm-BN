@@ -398,9 +398,6 @@ std::set<tripoint> calculate_spell_effect_area( const spell &sp, const tripoint 
         aoe_func, const Creature &caster, bool ignore_walls )
 {
     std::set<tripoint> targets = { target }; // initialize with epicenter
-    if( sp.aoe() <= 1 && sp.effect() != "line_attack" ) {
-        return targets;
-    }
 
     const int aoe_radius = sp.aoe();
     targets = aoe_func( sp, caster.pos(), target, aoe_radius, ignore_walls );
