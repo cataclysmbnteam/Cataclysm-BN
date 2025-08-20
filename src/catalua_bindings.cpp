@@ -645,7 +645,7 @@ void cata::detail::reg_hooks_examples( sol::state &lua )
     DOC( "Called when character stat gets reset" );
     luna::set_fx( lib, "on_character_reset_stats", []() {} );
     DOC( "Called when a monster is dead" );
-    luna::set_fx( lib, "on_mon_death", []( monster &, Creature & ) {} );
+    luna::set_fx( lib, "on_mon_death", []() {} );
     DOC( "Called every in-game period" );
     luna::set_fx( lib, "on_every_x", []() {} );
     DOC( "Called right after mapgen has completed. "

@@ -6682,7 +6682,7 @@ Function `()`
 #### on_mon_death
 
 Called when a monster is dead
-Function `( Monster, Creature )`
+Function `()`
 
 #### on_every_x
 
