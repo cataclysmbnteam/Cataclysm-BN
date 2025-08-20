@@ -831,8 +831,9 @@ vehicle *game::place_vehicle_nearby(
     if( search_types.empty() ) {
         vehicle veh( id );
         if( veh.can_float() ) {
-            search_types.emplace_back( "river" );
-            search_types.emplace_back( "lake" );
+            search_types.emplace_back( "river_shore" );
+            search_types.emplace_back( "lake_shore" );
+            search_types.emplace_back( "lake_surface" );
         } else {
             search_types.emplace_back( "field" );
             search_types.emplace_back( "road" );

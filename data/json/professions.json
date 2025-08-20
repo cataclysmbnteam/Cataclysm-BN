@@ -199,6 +199,15 @@
   {
     "type": "item_group",
     "subtype": "collection",
+    "id": "smuggler_mags_tec9",
+    "entries": [
+      { "item": "tec9mag", "ammo-item": "9mmfmj", "charges": 32 },
+      { "item": "tec9mag", "ammo-item": "9mmfmj", "charges": 32 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
     "id": "quiver_bow_hunter",
     "entries": [ { "item": "arrow_cf", "charges": 8 } ]
   },
@@ -319,6 +328,7 @@
       { "item": "hat_hunting", "new": [ { "item": "hat_cotton", "ratio": 2 } ] },
       { "item": "hat_newsboy", "new": [ { "item": "hat_cotton", "ratio": 2 } ] },
       { "item": "peacoat", "new": [ "jacket_flannel" ] },
+      { "item": "greatcoat", "new": [ "duster" ] },
       { "item": "sweater", "new": [ "sweatshirt" ] },
       { "item": "boots_winter", "new": [ "boots_fur" ] },
       { "item": "cloak_wool", "new": [ "cloak_leather" ] },
@@ -1763,6 +1773,51 @@
       "female": [ "bra", "panties" ]
     }
   },
+
+
+  {
+    "type": "profession",
+    "id": "smuggler",
+    "name": "Smuggler",
+    "description": "Ever since the heat (both climate and police presence) got too bad in Miami, you found a niche running all sorts of tax-free goods into New England.  You're used to outrunning the cops, but now both the pigs and your clientele want your brains instead of your product.",
+    "points": 5,
+    "vehicle": "boat_motor_smuggler",
+    "skills": [
+      { "level": 1, "name": "melee" },
+      { "level": 1, "name": "swimming" },
+      { "level": 1, "name": "stabbing" },
+      { "level": 2, "name": "gun" },
+      { "level": 1, "name": "smg" },
+      { "level": 1, "name": "driving" }
+    ],
+    "items": {
+      "both": {
+        "items": [
+          "tank_top",
+          "hoodie",
+          "socks",
+          "lowtops",
+          "gloves_fingerless",
+          "knit_scarf",
+          "smart_phone",
+          "cig",
+          "switchblade",
+          "mag_porn",
+          "sunglasses",
+          "diving_watch"
+        ],
+        "entries": [
+          { "item": "tec9", "ammo-item": "9mmfmj", "container-item": "shoulder_holster", "charges": 32 },
+          { "item": "chestrig", "contents-group": "smuggler_mags_tec9" },
+          { "item": "lighter", "charges": 100 }
+        ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "bra", "panties" ]
+    },
+    "flags": [ "SCEN_ONLY" ]
+  },
+
   {
     "type": "profession",
     "id": "security",
@@ -4552,6 +4607,44 @@
       "female": [ "bikini_top_fur", "hot_pants_fur" ]
     }
   },
+
+
+  {
+    "type": "profession",
+    "id": "castaway",
+    "name": "Castaway",
+    "description": "You were shipwrecked out on an island in the lake.  No one sent a search party, so after weeks of trying to signal for help you salvaged every scrap of clothing you could to set sail on a makeshift raft.  Where is everyone, and why do the sharks look so hungry?",
+    "points": 2,
+    "vehicle": "raft",
+    "skills": [
+      { "level": 2, "name": "cooking" },
+      { "level": 3, "name": "fabrication" },
+      { "level": 2, "name": "mechanics" },
+      { "level": 1, "name": "tailor" },
+      { "level": 2, "name": "survival" }
+    ],
+    "items": {
+      "both": {
+        "items": [
+          "loincloth",
+          "straw_sandals",
+          "straw_basket",
+          "fire_drill",
+          "pot_makeshift",
+          "pockknife",
+          "bottle_plastic",
+          "needle_bone"
+        ],
+        "entries": [
+          { "item": "primitive_axe", "custom-flags": [ "auto_wield" ] }
+        ]
+      },
+      "female": [ "chestwrap" ]
+    },
+    "flags": [ "SCEN_ONLY" ]
+  },
+
+
   {
     "type": "profession",
     "id": "fisher",
@@ -4731,6 +4824,7 @@
     "name": "Pirate",
     "description": "Arr!  Your costume may be shipshape, but the end of the world's scuppered all your plans.  Strike up your Jolly Roger and hoist the Bloody Red, for no quarter shall be given.",
     "points": 4,
+    "vehicle": "pirate_ship",
     "skills": [
       { "level": 2, "name": "swimming" },
       { "level": 2, "name": "gun" },
@@ -4764,6 +4858,50 @@
       "female": [ "boy_shorts", "sports_bra" ]
     }
   },
+
+  {
+    "type": "profession",
+    "id": "prof_pirate_captain",
+    "name": "Pirate Captain",
+    "description": "Land ho!  Ye went all out on the reenactment, got your letters of marque in order and cast off in a fine sloop, to prowl the New England waters with.",
+    "points": 6,
+    "vehicle": "pirate_ship",
+    "skills": [
+      { "level": 2, "name": "swimming" },
+      { "level": 2, "name": "driving" },
+      { "level": 2, "name": "gun" },
+      { "level": 2, "name": "melee" },
+      { "level": 1, "name": "pistol" },
+      { "level": 1, "name": "cutting" }
+    ],
+    "items": {
+      "both": {
+        "items": [
+          "socks",
+          "breeches",
+          "longshirt",
+          "greatcoat",
+          "tricorne",
+          "boots",
+          "mbag",
+          "leather_pouch",
+          "scabbard",
+          "gold_ear",
+          "rum"
+        ],
+        "entries": [
+          { "item": "cutlass_inferior", "custom-flags": [ "auto_wield" ] },
+          { "item": "baldric_holster", "contents-group": "pistols_pirate" },
+          { "item": "flintlock_pouch", "contents-group": "flintlock_pouch_reenactor" },
+          { "item": "flintlock_ammo", "charges": 4 }
+        ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "boy_shorts", "sports_bra" ]
+    },
+    "flags": [ "SCEN_ONLY" ]
+  },
+
   {
     "type": "profession",
     "id": "drone_op",
