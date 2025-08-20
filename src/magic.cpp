@@ -569,26 +569,6 @@ int spell::damage_as_character( const Character &guy ) const
 {
     // Open-ended for the purposes of further expansion
     double total_damage = damage();
-    if( !type->melee_dam.empty() || has_flag( spell_flag::ADD_MELEE_DAM ) ) {
-
-        item &weapon = guy.used_weapon();
-        int weapon_damage = 0;
-        if( !weapon.is_null() ) {
-            if (has_flag(spell_flag::ADD_MELEE_DAM)) {
-                // Legacy code, to be likely removed or reworked later
-                // Just take the max, rather than worrying about how to integrate the other damage types
-                // Also assumes that weapons aren't dealing other damage types (Which is no-longer a good assumption)
-                weapon_damage = std::max( {weapon.damage_melee( DT_STAB ), weapon.damage_melee( DT_CUT ), weapon.damage_melee( DT_BASH )} );
-            } else {
-                // Add up the relevant damage types present
-                // Allows for proper customization of damage types taken
-                for (auto d : type->melee_dam) {
-                    weapon_damage += weapon.damage_melee(d);
-                }
-            }
-        }
-        total_damage += weapon_damage;
-    }
     if (has_flag(spell_flag::PHYSICAL) && guy.has_trait(trait_BRAWLER)) {
         total_damage *= 1.2; // Brawlers get a damage boost for Physical Techniques
     }
@@ -606,6 +586,18 @@ std::string spell::damage_string( const Character &guy ) const
     } else {
         const int dmg = damage_as_character( guy );
         if( dmg >= 0 ) {
+            // Legacy code, to be likely removed or reworked later.
+            if(has_flag( spell_flag::ADD_MELEE_DAM ) ) {
+                item &weapon = guy.used_weapon();
+                if( !weapon.is_null() ) {
+                    // Replicate what it displayed previously
+                    return string_format( "%d", dmg + std::max( {weapon.damage_melee( DT_STAB ), weapon.damage_melee( DT_CUT ), weapon.damage_melee( DT_BASH )} ));
+                }
+            } else if (!type->melee_dam.empty()) {
+                // Don't bother trying to display each individual bit of damage
+                // Important part is that the user knows they'll get out more damage than it says
+                return string_format( "%d + relevant melee damage", dmg);
+            }
             return string_format( "%d", dmg );
         } else {
             return string_format( "+%d", std::abs( dmg ) );
@@ -1348,6 +1340,24 @@ dealt_damage_instance spell::get_dealt_damage_instance() const
 damage_instance spell::get_damage_instance( const Character &guy ) const
 {
     damage_instance dmg;
+    // moved out of damage_as_character specifically so that the more modern method works better
+    if( !type->melee_dam.empty() || has_flag( spell_flag::ADD_MELEE_DAM ) ) {
+        item &weapon = guy.used_weapon();
+        if( !weapon.is_null() ) {
+            if (has_flag(spell_flag::ADD_MELEE_DAM)) {
+                // Legacy code, to be likely removed or reworked later.
+                // Kept mostly the same as before so that balance doesn't go out of whack without time to correct it.
+                // Just take the max, rather than worrying about how to integrate the other damage types
+                // Also assumes that weapons aren't dealing other damage types (Which is no-longer a good assumption)
+                dmg.add_damage(dmg_type(), std::max( {weapon.damage_melee( DT_STAB ), weapon.damage_melee( DT_CUT ), weapon.damage_melee( DT_BASH )} ));
+            } else {
+                // Adds the relevant damage types to the attack individually
+                for (auto d : type->melee_dam) {
+                    dmg.add_damage(d, weapon.damage_melee(d)) ;
+                }
+            }
+        }
+    }
     dmg.add_damage( dmg_type(), damage_as_character( guy ) );
     return dmg;
 }
@@ -1355,7 +1365,25 @@ damage_instance spell::get_damage_instance( const Character &guy ) const
 dealt_damage_instance spell::get_dealt_damage_instance( const Character &guy ) const
 {
     dealt_damage_instance dmg;
-    dmg.set_damage( dmg_type(), damage_as_character( guy ) );
+    int bonus_main_damage = 0; // Least jank way to handle legacy code
+    if( !type->melee_dam.empty() || has_flag( spell_flag::ADD_MELEE_DAM ) ) {
+        item &weapon = guy.used_weapon();
+        if( !weapon.is_null() ) {
+            if (has_flag(spell_flag::ADD_MELEE_DAM)) {
+                // Legacy code, to be likely removed or reworked later.
+                // Kept mostly the same as before so that balance doesn't go out of whack without time to correct it.
+                // Just take the max, rather than worrying about how to integrate the other damage types
+                // Also assumes that weapons aren't dealing other damage types (Which is no-longer a good assumption)
+                bonus_main_damage =  std::max( {weapon.damage_melee( DT_STAB ), weapon.damage_melee( DT_CUT ), weapon.damage_melee( DT_BASH )} );
+            } else {
+                // Adds the relevant damage types to the attack individually
+                for (auto d : type->melee_dam) {
+                    dmg.set_damage(d, weapon.damage_melee(d)) ;
+                }
+            }
+        }
+    }
+    dmg.set_damage( dmg_type(), damage_as_character( guy ) + bonus_main_damage );
     return dmg;
 }
 
@@ -1865,9 +1893,12 @@ static std::string enumerate_spell_data( const spell &sp )
         spell_data.emplace_back( _( "can be augmented by melee weapon damage" ) );
     }
     if (!sp.type->melee_dam.empty()) {
-        for (auto d : sp.type->melee_dam) {
-            spell_data.emplace_back(string_format(_("can be augmented by %s damage from your melee weapon"), name_by_dt(d)));
+        std::string damage_names;
+        for (short i =0; i < sp.type->melee_dam.size() - 1; i++) {
+            damage_names += name_by_dt(sp.type->melee_dam[i]) + ", ";
         }
+        damage_names += name_by_dt(sp.type->melee_dam.back());
+        spell_data.emplace_back(string_format(_("can be augmented by the following damage types on melee weapons: %s"), damage_names));
     }
     if( sp.type->scale_str ) {
         spell_data.emplace_back( _( "scales off of strength stat" ) );
