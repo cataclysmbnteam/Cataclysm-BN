@@ -10,9 +10,9 @@ mod.chicken_death = function(params)
     if killed:get_type():str() == "mon_chicken" then
       gdebug.log_info("Good job. You killed it.")
       gapi.add_msg(
-        MsgType.bad,
+        MsgType.mixed,
         string.format(
-          "[Feral Guard]: You have committed crimes against Skyrim and her people. What say you in your defense?"
+          "At somewhere, killing a chicken might be illegal."
         )
       )
     end
