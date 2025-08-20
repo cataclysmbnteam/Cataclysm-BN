@@ -5957,9 +5957,9 @@ bool item::goes_bad_after_opening( bool strict ) const
         if( type->container && type->container->preserves &&
             !contents.empty() && contents.front().goes_bad() ) {
             return true;
-    } else {
-        return false;
-    }
+        } else {
+            return false;
+        }
     }
 
     return goes_bad() || ( type->container && type->container->preserves &&

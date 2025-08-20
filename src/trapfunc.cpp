@@ -1130,17 +1130,17 @@ bool trapfunc::ledge( const tripoint &p, Creature *c, item * )
     if( !g->m.has_zlevels() ) {
         if( c == &g->u ) {
             if( !character_funcs::can_fly( get_avatar() ) ) {
-            add_msg( m_warning, _( "You fall down a level!" ) );
-            g->vertical_move( -1, true );
+                add_msg( m_warning, _( "You fall down a level!" ) );
+                g->vertical_move( -1, true );
                 if( get_avatar().has_trait( trait_WINGS_BIRD ) || ( one_in( 2 ) &&
                         get_avatar().has_trait( trait_WINGS_BUTTERFLY ) ) ) {
-                add_msg( _( "You flap your wings and flutter down gracefully." ) );
+                    add_msg( _( "You flap your wings and flutter down gracefully." ) );
                 } else if( get_avatar().has_trait( trait_WEB_RAPPEL ) ) {
-                add_msg( _( "You quickly spin a line of silk and rappel down." ) );
+                    add_msg( _( "You quickly spin a line of silk and rappel down." ) );
                 } else if( get_avatar().has_active_bionic( bio_shock_absorber ) ) {
-                add_msg( m_info,
-                         _( "You hit the ground hard, but your shock absorbers handle the impact admirably!" ) );
-            } else {
+                    add_msg( m_info,
+                             _( "You hit the ground hard, but your shock absorbers handle the impact admirably!" ) );
+                } else {
                     get_avatar().impact( 20, p );
                 }
             }
@@ -1214,9 +1214,9 @@ bool trapfunc::ledge( const tripoint &p, Creature *c, item * )
         if( character_funcs::can_fly( *pl->as_character() ) ) {
             return false;
         } else {
-        add_msg( m_bad, vgettext( "You fall down %d story!", "You fall down %d stories!", height ),
-                 height );
-        g->vertical_move( -height, true );
+            add_msg( m_bad, vgettext( "You fall down %d story!", "You fall down %d stories!", height ),
+                     height );
+            g->vertical_move( -height, true );
         }
     } else {
         pl->setpos( where );

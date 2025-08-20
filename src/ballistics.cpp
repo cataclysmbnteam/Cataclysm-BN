@@ -441,7 +441,7 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
             }
         }
 
- // Penalize damage and/or range on overpenetration.
+        // Penalize damage and/or range on overpenetration.
         auto apply_overpenetration_penalty = [&]( bool modify_damage ) {
             traj_len *= overpenetration_modifier;
             if( modify_damage ) {
@@ -470,7 +470,7 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
                     here.add_splatter_trail( critter->bloodType(), tp, dest );
                 }
                 sfx::do_projectile_hit( *attack.hit_critter );
-has_momentum = proj.impact.total_damage() > 0 && is_bullet;
+                has_momentum = proj.impact.total_damage() > 0 && is_bullet;
 
                 apply_overpenetration_penalty( is_projectile_modify_overpenetration );
             } else {

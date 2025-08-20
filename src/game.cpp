@@ -8823,7 +8823,7 @@ std::vector<std::string> game::get_dangerous_tile( const tripoint &dest_loc ) co
         }
     }
 
-        const trap &tr = m.tr_at( dest_loc );
+    const trap &tr = m.tr_at( dest_loc );
     if( !u.is_blind() || u.clairvoyance() < 1 || tr.can_see( dest_loc, u ) ) {
         const bool boardable = static_cast<bool>( m.veh_at( dest_loc ).part_with_feature( "BOARDABLE",
                                true ) );
@@ -8831,8 +8831,8 @@ std::vector<std::string> game::get_dangerous_tile( const tripoint &dest_loc ) co
         // Note: in non-z-level mode, ledges obey different rules and so should be handled as regular traps
         if( tr.loadid == tr_ledge && m.has_zlevels() ) {
             if( !character_funcs::can_fly( get_avatar() ) ) {
-            if( !boardable ) {
-                harmful_stuff.emplace_back( tr.name() );
+                if( !boardable ) {
+                    harmful_stuff.emplace_back( tr.name() );
                 }
             }
         } else if( tr.can_see( dest_loc, u ) && !tr.is_benign() && !boardable ) {
@@ -9013,11 +9013,11 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp )
                                            via_ramp ) * multiplier;
     // only do this check if we can't noclip
     if( !character_funcs::can_noclip( u ) ) {
-    if( grabbed_move( dest_loc - u.pos() ) ) {
-        return true;
-    } else if( mcost == 0 ) {
-        return false;
-    }
+        if( grabbed_move( dest_loc - u.pos() ) ) {
+            return true;
+        } else if( mcost == 0 ) {
+            return false;
+        }
     }
 
     bool diag = trigdist && u.posx() != dest_loc.x && u.posy() != dest_loc.y;
@@ -10221,7 +10221,7 @@ void game::vertical_move( int movez, bool force, bool peeking )
 
         if( !can_fly ) {
             add_msg( m_info, _( "You can't go up here!" ) );
-        return;
+            return;
         }
 
         if( m.impassable( dest ) || !dest_is_air ) {
@@ -10262,7 +10262,7 @@ void game::vertical_move( int movez, bool force, bool peeking )
             if( !m.has_flag( "GOES_UP", u.pos() ) ) {
                 suggest_auto_walk_to_stairs( u, m, "down" );
             }
-        return;
+            return;
         }
 
         if( ( m.impassable( dest ) || !standing_on_air ) && !can_noclip ) {
@@ -10433,7 +10433,7 @@ void game::vertical_move( int movez, bool force, bool peeking )
                     return;
                     // ...and there's more water above us, but no boats blocking the way.
                 } else if( target_ter->has_flag( TFLAG_WATER_CUBE ) ||
-                    target_ter->has_flag( TFLAG_DEEP_WATER ) ) {
+                           target_ter->has_flag( TFLAG_DEEP_WATER ) ) {
                     // Then go ahead and move up.
                     add_msg( _( "You swim up." ) );
                 } else {
@@ -10882,7 +10882,7 @@ std::optional<tripoint> game::find_or_make_stairs( map &mp, const int z_after, b
         }
     } else if( !can_fly ) {
         if( query_yn( _( "There is a sheer drop halfway down.  Jump?" ) ) ) {
-        return std::nullopt;
+            return std::nullopt;
         }
     }
 

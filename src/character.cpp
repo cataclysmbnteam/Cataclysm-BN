@@ -8944,19 +8944,19 @@ void Character::on_hit( Creature *source, bodypart_id bp_hit,
     if( ( worn_with_flag( flag_REQUIRES_BALANCE ) || in_skater_vehicle ) && !is_on_ground() ) {
         int rolls = 4;
         if( worn_with_flag( flag_ROLLER_ONE ) && !in_skater_vehicle ) {
-                    rolls += 2;
-                }
-                if( has_trait( trait_PROF_SKATER ) ) {
-                    rolls--;
-                }
-                if( has_trait( trait_DEFT ) ) {
-                    rolls--;
-                }
+            rolls += 2;
+        }
+        if( has_trait( trait_PROF_SKATER ) ) {
+            rolls--;
+        }
+        if( has_trait( trait_DEFT ) ) {
+            rolls--;
+        }
 
-                if( stability_roll() < dice( rolls, 10 ) ) {
-                    if( !is_player() ) {
-                        if( u_see ) {
-                            add_msg( _( "%1$s loses their balance while being hit!" ), name );
+        if( stability_roll() < dice( rolls, 10 ) ) {
+            if( !is_player() ) {
+                if( u_see ) {
+                    add_msg( _( "%1$s loses their balance while being hit!" ), name );
                 }
             } else {
                 add_msg( m_bad, _( "You lose your balance while being hit!" ) );

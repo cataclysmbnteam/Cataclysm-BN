@@ -3923,9 +3923,9 @@ bool ranged::gunmode_checks_common( avatar &you, const map &m, std::vector<std::
                 result = false;
             }
         } else { // You are driving with your own hands!
-        messages.push_back( string_format( _( "You can't fire your %s while driving." ),
-                                           gmode->tname() ) );
-        result = false;
+            messages.push_back( string_format( _( "You can't fire your %s while driving." ),
+                                               gmode->tname() ) );
+            result = false;
         }
     }
 

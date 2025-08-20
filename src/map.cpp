@@ -2735,7 +2735,7 @@ bool map::is_divable( const tripoint &p ) const
     const std::optional<vpart_reference> vp = veh_at( p ).part_with_feature( VPFLAG_BOARDABLE,
             true );
     if( !vp ) {
-    return has_flag( "SWIMMABLE", p ) && has_flag( TFLAG_DEEP_WATER, p );
+        return has_flag( "SWIMMABLE", p ) && has_flag( TFLAG_DEEP_WATER, p );
     }
     return false;
 }
@@ -3968,8 +3968,8 @@ void map::shoot( const tripoint &origin, const tripoint &p, projectile &proj, co
     ter_id terrain = ter( p );
     ter_t ter = terrain.obj();
 
-        double range = rl_dist( origin, p );
-        const bool point_blank = range <= 1;
+    double range = rl_dist( origin, p );
+    const bool point_blank = range <= 1;
     if( furn.bash.ranged ) {
         // Damage cover like a crit if we're breaching at point blank range, otherwise randomize like a normal hit.
         float destroy_roll = point_blank ? dam * 1.5 : dam * rng_float( 0.9, 1.1 );

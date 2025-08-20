@@ -1,2 +1,2 @@
 // NOLINT(cata-header-guard)
-#define VERSION "HEAD-HASH"
+#define VERSION "0441ef5"

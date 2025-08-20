@@ -4518,7 +4518,7 @@ void activity_handlers::spellcasting_finish( player_activity *act, player *p )
 
 void activity_handlers::study_spell_do_turn( player_activity *act, player *p )
 {
-     // moves_left decreases by player speed each turn and thus is a pain to work with
+    // moves_left decreases by player speed each turn and thus is a pain to work with
     // But we want a persistent value
     if( act->values.size() < 4 ) {
         act->values.push_back( 0 );
@@ -4561,7 +4561,7 @@ void activity_handlers::study_spell_do_turn( player_activity *act, player *p )
             act->moves_left = 1000000;
         }
     }
-        // increment
+    // increment
     act->values[3] += 1;
 }
 
