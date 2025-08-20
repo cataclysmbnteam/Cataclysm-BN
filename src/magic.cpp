@@ -108,6 +108,8 @@ std::string enum_to_string<spell_flag>( spell_flag data )
         case spell_flag::DUPE_SOUND: return "DUPE_SOUND";
         case spell_flag::ADD_MELEE_DAM: return "ADD_MELEE_DAM";
         case spell_flag::PHYSICAL: return "PHYSICAL";
+        case spell_flag::MOD_MELEE_MOVES: return "MOD_MELEE_MOVES";
+        case spell_flag::MOD_MELEE_STAM: return "MOD_MELEE_STAM";
         case spell_flag::LAST: break;
     }
     debugmsg( "Invalid spell_flag" );
@@ -741,8 +743,18 @@ bool spell::can_learn( const Character &guy ) const
 
 int spell::energy_cost( const Character &guy ) const
 {
-    int cost;
-    if( type->base_energy_cost < type->final_energy_cost ) {
+    int cost = 0;
+    if (has_flag(spell_flag::MOD_MELEE_STAM)) {
+        item &weapon = guy.used_weapon();
+        if( !weapon.is_null() ) {
+            cost += weapon.stamina_cost();
+        }
+    }
+    // Shortcut to avoid checking the flag twice
+    if (type->base_energy_cost < 0 && cost > 0) {
+        // Special overload of default behavior to instead use it as a multiplier ala Rapid Strike
+        cost *= type->energy_increment; 
+    } else if( type->base_energy_cost < type->final_energy_cost ) {
         cost = std::min( type->final_energy_cost,
                          static_cast<int>( std::round( type->base_energy_cost + type->energy_increment * get_level() ) ) );
     } else if( type->base_energy_cost > type->final_energy_cost ) {
@@ -840,16 +852,26 @@ int spell::casting_time( const Character &guy ) const
 {
     // casting time in moves
     int casting_time = 0;
-    if( type->base_casting_time < type->final_casting_time ) {
-        casting_time = std::min( type->final_casting_time,
+    if (has_flag(spell_flag::MOD_MELEE_MOVES)) {
+        item &weapon = guy.used_weapon();
+        if( !weapon.is_null() ) {
+            casting_time += weapon.attack_cost();
+        }
+    }
+    // Shortcut to avoid checking the flag twice
+    if (type->base_casting_time < 0 && casting_time > 0) {
+        // Special overload of default behavior to instead use it as a multiplier ala Rapid Strike
+        casting_time *= type->casting_time_increment; 
+    } else if( type->base_casting_time < type->final_casting_time ) {
+        casting_time += std::min( type->final_casting_time,
                                  static_cast<int>( std::round( type->base_casting_time + type->casting_time_increment *
                                          get_level() ) ) );
     } else if( type->base_casting_time > type->final_casting_time ) {
-        casting_time = std::max( type->final_casting_time,
+        casting_time += std::max( type->final_casting_time,
                                  static_cast<int>( std::round( type->base_casting_time + type->casting_time_increment *
                                          get_level() ) ) );
     } else {
-        casting_time = type->base_casting_time;
+        casting_time += type->base_casting_time;
     }
     if( !has_flag( spell_flag::NO_LEGS ) ) {
         // The first base leg encumbrance combined points of encumbrance are ignored
@@ -863,7 +885,7 @@ int spell::casting_time( const Character &guy ) const
                                           guy.encumb( body_part_arm_l ) + guy.encumb( body_part_arm_r ) - type->arm_encumbrance_threshold );
         casting_time += arms_encumb * 2;
     }
-    if( guy.is_armed() && !has_flag( spell_flag::NO_HANDS ) &&
+    if( guy.is_armed() && !has_flag( spell_flag::NO_HANDS ) && !has_flag(spell_flag::PHYSICAL) &&
         !guy.primary_weapon().has_flag( flag_MAGIC_FOCUS ) ) {
         casting_time = std::round( casting_time * 1.5 );
     }

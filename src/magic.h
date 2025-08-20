@@ -61,6 +61,8 @@ enum spell_flag {
     DUPE_SOUND, // this spell will play 'duplicate' sounds, if relevant to the spell effect
     ADD_MELEE_DAM, // Add melee damage to the spell's damage. Legacy method, "melee_dam" vector is preferred instead
     PHYSICAL, // IMPLIES BRAWL. This spell is actually a Physical Technique / Weapon Arte / similar, and is sort-of a replacement of martial arts.
+    MOD_MELEE_MOVES, // Use melee attack cost as a base and add spell cost on top
+    MOD_MELEE_STAM, // Use melee stamina cost as a base and add spell cost on top
     LAST
 };
 
