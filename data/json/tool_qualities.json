@@ -365,5 +365,20 @@
     "type": "tool_quality",
     "id": "SWAGING",
     "name": { "str": "swaging" }
+  },
+  {
+    "type": "tool_quality",
+    "id": "GLASSBLOWING",
+    "name": { "str": "glassblowing" }
+  },
+  {
+    "type": "tool_quality",
+    "id": "CASING_FORMING",
+    "name": { "str": "casing forming" }
+  },
+  {
+    "type": "tool_quality",
+    "id": "CASING_PRESSING",
+    "name": { "str": "casing pressing" }
   }
 ]
