@@ -483,12 +483,8 @@
     "difficulty": 3,
     "time": "1 h",
     "autolearn": true,
-    "tools": [
-      [ [ "tongs", -1 ] ],
-      [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
-      [ [ "tool_flat_press_large", 1, "LIST" ] ],
-      [ [ "forge", 75 ] ]
-    ],
+    "using": [ [ "glassblowing_easy", 15 ] ],
+    "tools": [ [ [ "tool_flat_press_large", 1, "LIST" ] ] ],
     "components": [ [ [ "glass_shard", 18 ], [ "jar_glass", 9 ], [ "flask_glass", 18 ], [ "test_tube", 36 ] ] ]
   },
   {
@@ -531,8 +527,7 @@
     "difficulty": 5,
     "time": "1 h 30 m",
     "autolearn": true,
-    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ], [ [ "forge", 50 ], [ "oxy_torch", 10 ] ] ],
+    "using": [ [ "blacksmithing_advanced", 2 ] ],
     "components": [ [ [ "copper_scrap_equivalent", 7, "LIST" ] ] ]
   },
   {
@@ -1192,12 +1187,8 @@
     "difficulty": 4,
     "time": "1 h",
     "autolearn": true,
-    "tools": [
-      [ [ "tongs", -1 ] ],
-      [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
-      [ [ "tool_flat_press_large", 1, "LIST" ] ],
-      [ [ "forge", 75 ] ]
-    ],
+    "using": [ [ "glassblowing_easy", 15 ] ],
+    "tools": [ [ [ "tool_flat_press_large", 1, "LIST" ] ] ],
     "components": [ [ [ "glass_shard", 40 ], [ "flask_glass", 12 ], [ "jar_glass", 4 ] ] ]
   },
   {
@@ -1724,13 +1715,9 @@
     "time": "30 m",
     "book_learn": [ [ "glassblowing_book", 4 ], [ "textbook_fabrication", 5 ], [ "welding_book", 5 ] ],
     "batch_time_factors": [ 90, 2 ],
+    "using": [ [ "glassblowing_easy", 12 ] ],
     "qualities": [ { "id": "CHEM", "level": 1 } ],
-    "tools": [
-      [ [ "tongs", -1 ] ],
-      [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
-      [ [ "tool_flat_press_large", 1, "LIST" ], [ "tool_flat_press_small", 1, "LIST" ] ],
-      [ [ "forge", 60 ] ]
-    ],
+    "tools": [ [ [ "tool_flat_press_large", 1, "LIST" ], [ "tool_flat_press_small", 1, "LIST" ] ] ],
     "components": [ [ [ "glass_shard", 2 ] ], [ [ "chem_sulphur", 1 ] ], [ [ "scrap", 1 ] ], [ [ "charcoal", 1 ] ] ]
   },
   {

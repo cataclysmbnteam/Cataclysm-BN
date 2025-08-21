@@ -1695,6 +1695,33 @@
   },
   {
     "type": "profession",
+    "id": "migo_escapee",
+    "name": "Escapee",
+    "description": "You've been held in this alien hellhole for a couple days, picking at the walls until you found a loose piece you could fashion into a shiv.  You're getting dizzy from the stifling heat and fumes, it's now or never.",
+    "points": 0,
+    "skills": [
+      { "level": 1, "name": "dodge" },
+      { "level": 2, "name": "melee" },
+      { "level": 1, "name": "stabbing" },
+      { "level": 2, "name": "survival" }
+    ],
+    "items": {
+      "both": { "items": [ "loincloth", "footrags" ], "entries": [ { "item": "resin_knife", "custom-flags": [ "auto_wield" ] } ] },
+      "female": [ "chestwrap" ]
+    },
+    "flags": [ "SCEN_ONLY" ]
+  },
+  {
+    "type": "profession",
+    "id": "migo_experiment",
+    "name": "Test Subject",
+    "description": "You've lost track of how long they've kept you here.  They did something to you, you only remember blacking out from pain when they started to cut you open.  You woke up unable to feel pain or much else, and the air feels lighter than it used to, but you don't intend to gamble on surviving a second round of surgery.",
+    "points": 2,
+    "traits": [ "NOPAIN", "ROT1", "POISRESIST" ],
+    "flags": [ "SCEN_ONLY" ]
+  },
+  {
+    "type": "profession",
     "id": "medic",
     "name": "Medical Resident",
     "description": "Fresh out of med school, you've got little in the way of practical experience.  You just hope it will be enough if the old adage of 'Doctor, heal thyself' ends up being required.",
