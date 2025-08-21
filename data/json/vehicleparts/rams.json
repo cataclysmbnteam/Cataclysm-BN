@@ -190,7 +190,7 @@
       }
     },
     "damage_reduction": { "bash": 20 },
-    "flags": [ "PROTRUSION", "OBSTACLE", "OPAQUE" ]
+    "flags": [ "PROTRUSION", "OBSTACLE", "OPAQUE", "SHOCK_IMMUNE" ]
   },
   {
     "id": "tearer",

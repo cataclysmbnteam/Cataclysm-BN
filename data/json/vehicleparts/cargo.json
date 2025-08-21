@@ -22,7 +22,7 @@
         "using": [ [ "sewing_standard", 10 ], [ "fabric_standard", 1 ] ]
       }
     },
-    "flags": [ "CARGO", "BOARDABLE", "COVERED", "FOLDABLE" ],
+    "flags": [ "CARGO", "BOARDABLE", "COVERED", "FOLDABLE", "SHOCK_IMMUNE" ],
     "breaks_into": "ig_vp_cloth"
   },
   {
@@ -420,7 +420,7 @@
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "30 m", "using": [ [ "vehicle_bolt", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ], [ "steel_tiny", 1 ] ] }
     },
-    "flags": [ "UNMOUNT_ON_DAMAGE", "PROTRUSION" ],
+    "flags": [ "UNMOUNT_ON_DAMAGE", "PROTRUSION", "SHOCK_RESISTANT" ],
     "damage_reduction": { "all": 10 }
   }
 ]
