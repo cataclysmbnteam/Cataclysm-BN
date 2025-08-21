@@ -696,7 +696,7 @@
       { "id": "ANVIL", "level": 1 },
       { "id": "HAMMER", "level": 2 },
       { "id": "CHEM", "level": 1 },
-      { "id": "DISTILL", "level": 1 }, 
+      { "id": "DISTILL", "level": 1 },
       { "id": "CONTAIN_HOT", "level": 1 }
     ],
     "components": [ [ [ "lead", 25 ] ], [ [ "tin", 25 ] ], [ [ "pitch_wood", 1 ] ] ]

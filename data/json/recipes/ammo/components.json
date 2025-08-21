@@ -425,10 +425,7 @@
     "time": "5 m",
     "book_learn": [ [ "recipe_bullets", 2 ], [ "mag_rifle", 3 ] ],
     "qualities": [ { "id": "CASING_FORMING", "level": 1 } ],
-    "tools": [
-      [ [ "hydraulic_press", 10 ] ],
-      [ [ "forging_standard", 1, "LIST" ] ]
-    ],
+    "tools": [ [ [ "hydraulic_press", 10 ] ], [ [ "forging_standard", 1, "LIST" ] ] ],
     "charges": 1,
     "components": [ [ [ "cartridgebrass", 5 ] ] ]
   },
@@ -442,10 +439,7 @@
     "time": "5 m",
     "book_learn": [ [ "recipe_bullets", 2 ], [ "mag_rifle", 3 ] ],
     "qualities": [ { "id": "CASING_FORMING", "level": 1 } ],
-    "tools": [
-      [ [ "hydraulic_press", 10 ] ],
-      [ [ "forging_standard", 1, "LIST" ] ]
-    ],
+    "tools": [ [ [ "hydraulic_press", 10 ] ], [ [ "forging_standard", 1, "LIST" ] ] ],
     "charges": 1,
     "components": [ [ [ "cartridgebrass", 2 ] ] ]
   },
@@ -459,10 +453,7 @@
     "time": "5 m",
     "book_learn": [ [ "recipe_bullets", 2 ], [ "mag_rifle", 3 ] ],
     "qualities": [ { "id": "CASING_FORMING", "level": 1 } ],
-    "tools": [
-      [ [ "hydraulic_press", 10 ] ],
-      [ [ "forging_standard", 1, "LIST" ] ]
-    ],
+    "tools": [ [ [ "hydraulic_press", 10 ] ], [ [ "forging_standard", 1, "LIST" ] ] ],
     "charges": 1,
     "components": [ [ [ "cartridgebrass", 7 ] ] ]
   },
@@ -476,10 +467,7 @@
     "time": "5 m",
     "book_learn": [ [ "recipe_bullets", 2 ], [ "mag_rifle", 3 ] ],
     "qualities": [ { "id": "CASING_FORMING", "level": 1 } ],
-    "tools": [
-      [ [ "hydraulic_press", 10 ] ],
-      [ [ "forging_standard", 1, "LIST" ] ]
-    ],
+    "tools": [ [ [ "hydraulic_press", 10 ] ], [ [ "forging_standard", 1, "LIST" ] ] ],
     "charges": 1,
     "components": [ [ [ "cartridgebrass", 7 ] ] ]
   },
@@ -493,10 +481,7 @@
     "time": "5 m",
     "book_learn": [ [ "recipe_bullets", 2 ], [ "mag_rifle", 3 ] ],
     "qualities": [ { "id": "CASING_FORMING", "level": 1 } ],
-    "tools": [
-      [ [ "hydraulic_press", 10 ] ],
-      [ [ "forging_standard", 1, "LIST" ] ]
-    ],
+    "tools": [ [ [ "hydraulic_press", 10 ] ], [ [ "forging_standard", 1, "LIST" ] ] ],
     "charges": 1,
     "components": [ [ [ "cartridgebrass", 6 ] ] ]
   },
@@ -510,10 +495,7 @@
     "time": "5 m",
     "book_learn": [ [ "recipe_bullets", 2 ], [ "mag_rifle", 3 ] ],
     "qualities": [ { "id": "CASING_FORMING", "level": 1 } ],
-    "tools": [
-      [ [ "hydraulic_press", 10 ] ],
-      [ [ "forging_standard", 1, "LIST" ] ]
-    ],
+    "tools": [ [ [ "hydraulic_press", 10 ] ], [ [ "forging_standard", 1, "LIST" ] ] ],
     "charges": 1,
     "components": [ [ [ "cartridgebrass", 6 ] ] ]
   },
@@ -527,10 +509,7 @@
     "time": "5 m",
     "book_learn": [ [ "recipe_bullets", 2 ], [ "mag_rifle", 3 ] ],
     "qualities": [ { "id": "CASING_FORMING", "level": 1 } ],
-    "tools": [
-      [ [ "hydraulic_press", 10 ] ],
-      [ [ "forging_standard", 1, "LIST" ] ]
-    ],
+    "tools": [ [ [ "hydraulic_press", 10 ] ], [ [ "forging_standard", 1, "LIST" ] ] ],
     "charges": 1,
     "components": [ [ [ "cartridgebrass", 2 ] ] ]
   },
@@ -544,10 +523,7 @@
     "time": "5 m",
     "book_learn": [ [ "recipe_bullets", 2 ], [ "mag_rifle", 3 ] ],
     "qualities": [ { "id": "CASING_FORMING", "level": 1 } ],
-    "tools": [
-      [ [ "hydraulic_press", 10 ] ],
-      [ [ "forging_standard", 1, "LIST" ] ]
-    ],
+    "tools": [ [ [ "hydraulic_press", 10 ] ], [ [ "forging_standard", 1, "LIST" ] ] ],
     "charges": 1,
     "components": [ [ [ "cartridgebrass", 3 ] ] ]
   },
@@ -561,10 +537,7 @@
     "time": "5 m",
     "book_learn": [ [ "recipe_bullets", 2 ], [ "mag_rifle", 3 ] ],
     "qualities": [ { "id": "CASING_FORMING", "level": 1 } ],
-    "tools": [
-      [ [ "hydraulic_press", 10 ] ],
-      [ [ "forging_standard", 1, "LIST" ] ]
-    ],
+    "tools": [ [ [ "hydraulic_press", 10 ] ], [ [ "forging_standard", 1, "LIST" ] ] ],
     "charges": 1,
     "components": [ [ [ "cartridgebrass", 3 ] ] ]
   },
@@ -578,10 +551,7 @@
     "time": "5 m",
     "book_learn": [ [ "recipe_bullets", 2 ], [ "mag_rifle", 3 ] ],
     "qualities": [ { "id": "CASING_FORMING", "level": 1 } ],
-    "tools": [
-      [ [ "hydraulic_press", 10 ] ],
-      [ [ "forging_standard", 1, "LIST" ] ]
-    ],
+    "tools": [ [ [ "hydraulic_press", 10 ] ], [ [ "forging_standard", 1, "LIST" ] ] ],
     "charges": 1,
     "components": [ [ [ "cartridgebrass", 3 ] ] ]
   },
@@ -595,10 +565,7 @@
     "time": "5 m",
     "book_learn": [ [ "recipe_bullets", 2 ], [ "mag_rifle", 3 ] ],
     "qualities": [ { "id": "CASING_FORMING", "level": 1 } ],
-    "tools": [
-      [ [ "hydraulic_press", 10 ] ],
-      [ [ "forging_standard", 1, "LIST" ] ]
-    ],
+    "tools": [ [ [ "hydraulic_press", 10 ] ], [ [ "forging_standard", 1, "LIST" ] ] ],
     "charges": 1,
     "components": [ [ [ "cartridgebrass", 4 ] ] ]
   },
@@ -612,10 +579,7 @@
     "time": "5 m",
     "qualities": [ { "id": "CASING_FORMING", "level": 1 } ],
     "book_learn": [ [ "recipe_bullets", 2 ], [ "mag_rifle", 3 ] ],
-    "tools": [
-      [ [ "hydraulic_press", 10 ] ],
-      [ [ "forging_standard", 1, "LIST" ] ]
-    ],
+    "tools": [ [ [ "hydraulic_press", 10 ] ], [ [ "forging_standard", 1, "LIST" ] ] ],
     "charges": 1,
     "components": [ [ [ "cartridgebrass", 4 ] ] ]
   },
@@ -629,10 +593,7 @@
     "time": "5 m",
     "book_learn": [ [ "recipe_bullets", 2 ], [ "mag_rifle", 3 ] ],
     "qualities": [ { "id": "CASING_FORMING", "level": 1 } ],
-    "tools": [
-      [ [ "hydraulic_press", 10 ] ],
-      [ [ "forging_standard", 1, "LIST" ] ]
-    ],
+    "tools": [ [ [ "hydraulic_press", 10 ] ], [ [ "forging_standard", 1, "LIST" ] ] ],
     "charges": 1,
     "components": [ [ [ "cartridgebrass", 4 ] ] ]
   },
@@ -646,10 +607,7 @@
     "time": "5 m",
     "book_learn": [ [ "recipe_bullets", 2 ], [ "mag_rifle", 3 ] ],
     "qualities": [ { "id": "CASING_FORMING", "level": 1 } ],
-    "tools": [
-      [ [ "hydraulic_press", 10 ] ],
-      [ [ "forging_standard", 1, "LIST" ] ]
-    ],
+    "tools": [ [ [ "hydraulic_press", 10 ] ], [ [ "forging_standard", 1, "LIST" ] ] ],
     "charges": 1,
     "components": [ [ [ "cartridgebrass", 7 ] ] ]
   },
@@ -663,10 +621,7 @@
     "time": "5 m",
     "book_learn": [ [ "recipe_bullets", 2 ], [ "mag_rifle", 3 ] ],
     "qualities": [ { "id": "CASING_FORMING", "level": 1 } ],
-    "tools": [
-      [ [ "hydraulic_press", 10 ] ],
-      [ [ "forging_standard", 1, "LIST" ] ]
-    ],
+    "tools": [ [ [ "hydraulic_press", 10 ] ], [ [ "forging_standard", 1, "LIST" ] ] ],
     "charges": 1,
     "components": [ [ [ "cartridgebrass", 18 ] ] ]
   },
@@ -680,10 +635,7 @@
     "time": "5 m",
     "book_learn": [ [ "recipe_bullets", 2 ], [ "mag_rifle", 3 ] ],
     "qualities": [ { "id": "CASING_FORMING", "level": 1 } ],
-    "tools": [
-      [ [ "hydraulic_press", 10 ] ],
-      [ [ "forging_standard", 1, "LIST" ] ]
-    ],
+    "tools": [ [ [ "hydraulic_press", 10 ] ], [ [ "forging_standard", 1, "LIST" ] ] ],
     "charges": 1,
     "components": [ [ [ "cartridgebrass", 7 ] ] ]
   },
@@ -697,10 +649,7 @@
     "time": "5 m",
     "book_learn": [ [ "recipe_bullets", 2 ], [ "mag_rifle", 3 ] ],
     "qualities": [ { "id": "CASING_FORMING", "level": 1 } ],
-    "tools": [
-      [ [ "hydraulic_press", 10 ] ],
-      [ [ "forging_standard", 1, "LIST" ] ]
-    ],
+    "tools": [ [ [ "hydraulic_press", 10 ] ], [ [ "forging_standard", 1, "LIST" ] ] ],
     "charges": 1,
     "components": [ [ [ "cartridgebrass", 6 ] ] ]
   },
@@ -714,10 +663,7 @@
     "time": "5 m",
     "book_learn": [ [ "recipe_bullets", 2 ], [ "mag_rifle", 3 ] ],
     "qualities": [ { "id": "CASING_FORMING", "level": 1 } ],
-    "tools": [
-      [ [ "hydraulic_press", 10 ] ],
-      [ [ "forging_standard", 1, "LIST" ] ]
-    ],
+    "tools": [ [ [ "hydraulic_press", 10 ] ], [ [ "forging_standard", 1, "LIST" ] ] ],
     "charges": 1,
     "components": [ [ [ "cartridgebrass", 3 ] ] ]
   },
@@ -731,10 +677,7 @@
     "time": "5 m",
     "book_learn": [ [ "recipe_bullets", 2 ], [ "mag_rifle", 3 ] ],
     "qualities": [ { "id": "CASING_FORMING", "level": 1 } ],
-    "tools": [
-      [ [ "hydraulic_press", 10 ] ],
-      [ [ "forging_standard", 1, "LIST" ] ]
-    ],
+    "tools": [ [ [ "hydraulic_press", 10 ] ], [ [ "forging_standard", 1, "LIST" ] ] ],
     "charges": 1,
     "components": [ [ [ "cartridgebrass", 3 ] ] ]
   },
@@ -748,10 +691,7 @@
     "time": "5 m",
     "book_learn": [ [ "recipe_bullets", 2 ], [ "mag_rifle", 3 ] ],
     "qualities": [ { "id": "CASING_FORMING", "level": 1 } ],
-    "tools": [
-      [ [ "hydraulic_press", 10 ] ],
-      [ [ "forging_standard", 1, "LIST" ] ]
-    ],
+    "tools": [ [ [ "hydraulic_press", 10 ] ], [ [ "forging_standard", 1, "LIST" ] ] ],
     "charges": 1,
     "components": [ [ [ "cartridgebrass", 3 ] ] ]
   },
@@ -765,10 +705,7 @@
     "time": "5 m",
     "book_learn": [ [ "recipe_bullets", 2 ], [ "mag_rifle", 3 ] ],
     "qualities": [ { "id": "CASING_FORMING", "level": 1 } ],
-    "tools": [
-      [ [ "hydraulic_press", 10 ] ],
-      [ [ "forging_standard", 1, "LIST" ] ]
-    ],
+    "tools": [ [ [ "hydraulic_press", 10 ] ], [ [ "forging_standard", 1, "LIST" ] ] ],
     "charges": 1,
     "components": [ [ [ "cartridgebrass", 3 ] ] ]
   },
@@ -782,10 +719,7 @@
     "time": "5 m",
     "book_learn": [ [ "recipe_bullets", 2 ], [ "mag_rifle", 3 ] ],
     "qualities": [ { "id": "CASING_FORMING", "level": 1 } ],
-    "tools": [
-      [ [ "hydraulic_press", 10 ] ],
-      [ [ "forging_standard", 1, "LIST" ] ]
-    ],
+    "tools": [ [ [ "hydraulic_press", 10 ] ], [ [ "forging_standard", 1, "LIST" ] ] ],
     "charges": 1,
     "components": [ [ [ "cartridgebrass", 5 ] ] ]
   },
@@ -799,11 +733,7 @@
     "time": "5 m",
     "book_learn": [ [ "recipe_bullets", 2 ], [ "mag_shotgun", 3 ] ],
     "qualities": [ { "id": "CASING_FORMING", "level": 1 } ],
-    "tools": [
-      [ [ "hydraulic_press", 10 ] ],
-      [ [ "forging_standard", 1, "LIST" ] ],
-      [ [ "mold_plastic", -1 ] ]
-    ],
+    "tools": [ [ [ "hydraulic_press", 10 ] ], [ [ "forging_standard", 1, "LIST" ] ], [ [ "mold_plastic", -1 ] ] ],
     "charges": 1,
     "components": [ [ [ "cartridgebrass", 2 ] ], [ [ "plastic_scrap", 2 ] ] ]
   },
@@ -817,11 +747,7 @@
     "time": "5 m",
     "book_learn": [ [ "recipe_bullets", 2 ], [ "mag_shotgun", 3 ] ],
     "qualities": [ { "id": "CASING_FORMING", "level": 1 } ],
-    "tools": [
-      [ [ "hydraulic_press", 10 ] ],
-      [ [ "forging_standard", 1, "LIST" ] ],
-      [ [ "mold_plastic", -1 ] ]
-    ],
+    "tools": [ [ [ "hydraulic_press", 10 ] ], [ [ "forging_standard", 1, "LIST" ] ], [ [ "mold_plastic", -1 ] ] ],
     "charges": 1,
     "components": [ [ [ "cartridgebrass", 1 ] ], [ [ "plastic_scrap", 1 ] ] ]
   },
