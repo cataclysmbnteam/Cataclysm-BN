@@ -1405,7 +1405,8 @@
       "WIND_POWERED",
       "OVER",
       "STABLE",
-      "UNMOUNT_ON_DAMAGE", "SHOCK_IMMUNE"
+      "UNMOUNT_ON_DAMAGE",
+      "SHOCK_IMMUNE"
     ],
     "breaks_into": [ { "item": "splinter", "count": [ 2, 4 ] }, { "item": "rag", "count": [ 5, 10 ] } ]
   },
