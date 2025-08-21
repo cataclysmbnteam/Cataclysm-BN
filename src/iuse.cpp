@@ -1467,6 +1467,21 @@ int iuse::petfood( player *p, item *it, bool, const tripoint & )
             return 0;
         }
 
+        if( !petfood.tamer_traits.empty() ) {
+            for( const TraitSet &trait_set : petfood.tamer_traits ) {
+                if (!p->has_one_of_traits(trait_set)) {
+                    can_feed = false;
+                } else {
+                    can_feed = true;
+                }
+            }
+            if (!can_feed) {
+                p->add_msg_if_player( _( "The %s does not trust your kind." ),
+                      mon.type->nname() );
+                return 0;
+            }
+        }
+
         if( mon.type->id == mon_dog_thing ) {
             p->deal_damage( &mon, bodypart_id( "hand_r" ), damage_instance( DT_CUT, rng( 1, 10 ) ) );
             p->add_msg_if_player( m_bad, _( "You want to feed it the pet food, but it bites your fingers!" ) );

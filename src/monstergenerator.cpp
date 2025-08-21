@@ -710,6 +710,7 @@ void pet_food_data::load( const JsonObject &jo )
     mandatory( jo, was_loaded, "food", food );
     optional( jo, was_loaded, "feed", feed );
     optional( jo, was_loaded, "pet", pet );
+    optional( jo, was_loaded, "tamer_traits", tamer_traits );
 }
 
 void pet_food_data::deserialize( JsonIn &jsin )
