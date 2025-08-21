@@ -458,6 +458,26 @@
   },
   {
     "type": "recipe",
+    "result": "resin_knife",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_PIERCING",
+    "skill_used": "survival",
+    "time": "5 m",
+    "autolearn": true,
+    "reversible": true,
+    "components": [
+      [ [ "resin_chunk", 1 ] ],
+      [
+        [ "cordage_short", 2, "LIST" ],
+        [ "filament", 100, "LIST" ],
+        [ "fabric_standard", 1, "LIST" ],
+        [ "fabric_hides_any", 1, "LIST" ],
+        [ "duct_tape", 10 ]
+      ]
+    ]
+  },
+  {
+    "type": "recipe",
     "result": "rapier",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_PIERCING",

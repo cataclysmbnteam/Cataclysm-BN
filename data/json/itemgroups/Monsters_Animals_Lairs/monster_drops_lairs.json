@@ -7,6 +7,31 @@
   },
   {
     "type": "item_group",
+    "id": "migo_litter",
+    "subtype": "distribution",
+    "//": "Debris left behind here and there from mi-go experimentation.  Mostly leftover bits of clothing, stray remains from vivisection, or resin fragments.",
+    "entries": [
+      { "item": "bone_human", "prob": 25 },
+      { "item": "bone", "prob": 5 },
+      { "item": "sinew", "prob": 20 },
+      { "item": "rag", "prob": 15 },
+      { "item": "nylon", "prob": 5 },
+      { "item": "leather", "prob": 5 },
+      { "item": "resin_chunk", "prob": 25 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "migo_storage_pod_contents",
+    "subtype": "collection",
+    "entries": [
+      { "item": "resin_chunk", "count": [ 1, 2 ] },
+      { "item": "fetid_goop", "count": [ 1, 2 ] },
+      { "group": "migo_pod_storage", "count": [ 1, 2 ] }
+    ]
+  },
+  {
+    "type": "item_group",
     "id": "migo_pod_storage",
     "subtype": "distribution",
     "//": "Various human artifacts stored in pods by the mi-go.  Focuses on electronics and things that would otherwise be obviously technological in nature, plus what could be personal effects of victims.",
@@ -18,6 +43,16 @@
       { "group": "bionics", "prob": 15 },
       { "group": "mil_hw", "prob": 5 },
       { "group": "guns_survival", "prob": 5 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "migo_organ_pod_contents",
+    "subtype": "collection",
+    "entries": [
+      { "item": "resin_chunk", "count": [ 1, 2 ] },
+      { "item": "fetid_goop", "count": [ 1, 2 ] },
+      { "group": "migo_pod_samples", "count": [ 2, 3 ] }
     ]
   },
   {
