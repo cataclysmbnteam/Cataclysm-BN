@@ -341,7 +341,8 @@
     "name": { "str": "carbon cargo space" },
     "size": "600 L",
     "item": "cargo_rack_carbon",
-    "breaks_into": [  ]
+    "breaks_into": "ig_vp_carbon",
+    "extend": { "flags": [ "SHOCK_RESISTANT" ] }
   },
   {
     "copy-from": "cargo_space_carbon",
@@ -351,7 +352,7 @@
     "location": "structure",
     "description": "Storage space, mounted outside your vehicle's armor and vulnerable to damage.",
     "size": "300 L",
-    "flags": [ "UNMOUNT_ON_DAMAGE", "CARGO", "PROTRUSION", "COVERED", "BOARDABLE" ]
+    "flags": [ "UNMOUNT_ON_DAMAGE", "CARGO", "PROTRUSION", "COVERED", "BOARDABLE", "SHOCK_RESISTANT" ]
   },
   {
     "copy-from": "cargo_space",

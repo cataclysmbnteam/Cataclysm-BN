@@ -37,6 +37,7 @@
         "using": [ [ "welding_standard", 5 ], [ "vehicle_repair_superalloy", 1 ] ]
       }
     },
+    "extend": { "flags": [ "SHOCK_IMMUNE" ] },
     "damage_reduction": { "all": 120 }
   },
   {
