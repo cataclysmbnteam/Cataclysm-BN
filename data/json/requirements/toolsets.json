@@ -73,7 +73,7 @@
       { "id": "CHISEL", "level": 3 },
       { "id": "GRIP_HOT", "level": 2 },
       { "id": "CONTAIN_HOT", "level": 1 },
-      { "id": "SWAGING", "level": 3 }
+      { "id": "SWAGING", "level": 1 }
     ],
     "tools": [ [ [ "forge", 20 ], [ "oxy_torch", 20 ] ] ]
   },
