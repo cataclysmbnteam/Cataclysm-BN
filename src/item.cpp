@@ -3599,7 +3599,7 @@ void item::combat_info( std::vector<iteminfo> &info, const iteminfo_query *parts
     } else {
         print_attacks = true;
 
-        for( const auto &attack_pr : type->attacks ) {
+        for( const auto &attack_pr : get_attacks() ) {
             const auto &attack = attack_pr.second;
 
             if( parts->test( iteminfo_parts::BASE_DAMAGE ) ) {
