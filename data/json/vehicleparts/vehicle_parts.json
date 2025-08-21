@@ -2693,6 +2693,27 @@
   },
   {
     "type": "vehicle_part",
+    "id": "seat_wood_light",
+    "copy-from": "seat_wood",
+    "name": { "str": "light wooden seat" },
+    "looks_like": "seat_wood",
+    "durability": 80,
+    "item": "frame_wood_light",
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 0 ] ], "time": "10 m", "using": [ [ "rope_natural_short", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "5 m", "using": [  ] },
+      "repair": {
+        "skills": [ [ "mechanics", 0 ] ],
+        "time": "5 m",
+        "using": [ [ "nail_any_adhesive", 1 ], [ "vehicle_repair_small_wood", 4 ] ]
+      }
+    },
+    "delete": { "flags": [ "BELTABLE" ] },
+    "breaks_into": [ { "item": "splinter", "count": [ 3, 5 ] }, { "item": "string_36", "count": [ 10, 15 ] } ],
+    "damage_reduction": { "all": 6 }
+  },
+  {
+    "type": "vehicle_part",
     "id": "spike_wood",
     "name": { "str": "wooden spike" },
     "symbol": ".",
