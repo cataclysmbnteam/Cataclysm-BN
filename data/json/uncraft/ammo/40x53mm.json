@@ -6,8 +6,7 @@
     "difficulty": 4,
     "skills_required": [ "launcher", 2 ],
     "time": "10 m",
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "PULL", "level": 1 } ],
-    "tools": [ [ [ "swage", -1 ] ] ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "PULL", "level": 1 }, { "id": "SWAGING", "level": 1 } ],
     "components": [
       [ [ "40x53mm_m169_casing", 1 ] ],
       [ [ "chem_compositionb", 32 ] ],

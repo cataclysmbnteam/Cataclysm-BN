@@ -350,5 +350,20 @@
     "type": "tool_quality",
     "id": "CUT_M",
     "name": { "str": "metal cutting" }
+  },
+  {
+    "type": "tool_quality",
+    "id": "GRIP_HOT",
+    "name": { "str": "hot gripping" }
+  },
+  {
+    "type": "tool_quality",
+    "id": "CONTAIN_HOT",
+    "name": { "str": "hot containing" }
+  },
+  {
+    "type": "tool_quality",
+    "id": "SWAGING",
+    "name": { "str": "swaging" }
   }
 ]

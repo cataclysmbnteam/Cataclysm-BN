@@ -138,7 +138,6 @@
     "time": "6 h",
     "book_learn": [ [ "textbook_fireman", 6 ] ],
     "using": [ [ "blacksmithing_intermediate", 4 ], [ "steel_standard", 1 ] ],
-    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [
       [ [ "filament", 100, "LIST" ] ],
       [ [ "fabric_standard", 2, "LIST" ], [ "felt_patch", 2 ], [ "fabric_hides_any", 2, "LIST" ] ]
@@ -239,7 +238,6 @@
     "book_learn": [ [ "textbook_fireman", 8 ], [ "textbook_fabrication", 9 ] ],
     "using": [ [ "blacksmithing_intermediate", 16 ], [ "steel_standard", 4 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [ [ [ "2x4", 2 ], [ "stick", 4 ] ] ]
   },
   {

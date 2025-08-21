@@ -183,7 +183,6 @@
     "charges": 1,
     "reversible": true,
     "using": [ [ "shot_forming", 1 ], [ "ammo_shot", 1 ] ],
-    "tools": [ [ [ "press_dowel", -1 ], [ "press", -1 ] ] ],
     "components": [ [ [ "gunpowder", 3 ] ], [ [ "magnesium", 5 ] ] ]
   },
   {
@@ -200,7 +199,7 @@
     "charges": 1,
     "reversible": true,
     "using": [ [ "ammo_shot", 1 ] ],
-    "tools": [ [ [ "press_dowel", -1 ], [ "press", -1 ] ] ],
+    "qualities": [ { "id": "CASING_PRESSING", "level": 1 } ],
     "components": [ [ [ "gunpowder", 6 ] ], [ [ "combatnail", 10 ] ] ]
   },
   {
@@ -265,7 +264,7 @@
     "charges": 1,
     "reversible": true,
     "using": [ [ "ammo_shot", 1 ] ],
-    "tools": [ [ [ "press_dowel", -1 ], [ "press", -1 ] ] ],
+    "qualities": [ { "id": "CASING_PRESSING", "level": 1 } ],
     "components": [ [ [ "chem_black_powder", 3 ] ], [ [ "magnesium", 5 ] ] ]
   },
   {
@@ -282,7 +281,7 @@
     "charges": 1,
     "reversible": true,
     "using": [ [ "ammo_shot", 1 ] ],
-    "tools": [ [ [ "press_dowel", -1 ], [ "press", -1 ] ] ],
+    "qualities": [ { "id": "CASING_PRESSING", "level": 1 } ],
     "components": [ [ [ "chem_black_powder", 6 ] ], [ [ "combatnail", 10 ] ] ]
   },
   {
@@ -315,7 +314,7 @@
     "charges": 2,
     "reversible": true,
     "using": [ [ "ammo_shot", 2 ] ],
-    "tools": [ [ [ "press_dowel", -1 ], [ "press", -1 ] ] ],
+    "qualities": [ { "id": "CASING_PRESSING", "level": 1 } ],
     "components": [
       [ [ "gunpowder", 12 ] ],
       [
@@ -349,7 +348,7 @@
     "charges": 2,
     "reversible": true,
     "using": [ [ "ammo_shot", 2 ] ],
-    "tools": [ [ [ "press_dowel", -1 ], [ "press", -1 ] ] ],
+    "qualities": [ { "id": "CASING_PRESSING", "level": 1 } ],
     "components": [
       [ [ "chem_black_powder", 12 ] ],
       [
@@ -383,7 +382,7 @@
     "charges": 1,
     "reversible": true,
     "using": [ [ "ammo_shot", 1 ] ],
-    "tools": [ [ [ "press_dowel", -1 ], [ "press", -1 ] ] ],
+    "qualities": [ { "id": "CASING_PRESSING", "level": 1 } ],
     "components": [ [ [ "incendiary", 25 ] ] ]
   },
   {
