@@ -1469,15 +1469,15 @@ int iuse::petfood( player *p, item *it, bool, const tripoint & )
 
         if( !petfood.tamer_traits.empty() ) {
             for( const TraitSet &trait_set : petfood.tamer_traits ) {
-                if (!p->has_one_of_traits(trait_set)) {
+                if( !p->has_one_of_traits( trait_set ) ) {
                     can_feed = false;
                 } else {
                     can_feed = true;
                 }
             }
-            if (!can_feed) {
+            if( !can_feed ) {
                 p->add_msg_if_player( _( "The %s does not trust your kind." ),
-                      mon.type->nname() );
+                                      mon.type->nname() );
                 return 0;
             }
         }

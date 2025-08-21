@@ -109,7 +109,7 @@ bool Character::has_trait( const trait_id &b ) const
 bool Character::has_one_of_traits( const TraitSet &trait_set ) const
 {
     for( const trait_id &trait : trait_set ) {
-        if (my_mutations.contains( trait ) || enchantment_cache->get_mutations().contains( trait )) {
+        if( my_mutations.contains( trait ) || enchantment_cache->get_mutations().contains( trait ) ) {
             return true;
         }
     }

@@ -774,7 +774,7 @@ class Character : public Creature, public location_visitable<Character>
         bool has_trait( const trait_id &b ) const override;
 
         /** Returns true if the player has one of the traits from set */
-        bool has_one_of_traits(const TraitSet &trait_set) const;
+        bool has_one_of_traits( const TraitSet &trait_set ) const;
 
         /** Returns true if the player has the entered starting trait */
         bool has_base_trait( const trait_id &b ) const;
