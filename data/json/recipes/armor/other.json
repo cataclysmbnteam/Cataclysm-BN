@@ -502,6 +502,18 @@
     "components": [ [ [ "steel_plate", 1 ], [ "manhole_cover", 1 ] ], [ [ "scrap", 4 ] ] ]
   },
   {
+    "result": "shield_welded_hard",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_OTHER",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "time": "10 m",
+    "autolearn": true,
+    "using": [ [ "welding_standard", 10 ] ],
+    "components": [ [ [ "hard_plate", 1 ] ], [ [ "scrap", 4 ] ] ]
+  },
+  {
     "result": "shield_welded_superalloy",
     "type": "recipe",
     "category": "CC_ARMOR",

@@ -1622,5 +1622,17 @@
       [ [ "cordage", 1, "LIST" ] ],
       [ [ "fabric_standard", 2, "LIST" ], [ "fabric_hides_any", 2, "LIST" ] ]
     ]
+  },
+  {
+    "result": "helm_trench",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "1 h",
+    "autolearn": true,
+    "using": [ [ "blacksmithing_intermediate", 12 ] ],
+    "components": [ [ [ "hard_steel_armor", 6 ] ] ]
   }
 ]
