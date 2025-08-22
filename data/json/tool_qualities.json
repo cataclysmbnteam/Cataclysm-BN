@@ -350,5 +350,35 @@
     "type": "tool_quality",
     "id": "CUT_M",
     "name": { "str": "metal cutting" }
+  },
+  {
+    "type": "tool_quality",
+    "id": "GRIP_HOT",
+    "name": { "str": "hot gripping" }
+  },
+  {
+    "type": "tool_quality",
+    "id": "CONTAIN_HOT",
+    "name": { "str": "hot containing" }
+  },
+  {
+    "type": "tool_quality",
+    "id": "SWAGING",
+    "name": { "str": "swaging" }
+  },
+  {
+    "type": "tool_quality",
+    "id": "GLASSBLOWING",
+    "name": { "str": "glassblowing" }
+  },
+  {
+    "type": "tool_quality",
+    "id": "CASING_FORMING",
+    "name": { "str": "casing forming" }
+  },
+  {
+    "type": "tool_quality",
+    "id": "CASING_PRESSING",
+    "name": { "str": "casing pressing" }
   }
 ]
