@@ -556,11 +556,11 @@ double Creature::ranged_target_size() const
         return 0.0;
     }
     bool is_crouched = false;
-            if( Character *ch = const_cast<Creature &>( *this ).as_character() ) {
-                if( ch->movement_mode_is( CMM_CROUCH ) ) {
-                    is_crouched = true;
-                }
-            }
+    if( Character *ch = const_cast<Creature &>( *this ).as_character() ) {
+        if( ch->movement_mode_is( CMM_CROUCH ) ) {
+            is_crouched = true;
+        }
+    }
     if( has_flag( MF_HARDTOSHOOT ) || is_crouched ) {
         switch( get_size() ) {
             case creature_size::tiny:
