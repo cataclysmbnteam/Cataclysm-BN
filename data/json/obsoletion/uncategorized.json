@@ -2227,5 +2227,22 @@
       "ter_set": "t_window_frame",
       "items": [ { "item": "glass_shard", "count": [ 10, 20 ] } ]
     }
+  },
+  {
+    "type": "material",
+    "id": "lightceramic",
+    "name": "Dragon Scale",
+    "density": 4,
+    "reinforces": true,
+    "bash_resist": 4,
+    "cut_resist": 8,
+    "bullet_resist": 10,
+    "acid_resist": 10,
+    "fire_resist": 10,
+    "elec_resist": 10,
+    "chip_resist": 20,
+    "dmg_adj": [ "chipped", "cracked", "split", "broken" ],
+    "bash_dmg_verb": "cracked",
+    "cut_dmg_verb": "cut"
   }
 ]
