@@ -6,8 +6,7 @@
     "difficulty": 4,
     "skills_required": [ "launcher", 2 ],
     "time": "5 m",
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "PULL", "level": 1 } ],
-    "tools": [ [ [ "swage", -1 ] ] ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "PULL", "level": 1 }, { "id": "SWAGING", "level": 1 } ],
     "components": [ [ [ "smpistol_primer", 1 ] ], [ [ "gunpowder", 30 ] ], [ [ "40x46mm_m212_casing", 1 ] ], [ [ "rubber_slug", 1 ] ] ],
     "charges": 1
   },
@@ -18,8 +17,7 @@
     "difficulty": 4,
     "skills_required": [ "launcher", 2 ],
     "time": "5 m",
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "PULL", "level": 1 } ],
-    "tools": [ [ [ "swage", -1 ] ] ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "PULL", "level": 1 }, { "id": "SWAGING", "level": 1 } ],
     "components": [
       [ [ "smpistol_primer", 1 ] ],
       [ [ "chem_compositionb", 30 ] ],
@@ -36,9 +34,8 @@
     "difficulty": 4,
     "skills_required": [ "launcher", 2 ],
     "time": "5 m",
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "PULL", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "PULL", "level": 1 }, { "id": "SWAGING", "level": 1 } ],
     "components": [ [ [ "smpistol_primer", 1 ] ], [ [ "gunpowder", 30 ] ], [ [ "40x46mm_m195_casing", 1 ] ] ],
-    "tools": [ [ [ "swage", -1 ] ] ],
     "charges": 1
   }
 ]

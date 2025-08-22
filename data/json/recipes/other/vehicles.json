@@ -1292,7 +1292,8 @@
     "time": "20 m",
     "autolearn": true,
     "using": [ [ "steel_standard", 20 ] ],
-    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 50 ] ] ]
+    "qualities": [ { "id": "CONTAIN_HOT", "level": 1 } ],
+    "tools": [ [ [ "forge", 50 ] ] ]
   },
   {
     "type": "recipe",
@@ -1306,7 +1307,8 @@
     "time": "50 m",
     "autolearn": true,
     "using": [ [ "steel_standard", 100 ] ],
-    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 50 ] ] ]
+    "qualities": [ { "id": "CONTAIN_HOT", "level": 1 } ],
+    "tools": [ [ [ "forge", 50 ] ] ]
   },
   {
     "type": "recipe",
@@ -1831,8 +1833,7 @@
     "difficulty": 4,
     "time": "3 h",
     "autolearn": true,
-    "using": [ [ "blacksmithing_intermediate", 20 ], [ "steel_standard", 5 ] ],
-    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ]
+    "using": [ [ "blacksmithing_intermediate", 20 ], [ "steel_standard", 5 ] ]
   },
   {
     "type": "recipe",
