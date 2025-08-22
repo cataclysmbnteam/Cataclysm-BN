@@ -665,7 +665,6 @@
     "time": "45 m",
     "book_learn": [ [ "adv_chemistry", 6 ], [ "reference_cooking", 6 ] ],
     "using": [ [ "blacksmithing_intermediate", 1 ] ],
-    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [
       [ [ "chem_manganese_dioxide", 29 ] ],
       [ [ "zinc_metal", 2 ] ],
@@ -685,7 +684,6 @@
     "time": "1 h",
     "book_learn": [ [ "adv_chemistry", 6 ], [ "reference_cooking", 6 ] ],
     "using": [ [ "blacksmithing_intermediate", 1 ] ],
-    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [
       [ [ "chem_manganese_dioxide", 87 ] ],
       [ [ "zinc_metal", 6 ] ],
@@ -705,7 +703,6 @@
     "time": "1 h 20 m",
     "book_learn": [ [ "adv_chemistry", 6 ], [ "reference_cooking", 6 ] ],
     "using": [ [ "blacksmithing_intermediate", 1 ] ],
-    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [
       [ [ "chem_manganese_dioxide", 348 ] ],
       [ [ "zinc_metal", 24 ] ],
@@ -725,7 +722,6 @@
     "time": "1 h 45 m",
     "book_learn": [ [ "adv_chemistry", 6 ], [ "reference_cooking", 6 ] ],
     "using": [ [ "blacksmithing_intermediate", 1 ] ],
-    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [
       [ [ "chem_manganese_dioxide", 725 ] ],
       [ [ "zinc_metal", 50 ] ],

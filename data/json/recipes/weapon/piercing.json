@@ -788,7 +788,6 @@
     "time": "60 m",
     "autolearn": true,
     "using": [ [ "blacksmithing_intermediate", 1 ], [ "steel_standard", 1 ] ],
-    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [
       [ [ "stick_long", 1 ] ],
       [ [ "filament", 100, "LIST" ] ],
