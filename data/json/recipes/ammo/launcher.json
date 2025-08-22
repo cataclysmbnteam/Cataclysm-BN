@@ -13,7 +13,7 @@
     "charges": 1,
     "reversible": true,
     "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 16 ] ],
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "CASING_PRESSING", "level": 2 } ],
     "components": [
       [ [ "paper", 1 ], [ "wax", 1 ] ],
       [ [ "gunpowder", 35 ] ],
@@ -35,7 +35,7 @@
     "charges": 1,
     "reversible": true,
     "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 16 ] ],
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "CASING_PRESSING", "level": 2 } ],
     "components": [
       [ [ "paper", 1 ], [ "wax", 1 ] ],
       [ [ "gunpowder", 35 ] ],
