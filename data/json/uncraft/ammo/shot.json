@@ -1,5 +1,15 @@
 [
   {
+    "result": "shot_00",
+    "type": "uncraft",
+    "skill_used": "gun",
+    "difficulty": 5,
+    "time": "1 s",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "shot_hull", 1 ] ], [ [ "shotgun_primer", 1 ] ], [ [ "gunpowder", 6 ] ], [ [ "lead", 10 ] ] ],
+    "charges": 1
+  },
+  {
     "result": "shot_beanbag",
     "type": "uncraft",
     "skill_used": "fabrication",
@@ -8,6 +18,36 @@
     "time": "2 m",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "shot_hull", 1 ] ], [ [ "shotgun_primer", 1 ] ], [ [ "gunpowder", 3 ] ], [ [ "rubber_slug", 1 ] ] ],
+    "charges": 1
+  },
+  {
+    "result": "shot_bird",
+    "type": "uncraft",
+    "skill_used": "gun",
+    "difficulty": 5,
+    "time": "1 s",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "shot_hull", 1 ] ], [ [ "shotgun_primer", 1 ] ], [ [ "gunpowder", 3 ] ], [ [ "bb", 20 ] ] ],
+    "charges": 1
+  },
+  {
+    "result": "shot_dragon",
+    "type": "uncraft",
+    "skill_used": "gun",
+    "difficulty": 5,
+    "time": "1 s",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "shot_hull", 1 ] ], [ [ "shotgun_primer", 1 ] ], [ [ "gunpowder", 3 ] ], [ [ "magnesium", 5 ] ] ],
+    "charges": 1
+  },
+  {
+    "result": "shot_flechette",
+    "type": "uncraft",
+    "skill_used": "gun",
+    "difficulty": 5,
+    "time": "1 s",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "shot_hull", 1 ] ], [ [ "shotgun_primer", 1 ] ], [ [ "gunpowder", 6 ] ], [ [ "combatnail", 10 ] ] ],
     "charges": 1
   },
   {
@@ -20,6 +60,16 @@
     "//": "A little more carefully...",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "shot_hull", 1 ] ], [ [ "shotgun_primer", 1 ] ], [ [ "gunpowder", 3 ] ], [ [ "chem_rdx", 15 ] ] ],
+    "charges": 1
+  },
+  {
+    "result": "shot_slug",
+    "type": "uncraft",
+    "skill_used": "gun",
+    "difficulty": 5,
+    "time": "1 s",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "shot_hull", 1 ] ], [ [ "shotgun_primer", 1 ] ], [ [ "gunpowder", 6 ] ], [ [ "lead", 20 ] ] ],
     "charges": 1
   }
 ]
