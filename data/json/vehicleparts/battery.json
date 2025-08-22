@@ -138,7 +138,7 @@
       "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "100 s", "using": [  ] },
       "repair": {  }
     },
-    "extend": { "flags": [ "FOLDABLE" ] }
+    "extend": { "flags": [ "FOLDABLE", "SHOCK_RESISTANT" ] }
   },
   {
     "id": "storage_battery",
