@@ -1557,7 +1557,7 @@
     "max_charges": 800,
     "charges_per_use": 75,
     "techniques": [ "WBLOCK_1", "SPIN", "SWEEP" ],
-    "qualities": [ [ "AXE", 3 ] ],
+    "qualities": [ [ "AXE", 4 ] ],
     "use_action": {
       "type": "transform",
       "active": true,
@@ -1605,7 +1605,7 @@
     "ammo": "battery",
     "charges_per_use": 375,
     "techniques": [ "WBLOCK_1", "SPIN", "SWEEP" ],
-    "qualities": [ [ "AXE", 3 ] ],
+    "qualities": [ [ "AXE", 4 ] ],
     "use_action": {
       "type": "transform",
       "active": true,
@@ -1762,7 +1762,7 @@
     "ammo": "gasoline",
     "charges_per_use": 75,
     "max_charges": 450,
-    "qualities": [ [ "AXE", 3 ] ],
+    "qualities": [ [ "AXE", 4 ] ],
     "use_action": {
       "type": "transform",
       "active": true,
@@ -1809,7 +1809,7 @@
     "color": "light_gray",
     "ammo": "battery",
     "charges_per_use": 375,
-    "qualities": [ [ "AXE", 3 ] ],
+    "qualities": [ [ "AXE", 4 ] ],
     "use_action": {
       "type": "transform",
       "active": true,

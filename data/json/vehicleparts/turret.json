@@ -8,7 +8,7 @@
     "location": "on_roof",
     "folded_volume": "5 L",
     "requirements": { "install": { "time": "100 s" }, "removal": { "time": "50 s" } },
-    "flags": [ "TURRET", "FOLDABLE" ]
+    "flags": [ "TURRET", "FOLDABLE", "SHOCK_RESISTANT" ]
   },
   {
     "id": "mounted_chemical_thrower",

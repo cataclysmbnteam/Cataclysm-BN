@@ -194,7 +194,7 @@
     "symbol": "/",
     "color": "brown",
     "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP" ],
-    "qualities": [ [ "AXE", 1 ], [ "BUTCHER", -20 ] ],
+    "qualities": [ [ "AXE", 2 ], [ "BUTCHER", -20 ] ],
     "use_action": "WEATHER_TOOL",
     "flags": [ "DURABLE_MELEE", "BELT_CLIP", "TRADER_AVOID", "MAGIC_FOCUS", "HYGROMETER", "BAROMETER" ]
   },
