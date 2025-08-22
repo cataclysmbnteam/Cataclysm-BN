@@ -5545,7 +5545,7 @@ int item::damage_melee( const attack_statblock &attack, damage_type dt ) const
             res += bonus_from_enchantments_wielded( res, enchant_vals::mod::ITEM_DAMAGE_STAB, true );
             break;
         case DT_BULLET:
-            res += bonus_from_enchantments_wielded( res, enchant_vals::mod::ITEM_DAMAGE_STAB, true );
+            res += bonus_from_enchantments_wielded( res, enchant_vals::mod::ITEM_DAMAGE_BULLET, true );
             break;
         case DT_ACID:
             res += bonus_from_enchantments_wielded( res, enchant_vals::mod::ITEM_DAMAGE_ACID, true );
@@ -5628,7 +5628,7 @@ std::map<std::string, attack_statblock> item::get_attacks() const
                                  true );
                     break;
                 case DT_BULLET:
-                    du.amount += bonus_from_enchantments_wielded( du.amount, enchant_vals::mod::ITEM_DAMAGE_STAB,
+                    du.amount += bonus_from_enchantments_wielded( du.amount, enchant_vals::mod::ITEM_DAMAGE_BULLET,
                                  true );
                     break;
                 case DT_ACID:
