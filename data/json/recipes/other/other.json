@@ -658,6 +658,7 @@
     "difficulty": 8,
     "autolearn": true,
     "//": "weird to use cooking here, but it represents science skill",
+    "skills_required": [ "cooking", 8 ],
     "time": "6 h",
     "book_learn": [ [ "reference_cooking", 8 ] ],
     "tools": [ [ [ "laptop", -1 ], [ "control_laptop", -1 ] ] ],
