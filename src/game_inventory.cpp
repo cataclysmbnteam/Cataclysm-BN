@@ -1856,7 +1856,7 @@ class bionic_install_preset: public inventory_selector_preset
                                                std::placeholders::_1 ) ) ) {
                 return _( "Superior version installed" );
             } else if( pa.is_npc() && !bid->has_flag( flag_BIONIC_NPC_USABLE ) ) {
-                return _( "CBM not compatible with patient" );
+                return _( "CBM not usable by NPC's" );
             } else if( units::energy_max - pa.get_max_power_level() < bid->capacity ) {
                 return _( "Max power capacity already reached" );
             } else if( !has_enough_anesthesia( itemtype, p, pa ) ) {
