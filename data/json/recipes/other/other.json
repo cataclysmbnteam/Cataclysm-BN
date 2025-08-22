@@ -646,10 +646,7 @@
     "autolearn": true,
     "time": "6 h",
     "book_learn": [ [ "reference_firstaid1", 8 ] ],
-    "tools": [
-      [ [ "laptop", -1 ], [ "control_laptop", -1 ] ],
-      [ [ "software_math", -1 ] ]
-    ],
+    "tools": [ [ [ "laptop", -1 ], [ "control_laptop", -1 ] ], [ [ "software_math", -1 ] ] ],
     "components": [ [ [ "usb_drive", 1 ] ] ]
   },
   {
@@ -663,9 +660,7 @@
     "//": "weird to use cooking here, but it represents science skill",
     "time": "6 h",
     "book_learn": [ [ "reference_cooking", 8 ] ],
-    "tools": [
-      [ [ "laptop", -1 ], [ "control_laptop", -1 ] ]
-    ],
+    "tools": [ [ [ "laptop", -1 ], [ "control_laptop", -1 ] ] ],
     "components": [ [ [ "usb_drive", 1 ] ] ]
   },
   {
@@ -678,9 +673,7 @@
     "difficulty": 3,
     "autolearn": true,
     "time": "1 h",
-    "tools": [
-      [ [ "laptop", -1 ], [ "control_laptop", -1 ] ]
-    ],
+    "tools": [ [ [ "laptop", -1 ], [ "control_laptop", -1 ] ] ],
     "components": [ [ [ "usb_drive", 1 ] ] ]
   },
   {
