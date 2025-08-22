@@ -51,7 +51,7 @@
       "bionic_diver",
       "fisher",
       "davy_jones",
-      "specops",
+      "specops_frogman",
       "lagoon_creature",
       "sharkboy"
     ],
@@ -263,6 +263,7 @@
       "prof_feral_survivalist",
       "prof_feral_soldier",
       "prof_feral_cyborg",
+      "prof_feral_mutant",
       "prof_feral_maid",
       "prof_feral_socialite",
       "prof_feral_armored",
@@ -355,7 +356,17 @@
     "points": -8,
     "description": "You were deemed non-essential and made to stay behind during the lab evacuation.  Find a way to escape or starve to death.",
     "start_name": "Locked Lab",
-    "professions": [ "labtech", "bionic_labtech", "security", "medic", "bionic_installer", "bio_medic", "bionic_mentat", "bionic_spy" ],
+    "professions": [
+      "labtech",
+      "bionic_labtech",
+      "security",
+      "medic",
+      "bionic_installer",
+      "bio_medic",
+      "bionic_mentat",
+      "bionic_spy",
+      "military_saboteur"
+    ],
     "allowed_locs": [ "sloc_lab_random", "sloc_lab_escape_cells", "sloc_lab_finale", "sloc_ice_lab_stairs", "sloc_ice_lab_finale" ],
     "flags": [ "CHALLENGE", "CITY_START", "LONE_START" ]
   },
@@ -400,7 +411,9 @@
       "waste_ranger",
       "player_bandit",
       "monster_hunter",
-      "monster_slayer"
+      "monster_slayer",
+      "gyro_pilot",
+      "bird_pilot"
     ]
   },
   {
@@ -435,7 +448,9 @@
       "waste_ranger",
       "player_bandit",
       "monster_hunter",
-      "monster_slayer"
+      "monster_slayer",
+      "gyro_pilot",
+      "bird_pilot"
     ]
   },
   {
@@ -521,7 +536,7 @@
     "description": "You find yourself in the most alien place you've ever seen.  The hot humid air and the organic aspect of the structure makes you feel like you're trapped inside a giant creature.  Whatever it is, you need to get out of here before They find you.",
     "allowed_locs": [ "sloc_mi-go_camp" ],
     "start_name": "Mi-Go Camp",
-    "professions": [ "captive", "rescuer", "monster_hunter" ],
+    "professions": [ "captive", "migo_escapee", "migo_experiment", "rescuer", "monster_hunter" ],
     "flags": [ "LONE_START", "CHALLENGE", "WIN_START" ]
   },
   {
@@ -636,7 +651,11 @@
       "mil_marksman",
       "prof_combat_engineer",
       "specops",
+      "specops_frogman",
       "power_armor_soldier",
+      "lifter_mech_pilot",
+      "combat_mech_pilot",
+      "recon_mech_pilot",
       "bio_soldier",
       "bio_sniper",
       "bionic_spy",
@@ -664,6 +683,7 @@
       "gangster",
       "prof_ninja",
       "specops",
+      "specops_frogman",
       "bionic_spy",
       "bionic_hitman",
       "bio_gangster",
@@ -681,7 +701,17 @@
     "description": "You were participating in a mining operation when you found… something.  You're not sure what, but it sure is dark down here.",
     "start_name": "Bottom of a mine",
     "allowed_locs": [ "sloc_mine_finale" ],
-    "professions": [ "miner", "labtech", "bionic_labtech", "security", "bionic_worker", "archaeologist", "drone_op", "demolition_expert" ],
+    "professions": [
+      "miner",
+      "labtech",
+      "bionic_labtech",
+      "security",
+      "bionic_worker",
+      "archaeologist",
+      "drone_op",
+      "demolition_expert",
+      "lifter_mech_pilot"
+    ],
     "flags": [ "CITY_START", "LONE_START" ]
   },
   {
@@ -693,7 +723,7 @@
     "start_name": "Emergency Landing Site",
     "allowed_locs": [ "sloc_field", "sloc_forest" ],
     "missions": [ "MISSION_HELICOPTER_REFUEL" ],
-    "professions": [ "heli_pilot_scenario", "gyro_pilot", "mili_pilot_blackhawk" ],
+    "professions": [ "heli_pilot_scenario", "medic_pilot", "gyro_pilot", "bird_pilot", "mili_pilot_blackhawk" ],
     "flags": [ "LONE_START" ]
   },
   {
@@ -738,7 +768,11 @@
       "mil_marksman",
       "prof_combat_engineer",
       "specops",
+      "specops_frogman",
       "power_armor_soldier",
+      "lifter_mech_pilot",
+      "combat_mech_pilot",
+      "recon_mech_pilot",
       "bio_soldier",
       "bio_sniper",
       "labtech",
@@ -789,7 +823,11 @@
       "mil_grenadier",
       "mil_marksman",
       "specops",
+      "specops_frogman",
       "power_armor_soldier",
+      "lifter_mech_pilot",
+      "combat_mech_pilot",
+      "recon_mech_pilot",
       "bio_soldier",
       "bio_sniper",
       "medic",

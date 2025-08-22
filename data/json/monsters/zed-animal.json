@@ -11,6 +11,7 @@
     "weight": "81500 g",
     "hp": 250,
     "speed": 150,
+    "attack_cost": 150,
     "material": [ "flesh" ],
     "symbol": "^",
     "color": "white_magenta",
@@ -25,9 +26,24 @@
     "armor_cut": 2,
     "armor_bullet": 2,
     "luminance": 0,
+    "vision_day": 5,
+    "vision_night": 5,
     "harvest": "zombie_tooth_leather",
     "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "SWIMS", "AQUATIC", "POISON", "NO_BREATHE", "REVIVES" ]
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "KEENNOSE",
+      "WARM",
+      "SWIMS",
+      "AQUATIC",
+      "POISON",
+      "NO_BREATHE",
+      "REVIVES",
+      "BASHES",
+      "DESTROYS"
+    ]
   },
   {
     "id": "mon_zombie_dog",

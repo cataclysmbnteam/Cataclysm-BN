@@ -15,6 +15,8 @@ CataclysmBN:
 
 - General
   - `cmake` >= 3.0.0
+  - `gcc` >= 14
+  - `clang` >= 19
   - `gcc-libs`
   - `glibc`
   - `zlib`
@@ -134,39 +136,30 @@ ccmake ..
 cmake-gui ..
 ```
 
-A CMake build with almost all options with build optimizations (ccache, ninja, mold) + tracy
-profiler may look like:
+There's multiple predefined [build presets](https://cmake.org/cmake/help/latest/manual/cmake-presets.7.html) available, which simplifies build process to just two commands:
 
 ```sh
-mkdir build
-cmake \
-  -B build \
-  -G Ninja \
-  -DCATA_CCACHE=ON \
-  -DCMAKE_C_COMPILER=clang \
-  -DCMAKE_CXX_COMPILER=clang++ \
-  -DCMAKE_INSTALL_PREFIX=$HOME/.local/share \
-  -DJSON_FORMAT=ON \
-  -DCMAKE_BUILD_TYPE=RelWithDebInfo \
-  -DCURSES=OFF \
-  -DTILES=ON \
-  -DSOUND=ON \
-  -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
-  -DCATA_CLANG_TIDY_PLUGIN=OFF \
-  -DLUA=ON \
-  -DBACKTRACE=ON \
-  -DLINKER=mold \
-  -DUSE_XDG_DIR=ON \
-  -DUSE_HOME_DIR=OFF \
-  -DUSE_PREFIX_DATA_DIR=OFF \
-  -DUSE_TRACY=ON \
-  -DTRACY_VERSION=master \
-  -DTRACY_ON_DEMAND=ON \
-  -DTRACY_ONLY_IPV4=ON
-cmake --build build
+cmake --preset linux-slim
+cmake --build build --preset linux-slim --target cataclysm-bn-tiles
 ```
 
-This will place the executables into `build/src/`.
+This will place the executables into `out/build/linux-slim/`.
+
+> [!TIP]
+> To build with [clang-tidy plugin](../../reference/tooling.md#clang-tidy) and tracy profiler built-in, try `linux-full`.
+
+> [!NOTE]
+> You can build multiple targets at once with:
+>
+> ```sh
+> cmake --build build --preset linux-slim --target cataclysm-bn-tiles cata_test-tiles
+> ```
+>
+> Or limit maximum number of threads with `--parallel` option:
+>
+> ```sh
+> cmake --build build --preset linux-slim --target cataclysm-bn-tiles --parallel 4
+> ```
 
 ## Build for Visual Studio / MSBuild
 

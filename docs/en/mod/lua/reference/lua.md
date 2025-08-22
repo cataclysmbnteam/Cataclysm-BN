@@ -2419,7 +2419,7 @@ Function `( Item, Opt( bool ) ) -> Volume`
 #### price
 
 Cents of the item. `bool` is whether it is a post-cataclysm value.
-Function `( Item, bool ) -> int`
+Function `( Item, bool ) -> double`
 
 #### has_var
 
@@ -6677,6 +6677,11 @@ Function `()`
 #### on_character_reset_stats
 
 Called when character stat gets reset
+Function `()`
+
+#### on_mon_death
+
+Called when a monster is dead
 Function `()`
 
 #### on_every_x

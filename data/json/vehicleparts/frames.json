@@ -186,7 +186,7 @@
         "using": [ [ "welding_standard", 5 ], [ "vehicle_repair_carbon", 10 ] ]
       }
     },
-    "flags": [ "MOUNTABLE" ],
+    "flags": [ "MOUNTABLE", "SHOCK_RESISTANT" ],
     "damage_reduction": { "all": 84 }
   },
   {
@@ -219,7 +219,8 @@
       "MUSCLE_LEGS",
       "SEAT_REQUIRES_BALANCE",
       "BOARDABLE",
-      "CONTROLS"
+      "CONTROLS",
+      "CONTROL_WITHOUT_HANDS"
     ],
     "damage_reduction": { "all": 2 }
   },
