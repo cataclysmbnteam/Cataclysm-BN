@@ -186,7 +186,7 @@
         "using": [ [ "welding_standard", 5 ], [ "vehicle_repair_carbon", 10 ] ]
       }
     },
-    "flags": [ "MOUNTABLE" ],
+    "flags": [ "MOUNTABLE", "SHOCK_RESISTANT" ],
     "damage_reduction": { "all": 84 }
   },
   {
