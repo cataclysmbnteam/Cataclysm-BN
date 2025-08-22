@@ -2933,6 +2933,33 @@ void mapgen_lake_shore( mapgendata &dat )
         for( auto &wp : water_points ) {
             m->ter_set( wp, water_tile );
             m->furn_set( wp, f_null );
+            if( dat.zlevel() == dat.region.overmap_lake.lake_depth ) {
+                if( one_in( 4 ) ) {
+                    m->ter_set( wp, t_lake_moss );
+                }
+
+                switch( rng( 1, 20 ) ) {
+                    case 1:
+                        m->furn_set( wp, f_lake_pondweed );
+                        break;
+                    case 2:
+                        m->furn_set( wp, f_lake_detritus );
+                        break;
+                    case 3:
+                        m->furn_set( wp, f_lake_liverwort );
+                        break;
+                    case 4:
+                        if( x_in_y( 2, 5 ) ) {
+                            m->furn_set( wp, f_lake_eelgrass );
+                        } else {
+                            m->furn_set( wp, f_lake_hornwort );
+                        }
+                        break;
+                    default:
+                        break;
+                }
+            }
+
         }
     };
 

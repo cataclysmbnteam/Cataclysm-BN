@@ -18,6 +18,8 @@ color_pixel_function_map builtin_color_pixel_functions = {
     { "color_pixel_grayscale", color_pixel_grayscale },
     { "color_pixel_nightvision", color_pixel_nightvision },
     { "color_pixel_overexposed", color_pixel_overexposed },
+    { "color_pixel_underwater", color_pixel_underwater },
+    { "color_pixel_underwater_dark", color_pixel_underwater_dark },
     { "color_pixel_zoverlay", color_pixel_z_overlay },
 };
 
@@ -103,6 +105,35 @@ SDL_Color color_pixel_overexposed( const SDL_Color &color )
         static_cast<Uint8>( result >> 2 ),
         static_cast<Uint8>( result ),
         static_cast<Uint8>( result >> 3 ),
+        color.a
+    };
+}
+
+SDL_Color color_pixel_underwater( const SDL_Color &color )
+{
+    if( is_black( color ) ) {
+        return color;
+    }
+
+    return {
+        std::max<Uint8>( 175 * color.r >> 8, 0x01 ),
+        std::max<Uint8>( 225 * color.g >> 8, 0x01 ),
+        std::max<Uint8>( 250 * color.b >> 8, 0x01 ),
+        color.a
+    };
+}
+
+SDL_Color color_pixel_underwater_dark( const SDL_Color &color )
+{
+    if( is_black( color ) ) {
+        return color;
+    }
+
+    // Half the levels of bright version, except slightly more red to keep it from getting too dark.
+    return {
+        std::max<Uint8>( 100 * color.r >> 8, 0x01 ),
+        std::max<Uint8>( 113 * color.g >> 8, 0x01 ),
+        std::max<Uint8>( 125 * color.b >> 8, 0x01 ),
         color.a
     };
 }

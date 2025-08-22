@@ -906,7 +906,7 @@ void cata::detail::reg_npc( sol::state &lua )
 
         luna::set_fx( ut, "complain_about",
         []( UT_CLASS & npchar, const std::string & issue, const time_duration & dur, const std::string & speech, sol::optional<bool> force ) -> bool {
-            return npchar.complain_about( issue, dur, speech, force ? *force : false );
+            return npchar.complain_about( issue, dur, speech, force.value_or( false ) );
         } );
 
         SET_FX_T( warn_about,

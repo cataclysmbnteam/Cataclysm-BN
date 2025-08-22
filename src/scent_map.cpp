@@ -239,7 +239,14 @@ void scent_map::update( const tripoint &center, map &m )
     }
     for( int x = 1; x < SCENT_RADIUS * 2 + 2; ++x ) {
         for( int y = 0; y < SCENT_RADIUS * 2 + 1; ++y ) {
-            grscent[x + scentmap_minx - 1 ][y + scentmap_miny] = new_scent[y][x];
+            // Don't spread scent into water unless the source is in water.
+            // Keep scent trails in the water when we exit until rain disturbs them.
+            if( ( get_map().has_flag( TFLAG_LIQUID, center ) &&
+                  rl_dist( center, tripoint( point( x + scentmap_minx - 1, y + scentmap_miny ),
+                                             g->get_levz() ) ) <= 8 ) ||
+                !get_map().has_flag( TFLAG_LIQUID, point( x + scentmap_minx - 1, y + scentmap_miny ) ) ) {
+                grscent[x + scentmap_minx - 1 ][y + scentmap_miny] = new_scent[y][x];
+            }
         }
     }
 }

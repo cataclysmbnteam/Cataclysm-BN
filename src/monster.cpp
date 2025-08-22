@@ -9,6 +9,7 @@
 #include <unordered_map>
 
 #include "avatar.h"
+#include "catalua_hooks.h"
 #include "character.h"
 #include "coordinate_conversions.h"
 #include "creature_tracker.h"
@@ -2797,6 +2798,10 @@ void monster::die( Creature *nkiller )
             }
         }
     }
+    cata::run_hooks( "on_mon_death", [ &, this]( auto & params ) {
+        params["mon"] = this;
+        params["killer"] = get_killer();
+    } );
 }
 
 bool monster::use_mech_power( int amt )

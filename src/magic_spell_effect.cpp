@@ -1035,8 +1035,6 @@ void spell_effect::spawn_summoned_monster( const spell &sp, Creature &caster,
                 sound_played = true;
                 sp.make_sound( *iter );
             }
-        } else {
-            add_msg( m_bad, "failed to place monster" );
         }
         // whether or not we succeed in spawning a monster, we don't want to try this tripoint again
         area.erase( iter );

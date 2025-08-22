@@ -2340,7 +2340,7 @@
         { "item": "hinge", "count": [ 1, 3 ] }
       ]
     },
-    "flags": [ "NOITEM", "CONNECT_TO_WALL", "LOCKED", "MINEABLE", "NO_SCENT", "BLOCK_WIND", "LIQUID", "NO_SCENT", "DEEP_WATER" ],
+    "flags": [ "NOITEM", "CONNECT_TO_WALL", "LOCKED", "MINEABLE", "NO_SCENT", "BLOCK_WIND", "LIQUID", "NO_SCENT", "WATER_CUBE" ],
     "bash": {
       "str_min": 90,
       "str_max": 250,
@@ -2374,9 +2374,9 @@
       "INDOORS",
       "BURROWABLE",
       "LIQUID",
-      "NO_SCENT",
       "SWIMMABLE",
-      "DEEP_WATER"
+      "DEEP_WATER",
+      "WATER_CUBE"
     ],
     "bash": {
       "str_min": 90,
@@ -2799,7 +2799,18 @@
     "coverage": 95,
     "roof": "t_metal_flat_roof",
     "//": "Doesn't use WELDABLE_DOOR because we want to turn it into t_door_metal_welded_bulkhead instead",
-    "flags": [ "NOITEM", "DOOR", "CONNECT_TO_WALL", "MINEABLE", "NO_SCENT", "BLOCK_WIND", "LIQUID", "NO_SCENT", "DEEP_WATER" ],
+    "flags": [
+      "NOITEM",
+      "DOOR",
+      "CONNECT_TO_WALL",
+      "MINEABLE",
+      "NO_SCENT",
+      "BLOCK_WIND",
+      "LIQUID",
+      "NO_SCENT",
+      "DEEP_WATER",
+      "WATER_CUBE"
+    ],
     "open": "t_door_metal_bulkhead_o_underwater",
     "oxytorch": {
       "result": "t_mdoor_frame",
@@ -2827,7 +2838,7 @@
     "move_cost": 2,
     "coverage": 95,
     "roof": "t_metal_flat_roof",
-    "flags": [ "TRANSPARENT", "INDOORS", "FLAT", "ROAD", "LIQUID", "NO_SCENT", "SWIMMABLE", "DEEP_WATER" ],
+    "flags": [ "TRANSPARENT", "INDOORS", "FLAT", "ROAD", "LIQUID", "SWIMMABLE", "DEEP_WATER", "WATER_CUBE" ],
     "close": "t_door_metal_bulkhead_c_underwater",
     "bash": {
       "str_min": 100,

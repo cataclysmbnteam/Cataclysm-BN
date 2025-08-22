@@ -158,7 +158,7 @@
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ], [ "steel_tiny", 1 ] ] }
     },
-    "flags": [ "PROTRUSION", "SELF_JACK" ],
+    "flags": [ "PROTRUSION", "SELF_JACK", "SHOCK_RESISTANT" ],
     "damage_reduction": { "all": 36 }
   },
   {
@@ -183,7 +183,7 @@
         "using": [ [ "welding_standard", 5 ], [ "vehicle_repair_small_metal", 3 ] ]
       }
     },
-    "flags": [ "SELF_JACK" ],
+    "flags": [ "SELF_JACK", "SHOCK_RESISTANT" ],
     "damage_reduction": { "all": 5 }
   }
 ]

@@ -946,7 +946,7 @@
     "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_W", "level": 1 } ],
-    "components": [ [ [ "2x4", 5 ] ], [ [ "nail_glue", 15, "LIST" ] ] ]
+    "components": [ [ [ "wood_structural_small", 5, "LIST" ] ], [ [ "nail_glue", 15, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -1050,7 +1050,7 @@
     "time": "1 h",
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_W", "level": 1 }, { "id": "SANDING", "level": 1 } ],
-    "components": [ [ [ "2x4", 4 ] ], [ [ "nail_glue", 10, "LIST" ] ] ]
+    "components": [ [ [ "wood_structural", 2, "LIST" ] ], [ [ "nail_glue", 10, "LIST" ] ] ]
   },
   {
     "result": "cargo_aisle",
@@ -1332,8 +1332,8 @@
     "time": "4 m",
     "reversible": true,
     "autolearn": true,
-    "using": [ [ "rope_natural_short", 3 ] ],
-    "components": [ [ [ "2x4", 3 ], [ "stick", 6 ] ] ]
+    "using": [ [ "rope_natural_short", 1 ] ],
+    "components": [ [ [ "wood_structural_small", 3, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -1384,7 +1384,8 @@
     "time": "6 m",
     "reversible": true,
     "autolearn": true,
-    "components": [ [ [ "2x4", 6 ] ], [ [ "rope_natural_short", 1, "LIST" ], [ "nail", 5 ], [ "adhesive", 2, "LIST" ] ] ]
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SAW_W", "level": 1 } ],
+    "components": [ [ [ "wood_structural", 3, "LIST" ] ], [ [ "rope_natural_short", 1, "LIST" ], [ "nail_glue", 20, "LIST" ] ] ]
   },
   {
     "type": "recipe",
