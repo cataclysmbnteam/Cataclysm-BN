@@ -617,9 +617,23 @@
       [ [ "software_hacking", -1 ], [ "control_laptop", -1 ] ],
       [ [ "laptop", -1 ], [ "control_laptop", -1 ] ],
       [ [ "sa_cryptology_key", -1 ] ],
+      [ [ "software_math", -1 ] ],
       [ [ "black_box", -1 ] ]
     ],
     "components": [ [ [ "paper", 1 ] ] ]
+  },
+  {
+    "result": "software_hacking",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "skill_used": "computer",
+    "difficulty": 10,
+    "//": "lots of time required to develop the advanced software",
+    "time": "6 h",
+    "book_learn": [ [ "sa_cryptology_key", 10 ] ],
+    "tools": [ [ [ "laptop", -1 ], [ "control_laptop", -1 ] ], [ [ "software_math", -1 ] ] ],
+    "components": [ [ [ "usb_drive", 1 ] ] ]
   },
   {
     "result": "cot",
