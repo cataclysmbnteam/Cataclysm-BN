@@ -62,7 +62,6 @@
     "name": { "str": "airjack" },
     "color": "dark_gray",
     "description": "An extendable metal pylon used to replace a portable jack.  If mounted to a vehicle, it could be used to lift it up, supporting vehicles up to 8.5 metric tonnes (or a bit over 1,100 pounds).",
-    "price_postapoc": "5 USD",
     "weight": "21 kg",
     "material": "steel",
     "category": "veh_parts",
