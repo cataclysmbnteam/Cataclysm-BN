@@ -650,12 +650,22 @@ Attack cost (melee or throwing) for this item. Ignores condition / location, and
 ##### ITEM_DAMAGE_X
 
 Melee damage of this item. Ignores condition / location, and is always active. `base_value` here is
-base item damage of corresponding type. Note that the final value cannot go below 0. Only some
-damage types are supported:
+base item damage of corresponding type. Note that the final value cannot go below 0. Supported damage
+types are:
 
 - `ITEM_DAMAGE_BASH`
 - `ITEM_DAMAGE_CUT`
 - `ITEM_DAMAGE_STAB`
+- `ITEM_DAMAGE_BULLET`
+- `ITEM_DAMAGE_ACID`
+- `ITEM_DAMAGE_BIO`
+- `ITEM_DAMAGE_COLD`
+- `ITEM_DAMAGE_DARK`
+- `ITEM_DAMAGE_ELECTRIC`
+- `ITEM_DAMAGE_FIRE`
+- `ITEM_DAMAGE_LIGHT`
+- `ITEM_DAMAGE_PSI`
+- `ITEM_DAMAGE_TRUE`
 
 ##### ITEM_ARMOR_X
 
