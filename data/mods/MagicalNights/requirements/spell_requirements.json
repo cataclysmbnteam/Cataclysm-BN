@@ -33,7 +33,7 @@
     "id": "spell_components_pocket_sand",
     "type": "requirement",
     "//": "Sand and sand-like items",
-    "components": [ [ [ "sand", 50 ], [ "salt", 100 ], [ "pepper", 100 ], [ "chilly-p", 100 ] ] ]
+    "components": [ [ [ "material_sand", 50 ], [ "salt", 100 ], [ "pepper", 100 ], [ "chilly-p", 100 ] ] ]
   },
   {
     "id": "spell_components_adventurers_cure",

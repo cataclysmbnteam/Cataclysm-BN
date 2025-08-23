@@ -32,7 +32,7 @@
     "name": { "str": "Sprint" },
     "description": "You dash forward incredibly quickly, perfect for closing the distance on an enemy.",
     "spell_class": "ADVENTURER",
-    "valid_targets": [ "hostile" ],
+    "valid_targets": [ "hostile", "ground" ],
     "scale_dex": true,
     "flags": [ "PHYSICAL", "NO_EXPLOSION_VFX" ],
     "effect": "dash",
@@ -94,6 +94,7 @@
     "min_range": 1,
     "//2": "Only there so that the game has something to list and doesn't freak out about damage elsewhere",
     "min_damage": 1,
+    "max_damage": 1,
     "damage_type": "bash"
   },
   {
