@@ -33,10 +33,8 @@
     "type": "item_group",
     "items": [
       [ "afs_bag_of_holding", 1 ],
-      [ "afs_atomic_smartphone", 5 ],
       [ "laser_pack", 10 ],
-      [ "ftk93", 5 ],
-      [ "atomic_butterchurn", 5 ]
+      [ "ftk93", 5 ]
     ]
   },
   {
@@ -68,52 +66,37 @@
     "id": "drugdealer",
     "type": "item_group",
     "subtype": "collection",
-    "items": [ [ "afs_atomic_smartphone", 3 ], [ "afs_bio_missiles", 8 ] ]
-  },
-  {
-    "id": "kitchen",
-    "type": "item_group",
-    "items": [ [ "afs_atompot", 1 ], [ "atomic_butterchurn", 1 ] ]
-  },
-  {
-    "id": "oven",
-    "type": "item_group",
-    "items": [ [ "afs_atompot", 3 ] ]
+    "items": [ [ "afs_bio_missiles", 8 ] ]
   },
   {
     "id": "livingroom",
     "type": "item_group",
-    "items": [ [ "afs_atomic_smartphone", 1 ], [ "atomic_light", 2 ] ]
+    "items": [ [ "atomic_light", 2 ] ]
   },
   {
     "id": "bedroom",
     "type": "item_group",
-    "items": [ [ "afs_atomic_smartphone", 1 ], [ "atomic_light", 2 ] ]
+    "items": [ [ "atomic_light", 2 ] ]
   },
   {
     "id": "consumer_electronics",
     "type": "item_group",
-    "items": [ [ "afs_atomic_smartphone", 2 ], [ "atomic_light", 4 ] ]
+    "items": [ [ "atomic_light", 4 ] ]
   },
   {
     "id": "electronics",
     "type": "item_group",
-    "items": [ [ "afs_atomic_smartphone", 1 ], [ "atomic_light", 2 ] ]
+    "items": [ [ "atomic_light", 2 ] ]
   },
   {
     "id": "lab_dorm",
     "type": "item_group",
-    "items": [ [ "afs_atomic_smartphone", 5 ], [ "atomic_light", 3 ] ]
-  },
-  {
-    "id": "subway",
-    "type": "item_group",
-    "items": [ [ "afs_atomic_smartphone", 1 ] ]
+    "items": [ [ "atomic_light", 3 ] ]
   },
   {
     "id": "hardware",
     "type": "item_group",
-    "items": [ [ "afs_power_cutter", 5 ], [ "atomic_butterchurn", 1 ] ]
+    "items": [ [ "afs_power_cutter", 5 ] ]
   },
   {
     "id": "hardware_bulk",
