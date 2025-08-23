@@ -47,7 +47,7 @@
     "id": "test_spell_pew_int_scaling",
     "type": "SPELL",
     "name": "Pew, Pew, BRAIN BLAST",
-    "scale_int": "true",
+    "scale_int": true,
     "description": "You aim your finger at your opponent and make 'Pew, pew' sounds. Your big brain helps you out here.",
     "effect": "target_attack",
     "damage_type": "true",
