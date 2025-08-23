@@ -522,7 +522,12 @@
     "components": [
       [ [ "bat", 1 ] ],
       [ [ "nomex", 5 ] ],
-      [ [ "flammable_liquid", 100, "LIST" ], [ "hard_liquor", 6, "LIST" ], [ "pitch_wood", 4 ] ],
+      [
+        [ "flammable_liquid", 100, "LIST" ],
+        [ "disinfectant_makeshift", 4 ],
+        [ "hard_liquor", 6, "LIST" ],
+        [ "pitch_wood", 4 ]
+      ],
       [ [ "rag", 1 ] ]
     ]
   }
