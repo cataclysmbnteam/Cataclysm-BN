@@ -59,6 +59,7 @@
     "color": "brown",
     "ammo": "44paper",
     "dispersion": 280,
-    "clip_size": 9
+    "clip_size": 9,
+    "extend": { "flags": [ "RELOAD_ONE" ] }
   }
 ]
