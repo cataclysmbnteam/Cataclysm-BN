@@ -20,8 +20,8 @@
     "charges": 35,
     "qualities": [ { "id": "CONTAIN", "level": 1 } ],
     "components": [
-      [ [ "chem_saltpetre", 10 ], [ "lye_powder", 20 ] ],
-      [ [ "chem_sulphur", 20 ], [ "oxy_powder", 20 ] ],
+      [ [ "chem_saltpetre", 10 ], [ "oxy_powder", 10 ] ],
+      [ [ "chem_sulphur", 20 ], [ "lye_powder", 20 ] ],
       [ [ "charcoal", 1 ], [ "coal_lump", 1 ] ]
     ]
   },
