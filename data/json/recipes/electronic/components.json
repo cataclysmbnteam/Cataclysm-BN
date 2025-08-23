@@ -487,8 +487,7 @@
     "autolearn": true,
     "charges": 1,
     "using": [ [ "surface_heat", 1 ] ],
-    "qualities": [ { "id": "ANVIL", "level": 1 }, { "id": "HAMMER", "level": 2 } ],
-    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
+    "qualities": [ { "id": "ANVIL", "level": 1 }, { "id": "HAMMER", "level": 2 }, { "id": "CONTAIN_HOT", "level": 1 } ],
     "components": [
       [ [ "copper", 1 ] ],
       [ [ "duct_tape", 1 ], [ "medical_tape", 1 ], [ "paper", 2 ], [ "filament", 10, "LIST" ], [ "pitch_wood", 1 ] ]
@@ -508,8 +507,7 @@
     "autolearn": true,
     "charges": 10,
     "using": [ [ "surface_heat", 10 ] ],
-    "qualities": [ { "id": "ANVIL", "level": 1 }, { "id": "HAMMER", "level": 2 } ],
-    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
+    "qualities": [ { "id": "ANVIL", "level": 1 }, { "id": "HAMMER", "level": 2 }, { "id": "CONTAIN_HOT", "level": 1 } ],
     "components": [
       [ [ "copper", 10 ] ],
       [

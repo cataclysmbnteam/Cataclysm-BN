@@ -11,8 +11,8 @@
     "time": "360 m",
     "autolearn": true,
     "using": [ [ "forging_standard", 2 ] ],
-    "qualities": [ { "id": "CHISEL", "level": 1 }, { "id": "MANA_INFUSE", "level": 1 } ],
-    "tools": [ [ [ "water", -1 ] ], [ [ "tongs", -1 ] ] ],
+    "qualities": [ { "id": "CHISEL", "level": 1 }, { "id": "MANA_INFUSE", "level": 1 }, { "id": "GRIP_HOT", "level": 2 } ],
+    "tools": [ [ [ "water", -1 ] ] ],
     "components": [
       [ [ "q_staff", 1 ] ],
       [ [ "jar_glass", 2 ] ],
@@ -454,7 +454,6 @@
     "time": "7 h",
     "book_learn": [ [ "textbook_fireman", 8 ], [ "textbook_fabrication", 9 ] ],
     "using": [ [ "blacksmithing_intermediate", 16 ] ],
-    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [ [ [ "orichalcum_ingot", 2 ] ], [ [ "2x4", 2 ], [ "stick", 4 ] ] ]
   },
   {

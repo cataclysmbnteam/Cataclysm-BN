@@ -2419,8 +2419,7 @@
     "result": "material_shrd_limestone",
     "type": "uncraft",
     "time": "10 m",
-    "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CONTAIN_HOT", "level": 1 } ],
     "components": [ [ [ "material_limestone", 10 ] ] ]
   },
   {
