@@ -300,7 +300,7 @@
     "components": [
       [ [ "rag", 1 ] ],
       [ [ "bottle_glass", 1 ], [ "flask_glass", 1 ], [ "clay_canister", 1 ] ],
-      [ [ "flammable_liquid", 500, "LIST"], [ "disinfectant_makeshift", 20 ] ]
+      [ [ "flammable_liquid", 500, "LIST" ], [ "disinfectant_makeshift", 20 ] ]
     ]
   },
   {
