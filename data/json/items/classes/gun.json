@@ -231,6 +231,7 @@
     "abstract": "rifle_manual_cap_ball",
     "copy-from": "rifle_manual",
     "type": "GUN",
+    "name": { "str": "cap & ball rifle" },
     "blackpowder_tolerance": 72,
     "reload": 150,
     "valid_mod_locations": [

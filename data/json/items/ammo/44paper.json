@@ -25,7 +25,8 @@
     "type": "AMMO",
     "name": { "str": ".44 smokeless paper cartridge" },
     "description": "A paper cartridge containing a premeasured amount of smokeless powder and a .44 projectile, for people who want to fire real civil war era weapons without getting a lungful of smoke.",
-    "copy_from": "44army",
+    "copy-from": "44army",
+    "ammo_type": "44paper",
     "delete": { "flags": [ "BLACKPOWDER", "MUZZLE_SMOKE" ] }
   }
 ]

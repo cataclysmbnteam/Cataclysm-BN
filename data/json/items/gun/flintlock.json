@@ -18,7 +18,6 @@
     "volume": "2250 ml",
     "weight": "3600 g",
     "barrel_length": "250 ml",
-    "reload": 800,
     "relative": { "range": -2, "ranged_damage": { "damage_type": "bullet", "amount": -4 } },
     "proportional": { "bashing": 0.6, "dispersion": 1.35, "reload": 0.6 }
   },
