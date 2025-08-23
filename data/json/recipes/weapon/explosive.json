@@ -86,7 +86,7 @@
     "components": [
       [ [ "paper", 5 ], [ "rolling_paper", 32 ] ],
       [ [ "acid", 2 ], [ "chem_sulphuric_acid", 2 ], [ "chem_nitric_acid", 2 ] ],
-      [ [ "ammonia", 1 ], [ "chem_ethanol", 250 ], [ "denat_alcohol", 250 ] ],
+      [ [ "ammonia", 1 ], [ "chem_ethanol", 250 ], [ "denat_alcohol", 250 ], [ "disinfectant_makeshift", 10 ] ],
       [
         [ "soap", 3 ],
         [ "edible_tallow_lard", 2, "LIST" ],
