@@ -43,5 +43,22 @@
       [ "sights", 1 ]
     ],
     "built_in_mods": [ "lemat_revolver_shotgun" ]
+  },
+  {
+    "id": "win66",
+    "copy-from": "rifle_manual_cap_ball",
+    "type": "GUN",
+    "looks_like": "henry_big_boy",
+    "name": { "str": "Winchester 1866" },
+    "description": "The Winchester model 1866 was one of the first true lever-action rifles, succeeding the Henry Rifle with a side loading gate and a round internal magazine designed for paper cartridges.  Production and sale of these firearms continued all the way to 1899 thanks to them being cheaper than the later models.",
+    "weight": "4300 g",
+    "volume": "3 L",
+    "price": "1300 USD",
+    "price_postapoc": "50 USD",
+    "material": [ "steel", "wood" ],
+    "color": "brown",
+    "ammo": "44paper",
+    "dispersion": 280,
+    "clip_size": 9
   }
 ]

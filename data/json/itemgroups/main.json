@@ -194,6 +194,7 @@
       { "item": "shotgun_paper", "prob": 60 },
       { "item": "colt_army", "prob": 30 },
       { "item": "colt_navy", "prob": 30 },
+      { "item": "win66", "prob": 30 },
       { "item": "m1874_gatling", "prob": 10 }
     ]
   },
@@ -212,6 +213,7 @@
       { "item": "shotgun_paper", "prob": 60 },
       { "item": "colt_army", "prob": 30 },
       { "item": "colt_navy", "prob": 30 },
+      { "item": "win66", "prob": 30 },
       { "item": "m1874_gatling", "prob": 10 }
     ]
   },
