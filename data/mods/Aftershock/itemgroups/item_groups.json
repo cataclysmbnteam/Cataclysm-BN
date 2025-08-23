@@ -31,11 +31,7 @@
   {
     "id": "rare",
     "type": "item_group",
-    "items": [
-      [ "afs_bag_of_holding", 1 ],
-      [ "laser_pack", 10 ],
-      [ "ftk93", 5 ]
-    ]
+    "items": [ [ "afs_bag_of_holding", 1 ], [ "laser_pack", 10 ], [ "ftk93", 5 ] ]
   },
   {
     "id": "spider",
