@@ -297,7 +297,7 @@
     "time": "30 s",
     "reversible": true,
     "autolearn": true,
-    "using": [ [ "accelerant_liquid", 500 ] ],
+    "using": [ [ "accelerant_liquid", 500 ], [ "disinfectant_makeshift", 20 ] ],
     "components": [ [ [ "rag", 1 ] ], [ [ "bottle_glass", 1 ], [ "flask_glass", 1 ], [ "clay_canister", 1 ] ] ]
   },
   {
