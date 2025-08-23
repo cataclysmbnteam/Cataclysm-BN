@@ -371,11 +371,11 @@
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_MODS",
     "skill_used": "fabrication",
-    "skills_required": [ [ "pistol", 3 ] ],
+    "skills_required": [ [ "pistol", 2 ] ],
     "difficulty": 4,
     "time": "1 h",
     "//": "Slightly hard to make but worth it if you want to turn your glock full auto.",
-    "book_learn": [ [ "textbook_anarch", 3 ] ],
+    "book_learn": [ [ "textbook_anarch", 3 ], [ "mag_pistol", 1 ], ["manual_pistol", 3] ]
     "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
     "tools": [
       [
