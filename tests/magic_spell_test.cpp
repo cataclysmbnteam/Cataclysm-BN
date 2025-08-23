@@ -257,7 +257,7 @@ TEST_CASE( "spell damage", "[magic][spell][damage]" )
     clear_character( dummy );
     dummy.set_primary_weapon( item::spawn( "katana" ) );
     dummy.int_max = 16;
-    dummy.set_mutation(trait_id("BRAWLER"));
+    dummy.set_mutation( trait_id( "BRAWLER" ) );
 
     // Level 0 damage for this spell is 1
     REQUIRE( pew_type.min_damage == 1 );
