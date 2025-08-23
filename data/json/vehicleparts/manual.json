@@ -12,7 +12,7 @@
     "difficulty": 1,
     "noise_factor": 5,
     "m2c": 45,
-    "flags": [ "ENGINE", "E_STARTS_INSTANTLY", "E_ALTERNATOR" ]
+    "flags": [ "ENGINE", "E_STARTS_INSTANTLY", "E_ALTERNATOR", "SHOCK_RESISTANT" ]
   },
   {
     "id": "foot_pedals",

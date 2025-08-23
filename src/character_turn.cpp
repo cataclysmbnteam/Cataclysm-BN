@@ -489,14 +489,14 @@ void Character::process_one_effect( effect &it, bool is_new )
             if( !bp ) {
                 if( val > 5 ) {
                     add_msg_if_player( _( "Your %s HURTS!" ), body_part_name_accusative( bp_torso ) );
-                } else {
+                } else if( val > 0 ) {
                     add_msg_if_player( _( "Your %s hurts!" ), body_part_name_accusative( bp_torso ) );
                 }
                 apply_damage( nullptr, bodypart_id( "torso" ), val, true );
             } else {
                 if( val > 5 ) {
                     add_msg_if_player( _( "Your %s HURTS!" ), body_part_name_accusative( bp ) );
-                } else {
+                } else if( val > 0 ) {
                     add_msg_if_player( _( "Your %s hurts!" ), body_part_name_accusative( bp ) );
                 }
                 apply_damage( nullptr, bp.id(), val, true );

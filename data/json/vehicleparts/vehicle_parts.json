@@ -184,7 +184,7 @@
         "using": [ [ "adhesive", 1 ], [ "vehicle_repair_electronics", 1 ] ]
       }
     },
-    "flags": [ "TRACK", "UNMOUNT_ON_DAMAGE", "FOLDABLE", "ENABLED_DRAINS_EPOWER" ],
+    "flags": [ "TRACK", "UNMOUNT_ON_DAMAGE", "FOLDABLE", "ENABLED_DRAINS_EPOWER", "SHOCK_RESISTANT" ],
     "breaks_into": "ig_vp_device"
   },
   {
@@ -213,7 +213,7 @@
         "using": [ [ "sewing_standard", 10 ], [ "fabric_standard", 1 ] ]
       }
     },
-    "flags": [ "BED", "BOARDABLE", "CARGO", "MOUNTABLE" ],
+    "flags": [ "BED", "BOARDABLE", "CARGO", "MOUNTABLE", "SHOCK_IMMUNE" ],
     "breaks_into": [
       { "item": "rag", "count": [ 1, 20 ] },
       { "item": "cotton_ball", "count": [ 5, 25 ] },
@@ -425,7 +425,7 @@
         "using": [ [ "sewing_standard", 10 ], [ "fabric_standard", 1 ] ]
       }
     },
-    "flags": [ "ROOF", "FOLDABLE" ],
+    "flags": [ "ROOF", "FOLDABLE", "SHOCK_IMMUNE" ],
     "breaks_into": "ig_vp_cloth"
   },
   {
@@ -561,7 +561,7 @@
     "difficulty": 5,
     "looks_like": "cam_control",
     "epower": -15,
-    "flags": [ "ENABLED_DRAINS_EPOWER", "AUTOPILOT" ],
+    "flags": [ "ENABLED_DRAINS_EPOWER", "AUTOPILOT", "SHOCK_RESISTANT" ],
     "requirements": {
       "install": {
         "time": "12 m",
@@ -1168,7 +1168,7 @@
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "15 m", "qualities": [ { "id": "CUT", "level": 1 } ] },
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "rope_natural_short", 1 ] ] }
     },
-    "flags": [ "FLOATS" ],
+    "flags": [ "FLOATS", "SHOCK_IMMUNE" ],
     "breaks_into": [
       { "item": "mutant_bug_hydrogen_sacs", "count": [ 144, 288 ] },
       { "item": "bag_plastic", "count": [ 2, 10 ] },
@@ -1283,8 +1283,8 @@
       "removal": { "skills": [ [ "mechanics", 4 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 7 ] ], "time": "60 m", "using": [ [ "armor_kevlar_plate", 1 ] ] }
     },
-    "flags": [ "FLOATS", "BOARDABLE" ],
-    "breaks_into": [ { "item": "kevlar_plate", "count": [ 1, 3 ] } ],
+    "flags": [ "FLOATS", "BOARDABLE", "SHOCK_RESISTANT" ],
+    "breaks_into": "ig_vp_carbon",
     "damage_reduction": { "all": 14 }
   },
   {
@@ -1312,7 +1312,7 @@
         "using": [ [ "welding_standard", 5 ], [ "vehicle_repair_small_metal", 3 ] ]
       }
     },
-    "flags": [ "WHEEL", "FLOATS", "MULTISQUARE", "TRACKED", "VARIABLE_SIZE", "FOLDABLE", "STABLE", "SELF_JACK" ],
+    "flags": [ "WHEEL", "FLOATS", "MULTISQUARE", "TRACKED", "VARIABLE_SIZE", "FOLDABLE", "STABLE", "SELF_JACK", "SHOCK_RESISTANT" ],
     "wheel_type": "off-road",
     "cargo_weight_modifier": 75,
     "breaks_into": [
@@ -1342,7 +1342,7 @@
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 4 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ], [ "plastics", 1 ] ] }
     },
-    "flags": [ "MOUNTABLE", "FOLDABLE", "BOARDABLE", "CARGO" ],
+    "flags": [ "MOUNTABLE", "FOLDABLE", "BOARDABLE", "CARGO", "SHOCK_IMMUNE" ],
     "breaks_into": [ { "item": "plastic_chunk", "count": [ 10, 20 ] } ],
     "damage_reduction": { "bash": 10 }
   },
@@ -1364,7 +1364,7 @@
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ], [ "plastics", 1 ] ] }
     },
-    "flags": [ "FLOATS", "VARIABLE_SIZE", "FOLDABLE" ],
+    "flags": [ "FLOATS", "VARIABLE_SIZE", "FOLDABLE", "SHOCK_IMMUNE" ],
     "breaks_into": [ { "item": "plastic_chunk", "count": [ 10, 20 ] } ],
     "damage_reduction": { "bash": 10 }
   },
@@ -1405,7 +1405,8 @@
       "WIND_POWERED",
       "OVER",
       "STABLE",
-      "UNMOUNT_ON_DAMAGE"
+      "UNMOUNT_ON_DAMAGE",
+      "SHOCK_IMMUNE"
     ],
     "breaks_into": [ { "item": "splinter", "count": [ 2, 4 ] }, { "item": "rag", "count": [ 5, 10 ] } ]
   },
@@ -1433,7 +1434,7 @@
       { "item": "sheet", "count": [ 0, 1 ] },
       { "item": "rag", "count": [ 25, 50 ] }
     ],
-    "delete": { "flags": [ "UNMOUNT_ON_DAMAGE" ] }
+    "delete": { "flags": [ "UNMOUNT_ON_DAMAGE", "SHOCK_IMMUNE" ] }
   },
   {
     "type": "vehicle_part",
@@ -1463,7 +1464,7 @@
         "using": [ [ "nail_any_adhesive", 2 ], [ "vehicle_repair_small_wood", 4 ] ]
       }
     },
-    "flags": [ "ENGINE", "CONTROLS", "FOLDABLE", "MUSCLE_ARMS", "E_STARTS_INSTANTLY" ],
+    "flags": [ "ENGINE", "CONTROLS", "FOLDABLE", "MUSCLE_ARMS", "E_STARTS_INSTANTLY", "SHOCK_RESISTANT" ],
     "breaks_into": [ { "item": "splinter", "count": [ 2, 4 ] } ],
     "damage_reduction": { "all": 5 }
   },
@@ -1490,7 +1491,7 @@
         "using": [ [ "nail_any_adhesive", 2 ], [ "vehicle_repair_small_wood", 4 ] ]
       }
     },
-    "flags": [ "CONTROL_ANIMAL", "FOLDABLE" ],
+    "flags": [ "CONTROL_ANIMAL", "FOLDABLE", "SHOCK_IMMUNE" ],
     "breaks_into": [ { "item": "leather", "count": [ 1, 2 ] } ]
   },
   {
@@ -1516,7 +1517,7 @@
         "using": [ [ "soldering_standard", 1 ], [ "vehicle_repair_electronics", 1 ] ]
       }
     },
-    "flags": [ "CONTROLS", "FOLDABLE" ],
+    "flags": [ "CONTROLS", "FOLDABLE", "SHOCK_RESISTANT" ],
     "breaks_into": [
       { "item": "steel_lump" },
       { "item": "steel_chunk", "count": [ 1, 3 ] },
@@ -1548,7 +1549,7 @@
         "using": [ [ "adhesive", 1 ], [ "vehicle_repair_electronics", 1 ] ]
       }
     },
-    "flags": [ "CTRL_ELECTRONIC", "DOME_LIGHT", "ENABLED_DRAINS_EPOWER" ],
+    "flags": [ "CTRL_ELECTRONIC", "DOME_LIGHT", "ENABLED_DRAINS_EPOWER", "SHOCK_RESISTANT" ],
     "breaks_into": [ { "group": "ig_vp_device", "count": [ 2, 3 ] } ]
   },
   {
@@ -1573,7 +1574,7 @@
         "using": [ [ "adhesive", 1 ], [ "vehicle_repair_electronics", 1 ] ]
       }
     },
-    "flags": [ "CTRL_ELECTRONIC", "ENABLED_DRAINS_EPOWER", "SPACE_HEATER", "EMITTER" ],
+    "flags": [ "CTRL_ELECTRONIC", "ENABLED_DRAINS_EPOWER", "SPACE_HEATER", "EMITTER", "SHOCK_RESISTANT" ],
     "emissions": [ "emit_heater_vehicle" ],
     "breaks_into": [ { "item": "steel_lump" }, { "item": "steel_chunk", "count": [ 1, 3 ] }, { "item": "scrap", "count": [ 1, 3 ] } ],
     "damage_reduction": { "all": 15 }
@@ -1599,7 +1600,7 @@
         "using": [ [ "adhesive", 1 ], [ "vehicle_repair_electronics", 1 ] ]
       }
     },
-    "flags": [ "CTRL_ELECTRONIC", "ENABLED_DRAINS_EPOWER", "COOLER", "EMITTER" ],
+    "flags": [ "CTRL_ELECTRONIC", "ENABLED_DRAINS_EPOWER", "COOLER", "EMITTER", "SHOCK_RESISTANT" ],
     "emissions": [ "emit_cooler_vehicle" ],
     "breaks_into": [ { "item": "steel_lump" }, { "item": "steel_chunk", "count": [ 1, 3 ] }, { "item": "scrap", "count": [ 1, 3 ] } ],
     "damage_reduction": { "all": 15 }
@@ -1628,7 +1629,7 @@
         "using": [ [ "adhesive", 1 ], [ "vehicle_repair_electronics", 1 ] ]
       }
     },
-    "flags": [ "CTRL_ELECTRONIC", "FOLDABLE", "DOME_LIGHT", "ENABLED_DRAINS_EPOWER" ],
+    "flags": [ "CTRL_ELECTRONIC", "FOLDABLE", "DOME_LIGHT", "ENABLED_DRAINS_EPOWER", "SHOCK_RESISTANT" ],
     "breaks_into": "ig_vp_device",
     "damage_reduction": { "all": 6 }
   },
@@ -1654,7 +1655,7 @@
         "using": [ [ "welding_standard", 5 ], [ "vehicle_repair_small_metal", 3 ] ]
       }
     },
-    "flags": [ "MUFFLER" ],
+    "flags": [ "MUFFLER", "SHOCK_RESISTANT" ],
     "breaks_into": [
       { "item": "steel_lump", "count": [ 3, 5 ] },
       { "item": "steel_chunk", "count": [ 3, 5 ] },
@@ -1717,7 +1718,7 @@
         "qualities": [ { "id": "SCREW_FINE", "level": 1 } ]
       }
     },
-    "flags": [ "ON_CONTROLS", "SECURITY", "FOLDABLE", "ENABLED_DRAINS_EPOWER" ],
+    "flags": [ "ON_CONTROLS", "SECURITY", "FOLDABLE", "ENABLED_DRAINS_EPOWER", "SHOCK_RESISTANT" ],
     "breaks_into": "ig_vp_device"
   },
   {
@@ -1771,7 +1772,7 @@
         "using": [ [ "sewing_standard", 10 ], [ "fabric_standard", 1 ] ]
       }
     },
-    "flags": [ "OPENABLE", "OPENCLOSE_INSIDE", "OPAQUE", "CURTAIN", "MULTISQUARE", "NEEDS_WINDOW" ],
+    "flags": [ "OPENABLE", "OPENCLOSE_INSIDE", "OPAQUE", "CURTAIN", "MULTISQUARE", "NEEDS_WINDOW", "SHOCK_IMMUNE" ],
     "breaks_into": [  ]
   },
   {
@@ -1857,7 +1858,7 @@
         "using": [ [ "sewing_standard", 10 ], [ "fabric_standard", 1 ] ]
       }
     },
-    "flags": [ "OPENABLE", "OPAQUE", "OPENCLOSE_INSIDE", "CURTAIN", "MULTISQUARE" ],
+    "flags": [ "OPENABLE", "OPAQUE", "OPENCLOSE_INSIDE", "CURTAIN", "MULTISQUARE", "SHOCK_IMMUNE" ],
     "breaks_into": [  ]
   },
   {
@@ -1930,7 +1931,7 @@
         "using": [ [ "vehicle_screw", 1 ], [ "solar_panel", 1 ], [ "soldering_standard", 8 ] ]
       }
     },
-    "flags": [ "SOLAR_PANEL" ],
+    "flags": [ "SOLAR_PANEL", "SHOCK_RESISTANT" ],
     "breaks_into": [
       { "item": "steel_lump", "count": [ 2, 4 ] },
       { "item": "steel_chunk", "count": [ 2, 4 ] },
@@ -2122,7 +2123,7 @@
         "using": [ [ "welding_standard", 5 ], [ "vehicle_repair_small_metal", 1 ] ]
       }
     },
-    "flags": [ "FAUCET", "FOLDABLE" ],
+    "flags": [ "FAUCET", "FOLDABLE", "SHOCK_RESISTANT" ],
     "breaks_into": [ { "item": "scrap", "count": [ 1, 3 ] } ],
     "damage_reduction": { "all": 6 }
   },
@@ -2148,7 +2149,7 @@
         "using": [ [ "welding_standard", 5 ], [ "vehicle_repair_small_metal", 1 ] ]
       }
     },
-    "flags": [ "TOWEL", "FOLDABLE" ],
+    "flags": [ "TOWEL", "FOLDABLE", "SHOCK_RESISTANT" ],
     "breaks_into": [ { "item": "scrap", "count": [ 1, 3 ] }, { "item": "rag", "count": [ 1, 6 ] } ]
   },
   {
@@ -2215,7 +2216,7 @@
         "using": [ [ "welding_standard", 5 ], [ "vehicle_repair_superalloy", 1 ] ]
       }
     },
-    "flags": [ "ARMOR" ],
+    "flags": [ "ARMOR", "SHOCK_IMMUNE" ],
     "breaks_into": [
       { "item": "steel_lump", "count": [ 4, 6 ] },
       { "item": "steel_chunk", "count": [ 4, 6 ] },
@@ -2318,7 +2319,7 @@
       "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "150 s", "using": [ [ "vehicle_screw", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "20 s", "using": [ [ "adhesive", 1 ], [ "plastics", 1 ] ] }
     },
-    "flags": [ "HORN", "FOLDABLE" ],
+    "flags": [ "HORN", "FOLDABLE", "SHOCK_RESISTANT" ],
     "breaks_into": [ { "item": "scrap", "prob": 50 } ]
   },
   {
@@ -2343,7 +2344,7 @@
         "using": [ [ "adhesive", 1 ], [ "vehicle_repair_electronics", 1 ] ]
       }
     },
-    "flags": [ "HORN" ],
+    "flags": [ "HORN", "SHOCK_RESISTANT" ],
     "breaks_into": [ { "item": "scrap", "count": [ 0, 2 ] } ]
   },
   {
@@ -2368,7 +2369,7 @@
         "using": [ [ "adhesive", 1 ], [ "vehicle_repair_electronics", 1 ] ]
       }
     },
-    "flags": [ "HORN" ],
+    "flags": [ "HORN", "SHOCK_RESISTANT" ],
     "breaks_into": [ { "item": "steel_chunk", "prob": 50 } ]
   },
   {
@@ -2390,7 +2391,7 @@
       "removal": { "skills": [ [ "mechanics", 3 ] ], "time": "150 s", "using": [ [ "vehicle_screw", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "20 s", "using": [ [ "adhesive", 1 ], [ "plastics", 1 ] ] }
     },
-    "flags": [ "BEEPER", "ODDTURN", "FOLDABLE" ],
+    "flags": [ "BEEPER", "ODDTURN", "FOLDABLE", "SHOCK_RESISTANT" ],
     "breaks_into": "ig_vp_device"
   },
   {
@@ -2512,7 +2513,7 @@
         "using": [ [ "adhesive", 1 ], [ "vehicle_repair_electronics", 1 ] ]
       }
     },
-    "flags": [ "INTERNAL", "RECHARGE", "FOLDABLE" ],
+    "flags": [ "INTERNAL", "RECHARGE", "FOLDABLE", "SHOCK_RESISTANT" ],
     "folded_volume": "2 L",
     "breaks_into": [
       { "item": "steel_chunk", "count": [ 0, 2 ] },
@@ -2565,7 +2566,7 @@
         "using": [ [ "adhesive", 1 ], [ "vehicle_repair_electronics", 1 ] ]
       }
     },
-    "flags": [ "STEREO", "ENABLED_DRAINS_EPOWER" ],
+    "flags": [ "STEREO", "ENABLED_DRAINS_EPOWER", "SHOCK_RESISTANT" ],
     "breaks_into": "ig_vp_device"
   },
   {
@@ -2590,7 +2591,7 @@
         "using": [ [ "adhesive", 1 ], [ "vehicle_repair_electronics", 1 ] ]
       }
     },
-    "flags": [ "CHIMES", "ENABLED_DRAINS_EPOWER" ],
+    "flags": [ "CHIMES", "ENABLED_DRAINS_EPOWER", "SHOCK_RESISTANT" ],
     "location": "on_roof",
     "breaks_into": [
       { "item": "steel_lump", "count": [ 3, 5 ] },
@@ -2613,7 +2614,7 @@
     "description": "Thick copper cable with leads on either end.  Attach one end to one vehicle and the other to another, and you can transfer electrical power between the two.",
     "item": "jumper_cable",
     "requirements": { "removal": { "time": "5 s" } },
-    "flags": [ "NOINSTALL", "UNMOUNT_ON_DAMAGE", "UNMOUNT_ON_MOVE", "POWER_TRANSFER" ],
+    "flags": [ "NOINSTALL", "UNMOUNT_ON_DAMAGE", "UNMOUNT_ON_MOVE", "POWER_TRANSFER", "SHOCK_IMMUNE" ],
     "breaks_into": [ { "item": "cable", "charges": [ 1, 10 ] }, { "item": "plastic_chunk", "count": [ 1, 2 ] } ]
   },
   {
@@ -2629,7 +2630,7 @@
     "description": "Very thick copper cable with leads on either end.  Attach one end to one vehicle and the other to another, and you can transfer electrical power between the two.",
     "item": "jumper_cable_heavy",
     "requirements": { "removal": { "time": "5 s" } },
-    "flags": [ "NOINSTALL", "UNMOUNT_ON_DAMAGE", "UNMOUNT_ON_MOVE", "POWER_TRANSFER" ],
+    "flags": [ "NOINSTALL", "UNMOUNT_ON_DAMAGE", "UNMOUNT_ON_MOVE", "POWER_TRANSFER", "SHOCK_IMMUNE" ],
     "breaks_into": [ { "item": "wire", "count": [ 4, 8 ] }, { "item": "plastic_chunk", "count": [ 4, 8 ] } ]
   },
   {
@@ -2645,7 +2646,7 @@
     "description": "A heavy duty tow cable, if the other end was attached to another vehicle, it could pull it.",
     "item": "hd_tow_cable",
     "requirements": { "removal": { "time": 500 } },
-    "flags": [ "NOINSTALL", "UNMOUNT_ON_DAMAGE", "TOW_CABLE" ],
+    "flags": [ "NOINSTALL", "UNMOUNT_ON_DAMAGE", "TOW_CABLE", "SHOCK_IMMUNE" ],
     "breaks_into": [ { "item": "scrap", "count": [ 4, 8 ] }, { "item": "grip_hook", "count": 1 }, { "item": "cable", "count": [ 1, 4 ] } ]
   },
   {
@@ -2660,7 +2661,7 @@
     "durability": 120,
     "item": "jumper_cable_debug",
     "requirements": { "removal": { "time": "5 s" } },
-    "flags": [ "NOINSTALL", "UNMOUNT_ON_DAMAGE", "UNMOUNT_ON_MOVE", "POWER_TRANSFER" ],
+    "flags": [ "NOINSTALL", "UNMOUNT_ON_DAMAGE", "UNMOUNT_ON_MOVE", "POWER_TRANSFER", "SHOCK_IMMUNE" ],
     "breaks_into": [ { "item": "jumper_cable_debug" } ]
   },
   {
@@ -2689,6 +2690,27 @@
     "flags": [ "SEAT", "BOARDABLE", "BELTABLE" ],
     "breaks_into": [ { "item": "splinter", "count": [ 7, 9 ] } ],
     "damage_reduction": { "all": 8 }
+  },
+  {
+    "type": "vehicle_part",
+    "id": "seat_wood_light",
+    "copy-from": "seat_wood",
+    "name": { "str": "light wooden seat" },
+    "looks_like": "seat_wood",
+    "durability": 80,
+    "item": "frame_wood_light",
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 0 ] ], "time": "10 m", "using": [ [ "rope_natural_short", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "5 m", "using": [  ] },
+      "repair": {
+        "skills": [ [ "mechanics", 0 ] ],
+        "time": "5 m",
+        "using": [ [ "nail_any_adhesive", 1 ], [ "vehicle_repair_small_wood", 4 ] ]
+      }
+    },
+    "delete": { "flags": [ "BELTABLE" ] },
+    "breaks_into": [ { "item": "splinter", "count": [ 3, 5 ] }, { "item": "string_36", "count": [ 10, 15 ] } ],
+    "damage_reduction": { "all": 6 }
   },
   {
     "type": "vehicle_part",
@@ -2848,7 +2870,7 @@
         "using": [ [ "adhesive", 1 ], [ "vehicle_repair_electronics", 1 ] ]
       }
     },
-    "flags": [ "DOOR_MOTOR", "UNMOUNT_ON_DAMAGE", "FOLDABLE" ],
+    "flags": [ "DOOR_MOTOR", "UNMOUNT_ON_DAMAGE", "FOLDABLE", "SHOCK_RESISTANT" ],
     "breaks_into": [ { "item": "scrap", "count": [ 4, 6 ] } ],
     "damage_reduction": { "all": 12 }
   },
@@ -2873,7 +2895,7 @@
         "using": [ [ "welding_standard", 5 ], [ "vehicle_repair_electronics", 1 ] ]
       }
     },
-    "flags": [ "CONTROLS", "REMOTE_CONTROLS" ],
+    "flags": [ "CONTROLS", "REMOTE_CONTROLS", "SHOCK_RESISTANT" ],
     "breaks_into": [ { "item": "motor_tiny" }, { "item": "steel_chunk", "count": [ 1, 3 ] }, { "item": "scrap", "count": [ 1, 3 ] } ]
   },
   {
@@ -2899,7 +2921,7 @@
         "using": [ [ "adhesive", 1 ], [ "vehicle_repair_electronics", 1 ] ]
       }
     },
-    "flags": [ "VISION", "CAMERA", "CAMERA_CONTROL", "ENABLED_DRAINS_EPOWER" ],
+    "flags": [ "VISION", "CAMERA", "CAMERA_CONTROL", "ENABLED_DRAINS_EPOWER", "SHOCK_RESISTANT" ],
     "breaks_into": [ { "item": "e_scrap", "count": [ 4, 10 ] }, { "item": "plastic_chunk", "count": [ 2, 8 ] } ]
   },
   {
@@ -2927,7 +2949,7 @@
         "using": [ [ "adhesive", 1 ], [ "vehicle_repair_electronics", 1 ] ]
       }
     },
-    "flags": [ "VISION", "CAMERA", "ENABLED_DRAINS_EPOWER" ],
+    "flags": [ "VISION", "CAMERA", "ENABLED_DRAINS_EPOWER", "SHOCK_RESISTANT" ],
     "breaks_into": [ { "item": "e_scrap", "count": [ 4, 16 ] }, { "item": "plastic_chunk", "count": [ 2, 8 ] } ]
   },
   {
@@ -2953,7 +2975,7 @@
         "using": [ [ "welding_standard", 5 ], [ "vehicle_repair_electronics", 1 ] ]
       }
     },
-    "flags": [ "REMOTE_CONTROLS", "OBSTACLE", "FOLDABLE" ],
+    "flags": [ "REMOTE_CONTROLS", "OBSTACLE", "FOLDABLE", "SHOCK_RESISTANT" ],
     "breaks_into": [
       { "item": "motor_tiny", "count": [ 1, 3 ] },
       { "item": "steel_chunk", "count": [ 1, 3 ] },
@@ -3010,7 +3032,7 @@
         "using": [ [ "sewing_standard", 10 ], [ "fabric_hides_proper", 1 ] ]
       }
     },
-    "flags": [ "FUNNEL", "FOLDABLE" ],
+    "flags": [ "FUNNEL", "FOLDABLE", "SHOCK_RESISTANT" ],
     "breaks_into": [ { "item": "leather", "count": [ 1, 2 ] } ]
   },
   {
@@ -3038,7 +3060,7 @@
         "using": [ [ "nail_any_adhesive", 2 ], [ "vehicle_repair_small_wood", 1 ] ]
       }
     },
-    "flags": [ "FUNNEL", "FOLDABLE" ],
+    "flags": [ "FUNNEL", "FOLDABLE", "SHOCK_RESISTANT" ],
     "breaks_into": [ { "item": "birchbark", "count": [ 1, 2 ] } ]
   },
   {
@@ -3062,7 +3084,7 @@
       "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "3 m", "using": [ [ "vehicle_nail_removal", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "6 m", "using": [ [ "adhesive", 2 ], [ "plastics", 1 ] ] }
     },
-    "flags": [ "FUNNEL", "FOLDABLE" ],
+    "flags": [ "FUNNEL", "FOLDABLE", "SHOCK_RESISTANT" ],
     "breaks_into": [ { "item": "plastic_chunk", "count": [ 1, 2 ] } ]
   },
   {
@@ -3084,7 +3106,7 @@
       "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "3 m", "using": [ [ "vehicle_screw", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "6 m", "using": [ [ "adhesive", 1 ], [ "plastics", 1 ] ] }
     },
-    "flags": [ "FUNNEL" ],
+    "flags": [ "FUNNEL", "SHOCK_RESISTANT" ],
     "breaks_into": [ { "item": "plastic_chunk", "count": [ 1, 2 ] } ]
   },
   {
@@ -3111,7 +3133,7 @@
         "using": [ [ "welding_standard", 5 ], [ "vehicle_repair_small_metal", 3 ] ]
       }
     },
-    "flags": [ "FUNNEL" ],
+    "flags": [ "FUNNEL", "SHOCK_RESISTANT" ],
     "breaks_into": [ { "item": "scrap", "count": [ 8, 12 ] } ],
     "damage_reduction": { "all": 12 }
   },
@@ -3139,7 +3161,7 @@
         "using": [ [ "nail_any_adhesive", 2 ], [ "vehicle_repair_small_wood", 4 ] ]
       }
     },
-    "flags": [ "FUNNEL" ],
+    "flags": [ "FUNNEL", "SHOCK_RESISTANT" ],
     "breaks_into": [ { "item": "splinter", "count": [ 5, 10 ] } ]
   },
   {
@@ -3161,7 +3183,7 @@
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ], [ "steel_tiny", 1 ] ] }
     },
-    "flags": [ "SCOOP", "CARGO", "ENABLED_DRAINS_EPOWER" ],
+    "flags": [ "SCOOP", "CARGO", "ENABLED_DRAINS_EPOWER", "SHOCK_RESISTANT" ],
     "location": "under",
     "breaks_into": [ { "item": "scrap", "count": [ 2, 5 ] }, { "item": "plastic_chunk", "count": [ 1, 5 ] } ],
     "damage_reduction": { "all": 24 }
@@ -3188,7 +3210,7 @@
         "using": [ [ "adhesive", 1 ], [ "vehicle_repair_electronics", 1 ] ]
       }
     },
-    "flags": [ "WATER_PURIFIER" ],
+    "flags": [ "WATER_PURIFIER", "SHOCK_RESISTANT" ],
     "breaks_into": [ { "item": "plastic_chunk", "count": [ 1, 2 ] } ],
     "damage_reduction": { "all": 26 }
   },
@@ -3342,7 +3364,7 @@
       "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "12 m", "using": [ [ "vehicle_screw", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "6 m", "using": [ [ "adhesive", 1 ], [ "vehicle_repair_small_metal", 1 ] ] }
     },
-    "flags": [ "CARGO_LOCKING", "FOLDABLE", "INTERNAL" ],
+    "flags": [ "CARGO_LOCKING", "FOLDABLE", "INTERNAL", "SHOCK_RESISTANT" ],
     "breaks_into": [ { "item": "clockworks", "count": [ 0, 2 ] }, { "item": "scrap", "count": [ 2, 6 ] } ],
     "damage_reduction": { "all": 60 }
   },
@@ -3364,7 +3386,7 @@
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "10 m", "using": "vehicle_weld_removal" },
       "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "5 m", "using": [ [ "welding_standard", 5 ], [ "steel_tiny", 1 ] ] }
     },
-    "flags": [ "TURRET_MOUNT", "FOLDABLE" ],
+    "flags": [ "TURRET_MOUNT", "FOLDABLE", "SHOCK_RESISTANT" ],
     "breaks_into": [ { "item": "scrap", "count": [ 1, 4 ] } ],
     "damage_reduction": { "all": 54 }
   },
@@ -3463,7 +3485,7 @@
     "item": "turret_controls",
     "description": "A set of motor, camera, and an AI unit which allows for tracking targets, friend-or-foe identification, and firing the connected turret in full automatic mode.  When installed over the turret, it will enable auto targeting mode for said turret.",
     "folded_volume": "750 ml",
-    "flags": [ "ENABLED_DRAINS_EPOWER", "TURRET_CONTROLS", "UNMOUNT_ON_DAMAGE" ],
+    "flags": [ "ENABLED_DRAINS_EPOWER", "TURRET_CONTROLS", "UNMOUNT_ON_DAMAGE", "SHOCK_RESISTANT" ],
     "requirements": {
       "install": {
         "time": "40 m",
@@ -3531,7 +3553,7 @@
         "using": [ [ "sewing_standard", 10 ], [ "fabric_standard", 1 ] ]
       }
     },
-    "flags": [ "FOLDABLE", "PROTRUSION", "OVER", "UNMOUNT_ON_DAMAGE" ],
+    "flags": [ "FOLDABLE", "PROTRUSION", "OVER", "UNMOUNT_ON_DAMAGE", "SHOCK_IMMUNE" ],
     "breaks_into": [ { "item": "splinter", "count": [ 1, 5 ] }, { "item": "american_flag", "count": 1 } ]
   },
   {
@@ -3569,7 +3591,7 @@
         "using": [ [ "vehicle_screw", 1 ], [ "solar_panel", 1 ], [ "soldering_standard", 8 ] ]
       }
     },
-    "flags": [ "SOLAR_PANEL", "FOLDABLE" ],
+    "flags": [ "SOLAR_PANEL", "FOLDABLE", "SHOCK_RESISTANT" ],
     "breaks_into": [
       { "item": "steel_lump", "count": [ 2, 4 ] },
       { "item": "steel_chunk", "count": [ 2, 4 ] },

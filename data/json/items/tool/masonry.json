@@ -19,7 +19,7 @@
     "charges_per_use": 75,
     "max_charges": 450,
     "techniques": [ "SWEEP" ],
-    "qualities": [ [ "AXE", 3 ] ],
+    "qualities": [ [ "AXE", 4 ] ],
     "use_action": {
       "type": "transform",
       "active": true,

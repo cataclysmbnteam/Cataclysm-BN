@@ -16,7 +16,7 @@
     "material": [ "wood", "steel" ],
     "symbol": "/",
     "color": "light_gray",
-    "qualities": [ [ "AXE", 2 ], [ "BUTCHER", -36 ] ],
+    "qualities": [ [ "AXE", 3 ], [ "BUTCHER", -36 ] ],
     "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP" ],
     "flags": [ "NONCONDUCTIVE", "SHEATH_AXE" ]
   },
@@ -51,7 +51,7 @@
     "charges_per_use": 50,
     "max_charges": 450,
     "techniques": [ "SWEEP" ],
-    "qualities": [ [ "AXE", 4 ] ],
+    "qualities": [ [ "AXE", 5 ] ],
     "use_action": {
       "type": "transform",
       "active": true,
@@ -186,7 +186,7 @@
     "ammo": "battery",
     "charges_per_use": 125,
     "techniques": [ "SWEEP" ],
-    "qualities": [ [ "AXE", 4 ] ],
+    "qualities": [ [ "AXE", 5 ] ],
     "use_action": {
       "type": "transform",
       "active": true,

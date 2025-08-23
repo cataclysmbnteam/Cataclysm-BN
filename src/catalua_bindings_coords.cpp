@@ -160,14 +160,14 @@ void cata::detail::reg_coords_library( sol::state &lua )
     luna::set_fx( lib, "sm_to_ms", []( const tripoint & raw_rough,
     sol::optional<const point &> raw_remain ) -> tripoint {
         tripoint_rel_sm rough( raw_rough );
-        point_sm_ms remain( raw_remain ? *raw_remain : point_zero );
+        point_sm_ms remain( raw_remain.value_or( point_zero ) );
         tripoint_rel_ms fine = coords::project_combine( rough, remain );
         return fine.raw();
     } );
     luna::set_fx( lib, "omt_to_ms", []( const tripoint & raw_rough,
     sol::optional<const point &> raw_remain ) -> tripoint {
         tripoint_rel_omt rough( raw_rough );
-        point_omt_ms remain( raw_remain ? *raw_remain : point_zero );
+        point_omt_ms remain( raw_remain.value_or( point_zero ) );
         tripoint_rel_ms fine = coords::project_combine( rough, remain );
         return fine.raw();
     } );
@@ -175,7 +175,7 @@ void cata::detail::reg_coords_library( sol::state &lua )
     sol::optional<const tripoint &> raw_remain ) -> tripoint {
         point_rel_om rough( raw_rough );
         coords::coord_point<tripoint, coords::origin::overmap, coords::ms> remain(
-            raw_remain ? *raw_remain : tripoint_zero
+            raw_remain.value_or( tripoint_zero )
         );
         tripoint_rel_ms fine = coords::project_combine( rough, remain );
         return fine.raw();
