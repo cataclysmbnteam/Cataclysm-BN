@@ -73,7 +73,7 @@
     "melee_cut": 4,
     "dodge": 6,
     "harvest": "mutant_mammal_small_fur",
-    "delete": { "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ]},
+    "delete": { "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ] },
     "anger_triggers": [ "STALK", "FRIEND_ATTACKED", "FRIEND_DIED", "PLAYER_WEAK", "PLAYER_CLOSE" ]
   },
   {
