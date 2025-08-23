@@ -45,12 +45,12 @@
     "built_in_mods": [ "lemat_revolver_shotgun" ]
   },
   {
-    "id": "win66",
+    "id": "colt_ring",
     "copy-from": "rifle_manual_cap_ball",
     "type": "GUN",
     "looks_like": "henry_big_boy",
-    "name": { "str": "Winchester 1866" },
-    "description": "The Winchester model 1866 was one of the first true lever-action rifles, succeeding the Henry Rifle with a side loading gate and a round internal magazine designed for paper cartridges.  Production and sale of these firearms continued all the way to 1899 thanks to them being cheaper than the later models.",
+    "name": { "str": "Colt Ring Lever Rifle" },
+    "description": "The Colt Ring Lever Rifle was one of the first true lever-action rifles, designed to utilize the same caplock ammo as Colt revolvers.  It was famously used in the second Seminole war, where the Seminole people had learned to strike American soldiers while they were reloading their muskets.",
     "weight": "4300 g",
     "volume": "3 L",
     "price": "1300 USD",
@@ -59,7 +59,6 @@
     "color": "brown",
     "ammo": "44paper",
     "dispersion": 280,
-    "clip_size": 9,
-    "extend": { "flags": [ "RELOAD_ONE" ] }
+    "clip_size": 9
   }
 ]

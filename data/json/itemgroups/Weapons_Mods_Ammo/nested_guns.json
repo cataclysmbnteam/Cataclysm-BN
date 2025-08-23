@@ -843,12 +843,12 @@
     "entries": [ { "item": "colt_navy", "ammo-group": "on_hand_36paper", "charges": [ 0, 6 ] }, { "group": "on_hand_36paper" } ]
   },
   {
-    "id": "nested_win66",
+    "id": "nested_colt_ring",
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
     "ammo": 100,
-    "entries": [ { "item": "win66", "ammo-group": "on_hand_44paper", "charges": [ 0, 9 ] }, { "group": "on_hand_44paper" } ]
+    "entries": [ { "item": "colt_ring", "ammo-group": "on_hand_44paper", "charges": [ 0, 9 ] }, { "group": "on_hand_44paper" } ]
   },
   {
     "id": "nested_pistol_flintlock",

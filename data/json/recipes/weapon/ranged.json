@@ -1456,7 +1456,7 @@
   },
   {
     "type": "recipe",
-    "result": "win66",
+    "result": "colt_ring",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_RANGED",
     "skill_used": "fabrication",
