@@ -287,10 +287,7 @@
     "type": "item_group",
     "id": "spring_minerals",
     "subtype": "distribution",
-    "entries": [
-      { "item": "material_rocksalt", "prob": 75 },
-      { "item": "chunk_sulfur", "prob": 25 }
-    ]
+    "entries": [ { "item": "material_rocksalt", "prob": 75 }, { "item": "chunk_sulfur", "prob": 25 } ]
   },
   {
     "id": "prison_textile",
