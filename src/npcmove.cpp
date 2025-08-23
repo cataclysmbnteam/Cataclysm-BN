@@ -1596,8 +1596,8 @@ void npc::deactivate_combat_cbms()
 void npc::activate_power_armor()
 {
     for( auto &elem : worn ) {
-        if( elem->has_flag( flag_POWERARMOR_EXO ) ) {
-            elem->activate();
+        if( elem->has_flag( flag_POWERARMOR_EXO ) && !elem->has_flag( flag_CLIMATE_CONTROL ) ) {
+            invoke_item( elem );
         }
     }
 }
@@ -1605,8 +1605,8 @@ void npc::activate_power_armor()
 void npc::deactivate_power_armor()
 {
     for( auto &elem : worn ) {
-        if( elem->has_flag( flag_POWERARMOR_EXO ) ) {
-            elem->deactivate();
+        if( elem->has_flag( flag_POWERARMOR_EXO ) && elem->has_flag( flag_CLIMATE_CONTROL ) ) {
+            invoke_item( elem );
         }
     }
 }
