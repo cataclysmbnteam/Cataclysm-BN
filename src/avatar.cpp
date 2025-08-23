@@ -1137,7 +1137,14 @@ void avatar::set_movement_mode( character_movemode new_mode )
                     add_msg( _( "You nudge your steed into a steady trot." ) );
                 }
             } else {
-                add_msg( _( "You start walking." ) );
+                // Spend moves to stand up if crouched, otherwise just stop running.
+                if( move_mode == CMM_CROUCH ) {
+                    mod_moves( -100 );
+                    recoil = MAX_RECOIL;
+                    add_msg( _( "You stand up." ) );
+                } else {
+                    add_msg( _( "You start walking." ) );
+                }
             }
             break;
         }
@@ -1153,7 +1160,14 @@ void avatar::set_movement_mode( character_movemode new_mode )
                         add_msg( _( "You spur your steed into a gallop." ) );
                     }
                 } else {
-                    add_msg( _( "You start running." ) );
+                    // Spend moves to stand up if crouched, otherwise just stop running.
+                    if( move_mode == CMM_CROUCH ) {
+                        mod_moves( -100 );
+                        recoil = MAX_RECOIL;
+                        add_msg( _( "You stand up and start running." ) );
+                    } else {
+                        add_msg( _( "You start running." ) );
+                    }
                 }
             } else {
                 if( is_mounted() ) {
@@ -1176,6 +1190,11 @@ void avatar::set_movement_mode( character_movemode new_mode )
                     add_msg( _( "You slow your steed to a walk." ) );
                 }
             } else {
+                // Don't spend moves if we were already crouching.
+                if( move_mode != CMM_CROUCH ) {
+                    recoil = MAX_RECOIL;
+                    mod_moves( -100 );
+                }
                 add_msg( _( "You start crouching." ) );
             }
             break;
