@@ -450,7 +450,6 @@ void teleport_overmap( bool specific_coordinates )
 }
 
 static void teleport_to_overmap_special() {
-    // Vector of name, id so that we can sort by name
     std::vector<const overmap_special *> vec_os;
     std::vector<std::pair<std::string, vproto_id>> area_strings;
 
