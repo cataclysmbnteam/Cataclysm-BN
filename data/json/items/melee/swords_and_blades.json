@@ -1128,7 +1128,7 @@
       "need_charges_msg": "The %s's batteries are dead.",
       "target": "shock_foil_on"
     },
-    "extend": { "flags": [ "NONCONDUCTIVE" ] },
+    "extend": { "flags": [ "NONCONDUCTIVE", "COMBAT_NPC_USE" ] },
     "relative": { "volume": "250 ml", "weight": "151 g" },
     "magazines": [
       [
@@ -2053,7 +2053,8 @@
       "success_message": "A burst of flame roars to life, crawling along the blade.",
       "failure_message": "The igniter clicks, but nothing catches.",
       "lacks_fuel_message": "You hear a sputter—it's dry. No fuel left."
-    }
+    },
+    "extend": { "flags": [ "COMBAT_NPC_USE" ] }
   },
   {
     "id": "shishkebab_on",

@@ -821,9 +821,25 @@ void npc::move()
                 invoke_item( elem );
             }
         }
-        item *weapon = &primary_weapon();
-        if( !weapon->is_null() && weapon->has_flag( flag_COMBAT_NPC_USE ) && weapon->is_active() ) {
-            invoke_item( weapon );
+        item &weapon = primary_weapon();
+        if( !weapon.is_null() && weapon.has_flag( flag_COMBAT_NPC_USE ) && weapon.is_active() ) {
+
+        if ( weapon.get_use( "transform" ) ) {
+            const iuse_transform *transform_result = dynamic_cast<const iuse_transform *>
+                                            ( weapon.get_use( "transform" )->get_actor_ptr() );
+            if( transform_result != nullptr ) {
+               transform_result->use( *this, weapon, false, pos() );
+            }
+        } else if ( weapon.get_use( "fireweapon_on" ) ) {
+
+            const fireweapon_on_actor *fireweapon_result = dynamic_cast<const fireweapon_on_actor *>
+                                            ( weapon.get_use( "fireweapon_on" )->get_actor_ptr() );
+            if( fireweapon_result != nullptr ) {
+               fireweapon_result->use( *this, weapon, false, pos() );
+            }
+        }
+
+
         }
 
 
@@ -1382,9 +1398,25 @@ npc_action npc::method_of_attack()
             invoke_item( elem );
         }
     }
-    item *weapon = &primary_weapon();
-    if( !weapon->is_null() && weapon->has_flag( flag_COMBAT_NPC_USE ) && !weapon->is_active() ) {
-        invoke_item( weapon );
+    item &weapon = primary_weapon();
+    if( !weapon.is_null() && weapon.has_flag( flag_COMBAT_NPC_USE ) && !weapon.is_active() ) {
+
+        if ( weapon.get_use( "transform" ) ) {
+            const iuse_transform *transform_result = dynamic_cast<const iuse_transform *>
+                                            ( weapon.get_use( "transform" )->get_actor_ptr() );
+            if( transform_result != nullptr ) {
+               transform_result->use( *this, weapon, false, pos() );
+            }
+        } else if ( weapon.get_use( "fireweapon_off" ) ) {
+
+            const fireweapon_off_actor *fireweapon_result = dynamic_cast<const fireweapon_off_actor *>
+                                            ( weapon.get_use( "fireweapon_off" )->get_actor_ptr() );
+            if( fireweapon_result != nullptr ) {
+               fireweapon_result->use( *this, weapon, false, pos() );
+            }
+        }
+
+
     }
 
     if( emergency() && alt_attack() ) {
