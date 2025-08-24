@@ -435,9 +435,8 @@
     "type": "talk_topic",
     "dynamic_line": "<no>.",
     "responses": [
-      { "text": "Okay, okay, sorry.", "topic": "TALK_NONE" },
-      { "text": "Seriously, give me more stuff!", "topic": "TALK_SHARE_EQUIPMENT" },
-      { "text": "Okay, fine, bye.", "topic": "TALK_DONE" }
+      { "text": "Okay, okay, sorry.", "topic": "TALK_NONE", "effect": "deny_equipment" },
+      { "text": "Okay, fine, bye.", "topic": "TALK_DONE", "effect": "deny_equipment" }
     ]
   },
   {
