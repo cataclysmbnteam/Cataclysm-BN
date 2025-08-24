@@ -1161,7 +1161,7 @@
         }
       }
     ],
-    "extend": { "flags": [ "TRADER_AVOID" ] },
+    "extend": { "flags": [ "TRADER_AVOID", "COMBAT_NPC_ON" ] },
     "power_draw": 500000
   },
   {
@@ -1233,7 +1233,7 @@
         }
       }
     ],
-    "extend": { "flags": [ "TRADER_AVOID" ] },
+    "extend": { "flags": [ "TRADER_AVOID", "COMBAT_NPC_ON" ] },
     "power_draw": 500000
   },
   {
@@ -1304,7 +1304,7 @@
         }
       }
     ],
-    "extend": { "flags": [ "TRADER_AVOID" ] },
+    "extend": { "flags": [ "TRADER_AVOID", "COMBAT_NPC_ON" ] },
     "power_draw": 500000
   },
   {
@@ -1432,7 +1432,7 @@
     "revert_to": "shock_rapier_off",
     "revert_msg": "The %s's batteries run dry.",
     "use_action": { "type": "transform", "msg": "You press a button and the rapier turns off.", "target": "shock_rapier_off" },
-    "extend": { "flags": [ "TRADER_AVOID" ] },
+    "extend": { "flags": [ "TRADER_AVOID", "COMBAT_NPC_ON" ] },
     "//": "Roughly +25% electric damage",
     "attacks": [
       {
@@ -1584,7 +1584,16 @@
     "qualities": [ [ "BUTCHER", -250 ] ],
     "turns_per_charge": 1,
     "charges_per_use": 0,
-    "flags": [ "MESSY", "FRAGILE_MELEE", "TRADER_AVOID", "NONCONDUCTIVE", "ALWAYS_TWOHAND", "WATER_DISABLE", "COMBAT_NPC_USE" ]
+    "flags": [
+      "MESSY",
+      "FRAGILE_MELEE",
+      "TRADER_AVOID",
+      "NONCONDUCTIVE",
+      "ALWAYS_TWOHAND",
+      "WATER_DISABLE",
+      "COMBAT_NPC_USE",
+      "COMBAT_NPC_ON"
+    ]
   },
   {
     "id": "ecs_lajatang_off",
@@ -1636,7 +1645,16 @@
     "revert_msg": "Your chainsaw lajatang goes quiet",
     "use_action": { "type": "transform", "target": "ecs_lajatang_off", "msg": "You turn off the chainsaw lajatang." },
     "qualities": [ [ "BUTCHER", -250 ] ],
-    "flags": [ "MESSY", "DURABLE_MELEE", "TRADER_AVOID", "NONCONDUCTIVE", "ALWAYS_TWOHAND", "WATER_DISABLE", "COMBAT_NPC_USE" ],
+    "flags": [
+      "MESSY",
+      "DURABLE_MELEE",
+      "TRADER_AVOID",
+      "NONCONDUCTIVE",
+      "ALWAYS_TWOHAND",
+      "WATER_DISABLE",
+      "COMBAT_NPC_USE",
+      "COMBAT_NPC_ON"
+    ],
     "magazine_well": "1000 ml"
   },
   {
@@ -1789,7 +1807,7 @@
     "qualities": [ [ "BUTCHER", -120 ] ],
     "revert_msg": "Your combat chainsaw goes quiet",
     "use_action": { "type": "transform", "target": "combatsaw_off", "msg": "You turn off the combat chainsaw." },
-    "flags": [ "MESSY", "DURABLE_MELEE", "TRADER_AVOID", "ALWAYS_TWOHAND", "WATER_DISABLE", "COMBAT_NPC_USE" ]
+    "flags": [ "MESSY", "DURABLE_MELEE", "TRADER_AVOID", "ALWAYS_TWOHAND", "WATER_DISABLE", "COMBAT_NPC_USE", "COMBAT_NPC_ON" ]
   },
   {
     "id": "e_combatsaw_off",
@@ -1843,7 +1861,7 @@
     "qualities": [ [ "BUTCHER", -120 ] ],
     "revert_msg": "Your combat chainsaw goes quiet",
     "use_action": { "type": "transform", "target": "e_combatsaw_off", "msg": "You turn off the combat chainsaw." },
-    "flags": [ "MESSY", "DURABLE_MELEE", "TRADER_AVOID", "ALWAYS_TWOHAND", "WATER_DISABLE", "COMBAT_NPC_USE" ],
+    "flags": [ "MESSY", "DURABLE_MELEE", "TRADER_AVOID", "ALWAYS_TWOHAND", "WATER_DISABLE", "COMBAT_NPC_USE", "COMBAT_NPC_ON" ],
     "magazine_well": "500 ml"
   },
   {
@@ -2092,7 +2110,7 @@
       },
       { "type": "firestarter", "moves": 30 }
     ],
-    "extend": { "flags": [ "FIRE", "LIGHT_240", "CHARGEDIM", "TRADER_AVOID" ] }
+    "extend": { "flags": [ "FIRE", "LIGHT_240", "CHARGEDIM", "TRADER_AVOID", "COMBAT_NPC_ON" ] }
   },
   {
     "id": "firekatana_off",
@@ -2148,7 +2166,7 @@
       },
       { "type": "firestarter", "moves": 30 }
     ],
-    "extend": { "flags": [ "FIRE", "LIGHT_240", "CHARGEDIM", "TRADER_AVOID" ] }
+    "extend": { "flags": [ "FIRE", "LIGHT_240", "CHARGEDIM", "TRADER_AVOID", "COMBAT_NPC_ON" ] }
   },
   {
     "id": "broadfire_off",
@@ -2204,7 +2222,7 @@
       },
       { "type": "firestarter", "moves": 30 }
     ],
-    "extend": { "flags": [ "FIRE", "LIGHT_240", "CHARGEDIM", "TRADER_AVOID" ] }
+    "extend": { "flags": [ "FIRE", "LIGHT_240", "CHARGEDIM", "TRADER_AVOID", "COMBAT_NPC_ON" ] }
   },
   {
     "id": "zweifire_off",
@@ -2262,6 +2280,6 @@
       },
       { "type": "firestarter", "moves": 30 }
     ],
-    "extend": { "flags": [ "FIRE", "LIGHT_240", "CHARGEDIM", "TRADER_AVOID" ] }
+    "extend": { "flags": [ "FIRE", "LIGHT_240", "CHARGEDIM", "TRADER_AVOID", "COMBAT_NPC_ON" ] }
   }
 ]

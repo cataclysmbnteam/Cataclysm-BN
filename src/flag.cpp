@@ -66,6 +66,7 @@ const flag_id flag_COLD_IMMUNE( "COLD_IMMUNE" );
 const flag_id flag_COLLAPSIBLE_STOCK( "COLLAPSIBLE_STOCK" );
 const flag_id flag_COLLAR( "COLLAR" );
 const flag_id flag_COMBAT_NPC_USE( "COMBAT_NPC_USE" );
+const flag_id flag_COMBAT_NPC_ON( "COMBAT_NPC_ON" );
 const flag_id flag_COMPACT( "COMPACT" );
 const flag_id flag_CONDUCTIVE( "CONDUCTIVE" );
 const flag_id flag_CONSUMABLE( "CONSUMABLE" );

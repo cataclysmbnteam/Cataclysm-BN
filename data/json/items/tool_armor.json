@@ -898,7 +898,8 @@
       "THERMOMETER",
       "TRADER_AVOID",
       "CLIMATE_CONTROL",
-      "COMBAT_NPC_USE"
+      "COMBAT_NPC_USE",
+      "COMBAT_NPC_ON"
     ],
     "turns_per_charge": 18,
     "revert_to": "rm13_armor",
@@ -1042,7 +1043,8 @@
       "PSYSHIELD_PARTIAL",
       "GNV_EFFECT",
       "CLIMATE_CONTROL",
-      "COMBAT_NPC_USE"
+      "COMBAT_NPC_USE",
+      "COMBAT_NPC_ON"
     ]
   },
   {
@@ -2647,7 +2649,7 @@
     "power_draw": 60,
     "revert_to": "powered_earmuffs",
     "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "The %s flicks off.", "target": "powered_earmuffs" },
-    "extend": { "flags": [ "PARTIAL_DEAF" ] },
+    "extend": { "flags": [ "PARTIAL_DEAF", "COMBAT_NPC_ON" ] },
     "delete": { "flags": [ "DEAF" ] }
   },
   {

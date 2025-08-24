@@ -817,7 +817,7 @@ void npc::move()
         // Deactivate Armor & Weapons
         for( auto &elem : worn ) {
             // The is_active() part was taken from is_wearing_active_power_armor
-            if( elem->has_flag( flag_COMBAT_NPC_USE ) && elem->is_active() ) {
+            if( elem->has_flag( flag_COMBAT_NPC_USE ) && elem->has_flag( flag_COMBAT_NPC_ON ) ) {
                 if( elem->get_use( "transform" ) ) {
                     invoke_item( elem, "transform" );
                 } else if( elem->get_use( "set_transform" ) ) {
@@ -826,7 +826,8 @@ void npc::move()
             }
         }
         item &weapon = primary_weapon();
-        if( !weapon.is_null() && weapon.has_flag( flag_COMBAT_NPC_USE ) && weapon.is_active() ) {
+        if( !weapon.is_null() && weapon.has_flag( flag_COMBAT_NPC_USE ) &&
+            weapon.has_flag( flag_COMBAT_NPC_ON ) ) {
             if( weapon.get_use( "transform" ) ) {
                 invoke_item( &weapon, "transform" );
             } else if( weapon.get_use( "fireweapon_on" ) ) {
@@ -1386,7 +1387,7 @@ npc_action npc::method_of_attack()
     // Activate Armor & Weapons
     for( auto &elem : worn ) {
         // The is_active() part was taken from is_wearing_active_power_armor
-        if( elem->has_flag( flag_COMBAT_NPC_USE ) && !elem->is_active() ) {
+        if( elem->has_flag( flag_COMBAT_NPC_USE ) && !elem->has_flag( flag_COMBAT_NPC_ON ) ) {
             if( elem->get_use( "transform" ) ) {
                 invoke_item( elem, "transform" );
             } else if( elem->get_use( "set_transform" ) ) {
@@ -1395,7 +1396,8 @@ npc_action npc::method_of_attack()
         }
     }
     item &weapon = primary_weapon();
-    if( !weapon.is_null() && weapon.has_flag( flag_COMBAT_NPC_USE ) && !weapon.is_active() ) {
+    if( !weapon.is_null() && weapon.has_flag( flag_COMBAT_NPC_USE ) &&
+        !weapon.has_flag( flag_COMBAT_NPC_ON ) ) {
 
         if( weapon.get_use( "transform" ) ) {
             invoke_item( &weapon, "transform" );

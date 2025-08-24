@@ -787,7 +787,7 @@
         "damage": { "values": [ { "damage_type": "bash", "amount": 30 }, { "damage_type": "electric", "amount": 8 } ] }
       }
     ],
-    "extend": { "flags": [ "TRADER_AVOID" ] },
+    "extend": { "flags": [ "TRADER_AVOID", "COMBAT_NPC_ON" ] },
     "power_draw": 500000
   },
   {
@@ -930,7 +930,7 @@
         "damage": { "values": [ { "damage_type": "bash", "amount": 20 }, { "damage_type": "electric", "amount": 5 } ] }
       }
     ],
-    "extend": { "flags": [ "TRADER_AVOID" ] },
+    "extend": { "flags": [ "TRADER_AVOID", "COMBAT_NPC_ON" ] },
     "power_draw": 500000
   },
   {
@@ -1090,6 +1090,6 @@
         "type": "transform"
       }
     ],
-    "extend": { "flags": [ "FIRE", "LIGHT_310", "CHARGEDIM", "DURABLE_MELEE", "TRADER_AVOID", "WATER_EXTINGUISH" ] }
+    "extend": { "flags": [ "FIRE", "LIGHT_310", "CHARGEDIM", "DURABLE_MELEE", "TRADER_AVOID", "WATER_EXTINGUISH", "COMBAT_NPC_ON" ] }
   }
 ]
