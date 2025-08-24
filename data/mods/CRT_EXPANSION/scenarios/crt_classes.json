@@ -58,7 +58,6 @@
     "points": 6,
     "skills": [
       { "level": 2, "name": "tailor" },
-      { "level": 3, "name": "barter" },
       { "level": 3, "name": "driving" },
       { "level": 3, "name": "speech" },
       { "level": 1, "name": "unarmed" }
@@ -99,7 +98,6 @@
       { "level": 4, "name": "speech" },
       { "level": 1, "name": "survival" },
       { "level": 1, "name": "firstaid" },
-      { "level": 1, "name": "barter" }
     ],
     "items": {
       "both": {
@@ -266,7 +264,6 @@
       { "level": 2, "name": "gun" },
       { "level": 2, "name": "pistol" },
       { "level": 4, "name": "speech" },
-      { "level": 3, "name": "barter" },
       { "level": 2, "name": "firstaid" }
     ],
     "items": {
@@ -599,7 +596,6 @@
     "points": 6,
     "skills": [
       { "level": 2, "name": "computer" },
-      { "level": 1, "name": "barter" },
       { "level": 3, "name": "driving" },
       { "level": 3, "name": "speech" },
       { "level": 2, "name": "melee" },

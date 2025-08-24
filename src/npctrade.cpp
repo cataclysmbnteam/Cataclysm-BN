@@ -33,7 +33,7 @@
 #include "vehicle_selector.h"
 #include "visitable.h"
 
-static const skill_id skill_barter( "barter" );
+static const skill_id skill_speech( "speech" );
 static const flag_id json_flag_NO_UNWIELD( "NO_UNWIELD" );
 
 void npc_trading::transfer_items( std::vector<item_pricing> &stuff, Character &,
@@ -88,18 +88,18 @@ std::vector<item_pricing> npc_trading::init_selling( npc &np )
 
 double npc_trading::net_price_adjustment( const Character &buyer, const Character &seller )
 {
-    // Adjust the prices based on your barter skill.
+    // Adjust the prices based on your speech skill.
     // cap adjustment so nothing is ever sold below value
-    ///\EFFECT_INT_NPC slightly increases bartering price changes, relative to your INT
+    ///\EFFECT_INT_NPC slightly increases price changes, relative to your INT
 
-    ///\EFFECT_BARTER_NPC increases bartering price changes, relative to your BARTER
+    ///\EFFECT_SPEECH_NPC increases price changes, relative to your SPEECH
 
-    ///\EFFECT_INT slightly increases bartering price changes, relative to NPC INT
+    ///\EFFECT_INT slightly increases price changes, relative to NPC INT
 
-    ///\EFFECT_BARTER increases bartering price changes, relative to NPC BARTER
+    ///\EFFECT_SPEECH increases price changes, relative to NPC SPEECH
     double adjust = 0.05 * ( seller.int_cur - buyer.int_cur ) +
-                    price_adjustment( seller.get_skill_level( skill_barter ) -
-                                      buyer.get_skill_level( skill_barter ) );
+                    price_adjustment( seller.get_skill_level( skill_speech ) -
+                                      buyer.get_skill_level( skill_speech ) );
     return( std::max( adjust, 1.0 ) );
 }
 
@@ -227,7 +227,7 @@ void trading_window::setup_win( ui_adaptor &ui )
 void trading_window::setup_trade( int cost, npc &np )
 {
     // Populate the list of what the NPC is willing to buy, and the prices they pay
-    // Note that the NPC's barter skill is factored into these prices.
+    // Note that the NPC's speech skill is factored into these prices.
     // TODO: Recalc item values every time a new item is selected
     // Trading is not linear - starving NPC may pay $100 for 3 jerky, but not $100000 for 300 jerky
     theirs = npc_trading::init_buying( g->u, np, true );
@@ -699,7 +699,7 @@ bool npc_trading::trade( npc &np, int cost, const std::string &deal )
         // NPCs will remember debts, to the limit that they'll extend credit or previous debts
         if( !np.will_exchange_items_freely() ) {
             trade_win.update_npc_owed( np );
-            g->u.practice( skill_barter, practice / 10000 );
+            g->u.practice( skill_speech, practice / 10000 );
         }
     }
     return traded;

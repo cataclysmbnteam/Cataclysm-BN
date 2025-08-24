@@ -214,7 +214,6 @@ ALIASES += "EFFECT_DEX_NPC=\xrefitem Effects_Stat_Dexterity \"\" \"\" NPC Dexter
 ALIASES += "EFFECT_INT_NPC=\xrefitem Effects_Stat_Intelligence \"\" \"\" NPC Intelligence"
 ALIASES += "EFFECT_PER_NPC=\xrefitem Effects_Stat_Perception \"\" \"\" NPC Perception"
 
-ALIASES += "EFFECT_BARTER=\xrefitem Effects_Skill_Barter \"\" \"\" Barter"
 ALIASES += "EFFECT_COMPUTER=\xrefitem Effects_Skill_Computer \"\" \"\" Computer"
 ALIASES += "EFFECT_CARPENTRY=\xrefitem Effects_Skill_Carpentry \"\" \"\" Carpentry"
 ALIASES += "EFFECT_COOKING=\xrefitem Effects_Skill_Cooking \"\" \"\" Cooking"
@@ -244,7 +243,6 @@ ALIASES += "EFFECT_SHOTGUN=\xrefitem Effects_Skill_Shotgun \"\" \"\" Shotgun"
 ALIASES += "EFFECT_SMG=\xrefitem Effects_Skill_Smg \"\" \"\" Smg"
 ALIASES += "EFFECT_LOCKPICK=\xrefitem Effects_Skill_Lockpick \"\" \"\" Lock Picking"
 
-ALIASES += "EFFECT_BARTER_NPC=\xrefitem Effects_Skill_Barter \"\" \"\" NPC Barter"
 ALIASES += "EFFECT_COMPUTER_NPC=\xrefitem Effects_Skill_Computer \"\" \"\" NPC Computer"
 ALIASES += "EFFECT_CARPENTRY_NPC=\xrefitem Effects_Skill_Carpentry \"\" \"\" NPC Carpentry"
 ALIASES += "EFFECT_COOKING_NPC=\xrefitem Effects_Skill_Cooking \"\" \"\" NPC Cooking"

@@ -100,7 +100,7 @@ static const efftype_id effect_riding( "riding" );
 static const itype_id itype_UPS_off( "UPS_off" );
 
 static const skill_id skill_archery( "archery" );
-static const skill_id skill_barter( "barter" );
+static const skill_id skill_speech( "speech" );
 static const skill_id skill_bashing( "bashing" );
 static const skill_id skill_cutting( "cutting" );
 static const skill_id skill_launcher( "launcher" );
@@ -434,10 +434,10 @@ void npc::randomize( const npc_class_id &type )
         personality.bravery += rng( 1, 4 );
 
     }
-    //A universal barter boost to keep NPCs competitive with players
+    //A universal speech boost to keep NPCs competitive with players
     //The int boost from trade wasn't active... now that it is, most
     //players will vastly outclass npcs in trade without a little help.
-    mod_skill_level( skill_barter, rng( 2, 4 ) );
+    mod_skill_level( skill_speech, rng( 2, 4 ) );
 
     set_body();
     recalc_hp();

@@ -337,23 +337,6 @@
     "hidden_by": [ "achievement_lvl_5_archery" ]
   },
   {
-    "id": "achievement_lvl_5_barter",
-    "type": "achievement",
-    "name": { "str": "[Skill] Free Trader" },
-    "description": "Extraordinary gizmos for obscenely low prices!",
-    "skill_requirements": [ { "skill": "barter", "is": ">=", "level": 5 } ],
-    "requirements": [ { "event_statistic": "num_gains_barter", "is": "anything" } ]
-  },
-  {
-    "id": "achievement_lvl_10_barter",
-    "type": "achievement",
-    "name": { "str": "[Skill] Robber Baron" },
-    "description": "It's gettin' tougher and tougher to make an honest buck these days!",
-    "skill_requirements": [ { "skill": "barter", "is": ">=", "level": 10 } ],
-    "requirements": [ { "event_statistic": "num_gains_barter", "is": "anything" } ],
-    "hidden_by": [ "achievement_lvl_5_barter" ]
-  },
-  {
     "id": "achievement_lvl_5_bashing",
     "type": "achievement",
     "name": { "str": "[Skill] Batter" },

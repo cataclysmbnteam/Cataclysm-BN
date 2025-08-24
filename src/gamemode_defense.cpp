@@ -40,7 +40,7 @@
 #include "ui_manager.h"
 #include "weather.h"
 
-static const skill_id skill_barter( "barter" );
+static const skill_id skill_speech( "speech" );
 
 static const mongroup_id GROUP_NETHER( "GROUP_NETHER" );
 static const mongroup_id GROUP_ROBOT( "GROUP_ROBOT" );
@@ -1270,11 +1270,11 @@ void draw_caravan_items( const catacurses::window &w, std::vector<itype_id> *ite
 
 int caravan_price( Character &who, int price )
 {
-    ///\EFFECT_BARTER reduces caravan prices, 5% per point, up to 50%
-    if( who.get_skill_level( skill_barter ) > 10 ) {
+    ///\EFFECT_SPEECH reduces caravan prices, 5% per point, up to 50%
+    if( who.get_skill_level( skill_speech ) > 10 ) {
         return static_cast<int>( static_cast<double>( price ) * .5 );
     }
-    return price * ( 1.0 - who.get_skill_level( skill_barter ) * .05 );
+    return price * ( 1.0 - who.get_skill_level( skill_speech ) * .05 );
 }
 
 void defense_game::spawn_wave()

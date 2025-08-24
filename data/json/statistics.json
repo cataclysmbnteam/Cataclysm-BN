@@ -543,20 +543,6 @@
     "drop_fields": [ "character", "skill" ]
   },
   {
-    "id": "num_gains_barter",
-    "type": "event_statistic",
-    "stat_type": "count",
-    "event_transformation": "avatar_gains_barter",
-    "description": { "str_sp": "bartering skill level up." }
-  },
-  {
-    "id": "avatar_gains_barter",
-    "type": "event_transformation",
-    "event_type": "gains_skill_level",
-    "value_constraints": { "character": { "equals_statistic": "avatar_id" }, "skill": { "equals": "barter" } },
-    "drop_fields": [ "character", "skill" ]
-  },
-  {
     "id": "num_gains_bashing",
     "type": "event_statistic",
     "stat_type": "count",
