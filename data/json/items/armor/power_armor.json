@@ -83,7 +83,7 @@
       "set_charges": 2,
       "set_charges_msg": "You need a UPS or a bionic armor interface to power this."
     },
-    "flags": [ "USE_UPS", "NAT_UPS", "POWERARMOR_EXO", "WATERPROOF", "STURDY", "ELECTRIC_IMMUNE" ]
+    "flags": [ "USE_UPS", "NAT_UPS", "POWERARMOR_EXO", "WATERPROOF", "STURDY", "ELECTRIC_IMMUNE", "COMBAT_NPC_USE" ]
   },
   {
     "id": "power_armor_basic_on",
@@ -143,7 +143,7 @@
       "set_charges": 2,
       "set_charges_msg": "You need a UPS or a bionic armor interface to power this."
     },
-    "flags": [ "USE_UPS", "NAT_UPS", "POWERARMOR_EXO", "WATERPROOF", "STURDY", "ELECTRIC_IMMUNE" ]
+    "flags": [ "USE_UPS", "NAT_UPS", "POWERARMOR_EXO", "WATERPROOF", "STURDY", "ELECTRIC_IMMUNE", "COMBAT_NPC_USE" ]
   },
   {
     "id": "power_armor_heavy_on",
@@ -202,7 +202,7 @@
       "set_charges": 2,
       "set_charges_msg": "You need a UPS or a bionic armor interface to power this."
     },
-    "flags": [ "USE_UPS", "NAT_UPS", "POWERARMOR_EXO", "WATERPROOF", "STURDY", "ELECTRIC_IMMUNE" ]
+    "flags": [ "USE_UPS", "NAT_UPS", "POWERARMOR_EXO", "WATERPROOF", "STURDY", "ELECTRIC_IMMUNE", "COMBAT_NPC_USE" ]
   },
   {
     "id": "power_armor_light_on",
@@ -587,7 +587,7 @@
       "need_worn": true,
       "need_charges": 1
     },
-    "flags": [ "USE_UPS", "NAT_UPS", "STURDY", "NO_UNLOAD", "NO_RELOAD", "OUTER", "ONLY_ONE" ]
+    "flags": [ "USE_UPS", "NAT_UPS", "STURDY", "NO_UNLOAD", "NO_RELOAD", "OUTER", "ONLY_ONE", "COMBAT_NPC_USE" ]
   },
   {
     "id": "exosuit_survivor_on",
@@ -651,7 +651,8 @@
       "BELTED",
       "EXOSUIT",
       "OVERSIZE",
-      "ALLOWS_NATURAL_ATTACKS"
+      "ALLOWS_NATURAL_ATTACKS",
+      "COMBAT_NPC_USE"
     ]
   },
   {
@@ -721,7 +722,8 @@
       "BELTED",
       "EXOSUIT",
       "OVERSIZE",
-      "ALLOWS_NATURAL_ATTACKS"
+      "ALLOWS_NATURAL_ATTACKS",
+      "COMBAT_NPC_USE"
     ]
   },
   {
