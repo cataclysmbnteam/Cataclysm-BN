@@ -66,6 +66,7 @@ extern const flag_id flag_COLD;
 extern const flag_id flag_COLD_IMMUNE;
 extern const flag_id flag_COLLAPSIBLE_STOCK;
 extern const flag_id flag_COLLAR;
+extern const flag_id flag_COMBAT_NPC_USE;
 extern const flag_id flag_COMPACT;
 extern const flag_id flag_CONDUCTIVE;
 extern const flag_id flag_CONSUMABLE;
