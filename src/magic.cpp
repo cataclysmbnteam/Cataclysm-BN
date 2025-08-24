@@ -1914,7 +1914,8 @@ static std::string enumerate_spell_data( const spell &sp )
     }
     if( !sp.type->melee_dam.empty() ) {
         std::string damage_names;
-        for( short i = 0; i < sp.type->melee_dam.size() - 1; i++ ) {
+        // I don't like uint here but otherwise compiler complains about comparing signed and unsigned
+        for( uint i = 0; i < sp.type->melee_dam.size() - 1; i++ ) {
             damage_names += name_by_dt( sp.type->melee_dam[i] ) + ", ";
         }
         damage_names += name_by_dt( sp.type->melee_dam.back() );
