@@ -108,6 +108,7 @@
 #include "weather_gen.h"
 #include "weighted_list.h"
 #include "game_info.h"
+#include "overmap_special.h"
 
 static const mtype_id mon_generator( "mon_generator" );
 
@@ -125,6 +126,7 @@ enum debug_menu_index {
     DEBUG_WISH,
     DEBUG_SHORT_TELEPORT,
     DEBUG_LONG_TELEPORT,
+    DEBUG_TELEPORT_TO_OVERMAP_SPECIAL,
     DEBUG_REVEAL_MAP,
     DEBUG_SPAWN_NPC,
     DEBUG_SPAWN_MON,
@@ -275,6 +277,7 @@ static int teleport_uilist()
     const std::vector<uilist_entry> uilist_initializer = {
         { uilist_entry( DEBUG_SHORT_TELEPORT, true, 's', _( "Teleport - short range" ) ) },
         { uilist_entry( DEBUG_LONG_TELEPORT, true, 'l', _( "Teleport - long range" ) ) },
+        { uilist_entry( DEBUG_TELEPORT_TO_OVERMAP_SPECIAL, true, 'a', _( "Teleport - overmap special" ) ) },
         { uilist_entry( DEBUG_OM_TELEPORT, true, 'o', _( "Teleport - adjacent overmap" ) ) },
         { uilist_entry( DEBUG_OM_TELEPORT_COORDINATES, true, 'p', _( "Teleport - specific overmap coordinates" ) ) },
     };
@@ -444,6 +447,36 @@ void teleport_overmap( bool specific_coordinates )
 
     const tripoint_abs_om new_pos = project_to<coords::om>( g->u.global_omt_location() );
     add_msg( _( "You teleport to overmap %s." ), new_pos.to_string() );
+}
+
+static void teleport_to_overmap_special() {
+    // Vector of name, id so that we can sort by name
+    std::vector<const overmap_special *> vec_os;
+    std::vector<std::pair<std::string, vproto_id>> area_strings;
+
+    uilist area_menu;
+    for( const overmap_special &elem : overmap_specials::get_all() ) {
+        vec_os.push_back( &elem );
+        const std::string entry_text = elem.id.str();
+        area_menu.addentry( -1, true, 0, entry_text );
+    }
+
+    area_menu.text = _( "Choose area to teleport to" );
+    area_menu.query( true );
+    if( area_menu.ret == UILIST_CANCEL ) {
+        return;
+    }
+
+    const overmap_special *target = vec_os[area_menu.ret];
+    const overmap_special_id target_id = target->id;
+    mission_target_params t;
+    t.overmap_terrain = target->get_terrain_at(tripoint())->get_mapgen_id();
+    t.overmap_special = target_id;
+    t.search_range = 0;
+    t.reveal_radius = 3;
+
+    g->place_player_overmap( mission_util::get_om_terrain_pos(t) );
+    add_msg( _( "You teleport to submap %s." ), target_id );
 }
 
 void spawn_nested_mapgen()
@@ -1437,6 +1470,10 @@ void debug()
 
         case DEBUG_LONG_TELEPORT:
             debug_menu::teleport_long();
+            break;
+
+        case DEBUG_TELEPORT_TO_OVERMAP_SPECIAL:
+            debug_menu::teleport_to_overmap_special();
             break;
 
         case DEBUG_REVEAL_MAP: {
