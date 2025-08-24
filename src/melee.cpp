@@ -2428,7 +2428,7 @@ double npc_ai::weapon_value( const Character &who, const item &weap, int ammo )
 double npc_ai::melee_value( const Character &who, const item &weap )
 {
     item &weapon = *item::spawn_temporary( weap );
-    if( weapon.has_flag( flag_COMBAT_NPC_USE ) ) {
+    if( weapon.has_flag( flag_COMBAT_NPC_USE ) && !weapon.has_flag( flag_COMBAT_NPC_ON ) ) {
         if( weapon.get_use( "transform" ) ) {
             const use_function *use = weapon.type->get_use( "transform" );
             if( use->can_call( who, weapon, false, who.pos() ).success() ) {
