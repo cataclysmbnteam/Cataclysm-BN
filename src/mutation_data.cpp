@@ -500,6 +500,10 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
         restricts_gear.insert( get_body_part_token( line ) );
     }
 
+    for( const std::string line : jo.get_array( "allowed_items" ) ) {
+        allowed_items.insert( flag_id( line ) );
+    }
+
     for( JsonObject ao : jo.get_array( "armor" ) ) {
         auto parts = ao.get_tags( "parts" );
         std::set<body_part> bps;

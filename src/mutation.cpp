@@ -217,6 +217,12 @@ bool mutation_branch::conflicts_with_item( const item &it ) const
         return false;
     }
 
+    for( const flag_id &allowed : allowed_items ) {
+        if( it.has_flag( allowed ) ) {
+            return false;
+        }
+    }
+
     for( body_part bp : restricts_gear ) {
         if( it.covers( convert_bp( bp ).id() ) ) {
             return true;
