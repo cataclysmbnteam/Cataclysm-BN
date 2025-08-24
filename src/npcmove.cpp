@@ -123,6 +123,8 @@ static const itype_id itype_smoxygen_tank( "smoxygen_tank" );
 static const itype_id itype_thorazine( "thorazine" );
 static const itype_id itype_oxygen_tank( "oxygen_tank" );
 
+static const flag_id flag_COMBAT_NPC_USE( "COMBAT_NPC_USE" );
+
 static constexpr float NPC_DANGER_VERY_LOW = 5.0f;
 static constexpr float NPC_DANGER_MAX = 150.0f;
 static constexpr float MAX_FLOAT = 5000000000.0f;
@@ -814,7 +816,18 @@ void npc::move()
         // No present danger
         deactivate_combat_cbms();
 
-        deactivate_power_armor();
+        // Deactivate Armor & Weapons
+        for( auto &elem : worn ) {
+            // The is_active() part was taken from is_wearing_active_power_armor
+            if( elem->has_flag( flag_COMBAT_NPC_USE ) && elem->is_active() ) {
+                invoke_item( elem );
+            }
+        }
+        item *weapon = &primary_weapon();
+        if( !weapon->is_null() && weapon->has_flag( flag_COMBAT_NPC_USE ) && weapon->is_active() ) {
+            invoke_item( weapon );
+        }
+
 
         action = address_needs();
         print_action( "address_needs %s", action );
@@ -1364,8 +1377,17 @@ npc_action npc::method_of_attack()
     // if there's enough of a threat to be here, power up the combat CBMs
     activate_combat_cbms();
 
-    // also activate power armor afterwards, as the interfaces will have activated
-    activate_power_armor();
+    // Activate Armor & Weapons
+    for( auto &elem : worn ) {
+        // The is_active() part was taken from is_wearing_active_power_armor
+        if( elem->has_flag( flag_COMBAT_NPC_USE ) && !elem->is_active() ) {
+            invoke_item( elem );
+        }
+    }
+    item *weapon = &primary_weapon();
+    if( !weapon->is_null() && weapon->has_flag( flag_COMBAT_NPC_USE ) && !weapon->is_active() ) {
+        invoke_item( weapon );
+    }
 
     if( emergency() && alt_attack() ) {
         add_msg( m_debug, "%s is trying an alternate attack", disp_name() );
@@ -1591,24 +1613,6 @@ void npc::deactivate_combat_cbms()
     cbm_fake_active.release();
     cbm_toggled = bionic_id::NULL_ID();
     cbm_fake_toggled.release();
-}
-
-void npc::activate_power_armor()
-{
-    for( auto &elem : worn ) {
-        if( elem->has_flag( flag_POWERARMOR_EXO ) && !elem->has_flag( flag_CLIMATE_CONTROL ) ) {
-            invoke_item( elem );
-        }
-    }
-}
-
-void npc::deactivate_power_armor()
-{
-    for( auto &elem : worn ) {
-        if( elem->has_flag( flag_POWERARMOR_EXO ) && elem->has_flag( flag_CLIMATE_CONTROL ) ) {
-            invoke_item( elem );
-        }
-    }
 }
 
 bool npc::activate_bionic_by_id( const bionic_id &cbm_id, bool eff_only )

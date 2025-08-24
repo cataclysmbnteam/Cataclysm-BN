@@ -978,9 +978,6 @@ class npc : public player
         void check_or_use_weapon_cbm();
         // check if an NPC has toggled bionic weapon and return a map to compare
         std::map<item *, bionic_id> check_toggle_cbm();
-        // manage power armor
-        void activate_power_armor();
-        void deactivate_power_armor();
         // complain about a specific issue if enough time has passed
         // @param issue string identifier of the issue
         // @param dur time duration between complaints
