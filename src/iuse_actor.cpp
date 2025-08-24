@@ -281,11 +281,11 @@ int iuse_transform::use( player &p, item &it, bool t, const tripoint &pos ) cons
     }
     if( p.is_npc() && get_player_character().sees( p ) ) {
         if( active ) {
-        add_msg( m_info, _( "%s activates their %s." ), p.disp_name(),
-                 it.display_name() );
+            add_msg( m_info, _( "%s activates their %s." ), p.disp_name(),
+                     it.display_name() );
         } else {
-        add_msg( m_info, _( "%s deactivates their %s." ), p.disp_name(),
-                 it.display_name() );
+            add_msg( m_info, _( "%s deactivates their %s." ), p.disp_name(),
+                     it.display_name() );
         }
     }
 
