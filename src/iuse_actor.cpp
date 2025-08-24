@@ -278,8 +278,7 @@ int iuse_transform::use( player &p, item &it, bool t, const tripoint &pos ) cons
 
     if( possess && !msg_transform.empty() ) {
         p.add_msg_if_player( m_neutral, msg_transform, it.tname() );
-    }
-    if( p.is_npc() && get_player_character().sees( p ) ) {
+    } else if( p.is_npc() && get_player_character().sees( p ) ) {
         if( active ) {
             add_msg( m_info, _( "%s activates their %s." ), p.disp_name(),
                      it.display_name() );
