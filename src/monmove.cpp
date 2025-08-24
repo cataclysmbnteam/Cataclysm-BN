@@ -1219,9 +1219,15 @@ void monster::nursebot_operate( player *dragged_foe )
             add_effect( effect_countdown, 2_turns );
             add_msg( m_bad, _( "The %s produces a syringe full of some translucent liquid." ), name() );
         } else if( g->critter_at( goal ) != nullptr && has_effect( effect_dragging ) ) {
-            sounds::sound( pos(), 60, sounds::sound_t::electronic_speech,
-                           string_format(
-                               _( "a soft robotic voice say, \"Please step away from the autodoc, this patient needs immediate care.\"" ) ) );
+            sound_event se;
+            se.origin = pos();
+            se.volume = 60;
+            se.category = sounds::sound_t::electronic_speech;
+            se.from_monster = true;
+            se.description = string_format(
+                                 _( "a soft robotic voice say, \"Please step away from the autodoc, this patient needs immediate care.\"" ) );
+            se.monfaction = faction.id();
+            sounds::sound( se );
             // TODO: Make it able to push NPC/player
             push_to( goal, 4, 0 );
         }
@@ -1287,8 +1293,16 @@ void monster::footsteps( const tripoint &p )
     if( volume == 0 ) {
         return;
     }
-    // Removed distance calc and pointer to source monster, as they are not used.
-    sounds::add_footstep( p, volume, type->get_footsteps(), this->faction.id() );
+    sound_event se;
+    se.origin = p;
+    se.volume = volume;
+    se.category = sounds::sound_t::movement;
+    se.movement_noise = true;
+    se.description = type->get_footsteps();
+    se.from_monster = true;
+    se.monfaction = this->faction.id();
+
+    sounds::sound( se );
     return;
 }
 

@@ -21,7 +21,6 @@ struct tripoint;
 struct sound_event;
 template <typename E> struct enum_traits;
 
-
 namespace sounds
 {
 enum class sound_t : int {
@@ -61,25 +60,27 @@ enum class sound_t : int {
  * @param string_id of the faction_id
  * @param string_id of the mfaction_str_id
  */
-void sound( const tripoint &p, short vol, sound_t category, const std::string &description,
-            bool movement_noise = false, bool from_player = false, bool from_monster = false,
-            bool from_npc = false, const std::string &id = "",
-            const std::string &variant = "default", const faction_id faction = faction_id( "no_faction" ),
-            const mfaction_str_id monfaction = mfaction_str_id( "" ) );
-void sound( const tripoint &p, short vol, sound_t category, const translation &description,
-            bool movement_noise = false, bool from_player = false, bool from_monster = false,
-            bool from_npc = false, const std::string &id = "",
-            const std::string &variant = "default", const faction_id faction = faction_id( "no_faction" ),
-            const mfaction_str_id monfaction = mfaction_str_id( "" ) );
+//void sound( const tripoint &p, short vol, sound_t category, const std::string &description,
+//            bool movement_noise = false, bool from_player = false, bool from_monster = false,
+//            bool from_npc = false, const std::string &id = "",
+//            const std::string &variant = "default", const faction_id faction = faction_id( "no_faction" ),
+//            const mfaction_str_id monfaction = mfaction_str_id( "" ) );
+//void sound( const tripoint &p, short vol, sound_t category, const translation &description,
+//            bool movement_noise = false, bool from_player = false, bool from_monster = false,
+//            bool from_npc = false, const std::string &id = "",
+//            const std::string &variant = "default", const faction_id faction = faction_id( "no_faction" ),
+//            const mfaction_str_id monfaction = mfaction_str_id( "" ) );
+
+void sound( sound_event &soundevent );
 
 /** Functions identical to sound, but all "from" bools are set to false. */
-void ambient_sound( const tripoint &p, short vol, sound_t category,
-                    const std::string &description );
-/** Creates a list of coordinates at which to draw footsteps. */
-void add_footstep( const tripoint &p, short volume,
-                   const std::string &footstep, faction_id faction );
-void add_footstep( const tripoint &p, short volume,
-                   const std::string &footstep, mfaction_str_id monsterfaction );
+//void ambient_sound( const tripoint &p, short vol, sound_t category,
+//                    const std::string &description );
+///** Creates a list of coordinates at which to draw footsteps. */
+//void add_footstep( const tripoint &p, short volume,
+//                   const std::string &footstep, faction_id faction );
+//void add_footstep( const tripoint &p, short volume,
+//                   const std::string &footstep, mfaction_str_id monsterfaction );
 
 /* Make sure the sounds are all reset when we start a new game. */
 void reset_sounds();
@@ -193,7 +194,7 @@ template<>
 struct enum_traits<sfx::channel> {
     static constexpr auto last = sfx::channel::MAX_CHANNEL;
 };
-//
+
 struct sound_event {
     // How loud a sound is at 1 meter away (or how loud an ambient sound is), in Decibels Sound Pressure Level (dB spl, or just dB from now on), 0 - 191
     //
@@ -225,6 +226,7 @@ struct sound_event {
     //      Almost all reference dB values for sounds are in sound pressure level, health regulations/medical figures, and this is what is measured by a point sensor like a microphone or decibel meters.
     //      Doubling the pressure of a sound wave increases the dB value by 6. A difference of 60 dB is a 1024x increase in pressure!
     //      Maximum dB spl in air is 191 dB, the maximum peak (not rms) dB is 194.
+    //      Pressures of a higher dB rating are not sound pressure waves, they are supersonic blast/shock waves and should be modeled as damaging explosions. 195dB will rupture human eardrums. 200dB+ tends to be fatal from pressure alone.
     //
     //      If a source says that the sound pressure doubles every 3 dB, they gotten something wrong and have likely conflated sound pressure level with sound intensity level.
     //      This is probably the second most common mistake when discussing sound/accoustics, second only to not listing reference distance for dB spl measurments. dB spl measurments are useless without this.
@@ -240,13 +242,13 @@ struct sound_event {
     //      This value cannot really be directly measured, and is only really useful from an engineering/physics standpoint.
     //
     // We are in control of reality, and only really care about the perceived sound of creatures at explicit points in time at explicit distances which we control, so we use sound pressure level.
-    short volume;
+    short volume = 0;
 
     // What is the position of the sound source?
     tripoint origin;
 
     // What enum sound category is this?
-    sounds::sound_t category;
+    sounds::sound_t category = sounds::sound_t::background;
 
     // String description of the sound.
     std::string description;
@@ -265,8 +267,8 @@ struct sound_event {
     bool from_npc = false;
 
     //This stuff is for selecting actual sfx to play through an audio device in THE REAL WORLD. (spooky)
-    std::string id;
-    std::string variant;
+    std::string id = std::string( "" );
+    std::string variant = std::string( "default" );
 
     faction_id faction = faction_id( "no_faction" );
     mfaction_str_id monfaction = mfaction_str_id( "" );
@@ -284,5 +286,12 @@ struct sound_event {
 // Doing the calc out every time for those would bog things down.
 // With this, we should be able to do everything with addition/subtraction.
 // Distance 1 only happens at the source of a sound, i.e., the reference volume.
-constexpr auto dist_vol_loss = std::array<short, 122> { 0, 1500, 602, 352, 250, 194, 158, 134, 116, 102, 92, 83, 76, 70, 64, 60, 56, 53, 50, 47, 45, 42, 40, 39, 37, 35, 34, 33, 32, 30, 29, 28, 28, 27, 26, 25, 24, 24, 23, 23, 22, 21, 21, 20, 20, 20, 19, 19, 18, 18, 18, 17, 17, 17, 16, 16, 16, 15, 15, 15, 15, 14, 14, 14, 14, 13, 13, 13, 13, 13, 12, 12, 12, 12, 12, 12, 12, 11, 11, 11, 11, 11, 11, 11, 10, 10, 10, 10, 10, 10, 10, 10, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 7, 7, 7, 7 };
+constexpr auto dist_vol_loss = std::array<short, 122>
+{
+    0, 1500, 602, 352, 250, 194, 158, 134, 116, 102, 92, 83, 76, 70, 64, 60, 56, 53, 50, 47, 45, 42, 40,
+    39, 37, 35, 34, 33, 32, 30, 29, 28, 28, 27, 26, 25, 24, 24, 23, 23, 22, 21, 21, 20, 20, 20, 19, 19,
+    18, 18, 18, 17, 17, 17, 16, 16, 16, 15, 15, 15, 15, 14, 14, 14, 14, 13, 13, 13, 13, 13, 12, 12, 12,
+    12, 12, 12, 12, 11, 11, 11, 11, 11, 11, 11, 10, 10, 10, 10, 10, 10, 10, 10, 9, 9, 9, 9, 9, 9, 9, 9,
+    9, 9, 9, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 7, 7, 7, 7
+};
 

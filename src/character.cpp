@@ -8075,9 +8075,18 @@ void Character::cough( bool harmful, int loudness )
     if( !is_npc() ) {
         add_msg( m_bad, _( "You cough heavily." ) );
     }
-    sounds::sound( pos(), loudness, sounds::sound_t::speech, _( "a hacking cough." ), false, true,
-                   false, false, "misc",
-                   "cough" );
+    sound_event se;
+    se.origin = pos();
+    se.volume = loudness;
+    se.category = sounds::sound_t::speech;
+    se.description = _( "a hacking cough." );
+    se.from_player = is_avatar();
+    se.from_npc = !se.from_player;
+    se.faction = get_faction()->id;
+    se.monfaction = get_faction()->mon_faction;
+    se.id = "misc";
+    se.variant = "cough";
+    sounds::sound( se );
 
     moves -= 80;
 
@@ -8100,15 +8109,15 @@ void Character::wake_up()
 int Character::get_shout_volume() const
 {
     int base = 70;
-    int shout_multiplier = 2;
+    double shout_multiplier = 1.5;
 
     // Mutations make shouting louder, they also define the default message
     if( has_trait( trait_SHOUT3 ) ) {
-        shout_multiplier = 4;
+        shout_multiplier = 3;
         base = 80;
     } else if( has_trait( trait_SHOUT2 ) ) {
         base = 75;
-        shout_multiplier = 3;
+        shout_multiplier = 2;
     }
 
     // You can't shout without your face
@@ -8122,8 +8131,8 @@ int Character::get_shout_volume() const
     // Balanced around whisper for wearing bondage mask
     // and noise ~= 10 (door smashing) for wearing dust mask for character with strength = 8
     /** @EFFECT_STR increases shouting volume */
-    const int penalty = encumb( body_part_mouth ) * 3 / 2;
-    int noise = base + str_cur * shout_multiplier - penalty;
+    const int penalty = std::floor( encumb( body_part_mouth ) * 1.5 );
+    int noise = base + std::floor( str_cur * shout_multiplier ) - penalty;
 
     // Minimum noise volume possible after all reductions.
     // Volume 20dB or less is frequently inaudible.
@@ -8135,7 +8144,7 @@ int Character::get_shout_volume() const
 
     // Screaming underwater is not good for oxygen and harder to do overall
     if( is_underwater() ) {
-        noise = std::max( minimum_noise, noise / 2 );
+        noise = std::max( minimum_noise * 1.0, noise * 0.75 );
     }
     return noise;
 }
@@ -8200,9 +8209,18 @@ void Character::shout( std::string msg, bool order )
         // The shout's volume is 1/2 or lower of what it would be without the penalty
         add_msg_if_player( m_warning, _( "The sound of your voice is significantly muffled!" ) );
     }
-
-    sounds::sound( pos(), noise, order ? sounds::sound_t::order : sounds::sound_t::alert, msg, false,
-                   "shout", shout );
+    sound_event se;
+    se.origin = pos();
+    se.volume = noise;
+    se.category = order ? sounds::sound_t::order : sounds::sound_t::alert;
+    se.description = msg;
+    se.from_player = is_avatar();
+    se.from_npc = !se.from_player;
+    se.faction = get_faction()->id;
+    se.monfaction = get_faction()->mon_faction;
+    se.id = "shout";
+    se.variant = shout;
+    sounds::sound( se );
 }
 
 void Character::vomit()
@@ -9356,8 +9374,19 @@ void Character::spores()
     map &here = get_map();
     fungal_effects fe( *g, here );
     //~spore-release sound
-    sounds::sound( pos(), 50, sounds::sound_t::combat, _( "Pouf!" ), false, true, false, false, "misc",
-                   "puff" );
+    sound_event se;
+    se.origin = pos();
+    se.volume = 50;
+    se.category = sounds::sound_t::combat;
+    se.description = _( "Pouf!" );
+    se.from_player = is_avatar();
+    se.from_npc = !se.from_player;
+    se.faction = get_faction()->id;
+    se.monfaction = get_faction()->mon_faction;
+    se.id = "misc";
+    se.variant = "puff";
+    sounds::sound( se );
+
     for( const tripoint &sporep : here.points_in_radius( pos(), 1 ) ) {
         if( sporep == pos() ) {
             continue;
@@ -9369,8 +9398,18 @@ void Character::spores()
 void Character::blossoms()
 {
     // Player blossoms are shorter-ranged, but you can fire much more frequently if you like.
-    sounds::sound( pos(), 50, sounds::sound_t::combat, _( "Pouf!" ), false, true, false, false, "misc",
-                   "puff" );
+    sound_event se;
+    se.origin = pos();
+    se.volume = 50;
+    se.category = sounds::sound_t::combat;
+    se.description = _( "Pouf!" );
+    se.from_player = is_avatar();
+    se.from_npc = !se.from_player;
+    se.faction = get_faction()->id;
+    se.monfaction = get_faction()->mon_faction;
+    se.id = "misc";
+    se.variant = "puff";
+    sounds::sound( se );
     map &here = get_map();
     for( const tripoint &tmp : here.points_in_radius( pos(), 2 ) ) {
         here.add_field( tmp, fd_fungal_haze, rng( 1, 2 ) );

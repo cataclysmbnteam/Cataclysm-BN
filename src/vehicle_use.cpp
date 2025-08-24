@@ -721,8 +721,13 @@ void vehicle::use_controls( const tripoint &pos )
                 } else if( engine_on && has_engine_type_not( fuel_type_muscle, true ) )
                 {
                     add_msg( _( "You turn the engine off and let go of the controls." ) );
-                    sounds::sound( pos, 40, sounds::sound_t::movement,
-                                   _( "the engine go silent" ) );
+                    sound_event se;
+                    se.origin = pos;
+                    se.volume = 40;
+                    se.category = sounds::sound_t::movement;
+                    se.movement_noise = true;
+                    se.description = _( "the engine go silent" );
+                    sounds::sound( se );
                 } else
                 {
                     add_msg( _( "You let go of the controls." ) );
@@ -763,8 +768,13 @@ void vehicle::use_controls( const tripoint &pos )
                 if( engine_on )
                 {
                     engine_on = false;
-                    sounds::sound( pos, 40, sounds::sound_t::movement,
-                                   _( "the engine go silent" ) );
+                    sound_event se;
+                    se.origin = pos;
+                    se.volume = 40;
+                    se.category = sounds::sound_t::movement;
+                    se.movement_noise = true;
+                    se.description = _( "the engine go silent" );
+                    sounds::sound( se );
                     stop_engines();
                 } else
                 {
@@ -1057,26 +1067,42 @@ bool vehicle::start_engine( const int e )
         if( ( 1 - dmg ) < einfo.engine_backfire_threshold() && one_in( einfo.engine_backfire_freq() ) ) {
             backfire( e );
         } else {
-            sounds::sound( pos, std::max( 150, start_moves ), sounds::sound_t::movement,
-                           string_format( _( "the %s bang as it starts" ), eng.name() ), true, "vehicle",
-                           "engine_bangs_start" );
+            sound_event se;
+            se.origin = pos;
+            se.volume = std::max( 150, start_moves );
+            se.category = sounds::sound_t::movement;
+            se.movement_noise = true;
+            se.description = string_format( _( "the %s bang as it starts" ), eng.name() );
+            se.id = "vehicle";
+            se.variant = "engine_bangs_start";
+            sounds::sound( se );
         }
     }
 
     // Immobilizers need removing before the vehicle can be started
     if( eng.faults().contains( fault_immobiliser ) ) {
-        sounds::sound( pos, 60, sounds::sound_t::alarm,
-                       string_format( _( "the %s making a long beep" ), eng.name() ), true, "vehicle",
-                       "fault_immobiliser_beep" );
+        sound_event se;
+        se.origin = pos;
+        se.volume = 60;
+        se.category = sounds::sound_t::alarm;
+        se.description = string_format( _( "the %s making a long beep" ), eng.name() );
+        se.id = "vehicle";
+        se.variant = "fault_immobiliser_beep";
+        sounds::sound( se );
         return false;
     }
 
     // Engine with starter motors can fail on both battery and starter motor
     if( eng.faults_potential().contains( fault_starter ) ) {
         if( eng.faults().contains( fault_starter ) ) {
-            sounds::sound( pos, noise, sounds::sound_t::alarm,
-                           string_format( _( "the %s clicking once" ), eng.name() ), true, "vehicle",
-                           "engine_single_click_fail" );
+            sound_event se;
+            se.origin = pos;
+            se.volume = noise;
+            se.category = sounds::sound_t::alarm;
+            se.description = string_format( _( "the %s clicking once" ), eng.name() );
+            se.id = "vehicle";
+            se.variant = "engine_single_click_fail";
+            sounds::sound( se );
             return false;
         }
         // TODO: start_moves is in moves, but it's an integer, convert it to some time class
@@ -1084,31 +1110,54 @@ bool vehicle::start_engine( const int e )
                                    ( 1.0 + dmg / 2 + cold_factor / 5 ) * 10,
                                    1_turns * start_moves / 100 );
         if( discharge_battery( start_draw_bat, true ) != 0 ) {
-            sounds::sound( pos, noise, sounds::sound_t::alarm,
-                           string_format( _( "the %s rapidly clicking" ), eng.name() ), true, "vehicle",
-                           "engine_multi_click_fail" );
+            sound_event se;
+            se.origin = pos;
+            se.volume = noise;
+            se.category = sounds::sound_t::alarm;
+            se.movement_noise = true;
+            se.description = string_format( _( "the %s rapidly clicking" ), eng.name() );
+            se.id = "vehicle";
+            se.variant = "engine_multi_click_fail";
+            sounds::sound( se );
             return false;
         }
     }
 
     // Engines always fail to start with faulty fuel pumps
     if( eng.faults().contains( fault_pump ) || eng.faults().contains( fault_diesel ) ) {
-        sounds::sound( pos, noise, sounds::sound_t::movement,
-                       string_format( _( "the %s quickly stuttering out." ), eng.name() ), true, "vehicle",
-                       "engine_stutter_fail" );
+        sound_event se;
+        se.origin = pos;
+        se.volume = noise;
+        se.category = sounds::sound_t::movement;
+        se.movement_noise = true;
+        se.description = string_format( _( "the %s quickly stuttering out." ), eng.name() );
+        se.id = "vehicle";
+        se.variant = "engine_stutter_fail";
+        sounds::sound( se );
         return false;
     }
 
     // Damaged non-electric engines have a chance of failing to start
     if( !( is_engine_type( e, fuel_type_battery ) || is_engine_type( e, fuel_type_muscle ) ) &&
         x_in_y( dmg * 100, 120 ) ) {
-        sounds::sound( pos, noise, sounds::sound_t::movement,
-                       string_format( _( "the %s clanking and grinding" ), eng.name() ), true, "vehicle",
-                       "engine_clanking_fail" );
+        sound_event se;
+        se.origin = pos;
+        se.volume = noise;
+        se.category = sounds::sound_t::movement;
+        se.movement_noise = true;
+        se.description = string_format( _( "the %s clanking and grinding" ), eng.name() );
+        se.id = "vehicle";
+        se.variant = "engine_clanking_fail";
+        sounds::sound( se );
         return false;
     }
-    sounds::sound( pos, noise, sounds::sound_t::movement,
-                   string_format( _( "the %s starting" ), eng.name() ) );
+    sound_event se;
+    se.origin = pos;
+    se.volume = noise;
+    se.category = sounds::sound_t::movement;
+    se.movement_noise = true;
+    se.description = string_format( _( "the %s starting" ), eng.name() );
+    sounds::sound( se );
 
     if( sfx::has_variant_sound( "engine_start", einfo.get_id().str() ) ) {
         sfx::play_variant_sound( "engine_start", einfo.get_id().str(), noise );
@@ -1223,18 +1272,26 @@ void vehicle::honk_horn()
         //Get global position of horn
         const tripoint horn_pos = vp.pos();
         //Determine sound
+        sound_event se;
+        se.origin = horn_pos;
+        se.volume = horn_type.bonus;
+        se.category = sounds::sound_t::alarm;
+        se.id = "vehicle";
         if( horn_type.bonus >= 110 ) {
             //~ Loud horn sound
-            sounds::sound( horn_pos, horn_type.bonus, sounds::sound_t::alarm, _( "HOOOOORNK!" ), false,
-                           "vehicle", "horn_loud" );
+            se.description = _( "HOOOOORNK!" );
+            se.variant = "horn_loud";
+            sounds::sound( se );
         } else if( horn_type.bonus >= 80 ) {
             //~ Moderate horn sound
-            sounds::sound( horn_pos, horn_type.bonus, sounds::sound_t::alarm, _( "BEEEP!" ), false, "vehicle",
-                           "horn_medium" );
+            se.description = _( "BEEEP!" );
+            se.variant = "horn_medium";
+            sounds::sound( se );
         } else {
             //~ Weak horn sound
-            sounds::sound( horn_pos, horn_type.bonus, sounds::sound_t::alarm, _( "honk." ), false, "vehicle",
-                           "horn_low" );
+            se.description = _( "honk." );
+            se.variant = "horn_low";
+            sounds::sound( se );
         }
     }
 
@@ -1298,8 +1355,14 @@ void vehicle::beeper_sound()
         }
 
         //~ Beeper sound
-        sounds::sound( vp.pos(), vp.info().bonus, sounds::sound_t::alarm, _( "beep!" ), false, "vehicle",
-                       "rear_beeper" );
+        sound_event se;
+        se.origin = vp.pos();
+        se.volume = vp.info().bonus;
+        se.category = sounds::sound_t::alarm;
+        se.description = _( "beep!" );
+        se.id = "vehicle";
+        se.variant = "rear_beeper";
+        sounds::sound( se );
     }
 }
 
@@ -1317,8 +1380,14 @@ void vehicle::play_chimes()
     }
 
     for( const vpart_reference &vp : get_enabled_parts( "CHIMES" ) ) {
-        sounds::sound( vp.pos(), 80, sounds::sound_t::music,
-                       _( "a simple melody blaring from the loudspeakers." ), false, "vehicle", "chimes" );
+        sound_event se;
+        se.origin = vp.pos();
+        se.volume = 80;
+        se.category = sounds::sound_t::music;
+        se.description = _( "a simple melody blaring from the loudspeakers." );
+        se.id = "vehicle";
+        se.variant = "chimes";
+        sounds::sound( se );
     }
 }
 
@@ -1350,8 +1419,14 @@ void vehicle::crash_terrain_around()
             velocity = 0;
             cruise_velocity = 0;
             g->m.destroy( crush_target );
-            sounds::sound( crush_target, rng( 50, 120 ), sounds::sound_t::combat, _( "Clanggggg!" ), false,
-                           "smash_success", "hit_vehicle" );
+            sound_event se;
+            se.origin = crush_target;
+            se.volume = rng( 50, 120 );
+            se.category = sounds::sound_t::combat;
+            se.description = _( "Clanggggg!" );
+            se.id = "smash_success";
+            se.variant = "hit_vehicle";
+            sounds::sound( se );
         }
     }
 }
@@ -1385,8 +1460,14 @@ void vehicle::transform_terrain()
             const int speed = std::abs( velocity );
             int v_damage = rng( 3, speed );
             damage( vp.part_index(), v_damage, DT_BASH, false );
-            sounds::sound( start_pos, rng( 50, 120 ), sounds::sound_t::combat, _( "Clanggggg!" ), false,
-                           "smash_success", "hit_vehicle" );
+            sound_event se;
+            se.origin = start_pos;
+            se.volume = rng( 50, 120 );
+            se.category = sounds::sound_t::combat;
+            se.description = _( "Clanggggg!" );
+            se.id = "smash_success";
+            se.variant = "hit_vehicle";
+            sounds::sound( se );
         }
     }
 }
@@ -1421,8 +1502,14 @@ void vehicle::operate_reaper()
                  seed_type, plant_produced, seed_produced, false ) ) {
             g->m.add_item_or_charges( reaper_pos, std::move( i ) );
         }
-        sounds::sound( reaper_pos, rng( 50, 80 ), sounds::sound_t::combat, _( "Swish" ), false, "vehicle",
-                       "reaper" );
+        sound_event se;
+        se.origin = reaper_pos;
+        se.volume = rng( 50, 80 );
+        se.category = sounds::sound_t::combat;
+        se.description = _( "Swish" );
+        se.id = "vehicle";
+        se.variant = "reaper";
+        sounds::sound( se );
         if( vp.has_feature( "CARGO" ) ) {
             items.remove_top_items_with( [&max_pickup_volume, this, reaper_id]( detached_ptr<item> &&it ) {
                 if( it->volume() <= max_pickup_volume ) {
@@ -1453,8 +1540,14 @@ void vehicle::operate_planter()
                 } else if( !g->m.has_flag( "PLOWABLE", loc ) ) {
                     //If it isn't plowable terrain, then it will most likely be damaged.
                     damage( planter_id, rng( 1, 10 ), DT_BASH, false );
-                    sounds::sound( loc, rng( 60, 70 ), sounds::sound_t::combat, _( "Clink" ), false, "smash_success",
-                                   "hit_vehicle" );
+                    sound_event se;
+                    se.origin = loc;
+                    se.volume = rng( 60, 70 );
+                    se.category = sounds::sound_t::combat;
+                    se.description = _( "Clink" );
+                    se.id = "smash_success";
+                    se.variant = "hit_vehicle";
+                    sounds::sound( se );
                 }
                 if( !i->count_by_charges() || i->charges == 1 ) {
                     i->set_age( 0_turns );
@@ -1484,8 +1577,14 @@ void vehicle::operate_scoop()
                 _( "Whirrrr" ), _( "Ker-chunk" ), _( "Swish" ), _( "Cugugugugug" )
             }
         };
-        sounds::sound( global_part_pos3( scoop ), rng( 60, 95 ), sounds::sound_t::combat,
-                       random_entry_ref( sound_msgs ), false, "vehicle", "scoop" );
+        sound_event se;
+        se.origin = global_part_pos3( scoop );
+        se.volume = rng( 60, 95 );
+        se.category = sounds::sound_t::combat;
+        se.description = random_entry_ref( sound_msgs );
+        se.id = "vehicle";
+        se.variant = "scoop";
+        sounds::sound( se );
         std::vector<tripoint> parts_points;
         for( const tripoint &current :
              g->m.points_in_radius( global_part_pos3( scoop ), 1 ) ) {
@@ -1515,9 +1614,14 @@ void vehicle::operate_scoop()
                 //The scoop will not destroy the item, but it may damage it a bit.
                 that_item_there->inc_damage( DT_BASH );
                 //The scoop gets a lot louder when breaking an item.
-                sounds::sound( position, rng( 50,
-                                              that_item_there->volume() / units::legacy_volume_factor * 2 + 30 ),
-                               sounds::sound_t::combat, _( "BEEEThump" ), false, "vehicle", "scoop_thump" );
+                sound_event se;
+                se.origin = position;
+                se.volume = rng( 50, that_item_there->volume() / units::legacy_volume_factor * 2 + 30 );
+                se.category = sounds::sound_t::combat;
+                se.description = _( "BEEEThump" );
+                se.id = "vehicle";
+                se.variant = "scoop_thump";
+                sounds::sound( se );
             }
             //This attempts to add the item to the scoop inventory and if successful, removes it from the map.
             if( !that_item_there->attempt_detach( [this, &scoop]( detached_ptr<item> &&it ) {
@@ -1541,8 +1645,14 @@ void vehicle::alarm()
                     _( "WHOOP WHOOP" ), _( "NEEeu NEEeu NEEeu" ), _( "BLEEEEEEP" ), _( "WREEP" )
                 }
             };
-            sounds::sound( global_pos3(), rng( 80, 140 ),
-                           sounds::sound_t::alarm,  random_entry_ref( sound_msgs ), false, "vehicle", "car_alarm" );
+            sound_event se;
+            se.origin = global_pos3();
+            se.volume = rng( 80, 130 );
+            se.category = sounds::sound_t::combat;
+            se.description = random_entry_ref( sound_msgs );
+            se.id = "vehicle";
+            se.variant = "car_alarm";
+            sounds::sound( se );
             if( one_in( 1000 ) ) {
                 is_alarm_on = false;
             }

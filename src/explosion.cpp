@@ -1437,14 +1437,26 @@ void explosion_funcs::regular( const queued_explosion &qe )
     // Incendiaries are not as loud.
     // This puts landmines and standard grenades at 170 dB (90 + 80)
     const int noise = base_noise + ( ex.fire ? 70 : 90 );
+    sound_event se;
+    se.origin = p;
+    se.volume = noise;
+    se.category = sounds::sound_t::combat;
+
     if( noise >= 180 ) {
-        sounds::sound( p, noise, sounds::sound_t::combat, _( "a huge explosion!" ), false, "explosion",
-                       "huge" );
+        se.description = _( "a huge explosion!" );
+        se.id = "explosion";
+        se.variant = "huge";
+        sounds::sound( se );
     } else if( noise >= 120 ) {
-        sounds::sound( p, noise, sounds::sound_t::combat, _( "an explosion!" ), false, "explosion",
-                       "default" );
+        se.description = _( "an explosion!" );
+        se.id = "explosion";
+        se.variant = "default";
+        sounds::sound( se );
     } else if( noise > 0 ) {
-        sounds::sound( p, noise, sounds::sound_t::combat, _( "a loud pop!" ), false, "explosion", "small" );
+        se.description = _( "a loud pop!" );
+        se.id = "explosion";
+        se.variant = "small";
+        sounds::sound( se );
     }
 
     std::map<const Creature *, int> damaged_by_blast;
@@ -1573,7 +1585,15 @@ void explosion_funcs::flashbang( const queued_explosion &qe )
             }
         }
     }
-    sounds::sound( p, 170, sounds::sound_t::combat, _( "a huge boom!" ), false, "misc", "flashbang" );
+    sound_event se;
+    se.origin = p;
+    se.volume = 170;
+    se.category = sounds::sound_t::combat;
+    se.description = _( "a huge boom!" );
+    se.id = "misc";
+    se.variant = "flashbang";
+    sounds::sound( se );
+
     // TODO: Blind/deafen NPC
 }
 
@@ -1592,10 +1612,14 @@ void explosion_funcs::shockwave( const queued_explosion &qe )
     const shockwave_data &sw = qe.swave_data;
 
     draw_explosion( p, sw.radius, c_blue, qe.graphics_name );
-
-    sounds::sound( p, sw.force * sw.force * sw.dam_mult / 2, sounds::sound_t::combat, _( "Crack!" ),
-                   false,
-                   "misc", "shockwave" );
+    sound_event se;
+    se.origin = p;
+    se.volume = sw.force * sw.force * ( sw.dam_mult / 2 );
+    se.category = sounds::sound_t::combat;
+    se.description = _( "Crack!" );
+    se.id = "misc";
+    se.variant = "shockwave";
+    sounds::sound( se );
 
     for( monster &critter : g->all_monsters() ) {
         if( critter.posz() != p.z ) {

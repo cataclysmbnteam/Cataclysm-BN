@@ -121,7 +121,7 @@ static constexpr short dBspl_to_mdBspl( short dB )
 // Converts milli-decibels sound pressure level to decibels sound pressure level.
 static constexpr short mdBspl_to_dBspl( short mdB )
 {
-    return std::floor( mdBspl_to_dBspl_coeff * mdB );
+    return mdBspl_to_dBspl_coeff * mdB;
 }
 
 // For use when flood filling sounds.
@@ -136,6 +136,61 @@ struct sound_details {
     uint8_t direction[MAPSIZE_X][MAPSIZE_Y];
 
 };
+
+// Returns the reduction in dB due to terrain in 100ths of a decibel, or returns just dB if horde signal is true.
+// If horde signal is true, returns reducion due to terrain at a distance of ~312m
+// Grab this once and store the results.
+static short terrain_sound_attenuation( tripoint_abs_omt omtpos, season_type season,
+                                        bool horde_signal = false )
+{
+    //Grab the player
+    // const Character &player = get_player_character();
+    // This is a bit heinous, but we have to step through several structs to actually get to the int code number for the land use codes.
+    // 40 land use cases in total. We either use the integer identifier, or the string id.
+    const short landusecodenum = overmap_buffer.ter(
+                                     omtpos ).obj().get_land_use_code().obj().land_use_code;
+    //player.global_omt_location()
+    // Forests have less attenuation in the fall, and during winter sound attenuation is higher accross the board
+    // because of expected ambient snow, which is a extremely strong sound attenuator and can absorb somewhere between 50% and 90% of high frequency sound.
+    // const season_type season = season_of_year( calendar::turn );
+    // Attenuation bonus from expected ambient snow.
+    // These are approximates from US Army ERDC research on the effects of snow cover on sound propagation.
+    const short snowbonus = ( season != WINTER ) ? 0 : ( horde_signal ) ? 42 : 128;
+
+    // We want 4 total cases, open field, light vegitation/agriculture, urban, and forest/heavy vegitation.
+    // Return urban if none of the specified use codes, i.e., 0
+    // Technically how much a sound is attenuated also heavily depends on its frequency,
+    // But we are mostly concerned with the "high frequency" portion of sounds (1kHz+)
+    // High frequency sounds are what most creatures can easily pinpoint the direction of.
+    // Gunshots are really a meddly of sounds across a very wide frequency band, but we care about the high frequency portion.
+
+    // This is the really heinous bit. We either use the integer id, or the string id. Integer id it is.
+    if( landusecodenum == 3 || landusecodenum == 37 || landusecodenum == 35 )  {
+        // Heavy vegitation or forest. Heaviest attenuation, except in the fall.
+        return snowbonus + ( ( season == AUTUMN ) ? ( ( horde_signal ) ? 20 : 9 ) : ( (
+                                 horde_signal ) ? 26 : 20 ) );
+
+    } else if( landusecodenum == 6 || landusecodenum == 9 || landusecodenum == 20 ||
+               landusecodenum == 25 || landusecodenum == 26 )  {
+        // Open field. No reduction to sound signature, unless its winter!
+        return snowbonus;
+
+    } else if( landusecodenum == 1 || landusecodenum == 2 || landusecodenum == 4 ||
+               landusecodenum == 5 || landusecodenum == 14 || landusecodenum == 17 || landusecodenum == 23 ||
+               landusecodenum == 34 || landusecodenum == 40 )  {
+        // Light vegitation or agriculture. Light attenuation.
+        // Farms are no longer tended, so probably overgrown.
+        // Farmland is actually spectacular at attenuating low frequency sound, but we dont care about that too much here.
+        return snowbonus + ( ( horde_signal ) ? 12 : 6 );
+
+    } else {
+        // Default is an urban enviornment. There are alot of codes that go into here.
+        // Not great at short range attenuation, better at long range attenuation.
+        // More attenuation in the winter.
+        return snowbonus + ( ( horde_signal ) ? 12 : 0 );
+    }
+}
+
 
 void map::cull_heard_sounds()
 {
@@ -388,8 +443,9 @@ void map::flood_fill_sound( const sound_event soundevent, int zlev )
                             // If the tiles new volume is greater than 10dB, mark it for update.
                             add_tile_to_update_que( adj_tile );
                         }
-                    } else if( ( ( tile_vol - vol_loss ) == adj_tile_vol ) && ( std::abs( adj_tile_dir - i ) == ( 1 ||
-                               7 ) ) && ( i == ( 1 || 3 || 5 || 7 ) ) ) {
+                    } else if( ( ( tile_vol - vol_loss ) == adj_tile_vol ) && ( std::abs( adj_tile_dir - i ) ==  1 ||
+                               std::abs( adj_tile_dir - i ) ==
+                               7 ) && ( i ==  1 || i == 3 || i == 5 || i == 7 ) ) {
                         // If the two volumes are equal, the sound directions are only 1 different from eachother (or 7 due to how the direction mapping works)
                         // and the tile sound is cardinal (N/E/S/W) the cardinal sound takes priority.
                         adj_tile_dir = i;
@@ -530,23 +586,15 @@ bool map::build_absorbtion_cache( const int zlev )
                     // If a valid point does not have a directly adjacent roof, set it to not valid for a future check.
                     if( point_valid[1] && ( roof_cover[0] || roof_cover[2] ) ) {
                         buddynumber++;
-                    } else {
-                        point_valid[1] == false;
                     }
                     if( point_valid[3] && ( roof_cover[0] || roof_cover[6] ) ) {
                         buddynumber++;
-                    } else {
-                        point_valid[3] == false;
                     }
                     if( point_valid[5] && ( roof_cover[2] || roof_cover[8] ) ) {
                         buddynumber++;
-                    } else {
-                        point_valid[5] == false;
                     }
                     if( point_valid[7] && ( roof_cover[6] || roof_cover[8] ) ) {
                         buddynumber++;
-                    } else {
-                        point_valid[7] == false;
                     }
                     // At one or zero buddies sound dampening is reduced.
                     if( buddynumber < 2 ) {
@@ -697,79 +745,110 @@ static int sound_distance( const tripoint &source, const tripoint &sink )
     return rl_dist( source.xy(), sink.xy() ) + vertical_attenuation;
 }
 
-void sounds::ambient_sound( const tripoint &p, short vol, sound_t category,
-                            const std::string &description )
-{
-    sound( p, vol, category, description, false, false, false, false );
-}
+//void sounds::ambient_sound( const tripoint &p, short vol, sound_t category,
+//                            const std::string &description )
+//{
+//    sound( p, vol, category, description, false, false, false, false );
+//}
+//
+//void sounds::sound( const tripoint &p, short vol, const sound_t category,
+//                    const std::string &description,
+//                    bool movement_noise, bool from_player, bool from_monster, bool from_npc, const std::string &id,
+//                    const std::string &variant, const faction_id faction, const mfaction_str_id monfaction )
+//{
+//    // Error out if volume is negative, or bail out if volume is 7 or less dB.
+//    // There are not anechoic chambers in game, so actually hearing such sounds is effectively impossible for most creatures and not worth tracking.
+//    if( vol < 8 ) {
+//        if( vol < 0 ) {
+//            debugmsg( "negative sound volume %d", vol );
+//        }
+//        return;
+//    }
+//    // Description is not an optional parameter
+//    if( description.empty() ) {
+//        debugmsg( "Sound at %d:%d has no description!", p.x, p.y );
+//        return;
+//    }
+//    map &map = get_map();
+//
+//    // Maximum possible sound pressure level in atmosphere is 191 dB, cap our volume for sanity.
+//    // Check above should catch any volumes that are too low or negative.
+//    const short volume = std::min( vol, mdBspl_to_dBspl( MAXIMUM_VOLUME_ATMOSPHERE ) );
+//    sound_event soundevent;
+//    soundevent.volume = volume;
+//    soundevent.origin = p;
+//    soundevent.category = category;
+//    soundevent.description = description;
+//    soundevent.movement_noise = movement_noise;
+//    soundevent.from_player = from_player;
+//    soundevent.from_monster = from_monster;
+//    soundevent.from_npc = from_npc;
+//    soundevent.id = id;
+//    soundevent.variant = variant;
+//    soundevent.faction = faction;
+//    soundevent.monfaction = monfaction;
+//
+//    map.flood_fill_sound( soundevent, p.z );
+//}
 
-void sounds::sound( const tripoint &p, short vol, const sound_t category,
-                    const std::string &description,
-                    bool movement_noise, bool from_player, bool from_monster, bool from_npc, const std::string &id,
-                    const std::string &variant, const faction_id faction, const mfaction_str_id monfaction )
+//void sounds::sound( const tripoint &p, short vol, sound_t category, const translation &description,
+//                    bool movement_noise, bool from_player, bool from_monster, bool from_npc, const std::string &id,
+//                    const std::string &variant, const faction_id faction, const mfaction_str_id monfaction )
+//{
+//    sounds::sound( p, vol, category, description.translated(), movement_noise, from_player,
+//                   from_monster, from_npc, id, variant, faction, monfaction );
+//}
+
+void sounds::sound( sound_event &soundevent )
 {
-    // Error out if volume is negative, or bail out if volume is 7 or less dB.
-    // There are not anechoic chambers in game, so actually hearing such sounds is effectively impossible for most creatures and not worth tracking.
-    if( vol < 8 ) {
-        if( vol < 0 ) {
-            debugmsg( "negative sound volume %d", vol );
+    // Error out if volume is negative, or bail out if volume is less than 16dB.
+    // There are not anechoic chambers in game, so actually hearing such sounds after even 1 tile of distance (15dB -> 9dB 1 tile away) is very unlikely for the vast majority of creatures.
+    // A good threshold for sounds that should only really be faintly audible to the player in a quiet room is 20dB.
+    // Most sounds intended to be quiet but still audible to the player, and maybe to creatures very close, is 35-45dB.
+    // Ambient volume minimum is usually 40dB in game. A player with normal hearing can notice sounds 20dB below ambient.
+    if( soundevent.volume < 16 ) {
+        if( soundevent.volume < 0 ) {
+            debugmsg( "negative sound volume %d", soundevent.volume );
+        } else {
+            debugmsg( "Sound volume &d too quiet for propagation.", soundevent.volume );
         }
         return;
     }
     // Description is not an optional parameter
-    if( description.empty() ) {
-        debugmsg( "Sound at %d:%d has no description!", p.x, p.y );
+    if( soundevent.description.empty() ) {
+        debugmsg( "Sound at %d:%d has no description!", soundevent.origin.x, soundevent.origin.y );
         return;
     }
     map &map = get_map();
 
     // Maximum possible sound pressure level in atmosphere is 191 dB, cap our volume for sanity.
+    // Sound volumes above 191dB are not sound pressure waves, they are supersonic blast/shock waves and should be modeled as damaging explosions.
     // Check above should catch any volumes that are too low or negative.
-    const short volume = std::min( vol, mdBspl_to_dBspl( MAXIMUM_VOLUME_ATMOSPHERE ) );
-    sound_event soundevent;
-    soundevent.volume = volume;
-    soundevent.origin = p;
-    soundevent.category = category;
-    soundevent.description = description;
-    soundevent.movement_noise = movement_noise;
-    soundevent.from_player = from_player;
-    soundevent.from_monster = from_monster;
-    soundevent.from_npc = from_npc;
-    soundevent.id = id;
-    soundevent.variant = variant;
-    soundevent.faction = faction;
-    soundevent.monfaction = monfaction;
+    soundevent.volume = std::min( soundevent.volume * 1.0,
+                                  std::floor( mdBspl_to_dBspl( MAXIMUM_VOLUME_ATMOSPHERE ) ) );
 
-    map.flood_fill_sound( soundevent, p.z );
+    map.flood_fill_sound( soundevent, soundevent.origin.z );
 }
 
-void sounds::sound( const tripoint &p, short vol, sound_t category, const translation &description,
-                    bool movement_noise, bool from_player, bool from_monster, bool from_npc, const std::string &id,
-                    const std::string &variant, const faction_id faction, const mfaction_str_id monfaction )
-{
-    sounds::sound( p, vol, category, description.translated(), movement_noise, from_player,
-                   from_monster, from_npc, id, variant, faction, monfaction );
-}
-
-void sounds::add_footstep( const tripoint &p, short volume, const std::string &footstep,
-                           faction_id faction )
-{
-    bool from_player = false;
-    bool from_npc = false;
-    // Bail out if we dont have one of our bools declared. Footsteps have to come from something.
-    ( get_avatar().pos() == p ) ? from_player = true, from_npc = false : from_npc = true,
-                                  from_player = false;
-    sounds::sound( p, volume, sound_t::movement, footstep, true, from_player, false, from_npc,
-                   "", "", faction );
-}
-void sounds::add_footstep( const tripoint &p, short volume, const std::string &footstep,
-                           mfaction_str_id monsterfaction )
-{
-    // Bail out if we dont have one of our bools declared. Footsteps have to come from something.
-
-    sounds::sound( p, volume, sound_t::movement, footstep, true, false, true, false,
-                   "", "", faction_id( "no_faction" ), monsterfaction );
-}
+//void sounds::add_footstep( const tripoint &p, short volume, const std::string &footstep,
+//                           faction_id faction )
+//{
+//    bool from_player = false;
+//    bool from_npc = false;
+//    // Bail out if we dont have one of our bools declared. Footsteps have to come from something.
+//    ( get_avatar().pos() == p ) ? from_player = true, from_npc = false : from_npc = true,
+//                                  from_player = false;
+//    sounds::sound( p, volume, sound_t::movement, footstep, true, from_player, false, from_npc,
+//                   "", "", faction );
+//}
+//void sounds::add_footstep( const tripoint &p, short volume, const std::string &footstep,
+//                           mfaction_str_id monsterfaction )
+//{
+//    // Bail out if we dont have one of our bools declared. Footsteps have to come from something.
+//
+//    sounds::sound( p, volume, sound_t::movement, footstep, true, false, true, false,
+//                   "", "", faction_id( "no_faction" ), monsterfaction );
+//}
 
 template <typename C>
 static void vector_quick_remove( std::vector<C> &source, int index )
@@ -854,56 +933,7 @@ static int get_signal_for_hordes( const sound_event centr, const short ambient_v
         return sig_power;
     }
 }
-// Returns the reduction in dB due to terrain in 100ths of a decibel, or returns just dB if horde signal is true.
-// If horde signal is true, returns reducion due to terrain at a distance of ~312m
-// Grab this once and store the results.
-static short terrain_sound_attenuation( tripoint_abs_omt omtpos, season_type season,
-                                        bool horde_signal = false )
-{
-    //Grab the player
-    // const Character &player = get_player_character();
-    // This is a bit heinous, but we have to step through several structs to actually get to the int code number for the land use codes.
-    // 40 land use cases in total. We either use the integer identifier, or the string id.
-    const short landusecodenum = overmap_buffer.ter(
-                                     omtpos ).obj().get_land_use_code().obj().land_use_code;
-    //player.global_omt_location()
-    // Forests have less attenuation in the fall, and during winter sound attenuation is higher accross the board
-    // because of expected ambient snow, which is a extremely strong sound attenuator and can absorb somewhere between 50% and 90% of high frequency sound.
-    // const season_type season = season_of_year( calendar::turn );
-    // Attenuation bonus from expected ambient snow.
-    // These are approximates from US Army ERDC research on the effects of snow cover on sound propagation.
-    const short snowbonus = ( season != WINTER ) ? 0 : ( horde_signal ) ? 42 : 128;
 
-    // We want 4 total cases, open field, light vegitation/agriculture, urban, and forest/heavy vegitation.
-    // Return urban if none of the specified use codes, i.e., 0
-    // Technically how much a sound is attenuated also heavily depends on its frequency,
-    // But we are mostly concerned with the "high frequency" portion of sounds (1kHz+)
-    // High frequency sounds are what most creatures can easily pinpoint the direction of.
-    // Gunshots are really a meddly of sounds across a very wide frequency band, but we care about the high frequency portion.
-
-    // This is the really heinous bit. We either use the integer id, or the string id. Integer id it is.
-    if( landusecodenum == ( 3 || 37 || 35 ) ) {
-        // Heavy vegitation or forest. Heaviest attenuation, except in the fall.
-        return snowbonus + ( ( season == AUTUMN ) ? ( ( horde_signal ) ? 20 : 9 ) : ( (
-                                 horde_signal ) ? 26 : 20 ) );
-
-    } else if( landusecodenum == ( 6 || 9 || 20 || 25 || 26 ) ) {
-        // Open field. No reduction to sound signature, unless its winter!
-        return snowbonus;
-
-    } else if( landusecodenum == ( 1 || 2 || 4 || 5 || 14 || 17 || 23 || 34 || 40 ) ) {
-        // Light vegitation or agriculture. Light attenuation.
-        // Farms are no longer tended, so probably overgrown.
-        // Farmland is actually spectacular at attenuating low frequency sound, but we dont care about that too much here.
-        return snowbonus + ( ( horde_signal ) ? 12 : 6 );
-
-    } else {
-        // Default is an urban enviornment. There are alot of codes that go into here.
-        // Not great at short range attenuation, better at long range attenuation.
-        // More attenuation in the winter.
-        return snowbonus + ( ( horde_signal ) ? 12 : 0 );
-    }
-}
 
 void sounds::process_sounds()
 {
@@ -932,12 +962,9 @@ void sounds::process_sounds()
 
     auto &sound_caches = map.sound_caches;
 
-    // How loud is our ambient at a specific zlevel? Would check for indoors, but
+    // How loud is our ambient at a specific zlevel?
     auto ambient = [&]( const int zlev ) {
-
-        const short wind_volume = ( zlev < 0 ) ? 0 :  wind_volume;
-        const short weather_volume = ( zlev < 0 ) ? 30 :  weather_vol;
-        return std::max( weather_vol, wind_volume );
+        return std::max( ( ( zlev < 0 ) ? 30 : weather_vol ), ( ( zlev < 0 ) ? 0 : wind_volume ) );
     };
 
     // Now we can figure out our ambient volume. Actually determining the proper accoustic ambient volume of a space would be a full blown analysis, which we are not doing.

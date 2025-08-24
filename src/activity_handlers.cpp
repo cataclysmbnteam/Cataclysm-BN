@@ -381,13 +381,22 @@ bool activity_handlers::resume_for_multi_activities( player &p )
     return false;
 }
 
-void activity_handlers::burrow_do_turn( player_activity *act, player * )
+void activity_handlers::burrow_do_turn( player_activity *act, player *p )
 {
     sfx::play_activity_sound( "activity", "burrow", sfx::get_heard_volume( act->placement ) );
     if( calendar::once_every( 1_minutes ) ) {
-        sounds::sound( act->placement, 70, sounds::sound_t::movement,
-                       //~ Sound of a Rat mutant burrowing!
-                       _( "ScratchCrunchScrabbleScurry." ) );
+        sound_event se;
+        se.origin = act->placement;
+        se.volume = 70;
+        se.category = sounds::sound_t::movement;
+        se.description = _( "ScratchCrunchScrabbleScurry." ); //~ Sound of a Rat mutant burrowing!
+        se.id = "activity";
+        se.variant = "burrow";
+        se.from_player = p->is_avatar();
+        se.from_npc = !se.from_player;
+        se.faction = p->get_faction()->id;
+        se.monfaction = p->get_faction()->mon_faction;
+        sounds::sound( se );
     }
 }
 
@@ -1844,14 +1853,26 @@ void activity_handlers::make_zlave_finish( player_activity *act, player *p )
     }
 }
 
-void activity_handlers::pickaxe_do_turn( player_activity *act, player * )
+void activity_handlers::pickaxe_do_turn( player_activity *act, player *p )
 {
     const tripoint &pos = get_map().getlocal( act->placement );
     sfx::play_activity_sound( "tool", "pickaxe", sfx::get_heard_volume( pos ) );
     // each turn is too much
     if( calendar::once_every( 1_minutes ) ) {
         //~ Sound of a Pickaxe at work!
-        sounds::sound( pos, 90, sounds::sound_t::destructive_activity, _( "CHNK!  CHNK!  CHNK!" ) );
+        sound_event se;
+        se.origin = pos;
+        se.volume = 90;
+        se.category = sounds::sound_t::destructive_activity;
+        se.description = _( "CHNK!  CHNK!  CHNK!" );
+        se.id = "tool";
+        se.variant = "pickaxe";
+        se.from_player = p->is_avatar();
+        se.from_npc = !se.from_player;
+        se.faction = p->get_faction()->id;
+        se.monfaction = p->get_faction()->mon_faction;
+        sounds::sound( se );
+
     }
 }
 
@@ -2057,8 +2078,16 @@ void activity_handlers::reload_finish( player_activity *act, player *p )
             }
             sfx::play_variant_sound( "reload", reloadable.typeId().str(),
                                      sfx::get_heard_volume( p->pos() ) );
-            sounds::ambient_sound( p->pos(), reload_volume,
-                                   sounds::sound_t::activity, reloadable.type->gun->reload_noise );
+            sound_event se;
+            se.origin = p->pos();
+            se.volume = reload_volume;
+            se.category = sounds::sound_t::activity;
+            se.description = reloadable.type->gun->reload_noise;
+            se.id = "reload";
+            se.variant = reloadable.typeId().str();
+
+            sounds::sound( se );
+
         }
     } else if( reloadable.is_watertight_container() ) {
         msg = _( "You refill the %s." );
@@ -3509,10 +3538,16 @@ void activity_handlers::operation_finish( player_activity *act, player *p )
             const std::list<tripoint> autodocs = here.find_furnitures_or_vparts_with_flag_in_radius( p->pos(),
                                                  1,
                                                  flag_AUTODOC );
-            sounds::sound( autodocs.front(), 60, sounds::sound_t::music,
-                           _( "a short upbeat jingle: \"Operation successful\"" ), false, false, false, false,
-                           "Autodoc",
-                           "success" );
+            sound_event se;
+            se.origin = autodocs.front();
+            se.volume = 60;
+            se.category = sounds::sound_t::music;
+            se.description = _( "a short upbeat jingle: \"Operation successful\"" );
+            se.id = "Autodoc";
+            se.variant = "success";
+
+            sounds::sound( se );
+
         } else {
             if( act->str_values[0] == "install" ) {
                 add_msg( m_warning,
@@ -3520,21 +3555,33 @@ void activity_handlers::operation_finish( player_activity *act, player *p )
                 const std::list<tripoint> autodocs = here.find_furnitures_or_vparts_with_flag_in_radius( p->pos(),
                                                      1,
                                                      flag_AUTODOC );
-                sounds::sound( autodocs.front(), 60, sounds::sound_t::music,
-                               _( "a sad beeping noise: \"Complications detected!  Report to medical personnel immediately!\"" ),
-                               false, false, false, false,
-                               "Autodoc",
-                               "failure" );
+                sound_event se;
+                se.origin = autodocs.front();
+                se.volume = 60;
+                se.category = sounds::sound_t::music;
+                se.description =
+                    _( "a sad beeping noise: \"Complications detected!  Report to medical personnel immediately!\"" );
+                se.id = "Autodoc";
+                se.variant = "failure";
+
+                sounds::sound( se );
+
             } else {
                 add_msg( m_bad,
                          _( "The Autodoc jerks back to its resting position after failing the operation." ) );
                 const std::list<tripoint> autodocs = here.find_furnitures_or_vparts_with_flag_in_radius( p->pos(),
                                                      1,
                                                      flag_AUTODOC );
-                sounds::sound( autodocs.front(), 60, sounds::sound_t::music,
-                               _( "a sad beeping noise: \"Operation failed\"" ), false, false, false, false,
-                               "Autodoc",
-                               "failure" );
+                sound_event se;
+                se.origin = autodocs.front();
+                se.volume = 60;
+                se.category = sounds::sound_t::music;
+                se.description = _( "a sad beeping noise: \"Operation failed\"" );
+                se.id = "Autodoc";
+                se.variant = "failure";
+
+                sounds::sound( se );
+
             }
 
         }
@@ -3806,13 +3853,25 @@ void activity_handlers::pry_nails_finish( player_activity *act, player *p )
     act->set_to_null();
 }
 
-void activity_handlers::chop_tree_do_turn( player_activity *act, player * )
+void activity_handlers::chop_tree_do_turn( player_activity *act, player *p )
 {
     map &here = get_map();
     sfx::play_activity_sound( "tool", "axe", sfx::get_heard_volume( here.getlocal( act->placement ) ) );
     if( calendar::once_every( 1_minutes ) ) {
         //~ Sound of a wood chopping tool at work!
-        sounds::sound( here.getlocal( act->placement ), 90, sounds::sound_t::activity, _( "CHK!" ) );
+        sound_event se;
+        se.origin = here.getlocal( act->placement );
+        se.volume = 90;
+        se.category = sounds::sound_t::activity;
+        se.description = _( "CHK!" );
+        se.id = "tool";
+        se.variant = "axe";
+        se.from_player = p->is_avatar();
+        se.from_npc = !se.from_player;
+        se.faction = p->get_faction()->id;
+        se.monfaction = p->get_faction()->mon_faction;
+        sounds::sound( se );
+
     }
 }
 
@@ -3999,15 +4058,27 @@ void activity_handlers::chop_planks_finish( player_activity *act, player *p )
     resume_for_multi_activities( *p );
 }
 
-void activity_handlers::jackhammer_do_turn( player_activity *act, player * )
+void activity_handlers::jackhammer_do_turn( player_activity *act, player *p )
 {
     map &here = get_map();
     sfx::play_activity_sound( "tool", "jackhammer",
                               sfx::get_heard_volume( here.getlocal( act->placement ) ) );
     if( calendar::once_every( 1_minutes ) ) {
-        sounds::sound( here.getlocal( act->placement ), 130, sounds::sound_t::destructive_activity,
-                       //~ Sound of a jackhammer at work!
-                       _( "TATATATATATATAT!" ) );
+        sound_event se;
+        se.origin = here.getlocal( act->placement );
+        se.volume = 130;
+        se.category = sounds::sound_t::destructive_activity;
+        se.description = _( "TATATATATATATAT!" );
+        se.id = "tool";
+        se.variant = "jackhammer";
+        se.from_player = p->is_avatar();
+        se.from_npc = !se.from_player;
+        se.faction = p->get_faction()->id;
+        se.monfaction = p->get_faction()->mon_faction;
+        sounds::sound( se );
+
+        //~ Sound of a jackhammer at work!
+
     }
 }
 
@@ -4051,12 +4122,24 @@ void activity_handlers::jackhammer_finish( player_activity *act, player *p )
     }
 }
 
-void activity_handlers::fill_pit_do_turn( player_activity *act, player * )
+void activity_handlers::fill_pit_do_turn( player_activity *act, player *p )
 {
     sfx::play_activity_sound( "tool", "shovel", 100 );
     if( calendar::once_every( 1_minutes ) ) {
         //~ Sound of a shovel filling a pit or mound at work!
-        sounds::sound( act->placement, 60, sounds::sound_t::activity, _( "hsh!" ) );
+        sound_event se;
+        se.origin = act->placement;
+        se.volume = 60;
+        se.category = sounds::sound_t::activity;
+        se.description = _( "hsh!" );
+        se.id = "tool";
+        se.variant = "shovel";
+        se.from_player = p->is_avatar();
+        se.from_npc = !se.from_player;
+        se.faction = p->get_faction()->id;
+        se.monfaction = p->get_faction()->mon_faction;
+        sounds::sound( se );
+
     }
 }
 
@@ -4456,8 +4539,17 @@ void activity_handlers::spellcasting_finish( player_activity *act, player *p )
     }
 
     if( spell_being_cast.has_flag( spell_flag::VERBAL ) ) {
-        sounds::sound( p->pos(), p->get_shout_volume() / 2, sounds::sound_t::speech, _( "cast a spell" ),
-                       false, true, false, false );
+        sound_event se;
+        se.origin = p->pos();
+        se.volume = p->get_shout_volume() - 10;
+        se.category = sounds::sound_t::speech;
+        se.description = _( "cast a spell" );
+        se.from_player = p->is_avatar();
+        se.from_npc = !se.from_player;
+        se.faction = p->get_faction()->id;
+        se.monfaction = p->get_faction()->mon_faction;
+        sounds::sound( se );
+
     }
 
     p->add_msg_if_player( spell_being_cast.message(), spell_being_cast.name() );

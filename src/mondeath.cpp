@@ -275,7 +275,16 @@ void mdeath::acid( monster &z )
 void mdeath::boomer( monster &z )
 {
     std::string explode = string_format( _( "a %s explode!" ), z.name() );
-    sounds::sound( z.pos(), 80, sounds::sound_t::combat, explode, false, "explosion", "small" );
+    sound_event se;
+    se.origin = z.pos();
+    se.volume = 80;
+    se.category = sounds::sound_t::combat;
+    se.description = explode;
+    se.from_monster = true;
+    se.id = "explosion";
+    se.variant = "small";
+    se.monfaction = z.faction.id();
+    sounds::sound( se );
     for( const tripoint &dest : g->m.points_in_radius( z.pos(), 1 ) ) { // *NOPAD*
         g->m.bash( dest, 10 );
         if( monster *const target = g->critter_at<monster>( dest ) ) {
@@ -294,7 +303,16 @@ void mdeath::boomer( monster &z )
 void mdeath::boomer_glow( monster &z )
 {
     std::string explode = string_format( _( "a %s explode!" ), z.name() );
-    sounds::sound( z.pos(), 80, sounds::sound_t::combat, explode, false, "explosion", "small" );
+    sound_event se;
+    se.origin = z.pos();
+    se.volume = 80;
+    se.category = sounds::sound_t::combat;
+    se.description = explode;
+    se.from_monster = true;
+    se.id = "explosion";
+    se.variant = "small";
+    se.monfaction = z.faction.id();
+    sounds::sound( se );
 
     for( const tripoint &dest : g->m.points_in_radius( z.pos(), 1 ) ) { // *NOPAD*
         g->m.bash( dest, 10 );
@@ -386,7 +404,16 @@ void mdeath::triffid_heart( monster &z )
 void mdeath::fungus( monster &z )
 {
     //~ the sound of a fungus dying
-    sounds::sound( z.pos(), 60, sounds::sound_t::combat, _( "Pouf!" ), false, "misc", "puff" );
+    sound_event se;
+    se.origin = z.pos();
+    se.volume = 60;
+    se.category = sounds::sound_t::combat;
+    se.description = _( "Pouf!" );
+    se.from_monster = true;
+    se.id = "misc";
+    se.variant = "puff";
+    se.monfaction = z.faction.id();
+    sounds::sound( se );
 
     fungal_effects fe( *g, g->m );
     for( const tripoint &sporep : g->m.points_in_radius( z.pos(), 1 ) ) { // *NOPAD*
@@ -744,14 +771,34 @@ void mdeath::darkman( monster &z )
 void mdeath::gas( monster &z )
 {
     std::string explode = string_format( _( "a %s explode!" ), z.name() );
-    sounds::sound( z.pos(), 80, sounds::sound_t::combat, explode, false, "explosion", "small" );
+    sound_event se;
+    se.origin = z.pos();
+    se.volume = 80;
+    se.category = sounds::sound_t::combat;
+    se.description = explode;
+    se.from_monster = true;
+    se.id = "explosion";
+    se.variant = "small";
+    se.monfaction = z.faction.id();
+    sounds::sound( se );
+
     g->m.emit_field( z.pos(), emit_id( "emit_toxic_blast" ) );
 }
 
 void mdeath::smokeburst( monster &z )
 {
     std::string explode = string_format( _( "a %s explode!" ), z.name() );
-    sounds::sound( z.pos(), 80, sounds::sound_t::combat, explode, false, "explosion", "small" );
+    sound_event se;
+    se.origin = z.pos();
+    se.volume = 80;
+    se.category = sounds::sound_t::combat;
+    se.description = explode;
+    se.from_monster = true;
+    se.id = "explosion";
+    se.variant = "small";
+    se.monfaction = z.faction.id();
+    sounds::sound( se );
+
     g->m.emit_field( z.pos(), emit_id( "emit_smoke_blast" ) );
 }
 
@@ -766,7 +813,17 @@ void mdeath::fungalburst( monster &z )
     }
 
     std::string explode = string_format( _( "a %s explodes!" ), z.name() );
-    sounds::sound( z.pos(), 90, sounds::sound_t::combat, explode, false, "explosion", "small" );
+    sound_event se;
+    se.origin = z.pos();
+    se.volume = 90;
+    se.category = sounds::sound_t::combat;
+    se.description = explode;
+    se.from_monster = true;
+    se.id = "explosion";
+    se.variant = "small";
+    se.monfaction = z.faction.id();
+    sounds::sound( se );
+
     g->m.emit_field( z.pos(), emit_id( "emit_fungal_blast" ) );
 }
 
@@ -972,7 +1029,17 @@ void mdeath::fireball( monster &z )
         g->m.propagate_field( z.pos(), fd_fire, 15, 3 );
         std::string explode = string_format( _( "an explosion of tank of the %s's flamethrower!" ),
                                              z.name() );
-        sounds::sound( z.pos(), 120, sounds::sound_t::combat, explode, false, "explosion", "default" );
+        sound_event se;
+        se.origin = z.pos();
+        se.volume = 140;
+        se.category = sounds::sound_t::combat;
+        se.description = explode;
+        se.from_monster = true;
+        se.id = "explosion";
+        se.variant = "default";
+        se.monfaction = z.faction.id();
+        sounds::sound( se );
+
         add_msg( m_good, _( "I love the smell of burning zed in the morning." ) );
     } else {
         normal( z );
@@ -985,6 +1052,15 @@ void mdeath::conflagration( monster &z )
         g->m.propagate_field( dest, fd_fire, 18, 3 );
     }
     const std::string explode = string_format( _( "a %s explode!" ), z.name() );
-    sounds::sound( z.pos(), 110, sounds::sound_t::combat, explode, false, "explosion", "small" );
+    sound_event se;
+    se.origin = z.pos();
+    se.volume = 110;
+    se.category = sounds::sound_t::combat;
+    se.description = explode;
+    se.from_monster = true;
+    se.id = "explosion";
+    se.variant = "small";
+    se.monfaction = z.faction.id();
+    sounds::sound( se );
 
 }

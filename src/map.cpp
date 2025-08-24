@@ -736,8 +736,14 @@ vehicle *map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &fac
         veh.stop_autodriving();
         const int volume = std::min<int>( 120, std::sqrt( impulse ) );
         // TODO: Center the sound at weighted (by impulse) average of collisions
-        sounds::sound( veh.global_pos3(), volume, sounds::sound_t::combat, _( "crash!" ),
-                       false, "smash_success", "hit_vehicle" );
+        sound_event se;
+        se.origin = veh.global_pos3();
+        se.volume = volume;
+        se.category = sounds::sound_t::combat;
+        se.description = _( "crash!" );
+        se.id = "smash_success";
+        se.variant = "hit_vehicle";
+        sounds::sound( se );
     }
 
     if( veh_veh_coll_flag ) {
@@ -816,8 +822,15 @@ vehicle *map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &fac
         for( auto &w : wheel_indices ) {
             const tripoint wheel_p = veh.global_part_pos3( w );
             if( one_in( 2 ) && displace_water( wheel_p ) ) {
-                sounds::sound( wheel_p, 50,  sounds::sound_t::movement, _( "splash!" ), false,
-                               "environment", "splash" );
+                sound_event se;
+                se.origin = wheel_p;
+                se.volume = 50;
+                se.category = sounds::sound_t::movement;
+                se.movement_noise = true;
+                se.description = _( "splash!" );
+                se.id = "environment";
+                se.variant = "splash";
+                sounds::sound( se );
             }
 
             veh.handle_trap( wheel_p, w );
@@ -3415,8 +3428,14 @@ bash_results map::bash_ter_success( const tripoint &p, const bash_params &params
     if( !bash.sound.empty() && !params.silent ) {
         static const std::string soundfxid = "smash_success";
         int sound_volume = get_sound_volume( bash );
-        sounds::sound( p, sound_volume, sounds::sound_t::combat, bash.sound, false, false, false, false,
-                       soundfxid, soundfxvariant );
+        sound_event se;
+        se.origin = p;
+        se.volume = sound_volume;
+        se.category = sounds::sound_t::combat;
+        se.description = bash.sound.translated();
+        se.id = soundfxid;
+        se.variant = soundfxvariant;
+        sounds::sound( se );
     }
 
     if( !zlevels ) {
@@ -3591,8 +3610,14 @@ bash_results map::bash_furn_success( const tripoint &p, const bash_params &param
     if( !bash.sound.empty() && !params.silent ) {
         static const std::string soundfxid = "smash_success";
         int sound_volume = get_sound_volume( bash );
-        sounds::sound( p, sound_volume, sounds::sound_t::combat, bash.sound, false, false, false, false,
-                       soundfxid, soundfxvariant );
+        sound_event se;
+        se.origin = p;
+        se.volume = sound_volume;
+        se.category = sounds::sound_t::combat;
+        se.description = bash.sound.translated();
+        se.id = soundfxid;
+        se.variant = soundfxvariant;
+        sounds::sound( se );
     }
 
     if( bash.explosive > 0 ) {
@@ -3646,8 +3671,14 @@ bash_results map::bash_ter_furn( const tripoint &p, const bash_params &params )
 
     // TODO: what if silent is true?
     if( has_flag( "ALARMED", p ) && !g->timed_events.queued( TIMED_EVENT_WANTED ) ) {
-        sounds::sound( p, 90, sounds::sound_t::alarm, _( "an alarm go off!" ),
-                       false, false, false, false, "environment", "alarm" );
+        sound_event se;
+        se.origin = p;
+        se.volume = 90;
+        se.category = sounds::sound_t::alarm;
+        se.description = _( "an alarm go off!" );
+        se.id = "environment";
+        se.variant = "alarm";
+        sounds::sound( se );
         // Blame nearby player
         if( rl_dist( g->u.pos(), p ) <= 3 ) {
             g->events().send<event_type::triggers_alarm>( g->u.getID() );
@@ -3661,8 +3692,14 @@ bash_results map::bash_ter_furn( const tripoint &p, const bash_params &params )
         // Nothing bashable here
         if( impassable( p ) ) {
             if( !params.silent ) {
-                sounds::sound( p, 80, sounds::sound_t::combat, _( "thump!" ),
-                               false, false, false, false, "smash_fail", "default" );
+                sound_event se;
+                se.origin = p;
+                se.volume = 80;
+                se.category = sounds::sound_t::combat;
+                se.description = _( "thump!" );
+                se.id = "smash_fail";
+                se.variant = "default";
+                sounds::sound( se );
             }
 
             result.did_bash = true;
@@ -3713,9 +3750,14 @@ bash_results map::bash_ter_furn( const tripoint &p, const bash_params &params )
 
         result.did_bash = true;
         if( !params.silent ) {
-            sounds::sound( p, sound_volume, sounds::sound_t::combat, bash->sound_fail, false, false, false,
-                           false,
-                           "smash_fail", soundfxvariant );
+            sound_event se;
+            se.origin = p;
+            se.volume = sound_volume;
+            se.category = sounds::sound_t::combat;
+            se.description = bash->sound_fail.translated();
+            se.id = "smash_fail";
+            se.variant = soundfxvariant;
+            sounds::sound( se );
         }
     } else {
         if( smash_ter ) {
@@ -3795,8 +3837,14 @@ bash_results map::bash_items( const tripoint &p, const bash_params &params )
 
     // Add a glass sound even when something else also breaks
     if( smashed_glass && !params.silent ) {
-        sounds::sound( p, 70, sounds::sound_t::combat, _( "glass shattering" ), false, false, false, false,
-                       "smash_success", "smash_glass_contents" );
+        sound_event se;
+        se.origin = p;
+        se.volume = 70;
+        se.category = sounds::sound_t::combat;
+        se.description = _( "glass shattering" );
+        se.id = "smash_success";
+        se.variant = "smash_glass_contents";
+        sounds::sound( se );
     }
     return result;
 }
@@ -3808,8 +3856,14 @@ bash_results map::bash_vehicle( const tripoint &p, const bash_params &params )
     if( const optional_vpart_position vp = veh_at( p ) ) {
         vp->vehicle().damage( vp->part_index(), params.strength, DT_BASH );
         if( !params.silent ) {
-            sounds::sound( p, 80, sounds::sound_t::combat, _( "crash!" ), false, false, false, false,
-                           "smash_success", "hit_vehicle" );
+            sound_event se;
+            se.origin = p;
+            se.volume = 80;
+            se.category = sounds::sound_t::combat;
+            se.description = _( "crash!" );
+            se.id = "smash_success";
+            se.variant = "hit_vehicle";
+            sounds::sound( se );
         }
 
         result.did_bash = true;
@@ -3945,9 +3999,14 @@ void map::shoot( const tripoint &origin, const tripoint &p, projectile &proj, co
     float pen = initial_arpen;
 
     if( has_flag( "ALARMED", p ) && !g->timed_events.queued( TIMED_EVENT_WANTED ) ) {
-        sounds::sound( p, 90, sounds::sound_t::alarm, _( "an alarm sound!" ), false, false, false, false,
-                       "environment",
-                       "alarm" );
+        sound_event se;
+        se.origin = p;
+        se.volume = 90;
+        se.category = sounds::sound_t::alarm;
+        se.description = _( "an alarm sound!" );
+        se.id = "environment";
+        se.variant = "alarm";
+        sounds::sound( se );
         const tripoint abs = ms_to_sm_copy( getabs( p ) );
         g->timed_events.add( TIMED_EVENT_WANTED, calendar::turn + 30_minutes, 0, abs );
     }
@@ -4197,8 +4256,15 @@ bool map::open_door( const tripoint &p, const bool inside, const bool check_only
             }
         }
         if( !check_only ) {
-            sounds::sound( p, 50, sounds::sound_t::movement, _( "swish" ), true, false, false, false,
-                           "open_door", ter.id.str() );
+            sound_event se;
+            se.origin = p;
+            se.volume = 50;
+            se.category = sounds::sound_t::movement;
+            se.movement_noise = true;
+            se.description = _( "swish" );
+            se.id = "open_door";
+            se.variant = ter.id.str();
+            sounds::sound( se );
             ter_set( p, ter.open );
 
             if( ( you.has_trait( trait_id( "SCHIZOPHRENIC" ) ) || you.has_artifact_with( AEP_SCHIZO ) )
@@ -4222,8 +4288,15 @@ bool map::open_door( const tripoint &p, const bool inside, const bool check_only
         }
 
         if( !check_only ) {
-            sounds::sound( p, 50, sounds::sound_t::movement, _( "swish" ), true, false, false, false,
-                           "open_door", furn.id.str() );
+            sound_event se;
+            se.origin = p;
+            se.volume = 50;
+            se.category = sounds::sound_t::movement;
+            se.movement_noise = true;
+            se.description = _( "swish" );
+            se.id = "open_door";
+            se.variant = ter.id.str();
+            sounds::sound( se );
             furn_set( p, furn.open );
         }
 
@@ -4305,15 +4378,29 @@ bool map::close_door( const tripoint &p, const bool inside, const bool check_onl
     const auto &furn = this->furn( p ).obj();
     if( ter.close && !furn.id ) {
         if( !check_only ) {
-            sounds::sound( p, 60, sounds::sound_t::movement, _( "swish" ), true, false, false, false,
-                           "close_door", ter.id.str() );
+            sound_event se;
+            se.origin = p;
+            se.volume = 60;
+            se.category = sounds::sound_t::movement;
+            se.movement_noise = true;
+            se.description = _( "swish" );
+            se.id = "close_door";
+            se.variant = ter.id.str();
+            sounds::sound( se );
             ter_set( p, ter.close );
         }
         return true;
     } else if( furn.close ) {
         if( !check_only ) {
-            sounds::sound( p, 60, sounds::sound_t::movement, _( "swish" ), true, false, false, false,
-                           "close_door", furn.id.str() );
+            sound_event se;
+            se.origin = p;
+            se.volume = 60;
+            se.category = sounds::sound_t::movement;
+            se.movement_noise = true;
+            se.description = _( "swish" );
+            se.id = "close_door";
+            se.variant = ter.id.str();
+            sounds::sound( se );
             furn_set( p, furn.close );
         }
         return true;

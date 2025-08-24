@@ -180,6 +180,7 @@
 #include "wcwidth.h"
 #include "weather.h"
 #include "worldfactory.h"
+#include "monfaction.h"
 
 class computer;
 
@@ -9140,6 +9141,13 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp )
             } else if( u.movement_mode_is( CMM_CROUCH ) ) {
                 volume -= 5;
             }
+            sound_event se;
+            se.origin = dest_loc;
+            se.category = sounds::sound_t::movement;
+            se.movement_noise = true;
+            se.id = "none";
+            se.variant = "none";
+
             if( u.is_mounted() ) {
                 auto mons = u.mounted_creature.get();
                 switch( mons->get_size() ) {
@@ -9163,21 +9171,37 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp )
                 if( mons->has_flag( MF_LOUDMOVES ) ) {
                     volume += 10;
                 }
-                sounds::sound( dest_loc, volume, sounds::sound_t::movement, mons->type->get_footsteps(), true, true,
-                               false, false,
-                               "none", "none" );
+                se.volume = volume;
+                se.description = mons->type->get_footsteps();
+                se.from_monster = true;
+                se.monfaction = mons->faction.id();
+                se.faction = faction_id( "your_followers" );
+                sounds::sound( se );
             } else {
-                sounds::sound( dest_loc, volume, sounds::sound_t::movement, _( "footsteps" ), true, true, false,
-                               false,
-                               "none", "none" );    // Sound of footsteps may awaken nearby monsters
+                se.volume = volume;
+                se.description = _( "footsteps" );
+                se.from_player = true;
+                se.faction = u.get_faction()->id;
+                se.monfaction = u.get_faction()->mon_faction;
+                sounds::sound( se );   // Sound of footsteps may awaken nearby monsters
             }
             sfx::do_footstep();
         }
 
         if( one_in( 20 ) && u.has_artifact_with( AEP_MOVEMENT_NOISE ) ) {
-            sounds::sound( u.pos(), 80, sounds::sound_t::movement, _( "a rattling sound." ), true, true,
-                           false, false,
-                           "misc", "rattling" );
+            sound_event se;
+            se.origin = u.pos();
+            se.volume = 80;
+            se.category = sounds::sound_t::movement;
+            se.description = _( "a rattling sound." );
+            se.movement_noise = true;
+            se.from_player = true;
+            se.id = "misc";
+            se.variant = "rattling";
+            se.faction = u.get_faction()->id;
+            se.monfaction = u.get_faction()->mon_faction;
+
+            sounds::sound( se );
         }
     }
 
@@ -9775,8 +9799,16 @@ bool game::grabbed_furn_move( const tripoint &dp )
             }
         }
     }
-    sounds::sound( fdest, 40 + ( furntype.move_str_req * 4 ), sounds::sound_t::movement,
-                   _( "a scraping noise." ), true, "misc", "scraping" );
+    sound_event se;
+    se.origin = fdest;
+    se.volume = 40 + ( furntype.move_str_req * 4 );
+    se.category = sounds::sound_t::movement;
+    se.movement_noise = true;
+    se.description = _( "a scraping noise." );
+    se.id = "misc";
+    se.variant = "scraping";
+
+    sounds::sound( se );
 
     active_tile_data *atd = active_tiles::furn_at<active_tile_data>
                             ( tripoint_abs_ms( m.getabs( fpos ) ) );
@@ -11208,8 +11240,18 @@ void game::update_stair_monsters()
 
             add_msg( m_warning, dump );
         } else {
-            sounds::sound( dest, 60, sounds::sound_t::movement,
-                           _( "a sound nearby from the stairs!" ), true, false, true, false, "misc", "stairs_movement" );
+            sound_event se;
+            se.origin = dest;
+            se.volume = 60;
+            se.category = sounds::sound_t::movement;
+            se.movement_noise = true;
+            se.from_monster = true;
+            se.monfaction = critter.faction.id();
+            se.description = _( "a sound nearby from the stairs!" );
+            se.id = "misc";
+            se.variant = "stairs_movement";
+
+            sounds::sound( se );
         }
 
         if( critter.staircount > 0 ) {

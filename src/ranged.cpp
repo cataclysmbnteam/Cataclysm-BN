@@ -1973,8 +1973,12 @@ void ranged::make_gun_sound_effect( const Character &who, bool burst, const item
 {
     const item::sound_data data = gun.gun_noise( burst );
     if( data.volume > 0 ) {
-        sounds::sound( who.pos(), data.volume, sounds::sound_t::combat,
-                       data.sound.empty() ? _( "Bang!" ) : data.sound );
+        sound_event se;
+        se.origin = who.pos();
+        se.volume = data.volume;
+        se.category = sounds::sound_t::combat;
+        se.description = data.sound.empty() ? _( "Bang!" ) : data.sound;
+        sounds::sound( se );
     }
     sfx::generate_gun_sound( who.pos(), gun );
 }

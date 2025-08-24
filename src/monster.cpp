@@ -2594,7 +2594,16 @@ void monster::process_turn()
     if( has_flag( MF_ELECTRIC_FIELD ) ) {
         if( has_effect( effect_emp ) ) {
             if( calendar::once_every( 10_turns ) ) {
-                sounds::sound( pos(), 50, sounds::sound_t::combat, _( "hummmmm." ), false, "humming", "electric" );
+                sound_event se;
+                se.origin = pos();
+                se.volume = 50;
+                se.category = sounds::sound_t::combat;
+                se.description = _( "hummmmm." );
+                se.from_monster = true;
+                se.monfaction = faction.id();
+                se.id = "humming";
+                se.variant = "electric";
+                sounds::sound( se );
             }
         } else {
             for( const tripoint &zap : g->m.points_in_radius( pos(), 1 ) ) {
@@ -2603,7 +2612,16 @@ void monster::process_turn()
                 for( const auto &item : items ) {
                     if( item->made_of( LIQUID ) && item->flammable() ) { // start a fire!
                         g->m.add_field( zap, fd_fire, 2, 1_minutes );
-                        sounds::sound( pos(), 60, sounds::sound_t::combat,  _( "fwoosh!" ), false, "fire", "ignition" );
+                        sound_event se;
+                        se.origin = pos();
+                        se.volume = 60;
+                        se.category = sounds::sound_t::combat;
+                        se.description = _( "fwoosh!" );
+                        se.from_monster = true;
+                        se.monfaction = faction.id();
+                        se.id = "fire";
+                        se.variant = "ignition";
+                        sounds::sound( se );
                         break;
                     }
                 }
@@ -2629,10 +2647,23 @@ void monster::process_turn()
             if( get_weather().lightning_active && !has_effect( effect_supercharged ) &&
                 g->m.is_outside( pos() ) ) {
                 get_weather().lightning_active = false; // only one supercharge per strike
-                sounds::sound( pos(), 180, sounds::sound_t::combat, _( "BOOOOOOOM!!!" ), false, "environment",
-                               "thunder_near" );
-                sounds::sound( pos(), 120, sounds::sound_t::combat, _( "vrrrRRRUUMMMMMMMM!" ), false, "explosion",
-                               "default" );
+                sound_event se;
+                se.origin = pos();
+                se.volume = 180;
+                se.category = sounds::sound_t::combat;
+                se.description = _( "BOOOOOOOM!!!" );
+                se.from_monster = true;
+                se.monfaction = faction.id();
+                se.id = "environment";
+                se.variant = "thunder_near";
+                sounds::sound( se );
+
+                se.description = _( "vrrrRRRUUMMMMMMMM!" );
+                se.id = "explosion";
+                se.variant = "default";
+                se.volume = 120;
+                sounds::sound( se );
+
                 if( g->u.sees( pos() ) ) {
                     add_msg( m_bad, _( "Lightning strikes the %s!" ), name() );
                     add_msg( m_bad, _( "Your vision goes white!" ) );
@@ -2640,8 +2671,16 @@ void monster::process_turn()
                 }
                 add_effect( effect_supercharged, 12_hours );
             } else if( has_effect( effect_supercharged ) && calendar::once_every( 5_turns ) ) {
-                sounds::sound( pos(), 80, sounds::sound_t::combat, _( "VMMMMMMMMM!" ), false, "humming",
-                               "electric" );
+                sound_event se;
+                se.origin = pos();
+                se.volume = 80;
+                se.category = sounds::sound_t::combat;
+                se.description = _( "VMMMMMMMMM!" );
+                se.from_monster = true;
+                se.monfaction = faction.id();
+                se.id = "humming";
+                se.variant = "electric";
+                sounds::sound( se );
             }
         }
     }
