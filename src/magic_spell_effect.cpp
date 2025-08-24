@@ -206,7 +206,7 @@ static std::set<tripoint> spell_effect_cone_range_override( const tripoint &sour
     const units::angle start_angle = initial_angle - half_width;
     const units::angle end_angle = initial_angle + half_width;
     std::set<tripoint> end_points;
-    for( units::angle angle = start_angle; angle <= end_angle; angle += 1_degrees ) {
+    for( units::angle angle = start_angle; angle <= end_angle; angle += 0.5_degrees ) {
         tripoint potential;
         calc_ray_end( angle, range, source, potential );
         end_points.emplace( potential );
