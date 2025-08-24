@@ -247,9 +247,7 @@ void SkillLevel::train( int amount, bool skip_scaling )
     if( _exercise >= 100 * ( _level + 1 ) * ( _level + 1 ) ) {
         _exercise = 0;
         ++_level;
-        if( _level > _highestLevel ) {
-            _highestLevel = _level;
-        }
+        _highestLevel = std::max( _level, _highestLevel );
     }
 }
 

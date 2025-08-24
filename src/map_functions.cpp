@@ -23,7 +23,7 @@ auto climbing_cost( const map &m, const tripoint &from, const tripoint &to ) -> 
     if( diff > 5 ) {
         return {};
     }
-    return 50 + diff * 100;
+    return 50 + ( diff * 100 );
 }
 
 void migo_nerve_cage_removal( map &m, const tripoint &p, bool spawn_damaged )

@@ -63,7 +63,7 @@ void addict_effect( Character &u, addiction &add )
     switch( add.type ) {
         case add_type::CIG:
             u.mod_int_bonus( -1 );
-            if( !one_in( 2000 - 20 * in ) ) {
+            if( !one_in( 2000 - ( 20 * in ) ) ) {
                 break;
             }
 
@@ -71,16 +71,16 @@ void addict_effect( Character &u, addiction &add )
                                  _( "You need some nicotine." ) :
                                  _( "You could use some nicotine." ) );
             u.add_morale( MORALE_CRAVING_NICOTINE, -15, -3 * in );
-            if( one_in( 800 - 50 * in ) ) {
+            if( one_in( 800 - ( 50 * in ) ) ) {
                 u.mod_fatigue( 1 );
             }
-            if( current_stim > -5 * in && one_in( 400 - 20 * in ) ) {
+            if( current_stim > -5 * in && one_in( 400 - ( 20 * in ) ) ) {
                 u.mod_stim( -1 );
             }
             break;
 
         case add_type::CAFFEINE:
-            if( !one_in( 2000 - 20 * in ) ) {
+            if( !one_in( 2000 - ( 20 * in ) ) ) {
                 break;
             }
 
@@ -149,7 +149,7 @@ void addict_effect( Character &u, addiction &add )
             break;
 
         case add_type::PKILLER:
-            if( calendar::once_every( time_duration::from_turns( 100 - in * 4 ) ) &&
+            if( calendar::once_every( time_duration::from_turns( 100 - ( in * 4 ) ) ) &&
                 u.get_painkiller() > 20 - in ) {
                 // Tolerance increases!
                 u.mod_painkiller( -1 );
@@ -166,7 +166,7 @@ void addict_effect( Character &u, addiction &add )
             if( u.get_pain() < in * 2 ) {
                 u.mod_pain( 1 );
             }
-            if( one_in( 1200 - 30 * in ) ) {
+            if( one_in( 1200 - ( 30 * in ) ) ) {
                 u.mod_healthy_mod( -1, -in * 30 );
             }
             if( one_in( 20 ) && dice( 2, 20 ) < in ) {
@@ -218,7 +218,7 @@ void addict_effect( Character &u, addiction &add )
                                      MORALE_CRAVING_CRACK;
             u.mod_int_bonus( -1 );
             u.mod_per_bonus( -1 );
-            if( one_in( 900 - 30 * in ) ) {
+            if( one_in( 900 - ( 30 * in ) ) ) {
                 u.add_msg_if_player( m_warning, cur_msg );
                 u.add_morale( morale_type, -20, -15 * in );
             }
@@ -234,18 +234,18 @@ void addict_effect( Character &u, addiction &add )
 
         case add_type::MUTAGEN:
             if( u.has_trait( trait_MUT_JUNKIE ) ) {
-                if( one_in( 600 - 50 * in ) ) {
+                if( one_in( 600 - ( 50 * in ) ) ) {
                     u.add_msg_if_player( m_warning, rng( 0,
                                                          6 ) < in ? _( "You so miss the exquisite rainbow of post-humanity." ) :
                                          _( "Your body is SOO booorrrring.  Just a little sip to liven things up?" ) );
                     u.add_morale( MORALE_CRAVING_MUTAGEN, -20, -200 );
                 }
-                if( u.focus_pool > 40 && one_in( 800 - 20 * in ) ) {
+                if( u.focus_pool > 40 && one_in( 800 - ( 20 * in ) ) ) {
                     u.focus_pool -= in;
                     u.add_msg_if_player( m_warning,
                                          _( "You daydream what it'd be like if you were *different*.  Different is good." ) );
                 }
-            } else if( one_in( 500 - 15 * in ) ) {
+            } else if( one_in( 500 - ( 15 * in ) ) ) {
                 u.add_msg_if_player( m_warning, rng( 0, 6 ) < in ? _( "You haven't had any mutagen lately." ) :
                                      _( "You could use some new parts…" ) );
                 u.add_morale( MORALE_CRAVING_MUTAGEN, -5, -50 );
@@ -413,7 +413,7 @@ std::string addiction_text( const addiction &cur )
 
 void marloss_add( Character &u, int in, const char *msg )
 {
-    if( one_in( 800 - 20 * in ) ) {
+    if( one_in( 800 - ( 20 * in ) ) ) {
         u.add_morale( MORALE_CRAVING_MARLOSS, -5, -25 );
         u.add_msg_if_player( m_info, msg );
         if( u.focus_pool > 40 ) {

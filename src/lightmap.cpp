@@ -138,7 +138,7 @@ bool map::build_transparency_cache( const int zlev )
 
             const point sm_offset = sm_to_ms_copy( point( smx, smy ) );
 
-            if( !rebuild_all && !map_cache.transparency_cache_dirty[smx * MAPSIZE + smy] ) {
+            if( !rebuild_all && !map_cache.transparency_cache_dirty[( smx * MAPSIZE ) + smy] ) {
                 continue;
             }
 
@@ -486,8 +486,8 @@ void map::generate_lightmap( const int zlev )
 
             for( int sx = 0; sx < SEEX; ++sx ) {
                 for( int sy = 0; sy < SEEY; ++sy ) {
-                    const int x = sx + smx * SEEX;
-                    const int y = sy + smy * SEEY;
+                    const int x = sx + ( smx * SEEX );
+                    const int y = sy + ( smy * SEEY );
                     const tripoint p( x, y, zlev );
                     // Project light into any openings into buildings.
                     if( !outside_cache[p.x][p.y] || ( !top_floor && prev_floor_cache[p.x][p.y] ) ) {
@@ -856,7 +856,7 @@ static inline int fast_rl_dist( tripoint to )
         return square_dist( tripoint_zero, to );
     }
 
-    int val = to.x * to.x + to.y * to.y + to.z * to.z;
+    int val = ( to.x * to.x ) + ( to.y * to.y ) + ( to.z * to.z );
 
     if( val < 2 ) {
         return val;
@@ -1261,7 +1261,8 @@ void castLight( Out( &output_cache )[MAPSIZE_X][MAPSIZE_Y],
 
         int last_dist = -1;
         for( ; delta.x <= x_limit; delta.x++ ) {
-            point current( offset.x + delta.x * xx + delta.y * xy, offset.y + delta.x * yx + delta.y * yy );
+            point current( offset.x + ( delta.x * xx ) + ( delta.y * xy ),
+                           offset.y + ( delta.x * yx ) + ( delta.y * yy ) );
 
             if( !( current.x >= 0 && current.y >= 0 && current.x < MAPSIZE_X &&
                    current.y < MAPSIZE_Y ) /* || start < leadingEdge */ ) {
@@ -1392,9 +1393,10 @@ void castLightWithLookup( Out( &output_cache )[MAPSIZE_X][MAPSIZE_Y],
     //Find the first tile
     point delta;
     delta.y = -row;
-    float away = start - ( -row + 0.5f ) / ( -row - 0.5f );
+    float away = start - ( ( -row + 0.5f ) / ( -row - 0.5f ) );
     delta.x = -row + std::max( static_cast<int>( std::ceil( away * ( -row - 0.5f ) ) ), 0 );
-    point first( offset.x + delta.x * xx + delta.y * xy, offset.y + delta.x * yx + delta.y * yy );
+    point first( offset.x + ( delta.x * xx ) + ( delta.y * xy ),
+                 offset.y + ( delta.x * yx ) + ( delta.y * yy ) );
 
     if( cumulative_transparency == LIGHT_TRANSPARENCY_OPEN_AIR && first.x >= 0 && first.y >= 0 &&
         first.x < MAPSIZE_X && first.y < MAPSIZE_Y ) {
@@ -1725,8 +1727,8 @@ float fastexp( float x )
 #pragma GCC diagnostic ignored "-Wunknown-pragmas"
 #pragma GCC diagnostic ignored "-Wpragmas"
 #pragma GCC diagnostic ignored "-Wimplicit-int-float-conversion"
-    u.i = static_cast<long long>( 6051102 * x + 1056478197 );
-    v.i = static_cast<long long>( 1056478197 - 6051102 * x );
+    u.i = static_cast<long long>( ( 6051102 * x ) + 1056478197 );
+    v.i = static_cast<long long>( 1056478197 - ( 6051102 * x ) );
 #pragma GCC diagnostic pop
     return u.f / v.f;
 }
@@ -1907,15 +1909,15 @@ void map::apply_light_arc( const tripoint &p, units::angle angle, float luminanc
         if( trigdist ) {
             double fdist = ( ao * M_PI_2 ) / wangle;
             end.x = static_cast<int>(
-                        p.x + ( static_cast<double>( range ) - fdist * 2.0 ) * cos( nangle + ao ) );
+                        p.x + ( ( static_cast<double>( range ) - fdist * 2.0 ) * cos( nangle + ao ) ) );
             end.y = static_cast<int>(
-                        p.y + ( static_cast<double>( range ) - fdist * 2.0 ) * sin( nangle + ao ) );
+                        p.y + ( ( static_cast<double>( range ) - fdist * 2.0 ) * sin( nangle + ao ) ) );
             apply_light_ray( lit, p, end, luminance );
 
             end.x = static_cast<int>(
-                        p.x + ( static_cast<double>( range ) - fdist * 2.0 ) * cos( nangle - ao ) );
+                        p.x + ( ( static_cast<double>( range ) - fdist * 2.0 ) * cos( nangle - ao ) ) );
             end.y = static_cast<int>(
-                        p.y + ( static_cast<double>( range ) - fdist * 2.0 ) * sin( nangle - ao ) );
+                        p.y + ( ( static_cast<double>( range ) - fdist * 2.0 ) * sin( nangle - ao ) ) );
             apply_light_ray( lit, p, end, luminance );
         } else {
             calc_ray_end( nangle + ao, range, p, end );

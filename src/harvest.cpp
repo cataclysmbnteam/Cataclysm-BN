@@ -149,7 +149,7 @@ void harvest_list::check_consistency()
             }
 
             // non butchery harvests need to be excluded
-            if( hl_id.substr( 0, 14 ) != "harvest_inline" ) {
+            if( !hl_id.starts_with( "harvest_inline" ) ) {
                 if( entry.type == "null" ) {
                     if( !item_valid ) {
                         errorlist += ", ";

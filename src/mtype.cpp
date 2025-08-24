@@ -73,7 +73,7 @@ std::string mtype::nname( unsigned int quantity ) const
 
 bool mtype::has_special_attack( const std::string &attack_name ) const
 {
-    return special_attacks.find( attack_name ) != special_attacks.end();
+    return special_attacks.contains( attack_name );
 }
 
 bool mtype::has_flag( m_flag flag ) const
@@ -120,7 +120,7 @@ bool mtype::has_placate_trigger( mon_trigger trigger ) const
 
 bool mtype::in_category( const std::string &category ) const
 {
-    return categories.find( category ) != categories.end();
+    return categories.contains( category );
 }
 
 bool mtype::in_species( const species_id &spec ) const

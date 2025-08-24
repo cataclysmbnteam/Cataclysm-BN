@@ -147,7 +147,7 @@ int talk_skill( const Character &ch )
     /** @EFFECT_PER slightly increases talking skill */
 
     /** @EFFECT_SPEECH increases talking skill */
-    int ret = ch.get_int() + ch.get_per() + ch.get_skill_level( skill_id( "speech" ) ) * 3;
+    int ret = ch.get_int() + ch.get_per() + ( ch.get_skill_level( skill_id( "speech" ) ) * 3 );
     return ret;
 }
 

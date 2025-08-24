@@ -212,7 +212,7 @@ void game::unserialize( std::istream &fin )
         data.read( "om_y", com.y );
 
         load_map(
-            tripoint( lev.x + com.x * OMAPX * 2, lev.y + com.y * OMAPY * 2, lev.z ),
+            tripoint( lev.x + ( com.x * OMAPX * 2 ), lev.y + ( com.y * OMAPY * 2 ), lev.z ),
             /*pump_events=*/true
         );
 

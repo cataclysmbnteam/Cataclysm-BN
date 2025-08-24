@@ -639,7 +639,7 @@ void Character::suffer_from_asthma( const int current_stim )
     }
     // Cap effect of stimulants on asthma attacks to 1 per minute (or risk instantly killing players that rely on oxygen tanks)
     if( !one_in( std::max( to_turns<int>( 1_minutes ),
-                           ( to_turns<int>( 6_hours ) - current_stim * 180 ) ) *
+                           ( to_turns<int>( 6_hours ) - ( current_stim * 180 ) ) ) *
                  ( has_effect( effect_sleep ) ? 10 : 1 ) * ( has_effect( effect_cough_aggravated_asthma ) ? 0.25 :
                          1 ) ) ) {
         return;
@@ -906,7 +906,7 @@ std::map<bodypart_id, float> Character::bodypart_exposure()
                 continue;
             }
             // How much exposure does this item leave on this part? (1.0 == naked)
-            float part_exposure = 1.0 - it->get_coverage( bp ) / 100.0f;
+            float part_exposure = 1.0 - ( it->get_coverage( bp ) / 100.0f );
             // Coverage multiplies, so two layers with 50% coverage will together give 75%
             bp_exposure[bp] = bp_exposure[bp] * part_exposure;
         }
@@ -1091,7 +1091,7 @@ void Character::suffer_from_other_mutations()
             if( bp == bp_head ) {
                 continue;
             }
-            int sores_pain = 5 + 0.4 * std::abs( encumb( convert_bp( bp ) ) );
+            int sores_pain = 5 + ( 0.4 * std::abs( encumb( convert_bp( bp ) ) ) );
             if( get_pain() < sores_pain ) {
                 set_pain( sores_pain );
             }
@@ -1164,7 +1164,7 @@ void Character::suffer_from_radiation()
     // checking for radioactive items in inventory
     const int item_radiation = leak_level( flag_RADIOACTIVE );
     const int map_radiation = here.get_radiation( pos() );
-    float rads = map_radiation / 100.0f + item_radiation / 10.0f;
+    float rads = ( map_radiation / 100.0f ) + ( item_radiation / 10.0f );
 
     int rad_mut = 0;
     if( has_trait( trait_RADIOACTIVE3 ) ) {
@@ -1314,9 +1314,7 @@ void Character::suffer_from_bad_bionics()
         item &weapon = primary_weapon();
         if( weapon.typeId() == itype_e_handcuffs && weapon.charges > 0 ) {
             weapon.charges -= rng( 1, 3 ) * 50;
-            if( weapon.charges < 1 ) {
-                weapon.charges = 1;
-            }
+            weapon.charges = std::max( weapon.charges, 1 );
 
             add_msg_if_player( m_good, _( "The %s seems to be affected by the discharge." ),
                                weapon.tname() );

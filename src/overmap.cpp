@@ -948,7 +948,7 @@ bool oter_t::is_hardcoded() const
         "temple_stairs"
     };
 
-    return hardcoded_mapgen.find( get_mapgen_id() ) != hardcoded_mapgen.end();
+    return hardcoded_mapgen.contains( get_mapgen_id() );
 }
 
 void overmap_terrains::load( const JsonObject &jo, const std::string &src )
@@ -994,7 +994,7 @@ void overmap_terrains::finalize()
         const_cast<oter_type_t &>( elem ).finalize(); // This cast is ugly, but safe.
     }
 
-    if( region_settings_map.find( "default" ) == region_settings_map.end() ) {
+    if( !region_settings_map.contains( "default" ) ) {
         debugmsg( "ERROR: can't find default overmap settings (region_map_settings 'default'), "
                   "cataclysm pending.  And not the fun kind." );
     }
@@ -2841,7 +2841,7 @@ void overmap_special::check() const
                 copy.insert( nested.second );
                 std::optional<overmap_special_id> recures = check_recursion( nested.second, copy );
                 if( recures ) {
-                    return *recures;
+                    return recures;
                 }
             }
         }
@@ -3488,7 +3488,7 @@ bool overmap::generate_over( const int z )
                 const oter_id oter_ground = ter( tripoint_om_omt( p.xy(), 0 ) );
 
                 // implicitly skip skip_below oter_ids
-                if( skip_below.find( oter_below ) != skip_below.end() ) {
+                if( skip_below.contains( oter_below ) ) {
                     continue;
                 }
 
@@ -3929,7 +3929,7 @@ void overmap::place_forest_trails()
 
             // If we've already visited this point, we don't need to
             // process it since it's already part of another forest.
-            if( visited.find( seed_point.xy() ) != visited.end() ) {
+            if( visited.contains( seed_point.xy() ) ) {
                 continue;
             }
 
@@ -3971,8 +3971,8 @@ void overmap::place_forest_trails()
             // Do a simplistic calculation of the center of the forest (rather than
             // calculating the actual centroid--it's not that important) to have another
             // good point to form the foundation of the trail system.
-            point_om_omt center( westmost.x() + ( eastmost.x() - westmost.x() ) / 2,
-                                 northmost.y() + ( southmost.y() - northmost.y() ) / 2 );
+            point_om_omt center( westmost.x() + ( ( eastmost.x() - westmost.x() ) / 2 ),
+                                 northmost.y() + ( ( southmost.y() - northmost.y() ) / 2 ) );
 
             point_om_omt center_point = center;
 
@@ -3989,8 +3989,8 @@ void overmap::place_forest_trails()
 
             // Figure out how many random points we'll add to our trail system, based on the forest
             // size and our configuration.
-            int max_random_points = forest_trail.random_point_min + forest_points.size() /
-                                    forest_trail.random_point_size_scalar;
+            int max_random_points = forest_trail.random_point_min + ( forest_points.size() /
+                                    forest_trail.random_point_size_scalar );
             max_random_points = std::min( max_random_points, forest_trail.random_point_max );
 
             // Start with the center...
@@ -4129,7 +4129,7 @@ void overmap::place_lakes()
     for( int i = 0; i < OMAPX; i++ ) {
         for( int j = 0; j < OMAPY; j++ ) {
             point_om_omt seed_point( i, j );
-            if( visited.find( seed_point ) != visited.end() ) {
+            if( visited.contains( seed_point ) ) {
                 continue;
             }
 
@@ -4184,7 +4184,7 @@ void overmap::place_lakes()
                 for( int ni = -1; ni <= 1 && !shore; ni++ ) {
                     for( int nj = -1; nj <= 1 && !shore; nj++ ) {
                         const point_om_omt n = p + point( ni, nj );
-                        if( lake_set.find( n ) == lake_set.end() ) {
+                        if( !lake_set.contains( n ) ) {
                             shore = true;
                         }
                     }
@@ -4549,18 +4549,10 @@ void overmap::place_river( point_om_omt pa, point_om_omt pb )
     do {
         p2.x() += rng( -1, 1 );
         p2.y() += rng( -1, 1 );
-        if( p2.x() < 0 ) {
-            p2.x() = 0;
-        }
-        if( p2.x() > OMAPX - 1 ) {
-            p2.x() = OMAPX - 1;
-        }
-        if( p2.y() < 0 ) {
-            p2.y() = 0;
-        }
-        if( p2.y() > OMAPY - 1 ) {
-            p2.y() = OMAPY - 1;
-        }
+        p2.x() = std::max( p2.x(), 0 );
+        p2.x() = std::min( p2.x(), OMAPX - 1 );
+        p2.y() = std::max( p2.y(), 0 );
+        p2.y() = std::min( p2.y(), OMAPY - 1 );
         for( int i = -1 * river_scale; i <= 1 * river_scale; i++ ) {
             for( int j = -1 * river_scale; j <= 1 * river_scale; j++ ) {
                 tripoint_om_omt p( p2 + point( j, i ), 0 );
@@ -4593,18 +4585,12 @@ void overmap::place_river( point_om_omt pa, point_om_omt pb )
         }
         p2.x() += rng( -1, 1 );
         p2.y() += rng( -1, 1 );
-        if( p2.x() < 0 ) {
-            p2.x() = 0;
-        }
+        p2.x() = std::max( p2.x(), 0 );
         if( p2.x() > OMAPX - 1 ) {
             p2.x() = OMAPX - 2;
         }
-        if( p2.y() < 0 ) {
-            p2.y() = 0;
-        }
-        if( p2.y() > OMAPY - 1 ) {
-            p2.y() = OMAPY - 1;
-        }
+        p2.y() = std::max( p2.y(), 0 );
+        p2.y() = std::min( p2.y(), OMAPY - 1 );
         for( int i = -1 * river_scale; i <= 1 * river_scale; i++ ) {
             for( int j = -1 * river_scale; j <= 1 * river_scale; j++ ) {
                 // We don't want our riverbanks touching the edge of the map for many reasons
@@ -6108,8 +6094,8 @@ void overmap::place_mongroups()
     // Place the "put me anywhere" groups
     int numgroups = rng( 0, 3 );
     for( int i = 0; i < numgroups; i++ ) {
-        add_mon_group( mongroup( GROUP_WORM, tripoint( rng( 0, OMAPX * 2 - 1 ), rng( 0,
-                                 OMAPY * 2 - 1 ), 0 ),
+        add_mon_group( mongroup( GROUP_WORM, tripoint( rng( 0, ( OMAPX * 2 ) - 1 ), rng( 0,
+                                 ( OMAPY * 2 ) - 1 ), 0 ),
                                  rng( 20, 40 ), rng( 30, 50 ) ) );
     }
 }
@@ -6214,7 +6200,7 @@ void overmap::add_mon_group( const mongroup &group )
     }
     // diffuse groups use a circular area, non-diffuse groups use a rectangular area
     const int rad = std::max<int>( 0, group.radius );
-    const double total_area = group.diffuse ? std::pow( rad + 1, 2 ) : ( rad * rad * M_PI + 1 );
+    const double total_area = group.diffuse ? std::pow( rad + 1, 2 ) : ( ( rad * rad * M_PI ) + 1 );
     const double pop = std::max<int>( 0, group.population );
     for( int x = -rad; x <= rad; x++ ) {
         for( int y = -rad; y <= rad; y++ ) {

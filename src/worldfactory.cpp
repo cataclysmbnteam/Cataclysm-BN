@@ -688,9 +688,9 @@ void worldfactory::show_active_world_mods( const std::vector<mod_id> &world_mods
         const int iMinScreenWidth = std::max( FULL_SCREEN_WIDTH, TERMX / 2 );
         const int iOffsetX = TERMX > FULL_SCREEN_WIDTH ? ( TERMX - iMinScreenWidth ) / 2 : 0;
 
-        w_border = catacurses::newwin( TERMY - 11, iMinScreenWidth / 2 - 3,
+        w_border = catacurses::newwin( TERMY - 11, ( iMinScreenWidth / 2 ) - 3,
                                        point( iOffsetX, 4 ) );
-        w_mods   = catacurses::newwin( TERMY - 13, iMinScreenWidth / 2 - 4,
+        w_mods   = catacurses::newwin( TERMY - 13, ( iMinScreenWidth / 2 ) - 4,
                                        point( iOffsetX, 5 ) );
 
         ui.position_from_window( w_border );
@@ -837,16 +837,16 @@ int worldfactory::show_modselection_window( const catacurses::window &win,
         const int iMinScreenWidth = std::max( FULL_SCREEN_WIDTH, TERMX / 2 );
         const int iOffsetX = TERMX > FULL_SCREEN_WIDTH ? ( TERMX - iMinScreenWidth ) / 2 : 0;
 
-        w_header1     = catacurses::newwin( 1, iMinScreenWidth / 2 - 5,
+        w_header1     = catacurses::newwin( 1, ( iMinScreenWidth / 2 ) - 5,
                                             point( 1 + iOffsetX, 3 ) );
-        w_header2     = catacurses::newwin( 1, iMinScreenWidth / 2 - 4,
-                                            point( iMinScreenWidth / 2 + 3 + iOffsetX, 3 ) );
+        w_header2     = catacurses::newwin( 1, ( iMinScreenWidth / 2 ) - 4,
+                                            point( ( iMinScreenWidth / 2 ) + 3 + iOffsetX, 3 ) );
         w_shift       = catacurses::newwin( TERMY - 11, 5,
-                                            point( iMinScreenWidth / 2 - 3 + iOffsetX, 3 ) );
-        w_list        = catacurses::newwin( TERMY - 13, iMinScreenWidth / 2 - 4,
+                                            point( ( iMinScreenWidth / 2 ) - 3 + iOffsetX, 3 ) );
+        w_list        = catacurses::newwin( TERMY - 13, ( iMinScreenWidth / 2 ) - 4,
                                             point( iOffsetX, 5 ) );
-        w_active      = catacurses::newwin( TERMY - 13, iMinScreenWidth / 2 - 4,
-                                            point( iMinScreenWidth / 2 + 2 + iOffsetX, 5 ) );
+        w_active      = catacurses::newwin( TERMY - 13, ( iMinScreenWidth / 2 ) - 4,
+                                            point( ( iMinScreenWidth / 2 ) + 2 + iOffsetX, 5 ) );
         w_description = catacurses::newwin( 4, iMinScreenWidth - 4,
                                             point( 1 + iOffsetX, TERMY - 5 ) );
 
@@ -1332,7 +1332,7 @@ int worldfactory::show_worldgen_tab_confirm( const catacurses::window &win, WORL
                            " from the main menu. V2 worlds cannot currently be converted back to V1.</color>" ),
                         ctxt.get_desc( "TOGGLE_V2_SAVE_FORMAT" ) );
 
-        fold_and_print( w_confirmation, point( 2, TERMY / 2 - 2 ), getmaxx( w_confirmation ) - 2,
+        fold_and_print( w_confirmation, point( 2, ( TERMY / 2 ) - 2 ), getmaxx( w_confirmation ) - 2,
                         c_light_gray,
                         _( "Press [<color_yellow>%s</color>] when you are satisfied with the world as it is and are ready "
                            "to continue, or [<color_yellow>%s</color>] to go back and review your world." ),
@@ -1402,9 +1402,9 @@ void worldfactory::draw_modselection_borders( const catacurses::window &win,
     const int iMinScreenWidth = std::max( FULL_SCREEN_WIDTH, TERMX / 2 );
 
     // make appropriate lines: X & Y coordinate of starting point, length, horizontal/vertical type
-    std::array<int, 5> xs = {{1, 1, iMinScreenWidth / 2 + 2, iMinScreenWidth / 2 - 4, iMinScreenWidth / 2 + 2}};
+    std::array<int, 5> xs = {{1, 1, ( iMinScreenWidth / 2 ) + 2, ( iMinScreenWidth / 2 ) - 4, ( iMinScreenWidth / 2 ) + 2}};
     std::array<int, 5> ys = {{TERMY - 8, 4, 4, 3, 3}};
-    std::array<int, 5> ls = {{iMinScreenWidth - 2, iMinScreenWidth / 2 - 4, iMinScreenWidth / 2 - 2, TERMY - 11, 1}};
+    std::array<int, 5> ls = {{iMinScreenWidth - 2, ( iMinScreenWidth / 2 ) - 4, ( iMinScreenWidth / 2 ) - 2, TERMY - 11, 1}};
     std::array<bool, 5> hv = {{true, true, true, false, false}}; // horizontal line = true, vertical line = false
 
     for( int i = 0; i < 5; ++i ) {
@@ -1424,18 +1424,18 @@ void worldfactory::draw_modselection_borders( const catacurses::window &win,
     // Add in connective characters
     mvwputch( win, point( 0, 4 ), BORDER_COLOR, LINE_XXXO ); // |-
     mvwputch( win, point( 0, TERMY - 8 ), BORDER_COLOR, LINE_XXXO ); // |-
-    mvwputch( win, point( iMinScreenWidth / 2 + 2, 4 ), BORDER_COLOR, LINE_XXXO ); // |-
+    mvwputch( win, point( ( iMinScreenWidth / 2 ) + 2, 4 ), BORDER_COLOR, LINE_XXXO ); // |-
 
     mvwputch( win, point( iMinScreenWidth - 1, 4 ), BORDER_COLOR, LINE_XOXX ); // -|
     mvwputch( win, point( iMinScreenWidth - 1, TERMY - 8 ), BORDER_COLOR, LINE_XOXX ); // -|
-    mvwputch( win, point( iMinScreenWidth / 2 - 4, 4 ), BORDER_COLOR, LINE_XOXX ); // -|
+    mvwputch( win, point( ( iMinScreenWidth / 2 ) - 4, 4 ), BORDER_COLOR, LINE_XOXX ); // -|
 
-    mvwputch( win, point( iMinScreenWidth / 2 - 4, 2 ), BORDER_COLOR, LINE_OXXX ); // -.-
-    mvwputch( win, point( iMinScreenWidth / 2 + 2, 2 ), BORDER_COLOR, LINE_OXXX ); // -.-
+    mvwputch( win, point( ( iMinScreenWidth / 2 ) - 4, 2 ), BORDER_COLOR, LINE_OXXX ); // -.-
+    mvwputch( win, point( ( iMinScreenWidth / 2 ) + 2, 2 ), BORDER_COLOR, LINE_OXXX ); // -.-
 
-    mvwputch( win, point( iMinScreenWidth / 2 - 4, TERMY - 8 ), BORDER_COLOR,
+    mvwputch( win, point( ( iMinScreenWidth / 2 ) - 4, TERMY - 8 ), BORDER_COLOR,
               LINE_XXOX ); // _|_
-    mvwputch( win, point( iMinScreenWidth / 2 + 2, TERMY - 8 ), BORDER_COLOR,
+    mvwputch( win, point( ( iMinScreenWidth / 2 ) + 2, TERMY - 8 ), BORDER_COLOR,
               LINE_XXOX ); // _|_
 
     // Add tips & hints

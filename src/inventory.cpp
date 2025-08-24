@@ -5,7 +5,6 @@
 #include <cmath>
 #include <cstdint>
 #include <cstdlib>
-#include <algorithm>
 #include <iterator>
 #include <memory>
 #include <optional>
@@ -269,8 +268,8 @@ void inventory::build_items_type_cache()
 
 namespace
 {
-inline static bool add_item_stack_helper( inventory &inv, item &newit, std::vector<item *> &elem,
-        bool keep_invlet, bool assign_invlet, item *&existing )
+inline bool add_item_stack_helper( inventory &inv, item &newit, std::vector<item *> &elem,
+                                   bool keep_invlet, bool assign_invlet, item *&existing )
 {
     item *&it = *elem.begin();
     if( it->stacks_with( newit ) ) {
@@ -293,7 +292,7 @@ inline static bool add_item_stack_helper( inventory &inv, item &newit, std::vect
     }
     return false;
 }
-}
+} // namespace
 
 template<bool IsCached>
 item &inventory::add_item_internal( item &newit, bool keep_invlet, bool assign_invlet,
@@ -948,9 +947,7 @@ int inventory::worst_item_value( npc *p ) const
     for( const auto &elem : items ) {
         const item &it = *elem.front();
         int val = p->value( it );
-        if( val < worst ) {
-            worst = val;
-        }
+        worst = std::min( val, worst );
     }
     return worst;
 }
@@ -1167,7 +1164,7 @@ int inventory::count_item( const itype_id &item_type ) const
 {
     int num = 0;
     const itype_bin bin = get_binned_items();
-    if( bin.find( item_type ) == bin.end() ) {
+    if( !bin.contains( item_type ) ) {
         return num;
     }
     const std::list<const item *> items = get_binned_items().find( item_type )->second;
@@ -1256,7 +1253,7 @@ void inventory::reassign_item( item &it, char invlet, bool remove_old )
 void inventory::update_invlet( item &newit, bool assign_invlet )
 {
     // Avoid letters that have been manually assigned to other things.
-    if( newit.invlet && assigned_invlet.find( newit.invlet ) != assigned_invlet.end() &&
+    if( newit.invlet && assigned_invlet.contains( newit.invlet ) &&
         assigned_invlet[newit.invlet] != newit.typeId() ) {
         newit.invlet = '\0';
     }
@@ -1380,7 +1377,7 @@ void location_inventory::clear()
             it->destroy();
         }
     }
-    return inv.clear();
+    inv.clear();
 }
 
 void location_inventory::add_items( std::vector<detached_ptr<item>> &newits, bool keep_invlet,
@@ -1445,7 +1442,7 @@ item &location_inventory::add_item_by_items_type_cache( detached_ptr<item> &&new
 
 void location_inventory::restack( player &p )
 {
-    return inv.restack( p );
+    inv.restack( p );
 }
 detached_ptr<item> location_inventory::remove_item( item *it )
 {
@@ -1521,7 +1518,7 @@ item *location_inventory::most_appropriate_painkiller( int pain )
 
 void location_inventory::rust_iron_items()
 {
-    return inv.rust_iron_items();
+    inv.rust_iron_items();
 }
 
 units::mass location_inventory::weight() const
@@ -1546,7 +1543,7 @@ units::volume location_inventory::volume_without( const excluded_stacks &without
 
 void location_inventory::dump( std::vector<item *> &dest )
 {
-    return inv.dump( dest );
+    inv.dump( dest );
 }
 
 std::vector<item *> location_inventory::active_items()
@@ -1556,22 +1553,22 @@ std::vector<item *> location_inventory::active_items()
 
 void location_inventory::assign_empty_invlet( item &it, const Character &p, bool force )
 {
-    return inv.assign_empty_invlet( it, p, force );
+    inv.assign_empty_invlet( it, p, force );
 }
 
 void location_inventory::reassign_item( item &it, char invlet, bool remove_old )
 {
-    return inv.reassign_item( it, invlet, remove_old );
+    inv.reassign_item( it, invlet, remove_old );
 }
 
 void location_inventory::update_invlet( item &it, bool assign_invlet )
 {
-    return inv.update_invlet( it, assign_invlet );
+    inv.update_invlet( it, assign_invlet );
 }
 
 void location_inventory::set_stack_favorite( int position, bool favorite )
 {
-    return inv.set_stack_favorite( position, favorite );
+    inv.set_stack_favorite( position, favorite );
 }
 
 invlets_bitset location_inventory::allocated_invlets() const
@@ -1586,7 +1583,7 @@ const itype_bin &location_inventory::get_binned_items() const
 
 void location_inventory::update_invlet_cache_with_item( item &newit )
 {
-    return inv.update_invlet_cache_with_item( newit );
+    inv.update_invlet_cache_with_item( newit );
 }
 
 enchantment location_inventory::get_active_enchantment_cache( const Character &owner ) const
@@ -1601,7 +1598,7 @@ int location_inventory::count_item( const itype_id &item_type ) const
 
 void location_inventory::update_quality_cache()
 {
-    return inv.update_quality_cache();
+    inv.update_quality_cache();
 }
 
 const std::map<quality_id, std::map<int, int>> &location_inventory::get_quality_cache() const
@@ -1611,7 +1608,7 @@ const std::map<quality_id, std::map<int, int>> &location_inventory::get_quality_
 
 void location_inventory::build_items_type_cache()
 {
-    return inv.build_items_type_cache();
+    inv.build_items_type_cache();
 }
 
 const inventory &location_inventory::as_inventory() const
