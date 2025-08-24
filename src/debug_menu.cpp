@@ -449,7 +449,8 @@ void teleport_overmap( bool specific_coordinates )
     add_msg( _( "You teleport to overmap %s." ), new_pos.to_string() );
 }
 
-static void teleport_to_overmap_special() {
+static void teleport_to_overmap_special()
+{
     std::vector<const overmap_special *> vec_os;
     std::vector<std::pair<std::string, vproto_id>> area_strings;
 
@@ -469,12 +470,12 @@ static void teleport_to_overmap_special() {
     const overmap_special *target = vec_os[area_menu.ret];
     const overmap_special_id target_id = target->id;
     mission_target_params t;
-    t.overmap_terrain = target->get_terrain_at(tripoint())->get_mapgen_id();
+    t.overmap_terrain = target->get_terrain_at( tripoint() )->get_mapgen_id();
     t.overmap_special = target_id;
     t.search_range = 0;
     t.reveal_radius = 3;
 
-    g->place_player_overmap( mission_util::get_om_terrain_pos(t) );
+    g->place_player_overmap( mission_util::get_om_terrain_pos( t ) );
     add_msg( _( "You teleport to submap %s." ), target_id );
 }
 
