@@ -278,8 +278,10 @@ int iuse_transform::use( player &p, item &it, bool t, const tripoint &pos ) cons
 
     if( possess && !msg_transform.empty() ) {
         p.add_msg_if_player( m_neutral, msg_transform, it.tname() );
-    } else if( p.is_npc() && get_player_character().sees( p ) ) {
-        if( active ) {
+    }
+    // We want this separate and not if/else because the preceding statement will always return true if a transform message is defined.
+    if( p.is_npc() && get_player_character().sees( p ) ) {
+        if( !it.has_flag( flag_COMBAT_NPC_ON ) ) {
             add_msg( m_info, _( "%s activates their %s." ), p.disp_name(),
                      it.display_name() );
         } else {
