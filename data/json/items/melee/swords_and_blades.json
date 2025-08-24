@@ -1634,9 +1634,9 @@
     "charges_per_use": 0,
     "revert_to": "ecs_lajatang_off",
     "revert_msg": "Your chainsaw lajatang goes quiet",
-    "use_action": { "type": "transform", "target": "ecs_lajatang_off", "msg": "You turn off the chainsaw lajatang.", "COMBAT_NPC_USE" },
+    "use_action": { "type": "transform", "target": "ecs_lajatang_off", "msg": "You turn off the chainsaw lajatang." },
     "qualities": [ [ "BUTCHER", -250 ] ],
-    "flags": [ "MESSY", "DURABLE_MELEE", "TRADER_AVOID", "NONCONDUCTIVE", "ALWAYS_TWOHAND", "WATER_DISABLE" ],
+    "flags": [ "MESSY", "DURABLE_MELEE", "TRADER_AVOID", "NONCONDUCTIVE", "ALWAYS_TWOHAND", "WATER_DISABLE", "COMBAT_NPC_USE" ],
     "magazine_well": "1000 ml"
   },
   {
