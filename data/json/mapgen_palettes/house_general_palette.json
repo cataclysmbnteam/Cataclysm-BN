@@ -2,7 +2,7 @@
   {
     "type": "palette",
     "id": "standard_domestic_palette",
-    "//": "Intended as a palette for non-nested houses.  Symbols still open for use: 0 ! $ % & _ = ~ ? / , ` and some symbols that conflict with json (like brackets).",
+    "//": "Intended as a palette for non-nested houses.  Symbols still open for use: 0 ! $ % & _ = ? / , ` and some symbols that conflict with json (like brackets).",
     "parameters": {
       "interior_wall_type": {
         "type": "ter_str_id",
@@ -214,14 +214,14 @@
     },
     "nested": {
       "ɸ": { "chunks": [ "NC_res_personal_items_1X1" ] },
-      "o": { "chunks": [ [ "null", 95 ], [ "house_place_air_conditioner", 5 ] ] },
+      "o": { "chunks": [ [ "null", 195 ], [ "house_place_air_conditioner", 5 ] ] },
       "v": { "chunks": [ [ "house_chunk_spawn_firesafe", 50 ], [ "house_chunk_spawn_gunsafe", 50 ] ] }
     }
   },
   {
     "type": "palette",
     "id": "standard_domestic_basement_palette",
-    "//": "Intended to be used in conjunction with standard_domestic_palette. Load the domestic palette first, then this one to overwrite certain common symbols with ones more appropriate for basements.  Symbols still open for use: ! $ % & _ = ~ - ? / , and more",
+    "//": "Intended to be used in conjunction with standard_domestic_palette. Load the domestic palette first, then this one to overwrite certain common symbols with ones more appropriate for basements.  Symbols still open for use: ! $ % & _ = - ? / , and more",
     "terrain": {
       "^": "t_rock",
       "#": "t_concrete_wall",
