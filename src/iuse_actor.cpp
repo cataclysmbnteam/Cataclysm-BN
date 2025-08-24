@@ -279,6 +279,15 @@ int iuse_transform::use( player &p, item &it, bool t, const tripoint &pos ) cons
     if( possess && !msg_transform.empty() ) {
         p.add_msg_if_player( m_neutral, msg_transform, it.tname() );
     }
+    if( p.is_npc() && get_player_character().sees( p ) ) {
+        if( active ) {
+        add_msg( m_info, _( "%s activates their %s." ), p.disp_name(),
+                 it.display_name() );
+        } else {
+        add_msg( m_info, _( "%s deactivates their %s." ), p.disp_name(),
+                 it.display_name() );
+        }
+    }
 
     if( possess ) {
         p.moves -= moves;
@@ -2226,7 +2235,10 @@ int fireweapon_off_actor::use( player &p, item &it, bool t, const tripoint & ) c
             sounds::sound( p.pos(), noise, sounds::sound_t::combat, _( success_message ) );
         }
         p.add_msg_if_player( _( success_message ) );
-
+        if( p.is_npc() && get_player_character().sees( p ) ) {
+            add_msg( m_info, _( "%s activates their %s." ), p.disp_name(),
+                     it.display_name() );
+        }
         it.convert( target_id );
         it.activate();
     } else if( !failure_message.empty() ) {
@@ -2287,6 +2299,10 @@ int fireweapon_on_actor::use( player &p, item &it, bool t, const tripoint & ) co
     }
 
     if( extinguish ) {
+        if( p.is_npc() && get_player_character().sees( p ) ) {
+            add_msg( m_info, _( "%s deactivates their %s." ), p.disp_name(),
+                     it.display_name() );
+        }
         it.revert( &p, false );
         it.deactivate();
         return 0;
