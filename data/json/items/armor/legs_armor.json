@@ -87,7 +87,7 @@
     "warmth": 10,
     "material_thickness": 3,
     "valid_mods": [ "steel_padded", "alloy_padded", "resized_large" ],
-    "flags": [ "OUTER" ]
+    "flags": [ "OUTER", "ALLOWS_TAIL_SNAKE" ]
   },
   {
     "id": "fencing_pants",
@@ -360,7 +360,7 @@
     "warmth": 6,
     "material_thickness": 4,
     "valid_mods": [ "steel_padded", "alloy_padded" ],
-    "flags": [ "VARSIZE", "STURDY" ]
+    "flags": [ "VARSIZE", "STURDY", "ALLOWS_TAIL_SNAKE" ]
   },
   {
     "id": "skirt_armor_leather",

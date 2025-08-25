@@ -225,7 +225,7 @@
     "points": 1,
     "description": "Your system is rather tolerant of poisons and toxins, and most will affect you less.",
     "starting_trait": true,
-    "category": [ "INSECT", "SLIME", "SPIDER", "MEDICAL" ]
+    "category": [ "INSECT", "SERPENT", "SLIME", "SPIDER", "MEDICAL" ]
   },
   {
     "type": "mutation",
@@ -391,7 +391,7 @@
     "points": 2,
     "description": "You eat faster, and can eat and drink more, than anyone else!  You also enjoy food more; delicious food is better for your morale, and you don't mind unsavory meals as much.",
     "starting_trait": true,
-    "category": [ "MOUSE", "LUPINE" ],
+    "category": [ "MOUSE", "LUPINE", "SERPENT" ],
     "valid": false
   },
   {
@@ -832,7 +832,7 @@
     "points": -1,
     "description": "Your hearing is poor, and you may not hear quiet or far-off noises.",
     "starting_trait": true,
-    "category": [ "PLANT" ],
+    "category": [ "PLANT", "SERPENT" ],
     "cancels": [ "GOODHEARING" ],
     "hearing_modifier": 0.5
   },
@@ -1005,7 +1005,7 @@
     "changes_to": [ "SMELLY2" ],
     "types": [ "SCENT" ],
     "scent_intensity": 800,
-    "category": [ "FELINE", "LUPINE", "MOUSE" ]
+    "category": [ "FELINE", "LUPINE", "MOUSE", "SERPENT" ]
   },
   {
     "type": "mutation",
@@ -1349,7 +1349,7 @@
     "social_modifiers": { "persuade": -1, "intimidate": 1 },
     "leads_to": [ "LIZ_IR" ],
     "cancels": [ "ELFAEYES", "FEL_EYE", "URSINE_EYE", "BIRD_EYE", "COMPOUND_EYES" ],
-    "category": [ "LIZARD", "RAPTOR" ]
+    "category": [ "LIZARD", "SERPENT", "RAPTOR" ]
   },
   {
     "type": "mutation",
@@ -1359,7 +1359,7 @@
     "description": "Your optic nerves and brain have mutated to catch up with your eyes, allowing you to see in the infrared spectrum.",
     "prereqs": [ "LIZ_EYE" ],
     "cancels": [ "ELFA_NV", "ELFA_FNV", "FEL_NV", "INFRARED" ],
-    "category": [ "LIZARD", "RAPTOR" ]
+    "category": [ "LIZARD", "SERPENT", "RAPTOR" ]
   },
   {
     "type": "mutation",
@@ -1441,7 +1441,7 @@
     "description": "Your teeth have grown into two-inch-long fangs, allowing you to make an extra attack when conditions favor it.",
     "types": [ "TEETH" ],
     "changes_to": [ "SABER_TEETH", "SHARKTEETH" ],
-    "category": [ "LIZARD", "FISH", "LUPINE", "FELINE", "CHIMERA" ],
+    "category": [ "LIZARD", "SERPENT", "FISH", "LUPINE", "FELINE", "CHIMERA" ],
     "attacks": [
       {
         "attack_text_u": "You sink your fangs into %s",
@@ -1629,7 +1629,7 @@
     "ugliness": 3,
     "description": "A set of flexible green scales has grown to cover your body, acting as 3 points of natural armor across your body.  Somewhat reduces wet effects.",
     "types": [ "SKIN" ],
-    "category": [ "CHIMERA", "RAPTOR", "LIZARD" ],
+    "category": [ "CHIMERA", "RAPTOR", "LIZARD", "SERPENT" ],
     "prereqs": [ "SKIN_ROUGH" ],
     "changes_to": [ "THICK_SCALES", "SLEEK_SCALES", "PATCHSKIN1" ],
     "movecost_swim_modifier": 0.9,
@@ -2582,7 +2582,7 @@
     "description": "Your body produces a potent venom.  Cutting or stabbing attacks from mutations have a chance to poison your target.",
     "prereqs": [ "POISRESIST" ],
     "changes_to": [ "POISONOUS2" ],
-    "category": [ "SLIME", "TROGLOBITE", "SPIDER" ]
+    "category": [ "SLIME", "TROGLOBITE", "SPIDER", "SERPENT" ]
   },
   {
     "type": "mutation",
@@ -2591,8 +2591,8 @@
     "points": 2,
     "description": "Your venom has become particularly strong.  You're confident that your bites or other cutting/stabbing natural attacks will take your target down quickly.",
     "prereqs": [ "POISONOUS" ],
-    "threshreq": [ "THRESH_SPIDER" ],
-    "category": [ "SPIDER" ]
+    "threshreq": [ "THRESH_SPIDER", "THRESH_SERPENT" ],
+    "category": [ "SPIDER", "SERPENT" ]
   },
   {
     "type": "mutation",
@@ -2848,8 +2848,8 @@
     "points": 3,
     "description": "Eating rotting, long-dead flesh is good for the struggle, and safe--if still completely unappealing--for you.",
     "prereqs": [ "POISRESIST" ],
-    "threshreq": [ "THRESH_CHIMERA", "THRESH_RAT", "THRESH_MOUSE" ],
-    "category": [ "RAT", "CHIMERA", "MOUSE" ]
+    "threshreq": [ "THRESH_CHIMERA", "THRESH_RAT", "THRESH_MOUSE", "THRESH_SERPENT" ],
+    "category": [ "RAT", "CHIMERA", "MOUSE", "SERPENT" ]
   },
   {
     "type": "mutation",
@@ -3328,10 +3328,11 @@
       "THRESH_FELINE",
       "THRESH_URSINE",
       "THRESH_LIZARD",
+      "THRESH_SERPENT",
       "THRESH_SPIDER"
     ],
     "cancels": [ "PACIFIST" ],
-    "category": [ "BEAST", "RAPTOR", "CHIMERA", "LUPINE", "FELINE", "URSINE", "LIZARD", "SPIDER" ],
+    "category": [ "BEAST", "RAPTOR", "CHIMERA", "LUPINE", "FELINE", "URSINE", "LIZARD", "SERPENT", "SPIDER" ],
     "flags": [ "PRED1" ]
   },
   {
@@ -3353,10 +3354,11 @@
       "THRESH_FELINE",
       "THRESH_URSINE",
       "THRESH_LIZARD",
+      "THRESH_SERPENT",
       "THRESH_SPIDER"
     ],
     "cancels": [ "PACIFIST" ],
-    "category": [ "BEAST", "RAPTOR", "CHIMERA", "LUPINE", "FELINE", "URSINE", "LIZARD", "SPIDER" ],
+    "category": [ "BEAST", "RAPTOR", "CHIMERA", "LUPINE", "FELINE", "URSINE", "LIZARD", "SERPENT", "SPIDER" ],
     "flags": [ "PRED2" ]
   },
   {
@@ -3380,10 +3382,11 @@
       "THRESH_FELINE",
       "THRESH_URSINE",
       "THRESH_LIZARD",
+      "THRESH_SERPENT",
       "THRESH_SPIDER"
     ],
     "cancels": [ "PACIFIST" ],
-    "category": [ "BEAST", "RAPTOR", "CHIMERA", "LUPINE", "FELINE", "URSINE", "LIZARD", "SPIDER" ],
+    "category": [ "BEAST", "RAPTOR", "CHIMERA", "LUPINE", "FELINE", "URSINE", "LIZARD", "SERPENT", "SPIDER" ],
     "passive_mods": { "int_mod": -1 },
     "flags": [ "PRED3" ]
   },
@@ -3415,8 +3418,16 @@
     "purifiable": false,
     "prereqs": [ "CARNIVORE" ],
     "prereqs2": [ "PRED3", "PRED4" ],
-    "threshreq": [ "THRESH_BEAST", "THRESH_RAPTOR", "THRESH_CHIMERA", "THRESH_URSINE", "THRESH_LIZARD", "THRESH_SPIDER" ],
-    "category": [ "BEAST", "RAPTOR", "CHIMERA", "URSINE", "LIZARD", "SPIDER" ],
+    "threshreq": [
+      "THRESH_BEAST",
+      "THRESH_RAPTOR",
+      "THRESH_CHIMERA",
+      "THRESH_URSINE",
+      "THRESH_LIZARD",
+      "THRESH_SERPENT",
+      "THRESH_SPIDER"
+    ],
+    "category": [ "BEAST", "RAPTOR", "CHIMERA", "URSINE", "LIZARD", "SERPENT", "SPIDER" ],
     "flags": [ "CANNIBAL" ]
   },
   {
@@ -3736,7 +3747,7 @@
     "types": [ "SIZE" ],
     "prereqs": [ "STR_UP", "STR_UP_2", "STR_UP_3", "STR_UP_4" ],
     "changes_to": [ "LARGE_OK", "HUGE" ],
-    "category": [ "BEAST", "URSINE", "CATTLE", "LIZARD", "RAPTOR", "CHIMERA" ],
+    "category": [ "BEAST", "URSINE", "CATTLE", "LIZARD", "SERPENT", "RAPTOR", "CHIMERA" ],
     "passive_mods": { "str_mod": 2 },
     "weight_capacity_modifier": 1.05,
     "body_size": "LARGE"
@@ -3751,10 +3762,18 @@
     "types": [ "SIZE" ],
     "prereqs": [ "LARGE" ],
     "prereqs2": [ "STR_UP", "STR_UP_2", "STR_UP_3", "STR_UP_4" ],
-    "threshreq": [ "THRESH_BEAST", "THRESH_URSINE", "THRESH_CATTLE", "THRESH_LIZARD", "THRESH_RAPTOR", "THRESH_CHIMERA" ],
+    "threshreq": [
+      "THRESH_BEAST",
+      "THRESH_URSINE",
+      "THRESH_CATTLE",
+      "THRESH_LIZARD",
+      "THRESH_SERPENT",
+      "THRESH_RAPTOR",
+      "THRESH_CHIMERA"
+    ],
     "changes_to": [ "HUGE" ],
     "leads_to": [ "MUT_TOUGH" ],
-    "category": [ "BEAST", "URSINE", "CATTLE", "LIZARD", "RAPTOR", "CHIMERA" ],
+    "category": [ "BEAST", "URSINE", "CATTLE", "LIZARD", "SERPENT", "RAPTOR", "CHIMERA" ],
     "passive_mods": { "str_mod": 2 },
     "weight_capacity_modifier": 1.05,
     "body_size": "LARGE"
@@ -4206,7 +4225,7 @@
     "ugliness": 4,
     "description": "You have a flattened nose and thin slits for nostrils, giving you a lizard-like appearance.  This makes breathing slightly difficult and increases mouth encumbrance by 10.",
     "encumbrance_always": [ [ "mouth", 10 ] ],
-    "category": [ "LIZARD", "CEPHALOPOD", "RAPTOR" ]
+    "category": [ "LIZARD", "SERPENT", "CEPHALOPOD", "RAPTOR" ]
   },
   {
     "type": "mutation",
@@ -4216,7 +4235,7 @@
     "visibility": 1,
     "ugliness": 3,
     "description": "Your tongue is forked, like that of a reptile.  This has no effect.",
-    "category": [ "LIZARD", "RAPTOR" ]
+    "category": [ "LIZARD", "SERPENT", "RAPTOR" ]
   },
   {
     "type": "mutation",
@@ -4504,7 +4523,7 @@
     "description": "Your face and jaws are a shorter version of those found on alligators.  They look NASTY--as do the bite wounds they can inflict--but prevent wearing mouthgear.",
     "types": [ "MUZZLE" ],
     "prereqs": [ "SNOUT" ],
-    "category": [ "LIZARD" ],
+    "category": [ "LIZARD", "SERPENT" ],
     "restricts_gear": [ "mouth" ],
     "social_modifiers": { "intimidate": 20 },
     "attacks": {
@@ -5085,7 +5104,7 @@
     "description": "Your body's ability to digest fruits, vegetables, grains and nuts is severely hampered.  You cannot eat anything besides meat.",
     "cancels": [ "VEGETARIAN", "HERBIVORE", "RUMINANT", "GRAZER" ],
     "leads_to": [ "SAPROVORE" ],
-    "category": [ "LIZARD", "BEAST", "SPIDER", "CHIMERA", "RAPTOR", "FELINE" ],
+    "category": [ "LIZARD", "SERPENT", "BEAST", "SPIDER", "CHIMERA", "RAPTOR", "FELINE" ],
     "vitamin_rates": [ [ "vitC", -1200 ] ]
   },
   {
@@ -5322,7 +5341,7 @@
     "prereqs": [ "COLDBLOOD2" ],
     "changes_to": [ "COLDBLOOD4" ],
     "types": [ "METABOLISM" ],
-    "category": [ "INSECT", "LIZARD" ],
+    "category": [ "INSECT", "LIZARD", "SERPENT" ],
     "temperature_speed_modifier": 0.5,
     "metabolism_modifier": -0.5
   },
@@ -5334,10 +5353,10 @@
     "mixed_effect": true,
     "description": "Your body has become permanently cold-blooded.  Your speed lowers or raises 1% for every 2 (1.1) degrees below or above 65 F (18.3 C).  You only need to eat half as much as an average human.",
     "prereqs": [ "COLDBLOOD3" ],
-    "threshreq": [ "THRESH_LIZARD", "THRESH_PLANT" ],
+    "threshreq": [ "THRESH_LIZARD", "THRESH_SERPENT", "THRESH_PLANT" ],
     "purifiable": false,
     "types": [ "METABOLISM" ],
-    "category": [ "LIZARD", "PLANT" ],
+    "category": [ "LIZARD", "SERPENT", "PLANT" ],
     "temperature_speed_modifier": 0.5,
     "metabolism_modifier": -0.5
   },
@@ -5370,7 +5389,7 @@
     "mixed_effect": true,
     "points": -1,
     "description": "You hiss when speaking.  Persuading NPCs will be more difficult, but threatening them will be easier.",
-    "category": [ "LIZARD", "RAPTOR", "SPIDER" ],
+    "category": [ "LIZARD", "SERPENT", "RAPTOR", "SPIDER" ],
     "social_modifiers": { "persuade": -20, "lie": -10, "intimidate": 10 }
   },
   {
@@ -5687,6 +5706,17 @@
     "purifiable": false,
     "threshold": true,
     "//": "Based on highest of category's iv_hunger, iv_thirst, or iv_fatigue.  Most default to 10+10+5 so default value of 10",
+    "mutagen_target_modifier": 10
+  },
+  {
+    "type": "mutation",
+    "id": "THRESH_SERPENT",
+    "name": { "str": "Serpent" },
+    "points": 1,
+    "description": "They say you have to crawl before you can walk.  You walked, but now slithering feels better.",
+    "valid": false,
+    "purifiable": false,
+    "threshold": true,
     "mutagen_target_modifier": 10
   },
   {
@@ -6153,6 +6183,85 @@
       "base_damage": { "damage_type": "stab", "amount": 25 }
     },
     "purifiable": false
+  },
+  {
+    "type": "mutation",
+    "id": "TAIL_SNAKE",
+    "name": { "str": "Snake Body" },
+    "points": -5,
+    "visibility": 8,
+    "ugliness": 4,
+    "mixed_effect": true,
+    "description": "Your legs and feet have merged into a long, scaly tail.  It's harder for you to move (though you can wind through obstacles a bit better) and harder to dodge, and limits what you can wear.  Anything you can get to fit on your tail just makes crawling around even more awkward.  At least it protects your lower half decently, reduces wet effects, and lets you carry more weight.",
+    "types": [ "LEGS", "TAIL" ],
+    "changes_to": [ "TAIL_SNAKE_OK" ],
+    "category": [ "SERPENT" ],
+    "//": "This and LEG_TENTACLES should be the first to be tweaked if we get the ability to edit body part map with mutations.",
+    "encumbrance_covered": [ [ "leg_l", 10 ], [ "leg_r", 10 ], [ "foot_l", 10 ], [ "foot_r", 10 ] ],
+    "wet_protection": [
+      { "part": "leg_l", "ignored": 10 },
+      { "part": "leg_r", "ignored": 10 },
+      { "part": "foot_l", "ignored": 100 },
+      { "part": "foot_r", "ignored": 100 }
+    ],
+    "armor": [ { "parts": [ "leg_l", "leg_r", "foot_l", "foot_r" ], "physical": 10 } ],
+    "restricts_gear": [ "leg_l", "leg_r", "foot_l", "foot_r" ],
+    "allowed_items": [ "ALLOWS_TAIL_SNAKE" ],
+    "allowed_items_only": true,
+    "weight_capacity_modifier": 1.25,
+    "movecost_obstacle_modifier": 0.9,
+    "movecost_flatground_modifier": 1.25,
+    "movecost_swim_modifier": 0.9,
+    "noise_modifier": 1.25,
+    "dodge_modifier": -1
+  },
+  {
+    "type": "mutation",
+    "id": "TAIL_SNAKE_OK",
+    "name": { "str": "Serpentine Body" },
+    "points": -3,
+    "visibility": 8,
+    "ugliness": 4,
+    "mixed_effect": true,
+    "description": "Your snake body has grown stronger and more flexible, or maybe you're just getting used to moving with it.  It's still incredibly inconvenient to find clothes for your tail, but you're better at navigating obstacles and can even whip enemies with the end.",
+    "types": [ "LEGS", "TAIL" ],
+    "category": [ "SERPENT" ],
+    "prereqs": [ "TAIL_SNAKE" ],
+    "leads_to": [ "SNAKE_COILS" ],
+    "threshreq": [ "THRESH_SERPENT" ],
+    "encumbrance_covered": [ [ "leg_l", 5 ], [ "leg_r", 5 ], [ "foot_l", 5 ], [ "foot_r", 5 ] ],
+    "wet_protection": [
+      { "part": "leg_l", "ignored": 10 },
+      { "part": "leg_r", "ignored": 10 },
+      { "part": "foot_l", "ignored": 100 },
+      { "part": "foot_r", "ignored": 100 }
+    ],
+    "armor": [ { "parts": [ "leg_l", "leg_r", "foot_l", "foot_r" ], "physical": 10 } ],
+    "restricts_gear": [ "leg_l", "leg_r", "foot_l", "foot_r" ],
+    "allowed_items": [ "ALLOWS_TAIL_SNAKE" ],
+    "allowed_items_only": true,
+    "weight_capacity_modifier": 1.25,
+    "movecost_obstacle_modifier": 0.75,
+    "movecost_swim_modifier": 0.9,
+    "attacks": {
+      "attack_text_u": "You whap %s with your tail",
+      "attack_text_npc": "%1$s whaps %2$s with their tail",
+      "chance": 20,
+      "strength_damage": { "damage_type": "bash", "amount": 1 }
+    }
+  },
+  {
+    "type": "mutation",
+    "id": "SNAKE_COILS",
+    "name": { "str": "Crushing Coils" },
+    "points": 4,
+    "description": "Your newfound size has granted some extra bulk to your serpentine half.  You haven't figured out how to constrict anything with it, but it does further enhance your strength (+4) and your lower half's natural armor is even thicker.",
+    "category": [ "SERPENT" ],
+    "prereqs": [ "TAIL_SNAKE_OK" ],
+    "prereqs2": [ "LARGE", "LARGE_OK", "HUGE", "HUGE_OK" ],
+    "threshreq": [ "THRESH_SERPENT" ],
+    "passive_mods": { "str_mod": 4 },
+    "armor": [ { "parts": [ "leg_l", "leg_r", "foot_l", "foot_r" ], "physical": 10 } ]
   },
   {
     "type": "mutation",

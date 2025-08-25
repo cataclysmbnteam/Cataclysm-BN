@@ -159,7 +159,7 @@
     "coverage": 5,
     "encumbrance": 2,
     "covers": [ "leg_either" ],
-    "extend": { "flags": [ "POWERARMOR_COMPATIBLE" ] }
+    "extend": { "flags": [ "POWERARMOR_COMPATIBLE", "ALLOWS_TAIL_SNAKE" ] }
   },
   {
     "id": "adv_UPS_off",
@@ -170,7 +170,7 @@
     "coverage": 5,
     "encumbrance": 1,
     "covers": [ "leg_either" ],
-    "flags": [ "WAIST", "COMPACT", "FRAGILE", "OVERSIZE", "IS_UPS", "POWERARMOR_COMPATIBLE" ]
+    "flags": [ "WAIST", "COMPACT", "FRAGILE", "OVERSIZE", "IS_UPS", "POWERARMOR_COMPATIBLE", "ALLOWS_TAIL_SNAKE" ]
   },
   {
     "id": "bionic_maintenance_toolkit",

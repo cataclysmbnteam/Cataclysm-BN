@@ -18,6 +18,11 @@
     "info": "This gear <info>allows flight</info>."
   },
   {
+    "id": "ALLOWS_TAIL_SNAKE",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
     "id": "EFFECT_INVISIBLE",
     "context": [  ],
     "type": "json_flag"

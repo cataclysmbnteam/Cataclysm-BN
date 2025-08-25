@@ -94,6 +94,8 @@ struct mutation_branch {
         bool starts_active = false;
         // Allow soft (fabric) gear on restricted body parts
         bool allow_soft_gear  = false;
+        // If true, not even oversized gear is allowed unless it's accepted by allowed_items.
+        bool allowed_items_only  = false;
         // IF any of the 8 are true, it drains that as the "cost"
         bool fatigue       = false;
         bool hunger        = false;
@@ -279,6 +281,8 @@ struct mutation_branch {
         std::map<body_part, int> encumbrance_covered;
         // Body parts that now need OVERSIZE gear
         std::set<body_part> restricts_gear;
+        // item flags that allow wearing gear even if its body part is restricted
+        std::set<flag_id> allowed_items;
         // Mutation stat mods
         /** Key pair is <active: bool, mod type: "STR"> */
         std::unordered_map<std::pair<bool, std::string>, int, cata::tuple_hash> mods;
