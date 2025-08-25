@@ -36,6 +36,7 @@ using mon_action_death  = void ( * )( monster & );
 using mon_action_attack = bool ( * )( monster * );
 using mon_action_defend = void ( * )( monster &, Creature *, dealt_projectile_attack const * );
 using bodytype_id = std::string;
+using TraitSet = std::set<trait_id>;
 class JsonArray;
 class JsonObject;
 
@@ -224,6 +225,7 @@ struct mon_effect_data {
 /** Pet food data */
 struct pet_food_data {
     std::set<std::string> food;
+    std::set<TraitSet> tamer_traits;
     std::string pet;
     std::string feed;
 
