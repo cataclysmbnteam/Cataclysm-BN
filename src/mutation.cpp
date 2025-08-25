@@ -222,13 +222,14 @@ bool mutation_branch::conflicts_with_item( const item &it ) const
     for( body_part bp : restricts_gear ) {
         if( it.covers( convert_bp( bp ).id() ) ) {
             // If it's oversized, forbid it if we're ONLY permitting allowed_items, otherwise allow it
-            if( it.has_flag( STATIC( flag_id( "OVERSIZE" ) ) ) || it.has_flag( STATIC( flag_id( "resized_large" ) ) ) ) {
+            if( it.has_flag( STATIC( flag_id( "OVERSIZE" ) ) ) ||
+                it.has_flag( STATIC( flag_id( "resized_large" ) ) ) ) {
                 if( allowed_items_only ) {
                     return true;
                 } else {
                     return false;
                 }
-            // If we're still here, allow soft gear where relevant.
+                // If we're still here, allow soft gear where relevant.
             } else if( allow_soft_gear && it.is_soft() ) {
                 return false;
             } else {
