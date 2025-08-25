@@ -293,6 +293,7 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "active", activated, false );
     optional( jo, was_loaded, "starts_active", starts_active, false );
     optional( jo, was_loaded, "allow_soft_gear", allow_soft_gear, false );
+    optional( jo, was_loaded, "allowed_items_only", allowed_items_only, false );
     optional( jo, was_loaded, "cost", cost, 0 );
     optional( jo, was_loaded, "time", cooldown, 0 );
     optional( jo, was_loaded, "hunger", hunger, false );

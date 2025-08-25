@@ -330,6 +330,22 @@
   },
   {
     "type": "profession_item_substitutions",
+    "trait": "TAIL_SNAKE",
+    "sub": [
+      { "item": "briefs", "new": [ "loincloth" ] },
+      { "item": "boxer_briefs", "new": [ "loincloth" ] },
+      { "item": "boxer_shorts", "new": [ "loincloth" ] },
+      { "item": "panties", "new": [ "loincloth" ] },
+      { "item": "boy_shorts", "new": [ "loincloth" ] },
+      { "item": "pants", "new": [ "kilt_leather" ] },
+      { "item": "jeans", "new": [ "kilt_leather" ] },
+      { "item": "striped_pants", "new": [ "kilt_leather" ] },
+      { "item": "shorts_cargo", "new": [ "kilt_leather" ] },
+      { "item": "subsuit_xl", "new": [ "tunic_rag" ] }
+    ]
+  },
+  {
+    "type": "profession_item_substitutions",
     "item": "sunglasses",
     "sub": [
       { "present": [ "HYPEROPIC" ], "new": [ "fitover_sunglasses" ] },

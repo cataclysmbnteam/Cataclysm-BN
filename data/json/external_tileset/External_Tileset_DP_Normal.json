@@ -171,7 +171,9 @@
           { "id": "mon_skeleton_necro", "fg": 146 },
           { "id": "mon_skeleton_master", "fg": 147 },
           { "id": "pulley_crane_small_wood", "fg": 148 },
-          { "id": "vp+crane_small_wood", "fg": 149, "rotates": true }
+          { "id": "vp_crane_small_wood", "fg": 149, "rotates": true },
+          { "id": [ "overlay_female_mutation_TAIL_SNAKE", "overlay_female_mutation_TAIL_SNAKE_OK" ], "fg": 150 },
+          { "id": [ "overlay_male_mutation_TAIL_SNAKE", "overlay_male_mutation_TAIL_SNAKE_OK" ], "fg": 151 }
         ],
         "sprite_width": 32,
         "sprite_height": 32

@@ -70,6 +70,16 @@
     "replace": "iv_mutagen"
   },
   {
+    "id": "mutagen_serpent",
+    "type": "MIGRATION",
+    "replace": "mutagen"
+  },
+  {
+    "id": "iv_mutagen_serpent",
+    "type": "MIGRATION",
+    "replace": "iv_mutagen"
+  },
+  {
     "id": "mutagen_raptor",
     "type": "MIGRATION",
     "replace": "mutagen"

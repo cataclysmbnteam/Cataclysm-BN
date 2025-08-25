@@ -94,6 +94,8 @@ struct mutation_branch {
         bool starts_active = false;
         // Allow soft (fabric) gear on restricted body parts
         bool allow_soft_gear  = false;
+        // If true, not even oversized gear is allowed unless it's accepted by allowed_items.
+        bool allowed_items_only  = false;
         // IF any of the 8 are true, it drains that as the "cost"
         bool fatigue       = false;
         bool hunger        = false;

@@ -422,7 +422,8 @@
     "encumbrance": 20,
     "warmth": 30,
     "material_thickness": 6,
-    "flags": [ "VARSIZE", "STURDY" ]
+    "//": "Made from leggings which wouldn't make sense for Serpent mutants but flavored as basically a mail tunic, so allow it",
+    "flags": [ "VARSIZE", "STURDY", "ALLOWS_TAIL_SNAKE" ]
   },
   {
     "id": "chainmail_suit",
@@ -553,7 +554,7 @@
     "warmth": 30,
     "material_thickness": 5,
     "valid_mods": [ "steel_padded", "alloy_padded" ],
-    "flags": [ "VARSIZE", "STURDY" ]
+    "flags": [ "VARSIZE", "STURDY", "ALLOWS_TAIL_SNAKE" ]
   },
   {
     "id": "hazmat_suit",
