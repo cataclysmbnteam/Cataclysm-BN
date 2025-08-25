@@ -4295,7 +4295,7 @@ bool map::open_door( const tripoint &p, const bool inside, const bool check_only
             se.movement_noise = true;
             se.description = _( "swish" );
             se.id = "open_door";
-            se.variant = ter.id.str();
+            se.variant = furn.id.str();
             sounds::sound( se );
             furn_set( p, furn.open );
         }
@@ -4399,7 +4399,7 @@ bool map::close_door( const tripoint &p, const bool inside, const bool check_onl
             se.movement_noise = true;
             se.description = _( "swish" );
             se.id = "close_door";
-            se.variant = ter.id.str();
+            se.variant = furn.id.str();
             sounds::sound( se );
             furn_set( p, furn.close );
         }
