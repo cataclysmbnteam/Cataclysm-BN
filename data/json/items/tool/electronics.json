@@ -590,7 +590,7 @@
     "color": "dark_gray",
     "ammo": "battery",
     "charges_per_use": 10,
-    "use_action": "VIBE",
+    "use_action": { "type": "sex_toy", "moves": 60000 },
     "magazines": [
       [
         "battery",
