@@ -123,6 +123,9 @@ static const itype_id itype_smoxygen_tank( "smoxygen_tank" );
 static const itype_id itype_thorazine( "thorazine" );
 static const itype_id itype_oxygen_tank( "oxygen_tank" );
 
+static const itype_id fuel_wind( "wind" );
+static const itype_id fuel_sunlight( "sunlight " );
+
 static constexpr float NPC_DANGER_VERY_LOW = 5.0f;
 static constexpr float NPC_DANGER_MAX = 150.0f;
 static constexpr float MAX_FLOAT = 5000000000.0f;
@@ -1744,11 +1747,17 @@ bool npc::recharge_cbm()
                     fuel_op.end() ||
                     std::find( fuel_op.begin(), fuel_op.end(), itype_denat_alcohol ) !=
                     fuel_op.end();
+                const bool need_environment =
+                    std::find( fuel_op.begin(), fuel_op.end(), fuel_sunlight ) != fuel_op.end() ||
+                    std::find( fuel_op.begin(), fuel_op.end(), fuel_wind ) != fuel_op.end();
 
                 if( std::find( fuel_op.begin(), fuel_op.end(), itype_battery ) != fuel_op.end() ) {
                     complain_about( "need_batteries", 3_hours, "<need_batteries>", false );
                 } else if( need_alcohol ) {
                     complain_about( "need_booze", 3_hours, "<need_booze>", false );
+                } else if( need_environment ) {
+                    // No Need for NPCs to complain about the weather and time of day...
+                    continue;
                 } else {
                     complain_about( "need_fuel", 3_hours, "<need_fuel>", false );
                 }
