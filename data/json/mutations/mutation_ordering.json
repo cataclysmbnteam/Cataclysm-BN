@@ -71,8 +71,6 @@
           "SLEEK_SCALES",
           "SLEEK_SCALES",
           "SORES",
-          "TAIL_SNAKE",
-          "TAIL_SNAKE_OK",
           "THORNS",
           "TROGLO2",
           "TROGLO3",
@@ -154,7 +152,7 @@
         ],
         "order": 1600
       },
-      { "id": [ "LEAVES" ], "order": 1900 },
+      { "id": [ "LEAVES", "TAIL_SNAKE", "TAIL_SNAKE_OK" ], "order": 1900 },
       {
         "id": [ "ARACHNID_ARMS", "ARACHNID_ARMS_OK", "ARM_FEATHERS", "ARM_TENTACLES", "ARM_TENTACLES_4", "ARM_TENTACLES_8" ],
         "order": 2000
