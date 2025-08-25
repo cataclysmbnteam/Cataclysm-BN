@@ -2,7 +2,7 @@
   {
     "type": "palette",
     "id": "standard_domestic_palette",
-    "//": "Intended as a palette for non-nested houses.  Symbols still open for use: 0 ! $ % & _ = ~ ? / , ` and some symbols that conflict with json (like brackets).",
+    "//": "Intended as a palette for non-nested houses.  Symbols still open for use: 0 ! $ % & _ = ? / , ` and some symbols that conflict with json (like brackets).",
     "parameters": {
       "interior_wall_type": {
         "type": "ter_str_id",
@@ -214,14 +214,14 @@
     },
     "nested": {
       "ɸ": { "chunks": [ "NC_res_personal_items_1X1" ] },
-      "o": { "chunks": [ [ "null", 95 ], [ "house_place_air_conditioner", 5 ] ] },
+      "o": { "chunks": [ [ "null", 195 ], [ "house_place_air_conditioner", 5 ] ] },
       "v": { "chunks": [ [ "house_chunk_spawn_firesafe", 50 ], [ "house_chunk_spawn_gunsafe", 50 ] ] }
     }
   },
   {
     "type": "palette",
     "id": "standard_domestic_basement_palette",
-    "//": "Intended to be used in conjunction with standard_domestic_palette. Load the domestic palette first, then this one to overwrite certain common symbols with ones more appropriate for basements.  Symbols still open for use: ! $ % & _ = ~ - ? / , and more",
+    "//": "Intended to be used in conjunction with standard_domestic_palette. Load the domestic palette first, then this one to overwrite certain common symbols with ones more appropriate for basements.  Symbols still open for use: ! $ % & _ = - ? / , and more",
     "terrain": {
       "^": "t_rock",
       "#": "t_concrete_wall",
@@ -267,6 +267,49 @@
       "8": "t_linoleum_gray",
       "Q": "t_linoleum_gray",
       "w": "t_linoleum_gray"
+    }
+  },
+  {
+    "type": "palette",
+    "id": "parameterized_linoleum_color_kitchen",
+    "//1": "Intended to be used in conjunction with standard_domestic_palette.",
+    "//2": "Load the domestic palette first, then this one to add white or gray linoleum flooring under kitchen furniture.",
+    "parameters": {
+      "linoleum_color_kitchen": { "type": "ter_str_id", "default": { "distribution": [ [ "t_linoleum_white", 1 ], [ "t_linoleum_gray", 1 ] ] } }
+    },
+    "terrain": {
+      "O": { "param": "linoleum_color_kitchen", "fallback": "t_linoleum_white" },
+      "F": { "param": "linoleum_color_kitchen", "fallback": "t_linoleum_white" },
+      "m": { "param": "linoleum_color_kitchen", "fallback": "t_linoleum_white" },
+      "5": { "param": "linoleum_color_kitchen", "fallback": "t_linoleum_white" },
+      "n": { "param": "linoleum_color_kitchen", "fallback": "t_linoleum_white" },
+      "J": { "param": "linoleum_color_kitchen", "fallback": "t_linoleum_white" },
+      "1": { "param": "linoleum_color_kitchen", "fallback": "t_linoleum_white" },
+      "2": { "param": "linoleum_color_kitchen", "fallback": "t_linoleum_white" },
+      "3": { "param": "linoleum_color_kitchen", "fallback": "t_linoleum_white" },
+      "4": { "param": "linoleum_color_kitchen", "fallback": "t_linoleum_white" },
+      "6": { "param": "linoleum_color_kitchen", "fallback": "t_linoleum_white" },
+      "7": { "param": "linoleum_color_kitchen", "fallback": "t_linoleum_white" },
+      "˙": { "param": "linoleum_color_kitchen", "fallback": "t_linoleum_white" }
+    }
+  },
+  {
+    "type": "palette",
+    "id": "parameterized_linoleum_color_bathroom",
+    "//1": "Intended to be used in conjunction with standard_domestic_palette.",
+    "//2": "Load the domestic palette first, then this one to add white or gray linoleum flooring under bathroom furniture.",
+    "parameters": {
+      "linoleum_color_bathroom": { "type": "ter_str_id", "default": { "distribution": [ [ "t_linoleum_white", 1 ], [ "t_linoleum_gray", 1 ] ] } }
+    },
+    "terrain": {
+      "B": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_white" },
+      "9": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_white" },
+      "t": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_white" },
+      "S": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_white" },
+      "8": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_white" },
+      "Q": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_white" },
+      "w": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_white" },
+      "¨": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_white" }
     }
   },
   {

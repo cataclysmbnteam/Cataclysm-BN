@@ -101,6 +101,7 @@
       "=": "t_door_c"
     },
     "furniture": {
+      "`": [ [ "f_null", 90 ], [ "f_space_heater_off", 6 ], [ "f_space_heater_large", 4 ] ],
       "B": "f_bed",
       "b": "f_bench",
       "c": "f_chair",
@@ -152,6 +153,6 @@
       "5": { "item": "SUS_kitchen_sink", "chance": 35 }
     },
     "toilets": { "T": {  } },
-    "nested": { "w": { "chunks": [ [ "null", 90 ], [ "house_place_air_conditioner", 10 ] ] } }
+    "nested": { "w": { "chunks": [ [ "null", 95 ], [ "house_place_air_conditioner", 5 ] ] } }
   }
 ]

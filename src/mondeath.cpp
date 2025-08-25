@@ -59,6 +59,7 @@ static const efftype_id effect_boomered( "boomered" );
 static const efftype_id effect_darkness( "darkness" );
 static const efftype_id effect_glowing( "glowing" );
 static const efftype_id effect_no_ammo( "no_ammo" );
+static const efftype_id effect_onfire( "onfire" );
 static const efftype_id effect_pacified( "pacified" );
 static const efftype_id effect_rat( "rat" );
 
@@ -83,6 +84,7 @@ static const mtype_id mon_zombie_hulk( "mon_zombie_hulk" );
 
 static const trait_id trait_KILLER( "KILLER" );
 static const trait_id trait_PACIFIST( "PACIFIST" );
+static const trait_id trait_PYROMANIA( "PYROMANIA" );
 static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
 
 static const trait_flag_str_id trait_flag_PRED1( "PRED1" );
@@ -984,6 +986,9 @@ void make_mon_corpse( monster &z, int damageLvl )
     detached_ptr<item> corpse = item::make_corpse( z.type->id, calendar::turn, z.unique_name,
                                 z.get_upgrade_time() );
     corpse->set_damage( damageLvl );
+    if( z.has_effect( effect_onfire ) ) {
+        corpse->burnt += ( z.get_hp_max() / 2 ) * ( damageLvl + 1 );
+    }
     if( z.has_effect( effect_pacified ) && z.type->in_species( ZOMBIE ) ) {
         // Pacified corpses have a chance of becoming unpacified when regenerating.
         corpse->set_var( "zlave", one_in( 2 ) ? "zlave" : "mutilated" );
@@ -1025,9 +1030,10 @@ void mdeath::preg_roach( monster &z )
 
 void mdeath::fireball( monster &z )
 {
-    if( one_in( 10 ) ) {
+    // If we died from being set on fire, 50% chance to explode.
+    if( z.has_effect( effect_onfire ) && one_in( 2 ) ) {
         g->m.propagate_field( z.pos(), fd_fire, 15, 3 );
-        std::string explode = string_format( _( "an explosion of tank of the %s's flamethrower!" ),
+        std::string explode = string_format( _( "a %s explode!" ),
                                              z.name() );
         sound_event se;
         se.origin = z.pos();
@@ -1040,7 +1046,9 @@ void mdeath::fireball( monster &z )
         se.monfaction = z.faction.id();
         sounds::sound( se );
 
-        add_msg( m_good, _( "I love the smell of burning zed in the morning." ) );
+        if( g->u.sees( z ) && g->u.has_trait( trait_PYROMANIA ) ) {
+            add_msg( m_good, _( "I love the smell of burning zed in the morning." ) );
+        }
     } else {
         normal( z );
     }
@@ -1048,11 +1056,12 @@ void mdeath::fireball( monster &z )
 
 void mdeath::conflagration( monster &z )
 {
-    for( const auto &dest : g->m.points_in_radius( z.pos(), 1 ) ) {
-        g->m.propagate_field( dest, fd_fire, 18, 3 );
-    }
-    const std::string explode = string_format( _( "a %s explode!" ), z.name() );
-    sound_event se;
+    if( z.has_effect( effect_onfire ) ) {
+        for( const auto &dest : g->m.points_in_radius( z.pos(), 1 ) ) {
+            g->m.propagate_field( dest, fd_fire, 18, 3 );
+        }
+        const std::string explode = string_format( _( "a %s explode!" ), z.name() );
+        sound_event se;
     se.origin = z.pos();
     se.volume = 110;
     se.category = sounds::sound_t::combat;
@@ -1062,5 +1071,13 @@ void mdeath::conflagration( monster &z )
     se.variant = "small";
     se.monfaction = z.faction.id();
     sounds::sound( se );
-
+        if( g->u.sees( z ) && g->u.has_trait( trait_PYROMANIA ) ) {
+            add_msg( m_good, _( "Toasty!" ) );
+        }
+    } else if( one_in( 2 ) ) {
+        g->m.propagate_field( z.pos(), fd_fire, 1, 3 );
+        add_msg( m_bad, _( "The %s bursts into flames as it dies!" ), z.name() );
+    } else {
+        add_msg( m_good, _( "The flames sputter and die out." ) );
+    }
 }

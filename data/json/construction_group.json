@@ -1511,6 +1511,11 @@
   },
   {
     "type": "construction_group",
+    "id": "clog_migo_emitter_resin",
+    "name": "Clog Mi-Go gas emitter"
+  },
+  {
+    "type": "construction_group",
     "id": "build_concrete_lump",
     "name": "Remove Mi-Go gas emitter"
   },

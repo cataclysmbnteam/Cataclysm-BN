@@ -13,7 +13,8 @@
     "bashing": 6,
     "material": [ "steel", "plastic" ],
     "symbol": ";",
-    "color": "dark_gray"
+    "color": "dark_gray",
+    "qualities": [ [ "CASING_PRESSING", 2 ] ]
   },
   {
     "id": "press_dowel",
@@ -30,7 +31,8 @@
     "material": [ "wood", "plastic", "brass" ],
     "symbol": ";",
     "color": "dark_gray",
-    "flags": [ "TRADER_AVOID" ]
+    "flags": [ "TRADER_AVOID" ],
+    "qualities": [ [ "CASING_PRESSING", 1 ] ]
   },
   {
     "id": "puller",

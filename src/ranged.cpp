@@ -555,9 +555,17 @@ double Creature::ranged_target_size() const
     if( const_cast<Creature &>( *this ).uncanny_dodge() ) {
         return 0.0;
     }
-    if( has_flag( MF_HARDTOSHOOT ) ) {
+    bool is_crouched = false;
+    if( Character *ch = const_cast<Creature &>( *this ).as_character() ) {
+        if( ch->movement_mode_is( CMM_CROUCH ) ) {
+            is_crouched = true;
+        }
+    }
+    if( has_flag( MF_HARDTOSHOOT ) || is_crouched ) {
         switch( get_size() ) {
             case creature_size::tiny:
+                // We can't be smaller than tiny, but we can make the hit rate lower.
+                return 0.05;
             case creature_size::small:
                 return occupied_tile_fraction( creature_size::tiny );
             case creature_size::medium:
@@ -1420,7 +1428,7 @@ dealt_projectile_attack throw_item( Character &who, const tripoint &target,
 
     // Throw from the player's position, unless we're blind throwing, in which case
     // throw from the the blind throw position instead.
-    const tripoint throw_from = blind_throw_from_pos ? *blind_throw_from_pos : who.pos();
+    const tripoint throw_from = blind_throw_from_pos.value_or( who.pos() );
 
     float range = rl_dist( throw_from, target );
     proj.range = range;
@@ -2112,6 +2120,10 @@ dispersion_sources ranged::get_weapon_dispersion( const Character &who, const it
     dispersion.add_range( dispersion_from_skill( avgSkill, weapon_dispersion ) );
 
     if( who.has_bionic( bio_targeting ) ) {
+        dispersion.add_multiplier( 0.75 );
+    }
+    // If we're crouched, it's easier to steady our aim.
+    if( who.movement_mode_is( CMM_CROUCH ) ) {
         dispersion.add_multiplier( 0.75 );
     }
 

@@ -22,6 +22,11 @@ on_character_reset_stats = {}
 ---@field omt Tripoint
 ---@field when TimePoint
 on_mapgen_postprocess = {}
+
+---@class OnMonDeathParams
+---@field mon Monster
+---@field killer Character
+on_mon_death = {}
 --================---- Classes ----================
 
 ---@class ActivityTypeId
@@ -779,7 +784,7 @@ function FurnRaw.new() end
 ---@field is_wheel fun(arg1: Item): boolean
 ---@field made_of fun(arg1: Item): any
 ---@field mod_charges fun(arg1: Item, arg2: integer)
----@field price fun(arg1: Item, arg2: boolean): integer @Cents of the item. `bool` is whether it is a post-cataclysm value.
+---@field price fun(arg1: Item, arg2: boolean): number @Cents of the item. `bool` is whether it is a post-cataclysm value.
 ---@field remaining_capacity_for_id fun(arg1: Item, arg2: ItypeId, arg3: boolean): integer @Gets the remaining space available for a type of liquid
 ---@field remove_technique fun(arg1: Item, arg2: MartialArtsTechniqueId) @Removes the additional technique. Doesn't affect originial techniques.
 ---@field set_flag fun(arg1: Item, arg2: JsonFlagId)
@@ -1742,6 +1747,7 @@ gdebug = {}
 ---@field on_game_load fun() @Called right after game has loaded
 ---@field on_game_save fun() @Called when game is about to save
 ---@field on_mapgen_postprocess fun(arg1: Map, arg2: Tripoint, arg3: TimePoint) @Called right after mapgen has completed. Map argument is the tinymap that represents 24x24 area (2x2 submaps, or 1x1 omt), tripoint is the absolute omt pos, and time_point is the current time (for time-based effects).
+---@field on_mon_death fun() @Called when a monster is dead
 hooks = {}
 
 --- Localization API.

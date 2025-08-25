@@ -3599,7 +3599,7 @@ void item::combat_info( std::vector<iteminfo> &info, const iteminfo_query *parts
     } else {
         print_attacks = true;
 
-        for( const auto &attack_pr : type->attacks ) {
+        for( const auto &attack_pr : get_attacks() ) {
             const auto &attack = attack_pr.second;
 
             if( parts->test( iteminfo_parts::BASE_DAMAGE ) ) {
@@ -5544,6 +5544,36 @@ int item::damage_melee( const attack_statblock &attack, damage_type dt ) const
         case DT_STAB:
             res += bonus_from_enchantments_wielded( res, enchant_vals::mod::ITEM_DAMAGE_STAB, true );
             break;
+        case DT_BULLET:
+            res += bonus_from_enchantments_wielded( res, enchant_vals::mod::ITEM_DAMAGE_BULLET, true );
+            break;
+        case DT_ACID:
+            res += bonus_from_enchantments_wielded( res, enchant_vals::mod::ITEM_DAMAGE_ACID, true );
+            break;
+        case DT_BIOLOGICAL:
+            res += bonus_from_enchantments_wielded( res, enchant_vals::mod::ITEM_DAMAGE_BIO, true );
+            break;
+        case DT_COLD:
+            res += bonus_from_enchantments_wielded( res, enchant_vals::mod::ITEM_DAMAGE_COLD, true );
+            break;
+        case DT_DARK:
+            res += bonus_from_enchantments_wielded( res, enchant_vals::mod::ITEM_DAMAGE_DARK, true );
+            break;
+        case DT_ELECTRIC:
+            res += bonus_from_enchantments_wielded( res, enchant_vals::mod::ITEM_DAMAGE_ELECTRIC, true );
+            break;
+        case DT_HEAT:
+            res += bonus_from_enchantments_wielded( res, enchant_vals::mod::ITEM_DAMAGE_FIRE, true );
+            break;
+        case DT_LIGHT:
+            res += bonus_from_enchantments_wielded( res, enchant_vals::mod::ITEM_DAMAGE_LIGHT, true );
+            break;
+        case DT_PSI:
+            res += bonus_from_enchantments_wielded( res, enchant_vals::mod::ITEM_DAMAGE_PSI, true );
+            break;
+        case DT_TRUE:
+            res += bonus_from_enchantments_wielded( res, enchant_vals::mod::ITEM_DAMAGE_TRUE, true );
+            break;
         default:
             break;
     }
@@ -5595,6 +5625,46 @@ std::map<std::string, attack_statblock> item::get_attacks() const
                     break;
                 case DT_STAB:
                     du.amount += bonus_from_enchantments_wielded( du.amount, enchant_vals::mod::ITEM_DAMAGE_STAB,
+                                 true );
+                    break;
+                case DT_BULLET:
+                    du.amount += bonus_from_enchantments_wielded( du.amount, enchant_vals::mod::ITEM_DAMAGE_BULLET,
+                                 true );
+                    break;
+                case DT_ACID:
+                    du.amount += bonus_from_enchantments_wielded( du.amount, enchant_vals::mod::ITEM_DAMAGE_ACID,
+                                 true );
+                    break;
+                case DT_BIOLOGICAL:
+                    du.amount += bonus_from_enchantments_wielded( du.amount, enchant_vals::mod::ITEM_DAMAGE_BIO,
+                                 true );
+                    break;
+                case DT_COLD:
+                    du.amount += bonus_from_enchantments_wielded( du.amount, enchant_vals::mod::ITEM_DAMAGE_COLD,
+                                 true );
+                    break;
+                case DT_DARK:
+                    du.amount += bonus_from_enchantments_wielded( du.amount, enchant_vals::mod::ITEM_DAMAGE_DARK,
+                                 true );
+                    break;
+                case DT_ELECTRIC:
+                    du.amount += bonus_from_enchantments_wielded( du.amount, enchant_vals::mod::ITEM_DAMAGE_ELECTRIC,
+                                 true );
+                    break;
+                case DT_HEAT:
+                    du.amount += bonus_from_enchantments_wielded( du.amount, enchant_vals::mod::ITEM_DAMAGE_FIRE,
+                                 true );
+                    break;
+                case DT_LIGHT:
+                    du.amount += bonus_from_enchantments_wielded( du.amount, enchant_vals::mod::ITEM_DAMAGE_LIGHT,
+                                 true );
+                    break;
+                case DT_PSI:
+                    du.amount += bonus_from_enchantments_wielded( du.amount, enchant_vals::mod::ITEM_DAMAGE_PSI,
+                                 true );
+                    break;
+                case DT_TRUE:
+                    du.amount += bonus_from_enchantments_wielded( du.amount, enchant_vals::mod::ITEM_DAMAGE_TRUE,
                                  true );
                     break;
                 default:

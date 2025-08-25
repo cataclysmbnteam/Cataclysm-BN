@@ -19,6 +19,7 @@
     "dispersion": 620,
     "durability": 3,
     "clip_size": 2,
+    "modes": [ [ "DEFAULT", "single", 1 ], [ "DOUBLE", "double", 2 ] ],
     "reload": 200,
     "valid_mod_locations": [ [ "accessories", 4 ], [ "grip", 1 ], [ "sights", 1 ], [ "underbarrel", 1 ], [ "rail", 1 ], [ "stock", 1 ] ],
     "delete": { "flags": "NEVER_JAMS" }

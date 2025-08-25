@@ -197,7 +197,7 @@
     "required_skills": [ [ "fabrication", 2 ] ],
     "time": "30 m",
     "qualities": [ [ { "id": "CUT", "level": 1 } ] ],
-    "components": [ [ [ "wood_structural", 3, "LIST" ], [ "wood_panel", 1 ] ], [ [ "rope_makeshift_6", 2 ], [ "rope_6", 2 ] ] ],
+    "components": [ [ [ "wood_structural", 3, "LIST" ], [ "wood_panel", 1 ] ], [ [ "rope_natural_short", 2, "LIST" ] ] ],
     "pre_note": "Can be deconstructed without tools.",
     "pre_terrain": "t_door_frame",
     "post_terrain": "t_door_makeshift_c"
@@ -234,7 +234,7 @@
     "required_skills": [ [ "fabrication", 5 ] ],
     "time": "90 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "CHISEL", "level": 1 } ], [ { "id": "SAW_W", "level": 1 } ] ],
-    "components": [ [ [ "2x4", 12 ], [ "log", 2 ] ] ],
+    "components": [ [ [ "wood_structural", 6, "LIST" ], [ "log", 2 ] ] ],
     "pre_special": "check_empty",
     "post_terrain": "t_door_frame"
   },
@@ -662,7 +662,7 @@
     "required_skills": [ [ "fabrication", 6 ] ],
     "time": "90 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_M", "level": 1 } ] ],
-    "components": [ [ [ "spike", 8 ] ], [ [ "steel_chunk", 4 ], [ "scrap", 12 ] ] ],
+    "components": [ [ [ "spike", 8 ] ], [ [ "steel_tiny", 4, "LIST" ] ] ],
     "pre_special": "check_empty",
     "post_terrain": "t_mdoor_frame"
   },
@@ -675,11 +675,7 @@
     "required_skills": [ [ "fabrication", 7 ] ],
     "time": "90 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_M", "level": 1 } ], [ { "id": "WRENCH", "level": 1 } ] ],
-    "components": [
-      [ [ "steel_lump", 4 ], [ "steel_chunk", 12 ], [ "scrap", 36 ] ],
-      [ [ "steel_plate", 2 ], [ "sheet_metal", 8 ] ],
-      [ [ "hinge", 3 ] ]
-    ],
+    "components": [ [ [ "steel_standard", 4, "LIST" ] ], [ [ "steel_plate", 2 ], [ "sheet_metal", 8 ] ], [ [ "hinge", 3 ] ] ],
     "pre_terrain": "t_mdoor_frame",
     "post_terrain": "t_door_metal_c"
   },
@@ -1475,15 +1471,7 @@
     "time": "10 m",
     "components": [
       [ [ "plastic_chunk", 30 ] ],
-      [
-        [ "wire", 3 ],
-        [ "rope_6", 1 ],
-        [ "rope_makeshift_6", 1 ],
-        [ "rope_6_plastic", 1 ],
-        [ "chain", 1 ],
-        [ "vine_6", 1 ],
-        [ "bag_canvas", 1 ]
-      ]
+      [ [ "wire", 3 ], [ "rope_natural_short", 1, "LIST" ], [ "chain", 1 ], [ "bag_canvas", 1 ] ]
     ],
     "dark_craftable": true,
     "pre_terrain": "t_water_dp",
@@ -1549,7 +1537,7 @@
     "time": "30 m",
     "tools": [ [ [ "con_mix", 50 ] ] ],
     "qualities": [ [ { "id": "SMOOTH", "level": 1 } ] ],
-    "components": [ [ [ "concrete", 4 ] ], [ [ "2x4", 12 ] ], [ [ "water", 4 ], [ "water_clean", 4 ] ] ],
+    "components": [ [ [ "concrete", 4 ] ], [ [ "wood_structural", 6, "LIST" ] ], [ [ "water", 4 ], [ "water_clean", 4 ] ] ],
     "pre_flags": "PIT_SHALLOW",
     "post_terrain": "t_sconc_wall_halfway"
   },
@@ -1563,7 +1551,7 @@
     "time": "30 m",
     "tools": [ [ [ "con_mix", 50 ] ] ],
     "qualities": [ [ { "id": "SMOOTH", "level": 1 } ] ],
-    "components": [ [ [ "concrete", 4 ] ], [ [ "2x4", 12 ] ], [ [ "water", 4 ], [ "water_clean", 4 ] ] ],
+    "components": [ [ [ "concrete", 4 ] ], [ [ "wood_structural", 6, "LIST" ] ], [ [ "water", 4 ], [ "water_clean", 4 ] ] ],
     "pre_terrain": "t_sconc_wall_halfway",
     "post_terrain": "t_sconc_wall"
   },
@@ -1590,7 +1578,7 @@
     "time": "30 m",
     "tools": [ [ [ "con_mix", 50 ] ] ],
     "qualities": [ [ { "id": "SMOOTH", "level": 2 } ] ],
-    "components": [ [ [ "concrete", 6 ] ], [ [ "2x4", 12 ] ], [ [ "water", 4 ], [ "water_clean", 4 ] ] ],
+    "components": [ [ [ "concrete", 6 ] ], [ [ "wood_structural", 6, "LIST" ] ], [ [ "water", 4 ], [ "water_clean", 4 ] ] ],
     "pre_terrain": "t_reb_cage",
     "post_terrain": "t_strconc_wall_halfway"
   },
@@ -1604,7 +1592,7 @@
     "time": "30 m",
     "tools": [ [ [ "con_mix", 50 ] ] ],
     "qualities": [ [ { "id": "SMOOTH", "level": 2 } ] ],
-    "components": [ [ [ "concrete", 6 ] ], [ [ "2x4", 12 ] ], [ [ "water", 4 ], [ "water_clean", 4 ] ] ],
+    "components": [ [ [ "concrete", 6 ] ], [ [ "wood_structural", 6, "LIST" ] ], [ [ "water", 4 ], [ "water_clean", 4 ] ] ],
     "pre_terrain": "t_strconc_wall_halfway",
     "post_terrain": "t_strconc_wall"
   },
@@ -1631,7 +1619,7 @@
     "time": "30 m",
     "tools": [ [ [ "con_mix", 50 ] ] ],
     "qualities": [ [ { "id": "SMOOTH", "level": 2 } ] ],
-    "components": [ [ [ "concrete", 6 ] ], [ [ "2x4", 12 ] ], [ [ "water", 4 ], [ "water_clean", 4 ] ] ],
+    "components": [ [ [ "concrete", 6 ] ], [ [ "wood_structural", 6, "LIST" ] ], [ [ "water", 4 ], [ "water_clean", 4 ] ] ],
     "pre_terrain": "t_reb_cage",
     "post_terrain": "t_column_halfway"
   },
@@ -1672,7 +1660,7 @@
     "required_skills": [ [ "fabrication", 5 ] ],
     "time": "60 m",
     "qualities": [ [ { "id": "WELD", "level": 2 } ], [ { "id": "GLARE", "level": 2 } ] ],
-    "components": [ [ [ "rebar", 8 ] ], [ [ "2x4", 12 ] ], [ [ "pipe", 4 ] ] ],
+    "components": [ [ [ "rebar", 8 ] ], [ [ "wood_structural", 6, "LIST" ] ], [ [ "pipe", 4 ] ] ],
     "pre_flags": "PIT_SHALLOW",
     "post_terrain": "t_ov_smreb_cage"
   },
@@ -1699,7 +1687,7 @@
     "required_skills": [ [ "fabrication", 6 ] ],
     "time": "60 m",
     "qualities": [ [ { "id": "WELD", "level": 2 } ], [ { "id": "GLARE", "level": 2 } ] ],
-    "components": [ [ [ "rebar", 12 ] ], [ [ "2x4", 12 ] ], [ [ "pipe", 4 ] ] ],
+    "components": [ [ [ "rebar", 12 ] ], [ [ "wood_structural", 6, "LIST" ] ], [ [ "pipe", 4 ] ] ],
     "pre_flags": "PIT_DEEP",
     "post_terrain": "t_ov_reb_cage"
   },
@@ -1739,17 +1727,7 @@
     "required_skills": [ [ "fabrication", 4 ] ],
     "time": "120 m",
     "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
-    "components": [
-      [ [ "log", 3 ] ],
-      [
-        [ "wire", 6 ],
-        [ "wire_barbed", 4 ],
-        [ "rope_6", 2 ],
-        [ "rope_makeshift_6", 2 ],
-        [ "chain", 1 ],
-        [ "vine_30", 1 ]
-      ]
-    ],
+    "components": [ [ [ "log", 3 ] ], [ [ "wire", 6 ], [ "wire_barbed", 4 ], [ "rope_natural_short", 2, "LIST" ], [ "chain", 1 ] ] ],
     "pre_flags": "PIT_DEEP",
     "post_terrain": "t_palisade"
   },
@@ -1884,10 +1862,7 @@
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 5 ], [ "mechanics", 2 ] ],
     "time": "60 m",
-    "components": [
-      [ [ "rope_makeshift_30", 1 ], [ "rope_30", 1 ], [ "vine_30", 1 ], [ "rope_30_plastic", 1 ] ],
-      [ [ "wood_structural", 4, "LIST" ] ]
-    ],
+    "components": [ [ [ "rope_natural", 1, "LIST" ] ], [ [ "wood_structural", 4, "LIST" ] ] ],
     "pre_note": "Can be deconstructed without tools.  Must be adjacent to a palisade wall that is itself adjacent to a palisade gate in order to open said gate.",
     "pre_special": "check_empty",
     "post_terrain": "t_palisade_pulley"
@@ -1900,11 +1875,7 @@
     "required_skills": [ [ "fabrication", 4 ] ],
     "time": "90 m",
     "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
-    "components": [
-      [ [ "log", 2 ] ],
-      [ [ "wood_structural_small", 3, "LIST" ] ],
-      [ [ "rope_makeshift_6", 2 ], [ "rope_6", 2 ], [ "vine_30", 1 ] ]
-    ],
+    "components": [ [ [ "log", 2 ] ], [ [ "wood_structural_small", 3, "LIST" ] ], [ [ "rope_natural_short", 2, "LIST" ] ] ],
     "pre_note": "Must be between palisade walls to function, and at least one wall must have an adjacent rope & pulley system.",
     "pre_flags": "PIT_DEEP",
     "post_terrain": "t_palisade_gate"
@@ -1952,7 +1923,7 @@
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 1 ] ],
     "time": "15 m",
-    "components": [ [ [ "rope_6", 2 ] ] ],
+    "components": [ [ [ "rope_natural_short", 2, "LIST" ] ] ],
     "pre_terrain": "t_fence_post",
     "post_terrain": "t_fence_rope"
   },
@@ -2010,7 +1981,7 @@
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 3 ] ],
     "time": "150 m",
-    "components": [ [ [ "wire", 20 ] ], [ [ "steel_chunk", 3 ], [ "scrap", 12 ] ], [ [ "pipe", 20 ] ] ],
+    "components": [ [ [ "wire", 20 ] ], [ [ "steel_tiny", 3, "LIST" ] ], [ [ "pipe", 20 ] ] ],
     "pre_note": "Needs to be supported on both sides by fencing, walls, etc.",
     "pre_special": "check_empty",
     "post_terrain": "t_chaingate_c"
@@ -2642,10 +2613,7 @@
     "category": "FURN",
     "required_skills": [ [ "survival", 0 ] ],
     "time": "10 m",
-    "components": [
-      [ [ "straw_pile", 40 ], [ "withered", 40 ] ],
-      [ [ "rope_30", 1 ], [ "rope_makeshift_30", 1 ], [ "vine_30", 1 ], [ "rope_30_plastic", 1 ] ]
-    ],
+    "components": [ [ [ "straw_pile", 40 ], [ "withered", 40 ] ], [ [ "rope_natural", 1, "LIST" ] ] ],
     "pre_special": "check_empty",
     "dark_craftable": true,
     "post_furniture": "f_hay"
@@ -2686,7 +2654,7 @@
     "tools": [ [ [ "con_mix", 50 ] ] ],
     "components": [
       [ [ "hdframe", 1 ] ],
-      [ [ "steel_lump", 2 ], [ "steel_chunk", 8 ], [ "scrap", 40 ] ],
+      [ [ "steel_standard", 2, "LIST" ] ],
       [ [ "sheet_metal", 2 ] ],
       [ [ "rebar", 16 ] ],
       [ [ "concrete", 6 ] ],
@@ -2706,7 +2674,7 @@
     "time": "180 m",
     "qualities": [ [ { "id": "SAW_M", "level": 1 } ] ],
     "using": [ [ "welding_standard", 15 ] ],
-    "components": [ [ [ "frame", 4 ] ], [ [ "sheet_metal", 16 ] ], [ [ "steel_lump", 2 ], [ "steel_chunk", 8 ], [ "scrap", 40 ] ] ],
+    "components": [ [ [ "frame", 4 ] ], [ [ "sheet_metal", 16 ] ], [ [ "steel_standard", 2, "LIST" ] ] ],
     "pre_special": "check_empty",
     "post_furniture": "f_dumpster"
   },
@@ -2839,7 +2807,7 @@
     "required_skills": [ [ "fabrication", 3 ] ],
     "time": "30 m",
     "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
-    "components": [ [ [ "wood_beam", 1 ] ], [ [ "rope_makeshift_30", 1 ], [ "rope_30", 1 ], [ "vine_30", 1 ], [ "rope_30_plastic", 1 ] ] ],
+    "components": [ [ [ "wood_beam", 1 ] ], [ [ "rope_natural", 1, "LIST" ] ] ],
     "needs_diggable": true,
     "pre_special": "check_empty",
     "post_furniture": "f_flagpole_wood"
@@ -2986,7 +2954,7 @@
     "required_skills": [ [ "fabrication", 2 ] ],
     "time": "20 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
-    "components": [ [ [ "2x4", 2 ] ], [ [ "nail", 6 ] ], [ [ "steel_chunk", 1 ], [ "scrap", 5 ] ] ],
+    "components": [ [ [ "2x4", 2 ] ], [ [ "nail", 6 ] ], [ [ "steel_tiny", 1, "LIST" ] ] ],
     "pre_terrain": "t_floor",
     "post_terrain": "t_railing"
   },
@@ -3207,10 +3175,7 @@
       [ { "id": "DIG", "level": 2 } ]
     ],
     "tools": [ [ [ "pickaxe", -1 ], [ "jackhammer", 140 ], [ "elec_jackhammer", 7000 ] ] ],
-    "components": [
-      [ [ "wood_structural", 4, "LIST" ], [ "log", 1 ] ],
-      [ [ "rope_makeshift_30", 1 ], [ "rope_30", 1 ], [ "vine_30", 1 ], [ "rope_30_plastic", 1 ] ]
-    ],
+    "components": [ [ [ "wood_structural", 4, "LIST" ], [ "log", 1 ] ], [ [ "rope_natural", 1, "LIST" ] ] ],
     "needs_diggable": true,
     "pre_special": "check_down_OK",
     "post_special": "done_dig_stair"
@@ -3228,10 +3193,7 @@
       [ { "id": "DIG", "level": 2 } ]
     ],
     "tools": [ [ [ "pickaxe", -1 ], [ "jackhammer", 160 ], [ "elec_jackhammer", 7000 ] ] ],
-    "components": [
-      [ [ "wood_structural", 6, "LIST" ], [ "log", 2 ] ],
-      [ [ "rope_makeshift_30", 1 ], [ "rope_30", 1 ], [ "vine_30", 1 ], [ "rope_30_plastic", 1 ] ]
-    ],
+    "components": [ [ [ "wood_structural", 6, "LIST" ], [ "log", 2 ] ], [ [ "rope_natural", 1, "LIST" ] ] ],
     "pre_special": "check_down_OK",
     "pre_terrain": "t_rock_floor",
     "post_special": "done_mine_downstair"
@@ -3310,10 +3272,7 @@
       ]
     ],
     "//": "Helmets are essential because you're digging up and things may fall on you.",
-    "components": [
-      [ [ "wood_structural", 6, "LIST" ], [ "log", 2 ] ],
-      [ [ "rope_makeshift_30", 1 ], [ "rope_30", 1 ], [ "vine_30", 1 ], [ "rope_30_plastic", 1 ] ]
-    ],
+    "components": [ [ [ "wood_structural", 6, "LIST" ], [ "log", 2 ] ], [ [ "rope_natural", 1, "LIST" ] ] ],
     "pre_special": "check_up_OK",
     "pre_terrain": "t_rock",
     "post_special": "done_mine_upstair"
@@ -3460,8 +3419,8 @@
     "time": "40 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
     "components": [
-      [ [ "2x4", 8 ] ],
-      [ [ "rope_makeshift_30", 1 ], [ "rope_30", 1 ], [ "vine_30", 1 ], [ "rope_30_plastic", 1 ] ],
+      [ [ "wood_structural", 4, "LIST" ] ],
+      [ [ "rope_natural", 1, "LIST" ] ],
       [ [ "55gal_drum", 2 ], [ "30gal_drum", 2 ], [ "wooden_barrel", 2 ] ]
     ],
     "pre_terrain": "t_water_dp",
@@ -3477,9 +3436,9 @@
     "time": "40 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
     "components": [
-      [ [ "2x4", 4 ] ],
-      [ [ "2x4", 4 ], [ "wood_sheet", 1 ], [ "wood_panel", 2 ] ],
-      [ [ "rope_makeshift_30", 1 ], [ "rope_30", 1 ], [ "vine_30", 1 ], [ "rope_30_plastic", 1 ] ],
+      [ [ "wood_structural", 2, "LIST" ] ],
+      [ [ "wood_structural", 2, "LIST" ], [ "wood_sheet", 1 ], [ "wood_panel", 2 ] ],
+      [ [ "rope_natural", 1, "LIST" ] ],
       [ [ "55gal_drum", 2 ], [ "30gal_drum", 2 ], [ "wooden_barrel", 2 ] ]
     ],
     "pre_terrain": "t_water_moving_dp",
@@ -3769,7 +3728,7 @@
     "required_skills": [ [ "fabrication", 7 ] ],
     "time": "90 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_M", "level": 1 } ] ],
-    "components": [ [ [ "spike", 8 ] ], [ [ "steel_chunk", 4 ], [ "scrap", 12 ] ] ],
+    "components": [ [ [ "spike", 8 ] ], [ [ "steel_tiny", 4, "LIST" ] ] ],
     "pre_special": "check_empty",
     "post_terrain": "t_m_frame"
   },
@@ -3875,7 +3834,7 @@
     "components": [
       [ [ "pipe", 6 ], [ "frame", 1 ], [ "xlframe", 1 ] ],
       [ [ "wire", 8 ], [ "spike", 8 ], [ "nail", 16 ] ],
-      [ [ "scrap", 40 ], [ "sheet_metal", 1 ], [ "sheet_metal_small", 20 ] ]
+      [ [ "steel_standard", 2, "LIST" ], [ "sheet_metal", 1 ], [ "sheet_metal_small", 20 ] ]
     ],
     "pre_special": "check_empty",
     "post_terrain": "t_junk_palisade"
@@ -3895,7 +3854,7 @@
     ],
     "components": [
       [ [ "wire", 12 ], [ "spike", 12 ], [ "nail", 24 ] ],
-      [ [ "sheet_metal_small", 20 ], [ "scrap", 40 ] ],
+      [ [ "sheet_metal_small", 20 ], [ "steel_standard", 2, "LIST" ] ],
       [ [ "sheet_metal", 2 ], [ "steel_plate", 1 ], [ "frame", 1 ], [ "xlframe", 2 ], [ "pipe", 6 ] ]
     ],
     "pre_terrain": "t_junk_palisade",
@@ -3911,7 +3870,7 @@
     "qualities": [ [ { "id": "SAW_M", "level": 1 } ] ],
     "using": [ [ "welding_standard", 2 ] ],
     "components": [
-      [ [ "sheet_metal_small", 15 ], [ "scrap", 30 ] ],
+      [ [ "sheet_metal_small", 15 ], [ "steel_tiny", 6, "LIST" ] ],
       [ [ "sheet_metal", 2 ], [ "steel_plate", 1 ], [ "frame", 1 ], [ "xlframe", 2 ], [ "pipe", 6 ] ]
     ],
     "pre_terrain": "t_junk_palisade",
@@ -3932,7 +3891,7 @@
     ],
     "components": [
       [ [ "wire", 16 ], [ "spike", 16 ], [ "nail", 32 ] ],
-      [ [ "sheet_metal_small", 20 ], [ "scrap", 40 ] ],
+      [ [ "sheet_metal_small", 20 ], [ "steel_standard", 2, "LIST" ] ],
       [
         [ "sheet_metal", 4 ],
         [ "steel_plate", 2 ],
@@ -4156,7 +4115,7 @@
     "time": "90 m",
     "qualities": [ { "id": "SMOOTH", "level": 1 } ],
     "components": [ [ [ "alien_pod_resin", 2 ] ] ],
-    "pre_special": "check_empty",
+    "pre_special": "check_support",
     "post_terrain": "t_floor_resin"
   },
   {
@@ -4257,7 +4216,7 @@
     "required_skills": [ [ "fabrication", 3 ] ],
     "time": "5 m",
     "qualities": [ [ { "id": "HAMMER", "level": 1 } ], [ { "id": "SAW_W", "level": 1 } ] ],
-    "components": [ [ [ "2x4", 6 ], [ "log", 1 ] ], [ [ "nail_glue", 8, "LIST" ] ] ],
+    "components": [ [ [ "wood_structural", 3, "LIST" ], [ "log", 1 ] ], [ [ "nail_glue", 8, "LIST" ] ] ],
     "pre_special": "check_empty",
     "post_furniture": "f_rack_mushroom"
   },
@@ -4313,7 +4272,12 @@
     "time": "60m",
     "on_display": false,
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "2x4", 4 ] ], [ [ "leather", 12 ] ], [ [ "scrap", 20 ] ], [ [ "wire", 8 ] ] ],
+    "components": [
+      [ [ "wood_structural", 2, "LIST" ] ],
+      [ [ "fabric_hides_proper", 12, "LIST" ] ],
+      [ [ "steel_standard", 1, "LIST" ] ],
+      [ [ "wire", 8 ] ]
+    ],
     "pre_flags": [ "FLAT" ],
     "post_furniture": "f_bellows"
   },
@@ -4677,7 +4641,7 @@
     "time": "30 m",
     "qualities": [ [ { "id": "SCREW", "level": 1 } ] ],
     "using": [ [ "soldering_standard", 10 ] ],
-    "components": [ [ [ "steel_chunk", 5 ] ], [ [ "plastic_chunk", 2 ] ], [ [ "wind_turbine", 1 ] ] ],
+    "components": [ [ [ "plastic_chunk", 2 ] ], [ [ "wind_turbine", 1 ] ] ],
     "pre_note": "Will only work if constructed near a building that has an electric grid with a mounted battery.",
     "pre_flags": "PIT_SHALLOW",
     "post_furniture": "f_turbine_unit"
@@ -4691,7 +4655,7 @@
     "time": "30 m",
     "qualities": [ [ { "id": "DRILL", "level": 2 } ], [ { "id": "SCREW", "level": 1 } ] ],
     "using": [ [ "soldering_standard", 10 ] ],
-    "components": [ [ [ "steel_chunk", 5 ] ], [ [ "plastic_chunk", 2 ] ], [ [ "wind_turbine", 1 ] ] ],
+    "components": [ [ [ "plastic_chunk", 2 ] ], [ [ "wind_turbine", 1 ] ] ],
     "pre_note": "Will only work if constructed on a roof.  Also needs a building that has an electric grid with a mounted battery.",
     "pre_flags": [ "ROOF", "FLAT" ],
     "post_furniture": "f_turbine_unit"
@@ -4705,7 +4669,7 @@
     "time": "30 m",
     "qualities": [ [ { "id": "SCREW", "level": 1 } ] ],
     "using": [ [ "soldering_standard", 20 ] ],
-    "components": [ [ [ "steel_chunk", 5 ] ], [ [ "plastic_chunk", 2 ] ], [ [ "xl_wind_turbine", 1 ] ] ],
+    "components": [ [ [ "plastic_chunk", 2 ] ], [ [ "xl_wind_turbine", 1 ] ] ],
     "pre_note": "Will only work if constructed near a building that has an electric grid with a mounted battery.",
     "pre_flags": "PIT_SHALLOW",
     "post_furniture": "f_xl_turbine_unit"
@@ -4719,7 +4683,7 @@
     "time": "30 m",
     "qualities": [ [ { "id": "DRILL", "level": 2 } ], [ { "id": "SCREW", "level": 1 } ] ],
     "using": [ [ "soldering_standard", 20 ] ],
-    "components": [ [ [ "steel_chunk", 5 ] ], [ [ "plastic_chunk", 2 ] ], [ [ "xl_wind_turbine", 1 ] ] ],
+    "components": [ [ [ "plastic_chunk", 2 ] ], [ [ "xl_wind_turbine", 1 ] ] ],
     "pre_note": "Will only work if constructed on a roof.  Also needs a building that has an electric grid with a mounted battery.",
     "pre_flags": [ "ROOF", "FLAT" ],
     "post_furniture": "f_xl_turbine_unit"
@@ -4733,7 +4697,7 @@
     "time": "45 m",
     "qualities": [ [ { "id": "SCREW", "level": 1 } ] ],
     "using": [ [ "soldering_standard", 10 ] ],
-    "components": [ [ [ "steel_chunk", 5 ] ], [ [ "plastic_chunk", 2 ] ], [ [ "water_wheel", 1 ] ] ],
+    "components": [ [ [ "plastic_chunk", 2 ] ], [ [ "water_wheel", 1 ] ] ],
     "pre_note": "Will only work if constructed on flowing water.  Also needs a building that has an electric grid with a mounted battery.",
     "pre_flags": [ "CURRENT" ],
     "post_furniture": "f_water_wheel_unit"
@@ -4747,7 +4711,7 @@
     "time": "45 m",
     "qualities": [ [ { "id": "SCREW", "level": 1 } ] ],
     "using": [ [ "soldering_standard", 20 ] ],
-    "components": [ [ [ "steel_chunk", 5 ] ], [ [ "plastic_chunk", 2 ] ], [ [ "xl_water_wheel", 1 ] ] ],
+    "components": [ [ [ "plastic_chunk", 2 ] ], [ [ "xl_water_wheel", 1 ] ] ],
     "pre_note": "Will only work if constructed on flowing water.  Also needs a building that has an electric grid with a mounted battery.",
     "pre_flags": [ "CURRENT" ],
     "post_furniture": "f_xl_water_wheel_unit"
@@ -4761,7 +4725,7 @@
     "time": "30 m",
     "qualities": [ [ { "id": "SCREW", "level": 1 } ] ],
     "using": [ [ "soldering_standard", 20 ] ],
-    "components": [ [ [ "steel_chunk", 5 ] ], [ [ "plastic_chunk", 2 ] ], [ [ "pipe", 4 ] ], [ [ "solar_panel", 1 ] ] ],
+    "components": [ [ [ "steel_standard", 1, "LIST" ] ], [ [ "plastic_chunk", 2 ] ], [ [ "pipe", 4 ] ], [ [ "solar_panel", 1 ] ] ],
     "pre_note": "Will only work if constructed in/on a building that has an electric grid with a mounted battery.",
     "pre_special": "check_empty",
     "post_furniture": "f_solar_unit"
@@ -4775,7 +4739,7 @@
     "time": "30 m",
     "qualities": [ [ { "id": "SCREW", "level": 1 } ] ],
     "using": [ [ "soldering_standard", 20 ] ],
-    "components": [ [ [ "steel_chunk", 5 ] ], [ [ "plastic_chunk", 2 ] ], [ [ "pipe", 4 ] ], [ [ "solar_panel_v2", 1 ] ] ],
+    "components": [ [ [ "steel_standard", 1, "LIST" ] ], [ [ "plastic_chunk", 2 ] ], [ [ "pipe", 4 ] ], [ [ "solar_panel_v2", 1 ] ] ],
     "pre_note": "Will only work if constructed in/on a building that has an electric grid with a mounted battery.",
     "pre_special": "check_empty",
     "post_furniture": "f_solar_unit_v2"
@@ -4989,7 +4953,7 @@
     "components": [
       [ [ "sheet_metal", 36 ] ],
       [ [ "sheet_metal_small", 10 ] ],
-      [ [ "steel_chunk", 10 ] ],
+      [ [ "steel_standard", 2, "LIST" ] ],
       [ [ "cable", 10 ] ],
       [ [ "power_supply", 1 ] ],
       [ [ "hose", 2 ] ],
@@ -5367,11 +5331,7 @@
       [ { "id": "WELD", "level": 2 } ],
       [ { "id": "GLARE", "level": 2 } ]
     ],
-    "components": [
-      [ [ "steel_lump", 2 ], [ "steel_chunk", 6 ], [ "scrap", 18 ] ],
-      [ [ "chain", 1 ] ],
-      [ [ "rope_6", 2 ], [ "rope_makeshift_6", 2 ] ]
-    ],
+    "components": [ [ [ "steel_standard", 2, "LIST" ] ], [ [ "chain", 1 ] ], [ [ "rope_natural_short", 2, "LIST" ] ] ],
     "pre_note": "Must be adjacent to a brick, concrete, stone or plastered wooden wall that is itself adjacent to a garage gate in order to open said gate.",
     "pre_special": "check_empty",
     "post_terrain": "t_gates_mech_control"
@@ -5391,7 +5351,7 @@
       [ { "id": "GLARE", "level": 2 } ]
     ],
     "components": [
-      [ [ "steel_lump", 5 ], [ "steel_chunk", 15 ], [ "scrap", 45 ] ],
+      [ [ "steel_standard", 5, "LIST" ] ],
       [ [ "steel_plate", 4 ], [ "sheet_metal", 16 ] ],
       [ [ "pipe", 3 ], [ "rebar", 1 ] ]
     ],
@@ -5431,7 +5391,13 @@
     "required_skills": [ [ "fabrication", 2 ], [ "electronics", 0 ] ],
     "time": "20 m",
     "qualities": [ [ { "id": "SCREW", "level": 1 } ] ],
-    "components": [ [ [ "cable", 2 ] ], [ [ "power_supply", 1 ] ], [ [ "light_bulb", 1 ] ], [ [ "steel_lump", 1 ] ], [ [ "pipe", 1 ] ] ],
+    "components": [
+      [ [ "cable", 2 ] ],
+      [ [ "power_supply", 1 ] ],
+      [ [ "light_bulb", 1 ] ],
+      [ [ "steel_standard", 1, "LIST" ] ],
+      [ [ "pipe", 1 ] ]
+    ],
     "pre_note": "Will only work if constructed in/on a building that has an electric grid with a mounted battery.",
     "pre_special": "check_empty",
     "post_furniture": "f_floor_lamp_off"
@@ -5497,6 +5463,55 @@
   },
   {
     "type": "construction",
+    "id": "constr_clog_emitter",
+    "group": "clog_migo_emitter_resin",
+    "//": "Seal emitters with resin to reduce or eliminate gas output.",
+    "category": "OTHER",
+    "required_skills": [ [ "survival", 0 ] ],
+    "time": "5 m",
+    "components": [ [ [ "alien_pod_resin", 5 ] ] ],
+    "pre_furniture": "f_alien_gasper",
+    "post_furniture": "f_alien_gasper_clogged",
+    "dark_craftable": true
+  },
+  {
+    "type": "construction",
+    "id": "constr_clog_emitter_lump",
+    "group": "clog_migo_emitter_resin",
+    "category": "OTHER",
+    "required_skills": [ [ "survival", 0 ] ],
+    "time": "5 m",
+    "components": [ [ [ "alien_pod_resin", 3 ] ] ],
+    "pre_furniture": "f_alien_scar",
+    "post_furniture": "f_alien_scar_clogged",
+    "dark_craftable": true
+  },
+  {
+    "type": "construction",
+    "id": "constr_clog_emitter_lump_small",
+    "group": "clog_migo_emitter_resin",
+    "category": "OTHER",
+    "required_skills": [ [ "survival", 0 ] ],
+    "time": "2 m",
+    "components": [ [ [ "alien_pod_resin", 2 ] ] ],
+    "pre_furniture": "f_alien_scar_small",
+    "post_furniture": "f_alien_scar_small_clogged",
+    "dark_craftable": true
+  },
+  {
+    "type": "construction",
+    "id": "constr_clog_emitter_anemone",
+    "group": "clog_migo_emitter_resin",
+    "category": "OTHER",
+    "required_skills": [ [ "survival", 0 ] ],
+    "time": "2 m",
+    "components": [ [ [ "alien_pod_resin", 1 ] ] ],
+    "pre_furniture": "f_alien_anemone",
+    "post_furniture": "f_alien_anemone_clogged",
+    "dark_craftable": true
+  },
+  {
+    "type": "construction",
     "id": "constr_concrete_lump",
     "group": "build_concrete_lump",
     "//": "Pours concrete over a scarred lump, its faster because we're not doing this smoothly.",
@@ -5532,7 +5547,7 @@
     "time": "5 m",
     "tools": [ [ [ "stepladder", -1 ] ] ],
     "qualities": [ [ { "id": "SCREW", "level": 1 } ] ],
-    "components": [ [ [ "cable", 2 ] ], [ [ "power_supply", 1 ] ], [ [ "light_bulb", 1 ] ], [ [ "steel_lump", 1 ] ] ],
+    "components": [ [ [ "cable", 2 ] ], [ [ "power_supply", 1 ] ], [ [ "light_bulb", 1 ] ], [ [ "steel_standard", 1, "LIST" ] ] ],
     "pre_note": "Will only work if constructed in/on a building that has an electric grid with a mounted battery.",
     "pre_flags": [ "INDOORS" ],
     "post_furniture": "f_olight_off"
@@ -5658,7 +5673,7 @@
     "required_skills": [ [ "fabrication", 6 ] ],
     "time": "60 m",
     "qualities": [ [ { "id": "WELD", "level": 2 } ], [ { "id": "GLARE", "level": 2 } ] ],
-    "components": [ [ [ "rebar", 12 ] ], [ [ "2x4", 12 ] ], [ [ "pipe", 4 ] ] ],
+    "components": [ [ [ "rebar", 12 ] ], [ [ "wood_structural", 6, "LIST" ] ], [ [ "pipe", 4 ] ] ],
     "pre_terrain": "t_rock_floor",
     "post_terrain": "t_ov_reb_cage"
   },
@@ -5672,7 +5687,12 @@
     "time": "120 m",
     "tools": [ [ [ "con_mix", 100 ] ], [ [ "pickaxe", -1 ], [ "jackhammer", 100 ], [ "elec_jackhammer", 5000 ] ] ],
     "qualities": [ [ { "id": "WELD", "level": 2 } ], [ { "id": "GLARE", "level": 2 } ], [ { "id": "SMOOTH", "level": 2 } ] ],
-    "components": [ [ [ "rebar", 16 ] ], [ [ "concrete", 12 ] ], [ [ "2x4", 24 ] ], [ [ "water", 8 ], [ "water_clean", 8 ] ] ],
+    "components": [
+      [ [ "rebar", 16 ] ],
+      [ [ "concrete", 12 ] ],
+      [ [ "wood_structural", 6, "LIST" ] ],
+      [ [ "water", 8 ], [ "water_clean", 8 ] ]
+    ],
     "pre_terrain": "t_rock",
     "post_terrain": "t_strconc_wall"
   },
@@ -5686,7 +5706,7 @@
     "time": "60 m",
     "tools": [ [ [ "con_mix", 100 ] ] ],
     "qualities": [ [ { "id": "SMOOTH", "level": 1 } ] ],
-    "components": [ [ [ "concrete", 8 ] ], [ [ "2x4", 24 ] ], [ [ "water", 8 ], [ "water_clean", 8 ] ] ],
+    "components": [ [ [ "concrete", 8 ] ], [ [ "wood_structural", 12, "LIST" ] ], [ [ "water", 8 ], [ "water_clean", 8 ] ] ],
     "pre_terrain": "t_rock",
     "post_terrain": "t_sconc_wall"
   }

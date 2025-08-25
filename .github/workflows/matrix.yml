@@ -133,7 +133,7 @@ jobs:
         uses: actions/cache@v3
         id: cache
         with:
-          path: '~/.cache/ccache'
+          path: "~/.cache/ccache"
           # double-dash after compiler is not a typo, it is to disambiguate between g++-<date> and g++-11-<date> for restore key prefix matching
           key: ccache-${{ github.ref_name }}-${{ matrix.ccache_key }}--${{ steps.get-ccache-vars.outputs.datetime }}
           restore-keys: ccache-main-${{ matrix.ccache_key }}--

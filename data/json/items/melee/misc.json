@@ -73,6 +73,20 @@
     "qualities": [ [ "BUTCHER", -18 ] ]
   },
   {
+    "id": "resin_knife",
+    "copy-from": "glass_shiv",
+    "name": { "str": "resin shiv" },
+    "type": "TOOL",
+    "description": "a shattered fragment of alien resin, wrapped at one end to make a crude knife.  It's not very durable, but useful in a pinch.",
+    "color": "light_gray",
+    "weight": "60 g",
+    "volume": "188 ml",
+    "cutting": 16,
+    "material": "alien_resin",
+    "flags": [ "STAB", "SHEATH_KNIFE", "CONDUCTIVE", "FRAGILE_MELEE" ],
+    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ]
+  },
+  {
     "id": "sharp_toothbrush",
     "type": "GENERIC",
     "category": "weapons",

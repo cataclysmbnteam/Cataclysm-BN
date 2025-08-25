@@ -284,6 +284,12 @@
     ]
   },
   {
+    "type": "item_group",
+    "id": "spring_minerals",
+    "subtype": "distribution",
+    "entries": [ { "item": "material_rocksalt", "prob": 75 }, { "item": "chunk_sulfur", "prob": 25 } ]
+  },
+  {
     "id": "prison_textile",
     "type": "item_group",
     "subtype": "collection",
@@ -1136,6 +1142,7 @@
       [ "flintlock_shot", 40 ],
       [ "shotgun_paper", 50 ],
       [ "colt_army", 50 ],
+      [ "colt_ring", 50 ],
       [ "colt_navy", 50 ],
       [ "shot_paper_00", 25 ],
       [ "shot_paper_bird", 15 ],
@@ -1887,7 +1894,8 @@
       [ "badge_doctor", 5 ],
       [ "dnd_handbook", 2 ],
       [ "bodypillow", 1 ],
-      [ "pirate_flag", 5 ]
+      [ "pirate_flag", 5 ],
+      [ "afs_atomic_smartphone", 1 ]
     ]
   },
   {
@@ -2683,6 +2691,7 @@
       { "item": "lemat_revolver", "prob": 5 },
       { "item": "colt_army", "prob": 5 },
       { "item": "colt_navy", "prob": 5 },
+      { "item": "colt_ring", "prob": 5 },
       { "item": "longrifle_flintlock", "prob": 7 },
       { "item": "rifle_flintlock", "prob": 3 },
       { "item": "carbine_flintlock", "prob": 2 },

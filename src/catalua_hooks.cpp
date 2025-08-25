@@ -10,6 +10,7 @@ constexpr auto hook_names = std::array
     "on_game_load",
     "on_game_save",
     "on_character_reset_stats",
+    "on_mon_death",
     "on_mapgen_postprocess",
 };
 

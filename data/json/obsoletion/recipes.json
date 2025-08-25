@@ -2205,5 +2205,10 @@
     "result": "762_25typeP",
     "type": "recipe",
     "obsolete": true
+  },
+  {
+    "result": "chem_black_powder_generic",
+    "type": "recipe",
+    "obsolete": true
   }
 ]

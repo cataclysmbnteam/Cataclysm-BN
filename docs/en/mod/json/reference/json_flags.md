@@ -1130,6 +1130,8 @@ Multiple death functions can be used. Not all combinations make sense.
 - `SWIMS` Treats water as 50 movement point terrain.
 - `VENOM` Attack may poison the player.
 - `VERMIN` Obsolete flag for inconsequential monsters, now prevents loading.
+- `VOLATILE` Hitting this with fire damage always ignites it and has a high chance to deal massive damage,
+  bullet and electric damage also have a chance to deal increased damage and set this monster on fire.
 - `WARM` Warm blooded.
 - `WEBWALK` Doesn't destroy webs.
 - `WOOL` May produce wool when butchered.
