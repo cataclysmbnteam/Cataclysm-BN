@@ -1,0 +1,12 @@
+[
+  {
+    "type": "MOD_INFO",
+    "id": "Taming Extended",
+    "name": "Taming Extended",
+    "authors": [ "ChrisLR" ],
+    "maintainers": [ "ChrisLR" ],
+    "description": "Extends the taming mechanic to include more creatures",
+    "category": "rebalance",
+    "dependencies": [ "bn" ]
+  }
+]
