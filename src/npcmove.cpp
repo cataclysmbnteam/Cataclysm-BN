@@ -124,7 +124,7 @@ static const itype_id itype_thorazine( "thorazine" );
 static const itype_id itype_oxygen_tank( "oxygen_tank" );
 
 static const itype_id fuel_wind( "wind" );
-static const itype_id fuel_sunlight( "sunlight " );
+static const itype_id fuel_sunlight( "sunlight" );
 
 static constexpr float NPC_DANGER_VERY_LOW = 5.0f;
 static constexpr float NPC_DANGER_MAX = 150.0f;
