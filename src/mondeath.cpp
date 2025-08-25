@@ -1062,15 +1062,15 @@ void mdeath::conflagration( monster &z )
         }
         const std::string explode = string_format( _( "a %s explode!" ), z.name() );
         sound_event se;
-    se.origin = z.pos();
-    se.volume = 110;
-    se.category = sounds::sound_t::combat;
-    se.description = explode;
-    se.from_monster = true;
-    se.id = "explosion";
-    se.variant = "small";
-    se.monfaction = z.faction.id();
-    sounds::sound( se );
+        se.origin = z.pos();
+        se.volume = 110;
+        se.category = sounds::sound_t::combat;
+        se.description = explode;
+        se.from_monster = true;
+        se.id = "explosion";
+        se.variant = "small";
+        se.monfaction = z.faction.id();
+        sounds::sound( se );
         if( g->u.sees( z ) && g->u.has_trait( trait_PYROMANIA ) ) {
             add_msg( m_good, _( "Toasty!" ) );
         }
