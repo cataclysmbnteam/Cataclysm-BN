@@ -43,8 +43,8 @@ inline static float refine_factor( float speed, int denom = 1, float min = -75.0
 
 void activity_speed::calc_moves( const Character &who )
 {
-    if( type->light_affected() ) {
-        calc_light_factor( who );
+    if( type->vision_affected() ) {
+        calc_vision_factor( who );
     }
     if( type->speed_affected() ) {
         player_speed = who.get_speed() / 100.0f;
@@ -94,10 +94,10 @@ void activity_speed::calc_all_moves( Character &who, activity_reqs_adapter &reqs
 
 
 
-void activity_speed::calc_light_factor( const Character &who )
+void activity_speed::calc_vision_factor( const Character &who )
 {
     if( character_funcs::can_see_fine_details( who ) ) {
-        light = 1.0f;
+        vision = 1.0f;
         return;
     }
 
@@ -105,9 +105,9 @@ void activity_speed::calc_light_factor( const Character &who )
     const float darkness =
         (
             character_funcs::fine_detail_vision_mod( who ) -
-            character_funcs::FINE_VISION_THRESHOLD
+            character_funcs::Vision::FINE
         ) / 7.0f;
-    light = limit_factor( 1.0f - darkness, 0.0f );
+    vision = limit_factor( 1.0f - darkness, 0.0f );
 }
 
 void activity_speed::calc_skill_factor( const Character &who, const skill_reqs &skill_req )
