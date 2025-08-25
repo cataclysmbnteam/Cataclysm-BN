@@ -1883,7 +1883,7 @@ void Item_factory::load( islot_gun &slot, const JsonObject &jo, const std::strin
     assign( jo, "clip_size", slot.clip, strict, 0 );
     assign( jo, "reload", slot.reload_time, strict, 0 );
     assign( jo, "reload_noise", slot.reload_noise, strict );
-    assign( jo, "reload_noise_volume", slot.reload_noise_volume, strict, 40 );
+    assign( jo, "reload_noise_volume", slot.reload_noise_volume, strict, 0 );
     assign( jo, "barrel_length", slot.barrel_length, strict, 0_ml );
     assign( jo, "built_in_mods", slot.built_in_mods, strict );
     assign( jo, "default_mods", slot.default_mods, strict );
