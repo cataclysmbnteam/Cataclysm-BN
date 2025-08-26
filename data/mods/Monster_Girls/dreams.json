@@ -79,7 +79,10 @@
   },
   {
     "type": "dream",
-    "messages": [ "You have a dream of moving across a field, yet you don't hear your footsteps…", "While dreaming, you see a strangely serpentine reflection of yourself." ],
+    "messages": [
+      "You have a dream of moving across a field, yet you don't hear your footsteps…",
+      "While dreaming, you see a strangely serpentine reflection of yourself."
+    ],
     "category": "LAMIA",
     "strength": 2
   },
