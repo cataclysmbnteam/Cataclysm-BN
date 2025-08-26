@@ -821,7 +821,7 @@ bool game::start_game()
             g->events().send<event_type::gains_skill_level>( u.getID(), elem.ident(), level );
         }
     }
-    cata::run_hooks( "on_game_started");
+    cata::run_hooks( "on_game_started" );
     return true;
 }
 
