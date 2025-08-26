@@ -4789,7 +4789,6 @@ monster *game::place_critter_around( const shared_ptr_fast<monster> &mon,
     }
 
     if( !where ) {
-        debugmsg( "Invalid Where" );
         return nullptr;
     }
     mon->spawn( *where );
