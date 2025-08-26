@@ -1405,7 +1405,7 @@
     "type": "ARMOR",
     "name": { "str": "tail warmer" },
     "description": "An oversized leg warmer clearly designed for legless mutants, or an awkward tube skirt for more normal survivors.",
-    "proportional": { "weight": 2, "volume": 2, "encumbrance": 2, "encumbrance": 2, "material_thickness": 2 },
+    "proportional": { "weight": 2, "volume": 2, "encumbrance": 2, "warmth": 2, "material_thickness": 2 },
     "coverage": 90,
     "valid_mods": [ "steel_padded", "alloy_padded" ],
     "extend": { "flags": [ "ALLOWS_TAIL_SNAKE" ] }
