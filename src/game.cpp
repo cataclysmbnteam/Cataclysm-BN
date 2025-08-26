@@ -820,6 +820,7 @@ bool game::start_game()
             g->events().send<event_type::gains_skill_level>( u.getID(), elem.ident(), level );
         }
     }
+    cata::run_on_game_started_hooks( *DynamicDataLoader::get_instance().lua );
     return true;
 }
 
@@ -2666,6 +2667,8 @@ bool game::load( const save_t &name )
     validate_npc_followers();
     validate_mounted_npcs();
     validate_linked_vehicles();
+    m.invalidate_map_cache( get_levz() );
+    m.build_map_cache( get_levz() );
     update_map( u );
     for( auto &e : u.inv_dump() ) {
         e->set_owner( g->u );
@@ -2694,7 +2697,6 @@ bool game::load( const save_t &name )
     u.activity->init_all_moves( u );
 
     cata::load_world_lua_state( get_active_world(), "lua_state.json" );
-
     cata::run_on_game_load_hooks( *DynamicDataLoader::get_instance().lua );
 
     return true;
@@ -4765,9 +4767,10 @@ monster *game::place_critter_around( const mtype_id &id, const tripoint &center,
 {
     // TODO: change this into an assert, it must never happen.
     if( id.is_null() ) {
+        debugmsg( "Invalid id", id );
         return nullptr;
     }
-    return place_critter_around( make_shared_fast<monster>( id ), center, radius );
+    return place_critter_around( make_shared_fast<monster>( id ), center, radius, false );
 }
 
 monster *game::place_critter_around( const shared_ptr_fast<monster> &mon,
@@ -4787,6 +4790,7 @@ monster *game::place_critter_around( const shared_ptr_fast<monster> &mon,
     }
 
     if( !where ) {
+        debugmsg( "Invalid Where" );
         return nullptr;
     }
     mon->spawn( *where );
