@@ -955,11 +955,6 @@ int consume_drug_iuse::use( player &p, item &it, bool, const tripoint & ) const
         if( eff.permanent ) {
             p.get_effect( eff.id, convert_bp( eff.bp ) ).set_permanent();
         }
-
-        p.add_effect( eff.id, eff.duration, convert_bp( eff.bp ) );
-        if( eff.permanent ) {
-            p.get_effect( eff.id, convert_bp( eff.bp ) ).set_permanent();
-        }
     }
 
     for( const auto &stat_adjustment : stat_adjustments ) {
