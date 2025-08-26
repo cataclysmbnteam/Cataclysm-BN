@@ -79,7 +79,7 @@
   },
   {
     "type": "dream",
-    "messages": [ "You have a dream of slithering along gracefully.", "While dreaming, you see a serpentine reflection of yourself." ],
+    "messages": [ "You have a dream of moving across a field, yet you don't hear your footsteps…", "While dreaming, you see a strangely serpentine reflection of yourself." ],
     "category": "LAMIA",
     "strength": 2
   },
@@ -174,7 +174,7 @@
   {
     "type": "dream",
     "messages": [
-      "You have an vivid dream of yourself with a long, serpentine body.",
+      "You have an vivid dream of yourself with a long, serpentine tail instead of legs.",
       "Your dream-self seems so graceful, slithering along in their dexterous scaly form."
     ],
     "category": "LAMIA",
@@ -296,7 +296,7 @@
     "type": "dream",
     "messages": [
       "You have a nostalgic dream of stumbling around clumsily on two legs instead of an elegant snake tail.",
-      "You dream of seizing someone in your coils, keeping them wrapped up close for warmth."
+      "You dream of coiling around a loved one, keeping them wrapped up close for warmth."
     ],
     "category": "LAMIA",
     "strength": 4
