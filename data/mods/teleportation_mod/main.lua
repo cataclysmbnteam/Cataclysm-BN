@@ -547,7 +547,7 @@ mod.scan_omt_remove_furn = function(abs_omt, ftype)
     --print(furniture_name)
   elseif ftype == "anchor" then
     furniture_name = tostring(FurnId.new("teleporter_anchor_deployed"):int_id())
-    spawn_item = "teleporter_station_undeployed"
+    spawn_item = "teleporter_anchor_undeployed"
     --print(furniture_name)
   end
   local x, y = 0, 0
@@ -568,13 +568,7 @@ mod.scan_omt_remove_furn = function(abs_omt, ftype)
       --gapi.get_map():set_furn_at( xyz, FurnId.new("f_fridge"):int_id() )
       if furn_at_tile == furniture_name then
         gapi.get_map():set_furn_at(xyz, FurnId.new("f_null"):int_id())
-        gapi.add_msg(
-          locale.gettext(
-            "You should get the"
-              .. tostring(spawn_item)
-              .. "item back at this point, but not yet available in LUA, sorry! Feel free to debug spawn the appropriate item."
-          )
-        )
+        gapi.get_map():create_item_at(xyz, ItypeId.new(spawn_item), 1)
         return 0
       elseif i == const.OMT_MS_SIZE and j == const.OMT_MS_SIZE then
         gapi.add_msg(locale.gettext("Appropriate furniture not found. Something went terribly wrong!"))
