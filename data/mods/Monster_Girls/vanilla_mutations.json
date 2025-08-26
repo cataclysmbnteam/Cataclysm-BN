@@ -109,7 +109,7 @@
     "id": "POISRESIST",
     "copy-from": "POISRESIST",
     "delete": { "category": [ "INSECT", "SLIME", "SPIDER", "MEDICAL", "SERPENT" ] },
-    "extend": { "category": [ "SPIDERGIRL", "SLIMEGIRL" ] }
+    "extend": { "category": [ "SPIDERGIRL", "SLIMEGIRL", "LAMIA" ] }
   },
   {
     "type": "mutation",
@@ -151,7 +151,7 @@
     "id": "GOURMAND",
     "copy-from": "GOURMAND",
     "delete": { "category": [ "MOUSE", "LUPINE", "SERPENT" ] },
-    "extend": { "category": [ "DOGGIRL", "MOUSEGIRL" ] }
+    "extend": { "category": [ "DOGGIRL", "MOUSEGIRL", "LAMIA" ] }
   },
   {
     "type": "mutation",
@@ -326,7 +326,7 @@
     "id": "SMELLY",
     "copy-from": "SMELLY",
     "delete": { "category": [ "FELINE", "LUPINE", "MOUSE", "SERPENT" ] },
-    "extend": { "category": [ "NEKO", "DOGGIRL", "MOUSEGIRL" ] }
+    "extend": { "category": [ "NEKO", "DOGGIRL", "MOUSEGIRL", "LAMIA" ] }
   },
   {
     "type": "mutation",
@@ -466,14 +466,14 @@
     "id": "LIZ_EYE",
     "copy-from": "LIZ_EYE",
     "delete": { "category": [ "LIZARD", "RAPTOR", "SERPENT" ] },
-    "valid": false
+    "extend": { "category": [ "LAMIA" ] }
   },
   {
     "type": "mutation",
     "id": "LIZ_IR",
     "copy-from": "LIZ_IR",
     "delete": { "category": [ "LIZARD", "RAPTOR", "SERPENT" ] },
-    "valid": false
+    "extend": { "category": [ "LAMIA" ] }
   },
   {
     "type": "mutation",
@@ -515,7 +515,7 @@
     "id": "FANGS",
     "copy-from": "FANGS",
     "delete": { "category": [ "LIZARD", "FISH", "LUPINE", "FELINE", "CHIMERA", "SERPENT" ] },
-    "extend": { "category": [ "NEKO", "DOGGIRL" ] }
+    "extend": { "category": [ "NEKO", "DOGGIRL", "LAMIA" ] }
   },
   {
     "type": "mutation",
@@ -942,14 +942,14 @@
     "id": "POISONOUS",
     "copy-from": "POISONOUS",
     "delete": { "category": [ "SLIME", "TROGLOBITE", "SPIDER", "SERPENT" ] },
-    "extend": { "category": [ "SPIDERGIRL", "SLIMEGIRL" ] }
+    "extend": { "category": [ "SPIDERGIRL", "SLIMEGIRL", "LAMIA" ] }
   },
   {
     "type": "mutation",
     "id": "POISONOUS2",
     "copy-from": "POISONOUS2",
     "delete": { "category": [ "SPIDER", "SERPENT" ] },
-    "extend": { "category": [ "SPIDERGIRL" ], "threshreq": [ "THRESH_SPIDERGIRL" ] }
+    "extend": { "category": [ "SPIDERGIRL", "LAMIA" ], "threshreq": [ "THRESH_SPIDERGIRL", "THRESH_LAMIA" ] }
   },
   {
     "type": "mutation",
@@ -1082,7 +1082,7 @@
     "id": "EATDEAD",
     "copy-from": "EATDEAD",
     "delete": { "category": [ "RAT", "CHIMERA", "MOUSE", "SERPENT" ] },
-    "extend": { "category": [ "MOUSEGIRL" ], "threshreq": [ "THRESH_MOUSEGIRL" ] }
+    "extend": { "category": [ "MOUSEGIRL", "LAMIA" ], "threshreq": [ "THRESH_MOUSEGIRL", "THRESH_LAMIA" ] }
   },
   {
     "type": "mutation",
@@ -1432,14 +1432,14 @@
     "id": "LARGE",
     "copy-from": "LARGE",
     "delete": { "category": [ "BEAST", "URSINE", "CATTLE", "LIZARD", "SERPENT", "RAPTOR", "CHIMERA" ] },
-    "extend": { "category": [ "COWGIRL", "BEARGIRL" ] }
+    "extend": { "category": [ "COWGIRL", "BEARGIRL", "LAMIA" ] }
   },
   {
     "type": "mutation",
     "id": "LARGE_OK",
     "copy-from": "LARGE_OK",
     "delete": { "category": [ "BEAST", "URSINE", "CATTLE", "LIZARD", "SERPENT", "RAPTOR", "CHIMERA" ] },
-    "extend": { "category": [ "COWGIRL", "BEARGIRL" ], "threshreq": [ "THRESH_BEARGIRL", "THRESH_COWGIRL" ] }
+    "extend": { "category": [ "COWGIRL", "BEARGIRL", "LAMIA" ], "threshreq": [ "THRESH_BEARGIRL", "THRESH_COWGIRL", "THRESH_LAMIA" ] }
   },
   {
     "type": "mutation",
@@ -1663,7 +1663,7 @@
     "id": "FORKED_TONGUE",
     "copy-from": "FORKED_TONGUE",
     "delete": { "category": [ "LIZARD", "SERPENT", "RAPTOR" ] },
-    "valid": false
+    "extend": { "category": [ "LAMIA" ] }
   },
   {
     "type": "mutation",
@@ -2160,14 +2160,14 @@
     "id": "COLDBLOOD3",
     "copy-from": "COLDBLOOD3",
     "delete": { "category": [ "INSECT", "LIZARD", "SERPENT" ] },
-    "valid": false
+    "extend": { "category": [ "LAMIA" ] }
   },
   {
     "type": "mutation",
     "id": "COLDBLOOD4",
     "copy-from": "COLDBLOOD4",
     "delete": { "category": [ "LIZARD", "SERPENT", "PLANT" ] },
-    "extend": { "category": [ "DRYAD" ], "threshreq": [ "THRESH_DRYAD" ] }
+    "extend": { "category": [ "DRYAD", "LAMIA" ], "threshreq": [ "THRESH_DRYAD", "THRESH_LAMIA" ] }
   },
   {
     "type": "mutation",
@@ -2188,7 +2188,7 @@
     "id": "HISS",
     "copy-from": "HISS",
     "delete": { "category": [ "LIZARD", "RAPTOR", "SPIDER", "SERPENT" ] },
-    "valid": false
+    "extend": { "category": [ "LAMIA" ] }
   },
   {
     "type": "mutation",
@@ -2398,21 +2398,21 @@
     "id": "TAIL_SNAKE",
     "copy-from": "TAIL_SNAKE",
     "delete": { "category": [ "SERPENT" ] },
-    "valid": false
+    "extend": { "category": [ "LAMIA" ] }
   },
   {
     "type": "mutation",
     "id": "TAIL_SNAKE_OK",
     "copy-from": "TAIL_SNAKE_OK",
     "delete": { "category": [ "SERPENT" ] },
-    "valid": false
+    "extend": { "category": [ "LAMIA" ], "threshreq": [ "THRESH_LAMIA" ] }
   },
   {
     "type": "mutation",
     "id": "SNAKE_COILS",
     "copy-from": "SNAKE_COILS",
     "delete": { "category": [ "SERPENT" ] },
-    "valid": false
+    "extend": { "category": [ "LAMIA" ], "threshreq": [ "THRESH_LAMIA" ] }
   },
   {
     "type": "mutation",

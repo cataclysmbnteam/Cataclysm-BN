@@ -1400,6 +1400,17 @@
     "flags": [ "VARSIZE", "SKINTIGHT", "OVERSIZE" ]
   },
   {
+    "id": "stockings_snake_tail",
+    "copy-from": "stockings_tent_legs",
+    "type": "ARMOR",
+    "name": { "str": "tail warmer" },
+    "description": "An oversized leg warmer clearly designed for legless mutants, or an awkward tube skirt for more normal survivors.",
+    "proportional": { "weight": 2, "volume": 2, "encumbrance": 2, "encumbrance": 2, "material_thickness": 2 }
+    "coverage": 90,
+    "valid_mods": [ "steel_padded", "alloy_padded" ],
+    "extend": { "flags": [ "ALLOWS_TAIL_SNAKE" ] }
+  },
+  {
     "id": "tabi_dress",
     "type": "ARMOR",
     "name": { "str": "pair of tabi", "str_pl": "pairs of tabi" },

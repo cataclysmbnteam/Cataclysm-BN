@@ -72,12 +72,12 @@
   {
     "id": "mutagen_serpent",
     "type": "MIGRATION",
-    "replace": "mutagen"
+    "replace": "mutagen_lamia"
   },
   {
     "id": "iv_mutagen_serpent",
     "type": "MIGRATION",
-    "replace": "iv_mutagen"
+    "replace": "iv_mutagen_lamia"
   },
   {
     "id": "mutagen_raptor",
