@@ -4767,7 +4767,6 @@ monster *game::place_critter_around( const mtype_id &id, const tripoint &center,
 {
     // TODO: change this into an assert, it must never happen.
     if( id.is_null() ) {
-        debugmsg( "Invalid id", id );
         return nullptr;
     }
     return place_critter_around( make_shared_fast<monster>( id ), center, radius, false );
