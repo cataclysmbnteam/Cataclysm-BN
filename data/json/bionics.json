@@ -1283,7 +1283,7 @@
     "fuel_options": [ "sunlight" ],
     "fuel_efficiency": 1,
     "time": 1,
-    "flags": [ "BIONIC_POWER_SOURCE", "BIONIC_TOGGLED" ]
+    "flags": [ "BIONIC_POWER_SOURCE", "BIONIC_TOGGLED", "BIONIC_NPC_USABLE" ]
   },
   {
     "id": "afs_bio_missiles",
