@@ -516,7 +516,10 @@
   },
   {
     "type": "dream",
-    "messages": [ "You're haunted by a dream of the old days spent stumbling on ape-legs.", "You have a vivid dream of crushing worthy prey in your powerful coils." ],
+    "messages": [
+      "You're haunted by a dream of the old days spent stumbling on ape-legs.",
+      "You have a vivid dream of crushing worthy prey in your powerful coils."
+    ],
     "category": "SERPENT",
     "strength": 4
   },
