@@ -47,6 +47,7 @@
 #include "bodypart.h"
 #include "calendar.h"
 #include "cata_utility.h"
+#include "catalua_hooks.h"
 #include "catacharset.h"
 #include "character.h"
 #include "character_display.h"
@@ -820,7 +821,7 @@ bool game::start_game()
             g->events().send<event_type::gains_skill_level>( u.getID(), elem.ident(), level );
         }
     }
-    cata::run_on_game_started_hooks( *DynamicDataLoader::get_instance().lua );
+    cata::run_hooks( "on_game_started");
     return true;
 }
 

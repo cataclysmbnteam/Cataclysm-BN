@@ -376,11 +376,6 @@ void run_on_game_load_hooks( lua_state &state )
     run_hooks( state, "on_game_load" );
 }
 
-void run_on_game_started_hooks( lua_state &state )
-{
-    run_hooks( state, "on_game_started" );
-}
-
 void run_on_mapgen_postprocess_hooks( lua_state &state, map &m, const tripoint &p,
                                       const time_point &when )
 {
