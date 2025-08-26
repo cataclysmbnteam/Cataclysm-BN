@@ -2667,7 +2667,6 @@ bool game::load( const save_t &name )
     validate_npc_followers();
     validate_mounted_npcs();
     validate_linked_vehicles();
-    m.invalidate_map_cache( get_levz() );
     m.build_map_cache( get_levz() );
     update_map( u );
     for( auto &e : u.inv_dump() ) {
