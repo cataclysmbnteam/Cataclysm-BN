@@ -839,36 +839,36 @@ vehicle *game::place_vehicle_nearby(
             search_types.emplace_back( "road" );
         }
     }
+    // TODO: Pull-up find_params and use that scan result instead
+    // find nearest road
+    omt_find_params find_params;
     for( const std::string &search_type : search_types ) {
-        // TODO: Pull-up find_params and use that scan result instead
-        // find nearest road
-        omt_find_params find_params;
         find_params.types.emplace_back( search_type, ot_match_type::type );
-        find_params.search_range = { min_distance, max_distance };
-        find_params.search_layers = std::nullopt;
+    }
+    find_params.search_range = { min_distance, max_distance };
+    find_params.search_layers = std::nullopt;
 
-        // if player spawns underground, park their car on the surface.
-        const tripoint_abs_omt omt_origin( origin, 0 );
-        for( const tripoint_abs_omt &goal : overmap_buffer.find_all( omt_origin, find_params ) ) {
-            // try place vehicle there.
-            tinymap target_map;
-            target_map.load( project_to<coords::sm>( goal ), false );
-            const tripoint tinymap_center( SEEX, SEEY, goal.z() );
-            static constexpr std::array<units::angle, 4> angles = {{
-                    0_degrees, 90_degrees, 180_degrees, 270_degrees
-                }
-            };
-            vehicle *veh = target_map.add_vehicle(
-                               id, tinymap_center, random_entry( angles ), rng( 50, 80 ), 0, false );
-            if( veh ) {
-                tripoint abs_local = m.getlocal( target_map.getabs( tinymap_center ) );
-                veh->sm_pos =  ms_to_sm_remain( abs_local );
-                veh->pos = abs_local.xy();
-                overmap_buffer.add_vehicle( veh );
-                veh->tracking_on = true;
-                target_map.save();
-                return veh;
+    // if player spawns underground, park their car on the surface.
+    const tripoint_abs_omt omt_origin( origin, 0 );
+    for( const tripoint_abs_omt &goal : overmap_buffer.find_all( omt_origin, find_params ) ) {
+        // try place vehicle there.
+        tinymap target_map;
+        target_map.load( project_to<coords::sm>( goal ), false );
+        const tripoint tinymap_center( SEEX, SEEY, goal.z() );
+        static constexpr std::array<units::angle, 4> angles = {{
+                0_degrees, 90_degrees, 180_degrees, 270_degrees
             }
+        };
+        vehicle *veh = target_map.add_vehicle(
+                            id, tinymap_center, random_entry( angles ), rng( 50, 80 ), 0, false );
+        if( veh ) {
+            tripoint abs_local = m.getlocal( target_map.getabs( tinymap_center ) );
+            veh->sm_pos =  ms_to_sm_remain( abs_local );
+            veh->pos = abs_local.xy();
+            overmap_buffer.add_vehicle( veh );
+            veh->tracking_on = true;
+            target_map.save();
+            return veh;
         }
     }
     return nullptr;
