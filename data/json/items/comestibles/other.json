@@ -705,7 +705,8 @@
     "material": [ "flesh" ],
     "symbol": ";",
     "color": "red",
-    "flags": [ "INEDIBLE" ],
+    "calories": 100,
+    "flags": [ "INEDIBLE", "NUTRIENT_OVERRIDE" ],
     "use_action": [ "PETFOOD" ],
     "petfood": [ "BATFOOD" ]
   },
