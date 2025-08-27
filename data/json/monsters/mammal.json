@@ -57,7 +57,7 @@
     "description": "One of the Desmodontinae bats, a family of winged blood-eating mammals.  It roosts in caves and other hollows, and uses a form of echolocation to aerially navigate through tricky terrain at rapid speeds.",
     "copy-from": "mon_bat",
     "aggression": 1,
-    "delete": {"petfood":  "food"}
+    "delete": { "petfood": "food" }
   },
   {
     "id": "mon_bat_vampire_mutant",
@@ -106,7 +106,7 @@
       "food": [ "DOGFOOD" ],
       "feed": "The %s seems to like you!",
       "pet": "The %s looks at you with big puppy eyes.",
-      "tamer_traits": [[ "ANIMALEMPATH", "THRESH_URSINE" ]]
+      "tamer_traits": [ [ "ANIMALEMPATH", "THRESH_URSINE" ] ]
     }
   },
   {
