@@ -9,6 +9,7 @@
 #include <unordered_map>
 
 #include "avatar.h"
+#include "bodypart.h"
 #include "catalua_hooks.h"
 #include "character.h"
 #include "coordinate_conversions.h"
@@ -1960,11 +1961,17 @@ void monster::melee_attack( Creature &target, float accuracy )
 
 void monster::deal_projectile_attack( Creature *source, dealt_projectile_attack &attack )
 {
-    this->deal_projectile_attack( source, nullptr, attack );
+    this->deal_projectile_attack( source, nullptr, attack, false );
 }
 
 void monster::deal_projectile_attack( Creature *source, item *source_weapon,
                                       dealt_projectile_attack &attack )
+{
+    this->deal_projectile_attack( source, source_weapon,  attack, false );
+}
+
+void monster::deal_projectile_attack( Creature *source, item *source_weapon,
+                                      dealt_projectile_attack &attack, bool manual_special_attack_call )
 {
     const auto &proj = attack.proj;
     double &missed_by = attack.missed_by; // We can change this here
@@ -1989,7 +1996,7 @@ void monster::deal_projectile_attack( Creature *source, item *source_weapon,
 
     if( !is_hallucination() && attack.hit_critter == this ) {
         // Maybe TODO: Get difficulty from projectile speed/size/missed_by
-        on_hit( source, bodypart_id( "torso" ), &attack );
+        on_hit( source, bodypart_id( "torso" ), &attack, manual_special_attack_call );
     }
 }
 
@@ -3260,11 +3267,16 @@ float monster::speed_rating() const
 
 void monster::on_hit( Creature *source, bodypart_id, dealt_projectile_attack const *const proj )
 {
+    this->on_hit( source, bodypart_id( "torso" ), proj, false );
+}
+void monster::on_hit( Creature *source, bodypart_id, dealt_projectile_attack const *const proj,
+                      bool manual_special_attack_call )
+{
     if( is_hallucination() ) {
         return;
     }
 
-    if( rng( 0, 100 ) <= static_cast<int>( type->def_chance ) ) {
+    if( rng( 0, 100 ) <= static_cast<int>( type->def_chance ) && !manual_special_attack_call ) {
         type->sp_defense( *this, source, proj );
     }
 
