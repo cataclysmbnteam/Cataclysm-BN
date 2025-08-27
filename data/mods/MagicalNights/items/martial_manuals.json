@@ -1,0 +1,47 @@
+[
+  {
+    "id": "adventurer_physical_book",
+    "type": "GENERIC",
+    "category": "spellbooks",
+    "name": { "str": "A Beginner's Guide to Adventuring", "str_pl": "copies of A Beginner's Guide to Adventuring" },
+    "//": "3 Aventurer techniques",
+    "description": "This looks like a fairly standard beginner HEMA manual, but some of the points in particular sound a bit more like fantasy than reality.",
+    "weight": "585 g",
+    "volume": "250 ml",
+    "price": "50 USD",
+    "symbol": "?",
+    "looks_like": "manual_swordsmanship",
+    "color": "light_red",
+    "use_action": { "type": "learn_spell", "spells": [ "whirlwind_blade", "swift_strike", "sprint" ] }
+  },
+  {
+    "id": "adventurer_poultice_book",
+    "type": "GENERIC",
+    "category": "spellbooks",
+    "name": { "str": "A Guide to Common Adventuring Remedies", "str_pl": "copies of A Guide to Common Adventuring Remedies" },
+    "//": "3 Aventurer techniques",
+    "description": "This book looks like a fairly standard historical foraging or herbal remedies guide, but the claims it makes are simply outlandish!",
+    "weight": "585 g",
+    "volume": "250 ml",
+    "price": "50 USD",
+    "symbol": "?",
+    "looks_like": "pocket_survival",
+    "color": "light_green",
+    "use_action": { "type": "learn_spell", "spells": [ "adventurers_remedy", "adventurers_cure", "adventurers_relief" ] }
+  },
+  {
+    "id": "adventurer_natural_tech_book",
+    "type": "GENERIC",
+    "category": "spellbooks",
+    "name": { "str": "The Guide to Natural Adventuring Tools", "str_pl": "copies of The Guide to Natural Adventuring Tools" },
+    "//": "2 Aventurer techniques",
+    "description": "A clever little book that tells you some neat tricks using the natural environment.",
+    "weight": "585 g",
+    "volume": "250 ml",
+    "price": "50 USD",
+    "symbol": "?",
+    "looks_like": "pocket_survival",
+    "color": "green",
+    "use_action": { "type": "learn_spell", "spells": [ "pocket_sand", "survival_wooden_javelins" ] }
+  }
+]

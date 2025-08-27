@@ -974,7 +974,7 @@
       ]
     ],
     "components": [
-      [ [ "chem_ethanol", 50 ], [ "denat_alcohol", 50 ] ],
+      [ [ "chem_ethanol", 50 ], [ "denat_alcohol", 50 ], [ "disinfectant_makeshift", 2 ] ],
       [ [ "copper_scrap_equivalent", 2, "LIST" ] ],
       [ [ "acid", 1 ] ],
       [ [ "bleach", 2 ] ],

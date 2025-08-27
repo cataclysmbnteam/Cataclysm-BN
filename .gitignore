@@ -62,6 +62,7 @@ logg.txt
 *.vcxproj.filters
 .vs/
 .vscode/
+!.vscode/extensions.json
 Debug*/
 Release*/
 .cache/

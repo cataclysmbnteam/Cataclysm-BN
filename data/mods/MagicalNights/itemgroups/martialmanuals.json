@@ -1,0 +1,33 @@
+[
+  {
+    "id": "martialmanual_tier_0",
+    "type": "item_group",
+    "//": "These are martial manuals that a beginner would have, or scrolls that would have this tier or one tier higher of spells.",
+    "items": [ [ "adventurer_physical_book", 30 ], [ "adventurer_natural_tech_book", 30 ] ]
+  },
+  {
+    "id": "martialmanual_tier_1",
+    "type": "item_group",
+    "items": [ [ "adventurer_poultice_book", 50 ] ]
+  },
+  {
+    "id": "martial_note_tier_0",
+    "type": "item_group",
+    "items": [
+      [ "martial_note_sprint", 20 ],
+      [ "martial_note_swift_strike", 30 ],
+      [ "martial_note_pocket_sand", 40 ],
+      [ "martial_note_survival_wooden_javelins", 20 ]
+    ]
+  },
+  {
+    "id": "martial_note_tier_1",
+    "type": "item_group",
+    "items": [
+      [ "martial_note_whirlwind_blade", 20 ],
+      [ "martial_note_adventurers_cure", 20 ],
+      [ "martial_note_adventurers_relief", 20 ],
+      [ "martial_note_adventurers_remedy", 20 ]
+    ]
+  }
+]

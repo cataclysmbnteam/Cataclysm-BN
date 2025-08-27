@@ -7924,7 +7924,8 @@ bool Character::consume_charges( item &used, int qty )
     }
 
     //Destroy items with specific flag
-    if( used.has_flag( flag_DESTROY_ON_DECHARGE ) || used.get_use( "place_monster" ) != nullptr ) {
+    if( used.has_flag( flag_DESTROY_ON_DECHARGE ) || used.get_use( "place_monster" ) != nullptr ||
+        used.get_use( "place_npc" ) != nullptr ) {
         used.detach();
         return true;
     }

@@ -42,6 +42,7 @@
       "8": "t_dirtfloor"
     },
     "furniture": {
+      "`": [ [ "f_null", 90 ], [ "f_space_heater_off", 6 ], [ "f_space_heater_large", 4 ] ],
       "B": "f_bed",
       "b": "f_bathtub",
       "d": "f_dresser",
@@ -95,6 +96,6 @@
       "6": [ { "item": "SUS_cookware" }, { "item": "SUS_utensils" } ],
       "ü": { "item": "guns_hunting_safe", "chance": 100 }
     },
-    "nested": { "w": { "chunks": [ [ "null", 90 ], [ "house_place_air_conditioner", 10 ] ] } }
+    "nested": { "w": { "chunks": [ [ "null", 95 ], [ "house_place_air_conditioner", 5 ] ] } }
   }
 ]

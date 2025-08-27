@@ -58,6 +58,7 @@
       "e": "f_fridge",
       "F": "f_sofa",
       "h": [ [ "f_chair", 2 ], "f_null" ],
+      "H": [ [ "f_null", 90 ], [ "f_space_heater_off", 6 ], [ "f_space_heater_large", 4 ] ],
       "I": "f_floor_lamp",
       "j": "f_trashcan",
       "l": [ [ "f_stool", 2 ], "f_null" ],
@@ -117,7 +118,7 @@
       "3": [ { "item": "SUS_junk_drawer" }, { "item": "SUS_kitchen_sink" } ]
     },
     "item": { "n": { "item": "television", "chance": 70 } },
-    "nested": { "w": { "chunks": [ [ "null", 95 ], [ "house_place_air_conditioner", 5 ] ] } }
+    "nested": { "w": { "chunks": [ [ "null", 195 ], [ "house_place_air_conditioner", 5 ] ] } }
   },
   {
     "type": "palette",

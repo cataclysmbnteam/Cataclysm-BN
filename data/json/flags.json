@@ -1788,6 +1788,16 @@
     "context": [  ]
   },
   {
+    "id": "COMBAT_NPC_USE",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "COMBAT_NPC_ON",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
     "id": "NPC_ACTIVATE",
     "type": "json_flag",
     "context": [  ]

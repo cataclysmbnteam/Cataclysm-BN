@@ -54,5 +54,20 @@
     "description": "Your underwater propellers are currently extended, enabling you to maneuver at greater speeds when submerged.",
     "movecost_swim_modifier": 0.75,
     "player_display": false
+  },
+  {
+    "type": "enchantment",
+    "id": "ENCH_WEAPON_DEBUGGY_ACIDIC",
+    "condition": "ALWAYS",
+    "has": "WIELD",
+    "values": [ { "value": "ITEM_DAMAGE_ACID", "add": 9999 } ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "DEBUG_hammer",
+    "name": { "str": "debugging hammer" },
+    "description": "Fix'em all!",
+    "copy-from": "hammer",
+    "relic_data": { "passive_effects": [ { "id": "ENCH_WEAPON_DEBUGGY_ACIDIC" } ] }
   }
 ]

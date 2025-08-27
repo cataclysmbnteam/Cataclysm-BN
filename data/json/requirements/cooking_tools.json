@@ -27,6 +27,7 @@
         [ "char_smoker", 1 ],
         [ "toolset", 1 ],
         [ "fire", -1 ],
+        [ "afs_atompot", -1 ],
         [ "knife_heat", -1 ]
       ]
     ]
@@ -50,6 +51,7 @@
         [ "coffeemaker", 1 ],
         [ "atomic_coffeepot", -1 ],
         [ "fire", -1 ],
+        [ "afs_atompot", -1 ],
         [ "knife_heat", -1 ]
       ]
     ]
