@@ -3,12 +3,13 @@
 All of the C++ code in the project is styled, you should run any changes you make through astyle
 before pushing a pull request.
 
-We are using astyle version 3.1. Version 3.0.1 will disagree in only a few places, while Version 3.6.6 will disagree in nearly every file.
+We are using astyle version 3.0.1. Version 3.1 should also work, though there are a few cases where
+they disagree and require annotation.
 
 Blocks of code can be passed through astyle to ensure that their formatting is correct:
 
 ```sh
-astyle --style=1tbs --attach-inlines --indent=spaces=4 --align-pointer=name --max-code-length=100 --break-after-logical --indent-classes --indent-switches --indent-preproc-define --indent-col1-comments --min-conditional-indent=0 --pad-oper --add-braces --convet-tabs --unpad-paren --pad-paren-in --keep-one-line-blocks
+astyle --style=1tbs --attach-inlines --indent=spaces=4 --align-pointer=name --max-code-length=100 --break-after-logical --indent-classes --indent-preprocessor --indent-switches --indent-col1-comments --min-conditional-indent=0 --pad-oper --unpad-paren --pad-paren-in --add-brackets --convert-tabs
 ```
 
 These options are mirrored in `.astylerc`, `doc/CODE_STYLE.txt` and
@@ -17,7 +18,7 @@ These options are mirrored in `.astylerc`, `doc/CODE_STYLE.txt` and
 For example, from `vi`, set marks a and b around the block, then:
 
 ```sh
-:'a,'b ! astyle --style=1tbs --attach-inlines --indent=spaces=4 --align-pointer=name --max-code-length=100 --break-after-logical --indent-classes --indent-switches --indent-preproc-define --indent-col1-comments --min-conditional-indent=0 --pad-oper --add-braces --convet-tabs --unpad-paren --pad-paren-in --keep-one-line-blocks
+:'a,'b ! astyle  --style=1tbs --attach-inlines --indent=spaces=4 --align-pointer=name --max-code-length=100 --break-after-logical --indent-classes --indent-preprocessor --indent-switches --indent-col1-comments --min-conditional-indent=0 --pad-oper --unpad-paren --pad-paren-in --add-brackets --convert-tabs
 ```
 
 See [DEVELOPER_TOOLING.md](../reference/tooling) for other environments.
