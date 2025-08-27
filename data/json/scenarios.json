@@ -46,6 +46,9 @@
     ],
     "professions": [
       "prof_pirate",
+      "prof_pirate_captain",
+      "smuggler",
+      "castaway",
       "professional_diver",
       "underwater_welder",
       "bionic_diver",
