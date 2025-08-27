@@ -468,9 +468,6 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
             if( is_emp ) {
                 apply_ammo_effects( tp, proj.get_ammo_effects(), origin );
                 explosion_handler::get_explosion_queue().execute();
-                /*if( !g->critter_tracker->find( tp ) ) {
-                    continue;
-                }*/
             }
             critter->deal_projectile_attack( null_source ? nullptr : origin, source_weapon, attack );
             // Critter can still dodge the projectile
