@@ -691,6 +691,26 @@
     "petfood": [ "CATFOOD", "DINOFOOD_B" ]
   },
   {
+    "id": "jellied_insects_petfood",
+    "type": "COMESTIBLE",
+    "category": "tools_farming",
+    "comestible_type": "FOOD",
+    "name": { "str_sp": "jellied insects" },
+    "description": "Preserved insect organs, perfect for animals who like extra proteins.",
+    "weight": "60 g",
+    "volume": "50 ml",
+    "price": "20 cent",
+    "price_postapoc": "25 cent",
+    "to_hit": -5,
+    "material": [ "flesh" ],
+    "symbol": ";",
+    "color": "red",
+    "calories": 100,
+    "flags": [ "INEDIBLE", "NUTRIENT_OVERRIDE" ],
+    "use_action": [ "PETFOOD" ],
+    "petfood": [ "BATFOOD" ]
+  },
+  {
     "type": "COMESTIBLE",
     "id": "grass",
     "name": { "str": "grass", "str_pl": "grasses" },
