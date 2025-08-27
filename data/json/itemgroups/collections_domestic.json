@@ -234,6 +234,7 @@
       [ "gummy_vitamins", 10 ],
       [ "cell_phone", 1 ],
       [ "smart_phone", 15 ],
+      [ "afs_atomic_smartphone", 1 ],
       [ "eyedrops", 10 ],
       [ "holy_symbol", 5 ],
       [ "pills_sleep", 5 ],
@@ -376,6 +377,7 @@
       { "group": "alcohol", "prob": 163 },
       { "item": "cell_phone", "prob": 1 },
       { "item": "smart_phone", "prob": 25 },
+      { "item": "afs_atomic_smartphone", "prob": 1 },
       { "item": "wristwatch", "prob": 15 },
       { "item": "pocketwatch", "prob": 5 },
       { "item": "umbrella", "prob": 50 },
@@ -585,7 +587,9 @@
       { "item": "sauce_red", "prob": 4, "charges": 12, "container-item": "jar_3l_glass_sealed" },
       { "item": "kompot", "prob": 4, "charges": 12, "container-item": "jar_3l_glass_sealed" },
       { "group": "big_canned_food", "prob": 4 },
-      { "group": "ammo_common", "prob": 20 }
+      { "group": "ammo_common", "prob": 20 },
+      { "item": "afs_atompot", "prob": 1 },
+      { "item": "atomic_butterchurn", "prob": 1 }
     ]
   },
   {
@@ -881,6 +885,7 @@
       { "item": "atomic_lamp", "prob": 2 },
       { "item": "cell_phone", "prob": 1 },
       { "item": "smart_phone", "prob": 30 },
+      { "item": "afs_atomic_smartphone", "prob": 1 },
       { "item": "eink_tablet_pc", "prob": 2 },
       { "item": "smart_lamp", "prob": 2 },
       { "item": "mobile_memory_card", "prob": 8 },

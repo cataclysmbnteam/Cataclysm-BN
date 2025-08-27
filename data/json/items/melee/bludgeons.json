@@ -767,7 +767,8 @@
         [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
       ]
     ],
-    "magazine_well": "500 ml"
+    "magazine_well": "500 ml",
+    "extend": { "flags": [ "COMBAT_NPC_USE" ] }
   },
   {
     "id": "shock_staff_on",
@@ -786,7 +787,7 @@
         "damage": { "values": [ { "damage_type": "bash", "amount": 30 }, { "damage_type": "electric", "amount": 8 } ] }
       }
     ],
-    "extend": { "flags": [ "TRADER_AVOID" ] },
+    "extend": { "flags": [ "TRADER_AVOID", "COMBAT_NPC_ON" ] },
     "power_draw": 500000
   },
   {
@@ -903,7 +904,7 @@
       "need_charges_msg": "The %s's batteries are dead.",
       "target": "shocktonfa_on"
     },
-    "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "BELT_CLIP" ],
+    "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "BELT_CLIP", "COMBAT_NPC_USE" ],
     "magazines": [
       [
         "battery",
@@ -929,7 +930,7 @@
         "damage": { "values": [ { "damage_type": "bash", "amount": 20 }, { "damage_type": "electric", "amount": 5 } ] }
       }
     ],
-    "extend": { "flags": [ "TRADER_AVOID" ] },
+    "extend": { "flags": [ "TRADER_AVOID", "COMBAT_NPC_ON" ] },
     "power_draw": 500000
   },
   {
@@ -1059,7 +1060,8 @@
       "need_fire": 1,
       "menu_text": "Light",
       "type": "transform"
-    }
+    },
+    "extend": { "flags": [ "COMBAT_NPC_USE" ] }
   },
   {
     "id": "battletorch_lit",
@@ -1088,6 +1090,6 @@
         "type": "transform"
       }
     ],
-    "extend": { "flags": [ "FIRE", "LIGHT_310", "CHARGEDIM", "DURABLE_MELEE", "TRADER_AVOID", "WATER_EXTINGUISH" ] }
+    "extend": { "flags": [ "FIRE", "LIGHT_310", "CHARGEDIM", "DURABLE_MELEE", "TRADER_AVOID", "WATER_EXTINGUISH", "COMBAT_NPC_ON" ] }
   }
 ]

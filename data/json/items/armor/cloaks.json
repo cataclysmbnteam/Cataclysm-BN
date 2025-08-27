@@ -206,7 +206,7 @@
       "need_charges": 20,
       "need_charges_msg": "You don't have enough UPS charges to turn on the %s"
     },
-    "flags": [ "USE_UPS", "OVERSIZE", "HOOD", "WATERPROOF", "OUTER", "VARSIZE" ]
+    "flags": [ "USE_UPS", "OVERSIZE", "HOOD", "WATERPROOF", "OUTER", "VARSIZE", "COMBAT_NPC_USE" ]
   },
   {
     "id": "optical_cloak_on",
@@ -216,7 +216,7 @@
     "type": "TOOL_ARMOR",
     "name": { "str": "FB51 optical cloak (on)", "str_pl": "FB51 optical cloaks (on)" },
     "description": "A plastic cloak embedded with cameras and LEDs that will render you fully invisible to normal vision when powered and worn.  You must be carrying a unified power supply, or UPS, to use it.  Activate to toggle visibility.",
-    "extend": { "flags": [ "ACTIVE_CLOAKING", "TRADER_AVOID" ] },
+    "extend": { "flags": [ "ACTIVE_CLOAKING", "TRADER_AVOID", "COMBAT_NPC_ON" ] },
     "power_draw": 20000000,
     "revert_to": "optical_cloak",
     "use_action": {

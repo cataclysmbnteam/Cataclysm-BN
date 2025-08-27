@@ -34,6 +34,8 @@
 #include "item.h"
 #include "item_contents.h"
 #include "itype.h"
+#include "iuse.h"
+#include "iuse_actor.h"
 #include "line.h"
 #include "magic_enchantment.h"
 #include "map.h"
@@ -2425,25 +2427,43 @@ double npc_ai::weapon_value( const Character &who, const item &weap, int ammo )
 
 double npc_ai::melee_value( const Character &who, const item &weap )
 {
-    // start with average effective dps against a range of enemies
-    double my_value = weap.average_dps( *who.as_player(), melee::default_attack( weap ) );
+    item &weapon = *item::spawn_temporary( weap );
+    if( weapon.has_flag( flag_COMBAT_NPC_USE ) && !weapon.has_flag( flag_COMBAT_NPC_ON ) ) {
+        if( weapon.get_use( "transform" ) ) {
+            const use_function *use = weapon.type->get_use( "transform" );
+            if( use->can_call( who, weapon, false, who.pos() ).success() ) {
+                // Stolen from item.cpp
+                weapon.convert( dynamic_cast<const iuse_transform *>
+                                ( use->get_actor_ptr() )->target );
+            }
+        } else if( weapon.get_use( "fireweapon_off" ) ) {
+            const use_function *use = weapon.type->get_use( "fireweapon_off" );
+            if( use->can_call( who, weapon, false, who.pos() ).success() ) {
+                weapon.convert( dynamic_cast<const fireweapon_off_actor *>
+                                ( use->get_actor_ptr() )->target_id );
+            }
+        }
 
-    float reach = weap.reach_range( who );
+    }
+    // start with average effective dps against a range of enemies
+    double my_value = weapon.average_dps( *who.as_player(), melee::default_attack( weapon ) );
+
+    float reach = weapon.reach_range( who );
     // value reach weapons more
     if( reach > 1.0f ) {
         my_value *= 1.0f + 0.5f * ( std::sqrt( reach ) - 1.0f );
     }
     // value polearms less to account for the trickiness of keeping the right range
-    if( weap.has_flag( flag_POLEARM ) ) {
+    if( weapon.has_flag( flag_POLEARM ) ) {
         my_value *= 0.8;
     }
 
     // value style weapons more
-    if( !who.martial_arts_data->enumerate_known_styles( weap.type->get_id() ).empty() ) {
+    if( !who.martial_arts_data->enumerate_known_styles( weapon.type->get_id() ).empty() ) {
         my_value *= 1.5;
     }
 
-    add_msg( m_debug, "%s as melee: %.1f", weap.type->get_id().str(), my_value );
+    add_msg( m_debug, "%s as melee: %.1f", weapon.type->get_id().str(), my_value );
 
     return std::max( 0.0, my_value );
 }

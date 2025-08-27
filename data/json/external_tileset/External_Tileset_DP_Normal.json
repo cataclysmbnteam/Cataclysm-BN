@@ -169,7 +169,9 @@
           { "id": [ "sea_scooter", "overlay_wielded_sea_scooter" ], "fg": 144 },
           { "id": "vp_sea_scooter_hull", "fg": 145 },
           { "id": "mon_skeleton_necro", "fg": 146 },
-          { "id": "mon_skeleton_master", "fg": 147 }
+          { "id": "mon_skeleton_master", "fg": 147 },
+          { "id": "pulley_crane_small_wood", "fg": 148 },
+          { "id": "vp+crane_small_wood", "fg": 149, "rotates": true }
         ],
         "sprite_width": 32,
         "sprite_height": 32

@@ -1128,7 +1128,7 @@
       "need_charges_msg": "The %s's batteries are dead.",
       "target": "shock_foil_on"
     },
-    "extend": { "flags": [ "NONCONDUCTIVE" ] },
+    "extend": { "flags": [ "NONCONDUCTIVE", "COMBAT_NPC_USE" ] },
     "relative": { "volume": "250 ml", "weight": "151 g" },
     "magazines": [
       [
@@ -1161,7 +1161,7 @@
         }
       }
     ],
-    "extend": { "flags": [ "TRADER_AVOID" ] },
+    "extend": { "flags": [ "TRADER_AVOID", "COMBAT_NPC_ON" ] },
     "power_draw": 500000
   },
   {
@@ -1200,7 +1200,7 @@
       "need_charges_msg": "The %s's batteries are dead.",
       "target": "shock_epee_on"
     },
-    "extend": { "flags": [ "NONCONDUCTIVE" ] },
+    "extend": { "flags": [ "NONCONDUCTIVE", "COMBAT_NPC_USE" ] },
     "relative": { "volume": "250 ml", "weight": "151 g" },
     "magazines": [
       [
@@ -1233,7 +1233,7 @@
         }
       }
     ],
-    "extend": { "flags": [ "TRADER_AVOID" ] },
+    "extend": { "flags": [ "TRADER_AVOID", "COMBAT_NPC_ON" ] },
     "power_draw": 500000
   },
   {
@@ -1271,7 +1271,7 @@
       "need_charges_msg": "The %s's batteries are dead.",
       "target": "shock_sabre_on"
     },
-    "extend": { "flags": [ "NONCONDUCTIVE" ] },
+    "extend": { "flags": [ "NONCONDUCTIVE", "COMBAT_NPC_USE" ] },
     "relative": { "volume": "250 ml", "weight": "151 g" },
     "magazines": [
       [
@@ -1304,7 +1304,7 @@
         }
       }
     ],
-    "extend": { "flags": [ "TRADER_AVOID" ] },
+    "extend": { "flags": [ "TRADER_AVOID", "COMBAT_NPC_ON" ] },
     "power_draw": 500000
   },
   {
@@ -1413,7 +1413,7 @@
       "need_charges_msg": "The %s's batteries are dead.",
       "target": "shock_rapier_on"
     },
-    "extend": { "flags": [ "NONCONDUCTIVE" ] },
+    "extend": { "flags": [ "NONCONDUCTIVE", "COMBAT_NPC_USE" ] },
     "relative": { "volume": "250 ml", "weight": "151 g" },
     "magazines": [
       [
@@ -1432,7 +1432,7 @@
     "revert_to": "shock_rapier_off",
     "revert_msg": "The %s's batteries run dry.",
     "use_action": { "type": "transform", "msg": "You press a button and the rapier turns off.", "target": "shock_rapier_off" },
-    "extend": { "flags": [ "TRADER_AVOID" ] },
+    "extend": { "flags": [ "TRADER_AVOID", "COMBAT_NPC_ON" ] },
     "//": "Roughly +25% electric damage",
     "attacks": [
       {
@@ -1567,7 +1567,7 @@
       "transform_charges": 5,
       "need_dry": true
     },
-    "flags": [ "NONCONDUCTIVE", "POWERED", "ALWAYS_TWOHAND" ]
+    "flags": [ "NONCONDUCTIVE", "POWERED", "ALWAYS_TWOHAND", "COMBAT_NPC_USE" ]
   },
   {
     "id": "cs_lajatang_on",
@@ -1584,7 +1584,16 @@
     "qualities": [ [ "BUTCHER", -250 ] ],
     "turns_per_charge": 1,
     "charges_per_use": 0,
-    "flags": [ "MESSY", "FRAGILE_MELEE", "TRADER_AVOID", "NONCONDUCTIVE", "ALWAYS_TWOHAND", "WATER_DISABLE" ]
+    "flags": [
+      "MESSY",
+      "FRAGILE_MELEE",
+      "TRADER_AVOID",
+      "NONCONDUCTIVE",
+      "ALWAYS_TWOHAND",
+      "WATER_DISABLE",
+      "COMBAT_NPC_USE",
+      "COMBAT_NPC_ON"
+    ]
   },
   {
     "id": "ecs_lajatang_off",
@@ -1615,7 +1624,7 @@
       "transform_charges": 5,
       "need_dry": true
     },
-    "flags": [ "NONCONDUCTIVE", "POWERED", "ALWAYS_TWOHAND" ],
+    "flags": [ "NONCONDUCTIVE", "POWERED", "ALWAYS_TWOHAND", "COMBAT_NPC_USE" ],
     "magazines": [
       [ "battery", [ "heavy_battery_cell", "heavy_plus_battery_cell", "heavy_atomic_battery_cell", "heavy_disposable_cell" ] ]
     ],
@@ -1636,7 +1645,16 @@
     "revert_msg": "Your chainsaw lajatang goes quiet",
     "use_action": { "type": "transform", "target": "ecs_lajatang_off", "msg": "You turn off the chainsaw lajatang." },
     "qualities": [ [ "BUTCHER", -250 ] ],
-    "flags": [ "MESSY", "DURABLE_MELEE", "TRADER_AVOID", "NONCONDUCTIVE", "ALWAYS_TWOHAND", "WATER_DISABLE" ],
+    "flags": [
+      "MESSY",
+      "DURABLE_MELEE",
+      "TRADER_AVOID",
+      "NONCONDUCTIVE",
+      "ALWAYS_TWOHAND",
+      "WATER_DISABLE",
+      "COMBAT_NPC_USE",
+      "COMBAT_NPC_ON"
+    ],
     "magazine_well": "1000 ml"
   },
   {
@@ -1773,7 +1791,7 @@
       "need_dry": true
     },
     "techniques": [ "WBLOCK_1", "SWEEP" ],
-    "flags": [ "ALWAYS_TWOHAND", "POWERED" ]
+    "flags": [ "ALWAYS_TWOHAND", "POWERED", "COMBAT_NPC_USE" ]
   },
   {
     "id": "combatsaw_on",
@@ -1789,7 +1807,7 @@
     "qualities": [ [ "BUTCHER", -120 ] ],
     "revert_msg": "Your combat chainsaw goes quiet",
     "use_action": { "type": "transform", "target": "combatsaw_off", "msg": "You turn off the combat chainsaw." },
-    "flags": [ "MESSY", "DURABLE_MELEE", "TRADER_AVOID", "ALWAYS_TWOHAND", "WATER_DISABLE" ]
+    "flags": [ "MESSY", "DURABLE_MELEE", "TRADER_AVOID", "ALWAYS_TWOHAND", "WATER_DISABLE", "COMBAT_NPC_USE", "COMBAT_NPC_ON" ]
   },
   {
     "id": "e_combatsaw_off",
@@ -1820,7 +1838,7 @@
       "need_dry": true
     },
     "techniques": [ "WBLOCK_1", "SWEEP" ],
-    "flags": [ "ALWAYS_TWOHAND", "POWERED" ],
+    "flags": [ "ALWAYS_TWOHAND", "POWERED", "COMBAT_NPC_USE" ],
     "magazines": [
       [
         "battery",
@@ -1843,7 +1861,7 @@
     "qualities": [ [ "BUTCHER", -120 ] ],
     "revert_msg": "Your combat chainsaw goes quiet",
     "use_action": { "type": "transform", "target": "e_combatsaw_off", "msg": "You turn off the combat chainsaw." },
-    "flags": [ "MESSY", "DURABLE_MELEE", "TRADER_AVOID", "ALWAYS_TWOHAND", "WATER_DISABLE" ],
+    "flags": [ "MESSY", "DURABLE_MELEE", "TRADER_AVOID", "ALWAYS_TWOHAND", "WATER_DISABLE", "COMBAT_NPC_USE", "COMBAT_NPC_ON" ],
     "magazine_well": "500 ml"
   },
   {
@@ -2048,12 +2066,12 @@
       "type": "fireweapon_off",
       "target_id": "shishkebab_on",
       "moves": 10,
-      "noise": 10,
       "success_chance": 4,
       "success_message": "A burst of flame roars to life, crawling along the blade.",
       "failure_message": "The igniter clicks, but nothing catches.",
       "lacks_fuel_message": "You hear a sputter—it's dry. No fuel left."
-    }
+    },
+    "extend": { "flags": [ "COMBAT_NPC_USE" ] }
   },
   {
     "id": "shishkebab_on",
@@ -2082,7 +2100,6 @@
     "use_action": [
       {
         "type": "fireweapon_on",
-        "noise": 10,
         "noise_chance": 25,
         "noise_message": "The shishkebab crackles as flames whip along its edge.",
         "auto_extinguish_chance": 300,
@@ -2093,7 +2110,7 @@
       },
       { "type": "firestarter", "moves": 30 }
     ],
-    "extend": { "flags": [ "FIRE", "LIGHT_240", "CHARGEDIM", "TRADER_AVOID" ] }
+    "extend": { "flags": [ "FIRE", "LIGHT_240", "CHARGEDIM", "TRADER_AVOID", "COMBAT_NPC_ON" ] }
   },
   {
     "id": "firekatana_off",
@@ -2110,10 +2127,10 @@
       "type": "fireweapon_off",
       "target_id": "firekatana_on",
       "moves": 10,
-      "noise": 10,
       "success_message": "The Sun rises.",
       "lacks_fuel_message": "Time stands still."
-    }
+    },
+    "extend": { "flags": [ "COMBAT_NPC_USE" ] }
   },
   {
     "id": "firekatana_on",
@@ -2149,7 +2166,7 @@
       },
       { "type": "firestarter", "moves": 30 }
     ],
-    "extend": { "flags": [ "FIRE", "LIGHT_240", "CHARGEDIM", "TRADER_AVOID" ] }
+    "extend": { "flags": [ "FIRE", "LIGHT_240", "CHARGEDIM", "TRADER_AVOID", "COMBAT_NPC_ON" ] }
   },
   {
     "id": "broadfire_off",
@@ -2166,10 +2183,10 @@
       "type": "fireweapon_off",
       "target_id": "broadfire_on",
       "moves": 10,
-      "noise": 10,
       "success_message": "Charge!",
       "lacks_fuel_message": "No strength to fight!"
-    }
+    },
+    "extend": { "flags": [ "COMBAT_NPC_USE" ] }
   },
   {
     "id": "broadfire_on",
@@ -2205,7 +2222,7 @@
       },
       { "type": "firestarter", "moves": 30 }
     ],
-    "extend": { "flags": [ "FIRE", "LIGHT_240", "CHARGEDIM", "TRADER_AVOID" ] }
+    "extend": { "flags": [ "FIRE", "LIGHT_240", "CHARGEDIM", "TRADER_AVOID", "COMBAT_NPC_ON" ] }
   },
   {
     "id": "zweifire_off",
@@ -2223,10 +2240,10 @@
       "type": "fireweapon_off",
       "target_id": "zweifire_on",
       "moves": 10,
-      "noise": 10,
       "success_message": "Die Klinge deines Schwertes brennt!",
       "lacks_fuel_message": "Dein Flammenschwert hat keinen Brennstoff mehr."
-    }
+    },
+    "extend": { "flags": [ "COMBAT_NPC_USE" ] }
   },
   {
     "id": "zweifire_on",
@@ -2263,6 +2280,6 @@
       },
       { "type": "firestarter", "moves": 30 }
     ],
-    "extend": { "flags": [ "FIRE", "LIGHT_240", "CHARGEDIM", "TRADER_AVOID" ] }
+    "extend": { "flags": [ "FIRE", "LIGHT_240", "CHARGEDIM", "TRADER_AVOID", "COMBAT_NPC_ON" ] }
   }
 ]
