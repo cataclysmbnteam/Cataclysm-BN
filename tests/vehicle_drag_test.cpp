@@ -298,6 +298,6 @@ TEST_CASE( "vehicle_drag", "[vehicle] [engine]" )
     test_vehicle_drag( "kayak", 0.609525, 4.036067, 1.523792, 544, 1067 );
     test_vehicle_drag( "kayak_racing", 0.609525, 3.704980, 1.398792, 586, 1133 );
     test_vehicle_drag( "DUKW", 0.776903, 3.8956, 84.26, 9993, 12063 );
-    test_vehicle_drag( "raft", 0.997815, 9.743243, 5.517750, 239, 508 );
+    test_vehicle_drag( "raft", 1.59315, 9.177513, 5.197368, 225, 477 );
     test_vehicle_drag( "inflatable_boat", 0.469560, 3.616690, 2.048188, 602, 1173 );
 }
