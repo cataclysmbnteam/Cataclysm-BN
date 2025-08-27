@@ -1387,6 +1387,7 @@ class Character : public Creature, public location_visitable<Character>
          * Whether the player carries an active item of the given item type.
          */
         bool has_active_item( const itype_id &id ) const;
+        bool has_active_item_with_action( const std::string &use ) const;
         detached_ptr<item> remove_primary_weapon();
         bool has_mission_item( int mission_id ) const;
         void remove_mission_items( int mission_id );

@@ -2912,6 +2912,12 @@ invlets_bitset Character::allocated_invlets() const
 
     return invlets;
 }
+bool Character::has_active_item_with_action( const std::string &use ) const
+{
+    return has_item_with( [use]( const item & it ) {
+        return it.is_active() && it.get_use( use );
+    } );
+}
 
 bool Character::has_active_item( const itype_id &id ) const
 {
