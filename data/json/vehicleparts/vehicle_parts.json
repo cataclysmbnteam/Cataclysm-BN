@@ -1222,7 +1222,6 @@
     "location": "structure",
     "flags": [
       "FLOATS",
-      "INITIAL_PART",
       "MOUNTABLE",
       "SEAT",
       "SEAT_REQUIRES_BALANCE",
