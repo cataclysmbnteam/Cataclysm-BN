@@ -2698,6 +2698,7 @@ bool game::load( const save_t &name )
     u.activity->init_all_moves( u );
 
     cata::load_world_lua_state( get_active_world(), "lua_state.json" );
+
     cata::run_on_game_load_hooks( *DynamicDataLoader::get_instance().lua );
 
     return true;
@@ -4770,7 +4771,7 @@ monster *game::place_critter_around( const mtype_id &id, const tripoint &center,
     if( id.is_null() ) {
         return nullptr;
     }
-    return place_critter_around( make_shared_fast<monster>( id ), center, radius, false );
+    return place_critter_around( make_shared_fast<monster>( id ), center, radius );
 }
 
 monster *game::place_critter_around( const shared_ptr_fast<monster> &mon,
