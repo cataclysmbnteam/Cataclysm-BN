@@ -746,12 +746,10 @@
     "addiction_type": "sleeping pill",
     "flags": [ "UNSAFE_CONSUME" ],
     "phase": "liquid",
-    "//": "should be four hours, but we have a bug right now yay",
     "use_action": {
       "type": "consume_drug",
-      "activation_message": "You measure out a dose of GHB with the syringe.",
       "tools_needed": { "syringe": 1 },
-      "effects": [ { "id": "took_antinarcoleptic", "duration": "2 h" } ],
+      "effects": [ { "id": "took_antinarcoleptic", "duration": "4 h" } ],
       "moves": 250
     }
   },
