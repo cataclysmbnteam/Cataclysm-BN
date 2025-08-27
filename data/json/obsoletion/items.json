@@ -4262,5 +4262,29 @@
     "fun": 3,
     "flags": [ "USE_EAT_VERB", "EATEN_COLD" ],
     "vitamins": [ [ "fruit_allergen", 1 ] ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "washing_machine",
+    "name": { "str": "washing machine" },
+    "description": "A very small washing machine designed for use in vehicles.",
+    "weight": "31752 g",
+    "to_hit": -8,
+    "color": "light_blue",
+    "symbol": "]",
+    "material": "steel",
+    "volume": "125 L",
+    "bashing": 8,
+    "category": "veh_parts",
+    "price": "600 USD",
+    "price_postapoc": "5 USD"
+  },
+  {
+    "type": "GENERIC",
+    "id": "dishwasher",
+    "name": { "str": "dishwasher" },
+    "description": "A very small dishwasher designed for use in vehicles.",
+    "looks_like": "washing_machine",
+    "copy-from": "washing_machine"
   }
 ]
