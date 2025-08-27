@@ -748,6 +748,7 @@
     "phase": "liquid",
     "use_action": {
       "type": "consume_drug",
+      "activation_message": "You measure out a dose of GHB with the syringe.",
       "tools_needed": { "syringe": 1 },
       "effects": [ { "id": "took_antinarcoleptic", "duration": "4 h" } ],
       "moves": 250
