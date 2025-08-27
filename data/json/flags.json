@@ -20,7 +20,8 @@
   {
     "id": "ALLOWS_TAIL_SNAKE",
     "type": "json_flag",
-    "context": [  ]
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "info": "This clothing is <good>uniquely compatible</good> with mutants possessing <info>serpentine bodies.</info>."
   },
   {
     "id": "EFFECT_INVISIBLE",

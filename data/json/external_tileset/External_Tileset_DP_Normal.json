@@ -173,7 +173,8 @@
           { "id": "pulley_crane_small_wood", "fg": 148 },
           { "id": "vp_crane_small_wood", "fg": 149, "rotates": true },
           { "id": [ "overlay_female_mutation_TAIL_SNAKE", "overlay_female_mutation_TAIL_SNAKE_OK" ], "fg": 150 },
-          { "id": [ "overlay_male_mutation_TAIL_SNAKE", "overlay_male_mutation_TAIL_SNAKE_OK" ], "fg": 151 }
+          { "id": [ "overlay_male_mutation_TAIL_SNAKE", "overlay_male_mutation_TAIL_SNAKE_OK" ], "fg": 151 },
+          { "id": "overlay_worn_stockings_snake_tail", "fg": 152 }
         ],
         "sprite_width": 32,
         "sprite_height": 32
