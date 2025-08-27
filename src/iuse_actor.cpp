@@ -279,6 +279,16 @@ int iuse_transform::use( player &p, item &it, bool t, const tripoint &pos ) cons
     if( possess && !msg_transform.empty() ) {
         p.add_msg_if_player( m_neutral, msg_transform, it.tname() );
     }
+    // We want this separate and not if/else because the preceding statement will always return true if a transform message is defined.
+    if( p.is_npc() && get_player_character().sees( p ) ) {
+        if( !it.has_flag( flag_COMBAT_NPC_ON ) ) {
+            add_msg( m_info, _( "%s activates their %s." ), p.disp_name(),
+                     it.display_name() );
+        } else {
+            add_msg( m_info, _( "%s deactivates their %s." ), p.disp_name(),
+                     it.display_name() );
+        }
+    }
 
     if( possess ) {
         p.moves -= moves;
@@ -939,11 +949,6 @@ int consume_drug_iuse::use( player &p, item &it, bool, const tripoint & ) const
                     }
                 }
             }
-        }
-
-        p.add_effect( eff.id, eff.duration, convert_bp( eff.bp ) );
-        if( eff.permanent ) {
-            p.get_effect( eff.id, convert_bp( eff.bp ) ).set_permanent();
         }
 
         p.add_effect( eff.id, eff.duration, convert_bp( eff.bp ) );
@@ -2226,7 +2231,10 @@ int fireweapon_off_actor::use( player &p, item &it, bool t, const tripoint & ) c
             sounds::sound( p.pos(), noise, sounds::sound_t::combat, _( success_message ) );
         }
         p.add_msg_if_player( _( success_message ) );
-
+        if( p.is_npc() && get_player_character().sees( p ) ) {
+            add_msg( m_info, _( "%s activates their %s." ), p.disp_name(),
+                     it.display_name() );
+        }
         it.convert( target_id );
         it.activate();
     } else if( !failure_message.empty() ) {
@@ -2287,6 +2295,10 @@ int fireweapon_on_actor::use( player &p, item &it, bool t, const tripoint & ) co
     }
 
     if( extinguish ) {
+        if( p.is_npc() && get_player_character().sees( p ) ) {
+            add_msg( m_info, _( "%s deactivates their %s." ), p.disp_name(),
+                     it.display_name() );
+        }
         it.revert( &p, false );
         it.deactivate();
         return 0;

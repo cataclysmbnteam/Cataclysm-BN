@@ -438,7 +438,6 @@
     "time": "9 h",
     "book_learn": [ [ "textbook_armwest", 5 ] ],
     "using": [ [ "blacksmithing_intermediate", 40 ], [ "steel_standard", 10 ] ],
-    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [ [ [ "fabric_hides_proper", 4, "LIST" ] ] ]
   },
   {
@@ -451,7 +450,6 @@
     "time": "9 h",
     "book_learn": [ [ "textbook_armwest", 7 ] ],
     "using": [ [ "blacksmithing_intermediate", 40 ] ],
-    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [ [ [ "alloy_sheet", 10 ] ], [ [ "fabric_hides_proper", 4, "LIST" ] ] ]
   },
   {
@@ -490,7 +488,6 @@
     "time": "4 h",
     "book_learn": [ [ "textbook_armschina", 5 ] ],
     "using": [ [ "sewing_standard", 18 ], [ "blacksmithing_intermediate", 8 ], [ "steel_standard", 2 ] ],
-    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [ [ [ "fur", 6 ] ] ]
   },
   {
@@ -503,7 +500,6 @@
     "time": "5 h",
     "book_learn": [ [ "textbook_armwest", 5 ] ],
     "using": [ [ "blacksmithing_intermediate", 8 ], [ "steel_standard", 2 ] ],
-    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [ [ [ "fabric_hides_proper", 4, "LIST" ] ] ]
   },
   {
@@ -516,7 +512,6 @@
     "time": "7 h",
     "book_learn": [ [ "textbook_armeast", 8 ] ],
     "using": [ [ "blacksmithing_intermediate", 48 ], [ "steel_standard", 12 ] ],
-    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [ [ [ "fabric_hides_proper", 14, "LIST" ] ], [ [ "fabric_standard", 4, "LIST" ] ] ]
   },
   {
@@ -556,7 +551,6 @@
     "time": "5 h",
     "book_learn": [ [ "textbook_armwest", 4 ] ],
     "using": [ [ "blacksmithing_intermediate", 4 ], [ "steel_standard", 1 ] ],
-    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [ [ [ "fabric_hides_proper", 3, "LIST" ] ] ]
   },
   {
@@ -581,7 +575,6 @@
     "time": "9 h",
     "book_learn": [ [ "textbook_armwest", 6 ] ],
     "using": [ [ "blacksmithing_intermediate", 56 ], [ "steel_standard", 14 ] ],
-    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [ [ [ "fabric_hides_proper", 4, "LIST" ] ] ]
   },
   {
@@ -594,7 +587,6 @@
     "time": "9 h",
     "book_learn": [ [ "textbook_armwest", 8 ] ],
     "using": [ [ "blacksmithing_intermediate", 56 ] ],
-    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [ [ [ "alloy_sheet", 14 ] ], [ [ "fabric_hides_proper", 4, "LIST" ] ] ]
   },
   {
@@ -1457,7 +1449,6 @@
     "time": "9 h",
     "autolearn": true,
     "using": [ [ "blacksmithing_intermediate", 16 ], [ "steel_standard", 4 ] ],
-    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [ [ [ "goggles_welding", 1 ] ] ]
   },
   {
@@ -1471,7 +1462,6 @@
     "autolearn": true,
     "book_learn": [ [ "textbook_armwest", 3 ], [ "textbook_armeast", 3 ] ],
     "using": [ [ "blacksmithing_intermediate", 8 ], [ "steel_standard", 2 ] ],
-    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [ [ [ "fabric_standard", 1, "LIST" ], [ "fabric_hides_any", 1, "LIST" ] ] ]
   },
   {
@@ -1632,5 +1622,17 @@
       [ [ "cordage", 1, "LIST" ] ],
       [ [ "fabric_standard", 2, "LIST" ], [ "fabric_hides_any", 2, "LIST" ] ]
     ]
+  },
+  {
+    "result": "helm_trench",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "1 h",
+    "autolearn": true,
+    "using": [ [ "blacksmithing_intermediate", 12 ] ],
+    "components": [ [ [ "hard_steel_armor", 6 ] ] ]
   }
 ]

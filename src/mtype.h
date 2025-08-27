@@ -36,6 +36,7 @@ using mon_action_death  = void ( * )( monster & );
 using mon_action_attack = bool ( * )( monster * );
 using mon_action_defend = void ( * )( monster &, Creature *, dealt_projectile_attack const * );
 using bodytype_id = std::string;
+using TraitSet = std::set<trait_id>;
 class JsonArray;
 class JsonObject;
 
@@ -194,6 +195,7 @@ enum m_flag : int {
     MF_PROJECTILE_RESISTANT_2,      // This monster has a torso and limbs that are very resistant to projectiles, with a default x0.8 damage mult cap.
     MF_PROJECTILE_RESISTANT_3,      // This monster has a torso and limbs that are extremely resistant to projectiles, with a default x0.5 damage mult cap.
     MF_PROJECTILE_RESISTANT_4,      // This monster has a torso and limbs that are almost immune to projectiles, with a default x0.2 damage mult cap.
+    MF_VOLATILE,            // This monster tends to explode if hit by fire or bullets, fire weapons will always catch them on fire.
 
     MF_MAX                  // Sets the length of the flags - obviously must be LAST
 };
@@ -223,6 +225,7 @@ struct mon_effect_data {
 /** Pet food data */
 struct pet_food_data {
     std::set<std::string> food;
+    std::set<TraitSet> tamer_traits;
     std::string pet;
     std::string feed;
 

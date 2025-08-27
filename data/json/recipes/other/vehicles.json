@@ -946,7 +946,7 @@
     "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_W", "level": 1 } ],
-    "components": [ [ [ "2x4", 5 ] ], [ [ "nail_glue", 15, "LIST" ] ] ]
+    "components": [ [ [ "wood_structural_small", 5, "LIST" ] ], [ [ "nail_glue", 15, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -1050,7 +1050,7 @@
     "time": "1 h",
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_W", "level": 1 }, { "id": "SANDING", "level": 1 } ],
-    "components": [ [ [ "2x4", 4 ] ], [ [ "nail_glue", 10, "LIST" ] ] ]
+    "components": [ [ [ "wood_structural", 2, "LIST" ] ], [ [ "nail_glue", 10, "LIST" ] ] ]
   },
   {
     "result": "cargo_aisle",
@@ -1292,7 +1292,8 @@
     "time": "20 m",
     "autolearn": true,
     "using": [ [ "steel_standard", 20 ] ],
-    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 50 ] ] ]
+    "qualities": [ { "id": "CONTAIN_HOT", "level": 1 } ],
+    "tools": [ [ [ "forge", 50 ] ] ]
   },
   {
     "type": "recipe",
@@ -1306,7 +1307,8 @@
     "time": "50 m",
     "autolearn": true,
     "using": [ [ "steel_standard", 100 ] ],
-    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 50 ] ] ]
+    "qualities": [ { "id": "CONTAIN_HOT", "level": 1 } ],
+    "tools": [ [ [ "forge", 50 ] ] ]
   },
   {
     "type": "recipe",
@@ -1332,8 +1334,8 @@
     "time": "4 m",
     "reversible": true,
     "autolearn": true,
-    "using": [ [ "rope_natural_short", 3 ] ],
-    "components": [ [ [ "2x4", 3 ], [ "stick", 6 ] ] ]
+    "using": [ [ "rope_natural_short", 1 ] ],
+    "components": [ [ [ "wood_structural_small", 3, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -1384,7 +1386,8 @@
     "time": "6 m",
     "reversible": true,
     "autolearn": true,
-    "components": [ [ [ "2x4", 6 ] ], [ [ "rope_natural_short", 1, "LIST" ], [ "nail", 5 ], [ "adhesive", 2, "LIST" ] ] ]
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SAW_W", "level": 1 } ],
+    "components": [ [ [ "wood_structural", 3, "LIST" ] ], [ [ "rope_natural_short", 1, "LIST" ], [ "nail_glue", 20, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -1830,8 +1833,7 @@
     "difficulty": 4,
     "time": "3 h",
     "autolearn": true,
-    "using": [ [ "blacksmithing_intermediate", 20 ], [ "steel_standard", 5 ] ],
-    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ]
+    "using": [ [ "blacksmithing_intermediate", 20 ], [ "steel_standard", 5 ] ]
   },
   {
     "type": "recipe",
@@ -2030,5 +2032,26 @@
     "batch_time_factors": [ 60, 1 ],
     "using": [ [ "3d_printing_standard", 20 ], [ "rope_natural", 4 ] ],
     "components": [ [ [ "carbon_fiber_filament", 400 ], [ "frame_carbon", 2 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "pulley_crane_small_wood",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_VEHICLE",
+    "skill_used": "fabrication",
+    "skills_required": [ "survival", 4 ],
+    "difficulty": 4,
+    "time": "2 h",
+    "reversible": true,
+    "decomp_learn": 3,
+    "autolearn": true,
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "DRILL", "level": 1 }, { "id": "SAW_W", "level": 2 } ],
+    "components": [
+      [ [ "frame_wood", 1 ] ],
+      [ [ "wheel_wood", 1 ] ],
+      [ [ "rope_natural", 1, "LIST" ] ],
+      [ [ "nail_glue", 25, "LIST" ] ],
+      [ [ "fabric_hides_proper", 4, "LIST" ] ]
+    ]
   }
 ]

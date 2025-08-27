@@ -10,24 +10,24 @@
     "id": "bullet_forming",
     "type": "requirement",
     "//": "Forming of bullets from raw materials",
-    "tools": [ [ [ "press", -1 ], [ "press_workbench", -1 ] ], [ [ "fire", -1 ], [ "hotplate", 2 ], [ "toolset", 2 ] ] ]
+    "qualities": [ { "id": "CASING_PRESSING", "level": 2 } ],
+    "tools": [ [ [ "fire", -1 ], [ "hotplate", 2 ], [ "toolset", 2 ] ] ]
   },
   {
     "id": "shot_forming",
     "type": "requirement",
     "//": "Forming of shot from raw materials, allows use of makeshift press",
     "//2": "Shotshell press being first on the list makes it require cutting quality to reverse instead of pulling",
-    "tools": [
-      [ [ "press_dowel", -1 ], [ "press", -1 ], [ "press_workbench", -1 ] ],
-      [ [ "fire", -1 ], [ "hotplate", 2 ], [ "toolset", 2 ] ]
-    ]
+    "qualities": [ { "id": "CASING_PRESSING", "level": 1 } ],
+    "tools": [ [ [ "fire", -1 ], [ "hotplate", 2 ], [ "toolset", 2 ] ] ]
   },
   {
     "id": "rifle_bullet_forming",
     "type": "requirement",
     "//": "Forming of rifle bullets from raw materials",
     "//2": "Reloading bench press being first on the list makes reversal bump required pulling quality up to level 2",
-    "tools": [ [ [ "press_workbench", -1 ], [ "press", -1 ] ], [ [ "fire", -1 ], [ "hotplate", 2 ], [ "toolset", 2 ] ] ]
+    "qualities": [ { "id": "CASING_PRESSING", "level": 2 } ],
+    "tools": [ [ [ "fire", -1 ], [ "hotplate", 2 ], [ "toolset", 2 ] ] ]
   },
   {
     "id": "earthenware_firing",
@@ -38,30 +38,44 @@
   {
     "id": "forging_standard",
     "type": "requirement",
-    "//": "Forging of steel items (per steel chunk), charcoal forge is already a substitute for forge",
+    "//": "Forging of steel items (per steel chunk), charcoal forge is already a substitute for forge. Crucible because melting brass and steel",
+    "qualities": [ { "id": "CONTAIN_HOT", "level": 1 } ],
     "tools": [ [ [ "forge", 20 ], [ "oxy_torch", 20 ] ] ]
   },
   {
     "id": "blacksmithing_standard",
     "type": "requirement",
-    "//": "Includes forging resources as well as tools needed for basic blacksmithing.  Permits working hot metal on stone surfaces.",
-    "qualities": [ { "id": "ANVIL", "level": 1 }, { "id": "HAMMER", "level": 2 } ],
-    "tools": [ [ [ "forge", 20 ], [ "oxy_torch", 20 ] ], [ [ "tongs", -1 ] ] ]
+    "//": "Includes forging resources as well as tools needed for basic blacksmithing.  Wooden tongs (if added) or pliers works here.",
+    "qualities": [ { "id": "ANVIL", "level": 1 }, { "id": "HAMMER", "level": 2 }, { "id": "GRIP_HOT", "level": 1 } ],
+    "tools": [ [ [ "forge", 20 ], [ "oxy_torch", 20 ] ] ]
   },
   {
     "id": "blacksmithing_intermediate",
     "type": "requirement",
     "//": "Includes forging resources as well as tools needed for mid-level blacksmithing.  Require a harder work surface for hot-cut chiseling and other uses of chisel quality.",
     "//2": "TODO: Downgrade chisel requirement to 2 if we ever get a chisel in between stone and steel",
-    "qualities": [ { "id": "ANVIL", "level": 2 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "forge", 20 ], [ "oxy_torch", 20 ] ], [ [ "tongs", -1 ] ] ]
+    "qualities": [
+      { "id": "ANVIL", "level": 2 },
+      { "id": "HAMMER", "level": 3 },
+      { "id": "CHISEL", "level": 3 },
+      { "id": "GRIP_HOT", "level": 2 },
+      { "id": "CONTAIN_HOT", "level": 1 }
+    ],
+    "tools": [ [ [ "forge", 20 ], [ "oxy_torch", 20 ] ] ]
   },
   {
     "id": "blacksmithing_advanced",
     "type": "requirement",
     "//": "Includes forging resources as well as tools needed for advanced blacksmithing.  Require a proper dediciated anvil for use of a swage and die set.",
-    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "forge", 20 ], [ "oxy_torch", 20 ] ], [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ] ]
+    "qualities": [
+      { "id": "ANVIL", "level": 3 },
+      { "id": "HAMMER", "level": 3 },
+      { "id": "CHISEL", "level": 3 },
+      { "id": "GRIP_HOT", "level": 2 },
+      { "id": "CONTAIN_HOT", "level": 1 },
+      { "id": "SWAGING", "level": 1 }
+    ],
+    "tools": [ [ [ "forge", 20 ], [ "oxy_torch", 20 ] ] ]
   },
   {
     "id": "mutagen_production_standard",
@@ -145,8 +159,7 @@
     "id": "bronzesmithing_tools",
     "type": "requirement",
     "//": "Tools for casting and work hardening items made from bronze",
-    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "ANVIL", "level": 2 } ],
-    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ]
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "ANVIL", "level": 2 }, { "id": "CONTAIN_HOT", "level": 1 } ]
   },
   {
     "id": "concrete_removal_standard",
@@ -259,5 +272,24 @@
         [ "wood_sheet", -1 ]
       ]
     ]
+  },
+  {
+    "id": "glassblowing_easy",
+    "type": "requirement",
+    "//": "Forge, crucible, tongs, glassblowing pipe. Units of 5 because someone made test tubes craftable at 5 forge.",
+    "qualities": [ { "id": "GRIP_HOT", "level": 2 }, { "id": "CONTAIN_HOT", "level": 1 }, { "id": "GLASSBLOWING", "level": 1 } ],
+    "tools": [ [ [ "forge", 5 ], [ "oxy_torch", 5 ] ] ]
+  },
+  {
+    "id": "glassblowing_standard",
+    "type": "requirement",
+    "//": "Because apparently we need chiseling.",
+    "qualities": [
+      { "id": "CHISEL", "level": 3 },
+      { "id": "GRIP_HOT", "level": 2 },
+      { "id": "CONTAIN_HOT", "level": 1 },
+      { "id": "GLASSBLOWING", "level": 1 }
+    ],
+    "tools": [ [ [ "forge", 5 ], [ "oxy_torch", 5 ] ] ]
   }
 ]

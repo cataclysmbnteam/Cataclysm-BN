@@ -2449,7 +2449,7 @@ bool Character::can_install_bionics( const itype &type, Character &installer, bo
     }
 
     if( !conflicting_muts.empty() &&
-        !query_yn(
+        !g->u.query_yn(
             _( "Installing this bionic will remove the conflicting traits: %s.  Continue anyway?" ),
             enumerate_as_string( conflicting_muts ) ) ) {
         return false;

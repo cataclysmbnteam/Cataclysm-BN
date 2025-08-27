@@ -2419,8 +2419,7 @@
     "result": "material_shrd_limestone",
     "type": "uncraft",
     "time": "10 m",
-    "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CONTAIN_HOT", "level": 1 } ],
     "components": [ [ [ "material_limestone", 10 ] ] ]
   },
   {
@@ -5832,5 +5831,19 @@
     "time": "60 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "platinum_small", 4 ] ], [ [ "garnet", 2 ] ] ]
+  },
+  {
+    "result": "atomic_butterchurn",
+    "type": "uncraft",
+    "skill_used": "electronics",
+    "time": "30 s",
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [
+      [ [ "plastic_chunk", 5 ] ],
+      [ [ "power_supply", 1 ] ],
+      [ [ "element", 1 ] ],
+      [ [ "scrap", 2 ] ],
+      [ [ "plut_cell", 1 ] ]
+    ]
   }
 ]

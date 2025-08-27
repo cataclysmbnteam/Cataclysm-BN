@@ -163,7 +163,7 @@
     "id": "achievement_mutation_threshold_bird",
     "type": "achievement",
     "name": { "str": "[Mutation] The Modern-Day Dinosaur" },
-    "description": "It's not flight (yet), it's falling with style.  You are now a post-threshold Bird mutant.",
+    "description": "I can see my house from here!  You are now a post-threshold Bird mutant.",
     "hidden_by": [ "achievement_mutation_threshold_bird" ],
     "requirements": [ { "event_statistic": "num_avatar_mutation_threshold_bird", "is": ">=", "target": 1 } ]
   },

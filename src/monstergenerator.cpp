@@ -195,6 +195,7 @@ std::string enum_to_string<m_flag>( m_flag data )
         case MF_PROJECTILE_RESISTANT_2: return "PROJECTILE_RESISTANT_2";
         case MF_PROJECTILE_RESISTANT_3: return "PROJECTILE_RESISTANT_3";
         case MF_PROJECTILE_RESISTANT_4: return "PROJECTILE_RESISTANT_4";
+        case MF_VOLATILE: return "VOLATILE";
         // *INDENT-ON*
         case m_flag::MF_MAX:
             break;
@@ -710,6 +711,7 @@ void pet_food_data::load( const JsonObject &jo )
     mandatory( jo, was_loaded, "food", food );
     optional( jo, was_loaded, "feed", feed );
     optional( jo, was_loaded, "pet", pet );
+    optional( jo, was_loaded, "tamer_traits", tamer_traits );
 }
 
 void pet_food_data::deserialize( JsonIn &jsin )

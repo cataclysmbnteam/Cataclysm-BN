@@ -130,7 +130,8 @@
       "POISON",
       "NO_BREATHE",
       "DRIPS_GASOLINE",
-      "PUSH_MON"
+      "PUSH_MON",
+      "VOLATILE"
     ]
   },
   {

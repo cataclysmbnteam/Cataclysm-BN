@@ -157,7 +157,21 @@
             "animated": false
           },
           { "id": "mon_zombie_technician_evolved_iron", "fg": 137 },
-          { "id": "mon_zombie_miner_evolved_moleman", "fg": 138 }
+          { "id": "mon_zombie_miner_evolved_moleman", "fg": 138 },
+          { "id": [ "overlay_female_mutation_PATCHSKIN1", "overlay_female_mutation_PATCHSKIN2" ], "fg": 139 },
+          { "id": [ "overlay_male_mutation_PATCHSKIN1", "overlay_male_mutation_PATCHSKIN2" ], "fg": 140 },
+          {
+            "id": [ "folding_skateboard", "frame_wood_deck", "overlay_wielded_folding_skateboard", "overlay_wielded_frame_wood_deck" ],
+            "fg": 141
+          },
+          { "id": "vp_frame_wood_deck", "fg": 142, "rotates": true },
+          { "id": "vp_wheel_skateboard", "fg": 143, "rotates": true },
+          { "id": [ "sea_scooter", "overlay_wielded_sea_scooter" ], "fg": 144 },
+          { "id": "vp_sea_scooter_hull", "fg": 145 },
+          { "id": "mon_skeleton_necro", "fg": 146 },
+          { "id": "mon_skeleton_master", "fg": 147 },
+          { "id": "pulley_crane_small_wood", "fg": 148 },
+          { "id": "vp+crane_small_wood", "fg": 149, "rotates": true }
         ],
         "sprite_width": 32,
         "sprite_height": 32

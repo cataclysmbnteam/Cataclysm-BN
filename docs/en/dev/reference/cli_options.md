@@ -19,6 +19,10 @@ but also provides a number of command line options to help modders and developer
 
 print this message and exit.
 
+### `--version`
+
+print the version and exit.
+
 ### `--paths`
 
 print the paths used by the game and exit.

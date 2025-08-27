@@ -5694,7 +5694,7 @@
     "id": "THRESH_BIRD",
     "name": { "str": "Bird" },
     "points": 1,
-    "description": "You're sure you'll fly someday.  In the meantime, there are still nests to build.",
+    "description": "The skies are your domain now.  And the land too, there are still nests to build after all.",
     "valid": false,
     "purifiable": false,
     "threshold": true,

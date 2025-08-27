@@ -2432,7 +2432,7 @@ detached_ptr<item> Character::wear_item( detached_ptr<item> &&wear,
     last_item = to_wear.typeId();
 
 
-    location_vector<item>::iterator pos = position ? *position : position_to_wear_new_item( to_wear );
+    location_vector<item>::iterator pos = position.value_or( position_to_wear_new_item( to_wear ) );
     worn.insert( std::move( pos ), std::move( wear ) );
 
     if( interactive ) {
@@ -7924,7 +7924,8 @@ bool Character::consume_charges( item &used, int qty )
     }
 
     //Destroy items with specific flag
-    if( used.has_flag( flag_DESTROY_ON_DECHARGE ) || used.get_use( "place_monster" ) != nullptr ) {
+    if( used.has_flag( flag_DESTROY_ON_DECHARGE ) || used.get_use( "place_monster" ) != nullptr ||
+        used.get_use( "place_npc" ) != nullptr ) {
         used.detach();
         return true;
     }

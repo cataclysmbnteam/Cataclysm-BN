@@ -40,7 +40,7 @@
         "using": [ [ "sewing_standard", 10 ], [ "fabric_standard", 1 ] ]
       }
     },
-    "flags": [ "OPAQUE", "OBSTACLE", "FOLDABLE", "FULL_BOARD", "NO_ROOF_NEEDED" ]
+    "flags": [ "OPAQUE", "OBSTACLE", "FOLDABLE", "FULL_BOARD", "NO_ROOF_NEEDED", "SHOCK_IMMUNE" ]
   },
   {
     "abstract": "cloth_halfboard",

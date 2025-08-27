@@ -555,9 +555,17 @@ double Creature::ranged_target_size() const
     if( const_cast<Creature &>( *this ).uncanny_dodge() ) {
         return 0.0;
     }
-    if( has_flag( MF_HARDTOSHOOT ) ) {
+    bool is_crouched = false;
+    if( Character *ch = const_cast<Creature &>( *this ).as_character() ) {
+        if( ch->movement_mode_is( CMM_CROUCH ) ) {
+            is_crouched = true;
+        }
+    }
+    if( has_flag( MF_HARDTOSHOOT ) || is_crouched ) {
         switch( get_size() ) {
             case creature_size::tiny:
+                // We can't be smaller than tiny, but we can make the hit rate lower.
+                return 0.05;
             case creature_size::small:
                 return occupied_tile_fraction( creature_size::tiny );
             case creature_size::medium:
@@ -1414,7 +1422,7 @@ dealt_projectile_attack throw_item( Character &who, const tripoint &target,
 
     // Throw from the player's position, unless we're blind throwing, in which case
     // throw from the the blind throw position instead.
-    const tripoint throw_from = blind_throw_from_pos ? *blind_throw_from_pos : who.pos();
+    const tripoint throw_from = blind_throw_from_pos.value_or( who.pos() );
 
     float range = rl_dist( throw_from, target );
     proj.range = range;
@@ -2102,6 +2110,10 @@ dispersion_sources ranged::get_weapon_dispersion( const Character &who, const it
     dispersion.add_range( dispersion_from_skill( avgSkill, weapon_dispersion ) );
 
     if( who.has_bionic( bio_targeting ) ) {
+        dispersion.add_multiplier( 0.75 );
+    }
+    // If we're crouched, it's easier to steady our aim.
+    if( who.movement_mode_is( CMM_CROUCH ) ) {
         dispersion.add_multiplier( 0.75 );
     }
 
@@ -3890,9 +3902,37 @@ bool ranged::gunmode_checks_common( avatar &you, const map &m, std::vector<std::
     const optional_vpart_position vp = m.veh_at( you.pos() );
     if( vp && vp->vehicle().player_in_control( you ) && ( gmode->is_two_handed( you ) ||
             gmode->has_flag( flag_FIRE_TWOHAND ) ) ) {
-        messages.push_back( string_format( _( "You can't fire your %s while driving." ),
-                                           gmode->tname() ) );
-        result = false;
+
+        const auto vp_control = vp->part_with_feature( "CONTROLS", true );
+        const bool ctrl_handsfree = vp_control && vp_control->has_feature( "CONTROL_WITHOUT_HANDS" );
+        const bool using_arms = vp->vehicle().has_part( "MUSCLE_ARMS", true );
+        const bool single_tile_veh = vp->vehicle().all_parts_at_location( "structure" ).size() < 2 ;
+
+        if( ctrl_handsfree ) { // check this vehicle is steerable and able to be controlled without hands.
+            if( single_tile_veh ) {
+                if( using_arms ) {
+                    messages.push_back( string_format(
+                                            _( "You can't fire your %s while driving; this vehicle is hand-powered." ),
+                                            gmode->tname() ) );
+                    result = false;
+                } else if( you.get_skill_level( skill_driving ) < 3 ) {
+                    messages.push_back( string_format(
+                                            _( "Your driving skill isn't high enough to fire your %s while driving." ), gmode->tname() ) );
+                    result = false;
+                } else {
+                    result = true;
+                }
+            } else { // its ctrl is handsfree, but the vehicle is too big.
+                messages.push_back( string_format(
+                                        _( "You can't fire your %s while driving; this vehicle is too large to handle." ),
+                                        gmode->tname() ) );
+                result = false;
+            }
+        } else { // You are driving with your own hands!
+            messages.push_back( string_format( _( "You can't fire your %s while driving." ),
+                                               gmode->tname() ) );
+            result = false;
+        }
     }
 
     if( gmode->has_flag( flag_FIRE_TWOHAND ) && ( !you.has_two_arms() ||
