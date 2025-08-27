@@ -38,7 +38,11 @@
         "parameterized_linoleum_color_bathroom",
         "standard_domestic_landscaping_palette"
       ],
-      "terrain": { "Y": { "param": "linoleum_color_kitchen", "fallback": "t_linoleum_white" } },
+      "terrain": {
+        "Y": { "param": "linoleum_color_kitchen", "fallback": "t_linoleum_white" },
+        "h": { "param": "linoleum_color_kitchen", "fallback": "t_linoleum_white" },
+        "f": { "param": "linoleum_color_kitchen", "fallback": "t_linoleum_white" }
+      },
       "furniture": { "?": "f_beaded_door" },
       "place_item": [
         { "item": "television", "x": 16, "y": 13 },
