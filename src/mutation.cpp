@@ -44,6 +44,8 @@
 #include "units.h"
 #include "weighted_list.h"
 
+using TraitSet = std::set<trait_id>;
+
 static const activity_id ACT_TREE_COMMUNION( "ACT_TREE_COMMUNION" );
 
 static const efftype_id effect_accumulated_mutagen( "accumulated_mutagen" );
@@ -102,6 +104,16 @@ std::string enum_to_string<mutagen_technique>( mutagen_technique data )
 bool Character::has_trait( const trait_id &b ) const
 {
     return my_mutations.count( b ) || enchantment_cache->get_mutations().contains( b );
+}
+
+bool Character::has_one_of_traits( const TraitSet &trait_set ) const
+{
+    for( const trait_id &trait : trait_set ) {
+        if( my_mutations.contains( trait ) || enchantment_cache->get_mutations().contains( trait ) ) {
+            return true;
+        }
+    }
+    return false;
 }
 
 bool Character::has_trait_flag( const trait_flag_str_id &b ) const
