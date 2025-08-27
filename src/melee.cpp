@@ -19,6 +19,7 @@
 #include "bionics.h"
 #include "cached_options.h"
 #include "calendar.h"
+#include "catalua_hooks.h"
 #include "cata_utility.h"
 #include "character.h"
 #include "character_functions.h"
@@ -1898,6 +1899,14 @@ bool Character::block_hit( Creature *source, bodypart_id &bp_hit, damage_instanc
             melee_attack( *source, false, &tec );
         }
     }
+
+    cata::run_hooks("on_char_blocked", [&, this]( auto & params ) {
+        params["mon"] = this;
+        params["source"] = source;
+        params["bodypart_id"] = bp_hit;
+        params["damage_instance"] = dam;
+        params["damage_blocked"] = damage_blocked;
+    } );
 
     return true;
 }

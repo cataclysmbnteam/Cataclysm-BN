@@ -23,6 +23,7 @@
 #include "bodypart.h"
 #include "cata_utility.h"
 #include "catacharset.h"
+#include "catalua_hooks.h"
 #include "character_functions.h"
 #include "character_martial_arts.h"
 #include "character_stat.h"
@@ -8840,6 +8841,11 @@ void Character::on_dodge( Creature *source, int difficulty )
             }
         }
     }
+    cata::run_hooks("on_char_dodged", [&, this]( auto & params ) {
+        params["mon"] = this;
+        params["source"] = source;
+        params["difficulty"] = difficulty;
+    } );
 }
 
 void Character::did_hit( Creature &target )

@@ -643,6 +643,12 @@ void cata::detail::reg_hooks_examples( sol::state &lua )
     DOC( "Called right after game has loaded" );
     luna::set_fx( lib, "on_game_load", []() {} );
     DOC( "Called when character stat gets reset" );
+    luna::set_fx( lib, "on_game_started", []() {} );
+    DOC( "Called when character stat gets reset" );
+    luna::set_fx( lib, "on_char_dodged", []() {} );
+    DOC( "Called when a character successfully dodges" );
+    luna::set_fx( lib, "on_char_blocked", []() {} );
+    DOC( "Called when a character successfully blocks" );
     luna::set_fx( lib, "on_character_reset_stats", []() {} );
     DOC( "Called when a monster is dead" );
     luna::set_fx( lib, "on_mon_death", []() {} );
