@@ -8249,7 +8249,7 @@ int iuse::hairkit( player *p, item *it, bool, const tripoint & )
 
 int iuse::weather_tool( player *p, item *it, bool, const tripoint & )
 {
-    if( g->remoteveh() != nullptr  || !g->u.get_value( "remote_controlling" ).empty() ){
+    if( g->remoteveh() != nullptr  || !g->u.get_value( "remote_controlling" ).empty() ) {
         return 0;
     }
     const weather_manager &weather = get_weather();
@@ -8729,7 +8729,7 @@ int iuse::toggle_heats_food( player *p, item *it, bool, const tripoint & )
 
 int iuse::toggle_ups_charging( player *p, item *it, bool, const tripoint & )
 {
-    if( g->remoteveh() != nullptr  || !g->u.get_value( "remote_controlling" ).empty() ){
+    if( g->remoteveh() != nullptr  || !g->u.get_value( "remote_controlling" ).empty() ) {
         return 0;
     }
     static const flag_id json_flag_USE_UPS( flag_USE_UPS );
