@@ -1631,11 +1631,6 @@
     "context": [  ]
   },
   {
-    "id": "IS_EFF_UPS",
-    "type": "json_flag",
-    "context": [  ]
-  },
-  {
     "id": "LEAK_DAM",
     "type": "json_flag",
     "context": [  ]
