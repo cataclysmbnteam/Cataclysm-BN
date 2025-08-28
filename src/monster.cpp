@@ -1971,7 +1971,7 @@ void monster::deal_projectile_attack( Creature *source, item *source_weapon,
 }
 
 void monster::deal_projectile_attack( Creature *source, item *source_weapon,
-                                      dealt_projectile_attack &attack, bool manual_special_attack_call )
+                                      dealt_projectile_attack &attack, bool manual_retaliation )
 {
     const auto &proj = attack.proj;
     double &missed_by = attack.missed_by; // We can change this here
@@ -1996,7 +1996,7 @@ void monster::deal_projectile_attack( Creature *source, item *source_weapon,
 
     if( !is_hallucination() && attack.hit_critter == this ) {
         // Maybe TODO: Get difficulty from projectile speed/size/missed_by
-        on_hit( source, bodypart_id( "torso" ), &attack, manual_special_attack_call );
+        on_hit( source, bodypart_id( "torso" ), &attack, manual_retaliation );
     }
 }
 
@@ -3270,13 +3270,13 @@ void monster::on_hit( Creature *source, bodypart_id, dealt_projectile_attack con
     this->on_hit( source, bodypart_id( "torso" ), proj, false );
 }
 void monster::on_hit( Creature *source, bodypart_id, dealt_projectile_attack const *const proj,
-                      bool manual_special_attack_call )
+                      bool manual_retaliation )
 {
     if( is_hallucination() ) {
         return;
     }
 
-    if( rng( 0, 100 ) <= static_cast<int>( type->def_chance ) && !manual_special_attack_call ) {
+    if( rng( 0, 100 ) <= static_cast<int>( type->def_chance ) && !manual_retaliation ) {
         type->sp_defense( *this, source, proj );
     }
 
