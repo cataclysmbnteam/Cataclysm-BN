@@ -10367,21 +10367,12 @@ std::vector<detached_ptr<item>> Character::use_charges( const itype_id &what, in
 
         remove_items_with( [ & ]( detached_ptr<item> &&e ) {
             if( e->has_flag( flag_IS_UPS ) && e->ammo_remaining() > 0 ) {
+                int ups_eff_mult = e->type->tool->ups_eff_mult;
                 detached_ptr<item> split = item::spawn( *e );
                 split->ammo_set( e->ammo_current(), e->ammo_remaining() );
-                if( e->has_flag( flag_IS_EFF_UPS ) ) {
-                    // qty % 2 returns 1, if odd, or 0, if even.
-                    // So if odd 1 / 2 chance to consume 1 less charge
-                    // If even 0 / 2 chance to consume 1 less charge
-                    int rand_round = x_in_y( qty % 2, 2 );
-                    int used = std::min( qty, e->ammo_remaining() * 2 );
-                    qty -= used;
-                    e->ammo_consume( std::max( ( used / 2 ) - rand_round, 1 ), pos() );
-                } else {
-                    int used = std::min( qty, e->ammo_remaining() );
-                    qty -= used;
-                    e->ammo_consume( used, pos() );
-                }
+                int used = std::min( qty, e->ammo_remaining() * ups_eff_mult );
+                qty -= used;
+                e->ammo_consume( std::max( ( used / ups_eff_mult ), 1 ), pos() );
                 res.push_back( std::move( split ) );
             }
             return qty != 0 ? VisitResponse::NEXT : VisitResponse::ABORT;

@@ -170,7 +170,6 @@ const flag_id flag_IS_BLOOD( "IS_BLOOD" );
 const flag_id flag_IS_EXPLOSION_PROPELLED( "IS_EXPLOSION_PROPELLED" );
 const flag_id flag_IS_PET_ARMOR( "IS_PET_ARMOR" );
 const flag_id flag_IS_UPS( "IS_UPS" );
-const flag_id flag_IS_EFF_UPS( "IS_EFF_UPS" );
 const flag_id flag_LEAK_ALWAYS( "LEAK_ALWAYS" );
 const flag_id flag_LEAK_DAM( "LEAK_DAM" );
 const flag_id flag_LIGHT_IMMUNE( "LIGHT_IMMUNE" );

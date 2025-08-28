@@ -9292,53 +9292,32 @@ detached_ptr<item> item::use_charges( detached_ptr<item> &&self, const itype_id 
     auto handle_item = [&qty, &used, &pos, &what]( detached_ptr<item> &&e ) {
         if( e->is_tool() ) {
             if( e->typeId() == what || ( what == itype_UPS && e->has_flag( flag_IS_UPS ) ) ) {
-                int n = std::min( e->ammo_remaining(), qty );
+                int ups_eff_mult = e->type->tool->ups_eff_mult;
+                int n = std::min( e->ammo_remaining() * ups_eff_mult, qty );
                 qty -= n;
 
                 if( n == e->ammo_remaining() ) {
                     used.push_back( item::spawn( *e ) );
-                    if( e->has_flag( flag_IS_EFF_UPS ) ) {
-                        e->ammo_consume( n / 2, pos );
-                    } else {
-                        e->ammo_consume( n, pos );
-                    }
+                    e->ammo_consume( n / ups_eff_mult, pos );
                 } else {
                     detached_ptr<item> split = item::spawn( *e );
                     split->ammo_set( e->ammo_current(), n );
-                    if( e->has_flag( flag_IS_EFF_UPS ) ) {
-                        e->ammo_consume( n / 2, pos );
-                    } else {
-                        e->ammo_consume( n, pos );
-                    }
+                    e->ammo_consume( n / ups_eff_mult, pos );
                     used.push_back( std::move( split ) );
                 }
             }
         } else if( e->count_by_charges() ) {
-            if( e->typeId() == what || ( what == itype_UPS && e->has_flag( flag_IS_UPS ) ) ) {
-                if( e->has_flag( flag_IS_EFF_UPS ) ) {
-                    if( e->charges * 2 > qty ) {
-                        e->charges -= qty / 2;
-                        detached_ptr<item> split = item::spawn( *e );
-                        split->charges = qty / 2;
-                        used.push_back( std::move( split ) );
-                        qty = 0;
-                    } else {
-                        qty -= e->charges;
-                        used.push_back( std::move( e ) );
-                        return detached_ptr<item>();
-                    }
+            if( e->typeId() == what ) {
+                if( e->charges > qty ) {
+                    e->charges -= qty;
+                    detached_ptr<item> split = item::spawn( *e );
+                    split->charges = qty;
+                    used.push_back( std::move( split ) );
+                    qty = 0;
                 } else {
-                    if( e->charges > qty ) {
-                        e->charges -= qty;
-                        detached_ptr<item> split = item::spawn( *e );
-                        split->charges = qty;
-                        used.push_back( std::move( split ) );
-                        qty = 0;
-                    } else {
-                        qty -= e->charges;
-                        used.push_back( std::move( e ) );
-                        return detached_ptr<item>();
-                    }
+                    qty -= e->charges;
+                    used.push_back( std::move( e ) );
+                    return detached_ptr<item>();
                 }
             }
         }
