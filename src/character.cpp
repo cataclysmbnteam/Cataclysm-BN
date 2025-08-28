@@ -10365,7 +10365,7 @@ std::vector<detached_ptr<item>> Character::use_charges( const itype_id &what, in
             qty -= std::min( qty, bio );
         }
 
-        remove_items_with( [ &, &qty, &res]( detached_ptr<item> &&e ) {
+        remove_items_with( [ & ]( detached_ptr<item> &&e ) {
             if( e->has_flag( flag_IS_UPS ) && e->ammo_remaining() > 0 ) {
                 detached_ptr<item> split = item::spawn( *e );
                 split->ammo_set( e->ammo_current(), e->ammo_remaining() );
