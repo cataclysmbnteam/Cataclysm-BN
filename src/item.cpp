@@ -9294,15 +9294,17 @@ detached_ptr<item> item::use_charges( detached_ptr<item> &&self, const itype_id 
             if( e->typeId() == what || ( what == itype_UPS && e->has_flag( flag_IS_UPS ) ) ) {
                 int ups_eff_mult = e->type->tool->ups_eff_mult;
                 int n = std::min( e->ammo_remaining() * ups_eff_mult, qty );
+                int rand_increase = x_in_y( n % ups_eff_mult, ups_eff_mult );
+                int really_used = ( n / ups_eff_mult ) + rand_increase;
                 qty -= n;
 
                 if( n == e->ammo_remaining() ) {
                     used.push_back( item::spawn( *e ) );
-                    e->ammo_consume( n / ups_eff_mult, pos );
+                    e->ammo_consume( really_used, pos );
                 } else {
                     detached_ptr<item> split = item::spawn( *e );
-                    split->ammo_set( e->ammo_current(), n );
-                    e->ammo_consume( n / ups_eff_mult, pos );
+                    split->ammo_set( e->ammo_current(), really_used );
+                    e->ammo_consume( really_used, pos );
                     used.push_back( std::move( split ) );
                 }
             }

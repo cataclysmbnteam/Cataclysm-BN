@@ -10372,7 +10372,9 @@ std::vector<detached_ptr<item>> Character::use_charges( const itype_id &what, in
                 split->ammo_set( e->ammo_current(), e->ammo_remaining() );
                 int used = std::min( qty, e->ammo_remaining() * ups_eff_mult );
                 qty -= used;
-                e->ammo_consume( std::max( ( used / ups_eff_mult ), 1 ), pos() );
+                int rand_increase = x_in_y( used % ups_eff_mult, ups_eff_mult );
+                int really_used = ( used / ups_eff_mult ) + rand_increase;
+                e->ammo_consume( really_used, pos() );
                 res.push_back( std::move( split ) );
             }
             return qty != 0 ? VisitResponse::NEXT : VisitResponse::ABORT;
