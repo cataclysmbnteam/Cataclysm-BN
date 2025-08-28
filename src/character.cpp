@@ -10365,20 +10365,19 @@ std::vector<detached_ptr<item>> Character::use_charges( const itype_id &what, in
             qty -= std::min( qty, bio );
         }
 
-        remove_items_with( [&, &qty, &res]( detached_ptr<item> &&e ) {
+        remove_items_with( [ &, &qty, &res]( detached_ptr<item> &&e ) {
             if( e->has_flag( flag_IS_UPS ) && e->ammo_remaining() > 0 ) {
                 detached_ptr<item> split = item::spawn( *e );
                 split->ammo_set( e->ammo_current(), e->ammo_remaining() );
-                if( e->has_flag( flag_IS_EFF_UPS ) ){
+                if( e->has_flag( flag_IS_EFF_UPS ) ) {
                     // qty % 2 returns 1, if odd, or 0, if even.
                     // So if odd 1 / 2 chance to consume 1 less charge
                     // If even 0 / 2 chance to consume 1 less charge
                     int rand_round = x_in_y( qty % 2, 2 );
-                    int used = std::min( qty, e->ammo_remaining() * 2);
+                    int used = std::min( qty, e->ammo_remaining() * 2 );
                     qty -= used;
-                    e->ammo_consume( std::max((used / 2) - rand_round, 1), pos() );
-                }
-                else{
+                    e->ammo_consume( std::max( ( used / 2 ) - rand_round, 1 ), pos() );
+                } else {
                     int used = std::min( qty, e->ammo_remaining() );
                     qty -= used;
                     e->ammo_consume( used, pos() );

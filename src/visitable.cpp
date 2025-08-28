@@ -957,10 +957,10 @@ static int charges_of_ups( const T &self, int limit,
                            std::function<void( int )> visitor )
 {
     int qty = 0;
-    self->visit_items( [&]( const item *e ) {
+    self->visit_items( [&]( const item * e ) {
         if( e->has_flag( flag_IS_UPS ) ) {
             int mult = e->has_flag( flag_IS_EFF_UPS ) ? 2 : 1;
-            qty = sum_no_wrap(qty, e->ammo_remaining() * mult);
+            qty = sum_no_wrap( qty, e->ammo_remaining() * mult );
         }
         return qty < limit ? VisitResponse::NEXT : VisitResponse::ABORT;
     } );
@@ -1099,7 +1099,7 @@ int visitable<Character>::charges_of( const itype_id &what, int limit,
 
     if( what == itype_UPS ) {
         int qty = 0;
-        qty = charges_of_ups( this, limit, filter, visitor);
+        qty = charges_of_ups( this, limit, filter, visitor );
         if( p && p->has_active_bionic( bio_ups ) ) {
             qty = sum_no_wrap( qty, units::to_kilojoule( p->get_power_level() ) );
         }

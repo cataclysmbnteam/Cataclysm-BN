@@ -2070,6 +2070,9 @@ void activity_handlers::start_fire_finish( player_activity *act, player *p )
     }
 
     if( it.type->can_have_charges() ) {
+        if( it.has_flag( flag_USE_UPS ) ) {
+            p->use_charges( itype_UPS, it.type->charges_to_use() );
+        }
         p->consume_charges( it, it.type->charges_to_use() );
     }
     p->practice( skill_survival, act->index, 5 );

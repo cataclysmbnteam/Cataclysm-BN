@@ -9297,27 +9297,25 @@ detached_ptr<item> item::use_charges( detached_ptr<item> &&self, const itype_id 
 
                 if( n == e->ammo_remaining() ) {
                     used.push_back( item::spawn( *e ) );
-                    if( e->has_flag( flag_IS_EFF_UPS ) ){
+                    if( e->has_flag( flag_IS_EFF_UPS ) ) {
                         e->ammo_consume( n / 2, pos );
-                    }
-                    else{
-                        e->ammo_consume( n, pos);
+                    } else {
+                        e->ammo_consume( n, pos );
                     }
                 } else {
                     detached_ptr<item> split = item::spawn( *e );
                     split->ammo_set( e->ammo_current(), n );
-                    if( e->has_flag( flag_IS_EFF_UPS ) ){
+                    if( e->has_flag( flag_IS_EFF_UPS ) ) {
                         e->ammo_consume( n / 2, pos );
-                    }
-                    else{
-                        e->ammo_consume( n, pos);
+                    } else {
+                        e->ammo_consume( n, pos );
                     }
                     used.push_back( std::move( split ) );
                 }
             }
         } else if( e->count_by_charges() ) {
             if( e->typeId() == what || ( what == itype_UPS && e->has_flag( flag_IS_UPS ) ) ) {
-                if( e->has_flag( flag_IS_EFF_UPS ) ){
+                if( e->has_flag( flag_IS_EFF_UPS ) ) {
                     if( e->charges * 2 > qty ) {
                         e->charges -= qty / 2;
                         detached_ptr<item> split = item::spawn( *e );
@@ -9329,8 +9327,7 @@ detached_ptr<item> item::use_charges( detached_ptr<item> &&self, const itype_id 
                         used.push_back( std::move( e ) );
                         return detached_ptr<item>();
                     }
-                }
-                else {
+                } else {
                     if( e->charges > qty ) {
                         e->charges -= qty;
                         detached_ptr<item> split = item::spawn( *e );

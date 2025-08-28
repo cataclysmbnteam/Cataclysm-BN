@@ -29,7 +29,7 @@
         ]
       ]
     ],
-    "flags": [ "FIRESTARTER" ],
+    "flags": [ "FIRESTARTER", "CAN_HAVE_CHARGES" ],
     "category": "tools_cooking"
   },
   {

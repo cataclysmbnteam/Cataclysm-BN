@@ -875,8 +875,8 @@ void Character::process_items()
         }
         // Necessary for UPS in Aftershock - check worn items for charge
         const itype_id &identifier = w->typeId();
-        if( w->has_flag( flag_IS_UPS) ) {
-            if( w->has_flag( flag_IS_EFF_UPS ) ){
+        if( w->has_flag( flag_IS_UPS ) ) {
+            if( w->has_flag( flag_IS_EFF_UPS ) ) {
                 ch_UPS += w->ammo_remaining() / 0.5;
             } else {
                 ch_UPS += w->ammo_remaining();
