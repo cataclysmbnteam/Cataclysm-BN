@@ -536,6 +536,11 @@ void Character::melee_attack( Creature &t, bool allow_special, const matec_id *f
 
         // trigger martial arts on-miss effects
         martial_arts_data->ma_onmiss_effects( *this );
+
+        cata::run_hooks("on_char_melee_attack_missed", [&, this]( auto & params ) {
+            params["char"] = this;
+            params["target"] = &t;
+        } );
     } else {
         melee::melee_stats.hit_count += 1;
         // Remember if we see the monster at start - it may change
@@ -675,8 +680,17 @@ void Character::melee_attack( Creature &t, bool allow_special, const matec_id *f
     if( t.as_character() ) {
         dealt_projectile_attack dp = dealt_projectile_attack();
         t.as_character()->on_hit( this, bodypart_str_id::NULL_ID().id(), &dp );
+        cata::run_hooks("on_char_melee_attack_hit", [&, this]( auto & params ) {
+            params["char"] = this;
+            params["target"] = &t;
+        } );
     }
-    return;
+
+    cata::run_hooks("on_char_melee_attacked", [&, this]( auto & params ) {
+        params["char"] = this;
+        params["target"] = &t;
+    } );
+
 }
 
 void Character::reach_attack( const tripoint &p )
@@ -1638,6 +1652,14 @@ void Character::perform_technique( const ma_technique &technique, Creature &t, d
             martial_arts_data->learn_current_style_CQB( is_player() );
         }
     }
+
+    cata::run_hooks("on_char_performed_technique", [&, this]( auto & params ) {
+        params["char"] = this;
+        params["technique"] = technique;
+        params["target"] = &t;
+        params["damage_instance"] = &di;
+        params["move_cost"] = &move_cost;
+    } );
 }
 
 static int blocking_ability( const item &shield )
@@ -1901,7 +1923,7 @@ bool Character::block_hit( Creature *source, bodypart_id &bp_hit, damage_instanc
     }
 
     cata::run_hooks("on_char_blocked", [&, this]( auto & params ) {
-        params["mon"] = this;
+        params["char"] = this;
         params["source"] = source;
         params["bodypart_id"] = bp_hit;
         params["damage_instance"] = dam;
