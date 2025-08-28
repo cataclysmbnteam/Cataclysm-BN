@@ -132,12 +132,10 @@ static const itype_id fuel_type_muscle( "muscle" );
 static const itype_id fuel_type_sun_light( "sunlight" );
 static const itype_id fuel_type_wind( "wind" );
 
-static const itype_id itype_adv_UPS_off( "adv_UPS_off" );
 static const itype_id itype_anesthetic( "anesthetic" );
 static const itype_id itype_burnt_out_bionic( "burnt_out_bionic" );
 static const itype_id itype_radiocontrol( "radiocontrol" );
 static const itype_id itype_remotevehcontrol( "remotevehcontrol" );
-static const itype_id itype_UPS_off( "UPS_off" );
 static const itype_id itype_UPS( "UPS" );
 static const itype_id itype_water_clean( "water_clean" );
 
@@ -1587,9 +1585,6 @@ units::energy Character::consume_remote_fuel( units::energy amount )
                 };
                 if( has_charges( itype_UPS, amount_kj, used_ups ) ) {
                     use_charges( itype_UPS, amount_kj, used_ups );
-                    unconsumed_amount = 0_J;
-                } else if( has_charges( itype_adv_UPS_off, amount_kj, used_ups ) ) {
-                    use_charges( itype_adv_UPS_off, roll_remainder( amount_kj * 0.5 ), used_ups );
                     unconsumed_amount = 0_J;
                 }
                 break;

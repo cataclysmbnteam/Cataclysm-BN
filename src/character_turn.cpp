@@ -98,8 +98,6 @@ static const bionic_id bio_ground_sonar( "bio_ground_sonar" );
 static const bionic_id bio_hydraulics( "bio_hydraulics" );
 static const bionic_id bio_speed( "bio_speed" );
 
-static const itype_id itype_adv_UPS_off( "adv_UPS_off" );
-static const itype_id itype_UPS_off( "UPS_off" );
 static const itype_id itype_UPS( "UPS" );
 
 void Character::recalc_speed_bonus()

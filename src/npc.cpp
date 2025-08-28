@@ -97,7 +97,6 @@ static const efftype_id effect_pkill3( "pkill3" );
 static const efftype_id effect_ridden( "ridden" );
 static const efftype_id effect_riding( "riding" );
 
-static const itype_id itype_UPS_off( "UPS_off" );
 static const itype_id itype_UPS( "UPS" );
 
 static const skill_id skill_archery( "archery" );

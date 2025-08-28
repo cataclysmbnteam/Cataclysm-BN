@@ -33,11 +33,9 @@
 #include "vehicle_selector.h"
 
 static const itype_id itype_apparatus( "apparatus" );
-static const itype_id itype_adv_UPS_off( "adv_UPS_off" );
 static const itype_id itype_toolset( "toolset" );
 static const itype_id itype_voltmeter_bionic( "voltmeter_bionic" );
 static const itype_id itype_UPS( "UPS" );
-static const itype_id itype_UPS_off( "UPS_off" );
 static const itype_id itype_bio_armor( "bio_armor" );
 
 static const quality_id qual_BUTCHER( "BUTCHER" );
