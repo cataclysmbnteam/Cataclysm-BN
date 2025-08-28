@@ -138,6 +138,7 @@ static const itype_id itype_burnt_out_bionic( "burnt_out_bionic" );
 static const itype_id itype_radiocontrol( "radiocontrol" );
 static const itype_id itype_remotevehcontrol( "remotevehcontrol" );
 static const itype_id itype_UPS_off( "UPS_off" );
+static const itype_id itype_UPS( "UPS" );
 static const itype_id itype_water_clean( "water_clean" );
 
 static const fault_id fault_bionic_nonsterile( "fault_bionic_nonsterile" );
@@ -1525,11 +1526,8 @@ itype_id Character::find_remote_fuel( bool look_only )
                     return itm.get_var( "cable" ) == "plugged_in";
                 };
                 if( !look_only ) {
-                    if( has_charges( itype_UPS_off, 1, used_ups ) ) {
-                        set_value( "rem_battery", std::to_string( charges_of( itype_UPS_off,
-                                   units::to_kilojoule( max_power_level ), used_ups ) ) );
-                    } else if( has_charges( itype_adv_UPS_off, 1, used_ups ) ) {
-                        set_value( "rem_battery", std::to_string( charges_of( itype_adv_UPS_off,
+                    if( has_charges( itype_UPS, 1, used_ups ) ) {
+                        set_value( "rem_battery", std::to_string( charges_of( itype_UPS,
                                    units::to_kilojoule( max_power_level ), used_ups ) ) );
                     } else {
                         set_value( "rem_battery", std::to_string( 0 ) );
@@ -1587,8 +1585,8 @@ units::energy Character::consume_remote_fuel( units::energy amount )
                 static const item_filter used_ups = [&]( const item & itm ) {
                     return itm.get_var( "cable" ) == "plugged_in";
                 };
-                if( has_charges( itype_UPS_off, amount_kj, used_ups ) ) {
-                    use_charges( itype_UPS_off, amount_kj, used_ups );
+                if( has_charges( itype_UPS, amount_kj, used_ups ) ) {
+                    use_charges( itype_UPS, amount_kj, used_ups );
                     unconsumed_amount = 0_J;
                 } else if( has_charges( itype_adv_UPS_off, amount_kj, used_ups ) ) {
                     use_charges( itype_adv_UPS_off, roll_remainder( amount_kj * 0.5 ), used_ups );

@@ -864,11 +864,7 @@ void Character::process_items()
     for( size_t index = 0; index < inv.size(); index++ ) {
         item &it = inv.find_item( index );
         itype_id identifier = it.type->get_id();
-        if( identifier == itype_UPS_off ) {
-            ch_UPS += it.ammo_remaining();
-        } else if( identifier == itype_adv_UPS_off ) {
-            ch_UPS += it.ammo_remaining() / 0.5;
-        }
+        ch_UPS += inv.charges_of( itype_UPS );
         if( it.has_flag( flag_USE_UPS ) && it.charges < it.type->maximum_charges() ) {
             active_held_items.push_back( index );
         }

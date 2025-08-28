@@ -9291,7 +9291,7 @@ detached_ptr<item> item::use_charges( detached_ptr<item> &&self, const itype_id 
 
     auto handle_item = [&qty, &used, &pos, &what]( detached_ptr<item> &&e ) {
         if( e->is_tool() ) {
-            if( e->typeId() == what ) {
+            if( e->typeId() == what || ( what == itype_UPS && e->has_flag( flag_IS_UPS ) ) ) {
                 int n = std::min( e->ammo_remaining(), qty );
                 qty -= n;
 
@@ -9306,7 +9306,7 @@ detached_ptr<item> item::use_charges( detached_ptr<item> &&self, const itype_id 
                 }
             }
         } else if( e->count_by_charges() ) {
-            if( e->typeId() == what ) {
+            if( e->typeId() == what || ( what == itype_UPS && e->has_flag( flag_IS_UPS ) ) ) {
                 if( e->charges > qty ) {
                     e->charges -= qty;
                     detached_ptr<item> split = item::spawn( *e );

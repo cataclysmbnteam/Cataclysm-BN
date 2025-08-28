@@ -47,6 +47,7 @@ static const bionic_id bio_electrosense_voltmeter( "bio_electrosense_voltmeter" 
 static const bionic_id bio_ups( "bio_ups" );
 
 static const flag_id flag_BIONIC_ARMOR_INTERFACE( "BIONIC_ARMOR_INTERFACE" );
+static const flag_id flag_IS_UPS( "IS_UPS" );
 
 /** @relates visitable */
 template <typename T>
@@ -949,6 +950,22 @@ void location_visitable<monster>::remove_items_with( const
         mon->get_tied_item()->attempt_detach( check_item );
     }
 }
+/** @relates visitable */
+
+template <typename T>
+static int charges_of_ups( const T &self, int limit,
+                           const std::function<bool( const item & )> &filter,
+                           std::function<void( int )> visitor )
+{
+    int qty = 0;
+    self->visit_items( [&]( const item *e ) {
+        if( e->has_flag( flag_IS_UPS ) ) {
+            qty = sum_no_wrap(qty, e->ammo_remaining() );
+        }
+        return qty < limit ? VisitResponse::NEXT : VisitResponse::ABORT;
+    } );
+    return std::min( qty, limit );
+}
 
 template <typename T, typename M>
 static int charges_of_internal( const T &self, const M &main, const itype_id &id, int limit,
@@ -1009,8 +1026,7 @@ int visitable<inventory>::charges_of( const itype_id &what, int limit,
 {
     if( what == itype_UPS ) {
         int qty = 0;
-        qty = sum_no_wrap( qty, charges_of( itype_UPS_off ) );
-        qty = sum_no_wrap( qty, static_cast<int>( charges_of( itype_adv_UPS_off ) / 0.5 ) );
+        qty = charges_of_ups( this, limit, filter, visitor );
         return std::min( qty, limit );
     }
     const auto &binned = static_cast<const inventory *>( this )->get_binned_items();
@@ -1083,8 +1099,7 @@ int visitable<Character>::charges_of( const itype_id &what, int limit,
 
     if( what == itype_UPS ) {
         int qty = 0;
-        qty = sum_no_wrap( qty, charges_of( itype_UPS_off ) );
-        qty = sum_no_wrap( qty, static_cast<int>( charges_of( itype_adv_UPS_off ) / 0.5 ) );
+        qty = charges_of_ups( this, limit, filter, visitor);
         if( p && p->has_active_bionic( bio_ups ) ) {
             qty = sum_no_wrap( qty, units::to_kilojoule( p->get_power_level() ) );
         }

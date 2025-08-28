@@ -3977,8 +3977,7 @@ auto ranged::gunmode_checks_weapon( avatar &you, const map &m, std::vector<std::
             }
         }
         if( !is_mech_weapon ) {
-            if( !( you.has_charges( itype_UPS_off, ups_drain ) ||
-                   you.has_charges( itype_adv_UPS_off, adv_ups_drain ) ||
+            if( !( you.has_charges( itype_UPS, ups_drain )  ||
                    ( you.has_active_bionic( bio_ups ) &&
                      you.get_power_level() >= units::from_kilojoule( ups_drain ) ) ) ) {
                 messages.push_back( string_format(
