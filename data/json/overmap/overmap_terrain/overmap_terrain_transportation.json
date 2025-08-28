@@ -248,6 +248,22 @@
   },
   {
     "type": "overmap_terrain",
+    "id": [ "rv_park_1", "rv_park_2", "rv_park_3", "rv_park_4" ],
+    "copy-from": "generic_city_building_no_sidewalk",
+    "name": "RV park",
+    "sym": "#",
+    "color": "light_blue",
+    "extend": { "flags": [ "GENERIC_LOOT" ] }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "rv_park_roof_1", "rv_park_roof_2" ],
+    "copy-from": "rv_park_1",
+    "name": "RV park roof",
+    "delete": { "flags": [ "GENERIC_LOOT" ] }
+  },
+  {
+    "type": "overmap_terrain",
     "id": "sub_station",
     "name": "subway station",
     "sym": "S",
