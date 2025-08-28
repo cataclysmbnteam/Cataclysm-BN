@@ -171,6 +171,7 @@ extern const flag_id flag_IS_BLOOD;
 extern const flag_id flag_IS_EXPLOSION_PROPELLED;
 extern const flag_id flag_IS_PET_ARMOR;
 extern const flag_id flag_IS_UPS;
+extern const flag_id flag_IS_EFF_UPS;
 extern const flag_id flag_LEAK_ALWAYS;
 extern const flag_id flag_LEAK_DAM;
 extern const flag_id flag_LIGHT_IMMUNE;

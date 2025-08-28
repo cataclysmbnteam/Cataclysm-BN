@@ -16,7 +16,7 @@
     "color": "light_green",
     "ammo": "plutonium",
     "max_charges": 2500,
-    "flags": [ "IS_UPS" ]
+    "flags": [ "IS_UPS", "IS_EFF_UPS" ]
   },
   {
     "id": "camera",

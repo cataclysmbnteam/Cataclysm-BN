@@ -48,6 +48,7 @@ static const bionic_id bio_ups( "bio_ups" );
 
 static const flag_id flag_BIONIC_ARMOR_INTERFACE( "BIONIC_ARMOR_INTERFACE" );
 static const flag_id flag_IS_UPS( "IS_UPS" );
+static const flag_id flag_IS_EFF_UPS( "IS_EFF_UPS" );
 
 /** @relates visitable */
 template <typename T>
@@ -960,7 +961,8 @@ static int charges_of_ups( const T &self, int limit,
     int qty = 0;
     self->visit_items( [&]( const item *e ) {
         if( e->has_flag( flag_IS_UPS ) ) {
-            qty = sum_no_wrap(qty, e->ammo_remaining() );
+            int mult = e->has_flag( flag_IS_EFF_UPS ) ? 2 : 1;
+            qty = sum_no_wrap(qty, e->ammo_remaining() * mult);
         }
         return qty < limit ? VisitResponse::NEXT : VisitResponse::ABORT;
     } );
