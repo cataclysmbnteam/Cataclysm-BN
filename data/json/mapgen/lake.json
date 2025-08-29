@@ -154,7 +154,15 @@
         { "furn": "f_rubble_water", "x": [ 9, 14 ], "y": [ 9, 14 ], "repeat": [ 20, 25 ] }
       ],
       "place_vehicles": [
-        { "chance": 10, "fuel": 0, "rotation": [ 0, 90, 180 ], "status": 1, "vehicle": "water_autosweeper", "x": [ 15, 16 ], "y": [ 15, 16 ] }
+        {
+          "chance": 10,
+          "fuel": 0,
+          "rotation": [ 0, 90, 180 ],
+          "status": 1,
+          "vehicle": "water_autosweeper",
+          "x": [ 15, 16 ],
+          "y": [ 15, 16 ]
+        }
       ],
       "place_items": [ { "item": "trash", "x": [ 9, 14 ], "y": [ 9, 14 ], "repeat": [ 100, 200 ] } ]
     }
