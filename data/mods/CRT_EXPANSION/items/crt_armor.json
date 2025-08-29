@@ -178,7 +178,7 @@
     "warmth": 20,
     "material_thickness": 3,
     "environmental_protection": 9,
-    "flags": [ "POCKETS", "OUTER", "COLLAR", "STURDY", "WATERPROOF", "RAINPROOF" ]
+    "flags": [ "POCKETS", "OUTER", "COLLAR", "STURDY", "WATERPROOF", "RAINPROOF", "ALLOWS_TAIL_SNAKE" ]
   },
   {
     "id": "ds_monitor",

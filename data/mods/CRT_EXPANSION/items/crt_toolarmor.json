@@ -221,7 +221,8 @@
       "RECHARGE",
       "NO_UNLOAD",
       "OUTER",
-      "HEAVY_WEAPON_SUPPORT"
+      "HEAVY_WEAPON_SUPPORT",
+      "ALLOWS_TAIL_SNAKE"
     ]
   },
   {
