@@ -996,13 +996,13 @@
     "coverage": 25,
     "flags": [ "TRANSPARENT", "NOITEM", "REDUCE_SCENT", "MOUNTABLE", "SHORT", "THIN_OBSTACLE", "ROAD", "BURROWABLE" ],
     "bash": {
-      "str_min": 8,
+      "str_min": 25,
       "str_max": 150,
       "sound": "crunch!",
       "sound_fail": "clang!",
       "ter_set": "t_pavement_hw_air",
       "items": [ { "item": "pipe", "count": [ 1, 2 ] }, { "item": "scrap", "count": [ 3, 6 ] } ],
-      "ranged": { "reduction": [ 8, 8 ], "destroy_threshold": 150, "block_unaimed_chance": "25%" }
+      "ranged": { "reduction": [ 25, 25 ], "destroy_threshold": 150, "block_unaimed_chance": "25%" }
     }
   },
   {
@@ -1016,13 +1016,13 @@
     "coverage": 25,
     "flags": [ "TRANSPARENT", "NOITEM", "REDUCE_SCENT", "MOUNTABLE", "SHORT", "THIN_OBSTACLE", "ROAD", "BURROWABLE" ],
     "bash": {
-      "str_min": 8,
+      "str_min": 25,
       "str_max": 150,
       "sound": "crunch!",
       "sound_fail": "clang!",
       "ter_set": "t_pavement_bg_dp",
       "items": [ { "item": "pipe", "count": [ 1, 2 ] }, { "item": "scrap", "count": [ 3, 6 ] } ],
-      "ranged": { "reduction": [ 8, 8 ], "destroy_threshold": 150, "block_unaimed_chance": "25%" }
+      "ranged": { "reduction": [ 25, 25 ], "destroy_threshold": 150, "block_unaimed_chance": "25%" }
     }
   },
   {
@@ -1037,13 +1037,13 @@
     "flags": [ "TRANSPARENT", "NOITEM", "REDUCE_SCENT", "MOUNTABLE", "SHORT", "THIN_OBSTACLE", "ROAD", "BURROWABLE" ],
     "looks_like": "t_guardrail_bg_dp",
     "bash": {
-      "str_min": 8,
+      "str_min": 25,
       "str_max": 150,
       "sound": "crunch!",
       "sound_fail": "clang!",
       "ter_set": "t_pavement",
       "items": [ { "item": "pipe", "count": [ 1, 2 ] }, { "item": "scrap", "count": [ 3, 6 ] } ],
-      "ranged": { "reduction": [ 8, 8 ], "destroy_threshold": 150, "block_unaimed_chance": "25%" }
+      "ranged": { "reduction": [ 25, 25 ], "destroy_threshold": 150, "block_unaimed_chance": "25%" }
     }
   }
 ]
