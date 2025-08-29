@@ -1365,11 +1365,11 @@ static time_duration safecracking_time( const player &p )
 {
     time_duration time = 120_minutes;
     time -= 10_minutes * p.get_skill_level( skill_mechanics );
-    if( p.get_per() > 10){
+    if( p.get_per() > 10 ) {
         time -= 5_minutes * ( p.get_per() - 10 );
     }
     // Count Safecracking tools (stethoscopes) as 2 perception
-    if( p.has_item_with_flag( flag_SAFECRACK ) ){
+    if( p.has_item_with_flag( flag_SAFECRACK ) ) {
         time -= 10_minutes;
     }
     // Should take longer with poor hearing, hence the negative possibility
