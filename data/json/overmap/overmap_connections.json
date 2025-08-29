@@ -4,8 +4,8 @@
     "id": "local_road",
     "default_terrain": "road",
     "subtypes": [
-      { "terrain": "road_nesw_manhole", "locations": [  ], "basic_cost": -1 },
-      { "terrain": "road", "locations": [ "field", "road" ], "weight": 1 },
+      { "terrain": "road_nesw_manhole", "locations": [  ], "basic_cost": 0 },
+      { "terrain": "road", "locations": [ "field", "road" ], "basic_cost": 1, "weight": 1 },
       { "terrain": "forest_trail", "locations": [ "forest_trail", "forest_without_trail" ], "basic_cost": 20, "weight": 1 },
       { "terrain": "road", "locations": [ "forest_without_trail" ], "basic_cost": 20 },
       { "terrain": "road", "locations": [ "forest_trail" ], "basic_cost": 25 },
