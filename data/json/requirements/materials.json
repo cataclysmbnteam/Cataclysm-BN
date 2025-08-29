@@ -181,7 +181,16 @@
     "id": "junk_wall_standard",
     "type": "requirement",
     "//": "Standard set of filler metal used to construct junk walls and floors.",
-    "components": [ [ [ "steel_plate", 1 ], [ "sheet_metal", 2 ], [ "sheet_metal_small", 48 ], [ "frame", 1 ], [ "xlframe", 2 ], [ "pipe", 6 ] ] ]
+    "components": [
+      [
+        [ "steel_plate", 1 ],
+        [ "sheet_metal", 2 ],
+        [ "sheet_metal_small", 48 ],
+        [ "frame", 1 ],
+        [ "xlframe", 2 ],
+        [ "pipe", 6 ]
+      ]
+    ]
   },
   {
     "id": "rope_natural",

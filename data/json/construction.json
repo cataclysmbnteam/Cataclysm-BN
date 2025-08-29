@@ -3826,11 +3826,7 @@
     "required_skills": [ [ "fabrication", 2 ] ],
     "time": "30 m",
     "using": [ [ "junk_wall_fasteners", 1 ], [ "junk_wall_standard", 1 ] ],
-    "qualities": [
-      [ { "id": "HAMMER", "level": 1 } ],
-      [ { "id": "WRENCH", "level": 1 } ],
-      [ { "id": "DRILL", "level": 1 } ]
-    ],
+    "qualities": [ [ { "id": "HAMMER", "level": 1 } ], [ { "id": "WRENCH", "level": 1 } ], [ { "id": "DRILL", "level": 1 } ] ],
     "pre_special": "check_empty",
     "post_terrain": "t_junk_palisade"
   },
@@ -3912,9 +3908,7 @@
       [ { "id": "WRENCH", "level": 1 } ],
       [ { "id": "DRILL", "level": 1 } ]
     ],
-    "components": [
-      [ [ "wire", 3 ] ]
-    ],
+    "components": [ [ [ "wire", 3 ] ] ],
     "pre_special": "check_empty",
     "post_terrain": "t_junk_door_c"
   },

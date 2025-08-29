@@ -1110,10 +1110,7 @@
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "ter_set": "t_null",
-      "items": [
-        { "item": "scrap", "count": [ 1, 40 ] },
-        { "item": "steel_chunk", "count": [ 1, 30 ] }
-      ],
+      "items": [ { "item": "scrap", "count": [ 1, 40 ] }, { "item": "steel_chunk", "count": [ 1, 30 ] } ],
       "ranged": { "reduction": [ 60, 60 ], "destroy_threshold": 200 }
     }
   },
