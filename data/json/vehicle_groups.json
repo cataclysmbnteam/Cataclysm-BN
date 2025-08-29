@@ -99,7 +99,6 @@
       [ "boat_motor_single", 175 ],
       [ "scuba_boat", 25 ],
       [ "fishing_boat", 25 ],
-      [ "water_autosweeper", 50 ],
       [ "barge_trailer", 50 ],
       [ "boat_motor_smuggler", 50 ],
       [ "boat_motor_police", 150 ],
@@ -109,6 +108,21 @@
       [ "pirate_ship", 25 ],
       [ "DUKW", 75 ],
       [ "hovercraft_motor_single", 25 ]
+    ]
+  },
+  {
+    "type": "vehicle_group",
+    "id": "cove_boats",
+    "vehicles": [
+      [ "jetski", 100 ],
+      [ "raft", 100 ],
+      [ "boat_motor_single", 200 ],
+      [ "fishing_boat", 100 ],
+      [ "boat_motor_smuggler", 100 ],
+      [ "boat_motor_police", 125 ],
+      [ "CG_patrol_boat", 25 ],
+      [ "sailboat", 150 ],
+      [ "pirate_ship", 100 ]
     ]
   },
   {

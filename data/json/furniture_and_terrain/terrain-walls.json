@@ -904,6 +904,32 @@
   },
   {
     "type": "terrain",
+    "id": "t_wall_wood_underwater",
+    "copy-from": "t_wall_wood",
+    "name": "underwater wooden wall",
+    "description": "A decaying old section of wooden wall, soaked through and leaking.  It will likely crumble to bits if damaged.",
+    "symbol": "LINE_OXOX",
+    "color": "light_red",
+    "roof": "t_floor_wood_underwater",
+    "extend": { "flags": [ "LIQUID", "SWIMMABLE", "WATER_CUBE", "DEEP_WATER", "GOES_UP" ] },
+    "delete": { "flags": [ "FLAMMABLE" ] },
+    "bash": {
+      "str_min": 12,
+      "str_max": 100,
+      "sound": "crunch!",
+      "sound_fail": "whump!",
+      "ter_set": "t_floor_wood_underwater",
+      "items": [
+        { "item": "2x4", "count": [ 0, 3 ] },
+        { "item": "wood_panel", "count": [ 0, 2 ] },
+        { "item": "nail", "charges": [ 1, 5 ] },
+        { "item": "splinter", "count": [ 1, 4 ] }
+      ],
+      "ranged": { "reduction": [ 12, 12 ], "destroy_threshold": 100 }
+    }
+  },
+  {
+    "type": "terrain",
     "id": "t_wall_log_half",
     "name": "half-built log wall",
     "description": "A half-constructed wall of notched logs that interlock to provide stability.  Needs a few more logs to hold up a roof.  Looks flammable.",
@@ -1973,6 +1999,33 @@
     },
     "extend": { "flags": [ "TRANSPARENT", "REDUCE_SCENT", "MOUNTABLE" ] },
     "delete": { "flags": [ "NO_SCENT", "BLOCK_WIND" ] }
+  },
+  {
+    "type": "terrain",
+    "id": "t_fortification_wood_underwater",
+    "copy-from": "t_fortification_wood",
+    "name": "underwater wooden fortification",
+    "description": "A waterlogged gunport from the age of sail.  If you have a speargun to fire through it with, it might still serve as light cover against any unexpected encounters with gun-toting sharks.",
+    "symbol": "LINE_OXOX",
+    "color": "light_red",
+    "looks_like": "t_fortification_wood",
+    "roof": "t_floor_wood_underwater",
+    "bash": {
+      "str_min": 12,
+      "str_max": 100,
+      "sound": "crunch!",
+      "sound_fail": "whump!",
+      "ter_set": "t_floor_wood_underwater",
+      "items": [
+        { "item": "2x4", "count": [ 0, 3 ] },
+        { "item": "wood_panel", "count": [ 0, 2 ] },
+        { "item": "nail", "charges": [ 1, 5 ] },
+        { "item": "splinter", "count": [ 1, 4 ] }
+      ],
+      "ranged": { "reduction": [ 12, 12 ], "destroy_threshold": 100, "block_unaimed_chance": "75%" }
+    },
+    "extend": { "flags": [ "LIQUID", "SWIMMABLE", "WATER_CUBE", "DEEP_WATER", "GOES_UP" ] },
+    "delete": { "flags": [ "FLAMMABLE" ] }
   },
   {
     "type": "terrain",
