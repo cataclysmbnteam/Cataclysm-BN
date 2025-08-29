@@ -77,8 +77,8 @@ void overmap_connection::subtype::load( const JsonObject &jo )
     mandatory( jo, false, "locations", locations );
 
     optional( jo, false, "basic_cost", basic_cost, 0 );
-    optional( jo, false, "weight", weight, 1 );
     optional( jo, false, "flags", flags, flag_reader );
+    optional( jo, false, "weight", weight, 1 );
 }
 
 void overmap_connection::subtype::deserialize( JsonIn &jsin )
@@ -96,10 +96,11 @@ const overmap_connection::subtype *overmap_connection::pick_subtype_for(
 
     const size_t cache_index = ground.to_i();
     assert( cache_index < cached_subtypes.size() );
+    /*
     if( cached_subtypes[cache_index] ) {
         return cached_subtypes[cache_index].value;
     }
-
+    */
     const auto iter = std::ranges::find_if( subtypes,
     [&ground]( const subtype & elem ) {
         return elem.allows_terrain( ground );
@@ -108,41 +109,29 @@ const overmap_connection::subtype *overmap_connection::pick_subtype_for(
     const overmap_connection::subtype *result_orig = iter != subtypes.cend() ? &*iter : nullptr;
     
     
-    std::vector<overmap_connection::subtype> matches(10);
+    std::vector<overmap_connection::subtype> matches;
     std::copy_if(subtypes.begin(), subtypes.end(), std::back_inserter(matches), 
     [&ground]( const subtype & elem ) {
-        std::cout << "Looping\n";
         return elem.allows_terrain( ground );
     } );
-    
     overmap_connection::subtype *result;
-    if( matches.empty() ){
-        result = nullptr;
-    } else if( matches.size() == 1 ){
-        result = std::move( &matches[0] );
-    } else {
-        weighted_int_list<overmap_connection::subtype> weighted_terrain;
-        int min_cost = INT_MAX;
-        for( auto subtype : matches ){
-            // Revert if cost is lower, keep if same, ignore if higher
-            if( subtype.basic_cost < min_cost ){
-                weighted_terrain.clear();
-                weighted_terrain.add(std::move( subtype ), subtype.weight);
-                min_cost = subtype.basic_cost;
-            } else if( subtype.basic_cost == min_cost ){
-                weighted_terrain.add(std::move( subtype ), subtype.weight);
-            }
+    weighted_int_list<overmap_connection::subtype> weighted_terrain;
+    int min_cost = INT_MAX;
+    for( auto subtype : matches ){
+        // Revert if cost is lower, keep if same, ignore if higher
+        if( subtype.basic_cost < min_cost ){
+            weighted_terrain.clear();
+            weighted_terrain.add(subtype, subtype.weight);
+            min_cost = subtype.basic_cost;
+        } else if( subtype.basic_cost == min_cost ){
+            weighted_terrain.add(subtype, subtype.weight);
         }
-        result = weighted_terrain.pick();
     }
-    if( result_orig != nullptr && result != nullptr ){
-        if( result_orig->terrain != result->terrain || result->is_orthogonal() != result_orig->is_orthogonal() ){
-            std::cout << "Orig: ";
-            std::cout << result_orig->terrain;
-            std::cout << "\nNew: ";
-            std::cout << result->terrain;
-            std::cout << "\n";
-        }
+    result = weighted_terrain.pick();
+    if( result == nullptr ){
+        std::cout << "It is null\n";
+    } else{
+        std::cout << "Not Null\n";
     }
     cached_subtypes[cache_index].value = result;
     cached_subtypes[cache_index].assigned = true;
