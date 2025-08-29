@@ -79,7 +79,7 @@
     "warmth": 5,
     "material_thickness": 2,
     "valid_mods": [ "resized_large" ],
-    "flags": [ "BELTED" ]
+    "flags": [ "BELTED", "ALLOWS_TAIL_SNAKE" ]
   },
   {
     "id": "backpack_leather",
@@ -534,7 +534,7 @@
     "storage": "3 L",
     "material_thickness": 2,
     "valid_mods": [ "resized_large" ],
-    "flags": [ "WATER_FRIENDLY", "BELTED", "COMPACT" ]
+    "flags": [ "WATER_FRIENDLY", "BELTED", "COMPACT", "ALLOWS_TAIL_SNAKE" ]
   },
   {
     "id": "makeshift_knapsack",
@@ -847,7 +847,7 @@
     "encumbrance": 100,
     "storage": "20 L",
     "material_thickness": 3,
-    "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY", "POWERARMOR_COMPATIBLE" ]
+    "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY", "POWERARMOR_COMPATIBLE", "ALLOWS_TAIL_SNAKE" ]
   },
   {
     "id": "suitcase_m",

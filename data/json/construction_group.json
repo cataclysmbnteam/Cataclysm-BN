@@ -751,6 +751,11 @@
   },
   {
     "type": "construction_group",
+    "id": "build_treasure_chest",
+    "name": "Build Wooden Chest"
+  },
+  {
+    "type": "construction_group",
     "id": "build_wooden_floor",
     "name": "Build Wooden Floor"
   },

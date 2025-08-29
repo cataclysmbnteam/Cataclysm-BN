@@ -2109,6 +2109,24 @@
   },
   {
     "type": "construction",
+    "id": "constr_treasure_chest",
+    "group": "build_treasure_chest",
+    "category": "FURN",
+    "required_skills": [ [ "fabrication", 3 ] ],
+    "time": "60 m",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
+    "components": [
+      [ [ "2x4", 10 ] ],
+      [ [ "wood_sheet", 1 ], [ "wood_panel", 2 ] ],
+      [ [ "nail", 20 ] ],
+      [ [ "hinge", 2 ] ],
+      [ [ "lock", 1 ] ]
+    ],
+    "pre_special": "check_empty",
+    "post_furniture": "f_chest"
+  },
+  {
+    "type": "construction",
     "id": "constr_bulletin",
     "group": "build_bulletin_board",
     "category": "FURN",

@@ -134,7 +134,7 @@
     "warmth": 15,
     "material_thickness": 1,
     "environmental_protection": 2,
-    "flags": [ "POCKETS", "OUTER", "OVERSIZE", "COLLAR", "WATERPROOF", "RAINPROOF", "FANCY" ]
+    "flags": [ "POCKETS", "OUTER", "OVERSIZE", "COLLAR", "WATERPROOF", "RAINPROOF", "FANCY", "ALLOWS_TAIL_SNAKE" ]
   },
   {
     "id": "crt_rec_hat",

@@ -46,6 +46,8 @@
 "vitamins_absorb_multi": [ [ "flesh", [ [ "vitA", 0 ], [ "vitB", 0 ], [ "vitC", 0 ], [ "calcium", 0 ], [ "iron", 0 ] ], [ "all", [ [ "vitA", 2 ], [ "vitB", 2 ], [ "vitC", 2 ], [ "calcium", 2 ], [ "iron", 2 ] ] ] ], // multiplier of vitamin absorption based on material. "all" is every material. supports multiple materials.
 "craft_skill_bonus": [ [ "electronics", -2 ], [ "tailor", -2 ], [ "mechanics", -2 ] ], // Skill affected by the mutation and their bonuses. Bonuses can be negative, a bonus of 4 is worth 1 full skill level.
 "restricts_gear" : [ "TORSO" ], //list of bodyparts that get restricted by this mutation
+"allowed_items" : [ "TORSO" ], //Items with these flags can be worn regardless of restrictions.
+"allowed_items_only" : true, //If true and this mutation restricts gear, then only `allowed_items` can be worn with this, excluding even OVERSIZE items that would otherwise be wearable. (default: false)
 "allow_soft_gear" : true, //If there is a list of 'restricts_gear' this sets if the location still allows items made out of soft materials (Only one of the types need to be soft for it to be considered soft). (default: false)
 "destroys_gear" : true, //If true, destroys the gear in the 'restricts_gear' location when mutated into. (default: false)
 "encumbrance_always" : [ // Adds this much encumbrance to selected body parts

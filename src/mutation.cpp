@@ -225,13 +225,28 @@ void Character::apply_mods( const trait_id &mut, bool add_remove )
 
 bool mutation_branch::conflicts_with_item( const item &it ) const
 {
-    if( allow_soft_gear && it.is_soft() ) {
-        return false;
+    // Check if the mutation explicitly permits this item first.
+    for( const flag_id &allowed : allowed_items ) {
+        if( it.has_flag( allowed ) ) {
+            return false;
+        }
     }
-
     for( body_part bp : restricts_gear ) {
         if( it.covers( convert_bp( bp ).id() ) ) {
-            return true;
+            // If it's oversized, forbid it if we're ONLY permitting allowed_items, otherwise allow it
+            if( it.has_flag( STATIC( flag_id( "OVERSIZE" ) ) ) ||
+                it.has_flag( STATIC( flag_id( "resized_large" ) ) ) ) {
+                if( allowed_items_only ) {
+                    return true;
+                } else {
+                    return false;
+                }
+                // If we're still here, allow soft gear where relevant.
+            } else if( allow_soft_gear && it.is_soft() ) {
+                return false;
+            } else {
+                return true;
+            }
         }
     }
 
@@ -303,10 +318,6 @@ void Character::mutation_effect( const trait_id &mut )
     }
 
     remove_worn_items_with( [&]( detached_ptr<item> &&armor ) {
-        if( armor->has_flag( STATIC( flag_id( "OVERSIZE" ) ) ) ||
-            armor->has_flag( STATIC( flag_id( "resized_large" ) ) ) ) {
-            return std::move( armor );
-        }
         if( !branch.conflicts_with_item( *armor ) ) {
             return std::move( armor );
         }

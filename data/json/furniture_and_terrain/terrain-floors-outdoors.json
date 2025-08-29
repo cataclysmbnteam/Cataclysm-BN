@@ -401,6 +401,26 @@
   },
   {
     "type": "terrain",
+    "id": "t_floor_wood_underwater",
+    "copy-from": "t_floor_noroof",
+    "name": "underwater wooden floor",
+    "description": "Rotting old floorboards long since repurposed as Davy Jones's patio.",
+    "symbol": ".",
+    "color": "brown",
+    "extend": { "flags": [ "LIQUID", "SWIMMABLE", "WATER_CUBE", "DEEP_WATER", "GOES_UP" ] },
+    "delete": { "flags": [ "FLAMMABLE_HARD" ] },
+    "bash": {
+      "ter_set": "t_lake_bed",
+      "str_min": 20,
+      "str_max": 200,
+      "sound": "crash!",
+      "sound_fail": "whump!",
+      "bash_below": true,
+      "items": [ { "item": "splinter", "count": [ 2, 8 ] }, { "item": "nail", "charges": [ 5, 10 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
     "id": "t_metal_floor_no_roof",
     "name": "metal floor",
     "looks_like": "t_metal_floor",
