@@ -38,6 +38,8 @@ class overmap_connection
 
                 int basic_cost = 0;
 
+                int weight = 0;
+                
                 bool allows_terrain( const oter_id &oter ) const;
                 bool allows_turns() const {
                     return terrain->is_linear();
