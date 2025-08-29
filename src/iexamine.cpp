@@ -1361,14 +1361,6 @@ static void apply_prying_tool( player &p, item *it, const tripoint &examp )
     iuse::crowbar( &p, it, false, examp );
 }
 
-/**
- * Attempt to crack safe through audio-feedback manual lock manipulation.
- *
- * Try to unlock the safe by moving the dial and listening for the mechanism to "click into place."
- *
- * Time per attempt affected by perception and mechanics. 5 minutes per attempt minimum.
- * Small chance of just guessing the combo without listening device.
- */
 static time_duration safecracking_time( const player &p )
 {
     time_duration time = 120_minutes;
@@ -1385,6 +1377,14 @@ static time_duration safecracking_time( const player &p )
     return std::max( time, 5_minutes );
 }
 
+/**
+ * Attempt to crack safe through audio-feedback manual lock manipulation.
+ *
+ * Try to unlock the safe by moving the dial and listening for the mechanism to "click into place."
+ *
+ * Time per attempt affected by perception and mechanics. 5 minutes per attempt minimum.
+ * Small chance of just guessing the combo without listening device.
+ */
 void iexamine::safe( player &p, const tripoint &examp )
 {
 
