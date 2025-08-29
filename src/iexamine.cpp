@@ -12,6 +12,7 @@
 #include <type_traits>
 #include <utility>
 
+#include "action.h"
 #include "activity_actor.h"
 #include "activity_actor_definitions.h"
 // TODO (https://github.com/cataclysmbnteam/Cataclysm-BN/issues/1612):
@@ -1360,6 +1361,22 @@ static void apply_prying_tool( player &p, item *it, const tripoint &examp )
     iuse::crowbar( &p, it, false, examp );
 }
 
+static time_duration safecracking_time( const player &p )
+{
+    time_duration time = 120_minutes;
+    time -= 10_minutes * p.get_skill_level( skill_mechanics );
+    if( p.get_per() > 10 ) {
+        time -= 5_minutes * ( p.get_per() - 10 );
+    }
+    // Count Safecracking tools (stethoscopes) as 2 perception
+    if( p.has_item_with_flag( flag_SAFECRACK ) ) {
+        time -= 10_minutes;
+    }
+    // Should take longer with poor hearing, hence the negative possibility
+    time -= ( 5_minutes * ( p.hearing_ability() - 1 ) );
+    return std::max( time, 5_minutes );
+}
+
 /**
  * Attempt to crack safe through audio-feedback manual lock manipulation.
  *
@@ -1422,8 +1439,7 @@ void iexamine::safe( player &p, const tripoint &examp )
         add_msg( m_info, safecracking_message );
         // 120 minutes - 10 minutes per mechanics point, - 5 per perception point above 10;
         // capped at 5 minutes minimum.
-        const time_duration time = std::max( 120_minutes - 10_minutes * p.get_skill_level(
-                skill_mechanics ) - 5_minutes * ( std::max( p.get_per(), 10 ) - 10 ), 5_minutes );
+        const time_duration time = safecracking_time( p );
 
         p.assign_activity( ACT_CRACKING, to_moves<int>( time ) );
         p.activity->placement = examp;
