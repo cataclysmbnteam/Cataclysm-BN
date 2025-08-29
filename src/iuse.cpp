@@ -221,7 +221,6 @@ static const efftype_id effect_weak_antibiotic( "weak_antibiotic" );
 static const efftype_id effect_webbed( "webbed" );
 static const efftype_id effect_weed_high( "weed_high" );
 
-static const itype_id itype_adv_UPS_off( "adv_UPS_off" );
 static const itype_id itype_advanced_ecig( "advanced_ecig" );
 static const itype_id itype_afs_atomic_smartphone( "afs_atomic_smartphone" );
 static const itype_id itype_afs_atomic_smartphone_music( "afs_atomic_smartphone_music" );
@@ -276,7 +275,6 @@ static const itype_id itype_towel( "towel" );
 static const itype_id itype_towel_soiled( "towel_soiled" );
 static const itype_id itype_towel_wet( "towel_wet" );
 static const itype_id itype_UPS( "UPS" );
-static const itype_id itype_UPS_off( "UPS_off" );
 static const itype_id itype_water( "water" );
 static const itype_id itype_water_clean( "water_clean" );
 static const itype_id itype_wax( "wax" );
@@ -5456,8 +5454,7 @@ int iuse::toolmod_attach( player *p, item *it, bool, const tripoint & )
     auto filter = [&it]( const item & e ) {
         // don't allow ups battery mods on a UPS or UPS-powered tools
         if( it->has_flag( flag_USE_UPS ) &&
-            ( e.typeId() == itype_UPS_off || e.typeId() == itype_adv_UPS_off ||
-              e.has_flag( flag_USE_UPS ) ) ) {
+            ( e.has_flag( flag_IS_UPS ) || e.has_flag( flag_USE_UPS ) ) ) {
             return false;
         }
 
@@ -8246,8 +8243,7 @@ static cable_state cable_menu( Character *who, cable_state &state, cable_state &
     // const bool has_solar_pack = who->worn_with_flag( flag_SOLARPACK );
     const bool has_solar_pack_on = who->worn_with_flag( flag_SOLARPACK_ON );
     //const bool wearing_solar_pack = has_solar_pack || has_solar_pack_on;
-    const bool has_ups = who->has_charges( itype_UPS_off, 1 ) ||
-                         who->has_charges( itype_adv_UPS_off, 1 );
+    const bool has_ups = who->has_charges( itype_UPS, 1 );
 
     const bool allow_self = state != state_self && state_other != state_self;
     const bool allow_ups =  state_other == state_self ||

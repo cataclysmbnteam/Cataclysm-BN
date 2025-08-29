@@ -715,6 +715,8 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
   it's active.
 - `BIONIC_GUN` ... This bionic is a gun bionic and activating it will fire it. Prevents all other
   activation effects.
+- `COMBAT_NPC_ON` ... The "on" state for Items that NPCs will use in combat
+- `COMBAT_NPC_USE` ... Items and CBMs that NPCs will activate when in combat
 - `CORPSE` ... Flag used to spawn various human corpses during the mapgen.
 - `DANGEROUS` ... NPCs will not accept this item. Explosion iuse actor implies this flag. Implies
   "NPC_THROW_NOW".
