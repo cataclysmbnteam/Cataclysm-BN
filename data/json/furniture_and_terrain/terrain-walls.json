@@ -1102,18 +1102,16 @@
     "color": "dark_gray",
     "move_cost": 0,
     "coverage": 100,
-    "flags": [ "NOITEM", "WALL", "PERMEABLE", "SUPPORTS_ROOF", "AUTO_WALL_SYMBOL", "MINEABLE" ],
+    "flags": [ "NOITEM", "WALL", "REDUCE_SCENT", "BLOCK_WIND", "SUPPORTS_ROOF", "AUTO_WALL_SYMBOL", "MINEABLE" ],
     "connects_to": "WALL",
     "bash": {
       "str_min": 60,
       "str_max": 200,
       "sound": "metal screeching!",
       "sound_fail": "clang!",
-      "ter_set": "t_floor",
+      "ter_set": "t_null",
       "items": [
-        { "item": "pipe", "count": [ 1, 6 ] },
         { "item": "scrap", "count": [ 1, 40 ] },
-        { "item": "sheet_metal", "count": [ 1, 2 ] },
         { "item": "steel_chunk", "count": [ 1, 30 ] }
       ],
       "ranged": { "reduction": [ 60, 60 ], "destroy_threshold": 200 }
@@ -1146,21 +1144,22 @@
     "id": "t_junk_palisade",
     "name": "junk metal barrier",
     "looks_like": "t_scrap_wall_halfway",
-    "description": "A simple wall of rusty scrap metal bolted and wire-tied to a makeshift frame.  Very fashionable in post-apocalyptic shantytowns.  This one isn't quite strong enough to support a roof, but could be reinforced.",
+    "description": "A short wall of rusty scrap metal bolted and wire-tied to a makeshift frame.  Very fashionable in post-apocalyptic shantytowns.  This one isn't quite strong enough to support a roof, but could be reinforced.",
     "symbol": "LINE_OXOX",
     "color": "dark_gray",
     "move_cost": 0,
     "coverage": 60,
-    "flags": [ "NOITEM", "WALL", "PERMEABLE", "AUTO_WALL_SYMBOL", "MINEABLE" ],
+    "flags": [ "TRANSPARENT", "NOITEM", "PERMEABLE", "AUTO_WALL_SYMBOL", "MINEABLE", "MOUNTABLE" ],
     "connects_to": "WALL",
     "bash": {
       "str_min": 30,
       "str_max": 200,
       "sound": "metal screeching!",
       "sound_fail": "clang!",
-      "ter_set": "t_floor",
-      "items": [ { "item": "pipe", "count": [ 1, 2 ] }, { "item": "scrap", "count": [ 1, 40 ] } ],
-      "ranged": { "reduction": [ 30, 30 ], "destroy_threshold": 200 }
+      "ter_set": "t_null",
+      "items": [ { "item": "scrap", "count": [ 1, 40 ] } ],
+      "//": "reduction and destroy_threshold equal to completed version",
+      "ranged": { "reduction": [ 60, 60 ], "destroy_threshold": 200, "block_unaimed_chance": "50%" }
     }
   },
   {

@@ -172,6 +172,18 @@
     ]
   },
   {
+    "id": "junk_wall_fasteners",
+    "type": "requirement",
+    "//": "Materials used to put junk walls and floors together.",
+    "components": [ [ [ "wire", 3 ], [ "spike", 6 ], [ "nail", 12 ] ] ]
+  },
+  {
+    "id": "junk_wall_standard",
+    "type": "requirement",
+    "//": "Standard set of filler metal used to construct junk walls and floors.",
+    "components": [ [ [ "steel_plate", 1 ], [ "sheet_metal", 2 ], [ "sheet_metal_small", 48 ], [ "frame", 1 ], [ "xlframe", 2 ], [ "pipe", 6 ] ] ]
+  },
+  {
     "id": "rope_natural",
     "type": "requirement",
     "//": "Materials used for lashing, when choice of makeshift rope or vine is sensible, per 1080 g/9 m of rope",

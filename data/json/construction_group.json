@@ -341,8 +341,18 @@
   },
   {
     "type": "construction_group",
-    "id": "build_junk_metal_floor",
+    "id": "build_junk_metal_door",
+    "name": "Build Junk Metal Door"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_junk_metal_floor_noroof",
     "name": "Build Junk Metal Floor"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_junk_metal_floor",
+    "name": "Build Junk Metal Roof Over Floor"
   },
   {
     "type": "construction_group",
