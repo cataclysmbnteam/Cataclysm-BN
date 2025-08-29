@@ -14,11 +14,11 @@
     "type": "overmap_terrain",
     "id": "cove_shoal",
     "copy-from": "generic_water",
-    "name": "cove shoal",
+    "name": "shoal",
     "sym": "#",
     "color": "i_blue",
     "flags": [ "LAKE_SHORE", "SOURCE_DRINK" ]
-  }
+  },
   {
     "type": "overmap_terrain",
     "id": "lake_underwater_shore",
@@ -94,5 +94,12 @@
     "sym": "S",
     "color": "light_gray",
     "see_cost": 1
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "wooden_shipwreck_a", "wooden_shipwreck_b" ],
+    "copy-from": "cargo_ship_a",
+    "name": "sunken ship",
+    "color": "brown"
   }
 ]

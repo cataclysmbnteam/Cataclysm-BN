@@ -16,5 +16,28 @@
     "type": "item_group",
     "subtype": "distribution",
     "entries": [ { "group": "toxic_waste", "prob": 200 }, { "group": "toxic_dump_equipment", "prob": 20 } ]
+  },
+  {
+    "id": "sunken_ship_wood_cargo",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      { "group": "fort_historic_wardrobe", "prob": 25, "count": [ 2, 4 ], "damage": [ 2, 4 ] },
+      { "group": "supplies_cannonball", "prob": 25, "damage": [ 1, 3 ] },
+      { "group": "supplies_ship_rigging", "prob": 25, "damage": [ 1, 3 ] },
+      { "group": "supplies_naval_cache", "prob": 25, "damage": [ 1, 3 ] }
+    ]
+  },
+  {
+    "id": "underwater_wood_beam_spawn",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "item": "wood_beam", "damage": [ 1, 3 ] } ]
+  },
+  {
+    "id": "underwater_cannon_spawn",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "item": "cannon_3in_ordnance", "damage": [ 2, 4 ] } ]
   }
 ]
