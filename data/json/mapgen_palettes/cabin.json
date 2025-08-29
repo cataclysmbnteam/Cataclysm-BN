@@ -105,7 +105,7 @@
       "B": "f_bed",
       "b": "f_bench",
       "c": "f_chair",
-      "D": "f_dresser",
+      "D": [ [ "f_dresser", 5 ], [ "f_wardrobe", 4 ], "f_chest" ],
       "d": "f_desk",
       "l": "f_stool",
       "t": "f_table",
