@@ -12,6 +12,15 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "cove_shoal",
+    "copy-from": "generic_water",
+    "name": "cove shoal",
+    "sym": "#",
+    "color": "i_blue",
+    "flags": [ "LAKE_SHORE", "SOURCE_DRINK" ]
+  }
+  {
+    "type": "overmap_terrain",
     "id": "lake_underwater_shore",
     "copy-from": "generic_water",
     "name": "lake shore (submerged)",

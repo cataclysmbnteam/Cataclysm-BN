@@ -113,6 +113,21 @@
   },
   {
     "type": "vehicle_group",
+    "id": "cove_boats",
+    "vehicles": [
+      [ "jetski", 100 ],
+      [ "raft", 100 ],
+      [ "boat_motor_single", 200 ],
+      [ "fishing_boat", 100 ],
+      [ "boat_motor_smuggler",100 ],
+      [ "boat_motor_police", 125 ],
+      [ "CG_patrol_boat", 25 ],
+      [ "sailboat", 150 ],
+      [ "pirate_ship", 100 ]
+    ]
+  },
+  {
+    "type": "vehicle_group",
     "id": "river_boats",
     "//": "Various boats that might have been abandoned or lost in rivers.  ~50% rafts or kayaks, 40% boats or hovercraft, and 10% police/military/smuggler.",
     "vehicles": [
