@@ -39,5 +39,20 @@
     "type": "item_group",
     "subtype": "distribution",
     "entries": [ { "item": "cannon_3in_ordnance", "damage": [ 2, 4 ] } ]
+  },
+  {
+    "id": "swords_caliburn",
+    "type": "item_group",
+    "subtype": "distribution",
+    "//": "Strange boulders lying in caves, distributing swords",
+    "entries": [
+      { "item": "longsword", "prob": 10, "damage": [ 0, 2 ] },
+      { "item": "longsword_inferior", "prob": 40, "damage": [ 0, 2 ] },
+      { "item": "arming_sword", "prob": 5, "damage": [ 0, 2 ] },
+      { "item": "arming_sword_inferior", "prob": 20, "damage": [ 0, 2 ] },
+      { "item": "estoc", "prob": 4, "damage": [ 0, 2 ] },
+      { "item": "estoc_inferior", "prob": 16, "damage": [ 0, 2 ] },
+      { "item": "sword_metal", "prob": 5, "damage": [ 0, 2 ] }
+    ]
   }
 ]

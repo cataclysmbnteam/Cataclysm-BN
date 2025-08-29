@@ -99,7 +99,6 @@
       [ "boat_motor_single", 175 ],
       [ "scuba_boat", 25 ],
       [ "fishing_boat", 25 ],
-      [ "water_autosweeper", 50 ],
       [ "barge_trailer", 50 ],
       [ "boat_motor_smuggler", 50 ],
       [ "boat_motor_police", 150 ],

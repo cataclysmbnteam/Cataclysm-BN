@@ -411,7 +411,7 @@
       ],
       "terrain": { ".": "t_rock", ",": "t_rock_floor", "W": "t_rock_floor", ">": "t_slope_up", "~": "t_water_dp" },
       "furniture": { "W": "f_boulder_small" },
-      "item": { "W": { "item": "longsword", "chance": 100 } },
+      "items": { "W": { "item": "swords_caliburn", "chance": 100 } },
       "monster": {
         "~": [
           { "monster": "mon_sewer_fish", "chance": 1 },
