@@ -858,7 +858,7 @@
         { "item": "scrap", "count": [ 1, 3 ] },
         { "item": "splinter", "count": [ 1, 3 ] }
       ],
-      "ranged": { "reduction": [ 20, 20 ], "destroy_threshold": 12, "block_unaimed_chance": "25%" }
+      "ranged": { "reduction": [ 20, 20 ], "destroy_threshold": 80, "block_unaimed_chance": "25%" }
     }
   },
   {
@@ -902,8 +902,8 @@
     "connects_to": "RAILING",
     "deconstruct": { "ter_set": "t_rock_floor", "items": [ { "item": "sheet_metal", "count": 2 }, { "item": "pipe", "count": 4 } ] },
     "bash": {
-      "str_min": 20,
-      "str_max": 80,
+      "str_min": 25,
+      "str_max": 100,
       "sound": "clang!",
       "sound_fail": "whump.",
       "ter_set": "t_rock_floor",
@@ -913,7 +913,7 @@
         { "item": "sheet_metal_small", "charges": [ 1, 4 ] },
         { "item": "scrap", "count": [ 1, 3 ] }
       ],
-      "ranged": { "reduction": [ 20, 20 ], "destroy_threshold": 80, "block_unaimed_chance": "25%" }
+      "ranged": { "reduction": [ 25, 25 ], "destroy_threshold": 100, "block_unaimed_chance": "25%" }
     }
   },
   {
@@ -944,8 +944,8 @@
     "connects_to": "RAILING",
     "deconstruct": { "ter_set": "t_water_cube", "items": [ { "item": "sheet_metal", "count": 2 }, { "item": "pipe", "count": 4 } ] },
     "bash": {
-      "str_min": 20,
-      "str_max": 80,
+      "str_min": 25,
+      "str_max": 100,
       "sound": "clang!",
       "sound_fail": "whump.",
       "ter_set": "t_water_cube",
@@ -955,7 +955,7 @@
         { "item": "sheet_metal_small", "charges": [ 1, 4 ] },
         { "item": "scrap", "count": [ 1, 3 ] }
       ],
-      "ranged": { "reduction": [ 20, 20 ], "destroy_threshold": 80, "block_unaimed_chance": "25%" }
+      "ranged": { "reduction": [ 25, 25 ], "destroy_threshold": 100, "block_unaimed_chance": "25%" }
     }
   },
   {
