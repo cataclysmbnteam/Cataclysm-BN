@@ -23,6 +23,7 @@
 #include "bodypart.h"
 #include "cata_utility.h"
 #include "catacharset.h"
+#include "catalua_hooks.h"
 #include "character_functions.h"
 #include "character_martial_arts.h"
 #include "character_stat.h"
@@ -4033,6 +4034,11 @@ void Character::die( Creature *nkiller )
         inv.add_item( item::spawn( itype_beartrap, calendar::start_of_cataclysm ), false );
     }
     mission::on_creature_death( *this );
+
+    cata::run_hooks( "on_char_death", [ &, this]( auto & params ) {
+        params["char"] = this;
+        params["killer"] = get_killer();
+    } );
 }
 
 void Character::apply_skill_boost()
@@ -8840,6 +8846,11 @@ void Character::on_dodge( Creature *source, int difficulty )
             }
         }
     }
+    cata::run_hooks( "on_char_dodged", [ &, this]( auto & params ) {
+        params["char"] = this;
+        params["source"] = source;
+        params["difficulty"] = difficulty;
+    } );
 }
 
 void Character::did_hit( Creature &target )
