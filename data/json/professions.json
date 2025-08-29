@@ -4842,7 +4842,6 @@
     "name": "Pirate",
     "description": "Arr!  Your costume may be shipshape, but the end of the world's scuppered all your plans.  Strike up your Jolly Roger and hoist the Bloody Red, for no quarter shall be given.",
     "points": 4,
-    "vehicle": "pirate_ship",
     "skills": [
       { "level": 2, "name": "swimming" },
       { "level": 2, "name": "gun" },
