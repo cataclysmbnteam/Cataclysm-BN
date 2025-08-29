@@ -20,9 +20,9 @@
         "|l                    l|",
         "|l                    l|",
         "|l  llllll    llllll  l|",
-        "|l                    l|",
-        "|l                    l|",
-        "|      ##TTTTTT##      |",
+        "|                      |",
+        "|c                    c|",
+        "|c     ##TTTTTT##     c|",
         "|              L#      |",
         "|||||||||||M||||||||||||",
         ".4..UUU....FFFFFFFFF<...",
@@ -46,9 +46,18 @@
         "<": "t_ladder_up",
         "|": "t_wall_w"
       },
-      "furniture": { "'": "f_street_light", "#": "f_counter", "T": "f_displaycase", "l": "f_rack", "L": "f_stool", "U": "f_dumpster" },
+      "furniture": {
+        "'": "f_street_light",
+        "#": "f_counter",
+        "c": "f_chest",
+        "T": "f_displaycase",
+        "l": "f_rack",
+        "L": "f_stool",
+        "U": "f_dumpster"
+      },
       "items": {
-        "l": { "item": "antique", "chance": 70 },
+        "c": { "item": "fort_historic_wardrobe", "chance": 75, "repeat": 3 },
+        "l": { "item": "antique", "chance": 50, "repeat": 2 },
         "T": { "item": "antique_rare", "chance": 80 },
         "U": { "item": "trash_dumpster", "chance": 80 }
       }
