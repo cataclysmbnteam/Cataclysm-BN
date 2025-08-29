@@ -47,6 +47,7 @@
 #include "bodypart.h"
 #include "calendar.h"
 #include "cata_utility.h"
+#include "catalua_hooks.h"
 #include "catacharset.h"
 #include "character.h"
 #include "character_display.h"
@@ -820,6 +821,7 @@ bool game::start_game()
             g->events().send<event_type::gains_skill_level>( u.getID(), elem.ident(), level );
         }
     }
+    cata::run_hooks( "on_game_started" );
     return true;
 }
 
@@ -2668,6 +2670,7 @@ bool game::load( const save_t &name )
     validate_mounted_npcs();
     validate_linked_vehicles();
     update_map( u );
+    m.build_floor_cache( get_levz() );
     for( auto &e : u.inv_dump() ) {
         e->set_owner( g->u );
     }

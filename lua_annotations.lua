@@ -1720,6 +1720,7 @@ coords = {}
 ---@field get_npc_at fun(arg1: Tripoint, arg2: bool?): Npc
 ---@field look_around fun(): Tripoint?
 ---@field place_monster_at fun(arg1: MtypeId, arg2: Tripoint): Monster
+---@field place_monster_around fun(arg1: MtypeId, arg2: Tripoint, arg3: integer): Monster @Example: gapi.place_monster_around(MtypeId.new("mon_dog_bcollie"), gapi.get_avatar():get_pos_ms(), 5)
 ---@field place_player_overmap_at fun(arg1: Tripoint)
 ---@field play_ambient_variant_sound fun(arg1: string, arg2: string, arg3: integer, arg4: SfxChannel, arg5: integer, arg6: number, arg7: integer)
 ---@field play_variant_sound fun(arg1: string, arg2: string, arg3: integer) | fun(arg1: string, arg2: string, arg3: integer, arg4: Angle, arg5: number, arg6: number)
@@ -1746,6 +1747,7 @@ gdebug = {}
 ---@field on_every_x fun() @Called every in-game period
 ---@field on_game_load fun() @Called right after game has loaded
 ---@field on_game_save fun() @Called when game is about to save
+---@field on_game_started fun() @Called when game is started the first time
 ---@field on_mapgen_postprocess fun(arg1: Map, arg2: Tripoint, arg3: TimePoint) @Called right after mapgen has completed. Map argument is the tinymap that represents 24x24 area (2x2 submaps, or 1x1 omt), tripoint is the absolute omt pos, and time_point is the current time (for time-based effects).
 ---@field on_mon_death fun() @Called when a monster is dead
 hooks = {}
