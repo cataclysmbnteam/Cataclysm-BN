@@ -347,6 +347,7 @@
       "WINGS_BIRD",
       "WINGS_INSECT",
       "WINGS_BAT",
+      "TAIL_SNAKE",
       "SMALL",
       "LARGE"
     ],
@@ -600,6 +601,7 @@
       "WINGS_BIRD",
       "WINGS_INSECT",
       "WINGS_BAT",
+      "TAIL_SNAKE",
       "SMALL",
       "LARGE"
     ],
