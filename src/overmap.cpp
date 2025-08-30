@@ -5105,6 +5105,10 @@ bool overmap::build_connection(
     const pf::directed_node<point_om_omt> start = path.nodes.front();
     const pf::directed_node<point_om_omt> end = path.nodes.back();
 
+    // Clear the cache before laying a road so that roads are consistent and new road types
+    // are randomly chosen per road, not per load / game
+    connection.clear_subtype_cache();
+    
     for( const auto &node : path.nodes ) {
         const tripoint_om_omt pos( node.pos, z );
         const oter_id &ter_id = ter( pos );
@@ -5178,7 +5182,8 @@ bool overmap::build_connection(
 
         prev_dir = new_dir;
     }
-
+    
+    
     if( connection_cache ) {
         connection_cache->add( connection.id, z, start.pos );
     } else if( z == 0 && connection.id.str() == "local_road" ) {
