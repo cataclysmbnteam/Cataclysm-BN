@@ -1332,7 +1332,7 @@ bool avatar::invoke_item( item *used, const tripoint &pt )
 {
     std::map<std::string, use_function> use_methods;
     use_methods.insert( used->type->use_methods.begin(), used->type->use_methods.end() );
-    if( used->has_flag( flag_ADD_UPS_TOGGLE ) ){
+    if( used->has_flag( flag_ADD_UPS_TOGGLE ) ) {
         use_methods["TOGGLE_UPS_CHARGING"] = item_controller->usage_from_string( "TOGGLE_UPS_CHARGING" );
     }
     if( use_methods.empty() ) {
