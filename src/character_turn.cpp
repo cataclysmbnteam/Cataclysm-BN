@@ -839,7 +839,7 @@ static bool needs_elec_charges( item *it )
     const item *mag = it->magazine_current();
     if( mag ) {
         return mag->has_flag( flag_RECHARGE );
-    } else{
+    } else {
         return true;
     }
 }
@@ -871,7 +871,7 @@ void Character::process_items()
     // Active item processing done, now we're recharging.
     std::vector<item *> active_worn_items;
     bool weapon_active = primary_weapon().has_flag( flag_USE_UPS ) &&
-                         needs_elec_charges(&primary_weapon());
+                         needs_elec_charges( &primary_weapon() );
     std::vector<size_t> active_held_items;
     int ch_UPS = 0;
     for( size_t index = 0; index < inv.size(); index++ ) {
@@ -881,13 +881,13 @@ void Character::process_items()
             ch_UPS += std::min( it.ammo_remaining() * it.type->tool->ups_eff_mult,
                                 it.type->tool->ups_recharge_rate );
         }
-        if( it.has_flag( flag_USE_UPS ) && needs_elec_charges(&it) ) {
+        if( it.has_flag( flag_USE_UPS ) && needs_elec_charges( &it ) ) {
             active_held_items.push_back( index );
         }
     }
     bool update_required = get_check_encumbrance();
     for( item *&w : worn ) {
-        if( w->has_flag( flag_USE_UPS ) && needs_elec_charges(w) ) {
+        if( w->has_flag( flag_USE_UPS ) && needs_elec_charges( w ) ) {
             active_worn_items.push_back( w );
         }
         // Necessary for UPS in Aftershock - check worn items for charge
