@@ -3259,8 +3259,8 @@ void item::tool_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
     if( type->tool->ups_eff_mult != 1 ) {
         info.emplace_back( "TOOL", _( "UPS Efficiency Multiplier: " ),
                            string_format( "<stat>%s</stat>", type->tool->ups_eff_mult ) );
-        
-    } 
+
+    }
 }
 
 void item::component_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int /*batch*/,
