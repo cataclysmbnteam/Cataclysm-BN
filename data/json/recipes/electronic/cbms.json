@@ -370,9 +370,7 @@
     "qualities": [ { "id": "SCREW_FINE", "level": 1 }, { "id": "WRENCH_FINE", "level": 1 } ],
     "tools": [ [ [ "autoclave", 5000 ], [ "fake_autoclave", -1 ] ], [ [ "small_repairkit", 10 ], [ "large_repairkit", 5 ] ] ],
     "components": [
-      [ [ "lens", 2 ] ],
-      [ [ "power_supply", 2 ] ],
-      [ [ "amplifier", 1 ] ],
+      [ [ "v29", 1 ] ],
       [ [ "processor", 1 ] ],
       [ [ "targeting_module", 1 ] ],
       [ [ "cable", 12 ] ],
