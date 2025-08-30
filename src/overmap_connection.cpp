@@ -4,6 +4,7 @@
 #include <cstddef>
 #include <algorithm>
 #include <cassert>
+#include <iterator>
 #include <limits>
 #include <map>
 #include <memory>
@@ -103,8 +104,9 @@ const overmap_connection::subtype *overmap_connection::pick_subtype_for(
     auto passes = [&ground]( const subtype & elem ) {
         return elem.allows_terrain( ground );
     };
-    overmap_connection::subtype *result;
-    weighted_int_list<overmap_connection::subtype> weighted_terrain;
+    const overmap_connection::subtype *result = nullptr;
+    // Index List
+    weighted_int_list<size_t> weighted_terrain;
     int min_cost = INT_MAX;
     for (auto iter = std::find_if(subtypes.begin(), subtypes.end(), passes);
         iter != subtypes.end();
@@ -114,13 +116,20 @@ const overmap_connection::subtype *overmap_connection::pick_subtype_for(
         // Revert if cost is lower, keep if same, ignore if higher
         if( subtype->basic_cost < min_cost ){
             weighted_terrain.clear();
-            weighted_terrain.add(subtype, 1);
+            weighted_terrain.add(iter - subtypes.begin(), 1);
             min_cost = subtype->basic_cost;
         } else if( subtype->basic_cost == min_cost ){
-            weighted_terrain.add(subtype, 1);
+            weighted_terrain.add(iter - subtypes.begin(), 1);
         }    
     }
-    result = &weighted_terrain.pick();
+    size_t *idx = weighted_terrain.pick();
+    if( idx != nullptr ){
+        std::cout << idx;
+        std::cout << "\n";
+        result = &subtypes[*idx];
+    } else{
+        std::cout << "Idx is null";
+    }
     if( result == nullptr ){
         std::cout << "It is null\n";
     } else{
