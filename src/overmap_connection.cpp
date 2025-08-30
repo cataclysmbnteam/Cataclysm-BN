@@ -78,7 +78,6 @@ void overmap_connection::subtype::load( const JsonObject &jo )
 
     optional( jo, false, "basic_cost", basic_cost, 0 );
     optional( jo, false, "flags", flags, flag_reader );
-    optional( jo, false, "weight", weight, 1 );
 }
 
 void overmap_connection::subtype::deserialize( JsonIn &jsin )
@@ -96,38 +95,32 @@ const overmap_connection::subtype *overmap_connection::pick_subtype_for(
 
     const size_t cache_index = ground.to_i();
     assert( cache_index < cached_subtypes.size() );
-    /*
+    
     if( cached_subtypes[cache_index] ) {
         return cached_subtypes[cache_index].value;
     }
-    */
-    const auto iter = std::ranges::find_if( subtypes,
-    [&ground]( const subtype & elem ) {
-        return elem.allows_terrain( ground );
-    } );
 
-    const overmap_connection::subtype *result_orig = iter != subtypes.cend() ? &*iter : nullptr;
-    
-    
-    std::vector<overmap_connection::subtype> matches;
-    std::copy_if(subtypes.begin(), subtypes.end(), std::back_inserter(matches), 
-    [&ground]( const subtype & elem ) {
+    auto passes = [&ground]( const subtype & elem ) {
         return elem.allows_terrain( ground );
-    } );
+    };
     overmap_connection::subtype *result;
     weighted_int_list<overmap_connection::subtype> weighted_terrain;
     int min_cost = INT_MAX;
-    for( auto subtype : matches ){
+    for (auto iter = std::find_if(subtypes.begin(), subtypes.end(), passes);
+        iter != subtypes.end();
+        iter = std::find_if(++iter, subtypes.end(), passes))
+    {
+        auto subtype = &*iter;
         // Revert if cost is lower, keep if same, ignore if higher
-        if( subtype.basic_cost < min_cost ){
+        if( subtype->basic_cost < min_cost ){
             weighted_terrain.clear();
-            weighted_terrain.add(subtype, subtype.weight);
-            min_cost = subtype.basic_cost;
-        } else if( subtype.basic_cost == min_cost ){
-            weighted_terrain.add(subtype, subtype.weight);
-        }
+            weighted_terrain.add(subtype, 1);
+            min_cost = subtype->basic_cost;
+        } else if( subtype->basic_cost == min_cost ){
+            weighted_terrain.add(subtype, 1);
+        }    
     }
-    result = weighted_terrain.pick();
+    result = &weighted_terrain.pick();
     if( result == nullptr ){
         std::cout << "It is null\n";
     } else{
