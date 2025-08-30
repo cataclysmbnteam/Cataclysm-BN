@@ -714,7 +714,7 @@
     "autolearn": true,
     "book_learn": [
       [ "textbook_electronics", 6 ],
-      [ "recipe_lab_elec", 6 ],
+      [ "recipe_lab_elec", 6 ]
     ],
     "using": [ [ "soldering_standard", 24 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
