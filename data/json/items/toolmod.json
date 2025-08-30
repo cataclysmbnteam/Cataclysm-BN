@@ -17,6 +17,15 @@
     "category": "spare_parts",
     "name": { "str": "UPS conversion mod" },
     "description": "This device replaces conventional battery connections with a connector port that can plug into a UPS.  Any device modified with this can be used without a battery as long as you have a charged UPS with you.",
+    "flags": [ "USE_UPS", "NO_UNLOAD", "NO_RELOAD" ]
+  },
+  {
+    "id": "battery_ups_toggle",
+    "copy-from": "battery_ups",
+    "type": "TOOLMOD",
+    "category": "spare_parts",
+    "name": { "str": "Toggled UPS conversion mod" },
+    "description": "This device extends the conventional battery connections with a connector port that can plug into a UPS.  Any device modified with this can draw from UPS power as long as you have a charged UPS with you.",
     "flags": [ "ADD_UPS_TOGGLE" ]
   },
   {
