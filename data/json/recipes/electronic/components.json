@@ -712,10 +712,7 @@
     "reversible": true,
     "decomp_learn": 4,
     "autolearn": true,
-    "book_learn": [
-      [ "textbook_electronics", 6 ],
-      [ "recipe_lab_elec", 6 ]
-    ],
+    "book_learn": [ [ "textbook_electronics", 6 ], [ "recipe_lab_elec", 6 ] ],
     "using": [ [ "soldering_standard", 24 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [ [ [ "power_supply", 1 ] ], [ [ "scrap", 8 ] ], [ [ "cable", 15 ] ] ]
