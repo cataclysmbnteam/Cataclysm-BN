@@ -30,12 +30,14 @@
 #include "event.h"
 #include "event_bus.h"
 #include "faction.h"
+#include "flag.h"
 #include "game.h"
 #include "game_constants.h"
 #include "help.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_contents.h"
+#include "item_factory.h"
 #include "itype.h"
 #include "iuse.h"
 #include "kill_tracker.h"
@@ -87,8 +89,6 @@ static const trait_id trait_CENOBITE( "CENOBITE" );
 static const trait_id trait_HYPEROPIC( "HYPEROPIC" );
 static const trait_id trait_ILLITERATE( "ILLITERATE" );
 static const trait_id trait_PROF_DICEMASTER( "PROF_DICEMASTER" );
-
-static const flag_id flag_FIX_FARSIGHT( "FIX_FARSIGHT" );
 
 static const morale_type MORALE_FOOD_COLD( "morale_food_cold" );
 static const morale_type MORALE_FOOD_VERY_COLD( "morale_food_very_cold" );
@@ -1330,8 +1330,11 @@ detached_ptr<item> avatar::wield( detached_ptr<item> &&target )
 
 bool avatar::invoke_item( item *used, const tripoint &pt )
 {
-    const std::map<std::string, use_function> &use_methods = used->type->use_methods;
-
+    std::map<std::string, use_function> use_methods;
+    use_methods.insert( used->type->use_methods.begin(), used->type->use_methods.end() );
+    if( used->has_flag( flag_ADD_UPS_TOGGLE ) ){
+        use_methods["TOGGLE_UPS_CHARGING"] = item_controller->usage_from_string( "TOGGLE_UPS_CHARGING" );
+    }
     if( use_methods.empty() ) {
         return false;
     } else if( use_methods.size() == 1 ) {
