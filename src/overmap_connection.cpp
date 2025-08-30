@@ -127,13 +127,6 @@ const overmap_connection::subtype *overmap_connection::pick_subtype_for(
         std::cout << idx;
         std::cout << "\n";
         result = &subtypes[*idx];
-    } else{
-        std::cout << "Idx is null";
-    }
-    if( result == nullptr ){
-        std::cout << "It is null\n";
-    } else{
-        std::cout << "Not Null\n";
     }
     cached_subtypes[cache_index].value = result;
     cached_subtypes[cache_index].assigned = true;
