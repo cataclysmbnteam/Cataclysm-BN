@@ -87,6 +87,11 @@ void overmap_connection::subtype::deserialize( JsonIn &jsin )
     load( jo );
 }
 
+void overmap_connection::clear_subtype_cache() const
+{
+    cached_subtypes.clear();
+}
+
 const overmap_connection::subtype *overmap_connection::pick_subtype_for(
     const oter_id &ground ) const
 {
@@ -116,16 +121,14 @@ const overmap_connection::subtype *overmap_connection::pick_subtype_for(
         // Revert if cost is lower, keep if same, ignore if higher
         if( subtype->basic_cost < min_cost ){
             weighted_terrain.clear();
-            weighted_terrain.add(iter - subtypes.begin(), 1);
+            weighted_terrain.add(iter - subtypes.begin(), 10);
             min_cost = subtype->basic_cost;
         } else if( subtype->basic_cost == min_cost ){
-            weighted_terrain.add(iter - subtypes.begin(), 1);
+            weighted_terrain.add(iter - subtypes.begin(), 10);
         }    
     }
     size_t *idx = weighted_terrain.pick();
     if( idx != nullptr ){
-        std::cout << idx;
-        std::cout << "\n";
         result = &subtypes[*idx];
     }
     cached_subtypes[cache_index].value = result;
