@@ -99,6 +99,7 @@ static const bionic_id bio_hydraulics( "bio_hydraulics" );
 static const bionic_id bio_speed( "bio_speed" );
 
 static const itype_id itype_UPS( "UPS" );
+static const itype_id itype_battery( "battery" );
 
 void Character::recalc_speed_bonus()
 {
@@ -134,7 +135,7 @@ void Character::recalc_speed_bonus()
     mod_speed_bonus( mabuff_speed_bonus() );
 
     // Not sure why Sunlight Dependent is here, but OK
-    // Ectothermic/COLDBLOOD4 is intended to buff folks in the Summer
+    // Ectothermic/COLDBLOOD4 is intended to buff folks in the summer
     // Threshold-crossing has its charms ;-)
     if( g != nullptr ) {
         if( has_trait( trait_SUNLIGHT_DEPENDENT ) && !g->is_in_sunlight( pos() ) ) {
@@ -856,27 +857,30 @@ void Character::process_items()
     // Active item processing done, now we're recharging.
     std::vector<item *> active_worn_items;
     bool weapon_active = primary_weapon().has_flag( flag_USE_UPS ) &&
-                         primary_weapon().charges < primary_weapon().type->maximum_charges();
+                         primary_weapon().ammo_capacity() > primary_weapon().ammo_remaining();
     std::vector<size_t> active_held_items;
     int ch_UPS = 0;
     for( size_t index = 0; index < inv.size(); index++ ) {
         item &it = inv.find_item( index );
         itype_id identifier = it.type->get_id();
-        ch_UPS += inv.charges_of( itype_UPS );
-        if( it.has_flag( flag_USE_UPS ) && it.charges < it.type->maximum_charges() ) {
+        if( it.has_flag( flag_IS_UPS ) ) {
+            ch_UPS += std::min( it.ammo_remaining() * it.type->tool->ups_eff_mult,
+                                it.type->tool->ups_recharge_rate );
+        }
+        if( it.has_flag( flag_USE_UPS ) && it.ammo_capacity() > it.ammo_remaining() ) {
             active_held_items.push_back( index );
         }
     }
     bool update_required = get_check_encumbrance();
     for( item *&w : worn ) {
-        if( w->has_flag( flag_USE_UPS ) &&
-            w->charges < w->type->maximum_charges() ) {
+        if( w->has_flag( flag_USE_UPS ) && w->ammo_capacity() > w->ammo_remaining() ) {
             active_worn_items.push_back( w );
         }
         // Necessary for UPS in Aftershock - check worn items for charge
         const itype_id &identifier = w->typeId();
         if( w->has_flag( flag_IS_UPS ) ) {
-            ch_UPS += w->ammo_remaining() * w->type->tool->ups_eff_mult;
+            ch_UPS += std::min( w->ammo_remaining() * w->type->tool->ups_eff_mult,
+                                w->type->tool->ups_recharge_rate );
         }
         if( !update_required && w->encumbrance_update_ ) {
             update_required = true;
@@ -887,30 +891,36 @@ void Character::process_items()
         reset_encumbrance();
     }
     if( has_active_bionic( bionic_id( "bio_ups" ) ) ) {
-        ch_UPS += units::to_kilojoule( get_power_level() );
+        ch_UPS += std::min( units::to_kilojoule( get_power_level() ), 10 );
     }
     int ch_UPS_used = 0;
-
+    if( weapon_active && ch_UPS_used < ch_UPS ) {
+        auto weap = primary_weapon();
+        int used = std::min( ch_UPS, weap.ammo_capacity() - weap.ammo_remaining() );
+        ch_UPS -= used;
+        ch_UPS_used += used;
+        weap.ammo_set( weap.ammo_current(), weap.ammo_remaining() + used );
+    }
     // Load all items that use the UPS to their minimal functional charge,
     // The tool is not really useful if its charges are below charges_to_use
     for( size_t index : active_held_items ) {
-        if( ch_UPS_used >= ch_UPS ) {
+        if( ch_UPS <= 0 ) {
             break;
         }
         item &it = inv.find_item( index );
-        ch_UPS_used++;
-        it.charges++;
-    }
-    if( weapon_active && ch_UPS_used < ch_UPS ) {
-        ch_UPS_used++;
-        primary_weapon().charges++;
+        int used = std::min( ch_UPS, it.ammo_capacity() - it.ammo_remaining() );
+        ch_UPS -= used;
+        ch_UPS_used += used;
+        it.ammo_set( it.ammo_current(), it.ammo_remaining() + used );
     }
     for( item *worn_item : active_worn_items ) {
-        if( ch_UPS_used >= ch_UPS ) {
+        if( ch_UPS <= 0 ) {
             break;
         }
-        ch_UPS_used++;
-        worn_item->charges++;
+        int used = std::min( ch_UPS, worn_item->ammo_capacity() - worn_item->ammo_remaining() );
+        ch_UPS -= used;
+        ch_UPS_used += used;
+        worn_item->ammo_set( worn_item->ammo_current(), worn_item->ammo_remaining() + used );
     }
     if( ch_UPS_used > 0 ) {
         use_charges( itype_UPS, ch_UPS_used );

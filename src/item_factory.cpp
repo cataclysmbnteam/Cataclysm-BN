@@ -2093,6 +2093,7 @@ void Item_factory::load( islot_tool &slot, const JsonObject &jo, const std::stri
     assign( jo, "revert_msg", slot.revert_msg, strict );
     assign( jo, "sub", slot.subtype, strict );
     assign( jo, "ups_eff_mult", slot.ups_eff_mult, strict );
+    assign( jo, "ups_recharge_rate", slot.ups_recharge_rate, strict );
 
     if( jo.has_array( "rand_charges" ) ) {
         if( jo.has_member( "initial_charges" ) ) {
