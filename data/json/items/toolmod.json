@@ -20,6 +20,15 @@
     "flags": [ "USE_UPS", "NO_UNLOAD", "NO_RELOAD" ]
   },
   {
+    "id": "battery_ups_toggle",
+    "copy-from": "battery_ups",
+    "type": "TOOLMOD",
+    "category": "spare_parts",
+    "name": { "str": "UPS battery conversion mod" },
+    "description": "This device extends the conventional battery connections with a connector port that can plug into a UPS.  Any device modified with this can toggle whether to charge its battery from UPS power.",
+    "flags": [ "ADD_UPS_TOGGLE" ]
+  },
+  {
     "id": "magazine_battery_mod",
     "copy-from": "mod_battery",
     "type": "TOOLMOD",
