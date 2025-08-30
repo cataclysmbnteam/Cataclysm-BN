@@ -894,11 +894,11 @@ void Character::process_items()
     }
     int ch_UPS_used = 0;
     if( weapon_active && ch_UPS_used < ch_UPS ) {
-        auto weap = primary_weapon();
-        int used = std::min( ch_UPS, weap.ammo_capacity() - weap.ammo_remaining() );
+        auto weap = &primary_weapon();
+        int used = std::min( ch_UPS, weap->ammo_capacity() - weap->ammo_remaining() );
         ch_UPS -= used;
         ch_UPS_used += used;
-        weap.ammo_set( weap.ammo_current(), weap.ammo_remaining() + used );
+        weap->ammo_set( weap->ammo_current(), weap->ammo_remaining() + used );
     }
     // Load all items that use the UPS to their minimal functional charge,
     // The tool is not really useful if its charges are below charges_to_use
