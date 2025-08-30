@@ -1190,6 +1190,36 @@
   },
   {
     "type": "overmap_special",
+    "id": "Island Cove",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "cave" },
+      { "point": [ 1, 0, 0 ], "overmap": "lake_shore" },
+      { "point": [ -1, 0, 0 ], "overmap": "lake_shore" },
+      { "point": [ 0, 1, 0 ], "overmap": "cove_shoal_north" },
+      { "point": [ 1, 1, 0 ], "overmap": "lake_shore" },
+      { "point": [ -1, 1, 0 ], "overmap": "lake_shore" },
+      { "point": [ 0, -1, 0 ], "overmap": "lake_shore" },
+      { "point": [ 1, -1, 0 ], "overmap": "lake_shore" },
+      { "point": [ -1, -1, 0 ], "overmap": "lake_shore" },
+      { "point": [ 0, 0, -1 ], "overmap": "cave_underground", "locations": [ "lake_water_cube" ] }
+    ],
+    "place_nested": [
+      { "point": [ 0, 0, 0 ], "special": "island_column_center" },
+      { "point": [ 1, 0, 0 ], "special": "island_column_edge" },
+      { "point": [ -1, 0, 0 ], "special": "island_column_edge" },
+      { "point": [ 0, 1, 0 ], "special": "island_column_edge" },
+      { "point": [ 1, 1, 0 ], "special": "island_column_edge" },
+      { "point": [ -1, 1, 0 ], "special": "island_column_edge" },
+      { "point": [ 0, -1, 0 ], "special": "island_column_edge" },
+      { "point": [ 1, -1, 0 ], "special": "island_column_edge" },
+      { "point": [ -1, -1, 0 ], "special": "island_column_edge" }
+    ],
+    "locations": [ "lake_surface" ],
+    "occurrences": [ 0, 5 ],
+    "flags": [ "WILDERNESS", "LAKE" ]
+  },
+  {
+    "type": "overmap_special",
     "id": "Toxic Waste Dump",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "toxic_dump_north" },
@@ -2731,6 +2761,24 @@
     "city_sizes": [ -1, 12 ],
     "occurrences": [ 0, 3 ],
     "flags": [ "CLASSIC", "URBAN", "ELECTRIC_GRID" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "RV Park",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "rv_park_1_north" },
+      { "point": [ 1, 0, 0 ], "overmap": "rv_park_2_north" },
+      { "point": [ 0, 1, 0 ], "overmap": "rv_park_3_north" },
+      { "point": [ 1, 1, 0 ], "overmap": "rv_park_4_north" },
+      { "point": [ 0, 1, 1 ], "overmap": "rv_park_roof_1_north" },
+      { "point": [ 1, 1, 1 ], "overmap": "rv_park_roof_2_north" }
+    ],
+    "connections": [ { "point": [ 1, 2, 0 ], "connection": "local_road", "from": [ 1, 1, 0 ] } ],
+    "locations": [ "wilderness" ],
+    "city_distance": [ 4, -1 ],
+    "city_sizes": [ -1, 13 ],
+    "occurrences": [ 0, 3 ],
+    "flags": [ "CLASSIC", "WILDERNESS", "ELECTRIC_GRID" ]
   },
   {
     "type": "overmap_special",
@@ -6206,6 +6254,17 @@
     "locations": [ "lake_surface" ],
     "occurrences": [ 0, 3 ],
     "city_distance": [ 20, -1 ],
+    "flags": [ "LAKE" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "sunken_ship_wood",
+    "overmaps": [
+      { "point": [ 0, 0, -5 ], "overmap": "wooden_shipwreck_a_north", "locations": [ "lake_bed" ] },
+      { "point": [ 1, 0, -5 ], "overmap": "wooden_shipwreck_b_north", "locations": [ "lake_bed" ] }
+    ],
+    "locations": [ "lake_surface" ],
+    "occurrences": [ 0, 2 ],
     "flags": [ "LAKE" ]
   }
 ]

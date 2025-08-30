@@ -16,6 +16,7 @@
     "color": "light_green",
     "ammo": "plutonium",
     "max_charges": 2500,
+    "ups_eff_mult": 2,
     "flags": [ "IS_UPS" ]
   },
   {

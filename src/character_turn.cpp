@@ -98,8 +98,6 @@ static const bionic_id bio_ground_sonar( "bio_ground_sonar" );
 static const bionic_id bio_hydraulics( "bio_hydraulics" );
 static const bionic_id bio_speed( "bio_speed" );
 
-static const itype_id itype_adv_UPS_off( "adv_UPS_off" );
-static const itype_id itype_UPS_off( "UPS_off" );
 static const itype_id itype_UPS( "UPS" );
 
 void Character::recalc_speed_bonus()
@@ -864,11 +862,7 @@ void Character::process_items()
     for( size_t index = 0; index < inv.size(); index++ ) {
         item &it = inv.find_item( index );
         itype_id identifier = it.type->get_id();
-        if( identifier == itype_UPS_off ) {
-            ch_UPS += it.ammo_remaining();
-        } else if( identifier == itype_adv_UPS_off ) {
-            ch_UPS += it.ammo_remaining() / 0.5;
-        }
+        ch_UPS += inv.charges_of( itype_UPS );
         if( it.has_flag( flag_USE_UPS ) && it.charges < it.type->maximum_charges() ) {
             active_held_items.push_back( index );
         }
@@ -881,10 +875,8 @@ void Character::process_items()
         }
         // Necessary for UPS in Aftershock - check worn items for charge
         const itype_id &identifier = w->typeId();
-        if( identifier == itype_UPS_off ) {
-            ch_UPS += w->ammo_remaining();
-        } else if( identifier == itype_adv_UPS_off ) {
-            ch_UPS += w->ammo_remaining() / 0.5;
+        if( w->has_flag( flag_IS_UPS ) ) {
+            ch_UPS += w->ammo_remaining() * w->type->tool->ups_eff_mult;
         }
         if( !update_required && w->encumbrance_update_ ) {
             update_required = true;

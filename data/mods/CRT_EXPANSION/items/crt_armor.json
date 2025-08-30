@@ -178,7 +178,7 @@
     "warmth": 20,
     "material_thickness": 3,
     "environmental_protection": 9,
-    "flags": [ "POCKETS", "OUTER", "COLLAR", "STURDY", "WATERPROOF", "RAINPROOF" ]
+    "flags": [ "POCKETS", "OUTER", "COLLAR", "STURDY", "WATERPROOF", "RAINPROOF", "ALLOWS_TAIL_SNAKE" ]
   },
   {
     "id": "ds_monitor",
@@ -277,7 +277,7 @@
     "encumbrance": 3,
     "storage": "1500 ml",
     "material_thickness": 2,
-    "flags": [ "VARSIZE", "WATER_FRIENDLY", "BELTED", "COMPACT", "RAINPROOF" ]
+    "flags": [ "VARSIZE", "WATER_FRIENDLY", "BELTED", "COMPACT", "RAINPROOF", "ALLOWS_TAIL_SNAKE" ]
   },
   {
     "id": "crt_earmor",

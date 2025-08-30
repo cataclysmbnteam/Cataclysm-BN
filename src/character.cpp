@@ -12,6 +12,7 @@
 #include <ostream>
 #include <ranges>
 #include <type_traits>
+#include <vector>
 
 #include "action.h"
 #include "activity_actor_definitions.h"
@@ -37,6 +38,7 @@
 #include "creature.h"
 #include "damage.h"
 #include "debug.h"
+#include "detached_ptr.h"
 #include "disease.h"
 #include "effect.h"
 #include "event.h"
@@ -197,7 +199,6 @@ static const efftype_id effect_took_prozac( "took_prozac" );
 static const efftype_id effect_took_xanax( "took_xanax" );
 static const efftype_id effect_webbed( "webbed" );
 
-static const itype_id itype_adv_UPS_off( "adv_UPS_off" );
 static const itype_id itype_apparatus( "apparatus" );
 static const itype_id itype_beartrap( "beartrap" );
 static const itype_id itype_e_handcuffs( "e_handcuffs" );
@@ -209,7 +210,6 @@ static const itype_id itype_string_36( "string_36" );
 static const itype_id itype_toolset( "toolset" );
 static const itype_id itype_voltmeter_bionic( "voltmeter_bionic" );
 static const itype_id itype_UPS( "UPS" );
-static const itype_id itype_UPS_off( "UPS_off" );
 static const itype_id itype_power_storage( "bio_power_storage" );
 static const itype_id itype_power_storage_mkII( "bio_power_storage_mkII" );
 static const itype_id itype_bio_armor( "bio_armor" );
@@ -3171,8 +3171,7 @@ ret_val<bool> Character::can_wear( const item &it, bool with_equip_change ) cons
     }
 
 
-    if( !it.has_flag( flag_OVERSIZE ) && !it.has_flag( flag_resized_large ) &&
-        !it.has_flag( flag_SEMITANGIBLE ) ) {
+    if( !it.has_flag( flag_SEMITANGIBLE ) ) {
         for( const trait_id &mut : get_mutations() ) {
             const auto &branch = mut.obj();
             if( branch.conflicts_with_item( it ) ) {
@@ -10376,24 +10375,21 @@ std::vector<detached_ptr<item>> Character::use_charges( const itype_id &what, in
             qty -= std::min( qty, bio );
         }
 
-        int adv = charges_of( itype_adv_UPS_off, static_cast<int>( std::ceil( qty * 0.5 ) ) );
-        if( adv > 0 ) {
-            int adv_odd = x_in_y( qty % 2, 2 );
-            // qty % 2 returns 1 if odd and 0 if even, giving a 50% chance of consuming one less charge if odd, 0 otherwise.
-            // (eg: if 5, consumes either 2 or 3)
-            std::vector<detached_ptr<item>> found = use_charges( itype_adv_UPS_off, adv - adv_odd );
-            res.insert( res.end(), std::make_move_iterator( found.begin() ),
-                        std::make_move_iterator( found.end() ) );
-            qty -= std::min( qty, static_cast<int>( adv / 0.5 ) );
-        }
+        remove_items_with( [ & ]( detached_ptr<item> &&e ) {
+            if( e->has_flag( flag_IS_UPS ) && e->ammo_remaining() > 0 ) {
+                int ups_eff_mult = e->type->tool->ups_eff_mult;
+                detached_ptr<item> split = item::spawn( *e );
+                split->ammo_set( e->ammo_current(), e->ammo_remaining() );
+                int used = std::min( qty, e->ammo_remaining() * ups_eff_mult );
+                qty -= used;
+                int rand_increase = x_in_y( used % ups_eff_mult, ups_eff_mult );
+                int really_used = ( used / ups_eff_mult ) + rand_increase;
+                e->ammo_consume( really_used, pos() );
+                res.push_back( std::move( split ) );
+            }
+            return qty != 0 ? VisitResponse::NEXT : VisitResponse::ABORT;
+        } );
 
-        int ups = charges_of( itype_UPS_off, qty );
-        if( ups > 0 ) {
-            std::vector<detached_ptr<item>> found = use_charges( itype_UPS_off, ups );
-            res.insert( res.end(), std::make_move_iterator( found.begin() ),
-                        std::make_move_iterator( found.end() ) );
-            qty -= std::min( qty, ups );
-        }
         return res;
 
     }

@@ -46,6 +46,9 @@
     ],
     "professions": [
       "prof_pirate",
+      "prof_pirate_captain",
+      "smuggler",
+      "castaway",
       "professional_diver",
       "underwater_welder",
       "bionic_diver",
@@ -344,6 +347,7 @@
       "WINGS_BIRD",
       "WINGS_INSECT",
       "WINGS_BAT",
+      "TAIL_SNAKE",
       "SMALL",
       "LARGE"
     ],
@@ -597,6 +601,7 @@
       "WINGS_BIRD",
       "WINGS_INSECT",
       "WINGS_BAT",
+      "TAIL_SNAKE",
       "SMALL",
       "LARGE"
     ],

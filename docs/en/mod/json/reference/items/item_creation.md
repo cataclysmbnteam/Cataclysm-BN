@@ -610,6 +610,7 @@ gunmod_data:
 "charges_per_use": 1, // Charges consumed per tool use
 "turns_per_charge": 20, // Charges consumed over time, deprecated in favor of power_draw
 "power_draw": 50,       // Energy consumption rate in mW
+"ups_eff_mult": 2,       // Multiplier for UPS efficiency
 "ammo": [ "NULL" ],       // Ammo types used for reloading
 "revert_to": "torch_done", // Transforms into item when charges are expended
 "use_action": "firestarter" // Action performed when tool is used, see special definition below

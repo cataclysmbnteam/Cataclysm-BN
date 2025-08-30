@@ -21,7 +21,7 @@
     "material_thickness": 3,
     "environmental_protection": 1,
     "valid_mods": [ "steel_padded", "alloy_padded", "resized_large" ],
-    "flags": [ "POCKETS", "OUTER", "WATER_FRIENDLY" ]
+    "flags": [ "POCKETS", "OUTER", "WATER_FRIENDLY", "ALLOWS_TAIL_SNAKE" ]
   },
   {
     "id": "blazer",
@@ -65,7 +65,7 @@
     "encumbrance": 7,
     "warmth": 15,
     "material_thickness": 2,
-    "flags": [ "VARSIZE", "FANCY" ]
+    "flags": [ "VARSIZE", "FANCY", "ALLOWS_TAIL_SNAKE" ]
   },
   {
     "id": "dress_shirt",
@@ -108,7 +108,7 @@
     "encumbrance": 45,
     "warmth": 30,
     "material_thickness": 2,
-    "flags": [ "VARSIZE", "SUPER_FANCY" ]
+    "flags": [ "VARSIZE", "SUPER_FANCY", "ALLOWS_TAIL_SNAKE" ]
   },
   {
     "id": "flag_shirt",
@@ -193,7 +193,7 @@
     "encumbrance": 14,
     "warmth": 5,
     "material_thickness": 1,
-    "flags": [ "VARSIZE", "SUPER_FANCY" ]
+    "flags": [ "VARSIZE", "SUPER_FANCY", "ALLOWS_TAIL_SNAKE" ]
   },
   {
     "id": "halter_top",
@@ -410,7 +410,7 @@
     "storage": "500 ml",
     "warmth": 5,
     "material_thickness": 1,
-    "flags": [ "VARSIZE", "FANCY" ]
+    "flags": [ "VARSIZE", "FANCY", "ALLOWS_TAIL_SNAKE" ]
   },
   {
     "id": "polo_shirt",
@@ -513,7 +513,7 @@
     "covers": [ "legs", "torso" ],
     "coverage": 65,
     "material_thickness": 1,
-    "flags": [ "VARSIZE", "FANCY" ]
+    "flags": [ "VARSIZE", "FANCY", "ALLOWS_TAIL_SNAKE" ]
   },
   {
     "id": "sweater",

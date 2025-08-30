@@ -411,7 +411,7 @@
       ],
       "terrain": { ".": "t_rock", ",": "t_rock_floor", "W": "t_rock_floor", ">": "t_slope_up", "~": "t_water_dp" },
       "furniture": { "W": "f_boulder_small" },
-      "item": { "W": { "item": "longsword", "chance": 100 } },
+      "items": { "W": { "item": "swords_caliburn", "chance": 100 } },
       "monster": {
         "~": [
           { "monster": "mon_sewer_fish", "chance": 1 },
@@ -425,7 +425,117 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "cave_underground" ],
-    "weight": 1000,
+    "weight": 100,
+    "object": {
+      "fill_ter": "t_rock_floor",
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "........................",
+        "........................",
+        "........................",
+        "........................",
+        "........................",
+        "................ccc.....",
+        "...............C   h....",
+        "...............C   e....",
+        "................. ......",
+        ".........         ......",
+        ".......... %%% .........",
+        "..........%%%%%.........",
+        "............%...........",
+        "..........%%%%%.........",
+        ".........  %%%   .......",
+        ".........        .......",
+        "..........      ........",
+        "..........      ........",
+        "...........    .........",
+        "...........    .........",
+        "...........   ..........",
+        "............>...........",
+        "........................",
+        "........................"
+      ],
+      "terrain": { ".": "t_rock", ">": "t_slope_up" },
+      "furniture": {
+        "%": [ [ "f_rubble_rock", 7 ], [ "f_boulder_small", 2 ], "f_boulder_medium" ],
+        "C": "f_crate_c",
+        "c": "f_chest",
+        "e": "f_desk",
+        "h": "f_chair"
+      },
+      "item": { "e": [ { "item": "candle", "chance": 25 }, { "item": "waterwaymap", "chance": 10 } ] },
+      "items": {
+        " ": { "item": "cave_minerals", "chance": 5 },
+        "C": { "item": "supplies_naval_cache", "chance": 100 },
+        "c": [
+          { "item": "jewelry_safe", "chance": 100 },
+          { "item": "jewelry_safe", "chance": 75 },
+          { "item": "jewelry_safe", "chance": 50 }
+        ]
+      },
+      "monsters": { " ": { "monster": "GROUP_CAVE", "chance": 2 } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "cave_underground" ],
+    "weight": 150,
+    "object": {
+      "fill_ter": "t_rock_floor",
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "........................",
+        "........................",
+        "........................",
+        "........................",
+        "........................",
+        "........................",
+        "........rr  heeh .......",
+        "........    heeh .......",
+        "........         .......",
+        "........l       l.......",
+        "........l       l.......",
+        "............+...........",
+        "............1...........",
+        "............ ...........",
+        "........... 2 ..........",
+        "...........2 2..........",
+        "........... 3 ..........",
+        "...........2 2..........",
+        "........... 2 ..........",
+        "............ ...........",
+        "............1...........",
+        "............ ...........",
+        "............>...........",
+        "........................"
+      ],
+      "terrain": { ".": "t_rock", ">": "t_slope_up", "+": "t_rdoor_c" },
+      "furniture": { "e": "f_table", "h": "f_chair", "l": "f_foot_locker", "r": "f_rack_wood" },
+      "traps": { "F": "tr_rollmat", "1": "tr_can_alarm", "2": "tr_beartrap", "3": "tr_boobytrap" },
+      "items": {
+        "l": { "item": "stash_drugrunner", "chance": 100 },
+        "r": [
+          { "item": "ammo_reloaded", "chance": 75 },
+          { "item": "guns_improvised", "chance": 50 },
+          { "item": "guns_common", "chance": 25 },
+          { "item": "auto_sears", "chance": 10 }
+        ]
+      },
+      "place_nested": [ { "chunks": [ [ "random_bandit_spawn", 25 ], [ "null", 75 ] ], "x": 15, "y": 7 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "random_bandit_spawn",
+    "object": { "mapgensize": [ 1, 1 ], "place_npcs": [ { "class": "bandit", "x": 0, "y": 0 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "cave_underground" ],
+    "weight": 800,
     "object": {
       "fill_ter": "t_rock_floor",
       "rotation": [ 0, 3 ],
@@ -464,7 +574,7 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "cave_underground" ],
-    "weight": 800,
+    "weight": 500,
     "object": {
       "fill_ter": "t_rock_floor",
       "rotation": [ 0, 3 ],
