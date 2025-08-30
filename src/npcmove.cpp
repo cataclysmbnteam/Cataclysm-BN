@@ -370,7 +370,8 @@ void npc::assess_danger()
                                    emergency();
     const bool no_fighting = rules.has_flag( ally_rule::forbid_engage );
     // Companion NPCs will additionally break off to return to the player when in trouble if not already ordered to.
-    const bool must_retreat = is_walking_with() && ( emergency() || rules.has_flag( ally_rule::follow_close ) ) &&
+    const bool must_retreat = is_walking_with() && ( emergency() ||
+                              rules.has_flag( ally_rule::follow_close ) ) &&
                               !too_close( pos(), player_character.pos(), follow_distance() );
 
     // Set this for non-companion NPCs too so all NPCs will switch to self-defense if low on stamina or wounded.
