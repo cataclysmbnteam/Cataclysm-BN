@@ -135,7 +135,7 @@ void Character::recalc_speed_bonus()
     mod_speed_bonus( mabuff_speed_bonus() );
 
     // Not sure why Sunlight Dependent is here, but OK
-    // Ectothermic/COLDBLOOD4 is intended to buff folks in the summer
+    // Ectothermic/COLDBLOOD4 is intended to buff folks in the Summer
     // Threshold-crossing has its charms ;-)
     if( g != nullptr ) {
         if( has_trait( trait_SUNLIGHT_DEPENDENT ) && !g->is_in_sunlight( pos() ) ) {
