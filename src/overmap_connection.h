@@ -86,7 +86,7 @@ class overmap_connection
         };
 
         overmap_connection_layout layout;
-        std::list<subtype> subtypes;
+        std::vector<subtype> subtypes;
         mutable std::vector<cache> cached_subtypes;
 };
 
