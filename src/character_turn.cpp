@@ -15,6 +15,7 @@
 #include "game.h"
 #include "handle_liquid.h"
 #include "itype.h"
+#include "iuse.h"
 #include "magic_enchantment.h"
 #include "mutation.h"
 #include "overmapbuffer.h"
@@ -829,6 +830,20 @@ void Character::environmental_revert_effect()
     reset_encumbrance();
 }
 
+static bool needs_elec_charges( item *it )
+{
+    bool not_full = it->ammo_capacity() > it->ammo_remaining();
+    if( !not_full ) {
+        return false;
+    }
+    const item *mag = it->magazine_current();
+    if( mag ) {
+        return mag->has_flag( flag_RECHARGE );
+    } else{
+        return true;
+    }
+}
+
 void Character::process_items()
 {
     ZoneScoped;
@@ -856,7 +871,7 @@ void Character::process_items()
     // Active item processing done, now we're recharging.
     std::vector<item *> active_worn_items;
     bool weapon_active = primary_weapon().has_flag( flag_USE_UPS ) &&
-                         primary_weapon().ammo_capacity() > primary_weapon().ammo_remaining();
+                         needs_elec_charges(&primary_weapon());
     std::vector<size_t> active_held_items;
     int ch_UPS = 0;
     for( size_t index = 0; index < inv.size(); index++ ) {
@@ -866,13 +881,13 @@ void Character::process_items()
             ch_UPS += std::min( it.ammo_remaining() * it.type->tool->ups_eff_mult,
                                 it.type->tool->ups_recharge_rate );
         }
-        if( it.has_flag( flag_USE_UPS ) && it.ammo_capacity() > it.ammo_remaining() ) {
+        if( it.has_flag( flag_USE_UPS ) && needs_elec_charges(&it) ) {
             active_held_items.push_back( index );
         }
     }
     bool update_required = get_check_encumbrance();
     for( item *&w : worn ) {
-        if( w->has_flag( flag_USE_UPS ) && w->ammo_capacity() > w->ammo_remaining() ) {
+        if( w->has_flag( flag_USE_UPS ) && needs_elec_charges(w) ) {
             active_worn_items.push_back( w );
         }
         // Necessary for UPS in Aftershock - check worn items for charge
