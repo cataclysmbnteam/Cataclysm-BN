@@ -105,19 +105,30 @@ const overmap_connection::subtype *overmap_connection::pick_subtype_for(
     if( cached_subtypes[cache_index] ) {
         return cached_subtypes[cache_index].value;
     }
-
+    // Used below in find_if iteration
     auto passes = [&ground]( const subtype & elem ) {
         return elem.allows_terrain( ground );
     };
     const overmap_connection::subtype *result = nullptr;
-    // Index List
+    // Weighted list for indexes in subtypes
+    // Can't just use the subtype, because then we return a local var pointer
+    // No segfaults if we return the pointer to subtypes
     weighted_int_list<size_t> weighted_terrain;
+    // Everything is lower then max
     int min_cost = INT_MAX;
+    // For loop iterating through all instances of subtypes that can be placed here.
     for (auto iter = std::find_if(subtypes.begin(), subtypes.end(), passes);
         iter != subtypes.end();
         iter = std::find_if(++iter, subtypes.end(), passes))
     {
         auto subtype = &*iter;
+        // If it's hardcoded to be set here
+        // We better set it here
+        if( subtype->locations.empty() ){
+            weighted_terrain.clear();
+            weighted_terrain.add(iter - subtypes.begin(), 10);
+            break;
+        }
         // Revert if cost is lower, keep if same, ignore if higher
         if( subtype->basic_cost < min_cost ){
             weighted_terrain.clear();
@@ -127,10 +138,15 @@ const overmap_connection::subtype *overmap_connection::pick_subtype_for(
             weighted_terrain.add(iter - subtypes.begin(), 10);
         }    
     }
+    // Essentially get a random one out of the weights
+    // Only issue is we need to make sure it's not null
+    // Null happens when trying to place a road over a cabin for instance
     size_t *idx = weighted_terrain.pick();
     if( idx != nullptr ){
         result = &subtypes[*idx];
     }
+    // Null subtypes are fine, and expected from this function
+    // This is the cache so long roads are easy
     cached_subtypes[cache_index].value = result;
     cached_subtypes[cache_index].assigned = true;
 

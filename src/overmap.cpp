@@ -4463,6 +4463,7 @@ void overmap::place_roads( const overmap *north, const overmap *east, const over
                            const overmap *west )
 {
     const overmap_connection_id local_road( "local_road" );
+    local_road->clear_subtype_cache();
     std::vector<tripoint_om_omt> &roads_out = connections_out[local_road];
 
     // Ideally we should have at least two exit points for roads, on different sides
@@ -4722,6 +4723,7 @@ void overmap::place_cities()
                 std::vector<tripoint_om_omt> sewers;
 
                 do {
+                    local_road.clear_subtype_cache();
                     build_city_street( local_road, tmp.pos, size, cur_dir, tmp, sewers );
                 } while( ( cur_dir = om_direction::turn_right( cur_dir ) ) != start_dir );
                 for( const tripoint_om_omt &p : sewers ) {
@@ -5108,7 +5110,7 @@ bool overmap::build_connection(
     // Clear the cache before laying a road so that roads are consistent and new road types
     // are randomly chosen per road, not per load / game
     auto connection_ptr = &connection;
-    connection_ptr.clear_subtype_cache();
+    connection_ptr->clear_subtype_cache();
     
     for( const auto &node : path.nodes ) {
         const tripoint_om_omt pos( node.pos, z );
@@ -5233,6 +5235,8 @@ void overmap::connect_closest_points( const std::vector<point_om_omt> &points, i
             }
         }
         if( closest > 0 ) {
+            // Use a pointer so it definitely will keep changes
+            ( &connection )->clear_subtype_cache();
             build_connection( points[i], points[k], z, connection, false );
         }
     }
@@ -5647,6 +5651,7 @@ std::vector<tripoint_om_omt> overmap::place_special(
             bool linked = false;
             if( elem.connection->get_layout() == overmap_connection_layout::city && cit ) {
                 // First, try to link to city, if layout allows that
+                ( *elem.connection ).clear_subtype_cache();
                 linked = build_connection( cit.pos, rp.xy(), rp.z(), *elem.connection,
                                            must_be_unexplored, initial_dir );
             }
@@ -5655,6 +5660,7 @@ std::vector<tripoint_om_omt> overmap::place_special(
                 auto points = connection_cache->get_closests( elem.connection->id, rp.z(), rp.xy() );
                 int attempts = 0;
                 for( const point_om_omt &pos : points ) {
+                    ( *elem.connection ).clear_subtype_cache();
                     if( ( linked = build_connection( pos, rp.xy(), rp.z(), *elem.connection,
                                                      must_be_unexplored, initial_dir ) ) ||
                         ++attempts > 10 ) {
