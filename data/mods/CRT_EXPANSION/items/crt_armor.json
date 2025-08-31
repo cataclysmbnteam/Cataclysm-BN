@@ -65,12 +65,12 @@
     "type": "ARMOR",
     "name": { "str": "pair of C.R.I.T. fingertip-less gloves", "str_pl": "pairs of C.R.I.T. fingertip-less gloves" },
     "description": "C.R.I.T. standard-issue gloves.  Made with superalloy mesh for those with gene-modding and/or mutations while still allowing greater manipulation of items and moderate protection.",
-    "encumbrance": 6,
+    "encumbrance": 12,
     "coverage": 85,
     "warmth": 15,
     "material": [ "kevlar", "superalloy" ],
     "material_thickness": 3,
-    "flags": [ "ALLOWS_NATURAL_ATTACKS", "STURDY", "WATERPROOF" ]
+    "extend": { "flags": [ "ALLOWS_NATURAL_ATTACKS", "STURDY", "WATERPROOF" ] }
   },
   {
     "id": "crt_gloves_liner",
@@ -83,7 +83,7 @@
     "warmth": 15,
     "material": [ "neoprene", "rubber" ],
     "material_thickness": 1,
-    "flags": [ "ALLOWS_NATURAL_ATTACKS", "SKINTIGHT", "POWERARMOR_COMPATIBLE" ]
+    "extend": { "flags": [ "SKINTIGHT", "POWERARMOR_COMPATIBLE" ] }
   },
   {
     "id": "crt_backpack",
@@ -155,7 +155,7 @@
     "description": "C.R.I.T. standard-issue belt.  Keeps your trousers up and your weapons on your hip.",
     "color": "dark_gray",
     "material": [ "leather", "brass" ],
-    "flags": [ "WATER_FRIENDLY" ]
+    "extend": { "flags": [ "WATER_FRIENDLY" ] }
   },
   {
     "id": "crt_iduster",
