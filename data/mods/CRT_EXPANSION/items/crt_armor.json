@@ -254,8 +254,8 @@
     "coverage": 100,
     "encumbrance": 25,
     "warmth": 25,
-    "storage": "1250 ml",
-    "material_thickness": 5,
+    "storage": "5 L",
+    "material_thickness": 6,
     "environmental_protection": 25,
     "flags": [ "VARSIZE", "WATERPROOF", "HOOD", "COLLAR", "RAINPROOF", "STURDY", "RAD_RESIST", "OUTER" ]
   },
