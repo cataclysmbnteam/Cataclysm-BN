@@ -123,7 +123,7 @@
     "price": "200 USD",
     "warmth": 17,
     "symbol": ":",
-    "flags": [ "STURDY", "BELTED", "BLOCK_WHILE_WORN", "WATER_FRIENDLY" ]
+    "flags": [ "OUTER", "STURDY", "BELTED", "BLOCK_WHILE_WORN", "WATER_FRIENDLY" ]
   },
   {
     "id": "crt_armguard",
@@ -141,11 +141,11 @@
     "looks_like": "armguard_hard",
     "covers": [ "arms" ],
     "coverage": 100,
-    "encumbrance": 20,
+    "encumbrance": 10,
     "warmth": 17,
     "material_thickness": 4,
     "environmental_protection": 3,
-    "flags": [ "STURDY", "BELTED", "BLOCK_WHILE_WORN", "WATER_FRIENDLY" ]
+    "flags": [ "OUTER", "STURDY", "BELTED", "BLOCK_WHILE_WORN", "WATER_FRIENDLY" ]
   },
   {
     "id": "crt_belt",
