@@ -297,7 +297,7 @@
     "encumbrance": 35,
     "warmth": 20,
     "storage": "1750 ml",
-    "material_thickness": 4,
+    "material_thickness": 5,
     "environmental_protection": 5,
     "flags": [ "VARSIZE", "STURDY", "BELTED" ]
   },
@@ -336,7 +336,7 @@
     "covers": [ "torso", "legs", "arms" ],
     "coverage": 100,
     "encumbrance": 7,
-    "warmth": 20,
+    "warmth": 10,
     "storage": "2500 ml",
     "material_thickness": 2,
     "environmental_protection": 3,
@@ -358,7 +358,7 @@
     "encumbrance": 40,
     "warmth": 25,
     "storage": "4 L",
-    "material_thickness": 3,
+    "material_thickness": 5,
     "environmental_protection": 10,
     "use_action": { "type": "holster", "max_volume": "3750 ml", "draw_cost": 155, "skills": [ "smg", "shotgun", "rifle", "launcher" ] },
     "flags": [ "VARSIZE", "WATERPROOF", "OUTER", "OVERSIZE", "COLLAR", "STURDY", "NO_QUICKDRAW" ]
