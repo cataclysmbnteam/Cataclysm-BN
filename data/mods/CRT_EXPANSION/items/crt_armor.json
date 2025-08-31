@@ -65,11 +65,11 @@
     "type": "ARMOR",
     "name": { "str": "pair of C.R.I.T. fingertip-less gloves", "str_pl": "pairs of C.R.I.T. fingertip-less gloves" },
     "description": "C.R.I.T. standard-issue gloves.  Made with superalloy mesh for those with gene-modding and/or mutations while still allowing greater manipulation of items and moderate protection.",
-    "encumbrance": 12,
+    "encumbrance": 6,
     "coverage": 85,
-    "warmth": 20,
+    "warmth": 15,
     "material": [ "kevlar", "superalloy" ],
-    "material_thickness": 2,
+    "material_thickness": 3,
     "flags": [ "ALLOWS_NATURAL_ATTACKS", "STURDY", "WATERPROOF" ]
   },
   {
@@ -78,7 +78,7 @@
     "type": "ARMOR",
     "name": { "str": "pair of C.R.I.T. fingertip-less liners", "str_pl": "pairs of C.R.I.T. fingertip-less liners" },
     "description": "C.R.I.T. standard-issue glove liners.  Made with neoprene and rubber mesh for warmth and fingertip-less for those with gene-modding and/or mutations while still allowing greater manipulation of items and moderate protection.",
-    "encumbrance": 3,
+    "encumbrance": 1,
     "coverage": 85,
     "warmth": 15,
     "material": [ "neoprene", "rubber" ],
