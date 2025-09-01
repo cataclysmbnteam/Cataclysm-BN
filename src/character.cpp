@@ -7727,7 +7727,10 @@ bool Character::invoke_item( item *used, const std::string &method, const tripoi
     if( method != iuse_TOGGLE_UPS_CHARGING && !has_enough_charges( *used, true ) ) {
         return false;
     }
-
+    if( method == iuse_TOGGLE_UPS_CHARGING ) {
+        iuse::toggle_ups_charging( this->as_player(), used, false, pt );
+        return true;
+    }
     item *actually_used = used->get_usable_item( method );
     if( actually_used == nullptr ) {
         debugmsg( "Tried to invoke a method %s on item %s, which doesn't have this method",
