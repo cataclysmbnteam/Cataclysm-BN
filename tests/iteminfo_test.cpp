@@ -200,8 +200,8 @@ TEST_CASE( "weapon attack ratings and moves", "[item][iteminfo][weapon]" )
             "Stamina Cost: <color_c_yellow>91</color>\n"
             "Typical damage per second:\n"
             "Best: <color_c_yellow>5.20</color>"
-            "  Vs. Agile: <color_c_yellow>2.16</color>"
-            "  Vs. Armored: <color_c_yellow>0.21</color>\n" );
+            "  Vs. Agile: <color_c_yellow>1.62</color>"
+            "  Vs. Armored: <color_c_yellow>0.00</color>\n" );
     }
 
     SECTION( "bash and cut damage" ) {
@@ -215,8 +215,8 @@ TEST_CASE( "weapon attack ratings and moves", "[item][iteminfo][weapon]" )
             "Stamina Cost: <color_c_yellow>275</color>\n"
             "Typical damage per second:\n"
             "Best: <color_c_yellow>9.65</color>"
-            "  Vs. Agile: <color_c_yellow>5.91</color>"
-            "  Vs. Armored: <color_c_yellow>3.46</color>\n" );
+            "  Vs. Agile: <color_c_yellow>4.94</color>"
+            "  Vs. Armored: <color_c_yellow>0.69</color>\n" );
     }
 
     SECTION( "bash and pierce damage" ) {
@@ -230,8 +230,8 @@ TEST_CASE( "weapon attack ratings and moves", "[item][iteminfo][weapon]" )
             "Stamina Cost: <color_c_yellow>106</color>\n"
             "Typical damage per second:\n"
             "Best: <color_c_yellow>9.61</color>"
-            "  Vs. Agile: <color_c_yellow>4.97</color>"
-            "  Vs. Armored: <color_c_yellow>0.26</color>\n"
+            "  Vs. Agile: <color_c_yellow>3.95</color>"
+            "  Vs. Armored: <color_c_yellow>0.00</color>\n"
         );
     }
 
@@ -246,7 +246,7 @@ TEST_CASE( "weapon attack ratings and moves", "[item][iteminfo][weapon]" )
             "Stamina Cost: <color_c_yellow>68</color>\n"
             "Typical damage per second:\n"
             "Best: <color_c_yellow>5.25</color>"
-            "  Vs. Agile: <color_c_yellow>2.63</color>"
+            "  Vs. Agile: <color_c_yellow>2.09</color>"
             "  Vs. Armored: <color_c_yellow>0.00</color>\n" );
     }
 
