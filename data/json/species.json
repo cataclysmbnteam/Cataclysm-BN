@@ -182,5 +182,12 @@
     "type": "SPECIES",
     "name": { "str_sp": "unknown species" },
     "id": "UNKNOWN"
+  },
+  {
+    "type": "SPECIES",
+    "id": "DEBUG",
+    "name": { "str": "debug monster" },
+    "description": "a debug monster used for testing. Please report this.",
+    "footsteps": "shuffling."
   }
 ]
