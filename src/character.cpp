@@ -1118,7 +1118,7 @@ int Character::swim_speed() const
 
     /** @EFFECT_DEX increases swim speed */
     ret -= str_cur * 6 + dex_cur * 4;
-    if( worn_with_flag( flag_FLOTATION ) ) {
+    if( worn_with_flag( flag_FLOTATION ) && !get_map().has_flag( TFLAG_WATER_CUBE, pos() ) ) {
         ret = std::min( ret, 400 );
         ret = std::max( ret, 200 );
     }
@@ -3212,6 +3212,12 @@ ret_val<bool> Character::can_wear( const item &it, bool with_equip_change ) cons
     if( it.has_flag( flag_RESTRICT_HANDS ) && !has_two_arms() ) {
         return ret_val<bool>::make_failure( ( is_player() ? _( "You don't have enough arms to wear that." )
                                               : string_format( _( "%s doesn't have enough arms to wear that." ), name ) ) );
+    }
+
+    if( it.has_flag( flag_FLOTATION ) && get_map().has_flag( TFLAG_WATER_CUBE, pos() ) ) {
+        return ret_val<bool>::make_failure( ( is_player() ?
+                                              _( "You can't put on a flotation device below the surface." )
+                                              : string_format( _( "%s can't put on a flotation device below the surface." ), name ) ) );
     }
 
     //Everything checked after here should be something that could be solved by changing equipment
