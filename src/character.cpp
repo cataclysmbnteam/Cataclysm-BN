@@ -3215,7 +3215,8 @@ ret_val<bool> Character::can_wear( const item &it, bool with_equip_change ) cons
     }
 
     if( it.has_flag( flag_FLOTATION ) && get_map().has_flag( TFLAG_WATER_CUBE, pos() ) ) {
-        return ret_val<bool>::make_failure( ( is_player() ? _( "You can't put on a flotation device below the surface." )
+        return ret_val<bool>::make_failure( ( is_player() ?
+                                              _( "You can't put on a flotation device below the surface." )
                                               : string_format( _( "%s can't put on a flotation device below the surface." ), name ) ) );
     }
 
