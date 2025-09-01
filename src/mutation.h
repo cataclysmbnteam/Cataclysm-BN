@@ -154,6 +154,7 @@ struct mutation_branch {
         float noise_modifier = 1.0f;
         float scent_modifier = 1.0f;
         float bleed_resist = 0;
+        float packmule_modifier = 1.0f;
         std::optional<int> scent_intensity;
         std::optional<int> scent_mask;
 

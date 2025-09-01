@@ -274,8 +274,9 @@ float crafting_speed_multiplier( const Character &who, const item &craft,
     const float light_multi = lighting_crafting_speed_multiplier( who, rec );
     const float bench_multi = workbench_crafting_speed_multiplier( craft, bench );
     const float morale_multi = morale_crafting_speed_multiplier( who, rec );
+    const float game_opt_multi = get_option<float>( "CRAFTING_SPEED_MULT" );
 
-    const float total_multi = light_multi * bench_multi * morale_multi;
+    const float total_multi = light_multi * bench_multi * morale_multi * game_opt_multi;
 
     if( light_multi <= 0.0f ) {
         who.add_msg_if_player( m_bad, _( "You can no longer see well enough to keep crafting." ) );

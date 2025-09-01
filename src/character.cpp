@@ -314,7 +314,6 @@ static const trait_id trait_NOMAD2( "NOMAD2" );
 static const trait_id trait_NOMAD3( "NOMAD3" );
 static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_PACIFIST( "PACIFIST" );
-static const trait_id trait_PACKMULE( "PACKMULE" );
 static const trait_id trait_PADDED_FEET( "PADDED_FEET" );
 static const trait_id trait_PAINRESIST_TROGLO( "PAINRESIST_TROGLO" );
 static const trait_id trait_PAINRESIST( "PAINRESIST" );
@@ -3096,12 +3095,9 @@ units::volume Character::volume_capacity_reduced_by(
     if( has_trait( trait_SHELL2 ) && !has_active_mutation( trait_SHELL2 ) ) {
         ret += 6_liter;
     }
-    if( has_trait( trait_PACKMULE ) ) {
-        ret = ret * 1.4;
-    }
-    if( has_trait( trait_DISORGANIZED ) ) {
-        ret = ret * 0.6;
-    }
+
+    ret = ret * mutation_value( "packmule_modifier" );
+
     return std::max( ret, 0_ml );
 }
 
@@ -7102,6 +7098,7 @@ mutation_value_map = {
     { "movecost_modifier", calc_mutation_value_multiplicative<&mutation_branch::movecost_modifier> },
     { "movecost_flatground_modifier", calc_mutation_value_multiplicative<&mutation_branch::movecost_flatground_modifier> },
     { "movecost_obstacle_modifier", calc_mutation_value_multiplicative<&mutation_branch::movecost_obstacle_modifier> },
+    { "packmule_modifier", calc_mutation_value_multiplicative<&mutation_branch::packmule_modifier> },
     { "attackcost_modifier", calc_mutation_value_multiplicative<&mutation_branch::attackcost_modifier> },
     { "falling_damage_multiplier", calc_mutation_value_multiplicative<&mutation_branch::falling_damage_multiplier> },
     { "max_stamina_modifier", calc_mutation_value_multiplicative<&mutation_branch::max_stamina_modifier> },

@@ -2433,6 +2433,13 @@ void options_manager::add_options_world_default()
          0.0, 100, 2.0, 0.01
        );
 
+    add( "CRAFTING_SPEED_MULT", world_default, translate_marker( "Crafting speed scaling factor" ),
+         translate_marker( "A scaling factor that determines crafting speed.  The player will give up if total speed multiplier is below 20%." ),
+         0.01, 10.0, 1.0, 0.01
+       );
+
+    add_empty_line();
+
     add( "RESTOCK_DELAY_MULT", world_default, translate_marker( "Merchant restock scaling factor" ),
          translate_marker( "A scaling factor that determines restock rate of merchants." ),
          0.01, 10.0, 1.0, 0.01
