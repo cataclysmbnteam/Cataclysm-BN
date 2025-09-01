@@ -17,6 +17,7 @@
     "ammo": "plutonium",
     "max_charges": 2500,
     "ups_eff_mult": 2,
+    "ups_recharge_rate": 10,
     "flags": [ "IS_UPS" ]
   },
   {
