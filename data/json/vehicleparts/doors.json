@@ -328,12 +328,14 @@
   {
     "copy-from": "door_carbon_abstract",
     "id": "door_carbon",
+    "looks_like": "door",
     "symbol": "+",
     "type": "vehicle_part"
   },
   {
     "copy-from": "door_carbon_opaque_abstract",
     "id": "door_carbon_opaque",
+    "looks_like": "door_opaque",
     "symbol": "+",
     "type": "vehicle_part"
   },
@@ -370,18 +372,21 @@
   {
     "copy-from": "door_internal_carbon_abstract",
     "id": "door_internal_carbon",
+    "looks_like": "door_internal",
     "symbol": "+",
     "type": "vehicle_part"
   },
   {
     "copy-from": "hatch_carbon_abstract",
     "id": "hatch_carbon",
+    "looks_like": "hatch",
     "symbol": "+",
     "type": "vehicle_part"
   },
   {
     "copy-from": "hatch_opaque_carbon_abstract",
     "id": "hatch_opaque_carbon",
+    "looks_like": "hatch_opaque",
     "symbol": "+",
     "type": "vehicle_part"
   },
