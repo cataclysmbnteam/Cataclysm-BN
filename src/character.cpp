@@ -1118,7 +1118,7 @@ int Character::swim_speed() const
 
     /** @EFFECT_DEX increases swim speed */
     ret -= str_cur * 6 + dex_cur * 4;
-    if( worn_with_flag( flag_FLOTATION ) ) {
+    if( worn_with_flag( flag_FLOTATION ) && !is_underwater() ) {
         ret = std::min( ret, 400 );
         ret = std::max( ret, 200 );
     }
