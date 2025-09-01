@@ -3485,8 +3485,12 @@
     "points": 2,
     "skills": [ { "level": 2, "name": "fabrication" }, { "level": 2, "name": "tailor" } ],
     "items": {
-      "both": { "items": [ "socks", "tank_top", "wolfsuit", "mbag", "sewing_kit", "water_clean", "smart_phone" ] },
-      "//": "underarmor-style underwear is more common irl for comfort but warmth management would make that less ideal in-game",
+      "both": {
+        "items": [ "socks", "tank_top", "wolfsuit", "mbag", "sewing_kit", "water_clean", "smart_phone" ],
+        "entries": [
+          { "item": "light_plus_battery_cell", "ammo-item": "battery", "charges": 150, "container-item": "thermal_cooling_suit" }
+        ]
+      },
       "male": [ "briefs" ],
       "female": [ "sports_bra", "boy_shorts" ]
     }
