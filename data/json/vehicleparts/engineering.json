@@ -105,6 +105,26 @@
     "damage_reduction": { "all": 42 }
   },
   {
+    "copy-from": "forklift_fork",
+    "id": "forklift_fork_carbon",
+    "type": "vehicle_part",
+    "name": { "str": "carbon fiber forklift arm" },
+    "size": "15 L",
+    "item": "frame_carbon",
+    "breaks_into": "ig_vp_carbon",
+    "requirements": {
+      "repair": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": "60 m",
+        "using": [ [ "welding_standard", 5 ], [ "vehicle_repair_carbon", 10 ] ]
+      }
+    },
+    "durability": 360,
+    "damage_reduction": { "all": 50 },
+    "folded_volume": "2500 ml",
+    "extend": { "flags": [ "FOLDABLE", "SHOCK_RESISTANT" ] }
+  },
+  {
     "id": "rockwheel",
     "type": "vehicle_part",
     "name": { "str": "rockwheel" },

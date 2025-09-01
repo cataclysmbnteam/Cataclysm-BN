@@ -81,6 +81,12 @@
     "entries": [ { "item": "carbon_fiber_filament", "count": [ 20, 40 ] } ]
   },
   {
+    "type": "item_group",
+    "id": "ig_vp_alloy",
+    "subtype": "collection",
+    "entries": [ { "item": "alloy_sheet", "count": [ 4, 8 ] } ]
+  },
+  {
     "type": "vehicle_part",
     "id": "null",
     "name": { "str": "null part" },
@@ -473,6 +479,22 @@
     "flags": [ "ROOF" ],
     "breaks_into": "ig_vp_steel_plate",
     "damage_reduction": { "all": 75 }
+  },
+  {
+    "copy-from": "hdroof",
+    "id": "hdroof_superalloy",
+    "type": "vehicle_part",
+    "name": { "str": "superalloy roof" },
+    "item": "alloy_plate",
+    "breaks_into": "ig_vp_alloy",
+    "requirements": {
+      "repair": {
+        "skills": [ [ "mechanics", 2 ] ],
+        "time": "60 m",
+        "using": [ [ "welding_standard", 5 ], [ "vehicle_repair_superalloy", 1 ] ]
+      }
+    },
+    "extend": { "flags": [ "SHOCK_IMMUNE" ] }
   },
   {
     "type": "vehicle_part",
@@ -1207,17 +1229,22 @@
     "broken_symbol": "x",
     "broken_color": "light_gray",
     "damage_modifier": 50,
-    "durability": 480,
+    "durability": 288,
     "item": "carbonfiber_boat_hull",
+    "folded_volume": "12500 ml",
     "location": "under",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 6 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
-      "removal": { "skills": [ [ "mechanics", 4 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 7 ] ], "time": "60 m", "using": [ [ "armor_kevlar_plate", 1 ] ] }
+      "install": { "skills": [ [ "mechanics", 4 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "qualities": [ { "id": "SAW_M", "level": 1 } ] },
+      "repair": {
+        "skills": [ [ "mechanics", 5 ] ],
+        "time": "60 m",
+        "using": [ [ "welding_standard", 5 ], [ "vehicle_repair_carbon", 10 ] ]
+      }
     },
-    "flags": [ "FLOATS", "BOARDABLE", "SHOCK_RESISTANT" ],
+    "flags": [ "FLOATS", "BOARDABLE", "FOLDABLE", "SHOCK_RESISTANT" ],
     "breaks_into": "ig_vp_carbon",
-    "damage_reduction": { "all": 14 }
+    "damage_reduction": { "all": 34 }
   },
   {
     "type": "vehicle_part",
@@ -1743,6 +1770,22 @@
     "damage_reduction": { "all": 75 }
   },
   {
+    "copy-from": "v_hdshutter",
+    "id": "v_hdshutter_superalloy",
+    "type": "vehicle_part",
+    "name": { "str": "superalloy shutter" },
+    "item": "alloy_plate",
+    "breaks_into": "ig_vp_alloy",
+    "requirements": {
+      "repair": {
+        "skills": [ [ "mechanics", 2 ] ],
+        "time": "60 m",
+        "using": [ [ "welding_standard", 5 ], [ "vehicle_repair_superalloy", 1 ] ]
+      }
+    },
+    "extend": { "flags": [ "SHOCK_IMMUNE" ] }
+  },
+  {
     "type": "vehicle_part",
     "id": "v_woodshutter",
     "copy-from": "v_shutter",
@@ -2136,24 +2179,20 @@
     "color": "dark_gray",
     "broken_symbol": ")",
     "broken_color": "dark_gray",
-    "durability": 600,
+    "durability": 660,
     "item": "alloy_plate",
     "location": "armor",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 4 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
-      "removal": { "skills": [ [ "mechanics", 3 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
+      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
       "repair": {
-        "skills": [ [ "mechanics", 5 ] ],
+        "skills": [ [ "mechanics", 3 ] ],
         "time": "60 m",
         "using": [ [ "welding_standard", 5 ], [ "vehicle_repair_superalloy", 1 ] ]
       }
     },
     "flags": [ "ARMOR", "SHOCK_IMMUNE" ],
-    "breaks_into": [
-      { "item": "steel_lump", "count": [ 4, 6 ] },
-      { "item": "steel_chunk", "count": [ 4, 6 ] },
-      { "item": "scrap", "count": [ 4, 6 ] }
-    ],
+    "breaks_into": "ig_vp_alloy",
     "damage_reduction": { "all": 56 }
   },
   {
@@ -2350,6 +2389,25 @@
     "damage_reduction": { "all": 25 }
   },
   {
+    "copy-from": "door_trunk",
+    "id": "door_trunk_carbon",
+    "type": "vehicle_part",
+    "name": { "str": "carbon fiber trunk door" },
+    "item": "frame_carbon",
+    "breaks_into": "ig_vp_carbon",
+    "requirements": {
+      "repair": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": "60 m",
+        "using": [ [ "welding_standard", 5 ], [ "vehicle_repair_carbon", 10 ] ]
+      }
+    },
+    "durability": 180,
+    "damage_reduction": { "all": 30 },
+    "folded_volume": "2500 ml",
+    "extend": { "flags": [ "FOLDABLE", "SHOCK_RESISTANT" ] }
+  },
+  {
     "type": "vehicle_part",
     "id": "hddoor_trunk",
     "name": { "str": "heavy duty trunk door" },
@@ -2421,6 +2479,25 @@
     "flags": [ "OBSTACLE", "OPENABLE", "MULTISQUARE", "BOARDABLE" ],
     "breaks_into": "ig_vp_frame",
     "damage_reduction": { "all": 26 }
+  },
+  {
+    "copy-from": "door_sliding",
+    "id": "door_sliding_carbon",
+    "type": "vehicle_part",
+    "name": { "str": "carbon fiber sliding door" },
+    "item": "frame_carbon",
+    "breaks_into": "ig_vp_carbon",
+    "requirements": {
+      "repair": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": "60 m",
+        "using": [ [ "welding_standard", 5 ], [ "vehicle_repair_carbon", 10 ] ]
+      }
+    },
+    "durability": 180,
+    "damage_reduction": { "all": 31 },
+    "folded_volume": "2500 ml",
+    "extend": { "flags": [ "FOLDABLE", "SHOCK_RESISTANT" ] }
   },
   {
     "type": "vehicle_part",
@@ -3402,6 +3479,25 @@
     "extend": { "flags": [ "MANUAL" ] },
     "delete": { "flags": [ "FOLDABLE" ] },
     "breaks_into": "ig_vp_frame"
+  },
+  {
+    "copy-from": "turret_mount",
+    "id": "turret_mount_manual_carbon",
+    "type": "vehicle_part",
+    "name": { "str": "simple carbon fiber turret mount" },
+    "item": "frame_carbon",
+    "breaks_into": "ig_vp_carbon",
+    "requirements": {
+      "repair": {
+        "skills": [ [ "mechanics", 1 ] ],
+        "time": "5 m",
+        "using": [ [ "welding_standard", 5 ], [ "vehicle_repair_carbon", 10 ] ]
+      }
+    },
+    "folded_volume": "2500 ml",
+    "durability": 500,
+    "damage_reduction": { "all": 65 },
+    "extend": { "flags": [ "FOLDABLE", "SHOCK_RESISTANT" ] }
   },
   {
     "type": "vehicle_part",
