@@ -2270,7 +2270,7 @@ bool npc::emergency() const
 
 bool npc::emergency( float danger ) const
 {
-    int stamina_percent = static_cast<float>( get_stamina() ) / get_stamina_max() * 100;
+    const int stamina_percent = static_cast<float>( get_stamina() ) / get_stamina_max() * 100;
     // Quit early if we're below 20% stamina, plus or minus bravery and threat modifiers.
     if( 20 + std::max( danger, 0.0f ) > stamina_percent + personality.bravery ) {
         return true;
