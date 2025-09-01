@@ -3509,7 +3509,7 @@ detached_ptr<item> iexamine::pour_into_keg( const tripoint &pos, detached_ptr<it
             liquid->charges--;
         }
         add_msg( _( "You pour %1$s into the %2$s." ), obj.tname(), keg_name );
-        if ( liquid->charges == 0 ) {
+        if( liquid->charges == 0 ) {
             return detached_ptr<item>();
         }
     }
