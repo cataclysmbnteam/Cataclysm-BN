@@ -266,7 +266,7 @@
     "color": "white",
     "move_cost_mod": 3,
     "coverage": 40,
-    "comfort": 5,
+    "comfort": 4,
     "floor_bedding_warmth": 700,
     "required_str": -1,
     "looks_like": "f_bathtub",
