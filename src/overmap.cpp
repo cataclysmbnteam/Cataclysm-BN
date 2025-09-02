@@ -5109,8 +5109,7 @@ bool overmap::build_connection(
 
     // Clear the cache before laying a road so that roads are consistent and new road types
     // are randomly chosen per road, not per load / game
-    auto connection_ptr = &connection;
-    connection_ptr->clear_subtype_cache();
+    connection.clear_subtype_cache();
     
     for( const auto &node : path.nodes ) {
         const tripoint_om_omt pos( node.pos, z );
@@ -5236,7 +5235,7 @@ void overmap::connect_closest_points( const std::vector<point_om_omt> &points, i
         }
         if( closest > 0 ) {
             // Use a pointer so it definitely will keep changes
-            ( &connection )->clear_subtype_cache();
+            connection.clear_subtype_cache();
             build_connection( points[i], points[k], z, connection, false );
         }
     }
@@ -5651,7 +5650,6 @@ std::vector<tripoint_om_omt> overmap::place_special(
             bool linked = false;
             if( elem.connection->get_layout() == overmap_connection_layout::city && cit ) {
                 // First, try to link to city, if layout allows that
-                ( *elem.connection ).clear_subtype_cache();
                 linked = build_connection( cit.pos, rp.xy(), rp.z(), *elem.connection,
                                            must_be_unexplored, initial_dir );
             }
@@ -5660,7 +5658,6 @@ std::vector<tripoint_om_omt> overmap::place_special(
                 auto points = connection_cache->get_closests( elem.connection->id, rp.z(), rp.xy() );
                 int attempts = 0;
                 for( const point_om_omt &pos : points ) {
-                    ( *elem.connection ).clear_subtype_cache();
                     if( ( linked = build_connection( pos, rp.xy(), rp.z(), *elem.connection,
                                                      must_be_unexplored, initial_dir ) ) ||
                         ++attempts > 10 ) {
