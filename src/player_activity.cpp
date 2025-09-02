@@ -217,7 +217,7 @@ static std::string craft_progress_message( const avatar &u, const player_activit
     const float assist_total_moves = std::max( 1, rec.batch_time( craft->charges, 1.0f, assistants ) );
     const float assist_mult = base_total_moves / assist_total_moves;
     const float speed_mult = u.get_speed() / 100.0f;
-    const float game_opt_mult = get_option<float>( "CRAFTING_SPEED_MULT" );
+    const float game_opt_mult = get_option<int>( "CRAFTING_SPEED_MULT" ) / 100.0f;
     const float total_mult = light_mult * bench_mult * morale_mult * assist_mult * speed_mult *
                              game_opt_mult;
 
