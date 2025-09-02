@@ -4463,7 +4463,6 @@ void overmap::place_roads( const overmap *north, const overmap *east, const over
                            const overmap *west )
 {
     const overmap_connection_id local_road( "local_road" );
-    local_road->clear_subtype_cache();
     std::vector<tripoint_om_omt> &roads_out = connections_out[local_road];
 
     // Ideally we should have at least two exit points for roads, on different sides
@@ -4723,7 +4722,6 @@ void overmap::place_cities()
                 std::vector<tripoint_om_omt> sewers;
 
                 do {
-                    local_road.clear_subtype_cache();
                     build_city_street( local_road, tmp.pos, size, cur_dir, tmp, sewers );
                 } while( ( cur_dir = om_direction::turn_right( cur_dir ) ) != start_dir );
                 for( const tripoint_om_omt &p : sewers ) {
@@ -5235,7 +5233,6 @@ void overmap::connect_closest_points( const std::vector<point_om_omt> &points, i
         }
         if( closest > 0 ) {
             // Use a pointer so it definitely will keep changes
-            connection.clear_subtype_cache();
             build_connection( points[i], points[k], z, connection, false );
         }
     }
