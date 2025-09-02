@@ -869,5 +869,17 @@
     "result": "carbondioxide_tank",
     "time": "30 s",
     "components": [ [ [ "metal_tank_little", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "money_pile",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "skill_used": "fabrication",
+    "difficulty": 0,
+    "time": "1 m",
+    "reversible": true,
+    "autolearn": true,
+    "components": [ [ [ "money_bundle", 10 ] ] ]
   }
 ]
