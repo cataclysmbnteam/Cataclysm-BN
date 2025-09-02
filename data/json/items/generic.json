@@ -2378,7 +2378,7 @@
     "category": "valuables",
     "description": "A pile of cash.  Can be used to fill a bathtub with cash or as a comforting reminder of the past.",
     "material": [ "paper" ],
-    "flags": ["TRADER_AVOID", "SLEEP_AID" ],
+    "flags": [ "TRADER_AVOID", "SLEEP_AID" ],
     "weight": "200 g",
     "volume": "2500 ml",
     "to_hit": -2
