@@ -5630,6 +5630,7 @@
     "points": 4,
     "skills": [ { "level": 4, "name": "barter" }, { "level": 6, "name": "speech" } ],
     "traits": [ "LIAR" ],
+    "starting_cash": 2000000,
     "items": {
       "both": [
         "suit",
@@ -5844,6 +5845,7 @@
     "name": { "male": "Hitman", "female": "Hitwoman" },
     "description": "You were a killer for hire, trained and equipped to efficiently eliminate your target while keeping a low profile.  No one's hiring now that the world's ended, but your skills may prove useful for staying alive.",
     "points": 5,
+    "starting_cash": 2000000,
     "skills": [
       { "level": 3, "name": "dodge" },
       { "level": 1, "name": "melee" },

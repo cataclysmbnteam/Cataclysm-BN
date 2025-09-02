@@ -1,6 +1,7 @@
 #pragma once
 
 #include <list>
+#include <optional>
 #include <map>
 #include <set>
 #include <string>
@@ -99,6 +100,7 @@ class profession
         std::string gender_appropriate_name( bool male ) const;
         std::string description( bool male ) const;
         signed int point_cost() const;
+        std::optional<signed int> starting_cash() const;
         std::vector<detached_ptr<item>> items( bool male, const std::vector<trait_id> &traits ) const;
         std::vector<addiction> addictions() const;
         vproto_id vehicle() const;
@@ -107,6 +109,8 @@ class profession
         StartingSkillList skills() const;
 
         std::map<spell_id, int> spells() const;
+
+        std::optional<signed int> _starting_cash = std::nullopt;
 
         /**
          * Check if this type of profession has a certain flag set.

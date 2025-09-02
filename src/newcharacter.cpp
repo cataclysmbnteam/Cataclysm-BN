@@ -576,7 +576,7 @@ bool avatar::create( character_type type, const std::string &tempname )
     }
 
     // setup staring bank money
-    cash = rng( -200000, 200000 );
+    cash = prof->starting_cash().value_or( rng( -200000, 200000 ) );
 
     if( has_trait( trait_XS ) ) {
         set_stored_kcal( 10000 );
@@ -1736,6 +1736,15 @@ tab_direction set_profession( avatar &u, points_left &points,
                     buffer += string_format( _( "%s level %d" ), spell_pair.first->name, spell_pair.second ) + "\n";
                 }
             }
+
+            // Profession money
+            std::optional<int> cash = sorted_profs[cur_id]->starting_cash();
+
+            if( cash.has_value() ) {
+                buffer += colorize( _( "Profession money:" ), c_light_blue ) + "\n";
+                buffer += format_money( cash.value() ) + "\n";
+            }
+
             const auto scroll_msg = string_format(
                                         _( "Press <color_light_green>%1$s</color> or <color_light_green>%2$s</color> to scroll." ),
                                         ctxt.get_desc( "LEFT" ),
