@@ -253,14 +253,6 @@ float crafting_speed_multiplier( const Character &who, const recipe &rec, bool i
                                            ? 9999
                                            : get_option<int>( "CRAFTING_SPEED_MULT" ) / 100.0f ) *
                          who.mutation_value( "crafting_speed_modifier" );
-    // Can't start if we'd need 300% time, but we can still finish the job
-    if( !in_progress && result < 0.33f ) {
-        return 0.0f;
-    }
-    // If we're working below 10% speed, just give up
-    if( result < 0.1f ) {
-        return 0.0f;
-    }
 
     return result;
 }

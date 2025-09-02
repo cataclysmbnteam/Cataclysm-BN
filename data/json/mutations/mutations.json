@@ -6638,9 +6638,18 @@
     "points": 99,
     "valid": false,
     "description": "Crafting and construction requirements bugger off with this one.  Apply with care.",
+    "debug": true
+  },
+  {
+    "type": "mutation",
+    "id": "DEBUG_HT",
+    "name": { "str": "Debug Hammertime" },
+    "points": 99,
+    "valid": false,
+    "description": "Crafting and construction are practically instant.",
     "debug": true,
-    "construction_speed_modifier": 0.01,
-    "crafting_speed_modifier": 0.01
+    "crafting_speed_modifier": 9999,
+    "construction_speed_modifier": 9999
   },
   {
     "type": "mutation",
