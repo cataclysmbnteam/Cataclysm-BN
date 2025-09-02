@@ -2694,9 +2694,9 @@ void options_manager::add_options_world_default()
          0, 1000, 100, COPT_NO_HIDE, "%i%%"
        );
 
-    add( "GROWTH_SCALING", world_default, translate_marker( "Growth scaling factor" ),
+    add( "GROWTH_SCALING", world_default, translate_marker( "Growth scaling percentage" ),
          translate_marker( "Sets the time of crop growth in percents.  '50' is two times faster than default, '200' is two times longer.  '0' automatically scales growth time to match the world's season length." ),
-         0, 1000, 0
+         0, 1000, 0, COPT_NO_HIDE, "%i%%"
        );
 
     add( "ETERNAL_SEASON", world_default, translate_marker( "Eternal season" ),
