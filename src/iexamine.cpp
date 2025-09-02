@@ -447,6 +447,9 @@ class atm_menu
             }
         }
     private:
+        int value_of_money_bundle = item::spawn_temporary( itype_money_bundle,
+                                    calendar::start_of_cataclysm )->price( false );
+
         void add_choice( const int i, const char *const title ) {
             amenu.addentry( i, true, -1, title );
         }
@@ -484,14 +487,14 @@ class atm_menu
                 add_info( purchase_card, _( "You need $10.00 in your account to purchase a card." ) );
             }
 
-            if( u.cash > 40000 ) {
+            if( u.cash > value_of_money_bundle ) {
                 add_choice( withdraw_cash, _( "Withdraw cash" ) );
             } else if( u.cash < 0 ) {
                 add_info( withdraw_cash,
                           _( "You need to pay down your debt before withdrawing cash!" ) );
             } else {
                 add_info( withdraw_cash,
-                          _( "You don't have enough to withdraw a bundle!" ) );
+                          _( "You don't have enough to withdraw a money bundle!" ) );
             }
 
             if( cash_amount > 0 ) {
@@ -589,7 +592,7 @@ class atm_menu
             }
 
             u.use_charges( itype_money_bundle, amount );
-            u.cash += amount * 40000;
+            u.cash += amount * value_of_money_bundle;
             u.moves -= to_turns<int>( 10_seconds );
             finish_interaction();
 
@@ -660,7 +663,8 @@ class atm_menu
         bool do_withdraw_cash() {
             const int amount = prompt_for_amount( vgettext(
                     "Withdraw how much?  Max: %d bundles.  (0 to cancel) ",
-                    "Withdraw how much?  Max: %d bundles.  (0 to cancel) ", u.cash / 40000 ), u.cash / 40000 );
+                    "Withdraw how much?  Max: %d bundles.  (0 to cancel) ", u.cash / value_of_money_bundle ),
+                                                  u.cash / value_of_money_bundle );
 
             if( !amount ) {
                 return false;
@@ -670,7 +674,7 @@ class atm_menu
                 detached_ptr<item> card = item::spawn( "money_bundle", calendar::turn );
 
                 u.i_add( std::move( card ) );
-                u.cash -= 40000;
+                u.cash -= value_of_money_bundle;
             }
 
             u.moves -= to_turns<int>( 5_seconds );

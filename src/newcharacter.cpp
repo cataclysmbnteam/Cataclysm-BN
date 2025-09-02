@@ -1733,7 +1733,7 @@ tab_direction set_profession( avatar &u, points_left &points,
             if( !sorted_profs[cur_id]->spells().empty() ) {
                 buffer += colorize( _( "Spells:" ), c_light_blue ) + "\n";
                 for( const std::pair<spell_id, int> spell_pair : sorted_profs[cur_id]->spells() ) {
-                    buffer += string_format( _( "%s level %d" ), spell_pair.first->name, spell_pair.second ) + "\n";
+                    buffer += string_format( _( "%s level %d" ), spell_pair.first->name, spell_pair.second );
                 }
             }
 

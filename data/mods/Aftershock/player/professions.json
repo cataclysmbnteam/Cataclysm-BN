@@ -131,9 +131,7 @@
     "items": {
       "both": {
         "items": [ "tux", "dress_shoes", "socks", "gold_watch", "undershirt", "smart_phone", "gasdiscount_platinum" ],
-        "entries": [
-          { "item": "afs_wraitheon_smartphone" }
-        ]
+        "entries": [ { "item": "afs_wraitheon_smartphone" } ]
       },
       "male": [ "briefs", "collarpin", "diamond_ring" ],
       "female": [ "panties", "hairpin", "pearl_collar" ]
