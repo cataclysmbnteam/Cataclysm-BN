@@ -989,7 +989,7 @@
     "reversible": true,
     "decomp_learn": 3,
     "using": [ [ "magazine_standard", 5 ] ],
-    "components": [ [ [ "scrap", 5 ] ] ]
+    "components": [ [ [ "scrap", 2 ] ] ]
   },
   {
     "result": "hptjhpmag",
@@ -1020,7 +1020,7 @@
     "components": [ [ [ "scrap", 2 ] ] ]
   },
   {
-    "result": "nailmag",
+    "result": "stanag10",
     "type": "recipe",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_MAGAZINES",
@@ -1031,7 +1031,7 @@
     "reversible": true,
     "decomp_learn": 3,
     "using": [ [ "magazine_standard", 5 ] ],
-    "components": [ [ [ "scrap", 2 ] ] ]
+    "components": [ [ [ "scrap", 3 ] ] ]
   },
   {
     "result": "ruger1022bigmag",
@@ -1426,7 +1426,7 @@
     "components": [ [ [ "scrap", 2 ] ] ]
   },
   {
-    "result": "m14_makeshiftmag",
+    "result": "stanag20",
     "type": "recipe",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_MAGAZINES",
