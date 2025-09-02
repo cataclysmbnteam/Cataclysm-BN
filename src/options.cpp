@@ -2690,7 +2690,7 @@ void options_manager::add_options_world_default()
 
 
     add( "CRAFTING_SPEED_MULT", world_default, translate_marker( "Crafting speed percentage" ),
-         translate_marker( "Sets default crafting speed in percents.  '50' is two times slower than default, '200' is two times faster." ),
+         translate_marker( "Sets default crafting speed in percents.  '50' is two times slower than default, '200' is two times faster.  '0' makes crafting instant." ),
          0, 1000, 100, COPT_NO_HIDE, "%i%%"
        );
 
