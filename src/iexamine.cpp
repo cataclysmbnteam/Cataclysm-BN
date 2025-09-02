@@ -131,6 +131,7 @@ static const itype_id itype_battery( "battery" );
 static const itype_id itype_bot_broken_cyborg( "bot_broken_cyborg" );
 static const itype_id itype_bot_prototype_cyborg( "bot_prototype_cyborg" );
 static const itype_id itype_cash_card( "cash_card" );
+static const itype_id itype_money_bundle( "money_bundle" );
 static const itype_id itype_charcoal( "charcoal" );
 static const itype_id itype_chem_carbide( "chem_carbide" );
 static const itype_id itype_corpse( "corpse" );
@@ -403,7 +404,7 @@ class atm_menu
     public:
         // menu choices
         enum options : int {
-            cancel, purchase_card, deposit_money, withdraw_money, transfer_all_money
+            cancel, purchase_card, deposit_money, withdraw_money, deposit_cash, withdraw_cash, transfer_all_money
         };
 
         atm_menu()                           = delete;
@@ -428,6 +429,12 @@ class atm_menu
                     case withdraw_money:
                         result = do_withdraw_money();
                         break;
+                    case deposit_cash:
+                        result = do_deposit_cash();
+                        break;
+                    case withdraw_cash:
+                        result = do_withdraw_cash();
+                        break;
                     case transfer_all_money:
                         result = do_transfer_all_money();
                         break;
@@ -440,6 +447,9 @@ class atm_menu
             }
         }
     private:
+        int value_of_money_bundle = item::spawn_temporary( itype_money_bundle,
+                                    calendar::start_of_cataclysm )->price( false );
+
         void add_choice( const int i, const char *const title ) {
             amenu.addentry( i, true, -1, title );
         }
@@ -458,6 +468,7 @@ class atm_menu
 
         //! Reset and repopulate the menu; with a fair bit of work this could be more efficient.
         void reset( const bool clear = true ) {
+            const int cash_amount   = u.amount_of( itype_money_bundle );
             const int card_count   = u.amount_of( itype_cash_card );
             const int charge_count = card_count ? u.charges_of( itype_cash_card ) : 0;
 
@@ -471,32 +482,49 @@ class atm_menu
                                         format_money( u.cash ) );
 
             if( u.cash >= 1000 ) {
-                add_choice( purchase_card, _( "Purchase cash card?" ) );
+                add_choice( purchase_card, _( "Purchase cash card" ) );
             } else {
                 add_info( purchase_card, _( "You need $10.00 in your account to purchase a card." ) );
             }
 
+            if( u.cash > value_of_money_bundle ) {
+                add_choice( withdraw_cash, _( "Withdraw cash" ) );
+            } else if( u.cash < 0 ) {
+                add_info( withdraw_cash,
+                          _( "You need to pay down your debt before withdrawing cash!" ) );
+            } else {
+                add_info( withdraw_cash,
+                          _( "You don't have enough to withdraw a money bundle!" ) );
+            }
+
+            if( cash_amount > 0 ) {
+                add_choice( deposit_cash, _( "Deposit cash" ) );
+            } else {
+                add_info( deposit_cash,
+                          _( "You need cash to deposit!" ) );
+            }
+
             if( card_count && u.cash > 0 ) {
-                add_choice( withdraw_money, _( "Withdraw Money" ) );
+                add_choice( withdraw_money, _( "Withdraw onto cash card" ) );
             } else if( u.cash > 0 ) {
                 add_info( withdraw_money, _( "You need a cash card before you can withdraw money!" ) );
             } else if( u.cash < 0 ) {
                 add_info( withdraw_money,
-                          _( "You need to pay down your debt first!" ) );
+                          _( "You need to pay down your debt before withdrawing money onto a card!" ) );
             } else {
                 add_info( withdraw_money,
                           _( "You need money in your account before you can withdraw money!" ) );
             }
 
             if( charge_count ) {
-                add_choice( deposit_money, _( "Deposit Money" ) );
+                add_choice( deposit_money, _( "Deposit from cash card" ) );
             } else {
                 add_info( deposit_money,
                           _( "You need a charged cash card before you can deposit money!" ) );
             }
 
             if( card_count >= 2 && charge_count ) {
-                add_choice( transfer_all_money, _( "Transfer All Money" ) );
+                add_choice( transfer_all_money, _( "Combine cash cards" ) );
             }
         }
 
@@ -540,6 +568,32 @@ class atm_menu
             u.i_add( std::move( card ) );
             u.cash -= 1000;
             u.moves -= to_turns<int>( 5_seconds );
+            finish_interaction();
+
+            return true;
+        }
+
+        //!Deposit money from cash card into bank account.
+        bool do_deposit_cash() {
+            int money = u.charges_of( itype_money_bundle );
+
+            if( !money ) {
+                popup( _( "You can only deposit money from charged cash cards!" ) );
+                return false;
+            }
+
+            const int amount = prompt_for_amount( vgettext(
+                    "Deposit how many bundles?  Max: %d bundles.  (0 to cancel) ",
+                    "Deposit how many bundles?  Max: %d bundles.  (0 to cancel) ", money ),
+                                                  money );
+
+            if( !amount ) {
+                return false;
+            }
+
+            u.use_charges( itype_money_bundle, amount );
+            u.cash += amount * value_of_money_bundle;
+            u.moves -= to_turns<int>( 10_seconds );
             finish_interaction();
 
             return true;
@@ -600,6 +654,31 @@ class atm_menu
             dst->charges += amount;
             u.cash -= amount;
             u.moves -= to_turns<int>( 10_seconds );
+            finish_interaction();
+
+            return true;
+        }
+
+        //!Move money from bank account onto cash card.
+        bool do_withdraw_cash() {
+            const int amount = prompt_for_amount( vgettext(
+                    "Withdraw how much?  Max: %d bundles.  (0 to cancel) ",
+                    "Withdraw how much?  Max: %d bundles.  (0 to cancel) ", u.cash / value_of_money_bundle ),
+                                                  u.cash / value_of_money_bundle );
+
+            if( !amount ) {
+                return false;
+            }
+
+            for( int i = 0; i < amount; i++ ) {
+                detached_ptr<item> card = item::spawn( "money_bundle", calendar::turn );
+
+                u.i_add( std::move( card ) );
+                u.cash -= value_of_money_bundle;
+            }
+
+            u.moves -= to_turns<int>( 5_seconds );
+
             finish_interaction();
 
             return true;
