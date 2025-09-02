@@ -85,7 +85,7 @@ void cata::detail::mod_mutation_branch( sol::state &lua )
         SET_MEMB_RO( mending_modifier );
         DOC( "Bonus HP multiplier. 1.0 doubles HP; -0.5 halves it." );
         SET_MEMB_RO( hp_modifier );
-        DOC( "Packmule multiplier. 2.0 doubles carried weight; 0.5 halves it." );
+        DOC( "Packmule multiplier. 2.0 doubles backpack/container volume; 0.5 halves it." );
         SET_MEMB_RO( packmule_modifier );
         DOC( "Secondary HP multiplier; stacks with the other one. 1.0 doubles HP; -0.5 halves it." );
         SET_MEMB_RO( hp_modifier_secondary );
