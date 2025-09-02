@@ -248,7 +248,10 @@ float workbench_crafting_speed_multiplier( const item &craft, const bench_locati
 float crafting_speed_multiplier( const Character &who, const recipe &rec, bool in_progress )
 {
     const float result = morale_crafting_speed_multiplier( who, rec ) *
-                         lighting_crafting_speed_multiplier( who, rec );
+                         lighting_crafting_speed_multiplier( who,
+                                 rec ) * ( get_option<int>( "CRAFTING_SPEED_MULT" ) == 0
+                                           ? 9999
+                                           : get_option<int>( "CRAFTING_SPEED_MULT" ) / 100.0f );
     // Can't start if we'd need 300% time, but we can still finish the job
     if( !in_progress && result < 0.33f ) {
         return 0.0f;
@@ -274,8 +277,10 @@ float crafting_speed_multiplier( const Character &who, const item &craft,
     const float light_multi = lighting_crafting_speed_multiplier( who, rec );
     const float bench_multi = workbench_crafting_speed_multiplier( craft, bench );
     const float morale_multi = morale_crafting_speed_multiplier( who, rec );
+    const float game_opt_multi = get_option<int>( "CRAFTING_SPEED_MULT" ) == 0 ? 9999 :
+                                 get_option<int>( "CRAFTING_SPEED_MULT" ) / 100.0f;
 
-    const float total_multi = light_multi * bench_multi * morale_multi;
+    const float total_multi = light_multi * bench_multi * morale_multi * game_opt_multi;
 
     if( light_multi <= 0.0f ) {
         who.add_msg_if_player( m_bad, _( "You can no longer see well enough to keep crafting." ) );

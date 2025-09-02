@@ -319,7 +319,8 @@
     "description": "You can manage to find space for anything!  You can carry 40% more volume.",
     "starting_trait": true,
     "valid": false,
-    "cancels": [ "DISORGANIZED" ]
+    "cancels": [ "DISORGANIZED" ],
+    "packmule_modifier": 1.4
   },
   {
     "type": "mutation",
@@ -813,7 +814,8 @@
     "description": "You are terrible at organizing and storing your possessions.  You can carry 40% less volume.",
     "starting_trait": true,
     "valid": false,
-    "cancels": [ "PACKMULE" ]
+    "cancels": [ "PACKMULE" ],
+    "packmule_modifier": 0.6
   },
   {
     "type": "mutation",
