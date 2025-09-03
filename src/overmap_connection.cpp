@@ -8,6 +8,7 @@
 #include <limits>
 #include <map>
 #include <memory>
+#include <ranges>
 #include <vector>
 
 #include "generic_factory.h"
@@ -108,10 +109,7 @@ const overmap_connection::subtype *overmap_connection::pick_subtype_for(
     if( cached_subtypes[cache_index] ) {
         return cached_subtypes[cache_index].value;
     }
-    // Used below in find_if iteration
-    auto passes = [&ground]( const subtype & elem ) {
-        return elem.allows_terrain( ground );
-    };
+
     const overmap_connection::subtype *result = nullptr;
     // Weighted list for indexes in subtypes
     // Can't just use the subtype, because then we return a local var pointer
@@ -120,24 +118,22 @@ const overmap_connection::subtype *overmap_connection::pick_subtype_for(
     // Everything is lower then max
     int min_cost = INT_MAX;
     // For loop iterating through all instances of subtypes that can be placed here.
-    for( auto iter = std::find_if( subtypes.begin(), subtypes.end(), passes );
-         iter != subtypes.end();
-         iter = std::find_if( ++iter, subtypes.end(), passes ) ) {
-        auto subtype = &*iter;
+    for( auto [i, subtype] : subtypes | std::views::enumerate ) {
+        if( !subtype.allows_terrain( ground ) ) { continue; }
         // If it's hardcoded to be set here
         // We better set it here
-        if( subtype->locations.empty() ) {
+        if( subtype.locations.empty() ) {
             weighted_terrain.clear();
-            weighted_terrain.add( iter - subtypes.begin(), subtype->weight );
+            weighted_terrain.add( i, subtype.weight );
             break;
         }
         // Revert if cost is lower, keep if same, ignore if higher
-        if( subtype->basic_cost < min_cost ) {
+        if( subtype.basic_cost < min_cost ) {
             weighted_terrain.clear();
-            weighted_terrain.add( iter - subtypes.begin(), subtype->weight );
-            min_cost = subtype->basic_cost;
-        } else if( subtype->basic_cost == min_cost ) {
-            weighted_terrain.add( iter - subtypes.begin(), subtype->weight );
+            weighted_terrain.add( i, subtype.weight );
+            min_cost = subtype.basic_cost;
+        } else if( subtype.basic_cost == min_cost ) {
+            weighted_terrain.add( i, subtype.weight );
         }
     }
     // Essentially get a random one out of the weights
