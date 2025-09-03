@@ -91,7 +91,7 @@ void overmap_connection::subtype::deserialize( JsonIn &jsin )
 void overmap_connection::clear_subtype_cache() const
 {
     std::vector<cache> newcache = std::vector<cache>( overmap_terrains::get_all().size() );
-    cached_subtypes.swap(newcache);
+    cached_subtypes.swap( newcache );
 }
 
 const overmap_connection::subtype *overmap_connection::pick_subtype_for(
@@ -103,7 +103,7 @@ const overmap_connection::subtype *overmap_connection::pick_subtype_for(
 
     const size_t cache_index = ground.to_i();
     assert( cache_index < cached_subtypes.size() );
-    
+
     if( cached_subtypes[cache_index] ) {
         return cached_subtypes[cache_index].value;
     }
@@ -119,32 +119,31 @@ const overmap_connection::subtype *overmap_connection::pick_subtype_for(
     // Everything is lower then max
     int min_cost = INT_MAX;
     // For loop iterating through all instances of subtypes that can be placed here.
-    for (auto iter = std::find_if(subtypes.begin(), subtypes.end(), passes);
-        iter != subtypes.end();
-        iter = std::find_if(++iter, subtypes.end(), passes))
-    {
+    for( auto iter = std::find_if( subtypes.begin(), subtypes.end(), passes );
+         iter != subtypes.end();
+         iter = std::find_if( ++iter, subtypes.end(), passes ) ) {
         auto subtype = &*iter;
         // If it's hardcoded to be set here
         // We better set it here
-        if( subtype->locations.empty() ){
+        if( subtype->locations.empty() ) {
             weighted_terrain.clear();
-            weighted_terrain.add(iter - subtypes.begin(), 10);
+            weighted_terrain.add( iter - subtypes.begin(), 10 );
             break;
         }
         // Revert if cost is lower, keep if same, ignore if higher
-        if( subtype->basic_cost < min_cost ){
+        if( subtype->basic_cost < min_cost ) {
             weighted_terrain.clear();
-            weighted_terrain.add(iter - subtypes.begin(), 10);
+            weighted_terrain.add( iter - subtypes.begin(), 10 );
             min_cost = subtype->basic_cost;
-        } else if( subtype->basic_cost == min_cost ){
-            weighted_terrain.add(iter - subtypes.begin(), 10);
-        }    
+        } else if( subtype->basic_cost == min_cost ) {
+            weighted_terrain.add( iter - subtypes.begin(), 10 );
+        }
     }
     // Essentially get a random one out of the weights
     // Only issue is we need to make sure it's not null
     // Null happens when trying to place a road over a cabin for instance
     size_t *idx = weighted_terrain.pick();
-    if( idx != nullptr ){
+    if( idx != nullptr ) {
         result = &subtypes[*idx];
     }
     // Null subtypes are fine, and expected from this function
