@@ -251,7 +251,7 @@ float crafting_speed_multiplier( const Character &who, const recipe &rec, bool i
                          lighting_crafting_speed_multiplier( who,
                                  rec ) * ( get_option<int>( "CRAFTING_SPEED_MULT" ) == 0
                                            ? 9999
-                                           : 100.0f / get_option<int>( "CRAFTING_SPEED_MULT" ) ) *
+                                           : get_option<int>( "CRAFTING_SPEED_MULT" ) / 100.0f ) *
                          who.mutation_value( "crafting_speed_modifier" );
 
     return result;
