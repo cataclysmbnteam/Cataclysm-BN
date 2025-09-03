@@ -3364,12 +3364,8 @@ void overmap::generate( const overmap *north, const overmap *east,
     } while( requires_sub && ( --z >= -OVERMAP_DEPTH ) );
 
     // Always need at least one overlevel, but how many more
-    z = 1;
-    bool requires_over = false;
-    do {
-        requires_over = generate_over( z );
-    } while( requires_over && ( ++z <= OVERMAP_HEIGHT ) );
-
+    // Generate over always returned false so now deleted
+    // Created bridges alone which is now moved to a different section
 
     // Place the monsters, now that the terrain is laid out
     place_mongroups();
@@ -3466,50 +3462,6 @@ static void elevate_bridges(
         om.ter_set( p, oter_id( bridgehead_ground_id + dir_suffix ) );
         om.ter_set( p + tripoint_above, oter_id( bridgehead_ramp_id + dir_suffix ) );
     }
-}
-
-bool overmap::generate_over( const int z )
-{
-    bool requires_over = false;
-    std::vector<point_om_omt> bridge_points;
-
-    // These are so common that it's worth checking first as int.
-    const std::set<oter_id> skip_below = {
-        oter_id( "empty_rock" ), oter_id( "forest" ), oter_id( "field" ),
-        oter_id( "forest_thick" ), oter_id( "forest_water" )
-    };
-
-    std::string oter_name = "";
-    // DOES ALL THE BRIDGE POINTS!?!?!?
-    if( z == 1 ) {
-        for( int i = 0; i < OMAPX; i++ ) {
-            for( int j = 0; j < OMAPY; j++ ) {
-                tripoint_om_omt p( i, j, z );
-                tripoint_om_omt p_below( p + tripoint_below );
-                const oter_id oter_below = ter( p_below );
-                const oter_id oter_ground = ter( tripoint_om_omt( p.xy(), 0 ) );
-
-                // implicitly skip skip_below oter_ids
-                if( skip_below.find( oter_below ) != skip_below.end() ) {
-                    continue;
-                }
-
-                if( oter_ground->has_flag( oter_flags::is_bridge ) ) {
-                    oter_name = oter_ground->get_type_id().str();
-                    bridge_points.emplace_back( i, j );
-                }
-            }
-        }
-    }
-
-    elevate_bridges(
-        *this, bridge_points,
-        oter_name + "_road", oter_name + "_under",
-        oter_name + "head_ground", oter_name + "head_ramp",
-        "road_ew", "road_ns"
-    );
-
-    return requires_over;
 }
 
 std::vector<point_abs_omt> overmap::find_terrain( const std::string &term, int zlevel )
