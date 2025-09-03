@@ -5982,7 +5982,7 @@ void vehicle::refresh()
         if( vpi.has_flag( VPFLAG_ROTOR ) ) {
             rotors.push_back( p );
         }
-        if( vpi.has_flag( "REPULSOR" ) ) {
+        if( vpi.has_flag( VPFLAG_REPULSOR ) ) {
             repulsors.push_back( p );
         }
         if( vpi.has_flag( "WIND_TURBINE" ) ) {

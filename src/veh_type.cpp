@@ -104,6 +104,7 @@ static const std::unordered_map<std::string, vpart_bitflags> vpart_bitflag_map =
     { "RAIL", VPFLAG_RAIL },
     { "TURRET_CONTROLS", VPFLAG_TURRET_CONTROLS },
     { "ROOF", VPFLAG_ROOF },
+    { "REPULSOR", VPFLAG_REPULSOR },
 };
 
 static const std::vector<std::pair<std::string, int>> standard_terrain_mod = {{
@@ -929,7 +930,7 @@ int vpart_info::rotor_diameter() const
 
 float vpart_info::repulsion() const
 {
-    return has_flag( "REPULSOR" ) ? repulsor_info->repulsion : 0;
+    return has_flag( VPFLAG_REPULSOR ) ? repulsor_info->repulsion : 0;
 }
 
 const std::optional<vpslot_workbench> &vpart_info::get_workbench_info() const
