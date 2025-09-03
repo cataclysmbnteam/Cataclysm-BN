@@ -5735,5 +5735,29 @@
     "components": [ [ [ "concrete", 8 ] ], [ [ "wood_structural", 12, "LIST" ] ], [ [ "water", 8 ], [ "water_clean", 8 ] ] ],
     "pre_terrain": "t_rock",
     "post_terrain": "t_sconc_wall"
+  },
+  {
+    "type": "construction",
+    "id": "constr_bathtub_money",
+    "group": "build_bathtub_money",
+    "category": "FURN",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "5 m",
+    "components": [ [ [ "money_pile", 1 ] ] ],
+    "dark_craftable": true,
+    "pre_furniture": "f_bathtub",
+    "post_furniture": "f_bathtub_money"
+  },
+  {
+    "type": "construction",
+    "id": "constr_revert_bathtub_money",
+    "group": "remove_bathtub_money",
+    "category": "FURN",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "2 m",
+    "dark_craftable": true,
+    "pre_furniture": "f_bathtub_money",
+    "byproducts": [ { "item": "money_pile" } ],
+    "post_furniture": "f_bathtub"
   }
 ]
