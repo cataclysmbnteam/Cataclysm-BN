@@ -251,15 +251,8 @@ float crafting_speed_multiplier( const Character &who, const recipe &rec, bool i
                          lighting_crafting_speed_multiplier( who,
                                  rec ) * ( get_option<int>( "CRAFTING_SPEED_MULT" ) == 0
                                            ? 9999
-                                           : get_option<int>( "CRAFTING_SPEED_MULT" ) / 100.0f );
-    // Can't start if we'd need 300% time, but we can still finish the job
-    if( !in_progress && result < 0.33f ) {
-        return 0.0f;
-    }
-    // If we're working below 10% speed, just give up
-    if( result < 0.1f ) {
-        return 0.0f;
-    }
+                                           : 100.0f / get_option<int>( "CRAFTING_SPEED_MULT" ) ) *
+                         who.mutation_value( "crafting_speed_modifier" );
 
     return result;
 }
@@ -277,10 +270,12 @@ float crafting_speed_multiplier( const Character &who, const item &craft,
     const float light_multi = lighting_crafting_speed_multiplier( who, rec );
     const float bench_multi = workbench_crafting_speed_multiplier( craft, bench );
     const float morale_multi = morale_crafting_speed_multiplier( who, rec );
+    const float mutation_multi = who.mutation_value( "crafting_speed_modifier" );
     const float game_opt_multi = get_option<int>( "CRAFTING_SPEED_MULT" ) == 0 ? 9999 :
                                  get_option<int>( "CRAFTING_SPEED_MULT" ) / 100.0f;
 
-    const float total_multi = light_multi * bench_multi * morale_multi * game_opt_multi;
+    const float total_multi = light_multi * bench_multi * morale_multi * mutation_multi *
+                              game_opt_multi;
 
     if( light_multi <= 0.0f ) {
         who.add_msg_if_player( m_bad, _( "You can no longer see well enough to keep crafting." ) );
@@ -296,10 +291,9 @@ float crafting_speed_multiplier( const Character &who, const item &craft,
         return 0.0f;
     }
 
-    // If we're working below 20% speed, just give up
-    if( total_multi <= 0.2f ) {
-        who.add_msg_if_player( m_bad, _( "You are too frustrated to continue and just give up." ) );
-        return 0.0f;
+    // If we're working below 20% speed, just suggest giving up
+    if( calendar::once_every( 1_hours ) && total_multi <= 0.2f ) {
+        who.add_msg_if_player( m_bad, _( "You are too frustrated to continue and should just give up." ) );
     }
 
     if( calendar::once_every( 1_hours ) && total_multi < 0.75f ) {

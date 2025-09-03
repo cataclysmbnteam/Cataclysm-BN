@@ -87,6 +87,10 @@ void cata::detail::mod_mutation_branch( sol::state &lua )
         SET_MEMB_RO( hp_modifier );
         DOC( "Packmule multiplier. 2.0 doubles backpack/container volume; 0.5 halves it." );
         SET_MEMB_RO( packmule_modifier );
+        DOC( "Crafting speed multiplier. 2.0 doubles crafting speed; 0.5 halves it." );
+        SET_MEMB_RO( crafting_speed_modifier );
+        DOC( "Construction speed multiplier. 2.0 doubles construction speed; 0.5 halves it." );
+        SET_MEMB_RO( construction_speed_modifier );
         DOC( "Secondary HP multiplier; stacks with the other one. 1.0 doubles HP; -0.5 halves it." );
         SET_MEMB_RO( hp_modifier_secondary );
         DOC( "Flat adjustment to HP." );
