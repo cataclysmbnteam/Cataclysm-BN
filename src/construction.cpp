@@ -1888,7 +1888,7 @@ float construction::time_scale() const
         return calendar::season_ratio();
     } else {
         // this is hacky, but the player or their followers should only be the ones to ever construct currently.
-        return ( 100.0f / get_option<int>( "CONSTRUCTION_SCALING" ) ) *
+        return ( 100.0f / get_option<int>( "CONSTRUCTION_SCALING" ) ) /
                get_player_character().mutation_value( "construction_speed_modifier" );
     }
 }
