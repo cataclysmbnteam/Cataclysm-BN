@@ -1,4 +1,5 @@
 #include "vehicle.h"
+#include "units_mass.h"
 #include "vehicle_part.h" // IWYU pragma: associated
 #include "vpart_position.h" // IWYU pragma: associated
 #include "vpart_range.h" // IWYU pragma: associated
@@ -3743,7 +3744,7 @@ int vehicle::aircraft_acceleration( const bool fueled, int at_vel_in_vmi ) const
     }
     // What does this 100 do?
     // TODO: Consider separating lift and thrust for non-rotor lifters
-    const int accel_at_vel = 100 * total_lift( fueled ) / to_kilogram( total_mass() );
+    const int accel_at_vel = 100 * total_thrust( fueled ) / to_kilogram( total_mass() );
     return cmps_to_vmiph( accel_at_vel );
 }
 
@@ -4080,7 +4081,7 @@ void vehicle::noise_and_smoke( int load, time_duration time )
         spew_field( mufflesmoke, exhaust_part, fd_smoke,
                     bad_filter ? fd_smoke.obj().get_max_intensity() : 1 );
     }
-    if( is_flying && has_part( "ROTOR" ) ) {
+    if( is_flying && has_part( VPFLAG_ROTOR ) ) {
         noise *= 2;
     }
     // Cap engine noise to avoid deafening.
@@ -4097,7 +4098,7 @@ void vehicle::noise_and_smoke( int load, time_duration time )
     vehicle_noise = static_cast<unsigned char>( noise );
     // TODO: other noises for non-rotor aircraft?
     sounds::sound( global_pos3(), noise, sounds::sound_t::movement,
-                   _( has_part( "ROTOR" ) ? heli_noise : sounds[lvl].first ), true );
+                   _( has_part( VPFLAG_ROTOR ) ? heli_noise : sounds[lvl].first ), true );
 }
 
 int vehicle::wheel_area() const
@@ -4356,19 +4357,36 @@ double vehicle::total_rotor_area() const
     } );
 }
 
-// returns as newton
-double vehicle::total_repulsion() const
+// Balloons can lift ~1 kg per m^3
+// 1 tile is 1 m^2, but with an undefined height
+// So balloon height and balloon weight will be what changes
+// Returns a value in newtons
+double vehicle::total_balloon_lift() const
 {
-    return std::accumulate( repulsors.begin(), repulsors.end(), double{0.0},
-    [&]( double acc, int repulsor ) {
-        const double repulsion{ parts[ repulsor ].info().repulsion() };
-        return acc + ( 1000 * repulsion );
+    return std::accumulate( balloons.begin(), ballons.end(), double{0.0},
+    [&]( double acc, int balloon ) {
+        const double height{ parts[ repulsor ].info().balloon_height() };
+        return acc + ( 1000 * height * GRAVITY_OF_EARTH );
+    } );
+}
+
+// Wing Lift
+// Based on air being 1kg/m^3
+double vehicle::total_wing_lift() const
+{
+    // First convert to km/h, then m/h, then m/s, then (m/s)^2
+    const double meterpersecsquared = std::pow( velocity * 1.609 * 1000 / 360, 2 );
+    return std::accumulate( balloons.begin(), ballons.end(), double{0.0},
+    [&]( double acc, int wing ) {
+        const double liftcoff{ parts[ repulsor ].info().lift_coff() };
+        // m^2 area is always 1
+        return acc + ( 0.5 * meterpersecsquared * liftcoff );
     } );
 }
 
 // constants were converted from imperial to SI goodness
 // returns as newton
-double vehicle::lift_thrust_of_rotorcraft( const bool fuelled, const bool safe ) const
+double vehicle::thrust_of_rotorcraft( const bool fuelled, const bool safe ) const
 {
     constexpr double coefficient = 0.8642;
     constexpr double exponentiation = -0.3107;
@@ -4384,28 +4402,40 @@ double vehicle::lift_thrust_of_rotorcraft( const bool fuelled, const bool safe )
     return lift_thrust;
 }
 
-double vehicle::lift_thrust_of_repulsors( const bool fuelled, const bool safe ) const
+// constants were converted from imperial to SI goodness
+// returns as newton
+double vehicle::thrust_of_propellers( const bool fuelled, const bool safe ) const
 {
-    const double total_rep = total_repulsion();
+    constexpr double coefficient = 0.8642;
+    constexpr double exponentiation = -0.3107;
+
+    const double rotor_area = total_propeller_area();
+    // take off 15 % due to the imaginary tail rotor power?
     const int engine_power = total_power_w( fuelled, safe );
 
-    // If the engines are weaker than the repulsors, partially power repulsors
-    const double lift_thrust = std::min( static_cast<double>( engine_power ), total_rep );
-    add_msg( m_debug, "lift thrust(N) of %s: %f, engine power (w): %i",
-             name, lift_thrust, engine_power );
-    return lift_thrust;
+    const double power_load = engine_power / rotor_area;
+    const double foward_thrust = coefficient * engine_power * std::pow( power_load, exponentiation );
+    add_msg( m_debug, "foward thrust(N) of %s: %f, rotor area (m^2): %f, engine power (w): %i",
+             name, foward_thrust, rotor_area, engine_power );
+    return foward_thrust;
+}
+
+// get sum of horizontal thrust from all lifting parts
+double vehicle::total_thrust( const bool fuelled, const bool safe ) const
+{
+    return thrust_of_rotorcraft( fulled, safe ) + foward_thrust_of_propellers( fuelled, safe );
 }
 
 // get sum of lift from all lifting parts
 double vehicle::total_lift( const bool fuelled, const bool safe ) const
 {
-    return lift_thrust_of_rotorcraft( fuelled, safe ) + lift_thrust_of_repulsors( fuelled, safe );
+    return thrust_of_rotorcraft( fuelled, safe ) + total_ballon_lift() + total_wing_lift();
 }
 
 // For some reason, just checking total lift > 0 doesn't seem to work if the vehicle hasn't been piloted before, which was impacting the design view. This fixes it, and can be used to check if the vehicle HAS lift, but not enough to fly by doing has_lift && !has_sufficient_lift
 bool vehicle::has_lift() const
 {
-    return has_part( "ROTOR" ) || has_part( "REPULSOR" );
+    return has_part( VPFLAG_ROTOR ) || has_part( VPFLAG_BALLOON ) || has_part( VPFLAG_WING );
 }
 
 bool vehicle::has_sufficient_lift() const
