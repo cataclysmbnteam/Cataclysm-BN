@@ -2260,6 +2260,12 @@ void crafting_activity_actor::do_turn( player_activity &act, Character &who )
         return;
     }
 
+    if( act.speed.light <= 0.0f ) {
+        who.add_msg_if_player( m_bad, _( "You can no longer see well enough to keep crafting." ) );
+        who.cancel_activity();
+        return;
+    }
+
     // Current progress as a percent of base_total_moves to 2 decimal places
     target->item_counter = progress.front().to_counter();
 

@@ -432,11 +432,6 @@ void player_activity::do_turn( player &p )
     // * This might finish the activity (set it to null)
     // * Leave as is till full migration to actors for "NEITHER"
     //*/
-    //if( fails_conditions( p ) ) {
-    //    // If the activity fails, we need to cancel it.
-    //    p.cancel_activity();
-    //    return;
-    //}
 
 
     if( !type->special() ) {
