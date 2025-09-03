@@ -1,6 +1,5 @@
 #pragma once
 
-#include <cstddef>
 #include <functional>
 #include <map>
 #include <optional>
@@ -145,9 +144,8 @@ class recipe
 
         bool has_byproducts() const;
 
-        int batch_time( int batch, float multiplier, size_t assistants ) const;
-        time_duration batch_duration( int batch = 1, float multiplier = 1.0,
-                                      size_t assistants = 0 ) const;
+        int batch_time( int batch ) const;
+        time_duration batch_duration( int batch = 1 ) const;
 
         bool has_flag( const std::string &flag_name ) const;
 

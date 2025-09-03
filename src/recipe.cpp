@@ -37,31 +37,18 @@ static const itype_id itype_char_smoker( "char_smoker" );
 
 recipe::recipe() : skill_used( skill_id::NULL_ID() ) {}
 
-time_duration recipe::batch_duration( int batch, float multiplier, size_t assistants ) const
+time_duration recipe::batch_duration( int batch ) const
 {
-    return time_duration::from_turns( batch_time( batch, multiplier, assistants ) / 100 );
+    return time_duration::from_turns( batch_time( batch ) / 100 );
 }
 
-int recipe::batch_time( int batch, float multiplier, size_t assistants ) const
+int recipe::batch_time( int batch ) const
 {
-    // 1.0f is full speed
-    // 0.33f is 1/3 speed
-    if( multiplier == 0.0f ) {
-        // If an item isn't craftable in the dark, show the time to complete as if you could craft it
-        multiplier = 1.0f;
-    }
-
-    const float local_time = static_cast<float>( time ) / multiplier;
+    auto total_time = 0.0f;
 
     // if recipe does not benefit from batching and we have no assistants, don't do unnecessary additional calculations
-    if( batch_rscale == 0.0 && assistants == 0 ) {
-        return static_cast<int>( local_time ) * batch;
-    }
-
-    float total_time = 0.0;
-    // if recipe does not benefit from batching but we do have assistants, skip calculating the batching scale factor
     if( batch_rscale == 0.0 ) {
-        total_time = local_time * batch;
+        return time * batch;
     } else {
         // recipe benefits from batching, so batching scale factor needs to be calculated
         // At batch_rsize, incremental time increase is 99.5% of batch_rscale
@@ -69,21 +56,11 @@ int recipe::batch_time( int batch, float multiplier, size_t assistants ) const
         for( int x = 0; x < batch; x++ ) {
             // scaled logistic function output
             const double logf = ( 2.0 / ( 1.0 + std::exp( -( x / scale ) ) ) ) - 1.0;
-            total_time += local_time * ( 1.0 - ( batch_rscale * logf ) );
+            total_time += time * ( 1.0 - ( batch_rscale * logf ) );
         }
     }
 
-    //Assistants can decrease the time for production but never less than that of one unit
-    if( assistants == 1 ) {
-        total_time = total_time * .75;
-    } else if( assistants >= 2 ) {
-        total_time = total_time * .60;
-    }
-    if( total_time < local_time ) {
-        total_time = local_time;
-    }
-
-    return static_cast<int>( total_time );
+    return total_time;
 }
 
 bool recipe::has_flag( const std::string &flag_name ) const

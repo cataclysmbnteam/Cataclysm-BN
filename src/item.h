@@ -2229,7 +2229,7 @@ class item : public location_visitable<item>, public game_object<item>
          * Causes a debugmsg if called on non-craft.
          * @param crafter the crafting player
          */
-        void set_next_failure_point( const Character &crafter );
+        void set_next_failure_point( const Character &crafter, int failure_point_delta );
 
         /**
          * Handle failure during crafting.
@@ -2237,7 +2237,7 @@ class item : public location_visitable<item>, public game_object<item>
          * @param crafter the crafting player.
          * @return whether the craft being worked on should be entirely destroyed
          */
-        bool handle_craft_failure( Character &crafter );
+        bool handle_craft_failure( Character &crafter, const double success_roll );
 
         /**
          * Returns requirement data representing what is needed to resume work on an in progress craft.

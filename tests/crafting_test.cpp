@@ -332,8 +332,6 @@ static int actually_test_craft( const recipe_id &rid, std::vector<detached_ptr<i
     prep_craft( rid, tools, true );
     set_time( midday ); // Ensure light for crafting
     const recipe &rec = rid.obj();
-    REQUIRE( morale_crafting_speed_multiplier( you, rec ) == 1.0 );
-    REQUIRE( lighting_crafting_speed_multiplier( you, rec ) == 1.0 );
     REQUIRE( !you.activity );
 
     // This really shouldn't be needed, but for some reason the tests fail for mingw builds without it
@@ -515,8 +513,6 @@ static int resume_craft()
     REQUIRE( crafts.size() == 1 );
     item *craft = crafts.front();
     set_time( midday ); // Ensure light for crafting
-    REQUIRE( crafting_speed_multiplier( you, *craft, bench_location{bench_type::hands, you.pos()} ) ==
-             1.0 );
     REQUIRE( !you.activity );
     avatar_funcs::use_item( you, *craft );
     REQUIRE( you.activity );
@@ -559,7 +555,7 @@ TEST_CASE( "total crafting time with or without interruption", "[crafting][time]
     clear_all_state();
     GIVEN( "a recipe and all the required tools and materials to craft it" ) {
         recipe_id test_recipe( "crude_picklock" );
-        int expected_time_taken = test_recipe->batch_time( 1, 1, 0 );
+        int expected_time_taken = test_recipe->batch_time( 1 );
         int expected_turns_taken = divide_round_up( expected_time_taken, 100 );
 
         std::vector<detached_ptr<item>> tools;

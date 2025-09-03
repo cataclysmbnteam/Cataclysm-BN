@@ -11292,7 +11292,7 @@ const recipe_subset &Character::get_learned_recipes() const
 {
     if( *_skills != *autolearn_skills_stamp ) {
         for( const auto &r : recipe_dict.all_autolearn() ) {
-            if( meets_skill_requirements( r->autolearn_requirements ) ) {
+            if( r && meets_skill_requirements( r->autolearn_requirements ) ) {
                 learned_recipes->include( r );
             }
         }

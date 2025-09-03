@@ -14,18 +14,12 @@ class Character;
 class inventory;
 class item;
 class recipe;
+class time_duration;
 struct iuse_location;
 struct tool_comp;
 
 enum class cost_adjustment : int;
 
-struct bench_location {
-    explicit bench_location( bench_type type, tripoint position )
-        : type( type ), position( position )
-    {}
-    bench_type type;
-    tripoint position;
-};
 template<typename Type>
 struct comp_selection;
 
@@ -38,20 +32,12 @@ void remove_ammo( item &dis_item, Character &who );
  */
 void remove_ammo( std::vector<item *> &dis_items, Character &who );
 
-bench_location find_best_bench( const Character &who, const item &craft );
+void complete_craft( Character &, item & );
 
-float workbench_crafting_speed_multiplier( const item &craft, const bench_location &bench );
-float morale_crafting_speed_multiplier( const Character &who, const recipe &rec );
-float lighting_crafting_speed_multiplier( const Character &who, const recipe &rec );
-float crafting_speed_multiplier( const Character &who, const recipe &rec, bool in_progress );
-float crafting_speed_multiplier( const Character &who, const item &craft,
-                                 const bench_location &bench );
-void complete_craft( Character &who, item &craft );
+int expected_time_to_craft( Character &who, const recipe &, const int );
 
 namespace crafting
 {
-std::pair<bench_type, float> best_bench_here( const item &craft, const tripoint &loc,
-        bool can_lift );
 /**
 * Returns the set of book types in crafting_inv that provide the
 * given recipe.

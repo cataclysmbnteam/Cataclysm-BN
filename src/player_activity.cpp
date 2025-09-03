@@ -1,8 +1,6 @@
 #include "player_activity.h"
 #include "player_activity_ptr.h"
 
-#include <algorithm>
-#include <array>
 #include <memory>
 #include <utility>
 
@@ -16,8 +14,6 @@
 #include "character.h"
 #include "character_turn.h"
 #include "color.h"
-#include "construction_partial.h"
-#include "crafting.h"
 #include "distraction_manager.h"
 #include "game.h"
 #include "item.h"
@@ -27,15 +23,12 @@
 #include "options.h"
 #include "player.h"
 #include "profile.h"
-#include "recipe.h"
 #include "rng.h"
 #include "skill.h"
 #include "sounds.h"
 #include "string_formatter.h"
 #include "string_id.h"
 #include "translations.h"
-
-using metric = std::pair<units::mass, units::volume>;
 
 static const activity_id ACT_ADV_INVENTORY( "ACT_ADV_INVENTORY" );
 static const activity_id ACT_AIM( "ACT_AIM" );
@@ -50,7 +43,6 @@ static const activity_id ACT_CLEAR_RUBBLE( "ACT_CLEAR_RUBBLE" );
 static const activity_id ACT_CONSUME_DRINK_MENU( "ACT_CONSUME_DRINK_MENU" );
 static const activity_id ACT_CONSUME_FOOD_MENU( "ACT_CONSUME_FOOD_MENU" );
 static const activity_id ACT_CONSUME_MEDS_MENU( "ACT_CONSUME_MEDS_MENU" );
-static const activity_id ACT_CRAFT( "ACT_CRAFT" );
 static const activity_id ACT_DIG( "ACT_DIG" );
 static const activity_id ACT_DIG_CHANNEL( "ACT_DIG_CHANNEL" );
 static const activity_id ACT_EAT_MENU( "ACT_EAT_MENU" );
@@ -155,14 +147,16 @@ inline std::vector<npc *> &player_activity::assistants()
     return assistants_;
 }
 
-std::vector<npc *> player_activity::get_assistants( const Character &who, unsigned short max )
+std::vector<npc *> player_activity::get_assistants( const Character &who,
+        const std::function <bool( bool, const npc & )> &filter,
+        short max )
 {
-    if( max < 1 ) {
+    if( max == 0 ) {
         return {};
     }
     int n = 0;
     return g->get_npcs_if( [&]( const npc & guy ) {
-        if( n >= max ) {
+        if( max > 0 || n >= max ) {
             return false;
         }
         // NPCs can help craft if awake, taking orders, within pickup range and have clear path
@@ -170,6 +164,7 @@ std::vector<npc *> player_activity::get_assistants( const Character &who, unsign
                   guy.activity->id() != ACT_ASSIST &&
                   rl_dist( guy.pos(), who.pos() ) < PICKUP_RANGE &&
                   get_map().clear_path( who.pos(), guy.pos(), PICKUP_RANGE, 1, 100 );
+        ok = filter( ok, guy );
         if( ok ) {
             n++;
         }
@@ -179,82 +174,29 @@ std::vector<npc *> player_activity::get_assistants( const Character &who, unsign
 
 void player_activity::get_assistants( const Character &who )
 {
-    unsigned short max = type->max_assistants();
+    auto max = type->max_assistants();
     if( max < 1 ) {
         assistants_ = {};
         return;
     }
+    std::function<bool( bool, const npc & )> filter;
 
-    assistants_ = get_assistants( who, max );
+    if( actor ) {
+        filter = [&]( bool ok, const npc & guy ) {
+            return ok && actor->assistant_capable( guy );
+        };
+    } else {
+        filter = []( bool ok, const npc & ) {
+            return ok;
+        };
+    }
+
+    assistants_ = get_assistants( who, filter, max );
     for( Character *guy : assistants_ ) {
         guy->assign_activity( std::make_unique<player_activity>
                               ( std::make_unique<assist_activity_actor>() ) );
         assistants_ids_.insert( guy->getID().get_value() );
     }
-}
-
-static std::string craft_progress_message( const avatar &u, const player_activity &act )
-{
-    const item *craft = &*act.targets.front();
-    if( craft == nullptr ) {
-        // Should never happen (?)
-        return string_format( _( "%s…" ), act.get_verb().translated() );
-    }
-
-    // Horrid copypaste warning! TODO: Functions
-    const recipe &rec = craft->get_making();
-    const tripoint bench_pos = act.coords.front();
-    // Ugly
-    bench_type bench_t = bench_type( act.values[1] );
-
-    const bench_location bench{ bench_t, bench_pos };
-
-    const float light_mult = lighting_crafting_speed_multiplier( u, rec );
-    const float bench_mult = workbench_crafting_speed_multiplier( *craft, bench );
-    const float morale_mult = morale_crafting_speed_multiplier( u, rec );
-    const int assistants = u.available_assistant_count( craft->get_making() );
-    const float base_total_moves = std::max( 1, rec.batch_time( craft->charges, 1.0f, 0 ) );
-    const float assist_total_moves = std::max( 1, rec.batch_time( craft->charges, 1.0f, assistants ) );
-    const float assist_mult = base_total_moves / assist_total_moves;
-    const float speed_mult = u.get_speed() / 100.0f;
-    const float mutation_mult = u.mutation_value( "crafting_speed_modifier" );
-    const float game_opt_mult = get_option<int>( "CRAFTING_SPEED_MULT" ) == 0
-                                ? 9999
-                                : 100.0f / get_option<int>( "CRAFTING_SPEED_MULT" );
-    const float total_mult = light_mult * bench_mult * morale_mult * assist_mult * speed_mult *
-                             mutation_mult * game_opt_mult;
-
-    const double remaining_percentage = 1.0 - craft->item_counter / 10'000'000.0;
-    int remaining_turns = remaining_percentage * base_total_moves / 100 / std::max( 0.01f, total_mult );
-    std::string time_desc = string_format( _( "Time left: %s" ),
-                                           to_string( time_duration::from_turns( remaining_turns ) ) );
-
-    const std::array<std::pair<float, std::string>, 7> mults_with_data = { {
-            { total_mult, _( "Total" ) },
-            { speed_mult, _( "Speed" ) },
-            { light_mult, _( "Light" ) },
-            { bench_mult, _( "Workbench" ) },
-            { morale_mult, _( "Morale" ) },
-            { assist_mult, _( "Assistants" ) },
-            { mutation_mult, _( "Traits" ) }
-        }
-    };
-    std::string mults_desc = _( "Crafting speed multipliers:\n" );
-    // Hack to make sure total always shows
-    bool first = true;
-    for( const std::pair<float, std::string> &p : mults_with_data ) {
-        int percent = static_cast<int>( p.first * 100 );
-        if( first || percent != 100 ) {
-            nc_color col = percent > 100 ? c_green : c_red;
-            std::string colorized = colorize( std::to_string( percent ) + '%', col );
-            mults_desc += string_format( _( "%s: %s\n" ), p.second, colorized );
-        }
-        first = false;
-    }
-
-    return string_format( _( "%s: %s\n\n%s\n\n%s" ), act.get_verb().translated(), craft->tname(),
-                          time_desc,
-                          mults_desc );
 }
 
 static std::string format_spd( float level, std::string name, int indent = 0,
@@ -387,9 +329,7 @@ std::optional<std::string> player_activity::get_progress_message( const avatar &
     }
 
     std::string extra_info;
-    if( type == ACT_CRAFT ) {
-        return craft_progress_message( u, *this );
-    } else if( type == ACT_READ ) {
+    if( type == ACT_READ ) {
         if( const item *book = &*targets.front() ) {
             if( const auto &reading = book->type->book ) {
                 const skill_id &skill = reading->skill;
@@ -487,11 +427,13 @@ void player_activity::do_turn( player &p )
         }
     }
 
-    /*
-     * Moves block
-     * This might finish the activity (set it to null)
-     * Leave as is till full migration to actors for "NEITHER"
-    */
+    ///*
+    // * Moves block
+    // * This might finish the activity (set it to null)
+    // * Leave as is till full migration to actors for "NEITHER"
+    //*/
+
+
     if( !type->special() ) {
         if( type->complex_moves() ) {
             if( calendar::once_every( 1_minutes ) ) {

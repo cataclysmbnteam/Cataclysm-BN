@@ -199,8 +199,8 @@ static std::vector<std::string> recipe_info(
                           recp.required_skills_string( &u, false, false ) );
 
 
-    const int expected_turns = u.expected_time_to_craft( recp, batch_size )
-                               / to_moves<int>( 1_turns );
+    int expected_turns = expected_time_to_craft( u, recp, batch_size ) / to_moves<int>( 1_turns );
+    expected_turns -= expected_turns % 60;
     oss << string_format( _( "Time to complete: <color_cyan>%s</color>\n" ),
                           to_string( time_duration::from_turns( expected_turns ) ) );
 
@@ -1095,19 +1095,19 @@ static void draw_hidden_amount( const catacurses::window &w, int amount, int num
 // Anchors top-right
 static void draw_can_craft_indicator( const catacurses::window &w, const recipe &rec )
 {
-    const avatar &u = get_avatar();
-    // Draw text
-    if( lighting_crafting_speed_multiplier( u, rec ) <= 0.0f ) {
-        right_print( w, 0, 1, i_red, _( "too dark to craft" ) );
-    } else if( crafting_speed_multiplier( u, rec, false ) <= 0.0f ) {
-        // Technically not always only too sad, but must be too sad
-        right_print( w, 0, 1, i_red, _( "too sad to craft effectively" ) );
-    } else if( crafting_speed_multiplier( u, rec, false ) < 1.0f ) {
-        right_print( w, 0, 1, i_yellow, string_format( _( "crafting is slow %d%%" ),
-                     static_cast<int>( crafting_speed_multiplier( u, rec, false ) * 100 ) ) );
-    } else {
-        right_print( w, 0, 1, i_green, _( "craftable" ) );
-    }
+    //const avatar &u = get_avatar();
+    //// Draw text
+    //if( lighting_crafting_speed_multiplier( u, rec ) <= 0.0f ) {
+    //    right_print( w, 0, 1, i_red, _( "too dark to craft" ) );
+    //} else if( crafting_speed_multiplier( u, rec, false ) <= 0.0f ) {
+    //    // Technically not always only too sad, but must be too sad
+    //    right_print( w, 0, 1, i_red, _( "too sad to craft" ) );
+    //} else if( crafting_speed_multiplier( u, rec, false ) < 1.0f ) {
+    //    right_print( w, 0, 1, i_yellow, string_format( _( "crafting is slow %d%%" ),
+    //                 static_cast<int>( crafting_speed_multiplier( u, rec, false ) * 100 ) ) );
+    //} else {
+    //    right_print( w, 0, 1, i_green, _( "craftable" ) );
+    //}
 }
 
 static void draw_recipe_tabs( const catacurses::window &w, const std::string &tab, TAB_MODE mode )

@@ -173,7 +173,8 @@ class player_activity
 
         //Fills assistant vector with applicable assistants
         void get_assistants( const Character &who );
-        static std::vector<npc *> get_assistants( const Character &who, unsigned short max );
+        static std::vector<npc *> get_assistants( const Character &who,
+                const std::function<bool( bool, const npc & )> &filter, short max );
 
         /**
          * Helper that returns an activity specific progress message.

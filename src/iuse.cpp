@@ -8,7 +8,6 @@
 #include <exception>
 #include <functional>
 #include <iterator>
-#include <list>
 #include <map>
 #include <optional>
 #include <set>
@@ -8968,7 +8967,6 @@ int iuse::craft( player *p, item *it, bool, const tripoint &pos )
         return 0;
     }
 
-    bench_location best_bench = find_best_bench( *p, *it );
     p->add_msg_player_or_npc(
         pgettext( "in progress craft", "You start working on the %s." ),
         pgettext( "in progress craft", "<npcname> starts working on the %s." ), craft_name );
@@ -8994,11 +8992,6 @@ int iuse::craft( player *p, item *it, bool, const tripoint &pos )
             return 0;
         }
     }
-    p->activity->targets.emplace_back( where );
-    p->activity->coords.push_back( best_bench.position );
-    p->activity->values.push_back( 0 ); // Not a long craft
-    // Ugly
-    p->activity->values.push_back( static_cast<int>( best_bench.type ) );
 
     return 0;
 }

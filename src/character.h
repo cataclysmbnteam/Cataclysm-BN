@@ -2189,7 +2189,9 @@ class Character : public Creature, public location_visitable<Character>
         void rem_morale( const morale_type &type );
         void clear_morale();
         bool has_morale_to_read() const;
-        bool has_morale_to_craft() const;
+        bool has_morale_to_craft() const {
+            return true;
+        };
         const inventory &crafting_inventory( bool clear_path );
         const inventory &crafting_inventory( const tripoint &src_pos = tripoint_zero,
                                              int radius = PICKUP_RANGE, bool clear_path = true );

@@ -2133,6 +2133,11 @@ std::unique_ptr<activity_actor> assist_activity_actor::deserialize( JsonIn & )
     return std::make_unique<assist_activity_actor>();
 }
 
+std::unique_ptr<activity_actor> crafting_activity_actor::deserialize( JsonIn & )
+{
+    return std::make_unique<crafting_activity_actor>();
+}
+
 std::unique_ptr<activity_actor> salvage_activity_actor::deserialize( JsonIn &jsin )
 {
     std::unique_ptr<salvage_activity_actor> actor( new salvage_activity_actor() );
@@ -2157,6 +2162,7 @@ deserialize_functions = {
     { activity_id( "ACT_AUTODRIVE" ), &autodrive_activity_actor::deserialize },
     { activity_id( "ACT_BOLTCUTTING" ), &boltcutting_activity_actor::deserialize },
     { activity_id( "ACT_BUILD" ), &construction_activity_actor::deserialize },
+    { activity_id( "ACT_CRAFT" ), &crafting_activity_actor::deserialize },
     { activity_id( "ACT_DIG" ), &dig_activity_actor::deserialize },
     { activity_id( "ACT_DIG_CHANNEL" ), &dig_channel_activity_actor::deserialize },
     { activity_id( "ACT_DISASSEMBLE" ), &disassemble_activity_actor::deserialize },
