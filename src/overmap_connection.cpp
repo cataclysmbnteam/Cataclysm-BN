@@ -91,7 +91,7 @@ void overmap_connection::subtype::deserialize( JsonIn &jsin )
 
 void overmap_connection::clear_subtype_cache() const
 {
-    std::vector<cache> newcache = std::vector<cache>( overmap_terrains::get_all().size() );
+    auto newcache = std::vector<cache>( overmap_terrains::get_all().size() );
     cached_subtypes.swap( newcache );
 }
 

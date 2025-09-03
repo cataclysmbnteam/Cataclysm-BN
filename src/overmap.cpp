@@ -3363,10 +3363,6 @@ void overmap::generate( const overmap *north, const overmap *east,
         requires_sub = generate_sub( z );
     } while( requires_sub && ( --z >= -OVERMAP_DEPTH ) );
 
-    // Always need at least one overlevel, but how many more
-    // Generate over always returned false so now deleted
-    // Created bridges alone which is now moved to a different section
-
     // Place the monsters, now that the terrain is laid out
     place_mongroups();
     place_radios();
