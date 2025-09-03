@@ -220,7 +220,7 @@ static std::string craft_progress_message( const avatar &u, const player_activit
     const float mutation_mult = u.mutation_value( "crafting_speed_modifier" );
     const float game_opt_mult = get_option<int>( "CRAFTING_SPEED_MULT" ) == 0
                                 ? 9999
-                                : get_option<int>( "CRAFTING_SPEED_MULT" ) / 100.0f;
+                                : 100.0f / get_option<int>( "CRAFTING_SPEED_MULT" );
     const float total_mult = light_mult * bench_mult * morale_mult * assist_mult * speed_mult *
                              mutation_mult * game_opt_mult;
 

@@ -1888,7 +1888,7 @@ float construction::time_scale() const
         return 0.000001;
     } else {
         // this is hacky, but the player or their followers should only be the ones to ever construct currently.
-        return ( 100.0f / get_option<int>( "CONSTRUCTION_SCALING" ) ) /
+        return ( get_option<int>( "CONSTRUCTION_SCALING" ) / 100.0f ) /
                get_player_character().mutation_value( "construction_speed_modifier" );
     }
 }

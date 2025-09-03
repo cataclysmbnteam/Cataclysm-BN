@@ -251,7 +251,7 @@ float crafting_speed_multiplier( const Character &who, const recipe &rec, bool i
                          lighting_crafting_speed_multiplier( who,
                                  rec ) * ( get_option<int>( "CRAFTING_SPEED_MULT" ) == 0
                                            ? 9999
-                                           : get_option<int>( "CRAFTING_SPEED_MULT" ) / 100.0f ) *
+                                           : 100.0f / get_option<int>( "CRAFTING_SPEED_MULT" ) ) *
                          who.mutation_value( "crafting_speed_modifier" );
 
     return result;
@@ -272,7 +272,7 @@ float crafting_speed_multiplier( const Character &who, const item &craft,
     const float morale_multi = morale_crafting_speed_multiplier( who, rec );
     const float mutation_multi = who.mutation_value( "crafting_speed_modifier" );
     const float game_opt_multi = get_option<int>( "CRAFTING_SPEED_MULT" ) == 0 ? 9999 :
-                                 get_option<int>( "CRAFTING_SPEED_MULT" ) / 100.0f;
+                                 100.0f / get_option<int>( "CRAFTING_SPEED_MULT" );
 
     const float total_multi = light_multi * bench_multi * morale_multi * mutation_multi *
                               game_opt_multi;
