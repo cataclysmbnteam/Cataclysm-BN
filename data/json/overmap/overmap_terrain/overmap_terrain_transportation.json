@@ -75,7 +75,7 @@
     "id": "bridge",
     "copy-from": "generic_bridge",
     "extras": "bridgehead_ground",
-    "flags": [ "RIVER", "IGNORE_ROTATION_FOR_ADJACENCY" ]
+    "flags": [ "RIVER", "IGNORE_ROTATION_FOR_ADJACENCY", "IS_BRIDGE" ]
   },
   {
     "type": "overmap_terrain",

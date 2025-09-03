@@ -3479,6 +3479,8 @@ bool overmap::generate_over( const int z )
         oter_id( "forest_thick" ), oter_id( "forest_water" )
     };
 
+    std::string oter_name = "";
+    // DOES ALL THE BRIDGE POINTS!?!?!?
     if( z == 1 ) {
         for( int i = 0; i < OMAPX; i++ ) {
             for( int j = 0; j < OMAPY; j++ ) {
@@ -3492,7 +3494,8 @@ bool overmap::generate_over( const int z )
                     continue;
                 }
 
-                if( oter_ground->get_type_id() == oter_type_bridge ) {
+                if( oter_ground->has_flag( oter_flags::is_bridge ) ) {
+                    oter_name = oter_ground->get_type_id().str();
                     bridge_points.emplace_back( i, j );
                 }
             }
@@ -3501,8 +3504,9 @@ bool overmap::generate_over( const int z )
 
     elevate_bridges(
         *this, bridge_points,
-        "bridge_road", "bridge_under", "bridgehead_ground",
-        "bridgehead_ramp", "road_ew", "road_ns"
+        oter_name + "_road", oter_name + "_under",
+        oter_name + "head_ground", oter_name + "head_ramp",
+        "road_ew", "road_ns"
     );
 
     return requires_over;
@@ -5186,21 +5190,24 @@ bool overmap::build_connection(
     
     if( connection_cache ) {
         connection_cache->add( connection.id, z, start.pos );
-    } else if( z == 0 && connection.id.str() == "local_road" ) {
-        // If there's no cache, it means we're placing road after
-        // normal mapgen, and need to elevate bridges manually
+    }
+    // Elevate bridges here so each bridge get's it's own type
+    // That way all bridges in an overmap (or more) are not just of one type
+    if( z == 0 && connection.id.str() == "local_road" ) {
         std::vector<point_om_omt> bridge_points;
+        std::string name;
         for( const auto &node : path.nodes ) {
             const tripoint_om_omt pos( node.pos, z );
-            if( ter( pos )->get_type_id() == oter_type_bridge ) {
+            if( ter( pos )->has_flag( oter_flags::is_bridge ) ) {
+                name = ter( pos )->get_type_id().str();
                 bridge_points.emplace_back( pos.xy() );
             }
         }
 
         elevate_bridges(
             *this, bridge_points,
-            "bridge_road", "bridge_under", "bridgehead_ground",
-            "bridgehead_ramp", "road_ew", "road_ns"
+            name + "_road", name + "_under", name + "head_ground",
+            name + "head_ramp", "road_ew", "road_ns"
         );
     }
     return true;

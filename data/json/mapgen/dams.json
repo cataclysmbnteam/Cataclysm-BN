@@ -1,0 +1,235 @@
+[
+  {
+    "type": "palette",
+    "id": "dam_ground_palette",
+    "terrain": {
+      "s": "t_water_moving_sh",
+      "~": "t_water_moving_dp",
+      ".": "t_pavement_bg_dp",
+      "v": "t_pavement_bg_dp",
+      "^": "t_pavement_bg_dp",
+      ":": "t_pavement_y_bg_dp",
+      "_": "t_sidewalk_bg_dp",
+      "=": "t_guardrail_bg_dp",
+      "u": "t_ramp_up_low",
+      "U": "t_ramp_up_high",
+      "d": "t_ramp_down_high",
+      "D": "t_ramp_down_low",
+      "W": "t_sidewalk_ramp_down_high",
+      ">": "t_sidewalk_ramp_down_low",
+      "<": "t_sidewalk_ramp_up_high",
+      "w": "t_sidewalk_ramp_up_low",
+      "#": "t_concrete_wall"
+    },
+    "furniture": {
+      "P": "f_xl_water_wheel_unit"
+    }
+  },
+  {
+    "type": "palette",
+    "id": "dam_road_palette",
+    "terrain": {
+      " ": "t_open_air",
+      ".": "t_pavement_hw_air",
+      "v": "t_pavement_hw_air",
+      "^": "t_pavement_hw_air",
+      ":": "t_pavement_y_hw_air",
+      "_": "t_sidewalk_hw_air",
+      "=": "t_guardrail_hw_air",
+      "U": "t_ramp_up_high",
+      "d": "t_ramp_down_high",
+      "D": "t_ramp_down_low",
+      "W": "t_sidewalk_ramp_down_high",
+      ">": "t_sidewalk_ramp_down_low",
+      "<": "t_sidewalk_ramp_up_high",
+      "w": "t_sidewalk_ramp_up_low",
+      "#": "t_concrete_wall"
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "dam_under" ],
+    "object": {
+      "predecessor_mapgen": "river_shore",
+      "rows": [
+        "        s######s        ",
+        "        ss####ss        ",
+        "         ss##ss         ",
+        "          ssss          ",
+        "          PPPP          ",
+        "          PPPP          ",
+        "          PPPP          ",
+        "          PPPP          ",
+        "          PPPP          ",
+        "          PPPP          ",
+        "          PPPP          ",
+        "          PPPP          ",
+        "          PPPP          ",
+        "          PPPP          ",
+        "          PPPP          ",
+        "          PPPP          ",
+        "          PPPP          ",
+        "          PPPP          ",
+        "          PPPP          ",
+        "          PPPP          ",
+        "          ssss          ",
+        "         ss##ss         ",
+        "        ss####ss        ",
+        "        s######s        "
+      ],
+      "palettes": [ "dam_ground_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "dam_road" ],
+    "object": {
+      "fill_ter": "t_open_air",
+      "rows": [
+        "  =_................_=  ",
+        "  =_.......::......._=  ",
+        "  =_.......::...v..._=  ",
+        "  =_...^...::......._=  ",
+        "  =_................_=  ",
+        "  =_.......::......._=  ",
+        "  =_.......::......._=  ",
+        "  =_.......::......._=  ",
+        "  =_...........v...._=  ",
+        "  =_....^..::......._=  ",
+        "  =_.......::......._=  ",
+        "  =_.......::......._=  ",
+        "  =_................_=  ",
+        "  =_.......::....v.._=  ",
+        "  =_.......::......._=  ",
+        "  =_.......::......._=  ",
+        "  =_..^............._=  ",
+        "  =_.......::......._=  ",
+        "  =_.......::......._=  ",
+        "  =_.......::..v...._=  ",
+        "  =_................_=  ",
+        "  =_.....^.::......._=  ",
+        "  =_.......::......._=  ",
+        "  =_.......::......._=  "
+      ],
+      "palettes": [ "dam_road_palette" ],
+      "items": { "_": { "item": "road", "chance": 1 } },
+      "vehicles": {
+        "^": { "vehicle": "highway", "chance": 10, "rotation": 90 },
+        "v": { "vehicle": "highway", "chance": 10, "rotation": 270 }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "Legacy dam that blocks river",
+    "om_terrain": [ "dam" ],
+    "object": {
+      "predecessor_mapgen": "river_shore",
+      "rows": [
+        "  =_................_=  ",
+        "  =_.......::......._=  ",
+        "  =_.......::...v..._=  ",
+        "  =_.......::......._=  ",
+        "  =_...^............_=  ",
+        "  =_.......::......._=  ",
+        "  =_.......::......._=  ",
+        "  =_.......::......._=  ",
+        "  =_............v..._=  ",
+        "  =_.......::......._=  ",
+        "  =_.....^.::......._=  ",
+        "  =_.......::......._=  ",
+        "  =_................_=  ",
+        "  =_.......::..v...._=  ",
+        "  =_.......::......._=  ",
+        "  =_..^....::......._=  ",
+        "  =_................_=  ",
+        "  =_.......::......._=  ",
+        "  =_.......::....v.._=  ",
+        "  =_.......::......._=  ",
+        "  =_................_=  ",
+        "  =_....^..::......._=  ",
+        "  =_.......::......._=  ",
+        "  =_.......::......._=  "
+      ],
+      "palettes": [ "dam_ground_palette" ],
+      "items": { "_": { "item": "road", "chance": 1 } },
+      "vehicles": {
+        "^": { "vehicle": "highway", "chance": 10, "rotation": 90 },
+        "v": { "vehicle": "highway", "chance": 10, "rotation": 270 }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "damhead_ground" ],
+    "object": {
+      "predecessor_mapgen": "river_shore",
+      "rows": [
+        "  =_................_=  ",
+        "  =_.......::......._=  ",
+        "  =_.......::......._=  ",
+        "  =_.......::......._=  ",
+        "  =_................_=  ",
+        "  =wuuuuuuuuuuuuuuuuw=  ",
+        "  =<UUUUUUUUUUUUUUUU<=  ",
+        "  ####################  ",
+        "  ####################  ",
+        "       ss######ss       ",
+        "        ss####ss        ",
+        "         ss##ss         ",
+        "          ssss          ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "          ssss          ",
+        "         ss##ss         ",
+        "        ss####ss        ",
+        "        s######s        "
+      ],
+      "palettes": [ "dam_ground_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "damhead_ramp" ],
+    "object": {
+      "fill_ter": "t_open_air",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "  =>DDDDDDDDDDDDDDDD>=  ",
+        "  =WddddddddddddddddW=  ",
+        "  =_.......::......._=  ",
+        "  =_................_=  ",
+        "  =_.......::......._=  ",
+        "  =_.......::......._=  ",
+        "  =_.......::......._=  ",
+        "  =_................_=  ",
+        "  =_.......::......._=  ",
+        "  =_.......::......._=  ",
+        "  =_.......::......._=  ",
+        "  =_................_=  ",
+        "  =_.......::......._=  ",
+        "  =_.......::......._=  ",
+        "  =_.......::......._=  ",
+        "  =_................_=  ",
+        "  =_.......::......._=  ",
+        "  =_.......::......._=  ",
+        "  =_.......::......._=  "
+      ],
+      "palettes": [ "dam_road_palette" ]
+    }
+  }
+]

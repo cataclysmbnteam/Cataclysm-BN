@@ -8,6 +8,7 @@
 #include <limits>
 #include <map>
 #include <memory>
+#include <vector>
 
 #include "generic_factory.h"
 #include "json.h"
@@ -89,7 +90,8 @@ void overmap_connection::subtype::deserialize( JsonIn &jsin )
 
 void overmap_connection::clear_subtype_cache() const
 {
-    cached_subtypes.clear();
+    std::vector<cache> newcache = std::vector<cache>( overmap_terrains::get_all().size() );
+    cached_subtypes.swap(newcache);
 }
 
 const overmap_connection::subtype *overmap_connection::pick_subtype_for(
