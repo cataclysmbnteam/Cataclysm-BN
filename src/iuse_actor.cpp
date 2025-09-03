@@ -3434,6 +3434,18 @@ static bool damage_item( player &pl, item *fix )
     pl.add_msg_if_player( m_bad, _( "You damage your %s!  ( %s-> %s)" ), fix->tname( 1, false ),
                           startdurability, resultdurability );
     if( destroyed ) {
+
+        // Dump its contents on the ground
+        // Destroy irremovable mods, if any
+        fix->contents.remove_top_items_with( []( detached_ptr<item> &&mod ) {
+            if( mod->is_gunmod() && !mod->is_irremovable() ) {
+                return detached_ptr<item>();
+            }
+            return std::move( mod );
+        } );
+
+        fix->contents.spill_contents( fix->position() );
+
         pl.add_msg_if_player( m_bad, _( "You destroy it!" ) );
         if( fix->where() == item_location_type::character ) {
             pl.i_rem_keep_contents( pl.get_item_position( fix ) );
