@@ -278,7 +278,7 @@
     "clip_size": 25,
     "reload": 200,
     "valid_mod_locations": [ [ "accessories", 1 ], [ "grip", 1 ], [ "sights", 1 ] ],
-    "ammo_effects": [ "FRAG" ],
+    "ammo_effects": [ "FRAG", "NO_PENETRATE_OBSTACLES" ],
     "flags": [ "NEVER_JAMS" ]
   },
   {

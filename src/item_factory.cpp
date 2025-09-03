@@ -1742,6 +1742,7 @@ void islot_ammo::load( const JsonObject &jo )
     mandatory( jo, was_loaded, "ammo_type", type );
     optional( jo, was_loaded, "casing", casing, std::nullopt );
     optional( jo, was_loaded, "drop", drop, itype_id::NULL_ID() );
+    optional( jo, was_loaded, "drop_count", drop_count, -1 );
     optional( jo, was_loaded, "drop_active", drop_active, true );
     optional( jo, was_loaded, "dont_recover_one_in", dont_recover_one_in, 1 );
     // Damage instance assign reader handles pierce and prop_damage
@@ -1754,6 +1755,9 @@ void islot_ammo::load( const JsonObject &jo )
     assign( jo, "effects", ammo_effects );
     optional( jo, was_loaded, "show_stats", force_stat_display, std::nullopt );
     optional( jo, was_loaded, "shape", shape, std::nullopt );
+    assign( jo, "aimedcritmaxbonus", aimedcritmaxbonus );
+    assign( jo, "aimedcritbonus", aimedcritbonus );
+    assign( jo, "speed", speed );
 }
 
 void islot_ammo::deserialize( JsonIn &jsin )
@@ -1879,7 +1883,9 @@ void Item_factory::load( islot_gun &slot, const JsonObject &jo, const std::strin
     assign( jo, "min_cycle_recoil", slot.min_cycle_recoil, strict, 0 );
     assign( jo, "ammo_effects", slot.ammo_effects, strict );
     assign( jo, "ammo_to_fire", slot.ammo_to_fire, strict, 1 );
-
+    assign( jo, "speed", slot.speed );
+    assign( jo, "aimedcritbonus", slot.aimedcritbonus );
+    assign( jo, "aimedcritmaxbonus", slot.aimedcritmaxbonus );
     if( jo.has_array( "valid_mod_locations" ) ) {
         slot.valid_mod_locations.clear();
         for( JsonArray curr : jo.get_array( "valid_mod_locations" ) ) {
@@ -2086,6 +2092,8 @@ void Item_factory::load( islot_tool &slot, const JsonObject &jo, const std::stri
     assign( jo, "revert_to", slot.revert_to, strict );
     assign( jo, "revert_msg", slot.revert_msg, strict );
     assign( jo, "sub", slot.subtype, strict );
+    assign( jo, "ups_eff_mult", slot.ups_eff_mult, strict );
+    assign( jo, "ups_recharge_rate", slot.ups_recharge_rate, strict );
 
     if( jo.has_array( "rand_charges" ) ) {
         if( jo.has_member( "initial_charges" ) ) {
@@ -2388,6 +2396,9 @@ void Item_factory::load( islot_gunmod &slot, const JsonObject &jo, const std::st
     assign( jo, "ammo_to_fire_multiplier", slot.ammo_to_fire_multiplier );
     assign( jo, "ammo_to_fire_modifier", slot.ammo_to_fire_modifier );
     assign( jo, "weight_multiplier", slot.weight_multiplier );
+    assign( jo, "speed", slot.speed );
+    assign( jo, "aimedcritbonus", slot.aimedcritbonus );
+    assign( jo, "aimedcritmaxbonus", slot.aimedcritmaxbonus );
     if( jo.has_int( "install_time" ) ) {
         slot.install_time = jo.get_int( "install_time" );
     } else if( jo.has_string( "install_time" ) ) {

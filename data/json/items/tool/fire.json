@@ -29,7 +29,7 @@
         ]
       ]
     ],
-    "flags": [ "FIRESTARTER" ],
+    "flags": [ "FIRESTARTER", "CAN_HAVE_CHARGES" ],
     "category": "tools_cooking"
   },
   {
@@ -196,6 +196,7 @@
     "charges_per_use": 1,
     "turns_per_charge": 20,
     "revert_to": "ref_lighter",
+    "attacks": [ { "id": "BASH", "to_hit": 0, "damage": { "values": [ { "damage_type": "heat", "amount": 1 } ] } } ],
     "use_action": [
       { "type": "firestarter", "moves": 40, "moves_slow": 500 },
       {
@@ -206,7 +207,7 @@
         "type": "transform"
       }
     ],
-    "flags": [ "FIRE", "FIRESTARTER", "LIGHT_8", "FLAMING", "TRADER_AVOID", "WATER_EXTINGUISH" ]
+    "flags": [ "FIRE", "FIRESTARTER", "LIGHT_8", "TRADER_AVOID", "WATER_EXTINGUISH" ]
   },
   {
     "id": "tinderbox",

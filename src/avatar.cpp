@@ -10,11 +10,9 @@
 #include <memory>
 #include <optional>
 #include <set>
-#include <unordered_map>
 #include <utility>
 
 #include "action.h"
-#include "bodypart.h"
 #include "calendar.h"
 #include "cata_utility.h"
 #include "catacharset.h"
@@ -24,7 +22,6 @@
 #include "character_functions.h"
 #include "character_martial_arts.h"
 #include "character_stat.h"
-#include "clzones.h"
 #include "color.h"
 #include "debug.h"
 #include "diary.h"
@@ -33,12 +30,14 @@
 #include "event.h"
 #include "event_bus.h"
 #include "faction.h"
+#include "flag.h"
 #include "game.h"
 #include "game_constants.h"
 #include "help.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_contents.h"
+#include "item_factory.h"
 #include "itype.h"
 #include "iuse.h"
 #include "kill_tracker.h"
@@ -58,10 +57,8 @@
 #include "output.h"
 #include "overmap.h"
 #include "legacy_pathfinding.h"
-#include "pimpl.h"
 #include "player.h"
 #include "player_activity.h"
-#include "ranged.h"
 #include "recipe.h"
 #include "ret_val.h"
 #include "rng.h"
@@ -72,9 +69,7 @@
 #include "translations.h"
 #include "type_id.h"
 #include "ui.h"
-#include "value_ptr.h"
 #include "vehicle.h"
-#include "vehicle_part.h"
 #include "vpart_position.h"
 
 static const activity_id ACT_READ( "ACT_READ" );
@@ -94,8 +89,6 @@ static const trait_id trait_CENOBITE( "CENOBITE" );
 static const trait_id trait_HYPEROPIC( "HYPEROPIC" );
 static const trait_id trait_ILLITERATE( "ILLITERATE" );
 static const trait_id trait_PROF_DICEMASTER( "PROF_DICEMASTER" );
-
-static const flag_id flag_FIX_FARSIGHT( "FIX_FARSIGHT" );
 
 static const morale_type MORALE_FOOD_COLD( "morale_food_cold" );
 static const morale_type MORALE_FOOD_VERY_COLD( "morale_food_very_cold" );
@@ -117,6 +110,8 @@ avatar::avatar()
     active_mission = nullptr;
     grab_type = OBJECT_NONE;
     a_diary = nullptr;
+    start_location = start_location_id( "sloc_shelter" );
+    movecounter = 0;
 }
 
 avatar::~avatar() = default;
@@ -264,9 +259,10 @@ void avatar::on_mission_finished( mission &cur_mission )
     }
 }
 
-const player *avatar::get_book_reader( const item &book, std::vector<std::string> &reasons ) const
+const Character *avatar::get_book_reader( const item &book,
+        std::vector<std::string> &reasons ) const
 {
-    const player *reader = nullptr;
+    const Character *reader = nullptr;
     if( !book.is_book() ) {
         reasons.push_back( string_format( _( "Your %s is not good reading material." ),
                                           book.tname() ) );
@@ -356,7 +352,8 @@ const player *avatar::get_book_reader( const item &book, std::vector<std::string
     return reader;
 }
 
-int avatar::time_to_read( const item &book, const player &reader, const player *learner ) const
+int avatar::time_to_read( const item &book, const Character &reader,
+                          const Character *learner ) const
 {
     const auto &type = book.type->book;
     const skill_id &skill = type->skill;
@@ -411,7 +408,7 @@ bool avatar::read( item *loc, const bool continuous )
         skim_book_msg( it, *this );
     }
     std::vector<std::string> fail_messages;
-    const player *reader = get_book_reader( it, fail_messages );
+    const auto *reader = get_book_reader( it, fail_messages );
     if( reader == nullptr ) {
         // We can't read, and neither can our followers
         for( const std::string &reason : fail_messages ) {
@@ -636,7 +633,7 @@ bool avatar::read( item *loc, const bool continuous )
     const int intelligence = get_int();
     const bool complex_penalty = type->intel > std::min( intelligence, reader->get_int() ) &&
                                  !reader->has_trait( trait_PROF_DICEMASTER );
-    const player *complex_player = reader->get_int() < intelligence ? reader : this;
+    const auto *complex_player = reader->get_int() < intelligence ? reader : this;
     if( complex_penalty && !continuous ) {
         add_msg( m_warning,
                  _( "This book is too complex for %s to easily understand.  It will take longer to read." ),
@@ -990,6 +987,25 @@ void avatar::wake_up()
     Character::wake_up();
 }
 
+void avatar::add_snippet( snippet_id snippet )
+{
+    // Optional: caller can check !has_seen_snippet(snippet) before calling this
+    // to avoid doing unnecessary work. This function is safe to call multiple times:
+    // set_value() and emplace() won't change anything if the snippet was already added.
+    std::string combined_name = "has_seen_snippet_" + snippet.str();
+    get_avatar().set_value( combined_name, "true" );
+    snippets_read.emplace( snippet );
+}
+bool avatar::has_seen_snippet( const snippet_id &snippet ) const
+{
+    return snippets_read.contains( snippet );
+}
+
+const std::set<snippet_id> &avatar::get_snippets()
+{
+    return snippets_read;
+}
+
 void avatar::vomit()
 {
     if( stomach.get_calories() > 0 ) {
@@ -1121,7 +1137,14 @@ void avatar::set_movement_mode( character_movemode new_mode )
                     add_msg( _( "You nudge your steed into a steady trot." ) );
                 }
             } else {
-                add_msg( _( "You start walking." ) );
+                // Spend moves to stand up if crouched, otherwise just stop running.
+                if( move_mode == CMM_CROUCH ) {
+                    mod_moves( -100 );
+                    recoil = MAX_RECOIL;
+                    add_msg( _( "You stand up." ) );
+                } else {
+                    add_msg( _( "You start walking." ) );
+                }
             }
             break;
         }
@@ -1137,7 +1160,14 @@ void avatar::set_movement_mode( character_movemode new_mode )
                         add_msg( _( "You spur your steed into a gallop." ) );
                     }
                 } else {
-                    add_msg( _( "You start running." ) );
+                    // Spend moves to stand up if crouched, otherwise just stop running.
+                    if( move_mode == CMM_CROUCH ) {
+                        mod_moves( -100 );
+                        recoil = MAX_RECOIL;
+                        add_msg( _( "You stand up and start running." ) );
+                    } else {
+                        add_msg( _( "You start running." ) );
+                    }
                 }
             } else {
                 if( is_mounted() ) {
@@ -1160,6 +1190,11 @@ void avatar::set_movement_mode( character_movemode new_mode )
                     add_msg( _( "You slow your steed to a walk." ) );
                 }
             } else {
+                // Don't spend moves if we were already crouching.
+                if( move_mode != CMM_CROUCH ) {
+                    recoil = MAX_RECOIL;
+                    mod_moves( -100 );
+                }
                 add_msg( _( "You start crouching." ) );
             }
             break;
@@ -1295,8 +1330,12 @@ detached_ptr<item> avatar::wield( detached_ptr<item> &&target )
 
 bool avatar::invoke_item( item *used, const tripoint &pt )
 {
-    const std::map<std::string, use_function> &use_methods = used->type->use_methods;
-
+    std::map<std::string, use_function> use_methods;
+    use_methods.insert( used->type->use_methods.begin(), used->type->use_methods.end() );
+    // Make sure the flag is that of the mod, not of the item being used :P
+    if( used->has_flag( flag_ADD_UPS_TOGGLE ) && !used->type->has_flag( flag_ADD_UPS_TOGGLE ) ) {
+        use_methods["TOGGLE_UPS_CHARGING"] = item_controller->usage_from_string( "TOGGLE_UPS_CHARGING" );
+    }
     if( use_methods.empty() ) {
         return false;
     } else if( use_methods.size() == 1 ) {

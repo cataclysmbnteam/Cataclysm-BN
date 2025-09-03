@@ -1,6 +1,5 @@
 #pragma once
 
-#include <cstddef>
 #include <functional>
 #include <map>
 #include <string>
@@ -50,7 +49,7 @@ class veh_interact
         static vehicle_part &select_part( const vehicle &veh, const part_selector &sel,
                                           const std::string &title = std::string() );
 
-        static void complete_vehicle( player &p );
+        static void complete_vehicle( Character &who );
 
     private:
         veh_interact( vehicle &veh, point p = point_zero );
@@ -220,7 +219,7 @@ class veh_interact
         vehicle_part *get_most_repariable_part() const;
 
         //do_remove supporting operation, writes requirements to ui
-        bool can_remove_part( int idx, const player &p );
+        bool can_remove_part( int idx, const Character &who );
         //do install support, writes requirements to ui
         bool update_part_requirements();
         //true if trying to install foot crank with electric engines for example

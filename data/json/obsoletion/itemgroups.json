@@ -196,5 +196,21 @@
       [ "joint", 10 ],
       [ "smart_phone", 50 ]
     ]
+  },
+  {
+    "id": "SUS_silverware",
+    "type": "item_group",
+    "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
+    "//2": "This group is for a silverware drawer.",
+    "subtype": "collection",
+    "entries": [ { "item": "knife_steak", "prob": 85 } ]
+  },
+  {
+    "id": "SUS_utensils",
+    "type": "item_group",
+    "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
+    "//2": "This group is for a utensils drawer.",
+    "subtype": "collection",
+    "entries": [ { "item": "tongs", "prob": 95 }, { "item": "tongs", "prob": 50 } ]
   }
 ]

@@ -192,14 +192,7 @@ item_location_type wield_item_location::where( ) const
 detached_ptr<item> worn_item_location::detach( item *it )
 {
     detached_ptr<item> res;
-    holder->remove_worn_items_with( [&it, &res]( detached_ptr<item> &&ch ) {
-        if( &*ch == it ) {
-            res = std::move( ch );
-            return detached_ptr<item>();
-        } else {
-            return std::move( ch );
-        }
-    } );
+    res = holder->worn.remove( it );
     if( !res ) {
         debugmsg( "Failed to find worn item in detach" );
     }

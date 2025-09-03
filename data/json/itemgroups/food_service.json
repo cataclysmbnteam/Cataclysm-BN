@@ -247,6 +247,7 @@
       { "item": "syringe", "prob": 30 },
       { "item": "meth", "prob": 20 },
       { "item": "heroin", "prob": 7 },
+      { "item": "ghb", "prob": 7 },
       { "item": "sizzurp", "prob": 10 },
       { "item": "mag_porn", "prob": 35 },
       { "item": "hairpin", "prob": 5 },
@@ -647,7 +648,8 @@
       { "item": "pecan", "prob": 20 },
       { "item": "cashews", "prob": 20 },
       { "item": "pistachio", "prob": 20 },
-      { "item": "peanut", "prob": 20 }
+      { "item": "peanut", "prob": 20 },
+      { "item": "blinkie", "prob": 5 }
     ]
   },
   {

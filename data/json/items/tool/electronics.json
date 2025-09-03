@@ -16,6 +16,8 @@
     "color": "light_green",
     "ammo": "plutonium",
     "max_charges": 2500,
+    "ups_eff_mult": 2,
+    "ups_recharge_rate": 10,
     "flags": [ "IS_UPS" ]
   },
   {
@@ -503,6 +505,55 @@
       "type": "transform"
     },
     "flags": [ "WATCH", "LIGHT_20", "TRADER_AVOID", "ALARMCLOCK", "RECHARGE", "NO_UNLOAD", "NO_RELOAD" ]
+  },
+  {
+    "id": "afs_atomic_smartphone",
+    "type": "TOOL",
+    "name": { "str": "atomic smartphone" },
+    "description": "Never charge your phone again with the Rivtech atomic smartphone.  Rated for 10 million years of use, this cutting-edge gadget had been on public markets for less than a week when the Cataclysm hit, and their eye-watering price made them a rarity.  It includes an alarm clock, a high-resolution camera, and a bright flashlight.",
+    "weight": "300 g",
+    "volume": "50 ml",
+    "price": 200000,
+    "price_postapoc": 2500,
+    "material": [ "plastic", "aluminum" ],
+    "looks_like": "cell_phone",
+    "symbol": ";",
+    "color": "light_green",
+    "use_action": [
+      {
+        "target": "afs_atomic_smartphone_flashlight",
+        "msg": "You activate the flashlight app.",
+        "active": true,
+        "type": "transform"
+      },
+      "CAMERA",
+      "MP3"
+    ],
+    "flags": [ "WATCH", "ALARMCLOCK", "NO_UNLOAD", "NO_RELOAD" ]
+  },
+  {
+    "id": "afs_atomic_smartphone_music",
+    "copy-from": "afs_atomic_smartphone",
+    "type": "TOOL",
+    "name": { "str": "atomic smartphone - music", "str_pl": "atomic smartphones - music" },
+    "description": "This phone is playing music, steadily raising your morale.  You can't hear anything else while you're listening.",
+    "revert_to": "afs_atomic_smartphone",
+    "use_action": [ "MP3_ON" ],
+    "flags": [ "WATCH", "TRADER_AVOID", "ALARMCLOCK", "NO_UNLOAD", "NO_RELOAD" ]
+  },
+  {
+    "id": "afs_atomic_smartphone_flashlight",
+    "copy-from": "afs_atomic_smartphone",
+    "type": "TOOL",
+    "name": { "str": "atomic smartphone - Flashlight", "str_pl": "atomic smartphones - Flashlight" },
+    "revert_to": "afs_atomic_smartphone",
+    "use_action": {
+      "target": "afs_atomic_smartphone",
+      "msg": "You deactivate the flashlight app.",
+      "menu_text": "Turn off flashlight",
+      "type": "transform"
+    },
+    "flags": [ "WATCH", "LIGHT_25", "TRADER_AVOID", "ALARMCLOCK", "NO_UNLOAD", "NO_RELOAD" ]
   },
   {
     "id": "UPS_off",

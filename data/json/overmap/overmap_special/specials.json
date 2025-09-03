@@ -925,6 +925,23 @@
       { "point": [ 1, 2, 1 ], "overmap": "prison_alcatraz_14_2f_north" },
       { "point": [ 0, 2, 1 ], "overmap": "prison_alcatraz_15_2f_north" }
     ],
+    "place_nested": [
+      { "point": [ 4, 0, 0 ], "special": "island_column_edge" },
+      { "point": [ 3, 0, 0 ], "special": "island_column_edge" },
+      { "point": [ 2, 0, 0 ], "special": "island_column_edge" },
+      { "point": [ 1, 0, 0 ], "special": "island_column_edge" },
+      { "point": [ 0, 0, 0 ], "special": "island_column_edge" },
+      { "point": [ 4, 1, 0 ], "special": "island_column_edge" },
+      { "point": [ 3, 1, 0 ], "special": "island_column_center" },
+      { "point": [ 2, 1, 0 ], "special": "island_column_center" },
+      { "point": [ 1, 1, 0 ], "special": "island_column_center" },
+      { "point": [ 0, 1, 0 ], "special": "island_column_edge" },
+      { "point": [ 4, 2, 0 ], "special": "island_column_edge" },
+      { "point": [ 3, 2, 0 ], "special": "island_column_edge" },
+      { "point": [ 2, 2, 0 ], "special": "island_column_edge" },
+      { "point": [ 1, 2, 0 ], "special": "island_column_edge" },
+      { "point": [ 0, 2, 0 ], "special": "island_column_edge" }
+    ],
     "locations": [ "lake_surface" ],
     "city_distance": [ 12, -1 ],
     "occurrences": [ 75, 100 ],
@@ -1170,6 +1187,36 @@
     "city_distance": [ 8, -1 ],
     "occurrences": [ 10, 100 ],
     "flags": [ "WILDERNESS", "UNIQUE" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Island Cove",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "cave" },
+      { "point": [ 1, 0, 0 ], "overmap": "lake_shore" },
+      { "point": [ -1, 0, 0 ], "overmap": "lake_shore" },
+      { "point": [ 0, 1, 0 ], "overmap": "cove_shoal_north" },
+      { "point": [ 1, 1, 0 ], "overmap": "lake_shore" },
+      { "point": [ -1, 1, 0 ], "overmap": "lake_shore" },
+      { "point": [ 0, -1, 0 ], "overmap": "lake_shore" },
+      { "point": [ 1, -1, 0 ], "overmap": "lake_shore" },
+      { "point": [ -1, -1, 0 ], "overmap": "lake_shore" },
+      { "point": [ 0, 0, -1 ], "overmap": "cave_underground", "locations": [ "lake_water_cube" ] }
+    ],
+    "place_nested": [
+      { "point": [ 0, 0, 0 ], "special": "island_column_center" },
+      { "point": [ 1, 0, 0 ], "special": "island_column_edge" },
+      { "point": [ -1, 0, 0 ], "special": "island_column_edge" },
+      { "point": [ 0, 1, 0 ], "special": "island_column_edge" },
+      { "point": [ 1, 1, 0 ], "special": "island_column_edge" },
+      { "point": [ -1, 1, 0 ], "special": "island_column_edge" },
+      { "point": [ 0, -1, 0 ], "special": "island_column_edge" },
+      { "point": [ 1, -1, 0 ], "special": "island_column_edge" },
+      { "point": [ -1, -1, 0 ], "special": "island_column_edge" }
+    ],
+    "locations": [ "lake_surface" ],
+    "occurrences": [ 0, 5 ],
+    "flags": [ "WILDERNESS", "LAKE" ]
   },
   {
     "type": "overmap_special",
@@ -1796,12 +1843,15 @@
     "city_distance": [ 3, -1 ],
     "city_sizes": [ 4, -1 ],
     "occurrences": [ 50, 100 ],
-    "flags": [ "ELECTRIC_GRID", "UNIQUE", "GLOBALLY_UNIQUE" ]
+    "flags": [ "UNIQUE", "GLOBALLY_UNIQUE" ]
   },
   {
     "type": "overmap_special",
     "id": "bandit_cabin",
-    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "bandit_cabin_north" } ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "bandit_cabin_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "bandit_cabin_roof_north" }
+    ],
     "locations": [ "forest" ],
     "city_distance": [ 20, -1 ],
     "city_sizes": [ 4, -1 ],
@@ -1815,7 +1865,10 @@
       { "point": [ 0, 0, 0 ], "overmap": "bandit_camp_1_north" },
       { "point": [ 1, 0, 0 ], "overmap": "bandit_camp_2_north" },
       { "point": [ 0, 1, 0 ], "overmap": "bandit_camp_3_north" },
-      { "point": [ 1, 1, 0 ], "overmap": "bandit_camp_4_north" }
+      { "point": [ 1, 1, 0 ], "overmap": "bandit_camp_4_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "bandit_camp_1_roof_north" },
+      { "point": [ 1, 0, 1 ], "overmap": "bandit_camp_2_roof_north" },
+      { "point": [ 1, 1, 1 ], "overmap": "bandit_camp_4_roof_north" }
     ],
     "locations": [ "wilderness" ],
     "city_distance": [ 20, -1 ],
@@ -1833,6 +1886,18 @@
     "city_sizes": [ 8, -1 ],
     "occurrences": [ 0, 2 ],
     "flags": [ "CLASSIC", "URBAN" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "solar_farm",
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "solar_farm_north" } ],
+    "connections": [ { "point": [ 0, 1, 0 ], "connection": "local_road" } ],
+    "locations": [ "land" ],
+    "city_distance": [ -1, 2 ],
+    "city_sizes": [ 4, -1 ],
+    "occurrences": [ 0, 2 ],
+    "spawns": { "group": "GROUP_SMALL_STATION", "population": [ 4, 10 ], "radius": [ 0, 0 ] },
+    "flags": [ "CLASSIC", "URBAN", "MAN_MADE", "ELECTRIC_GRID" ]
   },
   {
     "type": "overmap_special",
@@ -1976,7 +2041,7 @@
     "city_distance": [ 3, -1 ],
     "rotate": false,
     "occurrences": [ 30, 100 ],
-    "flags": [ "UNIQUE", "ELECTRIC_GRID" ]
+    "flags": [ "UNIQUE" ]
   },
   {
     "type": "overmap_special",
@@ -2147,6 +2212,15 @@
     "id": "bog",
     "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "pond_swamp_north" } ],
     "locations": [ "swamp" ],
+    "city_distance": [ 15, -1 ],
+    "occurrences": [ 0, 5 ],
+    "flags": [ "CLASSIC", "WILDERNESS" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Natural Spring",
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "natural_spring_north" } ],
+    "locations": [ "land" ],
     "city_distance": [ 15, -1 ],
     "occurrences": [ 0, 5 ],
     "flags": [ "CLASSIC", "WILDERNESS" ]
@@ -2582,7 +2656,8 @@
     "id": "bandit_garage",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "bandit_garage_1_north" },
-      { "point": [ 1, 0, 0 ], "overmap": "bandit_garage_2_north" }
+      { "point": [ 1, 0, 0 ], "overmap": "bandit_garage_2_north" },
+      { "point": [ 1, 0, 1 ], "overmap": "bandit_garage_2_roof_north" }
     ],
     "locations": [ "forest" ],
     "connections": [ { "point": [ -1, 0, 0 ], "connection": "local_road" } ],
@@ -2629,8 +2704,8 @@
       { "point": [ 1, 1, 1 ], "overmap": "s_reststop_2_roof_north" }
     ],
     "connections": [
-      { "point": [ 0, -1, 0 ], "connection": "local_road", "existing": true },
-      { "point": [ 1, -1, 0 ], "connection": "local_road", "existing": true }
+      { "point": [ 0, -1, 0 ], "connection": "local_road", "from": [ 0, 0, 0 ], "existing": true },
+      { "point": [ 1, -1, 0 ], "connection": "local_road", "from": [ 1, 0, 0 ], "existing": true }
     ],
     "locations": [ "wilderness" ],
     "city_distance": [ 15, 150 ],
@@ -2686,6 +2761,24 @@
     "city_sizes": [ -1, 12 ],
     "occurrences": [ 0, 3 ],
     "flags": [ "CLASSIC", "URBAN", "ELECTRIC_GRID" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "RV Park",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "rv_park_1_north" },
+      { "point": [ 1, 0, 0 ], "overmap": "rv_park_2_north" },
+      { "point": [ 0, 1, 0 ], "overmap": "rv_park_3_north" },
+      { "point": [ 1, 1, 0 ], "overmap": "rv_park_4_north" },
+      { "point": [ 0, 1, 1 ], "overmap": "rv_park_roof_1_north" },
+      { "point": [ 1, 1, 1 ], "overmap": "rv_park_roof_2_north" }
+    ],
+    "connections": [ { "point": [ 1, 2, 0 ], "connection": "local_road", "from": [ 1, 1, 0 ] } ],
+    "locations": [ "wilderness" ],
+    "city_distance": [ 4, -1 ],
+    "city_sizes": [ -1, 13 ],
+    "occurrences": [ 0, 3 ],
+    "flags": [ "CLASSIC", "WILDERNESS", "ELECTRIC_GRID" ]
   },
   {
     "type": "overmap_special",
@@ -3018,7 +3111,7 @@
     "city_distance": [ 10, -1 ],
     "occurrences": [ 30, 100 ],
     "rotate": false,
-    "flags": [ "LAB", "UNIQUE", "ELECTRIC_GRID" ]
+    "flags": [ "LAB", "UNIQUE" ]
   },
   {
     "type": "overmap_special",
@@ -3127,7 +3220,7 @@
     ],
     "locations": [ "land" ],
     "occurrences": [ 0, 2 ],
-    "flags": [ "LAB", "ELECTRIC_GRID" ]
+    "flags": [ "LAB" ]
   },
   {
     "type": "overmap_special",
@@ -3592,6 +3685,22 @@
       { "point": [ 4, 5, 0 ], "overmap": "lake_surface" },
       { "point": [ 5, 5, 0 ], "overmap": "lake_surface" }
     ],
+    "place_nested": [
+      { "point": [ 3, 1, 0 ], "special": "island_column_edge" },
+      { "point": [ 4, 1, 0 ], "special": "island_column_edge" },
+      { "point": [ 1, 2, 0 ], "special": "island_column_edge" },
+      { "point": [ 2, 2, 0 ], "special": "island_column_edge" },
+      { "point": [ 3, 2, 0 ], "special": "island_column_edge" },
+      { "point": [ 4, 2, 0 ], "special": "island_column_edge" },
+      { "point": [ 1, 3, 0 ], "special": "island_column_edge" },
+      { "point": [ 2, 3, 0 ], "special": "island_column_center" },
+      { "point": [ 3, 3, 0 ], "special": "island_column_center" },
+      { "point": [ 4, 3, 0 ], "special": "island_column_edge" },
+      { "point": [ 1, 4, 0 ], "special": "island_column_edge" },
+      { "point": [ 2, 4, 0 ], "special": "island_column_edge" },
+      { "point": [ 3, 4, 0 ], "special": "island_column_edge" },
+      { "point": [ 4, 4, 0 ], "special": "island_column_edge" }
+    ],
     "locations": [ "lake_surface" ],
     "occurrences": [ 0, 3 ],
     "flags": [ "CLASSIC", "LAKE", "WILDERNESS" ]
@@ -3637,6 +3746,22 @@
       { "point": [ 4, 5, 0 ], "overmap": "lake_surface" },
       { "point": [ 5, 5, 0 ], "overmap": "lake_surface" }
     ],
+    "place_nested": [
+      { "point": [ 3, 1, 0 ], "special": "island_column_edge" },
+      { "point": [ 4, 1, 0 ], "special": "island_column_edge" },
+      { "point": [ 1, 2, 0 ], "special": "island_column_edge" },
+      { "point": [ 2, 2, 0 ], "special": "island_column_edge" },
+      { "point": [ 3, 2, 0 ], "special": "island_column_edge" },
+      { "point": [ 4, 2, 0 ], "special": "island_column_edge" },
+      { "point": [ 1, 3, 0 ], "special": "island_column_edge" },
+      { "point": [ 2, 3, 0 ], "special": "island_column_center" },
+      { "point": [ 3, 3, 0 ], "special": "island_column_center" },
+      { "point": [ 4, 3, 0 ], "special": "island_column_edge" },
+      { "point": [ 1, 4, 0 ], "special": "island_column_edge" },
+      { "point": [ 2, 4, 0 ], "special": "island_column_edge" },
+      { "point": [ 3, 4, 0 ], "special": "island_column_edge" },
+      { "point": [ 4, 4, 0 ], "special": "island_column_edge" }
+    ],
     "locations": [ "lake_surface" ],
     "occurrences": [ 0, 3 ],
     "flags": [ "CLASSIC", "LAKE", "WILDERNESS" ]
@@ -3655,6 +3780,7 @@
       { "point": [ 1, 2, 0 ], "overmap": "lake_surface" },
       { "point": [ 2, 2, 0 ], "overmap": "lake_surface" }
     ],
+    "place_nested": [ { "point": [ 1, 1, 0 ], "special": "island_column_center" } ],
     "locations": [ "lake_surface" ],
     "occurrences": [ 0, 3 ],
     "flags": [ "CLASSIC", "LAKE", "WILDERNESS" ]
@@ -3705,6 +3831,26 @@
       { "point": [ 4, 5, 0 ], "overmap": "lake_surface" },
       { "point": [ 5, 5, 0 ], "overmap": "lake_surface" },
       { "point": [ 6, 5, 0 ], "overmap": "lake_surface" }
+    ],
+    "place_nested": [
+      { "point": [ 1, 1, 0 ], "special": "island_column_edge" },
+      { "point": [ 2, 1, 0 ], "special": "island_column_edge" },
+      { "point": [ 3, 1, 0 ], "special": "island_column_edge" },
+      { "point": [ 4, 1, 0 ], "special": "island_column_edge" },
+      { "point": [ 1, 2, 0 ], "special": "island_column_edge" },
+      { "point": [ 2, 2, 0 ], "special": "island_column_center" },
+      { "point": [ 3, 2, 0 ], "special": "island_column_center" },
+      { "point": [ 4, 2, 0 ], "special": "island_column_edge" },
+      { "point": [ 5, 2, 0 ], "special": "island_column_edge" },
+      { "point": [ 1, 3, 0 ], "special": "island_column_edge" },
+      { "point": [ 2, 3, 0 ], "special": "island_column_edge" },
+      { "point": [ 3, 3, 0 ], "special": "island_column_center" },
+      { "point": [ 4, 3, 0 ], "special": "island_column_center" },
+      { "point": [ 5, 3, 0 ], "special": "island_column_edge" },
+      { "point": [ 2, 4, 0 ], "special": "island_column_edge" },
+      { "point": [ 3, 4, 0 ], "special": "island_column_edge" },
+      { "point": [ 4, 4, 0 ], "special": "island_column_edge" },
+      { "point": [ 5, 4, 0 ], "special": "island_column_edge" }
     ],
     "locations": [ "lake_surface" ],
     "occurrences": [ 0, 3 ],
@@ -3757,6 +3903,26 @@
       { "point": [ 5, 5, 0 ], "overmap": "lake_surface" },
       { "point": [ 6, 5, 0 ], "overmap": "lake_surface" }
     ],
+    "place_nested": [
+      { "point": [ 1, 1, 0 ], "special": "island_column_edge" },
+      { "point": [ 2, 1, 0 ], "special": "island_column_edge" },
+      { "point": [ 3, 1, 0 ], "special": "island_column_edge" },
+      { "point": [ 4, 1, 0 ], "special": "island_column_edge" },
+      { "point": [ 5, 1, 0 ], "special": "island_column_edge" },
+      { "point": [ 1, 2, 0 ], "special": "island_column_edge" },
+      { "point": [ 2, 2, 0 ], "special": "island_column_edge" },
+      { "point": [ 3, 2, 0 ], "special": "island_column_edge" },
+      { "point": [ 4, 2, 0 ], "special": "island_column_edge" },
+      { "point": [ 5, 2, 0 ], "special": "island_column_edge" },
+      { "point": [ 1, 3, 0 ], "special": "island_column_edge" },
+      { "point": [ 2, 3, 0 ], "special": "island_column_edge" },
+      { "point": [ 4, 3, 0 ], "special": "island_column_edge" },
+      { "point": [ 5, 3, 0 ], "special": "island_column_edge" },
+      { "point": [ 2, 4, 0 ], "special": "island_column_edge" },
+      { "point": [ 3, 4, 0 ], "special": "island_column_edge" },
+      { "point": [ 4, 4, 0 ], "special": "island_column_edge" },
+      { "point": [ 5, 4, 0 ], "special": "island_column_edge" }
+    ],
     "locations": [ "lake_surface" ],
     "occurrences": [ 0, 3 ],
     "flags": [ "CLASSIC", "LAKE", "WILDERNESS" ]
@@ -3807,6 +3973,27 @@
       { "point": [ 4, 5, 0 ], "overmap": "lake_surface" },
       { "point": [ 5, 5, 0 ], "overmap": "lake_surface" },
       { "point": [ 6, 5, 0 ], "overmap": "lake_surface" }
+    ],
+    "place_nested": [
+      { "point": [ 1, 1, 0 ], "special": "island_column_edge" },
+      { "point": [ 2, 1, 0 ], "special": "island_column_edge" },
+      { "point": [ 3, 1, 0 ], "special": "island_column_edge" },
+      { "point": [ 4, 1, 0 ], "special": "island_column_edge" },
+      { "point": [ 5, 1, 0 ], "special": "island_column_edge" },
+      { "point": [ 1, 2, 0 ], "special": "island_column_edge" },
+      { "point": [ 2, 2, 0 ], "special": "island_column_center" },
+      { "point": [ 3, 2, 0 ], "special": "island_column_center" },
+      { "point": [ 4, 2, 0 ], "special": "island_column_center" },
+      { "point": [ 5, 2, 0 ], "special": "island_column_edge" },
+      { "point": [ 1, 3, 0 ], "special": "island_column_edge" },
+      { "point": [ 2, 3, 0 ], "special": "island_column_edge" },
+      { "point": [ 3, 3, 0 ], "special": "island_column_center" },
+      { "point": [ 4, 3, 0 ], "special": "island_column_center" },
+      { "point": [ 5, 3, 0 ], "special": "island_column_edge" },
+      { "point": [ 2, 4, 0 ], "special": "island_column_edge" },
+      { "point": [ 3, 4, 0 ], "special": "island_column_edge" },
+      { "point": [ 4, 4, 0 ], "special": "island_column_edge" },
+      { "point": [ 5, 4, 0 ], "special": "island_column_edge" }
     ],
     "locations": [ "lake_surface" ],
     "occurrences": [ 0, 3 ],
@@ -3866,6 +4053,29 @@
       { "point": [ 5, 6, 0 ], "overmap": "lake_surface" },
       { "point": [ 6, 6, 0 ], "overmap": "lake_surface" }
     ],
+    "place_nested": [
+      { "point": [ 1, 1, 0 ], "special": "island_column_edge" },
+      { "point": [ 2, 1, 0 ], "special": "island_column_edge" },
+      { "point": [ 3, 1, 0 ], "special": "island_column_edge" },
+      { "point": [ 4, 1, 0 ], "special": "island_column_edge" },
+      { "point": [ 1, 2, 0 ], "special": "island_column_edge" },
+      { "point": [ 2, 2, 0 ], "special": "island_column_center" },
+      { "point": [ 3, 2, 0 ], "special": "island_column_center" },
+      { "point": [ 4, 2, 0 ], "special": "island_column_edge" },
+      { "point": [ 5, 2, 0 ], "special": "island_column_edge" },
+      { "point": [ 1, 3, 0 ], "special": "island_column_edge" },
+      { "point": [ 2, 3, 0 ], "special": "island_column_edge" },
+      { "point": [ 3, 3, 0 ], "special": "island_column_center" },
+      { "point": [ 4, 3, 0 ], "special": "island_column_center" },
+      { "point": [ 5, 3, 0 ], "special": "island_column_edge" },
+      { "point": [ 2, 4, 0 ], "special": "island_column_edge" },
+      { "point": [ 3, 4, 0 ], "special": "island_column_center" },
+      { "point": [ 4, 4, 0 ], "special": "island_column_edge" },
+      { "point": [ 5, 4, 0 ], "special": "island_column_edge" },
+      { "point": [ 2, 5, 0 ], "special": "island_column_edge" },
+      { "point": [ 3, 5, 0 ], "special": "island_column_edge" },
+      { "point": [ 4, 5, 0 ], "special": "island_column_edge" }
+    ],
     "locations": [ "lake_surface" ],
     "occurrences": [ 0, 3 ],
     "flags": [ "CLASSIC", "LAKE", "WILDERNESS" ]
@@ -3899,6 +4109,17 @@
       { "point": [ 2, 4, 0 ], "overmap": "lake_surface" },
       { "point": [ 3, 4, 0 ], "overmap": "lake_surface" },
       { "point": [ 4, 4, 0 ], "overmap": "lake_surface" }
+    ],
+    "place_nested": [
+      { "point": [ 1, 1, 0 ], "special": "island_column_edge" },
+      { "point": [ 2, 1, 0 ], "special": "island_column_edge" },
+      { "point": [ 3, 1, 0 ], "special": "island_column_edge" },
+      { "point": [ 1, 2, 0 ], "special": "island_column_edge" },
+      { "point": [ 2, 2, 0 ], "special": "island_column_center" },
+      { "point": [ 3, 2, 0 ], "special": "island_column_edge" },
+      { "point": [ 1, 3, 0 ], "special": "island_column_edge" },
+      { "point": [ 2, 3, 0 ], "special": "island_column_edge" },
+      { "point": [ 3, 3, 0 ], "special": "island_column_edge" }
     ],
     "locations": [ "lake_surface" ],
     "occurrences": [ 0, 3 ],
@@ -3934,6 +4155,17 @@
       { "point": [ 3, 4, 0 ], "overmap": "lake_surface" },
       { "point": [ 4, 4, 0 ], "overmap": "lake_surface" }
     ],
+    "place_nested": [
+      { "point": [ 1, 1, 0 ], "special": "island_column_edge" },
+      { "point": [ 2, 1, 0 ], "special": "island_column_edge" },
+      { "point": [ 3, 1, 0 ], "special": "island_column_edge" },
+      { "point": [ 1, 2, 0 ], "special": "island_column_edge" },
+      { "point": [ 2, 2, 0 ], "special": "island_column_center" },
+      { "point": [ 3, 2, 0 ], "special": "island_column_edge" },
+      { "point": [ 1, 3, 0 ], "special": "island_column_edge" },
+      { "point": [ 2, 3, 0 ], "special": "island_column_edge" },
+      { "point": [ 3, 3, 0 ], "special": "island_column_edge" }
+    ],
     "locations": [ "lake_surface" ],
     "occurrences": [ 0, 3 ],
     "flags": [ "CLASSIC", "LAKE", "WILDERNESS" ]
@@ -3967,6 +4199,17 @@
       { "point": [ 2, 4, 0 ], "overmap": "lake_surface" },
       { "point": [ 3, 4, 0 ], "overmap": "lake_surface" },
       { "point": [ 4, 4, 0 ], "overmap": "lake_surface" }
+    ],
+    "place_nested": [
+      { "point": [ 1, 1, 0 ], "special": "island_column_edge" },
+      { "point": [ 2, 1, 0 ], "special": "island_column_edge" },
+      { "point": [ 3, 1, 0 ], "special": "island_column_edge" },
+      { "point": [ 1, 2, 0 ], "special": "island_column_edge" },
+      { "point": [ 2, 2, 0 ], "special": "island_column_center" },
+      { "point": [ 3, 2, 0 ], "special": "island_column_edge" },
+      { "point": [ 1, 3, 0 ], "special": "island_column_edge" },
+      { "point": [ 2, 3, 0 ], "special": "island_column_edge" },
+      { "point": [ 3, 3, 0 ], "special": "island_column_edge" }
     ],
     "locations": [ "lake_surface" ],
     "occurrences": [ 0, 3 ],
@@ -4002,6 +4245,17 @@
       { "point": [ 3, 4, 0 ], "overmap": "lake_surface" },
       { "point": [ 4, 4, 0 ], "overmap": "lake_surface" }
     ],
+    "place_nested": [
+      { "point": [ 1, 1, 0 ], "special": "island_column_edge" },
+      { "point": [ 2, 1, 0 ], "special": "island_column_edge" },
+      { "point": [ 3, 1, 0 ], "special": "island_column_edge" },
+      { "point": [ 1, 2, 0 ], "special": "island_column_edge" },
+      { "point": [ 2, 2, 0 ], "special": "island_column_center" },
+      { "point": [ 3, 2, 0 ], "special": "island_column_edge" },
+      { "point": [ 1, 3, 0 ], "special": "island_column_edge" },
+      { "point": [ 2, 3, 0 ], "special": "island_column_edge" },
+      { "point": [ 3, 3, 0 ], "special": "island_column_edge" }
+    ],
     "locations": [ "lake_surface" ],
     "occurrences": [ 0, 3 ],
     "flags": [ "CLASSIC", "LAKE", "WILDERNESS" ]
@@ -4026,6 +4280,7 @@
       { "point": [ 1, 2, 0 ], "overmap": "lake_surface" },
       { "point": [ 2, 2, 0 ], "overmap": "lake_surface" }
     ],
+    "place_nested": [ { "point": [ 1, 1, 0 ], "special": "island_column_center" } ],
     "locations": [ "lake_surface" ],
     "occurrences": [ 0, 4 ],
     "flags": [ "CLASSIC", "LAKE" ]
@@ -4073,6 +4328,22 @@
       { "point": [ 4, 5, 0 ], "overmap": "lake_surface" },
       { "point": [ 5, 5, 0 ], "overmap": "lake_surface" }
     ],
+    "place_nested": [
+      { "point": [ 3, 1, 0 ], "special": "island_column_edge" },
+      { "point": [ 4, 1, 0 ], "special": "island_column_edge" },
+      { "point": [ 1, 2, 0 ], "special": "island_column_edge" },
+      { "point": [ 2, 2, 0 ], "special": "island_column_edge" },
+      { "point": [ 3, 2, 0 ], "special": "island_column_edge" },
+      { "point": [ 4, 2, 0 ], "special": "island_column_edge" },
+      { "point": [ 1, 3, 0 ], "special": "island_column_edge" },
+      { "point": [ 2, 3, 0 ], "special": "island_column_center" },
+      { "point": [ 3, 3, 0 ], "special": "island_column_center" },
+      { "point": [ 4, 3, 0 ], "special": "island_column_edge" },
+      { "point": [ 1, 4, 0 ], "special": "island_column_edge" },
+      { "point": [ 2, 4, 0 ], "special": "island_column_edge" },
+      { "point": [ 3, 4, 0 ], "special": "island_column_edge" },
+      { "point": [ 4, 4, 0 ], "special": "island_column_edge" }
+    ],
     "locations": [ "lake_surface" ],
     "occurrences": [ 0, 3 ],
     "flags": [ "CLASSIC", "LAKE", "WILDERNESS" ]
@@ -4116,7 +4387,7 @@
       { "point": [ 0, 3, 0 ], "overmap": "marina_20_north", "locations": [ "land" ] }
     ],
     "locations": [ "lake_surface", "lake_shore", "land" ],
-    "city_sizes": [ 4, 20 ],
+    "city_sizes": [ 0, 20 ],
     "occurrences": [ 75, 100 ],
     "connections": [ { "point": [ 2, 4, 0 ], "connection": "local_road", "from": [ 2, 3, 0 ] } ],
     "flags": [ "LAKE", "UNIQUE" ]
@@ -5624,7 +5895,7 @@
     "city_distance": [ 5, -1 ],
     "city_sizes": [ 4, -1 ],
     "occurrences": [ 10, 100 ],
-    "flags": [ "MILITARY", "UNIQUE", "ELECTRIC_GRID" ]
+    "flags": [ "MILITARY", "UNIQUE" ]
   },
   {
     "type": "overmap_special",
@@ -5952,5 +6223,48 @@
     "city_distance": [ 8, 40 ],
     "occurrences": [ 0, 10 ],
     "flags": [ "CLASSIC", "WILDERNESS", "ELECTRIC_GRID" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Shallow_Ore_Vein",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "surface_vein_indicator_north" },
+      { "point": [ 0, 0, -1 ], "overmap": "ore_vein_north" }
+    ],
+    "locations": [ "land" ],
+    "city_distance": [ 0, -1 ],
+    "occurrences": [ 0, 10 ],
+    "flags": [ "WILDERNESS" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "sunken_cargo_ship",
+    "rotate": false,
+    "overmaps": [
+      { "point": [ 0, 0, -5 ], "overmap": "cargo_ship_a_east", "locations": [ "lake_bed" ] },
+      { "point": [ 0, 1, -5 ], "overmap": "cargo_ship_b_east", "locations": [ "lake_bed" ] },
+      { "point": [ 0, 2, -5 ], "overmap": "cargo_ship_c_east", "locations": [ "lake_bed" ] },
+      { "point": [ 0, 0, -4 ], "overmap": "cargo_ship_1_a_east", "locations": [ "lake_water_cube" ] },
+      { "point": [ 0, 1, -4 ], "overmap": "cargo_ship_1_b_east", "locations": [ "lake_water_cube" ] },
+      { "point": [ 0, 2, -4 ], "overmap": "cargo_ship_1_c_east", "locations": [ "lake_water_cube" ] },
+      { "point": [ 0, 0, -3 ], "overmap": "cargo_ship_2_a_east", "locations": [ "lake_water_cube" ] },
+      { "point": [ 0, 1, -3 ], "overmap": "cargo_ship_2_b_east", "locations": [ "lake_water_cube" ] },
+      { "point": [ 0, 2, -3 ], "overmap": "cargo_ship_2_c_east", "locations": [ "lake_water_cube" ] }
+    ],
+    "locations": [ "lake_surface" ],
+    "occurrences": [ 0, 3 ],
+    "city_distance": [ 20, -1 ],
+    "flags": [ "LAKE" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "sunken_ship_wood",
+    "overmaps": [
+      { "point": [ 0, 0, -5 ], "overmap": "wooden_shipwreck_a_north", "locations": [ "lake_bed" ] },
+      { "point": [ 1, 0, -5 ], "overmap": "wooden_shipwreck_b_north", "locations": [ "lake_bed" ] }
+    ],
+    "locations": [ "lake_surface" ],
+    "occurrences": [ 0, 2 ],
+    "flags": [ "LAKE" ]
   }
 ]

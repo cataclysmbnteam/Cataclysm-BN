@@ -44,6 +44,8 @@
 #include "units.h"
 #include "weighted_list.h"
 
+using TraitSet = std::set<trait_id>;
+
 static const activity_id ACT_TREE_COMMUNION( "ACT_TREE_COMMUNION" );
 
 static const efftype_id effect_accumulated_mutagen( "accumulated_mutagen" );
@@ -68,7 +70,6 @@ static const trait_id trait_PER_ALPHA( "PER_ALPHA" );
 static const trait_id trait_ROBUST( "ROBUST" );
 static const trait_id trait_ROOTS2( "ROOTS2" );
 static const trait_id trait_ROOTS3( "ROOTS3" );
-static const trait_id trait_SELFAWARE( "SELFAWARE" );
 static const trait_id trait_SLIMESPAWNER( "SLIMESPAWNER" );
 static const trait_id trait_STR_ALPHA( "STR_ALPHA" );
 static const trait_id trait_THRESH_MARLOSS( "THRESH_MARLOSS" );
@@ -103,6 +104,16 @@ std::string enum_to_string<mutagen_technique>( mutagen_technique data )
 bool Character::has_trait( const trait_id &b ) const
 {
     return my_mutations.count( b ) || enchantment_cache->get_mutations().contains( b );
+}
+
+bool Character::has_one_of_traits( const TraitSet &trait_set ) const
+{
+    for( const trait_id &trait : trait_set ) {
+        if( my_mutations.contains( trait ) || enchantment_cache->get_mutations().contains( trait ) ) {
+            return true;
+        }
+    }
+    return false;
 }
 
 bool Character::has_trait_flag( const trait_flag_str_id &b ) const
@@ -214,13 +225,28 @@ void Character::apply_mods( const trait_id &mut, bool add_remove )
 
 bool mutation_branch::conflicts_with_item( const item &it ) const
 {
-    if( allow_soft_gear && it.is_soft() ) {
-        return false;
+    // Check if the mutation explicitly permits this item first.
+    for( const flag_id &allowed : allowed_items ) {
+        if( it.has_flag( allowed ) ) {
+            return false;
+        }
     }
-
     for( body_part bp : restricts_gear ) {
         if( it.covers( convert_bp( bp ).id() ) ) {
-            return true;
+            // If it's oversized, forbid it if we're ONLY permitting allowed_items, otherwise allow it
+            if( it.has_flag( STATIC( flag_id( "OVERSIZE" ) ) ) ||
+                it.has_flag( STATIC( flag_id( "resized_large" ) ) ) ) {
+                if( allowed_items_only ) {
+                    return true;
+                } else {
+                    return false;
+                }
+                // If we're still here, allow soft gear where relevant.
+            } else if( allow_soft_gear && it.is_soft() ) {
+                return false;
+            } else {
+                return true;
+            }
         }
     }
 
@@ -292,10 +318,6 @@ void Character::mutation_effect( const trait_id &mut )
     }
 
     remove_worn_items_with( [&]( detached_ptr<item> &&armor ) {
-        if( armor->has_flag( STATIC( flag_id( "OVERSIZE" ) ) ) ||
-            armor->has_flag( STATIC( flag_id( "resized_large" ) ) ) ) {
-            return std::move( armor );
-        }
         if( !branch.conflicts_with_item( *armor ) ) {
             return std::move( armor );
         }
@@ -541,10 +563,6 @@ void Character::activate_mutation( const trait_id &mut )
     } else if( mut == trait_M_PROVENANCE ) {
         spores(); // double trouble!
         blossoms();
-        tdata.powered = false;
-        return;
-    } else if( mut == trait_SELFAWARE ) {
-        print_health();
         tdata.powered = false;
         return;
     } else if( mut == trait_TREE_COMMUNION ) {
@@ -1701,6 +1719,15 @@ bool can_use_mutation( const trait_id &mut, const Character &character )
     // Fatigue can go to Exhausted.
     return !( ( mdata.hunger && character.get_kcal_percent() < 0.5f ) ||
               ( mdata.thirst && character.get_thirst() >= thirst_levels::dehydrated ) ||
+              ( mdata.stamina && character.get_stamina() <= 1000 ) ||
+              // 1000+ = too much stamina
+              ( mdata.pain && character.get_pain() >= 100 ) || // too much pain
+              ( mdata.bionic && character.get_power_level() <= units::from_kilojoule( 1 ) ) ||
+              // 1kJ or more = too much bionic power
+              ( mdata.mana && character.magic->available_mana() <= 10 ) ||
+              // 10 or more = too much mana
+              ( mdata.health && character.get_healthy() <= -100 ) ||
+              // 10 or more = too much mana
               ( mdata.fatigue && character.get_fatigue() >= fatigue_levels::exhausted ) );
 }
 
@@ -1737,6 +1764,22 @@ void Character::mutation_spend_resources( const trait_id &mut )
         }
         if( mdata.fatigue ) {
             mod_fatigue( cost );
+        }
+        if( mdata.stamina ) {
+            mod_stamina( -cost ); // flipped, because it should be consuming stamina not adding to it
+        }
+        if( mdata.mana ) {
+            magic->mod_mana( *this, -cost ); // flipped, because it should be consuming mana not adding to it
+        }
+        if( mdata.health ) {
+            mod_healthy( -cost ); // flipped, because it should be consuming health not adding to it
+        }
+        if( mdata.pain ) {
+            mod_pain( cost );
+        }
+        if( mdata.bionic ) {
+            // flipped, because it should be consuming bionic power not adding to it
+            mod_power_level( units::from_kilojoule( -cost ) );
         }
 
         // Handle stat changes from activation

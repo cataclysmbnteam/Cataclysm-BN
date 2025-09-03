@@ -738,7 +738,7 @@ class map
         vehicle *veh_at_internal( const tripoint &p, int &part_num );
         const vehicle *veh_at_internal( const tripoint &p, int &part_num ) const;
         // Put player on vehicle at x,y
-        void board_vehicle( const tripoint &p, player *pl );
+        void board_vehicle( const tripoint &p, Character *pl );
         // Remove given passenger from given vehicle part.
         // If dead_passenger, then null passenger is acceptable.
         void unboard_vehicle( const vpart_reference &, Character *passenger,
@@ -893,7 +893,7 @@ class map
          * Calls the examine function of furniture or terrain at given tile, for given character.
          * Will only examine terrain if furniture had @ref iexamine::none as the examine function.
          */
-        void examine( Character &p, const tripoint &pos );
+        void examine( Character &who, const tripoint &pos );
 
         /**
          * Returns true if point at pos is harvestable right now, with no extra tools.
@@ -1251,6 +1251,13 @@ class map
         detached_ptr<item> add_item_or_charges( point p, detached_ptr<item> &&obj, bool overflow = true ) {
             return add_item_or_charges( tripoint( p, abs_sub.z ), std::move( obj ), overflow );
         }
+
+        /**
+         * Checks for spawn_rate value for item category of 'itm'.
+         * If spawn_rate is less than 1.0, it will make a random roll (0.1-1.0) to check if the item will have a chance to spawn.
+         * If spawn_rate is more than or equal to 1.0, it will make item spawn that many times (using roll_remainder).
+        */
+        float item_category_spawn_rate( const item &itm );
 
         /**
          * Place an item on the map, despite the parameter name, this is not necessarily a new item.
@@ -1804,7 +1811,7 @@ class map
     protected:
         void generate_lightmap( int zlev );
         void build_seen_cache( const tripoint &origin, int target_z );
-        void apply_character_light( Character &p );
+        void apply_character_light( Character &who );
 
         //Adds/removes player specific transparencies
         void apply_vision_transparency_cache( const tripoint &center, int target_z,

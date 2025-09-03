@@ -9,6 +9,8 @@
 #include <unordered_map>
 
 #include "avatar.h"
+#include "bodypart.h"
+#include "catalua_hooks.h"
 #include "character.h"
 #include "coordinate_conversions.h"
 #include "creature_tracker.h"
@@ -1280,7 +1282,7 @@ Creature *monster::attack_target()
     return target;
 }
 
-bool monster::is_fleeing( player &u ) const
+bool monster::is_fleeing( Character &who ) const
 {
     if( effect_cache[FLEEING] ) {
         return true;
@@ -1288,8 +1290,8 @@ bool monster::is_fleeing( player &u ) const
     if( anger >= 100 || morale >= 100 ) {
         return false;
     }
-    monster_attitude att = attitude( &u );
-    return att == MATT_FLEE || ( att == MATT_FOLLOW && rl_dist( pos(), u.pos() ) <= 4 );
+    monster_attitude att = attitude( &who );
+    return att == MATT_FLEE || ( att == MATT_FOLLOW && rl_dist( pos(), who.pos() ) <= 4 );
 }
 
 Attitude monster::attitude_to( const Creature &other ) const
@@ -1959,11 +1961,17 @@ void monster::melee_attack( Creature &target, float accuracy )
 
 void monster::deal_projectile_attack( Creature *source, dealt_projectile_attack &attack )
 {
-    this->deal_projectile_attack( source, nullptr, attack );
+    this->deal_projectile_attack( source, nullptr, attack, false );
 }
 
 void monster::deal_projectile_attack( Creature *source, item *source_weapon,
                                       dealt_projectile_attack &attack )
+{
+    this->deal_projectile_attack( source, source_weapon,  attack, false );
+}
+
+void monster::deal_projectile_attack( Creature *source, item *source_weapon,
+                                      dealt_projectile_attack &attack, bool manual_retaliation )
 {
     const auto &proj = attack.proj;
     double &missed_by = attack.missed_by; // We can change this here
@@ -1978,16 +1986,17 @@ void monster::deal_projectile_attack( Creature *source, item *source_weapon,
         return;
     }
 
-    // No head = immune to ranged crits
-    if( missed_by < accuracy_critical && has_flag( MF_NOHEAD ) ) {
-        missed_by = accuracy_critical;
-    }
+    // Handled in creature::deal_projectile_attack now, so that not having a head does not make it somehow less likely to hit the torso.
+    //// No head = immune to ranged crits
+    //if( missed_by < accuracy_critical && has_flag( MF_NOHEAD ) ) {
+    //    missed_by = accuracy_critical;
+    //}
 
     Creature::deal_projectile_attack( source, source_weapon, attack );
 
     if( !is_hallucination() && attack.hit_critter == this ) {
         // Maybe TODO: Get difficulty from projectile speed/size/missed_by
-        on_hit( source, bodypart_id( "torso" ), &attack );
+        on_hit( source, bodypart_id( "torso" ), &attack, manual_retaliation );
     }
 }
 
@@ -2797,6 +2806,10 @@ void monster::die( Creature *nkiller )
             }
         }
     }
+    cata::run_hooks( "on_mon_death", [ &, this]( auto & params ) {
+        params["mon"] = this;
+        params["killer"] = get_killer();
+    } );
 }
 
 bool monster::use_mech_power( int amt )
@@ -3254,11 +3267,16 @@ float monster::speed_rating() const
 
 void monster::on_hit( Creature *source, bodypart_id, dealt_projectile_attack const *const proj )
 {
+    this->on_hit( source, bodypart_id( "torso" ), proj, false );
+}
+void monster::on_hit( Creature *source, bodypart_id, dealt_projectile_attack const *const proj,
+                      bool manual_retaliation )
+{
     if( is_hallucination() ) {
         return;
     }
 
-    if( rng( 0, 100 ) <= static_cast<int>( type->def_chance ) ) {
+    if( rng( 0, 100 ) <= static_cast<int>( type->def_chance ) && !manual_retaliation ) {
         type->sp_defense( *this, source, proj );
     }
 

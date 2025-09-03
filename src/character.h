@@ -30,11 +30,14 @@
 #include "enum_int_operators.h"
 #include "enums.h"
 #include "flat_set.h"
+#include "mutation.h"
+#include "bionics.h"
 #include "game_constants.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_handling_util.h"
 #include "memory_fast.h"
+#include "mtype.h"
 #include "pimpl.h"
 #include "player_activity_ptr.h"
 #include "pldata.h"
@@ -366,16 +369,16 @@ class Character : public Creature, public location_visitable<Character>
         void print_health() const;
 
         /** Getters for health values exclusive to characters */
-        virtual int get_healthy() const;
-        virtual int get_healthy_mod() const;
+        virtual float get_healthy() const;
+        virtual float get_healthy_mod() const;
 
         /** Modifiers for health values exclusive to characters */
-        virtual void mod_healthy( int nhealthy );
-        virtual void mod_healthy_mod( int nhealthy_mod, int cap );
+        virtual void mod_healthy( float nhealthy );
+        virtual void mod_healthy_mod( float nhealthy_mod, float cap );
 
         /** Setters for health values exclusive to characters */
-        virtual void set_healthy( int nhealthy );
-        virtual void set_healthy_mod( int nhealthy_mod );
+        virtual void set_healthy( float nhealthy );
+        virtual void set_healthy_mod( float nhealthy_mod );
 
         /** Getter for need values exclusive to characters */
         int get_stored_kcal() const;
@@ -660,6 +663,9 @@ class Character : public Creature, public location_visitable<Character>
                                  bool crit, bool dodge_counter, bool block_counter );
         void perform_technique( const ma_technique &technique, Creature &t, damage_instance &di,
                                 int &move_cost );
+
+        /** Broken out of below function for the purpose of using it in other places, namely item info displays */
+        int get_melee_stamina_cost( const item &weapon );
         /**
          * Sets up a melee attack and handles melee attack function calls
          * @param t Creature to attack
@@ -766,6 +772,10 @@ class Character : public Creature, public location_visitable<Character>
         // In mutation.cpp
         /** Returns true if the player has the entered trait */
         bool has_trait( const trait_id &b ) const override;
+
+        /** Returns true if the player has one of the traits from set */
+        bool has_one_of_traits( const TraitSet &trait_set ) const;
+
         /** Returns true if the player has the entered starting trait */
         bool has_base_trait( const trait_id &b ) const;
         /** Returns true if player has a trait with a flag */
@@ -938,6 +948,8 @@ class Character : public Creature, public location_visitable<Character>
         int mabuff_speed_bonus() const;
         /** Returns the arpen bonus from martial arts buffs*/
         int mabuff_arpen_bonus( damage_type type ) const;
+        /** Returns the target armor multiplier from martial arts buffs */
+        float mabuff_tg_armor_mult( damage_type type ) const;
         /** Returns the damage multiplier to given type from martial arts buffs */
         float mabuff_damage_mult( damage_type type ) const;
         /** Returns the flat damage bonus to given type from martial arts buffs, applied after the multiplier */
@@ -1058,7 +1070,7 @@ class Character : public Creature, public location_visitable<Character>
         int get_free_bionics_slots( const bodypart_id &bp ) const;
 
         /** Handles process of introducing patient into anesthesia during Autodoc operations. Requires anesthesia kits or NOPAIN mutation */
-        void introduce_into_anesthesia( const time_duration &duration, player &installer,
+        void introduce_into_anesthesia( const time_duration &duration, Character &installer,
                                         bool needs_anesthesia );
         /** Removes a bionic from my_bionics[] */
         void remove_bionic( const bionic_id &b );
@@ -1077,11 +1089,11 @@ class Character : public Creature, public location_visitable<Character>
                               const skill_id &least_important_skill,
                               int skill_level = -1 );
         /**Is the installation possible*/
-        bool can_install_bionics( const itype &type, player &installer, bool autodoc = false,
+        bool can_install_bionics( const itype &type, Character &installer, bool autodoc = false,
                                   int skill_level = -1 );
         std::map<bodypart_id, int> bionic_installation_issues( const bionic_id &bioid ) const;
         /** Initialize all the values needed to start the operation player_activity */
-        bool install_bionics( const itype &type, player &installer, bool autodoc = false,
+        bool install_bionics( const itype &type, Character &installer, bool autodoc = false,
                               int skill_level = -1 );
         /**Success or failure of installation happens here*/
         void perform_install( bionic_id bid, bionic_id upbid, int difficulty, int success,
@@ -1092,10 +1104,10 @@ class Character : public Creature, public location_visitable<Character>
                                       int success, float adjusted_skill );
 
         /**Is The uninstallation possible*/
-        bool can_uninstall_bionic( const bionic_id &b_id, player &installer, bool autodoc = false,
+        bool can_uninstall_bionic( const bionic_id &b_id, Character &installer, bool autodoc = false,
                                    int skill_level = -1 );
         /** Initialize all the values needed to start the operation player_activity */
-        bool uninstall_bionic( const bionic_id &b_id, player &installer, bool autodoc = false,
+        bool uninstall_bionic( const bionic_id &b_id, Character &installer, bool autodoc = false,
                                int skill_level = -1 );
         /**Succes or failure of removal happens here*/
         void perform_uninstall( bionic_id bid, int difficulty, int success, const units::energy &power_lvl,
@@ -1104,10 +1116,10 @@ class Character : public Creature, public location_visitable<Character>
         void bionics_uninstall_failure( int difficulty, int success, float adjusted_skill );
 
         /**Used by monster to perform surgery*/
-        bool uninstall_bionic( const bionic &target_cbm, monster &installer, player &patient,
+        bool uninstall_bionic( const bionic &target_cbm, monster &installer, Character &patient,
                                float adjusted_skill );
         /**When a monster fails the surgery*/
-        void bionics_uninstall_failure( monster &installer, player &patient, int difficulty, int success,
+        void bionics_uninstall_failure( monster &installer, Character &patient, int difficulty, int success,
                                         float adjusted_skill );
 
         /**Convert fuel to bionic power*/
@@ -1705,12 +1717,11 @@ class Character : public Creature, public location_visitable<Character>
         int slow_rad = 0;
 
         int focus_pool = 0;
+        std::set<mtype_id> known_monsters;
         int cash = 0;
         std::set<character_id> follower_ids;
         weak_ptr_fast<Creature> last_target;
         std::optional<tripoint> last_target_pos;
-        // Save favorite ammo location
-        safe_reference<item> ammo_location;
         /* crafting inventory cached time */
         time_point cached_time;
 
@@ -1723,6 +1734,13 @@ class Character : public Creature, public location_visitable<Character>
         bool has_addiction( add_type type ) const;
         /** Returns the intensity of the specified addiction */
         int  addiction_level( add_type type ) const;
+
+        /** This character becomes familiar with creatures of the given type **/
+        void set_knows_creature_type( const mtype_id &c );
+        /** Returns a list of all monster types known by this character **/
+        const std::set<mtype_id> &get_known_monsters() const {
+            return known_monsters;
+        }
 
         shared_ptr_fast<monster> mounted_creature;
         // for loading NPC mounts
@@ -1896,7 +1914,7 @@ class Character : public Creature, public location_visitable<Character>
         void on_stat_change( const std::string &stat, int value ) override;
 
         /** Removes "sleep" and "lying_down" */
-        void wake_up();
+        virtual void wake_up();
         // how loud a character can shout. based on mutations and clothing
         int get_shout_volume() const;
         // shouts a message
@@ -2262,8 +2280,8 @@ class Character : public Creature, public location_visitable<Character>
         int int_bonus = 0;
 
         /** How healthy the character is. */
-        int healthy = 0;
-        int healthy_mod = 0;
+        float healthy = 0;
+        float healthy_mod = 0;
 
         /** age in years at character creation */
         int init_age = 25;
@@ -2536,6 +2554,34 @@ class Character : public Creature, public location_visitable<Character>
         int last_batch = 0;
         itype_id lastconsumed;        //used in crafting.cpp and construction.cpp
 
+    public:
+
+
+        /**
+         * Remove charges from a specific item (given by its item position).
+         * The item must exist and it must be counted by charges.
+         * @param position Item position of the item.
+         * @param quantity The number of charges to remove, must not be larger than
+         * the current charges of the item.
+         * @return An item that contains the removed charges, it's effectively a
+         * copy of the item with the proper charges.
+         */
+        detached_ptr<item> reduce_charges( int position, int quantity );
+        /**
+         * Remove charges from a specific item (given by a pointer to it).
+         * Otherwise identical to @ref reduce_charges(int,int)
+         * @param it A pointer to the item, it *must* exist.
+         * @param quantity How many charges to remove
+         * @return An item that contains the removed charges, it's effectively a
+         * copy of the item with the proper charges.
+         */
+        detached_ptr<item> reduce_charges( item *it, int quantity );
+
+        //sound
+        int volume = 0;
+        // Relative direction of a grab, add to posx, posy to get the coordinates of the grabbed thing.
+        tripoint grab_point = tripoint_zero;
+
 };
 
 Character &get_player_character();
@@ -2572,8 +2618,4 @@ nc_color bodytemp_color( const Character &c, const bodypart_str_id &bp );
 
 /** Returns true if the player has a psyshield artifact, or sometimes if wearing tinfoil */
 bool has_psy_protection( const Character &c, int partial_chance );
-
-/** Returns value of speedydex bonus if enabled */
-int get_speedydex_bonus( const int dex );
-
 

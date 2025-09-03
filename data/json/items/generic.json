@@ -278,7 +278,7 @@
     "weight": "4500 mg",
     "volume": "25 ml",
     "to_hit": -2,
-    "flags": [ "UNRECOVERABLE", "NO_SALVAGE" ],
+    "flags": [ "UNRECOVERABLE" ],
     "stackable": true
   },
   {
@@ -288,7 +288,7 @@
     "category": "chems",
     "color": "brown",
     "name": { "str": "bone glue" },
-    "description": "Glue made from boiling animal bones.  The adhesive isn't strong enough for heavy-duty usages, but it can be used as a varnish or holding together small items.",
+    "description": "Glue made from boiling animal bones.  The adhesive isn't strong enough for heavy-duty usages, but it can be used to hold together small items.",
     "price": "18 USD",
     "price_postapoc": "50 cent",
     "material": [ "bone" ],
@@ -1126,8 +1126,8 @@
     "price": "10 USD",
     "price_postapoc": "10 cent",
     "material": [ "steel", "plastic" ],
-    "weight": "100 kg",
-    "volume": "65 L",
+    "weight": "360 kg",
+    "volume": "175 L",
     "bashing": 4,
     "cutting": 4,
     "to_hit": -3,
@@ -2122,8 +2122,8 @@
     "description": "A compacted mass of soil and natural fibers, baked dry enough to harden into a brick.",
     "material": "soil",
     "flags": [ "NONCONDUCTIVE" ],
-    "weight": "1500 g",
-    "volume": "750 ml",
+    "weight": "6000 g",
+    "volume": "4000 ml",
     "bashing": 10,
     "to_hit": -2,
     "price": "20 USD",
@@ -2370,6 +2370,21 @@
   },
   {
     "type": "GENERIC",
+    "id": "money_pile",
+    "symbol": ",",
+    "color": "light_green",
+    "name": { "str": "pile of money", "str_pl": "piles of money" },
+    "looks_like": "money_bundle",
+    "category": "valuables",
+    "description": "A pile of cash.  Can be used to fill a bathtub with cash or as a comforting reminder of the past.",
+    "material": [ "paper" ],
+    "flags": [ "TRADER_AVOID", "SLEEP_AID" ],
+    "weight": "200 g",
+    "volume": "2500 ml",
+    "to_hit": -2
+  },
+  {
+    "type": "GENERIC",
     "id": "straw_doll",
     "symbol": "o",
     "color": "light_gray",
@@ -2468,8 +2483,12 @@
     "symbol": ",",
     "material": [ "paper" ],
     "volume": "250 ml",
-    "price": "0 cent",
-    "category": "scrap_wood"
+    "//": "1 gram for any given bill, so 20 x 20 = 400",
+    "price": "400 USD",
+    "price_postapoc": "25 cent",
+    "category": "valuables",
+    "stackable": true,
+    "flags": [ "TINDER" ]
   },
   {
     "id": "pouch_autoclave",
@@ -2518,7 +2537,7 @@
     "symbol": "!",
     "description": "The smoke billowing from this blunt has a sweet, fruity odor.",
     "category": "drugs",
-    "emits": [ "emit_tobacco_trail" ],
+    "emits": [ "emit_blunt_trail" ],
     "use_action": [
       { "type": "firestarter", "moves": 200, "moves_slow": 2000 },
       {
@@ -2529,7 +2548,7 @@
         "type": "transform"
       }
     ],
-    "flags": [ "LITCIG", "TOBACCO", "LIGHT_4", "TRADER_AVOID", "FIRESTARTER" ]
+    "flags": [ "LITCIG", "MARIJUANA", "TOBACCO", "LIGHT_4", "TRADER_AVOID", "FIRESTARTER" ]
   },
   {
     "type": "GENERIC",
@@ -2605,7 +2624,7 @@
         "type": "transform"
       }
     ],
-    "flags": [ "LITCIG", "LIGHT_4", "TRADER_AVOID", "FIRESTARTER" ]
+    "flags": [ "LITCIG", "MARIJUANA", "LIGHT_4", "TRADER_AVOID", "FIRESTARTER" ]
   },
   {
     "type": "GENERIC",
@@ -3270,6 +3289,24 @@
     "color": "green",
     "name": { "str": "broken longrange milspec turret" },
     "weight": "50 kg",
+    "copy-from": "broken_turret"
+  },
+  {
+    "type": "GENERIC",
+    "id": "broken_turret_antimateriel",
+    "symbol": ",",
+    "color": "green",
+    "name": { "str": "broken anti-materiel milspec turret" },
+    "weight": "80 kg",
+    "copy-from": "broken_turret"
+  },
+  {
+    "type": "GENERIC",
+    "id": "broken_turret_mark19",
+    "symbol": ",",
+    "color": "green",
+    "name": { "str": "broken grenade launcher milspec turret" },
+    "weight": "120 kg",
     "copy-from": "broken_turret"
   },
   {

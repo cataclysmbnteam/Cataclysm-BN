@@ -203,6 +203,7 @@
       [ "antiparasitic", 10 ],
       [ "survnote", 1 ],
       [ "diazepam", 10 ],
+      [ "ghb", 10 ],
       [ "stethoscope", 35 ],
       [ "jar_3l_glass", 15 ],
       [ "magnifying_glass", 5 ],
@@ -256,6 +257,7 @@
       [ "smoxygen_tank", 10 ],
       [ "antiparasitic", 3 ],
       [ "diazepam", 3 ],
+      [ "ghb", 3 ],
       [ "recipe_augs", 3 ],
       { "group": "religious_books", "prob": 54 },
       [ "recipe_medicalmut", 1 ],
@@ -280,6 +282,12 @@
       { "item": "chunk_sulfur", "prob": 10 },
       { "item": "iron_ore", "prob": 5 }
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "spring_minerals",
+    "subtype": "distribution",
+    "entries": [ { "item": "material_rocksalt", "prob": 75 }, { "item": "chunk_sulfur", "prob": 25 } ]
   },
   {
     "id": "prison_textile",
@@ -559,6 +567,7 @@
       [ "small_scuba_tank", 5 ],
       [ "dive_bag", 10 ],
       [ "rebreather", 2 ],
+      [ "sea_scooter", 1 ],
       [ "rebreather_filter", 4 ],
       [ "glowstick", 60 ],
       [ "handflare", 40 ],
@@ -571,7 +580,60 @@
       [ "fish_trap", 100 ],
       [ "bucket", 100 ],
       [ "fishing_hook_basic", 100 ],
-      [ "fishing_hook_bone", 100 ]
+      [ "fishing_hook_bone", 100 ],
+      [ "waterwaymap", 25 ]
+    ]
+  },
+  {
+    "id": "fishing_items_trash",
+    "type": "item_group",
+    "//": "For underwater locations, the idea is these items have sunk to the bottom.",
+    "items": [
+      [ "plastic_shopping_bag", 30 ],
+      [ "plastic_sheet", 20 ],
+      [ "rag", 30 ],
+      [ "wire", 30 ],
+      [ "chain", 10 ],
+      [ "bag_plastic", 30 ],
+      [ "bottle_plastic", 30 ],
+      [ "bottle_plastic_small", 30 ],
+      [ "bottle_glass", 30 ],
+      [ "bucket", 10 ],
+      [ "can_drink_unsealed", 30 ],
+      [ "can_food_unsealed", 30 ],
+      [ "fishing_hook_basic", 30 ],
+      [ "fishing_hook_bone", 30 ],
+      [ "fishing_rod_professional", 5 ],
+      [ "fishing_rod_basic", 5 ],
+      [ "fish_bait", 5 ],
+      [ "fish_trap", 20 ],
+      [ "rope_6", 10 ],
+      [ "rope_30", 20 ],
+      [ "fishing_waders", 5 ],
+      [ "glowstick", 15 ],
+      [ "grapnel", 10 ],
+      [ "stick", 50 ],
+      [ "log", 50 ],
+      [ "razor_blade", 10 ],
+      [ "glass_shard", 20 ],
+      [ "scrap", 20 ],
+      [ "scrap_copper", 20 ],
+      [ "pipe", 20 ],
+      [ "battery_car", 5 ],
+      [ "wheel", 20 ]
+    ]
+  },
+  {
+    "id": "fishing_boat_fridge",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "water_clean", "prob": 50, "count": [ 1, 3 ] },
+      { "item": "water_mineral", "prob": 20, "count": [ 1, 2 ] },
+      { "group": "alcohol_bottled_canned", "prob": 95 },
+      { "group": "alcohol_bottled_canned", "prob": 95 },
+      { "group": "alcohol_bottled_canned", "prob": 95 },
+      { "item": "fish", "prob": 95, "count": [ 10, 40 ] }
     ]
   },
   {
@@ -1080,6 +1142,7 @@
       [ "flintlock_shot", 40 ],
       [ "shotgun_paper", 50 ],
       [ "colt_army", 50 ],
+      [ "colt_ring", 50 ],
       [ "colt_navy", 50 ],
       [ "shot_paper_00", 25 ],
       [ "shot_paper_bird", 15 ],
@@ -1136,6 +1199,7 @@
       [ "meth", 90 ],
       [ "jar_glass", 80 ],
       [ "heroin", 1 ],
+      [ "ghb", 1 ],
       { "item": "bleach", "prob": 60, "charges-min": 10 },
       { "item": "ammonia", "prob": 60, "charges-min": 10 },
       [ "syringe", 30 ],
@@ -1458,6 +1522,7 @@
       { "item": "coke", "prob": 8 },
       { "item": "meth", "prob": 2 },
       { "item": "heroin", "prob": 1 },
+      { "item": "ghb", "prob": 1 },
       { "item": "sizzurp", "prob": 4 },
       { "item": "syringe", "prob": 8 },
       { "item": "electrohack", "prob": 3 },
@@ -1524,6 +1589,7 @@
       { "item": "joint", "prob": 10 },
       { "item": "rolling_paper", "prob": 5 },
       { "item": "heroin", "prob": 2 },
+      { "item": "ghb", "prob": 2 },
       { "item": "syringe", "prob": 2 },
       { "item": "mag_porn", "prob": 30 },
       { "item": "mag_survival", "prob": 20 },
@@ -1674,6 +1740,19 @@
     ]
   },
   {
+    "id": "toxic_waste",
+    "type": "item_group",
+    "items": [
+      { "item": "water_sewage", "container-item": "55gal_drum", "charges": [ 1, 200 ], "prob": 50 },
+      { "item": "nuclear_waste", "container-item": "hazardous_waste_drum", "charges": [ 1, 200 ], "prob": 20 },
+      { "item": "plut_slurry", "container-item": "hazardous_waste_drum", "charges": [ 1, 2000 ], "prob": 10 },
+      { "item": "plut_slurry_dense", "container-item": "hazardous_waste_drum", "charges": [ 1, 2000 ], "prob": 5 },
+      { "item": "cobalt_60", "prob": 5 },
+      { "item": "slime_scrap", "prob": 5 },
+      { "item": "mutagen", "container-item": "55gal_drum", "charges": [ 1, 200 ], "prob": 5 }
+    ]
+  },
+  {
     "type": "item_group",
     "id": "lab_dorm",
     "ammo": 50,
@@ -1694,6 +1773,7 @@
       [ "coke", 8 ],
       [ "meth", 2 ],
       [ "heroin", 1 ],
+      [ "ghb", 2 ],
       [ "sizzurp", 3 ],
       [ "sneakers", 40 ],
       [ "mask_hockey", 5 ],
@@ -1814,7 +1894,8 @@
       [ "badge_doctor", 5 ],
       [ "dnd_handbook", 2 ],
       [ "bodypillow", 1 ],
-      [ "pirate_flag", 5 ]
+      [ "pirate_flag", 5 ],
+      [ "afs_atomic_smartphone", 1 ]
     ]
   },
   {
@@ -1876,6 +1957,7 @@
       [ "mouthpiece", 5 ],
       [ "roller_blades", 20 ],
       [ "folding_skateboard", 10 ],
+      [ "folding_wagon", 5 ],
       [ "rollerskates", 10 ],
       [ "rollerskates", 10 ],
       [ "roller_shoes_off", 10 ],
@@ -2147,6 +2229,7 @@
       [ "gold_small", 10 ],
       [ "silver_small", 30 ],
       [ "money_bundle", 50 ],
+      [ "money_pile", 25 ],
       [ "pocketwatch", 11 ],
       [ "gold_watch", 12 ],
       [ "sf_watch", 10 ],
@@ -2609,6 +2692,7 @@
       { "item": "lemat_revolver", "prob": 5 },
       { "item": "colt_army", "prob": 5 },
       { "item": "colt_navy", "prob": 5 },
+      { "item": "colt_ring", "prob": 5 },
       { "item": "longrifle_flintlock", "prob": 7 },
       { "item": "rifle_flintlock", "prob": 3 },
       { "item": "carbine_flintlock", "prob": 2 },
@@ -2658,21 +2742,13 @@
     "id": "fort_crate",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [
-      { "item": "cannonball_4lb", "prob": 100, "count": [ 1, 10 ] },
-      { "item": "rag", "prob": 50, "count": [ 1, 25 ] },
-      { "item": "gatlingdrum240", "prob": 25 }
-    ]
+    "entries": [ { "group": "supplies_cannonball", "prob": 100 }, { "item": "gatlingdrum240", "prob": 25 } ]
   },
   {
     "id": "fort_powderbarrel",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [
-      { "item": "chem_black_powder", "charges": [ 100, 2500 ], "container-item": "wooden_barrel_small" },
-      { "item": "chem_black_powder", "charges": [ 100, 2500 ], "container-item": "wooden_barrel_small", "prob": 50 },
-      { "item": "4570_low", "charges": [ 1, 240 ], "prob": 50 }
-    ]
+    "entries": [ { "group": "supplies_powder_mag", "prob": 100 }, { "item": "4570_low", "charges": [ 1, 240 ], "prob": 50 } ]
   },
   {
     "type": "item_group",

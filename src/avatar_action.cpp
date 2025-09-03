@@ -362,8 +362,8 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
     bool toDeepWater = m.has_flag( TFLAG_DEEP_WATER, dest_loc );
     bool fromSwimmable = m.has_flag( flag_SWIMMABLE, you.pos() );
     bool fromDeepWater = m.has_flag( TFLAG_DEEP_WATER, you.pos() );
-    bool fromBoat = veh0 != nullptr && veh0->is_in_water();
-    bool toBoat = veh1 != nullptr && veh1->is_in_water();
+    bool fromBoat = veh0 != nullptr;
+    bool toBoat = veh1 != nullptr;
     if( is_riding ) {
         if( !you.check_mount_will_move( dest_loc ) ) {
             if( you.is_auto_moving() ) {
@@ -464,6 +464,21 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
         // Only lose movement if we're blind
         if( waste_moves ) {
             you.moves -= 100;
+        }
+        // Add to map memory if blind
+        if( you.is_blind() ) {
+            std::string obstacle;
+            if( m.veh_at( dest_loc ) ) {
+                char part_mod = 0;
+                const vpart_id &vp_id = m.veh_at( dest_loc )->vehicle().part_id_string( m.veh_at(
+                                            dest_loc )->part_index(), false, part_mod );
+                obstacle = "vp_" + vp_id.str();
+            } else {
+                obstacle = m.has_furn( dest_loc ) ? m.furn( dest_loc ).id().str() : m.ter(
+                               dest_loc ).id().str();
+            }
+            // TODO: Figure out how to make subtile and rotation work right here
+            you.memorize_tile( m.getabs( dest_loc ), obstacle, 0, 0 );
         }
     } else if( m.ter( dest_loc ) == t_door_locked || m.ter( dest_loc ) == t_door_locked_peep ||
                m.ter( dest_loc ) == t_door_locked_alarm || m.ter( dest_loc ) == t_door_locked_interior ) {
@@ -584,6 +599,9 @@ void avatar_action::swim( map &m, avatar &you, const tripoint &p )
         if( !vp->vehicle().handle_potential_theft( you ) ) {
             return;
         }
+    }
+    if( m.has_flag_ter_or_furn( TFLAG_HIDE_PLACE, p ) ) {
+        add_msg( m_good, _( "You are hiding in the %s." ), m.name( p ) );
     }
     you.setpos( p );
     g->update_map( you );

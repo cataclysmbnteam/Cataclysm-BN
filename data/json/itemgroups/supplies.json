@@ -623,5 +623,76 @@
         "prob": 50
       }
     ]
+  },
+  {
+    "id": "supplies_naval_cache",
+    "//": "Historic provisions, used in bastion forts and pirate ships.",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      { "item": "water_clean", "charges": [ 1, 40 ], "container-item": "wooden_barrel_small", "prob": 75 },
+      {
+        "distribution": [
+          { "item": "hardtack", "charges": [ 1, 40 ], "container-item": "bag_canvas_small", "prob": 50 },
+          { "item": "flour", "charges": [ 1, 20 ], "container-item": "bag_canvas_small", "prob": 25 },
+          { "item": "dry_beans", "charges": [ 1, 12 ], "container-item": "bag_canvas_small", "prob": 25 }
+        ],
+        "prob": 75
+      },
+      {
+        "distribution": [
+          { "item": "salted_fish", "charges": [ 1, 6 ], "container-item": "bag_canvas_small", "prob": 50 },
+          { "item": "potted_meat", "charges": [ 1, 2 ], "container-item": "bag_canvas_small", "prob": 25 },
+          { "item": "pemmican", "charges": [ 1, 2 ], "container-item": "bag_canvas_small", "prob": 15 },
+          { "item": "dry_meat", "charges": [ 1, 2 ], "container-item": "bag_canvas_small", "prob": 5 },
+          { "item": "jerky", "charges": [ 1, 2 ], "container-item": "bag_canvas_small", "prob": 5 }
+        ],
+        "prob": 50
+      },
+      {
+        "distribution": [
+          { "item": "dry_veggy", "charges": [ 1, 4 ], "container-item": "bag_canvas_small", "prob": 50 },
+          { "item": "dry_fruit", "charges": [ 1, 5 ], "container-item": "bag_canvas_small", "prob": 25 },
+          { "item": "fruit_leather", "charges": [ 1, 2 ], "container-item": "bag_canvas_small", "prob": 25 }
+        ],
+        "prob": 25
+      },
+      { "item": "rum", "charges": [ 1, 42 ], "container-item": "jar_3l_glass", "prob": 50 }
+    ]
+  },
+  {
+    "id": "supplies_cannonball",
+    "//": "Non-volatile components for cannon loading, used in bastion forts and pirate ships.",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      { "item": "cannonball_4lb", "count": [ 1, 10 ] },
+      { "item": "rag", "prob": 50, "count": [ 1, 25 ] },
+      { "item": "lead", "prob": 25, "charges": [ 800, 1600 ] }
+    ]
+  },
+  {
+    "id": "supplies_powder_mag",
+    "//": "Volatile components for cannon loading, used in bastion forts and pirate ships.",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      { "item": "chem_black_powder", "charges": [ 100, 2500 ], "container-item": "wooden_barrel_small" },
+      { "item": "chem_black_powder", "charges": [ 100, 2500 ], "container-item": "wooden_barrel_small", "prob": 50 },
+      { "item": "fuse", "charges": [ 1, 5 ], "prob": 25 }
+    ]
+  },
+  {
+    "id": "supplies_ship_rigging",
+    "//": "Spare rope and sailcloth for a replica sailing vessel, and associated tools",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      { "item": "rope_30", "prob": 50 },
+      { "item": "rope_6", "count": [ 1, 5 ], "prob": 50 },
+      { "item": "sheet", "prob": 25 },
+      { "item": "bucket", "prob": 50 },
+      { "item": "hand_paddles", "prob": 25 }
+    ]
   }
 ]

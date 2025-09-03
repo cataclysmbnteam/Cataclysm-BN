@@ -8,7 +8,7 @@
     "location": "on_roof",
     "folded_volume": "5 L",
     "requirements": { "install": { "time": "100 s" }, "removal": { "time": "50 s" } },
-    "flags": [ "TURRET", "FOLDABLE" ]
+    "flags": [ "TURRET", "FOLDABLE", "SHOCK_RESISTANT" ]
   },
   {
     "id": "mounted_chemical_thrower",
@@ -37,7 +37,7 @@
       { "item": "splinter", "count": [ 8, 16 ] },
       { "item": "string_36", "count": [ 3, 6 ] }
     ],
-    "requirements": { "install": { "skills": [ [ "mechanics", 3 ], [ "rifle", 1 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
+    "requirements": { "install": { "skills": [ [ "mechanics", 2 ] ] }, "removal": { "skills": [ [ "mechanics", 0 ] ] } }
   },
   {
     "id": "mounted_rep_crossbow",
@@ -50,7 +50,20 @@
     "color": "green",
     "broken_color": "green",
     "breaks_into": [ { "item": "splinter", "count": [ 4, 8 ] }, { "item": "string_6", "count": [ 1, 2 ] } ],
-    "requirements": { "install": { "skills": [ [ "mechanics", 3 ], [ "rifle", 1 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
+    "requirements": { "install": { "skills": [ [ "mechanics", 2 ] ] }, "removal": { "skills": [ [ "mechanics", 0 ] ] } }
+  },
+  {
+    "id": "mounted_carbon_rep_crossbow",
+    "copy-from": "turret",
+    "type": "vehicle_part",
+    "name": { "str": "mounted carbon fiber repeating crossbow" },
+    "item": "crossbow_carbon",
+    "folded_volume": "2500 ml",
+    "looks_like": "mounted_rep_crossbow",
+    "color": "green",
+    "broken_color": "green",
+    "breaks_into": [ { "item": "carbon_fiber_filament", "charges": [ 50, 100 ] }, { "item": "string_6", "count": [ 1, 2 ] } ],
+    "requirements": { "install": { "skills": [ [ "mechanics", 2 ] ] }, "removal": { "skills": [ [ "mechanics", 0 ] ] } }
   },
   {
     "id": "mounted_emp_gun",
@@ -248,7 +261,7 @@
     "color": "green",
     "broken_color": "green",
     "breaks_into": [ { "item": "scrap", "count": 14 }, { "item": "steel_chunk", "count": 6 }, { "item": "steel_lump", "count": 2 } ],
-    "requirements": { "install": { "skills": [ [ "mechanics", 3 ], [ "shotgun", 1 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
+    "requirements": { "install": { "skills": [ [ "mechanics", 4 ], [ "shotgun", 2 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
   },
   {
     "id": "mounted_helsing",
@@ -261,7 +274,7 @@
     "color": "dark_gray",
     "broken_color": "dark_gray",
     "breaks_into": [ { "item": "scrap", "count": [ 5, 10 ] }, { "item": "splinter", "count": [ 2, 4 ] } ],
-    "requirements": { "install": { "skills": [ [ "mechanics", 3 ], [ "rifle", 1 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
+    "requirements": { "install": { "skills": [ [ "mechanics", 4 ], [ "rifle", 2 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
   },
   {
     "id": "mounted_tihar",
@@ -274,7 +287,7 @@
     "color": "dark_gray",
     "broken_color": "dark_gray",
     "breaks_into": [ { "item": "scrap", "count": [ 5, 10 ] }, { "item": "splinter", "count": [ 2, 4 ] } ],
-    "requirements": { "install": { "skills": [ [ "mechanics", 3 ], [ "rifle", 1 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
+    "requirements": { "install": { "skills": [ [ "mechanics", 4 ], [ "rifle", 2 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
   },
   {
     "id": "mounted_browning",
@@ -298,7 +311,7 @@
     "color": "green",
     "broken_color": "green",
     "breaks_into": [ { "item": "scrap", "count": 40 }, { "item": "steel_chunk", "count": 24 }, { "item": "steel_lump", "count": 9 } ],
-    "requirements": { "install": { "skills": [ [ "mechanics", 4 ], [ "rifle", 2 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
+    "requirements": { "install": { "skills": [ [ "mechanics", 3 ], [ "rifle", 1 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
     "id": "mounted_m134",
@@ -323,7 +336,7 @@
     "color": "cyan",
     "broken_color": "cyan",
     "breaks_into": [ { "item": "scrap", "count": 25 }, { "item": "steel_chunk", "count": 5 }, { "item": "steel_lump", "count": 5 } ],
-    "requirements": { "install": { "skills": [ [ "mechanics", 4 ], [ "rifle", 2 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
+    "requirements": { "install": { "skills": [ [ "mechanics", 3 ], [ "rifle", 1 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
     "id": "mounted_m240",
@@ -399,7 +412,7 @@
     "color": "light_gray",
     "broken_color": "light_gray",
     "breaks_into": [ { "item": "scrap", "count": [ 10, 20 ] } ],
-    "requirements": { "install": { "skills": [ [ "mechanics", 3 ], [ "launcher", 1 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
+    "requirements": { "install": { "skills": [ [ "mechanics", 4 ], [ "launcher", 1 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
     "id": "mounted_rm298",
@@ -411,7 +424,7 @@
     "color": "white",
     "broken_color": "white",
     "breaks_into": [ { "item": "scrap", "count": 40 }, { "item": "steel_chunk", "count": 30 }, { "item": "steel_lump", "count": 13 } ],
-    "requirements": { "install": { "skills": [ [ "mechanics", 5 ], [ "rifle", 2 ] ] }, "removal": { "skills": [ [ "mechanics", 3 ] ] } }
+    "requirements": { "install": { "skills": [ [ "mechanics", 6 ], [ "rifle", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 4 ] ] } }
   },
   {
     "id": "mounted_rm614",
@@ -423,7 +436,7 @@
     "color": "white",
     "broken_color": "white",
     "breaks_into": [ { "item": "scrap", "count": 11 }, { "item": "steel_chunk", "count": 6 }, { "item": "steel_lump", "count": 2 } ],
-    "requirements": { "install": { "skills": [ [ "mechanics", 5 ], [ "rifle", 2 ] ] }, "removal": { "skills": [ [ "mechanics", 3 ] ] } }
+    "requirements": { "install": { "skills": [ [ "mechanics", 6 ], [ "rifle", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 4 ] ] } }
   },
   {
     "id": "plasma_gun",
@@ -527,7 +540,7 @@
       { "item": "log", "count": [ 0, 1 ] },
       { "item": "splinter", "count": [ 25, 50 ] }
     ],
-    "requirements": { "install": { "skills": [ [ "mechanics", 3 ], [ "launcher", 1 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } },
+    "requirements": { "install": { "skills": [ [ "mechanics", 2 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } },
     "description": "A muzzleloading cannon improvised from logs reinforced with iron bands, less effective than a proper artillery piece.",
     "delete": { "flags": [ "FOLDABLE" ] }
   },
@@ -561,7 +574,7 @@
       { "item": "splinter", "count": [ 8, 16 ] },
       { "item": "hose", "count": [ 0, 2 ] }
     ],
-    "requirements": { "install": { "skills": [ [ "mechanics", 3 ], [ "launcher", 1 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
+    "requirements": { "install": { "skills": [ [ "mechanics", 2 ] ] }, "removal": { "skills": [ [ "mechanics", 0 ] ] } }
   },
   {
     "id": "mounted_coilgun",
@@ -572,6 +585,22 @@
     "folded_volume": "2750 ml",
     "color": "magenta",
     "broken_color": "magenta",
+    "breaks_into": [ { "item": "scrap", "count": 13 }, { "item": "steel_chunk", "count": 4 }, { "item": "steel_lump", "count": 1 } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 5 ], [ "electronics", 5 ] ] },
+      "removal": { "skills": [ [ "mechanics", 3 ] ] }
+    }
+  },
+  {
+    "id": "mounted_nailrifle",
+    "copy-from": "turret",
+    "type": "vehicle_part",
+    "name": { "str": "mounted nail rifle" },
+    "item": "nailrifle",
+    "folded_volume": "2250 ml",
+    "color": "yellow",
+    "broken_color": "yellow",
+    "looks_like": "mounted_coilgun",
     "breaks_into": [ { "item": "scrap", "count": 13 }, { "item": "steel_chunk", "count": 4 }, { "item": "steel_lump", "count": 1 } ],
     "requirements": {
       "install": { "skills": [ [ "mechanics", 5 ], [ "electronics", 5 ] ] },

@@ -692,7 +692,7 @@ void talk_function::deny_lead( npc &p )
 
 void talk_function::deny_equipment( npc &p )
 {
-    p.add_effect( effect_asked_for_item, 1_hours );
+    p.add_effect( effect_asked_for_item, 6_hours );
 }
 
 void talk_function::deny_train( npc &p )

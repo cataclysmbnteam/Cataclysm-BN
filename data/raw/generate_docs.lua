@@ -10,7 +10,7 @@ local sorted_by = function(t, f)
   if not f then f = function(a, b) return (a.k < b.k) end end
   local sorted = {}
   for k, v in pairs(t) do
-    sorted[#sorted + 1] = { k = k, v = v }
+    table.insert(sorted, { k = k, v = v })
   end
   table.sort(sorted, f)
   return sorted
@@ -22,7 +22,7 @@ local remove_hidden_args = function(arg_list)
     if arg == "<this_state>" then
       -- sol::this_state is only visible to C++ side
     else
-      ret[#ret + 1] = arg
+      table.insert(ret, arg)
     end
   end
   return ret
@@ -126,23 +126,17 @@ end
 
 doc_gen_func.impl = function()
   local ret = [[---
-title: Lua API reference
-editUrl: false
-sidebar:
-  badge:
-    text: Generated
-    status: note
+edit: false
 ---
 
-:::note
+# Lua API reference
 
-This page is auto-generated from [`data/raw/generate_docs.lua`][generate_docs]
+> [!NOTE]
+>
+> This page is auto-generated from [`data/raw/generate_docs.lua`][generate_docs]
 and should not be edited directly.
 
 [generate_docs]: https://github.com/cataclysmbnteam/Cataclysm-BN/blob/main/data/raw/generate_docs.lua
-
-:::
-
 ]]
 
   local dt = catadoc

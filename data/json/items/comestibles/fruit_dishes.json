@@ -1,26 +1,6 @@
 [
   {
     "type": "COMESTIBLE",
-    "id": "strawberries_cooked",
-    "name": { "str": "cooked strawberry", "str_pl": "cooked strawberries" },
-    "copy-from": "strawberries",
-    "color": "red",
-    "spoils_in": "3 days 18 hours",
-    "container": "jar_3l_glass_sealed",
-    "comestible_type": "DRINK",
-    "symbol": "~",
-    "description": "It's like strawberry jam, only without sugar.",
-    "price": "50 cent",
-    "price_postapoc": "50 cent",
-    "//": "Cheap for three liters of spread!",
-    "material": [ "fruit" ],
-    "phase": "liquid",
-    "fun": 2,
-    "flags": [ "USE_EAT_VERB", "EATEN_COLD" ],
-    "vitamins": [ [ "fruit_allergen", 1 ] ]
-  },
-  {
-    "type": "COMESTIBLE",
     "id": "fruit_leather",
     "name": "fruit leather",
     "conditional_names": [
@@ -66,25 +46,6 @@
     "charges": 5,
     "vitamins": [ [ "vitC", 21 ], [ "calcium", 2 ], [ "iron", 4 ], [ "fruit_allergen", 1 ] ],
     "fun": 3
-  },
-  {
-    "type": "COMESTIBLE",
-    "id": "blueberries_cooked",
-    "name": { "str": "cooked blueberry", "str_pl": "cooked blueberries" },
-    "copy-from": "blueberries",
-    "color": "blue",
-    "spoils_in": "3 days 18 hours",
-    "container": "jar_3l_glass_sealed",
-    "comestible_type": "DRINK",
-    "symbol": "~",
-    "description": "It's like blueberry jam, only without sugar.",
-    "price": "50 cent",
-    "price_postapoc": "50 cent",
-    "material": [ "fruit" ],
-    "phase": "liquid",
-    "fun": 3,
-    "flags": [ "USE_EAT_VERB", "EATEN_COLD" ],
-    "vitamins": [ [ "fruit_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",

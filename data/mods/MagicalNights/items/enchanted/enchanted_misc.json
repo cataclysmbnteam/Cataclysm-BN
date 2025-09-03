@@ -58,6 +58,7 @@
     "material": [ "gold" ],
     "symbol": "[",
     "color": "yellow",
+    "relic_data": { "recharge_scheme": [ { "type": "time", "req": "none", "interval": "24 h", "rate": 1 } ] },
     "initial_charges": 5,
     "max_charges": 5,
     "charges_per_use": 1,
@@ -94,6 +95,14 @@
     "copy-from": "mtorch_everburning",
     "revert_to": "mtorch_everburning",
     "sub": "fire",
+    "//": "Roughly +25% fire damage",
+    "attacks": [
+      {
+        "id": "BASH",
+        "to_hit": 1,
+        "damage": { "values": [ { "damage_type": "bash", "amount": 8 }, { "damage_type": "heat", "amount": 2 } ] }
+      }
+    ],
     "use_action": [
       { "type": "firestarter", "moves": 30 },
       {
@@ -181,12 +190,13 @@
         "clothing_mods": [
           "leather_padded",
           "steel_padded",
+          "alloy_padded",
           "kevlar_padded",
+          "nomex_padded",
           "furred",
+          "wooled",
           "resized_large",
           "pocketed",
-          "nomex_padded",
-          "wooled",
           "owlbear_furred",
           "demonchitin_padded",
           "blackdragon_coated"
@@ -303,5 +313,25 @@
     "charges_per_use": 1,
     "use_action": { "type": "cast_spell", "spell_id": "give_bulette_40", "no_fail": true, "level": 1 },
     "relic_data": { "recharge_scheme": [ { "type": "time", "req": "none", "interval": "2 h", "rate": 1 } ] }
+  },
+  {
+    "id": "vibrator_mana",
+    "type": "TOOL",
+    "category": "electronics",
+    "name": { "str": "mana-fueled vibrator" },
+    "looks_like": "vibrator",
+    "description": "This mana-devouring device is just the thing to knead the tension out and help you relax.  Wizards have needs too, after all.",
+    "weight": "500 g",
+    "volume": "500 ml",
+    "price": "55 USD",
+    "price_postapoc": "1 USD",
+    "material": [ "aluminum", "plastic" ],
+    "symbol": ";",
+    "color": "dark_gray",
+    "ammo": "crystallized_mana",
+    "magazines": [ [ "crystallized_mana", [ "small_mana_crystal" ] ] ],
+    "charges_per_use": 5,
+    "use_action": "VIBE",
+    "magazine_well": "250 ml"
   }
 ]

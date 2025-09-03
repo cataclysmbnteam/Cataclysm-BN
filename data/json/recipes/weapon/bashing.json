@@ -35,11 +35,8 @@
     "difficulty": 4,
     "time": "30 m",
     "autolearn": true,
-    "qualities": [ { "id": "DRILL", "level": 1 } ],
-    "tools": [
-      [ [ "brick_kiln", 100 ], [ "kiln", 100 ], [ "surface_heat", 100, "LIST" ] ],
-      [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ]
-    ],
+    "qualities": [ { "id": "DRILL", "level": 1 }, { "id": "CONTAIN_HOT", "level": 1 } ],
+    "tools": [ [ [ "brick_kiln", 100 ], [ "kiln", 100 ], [ "surface_heat", 100, "LIST" ] ] ],
     "components": [ [ [ "shillelagh", 1 ], [ "log", 1 ], [ "2x4", 2 ], [ "stick", 4 ] ], [ [ "weights", 15, "LIST" ] ] ]
   },
   {
@@ -275,8 +272,7 @@
     "time": "8 h",
     "book_learn": [ [ "textbook_weapwest", 8 ], [ "recipe_melee", 6 ] ],
     "using": [ [ "blacksmithing_advanced", 8 ], [ "steel_standard", 2 ] ],
-    "qualities": [ { "id": "SANDING", "level": 1 } ],
-    "components": [ [ [ "scrap", 24 ] ], [ [ "2x4", 1 ], [ "stick", 2 ] ], [ [ "varnish", 1, "LIST" ] ] ]
+    "components": [ [ [ "scrap", 24 ] ], [ [ "2x4", 1 ], [ "stick", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -306,9 +302,8 @@
     "difficulty": 4,
     "time": "3 h",
     "book_learn": [ [ "textbook_weapwest", 3 ], [ "recipe_melee", 4 ] ],
-    "qualities": [ { "id": "SANDING", "level": 1 } ],
     "using": [ [ "blacksmithing_intermediate", 12 ], [ "steel_standard", 3 ] ],
-    "components": [ [ [ "2x4", 3 ], [ "stick", 6 ] ], [ [ "fabric_hides_any", 3, "LIST" ] ], [ [ "varnish", 1, "LIST" ] ] ]
+    "components": [ [ [ "2x4", 3 ], [ "stick", 6 ] ], [ [ "fabric_hides_any", 3, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -319,9 +314,8 @@
     "difficulty": 6,
     "time": "4 h",
     "book_learn": [ [ "textbook_weapwest", 5 ] ],
-    "qualities": [ { "id": "SANDING", "level": 1 } ],
     "using": [ [ "blacksmithing_advanced", 16 ], [ "steel_standard", 4 ] ],
-    "components": [ [ [ "2x4", 3 ], [ "stick", 6 ] ], [ [ "fabric_hides_any", 3, "LIST" ] ], [ [ "varnish", 1, "LIST" ] ] ]
+    "components": [ [ [ "2x4", 3 ], [ "stick", 6 ] ], [ [ "fabric_hides_any", 3, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -358,9 +352,8 @@
     "difficulty": 7,
     "time": "6 h",
     "book_learn": [ [ "textbook_weapwest", 6 ] ],
-    "qualities": [ { "id": "SANDING", "level": 1 } ],
     "using": [ [ "blacksmithing_advanced", 12 ], [ "steel_standard", 3 ] ],
-    "components": [ [ [ "stick_long", 1 ] ], [ [ "fabric_hides_any", 2, "LIST" ] ], [ [ "varnish", 3, "LIST" ] ] ]
+    "components": [ [ [ "stick_long", 1 ] ], [ [ "fabric_hides_any", 2, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -386,9 +379,8 @@
     "difficulty": 7,
     "time": "7 h",
     "book_learn": [ [ "textbook_weapwest", 6 ] ],
-    "qualities": [ { "id": "SANDING", "level": 1 } ],
     "using": [ [ "blacksmithing_advanced", 12 ], [ "steel_standard", 3 ] ],
-    "components": [ [ [ "stick_long", 1 ] ], [ [ "fabric_hides_any", 2, "LIST" ] ], [ [ "varnish", 2, "LIST" ] ] ]
+    "components": [ [ [ "stick_long", 1 ] ], [ [ "fabric_hides_any", 2, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -402,7 +394,7 @@
     "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SANDING", "level": 1 } ],
-    "components": [ [ [ "stick_long", 1 ] ], [ [ "fabric_hides_any", 5, "LIST" ] ], [ [ "varnish", 3, "LIST" ] ] ]
+    "components": [ [ [ "stick_long", 1 ] ], [ [ "fabric_hides_any", 5, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -468,15 +460,9 @@
     "difficulty": 4,
     "time": "30 m",
     "autolearn": true,
-    "qualities": [
-      { "id": "HAMMER", "level": 2 },
-      { "id": "CUT", "level": 1 },
-      { "id": "SAW_M", "level": 1 },
-      { "id": "SANDING", "level": 1 }
-    ],
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "CUT", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
     "components": [
       [ [ "shillelagh", 1 ], [ "bat", 1 ], [ "cudgel", 1 ], [ "wood_structural_small", 1, "LIST" ] ],
-      [ [ "varnish", 1, "LIST" ] ],
       [ [ "steel_tiny", 2, "LIST" ], [ "wire", 1 ] ],
       [ [ "wire_barbed", 1 ], [ "spike", 4 ], [ "nail", 20 ] ],
       [ [ "fabric_standard", 1, "LIST" ], [ "felt_patch", 1 ], [ "fabric_hides_any", 1, "LIST" ] ]
@@ -515,15 +501,9 @@
     "skills_required": [ [ "melee", 2 ] ],
     "time": "45 m",
     "autolearn": true,
-    "qualities": [
-      { "id": "HAMMER", "level": 2 },
-      { "id": "CUT", "level": 1 },
-      { "id": "SAW_M", "level": 1 },
-      { "id": "SANDING", "level": 1 }
-    ],
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "CUT", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
     "components": [
       [ [ "stick_long", 1 ], [ "q_staff", 1 ], [ "i_staff", 1 ], [ "pool_cue", 1 ], [ "broom", 1 ] ],
-      [ [ "varnish", 3, "LIST" ] ],
       [ [ "steel_standard", 1, "LIST" ], [ "canister_empty", 1 ] ],
       [ [ "steel_tiny", 2, "LIST" ], [ "wire", 1 ], [ "wire_barbed", 1 ] ],
       [ [ "wire", 1 ], [ "wire_barbed", 1 ], [ "spike", 4 ], [ "nail", 20 ] ],
@@ -542,7 +522,12 @@
     "components": [
       [ [ "bat", 1 ] ],
       [ [ "nomex", 5 ] ],
-      [ [ "flammable_liquid", 100, "LIST" ], [ "hard_liquor", 6, "LIST" ], [ "pitch_wood", 4 ] ],
+      [
+        [ "flammable_liquid", 100, "LIST" ],
+        [ "disinfectant_makeshift", 4 ],
+        [ "hard_liquor", 6, "LIST" ],
+        [ "pitch_wood", 4 ]
+      ],
       [ [ "rag", 1 ] ]
     ]
   }

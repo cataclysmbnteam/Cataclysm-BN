@@ -172,7 +172,7 @@
   {
     "type": "item_action",
     "id": "transform",
-    "name": { "str": "Turn on" }
+    "name": { "str": "Transform" }
   },
   {
     "type": "item_action",

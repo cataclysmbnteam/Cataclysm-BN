@@ -17,6 +17,7 @@
     "color": "white",
     "diff": 2,
     "aggression": -50,
+    "aggro_character": false,
     "morale": -50,
     "vision_day": 10,
     "melee_dice": 1,
@@ -29,7 +30,7 @@
     "upgrades": { "half_life": 1, "age_grow": 1, "into_group": "GROUP_CIVILIANS_UPGRADE" },
     "dodge": 1,
     "death_drops": "default_zombie_death_drops",
-    "flags": [ "SEES", "HEARS", "WARM", "HUMAN", "CAN_OPEN_DOORS", "PATH_AVOID_DANGER_1", "GUILT" ]
+    "flags": [ "SEES", "HEARS", "WARM", "HUMAN", "CAN_OPEN_DOORS", "PATH_AVOID_DANGER_2", "PRIORITIZE_TARGETS", "GUILT" ]
   },
   {
     "id": "mon_civilian_stationary",

@@ -18,10 +18,10 @@
 #include "type_id.h"
 
 static tripoint projectile_end_point( const std::vector<tripoint> &range, const item &gun,
-                                      int speed, int proj_range )
+                                      int proj_range )
 {
     projectile test_proj;
-    test_proj.speed = speed;
+    test_proj.speed = gun.gun_speed();
     test_proj.range = proj_range;
     test_proj.impact = gun.gun_damage();
     for( const ammo_effect_str_id &ae_id : gun.ammo_effects() ) {
@@ -43,9 +43,9 @@ TEST_CASE( "projectiles_through_obstacles", "[projectile]" )
     get_avatar().setpos( { 2, 2, 0 } );
 
     map &here = get_map();
-    // Ensure that a projectile fired from a gun can pass through a chain link fence
+    // Ensure that a projectile fired from a gun can pass through a wall
     // First, set up a test area - three tiles in a row
-    // One on either side clear, with a chainlink fence in the middle
+    // One on either side clear, with a wooden wall in the middle
     std::vector<tripoint> range = { tripoint_zero, tripoint_east, tripoint( 2, 0, 0 ) };
     for( const tripoint &pt : range ) {
         REQUIRE( here.inbounds( pt ) );
@@ -55,16 +55,25 @@ TEST_CASE( "projectiles_through_obstacles", "[projectile]" )
         REQUIRE( here.is_transparent( pt ) );
     }
 
-    // Set an obstacle in the way, a chain fence
-    here.ter_set( range[1], ter_id( "t_chainfence" ) );
+    // Set first obstacle in the way, a wooden wall
+    here.ter_set( range[1], ter_id( "t_wall_wood" ) );
 
-    // Create a gun to fire a projectile from
-    detached_ptr<item> gun = item::spawn( itype_id( "m1a" ) );
-    gun->ammo_set( itype_id( "308" ), 5 );
+    // Create two guns to fire a projectile from, one won't penetrate obstacles
+    detached_ptr<item> gun_penetrating = item::spawn( itype_id( "m1a" ) );
+    gun_penetrating->ammo_set( itype_id( "308" ), 5 );
+    detached_ptr<item> gun_nonpenetrating = item::spawn( itype_id( "remington_870" ) );
+    gun_nonpenetrating->ammo_set( itype_id( "shot_dragon" ), 5 );
 
-    // Check that a bullet with the correct amount of speed can through obstacles
-    CHECK( projectile_end_point( range, *gun, 1000, 3 ) == range[2] );
+    // Check that a rifle bullet can go through a weak wall, but dragon's breath stops early
+    INFO( "rifle bullet vs. wooden wall" );
+    CHECK( projectile_end_point( range, *gun_penetrating, 3 ) == range[2] );
+    INFO( "dragon's breath shell vs. wooden wall" );
+    CHECK( projectile_end_point( range, *gun_nonpenetrating, 3 ) == range[0] );
 
-    // But that a bullet without the correct amount cannot
-    CHECK( projectile_end_point( range, *gun, 10, 3 ) == range[0] );
+    // Change obstacle to something tougher
+    here.ter_set( range[1], ter_id( "t_rock" ) );
+
+    // Check that the rifle bullet cannot go through a tougher wall
+    INFO( "rifle bullet vs. solid rock" );
+    CHECK( projectile_end_point( range, *gun_penetrating, 3 ) == range[0] );
 }

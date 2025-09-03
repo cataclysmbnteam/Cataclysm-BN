@@ -20,6 +20,7 @@
 #include "itype.h"
 #include "map.h"
 #include "npc.h"
+#include "options.h"
 #include "player.h"
 #include "profile.h"
 #include "rng.h"

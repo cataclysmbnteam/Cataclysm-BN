@@ -182,6 +182,8 @@
       { "item": "wetsuit_gloves", "prob": 70 },
       { "item": "wetsuit_booties", "prob": 70 },
       { "item": "swim_fins", "prob": 100 },
+      { "item": "flotation_vest", "prob": 10 },
+      { "item": "sea_scooter", "prob": 20 },
       {
         "distribution": [
           { "item": "airspeargun", "prob": 20 },

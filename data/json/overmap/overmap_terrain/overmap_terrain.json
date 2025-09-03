@@ -205,7 +205,8 @@
       "cabin_roof_5",
       "cabin_roof_6",
       "cabin_roof_7",
-      "cabin_roof_lapin"
+      "cabin_roof_lapin",
+      "bandit_cabin_roof"
     ],
     "name": "cabin roof",
     "sym": "C",
@@ -310,6 +311,14 @@
   },
   {
     "type": "overmap_terrain",
+    "id": [ "bandit_camp_1_roof", "bandit_camp_2_roof", "bandit_camp_4_roof" ],
+    "name": "wooden fort",
+    "sym": "+",
+    "color": "brown",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
     "id": [
       "Bastion_Fort_1_NW",
       "Bastion_Fort_1_NE",
@@ -405,6 +414,15 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "natural_spring",
+    "name": "natural spring",
+    "sym": "~",
+    "color": "light_blue",
+    "see_cost": 5,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
     "id": [ "hunter_shack", "hunter_shack_1" ],
     "name": "swamp shack",
     "sym": "+",
@@ -465,6 +483,14 @@
     "color": "white",
     "see_cost": 5,
     "flags": [ "RISK_LOW", "SOURCE_SAFETY", "SOURCE_FOOD" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "bandit_garage_2_roof",
+    "name": "garage",
+    "sym": "O",
+    "color": "white",
+    "see_cost": 5
   },
   {
     "type": "overmap_terrain",
@@ -725,5 +751,23 @@
     "name": "wind turbine",
     "sym": "Y",
     "color": "white"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "surface_vein_indicator",
+    "looks_like": "crater",
+    "name": "rocky outcropping",
+    "sym": ".",
+    "color": "light_gray",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ore_vein",
+    "looks_like": "empty_rock",
+    "name": "mineral vein",
+    "sym": "%",
+    "color": "light_gray",
+    "see_cost": 5
   }
 ]

@@ -34,6 +34,8 @@
 #include "item.h"
 #include "item_contents.h"
 #include "itype.h"
+#include "iuse.h"
+#include "iuse_actor.h"
 #include "line.h"
 #include "magic_enchantment.h"
 #include "map.h"
@@ -396,6 +398,13 @@ void melee::roll_all_damage( const Character &c, bool crit, damage_instance &di,
     roll_bash_damage( c, crit, di, average, weap, attack );
     roll_cut_damage( c, crit, di, average, weap, attack );
     roll_stab_damage( c, crit, di, average, weap, attack );
+    for( int i = 0; i < NUM_DT; i++ ) {
+        auto dt = static_cast<damage_type>( i );
+        if( dt == DT_NULL ) {
+            continue; // Escape from DT_NULL
+        }
+        roll_non_physical_damage( c, crit, di, average, weap, attack, dt );
+    }
 }
 
 static void melee_train( Character &p, int lo, int hi, const item &weap )
@@ -419,6 +428,24 @@ static void melee_train( Character &p, int lo, int hi, const item &weap )
         u.practice( skill_stabbing, std::ceil( stab / total * rng( lo, hi ) ), hi );
         u.practice( skill_bashing, std::ceil( bash / total * rng( lo, hi ) ), hi );
     }
+}
+
+// Broken out of below function for use by other places in the code
+int Character::get_melee_stamina_cost( const item &weapon )
+{
+    const int melee = get_skill_level( skill_melee );
+
+    // Previously calculated as 2_gram * std::max( 1, str_cur )
+    const int weight_cost = weapon.weight() / ( 16_gram );
+    const int encumbrance_cost = roll_remainder( ( encumb( body_part_arm_l ) + encumb(
+                                     body_part_arm_r ) ) *
+                                 2.0f );
+    const int deft_bonus = has_trait( trait_DEFT ) ? 50 : 0;
+    const float strbonus = 1 / ( 2 + ( str_cur * 0.25f ) );
+    const float skill_cost = std::max( 0.667f, ( ( 30.0f - melee ) / 30.0f ) );
+    /** @EFFECT_MELEE and @EFFECT_STR reduce stamina cost of melee attacks */
+    return ( weight_cost + encumbrance_cost - deft_bonus + 50 ) * skill_cost *
+           ( 0.75f + strbonus );
 }
 
 // Melee calculation is in parts. This sets up the attack, then in deal_melee_attack,
@@ -636,19 +663,7 @@ void Character::melee_attack( Creature &t, bool allow_special, const matec_id *f
         }
     }
 
-    const int melee = get_skill_level( skill_melee );
-
-    // Previously calculated as 2_gram * std::max( 1, str_cur )
-    const int weight_cost = cur_weapon.weight() / ( 16_gram );
-    const int encumbrance_cost = roll_remainder( ( encumb( body_part_arm_l ) + encumb(
-                                     body_part_arm_r ) ) *
-                                 2.0f );
-    const int deft_bonus = hit_spread < 0 && has_trait( trait_DEFT ) ? 50 : 0;
-    const float strbonus = 1 / ( 2 + ( str_cur * 0.25f ) );
-    const float skill_cost = std::max( 0.667f, ( ( 30.0f - melee ) / 30.0f ) );
-    /** @EFFECT_MELEE and @EFFECT_STR reduce stamina cost of melee attacks */
-    const int mod_sta = -( weight_cost + encumbrance_cost - deft_bonus + 50 ) * skill_cost *
-                        ( 0.75f + strbonus );
+    const int mod_sta = -get_melee_stamina_cost( cur_weapon );
     mod_stamina( std::min( -50, mod_sta ) );
     add_msg( m_debug, "Stamina burn: %d", std::min( -50, mod_sta ) );
     mod_moves( -move_cost );
@@ -1023,6 +1038,7 @@ void melee::roll_bash_damage( const Character &c, bool crit, damage_instance &di
     float armor_mult = attack.damage.get_armor_mult( DT_BASH );
     int arpen = attack.damage.get_armor_pen( DT_BASH );
     arpen += c.mabuff_arpen_bonus( DT_BASH );
+    armor_mult *= c.mabuff_tg_armor_mult( DT_BASH );
 
     // Finally, extra critical effects
     if( crit ) {
@@ -1098,6 +1114,7 @@ void melee::roll_cut_damage( const Character &c, bool crit, damage_instance &di,
     }
 
     arpen += c.mabuff_arpen_bonus( DT_CUT );
+    armor_mult *= c.mabuff_tg_armor_mult( DT_CUT );
 
     cut_mul *= c.mabuff_damage_mult( DT_CUT );
     if( crit ) {
@@ -1167,6 +1184,7 @@ void melee::roll_stab_damage( const Character &c, bool crit, damage_instance &di
     float armor_mult = attack.damage.get_armor_mult( DT_STAB );
     int arpen = attack.damage.get_armor_pen( DT_STAB );
     arpen += c.mabuff_arpen_bonus( DT_STAB );
+    armor_mult *= c.mabuff_tg_armor_mult( DT_STAB );
 
     if( crit ) {
         // Critical damage bonus for stabbing scales with skill
@@ -1176,6 +1194,35 @@ void melee::roll_stab_damage( const Character &c, bool crit, damage_instance &di
     }
 
     di.add_damage( DT_STAB, stab_dam, arpen, armor_mult, stab_mul );
+}
+
+void melee::roll_non_physical_damage( const Character &c, bool crit, damage_instance &di,
+                                      bool /*average*/,
+                                      const item &weap, const attack_statblock &attack, damage_type dt )
+{
+    if( dt == DT_BASH || dt == DT_CUT || dt == DT_STAB ) {
+        return; // This function is not for physical DTs.
+    }
+    float type_dam = c.mabuff_damage_bonus( dt ) + weap.damage_melee( attack, dt );
+
+    if( type_dam <= 0 ) {
+        return; // No negative damage!
+    }
+
+    float type_mul = 1.0f;
+    type_mul *= c.mabuff_damage_mult( dt );
+
+    float armor_mult = attack.damage.get_armor_mult( dt );
+    int arpen = attack.damage.get_armor_pen( dt );
+    arpen += c.mabuff_arpen_bonus( dt );
+    armor_mult *= c.mabuff_tg_armor_mult( dt );
+
+    if( crit ) {
+        // Critical damage bonus for stabbing scales with skill
+        type_mul *= 1.5;
+    }
+
+    di.add_damage( dt, type_dam, arpen, armor_mult, type_mul );
 }
 
 matec_id Character::pick_technique( Creature &t, const item &weap,
@@ -2380,25 +2427,43 @@ double npc_ai::weapon_value( const Character &who, const item &weap, int ammo )
 
 double npc_ai::melee_value( const Character &who, const item &weap )
 {
-    // start with average effective dps against a range of enemies
-    double my_value = weap.average_dps( *who.as_player(), melee::default_attack( weap ) );
+    item &weapon = *item::spawn_temporary( weap );
+    if( weapon.has_flag( flag_COMBAT_NPC_USE ) && !weapon.has_flag( flag_COMBAT_NPC_ON ) ) {
+        if( weapon.get_use( "transform" ) ) {
+            const use_function *use = weapon.type->get_use( "transform" );
+            if( use->can_call( who, weapon, false, who.pos() ).success() ) {
+                // Stolen from item.cpp
+                weapon.convert( dynamic_cast<const iuse_transform *>
+                                ( use->get_actor_ptr() )->target );
+            }
+        } else if( weapon.get_use( "fireweapon_off" ) ) {
+            const use_function *use = weapon.type->get_use( "fireweapon_off" );
+            if( use->can_call( who, weapon, false, who.pos() ).success() ) {
+                weapon.convert( dynamic_cast<const fireweapon_off_actor *>
+                                ( use->get_actor_ptr() )->target_id );
+            }
+        }
 
-    float reach = weap.reach_range( who );
+    }
+    // start with average effective dps against a range of enemies
+    double my_value = weapon.average_dps( *who.as_player(), melee::default_attack( weapon ) );
+
+    float reach = weapon.reach_range( who );
     // value reach weapons more
     if( reach > 1.0f ) {
         my_value *= 1.0f + 0.5f * ( std::sqrt( reach ) - 1.0f );
     }
     // value polearms less to account for the trickiness of keeping the right range
-    if( weap.has_flag( flag_POLEARM ) ) {
+    if( weapon.has_flag( flag_POLEARM ) ) {
         my_value *= 0.8;
     }
 
     // value style weapons more
-    if( !who.martial_arts_data->enumerate_known_styles( weap.type->get_id() ).empty() ) {
+    if( !who.martial_arts_data->enumerate_known_styles( weapon.type->get_id() ).empty() ) {
         my_value *= 1.5;
     }
 
-    add_msg( m_debug, "%s as melee: %.1f", weap.type->get_id().str(), my_value );
+    add_msg( m_debug, "%s as melee: %.1f", weapon.type->get_id().str(), my_value );
 
     return std::max( 0.0, my_value );
 }

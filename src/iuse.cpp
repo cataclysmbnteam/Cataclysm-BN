@@ -220,7 +220,6 @@ static const efftype_id effect_weak_antibiotic( "weak_antibiotic" );
 static const efftype_id effect_webbed( "webbed" );
 static const efftype_id effect_weed_high( "weed_high" );
 
-static const itype_id itype_adv_UPS_off( "adv_UPS_off" );
 static const itype_id itype_advanced_ecig( "advanced_ecig" );
 static const itype_id itype_afs_atomic_smartphone( "afs_atomic_smartphone" );
 static const itype_id itype_afs_atomic_smartphone_music( "afs_atomic_smartphone_music" );
@@ -275,7 +274,6 @@ static const itype_id itype_towel( "towel" );
 static const itype_id itype_towel_soiled( "towel_soiled" );
 static const itype_id itype_towel_wet( "towel_wet" );
 static const itype_id itype_UPS( "UPS" );
-static const itype_id itype_UPS_off( "UPS_off" );
 static const itype_id itype_water( "water" );
 static const itype_id itype_water_clean( "water_clean" );
 static const itype_id itype_wax( "wax" );
@@ -352,7 +350,6 @@ static const bionic_id bio_shock( "bio_shock" );
 
 // terrain/furn flags
 static const std::string flag_CURRENT( "CURRENT" );
-static const std::string flag_DIGGABLE( "DIGGABLE" );
 static const std::string flag_FISHABLE( "FISHABLE" );
 static const std::string flag_PLANT( "PLANT" );
 static const std::string flag_PLOWABLE( "PLOWABLE" );
@@ -1467,6 +1464,21 @@ int iuse::petfood( player *p, item *it, bool, const tripoint & )
             return 0;
         }
 
+        if( !petfood.tamer_traits.empty() ) {
+            for( const TraitSet &trait_set : petfood.tamer_traits ) {
+                if( !p->has_one_of_traits( trait_set ) ) {
+                    can_feed = false;
+                } else {
+                    can_feed = true;
+                }
+            }
+            if( !can_feed ) {
+                p->add_msg_if_player( _( "The %s does not trust your kind." ),
+                                      mon.type->nname() );
+                return 0;
+            }
+        }
+
         if( mon.type->id == mon_dog_thing ) {
             p->deal_damage( &mon, bodypart_id( "hand_r" ), damage_instance( DT_CUT, rng( 1, 10 ) ) );
             p->add_msg_if_player( m_bad, _( "You want to feed it the pet food, but it bites your fingers!" ) );
@@ -2406,13 +2418,12 @@ int iuse::makemound( player *p, item *it, bool t, const tripoint & )
 
 struct digging_moves_and_byproducts {
     int moves;
-    int spawn_count;
     std::string byproducts_item_group;
     ter_id result_terrain;
 };
 
-static digging_moves_and_byproducts dig_pit_moves_and_byproducts( player *p, item *it, bool deep,
-        bool channel, const tripoint &pos )
+static digging_moves_and_byproducts dig_pit_moves_and_byproducts( player *p, item *it,
+        const tripoint &pos, const bool channel )
 {
     // Vastly simplified version of DDA's version, which had a 77-line-long explanation.
     //
@@ -2428,9 +2439,6 @@ static digging_moves_and_byproducts dig_pit_moves_and_byproducts( player *p, ite
     // So to keep it simple, 200 liters for shallow pits, 400 for deep pit. We're basically
     // assuming that the first step is about one-third of the total work.
 
-    constexpr int deep_pit_time = 120;
-    constexpr int shallow_pit_time = 60;
-
     // Get the dig quality of the tool.
     const int quality = it->get_quality( qual_DIG );
 
@@ -2440,18 +2448,14 @@ static digging_moves_and_byproducts dig_pit_moves_and_byproducts( player *p, ite
     const double attr = 10.0 / std::max( 1, p->str_cur );
 
     // And now determine the moves...
-    int dig_minutes = deep ? deep_pit_time : shallow_pit_time;
+    int dig_minutes = channel ? 60 : g->m.ter( pos )->digging_results.num_minutes;
     int moves = to_moves<int>( std::max( 10_minutes,
                                          time_duration::from_minutes( dig_minutes * attr ) / quality ) );
+    // Channel can be assumed to always be moving water because it doesn't create magic terraforming in theory.
+    ter_id result_terrain = channel ? ter_id( "t_water_moving_sh" ) : g->m.ter(
+                                pos )->digging_results.result_ter;
 
-    ter_id result_terrain;
-    if( channel ) {
-        result_terrain = ter_id( "t_water_moving_sh" );
-    } else {
-        result_terrain = deep ? ter_id( "t_pit" ) : ter_id( "t_pit_shallow" );
-    }
-
-    return { moves, ( dig_minutes / 60 ), g->m.ter( pos )->digging_result, result_terrain };
+    return { moves, g->m.ter( pos )->digging_results.result_items.str(), result_terrain };
 }
 
 int iuse::dig( player *p, item *it, bool t, const tripoint & )
@@ -2465,7 +2469,7 @@ int iuse::dig( player *p, item *it, bool t, const tripoint & )
     }
     const tripoint dig_point = p->pos();
 
-    const bool can_dig_here = g->m.has_flag( "DIGGABLE", dig_point ) &&
+    const bool can_dig_here = g->m.ter( dig_point )->is_diggable() &&
                               !g->m.has_furn( dig_point ) &&
                               g->m.tr_at( dig_point ).is_null() &&
                               ( g->m.ter( dig_point ) == t_grave_new || g->m.i_at( dig_point ).empty() ) &&
@@ -2476,15 +2480,15 @@ int iuse::dig( player *p, item *it, bool t, const tripoint & )
             _( "You can't dig a pit in this location.  Ensure it is clear diggable ground with no items or obstacles." ) );
         return 0;
     }
-    const bool can_deepen = g->m.has_flag( "DIGGABLE_CAN_DEEPEN", dig_point );
     const bool grave = g->m.ter( dig_point ) == t_grave;
 
-    if( !p->crafting_inventory().has_quality( qual_DIG, 2 ) ) {
-        if( can_deepen ) {
-            p->add_msg_if_player( _( "You can't deepen this pit without a proper shovel." ) );
+    if( !( p->crafting_inventory().max_quality( qual_DIG ) >= g->m.ter(
+               dig_point )->digging_results.dig_min ) ) {
+        if( grave ) {
+            p->add_msg_if_player( _( "You can't exhume a grave without a better digging tool." ) );
             return 0;
-        } else if( grave ) {
-            p->add_msg_if_player( _( "You can't exhume a grave without a proper shovel." ) );
+        } else {
+            p->add_msg_if_player( _( "You don't have a good enough digging tool to dig there!" ) );
             return 0;
         }
     }
@@ -2529,8 +2533,8 @@ int iuse::dig( player *p, item *it, bool t, const tripoint & )
         }
     }
 
-    digging_moves_and_byproducts moves_and_byproducts = dig_pit_moves_and_byproducts( p, it,
-            can_deepen, false, dig_point );
+    digging_moves_and_byproducts moves_and_byproducts = dig_pit_moves_and_byproducts( p, it, dig_point,
+            false );
 
     const std::vector<npc *> helpers = character_funcs::get_crafting_helpers( *p, 3 );
     for( const npc *np : helpers ) {
@@ -2543,7 +2547,6 @@ int iuse::dig( player *p, item *it, bool t, const tripoint & )
                             dig_point,
                             moves_and_byproducts.result_terrain.id().str(),
                             deposit_point,
-                            moves_and_byproducts.spawn_count,
                             moves_and_byproducts.byproducts_item_group
                         ) ) );
 
@@ -2566,7 +2569,7 @@ int iuse::dig_channel( player *p, item *it, bool t, const tripoint & )
     tripoint west = dig_point + point_west;
     tripoint east = dig_point + point_east;
 
-    const bool can_dig_here = g->m.has_flag( flag_DIGGABLE, dig_point ) &&
+    const bool can_dig_here = g->m.ter( dig_point )->is_diggable() &&
                               !g->m.has_furn( dig_point ) &&
                               g->m.tr_at( dig_point ).is_null() && g->m.i_at( dig_point ).empty() && !g->m.veh_at( dig_point ) &&
                               ( g->m.has_flag( flag_CURRENT, north ) ||  g->m.has_flag( flag_CURRENT, south ) ||
@@ -2596,8 +2599,8 @@ int iuse::dig_channel( player *p, item *it, bool t, const tripoint & )
         return 0;
     }
 
-    digging_moves_and_byproducts moves_and_byproducts = dig_pit_moves_and_byproducts( p, it, false,
-            true, dig_point );
+    digging_moves_and_byproducts moves_and_byproducts = dig_pit_moves_and_byproducts( p, it, dig_point,
+            true );
 
     const std::vector<npc *> helpers = character_funcs::get_crafting_helpers( *p, 3 );
     for( const npc *np : helpers ) {
@@ -2610,7 +2613,6 @@ int iuse::dig_channel( player *p, item *it, bool t, const tripoint & )
                             dig_point,
                             moves_and_byproducts.result_terrain.id().str(),
                             deposit_point,
-                            moves_and_byproducts.spawn_count,
                             moves_and_byproducts.byproducts_item_group
                         ) ) );
     return it->type->charges_to_use();
@@ -2625,21 +2627,13 @@ int iuse::fill_pit( player *p, item *it, bool t, const tripoint & )
         p->add_msg_if_player( m_info, _( "You cannot do that while mounted." ) );
         return 0;
     }
-    const std::set<ter_id> allowed_ter_id {
-        t_pit,
-        t_pit_spiked,
-        t_pit_glass,
-        t_pit_corpsed,
-        t_pit_shallow,
-        t_dirtmound
-    };
 
-    const std::function<bool( const tripoint & )> f = [&allowed_ter_id]( const tripoint & pnt ) {
+    const std::function<bool( const tripoint & )> f = []( const tripoint & pnt ) {
         if( pnt == g->u.pos() ) {
             return false;
         }
         const ter_id type = g->m.ter( pnt );
-        return ( allowed_ter_id.find( type ) != allowed_ter_id.end() );
+        return ( type->fill_result != ter_str_id::NULL_ID() );
     };
 
     const std::optional<tripoint> pnt_ = choose_adjacent_highlight(
@@ -2658,17 +2652,7 @@ int iuse::fill_pit( player *p, item *it, bool t, const tripoint & )
         return 0;
     }
 
-    int moves;
-    if( ter == t_pit || ter == t_pit_spiked ||
-        ter == t_pit_glass || ter == t_pit_corpsed ) {
-        moves = to_moves<int>( time_duration::from_minutes( 15 ) );
-    } else if( ter == t_pit_shallow ) {
-        moves = to_moves<int>( time_duration::from_minutes( 10 ) );
-    } else if( ter == t_dirtmound ) {
-        moves = to_moves<int>( time_duration::from_minutes( 5 ) );
-    } else {
-        return 0;
-    }
+    int moves = to_moves<int>( time_duration::from_minutes( ter->fill_minutes ) );
 
     const std::vector<npc *> helpers = character_funcs::get_crafting_helpers( *p, 3 );
     for( const npc *np : helpers ) {
@@ -5469,8 +5453,7 @@ int iuse::toolmod_attach( player *p, item *it, bool, const tripoint & )
     auto filter = [&it]( const item & e ) {
         // don't allow ups battery mods on a UPS or UPS-powered tools
         if( it->has_flag( flag_USE_UPS ) &&
-            ( e.typeId() == itype_UPS_off || e.typeId() == itype_adv_UPS_off ||
-              e.has_flag( flag_USE_UPS ) ) ) {
+            ( e.has_flag( flag_IS_UPS ) || e.has_flag( flag_USE_UPS ) ) ) {
             return false;
         }
 
@@ -6880,6 +6863,9 @@ static void item_save_monsters( player &p, item &it, const std::vector<monster *
         // position of <monster type string>
         const size_t mon_str_pos = monster_photos.find( "," + mtype + "," );
 
+        // monster gets recorded by the character, add to known types
+        p.set_knows_creature_type( monster_p->type->id );
+
         if( mon_str_pos == std::string::npos ) { // new monster
             monster_photos += string_format( "%s,%d,", mtype, photo_quality );
         } else { // replace quality character, if new photo is better
@@ -8256,8 +8242,7 @@ static cable_state cable_menu( Character *who, cable_state &state, cable_state &
     // const bool has_solar_pack = who->worn_with_flag( flag_SOLARPACK );
     const bool has_solar_pack_on = who->worn_with_flag( flag_SOLARPACK_ON );
     //const bool wearing_solar_pack = has_solar_pack || has_solar_pack_on;
-    const bool has_ups = who->has_charges( itype_UPS_off, 1 ) ||
-                         who->has_charges( itype_adv_UPS_off, 1 );
+    const bool has_ups = who->has_charges( itype_UPS, 1 );
 
     const bool allow_self = state != state_self && state_other != state_self;
     const bool allow_ups =  state_other == state_self ||

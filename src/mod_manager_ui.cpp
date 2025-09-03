@@ -31,6 +31,18 @@ std::string mod_ui::get_information( const MOD_INFORMATION *mod )
         info += "\n";
     }
 
+    if( !mod->license.empty() ) {
+        info += colorize( _( "License" ), c_light_blue ) + ": ";
+        if( ( mod->license == "All Rights Reserved" ) || ( mod->license == "Source Available" ) ) {
+            // Mod is not FOSS, so color red to indicate they likely do not have rights to create derivatives
+            info += colorize( mod->license, c_light_red );
+        } else {
+            // Mod is (assumed) to be FOSS, so color green
+            info += colorize( mod->license, c_light_green );
+        }
+        info += "\n";
+    }
+
     if( !mod->authors.empty() ) {
         info += colorize( vgettext( "Author", "Authors", mod->authors.size() ),
                           c_light_blue ) + ": " + enumerate_as_string( mod->authors );
@@ -82,7 +94,7 @@ std::string mod_ui::get_information( const MOD_INFORMATION *mod )
     }
 
     if( mod->lua_api_version ) {
-        nc_color col_lua = cata::has_lua() ? c_light_blue : c_red;
+        nc_color col_lua = c_light_blue;
         int this_api = cata::get_lua_api_version();
         nc_color col_api = this_api == *mod->lua_api_version ? c_white : c_yellow;
         info += string_format(

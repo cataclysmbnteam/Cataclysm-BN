@@ -1,11 +1,9 @@
 #include "catalua_bindings.h"
 
-#include "avatar.h"
 #include "bodypart.h"
 #include "calendar.h"
 #include "catalua_bindings_utils.h"
 #include "catalua.h"
-#include "catalua_impl.h"
 #include "catalua_log.h"
 #include "catalua_luna_doc.h"
 #include "catalua_luna.h"
@@ -15,29 +13,23 @@
 #include "distribution_grid.h"
 #include "enum_conversions.h"
 #include "enums.h"
-#include "field.h"
 #include "field_type.h"
 #include "game.h"
 #include "itype.h"
 #include "map.h"
 #include "martialarts.h"
 #include "material.h"
-#include "messages.h"
 #include "monfaction.h"
 #include "monster.h"
 #include "mtype.h"
 #include "npc.h"
 #include "player.h"
-#include "popup.h"
 #include "rng.h"
 #include "skill.h"
 #include "sounds.h"
-#include "stomach.h"
-#include "string_input_popup.h"
 #include "translations.h"
 #include "trap.h"
 #include "type_id.h"
-#include "ui.h"
 #include "units_angle.h"
 #include "units_energy.h"
 #include "units_mass.h"
@@ -56,74 +48,6 @@ std::string cata::detail::fmt_lua_va( sol::variadic_args va )
     }
 
     return msg;
-}
-
-namespace sol
-{
-template <>
-struct is_container<item_stack> : std::false_type {};
-template <>
-struct is_container<map_stack> : std::false_type {};
-} // namespace sol
-
-struct item_stack_lua_it_state {
-    item_stack *stack;
-    size_t index;
-
-    item_stack_lua_it_state( item_stack &stk )
-        : stack( &stk ), index( 0 ) {
-    }
-};
-
-static std::tuple<sol::object, sol::object>
-item_stack_lua_next(
-    sol::user<item_stack_lua_it_state &> user_it_state,
-    sol::this_state l )
-{
-    // this gets called
-    // to start the first iteration, and every
-    // iteration there after
-
-    // the state you passed in item_stack_lua_pairs is argument 1
-    // the key value is argument 2, but we do not
-    // care about the key value here
-    item_stack_lua_it_state &it_state = user_it_state;
-    if( it_state.index >= it_state.stack->size() ) {
-        // return nil to signify that
-        // there's nothing more to work with.
-        return std::make_tuple( sol::object( sol::lua_nil ),
-                                sol::object( sol::lua_nil ) );
-    }
-    auto it = it_state.stack->begin();
-    std::advance( it, it_state.index );
-    item *elem = *it;
-    // 2 values are returned (pushed onto the stack):
-    // the key and the value
-    // the state is left alone
-    auto r = std::make_tuple(
-                 sol::object( l,  sol::in_place, it_state.index ),
-                 sol::object( l, sol::in_place, elem ) );
-    // the iterator must be moved forward one before we return
-    it_state.index++;
-    return r;
-}
-
-static auto item_stack_lua_pairs( item_stack &stk )
-{
-    // pairs expects 3 returns:
-    // the "next" function on how to advance,
-    // the "table" itself or some state,
-    // and an initial key value (can be nil)
-
-    // prepare our state
-    item_stack_lua_it_state it_state( stk );
-    // sol::user is a space/time optimization over regular
-    // usertypes, it's incompatible with regular usertypes and
-    // stores the type T directly in lua without any pretty
-    // setup saves space allocation and a single dereference
-    return std::make_tuple( &item_stack_lua_next,
-                            sol::user<item_stack_lua_it_state>( std::move( it_state ) ),
-                            sol::lua_nil );
 }
 
 void cata::detail::reg_units( sol::state &lua )
@@ -313,14 +237,14 @@ void cata::detail::reg_damage_instance( sol::state &lua )
 
 void cata::detail::reg_item( sol::state &lua )
 {
+#define UT_CLASS item
     {
         sol::usertype<item> ut = luna::new_usertype<item>( lua, luna::no_bases, luna::no_constructor );
 
         luna::set_fx( ut, "get_type", &item::typeId );
         DOC( "Almost for a corpse." );
-        luna::set_fx( ut, "get_mtype", []( const item & it ) {
-            return it.get_mtype() ? it.get_mtype()->id : mtype_id::NULL_ID();
-        } );
+        luna::set_fx( ut, "get_mtype",
+        []( const item & it ) { return it.get_mtype() ? it.get_mtype()->id : mtype_id::NULL_ID(); } );
 
         DOC( "Translated item name with prefixes" );
         luna::set_fx( ut, "tname", &item::tname );
@@ -400,11 +324,12 @@ void cata::detail::reg_item( sol::state &lua )
         luna::set_fx( ut, "is_soft", &item::is_soft );
         luna::set_fx( ut, "is_reloadable", &item::is_reloadable );
         DOC( "DEPRECATED: Items are no longer filthy" );
-        luna::set_fx( ut, "is_filthy", []() {
-            return false;
-        } );
+        luna::set_fx( ut, "is_filthy", []() { return false; } );
         luna::set_fx( ut, "is_active", &item::is_active );
         luna::set_fx( ut, "is_upgrade", &item::is_upgrade );
+
+        luna::set_fx( ut, "activate", &item::activate );
+        luna::set_fx( ut, "deactivate", &item::deactivate );
 
         DOC( "Is this item an effective melee weapon for the given damage type?" );
         luna::set_fx( ut, "is_melee", sol::resolve<bool( damage_type ) const>
@@ -434,15 +359,9 @@ void cata::detail::reg_item( sol::state &lua )
         luna::set_fx( ut, "is_made_of",
                       sol::resolve < auto( const material_id & ) const -> bool > ( &item::made_of ) );
 
-        luna::set_fx( ut, "get_kcal", []( item & it ) -> int {
-            return it.is_comestible() ? it.get_comestible()->default_nutrition.kcal : 0;
-        } );
-        luna::set_fx( ut, "get_quench", []( item & it ) -> int {
-            return it.is_comestible() ? it.get_comestible()->quench : 0;
-        } );
-        luna::set_fx( ut, "get_comestible_fun", []( item & it ) -> int {
-            return it.get_comestible_fun();
-        } );
+        luna::set_fx( ut, "get_kcal", []( item & it ) -> int { return it.is_comestible() ? it.get_comestible()->default_nutrition.kcal : 0; } );
+        luna::set_fx( ut, "get_quench", []( item & it ) -> int { return it.is_comestible() ? it.get_comestible()->quench : 0; } );
+        luna::set_fx( ut, "get_comestible_fun", []( item & it ) -> int { return it.get_comestible_fun(); } );
         DOC( "Gets the TimeDuration until this item rots" );
         luna::set_fx( ut, "get_rot", &item::get_rot );
 
@@ -550,316 +469,13 @@ void cata::detail::reg_item( sol::state &lua )
                       sol::resolve<void( const std::string &, double )>( &item::set_var ) );
         luna::set_fx( ut, "set_var_tri",
                       sol::resolve<void( const std::string &, const tripoint & )>( &item::set_var ) );
+
+        SET_FX( attack_cost );
+        SET_FX( stamina_cost );
     }
+#undef UT_CLASS // #define UT_CLASS item
 }
 
-void cata::detail::reg_map( sol::state &lua )
-{
-    // Register 'map' class to be used in Lua
-    {
-        sol::usertype<map> ut = luna::new_usertype<map>( lua, luna::no_bases, luna::no_constructor );
-
-        DOC( "Convert local ms -> absolute ms" );
-        luna::set_fx( ut, "get_abs_ms", sol::resolve<tripoint( const tripoint & ) const>( &map::getabs ) );
-        DOC( "Convert absolute ms -> local ms" );
-        luna::set_fx( ut, "get_local_ms",
-                      sol::resolve<tripoint( const tripoint & ) const>( &map::getlocal ) );
-
-        luna::set_fx( ut, "get_map_size_in_submaps", &map::getmapsize );
-        DOC( "In map squares" );
-        luna::set_fx( ut, "get_map_size", []( const map & m ) -> int {
-            return m.getmapsize() * SEEX;
-        } );
-
-        DOC( "Creates a new item(s) at a position on the map." );
-        luna::set_fx( ut, "create_item_at", []( map & m, const tripoint & p, const itype_id & itype,
-        int count ) -> void {
-            detached_ptr<item> new_item = item::spawn( itype, calendar::turn, count );
-            m.add_item_or_charges( p, std::move( new_item ) );
-        } );
-
-        DOC( "Creates a new corpse at a position on the map. You can skip `Opt` ones by omitting them or passing `nil`. `MtypeId` specifies which monster's body it is, `TimePoint` indicates when it died, `string` gives it a custom name, and `int` determines the revival time if the monster has the `REVIVES` flag." );
-        luna::set_fx( ut, "create_corpse_at", []( map & m, const tripoint & p,
-                      sol::optional<mtype_id> mtype,
-                      sol::optional<time_point> turn, sol::optional<std::string> name,
-        sol::optional<int> upgrade_time ) -> void {
-            mtype_id the_id = mtype.value_or( mtype_id::NULL_ID() );
-            time_point the_tp = turn.value_or( calendar::turn );
-            std::string the_name = name.value_or( "" );
-            int the_upgrade = upgrade_time.value_or( -1 );
-
-            detached_ptr<item> new_corpse = item::make_corpse( the_id, the_tp, the_name, the_upgrade );
-            m.add_item_or_charges( p, std::move( new_corpse ) );
-        } );
-
-        luna::set_fx( ut, "has_items_at", &map::has_items );
-        luna::set_fx( ut, "get_items_at", []( map & m, const tripoint & p ) -> std::unique_ptr<map_stack> {
-            return std::make_unique<map_stack>( m.i_at( p ) );
-        } );
-        luna::set_fx( ut, "remove_item_at", []( map & m, const tripoint & p, item * it ) -> void {
-            m.i_rem( p, it );
-        } );
-        luna::set_fx( ut, "clear_items_at", []( map & m, const tripoint & p ) -> void {
-            m.i_clear( p );
-        } );
-
-
-        luna::set_fx( ut, "get_ter_at", sol::resolve<ter_id( const tripoint & )const>( &map::ter ) );
-        luna::set_fx( ut, "set_ter_at",
-                      sol::resolve<bool( const tripoint &, const ter_id & )>( &map::ter_set ) );
-
-        luna::set_fx( ut, "get_furn_at", sol::resolve<furn_id( const tripoint & )const>( &map::furn ) );
-        luna::set_fx( ut, "set_furn_at", []( map & m, const tripoint & p, const furn_id & id ) {
-            m.furn_set( p, id );
-        } );
-
-        luna::set_fx( ut, "has_field_at", []( const map & m, const tripoint & p,
-        const field_type_id & fid ) -> bool {
-            return !!m.field_at( p ).find_field( fid );
-        } );
-        luna::set_fx( ut, "get_field_int_at", &map::get_field_intensity );
-        luna::set_fx( ut, "get_field_age_at", &map::get_field_age );
-        luna::set_fx( ut, "mod_field_int_at", &map::mod_field_intensity );
-        luna::set_fx( ut, "mod_field_age_at", &map::mod_field_age );
-        luna::set_fx( ut, "set_field_int_at", &map::set_field_intensity );
-        luna::set_fx( ut, "set_field_age_at", &map::set_field_age );
-        luna::set_fx( ut, "add_field_at", []( map & m, const tripoint & p, const field_type_id & fid,
-        int intensity, const time_duration & age ) -> bool {
-            return m.add_field( p, fid, intensity, age );
-        } );
-        luna::set_fx( ut, "remove_field_at", &map::remove_field );
-        luna::set_fx( ut, "get_trap_at", []( map & m, const tripoint & p ) -> trap_id {
-            return m.tr_at( p ).loadid;
-        } );
-        DOC( "Set a trap at a position on the map. It can also replace existing trap, even with `trap_null`." );
-        luna::set_fx( ut, "set_trap_at", &map::trap_set );
-        DOC( "Disarms a trap using your skills and stats, with consequences depending on success or failure." );
-        luna::set_fx( ut, "disarm_trap_at", &map::disarm_trap );
-        DOC( "Simpler version of `set_trap_at` with `trap_null`." );
-        luna::set_fx( ut, "remove_trap_at", &map::remove_trap );
-    }
-
-    // Register 'tinymap' class to be used in Lua
-    {
-        luna::new_usertype<tinymap>( lua, luna::bases<map>(), luna::no_constructor );
-    }
-
-    // Register 'item_stack' class to be used in Lua
-    {
-        DOC( "Iterate over this using pairs()" );
-        sol::usertype<item_stack> ut = luna::new_usertype<item_stack>( lua, luna::no_bases,
-                                       luna::no_constructor );
-
-        luna::set_fx( ut, sol::meta_function::pairs, item_stack_lua_pairs );
-    }
-
-    // Register 'map_stack' class to be used in Lua
-    {
-        sol::usertype<map_stack> ut = luna::new_usertype<map_stack>( lua, luna::bases<item_stack>(),
-                                      luna::no_constructor );
-
-        luna::set_fx( ut, "as_item_stack", []( map_stack & ref ) -> item_stack& {
-            return ref;
-        } );
-    }
-}
-
-void cata::detail::reg_distribution_grid( sol::state &lua )
-{
-    {
-        sol::usertype<distribution_grid> ut =
-            luna::new_usertype<distribution_grid>(
-                lua,
-                luna::no_bases,
-                luna::no_constructor
-            );
-
-        DOC( "Boolean argument controls recursive behavior" );
-        luna::set_fx( ut, "get_resource", &distribution_grid::get_resource );
-        DOC( "Boolean argument controls recursive behavior" );
-        luna::set_fx( ut, "mod_resource", &distribution_grid::mod_resource );
-    }
-
-    {
-        sol::usertype<distribution_grid_tracker> ut =
-            luna::new_usertype<distribution_grid_tracker>(
-                lua,
-                luna::no_bases,
-                luna::no_constructor
-            );
-
-        luna::set_fx( ut, "get_grid_at_abs_ms", []( distribution_grid_tracker & tr, const tripoint & p )
-        -> distribution_grid& {
-            return tr.grid_at( tripoint_abs_ms( p ) );
-        } );
-    }
-
-}
-
-void cata::detail::reg_ui_elements( sol::state &lua )
-{
-    {
-        sol::usertype<uilist> ut =
-            luna::new_usertype<uilist>(
-                lua,
-                luna::no_bases,
-                luna::constructors <
-                uilist()
-                > ()
-            );
-        DOC( "Sets title which is on the top line." );
-        luna::set_fx( ut, "title", []( uilist & ui, const std::string & text ) {
-            ui.title = text;
-        } );
-        DOC( "Sets text which is in upper box." );
-        luna::set_fx( ut, "text", []( uilist & ui, const std::string & input ) {
-            ui.text = input;
-        } );
-        DOC( "Sets footer text which is in lower box. It overwrites descs of entries unless is empty." );
-        luna::set_fx( ut, "footer", []( uilist & ui, const std::string & text ) {
-            ui.footer_text = text;
-        } );
-        DOC( "Puts a lower box. Footer or entry desc appears on it." );
-        luna::set_fx( ut, "desc_enabled", []( uilist & ui, bool value ) {
-            ui.desc_enabled = value;
-        } );
-        DOC( "Adds an entry. `string` is its name, and `int` is what it returns. If `int` is `-1`, the number is decided orderly." );
-        luna::set_fx( ut, "add", []( uilist & ui, int retval, const std::string & text ) {
-            ui.addentry( retval, true, MENU_AUTOASSIGN, text );
-        } );
-        DOC( "Adds an entry with desc(second `string`). `desc_enabled(true)` is required for showing desc." );
-        luna::set_fx( ut, "add_w_desc", []( uilist & ui, int retval, const std::string & text,
-        const std::string & desc ) {
-            ui.addentry_desc( retval, true, MENU_AUTOASSIGN, text, desc );
-        } );
-        DOC( "Adds an entry with desc and col(third `string`). col is additional text on the right of the entry name." );
-        luna::set_fx( ut, "add_w_col", []( uilist & ui, int retval, const std::string & text,
-        const std::string & desc, const std::string col ) {
-            ui.addentry_col( retval, true, MENU_AUTOASSIGN, text, col, desc );
-        } );
-        DOC( "Entries from uilist. Remember, in lua, the first element of vector is `entries[1]`, not `entries[0]`." );
-        luna::set( ut, "entries", &uilist::entries );
-        DOC( "Changes the color. Default color is `c_magenta`." );
-        luna::set_fx( ut, "border_color", []( uilist & ui, color_id col ) {
-            ui.border_color = get_all_colors().get( col );
-        } );
-        DOC( "Changes the color. Default color is `c_light_gray`." );
-        luna::set_fx( ut, "text_color", []( uilist & ui, color_id col ) {
-            ui.text_color = get_all_colors().get( col );
-        } );
-        DOC( "Changes the color. Default color is `c_green`." );
-        luna::set_fx( ut, "title_color", []( uilist & ui, color_id col ) {
-            ui.title_color = get_all_colors().get( col );
-        } );
-        DOC( "Changes the color. Default color is `h_white`." );
-        luna::set_fx( ut, "hilight_color", []( uilist & ui, color_id col ) {
-            ui.hilight_color = get_all_colors().get( col );
-        } );
-        DOC( "Changes the color. Default color is `c_light_green`." );
-        luna::set_fx( ut, "hotkey_color", []( uilist & ui, color_id col ) {
-            ui.hotkey_color = get_all_colors().get( col );
-        } );
-        DOC( "Returns retval for selected entry, or a negative number on fail/cancel" );
-        luna::set_fx( ut, "query", []( uilist & ui ) {
-            ui.query();
-            return ui.ret;
-        } );
-    }
-    {
-        DOC( "This type came from UiList." );
-        sol::usertype<uilist_entry> ut =
-            luna::new_usertype<uilist_entry>(
-                lua,
-                luna::no_bases,
-                luna::no_constructor
-            );
-        DOC( "Entry whether it's enabled or not. Default is `true`." );
-        luna::set( ut, "enable", &uilist_entry::enabled );
-        DOC( "Entry text" );
-        luna::set( ut, "txt", &uilist_entry::txt );
-        DOC( "Entry description" );
-        luna::set( ut, "desc", &uilist_entry::desc );
-        DOC( "Entry text of column." );
-        luna::set( ut, "ctxt",  &uilist_entry::ctxt );
-        DOC( "Entry text color. Its default color is `c_red_red`, which makes color of the entry same as what `uilist` decides. So if you want to make color different, choose one except `c_red_red`." );
-        luna::set_fx( ut, "txt_color", []( uilist_entry & ui_entry, color_id col ) {
-            ui_entry.text_color = get_all_colors().get( col );
-        } );
-    }
-
-    {
-        sol::usertype<query_popup> ut =
-            luna::new_usertype<query_popup>(
-                lua,
-                luna::no_bases,
-                luna::constructors <
-                query_popup()
-                > ()
-            );
-        luna::set_fx( ut, "message", []( query_popup & popup, sol::variadic_args va ) {
-            popup.message( "%s", cata::detail::fmt_lua_va( va ) );
-        } );
-        luna::set_fx( ut, "message_color", []( query_popup & popup, color_id col ) {
-            popup.default_color( get_all_colors().get( col ) );
-        } );
-        DOC( "Set whether to allow any key" );
-        luna::set_fx( ut, "allow_any_key", []( query_popup & popup, bool val ) {
-            popup.allow_anykey( val );
-        } );
-        DOC( "Returns selected action" );
-        luna::set_fx( ut, "query", []( query_popup & popup ) {
-            return popup.query().action;
-        } );
-        DOC( "Returns `YES` or `NO`. If ESC pressed, returns `NO`." );
-        luna::set_fx( ut, "query_yn", []( query_popup & popup ) {
-            return popup
-                   .context( "YESNO" )
-                   .option( "YES" )
-                   .option( "NO" )
-                   .query()
-                   .action;
-        } );
-        DOC( "Returns `YES`, `NO` or `QUIT`. If ESC pressed, returns `QUIT`." );
-        luna::set_fx( ut, "query_ynq", []( query_popup & popup ) {
-            return popup
-                   .context( "YESNOQUIT" )
-                   .option( "YES" )
-                   .option( "NO" )
-                   .option( "QUIT" )
-                   .query()
-                   .action;
-        } );
-    }
-
-    {
-        sol::usertype<string_input_popup> ut =
-            luna::new_usertype<string_input_popup>(
-                lua,
-                luna::no_bases,
-                luna::constructors <
-                string_input_popup()
-                > ()
-            );
-        DOC( "`title` is on the left of input field." );
-        luna::set_fx( ut, "title", []( string_input_popup & sipop, const std::string & text ) {
-            sipop.title( text );
-        } );
-        DOC( "`desc` is above input field." );
-        luna::set_fx( ut, "desc", []( string_input_popup & sipop, const std::string & text ) {
-            sipop.description( text );
-        } );
-        DOC( "Returns your input." );
-        luna::set_fx( ut, "query_str", []( string_input_popup & sipop ) {
-            sipop.only_digits( false );
-            return sipop.query_string();
-        } );
-        DOC( "Returns your input, but allows numbers only." );
-        luna::set_fx( ut, "query_int", []( string_input_popup & sipop ) {
-            sipop.only_digits( true );
-            return sipop.query_int();
-        } );
-    }
-}
 
 void cata::detail::reg_constants( sol::state &lua )
 {
@@ -917,16 +533,10 @@ void cata::detail::reg_debug_api( sol::state &lua )
     luna::set_fx( lib, "log_warn", &lua_log_warn_impl );
     luna::set_fx( lib, "log_error", &lua_log_error_impl );
     luna::set_fx( lib, "debugmsg", &lua_debugmsg_impl );
-    luna::set_fx( lib, "clear_lua_log", []() {
-        cata::get_lua_log_instance().clear();
-    } );
-    luna::set_fx( lib, "set_log_capacity", []( int v ) {
-        cata::get_lua_log_instance().set_log_capacity( v );
-    } );
+    luna::set_fx( lib, "clear_lua_log", []() { cata::get_lua_log_instance().clear(); } );
+    luna::set_fx( lib, "set_log_capacity", []( int v ) { cata::get_lua_log_instance().set_log_capacity( v ); } );
     luna::set_fx( lib, "reload_lua_code", &cata::reload_lua_code );
-    luna::set_fx( lib, "save_game", []() -> bool {
-        return g->save( false );
-    } );
+    luna::set_fx( lib, "save_game", []() -> bool { return g->save( false ); } );
 
     luna::finalize_lib( lib );
 }
@@ -943,151 +553,6 @@ void cata::detail::forbid_unsafe_functions( sol::state &lua )
     g["loadfile"] = sol::nil;
     g["load"] = sol::nil;
     g["loadstring"] = sol::nil;
-}
-
-static void add_msg_lua( game_message_type t, sol::variadic_args va )
-{
-    if( va.size() == 0 ) {
-        // Nothing to print
-        return;
-    }
-
-    std::string msg = cata::detail::fmt_lua_va( va );
-    add_msg( t, msg );
-}
-
-void cata::detail::reg_game_api( sol::state &lua )
-{
-    DOC( "Global game methods" );
-    luna::userlib lib = luna::begin_lib( lua, "gapi" );
-
-    luna::set_fx( lib, "get_avatar", &get_avatar );
-    luna::set_fx( lib, "get_map", &get_map );
-    luna::set_fx( lib, "get_distribution_grid_tracker", &get_distribution_grid_tracker );
-    luna::set_fx( lib, "add_msg", sol::overload(
-                      add_msg_lua,
-    []( sol::variadic_args va ) {
-        add_msg_lua( game_message_type::m_neutral, va );
-    }
-                  ) );
-    luna::set_fx( lib, "place_player_overmap_at", []( const tripoint & p ) -> void {
-        g->place_player_overmap( tripoint_abs_omt( p ) );
-    } );
-    luna::set_fx( lib, "current_turn", []() -> time_point { return calendar::turn; } );
-    luna::set_fx( lib, "turn_zero", []() -> time_point { return calendar::turn_zero; } );
-    luna::set_fx( lib, "before_time_starts", []() -> time_point { return calendar::before_time_starts; } );
-    luna::set_fx( lib, "rng", sol::resolve<int( int, int )>( &rng ) );
-    luna::set_fx( lib, "add_on_every_x_hook", []( sol::this_state lua_this, time_duration interval,
-    sol::protected_function f ) {
-        sol::state_view lua( lua_this );
-        std::vector<on_every_x_hooks> &hooks = lua["game"]["cata_internal"]["on_every_x_hooks"];
-        for( auto &entry : hooks ) {
-            if( entry.interval == interval ) {
-                entry.functions.push_back( f );
-                return;
-            }
-        }
-        std::vector<sol::protected_function> vec;
-        vec.push_back( f );
-        hooks.push_back( on_every_x_hooks{ interval, vec } );
-    } );
-
-    luna::set_fx( lib, "create_item", []( const itype_id & itype, int count ) -> std::unique_ptr<item> {
-        return std::make_unique<item>( itype, calendar::turn, count );
-    } );
-
-    luna::set_fx( lib, "get_creature_at", []( const tripoint & p,
-    sol::optional<bool> allow_hallucination ) -> Creature * {
-        if( allow_hallucination.has_value() )
-        {
-            return g->critter_at<Creature>( p, *allow_hallucination );
-        }
-        return g->critter_at<Creature>( p );
-    } );
-    luna::set_fx( lib, "get_monster_at", []( const tripoint & p,
-    sol::optional<bool> allow_hallucination ) -> monster * {
-        if( allow_hallucination.has_value() )
-        {
-            return g->critter_at<monster>( p, *allow_hallucination );
-        }
-        return g->critter_at<monster>( p );
-    } );
-    luna::set_fx( lib, "place_monster_at", []( const mtype_id & id, const tripoint & p ) {
-        return g->place_critter_at( id, p );
-    } );
-    luna::set_fx( lib, "get_character_at", []( const tripoint & p,
-    sol::optional<bool> allow_hallucination ) -> Character * {
-        if( allow_hallucination.has_value() )
-        {
-            return g->critter_at<Character>( p, *allow_hallucination );
-        }
-        return g->critter_at<Character>( p );
-    } );
-    luna::set_fx( lib, "get_npc_at", []( const tripoint & p,
-    sol::optional<bool> allow_hallucination ) -> npc * {
-        if( allow_hallucination.has_value() )
-        {
-            return g->critter_at<npc>( p, *allow_hallucination );
-        }
-        return g->critter_at<npc>( p );
-    } );
-
-    luna::set_fx( lib, "choose_adjacent", []( const std::string & message,
-    sol::optional<bool> allow_vertical ) -> sol::optional<tripoint> {
-        std::optional<tripoint> stdOpt;
-        if( allow_vertical.has_value() )
-        {
-            stdOpt = choose_adjacent( message, *allow_vertical );
-        } else
-        {
-            stdOpt = choose_adjacent( message );
-        }
-        if( stdOpt.has_value() )
-        {
-            return sol::optional<tripoint>( *stdOpt );
-        }
-        return sol::optional<tripoint>();
-    } );
-    luna::set_fx( lib, "choose_direction", []( const std::string & message,
-    sol::optional<bool> allow_vertical ) -> sol::optional<tripoint> {
-        std::optional<tripoint> stdOpt;
-        if( allow_vertical.has_value() )
-        {
-            stdOpt = choose_direction( message, *allow_vertical );
-        } else
-        {
-            stdOpt = choose_direction( message );
-        }
-        if( stdOpt.has_value() )
-        {
-            return sol::optional<tripoint>( *stdOpt );
-        }
-        return sol::optional<tripoint>();
-    } );
-    luna::set_fx( lib, "look_around", []() {
-        auto result = g->look_around();
-        if( result.has_value() ) {
-            return sol::optional<tripoint>( *result );
-        }
-        return sol::optional<tripoint>();
-    } );
-
-    luna::set_fx( lib, "play_variant_sound",
-                  sol::overload(
-                      sol::resolve<void( const std::string &, const std::string &, int )>( &sfx::play_variant_sound ),
-                      sol::resolve<void( const std::string &, const std::string &, int,
-                                         units::angle, double, double )>( &sfx::play_variant_sound )
-                  ) );
-    luna::set_fx( lib, "play_ambient_variant_sound", &sfx::play_ambient_variant_sound );
-
-    luna::set_fx( lib, "add_npc_follower", []( npc & p ) {
-        g->add_npc_follower( p.getID() );
-    } );
-    luna::set_fx( lib, "remove_npc_follower", []( npc & p ) {
-        g->remove_npc_follower( p.getID() );
-    } );
-
-    luna::finalize_lib( lib );
 }
 
 // We have to alias the function here because VS compiler
@@ -1177,6 +642,12 @@ void cata::detail::reg_hooks_examples( sol::state &lua )
     luna::set_fx( lib, "on_game_save", []() {} );
     DOC( "Called right after game has loaded" );
     luna::set_fx( lib, "on_game_load", []() {} );
+    DOC( "Called when character stat gets reset" );
+    luna::set_fx( lib, "on_game_started", []() {} );
+    DOC( "Called when the game has first started" );
+    luna::set_fx( lib, "on_character_reset_stats", []() {} );
+    DOC( "Called when a monster is dead" );
+    luna::set_fx( lib, "on_mon_death", []() {} );
     DOC( "Called every in-game period" );
     luna::set_fx( lib, "on_every_x", []() {} );
     DOC( "Called right after mapgen has completed. "
@@ -1205,24 +676,16 @@ void cata::detail::reg_time_types( sol::state &lua )
         luna::set_fx( ut, "from_turn", &time_point::from_turn );
 
         // Methods
-        luna::set_fx( ut, "to_turn", []( const time_point & tp ) -> int {
-            return to_turn<int>( tp );
-        } );
+        luna::set_fx( ut, "to_turn", []( const time_point & tp ) -> int { return to_turn<int>( tp ); } );
 
         luna::set_fx( ut, "is_night", &is_night );
         luna::set_fx( ut, "is_day", &is_day );
         luna::set_fx( ut, "is_dusk", &is_dusk );
         luna::set_fx( ut, "is_dawn", &is_dawn );
 
-        luna::set_fx( ut, "second_of_minute", []( const time_point & tp ) -> int {
-            return to_turn<int>( tp ) % 60;
-        } );
-        luna::set_fx( ut, "minute_of_hour", []( const time_point & tp ) -> int {
-            return minute_of_hour<int>( tp );
-        } );
-        luna::set_fx( ut, "hour_of_day", []( const time_point & tp ) -> int {
-            return hour_of_day<int>( tp );
-        } );
+        luna::set_fx( ut, "second_of_minute", []( const time_point & tp ) -> int { return to_turn<int>( tp ) % 60; } );
+        luna::set_fx( ut, "minute_of_hour", []( const time_point & tp ) -> int { return minute_of_hour<int>( tp ); } );
+        luna::set_fx( ut, "hour_of_day", []( const time_point & tp ) -> int { return hour_of_day<int>( tp ); } );
 
         // (De-)Serialization
         reg_serde_functions( ut );
@@ -1236,30 +699,19 @@ void cata::detail::reg_time_types( sol::state &lua )
 
         // Equality operator
         // It's defined as inline friend function inside point class, we can't access it and so have to improvise
-        luna::set_fx( ut, sol::meta_function::equal_to, []( const time_point & a, const time_point & b ) {
-            return a == b;
-        } );
+        luna::set_fx( ut, sol::meta_function::equal_to, []( const time_point & a, const time_point & b ) { return a == b; } );
 
         // Less-then operator
         // Same deal as with equality operator
-        luna::set_fx( ut, sol::meta_function::less_than, []( const time_point & a, const time_point & b ) {
-            return a < b;
-        } );
+        luna::set_fx( ut, sol::meta_function::less_than, []( const time_point & a, const time_point & b ) { return a < b; } );
 
         // Arithmetic operators
         luna::set_fx( ut, sol::meta_function::addition,
-        []( const time_point & a, const time_duration & b ) -> time_point {
-            return a + b;
-        }
-                    );
+                      []( const time_point & a, const time_duration & b ) -> time_point { return a + b; } );
         luna::set_fx( ut, sol::meta_function::subtraction,
                       sol::overload(
-        []( const time_point & a, const time_point & b ) -> time_duration {
-            return a - b;
-        },
-        []( const time_point & a, const time_duration & b ) -> time_point {
-            return a - b;
-        }
+                          []( const time_point & a, const time_point & b ) -> time_duration { return a - b; },
+                          []( const time_point & a, const time_duration & b ) -> time_point { return a - b; }
                       ) );
     }
     {
@@ -1272,47 +724,21 @@ void cata::detail::reg_time_types( sol::state &lua )
             );
 
         // Constructor methods
-        luna::set_fx( ut, "from_turns", []( int t ) {
-            return time_duration::from_turns( t );
-        } );
-        luna::set_fx( ut, "from_seconds", []( int t ) {
-            return time_duration::from_seconds( t );
-        } );
-        luna::set_fx( ut, "from_minutes", []( int t ) {
-            return time_duration::from_minutes( t );
-        } );
-        luna::set_fx( ut, "from_hours", []( int t ) {
-            return time_duration::from_hours( t );
-        } );
-        luna::set_fx( ut, "from_days", []( int t ) {
-            return time_duration::from_days( t );
-        } );
-        luna::set_fx( ut, "from_weeks", []( int t ) {
-            return time_duration::from_weeks( t );
-        } );
+        luna::set_fx( ut, "from_turns", []( int t ) { return time_duration::from_turns( t ); } );
+        luna::set_fx( ut, "from_seconds", []( int t ) { return time_duration::from_seconds( t ); } );
+        luna::set_fx( ut, "from_minutes", []( int t ) { return time_duration::from_minutes( t ); } );
+        luna::set_fx( ut, "from_hours", []( int t ) { return time_duration::from_hours( t ); } );
+        luna::set_fx( ut, "from_days", []( int t ) { return time_duration::from_days( t ); } );
+        luna::set_fx( ut, "from_weeks", []( int t ) { return time_duration::from_weeks( t ); } );
 
-        luna::set_fx( ut, "make_random", []( const time_duration & lo, const time_duration & hi ) {
-            return rng( lo, hi );
-        } );
+        luna::set_fx( ut, "make_random", []( const time_duration & lo, const time_duration & hi ) { return rng( lo, hi ); } );
 
-        luna::set_fx( ut, "to_turns", []( const time_duration & t ) -> int {
-            return to_turns<int>( t );
-        } );
-        luna::set_fx( ut, "to_seconds", []( const time_duration & t ) -> int {
-            return to_seconds<int>( t );
-        } );
-        luna::set_fx( ut, "to_minutes", []( const time_duration & t ) -> int {
-            return to_minutes<int>( t );
-        } );
-        luna::set_fx( ut, "to_hours", []( const time_duration & t ) -> int {
-            return to_hours<int>( t );
-        } );
-        luna::set_fx( ut, "to_days", []( const time_duration & t ) -> int {
-            return to_days<int>( t );
-        } );
-        luna::set_fx( ut, "to_weeks", []( const time_duration & t ) -> int {
-            return to_weeks<int>( t );
-        } );
+        luna::set_fx( ut, "to_turns", []( const time_duration & t ) -> int { return to_turns<int>( t ); } );
+        luna::set_fx( ut, "to_seconds", []( const time_duration & t ) -> int { return to_seconds<int>( t ); } );
+        luna::set_fx( ut, "to_minutes", []( const time_duration & t ) -> int { return to_minutes<int>( t ); } );
+        luna::set_fx( ut, "to_hours", []( const time_duration & t ) -> int { return to_hours<int>( t ); } );
+        luna::set_fx( ut, "to_days", []( const time_duration & t ) -> int { return to_days<int>( t ); } );
+        luna::set_fx( ut, "to_weeks", []( const time_duration & t ) -> int { return to_weeks<int>( t ); } );
 
         // (De-)Serialization
         reg_serde_functions( ut );
@@ -1322,23 +748,13 @@ void cata::detail::reg_time_types( sol::state &lua )
         luna::set_fx( ut, sol::meta_function::to_string,
                       sol::resolve<std::string( const time_duration & )>( to_string ) );
 
-        luna::set_fx( ut, sol::meta_function::addition, []( const time_duration & a,
-        const time_duration & b ) {
-            return a + b;
-        } );
-        luna::set_fx( ut, sol::meta_function::subtraction, []( const time_duration & a,
-        const time_duration & b ) {
-            return a - b;
-        } );
-        luna::set_fx( ut, sol::meta_function::multiplication, []( const time_duration & a, int b ) {
-            return a * b;
-        } );
-        luna::set_fx( ut, sol::meta_function::division, []( const time_duration & a, int b ) {
-            return a / b;
-        } );
-        luna::set_fx( ut, sol::meta_function::unary_minus, []( const time_duration & a ) {
-            return -a;
-        } );
+        luna::set_fx( ut, sol::meta_function::addition,
+        []( const time_duration & a, const time_duration & b ) { return a + b; } );
+        luna::set_fx( ut, sol::meta_function::subtraction,
+        []( const time_duration & a, const time_duration & b ) { return a - b; } );
+        luna::set_fx( ut, sol::meta_function::multiplication, []( const time_duration & a, int b ) { return a * b; } );
+        luna::set_fx( ut, sol::meta_function::division, []( const time_duration & a, int b ) { return a / b; } );
+        luna::set_fx( ut, sol::meta_function::unary_minus, []( const time_duration & a ) { return -a; } );
     }
 }
 
@@ -1348,12 +764,8 @@ void cata::detail::reg_testing_library( sol::state &lua )
     luna::userlib lib = luna::begin_lib( lua, "tests_lib" );
 
     // Regression test for https://github.com/ThePhD/sol2/issues/1444
-    luna::set_fx( lib, "my_awesome_lambda_1", []() -> int {
-        return 1;
-    } );
-    luna::set_fx( lib, "my_awesome_lambda_2", []() -> int {
-        return 2;
-    } );
+    luna::set_fx( lib, "my_awesome_lambda_1", []() -> int { return 1; } );
+    luna::set_fx( lib, "my_awesome_lambda_2", []() -> int { return 2; } );
 
     luna::finalize_lib( lib );
 }
@@ -1381,6 +793,7 @@ void cata::reg_all_bindings( sol::state &lua )
     reg_game_ids( lua );
     mod_mutation_branch( lua );
     reg_magic( lua );
+    reg_recipe( lua );
     reg_coords_library( lua );
     reg_constants( lua );
     reg_hooks_examples( lua );

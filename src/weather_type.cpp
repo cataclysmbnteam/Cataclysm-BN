@@ -1,7 +1,9 @@
 #include "weather_type.h"
 
+#include "units_serde.h"
 #include "game_constants.h"
 #include "generic_factory.h"
+#include "bodypart.h"
 #include "weather.h"
 
 namespace
@@ -142,22 +144,82 @@ void weather_type::load( const JsonObject &jo, const std::string & )
     mandatory( jo, was_loaded, "sun_intensity", sun_intensity );
 
     for( const JsonObject weather_effect : jo.get_array( "effects" ) ) {
+        std::string name = weather_effect.get_string( "name" );
+        int intensity = weather_effect.get_int( "intensity" );
 
-        std::pair<std::string, int> pair = std::make_pair( weather_effect.get_string( "name" ),
-                                           weather_effect.get_int( "intensity" ) );
+        // this is a terrible hardcoded implementation, but only way i could figure out how to satisfy JSON and get it to function
+        if( name == "morale" ) {
+            std::string id_str = weather_effect.get_string( "morale_id_str" );
+            std::string msg = weather_effect.get_string( "morale_msg" );
+            int freq = weather_effect.get_int( "morale_msg_frequency" );
+            int bonus = weather_effect.get_int( "bonus" );
+            int bonus_max = weather_effect.get_int( "bonus_max" );
+            time_duration duration = read_from_json_string<time_duration>
+                                     ( *weather_effect.get_raw( "duration" ),
+                                       time_duration::units );
+            time_duration decay_start = read_from_json_string<time_duration>
+                                        ( *weather_effect.get_raw( "decay_start" ),
+                                          time_duration::units );
+            int message_type = weather_effect.get_int( "message_type" );
+            game_message_type gmt = static_cast<game_message_type>( message_type );
 
-        static const std::map<std::string, weather_effect_fn> all_weather_effects = {
+            effects.emplace_back(
+            [ = ]( int intensity ) {
+                weather_effect::morale( intensity, bonus, bonus_max, duration, decay_start, id_str, msg, freq,
+                                        gmt );
+            },
+            intensity
+            );
+            continue; // skip the map lookup
+        }
+
+        // same as above
+        if( name == "effect" ) {
+            std::string id_str = weather_effect.get_string( "effect_id_str" );
+            std::string msg = weather_effect.get_string( "effect_msg" );
+            int freq = weather_effect.get_int( "effect_msg_frequency" );
+            int effect_intensity = weather_effect.get_int( "effect_intensity" );
+            std::string bodypart_string = weather_effect.get_string( "bodypart_string", "" );
+            time_duration duration = read_from_json_string<time_duration>
+                                     ( *weather_effect.get_raw( "duration" ),
+                                       time_duration::units );
+
+            bodypart_str_id bp_id = bodypart_str_id::NULL_ID();
+            if( bodypart_string != "" ) {
+                bp_id = bodypart_str_id( bodypart_string );
+            }
+
+            std::string precipitation_name = weather_effect.get_string( "precipitation_name" );
+            bool ignore_armor = weather_effect.get_bool( "ignore_armor" );
+            int message_type = weather_effect.get_int( "message_type" );
+            int clothing_protection = weather_effect.get_int( "clothing_protection" );
+            int umbrella_protection = weather_effect.get_int( "umbrella_protection" );
+            game_message_type gmt = static_cast<game_message_type>( message_type );
+
+            effects.emplace_back(
+            [ = ]( int intensity ) {
+                weather_effect::effect( intensity, duration, bp_id, effect_intensity, id_str, msg,
+                                        freq,
+                                        gmt, precipitation_name, ignore_armor, clothing_protection, umbrella_protection );
+            },
+            intensity
+            );
+            continue; // skip the map lookup
+        }
+
+        const std::map<std::string, weather_effect_fn> all_weather_effects = {
             { "wet", &weather_effect::wet_player },
             { "thunder", &weather_effect::thunder },
-            { "lightning", &weather_effect::lightning },
-            { "light_acid", &weather_effect::light_acid },
-            { "acid", &weather_effect::acid }
+            { "lightning", &weather_effect::lightning }
+            // effect and morale would be here, but are hardcoded above
         };
-        const auto iter = all_weather_effects.find( pair.first );
+
+        const auto iter = all_weather_effects.find( name );
         if( iter == all_weather_effects.end() ) {
             weather_effect.throw_error( "Invalid weather effect", "name" );
         }
-        effects.emplace_back( iter->second, pair.second );
+
+        effects.emplace_back( iter->second, intensity );
     }
 
     if( jo.has_member( "animation" ) ) {

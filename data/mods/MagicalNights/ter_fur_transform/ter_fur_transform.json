@@ -88,7 +88,7 @@
   {
     "type": "ter_furn_transform",
     "id": "lava_bomb",
-    "terrain": [ { "result": "t_lava", "valid_flags": [ "DIGGABLE" ] } ]
+    "terrain": [ { "result": "t_lava", "diggable": true } ]
   },
   {
     "type": "ter_furn_transform",
@@ -97,7 +97,8 @@
     "terrain": [
       {
         "result": "t_rock_smooth",
-        "valid_flags": [ "DIGGABLE", "FLAT" ],
+        "valid_flags": [ "FLAT" ],
+        "diggable": true,
         "message": "The ground shakes, a section of unnaturally smooth stone wall rising up."
       }
     ],

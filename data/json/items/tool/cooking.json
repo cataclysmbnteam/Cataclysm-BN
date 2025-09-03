@@ -50,6 +50,23 @@
     "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
+    "id": "atomic_pseudo_churn",
+    "type": "TOOL",
+    "sub": "atomic_coffeepot",
+    "name": { "str": "deployed atomic butter churn" },
+    "description": "This is a crafting_pseudo_item if you have it something is wrong.",
+    "weight": "6464 g",
+    "volume": "11356 ml",
+    "price": "200 USD",
+    "to_hit": -2,
+    "bashing": 9,
+    "material": [ "plastic", "steel" ],
+    "qualities": [ [ "CONTAIN", 1 ], [ "CHURN", 2 ], [ "BOIL", 1 ] ],
+    "symbol": "H",
+    "color": "light_cyan",
+    "flags": [ "ALLOWS_REMOTE_USE" ]
+  },
+  {
     "id": "can_sealer",
     "type": "GENERIC",
     "category": "tools_cooking",
@@ -92,7 +109,7 @@
       "transform_charges": 1,
       "need_dry": true
     },
-    "flags": [ "SHEATH_SWORD", "NONCONDUCTIVE" ],
+    "flags": [ "SHEATH_SWORD", "NONCONDUCTIVE", "COMBAT_NPC_USE" ],
     "magazines": [
       [
         "battery",
@@ -115,7 +132,7 @@
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 25 ] ],
     "revert_msg": "Your electric carver goes quiet",
     "use_action": { "type": "transform", "target": "carver_off", "msg": "You turn off the electric carver." },
-    "flags": [ "MESSY", "TRADER_AVOID", "NONCONDUCTIVE", "WATER_DISABLE" ],
+    "flags": [ "MESSY", "TRADER_AVOID", "NONCONDUCTIVE", "WATER_DISABLE", "COMBAT_NPC_USE", "COMBAT_NPC_ON" ],
     "magazine_well": "500 ml"
   },
   {
@@ -594,6 +611,21 @@
     "magazine_well": "500 ml"
   },
   {
+    "id": "afs_atompot",
+    "type": "TOOL",
+    "name": { "str": "atompot" },
+    "copy-from": "pressure_cooker",
+    "description": "Rivtech's premiere self-heating kitchen appliance, complete with lid, hand-crafted with the power of the atom to reach any temperature in thirty seconds.  As bulky as it is, its plutonium power source means that it can be used to cook an absurd amount of meals without ever worrying about running low on power.  Unsurprisingly, sales weren't particularly good because of the prospect of irradiating your food, but internal shielding ensures that only trace amounts find its way into the center.",
+    "price": "300 USD",
+    "price_postapoc": "50 USD",
+    "material": [ "steel", "plastic" ],
+    "looks_like": "pot",
+    "symbol": ")",
+    "color": "light_green",
+    "use_action": "HOTPLATE",
+    "flags": [ "ALLOWS_REMOTE_USE" ]
+  },
+  {
     "id": "jar_eggs_pickled",
     "type": "GENERIC",
     "category": "food",
@@ -795,7 +827,7 @@
     "symbol": ";",
     "color": "red",
     "ammo": "battery",
-    "power_draw": 1500000,
+    "power_draw": 1000000,
     "qualities": [ [ "CONTAIN", 1 ] ],
     "use_action": "MULTICOOKER",
     "magazines": [

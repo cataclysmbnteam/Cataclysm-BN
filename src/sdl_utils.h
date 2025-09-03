@@ -38,6 +38,10 @@ SDL_Color color_pixel_nightvision( const SDL_Color &color );
 
 SDL_Color color_pixel_overexposed( const SDL_Color &color );
 
+SDL_Color color_pixel_underwater( const SDL_Color &color );
+
+SDL_Color color_pixel_underwater_dark( const SDL_Color &color );
+
 SDL_Color color_pixel_darken( const SDL_Color &color );
 
 SDL_Color color_pixel_sepia( const SDL_Color &color );

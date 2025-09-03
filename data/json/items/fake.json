@@ -113,7 +113,7 @@
     "name": { "str": "acid spit gun" },
     "description": "Fake gun that fires acid globs.",
     "flags": [ "NEVER_JAMS" ],
-    "ammo_effects": [ "BLINDS_EYES", "NEVER_MISFIRES", "NO_DAMAGE_SCALING" ],
+    "ammo_effects": [ "NO_PENETRATE_OBSTACLES", "BLINDS_EYES", "NEVER_MISFIRES", "NO_DAMAGE_SCALING" ],
     "skill": "rifle",
     "durability": 10,
     "range": 100,
@@ -477,7 +477,7 @@
     "type": "TOOL",
     "name": { "str": "installed reloading press" },
     "//": "Doesn't substitute for hand press because we want to define this tool in crafting requirements separately, due to disassembly code.",
-    "qualities": [ [ "PULL", 2 ] ]
+    "qualities": [ [ "PULL", 2 ], [ "CASING_PRESSING", 3 ] ]
   },
   {
     "id": "grid_hydraulic_press",

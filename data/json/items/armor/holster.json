@@ -23,7 +23,7 @@
       "draw_cost": 150,
       "skills": [ "smg", "shotgun", "rifle", "launcher" ]
     },
-    "flags": [ "BELTED", "COMPACT", "OVERSIZE", "NO_QUICKDRAW" ]
+    "flags": [ "BELTED", "COMPACT", "OVERSIZE" ]
   },
   {
     "id": "bootstrap",
@@ -125,7 +125,7 @@
       "skills": [ "pistol", "smg", "shotgun", "rifle" ],
       "flags": [ "HOLSTER_PISTOL" ]
     },
-    "flags": [ "WAIST", "COMPACT", "OVERSIZE" ]
+    "flags": [ "WAIST", "COMPACT", "OVERSIZE", "ALLOWS_TAIL_SNAKE" ]
   },
   {
     "id": "sholster",
@@ -256,6 +256,6 @@
       "skills": [ "pistol", "smg", "shotgun", "rifle" ],
       "flags": [ "HOLSTER_PISTOL" ]
     },
-    "flags": [ "WAIST", "COMPACT", "OVERSIZE" ]
+    "flags": [ "WAIST", "COMPACT", "OVERSIZE", "ALLOWS_TAIL_SNAKE" ]
   }
 ]

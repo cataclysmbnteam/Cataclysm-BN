@@ -132,12 +132,11 @@ static const itype_id fuel_type_muscle( "muscle" );
 static const itype_id fuel_type_sun_light( "sunlight" );
 static const itype_id fuel_type_wind( "wind" );
 
-static const itype_id itype_adv_UPS_off( "adv_UPS_off" );
 static const itype_id itype_anesthetic( "anesthetic" );
 static const itype_id itype_burnt_out_bionic( "burnt_out_bionic" );
 static const itype_id itype_radiocontrol( "radiocontrol" );
 static const itype_id itype_remotevehcontrol( "remotevehcontrol" );
-static const itype_id itype_UPS_off( "UPS_off" );
+static const itype_id itype_UPS( "UPS" );
 static const itype_id itype_water_clean( "water_clean" );
 
 static const fault_id fault_bionic_nonsterile( "fault_bionic_nonsterile" );
@@ -1525,11 +1524,8 @@ itype_id Character::find_remote_fuel( bool look_only )
                     return itm.get_var( "cable" ) == "plugged_in";
                 };
                 if( !look_only ) {
-                    if( has_charges( itype_UPS_off, 1, used_ups ) ) {
-                        set_value( "rem_battery", std::to_string( charges_of( itype_UPS_off,
-                                   units::to_kilojoule( max_power_level ), used_ups ) ) );
-                    } else if( has_charges( itype_adv_UPS_off, 1, used_ups ) ) {
-                        set_value( "rem_battery", std::to_string( charges_of( itype_adv_UPS_off,
+                    if( has_charges( itype_UPS, 1, used_ups ) ) {
+                        set_value( "rem_battery", std::to_string( charges_of( itype_UPS,
                                    units::to_kilojoule( max_power_level ), used_ups ) ) );
                     } else {
                         set_value( "rem_battery", std::to_string( 0 ) );
@@ -1587,11 +1583,8 @@ units::energy Character::consume_remote_fuel( units::energy amount )
                 static const item_filter used_ups = [&]( const item & itm ) {
                     return itm.get_var( "cable" ) == "plugged_in";
                 };
-                if( has_charges( itype_UPS_off, amount_kj, used_ups ) ) {
-                    use_charges( itype_UPS_off, amount_kj, used_ups );
-                    unconsumed_amount = 0_J;
-                } else if( has_charges( itype_adv_UPS_off, amount_kj, used_ups ) ) {
-                    use_charges( itype_adv_UPS_off, roll_remainder( amount_kj * 0.5 ), used_ups );
+                if( has_charges( itype_UPS, amount_kj, used_ups ) ) {
+                    use_charges( itype_UPS, amount_kj, used_ups );
                     unconsumed_amount = 0_J;
                 }
                 break;
@@ -2006,7 +1999,7 @@ void Character::bionics_uninstall_failure( int difficulty, int success, float ad
 
 }
 
-void Character::bionics_uninstall_failure( monster &installer, player &patient, int difficulty,
+void Character::bionics_uninstall_failure( monster &installer, Character &patient, int difficulty,
         int success, float adjusted_skill )
 {
 
@@ -2125,7 +2118,7 @@ int bionic_manip_cos( float adjusted_skill, int bionic_difficulty )
     return chance_of_success;
 }
 
-bool Character::can_uninstall_bionic( const bionic_id &b_id, player &installer, bool autodoc,
+bool Character::can_uninstall_bionic( const bionic_id &b_id, Character &installer, bool autodoc,
                                       int skill_level )
 {
     // If malfunctioning bionics doesn't have associated item it gets predefined difficulty
@@ -2220,7 +2213,7 @@ bool Character::can_uninstall_bionic( const bionic_id &b_id, player &installer, 
     return true;
 }
 
-bool Character::uninstall_bionic( const bionic_id &b_id, player &installer, bool autodoc,
+bool Character::uninstall_bionic( const bionic_id &b_id, Character &installer, bool autodoc,
                                   int skill_level )
 {
     // If malfunctioning bionics doesn't have associated item it gets predefined difficulty
@@ -2326,7 +2319,7 @@ void Character::perform_uninstall( bionic_id bid, int difficulty, int success,
     here.invalidate_map_cache( g->get_levz() );
 }
 
-bool Character::uninstall_bionic( const bionic &target_cbm, monster &installer, player &patient,
+bool Character::uninstall_bionic( const bionic &target_cbm, monster &installer, Character &patient,
                                   float adjusted_skill )
 {
     if( installer.ammo[itype_anesthetic] <= 0 ) {
@@ -2397,7 +2390,7 @@ bool Character::uninstall_bionic( const bionic &target_cbm, monster &installer, 
     return false;
 }
 
-bool Character::can_install_bionics( const itype &type, player &installer, bool autodoc,
+bool Character::can_install_bionics( const itype &type, Character &installer, bool autodoc,
                                      int skill_level )
 {
     if( !type.bionic ) {
@@ -2449,7 +2442,7 @@ bool Character::can_install_bionics( const itype &type, player &installer, bool 
     }
 
     if( !conflicting_muts.empty() &&
-        !query_yn(
+        !g->u.query_yn(
             _( "Installing this bionic will remove the conflicting traits: %s.  Continue anyway?" ),
             enumerate_as_string( conflicting_muts ) ) ) {
         return false;
@@ -2506,7 +2499,7 @@ float Character::env_surgery_bonus( int radius )
     return bonus;
 }
 
-bool Character::install_bionics( const itype &type, player &installer, bool autodoc,
+bool Character::install_bionics( const itype &type, Character &installer, bool autodoc,
                                  int skill_level )
 {
     if( !type.bionic ) {
@@ -3122,7 +3115,7 @@ std::vector<bionic_id> bionics_cancelling_trait( const std::vector<bionic_id> &b
     return bionics_cancelling;
 }
 
-void Character::introduce_into_anesthesia( const time_duration &duration, player &installer,
+void Character::introduce_into_anesthesia( const time_duration &duration, Character &installer,
         bool needs_anesthesia )   //used by the Autodoc
 {
     if( installer.has_trait( trait_DEBUG_BIONICS ) ) {

@@ -782,13 +782,24 @@
     "price": "980 USD",
     "price_postapoc": "1 USD",
     "to_hit": 100,
-    "bashing": 1,
-    "cutting": 1,
+    "attacks": [
+      {
+        "id": "BASH",
+        "to_hit": 100,
+        "damage": {
+          "values": [
+            { "damage_type": "bash", "amount": 1 },
+            { "damage_type": "cut", "amount": 1 },
+            { "damage_type": "heat", "amount": 69 }
+          ]
+        }
+      }
+    ],
     "material": "steel",
     "symbol": "/",
     "color": "light_gray",
     "techniques": [ "WBLOCK_3", "WIDE" ],
-    "flags": [ "FIRE", "LIGHT_240", "FLAMING", "TRADER_AVOID" ]
+    "flags": [ "FIRE", "LIGHT_240", "TRADER_AVOID" ]
   },
   {
     "id": "tindalos_whistle",

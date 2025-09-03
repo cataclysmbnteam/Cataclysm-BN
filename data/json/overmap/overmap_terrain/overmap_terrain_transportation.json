@@ -248,6 +248,22 @@
   },
   {
     "type": "overmap_terrain",
+    "id": [ "rv_park_1", "rv_park_2", "rv_park_3", "rv_park_4" ],
+    "copy-from": "generic_city_building_no_sidewalk",
+    "name": "RV park",
+    "sym": "#",
+    "color": "light_blue",
+    "extend": { "flags": [ "GENERIC_LOOT" ] }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "rv_park_roof_1", "rv_park_roof_2" ],
+    "copy-from": "rv_park_1",
+    "name": "RV park roof",
+    "delete": { "flags": [ "GENERIC_LOOT" ] }
+  },
+  {
+    "type": "overmap_terrain",
     "id": "sub_station",
     "name": "subway station",
     "sym": "S",
@@ -305,7 +321,7 @@
   {
     "type": "overmap_terrain",
     "id": [ "s_reststop_1", "s_reststop_2" ],
-    "copy-from": "generic_city_building",
+    "copy-from": "generic_city_building_no_sidewalk",
     "name": "rest area",
     "sym": "#",
     "color": "blue"
@@ -313,7 +329,7 @@
   {
     "type": "overmap_terrain",
     "id": [ "s_reststop_1_roof", "s_reststop_2_roof" ],
-    "copy-from": "generic_city_building",
+    "copy-from": "generic_city_building_no_sidewalk",
     "name": "rest area roof",
     "sym": "#",
     "color": "blue"
@@ -321,7 +337,7 @@
   {
     "type": "overmap_terrain",
     "id": [ "s_restparking_1", "s_restparking_2" ],
-    "copy-from": "generic_city_building",
+    "copy-from": "generic_city_building_no_sidewalk",
     "name": "rest area parking",
     "sym": "+",
     "color": "dark_gray"

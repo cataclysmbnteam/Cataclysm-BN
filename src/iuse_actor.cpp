@@ -83,6 +83,7 @@
 #include "text_snippets.h"
 #include "translations.h"
 #include "trap.h"
+#include "type_id.h"
 #include "ui.h"
 #include "uistate.h"
 #include "units_utility.h"
@@ -151,12 +152,13 @@ static const trait_id trait_MASOCHIST( "MASOCHIST" );
 static const trait_id trait_MASOCHIST_MED( "MASOCHIST_MED" );
 static const trait_id trait_MUT_JUNKIE( "MUT_JUNKIE" );
 static const trait_id trait_SAPIOVORE( "SAPIOVORE" );
-static const trait_id trait_SELFAWARE( "SELFAWARE" );
 
 static const trait_flag_str_id trait_flag_PRED1( "PRED1" );
 static const trait_flag_str_id trait_flag_PRED2( "PRED2" );
 static const trait_flag_str_id trait_flag_PRED3( "PRED3" );
 static const trait_flag_str_id trait_flag_PRED4( "PRED4" );
+
+static const itype_id itype_UPS( "UPS" );
 
 class npc;
 
@@ -279,6 +281,16 @@ int iuse_transform::use( player &p, item &it, bool t, const tripoint &pos ) cons
 
     if( possess && !msg_transform.empty() ) {
         p.add_msg_if_player( m_neutral, msg_transform, it.tname() );
+    }
+    // We want this separate and not if/else because the preceding statement will always return true if a transform message is defined.
+    if( p.is_npc() && get_player_character().sees( p ) ) {
+        if( !it.has_flag( flag_COMBAT_NPC_ON ) ) {
+            add_msg( m_info, _( "%s activates their %s." ), p.disp_name(),
+                     it.display_name() );
+        } else {
+            add_msg( m_info, _( "%s deactivates their %s." ), p.disp_name(),
+                     it.display_name() );
+        }
     }
 
     if( possess ) {
@@ -940,11 +952,6 @@ int consume_drug_iuse::use( player &p, item &it, bool, const tripoint & ) const
                     }
                 }
             }
-        }
-
-        p.add_effect( eff.id, eff.duration, convert_bp( eff.bp ) );
-        if( eff.permanent ) {
-            p.get_effect( eff.id, convert_bp( eff.bp ) ).set_permanent();
         }
 
         p.add_effect( eff.id, eff.duration, convert_bp( eff.bp ) );
@@ -1691,7 +1698,8 @@ ret_val<bool> firestarter_actor::can_use( const Character &p, const item &it, bo
         return ret_val<bool>::make_failure( _( "You can't do that while underwater." ) );
     }
 
-    if( it.ammo_remaining() < it.ammo_required() ) {
+    if( !( it.has_flag( flag_USE_UPS ) && p.has_charges( itype_UPS, it.ammo_required() ) ) &&
+        ( it.ammo_remaining() < it.ammo_required() ) ) {
         return ret_val<bool>::make_failure( _( "This tool doesn't have enough charges." ) );
     }
 
@@ -2227,7 +2235,10 @@ int fireweapon_off_actor::use( player &p, item &it, bool t, const tripoint & ) c
             sounds::sound( p.pos(), noise, sounds::sound_t::combat, _( success_message ) );
         }
         p.add_msg_if_player( _( success_message ) );
-
+        if( p.is_npc() && get_player_character().sees( p ) ) {
+            add_msg( m_info, _( "%s activates their %s." ), p.disp_name(),
+                     it.display_name() );
+        }
         it.convert( target_id );
         it.activate();
     } else if( !failure_message.empty() ) {
@@ -2288,6 +2299,10 @@ int fireweapon_on_actor::use( player &p, item &it, bool t, const tripoint & ) co
     }
 
     if( extinguish ) {
+        if( p.is_npc() && get_player_character().sees( p ) ) {
+            add_msg( m_info, _( "%s deactivates their %s." ), p.disp_name(),
+                     it.display_name() );
+        }
         it.revert( &p, false );
         it.deactivate();
         return 0;
@@ -3866,12 +3881,10 @@ static bodypart_str_id pick_part_to_heal(
     const bool bleed = bleed_chance > 0.0f;
     const bool bite = bite_chance > 0.0f;
     const bool infect = infect_chance > 0.0f;
-    const bool precise = &healer == &patient ?
-                         patient.has_trait( trait_SELFAWARE ) :
-                         /** @EFFECT_PER slightly increases precision when using first aid on someone else */
+    /** @EFFECT_PER slightly increases precision when using first aid */
+    /** @EFFECT_FIRSTAID increases precision when using first aid */
+    const bool precise = ( healer.get_skill_level( skill_firstaid ) * 4 + healer.per_cur >= 20 );
 
-                         /** @EFFECT_FIRSTAID increases precision when using first aid on someone else */
-                         ( healer.get_skill_level( skill_firstaid ) * 4 + healer.per_cur >= 20 );
     while( true ) {
         bodypart_str_id healed_part = patient.body_window( menu_header, force, precise,
                                       limb_power, head_bonus, torso_bonus,
@@ -4173,7 +4186,7 @@ int place_trap_actor::use( player &p, item &it, bool, const tripoint & ) const
     }
 
     const bool has_shovel = p.has_quality( quality_id( "DIG" ), 3 );
-    const bool is_diggable = here.has_flag( "DIGGABLE", pos );
+    const bool is_diggable = here.ter( pos )->is_diggable();
     bool bury = false;
     if( could_bury && has_shovel && is_diggable ) {
         bury = query_yn( _( bury_question ) );
@@ -4811,7 +4824,12 @@ int gps_device_actor::use( player &p, item &it, bool, const tripoint & ) const
     params.existing_only  = false;
     params.search_layers  = omt_find_above_ground_layer;
     params.explored       = false;
-    params.max_results = static_cast<size_t>( 1 + it.ammo_remaining() / additional_charges_per_tile );
+    if( it.has_flag( flag_USE_UPS ) ) {
+        params.max_results = static_cast<size_t>( 1 + p.charges_of( itype_UPS ) /
+                             additional_charges_per_tile );
+    } else {
+        params.max_results = static_cast<size_t>( 1 + it.ammo_remaining() / additional_charges_per_tile );
+    }
     params.popup          = make_shared_fast<throbber_popup>( _( "Searching…" ) );
 
     const auto places = overmap_buffer.find_all( center, params );
@@ -4831,8 +4849,13 @@ int gps_device_actor::use( player &p, item &it, bool, const tripoint & ) const
         unique_names.insert( name );
         charges_built_up += additional_charges_per_tile;
     }
-
-    if( 1 + it.ammo_remaining() < charges_built_up ) {
+    if( it.has_flag( flag_USE_UPS ) ) {
+        if( !p.has_charges( itype_UPS, charges_built_up ) ) {
+            p.add_msg_if_player( m_info, _( "Requires %.1f charges, but only %d remaining." ),
+                                 charges_built_up, p.charges_of( itype_UPS ) - 1 );
+            return 1;
+        }
+    } else if( 1 + it.ammo_remaining() < charges_built_up ) {
         p.add_msg_if_player( m_info, _( "Requires %.1f charges, but only %d remaining." ),
                              charges_built_up, it.ammo_remaining() - 1 );
         return 1;

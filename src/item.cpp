@@ -134,6 +134,8 @@ static const efftype_id effect_weed_high( "weed_high" );
 static const fault_id fault_gun_blackpowder( "fault_gun_blackpowder" );
 static const fault_id fault_bionic_nonsterile( "fault_bionic_nonsterile" );
 
+static const flag_id flag_MARIJUANA( "MARIJUANA" );
+
 static const gun_mode_id gun_mode_REACH( "REACH" );
 
 static const itype_id itype_barrel_small( "barrel_small" );
@@ -1358,7 +1360,7 @@ static std::string get_freshness_description( const item &food_item )
     }
 }
 
-item::sizing item::get_sizing( const Character &p ) const
+item::sizing item::get_sizing( const Character &who ) const
 {
     const islot_armor *armor_data = find_armor_data();
     if( !armor_data ) {
@@ -1373,8 +1375,8 @@ item::sizing item::get_sizing( const Character &p ) const
     if( to_ignore ) {
         return sizing::ignore;
     } else {
-        const bool small = p.get_size() == creature_size::tiny;
-        const bool big = p.get_size() == creature_size::huge;
+        const bool small = who.get_size() == creature_size::tiny;
+        const bool big = who.get_size() == creature_size::huge;
 
         // due to the iterative nature of these features, something can fit and be undersized/oversized
         // but that is fine because we have separate logic to adjust encumberance per each. One day we
@@ -1616,9 +1618,9 @@ struct dps_comp_data {
 
 static const std::vector<std::pair<translation, dps_comp_data>> dps_comp_monsters = {
     { to_translation( "Best" ), { mtype_id( "debug_mon" ), true, false } },
-    { to_translation( "Vs. Agile" ), { mtype_id( "mon_zombie_smoker" ), true, true } },
-    { to_translation( "Vs. Armored" ), { mtype_id( "mon_zombie_soldier" ), true, true } },
-    { to_translation( "Vs. Mixed" ), { mtype_id( "mon_zombie_survivor" ), false, true } },
+    { to_translation( "Vs. Agile" ), { mtype_id( "debug_mon_agile" ), true, true } },
+    { to_translation( "Vs. Armored" ), { mtype_id( "debug_mon_armored" ), true, true } },
+    { to_translation( "Vs. Mixed" ), { mtype_id( "debug_mon_mixed" ), false, true } },
 };
 
 std::map<std::string, double> item::dps( const bool for_display, const bool for_calc,
@@ -1723,6 +1725,11 @@ void item::basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                                      !has_flag( flag_SNIPPET_NEEDS_LITERACY ) ) ) {
             // Just use the dynamic description
             info.emplace_back( "DESCRIPTION", snippet.value().translated() );
+            // only ever do the effect for a snippet the first time you see it
+            if( !get_avatar().has_seen_snippet( snip_id ) ) {
+                //note that you have seen the snippet
+                get_avatar().add_snippet( snip_id );
+            }
         } else if( idescription != item_vars.end() ) {
             info.emplace_back( "DESCRIPTION", idescription->second );
         } else {
@@ -3249,6 +3256,11 @@ void item::tool_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
             info.emplace_back( "TOOL", "", tmp, iteminfo::no_flags, ammo_capacity() );
         }
     }
+    if( type->tool->ups_eff_mult != 1 ) {
+        info.emplace_back( "TOOL", _( "UPS Efficiency Multiplier: " ),
+                           string_format( "<stat>%s</stat>", type->tool->ups_eff_mult ) );
+
+    }
 }
 
 void item::component_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int /*batch*/,
@@ -3575,6 +3587,8 @@ void item::combat_info( std::vector<iteminfo> &info, const iteminfo_query *parts
             if( parts->test( iteminfo_parts::BASE_MOVES ) ) {
                 info.emplace_back( "BASE", _( "Moves per attack: " ), "",
                                    iteminfo::lower_is_better, attack_cost() );
+                // This would be a bar if iteminfo was not very insistent on numbers
+                info.emplace_back( "BASE", _( "Stamina Cost: " ), "", iteminfo::lower_is_better, stamina_cost() );
                 info.emplace_back( "BASE", _( "Typical damage per second:" ), "" );
                 const std::map<std::string, double> &dps_data = dps( true, false, attack );
                 std::string sep;
@@ -3590,7 +3604,7 @@ void item::combat_info( std::vector<iteminfo> &info, const iteminfo_query *parts
     } else {
         print_attacks = true;
 
-        for( const auto &attack_pr : type->attacks ) {
+        for( const auto &attack_pr : get_attacks() ) {
             const auto &attack = attack_pr.second;
 
             if( parts->test( iteminfo_parts::BASE_DAMAGE ) ) {
@@ -3614,6 +3628,8 @@ void item::combat_info( std::vector<iteminfo> &info, const iteminfo_query *parts
             if( parts->test( iteminfo_parts::BASE_MOVES ) ) {
                 info.emplace_back( "BASE", _( "Moves per attack: " ), "",
                                    iteminfo::lower_is_better, attack_cost() );
+                // This would be a bar if iteminfo was not very insistent on numbers
+                info.emplace_back( "BASE", _( "Stamina Cost: " ), "", iteminfo::lower_is_better, stamina_cost() );
                 info.emplace_back( "BASE", _( "Typical damage per second:" ), "" );
                 const std::map<std::string, double> &dps_data = dps( true, false, attack );
                 std::string sep;
@@ -4528,15 +4544,15 @@ nc_color item::color_in_inventory( const player &p ) const
     return ret;
 }
 
-void item::on_wear( Character &p )
+void item::on_wear( Character &who )
 {
     if( is_sided() && get_side() == side::BOTH ) {
         if( has_flag( flag_SPLINT ) ) {
             set_side( side::LEFT );
-            if( ( covers( bodypart_id( "leg_l" ) ) && p.is_limb_broken( bodypart_id( "leg_r" ) ) &&
-                  !p.worn_with_flag( flag_SPLINT, bodypart_id( "leg_r" ) ) ) ||
-                ( covers( bodypart_id( "arm_l" ) ) && p.is_limb_broken( bodypart_id( "arm_r" ) ) &&
-                  !p.worn_with_flag( flag_SPLINT, bodypart_id( "arm_r" ) ) ) ) {
+            if( ( covers( bodypart_id( "leg_l" ) ) && who.is_limb_broken( bodypart_id( "leg_r" ) ) &&
+                  !who.worn_with_flag( flag_SPLINT, bodypart_id( "leg_r" ) ) ) ||
+                ( covers( bodypart_id( "arm_l" ) ) && who.is_limb_broken( bodypart_id( "arm_r" ) ) &&
+                  !who.worn_with_flag( flag_SPLINT, bodypart_id( "arm_r" ) ) ) ) {
                 set_side( side::RIGHT );
             }
         } else if( has_flag( flag_POWERARMOR_MOD ) ) {
@@ -4544,13 +4560,13 @@ void item::on_wear( Character &p )
             std::vector< std::pair< bodypart_str_id, int > > mod_parts;
             int lhs = 0;
             int rhs = 0;
-            const auto &all_bps = p.get_all_body_parts();
+            const auto &all_bps = who.get_all_body_parts();
             for( const bodypart_id &bp : all_bps ) {
                 if( get_covered_body_parts().test( bp.id() ) ) {
                     mod_parts.emplace_back( bp, 0 );
                 }
             }
-            for( auto &elem : p.worn ) {
+            for( auto &elem : who.worn ) {
                 for( std::pair< bodypart_str_id, int > &mod_part : mod_parts ) {
                     const bodypart_str_id &bp = mod_part.first;
                     if( elem->get_covered_body_parts().test( bp ) &&
@@ -4574,17 +4590,17 @@ void item::on_wear( Character &p )
             set_side( ( lhs > rhs ) ? side::RIGHT : side::LEFT );
         } else {
             // for sided items wear the item on the side which results in least encumbrance
-            const auto &all_bps = p.get_all_body_parts();
+            const auto &all_bps = who.get_all_body_parts();
             int lhs = 0;
             int rhs = 0;
             set_side( side::LEFT );
-            const char_encumbrance_data left_enc = p.get_encumbrance( *this );
+            const char_encumbrance_data left_enc = who.get_encumbrance( *this );
             for( const bodypart_id &bp : all_bps ) {
                 lhs += left_enc.elems.at( bp.id() ).encumbrance;
             }
 
             set_side( side::RIGHT );
-            const char_encumbrance_data right_enc = p.get_encumbrance( *this );
+            const char_encumbrance_data right_enc = who.get_encumbrance( *this );
             for( const bodypart_id &bp : all_bps ) {
                 rhs += right_enc.elems.at( bp.id() ).encumbrance;
             }
@@ -4602,30 +4618,30 @@ void item::on_wear( Character &p )
             return;
         }
         flag_id transform_flag( actor->dependencies );
-        for( const auto &elem : p.worn ) {
+        for( const auto &elem : who.worn ) {
             if( elem->has_flag( transform_flag ) && elem->is_active() != is_active() ) {
                 transform = true;
             }
         }
         if( transform && actor->restricted ) {
-            actor->bypass( *p.as_player(), *this, false, p.pos() );
+            actor->bypass( *who.as_player(), *this, false, who.pos() );
         }
     }
 
     // TODO: artifacts currently only work with the player character
-    if( &p == &get_avatar() && type->artifact ) {
+    if( &who == &get_avatar() && type->artifact ) {
         g->add_artifact_messages( type->artifact->effects_worn );
     }
     // if game is loaded - don't want ownership assigned during char creation
     if( get_avatar().getID().is_valid() ) {
-        handle_pickup_ownership( p );
+        handle_pickup_ownership( who );
     }
-    p.on_item_wear( *this );
+    who.on_item_wear( *this );
 }
 
-void item::on_takeoff( Character &p )
+void item::on_takeoff( Character &who )
 {
-    p.on_item_takeoff( *this );
+    who.on_item_takeoff( *this );
 
     if( is_sided() ) {
         set_side( side::BOTH );
@@ -4639,7 +4655,7 @@ void item::on_takeoff( Character &p )
             debugmsg( "iuse_actor type descriptor and actual type mismatch" );
             return;
         }
-        actor->bypass( *p.as_player(), *this, false, p.pos() );
+        actor->bypass( *who.as_player(), *this, false, who.pos() );
     }
 }
 
@@ -4745,26 +4761,26 @@ void item::handle_pickup_ownership( Character &c )
     }
 }
 
-void item::on_pickup( Character &p )
+void item::on_pickup( Character &who )
 {
     // Fake characters are used to determine pickup weight and volume
-    if( p.is_fake() ) {
+    if( who.is_fake() ) {
         return;
     }
     avatar &you = get_avatar();
     // TODO: artifacts currently only work with the player character
-    if( &p == &you && type->artifact ) {
+    if( &who == &you && type->artifact ) {
         g->add_artifact_messages( type->artifact->effects_carried );
     }
     // if game is loaded - don't want ownership assigned during char creation
     if( you.getID().is_valid() ) {
-        handle_pickup_ownership( p );
+        handle_pickup_ownership( who );
     }
     if( is_bucket_nonempty() ) {
-        contents.spill_contents( p.pos() );
+        contents.spill_contents( who.pos() );
     }
 
-    p.flag_encumbrance();
+    who.flag_encumbrance();
 }
 
 void item::on_contents_changed()
@@ -5199,9 +5215,9 @@ nc_color item::color() const
     return type->color;
 }
 
-int item::price( bool practical ) const
+auto item::price( bool practical ) const -> float
 {
-    int res = 0;
+    float res = 0;
 
     visit_items( [&res, practical]( const item * e ) {
         if( e->rotten() ) {
@@ -5209,7 +5225,7 @@ int item::price( bool practical ) const
             return VisitResponse::NEXT;
         }
 
-        int child = units::to_cent( practical ? e->type->price_post : e->type->price );
+        float child = units::to_cent( practical ? e->type->price_post : e->type->price );
         if( e->damage() > 0 ) {
             // maximal damage level is 4, maximal reduction is 40% of the value.
             child -= child * static_cast<double>( e->damage_level( 4 ) ) / 10;
@@ -5473,6 +5489,11 @@ int item::attack_cost() const
     return std::max( 0, base + bonus );
 }
 
+int item::stamina_cost() const
+{
+    return get_avatar().get_melee_stamina_cost( *this );
+}
+
 int item::damage_melee( damage_type dt ) const
 {
     return damage_melee( melee::default_attack( *this ), dt );
@@ -5528,6 +5549,36 @@ int item::damage_melee( const attack_statblock &attack, damage_type dt ) const
         case DT_STAB:
             res += bonus_from_enchantments_wielded( res, enchant_vals::mod::ITEM_DAMAGE_STAB, true );
             break;
+        case DT_BULLET:
+            res += bonus_from_enchantments_wielded( res, enchant_vals::mod::ITEM_DAMAGE_BULLET, true );
+            break;
+        case DT_ACID:
+            res += bonus_from_enchantments_wielded( res, enchant_vals::mod::ITEM_DAMAGE_ACID, true );
+            break;
+        case DT_BIOLOGICAL:
+            res += bonus_from_enchantments_wielded( res, enchant_vals::mod::ITEM_DAMAGE_BIO, true );
+            break;
+        case DT_COLD:
+            res += bonus_from_enchantments_wielded( res, enchant_vals::mod::ITEM_DAMAGE_COLD, true );
+            break;
+        case DT_DARK:
+            res += bonus_from_enchantments_wielded( res, enchant_vals::mod::ITEM_DAMAGE_DARK, true );
+            break;
+        case DT_ELECTRIC:
+            res += bonus_from_enchantments_wielded( res, enchant_vals::mod::ITEM_DAMAGE_ELECTRIC, true );
+            break;
+        case DT_HEAT:
+            res += bonus_from_enchantments_wielded( res, enchant_vals::mod::ITEM_DAMAGE_FIRE, true );
+            break;
+        case DT_LIGHT:
+            res += bonus_from_enchantments_wielded( res, enchant_vals::mod::ITEM_DAMAGE_LIGHT, true );
+            break;
+        case DT_PSI:
+            res += bonus_from_enchantments_wielded( res, enchant_vals::mod::ITEM_DAMAGE_PSI, true );
+            break;
+        case DT_TRUE:
+            res += bonus_from_enchantments_wielded( res, enchant_vals::mod::ITEM_DAMAGE_TRUE, true );
+            break;
         default:
             break;
     }
@@ -5579,6 +5630,46 @@ std::map<std::string, attack_statblock> item::get_attacks() const
                     break;
                 case DT_STAB:
                     du.amount += bonus_from_enchantments_wielded( du.amount, enchant_vals::mod::ITEM_DAMAGE_STAB,
+                                 true );
+                    break;
+                case DT_BULLET:
+                    du.amount += bonus_from_enchantments_wielded( du.amount, enchant_vals::mod::ITEM_DAMAGE_BULLET,
+                                 true );
+                    break;
+                case DT_ACID:
+                    du.amount += bonus_from_enchantments_wielded( du.amount, enchant_vals::mod::ITEM_DAMAGE_ACID,
+                                 true );
+                    break;
+                case DT_BIOLOGICAL:
+                    du.amount += bonus_from_enchantments_wielded( du.amount, enchant_vals::mod::ITEM_DAMAGE_BIO,
+                                 true );
+                    break;
+                case DT_COLD:
+                    du.amount += bonus_from_enchantments_wielded( du.amount, enchant_vals::mod::ITEM_DAMAGE_COLD,
+                                 true );
+                    break;
+                case DT_DARK:
+                    du.amount += bonus_from_enchantments_wielded( du.amount, enchant_vals::mod::ITEM_DAMAGE_DARK,
+                                 true );
+                    break;
+                case DT_ELECTRIC:
+                    du.amount += bonus_from_enchantments_wielded( du.amount, enchant_vals::mod::ITEM_DAMAGE_ELECTRIC,
+                                 true );
+                    break;
+                case DT_HEAT:
+                    du.amount += bonus_from_enchantments_wielded( du.amount, enchant_vals::mod::ITEM_DAMAGE_FIRE,
+                                 true );
+                    break;
+                case DT_LIGHT:
+                    du.amount += bonus_from_enchantments_wielded( du.amount, enchant_vals::mod::ITEM_DAMAGE_LIGHT,
+                                 true );
+                    break;
+                case DT_PSI:
+                    du.amount += bonus_from_enchantments_wielded( du.amount, enchant_vals::mod::ITEM_DAMAGE_PSI,
+                                 true );
+                    break;
+                case DT_TRUE:
+                    du.amount += bonus_from_enchantments_wielded( du.amount, enchant_vals::mod::ITEM_DAMAGE_TRUE,
                                  true );
                     break;
                 default:
@@ -5934,8 +6025,18 @@ bool item::goes_bad() const
     return is_food() && get_comestible()->spoils != 0_turns;
 }
 
-bool item::goes_bad_after_opening() const
+bool item::goes_bad_after_opening( bool strict ) const
 {
+    // check if this item is explicitly a canning-type item: eg, it preserves contents
+    if( strict ) {
+        if( type->container && type->container->preserves &&
+            !contents.empty() && contents.front().goes_bad() ) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     return goes_bad() || ( type->container && type->container->preserves &&
                            !contents.empty() && contents.front().goes_bad() );
 }
@@ -6198,7 +6299,7 @@ bool item::is_power_armor() const
              has_flag( flag_POWERARMOR_MOD ) );
 }
 
-int item::get_avg_encumber( const Character &p ) const
+int item::get_avg_encumber( const Character &who ) const
 {
     const islot_armor *armor = find_armor_data();
     if( !armor ) {
@@ -6211,7 +6312,7 @@ int item::get_avg_encumber( const Character &p ) const
 
     for( const armor_portion_data &entry : armor->data ) {
         for( const bodypart_str_id &limb : entry.covers ) {
-            int encumber = get_encumber( p, limb.id() );
+            int encumber = get_encumber( who, limb.id() );
             if( encumber ) {
                 avg_encumber += encumber;
                 ++avg_ctr;
@@ -6225,14 +6326,14 @@ int item::get_avg_encumber( const Character &p ) const
     }
 }
 
-int item::get_encumber( const Character &p, const bodypart_id &bodypart ) const
+int item::get_encumber( const Character &who, const bodypart_id &bodypart ) const
 {
 
     units::volume contents_volume( 0_ml );
 
     contents_volume += contents.item_size_modifier();
 
-    if( p.is_worn( *this ) ) {
+    if( who.is_worn( *this ) ) {
         const islot_armor *armor = find_armor_data();
 
         if( armor != nullptr ) {
@@ -6241,14 +6342,14 @@ int item::get_encumber( const Character &p, const bodypart_id &bodypart ) const
                     if( entry.max_encumber != 0 ) {
                         units::volume char_storage( 0_ml );
 
-                        for( const item * const &e : p.worn ) {
+                        for( const item * const &e : who.worn ) {
                             char_storage += e->get_storage();
                         }
 
                         if( char_storage != 0_ml ) {
                             // Cast up to 64 to prevent overflow. Dividing before would prevent this but lose data.
                             contents_volume += units::from_milliliter( static_cast<int64_t>( armor->storage.value() ) *
-                                               p.inv_volume().value() / char_storage.value() );
+                                               who.inv_volume().value() / char_storage.value() );
                         }
                     }
                 }
@@ -6256,11 +6357,11 @@ int item::get_encumber( const Character &p, const bodypart_id &bodypart ) const
         }
     }
 
-    return get_encumber_when_containing( p, contents_volume, bodypart );
+    return get_encumber_when_containing( who, contents_volume, bodypart );
 }
 
 int item::get_encumber_when_containing(
-    const Character &p, const units::volume &contents_volume, const bodypart_id &bodypart ) const
+    const Character &who, const units::volume &contents_volume, const bodypart_id &bodypart ) const
 {
     const islot_armor *armor = find_armor_data();
     if( armor == nullptr ) {
@@ -6301,7 +6402,7 @@ int item::get_encumber_when_containing(
     }
 
     // TODO: Should probably have sizing affect coverage
-    const sizing sizing_level = get_sizing( p );
+    const sizing sizing_level = get_sizing( who );
     switch( sizing_level ) {
         case sizing::small_sized_human_char:
         case sizing::small_sized_big_char:
@@ -7846,6 +7947,51 @@ int item::gun_range( const player *p ) const
     return std::max( 0, ret );
 }
 
+int item::gun_speed( bool with_ammo ) const
+{
+    if( !is_gun() ) {
+        return 10;
+    }
+    int ret = type->gun->speed;
+    for( const item *mod : gunmods() ) {
+        ret += mod->type->gunmod->speed;
+    }
+    if( with_ammo && ammo_data() ) {
+        ret += ammo_data()->ammo->speed;
+    }
+    return std::max( 0, ret );
+}
+
+double item::gun_aimed_crit_bonus( bool with_ammo ) const
+{
+    if( !is_gun() ) {
+        return 0;
+    }
+    int ret = type->gun->aimedcritbonus;
+    for( const item *mod : gunmods() ) {
+        ret += mod->type->gunmod->aimedcritbonus;
+    }
+    if( with_ammo && ammo_data() ) {
+        ret += ammo_data()->ammo->aimedcritbonus;
+    }
+    return std::max( 0, ret );
+}
+
+double item::gun_aimed_crit_max_bonus( bool with_ammo ) const
+{
+    if( !is_gun() ) {
+        return 0;
+    }
+    int ret = type->gun->aimedcritmaxbonus;
+    for( const item *mod : gunmods() ) {
+        ret += mod->type->gunmod->aimedcritmaxbonus;
+    }
+    if( with_ammo && ammo_data() ) {
+        ret += ammo_data()->ammo->aimedcritmaxbonus;
+    }
+    return std::max( 0, ret );
+}
+
 units::energy item::energy_remaining() const
 {
     if( is_battery() ) {
@@ -8620,7 +8766,7 @@ void item::casings_handle( const std::function < detached_ptr<item>( detached_pt
     contents.casings_handle( func );
 }
 
-bool item::reload( player &u, item &loc, int qty )
+bool item::reload( Character &who, item &loc, int qty )
 {
     if( qty <= 0 ) {
         debugmsg( "Tried to reload zero or less charges" );
@@ -8653,8 +8799,8 @@ bool item::reload( player &u, item &loc, int qty )
 
     qty = std::min( qty, limit );
 
-    casings_handle( [&u]( detached_ptr<item> &&e ) {
-        return u.i_add_or_drop( std::move( e ) );
+    casings_handle( [&who]( detached_ptr<item> &&e ) {
+        return who.i_add_or_drop( std::move( e ) );
     } );
 
     if( is_magazine() ) {
@@ -8662,7 +8808,7 @@ bool item::reload( player &u, item &loc, int qty )
 
         if( is_ammo_belt() ) {
             const auto &linkage = type->magazine->linkage;
-            if( linkage && !u.use_charges_if_avail( *linkage, qty ) ) {
+            if( linkage && !who.use_charges_if_avail( *linkage, qty ) ) {
                 debugmsg( "insufficient linkages available when reloading ammo belt" );
             }
         }
@@ -8698,7 +8844,7 @@ bool item::reload( player &u, item &loc, int qty )
             std::string prompt = string_format( pgettext( "magazine", "Eject %1$s from %2$s?" ),
                                                 magazine_current()->tname(), tname() );
 
-            if( !u.dispose_item( *magazine_current(), prompt ) ) {
+            if( !who.dispose_item( *magazine_current(), prompt ) ) {
                 return false;
             }
         }
@@ -8731,7 +8877,7 @@ bool item::reload( player &u, item &loc, int qty )
         if( ammo->charges == 0 && !ammo->has_flag( flag_SPEEDLOADER ) ) {
             ammo->detach();
             if( container != nullptr ) {
-                u.inv_restack();
+                who.inv_restack();
             }
         }
     }
@@ -8984,14 +9130,14 @@ int item::get_remaining_capacity_for_liquid( const item &liquid, bool allow_buck
     return remaining_capacity;
 }
 
-int item::get_remaining_capacity_for_liquid( const item &liquid, const Character &p,
+int item::get_remaining_capacity_for_liquid( const item &liquid, const Character &who,
         std::string *err ) const
 {
-    const bool allow_bucket = p.is_wielding( *this ) || !p.has_item( *this );
+    const bool allow_bucket = who.is_wielding( *this ) || !who.has_item( *this );
     int res = get_remaining_capacity_for_liquid( liquid, allow_bucket, err );
 
-    if( res > 0 && !type->rigid && p.has_item( *this ) ) {
-        const units::volume volume_to_expand = std::max( p.volume_capacity() - p.volume_carried(),
+    if( res > 0 && !type->rigid && who.has_item( *this ) ) {
+        const units::volume volume_to_expand = std::max( who.volume_capacity() - who.volume_carried(),
                                                0_ml );
 
         res = std::min( liquid.charges_per_volume( volume_to_expand ), res );
@@ -9150,17 +9296,20 @@ detached_ptr<item> item::use_charges( detached_ptr<item> &&self, const itype_id 
 
     auto handle_item = [&qty, &used, &pos, &what]( detached_ptr<item> &&e ) {
         if( e->is_tool() ) {
-            if( e->typeId() == what ) {
-                int n = std::min( e->ammo_remaining(), qty );
+            if( e->typeId() == what || ( what == itype_UPS && e->has_flag( flag_IS_UPS ) ) ) {
+                int ups_eff_mult = e->type->tool->ups_eff_mult;
+                int n = std::min( e->ammo_remaining() * ups_eff_mult, qty );
+                int rand_increase = x_in_y( n % ups_eff_mult, ups_eff_mult );
+                int really_used = ( n / ups_eff_mult ) + rand_increase;
                 qty -= n;
 
                 if( n == e->ammo_remaining() ) {
                     used.push_back( item::spawn( *e ) );
-                    e->ammo_consume( n, pos );
+                    e->ammo_consume( really_used, pos );
                 } else {
                     detached_ptr<item> split = item::spawn( *e );
-                    split->ammo_set( e->ammo_current(), n );
-                    e->ammo_consume( n, pos );
+                    split->ammo_set( e->ammo_current(), really_used );
+                    e->ammo_consume( really_used, pos );
                     used.push_back( std::move( split ) );
                 }
             }
@@ -9770,11 +9919,16 @@ detached_ptr<item> item::process_litcig( detached_ptr<item> &&self, player *carr
             duration = 30_seconds;
         }
         carrier->add_msg_if_player( m_neutral, _( "You take a puff of your %s." ), it.tname() );
+
+        // we need to figure out a way to get the item before this got converted,
+        // but i don't think that's going to be very easy...
         if( it.has_flag( flag_TOBACCO ) ) {
             carrier->add_effect( effect_cig, duration );
-        } else {
-            carrier->add_effect( effect_weed_high, duration / 2 );
         }
+        if( it.has_flag( flag_MARIJUANA ) ) {
+            carrier->add_effect( effect_weed_high, duration );
+        }
+
         carrier->moves -= 15;
 
         if( ( carrier->has_effect( effect_shakes ) && one_in( 10 ) ) ) {
@@ -9807,12 +9961,9 @@ detached_ptr<item> item::process_litcig( detached_ptr<item> &&self, player *carr
         if( carrier != nullptr ) {
             carrier->add_msg_if_player( m_neutral, _( "You finish your %s." ), it.tname() );
         }
-        if( it.typeId() == itype_cig_lit ) {
-            it.convert( itype_cig_butt );
-        } else if( it.typeId() == itype_cigar_lit ) {
-            it.convert( itype_cigar_butt );
-        } else { // joint
-            it.convert( itype_joint_roach );
+        it.convert( dynamic_cast<const iuse_transform *>
+                    ( it.type->get_use( "transform" )->get_actor_ptr() )->target );
+        if( it.has_flag( flag_MARIJUANA ) ) {
             if( carrier != nullptr ) {
                 carrier->add_effect( effect_weed_high, 1_minutes ); // one last puff
                 here.add_field( pos + point( rng( -1, 1 ), rng( -1, 1 ) ), fd_weedsmoke, 2 );
@@ -9887,13 +10038,8 @@ detached_ptr<item> item::process_extinguish( detached_ptr<item> &&self, player *
 
     // cig dies out
     if( self->has_flag( flag_LITCIG ) ) {
-        if( self->typeId() == itype_cig_lit ) {
-            self->convert( itype_cig_butt );
-        } else if( self->typeId() == itype_cigar_lit ) {
-            self->convert( itype_cigar_butt );
-        } else { // joint
-            self->convert( itype_joint_roach );
-        }
+        self->convert( dynamic_cast<const iuse_transform *>
+                       ( self->type->get_use( "transform" )->get_actor_ptr() )->target );
     } else { // transform (lit) items
         if( !self->revert( carrier ) ) {
             self->type->invoke( carrier != nullptr ? *carrier : get_avatar(), *self, pos, "transform" );

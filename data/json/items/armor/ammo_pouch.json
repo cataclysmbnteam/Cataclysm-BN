@@ -26,7 +26,6 @@
       "ammo": [
         "pebble",
         "nail",
-        "700nx",
         "50",
         "4570",
         "BB",
@@ -36,25 +35,17 @@
         "9mm",
         "357sig",
         "357mag",
-        "9x18",
         "380",
         "38",
-        "38super",
         "40",
         "10mm",
         "44",
         "45",
-        "460",
-        "454",
         "45colt",
-        "500",
-        "57",
         "46",
         "762",
-        "545x39",
         "223",
         "3006",
-        "270win",
         "308",
         "12mm",
         "8x40mm",
@@ -65,7 +56,6 @@
         "ampoule",
         "300",
         "32",
-        "762x25",
         "flintlock",
         "flintlockshot",
         "36paper",
@@ -259,7 +249,7 @@
       "draw_cost": 40,
       "flags": [ "MAG_COMPACT", "SPEEDLOADER" ]
     },
-    "flags": [ "WATER_FRIENDLY", "OVERSIZE", "BELTED", "COMPACT" ]
+    "flags": [ "WATER_FRIENDLY", "OVERSIZE", "BELTED", "COMPACT", "ALLOWS_TAIL_SNAKE" ]
   },
   {
     "type": "ARMOR",
@@ -332,7 +322,7 @@
     "encumbrance": 15,
     "storage": "1 L",
     "warmth": 15,
-    "material_thickness": 9,
+    "material_thickness": 10,
     "use_action": {
       "type": "holster",
       "holster_prompt": "Stash ammo",
@@ -365,7 +355,7 @@
     "encumbrance": 25,
     "storage": "1 L",
     "warmth": 15,
-    "material_thickness": 5,
+    "material_thickness": 10,
     "use_action": {
       "type": "holster",
       "holster_prompt": "Stash ammo",
@@ -398,7 +388,7 @@
     "encumbrance": 20,
     "storage": "1 L",
     "warmth": 15,
-    "material_thickness": 8,
+    "material_thickness": 10,
     "use_action": {
       "type": "holster",
       "holster_prompt": "Stash ammo",
@@ -440,7 +430,7 @@
     "encumbrance": 3,
     "material_thickness": 1,
     "use_action": { "type": "bandolier", "capacity": 20, "ammo": [ "arrow", "bolt" ], "draw_cost": 20 },
-    "flags": [ "WAIST", "COMPACT", "OVERSIZE", "WATER_FRIENDLY" ]
+    "flags": [ "WAIST", "COMPACT", "OVERSIZE", "WATER_FRIENDLY", "ALLOWS_TAIL_SNAKE" ]
   },
   {
     "id": "quiver_birchbark",
@@ -461,7 +451,7 @@
     "encumbrance": 10,
     "material_thickness": 1,
     "use_action": { "type": "bandolier", "capacity": 20, "ammo": [ "arrow", "bolt" ], "draw_cost": 20 },
-    "flags": [ "WAIST", "COMPACT", "VARSIZE", "OVERSIZE", "WATER_FRIENDLY" ]
+    "flags": [ "WAIST", "COMPACT", "VARSIZE", "OVERSIZE", "WATER_FRIENDLY", "ALLOWS_TAIL_SNAKE" ]
   },
   {
     "id": "quiver_large",
@@ -598,7 +588,6 @@
       "ammo": [
         "pebble",
         "nail",
-        "700nx",
         "50",
         "4570",
         "BB",
@@ -608,25 +597,17 @@
         "9mm",
         "357sig",
         "357mag",
-        "9x18",
         "380",
         "38",
-        "38super",
         "40",
         "10mm",
         "44",
         "45",
-        "460",
-        "454",
         "45colt",
-        "500",
-        "57",
         "46",
         "762",
-        "545x39",
         "223",
         "3006",
-        "270win",
         "308",
         "12mm",
         "8x40mm",
@@ -637,7 +618,6 @@
         "ampoule",
         "300",
         "32",
-        "762x25",
         "flintlock",
         "flintlockshot",
         "36paper",
@@ -647,6 +627,6 @@
       ],
       "draw_cost": 35
     },
-    "flags": [ "WAIST", "COMPACT", "OVERSIZE", "WATER_FRIENDLY" ]
+    "flags": [ "WAIST", "COMPACT", "OVERSIZE", "WATER_FRIENDLY", "ALLOWS_TAIL_SNAKE" ]
   }
 ]

@@ -6,7 +6,9 @@
     "subcategory": "CSC_OTHER_OTHER",
     "skill_used": "fabrication",
     "difficulty": 4,
-    "time": "10 m",
+    "time": "15 m",
+    "batch_time_factors": [ 80, 4 ],
+    "autolearn": [ [ "fabrication", 6 ], [ "cooking", 4 ] ],
     "book_learn": [ [ "concrete_book", 4 ] ],
     "tools": [ [ [ "con_mix", 50 ] ] ],
     "components": [ [ [ "material_cement", 50 ] ], [ [ "material_sand", 25 ] ], [ [ "pebble", 20 ] ] ]
@@ -149,6 +151,35 @@
   },
   {
     "type": "recipe",
+    "result": "raft_board",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_VEHICLE",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "time": "30 m",
+    "reversible": true,
+    "autolearn": true,
+    "components": [ [ [ "log", 4 ] ], [ [ "rope_natural_short", 2, "LIST" ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "gas_sac_buoyancy_cell",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_VEHICLE",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "time": "1 h",
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [
+      [ [ "mutant_bug_hydrogen_sacs", 250 ] ],
+      [ [ "bag_plastic", 12 ] ],
+      [ [ "rope_natural_short", 1, "LIST" ] ],
+      [ [ "plastic_sheet", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
     "result": "candle",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_OTHER",
@@ -212,6 +243,7 @@
     "difficulty": 2,
     "time": "10 m",
     "book_learn": [ [ "concrete_book", 2 ] ],
+    "autolearn": [ [ "fabrication", 6 ], [ "cooking", 4 ] ],
     "tools": [ [ [ "con_mix", 50 ] ] ],
     "components": [ [ [ "material_cement", 50 ] ], [ [ "material_sand", 150 ] ] ]
   },
@@ -253,11 +285,9 @@
     "time": "1 h",
     "book_learn": [ [ "scots_cookbook", 3 ] ],
     "using": [ [ "sewing_standard", 20 ] ],
-    "qualities": [ { "id": "SANDING", "level": 1 } ],
     "components": [
       [ [ "large_stomach_sealed", 1 ], [ "leather", 10 ], [ "fur", 10 ] ],
       [ [ "stick", 1 ], [ "2x4", 1 ] ],
-      [ [ "varnish", 1, "LIST" ] ],
       [ [ "fabric_standard", 3, "LIST" ] ],
       [ [ "adhesive", 1, "LIST" ] ]
     ]
@@ -332,8 +362,8 @@
     "time": "1 h 30 m",
     "reversible": true,
     "autolearn": true,
-    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_W", "level": 2 }, { "id": "SANDING", "level": 1 } ],
-    "components": [ [ [ "2x4", 4 ] ], [ [ "varnish", 2, "LIST" ] ], [ [ "nail_glue", 20, "LIST" ] ], [ [ "hinge", 2 ] ] ]
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_W", "level": 2 } ],
+    "components": [ [ [ "2x4", 4 ] ], [ [ "nail_glue", 20, "LIST" ] ], [ [ "hinge", 2 ] ] ]
   },
   {
     "result": "fish_bait",
@@ -586,9 +616,65 @@
       [ [ "software_hacking", -1 ], [ "control_laptop", -1 ] ],
       [ [ "laptop", -1 ], [ "control_laptop", -1 ] ],
       [ [ "sa_cryptology_key", -1 ] ],
+      [ [ "software_math", -1 ] ],
       [ [ "black_box", -1 ] ]
     ],
     "components": [ [ [ "paper", 1 ] ] ]
+  },
+  {
+    "result": "software_hacking",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "skill_used": "computer",
+    "skills_required": [ "electronics", 6 ],
+    "difficulty": 10,
+    "time": "6 h",
+    "book_learn": [ [ "sa_cryptology_key", 10 ] ],
+    "tools": [ [ [ "laptop", -1 ], [ "control_laptop", -1 ] ], [ [ "software_math", -1 ] ] ],
+    "components": [ [ [ "usb_drive", 1 ] ] ]
+  },
+  {
+    "result": "software_medical",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "skill_used": "computer",
+    "skills_required": [ "firstaid", 8 ],
+    "difficulty": 6,
+    "autolearn": true,
+    "time": "6 h",
+    "book_learn": [ [ "reference_firstaid1", 8 ] ],
+    "tools": [ [ [ "laptop", -1 ], [ "control_laptop", -1 ] ], [ [ "software_math", -1 ] ] ],
+    "components": [ [ [ "usb_drive", 1 ] ] ]
+  },
+  {
+    "result": "software_math",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "skill_used": "computer",
+    "difficulty": 8,
+    "autolearn": true,
+    "//": "weird to use cooking here, but it represents science skill",
+    "skills_required": [ "cooking", 8 ],
+    "time": "6 h",
+    "book_learn": [ [ "reference_cooking", 8 ] ],
+    "tools": [ [ [ "laptop", -1 ], [ "control_laptop", -1 ] ] ],
+    "components": [ [ [ "usb_drive", 1 ] ] ]
+  },
+  {
+    "result": "software_useless",
+    "//": "intended as an XP/practice recipe",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "skill_used": "computer",
+    "difficulty": 3,
+    "autolearn": true,
+    "time": "1 h",
+    "tools": [ [ [ "laptop", -1 ], [ "control_laptop", -1 ] ] ],
+    "components": [ [ [ "usb_drive", 1 ] ] ]
   },
   {
     "result": "cot",
@@ -737,8 +823,7 @@
     "difficulty": 4,
     "time": "35 m",
     "book_learn": [ [ "glassblowing_book", 4 ] ],
-    "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "pipe", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 50 ] ] ],
+    "using": [ [ "glassblowing_standard", 10 ] ],
     "components": [ [ [ "glass_shard", 2 ], [ "flask_glass", 2 ], [ "test_tube", 4 ], [ "marble", 50 ] ] ]
   },
   {
@@ -762,5 +847,39 @@
       [ [ "sheet_metal_small", 10 ] ],
       [ [ "broken_dissector", 1 ] ]
     ]
+  },
+  {
+    "type": "recipe",
+    "result": "carbondioxide_tank",
+    "byproducts": [ [ "material_quicklime" ] ],
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "skill_used": "fabrication",
+    "skills_required": [ "cooking", 2 ],
+    "difficulty": 3,
+    "time": "30 m",
+    "batch_time_factors": [ 75, 4 ],
+    "book_learn": [ [ "concrete_book", 3 ], [ "adv_chemistry", 3 ], [ "textbook_chemistry", 3 ], [ "reference_cooking", 4 ] ],
+    "qualities": [ { "id": "PRESSURIZATION", "level": 1 } ],
+    "tools": [ [ [ "forge", 250 ], [ "oxy_torch", 50 ] ] ],
+    "components": [ [ [ "material_limestone", 50 ] ], [ [ "metal_tank_little", 1 ] ] ]
+  },
+  {
+    "type": "uncraft",
+    "result": "carbondioxide_tank",
+    "time": "30 s",
+    "components": [ [ [ "metal_tank_little", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "money_pile",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "skill_used": "fabrication",
+    "difficulty": 0,
+    "time": "1 m",
+    "reversible": true,
+    "autolearn": true,
+    "components": [ [ [ "money_bundle", 10 ] ] ]
   }
 ]
