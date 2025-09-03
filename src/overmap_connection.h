@@ -38,7 +38,7 @@ class overmap_connection
 
                 int basic_cost = 0;
 
-                ///int weight = 1;
+                int weight = 1;
 
                 bool allows_terrain( const oter_id &oter ) const;
                 bool allows_turns() const {

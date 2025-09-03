@@ -79,6 +79,7 @@ void overmap_connection::subtype::load( const JsonObject &jo )
     mandatory( jo, false, "locations", locations );
 
     optional( jo, false, "basic_cost", basic_cost, 0 );
+    optional( jo, false, "weight", weight, 1 );
     optional( jo, false, "flags", flags, flag_reader );
 }
 
@@ -127,16 +128,16 @@ const overmap_connection::subtype *overmap_connection::pick_subtype_for(
         // We better set it here
         if( subtype->locations.empty() ) {
             weighted_terrain.clear();
-            weighted_terrain.add( iter - subtypes.begin(), 10 );
+            weighted_terrain.add( iter - subtypes.begin(), subtype->weight );
             break;
         }
         // Revert if cost is lower, keep if same, ignore if higher
         if( subtype->basic_cost < min_cost ) {
             weighted_terrain.clear();
-            weighted_terrain.add( iter - subtypes.begin(), 10 );
+            weighted_terrain.add( iter - subtypes.begin(), subtype->weight );
             min_cost = subtype->basic_cost;
         } else if( subtype->basic_cost == min_cost ) {
-            weighted_terrain.add( iter - subtypes.begin(), 10 );
+            weighted_terrain.add( iter - subtypes.begin(), subtype->weight );
         }
     }
     // Essentially get a random one out of the weights
