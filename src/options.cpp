@@ -2684,7 +2684,7 @@ void options_manager::add_options_world_default()
 
     add( "CONSTRUCTION_SCALING", world_default,
          translate_marker( "Construction speed percentage" ),
-         translate_marker( "Sets the time of construction in percents.  '50' is two times faster than default, '200' is two times longer.  '0' automatically scales construction time to match the world's season length." ),
+         translate_marker( "Sets the time of construction in percents.  '50' is two times faster than default, '200' is two times longer.  '0' makes construction instant." ),
          0, 1000, 100, COPT_NO_HIDE, "%i%%"
        );
 
