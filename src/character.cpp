@@ -5171,9 +5171,7 @@ void Character::update_body()
 
 void Character::update_body( const time_point &from, const time_point &to )
 {
-    if( !is_npc() ) {
-        update_stamina( to_turns<int>( to - from ) );
-    }
+    update_stamina( to_turns<int>( to - from ) );
     update_stomach( from, to );
     recalculate_enchantment_cache();
     if( ticks_between( from, to, 3_minutes ) > 0 ) {
@@ -7593,10 +7591,6 @@ void Character::set_stamina( int new_stamina )
 
 void Character::mod_stamina( int mod )
 {
-    // TODO: Make NPCs smart enough to use stamina
-    if( is_npc() ) {
-        return;
-    }
     stamina += mod;
     stamina = clamp( stamina, 0, get_stamina_max() );
 }
