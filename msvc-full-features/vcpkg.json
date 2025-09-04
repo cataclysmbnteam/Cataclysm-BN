@@ -9,7 +9,7 @@
     "sqlite3",
     "zlib"
   ],
-  "builtin-baseline": "b3e47eb102c805265d4cb0122cfecbb9b91a1337",
+  "builtin-baseline": "b1b19307e2d2ec1eefbdb7ea069de7d4bcd31f01",
   "overrides": [
     { "name": "sdl2-mixer", "version": "2.6.3#1" }
   ],
