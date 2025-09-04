@@ -83,6 +83,7 @@
       { "item": "bot_turret_mark19", "prob": 10 },
       { "item": "bot_turret_antimateriel", "prob": 10 },
       { "item": "bot_prototype_cyborg", "prob": 10 },
+      { "item": "bot_haulerbot", "prob": 10 },
       { "item": "bot_mech_recon", "prob": 10 },
       { "item": "bot_mech_combat", "prob": 10 },
       { "item": "bio_power_storage_mkII", "prob": 10 },
@@ -120,8 +121,7 @@
       { "item": "tool_rdx_charge", "prob": 10 },
       { "item": "50_mk211", "prob": 10 },
       { "item": "solar_panel_v3", "prob": 10 },
-      { "item": "portal", "prob": 10 },
-      { "item": "can_opener", "prob": 1 }
+      { "item": "portal", "prob": 10 }
     ]
   },
   {
