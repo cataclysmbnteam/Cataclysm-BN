@@ -4206,7 +4206,7 @@ double vehicle::coeff_air_drag() const
         if( p.info().location != part_location_center ) {
             return false;
         }
-        return !( p.inside || p.info().has_flag( "EXTENDABLE" )
+        return !( p.inside || p.info().has_flag( "EXTENDABLE" ) ||
                   p.info().has_flag( "NO_ROOF_NEEDED" ) ||
                   p.info().has_flag( "WINDSHIELD" ) ||
                   p.info().has_flag( "OPENABLE" ) );
@@ -4394,7 +4394,7 @@ double vehicle::total_propeller_area() const
 {
     return std::accumulate( propellers.begin(), propellers.end(), 0.0,
     [&]( double acc, int propeller ) {
-        const double radius{ parts[ propeller ].info().rotor_diameter() / 2.0 };
+        const double radius{ parts[ propeller ].info().propeller_diameter() / 2.0 };
         return acc + M_PI * std::pow( radius, 2 );
     } );
 }
@@ -4416,8 +4416,9 @@ double vehicle::total_balloon_lift() const
 // Based on air being 1kg/m^3
 double vehicle::total_wing_lift() const
 {
-    // First convert to km/h, then m/h, then m/s, then (m/s)^2
-    const double meterpersecsquared = std::pow( velocity * 1.609 * 1000 / 360, 2 );
+    // Convert to km/h then m/s then m/s ^ 2
+    const double meterpersec = convert_velocity( velocity, VU_VEHICLE ) * 360 / 1000;
+    const double meterpersecsquared = std::pow( meterpersec, 2 );
     return std::accumulate( wings.begin(), wings.end(), double{0.0},
     [&]( double acc, int wing ) {
         const double liftcoff{ parts[ wing ].info().lift_coff() };

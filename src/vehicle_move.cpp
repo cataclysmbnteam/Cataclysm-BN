@@ -230,8 +230,15 @@ void vehicle::thrust( int thd, int z )
         load = ( thrusting ? 1000 : 0 );
     }
     // rotorcraft need to spend +5% (in addition to idle) of load to fly, +20% (in addition to idle) to ascend
-    if( is_rotorcraft() && ( z > 0 || is_flying_in_air() ) ) {
-        load = std::max( load, z > 0 ? 200 : 50 );
+    if( is_aircraft() && ( z > 0 || is_flying_in_air() ) ) {
+        if( is_rotorcraft() ){
+            load = std::max( load, z > 0 ? 200 : 50 );
+        } else {
+            // We need the bare minimum load to get this thing in the air
+            // Otherwise it won't launch even though balloons / planes don't really need thrust
+            // To get into the air
+            load = 1;
+        }
         thrusting = true;
     }
 
@@ -1102,10 +1109,12 @@ bool vehicle::check_heli_descend( Character &who )
         }
         count++;
     }
+    /*
     if( velocity > 0 && air_count != count ) {
         who.add_msg_if_player( m_bad, _( "It would be unsafe to try and land while you are moving." ) );
         return false;
     }
+    */
     return true;
 
 }
@@ -1117,10 +1126,12 @@ bool vehicle::check_heli_ascend( Character &who )
         debugmsg( "A vehicle is somehow flying without being an aircraft" );
         return true;
     }
+    /*
     if( velocity > 0 && !is_flying_in_air() ) {
         who.add_msg_if_player( m_bad, _( "It would be unsafe to try and take off while you are moving." ) );
         return false;
     }
+    */
     if( !is_flying_in_air() && check_on_ramp() ) {
         who.add_msg_if_player( m_bad,
                                _( "It would be unsafe to try and take off from an uneven surface." ) );
