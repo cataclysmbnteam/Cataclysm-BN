@@ -31,7 +31,9 @@
           }
         ]
       },
-      { "distribution": [ { "group": "disposable_lighter" }, { "item": "matches", "charges-min": 1, "charges-max": 20 } ] }
+      {
+        "distribution": [ { "group": "disposable_lighter" }, { "item": "matches", "charges-min": 1, "charges-max": 20 } ]
+      }
     ]
   },
   {
