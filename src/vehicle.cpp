@@ -2974,7 +2974,7 @@ std::vector<int> vehicle::all_standalone_parts() const
     std::vector<int> parts_found;
     for( size_t part_index = 0; part_index < parts.size(); ++part_index ) {
         if( ( part_info( part_index ).location == part_location_structure ||
-            part_info( part_index ).has_flag( VPFLAG_EXTENDABLE ) ) &&
+              part_info( part_index ).has_flag( VPFLAG_EXTENDABLE ) ) &&
             !parts[part_index].removed ) {
             parts_found.push_back( part_index );
         }

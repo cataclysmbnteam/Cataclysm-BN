@@ -195,7 +195,7 @@ void vehicle::thrust( int thd, int z )
     // Both balloons and wings can "glide", making themselves have times where they wont have engine power
     // As they can be without propellers
     if( thrusting && accel == 0 ) {
-        if( z != 0 && ( has_part( "BALLOON" ) || has_part( "WING" ) ) ){
+        if( z != 0 && ( has_part( "BALLOON" ) || has_part( "WING" ) ) ) {
             requested_z_change = z;
         } else if( pl_ctrl ) {
             add_msg( _( "The %s is too heavy for its engine(s)!" ), name );
@@ -238,8 +238,7 @@ void vehicle::thrust( int thd, int z )
         if( is_rotorcraft() ) {
             thrusting = true;
             load = std::max( load, z > 0 ? 200 : 50 );
-        }
-        else {
+        } else {
             // Always let non-rotorcraft change height
             requested_z_change = z;
         }
