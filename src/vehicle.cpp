@@ -4408,7 +4408,7 @@ double vehicle::total_balloon_lift() const
     return std::accumulate( balloons.begin(), balloons.end(), double{0.0},
     [&]( double acc, int balloon ) {
         const double height{ parts[ balloon ].info().balloon_height() };
-        return acc + ( 1000 * height * GRAVITY_OF_EARTH );
+        return acc + ( height * GRAVITY_OF_EARTH );
     } );
 }
 

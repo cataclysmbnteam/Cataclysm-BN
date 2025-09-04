@@ -2,7 +2,7 @@
   {
     "abstract": "propeller_rotors",
     "type": "vehicle_part",
-    "location": "structural",
+    "location": "structure",
     "symbol": "X",
     "color": "light_blue",
     "broken_symbol": "O",

@@ -1,0 +1,29 @@
+[
+  {
+    "abstract": "balloon",
+    "type": "vehicle_part",
+    "location": "on_roof",
+    "symbol": "|",
+    "color": "light_blue",
+    "broken_symbol": "O",
+    "flags": [ "PROTUSION", "EXTENDABLE", "BALLOON", "SHOCK_RESISTANT" ],
+    "description": "A balloon that provides lift"
+  },
+  {
+    "id": "debug_balloon",
+    "copy-from": "balloon",
+    "type": "vehicle_part",
+    "name": "debug balloon",
+    "item": "debug_balloon",
+    "height": 10,
+    "requirements": {
+      "install": { "time": "1 s" },
+      "removal": { "time": "1 s" },
+      "repair": { "time": "1 s" }
+    },
+    "durability": 100,
+    "damage_modifier": 80,
+    "breaks_into": [ { "item": "scrap", "count": [ 8, 15 ] }, { "item": "steel_chunk", "count": [ 2, 8 ] } ],
+    "damage_reduction": { "all": 22 }
+  }
+]
