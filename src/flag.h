@@ -16,6 +16,7 @@ extern const flag_id flag_ACID_IMMUNE;
 extern const flag_id flag_ACTIVE_CLOAKING;
 extern const flag_id flag_ACT_IN_FIRE;
 extern const flag_id flag_ACT_ON_RANGED_HIT;
+extern const flag_id flag_ADD_UPS_TOGGLE;
 extern const flag_id flag_ALARMCLOCK;
 extern const flag_id flag_ALLERGEN_EGG;
 extern const flag_id flag_ALLERGEN_FRUIT;

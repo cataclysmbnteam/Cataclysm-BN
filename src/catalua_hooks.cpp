@@ -1,6 +1,5 @@
 #include "catalua_hooks.h"
 #include "catalua_impl.h"
-#include "catalua_sol.h"
 
 namespace cata
 {

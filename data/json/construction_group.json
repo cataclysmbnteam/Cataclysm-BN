@@ -1578,5 +1578,15 @@
     "type": "construction_group",
     "id": "build_adobe_roof",
     "name": "Build Roof Over Adobe Floor"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_bathtub_money",
+    "name": "Fill Bathtub with Money"
+  },
+  {
+    "type": "construction_group",
+    "id": "remove_bathtub_money",
+    "name": "Remove Money from Bathtub"
   }
 ]

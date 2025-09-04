@@ -110,7 +110,7 @@
     "type": "GENERIC",
     "id": "reverse_jointed_legs",
     "name": { "str": "set of reverse-jointed legs", "str_pl": "sets of reverse-jointed legs" },
-    "description": "A set of reverse-jointed legs, like the ones found under a chicken walker.",
+    "description": "A set of reverse-jointed legs, like the ones found under a military walker.",
     "symbol": "k",
     "color": "light_gray",
     "weight": "60000 g",

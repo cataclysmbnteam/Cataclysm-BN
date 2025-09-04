@@ -110,6 +110,7 @@ struct islot_tool {
     int turns_active = 0;
     int power_draw = 0;
     int ups_eff_mult = 1;
+    int ups_recharge_rate = 5;
 
     std::vector<int> rand_charges;
 };

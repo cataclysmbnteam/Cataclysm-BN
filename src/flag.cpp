@@ -14,6 +14,7 @@ const flag_id flag_ACID_IMMUNE( "ACID_IMMUNE" );
 const flag_id flag_ACTIVE_CLOAKING( "ACTIVE_CLOAKING" );
 const flag_id flag_ACT_IN_FIRE( "ACT_IN_FIRE" );
 const flag_id flag_ACT_ON_RANGED_HIT( "ACT_ON_RANGED_HIT" );
+const flag_id flag_ADD_UPS_TOGGLE( "ADD_UPS_TOGGLE" );
 const flag_id flag_ALARMCLOCK( "ALARMCLOCK" );
 const flag_id flag_ALLERGEN_EGG( "ALLERGEN_EGG" );
 const flag_id flag_ALLERGEN_FRUIT( "ALLERGEN_FRUIT" );

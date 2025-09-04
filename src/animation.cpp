@@ -16,13 +16,13 @@
 #include "point.h"
 #include "popup.h"
 #include "posix_time.h"
+#include "ranged.h"
 #include "translations.h"
 #include "type_id.h"
 #include "ui_manager.h"
 #include "weather.h"
 
 #if defined(TILES)
-#include <algorithm>
 #include <memory>
 
 #include "cata_tiles.h" // all animation functions will be pushed out to a cata_tiles function in some manner
@@ -190,8 +190,8 @@ void draw_custom_explosion_curses( game &g,
 {
     // calculate screen offset relative to player + view offset position
     const tripoint center = g.u.pos() + g.u.view_offset;
-    const tripoint topleft( center.x - getmaxx( g.w_terrain ) / 2,
-                            center.y - getmaxy( g.w_terrain ) / 2, 0 );
+    const tripoint topleft( center.x - ( getmaxx( g.w_terrain ) / 2 ),
+                            center.y - ( getmaxy( g.w_terrain ) / 2 ), 0 );
 
     explosion_animation anim;
 
@@ -654,7 +654,7 @@ void draw_hit_player_curses( const game &g, const Character &who, const int dam 
 } //namespace
 
 #if defined(TILES)
-void game::draw_hit_player( const Character &who, const int dam )
+void game::draw_hit_player( const Character &p, const int dam )
 {
     if( test_mode ) {
         // avoid segfault from null tilecontext in tests
@@ -662,7 +662,7 @@ void game::draw_hit_player( const Character &who, const int dam )
     }
 
     if( !use_tiles ) {
-        draw_hit_player_curses( *this, who, dam );
+        draw_hit_player_curses( *this, p, dam );
         return;
     }
 
@@ -671,11 +671,11 @@ void game::draw_hit_player( const Character &who, const int dam )
     static const std::string npc_male      {"npc_male"};
     static const std::string npc_female    {"npc_female"};
 
-    const std::string &type = who.is_player() ? ( who.male ? player_male : player_female )
-                              : who.male ? npc_male : npc_female;
+    const std::string &type = p.is_player() ? ( p.male ? player_male : player_female )
+                              : p.male ? npc_male : npc_female;
 
     shared_ptr_fast<draw_callback_t> hit_cb = make_shared_fast<draw_callback_t>( [&]() {
-        tilecontext->init_draw_hit( who.pos(), type );
+        tilecontext->init_draw_hit( p.pos(), type );
     } );
     add_draw_callback( hit_cb );
 
@@ -706,8 +706,8 @@ void draw_line_curses( game &g, const tripoint &center, const std::vector<tripoi
             const char sym = '?';
             const nc_color col = c_dark_gray;
             const catacurses::window &w = g.w_terrain;
-            const int k = p.x + getmaxx( w ) / 2 - center.x;
-            const int j = p.y + getmaxy( w ) / 2 - center.y;
+            const int k = p.x + ( getmaxx( w ) / 2 ) - center.x;
+            const int j = p.y + ( getmaxy( w ) / 2 ) - center.y;
             mvwputch( w, point( k, j ), col, sym );
         } else {
             // This function reveals tile at p and writes it to the player's memory
@@ -1106,8 +1106,8 @@ static void draw_cone_aoe_curses( const tripoint &, const bucketed_points &waves
     // Calculate screen offset relative to player + view offset position
     const avatar &u = get_avatar();
     const tripoint center = u.pos() + u.view_offset;
-    const tripoint topleft( center.x - catacurses::getmaxx( g->w_terrain ) / 2,
-                            center.y - catacurses::getmaxy( g->w_terrain ) / 2, 0 );
+    const tripoint topleft( center.x - ( catacurses::getmaxx( g->w_terrain ) / 2 ),
+                            center.y - ( catacurses::getmaxy( g->w_terrain ) / 2 ), 0 );
 
     auto it = waves.begin();
     shared_ptr_fast<game::draw_callback_t> wave_cb =

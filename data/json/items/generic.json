@@ -1126,8 +1126,8 @@
     "price": "10 USD",
     "price_postapoc": "10 cent",
     "material": [ "steel", "plastic" ],
-    "weight": "100 kg",
-    "volume": "65 L",
+    "weight": "360 kg",
+    "volume": "175 L",
     "bashing": 4,
     "cutting": 4,
     "to_hit": -3,
@@ -2366,6 +2366,21 @@
     "flags": [ "TRADER_AVOID", "TINDER" ],
     "weight": "20 g",
     "volume": "250 ml",
+    "to_hit": -2
+  },
+  {
+    "type": "GENERIC",
+    "id": "money_pile",
+    "symbol": ",",
+    "color": "light_green",
+    "name": { "str": "pile of money", "str_pl": "piles of money" },
+    "looks_like": "money_bundle",
+    "category": "valuables",
+    "description": "A pile of cash.  Can be used to fill a bathtub with cash or as a comforting reminder of the past.",
+    "material": [ "paper" ],
+    "flags": [ "TRADER_AVOID", "SLEEP_AID" ],
+    "weight": "200 g",
+    "volume": "2500 ml",
     "to_hit": -2
   },
   {
