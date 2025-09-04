@@ -278,7 +278,9 @@ void vehicle::copy_static_from( const vehicle &source )
     loose_parts = source.loose_parts;
     wheelcache = source.wheelcache;
     rotors = source.rotors;
-    repulsors = source.repulsors;
+    propellers = source.propellers;
+    wings = source.wings;
+    balloons = source.balloons;
     rail_wheelcache = source.rail_wheelcache;
     steering = source.steering;
     speciality = source.speciality;
@@ -4081,7 +4083,7 @@ void vehicle::noise_and_smoke( int load, time_duration time )
         spew_field( mufflesmoke, exhaust_part, fd_smoke,
                     bad_filter ? fd_smoke.obj().get_max_intensity() : 1 );
     }
-    if( is_flying && has_part( VPFLAG_ROTOR ) ) {
+    if( is_flying && has_part( "ROTOR" ) ) {
         noise *= 2;
     }
     // Cap engine noise to avoid deafening.
@@ -4098,7 +4100,7 @@ void vehicle::noise_and_smoke( int load, time_duration time )
     vehicle_noise = static_cast<unsigned char>( noise );
     // TODO: other noises for non-rotor aircraft?
     sounds::sound( global_pos3(), noise, sounds::sound_t::movement,
-                   _( has_part( VPFLAG_ROTOR ) ? heli_noise : sounds[lvl].first ), true );
+                   _( has_part( "ROTOR" ) ? heli_noise : sounds[lvl].first ), true );
 }
 
 int vehicle::wheel_area() const
@@ -4357,15 +4359,24 @@ double vehicle::total_rotor_area() const
     } );
 }
 
+double vehicle::total_propeller_area() const
+{
+    return std::accumulate( propellers.begin(), propellers.end(), 0.0,
+    [&]( double acc, int propeller ) {
+        const double radius{ parts[ propeller ].info().rotor_diameter() / 2.0 };
+        return acc + M_PI * std::pow( radius, 2 );
+    } );
+}
+
 // Balloons can lift ~1 kg per m^3
 // 1 tile is 1 m^2, but with an undefined height
 // So balloon height and balloon weight will be what changes
 // Returns a value in newtons
 double vehicle::total_balloon_lift() const
 {
-    return std::accumulate( balloons.begin(), ballons.end(), double{0.0},
+    return std::accumulate( balloons.begin(), balloons.end(), double{0.0},
     [&]( double acc, int balloon ) {
-        const double height{ parts[ repulsor ].info().balloon_height() };
+        const double height{ parts[ balloon ].info().balloon_height() };
         return acc + ( 1000 * height * GRAVITY_OF_EARTH );
     } );
 }
@@ -4376,9 +4387,9 @@ double vehicle::total_wing_lift() const
 {
     // First convert to km/h, then m/h, then m/s, then (m/s)^2
     const double meterpersecsquared = std::pow( velocity * 1.609 * 1000 / 360, 2 );
-    return std::accumulate( balloons.begin(), ballons.end(), double{0.0},
+    return std::accumulate( wings.begin(), wings.end(), double{0.0},
     [&]( double acc, int wing ) {
-        const double liftcoff{ parts[ repulsor ].info().lift_coff() };
+        const double liftcoff{ parts[ wing ].info().lift_coff() };
         // m^2 area is always 1
         return acc + ( 0.5 * meterpersecsquared * liftcoff );
     } );
@@ -4404,7 +4415,7 @@ double vehicle::thrust_of_rotorcraft( const bool fuelled, const bool safe ) cons
 
 // constants were converted from imperial to SI goodness
 // returns as newton
-double vehicle::thrust_of_propellers( const bool fuelled, const bool safe ) const
+double vehicle::foward_thrust_of_propellers( const bool fuelled, const bool safe ) const
 {
     constexpr double coefficient = 0.8642;
     constexpr double exponentiation = -0.3107;
@@ -4415,7 +4426,7 @@ double vehicle::thrust_of_propellers( const bool fuelled, const bool safe ) cons
 
     const double power_load = engine_power / rotor_area;
     const double foward_thrust = coefficient * engine_power * std::pow( power_load, exponentiation );
-    add_msg( m_debug, "foward thrust(N) of %s: %f, rotor area (m^2): %f, engine power (w): %i",
+    add_msg( m_debug, "foward thrust(N) of %s: %f, propeller area (m^2): %f, engine power (w): %i",
              name, foward_thrust, rotor_area, engine_power );
     return foward_thrust;
 }
@@ -4423,19 +4434,19 @@ double vehicle::thrust_of_propellers( const bool fuelled, const bool safe ) cons
 // get sum of horizontal thrust from all lifting parts
 double vehicle::total_thrust( const bool fuelled, const bool safe ) const
 {
-    return thrust_of_rotorcraft( fulled, safe ) + foward_thrust_of_propellers( fuelled, safe );
+    return thrust_of_rotorcraft( fuelled, safe ) + foward_thrust_of_propellers( fuelled, safe );
 }
 
 // get sum of lift from all lifting parts
 double vehicle::total_lift( const bool fuelled, const bool safe ) const
 {
-    return thrust_of_rotorcraft( fuelled, safe ) + total_ballon_lift() + total_wing_lift();
+    return thrust_of_rotorcraft( fuelled, safe ) + total_balloon_lift() + total_wing_lift();
 }
 
 // For some reason, just checking total lift > 0 doesn't seem to work if the vehicle hasn't been piloted before, which was impacting the design view. This fixes it, and can be used to check if the vehicle HAS lift, but not enough to fly by doing has_lift && !has_sufficient_lift
 bool vehicle::has_lift() const
 {
-    return has_part( VPFLAG_ROTOR ) || has_part( VPFLAG_BALLOON ) || has_part( VPFLAG_WING );
+    return has_part( "ROTOR" ) || has_part( "BALLOON" ) || has_part( "WING" );
 }
 
 bool vehicle::has_sufficient_lift() const
@@ -4443,10 +4454,15 @@ bool vehicle::has_sufficient_lift() const
     return total_lift( true ) > to_newton( total_mass() );
 }
 
+bool vehicles::is_rotorcraft() const
+{
+    return ( has_part( "ROTOR" ) ) && has_sufficient_lift() &&
+           player_in_control( g->u );
+}
 // requires vehicle to have sufficient rotor lift
 bool vehicle::is_aircraft() const
 {
-    return ( has_part( "ROTOR" ) || has_part( "REPULSOR" ) ) && has_sufficient_lift() &&
+    return ( has_part( "ROTOR" ) || has_part( "WING" ) || has_part( "BALLOON") ) && has_sufficient_lift() &&
            player_in_control( g->u );
 }
 
@@ -5945,7 +5961,9 @@ void vehicle::refresh()
     wheelcache.clear();
     rail_wheelcache.clear();
     rotors.clear();
-    repulsors.clear();
+    wings.clear();
+    propellers.clear();
+    balloons.clear();
     steering.clear();
     speciality.clear();
     floating.clear();
@@ -6012,8 +6030,14 @@ void vehicle::refresh()
         if( vpi.has_flag( VPFLAG_ROTOR ) ) {
             rotors.push_back( p );
         }
-        if( vpi.has_flag( VPFLAG_REPULSOR ) ) {
-            repulsors.push_back( p );
+        if( vpi.has_flag( VPFLAG_PROPELLER ) ) {
+            propellers.push_back( p );
+        }
+        if( vpi.has_flag( VPFLAG_WING ) ) {
+            wings.push_back( p );
+        }
+        if( vpi.has_flag( VPFLAG_BALLOON ) ) {
+            balloons.push_back( p );
         }
         if( vpi.has_flag( "WIND_TURBINE" ) ) {
             wind_turbines.push_back( p );

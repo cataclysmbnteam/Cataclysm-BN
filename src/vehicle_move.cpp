@@ -230,8 +230,7 @@ void vehicle::thrust( int thd, int z )
         load = ( thrusting ? 1000 : 0 );
     }
     // rotorcraft need to spend +5% (in addition to idle) of load to fly, +20% (in addition to idle) to ascend
-    // TODO: Consider different costs to this for repulsor craft
-    if( is_aircraft() && ( z > 0 || is_flying_in_air() ) ) {
+    if( is_rotorcraft() && ( z > 0 || is_flying_in_air() ) ) {
         load = std::max( load, z > 0 ? 200 : 50 );
         thrusting = true;
     }

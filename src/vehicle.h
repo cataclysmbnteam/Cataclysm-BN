@@ -1110,6 +1110,10 @@ class vehicle
          */
         bool is_aircraft() const;
         /**
+         * does the vehicle use rotors?
+         */
+        bool is_rotorcraft() const;
+        /**
          * does the vehicle have lift-generating parts?
          */
         bool has_lift() const;
@@ -1118,17 +1122,29 @@ class vehicle
          */
         double total_rotor_area() const;
         /**
-         * total repulsion of all repulsors in kN
+         * lift of balloons in newtons
          */
-        double total_repulsion() const;
+        double total_balloon_lift() const;
+        /**
+         * lift from wings in newtons
+         */
+        double total_wing_lift() const;
+        /**
+         * total area of every propeller in m^2
+         */
+        double total_propeller_area() const;
         /**
          * lift of rotorcraft in newton
          */
-        double lift_thrust_of_rotorcraft( bool fuelled, bool safe = false ) const;
+        double thrust_of_rotorcraft( bool fuelled, bool safe = false ) const;
         /**
-         * lift of repulsors in newton
+         * foward thrust of propellers in newtons
          */
-        double lift_thrust_of_repulsors( bool fuelled, bool safe = false ) const;
+        double foward_thrust_of_propellers( bool fuelled, bool safe = false ) const;
+        /**
+         * total foward thrust of all airborn pushers
+         */
+        double total_thrust( bool fuelled, bool safe = false ) const;
         /**
          * total lift of all lifters
          */
@@ -1584,7 +1600,7 @@ class vehicle
         std::vector<int> engines;          // List of engine indices
         std::vector<int> reactors;         // List of reactor indices
         std::vector<int> solar_panels;     // List of solar panel indices
-        std::vector<int> wind_turbines;     // List of wind turbine indices
+        std::vector<int> wind_turbines;    // List of wind turbine indices
         std::vector<int> water_wheels;     // List of water wheel indices
         std::vector<int> sails;            // List of sail indices
         std::vector<int> funnels;          // List of funnel indices
@@ -1592,7 +1608,9 @@ class vehicle
         std::vector<int> loose_parts;      // List of UNMOUNT_ON_MOVE parts
         std::vector<int> wheelcache;       // List of wheels
         std::vector<int> rotors;           // List of rotors
-        std::vector<int> repulsors;        // List of repulsors
+        std::vector<int> balloons;         // List of repulsors
+        std::vector<int> wings;            // List of wings
+        std::vector<int> propellers;       // List of propellerrs
         std::vector<int> rail_wheelcache;  // List of rail wheels
         std::vector<int> steering;         // List of STEERABLE parts
         // List of parts that will not be on a vehicle very often, or which only one will be present
