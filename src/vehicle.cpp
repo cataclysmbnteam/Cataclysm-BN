@@ -3907,8 +3907,7 @@ int vehicle::max_water_velocity( const bool fueled ) const
 
 int vehicle::max_air_velocity( const bool fueled ) const
 {
-    // TODO: Consider separating lift and thrust for antigrav
-    const double max_air_mps = std::sqrt( total_lift( fueled ) / coeff_air_drag() );
+    const double max_air_mps = std::sqrt( total_thrust( fueled ) / coeff_air_drag() );
     // fly fast at your own risk
     return mps_to_vmiph( max_air_mps );
 }
@@ -3971,7 +3970,7 @@ int vehicle::safe_ground_velocity( const bool fueled ) const
 // or something simpler maybe
 int vehicle::safe_aircraft_velocity( const bool fueled ) const
 {
-    const double max_air_mps = std::sqrt( total_lift( fueled,
+    const double max_air_mps = std::sqrt( total_thrust( fueled,
                                           true ) / coeff_air_drag() );
     return std::min( 22501, mps_to_vmiph( max_air_mps ) );
 }
@@ -4179,6 +4178,7 @@ struct drag_column {
     int windmill = minrow;
     int sail = minrow;
     int rotor = minrow;
+    int ballon = minrow;
     int last = maxrow;
 };
 
@@ -4206,7 +4206,8 @@ double vehicle::coeff_air_drag() const
         if( p.info().location != part_location_center ) {
             return false;
         }
-        return !( p.inside || p.info().has_flag( "NO_ROOF_NEEDED" ) ||
+        return !( p.inside || p.info().has_flag( "EXTENDABLE" )
+                  p.info().has_flag( "NO_ROOF_NEEDED" ) ||
                   p.info().has_flag( "WINDSHIELD" ) ||
                   p.info().has_flag( "OPENABLE" ) );
     };
@@ -4251,6 +4252,7 @@ double vehicle::coeff_air_drag() const
             d_check_max( drag[ col ].panel, pa, pa.info().has_flag( "SOLAR_PANEL" ) );
             d_check_max( drag[ col ].windmill, pa, pa.info().has_flag( "WIND_TURBINE" ) );
             d_check_max( drag[ col ].rotor, pa, pa.info().has_flag( "ROTOR" ) );
+            d_check_max( drag[ col ].ballon, pa, pa.info().has_flag( "BALLOON" ) );
             d_check_max( drag[ col ].sail, pa, pa.info().has_flag( "WIND_POWERED" ) );
             d_check_max( drag[ col ].exposed, pa, d_exposed( pa ) );
             d_check_min( drag[ col ].last, pa, pa.info().has_flag( "LOW_FINAL_AIR_DRAG" ) ||
@@ -4285,6 +4287,8 @@ double vehicle::coeff_air_drag() const
         c_air_drag_c += ( dc.windmill > minrow ) ? 5 * c_air_mod : 0;
         // rotors are not great for drag!
         c_air_drag_c += ( dc.rotor > minrow ) ? 6 * c_air_mod : 0;
+        // Neither are balloons
+        c_air_drag_c += ( dc.ballon > minrow ) ? 6 * c_air_mod : 0;
         // having a sail is terrible for your drag
         c_air_drag_c += ( dc.sail > minrow ) ? 7 * c_air_mod : 0;
         c_air_drag += c_air_drag_c;
