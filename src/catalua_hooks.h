@@ -4,8 +4,7 @@
 #include <string_view>
 
 #include "catalua_sol.h"
-
-class lua_state;
+#include "catalua.h"
 
 namespace cata
 {
