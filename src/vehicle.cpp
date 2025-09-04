@@ -4462,7 +4462,8 @@ bool vehicles::is_rotorcraft() const
 // requires vehicle to have sufficient rotor lift
 bool vehicle::is_aircraft() const
 {
-    return ( has_part( "ROTOR" ) || has_part( "WING" ) || has_part( "BALLOON") ) && has_sufficient_lift() &&
+    return ( has_part( "ROTOR" ) || has_part( "WING" ) || has_part( "BALLOON" ) ) &&
+           has_sufficient_lift() &&
            player_in_control( g->u );
 }
 
