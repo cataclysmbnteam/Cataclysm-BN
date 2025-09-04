@@ -85,9 +85,9 @@ jobs:
       - name: Check Clang OK
         run: |
           echo "Clang++ version:"
-          $(brew --prefix llvm)/bin/clang++ --version  # Ensure clang++ is installed and working
+          $(brew --prefix llvm@20)/bin/clang++ --version  # Ensure clang++ is installed and working
 
       - name: Build
         run: |
           source ./venv/bin/activate
-          make -j3 TILES=${{ matrix.tiles }} SOUND=${{ matrix.tiles }} RELEASE=1 LANGUAGES=all USE_HOME_DIR=1 OSX_MIN=11 PCH=0 COMPILER=$(brew --prefix llvm)/bin/clang++ dmgdist
+          make -j3 TILES=${{ matrix.tiles }} SOUND=${{ matrix.tiles }} RELEASE=1 LANGUAGES=all USE_HOME_DIR=1 OSX_MIN=11 PCH=0 COMPILER=$(brew --prefix llvm@20)/bin/clang++ dmgdist
