@@ -74,6 +74,7 @@ enum vpart_bitflags : int {
     VPFLAG_BALLOON,
     VPFLAG_WING,
     VPFLAG_PROPELLER,
+    VPFLAG_EXTENDABLE,
 
     NUM_VPFLAGS
 };

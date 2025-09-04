@@ -385,6 +385,7 @@ class vehicle
 {
     private:
         bool has_structural_part( point dp ) const;
+        bool has_structural_or_extendable_part( point dp ) const;
         bool is_structural_part_removed() const;
         void open_or_close( int part_index, bool opening );
         bool is_connected( const vehicle_part &to, const vehicle_part &from,

@@ -1386,6 +1386,18 @@ bool vehicle::has_structural_part( point dp ) const
     return false;
 }
 
+bool vehicle::has_structural_or_extendable_part( point dp ) const
+{
+    for( const int elem : parts_at_relative( dp, false ) ) {
+        if( ( part_info( elem ).location == part_location_structure &&
+            !part_info( elem ).has_flag( "PROTRUSION" ) ) ||
+            part_info( elem ).has_flag( VPFLAG_EXTENDABLE ) ) {
+            return true;
+        }
+    }
+    return false;
+}
+
 /**
  * Returns whether or not the vehicle has a structural part queued for removal,
  * @return true if a structural is queue for removal, false if not.
@@ -1422,6 +1434,21 @@ bool vehicle::can_mount( point dp, const vpart_id &id ) const
 
     const std::vector<int> parts_in_square = parts_at_relative( dp, false );
 
+    //New Subpath for balloon type structures when on the edge
+    if( parts_in_square.empty() && part.has_flag( "EXTENDABLE" ) ){
+        // There needs to be parts for these
+        if( !parts.empty() ) {
+            if( !has_structural_or_extendable_part( dp ) &&
+                !has_structural_or_extendable_part( dp + point_east ) &&
+                !has_structural_or_extendable_part( dp + point_south ) &&
+                !has_structural_or_extendable_part( dp + point_west ) &&
+                !has_structural_or_extendable_part( dp + point_north ) ) {
+                return false;
+            }
+            return true;
+        }
+        // If there are no parts, we go on our merry day
+    }
     //First part in an empty square MUST be a structural part
     if( parts_in_square.empty() && part.location != part_location_structure ) {
         return false;
@@ -4454,7 +4481,7 @@ bool vehicle::has_sufficient_lift() const
     return total_lift( true ) > to_newton( total_mass() );
 }
 
-bool vehicles::is_rotorcraft() const
+bool vehicle::is_rotorcraft() const
 {
     return ( has_part( "ROTOR" ) ) && has_sufficient_lift() &&
            player_in_control( g->u );
