@@ -61,6 +61,7 @@
   {
     "method": "json",
     "object": {
+      "place_item": [ { "item": "ref_lighter", "chance": 10, "x": 11, "y": 11 } ],
       "furniture": {
         "#": "f_null",
         "*": "f_datura",
@@ -75,7 +76,7 @@
         "P": "f_sign",
         "|": "f_null"
       },
-      "place_items": [ { "chance": 7, "item": "homebooks", "x": 2, "y": 12 }, { "item": "ref_lighter_used", "chance": 9, "x": 18, "y": 19 } ],
+      "place_items": [ { "chance": 7, "item": "homebooks", "x": 2, "y": 12 } ],
       "rows": [
         "...........__..........'",
         "...........__...........",
