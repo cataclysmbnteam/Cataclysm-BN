@@ -2964,6 +2964,24 @@ vehicle_part_with_feature_range<vpart_bitflags> vehicle::get_enabled_parts(
 }
 
 /**
+ *
+ * Returns all the parts in the vehicle that are either a structural part or
+ * a extendable protusion part
+ * @return A list of indices to all parts with the structure location or otherwise standalone
+ */
+std::vector<int> vehicle::all_standalone_parts() const
+{
+    std::vector<int> parts_found;
+    for( size_t part_index = 0; part_index < parts.size(); ++part_index ) {
+        if( ( part_info( part_index ).location == part_location_structure ||
+            part_info( part_index ).has_flag( VPFLAG_EXTENDABLE ) ) &&
+            !parts[part_index].removed ) {
+            parts_found.push_back( part_index );
+        }
+    }
+    return parts_found;
+}
+/**
  * Returns all parts in the vehicle that exist in the given location slot. If
  * the empty string is passed in, returns all parts with no slot.
  * @param location The location slot to get parts for.
@@ -3725,6 +3743,7 @@ int vehicle::total_power_w( const bool fueled, const bool safe ) const
             pwr += part_vpower_w( p ); // alternators have negative power
         }
     }
+
     pwr = std::max( 0, pwr );
 
     if( cnt > 1 ) {

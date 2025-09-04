@@ -790,7 +790,7 @@ class vehicle
          *  @return part index or -1 if no part
          */
         int next_part_to_close( int p, bool outside = false ) const;
-
+        std::vector<int> all_standalone_parts() const;
         // returns indices of all parts in the given location slot
         std::vector<int> all_parts_at_location( const std::string &location ) const;
         // shifts an index to next available of that type for NPC activities

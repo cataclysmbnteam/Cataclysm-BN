@@ -2314,7 +2314,7 @@ void veh_interact::display_veh()
     }
 
     //Iterate over structural parts so we only hit each square once
-    std::vector<int> structural_parts = veh->all_parts_at_location( "structure" );
+    std::vector<int> structural_parts = veh->all_standalone_parts();
     for( auto &structural_part : structural_parts ) {
         const int p = structural_part;
         int sym = veh->part_sym( p );

@@ -192,8 +192,12 @@ void vehicle::thrust( int thd, int z )
         }
         return;
     }
+    // Both balloons and wings can "glide", making themselves have times where they wont have engine power
+    // As they can be without propellers
     if( thrusting && accel == 0 ) {
-        if( pl_ctrl ) {
+        if( z != 0 && ( has_part( "BALLOON" ) || has_part( "WING" ) ) ){
+            requested_z_change = z;
+        } else if( pl_ctrl ) {
             add_msg( _( "The %s is too heavy for its engine(s)!" ), name );
         }
         return;
@@ -238,15 +242,14 @@ void vehicle::thrust( int thd, int z )
         else {
             // Always let non-rotorcraft change height
             requested_z_change = z;
-            //thrusting = true;
-            //load = 1;
         }
     }
 
     // only consume resources if engine accelerating
     if( load >= 1 && thrusting ) {
-        //abort if engines not operational
-        if( total_power_w() <= 0 || !engine_on || ( z == 0 && accel == 0 ) ) {
+        // abort engine things if engines are not operational
+        // not if there is no acceleration though
+        if( total_power_w() <= 0 || !engine_on ) {
             if( pl_ctrl ) {
                 if( total_power_w( false ) <= 0 ) {
                     add_msg( m_info, _( "The %s doesn't have an engine!" ), name );
@@ -260,20 +263,20 @@ void vehicle::thrust( int thd, int z )
                     add_msg( _( "The %s's engine emits a sneezing sound." ), name );
                 }
             }
-            cruise_velocity = 0;
-            return;
+        } else {
+            //make noise and consume fuel
+            noise_and_smoke( load );
+            consume_fuel( load, 1 );
+            //break the engines a bit, if going too fast.
+            int strn = static_cast<int>( strain() * strain() * 100 );
+            for( size_t e = 0; e < engines.size(); e++ ) {
+                do_engine_damage( e, strn );
+            }
         }
-        //make noise and consume fuel
-        noise_and_smoke( load );
-        consume_fuel( load, 1 );
-        if( z != 0 && is_aircraft() ) {
-            requested_z_change = z;
-        }
-        //break the engines a bit, if going too fast.
-        int strn = static_cast<int>( strain() * strain() * 100 );
-        for( size_t e = 0; e < engines.size(); e++ ) {
-            do_engine_damage( e, strn );
-        }
+    }
+    // Aircraft can always request Z level changes
+    if( z != 0 && is_aircraft() ) {
+        requested_z_change = z;
     }
 
     //wheels aren't facing the right way to change velocity properly
@@ -1181,7 +1184,6 @@ void vehicle::pldrive( Character &driver, point p, int z )
 {
     if( z != 0 && is_aircraft() ) {
         driver.moves = std::min( driver.moves, 0 );
-        std::cout << "Thrusting";
         thrust( 0, z );
     }
     units::angle turn_delta = 15_degrees * p.x;
