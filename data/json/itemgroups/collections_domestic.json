@@ -191,8 +191,8 @@
       { "item": "chem_potassium_chloride", "prob": 5, "charges-min": 100 },
       { "item": "chem_muriatic_acid", "prob": 15 },
       { "item": "denat_alcohol", "prob": 10 },
-      { "item": "butane_can", "prob": 20 },
-      { "item": "butane_tank", "prob": 10 },
+      { "item": "chem_butane", "prob": 20, "container-item": "bottle_plastic" },
+      { "item": "chem_butane", "prob": 10, "container-item": "metal_tank_little" },
       { "item": "chem_peptone_broth", "prob": 15 }
     ]
   },
@@ -363,7 +363,7 @@
       { "item": "motorbike_boots", "prob": 10 },
       { "item": "briefcase", "prob": 2 },
       { "item": "trailmap", "prob": 10 },
-      { "item": "lighter", "prob": 60 },
+      { "group": "disposable_lighter", "prob": 60 },
       { "item": "ref_lighter", "prob": 2 },
       { "item": "electric_lighter", "prob": 2 },
       { "item": "matches", "prob": 60 },
@@ -889,7 +889,7 @@
       { "item": "eink_tablet_pc", "prob": 2 },
       { "item": "smart_lamp", "prob": 2 },
       { "item": "mobile_memory_card", "prob": 8 },
-      { "item": "lighter", "prob": 60 },
+      { "group": "disposable_lighter", "prob": 60 },
       { "item": "ref_lighter", "prob": 2 },
       { "item": "electric_lighter", "prob": 2 },
       { "item": "matches", "prob": 60 },
@@ -1120,7 +1120,7 @@
       { "item": "superglue", "prob": 40, "charges": [ 5, 10 ] },
       { "item": "duct_tape", "prob": 20 },
       { "item": "matches", "prob": 45 },
-      { "item": "lighter", "prob": 45 },
+      { "group": "disposable_lighter", "prob": 45 },
       { "item": "ref_lighter", "prob": 10 },
       { "item": "electric_lighter", "prob": 10 }
     ]

@@ -31,7 +31,7 @@
           }
         ]
       },
-      { "distribution": [ { "item": "lighter" }, { "item": "matches", "charges-min": 1, "charges-max": 20 } ] }
+      { "distribution": [ { "group": "disposable_lighter" }, { "item": "matches", "charges-min": 1, "charges-max": 20 } ] }
     ]
   },
   {
@@ -41,7 +41,7 @@
     "items": [
       [ "joint_roach", 50 ],
       [ "blunt_roach", 50 ],
-      [ "butane_can", 50 ],
+      { "item": "chem_butane", "prob": 50, "container-item": "bottle_plastic" },
       { "group": "weed_accessories", "prob": 200 },
       { "group": "dispensary", "prob": 200 }
     ]
@@ -236,7 +236,7 @@
       { "item": "light_plus_battery_cell", "charges": 150 },
       { "item": "light_plus_battery_cell", "charges": 150, "container-item": "flashlight" },
       { "item": "light_plus_battery_cell", "charges": 150, "container-item": "radio" },
-      { "item": "lighter", "charges": 100 },
+      { "item": "lighter", "charges": 25 },
       { "item": "pockknife" },
       { "item": "multitool" },
       { "item": "1st_aid" },

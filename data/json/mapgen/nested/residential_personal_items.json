@@ -442,7 +442,7 @@
         { "item": "jacket_flannel", "x": 0, "y": 0, "chance": 60 },
         { "item": "long_underpants", "x": 0, "y": 0, "chance": 60 },
         { "item": "longshirt", "x": 0, "y": 0, "chance": 60 },
-        { "item": "lighter", "x": 0, "y": 0, "chance": 60 },
+        { "group": "disposable_lighter", "x": 0, "y": 0, "chance": 60 },
         { "item": "socks_wool", "x": 0, "y": 0, "chance": 60 },
         { "item": "roadmap", "x": 0, "y": 0, "chance": 60 },
         { "item": "backpack_hiking", "x": 0, "y": 0, "chance": 50 },
@@ -578,7 +578,7 @@
         { "item": "binoculars", "x": 0, "y": 0, "chance": 10 },
         { "item": "hammer", "x": 0, "y": 0, "chance": 10 },
         { "item": "inflatable_boat", "x": 0, "y": 0, "chance": 10 },
-        { "item": "lighter", "x": 0, "y": 0, "chance": 10 },
+        { "group": "disposable_lighter", "x": 0, "y": 0, "chance": 10 },
         { "item": "hotplate", "x": 0, "y": 0, "chance": 10 },
         { "item": "coffeemaker", "x": 0, "y": 0, "chance": 10 },
         { "item": "bottle_metal", "x": 0, "y": 0, "chance": 10 },
@@ -662,7 +662,7 @@
       "furniture": { "x": "f_desk" },
       "place_loot": [
         { "group": "stoner", "x": 0, "y": 0, "chance": 50, "repeat": [ 4, 5 ] },
-        { "item": "lighter", "x": 0, "y": 0 },
+        { "group": "disposable_lighter", "x": 0, "y": 0 },
         { "item": "weed", "x": 0, "y": 0 },
         { "item": "rolling_paper", "x": 0, "y": 0, "repeat": [ 4, 5 ] }
       ]

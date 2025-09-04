@@ -182,7 +182,7 @@
           { "item": "handrolled_cig", "prob": 10 },
           { "item": "nic_gum", "prob": 20 },
           { "item": "ecig", "prob": 15 },
-          { "item": "butane_can", "prob": 10 },
+          { "item": "chem_butane", "prob": 10, "container-item": "bottle_plastic" },
           { "collection": [ { "item": "weed" }, { "item": "pipe_glass", "prob": 50 } ], "prob": 10 },
           { "collection": [ { "item": "nectar_collector" }, { "item": "thc_wax", "prob": 50 } ], "prob": 10 },
           { "distribution": [ { "item": "joint", "prob": 80 }, { "item": "joint_roach", "prob": 20 } ], "prob": 10 },
@@ -203,7 +203,7 @@
         "prob": 50
       },
       {
-        "distribution": [ { "item": "lighter", "prob": 40 }, { "item": "ref_lighter", "prob": 40 }, { "item": "matches", "prob": 20 } ],
+        "distribution": [ { "group": "disposable_lighter", "prob": 40 }, { "item": "ref_lighter", "prob": 40 }, { "item": "matches", "prob": 20 } ],
         "prob": 30
       },
       { "distribution": [ { "item": "gum" }, { "item": "caff_gum" } ], "prob": 30 },

@@ -978,7 +978,7 @@
       [ "45_casing", 20 ],
       [ "inhaler", 20 ],
       [ "hairpin", 20 ],
-      [ "lighter", 20 ],
+      { "group": "disposable_lighter", "prob": 20 },
       [ "matches", 20 ],
       [ "jersey", 20 ],
       [ "fanny", 20 ],

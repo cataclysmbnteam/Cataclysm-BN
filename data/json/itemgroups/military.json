@@ -337,7 +337,7 @@
       { "item": "suppressor", "prob": 15 },
       { "item": "shot_suppressor", "prob": 1 },
       { "item": "brass_catcher", "prob": 15 },
-      { "item": "lighter", "prob": 10 },
+      { "group": "disposable_lighter", "prob": 10 },
       { "item": "ref_lighter", "prob": 5 },
       { "item": "electric_lighter", "prob": 5 },
       { "item": "flashlight", "prob": 15 },

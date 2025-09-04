@@ -53,7 +53,7 @@
     "id": "car_misc",
     "items": [
       [ "matches", 8 ],
-      [ "lighter", 10 ],
+      { "group": "disposable_lighter", "prob": 10 },
       [ "ref_lighter", 2 ],
       [ "electric_lighter", 2 ],
       { "group": "tobacco_products", "prob": 26 },
