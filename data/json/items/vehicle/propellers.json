@@ -1,0 +1,17 @@
+[
+  {
+    "id": "small_propeller_rotor",
+    "type": "GENERIC",
+    "category": "veh_parts",
+    "name": { "str": "small civilian propeller rotors", "str_pl": "sets of small civilian propeller rotors" },
+    "description": "A set of four rotor blades from a civilian light aircraft.",
+    "price": "12 USD",
+    "price_postapoc": "250 cent",
+    "weight": "160000 g",
+    "volume": "160000 ml",
+    "looks_like": "xl_wind_turbine",
+    "material": "steel",
+    "symbol": "X",
+    "color": "blue"
+  }
+]

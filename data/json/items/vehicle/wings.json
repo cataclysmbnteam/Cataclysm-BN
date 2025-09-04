@@ -1,0 +1,36 @@
+[
+  {
+    "type": "GENERIC",
+    "id": "small_civilian_wing",
+    "name": { "str": "small civilian wing" },
+    "description": "A small lightweight wing",
+    "weight": "5000 g",
+    "to_hit": -3,
+    "color": "light_gray",
+    "symbol": "]",
+    "material": [ "steel" ],
+    "techniques": [ "DEF_DISARM" ],
+    "volume": "10 L",
+    "bashing": 15,
+    "category": "veh_parts",
+    "price": "40 USD",
+    "price_postapoc": "1 USD"
+  },
+  {
+    "type": "GENERIC",
+    "id": "debug_wing",
+    "name": { "str": "debug wing" },
+    "description": "A wing that defies reality",
+    "weight": "0 g",
+    "to_hit": -3,
+    "color": "light_gray",
+    "symbol": "]",
+    "material": [ "steel" ],
+    "techniques": [ "DEF_DISARM" ],
+    "volume": "1 L",
+    "bashing": 15,
+    "category": "veh_parts",
+    "price": "40 USD",
+    "price_postapoc": "1 USD"
+  }
+]

@@ -1,0 +1,31 @@
+[
+  {
+    "abstract": "propeller_rotors",
+    "type": "vehicle_part",
+    "location": "structural",
+    "symbol": "X",
+    "color": "light_blue",
+    "broken_symbol": "O",
+    "broken_color": "light_gray",
+    "flags": [ "PROPELLER", "PROTUSION", "SHOCK_RESISTANT" ],
+    "description": "A set of aerofoil propeller rotors, when spun at high speed, they generate thrust via horizontal momentum."
+  },
+  {
+    "id": "small_civilian_propeller_rotors",
+    "copy-from": "propeller_rotors",
+    "type": "vehicle_part",
+    "name": "small propeller rotors",
+    "item": "small_propeller_rotor",
+    "propeller_diameter": 2,
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 7 ] ], "time": "2 h", "using": [ [ "welding_standard", 20 ] ] },
+      "removal": { "skills": [ [ "mechanics", 7 ] ], "time": "2 h", "using": [ [ "vehicle_weld_removal", 4 ] ] },
+      "repair": { "skills": [ [ "mechanics", 8 ] ], "time": "2 h", "using": [ [ "welding_standard", 10 ], [ "steel_tiny", 1 ] ] }
+    },
+    "durability": 100,
+    "description": "A set of four military-grade helicopter rotor blades, used to provide lift by rotation.",
+    "damage_modifier": 80,
+    "breaks_into": [ { "item": "scrap", "count": [ 8, 15 ] }, { "item": "steel_chunk", "count": [ 2, 8 ] } ],
+    "damage_reduction": { "all": 22 }
+  }
+]
