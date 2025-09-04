@@ -231,7 +231,7 @@ void vehicle::thrust( int thd, int z )
     }
     // rotorcraft need to spend +5% (in addition to idle) of load to fly, +20% (in addition to idle) to ascend
     if( is_aircraft() && ( z > 0 || is_flying_in_air() ) ) {
-        if( is_rotorcraft() ){
+        if( is_rotorcraft() ) {
             load = std::max( load, z > 0 ? 200 : 50 );
         } else {
             // Always let non-rotorcraft change height

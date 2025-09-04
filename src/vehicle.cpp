@@ -1390,7 +1390,7 @@ bool vehicle::has_structural_or_extendable_part( point dp ) const
 {
     for( const int elem : parts_at_relative( dp, false ) ) {
         if( ( part_info( elem ).location == part_location_structure &&
-            !part_info( elem ).has_flag( "PROTRUSION" ) ) ||
+              !part_info( elem ).has_flag( "PROTRUSION" ) ) ||
             part_info( elem ).has_flag( VPFLAG_EXTENDABLE ) ) {
             return true;
         }
@@ -1435,7 +1435,7 @@ bool vehicle::can_mount( point dp, const vpart_id &id ) const
     const std::vector<int> parts_in_square = parts_at_relative( dp, false );
 
     //New Subpath for balloon type structures when on the edge
-    if( parts_in_square.empty() && part.has_flag( "EXTENDABLE" ) ){
+    if( parts_in_square.empty() && part.has_flag( "EXTENDABLE" ) ) {
         // There needs to be parts for these
         if( !parts.empty() ) {
             if( !has_structural_or_extendable_part( dp ) &&
