@@ -17,11 +17,7 @@
     "name": "debug propeller rotors",
     "item": "debug_propeller_rotor",
     "propeller_diameter": 2,
-    "requirements": {
-      "install": { "time": "1 s" },
-      "removal": { "time": "1 s" },
-      "repair": { "time": "1 s" }
-    },
+    "requirements": { "install": { "time": "1 s" }, "removal": { "time": "1 s" }, "repair": { "time": "1 s" } },
     "durability": 100,
     "description": "A set of four military-grade helicopter rotor blades, used to provide lift by rotation.",
     "damage_modifier": 80,

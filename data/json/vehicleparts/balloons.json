@@ -16,11 +16,7 @@
     "name": "debug balloon",
     "item": "debug_balloon",
     "height": 10,
-    "requirements": {
-      "install": { "time": "1 s" },
-      "removal": { "time": "1 s" },
-      "repair": { "time": "1 s" }
-    },
+    "requirements": { "install": { "time": "1 s" }, "removal": { "time": "1 s" }, "repair": { "time": "1 s" } },
     "durability": 100,
     "damage_modifier": 80,
     "breaks_into": [ { "item": "scrap", "count": [ 8, 15 ] }, { "item": "steel_chunk", "count": [ 2, 8 ] } ],
