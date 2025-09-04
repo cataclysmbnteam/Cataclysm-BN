@@ -5395,7 +5395,7 @@ int multicooker_iuse::use( player &p, item &it, bool t, const tripoint &pos ) co
                     dishes.push_back( r );
                     const bool can_make = r->deduped_requirements().can_make_with_inventory(
                                               crafting_inv, r->get_component_filter() );
-                    dmenu.addentry( counter++, can_make, -1, string_format( _( "%s (%d charges)" ), r->result_name(), (r->time * time_mult / (charges_per_turn * 100)) + 50 ) );
+                    dmenu.addentry( counter++, can_make, -1, string_format( _( "%s ( %1.f charges)" ), r->result_name(), (r->time * time_mult / (charges_per_turn * 100)) + 50 ) );
                 }
             }
 

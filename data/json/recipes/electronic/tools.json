@@ -976,9 +976,6 @@
     "autolearn": true,
     "using": [ [ "soldering_standard", 10 ] ],
     "qualities": [ { "id": "SCREW_FINE", "level": 1 } ],
-    "components": [
-      [ [ "power_supply", 1 ] ],
-      [ [ "e_scrap", 1 ] ]
-    ]
+    "components": [ [ [ "power_supply", 1 ] ], [ [ "e_scrap", 1 ] ] ]
   }
 ]
