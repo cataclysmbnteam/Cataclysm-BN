@@ -5359,7 +5359,7 @@ int multicooker_iuse::use( player &p, item &it, bool t, const tripoint &pos ) co
             if( dish->made_of( LIQUID ) ) {
                 if( !p.check_eligible_containers_for_crafting( *recipe_id( it.get_var( "RECIPE" ) ), 1 ) ) {
                     p.add_msg_if_player( m_info, _( "You don't have a suitable container to store your %s." ),
-                                          dish_name );
+                                         dish_name );
 
                     return 0;
                 }
@@ -5370,7 +5370,7 @@ int multicooker_iuse::use( player &p, item &it, bool t, const tripoint &pos ) co
 
             it.erase_var( "RECIPE" );
             p.add_msg_if_player( m_good, _( "You got the %s from the %s." ),
-                                  dish_name, it.tname() );
+                                 dish_name, it.tname() );
 
             return 0;
         }
@@ -5395,7 +5395,8 @@ int multicooker_iuse::use( player &p, item &it, bool t, const tripoint &pos ) co
                     dishes.push_back( r );
                     const bool can_make = r->deduped_requirements().can_make_with_inventory(
                                               crafting_inv, r->get_component_filter() );
-                    dmenu.addentry( counter++, can_make, -1, string_format( _( "%s ( %1.f charges)" ), r->result_name(), (r->time * time_mult / (charges_per_turn * 100)) + 50 ) );
+                    dmenu.addentry( counter++, can_make, -1, string_format( _( "%s ( %1.f charges)" ), r->result_name(),
+                                    ( r->time * time_mult / ( charges_per_turn * 100 ) ) + 50 ) );
                 }
             }
 
@@ -5405,18 +5406,18 @@ int multicooker_iuse::use( player &p, item &it, bool t, const tripoint &pos ) co
 
             if( choice < 0 ) {
                 p.add_msg_if_player( m_warning,
-                    _( "You don't know of anything you could craft with this." ) );
+                                     _( "You don't know of anything you could craft with this." ) );
                 return 0;
             } else {
                 const recipe *meal = dishes[choice];
                 int mealtime = meal->time * time_mult;
-                int all_charges = charges_to_start + (mealtime / ( charges_per_turn * 100 ));
+                int all_charges = charges_to_start + ( mealtime / ( charges_per_turn * 100 ) );
 
                 if( it.ammo_remaining() < all_charges ) {
 
                     p.add_msg_if_player( m_warning,
-                                          _( "The %s needs %d charges to create this." ),
-                                          it.tname(), all_charges );
+                                         _( "The %s needs %d charges to create this." ),
+                                         it.tname(), all_charges );
 
                     return 0;
                 }
@@ -5437,7 +5438,7 @@ int multicooker_iuse::use( player &p, item &it, bool t, const tripoint &pos ) co
                 it.set_var( "COOKTIME", mealtime );
 
                 p.add_msg_if_player( m_good,
-                                      _( "The %s begins to hum." ), it.tname() );
+                                     _( "The %s begins to hum." ), it.tname() );
                 it.activate();
 
                 return charges_to_start;
