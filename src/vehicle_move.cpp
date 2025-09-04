@@ -234,10 +234,9 @@ void vehicle::thrust( int thd, int z )
         if( is_rotorcraft() ){
             load = std::max( load, z > 0 ? 200 : 50 );
         } else {
-            // We need the bare minimum load to get this thing in the air
-            // Otherwise it won't launch even though balloons / planes don't really need thrust
-            // To get into the air
+            // Always let non-rotorcraft change height
             load = 1;
+            requested_z_change = z;
         }
         thrusting = true;
     }
