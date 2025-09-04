@@ -1265,3 +1265,20 @@ class heat_food_actor : public iuse_actor
         std::unique_ptr<iuse_actor> clone() const override;
 };
 
+class multicooker_iuse : public iuse_actor
+{
+    public:
+        int charges_to_start;
+        int time_mult;
+        int charges_per_turn;
+        std::set<itype_id> recipes;
+        std::set<std::string> subcategories;
+        std::set<std::string> temporary_tools;
+
+        multicooker_iuse( const std::string &type = "multicooker" ) : iuse_actor( type ) {}
+
+        ~multicooker_iuse() override = default;
+        void load( const JsonObject &obj ) override;
+        int use( player &, item &, bool, const tripoint & ) const override;
+        std::unique_ptr<iuse_actor> clone() const override;
+};

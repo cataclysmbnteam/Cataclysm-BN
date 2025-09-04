@@ -718,5 +718,10 @@
     "id": "22_cb",
     "type": "MIGRATION",
     "replace": "22_cphp"
+  },
+  {
+    "id": "multi_cooker_filled",
+    "type": "MIGRATION",
+    "replace": "multi_cooker"
   }
 ]

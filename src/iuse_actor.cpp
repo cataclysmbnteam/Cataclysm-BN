@@ -39,6 +39,7 @@
 #include "flat_set.h"
 #include "game.h"
 #include "game_inventory.h"
+#include "handle_liquid.h"
 #include "int_id.h"
 #include "inventory.h"
 #include "item.h"
@@ -5258,4 +5259,196 @@ int change_scent_iuse::use( player &p, item &it, bool, const tripoint & ) const
 std::unique_ptr<iuse_actor> change_scent_iuse::clone() const
 {
     return std::make_unique<change_scent_iuse>( *this );
+}
+
+void multicooker_iuse::load( const JsonObject &obj )
+{
+    assign( obj, "charges_to_start", charges_to_start );
+    assign( obj, "charges_per_turn", charges_per_turn );
+    assign( obj, "time_mult", time_mult );
+    for( const std::string line : obj.get_array( "recipes" ) ) {
+        recipes.emplace( line );
+    }
+    for( const std::string line : obj.get_array( "subcategories" ) ) {
+        subcategories.emplace( line );
+    }
+    for( const std::string line : obj.get_array( "temporary_tools" ) ) {
+        temporary_tools.emplace( line );
+    }
+}
+
+int multicooker_iuse::use( player &p, item &it, bool t, const tripoint &pos ) const
+{
+    if( t ) {
+        if( !it.units_sufficient( p, charges_per_turn ) ) {
+            it.deactivate();
+            return 0;
+        }
+
+        int cooktime = it.get_var( "COOKTIME", 0 );
+        cooktime -= 100;
+
+        if( cooktime <= 0 ) {
+            it.deactivate();
+            it.erase_var( "COOKTIME" );
+            it.put_in( item::spawn( it.get_var( "RESULT" ) ) );
+            it.erase_var( "RESULT" );
+
+            sounds::sound( pos, 8, sounds::sound_t::alarm, _( "ding!" ), true, "misc", "ding" );
+
+            return 0;
+        } else {
+            it.ammo_consume( charges_per_turn, pos );
+            it.set_var( "COOKTIME", cooktime );
+            return 0;
+        }
+    } else {
+        enum {
+            mc_start, mc_stop, mc_take, mc_upgrade
+        };
+
+        if( p.is_underwater() ) {
+            p.add_msg_if_player( m_info, _( "You can't do that while underwater." ) );
+            return 0;
+        }
+
+        uilist menu;
+        menu.text = _( "Choose option:" );
+
+        item *dish_it = it.contents.get_item_with(
+        []( const item & it ) {
+            return !( it.is_toolmod() || it.is_magazine() );
+        } );
+
+        if( it.is_active() ) {
+            menu.addentry( mc_stop, true, 's', _( "Stop crafting" ) );
+        } else {
+
+            if( dish_it == nullptr ) {
+                if( it.ammo_remaining() < charges_to_start ) {
+                    p.add_msg_if_player( _( "Batteries are low." ) );
+                    return 0;
+                }
+                menu.addentry( mc_start, true, 's', _( "Start crafting " ) );
+            } else {
+                menu.addentry( mc_take, true, 't', _( "Remove Product" ) );
+            }
+        }
+
+        menu.query();
+        int choice = menu.ret;
+
+        if( choice < 0 ) {
+            return 0;
+        }
+
+        if( mc_stop == choice ) {
+            if( query_yn( _( "Really stop?" ) ) ) {
+                it.deactivate();
+                it.erase_var( "RESULT" );
+                it.erase_var( "COOKTIME" );
+                it.erase_var( "RECIPE" );
+            }
+            return 0;
+        }
+
+        if( mc_take == choice ) {
+
+            detached_ptr<item> dish = it.remove_item( *dish_it );
+            const std::string dish_name = dish->tname( dish->charges, false );
+            if( dish->made_of( LIQUID ) ) {
+                if( !p.check_eligible_containers_for_crafting( *recipe_id( it.get_var( "RECIPE" ) ), 1 ) ) {
+                    p.add_msg_if_player( m_info, _( "You don't have a suitable container to store your %s." ),
+                                          dish_name );
+
+                    return 0;
+                }
+                liquid_handler::handle_all_liquid( std::move( dish ), PICKUP_RANGE );
+            } else {
+                p.i_add( std::move( dish ) );
+            }
+
+            it.erase_var( "RECIPE" );
+            p.add_msg_if_player( m_good, _( "You got the %s from the %s." ),
+                                  dish_name, it.tname() );
+
+            return 0;
+        }
+
+        if( mc_start == choice ) {
+            uilist dmenu;
+            dmenu.text = _( "Choose desired recipe:" );
+
+            std::vector<const recipe *> dishes;
+
+            inventory crafting_inv = g->u.crafting_inventory();
+
+            const time_point bday = calendar::start_of_cataclysm;
+            for( const std::string &item : temporary_tools ) {
+                crafting_inv.add_item( *item::spawn_temporary( item, bday ), false );
+            }
+
+            int counter = 0;
+
+            for( const auto &r : g->u.get_learned_recipes() ) {
+                if( subcategories.contains( r->subcategory ) || recipes.contains( r->result() ) ) {
+                    dishes.push_back( r );
+                    const bool can_make = r->deduped_requirements().can_make_with_inventory(
+                                              crafting_inv, r->get_component_filter() );
+                    dmenu.addentry( counter++, can_make, -1, string_format( _( "%s (%d charges)" ), r->result_name(), (r->time * time_mult / (charges_per_turn * 100)) + 50 ) );
+                }
+            }
+
+            dmenu.query();
+
+            int choice = dmenu.ret;
+
+            if( choice < 0 ) {
+                p.add_msg_if_player( m_warning,
+                    _( "You don't know of anything you could craft with this." ) );
+                return 0;
+            } else {
+                const recipe *meal = dishes[choice];
+                int mealtime = meal->time * time_mult;
+                int all_charges = charges_to_start + (mealtime / ( charges_per_turn * 100 ));
+
+                if( it.ammo_remaining() < all_charges ) {
+
+                    p.add_msg_if_player( m_warning,
+                                          _( "The %s needs %d charges to create this." ),
+                                          it.tname(), all_charges );
+
+                    return 0;
+                }
+
+                const auto filter = is_crafting_component;
+                const requirement_data *reqs =
+                    meal->deduped_requirements().select_alternative( p, filter );
+                if( !reqs ) {
+                    return 0;
+                }
+
+                for( const auto &component : reqs->get_components() ) {
+                    p.consume_items( component, 1, filter );
+                }
+
+                it.set_var( "RECIPE", meal->ident().str() );
+                it.set_var( "RESULT", meal->result().str() );
+                it.set_var( "COOKTIME", mealtime );
+
+                p.add_msg_if_player( m_good,
+                                      _( "The %s begins to hum." ), it.tname() );
+                it.activate();
+
+                return charges_to_start;
+            }
+        }
+    }
+
+    return 0;
+}
+
+std::unique_ptr<iuse_actor> multicooker_iuse::clone() const
+{
+    return std::make_unique<multicooker_iuse>( *this );
 }

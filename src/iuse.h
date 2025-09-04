@@ -181,8 +181,6 @@ int radiocontrol( player *, item *, bool, const tripoint & );
 
 int autoclave( player *, item *, bool, const tripoint & );
 
-int multicooker( player *, item *, bool, const tripoint & );
-
 int remoteveh( player *, item *, bool, const tripoint & );
 
 int craft( player *, item *, bool, const tripoint & );

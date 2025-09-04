@@ -827,9 +827,17 @@
     "symbol": ";",
     "color": "red",
     "ammo": "battery",
-    "power_draw": 1000000,
     "qualities": [ [ "CONTAIN", 1 ] ],
-    "use_action": "MULTICOOKER",
+    "use_action": [
+      {
+        "type": "multicooker",
+        "charges_to_start": 50,
+        "charges_per_turn": 1,
+        "time_mult": 2,
+        "subcategories": [ "CSC_FOOD_MEAT", "CSC_FOOD_VEGGI", "CSC_FOOD_PASTA" ],
+        "temporary_tools": [ "hotplate", "tongs", "toolset", "pot" ]
+      }
+    ],
     "magazines": [
       [
         "battery",
@@ -839,12 +847,22 @@
     "magazine_well": "500 ml"
   },
   {
-    "id": "multi_cooker_filled",
+    "id": "multi_cooker_improved",
     "type": "TOOL",
     "copy-from": "multi_cooker",
-    "name": { "str": "multi cooker - cooking" },
-    "description": "A professional-grade multi-cooker, with a battery slot for camping trips or tailgating.  There is a dish in it.",
-    "delete": { "qualities": [ [ "CONTAIN", 1 ] ] }
+    "name": { "str": "improved multi cooker" },
+    "description": "A professional-grade multi-cooker, with a battery slot for camping trips or tailgating. This has been tinkered with.",
+    "use_action": [
+      {
+        "type": "multicooker",
+        "charges_to_start": 50,
+        "charges_per_turn": 1,
+        "time_mult": 1,
+        "recipes": [ "water_clean" ],
+        "subcategories": [ "CSC_FOOD_MEAT", "CSC_FOOD_VEGGI", "CSC_FOOD_PASTA" ],
+        "temporary_tools": [ "hotplate", "tongs", "toolset", "pot" ]
+      }
+    ]
   },
   {
     "id": "oil_cooker",

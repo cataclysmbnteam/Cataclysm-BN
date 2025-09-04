@@ -571,5 +571,28 @@
     "death_drops": {  },
     "death_function": [ "BROKEN" ],
     "flags": [ "SEES", "NOHEAD", "ELECTRONIC", "COLDPROOF", "IMMOBILE", "NO_BREATHE", "DROPS_AMMO" ]
+  },
+  {
+    "id": "mon_hallu_multicooker",
+    "type": "MONSTER",
+    "name": { "str": "evil multi-cooker" },
+    "description": "The multi-cooker's got a mind of its own!  Look out!",
+    "default_faction": "factionless",
+    "species": [ "HALLUCINATION" ],
+    "volume": "30000 ml",
+    "weight": "40750 g",
+    "hp": 5,
+    "speed": 50,
+    "material": [ "steel" ],
+    "symbol": ";",
+    "color": "red",
+    "aggression": 100,
+    "morale": 100,
+    "melee_skill": 1,
+    "melee_cut": 0,
+    "harvest": "exempt",
+    "special_attacks": [ [ "DISAPPEAR", 20 ] ],
+    "death_function": [ "DISAPPEAR" ],
+    "flags": [ "SEES", "HEARS", "NO_BREATHE" ]
   }
 ]
