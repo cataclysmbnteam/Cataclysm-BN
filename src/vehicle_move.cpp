@@ -232,13 +232,15 @@ void vehicle::thrust( int thd, int z )
     // rotorcraft need to spend +5% (in addition to idle) of load to fly, +20% (in addition to idle) to ascend
     if( is_aircraft() && ( z > 0 || is_flying_in_air() ) ) {
         if( is_rotorcraft() ) {
+            thrusting = true;
             load = std::max( load, z > 0 ? 200 : 50 );
-        } else {
-            // Always let non-rotorcraft change height
-            load = 1;
-            requested_z_change = z;
         }
-        thrusting = true;
+        else {
+            // Always let non-rotorcraft change height
+            requested_z_change = z;
+            //thrusting = true;
+            //load = 1;
+        }
     }
 
     // only consume resources if engine accelerating
@@ -1179,6 +1181,7 @@ void vehicle::pldrive( Character &driver, point p, int z )
 {
     if( z != 0 && is_aircraft() ) {
         driver.moves = std::min( driver.moves, 0 );
+        std::cout << "Thrusting";
         thrust( 0, z );
     }
     units::angle turn_delta = 15_degrees * p.x;

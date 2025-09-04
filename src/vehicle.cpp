@@ -5527,7 +5527,7 @@ void vehicle::idle( bool on_map )
             Possibly something like total lift / total engine power, maybe some factors for hovering efficiency of different types
             Also consider adding a hover efficiency field
         */
-        if( is_aircraft() && is_flying_in_air() ) {
+        if( is_rotorcraft() && is_flying_in_air() ) {
             idle_rate = 100;
         }
         if( has_engine_type_not( fuel_type_muscle, true ) ) {
