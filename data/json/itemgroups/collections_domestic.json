@@ -927,6 +927,7 @@
       { "item": "creepy_doll", "prob": 1 },
       { "item": "straw_doll", "prob": 1 },
       { "item": "money_bundle", "prob": 30 },
+      { "item": "money_pile", "prob": 1 },
       { "item": "wristwatch", "prob": 15 },
       { "item": "balloon", "prob": 5 },
       { "item": "diving_watch", "prob": 5 },

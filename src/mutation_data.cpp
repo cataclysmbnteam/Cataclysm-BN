@@ -391,6 +391,8 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "reading_speed_multiplier", reading_speed_multiplier, 1.0f );
     optional( jo, was_loaded, "skill_rust_multiplier", skill_rust_multiplier, 1.0f );
     optional( jo, was_loaded, "packmule_modifier", packmule_modifier, 1.0f );
+    optional( jo, was_loaded, "crafting_speed_modifier", crafting_speed_modifier, 1.0f );
+    optional( jo, was_loaded, "construction_speed_modifier", construction_speed_modifier, 1.0f );
     optional( jo, was_loaded, "scent_modifier", scent_modifier, 1.0f );
     optional( jo, was_loaded, "scent_intensity", scent_intensity, std::nullopt );
     optional( jo, was_loaded, "scent_mask", scent_mask, std::nullopt );

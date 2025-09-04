@@ -8,6 +8,7 @@
 #include <optional>
 #include <set>
 #include <string>
+#include <type_traits>
 #include <utility>
 #include <vector>
 
@@ -335,6 +336,8 @@ class monster : public Creature, public location_visitable<monster>
         void melee_attack( Creature &p, bool ) = delete;
         using Creature::deal_projectile_attack;
         void deal_projectile_attack( Creature *source, item *source_weapon,
+                                     dealt_projectile_attack &attack, bool manual_retaliation );
+        void deal_projectile_attack( Creature *source, item *source_weapon,
                                      dealt_projectile_attack &attack ) override;
         void deal_projectile_attack( Creature *source, dealt_projectile_attack &attack ) override;
         void apply_damage( Creature *source, item *source_weapon, item *source_projectile, bodypart_id bp,
@@ -408,6 +411,8 @@ class monster : public Creature, public location_visitable<monster>
         bool has_grab_break_tec() const override;
 
         float stability_roll() const override;
+        void on_hit( Creature *source, bodypart_id bp_hit,
+                     dealt_projectile_attack const *proj = nullptr, bool manual_retaliation = false );
         void on_hit( Creature *source, bodypart_id bp_hit,
                      dealt_projectile_attack const *proj = nullptr ) override;
         void on_damage_of_type( int amt, damage_type dt, const bodypart_id &bp ) override;

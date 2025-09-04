@@ -237,6 +237,8 @@ void profession::load( const JsonObject &jo, const std::string & )
     }
     optional( jo, was_loaded, "no_bonus", no_bonus );
 
+    optional( jo, was_loaded, "starting_cash", _starting_cash );
+
     optional( jo, was_loaded, "skills", _starting_skills, skilllevel_reader {} );
     optional( jo, was_loaded, "addictions", _starting_addictions, addiction_reader {} );
     // TODO: use string_id<bionic_type> or so
@@ -373,6 +375,11 @@ static time_point advanced_spawn_time()
 signed int profession::point_cost() const
 {
     return _point_cost;
+}
+
+std::optional<int> profession::starting_cash() const
+{
+    return _starting_cash;
 }
 
 static void clear_faults( item &it )

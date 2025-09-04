@@ -6642,6 +6642,17 @@
   },
   {
     "type": "mutation",
+    "id": "DEBUG_HT",
+    "name": { "str": "Debug Hammertime" },
+    "points": 99,
+    "valid": false,
+    "description": "Crafting and construction are practically instant.",
+    "debug": true,
+    "crafting_speed_modifier": 9999,
+    "construction_speed_modifier": 9999
+  },
+  {
+    "type": "mutation",
     "id": "DEBUG_MIND_CONTROL",
     "name": { "str": "Debug Mind Control" },
     "points": 99,
