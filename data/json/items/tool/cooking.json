@@ -560,6 +560,7 @@
     "symbol": ";",
     "color": "green",
     "ammo": [ "lighter_fluid", "gasoline" ],
+    "default_ammo": "chem_butane",
     "sub": "hotplate",
     "initial_charges": 500,
     "max_charges": 500,
