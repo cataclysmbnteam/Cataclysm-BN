@@ -238,11 +238,11 @@ void vehicle::thrust( int thd, int z )
         if( is_rotorcraft() ) {
             thrusting = true;
             load = std::max( load, z > 0 ? 200 : 50 );
-        } else{
+        } else {
             thrusting = true;
         }
     }
-    if( thrusting && z != 0 && is_aircraft() ){
+    if( thrusting && z != 0 && is_aircraft() ) {
         requested_z_change = z;
     }
 
