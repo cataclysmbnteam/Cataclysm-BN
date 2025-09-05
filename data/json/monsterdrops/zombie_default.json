@@ -204,7 +204,7 @@
       },
       {
         "distribution": [
-          { "group": "disposable_lighter", "prob": 40 },
+          { "item": "lighter", "prob": 40 },
           { "item": "ref_lighter", "prob": 40 },
           { "item": "matches", "prob": 20 }
         ],

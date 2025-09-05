@@ -12,7 +12,7 @@
       { "group": "accessory_weaponcarry", "prob": 10 },
       {
         "distribution": [
-          { "group": "disposable_lighter", "prob": 50 },
+          { "item": "lighter", "prob": 50 },
           { "item": "matches", "prob": 40 },
           { "item": "ref_lighter", "prob": 5 },
           { "item": "electric_lighter", "prob": 5 }

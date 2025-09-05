@@ -186,7 +186,7 @@
       "place_loot": [
         { "group": "toy_store", "x": [ 18, 21 ], "y": [ 19, 20 ], "chance": 50, "repeat": [ 2, 3 ] },
         { "group": "child_items", "x": [ 18, 21 ], "y": [ 19, 20 ], "chance": 50, "repeat": [ 1, 2 ] },
-        { "group": "disposable_lighter", "x": 16, "y": 20, "chance": 25 },
+        { "item": "lighter", "x": 16, "y": 20, "chance": 25 },
         { "item": "atomic_light", "x": 21, "y": 20, "chance": 5 },
         { "item": "fedora", "x": 21, "y": 20, "chance": 15 },
         { "item": "laptop", "x": 2, "y": 19 },

@@ -125,7 +125,7 @@
       { "item": "joint_roach", "prob": 15, "count": [ 1, 2 ] },
       { "item": "jug_plastic", "prob": 10, "count": [ 1, 4 ] },
       { "item": "leather", "prob": 1, "count": [ 1, 2 ] },
-      { "group": "disposable_lighter", "prob": 30 },
+      { "item": "lighter", "prob": 30 },
       { "item": "matches", "prob": 20, "charges-min": 0, "charges-max": 20 },
       { "item": "news_regional", "prob": 8, "count": [ 1, 2 ] },
       { "item": "plastic_bucket", "prob": 20, "count": [ 1, 5 ] },

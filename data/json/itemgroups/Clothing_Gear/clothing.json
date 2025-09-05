@@ -1262,7 +1262,7 @@
       [ "vest", 15 ],
       [ "mag_porn", 20 ],
       [ "photo_album", 10 ],
-      { "group": "disposable_lighter", "prob": 60 },
+      [ "lighter", 60 ],
       [ "ref_lighter", 2 ],
       [ "electric_lighter", 2 ],
       [ "sewing_kit", 30 ],
