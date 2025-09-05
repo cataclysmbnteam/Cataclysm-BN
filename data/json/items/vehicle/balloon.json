@@ -3,7 +3,7 @@
     "type": "GENERIC",
     "id": "debug_balloon",
     "name": { "str": "debug balloon" },
-    "description": "A balloon that defies reality",
+    "description": "A balloon that defies reality.",
     "weight": "0 g",
     "to_hit": -3,
     "color": "light_gray",

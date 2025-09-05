@@ -11,15 +11,14 @@
     "description": "A set of aerofoil propeller rotors, when spun at high speed, they generate thrust via horizontal momentum."
   },
   {
-    "id": "debug_propeller_rotors",
+    "id": "vp_debug_propeller_rotors",
     "copy-from": "propeller_rotors",
     "type": "vehicle_part",
-    "name": "debug propeller rotors",
+    "name": "debug aircraft propeller",
     "item": "debug_propeller_rotor",
     "propeller_diameter": 2,
     "requirements": { "install": { "time": "1 s" }, "removal": { "time": "1 s" }, "repair": { "time": "1 s" } },
     "durability": 100,
-    "description": "A set of four military-grade helicopter rotor blades, used to provide lift by rotation.",
     "damage_modifier": 80,
     "breaks_into": [ { "item": "scrap", "count": [ 8, 15 ] }, { "item": "steel_chunk", "count": [ 2, 8 ] } ],
     "damage_reduction": { "all": 22 }

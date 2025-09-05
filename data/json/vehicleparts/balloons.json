@@ -7,10 +7,10 @@
     "color": "light_blue",
     "broken_symbol": "O",
     "flags": [ "PROTUSION", "EXTENDABLE", "BALLOON", "SHOCK_RESISTANT" ],
-    "description": "A balloon that provides lift"
+    "description": "A balloon that provides lift, but requires aircraft propellers for horizontal momentum."
   },
   {
-    "id": "debug_balloon",
+    "id": "vp_debug_balloon",
     "copy-from": "balloon",
     "type": "vehicle_part",
     "name": "debug balloon",

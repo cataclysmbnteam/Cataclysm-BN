@@ -7,13 +7,13 @@
     "color": "light_blue",
     "broken_symbol": "O",
     "flags": [ "PROTUSION", "EXTENDABLE", "WING", "SHOCK_RESISTANT" ],
-    "description": "An aircraft wing that provides lift when moving"
+    "description": "An aircraft wing that provides lift when moving, but requiers a propeller for foward propulsion while airborne."
   },
   {
-    "id": "debug_wing",
+    "id": "vp_debug_wing",
     "copy-from": "wing",
     "type": "vehicle_part",
-    "name": "debug wing",
+    "name": "debug aerofoil wing",
     "item": "debug_wing",
     "lift_coff": 5,
     "requirements": { "install": { "time": "1 s" }, "removal": { "time": "1 s" }, "repair": { "time": "1 s" } },
