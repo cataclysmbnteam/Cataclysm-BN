@@ -69,7 +69,7 @@
     "coverage": 85,
     "warmth": 15,
     "material": [ "kevlar", "superalloy" ],
-    "material_thickness": 3,
+    "material_thickness": 2,
     "extend": { "flags": [ "ALLOWS_NATURAL_ATTACKS", "STURDY", "WATERPROOF" ] }
   },
   {
