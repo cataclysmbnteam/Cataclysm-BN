@@ -34,15 +34,7 @@
         "|----------------------|"
       ],
       "palettes": [ "lab_palette" ],
-      "place_monster": [
-        {
-          "monster": [ "mon_zombie_scientist" ],
-          "x": [ 1, 21 ],
-          "y": [ 1, 16 ],
-          "pack_size": [ 1, 6 ],
-          "chance": 40
-        }
-      ],
+      "place_monster": [ { "monster": [ "mon_zombie_scientist" ], "x": [ 1, 21 ], "y": [ 1, 16 ], "pack_size": [ 1, 6 ], "chance": 40 } ],
       "terrain": { "7": "t_console" },
       "mapping": {
         "l": {
@@ -55,11 +47,7 @@
         },
         "b": { "items": [ { "item": "bed", "chance": 50 } ] },
         "d": { "items": [ { "item": "office", "chance": 50 } ] },
-        "r": {
-          "items": [
-            { "item": "crt_lab_loot", "chance": 50 }
-          ]
-        },
+        "r": { "items": [ { "item": "crt_lab_loot", "chance": 50 } ] },
         "t": {
           "items": [
             { "item": "tools_science", "chance": 10 },
@@ -69,12 +57,7 @@
           ]
         }
       },
-      "furniture": {
-        "3": "f_3d_printer_advanced",
-        "F": "f_gridforge",
-        "w": "f_gridwelder",
-        "P": "f_grid_plut_generator"
-      },
+      "furniture": { "3": "f_3d_printer_advanced", "F": "f_gridforge", "w": "f_gridwelder", "P": "f_grid_plut_generator" },
       "computers": {
         "6": {
           "name": "C.R.I.T. Lab Housing Entrance",

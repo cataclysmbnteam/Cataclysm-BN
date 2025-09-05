@@ -314,12 +314,14 @@
     "initial_charges": 1000,
     "flags": [ "BELTED", "STURDY", "WATERPROOF", "IS_UPS" ],
     "relic_data": {
-      "recharge_scheme": [ {
-        "type": "solar",
-        "//": "Recharge 0.025 Kilojoule per second, sun produces ~680 W/m^2, so it realistic for protected panels",
-        "interval": "40 s",
-        "rate": 1
-      } ]
+      "recharge_scheme": [
+        {
+          "type": "solar",
+          "//": "Recharge 0.025 Kilojoule per second, sun produces ~680 W/m^2, so it realistic for protected panels",
+          "interval": "40 s",
+          "rate": 1
+        }
+      ]
     }
   }
 ]
