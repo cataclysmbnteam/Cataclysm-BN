@@ -4,7 +4,7 @@
     "type": "GENERIC",
     "category": "veh_parts",
     "name": "debug aircraft propeller",
-    "description": "A set of four rotor blades from a civilian light aircraft.",
+    "description": "A set of four rotor blades from a debug aircraft.",
     "price": "12 USD",
     "price_postapoc": "250 cent",
     "weight": "16 kg",
