@@ -15,7 +15,7 @@
     "type": "scenario",
     "id": "overrun",
     "copy-from": "overrun",
-    "extend": { "professions": [ "crt_rotc", "crt_nco", "crt_rifleman", "crt_medic", "crt_tech" "crt_saw", "crt_officer", "crt", "crt_normie" ] }
+    "extend": { "professions": [ "crt_rotc", "crt_nco", "crt_rifleman", "crt_medic", "crt_tech", "crt_saw", "crt_officer", "crt", "crt_normie" ] }
   },
   {
     "type": "scenario",

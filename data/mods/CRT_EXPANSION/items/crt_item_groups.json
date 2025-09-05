@@ -86,7 +86,8 @@
       { "item": "beam_difractor", "prob": 20 },
       { "item": "crt_em_vest", "prob": 20 },
       { "item": "sword_crt", "prob": 10 },
-      { "item": "blade_crt", "prob": 10 }
+      { "item": "blade_crt", "prob": 10 },
+      { "item": "crt_solarpack", "prob": 20 }
     ]
   },
   {

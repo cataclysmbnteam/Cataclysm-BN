@@ -56,7 +56,8 @@
       "GAS_PROOF",
       "RECHARGE",
       "NO_UNLOAD",
-      "SLEEP_IGNORE"
+      "SLEEP_IGNORE",
+      "COMBAT_NPC_USE"
     ]
   },
   {
@@ -112,7 +113,9 @@
       "GAS_PROOF",
       "RECHARGE",
       "NO_UNLOAD",
-      "SLEEP_IGNORE"
+      "SLEEP_IGNORE",
+      "COMBAT_NPC_USE",
+      "COMBAT_NPC_ON"
     ]
   },
   {
@@ -166,7 +169,7 @@
     "warmth": 10,
     "material_thickness": 4,
     "environmental_protection": 4,
-    "flags": [ "WATER_FRIENDLY", "STURDY", "VARSIZE", "RECHARGE", "NO_UNLOAD", "OUTER" ]
+    "flags": [ "WATER_FRIENDLY", "STURDY", "VARSIZE", "RECHARGE", "NO_UNLOAD", "OUTER", "COMBAT_NPC_USE" ]
   },
   {
     "id": "crt_em_vest_on",
@@ -222,7 +225,9 @@
       "NO_UNLOAD",
       "OUTER",
       "HEAVY_WEAPON_SUPPORT",
-      "ALLOWS_TAIL_SNAKE"
+      "ALLOWS_TAIL_SNAKE",
+      "COMBAT_NPC_USE",
+      "COMBAT_NPC_ON"
     ]
   },
   {
