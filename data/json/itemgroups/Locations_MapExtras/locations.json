@@ -2229,6 +2229,7 @@
       [ "gold_small", 10 ],
       [ "silver_small", 30 ],
       [ "money_bundle", 50 ],
+      [ "money_pile", 25 ],
       [ "pocketwatch", 11 ],
       [ "gold_watch", 12 ],
       [ "sf_watch", 10 ],

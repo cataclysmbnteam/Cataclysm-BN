@@ -876,7 +876,6 @@ void Character::process_items()
     int ch_UPS = 0;
     for( size_t index = 0; index < inv.size(); index++ ) {
         item &it = inv.find_item( index );
-        itype_id identifier = it.type->get_id();
         if( it.has_flag( flag_IS_UPS ) ) {
             ch_UPS += std::min( it.ammo_remaining() * it.type->tool->ups_eff_mult,
                                 it.type->tool->ups_recharge_rate );
@@ -890,8 +889,6 @@ void Character::process_items()
         if( w->has_flag( flag_USE_UPS ) && needs_elec_charges( w ) ) {
             active_worn_items.push_back( w );
         }
-        // Necessary for UPS in Aftershock - check worn items for charge
-        const itype_id &identifier = w->typeId();
         if( w->has_flag( flag_IS_UPS ) ) {
             ch_UPS += std::min( w->ammo_remaining() * w->type->tool->ups_eff_mult,
                                 w->type->tool->ups_recharge_rate );

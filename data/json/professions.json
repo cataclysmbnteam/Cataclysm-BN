@@ -1086,6 +1086,7 @@
     "id": "davy_jones",
     "name": "Davy Jones",
     "description": "You were robbed, shot in the head and thrown into the sea just before the Cataclysm. Now you have risen undead from the depths, with a thirst for vengeance against those who wronged you, and a desire to reclaim your lost treasures.",
+    "starting_cash": 0,
     "points": 2,
     "traits": [
       "SCHIZOPHRENIC",
@@ -1118,6 +1119,7 @@
     "id": "lagoon_creature",
     "name": "Creature of the Lagoon",
     "description": "Ascending from the muck, you've been granted a new life by the Cataclysm. A far cry from your previous existence, you now find yourself a creature of the deep, struggling to understand your new form and purpose.",
+    "starting_cash": 0,
     "points": 1,
     "traits": [ "UNSTABLE", "SLIME_HANDS", "PER_SLIME", "VISCOUS", "AMORPHOUS", "FRESHWATEROSMOSIS", "THRESH_SLIME" ],
     "skills": [ { "level": 2, "name": "swimming" }, { "level": 2, "name": "dodge" } ],
@@ -1845,6 +1847,7 @@
           "switchblade",
           "mag_porn",
           "sunglasses",
+          "money_bundle",
           "diving_watch"
         ],
         "entries": [
@@ -2007,6 +2010,7 @@
     "name": "Hobo",
     "description": "Society drove you to the fringes and set you wandering, with no home, no family, no friends, until you could only find solace in the bottom of a bottle.  But society doesn't mean a thing anymore, and for all the crap thrown your way, you're still standing.  God damn, you need a drink.",
     "points": -1,
+    "starting_cash": 0,
     "items": {
       "both": [
         "pants",
@@ -2884,6 +2888,7 @@
     "id": "mutant_patient",
     "name": "Unwilling Mutant",
     "description": "You were a human guinea pig, used by laboratory technicians to understand the immense power of mutation.",
+    "starting_cash": 0,
     "points": -1,
     "items": { "both": [ "subsuit_xl" ], "male": [ "briefs" ], "female": [ "bra", "panties" ] },
     "flags": [ "SCEN_ONLY" ]
@@ -3840,6 +3845,7 @@
     "description": "Now instead of complaining about your fees, your clients try to eat your brain.  You can't tell which one is worse though.",
     "points": 1,
     "skills": [ { "level": 1, "name": "barter" }, { "level": 2, "name": "speech" } ],
+    "starting_cash": 1000000,
     "items": {
       "both": [
         "suit",
@@ -3851,7 +3857,6 @@
         "wristwatch",
         "smart_phone",
         "briefcase",
-        "money_bundle",
         "file"
       ],
       "male": [ "briefs" ],
@@ -5630,6 +5635,7 @@
     "points": 4,
     "skills": [ { "level": 4, "name": "barter" }, { "level": 6, "name": "speech" } ],
     "traits": [ "LIAR" ],
+    "starting_cash": 2000000,
     "items": {
       "both": [
         "suit",
@@ -5852,7 +5858,7 @@
     ],
     "items": {
       "both": {
-        "items": [ "fancy_sunglasses", "platinum_watch" ],
+        "items": [ "fancy_sunglasses", "platinum_watch", "money_bundle" ],
         "entries": [
           { "item": "shoulder_holster", "contents-group": "hitman_pistol" },
           { "item": "legpouch_large", "contents-group": "hitman_mags_ppq" }
@@ -5890,6 +5896,7 @@
     "name": "Assassin",
     "description": "You were the best undercover agent they had, sent on missions so vital that you had to take it even with the riots going on.  You've lost contact with your handler, you are all alone now.",
     "points": 5,
+    "starting_cash": 2000000,
     "skills": [
       { "level": 3, "name": "dodge" },
       { "level": 3, "name": "melee" },

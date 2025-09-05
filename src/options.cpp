@@ -2393,7 +2393,7 @@ void options_manager::add_options_world_default()
          0, 8, 4
        );
 
-    add( "SPECIALS_DENSITY", world_default, translate_marker( "Overmap specials density" ),
+    add( "SPECIALS_DENSITY", world_default, translate_marker( "Overmap specials density factor" ),
          translate_marker( "A scaling factor that determines density of overmap specials." ),
          0.01, 10.0, 1, 0.1
        );
@@ -2403,7 +2403,7 @@ void options_manager::add_options_world_default()
          -1, 72, 6
        );
 
-    add( "VEHICLE_DAMAGE", world_default, translate_marker( "Vehicle damage modifier" ),
+    add( "VEHICLE_DAMAGE", world_default, translate_marker( "Vehicle damage scaling factor" ),
          translate_marker( "A scaling factor that determines how damaged vehicles are." ),
          0.0, 10.0, 1, 0.1
        );
@@ -2433,6 +2433,8 @@ void options_manager::add_options_world_default()
          0.0, 100, 2.0, 0.01
        );
 
+    add_empty_line();
+
     add( "RESTOCK_DELAY_MULT", world_default, translate_marker( "Merchant restock scaling factor" ),
          translate_marker( "A scaling factor that determines restock rate of merchants." ),
          0.01, 10.0, 1.0, 0.01
@@ -2446,7 +2448,7 @@ void options_manager::add_options_world_default()
          0.01, 10.0, 1.0, 0.01 );
 
     add_option_group( world_default, Group( "item_category_spawn_rate",
-                                            to_translation( "Item category spawn rate" ),
+                                            to_translation( "Item category scaling factors" ),
                                             to_translation( "Spawn rate for item categories. Values ≤ 1.0 represent a chance to spawn. >1.0 means extra spawns. Set to 0.0 to disable spawning items from that category." ) ),
     [&]( const std::string & page_id ) {
 
@@ -2640,12 +2642,13 @@ void options_manager::add_options_world_default()
 
     add_empty_line();
 
-    add( "MONSTER_SPEED", world_default, translate_marker( "Monster speed" ),
+    add( "MONSTER_SPEED", world_default, translate_marker( "Monster speed percentage" ),
          translate_marker( "Determines the movement rate of monsters.  A higher value increases monster speed and a lower reduces it.  Requires world reset." ),
          1, 1000, 100, COPT_NO_HIDE, "%i%%"
        );
 
-    add( "MONSTER_RESILIENCE", world_default, translate_marker( "Monster resilience" ),
+    add( "MONSTER_RESILIENCE", world_default,
+         translate_marker( "Monster resilience percentage" ),
          translate_marker( "Determines how much damage monsters can take.  A higher value makes monsters more resilient and a lower makes them more flimsy.  Requires world reset." ),
          1, 1000, 100, COPT_NO_HIDE, "%i%%"
        );
@@ -2679,14 +2682,21 @@ void options_manager::add_options_world_default()
          14, 127, 30
        );
 
-    add( "CONSTRUCTION_SCALING", world_default, translate_marker( "Construction scaling" ),
-         translate_marker( "Sets the time of construction in percents.  '50' is two times faster than default, '200' is two times longer.  '0' automatically scales construction time to match the world's season length." ),
-         0, 1000, 100
+    add( "CONSTRUCTION_SCALING", world_default,
+         translate_marker( "Construction speed percentage" ),
+         translate_marker( "Sets the time of construction in percents.  '50' is two times faster than default, '200' is two times longer.  '0' makes construction instant." ),
+         0, 1000, 100, COPT_NO_HIDE, "%i%%"
        );
 
-    add( "GROWTH_SCALING", world_default, translate_marker( "Growth scaling" ),
+
+    add( "CRAFTING_SPEED_MULT", world_default, translate_marker( "Crafting speed percentage" ),
+         translate_marker( "Sets default crafting speed in percents.  '50' is two times faster than default, '200' is two times longer.  '0' makes crafting instant." ),
+         0, 1000, 100, COPT_NO_HIDE, "%i%%"
+       );
+
+    add( "GROWTH_SCALING", world_default, translate_marker( "Growth scaling percentage" ),
          translate_marker( "Sets the time of crop growth in percents.  '50' is two times faster than default, '200' is two times longer.  '0' automatically scales growth time to match the world's season length." ),
-         0, 1000, 0
+         0, 1000, 0, COPT_NO_HIDE, "%i%%"
        );
 
     add( "ETERNAL_SEASON", world_default, translate_marker( "Eternal season" ),
