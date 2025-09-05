@@ -293,5 +293,28 @@
     "material_thickness": 1,
     "qualities": [ [ "BOIL", 1 ], [ "CONTAIN", 1 ] ],
     "use_action": "HOTPLATE"
+  },
+  {
+    "id": "crt_solarpack",
+    "copy-from": "molle_pack",
+    "type": "TOOL_ARMOR",
+    "name": "C.R.I.T solarpack",
+    "description": "C.R.I.T special-issue pack. This is based on the MOLLE backpack's design, but comes with a integrated UPS and a few protected but interwoven solar cells",
+    "storage": "9 L",
+    "encumbrance": 2,
+    "max_encumbrance": 7,
+    "material_thickness": 2,
+    "material": [ "leather", "kevlar", "glass" ],
+    "max_charges": 1000,
+    "initial_charges": 1000,
+    "flags": [ "BELTED", "STURDY", "WATERPROOF", "IS_UPS" ],
+    "relic_data": {
+      "recharge_scheme": [ {
+        "type": "solar",
+        "//": "Recharge 0.025 Kilojoule per second, sun produces ~680 W/m^2, so it realistic for protected panels",
+        "interval": "40 s",
+        "rate": 1
+      } ]
+    }
   }
 ]
