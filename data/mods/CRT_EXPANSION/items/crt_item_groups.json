@@ -25,11 +25,12 @@
     "id": "crt_lab_loot",
     "items": [
       { "distribution": [
-        { "group": "guns_energy", "prob": 5 },
+        { "group": "guns_energy", "prob": 10 },
         { "group": "crt_food", "prob": 10 },
         { "group": "crt_armor", "prob": 25 },
+        { "group": "crt_special_armor", "prob": 10 },
         { "group": "crt_rare", "prob": 5 },
-        { "group": "rare", "prob": 2 }
+        { "group": "rare", "prob": 5 }
       ] }
     ]
   },
@@ -40,6 +41,24 @@
       { "distribution": [
         { "item": "crt_canteen", "prob": 50 },
         { "item": "crt_mess_kit", "prob": 50 }
+      ] }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "crt_special_armor",
+    "items": [
+      { "distribution": [
+        { "collection": [
+          { "item": "crt_earmor" },
+          { "item": "crt_earmor_boots" }
+        ], "prob": 25 },
+        { "item": "crt_aarmor", "prob": 50 },
+        { "item": "crt_warmor", "prob": 25 },
+        { "collection": [
+          { "item": "ds_armor" },
+          { "item": "ds_monitor"}
+        ], "prob": 10 }
       ] }
     ]
   },
@@ -64,13 +83,7 @@
           { "item": "crt_sarmor", "prob": 10 }
         ] },
         { "item": "knife_crt", "prob": 5 }
-      ], "prob": 10 },
-      { "collection": [
-        { "item": "crt_earmor" },
-        { "item": "crt_earmor_boots" }
-      ], "prob": 2 },
-      { "item": "crt_aarmor", "prob": 5 },
-      { "item": "crt_warmor", "prob": 2 }
+      ], "prob": 10 }
     ]
   },
   {
