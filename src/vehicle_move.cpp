@@ -195,12 +195,12 @@ void vehicle::thrust( int thd, int z )
     // Both balloons and wings can "glide", making themselves have times where they wont have engine power
     // As they can be without propellers
     if( thrusting && accel == 0 ) {
-        if( z != 0 && ( has_part( "BALLOON" ) || has_part( "WING" ) ) ) {
+        if( z != 0 && is_aircraft() ) {
             requested_z_change = z;
         } else if( pl_ctrl ) {
             add_msg( _( "The %s is too heavy for its engine(s)!" ), name );
+            return;
         }
-        return;
     }
     const int max_vel = traction * max_velocity();
     // maximum braking is 20 mph/s, assumes high friction tires
@@ -238,10 +238,12 @@ void vehicle::thrust( int thd, int z )
         if( is_rotorcraft() ) {
             thrusting = true;
             load = std::max( load, z > 0 ? 200 : 50 );
-        } else {
-            // Always let non-rotorcraft change height
-            requested_z_change = z;
+        } else{
+            thrusting = true;
         }
+    }
+    if( thrusting && z != 0 && is_aircraft() ){
+        requested_z_change = z;
     }
 
     // only consume resources if engine accelerating
@@ -272,10 +274,6 @@ void vehicle::thrust( int thd, int z )
                 do_engine_damage( e, strn );
             }
         }
-    }
-    // Aircraft can always request Z level changes
-    if( z != 0 && is_aircraft() ) {
-        requested_z_change = z;
     }
 
     //wheels aren't facing the right way to change velocity properly
@@ -1112,12 +1110,6 @@ bool vehicle::check_heli_descend( Character &who )
         }
         count++;
     }
-    /*
-    if( velocity > 0 && air_count != count ) {
-        who.add_msg_if_player( m_bad, _( "It would be unsafe to try and land while you are moving." ) );
-        return false;
-    }
-    */
     return true;
 
 }
@@ -1129,12 +1121,6 @@ bool vehicle::check_heli_ascend( Character &who )
         debugmsg( "A vehicle is somehow flying without being an aircraft" );
         return true;
     }
-    /*
-    if( velocity > 0 && !is_flying_in_air() ) {
-        who.add_msg_if_player( m_bad, _( "It would be unsafe to try and take off while you are moving." ) );
-        return false;
-    }
-    */
     if( !is_flying_in_air() && check_on_ramp() ) {
         who.add_msg_if_player( m_bad,
                                _( "It would be unsafe to try and take off from an uneven surface." ) );
