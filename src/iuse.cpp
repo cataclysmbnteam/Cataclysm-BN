@@ -338,7 +338,6 @@ static const mtype_id mon_bee( "mon_bee" );
 static const mtype_id mon_blob( "mon_blob" );
 static const mtype_id mon_dog_thing( "mon_dog_thing" );
 static const mtype_id mon_fly( "mon_fly" );
-static const mtype_id mon_hallu_multicooker( "mon_hallu_multicooker" );
 static const mtype_id mon_hologram( "mon_hologram" );
 static const mtype_id mon_shadow( "mon_shadow" );
 static const mtype_id mon_spore( "mon_spore" );

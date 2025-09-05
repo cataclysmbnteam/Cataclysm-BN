@@ -116,11 +116,14 @@ static const efftype_id effect_pet( "pet" );
 static const efftype_id effect_disinfected( "disinfected" );
 static const efftype_id effect_downed( "downed" );
 static const efftype_id effect_infected( "infected" );
+static const efftype_id effect_hallu( "hallu" );
 static const efftype_id effect_music( "music" );
 static const efftype_id effect_playing_instrument( "playing_instrument" );
 static const efftype_id effect_recover( "recover" );
+static const efftype_id effect_run( "run" );
 static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_stunned( "stunned" );
+static const efftype_id effect_visuals( "visuals" );
 
 static const fault_id fault_bionic_nonsterile( "fault_bionic_nonsterile" );
 
@@ -160,6 +163,8 @@ static const trait_flag_str_id trait_flag_PRED3( "PRED3" );
 static const trait_flag_str_id trait_flag_PRED4( "PRED4" );
 
 static const itype_id itype_UPS( "UPS" );
+
+static const mtype_id mon_hallu_multicooker( "mon_hallu_multicooker" );
 
 class npc;
 
@@ -5263,6 +5268,7 @@ std::unique_ptr<iuse_actor> change_scent_iuse::clone() const
 
 void multicooker_iuse::load( const JsonObject &obj )
 {
+    assign( obj, "do_hallu", do_hallu );
     assign( obj, "charges_to_start", charges_to_start );
     assign( obj, "charges_per_turn", charges_per_turn );
     assign( obj, "time_mult", time_mult );
@@ -5275,6 +5281,58 @@ void multicooker_iuse::load( const JsonObject &obj )
     for( const std::string line : obj.get_array( "temporary_tools" ) ) {
         temporary_tools.emplace( line );
     }
+}
+
+static bool multicooker_hallu( player &p )
+{
+    p.moves -= to_moves<int>( 2_seconds );
+    const int random_hallu = rng( 1, 7 );
+    switch( random_hallu ) {
+
+        case 1:
+            add_msg( m_info, _( "And when you gaze long into a screen, the screen also gazes into you." ) );
+            return true;
+
+        case 2:
+            add_msg( m_bad, _( "The multi-cooker boiled your head!" ) );
+            return true;
+
+        case 3:
+            add_msg( m_info, _( "The characters on the screen display an obscene joke.  Strange humor." ) );
+            return true;
+
+        case 4:
+            //~ Single-spaced & lowercase are intentional, conveying hurried speech-KA101
+            add_msg( m_warning, _( "Are you sure?!  the multi-cooker wants to poison your food!" ) );
+            return true;
+
+        case 5:
+            add_msg( m_info,
+                     _( "The multi-cooker argues with you about the taste preferences.  You don't want to deal with it." ) );
+            return true;
+
+        case 6:
+            if( !one_in( 5 ) ) {
+                add_msg( m_warning, _( "The multi-cooker runs away!" ) );
+                if( monster *const m = g->place_critter_around( mon_hallu_multicooker, p.pos(), 1 ) ) {
+                    m->hallucination = true;
+                    m->add_effect( effect_run, 100_turns );
+                }
+            } else {
+                p.add_msg_if_player( m_info, _( "You're surrounded by aggressive multi-cookers!" ) );
+
+                for( const tripoint &pn : g->m.points_in_radius( p.pos(), 1 ) ) {
+                    if( monster *const m = g->place_critter_at( mon_hallu_multicooker, pn ) ) {
+                        m->hallucination = true;
+                    }
+                }
+            }
+            return true;
+
+        default:
+            return false;
+    }
+
 }
 
 int multicooker_iuse::use( player &p, item &it, bool t, const tripoint &pos ) const
@@ -5310,6 +5368,12 @@ int multicooker_iuse::use( player &p, item &it, bool t, const tripoint &pos ) co
         if( p.is_underwater() ) {
             p.add_msg_if_player( m_info, _( "You can't do that while underwater." ) );
             return 0;
+        }
+
+        if( do_hallu && ( p.has_effect( effect_hallu ) || p.has_effect( effect_visuals ) ) ) {
+            if( multicooker_hallu( p ) ) {
+                return 0;
+            }
         }
 
         uilist menu;

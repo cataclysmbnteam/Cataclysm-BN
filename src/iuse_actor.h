@@ -1268,6 +1268,7 @@ class heat_food_actor : public iuse_actor
 class multicooker_iuse : public iuse_actor
 {
     public:
+        bool do_hallu;
         int charges_to_start;
         float time_mult = 1.0f;
         int charges_per_turn;
