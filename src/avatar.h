@@ -57,7 +57,7 @@ class avatar : public player
         avatar( avatar && ) noexcept;
         ~avatar() override;
         avatar &operator=( const avatar & ) = delete;
-        avatar &operator=( avatar && ) noexcept;
+        avatar &operator=( avatar && );
 
         void store( JsonOut &json ) const;
         void load( const JsonObject &data );
@@ -90,6 +90,12 @@ class avatar : public player
         void set_save_id( const std::string &id ) {
             save_id = id;
         }
+
+        /**
+        * Makes the avatar "take over" the given NPC, while the current avatar character
+        * becomes an NPC.
+        */
+        void control_npc( npc & );
 
         void toggle_map_memory();
         bool should_show_map_memory();

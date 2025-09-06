@@ -191,6 +191,7 @@ enum debug_menu_index {
     DEBUG_NESTED_MAPGEN,
     DEBUG_RESET_IGNORED_MESSAGES,
     DEBUG_RELOAD_TILES,
+    DEBUG_SWAP_CHAR,
 };
 
 class mission_debug
@@ -202,6 +203,7 @@ class mission_debug
         static void edit_mission( mission &m );
         static void edit( Character &who );
         static void edit_player();
+        static void control_npc_menu();
         static void edit_npc( npc &who );
         static std::string describe( const mission &m );
 };
@@ -249,6 +251,7 @@ static int info_uilist( bool display_all_entries = true )
             { uilist_entry( DEBUG_TEST_WEATHER, true, 'W', _( "Test weather" ) ) },
             { uilist_entry( DEBUG_TEST_MAP_EXTRA_DISTRIBUTION, true, 'e', _( "Test map extra list" ) ) },
             { uilist_entry( DEBUG_RESET_IGNORED_MESSAGES, true, 'I', _( "Reset ignored debug messages" ) ) },
+            { uilist_entry( DEBUG_SWAP_CHAR, true, 'x', _("Control NPC follower")) },
 #if defined(TILES)
             { uilist_entry( DEBUG_RELOAD_TILES, true, 'D', _( "Reload tileset and show missing tiles" ) ) },
 #endif
@@ -512,6 +515,29 @@ static Character &pick_character( Character &preselected )
     const size_t index = charmenu.ret;
     Character *c = g->critter_at<Character>( locations[index] );
     return c != nullptr ? *c : preselected;
+}
+
+static void control_npc_menu()
+{
+    std::vector<shared_ptr_fast<npc>> followers;
+    uilist charmenu;
+    int charnum = 0;
+    for (const auto& elem : g->get_follower_list()) {
+        shared_ptr_fast<npc> follower = overmap_buffer.find_npc(elem);
+        if (follower) {
+            followers.emplace_back(follower);
+            charmenu.addentry(charnum++, true, MENU_AUTOASSIGN, follower->get_name());
+        }
+    }
+    if (followers.empty()) {
+        return;
+    }
+    charmenu.w_y_setup = 0;
+    charmenu.query();
+    if (charmenu.ret < 0 || static_cast<size_t>(charmenu.ret) >= followers.size()) {
+        return;
+    }
+    get_avatar().control_npc(*followers.at(charmenu.ret));
 }
 
 void character_edit_menu( Character &c )

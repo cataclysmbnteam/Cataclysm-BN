@@ -185,6 +185,8 @@ int multicooker( player *, item *, bool, const tripoint & );
 
 int remoteveh( player *, item *, bool, const tripoint & );
 
+int remotevehcam( player *p, item *it, bool t, const tripoint &pos );
+
 int craft( player *, item *, bool, const tripoint & );
 
 int disassemble( player *, item *, bool, const tripoint & );
