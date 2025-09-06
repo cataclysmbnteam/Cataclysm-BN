@@ -2024,7 +2024,7 @@ void options_manager::add_options_graphics()
 	
 	add( "OVERMAP_TILES", graphics, translate_marker( "Choose overmap tileset" ),
          translate_marker( "Choose the overmap tileset you want to use." ),
-         build_tilesets_list(), "retrodays", COPT_CURSES_HIDE
+         build_tilesets_list(), "UNDEAD_PEOPLE_BASE", COPT_CURSES_HIDE
        ); // populate the options dynamically
 
     get_option( "OVERMAP_TILES" ).setPrerequisite( "USE_TILES_OVERMAP" );
@@ -3059,7 +3059,7 @@ static void refresh_tiles( bool used_tiles_changed, bool pixel_minimap_height_ch
                 get_option<std::string>( "OVERMAP_TILES" ),
                 ingame ? world_generator->active_world->info->active_mod_order : dummy,
                 /*precheck=*/false,
-                /*force=*/false,
+                /*force=*/force_tile_change,
                 /*pump_events=*/true
             );
             //game_ui::init_ui is called when zoom is changed
