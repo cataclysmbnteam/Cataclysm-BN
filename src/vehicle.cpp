@@ -4494,6 +4494,32 @@ double vehicle::total_lift( const bool fuelled, const bool safe ) const
     return thrust_of_rotorcraft( fuelled, safe ) + total_balloon_lift() + total_wing_lift();
 }
 
+int vehicle::get_takeoff_speed() const
+{
+    const int needed_force = to_newton( total_mass() ) - thrust_of_rotorcraft( true ) +
+                       total_balloon_lift();
+    
+    const double liftwithoutspeed = std::accumulate( wings.begin(), wings.end(), double{0.0},
+    [&]( double acc, int wing ) {
+        const double liftcoff{ parts[ wing ].info().lift_coff() };
+        // m^2 area is always 1
+        return acc + ( 0.5 * liftcoff );
+    } );
+    const double needed_meter_sec_squared = needed_force / liftwithoutspeed;
+    const double needed_meter_sec = std::sqrt( needed_meter_sec_squared );
+    const double needed_km_hour = needed_meter_sec * 1000 / 360;
+    std::string speed_type = get_option<std::string>( "USE_METRIC_SPEEDS" );
+    if( speed_type == "km/h") {
+        return needed_km_hour;
+    } else if( speed_type == "mph" ) {
+        return needed_km_hour / 1.609f;
+    } else if( speed_type == "t/t" ){
+        return needed_km_hour / 6;
+    } else {
+        return INT_MAX;
+    }
+    
+}
 // For some reason, just checking total lift > 0 doesn't seem to work if the vehicle hasn't been piloted before, which was impacting the design view. This fixes it, and can be used to check if the vehicle HAS lift, but not enough to fly by doing has_lift && !has_sufficient_lift
 bool vehicle::has_lift() const
 {

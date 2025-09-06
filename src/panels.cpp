@@ -1695,6 +1695,16 @@ static void draw_health_classic( avatar &u, const catacurses::window &w )
             mvwprintz( w, point( 26 + offset, 5 ), c_light_gray, ">" );
             mvwprintz( w, point( 28 + offset, 5 ), c_light_green, "%d", t_speed );
         }
+        if( veh->has_part( "WING" ) ){
+            int start = 26 + offset;
+            if( veh->cruise_on ){
+                start = 28 + offset + get_int_digits( t_speed ) + 2;
+            }
+            int needed_speed = veh->get_takeoff_speed();
+            mvwprintz( w, point( start, 5 ), c_light_gray, "flight: " );
+            nc_color lift_color = c_speed > needed_speed ? c_light_green : c_light_red;
+            mvwprintz( w, point( start + 8, 5 ), lift_color, "%d", needed_speed );
+        }
     }
 
     wnoutrefresh( w );
@@ -1962,6 +1972,16 @@ static void draw_veh_padding( const avatar &u, const catacurses::window &w )
         if( veh->cruise_on ) {
             mvwprintz( w, point( 21 + offset, 0 ), c_light_gray, "%s", ">" );
             mvwprintz( w, point( 23 + offset, 0 ), c_light_green, "%d", t_speed );
+        }
+        if( veh->has_part( "WING" ) ){
+            int start = 21 + offset;
+            if( veh->cruise_on ){
+                start = 23 + offset + get_int_digits( t_speed ) + 2;
+            }
+            int needed_speed = veh->get_takeoff_speed();
+            mvwprintz( w, point( start, 0 ), c_light_gray, "flight: " );
+            nc_color lift_color = c_speed > needed_speed ? c_light_green : c_light_red;
+            mvwprintz( w, point( start + 8, 0 ), lift_color, "%d", needed_speed );
         }
     }
 

@@ -1131,6 +1131,10 @@ class vehicle
          */
         double total_wing_lift() const;
         /**
+         * speed needed for aircraft takeoff
+         */
+        int get_takeoff_speed() const;
+        /**
          * total area of every propeller in m^2
          */
         double total_propeller_area() const;
