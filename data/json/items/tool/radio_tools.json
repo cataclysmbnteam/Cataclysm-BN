@@ -208,5 +208,39 @@
       ]
     ],
     "magazine_well": "250 ml"
+  },
+  {
+    "id": "remotevehcontrolcams",
+    "type": "TOOL",
+    "category": "electronics",
+    "name": { "str": "remote vehicle camera controller" },
+    "description": "A remote controller for real cars.  Can turn onboard devices on and off.  Some cars can be driven remotely. Has a screen so you see what the vehicle does, if it has any cameras.",
+    "weight": "907 g",
+    "volume": "1 L",
+    "price": "20 USD",
+    "price_postapoc": "250 cent",
+    "to_hit": -1,
+    "material": "plastic",
+    "symbol": "#",
+    "color": "yellow",
+    "ammo": "battery",
+    "charges_per_use": 1,
+    "turns_per_charge": 25,
+    "use_action": "REMOTEVEH",
+    "magazines": [
+      [
+        "battery",
+        [
+          "medium_battery_cell",
+          "medium_plus_battery_cell",
+          "medium_minus_battery_cell",
+          "medium_atomic_battery_cell",
+          "medium_minus_atomic_battery_cell",
+          "medium_minus_disposable_cell",
+          "medium_disposable_cell"
+        ]
+      ]
+    ],
+    "magazine_well": "250 ml"
   }
 ]

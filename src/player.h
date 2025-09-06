@@ -71,6 +71,11 @@ class player : public Character
 
         void store( JsonOut &json ) const;
         void load( const JsonObject &data );
+        /**
+        * The NPC that would control the avatar's character in the avatar's absence.
+        * The Character data in this object is not relevant/used.
+        */
+        std::unique_ptr<npc> shadow_npc;
 };
 
 
