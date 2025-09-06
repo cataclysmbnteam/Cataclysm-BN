@@ -640,7 +640,7 @@
       "holster_prompt": "Stow gear",
       "holster_msg": "You stow your %s",
       "min_volume": "250ml",
-      "max_volume": "3750ml",
+      "max_volume": "2500ml",
       "multi": 2,
       "draw_cost": 120,
       "flags": [ "SHEATH_KNIFE", "SHEATH_SWORD", "SHEATH_AXE", "MAG_COMPACT", "MAG_BULKY", "MAG_BELT", "SPEEDLOADER", "BELT_CLIP" ],
