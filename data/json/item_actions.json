@@ -836,6 +836,11 @@
   },
   {
     "type": "item_action",
+    "id": "BULLET_VIBE_ON",
+    "name": { "str": "Turn off toy" }
+  },
+  {
+    "type": "item_action",
     "id": "VORTEX",
     "name": { "str": "Use" }
   },
