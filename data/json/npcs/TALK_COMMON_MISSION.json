@@ -98,7 +98,7 @@
   {
     "id": "TALK_MISSION_ADVICE",
     "type": "talk_topic",
-    "responses": [ { "text": "Sounds good, thanks.", "topic": "TALK_NONE" }, { "text": "Sounds good.  Bye!", "topic": "TALK_DONE" } ]
+    "responses": [ { "text": "Sounds good, thanks.", "topic": "TALK_MISSION_ACCEPTED" }, { "text": "Sounds good.  Bye!", "topic": "TALK_DONE" } ]
   },
   {
     "id": "TALK_MISSION_REJECTED",
