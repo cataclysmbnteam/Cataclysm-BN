@@ -38,6 +38,7 @@
         "########################################################################"
       ],
       "terrain": {
+        " ": [ [ "t_moss_underground", 1 ], [ "t_rock_floor", 9 ] ],
         "@": [ [ "t_rock", 4 ], [ "t_rock_floor", 1 ] ],
         "#": "t_rock",
         "*": "t_railroad_track_small",
@@ -108,6 +109,7 @@
         "#####@@@@@@@@@@@@@@@@@@@##@@@@@@@@@@@@@@@@@@@@####@@@@@@@@@@@@@@@@@@@###"
       ],
       "terrain": {
+        " ": [ [ "t_moss_underground", 1 ], [ "t_rock_floor", 9 ] ],
         "@": [ [ "t_rock", 4 ], [ "t_rock_floor", 1 ] ],
         "#": "t_rock",
         ">": "t_slope_down",
@@ -181,7 +183,12 @@
         "#    #                                                                  ",
         "######                                                                  "
       ],
-      "terrain": { "@": [ [ "t_rock", 4 ], [ "t_rock_floor", 1 ] ], "#": "t_rock", "<": "t_slope_up" },
+      "terrain": {
+        " ": [ [ "t_moss_underground", 1 ], [ "t_rock_floor", 9 ] ],
+        "@": [ [ "t_rock", 4 ], [ "t_rock_floor", 1 ] ],
+        "#": "t_rock",
+        "<": "t_slope_up"
+      },
       "monsters": { " ": { "monster": "GROUP_SPIRAL", "chance": 1, "density": 0.001 } },
       "nested": { "1": { "chunks": [ [ "spiral_cw", 50 ], [ "spiral_ccw", 50 ] ] } },
       "items": { "!": { "item": "spiral", "chance": 60 } }
