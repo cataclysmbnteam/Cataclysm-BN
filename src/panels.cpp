@@ -1695,9 +1695,9 @@ static void draw_health_classic( avatar &u, const catacurses::window &w )
             mvwprintz( w, point( 26 + offset, 5 ), c_light_gray, ">" );
             mvwprintz( w, point( 28 + offset, 5 ), c_light_green, "%d", t_speed );
         }
-        if( veh->has_part( "WING" ) ){
+        if( veh->has_part( "WING" ) ) {
             int start = 26 + offset;
-            if( veh->cruise_on ){
+            if( veh->cruise_on ) {
                 start = 28 + offset + get_int_digits( t_speed ) + 2;
             }
             int needed_speed = veh->get_takeoff_speed();
@@ -1973,9 +1973,9 @@ static void draw_veh_padding( const avatar &u, const catacurses::window &w )
             mvwprintz( w, point( 21 + offset, 0 ), c_light_gray, "%s", ">" );
             mvwprintz( w, point( 23 + offset, 0 ), c_light_green, "%d", t_speed );
         }
-        if( veh->has_part( "WING" ) ){
+        if( veh->has_part( "WING" ) ) {
             int start = 21 + offset;
-            if( veh->cruise_on ){
+            if( veh->cruise_on ) {
                 start = 23 + offset + get_int_digits( t_speed ) + 2;
             }
             int needed_speed = veh->get_takeoff_speed();
