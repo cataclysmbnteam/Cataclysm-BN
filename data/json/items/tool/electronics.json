@@ -608,6 +608,53 @@
     "magazine_well": "250 ml"
   },
   {
+    "id": "bullet_vibrator",
+    "type": "TOOL",
+    "category": "electronics",
+    "name": { "str": "bullet vibrator (off)" },
+    "description": "This battery-devouring device is just the thing to knead the tension out and help you relax.  Use it to turn it on and start letting it buzz away.",
+    "weight": "100 g",
+    "volume": "100 ml",
+    "price": "55 USD",
+    "price_postapoc": "1 USD",
+    "material": [ "aluminum", "plastic" ],
+    "symbol": ";",
+    "color": "dark_gray",
+    "ammo": "battery",
+    "use_action": {
+      "type": "transform",
+      "target": "bullet_vibrator_on",
+      "active": true,
+      "msg": "You turn on the bullet vibe and place it appropriately.",
+      "moves": 100
+    },
+    "magazines": [
+      [
+        "battery",
+        [
+          "light_battery_cell",
+          "light_plus_battery_cell",
+          "light_minus_battery_cell",
+          "light_atomic_battery_cell",
+          "light_minus_atomic_battery_cell",
+          "light_minus_disposable_cell",
+          "light_disposable_cell"
+        ]
+      ]
+    ],
+    "magazine_well": "100 ml"
+  },
+  {
+    "id": "bullet_vibrator_on",
+    "type": "TOOL",
+    "category": "electronics",
+    "name": { "str": "bullet vibrator (on)" },
+    "copy-from": "bullet_vibrator",
+    "power_draw": 50000,
+    "description": "This battery-devouring device is just the thing to knead the tension out and help you relax.  You can feel it buzzing away all that tension.",
+    "use_action": [ "BULLET_VIBE_ON" ]
+  },
+  {
     "id": "gps_device",
     "type": "TOOL",
     "category": "electronics",
