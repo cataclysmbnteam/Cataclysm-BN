@@ -9308,19 +9308,19 @@ int iuse::bullet_vibe_on( player *p, item *it, bool t, const tripoint & )
     if( t ) { // Normal use
         if( p->has_item( *it ) ) {
             // Only triggers every 5 minutes so that fatigue isn't ridiculous
-            if(calendar::once_every(5_minutes)) {
+            if( calendar::once_every( 5_minutes ) ) {
                 p->add_morale( MORALE_FEELING_GOOD, 1, 30, 5_minutes, 2_minutes, true );
-                p->mod_fatigue(1);
+                p->mod_fatigue( 1 );
             }
         }
     } else {
         // Most generic way to figure out the base item I can think of
         // There's *probably* a better way to do this, but this works
         std::string active_item = it->typeId().str();
-        std::string base_item = active_item.erase(active_item.rfind('_'));
-        
+        std::string base_item = active_item.erase( active_item.rfind( '_' ) );
+
         p->add_msg_if_player( _( "The %s turns off." ), it->display_name() );
-        it->convert( itype_id(base_item) );
+        it->convert( itype_id( base_item ) );
         it->deactivate();
 
     }

@@ -1274,10 +1274,10 @@ class sex_toy_actor : public iuse_actor
     public:
         int moves;
 
-        sex_toy_actor(const std::string &type = "sex_toy" ) : iuse_actor(type) {};
+        sex_toy_actor( const std::string &type = "sex_toy" ) : iuse_actor( type ) {};
         ~sex_toy_actor() override = default;
-        void load(const JsonObject &obj) override;
-        int use(player &p, item &i, bool, const tripoint &) const override;
+        void load( const JsonObject &obj ) override;
+        int use( player &p, item &i, bool, const tripoint & ) const override;
         ret_val<bool> can_use( const Character &, const item &, bool, const tripoint & ) const override;
         std::unique_ptr<iuse_actor> clone() const override;
 };
