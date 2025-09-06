@@ -1,0 +1,12 @@
+[
+  {
+    "id": "mon_cockatrice",
+    "type": "MONSTER",
+    "copy-from": "mon_cockatrice",
+    "petfood": {
+      "food": [ "BIRDFOOD" ],
+      "feed": "The %s seems to like you!",
+      "pet": "The %s looks lovingly at you as you pat its head."
+    }
+  }
+]
