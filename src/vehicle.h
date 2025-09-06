@@ -385,6 +385,7 @@ class vehicle
 {
     private:
         bool has_structural_part( point dp ) const;
+        bool has_structural_or_extendable_part( point dp ) const;
         bool is_structural_part_removed() const;
         void open_or_close( int part_index, bool opening );
         bool is_connected( const vehicle_part &to, const vehicle_part &from,
@@ -789,7 +790,7 @@ class vehicle
          *  @return part index or -1 if no part
          */
         int next_part_to_close( int p, bool outside = false ) const;
-
+        std::vector<int> all_standalone_parts() const;
         // returns indices of all parts in the given location slot
         std::vector<int> all_parts_at_location( const std::string &location ) const;
         // shifts an index to next available of that type for NPC activities
@@ -989,7 +990,8 @@ class vehicle
         int water_acceleration( bool fueled = true, int at_vel_in_vmi = -1 ) const;
         // get air acceleration gained by combined power of all engines. If fueled == true,
         // then only engines which the vehicle hs fuel for are included
-        int rotor_acceleration( bool fueled = true, int at_vel_in_vmi = -1 ) const;
+        int aircraft_acceleration( bool fueled = true, int at_vel_in_vmi = -1 ) const;
+
         // Get acceleration for the current movement mode
         int acceleration( bool fueled = true, int at_vel_in_vmi = -1 ) const;
 
@@ -1009,7 +1011,7 @@ class vehicle
         // If fueled == true, then only the engines which the vehicle has fuel for are included
         int max_water_velocity( bool fueled = true ) const;
         // get maximum air velocity based on rotor physics
-        int max_rotor_velocity( bool fueled = true ) const;
+        int max_air_velocity( bool fueled = true ) const;
         // Get maximum velocity for the current movement mode
         int max_velocity( bool fueled = true ) const;
         // Get maximum reverse velocity for the current movement mode
@@ -1020,7 +1022,7 @@ class vehicle
         int safe_ground_velocity( bool fueled = true ) const;
         // get safe air velocity gained by combined power of all engines.
         // if fueled == true, then only the engines which the vehicle hs fuel for are included
-        int safe_rotor_velocity( bool fueled = true ) const;
+        int safe_aircraft_velocity( bool fueled = true ) const;
         // Get safe water velocity gained by combined power of all engines.
         // If fueled == true, then only the engines which the vehicle has fuel for are included
         int safe_water_velocity( bool fueled = true ) const;
@@ -1105,18 +1107,50 @@ class vehicle
         bool is_in_water( bool deep_water = false ) const;
         bool is_watercraft() const;
         /**
-         * is the vehicle flying? is it a rotorcraft?
+         * is the vehicle flying? is it an aircraft?
+         */
+        bool is_aircraft() const;
+        /**
+         * does the vehicle use rotors?
          */
         bool is_rotorcraft() const;
+        /**
+         * does the vehicle have lift-generating parts?
+         */
+        bool has_lift() const;
         /**
          * total area of every rotors in m^2
          */
         double total_rotor_area() const;
         /**
+         * lift of balloons in newtons
+         */
+        double total_balloon_lift() const;
+        /**
+         * lift from wings in newtons
+         */
+        double total_wing_lift() const;
+        /**
+         * total area of every propeller in m^2
+         */
+        double total_propeller_area() const;
+        /**
          * lift of rotorcraft in newton
          */
-        double lift_thrust_of_rotorcraft( bool fuelled, bool safe = false ) const;
-        bool has_sufficient_rotorlift() const;
+        double thrust_of_rotorcraft( bool fuelled, bool safe = false ) const;
+        /**
+         * foward thrust of propellers in newtons
+         */
+        double foward_thrust_of_propellers( bool fuelled, bool safe = false ) const;
+        /**
+         * total foward thrust of all airborn pushers
+         */
+        double total_thrust( bool fuelled, bool safe = false ) const;
+        /**
+         * total lift of all lifters
+         */
+        double total_lift( bool fuelled, bool safe = false ) const;
+        bool has_sufficient_lift() const;
         int get_z_change() const;
         bool is_flying_in_air() const;
         void set_flying( bool new_flying_value );
@@ -1567,7 +1601,7 @@ class vehicle
         std::vector<int> engines;          // List of engine indices
         std::vector<int> reactors;         // List of reactor indices
         std::vector<int> solar_panels;     // List of solar panel indices
-        std::vector<int> wind_turbines;     // List of wind turbine indices
+        std::vector<int> wind_turbines;    // List of wind turbine indices
         std::vector<int> water_wheels;     // List of water wheel indices
         std::vector<int> sails;            // List of sail indices
         std::vector<int> funnels;          // List of funnel indices
@@ -1575,6 +1609,9 @@ class vehicle
         std::vector<int> loose_parts;      // List of UNMOUNT_ON_MOVE parts
         std::vector<int> wheelcache;       // List of wheels
         std::vector<int> rotors;           // List of rotors
+        std::vector<int> balloons;         // List of repulsors
+        std::vector<int> wings;            // List of wings
+        std::vector<int> propellers;       // List of propellerrs
         std::vector<int> rail_wheelcache;  // List of rail wheels
         std::vector<int> steering;         // List of STEERABLE parts
         // List of parts that will not be on a vehicle very often, or which only one will be present

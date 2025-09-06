@@ -71,6 +71,10 @@ enum vpart_bitflags : int {
     VPFLAG_RAIL,
     VPFLAG_TURRET_CONTROLS,
     VPFLAG_ROOF,
+    VPFLAG_BALLOON,
+    VPFLAG_WING,
+    VPFLAG_PROPELLER,
+    VPFLAG_EXTENDABLE,
 
     NUM_VPFLAGS
 };
@@ -108,6 +112,17 @@ struct vpslot_rotor {
     int rotor_diameter = 1;
 };
 
+struct vpslot_propeller {
+    int propeller_diameter = 1;
+};
+struct vpslot_wing {
+    float lift_coff = 1;
+};
+
+struct vpslot_balloon {
+    float height = 1;
+};
+
 struct vpslot_workbench {
     // Base multiplier applied for crafting here
     float multiplier = 1.0f;
@@ -135,6 +150,9 @@ class vpart_info
         std::optional<vpslot_engine> engine_info;
         std::optional<vpslot_wheel> wheel_info;
         std::optional<vpslot_rotor> rotor_info;
+        std::optional<vpslot_propeller> propeller_info;
+        std::optional<vpslot_wing> wing_info;
+        std::optional<vpslot_balloon> balloon_info;
         std::optional<vpslot_workbench> workbench_info;
 
     public:
@@ -299,9 +317,12 @@ class vpart_info
         int wheel_area() const;
         std::vector<std::pair<std::string, int>> wheel_terrain_mod() const;
         float wheel_or_rating() const;
-        /** @name rotor specific functions
+        /** @name flight specific functions
         */
         int rotor_diameter() const;
+        float lift_coff() const;
+        int propeller_diameter() const;
+        float balloon_height() const;
         /**
          * Getter for optional workbench info
          */
@@ -343,6 +364,9 @@ class vpart_info
         static void load_wheel( std::optional<vpslot_wheel> &whptr, const JsonObject &jo );
         static void load_workbench( std::optional<vpslot_workbench> &wbptr, const JsonObject &jo );
         static void load_rotor( std::optional<vpslot_rotor> &roptr, const JsonObject &jo );
+        static void load_wing( std::optional<vpslot_wing> &wptr, const JsonObject &jo );
+        static void load_balloon( std::optional<vpslot_balloon> &balptr, const JsonObject &jo );
+        static void load_propeller( std::optional<vpslot_propeller> &proptr, const JsonObject &jo );
         static void load( const JsonObject &jo, const std::string &src );
         static void finalize();
         static void check();

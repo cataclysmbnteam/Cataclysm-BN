@@ -104,6 +104,10 @@ static const std::unordered_map<std::string, vpart_bitflags> vpart_bitflag_map =
     { "RAIL", VPFLAG_RAIL },
     { "TURRET_CONTROLS", VPFLAG_TURRET_CONTROLS },
     { "ROOF", VPFLAG_ROOF },
+    { "BALLOON", VPFLAG_BALLOON },
+    { "WING", VPFLAG_WING },
+    { "PROPELLER", VPFLAG_PROPELLER },
+    { "EXTENDABLE", VPFLAG_EXTENDABLE }
 };
 
 static const std::vector<std::pair<std::string, int>> standard_terrain_mod = {{
@@ -244,6 +248,39 @@ void vpart_info::load_rotor( std::optional<vpslot_rotor> &roptr, const JsonObjec
     assign( jo, "rotor_diameter", rotor_info.rotor_diameter );
     roptr = rotor_info;
     assert( roptr );
+}
+
+void vpart_info::load_propeller( std::optional<vpslot_propeller> &proptr, const JsonObject &jo )
+{
+    vpslot_propeller propeller_info{};
+    if( proptr ) {
+        propeller_info = *proptr;
+    }
+    assign( jo, "propeller_diameter", propeller_info.propeller_diameter );
+    proptr = propeller_info;
+    assert( proptr );
+}
+
+void vpart_info::load_wing( std::optional<vpslot_wing> &wptr, const JsonObject &jo )
+{
+    vpslot_wing wing_info{};
+    if( wptr ) {
+        wing_info = *wptr;
+    }
+    assign( jo, "lift_coff", wing_info.lift_coff );
+    wptr = wing_info;
+    assert( wptr );
+}
+
+void vpart_info::load_balloon( std::optional<vpslot_balloon> &balptr, const JsonObject &jo )
+{
+    vpslot_balloon balloon_info{};
+    if( balptr ) {
+        balloon_info = *balptr;
+    }
+    assign( jo, "height", balloon_info.height );
+    balptr = balloon_info;
+    assert( balptr );
 }
 
 void vpart_info::load_wheel( std::optional<vpslot_wheel> &whptr, const JsonObject &jo )
@@ -433,6 +470,18 @@ void vpart_info::load( const JsonObject &jo, const std::string &src )
 
     if( def.has_flag( "ROTOR" ) ) {
         load_rotor( def.rotor_info, jo );
+    }
+
+    if( def.has_flag( "PROPELLER" ) ) {
+        load_propeller( def.propeller_info, jo );
+    }
+
+    if( def.has_flag( "BALLOON" ) ) {
+        load_balloon( def.balloon_info, jo );
+    }
+
+    if( def.has_flag( "WING" ) ) {
+        load_wing( def.wing_info, jo );
     }
 
     if( def.has_flag( "WORKBENCH" ) ) {
@@ -910,6 +959,21 @@ float vpart_info::wheel_or_rating() const
 int vpart_info::rotor_diameter() const
 {
     return has_flag( VPFLAG_ROTOR ) ? rotor_info->rotor_diameter : 0;
+}
+
+float vpart_info::balloon_height() const
+{
+    return has_flag( VPFLAG_BALLOON ) ? balloon_info->height : 0;
+}
+
+float vpart_info::lift_coff() const
+{
+    return has_flag( VPFLAG_WING ) ? wing_info->lift_coff : 0;
+}
+
+int vpart_info::propeller_diameter() const
+{
+    return has_flag( VPFLAG_PROPELLER ) ? propeller_info->propeller_diameter : 0;
 }
 
 const std::optional<vpslot_workbench> &vpart_info::get_workbench_info() const

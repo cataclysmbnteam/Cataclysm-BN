@@ -1,4 +1,5 @@
 #include "vehicle.h"
+#include "units_mass.h"
 #include "vehicle_part.h" // IWYU pragma: associated
 #include "vpart_position.h" // IWYU pragma: associated
 #include "vpart_range.h" // IWYU pragma: associated
@@ -277,6 +278,9 @@ void vehicle::copy_static_from( const vehicle &source )
     loose_parts = source.loose_parts;
     wheelcache = source.wheelcache;
     rotors = source.rotors;
+    propellers = source.propellers;
+    wings = source.wings;
+    balloons = source.balloons;
     rail_wheelcache = source.rail_wheelcache;
     steering = source.steering;
     speciality = source.speciality;
@@ -1032,7 +1036,7 @@ void vehicle::drive_to_local_target( const tripoint &target, bool follow_protoco
         if( ( turn_x > 0 || turn_x < 0 ) && velocity > 1000 ) {
             accel_y = 1;
         }
-        if( ( velocity < std::min( safe_velocity(), is_rotorcraft() &&
+        if( ( velocity < std::min( safe_velocity(), is_aircraft() &&
                                    is_flying_in_air() ? 12000 : 32 * 100 ) && turn_x == 0 ) || velocity < 500 ) {
             accel_y = -1;
         }
@@ -1382,6 +1386,18 @@ bool vehicle::has_structural_part( point dp ) const
     return false;
 }
 
+bool vehicle::has_structural_or_extendable_part( point dp ) const
+{
+    for( const int elem : parts_at_relative( dp, false ) ) {
+        if( ( part_info( elem ).location == part_location_structure &&
+              !part_info( elem ).has_flag( "PROTRUSION" ) ) ||
+            part_info( elem ).has_flag( VPFLAG_EXTENDABLE ) ) {
+            return true;
+        }
+    }
+    return false;
+}
+
 /**
  * Returns whether or not the vehicle has a structural part queued for removal,
  * @return true if a structural is queue for removal, false if not.
@@ -1418,6 +1434,21 @@ bool vehicle::can_mount( point dp, const vpart_id &id ) const
 
     const std::vector<int> parts_in_square = parts_at_relative( dp, false );
 
+    //New Subpath for balloon type structures when on the edge
+    if( parts_in_square.empty() && part.has_flag( "EXTENDABLE" ) ) {
+        // There needs to be parts for these
+        if( !parts.empty() ) {
+            if( !has_structural_or_extendable_part( dp ) &&
+                !has_structural_or_extendable_part( dp + point_east ) &&
+                !has_structural_or_extendable_part( dp + point_south ) &&
+                !has_structural_or_extendable_part( dp + point_west ) &&
+                !has_structural_or_extendable_part( dp + point_north ) ) {
+                return false;
+            }
+            return true;
+        }
+        // If there are no parts, we go on our merry day
+    }
     //First part in an empty square MUST be a structural part
     if( parts_in_square.empty() && part.location != part_location_structure ) {
         return false;
@@ -2933,6 +2964,24 @@ vehicle_part_with_feature_range<vpart_bitflags> vehicle::get_enabled_parts(
 }
 
 /**
+ *
+ * Returns all the parts in the vehicle that are either a structural part or
+ * a extendable protusion part
+ * @return A list of indices to all parts with the structure location or otherwise standalone
+ */
+std::vector<int> vehicle::all_standalone_parts() const
+{
+    std::vector<int> parts_found;
+    for( size_t part_index = 0; part_index < parts.size(); ++part_index ) {
+        if( ( part_info( part_index ).location == part_location_structure ||
+              part_info( part_index ).has_flag( VPFLAG_EXTENDABLE ) ) &&
+            !parts[part_index].removed ) {
+            parts_found.push_back( part_index );
+        }
+    }
+    return parts_found;
+}
+/**
  * Returns all parts in the vehicle that exist in the given location slot. If
  * the empty string is passed in, returns all parts with no slot.
  * @param location The location slot to get parts for.
@@ -3694,6 +3743,7 @@ int vehicle::total_power_w( const bool fueled, const bool safe ) const
             pwr += part_vpower_w( p ); // alternators have negative power
         }
     }
+
     pwr = std::max( 0, pwr );
 
     if( cnt > 1 ) {
@@ -3734,13 +3784,15 @@ int vehicle::ground_acceleration( const bool fueled, int at_vel_in_vmi ) const
     return cmps_to_vmiph( accel_at_vel );
 }
 
-int vehicle::rotor_acceleration( const bool fueled, int at_vel_in_vmi ) const
+int vehicle::aircraft_acceleration( const bool fueled, int at_vel_in_vmi ) const
 {
     ( void )at_vel_in_vmi;
     if( !( engine_on || is_flying ) ) {
         return 0;
     }
-    const int accel_at_vel = 100 * lift_thrust_of_rotorcraft( fueled ) / to_kilogram( total_mass() );
+    // What does this 100 do?
+    // TODO: Consider separating lift and thrust for non-rotor lifters
+    const int accel_at_vel = 100 * total_thrust( fueled ) / to_kilogram( total_mass() );
     return cmps_to_vmiph( accel_at_vel );
 }
 
@@ -3804,8 +3856,8 @@ int vehicle::acceleration( const bool fueled, int at_vel_in_vmi ) const
 {
     if( is_watercraft() ) {
         return water_acceleration( fueled, at_vel_in_vmi );
-    } else if( is_rotorcraft() && is_flying ) {
-        return rotor_acceleration( fueled, at_vel_in_vmi );
+    } else if( is_aircraft() && is_flying ) {
+        return aircraft_acceleration( fueled, at_vel_in_vmi );
     }
     return ground_acceleration( fueled, at_vel_in_vmi );
 }
@@ -3872,19 +3924,17 @@ int vehicle::max_water_velocity( const bool fueled ) const
     return mps_to_vmiph( max_in_mps );
 }
 
-int vehicle::max_rotor_velocity( const bool fueled ) const
+int vehicle::max_air_velocity( const bool fueled ) const
 {
-    const double max_air_mps = std::sqrt( lift_thrust_of_rotorcraft( fueled ) / coeff_air_drag() );
-    // helicopters just cannot go over 250mph at very maximum
-    // weird things start happening to their rotors if they do.
-    // due to the rotor tips going supersonic.
-    return std::min( 25501, mps_to_vmiph( max_air_mps ) );
+    const double max_air_mps = std::sqrt( total_thrust( fueled ) / coeff_air_drag() );
+    // fly fast at your own risk
+    return mps_to_vmiph( max_air_mps );
 }
 
 int vehicle::max_velocity( const bool fueled ) const
 {
-    if( is_flying && is_rotorcraft() ) {
-        return max_rotor_velocity( fueled );
+    if( is_flying && is_aircraft() ) {
+        return max_air_velocity( fueled );
     } else if( is_watercraft() ) {
         return max_water_velocity( fueled );
     } else {
@@ -3935,9 +3985,11 @@ int vehicle::safe_ground_velocity( const bool fueled ) const
     return mps_to_vmiph( safe_in_mps );
 }
 
-int vehicle::safe_rotor_velocity( const bool fueled ) const
+// TODO: Consider some kind of dynamic pressure based safe velocity
+// or something simpler maybe
+int vehicle::safe_aircraft_velocity( const bool fueled ) const
 {
-    const double max_air_mps = std::sqrt( lift_thrust_of_rotorcraft( fueled,
+    const double max_air_mps = std::sqrt( total_thrust( fueled,
                                           true ) / coeff_air_drag() );
     return std::min( 22501, mps_to_vmiph( max_air_mps ) );
 }
@@ -3953,8 +4005,8 @@ int vehicle::safe_water_velocity( const bool fueled ) const
 
 int vehicle::safe_velocity( const bool fueled ) const
 {
-    if( is_flying && is_rotorcraft() ) {
-        return safe_rotor_velocity( fueled );
+    if( is_flying && is_aircraft() ) {
+        return safe_aircraft_velocity( fueled );
     } else if( is_watercraft() ) {
         return safe_water_velocity( fueled );
     } else {
@@ -4076,7 +4128,7 @@ void vehicle::noise_and_smoke( int load, time_duration time )
         spew_field( mufflesmoke, exhaust_part, fd_smoke,
                     bad_filter ? fd_smoke.obj().get_max_intensity() : 1 );
     }
-    if( is_flying && is_rotorcraft() ) {
+    if( is_flying && has_part( "ROTOR" ) ) {
         noise *= 2;
     }
     // Cap engine noise to avoid deafening.
@@ -4091,8 +4143,9 @@ void vehicle::noise_and_smoke( int load, time_duration time )
     }
     add_msg( m_debug, "VEH NOISE final: %d", static_cast<int>( noise ) );
     vehicle_noise = static_cast<unsigned char>( noise );
+    // TODO: other noises for non-rotor aircraft?
     sounds::sound( global_pos3(), noise, sounds::sound_t::movement,
-                   _( is_rotorcraft() ? heli_noise : sounds[lvl].first ), true );
+                   _( has_part( "ROTOR" ) ? heli_noise : sounds[lvl].first ), true );
 }
 
 int vehicle::wheel_area() const
@@ -4144,6 +4197,7 @@ struct drag_column {
     int windmill = minrow;
     int sail = minrow;
     int rotor = minrow;
+    int ballon = minrow;
     int last = maxrow;
 };
 
@@ -4171,7 +4225,8 @@ double vehicle::coeff_air_drag() const
         if( p.info().location != part_location_center ) {
             return false;
         }
-        return !( p.inside || p.info().has_flag( "NO_ROOF_NEEDED" ) ||
+        return !( p.inside || p.info().has_flag( "EXTENDABLE" ) ||
+                  p.info().has_flag( "NO_ROOF_NEEDED" ) ||
                   p.info().has_flag( "WINDSHIELD" ) ||
                   p.info().has_flag( "OPENABLE" ) );
     };
@@ -4216,6 +4271,7 @@ double vehicle::coeff_air_drag() const
             d_check_max( drag[ col ].panel, pa, pa.info().has_flag( "SOLAR_PANEL" ) );
             d_check_max( drag[ col ].windmill, pa, pa.info().has_flag( "WIND_TURBINE" ) );
             d_check_max( drag[ col ].rotor, pa, pa.info().has_flag( "ROTOR" ) );
+            d_check_max( drag[ col ].ballon, pa, pa.info().has_flag( "BALLOON" ) );
             d_check_max( drag[ col ].sail, pa, pa.info().has_flag( "WIND_POWERED" ) );
             d_check_max( drag[ col ].exposed, pa, d_exposed( pa ) );
             d_check_min( drag[ col ].last, pa, pa.info().has_flag( "LOW_FINAL_AIR_DRAG" ) ||
@@ -4250,6 +4306,8 @@ double vehicle::coeff_air_drag() const
         c_air_drag_c += ( dc.windmill > minrow ) ? 5 * c_air_mod : 0;
         // rotors are not great for drag!
         c_air_drag_c += ( dc.rotor > minrow ) ? 6 * c_air_mod : 0;
+        // Neither are balloons
+        c_air_drag_c += ( dc.ballon > minrow ) ? 6 * c_air_mod : 0;
         // having a sail is terrible for your drag
         c_air_drag_c += ( dc.sail > minrow ) ? 7 * c_air_mod : 0;
         c_air_drag += c_air_drag_c;
@@ -4351,9 +4409,46 @@ double vehicle::total_rotor_area() const
     } );
 }
 
+double vehicle::total_propeller_area() const
+{
+    return std::accumulate( propellers.begin(), propellers.end(), 0.0,
+    [&]( double acc, int propeller ) {
+        const double radius{ parts[ propeller ].info().propeller_diameter() / 2.0 };
+        return acc + M_PI * std::pow( radius, 2 );
+    } );
+}
+
+// Balloons can lift ~1 kg per m^3
+// 1 tile is 1 m^2, but with an undefined height
+// So balloon height and balloon weight will be what changes
+// Returns a value in newtons
+double vehicle::total_balloon_lift() const
+{
+    return std::accumulate( balloons.begin(), balloons.end(), double{0.0},
+    [&]( double acc, int balloon ) {
+        const double height{ parts[ balloon ].info().balloon_height() };
+        return acc + ( height * GRAVITY_OF_EARTH );
+    } );
+}
+
+// Wing Lift
+// Based on air being 1kg/m^3
+double vehicle::total_wing_lift() const
+{
+    // Convert to km/h then m/s then m/s ^ 2
+    const double meterpersec = convert_velocity( velocity, VU_VEHICLE ) * 360 / 1000;
+    const double meterpersecsquared = std::pow( meterpersec, 2 );
+    return std::accumulate( wings.begin(), wings.end(), double{0.0},
+    [&]( double acc, int wing ) {
+        const double liftcoff{ parts[ wing ].info().lift_coff() };
+        // m^2 area is always 1
+        return acc + ( 0.5 * meterpersecsquared * liftcoff );
+    } );
+}
+
 // constants were converted from imperial to SI goodness
 // returns as newton
-double vehicle::lift_thrust_of_rotorcraft( const bool fuelled, const bool safe ) const
+double vehicle::thrust_of_rotorcraft( const bool fuelled, const bool safe ) const
 {
     constexpr double coefficient = 0.8642;
     constexpr double exponentiation = -0.3107;
@@ -4369,15 +4464,58 @@ double vehicle::lift_thrust_of_rotorcraft( const bool fuelled, const bool safe )
     return lift_thrust;
 }
 
-bool vehicle::has_sufficient_rotorlift() const
+// constants were converted from imperial to SI goodness
+// returns as newton
+double vehicle::foward_thrust_of_propellers( const bool fuelled, const bool safe ) const
 {
-    return lift_thrust_of_rotorcraft( true ) > to_newton( total_mass() );
+    constexpr double coefficient = 0.8642;
+    constexpr double exponentiation = -0.3107;
+
+    const double rotor_area = total_propeller_area();
+    // take off 15 % due to the imaginary tail rotor power?
+    const int engine_power = total_power_w( fuelled, safe );
+
+    const double power_load = engine_power / rotor_area;
+    const double foward_thrust = coefficient * engine_power * std::pow( power_load, exponentiation );
+    add_msg( m_debug, "foward thrust(N) of %s: %f, propeller area (m^2): %f, engine power (w): %i",
+             name, foward_thrust, rotor_area, engine_power );
+    return foward_thrust;
 }
 
-// requires vehicle to have sufficient rotor lift, not suitable for checking if it has rotor.
+// get sum of horizontal thrust from all lifting parts
+double vehicle::total_thrust( const bool fuelled, const bool safe ) const
+{
+    return thrust_of_rotorcraft( fuelled, safe ) + foward_thrust_of_propellers( fuelled, safe );
+}
+
+// get sum of lift from all lifting parts
+double vehicle::total_lift( const bool fuelled, const bool safe ) const
+{
+    return thrust_of_rotorcraft( fuelled, safe ) + total_balloon_lift() + total_wing_lift();
+}
+
+// For some reason, just checking total lift > 0 doesn't seem to work if the vehicle hasn't been piloted before, which was impacting the design view. This fixes it, and can be used to check if the vehicle HAS lift, but not enough to fly by doing has_lift && !has_sufficient_lift
+bool vehicle::has_lift() const
+{
+    return has_part( "ROTOR" ) || has_part( "BALLOON" ) || has_part( "WING" );
+}
+
+bool vehicle::has_sufficient_lift() const
+{
+    return total_lift( true ) > to_newton( total_mass() );
+}
+
 bool vehicle::is_rotorcraft() const
 {
-    return has_part( "ROTOR" ) && has_sufficient_rotorlift() && player_in_control( g->u );
+    return ( has_part( "ROTOR" ) ) && has_sufficient_lift() &&
+           player_in_control( g->u );
+}
+// requires vehicle to have sufficient rotor lift
+bool vehicle::is_aircraft() const
+{
+    return ( has_part( "ROTOR" ) || has_part( "WING" ) || has_part( "BALLOON" ) ) &&
+           has_sufficient_lift() &&
+           player_in_control( g->u );
 }
 
 int vehicle::get_z_change() const
@@ -4471,7 +4609,7 @@ float vehicle::k_traction( float wheel_traction_area ) const
         return can_float() ? 1.0f : -1.0f;
     }
     if( is_flying ) {
-        return is_rotorcraft() ? 1.0f : -1.0f;
+        return is_aircraft() ? 1.0f : -1.0f;
     }
     if( is_watercraft() && can_float() ) {
         return 1.0f;
@@ -4651,7 +4789,8 @@ float vehicle::steering_effectiveness() const
     }
     if( is_flying ) {
         // I'M IN THE AIR
-        return is_rotorcraft() ? 1.0f : 0.0f;
+        // May need to add a separate check for planes, if/when they happen
+        return is_aircraft() ? 1.0f : 0.0f;
     }
     // irksome special case for boats in shallow water
     if( is_watercraft() && can_float() ) {
@@ -5402,6 +5541,11 @@ void vehicle::idle( bool on_map )
         }
         // Helicopters use extra power just to stay in the air
         // 100 means 10% of power
+        /*
+            TODO: Consider different formula for idling aircraft, may need a formula to determine this
+            Possibly something like total lift / total engine power, maybe some factors for hovering efficiency of different types
+            Also consider adding a hover efficiency field
+        */
         if( is_rotorcraft() && is_flying_in_air() ) {
             idle_rate = 100;
         }
@@ -5869,6 +6013,9 @@ void vehicle::refresh()
     wheelcache.clear();
     rail_wheelcache.clear();
     rotors.clear();
+    wings.clear();
+    propellers.clear();
+    balloons.clear();
     steering.clear();
     speciality.clear();
     floating.clear();
@@ -5934,6 +6081,15 @@ void vehicle::refresh()
         }
         if( vpi.has_flag( VPFLAG_ROTOR ) ) {
             rotors.push_back( p );
+        }
+        if( vpi.has_flag( VPFLAG_PROPELLER ) ) {
+            propellers.push_back( p );
+        }
+        if( vpi.has_flag( VPFLAG_WING ) ) {
+            wings.push_back( p );
+        }
+        if( vpi.has_flag( VPFLAG_BALLOON ) ) {
+            balloons.push_back( p );
         }
         if( vpi.has_flag( "WIND_TURBINE" ) ) {
             wind_turbines.push_back( p );

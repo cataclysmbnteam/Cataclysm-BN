@@ -57,6 +57,9 @@ Vehicle components when installed on a vehicle.
 "comfort": 3,                 // Optional field, defaults to 0. How comfortable this terrain/furniture is. Impact ability to fall asleep on it. (uncomfortable = -999, neutral = 0, slightly_comfortable = 3, comfortable = 5, very_comfortable = 10)
 "floor_bedding_warmth": 300,  // Optional field, defaults to 0. Bonus warmth offered by this terrain/furniture when used to sleep.
 "bonus_fire_warmth_feet": 200,// Optional field, defaults to 300. Increase warmth received on feet from nearby fire.
+"height": 5,                  // Optional field, height of balloons in meters ( aka multiplie of their lift )
+"lift_coff": 0.5,             // Optional field, multiplier of wing effectiveness
+"propeller_diameter": 0.5,    // Optional field, diameter of propeller
 ```
 
 ### Part Resistance
