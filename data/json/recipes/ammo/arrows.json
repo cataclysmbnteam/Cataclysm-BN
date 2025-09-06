@@ -462,6 +462,7 @@
         [ "motor_oil", 10, "NO_RECOVER" ],
         [ "chem_ethanol", 20, "NO_RECOVER" ],
         [ "denat_alcohol", 20, "NO_RECOVER" ],
+        [ "chem_butane", 50, "NO_RECOVER" ],
         [ "gasoline", 50, "NO_RECOVER" ],
         [ "diesel", 50, "NO_RECOVER" ],
         [ "biodiesel", 50, "NO_RECOVER" ]

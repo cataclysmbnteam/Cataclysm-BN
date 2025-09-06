@@ -8225,6 +8225,8 @@ itype_id item::ammo_default( bool conversion ) const
 {
     if( is_magazine() ) {
         return type->magazine->default_ammo;
+    } else if( is_tool() && type->tool->default_ammo != itype_id::NULL_ID() ) {
+        return type->tool->default_ammo;
     }
 
     const std::set<ammotype> &atypes = ammo_types( conversion );

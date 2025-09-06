@@ -102,34 +102,6 @@
     ]
   },
   {
-    "id": "butane_tank",
-    "type": "TOOL",
-    "category": "tools_chemistry",
-    "name": { "str": "butane tank", "str_pl": "tanks of butane" },
-    "description": "This is a tank of liquid compressed butane.  It can be used to extract essential oils from organic material.",
-    "weight": "22700 g",
-    "volume": "18950 ml",
-    "price": "250 USD",
-    "to_hit": -4,
-    "bashing": 10,
-    "material": [ "steel", "plastic" ],
-    "symbol": ";",
-    "color": "dark_gray",
-    "max_charges": 2000,
-    "initial_charges": 2000,
-    "charges_per_use": 1,
-    "turns_per_charge": 2000,
-    "looks_like": "oxygen_tank",
-    "flags": [ "NO_UNLOAD" ],
-    "explosion": {
-      "power": 90100,
-      "distance_factor": 0.5,
-      "fire": true,
-      "shrapnel": { "casing_mass": 200, "fragment_mass": 1, "recovery": 0 }
-    },
-    "explode_in_fire": true
-  },
-  {
     "id": "hydrogen_tank",
     "type": "TOOL",
     "category": "tools_chemistry",

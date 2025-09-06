@@ -850,7 +850,7 @@
           "smart_phone",
           "picklocks"
         ],
-        "entries": [ { "item": "lighter", "charges": 100 } ]
+        "entries": [ { "item": "lighter", "charges": 25 } ]
       },
       "male": [ "boxer_briefs" ],
       "female": [ "boxer_shorts" ]
@@ -1811,7 +1811,7 @@
           { "item": "glock_19", "ammo-item": "9mm", "container-item": "holster", "charges": 15 },
           { "item": "glockmag", "ammo-item": "9mm", "charges": 15 },
           { "item": "glockmag", "ammo-item": "9mm", "charges": 15 },
-          { "item": "lighter", "charges": 100 }
+          { "item": "lighter", "charges": 25 }
         ]
       },
       "male": [ "boxer_shorts" ],
@@ -1853,7 +1853,7 @@
         "entries": [
           { "item": "tec9", "ammo-item": "9mmfmj", "container-item": "shoulder_holster", "charges": 32 },
           { "item": "chestrig", "contents-group": "smuggler_mags_tec9" },
-          { "item": "lighter", "charges": 100 }
+          { "item": "lighter", "charges": 25 }
         ]
       },
       "male": [ "boxer_shorts" ],
@@ -1967,7 +1967,7 @@
         ],
         "entries": [
           { "group": "charged_flashlight" },
-          { "item": "lighter", "charges": 100 },
+          { "item": "lighter", "charges": 25 },
           { "item": "knife_rambo", "container-item": "scabbard" }
         ]
       },
@@ -1984,7 +1984,7 @@
     "items": {
       "both": {
         "items": [ "pants", "dress_shirt", "socks", "smart_phone", "dress_shoes", "knit_scarf", "cig", "wristwatch" ],
-        "entries": [ { "item": "lighter", "charges": 100 } ]
+        "entries": [ { "item": "lighter", "charges": 25 } ]
       },
       "male": [ "briefs" ],
       "female": [ "bra", "panties" ]
@@ -4713,7 +4713,7 @@
         "entries": [
           { "item": "fish_trap", "ammo-item": "fish_bait", "charges": 5 },
           { "item": "fish_bait", "charges": 15 },
-          { "item": "lighter", "charges": 100 },
+          { "item": "lighter", "charges": 25 },
           { "item": "knife_hunting", "container-item": "sheath" }
         ]
       },
@@ -6180,7 +6180,7 @@
         ],
         "entries": [
           { "group": "charged_flashlight" },
-          { "item": "lighter", "charges": 100 },
+          { "item": "lighter", "charges": 25 },
           { "item": "knife_rambo", "container-item": "scabbard" },
           { "item": "light_battery_cell", "charges": [ 1, 100 ], "container-item": "wearable_light" },
           { "item": "legpouch_large", "contents-group": "mags_mini_14" },

@@ -102,6 +102,7 @@ struct islot_tool {
 
     itype_id subtype;
 
+    itype_id default_ammo = itype_id::NULL_ID();
     int max_charges = 0;
     int def_charges = 0;
     int charge_factor = 1;

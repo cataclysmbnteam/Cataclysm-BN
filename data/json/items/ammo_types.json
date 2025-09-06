@@ -218,6 +218,12 @@
   },
   {
     "type": "ammunition_type",
+    "id": "lighter_fluid",
+    "name": "butane",
+    "default": "chem_butane"
+  },
+  {
+    "type": "ammunition_type",
     "id": "gasoline",
     "name": "gasoline",
     "default": "gasoline"
