@@ -79,6 +79,7 @@
       [ "portable_game", 12 ],
       [ "game_watch", 3 ],
       [ "vibrator", 10 ],
+      [ "bullet_vibrator", 10 ],
       [ "flashlight", 40 ],
       [ "heavy_flashlight", 10 ],
       [ "radio", 20 ],
