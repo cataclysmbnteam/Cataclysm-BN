@@ -138,7 +138,10 @@
       },
       "traps": { "^": "tr_sinkhole" },
       "computers": { "5": { "name": "NEPowerOS", "options": [ { "name": "Read logs", "action": "amigara_log" } ] } },
-      "nested": { " ": { "chunks": [ [ "null", 9 ], [ "place_cave_moss", 1 ] ] }, ".": { "chunks": [ [ "null", 9 ], [ "place_cave_moss", 1 ] ] } }
+      "nested": {
+        " ": { "chunks": [ [ "null", 9 ], [ "place_cave_moss", 1 ] ] },
+        ".": { "chunks": [ [ "null", 9 ], [ "place_cave_moss", 1 ] ] }
+      }
     }
   },
   {

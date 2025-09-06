@@ -571,7 +571,10 @@
       "terrain": { ".": "t_rock", ",": "t_rock_floor", ">": "t_slope_up" },
       "furniture": {  },
       "items": { "~": [ { "item": "monparts", "chance": 2 }, { "item": "trash_forest", "chance": 2 } ] },
-      "nested": { ",": { "chunks": [ [ "null", 7 ], [ "place_cave_moss", 1 ] ] }, "~": { "chunks": [ [ "null", 7 ], [ "place_cave_moss", 1 ] ] } }
+      "nested": {
+        ",": { "chunks": [ [ "null", 7 ], [ "place_cave_moss", 1 ] ] },
+        "~": { "chunks": [ [ "null", 7 ], [ "place_cave_moss", 1 ] ] }
+      }
     }
   },
   {

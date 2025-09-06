@@ -12,11 +12,9 @@
     "nested_mapgen_id": "place_cave_moss",
     "object": {
       "mapgensize": [ 1, 1 ],
-      "rows": [
-        " "
-      ],
-    "terrain": { " ": "t_moss_underground" },
-    "furniture": { " ": [ [ "f_null", 14 ], "f_cave_mushrooms" ] }
+      "rows": [ " " ],
+      "terrain": { " ": "t_moss_underground" },
+      "furniture": { " ": [ [ "f_null", 14 ], "f_cave_mushrooms" ] }
     }
   },
   {
