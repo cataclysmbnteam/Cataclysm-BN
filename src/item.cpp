@@ -6617,6 +6617,20 @@ bool item::craft_has_charges()
 #pragma optimize( "", off )
 #endif
 
+// Get the hearing protection provided by this item.
+int item::get_hearing_protection( bool advanced ) const
+{
+    if( this->is_armor() ) {
+        const islot_armor *armor = find_armor_data();
+        if( armor == nullptr ) {
+            return 0;
+        }
+        return ( advanced ) ? armor->adv_hearing_protection : armor->hearing_protection;
+    } else {
+        return 0;
+    }
+}
+
 template<typename ResistGetter>
 static int phys_resist( const item &it, damage_type dt, clothing_mod_type cmt,
                         ResistGetter resist_getter, bool to_self )
