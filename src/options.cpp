@@ -2021,8 +2021,8 @@ void options_manager::add_options_graphics()
        );
 
     get_option( "USE_TILES_OVERMAP" ).setPrerequisite( "USE_TILES" );
-	
-	add( "OVERMAP_TILES", graphics, translate_marker( "Choose overmap tileset" ),
+
+    add( "OVERMAP_TILES", graphics, translate_marker( "Choose overmap tileset" ),
          translate_marker( "Choose the overmap tileset you want to use." ),
          build_tilesets_list(), "UNDEAD_PEOPLE_BASE", COPT_CURSES_HIDE
        ); // populate the options dynamically
@@ -3051,10 +3051,10 @@ static void refresh_tiles( bool used_tiles_changed, bool pixel_minimap_height_ch
             use_tiles = false;
             use_tiles_overmap = false;
         }
-		try {
+        try {
             overmap_tilecontext->reinit();
             std::vector<mod_id> dummy;
-            
+
             overmap_tilecontext->load_tileset(
                 get_option<std::string>( "OVERMAP_TILES" ),
                 ingame ? world_generator->active_world->info->active_mod_order : dummy,

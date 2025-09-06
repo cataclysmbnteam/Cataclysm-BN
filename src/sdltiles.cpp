@@ -3605,7 +3605,7 @@ void catacurses::init_interface()
         // Setting it to false disables this from getting used.
         use_tiles = false;
     }
-	overmap_tilecontext = std::make_unique<cata_tiles>( renderer, geometry );
+    overmap_tilecontext = std::make_unique<cata_tiles>( renderer, geometry );
     try {
         std::vector<mod_id> dummy;
         overmap_tilecontext->load_tileset(
@@ -3663,8 +3663,8 @@ void load_tileset()
     tilecontext->do_tile_loading_report( []( const std::string & str ) {
         DebugLog( DL::Info, DC::Main ) << str;
     } );
-    
-	if( overmap_tilecontext ) {
+
+    if( overmap_tilecontext ) {
         overmap_tilecontext->load_tileset(
             get_option<std::string>( "OVERMAP_TILES" ),
             world_generator->active_world->info->active_mod_order,

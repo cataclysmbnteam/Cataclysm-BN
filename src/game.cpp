@@ -449,7 +449,7 @@ void game::reload_tileset( [[maybe_unused]] const std::function<void( std::strin
     } catch( const std::exception &err ) {
         popup( _( "Loading the tileset failed: %s" ), err.what() );
     }
-	try {
+    try {
         overmap_tilecontext->reinit();
         std::vector<mod_id> dummy;
         overmap_tilecontext->load_tileset(
