@@ -652,7 +652,7 @@ ter_id t_null,
        t_pit_corpsed, t_pit_covered, t_pit_spiked, t_pit_spiked_covered, t_pit_glass, t_pit_glass_covered,
        t_rock_floor,
        t_grass, t_grass_long, t_grass_tall, t_grass_golf, t_grass_dead, t_grass_white, t_moss,
-       t_metal_floor,
+       t_moss_underground, t_metal_floor,
        t_pavement, t_pavement_y, t_sidewalk, t_concrete,
        t_thconc_floor, t_thconc_floor_olight, t_strconc_floor,
        t_floor, t_floor_waxed,
@@ -787,6 +787,7 @@ void set_ter_ids()
     t_grass_long = ter_id( "t_grass_long" );
     t_grass_tall = ter_id( "t_grass_tall" );
     t_moss = ter_id( "t_moss" );
+    t_moss_underground = ter_id( "t_moss_underground" );
     t_metal_floor = ter_id( "t_metal_floor" );
     t_pavement = ter_id( "t_pavement" );
     t_pavement_y = ter_id( "t_pavement_y" );
@@ -1110,7 +1111,7 @@ furn_id f_null,
         f_skin_door_o, f_skin_groundsheet,
         f_mutpoppy, f_flower_fungal, f_fungal_mass, f_fungal_clump, f_dahlia, f_datura, f_dandelion,
         f_cattails, f_bluebell, f_lake_pondweed, f_lake_detritus, f_lake_liverwort, f_lake_eelgrass,
-        f_lake_hornwort,
+        f_lake_hornwort, f_cave_mushrooms,
         f_safe_c, f_safe_l, f_safe_o,
         f_plant_seed, f_plant_seedling, f_plant_mature, f_plant_harvest,
         f_fvat_empty, f_fvat_full,
@@ -1216,6 +1217,7 @@ void set_furn_ids()
     f_lake_liverwort = furn_id( "f_lake_liverwort" );
     f_lake_eelgrass = furn_id( "f_lake_eelgrass" );
     f_lake_hornwort = furn_id( "f_lake_hornwort" );
+    f_cave_mushrooms = furn_id( "f_cave_mushrooms" );
     f_safe_c = furn_id( "f_safe_c" );
     f_safe_l = furn_id( "f_safe_l" );
     f_safe_o = furn_id( "f_safe_o" );

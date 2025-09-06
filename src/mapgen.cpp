@@ -5907,6 +5907,18 @@ void map::draw_mine( mapgendata &dat )
         place_spawns( GROUP_DOG_THING, 1, point( SEEX, SEEX ), point( SEEX + 1, SEEX + 1 ), 1, true, true );
         spawn_artifact( tripoint( rng( SEEX, SEEX + 1 ), rng( SEEY, SEEY + 1 ), abs_sub.z ) );
     }
+    // Add patches of cave moss
+    for( int i = 0; i < SEEX * 2; i++ ) {
+        for( int j = 0; j < SEEY * 2; j++ ) {
+            if( one_in( 10 ) && ter( tripoint( point( i, j ), get_abs_sub().z ) ) == t_rock_floor ) {
+                ter_set( point( i, j ), t_moss_underground );
+                if( one_in( 15 ) ) {
+                    // Some of that moss has mushrooms too.
+                    furn_set( point( i, j ), f_cave_mushrooms );
+                }
+            }
+        }
+    }
 }
 
 void map::draw_slimepit( mapgendata &dat )

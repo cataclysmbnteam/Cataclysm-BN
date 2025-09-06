@@ -33,6 +33,7 @@
     },
     "terrain": {
       " ": "t_metal_floor",
+      "`": [ [ "t_rock_floor", 9 ], "t_moss_underground" ],
       "!": "t_bars",
       "#": "t_ladder_up",
       "%": "t_elevator_control_off",

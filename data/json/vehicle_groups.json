@@ -801,6 +801,16 @@
   },
   {
     "type": "vehicle_group",
+    "id": "trains_mine_shaft",
+    "vehicles": [ [ "motorized_draisine_6seats", 100 ], [ "motorized_draisine_2seats", 400 ], [ "coal_hopper", 600 ] ]
+  },
+  {
+    "type": "vehicle_group",
+    "id": "trains_lab_entrance",
+    "vehicles": [ [ "motorized_draisine_6seats", 250 ], [ "electric_tram", 750 ] ]
+  },
+  {
+    "type": "vehicle_group",
     "id": "oa_vg_wreck",
     "//": "for ws_regional_dump",
     "vehicles": [
