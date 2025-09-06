@@ -2022,6 +2022,13 @@ void options_manager::add_options_graphics()
 
     get_option( "USE_TILES_OVERMAP" ).setPrerequisite( "USE_TILES" );
 
+    add( "OVERMAP_TILES", graphics, translate_marker( "Choose overmap tileset" ),
+         translate_marker( "Choose the overmap tileset you want to use." ),
+         build_tilesets_list(), "UNDEAD_PEOPLE_BASE", COPT_CURSES_HIDE
+       ); // populate the options dynamically
+
+    get_option( "OVERMAP_TILES" ).setPrerequisite( "USE_TILES_OVERMAP" );
+
     add( "USE_CHARACTER_PREVIEW", graphics, translate_marker( "Enable character preview window" ),
          translate_marker( "If true, shows character preview window in traits tab on character creation.  "
                            "While having a window press 'z'/'Z' to perform zoom-in/zoom-out.  "
@@ -3041,6 +3048,28 @@ static void refresh_tiles( bool used_tiles_changed, bool pixel_minimap_height_ch
             } );
         } catch( const std::exception &err ) {
             popup( _( "Loading the tileset failed: %s" ), err.what() );
+            use_tiles = false;
+            use_tiles_overmap = false;
+        }
+        try {
+            overmap_tilecontext->reinit();
+            std::vector<mod_id> dummy;
+
+            overmap_tilecontext->load_tileset(
+                get_option<std::string>( "OVERMAP_TILES" ),
+                ingame ? world_generator->active_world->info->active_mod_order : dummy,
+                /*precheck=*/false,
+                /*force=*/force_tile_change,
+                /*pump_events=*/true
+            );
+            //game_ui::init_ui is called when zoom is changed
+            g->reset_zoom();
+            g->mark_main_ui_adaptor_resize();
+            overmap_tilecontext->do_tile_loading_report( []( const std::string & str ) {
+                DebugLog( DL::Info, DC::Main ) << str;
+            } );
+        } catch( const std::exception &err ) {
+            popup( _( "Loading the overmap tileset failed: %s" ), err.what() );
             use_tiles = false;
             use_tiles_overmap = false;
         }

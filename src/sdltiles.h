@@ -18,6 +18,7 @@ class window;
 } // namespace catacurses
 
 extern std::unique_ptr<cata_tiles> tilecontext;
+extern std::unique_ptr<cata_tiles> overmap_tilecontext;
 extern std::array<SDL_Color, color_loader<SDL_Color>::COLOR_NAMES_COUNT> windowsPalette;
 
 // This function may refresh the screen, so it should not be used where tiles
