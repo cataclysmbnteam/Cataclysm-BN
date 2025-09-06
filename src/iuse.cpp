@@ -9307,9 +9307,11 @@ int iuse::bullet_vibe_on( player *p, item *it, bool t, const tripoint & )
 {
     if( t ) { // Normal use
         if( p->has_item( *it ) ) {
-            // vibrator exists
-            p->add_morale( MORALE_FEELING_GOOD, 1, 30, 5_minutes, 2_minutes, true );
-            p->mod_fatigue(1); // Might be excessive fatigue drain
+            // Only triggers every 5 minutes so that fatigue isn't ridiculous
+            if(calendar::once_every(5_minutes)) {
+                p->add_morale( MORALE_FEELING_GOOD, 1, 30, 5_minutes, 2_minutes, true );
+                p->mod_fatigue(1);
+            }
         }
     } else {
         // Most generic way to figure out the base item I can think of
