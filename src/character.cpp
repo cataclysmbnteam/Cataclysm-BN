@@ -465,11 +465,11 @@ Character::Character() :
 }
 // *INDENT-ON*
 
-void Character::swap_character(Character& other, Character& tmp)
+void Character::swap_character( Character &other, Character &tmp )
 {
-    tmp = std::move(other);
-    other = std::move(*this);
-    *this = std::move(tmp);
+    tmp = std::move( other );
+    other = std::move( *this );
+    *this = std::move( tmp );
 }
 
 void Character::move_operator_common( Character &&source ) noexcept
