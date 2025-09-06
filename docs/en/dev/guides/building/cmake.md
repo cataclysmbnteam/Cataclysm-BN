@@ -2,12 +2,6 @@
 title: CMake
 ---
 
-> [!CAUTION]
->
-> CMake build is work-in-progress.
-
-For official way to build CataclysmBN see [Compiler Support](../../reference/compiler_support.md).
-
 ## Prerequisites
 
 You'll need to have these libraries and their development headers installed in order to build

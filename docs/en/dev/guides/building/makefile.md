@@ -2,6 +2,10 @@
 title: Makefile
 ---
 
+> [!CAUTION]
+>
+> makefile build is deprecated and will not recieve updates. Please build with [CMake](./cmake.md) instead.
+
 To build Cataclysm from source you will need at least a C++ compiler, some basic developer tools,
 and necessary build dependencies. The exact package names vary greatly from distro to distro, so
 this part of the guide is intended to give you higher-level understanding of the process.
