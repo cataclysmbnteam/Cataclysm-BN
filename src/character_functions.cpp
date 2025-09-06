@@ -254,7 +254,7 @@ bool can_see_fine_details( const Character &who )
 
 bool can_see_fine_details( const Character &who, const tripoint &p )
 {
-    return fine_detail_vision_mod( who, p ) <= FINE_VISION_THRESHOLD;
+    return fine_detail_vision_mod( who, p ) <= Vision::FINE;
 }
 
 comfort_response_t base_comfort_value( const Character &who, const tripoint &p )
@@ -1358,6 +1358,23 @@ void show_skill_capped_notice( const Character &who, const skill_id &id )
 
     add_msg( m_info, _( "This task is too simple to train your %s beyond %d." ),
              skill_name, curLevel );
+}
+
+float Vision::parse( std::string input )
+{
+    if( input == "PERFECT" ) {
+        return PERFECT;
+    } else if( input == "FINE" ) {
+        return FINE;
+    } else if( input == "DIM" ) {
+        return DIM;
+    } else if( input == "MINIMAL" ) {
+        return MINIMAL;
+    } else if( input == "NONE" ) {
+        return NONE;
+    }
+    debugmsg( "Unknown value %s", input );
+    return PERFECT;
 }
 
 } // namespace character_funcs

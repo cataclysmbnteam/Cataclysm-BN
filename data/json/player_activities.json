@@ -22,8 +22,8 @@
     "rooted": true,
     "refuel_fires": true,
     "auto_needs": true,
-    "morale_blocked": true,
-    "complex_moves": { "light": true, "speed": true, "stats": [ [ "INT" ] ], "morale": true },
+    "interrupts": { "vision": "FINE" },
+    "complex_moves": { "vision": true, "speed": true, "stats": [ [ "INT" ] ], "morale": true },
     "verbose_tooltip": false
   },
   {
@@ -138,8 +138,7 @@
     "special": true,
     "refuel_fires": true,
     "auto_needs": true,
-    "morale_blocked": true,
-    "complex_moves": { "max_assistants": 4, "bench": true, "light": true, "speed": true, "skills": true, "qualities": true, "morale": true }
+    "complex_moves": { "max_assistants": 4, "bench": true, "vision": true, "speed": true, "skills": true, "qualities": true, "morale": true }
   },
   {
     "id": "ACT_DISASSEMBLE",
@@ -149,22 +148,32 @@
     "rooted": true,
     "refuel_fires": true,
     "auto_needs": true,
-    "morale_blocked": true,
-    "complex_moves": { "max_assistants": 4, "bench": true, "light": true, "speed": true, "skills": true, "qualities": true, "morale": true }
+    "interrupts": { "morale": -50, "vision": "FINE" },
+    "complex_moves": {
+      "max_assistants": 4,
+      "bench": true,
+      "vision": true,
+      "speed": true,
+      "skills": true,
+      "qualities": true,
+      "morale": true,
+      "total_interrupts": 33
+    }
   },
   {
     "id": "ACT_BUTCHER",
     "type": "activity_type",
     "verb": "butchering",
     "auto_needs": true,
-    "morale_blocked": true,
+    "interrupts": { "morale": -50, "vision": "DIM" },
     "complex_moves": {
       "max_assistants": 4,
-      "light": true,
+      "vision": true,
       "speed": true,
       "skills": [ [ "survival" ] ],
       "stats": [ [ "DEX" ] ],
-      "qualities": [ [ "BUTCHER" ] ]
+      "qualities": [ [ "BUTCHER" ] ],
+      "total_interrupts": 20
     }
   },
   {
@@ -172,14 +181,15 @@
     "type": "activity_type",
     "verb": "butchering",
     "auto_needs": true,
-    "morale_blocked": true,
+    "interrupts": { "morale": -20, "vision": "DIM" },
     "complex_moves": {
       "max_assistants": 4,
-      "light": true,
+      "vision": true,
       "speed": true,
       "skills": [ [ "survival" ] ],
       "stats": [ [ "DEX" ] ],
-      "qualities": [ [ "BUTCHER" ] ]
+      "qualities": [ [ "BUTCHER" ] ],
+      "total_interrupts": 20
     }
   },
   {
@@ -187,14 +197,15 @@
     "type": "activity_type",
     "verb": "field dressing",
     "auto_needs": true,
-    "morale_blocked": true,
+    "interrupts": { "morale": -25, "vision": "DIM" },
     "complex_moves": {
       "max_assistants": 2,
-      "light": true,
+      "vision": true,
       "speed": true,
       "skills": [ [ "survival" ] ],
       "stats": [ [ "DEX" ] ],
-      "qualities": [ [ "BUTCHER" ] ]
+      "qualities": [ [ "BUTCHER" ] ],
+      "total_interrupts": 20
     }
   },
   {
@@ -202,7 +213,7 @@
     "type": "activity_type",
     "verb": "bleeding",
     "auto_needs": true,
-    "morale_blocked": true,
+    "interrupts": { "morale": -50, "vision": "MINIMAL" },
     "complex_moves": { "skills": [ [ "survival" ] ] },
     "//": "the only way to bleed corpse 'faster' is making a proper cut"
   },
@@ -211,14 +222,15 @@
     "type": "activity_type",
     "verb": "skinning",
     "auto_needs": true,
-    "morale_blocked": true,
+    "interrupts": { "morale": -20, "vision": "DIM" },
     "complex_moves": {
       "max_assistants": 2,
-      "light": true,
+      "vision": true,
       "speed": true,
       "skills": [ [ "survival" ] ],
       "stats": [ [ "DEX" ] ],
-      "qualities": [ [ "BUTCHER" ] ]
+      "qualities": [ [ "BUTCHER" ] ],
+      "total_interrupts": 20
     }
   },
   {
@@ -226,10 +238,10 @@
     "type": "activity_type",
     "verb": "quartering",
     "auto_needs": true,
-    "morale_blocked": true,
+    "interrupts": { "morale": -30, "vision": "MINIMAL" },
     "complex_moves": {
       "max_assistants": 3,
-      "light": true,
+      "vision": true,
       "speed": true,
       "skills": [ [ "survival" ] ],
       "stats": [ [ "STR" ] ],
@@ -241,7 +253,7 @@
     "type": "activity_type",
     "verb": "dismembering",
     "auto_needs": true,
-    "morale_blocked": true,
+    "interrupts": { "morale": -30, "vision": "MINIMAL" },
     "complex_moves": {
       "max_assistants": 8,
       "speed": true,
@@ -255,10 +267,10 @@
     "type": "activity_type",
     "verb": "dissecting",
     "auto_needs": true,
-    "morale_blocked": true,
+    "interrupts": { "morale": -15, "vision": "PERFECT" },
     "complex_moves": {
       "max_assistants": 3,
-      "light": true,
+      "vision": true,
       "speed": true,
       "skills": [ [ "firstaid" ] ],
       "stats": [ [ "PER" ], [ "DEX" ] ],
@@ -272,13 +284,15 @@
     "no_resume": true,
     "refuel_fires": true,
     "auto_needs": true,
-    "complex_moves": { "speed": true, "bench": true, "light": true, "skills": [ [ "fabrication" ] ], "qualities": true }
+    "interrupts": { "morale": -100, "vision": "DIM" },
+    "complex_moves": { "speed": true, "bench": true, "vision": true, "skills": [ [ "fabrication" ] ], "qualities": true }
   },
   {
     "id": "ACT_FORAGE",
     "type": "activity_type",
     "verb": "foraging",
-    "complex_moves": { "light": true, "speed": true, "skills": [ [ "survival" ] ], "stats": [ [ "PER" ] ] },
+    "interrupts": { "vision": "MINIMAL" },
+    "complex_moves": { "vision": true, "speed": true, "skills": [ [ "survival" ] ], "stats": [ [ "PER" ] ] },
     "verbose_tooltip": false
   },
   {
@@ -287,8 +301,8 @@
     "refuel_fires": true,
     "auto_needs": true,
     "verb": "constructing",
-    "morale_blocked": true,
-    "complex_moves": { "max_assistants": 8, "light": true, "speed": true, "skills": true, "qualities": true }
+    "interrupts": { "morale": -50, "vision": "FINE" },
+    "complex_moves": { "max_assistants": 8, "vision": true, "speed": true, "skills": true, "qualities": true }
   },
   {
     "id": "ACT_VEHICLE",
@@ -300,6 +314,7 @@
     "id": "ACT_TRAIN",
     "type": "activity_type",
     "verb": "training",
+    "interrupts": { "morale": -50, "vision": "FINE" },
     "complex_moves": { "speed": true, "skills": [ [ "melee" ] ], "stats": [ [ "INT" ] ] }
   },
   {
@@ -322,7 +337,7 @@
     "id": "ACT_FIRSTAID",
     "type": "activity_type",
     "verb": "using first aid",
-    "complex_moves": { "max_assistants": 1, "light": true, "speed": true, "skills": [ [ "firstaid" ] ] }
+    "complex_moves": { "max_assistants": 1, "vision": true, "speed": true, "skills": [ [ "firstaid" ] ] }
   },
   {
     "id": "ACT_FISH",
@@ -330,13 +345,15 @@
     "verb": "fishing",
     "rooted": true,
     "suspendable": false,
-    "complex_moves": { "light": true, "morale": true, "speed": true, "skills": [ [ "survival" ] ], "stats": [ [ "PER" ] ] }
+    "interrupts": { "morale": -90, "vision": "DIM" },
+    "complex_moves": { "vision": true, "morale": true, "speed": true, "skills": [ [ "survival" ] ], "stats": [ [ "PER" ] ] }
   },
   {
     "id": "ACT_PICKAXE",
     "type": "activity_type",
     "verb": "mining",
-    "complex_moves": { "max_assistants": 4, "light": true, "speed": true, "stats": [ [ "STR" ] ] }
+    "interrupts": { "morale": -20, "vision": "MINIMAL" },
+    "complex_moves": { "max_assistants": 4, "vision": true, "speed": true, "stats": [ [ "STR" ] ] }
   },
   {
     "id": "ACT_BURROW",
@@ -376,7 +393,8 @@
     "type": "activity_type",
     "verb": "cutting tissues",
     "suspendable": false,
-    "complex_moves": { "max_assistants": 1, "light": true, "speed": true, "skills": [ [ "survival" ] ] }
+    "interrupts": { "morale": -20, "vision": "DIM" },
+    "complex_moves": { "max_assistants": 1, "vision": true, "speed": true, "skills": [ [ "survival" ] ] }
   },
   {
     "id": "ACT_DROP",
@@ -466,7 +484,7 @@
     "special": true,
     "no_resume": true,
     "auto_needs": true,
-    "morale_blocked": true,
+    "interrupts": { "morale": -20, "vision": "DIM" },
     "complex_moves": { "max_assistants": 8, "speed": true, "skills": [ [ "survival" ] ] }
   },
   {
@@ -520,6 +538,7 @@
     "suspendable": false,
     "rooted": true,
     "no_resume": true,
+    "interrupts": { "vision": "MINIMAL" },
     "complex_moves": { "speed": true, "skills": true }
   },
   {
@@ -529,14 +548,15 @@
     "suspendable": false,
     "rooted": true,
     "no_resume": true,
-    "morale_blocked": true,
-    "complex_moves": { "max_assistants": 2, "light": true, "speed": true, "skills": [ [ "survival" ] ] }
+    "interrupts": { "morale": -30, "vision": "DIM" },
+    "complex_moves": { "max_assistants": 2, "vision": true, "speed": true, "skills": [ [ "survival" ] ] }
   },
   {
     "id": "ACT_HOTWIRE_CAR",
     "type": "activity_type",
     "verb": "hotwiring the vehicle",
-    "complex_moves": { "max_assistants": 1, "light": true, "speed": true, "skills": [ [ "mechanics" ] ], "stats": [ [ "DEX" ] ] }
+    "interrupts": { "vision": "MINIMAL" },
+    "complex_moves": { "max_assistants": 1, "vision": true, "speed": true, "skills": [ [ "mechanics" ] ], "stats": [ [ "DEX" ] ] }
   },
   {
     "id": "ACT_AIM",
@@ -584,8 +604,9 @@
     "rooted": true,
     "suspendable": false,
     "no_resume": true,
+    "interrupts": { "vision": "MINIMAL" },
     "complex_moves": {
-      "light": true,
+      "vision": true,
       "speed": true,
       "stats": [ [ "DEX" ], [ "PER" ] ],
       "skills": [ [ "mechanics" ] ],
@@ -599,9 +620,9 @@
     "rooted": true,
     "special": true,
     "refuel_fires": true,
-    "morale_blocked": true,
     "auto_needs": true,
-    "complex_moves": { "bench": true, "light": true, "speed": true, "skills": true, "qualities": true }
+    "interrupts": { "morale": -50, "vision": "DIM" },
+    "complex_moves": { "bench": true, "vision": true, "speed": true, "skills": true, "qualities": true }
   },
   {
     "id": "ACT_MEND_ITEM",
@@ -610,22 +631,24 @@
     "rooted": true,
     "refuel_fires": true,
     "auto_needs": true,
-    "morale_blocked": true,
-    "complex_moves": { "bench": true, "light": true, "speed": true, "skills": true, "qualities": true }
+    "interrupts": { "morale": -30, "vision": "FINE" },
+    "complex_moves": { "bench": true, "vision": true, "speed": true, "skills": true, "qualities": true }
   },
   {
     "id": "ACT_GUNMOD_ADD",
     "type": "activity_type",
     "verb": "modifying gun",
     "suspendable": false,
-    "complex_moves": { "bench": true, "light": true, "speed": true, "skills": true, "qualities": true }
+    "interrupts": { "vision": "FINE" },
+    "complex_moves": { "bench": true, "vision": true, "speed": true, "skills": true, "qualities": true }
   },
   {
     "id": "ACT_TOOLMOD_ADD",
     "type": "activity_type",
     "verb": "modifying tool",
     "suspendable": false,
-    "complex_moves": { "bench": true, "light": true, "speed": true, "skills": true }
+    "interrupts": { "morale": -50, "vision": "FINE" },
+    "complex_moves": { "bench": true, "vision": true, "speed": true, "skills": true }
   },
   {
     "id": "ACT_WAIT_NPC",
@@ -647,8 +670,8 @@
     "id": "ACT_CLEAR_RUBBLE",
     "type": "activity_type",
     "verb": "clearing that rubble",
-    "morale_blocked": true,
-    "complex_moves": { "max_assistants": 8, "light": true, "speed": true, "stats": [ [ "STR" ] ], "qualities": [ [ "DIG" ] ] }
+    "interrupts": { "morale": -20, "vision": "MINIMAL" },
+    "complex_moves": { "max_assistants": 8, "vision": true, "speed": true, "stats": [ [ "STR" ] ], "qualities": [ [ "DIG" ] ] }
   },
   {
     "id": "ACT_MEDITATE",
@@ -661,37 +684,42 @@
     "id": "ACT_HACKSAW",
     "type": "activity_type",
     "verb": "cutting the metal",
-    "morale_blocked": true,
+    "interrupts": { "vision": "MINIMAL" },
     "complex_moves": { "speed": true, "stats": [ [ "STR" ] ], "skills": [ [ "fabrication" ] ], "qualities": [ [ "SAW_M" ] ] }
   },
   {
     "id": "ACT_BOLTCUTTING",
     "type": "activity_type",
     "verb": "cutting the wire",
+    "interrupts": { "vision": "MINIMAL" },
     "complex_moves": { "speed": true, "stats": [ [ "STR" ] ], "skills": [ [ "fabrication" ] ] }
   },
   {
     "id": "ACT_PRY_NAILS",
     "type": "activity_type",
     "verb": "prying nails",
+    "interrupts": { "vision": "MINIMAL" },
     "complex_moves": { "speed": true, "stats": [ [ "STR" ] ], "skills": [ [ "fabrication" ] ], "qualities": [ [ "PRY" ] ] }
   },
   {
     "id": "ACT_CHOP_TREE",
     "type": "activity_type",
     "verb": "chopping down a tree",
+    "interrupts": { "vision": "MINIMAL" },
     "complex_moves": { "speed": true, "stats": [ [ "STR" ] ], "skills": [ [ "fabrication" ] ], "qualities": [ [ "AXE" ] ] }
   },
   {
     "id": "ACT_CHOP_LOGS",
     "type": "activity_type",
     "verb": "chopping a log",
+    "interrupts": { "morale": -30, "vision": "MINIMAL" },
     "complex_moves": { "speed": true, "stats": [ [ "STR" ] ], "skills": [ [ "fabrication" ] ], "qualities": [ [ "AXE" ] ] }
   },
   {
     "id": "ACT_CHOP_PLANKS",
     "type": "activity_type",
     "verb": "cutting planks",
+    "interrupts": { "morale": -20, "vision": "DIM" },
     "no_resume": true,
     "complex_moves": { "speed": true, "stats": [ [ "STR" ] ], "skills": [ [ "fabrication" ] ], "qualities": [ [ "AXE" ] ] }
   },
@@ -699,36 +727,42 @@
     "id": "ACT_JACKHAMMER",
     "type": "activity_type",
     "verb": "drilling",
+    "interrupts": { "morale": -20, "vision": "MINIMAL" },
     "complex_moves": { "speed": true, "stats": [ [ "STR" ] ] }
   },
   {
     "id": "ACT_CHURN",
     "type": "activity_type",
     "verb": "churning earth",
+    "interrupts": { "morale": -30, "vision": "DIM" },
     "complex_moves": { "speed": true, "stats": [ [ "STR" ] ], "qualities": [ [ "DIG" ] ] }
   },
   {
     "id": "ACT_PLANT_SEED",
     "type": "activity_type",
     "verb": "planting seeds",
+    "interrupts": { "morale": -40, "vision": "DIM" },
     "complex_moves": { "speed": true }
   },
   {
     "id": "ACT_DIG",
     "type": "activity_type",
     "verb": "digging",
+    "interrupts": { "morale": -20, "vision": "MINIMAL" },
     "complex_moves": { "speed": true, "stats": [ [ "STR" ] ], "qualities": [ [ "DIG" ] ] }
   },
   {
     "id": "ACT_DIG_CHANNEL",
     "type": "activity_type",
     "verb": "digging",
+    "interrupts": { "morale": -20, "vision": "MINIMAL" },
     "complex_moves": { "speed": true, "stats": [ [ "STR" ] ], "qualities": [ [ "DIG" ] ] }
   },
   {
     "id": "ACT_FILL_PIT",
     "type": "activity_type",
     "verb": "filling",
+    "interrupts": { "morale": -20, "vision": "MINIMAL" },
     "complex_moves": { "speed": true, "stats": [ [ "STR" ] ], "qualities": [ [ "DIG" ] ] }
   },
   {
@@ -736,19 +770,22 @@
     "type": "activity_type",
     "verb": "shaving",
     "rooted": true,
-    "complex_moves": { "light": true, "speed": true, "stats": [ [ "DEX" ], [ "PER" ] ] }
+    "interrupts": { "morale": -30, "vision": "FINE" },
+    "complex_moves": { "vision": true, "speed": true, "stats": [ [ "DEX" ], [ "PER" ] ] }
   },
   {
     "id": "ACT_HAIRCUT",
     "type": "activity_type",
     "verb": "cutting your hair",
     "rooted": true,
-    "complex_moves": { "light": true, "speed": true, "stats": [ [ "DEX" ], [ "PER" ] ] }
+    "interrupts": { "morale": -30, "vision": "FINE" },
+    "complex_moves": { "vision": true, "speed": true, "stats": [ [ "DEX" ], [ "PER" ] ] }
   },
   {
     "id": "ACT_PLAY_WITH_PET",
     "type": "activity_type",
     "verb": "playing with your pet",
+    "interrupts": { "vision": "MINIMAL" },
     "complex_moves": { "speed": true, "stats": [ [ "DEX" ] ] }
   },
   {
