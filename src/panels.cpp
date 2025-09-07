@@ -1702,7 +1702,7 @@ static void draw_health_classic( avatar &u, const catacurses::window &w )
             }
             int needed_speed = veh->get_takeoff_speed();
             mvwprintz( w, point( start, 5 ), c_light_gray, "flight: " );
-            nc_color lift_color = c_speed > needed_speed ? c_light_green : c_light_red;
+            nc_color lift_color = c_speed >= needed_speed ? c_light_green : c_light_red;
             mvwprintz( w, point( start + 8, 5 ), lift_color, "%d", needed_speed );
         }
     }
