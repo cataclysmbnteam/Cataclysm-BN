@@ -31,9 +31,6 @@ void cata::detail::reg_mission( sol::state &lua )
             > ()
         );
 
-    //SET_FX_T( mission_id, mission_id const );
-
-
     DOC( "Returns true if the mission has a deadline." );
     SET_FX_T( name,         std::string() );
     SET_FX_T( mission_id,         mission_type_id() );
@@ -41,8 +38,8 @@ void cata::detail::reg_mission( sol::state &lua )
     SET_FX_T( get_deadline,         time_point() const );
     SET_FX_T( get_description,         std::string() const );
     SET_FX_T( has_target,         bool() const );
-    //SET_FX_T( get_target,         const tripoint_abs_omt() const );
-    //SET_FX_T( get_type,         const mission_type() const );
+    //SET_FX_T( &get_target,         const tripoint_abs_omt() const );
+    //SET_FX_T( &get_type,         const mission_type() const );
     SET_FX_T( has_follow_up,         bool() const );
     SET_FX_T( get_follow_up,         mission_type_id() const );
     SET_FX_T( get_value,         int() const );
@@ -73,11 +70,8 @@ void cata::detail::reg_mission( sol::state &lua )
         return mission::reserve_random( origin, tripoint_abs_omt( p ), npc_id );
     } );
 
-    // Add (de-)serialization functions so we can carry
-    // our horde over the save/load boundary
     reg_serde_functions( ut );
 
-    // Add more stuff like arithmetic operators, to_string operator, etc.
 #undef UT_CLASS
 };
 
@@ -85,7 +79,6 @@ void cata::detail::reg_mission( sol::state &lua )
 void cata::detail::reg_mission_type( sol::state &lua )
 {
 #define UT_CLASS mission_type_id
-    // mission_type_id
     auto ut_id = luna::new_usertype<mission_type_id>(
                      lua,
                      luna::no_bases,
