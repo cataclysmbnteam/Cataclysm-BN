@@ -76,7 +76,7 @@
           "socks",
           "crt_dress_shoes",
           "id_military",
-          "knife_swissarmy",
+          "knife_crt",
           "cell_phone"
         ],
         "entries": [ { "item": "water_clean", "container-item": "thermos" } ]
@@ -173,6 +173,48 @@
   },
   {
     "type": "profession",
+    "id": "crt_tech",
+    "name": "C.R.I.T. Technician",
+    "description": "You were the team's electronics nerd.  A technician trained to operate all the new laser equipment.  You were left behind by you team as repaired a turret. Forced to flee, will you have what it takes to survive or will you join the horde to haunt them for their cardinal sin?",
+    "points": 8,
+    "traits": [ "MARTIAL_CRT", "PROF_MILITARY" ],
+    "skills": [
+      { "level": 1, "name": "gun" },
+      { "level": 1, "name": "pistol" },
+      { "level": 2, "name": "computer" },
+      { "level": 4, "name": "fabrication" },
+      { "level": 2, "name": "electronics" }
+    ],
+    "items": {
+      "both": {
+        "ammo": 100,
+        "items": [
+          "crt_helmet",
+          "crt_helmet_liner",
+          "crt_jacket",
+          "crt_sarmor",
+          "crt_pants",
+          "crt_gloves",
+          "crt_gloves_liner",
+          "crt_canteen",
+          "crt_legrig",
+          "socks",
+          "crt_la_boots",
+          "knife_crt",
+          "crt_solarpack"
+        ],
+        "entries": [
+          { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
+          { "item": "sleeping_bag_roll", "custom-flags": [ "no_auto_equip" ] },
+          { "item": "crt_laser_pistol", "container-item": "holster" }
+        ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "sports_bra", "boxer_shorts" ]
+    }
+  },
+  {
+    "type": "profession",
     "id": "crt_medic",
     "name": "C.R.I.T. Combat Medic",
     "description": "You were the team nerd.  A combat medic taught on how to engage strange anomalies.  However, your main focus was  keeping your squadmates in one piece.  For weeks, you slogged through hell and back and ensured that everyone made it.  Caught in between a tide of the undead and the crossfire of apparently rogue government robots, you were left stranded as a distraction.  Forced to flee, will you have what it takes to survive or will you join the horde to haunt them for their cardinal sin?",
@@ -202,9 +244,8 @@
           "two_way_radio",
           "1st_aid",
           "bandages",
-          "knife_swissarmy",
-          "crt_backpack",
-          "UPS_off"
+          "knife_crt",
+          "crt_solarpack"
         ],
         "entries": [
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
@@ -334,7 +375,7 @@
           "crt_nstick",
           "badge_marshal",
           "lighter",
-          "knife_swissarmy"
+          "knife_crt"
         ],
         "entries": [
           { "item": "water_clean", "container-item": "crt_canteen" },
@@ -406,7 +447,7 @@
           "crt_nstick",
           "badge_marshal",
           "lighter",
-          "knife_swissarmy"
+          "knife_crt"
         ],
         "entries": [
           { "item": "water_clean", "container-item": "crt_canteen" },
@@ -471,7 +512,7 @@
           "mre_veggy_box",
           "crt_mess_kit",
           "lighter",
-          "knife_swissarmy",
+          "knife_crt",
           "badge_marshal",
           "crt_etool"
         ],
@@ -529,7 +570,7 @@
           "crt_hatchet",
           "mre_veggy_box",
           "lighter",
-          "knife_swissarmy",
+          "knife_crt",
           "pellet"
         ],
         "entries": [
@@ -577,7 +618,7 @@
           "lighter",
           "crt_mess_kit",
           "id_military",
-          "knife_swissarmy",
+          "knife_crt",
           "pellet"
         ],
         "entries": [
@@ -621,7 +662,7 @@
           "socks",
           "crt_dress_shoes",
           "lighter",
-          "knife_swissarmy",
+          "knife_crt",
           "thorazine",
           "id_military"
         ],

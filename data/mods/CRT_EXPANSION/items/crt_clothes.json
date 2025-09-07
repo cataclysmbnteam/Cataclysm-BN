@@ -8,7 +8,7 @@
     "flags": [ "COLLAR", "VARSIZE", "WATERPROOF", "STURDY", "FANCY", "ALLOWS_NATURAL_ATTACKS" ],
     "color": "light_gray",
     "material": [ "neoprene", "kevlar" ],
-    "warmth": 35
+    "warmth": 25
   },
   {
     "id": "crt_pants",
@@ -18,9 +18,9 @@
     "description": "C.R.I.T. standard-issue trousers.  Durable, lightweight and has ample storage.  Super-flex neoprene keeps one warm in moderately cold weather.",
     "color": "light_gray",
     "material": [ "neoprene", "kevlar" ],
-    "warmth": 35,
+    "warmth": 25,
     "coverage": 100,
-    "flags": [ "WATERPROOF", "VARSIZE", "STURDY" ]
+    "extend": { "flags": [ "WATERPROOF", "STURDY" ] }
   },
   {
     "id": "crt_dress_pants",
@@ -37,7 +37,7 @@
     "encumbrance": 10,
     "coverage": 100,
     "material_thickness": 2,
-    "flags": [ "WATERPROOF", "VARSIZE", "FANCY" ]
+    "flags": [ "WATERPROOF", "VARSIZE", "FANCY", "POCKETS" ]
   },
   {
     "id": "crt_helmet_liner",
@@ -89,7 +89,7 @@
     "looks_like": "gloves_tactical",
     "covers": [ "hands" ],
     "coverage": 90,
-    "encumbrance": 4,
+    "encumbrance": 2,
     "warmth": 10,
     "material_thickness": 1,
     "environmental_protection": 2,
@@ -110,8 +110,7 @@
       "min_volume": "0 ml",
       "max_volume": "1 L",
       "flags": [ "BELT_CLIP", "SHEATH_KNIFE", "SHEATH_SWORD" ]
-    },
-    "flags": [ "STURDY", "WAIST" ]
+    }
   },
   {
     "id": "crt_rec_duster",

@@ -105,6 +105,7 @@ static const activity_id ACT_REPAIR_ITEM( "ACT_REPAIR_ITEM" );
 static const activity_id ACT_SPELLCASTING( "ACT_SPELLCASTING" );
 static const activity_id ACT_STUDY_SPELL( "ACT_STUDY_SPELL" );
 static const activity_id ACT_START_FIRE( "ACT_START_FIRE" );
+static const activity_id ACT_VIBE( "ACT_VIBE" );
 
 static const efftype_id effect_accumulated_mutagen( "accumulated_mutagen" );
 static const efftype_id effect_asthma( "asthma" );
@@ -5521,4 +5522,54 @@ int multicooker_iuse::use( player &p, item &it, bool t, const tripoint &pos ) co
 std::unique_ptr<iuse_actor> multicooker_iuse::clone() const
 {
     return std::make_unique<multicooker_iuse>( *this );
+}
+
+void sex_toy_actor::load( JsonObject const &obj )
+{
+    moves = obj.get_int( "moves", 60000 ); // default is 10 minutes
+}
+
+ret_val<bool> sex_toy_actor::can_use( const Character &c, const item &i, bool,
+                                      const tripoint & ) const
+{
+    if( c.is_npc() ) {
+        return ret_val<bool>::make_failure(); // Creepy, status quo
+    }
+    if( c.is_mounted() ) {
+        return ret_val<bool>::make_failure( _( "You can't do *that* while mounted" ) );
+    }
+    if( ( c.is_underwater() ) && ( !( ( c.has_trait( trait_id( "GILLS" ) ) ) ||
+                                      ( c.has_trait( trait_id( "GILLS_CEPH" ) ) ) ||
+                                      ( c.is_wearing( itype_id( "rebreather_on" ) ) ) ||
+                                      ( c.is_wearing( itype_id( "rebreather_xl_on" ) ) ) ||
+                                      ( c.is_wearing( itype_id( "mask_h20survivor_on" ) ) ) ) ) ) {
+        return ret_val<bool>::make_failure( _( "Are you trying to drown yourself?" ) );
+    }
+    if( !i.units_sufficient( c ) ) {
+        return ret_val<bool>::make_failure( _( "The %s's batteries are dead." ), i.tname() );
+    }
+    if( c.get_fatigue() >= fatigue_levels::dead_tired ) {
+        return ret_val<bool>::make_failure( _( "*Your* batteries are dead." ) );
+    }
+    return ret_val<bool>::make_success();
+}
+
+std::unique_ptr<iuse_actor> sex_toy_actor::clone() const
+{
+    return std::make_unique<sex_toy_actor>( *this );
+}
+
+int sex_toy_actor::use( player &p, item &i, bool, const tripoint & ) const
+{
+    if( i.ammo_remaining() > 0 ) {
+        p.add_msg_if_player( _( "You fire up your %s and start getting the tension out." ),
+                             i.tname() );
+    } else {
+        p.add_msg_if_player( _( "You whip out your %s and start getting the tension out." ),
+                             i.tname() );
+    }
+    p.assign_activity( ACT_VIBE, moves, -1, 0, "de-stressing" );
+    p.activity->tools.emplace_back( i );
+
+    return i.type->charges_to_use();
 }
