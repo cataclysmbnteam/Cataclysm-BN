@@ -4438,7 +4438,7 @@ double vehicle::total_wing_lift() const
     // Velocity is in mph * 100 (why oh why)
     // Convert to km/h then m/s then m/s ^ 2
     const double kilometerperhour = velocity / 100 * 1.609;
-    const double meterpersec = kilometerperhour * 3600 / 1000;
+    const double meterpersec = kilometerperhour / 3600 * 1000;
     const double meterpersecsquared = std::pow( meterpersec, 2 );
     return std::accumulate( wings.begin(), wings.end(), double{0.0},
     [&]( double acc, int wing ) {
@@ -4509,7 +4509,7 @@ int vehicle::get_takeoff_speed() const
     } );
     const double needed_met_sec_squared = needed_force / liftwithoutspeed;
     const double needed_met_sec = std::sqrt( needed_met_sec_squared );
-    const double needed_km_hour = needed_met_sec * 1000 / 3600;
+    const double needed_km_hour = needed_met_sec / 1000 * 3600;
     std::string speed_type = get_option<std::string>( "USE_METRIC_SPEEDS" );
     if( speed_type == "km/h" ) {
         return ceil( needed_km_hour );
