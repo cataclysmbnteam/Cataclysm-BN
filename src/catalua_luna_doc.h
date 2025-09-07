@@ -63,6 +63,7 @@ struct dealt_damage_instance;
 struct fake_spell;
 struct field_type;
 struct mutation_branch;
+struct mission_type;
 struct npc_opinion;
 struct npc_personality;
 struct point;
@@ -167,6 +168,7 @@ LUNA_ID( ma_technique, "MartialArtsTechnique" )
 LUNA_ID( material_type, "MaterialType" )
 LUNA_ID( monfaction, "MonsterFaction" )
 LUNA_ID( morale_type_data, "MoraleTypeData" )
+LUNA_ID( mission_type_id, "MissionTypeId" )
 LUNA_ID( mtype, "Mtype" )
 LUNA_ID( mutation_branch, "MutationBranch" )
 LUNA_ID( mutation_category_trait, "MutationCategoryTrait" )

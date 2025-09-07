@@ -796,7 +796,7 @@ void cata::reg_all_bindings( sol::state &lua )
     reg_game_ids( lua );
     mod_mutation_branch( lua );
     reg_magic( lua );
-    reg_mission( lua );
+    reg_mission_family( lua );
     reg_recipe( lua );
     reg_coords_library( lua );
     reg_constants( lua );

@@ -197,6 +197,8 @@ struct mission_type {
         // Matches it to a mission_type_id above
         mission_type_id id = mission_type_id( "MISSION_NULL" );
         bool was_loaded = false;
+
+        LUA_TYPE_OPS( mission_type, id );
     private:
         // The untranslated name of the mission
         translation name = to_translation( "Bugged mission type" );
