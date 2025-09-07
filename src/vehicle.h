@@ -984,6 +984,8 @@ class vehicle
         // vehicle motion after precalc[1] is prepared.
         point pivot_displacement() const;
 
+        // Get combined power of all engines, the ideal amount of power, not the current power
+        int ideal_engine_power( bool safe = false ) const;
         // Get combined power of all engines. If fueled == true, then only engines which
         // vehicle have fuel for are accounted.  If safe == true, then limit engine power to
         // their safe power.
@@ -991,13 +993,13 @@ class vehicle
 
         // Get ground acceleration gained by combined power of all engines. If fueled == true,
         // then only engines which the vehicle has fuel for are included
-        int ground_acceleration( bool fueled = true, int at_vel_in_vmi = -1 ) const;
+        int ground_acceleration( bool fueled = true, int at_vel_in_vmi = -1, bool ideal = false ) const;
         // Get water acceleration gained by combined power of all engines. If fueled == true,
         // then only engines which the vehicle has fuel for are included
-        int water_acceleration( bool fueled = true, int at_vel_in_vmi = -1 ) const;
+        int water_acceleration( bool fueled = true, int at_vel_in_vmi = -1, bool ideal = false ) const;
         // get air acceleration gained by combined power of all engines. If fueled == true,
         // then only engines which the vehicle hs fuel for are included
-        int aircraft_acceleration( bool fueled = true, int at_vel_in_vmi = -1 ) const;
+        int aircraft_acceleration( bool fueled = true, int at_vel_in_vmi = -1, bool ideal = false ) const;
 
         // Get acceleration for the current movement mode
         int acceleration( bool fueled = true, int at_vel_in_vmi = -1 ) const;
@@ -1013,12 +1015,12 @@ class vehicle
 
         // Get maximum ground velocity gained by combined power of all engines.
         // If fueled == true, then only the engines which the vehicle has fuel for are included
-        int max_ground_velocity( bool fueled = true ) const;
+        int max_ground_velocity( bool fueled = true, bool ideal = false ) const;
         // Get maximum water velocity gained by combined power of all engines.
         // If fueled == true, then only the engines which the vehicle has fuel for are included
-        int max_water_velocity( bool fueled = true ) const;
+        int max_water_velocity( bool fueled = true, bool ideal = false ) const;
         // get maximum air velocity based on rotor physics
-        int max_air_velocity( bool fueled = true ) const;
+        int max_air_velocity( bool fueled = true, bool ideal = false ) const;
         // Get maximum velocity for the current movement mode
         int max_velocity( bool fueled = true ) const;
         // Get maximum reverse velocity for the current movement mode
@@ -1026,13 +1028,13 @@ class vehicle
 
         // Get safe ground velocity gained by combined power of all engines.
         // If fueled == true, then only the engines which the vehicle has fuel for are included
-        int safe_ground_velocity( bool fueled = true ) const;
+        int safe_ground_velocity( bool fueled = true, bool ideal = false ) const;
         // get safe air velocity gained by combined power of all engines.
         // if fueled == true, then only the engines which the vehicle hs fuel for are included
-        int safe_aircraft_velocity( bool fueled = true ) const;
+        int safe_aircraft_velocity( bool fueled = true, bool ideal = false ) const;
         // Get safe water velocity gained by combined power of all engines.
         // If fueled == true, then only the engines which the vehicle has fuel for are included
-        int safe_water_velocity( bool fueled = true ) const;
+        int safe_water_velocity( bool fueled = true, bool ideal = false ) const;
         // Get maximum velocity for the current movement mode
         int safe_velocity( bool fueled = true ) const;
 
@@ -1148,19 +1150,19 @@ class vehicle
         /**
          * lift of rotorcraft in newton
          */
-        double thrust_of_rotorcraft( bool fuelled, bool safe = false ) const;
+        double thrust_of_rotorcraft( bool fuelled, bool safe = false, bool ideal = false ) const;
         /**
          * foward thrust of propellers in newtons
          */
-        double foward_thrust_of_propellers( bool fuelled, bool safe = false ) const;
+        double foward_thrust_of_propellers( bool fuelled, bool safe = false, bool ideal = false ) const;
         /**
          * total foward thrust of all airborn pushers
          */
-        double total_thrust( bool fuelled, bool safe = false ) const;
+        double total_thrust( bool fuelled, bool safe = false, bool ideal = false ) const;
         /**
          * total lift of all lifters
          */
-        double total_lift( bool fuelled, bool safe = false ) const;
+        double total_lift( bool fuelled, bool safe = false, bool ideal = false ) const;
         bool has_sufficient_lift() const;
         int get_z_change() const;
         bool is_flying_in_air() const;

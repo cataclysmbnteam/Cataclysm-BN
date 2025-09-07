@@ -2475,25 +2475,25 @@ void veh_interact::display_stats() const
     if( is_aircraft ) {
         print_stat(
             _( "Air Safe/Top Speed: <color_light_green>%3d</color>/<color_light_red>%3d</color> %s" ),
-            vel_to_int( veh->safe_aircraft_velocity( false ) ),
-            vel_to_int( veh->max_air_velocity( false ) ),
+            vel_to_int( veh->safe_aircraft_velocity( false, true ) ),
+            vel_to_int( veh->max_air_velocity( false, true ) ),
             velocity_units( VU_VEHICLE ) );
         print_stat(
             _( "Air Acceleration: <color_light_blue>%3d</color> %s/s" ),
-            vel_to_int( veh->aircraft_acceleration( false ) ),
+            vel_to_int( veh->aircraft_acceleration( false, true ) ),
             velocity_units( VU_VEHICLE ) );
     } else {
         if( is_ground ) {
             print_stat(
                 _( "Safe/Top Speed: <color_light_green>%3d</color>/<color_light_red>%3d</color> %s" ),
-                vel_to_int( veh->safe_ground_velocity( false ) ),
-                vel_to_int( veh->max_ground_velocity( false ) ),
+                vel_to_int( veh->safe_ground_velocity( false, true ) ),
+                vel_to_int( veh->max_ground_velocity( false, true ) ),
                 velocity_units( VU_VEHICLE ) );
             // TODO: extract accelerations units to its own function
             print_stat(
                 //~ /t means per turn
                 _( "Acceleration: <color_light_blue>%3d</color> %s/s" ),
-                vel_to_int( veh->ground_acceleration( false ) ),
+                vel_to_int( veh->ground_acceleration( false, true ) ),
                 velocity_units( VU_VEHICLE ) );
         } else {
             i += 2;
@@ -2501,14 +2501,14 @@ void veh_interact::display_stats() const
         if( is_boat ) {
             print_stat(
                 _( "Water Safe/Top Speed: <color_light_green>%3d</color>/<color_light_red>%3d</color> %s" ),
-                vel_to_int( veh->safe_water_velocity( false ) ),
-                vel_to_int( veh->max_water_velocity( false ) ),
+                vel_to_int( veh->safe_water_velocity( false, true ) ),
+                vel_to_int( veh->max_water_velocity( false, true ) ),
                 velocity_units( VU_VEHICLE ) );
             // TODO: extract accelerations units to its own function
             print_stat(
                 //~ /t means per turn
                 _( "Water Acceleration: <color_light_blue>%3d</color> %s/s" ),
-                vel_to_int( veh->water_acceleration( false ) ),
+                vel_to_int( veh->water_acceleration( false, true ) ),
                 velocity_units( VU_VEHICLE ) );
         } else {
             i += 2;
@@ -2520,7 +2520,7 @@ void veh_interact::display_stats() const
     if( veh->has_lift() ) {
         // convert newton to kg.
         units::mass lift_as_mass = units::from_newton(
-                                       veh->total_lift( true ) );
+                                       veh->total_lift( true, false, true ) );
         print_stat(
             _( "Maximum Lift: <color_light_blue>%5.0f</color> %s" ),
             convert_weight( lift_as_mass ),

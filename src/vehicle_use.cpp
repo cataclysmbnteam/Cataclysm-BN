@@ -667,7 +667,7 @@ void vehicle::use_controls( const tripoint &pos )
     bool has_electronic_controls = false;
     avatar &you = get_avatar();
     const auto confirm_stop_driving = [this] {
-        return !is_flying_in_air() || query_yn(
+        return !is_flying_in_air() || !is_rotorcraft() || query_yn(
             _( "Really let go of controls while flying?  This will result in a crash." ) );
     };
 

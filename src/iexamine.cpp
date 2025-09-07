@@ -4751,7 +4751,10 @@ void iexamine::pay_gas( player &p, const tripoint &examp )
 void iexamine::ledge( player &p, const tripoint &examp )
 {
     enum ledge_action : int { jump_over, climb_down, spin_web_bridge };
-
+    if( p.in_vehicle ) {
+        add_msg( m_warning, _( "Jumping off a flying object is far too dangerous." ) );
+        return;
+    }
     if( get_map().ter( p.pos() ).id().str() == "t_open_air" && !character_funcs::can_fly( p ) ) {
         tripoint where = p.pos();
         tripoint below = where;
