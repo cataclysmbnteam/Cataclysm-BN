@@ -1,6 +1,7 @@
 #pragma once
 
 #include "catalua_luna.h"
+#include "mission.h"
 #include "type_id.h"
 #include "concepts_utility.h"
 
@@ -17,6 +18,8 @@ enum mf_attitude : int;
 enum monster_attitude : int;
 enum npc_attitude : int;
 enum npc_need : int;
+enum mission_origin : int;
+enum mission_goal : int;
 
 namespace sfx
 {
@@ -188,6 +191,8 @@ LUNA_ENUM( creature_size, "MonsterSize" )
 LUNA_ENUM( npc_attitude, "NpcAttitude" )
 LUNA_ENUM( npc_need, "NpcNeed" )
 LUNA_ENUM( sfx::channel, "SfxChannel" )
+LUNA_ENUM( mission_origin, "MissionOrigin" )
+LUNA_ENUM( mission_goal, "MissionGoal" )
 
 
 

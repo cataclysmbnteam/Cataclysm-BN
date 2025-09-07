@@ -632,6 +632,8 @@ void cata::detail::reg_enums( sol::state &lua )
     reg_enum<npc_attitude>( lua );
     reg_enum<npc_need>( lua );
     reg_enum<sfx::channel>( lua );
+    reg_enum<mission_origin>( lua );
+    reg_enum<mission_goal>( lua );
 }
 
 void cata::detail::reg_hooks_examples( sol::state &lua )
