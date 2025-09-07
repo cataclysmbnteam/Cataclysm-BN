@@ -836,7 +836,7 @@
         "charges_per_turn": 1,
         "time_mult": 2,
         "subcategories": [ "CSC_FOOD_MEAT", "CSC_FOOD_VEGGI", "CSC_FOOD_PASTA" ],
-        "temporary_tools": ["tongs", "toolset", "pot" ]
+        "temporary_tools": [ "tongs", "toolset", "pot" ]
       }
     ],
     "magazines": [
@@ -862,7 +862,7 @@
         "time_mult": 1,
         "recipes": [ "water_clean" ],
         "subcategories": [ "CSC_FOOD_MEAT", "CSC_FOOD_VEGGI", "CSC_FOOD_PASTA" ],
-        "temporary_tools": ["tongs", "toolset", "pot" ]
+        "temporary_tools": [ "tongs", "toolset", "pot" ]
       }
     ]
   },

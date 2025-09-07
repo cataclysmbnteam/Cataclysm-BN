@@ -5493,7 +5493,7 @@ int multicooker_iuse::use( player &p, item &it, bool t, const tripoint &pos ) co
 
                 const auto filter = is_crafting_component;
                 const requirement_data *reqs =
-                    meal->deduped_requirements().select_alternative( p, crafting_inv, filter, 1, cost_adjustment::start_only );
+                    meal->deduped_requirements().select_alternative( p, crafting_inv, filter);
                 if( !reqs ) {
                     return 0;
                 }
