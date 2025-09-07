@@ -4541,8 +4541,7 @@ bool vehicle::is_rotorcraft() const
 bool vehicle::is_aircraft() const
 {
     return ( has_part( "ROTOR" ) || has_part( "WING" ) || has_part( "BALLOON" ) ) &&
-           has_sufficient_lift() &&
-           player_in_control( g->u );
+           has_sufficient_lift() && player_in_control( g->u );
 }
 
 int vehicle::get_z_change() const
@@ -4636,7 +4635,8 @@ float vehicle::k_traction( float wheel_traction_area ) const
         return can_float() ? 1.0f : -1.0f;
     }
     if( is_flying ) {
-        return is_aircraft() ? 1.0f : -1.0f;
+        // Dont prematurely kill our flight, we'll fall soon enough
+        return ( has_lift() ) ? 1.0f : -1.0f;
     }
     if( is_watercraft() && can_float() ) {
         return 1.0f;
