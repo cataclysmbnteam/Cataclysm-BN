@@ -4495,6 +4495,9 @@ double vehicle::thrust_of_rotorcraft( const bool fuelled, const bool safe, const
     const double rotor_area = total_rotor_area();
     // take off 15 % due to the imaginary tail rotor power?
     const int engine_power = ( ideal ? ideal_engine_power( safe ) : total_power_w( fuelled, safe ) );
+    if( engine_power <= 0 ) {
+        return 0;
+    }
     const double power_load = engine_power / rotor_area;
     const double lift_thrust = coefficient * engine_power * std::pow( power_load, exponentiation );
     add_msg( m_debug, "lift thrust(N) of %s: %f, rotor area (m^2): %f, engine power (w): %i",
@@ -4536,7 +4539,7 @@ double vehicle::total_lift( const bool fuelled, const bool safe, const bool idea
 
 int vehicle::get_takeoff_speed() const
 {
-    const int needed_force = to_newton( total_mass() ) - thrust_of_rotorcraft( true ) +
+    const int needed_force = to_newton( total_mass() ) - thrust_of_rotorcraft( true, false, true ) +
                              total_balloon_lift();
 
     const double liftwithoutspeed = std::accumulate( wings.begin(), wings.end(), double{0.0},
@@ -4579,7 +4582,7 @@ bool vehicle::is_aircraft() const
 {
     return ( has_part( VPFLAG_ROTOR ) ||
              ( ( has_part( VPFLAG_WING ) || has_part( VPFLAG_BALLOON ) )
-             && has_part( VPFLAG_PROPELLER ) ) ) && has_sufficient_lift();
+               && has_part( VPFLAG_PROPELLER ) ) ) && has_sufficient_lift();
 }
 
 int vehicle::get_z_change() const

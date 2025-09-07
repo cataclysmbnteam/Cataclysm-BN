@@ -1897,7 +1897,7 @@ bool game::handle_action()
                                          vp->vehicle().has_part( "WING" ) ) &&
                            !vp->vehicle().has_sufficient_lift() ) {
                     add_msg( m_bad, _( "The craft struggles to generate enough lift!" ) );
-                } else{
+                } else {
                     u.add_msg_if_player( _( "You need a propeller to take off!" ) );
                 }
                 break;
