@@ -19,6 +19,7 @@
 #include "map.h"
 #include "martialarts.h"
 #include "material.h"
+#include "mission.h"
 #include "monfaction.h"
 #include "monster.h"
 #include "mtype.h"
@@ -793,6 +794,7 @@ void cata::reg_all_bindings( sol::state &lua )
     reg_game_ids( lua );
     mod_mutation_branch( lua );
     reg_magic( lua );
+    reg_mission( lua );
     reg_recipe( lua );
     reg_coords_library( lua );
     reg_constants( lua );

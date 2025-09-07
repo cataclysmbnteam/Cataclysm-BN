@@ -17,6 +17,7 @@ enum mf_attitude : int;
 enum monster_attitude : int;
 enum npc_attitude : int;
 enum npc_need : int;
+
 namespace sfx
 {
 enum class channel : int;
@@ -36,6 +37,7 @@ class ma_buff;
 class map;
 class map_stack;
 class material_type;
+class mission;
 class monster;
 class npc;
 class player;
@@ -120,6 +122,7 @@ LUNA_VAL( item, "Item" );
 LUNA_VAL( item_stack, "ItemStack" );
 LUNA_VAL( map, "Map" );
 LUNA_VAL( map_stack, "MapStack" );
+LUNA_VAL( mission, "Mission" );
 LUNA_VAL( monster, "Monster" );
 LUNA_VAL( npc, "Npc" );
 LUNA_VAL( npc_opinion, "NpcOpinion" );

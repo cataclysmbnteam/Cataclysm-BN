@@ -29,6 +29,7 @@ void reg_hooks_examples( sol::state &lua );
 void reg_item( sol::state &lua );
 void reg_locale_api( sol::state &lua );
 void reg_map( sol::state &lua );
+void reg_mission( sol::state &lua );
 void reg_monster( sol::state &lua );
 void mod_mutation_branch( sol::state &lua );
 void reg_magic( sol::state &lua );

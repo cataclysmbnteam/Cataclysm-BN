@@ -17,6 +17,7 @@
 #include "mapdata.h"
 #include "martialarts.h"
 #include "material.h"
+#include "mission.h"
 #include "monfaction.h"
 #include "monstergenerator.h"
 #include "morale_types.h"
