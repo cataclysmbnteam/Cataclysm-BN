@@ -2527,7 +2527,7 @@ void veh_interact::display_stats() const
             weight_units() );
         if( veh->has_part( "WING" ) ) {
             print_stat(
-                _( "Liftoff Speed: <color_light_blue>%3d</color> %s/s" ),
+                _( "Liftoff Speed: <color_light_blue>%3d</color> %s" ),
                 veh->get_takeoff_speed(),
                 velocity_units( VU_VEHICLE )
             );
