@@ -4435,8 +4435,10 @@ double vehicle::total_balloon_lift() const
 // Based on air being 1kg/m^3
 double vehicle::total_wing_lift() const
 {
+    // Velocity is in mph * 100 (why oh why)
     // Convert to km/h then m/s then m/s ^ 2
-    const double meterpersec = convert_velocity( velocity, VU_VEHICLE ) * 360 / 1000;
+    const double kilometerperhour = velocity / 100 * 1.609;
+    const double meterpersec = kilometerperhour * 3600 / 1000;
     const double meterpersecsquared = std::pow( meterpersec, 2 );
     return std::accumulate( wings.begin(), wings.end(), double{0.0},
     [&]( double acc, int wing ) {
@@ -4505,20 +4507,19 @@ int vehicle::get_takeoff_speed() const
         // m^2 area is always 1
         return acc + ( 0.5 * liftcoff );
     } );
-    const double needed_meter_sec_squared = needed_force / liftwithoutspeed;
-    const double needed_meter_sec = std::sqrt( needed_meter_sec_squared );
-    const double needed_km_hour = needed_meter_sec * 1000 / 360;
+    const double needed_met_sec_squared = needed_force / liftwithoutspeed;
+    const double needed_met_sec = std::sqrt( needed_met_sec_squared );
+    const double needed_km_hour = needed_met_sec * 1000 / 3600;
     std::string speed_type = get_option<std::string>( "USE_METRIC_SPEEDS" );
     if( speed_type == "km/h" ) {
         return needed_km_hour;
     } else if( speed_type == "mph" ) {
-        return needed_km_hour / 1.609f;
+        return needed_km_hour / 1.609;
     } else if( speed_type == "t/t" ) {
-        return needed_km_hour / 6;
+        return needed_km_hour / 1.609 / 4;
     } else {
         return INT_MAX;
     }
-
 }
 // For some reason, just checking total lift > 0 doesn't seem to work if the vehicle hasn't been piloted before, which was impacting the design view. This fixes it, and can be used to check if the vehicle HAS lift, but not enough to fly by doing has_lift && !has_sufficient_lift
 bool vehicle::has_lift() const

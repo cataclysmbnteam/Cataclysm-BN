@@ -15,7 +15,7 @@
     "type": "vehicle_part",
     "name": "debug aerofoil wing",
     "item": "debug_wing",
-    "lift_coff": 5,
+    "lift_coff": 2,
     "requirements": { "install": { "time": "1 s" }, "removal": { "time": "1 s" }, "repair": { "time": "1 s" } },
     "durability": 100,
     "damage_modifier": 80,
