@@ -3968,20 +3968,20 @@ int vehicle::max_air_velocity( const bool fueled, const bool ideal ) const
     return mps_to_vmiph( max_air_mps );
 }
 
-int vehicle::max_velocity( const bool fueled ) const
+int vehicle::max_velocity( const bool fueled, const bool ideal ) const
 {
     if( is_flying && is_aircraft() ) {
-        return max_air_velocity( fueled );
+        return max_air_velocity( fueled, true );
     } else if( is_watercraft() ) {
-        return max_water_velocity( fueled );
+        return max_water_velocity( fueled, true );
     } else {
-        return max_ground_velocity( fueled );
+        return max_ground_velocity( fueled, true );
     }
 }
 
-int vehicle::max_reverse_velocity( const bool fueled ) const
+int vehicle::max_reverse_velocity( const bool fueled, const bool ideal ) const
 {
-    int max_vel = max_velocity( fueled );
+    int max_vel = max_velocity( fueled, true );
     if( has_engine_type( fuel_type_battery, true ) ) {
         // Electric motors can go in reverse as well as forward
         return -max_vel;

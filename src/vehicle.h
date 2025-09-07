@@ -1022,9 +1022,9 @@ class vehicle
         // get maximum air velocity based on rotor physics
         int max_air_velocity( bool fueled = true, bool ideal = false ) const;
         // Get maximum velocity for the current movement mode
-        int max_velocity( bool fueled = true ) const;
+        int max_velocity( bool fueled = true, bool ideal = false ) const;
         // Get maximum reverse velocity for the current movement mode
-        int max_reverse_velocity( bool fueled = true ) const;
+        int max_reverse_velocity( bool fueled = true, bool ideal = false ) const;
 
         // Get safe ground velocity gained by combined power of all engines.
         // If fueled == true, then only the engines which the vehicle has fuel for are included
