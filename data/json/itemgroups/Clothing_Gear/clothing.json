@@ -1283,6 +1283,7 @@
       [ "dinosuit", 4 ],
       [ "zentai", 5 ],
       [ "vibrator", 5 ],
+      [ "bullet_vibrator", 5 ],
       { "item": "condom", "prob": 30, "count": [ 1, 5 ] },
       [ "snuggie", 5 ],
       [ "flyer", 10 ],

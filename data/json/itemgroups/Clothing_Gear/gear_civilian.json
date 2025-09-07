@@ -44,6 +44,7 @@
       [ "mp3", 20 ],
       [ "portable_game", 50 ],
       [ "vibrator", 5 ],
+      [ "bullet_vibrator", 5 ],
       [ "gum", 50 ],
       { "group": "ammo_pocket_batteries", "prob": 50 },
       [ "wrapper", 50 ],

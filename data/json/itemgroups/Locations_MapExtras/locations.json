@@ -722,6 +722,7 @@
     "items": [
       [ "barrette", 30 ],
       { "item": "vibrator", "prob": 20, "charges-min": 0, "charges-max": 25 },
+      { "item": "bullet_vibrator", "prob": 20, "charges-min": 0, "charges-max": 25 },
       [ "bubblewrap", 30 ],
       [ "syringe", 35 ],
       [ "glowstick_dead", 15 ],
@@ -1848,6 +1849,7 @@
       [ "portable_game", 8 ],
       [ "game_watch", 2 ],
       [ "vibrator", 6 ],
+      [ "bullet_vibrator", 6 ],
       [ "usb_drive", 8 ],
       [ "firecracker_pack", 1 ],
       [ "firecracker", 1 ],

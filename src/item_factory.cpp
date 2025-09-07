@@ -1066,6 +1066,7 @@ void Item_factory::init()
     add_iuse( "WEAK_ANTIBIOTIC", &iuse::weak_antibiotic );
     add_iuse( "WEATHER_TOOL", &iuse::weather_tool );
     add_iuse( "XANAX", &iuse::xanax );
+    add_iuse( "BULLET_VIBE_ON", &iuse::bullet_vibe_on );
 
     // Obsolete - just dummies, won't be called
     add_iuse( "HOTPLATE", &iuse::toggle_heats_food );
@@ -1112,6 +1113,7 @@ void Item_factory::init()
     add_actor( std::make_unique<weigh_self_actor>() );
     add_actor( std::make_unique<gps_device_actor>() );
     add_actor( std::make_unique<sew_advanced_actor>() );
+    add_actor( std::make_unique<sex_toy_actor>() );
 
     // An empty dummy group, it will not spawn anything. However, it makes that item group
     // id valid, so it can be used all over the place without need to explicitly check for it.

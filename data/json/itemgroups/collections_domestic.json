@@ -945,6 +945,7 @@
       { "item": "bondage_mask", "prob": 5 },
       { "item": "flask_hip", "prob": 5 },
       { "item": "vibrator", "prob": 5 },
+      { "item": "bullet_vibrator", "prob": 5 },
       { "item": "tux", "prob": 1 },
       { "item": "gown", "prob": 1 },
       { "item": "long_glove_white", "prob": 1 },
