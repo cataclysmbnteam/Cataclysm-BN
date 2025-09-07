@@ -4512,11 +4512,11 @@ int vehicle::get_takeoff_speed() const
     const double needed_km_hour = needed_met_sec * 1000 / 3600;
     std::string speed_type = get_option<std::string>( "USE_METRIC_SPEEDS" );
     if( speed_type == "km/h" ) {
-        return ceil(needed_km_hour);
+        return ceil( needed_km_hour );
     } else if( speed_type == "mph" ) {
-        return ceil(needed_km_hour / 1.609);
+        return ceil( needed_km_hour / 1.609 );
     } else if( speed_type == "t/t" ) {
-        return ceil(needed_km_hour / 1.609 / 4);
+        return ceil( needed_km_hour / 1.609 / 4 );
     } else {
         return INT_MAX;
     }
