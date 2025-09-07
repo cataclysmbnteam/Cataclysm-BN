@@ -726,11 +726,6 @@
   },
   {
     "type": "item_action",
-    "id": "REMOTEVEHCAM",
-    "name": { "str": "Control a vehicle with cameras" }
-  },
-  {
-    "type": "item_action",
     "id": "SEED",
     "name": { "str": "Consume" }
   },

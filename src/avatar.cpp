@@ -116,7 +116,7 @@ avatar::avatar()
 
 avatar::~avatar() = default;
 avatar::avatar( avatar && )  noexcept = default;
-avatar &avatar::operator=( avatar && ) = default;
+avatar &avatar::operator=( avatar && ) noexcept = default;
 
 static void swap_npc( npc &one, npc &two, npc &tmp )
 {

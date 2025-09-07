@@ -57,7 +57,7 @@ class avatar : public player
         avatar( avatar && ) noexcept;
         ~avatar() override;
         avatar &operator=( const avatar & ) = delete;
-        avatar &operator=( avatar && );
+        avatar &operator=( avatar && ) noexcept;
 
         void store( JsonOut &json ) const;
         void load( const JsonObject &data );
@@ -287,6 +287,11 @@ class avatar : public player
 
         /** Warnings from factions about bad behavior */
         std::map<faction_id, std::pair<int, time_point>> warning_record;
+        /**
+        * The NPC that would control the avatar's character in the avatar's absence.
+        * The Character data in this object is not relevant/used.
+        */
+        std::unique_ptr<npc> shadow_npc;
 
     public:
         // ---------------VALUES-----------------

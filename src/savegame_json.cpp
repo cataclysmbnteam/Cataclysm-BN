@@ -554,8 +554,8 @@ void Character::load( const JsonObject &data )
     {
         std::array<int, num_bp> temp_cur_old, temp_conv_old, frostbite_timer_old;
         if( data.read( "temp_cur", temp_cur_old ) &&
-            data.read( "temp_conv", temp_conv_old ) &&
-            data.read( "frostbite_timer", frostbite_timer_old ) ) {
+                data.read( "temp_conv", temp_conv_old ) &&
+                data.read( "frostbite_timer", frostbite_timer_old ) ) {
             // We can assume exactly num_bp body parts, since it's an old save
             for( size_t bp_iter = 0; bp_iter < num_bp; bp_iter++ ) {
                 body_part bp_token = static_cast<body_part>( bp_iter );
@@ -886,9 +886,6 @@ void player::store( JsonOut &json ) const
     // "Looks like I picked the wrong week to quit smoking." - Steve McCroskey
     json.member( "addictions", addictions );
     json.member( "followers", follower_ids );
-    if( shadow_npc ) {
-        json.member( "shadow_npc", *shadow_npc );
-    }
 
     json.member( "worn", worn ); // also saves contents
     json.member( "inv" );
@@ -941,10 +938,6 @@ void player::load( const JsonObject &data )
 
     data.read( "addictions", addictions );
     data.read( "followers", follower_ids );
-    if( data.has_member( "shadow_npc" ) ) {
-        shadow_npc = std::make_unique<npc>();
-        data.read( "shadow_npc", *shadow_npc );
-    }
 
     // Add the earplugs.
     if( has_bionic( bionic_id( "bio_ears" ) ) && !has_bionic( bionic_id( "bio_earplugs" ) ) ) {
@@ -1012,6 +1005,10 @@ void avatar::store( JsonOut &json ) const
 
     // misc player specific stuff
     json.member( "focus_pool", focus_pool );
+
+    if( shadow_npc ) {
+        json.member( "shadow_npc", *shadow_npc );
+    }
 
     // stats through kills
     json.member( "str_upgrade", std::abs( str_upgrade ) );
@@ -1089,6 +1086,11 @@ void avatar::load( const JsonObject &data )
           grab_point );
 
     data.read( "focus_pool", focus_pool );
+
+    if( data.has_member( "shadow_npc" ) ) {
+        shadow_npc = std::make_unique<npc>();
+        data.read( "shadow_npc", *shadow_npc );
+    }
 
     // stats through kills
     data.read( "str_upgrade", str_upgrade );
@@ -1365,7 +1367,7 @@ void npc_chatbin::deserialize( JsonIn &jsin )
         if( savegame_loading_version <= 23 ) {
             // In 0.C, it was an index into the missions_assigned vector
             if( tmpmission_selected >= 0 &&
-                tmpmission_selected < static_cast<int>( missions_assigned.size() ) ) {
+                    tmpmission_selected < static_cast<int>( missions_assigned.size() ) ) {
                 mission_selected = missions_assigned[tmpmission_selected];
             }
         } else {
@@ -1383,9 +1385,9 @@ void npc_personality::deserialize( JsonIn &jsin )
     int tmpcol = 0;
     int tmpalt = 0;
     if( data.read( "aggression", tmpagg ) &&
-        data.read( "bravery", tmpbrav ) &&
-        data.read( "collector", tmpcol ) &&
-        data.read( "altruism", tmpalt ) ) {
+            data.read( "bravery", tmpbrav ) &&
+            data.read( "collector", tmpcol ) &&
+            data.read( "altruism", tmpalt ) ) {
         aggression = static_cast<signed char>( tmpagg );
         bravery = static_cast<signed char>( tmpbrav );
         collector = static_cast<signed char>( tmpcol );
@@ -1970,7 +1972,7 @@ void monster::load( const JsonObject &data )
         data.read( "ammo", ammo );
         // legacy loading for milkable creatures, fix mismatch.
         if( has_flag( MF_MILKABLE ) && !type->starting_ammo.empty() && !ammo.empty() &&
-            type->starting_ammo.begin()->first != ammo.begin()->first ) {
+                type->starting_ammo.begin()->first != ammo.begin()->first ) {
             const itype_id old_type = ammo.begin()->first;
             const int old_value = ammo.begin()->second;
             ammo[type->starting_ammo.begin()->first] = old_value;
@@ -3211,16 +3213,16 @@ void player_morale::morale_subtype::serialize( JsonOut &json ) const
     json.start_object();
     json.member_as_string( "subtype_type", subtype_type );
     switch( subtype_type ) {
-        case morale_subtype_t::single:
-            break;
-        case morale_subtype_t::by_item:
-            json.member( "item_type", item_type->get_id() );
-            break;
-        case morale_subtype_t::by_effect:
-            json.member( "eff_type", eff_type );
-            break;
-        default:
-            break;
+    case morale_subtype_t::single:
+        break;
+    case morale_subtype_t::by_item:
+        json.member( "item_type", item_type->get_id() );
+        break;
+    case morale_subtype_t::by_effect:
+        json.member( "eff_type", eff_type );
+        break;
+    default:
+        break;
     }
     json.end_object();
 }
@@ -3231,18 +3233,18 @@ void player_morale::morale_subtype::deserialize( JsonIn &jsin )
     jo.allow_omitted_members();
     jo.read( "subtype_type", subtype_type );
     switch( subtype_type ) {
-        case morale_subtype_t::single:
-            break;
-        case morale_subtype_t::by_item:
-            item_type = &*itype_id( jo.get_string( "item_type" ) );
-            break;
-        case morale_subtype_t::by_effect:
-            eff_type = efftype_id( jo.get_string( "eff_type" ) );
-            break;
-        default:
-            debugmsg( "invalid or missing morale_subtype_t: %d",
-                      static_cast<int>( subtype_type ) );
-            subtype_type = morale_subtype_t::single;
+    case morale_subtype_t::single:
+        break;
+    case morale_subtype_t::by_item:
+        item_type = &*itype_id( jo.get_string( "item_type" ) );
+        break;
+    case morale_subtype_t::by_effect:
+        eff_type = efftype_id( jo.get_string( "eff_type" ) );
+        break;
+    default:
+        debugmsg( "invalid or missing morale_subtype_t: %d",
+                  static_cast<int>( subtype_type ) );
+        subtype_type = morale_subtype_t::single;
     }
 }
 
@@ -4294,7 +4296,7 @@ void uistatedata::serialize( JsonOut &json ) const
             save_start = history.size() - input_history_save_max;
         }
         for( std::vector<std::string>::const_iterator hit = history.begin() + save_start;
-             hit != history.end(); ++hit ) {
+                hit != history.end(); ++hit ) {
             json.write( *hit );
         }
         json.end_array();
