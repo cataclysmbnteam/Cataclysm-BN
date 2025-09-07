@@ -4,7 +4,7 @@
     "id": "cave_palette",
     "terrain": { ".": "t_rock", " ": "t_rock_floor" },
     "monster": { " ": { "monster": "mon_sewer_rat", "chance": 20 } },
-    "nested": { " ": { "chunks": [ [ "null", 7 ], "place_cave_moss" ] } }
+    "nested": { " ": { "chunks": [ [ "null", 7 ], [ "place_cave_moss", 1 ] ] } }
   },
   {
     "type": "mapgen",
