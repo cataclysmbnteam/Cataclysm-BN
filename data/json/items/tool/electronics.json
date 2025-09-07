@@ -625,7 +625,9 @@
       "target": "bullet_vibrator_on",
       "active": true,
       "msg": "You turn on the bullet vibe and place it appropriately.",
-      "moves": 100
+      "moves": 100,
+      "need_charges": 1,
+      "need_charges_msg": "The vibrator's battery is dead."
     },
     "magazines": [
       [
