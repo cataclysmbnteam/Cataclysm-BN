@@ -2755,6 +2755,13 @@ bool vehicle::has_part( const std::string &flag, bool enabled ) const
     } );
 }
 
+bool vehicle::has_part( const vpart_bitflags &flag, bool enabled ) const
+{
+    return std::any_of( parts.begin(), parts.end(), [&flag, &enabled]( const vehicle_part & e ) {
+        return !e.removed && ( !enabled || e.enabled ) && !e.is_broken() && e.info().has_flag( flag );
+    } );
+}
+
 bool vehicle::has_part( const tripoint &pos, const std::string &flag, bool enabled ) const
 {
     const tripoint relative_pos = pos - global_pos3();
@@ -4128,7 +4135,7 @@ void vehicle::noise_and_smoke( int load, time_duration time )
         spew_field( mufflesmoke, exhaust_part, fd_smoke,
                     bad_filter ? fd_smoke.obj().get_max_intensity() : 1 );
     }
-    if( is_flying && has_part( "ROTOR" ) ) {
+    if( is_flying && has_part( VPFLAG_ROTOR ) ) {
         noise *= 2;
     }
     // Cap engine noise to avoid deafening.
@@ -4145,7 +4152,7 @@ void vehicle::noise_and_smoke( int load, time_duration time )
     vehicle_noise = static_cast<unsigned char>( noise );
     // TODO: other noises for non-rotor aircraft?
     sounds::sound( global_pos3(), noise, sounds::sound_t::movement,
-                   _( has_part( "ROTOR" ) ? heli_noise : sounds[lvl].first ), true );
+                   _( has_part( VPFLAG_ROTOR ) ? heli_noise : sounds[lvl].first ), true );
 }
 
 int vehicle::wheel_area() const
@@ -4524,7 +4531,7 @@ int vehicle::get_takeoff_speed() const
 // For some reason, just checking total lift > 0 doesn't seem to work if the vehicle hasn't been piloted before, which was impacting the design view. This fixes it, and can be used to check if the vehicle HAS lift, but not enough to fly by doing has_lift && !has_sufficient_lift
 bool vehicle::has_lift() const
 {
-    return has_part( "ROTOR" ) || has_part( "BALLOON" ) || has_part( "WING" );
+    return has_part( VPFLAG_ROTOR ) || has_part( VPFLAG_BALLOON ) || has_part( VPFLAG_WING );
 }
 
 bool vehicle::has_sufficient_lift() const
@@ -4534,13 +4541,13 @@ bool vehicle::has_sufficient_lift() const
 
 bool vehicle::is_rotorcraft() const
 {
-    return ( has_part( "ROTOR" ) ) && has_sufficient_lift() &&
+    return ( has_part( VPFLAG_ROTOR ) ) && has_sufficient_lift() &&
            player_in_control( g->u );
 }
 // requires vehicle to have sufficient rotor lift
 bool vehicle::is_aircraft() const
 {
-    return ( has_part( "ROTOR" ) || has_part( "WING" ) || has_part( "BALLOON" ) ) &&
+    return ( has_part( VPFLAG_ROTOR ) || has_part( VPFLAG_WING ) || has_part( VPFLAG_BALLOON ) ) &&
            has_sufficient_lift() && player_in_control( g->u );
 }
 

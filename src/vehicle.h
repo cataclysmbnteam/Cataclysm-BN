@@ -744,6 +744,13 @@ class vehicle
          *  @returns true if part is found
          */
         bool has_part( const std::string &flag, bool enabled = false ) const;
+        /**
+         *  Check if vehicle has at least one unbroken part with specified flag
+         *  @param flag Specified flag to search parts for
+         *  @param enabled if set part must also be enabled to be considered
+         *  @returns true if part is found
+         */
+        bool has_part( const vpart_bitflags &flag, bool enabled = false ) const;
 
         /**
          *  Check if vehicle has at least one unbroken part with specified flag

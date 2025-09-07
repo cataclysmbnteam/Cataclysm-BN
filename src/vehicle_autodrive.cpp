@@ -1222,7 +1222,7 @@ autodrive_result vehicle::do_autodrive( Character &driver )
     }
     active_autodrive_controller->check_safe_speed();
     std::optional<navigation_step> next_step = active_autodrive_controller->compute_next_step();
-    if( has_part( "WING" ) ) {
+    if( has_part( VPFLAG_WING ) ) {
         driver.add_msg_if_player( _( "Autodrive is not good enough for planes." ) );
         stop_autodriving( false );
         return autodrive_result::abort;
