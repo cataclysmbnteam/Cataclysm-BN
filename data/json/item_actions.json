@@ -836,6 +836,11 @@
   },
   {
     "type": "item_action",
+    "id": "BULLET_VIBE_ON",
+    "name": { "str": "Turn off toy" }
+  },
+  {
+    "type": "item_action",
     "id": "VORTEX",
     "name": { "str": "Use" }
   },
@@ -988,5 +993,10 @@
     "type": "item_action",
     "id": "AMPUTATE",
     "name": { "str": "(Debug) Amputate body part" }
+  },
+  {
+    "type": "item_action",
+    "id": "sex_toy",
+    "name": { "str": "Relieve some tension" }
   }
 ]
