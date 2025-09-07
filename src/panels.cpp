@@ -1893,8 +1893,8 @@ static void draw_veh_compact( const avatar &u, const catacurses::window &w )
         veh = veh_pointer_or_null( get_map().veh_at( u.pos() ) );
     }
     if( veh ) {
-        mvwprintz( w, point( 0, 1), c_light_gray, "fuel: " );
-        veh->print_fuel_indicators( w, point(6, 1) );
+        mvwprintz( w, point( 0, 1 ), c_light_gray, "fuel: " );
+        veh->print_fuel_indicators( w, point( 6, 1 ) );
         mvwprintz( w, point( 0, 0 ), c_light_gray, veh->face.to_string_azimuth_from_north() );
         // target speed > current speed
         const float strain = veh->strain();
