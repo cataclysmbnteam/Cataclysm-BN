@@ -4014,7 +4014,7 @@ int vehicle::safe_ground_velocity( const bool fueled, const bool ideal ) const
             return std::min( animal_vel, max_ground_velocity( fueled ) );
         }
     }
-    int effective_engine_w = (ideal ? ideal_engine_power(  true ) : total_power_w( fueled, true ) );
+    int effective_engine_w = ( ideal ? ideal_engine_power( true ) : total_power_w( fueled, true ) );
     double c_rolling_drag = coeff_rolling_drag();
     double safe_in_mps = simple_cubic_solution( coeff_air_drag(), c_rolling_drag,
                          c_rolling_drag * vehicles::rolling_constant_to_variable,
@@ -4504,7 +4504,8 @@ double vehicle::thrust_of_rotorcraft( const bool fuelled, const bool safe, const
 
 // constants were converted from imperial to SI goodness
 // returns as newton
-double vehicle::foward_thrust_of_propellers( const bool fuelled, const bool safe, const bool ideal ) const
+double vehicle::foward_thrust_of_propellers( const bool fuelled, const bool safe,
+        const bool ideal ) const
 {
     constexpr double coefficient = 0.8642;
     constexpr double exponentiation = -0.3107;
@@ -4523,7 +4524,8 @@ double vehicle::foward_thrust_of_propellers( const bool fuelled, const bool safe
 // get sum of horizontal thrust from all lifting parts
 double vehicle::total_thrust( const bool fuelled, const bool safe, const bool ideal ) const
 {
-    return thrust_of_rotorcraft( fuelled, safe, ideal ) + foward_thrust_of_propellers( fuelled, safe, ideal );
+    return thrust_of_rotorcraft( fuelled, safe, ideal ) + foward_thrust_of_propellers( fuelled, safe,
+            ideal );
 }
 
 // get sum of lift from all lifting parts
