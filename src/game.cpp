@@ -449,6 +449,20 @@ void game::reload_tileset( [[maybe_unused]] const std::function<void( std::strin
     } catch( const std::exception &err ) {
         popup( _( "Loading the tileset failed: %s" ), err.what() );
     }
+    try {
+        overmap_tilecontext->reinit();
+        std::vector<mod_id> dummy;
+        overmap_tilecontext->load_tileset(
+            get_option<std::string>( "OVERMAP_TILES" ),
+            world_generator->active_world ? world_generator->active_world->info->active_mod_order : dummy,
+            /*precheck=*/false,
+            /*force=*/true,
+            /*pump_events=*/true
+        );
+        overmap_tilecontext->do_tile_loading_report( out );
+    } catch( const std::exception &err ) {
+        popup( _( "Loading the overmap tileset failed: %s" ), err.what() );
+    }
     g->reset_zoom();
     g->mark_main_ui_adaptor_resize();
 #endif // TILES
@@ -7200,11 +7214,35 @@ void game::zoom_out()
 #endif
 }
 
+void game::zoom_out_overmap()
+{
+#if defined(TILES)
+    if( overmap_tileset_zoom > MAXIMUM_ZOOM_LEVEL ) {
+        overmap_tileset_zoom /= 2;
+    } else {
+        overmap_tileset_zoom = 64;
+    }
+    overmap_tilecontext->set_draw_scale( overmap_tileset_zoom );
+#endif
+}
+
 void game::zoom_in()
 {
 #if defined(TILES)
     tileset_zoom = calc_next_zoom( tileset_zoom, 1 );
     rescale_tileset( tileset_zoom );
+#endif
+}
+
+void game::zoom_in_overmap()
+{
+#if defined(TILES)
+    if( overmap_tileset_zoom == 64 ) {
+        overmap_tileset_zoom = MAXIMUM_ZOOM_LEVEL;
+    } else {
+        overmap_tileset_zoom *= 2;
+    }
+    overmap_tilecontext->set_draw_scale( overmap_tileset_zoom );
 #endif
 }
 
