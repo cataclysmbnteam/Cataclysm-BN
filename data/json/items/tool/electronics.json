@@ -651,7 +651,7 @@
     "category": "electronics",
     "name": { "str": "bullet vibrator (on)" },
     "copy-from": "bullet_vibrator",
-    "power_draw": 50000,
+    "power_draw": 25000,
     "revert_to": "bullet_vibrator",
     "description": "This battery-devouring device is just the thing to knead the tension out and help you relax.  You can feel it buzzing away all that tension.",
     "use_action": [ "BULLET_VIBE_ON" ]
