@@ -5472,9 +5472,9 @@ int multicooker_iuse::use( player &p, item &it, bool t, const tripoint &pos ) co
 
             if( choice < 0 ) {
 
-                if (choice == -1024) {
+                if( choice == -1024 ) {
                     p.add_msg_if_player( m_warning,
-                     _( "You don't know of anything you could craft with this." ) );
+                                         _( "You don't know of anything you could craft with this." ) );
                 }
 
                 return 0;
@@ -5494,7 +5494,7 @@ int multicooker_iuse::use( player &p, item &it, bool t, const tripoint &pos ) co
 
                 const auto filter = is_crafting_component;
                 const requirement_data *reqs =
-                    meal->deduped_requirements().select_alternative( p, crafting_inv, filter);
+                    meal->deduped_requirements().select_alternative( p, crafting_inv, filter );
                 if( !reqs ) {
                     return 0;
                 }
