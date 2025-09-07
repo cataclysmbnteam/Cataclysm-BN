@@ -5451,6 +5451,7 @@ int multicooker_iuse::use( player &p, item &it, bool t, const tripoint &pos ) co
             for( const std::string &item : temporary_tools ) {
                 crafting_inv.add_item( *item::spawn_temporary( item, bday ), false );
             }
+            crafting_inv.update_quality_cache();
 
             int counter = 0;
 
@@ -5469,8 +5470,12 @@ int multicooker_iuse::use( player &p, item &it, bool t, const tripoint &pos ) co
             int choice = dmenu.ret;
 
             if( choice < 0 ) {
-                p.add_msg_if_player( m_warning,
-                                     _( "You don't know of anything you could craft with this." ) );
+
+                if (choice == -1024) {
+                    p.add_msg_if_player( m_warning,
+                     _( "You don't know of anything you could craft with this." ) );
+                }
+
                 return 0;
             } else {
                 const recipe *meal = dishes[choice];
@@ -5488,7 +5493,7 @@ int multicooker_iuse::use( player &p, item &it, bool t, const tripoint &pos ) co
 
                 const auto filter = is_crafting_component;
                 const requirement_data *reqs =
-                    meal->deduped_requirements().select_alternative( p, filter );
+                    meal->deduped_requirements().select_alternative( p, crafting_inv, filter, 1, cost_adjustment::start_only );
                 if( !reqs ) {
                     return 0;
                 }
