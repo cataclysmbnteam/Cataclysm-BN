@@ -3971,17 +3971,17 @@ int vehicle::max_air_velocity( const bool fueled, const bool ideal ) const
 int vehicle::max_velocity( const bool fueled, const bool ideal ) const
 {
     if( is_flying && is_aircraft() ) {
-        return max_air_velocity( fueled, true );
+        return max_air_velocity( fueled, ideal );
     } else if( is_watercraft() ) {
-        return max_water_velocity( fueled, true );
+        return max_water_velocity( fueled, ideal );
     } else {
-        return max_ground_velocity( fueled, true );
+        return max_ground_velocity( fueled, ideal );
     }
 }
 
 int vehicle::max_reverse_velocity( const bool fueled, const bool ideal ) const
 {
-    int max_vel = max_velocity( fueled, true );
+    int max_vel = max_velocity( fueled, ideal );
     if( has_engine_type( fuel_type_battery, true ) ) {
         // Electric motors can go in reverse as well as forward
         return -max_vel;
@@ -4577,8 +4577,9 @@ bool vehicle::is_rotorcraft() const
 // requires vehicle to have sufficient rotor lift
 bool vehicle::is_aircraft() const
 {
-    return ( has_part( VPFLAG_ROTOR ) || has_part( VPFLAG_WING ) || has_part( VPFLAG_BALLOON ) ) &&
-           has_sufficient_lift();
+    return ( has_part( VPFLAG_ROTOR ) ||
+             ( ( has_part( VPFLAG_WING ) || has_part( VPFLAG_BALLOON ) )
+             && has_part( VPFLAG_PROPELLER ) ) ) && has_sufficient_lift();
 }
 
 int vehicle::get_z_change() const
