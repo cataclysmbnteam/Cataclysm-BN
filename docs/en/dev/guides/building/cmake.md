@@ -51,7 +51,7 @@ Obtain packages specified above with your system package manager.
 - For Ubuntu-based distros (24.04 onwards):
 
 ```sh
-sudo apt install git cmake ninja-build mold clang ccache \
+sudo apt install git cmake ninja-build mold g++-14 clang-20 ccache \
 libsdl2-dev libsdl2-image-dev libsdl2-ttf-dev libsdl2-mixer-dev \
 libfreetype-dev bzip2 zlib1g-dev libvorbis-dev libncurses-dev \
 gettext libflac++-dev libsqlite3-dev zlib1g-dev
@@ -66,6 +66,55 @@ freetype glibc bzip2 zlib-ng libvorbis ncurses gettext flac-devel \
 sqlite-devel zlib-devel
 ```
 
+#### Verifying Compiler Version
+
+You need to have at least `gcc` 14 **and** `clang` 19 to build CataclysmBN. You can check your compiler version with:
+
+```sh
+$ g++ --version
+g++ (GCC) 15.2.1 20250808 (Red Hat 15.2.1-1)
+Copyright (C) 2025 Free Software Foundation, Inc.
+This is free software; see the source for copying conditions.  There is NO
+warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+$ clang++ --version
+clang version 20.1.8 (Fedora 20.1.8-4.fc42)
+Target: x86_64-redhat-linux-gnu
+Thread model: posix
+InstalledDir: /usr/bin
+Configuration file: /etc/clang/x86_64-redhat-linux-gnu-clang++.cfg
+```
+
+> [!TIP]
+>
+> **when intalled `gcc-{version}` but `gcc` is not found**
+>
+> Use `update-alternatives` to set the default gcc version:
+>
+> ```sh
+> sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-14 100
+> sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-14 100
+> sudo update-alternatives --display gcc
+> gcc - auto mode
+>   link best version is /usr/bin/gcc-14
+>   link currently points to /usr/bin/gcc-14
+>   link gcc is /usr/bin/gcc
+> /usr/bin/gcc-14 - priority 100
+> sudo update-alternatives --display g++
+> g++ - auto mode
+>   link best version is /usr/bin/g++-14
+>   link currently points to /usr/bin/g++-14
+>   link g++ is /usr/bin/g++
+> /usr/bin/g++-14 - priority 100
+> ```
+>
+> The same applies to `clang`.
+>
+> ```sh
+> sudo update-alternatives --install /usr/bin/clang clang /usr/bin/clang-20 100
+> sudo update-alternatives --install /usr/bin/clang++ clang++ /usr/bin/clang++-20 100
+> ```
+
 ### Windows Subsystem for Linux (WSL)
 
 Follow the same instructions for `UNIX environment`; it just works (TM)
@@ -77,7 +126,7 @@ If you plan on using `tiles`, make sure you have the latest [WSL 2 that supports
 1. Follow steps from here: https://msys2.github.io/
 2. Install CataclysmBN build deps:
 
-```
+```sh
 pacman -S mingw-w64-x86_64-toolchain msys/git \
    	  mingw-w64-x86_64-cmake \
    	  mingw-w64-x86_64-SDL2_{image,mixer,ttf} \
@@ -117,7 +166,6 @@ cmake --build build --preset linux-slim --target cataclysm-bn-tiles
 ```
 
 > [!NOTE]
-> 
 
 This will place the executables into `out/build/linux-slim/`.
 
