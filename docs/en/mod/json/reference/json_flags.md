@@ -1589,6 +1589,7 @@ Those flags are added by the game code to specific items (that specific welder, 
 - `ATOMIC_LIGHT`
 - `AUTOCLAVE` Acts as an autoclave.
 - `AUTOPILOT` This part will enable a vehicle to have a simple autopilot.
+- `BALLOON` Acts as a lifting balloon, requires the height field
 - `BATTERY_MOUNT`
 - `BED` A bed where the player can sleep.
 - `BEEPER` Generates noise when the vehicle moves backward.
@@ -1633,6 +1634,7 @@ Those flags are added by the game code to specific items (that specific welder, 
   power). This is independent from reactor power production.
 - `ENGINE` Is an engine and contributes towards vehicle mechanical power.
 - `EVENTURN` Only on during even turns.
+- `EXTENDABLE` A protusion which can attach to other extendable protusions
 - `EXTENDS_VISION` Extends player vision (cameras, mirrors, etc.)
 - `EXTRA_DRAG` tells the vehicle that the part exerts engine power reduction.
 - `FAUCET`
@@ -1683,6 +1685,7 @@ Those flags are added by the game code to specific items (that specific welder, 
 - `PLOW` Tills the soil underneath the part while active. Takes damage from unsuitable terrain at a
   level proportional to the speed of the vehicle.
 - `POWER_TRANSFER` Transmits power to and from an attached thingy (probably a vehicle).
+- `PROPELLER` Part that is a propeller rotor, needs propeller_diameter field
 - `PROTRUSION` Part sticks out so no other parts can be installed over it.
 - `RAIL` This wheel allows vehicle to move on rails.
 - `REACTOR` When enabled, part consumes fuel to generate epower.
@@ -1736,6 +1739,7 @@ Those flags are added by the game code to specific items (that specific welder, 
 - `WIND_POWERED` This engine is powered by wind ( sails etc ).
 - `WIND_TURBINE` Recharges vehicle batteries when exposed to wind.
 - `WINDOW` Can see through this part and can install curtains over it.
+- `WING` Part that is an aircraft wing, needs lift_coff field
 - `WORKBENCH` Can craft at this part, must be paired with a workbench json entry.
 
 ### Vehicle parts requiring other vehicle parts

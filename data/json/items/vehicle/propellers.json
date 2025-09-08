@@ -1,0 +1,17 @@
+[
+  {
+    "id": "debug_propeller_rotor",
+    "type": "GENERIC",
+    "category": "veh_parts",
+    "name": "debug aircraft propeller",
+    "description": "A set of four rotor blades from a debug aircraft.",
+    "price": "12 USD",
+    "price_postapoc": "250 cent",
+    "weight": "16 kg",
+    "volume": "16 L",
+    "looks_like": "xl_wind_turbine",
+    "material": "steel",
+    "symbol": "X",
+    "color": "blue"
+  }
+]

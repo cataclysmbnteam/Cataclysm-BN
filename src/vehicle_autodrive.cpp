@@ -803,7 +803,7 @@ void vehicle::autodrive_controller::precompute_data()
         // initialize car and driver properties
         data.land_ok = driven_veh.valid_wheel_config();
         data.water_ok = driven_veh.can_float();
-        data.air_ok = driven_veh.is_rotorcraft();
+        data.air_ok = driven_veh.is_aircraft();
         data.max_speed_tps = std::min( MAX_SPEED_TPS, driven_veh.safe_velocity() / VMIPH_PER_TPS );
         data.acceleration.resize( data.max_speed_tps );
         for( int speed_tps = 0; speed_tps < data.max_speed_tps; speed_tps++ ) {
@@ -1222,6 +1222,11 @@ autodrive_result vehicle::do_autodrive( Character &driver )
     }
     active_autodrive_controller->check_safe_speed();
     std::optional<navigation_step> next_step = active_autodrive_controller->compute_next_step();
+    if( has_part( VPFLAG_WING ) ) {
+        driver.add_msg_if_player( _( "Autodrive is not good enough for planes." ) );
+        stop_autodriving( false );
+        return autodrive_result::abort;
+    }
     if( !next_step ) {
         // message handles pathfinding failure either due to obstacles or inability to see
         driver.add_msg_if_player( _( "Can't see a path forward." ) );
