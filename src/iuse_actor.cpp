@@ -5525,7 +5525,7 @@ int multicooker_iuse::use( player &p, item &it, bool t, const tripoint &pos ) co
                 }
 
                 for( const auto &component : reqs->get_components() ) {
-                    p.consume_items( component, 1, filter );
+                    p.consume_items( component, batchcount, filter );
                 }
 
                 it.set_var( "RECIPE", meal->ident().str() );
