@@ -2015,7 +2015,8 @@
     "time": "1 h",
     "autolearn": true,
     "using": [ [ "sewing_standard", 50 ], [ "adhesive", 5 ] ],
-    "components": [ [ [ "c_hydrogen_gas", 1000 ] ], [ [ "plastic_sheet", 2 ], [ "tarp", 2 ], [ "bag_body_bag", 2 ] ] ]
+    "//": "Relisitically you'd need a LOT more hydrogen, but fudgd for gameplay purposes.",
+    "components": [ [ [ "c_hydrogen_gas", 50 ] ], [ [ "plastic_sheet", 2 ], [ "tarp", 2 ], [ "bag_body_bag", 2 ] ] ]
   },
   {
     "type": "recipe",
