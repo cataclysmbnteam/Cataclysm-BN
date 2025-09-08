@@ -296,8 +296,10 @@ void monster::unset_dest()
 // "Stupid" movement; "if (wander_pos.x < posx) posx--;" etc.
 void monster::wander_to( const tripoint &p, int f )
 {
-    wander_pos = p;
-    wandf = f;
+    if( f > wandf ) {
+        wander_pos = p;
+        wandf = f;
+    }
 }
 
 float monster::rate_target( Creature &c, float best, bool smart ) const
@@ -1217,9 +1219,15 @@ void monster::nursebot_operate( player *dragged_foe )
             add_effect( effect_countdown, 2_turns );
             add_msg( m_bad, _( "The %s produces a syringe full of some translucent liquid." ), name() );
         } else if( g->critter_at( goal ) != nullptr && has_effect( effect_dragging ) ) {
-            sounds::sound( pos(), 8, sounds::sound_t::electronic_speech,
-                           string_format(
-                               _( "a soft robotic voice say, \"Please step away from the autodoc, this patient needs immediate care.\"" ) ) );
+            sound_event se;
+            se.origin = pos();
+            se.volume = 60;
+            se.category = sounds::sound_t::electronic_speech;
+            se.from_monster = true;
+            se.description = string_format(
+                                 _( "a soft robotic voice say, \"Please step away from the autodoc, this patient needs immediate care.\"" ) );
+            se.monfaction = faction.id();
+            sounds::sound( se );
             // TODO: Make it able to push NPC/player
             push_to( goal, 4, 0 );
         }
@@ -1247,45 +1255,54 @@ void monster::nursebot_operate( player *dragged_foe )
 
 // footsteps will determine how loud a monster's normal movement is
 // and create a sound in the monsters location when they move
+// Values converted from tiles to decibels
 void monster::footsteps( const tripoint &p )
 {
     if( made_footstep ) {
         return;
     }
     made_footstep = true;
-    int volume = 6; // same as player's footsteps
+    short volume = 50; // same as player's footsteps
     if( flies() ) {
         volume = 0;    // Flying monsters don't have footsteps!
     }
     if( digging() ) {
-        volume = 10;
+        volume = 60; // Digging is much louder.
     }
     switch( type->size ) {
         case creature_size::tiny:
             volume = 0; // No sound for the tinies
             break;
         case creature_size::small:
-            volume /= 3;
+            volume -= 10;
             break;
         case creature_size::medium:
             break;
         case creature_size::large:
-            volume *= 1.5;
+            volume += 10;
             break;
         case creature_size::huge:
-            volume *= 2;
+            volume += 20;
             break;
         default:
             break;
     }
     if( has_flag( MF_LOUDMOVES ) ) {
-        volume += 6;
+        volume += 20;
     }
     if( volume == 0 ) {
         return;
     }
-    int dist = rl_dist( p, g->u.pos() );
-    sounds::add_footstep( p, volume, dist, this, type->get_footsteps() );
+    sound_event se;
+    se.origin = p;
+    se.volume = volume;
+    se.category = sounds::sound_t::movement;
+    se.movement_noise = true;
+    se.description = type->get_footsteps();
+    se.from_monster = true;
+    se.monfaction = this->faction.id();
+
+    sounds::sound( se );
     return;
 }
 

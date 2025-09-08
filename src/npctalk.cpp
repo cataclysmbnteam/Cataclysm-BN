@@ -770,32 +770,32 @@ void game::chat()
     u.moves -= 100;
 }
 
-void npc::handle_sound( const sounds::sound_t spriority, const std::string &description,
-                        int heard_volume, const tripoint &spos )
+void npc::handle_sound( const short heard_vol, sound_event sound )
 {
+    // Remember that our heard volume is in milli-decibels spl
     map &here = get_map();
-    const tripoint s_abs_pos = here.getabs( spos );
+    const tripoint s_abs_pos = here.getabs( sound.origin );
     const tripoint my_abs_pos = here.getabs( pos() );
-
-    add_msg( m_debug, "%s heard '%s', priority %d at volume %d from %d:%d, my pos %d:%d",
-             disp_name(), description, static_cast<int>( spriority ), heard_volume,
+    const std::string &description = sound.description.empty() ? _( "a noise" ) : sound.description;
+    add_msg( m_debug, "%s heard '%s', priority %d at volume %d mdB from %d:%d, my pos %d:%d",
+             disp_name(), description, static_cast<int>( sound.category ), heard_vol,
              s_abs_pos.x, s_abs_pos.y, my_abs_pos.x, my_abs_pos.y );
 
-    bool player_ally = get_player_character().pos() == spos && is_player_ally();
-    player *const sound_source = g->critter_at<player>( spos );
+    bool &player_ally = sound.from_player;
+    player *const sound_source = g->critter_at<player>( sound.origin );
     bool npc_ally = sound_source && sound_source->is_npc() && is_ally( *sound_source );
 
-    if( ( player_ally || npc_ally ) && spriority == sounds::sound_t::order ) {
+    if( ( player_ally || npc_ally ) && sound.category == sounds::sound_t::order ) {
         say( "<acknowledged>" );
     }
-
-    if( sees( spos ) || is_hallucination() ) {
+    // Hallucinations dont react to sound.
+    if( is_hallucination() ) {
         return;
     }
     // ignore low priority sounds if the NPC "knows" it came from a friend.
     // TODO: NPC will need to respond to talking noise eventually
     // but only for bantering purposes, not for investigating.
-    if( spriority < sounds::sound_t::alarm ) {
+    if( sound.category < sounds::sound_t::alarm ) {
         if( player_ally ) {
             add_msg( m_debug, "Allied NPC ignored same faction %s", name );
             return;
@@ -804,40 +804,42 @@ void npc::handle_sound( const sounds::sound_t spriority, const std::string &desc
             add_msg( m_debug, "NPC ignored same faction %s", name );
             return;
         }
-    }
-    // discount if sound source is player, or seen by player,
-    // and listener is friendly and sound source is combat or alert only.
-    if( spriority < sounds::sound_t::alarm && get_avatar().sees( spos ) ) {
+        // discount if sound source is player, or seen by player,
+        // and listener is friendly and sound source is combat or alert only.
         if( is_player_ally() ) {
-            add_msg( m_debug, "NPC %s ignored low priority noise that player can see", name );
-            return;
-            // discount if sound source is player, or seen by player,
-            // listener is neutral and sound type is worth investigating.
-        } else if( spriority < sounds::sound_t::destructive_activity &&
+            // Moved the sees check behind a relevant filter as its a bit more expensive.
+            if( get_avatar().sees( sound.origin ) ) {
+                add_msg( m_debug, "NPC %s ignored low priority noise that player can see", name );
+                return;
+                // discount if sound source is player, or seen by player,
+                // listener is neutral and sound type is worth investigating.
+            }
+        } else if( sound.category < sounds::sound_t::destructive_activity &&
                    get_attitude_group( get_attitude() ) != attitude_group::hostile ) {
             return;
         }
     }
     // patrolling guards will investigate more readily than stationary NPCS
-    int investigate_dist = 10;
+    // Reduced the invesitage distance for sanity purposes.
+    int investigate_dist = 8;
     if( mission == NPC_MISSION_GUARD_ALLY || mission == NPC_MISSION_GUARD_PATROL ) {
-        investigate_dist = 50;
+        investigate_dist = 32;
     }
     if( rules.has_flag( ally_rule::ignore_noise ) ) {
         investigate_dist = 0;
     }
     if( ai_cache.total_danger < 1.0f ) {
-        if( spriority == sounds::sound_t::movement && !in_vehicle ) {
+        if( sound.category == sounds::sound_t::movement && !in_vehicle ) {
             warn_about( "movement_noise", rng( 1, 10 ) * 1_minutes, description );
-        } else if( spriority > sounds::sound_t::movement ) {
-            if( ( spriority == sounds::sound_t::speech || spriority == sounds::sound_t::alert ||
-                  spriority == sounds::sound_t::order ) && sound_source &&
+        } else if( sound.category > sounds::sound_t::movement ) {
+            if( ( sound.category == sounds::sound_t::speech || sound.category == sounds::sound_t::alert ||
+                  sound.category == sounds::sound_t::order ) && sound_source &&
                 !has_faction_relationship( *sound_source, npc_factions::knows_your_voice ) ) {
                 warn_about( "speech_noise", rng( 1, 10 ) * 1_minutes );
-            } else if( spriority > sounds::sound_t::activity ) {
+            } else if( sound.category > sounds::sound_t::activity ) {
                 warn_about( "combat_noise", rng( 1, 10 ) * 1_minutes );
             }
-            bool should_check = rl_dist( pos(), spos ) < investigate_dist;
+            bool should_check = rl_dist( pos(), sound.origin ) < investigate_dist;
             if( should_check ) {
                 const zone_manager &mgr = zone_manager::get_manager();
                 if( mgr.has( zone_type_npc_no_investigate, s_abs_pos, fac_id ) ) {
@@ -851,8 +853,9 @@ void npc::handle_sound( const sounds::sound_t spriority, const std::string &desc
                 add_msg( m_debug, "%s added noise at pos %d:%d", name, s_abs_pos.x, s_abs_pos.y );
                 dangerous_sound temp_sound;
                 temp_sound.abs_pos = s_abs_pos;
-                temp_sound.volume = heard_volume;
-                temp_sound.type = spriority;
+                // Convert out of milli-decibels spl to decibels spl
+                temp_sound.volume = std::floor( heard_vol * 0.01 );
+                temp_sound.type = sound.category;
                 if( !ai_cache.sound_alerts.empty() ) {
                     if( ai_cache.sound_alerts.back().abs_pos != s_abs_pos ) {
                         ai_cache.sound_alerts.push_back( temp_sound );
