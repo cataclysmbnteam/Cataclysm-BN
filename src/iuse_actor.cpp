@@ -5350,7 +5350,7 @@ int multicooker_iuse::use( player &p, item &it, bool t, const tripoint &pos ) co
         if( cooktime <= 0 ) {
             it.deactivate();
             it.erase_var( "COOKTIME" );
-            it.put_in(  item::spawn( it.get_var( "RESULT" ), calendar::turn, it.get_var( "BATCHCOUNT", 1) ) );
+            it.put_in( item::spawn( it.get_var( "RESULT" ), calendar::turn, it.get_var( "BATCHCOUNT", 1 ) ) );
             it.erase_var( "BATCHCOUNT" );
             it.erase_var( "RESULT" );
 
@@ -5489,23 +5489,23 @@ int multicooker_iuse::use( player &p, item &it, bool t, const tripoint &pos ) co
                 batchmenu.text = _( "Choose batch count:" );
                 int counter = 0;
 
-                for (int i = 1; i < 51; i++) {
+                for( int i = 1; i < 51; i++ ) {
                     const bool can_make = meal->deduped_requirements().can_make_with_inventory(
-                      crafting_inv, meal->get_component_filter(), i );
+                                              crafting_inv, meal->get_component_filter(), i );
                     batchmenu.addentry( counter++, can_make, -1, string_format( _( "%s batches (%1.f charges)" ), i,
-                                    meal->batch_time(i, 1, 0) * time_mult / 6000 * charges_per_minute + charges_to_start ) );
+                                        meal->batch_time( i, 1, 0 ) * time_mult / 6000 * charges_per_minute + charges_to_start ) );
                 }
 
                 batchmenu.query();
 
                 int batchcount = batchmenu.ret;
 
-                if( batchcount < 0 ) {            
+                if( batchcount < 0 ) {
                     return 0;
                 }
                 batchcount++;
 
-                int mealtime = meal->batch_time(batchcount, 1, 0) * time_mult;
+                int mealtime = meal->batch_time( batchcount, 1, 0 ) * time_mult;
                 int all_charges = mealtime / 6000 * charges_per_minute + charges_to_start;
 
                 if( it.ammo_remaining() < all_charges ) {
