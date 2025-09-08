@@ -5350,7 +5350,8 @@ int multicooker_iuse::use( player &p, item &it, bool t, const tripoint &pos ) co
         if( cooktime <= 0 ) {
             it.deactivate();
             it.erase_var( "COOKTIME" );
-            it.put_in( item::spawn( it.get_var( "RESULT" ) ) );
+            it.put_in(  item::spawn( it.get_var( "RESULT" ), calendar::turn, it.get_var( "BATCHCOUNT", 1) ) );
+            it.erase_var( "BATCHCOUNT" );
             it.erase_var( "RESULT" );
 
             sounds::sound( pos, 8, sounds::sound_t::alarm, _( "ding!" ), true, "misc", "ding" );
@@ -5414,6 +5415,7 @@ int multicooker_iuse::use( player &p, item &it, bool t, const tripoint &pos ) co
                 it.deactivate();
                 it.erase_var( "RESULT" );
                 it.erase_var( "COOKTIME" );
+                it.erase_var( "BATCHCOUNT" );
                 it.erase_var( "RECIPE" );
             }
             return 0;
@@ -5482,7 +5484,28 @@ int multicooker_iuse::use( player &p, item &it, bool t, const tripoint &pos ) co
                 return 0;
             } else {
                 const recipe *meal = dishes[choice];
-                int mealtime = meal->time * time_mult;
+
+                uilist batchmenu;
+                batchmenu.text = _( "Choose batch count:" );
+                int counter = 0;
+
+                for (int i = 1; i < 51; i++) {
+                    const bool can_make = meal->deduped_requirements().can_make_with_inventory(
+                      crafting_inv, meal->get_component_filter(), i );
+                    batchmenu.addentry( counter++, can_make, -1, string_format( _( "%s batches (%1.f charges)" ), i,
+                                    meal->batch_time(i, 1, 0) * time_mult / 6000 * charges_per_minute + charges_to_start ) );
+                }
+
+                batchmenu.query();
+
+                int batchcount = batchmenu.ret;
+
+                if( batchcount < 0 ) {            
+                    return 0;
+                }
+                batchcount++;
+
+                int mealtime = meal->batch_time(batchcount, 1, 0) * time_mult;
                 int all_charges = mealtime / 6000 * charges_per_minute + charges_to_start;
 
                 if( it.ammo_remaining() < all_charges ) {
@@ -5496,7 +5519,7 @@ int multicooker_iuse::use( player &p, item &it, bool t, const tripoint &pos ) co
 
                 const auto filter = is_crafting_component;
                 const requirement_data *reqs =
-                    meal->deduped_requirements().select_alternative( p, crafting_inv, filter );
+                    meal->deduped_requirements().select_alternative( p, crafting_inv, filter, batchcount );
                 if( !reqs ) {
                     return 0;
                 }
@@ -5508,6 +5531,7 @@ int multicooker_iuse::use( player &p, item &it, bool t, const tripoint &pos ) co
                 it.set_var( "RECIPE", meal->ident().str() );
                 it.set_var( "RESULT", meal->result().str() );
                 it.set_var( "COOKTIME", mealtime );
+                it.set_var( "BATCHCOUNT", meal->makes_amount() * batchcount );
 
                 p.add_msg_if_player( m_good,
                                      _( "The %s begins to hum." ), it.tname() );
