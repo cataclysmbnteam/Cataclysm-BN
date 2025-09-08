@@ -5358,7 +5358,7 @@ int multicooker_iuse::use( player &p, item &it, bool t, const tripoint &pos ) co
             return 0;
         } else {
             int to_consume = charges_per_turn;
-            to_consume += x_in_y( int (charges_per_turn * 100) % 100, 100 ) ? 1 : 0;
+            to_consume += x_in_y( int ( charges_per_turn * 100 ) % 100, 100 ) ? 1 : 0;
             it.ammo_consume( to_consume, pos );
             it.set_var( "COOKTIME", cooktime );
             return 0;
