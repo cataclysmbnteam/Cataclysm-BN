@@ -617,7 +617,6 @@
       [ "Medevac2_Wreck", 200 ]
     ]
   },
-
   {
     "type": "vehicle_group",
     "id": "runway",
@@ -639,7 +638,6 @@
       [ "blimp", 25 ]
     ]
   },
-
   {
     "type": "vehicle_group",
     "id": "mil_helicopters",
