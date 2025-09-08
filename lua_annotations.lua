@@ -980,7 +980,10 @@ function MaterialTypeRaw.new() end
 ---@field get_follow_up fun(arg1: Mission): MissionTypeIdRaw @Returns the follow-up mission type ID.
 ---@field get_id fun(arg1: Mission): integer @Returns the mission's unique ID.
 ---@field get_item_id fun(arg1: Mission): ItypeId @Returns the item ID associated with the mission.
+---@field get_likely_rewards fun(arg1: Mission): any @Returns the likely rewards of the mission (vector of (int chance, itype_id) pairs).
 ---@field get_npc_id fun(arg1: Mission): CharacterId @Returns the NPC character ID associated with the mission.
+---@field get_target_point fun(arg1: Mission): Tripoint @Returns the target of the mission (pointer to tripoint_abs_omt).
+---@field get_type fun(arg1: Mission): MissionType @Returns the mission type of the target (pointer to mission_type).
 ---@field get_value fun(arg1: Mission): integer @Returns the mission's value as an integer.
 ---@field has_deadline fun(arg1: Mission): boolean @Returns true if the mission has a deadline.
 ---@field has_failed fun(arg1: Mission): boolean @Returns true if the mission has failed.
@@ -1001,21 +1004,32 @@ Mission = {}
 ---@return Mission
 function Mission.new() end
 
----@class MissionTypeId
----@field NULL_ID fun(): MissionTypeId
----@field implements_int_id fun(): boolean
----@field is_null fun(arg1: MissionTypeId): boolean
----@field is_valid fun(arg1: MissionTypeId): boolean
----@field obj fun(arg1: MissionTypeId): MissionTypeRaw
----@field str fun(arg1: MissionTypeId): string
----@field serialize fun(arg1: MissionTypeId)
----@field deserialize fun(arg1: MissionTypeId)
----@field __tostring fun(arg1: MissionTypeId): string
-MissionTypeId = {}
----@return MissionTypeId
----@overload fun(arg1: MissionTypeId): MissionTypeId
----@overload fun(arg1: string): MissionTypeId
-function MissionTypeId.new() end
+---@class MissionType
+---@field deadline_high TimeDuration @Returns the maximum allowed deadline for the mission.
+---@field deadline_low TimeDuration @Returns the minimum allowed deadline for the mission.
+---@field description any @Returns the mission's description as a string.
+---@field dialogue any @Returns any associated dialogue for the mission.
+---@field difficulty integer @Returns the mission's difficulty as an integer.
+---@field empty_container ItypeId @Returns true if the mission requires the container to be empty.
+---@field follow_up MissionTypeIdRaw @Returns any follow-up mission type ID.
+---@field goal MissionGoal @Returns the mission's goal text.
+---@field has_generic_rewards boolean @Returns true if the mission has generic rewards.
+---@field item_count integer @Returns the count of items involved in the mission.
+---@field item_id ItypeId @Returns the ID of the mission's main item target, if applicable.
+---@field likely_rewards any @Returns a vector of likely rewards (chance, itype_id pairs).
+---@field monster_kill_goal integer @Returns the number of monsters required to kill for this mission.
+---@field monster_type MtypeId @Returns the monster type associated with the mission, if any.
+---@field origins MissionOrigin[] @Returns a list of origins from which this mission can be generated.
+---@field remove_container boolean @Returns true if the mission requires removing a container.
+---@field target_npc_id CharacterId @Returns the ID of the target NPC for the mission, if any.
+---@field urgent boolean @Returns true if the mission is marked as urgent.
+---@field value integer @Returns the mission's reward value as an integer.
+---@field get_all fun(): any @Returns all available missions.
+---@field get_random_mission_id fun(arg1: MissionOrigin, arg2: Tripoint): MissionTypeIdRaw @Returns a random mission type ID at the specified origin and overmap tile position.
+---@field tname fun(arg1: MissionType): string
+MissionType = {}
+---@return MissionType
+function MissionType.new() end
 
 ---@class MissionTypeIdRaw
 MissionTypeIdRaw = {}

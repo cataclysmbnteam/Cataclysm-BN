@@ -3509,6 +3509,16 @@ Function `( Mission ) -> string`
 Returns true if the mission has a target.
 Function `( Mission ) -> bool`
 
+#### get_target_point
+
+Returns the target of the mission (pointer to tripoint_abs_omt).
+Function `( Mission ) -> Tripoint`
+
+#### get_type
+
+Returns the mission type of the target (pointer to mission_type).
+Function `( Mission ) -> MissionType`
+
 #### has_follow_up
 
 Returns true if the mission has a follow-up mission.
@@ -3538,6 +3548,11 @@ Function `( Mission ) -> ItypeId`
 
 Returns the NPC character ID associated with the mission.
 Function `( Mission ) -> CharacterId`
+
+#### get_likely_rewards
+
+Returns the likely rewards of the mission (vector of (int chance, itype_id) pairs).
+Function `( Mission ) -> <cppval: St6vectorISt4pairIi9string_idI5itypeEESaIS4_EE >`
 
 #### has_generic_rewards
 
@@ -3597,7 +3612,7 @@ Function `( Mission, <cppval: 7JsonOut > )`
 
 Function `( Mission, <cppval: 6JsonIn > )`
 
-## MissionTypeId
+## MissionType
 
 ### Bases
 
@@ -3605,49 +3620,118 @@ No base classes.
 
 ### Constructors
 
-#### `MissionTypeId.new()`
-
-#### `MissionTypeId.new( MissionTypeId )`
-
-#### `MissionTypeId.new( string )`
+#### `MissionType.new()`
 
 ### Members
 
-#### obj
+#### description
 
-Function `( MissionTypeId ) -> MissionTypeRaw`
+Returns the mission's description as a string.
+Variable of type `<cppval: 11translation >`
 
-#### implements_int_id
+#### goal
 
-Function `() -> bool`
+Returns the mission's goal text.
+Variable of type `MissionGoal`
 
-#### is_null
+#### difficulty
 
-Function `( MissionTypeId ) -> bool`
+Returns the mission's difficulty as an integer.
+Variable of type `int`
 
-#### is_valid
+#### value
 
-Function `( MissionTypeId ) -> bool`
+Returns the mission's reward value as an integer.
+Variable of type `int`
 
-#### str
+#### deadline_low
 
-Function `( MissionTypeId ) -> string`
+Returns the minimum allowed deadline for the mission.
+Variable of type `TimeDuration`
 
-#### NULL_ID
+#### deadline_high
 
-Function `() -> MissionTypeId`
+Returns the maximum allowed deadline for the mission.
+Variable of type `TimeDuration`
 
-#### __tostring
+#### urgent
 
-Function `( MissionTypeId ) -> string`
+Returns true if the mission is marked as urgent.
+Variable of type `bool`
 
-#### serialize
+#### has_generic_rewards
 
-Function `( MissionTypeId, <cppval: 7JsonOut > )`
+Returns true if the mission has generic rewards.
+Variable of type `bool`
 
-#### deserialize
+#### likely_rewards
 
-Function `( MissionTypeId, <cppval: 6JsonIn > )`
+Returns a vector of likely rewards (chance, itype_id pairs).
+Variable of type `Vector( <cppval: St4pairIi9string_idI5itypeEE > )`
+
+#### origins
+
+Returns a list of origins from which this mission can be generated.
+Variable of type `Vector( MissionOrigin )`
+
+#### item_id
+
+Returns the ID of the mission's main item target, if applicable.
+Variable of type `ItypeId`
+
+#### remove_container
+
+Returns true if the mission requires removing a container.
+Variable of type `bool`
+
+#### empty_container
+
+Returns true if the mission requires the container to be empty.
+Variable of type `ItypeId`
+
+#### item_count
+
+Returns the count of items involved in the mission.
+Variable of type `int`
+
+#### target_npc_id
+
+Returns the ID of the target NPC for the mission, if any.
+Variable of type `CharacterId`
+
+#### monster_type
+
+Returns the monster type associated with the mission, if any.
+Variable of type `MtypeId`
+
+#### monster_kill_goal
+
+Returns the number of monsters required to kill for this mission.
+Variable of type `int`
+
+#### follow_up
+
+Returns any follow-up mission type ID.
+Variable of type `MissionTypeIdRaw`
+
+#### dialogue
+
+Returns any associated dialogue for the mission.
+Variable of type `Map( string, <cppval: 11translation > )`
+
+#### get_all
+
+Returns all available missions.
+Function `() -> <cppval: St6vectorI12mission_typeSaIS0_EE >`
+
+#### get_random_mission_id
+
+Returns a random mission type ID at the specified origin and overmap tile position.
+Function `( MissionOrigin, Tripoint ) -> MissionTypeIdRaw`
+
+#### tname
+
+Function `( MissionType ) -> string`
 
 ## MissionTypeIdRaw
 

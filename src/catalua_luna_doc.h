@@ -127,6 +127,7 @@ LUNA_VAL( item_stack, "ItemStack" );
 LUNA_VAL( map, "Map" );
 LUNA_VAL( map_stack, "MapStack" );
 LUNA_VAL( mission, "Mission" );
+LUNA_VAL( mission_type, "MissionType" );
 LUNA_VAL( monster, "Monster" );
 LUNA_VAL( npc, "Npc" );
 LUNA_VAL( npc_opinion, "NpcOpinion" );
