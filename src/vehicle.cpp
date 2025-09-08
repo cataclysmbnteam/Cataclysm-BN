@@ -5613,6 +5613,7 @@ void vehicle::idle( bool on_map )
 {
     power_parts();
     if( engine_on && total_power_w() > 0 ) {
+        bool no_electric_power = true;
         int idle_rate = alternator_load;
         if( idle_rate < 10 ) {
             idle_rate = 10;    // minimum idle is 1% of full throttle
@@ -5626,9 +5627,10 @@ void vehicle::idle( bool on_map )
         */
         if( is_rotorcraft() && is_flying_in_air() ) {
             idle_rate = 100;
+            no_electric_power = false;
         }
         if( has_engine_type_not( fuel_type_muscle, true ) ) {
-            consume_fuel( idle_rate, to_turns<int>( 1_turns ), true );
+            consume_fuel( idle_rate, to_turns<int>( 1_turns ), no_electric_power );
         }
 
         if( on_map ) {
