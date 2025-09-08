@@ -1125,9 +1125,7 @@
     },
     "flags": [ "FLOATS", "SHOCK_IMMUNE" ],
     "//": "Todo: Should explode if destroyed by fire damage.",
-    "breaks_into": [
-      { "item": "plastic_chunk", "count": [ 5, 10 ] }
-    ],
+    "breaks_into": [ { "item": "plastic_chunk", "count": [ 5, 10 ] } ],
     "damage_reduction": { "all": 5 }
   },
   {
