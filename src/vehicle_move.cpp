@@ -1097,8 +1097,6 @@ bool vehicle::check_heli_descend( Character &who )
         debugmsg( "A vehicle is somehow flying without being an aircraft" );
         return true;
     }
-    int count = 0;
-    int air_count = 0;
     map &here = get_map();
     for( const tripoint &pt : get_points( true ) ) {
         tripoint below( pt.xy(), pt.z - 1 );
@@ -1114,10 +1112,6 @@ bool vehicle::check_heli_descend( Character &who )
                                    _( "It would be unsafe to try and land when there are obstacles below you." ) );
             return false;
         }
-        if( here.has_flag_ter_or_furn( TFLAG_NO_FLOOR, below ) ) {
-            air_count++;
-        }
-        count++;
     }
     return true;
 

@@ -2,7 +2,7 @@
   {
     "abstract": "wing",
     "type": "vehicle_part",
-    "location": "structural",
+    "location": "structure",
     "symbol": "|",
     "color": "light_blue",
     "looks_like": "cloth_halfboard",
