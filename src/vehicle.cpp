@@ -3830,7 +3830,7 @@ int vehicle::aircraft_acceleration( const bool fueled, int at_vel_in_vmi, const 
     const double thrust = total_thrust( fueled, ideal );
     if( thrust == 0 ) {
         return 0;
-    } 
+    }
     const int accel_at_vel = 100 * total_thrust( fueled, ideal ) / to_kilogram( total_mass() );
     return cmps_to_vmiph( accel_at_vel );
 }
@@ -4589,7 +4589,7 @@ bool vehicle::is_rotorcraft() const
 bool vehicle::is_aircraft() const
 {
     return ( has_part( VPFLAG_ROTOR ) || has_part( VPFLAG_WING ) || has_part( VPFLAG_BALLOON ) )
-               && has_sufficient_lift();
+           && has_sufficient_lift();
 }
 
 int vehicle::get_z_change() const
