@@ -172,7 +172,7 @@
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [
-      [ [ "mutant_bug_hydrogen_sacs", 250 ] ],
+      [ [ "c_hydrogen_gas", 25 ] ],
       [ [ "bag_plastic", 12 ] ],
       [ [ "rope_natural_short", 1, "LIST" ] ],
       [ [ "plastic_sheet", 1 ] ]
