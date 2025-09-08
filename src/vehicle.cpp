@@ -1586,13 +1586,15 @@ bool vehicle::can_unmount( const int p, std::string &reason ) const
     }
 
     //Structural parts have extra requirements
-    if( part_info( p ).location == part_location_structure ) {
+    if( part_info( p ).location == part_location_structure ||
+        part_info( p ).has_flag( VPFLAG_EXTENDABLE ) ) {
 
         std::vector<int> parts_in_square = parts_at_relative( parts[p].mount, false );
         /* To remove a structural part, there can be only structural parts left
          * in that square (might be more than one in the case of wreckage) */
         for( auto &elem : parts_in_square ) {
-            if( part_info( elem ).location != part_location_structure ) {
+            if( part_info( elem ).location != part_location_structure &&
+                !part_info( elem ).has_flag( VPFLAG_EXTENDABLE ) ) {
                 reason = _( "Remove all other attached parts first." );
                 return false;
             }
@@ -1688,7 +1690,8 @@ bool vehicle::is_connected( const vehicle_part &to, const vehicle_part &from,
             std::vector<int> parts_there = parts_at_relative( next, true );
 
             if( !parts_there.empty() && !parts[ parts_there[ 0 ] ].removed &&
-                part_info( parts_there[ 0 ] ).location == "structure" &&
+                ( part_info( parts_there[ 0 ] ).location == "structure" ||
+                  part_info( parts_there[ 0 ] ).has_flag( VPFLAG_EXTENDABLE ) ) &&
                 !part_info( parts_there[ 0 ] ).has_flag( "PROTRUSION" ) ) {
                 //Only add the part if we haven't been here before
                 bool found = false;
