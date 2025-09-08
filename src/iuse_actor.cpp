@@ -39,6 +39,7 @@
 #include "flat_set.h"
 #include "game.h"
 #include "game_inventory.h"
+#include "handle_liquid.h"
 #include "int_id.h"
 #include "inventory.h"
 #include "item.h"
@@ -116,11 +117,14 @@ static const efftype_id effect_pet( "pet" );
 static const efftype_id effect_disinfected( "disinfected" );
 static const efftype_id effect_downed( "downed" );
 static const efftype_id effect_infected( "infected" );
+static const efftype_id effect_hallu( "hallu" );
 static const efftype_id effect_music( "music" );
 static const efftype_id effect_playing_instrument( "playing_instrument" );
 static const efftype_id effect_recover( "recover" );
+static const efftype_id effect_run( "run" );
 static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_stunned( "stunned" );
+static const efftype_id effect_visuals( "visuals" );
 
 static const fault_id fault_bionic_nonsterile( "fault_bionic_nonsterile" );
 
@@ -160,6 +164,8 @@ static const trait_flag_str_id trait_flag_PRED3( "PRED3" );
 static const trait_flag_str_id trait_flag_PRED4( "PRED4" );
 
 static const itype_id itype_UPS( "UPS" );
+
+static const mtype_id mon_hallu_multicooker( "mon_hallu_multicooker" );
 
 class npc;
 
@@ -5259,6 +5265,289 @@ int change_scent_iuse::use( player &p, item &it, bool, const tripoint & ) const
 std::unique_ptr<iuse_actor> change_scent_iuse::clone() const
 {
     return std::make_unique<change_scent_iuse>( *this );
+}
+
+void multicooker_iuse::load( const JsonObject &obj )
+{
+    assign( obj, "do_hallu", do_hallu );
+    assign( obj, "charges_to_start", charges_to_start );
+    assign( obj, "charges_per_minute", charges_per_minute );
+    assign( obj, "time_mult", time_mult );
+    for( const std::string line : obj.get_array( "recipes" ) ) {
+        recipes.emplace( line );
+    }
+    for( const std::string line : obj.get_array( "subcategories" ) ) {
+        subcategories.emplace( line );
+    }
+    for( const std::string line : obj.get_array( "temporary_tools" ) ) {
+        temporary_tools.emplace( line );
+    }
+}
+
+static bool multicooker_hallu( player &p )
+{
+    p.moves -= to_moves<int>( 2_seconds );
+    const int random_hallu = rng( 1, 7 );
+    switch( random_hallu ) {
+
+        case 1:
+            add_msg( m_info, _( "And when you gaze long into a screen, the screen also gazes into you." ) );
+            return true;
+
+        case 2:
+            add_msg( m_bad, _( "The multi-cooker boiled your head!" ) );
+            return true;
+
+        case 3:
+            add_msg( m_info, _( "The characters on the screen display an obscene joke.  Strange humor." ) );
+            return true;
+
+        case 4:
+            //~ Single-spaced & lowercase are intentional, conveying hurried speech-KA101
+            add_msg( m_warning, _( "Are you sure?!  the multi-cooker wants to poison your food!" ) );
+            return true;
+
+        case 5:
+            add_msg( m_info,
+                     _( "The multi-cooker argues with you about the taste preferences.  You don't want to deal with it." ) );
+            return true;
+
+        case 6:
+            if( !one_in( 5 ) ) {
+                add_msg( m_warning, _( "The multi-cooker runs away!" ) );
+                if( monster *const m = g->place_critter_around( mon_hallu_multicooker, p.pos(), 1 ) ) {
+                    m->hallucination = true;
+                    m->add_effect( effect_run, 100_turns );
+                }
+            } else {
+                p.add_msg_if_player( m_info, _( "You're surrounded by aggressive multi-cookers!" ) );
+
+                for( const tripoint &pn : g->m.points_in_radius( p.pos(), 1 ) ) {
+                    if( monster *const m = g->place_critter_at( mon_hallu_multicooker, pn ) ) {
+                        m->hallucination = true;
+                    }
+                }
+            }
+            return true;
+
+        default:
+            return false;
+    }
+
+}
+
+int multicooker_iuse::use( player &p, item &it, bool t, const tripoint &pos ) const
+{
+    if( t ) {
+        if( !it.units_sufficient( p, charges_per_minute ) ) {
+            it.deactivate();
+            return 0;
+        }
+
+        int cooktime = it.get_var( "COOKTIME", 0 );
+        cooktime -= 100;
+
+        if( cooktime <= 0 ) {
+            it.deactivate();
+            it.erase_var( "COOKTIME" );
+            it.put_in( item::spawn( it.get_var( "RESULT" ), calendar::turn, it.get_var( "BATCHCOUNT", 1 ) ) );
+            it.erase_var( "BATCHCOUNT" );
+            it.erase_var( "RESULT" );
+
+            sounds::sound( pos, 8, sounds::sound_t::alarm, _( "ding!" ), true, "misc", "ding" );
+
+            return 0;
+        } else {
+            if( calendar::once_every( 1_minutes ) ) {
+                it.ammo_consume( charges_per_minute, pos );
+            }
+            it.set_var( "COOKTIME", cooktime );
+            return 0;
+        }
+    } else {
+        enum {
+            mc_start, mc_stop, mc_take, mc_upgrade
+        };
+
+        if( p.is_underwater() ) {
+            p.add_msg_if_player( m_info, _( "You can't do that while underwater." ) );
+            return 0;
+        }
+
+        if( do_hallu && ( p.has_effect( effect_hallu ) || p.has_effect( effect_visuals ) ) ) {
+            if( multicooker_hallu( p ) ) {
+                return 0;
+            }
+        }
+
+        uilist menu;
+        menu.text = _( "Choose option:" );
+
+        item *dish_it = it.contents.get_item_with(
+        []( const item & it ) {
+            return !( it.is_toolmod() || it.is_magazine() );
+        } );
+
+        if( it.is_active() ) {
+            menu.addentry( mc_stop, true, 's', _( "Stop crafting" ) );
+        } else {
+
+            if( dish_it == nullptr ) {
+                if( it.ammo_remaining() < charges_to_start ) {
+                    p.add_msg_if_player( _( "Batteries are low." ) );
+                    return 0;
+                }
+                menu.addentry( mc_start, true, 's', _( "Start crafting " ) );
+            } else {
+                menu.addentry( mc_take, true, 't', _( "Remove Product" ) );
+            }
+        }
+
+        menu.query();
+        int choice = menu.ret;
+
+        if( choice < 0 ) {
+            return 0;
+        }
+
+        if( mc_stop == choice ) {
+            if( query_yn( _( "Really stop?" ) ) ) {
+                it.deactivate();
+                it.erase_var( "RESULT" );
+                it.erase_var( "COOKTIME" );
+                it.erase_var( "BATCHCOUNT" );
+                it.erase_var( "RECIPE" );
+            }
+            return 0;
+        }
+
+        if( mc_take == choice ) {
+
+            detached_ptr<item> dish = it.remove_item( *dish_it );
+            const std::string dish_name = dish->tname( dish->charges, false );
+            if( dish->made_of( LIQUID ) ) {
+                if( !p.check_eligible_containers_for_crafting( *recipe_id( it.get_var( "RECIPE" ) ), 1 ) ) {
+                    p.add_msg_if_player( m_info, _( "You don't have a suitable container to store your %s." ),
+                                         dish_name );
+
+                    return 0;
+                }
+                liquid_handler::handle_all_liquid( std::move( dish ), PICKUP_RANGE );
+            } else {
+                p.i_add( std::move( dish ) );
+            }
+
+            it.erase_var( "RECIPE" );
+            p.add_msg_if_player( m_good, _( "You got the %s from the %s." ),
+                                 dish_name, it.tname() );
+
+            return 0;
+        }
+
+        if( mc_start == choice ) {
+            uilist dmenu;
+            dmenu.text = _( "Choose desired recipe:" );
+
+            std::vector<const recipe *> dishes;
+
+            inventory crafting_inv = g->u.crafting_inventory();
+
+            const time_point bday = calendar::start_of_cataclysm;
+            for( const std::string &item : temporary_tools ) {
+                crafting_inv.add_item( *item::spawn_temporary( item, bday ), false );
+            }
+            crafting_inv.update_quality_cache();
+
+            int counter = 0;
+
+            for( const auto &r : g->u.get_learned_recipes() ) {
+                if( subcategories.contains( r->subcategory ) || recipes.contains( r->result() ) ) {
+                    dishes.push_back( r );
+                    const bool can_make = r->deduped_requirements().can_make_with_inventory(
+                                              crafting_inv, r->get_component_filter() );
+                    dmenu.addentry( counter++, can_make, -1, string_format( _( "%s (%1.f charges)" ), r->result_name(),
+                                    r->time * time_mult / 6000 * charges_per_minute + charges_to_start ) );
+                }
+            }
+
+            dmenu.query();
+
+            int choice = dmenu.ret;
+
+            if( choice < 0 ) {
+
+                if( choice == -1024 ) {
+                    p.add_msg_if_player( m_warning,
+                                         _( "You don't know of anything you could craft with this." ) );
+                }
+
+                return 0;
+            } else {
+                const recipe *meal = dishes[choice];
+
+                uilist batchmenu;
+                batchmenu.text = _( "Choose batch count:" );
+                int counter = 0;
+
+                for( int i = 1; i < 51; i++ ) {
+                    const bool can_make = meal->deduped_requirements().can_make_with_inventory(
+                                              crafting_inv, meal->get_component_filter(), i );
+                    batchmenu.addentry( counter++, can_make, -1, string_format( _( "%s batches (%1.f charges)" ), i,
+                                        meal->batch_time( i, 1, 0 ) * time_mult / 6000 * charges_per_minute + charges_to_start ) );
+                }
+
+                batchmenu.query();
+
+                int batchcount = batchmenu.ret;
+
+                if( batchcount < 0 ) {
+                    return 0;
+                }
+                batchcount++;
+
+                int mealtime = meal->batch_time( batchcount, 1, 0 ) * time_mult;
+                int all_charges = mealtime / 6000 * charges_per_minute + charges_to_start;
+
+                if( it.ammo_remaining() < all_charges ) {
+
+                    p.add_msg_if_player( m_warning,
+                                         _( "The %s needs %d charges to create this." ),
+                                         it.tname(), all_charges );
+
+                    return 0;
+                }
+
+                const auto filter = is_crafting_component;
+                const requirement_data *reqs =
+                    meal->deduped_requirements().select_alternative( p, crafting_inv, filter, batchcount );
+                if( !reqs ) {
+                    return 0;
+                }
+
+                for( const auto &component : reqs->get_components() ) {
+                    p.consume_items( component, batchcount, filter );
+                }
+
+                it.set_var( "RECIPE", meal->ident().str() );
+                it.set_var( "RESULT", meal->result().str() );
+                it.set_var( "COOKTIME", mealtime );
+                it.set_var( "BATCHCOUNT", meal->makes_amount() * batchcount );
+
+                p.add_msg_if_player( m_good,
+                                     _( "The %s begins to hum." ), it.tname() );
+                it.activate();
+
+                return charges_to_start;
+            }
+        }
+    }
+
+    return 0;
+}
+
+std::unique_ptr<iuse_actor> multicooker_iuse::clone() const
+{
+    return std::make_unique<multicooker_iuse>( *this );
 }
 
 void sex_toy_actor::load( JsonObject const &obj )
