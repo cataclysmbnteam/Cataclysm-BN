@@ -185,6 +185,12 @@ void vehicle::thrust( int thd, int z )
     // TODO: Pass this as an argument to avoid recalculating
     float traction = k_traction( get_map().vehicle_wheel_traction( *this ) );
     int accel = current_acceleration() * traction;
+    // Somehow accel is not clamped to current_acceleration in the air
+    // Everywhere else and there is no need for clamps
+    if( is_flying && ( has_part( VPFLAG_WING ) || has_part( VPFLAG_BALLOON ) )
+        && !has_part( VPFLAG_PROPELLER ) ) {
+        accel = 0;
+    }
     if( accel < 200 && velocity > 0 && is_towing() ) {
         if( pl_ctrl ) {
             add_msg( _( "The %s struggles to pull the %s on this surface!" ), name,
@@ -197,6 +203,9 @@ void vehicle::thrust( int thd, int z )
     if( thrusting && accel == 0 ) {
         if( z != 0 && is_aircraft() ) {
             requested_z_change = z;
+            return;
+        } else if( is_aircraft() ) {
+            return;
         } else if( pl_ctrl ) {
             add_msg( _( "The %s is too heavy for its engine(s)!" ), name );
             return;
@@ -250,8 +259,8 @@ void vehicle::thrust( int thd, int z )
     if( load >= 1 && thrusting ) {
         // abort engine things if engines are not operational
         // not if there is no acceleration though
-        if( total_power_w() <= 0 || !engine_on ) {
-            if( pl_ctrl ) {
+        if( total_power_w() <= 0 || !engine_on || accel == 0 ) {
+            if( pl_ctrl && !is_aircraft() ) {
                 if( total_power_w( false ) <= 0 ) {
                     add_msg( m_info, _( "The %s doesn't have an engine!" ), name );
                 } else if( has_engine_type( fuel_type_muscle, true ) ) {

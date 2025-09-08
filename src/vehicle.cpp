@@ -3827,8 +3827,10 @@ int vehicle::aircraft_acceleration( const bool fueled, int at_vel_in_vmi, const 
     if( !( engine_on || is_flying ) ) {
         return 0;
     }
-    // What does this 100 do?
-    // TODO: Consider separating lift and thrust for non-rotor lifters
+    const double thrust = total_thrust( fueled, ideal );
+    if( thrust == 0 ) {
+        return 0;
+    } 
     const int accel_at_vel = 100 * total_thrust( fueled, ideal ) / to_kilogram( total_mass() );
     return cmps_to_vmiph( accel_at_vel );
 }
@@ -4493,6 +4495,9 @@ double vehicle::thrust_of_rotorcraft( const bool fuelled, const bool safe, const
     constexpr double exponentiation = -0.3107;
 
     const double rotor_area = total_rotor_area();
+    if( rotor_area == 0 ) {
+        return 0;
+    }
     // take off 15 % due to the imaginary tail rotor power?
     const int engine_power = ( ideal ? ideal_engine_power( safe ) : total_power_w( fuelled, safe ) );
     if( engine_power <= 0 ) {
@@ -4514,6 +4519,9 @@ double vehicle::foward_thrust_of_propellers( const bool fuelled, const bool safe
     constexpr double exponentiation = -0.3107;
 
     const double rotor_area = total_propeller_area();
+    if( rotor_area == 0 ) {
+        return 0;
+    }
     // take off 15 % due to the imaginary tail rotor power?
     const int engine_power = ( ideal ? ideal_engine_power( safe ) : total_power_w( fuelled, safe ) );
 
@@ -4580,9 +4588,8 @@ bool vehicle::is_rotorcraft() const
 // requires vehicle to have sufficient rotor lift
 bool vehicle::is_aircraft() const
 {
-    return ( has_part( VPFLAG_ROTOR ) ||
-             ( ( has_part( VPFLAG_WING ) || has_part( VPFLAG_BALLOON ) )
-               && has_part( VPFLAG_PROPELLER ) ) ) && has_sufficient_lift();
+    return ( has_part( VPFLAG_ROTOR ) || has_part( VPFLAG_WING ) || has_part( VPFLAG_BALLOON ) )
+               && has_sufficient_lift();
 }
 
 int vehicle::get_z_change() const
@@ -4969,6 +4976,9 @@ double vehicle::drain_energy( const itype_id &ftype, double energy_j )
 void vehicle::consume_fuel( int load, const int t_seconds, bool skip_electric )
 {
     double st = strain();
+    if( current_acceleration() == 0 ) {
+        return;
+    }
     for( auto &fuel_pr : fuel_usage() ) {
         auto &ft = fuel_pr.first;
         if( skip_electric && ft == fuel_type_battery ) {
