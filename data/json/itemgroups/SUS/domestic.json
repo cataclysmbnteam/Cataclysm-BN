@@ -192,7 +192,7 @@
             "prob": 80
           },
           {
-            "distribution": [ { "item": "toastem", "prob": 40 }, { "item": "toastem2", "prob": 30 }, { "item": "toastem3", "prob": 30 } ],
+            "distribution": [ { "item": "toastem", "prob": 40 }, { "item": "toastem2", "prob": 30 }, { "item": "toastem3", "prob": 30 }, { "item": "blinkie", "prob": 20 } ],
             "prob": 60
           }
         ],

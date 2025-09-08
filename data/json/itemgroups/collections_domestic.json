@@ -481,6 +481,7 @@
       { "item": "toastem", "prob": 30 },
       { "item": "toastem2", "prob": 30 },
       { "item": "toastem3", "prob": 35 },
+      { "item": "blinkie", "prob": 10 },
       { "item": "toasterpastryfrozen", "prob": 20 },
       { "item": "brownie", "prob": 30 },
       { "item": "lemonade_powder", "prob": 15 },

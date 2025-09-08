@@ -839,6 +839,7 @@
       { "item": "toastem", "prob": 45 },
       { "item": "toastem2", "prob": 45 },
       { "item": "toastem3", "prob": 45 },
+      { "item": "blinkie", "prob": 20 },
       { "item": "cookies", "prob": 45 },
       { "item": "bat", "prob": 15 },
       { "item": "backpack", "prob": 20 },

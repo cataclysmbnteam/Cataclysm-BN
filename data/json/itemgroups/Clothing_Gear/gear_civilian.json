@@ -104,6 +104,7 @@
       [ "toastem", 10 ],
       [ "toastem2", 10 ],
       [ "toastem3", 12 ],
+      [ "blinkie", 4 ],
       [ "cookies", 80 ],
       [ "adderall", 8 ],
       { "group": "gym_school", "prob": 63 },
