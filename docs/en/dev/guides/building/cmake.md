@@ -99,6 +99,38 @@ from one source directory.
 >
 > Inside the source tree build is **NOT** supported.
 
+#### Build with Presets (Recommended)
+
+There's multiple predefined [build presets](https://cmake.org/cmake/help/latest/manual/cmake-presets.7.html) available, which simplifies build process to just two commands:
+
+```sh
+cmake --preset linux-slim
+cmake --build build --preset linux-slim --target cataclysm-bn-tiles
+```
+
+> [!NOTE]
+> 
+
+This will place the executables into `out/build/linux-slim/`.
+
+> [!TIP]
+> To build with [clang-tidy plugin](../../reference/tooling.md#clang-tidy) and tracy profiler built-in, try `linux-full`.
+
+> [!NOTE]
+> You can build multiple targets at once with:
+>
+> ```sh
+> cmake --build build --preset linux-slim --target cataclysm-bn-tiles cata_test-tiles
+> ```
+>
+> Or limit maximum number of threads with `--parallel` option:
+>
+> ```sh
+> cmake --build build --preset linux-slim --target cataclysm-bn-tiles --parallel 4
+> ```
+
+#### Build without Presets
+
 To build CataclysmBN out of source:
 
 ```sh
@@ -129,31 +161,6 @@ values on a console and graphical UI, respectively.
 ccmake ..
 cmake-gui ..
 ```
-
-There's multiple predefined [build presets](https://cmake.org/cmake/help/latest/manual/cmake-presets.7.html) available, which simplifies build process to just two commands:
-
-```sh
-cmake --preset linux-slim
-cmake --build build --preset linux-slim --target cataclysm-bn-tiles
-```
-
-This will place the executables into `out/build/linux-slim/`.
-
-> [!TIP]
-> To build with [clang-tidy plugin](../../reference/tooling.md#clang-tidy) and tracy profiler built-in, try `linux-full`.
-
-> [!NOTE]
-> You can build multiple targets at once with:
->
-> ```sh
-> cmake --build build --preset linux-slim --target cataclysm-bn-tiles cata_test-tiles
-> ```
->
-> Or limit maximum number of threads with `--parallel` option:
->
-> ```sh
-> cmake --build build --preset linux-slim --target cataclysm-bn-tiles --parallel 4
-> ```
 
 ## Build for Visual Studio / MSBuild
 
