@@ -70,7 +70,7 @@ sqlite-devel zlib-devel
 
 Follow the same instructions for `UNIX environment`; it just works (TM)
 
-If you plan on using `tiles`, make sure you have the latest [WSL 2 that supports GUI](https://learn.microsoft.com/en-us/windows/wsl/tutorials/gui-apps).
+If you plan on using `tiles`, make sure you have the latest [WSL 2 that supports GUI](https://learn.microsoft.com/en-us/windows/wsl/tutorials/gui-apps) and [have installed matching drivers](https://learn.microsoft.com/en-us/windows/wsl/tutorials/gui-apps#prerequisites).
 
 ### Windows Environment (MSYS2)
 
