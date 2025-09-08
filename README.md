@@ -72,7 +72,6 @@ The primary supported launcher is [Catapult](https://github.com/qrrk/Catapult), 
   and BSD.
 - [with MSYS2](docs/en/dev/guides/building/msys.md)
 - [with vcpkg](docs/en/dev/guides/building/vs_vcpkg.md)
-- [which compilers we support](docs/en/dev/reference/compiler_support.md)
 
 Please read the [official docs](https://docs.cataclysmbn.org/en/dev/guides/building/cmake/) for
 details.
