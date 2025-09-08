@@ -5,6 +5,7 @@
     "location": "structural",
     "symbol": "|",
     "color": "light_blue",
+    "looks_like": "cloth_halfboard",
     "broken_symbol": "O",
     "flags": [ "PROTUSION", "EXTENDABLE", "WING", "SHOCK_RESISTANT" ],
     "description": "An aircraft wing that provides lift when moving, but requiers a propeller for foward propulsion while airborne."

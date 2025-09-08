@@ -5,6 +5,7 @@
     "location": "structure",
     "symbol": "X",
     "color": "light_blue",
+    "looks_like": "small_helicopter_rotor",
     "broken_symbol": "O",
     "broken_color": "light_gray",
     "flags": [ "PROPELLER", "PROTUSION", "SHOCK_RESISTANT" ],
