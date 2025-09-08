@@ -504,7 +504,7 @@ int contents_item_location::obtain_cost( const Character &ch, int qty, const ite
         auto ptr = dynamic_cast<const holster_actor *>
                    ( container->type->get_use( "holster" )->get_actor_ptr() );
         return dynamic_cast<const player *>( &ch )->item_handling_cost( *it, false, ptr->draw_cost );
-    } else if( container->get_use( "bandolier"  ) ) {
+    } else if( container->get_use( "bandolier" ) ) {
         auto ptr = dynamic_cast<const bandolier_actor *>
                    ( container->type->get_use( "bandolier" )->get_actor_ptr() );
         return dynamic_cast<const player *>( &ch )->item_handling_cost( *it, false, ptr->draw_cost );
