@@ -1078,7 +1078,7 @@ more structured function.
     "type": "multicooker",  // Crafts an item over time without requiring the player to sit there and watch
     "do_hallu": false, //Enables multicooker hallucinations and spawning of the evil multicooker when interacting
     "charges_to_start": 50, // Static cost per item crafted
-    "charges_per_turn": 1, // Cost per turn of craft time
+    "charges_per_minute": 1, // Cost per minute of craft time
     "time_mult": 1, //Multiplier for craft time, 2 is twice as long, 0.5 is half as long, 0 is instant
     "recipes": [ "water_clean" ], //Any specific item itype in this list can be crafted
     "subcategories": [ "CSC_FOOD_MEAT", "CSC_FOOD_VEGGI", "CSC_FOOD_PASTA" ], //Any item in these subcategories can be crafted

@@ -5271,7 +5271,7 @@ void multicooker_iuse::load( const JsonObject &obj )
 {
     assign( obj, "do_hallu", do_hallu );
     assign( obj, "charges_to_start", charges_to_start );
-    assign( obj, "charges_per_turn", charges_per_turn );
+    assign( obj, "charges_per_minute", charges_per_minute );
     assign( obj, "time_mult", time_mult );
     for( const std::string line : obj.get_array( "recipes" ) ) {
         recipes.emplace( line );
@@ -5339,7 +5339,7 @@ static bool multicooker_hallu( player &p )
 int multicooker_iuse::use( player &p, item &it, bool t, const tripoint &pos ) const
 {
     if( t ) {
-        if( !it.units_sufficient( p, charges_per_turn ) ) {
+        if( !it.units_sufficient( p, charges_per_minute ) ) {
             it.deactivate();
             return 0;
         }
@@ -5357,9 +5357,9 @@ int multicooker_iuse::use( player &p, item &it, bool t, const tripoint &pos ) co
 
             return 0;
         } else {
-            int to_consume = charges_per_turn;
-            to_consume += x_in_y( int ( charges_per_turn * 100 ) % 100, 100 ) ? 1 : 0;
-            it.ammo_consume( to_consume, pos );
+            if( calendar::once_every( 1_minutes ) ) {
+                it.ammo_consume( charges_per_minute, pos );
+            }
             it.set_var( "COOKTIME", cooktime );
             return 0;
         }
@@ -5463,8 +5463,8 @@ int multicooker_iuse::use( player &p, item &it, bool t, const tripoint &pos ) co
                     dishes.push_back( r );
                     const bool can_make = r->deduped_requirements().can_make_with_inventory(
                                               crafting_inv, r->get_component_filter() );
-                    dmenu.addentry( counter++, can_make, -1, string_format( _( "%s ( %1.f charges)" ), r->result_name(),
-                                    r->time * time_mult / 100 * charges_per_turn + charges_to_start ) );
+                    dmenu.addentry( counter++, can_make, -1, string_format( _( "%s (%1.f charges)" ), r->result_name(),
+                                    r->time * time_mult / 6000 * charges_per_minute + charges_to_start ) );
                 }
             }
 
@@ -5483,7 +5483,7 @@ int multicooker_iuse::use( player &p, item &it, bool t, const tripoint &pos ) co
             } else {
                 const recipe *meal = dishes[choice];
                 int mealtime = meal->time * time_mult;
-                int all_charges = mealtime / 100 * charges_per_turn + charges_to_start;
+                int all_charges = mealtime / 6000 * charges_per_minute + charges_to_start;
 
                 if( it.ammo_remaining() < all_charges ) {
 
