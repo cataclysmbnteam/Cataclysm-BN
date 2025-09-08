@@ -11,16 +11,138 @@
     "description": "An aircraft wing that provides lift when moving, but requires a propeller for forward propulsion while airborne."
   },
   {
-    "id": "vp_debug_wing",
+    "abstract": "wing_metal",
     "copy-from": "wing",
     "type": "vehicle_part",
-    "name": "debug aerofoil wing",
-    "item": "debug_wing",
-    "lift_coff": 2,
-    "requirements": { "install": { "time": "1 s" }, "removal": { "time": "1 s" }, "repair": { "time": "1 s" } },
-    "durability": 100,
+    "name": "metal wing",
+    "item": "wing_metal_item",
+    "location": "on_roof",
+    "durability": 120,
     "damage_modifier": 80,
-    "breaks_into": [ { "item": "scrap", "count": [ 8, 15 ] }, { "item": "steel_chunk", "count": [ 2, 8 ] } ],
-    "damage_reduction": { "all": 22 }
+    "breaks_into": "ig_vp_sheet_metal",
+    "lift_coff": 3,
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 4 ] ], "time": "40 m", "using": [ [ "welding_standard", 20 ] ] },
+      "removal": { "skills": [ [ "mechanics", 4 ] ], "qualities": [ { "id": "SAW_M", "level": 1 } ] },
+      "repair": {
+        "skills": [ [ "mechanics", 5 ] ],
+        "time": "10 m",
+        "using": [ [ "welding_standard", 5 ], [ "vehicle_repair_aluminium", 1 ] ]
+      }
+    },
+    "flags": [ "WING", "SHOCK_RESISTANT" ],
+    "damage_reduction": { "all": 28 }
+  },
+  {
+    "abstract": "lit_wing_metal",
+    "copy-from": "wing_metal",
+    "type": "vehicle_part",
+    "name": "metal wing with lights",
+    "description": "An aircraft wing that provides lift when moving, but requires a propeller for forward propulsion while airborne.  Has a navigation light built in, for collision avoidance.",
+    "item": "lit_wing_metal_item",
+    "breaks_into": "ig_vp_sheet_metal",
+    "epower": -5,
+    "bonus": 10,
+    "extend": { "flags": [ "CIRCLE_LIGHT", "ENABLED_DRAINS_EPOWER" ] }
+  },
+  {
+    "abstract": "wing_metal_external",
+    "copy-from": "wing_metal",
+    "type": "vehicle_part",
+    "name": "external metal wing",
+    "location": "structural",
+    "extend": { "flags": [ "PROTUSION", "EXTENDABLE", "BOARDABLE", "SEAT_REQUIRES_BALANCE" ] }
+  },
+  {
+    "abstract": "lit_wing_metal_external",
+    "copy-from": "lit_wing_metal",
+    "type": "vehicle_part",
+    "name": "external metal wing with lights",
+    "location": "structural",
+    "extend": { "flags": [ "PROTUSION", "EXTENDABLE", "BOARDABLE", "SEAT_REQUIRES_BALANCE" ] }
+  },
+  {
+    "id": "wing_metal_horizontal",
+    "copy-from": "wing_metal",
+    "type": "vehicle_part",
+    "looks_like": "board_horizontal",
+    "symbol": "h"
+  },
+  {
+    "id": "wing_metal_left",
+    "copy-from": "wing_metal",
+    "type": "vehicle_part",
+    "looks_like": "board_nw",
+    "symbol": "y"
+  },
+  {
+    "id": "wing_metal_right",
+    "copy-from": "wing_metal",
+    "type": "vehicle_part",
+    "looks_like": "board_ne",
+    "symbol": "u"
+  },
+  {
+    "id": "lit_wing_metal_horizontal",
+    "copy-from": "lit_wing_metal",
+    "type": "vehicle_part",
+    "looks_like": "board_horizontal",
+    "symbol": "h"
+  },
+  {
+    "id": "lit_wing_metal_left",
+    "copy-from": "lit_wing_metal",
+    "type": "vehicle_part",
+    "looks_like": "board_nw",
+    "symbol": "y"
+  },
+  {
+    "id": "lit_wing_metal_right",
+    "copy-from": "lit_wing_metal",
+    "type": "vehicle_part",
+    "looks_like": "board_ne",
+    "symbol": "u"
+  },
+  {
+    "id": "wing_metal_external_horizontal",
+    "copy-from": "wing_metal_external",
+    "type": "vehicle_part",
+    "looks_like": "board_horizontal",
+    "symbol": "h"
+  },
+  {
+    "id": "wing_metal_external_left",
+    "copy-from": "wing_metal_external",
+    "type": "vehicle_part",
+    "looks_like": "board_nw",
+    "symbol": "y"
+  },
+  {
+    "id": "wing_metal_external_right",
+    "copy-from": "wing_metal_external",
+    "type": "vehicle_part",
+    "looks_like": "board_ne",
+    "symbol": "u"
+  },
+  {
+    "id": "lit_wing_metal_external_horizontal",
+    "copy-from": "lit_wing_metal_external",
+    "type": "vehicle_part",
+    "looks_like": "board_horizontal",
+    "symbol": "h"
+  },
+  {
+    "id": "lit_wing_metal_external_left",
+    "copy-from": "lit_wing_metal_external",
+    "type": "vehicle_part",
+    "looks_like": "board_nw",
+    "symbol": "y"
+  },
+  {
+    "id": "lit_wing_metal_external_right",
+    "copy-from": "lit_wing_metal_external",
+    "type": "vehicle_part",
+    "looks_like": "board_ne",
+    "symbol": "u"
   }
 ]

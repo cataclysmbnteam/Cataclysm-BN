@@ -176,7 +176,47 @@
           { "id": [ "overlay_male_mutation_TAIL_SNAKE", "overlay_male_mutation_TAIL_SNAKE_OK" ], "fg": 151 },
           { "id": "overlay_worn_stockings_snake_tail", "fg": 152 },
           { "id": "helmet_conical", "fg": 153 },
-          { "id": "f_cave_mushrooms", "fg": 154 }
+          { "id": "f_cave_mushrooms", "fg": 154 },
+          {
+            "id": [
+              "vp_wing_metal_horizontal",
+              "vp_lit_wing_metal_horizontal",
+              "vp_wing_metal_external_horizontal",
+              "vp_lit_wing_metal_external_horizontal"
+            ],
+            "fg": 155,
+            "rotates": true,
+            "multitile": true,
+            "additional_tiles": [ { "id": "broken", "fg": 156 } ]
+          },
+          {
+            "id": [ "vp_wing_metal_left", "vp_lit_wing_metal_left", "vp_wing_metal_external_left", "vp_lit_wing_metal_external_left" ],
+            "fg": 157,
+            "rotates": true,
+            "multitile": true,
+            "additional_tiles": [ { "id": "broken", "fg": 158 } ]
+          },
+          {
+            "id": [ "vp_wing_metal_right", "vp_lit_wing_metal_right", "vp_wing_metal_external_right", "vp_lit_wing_metal_external_right" ],
+            "fg": 159,
+            "rotates": true,
+            "multitile": true,
+            "additional_tiles": [ { "id": "broken", "fg": 160 } ]
+          },
+          {
+            "id": "vp_propeller_metal",
+            "fg": 161,
+            "rotates": true,
+            "multitile": true,
+            "additional_tiles": [ { "id": "broken", "fg": 162 } ]
+          },
+          {
+            "id": "vp_airship_balloon",
+            "fg": 163,
+            "rotates": true,
+            "multitile": true,
+            "additional_tiles": [ { "id": "broken", "fg": 164 } ]
+          }
         ],
         "sprite_width": 32,
         "sprite_height": 32
