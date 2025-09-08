@@ -619,6 +619,27 @@
   },
   {
     "type": "vehicle_group",
+    "id": "runway",
+    "//": "Lower chance of wrecked helis, include planes and other aircraft",
+    "vehicles": [
+      [ "plane_small", 500 ],
+      [ "2seater2", 100 ],
+      [ "SmallFlier1", 300 ],
+      [ "2seater2_Wreck", 100 ],
+      [ "SmallFlier3_Wreck", 50 ],
+      [ "SmallFlier2", 300 ],
+      [ "Medevac1", 100 ],
+      [ "Smallflier1_Wreck", 100 ],
+      [ "SmallFlier2_Wreck", 100 ],
+      [ "Medevac1_Wreck", 50 ],
+      [ "SmallFlier3", 300 ],
+      [ "Medevac2", 150 ],
+      [ "Medevac2_Wreck", 100 ],
+      [ "blimp", 25 ]
+    ]
+  },
+  {
+    "type": "vehicle_group",
     "id": "mil_helicopters",
     "vehicles": [
       [ "Medevac1", 200 ],

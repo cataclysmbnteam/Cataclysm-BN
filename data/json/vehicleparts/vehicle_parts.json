@@ -1108,7 +1108,7 @@
     "type": "vehicle_part",
     "id": "gas_sac_buoyancy_cell",
     "name": { "str": "gas sac buoyancy cell" },
-    "description": "Gas sacs tied together to keep your boat out of the water.",
+    "description": "Hydrogen-filled bags tied together.  Not light enough to provide lift for an airship, but can help a boat float.",
     "symbol": "o",
     "looks_like": "t_wall_log",
     "color": "brown",
@@ -1124,13 +1124,9 @@
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "rope_natural_short", 1 ] ] }
     },
     "flags": [ "FLOATS", "SHOCK_IMMUNE" ],
-    "breaks_into": [
-      { "item": "mutant_bug_hydrogen_sacs", "count": [ 144, 288 ] },
-      { "item": "bag_plastic", "count": [ 2, 10 ] },
-      { "item": "rigid_plastic_sheet", "count": [ 0, 2 ] }
-    ],
-    "//": "slight damage reduction, like a pillow sort of",
-    "damage_reduction": { "all": 2 }
+    "//": "Todo: Should explode if destroyed by fire damage.",
+    "breaks_into": [ { "item": "plastic_chunk", "count": [ 5, 10 ] } ],
+    "damage_reduction": { "all": 5 }
   },
   {
     "type": "vehicle_part",

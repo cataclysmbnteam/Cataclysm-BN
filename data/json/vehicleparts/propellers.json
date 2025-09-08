@@ -12,13 +12,17 @@
     "description": "A set of aerofoil propeller rotors, when spun at high speed, they generate thrust via horizontal momentum."
   },
   {
-    "id": "vp_debug_propeller_rotors",
+    "id": "propeller_metal",
     "copy-from": "propeller_rotors",
     "type": "vehicle_part",
-    "name": "debug aircraft propeller",
-    "item": "debug_propeller_rotor",
-    "propeller_diameter": 2,
-    "requirements": { "install": { "time": "1 s" }, "removal": { "time": "1 s" }, "repair": { "time": "1 s" } },
+    "name": "aircraft propeller",
+    "item": "metal_propeller_item",
+    "propeller_diameter": 3,
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 6 ] ], "time": "2 h", "using": [ [ "welding_standard", 20 ] ] },
+      "removal": { "skills": [ [ "mechanics", 6 ] ], "time": "2 h", "using": [ [ "vehicle_weld_removal", 4 ] ] },
+      "repair": { "skills": [ [ "mechanics", 7 ] ], "time": "2 h", "using": [ [ "welding_standard", 10 ], [ "steel_tiny", 1 ] ] }
+    },
     "durability": 100,
     "damage_modifier": 80,
     "breaks_into": [ { "item": "scrap", "count": [ 8, 15 ] }, { "item": "steel_chunk", "count": [ 2, 8 ] } ],
