@@ -834,7 +834,7 @@
         "type": "multicooker",
         "do_hallu": true,
         "charges_to_start": 50,
-        "charges_per_turn": 1,
+        "charges_per_turn": 0.016,
         "time_mult": 1,
         "subcategories": [ "CSC_FOOD_MEAT", "CSC_FOOD_VEGGI", "CSC_FOOD_PASTA" ],
         "temporary_tools": [ "tongs", "toolset", "pot" ]
@@ -859,7 +859,7 @@
         "type": "multicooker",
         "do_hallu": true,
         "charges_to_start": 25,
-        "charges_per_turn": 1,
+        "charges_per_turn": 0.016,
         "time_mult": 0.75,
         "recipes": [ "water_clean" ],
         "subcategories": [ "CSC_FOOD_MEAT", "CSC_FOOD_VEGGI", "CSC_FOOD_PASTA" ],
