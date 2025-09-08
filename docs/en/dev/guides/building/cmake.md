@@ -36,6 +36,14 @@ In order to compile localization files, you'll also need `gettext` package.
 You can obtain the source code tarball for the latest version from
 [git](https://github.com/cataclysmbnteam/Cataclysm-BN).
 
+```sh
+git clone --filter=blob:none https://github.com/cataclysmbnteam/Cataclysm-BN.git
+cd Cataclysm-BN
+```
+
+> [!TIP]
+> `filter=blob:none` creates a [blobless clone](https://github.blog/open-source/git/get-up-to-speed-with-partial-clone-and-shallow-clone/), which makes the initial clone much faster by downloading files on-demand.
+
 ### UNIX Environment
 
 Obtain packages specified above with your system package manager.
