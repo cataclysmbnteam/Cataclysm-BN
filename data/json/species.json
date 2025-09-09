@@ -56,7 +56,17 @@
     "id": "NETHER",
     "name": { "str": "nether creature" },
     "description": "a nether creature",
-    "fear_triggers": [ "HURT" ]
+    "fear_triggers": [ "HURT" ],
+    "footsteps": [
+      "whispering echo.",
+      "ethereal hiss.",
+      "ghostly swish.",
+      "shadowy rustle.",
+      "distorted thrum.",
+      "unearthly hum.",
+      "sibilant crackle.",
+      "faint wail."
+    ]
   },
   {
     "type": "SPECIES",
