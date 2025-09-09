@@ -166,14 +166,7 @@
     "id": "ROBOT",
     "name": { "str": "robot" },
     "description": "a robot",
-    "footsteps": [
-      "metallic clank.",
-      "gear grind.",
-      "servo click.",
-      "clunk of metal.",
-      "thud of machinery.",
-      "whirring of servos."
-    ]
+    "footsteps": [ "metallic clank.", "gear grind.", "servo click.", "clunk of metal.", "thud of machinery.", "whirring of servos." ]
   },
   {
     "type": "SPECIES",
@@ -214,9 +207,7 @@
     "id": "HUMAN",
     "name": { "str": "human" },
     "description": "a human",
-    "footsteps": [
-      "footsteps."
-    ]
+    "footsteps": [ "footsteps." ]
   },
   {
     "type": "SPECIES",
