@@ -864,13 +864,16 @@
     "id": "MISSION_DOG_LOVER",
     "type": "mission_definition",
     "name": { "str": "Protect Your Canine Friends!" },
-    "description": "You have saved your dogs from the fall of the world, but they could still suffer from danger everywhere.  Police dogs used some kevlar harnesses for protection…  Maybe your friends could use some too?",
-    "goal": "MGOAL_FIND_ITEM",
-    "difficulty": 2,
-    "item": "kevlar_armor_small_quadruped",
-    "origins": [ "ORIGIN_GAME_START" ],
+    "//": "original DDA mission has the player search for quadruped armor, but MGOAL_FIND_ITEM seems to consume it upon completion",
+    "description": "Search any nearby pet stores for armor for your pups. You think you remember the location of one...",
+    "goal": "MGOAL_GO_TO_TYPE",
+    "difficulty": 1,
     "value": 0,
-    "//": "supposed to call u_add_morale, we don't have it yet",
-    "end": { }
+    "start": {
+      "assign_mission_target": { "om_terrain": "s_petstore", "reveal_radius": 3, "z": 0 }
+    },
+    "//2": "end should have u_add_morale, but we don't have it yet",
+    "origins": [ "ORIGIN_GAME_START" ],
+    "destination": "s_petstore"
   }
 ]
