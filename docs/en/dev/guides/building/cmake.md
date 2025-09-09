@@ -165,8 +165,6 @@ cmake --preset linux-slim
 cmake --build build --preset linux-slim --target cataclysm-bn-tiles
 ```
 
-> [!NOTE]
-
 This will place the executables into `out/build/linux-slim/`.
 
 > [!TIP]
