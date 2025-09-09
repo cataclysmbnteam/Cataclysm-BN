@@ -617,10 +617,47 @@ void game::chat()
             break;
         }
         case NPC_CHAT_MONOLOGUE: {
-            std::string popupdesc =
-                _( "What do you want to monologue?  (This has no in-game effect! Use +, -, or ? at the start to add context.)" );
+            // Build help text
+            const auto &help_fmt = _(
+                                       "<color_light_gray>You can add a prefix to your monologue to set the tone or emotion."
+                                       " Valid prefixes are:</color> %s\n"
+                                       "\n"
+                                       "<color_white>Examples:</color>\n"
+                                       "  <color_light_green>good: You feel like it's going to be a good day.</color>\n"
+                                       "  <color_light_red>bad: You don't like the look of this place…</color>\n"
+                                       "  <color_light_blue>info: The empty house reminds you of old times.</color>\n"
+                                       "  <color_yellow>warning: You say 'Stay close, I hear something moving!'</color>\n"
+                                       "\n"
+                                       "<color_light_gray>Leave off the prefix for a neutral monologue.</color>\n"
+                                   );
+
+            std::vector<std::string> type_strings;
+            const auto &type_list = msg_type_and_names();
+
+            for( auto it = type_list.begin(); it != type_list.end(); ++it ) {
+                if( debug_mode || it->first != m_debug ) {
+                    const auto &col_name = get_all_colors().get_name( msgtype_to_color( it->first ) );
+                    type_strings.push_back( string_format(
+                                                pgettext( "message log", "<color_%s>%s</color>" ),
+                                                col_name, pgettext( "message type", it->second ) ) );
+                }
+            }
+
+            // Join them with commas, period at the end
+            std::string type_text;
+            for( size_t i = 0; i < type_strings.size(); ++i ) {
+                type_text += type_strings[i];
+                if( i + 1 < type_strings.size() ) {
+                    type_text += "<color_light_gray>, </color>";
+                } else {
+                    type_text += "<color_light_gray>.</color>";
+                }
+            }
+
+            std::string popupdesc = string_format( help_fmt, type_text );
+
             string_input_popup popup;
-            popup.title( _( "Monologue" ) )
+            popup.title( _( "" ) )
             .width( 64 )
             .description( popupdesc )
             .identifier( "sentence" )
@@ -756,16 +793,46 @@ void game::chat()
         u.shout( string_format( _( "%s yelling %s" ), u.disp_name(), message ), is_order );
     }
     if( !monologue_msg.empty() ) {
-        if( monologue_msg[0] == '-' ) {
-            add_msg( m_bad, _( "%s" ), monologue_msg.substr( 1 ) );
-        } else if( monologue_msg[0] == '+' ) {
-            add_msg( m_good, _( "%s" ), monologue_msg.substr( 1 ) );
-        } else if( monologue_msg[0] == '?' ) {
-            add_msg( m_info, _( "%s" ), monologue_msg.substr( 1 ) );
-        } else {
+        // Normalize input for case-insensitive matching
+        std::string lower = monologue_msg;
+        std::transform( lower.begin(), lower.end(), lower.begin(), ::tolower );
+
+        bool matched = false;
+        const auto &type_list = msg_type_and_names();
+
+        for( const auto &entry : type_list ) {
+            if( !debug_mode && entry.first == m_debug ) {
+                continue; // skip debug type unless debug_mode is on
+            }
+
+            std::string type_name = pgettext( "message type", entry.second );
+            std::string prefix = type_name + ":"; // e.g. "good:" or "bad:"
+
+            // lowercase for comparison
+            std::string lower_prefix = prefix;
+            std::transform( lower_prefix.begin(), lower_prefix.end(), lower_prefix.begin(), ::tolower );
+
+            if( lower.rfind( lower_prefix, 0 ) == 0 ) {
+                // Match found: remove prefix
+                std::string text = monologue_msg.substr( prefix.size() );
+
+                // Trim a leading space if present
+                if( !text.empty() && text[0] == ' ' ) {
+                    text = text.substr( 1 );
+                }
+
+                add_msg( entry.first, _( "%s" ), text );
+                matched = true;
+                break;
+            }
+        }
+
+        if( !matched ) {
+            // No prefix: just show plain text
             add_msg( _( "%s" ), monologue_msg );
         }
     }
+
 
     u.moves -= 100;
 }

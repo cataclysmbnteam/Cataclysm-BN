@@ -370,7 +370,7 @@ bool Messages::has_undisplayed_messages()
 }
 
 // Returns pairs of message log type id and untranslated name
-static const std::vector<std::pair<game_message_type, const char *>> &msg_type_and_names()
+const std::vector<std::pair<game_message_type, const char *>> &msg_type_and_names()
 {
     static const std::vector<std::pair<game_message_type, const char *>> type_n_names = {
         { m_good, translate_marker_context( "message type", "good" ) },
