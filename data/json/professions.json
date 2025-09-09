@@ -3535,7 +3535,7 @@
     "items": {
       "both": {
         "items": [ "cowboy_hat", "tshirt", "gloves_leather", "socks", "jeans", "boots_western", "jacket_leather", "horse_tack" ],
-        "entries": [ { "item": "knife_hunting", "container-item": "sheath" }, { "item": "v29", "container-item": "sholster" } ]
+        "entries": [ { "item": "knife_hunting", "container-item": "sheath" }, { "item": "v29", "container-item": "shoulder_holster" } ]
       },
       "male": [ "boxer_shorts" ],
       "female": [ "bra", "boxer_shorts" ]
@@ -5877,7 +5877,7 @@
     "type": "profession",
     "id": "rancher",
     "name": "Rancher",
-    "description": "You've raised cows or horses most of your life, now we'll see what happens next.",
+    "description": "You've spent your life tending to cows, but the world has bigger plans for you now. Time to see where your skills - and a little luck - will take you next.",
     "points": 2,
     "skills": { "level": 2, "name": "survival" },
     "pets": [ { "name": "mon_cow", "amount": 3 } ],
@@ -5890,8 +5890,10 @@
         "cowboy_hat",
         "boots_western",
         "wristwatch",
-        "horse_tack",
         "pockknife",
+        "rope_6",
+        "rope_6",
+        "rope_6",
         "cattlefodder",
         "cattlefodder",
         "cig"
