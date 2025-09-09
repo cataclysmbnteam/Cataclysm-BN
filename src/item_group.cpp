@@ -560,6 +560,7 @@ bool Item_group::remove_specific_item( const std::string &itemid )
                 a = items.erase( a );
                 return true;
             }
+            ++a;
         } else {
             ++a;
         }
@@ -579,6 +580,7 @@ bool Item_group::remove_specific_group( const std::string &itemid )
                 a = items.erase( a );
                 return true;
             }
+            ++a;
         } else {
             ++a;
         }

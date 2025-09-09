@@ -3240,9 +3240,14 @@ void Item_factory::load_item_group( const JsonObject &jsobj, const item_group_id
     } else if( subtype != "collection" ) {
         jsobj.throw_error( "unknown item group type", "subtype" );
     }
+    if( jsobj.has_bool( "purge" ) ) {
+        if( jsobj.get_bool( "purge" ) ) {
+            isd = nullptr;
+        }
+    }
+
     Item_group *ig = make_group_or_throw( group_id, isd, type, jsobj.get_int( "ammo", 0 ),
                                           jsobj.get_int( "magazine", 0 ) );
-
     if( subtype == "old" ) {
         for( const JsonValue entry : jsobj.get_array( "items" ) ) {
             if( entry.test_object() ) {
