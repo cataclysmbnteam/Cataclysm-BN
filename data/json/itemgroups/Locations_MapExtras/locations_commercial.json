@@ -1796,6 +1796,7 @@
     "items": [
       [ "dog_whistle", 10 ],
       [ "pet_carrier", 30 ],
+      [ "rubber_armor_small_quadruped", 30 ],
       [ "petpack", 3 ],
       { "item": "dogfood", "prob": 30, "container-item": "can_medium" },
       { "item": "catfood", "prob": 30, "container-item": "can_food" },

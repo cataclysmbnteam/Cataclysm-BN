@@ -509,5 +509,15 @@
       { "group": "mon_zombie_kevlar_death_drops", "damage": [ 2, 4 ], "prob": 15 },
       { "group": "mon_zombie_military_pilot_death_drops", "damage": [ 2, 4 ], "prob": 5 }
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "dog_clothes",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "rubber_armor_small_quadruped", "prob": 50 },
+      { "item": "leather_armor_small_quadruped", "prob": 25 },
+      { "item": "kevlar_armor_small_quadruped", "prob": 1 }
+    ]
   }
 ]
