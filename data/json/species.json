@@ -106,14 +106,29 @@
     "description": "an insect",
     "anger_triggers": [ "FRIEND_DIED" ],
     "fear_triggers": [ "HURT", "FIRE" ],
-    "footsteps": [ "skittering." ]
+    "footsteps": [
+      "skittering.",
+      "the pattering of tiny legs.",
+      "chitter.",
+      "a soft crawl.",
+      "the clicking of legs.",
+      "a rapid scuttle.",
+      "a scritching sound.",
+      "the tapping of many feet."
+    ]
   },
   {
     "type": "SPECIES",
     "id": "INSECT_FLYING",
     "name": "a flying insect",
     "description": "a flying insect",
-    "footsteps": [ "bzzzzzzzzzzzzzzzzz." ],
+    "footsteps": [
+      "buzzing softly.",
+      "a gentle hum.",
+      "a low buzz.",
+      "a faint whir of wings.",
+      "a soft flutter."
+    ],
     "anger_triggers": [ "FRIEND_DIED" ],
     "fear_triggers": [ "HURT", "FIRE" ]
   },
@@ -122,7 +137,11 @@
     "id": "WASP",
     "name": "an angry wasp",
     "description": "a flying insect",
-    "footsteps": [ "BZZZZZZZZZZZZZZZZZ." ],
+    "footsteps": [
+      "BZZZZZZZZZZZZZZZZZ!",
+      "a loud buzzing.",
+      "a furious hum."
+    ],
     "anger_triggers": [ "FRIEND_DIED", "HURT", "SOUND" ],
     "fear_triggers": [ "FIRE" ],
     "flags": [ "LOUDMOVES" ]
@@ -132,7 +151,13 @@
     "id": "CENTIPEDE",
     "name": { "str": "centipede" },
     "description": "a centipede",
-    "footsteps": [ "skittering." ],
+    "footsteps": [
+      "skittering.",
+      "a rapid scuttle.",
+      "clicking legs.",
+      "a soft crawl.",
+      "scritching along."
+    ],
     "fear_triggers": [ "FIRE" ]
   },
   {
@@ -142,7 +167,13 @@
     "description": "a spider",
     "anger_triggers": [ "FRIEND_DIED" ],
     "fear_triggers": [ "HURT", "FIRE" ],
-    "footsteps": [ "skittering." ]
+    "footsteps": [
+      "skittering.",
+      "a light patter of legs.",
+      "clicking of joints.",
+      "a subtle crawl.",
+      "soft scuttling."
+    ]
   },
   {
     "type": "SPECIES",
@@ -209,13 +240,34 @@
     "type": "SPECIES",
     "id": "HORROR",
     "name": { "str": "horror" },
-    "description": "a horror"
+    "description": "a horror",
+    "footsteps": [
+      "a light scuttle.",
+      "a soft shuffle.",
+      "an unnatural click.",
+      "a hollow tap.",
+      "creaking joints.",
+      "the scraping of nails.",
+      "a tiny skitter.",
+      "a quiet thump."
+    ]
   },
   {
     "type": "SPECIES",
     "id": "ABERRATION",
     "name": { "str": "abberation" },
-    "description": "an aberration"
+    "description": "an aberration",
+    "footsteps": [
+      "a squelch.",
+      "slithering.",
+      "crackling shifts.",
+      "a wet scraping.",
+      "a hollow thump.",
+      "a twisting rattle.",
+      "gurgle.",
+      "an unearthly squeak.",
+      "a chittering snap."
+    ]
   },
   {
     "type": "SPECIES",
