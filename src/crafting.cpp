@@ -245,7 +245,7 @@ float workbench_crafting_speed_multiplier( const item &craft, const bench_locati
     return multiplier;
 }
 
-float crafting_speed_multiplier( const Character &who, const recipe &rec, bool in_progress )
+float crafting_speed_multiplier( const Character &who, const recipe &rec, bool )
 {
     const float result = morale_crafting_speed_multiplier( who, rec ) *
                          lighting_crafting_speed_multiplier( who,
