@@ -991,12 +991,9 @@ void veh_interact::do_install()
         return part.has_flag( "TRACK" ) || //Util
                part.has_flag( VPFLAG_FRIDGE ) ||
                part.has_flag( VPFLAG_FREEZER ) ||
-               part.has_flag( "KITCHEN" ) ||
-               part.has_flag( "BUTCHER_EQ" ) ||
+               part.has_flag( "CRAFTER" ) ||
+               part.has_flag( "HOTPLATE" ) ||
                part.has_flag( "WELDRIG" ) ||
-               part.has_flag( "CRAFTRIG" ) ||
-               part.has_flag( "CHEMLAB" ) ||
-               part.has_flag( "FORGE" ) ||
                part.has_flag( "HORN" ) ||
                part.has_flag( "BEEPER" ) ||
                part.has_flag( "AUTOPILOT" ) ||

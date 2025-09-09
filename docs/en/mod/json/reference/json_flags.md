@@ -1645,6 +1645,7 @@ Those flags are added by the game code to specific items (that specific welder, 
 - `HALF_CIRCLE_LIGHT` Projects a directed half-circular radius of light when turned on.
 - `HARNESS_bodytype` Replace bodytype with `any` to accept any type, or with the targeted type.
 - `HORN` Generates noise when used.
+- `HOTPLATE` Gives the hotplate action.
 - `INITIAL_PART` When starting a new vehicle via the construction menu, this vehicle part will be
   the initial part of the vehicle (if the used item matches the item required for this part). The
   items of parts with this flag are automatically added as component to the vehicle start
@@ -1728,6 +1729,7 @@ Those flags are added by the game code to specific items (that specific welder, 
 - `VARIABLE_SIZE` Has 'bigness' for power, wheel radius, etc.
 - `VISION`
 - `WATER_WHEEL` Recharges vehicle batteries when in flowing water.
+- `WELDRIG` Gives the welding repair action
 - `WHEEL` Counts as a wheel in wheel calculations.
 - `WIDE_CONE_LIGHT` Projects a wide cone of light when turned on.
 - `WIND_POWERED` This engine is powered by wind ( sails etc ).

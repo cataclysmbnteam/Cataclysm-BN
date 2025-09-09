@@ -2931,7 +2931,7 @@ bool map::has_nearby_table( const tripoint &p, int radius )
         if( has_flag( "FLAT_SURF", pt ) ) {
             return true;
         }
-        if( vp && ( vp->vehicle().has_part( "KITCHEN" ) || vp->vehicle().has_part( "FLAT_SURF" ) ) ) {
+        if( vp && ( vp->vehicle().has_part( "FLAT_SURF" ) ) ) {
             return true;
         }
     }
