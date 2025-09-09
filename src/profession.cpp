@@ -249,7 +249,7 @@ void profession::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "forbidden_traits", _forbidden_traits, auto_flags_reader<trait_id> {} );
     optional( jo, was_loaded, "flags", flags, auto_flags_reader<> {} );
 
-    optional( jo, was_loaded, "missions", _missions, string_id_reader<::mission_type> {} );
+    optional( jo, was_loaded, "missions", _missions, auto_flags_reader<mission_type_id> {} );
 }
 
 const profession_id &profession::generic()
