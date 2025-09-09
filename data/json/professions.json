@@ -605,7 +605,7 @@
   {
     "type": "profession",
     "id": "unemployed",
-    "name": "Survivor",
+    "name": "Unemployed",
     "description": "Some would say that there's nothing particularly notable about you.  But you've survived, and that's more than most could say right now.",
     "points": 0,
     "items": {
@@ -625,6 +625,43 @@
       },
       "male": [ "boxer_shorts" ],
       "female": [ "bra", "panties" ]
+    }
+  },
+  {
+    "type": "profession",
+    "id": "california",
+    "name": "California",
+    "//": "thought of calling it massachusetts? in the movie they are trying to make it cross country, so this seems better",
+    "description": "You thought you were just another resident of Massachusetts, until the undead came calling. Armed with blinkies, baseball bats, and a set of survival rules, you know the best way to survive is to keep moving, shoot straight, and never forget your seatbelt.  You've heard the Cataclysm hasn't reached the west, so that's where you're heading.",
+    "points": 2,
+    "skills": [
+      { "level": 2, "name": "survival" },
+      { "level": 2, "name": "swimming" }
+    ],
+    "traits": [ "WAYFARER" ],
+    "items": {
+      "both": {
+        "items": [
+          "jeans",
+          "dress_shirt",
+          "jacket_leather",
+          "socks",
+          "sneakers",
+          "wristwatch",
+          "duct_tape",
+          "smart_phone",
+          "suitcase_l",
+          "flashlight",
+          "blinkie",
+          "ZSG"
+        ],
+        "entries": [
+          { "item": "shotgun_d", "ammo-item": "shot_00", "charges": 2 },
+          { "item": "shot_00", "charges": 12 }
+        ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "bra", "boy_shorts" ]
     }
   },
   {
