@@ -537,7 +537,6 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - `BLOCK_WIND` This terrain will block the effects of wind.
 - `BURROWABLE` Burrowing monsters can travel under this terrain, while most others can't (e.g.
   graboid will traverse under the chain link fence, while ordinary zombie will be stopped by it).
-- `BUTCHER_EQ` Butcher's equipment - required for full butchery of corpses.
 - `CAN_SIT` Furniture the player can sit on. Player sitting near furniture with the "FLAT_SURF" tag
   will get mood bonus for eating.
 - `CHIP` Used in construction menu to determine if wall can have paint chipped off.
@@ -1603,7 +1602,6 @@ Those flags are added by the game code to specific items (that specific welder, 
 - `CARGO_LOCKING` This cargo area is inaccessible to NPCs. Can only be installed on a part with
   `LOCKABLE_CARGO` flag.
 - `CARGO` Cargo holding area.
-- `CHEMLAB` Acts as a chemistry set for crafting.
 - `CHIMES` Generates continuous noise when used.
 - `CIRCLE_LIGHT` Projects a circular radius of light when turned on.
 - `CONE_LIGHT` Projects a cone of light when turned on.
@@ -1612,8 +1610,7 @@ Those flags are added by the game code to specific items (that specific welder, 
 - `CONTROLS` Can be used to control the vehicle.
 - `COOLER` There is separate command to toggle this part.
 - `COVERED` Prevents items in cargo parts from emitting any light.
-- `CRAFTRIG` Acts as a dehydrator, vacuum sealer and reloading press for crafting purposes.
-  Potentially to include additional tools in the future.
+- `CRAFTER` Allows integrated tools to be defined under the "integrated_tools" list-field
 - `CTRL_ELECTRONIC` Controls electrical and electronic systems of the vehicle.
 - `CONTROL_WITHOUT_HANDS` Allows you to fire two-handed weapons while driving. Can only be installed on a part with `STEERABLE` flag.
 - `CURTAIN` Can be installed over a part flagged with `WINDOW`, and functions the same as blinds
@@ -1642,7 +1639,6 @@ Those flags are added by the game code to specific items (that specific welder, 
 - `FLOATS` Provide buoyancy to boats
 - `FLUIDTANK` Is a fluid tank.
 - `FOLDABLE`
-- `FORGE` Acts as a forge for crafting.
 - `FREEZER` Can freeze items in below zero degrees Celsius temperature.
 - `FRIDGE` Can refrigerate items.
 - `FUNNEL`
@@ -1654,7 +1650,6 @@ Those flags are added by the game code to specific items (that specific welder, 
   items of parts with this flag are automatically added as component to the vehicle start
   construction.
 - `INTERNAL` Can only be installed on a part with `CARGO` flag.
-- `KITCHEN` Acts as a kitchen unit and heat source for crafting.
 - `LIGHT`
 - `LOCKABLE_CARGO` Cargo containers that are able to have a lock installed.
 - `MOUNTABLE` Player can fire mounted weapons from here.
@@ -1733,7 +1728,6 @@ Those flags are added by the game code to specific items (that specific welder, 
 - `VARIABLE_SIZE` Has 'bigness' for power, wheel radius, etc.
 - `VISION`
 - `WATER_WHEEL` Recharges vehicle batteries when in flowing water.
-- `WELDRIG` Acts as a welder for crafting.
 - `WHEEL` Counts as a wheel in wheel calculations.
 - `WIDE_CONE_LIGHT` Projects a wide cone of light when turned on.
 - `WIND_POWERED` This engine is powered by wind ( sails etc ).

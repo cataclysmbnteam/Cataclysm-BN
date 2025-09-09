@@ -60,6 +60,7 @@ Vehicle components when installed on a vehicle.
 "height": 5,                  // Optional field, height of balloons in meters ( aka multiplie of their lift )
 "lift_coff": 0.5,             // Optional field, multiplier of wing effectiveness
 "propeller_diameter": 0.5,    // Optional field, diameter of propeller
+"integrated_tools": [ "hotplate" ], // Optional field, integrated tools
 ```
 
 ### Part Resistance
