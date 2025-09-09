@@ -35,6 +35,7 @@ The format is this:
     "id": "<some name>",
     "ammo": <some number>,
     "magazine": <some number>,
+    "purge": <true/false>,
     "delete": [ ... ],
     "entries": [ ... ]
 }
