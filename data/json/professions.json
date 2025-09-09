@@ -644,7 +644,7 @@
     "id": "california",
     "name": "California",
     "//": "thought of calling it massachusetts? in the movie they are trying to make it cross country, so this seems better",
-    "description": "You thought you were just another resident of Massachusetts, until the undead came calling. Armed with blinkies, baseball bats, and a set of survival rules, you know the best way to survive is to keep moving, shoot straight, and never forget your seatbelt.  You've heard the Cataclysm hasn't reached the west, so that's where you're heading.",
+    "description": "You thought you were just another resident of Massachusetts, until the undead came calling. Armed with blinkies, a shotgun, and a set of survival rules, you know the best way to survive is to keep moving, shoot straight, and never forget your seatbelt.  You've heard the Cataclysm hasn't reached the west, so that's where you're heading.",
     "points": 2,
     "skills": [ { "level": 2, "name": "survival" }, { "level": 2, "name": "swimming" } ],
     "traits": [ "WAYFARER" ],
