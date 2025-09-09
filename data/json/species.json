@@ -179,7 +179,14 @@
     "id": "ROBOT",
     "name": { "str": "robot" },
     "description": "a robot",
-    "footsteps": [ "a metallic clank.", "a gear grind.", "a servo click.", "the clunk of metal.", "the thud of machinery.", "the whirring of servos." ]
+    "footsteps": [
+      "a metallic clank.",
+      "a gear grind.",
+      "a servo click.",
+      "the clunk of metal.",
+      "the thud of machinery.",
+      "the whirring of servos."
+    ]
   },
   {
     "type": "SPECIES",
