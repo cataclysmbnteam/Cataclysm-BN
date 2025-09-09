@@ -551,8 +551,8 @@ bool Item_group::remove_item( const itype_id &itemid )
 bool Item_group::remove_specific_item( const std::string &itemid )
 {
     for( prop_list::iterator a = items.begin(); a != items.end(); ) {
-        auto b = dynamic_cast<Single_item_creator*>( ( &*a )->get() );
-        if( b == nullptr ){
+        auto b = dynamic_cast<Single_item_creator *>( ( &*a )->get() );
+        if( b == nullptr ) {
             ++a;
         } else if( b->type == Single_item_creator::Type::S_ITEM ) {
             if( itemid == b->id ) {
@@ -571,8 +571,8 @@ bool Item_group::remove_specific_item( const std::string &itemid )
 bool Item_group::remove_specific_group( const std::string &itemid )
 {
     for( prop_list::iterator a = items.begin(); a != items.end(); ) {
-        auto b = dynamic_cast<Single_item_creator*>( ( &*a )->get() );
-        if( b == nullptr ){
+        auto b = dynamic_cast<Single_item_creator *>( ( &*a )->get() );
+        if( b == nullptr ) {
             ++a;
         } else if( b->type == Single_item_creator::Type::S_ITEM_GROUP ) {
             if( itemid == b->id ) {
