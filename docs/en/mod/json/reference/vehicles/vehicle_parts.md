@@ -60,7 +60,25 @@ Vehicle components when installed on a vehicle.
 "height": 5,                  // Optional field, height of balloons in meters ( aka multiplie of their lift )
 "lift_coff": 0.5,             // Optional field, multiplier of wing effectiveness
 "propeller_diameter": 0.5,    // Optional field, diameter of propeller
-"integrated_tools": [ "hotplate" ], // Optional field, integrated tools
+```
+
+### Integrated Tools
+
+```json
+"integrated_tools": [ "foo" ],
+```
+An option array of tools that this vehiclepart will provide for crafting purposes, compare and contrast `crafting_pseudo_item` for furniture. Requires the vehiclepart to have the `CRAFTING` flag to function.
+
+Most legacy crafting vehiclepart flags have been removed and should be replaced with equivalent tools. The `WATER_PURIFIER` and `WELDRIG` flags remain, but are (for now) only used to provide their associated examine actions, `integrated_tools` will still be needed to replace their previous tool functions. See also the `HOTPLATE` and `WATER_FAUCET` flags, which don't have any legacy tool functions associated with them do but provide specific functions on examine.
+```json
+"integrated_tools": [ "pot", "pan", "hotplate" ],  // Replaces the `KITCHEN` flag
+"integrated_tools": [ "dehydrator", "vac_sealer", "food_processor", "press" ],  // Replaces the `CRAFTRIG` flag
+"integrated_tools": [ "chemistry_set", "electrolysis_kit" ],  // Replaces the `CHEMLAB` flag
+"integrated_tools": [ "forge" ],  // Replaces the `FORGE` flag
+"integrated_tools": [ fake_adv_butchery"" ],  // Replaces the `BUTCHER_EQ` flag
+"integrated_tools": [ "kiln" ],  // Replaces the `KILN` flag
+"integrated_tools": [ "soldering_iron", "welder" ],  // Replaces the tools, but not the examine function, of the `WELDRIG` flag
+"integrated_tools": [ "water_purifier" ],  // Replaces the tools, but not the examine function, of the `WATER_PURIFIER` flag
 ```
 
 ### Part Resistance
