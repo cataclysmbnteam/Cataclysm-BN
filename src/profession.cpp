@@ -16,6 +16,7 @@
 #include "item_group.h"
 #include "itype.h"
 #include "json.h"
+#include "mission.h"
 #include "options.h"
 #include "pldata.h"
 #include "translations.h"
@@ -247,6 +248,8 @@ void profession::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "traits", _starting_traits, auto_flags_reader<trait_id> {} );
     optional( jo, was_loaded, "forbidden_traits", _forbidden_traits, auto_flags_reader<trait_id> {} );
     optional( jo, was_loaded, "flags", flags, auto_flags_reader<> {} );
+
+    optional( jo, was_loaded, "missions", _missions, string_id_reader<::mission_type> {} );
 }
 
 const profession_id &profession::generic()
@@ -334,6 +337,17 @@ void profession::check_definition() const
     for( const auto &elem : _starting_skills ) {
         if( !elem.first.is_valid() ) {
             debugmsg( "skill %s for profession %s does not exist", elem.first.c_str(), id.c_str() );
+        }
+    }
+
+    for( const auto &m : _missions ) {
+        if( !m.is_valid() ) {
+            debugmsg( "starting mission %s for profession %s does not exist", m.c_str(), id.c_str() );
+        }
+
+        if( std::find( m->origins.begin(), m->origins.end(), ORIGIN_GAME_START ) == m->origins.end() ) {
+            debugmsg( "starting mission %s for profession %s must include an origin of ORIGIN_GAME_START",
+                      m.c_str(), id.c_str() );
         }
     }
 }
@@ -719,4 +733,9 @@ std::vector<itype_id> json_item_substitution::get_bonus_items( const std::vector
         }
     }
     return ret;
+}
+
+const std::vector<mission_type_id> &profession::missions() const
+{
+    return _missions;
 }
