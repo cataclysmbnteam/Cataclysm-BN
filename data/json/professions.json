@@ -3516,7 +3516,15 @@
     "description": "Lynched but not killed for a crime you didn't commit, you underwent augmentation surgery and hunted down those responsible with your trusty laser pistol. Now the Cataclysm is here, and it's you, your cybernetics and your gun against the world.",
     "points": 8,
     "pets": [ { "name": "mon_haulerbot", "amount": 1 } ],
-    "CBMs": [ "bio_targeting", "bio_adrenaline", "bn_bio_solar", "bio_night_vision", "bio_ups", "bio_power_storage_mkII", "bio_dex_enhancer" ],
+    "CBMs": [
+      "bio_targeting",
+      "bio_adrenaline",
+      "bn_bio_solar",
+      "bio_night_vision",
+      "bio_ups",
+      "bio_power_storage_mkII",
+      "bio_dex_enhancer"
+    ],
     "skills": [
       { "level": 3, "name": "gun" },
       { "level": 3, "name": "pistol" },
