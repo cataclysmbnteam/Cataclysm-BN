@@ -617,7 +617,7 @@
   {
     "type": "profession",
     "id": "unemployed",
-    "name": "Unemployed",
+    "name": "Survivor",
     "description": "Some would say that there's nothing particularly notable about you.  But you've survived, and that's more than most could say right now.",
     "points": 0,
     "items": {
@@ -3516,7 +3516,7 @@
     "description": "Lynched but not killed for a crime you didn't commit, you underwent augmentation surgery and hunted down those responsible with your trusty laser pistol. Now the Cataclysm is here, and it's you, your cybernetics and your gun against the world.",
     "points": 8,
     "pets": [ { "name": "mon_haulerbot", "amount": 1 } ],
-    "CBMs": [ "bio_targeting", "bio_adrenaline", "bio_night_vision", "bio_ups", "bio_power_storage_mkII", "bio_dex_enhancer" ],
+    "CBMs": [ "bio_targeting", "bio_adrenaline", "bn_bio_solar", "bio_night_vision", "bio_ups", "bio_power_storage_mkII", "bio_dex_enhancer" ],
     "skills": [
       { "level": 3, "name": "gun" },
       { "level": 3, "name": "pistol" },
@@ -5971,45 +5971,6 @@
       { "level": 1, "name": "survival" }
     ],
     "pets": [ { "name": "mon_horse", "amount": 1 } ],
-    "items": {
-      "both": {
-        "items": [
-          "under_armor",
-          "under_armor_shorts",
-          "cowboy_hat",
-          "socks",
-          "jeans",
-          "chaps_leather",
-          "gloves_leather",
-          "boots_western",
-          "duster",
-          "horse_tack",
-          "badge_deputy",
-          "sheriffshirt"
-        ],
-        "entries": [
-          { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
-          { "item": "bandolier_pistol", "contents-group": "bandolier_ww_gunslinger" },
-          { "item": "whiskey", "container-item": "bottle_glass" },
-          { "item": "colt_saa", "ammo-item": "45colt_jhp", "charges": 6, "container-item": "sholster" }
-        ]
-      }
-    }
-  },
-  {
-    "type": "profession",
-    "id": "gunslinger",
-    "name": "Wild West Gunslinger",
-    "description": "You made your living on Wild West exhibitions and shows, impressing tourists with your displays of marksmanship.  But that world has ended, so you took your trusty 6-shooter and wandered into a world where it's always high noon.",
-    "points": 6,
-    "skills": [
-      { "level": 4, "name": "gun" },
-      { "level": 3, "name": "pistol" },
-      { "level": 2, "name": "shotgun" },
-      { "level": 1, "name": "survival" },
-      { "level": 1, "name": "electronics" }
-    ],
-    "pets": [ { "name": "mon_haulerbot", "amount": 1 } ],
     "items": {
       "both": {
         "items": [
