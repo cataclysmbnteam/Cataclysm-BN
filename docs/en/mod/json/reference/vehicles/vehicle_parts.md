@@ -67,9 +67,11 @@ Vehicle components when installed on a vehicle.
 ```json
 "integrated_tools": [ "foo" ],
 ```
+
 An option array of tools that this vehiclepart will provide for crafting purposes, compare and contrast `crafting_pseudo_item` for furniture. Requires the vehiclepart to have the `CRAFTING` flag to function.
 
 Most legacy crafting vehiclepart flags have been removed and should be replaced with equivalent tools. The `WATER_PURIFIER` and `WELDRIG` flags remain, but are (for now) only used to provide their associated examine actions, `integrated_tools` will still be needed to replace their previous tool functions. See also the `HOTPLATE` and `WATER_FAUCET` flags, which don't have any legacy tool functions associated with them do but provide specific functions on examine.
+
 ```json
 "integrated_tools": [ "pot", "pan", "hotplate" ],  // Replaces the `KITCHEN` flag
 "integrated_tools": [ "dehydrator", "vac_sealer", "food_processor", "press" ],  // Replaces the `CRAFTRIG` flag
