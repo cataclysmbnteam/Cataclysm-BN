@@ -3240,9 +3240,14 @@ void Item_factory::load_item_group( const JsonObject &jsobj, const item_group_id
     } else if( subtype != "collection" ) {
         jsobj.throw_error( "unknown item group type", "subtype" );
     }
+    if( jsobj.has_bool( "purge" ) ) {
+        if( jsobj.get_bool( "purge" ) ) {
+            isd = nullptr;
+        }
+    }
+
     Item_group *ig = make_group_or_throw( group_id, isd, type, jsobj.get_int( "ammo", 0 ),
                                           jsobj.get_int( "magazine", 0 ) );
-
     if( subtype == "old" ) {
         for( const JsonValue entry : jsobj.get_array( "items" ) ) {
             if( entry.test_object() ) {
@@ -3284,6 +3289,18 @@ void Item_factory::load_item_group( const JsonObject &jsobj, const item_group_id
             } else {
                 JsonObject subobj = entry.get_object();
                 add_entry( *ig, subobj );
+            }
+        }
+    }
+    if( jsobj.has_member( "delete" ) ) {
+        for( const JsonValue entry : jsobj.get_array( "delete" ) ) {
+            if( entry.test_object() ) {
+                JsonObject obj = entry.get_object();
+                if( obj.has_member( "item" ) ) {
+                    ig->remove_specific_item( obj.get_string( "item" ) );
+                } else if( obj.has_member( "group" ) ) {
+                    ig->remove_specific_group( obj.get_string( "group" ) );
+                }
             }
         }
     }
