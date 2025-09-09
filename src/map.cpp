@@ -2931,7 +2931,7 @@ bool map::has_nearby_table( const tripoint &p, int radius )
         if( has_flag( "FLAT_SURF", pt ) ) {
             return true;
         }
-        if( vp && ( vp->vehicle().has_part( "KITCHEN" ) || vp->vehicle().has_part( "FLAT_SURF" ) ) ) {
+        if( vp && ( vp->vehicle().has_part( "FLAT_SURF" ) ) ) {
             return true;
         }
     }
@@ -5305,150 +5305,35 @@ std::vector<detached_ptr<item>> map::use_charges( const tripoint &origin, const 
             continue;
         }
 
-        const std::optional<vpart_reference> kpart = vp.part_with_feature( "FAUCET", true );
-        const std::optional<vpart_reference> weldpart = vp.part_with_feature( "WELDRIG", true );
-        const std::optional<vpart_reference> craftpart = vp.part_with_feature( "CRAFTRIG", true );
-        const std::optional<vpart_reference> butcherpart = vp.part_with_feature( "BUTCHER_EQ", true );
-        const std::optional<vpart_reference> forgepart = vp.part_with_feature( "FORGE", true );
-        const std::optional<vpart_reference> kilnpart = vp.part_with_feature( "KILN", true );
-        const std::optional<vpart_reference> chempart = vp.part_with_feature( "CHEMLAB", true );
+        const std::optional<vpart_reference> crafterpart = vp.part_with_feature( "CRAFTER", true );
+        const std::optional<vpart_reference> faupart = vp.part_with_feature( "FAUCET", true );
         const std::optional<vpart_reference> autoclavepart = vp.part_with_feature( "AUTOCLAVE", true );
         const std::optional<vpart_reference> cargo = vp.part_with_feature( "CARGO", true );
 
-        if( kpart ) { // we have a faucet, now to see what to drain
+        if( crafterpart ) {
+            for( itype_id id : crafterpart->info().craftertools() ) {
+                if( type == id ) {
+                    detached_ptr<item> tmp = item::spawn( type, calendar::start_of_cataclysm );
+                    tmp->charges = crafterpart->vehicle().drain( itype_battery, quantity );
+                    quantity -= tmp->charges;
+                    ret.push_back( std::move( tmp ) );
+
+                    if( quantity == 0 ) {
+                        return ret;
+                    }
+                }
+            }
+        }
+        if( faupart ) { // we have a faucet, now to see what to drain
             itype_id ftype = itype_id::NULL_ID();
 
-            // Special case hotplates which draw battery power
-            if( type == itype_hotplate ) {
-                ftype = itype_battery;
-            } else {
-                ftype = type;
-            }
+            ftype = type;
 
             // TODO: add a sane birthday arg
             //TODO!: check if we actually need the return  here
             detached_ptr<item> tmp = item::spawn( type, calendar::start_of_cataclysm );
-            tmp->charges = kpart->vehicle().drain( ftype, quantity );
+            tmp->charges = faupart->vehicle().drain( ftype, quantity );
             // TODO: Handle water poison when crafting starts respecting it
-            quantity -= tmp->charges;
-            ret.push_back( std::move( tmp ) );
-
-            if( quantity == 0 ) {
-                return ret;
-            }
-        }
-
-        if( weldpart ) { // we have a weldrig, now to see what to drain
-            itype_id ftype = itype_id::NULL_ID();
-
-            if( type == itype_welder ) {
-                ftype = itype_battery;
-            } else if( type == itype_soldering_iron ) {
-                ftype = itype_battery;
-            }
-            // TODO: add a sane birthday arg
-            detached_ptr<item> tmp = item::spawn( type, calendar::start_of_cataclysm );
-            tmp->charges = weldpart->vehicle().drain( ftype, quantity );
-            quantity -= tmp->charges;
-            ret.push_back( std::move( tmp ) );
-
-            if( quantity == 0 ) {
-                return ret;
-            }
-        }
-
-        if( craftpart ) { // we have a craftrig, now to see what to drain
-            itype_id ftype = itype_id::NULL_ID();
-
-            if( type == itype_press ) {
-                ftype = itype_battery;
-            } else if( type == itype_vac_sealer ) {
-                ftype = itype_battery;
-            } else if( type == itype_dehydrator ) {
-                ftype = itype_battery;
-            } else if( type == itype_food_processor ) {
-                ftype = itype_battery;
-            }
-
-            // TODO: add a sane birthday arg
-            detached_ptr<item> tmp = item::spawn( type, calendar::start_of_cataclysm );
-            tmp->charges = craftpart->vehicle().drain( ftype, quantity );
-            quantity -= tmp->charges;
-            ret.push_back( std::move( tmp ) );
-
-            if( quantity == 0 ) {
-                return ret;
-            }
-        }
-
-        if( butcherpart ) {// we have a butchery station, now to see what to drain
-            itype_id ftype = itype_id::NULL_ID();
-
-            if( type == itype_butchery ) {
-                ftype = itype_battery;
-            }
-
-            // TODO: add a sane birthday arg
-            detached_ptr<item> tmp = item::spawn( type, calendar::start_of_cataclysm );
-            tmp->charges = butcherpart->vehicle().drain( ftype, quantity );
-            quantity -= tmp->charges;
-            ret.push_back( std::move( tmp ) );
-
-            if( quantity == 0 ) {
-                return ret;
-            }
-        }
-
-        if( forgepart ) { // we have a veh_forge, now to see what to drain
-            itype_id ftype = itype_id::NULL_ID();
-
-            if( type == itype_forge ) {
-                ftype = itype_battery;
-            }
-
-            // TODO: add a sane birthday arg
-            detached_ptr<item> tmp = item::spawn( type, calendar::start_of_cataclysm );
-            tmp->charges = forgepart->vehicle().drain( ftype, quantity );
-            quantity -= tmp->charges;
-            ret.push_back( std::move( tmp ) );
-
-            if( quantity == 0 ) {
-                return ret;
-            }
-        }
-
-        if( kilnpart ) { // we have a veh_kiln, now to see what to drain
-            itype_id ftype = itype_id::NULL_ID();
-
-            if( type == itype_kiln ) {
-                ftype = itype_battery;
-            }
-
-            // TODO: add a sane birthday arg
-            detached_ptr<item> tmp = item::spawn( type, calendar::start_of_cataclysm );
-            tmp->charges = kilnpart->vehicle().drain( ftype, quantity );
-            quantity -= tmp->charges;
-            ret.push_back( std::move( tmp ) );
-
-            if( quantity == 0 ) {
-                return ret;
-            }
-        }
-
-        if( chempart ) { // we have a chem_lab, now to see what to drain
-            itype_id ftype = itype_id::NULL_ID();
-
-            if( type == itype_chemistry_set ) {
-                ftype = itype_battery;
-            } else if( type == itype_hotplate ) {
-                ftype = itype_battery;
-            } else if( type == itype_electrolysis_kit ) {
-                ftype = itype_battery;
-            }
-
-            // TODO: add a sane birthday arg
-            detached_ptr<item> tmp = item::spawn( type, calendar::start_of_cataclysm );
-            tmp->charges = chempart->vehicle().drain( ftype, quantity );
             quantity -= tmp->charges;
             ret.push_back( std::move( tmp ) );
 

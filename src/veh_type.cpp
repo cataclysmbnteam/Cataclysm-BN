@@ -342,6 +342,23 @@ void vpart_info::load_workbench( std::optional<vpslot_workbench> &wbptr, const J
     assert( wbptr );
 }
 
+void vpart_info::load_crafter( std::optional<vpslot_crafter> &craftptr, const JsonObject &jo )
+{
+    vpslot_crafter craft_info{};
+    if( craftptr ) {
+        craft_info = *craftptr;
+    }
+
+    JsonArray tools = jo.get_array( "integrated_tools" );
+
+    for( std::string cur : tools ) {
+        craft_info.fake_parts.emplace_back( itype_id( cur ) );
+    }
+
+    craftptr = craft_info;
+    assert( craftptr );
+}
+
 /**
  * Reads in a vehicle part from a JsonObject.
  */
@@ -487,7 +504,9 @@ void vpart_info::load( const JsonObject &jo, const std::string &src )
     if( def.has_flag( "WORKBENCH" ) ) {
         load_workbench( def.workbench_info, jo );
     }
-
+    if( def.has_flag( "CRAFTER" ) ) {
+        load_crafter( def.crafter_info, jo );
+    }
     // Dummy
     // TODO: Implement
     jo.get_string_array( "categories" );
@@ -975,7 +994,10 @@ int vpart_info::propeller_diameter() const
 {
     return has_flag( VPFLAG_PROPELLER ) ? propeller_info->propeller_diameter : 0;
 }
-
+const std::vector<itype_id> vpart_info::craftertools() const
+{
+    return crafter_info->fake_parts;
+}
 const std::optional<vpslot_workbench> &vpart_info::get_workbench_info() const
 {
     return workbench_info;
