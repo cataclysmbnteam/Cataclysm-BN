@@ -104,8 +104,8 @@
       "draw_cost": 150,
       "multi": 3,
       "skills": [ "pistol", "smg", "shotgun", "rifle", "launcher" ],
-      "flags": [ "SHEATH_KNIFE", "SHEATH_SWORD", "SHEATH_AXE", "MAG_COMPACT", "MAG_BULKY", "MAG_BELT", "SPEEDLOADER", "BELT_CLIP" ],
-    }
+      "flags": [ "SHEATH_KNIFE", "SHEATH_SWORD", "SHEATH_AXE", "MAG_COMPACT", "MAG_BULKY", "MAG_BELT", "SPEEDLOADER", "BELT_CLIP" ]
+    },
     "flags": [ "BELTED", "OVERSIZE", "NO_QUICKDRAW", "STURDY", "WATERPROOF" ]
   },
   {
@@ -116,6 +116,7 @@
     "description": "C.R.I.T. standard-issue chestrig, has mesh and MOLLE loops for gear and slots with light-armor padding.",
     "color": "dark_gray",
     "material": [ "kevlar", "plastic" ],
+    "use_action": {
       "type": "holster",
       "holster_prompt": "Stash ammo",
       "holster_msg": "You stash your %s.",
@@ -123,7 +124,7 @@
       "max_volume": "750 ml",
       "draw_cost": 40,
       "skills": [ "pistol", "smg", "shotgun", "launcher" ],
-      "flags": [ "SHEATH_KNIFE", "BELT_CLIP" "MAG_COMPACT", "SPEEDLOADER" ]
+      "flags": [ "SHEATH_KNIFE", "BELT_CLIP", "MAG_COMPACT", "SPEEDLOADER" ]
     },
     "flags": [ "STURDY", "WATER_FRIENDLY", "ALLOWS_NATURAL_ATTACKS" ]
   },
