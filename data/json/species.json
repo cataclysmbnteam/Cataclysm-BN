@@ -19,15 +19,7 @@
     "name": { "str": "amphibian" },
     "description": "an amphibian",
     "fear_triggers": [ "HURT", "FIRE" ],
-    "footsteps": [
-      "slosh.",
-      "squelch.",
-      "slip and plop.",
-      "wet shuffle.",
-      "muffled squish.",
-      "ribbit.",
-      "a long croak."
-    ]
+    "footsteps": [ "slosh.", "squelch.", "slip and plop.", "wet shuffle.", "muffled squish.", "ribbit.", "a long croak." ]
   },
   {
     "type": "SPECIES",
@@ -42,11 +34,7 @@
     "name": { "str": "reptile" },
     "description": "a reptile",
     "fear_triggers": [ "HURT", "FIRE" ],
-    "footsteps": [
-        "slither.",
-        "rustle of scales.",
-        "scratch."
-    ]
+    "footsteps": [ "slither.", "rustle of scales.", "scratch." ]
   },
   {
     "type": "SPECIES",
@@ -54,14 +42,7 @@
     "name": { "str_sp": "fish" },
     "description": "a fish",
     "fear_triggers": [ "HURT", "FRIEND_ATTACKED" ],
-    "footsteps": [
-        "flop.",
-        "slap of fins.",
-        "splash.",
-        "wet thump.",
-        "gurgle.",
-        "slosh."
-    ]
+    "footsteps": [ "flop.", "slap of fins.", "splash.", "wet thump.", "gurgle.", "slosh." ]
   },
   {
     "type": "SPECIES",
