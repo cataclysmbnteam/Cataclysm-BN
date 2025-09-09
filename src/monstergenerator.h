@@ -35,15 +35,6 @@ struct species_type {
     enum_bitset<mon_trigger> anger;
     enum_bitset<mon_trigger> fear;
     enum_bitset<mon_trigger> placate;
-    std::string get_footsteps() const {
-        if( footsteps.empty() ) {
-            return {};
-        }
-
-        // Pick a random footstep
-        size_t idx = rng( 0, footsteps.size() - 1 );
-        return footsteps[idx].translated();
-    }
 
     species_type(): id( species_id::NULL_ID() ) {
 
