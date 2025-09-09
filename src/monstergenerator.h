@@ -9,7 +9,9 @@
 #include "enum_bitset.h"
 #include "enums.h"
 #include "mattack_common.h"
+#include "messages.h"
 #include "mtype.h"
+#include "string_id.h"
 #include "pimpl.h"
 #include "translations.h"
 #include "type_id.h"
@@ -30,13 +32,17 @@ struct species_type {
     translation name;
     bool was_loaded = false;
     translation description;
-    translation footsteps;
+    std::vector<translation> footsteps;
     enum_bitset<m_flag> flags;
     enum_bitset<mon_trigger> anger;
     enum_bitset<mon_trigger> fear;
     enum_bitset<mon_trigger> placate;
     std::string get_footsteps() const {
-        return footsteps.translated();
+        if( !footsteps.empty() ) {
+            // Pick a random footstep
+            size_t idx = rng( 0, footsteps.size() - 1 );
+            return footsteps[idx].translated();
+        }
     }
 
     species_type(): id( species_id::NULL_ID() ) {

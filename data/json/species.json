@@ -60,7 +60,7 @@
     "id": "BLOB",
     "name": { "str": "blob" },
     "description": "a blob",
-    "footsteps": "plop."
+    "footsteps": [ "plop." ]
   },
   {
     "type": "SPECIES",
@@ -89,7 +89,7 @@
     "id": "INSECT_FLYING",
     "name": "a flying insect",
     "description": "a flying insect",
-    "footsteps": "bzzzzzzzzzzzzzzzzz",
+    "footsteps": [ "bzzzzzzzzzzzzzzzzz." ],
     "anger_triggers": [ "FRIEND_DIED" ],
     "fear_triggers": [ "HURT", "FIRE" ]
   },
@@ -98,7 +98,7 @@
     "id": "WASP",
     "name": "an angry wasp",
     "description": "a flying insect",
-    "footsteps": "BZZZZZZZZZZZZZZZZZ",
+    "footsteps": [ "BZZZZZZZZZZZZZZZZZ." ],
     "anger_triggers": [ "FRIEND_DIED", "HURT", "SOUND" ],
     "fear_triggers": [ "FIRE" ],
     "flags": [ "LOUDMOVES" ]
@@ -108,7 +108,7 @@
     "id": "CENTIPEDE",
     "name": { "str": "centipede" },
     "description": "a centipede",
-    "footsteps": "skittering.",
+    "footsteps": [ "skittering." ],
     "fear_triggers": [ "FIRE" ]
   },
   {
@@ -138,7 +138,7 @@
     "id": "WORM",
     "name": { "str": "worm" },
     "description": "a worm",
-    "footsteps": "rustle.",
+    "footsteps": [ "rustle." ],
     "fear_triggers": [ "HURT" ]
   },
   {
@@ -146,14 +146,14 @@
     "id": "ZOMBIE",
     "name": { "str": "zombie" },
     "description": "a zombie",
-    "footsteps": "shuffling."
+    "footsteps": [ "shuffling.", "moaning.", "gargling.", "growling.", "gasping.", "grunting." ]
   },
   {
     "type": "SPECIES",
     "id": "ROBOT",
     "name": { "str": "robot" },
     "description": "a robot",
-    "footsteps": "mechanical whirring."
+    "footsteps": [ "mechanical whirring." ]
   },
   {
     "type": "SPECIES",
@@ -188,6 +188,6 @@
     "id": "DEBUG",
     "name": { "str": "debug monster" },
     "description": "a debug monster used for testing. Please report this.",
-    "footsteps": "shuffling."
+    "footsteps": [ "shuffling." ]
   }
 ]
