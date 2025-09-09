@@ -76,8 +76,7 @@
             "distribution": [ { "item": "crt_pants", "prob": 70 }, { "item": "crt_legrig", "prob": 20 }, { "item": "crt_sarmor", "prob": 10 } ]
           },
           { "item": "knife_crt", "prob": 5 }
-        ],
-        "prob": 10
+        ]
       }
     ]
   },
@@ -189,6 +188,12 @@
     ]
   },
   {
+    "id": "clothing_soldier_shirt",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "item": "crt_sarmor", "prob": 5 } ]
+  },
+  {
     "id": "clothing_military",
     "type": "item_group",
     "subtype": "collection",
@@ -201,7 +206,8 @@
     "type": "item_group",
     "subtype": "collection",
     "//": "Winter set of clothes worn by soldiers and paramilitary forces.",
-    "items": [ { "group": "crt_armor", "prob": 15 } ]
+    "delete": [ { "item": "boots_combat" }, { "item": "webbing_belt" } ],
+    "items": [ { "group": "mil_boots" }, { "group": "mil_belts" } ]
   },
   {
     "type": "item_group",
