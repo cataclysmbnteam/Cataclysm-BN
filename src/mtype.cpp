@@ -246,12 +246,20 @@ std::string mtype::get_description() const
 
 std::string mtype::get_footsteps() const
 {
+    std::vector<translation> all_footsteps;
+
     for( const species_id &s : species ) {
-        if( s.obj().footsteps.size() > 0 ) {
-            return s.obj().get_footsteps();
-        }
+        const auto &f = s.obj().footsteps;
+        all_footsteps.insert( all_footsteps.end(), f.begin(), f.end() );
     }
-    return _( "indistinct footsteps." );
+
+    if( all_footsteps.empty() ) {
+        return _( "indistinct footsteps." );
+    }
+
+    // pick a random footstep
+    size_t idx = rng( 0, all_footsteps.size() - 1 );
+    return all_footsteps[idx].translated();
 }
 
 void mtype::set_strategy()

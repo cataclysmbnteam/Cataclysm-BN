@@ -60,7 +60,7 @@
     "id": "BLOB",
     "name": { "str": "blob" },
     "description": "a blob",
-    "footsteps": [ "plop." ]
+    "footsteps": [ "plop.", "squelch.", "glorp.", "slosh.", "blop.", "splat.", "squish.", "blubber.", "gloop.", "thud." ]
   },
   {
     "type": "SPECIES",
@@ -74,6 +74,16 @@
     "id": "LEECH_PLANT",
     "name": { "str": "leech plant" },
     "description": "a leech plant",
+    "footsteps": [
+      "rustling.",
+      "crackle of leaves.",
+      "the swish of vines.",
+      "spark crackle.",
+      "electric snap.",
+      "zing.",
+      "the fizz of electricity.",
+      "pop and rustle."
+    ],
     "fear_triggers": [ "HURT", "FIRE" ]
   },
   {
@@ -82,7 +92,8 @@
     "name": { "str": "insect" },
     "description": "an insect",
     "anger_triggers": [ "FRIEND_DIED" ],
-    "fear_triggers": [ "HURT", "FIRE" ]
+    "fear_triggers": [ "HURT", "FIRE" ],
+    "footsteps": [ "skittering." ]
   },
   {
     "type": "SPECIES",
@@ -117,14 +128,16 @@
     "name": { "str": "spider" },
     "description": "a spider",
     "anger_triggers": [ "FRIEND_DIED" ],
-    "fear_triggers": [ "HURT", "FIRE" ]
+    "fear_triggers": [ "HURT", "FIRE" ],
+    "footsteps": [ "skittering." ]
   },
   {
     "type": "SPECIES",
     "id": "PLANT",
     "name": { "str": "plant" },
     "description": "a plant",
-    "fear_triggers": [ "HURT", "FIRE" ]
+    "fear_triggers": [ "HURT", "FIRE" ],
+    "footsteps": [ "rustling.", "the crunch of leaves.", "crackle.", "the swish of vines." ]
   },
   {
     "type": "SPECIES",
@@ -138,7 +151,7 @@
     "id": "WORM",
     "name": { "str": "worm" },
     "description": "a worm",
-    "footsteps": [ "rustle." ],
+    "footsteps": [ "thrum.", "rumble.", "vibration.", "thud." ],
     "fear_triggers": [ "HURT" ]
   },
   {
@@ -153,7 +166,31 @@
     "id": "ROBOT",
     "name": { "str": "robot" },
     "description": "a robot",
-    "footsteps": [ "mechanical whirring." ]
+    "footsteps": [
+      "metallic clank.",
+      "gear grind.",
+      "servo click.",
+      "clunk of metal.",
+      "thud of machinery.",
+      "whirring of servos."
+    ]
+  },
+  {
+    "type": "SPECIES",
+    "id": "ROBOT_FLYING",
+    "name": { "str": "flying robot" },
+    "description": "a flying robot",
+    "footsteps": [
+      "whir of rotors.",
+      "high-pitched buzz.",
+      "electronic hum.",
+      "soft mechanical whine.",
+      "sizzling of motors.",
+      "hovering whirr.",
+      "rotor spin.",
+      "servo buzz."
+    ],
+    "flags": [ "LOUDMOVES" ]
   },
   {
     "type": "SPECIES",
@@ -176,7 +213,24 @@
     "type": "SPECIES",
     "id": "HUMAN",
     "name": { "str": "human" },
-    "description": "a human"
+    "description": "a human",
+    "footsteps": [
+      "footsteps."
+    ]
+  },
+  {
+    "type": "SPECIES",
+    "id": "SKELETON",
+    "name": { "str": "skeleton" },
+    "description": "a skeleton",
+    "footsteps": [
+      "the clatter of bones.",
+      "a rattle.",
+      "the click of joints.",
+      "a dry crackle.",
+      "the tinkle of bone.",
+      "a hollow clack."
+    ]
   },
   {
     "type": "SPECIES",
