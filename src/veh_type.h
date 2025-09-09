@@ -131,6 +131,10 @@ struct vpslot_workbench {
     units::volume allowed_volume = 0_ml;
 };
 
+struct vpslot_crafter {
+    std::vector<itype_id> fake_parts;
+};
+
 struct transform_terrain_data {
     std::set<std::string> pre_flags;
     std::string post_terrain;
@@ -154,6 +158,7 @@ class vpart_info
         std::optional<vpslot_wing> wing_info;
         std::optional<vpslot_balloon> balloon_info;
         std::optional<vpslot_workbench> workbench_info;
+        std::optional<vpslot_crafter> crafter_info;
 
     public:
         /** Translated name of a part */
@@ -323,6 +328,7 @@ class vpart_info
         float lift_coff() const;
         int propeller_diameter() const;
         float balloon_height() const;
+        const std::vector<itype_id> craftertools() const;
         /**
          * Getter for optional workbench info
          */
@@ -367,6 +373,7 @@ class vpart_info
         static void load_wing( std::optional<vpslot_wing> &wptr, const JsonObject &jo );
         static void load_balloon( std::optional<vpslot_balloon> &balptr, const JsonObject &jo );
         static void load_propeller( std::optional<vpslot_propeller> &proptr, const JsonObject &jo );
+        static void load_crafter( std::optional<vpslot_crafter> &craftptr, const JsonObject &jo );
         static void load( const JsonObject &jo, const std::string &src );
         static void finalize();
         static void check();
