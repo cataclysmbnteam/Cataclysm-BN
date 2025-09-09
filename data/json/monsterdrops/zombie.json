@@ -299,6 +299,6 @@
     "type": "item_group",
     "id": "mon_dog_death_drops",
     "subtype": "collection",
-    "entries": [ { "group": "dog_clothes", "damage": [ 1, 4 ], "prob": 20 } ]
+    "entries": [ { "group": "dog_clothes", "damage": [ 1, 4 ], "prob": 5 } ]
   }
 ]
