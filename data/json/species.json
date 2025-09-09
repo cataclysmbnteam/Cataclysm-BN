@@ -264,14 +264,7 @@
     "id": "SKELETON",
     "name": { "str": "skeleton" },
     "description": "a skeleton",
-    "footsteps": [
-      "the clatter of bones",
-      "a rattle",
-      "the click of joints",
-      "a dry crackle",
-      "the tinkle of bone",
-      "a hollow clack"
-    ]
+    "footsteps": [ "the clatter of bones", "a rattle", "the click of joints", "a dry crackle", "the tinkle of bone", "a hollow clack" ]
   },
   {
     "type": "SPECIES",
