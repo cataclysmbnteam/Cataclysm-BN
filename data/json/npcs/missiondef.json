@@ -859,5 +859,18 @@
     },
     "origins": [ "ORIGIN_GAME_START" ],
     "value": 0
+  },
+  {
+    "id": "MISSION_DOG_LOVER",
+    "type": "mission_definition",
+    "name": { "str": "Protect Your Canine Friends!" },
+    "description": "You have saved your dogs from the fall of the world, but they could still suffer from danger everywhere.  Police dogs used some kevlar harnesses for protection…  Maybe your friends could use some too?",
+    "goal": "MGOAL_FIND_ITEM",
+    "difficulty": 2,
+    "item": "kevlar_armor_small_quadruped",
+    "origins": [ "ORIGIN_GAME_START" ],
+    "value": 0,
+    "//": "supposed to call u_add_morale, we don't have it yet",
+    "end": { }
   }
 ]
