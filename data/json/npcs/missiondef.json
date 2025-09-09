@@ -869,9 +869,7 @@
     "goal": "MGOAL_GO_TO_TYPE",
     "difficulty": 1,
     "value": 0,
-    "start": {
-      "assign_mission_target": { "om_terrain": "s_petstore", "reveal_radius": 3, "z": 0 }
-    },
+    "start": { "assign_mission_target": { "om_terrain": "s_petstore", "reveal_radius": 3, "z": 0 } },
     "//2": "end should have u_add_morale, but we don't have it yet",
     "origins": [ "ORIGIN_GAME_START" ],
     "destination": "s_petstore"

@@ -616,6 +616,7 @@ wake up for the first time after 24 hours into the game.
 "description" : "Your skill with submachine guns and machine pistols. Halfway between a pistol and an assault rifle, these weapons fire and reload quickly, and may fire in bursts, but they are not very accurate.", // In-game description
 "tags" : ["gun_type"]  // Special flags (default: none)
 ```
+
 ### Missions
 
 (optional, array of mission ids)
@@ -623,6 +624,7 @@ wake up for the first time after 24 hours into the game.
 List of starting missions for this profession/hobby.
 
 Example:
+
 ```JSON
 "missions": [ "MISSION_LAST_DELIVERY" ]
 ```
