@@ -320,7 +320,7 @@
     "id": "quiver_monster_hunter_2",
     "entries": [ { "item": "arrow_stinger", "charges": 20 } ]
   },
-   {
+  {
     "type": "item_group",
     "subtype": "collection",
     "id": "dog_lover_bag",
@@ -646,10 +646,7 @@
     "//": "thought of calling it massachusetts? in the movie they are trying to make it cross country, so this seems better",
     "description": "You thought you were just another resident of Massachusetts, until the undead came calling. Armed with blinkies, baseball bats, and a set of survival rules, you know the best way to survive is to keep moving, shoot straight, and never forget your seatbelt.  You've heard the Cataclysm hasn't reached the west, so that's where you're heading.",
     "points": 2,
-    "skills": [
-      { "level": 2, "name": "survival" },
-      { "level": 2, "name": "swimming" }
-    ],
+    "skills": [ { "level": 2, "name": "survival" }, { "level": 2, "name": "swimming" } ],
     "traits": [ "WAYFARER" ],
     "items": {
       "both": {
@@ -667,10 +664,7 @@
           "blinkie",
           "ZSG"
         ],
-        "entries": [
-          { "item": "shotgun_d", "ammo-item": "shot_00", "charges": 2 },
-          { "item": "shot_00", "charges": 12 }
-        ]
+        "entries": [ { "item": "shotgun_d", "ammo-item": "shot_00", "charges": 2 }, { "item": "shot_00", "charges": 12 } ]
       },
       "male": [ "boxer_shorts" ],
       "female": [ "bra", "boy_shorts" ]
@@ -2147,7 +2141,7 @@
     "starting_cash": 5000000,
     "items": {
       "both": { "items": [ "smart_phone", "platinum_watch" ] },
-      "male": [ "boxer_shorts", "tux",  "dress_shoes", "diamond_platinum_earring", "fancy_sunglasses" ],
+      "male": [ "boxer_shorts", "tux", "dress_shoes", "diamond_platinum_earring", "fancy_sunglasses" ],
       "female": [ "bra", "panties", "shorts_denim", "blazer", "diamond_platinum_earring", "heels", "fancy_sunglasses" ]
     }
   },
@@ -2355,7 +2349,7 @@
     "pets": [ { "name": "mon_dog", "amount": 2 } ],
     "items": {
       "both": {
-        "items": [ "jeans", "longshirt", "socks", "sneakers","water_clean", "wristwatch", "smart_phone", "petpack", "pet_carrier" ],
+        "items": [ "jeans", "longshirt", "socks", "sneakers", "water_clean", "wristwatch", "smart_phone", "petpack", "pet_carrier" ],
         "entries": [ { "item": "mbag", "contents-group": "dog_lover_bag" } ]
       },
       "male": [ "boxer_shorts" ],
@@ -2910,7 +2904,12 @@
     "name": "Robot Technician",
     "description": "You worked as a robotics technician, keeping drones and machines running and once even slipped a control laptop out of the lab for yourself. After the world fell, your skill to repair and command broken robots makes you as valuable and dangerous as any weapon.",
     "points": 4,
-    "skills": [ { "level": 6, "name": "computer" }, { "level": 2, "name": "electronics" }, { "level": 1, "name": "mechanics" }, { "level": 2, "name": "fabrication" } ],
+    "skills": [
+      { "level": 6, "name": "computer" },
+      { "level": 2, "name": "electronics" },
+      { "level": 1, "name": "mechanics" },
+      { "level": 2, "name": "fabrication" }
+    ],
     "pets": [ { "name": "mon_haulerbot", "amount": 1 } ],
     "items": {
       "both": { "items": [ "pants", "tshirt_text", "socks", "sneakers", "fanny", "smart_phone", "control_laptop" ] },

@@ -728,7 +728,15 @@
     "start_name": "Emergency Landing Site",
     "allowed_locs": [ "sloc_field", "sloc_forest" ],
     "missions": [ "MISSION_HELICOPTER_REFUEL" ],
-    "professions": [ "heli_pilot_scenario", "blimp_pilot_scenario", "plane_pilot_scenario", "medic_pilot", "gyro_pilot", "bird_pilot", "mili_pilot_blackhawk" ],
+    "professions": [
+      "heli_pilot_scenario",
+      "blimp_pilot_scenario",
+      "plane_pilot_scenario",
+      "medic_pilot",
+      "gyro_pilot",
+      "bird_pilot",
+      "mili_pilot_blackhawk"
+    ],
     "flags": [ "LONE_START" ]
   },
   {
