@@ -3757,23 +3757,15 @@ int iuse::mp3_on( player *p, item *it, bool t, const tripoint &pos )
             play_music( *p, pos, 0, 20 );
         }
     } else { // Turning it off
-        if( it->typeId() == itype_mp3_on ) {
-            p->add_msg_if_player( _( "The mp3 player turns off." ) );
-            it->convert( itype_mp3 );
-            it->deactivate();
-        } else if( it->typeId() == itype_smartphone_music ) {
-            p->add_msg_if_player( _( "The phone turns off." ) );
-            it->convert( itype_smart_phone );
-            it->deactivate();
-        } else if( it->typeId() == itype_afs_atomic_smartphone_music ) {
-            p->add_msg_if_player( _( "The phone turns off." ) );
-            it->convert( itype_afs_atomic_smartphone );
-            it->deactivate();
-        } else if( it->typeId() == itype_afs_atomic_wraitheon_music ) {
-            p->add_msg_if_player( _( "The phone turns off." ) );
-            it->convert( itype_afs_wraitheon_smartphone );
-            it->deactivate();
-        }
+        // Creatively make it so that the reversion isn't hard-coded
+        // There's *probably* a better way to do this, but this works
+        std::string active_item = it->typeId().str();
+        std::string base_item = active_item.erase( active_item.rfind( '_' ) );
+
+        p->add_msg_if_player( _( "The %s turns off." ), it->display_name() );
+        it->convert( itype_id( base_item ) );
+        it->deactivate();
+
         p->mod_moves( -200 );
     }
     return it->type->charges_to_use();
