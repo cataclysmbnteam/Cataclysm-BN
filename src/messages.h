@@ -6,6 +6,7 @@
 #include <vector>
 
 #include "cached_options.h"
+#include "message_types.h"
 #include "string_formatter.h"
 #include "enums.h"
 #include "debug.h"
@@ -35,7 +36,6 @@ void serialize( JsonOut &json );
 void deserialize( const JsonObject &json );
 } // namespace Messages
 
-const std::vector<std::pair<game_message_type, const char *>> &msg_type_and_names();
 void add_msg( std::string msg );
 template<typename ...Args>
 inline void add_msg( const std::string &msg, Args &&... args )

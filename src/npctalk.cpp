@@ -49,6 +49,7 @@
 #include "mapgen_functions.h"
 #include "martialarts.h"
 #include "messages.h"
+#include "message_types.h"
 #include "mission.h"
 #include "monster.h"
 #include "mtype.h"
