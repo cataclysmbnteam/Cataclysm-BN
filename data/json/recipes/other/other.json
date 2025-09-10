@@ -699,7 +699,6 @@
     "skill_used": "computer",
     "difficulty": 8,
     "time": "4 h",
-    "skills_required": [ [ "computer", 8 ] ],
     "tools": [ [ [ "laptop", 120 ], [ "control_laptop", 120 ] ], [ [ "software_hacking", -1 ] ] ],
     "components": [ [ [ "paper", 25 ] ] ]
   },
