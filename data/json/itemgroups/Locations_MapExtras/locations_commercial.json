@@ -30,6 +30,7 @@
       { "item": "trailmap", "prob": 20 },
       { "item": "file", "prob": 10 },
       { "item": "touristmap", "prob": 20 },
+      { "item": "waterwaymap", "prob": 20 },
       { "item": "regionaltransportmap", "prob": 20 },
       { "item": "restaurantmap", "prob": 20 },
       { "item": "money_bundle", "prob": 55 },
