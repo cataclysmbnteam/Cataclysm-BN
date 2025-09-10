@@ -5310,3 +5310,120 @@ int sex_toy_actor::use( player &p, item &i, bool, const tripoint & ) const
 
     return i.type->charges_to_use();
 }
+
+std::unique_ptr<iuse_actor> iuse_music_player::clone() const
+{
+    return std::make_unique<iuse_music_player>( *this );
+}
+
+void iuse_music_player::load( const JsonObject &obj )
+{
+    obj.read( "target", target, true );
+
+    obj.read( "msg", msg_transform );
+
+    obj.read( "moves", moves );
+    if( moves < 0 ) {
+        obj.throw_error( "transform actor specified negative moves", "moves" );
+    }
+
+    obj.read( "need_charges", need_charges );
+    need_charges = std::max( need_charges, 0 );
+    obj.read( "transform_charges", transform_charges );
+
+    obj.read( "need_worn", need_worn );
+    obj.read( "need_wielding", need_wielding );
+}
+
+int iuse_music_player::use( player &p, item &it, bool t, const tripoint &pos ) const
+{
+    if( t ) {
+        return 0; // invoked from active item processing, do nothing.
+    }
+
+    const bool possess = p.has_item( it ) ||
+                         ( it.has_flag( flag_ALLOWS_REMOTE_USE ) && square_dist( p.pos(), pos ) == 1 );
+
+    if( possess && need_worn && !p.is_worn( it ) ) {
+        p.add_msg_if_player( m_info, _( "You need to wear the %1$s before activating it." ), it.tname() );
+        return 0;
+    }
+    if( possess && need_wielding && !p.is_wielding( it ) ) {
+        p.add_msg_if_player( m_info, _( "You need to wield the %1$s before activating it." ), it.tname() );
+        return 0;
+    }
+    // No charge consumption at this point, there are still points of failure later.
+    if( need_charges || transform_charges ) {
+        if( it.has_flag( flag_POWERARMOR_MOD ) && character_funcs::can_interface_armor( p ) ) {
+            if( possess ) {
+                const int bio_power = units::to_kilojoule( p.get_power_level() );
+                if( bio_power < need_charges || bio_power < transform_charges ) {
+                    p.add_msg_if_player( m_info, "Your %s doesn't have enough battery to do that", it.tname() );
+                    return 0;
+                }
+            } else {
+                return 0;
+            }
+        } else {
+            const int item_charges = it.units_remaining( p );
+            if( item_charges < need_charges || item_charges < transform_charges ) {
+                p.add_msg_if_player( m_info, "Your %s doesn't have enough battery to do that", it.tname() );
+                return 0;
+            }
+        }
+    }
+
+    // All checks complete the damn thing can finally transform
+    // Consume charges if necessary at this point.
+    if( transform_charges ) {
+        p.consume_charges( it, transform_charges );
+    }
+
+    if( possess && !msg_transform.empty() ) {
+        p.add_msg_if_player( m_neutral, msg_transform, it.tname() );
+    }
+    // We want this separate and not if/else because the preceding statement will always return true if a transform message is defined.
+    if( p.is_npc() && get_player_character().sees( p ) ) {
+        if( !it.has_flag( flag_COMBAT_NPC_ON ) ) {
+            add_msg( m_info, _( "%s activates their %s." ), p.disp_name(),
+                     it.display_name() );
+        } else {
+            add_msg( m_info, _( "%s deactivates their %s." ), p.disp_name(),
+                     it.display_name() );
+        }
+    }
+
+    if( possess ) {
+        p.moves -= moves;
+    }
+
+    // Update Luminosity as object is "removed"
+    get_map().update_lum( it, false );
+
+    if( p.is_worn( it ) ) {
+        p.on_item_takeoff( it );
+    }
+    it.convert( target );
+    if( p.is_worn( it ) ) {
+        p.reset_encumbrance();
+        // This is most likely wrong: it doubles temperature shift for the turn!
+        p.update_bodytemp( get_map(), get_weather() );
+        p.on_item_wear( it );
+    }
+    p.inv_update_invlet_cache_with_item( it );
+    // Update luminosity as object is "added"
+    get_map().update_lum( it, true );
+    it.activate();
+
+    return 0;
+}
+
+ret_val<bool> iuse_music_player::can_use( const Character &p, const item &, bool,
+                                       const tripoint & ) const
+{
+    if (p.has_effect(efftype_id("music"))) {
+        return ret_val<bool>::make_failure( _( "You can't listen to multiple music players at once!" ) );
+    } else {
+        return ret_val<bool>::make_success();
+    }
+}

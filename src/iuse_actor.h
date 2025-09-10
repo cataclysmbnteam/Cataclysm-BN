@@ -1282,3 +1282,36 @@ class sex_toy_actor : public iuse_actor
         std::unique_ptr<iuse_actor> clone() const override;
 };
 
+class iuse_music_player : public iuse_actor
+{
+    public:
+        /** displayed if player sees transformation with %s replaced by item name */
+        translation msg_transform;
+
+        /** type of the resulting item */
+        itype_id target;
+
+        /**does the item requires to be worn to be activable*/
+        bool need_worn = false;
+
+        /**does the item requires to be wielded to be activable*/
+        bool need_wielding = false;
+
+        /** subtracted from @ref Creature::moves when transformation is successful */
+        int moves = 0;
+
+        /** minimum charges (if any) required for transformation */
+        int need_charges = 0;
+
+        /** charges needed for process of transforming item */
+        int transform_charges = 0;
+
+        iuse_music_player( const std::string &type = "music_player" ) : iuse_actor( type ) {}
+
+        ~iuse_music_player() override = default;
+        void load( const JsonObject &obj ) override;
+        int use( player &, item &, bool, const tripoint & ) const override;
+        ret_val<bool> can_use( const Character &, const item &, bool, const tripoint & ) const override;
+        std::unique_ptr<iuse_actor> clone() const override;
+};
+
