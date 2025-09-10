@@ -622,17 +622,29 @@
     "components": [ [ [ "paper", 1 ] ] ]
   },
   {
+    "type": "recipe",
+    "result": "mobile_memory_card",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "skill_used": "computer",
+    "difficulty": 2,
+    "time": "20 m",
+    "tools": [ [ [ "laptop", 10 ], [ "control_laptop", 10 ] ] ],
+    "components": [ [ [ "mobile_memory_card_used", 1 ], [ "mobile_memory_card_encrypted", 1 ] ] ]
+  },
+  {
     "result": "software_hacking",
     "type": "recipe",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_OTHER",
     "skill_used": "computer",
     "skills_required": [ "electronics", 6 ],
+    "reversible": true,
     "difficulty": 10,
     "time": "6 h",
     "book_learn": [ [ "sa_cryptology_key", 10 ] ],
-    "tools": [ [ [ "laptop", -1 ], [ "control_laptop", -1 ] ], [ [ "software_math", -1 ] ] ],
-    "components": [ [ [ "usb_drive", 1 ] ] ]
+    "tools": [ [ [ "laptop", 120 ], [ "control_laptop", 120 ] ], [ [ "software_math", -1 ] ] ],
+    "components": [ [ [ "usb_drive", 1 ], [ "mobile_memory_card", 1 ] ] ]
   },
   {
     "result": "software_medical",
@@ -641,12 +653,13 @@
     "subcategory": "CSC_OTHER_OTHER",
     "skill_used": "computer",
     "skills_required": [ "firstaid", 8 ],
+    "reversible": true,
     "difficulty": 6,
     "autolearn": true,
     "time": "6 h",
     "book_learn": [ [ "reference_firstaid1", 8 ] ],
-    "tools": [ [ [ "laptop", -1 ], [ "control_laptop", -1 ] ], [ [ "software_math", -1 ] ] ],
-    "components": [ [ [ "usb_drive", 1 ] ] ]
+    "tools": [ [ [ "laptop", 120 ], [ "control_laptop", 120 ] ], [ [ "software_math", -1 ] ] ],
+    "components": [ [ [ "usb_drive", 1 ], [ "mobile_memory_card", 1 ] ] ]
   },
   {
     "result": "software_math",
@@ -654,14 +667,15 @@
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_OTHER",
     "skill_used": "computer",
+    "reversible": true,
     "difficulty": 8,
     "autolearn": true,
     "//": "weird to use cooking here, but it represents science skill",
     "skills_required": [ "cooking", 8 ],
     "time": "6 h",
     "book_learn": [ [ "reference_cooking", 8 ] ],
-    "tools": [ [ [ "laptop", -1 ], [ "control_laptop", -1 ] ] ],
-    "components": [ [ [ "usb_drive", 1 ] ] ]
+    "tools": [ [ [ "laptop", 120 ], [ "control_laptop", 120 ] ] ],
+    "components": [ [ [ "usb_drive", 1 ], [ "mobile_memory_card", 1 ] ] ]
   },
   {
     "result": "software_useless",
@@ -670,11 +684,24 @@
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_OTHER",
     "skill_used": "computer",
+    "reversible": true,
     "difficulty": 3,
     "autolearn": true,
     "time": "1 h",
-    "tools": [ [ [ "laptop", -1 ], [ "control_laptop", -1 ] ] ],
-    "components": [ [ [ "usb_drive", 1 ] ] ]
+    "tools": [ [ [ "laptop", 120 ], [ "control_laptop", 120 ] ] ],
+    "components": [ [ [ "usb_drive", 1 ], [ "mobile_memory_card", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "satellitemap",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "skill_used": "computer",
+    "difficulty": 8,
+    "time": "4 h",
+    "skills_required": [ [ "computer", 8 ] ],
+    "tools": [ [ [ "laptop", 120 ], [ "control_laptop", 120 ] ], [ [ "software_hacking", -1 ] ] ],
+    "components": [ [ [ "paper", 25 ] ] ]
   },
   {
     "result": "cot",

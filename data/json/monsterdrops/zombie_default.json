@@ -127,7 +127,7 @@
       { "item": "thermos", "prob": 10 },
       { "item": "spray_can", "prob": 10 },
       {
-        "distribution": [ { "item": "roadmap" }, { "item": "trailmap" }, { "item": "touristmap" }, { "item": "restaurantmap" } ],
+        "distribution": [ { "item": "roadmap" }, { "item": "trailmap" }, { "item": "touristmap" }, { "item": "restaurantmap" }, { "item": "urbexmap" }, { "item": "waterwaymap" } ],
         "prob": 5
       },
       {
