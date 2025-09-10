@@ -5708,9 +5708,9 @@ int iuse_music_player::use( player &p, item &it, bool t, const tripoint &pos ) c
 }
 
 ret_val<bool> iuse_music_player::can_use( const Character &p, const item &, bool,
-                                       const tripoint & ) const
+        const tripoint & ) const
 {
-    if (p.has_effect(efftype_id("music"))) {
+    if( p.has_effect( efftype_id( "music" ) ) ) {
         return ret_val<bool>::make_failure( _( "You can't listen to multiple music players at once!" ) );
     } else {
         return ret_val<bool>::make_success();
