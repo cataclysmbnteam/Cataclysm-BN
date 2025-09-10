@@ -94,6 +94,7 @@
         "bunker",
         "helipad",
         "outpost",
+        "mil_base",
         { "om_terrain": "silo", "om_terrain_match_type": "TYPE" },
         { "om_terrain": "shelter", "om_terrain_match_type": "TYPE" },
         "police",
