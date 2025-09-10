@@ -281,5 +281,71 @@
     "id": "adv_butchery",
     "symbol": "&",
     "type": "vehicle_part"
+  },
+  {
+    "type": "vehicle_part",
+    "id": "veh_reloading_station",
+    "name": { "str": "mounted reloading press" },
+    "description": "An all-in-one handloading tool that can both assemble ammunition and break it back down for materials, includes a hotplate for bullet molding powered by the vehicle's batteries.",
+    "location": "center",
+    "item": "press_workbench_item",
+    "durability": 80,
+    "damage_modifier": 10,
+    "color": "red",
+    "symbol": "&",
+    "broken_color": "light_gray",
+    "broken_symbol": "x",
+    "looks_like": "craft_rig",
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "repair": {
+        "skills": [ [ "mechanics", 4 ] ],
+        "time": "60 m",
+        "using": [ [ "welding_standard", 5 ], [ "vehicle_repair_electronics", 2 ] ]
+      }
+    },
+    "flags": [ "CARGO", "OBSTACLE", "CRAFTER" ],
+    "size": "50 L",
+    "integrated_tools": [ "press_workbench", "hotplate" ],
+    "breaks_into": [
+      { "count": [ 4, 5 ], "item": "steel_lump" },
+      { "count": [ 4, 6 ], "item": "steel_chunk" },
+      { "count": [ 4, 6 ], "item": "scrap" }
+    ],
+    "damage_reduction": { "all": 25 }
+  },
+  {
+    "type": "vehicle_part",
+    "id": "veh_hydraulic_press",
+    "name": { "str": "mounted hydraulic press" },
+    "description": "If you really want to squash something a lot, this would be exactly the right industrial tool for you.",
+    "location": "center",
+    "item": "hydraulic_press",
+    "durability": 80,
+    "damage_modifier": 10,
+    "color": "red",
+    "symbol": "&",
+    "broken_color": "light_gray",
+    "broken_symbol": "x",
+    "looks_like": "craft_rig",
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "repair": {
+        "skills": [ [ "mechanics", 4 ] ],
+        "time": "60 m",
+        "using": [ [ "welding_standard", 5 ], [ "vehicle_repair_electronics", 2 ] ]
+      }
+    },
+    "flags": [ "CARGO", "OBSTACLE", "CRAFTER" ],
+    "size": "50 L",
+    "integrated_tools": [ "hydraulic_press" ],
+    "breaks_into": [
+      { "count": [ 4, 5 ], "item": "steel_lump" },
+      { "count": [ 4, 6 ], "item": "steel_chunk" },
+      { "count": [ 4, 6 ], "item": "scrap" }
+    ],
+    "damage_reduction": { "all": 25 }
   }
 ]
