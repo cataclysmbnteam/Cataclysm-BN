@@ -181,6 +181,7 @@
       [ "waterwaymap", 1 ],
       [ "touristmap", 4 ],
       [ "regionaltransportmap", 4 ],
+      [ "cavemap", 4 ],
       [ "lighter", 60 ],
       [ "cig", 40 ],
       [ "blazer", 15 ],

@@ -378,6 +378,8 @@
     ],
     "items": [
       { "x": 0, "y": 0, "chance": 1, "items": [ "subwaymap" ] },
+      { "x": 0, "y": 0, "chance": 1, "items": [ "sewermap" ] },
+      { "x": 0, "y": 0, "chance": 1, "items": [ "cavemap" ] },
       { "x": 0, "y": 0, "chance": 5, "item_groups": [ "mine_equipment" ] },
       { "x": -2, "y": 0, "chance": 10, "item_groups": [ "mine_materials" ] },
       { "x": -2, "y": 1, "chance": 10, "item_groups": [ "mine_materials" ] },
