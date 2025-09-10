@@ -596,7 +596,7 @@
   {
     "id": "MISSION_HELICOPTER_REFUEL",
     "type": "mission_definition",
-    "name": { "str": "Refuel your helicopter." },
+    "name": { "str": "Refuel your aircraft." },
     "description": "You were flying towards a nearby private airport before your forced landing.  You could still reach it by ground, and scavenge it for fuel.",
     "goal": "MGOAL_GO_TO_TYPE",
     "destination": "s_air_hangars",

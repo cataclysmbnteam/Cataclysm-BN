@@ -4264,6 +4264,14 @@
     "copy-from": "washing_machine"
   },
   {
+    "id": "multi_cooker_filled",
+    "type": "TOOL",
+    "copy-from": "multi_cooker",
+    "name": { "str": "multi cooker - cooking" },
+    "description": "A professional-grade multi-cooker, with a battery slot for camping trips or tailgating.  There is a dish in it.",
+    "delete": { "qualities": [ [ "CONTAIN", 1 ] ] }
+  },
+  {
     "type": "TOOL",
     "category": "tools",
     "id": "butane_can",

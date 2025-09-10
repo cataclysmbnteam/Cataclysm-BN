@@ -1265,6 +1265,25 @@ class heat_food_actor : public iuse_actor
         std::unique_ptr<iuse_actor> clone() const override;
 };
 
+class multicooker_iuse : public iuse_actor
+{
+    public:
+        bool do_hallu;
+        int charges_to_start;
+        float time_mult = 1.0f;
+        float charges_per_minute;
+        std::set<itype_id> recipes;
+        std::set<std::string> subcategories;
+        std::set<std::string> temporary_tools;
+
+        multicooker_iuse( const std::string &type = "multicooker" ) : iuse_actor( type ) {}
+
+        ~multicooker_iuse() override = default;
+        void load( const JsonObject &obj ) override;
+        int use( player &, item &, bool, const tripoint & ) const override;
+        std::unique_ptr<iuse_actor> clone() const override;
+};
+
 /**
  * Relieve some tension built up in the cataclysm
  * More generalized form of old VIBE iuse
@@ -1314,4 +1333,3 @@ class iuse_music_player : public iuse_actor
         ret_val<bool> can_use( const Character &, const item &, bool, const tripoint & ) const override;
         std::unique_ptr<iuse_actor> clone() const override;
 };
-

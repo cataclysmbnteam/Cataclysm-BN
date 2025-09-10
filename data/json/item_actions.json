@@ -586,11 +586,6 @@
   },
   {
     "type": "item_action",
-    "id": "MULTICOOKER",
-    "name": { "str": "Cook" }
-  },
-  {
-    "type": "item_action",
     "id": "mutagen",
     "name": { "str": "Consume" }
   },
@@ -973,6 +968,11 @@
     "type": "item_action",
     "id": "gps_device",
     "name": { "str": "Search GPS" }
+  },
+  {
+    "type": "item_action",
+    "id": "multicooker",
+    "name": { "str": "CRAFT" }
   },
   {
     "type": "item_action",

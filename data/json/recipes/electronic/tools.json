@@ -966,6 +966,20 @@
   },
   {
     "type": "recipe",
+    "result": "multi_cooker_improved",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_TOOLS",
+    "skill_used": "electronics",
+    "difficulty": 3,
+    "skills_required": [ "fabrication", 3 ],
+    "time": "30 m",
+    "autolearn": true,
+    "using": [ [ "soldering_standard", 10 ] ],
+    "qualities": [ { "id": "SCREW_FINE", "level": 1 } ],
+    "components": [ [ [ "power_supply", 1 ] ], [ [ "e_scrap", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
     "result": "bullet_vibrator",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_TOOLS",

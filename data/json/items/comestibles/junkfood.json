@@ -18,7 +18,7 @@
     "charges": 8,
     "flags": [ "EATEN_HOT" ],
     "vitamins": [ [ "vitA", 3 ], [ "iron", 10 ], [ "wheat_allergen", 1 ], [ "junk_allergen", 1 ] ],
-    "fun": 20
+    "fun": 17
   },
   {
     "type": "COMESTIBLE",
@@ -34,7 +34,7 @@
     "name": "toast-em",
     "copy-from": "toastem",
     "description": "Dry toaster pastries, usually coated with solid frosting.  Sadly, these are not.",
-    "fun": 10
+    "fun": 13
   },
   {
     "type": "COMESTIBLE",

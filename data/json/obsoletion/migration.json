@@ -723,5 +723,10 @@
     "id": "smartphone_music",
     "type": "MIGRATION",
     "replace": "smart_phone_music"
+  },
+  {
+    "id": "multi_cooker_filled",
+    "type": "MIGRATION",
+    "replace": "multi_cooker"
   }
 ]

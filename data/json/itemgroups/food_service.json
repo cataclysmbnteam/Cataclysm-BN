@@ -648,8 +648,7 @@
       { "item": "pecan", "prob": 20 },
       { "item": "cashews", "prob": 20 },
       { "item": "pistachio", "prob": 20 },
-      { "item": "peanut", "prob": 20 },
-      { "item": "blinkie", "prob": 5 }
+      { "item": "peanut", "prob": 20 }
     ]
   },
   {

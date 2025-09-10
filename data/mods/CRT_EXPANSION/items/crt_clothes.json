@@ -96,23 +96,6 @@
     "flags": [ "SKINTIGHT", "WATER_FRIENDLY" ]
   },
   {
-    "id": "crt_belt",
-    "copy-from": "survivor_belt_notools",
-    "type": "ARMOR",
-    "name": "C.R.I.T. web belt",
-    "description": "C.R.I.T. standard-issue belt.  Keeps your trousers up and your tools on your hip.",
-    "color": "blue",
-    "material": [ "leather", "brass" ],
-    "use_action": {
-      "type": "holster",
-      "holster_prompt": "Sheath blade",
-      "holster_msg": "You sheath your %s",
-      "min_volume": "0 ml",
-      "max_volume": "1 L",
-      "flags": [ "BELT_CLIP", "SHEATH_KNIFE", "SHEATH_SWORD" ]
-    }
-  },
-  {
     "id": "crt_rec_duster",
     "repairs_like": "duster_survivor",
     "type": "ARMOR",

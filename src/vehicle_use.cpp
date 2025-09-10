@@ -667,7 +667,7 @@ void vehicle::use_controls( const tripoint &pos )
     bool has_electronic_controls = false;
     avatar &you = get_avatar();
     const auto confirm_stop_driving = [this] {
-        return !is_flying_in_air() || query_yn(
+        return !is_flying_in_air() || !has_part( VPFLAG_WING ) || query_yn(
             _( "Really let go of controls while flying?  This will result in a crash." ) );
     };
 
@@ -711,7 +711,7 @@ void vehicle::use_controls( const tripoint &pos )
         return;
     }
 
-    if( has_part( "ENGINE" ) ) {
+    if( has_part( "ENGINE" ) && !( is_flying && has_part( VPFLAG_ROTOR ) ) ) {
         if( you.controlling_vehicle || ( remote && engine_on ) ) {
             options.emplace_back( _( "Stop driving" ), keybind( "TOGGLE_ENGINE" ) );
             actions.emplace_back( [&] {
@@ -1833,11 +1833,10 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
 
     const int curtain_part = avail_part_with_feature( interact_part, "CURTAIN", true );
     const bool curtain_closed = ( curtain_part == -1 ) ? false : !parts[curtain_part].open;
-    const bool has_kitchen = avail_part_with_feature( interact_part, "KITCHEN", true ) >= 0;
+    const bool has_hotplate = avail_part_with_feature( interact_part, "HOTPLATE", true ) >= 0;
     const bool has_faucet = avail_part_with_feature( interact_part, "FAUCET", true ) >= 0;
     const bool has_towel = avail_part_with_feature( interact_part, "TOWEL", true ) >= 0;
     const bool has_weldrig = avail_part_with_feature( interact_part, "WELDRIG", true ) >= 0;
-    const bool has_chemlab = avail_part_with_feature( interact_part, "CHEMLAB", true ) >= 0;
     const bool has_purify = avail_part_with_feature( interact_part, "WATER_PURIFIER", true ) >= 0;
     const bool has_controls = avail_part_with_feature( interact_part, "CONTROLS", true ) >= 0;
     const bool has_electronics = avail_part_with_feature( interact_part, "CTRL_ELECTRONIC", true ) >= 0;
@@ -1900,7 +1899,7 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
     if( curtain_part >= 0 && curtain_closed ) {
         selectmenu.addentry( PEEK_CURTAIN, true, 'p', _( "Peek through the closed curtains" ) );
     }
-    if( ( has_kitchen || has_chemlab ) && fuel_left( itype_battery, true ) > 0 ) {
+    if( has_hotplate && fuel_left( itype_battery, true ) > 0 ) {
         selectmenu.addentry( USE_HOTPLATE, true, 'h', _( "Use the hotplate" ) );
     }
     if( has_faucet && fuel_left( itype_water_clean ) > 0 ) {

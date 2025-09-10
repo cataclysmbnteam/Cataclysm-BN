@@ -76,10 +76,37 @@
             "distribution": [ { "item": "crt_pants", "prob": 70 }, { "item": "crt_legrig", "prob": 20 }, { "item": "crt_sarmor", "prob": 10 } ]
           },
           { "item": "knife_crt", "prob": 5 }
-        ],
-        "prob": 10
+        ]
       }
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "mil_jackets",
+    "items": [
+      {
+        "distribution": [ { "item": "crt_jacket", "prob": 10 }, { "item": "crt_iduster", "prob": 10 }, { "item": "jacket_army", "prob": 80 } ]
+      }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "mil_pants",
+    "items": [ { "distribution": [ { "item": "crt_pants", "prob": 20 }, { "item": "pants_army", "prob": 80 } ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "mil_boots",
+    "items": [
+      {
+        "distribution": [ { "item": "crt_la_boots", "prob": 10 }, { "item": "crt_boots", "prob": 10 }, { "item": "boots_combat", "prob": 80 } ]
+      }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "mil_belts",
+    "items": [ { "distribution": [ { "item": "crt_belt", "prob": 20 }, { "item": "webbing_belt", "prob": 80 } ] } ]
   },
   {
     "type": "item_group",
@@ -161,18 +188,26 @@
     ]
   },
   {
+    "id": "clothing_soldier_shirt",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "item": "crt_sarmor", "prob": 5 } ]
+  },
+  {
     "id": "clothing_military",
     "type": "item_group",
     "subtype": "collection",
     "//": "Standard (non-winter) set of clothes worn by soldiers and paramilitary forces.",
-    "items": [ { "group": "crt_armor", "prob": 15 } ]
+    "delete": [ { "item": "boots_combat" }, { "item": "jacket_army" }, { "item": "pants_army" }, { "item": "webbing_belt" } ],
+    "items": [ { "group": "mil_jackets" }, { "group": "mil_boots" }, { "group": "mil_pants" }, { "group": "mil_belts" } ]
   },
   {
     "id": "clothing_military_winter",
     "type": "item_group",
     "subtype": "collection",
     "//": "Winter set of clothes worn by soldiers and paramilitary forces.",
-    "items": [ { "group": "crt_armor", "prob": 15 } ]
+    "delete": [ { "item": "boots_combat" }, { "item": "webbing_belt" } ],
+    "items": [ { "group": "mil_boots" }, { "group": "mil_belts" } ]
   },
   {
     "type": "item_group",

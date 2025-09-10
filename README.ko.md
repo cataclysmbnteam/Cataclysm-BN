@@ -55,7 +55,6 @@
 - [MSYS2](docs/en/dev/guides/building/msys.md)
 - [vcpkjg](docs/en/dev/guides/building/vs_vcpkg.md)
 - [cmake](docs/en/dev/guides/building/cmake.md)
-- [지원하는 컴파일러 목록](docs/en/dev/reference/compiler_support.md)
 
 자세한 내용은 [공식 문서](https://docs.cataclysmbn.org/en/dev/guides/building/cmake/)를
 참고해주세요.
