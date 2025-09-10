@@ -1079,7 +1079,8 @@ void vehicle::smash( map &m, float hp_percent_loss_min, float hp_percent_loss_ma
         std::vector<int> parts_in_square = parts_at_relative( part.mount, true );
         int structures_found = 0;
         for( auto &square_part_index : parts_in_square ) {
-            if( part_info( square_part_index ).location == part_location_structure ) {
+            if( part_info( square_part_index ).location == part_location_structure ||
+                part_info( square_part_index ).has_flag( VPFLAG_EXTENDABLE ) ) {
                 structures_found++;
             }
         }
