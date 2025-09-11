@@ -272,6 +272,9 @@ class Character : public Creature, public location_visitable<Character>
         Character &operator=( const Character & ) = delete;
         Character( Character && ) noexcept;
         Character &operator=( Character && ) noexcept;
+        // Swaps the data of this Character and "other" using "tmp" for temporary storage.
+        // Leaves "tmp" in an undefined state.
+        void swap_character( Character &other, Character &tmp );
         ~Character() override;
 
         // Move ctor and move operator= common stuff
