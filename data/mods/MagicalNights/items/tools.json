@@ -87,7 +87,7 @@
     "encumbrance": 1,
     "warmth": 0,
     "material_thickness": 1,
-    "flags": [ "SKINTIGHT", "ONLY_ONE", "COMPACT", "POWERARMOR_COMPATIBLE" ],
+    "flags": [ "SKINTIGHT", "ONLY_ONE", "COMPACT", "POWERARMOR_COMPATIBLE", "ALLOWS_HORNS" ],
     "qualities": [ [ "MANA_FOCUS", 1 ] ]
   },
   {

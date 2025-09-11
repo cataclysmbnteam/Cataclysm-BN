@@ -70,7 +70,7 @@
     "warmth": 15,
     "material": [ "kevlar", "superalloy" ],
     "material_thickness": 2,
-    "extend": { "flags": [ "ALLOWS_NATURAL_ATTACKS", "STURDY", "WATERPROOF" ] }
+    "extend": { "flags": [ "ALLOWS_NATURAL_ATTACKS", "STURDY", "WATERPROOF", "ALLOWS_CLAWS" ] }
   },
   {
     "id": "crt_gloves_liner",
@@ -126,7 +126,7 @@
       "skills": [ "pistol", "smg", "shotgun", "launcher" ],
       "flags": [ "SHEATH_KNIFE", "BELT_CLIP", "MAG_COMPACT", "SPEEDLOADER" ]
     },
-    "flags": [ "STURDY", "WATER_FRIENDLY", "ALLOWS_NATURAL_ATTACKS" ]
+    "flags": [ "STURDY", "WATER_FRIENDLY", "ALLOWS_NATURAL_ATTACKS", "ALLOWS_WINGS" ]
   },
   {
     "id": "crt_legguard",
@@ -196,7 +196,7 @@
     "warmth": 20,
     "material_thickness": 4,
     "environmental_protection": 9,
-    "flags": [ "POCKETS", "OUTER", "COLLAR", "STURDY", "WATERPROOF", "RAINPROOF", "ALLOWS_TAIL_SNAKE" ]
+    "flags": [ "POCKETS", "OUTER", "COLLAR", "STURDY", "WATERPROOF", "RAINPROOF", "ALLOWS_TAIL_SNAKE", "ALLOWS_WINGS" ]
   },
   {
     "id": "ds_monitor",

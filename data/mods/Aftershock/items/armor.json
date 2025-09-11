@@ -21,7 +21,7 @@
     "warmth": 5,
     "material_thickness": 2,
     "valid_mods": [ "resized_large" ],
-    "flags": [ "BELTED", "ONLY_ONE", "LEAK_DAM" ]
+    "flags": [ "BELTED", "ONLY_ONE", "LEAK_DAM", "ALLOWS_WINGS" ]
   },
   {
     "id": "afs_titanium_vest",
@@ -40,7 +40,8 @@
     "coverage": 80,
     "encumbrance": 4,
     "material_thickness": 2,
-    "valid_mods": [ "resized_large" ]
+    "valid_mods": [ "resized_large" ],
+    "flags": [ "ALLOWS_WINGS" ]
   },
   {
     "id": "afs_holo_cloak_mk2",
@@ -92,7 +93,7 @@
     "material_thickness": 3,
     "use_action": [ "SOLARPACK" ],
     "valid_mods": [ "resized_large" ],
-    "flags": [ "FRAGILE", "OUTER", "ONLY_ONE", "SOLARPACK" ]
+    "flags": [ "FRAGILE", "OUTER", "ONLY_ONE", "SOLARPACK", "ALLOWS_WINGS" ]
   },
   {
     "id": "q_solarpack_on",
@@ -115,7 +116,7 @@
     "use_action": [ "SOLARPACK_OFF" ],
     "solar_efficiency": 0.24,
     "valid_mods": [ "resized_large" ],
-    "flags": [ "FRAGILE", "OUTER", "ONLY_ONE", "SOLARPACK_ON" ]
+    "flags": [ "FRAGILE", "OUTER", "ONLY_ONE", "SOLARPACK_ON", "ALLOWS_WINGS" ]
   },
   {
     "id": "xlswat_armor",
@@ -243,6 +244,6 @@
       "max_weight": "12 kg",
       "flags": [ "BELT_CLIP" ]
     },
-    "flags": [ "WATER_FRIENDLY", "BELTED" ]
+    "flags": [ "WATER_FRIENDLY", "BELTED", "ALLOWS_WINGS" ]
   }
 ]
