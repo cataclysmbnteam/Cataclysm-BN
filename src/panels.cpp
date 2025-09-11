@@ -1587,10 +1587,6 @@ static void draw_health_classic( avatar &u, const catacurses::window &w )
         }
     };
 
-    vehicle *veh = g->remoteveh();
-    if( veh == nullptr && u.in_vehicle ) {
-        veh = veh_pointer_or_null( get_map().veh_at( u.pos() ) );
-    }
 
     werase( w );
 
@@ -1625,7 +1621,7 @@ static void draw_health_classic( avatar &u, const catacurses::window &w )
     std::string smiley = morale_emotion( morale_pair.second, get_face_type( u ), m_style );
     mvwprintz( w, point( 34, 1 ), morale_pair.first, smiley );
 
-    if( !veh ) {
+    {
         // stats
         auto pair = str_string( u );
         mvwprintz( w, point( 38, 0 ), pair.first, pair.second );
@@ -1659,7 +1655,7 @@ static void draw_health_classic( avatar &u, const catacurses::window &w )
     }
 
     // speed
-    if( !veh ) {
+    {
         mvwprintz( w, point( 21, 5 ), u.get_speed() < 100 ? c_red : c_white,
                    _( "Spd " ) + std::to_string( u.get_speed() ) );
         nc_color move_color = u.movement_mode_is( CMM_WALK ) ? c_white : move_mode_color( u );
