@@ -819,6 +819,9 @@ bool game::start_game()
         if( monster *const mon = place_critter_around( elem, u.pos(), 5 ) ) {
             mon->friendly = -1;
             mon->add_effect( effect_pet, 1_turns );
+        } else if( monster *const mon = place_critter_around( elem, u.pos(), 60 ) ) {
+            mon->friendly = -1;
+            mon->add_effect( effect_pet, 1_turns );
         } else {
             add_msg( m_debug, "cannot place starting pet, no space!" );
         }
