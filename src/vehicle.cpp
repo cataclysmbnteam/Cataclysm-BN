@@ -3737,13 +3737,15 @@ int vehicle::ideal_engine_power( bool safe ) const
     int cnt = 0;
 
     for( size_t e = 0; e < engines.size(); e++ ) {
-        int p = engines[e];
-        int m2c = safe ? part_info( engines[e] ).engine_m2c() : 100;
-        if( parts[ engines[e] ].faults().contains( fault_filter_fuel ) ) {
-            m2c *= 0.6;
+        if( is_engine_on( e ) ) {
+            int p = engines[e];
+            int m2c = safe ? part_info( engines[e] ).engine_m2c() : 100;
+            if( parts[ engines[e] ].faults().contains( fault_filter_fuel ) ) {
+                m2c *= 0.6;
+            }
+            pwr += part_vpower_w( p ) * m2c / 100;
+            cnt += static_cast<int>( !part_info( p ).has_flag( "E_NO_POWER_DECAY" ) );
         }
-        pwr += part_vpower_w( p ) * m2c / 100;
-        cnt += static_cast<int>( !part_info( p ).has_flag( "E_NO_POWER_DECAY" ) );
     }
 
     for( size_t a = 0; a < alternators.size(); a++ ) {
@@ -4554,7 +4556,7 @@ double vehicle::total_lift( const bool fuelled, const bool safe, const bool idea
 
 int vehicle::get_takeoff_speed() const
 {
-    const int needed_force = to_newton( total_mass() ) - thrust_of_rotorcraft( true, false, true ) +
+    const int needed_force = to_newton( total_mass() ) - thrust_of_rotorcraft( true, false, true ) -
                              total_balloon_lift();
 
     const double liftwithoutspeed = std::accumulate( wings.begin(), wings.end(), double{0.0},

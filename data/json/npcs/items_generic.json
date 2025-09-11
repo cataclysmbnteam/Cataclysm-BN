@@ -1162,6 +1162,7 @@
       [ "toolbox", 4 ],
       [ "touristmap", 6 ],
       [ "regionaltransportmap", 6 ],
+      [ "cavemap", 6 ],
       [ "towel", 4 ],
       [ "tramadol", 4 ],
       [ "transponder", 2 ],

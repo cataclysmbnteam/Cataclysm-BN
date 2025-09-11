@@ -660,6 +660,7 @@
           "smart_phone",
           "suitcase_l",
           "flashlight",
+          "roadmap",
           "blinkie",
           "ZSG"
         ],
@@ -4324,6 +4325,7 @@
           "smart_phone",
           "fedora",
           "wristwatch",
+          "cavemap",
           "spiral_stone"
         ],
         "entries": [
@@ -5495,6 +5497,7 @@
     "name": "RV Camper",
     "description": "You always enjoyed life on the road, driving across the country to see the wonders of nature.  Now nature seems a lot less hostile, and it's a lot harder to get your RV hooked up to shore power.",
     "points": 5,
+    "vehicle": "rv",
     "skills": [
       { "level": 1, "name": "survival" },
       { "level": 1, "name": "swimming" },
@@ -5551,6 +5554,7 @@
           "tool_belt",
           "mbag",
           "wristwatch",
+          "cavemap",
           "matches"
         ],
         "entries": [
@@ -6630,6 +6634,43 @@
       },
       "male": [ "boxer_shorts" ],
       "female": [ "bra", "boxer_shorts" ]
+    }
+  },
+  {
+    "type": "profession",
+    "id": "urbex",
+    "name": "Urban Explorer",
+    "description": "You've always admired the beauty of urban desolation, and were ready for your next trip into town when the end of the world made your hobby much more relevant.",
+    "points": 2,
+    "skills": [ { "level": 2, "name": "swimming" }, { "level": 1, "name": "traps" } ],
+    "items": {
+      "both": {
+        "items": [
+          "wristwatch",
+          "gloves_fingerless",
+          "socks",
+          "sneakers",
+          "hoodie",
+          "tshirt_text",
+          "crowbar",
+          "mbag",
+          "slingpack",
+          "leather_belt",
+          "urbexmap"
+        ],
+        "entries": [
+          { "item": "smart_phone" },
+          { "item": "light_disposable_cell", "ammo-item": "battery", "charges": 300, "container-item": "camera_pro" },
+          {
+            "item": "light_disposable_cell",
+            "ammo-item": "battery",
+            "charges": 300,
+            "container-item": "wearable_light"
+          }
+        ]
+      },
+      "male": [ "briefs" ],
+      "female": [ "boy_shorts", "sports_bra" ]
     }
   }
 ]
