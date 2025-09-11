@@ -731,6 +731,13 @@ void npc::setpos( const tripoint &pos )
     }
 }
 
+void npc::onswapsetpos( const tripoint &pos )
+{
+    position = pos;
+    submap_coords.x = g->get_levx() + pos.x / SEEX;
+    submap_coords.y = g->get_levy() + pos.y / SEEY;
+}
+
 void npc::travel_overmap( const tripoint &pos )
 {
     // TODO: fix point types
