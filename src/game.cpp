@@ -143,6 +143,7 @@
 #include "player_activity.h"
 #include "point_float.h"
 #include "popup.h"
+#include "profession.h"
 #include "profile.h"
 #include "ranged.h"
 #include "recipe.h"
@@ -827,6 +828,14 @@ bool game::start_game()
     for( const mission_type_id &m : scen->missions() ) {
         const auto mission = mission::reserve_new( m, character_id() );
         mission->assign( u );
+    }
+
+    // Same for profession missions
+    if( !!u.prof ) {
+        for( const mission_type_id &m : u.prof->missions() ) {
+            mission *new_mission = mission::reserve_new( m, character_id() );
+            new_mission->assign( u );
+        }
     }
     g->events().send<event_type::game_start>( u.getID() );
     for( Skill &elem : Skill::skills ) {

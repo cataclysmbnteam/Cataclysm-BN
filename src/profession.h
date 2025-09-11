@@ -72,6 +72,7 @@ class profession
         std::map<spell_id, int> _starting_spells;
         std::set<std::string> flags; // flags for some special properties of the profession
         StartingSkillList  _starting_skills;
+        std::vector<mission_type_id> _missions; // starting missions for profession
 
         void check_item_definitions( const itypedecvec &items ) const;
 
@@ -107,6 +108,7 @@ class profession
         std::vector<mtype_id> pets() const;
         std::vector<bionic_id> CBMs() const;
         StartingSkillList skills() const;
+        const std::vector<mission_type_id> &missions() const;
 
         std::map<spell_id, int> spells() const;
 

@@ -2341,7 +2341,6 @@
     "type": "profession",
     "id": "dog_lover",
     "name": "Dog Lover",
-    "//": "still needs mission ported",
     "description": "You spent your days running around with your faithful dogs by your side.  When the world ended, you grabbed your companions along with some of their things to protect them.  The zombies could be nearby, but at least your canine friends shouldn't have to worry about the rain.",
     "points": 3,
     "skills": [ { "level": 2, "name": "swimming" } ],
@@ -2354,7 +2353,8 @@
       },
       "male": [ "boxer_shorts" ],
       "female": [ "bra", "panties" ]
-    }
+    },
+    "missions": [ "MISSION_DOG_LOVER" ]
   },
   {
     "type": "profession",
