@@ -138,12 +138,14 @@ void avatar::control_npc( npc &np )
         shadow_npc->set_attitude( NPCATT_FOLLOW );
     }
     npc tmp;
+    std::string save_id = get_save_id();
     // move avatar character data into shadow npc
     swap_character( *shadow_npc, tmp );
     // swap target npc with shadow npc
     swap_npc( *shadow_npc, np, tmp );
     // move shadow npc character data into avatar
     swap_character( *shadow_npc, tmp );
+    set_save_id( save_id );
     // the avatar character is no longer a follower NPC
     g->remove_npc_follower( getID() );
     // the previous avatar character is now a follower
