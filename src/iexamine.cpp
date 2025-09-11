@@ -1981,6 +1981,14 @@ static bool drink_nectar( player &p )
 static void handle_harvest( player &p, const std::string &itemid, bool force_drop )
 {
     detached_ptr<item> harvest = item::spawn( itemid );
+    if( harvest->has_flag( flag_FORAGE_POISON ) && one_in( 10 ) ) {
+        harvest->set_flag( flag_HIDDEN_POISON );
+        harvest->poison = rng( 2, 7 );
+    }
+    if( harvest->has_flag( flag_FORAGE_HALLU ) && !harvest->has_flag( flag_HIDDEN_POISON ) &&
+        one_in( 10 ) ) {
+        harvest->set_flag( flag_HIDDEN_HALLU );
+    }
     // Drop items that're exceed available space and things that aren't comestibles
     if( !force_drop && harvest->get_comestible() && p.can_pick_volume( *harvest ) &&
         p.can_pick_weight( *harvest, !get_option<bool>( "DANGEROUS_PICKUPS" ) ) ) {
@@ -4751,7 +4759,14 @@ void iexamine::pay_gas( player &p, const tripoint &examp )
 void iexamine::ledge( player &p, const tripoint &examp )
 {
     enum ledge_action : int { jump_over, climb_down, spin_web_bridge };
-
+    if( p.in_vehicle ) {
+        if( !character_funcs::can_fly( p ) ) {
+            add_msg( m_warning, _( "Jumping off a flying object is far too dangerous." ) );
+            return;
+        } else {
+            get_map().unboard_vehicle( p.pos() );
+        }
+    }
     if( get_map().ter( p.pos() ).id().str() == "t_open_air" && !character_funcs::can_fly( p ) ) {
         tripoint where = p.pos();
         tripoint below = where;

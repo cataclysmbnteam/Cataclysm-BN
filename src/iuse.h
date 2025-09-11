@@ -102,7 +102,6 @@ int pick_lock( player *, item *, bool, const tripoint & );
 int portal( player *, item *, bool, const tripoint & );
 int tazer( player *, item *, bool, const tripoint & );
 int tazer2( player *, item *, bool, const tripoint & );
-int mp3( player *, item *, bool, const tripoint & );
 int mp3_on( player *, item *, bool, const tripoint & );
 int rpgdie( player *, item *, bool, const tripoint & );
 int dive_tank( player *, item *, bool, const tripoint & );
@@ -181,8 +180,6 @@ int radiocaron( player *, item *, bool, const tripoint & );
 int radiocontrol( player *, item *, bool, const tripoint & );
 
 int autoclave( player *, item *, bool, const tripoint & );
-
-int multicooker( player *, item *, bool, const tripoint & );
 
 int remoteveh( player *, item *, bool, const tripoint & );
 

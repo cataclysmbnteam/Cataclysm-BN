@@ -112,7 +112,6 @@
           "pants_army",
           "armguard_hard",
           "mre_veggy_box",
-          "crt_backpack",
           "two_way_radio",
           "crt_gloves_liner",
           "gloves_tactical",
@@ -122,7 +121,7 @@
         ],
         "entries": [
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
-          { "item": "knife_crt", "container-item": "sheath" },
+          { "item": "crt_backpack", "contents-item": [ "knife_crt" ] },
           { "item": "m4a1", "ammo-item": "556", "contents-item": [ "shoulder_strap", "grip", "holo_sight" ] },
           { "item": "modularvestsuper", "contents-group": "army_mags_m4" }
         ]
@@ -199,14 +198,12 @@
           "crt_canteen",
           "crt_legrig",
           "socks",
-          "crt_la_boots",
-          "knife_crt",
-          "crt_solarpack"
+          "crt_la_boots"
         ],
         "entries": [
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
-          { "item": "sleeping_bag_roll", "custom-flags": [ "no_auto_equip" ] },
-          { "item": "crt_laser_pistol", "container-item": "holster" }
+          { "item": "crt_solarpack", "contents-item": [ "crt_laser_pistol", "knife_crt" ] },
+          { "item": "sleeping_bag_roll", "custom-flags": [ "no_auto_equip" ] }
         ]
       },
       "male": [ "boxer_shorts" ],
@@ -243,14 +240,12 @@
           "crt_la_boots",
           "two_way_radio",
           "1st_aid",
-          "bandages",
-          "knife_crt",
-          "crt_solarpack"
+          "bandages"
         ],
         "entries": [
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "sleeping_bag_roll", "custom-flags": [ "no_auto_equip" ] },
-          { "item": "crt_laser_pistol", "container-item": "holster" }
+          { "item": "crt_solarpack", "contents-item": [ "crt_laser_pistol", "knife_crt" ] }
         ]
       },
       "male": [ "boxer_shorts" ],
@@ -494,7 +489,6 @@
           "crt_helmet",
           "crt_helmet_liner",
           "crt_gasmask",
-          "crt_backpack",
           "crt_em_vest",
           "crt_sarmor",
           "army_top",
@@ -519,8 +513,7 @@
         "entries": [
           { "item": "sleeping_bag_roll", "custom-flags": [ "no_auto_equip" ] },
           { "item": "water_clean", "container-item": "crt_canteen" },
-          { "item": "knife_crt", "container-item": "crt_belt" },
-          { "item": "holster", "contents-group": "crit_gun_specops" },
+          { "item": "crt_backpack", "contents-group": "crit_gun_specops", "contents-item": "knife_crt" },
           { "item": "signal_flare", "charges": 5 }
         ]
       },
@@ -605,7 +598,6 @@
           "crt_helmet",
           "crt_helmet_liner",
           "glasses_bal",
-          "crt_backpack",
           "crt_iduster",
           "army_top",
           "crt_gloves",
@@ -622,8 +614,8 @@
           "pellet"
         ],
         "entries": [
+          { "item": "crt_backpack", "contents-item": [ "crt_hatchet" ] },
           { "item": "pelletgun", "ammo-item": "pellet", "contents-item": "shoulder_strap" },
-          { "item": "crt_hatchet", "container-item": "crt_belt" },
           { "item": "water_clean", "container-item": "canteen" }
         ]
       },

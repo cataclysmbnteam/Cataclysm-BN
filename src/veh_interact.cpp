@@ -991,12 +991,9 @@ void veh_interact::do_install()
         return part.has_flag( "TRACK" ) || //Util
                part.has_flag( VPFLAG_FRIDGE ) ||
                part.has_flag( VPFLAG_FREEZER ) ||
-               part.has_flag( "KITCHEN" ) ||
-               part.has_flag( "BUTCHER_EQ" ) ||
+               part.has_flag( "CRAFTER" ) ||
+               part.has_flag( "HOTPLATE" ) ||
                part.has_flag( "WELDRIG" ) ||
-               part.has_flag( "CRAFTRIG" ) ||
-               part.has_flag( "CHEMLAB" ) ||
-               part.has_flag( "FORGE" ) ||
                part.has_flag( "HORN" ) ||
                part.has_flag( "BEEPER" ) ||
                part.has_flag( "AUTOPILOT" ) ||
@@ -2314,7 +2311,7 @@ void veh_interact::display_veh()
     }
 
     //Iterate over structural parts so we only hit each square once
-    std::vector<int> structural_parts = veh->all_parts_at_location( "structure" );
+    std::vector<int> structural_parts = veh->all_standalone_parts();
     for( auto &structural_part : structural_parts ) {
         const int p = structural_part;
         int sym = veh->part_sym( p );
@@ -2447,7 +2444,7 @@ void veh_interact::display_stats() const
 
     bool is_boat = !veh->floating.empty();
     bool is_ground = !veh->wheelcache.empty() || !is_boat;
-    bool is_aircraft = veh->is_rotorcraft() && veh->is_flying_in_air();
+    bool is_aircraft = veh->is_aircraft() && veh->is_flying_in_air();
 
     const auto vel_to_int = []( const double vel ) {
         return static_cast<int>( convert_velocity( vel, VU_VEHICLE ) );
@@ -2475,25 +2472,25 @@ void veh_interact::display_stats() const
     if( is_aircraft ) {
         print_stat(
             _( "Air Safe/Top Speed: <color_light_green>%3d</color>/<color_light_red>%3d</color> %s" ),
-            vel_to_int( veh->safe_rotor_velocity( false ) ),
-            vel_to_int( veh->max_rotor_velocity( false ) ),
+            vel_to_int( veh->safe_aircraft_velocity( false, true ) ),
+            vel_to_int( veh->max_air_velocity( false, true ) ),
             velocity_units( VU_VEHICLE ) );
         print_stat(
             _( "Air Acceleration: <color_light_blue>%3d</color> %s/s" ),
-            vel_to_int( veh->rotor_acceleration( false ) ),
+            vel_to_int( veh->aircraft_acceleration( false, true ) ),
             velocity_units( VU_VEHICLE ) );
     } else {
         if( is_ground ) {
             print_stat(
                 _( "Safe/Top Speed: <color_light_green>%3d</color>/<color_light_red>%3d</color> %s" ),
-                vel_to_int( veh->safe_ground_velocity( false ) ),
-                vel_to_int( veh->max_ground_velocity( false ) ),
+                vel_to_int( veh->safe_ground_velocity( false, true ) ),
+                vel_to_int( veh->max_ground_velocity( false, true ) ),
                 velocity_units( VU_VEHICLE ) );
             // TODO: extract accelerations units to its own function
             print_stat(
                 //~ /t means per turn
                 _( "Acceleration: <color_light_blue>%3d</color> %s/s" ),
-                vel_to_int( veh->ground_acceleration( false ) ),
+                vel_to_int( veh->ground_acceleration( false, true ) ),
                 velocity_units( VU_VEHICLE ) );
         } else {
             i += 2;
@@ -2501,14 +2498,14 @@ void veh_interact::display_stats() const
         if( is_boat ) {
             print_stat(
                 _( "Water Safe/Top Speed: <color_light_green>%3d</color>/<color_light_red>%3d</color> %s" ),
-                vel_to_int( veh->safe_water_velocity( false ) ),
-                vel_to_int( veh->max_water_velocity( false ) ),
+                vel_to_int( veh->safe_water_velocity( false, true ) ),
+                vel_to_int( veh->max_water_velocity( false, true ) ),
                 velocity_units( VU_VEHICLE ) );
             // TODO: extract accelerations units to its own function
             print_stat(
                 //~ /t means per turn
                 _( "Water Acceleration: <color_light_blue>%3d</color> %s/s" ),
-                vel_to_int( veh->water_acceleration( false ) ),
+                vel_to_int( veh->water_acceleration( false, true ) ),
                 velocity_units( VU_VEHICLE ) );
         } else {
             i += 2;
@@ -2517,14 +2514,21 @@ void veh_interact::display_stats() const
     print_stat(
         _( "Mass: <color_light_blue>%5.0f</color> %s" ),
         convert_weight( veh->total_mass() ), weight_units() );
-    if( veh->has_part( "ROTOR" ) ) {
+    if( veh->has_lift() ) {
         // convert newton to kg.
         units::mass lift_as_mass = units::from_newton(
-                                       veh->lift_thrust_of_rotorcraft( true ) );
+                                       veh->total_lift( true, false, true ) );
         print_stat(
             _( "Maximum Lift: <color_light_blue>%5.0f</color> %s" ),
             convert_weight( lift_as_mass ),
             weight_units() );
+        if( veh->has_part( "WING" ) ) {
+            print_stat(
+                _( "Liftoff Speed: <color_light_blue>%3d</color> %s" ),
+                veh->get_takeoff_speed(),
+                velocity_units( VU_VEHICLE )
+            );
+        }
     }
     if( is_boat ) {
         // convert newton to kg.

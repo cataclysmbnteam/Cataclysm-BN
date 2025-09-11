@@ -1676,27 +1676,6 @@ static void draw_health_classic( avatar &u, const catacurses::window &w )
     mvwprintz( w, point( 8, 6 ), c_light_gray, _( "POWER" ) );
     mvwprintz( w, point( 14, 6 ), pair.first, pair.second );
 
-    // vehicle display
-    if( veh ) {
-        veh->print_fuel_indicators( w, point( 39, 2 ) );
-        mvwprintz( w, point( 35, 4 ), c_light_gray, veh->face.to_string_azimuth_from_north() );
-        // target speed > current speed
-        const float strain = veh->strain();
-        nc_color col_vel = strain <= 0 ? c_light_blue :
-                           ( strain <= 0.2 ? c_yellow :
-                             ( strain <= 0.4 ? c_light_red : c_red ) );
-        int t_speed = static_cast<int>( convert_velocity( veh->cruise_velocity, VU_VEHICLE ) );
-        int c_speed = static_cast<int>( convert_velocity( veh->velocity, VU_VEHICLE ) );
-        int offset = get_int_digits( c_speed );
-        const std::string type = get_option<std::string>( "USE_METRIC_SPEEDS" );
-        mvwprintz( w, point( 21, 5 ), c_light_gray, type );
-        mvwprintz( w, point( 26, 5 ), col_vel, "%d", c_speed );
-        if( veh->cruise_on ) {
-            mvwprintz( w, point( 26 + offset, 5 ), c_light_gray, ">" );
-            mvwprintz( w, point( 28 + offset, 5 ), c_light_green, "%d", t_speed );
-        }
-    }
-
     wnoutrefresh( w );
 }
 
@@ -1914,8 +1893,9 @@ static void draw_veh_compact( const avatar &u, const catacurses::window &w )
         veh = veh_pointer_or_null( get_map().veh_at( u.pos() ) );
     }
     if( veh ) {
-        veh->print_fuel_indicators( w, point_zero );
-        mvwprintz( w, point( 6, 0 ), c_light_gray, veh->face.to_string_azimuth_from_north() );
+        mvwprintz( w, point( 0, 1 ), c_light_gray, "fuel: " );
+        veh->print_fuel_indicators( w, point( 6, 1 ) );
+        mvwprintz( w, point( 0, 0 ), c_light_gray, veh->face.to_string_azimuth_from_north() );
         // target speed > current speed
         const float strain = veh->strain();
         nc_color col_vel = strain <= 0 ? c_light_blue :
@@ -1925,11 +1905,21 @@ static void draw_veh_compact( const avatar &u, const catacurses::window &w )
         int c_speed = static_cast<int>( convert_velocity( veh->velocity, VU_VEHICLE ) );
         int offset = get_int_digits( c_speed );
         const std::string type = get_option<std::string>( "USE_METRIC_SPEEDS" );
-        mvwprintz( w, point( 12, 0 ), c_light_gray, "%s :", type );
-        mvwprintz( w, point( 19, 0 ), col_vel, "%d", c_speed );
+        mvwprintz( w, point( 6, 0 ), c_light_gray, "%s :", type );
+        mvwprintz( w, point( 13, 0 ), col_vel, "%d", c_speed );
         if( veh->cruise_on ) {
-            mvwprintz( w, point( 20 + offset, 0 ), c_light_gray, "%s", ">" );
-            mvwprintz( w, point( 22 + offset, 0 ), c_light_green, "%d", t_speed );
+            mvwprintz( w, point( 14 + offset, 0 ), c_light_gray, "%s", ">" );
+            mvwprintz( w, point( 16 + offset, 0 ), c_light_green, "%d", t_speed );
+        }
+        if( veh->has_part( "WING" ) ) {
+            int start = 14 + offset;
+            if( veh->cruise_on ) {
+                start = 16 + offset + get_int_digits( t_speed ) + 2;
+            }
+            int needed_speed = veh->get_takeoff_speed();
+            mvwprintz( w, point( start, 0 ), c_light_gray, "flight: " );
+            nc_color lift_color = c_speed > needed_speed ? c_light_green : c_light_red;
+            mvwprintz( w, point( start + 8, 0 ), lift_color, "%d", needed_speed );
         }
     }
 
@@ -1946,8 +1936,9 @@ static void draw_veh_padding( const avatar &u, const catacurses::window &w )
         veh = veh_pointer_or_null( get_map().veh_at( u.pos() ) );
     }
     if( veh ) {
-        veh->print_fuel_indicators( w, point_east );
-        mvwprintz( w, point( 7, 0 ), c_light_gray, veh->face.to_string_azimuth_from_north() );
+        mvwprintz( w, point( 1, 1 ), c_light_gray, "fuel: " );
+        veh->print_fuel_indicators( w, point( 7, 1 ) );
+        mvwprintz( w, point( 1, 0 ), c_light_gray, veh->face.to_string_azimuth_from_north() );
         // target speed > current speed
         const float strain = veh->strain();
         nc_color col_vel = strain <= 0 ? c_light_blue :
@@ -1957,11 +1948,64 @@ static void draw_veh_padding( const avatar &u, const catacurses::window &w )
         int c_speed = static_cast<int>( convert_velocity( veh->velocity, VU_VEHICLE ) );
         int offset = get_int_digits( c_speed );
         const std::string type = get_option<std::string>( "USE_METRIC_SPEEDS" );
-        mvwprintz( w, point( 13, 0 ), c_light_gray, "%s :", type );
-        mvwprintz( w, point( 20, 0 ), col_vel, "%d", c_speed );
+        mvwprintz( w, point( 7, 0 ), c_light_gray, "%s :", type );
+        mvwprintz( w, point( 14, 0 ), col_vel, "%d", c_speed );
         if( veh->cruise_on ) {
-            mvwprintz( w, point( 21 + offset, 0 ), c_light_gray, "%s", ">" );
-            mvwprintz( w, point( 23 + offset, 0 ), c_light_green, "%d", t_speed );
+            mvwprintz( w, point( 15 + offset, 0 ), c_light_gray, "%s", ">" );
+            mvwprintz( w, point( 17 + offset, 0 ), c_light_green, "%d", t_speed );
+        }
+        if( veh->has_part( "WING" ) ) {
+            int start = 15 + offset;
+            if( veh->cruise_on ) {
+                start = 17 + offset + get_int_digits( t_speed ) + 2;
+            }
+            int needed_speed = veh->get_takeoff_speed();
+            mvwprintz( w, point( start, 0 ), c_light_gray, "flight: " );
+            nc_color lift_color = c_speed > needed_speed ? c_light_green : c_light_red;
+            mvwprintz( w, point( start + 8, 0 ), lift_color, "%d", needed_speed );
+        }
+    }
+
+    wnoutrefresh( w );
+}
+
+static void draw_veh_classic( const avatar &u, const catacurses::window &w )
+{
+    werase( w );
+
+    // vehicle display
+    vehicle *veh = g->remoteveh();
+    if( veh == nullptr && u.in_vehicle ) {
+        veh = veh_pointer_or_null( get_map().veh_at( u.pos() ) );
+    }
+    if( veh ) {
+        mvwprintz( w, point( 0, 1 ), c_light_gray, "fuel: " );
+        veh->print_fuel_indicators( w, point( 7, 1 ) );
+        mvwprintz( w, point( 0, 0 ), c_light_gray, veh->face.to_string_azimuth_from_north() );
+        // target speed > current speed
+        const float strain = veh->strain();
+        nc_color col_vel = strain <= 0 ? c_light_blue :
+                           ( strain <= 0.2 ? c_yellow :
+                             ( strain <= 0.4 ? c_light_red : c_red ) );
+        int t_speed = static_cast<int>( convert_velocity( veh->cruise_velocity, VU_VEHICLE ) );
+        int c_speed = static_cast<int>( convert_velocity( veh->velocity, VU_VEHICLE ) );
+        int offset = get_int_digits( c_speed );
+        const std::string type = get_option<std::string>( "USE_METRIC_SPEEDS" );
+        mvwprintz( w, point( 6, 0 ), c_light_gray, "%s :", type );
+        mvwprintz( w, point( 13, 0 ), col_vel, "%d", c_speed );
+        if( veh->cruise_on ) {
+            mvwprintz( w, point( 14 + offset, 0 ), c_light_gray, "%s", ">" );
+            mvwprintz( w, point( 16 + offset, 0 ), c_light_green, "%d", t_speed );
+        }
+        if( veh->has_part( "WING" ) ) {
+            int start = 14 + offset;
+            if( veh->cruise_on ) {
+                start = 16 + offset + get_int_digits( t_speed ) + 2;
+            }
+            int needed_speed = veh->get_takeoff_speed();
+            mvwprintz( w, point( start, 0 ), c_light_gray, "flight: " );
+            nc_color lift_color = c_speed > needed_speed ? c_light_green : c_light_red;
+            mvwprintz( w, point( start + 8, 0 ), lift_color, "%d", needed_speed );
         }
     }
 
@@ -2175,6 +2219,7 @@ static std::vector<window_panel> initialize_default_classic_panels()
     std::vector<window_panel> ret;
 
     ret.emplace_back( draw_health_classic, translate_marker( "Health" ), 7, 44, true );
+    ret.emplace_back( draw_veh_classic, translate_marker( "Vehicle" ), 2, 44, true );
     ret.emplace_back( draw_location_classic, translate_marker( "Location" ), 1, 44,
                       true );
     ret.emplace_back( draw_mana_classic, translate_marker( "Mana" ), 1, 44, true,
@@ -2219,7 +2264,7 @@ static std::vector<window_panel> initialize_default_compact_panels()
     ret.emplace_back( draw_time, translate_marker( "Time" ), 1, 32, true );
     ret.emplace_back( draw_needs_compact, translate_marker( "Needs" ), 3, 32, true );
     ret.emplace_back( draw_env_compact, translate_marker( "Env" ), 6, 32, true );
-    ret.emplace_back( draw_veh_compact, translate_marker( "Vehicle" ), 1, 32, true );
+    ret.emplace_back( draw_veh_compact, translate_marker( "Vehicle" ), 2, 32, true );
     ret.emplace_back( draw_weightvolume_compact, translate_marker( "Wgt/Vol" ), 2, 32,
                       true );
     ret.emplace_back( draw_armor, translate_marker( "Armor" ), 5, 32, false );
@@ -2247,7 +2292,7 @@ static std::vector<window_panel> initialize_default_label_narrow_panels()
     ret.emplace_back( draw_mana_narrow, translate_marker( "Mana" ), 1, 32, true,
                       spell_panel );
     ret.emplace_back( draw_stat_narrow, translate_marker( "Stats" ), 3, 32, true );
-    ret.emplace_back( draw_veh_padding, translate_marker( "Vehicle" ), 1, 32, true );
+    ret.emplace_back( draw_veh_padding, translate_marker( "Vehicle" ), 2, 32, true );
     ret.emplace_back( draw_loc_narrow, translate_marker( "Location" ), 6, 32, true );
     ret.emplace_back( draw_wind_padding, translate_marker( "Wind" ), 1, 32, false );
     ret.emplace_back( draw_weapon_labels, translate_marker( "Weapon" ), 2, 32, true );
@@ -2283,7 +2328,7 @@ static std::vector<window_panel> initialize_default_label_panels()
     ret.emplace_back( draw_mana_wide, translate_marker( "Mana" ), 1, 44, true,
                       spell_panel );
     ret.emplace_back( draw_stat_wide, translate_marker( "Stats" ), 2, 44, true );
-    ret.emplace_back( draw_veh_padding, translate_marker( "Vehicle" ), 1, 44, true );
+    ret.emplace_back( draw_veh_padding, translate_marker( "Vehicle" ), 2, 44, true );
     ret.emplace_back( draw_loc_wide_map, translate_marker( "Location" ), 6, 44, true );
     ret.emplace_back( draw_wind_padding, translate_marker( "Wind" ), 1, 44, false );
     ret.emplace_back( draw_loc_wide, translate_marker( "Location Alt" ), 6, 44, false );

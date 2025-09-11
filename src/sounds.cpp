@@ -1448,6 +1448,7 @@ void sfx::do_footstep()
             ter_str_id( "t_underbrush_harvested_autumn" ),
             ter_str_id( "t_underbrush_harvested_winter" ),
             ter_str_id( "t_moss" ),
+            ter_str_id( "t_moss_underground" ),
             ter_str_id( "t_grass_white" ),
             ter_str_id( "t_grass_long" ),
             ter_str_id( "t_grass_tall" ),

@@ -321,6 +321,18 @@
     "entries": [ { "item": "arrow_stinger", "charges": 20 } ]
   },
   {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "dog_lover_bag",
+    "entries": [
+      { "item": "rubber_harness_dog" },
+      { "item": "rubber_harness_dog" },
+      { "item": "dog_whistle" },
+      { "item": "dogfood" },
+      { "item": "dogfood" }
+    ]
+  },
+  {
     "type": "profession_item_substitutions",
     "trait": "WOOLALLERGY",
     "sub": [
@@ -625,6 +637,37 @@
       },
       "male": [ "boxer_shorts" ],
       "female": [ "bra", "panties" ]
+    }
+  },
+  {
+    "type": "profession",
+    "id": "lonesome_drifter",
+    "name": "Lonesome Drifter",
+    "description": "You thought you were just another resident of Massachusetts, until the undead came calling. Armed with blinkies, a shotgun, and a set of survival rules, you know the best way to survive is to keep moving, shoot straight, and never forget your seatbelt.  You've heard the Cataclysm hasn't reached the west, so that's where you're heading.",
+    "points": 2,
+    "skills": [ { "level": 2, "name": "survival" }, { "level": 2, "name": "swimming" } ],
+    "traits": [ "NOMAD" ],
+    "items": {
+      "both": {
+        "items": [
+          "jeans",
+          "dress_shirt",
+          "jacket_leather",
+          "socks",
+          "sneakers",
+          "wristwatch",
+          "duct_tape",
+          "smart_phone",
+          "suitcase_l",
+          "flashlight",
+          "roadmap",
+          "blinkie",
+          "ZSG"
+        ],
+        "entries": [ { "item": "shotgun_d", "ammo-item": "shot_00", "charges": 2 }, { "item": "shot_00", "charges": 12 } ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "bra", "boy_shorts" ]
     }
   },
   {
@@ -2032,6 +2075,78 @@
   },
   {
     "type": "profession",
+    "id": "dumpster_diver",
+    "name": "Dumpster Diver",
+    "//": "basically a luxury hobo",
+    "description": "Before the Cataclysm, you lived off what others threw away. Now that the world has leveled the playing field, your eye for salvage makes you a survivor, not a beggar.",
+    "points": 1,
+    "skills": [ { "level": 2, "name": "survival" }, { "level": 1, "name": "mechanics" } ],
+    "vehicle": "shopping_cart",
+    "items": {
+      "both": {
+        "items": [
+          "pants",
+          "gloves_light_fingerless",
+          "smart_phone",
+          "fanny",
+          "backpack",
+          "sneakers",
+          "water_clean",
+          "pockknife",
+          "ref_lighter"
+        ],
+        "entries": [ { "group": "cannedfood", "count": 3 } ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "bra", "panties" ]
+    }
+  },
+  {
+    "type": "profession",
+    "id": "crypto_millionaire",
+    "name": "Crypto Millionaire",
+    "description": "Before the Cataclysm, you were a shut-in NEET who struck gold on an obscure cryptocoin. Money couldn’t buy you friends or fitness, but it filled your apartment with gadgets, snacks, and time to waste. When the world ended, your fortune meant nothing—except the gear you had the sense (or luck) to keep close.",
+    "points": 1,
+    "traits": [ "UGLY" ],
+    "skills": [ { "level": 1, "name": "computer" } ],
+    "starting_cash": 2147483647,
+    "items": {
+      "both": {
+        "items": [
+          "hoodie",
+          "shorts_cargo",
+          "socks",
+          "sneakers",
+          "wristwatch",
+          "smart_phone",
+          "water_clean",
+          "laptop",
+          "energy_drink",
+          "chips"
+        ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "bra", "boy_shorts" ]
+    }
+  },
+  {
+    "type": "profession",
+    "id": "fashion_model",
+    "name": "Fashion Model",
+    "description": "Once worshipped for looks, not survival skills. Now that the world has leveled the playing field, glamour won’t save you.",
+    "traits": [ "PRETTY" ],
+    "//": "based on stylish morale bonuses",
+    "points": 1,
+    "skills": [ { "level": 4, "name": "speech" }, { "level": 2, "name": "barter" } ],
+    "starting_cash": 5000000,
+    "items": {
+      "both": { "items": [ "smart_phone", "platinum_watch" ] },
+      "male": [ "boxer_shorts", "tux", "dress_shoes", "diamond_platinum_earring", "fancy_sunglasses" ],
+      "female": [ "bra", "panties", "shorts_denim", "blazer", "diamond_platinum_earring", "heels", "fancy_sunglasses" ]
+    }
+  },
+  {
+    "type": "profession",
     "id": "tweaker",
     "name": "Tweaker",
     "description": "You're not entirely sure what happened, but everything has gone to shit, and the only thing running through your head is where you're gonna find your next hit.",
@@ -2081,8 +2196,8 @@
   {
     "type": "profession",
     "id": "heli_pilot",
-    "name": "Helicopter Pilot",
-    "description": "You earned a living ferrying businessmen and tourists from helipad to helipad, the Cataclysm has grounded you, but the sky still calls you…",
+    "name": "Pilot",
+    "description": "You’ve spent years in the cockpit, guiding passengers, cargo, or your own craft through the skies. The Cataclysm has grounded you, but the thrill of flight still calls…",
     "points": 2,
     "skills": [ { "level": 4, "name": "driving" }, { "level": 1, "name": "speech" }, { "level": 3, "name": "mechanics" } ],
     "items": {
@@ -2100,6 +2215,26 @@
     "name": "Helicopter Pilot",
     "description": "You earned a living ferrying businesspeople and tourists from helipad to helipad, now your flying skills are all you have to rely on.",
     "vehicle": "2seater2",
+    "points": 4,
+    "copy-from": "heli_pilot",
+    "flags": [ "SCEN_ONLY" ]
+  },
+  {
+    "type": "profession",
+    "id": "plane_pilot_scenario",
+    "name": "Plane Pilot",
+    "description": "You once soared above cities and fields, transporting passengers and cargo between airports.",
+    "vehicle": "plane_small",
+    "points": 4,
+    "copy-from": "heli_pilot",
+    "flags": [ "SCEN_ONLY" ]
+  },
+  {
+    "type": "profession",
+    "id": "blimp_pilot_scenario",
+    "name": "Blimp Pilot",
+    "description": "You once piloted a newscasting blimp, drifting above cities and fields to capture stories from the skies.",
+    "vehicle": "blimp",
     "points": 4,
     "copy-from": "heli_pilot",
     "flags": [ "SCEN_ONLY" ]
@@ -2200,6 +2335,25 @@
       },
       "male": [ "boxer_shorts" ],
       "female": [ "bra", "boy_shorts" ]
+    }
+  },
+  {
+    "type": "profession",
+    "id": "dog_lover",
+    "name": "Dog Lover",
+    "//": "still needs mission ported",
+    "description": "You spent your days running around with your faithful dogs by your side.  When the world ended, you grabbed your companions along with some of their things to protect them.  The zombies could be nearby, but at least your canine friends shouldn't have to worry about the rain.",
+    "points": 3,
+    "skills": [ { "level": 2, "name": "swimming" } ],
+    "traits": [ "ANIMALEMPATH" ],
+    "pets": [ { "name": "mon_dog", "amount": 2 } ],
+    "items": {
+      "both": {
+        "items": [ "jeans", "longshirt", "socks", "sneakers", "water_clean", "wristwatch", "smart_phone", "petpack", "pet_carrier" ],
+        "entries": [ { "item": "mbag", "contents-group": "dog_lover_bag" } ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "bra", "panties" ]
     }
   },
   {
@@ -2741,7 +2895,40 @@
         "items": [ "pants", "tshirt_text", "socks", "sneakers", "mbag", "smart_phone", "caffeine", "laptop", "portable_game" ]
       },
       "male": [ "briefs" ],
-      "female": [ "panties" ]
+      "female": [ "panties", "bra" ]
+    }
+  },
+  {
+    "type": "profession",
+    "id": "robot_tech",
+    "name": "Robot Technician",
+    "description": "You worked as a robotics technician, keeping drones and machines running and once even slipped a control laptop out of the lab for yourself. After the world fell, your skill to repair and command broken robots makes you as valuable and dangerous as any weapon.",
+    "points": 4,
+    "skills": [
+      { "level": 6, "name": "computer" },
+      { "level": 2, "name": "electronics" },
+      { "level": 1, "name": "mechanics" },
+      { "level": 2, "name": "fabrication" }
+    ],
+    "pets": [ { "name": "mon_haulerbot", "amount": 1 } ],
+    "items": {
+      "both": { "items": [ "pants", "tshirt_text", "socks", "sneakers", "fanny", "smart_phone", "control_laptop" ] },
+      "male": [ "briefs" ],
+      "female": [ "panties", "bra" ]
+    }
+  },
+  {
+    "type": "profession",
+    "id": "pentester",
+    "name": "Penetration Tester",
+    "description": "Years of sneaking past digital defenses and exploiting software vulnerabilities taught you to manipulate systems others couldn’t touch. Now, in a world of silent servers and dormant machinery, those same skills let you turn abandoned tech into tools, weapons, or even allies.",
+    "points": 4,
+    "traits": [ "LIAR" ],
+    "skills": [ { "level": 8, "name": "computer" }, { "level": 3, "name": "speech" } ],
+    "items": {
+      "both": { "items": [ "pants", "tshirt_text", "socks", "sneakers", "mbag", "smart_phone", "control_laptop" ] },
+      "male": [ "briefs" ],
+      "female": [ "panties", "bra" ]
     }
   },
   {
@@ -3321,6 +3508,38 @@
       },
       "male": [ "boxer_shorts" ],
       "female": [ "bra", "panties" ]
+    }
+  },
+  {
+    "type": "profession",
+    "id": "bio_gunslinger",
+    "name": "Bionic Gunslinger",
+    "description": "Lynched but not killed for a crime you didn't commit, you underwent augmentation surgery and hunted down those responsible with your trusty laser pistol. Now the Cataclysm is here, and it's you, your cybernetics and your gun against the world.",
+    "points": 8,
+    "pets": [ { "name": "mon_haulerbot", "amount": 1 } ],
+    "CBMs": [
+      "bio_targeting",
+      "bio_adrenaline",
+      "bn_bio_solar",
+      "bio_night_vision",
+      "bio_ups",
+      "bio_power_storage_mkII",
+      "bio_dex_enhancer"
+    ],
+    "skills": [
+      { "level": 3, "name": "gun" },
+      { "level": 3, "name": "pistol" },
+      { "level": 2, "name": "melee" },
+      { "level": 1, "name": "survival" },
+      { "level": 2, "name": "dodge" }
+    ],
+    "items": {
+      "both": {
+        "items": [ "cowboy_hat", "tshirt", "gloves_leather", "socks", "jeans", "boots_western", "jacket_leather", "horse_tack" ],
+        "entries": [ { "item": "knife_hunting", "container-item": "sheath" }, { "item": "v29", "container-item": "shoulder_holster" } ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "bra", "boxer_shorts" ]
     }
   },
   {
@@ -4106,6 +4325,7 @@
           "smart_phone",
           "fedora",
           "wristwatch",
+          "cavemap",
           "spiral_stone"
         ],
         "entries": [
@@ -5038,6 +5258,7 @@
           "wristwatch",
           "marble",
           "smart_phone",
+          "radio_car_box",
           "marble",
           "slingshot"
         ]
@@ -5332,6 +5553,7 @@
           "tool_belt",
           "mbag",
           "wristwatch",
+          "cavemap",
           "matches"
         ],
         "entries": [
@@ -5658,9 +5880,10 @@
     "type": "profession",
     "id": "rancher",
     "name": "Rancher",
-    "description": "You've raised cows or horses most of your life, now we'll see what happens next.",
+    "description": "You've spent your life tending to cows, but the world has bigger plans for you now. Time to see where your skills - and a little luck - will take you next.",
     "points": 2,
     "skills": { "level": 2, "name": "survival" },
+    "pets": [ { "name": "mon_cow", "amount": 3 } ],
     "items": {
       "both": [
         "jeans",
@@ -5670,8 +5893,10 @@
         "cowboy_hat",
         "boots_western",
         "wristwatch",
-        "horse_tack",
         "pockknife",
+        "rope_6",
+        "rope_6",
+        "rope_6",
         "cattlefodder",
         "cattlefodder",
         "cig"
@@ -5758,6 +5983,7 @@
       { "level": 2, "name": "shotgun" },
       { "level": 1, "name": "survival" }
     ],
+    "pets": [ { "name": "mon_horse", "amount": 1 } ],
     "items": {
       "both": {
         "items": [
@@ -5770,6 +5996,7 @@
           "gloves_leather",
           "boots_western",
           "duster",
+          "horse_tack",
           "badge_deputy",
           "sheriffshirt"
         ],
@@ -6406,6 +6633,43 @@
       },
       "male": [ "boxer_shorts" ],
       "female": [ "bra", "boxer_shorts" ]
+    }
+  },
+  {
+    "type": "profession",
+    "id": "urbex",
+    "name": "Urban Explorer",
+    "description": "You've always admired the beauty of urban desolation, and were ready for your next trip into town when the end of the world made your hobby much more relevant.",
+    "points": 2,
+    "skills": [ { "level": 2, "name": "swimming" }, { "level": 1, "name": "traps" } ],
+    "items": {
+      "both": {
+        "items": [
+          "wristwatch",
+          "gloves_fingerless",
+          "socks",
+          "sneakers",
+          "hoodie",
+          "tshirt_text",
+          "crowbar",
+          "mbag",
+          "slingpack",
+          "leather_belt",
+          "urbexmap"
+        ],
+        "entries": [
+          { "item": "smart_phone" },
+          { "item": "light_disposable_cell", "ammo-item": "battery", "charges": 300, "container-item": "camera_pro" },
+          {
+            "item": "light_disposable_cell",
+            "ammo-item": "battery",
+            "charges": 300,
+            "container-item": "wearable_light"
+          }
+        ]
+      },
+      "male": [ "briefs" ],
+      "female": [ "boy_shorts", "sports_bra" ]
     }
   }
 ]

@@ -30,6 +30,7 @@
       { "item": "trailmap", "prob": 20 },
       { "item": "file", "prob": 10 },
       { "item": "touristmap", "prob": 20 },
+      { "item": "waterwaymap", "prob": 20 },
       { "item": "regionaltransportmap", "prob": 20 },
       { "item": "restaurantmap", "prob": 20 },
       { "item": "money_bundle", "prob": 55 },
@@ -839,6 +840,7 @@
       { "item": "toastem", "prob": 45 },
       { "item": "toastem2", "prob": 45 },
       { "item": "toastem3", "prob": 45 },
+      { "item": "blinkie", "prob": 20 },
       { "item": "cookies", "prob": 45 },
       { "item": "bat", "prob": 15 },
       { "item": "backpack", "prob": 20 },
@@ -1795,6 +1797,7 @@
     "items": [
       [ "dog_whistle", 10 ],
       [ "pet_carrier", 30 ],
+      [ "rubber_armor_small_quadruped", 30 ],
       [ "petpack", 3 ],
       { "item": "dogfood", "prob": 30, "container-item": "can_medium" },
       { "item": "catfood", "prob": 30, "container-item": "can_food" },

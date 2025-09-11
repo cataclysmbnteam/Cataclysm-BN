@@ -556,11 +556,6 @@
   },
   {
     "type": "item_action",
-    "id": "MP3",
-    "name": { "str": "Play music" }
-  },
-  {
-    "type": "item_action",
     "id": "MP3_ON",
     "name": { "str": "Turn off music" }
   },
@@ -588,11 +583,6 @@
     "type": "item_action",
     "id": "SOLARPACK_OFF",
     "name": { "str": "Fold" }
-  },
-  {
-    "type": "item_action",
-    "id": "MULTICOOKER",
-    "name": { "str": "Cook" }
   },
   {
     "type": "item_action",
@@ -981,6 +971,11 @@
   },
   {
     "type": "item_action",
+    "id": "multicooker",
+    "name": { "str": "CRAFT" }
+  },
+  {
+    "type": "item_action",
     "id": "CRAFT",
     "name": { "str": "Work on craft" }
   },
@@ -998,5 +993,10 @@
     "type": "item_action",
     "id": "sex_toy",
     "name": { "str": "Relieve some tension" }
+  },
+  {
+    "type": "item_action",
+    "id": "music_player",
+    "name": { "str": "Listen to music" }
   }
 ]
