@@ -999,7 +999,6 @@ void Item_factory::init()
     add_iuse( "MININUKE", &iuse::mininuke );
     add_iuse( "MOLOTOV_LIT", &iuse::molotov_lit );
     add_iuse( "MOP", &iuse::mop );
-    add_iuse( "MP3", &iuse::mp3 );
     add_iuse( "MP3_ON", &iuse::mp3_on );
     add_iuse( "MYCUS", &iuse::mycus );
     add_iuse( "NOISE_EMITTER_OFF", &iuse::noise_emitter_off );
@@ -1114,6 +1113,7 @@ void Item_factory::init()
     add_actor( std::make_unique<sew_advanced_actor>() );
     add_actor( std::make_unique<multicooker_iuse>() );
     add_actor( std::make_unique<sex_toy_actor>() );
+    add_actor( std::make_unique<iuse_music_player>() );
 
     // An empty dummy group, it will not spawn anything. However, it makes that item group
     // id valid, so it can be used all over the place without need to explicitly check for it.
