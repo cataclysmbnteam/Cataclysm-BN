@@ -4439,6 +4439,9 @@ bool vehicle::can_float() const
         coeff_water_drag();
     }
     // Someday I'll deal with submarines, but now, you can only float if you have freeboard
+    if( hull_height == 0.3 ) {
+        return false;
+    } 
     return draft_m < hull_height;
 }
 
