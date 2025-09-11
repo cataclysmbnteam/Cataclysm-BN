@@ -1417,7 +1417,7 @@
     "name": { "str": "fur tail warmer" },
     "description": "An oversized leg warmer made of fur.  Clearly designed for legless mutants, or an awkward tube skirt for more normal survivors.",
     "material": [ "fur" ],
-    "relative": { "weight": 2, "volume": 2, "encumbrance": 2, "warmth": 2.5 },
+    "proportional": { "weight": 2, "volume": 2, "encumbrance": 2, "warmth": 2.5 },
     "extend": { "flags": [ "WATERPROOF" ] }
   },
   {
@@ -1427,7 +1427,7 @@
     "name": { "str": "leather tail warmer" },
     "description": "An oversized leg warmer made of leather.  Clearly designed for legless mutants, or an awkward tube skirt for more normal survivors.",
     "material": [ "leather" ],
-    "relative": { "weight": 1.5, "volume": 1.5, "encumbrance": 1.5, "warmth": 1.5 },
+    "proportional": { "weight": 1.5, "volume": 1.5, "encumbrance": 1.5, "warmth": 1.5 },
     "extend": { "flags": [ "WATERPROOF" ] }
   },
   {
@@ -1437,7 +1437,7 @@
     "name": { "str": "wool tail warmer" },
     "description": "An oversized leg warmer made of wool.  Clearly designed for legless mutants, or an awkward tube skirt for more normal survivors.",
     "material": [ "wool" ],
-    "relative": { "weight": 1.25, "volume": 1.25, "encumbrance": 1.25, "warmth": 2 }
+    "proportional": { "weight": 1.25, "volume": 1.25, "encumbrance": 1.25, "warmth": 2 }
   },
   {
     "id": "tabi_dress",
