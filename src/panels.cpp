@@ -2209,6 +2209,10 @@ static bool spell_panel()
     return has_manacasting;
 }
 
+static bool veh_panel()
+{
+    return get_avatar().in_vehicle;
+}
 bool default_render()
 {
     return true;
@@ -2219,7 +2223,7 @@ static std::vector<window_panel> initialize_default_classic_panels()
     std::vector<window_panel> ret;
 
     ret.emplace_back( draw_health_classic, translate_marker( "Health" ), 7, 44, true );
-    ret.emplace_back( draw_veh_classic, translate_marker( "Vehicle" ), 2, 44, true );
+    ret.emplace_back( draw_veh_classic, translate_marker( "Vehicle" ), 2, 44, true, veh_panel );
     ret.emplace_back( draw_location_classic, translate_marker( "Location" ), 1, 44,
                       true );
     ret.emplace_back( draw_mana_classic, translate_marker( "Mana" ), 1, 44, true,
@@ -2264,7 +2268,7 @@ static std::vector<window_panel> initialize_default_compact_panels()
     ret.emplace_back( draw_time, translate_marker( "Time" ), 1, 32, true );
     ret.emplace_back( draw_needs_compact, translate_marker( "Needs" ), 3, 32, true );
     ret.emplace_back( draw_env_compact, translate_marker( "Env" ), 6, 32, true );
-    ret.emplace_back( draw_veh_compact, translate_marker( "Vehicle" ), 2, 32, true );
+    ret.emplace_back( draw_veh_compact, translate_marker( "Vehicle" ), 2, 32, true, veh_panel );
     ret.emplace_back( draw_weightvolume_compact, translate_marker( "Wgt/Vol" ), 2, 32,
                       true );
     ret.emplace_back( draw_armor, translate_marker( "Armor" ), 5, 32, false );
@@ -2292,7 +2296,7 @@ static std::vector<window_panel> initialize_default_label_narrow_panels()
     ret.emplace_back( draw_mana_narrow, translate_marker( "Mana" ), 1, 32, true,
                       spell_panel );
     ret.emplace_back( draw_stat_narrow, translate_marker( "Stats" ), 3, 32, true );
-    ret.emplace_back( draw_veh_padding, translate_marker( "Vehicle" ), 2, 32, true );
+    ret.emplace_back( draw_veh_padding, translate_marker( "Vehicle" ), 2, 32, true, veh_panel );
     ret.emplace_back( draw_loc_narrow, translate_marker( "Location" ), 6, 32, true );
     ret.emplace_back( draw_wind_padding, translate_marker( "Wind" ), 1, 32, false );
     ret.emplace_back( draw_weapon_labels, translate_marker( "Weapon" ), 2, 32, true );
@@ -2328,7 +2332,7 @@ static std::vector<window_panel> initialize_default_label_panels()
     ret.emplace_back( draw_mana_wide, translate_marker( "Mana" ), 1, 44, true,
                       spell_panel );
     ret.emplace_back( draw_stat_wide, translate_marker( "Stats" ), 2, 44, true );
-    ret.emplace_back( draw_veh_padding, translate_marker( "Vehicle" ), 2, 44, true );
+    ret.emplace_back( draw_veh_padding, translate_marker( "Vehicle" ), 2, 44, true, veh_panel );
     ret.emplace_back( draw_loc_wide_map, translate_marker( "Location" ), 6, 44, true );
     ret.emplace_back( draw_wind_padding, translate_marker( "Wind" ), 1, 44, false );
     ret.emplace_back( draw_loc_wide, translate_marker( "Location Alt" ), 6, 44, false );
