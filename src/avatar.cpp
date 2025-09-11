@@ -146,6 +146,7 @@ void avatar::control_npc( npc &np )
     // move shadow npc character data into avatar
     swap_character( *shadow_npc, tmp );
     set_save_id( save_id );
+    np.onswapsetpos( np.pos() );
     // the avatar character is no longer a follower NPC
     g->remove_npc_follower( getID() );
     // the previous avatar character is now a follower
