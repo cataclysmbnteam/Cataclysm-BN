@@ -188,7 +188,7 @@ void vehicle::thrust( int thd, int z )
     // Somehow accel is not clamped to current_acceleration in the air
     // Everywhere else and there is no need for clamps
     if( is_flying && ( has_part( VPFLAG_WING ) || has_part( VPFLAG_BALLOON ) )
-        && !has_part( VPFLAG_PROPELLER ) ) {
+        && !( has_part( VPFLAG_PROPELLER ) || has_part( VPFLAG_ROTOR ) ) ) {
         accel = 0;
     }
     if( accel < 200 && velocity > 0 && is_towing() ) {
