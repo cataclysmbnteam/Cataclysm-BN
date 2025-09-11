@@ -191,7 +191,7 @@
     "warmth": 15,
     "material_thickness": 4,
     "environmental_protection": 1,
-    "flags": [ "VARSIZE", "STURDY", "ALLOWS_NATURAL_ATTACKS" ]
+    "flags": [ "VARSIZE", "STURDY", "ALLOWS_NATURAL_ATTACKS", "ALLOWS_CLAWS" ]
   },
   {
     "id": "gauntlets_plarmor",
@@ -243,7 +243,7 @@
     "coverage": 50,
     "warmth": 10,
     "material_thickness": 1,
-    "flags": [ "VARSIZE", "WATER_FRIENDLY", "ALLOWS_NATURAL_ATTACKS" ]
+    "flags": [ "VARSIZE", "WATER_FRIENDLY", "ALLOWS_NATURAL_ATTACKS", "ALLOWS_CLAWS" ]
   },
   {
     "id": "gloves_fingerless_mod",
@@ -264,7 +264,7 @@
     "encumbrance": 3,
     "warmth": 5,
     "material_thickness": 1,
-    "flags": [ "VARSIZE", "ALLOWS_NATURAL_ATTACKS" ]
+    "flags": [ "VARSIZE", "ALLOWS_NATURAL_ATTACKS", "ALLOWS_CLAWS" ]
   },
   {
     "id": "gloves_fsurvivor",
@@ -322,7 +322,7 @@
     "coverage": 50,
     "warmth": 28,
     "encumbrance": 20,
-    "extend": { "flags": [ "ALLOWS_NATURAL_ATTACKS" ] }
+    "extend": { "flags": [ "ALLOWS_NATURAL_ATTACKS", "ALLOWS_CLAWS" ] }
   },
   {
     "id": "gloves_hsurvivor",
@@ -435,7 +435,7 @@
     "coverage": 50,
     "warmth": 8,
     "encumbrance": 0,
-    "extend": { "flags": [ "ALLOWS_NATURAL_ATTACKS" ] }
+    "extend": { "flags": [ "ALLOWS_NATURAL_ATTACKS", "ALLOWS_CLAWS" ] }
   },
   {
     "id": "gloves_liner",
@@ -515,7 +515,7 @@
     "warmth": 12,
     "material_thickness": 3,
     "environmental_protection": 3,
-    "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "ALLOWS_NATURAL_ATTACKS" ]
+    "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "ALLOWS_NATURAL_ATTACKS", "ALLOWS_CLAWS" ]
   },
   {
     "id": "gloves_medical",
@@ -697,7 +697,7 @@
     "coverage": 50,
     "warmth": 24,
     "encumbrance": 7,
-    "extend": { "flags": [ "ALLOWS_NATURAL_ATTACKS" ] }
+    "extend": { "flags": [ "ALLOWS_NATURAL_ATTACKS", "ALLOWS_CLAWS" ] }
   },
   {
     "id": "gloves_work",
@@ -931,7 +931,7 @@
     "coverage": 40,
     "warmth": 5,
     "material_thickness": 1,
-    "flags": [ "VARSIZE", "SKINTIGHT", "ALLOWS_NATURAL_ATTACKS" ]
+    "flags": [ "VARSIZE", "SKINTIGHT", "ALLOWS_NATURAL_ATTACKS", "ALLOWS_CLAWS" ]
   },
   {
     "id": "stockings_tent_arms",
@@ -951,7 +951,7 @@
     "encumbrance": 10,
     "warmth": 10,
     "material_thickness": 1,
-    "flags": [ "VARSIZE", "SKINTIGHT", "OVERSIZE" ]
+    "flags": [ "VARSIZE", "SKINTIGHT", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS" ]
   },
   {
     "id": "winter_gloves_army",
@@ -1004,7 +1004,7 @@
     "description": "A custom pair of fingerless armored gloves made using a 3D printer.  Its rigid plates are more comparable to metal than kevlar, but it's very protective and lightweight.",
     "copy-from": "gloves_plate",
     "material": [ "carbon_fiber" ],
-    "extend": { "flags": [ "ALLOWS_NATURAL_ATTACKS" ] },
+    "extend": { "flags": [ "ALLOWS_NATURAL_ATTACKS", "ALLOWS_CLAWS" ] },
     "proportional": { "weight": 0.6, "price": 2, "price_postapoc": 2 }
   },
   {

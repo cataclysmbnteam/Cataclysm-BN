@@ -20,7 +20,7 @@
     "warmth": 20,
     "material_thickness": 1,
     "environmental_protection": 1,
-    "flags": [ "OVERSIZE", "OUTER", "ALLOWS_NATURAL_ATTACKS", "ALLOWS_TAIL_SNAKE" ]
+    "flags": [ "OVERSIZE", "OUTER", "ALLOWS_NATURAL_ATTACKS", "ALLOWS_TAIL_SNAKE", "ALLOWS_HOOVES" ]
   },
   {
     "id": "pirate_flag",
@@ -176,7 +176,7 @@
     "warmth": 50,
     "material_thickness": 2,
     "environmental_protection": 5,
-    "flags": [ "OVERSIZE", "OUTER", "HELMET_COMPAT", "ALLOWS_TAIL_SNAKE" ]
+    "flags": [ "OVERSIZE", "OUTER", "HELMET_COMPAT", "ALLOWS_TAIL_SNAKE", "ALLOWS_HOOVES" ]
   },
   {
     "id": "optical_cloak",
@@ -248,7 +248,7 @@
     "material_thickness": 2,
     "environmental_protection": 1,
     "valid_mods": [ "steel_padded", "alloy_padded" ],
-    "flags": [ "VARSIZE", "OUTER" ]
+    "flags": [ "VARSIZE", "OUTER", "OVERSIZE" ]
   },
   {
     "id": "snuggie",
