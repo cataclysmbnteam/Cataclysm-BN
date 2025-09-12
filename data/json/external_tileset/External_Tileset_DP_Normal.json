@@ -216,7 +216,13 @@
             "rotates": true,
             "multitile": true,
             "additional_tiles": [ { "id": "broken", "fg": 164 } ]
-          }
+          },
+          { "id": "shield_targe_wooden", "fg": 165 },
+          { "id": [ "overlay_worn_shield_targe_wooden", "overlay_wielded_shield_targe_wooden" ], "fg": 166 },
+          { "id": "shield_bronze", "fg": 167 },
+          { "id": [ "overlay_worn_shield_bronze", "overlay_wielded_shield_bronze" ], "fg": 168 },
+          { "id": "shield_scute", "fg": 169 },
+          { "id": [ "overlay_worn_shield_scute", "overlay_wielded_shield_scute" ], "fg": 170 }
         ],
         "sprite_width": 32,
         "sprite_height": 32
