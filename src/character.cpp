@@ -10755,6 +10755,7 @@ int Character::run_cost( int base_cost, bool diag ) const
             movecost = std::max<float>( movecost, 100 );
         }
         if( has_trait( trait_M_IMMUNE ) && on_fungus ) {
+            // Mycal characters are faster on their home territory, even through things like shrubs
             movecost = std::min<float>( movecost, 75 );
         }
 
@@ -11604,6 +11605,7 @@ int Character::impact( const int force, const tripoint &p )
     // Shock absorbers kick in only when they need to, so if our other protections fail, fall back on them
     if( shock_absorbers ) {
         effective_force -= 15; // Provide a flat reduction to force
+        // And provide a 75% reduction against that force if we don't have it already
         mod = std::min( mod, 0.25f );
         effective_force = std::max( effective_force, 0 );
     }

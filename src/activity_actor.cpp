@@ -402,6 +402,8 @@ void autodrive_activity_actor::do_turn( player_activity &/* act */, Character &w
         }
         switch( player_vehicle->do_autodrive( who ) ) {
             case autodrive_result::ok:
+                // if do_autodrive() didn't eat up all our moves, end the turn
+                // equivalent to player pressing the "pause" button
                 who.moves = std::min( who.moves, 0 );
                 sounds::reset_markers();
                 break;
