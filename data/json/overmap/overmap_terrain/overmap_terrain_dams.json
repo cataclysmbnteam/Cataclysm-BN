@@ -15,7 +15,7 @@
     "copy-from": "generic_bridge",
     "color": "blue",
     "name": "Dam",
-    "flags": [ "RIVER", "IGNORE_ROTATION_FOR_ADJACENCY" ]
+    "flags": [ "RIVER", "IGNORE_ROTATION_FOR_ADJACENCY", "IS_BRIDGE" ]
   },
   {
     "type": "overmap_terrain",
@@ -30,7 +30,7 @@
     "name": "Dam (ground)",
     "sym": "v",
     "extras": "damhead_ground",
-    "flags": [ "RIVER", "IGNORE_ROTATION_FOR_ADJACENCY" ]
+    "flags": [ "RIVER", "IGNORE_ROTATION_FOR_ADJACENCY", "IS_BRIDGE" ]
   },
   {
     "type": "overmap_terrain",

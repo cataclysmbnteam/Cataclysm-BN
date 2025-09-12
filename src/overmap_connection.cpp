@@ -14,6 +14,7 @@
 #include "json.h"
 #include "overmap_location.h"
 #include "debug.h"
+#include "type_id.h"
 #include "weighted_list.h"
 namespace
 {
