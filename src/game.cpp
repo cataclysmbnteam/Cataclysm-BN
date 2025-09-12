@@ -108,6 +108,7 @@
 #include "line.h"
 #include "live_view.h"
 #include "loading_ui.h"
+#include "npc.h"
 #include "magic.h"
 #include "map.h"
 #include "map_functions.h"
@@ -118,6 +119,7 @@
 #include "mapdata.h"
 #include "mapsharing.h"
 #include "memorial_logger.h"
+#include "memory_fast.h"
 #include "messages.h"
 #include "mission.h"
 #include "mod_manager.h"
@@ -720,6 +722,24 @@ bool game::start_game()
         ( get_option<std::string>( "STARTING_NPC" ) == "scenario" &&
           !g->scen->has_flag( "LONE_START" ) ) ) {
         create_starting_npcs();
+    }
+    if( !!u.prof ) {
+        for( npc_class_id npcid : u.prof->friends ) {
+            shared_ptr_fast<npc> tmp = make_shared_fast<npc>();
+            tmp->randomize( npcid );
+            tripoint &pnt = random_point( 10, [&]( const tripoint &p ) {
+                return here.has_floor( p ) && !g->is_dangerous_tile( p ) && here.passable( p );
+            });
+            if( !pnt ) {
+                break;
+            }
+            tmp->spawn_at_precise( { get_levx(), get_levy() }, pnt );
+            overmap_buffer.insert_npc( tmp );
+            tmp->set_fac( faction_id( "your_followers" ) );
+            tmp->mission = NPC_MISSION_NULL;
+            tmp->set_attitude( NPCATT_NULL );
+            tmp->form_opinion( u );
+        }
     }
     //Load NPCs. Set nearby npcs to active.
     load_npcs();
