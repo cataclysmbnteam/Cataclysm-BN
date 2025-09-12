@@ -5397,6 +5397,7 @@ void vehicle::idle( bool on_map )
     power_parts();
     if( engine_on && total_power_w() > 0 ) {
         int idle_rate = alternator_load;
+        // minimum idle is 1% of full throttle
         idle_rate = std::max( idle_rate, 10 );
         // Helicopters use extra power just to stay in the air
         // 100 means 10% of power
