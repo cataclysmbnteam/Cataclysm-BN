@@ -332,12 +332,12 @@ void Character::mutation_effect( const trait_id &mut )
 
             //get dependant worn items only checks for powerarmor helmets or powerarmor mods
             //so this just removes those if powerarmor is also removed
-            const auto deps = get_dependent_worn_items( *armor);
+            const auto deps = get_dependent_worn_items( *armor );
             for( const auto &it : deps ) {
                 add_msg_player_or_npc( m_bad,
-                               _( "Your %s is pushed off!" ),
-                               _( "<npcname>'s %s is pushed off!" ),
-                               it->tname() );
+                                       _( "Your %s is pushed off!" ),
+                                       _( "<npcname>'s %s is pushed off!" ),
+                                       it->tname() );
 
                 it->on_takeoff( *this );
                 detached_ptr<item> det = worn.remove( it );
