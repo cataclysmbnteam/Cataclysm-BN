@@ -724,16 +724,16 @@ bool game::start_game()
         create_starting_npcs();
     }
     if( !!u.prof ) {
-        for( npc_class_id npcid : u.prof->friends ) {
+        for( npc_class_id npcid : u.prof->npcs() ) {
             shared_ptr_fast<npc> tmp = make_shared_fast<npc>();
             tmp->randomize( npcid );
-            tripoint &pnt = random_point( 10, [&]( const tripoint &p ) {
-                return here.has_floor( p ) && !g->is_dangerous_tile( p ) && here.passable( p );
+            auto point = random_point( m.points_in_radius( u.pos(), 10 ), [&]( const tripoint &p ) {
+                return m.has_floor( p ) && !is_dangerous_tile( p ) && m.passable( p );
             });
-            if( !pnt ) {
+            if( !point ) {
                 break;
             }
-            tmp->spawn_at_precise( { get_levx(), get_levy() }, pnt );
+            tmp->spawn_at_precise( { get_levx(), get_levy() }, *point );
             overmap_buffer.insert_npc( tmp );
             tmp->set_fac( faction_id( "your_followers" ) );
             tmp->mission = NPC_MISSION_NULL;
