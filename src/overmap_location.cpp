@@ -33,14 +33,6 @@ const overmap_location &string_id<overmap_location>::obj() const
 
 bool overmap_location::test( const oter_id &oter ) const
 {
-    if( oter->has_flag( oter_flags::is_bridge ) ) {
-        if( std::ranges::any_of( get_all_terrains(),
-        []( oter_type_id & elem ) {
-        return elem->has_flag( oter_flags::is_bridge );
-        } ) ) {
-            return true;    // Can replace other bridges
-        }
-    }
     return std::ranges::any_of( terrains,
     [ &oter ]( const oter_type_str_id & type ) {
         return oter->type_is( type );

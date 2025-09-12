@@ -48,7 +48,12 @@
   {
     "type": "overmap_location",
     "id": "bridge",
-    "terrains": [ "bridge", "dam" ]
+    "terrains": [ "bridge" ]
+  },
+  {
+    "type": "overmap_location",
+    "id": "dam",
+    "terrains": [ "dam" ]
   },
   {
     "type": "overmap_location",
