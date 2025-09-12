@@ -65,7 +65,7 @@ bool overmap_connection::subtype::allows_terrain( const oter_id &oter ) const
     if( oter->type_is( terrain ) ) {
         return true;    // Can be built on similar terrains.
     } else {
-        if( oter->get_mapgen_id().starts_with( terrain.str() ) ){
+        if( oter->get_mapgen_id().starts_with( terrain.str() ) ) {
             return true;    // For bridges, starts the same, is the same
         }
     }
