@@ -6066,7 +6066,7 @@
   {
     "type": "profession",
     "id": "mili_pilot_blackhawk",
-    "name": "UH-60 Blackhawk pilot",
+    "name": "UH-60 Blackhawk Pilot",
     "description": "You managed to get to your UH-60.  Your co-pilot didn't.  You got to see things fall apart from the sky, transporting soldiers and survivors from one holdout to the next, but now it's just you and your bird.",
     "vehicle": "helicopter_blackhawk_3a",
     "points": 7,
