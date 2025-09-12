@@ -1814,11 +1814,11 @@ gdebug = {}
 
 --- Documentation for hooks
 ---@class hooks
----@field on_character_reset_stats fun() @Called when the game has first started
+---@field on_character_reset_stats fun() @Called when character stat gets reset
 ---@field on_every_x fun() @Called every in-game period
 ---@field on_game_load fun() @Called right after game has loaded
 ---@field on_game_save fun() @Called when game is about to save
----@field on_game_started fun() @Called when character stat gets reset
+---@field on_game_started fun() @Called when the game has first started
 ---@field on_mapgen_postprocess fun(arg1: Map, arg2: Tripoint, arg3: TimePoint) @Called right after mapgen has completed. Map argument is the tinymap that represents 24x24 area (2x2 submaps, or 1x1 omt), tripoint is the absolute omt pos, and time_point is the current time (for time-based effects).
 ---@field on_mon_death fun() @Called when a monster is dead
 hooks = {}

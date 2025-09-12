@@ -7019,12 +7019,12 @@ Function `()`
 
 #### on_game_started
 
-Called when character stat gets reset
+Called when the game has first started
 Function `()`
 
 #### on_character_reset_stats
 
-Called when the game has first started
+Called when character stat gets reset
 Function `()`
 
 #### on_mon_death
