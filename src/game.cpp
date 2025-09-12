@@ -817,7 +817,7 @@ bool game::start_game()
     update_map( u );
     // Profession pets
     for( const mtype_id &elem : u.starting_pets ) {
-        if( monster *const mon = place_critter_around( elem, u.pos(), 5 ) ) {
+        if( monster *const mon = place_critter_around( elem, u.pos(), 60 ) ) {
             mon->friendly = -1;
             mon->add_effect( effect_pet, 1_turns );
         } else {
