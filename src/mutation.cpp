@@ -78,9 +78,6 @@ static const trait_id trait_TREE_COMMUNION( "TREE_COMMUNION" );
 static const trait_id trait_VOMITOUS( "VOMITOUS" );
 static const trait_id trait_WEB_WEAVER( "WEB_WEAVER" );
 
-const flag_id flag_POWERARMOR_EXO( "POWERARMOR_EXO" );
-const flag_id flag_POWERARMOR_EXTERNAL( "POWERARMOR_EXTERNAL" );
-
 namespace io
 {
 
