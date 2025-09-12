@@ -1,6 +1,7 @@
 #include "character_functions.h"
 
 #include <algorithm>
+#include <string>
 #include <utility>
 
 #include "ammo.h"
@@ -77,6 +78,8 @@ static const itype_id itype_battery( "battery" );
 static const itype_id itype_UPS( "UPS" );
 
 static const skill_id skill_throw( "throw" );
+
+static const quality_id qual_SLEEP_AID( "SLEEP_AID" );
 
 namespace character_funcs
 {
@@ -263,7 +266,7 @@ comfort_response_t base_comfort_value( const Character &who, const tripoint &p )
     // As in the latter also checks for fatigue and other variables while this function
     // only looks at the base comfyness of something. It's still subjective, in a sense,
     // as arachnids who sleep in webs will find most places comfortable for instance.
-    int comfort = 0;
+    float comfort = 0.0;
 
     comfort_response_t comfort_response;
 
@@ -295,9 +298,10 @@ comfort_response_t base_comfort_value( const Character &who, const tripoint &p )
             if( carg ) {
                 const vehicle_stack items = vp->vehicle().get_items( carg->part_index() );
                 for( item *items_it : items ) {
-                    if( items_it->has_flag( STATIC( flag_id( "SLEEP_AID" ) ) ) ) {
+                    int sleep_quality = items_it->get_quality( qual_SLEEP_AID );
+                    if( sleep_quality >= 0 ) {
                         // Note: BED + SLEEP_AID = 9 pts, or 1 pt below very_comfortable
-                        comfort += 1 + static_cast<int>( comfort_level::slightly_comfortable );
+                        comfort += sleep_quality + static_cast<int>( comfort_level::slightly_comfortable );
                         comfort_response.aid.push_back( items_it );
                     }
                 }
@@ -331,9 +335,10 @@ comfort_response_t base_comfort_value( const Character &who, const tripoint &p )
         if( comfort_response.aid.empty() ) {
             const map_stack items = here.i_at( p );
             for( item *items_it : items ) {
-                if( items_it->has_flag( STATIC( flag_id( "SLEEP_AID" ) ) ) ) {
+                int sleep_quality = items_it->get_quality( qual_SLEEP_AID );
+                if( sleep_quality >= 0 ) {
                     // Note: BED + SLEEP_AID = 9 pts, or 1 pt below very_comfortable
-                    comfort += 1 + static_cast<int>( comfort_level::slightly_comfortable );
+                    comfort += sleep_quality + static_cast<int>( comfort_level::slightly_comfortable );
                     comfort_response.aid.push_back( items_it );
                 }
             }
@@ -372,6 +377,7 @@ comfort_response_t base_comfort_value( const Character &who, const tripoint &p )
         }
     }
 
+    add_msg( std::to_string( comfort ) );
     if( comfort > static_cast<int>( comfort_level::comfortable ) ) {
         comfort_response.level = comfort_level::very_comfortable;
     } else if( comfort > static_cast<int>( comfort_level::slightly_comfortable ) ) {
