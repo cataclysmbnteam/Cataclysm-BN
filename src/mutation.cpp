@@ -78,6 +78,9 @@ static const trait_id trait_TREE_COMMUNION( "TREE_COMMUNION" );
 static const trait_id trait_VOMITOUS( "VOMITOUS" );
 static const trait_id trait_WEB_WEAVER( "WEB_WEAVER" );
 
+const flag_id flag_POWERARMOR_EXO( "POWERARMOR_EXO" );
+const flag_id flag_POWERARMOR_EXTERNAL( "POWERARMOR_EXTERNAL" );
+
 namespace io
 {
 
@@ -329,6 +332,21 @@ void Character::mutation_effect( const trait_id &mut )
         // It could cause segmentation fault if mutation change will trigger clothes removal on character creation
         // with preview clothes toggled on. So checking if game started.
         if( g->w_terrain ) {
+
+            //get dependant worn items only checks for powerarmor helmets or powerarmor mods
+            //so this just removes those if powerarmor is also removed
+            const auto deps = get_dependent_worn_items( *armor);
+            for( const auto &it : deps ) {
+                add_msg_player_or_npc( m_bad,
+                               _( "Your %s is pushed off!" ),
+                               _( "<npcname>'s %s is pushed off!" ),
+                               it->tname() );
+
+                it->on_takeoff( *this );
+                detached_ptr<item> det = worn.remove( it );
+                get_map().add_item_or_charges( pos(), std::move( det ) );
+            }
+
             get_map().add_item_or_charges( pos(), std::move( armor ) );
         }
         return detached_ptr<item>();
