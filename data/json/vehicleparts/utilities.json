@@ -86,7 +86,7 @@
     "damage_reduction": { "all": 20 },
     "description": "A multi-function crafting station, with a water purifier, food processor, food dehydrator, vacuum sealer, and hand press for making ammo.  Draws power from the vehicle's batteries.  'e'xamine the tile with the kitchen buddy to access the water faucet or to purify water in a vehicle tank or in a container in your inventory.  If you attempt to craft an item that needs one of the kitchen buddy's functions, it will automatically be selected as a tool.",
     "durability": 80,
-    "flags": [ "CARGO", "OBSTACLE", "CRAFTER", "WATER_PURIFIER", "COVERED" ],
+    "flags": [ "CARGO", "OBSTACLE", "CRAFTER", "WATER_PURIFIER", "FAUCET", "COVERED" ],
     "integrated_tools": [ "dehydrator", "vac_sealer", "food_processor", "press", "water_purifier" ],
     "item": "craftrig",
     "location": "center",

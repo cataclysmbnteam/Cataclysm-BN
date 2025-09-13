@@ -70,7 +70,7 @@ Vehicle components when installed on a vehicle.
 
 An option array of tools that this vehiclepart will provide for crafting purposes, compare and contrast `crafting_pseudo_item` for furniture. Requires the vehiclepart to have the `CRAFTING` flag to function.
 
-Most legacy crafting vehiclepart flags have been removed and should be replaced with equivalent tools. The `WATER_PURIFIER`, `FAUCET` and the `WATER_FAUCET` flags, which provide specific functions on examine.
+Most legacy crafting vehiclepart flags have been removed and should be replaced with equivalent tools. The `WATER_PURIFIER`, `FAUCET` and the `WATER_FAUCET` flags, which provide specific functions on examine, have been retained.
 
 ```json
 "integrated_tools": [ "pot", "pan", "hotplate" ],  // Replaces the `KITCHEN` flag
@@ -80,7 +80,7 @@ Most legacy crafting vehiclepart flags have been removed and should be replaced 
 "integrated_tools": [ "fake_adv_butchery" ],  // Replaces the `BUTCHER_EQ` flag
 "integrated_tools": [ "kiln" ],  // Replaces the `KILN` flag
 "integrated_tools": [ "soldering_iron", "welder" ],  // Replaces the tools
-"integrated_tools": [ "water_purifier" ],  // Replaces the tools, but not the special examine functions, of the `WATER_PURIFIER` flag
+"integrated_tools": [ "water_purifier" ],  // Replaces the tools, but not the ability to purify water in vehicle tanks, of the `WATER_PURIFIER` flag
 ```
 
 ### Part Resistance
