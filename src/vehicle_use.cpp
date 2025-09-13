@@ -1837,8 +1837,7 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
     const bool has_hotplate = avail_part_with_feature( interact_part, "HOTPLATE", true ) >= 0;
     const bool has_faucet = avail_part_with_feature( interact_part, "FAUCET", true ) >= 0;
     const bool has_towel = avail_part_with_feature( interact_part, "TOWEL", true ) >= 0;
-    const std::optional<vpart_reference> crafterpart = part_with_feature( interact_part, "CRAFTER", true );
-    const bool has_crafter = crafterpart;
+    const bool has_crafter = avail_part_with_feature( interact_part, "CRAFTER", true ) >= 0;
     const bool has_purify = avail_part_with_feature( interact_part, "WATER_PURIFIER", true ) >= 0;
     const bool has_controls = avail_part_with_feature( interact_part, "CONTROLS", true ) >= 0;
     const bool has_electronics = avail_part_with_feature( interact_part, "CTRL_ELECTRONIC", true ) >= 0;
@@ -1911,7 +1910,7 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
     if( has_towel ) {
         selectmenu.addentry( USE_TOWEL, true, 't', _( "Use a towel" ) );
     }
-    if( has_crafter && fuel_left( itype_battery, true ) > 0 ){
+    if( has_crafter && fuel_left( itype_battery, true ) > 0 ) {
         selectmenu.addentry( USE_CRAFTER, true, 'T', _( "Use the integrated tools" ) );
     }
     if( has_purify ) {
@@ -2008,16 +2007,18 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
             return;
         }
         case USE_CRAFTER: {
+            static const flag_id flag_PSEUDO( "PSEUDO" );
             // Some copy pasta from iexamine.cpp
-            const std::vector<itype> item_type_list = crafterpart->info().craftertools();
-            std::vector<itype> usable_item_types;
+            vehicle_part &part = parts[part_with_feature( interact_part, "CRAFTER", true )];
+            const std::vector<itype_id> item_type_list = part.info().craftertools();
+            std::vector<itype_id> usable_item_types;
             std::vector<std::string> usable_item_names;
-            for( const itype &itt : item_type_list ) {
-                if( !itt.has_use() ) {
+            for( const itype_id &id : item_type_list ) {
+                if( !id->has_use() ) {
                     continue;
                 }
-                usable_item_types.push_back( itt );
-                usable_item_names.push_back( itt.nname( 1 ) );
+                usable_item_types.push_back( id );
+                usable_item_names.push_back( id->nname( 1 ) );
             }
             if( usable_item_types.empty() ) {
                 return;
@@ -2032,16 +2033,17 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
             if( tool_index < 0 ) {
                 return;
             }
-
-
-                if( veh_tool( id) ) {}
-            if( veh_tool( itype_welder ) ) {
-                // HACK: Evil hack incoming
-                activity_handlers::repair_activity_hack::patch_activity_for_vehicle_welder(
-                    *you.activity,
-                    pos, *this, interact_part
-                );
-            }
+            item &fake_item = *item::spawn_temporary( usable_item_types.at( tool_index ), calendar::turn, 0 );
+            fake_item.item_tags.insert( flag_PSEUDO );
+            fake_item.charges = fuel_left( itype_battery, true );
+            int original_charges = fake_item.charges;
+            you.invoke_item( &fake_item, pos );
+            // HACK: Evil hack incoming
+            activity_handlers::repair_activity_hack::patch_activity_for_vehicle(
+                *you.activity, pos, *this, interact_part, fake_item.typeId()
+            );
+            const int discharged = original_charges - fake_item.charges;
+            drain( itype_battery, discharged );
             return;
         }
         case USE_PURIFIER: {
