@@ -251,7 +251,7 @@ void profession::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "flags", flags, auto_flags_reader<> {} );
 
     optional( jo, was_loaded, "missions", _missions, auto_flags_reader<mission_type_id> {} );
-    optional( jo, was_loaded, "npcs", _starting_npcs, auto_flags_reader<npc_class_id>{});
+    optional( jo, was_loaded, "npcs", _starting_npcs, auto_flags_reader<npc_class_id> {} );
 }
 
 const profession_id &profession::generic()

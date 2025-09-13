@@ -727,9 +727,9 @@ bool game::start_game()
         for( npc_class_id npcid : u.prof->npcs() ) {
             shared_ptr_fast<npc> tmp = make_shared_fast<npc>();
             tmp->randomize( npcid );
-            auto point = random_point( m.points_in_radius( u.pos(), 10 ), [&]( const tripoint &p ) {
+            auto point = random_point( m.points_in_radius( u.pos(), 10 ), [&]( const tripoint & p ) {
                 return m.has_floor( p ) && !is_dangerous_tile( p ) && m.passable( p );
-            });
+            } );
             if( !point ) {
                 break;
             }
