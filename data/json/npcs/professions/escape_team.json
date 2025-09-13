@@ -4,6 +4,7 @@
     "id": "NC_PROF_ESCAPIST",
     "name": { "str": "Escapist" },
     "job_description": "I'm looking for a way out.",
+    "common": false,
     "traits": [
       { "group": "BG_survival_story_CRIMINAL" },
       { "group": "NPC_starting_traits" },
@@ -34,11 +35,12 @@
     "id": "NC_PROF_ESCAPIST_LAB",
     "name": { "str": "Mutant Patient" },
     "job_description": "I'm looking for a way out.",
-    "//": "todo: add mutation traits",
+    "common": false,
     "traits": [
       { "group": "BG_survival_story_UNIVERSAL" },
       { "group": "NPC_starting_traits" },
-      { "group": "Appearance_demographics" }
+      { "group": "Appearance_demographics" },
+      { "group": "NPC_mutation_traits" }
     ],
     "worn_override": "NC_PROF_ESCAPIST_LAB_worn",
     "carry_override": "NC_PROF_ESCAPIST_LAB_melee",
@@ -65,6 +67,7 @@
     "id": "NC_PROF_ESCAPIST_MIGO",
     "name": { "str": "Captive" },
     "job_description": "I'm looking for a way out.",
+    "common": false,
     "traits": [
       { "group": "BG_survival_story_UNIVERSAL" },
       { "group": "NPC_starting_traits" },
