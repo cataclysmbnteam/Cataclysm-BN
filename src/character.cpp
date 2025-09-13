@@ -284,7 +284,6 @@ static const trait_id trait_DEBUG_LS( "DEBUG_LS" );
 static const trait_id trait_DEBUG_NIGHTVISION( "DEBUG_NIGHTVISION" );
 static const trait_id trait_DEBUG_NOTEMP( "DEBUG_NOTEMP" );
 static const trait_id trait_DEBUG_STORAGE( "DEBUG_STORAGE" );
-static const trait_id trait_DISORGANIZED( "DISORGANIZED" );
 static const trait_id trait_DOWN( "DOWN" );
 static const trait_id trait_ELECTRORECEPTORS( "ELECTRORECEPTORS" );
 static const trait_id trait_FASTLEARNER( "FASTLEARNER" );
@@ -315,7 +314,6 @@ static const trait_id trait_NOMAD2( "NOMAD2" );
 static const trait_id trait_NOMAD3( "NOMAD3" );
 static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_PACIFIST( "PACIFIST" );
-static const trait_id trait_PACKMULE( "PACKMULE" );
 static const trait_id trait_PADDED_FEET( "PADDED_FEET" );
 static const trait_id trait_PAINRESIST_TROGLO( "PAINRESIST_TROGLO" );
 static const trait_id trait_PAINRESIST( "PAINRESIST" );
@@ -467,6 +465,13 @@ Character::Character() :
     npc_ai_info_cache.fill(-1.0);
 }
 // *INDENT-ON*
+
+void Character::swap_character( Character &other, Character &tmp )
+{
+    tmp = std::move( other );
+    other = std::move( *this );
+    *this = std::move( tmp );
+}
 
 void Character::move_operator_common( Character &&source ) noexcept
 {
@@ -1119,7 +1124,7 @@ int Character::swim_speed() const
 
     /** @EFFECT_DEX increases swim speed */
     ret -= str_cur * 6 + dex_cur * 4;
-    if( worn_with_flag( flag_FLOTATION ) ) {
+    if( worn_with_flag( flag_FLOTATION ) && !get_map().has_flag( TFLAG_WATER_CUBE, pos() ) ) {
         ret = std::min( ret, 400 );
         ret = std::max( ret, 200 );
     }
@@ -3097,12 +3102,9 @@ units::volume Character::volume_capacity_reduced_by(
     if( has_trait( trait_SHELL2 ) && !has_active_mutation( trait_SHELL2 ) ) {
         ret += 6_liter;
     }
-    if( has_trait( trait_PACKMULE ) ) {
-        ret = ret * 1.4;
-    }
-    if( has_trait( trait_DISORGANIZED ) ) {
-        ret = ret * 0.6;
-    }
+
+    ret = ret * mutation_value( "packmule_modifier" );
+
     return std::max( ret, 0_ml );
 }
 
@@ -3213,6 +3215,12 @@ ret_val<bool> Character::can_wear( const item &it, bool with_equip_change ) cons
     if( it.has_flag( flag_RESTRICT_HANDS ) && !has_two_arms() ) {
         return ret_val<bool>::make_failure( ( is_player() ? _( "You don't have enough arms to wear that." )
                                               : string_format( _( "%s doesn't have enough arms to wear that." ), name ) ) );
+    }
+
+    if( it.has_flag( flag_FLOTATION ) && get_map().has_flag( TFLAG_WATER_CUBE, pos() ) ) {
+        return ret_val<bool>::make_failure( ( is_player() ?
+                                              _( "You can't put on a flotation device below the surface." )
+                                              : string_format( _( "%s can't put on a flotation device below the surface." ), name ) ) );
     }
 
     //Everything checked after here should be something that could be solved by changing equipment
@@ -5176,9 +5184,7 @@ void Character::update_body()
 
 void Character::update_body( const time_point &from, const time_point &to )
 {
-    if( !is_npc() ) {
-        update_stamina( to_turns<int>( to - from ) );
-    }
+    update_stamina( to_turns<int>( to - from ) );
     update_stomach( from, to );
     recalculate_enchantment_cache();
     if( ticks_between( from, to, 3_minutes ) > 0 ) {
@@ -7102,6 +7108,9 @@ mutation_value_map = {
     { "movecost_modifier", calc_mutation_value_multiplicative<&mutation_branch::movecost_modifier> },
     { "movecost_flatground_modifier", calc_mutation_value_multiplicative<&mutation_branch::movecost_flatground_modifier> },
     { "movecost_obstacle_modifier", calc_mutation_value_multiplicative<&mutation_branch::movecost_obstacle_modifier> },
+    { "packmule_modifier", calc_mutation_value_multiplicative<&mutation_branch::packmule_modifier> },
+    { "crafting_speed_modifier", calc_mutation_value_multiplicative<&mutation_branch::crafting_speed_modifier> },
+    { "construction_speed_modifier", calc_mutation_value_multiplicative<&mutation_branch::construction_speed_modifier> },
     { "attackcost_modifier", calc_mutation_value_multiplicative<&mutation_branch::attackcost_modifier> },
     { "falling_damage_multiplier", calc_mutation_value_multiplicative<&mutation_branch::falling_damage_multiplier> },
     { "max_stamina_modifier", calc_mutation_value_multiplicative<&mutation_branch::max_stamina_modifier> },
@@ -7597,10 +7606,6 @@ void Character::set_stamina( int new_stamina )
 
 void Character::mod_stamina( int mod )
 {
-    // TODO: Make NPCs smart enough to use stamina
-    if( is_npc() ) {
-        return;
-    }
     stamina += mod;
     stamina = clamp( stamina, 0, get_stamina_max() );
 }
@@ -7733,7 +7738,10 @@ bool Character::invoke_item( item *used, const std::string &method, const tripoi
     if( method != iuse_TOGGLE_UPS_CHARGING && !has_enough_charges( *used, true ) ) {
         return false;
     }
-
+    if( method == iuse_TOGGLE_UPS_CHARGING ) {
+        iuse::toggle_ups_charging( this->as_player(), used, false, pt );
+        return true;
+    }
     item *actually_used = used->get_usable_item( method );
     if( actually_used == nullptr ) {
         debugmsg( "Tried to invoke a method %s on item %s, which doesn't have this method",

@@ -220,6 +220,8 @@ standard_npc::standard_npc( const std::string &name, const tripoint &pos,
 
 static std::map<string_id<npc_template>, npc_template> npc_templates;
 
+npc &npc::operator=( npc && ) noexcept = default;
+
 void npc_template::load( const JsonObject &jsobj )
 {
     npc_template tem;
@@ -727,6 +729,13 @@ void npc::setpos( const tripoint &pos )
             debugmsg( "could not find npc %s on its old overmap", name );
         }
     }
+}
+
+void npc::onswapsetpos( const tripoint &pos )
+{
+    position = pos;
+    submap_coords.x = g->get_levx() + pos.x / SEEX;
+    submap_coords.y = g->get_levy() + pos.y / SEEY;
 }
 
 void npc::travel_overmap( const tripoint &pos )
@@ -2270,6 +2279,11 @@ bool npc::emergency() const
 
 bool npc::emergency( float danger ) const
 {
+    const int stamina_percent = static_cast<float>( get_stamina() ) / get_stamina_max() * 100;
+    // Quit early if we're below 20% stamina, plus or minus bravery and threat modifiers.
+    if( 20 + std::max( danger, 0.0f ) > stamina_percent + personality.bravery ) {
+        return true;
+    }
     return ( danger > ( personality.bravery * 3 * hp_percentage() ) / 100.0 );
 }
 
@@ -2907,11 +2921,6 @@ bool npc::dispose_item( item &obj, const std::string & )
 void npc::process_turn()
 {
     player::process_turn();
-
-    // NPCs shouldn't be using stamina, but if they have, set it back to max
-    if( calendar::once_every( 1_minutes ) && get_stamina() < get_stamina_max() ) {
-        set_stamina( get_stamina_max() );
-    }
 
     if( is_player_ally() && calendar::once_every( 1_hours ) &&
         get_kcal_percent() > 0.95 && get_thirst() < thirst_levels::very_thirsty && op_of_u.trust < 5 ) {

@@ -596,7 +596,7 @@
   {
     "id": "MISSION_HELICOPTER_REFUEL",
     "type": "mission_definition",
-    "name": { "str": "Refuel your helicopter." },
+    "name": { "str": "Refuel your aircraft." },
     "description": "You were flying towards a nearby private airport before your forced landing.  You could still reach it by ground, and scavenge it for fuel.",
     "goal": "MGOAL_GO_TO_TYPE",
     "destination": "s_air_hangars",
@@ -859,5 +859,19 @@
     },
     "origins": [ "ORIGIN_GAME_START" ],
     "value": 0
+  },
+  {
+    "id": "MISSION_DOG_LOVER",
+    "type": "mission_definition",
+    "name": { "str": "Protect Your Canine Friends!" },
+    "//": "original DDA mission has the player search for quadruped armor, but MGOAL_FIND_ITEM seems to consume it upon completion",
+    "description": "Search any nearby pet stores for armor for your pups. You think you remember the location of one...",
+    "goal": "MGOAL_GO_TO_TYPE",
+    "difficulty": 1,
+    "value": 0,
+    "start": { "assign_mission_target": { "om_terrain": "s_petstore", "reveal_radius": 3, "z": 0 } },
+    "//2": "end should have u_add_morale, but we don't have it yet",
+    "origins": [ "ORIGIN_GAME_START" ],
+    "destination": "s_petstore"
   }
 ]

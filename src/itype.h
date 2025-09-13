@@ -102,6 +102,7 @@ struct islot_tool {
 
     itype_id subtype;
 
+    itype_id default_ammo = itype_id::NULL_ID();
     int max_charges = 0;
     int def_charges = 0;
     int charge_factor = 1;
@@ -110,6 +111,7 @@ struct islot_tool {
     int turns_active = 0;
     int power_draw = 0;
     int ups_eff_mult = 1;
+    int ups_recharge_rate = 5;
 
     std::vector<int> rand_charges;
 };

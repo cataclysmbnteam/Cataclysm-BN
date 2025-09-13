@@ -38,6 +38,7 @@
     "entries": [
       { "item": "dog_whistle", "prob": 10 },
       { "item": "pet_carrier", "prob": 30 },
+      { "item": "rubber_armor_small_quadruped", "prob": 30 },
       { "item": "dogfood", "prob": 50, "container-item": "can_medium" },
       { "item": "catfood", "prob": 50, "container-item": "can_food" },
       { "item": "towel", "prob": 20 },

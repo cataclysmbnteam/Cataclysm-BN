@@ -108,6 +108,7 @@
 #include "line.h"
 #include "live_view.h"
 #include "loading_ui.h"
+#include "npc.h"
 #include "magic.h"
 #include "map.h"
 #include "map_functions.h"
@@ -118,6 +119,7 @@
 #include "mapdata.h"
 #include "mapsharing.h"
 #include "memorial_logger.h"
+#include "memory_fast.h"
 #include "messages.h"
 #include "mission.h"
 #include "mod_manager.h"
@@ -127,7 +129,6 @@
 #include "morale_types.h"
 #include "mtype.h"
 #include "mutation.h"
-#include "npc.h"
 #include "npc_class.h"
 #include "omdata.h"
 #include "options.h"
@@ -143,6 +144,7 @@
 #include "player_activity.h"
 #include "point_float.h"
 #include "popup.h"
+#include "profession.h"
 #include "profile.h"
 #include "ranged.h"
 #include "recipe.h"
@@ -163,6 +165,7 @@
 #include "string_id.h"
 #include "string_input_popup.h"
 #include "submap.h"
+#include "type_id.h"
 #include "tileray.h"
 #include "timed_event.h"
 #include "translations.h"
@@ -449,6 +452,20 @@ void game::reload_tileset( [[maybe_unused]] const std::function<void( std::strin
     } catch( const std::exception &err ) {
         popup( _( "Loading the tileset failed: %s" ), err.what() );
     }
+    try {
+        overmap_tilecontext->reinit();
+        std::vector<mod_id> dummy;
+        overmap_tilecontext->load_tileset(
+            get_option<std::string>( "OVERMAP_TILES" ),
+            world_generator->active_world ? world_generator->active_world->info->active_mod_order : dummy,
+            /*precheck=*/false,
+            /*force=*/true,
+            /*pump_events=*/true
+        );
+        overmap_tilecontext->do_tile_loading_report( out );
+    } catch( const std::exception &err ) {
+        popup( _( "Loading the overmap tileset failed: %s" ), err.what() );
+    }
     g->reset_zoom();
     g->mark_main_ui_adaptor_resize();
 #endif // TILES
@@ -706,6 +723,24 @@ bool game::start_game()
           !g->scen->has_flag( "LONE_START" ) ) ) {
         create_starting_npcs();
     }
+    if( !!u.prof ) {
+        for( npc_class_id npcid : u.prof->npcs() ) {
+            shared_ptr_fast<npc> tmp = make_shared_fast<npc>();
+            tmp->randomize( npcid );
+            auto point = random_point( m.points_in_radius( u.pos(), 10 ), [&]( const tripoint & p ) {
+                return m.has_floor( p ) && !is_dangerous_tile( p ) && m.passable( p );
+            } );
+            if( !point ) {
+                break;
+            }
+            tmp->spawn_at_precise( { get_levx(), get_levy() }, *point );
+            overmap_buffer.insert_npc( tmp );
+            tmp->set_fac( faction_id( "your_followers" ) );
+            tmp->mission = NPC_MISSION_NULL;
+            tmp->set_attitude( NPCATT_FOLLOW );
+            add_npc_follower( tmp->getID() );
+        }
+    }
     //Load NPCs. Set nearby npcs to active.
     load_npcs();
 
@@ -802,7 +837,7 @@ bool game::start_game()
     update_map( u );
     // Profession pets
     for( const mtype_id &elem : u.starting_pets ) {
-        if( monster *const mon = place_critter_around( elem, u.pos(), 5 ) ) {
+        if( monster *const mon = place_critter_around( elem, u.pos(), 60 ) ) {
             mon->friendly = -1;
             mon->add_effect( effect_pet, 1_turns );
         } else {
@@ -813,6 +848,14 @@ bool game::start_game()
     for( const mission_type_id &m : scen->missions() ) {
         const auto mission = mission::reserve_new( m, character_id() );
         mission->assign( u );
+    }
+
+    // Same for profession missions
+    if( !!u.prof ) {
+        for( const mission_type_id &m : u.prof->missions() ) {
+            mission *new_mission = mission::reserve_new( m, character_id() );
+            new_mission->assign( u );
+        }
     }
     g->events().send<event_type::game_start>( u.getID() );
     for( Skill &elem : Skill::skills ) {
@@ -5388,7 +5431,8 @@ bool game::npc_menu( npc &who )
         sort_armor,
         attack,
         disarm,
-        steal
+        steal,
+        control
     };
 
     const bool obeys = debug_mode || ( who.is_player_ally() && !who.in_sleep_state() );
@@ -5407,6 +5451,9 @@ bool game::npc_menu( npc &who )
     if( !who.is_player_ally() ) {
         amenu.addentry( disarm, who.is_armed(), 'd', _( "Disarm" ) );
         amenu.addentry( steal, !who.is_enemy(), 'S', _( "Steal" ) );
+    }
+    if( who.is_player_ally() ) {
+        amenu.addentry( control, who.is_player_ally(), 'c', _( "Control" ) );
     }
 
     amenu.query();
@@ -5481,6 +5528,8 @@ bool game::npc_menu( npc &who )
         }
     } else if( choice == steal && query_yn( _( "You may be attacked!  Proceed?" ) ) ) {
         avatar_funcs::try_steal_from_npc( u, who );
+    } else if( choice == control ) {
+        get_avatar().control_npc( who );
     }
 
     return true;
@@ -7200,11 +7249,35 @@ void game::zoom_out()
 #endif
 }
 
+void game::zoom_out_overmap()
+{
+#if defined(TILES)
+    if( overmap_tileset_zoom > MAXIMUM_ZOOM_LEVEL ) {
+        overmap_tileset_zoom /= 2;
+    } else {
+        overmap_tileset_zoom = 64;
+    }
+    overmap_tilecontext->set_draw_scale( overmap_tileset_zoom );
+#endif
+}
+
 void game::zoom_in()
 {
 #if defined(TILES)
     tileset_zoom = calc_next_zoom( tileset_zoom, 1 );
     rescale_tileset( tileset_zoom );
+#endif
+}
+
+void game::zoom_in_overmap()
+{
+#if defined(TILES)
+    if( overmap_tileset_zoom == 64 ) {
+        overmap_tileset_zoom = MAXIMUM_ZOOM_LEVEL;
+    } else {
+        overmap_tileset_zoom *= 2;
+    }
+    overmap_tilecontext->set_draw_scale( overmap_tileset_zoom );
 #endif
 }
 

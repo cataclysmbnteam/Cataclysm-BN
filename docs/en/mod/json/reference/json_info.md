@@ -617,6 +617,18 @@ wake up for the first time after 24 hours into the game.
 "tags" : ["gun_type"]  // Special flags (default: none)
 ```
 
+### Missions
+
+(optional, array of mission ids)
+
+List of starting missions for this profession/hobby.
+
+Example:
+
+```JSON
+"missions": [ "MISSION_LAST_DELIVERY" ]
+```
+
 ## `json/` JSONs
 
 ### Harvest

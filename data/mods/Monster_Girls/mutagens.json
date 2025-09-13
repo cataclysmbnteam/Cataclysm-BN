@@ -167,5 +167,19 @@
     "copy-from": "mutagen_serpent",
     "name": "Lamia mutagen",
     "use_action": { "type": "mutagen", "mutation_category": "LAMIA" }
+  },
+  {
+    "id": "iv_mutagen_bunnygirl",
+    "type": "COMESTIBLE",
+    "copy-from": "iv_mutagen_rabbit",
+    "name": "Usagimimi serum",
+    "use_action": { "type": "mutagen_iv", "mutation_category": "BUNNYGIRL" }
+  },
+  {
+    "id": "mutagen_bunnygirl",
+    "type": "COMESTIBLE",
+    "copy-from": "mutagen_rabbit",
+    "name": "Usagimimi mutagen",
+    "use_action": { "type": "mutagen", "mutation_category": "BUNNYGIRL" }
   }
 ]

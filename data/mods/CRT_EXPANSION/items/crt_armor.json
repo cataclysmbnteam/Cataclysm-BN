@@ -67,10 +67,10 @@
     "description": "C.R.I.T. standard-issue gloves.  Made with superalloy mesh for those with gene-modding and/or mutations while still allowing greater manipulation of items and moderate protection.",
     "encumbrance": 12,
     "coverage": 85,
-    "warmth": 20,
+    "warmth": 15,
     "material": [ "kevlar", "superalloy" ],
     "material_thickness": 2,
-    "flags": [ "ALLOWS_NATURAL_ATTACKS", "STURDY", "WATERPROOF" ]
+    "extend": { "flags": [ "ALLOWS_NATURAL_ATTACKS", "STURDY", "WATERPROOF" ] }
   },
   {
     "id": "crt_gloves_liner",
@@ -78,26 +78,34 @@
     "type": "ARMOR",
     "name": { "str": "pair of C.R.I.T. fingertip-less liners", "str_pl": "pairs of C.R.I.T. fingertip-less liners" },
     "description": "C.R.I.T. standard-issue glove liners.  Made with neoprene and rubber mesh for warmth and fingertip-less for those with gene-modding and/or mutations while still allowing greater manipulation of items and moderate protection.",
-    "encumbrance": 3,
+    "encumbrance": 1,
     "coverage": 85,
     "warmth": 15,
     "material": [ "neoprene", "rubber" ],
     "material_thickness": 1,
-    "flags": [ "ALLOWS_NATURAL_ATTACKS", "SKINTIGHT", "POWERARMOR_COMPATIBLE" ]
+    "extend": { "flags": [ "SKINTIGHT", "POWERARMOR_COMPATIBLE" ] }
   },
   {
     "id": "crt_backpack",
     "copy-from": "molle_pack",
     "type": "ARMOR",
     "name": "C.R.I.T. backpack",
-    "description": "C.R.I.T. standard-issue pack.  Based on the MOLLE backpack's design, this smaller pack strikes a fine balance between storage space and encumbrance and allows a larger weapon to be holstered, drawing and holstering is still rather awkward even with the magnetized clips, but practice helps.",
+    "description": "C.R.I.T. standard-issue pack.  Based on the MOLLE backpack's design, this smaller pack strikes a fine balance between storage space and encumbrance and allows multiple larger weapons to be holstered, drawing and holstering is still rather awkward even with the magnetized clips, but practice helps.",
     "color": "dark_gray",
     "storage": "9 L",
     "encumbrance": 3,
     "max_encumbrance": 7,
     "material_thickness": 2,
     "material": [ "leather", "kevlar" ],
-    "use_action": { "type": "holster", "max_volume": "3250 ml", "draw_cost": 150, "skills": [ "smg", "shotgun", "rifle" ] },
+    "use_action": {
+      "type": "holster",
+      "max_volume": "3250 ml",
+      "min_volume": "250ml",
+      "draw_cost": 150,
+      "multi": 3,
+      "skills": [ "pistol", "smg", "shotgun", "rifle", "launcher" ],
+      "flags": [ "SHEATH_KNIFE", "SHEATH_SWORD", "SHEATH_AXE", "MAG_COMPACT", "MAG_BULKY", "MAG_BELT", "SPEEDLOADER", "BELT_CLIP" ]
+    },
     "flags": [ "BELTED", "OVERSIZE", "NO_QUICKDRAW", "STURDY", "WATERPROOF" ]
   },
   {
@@ -108,6 +116,16 @@
     "description": "C.R.I.T. standard-issue chestrig, has mesh and MOLLE loops for gear and slots with light-armor padding.",
     "color": "dark_gray",
     "material": [ "kevlar", "plastic" ],
+    "use_action": {
+      "type": "holster",
+      "holster_prompt": "Stash ammo",
+      "holster_msg": "You stash your %s.",
+      "multi": 4,
+      "max_volume": "750 ml",
+      "draw_cost": 40,
+      "skills": [ "pistol", "smg", "shotgun", "launcher" ],
+      "flags": [ "SHEATH_KNIFE", "BELT_CLIP", "MAG_COMPACT", "SPEEDLOADER" ]
+    },
     "flags": [ "STURDY", "WATER_FRIENDLY", "ALLOWS_NATURAL_ATTACKS" ]
   },
   {
@@ -123,7 +141,7 @@
     "price": "200 USD",
     "warmth": 17,
     "symbol": ":",
-    "flags": [ "STURDY", "BELTED", "BLOCK_WHILE_WORN", "WATER_FRIENDLY" ]
+    "flags": [ "OUTER", "STURDY", "BELTED", "BLOCK_WHILE_WORN", "WATER_FRIENDLY" ]
   },
   {
     "id": "crt_armguard",
@@ -141,11 +159,11 @@
     "looks_like": "armguard_hard",
     "covers": [ "arms" ],
     "coverage": 100,
-    "encumbrance": 20,
+    "encumbrance": 10,
     "warmth": 17,
     "material_thickness": 4,
     "environmental_protection": 3,
-    "flags": [ "STURDY", "BELTED", "BLOCK_WHILE_WORN", "WATER_FRIENDLY" ]
+    "flags": [ "OUTER", "STURDY", "BELTED", "BLOCK_WHILE_WORN", "WATER_FRIENDLY" ]
   },
   {
     "id": "crt_belt",
@@ -155,7 +173,7 @@
     "description": "C.R.I.T. standard-issue belt.  Keeps your trousers up and your weapons on your hip.",
     "color": "dark_gray",
     "material": [ "leather", "brass" ],
-    "flags": [ "WATER_FRIENDLY" ]
+    "extend": { "flags": [ "WATER_FRIENDLY" ] }
   },
   {
     "id": "crt_iduster",
@@ -173,10 +191,10 @@
     "looks_like": "duster_survivor",
     "covers": [ "torso", "arms", "legs" ],
     "coverage": 100,
-    "encumbrance": 20,
+    "encumbrance": 18,
     "storage": "4500 ml",
     "warmth": 20,
-    "material_thickness": 3,
+    "material_thickness": 4,
     "environmental_protection": 9,
     "flags": [ "POCKETS", "OUTER", "COLLAR", "STURDY", "WATERPROOF", "RAINPROOF", "ALLOWS_TAIL_SNAKE" ]
   },
@@ -254,8 +272,8 @@
     "coverage": 100,
     "encumbrance": 25,
     "warmth": 25,
-    "storage": "1250 ml",
-    "material_thickness": 5,
+    "storage": "5 L",
+    "material_thickness": 6,
     "environmental_protection": 25,
     "flags": [ "VARSIZE", "WATERPROOF", "HOOD", "COLLAR", "RAINPROOF", "STURDY", "RAD_RESIST", "OUTER" ]
   },
@@ -297,7 +315,7 @@
     "encumbrance": 35,
     "warmth": 20,
     "storage": "1750 ml",
-    "material_thickness": 4,
+    "material_thickness": 5,
     "environmental_protection": 5,
     "flags": [ "VARSIZE", "STURDY", "BELTED" ]
   },
@@ -336,7 +354,7 @@
     "covers": [ "torso", "legs", "arms" ],
     "coverage": 100,
     "encumbrance": 7,
-    "warmth": 20,
+    "warmth": 10,
     "storage": "2500 ml",
     "material_thickness": 2,
     "environmental_protection": 3,
@@ -358,7 +376,7 @@
     "encumbrance": 40,
     "warmth": 25,
     "storage": "4 L",
-    "material_thickness": 3,
+    "material_thickness": 5,
     "environmental_protection": 10,
     "use_action": { "type": "holster", "max_volume": "3750 ml", "draw_cost": 155, "skills": [ "smg", "shotgun", "rifle", "launcher" ] },
     "flags": [ "VARSIZE", "WATERPROOF", "OUTER", "OVERSIZE", "COLLAR", "STURDY", "NO_QUICKDRAW" ]

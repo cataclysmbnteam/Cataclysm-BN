@@ -953,8 +953,8 @@ void location_visitable<monster>::remove_items_with( const
 
 template <typename T>
 static int charges_of_ups( const T &self, int limit,
-                           const std::function<bool( const item & )> &filter,
-                           std::function<void( int )> visitor )
+                           const std::function<bool( const item & )> &,
+                           std::function<void( int )> )
 {
     int qty = 0;
     self->visit_items( [&]( const item * e ) {

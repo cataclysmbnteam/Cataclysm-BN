@@ -138,11 +138,6 @@
     ]
   },
   {
-    "id": "guns_pistol_improvised",
-    "type": "item_group",
-    "items": [ [ "v29_cheap", 10 ] ]
-  },
-  {
     "type": "item_group",
     "id": "afs_gardener_worn",
     "subtype": "collection",

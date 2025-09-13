@@ -597,7 +597,7 @@
     "seals": true,
     "watertight": true,
     "armor_data": { "covers": [ "leg_either" ], "coverage": 5, "encumbrance": 2, "material_thickness": 2 },
-    "flags": [ "WAIST", "COMPACT", "OVERSIZE", "WATER_FRIENDLY" ]
+    "flags": [ "WAIST", "COMPACT", "OVERSIZE", "WATER_FRIENDLY", "ALLOWS_TAIL_SNAKE" ]
   },
   {
     "id": "power_armor_canteen",
@@ -834,7 +834,7 @@
     "watertight": true,
     "armor_data": { "covers": [ "leg_either" ], "coverage": 2, "material_thickness": 1 },
     "qualities": [ [ "BOIL", 1 ] ],
-    "flags": [ "WAIST", "COMPACT", "OVERSIZE", "WATER_FRIENDLY" ]
+    "flags": [ "WAIST", "COMPACT", "OVERSIZE", "WATER_FRIENDLY", "ALLOWS_TAIL_SNAKE" ]
   },
   {
     "id": "jar_3l_glass",
@@ -1153,7 +1153,7 @@
     "seals": true,
     "watertight": true,
     "armor_data": { "covers": [ "leg_either" ], "coverage": 5, "material_thickness": 2 },
-    "flags": [ "WAIST", "COMPACT", "WATER_FRIENDLY" ]
+    "flags": [ "WAIST", "COMPACT", "WATER_FRIENDLY", "ALLOWS_TAIL_SNAKE" ]
   },
   {
     "id": "waterskin2",

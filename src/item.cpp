@@ -1618,9 +1618,9 @@ struct dps_comp_data {
 
 static const std::vector<std::pair<translation, dps_comp_data>> dps_comp_monsters = {
     { to_translation( "Best" ), { mtype_id( "debug_mon" ), true, false } },
-    { to_translation( "Vs. Agile" ), { mtype_id( "mon_zombie_smoker" ), true, true } },
-    { to_translation( "Vs. Armored" ), { mtype_id( "mon_zombie_soldier" ), true, true } },
-    { to_translation( "Vs. Mixed" ), { mtype_id( "mon_zombie_survivor" ), false, true } },
+    { to_translation( "Vs. Agile" ), { mtype_id( "debug_mon_agile" ), true, true } },
+    { to_translation( "Vs. Armored" ), { mtype_id( "debug_mon_armored" ), true, true } },
+    { to_translation( "Vs. Mixed" ), { mtype_id( "debug_mon_mixed" ), false, true } },
 };
 
 std::map<std::string, double> item::dps( const bool for_display, const bool for_calc,
@@ -8225,6 +8225,8 @@ itype_id item::ammo_default( bool conversion ) const
 {
     if( is_magazine() ) {
         return type->magazine->default_ammo;
+    } else if( is_tool() && type->tool->default_ammo != itype_id::NULL_ID() ) {
+        return type->tool->default_ammo;
     }
 
     const std::set<ammotype> &atypes = ammo_types( conversion );

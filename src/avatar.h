@@ -91,6 +91,12 @@ class avatar : public player
             save_id = id;
         }
 
+        /**
+        * Makes the avatar "take over" the given NPC, while the current avatar character
+        * becomes an NPC.
+        */
+        void control_npc( npc & );
+
         void toggle_map_memory();
         bool should_show_map_memory();
         void prepare_map_memory_region( const tripoint &p1, const tripoint &p2 );
@@ -281,6 +287,11 @@ class avatar : public player
 
         /** Warnings from factions about bad behavior */
         std::map<faction_id, std::pair<int, time_point>> warning_record;
+        /**
+        * The NPC that would control the avatar's character in the avatar's absence.
+        * The Character data in this object is not relevant/used.
+        */
+        std::unique_ptr<npc> shadow_npc;
 
     public:
         // ---------------VALUES-----------------

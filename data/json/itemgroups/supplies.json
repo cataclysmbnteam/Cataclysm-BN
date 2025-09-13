@@ -255,8 +255,8 @@
       [ "fertilizer_commercial", 30 ],
       [ "chem_sulphuric_acid", 30 ],
       [ "chem_muriatic_acid", 35 ],
-      [ "butane_tank", 30 ],
-      [ "butane_can", 20 ],
+      { "item": "chem_butane", "prob": 30, "container-item": "bottle_plastic" },
+      { "item": "chem_butane", "prob": 20, "container-item": "metal_tank_little" },
       [ "peephole", 25 ],
       { "item": "chem_chromium_oxide", "prob": 5, "charges-min": 100 },
       { "item": "zinc_metal", "prob": 5, "charges-min": 100 },
@@ -312,7 +312,7 @@
       [ "chem_agar", 10 ],
       [ "oxygen_tank", 6 ],
       [ "nitrogen_tank", 7 ],
-      [ "butane_tank", 5 ],
+      { "item": "chem_butane", "prob": 5, "container-item": "metal_tank_little" },
       [ "carbondioxide_tank", 5 ],
       { "item": "c_hydrogen_gas", "prob": 8, "container-item": "metal_tank_little", "charges": [ 10, 20 ] },
       [ "salt", 10 ],
@@ -595,8 +595,14 @@
   {
     "id": "civilian_helicopter_parts",
     "type": "item_group",
-    "//": "Parts for civilian helicopter",
-    "items": [ [ "small_turbine_engine", 50 ], [ "small_helicopter_rotor", 40 ], [ "homebuilt_gyrocopter_rotor", 10 ] ]
+    "//": "Parts for civilian aircraft, not just helis anymore.  ID retained for compatibility.",
+    "items": [
+      [ "small_turbine_engine", 25 ],
+      [ "small_helicopter_rotor", 20 ],
+      [ "homebuilt_gyrocopter_rotor", 5 ],
+      [ "metal_propeller_item", 25 ],
+      { "item": "wing_metal_item", "count": [ 1, 2 ] }
+    ]
   },
   {
     "id": "military_helicopter_parts",

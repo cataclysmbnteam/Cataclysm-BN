@@ -329,38 +329,14 @@
   },
   {
     "id": "v29_cheap",
+    "copy-from": "v29",
     "type": "GUN",
     "reload_noise_volume": 10,
     "name": { "str": "homemade laser pistol" },
     "description": "This laser pistol was based on the V29 laser pistol designed in the mid-21st century.  While little more than duct tape and electronics, it runs on a standard UPS.",
-    "weight": "540 g",
     "volume": "2 L",
-    "price": "5 kUSD",
-    "to_hit": -2,
-    "bashing": 5,
-    "material": [ "steel", "plastic" ],
-    "symbol": "(",
-    "color": "magenta",
-    "skill": "pistol",
-    "range": 30,
-    "ranged_damage": { "damage_type": "bullet", "amount": 10, "armor_penetration": 6 },
-    "dispersion": 180,
     "durability": 4,
-    "loudness": 7,
-    "ups_charges": 20,
-    "reload": 300,
-    "valid_mod_locations": [
-      [ "accessories", 2 ],
-      [ "emitter", 1 ],
-      [ "grip", 1 ],
-      [ "lens", 1 ],
-      [ "rail", 1 ],
-      [ "sights", 1 ],
-      [ "stock", 1 ],
-      [ "underbarrel", 1 ]
-    ],
-    "ammo_effects": [ "LASER", "INCENDIARY" ],
-    "flags": [ "NO_UNLOAD" ]
+    "ups_charges": 20
   },
   {
     "id": "armor_bone",
@@ -4286,5 +4262,67 @@
     "description": "A very small dishwasher designed for use in vehicles.",
     "looks_like": "washing_machine",
     "copy-from": "washing_machine"
+  },
+  {
+    "id": "multi_cooker_filled",
+    "type": "TOOL",
+    "copy-from": "multi_cooker",
+    "name": { "str": "multi cooker - cooking" },
+    "description": "A professional-grade multi-cooker, with a battery slot for camping trips or tailgating.  There is a dish in it.",
+    "delete": { "qualities": [ [ "CONTAIN", 1 ] ] }
+  },
+  {
+    "type": "TOOL",
+    "category": "tools",
+    "id": "butane_can",
+    "name": { "str": "can of butane", "str_pl": "cans of butane" },
+    "description": "A typical can of butane that you would normally use to fill a lighter.  It could be useful as a fuel, but also as a solvent or chemical reagent.",
+    "symbol": "!",
+    "color": "dark_gray",
+    "looks_like": "spray_can",
+    "weight": "400 g",
+    "volume": "500 ml",
+    "price": "15 USD",
+    "price_postapoc": "250 cent",
+    "initial_charges": 30,
+    "max_charges": 30,
+    "charges_per_use": 1,
+    "material": [ "steel" ],
+    "flags": [ "NO_UNLOAD" ],
+    "explosion": {
+      "power": 4503,
+      "distance_factor": 0.1,
+      "fire": true,
+      "shrapnel": { "casing_mass": 50, "fragment_mass": 0.05, "recovery": 0 }
+    },
+    "explode_in_fire": true
+  },
+  {
+    "id": "butane_tank",
+    "type": "TOOL",
+    "category": "tools_chemistry",
+    "name": { "str": "butane tank", "str_pl": "tanks of butane" },
+    "description": "This is a tank of liquid compressed butane.  It can be used to extract essential oils from organic material.",
+    "weight": "22700 g",
+    "volume": "18950 ml",
+    "price": "250 USD",
+    "to_hit": -4,
+    "bashing": 10,
+    "material": [ "steel", "plastic" ],
+    "symbol": ";",
+    "color": "dark_gray",
+    "max_charges": 2000,
+    "initial_charges": 2000,
+    "charges_per_use": 1,
+    "turns_per_charge": 2000,
+    "looks_like": "oxygen_tank",
+    "flags": [ "NO_UNLOAD" ],
+    "explosion": {
+      "power": 90100,
+      "distance_factor": 0.5,
+      "fire": true,
+      "shrapnel": { "casing_mass": 200, "fragment_mass": 1, "recovery": 0 }
+    },
+    "explode_in_fire": true
   }
 ]

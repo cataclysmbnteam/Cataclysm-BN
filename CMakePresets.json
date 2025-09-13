@@ -42,6 +42,7 @@
         "CURSES": "OFF",
         "TILES": "ON",
         "SOUND": "ON",
+        "USE_PREFIX_DATA_DIR": "OFF",
         "CMAKE_EXPORT_COMPILE_COMMANDS": "ON",
         "LINKER": "mold",
         "USE_TRACY": "OFF"

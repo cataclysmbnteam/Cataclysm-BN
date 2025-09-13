@@ -1875,7 +1875,7 @@ bool game::handle_action()
                 }
                 if( !u.in_vehicle ) {
                     vertical_move( -1, false );
-                } else if( veh_ctrl && vp->vehicle().is_rotorcraft() ) {
+                } else if( veh_ctrl && vp->vehicle().is_aircraft() ) {
                     pldrive( tripoint_below );
                 }
                 break;
@@ -1890,11 +1890,15 @@ bool game::handle_action()
                 }
                 if( !u.in_vehicle ) {
                     vertical_move( 1, false );
-                } else if( veh_ctrl && vp->vehicle().is_rotorcraft() ) {
+                } else if( veh_ctrl && vp->vehicle().is_aircraft() ) {
                     pldrive( tripoint_above );
-                } else if( veh_ctrl && vp->vehicle().has_part( "ROTOR" ) &&
-                           !vp->vehicle().has_sufficient_rotorlift() ) {
-                    add_msg( m_bad, _( "The rotors struggle to generate enough lift!" ) );
+                } else if( veh_ctrl && ( vp->vehicle().has_part( "ROTOR" ) ||
+                                         vp->vehicle().has_part( "BALLOON" ) ||
+                                         vp->vehicle().has_part( "WING" ) ) &&
+                           !vp->vehicle().has_sufficient_lift() ) {
+                    add_msg( m_bad, _( "The craft struggles to generate enough lift!" ) );
+                } else {
+                    u.add_msg_if_player( _( "You need a propeller to take off!" ) );
                 }
                 break;
 

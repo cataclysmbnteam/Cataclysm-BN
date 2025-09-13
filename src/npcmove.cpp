@@ -364,20 +364,23 @@ void npc::assess_danger()
     }
 
     Character &player_character = get_player_character();
+    // NPCs will hold back from charging if they get in trouble.
     const bool self_defense_only = rules.engagement == combat_engagement::NO_MOVE ||
-                                   rules.engagement == combat_engagement::NONE;
+                                   rules.engagement == combat_engagement::NONE ||
+                                   emergency();
     const bool no_fighting = rules.has_flag( ally_rule::forbid_engage );
-    const bool must_retreat = is_walking_with() && rules.has_flag( ally_rule::follow_close ) &&
+    // Companion NPCs will additionally break off to return to the player when in trouble if not already ordered to.
+    const bool must_retreat = is_walking_with() && ( emergency() ||
+                              rules.has_flag( ally_rule::follow_close ) ) &&
                               !too_close( pos(), player_character.pos(), follow_distance() );
 
-    if( is_player_ally() ) {
-        if( rules.engagement == combat_engagement::FREE_FIRE ) {
-            def_radius = std::max( 6, max_range );
-        } else if( self_defense_only ) {
-            def_radius = max_range;
-        } else if( no_fighting ) {
-            def_radius = 1;
-        }
+    // Set this for non-companion NPCs too so all NPCs will switch to self-defense if low on stamina or wounded.
+    if( rules.engagement == combat_engagement::FREE_FIRE ) {
+        def_radius = std::max( 6, max_range );
+    } else if( self_defense_only ) {
+        def_radius = max_range;
+    } else if( no_fighting ) {
+        def_radius = 1;
     }
 
     const auto ok_by_rules = [max_range, def_radius, this, &player_character]( const Creature & c,
