@@ -5431,7 +5431,8 @@ bool game::npc_menu( npc &who )
         sort_armor,
         attack,
         disarm,
-        steal
+        steal,
+        control
     };
 
     const bool obeys = debug_mode || ( who.is_player_ally() && !who.in_sleep_state() );
@@ -5450,6 +5451,9 @@ bool game::npc_menu( npc &who )
     if( !who.is_player_ally() ) {
         amenu.addentry( disarm, who.is_armed(), 'd', _( "Disarm" ) );
         amenu.addentry( steal, !who.is_enemy(), 'S', _( "Steal" ) );
+    }
+    if( who.is_player_ally() ) {
+        amenu.addentry( control, who.is_player_ally(), 'c', _( "Control" ) );
     }
 
     amenu.query();
@@ -5524,6 +5528,8 @@ bool game::npc_menu( npc &who )
         }
     } else if( choice == steal && query_yn( _( "You may be attacked!  Proceed?" ) ) ) {
         avatar_funcs::try_steal_from_npc( u, who );
+    } else if( choice == control ) {
+        get_avatar().control_npc( who );
     }
 
     return true;
