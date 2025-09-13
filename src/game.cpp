@@ -737,8 +737,8 @@ bool game::start_game()
             overmap_buffer.insert_npc( tmp );
             tmp->set_fac( faction_id( "your_followers" ) );
             tmp->mission = NPC_MISSION_NULL;
-            tmp->set_attitude( NPCATT_NULL );
-            tmp->form_opinion( u );
+            tmp->set_attitude( NPCATT_FOLLOW );
+            add_npc_follower( tmp->getID() );
         }
     }
     //Load NPCs. Set nearby npcs to active.

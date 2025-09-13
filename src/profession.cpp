@@ -341,7 +341,6 @@ void profession::check_definition() const
             debugmsg( "skill %s for profession %s does not exist", elem.first.c_str(), id.c_str() );
         }
     }
-<<<<<<< HEAD
 
     for( const auto &m : _missions ) {
         if( !m.is_valid() ) {
@@ -351,11 +350,11 @@ void profession::check_definition() const
         if( std::find( m->origins.begin(), m->origins.end(), ORIGIN_GAME_START ) == m->origins.end() ) {
             debugmsg( "starting mission %s for profession %s must include an origin of ORIGIN_GAME_START",
                       m.c_str(), id.c_str() );
-=======
+        }
+    }
     for( const auto &elem : _starting_npcs ) {
         if( !elem.is_valid() ) {
             debugmsg( "npc class %s for profession %s does not exist", elem.c_str(), id.c_str() );
->>>>>>> d5463eaf71 (Distracted)
         }
     }
 }
