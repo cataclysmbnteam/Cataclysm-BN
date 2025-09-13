@@ -40,6 +40,7 @@
 #include "inventory.h"
 #include "json.h"
 #include "lightmap.h"
+#include "npc_class.h"
 #include "magic.h"
 #include "magic_enchantment.h"
 #include "make_static.h"
