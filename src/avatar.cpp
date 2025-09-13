@@ -665,7 +665,7 @@ bool avatar::read( item *loc, const bool continuous )
                                  character_funcs::fine_detail_vision_mod( *this ),
                                  character_funcs::fine_detail_vision_mod( *reader )
                              );
-    if( vision_mod > character_funcs::FINE_VISION_PERFECT ) {
+    if( vision_mod > character_funcs::Vision::PERFECT ) {
         add_msg( m_warning,
                  _( "It's difficult for %s to see fine details right now.  Reading will take longer than usual." ),
                  reader->disp_name() );

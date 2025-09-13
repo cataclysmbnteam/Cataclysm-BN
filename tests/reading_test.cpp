@@ -213,7 +213,7 @@ TEST_CASE( "estimated reading time for a book", "[reading][book][time]" )
 
         // Get some light
         dummy.i_add( item::spawn( "atomic_lamp" ) );
-        REQUIRE( character_funcs::fine_detail_vision_mod( dummy ) == character_funcs::FINE_VISION_PERFECT );
+        REQUIRE( character_funcs::fine_detail_vision_mod( dummy ) == character_funcs::Vision::PERFECT );
 
         WHEN( "player has average intelligence" ) {
             dummy.int_max = 8;
@@ -302,7 +302,7 @@ TEST_CASE( "reasons for not being able to read", "[reading][reasons]" )
 
         // Get some light
         dummy.i_add( item::spawn( "atomic_lamp" ) );
-        REQUIRE( character_funcs::fine_detail_vision_mod( dummy ) == character_funcs::FINE_VISION_PERFECT );
+        REQUIRE( character_funcs::fine_detail_vision_mod( dummy ) == character_funcs::Vision::PERFECT );
 
         THEN( "you cannot read while illiterate" ) {
             dummy.toggle_trait( trait_ILLITERATE );
