@@ -3402,6 +3402,7 @@ static void elevate_bridges(
     const std::string &bridge_under_id,
     const std::string &bridgehead_ground_id,
     const std::string &bridgehead_ramp_id,
+    const std::string &bridgehead_center_id,
     const std::string &bridge_flat_ew_id,
     const std::string &bridge_flat_ns_id
 )
@@ -3409,6 +3410,9 @@ static void elevate_bridges(
     // Check bridgeheads and 1-tile-long bridges
     std::vector<std::pair<point_om_omt, om_direction::type>> bridgehead_points;
     std::set<point_om_omt> flatten_points;
+    point_om_omt center_point;
+    int spot = 0;
+    const int len = std::size(bridge_points);
     for( const point_om_omt &bp : bridge_points ) {
         tripoint_om_omt bp_om( bp, 0 );
 
@@ -3429,6 +3433,8 @@ static void elevate_bridges(
             bridgehead_points.emplace_back( bp, ramp_facing );
         } else if( !is_bridge_fwd && !is_bridge_bck ) {
             flatten_points.emplace( bp );
+        } else if( ( len / 2 == spot ) ) {
+            center_point = bp;
         }
     }
     // Flatten 1-tile-long bridges
@@ -3457,6 +3463,10 @@ static void elevate_bridges(
         const std::string &dir_suffix = om_direction::all_suffixes[static_cast<int>( bhp.second )];
         om.ter_set( p, oter_id( bridgehead_ground_id + dir_suffix ) );
         om.ter_set( p + tripoint_above, oter_id( bridgehead_ramp_id + dir_suffix ) );
+    }
+    if( !bridgehead_center_id.empty() ){
+        tripoint_om_omt p( center_point, 0 );
+        om.ter_set( p, oter_id( bridgehead_center_id ) );
     }
 }
 
@@ -5152,11 +5162,19 @@ bool overmap::build_connection(
             }
         }
 
-        elevate_bridges(
-            *this, bridge_points,
-            name + "_road", name + "_under", name + "head_ground",
-            name + "head_ramp", "road_ew", "road_ns"
-        );
+        if( oter_str_id( name + "_center_under" ).is_valid() ) {
+            elevate_bridges(
+                *this, bridge_points,
+                name + "_road", name + "_under", name + "head_ground",
+                name + "head_ramp", name + "_center_under", "road_ew", "road_ns"
+            );
+        } else {
+            elevate_bridges(
+                *this, bridge_points,
+                name + "_road", name + "_under", name + "head_ground",
+                name + "head_ramp", "", "road_ew", "road_ns"
+            );
+        }
     }
     return true;
 }
