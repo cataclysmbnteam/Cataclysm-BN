@@ -353,7 +353,7 @@ void profession::check_definition() const
                       m.c_str(), id.c_str() );
 =======
     for( const auto &elem : _starting_npcs ) {
-        if( !elem.id().is_valid() ) {
+        if( !elem.is_valid() ) {
             debugmsg( "npc class %s for profession %s does not exist", elem.c_str(), id.c_str() );
 >>>>>>> d5463eaf71 (Distracted)
         }
