@@ -11,6 +11,7 @@
 #include "flag.h"
 #include "flat_set.h"
 #include "generic_factory.h"
+#include "generic_readers.h"
 #include "item.h"
 #include "item_contents.h"
 #include "item_group.h"
@@ -250,6 +251,7 @@ void profession::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "flags", flags, auto_flags_reader<> {} );
 
     optional( jo, was_loaded, "missions", _missions, auto_flags_reader<mission_type_id> {} );
+    optional( jo, was_loaded, "npcs", _starting_npcs, auto_flags_reader<npc_class_id> {} );
 }
 
 const profession_id &profession::generic()
@@ -348,6 +350,11 @@ void profession::check_definition() const
         if( std::find( m->origins.begin(), m->origins.end(), ORIGIN_GAME_START ) == m->origins.end() ) {
             debugmsg( "starting mission %s for profession %s must include an origin of ORIGIN_GAME_START",
                       m.c_str(), id.c_str() );
+        }
+    }
+    for( const auto &elem : _starting_npcs ) {
+        if( !elem.is_valid() ) {
+            debugmsg( "npc class %s for profession %s does not exist", elem.c_str(), id.c_str() );
         }
     }
 }
@@ -527,6 +534,10 @@ profession::StartingSkillList profession::skills() const
     return _starting_skills;
 }
 
+std::vector<npc_class_id> profession::npcs() const
+{
+    return _starting_npcs;
+}
 bool profession::has_flag( const std::string &flag ) const
 {
     return flags.contains( flag );
