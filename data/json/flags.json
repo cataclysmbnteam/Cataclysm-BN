@@ -24,6 +24,48 @@
     "info": "This clothing is <good>uniquely compatible</good> with mutants possessing <info>serpentine bodies.</info>."
   },
   {
+    "id": "ALLOWS_CLAWS",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "info": "This clothing is <good>uniquely compatible</good> with mutants possessing <info>clawed fingers.</info>."
+  },
+  {
+    "id": "ALLOWS_CLAWS_FOOT",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "info": "This clothing is <good>uniquely compatible</good> with mutants possessing <info>toe claws.</info>."
+  },
+  {
+    "id": "ALLOWS_HOOVES",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "info": "This clothing is <good>uniquely compatible</good> with mutants possessing <info>hooves, foot-paws, or otherwise altered feet.</info>."
+  },
+  {
+    "id": "ALLOWS_HORNS",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "info": "This clothing is <good>uniquely compatible</good> with mutants possessing <info>horns on their head.</info>."
+  },
+  {
+    "id": "ALLOWS_TAIL",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "info": "This clothing is <good>uniquely compatible</good> with mutants possessing <info>a tail.</info>."
+  },
+  {
+    "id": "ALLOWS_WINGS",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "info": "This clothing is <good>uniquely compatible</good> with mutants possessing <info>wings.</info>."
+  },
+  {
+    "id": "ALLOWS_MUZZLE",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "info": "This clothing is <good>uniquely compatible</good> with mutants possessing <info>a snout, beak, or mandibles.</info>."
+  },
+  {
     "id": "EFFECT_INVISIBLE",
     "context": [  ],
     "type": "json_flag"

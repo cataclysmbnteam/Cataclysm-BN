@@ -27,7 +27,7 @@
       "flags": [ "BELT_CLIP" ]
     },
     "valid_mods": [ "resized_large" ],
-    "flags": [ "FANCY", "WAIST", "COMPACT", "WATER_FRIENDLY" ]
+    "flags": [ "FANCY", "WAIST", "COMPACT", "WATER_FRIENDLY", "ALLOWS_WINGS" ]
   },
   {
     "abstract": "judo_belt_abstract",
@@ -47,7 +47,7 @@
     "encumbrance": 2,
     "material_thickness": 5,
     "valid_mods": [ "resized_large" ],
-    "flags": [ "WAIST", "COMPACT", "WATER_FRIENDLY" ]
+    "flags": [ "WAIST", "COMPACT", "WATER_FRIENDLY", "ALLOWS_WINGS" ]
   },
   {
     "id": "judo_belt_black",
@@ -130,7 +130,7 @@
       "flags": [ "BELT_CLIP" ]
     },
     "valid_mods": [ "resized_large" ],
-    "flags": [ "WAIST", "COMPACT", "WATER_FRIENDLY" ]
+    "flags": [ "WAIST", "COMPACT", "WATER_FRIENDLY", "ALLOWS_WINGS" ]
   },
   {
     "id": "obi_gi",
@@ -175,7 +175,7 @@
       "flags": [ "BELT_CLIP" ]
     },
     "valid_mods": [ "resized_large" ],
-    "flags": [ "WAIST", "COMPACT", "WATER_FRIENDLY" ]
+    "flags": [ "WAIST", "COMPACT", "WATER_FRIENDLY", "ALLOWS_WINGS" ]
   },
   {
     "id": "survivor_belt_notools",
@@ -238,7 +238,7 @@
       "flags": [ "BELT_CLIP", "SHEATH_KNIFE" ]
     },
     "valid_mods": [ "resized_large" ],
-    "flags": [ "WAIST", "COMPACT", "WATER_FRIENDLY" ]
+    "flags": [ "WAIST", "COMPACT", "WATER_FRIENDLY", "ALLOWS_WINGS" ]
   },
   {
     "id": "webbing_belt",
@@ -266,6 +266,6 @@
       "flags": [ "BELT_CLIP" ]
     },
     "valid_mods": [ "resized_large" ],
-    "flags": [ "WAIST", "COMPACT", "WATER_FRIENDLY" ]
+    "flags": [ "WAIST", "COMPACT", "WATER_FRIENDLY", "ALLOWS_WINGS" ]
   }
 ]

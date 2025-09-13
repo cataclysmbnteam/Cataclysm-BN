@@ -19,7 +19,7 @@
     "warmth": 20,
     "material_thickness": 1,
     "environmental_protection": 1,
-    "flags": [ "VARSIZE", "FANCY" ]
+    "flags": [ "VARSIZE", "FANCY", "ALLOWS_NATURAL_ATTACKS", "ALLOWS_HORNS" ]
   },
   {
     "id": "clown_nose",
@@ -63,7 +63,7 @@
     "coverage": 30,
     "encumbrance": 20,
     "material_thickness": 2,
-    "flags": [ "SUPER_FANCY" ]
+    "flags": [ "SUPER_FANCY", "ALLOWS_NATURAL_ATTACKS", "ALLOWS_HORNS" ]
   },
   {
     "id": "crown_golden_survivor",
@@ -82,7 +82,7 @@
     "coverage": 30,
     "encumbrance": 20,
     "material_thickness": 2,
-    "flags": [ "FANCY" ]
+    "flags": [ "FANCY", "ALLOWS_NATURAL_ATTACKS", "ALLOWS_HORNS" ]
   },
   {
     "id": "mouthpiece",
@@ -158,7 +158,7 @@
     "warmth": 100,
     "material_thickness": 5,
     "environmental_protection": 1,
-    "flags": [ "OVERSIZE", "OUTER", "ALLOWS_TAIL_SNAKE" ],
+    "flags": [ "OVERSIZE", "OUTER", "ALLOWS_TAIL_SNAKE", "ALLOWS_HOOVES" ],
     "use_action": {
       "menu_text": "Roll up",
       "type": "transform",
@@ -254,7 +254,7 @@
     "encumbrance": 5,
     "material_thickness": 1,
     "environmental_protection": 1,
-    "flags": [ "SUPER_FANCY", "OUTER", "OVERSIZE" ]
+    "flags": [ "SUPER_FANCY", "OUTER", "OVERSIZE", "ALLOWS_MUZZLE" ]
   },
   {
     "id": "tarp",
@@ -276,6 +276,6 @@
     "warmth": 10,
     "material_thickness": 1,
     "environmental_protection": 1,
-    "flags": [ "OVERSIZE", "OUTER", "WATERPROOF", "ALLOWS_NATURAL_ATTACKS", "ALLOWS_TAIL_SNAKE" ]
+    "flags": [ "OVERSIZE", "OUTER", "WATERPROOF", "ALLOWS_NATURAL_ATTACKS", "ALLOWS_TAIL_SNAKE", "ALLOWS_HOOVES" ]
   }
 ]

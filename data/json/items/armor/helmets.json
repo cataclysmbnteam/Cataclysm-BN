@@ -42,7 +42,7 @@
     "warmth": 10,
     "material_thickness": 3,
     "environmental_protection": 1,
-    "flags": [ "VARSIZE", "OVERSIZE", "STURDY" ]
+    "flags": [ "VARSIZE", "OVERSIZE", "STURDY", "ALLOWS_NATURAL_ATTACKS" ]
   },
   {
     "id": "helmet_army",
@@ -531,7 +531,7 @@
     "material_thickness": 3,
     "environmental_protection": 4,
     "valid_mods": [ "steel_padded", "alloy_padded" ],
-    "flags": [ "VARSIZE", "WATERPROOF", "SUN_GLASSES" ]
+    "flags": [ "VARSIZE", "WATERPROOF", "SUN_GLASSES", "ALLOWS_NATURAL_ATTACKS", "ALLOWS_HORNS", "ALLOWS_MUZZLE" ]
   },
   {
     "id": "helmet_plate",
@@ -595,7 +595,7 @@
     "environmental_protection_with_filter": 15,
     "valid_mods": [ "steel_padded", "alloy_padded" ],
     "qualities": [ [ "GLARE", 1 ] ],
-    "flags": [ "VARSIZE", "STURDY", "WATERPROOF", "SUN_GLASSES" ]
+    "flags": [ "VARSIZE", "STURDY", "WATERPROOF", "SUN_GLASSES", "ALLOWS_NATURAL_ATTACKS", "ALLOWS_HORNS", "ALLOWS_MUZZLE" ]
   },
   {
     "id": "helmet_scrap",

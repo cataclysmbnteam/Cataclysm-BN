@@ -22,7 +22,7 @@
     "material_thickness": 4,
     "valid_mods": [ "steel_padded", "alloy_padded" ],
     "environmental_protection": 6,
-    "flags": [ "VARSIZE", "POCKETS", "STURDY", "WATERPROOF", "RAINPROOF", "OUTER" ]
+    "flags": [ "VARSIZE", "POCKETS", "STURDY", "WATERPROOF", "RAINPROOF", "OUTER", "ALLOWS_WINGS" ]
   },
   {
     "id": "cassock",
@@ -44,7 +44,7 @@
     "encumbrance": 10,
     "warmth": 20,
     "material_thickness": 2,
-    "flags": [ "VARSIZE", "ALLOWS_TAIL_SNAKE" ]
+    "flags": [ "VARSIZE", "ALLOWS_TAIL_SNAKE", "ALLOWS_WINGS" ]
   },
   {
     "id": "coat_fur",
@@ -68,7 +68,7 @@
     "material_thickness": 4,
     "valid_mods": [ "steel_padded", "alloy_padded" ],
     "environmental_protection": 2,
-    "flags": [ "VARSIZE", "POCKETS", "OUTER" ]
+    "flags": [ "VARSIZE", "POCKETS", "OUTER", "ALLOWS_WINGS" ]
   },
   {
     "id": "coat_faux_fur",
@@ -80,7 +80,7 @@
     "material": [ "faux_fur", "cotton" ],
     "color": "pink",
     "covers": [ "torso", "arms" ],
-    "flags": [ "VARSIZE", "POCKETS", "OUTER", "SUPER_FANCY" ],
+    "flags": [ "VARSIZE", "POCKETS", "OUTER", "SUPER_FANCY", "ALLOWS_WINGS" ],
     "warmth": 70
   },
   {
@@ -106,7 +106,7 @@
     "material_thickness": 4,
     "valid_mods": [ "steel_padded", "alloy_padded" ],
     "environmental_protection": 2,
-    "flags": [ "VARSIZE", "POCKETS", "OUTER", "SUPER_FANCY" ]
+    "flags": [ "VARSIZE", "POCKETS", "OUTER", "SUPER_FANCY", "ALLOWS_WINGS" ]
   },
   {
     "id": "coat_lab",
@@ -129,7 +129,7 @@
     "storage": "3500 ml",
     "warmth": 15,
     "material_thickness": 1,
-    "flags": [ "VARSIZE", "POCKETS", "OUTER" ]
+    "flags": [ "VARSIZE", "POCKETS", "OUTER", "ALLOWS_WINGS" ]
   },
   {
     "id": "coat_rain",
@@ -151,7 +151,7 @@
     "warmth": 10,
     "material_thickness": 2,
     "environmental_protection": 3,
-    "flags": [ "VARSIZE", "POCKETS", "WATERPROOF", "RAINPROOF", "HOOD", "OUTER" ]
+    "flags": [ "VARSIZE", "POCKETS", "WATERPROOF", "RAINPROOF", "HOOD", "OUTER", "ALLOWS_WINGS" ]
   },
   {
     "id": "coat_gut",
@@ -172,7 +172,7 @@
     "warmth": 10,
     "material_thickness": 1,
     "environmental_protection": 3,
-    "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "HOOD", "OUTER" ]
+    "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "HOOD", "OUTER", "ALLOWS_WINGS" ]
   },
   {
     "id": "coat_winter",
@@ -197,7 +197,7 @@
     "material_thickness": 4,
     "valid_mods": [ "steel_padded", "alloy_padded" ],
     "environmental_protection": 1,
-    "flags": [ "VARSIZE", "POCKETS", "HOOD", "COLLAR", "OUTER" ]
+    "flags": [ "VARSIZE", "POCKETS", "HOOD", "COLLAR", "OUTER", "ALLOWS_WINGS" ]
   },
   {
     "id": "duster",
@@ -221,7 +221,7 @@
     "material_thickness": 2,
     "environmental_protection": 1,
     "valid_mods": [ "steel_padded", "alloy_padded" ],
-    "flags": [ "VARSIZE", "POCKETS", "OUTER", "ALLOWS_TAIL_SNAKE" ]
+    "flags": [ "VARSIZE", "POCKETS", "OUTER", "ALLOWS_TAIL_SNAKE", "ALLOWS_WINGS" ]
   },
   {
     "id": "duster_fur",
@@ -245,7 +245,7 @@
     "material_thickness": 3,
     "valid_mods": [ "steel_padded", "alloy_padded" ],
     "environmental_protection": 1,
-    "flags": [ "VARSIZE", "POCKETS", "OUTER", "WATERPROOF", "RAINPROOF", "ALLOWS_TAIL_SNAKE" ]
+    "flags": [ "VARSIZE", "POCKETS", "OUTER", "WATERPROOF", "RAINPROOF", "ALLOWS_TAIL_SNAKE", "ALLOWS_WINGS" ]
   },
   {
     "id": "duster_faux_fur",
@@ -256,7 +256,7 @@
     "description": "A thick faux fur duster, falling below your knees.  Has many pockets for storing things.",
     "material": [ "faux_fur", "cotton" ],
     "covers": [ "torso", "arms", "legs" ],
-    "flags": [ "VARSIZE", "POCKETS", "OUTER", "FANCY", "ALLOWS_TAIL_SNAKE" ],
+    "flags": [ "VARSIZE", "POCKETS", "OUTER", "FANCY", "ALLOWS_TAIL_SNAKE", "ALLOWS_WINGS" ],
     "warmth": 40
   },
   {
@@ -281,7 +281,7 @@
     "material_thickness": 3,
     "environmental_protection": 1,
     "valid_mods": [ "steel_padded", "alloy_padded" ],
-    "flags": [ "VARSIZE", "POCKETS", "OUTER", "WATERPROOF", "RAINPROOF", "ALLOWS_TAIL_SNAKE" ]
+    "flags": [ "VARSIZE", "POCKETS", "OUTER", "WATERPROOF", "RAINPROOF", "ALLOWS_TAIL_SNAKE", "ALLOWS_WINGS" ]
   },
   {
     "id": "duster_survivor",
@@ -305,7 +305,18 @@
     "material_thickness": 4,
     "valid_mods": [ "steel_padded", "alloy_padded" ],
     "environmental_protection": 3,
-    "flags": [ "VARSIZE", "POCKETS", "HOOD", "COLLAR", "STURDY", "WATERPROOF", "RAINPROOF", "OUTER", "ALLOWS_TAIL_SNAKE" ]
+    "flags": [
+      "VARSIZE",
+      "POCKETS",
+      "HOOD",
+      "COLLAR",
+      "STURDY",
+      "WATERPROOF",
+      "RAINPROOF",
+      "OUTER",
+      "ALLOWS_TAIL_SNAKE",
+      "ALLOWS_WINGS"
+    ]
   },
   {
     "id": "greatcoat",
@@ -329,7 +340,7 @@
     "material_thickness": 4,
     "valid_mods": [ "steel_padded", "alloy_padded" ],
     "environmental_protection": 1,
-    "flags": [ "VARSIZE", "POCKETS", "COLLAR", "OUTER", "ALLOWS_TAIL_SNAKE" ]
+    "flags": [ "VARSIZE", "POCKETS", "COLLAR", "OUTER", "ALLOWS_TAIL_SNAKE", "ALLOWS_WINGS" ]
   },
   {
     "id": "hakama_gi",
@@ -350,7 +361,7 @@
     "encumbrance": 6,
     "warmth": 10,
     "material_thickness": 2,
-    "flags": [ "VARSIZE", "STURDY" ]
+    "flags": [ "VARSIZE", "STURDY", "ALLOWS_WINGS" ]
   },
   {
     "id": "hakama",
@@ -370,7 +381,7 @@
     "encumbrance": 10,
     "warmth": 15,
     "material_thickness": 2,
-    "flags": [ "VARSIZE", "OUTER" ]
+    "flags": [ "VARSIZE", "OUTER", "ALLOWS_WINGS" ]
   },
   {
     "id": "house_coat",
@@ -416,7 +427,7 @@
     "warmth": 20,
     "material_thickness": 2,
     "valid_mods": [ "steel_padded", "alloy_padded" ],
-    "flags": [ "VARSIZE", "POCKETS", "OUTER" ]
+    "flags": [ "VARSIZE", "POCKETS", "OUTER", "ALLOWS_WINGS" ]
   },
   {
     "id": "jacket_chef",
@@ -439,7 +450,7 @@
     "warmth": 25,
     "material_thickness": 3,
     "valid_mods": [ "steel_padded", "alloy_padded" ],
-    "flags": [ "OUTER", "VARSIZE" ]
+    "flags": [ "OUTER", "VARSIZE", "ALLOWS_WINGS" ]
   },
   {
     "id": "jacket_evac",
@@ -462,7 +473,7 @@
     "warmth": 25,
     "material_thickness": 1,
     "valid_mods": [ "resized_large" ],
-    "flags": [ "POCKETS", "HOOD", "OUTER", "WATERPROOF", "RAINPROOF", "COLLAR" ]
+    "flags": [ "POCKETS", "HOOD", "OUTER", "WATERPROOF", "RAINPROOF", "COLLAR", "ALLOWS_WINGS" ]
   },
   {
     "id": "jacket_flannel",
@@ -485,7 +496,7 @@
     "warmth": 35,
     "material_thickness": 4,
     "valid_mods": [ "steel_padded", "alloy_padded" ],
-    "flags": [ "VARSIZE", "POCKETS", "OUTER" ]
+    "flags": [ "VARSIZE", "POCKETS", "OUTER", "ALLOWS_WINGS" ]
   },
   {
     "id": "jacket_jean",
@@ -514,7 +525,7 @@
       }
     ],
     "valid_mods": [ "steel_padded", "alloy_padded" ],
-    "flags": [ "VARSIZE", "POCKETS", "OUTER" ]
+    "flags": [ "VARSIZE", "POCKETS", "OUTER", "ALLOWS_WINGS" ]
   },
   {
     "id": "jacket_leather",
@@ -538,7 +549,7 @@
     "material_thickness": 3,
     "environmental_protection": 1,
     "valid_mods": [ "steel_padded", "alloy_padded" ],
-    "flags": [ "VARSIZE", "POCKETS", "OUTER" ]
+    "flags": [ "VARSIZE", "POCKETS", "OUTER", "ALLOWS_WINGS" ]
   },
   {
     "id": "jacket_leather_red",
@@ -562,7 +573,7 @@
     "material_thickness": 3,
     "environmental_protection": 1,
     "valid_mods": [ "steel_padded", "alloy_padded" ],
-    "flags": [ "VARSIZE", "POCKETS", "OUTER", "FANCY" ]
+    "flags": [ "VARSIZE", "POCKETS", "OUTER", "FANCY", "ALLOWS_WINGS" ]
   },
   {
     "id": "jacket_light",
@@ -584,7 +595,7 @@
     "storage": "1 L",
     "warmth": 15,
     "material_thickness": 2,
-    "flags": [ "VARSIZE", "POCKETS", "HOOD", "OUTER" ]
+    "flags": [ "VARSIZE", "POCKETS", "HOOD", "OUTER", "ALLOWS_WINGS" ]
   },
   {
     "id": "jacket_windbreaker",
@@ -607,7 +618,7 @@
     "warmth": 25,
     "material_thickness": 1,
     "environmental_protection": 2,
-    "flags": [ "VARSIZE", "POCKETS", "HOOD", "OUTER", "WATERPROOF", "RAINPROOF" ]
+    "flags": [ "VARSIZE", "POCKETS", "HOOD", "OUTER", "WATERPROOF", "RAINPROOF", "ALLOWS_WINGS" ]
   },
   {
     "id": "judo_gi",
@@ -629,7 +640,7 @@
     "warmth": 10,
     "material_thickness": 3,
     "valid_mods": [ "steel_padded", "alloy_padded" ],
-    "flags": [ "VARSIZE", "STURDY" ]
+    "flags": [ "VARSIZE", "STURDY", "ALLOWS_WINGS" ]
   },
   {
     "id": "karate_gi",
@@ -650,7 +661,7 @@
     "warmth": 5,
     "material_thickness": 2,
     "valid_mods": [ "steel_padded", "alloy_padded" ],
-    "flags": [ "VARSIZE", "STURDY" ]
+    "flags": [ "VARSIZE", "STURDY", "ALLOWS_WINGS" ]
   },
   {
     "id": "kariginu",
@@ -673,7 +684,7 @@
     "storage": "2 L",
     "warmth": 23,
     "material_thickness": 2,
-    "flags": [ "VARSIZE", "ALLOWS_TAIL_SNAKE" ]
+    "flags": [ "VARSIZE", "ALLOWS_TAIL_SNAKE", "ALLOWS_WINGS" ]
   },
   {
     "id": "keikogi",
@@ -694,7 +705,7 @@
     "warmth": 5,
     "material_thickness": 2,
     "valid_mods": [ "steel_padded", "alloy_padded" ],
-    "flags": [ "VARSIZE", "STURDY" ]
+    "flags": [ "VARSIZE", "STURDY", "ALLOWS_WINGS" ]
   },
   {
     "id": "kimono",
@@ -716,7 +727,7 @@
     "storage": "1 L",
     "warmth": 20,
     "material_thickness": 2,
-    "flags": [ "VARSIZE", "FANCY", "ALLOWS_TAIL_SNAKE" ]
+    "flags": [ "VARSIZE", "FANCY", "ALLOWS_TAIL_SNAKE", "ALLOWS_WINGS" ]
   },
   {
     "id": "yukata",
@@ -738,7 +749,7 @@
     "storage": "1 L",
     "warmth": 5,
     "material_thickness": 1,
-    "flags": [ "VARSIZE", "FANCY", "ALLOWS_TAIL_SNAKE" ]
+    "flags": [ "VARSIZE", "FANCY", "ALLOWS_TAIL_SNAKE", "ALLOWS_WINGS" ]
   },
   {
     "id": "haori",
@@ -759,7 +770,7 @@
     "encumbrance": 3,
     "warmth": 10,
     "material_thickness": 1,
-    "flags": [ "VARSIZE", "SUPER_FANCY", "OUTER" ]
+    "flags": [ "VARSIZE", "SUPER_FANCY", "OUTER", "ALLOWS_WINGS" ]
   },
   {
     "id": "kittel",
@@ -782,7 +793,7 @@
     "storage": "1500 ml",
     "warmth": 17,
     "material_thickness": 2,
-    "flags": [ "VARSIZE" ]
+    "flags": [ "VARSIZE", "ALLOWS_WINGS" ]
   },
   {
     "id": "peacoat",
@@ -805,7 +816,7 @@
     "warmth": 50,
     "material_thickness": 4,
     "valid_mods": [ "steel_padded", "alloy_padded" ],
-    "flags": [ "VARSIZE", "POCKETS", "COLLAR", "OUTER", "FANCY" ]
+    "flags": [ "VARSIZE", "POCKETS", "COLLAR", "OUTER", "FANCY", "ALLOWS_WINGS" ]
   },
   {
     "id": "robe",
@@ -828,7 +839,7 @@
     "storage": "3 L",
     "warmth": 20,
     "material_thickness": 2,
-    "flags": [ "VARSIZE", "OUTER", "ALLOWS_TAIL_SNAKE" ]
+    "flags": [ "VARSIZE", "OUTER", "ALLOWS_TAIL_SNAKE", "ALLOWS_WINGS" ]
   },
   {
     "id": "ski_jacket",
@@ -852,7 +863,7 @@
     "material_thickness": 5,
     "valid_mods": [ "steel_padded", "alloy_padded" ],
     "environmental_protection": 3,
-    "flags": [ "VARSIZE", "POCKETS", "HOOD", "COLLAR", "OUTER" ]
+    "flags": [ "VARSIZE", "POCKETS", "HOOD", "COLLAR", "OUTER", "ALLOWS_WINGS" ]
   },
   {
     "id": "sleeveless_duster",
@@ -877,7 +888,7 @@
     "material_thickness": 2,
     "environmental_protection": 1,
     "valid_mods": [ "steel_padded", "alloy_padded" ],
-    "flags": [ "VARSIZE", "POCKETS", "OUTER", "ALLOWS_TAIL_SNAKE" ]
+    "flags": [ "VARSIZE", "POCKETS", "OUTER", "ALLOWS_TAIL_SNAKE", "ALLOWS_WINGS" ]
   },
   {
     "id": "sleeveless_duster_fur",
@@ -902,7 +913,7 @@
     "material_thickness": 3,
     "valid_mods": [ "steel_padded", "alloy_padded" ],
     "environmental_protection": 1,
-    "flags": [ "VARSIZE", "POCKETS", "OUTER", "WATERPROOF", "RAINPROOF", "ALLOWS_TAIL_SNAKE" ]
+    "flags": [ "VARSIZE", "POCKETS", "OUTER", "WATERPROOF", "RAINPROOF", "ALLOWS_TAIL_SNAKE", "ALLOWS_WINGS" ]
   },
   {
     "id": "sleeveless_duster_faux_fur",
@@ -912,7 +923,7 @@
     "description": "A thick, sleeveless faux fur duster, falling below your knees.  Has many pockets for storing things.",
     "material": [ "faux_fur", "cotton" ],
     "covers": [ "torso", "legs" ],
-    "flags": [ "VARSIZE", "POCKETS", "OUTER", "FANCY", "ALLOWS_TAIL_SNAKE" ],
+    "flags": [ "VARSIZE", "POCKETS", "OUTER", "FANCY", "ALLOWS_TAIL_SNAKE", "ALLOWS_WINGS" ],
     "warmth": 40
   },
   {
@@ -938,7 +949,7 @@
     "material_thickness": 3,
     "environmental_protection": 1,
     "valid_mods": [ "steel_padded", "alloy_padded" ],
-    "flags": [ "VARSIZE", "POCKETS", "OUTER", "WATERPROOF", "RAINPROOF", "ALLOWS_TAIL_SNAKE" ]
+    "flags": [ "VARSIZE", "POCKETS", "OUTER", "WATERPROOF", "RAINPROOF", "ALLOWS_TAIL_SNAKE", "ALLOWS_WINGS" ]
   },
   {
     "id": "sleeveless_duster_survivor",
@@ -963,7 +974,18 @@
     "material_thickness": 4,
     "valid_mods": [ "steel_padded", "alloy_padded" ],
     "environmental_protection": 3,
-    "flags": [ "VARSIZE", "POCKETS", "HOOD", "COLLAR", "STURDY", "WATERPROOF", "RAINPROOF", "OUTER", "ALLOWS_TAIL_SNAKE" ]
+    "flags": [
+      "VARSIZE",
+      "POCKETS",
+      "HOOD",
+      "COLLAR",
+      "STURDY",
+      "WATERPROOF",
+      "RAINPROOF",
+      "OUTER",
+      "ALLOWS_TAIL_SNAKE",
+      "ALLOWS_WINGS"
+    ]
   },
   {
     "id": "sleeveless_trenchcoat",
@@ -988,7 +1010,7 @@
     "material_thickness": 2,
     "environmental_protection": 1,
     "valid_mods": [ "steel_padded", "alloy_padded" ],
-    "flags": [ "VARSIZE", "POCKETS", "OUTER" ]
+    "flags": [ "VARSIZE", "POCKETS", "OUTER", "ALLOWS_WINGS" ]
   },
   {
     "id": "sleeveless_trenchcoat_fur",
@@ -1013,7 +1035,7 @@
     "material_thickness": 3,
     "valid_mods": [ "steel_padded", "alloy_padded" ],
     "environmental_protection": 1,
-    "flags": [ "VARSIZE", "POCKETS", "OUTER" ]
+    "flags": [ "VARSIZE", "POCKETS", "OUTER", "ALLOWS_WINGS" ]
   },
   {
     "id": "sleeveless_trenchcoat_faux_fur",
@@ -1023,7 +1045,7 @@
     "description": "A thick faux fur trenchcoat without sleeves.  Has plenty of storage space, and looks pretty good.",
     "material": [ "faux_fur", "cotton" ],
     "covers": [ "torso" ],
-    "flags": [ "VARSIZE", "POCKETS", "OUTER", "FANCY" ],
+    "flags": [ "VARSIZE", "POCKETS", "OUTER", "FANCY", "ALLOWS_WINGS" ],
     "warmth": 40
   },
   {
@@ -1049,7 +1071,7 @@
     "material_thickness": 3,
     "valid_mods": [ "steel_padded", "alloy_padded" ],
     "environmental_protection": 1,
-    "flags": [ "VARSIZE", "POCKETS", "OUTER" ]
+    "flags": [ "VARSIZE", "POCKETS", "OUTER", "ALLOWS_WINGS" ]
   },
   {
     "id": "sleeveless_trenchcoat_survivor",
@@ -1074,7 +1096,7 @@
     "material_thickness": 4,
     "valid_mods": [ "steel_padded", "alloy_padded" ],
     "environmental_protection": 3,
-    "flags": [ "VARSIZE", "POCKETS", "HOOD", "COLLAR", "STURDY", "WATERPROOF", "RAINPROOF", "OUTER" ]
+    "flags": [ "VARSIZE", "POCKETS", "HOOD", "COLLAR", "STURDY", "WATERPROOF", "RAINPROOF", "OUTER", "ALLOWS_WINGS" ]
   },
   {
     "id": "sleeveless_tunic",
@@ -1095,7 +1117,7 @@
     "encumbrance": 3,
     "warmth": 2,
     "material_thickness": 1,
-    "flags": [ "VARSIZE", "ALLOWS_TAIL_SNAKE" ]
+    "flags": [ "VARSIZE", "ALLOWS_TAIL_SNAKE", "ALLOWS_WINGS" ]
   },
   {
     "id": "thawb",
@@ -1118,7 +1140,7 @@
     "storage": "1500 ml",
     "warmth": 20,
     "material_thickness": 2,
-    "flags": [ "VARSIZE", "ALLOWS_TAIL_SNAKE" ]
+    "flags": [ "VARSIZE", "ALLOWS_TAIL_SNAKE", "ALLOWS_WINGS" ]
   },
   {
     "id": "trenchcoat",
@@ -1142,7 +1164,7 @@
     "material_thickness": 2,
     "environmental_protection": 1,
     "valid_mods": [ "steel_padded", "alloy_padded" ],
-    "flags": [ "VARSIZE", "POCKETS", "OUTER" ]
+    "flags": [ "VARSIZE", "POCKETS", "OUTER", "ALLOWS_WINGS" ]
   },
   {
     "id": "trenchcoat_fur",
@@ -1166,7 +1188,7 @@
     "material_thickness": 3,
     "valid_mods": [ "steel_padded", "alloy_padded" ],
     "environmental_protection": 1,
-    "flags": [ "VARSIZE", "POCKETS", "OUTER" ]
+    "flags": [ "VARSIZE", "POCKETS", "OUTER", "ALLOWS_WINGS" ]
   },
   {
     "id": "trenchcoat_faux_fur",
@@ -1176,7 +1198,7 @@
     "description": "A thick faux fur trenchcoat, lined with pockets.  Great for storage, and makes you the talk of the town.",
     "material": [ "faux_fur", "cotton" ],
     "covers": [ "torso", "arms" ],
-    "flags": [ "VARSIZE", "POCKETS", "OUTER", "FANCY" ],
+    "flags": [ "VARSIZE", "POCKETS", "OUTER", "FANCY", "ALLOWS_WINGS" ],
     "warmth": 40
   },
   {
@@ -1201,7 +1223,7 @@
     "material_thickness": 3,
     "environmental_protection": 1,
     "valid_mods": [ "steel_padded", "alloy_padded" ],
-    "flags": [ "VARSIZE", "POCKETS", "OUTER" ]
+    "flags": [ "VARSIZE", "POCKETS", "OUTER", "ALLOWS_WINGS" ]
   },
   {
     "id": "trenchcoat_survivor",
@@ -1225,7 +1247,7 @@
     "material_thickness": 4,
     "valid_mods": [ "steel_padded", "alloy_padded" ],
     "environmental_protection": 3,
-    "flags": [ "VARSIZE", "POCKETS", "HOOD", "COLLAR", "STURDY", "WATERPROOF", "RAINPROOF", "OUTER" ]
+    "flags": [ "VARSIZE", "POCKETS", "HOOD", "COLLAR", "STURDY", "WATERPROOF", "RAINPROOF", "OUTER", "ALLOWS_WINGS" ]
   },
   {
     "id": "tunic",
@@ -1246,7 +1268,7 @@
     "encumbrance": 3,
     "warmth": 2,
     "material_thickness": 1,
-    "flags": [ "VARSIZE", "ALLOWS_TAIL_SNAKE" ]
+    "flags": [ "VARSIZE", "ALLOWS_TAIL_SNAKE", "ALLOWS_WINGS" ]
   },
   {
     "id": "tunic_rag",
@@ -1290,7 +1312,7 @@
     "warmth": 30,
     "material_thickness": 2,
     "valid_mods": [ "steel_padded", "alloy_padded" ],
-    "flags": [ "VARSIZE", "POCKETS", "SUPER_FANCY" ]
+    "flags": [ "VARSIZE", "POCKETS", "SUPER_FANCY", "ALLOWS_WINGS" ]
   },
   {
     "id": "waistcoat",
@@ -1312,7 +1334,7 @@
     "storage": "1500 ml",
     "warmth": 5,
     "material_thickness": 1,
-    "flags": [ "VARSIZE", "FANCY" ]
+    "flags": [ "VARSIZE", "FANCY", "ALLOWS_WINGS" ]
   },
   {
     "id": "winter_jacket_army",
@@ -1335,6 +1357,6 @@
     "warmth": 50,
     "material_thickness": 3,
     "valid_mods": [ "steel_padded", "alloy_padded" ],
-    "flags": [ "VARSIZE", "POCKETS", "HOOD", "OUTER", "WATERPROOF" ]
+    "flags": [ "VARSIZE", "POCKETS", "HOOD", "OUTER", "WATERPROOF", "ALLOWS_WINGS" ]
   }
 ]

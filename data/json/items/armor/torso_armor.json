@@ -103,7 +103,7 @@
     "coverage": 95,
     "encumbrance": 20,
     "material_thickness": 4,
-    "flags": [ "VARSIZE", "STURDY" ]
+    "flags": [ "VARSIZE", "STURDY", "ALLOWS_WINGS" ]
   },
   {
     "id": "chestguard_hard",
@@ -126,7 +126,7 @@
     "warmth": 20,
     "material_thickness": 3,
     "environmental_protection": 1,
-    "flags": [ "WATER_FRIENDLY", "STURDY", "OUTER" ]
+    "flags": [ "WATER_FRIENDLY", "STURDY", "OUTER", "ALLOWS_WINGS" ]
   },
   {
     "id": "cuirass_lightplate",
@@ -203,7 +203,7 @@
     "warmth": 25,
     "material_thickness": 3,
     "valid_mods": [ "steel_padded", "alloy_padded", "resized_large" ],
-    "flags": [ "STURDY" ]
+    "flags": [ "STURDY", "ALLOWS_WINGS" ]
   },
   {
     "id": "jacket_leather_mod",
@@ -226,7 +226,7 @@
     "warmth": 30,
     "material_thickness": 3,
     "environmental_protection": 1,
-    "flags": [ "VARSIZE", "POCKETS", "OUTER" ]
+    "flags": [ "VARSIZE", "POCKETS", "OUTER", "ALLOWS_WINGS" ]
   },
   {
     "id": "jacket_leather_bone",
@@ -255,7 +255,7 @@
     "warmth": 10,
     "material_thickness": 1,
     "valid_mods": [ "resized_large" ],
-    "flags": [ "VARSIZE", "OUTER" ]
+    "flags": [ "VARSIZE", "OUTER", "ALLOWS_WINGS" ]
   },
   {
     "id": "lame_saber",
@@ -276,7 +276,7 @@
     "warmth": 10,
     "material_thickness": 1,
     "valid_mods": [ "resized_large" ],
-    "flags": [ "VARSIZE", "OUTER" ]
+    "flags": [ "VARSIZE", "OUTER", "ALLOWS_WINGS" ]
   },
   {
     "id": "football_armor",
@@ -343,7 +343,7 @@
     "material_thickness": 5,
     "environmental_protection": 1,
     "valid_mods": [ "steel_padded", "alloy_padded" ],
-    "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "STURDY" ]
+    "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "STURDY", "ALLOWS_WINGS" ]
   },
   {
     "id": "motorbike_armor",
@@ -387,7 +387,7 @@
     "coverage": 65,
     "warmth": 5,
     "material_thickness": 3,
-    "flags": [ "SKINTIGHT" ]
+    "flags": [ "SKINTIGHT", "ALLOWS_WINGS" ]
   },
   {
     "id": "plastron_plastic",
@@ -406,7 +406,7 @@
     "encumbrance": 2,
     "warmth": 5,
     "material_thickness": 3,
-    "flags": [ "SKINTIGHT" ]
+    "flags": [ "SKINTIGHT", "ALLOWS_WINGS" ]
   },
   {
     "id": "vest_leather_mod",
@@ -429,7 +429,7 @@
     "warmth": 30,
     "material_thickness": 3,
     "environmental_protection": 1,
-    "flags": [ "VARSIZE", "POCKETS", "OUTER" ]
+    "flags": [ "VARSIZE", "POCKETS", "OUTER", "ALLOWS_WINGS" ]
   },
   {
     "id": "cuirass_bone",

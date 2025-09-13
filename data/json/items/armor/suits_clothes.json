@@ -91,7 +91,7 @@
     "storage": "2 L",
     "warmth": 15,
     "material_thickness": 1,
-    "flags": [ "VARSIZE", "POCKETS" ]
+    "flags": [ "VARSIZE", "POCKETS", "ALLOWS_WINGS" ]
   },
   {
     "id": "robofac_jumpsuit",

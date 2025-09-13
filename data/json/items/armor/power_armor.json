@@ -652,6 +652,10 @@
       "EXOSUIT",
       "OVERSIZE",
       "ALLOWS_NATURAL_ATTACKS",
+      "ALLOWS_CLAWS",
+      "ALLOWS_CLAWS_FOOT",
+      "ALLOWS_TAIL",
+      "ALLOWS_WINGS",
       "COMBAT_NPC_USE"
     ]
   },
@@ -723,6 +727,10 @@
       "EXOSUIT",
       "OVERSIZE",
       "ALLOWS_NATURAL_ATTACKS",
+      "ALLOWS_CLAWS",
+      "ALLOWS_CLAWS_FOOT",
+      "ALLOWS_TAIL",
+      "ALLOWS_WINGS",
       "COMBAT_NPC_USE"
     ]
   },

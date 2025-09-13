@@ -97,7 +97,7 @@
       "flags": [ "MAG_COMPACT", "MAG_BULKY", "MAG_BELT", "SPEEDLOADER" ]
     },
     "valid_mods": [ "resized_large" ],
-    "flags": [ "WATER_FRIENDLY", "WAIST", "COMPACT" ]
+    "flags": [ "WATER_FRIENDLY", "WAIST", "COMPACT", "ALLOWS_WINGS" ]
   },
   {
     "id": "chestpouch",
@@ -128,7 +128,7 @@
       "flags": [ "MAG_COMPACT", "SPEEDLOADER" ]
     },
     "valid_mods": [ "resized_large" ],
-    "flags": [ "WATER_FRIENDLY", "BELTED", "COMPACT" ]
+    "flags": [ "WATER_FRIENDLY", "BELTED", "COMPACT", "ALLOWS_WINGS" ]
   },
   {
     "id": "chestrig",
@@ -159,7 +159,7 @@
       "flags": [ "MAG_COMPACT", "SPEEDLOADER" ]
     },
     "valid_mods": [ "resized_large" ],
-    "flags": [ "WATER_FRIENDLY", "BELTED", "COMPACT" ]
+    "flags": [ "WATER_FRIENDLY", "BELTED", "COMPACT", "ALLOWS_WINGS" ]
   },
   {
     "id": "javelin_bag",
@@ -218,7 +218,7 @@
       "draw_cost": 40,
       "flags": [ "MAG_COMPACT", "SPEEDLOADER" ]
     },
-    "flags": [ "WATER_FRIENDLY", "BELTED", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS", "COMPACT" ]
+    "flags": [ "WATER_FRIENDLY", "BELTED", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS", "ALLOWS_HOOVES", "COMPACT" ]
   },
   {
     "type": "ARMOR",
@@ -300,7 +300,7 @@
       "draw_cost": 60,
       "flags": [ "MAG_COMPACT" ]
     },
-    "flags": [ "STURDY", "OUTER" ]
+    "flags": [ "STURDY", "OUTER", "ALLOWS_WINGS" ]
   },
   {
     "id": "modularvestceramic",
@@ -333,7 +333,7 @@
       "draw_cost": 60,
       "flags": [ "MAG_COMPACT" ]
     },
-    "flags": [ "OUTER" ]
+    "flags": [ "OUTER", "ALLOWS_WINGS" ]
   },
   {
     "id": "modularvesthard",
@@ -366,7 +366,7 @@
       "draw_cost": 60,
       "flags": [ "MAG_COMPACT" ]
     },
-    "flags": [ "STURDY", "OUTER" ]
+    "flags": [ "STURDY", "OUTER", "ALLOWS_WINGS" ]
   },
   {
     "id": "modularveststeel",
@@ -399,7 +399,7 @@
       "draw_cost": 60,
       "flags": [ "MAG_COMPACT" ]
     },
-    "flags": [ "STURDY", "OUTER" ]
+    "flags": [ "STURDY", "OUTER", "ALLOWS_WINGS" ]
   },
   {
     "id": "modularvestsuper",
@@ -526,7 +526,7 @@
       "flags": [ "MAG_COMPACT", "MAG_BULKY" ]
     },
     "valid_mods": [ "resized_large" ],
-    "flags": [ "WATER_FRIENDLY", "WAIST", "COMPACT" ]
+    "flags": [ "WATER_FRIENDLY", "WAIST", "COMPACT", "ALLOWS_WINGS" ]
   },
   {
     "id": "xlkevlar",

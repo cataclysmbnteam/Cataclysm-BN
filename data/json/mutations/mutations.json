@@ -2356,8 +2356,10 @@
     "ugliness": 2,
     "cut_dmg_bonus": 6,
     "butchering_quality": 4,
-    "description": "You have claws on the ends of your fingers.  If you aren't wearing gloves, your unarmed attacks deal a minor amount of cutting damage.",
+    "description": "You have claws on the ends of your fingers.  Prevents wearing gloves, unless they're fingerless.",
     "types": [ "CLAWS" ],
+    "restricts_gear": [ "hand_l", "hand_r" ],
+    "allowed_items": [ "ALLOWS_CLAWS" ],
     "prereqs": [ "NAILS" ],
     "changes_to": [ "CLAWS_RETRACT", "CLAWS_RAT" ],
     "cancels": [ "ARM_TENTACLES", "ARM_TENTACLES_4", "ARM_TENTACLES_8" ],
@@ -2373,8 +2375,10 @@
     "cut_dmg_bonus": 6,
     "butchering_quality": 4,
     "flags": [ "UNARMED_BONUS" ],
-    "description": "Your claws have grown tougher and slightly gnarled.",
+    "description": "Your claws have grown tougher and slightly gnarled.  Prevents wearing gloves that aren't fingerless.",
     "types": [ "CLAWS" ],
+    "restricts_gear": [ "hand_l", "hand_r" ],
+    "allowed_items": [ "ALLOWS_CLAWS" ],
     "prereqs": [ "CLAWS" ],
     "changes_to": [ "CLAWS_ST" ],
     "cancels": [ "ARM_TENTACLES", "ARM_TENTACLES_4", "ARM_TENTACLES_8" ],
@@ -2392,8 +2396,10 @@
     "cut_dmg_bonus": 6,
     "butchering_quality": 8,
     "flags": [ "UNARMED_BONUS" ],
-    "description": "Your paws are bone, muscle, and claw with a thin layer of skin and fur.  They might as well be made of stainless steel.",
+    "description": "Your paws are bone, muscle, and claw with a thin layer of skin and fur.  They might as well be made of stainless steel.  Prevents wearing gloves that aren't fingerless.",
     "types": [ "CLAWS" ],
+    "restricts_gear": [ "hand_l", "hand_r" ],
+    "allowed_items": [ "ALLOWS_CLAWS" ],
     "prereqs": [ "CLAWS_RAT" ],
     "prereqs2": [ "PAWS" ],
     "threshreq": [ "THRESH_RAT" ],
@@ -2462,7 +2468,8 @@
     "flags": [ "UNARMED_BONUS" ],
     "mixed_effect": true,
     "restricts_gear": [ "hand_l", "hand_r" ],
-    "description": "Your index fingers have grown into huge talons.  After a bit of practice, you find that this does not affect your dexterity, but allows for a deadly unarmed attack.  They also prevent wearing gloves.",
+    "allowed_items": [ "ALLOWS_CLAWS" ],
+    "description": "Your index fingers have grown into huge talons.  After a bit of practice, you find that this does not affect your dexterity, but allows for a deadly unarmed attack.  They also prevent wearing gloves, though fingerless gloves are fair game.",
     "types": [ "CLAWS" ],
     "prereqs": [ "NAILS" ],
     "cancels": [ "ARM_TENTACLES", "ARM_TENTACLES_4", "ARM_TENTACLES_8" ],
@@ -2703,6 +2710,7 @@
     "types": [ "LEGS" ],
     "category": [ "RAPTOR" ],
     "restricts_gear": [ "foot_l", "foot_r" ],
+    "allowed_items": [ "ALLOWS_CLAWS_FOOT" ],
     "attacks": {
       "attack_text_u": "You slash %s with a talon",
       "attack_text_npc": "%1$s slashes %2$s with a talon",
@@ -2715,7 +2723,7 @@
     "type": "mutation",
     "id": "HOOVES",
     "name": { "str": "Hooves" },
-    "points": -2,
+    "points": -3,
     "visibility": 2,
     "ugliness": 2,
     "mixed_effect": true,
@@ -2724,6 +2732,8 @@
     "category": [ "CATTLE", "CHIMERA" ],
     "wet_protection": [ { "part": "foot_l", "neutral": 10 }, { "part": "foot_r", "neutral": 10 } ],
     "restricts_gear": [ "foot_l", "foot_r" ],
+    "allowed_items": [ "ALLOWS_HOOVES" ],
+    "allowed_items_only": true,
     "armor": [ { "parts": [ "foot_l", "foot_r" ], "physical": 10 } ],
     "attacks": {
       "attack_text_u": "You kick %s with your hooves",
@@ -2881,6 +2891,7 @@
     "threshreq": [ "THRESH_FELINE", "THRESH_CHIMERA" ],
     "category": [ "FELINE", "CHIMERA" ],
     "restricts_gear": [ "mouth" ],
+    "allowed_items": [ "ALLOWS_MUZZLE" ],
     "social_modifiers": { "intimidate": 15 },
     "attacks": {
       "attack_text_u": "You tear into %s with your saber teeth",
@@ -2936,6 +2947,7 @@
     "prereqs": [ "HORNS" ],
     "category": [ "CHIMERA" ],
     "restricts_gear": [ "head" ],
+    "allowed_items": [ "ALLOWS_HORNS" ],
     "attacks": {
       "attack_text_u": "You headbutt %s with your curled horns",
       "attack_text_npc": "%1$s headbutts %2$s with their curled horns",
@@ -2956,6 +2968,7 @@
     "types": [ "HORNS" ],
     "prereqs": [ "HORNS" ],
     "restricts_gear": [ "head" ],
+    "allowed_items": [ "ALLOWS_HORNS" ],
     "allow_soft_gear": true,
     "attacks": {
       "attack_text_u": "You stab %s with your pointed horns",
@@ -2977,6 +2990,7 @@
     "types": [ "HORNS" ],
     "prereqs": [ "HORNS" ],
     "restricts_gear": [ "head" ],
+    "allowed_items": [ "ALLOWS_HORNS" ],
     "allow_soft_gear": true,
     "attacks": {
       "attack_text_u": "You butt %s with your antlers",
@@ -3000,6 +3014,7 @@
     "active": true,
     "starts_active": true,
     "restricts_gear": [ "head" ],
+    "allowed_items": [ "ALLOWS_HORNS" ],
     "allow_soft_gear": true
   },
   {
@@ -3037,7 +3052,8 @@
     "wet_protection": [ { "part": "leg_l", "good": 3 }, { "part": "leg_r", "good": 3 } ],
     "movecost_swim_modifier": 0.75,
     "restricts_gear": [ "leg_l", "leg_r" ],
-    "allow_soft_gear": true
+    "allow_soft_gear": true,
+    "allowed_items": [ "ALLOWS_TAIL" ]
   },
   {
     "type": "mutation",
@@ -3052,6 +3068,7 @@
     "category": [ "FELINE" ],
     "restricts_gear": [ "leg_l", "leg_r" ],
     "allow_soft_gear": true,
+    "allowed_items": [ "ALLOWS_TAIL" ],
     "dodge_modifier": 2
   },
   {
@@ -3066,6 +3083,7 @@
     "category": [ "CATTLE" ],
     "restricts_gear": [ "leg_l", "leg_r" ],
     "allow_soft_gear": true,
+    "allowed_items": [ "ALLOWS_TAIL" ],
     "dodge_modifier": 1
   },
   {
@@ -3080,6 +3098,7 @@
     "category": [ "RAT", "MOUSE" ],
     "restricts_gear": [ "leg_l", "leg_r" ],
     "allow_soft_gear": true,
+    "allowed_items": [ "ALLOWS_TAIL" ],
     "dodge_modifier": 2
   },
   {
@@ -3095,6 +3114,7 @@
     "category": [ "LIZARD" ],
     "restricts_gear": [ "leg_l", "leg_r" ],
     "allow_soft_gear": true,
+    "allowed_items": [ "ALLOWS_TAIL" ],
     "attacks": {
       "attack_text_u": "You whap %s with your tail",
       "attack_text_npc": "%1$s whaps %2$s with their tail",
@@ -3115,6 +3135,7 @@
     "category": [ "RAPTOR" ],
     "restricts_gear": [ "leg_l", "leg_r" ],
     "allow_soft_gear": true,
+    "allowed_items": [ "ALLOWS_TAIL" ],
     "dodge_modifier": 3
   },
   {
@@ -3129,6 +3150,7 @@
     "category": [ "BEAST", "LUPINE" ],
     "restricts_gear": [ "leg_l", "leg_r" ],
     "allow_soft_gear": true,
+    "allowed_items": [ "ALLOWS_TAIL" ],
     "social_modifiers": { "lie": -20, "persuade": 10 },
     "dodge_modifier": 4
   },
@@ -3144,6 +3166,7 @@
     "prereqs": [ "TAIL_LONG" ],
     "restricts_gear": [ "leg_l", "leg_r" ],
     "allow_soft_gear": true,
+    "allowed_items": [ "ALLOWS_TAIL" ],
     "attacks": {
       "attack_text_u": "You sting %s with your tail",
       "attack_text_npc": "%1$s stings %2$s with their tail",
@@ -3164,6 +3187,7 @@
     "category": [ "CHIMERA" ],
     "restricts_gear": [ "leg_l", "leg_r" ],
     "allow_soft_gear": true,
+    "allowed_items": [ "ALLOWS_TAIL" ],
     "attacks": {
       "attack_text_u": "You club %s with your tail",
       "attack_text_npc": "%1$s clubs %2$s with their tail",
@@ -3461,6 +3485,8 @@
     "falling_damage_multiplier": 0.75,
     "flags": [ "MUTATION_FLIGHT" ],
     "types": [ "WINGS" ],
+    "restricts_gear": [ "torso" ],
+    "allowed_items": [ "ALLOWS_WINGS" ],
     "prereqs": [ "WINGS_STUB" ],
     "category": [ "BIRD" ]
   },
@@ -3473,6 +3499,8 @@
     "ugliness": 4,
     "description": "You have a pair of large, translucent wings.  They are too small to provide lift, but can reduce falling damage and if activated will greatly speed your movement, with some effort and noise.",
     "types": [ "WINGS" ],
+    "restricts_gear": [ "torso" ],
+    "allowed_items": [ "ALLOWS_WINGS" ],
     "prereqs": [ "WINGS_STUB" ],
     "category": [ "INSECT" ],
     "active": true,
@@ -3514,6 +3542,7 @@
     "category": [ "INSECT", "SPIDER" ],
     "wet_protection": [ { "part": "mouth", "ignored": 100 } ],
     "restricts_gear": [ "mouth" ],
+    "allowed_items": [ "ALLOWS_MUZZLE" ],
     "attacks": {
       "attack_text_u": "You bite %s with your fangs",
       "attack_text_npc": "%1$s bites %2$s with their fangs",
@@ -4282,6 +4311,8 @@
     "description": "You have a pair of large, leathery wings.  You can move them a little, but they only catch enough air to reduce falling damage a bit, and in fact put you off balance, reducing your ability to dodge slightly.",
     "types": [ "WINGS" ],
     "prereqs": [ "WINGS_STUB" ],
+    "restricts_gear": [ "torso" ],
+    "allowed_items": [ "ALLOWS_WINGS" ],
     "dodge_modifier": -3,
     "falling_damage_multiplier": 0.75
   },
@@ -4301,6 +4332,7 @@
     "threshreq": [ "THRESH_INSECT" ],
     "category": [ "INSECT" ],
     "restricts_gear": [ "torso" ],
+    "allowed_items": [ "ALLOWS_WINGS" ],
     "social_modifiers": { "lie": 15, "persuade": 5, "intimidate": -20 },
     "dodge_modifier": -4,
     "movecost_modifier": 0.9,
@@ -4454,6 +4486,7 @@
     "prereqs": [ "SNOUT" ],
     "category": [ "CATTLE" ],
     "restricts_gear": [ "mouth" ],
+    "allowed_items": [ "ALLOWS_MUZZLE" ],
     "social_modifiers": { "intimidate": 15 }
   },
   {
@@ -4469,6 +4502,7 @@
     "prereqs": [ "SNOUT" ],
     "category": [ "BEAST", "LUPINE" ],
     "restricts_gear": [ "mouth" ],
+    "allowed_items": [ "ALLOWS_MUZZLE" ],
     "social_modifiers": { "intimidate": 6 },
     "attacks": {
       "attack_text_u": "You nip at %s",
@@ -4492,6 +4526,7 @@
     "prereqs": [ "SNOUT" ],
     "category": [ "URSINE" ],
     "restricts_gear": [ "mouth" ],
+    "allowed_items": [ "ALLOWS_MUZZLE" ],
     "attacks": {
       "attack_text_u": "You bite %s",
       "attack_text_npc": "%1$s bites %2$s",
@@ -4512,7 +4547,8 @@
     "types": [ "MUZZLE" ],
     "prereqs": [ "SNOUT" ],
     "category": [ "RAT" ],
-    "restricts_gear": [ "mouth" ]
+    "restricts_gear": [ "mouth" ],
+    "allowed_items": [ "ALLOWS_MUZZLE" ]
   },
   {
     "type": "mutation",
@@ -4527,6 +4563,7 @@
     "prereqs": [ "SNOUT" ],
     "category": [ "LIZARD", "SERPENT" ],
     "restricts_gear": [ "mouth" ],
+    "allowed_items": [ "ALLOWS_MUZZLE" ],
     "social_modifiers": { "intimidate": 20 },
     "attacks": {
       "attack_text_u": "You bite a chunk out of %s",
@@ -4899,6 +4936,7 @@
     "category": [ "BIRD", "CEPHALOPOD" ],
     "wet_protection": [ { "part": "mouth", "ignored": 1 } ],
     "restricts_gear": [ "mouth" ],
+    "allowed_items": [ "ALLOWS_MUZZLE" ],
     "attacks": {
       "attack_text_u": "You peck %s",
       "attack_text_npc": "%1$s pecks %2$s",
@@ -4924,6 +4962,7 @@
     "category": [ "BIRD" ],
     "wet_protection": [ { "part": "mouth", "ignored": 2 } ],
     "restricts_gear": [ "mouth" ],
+    "allowed_items": [ "ALLOWS_MUZZLE" ],
     "attacks": [
       {
         "attack_text_u": "You jackhammer into %s with your beak",
@@ -4951,7 +4990,8 @@
     "category": [ "BIRD" ],
     "wet_protection": [ { "part": "mouth", "ignored": 2 } ],
     "active": true,
-    "restricts_gear": [ "mouth" ]
+    "restricts_gear": [ "mouth" ],
+    "allowed_items": [ "ALLOWS_MUZZLE" ]
   },
   {
     "type": "mutation",
@@ -5455,7 +5495,9 @@
     "prereqs": [ "CHITIN", "CHITIN2", "CHITIN3", "CHITIN_FUR2", "CHITIN_FUR3" ],
     "threshreq": [ "THRESH_INSECT", "THRESH_SPIDER" ],
     "category": [ "INSECT", "SPIDER" ],
+    "//": "Affects the torso so treat it the same as wings.",
     "restricts_gear": [ "torso" ],
+    "allowed_items": [ "ALLOWS_WINGS" ],
     "passive_mods": { "dex_mod": -2 }
   },
   {
@@ -5492,6 +5534,7 @@
     "threshreq": [ "THRESH_SPIDER" ],
     "category": [ "SPIDER" ],
     "restricts_gear": [ "torso" ],
+    "allowed_items": [ "ALLOWS_WINGS" ],
     "passive_mods": { "dex_mod": -4 }
   },
   {
@@ -5665,7 +5708,7 @@
     "type": "mutation",
     "id": "LEG_TENTACLES",
     "name": { "str": "Leg Tentacles" },
-    "points": -4,
+    "points": -5,
     "visibility": 8,
     "ugliness": 4,
     "mixed_effect": true,
@@ -5682,6 +5725,8 @@
       { "part": "foot_r", "neutral": 6 }
     ],
     "restricts_gear": [ "foot_l", "foot_r" ],
+    "allowed_items": [ "ALLOWS_HOOVES" ],
+    "allowed_items_only": true,
     "movecost_modifier": 1.2,
     "noise_modifier": 0
   },
@@ -6014,6 +6059,7 @@
     "category": [ "RABBIT" ],
     "wet_protection": [ { "part": "foot_l", "neutral": 10 }, { "part": "foot_r", "neutral": 10 } ],
     "restricts_gear": [ "foot_l", "foot_r" ],
+    "allowed_items": [ "ALLOWS_HOOVES" ],
     "bodytemp_modifiers": [ 25, 50 ],
     "armor": [ { "parts": [ "foot_l", "foot_r" ], "bash": 1 } ],
     "attacks": {

@@ -270,7 +270,7 @@
     "encumbrance": 18,
     "warmth": 20,
     "material_thickness": 2,
-    "flags": [ "OUTER" ]
+    "flags": [ "OUTER", "ALLOWS_TAIL" ]
   },
   {
     "id": "lsurvivor_pants",
@@ -398,6 +398,7 @@
     "encumbrance": 12,
     "warmth": 12,
     "environmental_protection": 1,
+    "extend": { "flags": [ "ALLOWS_TAIL" ] },
     "//": "Lower here since the closet counterpart is heavier",
     "proportional": { "weight": 0.8 }
   },
@@ -408,6 +409,7 @@
     "description": "Custom legs of layered carbon fiber armor made using a 3D printer.  Its rigid plates are more comparable to a suit of armor than kevlar, but it's very protective and lightweight.",
     "copy-from": "legguard_lightplate",
     "material": [ "carbon_fiber" ],
+    "extend": { "flags": [ "ALLOWS_TAIL" ] },
     "proportional": { "weight": 0.6, "price": 2, "price_postapoc": 2 }
   }
 ]

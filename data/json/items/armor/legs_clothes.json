@@ -47,12 +47,12 @@
     "repairs_like": "boots_larmor",
     "type": "ARMOR",
     "name": { "str": "pair of fishing waders", "str_pl": "pairs of fishing waders" },
-    "description": "Waterproof plastic fishing waders with a single large front pocket.",
+    "description": "Waterproof fishing waders with a single large front pocket.",
     "weight": "1360 g",
     "volume": "9500 ml",
     "price": "100 USD",
     "price_postapoc": "50 cent",
-    "material": [ "plastic" ],
+    "material": [ "rubber" ],
     "symbol": "[",
     "looks_like": "pants_ski",
     "color": "green",
@@ -63,7 +63,7 @@
     "warmth": 5,
     "material_thickness": 2,
     "environmental_protection": 6,
-    "flags": [ "VARSIZE", "WATERPROOF" ]
+    "flags": [ "VARSIZE", "WATERPROOF", "ALLOWS_WINGS" ]
   },
   {
     "id": "hot_pants",
