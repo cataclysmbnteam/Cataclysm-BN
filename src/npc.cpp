@@ -220,6 +220,8 @@ standard_npc::standard_npc( const std::string &name, const tripoint &pos,
 
 static std::map<string_id<npc_template>, npc_template> npc_templates;
 
+npc &npc::operator=( npc && ) noexcept = default;
+
 void npc_template::load( const JsonObject &jsobj )
 {
     npc_template tem;
@@ -727,6 +729,13 @@ void npc::setpos( const tripoint &pos )
             debugmsg( "could not find npc %s on its old overmap", name );
         }
     }
+}
+
+void npc::onswapsetpos( const tripoint &pos )
+{
+    position = pos;
+    submap_coords.x = g->get_levx() + pos.x / SEEX;
+    submap_coords.y = g->get_levy() + pos.y / SEEY;
 }
 
 void npc::travel_overmap( const tripoint &pos )

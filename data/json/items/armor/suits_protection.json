@@ -859,6 +859,7 @@
     "description": "Leg and body armor made from the hardened scales of large reptiles.",
     "copy-from": "armor_larmor",
     "material": [ "scute" ],
+    "color": "green",
     "material_thickness": 5,
     "environmental_protection": 4
   }

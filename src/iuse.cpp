@@ -3658,35 +3658,6 @@ int iuse::tazer2( player *p, item *it, bool b, const tripoint &pos )
     return 0;
 }
 
-int iuse::mp3( player *p, item *it, bool, const tripoint & )
-{
-    // TODO: avoid item id hardcoding to make this function usable for pure json-defined devices.
-    if( !it->units_sufficient( *p ) ) {
-        p->add_msg_if_player( m_info, _( "The device's batteries are dead." ) );
-    } else if( p->has_active_item( itype_mp3_on ) || p->has_active_item( itype_smartphone_music ) ||
-               p->has_active_item( itype_afs_atomic_smartphone_music ) ||
-               p->has_active_item( itype_afs_atomic_wraitheon_music ) ) {
-        p->add_msg_if_player( m_info, _( "You are already listening to music!" ) );
-    } else {
-        p->add_msg_if_player( m_info, _( "You put in the earbuds and start listening to music." ) );
-        if( it->typeId() == itype_mp3 ) {
-            it->convert( itype_mp3_on );
-            it->activate();
-        } else if( it->typeId() == itype_smart_phone ) {
-            it->convert( itype_smartphone_music );
-            it->activate();
-        } else if( it->typeId() == itype_afs_atomic_smartphone ) {
-            it->convert( itype_afs_atomic_smartphone_music );
-            it->activate();
-        } else if( it->typeId() == itype_afs_wraitheon_smartphone ) {
-            it->convert( itype_afs_atomic_wraitheon_music );
-            it->activate();
-        }
-        p->mod_moves( -200 );
-    }
-    return it->type->charges_to_use();
-}
-
 static std::string get_music_description()
 {
     const std::array<std::string, 5> descriptions = {{
@@ -3756,23 +3727,15 @@ int iuse::mp3_on( player *p, item *it, bool t, const tripoint &pos )
             play_music( *p, pos, 0, 20 );
         }
     } else { // Turning it off
-        if( it->typeId() == itype_mp3_on ) {
-            p->add_msg_if_player( _( "The mp3 player turns off." ) );
-            it->convert( itype_mp3 );
-            it->deactivate();
-        } else if( it->typeId() == itype_smartphone_music ) {
-            p->add_msg_if_player( _( "The phone turns off." ) );
-            it->convert( itype_smart_phone );
-            it->deactivate();
-        } else if( it->typeId() == itype_afs_atomic_smartphone_music ) {
-            p->add_msg_if_player( _( "The phone turns off." ) );
-            it->convert( itype_afs_atomic_smartphone );
-            it->deactivate();
-        } else if( it->typeId() == itype_afs_atomic_wraitheon_music ) {
-            p->add_msg_if_player( _( "The phone turns off." ) );
-            it->convert( itype_afs_wraitheon_smartphone );
-            it->deactivate();
-        }
+        // Creatively make it so that the reversion isn't hard-coded
+        // There's *probably* a better way to do this, but this works
+        std::string active_item = it->typeId().str();
+        std::string base_item = active_item.erase( active_item.rfind( '_' ) );
+
+        p->add_msg_if_player( _( "The %s turns off." ), it->display_name() );
+        it->convert( itype_id( base_item ) );
+        it->deactivate();
+
         p->mod_moves( -200 );
     }
     return it->type->charges_to_use();
@@ -5137,14 +5100,14 @@ int iuse::unfold_generic( player *p, item *it, bool, const tripoint & )
         g->m.destroy_vehicle( veh );
         return 0;
     }
-    const bool can_float = size( veh->get_avail_parts( "FLOATS" ) ) > 2;
+    const bool can_float = veh->can_float();
 
     const auto invalid_pos = []( const tripoint & pp, bool can_float ) {
         return ( g->m.has_flag_ter( TFLAG_DEEP_WATER, pp ) && !can_float ) ||
                g->m.veh_at( pp ) || g->m.impassable( pp );
     };
     for( const vpart_reference &vp : veh->get_all_parts() ) {
-        if( vp.info().location != "structure" ) {
+        if( vp.info().location != "structure" && !vp.info().has_flag( VPFLAG_EXTENDABLE ) ) {
             continue;
         }
         const tripoint pp = vp.pos();
@@ -5164,6 +5127,7 @@ int iuse::unfold_generic( player *p, item *it, bool, const tripoint & )
         unfold_msg = _( unfold_msg );
     }
     veh->set_owner( *p );
+    g->m.board_vehicle( p->pos(), p );
     p->add_msg_if_player( m_neutral, unfold_msg, veh->name );
 
     p->moves -= it->get_var( "moves", to_turns<int>( 5_seconds ) );

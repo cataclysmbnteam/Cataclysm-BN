@@ -189,6 +189,7 @@
       { "group": "elecsto_stor", "count": [ 1, 2 ], "prob": 30 },
       { "item": "money_bundle", "count": [ 1, 10 ], "prob": 20 },
       { "item": "survnote", "prob": 10 },
+      { "item": "survivormap", "prob": 1 },
       { "item": "flyer", "count": [ 1, 10 ], "prob": 30 },
       { "item": "character_sheet", "count": [ 1, 2 ], "prob": 5 },
       { "item": "phonebook", "prob": 10 },
@@ -278,10 +279,11 @@
     "type": "item_group",
     "id": "maps",
     "items": [
-      { "item": "roadmap", "prob": 25 },
-      { "item": "touristmap", "prob": 25 },
-      { "item": "regionaltransportmap", "prob": 25 },
-      { "item": "survivormap", "prob": 25 }
+      { "item": "roadmap", "prob": 30 },
+      { "item": "touristmap", "prob": 30 },
+      { "item": "regionaltransportmap", "prob": 30 },
+      { "item": "survivormap", "prob": 10 },
+      { "item": "cavemap", "prob": 10 }
     ]
   },
   {
