@@ -295,7 +295,8 @@
       "cykotic",
       "convict_political",
       "homeless",
-      "convict_ratman"
+      "convict_ratman",
+      "mutant_escape_team_lab"
     ],
     "allowed_locs": [ "sloc_lab_random", "sloc_lab_escape_cells", "sloc_lab_finale", "sloc_ice_lab_stairs", "sloc_ice_lab_finale" ],
     "traits": [
@@ -508,7 +509,8 @@
       "convict_political",
       "convict_ratman",
       "k9_cop",
-      "cop"
+      "cop",
+      "convict_escape_team"
     ],
     "flags": [ "CITY_START", "LONE_START" ]
   },
@@ -528,7 +530,8 @@
       "convict_political",
       "convict_ratman",
       "k9_cop",
-      "cop"
+      "cop",
+      "convict_escape_team"
     ],
     "flags": [ "LONE_START", "CHALLENGE", "OUTDOOR" ]
   },
@@ -540,7 +543,7 @@
     "description": "You find yourself in the most alien place you've ever seen.  The hot humid air and the organic aspect of the structure makes you feel like you're trapped inside a giant creature.  Whatever it is, you need to get out of here before They find you.",
     "allowed_locs": [ "sloc_mi-go_camp" ],
     "start_name": "Mi-Go Camp",
-    "professions": [ "captive", "migo_escapee", "migo_experiment", "rescuer", "monster_hunter" ],
+    "professions": [ "captive", "migo_escapee", "migo_experiment", "rescuer", "monster_hunter", "escape_team_migo" ],
     "flags": [ "LONE_START", "CHALLENGE", "WIN_START" ]
   },
   {
