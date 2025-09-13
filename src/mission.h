@@ -37,7 +37,7 @@ namespace debug_menu
 class mission_debug;
 } // namespace debug_menu
 
-enum mission_origin {
+enum mission_origin : int {
     ORIGIN_NULL = 0,
     ORIGIN_GAME_START, // Given when the game starts
     ORIGIN_OPENER_NPC, // NPC comes up to you when the game starts
@@ -52,7 +52,7 @@ struct enum_traits<mission_origin> {
     static constexpr mission_origin last = mission_origin::NUM_ORIGIN;
 };
 
-enum mission_goal {
+enum mission_goal : int {
     MGOAL_NULL = 0,
     MGOAL_GO_TO,             // Reach a certain overmap tile
     MGOAL_GO_TO_TYPE,        // Instead of a point, go to an oter_type_id map tile like "hospital_entrance"
@@ -197,6 +197,8 @@ struct mission_type {
         // Matches it to a mission_type_id above
         mission_type_id id = mission_type_id( "MISSION_NULL" );
         bool was_loaded = false;
+
+        LUA_TYPE_OPS( mission_type, id );
     private:
         // The untranslated name of the mission
         translation name = to_translation( "Bugged mission type" );
