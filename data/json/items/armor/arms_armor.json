@@ -329,6 +329,7 @@
     "description": "Arm guards made from the hardened scales of large reptiles.",
     "copy-from": "armguard_larmor",
     "material": [ "scute" ],
+    "color": "green",
     "material_thickness": 5,
     "environmental_protection": 4
   }

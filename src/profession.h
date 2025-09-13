@@ -67,6 +67,7 @@ class profession
         std::vector<trait_id> _starting_traits;
         std::set<trait_id> _forbidden_traits;
         std::vector<mtype_id> _starting_pets;
+        std::vector<npc_class_id> _starting_npcs;
         vproto_id _starting_vehicle = vproto_id::NULL_ID();
         // the int is what level the spell starts at
         std::map<spell_id, int> _starting_spells;
@@ -109,6 +110,7 @@ class profession
         std::vector<bionic_id> CBMs() const;
         StartingSkillList skills() const;
         const std::vector<mission_type_id> &missions() const;
+        std::vector<npc_class_id> npcs() const;
 
         std::map<spell_id, int> spells() const;
 

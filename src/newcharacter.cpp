@@ -40,6 +40,7 @@
 #include "inventory.h"
 #include "json.h"
 #include "lightmap.h"
+#include "npc_class.h"
 #include "magic.h"
 #include "magic_enchantment.h"
 #include "make_static.h"
@@ -1628,7 +1629,7 @@ tab_direction set_profession( avatar &u, points_left &points,
 
             // Profession traits
             const auto prof_traits = sorted_profs[cur_id]->get_locked_traits();
-            buffer += colorize( _( "Profession traits:" ), c_light_blue ) + "\n";
+            buffer += colorize( _( "Traits:" ), c_light_blue ) + "\n";
             if( prof_traits.empty() ) {
                 buffer += pgettext( "set_profession_trait", "None" ) + std::string( "\n" );
             } else {
@@ -1644,7 +1645,7 @@ tab_direction set_profession( avatar &u, points_left &points,
                 return localized_compare( std::make_pair( a.first->display_category(), a.first->name() ),
                                           std::make_pair( b.first->display_category(), b.first->name() ) );
             } );
-            buffer += colorize( _( "Profession skills:" ), c_light_blue ) + "\n";
+            buffer += colorize( _( "Skills:" ), c_light_blue ) + "\n";
             if( prof_skills.empty() ) {
                 buffer += pgettext( "set_profession_skill", "None" ) + std::string( "\n" );
             } else {
@@ -1662,7 +1663,7 @@ tab_direction set_profession( avatar &u, points_left &points,
 
             // Profession items
             const auto prof_items = sorted_profs[cur_id]->items( u.male, u.get_mutations() );
-            buffer += colorize( _( "Profession items:" ), c_light_blue ) + "\n";
+            buffer += colorize( _( "Items:" ), c_light_blue ) + "\n";
             if( prof_items.empty() ) {
                 buffer += pgettext( "set_profession_item", "None" ) + std::string( "\n" );
             } else {
@@ -1699,7 +1700,7 @@ tab_direction set_profession( avatar &u, points_left &points,
             std::sort( begin( prof_CBMs ), end( prof_CBMs ), []( const bionic_id & a, const bionic_id & b ) {
                 return a->activated && !b->activated;
             } );
-            buffer += colorize( _( "Profession bionics:" ), c_light_blue ) + "\n";
+            buffer += colorize( _( "Bionics:" ), c_light_blue ) + "\n";
             if( prof_CBMs.empty() ) {
                 buffer += pgettext( "set_profession_bionic", "None" ) + std::string( "\n" );
             } else {
@@ -1741,10 +1742,21 @@ tab_direction set_profession( avatar &u, points_left &points,
             std::optional<int> cash = sorted_profs[cur_id]->starting_cash();
 
             if( cash.has_value() ) {
-                buffer += colorize( _( "Profession money:" ), c_light_blue ) + "\n";
+                buffer += colorize( _( "Money:" ), c_light_blue ) + "\n";
                 buffer += format_money( cash.value() ) + "\n";
             }
+            // Profession companions
+            std::vector<npc_class_id> npcs = sorted_profs[cur_id]->npcs();
 
+            if( !npcs.empty() ) {
+                buffer += "\n" + colorize( _( "Companions:" ), c_light_blue ) + "\n";
+                for( const npc_class_id &id : npcs ) {
+                    if( id.is_valid() ) {
+                        const npc_class &npc_cls = id.obj();
+                        buffer += npc_cls.get_name() + "\n";
+                    }
+                }
+            }
             const auto scroll_msg = string_format(
                                         _( "Press <color_light_green>%1$s</color> or <color_light_green>%2$s</color> to scroll." ),
                                         ctxt.get_desc( "LEFT" ),
