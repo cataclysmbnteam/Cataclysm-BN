@@ -19,6 +19,7 @@
 #include "input.h"
 #include "melee.h"
 #include "mutation.h"
+#include "messages.h"
 #include "options.h"
 #include "output.h"
 #include "pldata.h"
@@ -1215,16 +1216,18 @@ static bool handle_player_display_action( Character &you, unsigned int &line,
         .query();
 
         you.custom_profession = popup.text();
+        add_msg( "You now consider yourself to be a %s.", popup.text() );
         ui_tip.invalidate_ui();
     } else if( action == "CHANGE_NAME" ) {
         string_input_popup popup;
         popup.title( _( "Name: " ) )
-        .width( 25 )
+        .width( 50 )
         .text( "" )
-        .max_length( 25 )
+        .max_length( 50 )
         .query();
 
         you.name = popup.text();
+        add_msg( "From now on, you will refer to yourself as '%s.'", popup.text() );
         ui_tip.invalidate_ui();
     }
     return done;
