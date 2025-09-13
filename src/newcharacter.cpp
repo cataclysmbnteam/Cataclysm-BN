@@ -40,6 +40,7 @@
 #include "inventory.h"
 #include "json.h"
 #include "lightmap.h"
+#include "npc_class.h"
 #include "magic.h"
 #include "magic_enchantment.h"
 #include "make_static.h"
@@ -1744,7 +1745,18 @@ tab_direction set_profession( avatar &u, points_left &points,
                 buffer += colorize( _( "Profession money:" ), c_light_blue ) + "\n";
                 buffer += format_money( cash.value() ) + "\n";
             }
+            // Profession companions
+            std::vector<npc_class_id> npcs = sorted_profs[cur_id]->npcs();
 
+            if( !npcs.empty() ) {
+                buffer += "\n" + colorize( _( "Companions:" ), c_light_blue ) + "\n";
+                for( const npc_class_id &id : npcs ) {
+                    if( id.is_valid() ) {
+                        const npc_class &npc_cls = id.obj();
+                        buffer += npc_cls.get_name() + "\n";
+                    }
+                }
+            }
             const auto scroll_msg = string_format(
                                         _( "Press <color_light_green>%1$s</color> or <color_light_green>%2$s</color> to scroll." ),
                                         ctxt.get_desc( "LEFT" ),
