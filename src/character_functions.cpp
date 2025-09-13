@@ -6,6 +6,7 @@
 
 #include "ammo.h"
 #include "bionics.h"
+#include "bodypart.h"
 #include "calendar.h"
 #include "character_martial_arts.h"
 #include "character.h"
@@ -330,6 +331,20 @@ comfort_response_t base_comfort_value( const Character &who, const tripoint &p )
         } else {
             // Not a comfortable sleeping spot
             comfort -= here.move_cost( p );
+        }
+
+        for( item *it : who.worn ) {
+            if( it->has_quality( qual_SLEEP_AID ) ) {
+                comfort += 0.5 * it->get_quality( qual_SLEEP_AID );
+                comfort_response.aid.push_back( it );
+            }
+        }
+
+        for( item *it : who.wielded_items() ) {
+            if( it->has_quality( qual_SLEEP_AID ) ) {
+                comfort += 0.5 * it->get_quality( qual_SLEEP_AID );
+                comfort_response.aid.push_back( it );
+            }
         }
 
         if( comfort_response.aid.empty() ) {

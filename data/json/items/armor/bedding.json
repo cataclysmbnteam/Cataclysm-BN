@@ -40,7 +40,8 @@
     "warmth": 50,
     "material_thickness": 3,
     "environmental_protection": 1,
-    "flags": [ "OVERSIZE", "OUTER", "ALLOWS_NATURAL_ATTACKS", "ALLOWS_TAIL_SNAKE" ]
+    "flags": [ "OVERSIZE", "OUTER", "ALLOWS_NATURAL_ATTACKS", "ALLOWS_TAIL_SNAKE" ],
+    "qualities": [ ["SLEEP_AID", 2 ] ]
   },
   {
     "id": "down_blanket",
@@ -62,7 +63,8 @@
     "warmth": 70,
     "material_thickness": 3,
     "environmental_protection": 1,
-    "flags": [ "OVERSIZE", "OUTER", "ALLOWS_NATURAL_ATTACKS", "ALLOWS_TAIL_SNAKE" ]
+    "flags": [ "OVERSIZE", "OUTER", "ALLOWS_NATURAL_ATTACKS", "ALLOWS_TAIL_SNAKE" ],
+    "qualities": [ ["SLEEP_AID", 3 ] ]
   },
   {
     "id": "fur_blanket",
@@ -84,7 +86,8 @@
     "warmth": 80,
     "material_thickness": 4,
     "environmental_protection": 1,
-    "flags": [ "OVERSIZE", "OUTER", "ALLOWS_NATURAL_ATTACKS", "ALLOWS_TAIL_SNAKE" ]
+    "flags": [ "OVERSIZE", "OUTER", "ALLOWS_NATURAL_ATTACKS", "ALLOWS_TAIL_SNAKE" ],
+    "qualities": [ ["SLEEP_AID", 3 ] ]
   },
   {
     "id": "afs_quilt",
@@ -105,7 +108,8 @@
     "material_thickness": 3,
     "environmental_protection": 2,
     "flags": [ "OVERSIZE", "OUTER", "ALLOWS_NATURAL_ATTACKS", "ALLOWS_TAIL_SNAKE" ],
-    "looks_like": "down_blanket"
+    "looks_like": "down_blanket",
+    "qualities": [ ["SLEEP_AID", 3 ] ]
   },
   {
     "id": "afs_quilt_patchwork",

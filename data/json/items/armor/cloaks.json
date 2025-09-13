@@ -270,6 +270,7 @@
     "warmth": 50,
     "material_thickness": 3,
     "environmental_protection": 1,
-    "flags": [ "OVERSIZE", "OUTER", "ALLOWS_TAIL_SNAKE" ]
+    "flags": [ "OVERSIZE", "OUTER", "ALLOWS_TAIL_SNAKE" ],
+    "qualities": [ [ "SLEEP_AID", 4 ] ]
   }
 ]
