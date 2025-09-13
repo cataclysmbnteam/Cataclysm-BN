@@ -6696,11 +6696,7 @@
     "description": "You’ve convinced a few fellow test subjects to join your escape. The lab personnel have been acting strangely these past months, but who would have guessed the real threat would be the undead patrolling the halls?",
     "points": 4,
     "skills": [ { "level": 1, "name": "speech" } ],
-    "items": {
-      "both": { "items": [ "subsuit_xl" ] },
-      "male": [ "briefs" ],
-      "female": [ "bra", "panties" ]
-    },
+    "items": { "both": { "items": [ "subsuit_xl" ] }, "male": [ "briefs" ], "female": [ "bra", "panties" ] },
     "flags": [ "SCEN_ONLY" ],
     "npcs": [ "NC_PROF_ESCAPIST_LAB", "NC_PROF_ESCAPIST_LAB", "NC_PROF_ESCAPIST_LAB" ]
   },
