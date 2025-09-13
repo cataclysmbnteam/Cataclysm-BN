@@ -302,7 +302,7 @@ comfort_response_t base_comfort_value( const Character &who, const tripoint &p )
                     int sleep_quality = items_it->get_quality( qual_SLEEP_AID );
                     if( sleep_quality >= 0 ) {
                         // Note: BED + SLEEP_AID = 9 pts, or 1 pt below very_comfortable
-                        comfort += sleep_quality + static_cast<int>( comfort_level::slightly_comfortable );
+                        comfort += ( sleep_quality * 0.5 );
                         comfort_response.aid.push_back( items_it );
                     }
                 }
@@ -333,31 +333,43 @@ comfort_response_t base_comfort_value( const Character &who, const tripoint &p )
             comfort -= here.move_cost( p );
         }
 
-        for( item *it : who.worn ) {
-            if( it->has_quality( qual_SLEEP_AID ) ) {
-                comfort += 0.5 * it->get_quality( qual_SLEEP_AID );
-                comfort_response.aid.push_back( it );
-            }
-        }
-
-        for( item *it : who.wielded_items() ) {
-            if( it->has_quality( qual_SLEEP_AID ) ) {
-                comfort += 0.5 * it->get_quality( qual_SLEEP_AID );
-                comfort_response.aid.push_back( it );
-            }
-        }
-
         if( comfort_response.aid.empty() ) {
             const map_stack items = here.i_at( p );
             for( item *items_it : items ) {
                 int sleep_quality = items_it->get_quality( qual_SLEEP_AID );
                 if( sleep_quality >= 0 ) {
-                    // Note: BED + SLEEP_AID = 9 pts, or 1 pt below very_comfortable
-                    comfort += sleep_quality + static_cast<int>( comfort_level::slightly_comfortable );
+                    // Note: BED + LEVEL 2 SLEEP_AID = 9 pts, or 1 pt below very_comfortable
+                    comfort += ( sleep_quality * 0.5 );
                     comfort_response.aid.push_back( items_it );
                 }
             }
         }
+        
+        bool skintight_or_naked = true;
+        for( item *it : who.worn ) {
+            if( !it->has_flag( flag_SKINTIGHT ) ) {
+                skintight_or_naked = false;
+            }
+            if( it->has_quality( qual_SLEEP_AID ) ) {
+                comfort += 0.5 * it->get_quality( qual_SLEEP_AID );
+                comfort_response.aid.push_back( it );
+            }
+        }
+
+        // bonus if player is wearing only skintight clothing (pajamas/boxers) or naked
+        if( skintight_or_naked ) {
+            comfort += 1;
+        }
+
+        // bonus if player is snuggling with a specific item
+        for( item *it : who.wielded_items() ) {
+            if( it->has_quality( qual_SLEEP_AID ) ) {
+                // don't add to the aid array, because we print special mesage here
+                comfort += it->get_quality( qual_SLEEP_AID );
+                comfort_response.aid.push_back( it );
+            }
+        }
+
         if( fungaloid_cosplay && here.has_flag_ter_or_furn( "FUNGUS", p ) ) {
             comfort += static_cast<int>( comfort_level::very_comfortable );
         } else if( watersleep && here.has_flag_ter( "SWIMMABLE", p ) ) {
@@ -392,16 +404,19 @@ comfort_response_t base_comfort_value( const Character &who, const tripoint &p )
         }
     }
 
-    add_msg( std::to_string( comfort ) );
     if( comfort > static_cast<int>( comfort_level::comfortable ) ) {
         comfort_response.level = comfort_level::very_comfortable;
+        add_msg( "You feel very comfortable." );
     } else if( comfort > static_cast<int>( comfort_level::slightly_comfortable ) ) {
         comfort_response.level = comfort_level::comfortable;
+        add_msg( "You feel comfortable." );
     } else if( comfort > static_cast<int>( comfort_level::neutral ) ) {
         comfort_response.level = comfort_level::slightly_comfortable;
+        add_msg( "You feel slightly comfortable." );
     } else if( comfort == static_cast<int>( comfort_level::neutral ) ) {
         comfort_response.level = comfort_level::neutral;
     } else {
+        add_msg( "You feel uncomfortable." );
         comfort_response.level = comfort_level::uncomfortable;
     }
     return comfort_response;
