@@ -893,7 +893,7 @@ void faction_manager::display() const
             }
         } else if( action == "QUIT" ) {
             break;
-        } else if( action == "SELECT" && guy ) {
+        } else if( action == "SELECT" && guy && interactable ) {
             get_avatar().control_npc( *guy );
         }
     }
