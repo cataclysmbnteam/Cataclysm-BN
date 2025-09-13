@@ -482,6 +482,7 @@ void Character::melee_attack( Creature &t, bool allow_special, const matec_id *f
     item &cur_weapon = allow_unarmed ? used_weapon() : primary_weapon();
     const attack_statblock &attack = melee::pick_attack( *this, cur_weapon, t );
     int hit_spread = t.deal_melee_attack( this, hit_roll( cur_weapon, attack ) );
+    bool attack_hit = hit_spread >= 0;
 
     if( cur_weapon.attack_cost() > attack_cost( cur_weapon ) * 20 ) {
         add_msg( m_bad, _( "This weapon is too unwieldy to attack with!" ) );
@@ -490,7 +491,7 @@ void Character::melee_attack( Creature &t, bool allow_special, const matec_id *f
 
     int move_cost = attack_cost( cur_weapon );
 
-    if( hit_spread < 0 ) {
+    if( !attack_hit ) {
         int stumble_pen = stumble( *this, cur_weapon );
         sfx::generate_melee_sound( pos(), t.pos(), false, false );
         if( is_player() ) { // Only display messages if this is the player
@@ -537,10 +538,6 @@ void Character::melee_attack( Creature &t, bool allow_special, const matec_id *f
         // trigger martial arts on-miss effects
         martial_arts_data->ma_onmiss_effects( *this );
 
-        cata::run_hooks( "on_char_melee_attack_missed", [ &, this]( auto & params ) {
-            params["char"] = this;
-            params["target"] = &t;
-        } );
     } else {
         melee::melee_stats.hit_count += 1;
         // Remember if we see the monster at start - it may change
@@ -677,18 +674,16 @@ void Character::melee_attack( Creature &t, bool allow_special, const matec_id *f
     martial_arts_data->ma_onattack_effects( *this );
     // some things (shattering weapons) can harm the attacking creature.
     check_dead_state();
+
     if( t.as_character() ) {
         dealt_projectile_attack dp = dealt_projectile_attack();
         t.as_character()->on_hit( this, bodypart_str_id::NULL_ID().id(), &dp );
-        cata::run_hooks( "on_char_melee_attack_hit", [ &, this]( auto & params ) {
-            params["char"] = this;
-            params["target"] = &t;
-        } );
     }
 
-    cata::run_hooks( "on_char_melee_attacked", [ &, this]( auto & params ) {
+    cata::run_hooks( "on_creature_melee_attacked", [ &, this]( auto & params ) {
         params["char"] = this;
         params["target"] = &t;
+        params["success"] = attack_hit;
     } );
 
 }
@@ -1653,7 +1648,7 @@ void Character::perform_technique( const ma_technique &technique, Creature &t, d
         }
     }
 
-    cata::run_hooks( "on_char_performed_technique", [ &, this]( auto & params ) {
+    cata::run_hooks( "on_creature_performed_technique", [ &, this]( auto & params ) {
         params["char"] = this;
         params["technique"] = technique;
         params["target"] = &t;
@@ -1922,7 +1917,7 @@ bool Character::block_hit( Creature *source, bodypart_id &bp_hit, damage_instanc
         }
     }
 
-    cata::run_hooks( "on_char_blocked", [ &, this]( auto & params ) {
+    cata::run_hooks( "on_creature_blocked", [ &, this]( auto & params ) {
         params["char"] = this;
         params["source"] = source;
         params["bodypart_id"] = bp_hit;

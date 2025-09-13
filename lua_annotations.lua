@@ -1751,12 +1751,10 @@ gdebug = {}
 ---@field on_mapgen_postprocess fun(arg1: Map, arg2: Tripoint, arg3: TimePoint) @Called right after mapgen has completed. Map argument is the tinymap that represents 24x24 area (2x2 submaps, or 1x1 omt), tripoint is the absolute omt pos, and time_point is the current time (for time-based effects).
 ---@field on_mon_death fun() @Called when a monster is dead
 ---@field on_char_death fun() @Called after a character has died
----@field on_char_dodged fun() @Called after a character has dodged an attack
----@field on_char_blocked fun() @Called after a character has blocked an attack
----@field on_char_melee_attack_missed fun() @Called after a character has missed its melee attack
----@field on_char_performed_technique fun() @Called after a character has performed a combat technique
----@field on_char_melee_attacked fun() @Called after a character has finished an attack
----@field on_char_melee_attack_hit fun() @Called after a character lands a melee attack
+---@field on_creature_dodged fun() @Called after a creature has dodged an attack
+---@field on_creature_blocked fun() @Called after a creature has blocked an attack
+---@field on_creature_melee_attack fun() @Called after a creature has attacked in melee
+---@field on_creature_performed_technique fun() @Called after a character has performed a combat technique
 
 hooks = {}
 

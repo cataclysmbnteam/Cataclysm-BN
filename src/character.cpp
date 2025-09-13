@@ -8853,7 +8853,7 @@ void Character::on_dodge( Creature *source, int difficulty )
             }
         }
     }
-    cata::run_hooks( "on_char_dodged", [ &, this]( auto & params ) {
+    cata::run_hooks( "on_creature_dodged", [ &, this]( auto & params ) {
         params["char"] = this;
         params["source"] = source;
         params["difficulty"] = difficulty;
