@@ -1748,7 +1748,7 @@ tab_direction set_profession( avatar &u, points_left &points,
             std::vector<npc_class_id> npcs = sorted_profs[cur_id]->npcs();
 
             if( !npcs.empty() ) {
-                buffer += "\n" + colorize( _( "Profession companions:" ), c_light_blue ) + "\n";
+                buffer += "\n" + colorize( _( "Companions:" ), c_light_blue ) + "\n";
                 for( const npc_class_id &id : npcs ) {
                     if( id.is_valid() ) {
                         const npc_class &npc_cls = id.obj();
