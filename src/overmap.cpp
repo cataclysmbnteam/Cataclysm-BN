@@ -3412,7 +3412,7 @@ static void elevate_bridges(
     std::set<point_om_omt> flatten_points;
     std::pair<point_om_omt, om_direction::type> center_point;
     int spot = 0;
-    const int len = std::size(bridge_points);
+    const int len = std::size( bridge_points );
     for( const point_om_omt &bp : bridge_points ) {
         tripoint_om_omt bp_om( bp, 0 );
 
@@ -3465,9 +3465,10 @@ static void elevate_bridges(
         om.ter_set( p, oter_id( bridgehead_ground_id + dir_suffix ) );
         om.ter_set( p + tripoint_above, oter_id( bridgehead_ramp_id + dir_suffix ) );
     }
-    if( !bridge_center_id.empty() ){
+    if( !bridge_center_id.empty() ) {
         tripoint_om_omt p( center_point.first, 0 );
-        om.ter_set( p, oter_id( bridge_center_id + om_direction::all_suffixes[static_cast<int>( center_point.second )] ) );
+        om.ter_set( p, oter_id( bridge_center_id + om_direction::all_suffixes[static_cast<int>
+                                ( center_point.second )] ) );
     }
 }
 
