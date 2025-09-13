@@ -5,7 +5,7 @@
     "name": { "str": "Militia Member" },
     "job_description": "Ready to fight.",
     "traits": [
-      { "group": "BG_survival_story_TEENAGER" },
+      { "group": "BG_survival_story_UNIVERSAL" },
       { "group": "NPC_starting_traits" },
       { "group": "Appearance_demographics" }
     ],
