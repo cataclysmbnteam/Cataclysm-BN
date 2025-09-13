@@ -3402,7 +3402,7 @@ static void elevate_bridges(
     const std::string &bridge_under_id,
     const std::string &bridgehead_ground_id,
     const std::string &bridgehead_ramp_id,
-    const std::string &bridgehead_center_id,
+    const std::string &bridge_center_id,
     const std::string &bridge_flat_ew_id,
     const std::string &bridge_flat_ns_id
 )
@@ -3410,7 +3410,7 @@ static void elevate_bridges(
     // Check bridgeheads and 1-tile-long bridges
     std::vector<std::pair<point_om_omt, om_direction::type>> bridgehead_points;
     std::set<point_om_omt> flatten_points;
-    point_om_omt center_point;
+    std::pair<point_om_omt, om_direction::type> center_point;
     int spot = 0;
     const int len = std::size(bridge_points);
     for( const point_om_omt &bp : bridge_points ) {
@@ -3434,8 +3434,9 @@ static void elevate_bridges(
         } else if( !is_bridge_fwd && !is_bridge_bck ) {
             flatten_points.emplace( bp );
         } else if( ( len / 2 == spot ) ) {
-            center_point = bp;
+            center_point = { bp, dir };
         }
+        spot++;
     }
     // Flatten 1-tile-long bridges
     for( const point_om_omt &bp : flatten_points ) {
@@ -3464,9 +3465,9 @@ static void elevate_bridges(
         om.ter_set( p, oter_id( bridgehead_ground_id + dir_suffix ) );
         om.ter_set( p + tripoint_above, oter_id( bridgehead_ramp_id + dir_suffix ) );
     }
-    if( !bridgehead_center_id.empty() ){
-        tripoint_om_omt p( center_point, 0 );
-        om.ter_set( p, oter_id( bridgehead_center_id ) );
+    if( !bridge_center_id.empty() ){
+        tripoint_om_omt p( center_point.first, 0 );
+        om.ter_set( p, oter_id( bridge_center_id + om_direction::all_suffixes[static_cast<int>( center_point.second )] ) );
     }
 }
 
@@ -5154,15 +5155,19 @@ bool overmap::build_connection(
     if( z == 0 && connection.id.str() == "local_road" ) {
         std::vector<point_om_omt> bridge_points;
         std::string name;
+        bool has_bridge = false;
         for( const auto &node : path.nodes ) {
             const tripoint_om_omt pos( node.pos, z );
             if( ter( pos )->has_flag( oter_flags::is_bridge ) ) {
                 name = ter( pos )->get_type_id().str();
                 bridge_points.emplace_back( pos.xy() );
+                has_bridge = true;
             }
         }
-
-        if( oter_str_id( name + "_center_under" ).is_valid() ) {
+        if( !has_bridge ) {
+            return true;
+        }
+        if( oter_str_id( name + "_center_under_north" ).is_valid() ) {
             elevate_bridges(
                 *this, bridge_points,
                 name + "_road", name + "_under", name + "head_ground",

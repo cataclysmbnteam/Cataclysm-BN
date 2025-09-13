@@ -62,7 +62,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "dam_under" ],
-    "weight": 800,
     "object": {
       "predecessor_mapgen": "river_shore",
       "rows": [
@@ -97,9 +96,8 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "dam_under" ],
+    "om_terrain": [ "dam_center_under" ],
     "//": "Additional lock for boat passage.",
-    "weight": 200,
     "object": {
       "predecessor_mapgen": "river_shore",
       "rows": [
