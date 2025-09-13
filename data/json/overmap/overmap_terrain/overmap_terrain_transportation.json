@@ -67,7 +67,8 @@
     "name": "bridge",
     "sym": "│",
     "color": "white",
-    "see_cost": 2
+    "see_cost": 2,
+    "flags": [ "IS_BRIDGE" ]
   },
   {
     "type": "overmap_terrain",
@@ -75,14 +76,14 @@
     "id": "bridge",
     "copy-from": "generic_bridge",
     "extras": "bridgehead_ground",
-    "flags": [ "RIVER", "IGNORE_ROTATION_FOR_ADJACENCY" ]
+    "flags": [ "RIVER", "IGNORE_ROTATION_FOR_ADJACENCY", "IS_BRIDGE" ]
   },
   {
     "type": "overmap_terrain",
     "id": "bridge_under",
     "copy-from": "generic_bridge",
     "color": "blue",
-    "flags": [ "RIVER", "IGNORE_ROTATION_FOR_ADJACENCY" ]
+    "flags": [ "RIVER", "IGNORE_ROTATION_FOR_ADJACENCY", "IS_BRIDGE" ]
   },
   {
     "type": "overmap_terrain",
@@ -97,7 +98,7 @@
     "name": "bridgehead (ground)",
     "sym": "v",
     "extras": "bridgehead_ground",
-    "flags": [ "RIVER", "IGNORE_ROTATION_FOR_ADJACENCY" ]
+    "flags": [ "RIVER", "IGNORE_ROTATION_FOR_ADJACENCY", "IS_BRIDGE" ]
   },
   {
     "type": "overmap_terrain",
