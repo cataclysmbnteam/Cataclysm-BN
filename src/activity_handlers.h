@@ -295,11 +295,12 @@ finish_functions;
 namespace repair_activity_hack
 {
 
-void patch_activity_for_vehicle_welder(
+void patch_activity_for_vehicle(
     player_activity &activity,
     const tripoint &veh_part_position,
     const vehicle &veh,
-    int interact_part_idx
+    int interact_part_idx,
+    const itype_id &it
 );
 void patch_activity_for_furniture( player_activity &activity,
                                    const tripoint &furniture_position,
