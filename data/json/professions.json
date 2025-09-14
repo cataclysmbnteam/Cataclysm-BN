@@ -6713,6 +6713,22 @@
     },
     "flags": [ "SCEN_ONLY" ],
     "npcs": [ "NC_PROF_ESCAPIST_MIGO", "NC_PROF_ESCAPIST_MIGO", "NC_PROF_ESCAPIST_MIGO" ]
+  },
+  {
+    "type": "profession",
+    "id": "graffiti_crew",
+    "name": "Graffiti Crew",
+    "description": "You and your fellow street artists have survived the initial chaos by sticking together. Now there's much more pressing matters than being caught by the police.",
+    "points": 4,
+    "skills": [ { "level": 2, "name": "survival" }, { "level": 3, "name": "dodge" }, { "level": 3, "name": "swimming" } ],
+    "items": {
+      "both": {
+        "items": [ "wristwatch", "smart_phone", "spray_can", "slingpack", "permanent_marker", "hoodie", "socks", "sneakers", "jeans", "urbexmap" ],
+        "entries": [ { "item": "switchblade", "custom-flags": [ "auto_wield" ] } ]
+      }
+    },
+    "npcs": [ "NC_PROF_GRAFFITI", "NC_PROF_GRAFFITI" ]
+  },
   {
     "type": "profession",
     "id": "heist_driver",
@@ -6743,5 +6759,40 @@
     "npcs": [ "NC_PROF_HEIST_SHOOTER", "NC_PROF_HEIST_THIEF" ],
     "missions": [ "MISSION_HEIST_DRIVER" ]
   },
+  {
+    "type": "profession",
+    "id": "neighborhood_watch",
+    "name": "Neighborhood Watch",
+    "description": "You always knew the end was coming - maybe not zombies, but something bad. Between late-night doomsday movies, cheap beer, and greasy pizza, you talked your neighbors into taking it seriously. When it all went down, you grabbed the truck, called the boys, and swore you’d keep the neighborhood safe. Now it’s time to put those plans into action.",
+    "points": 6,
+    "skills": [ { "level": 2, "name": "driving" }, { "level": 1, "name": "mechanics" }, { "level": 1, "name": "gun" }, { "level": 1, "name": "melee" } ],
+    "vehicle": "pickup",
+    "pets": [ { "name": "mon_dog_bcollie", "amount": 1 } ],
+    "items": {
+      "both": {
+        "entries": [
+          { "item": "shorts_cargo" },
+          { "item": "flotation_vest_sandbag" },
+          { "item": "tshirt" },
+          { "item": "jacket_leather" },
+          { "item": "socks" },
+          { "item": "boots_steel" },
+          { "item": "wristwatch" },
+          { "item": "legguard_hard" },
+          { "item": "duffelbag" },
+          { "item": "hat_ball" },
+          { "item": "gloves_work" },
+          { "item": "wearable_light" },
+          { "item": "glock_19", "ammo-item": "9mm", "container-item": "holster", "charges": 15 },
+          { "item": "glockmag", "ammo-item": "9mm", "charges": 15 },
+          { "item": "ref_lighter" },
+          { "item": "beer", "count": [ 1, 6 ] },
+          { "group": "snacks", "count": [ 1, 2 ] }
+        ]
+      },
+      "male": { "entries": [ { "item": "boxer_shorts" } ] },
+      "female": { "entries": [ { "item": "panties" }, { "item": "bra" } ] }
+    },
+    "npcs": [ "NC_PROF_NEIGHBORHOOD_HUNTER", "NC_PROF_NEIGHBORHOOD_MECHANIC", "NC_PROF_NEIGHBORHOOD_DOCTOR", "NC_PROF_NEIGHBORHOOD_DELINQUENT" ]
   }
 ]
