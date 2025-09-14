@@ -42,3 +42,59 @@ clean water
 ```
 
 </details>
+
+
+## Monsters
+
+### Spawning a dog near the player
+
+```lua
+local avatar = gapi.get_avatar()
+local coords = avatar:get_pos_ms()
+local dog_mtype = MtypeId.new("mon_dog_bcollie")
+local doggy = gapi.place_monster_around(dog_mtype, coords, 5)
+if doggy == nil then
+    gdebug.log_info("Could not spawn doggy :(")
+else
+    gdebug.log_info(string.format("Spawned Doggy at %s", doggy:get_pos_ms()))
+end
+```
+
+
+## Combat
+
+### Printing details about a combat technique when it is used
+First, define the function.
+```lua
+on_creature_performed_technique = function(params)
+  local char = params.char
+  local technique = params.technique
+  local target = params.target
+  local damage_instance = params.damage_instance
+  local move_cost = params.move_cost
+  gdebug.log_info(
+          string.format(
+                  "%s performed %s on %s (DI: %s , MC: %s)",
+                  char:get_name(),
+                  technique.name,
+                  target:get_name(),
+                  damage_instance:total_damage(),
+                  move_cost
+          )
+  )
+end
+```
+Then connect the hook to the function ONLY ONCE.
+```lua
+table.insert(game.hooks.on_creature_performed_technique, function(...) return on_creature_performed_technique(...) end)
+```
+
+
+<details>
+<summary>Example output</summary>
+
+```
+Ramiro Waters performed Power Hit on zombie (DI: 27.96 , MC: 58)
+```
+
+</details>
