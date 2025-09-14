@@ -60,6 +60,8 @@
 #include "string_utils.h"
 #include "text_snippets.h"
 #include "translations.h"
+#include "type_id.h"
+#include "weighted_list.h"
 #include "world.h"
 
 static const efftype_id effect_pet( "pet" );
@@ -5707,6 +5709,21 @@ std::vector<tripoint_om_omt> overmap::place_special(
     }
 
     return result.omts_used;
+}
+// Inside empty rock spawn some ores maybe
+void overmap::spawn_ores( const tripoint_om_omt &p )
+{
+    if( one_in( 10 ) ) {
+        weighted_int_list<std::string> ores;
+        ores.add( "iron", 10 );
+        ores.add( "copper", 5 );
+        ores.add( "lead", 3 );
+        ores.add( "tin", 3 );
+        ores.add( "silver", 2 );
+        ores.add( "gold", 1 );
+        add_note( p, string_format( "There will be %s ore here", ores.pick()->c_str() ) );
+
+    }
 }
 
 // Points list maintaining custom order, and allowing fast removal by coordinates

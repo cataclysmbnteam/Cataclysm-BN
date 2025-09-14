@@ -213,6 +213,21 @@
     }
   },
   {
+    "id": "rockmap",
+    "copy-from": "abstractmap",
+    "type": "GENERIC",
+    "name": "miners's map",
+    "looks_like": "roadmap",
+    "description": "This is a handmade map of local mineral veins.  There's probably bigger worries than that now, though.",
+    "color": "light_blue",
+    "use_action": {
+      "type": "reveal_map",
+      "radius": 180,
+      "terrain": [ "empty_rock", "rock" ],
+      "message": "You mark potential entry points and underground routes in the margins of your map."
+    }
+  },
+  {
     "id": "trailmap",
     "copy-from": "abstractmap",
     "type": "GENERIC",
