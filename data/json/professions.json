@@ -6818,6 +6818,7 @@
       "NC_PROF_NEIGHBORHOOD_DOCTOR",
       "NC_PROF_NEIGHBORHOOD_DELINQUENT"
     ],
+    "flags": [ "SCEN_ONLY" ],
     "missions": [ "MISSION_HEIST_NEIGHBORHOOD_WATCH" ]
   }
 ]
