@@ -8,6 +8,7 @@
 #include <algorithm>
 #include <cassert>
 #include <cmath>
+#include <coordinates.h>
 #include <cstring>
 #include <exception>
 #include <memory>
@@ -5713,7 +5714,12 @@ std::vector<tripoint_om_omt> overmap::place_special(
 // Inside empty rock spawn some ores maybe
 void overmap::spawn_ores( const tripoint_om_omt &p )
 {
-    if( one_in( 10 ) ) {
+    // Should give a # 1-10 based on world seed and x/y cords.
+    //TODO: Currently produces "bands" of ore. Figure out make more splotchy
+    point_om_sm subpos = project_to<coords::sm>( p.xy() );
+    uint ore_seed = ( ( ( abs( subpos.x() + subpos.y() ) / p.z() ) * ( g->get_seed() % 10 ) ) + 1 ) %
+                    10;
+    if( ore_seed + abs( p.z() ) > 16 ) {
         weighted_int_list<std::string> ores;
         ores.add( "iron", 10 );
         ores.add( "copper", 5 );
