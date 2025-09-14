@@ -301,8 +301,7 @@
     "description": "Thick leather boots that have been reinforced with strategically-placed metal plates.  Strong yet light.",
     "material": [ "leather", "iron" ],
     "looks_like": "boots_plate",
-    "encumbrance": 8,
-    "proportional": { "price": 4, "price_postapoc": 1.2 },
+    "proportional": { "price": 4, "price_postapoc": 1.2, "encumbrance": 1.25 },
     "relative": { "weight": "500 g" }
   },
   {
@@ -1513,8 +1512,7 @@
     "type": "ARMOR",
     "name": { "str": "pair of carbon fiber boots", "str_pl": "pairs of carbon fiber boots" },
     "description": "A custom pair of boots made out of layered carbon fiber armor made using a 3D printer.  Its rigid plates are more comparable to a suit of armor than kevlar, but it's very protective and lightweight.",
-    "copy-from": "boots_plarmor",
-    "encumbrance": 22,
+    "copy-from": "boots_plate",
     "material": [ "carbon_fiber" ],
     "proportional": { "weight": 0.6, "price": 2, "price_postapoc": 2 }
   },
