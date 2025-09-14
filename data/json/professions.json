@@ -6713,5 +6713,35 @@
     },
     "flags": [ "SCEN_ONLY" ],
     "npcs": [ "NC_PROF_ESCAPIST_MIGO", "NC_PROF_ESCAPIST_MIGO", "NC_PROF_ESCAPIST_MIGO" ]
+  {
+    "type": "profession",
+    "id": "heist_driver",
+    "name": "Heist Driver",
+    "description": "For as long as you can remember, you have lived a double life: a normal driver by the day and a heist driver in the night.  Now you've got one last job.",
+    "points": 5,
+    "skills": [ { "level": 6, "name": "driving" }, { "level": 4, "name": "mechanics" }, { "level": 1, "name": "melee" } ],
+    "vehicle": "car_racing_electric",
+    "items": {
+      "both": {
+        "entries": [
+          { "item": "jeans" },
+          { "item": "tshirt" },
+          { "item": "jacket_leather" },
+          { "item": "gloves_fingerless" },
+          { "item": "socks" },
+          { "item": "sneakers" },
+          { "item": "wristwatch" },
+          { "item": "roadmap" },
+          { "item": "switchblade" },
+          { "item": "balclava" },
+          { "item": "duffelbag" }
+        ]
+      },
+      "male": { "entries": [ { "item": "boxer_shorts" } ] },
+      "female": { "entries": [ { "item": "panties" }, { "item": "bra" } ] }
+    },
+    "npcs": [ "NC_PROF_HEIST_SHOOTER", "NC_PROF_HEIST_THIEF" ],
+    "missions": [ "MISSION_HEIST_DRIVER" ]
+  },
   }
 ]
