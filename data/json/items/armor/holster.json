@@ -42,7 +42,7 @@
     "coverage": 5,
     "encumbrance": 2,
     "material_thickness": 1,
-    "flags": [ "BELTED", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS" ],
+    "flags": [ "BELTED", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS", "ALLOWS_HOOVES" ],
     "use_action": {
       "type": "holster",
       "max_volume": "500 ml",
@@ -167,7 +167,7 @@
       "flags": [ "HOLSTER_PISTOL" ]
     },
     "valid_mods": [ "resized_large" ],
-    "flags": [ "SKINTIGHT", "COMPACT", "WATER_FRIENDLY" ]
+    "flags": [ "SKINTIGHT", "COMPACT", "WATER_FRIENDLY", "ALLOWS_WINGS" ]
   },
   {
     "id": "shoulder_holster",
@@ -212,7 +212,7 @@
       "skills": [ "smg", "shotgun", "rifle", "launcher", "pistol" ]
     },
     "valid_mods": [ "steel_padded", "alloy_padded", "resized_large" ],
-    "flags": [ "WATER_FRIENDLY", "STURDY", "WAIST", "COMPACT" ]
+    "flags": [ "WATER_FRIENDLY", "STURDY", "WAIST", "COMPACT", "ALLOWS_WINGS" ]
   },
   {
     "id": "baldric_holster",
@@ -240,7 +240,7 @@
       "skills": [ "pistol" ],
       "flags": [ "HOLSTER_PISTOL" ]
     },
-    "flags": [ "BELTED", "COMPACT" ]
+    "flags": [ "BELTED", "COMPACT", "ALLOWS_WINGS" ]
   },
   {
     "id": "XL_holster",

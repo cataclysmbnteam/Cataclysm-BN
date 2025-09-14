@@ -604,6 +604,42 @@
     "components": [ [ [ "rag", 45 ] ] ]
   },
   {
+    "result": "stockings_snake_tail_fur",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_LEGS",
+    "skill_used": "tailor",
+    "difficulty": 2,
+    "time": "75 m",
+    "autolearn": true,
+    "using": [ [ "sewing_standard", 36 ] ],
+    "components": [ [ [ "fur", 45 ] ] ]
+  },
+  {
+    "result": "stockings_snake_tail_leather",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_LEGS",
+    "skill_used": "tailor",
+    "difficulty": 2,
+    "time": "75 m",
+    "autolearn": true,
+    "using": [ [ "sewing_standard", 36 ] ],
+    "components": [ [ [ "leather", 45 ] ] ]
+  },
+  {
+    "result": "stockings_snake_tail_wool",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_LEGS",
+    "skill_used": "tailor",
+    "difficulty": 2,
+    "time": "75 m",
+    "autolearn": true,
+    "using": [ [ "sewing_standard", 36 ] ],
+    "components": [ [ [ "felt_patch", 45 ] ] ]
+  },
+  {
     "result": "under_armor_shorts",
     "type": "recipe",
     "category": "CC_ARMOR",
