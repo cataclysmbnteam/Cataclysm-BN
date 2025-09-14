@@ -478,6 +478,7 @@ class overmap
         std::vector<tripoint_om_omt> place_special(
             const overmap_special &special, const tripoint_om_omt &p, om_direction::type dir,
             const city &cit, bool must_be_unexplored, bool force );
+        void spawn_ores( const tripoint_om_omt &p );
     private:
         /**
          * Iterate over the overmap and place the quota of specials.
