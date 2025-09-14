@@ -235,6 +235,40 @@ void cata::detail::reg_damage_instance( sol::state &lua )
 #undef UT_CLASS // #define UT_CLASS dealt_damage_instance
 }
 
+void cata::detail::reg_technique( sol::state &lua )
+{
+    {
+        sol::usertype<ma_technique> ut =
+            luna::new_usertype<ma_technique>(
+                lua,
+                luna::no_bases,
+                luna::no_constructor
+            );
+
+        luna::set_fx( ut, "name", &ma_technique::name );
+        luna::set_fx( ut, "get_description", &ma_technique::get_description );
+        luna::set_fx( ut, "avatar_message", &ma_technique::avatar_message );
+        luna::set_fx( ut, "npc_message", &ma_technique::npc_message );
+        luna::set_fx( ut, "defensive", &ma_technique::defensive );
+        luna::set_fx( ut, "side_switch", &ma_technique::side_switch );
+        luna::set_fx( ut, "down_dur", &ma_technique::down_dur);
+        luna::set_fx( ut, "stun_dur", &ma_technique::stun_dur);
+        luna::set_fx( ut, "knockback_dist", &ma_technique::knockback_dist);
+        luna::set_fx( ut, "knockback_spread", &ma_technique::knockback_spread);
+        luna::set_fx( ut, "powerful_knockback", &ma_technique::powerful_knockback);
+        luna::set_fx( ut, "crit_tec", &ma_technique::crit_tec );
+        luna::set_fx( ut, "crit_ok", &ma_technique::crit_ok );
+        luna::set_fx( ut, "knockback_follow", &ma_technique::knockback_follow );
+        luna::set_fx( ut,  "disarms", &ma_technique::disarms );
+        luna::set_fx( ut,  "take_weapon", &ma_technique::take_weapon );
+        luna::set_fx( ut,  "dodge_counter", &ma_technique::dodge_counter );
+        luna::set_fx( ut,  "block_counter", &ma_technique::block_counter );
+        luna::set_fx( ut,  "miss_recovery", &ma_technique::miss_recovery );
+        luna::set_fx( ut,  "grab_break", &ma_technique::grab_break );
+
+    }
+}
+
 void cata::detail::reg_item( sol::state &lua )
 {
 #define UT_CLASS item
@@ -808,6 +842,7 @@ void cata::reg_all_bindings( sol::state &lua )
     reg_coords_library( lua );
     reg_constants( lua );
     reg_hooks_examples( lua );
+    reg_technique( lua );
     reg_types( lua );
     reg_time_types( lua );
     reg_testing_library( lua );
