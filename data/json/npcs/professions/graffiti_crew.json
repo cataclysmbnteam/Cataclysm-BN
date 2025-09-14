@@ -22,7 +22,14 @@
     "type": "item_group",
     "id": "NC_PROF_GRAFFITI_worn",
     "subtype": "collection",
-    "entries": [ { "item": "wristwatch" }, { "item": "slingpack" }, { "item": "hoodie" }, { "item": "jeans" }, { "item": "socks" }, { "item": "sneakers" } ]
+    "entries": [
+      { "item": "wristwatch" },
+      { "item": "slingpack" },
+      { "item": "hoodie" },
+      { "item": "jeans" },
+      { "item": "socks" },
+      { "item": "sneakers" }
+    ]
   },
   {
     "type": "item_group",
@@ -40,9 +47,6 @@
     "type": "trait_group",
     "id": "NC_PROF_GRAFFITI",
     "subtype": "collection",
-    "traits": [
-      { "group": "trait_group_PARKOUR", "prob": 100 },
-      { "group": "trait_group_GOODCARDIO", "prob": 100 }
-    ]
+    "traits": [ { "group": "trait_group_PARKOUR", "prob": 100 }, { "group": "trait_group_GOODCARDIO", "prob": 100 } ]
   }
 ]

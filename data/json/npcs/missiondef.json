@@ -882,15 +882,9 @@
     "goal": "MGOAL_GO_TO_TYPE",
     "difficulty": 1,
     "value": 0,
-    "start": { 
-      "assign_mission_target": {
-        "om_terrain": "bank",
-        "reveal_radius": 3,
-        "search_range": 200,
-        "min_distance": 15,
-        "z": 0
-      }
-     },
+    "start": {
+      "assign_mission_target": { "om_terrain": "bank", "reveal_radius": 3, "search_range": 200, "min_distance": 15, "z": 0 }
+    },
     "origins": [ "ORIGIN_GAME_START" ],
     "destination": "bank"
   },
@@ -902,9 +896,9 @@
     "goal": "MGOAL_GO_TO_TYPE",
     "difficulty": 2,
     "value": 0,
-    "start": { 
+    "start": {
       "assign_mission_target": { "om_terrain": "home_improvement", "om_special": "home_improvement", "reveal_radius": 3, "z": 0 }
-     },
+    },
     "origins": [ "ORIGIN_GAME_START" ],
     "destination": "home_improvement"
   }

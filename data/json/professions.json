@@ -6723,7 +6723,18 @@
     "skills": [ { "level": 2, "name": "survival" }, { "level": 3, "name": "dodge" }, { "level": 3, "name": "swimming" } ],
     "items": {
       "both": {
-        "items": [ "wristwatch", "smart_phone", "spray_can", "slingpack", "permanent_marker", "hoodie", "socks", "sneakers", "jeans", "urbexmap" ],
+        "items": [
+          "wristwatch",
+          "smart_phone",
+          "spray_can",
+          "slingpack",
+          "permanent_marker",
+          "hoodie",
+          "socks",
+          "sneakers",
+          "jeans",
+          "urbexmap"
+        ],
         "entries": [ { "item": "switchblade", "custom-flags": [ "auto_wield" ] } ]
       }
     },
@@ -6768,7 +6779,12 @@
     "name": "Neighborhood Watch",
     "description": "You always knew the end was coming - maybe not zombies, but something bad. Between late-night doomsday movies, cheap beer, and greasy pizza, you talked your neighbors into taking it seriously. When it all went down, you grabbed the truck, called the boys, and swore you’d keep the neighborhood safe. Now it’s time to put those plans into action.",
     "points": 6,
-    "skills": [ { "level": 2, "name": "driving" }, { "level": 1, "name": "mechanics" }, { "level": 1, "name": "gun" }, { "level": 1, "name": "melee" } ],
+    "skills": [
+      { "level": 2, "name": "driving" },
+      { "level": 1, "name": "mechanics" },
+      { "level": 1, "name": "gun" },
+      { "level": 1, "name": "melee" }
+    ],
     "vehicle": "pickup",
     "pets": [ { "name": "mon_dog_bcollie", "amount": 1 } ],
     "items": {
@@ -6796,7 +6812,12 @@
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "panties" }, { "item": "bra" } ] }
     },
-    "npcs": [ "NC_PROF_NEIGHBORHOOD_HUNTER", "NC_PROF_NEIGHBORHOOD_MECHANIC", "NC_PROF_NEIGHBORHOOD_DOCTOR", "NC_PROF_NEIGHBORHOOD_DELINQUENT" ],
+    "npcs": [
+      "NC_PROF_NEIGHBORHOOD_HUNTER",
+      "NC_PROF_NEIGHBORHOOD_MECHANIC",
+      "NC_PROF_NEIGHBORHOOD_DOCTOR",
+      "NC_PROF_NEIGHBORHOOD_DELINQUENT"
+    ],
     "missions": [ "MISSION_HEIST_NEIGHBORHOOD_WATCH" ]
   }
 ]

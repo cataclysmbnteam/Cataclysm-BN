@@ -21,7 +21,18 @@
     "type": "item_group",
     "id": "NC_PROF_HEIST_worn",
     "subtype": "collection",
-    "entries": [ { "item": "wristwatch" }, { "item": "duffelbag" }, { "item": "boxer_shorts" }, { "item": "jeans" }, { "item": "tshirt" }, { "item": "jacket_leather" }, { "item": "balclava" }, { "item": "gloves_fingerless" }, { "item": "socks" }, { "item": "sneakers" } ]
+    "entries": [
+      { "item": "wristwatch" },
+      { "item": "duffelbag" },
+      { "item": "boxer_shorts" },
+      { "item": "jeans" },
+      { "item": "tshirt" },
+      { "item": "jacket_leather" },
+      { "item": "balclava" },
+      { "item": "gloves_fingerless" },
+      { "item": "socks" },
+      { "item": "sneakers" }
+    ]
   },
   {
     "type": "item_group",
@@ -57,7 +68,14 @@
     "type": "item_group",
     "id": "NC_PROF_HEIST_THIEF_carry",
     "subtype": "collection",
-    "entries": [ { "group": "newspaper_recent"}, { "item": "hammer_sledge" }, { "item": "bag_canvas" }, { "item": "laptop" }, { "item": "permanent_marker" }, { "item": "picklocks" } ]
+    "entries": [
+      { "group": "newspaper_recent" },
+      { "item": "hammer_sledge" },
+      { "item": "bag_canvas" },
+      { "item": "laptop" },
+      { "item": "permanent_marker" },
+      { "item": "picklocks" }
+    ]
   },
   {
     "id": "NC_PROF_HEIST_THIEF_melee",
