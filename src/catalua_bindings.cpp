@@ -251,11 +251,11 @@ void cata::detail::reg_technique( sol::state &lua )
         luna::set_fx( ut, "npc_message", &ma_technique::npc_message );
         luna::set_fx( ut, "defensive", &ma_technique::defensive );
         luna::set_fx( ut, "side_switch", &ma_technique::side_switch );
-        luna::set_fx( ut, "down_dur", &ma_technique::down_dur);
-        luna::set_fx( ut, "stun_dur", &ma_technique::stun_dur);
-        luna::set_fx( ut, "knockback_dist", &ma_technique::knockback_dist);
-        luna::set_fx( ut, "knockback_spread", &ma_technique::knockback_spread);
-        luna::set_fx( ut, "powerful_knockback", &ma_technique::powerful_knockback);
+        luna::set_fx( ut, "down_dur", &ma_technique::down_dur );
+        luna::set_fx( ut, "stun_dur", &ma_technique::stun_dur );
+        luna::set_fx( ut, "knockback_dist", &ma_technique::knockback_dist );
+        luna::set_fx( ut, "knockback_spread", &ma_technique::knockback_spread );
+        luna::set_fx( ut, "powerful_knockback", &ma_technique::powerful_knockback );
         luna::set_fx( ut, "crit_tec", &ma_technique::crit_tec );
         luna::set_fx( ut, "crit_ok", &ma_technique::crit_ok );
         luna::set_fx( ut, "knockback_follow", &ma_technique::knockback_follow );
