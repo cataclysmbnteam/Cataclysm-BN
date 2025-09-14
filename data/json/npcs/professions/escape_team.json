@@ -54,7 +54,7 @@
     "type": "item_group",
     "id": "NC_PROF_ESCAPIST_LAB_worn",
     "subtype": "collection",
-    "entries": [ { "item": "subsuit_xl" }, { "item": "briefs" } ]
+    "entries": [ { "item": "briefs" }, { "item": "subsuit_xl" } ]
   },
   {
     "id": "NC_PROF_ESCAPIST_LAB_melee",
