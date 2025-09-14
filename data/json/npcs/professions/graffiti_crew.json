@@ -10,6 +10,7 @@
       { "group": "NC_PROF_GRAFFITI" },
       { "group": "Appearance_demographics" }
     ],
+    "common": false,
     "worn_override": "NC_PROF_GRAFFITI_worn",
     "carry_override": "NC_PROF_GRAFFITI_carry",
     "weapon_override": "NC_PROF_GRAFFITI_melee",
