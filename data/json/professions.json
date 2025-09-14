@@ -6731,8 +6731,8 @@
   },
   {
     "type": "profession",
-    "id": "heist_driver",
-    "name": "Heist Driver",
+    "id": "heist_crew",
+    "name": "Heist Crew",
     "description": "For as long as you can remember, you have lived a double life: a normal driver by the day and a heist driver in the night.  Now you've got one last job.",
     "points": 5,
     "skills": [ { "level": 6, "name": "driving" }, { "level": 4, "name": "mechanics" }, { "level": 1, "name": "melee" } ],
@@ -6796,6 +6796,7 @@
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "panties" }, { "item": "bra" } ] }
     },
-    "npcs": [ "NC_PROF_NEIGHBORHOOD_HUNTER", "NC_PROF_NEIGHBORHOOD_MECHANIC", "NC_PROF_NEIGHBORHOOD_DOCTOR", "NC_PROF_NEIGHBORHOOD_DELINQUENT" ]
+    "npcs": [ "NC_PROF_NEIGHBORHOOD_HUNTER", "NC_PROF_NEIGHBORHOOD_MECHANIC", "NC_PROF_NEIGHBORHOOD_DOCTOR", "NC_PROF_NEIGHBORHOOD_DELINQUENT" ],
+    "missions": [ "MISSION_HEIST_NEIGHBORHOOD_WATCH" ]
   }
 ]

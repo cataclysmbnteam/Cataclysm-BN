@@ -893,5 +893,19 @@
      },
     "origins": [ "ORIGIN_GAME_START" ],
     "destination": "bank"
+  },
+  {
+    "id": "MISSION_HEIST_NEIGHBORHOOD_WATCH",
+    "type": "mission_definition",
+    "name": { "str": "Rebuild the Neighborhood" },
+    "description": "The old neighborhood may never be the same - but we can rebuild a new one from the ground up, starting at the hardware store.",
+    "goal": "MGOAL_GO_TO_TYPE",
+    "difficulty": 2,
+    "value": 0,
+    "start": { 
+      "assign_mission_target": { "om_terrain": "home_improvement", "om_special": "home_improvement", "reveal_radius": 3, "z": 0 }
+     },
+    "origins": [ "ORIGIN_GAME_START" ],
+    "destination": "home_improvement"
   }
 ]
