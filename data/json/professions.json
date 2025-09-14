@@ -6673,5 +6673,45 @@
       "male": [ "briefs" ],
       "female": [ "boy_shorts", "sports_bra" ]
     }
+  },
+  {
+    "type": "profession",
+    "id": "convict_escape_team",
+    "name": "Escape Team",
+    "description": "You’ve convinced a few convicts to join your escape. The guards have been acting strangely these past months, but who would have guessed the real threat would be the undead patrolling the yard?",
+    "points": 4,
+    "skills": [ { "level": 1, "name": "speech" }, { "level": 1, "name": "survival" } ],
+    "items": {
+      "both": { "items": [ "striped_shirt", "striped_pants", "sneakers", "socks", "gum", "glass_shiv" ] },
+      "male": [ "briefs" ],
+      "female": [ "bra", "panties" ]
+    },
+    "flags": [ "SCEN_ONLY" ],
+    "npcs": [ "NC_PROF_ESCAPIST", "NC_PROF_ESCAPIST", "NC_PROF_ESCAPIST" ]
+  },
+  {
+    "type": "profession",
+    "id": "mutant_escape_team_lab",
+    "name": "Mutant Escape Team",
+    "description": "You’ve convinced a few fellow test subjects to join your escape. The lab personnel have been acting strangely these past months, but who would have guessed the real threat would be the undead patrolling the halls?",
+    "points": 4,
+    "skills": [ { "level": 1, "name": "speech" } ],
+    "items": { "both": { "items": [ "subsuit_xl" ] }, "male": [ "briefs" ], "female": [ "bra", "panties" ] },
+    "flags": [ "SCEN_ONLY" ],
+    "npcs": [ "NC_PROF_ESCAPIST_LAB", "NC_PROF_ESCAPIST_LAB", "NC_PROF_ESCAPIST_LAB" ]
+  },
+  {
+    "type": "profession",
+    "id": "escape_team_migo",
+    "name": "Escape Team",
+    "description": "You and your fellow captives have been held in this alien hellhole for a couple days, picking at the walls until you found a loose piece you could fashion into a shiv.  Your group is getting dizzy from the heat and fumes, it's now or never.",
+    "points": 4,
+    "skills": [ { "level": 1, "name": "speech" } ],
+    "items": {
+      "both": { "items": [ "loincloth", "footrags" ], "entries": [ { "item": "resin_knife", "custom-flags": [ "auto_wield" ] } ] },
+      "female": [ "chestwrap" ]
+    },
+    "flags": [ "SCEN_ONLY" ],
+    "npcs": [ "NC_PROF_ESCAPIST_MIGO", "NC_PROF_ESCAPIST_MIGO", "NC_PROF_ESCAPIST_MIGO" ]
   }
 ]

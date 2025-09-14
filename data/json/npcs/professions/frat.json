@@ -10,7 +10,7 @@
       { "group": "Appearance_demographics" }
     ],
     "worn_override": "NC_PROF_FRAT_worn",
-    "carry_override": "NC_PROF_FRAT_melee",
+    "carry_override": "NC_PROF_FRAT_carry",
     "weapon_override": "NC_PROF_FRAT_melee",
     "bonus_str": { "rng": [ -4, 2 ] },
     "bonus_dex": { "rng": [ -4, 0 ] },
@@ -23,12 +23,11 @@
     "subtype": "collection",
     "entries": [
       { "item": "gold_watch" },
-      { "item": "skirt" },
-      { "item": "heels" },
+      { "item": "boxer_shorts" },
+      { "item": "polo_shirt" },
       { "item": "jacket_leather" },
-      { "item": "stockings" },
-      { "item": "tank_top" },
-      { "item": "bra" }
+      { "item": "pants" },
+      { "item": "dress_shoes" }
     ]
   },
   {
@@ -36,5 +35,11 @@
     "type": "item_group",
     "subtype": "distribution",
     "entries": [ { "item": "null" } ]
+  },
+  {
+    "id": "NC_PROF_FRAT_carry",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "item": "smart_phone" } ]
   }
 ]
