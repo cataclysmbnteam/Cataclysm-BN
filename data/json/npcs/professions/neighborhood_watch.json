@@ -9,6 +9,7 @@
       { "group": "NPC_starting_traits" },
       { "group": "Appearance_demographics" }
     ],
+    "common": false,
     "worn_override": "NC_PROF_NEIGHBORHOOD_HUNTER_worn",
     "carry_override": "NC_PROF_NEIGHBORHOOD_HUNTER_carry",
     "weapon_override": "NC_PROF_NEIGHBORHOOD_HUNTER_melee",
@@ -64,6 +65,7 @@
       { "group": "NPC_starting_traits" },
       { "group": "Appearance_demographics" }
     ],
+    "common": false,
     "worn_override": "NC_PROF_NEIGHBORHOOD_MECHANIC_worn",
     "carry_override": "NC_PROF_NEIGHBORHOOD_MECHANIC_carry",
     "weapon_override": "NC_PROF_NEIGHBORHOOD_MECHANIC_melee",
@@ -118,6 +120,7 @@
       { "group": "NPC_starting_traits" },
       { "group": "Appearance_demographics" }
     ],
+    "common": false,
     "worn_override": "NC_PROF_NEIGHBORHOOD_DOCTOR_worn",
     "carry_override": "NC_PROF_NEIGHBORHOOD_DOCTOR_carry",
     "weapon_override": "NC_PROF_NEIGHBORHOOD_DOCTOR_melee",
@@ -168,6 +171,7 @@
       { "group": "NPC_starting_traits" },
       { "group": "Appearance_demographics" }
     ],
+    "common": false,
     "worn_override": "NC_PROF_NEIGHBORHOOD_DELINQUENT_worn",
     "carry_override": "NC_PROF_NEIGHBORHOOD_DELINQUENT_carry",
     "weapon_override": "NC_PROF_NEIGHBORHOOD_DELINQUENT_melee",

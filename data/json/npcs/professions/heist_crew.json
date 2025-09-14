@@ -9,6 +9,7 @@
       { "group": "NPC_starting_traits" },
       { "group": "Appearance_demographics" }
     ],
+    "common": false,
     "worn_override": "NC_PROF_HEIST_worn",
     "carry_override": "NC_PROF_HEIST_SHOOTER_carry",
     "weapon_override": "NC_PROF_HEIST_SHOOTER_melee",
@@ -56,6 +57,7 @@
       { "group": "NPC_starting_traits" },
       { "group": "Appearance_demographics" }
     ],
+    "common": false,
     "worn_override": "NC_PROF_HEIST_worn",
     "carry_override": "NC_PROF_HEIST_THIEF_carry",
     "weapon_override": "NC_PROF_HEIST_THIEF_melee",
