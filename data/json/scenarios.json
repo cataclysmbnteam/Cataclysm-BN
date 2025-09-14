@@ -28,9 +28,7 @@
       "sloc_church",
       "sloc_cemetery"
     ],
-    "professions": [
-      "neighborhood_watch"
-    ],
+    "professions": [ "neighborhood_watch" ],
     "add_professions": true,
     "start_name": "In Town",
     "flags": [ "CITY_START" ]
@@ -109,9 +107,7 @@
       "sloc_police",
       "sloc_town_hall"
     ],
-    "professions": [
-      "neighborhood_watch"
-    ],
+    "professions": [ "neighborhood_watch" ],
     "add_professions": true,
     "start_name": "In Town",
     "surround_groups": [ [ "GROUP_BLACK_ROAD", 70.0 ] ],
@@ -145,9 +141,7 @@
     "flags": [ "INFECTED", "CITY_START" ],
     "id": "infected",
     "points": -4,
-    "professions": [
-      "neighborhood_watch"
-    ],
+    "professions": [ "neighborhood_watch" ],
     "add_professions": true,
     "start_name": "In Town",
     "allowed_locs": [
@@ -177,9 +171,7 @@
     "flags": [ "FIRE_START", "CITY_START" ],
     "id": "fire",
     "points": -2,
-    "professions": [
-      "neighborhood_watch"
-    ],
+    "professions": [ "neighborhood_watch" ],
     "add_professions": true,
     "start_name": "In Town",
     "allowed_locs": [
