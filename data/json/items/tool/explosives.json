@@ -838,9 +838,9 @@
     "type": "TOOL",
     "category": "guns",
     "name": { "str": "packed M72 LAW" },
-    "description": "This is a M72 LAW, packed in its storage form.  Use it to pop it out and make it ready to fire.  Once it is activated, it cannot be repacked.",
-    "//": "Combined weight of the launcher plus one round of ammo",
-    "weight": "2800 g",
+    "description": "This is a M72 LAW, packed in its storage form with attached shoulder strap.  Use it to pop it out and make it ready to fire.  Once it is activated, it cannot be repacked.",
+    "//": "Combined weight of the launcher, one round of ammo, and shoulder strap.",
+    "weight": "2900 g",
     "volume": "1500 ml",
     "price": "2 kUSD",
     "price_postapoc": "40 USD",
@@ -856,7 +856,8 @@
       "menu_text": "Activate",
       "type": "transform"
     },
-    "flags": [ "ALLOWS_REMOTE_USE" ]
+    "armor_data": { "covers": [ "torso" ], "encumbrance": 2, "material_thickness": 1 },
+    "flags": [ "ALLOWS_REMOTE_USE", "BELTED", "COMPACT", "OVERSIZE", "WATER_FRIENDLY" ]
   },
   {
     "id": "improvised_grenade",
