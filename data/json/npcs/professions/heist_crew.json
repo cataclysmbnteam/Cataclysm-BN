@@ -27,7 +27,7 @@
     "type": "item_group",
     "id": "NC_PROF_HEIST_SHOOTER_carry",
     "subtype": "collection",
-    "entries": [ { "item": "762_51", "charges": 150 }, { "item": "EMPbomb", "count": 3 } ]
+    "entries": [ { "item": "762_51", "charges": 150 }, { "item": "powered_earmuffs" }, { "item": "EMPbomb", "count": 3 } ]
   },
   {
     "id": "NC_PROF_HEIST_SHOOTER_melee",
@@ -57,7 +57,7 @@
     "type": "item_group",
     "id": "NC_PROF_HEIST_THIEF_carry",
     "subtype": "collection",
-    "entries": [ { "group": "newspaper_recent", "prob": 15 }, { "item": "hammer" }, { "item": "bag_canvas" }, { "item": "laptop" }, { "item": "permanent_marker" }, { "item": "picklocks" } ]
+    "entries": [ { "group": "newspaper_recent"}, { "item": "hammer_sledge" }, { "item": "bag_canvas" }, { "item": "laptop" }, { "item": "permanent_marker" }, { "item": "picklocks" } ]
   },
   {
     "id": "NC_PROF_HEIST_THIEF_melee",
