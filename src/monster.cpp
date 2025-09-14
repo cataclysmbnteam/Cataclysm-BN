@@ -1801,7 +1801,7 @@ void monster::melee_attack( Creature &target, float accuracy )
     }
 
     int hitspread = target.deal_melee_attack( this, melee::melee_hit_range( accuracy ) );
-    bool attack_success = hitspread >= 0;
+    const bool attack_success = hitspread >= 0;
 
     if( target.is_player() ||
         ( target.is_npc() && g->u.attitude_to( target ) == Attitude::A_FRIENDLY ) ) {
@@ -1829,7 +1829,6 @@ void monster::melee_attack( Creature &target, float accuracy )
     }
     const bodypart_str_id bp_hit = dealt_dam.bp_hit;
 
-
     const int total_dealt = dealt_dam.total_damage();
     if( !attack_success ) {
         // Miss
@@ -1846,7 +1845,6 @@ void monster::melee_attack( Creature &target, float accuracy )
         } else if( target.is_player() ) {
             add_msg( _( "You dodge an attack from an unseen source." ) );
         }
-
     } else if( is_hallucination() || total_dealt > 0 ) {
         // Hallucinations always produce messages but never actually deal damage
         if( u_see_me ) {
@@ -1883,7 +1881,6 @@ void monster::melee_attack( Creature &target, float accuracy )
             add_msg( m_bad, _( "Something hits your %s." ),
                      bp_hit->accusative.translated() );
         }
-
     } else {
         // No damage dealt
         if( u_see_me ) {
@@ -1913,7 +1910,6 @@ void monster::melee_attack( Creature &target, float accuracy )
             add_msg( _( "Something hits your %1$s, but your %2$s protects you." ),
                      bp_hit->accusative.translated(), target.skin_name() );
         }
-
     }
 
     target.check_dead_state();

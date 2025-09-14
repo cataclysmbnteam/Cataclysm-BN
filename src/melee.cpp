@@ -482,7 +482,7 @@ void Character::melee_attack( Creature &t, bool allow_special, const matec_id *f
     item &cur_weapon = allow_unarmed ? used_weapon() : primary_weapon();
     const attack_statblock &attack = melee::pick_attack( *this, cur_weapon, t );
     int hit_spread = t.deal_melee_attack( this, hit_roll( cur_weapon, attack ) );
-    bool attack_hit = hit_spread >= 0;
+    const bool attack_hit = hit_spread >= 0;
 
     if( cur_weapon.attack_cost() > attack_cost( cur_weapon ) * 20 ) {
         add_msg( m_bad, _( "This weapon is too unwieldy to attack with!" ) );
@@ -537,7 +537,6 @@ void Character::melee_attack( Creature &t, bool allow_special, const matec_id *f
 
         // trigger martial arts on-miss effects
         martial_arts_data->ma_onmiss_effects( *this );
-
     } else {
         melee::melee_stats.hit_count += 1;
         // Remember if we see the monster at start - it may change
@@ -674,7 +673,6 @@ void Character::melee_attack( Creature &t, bool allow_special, const matec_id *f
     martial_arts_data->ma_onattack_effects( *this );
     // some things (shattering weapons) can harm the attacking creature.
     check_dead_state();
-
     if( t.as_character() ) {
         dealt_projectile_attack dp = dealt_projectile_attack();
         t.as_character()->on_hit( this, bodypart_str_id::NULL_ID().id(), &dp );
