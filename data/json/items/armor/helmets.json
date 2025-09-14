@@ -374,8 +374,7 @@
     "description": "A thick leather helmet that has been reinforced with strategically-placed metal plates.  Provides excellent protection for the head.",
     "material": [ "leather", "iron" ],
     "looks_like": "helmet_galea",
-    "encumbrance": 8,
-    "proportional": { "price": 4, "price_postapoc": 1.2 },
+    "proportional": { "price": 4, "price_postapoc": 1.2, "encumbrance": 1.25 },
     "relative": { "weight": "500 g" }
   },
   {

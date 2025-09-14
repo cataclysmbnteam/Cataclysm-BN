@@ -27,7 +27,7 @@
     "name": { "str": "lamellar cuirass", "str_pl": "lamellar cuirasses" },
     "description": "A cuirass made of multiple pieces of tough leather, laced together for durable yet flexible protection.",
     "weight": "2108 g",
-    "volume": "9250 ml",
+    "volume": "6 L",
     "price": "260 USD",
     "price_postapoc": "25 USD",
     "material": [ "leather" ],
@@ -41,6 +41,18 @@
     "warmth": 15,
     "valid_mods": [ "steel_padded", "alloy_padded" ],
     "flags": [ "VARSIZE", "STURDY" ]
+  },
+  {
+    "id": "armor_lamellar_plated",
+    "copy-from": "armor_lamellar",
+    "type": "ARMOR",
+    "name": { "str": "plated lamellar cuirass", "str_pl": "plated lamellar cuirasses" },
+    "description": "A cuirass made of multiple pieces of tough leather and metal scales laced together, forming durable yet flexible protection.",
+    "looks_like": "chainmail_vest",
+    "material": [ "leather", "iron" ],
+    "valid_mods": [  ],
+    "proportional": { "price": 4, "price_postapoc": 1.2, "encumbrance": 1.25 },
+    "relative": { "weight": "1500 g" }
   },
   {
     "id": "armor_lorica",

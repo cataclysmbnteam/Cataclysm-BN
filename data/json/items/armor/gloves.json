@@ -201,8 +201,7 @@
     "description": "Heavy fingerless leather gloves that have been reinforced with strategically-placed metal plates.  Flexible and tough.",
     "material": [ "leather", "iron" ],
     "looks_like": "gloves_plate",
-    "encumbrance": 8,
-    "proportional": { "price": 4, "price_postapoc": 1.2 },
+    "proportional": { "price": 4, "price_postapoc": 1.2, "encumbrance": 1.25 },
     "relative": { "weight": "250 g" }
   },
   {
