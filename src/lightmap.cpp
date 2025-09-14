@@ -882,22 +882,49 @@ static constexpr quadrant quadrant_from_x_y( int x, int y )
            ( ( y > 0 ) ? quadrant::NE : quadrant::SE );
 }
 
-// Add defaults for when method is invoked for the first time.
-template<int xx, int xy, int xz, int yx, int yy, int yz, int zz, typename T,
-         T( *calc )( const T &, const T &, const int & ),
-         bool( *check )( const T &, const T & ),
-         T( *accumulate )( const T &, const T &, const int & )>
-void cast_zlight_segment(
-    const array_of_grids_of<T> &output_caches,
-    const array_of_grids_of<const T> &input_arrays,
-    const array_of_grids_of<const bool> &floor_caches,
-    const array_of_grids_of <const diagonal_blocks> &blocked_caches,
-    const tripoint &offset, int offset_distance,
-    T numerator = 1.0f, int row = 1,
-    float start_major = 0.0f, float end_major = 1.0f,
-    float start_minor = 0.0f, float end_minor = 1.0f,
-    T cumulative_transparency = LIGHT_TRANSPARENCY_OPEN_AIR,
-    int x_skip = -1, int z_skip = -1 );
+struct slope {
+    slope( int_least8_t rise, int_least8_t run ) {
+        // Ensure run is always positive for the inequality operators
+        this->run = std::abs( run );
+        if( run < 0 ) {
+            this->rise = -rise;
+        } else {
+            this->rise = rise;
+        }
+    }
+    int_least8_t rise;
+    int_least8_t run;
+};
+
+static bool operator<( const slope &lhs, const slope &rhs )
+{
+    // a/b < c/d <=> a*d < c*b if b and d have the same sign.
+    return lhs.rise * rhs.run < rhs.rise * lhs.run;
+}
+static bool operator>( const slope &lhs, const slope &rhs )
+{
+    return rhs < lhs;
+}
+static bool operator==( const slope &lhs, const slope &rhs )
+{
+    // a/b == c/d <=> a*d == c*b
+    return lhs.rise * rhs.run == rhs.rise * lhs.run;
+}
+
+template<typename T>
+struct span {
+    span( const slope &s_major, const slope &e_major,
+          const slope &s_minor, const slope &e_minor,
+          const T &value, bool skip_first_row = false ) :
+        start_major( s_major ), end_major( e_major ), start_minor( s_minor ), end_minor( e_minor ),
+        cumulative_value( value ), skip_first_row( skip_first_row ) {}
+    slope start_major;
+    slope end_major;
+    slope start_minor;
+    slope end_minor;
+    T cumulative_value;
+    bool skip_first_row;
+};
 
 template<int xx, int xy, int xz, int yx, int yy, int yz, int zz, typename T,
          T( *calc )( const T &, const T &, const int & ),
@@ -909,15 +936,8 @@ void cast_zlight_segment(
     const array_of_grids_of<const bool> &floor_caches,
     const array_of_grids_of < const diagonal_blocks > &blocked_caches,
     const tripoint &offset, const int offset_distance,
-    const T numerator, const int row,
-    float start_major, const float end_major,
-    float start_minor, float end_minor,
-    T cumulative_transparency, int x_skip, int z_skip )
+    const T numerator )
 {
-    if( start_major >= end_major || start_minor > end_minor ) {
-        return;
-    }
-
     constexpr quadrant quad = quadrant_from_x_y( xx + xy, yx + yy );
 
     const auto check_blocked = [ =, &blocked_caches]( const tripoint & p ) -> bool{
@@ -941,175 +961,240 @@ void cast_zlight_segment(
         cata::unreachable();
     };
 
-    int radius = 60 - offset_distance;
+    const int radius = 60 - offset_distance;
 
     constexpr int min_z = -OVERMAP_DEPTH;
     constexpr int max_z = OVERMAP_HEIGHT;
-    T last_intensity = 0.0f;
-    tripoint delta;
-    tripoint current;
-    for( int distance = row; distance <= radius; distance++ ) {
+
+    slope new_start_minor( 1, 1 );
+
+    T last_intensity = 0.0;
+    tripoint delta( 0, 0, 0 );
+    tripoint current( 0, 0, 0 );
+
+    // We start out with one span covering the entire horizontal and vertical space
+    // we are interested in.  Then as changes in transparency are encountered, we truncate
+    // that initial span and insert new spans before/after it in the list, removing any that
+    // are no longer needed as we go.
+    std::list<span<T>> spans = { {
+            slope( 0, 1 ), slope( 1, 1 ),
+            slope( 0, 1 ), slope( 1, 1 ),
+            LIGHT_TRANSPARENCY_OPEN_AIR
+        }
+    };
+    // At each "depth", a.k.a. distance from the origin, we iterate once over the list of spans,
+    // possibly splitting them.
+    for( int distance = 1; distance <= radius; distance++ ) {
         delta.y = distance;
-        bool started_block = false;
         T current_transparency = 0.0f;
-        bool current_floor = false;
 
-        int z_start = z_skip != -1 ? z_skip : std::max( 0,
-                      static_cast<int>( std::ceil( ( ( distance - 0.5f ) * start_major ) - 0.5f ) ) );
-        int z_limit = std::min( distance,
-                                static_cast<int>( std::ceil( ( ( distance + 0.5f ) * end_major ) + 0.5f ) ) - 1 );
-
-        for( delta.z = z_start; delta.z <= std::min( fov_3d_z_range, z_limit ); delta.z++ ) {
-
-            current.z = offset.z + delta.x * 00 + delta.y * 00 + delta.z * zz;
-            if( current.z > max_z || current.z < min_z ) {
-                continue;
-            }
-
-            const int z_index = current.z + OVERMAP_DEPTH;
-
-            int x_start = x_skip != -1 ? x_skip : std::max( 0,
-                          static_cast<int>( std::ceil( ( ( distance - 0.5f ) * start_minor ) - 0.5f ) ) );
-
-            int x_limit = std::min( distance,
-                                    static_cast<int>( std::ceil( ( ( distance + 0.5f ) * end_minor ) + 0.5f ) ) - 1 );
-
-            for( delta.x = x_start; delta.x <= x_limit; delta.x++ ) {
-                current.x = offset.x + delta.x * xx + delta.y * xy + delta.z * xz;
-                current.y = offset.y + delta.x * yx + delta.y * yy + delta.z * yz;
-
-                if( !( current.x >= 0 && current.y >= 0 &&
-                       current.x < MAPSIZE_X &&
-                       current.y < MAPSIZE_Y ) ) {
+        for( auto this_span = spans.begin(); this_span != spans.end(); ) {
+            bool started_block = false;
+            bool current_floor = false;
+            // TODO: Precalculate min/max delta.z based on start/end and distance
+            for( delta.z = 0; delta.z <= distance; delta.z++ ) {
+                const slope trailing_edge_major( delta.z * 2 - 1, delta.y * 2 + 1 );
+                const slope leading_edge_major( delta.z * 2 + 1, delta.y * 2 - 1 );
+                current.z = offset.z + delta.z * zz;
+                if( current.z > max_z || current.z < min_z ) {
+                    // Current tile is out of bounds, advance to the next tile.
                     continue;
-                }
-
-                if( check_blocked( current ) ) {
-                    //We can just ignore the sliver of light that goes through vehicle holes
-                    return;
-                }
-
-                T new_transparency = ( *input_arrays[z_index] )[current.x][current.y];
-                bool new_floor;
-                if( zz < 0 ) {
-                    //Going down it's the current level's floor
-                    new_floor = ( *floor_caches[z_index] )[current.x][current.y];
-                } else {
-                    //Going up it's the next level's floor
-                    new_floor = z_index < OVERMAP_LAYERS - 1 ? ( *floor_caches[z_index + 1] )[current.x][current.y] :
-                                false;
-                }
-
-                if( !started_block ) {
-                    started_block = true;
-                    current_transparency = new_transparency;
-                    current_floor = new_floor;
-                }
-
-                const int dist = rl_dist( tripoint_zero, delta ) + offset_distance;
-                T last_intensity = calc( numerator, cumulative_transparency, dist );
-                ( *output_caches[z_index] )[current.x][current.y] =
-                    std::max( ( *output_caches[z_index] )[current.x][current.y], last_intensity );
-
-                //Check if this tile matches the previous one
-                if( new_transparency != current_transparency || new_floor != current_floor ) {
-
-                    // If not we need to split the blocks
-                    // We split the block into 3 sub-blocks.
-                    // +---+---+ <- end major
-                    // | B | C |
-                    // +---+---+ <- mid major
-                    // |   A   |
-                    // +-------+ <- start major
-                    // ^   ^   ^
-                    // |   |   end minor
-                    // |   mid minor
-                    // start minor
-
-                    // A is any previously completed rows, it will be recursively cast a level deeper
-                    // B is already processed tiles from the current row, this call will continue to process this
-                    // C is the rest of the current row, including the current tile
-
-                    // The seams could be incorrect, there's no promise the relationship between the unchecked blocks holds, it's minor error though
-                    // Because A and B are the same transparency it doesn't matter where the seam between them goes, so we make sure it's correct for the seam with C
-                    const float mid_major = current_transparency < new_transparency ? ( delta.z - 0.5f ) /
-                                            ( delta.y - 0.5f ) : ( delta.z - 0.5f ) / ( delta.y + 0.5f );
-
-                    if( delta.z != z_start && check( current_transparency, last_intensity ) ) {
-                        //We don't need to cast section A if it's 0 height or opaque
-                        T next_cumulative_transparency = accumulate( cumulative_transparency, current_transparency,
-                                                         distance );
-
-                        cast_zlight_segment<xx, xy, xz, yx, yy, yz, zz, T, calc, check, accumulate>(
-                            output_caches, input_arrays, floor_caches, blocked_caches,
-                            offset, offset_distance, numerator, distance + 1,
-                            start_major, std::min( mid_major, end_major ), start_minor, end_minor,
-                            next_cumulative_transparency );
-                    }
-
-                    const float mid_minor = current_transparency < new_transparency ? ( delta.x - 0.5f ) /
-                                            ( delta.y - 0.5f ) : ( delta.x - 0.5f ) / ( delta.y + 0.5f );
-
-                    //Section C is always cast.
-                    cast_zlight_segment<xx, xy, xz, yx, yy, yz, zz, T, calc, check, accumulate>(
-                        output_caches, input_arrays, floor_caches, blocked_caches,
-                        offset, offset_distance, numerator, distance,
-                        std::max( mid_major, start_major ), end_major, std::max( mid_minor, start_minor ), end_minor,
-                        cumulative_transparency, delta.x, delta.z );
-
-                    //Go on to handle section B
-                    //This doesn't count as starting a new block, as we've already done one line of this block
-                    if( delta.x == x_start ) {
-                        //If B is 0 width we're done
-                        return;
-                    }
-
-                    start_major = std::max( start_major, mid_major );
-                    end_minor = std::min( end_minor, mid_minor );
-
-                    //We check start and end minor for equality as well here
-                    //This prevents an artifact where a transparent wall meeting an opaque wall at a corner allows you to see the corner of the roof
-                    if( start_major >= end_major || start_minor >= end_minor ) {
-                        return;
-                    }
-                    z_start = delta.z;
+                } else if( this_span->start_major > leading_edge_major ) {
+                    // Current span has a higher z-value,
+                    // jump to next iteration to catch up.
+                    continue;
+                } else if( this_span->skip_first_row && this_span->start_major == leading_edge_major ) {
+                    // Prevents an infinite loop in some cases after splitting off the D span.
+                    // We don't want to recheck the row that just caused the D span to be split off,
+                    // since that can lead to an identical span being split off again, hence the
+                    // infinite loop.
+                    //
+                    // This could also be accomplished by adding a small epsilon to the start_major
+                    // of the D span but that causes artifacts.
+                    continue;
+                } else if( this_span->end_major < trailing_edge_major ) {
+                    // We've escaped the bounds of the current span we're considering,
+                    // So continue to the next span.
                     break;
                 }
+
+                bool started_span = false;
+                const int z_index = current.z + OVERMAP_DEPTH;
+                for( delta.x = 0; delta.x <= distance; delta.x++ ) {
+                    current.x = offset.x + delta.x * xx + delta.y * xy + delta.z * xz;
+                    current.y = offset.y + delta.x * yx + delta.y * yy + delta.z * yz;
+                    // Shadowcasting sweeps from the cardinal to the most extreme edge of the octant
+                    // XXXX
+                    // --->
+                    // XXX
+                    // -->
+                    // XX
+                    // ->
+                    // X
+                    // @
+                    //
+                    // Trailing edge -> +-
+                    //                  |+| <- Center of tile
+                    //                   -+ <- Leading Edge
+                    //  Direction of sweep --->
+                    // Use corners of given tile as above to determine angles of
+                    // leading and trailing edges being considered.
+                    const slope trailing_edge_minor( delta.x * 2 - 1, delta.y * 2 + 1 );
+                    const slope leading_edge_minor( delta.x * 2 + 1, delta.y * 2 - 1 );
+
+                    if( current.x < 0 || current.x >= MAPSIZE_X ||
+                        current.y < 0 || current.y >= MAPSIZE_Y ) {
+                        // Current tile is out of bounds, advance to the next tile.
+                        continue;
+                    } else if( this_span->start_minor > leading_edge_minor ) {
+                        // Current tile comes before the span we're considering, advance to the next tile.
+                        continue;
+                    } else if( this_span->end_minor < trailing_edge_minor ) {
+                        // Current tile is after the span we're considering, continue to next row.
+                        break;
+                    }
+
+                    if( check_blocked( current ) ) {
+                        //We can just ignore the sliver of light that goes through vehicle holes
+                        return;
+                    }
+
+                    T new_transparency = ( *input_arrays[z_index] )[current.x][current.y];
+
+                    bool floor_block = false;
+                    if( current.z < offset.z ) {
+                        if( ( *floor_caches[z_index + 1] )[current.x][current.y] ) {
+                            floor_block = true;
+                            new_transparency = LIGHT_TRANSPARENCY_SOLID;
+                        }
+                    } else if( current.z > offset.z ) {
+                        if( ( *floor_caches[z_index] )[current.x][current.y] ) {
+                            floor_block = true;
+                            new_transparency = LIGHT_TRANSPARENCY_SOLID;
+                        }
+                    }
+
+                    if( !started_block ) {
+                        started_block = true;
+                        current_transparency = new_transparency;
+                    }
+
+                    const int dist = rl_dist( tripoint_zero, delta ) + offset_distance;
+                    last_intensity = calc( numerator, this_span->cumulative_value, dist );
+
+                    if( !floor_block ) {
+                        ( *output_caches[z_index] )[current.x][current.y] =
+                            std::max( ( *output_caches[z_index] )[current.x][current.y], last_intensity );
+                    }
+
+                    if( !started_span ) {
+                        // Need to reset minor slope, because we're starting a new line
+                        new_start_minor = leading_edge_minor;
+                        started_span = true;
+                    }
+
+                    if( new_transparency == current_transparency ) {
+                        // All in order, no need to split the span.
+                        new_start_minor = leading_edge_minor;
+                        continue;
+                    }
+
+                    const T next_cumulative_transparency = accumulate( this_span->cumulative_value,
+                                                           current_transparency, distance );
+                    // We split the span into up to 4 sub-blocks (sub-frustums actually,
+                    // this is the view from the origin looking out):
+                    // +-------+ <- end major
+                    // |   D   |
+                    // +---+---+ <- leading edge major
+                    // | B | C |
+                    // +---+---+ <- trailing edge major
+                    // |   A   |
+                    // +-------+ <- start major
+                    // ^       ^
+                    // |       end minor
+                    // start minor
+                    // A is previously processed row(s). This might be empty.
+                    // B is already-processed tiles from current row. This must exist.
+                    // C is remainder of current row. This must exist.
+                    // D is not yet processed row(s). Might be empty.
+                    // A, B and D have the previous transparency, C has the new transparency,
+                    //   which might be opaque.
+                    // One we processed fully in 2D and only need to extend in last D
+                    // Only emit a new span horizontally if previous span was not opaque.
+                    // If end_minor is <= trailing_edge_minor, A, B, C remain one span and
+                    //  D becomes a new span if present.
+                    // If this is the first row processed in the current span, there is no A span.
+                    // If this is the last row processed, there is no D span.
+                    // If check returns false, A and B are opaque and have no spans.
+                    if( check( current_transparency, last_intensity ) ) {
+                        // Emit the A span if present, placing it before the current span in the list
+                        if( trailing_edge_major > this_span->start_major ) {
+                            spans.emplace( this_span,
+                                           this_span->start_major, trailing_edge_major,
+                                           this_span->start_minor, this_span->end_minor,
+                                           next_cumulative_transparency );
+                        }
+
+                        // Emit the B span if present, placing it before the current span in the list
+                        if( trailing_edge_minor > this_span->start_minor ) {
+                            spans.emplace( this_span,
+                                           std::max( this_span->start_major, trailing_edge_major ),
+                                           std::min( this_span->end_major, leading_edge_major ),
+                                           this_span->start_minor, trailing_edge_minor,
+                                           next_cumulative_transparency );
+                        }
+
+                        // Overwrite new_start_minor since previous tile is transparent.
+                        new_start_minor = trailing_edge_minor;
+                    }
+
+                    // Emit the D span if present, placing it after the current span in the list
+                    if( leading_edge_major < this_span->end_major ) {
+                    //    // Pass true to the span constructor to set skip_first_row to true
+                    //    // This prevents the same row we are currently checking being check by the
+                    //    // new D span
+                        spans.emplace( std::next( this_span ),
+                                       leading_edge_major, this_span->end_major,
+                                       this_span->start_minor, this_span->end_minor,
+                                       this_span->cumulative_value, true );
+                    }
+
+                    // Truncate this_span to the current block.
+                    this_span->start_major = std::max( this_span->start_major, trailing_edge_major );
+                    this_span->end_major = std::min( this_span->end_major, leading_edge_major );
+
+                    // The new span starts at the leading edge of the previous square if it is opaque,
+                    // and at the trailing edge of the current square if it is transparent.
+                    this_span->start_minor = new_start_minor;
+
+                    new_start_minor = leading_edge_minor;
+                    current_transparency = new_transparency;
+                }
+
+                // If we end the row with an opaque tile, set the span to start at the next row
+                // since we don't need to process the current one any more.
+                if( !check( current_transparency, last_intensity ) ) {
+                    this_span->start_major = leading_edge_major;
+                }
             }
-            //Before we start the next z level we need to check there isn't a floor splitting up our blocks.
-            if( current_floor ) {
-                if( check( current_transparency, last_intensity ) ) {
-                    //If there is we cast the current z level 1 deeper trimming it for the floor
-                    T next_cumulative_transparency = accumulate( cumulative_transparency, current_transparency,
-                                                     distance );
 
-                    const float top_edge = ( delta.z + 0.5f ) / ( delta.y + 0.5001f );
-
-                    cast_zlight_segment<xx, xy, xz, yx, yy, yz, zz, T, calc, check, accumulate>(
-                        output_caches, input_arrays, floor_caches, blocked_caches,
-                        offset, offset_distance, numerator, distance + 1,
-                        start_major, top_edge, start_minor, end_minor,
-                        next_cumulative_transparency );
-                }
-                //And then continue with the remaining z levels ourselves in a new block
-                start_major = ( delta.z + 0.5f ) / ( delta.y - 0.5001f );
-
-                if( start_major >= end_major ) {
-                    return;
-                }
-                z_start = delta.z + 1;
-                started_block = false;
-                z_skip = -1;
+            if( !started_block ) {
+                // If we didn't scan at least 1 z-level, don't iterate further
+                // Otherwise we may "phase" through tiles without checking them or waste time
+                // checking spans that are out of bounds.
+                this_span = spans.erase( this_span );
+            } else if( !check( current_transparency, last_intensity ) ) {
+                // If we reach the end of the span with terrain being opaque, we don't iterate further.
+                // This means that any encountered transparent tiles from the current span have been
+                // split off into new spans
+                this_span = spans.erase( this_span );
+            } else {
+                // Cumulative average of the values encountered.
+                this_span->cumulative_value = accumulate( this_span->cumulative_value,
+                                              current_transparency, distance );
+                ++this_span;
             }
         }
-        if( !check( current_transparency, last_intensity ) ) {
-            // If we reach the end of the span with terrain being opaque, we don't iterate further.
-            break;
-        }
-        // Cumulative average of the values encountered.
-        cumulative_transparency = accumulate( cumulative_transparency, current_transparency, distance );
-        z_skip = -1;
-        x_skip = -1;
     }
 }
 
