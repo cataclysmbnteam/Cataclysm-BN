@@ -1650,10 +1650,10 @@ void Character::perform_technique( const ma_technique &technique, Creature &t, d
 
     cata::run_hooks( "on_creature_performed_technique", [ &, this]( auto & params ) {
         params["char"] = this;
-        params["technique"] = technique;
+        params["technique"] = &technique;
         params["target"] = &t;
         params["damage_instance"] = &di;
-        params["move_cost"] = &move_cost;
+        params["move_cost"] = move_cost;
     } );
 }
 
