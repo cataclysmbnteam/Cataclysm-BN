@@ -43,7 +43,6 @@ clean water
 
 </details>
 
-
 ## Monsters
 
 ### Spawning a dog near the player
@@ -60,11 +59,12 @@ else
 end
 ```
 
-
 ## Combat
 
 ### Printing details about a combat technique when it is used
+
 First, define the function.
+
 ```lua
 on_creature_performed_technique = function(params)
   local char = params.char
@@ -84,11 +84,12 @@ on_creature_performed_technique = function(params)
   )
 end
 ```
+
 Then connect the hook to the function ONLY ONCE.
+
 ```lua
 table.insert(game.hooks.on_creature_performed_technique, function(...) return on_creature_performed_technique(...) end)
 ```
-
 
 <details>
 <summary>Example output</summary>
