@@ -71,11 +71,12 @@ if (import.meta.main) {
   const validMutations = parseMany(Mutation)(await recursivelyReadJSON(...input))
   const vanilla = parseMany(Vanilla)(await recursivelyReadJSON(extend))
 
-  const mapping = new Map(vanilla.map((v) => [v.id, v.extend.category]))
+  const mapping = new Map(vanilla.map((v) => [v.id, new Set(v.extend.category)]))
 
-  const mutations = validMutations.map(({ type, id, category, threshreq }) => {
+  const mutations = validMutations.map(({ type, id, category, ...m }) => {
     const res = mapping.get(id)
-    const extended = res ? { extend: { category: res, threshreq } } : { valid: false }
+    const threshreq = m.threshreq?.filter((t) => res?.has(t.replace("THRESH_", "")))
+    const extended = res ? { extend: { category: Array.from(res), threshreq } } : { valid: false }
 
     return ({ type, id, "copy-from": id, delete: { category }, ...extended })
   })
