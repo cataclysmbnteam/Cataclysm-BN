@@ -926,7 +926,7 @@ struct span {
     T cumulative_value;
     bool skip_first_row;
     bool skip_first_column;
-};  
+};
 
 /**
  * Handle splitting the current span in cast_horizontal_zlight_segment and
@@ -1037,7 +1037,8 @@ void cast_horizontal_zlight_segment(
     const tripoint &offset, const int offset_distance,
     const T numerator )
 {
-    constexpr quadrant quad = quadrant_from_x_y( xx_transform + xy_transform, yx_transform + yy_transform );
+    constexpr quadrant quad = quadrant_from_x_y( xx_transform + xy_transform,
+                              yx_transform + yy_transform );
 
     const auto check_blocked = [ =, &blocked_caches]( const tripoint & p ) -> bool{
         switch( quad )
@@ -1221,7 +1222,7 @@ void cast_horizontal_zlight_segment(
                 // If we didn't scan at least 1 z-level, don't iterate further
                 // Otherwise we may "phase" through tiles without checking them or waste time
                 // checking spans that are out of bounds.
-            !check( current_transparency, last_intensity ) ) {
+                !check( current_transparency, last_intensity ) ) {
                 // If we reach the end of the span with terrain being opaque, we don't iterate further.
                 // This means that any encountered transparent tiles from the current span have been
                 // split off into new spans
@@ -1403,7 +1404,7 @@ void cast_vertical_zlight_segment(
                 // If we didn't scan at least 1 z-level, don't iterate further
                 // Otherwise we may "phase" through tiles without checking them or waste time
                 // checking spans that are out of bounds.
-            !check( current_transparency, last_intensity ) ) {
+                !check( current_transparency, last_intensity ) ) {
                 // If we reach the end of the span with terrain being opaque, we don't iterate further.
                 // This means that any encountered transparent tiles from the current span have been
                 // split off into new spans
