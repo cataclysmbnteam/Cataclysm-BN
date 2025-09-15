@@ -5741,16 +5741,17 @@ ret_val<bool> iuse_prospect_pick::can_use( const Character &p, const item &, boo
 
 void iuse_prospect_pick::load( const JsonObject &obj )
 {
-    range = obj.get_int( "range", 3 );
+    range = obj.get_int( "radius", 3 );
 }
-
-int iuse_prospect_pick::use( player &p, item &it, bool t,
-                             const tripoint &pos ) const
+//TODO: this should probably take some time to do when skill is implimented, for now though, it just does.
+int iuse_prospect_pick::use( player &p, item &, bool t,
+                             const tripoint & ) const
 {
     if( t ) {
         //we're doing it still hold on.
         return 0;
     }
+    //* begin edited map code*/
     omt_find_params params{};
     params.search_range = {0, range};
     params.search_layers =
@@ -5790,6 +5791,7 @@ int iuse_prospect_pick::use( player &p, item &it, bool t,
     for( auto &place : places ) {
         overmap_buffer.reveal( place, 0 );
     }
+    //* end edited map code */
     return 0;
 }
 std::unique_ptr<iuse_actor> iuse_prospect_pick::clone() const

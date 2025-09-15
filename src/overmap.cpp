@@ -5714,12 +5714,9 @@ std::vector<tripoint_om_omt> overmap::place_special(
 // Inside empty rock spawn some ores maybe
 void overmap::spawn_ores( const tripoint_om_omt &p )
 {
-    // Should give a # 1-10 based on world seed and x/y cords.
-    //TODO: Currently produces "bands" of ore. Figure out make more splotchy
-    point_om_sm subpos = project_to<coords::sm>( p.xy() );
-    uint ore_seed = ( ( ( abs( subpos.x() + subpos.y() ) / p.z() ) * ( g->get_seed() % 10 ) ) + 1 ) %
-                    10;
-    if( ore_seed + abs( p.z() ) > 16 ) {
+    //One in 15 at lowest level, goes up as you get closer to surface. Dig deep!
+    if( one_in( 65 + ( 5 * p.z() ) ) ) {
+        //TODO:Close surface/medium/deep veins different lists, load from json?
         weighted_int_list<std::string> ores;
         ores.add( "iron", 10 );
         ores.add( "copper", 5 );
@@ -5727,6 +5724,7 @@ void overmap::spawn_ores( const tripoint_om_omt &p )
         ores.add( "tin", 3 );
         ores.add( "silver", 2 );
         ores.add( "gold", 1 );
+        //TODO: actually spawn the vein.
         add_note( p, string_format( "There will be %s ore here", ores.pick()->c_str() ) );
 
     }

@@ -1338,7 +1338,7 @@ class iuse_prospect_pick : public iuse_actor
 {
     public:
         /**Tile radius to reveal ores in rocks and stones */
-        int range = 3;
+        int range;
 
         iuse_prospect_pick( const std::string &type = "prospect_pick" ) : iuse_actor( type ) {}
         ~iuse_prospect_pick() override = default;
