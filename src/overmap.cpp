@@ -3363,14 +3363,6 @@ void overmap::generate( const overmap *north, const overmap *east,
         requires_sub = generate_sub( z );
     } while( requires_sub && ( --z >= -OVERMAP_DEPTH ) );
 
-    // Always need at least one overlevel, but how many more
-    z = 1;
-    bool requires_over = false;
-    do {
-        requires_over = generate_over( z );
-    } while( requires_over && ( ++z <= OVERMAP_HEIGHT ) );
-
-
     // Place the monsters, now that the terrain is laid out
     place_mongroups();
     place_radios();
@@ -3410,6 +3402,7 @@ static void elevate_bridges(
     const std::string &bridge_under_id,
     const std::string &bridgehead_ground_id,
     const std::string &bridgehead_ramp_id,
+    const std::string &bridge_center_id,
     const std::string &bridge_flat_ew_id,
     const std::string &bridge_flat_ns_id
 )
@@ -3417,6 +3410,9 @@ static void elevate_bridges(
     // Check bridgeheads and 1-tile-long bridges
     std::vector<std::pair<point_om_omt, om_direction::type>> bridgehead_points;
     std::set<point_om_omt> flatten_points;
+    std::pair<point_om_omt, om_direction::type> center_point;
+    int spot = 0;
+    const int len = std::size( bridge_points );
     for( const point_om_omt &bp : bridge_points ) {
         tripoint_om_omt bp_om( bp, 0 );
 
@@ -3437,7 +3433,10 @@ static void elevate_bridges(
             bridgehead_points.emplace_back( bp, ramp_facing );
         } else if( !is_bridge_fwd && !is_bridge_bck ) {
             flatten_points.emplace( bp );
+        } else if( ( len / 2 == spot ) ) {
+            center_point = { bp, dir };
         }
+        spot++;
     }
     // Flatten 1-tile-long bridges
     for( const point_om_omt &bp : flatten_points ) {
@@ -3466,46 +3465,11 @@ static void elevate_bridges(
         om.ter_set( p, oter_id( bridgehead_ground_id + dir_suffix ) );
         om.ter_set( p + tripoint_above, oter_id( bridgehead_ramp_id + dir_suffix ) );
     }
-}
-
-bool overmap::generate_over( const int z )
-{
-    bool requires_over = false;
-    std::vector<point_om_omt> bridge_points;
-
-    // These are so common that it's worth checking first as int.
-    const std::set<oter_id> skip_below = {
-        oter_id( "empty_rock" ), oter_id( "forest" ), oter_id( "field" ),
-        oter_id( "forest_thick" ), oter_id( "forest_water" )
-    };
-
-    if( z == 1 ) {
-        for( int i = 0; i < OMAPX; i++ ) {
-            for( int j = 0; j < OMAPY; j++ ) {
-                tripoint_om_omt p( i, j, z );
-                tripoint_om_omt p_below( p + tripoint_below );
-                const oter_id oter_below = ter( p_below );
-                const oter_id oter_ground = ter( tripoint_om_omt( p.xy(), 0 ) );
-
-                // implicitly skip skip_below oter_ids
-                if( skip_below.find( oter_below ) != skip_below.end() ) {
-                    continue;
-                }
-
-                if( oter_ground->get_type_id() == oter_type_bridge ) {
-                    bridge_points.emplace_back( i, j );
-                }
-            }
-        }
+    if( !bridge_center_id.empty() ) {
+        tripoint_om_omt p( center_point.first, 0 );
+        om.ter_set( p, oter_id( bridge_center_id + om_direction::all_suffixes[static_cast<int>
+                                ( center_point.second )] ) );
     }
-
-    elevate_bridges(
-        *this, bridge_points,
-        "bridge_road", "bridge_under", "bridgehead_ground",
-        "bridgehead_ramp", "road_ew", "road_ns"
-    );
-
-    return requires_over;
 }
 
 std::vector<point_abs_omt> overmap::find_terrain( const std::string &term, int zlevel )
@@ -5105,6 +5069,10 @@ bool overmap::build_connection(
     const pf::directed_node<point_om_omt> start = path.nodes.front();
     const pf::directed_node<point_om_omt> end = path.nodes.back();
 
+    // Clear the cache before laying a road so that roads are consistent and new road types
+    // are randomly chosen per road, not per load / game
+    connection.clear_subtype_cache();
+
     for( const auto &node : path.nodes ) {
         const tripoint_om_omt pos( node.pos, z );
         const oter_id &ter_id = ter( pos );
@@ -5179,24 +5147,40 @@ bool overmap::build_connection(
         prev_dir = new_dir;
     }
 
+
     if( connection_cache ) {
         connection_cache->add( connection.id, z, start.pos );
-    } else if( z == 0 && connection.id.str() == "local_road" ) {
-        // If there's no cache, it means we're placing road after
-        // normal mapgen, and need to elevate bridges manually
+    }
+    // Elevate bridges here so each bridge get's it's own type
+    // That way all bridges in an overmap (or more) are not just of one type
+    if( z == 0 && connection.id.str() == "local_road" ) {
         std::vector<point_om_omt> bridge_points;
+        std::string name;
+        bool has_bridge = false;
         for( const auto &node : path.nodes ) {
             const tripoint_om_omt pos( node.pos, z );
-            if( ter( pos )->get_type_id() == oter_type_bridge ) {
+            if( ter( pos )->has_flag( oter_flags::is_bridge ) ) {
+                name = ter( pos )->get_type_id().str();
                 bridge_points.emplace_back( pos.xy() );
+                has_bridge = true;
             }
         }
-
-        elevate_bridges(
-            *this, bridge_points,
-            "bridge_road", "bridge_under", "bridgehead_ground",
-            "bridgehead_ramp", "road_ew", "road_ns"
-        );
+        if( !has_bridge ) {
+            return true;
+        }
+        if( oter_str_id( name + "_center_under_north" ).is_valid() ) {
+            elevate_bridges(
+                *this, bridge_points,
+                name + "_road", name + "_under", name + "head_ground",
+                name + "head_ramp", name + "_center_under", "road_ew", "road_ns"
+            );
+        } else {
+            elevate_bridges(
+                *this, bridge_points,
+                name + "_road", name + "_under", name + "head_ground",
+                name + "head_ramp", "", "road_ew", "road_ns"
+            );
+        }
     }
     return true;
 }
@@ -5227,6 +5211,7 @@ void overmap::connect_closest_points( const std::vector<point_om_omt> &points, i
             }
         }
         if( closest > 0 ) {
+            // Use a pointer so it definitely will keep changes
             build_connection( points[i], points[k], z, connection, false );
         }
     }

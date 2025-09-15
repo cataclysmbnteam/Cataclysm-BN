@@ -164,7 +164,7 @@
     "coverage": 5,
     "encumbrance": 2,
     "covers": [ "leg_either" ],
-    "extend": { "flags": [ "POWERARMOR_COMPATIBLE", "ALLOWS_TAIL_SNAKE" ] }
+    "extend": { "flags": [ "POWERARMOR_COMPATIBLE", "ALLOWS_TAIL_SNAKE", "ALLOWS_TAIL" ] }
   },
   {
     "id": "adv_UPS_off",

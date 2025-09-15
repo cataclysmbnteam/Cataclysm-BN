@@ -1392,6 +1392,7 @@ These branches are also the valid entries for the categories of `dreams` in `dre
 - `RISK_LOW` For NPC AI, this location is secluded and remote, and appears to be safe.
 - `GENERIC_LOOT` This is a place that may contain any of the above, but at a lower frequency -
   usually a house.
+- `IS_BRIDGE` Will be expanded to a bridge in mapgen, terrains with the id of this object followed by _under, _road, head_ground and head_ramp must be defined, and _center_under may also be defined.
 
 ## Recipes
 

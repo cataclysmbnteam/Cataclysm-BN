@@ -6022,7 +6022,8 @@
       "both": { "items": [ "gold_watch", "water_mineral", "smart_phone", "money_bundle", "cig", "ref_lighter" ] },
       "male": [ "boxer_shorts", "pants", "dress_shoes", "polo_shirt", "socks" ],
       "female": [ "tank_top", "bra", "panties", "skirt", "heels", "jacket_leather", "stockings" ]
-    }
+    },
+    "npcs": [ "NC_PROF_FRAT", "NC_PROF_FRAT" ]
   },
   {
     "type": "profession",
@@ -6672,5 +6673,152 @@
       "male": [ "briefs" ],
       "female": [ "boy_shorts", "sports_bra" ]
     }
+  },
+  {
+    "type": "profession",
+    "id": "convict_escape_team",
+    "name": "Escape Team",
+    "description": "You’ve convinced a few convicts to join your escape. The guards have been acting strangely these past months, but who would have guessed the real threat would be the undead patrolling the yard?",
+    "points": 4,
+    "skills": [ { "level": 1, "name": "speech" }, { "level": 1, "name": "survival" } ],
+    "items": {
+      "both": { "items": [ "striped_shirt", "striped_pants", "sneakers", "socks", "gum", "glass_shiv" ] },
+      "male": [ "briefs" ],
+      "female": [ "bra", "panties" ]
+    },
+    "flags": [ "SCEN_ONLY" ],
+    "npcs": [ "NC_PROF_ESCAPIST", "NC_PROF_ESCAPIST", "NC_PROF_ESCAPIST" ]
+  },
+  {
+    "type": "profession",
+    "id": "mutant_escape_team_lab",
+    "name": "Mutant Escape Team",
+    "description": "You’ve convinced a few fellow test subjects to join your escape. The lab personnel have been acting strangely these past months, but who would have guessed the real threat would be the undead patrolling the halls?",
+    "points": 4,
+    "skills": [ { "level": 1, "name": "speech" } ],
+    "items": { "both": { "items": [ "subsuit_xl" ] }, "male": [ "briefs" ], "female": [ "bra", "panties" ] },
+    "flags": [ "SCEN_ONLY" ],
+    "npcs": [ "NC_PROF_ESCAPIST_LAB", "NC_PROF_ESCAPIST_LAB", "NC_PROF_ESCAPIST_LAB" ]
+  },
+  {
+    "type": "profession",
+    "id": "escape_team_migo",
+    "name": "Escape Team",
+    "description": "You and your fellow captives have been held in this alien hellhole for a couple days, picking at the walls until you found a loose piece you could fashion into a shiv.  Your group is getting dizzy from the heat and fumes, it's now or never.",
+    "points": 4,
+    "skills": [ { "level": 1, "name": "speech" } ],
+    "items": {
+      "both": { "items": [ "loincloth", "footrags" ], "entries": [ { "item": "resin_knife", "custom-flags": [ "auto_wield" ] } ] },
+      "female": [ "chestwrap" ]
+    },
+    "flags": [ "SCEN_ONLY" ],
+    "npcs": [ "NC_PROF_ESCAPIST_MIGO", "NC_PROF_ESCAPIST_MIGO", "NC_PROF_ESCAPIST_MIGO" ]
+  },
+  {
+    "type": "profession",
+    "id": "graffiti_crew",
+    "name": "Graffiti Crew",
+    "description": "You and your fellow street artists have survived the initial chaos by sticking together. Now there's much more pressing matters than being caught by the police.",
+    "points": 4,
+    "skills": [ { "level": 2, "name": "survival" }, { "level": 3, "name": "dodge" }, { "level": 3, "name": "swimming" } ],
+    "items": {
+      "both": {
+        "items": [
+          "wristwatch",
+          "smart_phone",
+          "spray_can",
+          "slingpack",
+          "permanent_marker",
+          "hoodie",
+          "socks",
+          "sneakers",
+          "jeans",
+          "urbexmap"
+        ],
+        "entries": [ { "item": "switchblade", "custom-flags": [ "auto_wield" ] } ]
+      }
+    },
+    "npcs": [ "NC_PROF_GRAFFITI", "NC_PROF_GRAFFITI" ]
+  },
+  {
+    "type": "profession",
+    "id": "heist_crew",
+    "name": "Heist Crew",
+    "description": "For as long as you can remember, you have lived a double life: a normal driver by the day and a heist driver in the night.  Now you've got one last job.",
+    "points": 5,
+    "skills": [ { "level": 6, "name": "driving" }, { "level": 4, "name": "mechanics" }, { "level": 1, "name": "melee" } ],
+    "vehicle": "car_racing_electric",
+    "items": {
+      "both": {
+        "entries": [
+          { "item": "jeans" },
+          { "item": "tshirt" },
+          { "item": "jacket_leather" },
+          { "item": "gloves_fingerless" },
+          { "item": "socks" },
+          { "item": "sneakers" },
+          { "item": "cigar" },
+          { "item": "lighter" },
+          { "item": "mag_porn" },
+          { "item": "wristwatch" },
+          { "item": "roadmap" },
+          { "item": "switchblade" },
+          { "item": "balclava" },
+          { "item": "duffelbag" }
+        ]
+      },
+      "male": { "entries": [ { "item": "boxer_shorts" } ] },
+      "female": { "entries": [ { "item": "panties" }, { "item": "bra" } ] }
+    },
+    "npcs": [ "NC_PROF_HEIST_SHOOTER", "NC_PROF_HEIST_THIEF" ],
+    "missions": [ "MISSION_HEIST_DRIVER" ]
+  },
+  {
+    "type": "profession",
+    "id": "neighborhood_watch",
+    "name": "Neighborhood Watch",
+    "description": "You always knew the end was coming - maybe not zombies, but something bad. Between late-night doomsday movies, cheap beer, and greasy pizza, you talked your neighbors into taking it seriously. When it all went down, you grabbed the truck, called the boys, and swore you’d keep the neighborhood safe. Now it’s time to put those plans into action.",
+    "points": 6,
+    "skills": [
+      { "level": 2, "name": "driving" },
+      { "level": 1, "name": "mechanics" },
+      { "level": 1, "name": "gun" },
+      { "level": 1, "name": "melee" }
+    ],
+    "vehicle": "pickup",
+    "pets": [ { "name": "mon_dog_bcollie", "amount": 1 } ],
+    "items": {
+      "both": {
+        "entries": [
+          { "item": "shorts_cargo" },
+          { "item": "flotation_vest_sandbag" },
+          { "item": "tshirt" },
+          { "item": "jacket_leather" },
+          { "item": "socks" },
+          { "item": "boots_steel" },
+          { "item": "wristwatch" },
+          { "item": "legguard_hard" },
+          { "item": "duffelbag" },
+          { "item": "hat_ball" },
+          { "item": "gloves_work" },
+          { "item": "wearable_light" },
+          { "item": "glock_19", "ammo-item": "9mm", "container-item": "holster", "charges": 15 },
+          { "item": "glockmag", "ammo-item": "9mm", "charges": 15 },
+          { "item": "ref_lighter" },
+          { "item": "beer", "count": [ 1, 6 ] },
+          { "group": "snacks", "count": [ 1, 2 ] }
+        ]
+      },
+      "male": { "entries": [ { "item": "boxer_shorts" } ] },
+      "female": { "entries": [ { "item": "panties" }, { "item": "bra" } ] }
+    },
+    "npcs": [
+      "NC_PROF_NEIGHBORHOOD_HUNTER",
+      "NC_PROF_NEIGHBORHOOD_MECHANIC",
+      "NC_PROF_NEIGHBORHOOD_DOCTOR",
+      "NC_PROF_NEIGHBORHOOD_DELINQUENT"
+    ],
+    "flags": [ "SCEN_ONLY" ],
+    "missions": [ "MISSION_HEIST_NEIGHBORHOOD_WATCH" ]
   }
 ]

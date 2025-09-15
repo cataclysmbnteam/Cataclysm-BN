@@ -1432,10 +1432,7 @@
     "id": "LARGE_OK",
     "copy-from": "LARGE_OK",
     "delete": { "category": [ "BEAST", "URSINE", "CATTLE", "LIZARD", "SERPENT", "RAPTOR", "CHIMERA" ] },
-    "extend": {
-      "category": [ "COWGIRL", "BEARGIRL", "LAMIA" ],
-      "threshreq": [ "THRESH_KITSUNE", "THRESH_BEARGIRL", "THRESH_COWGIRL", "THRESH_LAMIA" ]
-    }
+    "extend": { "category": [ "COWGIRL", "BEARGIRL", "LAMIA" ], "threshreq": [ "THRESH_BEARGIRL", "THRESH_COWGIRL", "THRESH_LAMIA" ] }
   },
   {
     "type": "mutation",
@@ -1477,7 +1474,7 @@
     "id": "STR_UP_4",
     "copy-from": "STR_UP_4",
     "delete": { "category": [ "BEAST", "URSINE" ] },
-    "extend": { "category": [ "BEARGIRL" ], "threshreq": [ "THRESH_KITSUNE", "THRESH_BEARGIRL" ] }
+    "extend": { "category": [ "BEARGIRL" ], "threshreq": [ "THRESH_BEARGIRL" ] }
   },
   {
     "type": "mutation",
@@ -1617,10 +1614,7 @@
     "id": "SMALL_OK",
     "copy-from": "SMALL_OK",
     "delete": { "category": [ "MOUSE", "RAT", "RABBIT", "FELINE", "BIRD", "INSECT", "SPIDER", "TROGLOBITE" ] },
-    "extend": {
-      "category": [ "MOUSEGIRL", "BUNNYGIRL" ],
-      "threshreq": [ "THRESH_MOUSEGIRL", "THRESH_BUNNYGIRL", "THRESH_NEKO", "THRESH_HARPY", "THRESH_SPIDERGIRL" ]
-    }
+    "extend": { "category": [ "MOUSEGIRL", "BUNNYGIRL" ], "threshreq": [ "THRESH_MOUSEGIRL", "THRESH_BUNNYGIRL" ] }
   },
   {
     "type": "mutation",

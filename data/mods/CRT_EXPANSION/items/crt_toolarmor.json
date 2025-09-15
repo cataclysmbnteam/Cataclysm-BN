@@ -169,7 +169,7 @@
     "warmth": 10,
     "material_thickness": 4,
     "environmental_protection": 4,
-    "flags": [ "WATER_FRIENDLY", "STURDY", "VARSIZE", "RECHARGE", "NO_UNLOAD", "OUTER", "COMBAT_NPC_USE" ]
+    "flags": [ "WATER_FRIENDLY", "STURDY", "VARSIZE", "RECHARGE", "NO_UNLOAD", "OUTER", "COMBAT_NPC_USE", "ALLOWS_WINGS" ]
   },
   {
     "id": "crt_em_vest_on",
@@ -226,6 +226,7 @@
       "OUTER",
       "HEAVY_WEAPON_SUPPORT",
       "ALLOWS_TAIL_SNAKE",
+      "ALLOWS_WINGS",
       "COMBAT_NPC_USE",
       "COMBAT_NPC_ON"
     ]
@@ -312,7 +313,7 @@
     "material": [ "leather", "kevlar", "glass" ],
     "max_charges": 1000,
     "initial_charges": 1000,
-    "flags": [ "BELTED", "STURDY", "WATERPROOF", "IS_UPS" ],
+    "flags": [ "BELTED", "STURDY", "WATERPROOF", "IS_UPS", "ALLOWS_WINGS" ],
     "relic_data": {
       "recharge_scheme": [
         {
