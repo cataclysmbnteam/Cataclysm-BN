@@ -20,7 +20,7 @@
     "warmth": 15,
     "material_thickness": 3,
     "environmental_protection": 1,
-    "valid_mods": [ "steel_padded", "alloy_padded", "resized_large" ],
+    "valid_mods": [ "steel_padded", "hard_steel_padded", "alloy_padded", "resized_large", "resized_small" ],
     "flags": [ "POCKETS", "OUTER", "WATER_FRIENDLY", "ALLOWS_TAIL_SNAKE", "ALLOWS_WINGS" ]
   },
   {
@@ -42,7 +42,7 @@
     "storage": "500 ml",
     "warmth": 20,
     "material_thickness": 3,
-    "valid_mods": [ "steel_padded", "alloy_padded" ],
+    "valid_mods": [ "steel_padded", "hard_steel_padded", "alloy_padded" ],
     "flags": [ "VARSIZE", "FANCY", "ALLOWS_WINGS" ]
   },
   {
@@ -235,7 +235,7 @@
     "storage": "2250 ml",
     "warmth": 30,
     "material_thickness": 3,
-    "valid_mods": [ "steel_padded", "alloy_padded" ],
+    "valid_mods": [ "steel_padded", "hard_steel_padded", "alloy_padded" ],
     "flags": [ "VARSIZE", "OUTER", "POCKETS", "HOOD" ]
   },
   {
@@ -533,7 +533,7 @@
     "encumbrance": 10,
     "warmth": 40,
     "material_thickness": 3,
-    "valid_mods": [ "steel_padded", "alloy_padded" ],
+    "valid_mods": [ "steel_padded", "hard_steel_padded", "alloy_padded" ],
     "flags": [ "VARSIZE" ]
   },
   {
@@ -555,7 +555,7 @@
     "encumbrance": 10,
     "warmth": 30,
     "material_thickness": 3,
-    "valid_mods": [ "steel_padded", "alloy_padded" ],
+    "valid_mods": [ "steel_padded", "hard_steel_padded", "alloy_padded" ],
     "flags": [ "VARSIZE" ]
   },
   {
@@ -719,7 +719,7 @@
     "warmth": 20,
     "material_thickness": 3,
     "environmental_protection": 1,
-    "valid_mods": [ "steel_padded", "alloy_padded" ],
+    "valid_mods": [ "steel_padded", "hard_steel_padded", "alloy_padded" ],
     "flags": [ "VARSIZE", "POCKETS", "OUTER", "ALLOWS_WINGS" ]
   },
   {
@@ -741,7 +741,7 @@
     "storage": "2250 ml",
     "warmth": 45,
     "material_thickness": 3,
-    "valid_mods": [ "steel_padded", "alloy_padded" ],
+    "valid_mods": [ "steel_padded", "hard_steel_padded", "alloy_padded" ],
     "flags": [ "VARSIZE", "OUTER", "POCKETS", "HOOD" ]
   }
 ]

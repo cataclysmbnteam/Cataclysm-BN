@@ -1382,7 +1382,7 @@ item::sizing item::get_sizing( const Character &who ) const
         // but that is fine because we have separate logic to adjust encumberance per each. One day we
         // may want to have fit be a flag that only applies if a piece of clothing is sized for you as there
         // is a bit of cognitive dissonance when something 'fits' and is 'oversized' and the same time
-        const bool undersize = has_flag( flag_UNDERSIZE );
+        const bool undersize = has_flag( flag_UNDERSIZE ) || has_flag( flag_resized_small );
         const bool oversize = has_flag( flag_OVERSIZE ) || has_flag( flag_resized_large );
 
         if( undersize ) {
@@ -4969,6 +4969,8 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
 
     if( has_flag( flag_resized_large ) ) {
         tagtext += _( " (XL)" );
+    } else if ( has_flag( flag_resized_small ) ) {
+        tagtext += _( " (XS)" );
     }
     const sizing sizing_level = get_sizing( you );
 

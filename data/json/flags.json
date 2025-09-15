@@ -554,6 +554,12 @@
     "info": "This gear has been modified to accommodate <info>abnormally large mutated anatomy</info> with some <bad>increase to encumbrance</bad>."
   },
   {
+    "id": "resized_small",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "info": "This gear has been modified to accommodate <info>abnormally small mutants</info> with some <bad>increase to encumbrance</bad>."
+  },
+  {
     "id": "UNDERSIZE",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
@@ -1004,6 +1010,12 @@
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
     "info": "This gear has certain parts padded with steel to <good>increase protection</good> with moderate <bad>increase to encumbrance</bad>."
+  },
+  {
+    "id": "hard_steel_padded",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "info": "This gear has certain parts padded with steel to greatly <good>increase protection</good> with a high <bad>increase to encumbrance</bad>."
   },
   {
     "id": "alloy_padded",

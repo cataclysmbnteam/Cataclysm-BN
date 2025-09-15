@@ -96,7 +96,7 @@
       "draw_cost": 40,
       "flags": [ "MAG_COMPACT", "MAG_BULKY", "MAG_BELT", "SPEEDLOADER" ]
     },
-    "valid_mods": [ "resized_large" ],
+    "valid_mods": [ "resized_large", "resized_small" ],
     "flags": [ "WATER_FRIENDLY", "WAIST", "COMPACT", "ALLOWS_WINGS" ]
   },
   {
@@ -127,7 +127,7 @@
       "draw_cost": 40,
       "flags": [ "MAG_COMPACT", "SPEEDLOADER" ]
     },
-    "valid_mods": [ "resized_large" ],
+    "valid_mods": [ "resized_large", "resized_small" ],
     "flags": [ "WATER_FRIENDLY", "BELTED", "COMPACT", "ALLOWS_WINGS" ]
   },
   {
@@ -158,7 +158,7 @@
       "draw_cost": 40,
       "flags": [ "MAG_COMPACT", "SPEEDLOADER" ]
     },
-    "valid_mods": [ "resized_large" ],
+    "valid_mods": [ "resized_large", "resized_small" ],
     "flags": [ "WATER_FRIENDLY", "BELTED", "COMPACT", "ALLOWS_WINGS" ]
   },
   {
@@ -525,7 +525,7 @@
       "draw_cost": 60,
       "flags": [ "MAG_COMPACT", "MAG_BULKY" ]
     },
-    "valid_mods": [ "resized_large" ],
+    "valid_mods": [ "resized_large", "resized_small" ],
     "flags": [ "WATER_FRIENDLY", "WAIST", "COMPACT", "ALLOWS_WINGS" ]
   },
   {
