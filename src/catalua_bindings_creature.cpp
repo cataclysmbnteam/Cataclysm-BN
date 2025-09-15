@@ -969,14 +969,21 @@ void cata::detail::reg_npc( sol::state &lua )
 
 void cata::detail::reg_avatar( sol::state &lua )
 {
+#define UT_CLASS avatar
     {
         // Note(AluminumAlman): skipping binding members and methods of this class because
         // most of the methods and members are already binded through Character.
         sol::usertype<avatar> ut =
-            luna::new_usertype<avatar>(
-                lua,
-                luna::bases<player, Character, Creature>(),
-                luna::no_constructor
-            );
+        luna::new_usertype<avatar>(
+            lua,
+            luna::bases<player, Character, Creature>(),
+            luna::no_constructor
+        );
+
+        SET_FX_T( get_active_missions, std::vector<mission *>() const );
+        SET_FX_T( get_completed_missions, std::vector<mission *>() const );
+        SET_FX_T( get_failed_missions, std::vector<mission *>() const );
+
     }
+#undef UT_CLASS // #define UT_CLASS npc_opinion
 }

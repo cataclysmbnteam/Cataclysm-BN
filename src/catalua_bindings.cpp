@@ -19,6 +19,7 @@
 #include "map.h"
 #include "martialarts.h"
 #include "material.h"
+#include "mission.h"
 #include "monfaction.h"
 #include "monster.h"
 #include "mtype.h"
@@ -631,6 +632,8 @@ void cata::detail::reg_enums( sol::state &lua )
     reg_enum<npc_attitude>( lua );
     reg_enum<npc_need>( lua );
     reg_enum<sfx::channel>( lua );
+    reg_enum<mission_origin>( lua );
+    reg_enum<mission_goal>( lua );
 }
 
 void cata::detail::reg_hooks_examples( sol::state &lua )
@@ -642,9 +645,9 @@ void cata::detail::reg_hooks_examples( sol::state &lua )
     luna::set_fx( lib, "on_game_save", []() {} );
     DOC( "Called right after game has loaded" );
     luna::set_fx( lib, "on_game_load", []() {} );
-    DOC( "Called when character stat gets reset" );
-    luna::set_fx( lib, "on_game_started", []() {} );
     DOC( "Called when the game has first started" );
+    luna::set_fx( lib, "on_game_started", []() {} );
+    DOC( "Called when character stat gets reset" );
     luna::set_fx( lib, "on_character_reset_stats", []() {} );
     DOC( "Called when a monster is dead" );
     luna::set_fx( lib, "on_mon_death", []() {} );
@@ -793,6 +796,8 @@ void cata::reg_all_bindings( sol::state &lua )
     reg_game_ids( lua );
     mod_mutation_branch( lua );
     reg_magic( lua );
+    reg_mission( lua );
+    reg_mission_type( lua );
     reg_recipe( lua );
     reg_coords_library( lua );
     reg_constants( lua );
