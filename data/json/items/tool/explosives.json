@@ -856,7 +856,7 @@
       "menu_text": "Activate",
       "type": "transform"
     },
-    "armor_data": { "covers": [ "torso" ], "encumbrance": 2, "material_thickness": 1 },
+    "armor_data": { "covers": [ "torso" ], "encumbrance": 2, "coverage": 3, "material_thickness": 1 },
     "flags": [ "ALLOWS_REMOTE_USE", "BELTED", "COMPACT", "OVERSIZE", "WATER_FRIENDLY" ]
   },
   {
