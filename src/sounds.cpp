@@ -376,7 +376,7 @@ static auto ensure_punctuation = []( const std::string &desc, char preferred )
         return desc;
     }
     char last = desc.back();
-    if( last == '.' || last == '!' || last == '?' ) {
+    if( last == '.' || last == '!' || last == '?' || last == '"' ) {
         return desc;
     }
     return desc + preferred;
