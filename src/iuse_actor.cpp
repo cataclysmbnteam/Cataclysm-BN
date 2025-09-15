@@ -5097,7 +5097,8 @@ int sew_advanced_actor::use( player &p, item &it, bool, const tripoint & ) const
             }
             return t;
         };
-        const bool already_resized = mod.has_flag( flag_resized_large ) || mod.has_flag( flag_resized_small );
+        const bool already_resized = mod.has_flag( flag_resized_large ) ||
+                                     mod.has_flag( flag_resized_small );
         if( !mod.has_own_flag( obj.flag ) ) {
             // Mod not already present, check if modification is possible
             if( obj.restricted &&
@@ -5105,7 +5106,8 @@ int sew_advanced_actor::use( player &p, item &it, bool, const tripoint & ) const
                 //~ %1$s: modification desc, %2$s: mod name
                 prompt = string_format( _( "Can't %1$s (incompatible with %2$s)" ), tolower( obj.implement_prompt ),
                                         mod.tname( 1, false ) );
-            } else if( ( obj.flag == flag_resized_large || obj.flag == flag_resized_small ) && already_resized ) {
+            } else if( ( obj.flag == flag_resized_large || obj.flag == flag_resized_small ) &&
+                       already_resized ) {
                 //~ %1$s: modification desc, %2$d: number of thread needed
                 prompt = string_format( _( "Can't %1$s (already resized)" ),
                                         tolower( obj.implement_prompt ) );

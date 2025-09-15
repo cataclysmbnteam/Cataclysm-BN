@@ -4969,7 +4969,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
 
     if( has_flag( flag_resized_large ) ) {
         tagtext += _( " (XL)" );
-    } else if ( has_flag( flag_resized_small ) ) {
+    } else if( has_flag( flag_resized_small ) ) {
         tagtext += _( " (XS)" );
     }
     const sizing sizing_level = get_sizing( you );
