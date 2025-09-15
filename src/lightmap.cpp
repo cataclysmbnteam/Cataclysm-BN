@@ -915,17 +915,18 @@ template<typename T>
 struct span {
     span( const slope &s_major, const slope &e_major,
           const slope &s_minor, const slope &e_minor,
-          const T &value, bool skip_first_row = false ) :
+          const T &value, bool skip_first_row = false, bool skip_first_column = false ) :
         start_major( s_major ), end_major( e_major ), start_minor( s_minor ), end_minor( e_minor ),
-        cumulative_value( value ), skip_first_row( skip_first_row ) {}
+        cumulative_value( value ), skip_first_row( skip_first_row ),
+        skip_first_column( skip_first_column ) {}
     slope start_major;
     slope end_major;
     slope start_minor;
     slope end_minor;
     T cumulative_value;
     bool skip_first_row;
-};
-
+    bool skip_first_column;
+};  
 
 /**
  * Handle splitting the current span in cast_horizontal_zlight_segment and
@@ -967,20 +968,22 @@ static void split_span( std::list<span<T>> &spans, typename std::list<span<T>>::
     // If check returns false, A and B are opaque and have no spans.
     if( check( current_transparency, last_intensity ) ) {
         // Emit the A span if present, placing it before the current span in the list
+        // If the parent span is to skip the first column, inherit it.
         if( trailing_edge_major > this_span->start_major ) {
             spans.emplace( this_span,
                            this_span->start_major, trailing_edge_major,
                            this_span->start_minor, this_span->end_minor,
-                           next_cumulative_transparency );
+                           next_cumulative_transparency, false, this_span->skip_first_column );
         }
 
         // Emit the B span if present, placing it before the current span in the list
+        // If the parent span is to skip the first column, inherit it.
         if( trailing_edge_minor > this_span->start_minor ) {
             spans.emplace( this_span,
                            std::max( this_span->start_major, trailing_edge_major ),
                            std::min( this_span->end_major, leading_edge_major ),
                            this_span->start_minor, trailing_edge_minor,
-                           next_cumulative_transparency );
+                           next_cumulative_transparency, false, this_span->skip_first_column );
         }
 
         // Overwrite new_start_minor since previous tile is transparent.
@@ -988,6 +991,7 @@ static void split_span( std::list<span<T>> &spans, typename std::list<span<T>>::
     }
 
     // Emit the D span if present, placing it after the current span in the list
+    // If the parent span is to skip the first column, inherit it.
     if( leading_edge_major < this_span->end_major ) {
         // Pass true to the span constructor to set skip_first_row to true
         // This prevents the same row we are currently checking being check by the
@@ -995,7 +999,17 @@ static void split_span( std::list<span<T>> &spans, typename std::list<span<T>>::
         spans.emplace( std::next( this_span ),
                        leading_edge_major, this_span->end_major,
                        this_span->start_minor, this_span->end_minor,
-                       this_span->cumulative_value, true );
+                       this_span->cumulative_value, true, this_span->skip_first_column );
+    }
+
+    // If the split is due to two transparent squares with different transparency, set skip_first_column to true
+    // This prevents the last column of B span being checked by the new C span
+    if( check( current_transparency, last_intensity ) &&
+        check( new_transparency, last_intensity ) ) {
+        this_span->skip_first_column = true;
+    } else {
+        this_span->skip_first_column = false;
+
     }
 
     // Truncate this_span to the current block.
@@ -1133,6 +1147,11 @@ void cast_horizontal_zlight_segment(
                     } else if( this_span->start_minor > leading_edge_minor ) {
                         // Current tile comes before the span we're considering, advance to the next tile.
                         continue;
+                    } else if( this_span->skip_first_column && this_span->start_minor == leading_edge_minor ) {
+                        // If the split is due to two transparent squares with different transparency,
+                        // We want to check the blocks that are likely to cause split only in B,
+                        // rather than in B & C, which can lead to performance hit.
+                        continue;
                     } else if( this_span->end_minor < trailing_edge_minor ) {
                         // Current tile is after the span we're considering, continue to next row.
                         break;
@@ -1198,12 +1217,11 @@ void cast_horizontal_zlight_segment(
                 }
             }
 
-            if( !started_block ) {
+            if( !started_block ||
                 // If we didn't scan at least 1 z-level, don't iterate further
                 // Otherwise we may "phase" through tiles without checking them or waste time
                 // checking spans that are out of bounds.
-                this_span = spans.erase( this_span );
-            } else if( !check( current_transparency, last_intensity ) ) {
+            !check( current_transparency, last_intensity ) ) {
                 // If we reach the end of the span with terrain being opaque, we don't iterate further.
                 // This means that any encountered transparent tiles from the current span have been
                 // split off into new spans
@@ -1381,12 +1399,11 @@ void cast_vertical_zlight_segment(
                 }
             }
 
-            if( !started_block ) {
+            if( !started_block ||
                 // If we didn't scan at least 1 z-level, don't iterate further
                 // Otherwise we may "phase" through tiles without checking them or waste time
                 // checking spans that are out of bounds.
-                this_span = spans.erase( this_span );
-            } else if( !check( current_transparency, last_intensity ) ) {
+            !check( current_transparency, last_intensity ) ) {
                 // If we reach the end of the span with terrain being opaque, we don't iterate further.
                 // This means that any encountered transparent tiles from the current span have been
                 // split off into new spans
