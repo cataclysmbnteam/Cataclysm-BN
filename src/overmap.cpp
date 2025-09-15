@@ -5716,15 +5716,34 @@ void overmap::spawn_ores( const tripoint_om_omt &p )
 {
     //One in 15 at lowest level, goes up as you get closer to surface. Dig deep!
     if( one_in( 65 + ( 5 * p.z() ) ) ) {
-        //TODO:Close surface/medium/deep veins different lists, load from json?
+        std::string depth;
+        switch( p.z() ) {
+            case -1:
+            case -2:
+            case -3: {
+                depth = "shallow";
+                break;
+            }
+            case -4:
+            case -5:
+            case -6:
+            case -7:  {
+                depth = "medium";
+                break;
+            }
+            case -8:
+            case -9:
+            case -10: {
+                depth = "deep";
+                break;
+            }
+            default:
+            {depth = "how";}
+        }
         weighted_int_list<std::string> ores;
-        ores.add( "iron", 10 );
-        ores.add( "copper", 5 );
-        ores.add( "lead", 3 );
-        ores.add( "tin", 3 );
-        ores.add( "silver", 2 );
-        ores.add( "gold", 1 );
-        //TODO: actually spawn the vein.
+        for( const auto& [k, v] : ore_depth_to_rate.at( depth ) ) {
+            ores.add( k, v );
+        }
         add_note( p, string_format( "There will be %s ore here", ores.pick()->c_str() ) );
 
     }
