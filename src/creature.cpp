@@ -11,6 +11,7 @@
 #include "anatomy.h"
 #include "avatar.h"
 #include "calendar.h"
+#include "catalua_hooks.h"
 #include "character.h"
 #include "color.h"
 #include "cursesdef.h"
@@ -1236,9 +1237,13 @@ void Creature::deal_damage_handle_type( const damage_unit &du, bodypart_id bp, i
     pain += roll_remainder( adjusted_damage / div );
 }
 
-void Creature::on_dodge( Creature */*source*/, int /*difficulty*/ )
+void Creature::on_dodge( Creature *source, int difficulty )
 {
-
+    cata::run_hooks( "on_creature_dodged", [ &, this]( auto & params ) {
+        params["char"] = this;
+        params["source"] = source;
+        params["difficulty"] = difficulty;
+    } );
 }
 
 /*
