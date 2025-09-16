@@ -16,13 +16,13 @@
 #include "point.h"
 #include "popup.h"
 #include "posix_time.h"
+#include "ranged.h"
 #include "translations.h"
 #include "type_id.h"
 #include "ui_manager.h"
 #include "weather.h"
 
 #if defined(TILES)
-#include <algorithm>
 #include <memory>
 
 #include "cata_tiles.h" // all animation functions will be pushed out to a cata_tiles function in some manner
@@ -653,7 +653,7 @@ void draw_hit_player_curses( const game &g, const Character &who, const int dam 
 } //namespace
 
 #if defined(TILES)
-void game::draw_hit_player( const Character &who, const int dam )
+void game::draw_hit_player( const Character &p, const int dam )
 {
     if( test_mode ) {
         // avoid segfault from null tilecontext in tests
@@ -661,7 +661,7 @@ void game::draw_hit_player( const Character &who, const int dam )
     }
 
     if( !use_tiles ) {
-        draw_hit_player_curses( *this, who, dam );
+        draw_hit_player_curses( *this, p, dam );
         return;
     }
 
@@ -670,11 +670,11 @@ void game::draw_hit_player( const Character &who, const int dam )
     static const std::string npc_male      {"npc_male"};
     static const std::string npc_female    {"npc_female"};
 
-    const std::string &type = who.is_player() ? ( who.male ? player_male : player_female )
-                              : who.male ? npc_male : npc_female;
+    const std::string &type = p.is_player() ? ( p.male ? player_male : player_female )
+                              : p.male ? npc_male : npc_female;
 
     shared_ptr_fast<draw_callback_t> hit_cb = make_shared_fast<draw_callback_t>( [&]() {
-        tilecontext->init_draw_hit( who.pos(), type );
+        tilecontext->init_draw_hit( p.pos(), type );
     } );
     add_draw_callback( hit_cb );
 

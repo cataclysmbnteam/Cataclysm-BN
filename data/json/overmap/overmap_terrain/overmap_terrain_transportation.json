@@ -67,7 +67,8 @@
     "name": "bridge",
     "sym": "│",
     "color": "white",
-    "see_cost": 2
+    "see_cost": 2,
+    "flags": [ "IS_BRIDGE" ]
   },
   {
     "type": "overmap_terrain",
@@ -75,14 +76,14 @@
     "id": "bridge",
     "copy-from": "generic_bridge",
     "extras": "bridgehead_ground",
-    "flags": [ "RIVER", "IGNORE_ROTATION_FOR_ADJACENCY" ]
+    "flags": [ "RIVER", "IGNORE_ROTATION_FOR_ADJACENCY", "IS_BRIDGE" ]
   },
   {
     "type": "overmap_terrain",
     "id": "bridge_under",
     "copy-from": "generic_bridge",
     "color": "blue",
-    "flags": [ "RIVER", "IGNORE_ROTATION_FOR_ADJACENCY" ]
+    "flags": [ "RIVER", "IGNORE_ROTATION_FOR_ADJACENCY", "IS_BRIDGE" ]
   },
   {
     "type": "overmap_terrain",
@@ -97,7 +98,7 @@
     "name": "bridgehead (ground)",
     "sym": "v",
     "extras": "bridgehead_ground",
-    "flags": [ "RIVER", "IGNORE_ROTATION_FOR_ADJACENCY" ]
+    "flags": [ "RIVER", "IGNORE_ROTATION_FOR_ADJACENCY", "IS_BRIDGE" ]
   },
   {
     "type": "overmap_terrain",
@@ -245,6 +246,22 @@
     "id": [ "trailhead_shack_z1", "trailhead_outhouse_z1" ],
     "copy-from": "trailhead",
     "name": "trailhead roof"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "rv_park_1", "rv_park_2", "rv_park_3", "rv_park_4" ],
+    "copy-from": "generic_city_building_no_sidewalk",
+    "name": "RV park",
+    "sym": "#",
+    "color": "light_blue",
+    "extend": { "flags": [ "GENERIC_LOOT" ] }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "rv_park_roof_1", "rv_park_roof_2" ],
+    "copy-from": "rv_park_1",
+    "name": "RV park roof",
+    "delete": { "flags": [ "GENERIC_LOOT" ] }
   },
   {
     "type": "overmap_terrain",

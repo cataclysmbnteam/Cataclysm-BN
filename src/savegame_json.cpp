@@ -1003,6 +1003,10 @@ void avatar::store( JsonOut &json ) const
     // misc player specific stuff
     json.member( "focus_pool", focus_pool );
 
+    if( shadow_npc ) {
+        json.member( "shadow_npc", *shadow_npc );
+    }
+
     // stats through kills
     json.member( "str_upgrade", std::abs( str_upgrade ) );
     json.member( "dex_upgrade", std::abs( dex_upgrade ) );
@@ -1079,6 +1083,11 @@ void avatar::load( const JsonObject &data )
           grab_point );
 
     data.read( "focus_pool", focus_pool );
+
+    if( data.has_member( "shadow_npc" ) ) {
+        shadow_npc = std::make_unique<npc>();
+        data.read( "shadow_npc", *shadow_npc );
+    }
 
     // stats through kills
     data.read( "str_upgrade", str_upgrade );

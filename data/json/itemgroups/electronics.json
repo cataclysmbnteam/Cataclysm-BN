@@ -53,7 +53,8 @@
       [ "chem_nitric_acid", 1 ],
       [ "l-stick", 1 ],
       [ "solarpack", 10 ],
-      [ "laser_source", 5 ]
+      [ "laser_source", 5 ],
+      [ "afs_atomic_smartphone", 1 ]
     ]
   },
   {
@@ -78,10 +79,12 @@
       [ "portable_game", 12 ],
       [ "game_watch", 3 ],
       [ "vibrator", 10 ],
+      [ "bullet_vibrator", 10 ],
       [ "flashlight", 40 ],
       [ "heavy_flashlight", 10 ],
       [ "radio", 20 ],
-      [ "mess_kit", 5 ],
+      [ "gasoline_cooker", 3 ],
+      [ "mess_kit", 2 ],
       [ "hotplate", 10 ],
       [ "coffeemaker", 10 ],
       [ "receiver", 10 ],
@@ -107,7 +110,8 @@
       [ "magnifying_glass", 4 ],
       [ "omnicamera", 2 ],
       [ "l-stick", 1 ],
-      [ "reading_light", 6 ]
+      [ "reading_light", 6 ],
+      [ "afs_atomic_smartphone", 2 ]
     ]
   },
   {

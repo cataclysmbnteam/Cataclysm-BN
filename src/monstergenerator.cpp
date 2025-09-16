@@ -699,6 +699,7 @@ void pet_food_data::load( const JsonObject &jo )
     mandatory( jo, was_loaded, "food", food );
     optional( jo, was_loaded, "feed", feed );
     optional( jo, was_loaded, "pet", pet );
+    optional( jo, was_loaded, "tamer_traits", tamer_traits );
 }
 
 void pet_food_data::deserialize( JsonIn &jsin )
@@ -1227,7 +1228,7 @@ void species_type::load( const JsonObject &jo, const std::string & )
     }
     optional( jo, was_loaded, "name", name, no_translation( id.c_str() ) );
     optional( jo, was_loaded, "description", description );
-    optional( jo, was_loaded, "footsteps", footsteps, to_translation( "footsteps." ) );
+    optional( jo, was_loaded, "footsteps", footsteps );
     const auto flag_reader = enum_flags_reader<m_flag> { "monster flag" };
     optional( jo, was_loaded, "flags", flags, flag_reader );
 

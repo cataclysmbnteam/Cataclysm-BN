@@ -184,7 +184,7 @@
         { "item": "cable", "charges": 2 },
         { "item": "power_supply", "count": 1 },
         { "item": "light_bulb", "count": 1 },
-        { "item": "steel_lump", "count": 1 },
+        { "item": "steel_chunk", "count": 5 },
         { "item": "pipe", "count": 1 }
       ]
     },
@@ -935,7 +935,6 @@
       "items": [
         { "item": "solder_wire", "charges": 20 },
         { "item": "plastic_chunk", "count": 2 },
-        { "item": "steel_chunk", "count": 5 },
         { "item": "wind_turbine", "count": 1 }
       ]
     },
@@ -973,7 +972,6 @@
       "items": [
         { "item": "solder_wire", "charges": 20 },
         { "item": "plastic_chunk", "count": 2 },
-        { "item": "steel_chunk", "count": 5 },
         { "item": "xl_wind_turbine", "count": 1 }
       ]
     },
@@ -987,7 +985,6 @@
         { "item": "2x4", "count": [ 1, 30 ] },
         { "item": "scrap", "count": [ 3, 6 ] },
         { "item": "cable", "charges": [ 10, 15 ] },
-        { "item": "scrap", "count": [ 4, 6 ] },
         { "item": "pipe", "count": [ 0, 3 ] }
       ],
       "//": "Variable reduction, destroy_threshold equal to str_min instead of str_max due to delicate electronics",
@@ -1013,7 +1010,6 @@
       "items": [
         { "item": "solder_wire", "charges": 20 },
         { "item": "plastic_chunk", "count": 2 },
-        { "item": "steel_chunk", "count": 5 },
         { "item": "water_wheel", "count": 1 }
       ]
     },
@@ -1027,7 +1023,6 @@
         { "item": "2x4", "count": [ 1, 5 ] },
         { "item": "scrap", "count": [ 3, 6 ] },
         { "item": "cable", "charges": [ 10, 15 ] },
-        { "item": "scrap", "count": [ 4, 6 ] },
         { "item": "pipe", "count": [ 0, 3 ] }
       ],
       "//": "Variable, destroy_threshold equal to str_min instead of str_max due to delicate electronics",
@@ -1050,7 +1045,6 @@
       "items": [
         { "item": "solder_wire", "charges": 20 },
         { "item": "plastic_chunk", "count": 2 },
-        { "item": "steel_chunk", "count": 5 },
         { "item": "xl_water_wheel", "count": 1 }
       ]
     },
@@ -1064,7 +1058,6 @@
         { "item": "2x4", "count": [ 1, 30 ] },
         { "item": "scrap", "count": [ 3, 6 ] },
         { "item": "cable", "charges": [ 10, 15 ] },
-        { "item": "scrap", "count": [ 4, 6 ] },
         { "item": "pipe", "count": [ 0, 3 ] }
       ],
       "//": "Variable reduction, destroy_threshold equal to str_min instead of str_max due to delicate electronics",
@@ -2668,7 +2661,7 @@
         { "item": "cable", "charges": 2 },
         { "item": "power_supply", "count": 1 },
         { "item": "light_bulb", "count": 1 },
-        { "item": "steel_lump", "count": 1 }
+        { "item": "steel_chunk", "count": 5 }
       ]
     },
     "bash": {

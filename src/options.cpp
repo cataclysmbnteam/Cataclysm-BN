@@ -2017,6 +2017,13 @@ void options_manager::add_options_graphics()
 
     get_option( "USE_TILES_OVERMAP" ).setPrerequisite( "USE_TILES" );
 
+    add( "OVERMAP_TILES", graphics, translate_marker( "Choose overmap tileset" ),
+         translate_marker( "Choose the overmap tileset you want to use." ),
+         build_tilesets_list(), "UNDEAD_PEOPLE_BASE", COPT_CURSES_HIDE
+       ); // populate the options dynamically
+
+    get_option( "OVERMAP_TILES" ).setPrerequisite( "USE_TILES_OVERMAP" );
+
     add( "USE_CHARACTER_PREVIEW", graphics, translate_marker( "Enable character preview window" ),
          translate_marker( "If true, shows character preview window in traits tab on character creation.  "
                            "While having a window press 'z'/'Z' to perform zoom-in/zoom-out.  "
@@ -2388,7 +2395,7 @@ void options_manager::add_options_world_default()
          0, 8, 4
        );
 
-    add( "SPECIALS_DENSITY", world_default, translate_marker( "Overmap specials density" ),
+    add( "SPECIALS_DENSITY", world_default, translate_marker( "Overmap specials density factor" ),
          translate_marker( "A scaling factor that determines density of overmap specials." ),
          0.01, 10.0, 1, 0.1
        );
@@ -2398,7 +2405,7 @@ void options_manager::add_options_world_default()
          -1, 72, 6
        );
 
-    add( "VEHICLE_DAMAGE", world_default, translate_marker( "Vehicle damage modifier" ),
+    add( "VEHICLE_DAMAGE", world_default, translate_marker( "Vehicle damage scaling factor" ),
          translate_marker( "A scaling factor that determines how damaged vehicles are." ),
          0.0, 10.0, 1, 0.1
        );
@@ -2428,6 +2435,8 @@ void options_manager::add_options_world_default()
          0.0, 100, 2.0, 0.01
        );
 
+    add_empty_line();
+
     add( "RESTOCK_DELAY_MULT", world_default, translate_marker( "Merchant restock scaling factor" ),
          translate_marker( "A scaling factor that determines restock rate of merchants." ),
          0.01, 10.0, 1.0, 0.01
@@ -2441,7 +2450,7 @@ void options_manager::add_options_world_default()
          0.01, 10.0, 1.0, 0.01 );
 
     add_option_group( world_default, Group( "item_category_spawn_rate",
-                                            to_translation( "Item category spawn rate" ),
+                                            to_translation( "Item category scaling factors" ),
                                             to_translation( "Spawn rate for item categories. Values ≤ 1.0 represent a chance to spawn. >1.0 means extra spawns. Set to 0.0 to disable spawning items from that category." ) ),
     [&]( const std::string & page_id ) {
 
@@ -2635,12 +2644,13 @@ void options_manager::add_options_world_default()
 
     add_empty_line();
 
-    add( "MONSTER_SPEED", world_default, translate_marker( "Monster speed" ),
+    add( "MONSTER_SPEED", world_default, translate_marker( "Monster speed percentage" ),
          translate_marker( "Determines the movement rate of monsters.  A higher value increases monster speed and a lower reduces it.  Requires world reset." ),
          1, 1000, 100, COPT_NO_HIDE, "%i%%"
        );
 
-    add( "MONSTER_RESILIENCE", world_default, translate_marker( "Monster resilience" ),
+    add( "MONSTER_RESILIENCE", world_default,
+         translate_marker( "Monster resilience percentage" ),
          translate_marker( "Determines how much damage monsters can take.  A higher value makes monsters more resilient and a lower makes them more flimsy.  Requires world reset." ),
          1, 1000, 100, COPT_NO_HIDE, "%i%%"
        );
@@ -2674,14 +2684,21 @@ void options_manager::add_options_world_default()
          14, 127, 30
        );
 
-    add( "CONSTRUCTION_SCALING", world_default, translate_marker( "Construction scaling" ),
-         translate_marker( "Sets the time of construction in percents.  '50' is two times faster than default, '200' is two times longer.  '0' automatically scales construction time to match the world's season length." ),
-         0, 1000, 100
+    add( "CONSTRUCTION_SCALING", world_default,
+         translate_marker( "Construction speed percentage" ),
+         translate_marker( "Sets the time of construction in percents.  '50' is two times faster than default, '200' is two times longer.  '0' makes construction instant." ),
+         0, 1000, 100, COPT_NO_HIDE, "%i%%"
        );
 
-    add( "GROWTH_SCALING", world_default, translate_marker( "Growth scaling" ),
+
+    add( "CRAFTING_SPEED_MULT", world_default, translate_marker( "Crafting speed percentage" ),
+         translate_marker( "Sets default crafting speed in percents.  '50' is two times faster than default, '200' is two times longer.  '0' makes crafting instant." ),
+         0, 1000, 100, COPT_NO_HIDE, "%i%%"
+       );
+
+    add( "GROWTH_SCALING", world_default, translate_marker( "Growth scaling percentage" ),
          translate_marker( "Sets the time of crop growth in percents.  '50' is two times faster than default, '200' is two times longer.  '0' automatically scales growth time to match the world's season length." ),
-         0, 1000, 0
+         0, 1000, 0, COPT_NO_HIDE, "%i%%"
        );
 
     add( "ETERNAL_SEASON", world_default, translate_marker( "Eternal season" ),
@@ -3026,6 +3043,28 @@ static void refresh_tiles( bool used_tiles_changed, bool pixel_minimap_height_ch
             } );
         } catch( const std::exception &err ) {
             popup( _( "Loading the tileset failed: %s" ), err.what() );
+            use_tiles = false;
+            use_tiles_overmap = false;
+        }
+        try {
+            overmap_tilecontext->reinit();
+            std::vector<mod_id> dummy;
+
+            overmap_tilecontext->load_tileset(
+                get_option<std::string>( "OVERMAP_TILES" ),
+                ingame ? world_generator->active_world->info->active_mod_order : dummy,
+                /*precheck=*/false,
+                /*force=*/force_tile_change,
+                /*pump_events=*/true
+            );
+            //game_ui::init_ui is called when zoom is changed
+            g->reset_zoom();
+            g->mark_main_ui_adaptor_resize();
+            overmap_tilecontext->do_tile_loading_report( []( const std::string & str ) {
+                DebugLog( DL::Info, DC::Main ) << str;
+            } );
+        } catch( const std::exception &err ) {
+            popup( _( "Loading the overmap tileset failed: %s" ), err.what() );
             use_tiles = false;
             use_tiles_overmap = false;
         }
@@ -3545,7 +3584,7 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
                 pixel_minimap_changed = true;
 
             } else if( iter.first == "TILES" || iter.first == "USE_TILES" || iter.first == "STATICZEFFECT" ||
-                       iter.first == "MEMORY_MAP_MODE" ) {
+                       iter.first == "MEMORY_MAP_MODE" || iter.first == "OVERMAP_TILES" ) {
                 used_tiles_changed = true;
                 if( iter.first == "STATICZEFFECT" || iter.first == "MEMORY_MAP_MODE" ) {
                     force_tile_change = true;

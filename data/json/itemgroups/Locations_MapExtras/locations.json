@@ -284,6 +284,12 @@
     ]
   },
   {
+    "type": "item_group",
+    "id": "spring_minerals",
+    "subtype": "distribution",
+    "entries": [ { "item": "material_rocksalt", "prob": 75 }, { "item": "chunk_sulfur", "prob": 25 } ]
+  },
+  {
     "id": "prison_textile",
     "type": "item_group",
     "subtype": "collection",
@@ -649,8 +655,9 @@
       [ "manual_dodge", 20 ],
       [ "manual_driving", 20 ],
       [ "manual_throw", 20 ],
-      [ "manual_zui_quan", 20 ],
+      { "group": "rare_martial_arts_books", "prob": 20 },
       [ "howto_computer", 20 ],
+      [ "waterwaymap", 25 ],
       [ "touristmap", 25 ],
       [ "regionaltransportmap", 25 ],
       [ "restaurantmap", 25 ],
@@ -716,13 +723,14 @@
     "items": [
       [ "barrette", 30 ],
       { "item": "vibrator", "prob": 20, "charges-min": 0, "charges-max": 25 },
+      { "item": "bullet_vibrator", "prob": 20, "charges-min": 0, "charges-max": 25 },
       [ "bubblewrap", 30 ],
       [ "syringe", 35 ],
       [ "glowstick_dead", 15 ],
       { "item": "cash_card", "prob": 5, "charges-min": 5, "charges-max": 5000 },
       [ "id_science", 3 ],
       [ "ear_spool", 15 ],
-      { "item": "lighter", "prob": 35, "charges-min": 0, "charges-max": 15 },
+      { "item": "lighter", "prob": 35, "charges": [ 0, 5 ] },
       [ "funnel", 25 ],
       [ "canteen", 20 ],
       [ "basket_laundry", 20 ],
@@ -1136,6 +1144,7 @@
       [ "flintlock_shot", 40 ],
       [ "shotgun_paper", 50 ],
       [ "colt_army", 50 ],
+      [ "colt_ring", 50 ],
       [ "colt_navy", 50 ],
       [ "shot_paper_00", 25 ],
       [ "shot_paper_bird", 15 ],
@@ -1841,6 +1850,7 @@
       [ "portable_game", 8 ],
       [ "game_watch", 2 ],
       [ "vibrator", 6 ],
+      [ "bullet_vibrator", 6 ],
       [ "usb_drive", 8 ],
       [ "firecracker_pack", 1 ],
       [ "firecracker", 1 ],
@@ -1887,7 +1897,8 @@
       [ "badge_doctor", 5 ],
       [ "dnd_handbook", 2 ],
       [ "bodypillow", 1 ],
-      [ "pirate_flag", 5 ]
+      [ "pirate_flag", 5 ],
+      [ "afs_atomic_smartphone", 1 ]
     ]
   },
   {
@@ -2221,6 +2232,7 @@
       [ "gold_small", 10 ],
       [ "silver_small", 30 ],
       [ "money_bundle", 50 ],
+      [ "money_pile", 25 ],
       [ "pocketwatch", 11 ],
       [ "gold_watch", 12 ],
       [ "sf_watch", 10 ],
@@ -2360,7 +2372,8 @@
       [ "extinguisher", 20 ],
       [ "flashlight", 40 ],
       [ "heavy_flashlight", 5 ],
-      [ "mess_kit", 10 ],
+      [ "gasoline_cooker", 5 ],
+      [ "mess_kit", 5 ],
       [ "hotplate", 10 ],
       [ "popcan_stove", 5 ],
       [ "soldering_ethanol", 5 ],
@@ -2683,6 +2696,7 @@
       { "item": "lemat_revolver", "prob": 5 },
       { "item": "colt_army", "prob": 5 },
       { "item": "colt_navy", "prob": 5 },
+      { "item": "colt_ring", "prob": 5 },
       { "item": "longrifle_flintlock", "prob": 7 },
       { "item": "rifle_flintlock", "prob": 3 },
       { "item": "carbine_flintlock", "prob": 2 },

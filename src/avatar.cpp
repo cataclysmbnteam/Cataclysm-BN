@@ -30,12 +30,14 @@
 #include "event.h"
 #include "event_bus.h"
 #include "faction.h"
+#include "flag.h"
 #include "game.h"
 #include "game_constants.h"
 #include "help.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_contents.h"
+#include "item_factory.h"
 #include "itype.h"
 #include "iuse.h"
 #include "kill_tracker.h"
@@ -88,8 +90,6 @@ static const trait_id trait_HYPEROPIC( "HYPEROPIC" );
 static const trait_id trait_ILLITERATE( "ILLITERATE" );
 static const trait_id trait_PROF_DICEMASTER( "PROF_DICEMASTER" );
 
-static const flag_id flag_FIX_FARSIGHT( "FIX_FARSIGHT" );
-
 static const morale_type MORALE_FOOD_COLD( "morale_food_cold" );
 static const morale_type MORALE_FOOD_VERY_COLD( "morale_food_very_cold" );
 
@@ -116,7 +116,48 @@ avatar::avatar()
 
 avatar::~avatar() = default;
 avatar::avatar( avatar && )  noexcept = default;
-avatar &avatar::operator=( avatar && )  noexcept = default;
+avatar &avatar::operator=( avatar && ) noexcept = default;
+
+static void swap_npc( npc &one, npc &two, npc &tmp )
+{
+    tmp = std::move( one );
+    one = std::move( two );
+    two = std::move( tmp );
+}
+
+void avatar::control_npc( npc &np )
+{
+    if( !np.is_player_ally() ) {
+        debugmsg( "control_npc() called on non-allied npc %s", np.name );
+        return;
+    }
+    if( !shadow_npc ) {
+        shadow_npc = std::make_unique<npc>();
+        shadow_npc->op_of_u.trust = 10;
+        shadow_npc->op_of_u.value = 10;
+        shadow_npc->set_attitude( NPCATT_FOLLOW );
+    }
+    npc tmp;
+    std::string save_id = get_save_id();
+    // move avatar character data into shadow npc
+    swap_character( *shadow_npc, tmp );
+    // swap target npc with shadow npc
+    swap_npc( *shadow_npc, np, tmp );
+    // move shadow npc character data into avatar
+    swap_character( *shadow_npc, tmp );
+    set_save_id( save_id );
+    np.onswapsetpos( np.pos() );
+    // the avatar character is no longer a follower NPC
+    g->remove_npc_follower( getID() );
+    // the previous avatar character is now a follower
+    g->add_npc_follower( np.getID() );
+    np.set_fac( faction_id( "your_followers" ) );
+    // perception and mutations may have changed, so reset light level caches
+    g->reset_light_level();
+    // center the map on the new avatar character
+    g->vertical_shift( posz() );
+    g->update_map( *this );
+}
 
 void avatar::toggle_map_memory()
 {
@@ -1131,7 +1172,14 @@ void avatar::set_movement_mode( character_movemode new_mode )
                     add_msg( _( "You nudge your steed into a steady trot." ) );
                 }
             } else {
-                add_msg( _( "You start walking." ) );
+                // Spend moves to stand up if crouched, otherwise just stop running.
+                if( move_mode == CMM_CROUCH ) {
+                    mod_moves( -100 );
+                    recoil = MAX_RECOIL;
+                    add_msg( _( "You stand up." ) );
+                } else {
+                    add_msg( _( "You start walking." ) );
+                }
             }
             break;
         }
@@ -1147,7 +1195,14 @@ void avatar::set_movement_mode( character_movemode new_mode )
                         add_msg( _( "You spur your steed into a gallop." ) );
                     }
                 } else {
-                    add_msg( _( "You start running." ) );
+                    // Spend moves to stand up if crouched, otherwise just stop running.
+                    if( move_mode == CMM_CROUCH ) {
+                        mod_moves( -100 );
+                        recoil = MAX_RECOIL;
+                        add_msg( _( "You stand up and start running." ) );
+                    } else {
+                        add_msg( _( "You start running." ) );
+                    }
                 }
             } else {
                 if( is_mounted() ) {
@@ -1170,6 +1225,11 @@ void avatar::set_movement_mode( character_movemode new_mode )
                     add_msg( _( "You slow your steed to a walk." ) );
                 }
             } else {
+                // Don't spend moves if we were already crouching.
+                if( move_mode != CMM_CROUCH ) {
+                    recoil = MAX_RECOIL;
+                    mod_moves( -100 );
+                }
                 add_msg( _( "You start crouching." ) );
             }
             break;
@@ -1305,8 +1365,12 @@ detached_ptr<item> avatar::wield( detached_ptr<item> &&target )
 
 bool avatar::invoke_item( item *used, const tripoint &pt )
 {
-    const std::map<std::string, use_function> &use_methods = used->type->use_methods;
-
+    std::map<std::string, use_function> use_methods;
+    use_methods.insert( used->type->use_methods.begin(), used->type->use_methods.end() );
+    // Make sure the flag is that of the mod, not of the item being used :P
+    if( used->has_flag( flag_ADD_UPS_TOGGLE ) && !used->type->has_flag( flag_ADD_UPS_TOGGLE ) ) {
+        use_methods["TOGGLE_UPS_CHARGING"] = item_controller->usage_from_string( "TOGGLE_UPS_CHARGING" );
+    }
     if( use_methods.empty() ) {
         return false;
     } else if( use_methods.size() == 1 ) {

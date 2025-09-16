@@ -79,6 +79,8 @@ static const efftype_id effect_npc_suspend( "npc_suspend" );
 static const efftype_id effect_pet( "pet" );
 static const efftype_id effect_sleep( "sleep" );
 
+static const flag_id flag_BIONIC_WEAPON( "BIONIC_WEAPON" );
+
 static const mtype_id mon_chicken( "mon_chicken" );
 static const mtype_id mon_cow( "mon_cow" );
 static const mtype_id mon_horse( "mon_horse" );
@@ -692,7 +694,7 @@ void talk_function::deny_lead( npc &p )
 
 void talk_function::deny_equipment( npc &p )
 {
-    p.add_effect( effect_asked_for_item, 1_hours );
+    p.add_effect( effect_asked_for_item, 6_hours );
 }
 
 void talk_function::deny_train( npc &p )
@@ -813,7 +815,18 @@ void talk_function::player_weapon_away( npc &/*p*/ )
 
 void talk_function::player_weapon_drop( npc &/*p*/ )
 {
-    get_map().add_item_or_charges( g->u.pos(), g->u.remove_primary_weapon() );
+    for( item *weapon : g->u.wielded_items() ) {
+        const auto ret = g->u.can_unwield( *weapon );
+        if( ret.success() ) {
+            get_map().add_item_or_charges( g->u.pos(), g->u.remove_primary_weapon() );
+        }
+    }
+
+    for( bionic &i : *g->u.my_bionics ) {
+        if( i.powered && i.info().has_flag( flag_BIONIC_WEAPON ) ) {
+            g->u.deactivate_bionic( i );
+        }
+    }
 }
 
 void talk_function::lead_to_safety( npc &p )

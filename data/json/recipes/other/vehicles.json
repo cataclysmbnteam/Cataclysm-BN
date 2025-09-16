@@ -842,56 +842,6 @@
     "components": [ [ [ "autodoc_couch", 1 ] ], [ [ "cable", 2 ] ], [ [ "power_supply", 2 ] ] ]
   },
   {
-    "result": "washing_machine",
-    "type": "recipe",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_VEHICLE",
-    "skill_used": "fabrication",
-    "skills_required": [ "mechanics", 5 ],
-    "difficulty": 5,
-    "time": "3 h",
-    "book_learn": [ [ "textbook_fabrication", 6 ], [ "textbook_mechanics", 5 ] ],
-    "using": [ [ "welding_standard", 5 ] ],
-    "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "SAW_M", "level": 2 }, { "id": "DRILL", "level": 2 } ],
-    "components": [
-      [ [ "sheet_metal", 3 ] ],
-      [ [ "wire", 6 ] ],
-      [ [ "hose", 1 ], [ "makeshift_hose", 1 ] ],
-      [ [ "e_scrap", 3 ] ],
-      [ [ "circuit", 1 ] ],
-      [ [ "scrap", 4 ] ],
-      [ [ "steel_chunk", 2 ] ],
-      [ [ "metal_tank", 1 ] ],
-      [ [ "motor_small", 1 ] ]
-    ],
-    "byproducts": [ [ "scrap", 6 ] ]
-  },
-  {
-    "result": "dishwasher",
-    "type": "recipe",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_VEHICLE",
-    "skill_used": "fabrication",
-    "skills_required": [ "mechanics", 5 ],
-    "difficulty": 5,
-    "time": "3 h",
-    "book_learn": [ [ "textbook_fabrication", 6 ], [ "textbook_mechanics", 5 ] ],
-    "using": [ [ "welding_standard", 5 ] ],
-    "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "SAW_M", "level": 2 }, { "id": "DRILL", "level": 2 } ],
-    "components": [
-      [ [ "sheet_metal", 3 ] ],
-      [ [ "wire", 6 ] ],
-      [ [ "hose", 1 ], [ "makeshift_hose", 1 ] ],
-      [ [ "e_scrap", 3 ] ],
-      [ [ "circuit", 1 ] ],
-      [ [ "scrap", 4 ] ],
-      [ [ "steel_chunk", 2 ] ],
-      [ [ "metal_tank", 1 ] ],
-      [ [ "motor_tiny", 1 ] ]
-    ],
-    "byproducts": [ [ "scrap", 6 ] ]
-  },
-  {
     "result": "wheel_caster",
     "type": "recipe",
     "category": "CC_OTHER",
@@ -1292,7 +1242,8 @@
     "time": "20 m",
     "autolearn": true,
     "using": [ [ "steel_standard", 20 ] ],
-    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 50 ] ] ]
+    "qualities": [ { "id": "CONTAIN_HOT", "level": 1 } ],
+    "tools": [ [ [ "forge", 50 ] ] ]
   },
   {
     "type": "recipe",
@@ -1306,7 +1257,8 @@
     "time": "50 m",
     "autolearn": true,
     "using": [ [ "steel_standard", 100 ] ],
-    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 50 ] ] ]
+    "qualities": [ { "id": "CONTAIN_HOT", "level": 1 } ],
+    "tools": [ [ [ "forge", 50 ] ] ]
   },
   {
     "type": "recipe",
@@ -1831,8 +1783,7 @@
     "difficulty": 4,
     "time": "3 h",
     "autolearn": true,
-    "using": [ [ "blacksmithing_intermediate", 20 ], [ "steel_standard", 5 ] ],
-    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ]
+    "using": [ [ "blacksmithing_intermediate", 20 ], [ "steel_standard", 5 ] ]
   },
   {
     "type": "recipe",
@@ -2031,5 +1982,103 @@
     "batch_time_factors": [ 60, 1 ],
     "using": [ [ "3d_printing_standard", 20 ], [ "rope_natural", 4 ] ],
     "components": [ [ [ "carbon_fiber_filament", 400 ], [ "frame_carbon", 2 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "pulley_crane_small_wood",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_VEHICLE",
+    "skill_used": "fabrication",
+    "skills_required": [ "survival", 4 ],
+    "difficulty": 4,
+    "time": "2 h",
+    "reversible": true,
+    "decomp_learn": 3,
+    "autolearn": true,
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "DRILL", "level": 1 }, { "id": "SAW_W", "level": 2 } ],
+    "components": [
+      [ [ "frame_wood", 1 ] ],
+      [ [ "wheel_wood", 1 ] ],
+      [ [ "rope_natural", 1, "LIST" ] ],
+      [ [ "nail_glue", 25, "LIST" ] ],
+      [ [ "fabric_hides_proper", 4, "LIST" ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "airship_balloon_item",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_VEHICLE",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "skills_required": [ "tailor", 4 ],
+    "time": "1 h",
+    "autolearn": true,
+    "using": [ [ "sewing_standard", 50 ], [ "adhesive", 5 ] ],
+    "//": "Relisitically you'd need a LOT more hydrogen, but fudgd for gameplay purposes.",
+    "components": [ [ [ "c_hydrogen_gas", 50 ] ], [ [ "plastic_sheet", 2 ], [ "tarp", 2 ], [ "bag_body_bag", 2 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "wing_metal_item",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_VEHICLE",
+    "skill_used": "fabrication",
+    "skills_required": [ "mechanics", 4 ],
+    "difficulty": 6,
+    "time": "24 m",
+    "book_learn": [
+      [ "textbook_fabrication", 5 ],
+      [ "welding_book", 5 ],
+      [ "textbook_mechanics", 4 ],
+      [ "manual_mechanics", 4 ],
+      [ "reference_fabrication1", 5 ]
+    ],
+    "using": [ [ "welding_standard", 12 ] ],
+    "components": [
+      [ [ "pipe", 4 ], [ "foldframe", 1 ] ],
+      [ [ "sheet_metal", 2 ], [ "sheet_metal_small", 48 ] ],
+      [ [ "sheet_metal_small", 12 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "lit_wing_metal_item",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_LIGHTING",
+    "skill_used": "electronics",
+    "difficulty": 1,
+    "time": "15 m",
+    "book_learn": [ [ "manual_electronics", 1 ], [ "mag_electronics", 1 ] ],
+    "using": [ [ "soldering_standard", 5 ] ],
+    "components": [
+      [ [ "wing_metal_item", 1 ] ],
+      [ [ "lightstrip_inactive", 1 ], [ "light_bulb", 1 ] ],
+      [ [ "cable", 10 ] ],
+      [ [ "plastic_chunk", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "metal_propeller_item",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_VEHICLE",
+    "skill_used": "fabrication",
+    "skills_required": [ "mechanics", 5 ],
+    "difficulty": 7,
+    "time": "1 h",
+    "reversible": true,
+    "decomp_learn": 5,
+    "book_learn": [
+      [ "textbook_fabrication", 6 ],
+      [ "welding_book", 6 ],
+      [ "book_icef", 4 ],
+      [ "textbook_mechanics", 4 ],
+      [ "manual_mechanics", 4 ],
+      [ "reference_fabrication1", 6 ]
+    ],
+    "using": [ [ "welding_standard", 25 ], [ "steel_standard", 5 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
+    "components": [ [ [ "sheet_metal", 2 ], [ "sheet_metal_small", 48 ] ], [ [ "pipe", 6 ] ], [ [ "chain", 1 ] ] ]
   }
 ]

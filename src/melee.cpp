@@ -19,6 +19,7 @@
 #include "bionics.h"
 #include "cached_options.h"
 #include "calendar.h"
+#include "catalua_hooks.h"
 #include "cata_utility.h"
 #include "character.h"
 #include "character_functions.h"
@@ -34,6 +35,8 @@
 #include "item.h"
 #include "item_contents.h"
 #include "itype.h"
+#include "iuse.h"
+#include "iuse_actor.h"
 #include "line.h"
 #include "magic_enchantment.h"
 #include "map.h"
@@ -479,6 +482,7 @@ void Character::melee_attack( Creature &t, bool allow_special, const matec_id *f
     item &cur_weapon = allow_unarmed ? used_weapon() : primary_weapon();
     const attack_statblock &attack = melee::pick_attack( *this, cur_weapon, t );
     int hit_spread = t.deal_melee_attack( this, hit_roll( cur_weapon, attack ) );
+    const bool attack_hit = hit_spread >= 0;
 
     if( cur_weapon.attack_cost() > attack_cost( cur_weapon ) * 20 ) {
         add_msg( m_bad, _( "This weapon is too unwieldy to attack with!" ) );
@@ -487,7 +491,7 @@ void Character::melee_attack( Creature &t, bool allow_special, const matec_id *f
 
     int move_cost = attack_cost( cur_weapon );
 
-    if( hit_spread < 0 ) {
+    if( !attack_hit ) {
         int stumble_pen = stumble( *this, cur_weapon );
         sfx::generate_melee_sound( pos(), t.pos(), false, false );
         if( is_player() ) { // Only display messages if this is the player
@@ -673,7 +677,13 @@ void Character::melee_attack( Creature &t, bool allow_special, const matec_id *f
         dealt_projectile_attack dp = dealt_projectile_attack();
         t.as_character()->on_hit( this, bodypart_str_id::NULL_ID().id(), &dp );
     }
-    return;
+
+    cata::run_hooks( "on_creature_melee_attacked", [ &, this]( auto & params ) {
+        params["char"] = this;
+        params["target"] = &t;
+        params["success"] = attack_hit;
+    } );
+
 }
 
 void Character::reach_attack( const tripoint &p )
@@ -1635,6 +1645,14 @@ void Character::perform_technique( const ma_technique &technique, Creature &t, d
             martial_arts_data->learn_current_style_CQB( is_player() );
         }
     }
+
+    cata::run_hooks( "on_creature_performed_technique", [ &, this]( auto & params ) {
+        params["char"] = this;
+        params["technique"] = &technique;
+        params["target"] = &t;
+        params["damage_instance"] = &di;
+        params["move_cost"] = move_cost;
+    } );
 }
 
 static int blocking_ability( const item &shield )
@@ -1896,6 +1914,14 @@ bool Character::block_hit( Creature *source, bodypart_id &bp_hit, damage_instanc
             melee_attack( *source, false, &tec );
         }
     }
+
+    cata::run_hooks( "on_creature_blocked", [ &, this]( auto & params ) {
+        params["char"] = this;
+        params["source"] = source;
+        params["bodypart_id"] = bp_hit;
+        params["damage_instance"] = dam;
+        params["damage_blocked"] = damage_blocked;
+    } );
 
     return true;
 }
@@ -2425,25 +2451,43 @@ double npc_ai::weapon_value( const Character &who, const item &weap, int ammo )
 
 double npc_ai::melee_value( const Character &who, const item &weap )
 {
-    // start with average effective dps against a range of enemies
-    double my_value = weap.average_dps( *who.as_player(), melee::default_attack( weap ) );
+    item &weapon = *item::spawn_temporary( weap );
+    if( weapon.has_flag( flag_COMBAT_NPC_USE ) && !weapon.has_flag( flag_COMBAT_NPC_ON ) ) {
+        if( weapon.get_use( "transform" ) ) {
+            const use_function *use = weapon.type->get_use( "transform" );
+            if( use->can_call( who, weapon, false, who.pos() ).success() ) {
+                // Stolen from item.cpp
+                weapon.convert( dynamic_cast<const iuse_transform *>
+                                ( use->get_actor_ptr() )->target );
+            }
+        } else if( weapon.get_use( "fireweapon_off" ) ) {
+            const use_function *use = weapon.type->get_use( "fireweapon_off" );
+            if( use->can_call( who, weapon, false, who.pos() ).success() ) {
+                weapon.convert( dynamic_cast<const fireweapon_off_actor *>
+                                ( use->get_actor_ptr() )->target_id );
+            }
+        }
 
-    float reach = weap.reach_range( who );
+    }
+    // start with average effective dps against a range of enemies
+    double my_value = weapon.average_dps( *who.as_player(), melee::default_attack( weapon ) );
+
+    float reach = weapon.reach_range( who );
     // value reach weapons more
     if( reach > 1.0f ) {
         my_value *= 1.0f + 0.5f * ( std::sqrt( reach ) - 1.0f );
     }
     // value polearms less to account for the trickiness of keeping the right range
-    if( weap.has_flag( flag_POLEARM ) ) {
+    if( weapon.has_flag( flag_POLEARM ) ) {
         my_value *= 0.8;
     }
 
     // value style weapons more
-    if( !who.martial_arts_data->enumerate_known_styles( weap.type->get_id() ).empty() ) {
+    if( !who.martial_arts_data->enumerate_known_styles( weapon.type->get_id() ).empty() ) {
         my_value *= 1.5;
     }
 
-    add_msg( m_debug, "%s as melee: %.1f", weap.type->get_id().str(), my_value );
+    add_msg( m_debug, "%s as melee: %.1f", weapon.type->get_id().str(), my_value );
 
     return std::max( 0.0, my_value );
 }

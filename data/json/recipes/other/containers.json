@@ -212,8 +212,7 @@
     "difficulty": 3,
     "time": "30 m",
     "autolearn": true,
-    "using": [ [ "blacksmithing_intermediate", 1 ], [ "steel_tiny", 1 ] ],
-    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ]
+    "using": [ [ "blacksmithing_intermediate", 1 ], [ "steel_tiny", 1 ] ]
   },
   {
     "type": "recipe",
@@ -224,8 +223,7 @@
     "difficulty": 3,
     "time": "30 m",
     "autolearn": true,
-    "using": [ [ "blacksmithing_intermediate", 1 ], [ "steel_tiny", 1 ] ],
-    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ]
+    "using": [ [ "blacksmithing_intermediate", 1 ], [ "steel_tiny", 1 ] ]
   },
   {
     "type": "recipe",
@@ -266,8 +264,7 @@
     "difficulty": 4,
     "time": "3 h",
     "autolearn": true,
-    "using": [ [ "blacksmithing_intermediate", 64 ], [ "steel_standard", 16 ] ],
-    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ]
+    "using": [ [ "blacksmithing_intermediate", 64 ], [ "steel_standard", 16 ] ]
   },
   {
     "type": "recipe",
@@ -279,8 +276,7 @@
     "difficulty": 4,
     "time": "2 h",
     "autolearn": true,
-    "using": [ [ "blacksmithing_intermediate", 40 ], [ "steel_standard", 10 ] ],
-    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ]
+    "using": [ [ "blacksmithing_intermediate", 40 ], [ "steel_standard", 10 ] ]
   },
   {
     "type": "recipe",
@@ -533,8 +529,7 @@
     "difficulty": 4,
     "time": "90 m",
     "autolearn": true,
-    "using": [ [ "blacksmithing_intermediate", 30 ], [ "steel_standard", 8 ] ],
-    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ]
+    "using": [ [ "blacksmithing_intermediate", 30 ], [ "steel_standard", 8 ] ]
   },
   {
     "type": "recipe",

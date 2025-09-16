@@ -1506,7 +1506,8 @@ bool monster::bash_at( const tripoint &p )
         return false;
     }
 
-    bool can_bash = g->m.is_bashable( p ) && bash_skill() > 0;
+    // Tamed monsters won't wreck your stuff.
+    bool can_bash = g->m.is_bashable( p ) && bash_skill() > 0 && !is_pet();
     if( !can_bash ) {
         return false;
     }

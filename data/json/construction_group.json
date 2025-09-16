@@ -341,8 +341,18 @@
   },
   {
     "type": "construction_group",
-    "id": "build_junk_metal_floor",
+    "id": "build_junk_metal_door",
+    "name": "Build Junk Metal Door"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_junk_metal_floor_noroof",
     "name": "Build Junk Metal Floor"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_junk_metal_floor",
+    "name": "Build Junk Metal Roof Over Floor"
   },
   {
     "type": "construction_group",
@@ -738,6 +748,11 @@
     "type": "construction_group",
     "id": "build_wood_wall",
     "name": "Build Wood Wall"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_treasure_chest",
+    "name": "Build Wooden Chest"
   },
   {
     "type": "construction_group",
@@ -1563,5 +1578,15 @@
     "type": "construction_group",
     "id": "build_adobe_roof",
     "name": "Build Roof Over Adobe Floor"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_bathtub_money",
+    "name": "Fill Bathtub with Money"
+  },
+  {
+    "type": "construction_group",
+    "id": "remove_bathtub_money",
+    "name": "Remove Money from Bathtub"
   }
 ]

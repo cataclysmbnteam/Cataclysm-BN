@@ -437,7 +437,7 @@
     "seals": true,
     "watertight": true,
     "armor_data": { "covers": [ "torso" ], "coverage": 15, "storage": "1 L", "material_thickness": 1 },
-    "flags": [ "BELTED" ]
+    "flags": [ "BELTED", "ALLOWS_WINGS" ]
   },
   {
     "id": "can_drink",
@@ -597,7 +597,7 @@
     "seals": true,
     "watertight": true,
     "armor_data": { "covers": [ "leg_either" ], "coverage": 5, "encumbrance": 2, "material_thickness": 2 },
-    "flags": [ "WAIST", "COMPACT", "OVERSIZE", "WATER_FRIENDLY" ]
+    "flags": [ "WAIST", "COMPACT", "OVERSIZE", "WATER_FRIENDLY", "ALLOWS_TAIL_SNAKE" ]
   },
   {
     "id": "power_armor_canteen",
@@ -834,7 +834,7 @@
     "watertight": true,
     "armor_data": { "covers": [ "leg_either" ], "coverage": 2, "material_thickness": 1 },
     "qualities": [ [ "BOIL", 1 ] ],
-    "flags": [ "WAIST", "COMPACT", "OVERSIZE", "WATER_FRIENDLY" ]
+    "flags": [ "WAIST", "COMPACT", "OVERSIZE", "WATER_FRIENDLY", "ALLOWS_TAIL_SNAKE" ]
   },
   {
     "id": "jar_3l_glass",
@@ -1111,7 +1111,7 @@
     "seals": true,
     "watertight": true,
     "armor_data": { "covers": [ "torso" ], "coverage": 5, "encumbrance": 5, "material_thickness": 2 },
-    "flags": [ "WAIST", "COMPACT", "WATER_FRIENDLY" ]
+    "flags": [ "WAIST", "COMPACT", "WATER_FRIENDLY", "ALLOWS_WINGS" ]
   },
   {
     "id": "stomach_sealed",
@@ -1153,7 +1153,7 @@
     "seals": true,
     "watertight": true,
     "armor_data": { "covers": [ "leg_either" ], "coverage": 5, "material_thickness": 2 },
-    "flags": [ "WAIST", "COMPACT", "WATER_FRIENDLY" ]
+    "flags": [ "WAIST", "COMPACT", "WATER_FRIENDLY", "ALLOWS_TAIL_SNAKE" ]
   },
   {
     "id": "waterskin2",
@@ -1175,7 +1175,7 @@
     "seals": true,
     "watertight": true,
     "armor_data": { "covers": [ "torso" ], "coverage": 10, "material_thickness": 2 },
-    "flags": [ "WAIST", "COMPACT", "WATER_FRIENDLY" ]
+    "flags": [ "WAIST", "COMPACT", "WATER_FRIENDLY", "ALLOWS_WINGS" ]
   },
   {
     "id": "waterskin3",
@@ -1197,7 +1197,7 @@
     "seals": true,
     "watertight": true,
     "armor_data": { "covers": [ "torso" ], "coverage": 15, "material_thickness": 2 },
-    "flags": [ "BELTED", "COMPACT", "WATER_FRIENDLY" ]
+    "flags": [ "BELTED", "COMPACT", "WATER_FRIENDLY", "ALLOWS_WINGS" ]
   },
   {
     "id": "wooden_barrel",

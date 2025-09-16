@@ -537,7 +537,6 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - `BLOCK_WIND` This terrain will block the effects of wind.
 - `BURROWABLE` Burrowing monsters can travel under this terrain, while most others can't (e.g.
   graboid will traverse under the chain link fence, while ordinary zombie will be stopped by it).
-- `BUTCHER_EQ` Butcher's equipment - required for full butchery of corpses.
 - `CAN_SIT` Furniture the player can sit on. Player sitting near furniture with the "FLAT_SURF" tag
   will get mood bonus for eating.
 - `CHIP` Used in construction menu to determine if wall can have paint chipped off.
@@ -715,6 +714,8 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
   it's active.
 - `BIONIC_GUN` ... This bionic is a gun bionic and activating it will fire it. Prevents all other
   activation effects.
+- `COMBAT_NPC_ON` ... The "on" state for Items that NPCs will use in combat
+- `COMBAT_NPC_USE` ... Items and CBMs that NPCs will activate when in combat
 - `CORPSE` ... Flag used to spawn various human corpses during the mapgen.
 - `DANGEROUS` ... NPCs will not accept this item. Explosion iuse actor implies this flag. Implies
   "NPC_THROW_NOW".
@@ -1391,6 +1392,7 @@ These branches are also the valid entries for the categories of `dreams` in `dre
 - `RISK_LOW` For NPC AI, this location is secluded and remote, and appears to be safe.
 - `GENERIC_LOOT` This is a place that may contain any of the above, but at a lower frequency -
   usually a house.
+- `IS_BRIDGE` Will be expanded to a bridge in mapgen, terrains with the id of this object followed by _under, _road, head_ground and head_ramp must be defined, and _center_under may also be defined.
 
 ## Recipes
 
@@ -1587,6 +1589,7 @@ Those flags are added by the game code to specific items (that specific welder, 
 - `ATOMIC_LIGHT`
 - `AUTOCLAVE` Acts as an autoclave.
 - `AUTOPILOT` This part will enable a vehicle to have a simple autopilot.
+- `BALLOON` Acts as a lifting balloon, requires the height field
 - `BATTERY_MOUNT`
 - `BED` A bed where the player can sleep.
 - `BEEPER` Generates noise when the vehicle moves backward.
@@ -1600,7 +1603,6 @@ Those flags are added by the game code to specific items (that specific welder, 
 - `CARGO_LOCKING` This cargo area is inaccessible to NPCs. Can only be installed on a part with
   `LOCKABLE_CARGO` flag.
 - `CARGO` Cargo holding area.
-- `CHEMLAB` Acts as a chemistry set for crafting.
 - `CHIMES` Generates continuous noise when used.
 - `CIRCLE_LIGHT` Projects a circular radius of light when turned on.
 - `CONE_LIGHT` Projects a cone of light when turned on.
@@ -1609,8 +1611,7 @@ Those flags are added by the game code to specific items (that specific welder, 
 - `CONTROLS` Can be used to control the vehicle.
 - `COOLER` There is separate command to toggle this part.
 - `COVERED` Prevents items in cargo parts from emitting any light.
-- `CRAFTRIG` Acts as a dehydrator, vacuum sealer and reloading press for crafting purposes.
-  Potentially to include additional tools in the future.
+- `CRAFTER` Allows integrated tools to be defined under the "integrated_tools" list-field
 - `CTRL_ELECTRONIC` Controls electrical and electronic systems of the vehicle.
 - `CONTROL_WITHOUT_HANDS` Allows you to fire two-handed weapons while driving. Can only be installed on a part with `STEERABLE` flag.
 - `CURTAIN` Can be installed over a part flagged with `WINDOW`, and functions the same as blinds
@@ -1631,6 +1632,7 @@ Those flags are added by the game code to specific items (that specific welder, 
   power). This is independent from reactor power production.
 - `ENGINE` Is an engine and contributes towards vehicle mechanical power.
 - `EVENTURN` Only on during even turns.
+- `EXTENDABLE` A protusion which can attach to other extendable protusions
 - `EXTENDS_VISION` Extends player vision (cameras, mirrors, etc.)
 - `EXTRA_DRAG` tells the vehicle that the part exerts engine power reduction.
 - `FAUCET`
@@ -1638,19 +1640,18 @@ Those flags are added by the game code to specific items (that specific welder, 
 - `FLOATS` Provide buoyancy to boats
 - `FLUIDTANK` Is a fluid tank.
 - `FOLDABLE`
-- `FORGE` Acts as a forge for crafting.
 - `FREEZER` Can freeze items in below zero degrees Celsius temperature.
 - `FRIDGE` Can refrigerate items.
 - `FUNNEL`
 - `HALF_CIRCLE_LIGHT` Projects a directed half-circular radius of light when turned on.
 - `HARNESS_bodytype` Replace bodytype with `any` to accept any type, or with the targeted type.
 - `HORN` Generates noise when used.
+- `HOTPLATE` Gives the hotplate action.
 - `INITIAL_PART` When starting a new vehicle via the construction menu, this vehicle part will be
   the initial part of the vehicle (if the used item matches the item required for this part). The
   items of parts with this flag are automatically added as component to the vehicle start
   construction.
 - `INTERNAL` Can only be installed on a part with `CARGO` flag.
-- `KITCHEN` Acts as a kitchen unit and heat source for crafting.
 - `LIGHT`
 - `LOCKABLE_CARGO` Cargo containers that are able to have a lock installed.
 - `MOUNTABLE` Player can fire mounted weapons from here.
@@ -1681,6 +1682,7 @@ Those flags are added by the game code to specific items (that specific welder, 
 - `PLOW` Tills the soil underneath the part while active. Takes damage from unsuitable terrain at a
   level proportional to the speed of the vehicle.
 - `POWER_TRANSFER` Transmits power to and from an attached thingy (probably a vehicle).
+- `PROPELLER` Part that is a propeller rotor, needs propeller_diameter field
 - `PROTRUSION` Part sticks out so no other parts can be installed over it.
 - `RAIL` This wheel allows vehicle to move on rails.
 - `REACTOR` When enabled, part consumes fuel to generate epower.
@@ -1728,12 +1730,13 @@ Those flags are added by the game code to specific items (that specific welder, 
 - `VARIABLE_SIZE` Has 'bigness' for power, wheel radius, etc.
 - `VISION`
 - `WATER_WHEEL` Recharges vehicle batteries when in flowing water.
-- `WELDRIG` Acts as a welder for crafting.
+- `WELDRIG` Gives the welding repair action
 - `WHEEL` Counts as a wheel in wheel calculations.
 - `WIDE_CONE_LIGHT` Projects a wide cone of light when turned on.
 - `WIND_POWERED` This engine is powered by wind ( sails etc ).
 - `WIND_TURBINE` Recharges vehicle batteries when exposed to wind.
 - `WINDOW` Can see through this part and can install curtains over it.
+- `WING` Part that is an aircraft wing, needs lift_coff field
 - `WORKBENCH` Can craft at this part, must be paired with a workbench json entry.
 
 ### Vehicle parts requiring other vehicle parts

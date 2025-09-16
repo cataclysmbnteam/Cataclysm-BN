@@ -47,12 +47,12 @@
     "repairs_like": "boots_larmor",
     "type": "ARMOR",
     "name": { "str": "pair of fishing waders", "str_pl": "pairs of fishing waders" },
-    "description": "Waterproof plastic fishing waders with a single large front pocket.",
+    "description": "Waterproof fishing waders with a single large front pocket.",
     "weight": "1360 g",
     "volume": "9500 ml",
     "price": "100 USD",
     "price_postapoc": "50 cent",
-    "material": [ "plastic" ],
+    "material": [ "rubber" ],
     "symbol": "[",
     "looks_like": "pants_ski",
     "color": "green",
@@ -63,7 +63,7 @@
     "warmth": 5,
     "material_thickness": 2,
     "environmental_protection": 6,
-    "flags": [ "VARSIZE", "WATERPROOF" ]
+    "flags": [ "VARSIZE", "WATERPROOF", "ALLOWS_WINGS" ]
   },
   {
     "id": "hot_pants",
@@ -186,7 +186,7 @@
     "storage": "250 ml",
     "warmth": 20,
     "material_thickness": 3,
-    "flags": [ "VARSIZE" ]
+    "flags": [ "VARSIZE", "ALLOWS_TAIL_SNAKE" ]
   },
   {
     "id": "kilt_leather",
@@ -206,7 +206,7 @@
     "storage": "250 ml",
     "warmth": 10,
     "material_thickness": 3,
-    "flags": [ "VARSIZE" ]
+    "flags": [ "VARSIZE", "ALLOWS_TAIL_SNAKE" ]
   },
   {
     "id": "leggings",
@@ -243,7 +243,7 @@
     "covers": [ "legs" ],
     "coverage": 5,
     "material_thickness": 1,
-    "flags": [ "VARSIZE", "SKINTIGHT", "OVERSIZE" ]
+    "flags": [ "VARSIZE", "SKINTIGHT", "OVERSIZE", "ALLOWS_TAIL_SNAKE" ]
   },
   {
     "id": "loincloth_fur",
@@ -262,7 +262,7 @@
     "coverage": 5,
     "warmth": 5,
     "material_thickness": 1,
-    "flags": [ "VARSIZE", "SKINTIGHT", "OVERSIZE" ]
+    "flags": [ "VARSIZE", "SKINTIGHT", "OVERSIZE", "ALLOWS_TAIL_SNAKE" ]
   },
   {
     "id": "loincloth_leather",
@@ -280,7 +280,7 @@
     "covers": [ "legs" ],
     "coverage": 5,
     "material_thickness": 2,
-    "flags": [ "VARSIZE", "SKINTIGHT", "OVERSIZE" ]
+    "flags": [ "VARSIZE", "SKINTIGHT", "OVERSIZE", "ALLOWS_TAIL_SNAKE" ]
   },
   {
     "id": "loincloth_wool",
@@ -299,7 +299,7 @@
     "coverage": 5,
     "warmth": 5,
     "material_thickness": 1,
-    "flags": [ "VARSIZE", "SKINTIGHT", "OVERSIZE" ]
+    "flags": [ "VARSIZE", "SKINTIGHT", "OVERSIZE", "ALLOWS_TAIL_SNAKE" ]
   },
   {
     "id": "nanoskirt",
@@ -318,7 +318,7 @@
     "covers": [ "legs" ],
     "coverage": 7,
     "material_thickness": 1,
-    "flags": [ "VARSIZE", "FANCY" ]
+    "flags": [ "VARSIZE", "FANCY", "ALLOWS_TAIL_SNAKE" ]
   },
   {
     "id": "pants",
@@ -596,7 +596,7 @@
     "storage": "250 ml",
     "warmth": 5,
     "material_thickness": 1,
-    "flags": [ "VARSIZE" ]
+    "flags": [ "VARSIZE", "ALLOWS_TAIL_SNAKE" ]
   },
   {
     "id": "skirt_leather",
@@ -617,7 +617,7 @@
     "encumbrance": 10,
     "warmth": 10,
     "material_thickness": 1,
-    "flags": [ "VARSIZE" ]
+    "flags": [ "VARSIZE", "ALLOWS_TAIL_SNAKE" ]
   },
   {
     "id": "striped_pants",

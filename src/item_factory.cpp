@@ -999,9 +999,7 @@ void Item_factory::init()
     add_iuse( "MININUKE", &iuse::mininuke );
     add_iuse( "MOLOTOV_LIT", &iuse::molotov_lit );
     add_iuse( "MOP", &iuse::mop );
-    add_iuse( "MP3", &iuse::mp3 );
     add_iuse( "MP3_ON", &iuse::mp3_on );
-    add_iuse( "MULTICOOKER", &iuse::multicooker );
     add_iuse( "MYCUS", &iuse::mycus );
     add_iuse( "NOISE_EMITTER_OFF", &iuse::noise_emitter_off );
     add_iuse( "NOISE_EMITTER_ON", &iuse::noise_emitter_on );
@@ -1066,6 +1064,7 @@ void Item_factory::init()
     add_iuse( "WEAK_ANTIBIOTIC", &iuse::weak_antibiotic );
     add_iuse( "WEATHER_TOOL", &iuse::weather_tool );
     add_iuse( "XANAX", &iuse::xanax );
+    add_iuse( "BULLET_VIBE_ON", &iuse::bullet_vibe_on );
 
     // Obsolete - just dummies, won't be called
     add_iuse( "HOTPLATE", &iuse::toggle_heats_food );
@@ -1112,6 +1111,9 @@ void Item_factory::init()
     add_actor( std::make_unique<weigh_self_actor>() );
     add_actor( std::make_unique<gps_device_actor>() );
     add_actor( std::make_unique<sew_advanced_actor>() );
+    add_actor( std::make_unique<multicooker_iuse>() );
+    add_actor( std::make_unique<sex_toy_actor>() );
+    add_actor( std::make_unique<iuse_music_player>() );
 
     // An empty dummy group, it will not spawn anything. However, it makes that item group
     // id valid, so it can be used all over the place without need to explicitly check for it.
@@ -2083,6 +2085,7 @@ void Item_factory::load( islot_tool &slot, const JsonObject &jo, const std::stri
     } else if( jo.has_string( "ammo" ) ) {
         slot.ammo_id.insert( ammotype( jo.get_string( "ammo" ) ) );
     }
+    assign( jo, "default_ammo", slot.default_ammo, strict );
     assign( jo, "max_charges", slot.max_charges, strict, 0 );
     assign( jo, "initial_charges", slot.def_charges, strict, 0 );
     assign( jo, "charges_per_use", slot.charges_per_use, strict, 0 );
@@ -2092,6 +2095,8 @@ void Item_factory::load( islot_tool &slot, const JsonObject &jo, const std::stri
     assign( jo, "revert_to", slot.revert_to, strict );
     assign( jo, "revert_msg", slot.revert_msg, strict );
     assign( jo, "sub", slot.subtype, strict );
+    assign( jo, "ups_eff_mult", slot.ups_eff_mult, strict );
+    assign( jo, "ups_recharge_rate", slot.ups_recharge_rate, strict );
 
     if( jo.has_array( "rand_charges" ) ) {
         if( jo.has_member( "initial_charges" ) ) {
@@ -3235,9 +3240,14 @@ void Item_factory::load_item_group( const JsonObject &jsobj, const item_group_id
     } else if( subtype != "collection" ) {
         jsobj.throw_error( "unknown item group type", "subtype" );
     }
+    if( jsobj.has_bool( "purge" ) ) {
+        if( jsobj.get_bool( "purge" ) ) {
+            isd = nullptr;
+        }
+    }
+
     Item_group *ig = make_group_or_throw( group_id, isd, type, jsobj.get_int( "ammo", 0 ),
                                           jsobj.get_int( "magazine", 0 ) );
-
     if( subtype == "old" ) {
         for( const JsonValue entry : jsobj.get_array( "items" ) ) {
             if( entry.test_object() ) {
@@ -3279,6 +3289,18 @@ void Item_factory::load_item_group( const JsonObject &jsobj, const item_group_id
             } else {
                 JsonObject subobj = entry.get_object();
                 add_entry( *ig, subobj );
+            }
+        }
+    }
+    if( jsobj.has_member( "delete" ) ) {
+        for( const JsonValue entry : jsobj.get_array( "delete" ) ) {
+            if( entry.test_object() ) {
+                JsonObject obj = entry.get_object();
+                if( obj.has_member( "item" ) ) {
+                    ig->remove_specific_item( obj.get_string( "item" ) );
+                } else if( obj.has_member( "group" ) ) {
+                    ig->remove_specific_group( obj.get_string( "group" ) );
+                }
             }
         }
     }

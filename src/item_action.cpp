@@ -248,7 +248,7 @@ void game::item_action_menu()
 
     item_action_map iactions = gen.map_actions_to_items( u, pseudos );
     if( iactions.empty() ) {
-        popup( _( "You don't have any items with registered uses" ) );
+        popup( _( "You don't have any items with registered uses!" ) );
     }
 
     uilist kmenu;

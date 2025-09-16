@@ -117,9 +117,7 @@ static const efftype_id effect_downed( "downed" );
 static const efftype_id effect_hit_by_player( "hit_by_player" );
 static const efftype_id effect_on_roof( "on_roof" );
 
-static const itype_id itype_adv_UPS_off( "adv_UPS_off" );
 static const itype_id itype_UPS( "UPS" );
-static const itype_id itype_UPS_off( "UPS_off" );
 
 static const trap_str_id tr_practice_target( "tr_practice_target" );
 
@@ -555,9 +553,17 @@ double Creature::ranged_target_size() const
     if( const_cast<Creature &>( *this ).uncanny_dodge() ) {
         return 0.0;
     }
-    if( has_flag( MF_HARDTOSHOOT ) ) {
+    bool is_crouched = false;
+    if( Character *ch = const_cast<Creature &>( *this ).as_character() ) {
+        if( ch->movement_mode_is( CMM_CROUCH ) ) {
+            is_crouched = true;
+        }
+    }
+    if( has_flag( MF_HARDTOSHOOT ) || is_crouched ) {
         switch( get_size() ) {
             case creature_size::tiny:
+                // We can't be smaller than tiny, but we can make the hit rate lower.
+                return 0.05;
             case creature_size::small:
                 return occupied_tile_fraction( creature_size::tiny );
             case creature_size::medium:
@@ -2100,6 +2106,10 @@ dispersion_sources ranged::get_weapon_dispersion( const Character &who, const it
     dispersion.add_range( dispersion_from_skill( avgSkill, weapon_dispersion ) );
 
     if( who.has_bionic( bio_targeting ) ) {
+        dispersion.add_multiplier( 0.75 );
+    }
+    // If we're crouched, it's easier to steady our aim.
+    if( who.movement_mode_is( CMM_CROUCH ) ) {
         dispersion.add_multiplier( 0.75 );
     }
 
@@ -3963,8 +3973,7 @@ auto ranged::gunmode_checks_weapon( avatar &you, const map &m, std::vector<std::
             }
         }
         if( !is_mech_weapon ) {
-            if( !( you.has_charges( itype_UPS_off, ups_drain ) ||
-                   you.has_charges( itype_adv_UPS_off, adv_ups_drain ) ||
+            if( !( you.has_charges( itype_UPS, ups_drain )  ||
                    ( you.has_active_bionic( bio_ups ) &&
                      you.get_power_level() >= units::from_kilojoule( ups_drain ) ) ) ) {
                 messages.push_back( string_format(

@@ -1619,9 +1619,9 @@ struct dps_comp_data {
 
 static const std::vector<std::pair<translation, dps_comp_data>> dps_comp_monsters = {
     { to_translation( "Best" ), { mtype_id( "debug_mon" ), true, false } },
-    { to_translation( "Vs. Agile" ), { mtype_id( "mon_zombie_smoker" ), true, true } },
-    { to_translation( "Vs. Armored" ), { mtype_id( "mon_zombie_soldier" ), true, true } },
-    { to_translation( "Vs. Mixed" ), { mtype_id( "mon_zombie_survivor" ), false, true } },
+    { to_translation( "Vs. Agile" ), { mtype_id( "debug_mon_agile" ), true, true } },
+    { to_translation( "Vs. Armored" ), { mtype_id( "debug_mon_armored" ), true, true } },
+    { to_translation( "Vs. Mixed" ), { mtype_id( "debug_mon_mixed" ), false, true } },
 };
 
 std::map<std::string, double> item::dps( const bool for_display, const bool for_calc,
@@ -3256,6 +3256,11 @@ void item::tool_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
         if( !bionic_tool ) {
             info.emplace_back( "TOOL", "", tmp, iteminfo::no_flags, ammo_capacity() );
         }
+    }
+    if( type->tool->ups_eff_mult != 1 ) {
+        info.emplace_back( "TOOL", _( "UPS Efficiency Multiplier: " ),
+                           string_format( "<stat>%s</stat>", type->tool->ups_eff_mult ) );
+
     }
 }
 
@@ -5545,6 +5550,36 @@ int item::damage_melee( const attack_statblock &attack, damage_type dt ) const
         case DT_STAB:
             res += bonus_from_enchantments_wielded( res, enchant_vals::mod::ITEM_DAMAGE_STAB, true );
             break;
+        case DT_BULLET:
+            res += bonus_from_enchantments_wielded( res, enchant_vals::mod::ITEM_DAMAGE_BULLET, true );
+            break;
+        case DT_ACID:
+            res += bonus_from_enchantments_wielded( res, enchant_vals::mod::ITEM_DAMAGE_ACID, true );
+            break;
+        case DT_BIOLOGICAL:
+            res += bonus_from_enchantments_wielded( res, enchant_vals::mod::ITEM_DAMAGE_BIO, true );
+            break;
+        case DT_COLD:
+            res += bonus_from_enchantments_wielded( res, enchant_vals::mod::ITEM_DAMAGE_COLD, true );
+            break;
+        case DT_DARK:
+            res += bonus_from_enchantments_wielded( res, enchant_vals::mod::ITEM_DAMAGE_DARK, true );
+            break;
+        case DT_ELECTRIC:
+            res += bonus_from_enchantments_wielded( res, enchant_vals::mod::ITEM_DAMAGE_ELECTRIC, true );
+            break;
+        case DT_HEAT:
+            res += bonus_from_enchantments_wielded( res, enchant_vals::mod::ITEM_DAMAGE_FIRE, true );
+            break;
+        case DT_LIGHT:
+            res += bonus_from_enchantments_wielded( res, enchant_vals::mod::ITEM_DAMAGE_LIGHT, true );
+            break;
+        case DT_PSI:
+            res += bonus_from_enchantments_wielded( res, enchant_vals::mod::ITEM_DAMAGE_PSI, true );
+            break;
+        case DT_TRUE:
+            res += bonus_from_enchantments_wielded( res, enchant_vals::mod::ITEM_DAMAGE_TRUE, true );
+            break;
         default:
             break;
     }
@@ -5596,6 +5631,46 @@ std::map<std::string, attack_statblock> item::get_attacks() const
                     break;
                 case DT_STAB:
                     du.amount += bonus_from_enchantments_wielded( du.amount, enchant_vals::mod::ITEM_DAMAGE_STAB,
+                                 true );
+                    break;
+                case DT_BULLET:
+                    du.amount += bonus_from_enchantments_wielded( du.amount, enchant_vals::mod::ITEM_DAMAGE_BULLET,
+                                 true );
+                    break;
+                case DT_ACID:
+                    du.amount += bonus_from_enchantments_wielded( du.amount, enchant_vals::mod::ITEM_DAMAGE_ACID,
+                                 true );
+                    break;
+                case DT_BIOLOGICAL:
+                    du.amount += bonus_from_enchantments_wielded( du.amount, enchant_vals::mod::ITEM_DAMAGE_BIO,
+                                 true );
+                    break;
+                case DT_COLD:
+                    du.amount += bonus_from_enchantments_wielded( du.amount, enchant_vals::mod::ITEM_DAMAGE_COLD,
+                                 true );
+                    break;
+                case DT_DARK:
+                    du.amount += bonus_from_enchantments_wielded( du.amount, enchant_vals::mod::ITEM_DAMAGE_DARK,
+                                 true );
+                    break;
+                case DT_ELECTRIC:
+                    du.amount += bonus_from_enchantments_wielded( du.amount, enchant_vals::mod::ITEM_DAMAGE_ELECTRIC,
+                                 true );
+                    break;
+                case DT_HEAT:
+                    du.amount += bonus_from_enchantments_wielded( du.amount, enchant_vals::mod::ITEM_DAMAGE_FIRE,
+                                 true );
+                    break;
+                case DT_LIGHT:
+                    du.amount += bonus_from_enchantments_wielded( du.amount, enchant_vals::mod::ITEM_DAMAGE_LIGHT,
+                                 true );
+                    break;
+                case DT_PSI:
+                    du.amount += bonus_from_enchantments_wielded( du.amount, enchant_vals::mod::ITEM_DAMAGE_PSI,
+                                 true );
+                    break;
+                case DT_TRUE:
+                    du.amount += bonus_from_enchantments_wielded( du.amount, enchant_vals::mod::ITEM_DAMAGE_TRUE,
                                  true );
                     break;
                 default:
@@ -8147,6 +8222,8 @@ itype_id item::ammo_default( bool conversion ) const
 {
     if( is_magazine() ) {
         return type->magazine->default_ammo;
+    } else if( is_tool() && type->tool->default_ammo != itype_id::NULL_ID() ) {
+        return type->tool->default_ammo;
     }
 
     const std::set<ammotype> &atypes = ammo_types( conversion );
@@ -9218,17 +9295,20 @@ detached_ptr<item> item::use_charges( detached_ptr<item> &&self, const itype_id 
 
     auto handle_item = [&qty, &used, &pos, &what]( detached_ptr<item> &&e ) {
         if( e->is_tool() ) {
-            if( e->typeId() == what ) {
-                int n = std::min( e->ammo_remaining(), qty );
+            if( e->typeId() == what || ( what == itype_UPS && e->has_flag( flag_IS_UPS ) ) ) {
+                int ups_eff_mult = e->type->tool->ups_eff_mult;
+                int n = std::min( e->ammo_remaining() * ups_eff_mult, qty );
+                int rand_increase = x_in_y( n % ups_eff_mult, ups_eff_mult );
+                int really_used = ( n / ups_eff_mult ) + rand_increase;
                 qty -= n;
 
                 if( n == e->ammo_remaining() ) {
                     used.push_back( item::spawn( *e ) );
-                    e->ammo_consume( n, pos );
+                    e->ammo_consume( really_used, pos );
                 } else {
                     detached_ptr<item> split = item::spawn( *e );
-                    split->ammo_set( e->ammo_current(), n );
-                    e->ammo_consume( n, pos );
+                    split->ammo_set( e->ammo_current(), really_used );
+                    e->ammo_consume( really_used, pos );
                     used.push_back( std::move( split ) );
                 }
             }

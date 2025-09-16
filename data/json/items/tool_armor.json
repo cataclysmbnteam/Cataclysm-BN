@@ -90,7 +90,7 @@
     "encumbrance": 35,
     "warmth": 10,
     "material_thickness": 3,
-    "flags": [ "BELTED", "WATER_FRIENDLY", "NO_SALVAGE" ],
+    "flags": [ "BELTED", "WATER_FRIENDLY", "NO_SALVAGE", "ALLOWS_WINGS" ],
     "use_action": { "type": "unpack", "group": "gobag_contents" }
   },
   {
@@ -134,7 +134,7 @@
     "price": "250 USD",
     "price_postapoc": "50 cent",
     "encumbrance": 140,
-    "flags": [ "OVERSIZE", "WATER_FRIENDLY", "OUTER", "SPLINT" ]
+    "flags": [ "OVERSIZE", "WATER_FRIENDLY", "OUTER", "SPLINT", "ALLOWS_TAIL_SNAKE" ]
   },
   {
     "id": "miner_hat",
@@ -246,7 +246,7 @@
     "encumbrance": 60,
     "material_thickness": 2,
     "qualities": [ [ "GLARE", 2 ] ],
-    "flags": [ "SUN_GLASSES", "FLASH_PROTECTION" ]
+    "flags": [ "SUN_GLASSES", "FLASH_PROTECTION", "ALLOWS_NATURAL_ATTACKS", "ALLOWS_HORNS" ]
   },
   {
     "id": "welding_mask_crude_raised",
@@ -271,7 +271,8 @@
     "warmth": 5,
     "encumbrance": 60,
     "material_thickness": 2,
-    "coverage": 30
+    "coverage": 30,
+    "flags": [ "ALLOWS_NATURAL_ATTACKS", "ALLOWS_HORNS" ]
   },
   {
     "id": "welding_mask_raised",
@@ -363,7 +364,7 @@
     "material_thickness": 1,
     "environmental_protection": 4,
     "use_action": "DIRECTIONAL_HOLOGRAM",
-    "flags": [ "OVERSIZE", "HOOD", "WATERPROOF", "OUTER" ]
+    "flags": [ "OVERSIZE", "HOOD", "WATERPROOF", "OUTER", "ALLOWS_TAIL_SNAKE" ]
   },
   {
     "type": "TOOL_ARMOR",
@@ -839,7 +840,18 @@
     "color": "dark_gray",
     "name": { "str": "RM13 combat armor" },
     "description": "Internally powered by a maximum of ten plutonium fuel cells, this full-body suit of sleek black military armor represents the pinnacle of Rivtech's non-rigid powered armor technology.  Use it to turn it on.",
-    "flags": [ "VARSIZE", "STURDY", "WATERPROOF", "RAINPROOF", "WATCH", "ALARMCLOCK", "SWIM_GOGGLES", "SUN_GLASSES", "RAD_RESIST" ],
+    "flags": [
+      "VARSIZE",
+      "STURDY",
+      "WATERPROOF",
+      "RAINPROOF",
+      "WATCH",
+      "ALARMCLOCK",
+      "SWIM_GOGGLES",
+      "SUN_GLASSES",
+      "RAD_RESIST",
+      "COMBAT_NPC_USE"
+    ],
     "price": "500 kUSD",
     "price_postapoc": "100 USD",
     "material": [ "carbide", "kevlar" ],
@@ -886,7 +898,9 @@
       "ELECTRIC_IMMUNE",
       "THERMOMETER",
       "TRADER_AVOID",
-      "CLIMATE_CONTROL"
+      "CLIMATE_CONTROL",
+      "COMBAT_NPC_USE",
+      "COMBAT_NPC_ON"
     ],
     "turns_per_charge": 18,
     "revert_to": "rm13_armor",
@@ -992,7 +1006,8 @@
       "WATCH",
       "ALARMCLOCK",
       "SWIM_GOGGLES",
-      "SUN_GLASSES"
+      "SUN_GLASSES",
+      "COMBAT_NPC_USE"
     ]
   },
   {
@@ -1028,7 +1043,9 @@
       "TRADER_AVOID",
       "PSYSHIELD_PARTIAL",
       "GNV_EFFECT",
-      "CLIMATE_CONTROL"
+      "CLIMATE_CONTROL",
+      "COMBAT_NPC_USE",
+      "COMBAT_NPC_ON"
     ]
   },
   {
@@ -1397,7 +1414,7 @@
     "color": "dark_gray",
     "name": { "str": "pair of light amp goggles", "str_pl": "pairs of light amp goggles" },
     "description": "A pair of battery-powered goggles that amplify ambient light, allowing you to see in the dark.  Use it to turn them on.",
-    "flags": [ "FRAGILE", "HELMET_COMPAT" ],
+    "flags": [ "FRAGILE", "HELMET_COMPAT", "ALLOWS_NATURAL_ATTACKS", "ALLOWS_HORNS" ],
     "price": "920 USD",
     "price_postapoc": "35 USD",
     "material": [ "plastic", "steel" ],
@@ -1466,7 +1483,7 @@
     "color": "dark_gray",
     "name": { "str": "pair of infrared goggles", "str_pl": "pairs of infrared goggles" },
     "description": "A pair of battery-powered goggles that grant infrared vision, allowing you to see warm-blooded creatures in the dark.  Use it to turn them on.",
-    "flags": [ "FRAGILE", "HELMET_COMPAT" ],
+    "flags": [ "FRAGILE", "HELMET_COMPAT", "ALLOWS_NATURAL_ATTACKS", "ALLOWS_HORNS" ],
     "price": "920 USD",
     "price_postapoc": "25 USD",
     "material": [ "plastic", "steel" ],
@@ -1684,7 +1701,7 @@
     "revert_to": "emer_blanket",
     "use_action": "PACK_ITEM",
     "covers": [ "torso", "arms", "hands", "legs", "feet" ],
-    "flags": [ "OVERSIZE", "OUTER", "ALLOWS_NATURAL_ATTACKS" ],
+    "flags": [ "OVERSIZE", "OUTER", "ALLOWS_NATURAL_ATTACKS", "ALLOWS_TAIL_SNAKE", "ALLOWS_HOOVES" ],
     "warmth": 50,
     "environmental_protection": 1,
     "encumbrance": 50,
@@ -1760,7 +1777,7 @@
     "warmth": 10,
     "coverage": 50,
     "material_thickness": 1,
-    "flags": [ "OVERSIZE" ]
+    "flags": [ "OVERSIZE", "ALLOWS_TAIL_SNAKE" ]
   },
   {
     "id": "towel_wet",
@@ -1780,7 +1797,7 @@
     "to_hit": -1,
     "revert_to": "towel",
     "use_action": "TOWEL",
-    "flags": [ "WET", "OVERSIZE" ],
+    "flags": [ "WET", "OVERSIZE", "ALLOWS_TAIL_SNAKE" ],
     "coverage": 50,
     "material_thickness": 1
   },
@@ -1802,7 +1819,7 @@
     "to_hit": -1,
     "revert_to": "towel",
     "use_action": "TOWEL",
-    "flags": [ "WET", "OVERSIZE" ],
+    "flags": [ "WET", "OVERSIZE", "ALLOWS_TAIL_SNAKE" ],
     "coverage": 50,
     "material_thickness": 1
   },
@@ -1844,7 +1861,7 @@
     "to_hit": -3,
     "use_action": { "type": "transform", "msg": "You loosen your %s.", "target": "patchwork_scarf_loose", "menu_text": "Loosen" },
     "covers": [ "mouth" ],
-    "flags": [ "OUTER" ],
+    "flags": [ "OUTER", "ALLOWS_MUZZLE" ],
     "warmth": 20,
     "environmental_protection": 1,
     "encumbrance": 3,
@@ -1869,7 +1886,7 @@
     "revert_to": "patchwork_scarf",
     "use_action": { "type": "transform", "msg": "You wrap your scarf tighter.", "target": "patchwork_scarf", "menu_text": "Wrap tighter" },
     "covers": [ "mouth" ],
-    "flags": [ "OUTER", "ALLOWS_NATURAL_ATTACKS" ],
+    "flags": [ "OUTER", "ALLOWS_NATURAL_ATTACKS", "ALLOWS_MUZZLE" ],
     "warmth": 10,
     "environmental_protection": 1,
     "encumbrance": 2,
@@ -1883,7 +1900,7 @@
     "symbol": "[",
     "color": "light_gray",
     "name": { "str": "long patchwork scarf", "str_pl": "long patchwork scarves" },
-    "description": "A very long light cloth scarf, worn over the mouth for warmth.  With the extra length, it's enough to handle nonstandard facial features and accommodate your hands too.  Use it to loosen it if you get too warm.",
+    "description": "A very long light cloth scarf, worn over the mouth for warmth.  With the extra length, it's enough to handle oversized wearers and accommodate your hands too.  Use it to loosen it if you get too warm.",
     "price": "15 USD",
     "price_postapoc": "1 USD",
     "material": [ "cotton" ],
@@ -1907,7 +1924,7 @@
     "symbol": "[",
     "color": "light_gray",
     "name": { "str": "long patchwork scarf (loose)", "str_pl": "long patchwork scarves (loose)" },
-    "description": "A very long light cloth scarf, worn over the mouth for warmth.  With the extra length, it's enough to handle nonstandard facial features and accommodate your hands too.  Use it to wear it tighter if you get too cold.",
+    "description": "A very long light cloth scarf, worn over the mouth for warmth.  With the extra length, it's enough to handle oversized wearers and accommodate your hands too.  Use it to wear it tighter if you get too cold.",
     "price": "15 USD",
     "price_postapoc": "1 USD",
     "material": [ "cotton" ],
@@ -1945,7 +1962,7 @@
     "to_hit": -3,
     "use_action": { "type": "transform", "msg": "You loosen your %s.", "target": "knit_scarf_loose", "menu_text": "Loosen" },
     "covers": [ "mouth" ],
-    "flags": [ "OUTER" ],
+    "flags": [ "OUTER", "ALLOWS_MUZZLE" ],
     "warmth": 30,
     "environmental_protection": 2,
     "encumbrance": 3,
@@ -1970,7 +1987,7 @@
     "revert_to": "knit_scarf",
     "use_action": { "type": "transform", "msg": "You wrap your scarf tighter.", "target": "knit_scarf", "menu_text": "Wrap tighter" },
     "covers": [ "mouth" ],
-    "flags": [ "OUTER", "ALLOWS_NATURAL_ATTACKS" ],
+    "flags": [ "OUTER", "ALLOWS_NATURAL_ATTACKS", "ALLOWS_MUZZLE" ],
     "warmth": 15,
     "environmental_protection": 1,
     "encumbrance": 2,
@@ -1984,7 +2001,7 @@
     "symbol": "[",
     "color": "dark_gray",
     "name": { "str": "long knit scarf", "str_pl": "long knit scarves" },
-    "description": "A really long knitted cotton scarf, worn over the mouth for warmth.  With the extra length, it's enough to handle nonstandard facial features and accommodate your hands too.  Use it to loosen it if you get too warm.",
+    "description": "A really long knitted cotton scarf, worn over the mouth for warmth.  With the extra length, it's enough to handle oversized wearers and accommodate your hands too.  Use it to loosen it if you get too warm.",
     "price": "30 USD",
     "price_postapoc": "1 USD",
     "material": [ "cotton" ],
@@ -2008,7 +2025,7 @@
     "symbol": "[",
     "color": "dark_gray",
     "name": { "str": "long knit scarf (loose)", "str_pl": "long knit scarves (loose)" },
-    "description": "A really long knitted cotton scarf, worn over the mouth for warmth.  With the extra length, it's enough to handle nonstandard facial features and accommodate your hands too.  Use it to wear it tighter if you get too cold.",
+    "description": "A really long knitted cotton scarf, worn over the mouth for warmth.  With the extra length, it's enough to handle oversized wearers and accommodate your hands too.  Use it to wear it tighter if you get too cold.",
     "price": "30 USD",
     "price_postapoc": "1 USD",
     "material": [ "cotton" ],
@@ -2041,7 +2058,7 @@
     "to_hit": -3,
     "use_action": { "type": "transform", "msg": "You loosen your %s.", "target": "scarf_loose", "menu_text": "Loosen" },
     "covers": [ "mouth" ],
-    "flags": [ "OUTER" ],
+    "flags": [ "OUTER", "ALLOWS_MUZZLE" ],
     "warmth": 50,
     "environmental_protection": 2,
     "encumbrance": 3,
@@ -2080,7 +2097,7 @@
     "symbol": "[",
     "color": "brown",
     "name": { "str": "long wool scarf", "str_pl": "long wool scarves" },
-    "description": "A really long wool scarf, worn over the mouth for warmth.  With the extra length, it's enough to handle nonstandard facial features and accommodate your hands too.  Use it to loosen it if you get too warm.",
+    "description": "A really long wool scarf, worn over the mouth for warmth.  With the extra length, it's enough to handle oversized wearers and accommodate your hands too.  Use it to loosen it if you get too warm.",
     "price": "45 USD",
     "price_postapoc": "1 USD",
     "material": [ "wool" ],
@@ -2104,7 +2121,7 @@
     "symbol": "[",
     "color": "brown",
     "name": { "str": "long wool scarf (loose)", "str_pl": "long wool scarves (loose)" },
-    "description": "A really long wool scarf, worn over the mouth for warmth.  With the extra length, it's enough to handle nonstandard facial features and accommodate your hands too.  Use it to wear it tighter if you get too cold.",
+    "description": "A really long wool scarf, worn over the mouth for warmth.  With the extra length, it's enough to handle oversized wearers and accommodate your hands too.  Use it to wear it tighter if you get too cold.",
     "price": "45 USD",
     "price_postapoc": "1 USD",
     "material": [ "wool" ],
@@ -2137,7 +2154,7 @@
     "to_hit": -3,
     "use_action": { "type": "transform", "msg": "You loosen your %s.", "target": "scarf_fur_loose", "menu_text": "Loosen" },
     "covers": [ "mouth" ],
-    "flags": [ "OUTER" ],
+    "flags": [ "OUTER", "ALLOWS_MUZZLE" ],
     "warmth": 70,
     "environmental_protection": 3,
     "encumbrance": 10,
@@ -2162,7 +2179,7 @@
     "revert_to": "scarf_fur",
     "use_action": { "type": "transform", "msg": "You wrap your scarf a bit tighter.", "target": "scarf_fur", "menu_text": "Wrap tighter" },
     "covers": [ "mouth" ],
-    "flags": [ "OUTER", "ALLOWS_NATURAL_ATTACKS" ],
+    "flags": [ "OUTER", "ALLOWS_NATURAL_ATTACKS", "ALLOWS_MUZZLE" ],
     "warmth": 35,
     "environmental_protection": 2,
     "encumbrance": 10,
@@ -2176,7 +2193,7 @@
     "symbol": "[",
     "color": "brown",
     "name": { "str": "long fur scarf", "str_pl": "long fur scarves" },
-    "description": "A really long fur scarf, worn over the mouth for warmth.  With the extra length, it's enough to handle nonstandard facial features and accommodate your hands too.  Use it to loosen it if you get too warm.",
+    "description": "A really long fur scarf, worn over the mouth for warmth.  With the extra length, it's enough to handle oversized wearers and accommodate your hands too.  Use it to loosen it if you get too warm.",
     "price": "177 USD",
     "price_postapoc": "3 USD",
     "material": [ "fur" ],
@@ -2200,7 +2217,7 @@
     "symbol": "[",
     "color": "brown",
     "name": { "str": "long fur scarf (loose)", "str_pl": "long fur scarves (loose)" },
-    "description": "A really long fur scarf, worn over the mouth for warmth.  With the extra length, it's enough to handle nonstandard facial features and accommodate your hands too.  Use it to wear it tighter if you get too cold.",
+    "description": "A really long fur scarf, worn over the mouth for warmth.  With the extra length, it's enough to handle oversized wearers and accommodate your hands too.  Use it to wear it tighter if you get too cold.",
     "price": "177 USD",
     "price_postapoc": "3 USD",
     "material": [ "fur" ],
@@ -2585,7 +2602,7 @@
     "color": "blue",
     "name": { "str_sp": "shooter's earmuffs" },
     "description": "A pair of earmuffs favored by shooters.  Without batteries or when turned off they function like normal earmuffs and block all sound.  They will block sounds over a certain decibel amount when turned on.  The earmuffs are currently off.",
-    "flags": [ "DEAF", "OVERSIZE", "BELTED", "ALLOWS_NATURAL_ATTACKS" ],
+    "flags": [ "DEAF", "OVERSIZE", "BELTED", "ALLOWS_NATURAL_ATTACKS", "COMBAT_NPC_USE" ],
     "price": "125 USD",
     "price_postapoc": "750 cent",
     "material": [ "plastic" ],
@@ -2633,7 +2650,7 @@
     "power_draw": 60,
     "revert_to": "powered_earmuffs",
     "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "The %s flicks off.", "target": "powered_earmuffs" },
-    "extend": { "flags": [ "PARTIAL_DEAF" ] },
+    "extend": { "flags": [ "PARTIAL_DEAF", "COMBAT_NPC_ON" ] },
     "delete": { "flags": [ "DEAF" ] }
   },
   {
@@ -2694,7 +2711,7 @@
     "material_thickness": 3,
     "use_action": "SOLARPACK",
     "valid_mods": [ "resized_large" ],
-    "flags": [ "FRAGILE", "OUTER", "ONLY_ONE", "SOLARPACK" ]
+    "flags": [ "FRAGILE", "OUTER", "ONLY_ONE", "SOLARPACK", "ALLOWS_WINGS" ]
   },
   {
     "id": "solarpack_on",
@@ -2720,7 +2737,7 @@
     "use_action": "SOLARPACK_OFF",
     "solar_efficiency": 0.04,
     "valid_mods": [ "resized_large" ],
-    "flags": [ "FRAGILE", "OUTER", "ONLY_ONE", "SOLARPACK_ON" ]
+    "flags": [ "FRAGILE", "OUTER", "ONLY_ONE", "SOLARPACK_ON", "ALLOWS_WINGS" ]
   },
   {
     "id": "helmet_riot",
@@ -2794,7 +2811,7 @@
     "max_charges": 60,
     "ammo": "nitrox",
     "covers": [ "torso" ],
-    "flags": [ "WATER_FRIENDLY", "BELTED", "ONLY_ONE", "STURDY", "NO_UNLOAD" ],
+    "flags": [ "WATER_FRIENDLY", "BELTED", "ONLY_ONE", "STURDY", "NO_UNLOAD", "ALLOWS_WINGS" ],
     "environmental_protection": 1,
     "environmental_protection_with_filter": 16,
     "encumbrance": 30,
@@ -2824,7 +2841,7 @@
     "turns_per_charge": 60,
     "ammo": "nitrox",
     "covers": [ "torso", "mouth" ],
-    "flags": [ "WATER_FRIENDLY", "BELTED", "ONLY_ONE", "STURDY", "NO_UNLOAD" ],
+    "flags": [ "WATER_FRIENDLY", "BELTED", "ONLY_ONE", "STURDY", "NO_UNLOAD", "ALLOWS_WINGS" ],
     "environmental_protection": 1,
     "environmental_protection_with_filter": 16,
     "encumbrance": 30,
@@ -2852,7 +2869,7 @@
     "max_charges": 20,
     "ammo": "nitrox",
     "covers": [ "torso" ],
-    "flags": [ "WATER_FRIENDLY", "BELTED", "ONLY_ONE", "STURDY", "NO_UNLOAD" ],
+    "flags": [ "WATER_FRIENDLY", "BELTED", "ONLY_ONE", "STURDY", "NO_UNLOAD", "ALLOWS_WINGS" ],
     "environmental_protection": 1,
     "environmental_protection_with_filter": 16,
     "encumbrance": 30,
@@ -2882,7 +2899,7 @@
     "turns_per_charge": 60,
     "ammo": "nitrox",
     "covers": [ "torso", "mouth" ],
-    "flags": [ "WATER_FRIENDLY", "BELTED", "ONLY_ONE", "STURDY", "NO_UNLOAD" ],
+    "flags": [ "WATER_FRIENDLY", "BELTED", "ONLY_ONE", "STURDY", "NO_UNLOAD", "ALLOWS_WINGS" ],
     "environmental_protection": 1,
     "environmental_protection_with_filter": 16,
     "encumbrance": 30,
@@ -2920,7 +2937,7 @@
       "need_charges": 1,
       "need_charges_msg": "The blanket's batteries are dead."
     },
-    "flags": [ "OVERSIZE", "OUTER", "ALLOWS_NATURAL_ATTACKS" ],
+    "flags": [ "OVERSIZE", "OUTER", "ALLOWS_NATURAL_ATTACKS", "ALLOWS_TAIL_SNAKE" ],
     "magazines": [
       [
         "battery",

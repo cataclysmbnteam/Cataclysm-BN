@@ -28,6 +28,8 @@
       "sloc_church",
       "sloc_cemetery"
     ],
+    "professions": [ "neighborhood_watch" ],
+    "add_professions": true,
     "start_name": "In Town",
     "flags": [ "CITY_START" ]
   },
@@ -46,6 +48,9 @@
     ],
     "professions": [
       "prof_pirate",
+      "prof_pirate_captain",
+      "smuggler",
+      "castaway",
       "professional_diver",
       "underwater_welder",
       "bionic_diver",
@@ -102,6 +107,8 @@
       "sloc_police",
       "sloc_town_hall"
     ],
+    "professions": [ "neighborhood_watch" ],
+    "add_professions": true,
     "start_name": "In Town",
     "surround_groups": [ [ "GROUP_BLACK_ROAD", 70.0 ] ],
     "flags": [ "CITY_START", "LONE_START" ]
@@ -134,6 +141,8 @@
     "flags": [ "INFECTED", "CITY_START" ],
     "id": "infected",
     "points": -4,
+    "professions": [ "neighborhood_watch" ],
+    "add_professions": true,
     "start_name": "In Town",
     "allowed_locs": [
       "sloc_shelter_vandalized",
@@ -162,6 +171,8 @@
     "flags": [ "FIRE_START", "CITY_START" ],
     "id": "fire",
     "points": -2,
+    "professions": [ "neighborhood_watch" ],
+    "add_professions": true,
     "start_name": "In Town",
     "allowed_locs": [
       "sloc_house",
@@ -292,7 +303,8 @@
       "cykotic",
       "convict_political",
       "homeless",
-      "convict_ratman"
+      "convict_ratman",
+      "mutant_escape_team_lab"
     ],
     "allowed_locs": [ "sloc_lab_random", "sloc_lab_escape_cells", "sloc_lab_finale", "sloc_ice_lab_stairs", "sloc_ice_lab_finale" ],
     "traits": [
@@ -344,6 +356,7 @@
       "WINGS_BIRD",
       "WINGS_INSECT",
       "WINGS_BAT",
+      "TAIL_SNAKE",
       "SMALL",
       "LARGE"
     ],
@@ -461,7 +474,7 @@
     "description": "When the apocalypse broke out, you were funneled into the nearest shelter.  Here you have lived, never leaving, lest the unknowns of the outside world hurt you.  Supplies are running low, and for the first time since the Cataclysm, you will be forced to face the outside world.",
     "allowed_locs": [ "sloc_lmoe_empty", "sloc_shelter" ],
     "start_name": "Enclosed Shelter",
-    "flags": [ "WIN_START", "LONE_START" ],
+    "flags": [ "WIN_START", "LONE_START", "CITY_START" ],
     "professions": [
       "sheltered_militia",
       "sheltered_survivor",
@@ -472,7 +485,8 @@
       "lumberjack",
       "lawyer",
       "politician",
-      "unemployed"
+      "unemployed",
+      "neighborhood_watch"
     ]
   },
   {
@@ -504,7 +518,8 @@
       "convict_political",
       "convict_ratman",
       "k9_cop",
-      "cop"
+      "cop",
+      "convict_escape_team"
     ],
     "flags": [ "CITY_START", "LONE_START" ]
   },
@@ -524,7 +539,8 @@
       "convict_political",
       "convict_ratman",
       "k9_cop",
-      "cop"
+      "cop",
+      "convict_escape_team"
     ],
     "flags": [ "LONE_START", "CHALLENGE", "OUTDOOR" ]
   },
@@ -536,7 +552,7 @@
     "description": "You find yourself in the most alien place you've ever seen.  The hot humid air and the organic aspect of the structure makes you feel like you're trapped inside a giant creature.  Whatever it is, you need to get out of here before They find you.",
     "allowed_locs": [ "sloc_mi-go_camp" ],
     "start_name": "Mi-Go Camp",
-    "professions": [ "captive", "migo_escapee", "migo_experiment", "rescuer", "monster_hunter" ],
+    "professions": [ "captive", "migo_escapee", "migo_experiment", "rescuer", "monster_hunter", "escape_team_migo" ],
     "flags": [ "LONE_START", "CHALLENGE", "WIN_START" ]
   },
   {
@@ -597,6 +613,7 @@
       "WINGS_BIRD",
       "WINGS_INSECT",
       "WINGS_BAT",
+      "TAIL_SNAKE",
       "SMALL",
       "LARGE"
     ],
@@ -723,7 +740,15 @@
     "start_name": "Emergency Landing Site",
     "allowed_locs": [ "sloc_field", "sloc_forest" ],
     "missions": [ "MISSION_HELICOPTER_REFUEL" ],
-    "professions": [ "heli_pilot_scenario", "medic_pilot", "gyro_pilot", "bird_pilot", "mili_pilot_blackhawk" ],
+    "professions": [
+      "heli_pilot_scenario",
+      "blimp_pilot_scenario",
+      "plane_pilot_scenario",
+      "medic_pilot",
+      "gyro_pilot",
+      "bird_pilot",
+      "mili_pilot_blackhawk"
+    ],
     "flags": [ "LONE_START" ]
   },
   {

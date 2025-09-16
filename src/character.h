@@ -37,6 +37,7 @@
 #include "item.h"
 #include "item_handling_util.h"
 #include "memory_fast.h"
+#include "mtype.h"
 #include "pimpl.h"
 #include "player_activity_ptr.h"
 #include "pldata.h"
@@ -271,6 +272,9 @@ class Character : public Creature, public location_visitable<Character>
         Character &operator=( const Character & ) = delete;
         Character( Character && ) noexcept;
         Character &operator=( Character && ) noexcept;
+        // Swaps the data of this Character and "other" using "tmp" for temporary storage.
+        // Leaves "tmp" in an undefined state.
+        void swap_character( Character &other, Character &tmp );
         ~Character() override;
 
         // Move ctor and move operator= common stuff
@@ -771,6 +775,10 @@ class Character : public Creature, public location_visitable<Character>
         // In mutation.cpp
         /** Returns true if the player has the entered trait */
         bool has_trait( const trait_id &b ) const override;
+
+        /** Returns true if the player has one of the traits from set */
+        bool has_one_of_traits( const TraitSet &trait_set ) const;
+
         /** Returns true if the player has the entered starting trait */
         bool has_base_trait( const trait_id &b ) const;
         /** Returns true if player has a trait with a flag */

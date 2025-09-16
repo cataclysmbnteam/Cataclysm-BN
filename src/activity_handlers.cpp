@@ -2070,6 +2070,9 @@ void activity_handlers::start_fire_finish( player_activity *act, player *p )
     }
 
     if( it.type->can_have_charges() ) {
+        if( it.has_flag( flag_USE_UPS ) ) {
+            p->use_charges( itype_UPS, it.type->charges_to_use() );
+        }
         p->consume_charges( it, it.type->charges_to_use() );
     }
     p->practice( skill_survival, act->index, 5 );
@@ -2410,7 +2413,7 @@ namespace repair_activity_hack
 namespace
 {
 enum class hack_type_t : int {
-    vehicle_weldrig = 0,
+    vehicle = 0,
     furniture = 1
 };
 
@@ -2423,7 +2426,7 @@ std::optional<hack_type_t> get_hack_type( const player_activity &activity )
     assert( !activity.coords.empty() );
     // Old save data, probably
     if( activity.values.size() == 2 ) {
-        return hack_type_t::vehicle_weldrig;
+        return hack_type_t::vehicle;
     }
     return static_cast<hack_type_t>( activity.values[2] );
 }
@@ -2441,7 +2444,7 @@ item *get_fake_tool( hack_type_t hack_type, const player_activity &activity )
     item *fake_item = &null_item_reference();
 
     switch( hack_type ) {
-        case hack_type_t::vehicle_weldrig: {
+        case hack_type_t::vehicle: {
             const optional_vpart_position pos = m.veh_at( position );
             if( !pos ) {
                 debugmsg( "Failed to find vehicle while using it for repair at %s", position.to_string() );
@@ -2449,7 +2452,7 @@ item *get_fake_tool( hack_type_t hack_type, const player_activity &activity )
             }
             const vehicle &veh = pos->vehicle();
 
-            fake_item = item::spawn_temporary( itype_welder, calendar::turn, 0 );
+            fake_item = item::spawn_temporary( activity.str_values[1], calendar::turn, 0 );
             fake_item->charges = veh.fuel_left( itype_battery );
 
             break;
@@ -2505,7 +2508,7 @@ void discharge_real_power_source(
 
     int unfulfilled_demand = 0;
     switch( hack_type ) {
-        case hack_type_t::vehicle_weldrig: {
+        case hack_type_t::vehicle: {
             optional_vpart_position pos = m.veh_at( position );
             if( !pos ) {
                 return;
@@ -2531,11 +2534,12 @@ void discharge_real_power_source(
 
 } // namespace
 
-void patch_activity_for_vehicle_welder(
+void patch_activity_for_vehicle(
     player_activity &activity,
     const tripoint &veh_part_position,
     const vehicle &veh,
-    int interact_part_idx )
+    int interact_part_idx,
+    const itype_id &it )
 {
     // Player may start another activity on welder/soldering iron
     // Check it here instead of vehicle interaction code
@@ -2544,8 +2548,7 @@ void patch_activity_for_vehicle_welder(
         return;
     }
 
-    const int welding_rig_index = veh.part_with_feature( interact_part_idx, "WELDRIG", true );
-
+    const int crafter_index = veh.part_with_feature( interact_part_idx, "CRAFTER", true );
     // This tells activity, that real item doesn't exists in inventory.
     activity.index = INT_MIN;
     // Data for lookup vehicle part
@@ -2553,9 +2556,10 @@ void patch_activity_for_vehicle_welder(
     activity.values = {
         // Because we called only on start of repair
         static_cast<int>( repeat_type::REPEAT_INIT ),
-        welding_rig_index,
-        static_cast<int>( hack_type_t::vehicle_weldrig )
+        crafter_index,
+        static_cast<int>( hack_type_t::vehicle )
     };
+    activity.str_values.emplace_back( static_cast<std::string>( it ) );
 }
 
 void patch_activity_for_furniture( player_activity &activity,

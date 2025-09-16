@@ -243,3 +243,15 @@ Mods can modify this via `add:CBMs` and `remove:CBMs`.
 A list of trait/mutation ids that are applied to the character.
 
 Mods can modify this via `add:traits` and `remove:traits`.
+
+#### `starting_cash`
+
+(optional, int)
+
+The amount of money this profession will start with upon the beginning of the cataclysm.
+
+#### `npcs`
+
+(optional, list of strings)
+
+NPCs to spawn at the start of the game. Taken as strings representing the IDs of NPC classes

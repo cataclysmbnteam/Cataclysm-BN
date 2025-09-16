@@ -97,7 +97,7 @@ static const efftype_id effect_pkill3( "pkill3" );
 static const efftype_id effect_ridden( "ridden" );
 static const efftype_id effect_riding( "riding" );
 
-static const itype_id itype_UPS_off( "UPS_off" );
+static const itype_id itype_UPS( "UPS" );
 
 static const skill_id skill_archery( "archery" );
 static const skill_id skill_barter( "barter" );
@@ -219,6 +219,8 @@ standard_npc::standard_npc( const std::string &name, const tripoint &pos,
 }
 
 static std::map<string_id<npc_template>, npc_template> npc_templates;
+
+npc &npc::operator=( npc && ) noexcept = default;
 
 void npc_template::load( const JsonObject &jsobj )
 {
@@ -729,6 +731,13 @@ void npc::setpos( const tripoint &pos )
     }
 }
 
+void npc::onswapsetpos( const tripoint &pos )
+{
+    position = pos;
+    submap_coords.x = g->get_levx() + pos.x / SEEX;
+    submap_coords.y = g->get_levy() + pos.y / SEEY;
+}
+
 void npc::travel_overmap( const tripoint &pos )
 {
     // TODO: fix point types
@@ -989,9 +998,12 @@ void npc::finish_read( item *it )
             g->events().send<event_type::gains_skill_level>( getID(), skill, skill_level.level() );
             if( display_messages ) {
                 add_msg( m_good, _( "%s increases their %s level." ), disp_name(), skill_name );
-                // NPC reads until they gain a level, then stop.
-                revert_after_activity();
-                return;
+                // NPC continue reading until they can no longer learn from the book.
+                if( skill_level == reading->level ) {
+                    revert_after_activity();
+                    return;
+                }
+                continuous = true;
             }
         } else {
             continuous = true;
@@ -1537,8 +1549,7 @@ void npc::decide_needs()
     if( primary_weapon().is_gun() ) {
         int ups_drain = primary_weapon().get_gun_ups_drain();
         if( ups_drain > 0 ) {
-            int ups_charges = charges_of( itype_UPS_off, ups_drain ) +
-                              charges_of( itype_UPS_off, ups_drain );
+            int ups_charges = charges_of( itype_UPS );
             needrank[need_ammo] = static_cast<double>( ups_charges ) / ups_drain;
         } else {
             needrank[need_ammo] = character_funcs::get_ammo_items(
@@ -2259,6 +2270,11 @@ bool npc::emergency() const
 
 bool npc::emergency( float danger ) const
 {
+    const int stamina_percent = static_cast<float>( get_stamina() ) / get_stamina_max() * 100;
+    // Quit early if we're below 20% stamina, plus or minus bravery and threat modifiers.
+    if( 20 + std::max( danger, 0.0f ) > stamina_percent + personality.bravery ) {
+        return true;
+    }
     return ( danger > ( personality.bravery * 3 * hp_percentage() ) / 100.0 );
 }
 
@@ -2896,11 +2912,6 @@ bool npc::dispose_item( item &obj, const std::string & )
 void npc::process_turn()
 {
     player::process_turn();
-
-    // NPCs shouldn't be using stamina, but if they have, set it back to max
-    if( calendar::once_every( 1_minutes ) && get_stamina() < get_stamina_max() ) {
-        set_stamina( get_stamina_max() );
-    }
 
     if( is_player_ally() && calendar::once_every( 1_hours ) &&
         get_kcal_percent() > 0.95 && get_thirst() < thirst_levels::very_thirsty && op_of_u.trust < 5 ) {

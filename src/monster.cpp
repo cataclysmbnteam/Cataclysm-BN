@@ -9,6 +9,7 @@
 #include <unordered_map>
 
 #include "avatar.h"
+#include "bodypart.h"
 #include "catalua_hooks.h"
 #include "character.h"
 #include "coordinate_conversions.h"
@@ -1798,6 +1799,7 @@ void monster::melee_attack( Creature &target, float accuracy )
     }
 
     int hitspread = target.deal_melee_attack( this, melee::melee_hit_range( accuracy ) );
+    const bool attack_success = hitspread >= 0;
 
     if( target.is_player() ||
         ( target.is_npc() && g->u.attitude_to( target ) == Attitude::A_FRIENDLY ) ) {
@@ -1820,13 +1822,13 @@ void monster::melee_attack( Creature &target, float accuracy )
 
     dealt_damage_instance dealt_dam;
 
-    if( hitspread >= 0 ) {
+    if( attack_success ) {
         target.deal_melee_hit( this, hitspread, false, damage, dealt_dam );
     }
     const bodypart_str_id bp_hit = dealt_dam.bp_hit;
 
     const int total_dealt = dealt_dam.total_damage();
-    if( hitspread < 0 ) {
+    if( !attack_success ) {
         // Miss
         if( u_see_me && !target.in_sleep_state() ) {
             if( target.is_player() ) {
@@ -1910,6 +1912,12 @@ void monster::melee_attack( Creature &target, float accuracy )
 
     target.check_dead_state();
 
+    cata::run_hooks( "on_creature_melee_attacked", [ &, this]( auto & params ) {
+        params["char"] = this;
+        params["target"] = &target;
+        params["success"] = attack_success;
+    } );
+
     if( is_hallucination() ) {
         if( one_in( 7 ) ) {
             die( nullptr );
@@ -1958,11 +1966,17 @@ void monster::melee_attack( Creature &target, float accuracy )
 
 void monster::deal_projectile_attack( Creature *source, dealt_projectile_attack &attack )
 {
-    this->deal_projectile_attack( source, nullptr, attack );
+    this->deal_projectile_attack( source, nullptr, attack, false );
 }
 
 void monster::deal_projectile_attack( Creature *source, item *source_weapon,
                                       dealt_projectile_attack &attack )
+{
+    this->deal_projectile_attack( source, source_weapon,  attack, false );
+}
+
+void monster::deal_projectile_attack( Creature *source, item *source_weapon,
+                                      dealt_projectile_attack &attack, bool manual_retaliation )
 {
     const auto &proj = attack.proj;
     double &missed_by = attack.missed_by; // We can change this here
@@ -1987,7 +2001,7 @@ void monster::deal_projectile_attack( Creature *source, item *source_weapon,
 
     if( !is_hallucination() && attack.hit_critter == this ) {
         // Maybe TODO: Get difficulty from projectile speed/size/missed_by
-        on_hit( source, bodypart_id( "torso" ), &attack );
+        on_hit( source, bodypart_id( "torso" ), &attack, manual_retaliation );
     }
 }
 
@@ -3255,11 +3269,16 @@ float monster::speed_rating() const
 
 void monster::on_hit( Creature *source, bodypart_id, dealt_projectile_attack const *const proj )
 {
+    this->on_hit( source, bodypart_id( "torso" ), proj, false );
+}
+void monster::on_hit( Creature *source, bodypart_id, dealt_projectile_attack const *const proj,
+                      bool manual_retaliation )
+{
     if( is_hallucination() ) {
         return;
     }
 
-    if( rng( 0, 100 ) <= static_cast<int>( type->def_chance ) ) {
+    if( rng( 0, 100 ) <= static_cast<int>( type->def_chance ) && !manual_retaliation ) {
         type->sp_defense( *this, source, proj );
     }
 
