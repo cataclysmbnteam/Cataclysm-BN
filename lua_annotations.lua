@@ -1753,7 +1753,7 @@ gdebug = {}
 ---@field on_char_death fun() @Called after a character has died
 ---@field on_creature_dodged fun() @Called after a creature has dodged an attack
 ---@field on_creature_blocked fun() @Called after a creature has blocked an attack
----@field on_creature_melee_attack fun() @Called after a creature has attacked in melee
+---@field on_creature_melee_attacked fun() @Called after a creature has attacked in melee
 ---@field on_creature_performed_technique fun() @Called after a character has performed a combat technique
 
 hooks = {}
