@@ -15,9 +15,12 @@
 #include <numeric>
 #include <optional>
 #include <ostream>
+#include <point.h>
 #include <set>
+#include <submap.h>
 #include <unordered_set>
 #include <vector>
+#include <vehicle.h>
 
 #include "all_enum_values.h"
 #include "assign.h"
@@ -5712,10 +5715,10 @@ std::vector<tripoint_om_omt> overmap::place_special(
     return result.omts_used;
 }
 // Inside empty rock spawn some ores maybe
-void overmap::spawn_ores( const tripoint_om_omt &p )
+void overmap::spawn_ores( const tripoint_abs_omt &p )
 {
     //One in 15 at lowest level, goes up as you get closer to surface. Dig deep!
-    if( one_in( 65 + ( 5 * p.z() ) ) ) {
+    if( one_in( 65 - abs( 5 * p.z() ) ) ) {
         std::string depth;
         switch( p.z() ) {
             case -1:
@@ -5746,9 +5749,63 @@ void overmap::spawn_ores( const tripoint_om_omt &p )
             ores.add( k, v );
         }
         std::string chosen = ores.pick()->c_str();
-        add_note( p, string_format( "Signs of %s ore here", chosen ) );
-        ter_set( p, oter_id( "omt_ore_vein_" + chosen + "_north" ) );
-        place_special_forced( overmap_special_id( "pros_ore_vein_" + chosen ), p,
+        tripoint_om_omt local_pos = overmap_buffer.get_om_global( p ).local;
+        /* begin edited editmap code TODO: Should probably just make this a
+         * function, if there is one, I couldnt find it.*/
+        //TODO: somewhere in here fucking explodes
+        map &here = get_map();
+        overmap_buffer.ter_set( p, oter_id( "omt_ore_vein_" + chosen ) );
+        tinymap tmp;
+        tmp.generate( tripoint( project_to<coords::sm>( p.xy() ).raw(), p.z() ),
+                      calendar::turn );
+        add_note( local_pos, string_format( "Signs of %s ore here",
+                                            chosen ) );
+        const point target_sub( p.x() / SEEX, p.y() / SEEY );
+
+        here.set_transparency_cache_dirty( p.z() );
+        here.set_outside_cache_dirty( p.z() );
+        here.set_floor_cache_dirty( p.z() );
+        here.set_pathfinding_cache_dirty( p.z() );
+        here.set_suspension_cache_dirty( p.z() );
+
+        here.clear_vehicle_cache();
+        here.clear_vehicle_list( p.z() );
+
+        for( int x = 0; x < 2; x++ ) {
+            for( int y = 0; y < 2; y++ ) {
+                // Apply previewed mapgen to map. Since this is a function for testing, we try avoid triggering
+                // functions that would alter the results
+                const auto dest_pos = target_sub + tripoint( x, y, p.z() );
+                const auto src_pos = tripoint{ x, y, p.z() };
+
+                submap *destsm = here.get_submap_at_grid( dest_pos );
+                submap *srcsm = tmp.get_submap_at_grid( src_pos );
+
+                submap::swap( *destsm,  *srcsm );
+
+                for( auto &veh : destsm->vehicles ) {
+                    veh->sm_pos = dest_pos;
+                }
+
+                if( !destsm->spawns.empty() ) {                              // trigger spawnpoints
+                    here.spawn_monsters( true );
+                }
+            }
+        }
+
+        // Since we cleared the vehicle cache of the whole z-level (not just the generate map), we add it back here
+        for( int x = 0; x < here.getmapsize(); x++ ) {
+            for( int y = 0; y < here.getmapsize(); y++ ) {
+                const tripoint dest_pos = tripoint( x, y, p.z() );
+                const submap *destsm = here.get_submap_at_grid( dest_pos );
+                here.update_vehicle_list( destsm, p.z() ); // update real map's vcaches
+            }
+        }
+
+        here.reset_vehicle_cache();
+        /* end edited editmap code*/
+        ter_set( local_pos, oter_id( "omt_ore_vein_" + chosen ) );
+        place_special_forced( overmap_special_id( "pros_ore_vein_" + chosen ), local_pos,
                               om_direction::type::north );
     }
 }

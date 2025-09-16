@@ -772,6 +772,7 @@
   },
   {
     "type": "overmap_terrain",
+    "flags": [ "NO_ROTATE" ],
     "id": "omt_ore_vein_gold",
     "looks_like": "empty_rock",
     "name": "gold vein",
@@ -781,6 +782,7 @@
   },
   {
     "type": "overmap_terrain",
+    "flags": [ "NO_ROTATE" ],
     "id": "omt_ore_vein_silver",
     "looks_like": "empty_rock",
     "name": "silver vein",
@@ -790,6 +792,7 @@
   },
   {
     "type": "overmap_terrain",
+    "flags": [ "NO_ROTATE" ],
     "id": "omt_ore_vein_lead",
     "looks_like": "empty_rock",
     "name": "lead vein",
@@ -799,6 +802,7 @@
   },
   {
     "type": "overmap_terrain",
+    "flags": [ "NO_ROTATE" ],
     "id": "omt_ore_vein_copper",
     "looks_like": "empty_rock",
     "name": "copper vein",
@@ -808,6 +812,7 @@
   },
   {
     "type": "overmap_terrain",
+    "flags": [ "NO_ROTATE" ],
     "id": "omt_ore_vein_tin",
     "looks_like": "empty_rock",
     "name": "tin vein",
@@ -817,6 +822,7 @@
   },
   {
     "type": "overmap_terrain",
+    "flags": [ "NO_ROTATE" ],
     "id": "omt_ore_vein_iron",
     "looks_like": "empty_rock",
     "name": "iron vein",
