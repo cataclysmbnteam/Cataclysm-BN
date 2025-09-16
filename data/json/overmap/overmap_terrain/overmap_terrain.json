@@ -769,5 +769,59 @@
     "sym": "%",
     "color": "light_gray",
     "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "omt_ore_vein_gold",
+    "looks_like": "empty_rock",
+    "name": "gold vein",
+    "sym": "%",
+    "color": "light_gray",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "omt_ore_vein_silver",
+    "looks_like": "empty_rock",
+    "name": "silver vein",
+    "sym": "%",
+    "color": "light_gray",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "omt_ore_vein_lead",
+    "looks_like": "empty_rock",
+    "name": "lead vein",
+    "sym": "%",
+    "color": "light_gray",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "omt_ore_vein_copper",
+    "looks_like": "empty_rock",
+    "name": "copper vein",
+    "sym": "%",
+    "color": "light_gray",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "omt_ore_vein_tin",
+    "looks_like": "empty_rock",
+    "name": "tin vein",
+    "sym": "%",
+    "color": "light_gray",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "omt_ore_vein_iron",
+    "looks_like": "empty_rock",
+    "name": "iron vein",
+    "sym": "%",
+    "color": "light_gray",
+    "see_cost": 5
   }
 ]

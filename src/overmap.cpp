@@ -5741,11 +5741,15 @@ void overmap::spawn_ores( const tripoint_om_omt &p )
             {depth = "how";}
         }
         weighted_int_list<std::string> ores;
+        //ore_depth_to_rate in overmap.h
         for( const auto& [k, v] : ore_depth_to_rate.at( depth ) ) {
             ores.add( k, v );
         }
-        add_note( p, string_format( "There will be %s ore here", ores.pick()->c_str() ) );
-
+        std::string chosen = ores.pick()->c_str();
+        add_note( p, string_format( "Signs of %s ore here", chosen ) );
+        ter_set( p, oter_id( "omt_ore_vein_" + chosen + "_north" ) );
+        place_special_forced( overmap_special_id( "pros_ore_vein_" + chosen ), p,
+                              om_direction::type::north );
     }
 }
 

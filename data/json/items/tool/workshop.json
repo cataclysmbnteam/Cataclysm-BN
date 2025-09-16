@@ -798,6 +798,29 @@
     "flags": [ "STAB", "DURABLE_MELEE", "NONCONDUCTIVE", "DIG_TOOL", "SHEATH_AXE" ]
   },
   {
+    "id": "propick_debug",
+    "type": "GENERIC",
+    "category": "tools_workshop",
+    "looks_like": "pickaxe",
+    "weapon_category": [ "HOOKED_POLES" ],
+    "name": { "str": "debugging prospecting pick" },
+    "description": "This is a medium pickaxe-slash-hammer that could reveal close by ore pockets. This one has an obscene range, for debugging. God save your CPU.",
+    "weight": "708 g",
+    "volume": "1 L",
+    "price": "160 USD",
+    "price_postapoc": "1250 cent",
+    "to_hit": -2,
+    "bashing": 20,
+    "cutting": 12,
+    "material": [ "wood", "steel" ],
+    "symbol": "/",
+    "color": "dark_gray",
+    "use_action": { "type": "prospect_pick", "radius": 10 },
+    "qualities": [ [ "HAMMER", 2 ], [ "HAMMER_FINE", 1 ] ],
+    "techniques": [ "WBLOCK_1" ],
+    "flags": [ "STAB", "DURABLE_MELEE", "NONCONDUCTIVE", "DIG_TOOL", "SHEATH_AXE" ]
+  },
+  {
     "id": "propick_alpha",
     "type": "GENERIC",
     "category": "tools_workshop",
@@ -815,10 +838,24 @@
     "material": [ "wood", "steel" ],
     "symbol": "/",
     "color": "dark_gray",
-    "use_action": { "type": "prospect_pick", "radius": 12 },
+    "use_action": { "type": "prospect_pick", "radius": 1 },
     "qualities": [ [ "HAMMER", 2 ], [ "HAMMER_FINE", 1 ] ],
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "STAB", "DURABLE_MELEE", "NONCONDUCTIVE", "DIG_TOOL", "SHEATH_AXE" ]
+  },
+  {
+    "id": "propick_beta",
+    "name": "prospecting pick",
+    "type": "GENERIC",
+    "copy-from": "propick_alpha",
+    "use_action": { "type": "prospect_pick", "radius": 2 }
+  },
+  {
+    "id": "propick_charlie",
+    "name": "improved prospecting pick",
+    "type": "GENERIC",
+    "copy-from": "propick_alpha",
+    "use_action": { "type": "prospect_pick", "radius": 3 }
   },
   {
     "id": "pin_reamer",
