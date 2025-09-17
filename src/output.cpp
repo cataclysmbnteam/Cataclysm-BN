@@ -4,7 +4,6 @@
 #include <cerrno>
 #include <cctype>
 #include <cstdio>
-#include <algorithm>
 #include <cstdarg>
 #include <cstdlib>
 #include <cstring>
@@ -235,10 +234,10 @@ std::string trim_by_length( const std::string  &text, int width )
         for( const std::string &seg : color_segments ) {
             sColor.clear();
 
-            if( !seg.empty() && ( seg.substr( 0, 7 ) == "<color_" || seg.substr( 0, 7 ) == "</color" ) ) {
+            if( !seg.empty() && ( seg.starts_with( "<color_" ) || seg.starts_with( "</color" ) ) ) {
                 sTempText = rm_prefix( seg );
 
-                if( seg.substr( 0, 7 ) == "<color_" ) {
+                if( seg.starts_with( "<color_" ) ) {
                     sColor = seg.substr( 0, seg.find( '>' ) + 1 );
                 }
             } else {
@@ -1705,12 +1704,12 @@ void insert_table( const catacurses::window &w, int pad, int line, int columns,
         }
 
         if( r_align ) {
-            right_print( w, y, indent, c_white, data[i + offset * columns] );
+            right_print( w, y, indent, c_white, data[i + ( offset * columns )] );
             if( indent == 1 ) {
                 indent = ( col_width * columns ) + 1;
             }
         } else {
-            fold_and_print_from( w, point( indent, y ), col_width, 0, c_white, data[i + offset * columns] );
+            fold_and_print_from( w, point( indent, y ), col_width, 0, c_white, data[i + ( offset * columns )] );
             indent += col_width;
             if( indent == ( col_width * columns ) + 1 ) {
                 indent = 1;
@@ -1897,7 +1896,7 @@ int scrollingcombattext::cSCT::getPosX() const
         }
 
         return pos.x + iDirOffset + ( dir.x * ( ( sType == "hp" ) ? ( getStepOffset() + 1 ) :
-                                                ( getStepOffset() * ( iso_mode ? 2 : 1 ) + getStep() ) ) );
+                                                ( ( getStepOffset() * ( iso_mode ? 2 : 1 ) ) + getStep() ) ) );
     }
 
     return 0;
@@ -1925,7 +1924,7 @@ int scrollingcombattext::cSCT::getPosY() const
         }
 
         return pos.y + iDirOffset + ( dir.y * ( ( iso_mode && sType == "hp" ) ? ( getStepOffset() + 1 ) :
-                                                ( getStepOffset() * ( iso_mode ? 2 : 1 ) + getStep() ) ) );
+                                                ( ( getStepOffset() * ( iso_mode ? 2 : 1 ) ) + getStep() ) ) );
     }
 
     return 0;

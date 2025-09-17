@@ -1,5 +1,7 @@
 #include "character_turn.h"
 
+#include <algorithm>
+
 #include "avatar.h"
 #include "bionics.h"
 #include "calendar.h"
@@ -284,7 +286,7 @@ void Character::process_turn()
         !has_effect( effect_sleep ) && !has_effect( effect_narcosis ) ) {
         const tripoint_abs_omt ompos = global_omt_location();
         const point_abs_omt pos = ompos.xy();
-        if( overmap_time.find( pos ) == overmap_time.end() ) {
+        if( !overmap_time.contains( pos ) ) {
             overmap_time[pos] = 1_turns;
         } else {
             overmap_time[pos] += 1_turns;
@@ -997,9 +999,7 @@ void update_body_wetness( Character &who, const w_point &weather )
             drying_chance = drying_chance * 3 / 4;
         }
 
-        if( drying_chance < 1 ) {
-            drying_chance = 1;
-        }
+        drying_chance = std::max( drying_chance, 1 );
 
         // TODO: Make evaporation reduce body heat
         if( drying_chance >= drying_roll ) {

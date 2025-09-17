@@ -36,7 +36,6 @@
 #include "point.h"
 
 using std::min; // from <algorithm>
-using std::max;
 
 static const std::string default_context_id( "default" );
 
@@ -561,7 +560,7 @@ input_manager::t_input_event_list &input_manager::get_or_create_event_list(
 
     // A new action is created in the event that the user creates a local
     // keymapping that masks a global one.
-    if( actions.find( action_descriptor ) == actions.end() ) {
+    if( !actions.contains( action_descriptor ) ) {
         action_attributes &attributes = actions[action_descriptor];
         attributes.name = get_default_action_name( action_descriptor );
         attributes.is_user_created = true;
@@ -988,7 +987,7 @@ void rotate_direction_cw( int &dx, int &dy )
     // 0 1 2
     // 3 4 5
     // 6 7 8
-    int dir_num = ( dy + 1 ) * 3 + dx + 1;
+    int dir_num = ( ( dy + 1 ) * 3 ) + dx + 1;
     // rotate to
     // 1 2 5
     // 0 4 8
@@ -1112,7 +1111,7 @@ action_id input_context::display_menu( const bool permit_execute_action )
         height = min( maxheight, static_cast<int>( hotkeys.size() ) + LEGEND_HEIGHT + BORDER_SPACE );
 
         w_help = catacurses::newwin( height - 2, width - 2,
-                                     point( maxwidth / 2 - width / 2, maxheight / 2 - height / 2 ) );
+                                     point( ( maxwidth / 2 ) - ( width / 2 ), ( maxheight / 2 ) - ( height / 2 ) ) );
         // height of the area usable for display of keybindings, excludes headers & borders
         display_height = height - LEGEND_HEIGHT - BORDER_SPACE; // -2 for the border
         const point filter_pos( 4, 8 );

@@ -2,7 +2,6 @@
 
 #include <algorithm>
 #include <cstddef>
-#include <algorithm>
 #include <cassert>
 #include <iterator>
 #include <limits>

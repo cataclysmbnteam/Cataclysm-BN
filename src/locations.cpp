@@ -489,7 +489,7 @@ bool contents_item_location::is_loaded( const item * ) const
 
 void contents_item_location::on_changed( const item * ) const
 {
-    return container->on_contents_changed();
+    container->on_contents_changed();
 }
 
 
@@ -535,7 +535,7 @@ detached_ptr<item> component_item_location::detach( item *it )
 
 void component_item_location::attach( detached_ptr<item> &&obj )
 {
-    return container->add_component( std::move( obj ) );
+    container->add_component( std::move( obj ) );
 }
 
 partial_con_item_location::partial_con_item_location( tripoint position ) : tile_item_location(

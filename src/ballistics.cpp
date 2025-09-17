@@ -581,7 +581,7 @@ double hit_chance( const dispersion_sources &dispersion, double range, double ta
 
     //          T = (2*D**2 * (1 - cos V)) ** 0.5   (from iso_tangent)
     //      cos V = 1 - T**2 / (2*D**2)
-    double cosV = 1 - missed_by_tiles * missed_by_tiles / ( 2 * range * range );
+    double cosV = 1 - ( missed_by_tiles * missed_by_tiles / ( 2 * range * range ) );
     double needed_dispersion = ( cosV < -1.0 ? M_PI : acos( cosV ) ) * 180 * 60 / M_PI;
 
     return normal_cdf( needed_dispersion, dispersion.avg(), dispersion.avg() / 2 );

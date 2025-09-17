@@ -833,9 +833,7 @@ void sfx::do_vehicle_engine_sfx()
             pitch = 1.0 - static_cast<double>( current_speed ) / static_cast<double>( safe_speed );
         }
     }
-    if( pitch <= 0.5 ) {
-        pitch = 0.5;
-    }
+    pitch = std::max( pitch, 0.5 );
 
     if( current_speed != previous_speed ) {
         Mix_HaltChannel( static_cast<int>( ch ) );
@@ -1066,9 +1064,7 @@ void sfx::generate_gun_sound( const tripoint &source, const item &firing )
         return;
     }
     int heard_volume = get_heard_volume( source );
-    if( heard_volume <= 30 ) {
-        heard_volume = 30;
-    }
+    heard_volume = std::max( heard_volume, 30 );
 
     itype_id weapon_id = firing.typeId();
     units::angle angle = 0_degrees;
@@ -1696,10 +1692,8 @@ int sfx::get_heard_volume( const tripoint &source )
     int distance = sound_distance( get_avatar().pos(), source );
     // fract = -100 / 24
     const float fract = -4.166666;
-    int heard_volume = fract * distance - 1 + 100;
-    if( heard_volume <= 0 ) {
-        heard_volume = 0;
-    }
+    int heard_volume = ( fract * distance ) - 1 + 100;
+    heard_volume = std::max( heard_volume, 0 );
     heard_volume *= g_sfx_volume_multiplier;
     return ( heard_volume );
 }

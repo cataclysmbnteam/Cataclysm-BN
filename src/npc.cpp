@@ -789,7 +789,7 @@ void npc::place_on_map()
     const point dm( submap_coords + point( -g->get_levx(), -g->get_levy() ) );
     const point offset( position.x % SEEX, position.y % SEEY );
     // value of "submap_coords.x * SEEX + posx()" is unchanged
-    setpos( tripoint( offset.x + dm.x * SEEX, offset.y + dm.y * SEEY, posz() ) );
+    setpos( tripoint( offset.x + ( dm.x * SEEX ), offset.y + ( dm.y * SEEY ), posz() ) );
 
     if( g->is_empty( pos() ) || is_mounted() ) {
         return;
@@ -830,9 +830,7 @@ int npc::best_skill_level() const
     for( const auto &p : *_skills ) {
         if( p.first.obj().is_combat_skill() ) {
             const int level = p.second.level();
-            if( level > highest_level ) {
-                highest_level = level;
-            }
+            highest_level = std::max( level, highest_level );
         }
     }
 
@@ -977,20 +975,14 @@ void npc::finish_read( item *it )
         // Calculate experience gained
         /** @EFFECT_INT increases reading comprehension */
         // Enhanced Memory Banks modestly boosts experience
-        int min_ex = std::max( 1, reading->time / 10 + get_int() / 4 );
-        int max_ex = reading->time / 5 + get_int() / 2 - originalSkillLevel;
+        int min_ex = std::max( 1, ( reading->time / 10 ) + ( get_int() / 4 ) );
+        int max_ex = ( reading->time / 5 ) + ( get_int() / 2 ) - originalSkillLevel;
         if( has_active_bionic( bio_memory ) ) {
             min_ex += 2;
         }
-        if( max_ex < 2 ) {
-            max_ex = 2;
-        }
-        if( max_ex > 10 ) {
-            max_ex = 10;
-        }
-        if( max_ex < min_ex ) {
-            max_ex = min_ex;
-        }
+        max_ex = std::max( max_ex, 2 );
+        max_ex = std::min( max_ex, 10 );
+        max_ex = std::max( max_ex, min_ex );
         const std::string &s = activity->get_str_value( 0, "1" );
         double penalty = strtod( s.c_str(), nullptr );
         min_ex *= ( originalSkillLevel + 1 ) * penalty;
@@ -1422,7 +1414,7 @@ void npc::mutiny()
     }
     // NPCs leaving your faction for abuse reduce the hatred your (remaining) followers
     // feel for you, but also reduces their respect for you.
-    my_fac->likes_u = std::max( 0, my_fac->likes_u / 2 + 10 );
+    my_fac->likes_u = std::max( 0, ( my_fac->likes_u / 2 ) + 10 );
     my_fac->respects_u -= 5;
     g->remove_npc_follower( getID() );
     set_fac( faction_id( "amf" ) );
@@ -1450,8 +1442,8 @@ float npc::vehicle_danger( int radius ) const
             units::angle facing = wrapped_veh.v->face.dir();
 
             point a( wrapped_veh.v->global_pos3().xy() );
-            point b( static_cast<int>( a.x + units::cos( facing ) * radius ),
-                     static_cast<int>( a.y + units::sin( facing ) * radius ) );
+            point b( static_cast<int>( a.x + ( units::cos( facing ) * radius ) ),
+                     static_cast<int>( a.y + ( units::sin( facing ) * radius ) ) );
 
             // fake size
             /* This will almost certainly give the wrong size/location on customized
@@ -1464,10 +1456,11 @@ float npc::vehicle_danger( int radius ) const
             }
             int size = std::max( last_part->mount.x, last_part->mount.y );
 
-            double normal = std::sqrt( static_cast<float>( ( b.x - a.x ) * ( b.x - a.x ) + ( b.y - a.y ) *
-                                       ( b.y - a.y ) ) );
-            int closest = static_cast<int>( std::abs( ( posx() - a.x ) * ( b.y - a.y ) - ( posy() - a.y ) *
-                                            ( b.x - a.x ) ) / normal );
+            double normal = std::sqrt( static_cast<float>( ( ( b.x - a.x ) * ( b.x - a.x ) ) + ( ( b.y - a.y ) *
+                                       ( b.y - a.y ) ) ) );
+            int closest = static_cast<int>( std::abs( ( ( posx() - a.x ) * ( b.y - a.y ) ) - ( (
+                                                posy() - a.y ) *
+                                            ( b.x - a.x ) ) ) / normal );
 
             if( size > closest ) {
                 danger = i;
@@ -1695,11 +1688,11 @@ int npc::max_credit_extended() const
     const int credit_anger    = -200;
 
     return std::max( 0,
-                     op_of_u.trust * credit_trust +
-                     op_of_u.value * credit_value +
-                     op_of_u.fear  * credit_fear  +
-                     personality.altruism * credit_altruism +
-                     op_of_u.anger * credit_anger
+                     ( op_of_u.trust * credit_trust ) +
+                     ( op_of_u.value * credit_value ) +
+                     ( op_of_u.fear  * credit_fear )  +
+                     ( personality.altruism * credit_altruism ) +
+                     ( op_of_u.anger * credit_anger )
                    );
 }
 
@@ -1718,11 +1711,11 @@ int npc::max_willing_to_owe() const
     const int credit_anger    = -10000;
 
     return std::max( 0,
-                     op_of_u.trust * credit_trust +
-                     op_of_u.value * credit_value +
-                     op_of_u.fear  * credit_fear  +
-                     personality.altruism * credit_altruism +
-                     op_of_u.anger * credit_anger
+                     ( op_of_u.trust * credit_trust ) +
+                     ( op_of_u.value * credit_value ) +
+                     ( op_of_u.fear  * credit_fear )  +
+                     ( personality.altruism * credit_altruism ) +
+                     ( op_of_u.anger * credit_anger )
                    );
 
 }
@@ -1830,9 +1823,7 @@ void npc::update_worst_item_value()
     worst_item_value = 99999;
     // TODO: Cache this
     int inv_val = inv.worst_item_value( this );
-    if( inv_val < worst_item_value ) {
-        worst_item_value = inv_val;
-    }
+    worst_item_value = std::min( inv_val, worst_item_value );
 }
 
 int npc::value( const item &it ) const
@@ -2933,9 +2924,9 @@ void npc::process_turn()
                          std::max( 0, -op_of_u.value ) +
                          std::max( 0, op_of_u.fear );
         // Being barely hungry and thirsty, not in pain and not wounded means good care
-        int state_penalty = ( max_stored_kcal() - get_stored_kcal() ) / 10 + get_thirst()
+        int state_penalty = ( ( max_stored_kcal() - get_stored_kcal() ) / 10 ) + get_thirst()
                             + ( 100 - hp_percentage() ) + get_pain();
-        if( x_in_y( trust_chance, 240 + 10 * op_penalty + state_penalty ) ) {
+        if( x_in_y( trust_chance, 240 + ( 10 * op_penalty ) + state_penalty ) ) {
             op_of_u.trust++;
         }
 
@@ -3117,7 +3108,7 @@ std::pair<PathfindingSettings, RouteSettings> npc::get_pathfinding_pair(
     if( climb <= 1 ) {
         path_settings.climb_cost = INFINITY;
     } else {
-        const float climb_success_prob = 1.0 - 1.0 / climb;
+        const float climb_success_prob = 1.0 - ( 1.0 / climb );
         path_settings.climb_cost = 5 / climb_success_prob;
     }
 

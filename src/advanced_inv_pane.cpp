@@ -40,7 +40,7 @@ void advanced_inventory_pane::load_settings( int saved_area_idx,
                              !is_re_enter ) ? saved_area_idx :
                            save_state->area_idx;
     const aim_location location = static_cast<aim_location>( i_location );
-    auto square = squares[location];
+    const auto &square = squares[location];
     // determine the square's vehicle/map item presence
     bool has_veh_items = square.can_store_in_vehicle() ?
                          !square.veh->get_items( square.vstor ).empty() : false;
@@ -70,7 +70,7 @@ bool advanced_inventory_pane::is_filtered( const item &it ) const
     }
 
     const std::string str = it.tname();
-    if( filtercache.find( str ) == filtercache.end() ) {
+    if( !filtercache.contains( str ) ) {
         const auto filter_fn = item_filter_from_string( filter );
         filtercache[str] = filter_fn;
 
