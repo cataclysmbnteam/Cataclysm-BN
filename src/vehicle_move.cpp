@@ -1362,18 +1362,22 @@ vehicle *vehicle::act_on_map()
     const bool pl_ctrl = player_in_control( player_character );
     // TODO: Remove this hack, have vehicle sink a z-level
     if( is_floating && !can_float() ) {
-        add_msg( m_bad, _( "Your %s sank." ), name );
-        if( pl_ctrl ) {
-            unboard_all();
-        }
-        if( g->remoteveh() == this ) {
-            g->setremoteveh( nullptr );
-        }
+        if( has_sufficient_lift() ) {
+            requested_z_change = 1; 
+        } else {
+            add_msg( m_bad, _( "Your %s sank." ), name );
+            if( pl_ctrl ) {
+                unboard_all();
+            }
+            if( g->remoteveh() == this ) {
+                g->setremoteveh( nullptr );
+            }
 
-        here.on_vehicle_moved( sm_pos.z );
-        // Destroy vehicle (sank to nowhere)
-        here.destroy_vehicle( this );
-        return nullptr;
+            here.on_vehicle_moved( sm_pos.z );
+            // Destroy vehicle (sank to nowhere)
+            here.destroy_vehicle( this );
+            return nullptr;
+        }
     }
 
     // It needs to fall when it has no support OR was falling before
@@ -1406,7 +1410,7 @@ vehicle *vehicle::act_on_map()
 
     const float wheel_traction_area = here.vehicle_wheel_traction( *this );
     const float traction = k_traction( wheel_traction_area );
-    if( traction < 0.001f ) {
+    if( traction < 0.001f && requested_z_change != 1 ) {
         of_turn = 0;
         if( !should_fall ) {
             stop();
