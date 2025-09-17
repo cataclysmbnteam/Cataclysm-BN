@@ -5754,13 +5754,18 @@ void overmap::spawn_ores( const tripoint_abs_omt &p )
          * function, if there is one, I couldnt find it.*/
         //TODO: somewhere in here fucking explodes
         map &here = get_map();
-        overmap_buffer.ter_set( p, oter_id( "omt_ore_vein_" + chosen ) );
+        ter_set( local_pos, oter_id( "omt_ore_vein_" + chosen ) );
+        add_note( local_pos,
+                  string_format( "Signs of %s ore here at %s,%s for coords %s,%s",
+                                 chosen, local_pos.x(), local_pos.y(), p.x(),
+                                 p.y() ) );
+        place_special_forced( overmap_special_id( "pros_ore_vein_" + chosen ), local_pos,
+                              om_direction::type::north );
         tinymap tmp;
+
+        const point target_sub( p.x() / SEEX, p.y() / SEEY );
         tmp.generate( tripoint( project_to<coords::sm>( p.xy() ).raw(), p.z() ),
                       calendar::turn );
-        add_note( local_pos, string_format( "Signs of %s ore here",
-                                            chosen ) );
-        const point target_sub( p.x() / SEEX, p.y() / SEEY );
 
         here.set_transparency_cache_dirty( p.z() );
         here.set_outside_cache_dirty( p.z() );
@@ -5804,9 +5809,6 @@ void overmap::spawn_ores( const tripoint_abs_omt &p )
 
         here.reset_vehicle_cache();
         /* end edited editmap code*/
-        ter_set( local_pos, oter_id( "omt_ore_vein_" + chosen ) );
-        place_special_forced( overmap_special_id( "pros_ore_vein_" + chosen ), local_pos,
-                              om_direction::type::north );
     }
 }
 
