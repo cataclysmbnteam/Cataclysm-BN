@@ -9,6 +9,7 @@
 #include <cassert>
 #include <cmath>
 #include <coordinates.h>
+#include <cstddef>
 #include <cstring>
 #include <exception>
 #include <memory>
@@ -5750,22 +5751,22 @@ void overmap::spawn_ores( const tripoint_abs_omt &p )
         }
         std::string chosen = ores.pick()->c_str();
         tripoint_om_omt local_pos = overmap_buffer.get_om_global( p ).local;
-        /* begin edited editmap code TODO: Should probably just make this a
-         * function, if there is one, I couldnt find it.*/
-        //TODO: somewhere in here fucking explodes
-        map &here = get_map();
-        ter_set( local_pos, oter_id( "omt_ore_vein_" + chosen ) );
-        add_note( local_pos,
-                  string_format( "Signs of %s ore here at %s,%s for coords %s,%s",
-                                 chosen, local_pos.x(), local_pos.y(), p.x(),
-                                 p.y() ) );
-        place_special_forced( overmap_special_id( "pros_ore_vein_" + chosen ), local_pos,
-                              om_direction::type::north );
-        tinymap tmp;
+        const tripoint target_sub( omt_to_sm_copy( p.raw() ) );
 
-        const point target_sub( p.x() / SEEX, p.y() / SEEY );
-        tmp.generate( tripoint( project_to<coords::sm>( p.xy() ).raw(), p.z() ),
-                      calendar::turn );
+        add_note( local_pos, string_format( "Signs of %s ore nearby.", chosen ) );
+        if( !( MAPBUFFER.lookup_submap( target_sub ) ) ) {
+            //No overmap to replace, set the terrain and bail.
+            ter_set( local_pos, oter_id( "omt_ore_vein_" + chosen ) );
+            return;
+        }
+        /* Theres already overmap there, crap, hacky replace time!
+        * begin edited editmap code TODO: Should probably just make this a
+        * function, if there is one, I couldnt find it. Bascially "regenerates" an OM tile.
+        */
+        tinymap tmp;
+        map &here = get_map();
+        overmap_buffer.ter_set( p, oter_id( "omt_ore_vein_" + chosen ) );
+        tmp.generate( target_sub, calendar::turn );
 
         here.set_transparency_cache_dirty( p.z() );
         here.set_outside_cache_dirty( p.z() );
@@ -5780,10 +5781,10 @@ void overmap::spawn_ores( const tripoint_abs_omt &p )
             for( int y = 0; y < 2; y++ ) {
                 // Apply previewed mapgen to map. Since this is a function for testing, we try avoid triggering
                 // functions that would alter the results
-                const auto dest_pos = target_sub + tripoint( x, y, p.z() );
-                const auto src_pos = tripoint{ x, y, p.z() };
+                const tripoint dest_pos = target_sub + point( x, y );
+                const tripoint src_pos = tripoint{ x, y, p.z() };
 
-                submap *destsm = here.get_submap_at_grid( dest_pos );
+                submap *destsm = MAPBUFFER.lookup_submap( dest_pos );
                 submap *srcsm = tmp.get_submap_at_grid( src_pos );
 
                 submap::swap( *destsm,  *srcsm );
