@@ -772,6 +772,14 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "open_air_blimp",
+    "looks_like": "open_air",
+    "name": "open air",
+    "sym": ".",
+    "color": "blue"
+  },
+  {
+    "type": "overmap_terrain",
     "flags": [ "NO_ROTATE" ],
     "id": "omt_ore_vein_gold",
     "looks_like": "empty_rock",
