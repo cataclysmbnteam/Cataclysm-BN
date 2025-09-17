@@ -769,5 +769,13 @@
     "sym": "%",
     "color": "light_gray",
     "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "open_air_blimp",
+    "looks_like": "open_air",
+    "name": "open air",
+    "sym": ".",
+    "color": "blue"
   }
 ]
