@@ -738,7 +738,7 @@ class map
         vehicle *veh_at_internal( const tripoint &p, int &part_num );
         const vehicle *veh_at_internal( const tripoint &p, int &part_num ) const;
         // Put player on vehicle at x,y
-        void board_vehicle( const tripoint &p, Character *pl );
+        void board_vehicle( const tripoint &p, Character *who );
         // Remove given passenger from given vehicle part.
         // If dead_passenger, then null passenger is acceptable.
         void unboard_vehicle( const vpart_reference &, Character *passenger,
@@ -1811,7 +1811,7 @@ class map
     protected:
         void generate_lightmap( int zlev );
         void build_seen_cache( const tripoint &origin, int target_z );
-        void apply_character_light( Character &who );
+        void apply_character_light( Character &p );
 
         //Adds/removes player specific transparencies
         void apply_vision_transparency_cache( const tripoint &center, int target_z,

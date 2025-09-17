@@ -48,7 +48,7 @@ directed_path<point> greedy_path( point source, point dest, point max,
         return p.x >= 0 && p.x < max.x && p.y >= 0 && p.y < max.y;
     };
     const auto map_index = [ max ]( point  p ) {
-        return p.y * max.x + p.x;
+        return ( p.y * max.x ) + p.x;
     };
 
     directed_path<point> res;
@@ -254,7 +254,7 @@ simple_path<tripoint_abs_omt> find_overmap_path( const tripoint_abs_omt &source,
     std::unordered_map<tripoint_abs_omt, navigation_node> &other_known_nodes ) {
         const tripoint_abs_omt cur_addr = open_set.top().addr;
         open_set.pop();
-        if( other_known_nodes.find( cur_addr ) != other_known_nodes.end() ) {
+        if( other_known_nodes.contains( cur_addr ) ) {
             meet = true;
             tripoint_abs_omt addr = cur_addr;
             tripoint_abs_omt other_start = start == source ? dest : source;

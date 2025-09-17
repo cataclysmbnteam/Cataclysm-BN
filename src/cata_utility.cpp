@@ -95,7 +95,7 @@ double logarithmic_range( int min, int max, int pos )
     double unit_pos = ( pos - min ) / range;
 
     // Scale and flip it to [+LOGI_CUTOFF,-LOGI_CUTOFF]
-    double scaled_pos = LOGI_CUTOFF - 2 * LOGI_CUTOFF * unit_pos;
+    double scaled_pos = LOGI_CUTOFF - ( 2 * LOGI_CUTOFF * unit_pos );
 
     // Get the raw logistic value.
     double raw_logistic = logarithmic( scaled_pos );

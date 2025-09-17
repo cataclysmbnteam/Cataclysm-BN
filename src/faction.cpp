@@ -433,7 +433,7 @@ faction *faction_manager::get( const faction_id &id, const bool complain )
                         elem.second.mon_faction = fac_temp.mon_faction;
                         elem.second.epilogue_data = fac_temp.epilogue_data;
                         for( const auto &rel_data : fac_temp.relations ) {
-                            if( elem.second.relations.find( rel_data.first ) == elem.second.relations.end() ) {
+                            if( !elem.second.relations.contains( rel_data.first ) ) {
                                 elem.second.relations[rel_data.first] = rel_data.second;
                             }
                         }
@@ -622,10 +622,10 @@ void faction_manager::display() const
 
     enum class tab_mode : int {
         TAB_FOLLOWERS = 0,
-        TAB_OTHERFACTIONS,
-        TAB_LORE,
-        TAB_CREATURES,
-        NUM_TABS,
+        TAB_OTHERFACTIONS = 1,
+        TAB_LORE = 2,
+        TAB_CREATURES = 3,
+        NUM_TABS = 4,
         FIRST_TAB = 0,
         LAST_TAB = NUM_TABS - 1
     };

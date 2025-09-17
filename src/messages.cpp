@@ -496,12 +496,12 @@ void Messages::dialog::init( ui_adaptor &ui )
         return;
     }
     msg_width = w_width - border_width * 2 - time_width - padding_width;
-    max_lines = static_cast<size_t>( w_height - border_width * 2 );
+    max_lines = static_cast<size_t>( w_height - ( border_width * 2 ) );
 
     // Initialize filter help text and window
     w_fh_width = w_width;
     w_fh_x = w_x;
-    help_text = filter_help_text( w_fh_width - border_width * 2 );
+    help_text = filter_help_text( w_fh_width - ( border_width * 2 ) );
     w_fh_height = static_cast<int>( help_text.size() ) + border_width * 2;
     w_fh_y = w_y + w_height - w_fh_height;
     w_filter_help = catacurses::newwin( w_fh_height, w_fh_width, point( w_fh_x, w_fh_y ) );

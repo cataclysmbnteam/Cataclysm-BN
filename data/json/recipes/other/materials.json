@@ -625,6 +625,27 @@
   },
   {
     "type": "recipe",
+    "result": "chunk_rubber",
+    "id_suffix": "chemistry",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "cooking",
+    "difficulty": 5,
+    "time": "30 m",
+    "book_learn": [ [ "adv_chemistry", 3 ], [ "textbook_chemistry", 3 ], [ "reference_cooking", 5 ] ],
+    "batch_time_factors": [ 80, 4 ],
+    "qualities": [ { "id": "CHEM", "level": 2 }, { "id": "FINE_DISTILL", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 50, "LIST" ] ] ],
+    "//": "Rough abstraction of making butadiene using butane and a metal catalyst, styrene from methanol (note: we're missing toluene and a zeolite catalyst), then combining with hydroperoxide produced from ether (note: also missing alkyl mercaptan ).",
+    "components": [
+      [ [ "chem_butane", 250 ] ],
+      [ [ "chem_methanol", 50 ] ],
+      [ [ "chem_aluminium_powder", 10 ], [ "chem_chromium_oxide", 10 ] ],
+      [ [ "ether", 25 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
     "result": "spring",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",

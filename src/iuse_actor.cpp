@@ -331,6 +331,18 @@ int iuse_transform::use( player &p, item &it, bool t, const tripoint &pos ) cons
             } else {
                 it.set_countdown( qty );
             }
+            // If we're setting target charges then check for integral mods too.
+            if( it.type->gun ) {
+                for( const itype_id &mod : it.type->gun->built_in_mods ) {
+                    detached_ptr<item> content = item::spawn( mod, calendar::turn, qty );
+                    content->set_flag( flag_IRREMOVABLE );
+                    it.put_in( std::move( content ) );
+                }
+                for( const itype_id &mod : it.type->gun->default_mods ) {
+                    it.put_in( item::spawn( mod, calendar::turn, qty ) );
+                }
+
+            }
         }
     } else {
         it.convert( container );
@@ -893,7 +905,7 @@ int consume_drug_iuse::use( player &p, item &it, bool, const tripoint & ) const
     }
 
     // this is a smokeable item, we need to make sure player isnt already smoking (ripped from iuse::smoking)
-    if( lit_item.size() != 0 ) {
+    if( !lit_item.empty() ) {
         // make sure we're not already smoking something
         auto cigs = p.items_with( []( const item & it ) {
             return it.is_active() && it.has_flag( flag_LITCIG );
@@ -924,7 +936,7 @@ int consume_drug_iuse::use( player &p, item &it, bool, const tripoint & ) const
     }
 
     // item used to "fake" addiction (ripped from old ecig iuse)
-    if( fake_item.size() != 0 ) {
+    if( !fake_item.empty() ) {
         item *dummy_item = item::spawn_temporary( fake_item, calendar::turn );
         p.consume_effects( *dummy_item );
     }
@@ -991,8 +1003,8 @@ int consume_drug_iuse::use( player &p, item &it, bool, const tripoint & ) const
                        p.vitamin_rate( v.first ) <= 0_turns );
     }
 
-    if( snippet_category != "" ) {
-        std::string snippet_string = "";
+    if( !snippet_category.empty() ) {
+        std::string snippet_string;
         snippet_string = SNIPPET.random_from_category( snippet_category ).value_or(
                              translation() ).translated();
         if( one_in( snippet_chance ) ) {
@@ -1283,7 +1295,6 @@ int place_npc_iuse::use( player &p, item &, bool, const tripoint & ) const
             return !get_map().passable( t );
         } );
     } else {
-        const std::string query = _( "Place npc where?" );
         target_pos = choose_adjacent( _( "Place npc where?" ) );
     }
     if( !target_pos ) {
@@ -1768,7 +1779,7 @@ int firestarter_actor::use( player &p, item &it, bool t, const tripoint &spos ) 
     const int moves_base = moves_cost_by_fuel( pos );
     const double moves_per_turn = to_moves<double>( 1_turns );
     const int min_moves = std::min<int>(
-                              moves_base, std::sqrt( 1 + moves_base / moves_per_turn ) * moves_per_turn );
+                              moves_base, std::sqrt( 1 + ( moves_base / moves_per_turn ) ) * moves_per_turn );
     const int moves = std::max<int>( min_moves, moves_base * moves_modifier ) / light;
     if( moves > to_moves<int>( 1_minutes ) ) {
         // If more than 1 minute, inform the player
@@ -1785,7 +1796,7 @@ int firestarter_actor::use( player &p, item &it, bool t, const tripoint &spos ) 
 
     // skill gains are handled by the activity, but stored here in the index field
     const int potential_skill_gain =
-        moves_modifier + moves_cost_fast / 100.0 + 2;
+        moves_modifier + ( moves_cost_fast / 100.0 ) + 2;
     p.assign_activity( ACT_START_FIRE, moves, potential_skill_gain,
                        0, it.tname() );
     p.activity->tools.emplace_back( &it );
@@ -2463,7 +2474,7 @@ int musical_instrument_actor::use( player &p, item &it, bool t, const tripoint &
 
     std::string desc = "music";
     /** @EFFECT_PER increases morale bonus when playing an instrument */
-    const int morale_effect = fun + fun_bonus * p.per_cur;
+    const int morale_effect = fun + ( fun_bonus * p.per_cur );
     if( morale_effect >= 0 && calendar::once_every( description_frequency ) ) {
         if( !player_descriptions.empty() && p.is_player() ) {
             desc = _( random_entry( player_descriptions ) );
@@ -3748,7 +3759,7 @@ int heal_actor::get_heal_value( const Character &healer, const bodypart_str_id &
 
     if( heal_base > 0 ) {
         /** @EFFECT_FIRSTAID increases healing item effects */
-        return heal_base + bonus_mult * healer.get_skill_level( skill_firstaid );
+        return heal_base + ( bonus_mult * healer.get_skill_level( skill_firstaid ) );
     }
 
     return heal_base;
@@ -3758,7 +3769,7 @@ int heal_actor::get_bandaged_level( const Character &healer ) const
 {
     if( bandages_power > 0 ) {
         /** @EFFECT_FIRSTAID increases healing item effects */
-        return bandages_power + bandages_scaling * healer.get_skill_level( skill_firstaid );
+        return bandages_power + ( bandages_scaling * healer.get_skill_level( skill_firstaid ) );
     }
 
     return bandages_power;
@@ -3768,7 +3779,7 @@ int heal_actor::get_disinfected_level( const Character &healer ) const
 {
     if( disinfectant_power > 0 ) {
         /** @EFFECT_FIRSTAID increases healing item effects */
-        return disinfectant_power + disinfectant_scaling * healer.get_skill_level( skill_firstaid );
+        return disinfectant_power + ( disinfectant_scaling * healer.get_skill_level( skill_firstaid ) );
     }
 
     return disinfectant_power;
@@ -4659,7 +4670,7 @@ int mutagen_iv_actor::use( player &p, item &it, bool, const tripoint & ) const
     if( m_category.iv_sleep && !one_in( 3 ) ) {
         p.add_msg_if_player( m_bad, m_category.iv_sleep_message() );
         /** @EFFECT_INT reduces sleep duration when using IV mutagen */
-        p.fall_asleep( time_duration::from_turns( m_category.iv_sleep_dur - p.int_cur * 5 ) );
+        p.fall_asleep( time_duration::from_turns( m_category.iv_sleep_dur - ( p.int_cur * 5 ) ) );
     }
 
     // try crossing again after getting new in-category mutations.
@@ -4686,7 +4697,7 @@ void deploy_tent_actor::load( const JsonObject &obj )
 
 int deploy_tent_actor::use( player &p, item &it, bool, const tripoint & ) const
 {
-    int diam = 2 * radius + 1;
+    int diam = ( 2 * radius ) + 1;
     if( p.is_mounted() ) {
         p.add_msg_if_player( _( "You cannot do that while mounted." ) );
         return 0;
@@ -4848,10 +4859,11 @@ int gps_device_actor::use( player &p, item &it, bool, const tripoint & ) const
     params.search_layers  = omt_find_above_ground_layer;
     params.explored       = false;
     if( it.has_flag( flag_USE_UPS ) ) {
-        params.max_results = static_cast<size_t>( 1 + p.charges_of( itype_UPS ) /
-                             additional_charges_per_tile );
+        params.max_results = static_cast<size_t>(
+                                 1 + ( p.charges_of( itype_UPS ) / additional_charges_per_tile ) );
     } else {
-        params.max_results = static_cast<size_t>( 1 + it.ammo_remaining() / additional_charges_per_tile );
+        params.max_results = static_cast<size_t>(
+                                 1 + ( it.ammo_remaining() / additional_charges_per_tile ) );
     }
     params.popup          = make_shared_fast<throbber_popup>( _( "Searching…" ) );
 
@@ -5084,7 +5096,7 @@ int sew_advanced_actor::use( player &p, item &it, bool, const tripoint & ) const
 
     int index = 0;
     for( auto cm : clothing_mods ) {
-        auto obj = cm.obj();
+        const auto &obj = cm.obj();
         item &temp_item = *modded_copy( mod, obj.flag );
         temp_item.update_clothing_mod_val();
 
@@ -5181,7 +5193,7 @@ int sew_advanced_actor::use( player &p, item &it, bool, const tripoint & ) const
     comps.emplace_back( repair_item, items_needed );
     // TODO: this may take up to 2 minutes, and so should start an activity instead
     p.moves -= to_moves<int>( 30_seconds * character_funcs::fine_detail_vision_mod( p ) );
-    p.practice( used_skill, items_needed * 3 + 3 );
+    p.practice( used_skill, ( items_needed * 3 ) + 3 );
     /** @EFFECT_TAILOR randomly improves clothing modification efforts */
     int rn = dice( 3, 2 + p.get_skill_level( used_skill ) ); // Skill
     /** @EFFECT_DEX randomly improves clothing modification efforts */
@@ -5470,7 +5482,7 @@ int multicooker_iuse::use( player &p, item &it, bool t, const tripoint &pos ) co
                     const bool can_make = r->deduped_requirements().can_make_with_inventory(
                                               crafting_inv, r->get_component_filter() );
                     dmenu.addentry( counter++, can_make, -1, string_format( _( "%s (%1.f charges)" ), r->result_name(),
-                                    r->time * time_mult / 6000 * charges_per_minute + charges_to_start ) );
+                                    ( r->time * time_mult / 6000 * charges_per_minute ) + charges_to_start ) );
                 }
             }
 
@@ -5497,7 +5509,7 @@ int multicooker_iuse::use( player &p, item &it, bool t, const tripoint &pos ) co
                     const bool can_make = meal->deduped_requirements().can_make_with_inventory(
                                               crafting_inv, meal->get_component_filter(), i );
                     batchmenu.addentry( counter++, can_make, -1, string_format( _( "%s batches (%1.f charges)" ), i,
-                                        meal->batch_time( i, 1, 0 ) * time_mult / 6000 * charges_per_minute + charges_to_start ) );
+                                        ( meal->batch_time( i, 1, 0 ) * time_mult / 6000 * charges_per_minute ) + charges_to_start ) );
                 }
 
                 batchmenu.query();
@@ -5510,7 +5522,7 @@ int multicooker_iuse::use( player &p, item &it, bool t, const tripoint &pos ) co
                 batchcount++;
 
                 int mealtime = meal->batch_time( batchcount, 1, 0 ) * time_mult;
-                int all_charges = mealtime / 6000 * charges_per_minute + charges_to_start;
+                int all_charges = ( static_cast<float>( mealtime ) / 6000 * charges_per_minute ) + charges_to_start;
 
                 if( it.ammo_remaining() < all_charges ) {
 

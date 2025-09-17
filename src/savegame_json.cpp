@@ -228,8 +228,7 @@ void player_activity::deserialize( JsonIn &jsin )
         return;
     }
 
-    const bool has_actor = activity_actors::deserialize_functions.find( type ) !=
-                           activity_actors::deserialize_functions.end();
+    const bool has_actor = activity_actors::deserialize_functions.contains( type );
 
     // Handle migration of pre-activity_actor activities
     // ACT_MIGRATION_CANCEL will clear the backlog and reset npc state
@@ -374,9 +373,7 @@ void SkillLevel::deserialize( JsonIn &jsin )
                              get_option<int>( "INITIAL_TIME" ) );
     }
     data.read( "highestlevel", _highestLevel );
-    if( _highestLevel < _level ) {
-        _highestLevel = _level;
-    }
+    _highestLevel = std::max( _highestLevel, _level );
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1917,7 +1914,7 @@ void monster::load( const JsonObject &data )
     // make sure the loaded monster has every special attack its type says it should have
     for( auto &sa : type->special_attacks ) {
         const std::string &aname = sa.first;
-        if( special_attacks.find( aname ) == special_attacks.end() ) {
+        if( !special_attacks.contains( aname ) ) {
             auto &entry = special_attacks[aname];
             entry.cooldown = rng( 0, sa.second->cooldown );
         }
@@ -2586,8 +2583,8 @@ void vehicle_part::deserialize( JsonIn &jsin )
 
     if( data.has_int( "hp" ) && id.obj().durability > 0 ) {
         // migrate legacy savegames exploiting that all base items at that time had max_damage() of 4
-        base->set_damage( 4 * itype::damage_scale - 4 * itype::damage_scale * data.get_int( "hp" ) /
-                          id.obj().durability );
+        base->set_damage( ( 4 * itype::damage_scale ) - ( 4 * itype::damage_scale * data.get_int( "hp" ) /
+                          id.obj().durability ) );
     }
 
     // legacy turrets loaded ammo via a pseudo CARGO space
