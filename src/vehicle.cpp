@@ -4440,14 +4440,8 @@ bool vehicle::can_float() const
     if( coeff_water_dirty ) {
         coeff_water_drag();
     }
-    // Someday I'll deal with submarines, but now, you can only float if you have freeboard
-    if( hull_height == 0.3 ) {
-        return false;
-    }
-    if( draft_m  < hull_height ) {
-        return true;
-    } else if ( )
-    return draft_m < hull_height;
+    int float_force = max_buoyancy() + total_balloon_lift();
+    return to_newton( total_mass() ) <= float_force;
 }
 
 
@@ -4668,9 +4662,7 @@ double vehicle::coeff_water_drag() const
     // water_mass = vehicle_mass
     // area * depth = vehicle_mass / water_density
     // depth = vehicle_mass / water_density / area
-    // vehicle_mass - balloon newton lift / GRAV == real veh mass
-    draft_m = ( to_kilogram( total_mass() ) - total_balloon_lift() / GRAVITY_OF_EARTH ) /
-                water_density / hull_area;
+    draft_m = to_kilogram( total_mass() ) / water_density / hull_area;
     // increase the streamlining as more of the boat is covered in boat boards
     double c_water_drag = 1.25 - hull_coverage;
     // hull height starts at 0.3m and goes up as you add more boat boards

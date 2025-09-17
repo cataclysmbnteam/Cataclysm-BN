@@ -1364,7 +1364,9 @@ bool map::displace_vehicle( vehicle &veh, const tripoint &dp )
         }
         veh.check_is_heli_landed();
     }
-
+    if( veh.is_flying_in_air() ) {
+        veh.check_is_heli_landed();
+    }
     if( remote ) {
         // Has to be after update_map or coordinates won't be valid
         g->setremoteveh( &veh );
