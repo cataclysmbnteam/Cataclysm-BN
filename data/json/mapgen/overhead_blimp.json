@@ -8,7 +8,7 @@
       "fill_ter": "t_open_air",
       "place_vehicles": [
         {
-          "chance": 100,
+          "chance": 75,
           "fuel": 0,
           "rotation": [ 0, 90, 180, 270 ],
           "status": -1,
