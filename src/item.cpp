@@ -6452,7 +6452,8 @@ int item::get_avg_coverage() const
 {
     const islot_armor *armor = find_armor_data();
     if( !armor ) {
-        return 0;
+        // handle wearable guns (e.g. shoulder strap) as special case
+        return is_gun() ? std::min( volume() / 500_ml, 100 ) : 0;
     }
     int avg_coverage = 0;
     int avg_ctr = 0;

@@ -327,6 +327,18 @@ int iuse_transform::use( player &p, item &it, bool t, const tripoint &pos ) cons
             } else {
                 it.set_countdown( qty );
             }
+            // If we're setting target charges then check for integral mods too.
+            if( it.type->gun ) {
+                for( const itype_id &mod : it.type->gun->built_in_mods ) {
+                    detached_ptr<item> content = item::spawn( mod, calendar::turn, qty );
+                    content->set_flag( flag_IRREMOVABLE );
+                    it.put_in( std::move( content ) );
+                }
+                for( const itype_id &mod : it.type->gun->default_mods ) {
+                    it.put_in( item::spawn( mod, calendar::turn, qty ) );
+                }
+
+            }
         }
     } else {
         it.convert( container );
