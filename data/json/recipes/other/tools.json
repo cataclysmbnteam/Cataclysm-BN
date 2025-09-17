@@ -2728,8 +2728,11 @@
     "difficulty": 5,
     "skills_required": [ "mechanics", 3 ],
     "time": "3 h",
+    "reversible": true,
+    "decomp_learn": 5,
     "book_learn": [ [ "manual_mechanics", 3 ], [ "manual_fabrication", 5 ], [ "textbook_fabrication", 5 ] ],
-    "using": [ [ "blacksmithing_advanced", 10 ], [ "steel_standard", 5 ] ]
+    "using": [ [ "blacksmithing_advanced", 10 ], [ "steel_standard", 4 ] ],
+    "components": [ [ [ "motor_oil", 1000 ], [ "lamp_oil", 1000 ] ] ]
   },
   {
     "result": "jack_makeshift",
@@ -2740,6 +2743,8 @@
     "difficulty": 2,
     "skills_required": [ "mechanics", 1 ],
     "time": "100 m",
+    "reversible": true,
+    "decomp_learn": 2,
     "autolearn": [ [ "fabrication", 4 ] ],
     "book_learn": [ [ "manual_mechanics", 1 ], [ "manual_fabrication", 2 ], [ "textbook_fabrication", 2 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
@@ -2754,6 +2759,8 @@
     "difficulty": 3,
     "skills_required": [ "mechanics", 2 ],
     "time": "200 m",
+    "reversible": true,
+    "decomp_learn": 3,
     "book_learn": [ [ "manual_mechanics", 2 ], [ "manual_fabrication", 3 ], [ "textbook_fabrication", 3 ] ],
     "using": [ [ "welding_standard", 5 ] ],
     "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
@@ -3128,5 +3135,24 @@
     "//": "Mullite is created by firing kaolinite clay at very high temeperatures.",
     "components": [ [ [ "clay_lump", 6 ] ], [ [ "material_sand", 60 ] ] ],
     "//2": "Sand was used in the actual recipes that scientists re-discovered."
+  },
+  {
+    "type": "recipe",
+    "result": "survivor_lighter",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "skills_required": [ "survival", 3 ],
+    "difficulty": 4,
+    "time": "45 h",
+    "autolearn": true,
+    "reversible": true,
+    "book_learn": [ [ "textbook_survival", 2 ], [ "mag_survival", 3 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SCREW", "level": 1 } ],
+    "components": [
+      [ [ "cordage_short", 1, "LIST" ], [ "cotton_ball", 2 ] ],
+      [ [ "pilot_light", 1 ] ],
+      [ [ "scrap", 1 ], [ "50_casing", 1 ] ]
+    ]
   }
 ]
