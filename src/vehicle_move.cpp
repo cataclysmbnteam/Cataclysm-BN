@@ -1363,7 +1363,7 @@ vehicle *vehicle::act_on_map()
     // TODO: Remove this hack, have vehicle sink a z-level
     if( is_floating && !can_float() ) {
         if( has_sufficient_lift() ) {
-            requested_z_change = 1; 
+            requested_z_change = 1;
         } else {
             add_msg( m_bad, _( "Your %s sank." ), name );
             if( pl_ctrl ) {
