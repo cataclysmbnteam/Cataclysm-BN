@@ -1840,7 +1840,7 @@ class map
          */
         void set_abs_sub( const tripoint &p );
 
-    private:
+    public:
         field &get_field( const tripoint &p );
 
         /**

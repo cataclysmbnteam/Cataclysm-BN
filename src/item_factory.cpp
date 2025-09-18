@@ -5,6 +5,7 @@
 #include <cmath>
 #include <cstdlib>
 #include <iterator>
+#include <iuse.h>
 #include <memory>
 #include <optional>
 #include <stdexcept>
@@ -1114,6 +1115,7 @@ void Item_factory::init()
     add_actor( std::make_unique<multicooker_iuse>() );
     add_actor( std::make_unique<sex_toy_actor>() );
     add_actor( std::make_unique<iuse_music_player>() );
+    add_actor( std::make_unique<iuse_prospect_pick>() );
 
     // An empty dummy group, it will not spawn anything. However, it makes that item group
     // id valid, so it can be used all over the place without need to explicitly check for it.

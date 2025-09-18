@@ -9,7 +9,11 @@
 #include <iterator>
 #include <list>
 #include <memory>
+#include <ret_val.h>
 #include <sstream>
+#include <string>
+#include <utility>
+#include <vector>
 
 #include "action.h"
 #include "activity_handlers.h"
@@ -5727,4 +5731,85 @@ ret_val<bool> iuse_music_player::can_use( const Character &p, const item &, bool
     } else {
         return ret_val<bool>::make_success();
     }
+}
+
+
+ret_val<bool> iuse_prospect_pick::can_use( const Character &p, const item &, bool,
+        const tripoint & ) const
+{
+    if( p.is_npc() ) {
+        // Long action
+        return ret_val<bool>::make_failure(
+                   _( "Actually how. You're an NPC. You can't do long actions. No." ) );
+    }
+    if( p.is_mounted() ) {
+        return ret_val<bool>::make_failure( _( "You can't prospect from a vehicle!" ) );
+    }
+    if( p.is_underwater() ) {
+        return ret_val<bool>::make_failure( _( "You can't prospect underwater!" ) );
+    }
+    return ret_val<bool>::make_success();
+}
+
+void iuse_prospect_pick::load( const JsonObject &obj )
+{
+    range = obj.get_int( "radius", 3 );
+}
+//TODO: this should probably take some time to do when skill is implimented, for now though, it just does.
+int iuse_prospect_pick::use( player &p, item &it, bool t,
+                             const tripoint & ) const
+{
+    if( t ) {
+        //we're doing it still hold on.
+        return 0;
+    }
+    //* begin edited map code*/
+    omt_find_params params{};
+    params.search_range = {0, range};
+    params.search_layers =
+        omt_find_all_layers; // TODO: Find all levels -> find BELOW levels.
+
+    params.types = { std::make_pair( "empty_rock", ot_match_type::type ) } ;
+    params.existing_only = false;
+    params.popup = make_shared_fast<throbber_popup>( _( "Please wait…" ) );
+    params.seen = false;
+
+    const point_abs_om origin_om_pos = project_to<coords::om>( p.global_omt_location().xy() );
+
+    // Generate a Square fitting the requested map radius
+    const point_abs_omt omt_bb_min = p.global_omt_location().xy() - point_rel_omt{ range, range };
+    const point_abs_omt omt_bb_max = p.global_omt_location().xy() + point_rel_omt{ range, range };
+
+    // OM Corners of bounding box
+    const point_abs_om om_bb_min = project_to<coords::om>( omt_bb_min );
+    const point_abs_om om_bb_max = project_to<coords::om>( omt_bb_max );
+
+    // Iterate through range [om_bb_min, om_bb_max] to get the OM we want, then sort by manhattan distance
+    std::map<int, std::vector<point_abs_om>> om_to_generate;
+    for( int x = om_bb_min.x(); x <= om_bb_max.x(); ++x ) {
+        for( int y = om_bb_min.y(); y <= om_bb_max.y(); ++y ) {
+            auto dist = manhattan_dist( origin_om_pos, { x, y } );
+            auto &vec =
+                om_to_generate[dist]; // if the vector for this distance doesn't exist it will be created empty
+            vec.emplace_back( x, y );
+        }
+    }
+
+    for( const auto& [_, to_gen] : om_to_generate ) {
+        overmap_buffer.generate( to_gen );
+    }
+
+    const auto places = overmap_buffer.find_all( p.global_omt_location(), params );
+    for( auto &place : places ) {
+        overmap_buffer.reveal( place, 0 );
+    }
+    //* end edited map code */
+    p.add_msg_if_player( m_info,
+                         _( "You use the %s to gather a few samples and gauge where minerals may lie nearby." ),
+                         it.tname() );
+    return 0;
+}
+std::unique_ptr<iuse_actor> iuse_prospect_pick::clone() const
+{
+    return std::make_unique<iuse_prospect_pick>( *this );
 }
