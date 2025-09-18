@@ -106,7 +106,7 @@ mod.iuse_function_anchor = function(who, item, pos)
 end
 
 mod.pick_teleport_destination = function(who)
-  local pos = who:pos()
+  local pos = who:get_pos_ms()
   local abs_pos = gapi.get_map():get_abs_ms(pos)
   local abs_omt = coords.ms_to_omt(abs_pos)
   local min_dist = math.maxinteger
