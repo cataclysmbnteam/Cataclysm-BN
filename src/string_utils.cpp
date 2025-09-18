@@ -56,7 +56,7 @@ bool match_include_exclude( const std::string &text, std::string filter )
         iPos = filter.find( ',' );
 
         std::string term = iPos == std::string::npos ? filter : filter.substr( 0, iPos );
-        const bool exclude = term.substr( 0, 1 ) == "-";
+        const bool exclude = term.starts_with( "-" );
         if( exclude ) {
             term = term.substr( 1 );
         }

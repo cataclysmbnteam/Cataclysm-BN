@@ -11,6 +11,7 @@
 #include "anatomy.h"
 #include "avatar.h"
 #include "calendar.h"
+#include "catalua_hooks.h"
 #include "character.h"
 #include "color.h"
 #include "cursesdef.h"
@@ -334,7 +335,7 @@ bool Creature::sees( const Creature &critter ) const
                 default:
                     break;
             }
-            const int vision_modifier = 30 - 0.5 * coverage * size_modifier;
+            const int vision_modifier = 30 - ( 0.5 * coverage * size_modifier );
             if( vision_modifier > 1 ) {
                 return sees( critter.pos(), critter.is_avatar(), vision_modifier ) && visible( ch );
             }
@@ -406,7 +407,7 @@ Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area 
     Creature *target = nullptr;
     player &u = g->u; // Could easily protect something that isn't the player
     constexpr int hostile_adj = 2; // Priority bonus for hostile targets
-    const int iff_dist = ( range + area ) * 3 / 2 + 6; // iff check triggers at this distance
+    const int iff_dist = ( ( range + area ) * 3 / 2 ) + 6; // iff check triggers at this distance
     // iff safety margin (degrees). less accuracy, more paranoia
     units::angle iff_hangle = units::from_degrees( 15 + area );
     float best_target_rating = -1.0f; // bigger is better
@@ -966,9 +967,7 @@ void Creature::deal_projectile_attack( Creature *source, item *source_weapon,
         }
     }
     // Prevent negative damage mult shenanagins.
-    if( severity < 0.0 ) {
-        severity = 0.0;
-    }
+    severity = std::max( severity, 0.0 );
 
     // And cap severity if no targetted crit is allowed.
     if( !targetted_crit_allowed ) {
@@ -983,7 +982,7 @@ void Creature::deal_projectile_attack( Creature *source, item *source_weapon,
     // Make grazing shots apply the damage multiplier before armor, instead of after armor.
     // Grazing shots are goodhit > 0.8
     // We dont use just severity here, because some effects might drop severity below 0.8 but still be a solid hit.
-    impact.mult_damage( severity, ( ( goodhit > accuracy_standard ) ? true : false ) );
+    impact.mult_damage( severity, ( goodhit > accuracy_standard ) );
 
     if( proj.has_effect( ammo_effect_NOGIB ) ) {
         float dmg_ratio = impact.total_damage() / get_hp_max( bp_hit );
@@ -1236,9 +1235,13 @@ void Creature::deal_damage_handle_type( const damage_unit &du, bodypart_id bp, i
     pain += roll_remainder( adjusted_damage / div );
 }
 
-void Creature::on_dodge( Creature */*source*/, int /*difficulty*/ )
+void Creature::on_dodge( Creature *source, int difficulty )
 {
-
+    cata::run_hooks( "on_creature_dodged", [ &, this]( auto & params ) {
+        params["char"] = this;
+        params["source"] = source;
+        params["difficulty"] = difficulty;
+    } );
 }
 
 /*
@@ -2239,7 +2242,7 @@ void Creature::draw( const catacurses::window &w, const tripoint &origin, bool i
         return;
     }
 
-    point draw( -origin.xy() + point( getmaxx( w ) / 2 + posx(), getmaxy( w ) / 2 + posy() ) );
+    point draw( -origin.xy() + point( ( getmaxx( w ) / 2 ) + posx(), ( getmaxy( w ) / 2 ) + posy() ) );
     if( inverted ) {
         mvwputch_inv( w, draw, basic_symbol_color(), symbol() );
     } else if( is_symbol_highlighted() ) {
@@ -2340,45 +2343,45 @@ void Creature::knock_back_from( const tripoint &p )
 
 void Creature::add_msg_if_player( const translation &msg ) const
 {
-    return add_msg_if_player( msg.translated() );
+    add_msg_if_player( msg.translated() );
 }
 
 void Creature::add_msg_if_player( const game_message_params &params,
                                   const translation &msg ) const
 {
-    return add_msg_if_player( params, msg.translated() );
+    add_msg_if_player( params, msg.translated() );
 }
 
 void Creature::add_msg_if_npc( const translation &msg ) const
 {
-    return add_msg_if_npc( msg.translated() );
+    add_msg_if_npc( msg.translated() );
 }
 
 void Creature::add_msg_if_npc( const game_message_params &params, const translation &msg ) const
 {
-    return add_msg_if_npc( params, msg.translated() );
+    add_msg_if_npc( params, msg.translated() );
 }
 
 void Creature::add_msg_player_or_npc( const translation &pc, const translation &npc ) const
 {
-    return add_msg_player_or_npc( pc.translated(), npc.translated() );
+    add_msg_player_or_npc( pc.translated(), npc.translated() );
 }
 
 void Creature::add_msg_player_or_npc( const game_message_params &params, const translation &pc,
                                       const translation &npc ) const
 {
-    return add_msg_player_or_npc( params, pc.translated(), npc.translated() );
+    add_msg_player_or_npc( params, pc.translated(), npc.translated() );
 }
 
 void Creature::add_msg_player_or_say( const translation &pc, const translation &npc ) const
 {
-    return add_msg_player_or_say( pc.translated(), npc.translated() );
+    add_msg_player_or_say( pc.translated(), npc.translated() );
 }
 
 void Creature::add_msg_player_or_say( const game_message_params &params, const translation &pc,
                                       const translation &npc ) const
 {
-    return add_msg_player_or_say( params, pc.translated(), npc.translated() );
+    add_msg_player_or_say( params, pc.translated(), npc.translated() );
 }
 
 static std::vector<int> default_dispersion_for_ecogh = { {

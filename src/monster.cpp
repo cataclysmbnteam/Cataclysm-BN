@@ -384,9 +384,7 @@ void monster::hasten_upgrade()
 
     const int scaled_half_life = type->half_life * get_option<float>( "MONSTER_UPGRADE_FACTOR" );
     upgrade_time -= rng( 1, scaled_half_life );
-    if( upgrade_time < 0 ) {
-        upgrade_time = 0;
-    }
+    upgrade_time = std::max( upgrade_time, 0 );
 }
 
 int monster::get_upgrade_time() const
@@ -1103,8 +1101,8 @@ int monster::sight_range( const int light_level ) const
     } else if( light_level == default_daylight ) {
         return type->vision_day;
     }
-    int range = light_level * type->vision_day + ( default_daylight - light_level ) *
-                type->vision_night;
+    int range = ( light_level * type->vision_day ) + ( ( default_daylight - light_level ) *
+                type->vision_night );
     range /= default_daylight;
 
     return range;
@@ -1801,6 +1799,7 @@ void monster::melee_attack( Creature &target, float accuracy )
     }
 
     int hitspread = target.deal_melee_attack( this, melee::melee_hit_range( accuracy ) );
+    const bool attack_success = hitspread >= 0;
 
     if( target.is_player() ||
         ( target.is_npc() && g->u.attitude_to( target ) == Attitude::A_FRIENDLY ) ) {
@@ -1823,13 +1822,13 @@ void monster::melee_attack( Creature &target, float accuracy )
 
     dealt_damage_instance dealt_dam;
 
-    if( hitspread >= 0 ) {
+    if( attack_success ) {
         target.deal_melee_hit( this, hitspread, false, damage, dealt_dam );
     }
     const bodypart_str_id bp_hit = dealt_dam.bp_hit;
 
     const int total_dealt = dealt_dam.total_damage();
-    if( hitspread < 0 ) {
+    if( !attack_success ) {
         // Miss
         if( u_see_me && !target.in_sleep_state() ) {
             if( target.is_player() ) {
@@ -1912,6 +1911,12 @@ void monster::melee_attack( Creature &target, float accuracy )
     }
 
     target.check_dead_state();
+
+    cata::run_hooks( "on_creature_melee_attacked", [ &, this]( auto & params ) {
+        params["char"] = this;
+        params["target"] = &target;
+        params["success"] = attack_success;
+    } );
 
     if( is_hallucination() ) {
         if( one_in( 7 ) ) {
@@ -2048,12 +2053,12 @@ void monster::apply_damage( Creature *source, item *source_weapon, item *source_
 void monster::apply_damage( Creature *source, item *source_weapon, bodypart_id bp, int dam,
                             const bool bypass_med )
 {
-    return apply_damage( source, source_weapon, nullptr, bp, dam, bypass_med );
+    apply_damage( source, source_weapon, nullptr, bp, dam, bypass_med );
 }
 void monster::apply_damage( Creature *source, bodypart_id bp, int dam,
                             const bool bypass_med )
 {
-    return apply_damage( source, nullptr, nullptr, bp, dam, bypass_med );
+    apply_damage( source, nullptr, nullptr, bp, dam, bypass_med );
 }
 
 void monster::die_in_explosion( Creature *source )
@@ -2290,7 +2295,7 @@ int monster::get_armor_type( damage_type dt, bodypart_id bp ) const
         case DT_ACID:
             return worn_armor + static_cast<int>( type->armor_acid );
         case DT_STAB:
-            return worn_armor + static_cast<int>( type->armor_stab ) + armor_cut_bonus * 0.8f;
+            return worn_armor + static_cast<int>( type->armor_stab ) + ( armor_cut_bonus * 0.8f );
         case DT_HEAT:
             return worn_armor + static_cast<int>( type->armor_fire );
         case DT_COLD:
@@ -2432,16 +2437,17 @@ int monster::impact( const int force, const tripoint &p )
     const float mod = fall_damage_mod();
     int total_dealt = 0;
     if( g->m.has_flag( TFLAG_SHARP, p ) ) {
-        const int cut_damage = std::max( 0.0f, 10 * mod - get_armor_cut( bodypart_id( "torso" ) ) );
+        const int cut_damage = std::max( 0.0f, ( 10 * mod ) - get_armor_cut( bodypart_id( "torso" ) ) );
         apply_damage( nullptr, bodypart_id( "torso" ), cut_damage );
         total_dealt += 10 * mod;
     }
 
-    const int bash_damage = std::max( 0.0f, force * mod - get_armor_bash( bodypart_id( "torso" ) ) );
+    const int bash_damage = std::max( 0.0f,
+                                      ( force * mod ) - get_armor_bash( bodypart_id( "torso" ) ) );
     apply_damage( nullptr, bodypart_id( "torso" ), bash_damage );
     total_dealt += force * mod;
 
-    add_effect( effect_downed, time_duration::from_turns( rng( 0, mod * 3 + 1 ) ) );
+    add_effect( effect_downed, time_duration::from_turns( rng( 0, ( mod * 3 ) + 1 ) ) );
 
     return total_dealt;
 }
@@ -2977,9 +2983,7 @@ void monster::process_effects_internal()
         }
     }
     //Prevent negative regeneration
-    if( regeneration_amount < 0 ) {
-        regeneration_amount = 0;
-    }
+    regeneration_amount = std::max( regeneration_amount, 0 );
     const int healed_amount = heal( round( regeneration_amount ) );
     if( healed_amount > 0 && g->u.sees( *this ) ) {
         add_msg( m_warning, _( "The %1$s regenerates %2$s damage." ), name(), healed_amount );
@@ -3028,9 +3032,7 @@ void monster::process_effects_internal()
             add_msg( m_good, _( "The %s burns horribly in the sunlight!" ), name() );
         }
         apply_damage( nullptr, bodypart_id( "torso" ), 100 );
-        if( hp < 0 ) {
-            hp = 0;
-        }
+        hp = std::max( hp, 0 );
     }
 }
 
@@ -3372,7 +3374,7 @@ void monster::hear_sound( const tripoint &source, const int vol, const int dist 
     }
 
     const bool goodhearing = has_flag( MF_GOODHEARING );
-    const int volume = goodhearing ? 2 * vol - dist : vol - dist;
+    const int volume = goodhearing ? ( 2 * vol ) - dist : vol - dist;
     // Error is based on volume, louder sound = less error
     if( volume <= 0 ) {
         return;
@@ -3402,7 +3404,8 @@ void monster::hear_sound( const tripoint &source, const int vol, const int dist 
         wander_to( tripoint( target_x, target_y, source.z ), wander_turns );
     } else if( morale < 0 ) {
         // Monsters afraid of sound should not go towards sound
-        wander_to( tripoint( 2 * posx() - target_x, 2 * posy() - target_y, 2 * posz() - source.z ),
+        wander_to( tripoint( ( 2 * posx() ) - target_x, ( 2 * posy() ) - target_y,
+                             ( 2 * posz() ) - source.z ),
                    wander_turns );
     }
 }

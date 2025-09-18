@@ -53,7 +53,7 @@ struct damage_unit {
     bool operator==( const damage_unit &other ) const;
 
     /** Return damage_type as a human-readable string */
-    const std::string get_name() const;
+    std::string get_name() const;
 };
 
 // a single atomic unit of damage from an attack. Can include multiple types

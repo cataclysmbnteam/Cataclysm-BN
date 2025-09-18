@@ -744,9 +744,7 @@ bool ranged::handle_gun_damage( Character &shooter, item &it )
                             ( firing.blackpowder_tolerance *
                               2 ) );
                 // dirtadder is the dirt-increasing number for shots fired with gunpowder-based ammo. Usually dirt level increases by 1, unless it's blackpowder, in which case it increases by a higher number, but there is a reduction for blackpowder resistance of a weapon.
-                if( dirtadder < 0 ) {
-                    dirtadder = 0;
-                }
+                dirtadder = std::max( dirtadder, 0 );
                 // in addition to increasing dirt level faster, regular gunpowder fouling is also capped at 7,150, not 10,000. So firing with regular gunpowder can never make the gun quite as bad as firing it with black gunpowder. At 7,150 the chance to jam is significantly lower (though still significant) than it is at 10,000, the absolute cap.
                 if( curammo_effects.contains( ammo_effect_BLACKPOWDER ) ||
                     dirt < 7150 ) {
@@ -1080,7 +1078,7 @@ int throw_cost( const Character &c, const item &to_throw )
     ///\EFFECT_DEX increases throwing speed
     const int dexbonus = c.get_dex();
     const int encumbrance_penalty = c.encumb( body_part_torso ) +
-                                    ( c.encumb( body_part_hand_l ) + c.encumb( body_part_hand_r ) ) / 2;
+                                    ( ( c.encumb( body_part_hand_l ) + c.encumb( body_part_hand_r ) ) / 2 );
     const float stamina_ratio = static_cast<float>( c.get_stamina() ) / c.get_stamina_max();
     const float stamina_penalty = 1.0 + std::max( ( 0.25f - stamina_ratio ) * 4.0f, 0.0f );
 
@@ -1212,7 +1210,7 @@ int throw_dispersion_per_dodge( const Character &c, bool add_encumbrance )
     const int encumbrance = add_encumbrance ? c.encumb( body_part_hand_l ) + c.encumb(
                                 body_part_hand_r ) : 0;
     ///\EFFECT_DEX increases throwing accuracy against targets with good dodge stat
-    float effective_dex = 2 + c.get_dex() / 4.0f - ( encumbrance ) / 40.0f;
+    float effective_dex = 2 + ( c.get_dex() / 4.0f ) - ( ( encumbrance ) / 40.0f );
     return static_cast<int>( 100.0f / std::max( 1.0f, effective_dex ) );
 }
 
@@ -1235,7 +1233,7 @@ int throwing_dispersion( const Character &c, const item &to_throw, Creature *cri
     // 1 penalty for gram above str*100 grams (at 0 skill)
     ///\EFFECT_STR decreases throwing dispersion when throwing heavy objects
     const int weight_in_gram = units::to_gram( weight );
-    throw_difficulty += std::max( 0, weight_in_gram - c.get_str() * 100 );
+    throw_difficulty += std::max( 0, weight_in_gram - ( c.get_str() * 100 ) );
 
     // Dispersion from difficult throws goes from 100% at lvl 0 to 20% at lvl 10
     ///\EFFECT_THROW increases throwing accuracy
@@ -1246,8 +1244,8 @@ int throwing_dispersion( const Character &c, const item &to_throw, Creature *cri
     if( critter != nullptr ) {
         // It's easier to dodge at close range (thrower needs to adjust more)
         // Dodge x10 at point blank, x5 at 1 dist, then flat
-        float effective_dodge = critter->get_dodge() * std::max( 1, 10 - 5 * rl_dist( c.pos(),
-                                critter->pos() ) );
+        float effective_dodge = critter->get_dodge() * std::max( 1, 10 - ( 5 * rl_dist( c.pos(),
+                                critter->pos() ) ) );
         dispersion += throw_dispersion_per_dodge( c, true ) * effective_dodge;
     }
     // 1 perception per 1 eye encumbrance
@@ -1912,7 +1910,7 @@ int ranged::time_to_attack( const Character &p, const item &firing, const item *
         RAS_time = opt.moves() + reload_stamina_penalty;
     }
     return std::max( info.min_time,
-                     info.base_time - info.time_reduction_per_level * p.get_skill_level( skill_used ) + RAS_time );
+                     info.base_time - ( info.time_reduction_per_level * p.get_skill_level( skill_used ) ) + RAS_time );
 }
 
 static void cycle_action( item &weap, const tripoint &pos )
@@ -2071,8 +2069,8 @@ static double dispersion_from_skill( double skill, double weapon_dispersion )
     if( skill >= skill_threshold ) {
         double post_threshold_skill_shortfall = double( MAX_SKILL ) - skill;
         // Lack of mastery multiplies the dispersion of the weapon.
-        return dispersion_penalty + ( weapon_dispersion * post_threshold_skill_shortfall * 1.25 ) /
-               ( double( MAX_SKILL ) - skill_threshold );
+        return dispersion_penalty + ( ( weapon_dispersion * post_threshold_skill_shortfall * 1.25 ) /
+                                      ( double( MAX_SKILL ) - skill_threshold ) );
     }
     // Unskilled shooters suffer greater penalties, still scaling with weapon penalties.
     double pre_threshold_skill_shortfall = skill_threshold - skill;
@@ -3178,7 +3176,7 @@ void target_ui::recalc_aim_turning_penalty()
         const units::angle phi = normalize( angle_curr - angle_desired );
         const units::angle angle = std::min( phi, 360.0_degrees - phi );
         predicted_recoil =
-            std::min( MAX_RECOIL, curr_recoil + to_degrees( angle ) * recoil_per_degree );
+            std::min( MAX_RECOIL, curr_recoil + ( to_degrees( angle ) * recoil_per_degree ) );
     }
 }
 

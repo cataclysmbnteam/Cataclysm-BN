@@ -948,7 +948,7 @@ bool oter_t::is_hardcoded() const
         "temple_stairs"
     };
 
-    return hardcoded_mapgen.find( get_mapgen_id() ) != hardcoded_mapgen.end();
+    return hardcoded_mapgen.contains( get_mapgen_id() );
 }
 
 void overmap_terrains::load( const JsonObject &jo, const std::string &src )
@@ -994,7 +994,7 @@ void overmap_terrains::finalize()
         const_cast<oter_type_t &>( elem ).finalize(); // This cast is ugly, but safe.
     }
 
-    if( region_settings_map.find( "default" ) == region_settings_map.end() ) {
+    if( !region_settings_map.contains( "default" ) ) {
         debugmsg( "ERROR: can't find default overmap settings (region_map_settings 'default'), "
                   "cataclysm pending.  And not the fun kind." );
     }
@@ -3893,7 +3893,7 @@ void overmap::place_forest_trails()
 
             // If we've already visited this point, we don't need to
             // process it since it's already part of another forest.
-            if( visited.find( seed_point.xy() ) != visited.end() ) {
+            if( visited.contains( seed_point.xy() ) ) {
                 continue;
             }
 
@@ -4093,7 +4093,7 @@ void overmap::place_lakes()
     for( int i = 0; i < OMAPX; i++ ) {
         for( int j = 0; j < OMAPY; j++ ) {
             point_om_omt seed_point( i, j );
-            if( visited.find( seed_point ) != visited.end() ) {
+            if( visited.contains( seed_point ) ) {
                 continue;
             }
 
@@ -4148,7 +4148,7 @@ void overmap::place_lakes()
                 for( int ni = -1; ni <= 1 && !shore; ni++ ) {
                     for( int nj = -1; nj <= 1 && !shore; nj++ ) {
                         const point_om_omt n = p + point( ni, nj );
-                        if( lake_set.find( n ) == lake_set.end() ) {
+                        if( !lake_set.contains( n ) ) {
                             shore = true;
                         }
                     }
@@ -4513,18 +4513,10 @@ void overmap::place_river( point_om_omt pa, point_om_omt pb )
     do {
         p2.x() += rng( -1, 1 );
         p2.y() += rng( -1, 1 );
-        if( p2.x() < 0 ) {
-            p2.x() = 0;
-        }
-        if( p2.x() > OMAPX - 1 ) {
-            p2.x() = OMAPX - 1;
-        }
-        if( p2.y() < 0 ) {
-            p2.y() = 0;
-        }
-        if( p2.y() > OMAPY - 1 ) {
-            p2.y() = OMAPY - 1;
-        }
+        p2.x() = std::max( p2.x(), 0 );
+        p2.x() = std::min( p2.x(), OMAPX - 1 );
+        p2.y() = std::max( p2.y(), 0 );
+        p2.y() = std::min( p2.y(), OMAPY - 1 );
         for( int i = -1 * river_scale; i <= 1 * river_scale; i++ ) {
             for( int j = -1 * river_scale; j <= 1 * river_scale; j++ ) {
                 tripoint_om_omt p( p2 + point( j, i ), 0 );
@@ -4557,18 +4549,12 @@ void overmap::place_river( point_om_omt pa, point_om_omt pb )
         }
         p2.x() += rng( -1, 1 );
         p2.y() += rng( -1, 1 );
-        if( p2.x() < 0 ) {
-            p2.x() = 0;
-        }
+        p2.x() = std::max( p2.x(), 0 );
         if( p2.x() > OMAPX - 1 ) {
             p2.x() = OMAPX - 2;
         }
-        if( p2.y() < 0 ) {
-            p2.y() = 0;
-        }
-        if( p2.y() > OMAPY - 1 ) {
-            p2.y() = OMAPY - 1;
-        }
+        p2.y() = std::max( p2.y(), 0 );
+        p2.y() = std::min( p2.y(), OMAPY - 1 );
         for( int i = -1 * river_scale; i <= 1 * river_scale; i++ ) {
             for( int j = -1 * river_scale; j <= 1 * river_scale; j++ ) {
                 // We don't want our riverbanks touching the edge of the map for many reasons

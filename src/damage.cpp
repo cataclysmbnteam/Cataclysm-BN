@@ -2,7 +2,6 @@
 
 #include <algorithm>
 #include <cstddef>
-#include <algorithm>
 #include <map>
 #include <numeric>
 #include <utility>
@@ -26,7 +25,7 @@ bool damage_unit::operator==( const damage_unit &other ) const
            damage_multiplier == other.damage_multiplier;
 }
 
-const std::string damage_unit::get_name() const
+std::string damage_unit::get_name() const
 {
     switch( type ) {
         case DT_NULL:

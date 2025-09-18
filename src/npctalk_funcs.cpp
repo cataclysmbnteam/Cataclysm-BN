@@ -118,11 +118,11 @@ void talk_function::mission_success( npc &p )
     }
 
     int miss_val = npc_trading::cash_to_favor( p, miss->get_value() );
-    npc_opinion tmp( 0, 0, 1 + miss_val / 5, -1, 0 );
+    npc_opinion tmp( 0, 0, 1 + ( miss_val / 5 ), -1, 0 );
     p.op_of_u += tmp;
     faction *p_fac = p.get_faction();
     if( p_fac != nullptr ) {
-        int fac_val = std::min( 1 + miss_val / 10, 10 );
+        int fac_val = std::min( 1 + ( miss_val / 10 ), 10 );
         p_fac->likes_u += fac_val;
         p_fac->respects_u += fac_val;
         p_fac->power += fac_val;

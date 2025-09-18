@@ -381,8 +381,8 @@ void start_location::place_player( player &u ) const
     };
 
     while( !found_good_spot && tries < 100 ) {
-        tripoint rand_point( HALF_MAPSIZE_X + rng( 0, SEEX * 2 - 1 ),
-                             HALF_MAPSIZE_Y + rng( 0, SEEY * 2 - 1 ),
+        tripoint rand_point( HALF_MAPSIZE_X + rng( 0, ( SEEX * 2 ) - 1 ),
+                             HALF_MAPSIZE_Y + rng( 0, ( SEEY * 2 ) - 1 ),
                              u.posz() );
         check_spot( rand_point );
     }
@@ -485,7 +485,7 @@ static void add_monsters( const tripoint_abs_omt &omtstart, const mongroup_id &t
     m.load( spawn_location, false );
     // map::place_spawns internally multiplies density by rng(10, 50)
     const float density = expected_points / ( ( 10 + 50 ) / 2.0 );
-    m.place_spawns( type, 1, point_zero, point( SEEX * 2 - 1, SEEY * 2 - 1 ), density );
+    m.place_spawns( type, 1, point_zero, point( ( SEEX * 2 ) - 1, ( SEEY * 2 ) - 1 ), density );
     m.save();
 }
 

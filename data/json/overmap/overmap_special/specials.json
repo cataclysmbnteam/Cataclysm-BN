@@ -6194,7 +6194,8 @@
       { "point": [ 7, 6, 1 ], "overmap": "speedway_7_6_1_north" },
       { "point": [ 5, 7, 1 ], "overmap": "speedway_5_7_1_north" },
       { "point": [ 6, 7, 1 ], "overmap": "speedway_6_7_1_north" },
-      { "point": [ 6, 7, 2 ], "overmap": "speedway_6_7_2_north" }
+      { "point": [ 6, 7, 2 ], "overmap": "speedway_6_7_2_north" },
+      { "point": [ 7, 6, 2 ], "overmap": "open_air_blimp_north" }
     ],
     "occurrences": [ 50, 100 ],
     "connections": [ { "point": [ 5, 10, 0 ], "connection": "local_road", "from": [ 5, 9, 0 ] } ],

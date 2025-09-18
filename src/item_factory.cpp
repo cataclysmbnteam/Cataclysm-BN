@@ -599,7 +599,7 @@ void Item_factory::finalize_pre( itype &obj )
 
         auto set_resist = [&obj]( damage_type dt,
         std::function<int( const material_type & )> resist_getter ) {
-            if( obj.armor->resistance.flat.find( dt ) != obj.armor->resistance.flat.end() ) {
+            if( obj.armor->resistance.flat.contains( dt ) ) {
                 return;
             }
             float resist = 0.0f;
@@ -756,7 +756,7 @@ void Item_factory::finalize_item_blacklist()
     }
 
     for( const std::pair<const itype_id, migration> &migrate : migrations ) {
-        if( m_templates.find( migrate.second.replace ) == m_templates.end() ) {
+        if( !m_templates.contains( migrate.second.replace ) ) {
             debugmsg( "Replacement item for migration %s does not exist", migrate.first.c_str() );
             continue;
         }
@@ -1400,7 +1400,7 @@ void Item_factory::check_definitions() const
                                                  ? type->mod->magazine_adaptor
                                                  : target->magazines;
                     for( const ammotype &ammo : acceptable_ammo ) {
-                        if( acceptable_magazines.find( ammo ) == acceptable_magazines.end() ) {
+                        if( !acceptable_magazines.contains( ammo ) ) {
                             msg += string_format( "gunmod can be applied to %s, which has no magazines for ammo %s\n",
                                                   t.c_str(), ammo.str() );
                         }
@@ -2682,7 +2682,7 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
         "TOOL_ARMOR",
         "WHEEL",
     };
-    if( needs_plural.find( jo.get_string( "type" ) ) != needs_plural.end() ) {
+    if( needs_plural.contains( jo.get_string( "type" ) ) ) {
         def.name = translation( translation::plural_tag() );
     } else {
         def.name = translation();
@@ -3491,7 +3491,7 @@ std::vector<item_group_id> Item_factory::get_all_group_names()
 bool Item_factory::add_item_to_group( const item_group_id &group_id, const itype_id &item_id,
                                       int chance )
 {
-    if( m_template_groups.find( group_id ) == m_template_groups.end() ) {
+    if( !m_template_groups.contains( group_id ) ) {
         return false;
     }
     Item_spawn_data &group_to_access = *m_template_groups[group_id];

@@ -4897,7 +4897,8 @@
     "skill_used": "fabrication",
     "time": "30 s",
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "canister_empty", 1 ] ], [ [ "steel_chunk", 1 ] ] ]
+    "//": "Isobutane technically, difference is academic if you're just going to burn it.",
+    "components": [ [ [ "canister_empty", 1 ] ], [ [ "steel_chunk", 1 ] ], [ [ "chem_butane", 1000 ] ] ]
   },
   {
     "result": "plastic_chunk",

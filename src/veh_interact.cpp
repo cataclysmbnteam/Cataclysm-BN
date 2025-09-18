@@ -763,7 +763,7 @@ bool veh_interact::update_part_requirements()
         }
         if( engines > 0 ) {
             int lvl = std::max( 6, dif_max + 3 );
-            dif_eng = std::min( 10, lvl + ( engines - 1 ) * 2 );
+            dif_eng = std::min( 10, lvl + ( ( engines - 1 ) * 2 ) );
         }
     }
 
@@ -2732,7 +2732,7 @@ void veh_interact::display_mode()
         const int space = std::max<int>( getmaxx( w_mode ) - pos.back(), action_cnt + 1 );
         for( size_t i = 0; i < action_cnt; i++ ) {
             nc_color dummy = c_white;
-            print_colored_text( w_mode, point( pos[i] + space * ( i + 1 ) / ( action_cnt + 1 ), 0 ),
+            print_colored_text( w_mode, point( pos[i] + ( space * ( i + 1 ) / ( action_cnt + 1 ) ), 0 ),
                                 dummy, c_white, actions[i] );
         }
     }
@@ -2754,7 +2754,7 @@ void veh_interact::display_list( size_t pos, const std::vector<const vpart_info 
     size_t page = pos / lines_per_page;
     for( size_t i = page * lines_per_page; i < ( page + 1 ) * lines_per_page && i < list.size(); i++ ) {
         const vpart_info &info = *list[i];
-        int y = i - page * lines_per_page + header;
+        int y = i - ( page * lines_per_page ) + header;
         mvwputch( w_list, point( 1, y ), info.color, special_symbol( info.sym ) );
         nc_color col = can_potentially_install( info ) ? c_white : c_dark_gray;
         trim_and_print( w_list, point( 3, y ), getmaxx( w_list ) - 3, pos == i ? hilite( col ) : col,

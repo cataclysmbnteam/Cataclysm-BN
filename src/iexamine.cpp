@@ -769,8 +769,8 @@ void iexamine::vending( player &p, const tripoint &examp )
     ui.on_screen_resize( [&]( ui_adaptor & ui ) {
         const point padding( std::max( 0, TERMX - FULL_SCREEN_WIDTH ) / 4, std::max( 0,
                              TERMY - FULL_SCREEN_HEIGHT ) / 6 );
-        const int window_h   = FULL_SCREEN_HEIGHT + std::max( 0, TERMY - FULL_SCREEN_HEIGHT ) * 2 / 3;
-        const int window_w   = FULL_SCREEN_WIDTH + std::max( 0, TERMX - FULL_SCREEN_WIDTH ) / 2;
+        const int window_h   = FULL_SCREEN_HEIGHT + ( std::max( 0, TERMY - FULL_SCREEN_HEIGHT ) * 2 / 3 );
+        const int window_w   = FULL_SCREEN_WIDTH + ( std::max( 0, TERMX - FULL_SCREEN_WIDTH ) / 2 );
         w_items_w  = window_w / 2;
         w_info_w   = window_w - w_items_w;
         list_lines = window_h - 4; // minus for header and footer
@@ -2162,8 +2162,8 @@ static bool harvest_common( player &p, const tripoint &examp, bool furn, bool ne
     int lev = p.get_skill_level( skill_survival );
     bool got_anything = false;
     for( const auto &entry : harvest ) {
-        float min_num = entry.base_num.first + lev * entry.scale_num.first;
-        float max_num = entry.base_num.second + lev * entry.scale_num.second;
+        float min_num = entry.base_num.first + ( lev * entry.scale_num.first );
+        float max_num = entry.base_num.second + ( lev * entry.scale_num.second );
         int roll = std::min<int>( entry.max, std::round( rng_float( min_num, max_num ) ) );
         if( roll >= 1 ) {
             got_anything = true;
@@ -2752,8 +2752,8 @@ void iexamine::kiln_empty( player &p, const tripoint &examp )
 
     ///\EFFECT_FABRICATION decreases loss when firing a kiln
     const int skill = p.get_skill_level( skill_fabrication );
-    int loss = 60 - 2 *
-               skill; // We can afford to be inefficient - logs and skeletons are cheap, charcoal isn't
+    int loss = 60 - ( 2 *
+                      skill ); // We can afford to be inefficient - logs and skeletons are cheap, charcoal isn't
 
     // Burn stuff that should get charred, leave out the rest
     units::volume total_volume = 0_ml;
@@ -2882,8 +2882,8 @@ void iexamine::arcfurnace_empty( player &p, const tripoint &examp )
 
     ///\EFFECT_FABRICATION decreases loss when firing a furnace
     const int skill = p.get_skill_level( skill_fabrication );
-    int loss = 60 - 2 *
-               skill; // Inefficency is still fine, coal and limestone is abundant
+    int loss = 60 - ( 2 *
+                      skill ); // Inefficency is still fine, coal and limestone is abundant
 
     // Burn stuff that should get charred, leave out the rest
     units::volume total_volume = 0_ml;
@@ -3621,7 +3621,7 @@ static void pick_plant( player &p, const tripoint &examp,
 
     int plantBase = rng( 2, 5 );
     ///\EFFECT_SURVIVAL increases number of plants harvested
-    int plantCount = rng( plantBase, plantBase + survival / 2 );
+    int plantCount = rng( plantBase, plantBase + ( survival / 2 ) );
     plantCount = std::min( plantCount, 12 );
 
     here.spawn_item( p.pos(), itemType, plantCount, 0, calendar::turn );
@@ -3844,7 +3844,7 @@ void iexamine::shrub_wildveggies( player &p, const tripoint &examp )
     ///\EFFECT_SURVIVAL speeds up foraging
     int move_cost = 100000 / ( 2 * p.get_skill_level( skill_survival ) + 5 );
     ///\EFFECT_PER randomly speeds up foraging
-    move_cost /= rng( std::max( 4, p.per_cur ), 4 + p.per_cur * 2 );
+    move_cost /= rng( std::max( 4, p.per_cur ), 4 + ( p.per_cur * 2 ) );
     p.assign_activity( ACT_FORAGE, move_cost, 0 );
     p.activity->placement = here.getabs( examp );
     p.activity->auto_resume = true;
@@ -4452,9 +4452,7 @@ static int findBestGasDiscount( player &p )
         if( it.has_flag( flag_GAS_DISCOUNT ) ) {
 
             int q = getGasDiscountCardQuality( it );
-            if( q > discount ) {
-                discount = q;
-            }
+            discount = std::max( q, discount );
         }
     }
 
@@ -4702,9 +4700,7 @@ void iexamine::pay_gas( player &p, const tripoint &examp )
         if( liters <= 0 ) {
             return;
         }
-        if( liters > maximum_liters ) {
-            liters = maximum_liters;
-        }
+        liters = std::min( liters, maximum_liters );
 
         const std::optional<tripoint> pGasPump = getGasPumpByNumber( examp,
                 uistate.ags_pay_gas_selected_pump );
@@ -4801,7 +4797,8 @@ void iexamine::ledge( player &p, const tripoint &examp )
     map &here = get_map();
     switch( cmenu.ret ) {
         case ledge_action::jump_over: {
-            tripoint dest( p.posx() + 2 * sgn( examp.x - p.posx() ), p.posy() + 2 * sgn( examp.y - p.posy() ),
+            tripoint dest( p.posx() + ( 2 * sgn( examp.x - p.posx() ) ),
+                           p.posy() + ( 2 * sgn( examp.y - p.posy() ) ),
                            p.posz() );
             if( p.get_str() < 4 ) {
                 add_msg( m_warning, _( "You are too weak to jump over an obstacle." ) );
@@ -4916,8 +4913,8 @@ void iexamine::ledge( player &p, const tripoint &examp )
             bool success = false;
             for( int i = 2; i <= range; i++ ) {
                 //break at the first non empty space encountered
-                if( g->m.ter( tripoint( p.posx() + i * sgn( examp.x - p.posx() ),
-                                        p.posy() + i * sgn( examp.y - p.posy() ), p.posz() ) ) != t_open_air ) {
+                if( g->m.ter( tripoint( p.posx() + ( i * sgn( examp.x - p.posx() ) ),
+                                        p.posy() + ( i * sgn( examp.y - p.posy() ) ), p.posz() ) ) != t_open_air ) {
                     success_range = i;
                     success = true;
                     break;
@@ -4927,7 +4924,8 @@ void iexamine::ledge( player &p, const tripoint &examp )
                 p.add_msg_if_player( _( "There is nothing for your to attach your web to!" ) );
             } else {
                 for( int i = 1; i < success_range; i++ ) {
-                    tripoint dest( p.posx() + i * sgn( examp.x - p.posx() ), p.posy() + i * sgn( examp.y - p.posy() ),
+                    tripoint dest( p.posx() + ( i * sgn( examp.x - p.posx() ) ),
+                                   p.posy() + ( i * sgn( examp.y - p.posy() ) ),
                                    p.posz() );
 
                     g->m.ter_set( dest, t_web_bridge );
@@ -5377,7 +5375,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                                                    _( "The machine rapidly sets and splints <npcname>'s broken %s." ),
                                                    body_part_name( part ) );
                     // TODO: Prevent exploits with hp draining stuff?
-                    int heal_amt = patient.get_part_hp_max( part ) / 2 - patient.get_part_hp_cur( part );
+                    int heal_amt = ( patient.get_part_hp_max( part ) / 2 ) - patient.get_part_hp_cur( part );
                     if( heal_amt > 0 ) {
                         patient.heal( part, heal_amt );
                     }
@@ -6623,7 +6621,7 @@ iexamine_function iexamine_function_from_string( const std::string &function_nam
 void iexamine::practice_survival_while_foraging( player *p )
 {
     ///\EFFECT_INT Intelligence caps survival skill gains from foraging
-    const int max_forage_skill = p->int_cur / 2 + 1;
+    const int max_forage_skill = ( p->int_cur / 2 ) + 1;
     const int max_exp = 2 * max_forage_skill;
     // Award experience for foraging attempt regardless of success
     p->practice( skill_survival, rng( 1, max_exp ), max_forage_skill );

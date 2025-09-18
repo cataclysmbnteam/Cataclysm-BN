@@ -270,7 +270,7 @@ mm_submap &map_memory::get_submap( const tripoint &sm_pos )
                       : 0;
         const point idx = ( sm_pos - cache_pos ).xy();
         if( idx.x > 0 && idx.y > 0 && idx.x < cache_size.x && idx.y < cache_size.y ) {
-            return *cached[idx.y * cache_size.x + idx.x + zoffset];
+            return *cached[( idx.y * cache_size.x ) + idx.x + zoffset];
         }
     }
     return *fetch_submap( sm_pos );
