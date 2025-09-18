@@ -6243,7 +6243,7 @@
     "locations": [ "land" ],
     "occurrences": [ 0, 1 ],
     "flags": [ "UNIQUE" ],
-    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "omt_ore_vein_gold" } ]
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "omt_ore_vein_gold_north" } ]
   },
   {
     "type": "overmap_special",
@@ -6251,7 +6251,7 @@
     "locations": [ "land" ],
     "occurrences": [ 0, 1 ],
     "flags": [ "UNIQUE" ],
-    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "omt_ore_vein_iron" } ]
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "omt_ore_vein_iron_north" } ]
   },
   {
     "type": "overmap_special",
@@ -6259,7 +6259,7 @@
     "locations": [ "land" ],
     "occurrences": [ 0, 1 ],
     "flags": [ "UNIQUE" ],
-    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "omt_ore_vein_copper" } ]
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "omt_ore_vein_copper_north" } ]
   },
   {
     "type": "overmap_special",
@@ -6267,7 +6267,7 @@
     "locations": [ "land" ],
     "occurrences": [ 0, 1 ],
     "flags": [ "UNIQUE" ],
-    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "omt_ore_vein_tin" } ]
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "omt_ore_vein_tin_north" } ]
   },
   {
     "type": "overmap_special",
@@ -6275,7 +6275,7 @@
     "locations": [ "land" ],
     "occurrences": [ 0, 1 ],
     "flags": [ "UNIQUE" ],
-    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "omt_ore_vein_silver" } ]
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "omt_ore_vein_silver_north" } ]
   },
   {
     "type": "overmap_special",
@@ -6283,7 +6283,7 @@
     "locations": [ "land" ],
     "occurrences": [ 0, 1 ],
     "flags": [ "UNIQUE" ],
-    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "omt_ore_vein_lead" } ]
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "omt_ore_vein_lead_north" } ]
   },
   {
     "type": "overmap_special",

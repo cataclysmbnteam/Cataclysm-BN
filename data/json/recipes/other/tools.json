@@ -1103,10 +1103,11 @@
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "fabrication",
     "difficulty": 4,
-    "time": "2 h",
+    "time": "1 h",
     "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 4 ], [ "steel_standard", 1 ] ],
-    "components": [ [ [ "wood_structural_small", 1, "LIST" ] ] ]
+    "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "CASING_PRESSING", "level": 2 } ],
+    "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
+    "components": [ [ [ "copper_scrap_equivalent", 4, "LIST" ] ], [ [ "wood_structural_small", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -1115,10 +1116,10 @@
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "fabrication",
     "difficulty": 6,
-    "time": "4 h",
+    "time": "2 h",
     "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 8 ], [ "steel_standard", 2 ] ],
-    "components": [ [ [ "propick_beta", 1 ] ], [ [ "wood_structural_small", 1, "LIST" ] ] ]
+    "using": [ [ "blacksmithing_standard", 4 ], [ "steel_standard", 1 ] ],
+    "components": [ [ [ "wood_structural_small", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
