@@ -307,7 +307,7 @@ bool Creature::sees( const Creature &critter ) const
                ( critter.is_underwater() && !is_underwater() && here.is_divable( critter.pos() ) ) ||
                ( here.has_flag_ter_or_furn( TFLAG_HIDE_PLACE, critter.pos() ) &&
                  !( std::abs( posx() - critter.posx() ) <= 1 && std::abs( posy() - critter.posy() ) <= 1 &&
-                    std::abs( posz() - critter.posz() ) <= 1 ) ) ) {
+                    std::abs( posz() - critter.posz() ) <= 1 ) && !critter.has_flag( MF_FLIES ) && critter.get_size() <= creature_size::medium ) ) {
         return false;
     }
     if( ch != nullptr ) {
