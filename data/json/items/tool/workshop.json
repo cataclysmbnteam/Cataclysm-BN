@@ -835,7 +835,7 @@
     "to_hit": -2,
     "bashing": 20,
     "cutting": 12,
-    "material": [ "wood", "steel" ],
+    "material": [ "wood", "stone" ],
     "symbol": "/",
     "color": "dark_gray",
     "use_action": { "type": "prospect_pick", "radius": 1 },
@@ -849,6 +849,7 @@
     "description": "This is a copper hammer-pick used for finding nearby mineral veins. Not accurate enough for long range, but works.",
     "type": "GENERIC",
     "copy-from": "propick_alpha",
+    "material": [ "wood", "copper" ],
     "use_action": { "type": "prospect_pick", "radius": 2 }
   },
   {
@@ -857,6 +858,7 @@
     "description": "This is a steel hammer-pick used for finding nearby mineral veins. Can help you sniff out even faint traces of minerals.",
     "type": "GENERIC",
     "copy-from": "propick_alpha",
+    "material": [ "wood", "steel" ],
     "use_action": { "type": "prospect_pick", "radius": 3 }
   },
   {
