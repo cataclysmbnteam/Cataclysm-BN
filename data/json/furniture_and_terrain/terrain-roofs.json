@@ -189,11 +189,10 @@
     "name": "skylight",
     "description": "A giant sheet of glass inserted into the roof, lets light pass through.",
     "symbol": "o",
-    "looks_like": "t_linoleum_white",
+    "looks_like": "t_open_air",
     "color": "cyan",
     "move_cost": 2,
-    "trap": "tr_ledge",
-    "flags": [ "TRANSPARENT", "NO_FLOOR", "INDOORS" ],
+    "flags": [ "TRANSPARENT", "Z_TRANSPARENT", "INDOORS" ],
     "bash": { "str_min": 3, "str_max": 6, "sound": "glass braking!", "sound_fail": "whack!", "bash_below": true }
   },
   {
@@ -278,7 +277,7 @@
     "symbol": "#",
     "color": [ "light_green", "green", "yellow_yellow", "brown" ],
     "move_cost": 8,
-    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "UNSTABLE" ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "UNSTABLE", "Z_TRANSPARENT" ],
     "bash": { "str_min": 30, "str_max": 210, "sound": "crash!", "sound_fail": "whump!", "bash_below": true }
   },
   {
@@ -289,7 +288,7 @@
     "symbol": "#",
     "color": [ "green" ],
     "move_cost": 8,
-    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "UNSTABLE" ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "UNSTABLE", "Z_TRANSPARENT" ],
     "bash": { "str_min": 30, "str_max": 210, "sound": "crash!", "sound_fail": "whump!", "bash_below": true }
   },
   {
@@ -300,7 +299,7 @@
     "symbol": "#",
     "color": "brown",
     "move_cost": 8,
-    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "UNSTABLE" ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "UNSTABLE", "Z_TRANSPARENT" ],
     "bash": { "str_min": 30, "str_max": 210, "sound": "crash!", "sound_fail": "whump!", "bash_below": true }
   }
 ]
