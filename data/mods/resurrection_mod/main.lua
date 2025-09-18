@@ -41,7 +41,6 @@ mod.on_game_load_hook = function()
   gdebug.log_info("Teleporters: on_load")
 
   mod.load_saved_anchors()
-
 end
 
 -- SAVING
@@ -61,10 +60,8 @@ end
 mod.pre_death_hook = function()
   local who = gapi.get_avatar()
   local pos = who:pos()
-  if mod.pick_teleport_destination( who, pos ) == 1 then
-    who:set_all_parts_hp_cur( 10 )
-  end
-end  
+  if mod.pick_teleport_destination(who, pos) == 1 then who:set_all_parts_hp_cur(10) end
+end
 -- main function
 
 mod.add_anchor_to_list = function(pos)
@@ -113,19 +110,17 @@ mod.pick_teleport_destination = function(who)
   local eidx = 1
   local idx = 0
 
-  for i in pairs(mod.anchor_list) do 
+  for i in pairs(mod.anchor_list) do
     local anchor = mod.anchor_list[i]
     local distance = coords.rl_dist(abs_omt, anchor)
     if distance < min_dist then
-        eidx = idx
-        min_dist = distance
+      eidx = idx
+      min_dist = distance
     end
     idx = idx + 1
   end
-  
-  if idx == 0 then
-    return 0
-  end
+
+  if idx == 0 then return 0 end
   local anchor = mod.anchor_list[eidx]
   gapi.add_msg("Respawning Player at " .. tostring(anchor))
 
