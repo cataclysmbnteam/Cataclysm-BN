@@ -5756,7 +5756,7 @@ void iuse_prospect_pick::load( const JsonObject &obj )
     range = obj.get_int( "radius", 3 );
 }
 //TODO: this should probably take some time to do when skill is implimented, for now though, it just does.
-int iuse_prospect_pick::use( player &p, item &, bool t,
+int iuse_prospect_pick::use( player &p, item &it, bool t,
                              const tripoint & ) const
 {
     if( t ) {
@@ -5804,6 +5804,9 @@ int iuse_prospect_pick::use( player &p, item &, bool t,
         overmap_buffer.reveal( place, 0 );
     }
     //* end edited map code */
+    p.add_msg_if_player( m_info,
+                         _( "You use the %s to gather a few samples and gauge where minerals may lie nearby." ),
+                         it.tname() );
     return 0;
 }
 std::unique_ptr<iuse_actor> iuse_prospect_pick::clone() const
