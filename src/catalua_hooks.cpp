@@ -17,6 +17,7 @@ constexpr auto hook_names = std::array
     "on_creature_performed_technique",
     "on_creature_melee_attacked",
     "on_mapgen_postprocess",
+    "pre_death"
 };
 
 void define_hooks( lua_state &state )

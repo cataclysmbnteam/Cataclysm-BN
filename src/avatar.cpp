@@ -14,6 +14,7 @@
 
 #include "action.h"
 #include "calendar.h"
+#include "catalua.h"
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "character.h"
@@ -35,6 +36,7 @@
 #include "game_constants.h"
 #include "help.h"
 #include "inventory.h"
+#include "init.h"
 #include "item.h"
 #include "item_contents.h"
 #include "item_factory.h"
@@ -1065,6 +1067,20 @@ bool avatar::is_hallucination() const
     return false;
 }
 
+bool avatar::is_dead_state() const
+{
+    if( cached_dead_state.has_value() ) {
+        return cached_dead_state.value();
+    }
+    if( Character::is_dead_state() ) {
+        cata::run_pre_death_hooks( *DynamicDataLoader::get_instance().lua );
+    }
+    const auto all_bps = get_all_body_parts( true );
+    cached_dead_state = std::ranges::any_of( all_bps, [this]( const bodypart_id & bp ) {
+        return bp->essential && get_part_hp_cur( bp ) <= 0;
+    } );
+    return cached_dead_state.value();
+}
 void avatar::disp_morale()
 {
     int equilibrium = character_effects::calc_focus_equilibrium( *this );

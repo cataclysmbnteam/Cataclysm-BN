@@ -189,6 +189,8 @@ class avatar : public player
 
         bool is_hallucination() const override;
 
+        bool is_dead_state() const override;
+
         pimpl<teleporter_list> translocators;
 
         int get_str_base() const override;

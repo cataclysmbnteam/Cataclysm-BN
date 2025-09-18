@@ -797,6 +797,9 @@ void cata::detail::reg_character( sol::state &lua )
 
         SET_FX( bodypart_exposure );
 
+        SET_FX_T( pos, const tripoint & () const );
+
+        SET_FX_T( setpos, void( const tripoint & ) );
     }
 #undef UT_CLASS // #define UT_CLASS Character
 
