@@ -5736,13 +5736,14 @@ void overmap::spawn_ores( const tripoint_abs_omt &p )
             ores.add( k, v );
         }
         std::string chosen = ores.pick()->c_str();
+        std::vector<std::string> directions{"_north", "_east", "_south", "_west"};
         tripoint_om_omt local_pos = overmap_buffer.get_om_global( p ).local;
         const tripoint target_sub( omt_to_sm_copy( p.raw() ) );
-
         add_note( local_pos, string_format( "Signs of %s ore nearby.", chosen ) );
         if( !( MAPBUFFER.lookup_submap( target_sub ) ) ) {
-            //No overmap to replace, set the terrain and bail.
-            ter_set( local_pos, oter_id( "omt_ore_vein_" + chosen ) );
+            // No overmap to replace, set the terrain and bail.
+            ter_set( local_pos, oter_id( "omt_ore_vein_" + chosen +
+                                         directions[rand() % 4] ) );
             return;
         }
         /* Theres already overmap there, crap, hacky replace time!
@@ -5751,7 +5752,7 @@ void overmap::spawn_ores( const tripoint_abs_omt &p )
         */
         tinymap tmp;
         map &here = get_map();
-        overmap_buffer.ter_set( p, oter_id( "omt_ore_vein_" + chosen ) );
+        overmap_buffer.ter_set( p, oter_id( "omt_ore_vein_" + chosen + directions[rand() % 4] ) );
         tmp.generate( target_sub, calendar::turn );
 
         here.set_transparency_cache_dirty( p.z() );
