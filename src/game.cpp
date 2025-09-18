@@ -9245,7 +9245,7 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp )
         }
     }
 
-    if( m.has_flag_ter_or_furn( TFLAG_HIDE_PLACE, dest_loc ) ) {
+    if( m.has_flag_ter_or_furn( TFLAG_HIDE_PLACE, dest_loc ) && u.get_size() <= creature_size::medium ) {
         add_msg( m_good, _( "You are hiding in the %s." ), m.name( dest_loc ) );
     }
 
