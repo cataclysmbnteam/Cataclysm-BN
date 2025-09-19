@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <cmath>
+#include <algorithm>
 #include <cstdlib>
 #include <iterator>
 #include <memory>
@@ -102,7 +103,7 @@ std::string enum_to_string<mutagen_technique>( mutagen_technique data )
 
 bool Character::has_trait( const trait_id &b ) const
 {
-    return my_mutations.contains( b ) || enchantment_cache->get_mutations().contains( b );
+    return my_mutations.count( b ) || enchantment_cache->get_mutations().contains( b );
 }
 
 bool Character::has_one_of_traits( const TraitSet &trait_set ) const
@@ -126,7 +127,7 @@ bool Character::has_trait_flag( const trait_flag_str_id &b ) const
 bool Character::has_base_trait( const trait_id &b ) const
 {
     // Look only at base traits
-    return my_traits.contains( b );
+    return my_traits.find( b ) != my_traits.end();
 }
 
 void Character::toggle_trait( const trait_id &trait_ )
@@ -750,8 +751,8 @@ static std::map<mutation_category_id, float> calc_category_weights(
     } );
     float h_lvl = std::max<float>( max_lvl_iter->second, 20.0f );
     for( const auto &cat_lvl : mcl ) {
-        float weight = addition ? ( 1 + ( 4 * ( cat_lvl.second / h_lvl ) ) )
-                       : ( 5 - ( 4 * ( cat_lvl.second / h_lvl ) ) );
+        float weight = addition ? ( 1 + 4 * ( cat_lvl.second / h_lvl ) )
+                       : ( 5 - 4 * ( cat_lvl.second / h_lvl ) );
         category_weights[cat_lvl.first] = weight;
     }
     category_weights[max_lvl_iter->first] *= 2;
@@ -783,7 +784,7 @@ std::map<trait_id, float> Character::mutation_chances() const
 
     int current_score = genetic_score( *this );
     // 10/10/10/10 in stats, balanced traits, plus tip
-    int expected_score = ( 4 * 10 ) + 6;
+    int expected_score = 4 * 10 + 6;
     int direction = expected_score - current_score + mutation_value( "mutagen_target_modifier" );
     add_msg_if_player( m_debug, "Mutation target value: %s", direction );
 

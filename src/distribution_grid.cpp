@@ -239,7 +239,7 @@ void distribution_grid_tracker::on_saved()
         }
     }
     for( const tripoint_abs_sm &sm_pos : bounds_range ) {
-        if( !parent_distribution_grids.contains( sm_pos ) ) {
+        if( parent_distribution_grids.find( sm_pos ) == parent_distribution_grids.end() ) {
             make_distribution_grid_at( sm_pos );
         }
     }

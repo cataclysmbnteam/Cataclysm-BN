@@ -23,14 +23,14 @@ void reset_mutation_types()
 
 bool mutation_type_exists( const std::string &id )
 {
-    return mutation_types.contains( id );
+    return mutation_types.find( id ) != mutation_types.end();
 }
 
 std::vector<trait_id> get_mutations_in_type( const std::string &id )
 {
     std::vector<trait_id> ret;
     for( const mutation_branch &it : mutation_branch::get_all() ) {
-        if( it.types.contains( id ) ) {
+        if( it.types.find( id ) != it.types.end() ) {
             ret.push_back( it.id );
         }
     }

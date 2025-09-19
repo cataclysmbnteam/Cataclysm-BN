@@ -58,7 +58,8 @@ using read_lock = std::shared_lock< _Mutex >;
 overmapbuffer overmap_buffer;
 
 overmapbuffer::overmapbuffer()
-    = default;
+{
+}
 
 const city_reference city_reference::invalid{ nullptr, tripoint_abs_sm(), -1 };
 
@@ -78,7 +79,7 @@ overmap &overmapbuffer::get( const point_abs_om &p )
         read_lock<std::shared_mutex> _l( mutex );
         const auto it = overmaps.find( p );
         if( it != overmaps.end() ) {
-            return *it->second;
+            return *it->second.get();
         }
     }
 
@@ -88,7 +89,7 @@ overmap &overmapbuffer::get( const point_abs_om &p )
         // Search for it again, but now with a lock since another thread could've loaded this overmap tile first
         const auto it = overmaps.find( p );
         if( it != overmaps.end() ) {
-            return *it->second;
+            return *it->second.get();
         }
 
         // That constructor loads an existing overmap or creates a new one.
@@ -713,7 +714,7 @@ const oter_id &overmapbuffer::ter_existing( const tripoint_abs_omt &p )
 void overmapbuffer::ter_set( const tripoint_abs_omt &p, const oter_id &id )
 {
     const overmap_with_local_coords om_loc = get_om_global( p );
-    om_loc.om->ter_set( om_loc.local, id );
+    return om_loc.om->ter_set( om_loc.local, id );
 }
 
 std::string *overmapbuffer::join_used_at( const std::pair<tripoint_abs_omt, cube_direction> &p )
@@ -1140,7 +1141,7 @@ struct find_task_generator {
         return std::make_pair( om_loc, std::move( v ) );
     }
 };
-} // namespace
+}
 
 std::vector<tripoint_abs_omt> overmapbuffer::find_all( const tripoint_abs_omt &origin,
         const omt_find_params &params )

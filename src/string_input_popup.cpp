@@ -1,6 +1,5 @@
 #include "string_input_popup.h"
 
-#include <algorithm>
 #include <cctype>
 #include <optional>
 
@@ -391,8 +390,12 @@ const std::string &string_input_popup::query_string( const bool loop, const bool
     _canceled = false;
     _confirmed = false;
     do {
-        _position = std::max( _position, 0 );
-        shift = std::max( shift, 0 );
+        if( _position < 0 ) {
+            _position = 0;
+        }
+        if( shift < 0 ) {
+            shift = 0;
+        }
 
         const size_t width_to_cursor_start = ret.substr( 0, _position ).display_width();
         size_t width_to_cursor_end = width_to_cursor_start;

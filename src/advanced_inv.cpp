@@ -548,7 +548,9 @@ int advanced_inventory::print_header( advanced_inventory_pane &pane, aim_locatio
         mvwprintz( window, p, bcolor, "%c", bracket[0] );
         wprintz( window, kcolor, "%s", in_vehicle && sel != AIM_DRAGGED ? "V" : key );
         wprintz( window, bcolor, "%c", bracket[1] );
-        min_x = std::min( p.x, min_x );
+        if( p.x < min_x ) {
+            min_x = p.x;
+        }
     }
     return min_x;
 }
@@ -671,7 +673,7 @@ void advanced_inventory::redraw_pane( side p )
         int itemcount = square.get_item_count();
         int fmtw = 7 + ( itemcount > 99 ? 3 : itemcount > 9 ? 2 : 1 ) +
                    ( max > 99 ? 3 : max > 9 ? 2 : 1 );
-        mvwprintw( w, point( ( w_width / 2 ) - fmtw, 0 ), "< %d/%d >", itemcount, max );
+        mvwprintw( w, point( w_width / 2 - fmtw, 0 ), "< %d/%d >", itemcount, max );
     }
 
     std::string fprefix = string_format( _( "[%s] Filter" ), ctxt.get_desc( "FILTER" ) );
@@ -1362,8 +1364,8 @@ void advanced_inventory::display()
             constexpr int min_w_height = 10;
             const int min_w_width = FULL_SCREEN_WIDTH;
             const int max_w_width = get_option<bool>( "AIM_WIDTH" ) ? TERMX : std::max( 120,
-                                    TERMX - ( 2 * ( panel_manager::get_manager().get_width_right() +
-                                                    panel_manager::get_manager().get_width_left() ) ) );
+                                    TERMX - 2 * ( panel_manager::get_manager().get_width_right() +
+                                                  panel_manager::get_manager().get_width_left() ) );
 
             w_height = TERMY < min_w_height + head_height ? min_w_height : TERMY - head_height;
             w_width = TERMX < min_w_width ? min_w_width : TERMX > max_w_width ? max_w_width :
@@ -1380,14 +1382,14 @@ void advanced_inventory::display()
                                           point( colstart + ( w_width - ( minimap_width + 1 ) ), headstart + 1 ) );
             panes[left].window = catacurses::newwin( w_height, w_width / 2, point( colstart,
                                  headstart + head_height ) );
-            panes[right].window = catacurses::newwin( w_height, w_width / 2, point( colstart + ( w_width / 2 ),
+            panes[right].window = catacurses::newwin( w_height, w_width / 2, point( colstart + w_width / 2,
                                   headstart + head_height ) );
 
             // 2 for the borders, 5 for the header stuff
             itemsPerPage = w_height - 2 - 5;
 
             if( filter_edit && spopup ) {
-                spopup->window( panes[src].window, point( 4, w_height - 1 ), ( w_width / 2 ) - 4 );
+                spopup->window( panes[src].window, point( 4, w_height - 1 ), w_width / 2 - 4 );
             }
 
             ui.position( point( colstart, headstart ), point( w_width, head_height + w_height ) );
@@ -1402,8 +1404,7 @@ void advanced_inventory::display()
             if( filter_edit && spopup ) {
                 draw_item_filter_rules( panes[dest].window, 1, 11, item_filter_type::FILTER );
                 mvwprintz( panes[src].window, point( 2, getmaxy( panes[src].window ) - 1 ), c_cyan, "< " );
-                mvwprintz( panes[src].window, point( ( w_width / 2 ) - 4, getmaxy( panes[src].window ) - 1 ),
-                           c_cyan,
+                mvwprintz( panes[src].window, point( w_width / 2 - 4, getmaxy( panes[src].window ) - 1 ), c_cyan,
                            " >" );
                 spopup->query_string( /*loop=*/false, /*draw_only=*/true );
             }
@@ -1805,7 +1806,9 @@ bool advanced_inventory::query_charges( aim_location destarea, const advanced_in
         if( amount <= 0 ) {
             return false;
         }
-        amount = std::min( amount, possible_max );
+        if( amount > possible_max ) {
+            amount = possible_max;
+        }
     }
     return true;
 }

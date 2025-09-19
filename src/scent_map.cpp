@@ -73,7 +73,7 @@ void scent_map::draw( const catacurses::window &win, const int div, const tripoi
     const point max( getmaxx( win ), getmaxy( win ) );
     for( int x = 0; x < max.x; ++x ) {
         for( int y = 0; y < max.y; ++y ) {
-            const int sn = get( center + point( ( -max.x / 2 ) + x, ( -max.y / 2 ) + y ) ) / div;
+            const int sn = get( center + point( -max.x / 2 + x, -max.y / 2 + y ) ) / div;
             mvwprintz( win, point( x, y ), sev( sn / 10 ), "%d", sn % 10 );
         }
     }
@@ -162,10 +162,9 @@ void scent_map::update( const tripoint &center, map &m )
     //block=0 reduce=1 normal=5
     scent_array<char> scent_transfer;
 
-    std::array < std::array < int, 3 + ( SCENT_RADIUS * 2 ) >, 1 + ( SCENT_RADIUS * 2 ) > new_scent;
-    std::array < std::array < int, 3 + ( SCENT_RADIUS * 2 ) >, 1 + ( SCENT_RADIUS * 2 ) > sum_3_scent_y;
-    std::array < std::array < char, 3 + ( SCENT_RADIUS * 2 ) >,
-        1 + ( SCENT_RADIUS * 2 ) > squares_used_y;
+    std::array < std::array < int, 3 + SCENT_RADIUS * 2 >, 1 + SCENT_RADIUS * 2 > new_scent;
+    std::array < std::array < int, 3 + SCENT_RADIUS * 2 >, 1 + SCENT_RADIUS * 2 > sum_3_scent_y;
+    std::array < std::array < char, 3 + SCENT_RADIUS * 2 >, 1 + SCENT_RADIUS * 2 > squares_used_y;
 
     diagonal_blocks( &blocked_cache )[MAPSIZE_X][MAPSIZE_Y] = m.access_cache(
                 center.z ).vehicle_obstructed_cache;

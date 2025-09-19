@@ -72,10 +72,10 @@ void show_scores_ui( const achievements_tracker &achievements, stats_tracker &st
     catacurses::window w;
 
     enum class tab_mode {
-        achievements = 0,
-        scores = 1,
-        kills = 2,
-        num_tabs = 3,
+        achievements,
+        scores,
+        kills,
+        num_tabs,
         first_tab = achievements,
     };
 

@@ -431,7 +431,7 @@ const recipe *select_crafting_recipe( int &batch_size_out )
         add_action_desc( "HELP_KEYBINDINGS", pgettext( "crafting gui", "Keybindings" ) );
         keybinding_x = isWide ? 5 : 2;
         keybinding_tips = foldstring( enumerate_as_string( act_descs, enumeration_conjunction::none ),
-                                      width - ( keybinding_x * 2 ) );
+                                      width - keybinding_x * 2 );
 
         const int tailHeight = keybinding_tips.size() + 2;
         dataLines = TERMY - ( headHeight + subHeadHeight ) - tailHeight;
@@ -703,7 +703,7 @@ const recipe *select_crafting_recipe( int &batch_size_out )
                 if( !show_hidden ) {
                     current.clear();
                     for( auto i : picking ) {
-                        if( !uistate.hidden_recipes.contains( i->ident() ) ) {
+                        if( uistate.hidden_recipes.find( i->ident() ) == uistate.hidden_recipes.end() ) {
                             current.push_back( i );
                         }
                     }
@@ -903,7 +903,7 @@ const recipe *select_crafting_recipe( int &batch_size_out )
                 popup( _( "Nothing selected!  Press [<color_yellow>ESC</color>]!" ) );
                 continue;
             }
-            if( uistate.favorite_recipes.contains( current[line]->ident() ) ) {
+            if( uistate.favorite_recipes.find( current[line]->ident() ) != uistate.favorite_recipes.end() ) {
                 uistate.favorite_recipes.erase( current[line]->ident() );
             } else {
                 uistate.favorite_recipes.insert( current[line]->ident() );

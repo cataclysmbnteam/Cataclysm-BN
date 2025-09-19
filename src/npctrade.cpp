@@ -97,7 +97,7 @@ double npc_trading::net_price_adjustment( const Character &buyer, const Characte
     ///\EFFECT_INT slightly increases bartering price changes, relative to NPC INT
 
     ///\EFFECT_BARTER increases bartering price changes, relative to NPC BARTER
-    double adjust = ( 0.05 * ( seller.int_cur - buyer.int_cur ) ) +
+    double adjust = 0.05 * ( seller.int_cur - buyer.int_cur ) +
                     price_adjustment( seller.get_skill_level( skill_barter ) -
                                       buyer.get_skill_level( skill_barter ) );
     return( std::max( adjust, 1.0 ) );
@@ -301,7 +301,7 @@ void trading_window::update_win( npc &np, const std::string &deal )
                                   format_money( std::abs( your_balance ) ) );
     }
 
-    mvwprintz( w_head, point( ( TERMX / 2 ) + ( ( TERMX / 2 - utf8_width( cost_str ) ) / 2 ), 3 ),
+    mvwprintz( w_head, point( TERMX / 2 + ( TERMX / 2 - utf8_width( cost_str ) ) / 2, 3 ),
                trade_color, cost_str );
 
     if( !deal.empty() ) {
@@ -391,8 +391,8 @@ void trading_window::show_item_data( size_t offset,
     ui_adaptor ui;
     ui.on_screen_resize( [&]( ui_adaptor & ui ) {
         w_tmp = catacurses::newwin( 3, 21,
-                                    point( 30 + ( ( TERMX - FULL_SCREEN_WIDTH ) / 2 ),
-                                           1 + ( ( TERMY - FULL_SCREEN_HEIGHT ) / 2 ) ) );
+                                    point( 30 + ( TERMX - FULL_SCREEN_WIDTH ) / 2,
+                                           1 + ( TERMY - FULL_SCREEN_HEIGHT ) / 2 ) );
         ui.position_from_window( w_tmp );
     } );
     ui.mark_resize();

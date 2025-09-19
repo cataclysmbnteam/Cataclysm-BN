@@ -25,9 +25,9 @@ void game::list_missions()
 
     enum class tab_mode : int {
         TAB_ACTIVE = 0,
-        TAB_COMPLETED = 1,
-        TAB_FAILED = 2,
-        NUM_TABS = 3,
+        TAB_COMPLETED,
+        TAB_FAILED,
+        NUM_TABS,
         FIRST_TAB = 0,
         LAST_TAB = NUM_TABS - 1
     };

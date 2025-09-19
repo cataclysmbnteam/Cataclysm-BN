@@ -633,7 +633,7 @@ bool avatar::read( item *loc, const bool continuous )
                        elem.first->getID().get_value() ) != 0;
     } ) ||
     !std::all_of( activity->values.begin(), activity->values.end(), [&]( int elem ) {
-        return learners.contains( g->find_npc( character_id( elem ) ) );
+        return learners.find( g->find_npc( character_id( elem ) ) ) != learners.end();
     } ) ) {
 
         if( learners.size() == 1 ) {
@@ -865,8 +865,8 @@ void avatar::do_read( item *loc )
             // Calculate experience gained
             /** @EFFECT_INT increases reading comprehension */
             // Enhanced Memory Banks modestly boosts experience
-            int min_ex = std::max( 1, ( reading->time / 10 ) + ( learner->get_int() / 4 ) );
-            int max_ex = ( reading->time /  5 ) + ( learner->get_int() / 2 ) - originalSkillLevel;
+            int min_ex = std::max( 1, reading->time / 10 + learner->get_int() / 4 );
+            int max_ex = reading->time /  5 + learner->get_int() / 2 - originalSkillLevel;
             if( has_active_bionic( bio_memory ) ) {
                 min_ex += 2;
             }
@@ -874,9 +874,15 @@ void avatar::do_read( item *loc )
             min_ex = adjust_for_focus( min_ex );
             max_ex = adjust_for_focus( max_ex );
 
-            max_ex = std::max( max_ex, 2 );
-            max_ex = std::min( max_ex, 10 );
-            max_ex = std::max( max_ex, min_ex );
+            if( max_ex < 2 ) {
+                max_ex = 2;
+            }
+            if( max_ex > 10 ) {
+                max_ex = 10;
+            }
+            if( max_ex < min_ex ) {
+                max_ex = min_ex;
+            }
 
             min_ex *= ( originalSkillLevel + 1 ) * elem.second;
             min_ex = std::max( min_ex, 1 );
@@ -952,7 +958,7 @@ void avatar::do_read( item *loc )
         const matype_id style_to_learn = martial_art_learned_from( *book.type );
         skill_id skill_used = style_to_learn->primary_skill;
         int difficulty = std::max( 1, style_to_learn->learn_difficulty );
-        difficulty = std::max( 1, 20 + ( difficulty * 2 ) - ( get_skill_level( skill_used ) * 2 ) );
+        difficulty = std::max( 1, 20 + difficulty * 2 - get_skill_level( skill_used ) * 2 );
         add_msg( m_debug, _( "Chance to learn one in: %d" ), difficulty );
 
         if( one_in( difficulty ) ) {
