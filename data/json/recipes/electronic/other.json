@@ -875,7 +875,7 @@
     "difficulty": 8,
     "time": "10 m",
     "autolearn": true,
-    "using": [ [ "coding_standard", 120 ], [ "utility_software_standard", -1] ],
+    "using": [ [ "coding_standard", 120 ], [ "utility_software_standard", -1 ] ],
     "components": [
       [
         [ "id_military", 1 ],
@@ -898,12 +898,8 @@
     "difficulty": 8,
     "time": "10 m",
     "autolearn": true,
-    "using": [ [ "coding_standard", 120 ], [ "math_software_standard", -1 ], [ "utility_software_standard", -1] ],
-    "components": [
-      [
-        [ "blank_card", 1 ]
-      ]
-    ]
+    "using": [ [ "coding_standard", 120 ], [ "math_software_standard", -1 ], [ "utility_software_standard", -1 ] ],
+    "components": [ [ [ "blank_card", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -915,12 +911,8 @@
     "difficulty": 8,
     "time": "10 m",
     "autolearn": true,
-    "using": [ [ "coding_standard", 120 ], [ "math_software_standard", -1 ], [ "utility_software_standard", -1] ],
-    "components": [
-      [
-        [ "blank_card", 1 ]
-      ]
-    ]
+    "using": [ [ "coding_standard", 120 ], [ "math_software_standard", -1 ], [ "utility_software_standard", -1 ] ],
+    "components": [ [ [ "blank_card", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -932,12 +924,8 @@
     "difficulty": 8,
     "time": "10 m",
     "autolearn": true,
-    "using": [ [ "coding_standard", 120 ], [ "math_software_standard", -1 ], [ "utility_software_standard", -1] ],
-    "components": [
-      [
-        [ "blank_card", 1 ]
-      ]
-    ]
+    "using": [ [ "coding_standard", 120 ], [ "math_software_standard", -1 ], [ "utility_software_standard", -1 ] ],
+    "components": [ [ [ "blank_card", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -949,12 +937,8 @@
     "difficulty": 8,
     "time": "10 m",
     "book_learn": [ [ "sa_cryptology_key", 10 ] ],
-    "using": [ [ "coding_standard", 120 ], [ "math_software_standard", -1 ], [ "utility_software_standard", -1] ],
-    "components": [
-      [
-        [ "blank_card", 1 ]
-      ]
-    ]
+    "using": [ [ "coding_standard", 120 ], [ "math_software_standard", -1 ], [ "utility_software_standard", -1 ] ],
+    "components": [ [ [ "blank_card", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -966,12 +950,8 @@
     "difficulty": 8,
     "time": "10 m",
     "book_learn": [ [ "sa_cryptology_key", 10 ] ],
-    "using": [ [ "coding_standard", 120 ], [ "math_software_standard", -1 ], [ "utility_software_standard", -1] ],
-    "components": [
-      [
-        [ "blank_card", 1 ]
-      ]
-    ]
+    "using": [ [ "coding_standard", 120 ], [ "math_software_standard", -1 ], [ "utility_software_standard", -1 ] ],
+    "components": [ [ [ "blank_card", 1 ] ] ]
   },
   {
     "result": "software_hacking",
@@ -984,7 +964,7 @@
     "difficulty": 10,
     "time": "6 h",
     "book_learn": [ [ "sa_cryptology_key", 10 ] ],
-    "using": [ [ "coding_standard", 120 ], [ "utility_software_standard", -1], [ "math_software_standard", -1] ],
+    "using": [ [ "coding_standard", 120 ], [ "utility_software_standard", -1 ], [ "math_software_standard", -1 ] ],
     "components": [ [ [ "usb_drive", 1 ], [ "mobile_memory_card_used", 1 ] ] ]
   },
   {
