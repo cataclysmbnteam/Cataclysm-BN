@@ -144,16 +144,22 @@
     "tools": [ [ [ "software_hacking", 1 ], [ "control_laptop", 1 ] ] ]
   },
   {
-    "id": "utility_standard",
+    "id": "utility_software_standard",
     "type": "requirement",
     "//": "For hardware recipes requiring programming additional boards, unzipping, etc",
     "tools": [ [ [ "software_utility", 1 ], [ "software_hacking", 1 ], [ "control_laptop", 1 ] ] ]
   },
   {
-    "id": "math_standard",
+    "id": "math_software_standard",
     "type": "requirement",
     "//": "For recipes requiring cracking passwords or automating similar heavy math operations",
     "tools": [ [ [ "software_math", 1 ], [ "software_hacking", 1 ], [ "control_laptop", 1 ] ] ]
+  },
+  {
+    "id": "medical_software_standard",
+    "type": "requirement",
+    "//": "For recipes requiring cracking passwords or automating similar heavy math operations",
+    "tools": [ [ [ "software_medical", 1 ], [ "software_hacking", 1 ], [ "control_laptop", 1 ] ] ]
   },
   {
     "id": "anesthetic",
