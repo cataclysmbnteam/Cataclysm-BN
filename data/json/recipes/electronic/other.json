@@ -876,6 +876,7 @@
     "time": "10 m",
     "autolearn": true,
     "using": [ [ "coding_standard", 120 ] ],
+    "tools": [ [ [ "software_utility", -1 ] ] ],
     "components": [
       [
         [ "id_military", 1 ],
@@ -899,6 +900,7 @@
     "time": "10 m",
     "autolearn": true,
     "using": [ [ "coding_standard", 120 ] ],
+    "tools": [ [ [ "software_utility", -1 ] ] ],
     "components": [
       [
         [ "blank_card", 1 ]
@@ -916,6 +918,7 @@
     "time": "10 m",
     "autolearn": true,
     "using": [ [ "coding_standard", 120 ] ],
+    "tools": [ [ [ "software_utility", -1 ] ] ],
     "components": [
       [
         [ "blank_card", 1 ]
@@ -933,6 +936,7 @@
     "time": "10 m",
     "autolearn": true,
     "using": [ [ "coding_standard", 120 ] ],
+    "tools": [ [ [ "software_utility", -1 ] ] ],
     "components": [
       [
         [ "blank_card", 1 ]
@@ -948,9 +952,9 @@
     "skills_required": [ [ "electronics", 9 ] ],
     "difficulty": 8,
     "time": "10 m",
-    "autolearn": true,
     "book_learn": [ [ "sa_cryptology_key", 10 ] ],
     "using": [ [ "coding_standard", 120 ] ],
+    "tools": [ [ [ "software_utility", -1 ] ] ],
     "components": [
       [
         [ "blank_card", 1 ]
@@ -966,14 +970,29 @@
     "skills_required": [ [ "electronics", 9 ] ],
     "difficulty": 8,
     "time": "10 m",
-    "autolearn": true,
     "book_learn": [ [ "sa_cryptology_key", 10 ] ],
     "using": [ [ "coding_standard", 120 ] ],
+    "tools": [ [ [ "software_utility", -1 ] ] ],
     "components": [
       [
         [ "blank_card", 1 ]
       ]
     ]
+  },
+  {
+    "result": "software_hacking",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "skill_used": "computer",
+    "skills_required": [ "electronics", 6 ],
+    "reversible": true,
+    "difficulty": 10,
+    "time": "6 h",
+    "book_learn": [ [ "sa_cryptology_key", 10 ] ],
+    "using": [ [ "coding_standard", 120 ] ],
+    "tools": [ [ [ "software_math", -1 ] ], [ [ "software_utility", -1 ] ] ],
+    "components": [ [ [ "usb_drive", 1 ], [ "mobile_memory_card_used", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -983,6 +1002,21 @@
     "skill_used": "computer",
     "skills_required": [ [ "computer", 8 ] ],
     "difficulty": 8,
+    "time": "6 h",
+    "autolearn": true,
+    "contained": true,
+    "using": [ [ "coding_standard", 120 ] ],
+    "tools": [ [ [ "software_utility", -1 ] ] ],
+    "components": [ [ [ "usb_drive", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "software_utility",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_OTHER",
+    "skill_used": "computer",
+    "skills_required": [ [ "computer", 8 ] ],
+    "difficulty": 5,
     "time": "6 h",
     "autolearn": true,
     "contained": true,

@@ -1674,6 +1674,7 @@
       [ "mobile_memory_card", 95 ],
       [ "software_math", 15 ],
       [ "software_useless", 25 ],
+      [ "software_utility", 10 ],
       [ "software_medical", 5 ],
       [ "software_hacking", 1 ]
     ]

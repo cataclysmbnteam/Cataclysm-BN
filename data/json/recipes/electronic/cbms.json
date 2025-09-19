@@ -342,7 +342,7 @@
     "//": "computer use needed due to working with neural interface",
     "using": [ [ "soldering_standard", 20 ], [ "coding_standard", 120 ] ],
     "qualities": [ { "id": "SCREW_FINE", "level": 1 }, { "id": "WRENCH_FINE", "level": 1 } ],
-    "tools": [ [ [ "autoclave", 5000 ], [ "fake_autoclave", -1 ] ] ],
+    "tools": [ [ [ "autoclave", 5000 ], [ "fake_autoclave", -1 ] ], [ "software_utility", -1 ] ],
     "components": [
       [ [ "memory_module", 1 ] ],
       [ [ "RAM", 1 ] ],
@@ -420,7 +420,7 @@
     "//": "computer use needed due to working with neural interface",
     "using": [ [ "soldering_standard", 20 ], [ "coding_standard", 120 ] ],
     "qualities": [ { "id": "SCREW_FINE", "level": 1 }, { "id": "WRENCH_FINE", "level": 1 } ],
-    "tools": [ [ [ "autoclave", 5000 ], [ "fake_autoclave", -1 ] ] ],
+    "tools": [ [ [ "autoclave", 5000 ], [ "fake_autoclave", -1 ] ], [ "software_utility", -1 ] ],
     "components": [
       [ [ "memory_module", 1 ] ],
       [ [ "cable", 2 ] ],
@@ -444,7 +444,7 @@
     "//": "Additional metalworking for assembling component housing and connectors, computer due to neural interface",
     "using": [ [ "soldering_standard", 100 ], [ "welding_standard", 50 ], [ "coding_standard", 120 ] ],
     "qualities": [ { "id": "SCREW_FINE", "level": 1 }, { "id": "SAW_M_FINE", "level": 1 }, { "id": "WRENCH_FINE", "level": 1 } ],
-    "tools": [ [ [ "autoclave", 5000 ], [ "fake_autoclave", -1 ] ] ],
+    "tools": [ [ [ "autoclave", 5000 ], [ "fake_autoclave", -1 ] ], [ "software_utility", -1 ] ],
     "components": [
       [ [ "memory_module", 1 ] ],
       [ [ "amplifier", 5 ] ],
@@ -599,7 +599,7 @@
     "//": "nanomaterial needed due to medical interface, computer use due to working with neural interface",
     "using": [ [ "soldering_standard", 20 ], [ "coding_standard", 120 ] ],
     "qualities": [ { "id": "SCREW_FINE", "level": 1 }, { "id": "WRENCH_FINE", "level": 1 } ],
-    "tools": [ [ [ "autoclave", 5000 ], [ "fake_autoclave", -1 ] ] ],
+    "tools": [ [ [ "autoclave", 5000 ], [ "fake_autoclave", -1 ] ], [ "software_utility", -1 ] ],
     "components": [
       [ [ "nanomaterial", 5 ] ],
       [ [ "self_monitoring_module", 1 ] ],
