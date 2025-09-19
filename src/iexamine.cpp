@@ -294,7 +294,22 @@ void iexamine::nanofab( player &p, const tripoint &examp )
     }
 
     auto nanofab_template = g->inv_map_splice( []( const item & e ) {
-        return e.has_var( "NANOFAB_ITEM_ID" );
+        // Backwards compatibility: true if original var exists
+        if( e.has_var( "NANOFAB_ITEM_ID" ) ) {
+            return true;
+        }
+
+        // New behavior: check for numbered NANOFAB_ITEM_ID_X variables
+        if( e.has_var( "NANOFAB_ITEM_TOTAL" ) ) {
+            const int total = std::stoi( e.get_var( "NANOFAB_ITEM_TOTAL" ) );
+            for( int i = 2; i <= total; ++i ) {
+                if( e.has_var( string_format( "NANOFAB_ITEM_ID_%d", i ) ) ) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }, _( "Introduce Nanofabricator template" ), PICKUP_RANGE,
     _( "You don't have any usable templates." ) );
 
@@ -302,8 +317,60 @@ void iexamine::nanofab( player &p, const tripoint &examp )
         return;
     }
 
-    detached_ptr<item> new_item = item::spawn( nanofab_template->get_var( "NANOFAB_ITEM_ID" ),
-                                  calendar::turn );
+    // Determine which recipe to spawn
+    std::string chosen_recipe;
+
+    // Gather choices safely
+    std::vector<std::string> recipe_ids;
+
+    // Always include the legacy variable if present
+    if( nanofab_template->has_var( "NANOFAB_ITEM_ID" ) ) {
+        recipe_ids.push_back( nanofab_template->get_var( "NANOFAB_ITEM_ID" ) );
+    }
+
+    // Include numbered ones only if they exist
+    if( nanofab_template->has_var( "NANOFAB_ITEM_TOTAL" ) ) {
+        const int total = std::stoi( nanofab_template->get_var( "NANOFAB_ITEM_TOTAL" ) );
+        for( int i = 2; i <= total; ++i ) {
+            const std::string var_name = string_format( "NANOFAB_ITEM_ID_%d", i );
+            if( nanofab_template->has_var( var_name ) ) {
+                recipe_ids.push_back( nanofab_template->get_var( var_name ) );
+            }
+        }
+    }
+
+    // If no recipes found, bail out
+    if( recipe_ids.empty() ) {
+        return;
+    }
+
+    // If there's more than one valid recipe, let the player pick
+    if( recipe_ids.size() > 1 ) {
+        uilist menu;
+        menu.text = _( "Choose a recipe:" );
+        for( size_t i = 0; i < recipe_ids.size(); ++i ) {
+            itype_id item = itype_id( recipe_ids[i] );
+            auto button_text = string_format( "%s [%d]", item->nname( 1 ), std::max( 1,
+                                              item->volume / 250_ml ) * 5 );
+            menu.addentry( i, true, -1, button_text );
+        }
+        menu.query();
+
+        if( menu.ret >= 0 && static_cast<size_t>( menu.ret ) < recipe_ids.size() ) {
+            chosen_recipe = recipe_ids[ menu.ret ];
+        }
+    } else {
+        // Only one valid recipe, auto-select it
+        chosen_recipe = recipe_ids.front();
+    }
+
+    // Bail out if still empty (shouldn't happen now)
+    if( chosen_recipe.empty() ) {
+        return;
+    }
+
+
+    detached_ptr<item> new_item = item::spawn( itype_id( chosen_recipe ), calendar::turn );
 
     auto qty = std::max( 1, new_item->volume() / 250_ml );
     auto reqs = *requirement_id( "nanofabricator" ) * qty;

@@ -295,9 +295,49 @@ item::item( const itype *type, time_point turn, int qty ) : type( type ),
     }
 
     if( has_flag( flag_NANOFAB_TEMPLATE ) ) {
-        itype_id nanofab_recipe = item_group::item_from( item_group_id( "nanofab_recipes" ) )->typeId();
-        set_var( "NANOFAB_ITEM_ID", nanofab_recipe.str() );
+        // Step 1: Define multiple item group pools.
+        // This could eventually be moved to JSON, but for now we hardcode them.
+        static const std::array<item_group_id, 5> nanofab_groups = {
+            item_group_id( "nanofab_bots" ),
+            item_group_id( "nanofab_power" ),
+            item_group_id( "nanofab_combat" ),
+            item_group_id( "nanofab_science" ),
+            item_group_id( "nanofab_armor" )
+        };
+
+        const item_group_id &chosen_group = random_entry( nanofab_groups );
+        // Step 2: Decide how many to select. Could be random or fixed.
+        // This keeps old behavior (just 1 item) as default for backwards compatibility.
+        // Get all possible items (returns std::set)
+        std::set<const itype *> all_items = item_group::every_possible_item_from( chosen_group );
+
+        // Convert to vector for indexed/random access
+        std::vector<const itype *> all_items_vec( all_items.begin(), all_items.end() );
+
+        const int num_to_pick = all_items_vec.size();
+
+        // Store count of selected items
+        set_var( "NANOFAB_ITEM_TOTAL", std::to_string( num_to_pick ) );
+
+        // Loop through all selected recipes
+        for( size_t i = 0; i < num_to_pick; ++i ) {
+            const itype *it = all_items_vec[i];
+            itype_id nanofab_recipe = it->get_id();
+
+            // (Optional) store group id if needed for debugging
+            set_var( "NANOFAB_GROUP_ID", chosen_group.str() );
+
+            // Backward compatibility: first recipe also stored as legacy NANOFAB_ITEM_ID
+            if( i == 0 ) {
+                set_var( "NANOFAB_ITEM_ID", nanofab_recipe.str() );
+            }
+
+            // Store numbered vars (1-based index)
+            set_var( string_format( "NANOFAB_ITEM_ID_%zu", i + 1 ), nanofab_recipe.str() );
+        }
+
     }
+
 
     if( type->gun ) {
         for( const itype_id &mod : type->gun->built_in_mods ) {
@@ -4996,7 +5036,10 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
         tagtext += _( " (heats)" );
     }
 
-    if( has_var( "NANOFAB_ITEM_ID" ) ) {
+    if( has_var( "NANOFAB_GROUP_ID" ) ) {
+        itype_id item = itype_id( get_var( "NANOFAB_GROUP_ID" ) );
+        tagtext += string_format( " (%s)", item );
+    } else if( has_var( "NANOFAB_ITEM_ID" ) ) {
         itype_id item = itype_id( get_var( "NANOFAB_ITEM_ID" ) );
         tagtext += string_format( " (%s [%d])", nname( item ), std::max( 1, item->volume / 250_ml ) * 5 );
     }
