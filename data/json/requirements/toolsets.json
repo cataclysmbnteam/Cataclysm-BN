@@ -135,7 +135,7 @@
     "id": "coding_standard",
     "type": "requirement",
     "//": "For writing software",
-    "tools": [ [ [ "laptop", 1 ] ] ]
+    "tools": [ [ [ "laptop", 1 ], [ "control_laptop", 1 ] ] ]
   },
   {
     "id": "anesthetic",

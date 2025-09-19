@@ -546,6 +546,21 @@
   },
   {
     "type": "GENERIC",
+    "id": "blank_card",
+    "symbol": ",",
+    "color": "white",
+    "name": { "str": "blank card" },
+    "description": "An RFID or NFC style card.  Useful for holding identifying information like bank accounts, or entry codes.",
+    "price": "100 USD",
+    "price_postapoc": "10 cent",
+    "material": "plastic",
+    "weight": "6 g",
+    "volume": "5 ml",
+    "to_hit": -3,
+    "category": "valuables"
+  },
+  {
+    "type": "GENERIC",
     "id": "data_card",
     "symbol": ",",
     "color": "white",

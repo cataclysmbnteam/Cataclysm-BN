@@ -879,7 +879,7 @@
     "book_learn": [ [ "textbook_computer", 7 ], [ "advanced_electronics", 7 ], [ "textbook_anarch", 7 ], [ "reference_fabrication1", 7 ] ],
     "using": [ [ "soldering_standard", 30 ], [ "welding_standard", 5 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "tools": [ [ [ "software_hacking", -1 ] ] ],
+    "tools": [ [ [ "software_math", -1 ] ] ],
     "components": [
       [ [ "laptop", 1 ] ],
       [ [ "e_scrap", 5 ] ],
