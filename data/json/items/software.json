@@ -181,7 +181,7 @@
     "id": "software_utility",
     "copy-from": "software",
     "type": "GENERIC",
-    "name": { "str_sp": "utility software" },
+    "name": { "str_sp": "UniTool" },
     "description": "A versatile software toolkit - unzips archives, flashes drives, and a variety of other digital tasks.",
     "price": "5 USD",
     "price_postapoc": "0 cent",
