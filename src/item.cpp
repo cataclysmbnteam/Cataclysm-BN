@@ -300,7 +300,7 @@ item::item( const itype *type, time_point turn, int qty ) : type( type ),
             item_group_id( "nanofab_science" ),
             item_group_id( "nanofab_combat" ),
             item_group_id( "nanofab_power" ),
-            item_group_id( "nanofab_bots" ),
+            item_group_id( "nanofab_robotics" ),
             item_group_id( "nanofab_armor" )
         };
 
