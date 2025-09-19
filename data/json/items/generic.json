@@ -550,7 +550,7 @@
     "symbol": ",",
     "color": "white",
     "name": { "str": "blank card" },
-    "description": "An RFID or NFC style card.  Useful for holding identifying information like bank accounts, or entry codes.",
+    "description": "An RFID or NFC style card.  Useful for holding identifying information like bank accounts or entry codes.",
     "price": "100 USD",
     "price_postapoc": "10 cent",
     "material": "plastic",

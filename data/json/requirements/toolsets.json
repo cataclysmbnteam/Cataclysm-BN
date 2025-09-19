@@ -158,8 +158,8 @@
   {
     "id": "medical_software_standard",
     "type": "requirement",
-    "//": "For recipes requiring cracking passwords or automating similar heavy math operations",
-    "tools": [ [ [ "software_medical", 1 ], [ "software_hacking", 1 ], [ "control_laptop", 1 ] ] ]
+    "//": "For recipes requiring cracking passwords or automating similar heavy math operations. However, software_hacking is not included because it presuambly wouldn't be on the OS.",
+    "tools": [ [ [ "software_medical", 1 ], [ "control_laptop", 1 ] ] ]
   },
   {
     "id": "anesthetic",
