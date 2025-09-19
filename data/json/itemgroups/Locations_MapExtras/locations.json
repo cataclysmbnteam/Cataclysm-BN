@@ -547,6 +547,7 @@
       [ "mobile_memory_card", 20 ],
       [ "usb_drive", 5 ],
       [ "software_useless", 10 ],
+      [ "software_utility", 10 ],
       [ "survnote", 1 ]
     ]
   },
@@ -2083,6 +2084,7 @@
       [ "coffee_raw", 15 ],
       [ "usb_drive", 5 ],
       [ "software_useless", 10 ],
+      [ "software_utility", 10 ],
       [ "software_electronics_reference", 2 ],
       [ "umbrella", 5 ],
       [ "teleumbrella", 2 ],

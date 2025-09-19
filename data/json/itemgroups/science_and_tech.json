@@ -105,6 +105,7 @@
       [ "bio_electrosense", 2 ],
       [ "software_electronics_reference", 10 ],
       [ "software_useless", 10 ],
+      [ "software_utility", 10 ],
       [ "canteen", 15 ],
       [ "2lcanteen", 10 ],
       [ "camelbak", 5 ],
