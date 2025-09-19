@@ -140,7 +140,7 @@
   {
     "id": "hacking_standard",
     "type": "requirement",
-    "//": "For hacking recipes",
+    "//": "For hacking recipes and handwaving things like military encryption",
     "tools": [ [ [ "software_hacking", 1 ], [ "control_laptop", 1 ] ] ]
   },
   {

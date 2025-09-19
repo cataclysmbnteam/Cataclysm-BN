@@ -842,7 +842,7 @@
     "time": "2 h",
     "tools": [ [ [ "surface_heat", 30, "LIST" ] ] ],
     "book_learn": [ [ "recipe_alpha", 9 ], [ "recipe_serum", 9 ] ],
-    "using": [ [ "coding_standard", 120 ], [ "hacking_standard", -1 ] ],
+    "using": [ [ "coding_standard", 120 ], [ "medical_software_standard", -1 ] ],
     "qualities": [ { "id": "CHEM", "level": 3 } ],
     "components": [ [ [ "iv_purifier", 3 ] ], [ [ "slime_scrap", 1 ] ], [ [ "nanomaterial", 1 ] ], [ [ "syringe", 1 ] ] ]
   }
