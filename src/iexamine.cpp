@@ -365,6 +365,11 @@ void iexamine::nanofab( player &p, const tripoint &examp )
         new_item->set_flag( flag_FIT );
     }
 
+    if( new_item->made_of( LIQUID ) ) {
+        liquid_handler::handle_liquid( std::move( new_item ) );  // let it own the pointer
+        return;
+    }
+
     here.add_item_or_charges( spawn_point, std::move( new_item ) );
 }
 
