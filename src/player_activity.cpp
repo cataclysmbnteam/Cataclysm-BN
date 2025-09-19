@@ -224,7 +224,7 @@ static std::string craft_progress_message( const avatar &u, const player_activit
     const float total_mult = light_mult * bench_mult * morale_mult * assist_mult * speed_mult *
                              mutation_mult * game_opt_mult;
 
-    const double remaining_percentage = 1.0 - ( craft->item_counter / 10'000'000.0 );
+    const double remaining_percentage = 1.0 - craft->item_counter / 10'000'000.0;
     int remaining_turns = remaining_percentage * base_total_moves / 100 / std::max( 0.01f, total_mult );
     std::string time_desc = string_format( _( "Time left: %s" ),
                                            to_string( time_duration::from_turns( remaining_turns ) ) );
@@ -267,7 +267,7 @@ static std::string format_spd( float level, std::string name, int indent = 0,
     nc_color col = percent == 100
                    ? c_white
                    : percent > 100 ? c_green : c_red;
-    std::string spaces;
+    std::string spaces = "";
     std::string colorized = colorize( std::to_string( percent ) + '%', col );
     return string_format( _( " %s- %s: %s\n" ), spaces.insert( 0, indent, ' ' ), name, colorized );
 }
@@ -282,7 +282,7 @@ std::optional<std::string> player_activity::get_progress_message( const avatar &
         /*
         * Progress block
         */
-        std::string target;
+        std::string target = "";
         std::string progress_desc = "Progress: ";
 
         /*
@@ -366,7 +366,7 @@ std::optional<std::string> player_activity::get_progress_message( const avatar &
         act_progress_message msg = actor->get_progress_message( *this, u );
         if( msg.implemented ) {
             if( msg.msg_full ) {
-                return msg.msg_full;
+                return *msg.msg_full;
             } else if( msg.msg_extra_info ) {
                 return string_format( _( "%s: %s" ), get_verb().translated(), *msg.msg_extra_info );
             } else {
@@ -573,7 +573,7 @@ void player_activity::do_turn( player &p )
         auto_resume = true;
         std::unique_ptr<player_activity> new_act = std::make_unique<player_activity>
                 ( ACT_WAIT_STAMINA, to_moves<int>( 1_minutes ) );
-        new_act->values.push_back( 200 + ( p.get_stamina_max() / 3 ) );
+        new_act->values.push_back( 200 + p.get_stamina_max() / 3 );
         p.assign_activity( std::move( new_act ) );
         return;
     }
@@ -680,7 +680,7 @@ bool player_activity::can_resume_with( const player_activity &other, const Chara
 bool player_activity::is_distraction_ignored( distraction_type type ) const
 {
     return ( get_distraction_manager().is_ignored( type ) ||
-             ignored_distractions.contains( type ) );
+             ignored_distractions.find( type ) != ignored_distractions.end() );
 }
 
 void player_activity::ignore_distraction( distraction_type type )

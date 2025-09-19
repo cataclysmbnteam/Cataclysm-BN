@@ -158,9 +158,9 @@ detached_ptr<item> vehicle_part::properties_to_item() const
         } else {
             if( data->intermap_connection() ) {
                 if( data->con1.point.raw() == target.first ) {
-                    cable_connection_data::unset_con2( tmp.get() );
+                    data->unset_con2( tmp.get() );
                 } else if( data->con2.point.raw() == target.first ) {
-                    cable_connection_data::unset_con1( tmp.get() );
+                    data->unset_con1( tmp.get() );
                 } else {
                     tmp->reset_cable();
                 }
@@ -228,7 +228,7 @@ int vehicle_part::hp() const
 {
     const int dur = info().durability;
     if( base->max_damage() > 0 ) {
-        return dur - ( dur * base->damage() / base->max_damage() );
+        return dur - dur * base->damage() / base->max_damage();
     } else {
         return dur;
     }
@@ -251,7 +251,7 @@ int vehicle_part::damage_level( int max ) const
 
 double vehicle_part::health_percent() const
 {
-    return 1.0 - ( static_cast<double>( base->damage() ) / base->max_damage() );
+    return 1.0 - static_cast<double>( base->damage() ) / base->max_damage();
 }
 
 double vehicle_part::damage_percent() const
@@ -635,8 +635,7 @@ void vehicle::set_hp( vehicle_part &pt, int qty )
         pt.base->set_damage( pt.base->max_damage() );
 
     } else {
-        pt.base->set_damage( pt.base->max_damage() - ( pt.base->max_damage() * qty /
-                             pt.info().durability ) );
+        pt.base->set_damage( pt.base->max_damage() - pt.base->max_damage() * qty / pt.info().durability );
     }
 }
 

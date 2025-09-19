@@ -200,7 +200,7 @@ void catacurses::wrefresh( const window &win )
 //Refreshes the main window, causing it to redraw on top.
 void catacurses::refresh()
 {
-    wrefresh( stdscr );
+    return wrefresh( stdscr );
 }
 
 void catacurses::doupdate()
@@ -359,7 +359,7 @@ void catacurses::wprintw( const window &win, const std::string &text )
         return;
     }
 
-    printstring( win.get<cata_cursesport::WINDOW>(), text );
+    return printstring( win.get<cata_cursesport::WINDOW>(), text );
 }
 
 //Prints a formatted string to a window, moves the cursor
@@ -368,7 +368,7 @@ void catacurses::mvwprintw( const window &win, point p, const std::string &text 
     if( !wmove_internal( win, p ) ) {
         return;
     }
-    printstring( win.get<cata_cursesport::WINDOW>(), text );
+    return printstring( win.get<cata_cursesport::WINDOW>(), text );
 }
 
 //Resizes the underlying terminal after a Window's console resize(maybe?) Not used in TILES
@@ -398,7 +398,7 @@ void catacurses::werase( const window &win_ )
 //erases the main window of all text and attributes
 void catacurses::erase()
 {
-    werase( stdscr );
+    return werase( stdscr );
 }
 
 //pairs up a foreground and background color and puts it into the array of pairs
@@ -421,7 +421,7 @@ void catacurses::wmove( const window &win_, point p )
 //Clears the main window     I'm not sure if its suppose to do this?
 void catacurses::clear()
 {
-    wclear( stdscr );
+    return wclear( stdscr );
 }
 
 //adds a character to the window
@@ -430,7 +430,7 @@ void catacurses::mvwaddch( const window &win, point p, const chtype ch )
     if( !wmove_internal( win, p ) ) {
         return;
     }
-    waddch( win, ch );
+    return waddch( win, ch );
 }
 
 //clears a window
@@ -521,7 +521,7 @@ void catacurses::wattroff( const window &win_, int )
 
 void catacurses::waddch( const window &win, const chtype ch )
 {
-    printstring( win.get<cata_cursesport::WINDOW>(), string_from_int( ch ) );
+    return printstring( win.get<cata_cursesport::WINDOW>(), string_from_int( ch ) );
 }
 
 static constexpr int A_BLINK = 0x00000800; /* Added characters are blinking. */

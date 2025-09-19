@@ -389,7 +389,7 @@ void submap::update_legacy_computer()
 
 bool submap::has_computer( point p ) const
 {
-    return computers.contains( p ) || ( legacy_computer && ter[p.x][p.y] == t_console );
+    return computers.find( p ) != computers.end() || ( legacy_computer && ter[p.x][p.y] == t_console );
 }
 
 const computer *submap::get_computer( point p ) const

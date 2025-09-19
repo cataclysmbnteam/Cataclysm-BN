@@ -348,7 +348,7 @@ void inventory_column::select( size_t new_index, scroll_direction dir )
 
         selected_index = new_index;
         page_offset = ( new_index == static_cast<size_t>( -1 ) ) ?
-                      0 : selected_index - ( selected_index % entries_per_page );
+                      0 : selected_index - selected_index % entries_per_page;
     }
 }
 
@@ -1354,7 +1354,7 @@ void inventory_selector::prepare_layout()
     };
 
     const int nc_width = 2 * ( 1 + border );
-    const int nc_height = get_header_height() + 1 + ( 2 * border );
+    const int nc_height = get_header_height() + 1 + 2 * border;
 
     prepare_layout( TERMX - nc_width, TERMY - nc_height );
 
@@ -1443,14 +1443,11 @@ size_t inventory_selector::get_footer_min_width() const
 
 void inventory_selector::draw_header( const catacurses::window &w ) const
 {
-    trim_and_print( w, point( border + 1, border ), getmaxx( w ) - ( 2 * ( border + 1 ) ), c_white,
-                    title );
-    fold_and_print( w, point( border + 1, border + 1 ), getmaxx( w ) - ( 2 * ( border + 1 ) ),
-                    c_dark_gray,
+    trim_and_print( w, point( border + 1, border ), getmaxx( w ) - 2 * ( border + 1 ), c_white, title );
+    fold_and_print( w, point( border + 1, border + 1 ), getmaxx( w ) - 2 * ( border + 1 ), c_dark_gray,
                     hint );
 
-    mvwhline( w, point( border, border + get_header_height() ), LINE_OXOX,
-              getmaxx( w ) - ( 2 * border ) );
+    mvwhline( w, point( border, border + get_header_height() ), LINE_OXOX, getmaxx( w ) - 2 * border );
 
     if( display_stats ) {
         size_t y = border;
@@ -1612,7 +1609,7 @@ void inventory_selector::draw_columns( const catacurses::window &w ) const
 {
     const auto columns = get_visible_columns();
 
-    const int screen_width = getmaxx( w ) - ( 2 * ( border + 1 ) );
+    const int screen_width = getmaxx( w ) - 2 * ( border + 1 );
     const bool centered = are_columns_centered( screen_width );
 
     const int free_space = screen_width - get_columns_width( columns );
@@ -1688,7 +1685,7 @@ void inventory_selector::draw_footer( const catacurses::window &w ) const
         const auto footer = get_footer( mode );
         if( !footer.first.empty() ) {
             const int string_width = utf8_width( footer.first );
-            const int x1 = filter_offset + ( std::max( getmaxx( w ) - string_width - filter_offset, 0 ) / 2 );
+            const int x1 = filter_offset + std::max( getmaxx( w ) - string_width - filter_offset, 0 ) / 2;
             const int x2 = x1 + string_width - 1;
             const int y = getmaxy( w ) - border;
 
@@ -1832,8 +1829,8 @@ double inventory_selector::get_columns_occupancy_ratio( size_t client_width ) co
 {
     const auto visible_columns = get_visible_columns();
     const int free_width = client_width - get_columns_width( visible_columns )
-                           - ( min_column_gap * std::max( static_cast<int>( visible_columns.size() ) - 1, 0 ) );
-    return 1.0 - ( static_cast<double>( free_width ) / client_width );
+                           - min_column_gap * std::max( static_cast<int>( visible_columns.size() ) - 1, 0 );
+    return 1.0 - static_cast<double>( free_width ) / client_width;
 }
 
 bool inventory_selector::are_columns_centered( size_t client_width ) const
@@ -2129,8 +2126,8 @@ void inventory_iuse_selector::set_chosen_count( inventory_entry &entry, size_t c
             to_use.erase( iter );
         }
     } else {
-        entry.chosen_count = std::min( { count, static_cast<size_t>( max_chosen_count ),
-                                         entry.get_available_count()} );
+        entry.chosen_count = std::min( std::min( count, static_cast<size_t>( max_chosen_count ) ),
+                                       entry.get_available_count() );
         to_use[it].clear();
         if( entry.locations.size() == 1 ) {
             to_use[it].emplace_back( *entry.locations[0], static_cast<int>( entry.chosen_count ) );
@@ -2325,8 +2322,8 @@ void inventory_drop_selector::set_chosen_count( inventory_entry &entry, size_t c
             dropping.erase( iter );
         }
     } else {
-        entry.chosen_count = std::min( { count, static_cast<size_t>( max_chosen_count ),
-                                         entry.get_available_count()} );
+        entry.chosen_count = std::min( std::min( count, static_cast<size_t>( max_chosen_count ) ),
+                                       entry.get_available_count() );
         dropping[it] = entry.chosen_count;
     }
 

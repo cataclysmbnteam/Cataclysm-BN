@@ -92,7 +92,7 @@ struct line_iterable {
 // Orientation of point C relative to line AB
 static int side_of( point a, point b, point c )
 {
-    int cross = ( ( ( b.x - a.x ) * ( c.y - a.y ) ) - ( ( b.y - a.y ) * ( c.x - a.x ) ) );
+    int cross = ( ( b.x - a.x ) * ( c.y - a.y ) - ( b.y - a.y ) * ( c.x - a.x ) );
     return ( cross > 0 ) - ( cross < 0 );
 }
 // Tests if point c is between or on lines (a0, a0 + d) and (a1, a1 + d)

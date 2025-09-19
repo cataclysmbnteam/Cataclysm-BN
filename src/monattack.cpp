@@ -673,8 +673,7 @@ bool mattack::acid_barf( monster *z )
     int dam = rng( 5, 12 );
     dam = target->deal_damage( z, hit.id(), damage_instance( DT_ACID,
                                dam ) ).total_damage();
-    target->add_env_effect( effect_corroding, hit, 5, time_duration::from_turns( ( dam / 2 ) + 5 ),
-                            hit );
+    target->add_env_effect( effect_corroding, hit, 5, time_duration::from_turns( dam / 2 + 5 ), hit );
 
     if( dam > 0 ) {
         auto msg_type = target == &g->u ? m_bad : m_info;
@@ -987,7 +986,7 @@ bool mattack::resurrect( monster *z )
                                   ( z->type->speed ) ) ) ) {
         // Restore 10% of our current speed, capping at our type maximum
         z->set_speed_base( std::min( z->type->speed,
-                                     static_cast<int>( z->get_speed_base() + ( .1 * z->type->speed ) ) ) );
+                                     static_cast<int>( z->get_speed_base() + .1 * z->type->speed ) ) );
     }
 
     int raising_level = 0;
@@ -1026,7 +1025,7 @@ bool mattack::resurrect( monster *z )
                 }
                 return false;
             }
-            int raise_score = ( ( i->damage_level( 4 ) + 1 ) * mt->hp ) + i->burnt;
+            int raise_score = ( i->damage_level( 4 ) + 1 ) * mt->hp + i->burnt;
             lowest_raise_score = std::min( lowest_raise_score, raise_score );
             if( raise_score <= raising_level ) {
                 corpses.emplace_back( p, i );
@@ -1091,7 +1090,7 @@ bool mattack::resurrect( monster *z )
         z->moves -= z->type->speed;
         // Penalize speed by between 10% and 50% based on how damaged the corpse is.
         float speed_penalty = 0.1 + ( corpse_damage * 0.1 );
-        z->set_speed_base( z->get_speed_base() - ( speed_penalty * z->type->speed ) );
+        z->set_speed_base( z->get_speed_base() - speed_penalty * z->type->speed );
         monster *const zed = g->critter_at<monster>( raised.first );
         if( !zed ) {
             debugmsg( "Misplaced or failed to revive a zombie corpse" );
@@ -3991,7 +3990,9 @@ bool mattack::chickenbot( monster *z )
         return false;
     }
 
-    mode = std::min( mode, cap );
+    if( mode > cap ) {
+        mode = cap;
+    }
     switch( mode ) {
         case 0:
         case 1:
@@ -4073,7 +4074,9 @@ bool mattack::multi_robot( monster *z )
         return false;
     }
 
-    mode = std::min( mode, cap );
+    if( mode > cap ) {
+        mode = cap;
+    }
     switch( mode ) {
         case 1:
             if( dist <= 15 ) {
@@ -5042,7 +5045,7 @@ bool mattack::riotbot( monster *z )
         z->moves -= 50;
 
         // Precautionary shot
-        int delta = ( dist / 4 ) + 1;
+        int delta = dist / 4 + 1;
         // Precision shot
         if( z->get_hp() < z->get_hp_max() ) {
             delta = 1;
@@ -5571,7 +5574,7 @@ bool mattack::bio_op_disarm( monster *z )
     /** @EFFECT_DEX increases chance to avoid disarm, secondary stat */
     /** @EFFECT_PER increases chance to avoid disarm, secondary stat */
     /** @EFFECT_MELEE increases chance to avoid disarm */
-    int their_roll = dice( 3, ( 2 * foe->get_str() ) + foe->get_dex() );
+    int their_roll = dice( 3, 2 * foe->get_str() + foe->get_dex() );
     their_roll += dice( 3, foe->get_per() );
     their_roll += dice( 3, foe->get_skill_level( skill_melee ) );
 
@@ -5672,12 +5675,18 @@ bool mattack::kamikaze( monster *z )
 
     // Get our blast radius
     int radius = -1;
-    radius = std::max( exp_actor->fields_radius, radius );
-    radius = std::max( exp_actor->emp_blast_radius, radius );
+    if( exp_actor->fields_radius > radius ) {
+        radius = exp_actor->fields_radius;
+    }
+    if( exp_actor->emp_blast_radius > radius ) {
+        radius = exp_actor->emp_blast_radius;
+    }
     // Extra check here to avoid sqrt if not needed
     if( exp_actor->explosion ) {
         int tmp = ( exp_actor->explosion.safe_range() / 2 );
-        radius = std::max( tmp, radius );
+        if( tmp > radius ) {
+            radius = tmp;
+        }
     }
     // Flashbangs have a max range of 8
     if( exp_actor->do_flashbang && radius < 8 ) {

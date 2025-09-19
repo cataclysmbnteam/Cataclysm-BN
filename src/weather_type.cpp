@@ -185,7 +185,7 @@ void weather_type::load( const JsonObject &jo, const std::string & )
                                        time_duration::units );
 
             bodypart_str_id bp_id = bodypart_str_id::NULL_ID();
-            if( !bodypart_string.empty() ) {
+            if( bodypart_string != "" ) {
                 bp_id = bodypart_str_id( bodypart_string );
             }
 

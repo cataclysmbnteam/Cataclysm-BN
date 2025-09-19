@@ -256,7 +256,9 @@ void user_interface::show()
             if( iLine > static_cast<int>( cur_rules.size() ) - 1 ) {
                 iLine--;
             }
-            iLine = std::max( iLine, 0 );
+            if( iLine < 0 ) {
+                iLine = 0;
+            }
         } else if( action == "COPY_RULE" && currentPageNonEmpty ) {
             bStuffChanged = true;
             cur_rules.push_back( cur_rules[iLine] );
@@ -285,9 +287,9 @@ void user_interface::show()
                 const auto init_help_window = [&]( ui_adaptor & help_ui ) {
                     const point iOffset( TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0,
                                          TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0 );
-                    w_help = catacurses::newwin( ( FULL_SCREEN_HEIGHT / 2 ) + 2,
+                    w_help = catacurses::newwin( FULL_SCREEN_HEIGHT / 2 + 2,
                                                  FULL_SCREEN_WIDTH * 3 / 4,
-                                                 iOffset + point( 19 / 2, 7 + ( FULL_SCREEN_HEIGHT / 2 / 2 ) ) );
+                                                 iOffset + point( 19 / 2, 7 + FULL_SCREEN_HEIGHT / 2 / 2 ) );
                     help_ui.position_from_window( w_help );
                 };
                 init_help_window( help_ui );

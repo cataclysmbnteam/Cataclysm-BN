@@ -126,7 +126,7 @@ void teleporter_list::translocate( const std::set<tripoint> &targets )
 
 bool teleporter_list::knows_translocator( const tripoint_abs_omt &omt_pos ) const
 {
-    return known_teleporters.contains( omt_pos );
+    return known_teleporters.find( omt_pos ) != known_teleporters.end();
 }
 
 void teleporter_list::serialize( JsonOut &json ) const

@@ -917,7 +917,7 @@ int iuse::blech( player *p, item *it, bool, const tripoint & )
         //reverse the harmful values of drinking this acid.
         double multiplier = -1;
         p->mod_stored_kcal( 10 * p->nutrition_for( *it ) * multiplier );
-        p->mod_thirst( ( -it->get_comestible()->quench * multiplier ) + 20 );
+        p->mod_thirst( -it->get_comestible()->quench * multiplier + 20 );
         p->mod_healthy_mod( it->get_comestible()->healthy * multiplier,
                             it->get_comestible()->healthy * multiplier );
         p->add_morale( MORALE_FOOD_BAD, it->get_comestible_fun() * multiplier, 60, 1_hours, 30_minutes,
@@ -1030,7 +1030,9 @@ int iuse::purify_iv( player *p, item *it, bool, const tripoint & )
     }
     int num_cured = rng( 4,
                          valid.size() ); //Essentially a double-strength purifier, but guaranteed at least 4.  Double-edged and all
-    num_cured = std::min( num_cured, 8 );
+    if( num_cured > 8 ) {
+        num_cured = 8;
+    }
     for( int i = 0; i < num_cured && !valid.empty(); i++ ) {
         const trait_id id = random_entry_removed( valid );
         if( id->purifiable ) {
@@ -1106,7 +1108,7 @@ static void spawn_spores( const player &p )
         if( g->critter_at( dest ) != nullptr ) {
             continue;
         }
-        if( one_in( 10 + ( 5 * dist ) ) && one_in( spores_spawned * 2 ) ) {
+        if( one_in( 10 + 5 * dist ) && one_in( spores_spawned * 2 ) ) {
             if( monster *const spore = g->place_critter_at( mon_spore, dest ) ) {
                 spore->friendly = -1;
                 spores_spawned++;
@@ -1448,7 +1450,7 @@ int iuse::petfood( player *p, item *it, bool, const tripoint & )
         const std::set<std::string> &itemfood = it->get_comestible()->petfood;
         if( !petfood.food.empty() ) {
             for( const std::string &food : petfood.food ) {
-                if( itemfood.contains( food ) ) {
+                if( itemfood.find( food ) != itemfood.end() ) {
                     can_feed = true;
                     break;
                 }
@@ -1464,7 +1466,11 @@ int iuse::petfood( player *p, item *it, bool, const tripoint & )
 
         if( !petfood.tamer_traits.empty() ) {
             for( const TraitSet &trait_set : petfood.tamer_traits ) {
-                can_feed = p->has_one_of_traits( trait_set );
+                if( !p->has_one_of_traits( trait_set ) ) {
+                    can_feed = false;
+                } else {
+                    can_feed = true;
+                }
             }
             if( !can_feed ) {
                 p->add_msg_if_player( _( "The %s does not trust your kind." ),
@@ -1718,7 +1724,9 @@ int iuse::fish_trap( player *p, item *it, bool t, const tripoint &pos )
             }
 
             it->charges = rng( -1, it->charges );
-            it->charges = std::max( it->charges, 0 );
+            if( it->charges < 0 ) {
+                it->charges = 0;
+            }
 
             int fishes = 0;
 
@@ -2317,7 +2325,7 @@ int iuse::crowbar( player *p, item *it, bool, const tripoint &pos )
     diff -= ( ( pry_level - pry->pry_quality ) * pry->pry_bonus_mult );
 
     /** @EFFECT_STR speeds up crowbar prying attempts */
-    p->mod_moves( -std::max( 20, ( diff * 50 ) - ( p->str_cur * 10 ) ) );
+    p->mod_moves( -std::max( 20, diff * 50 - p->str_cur * 10 ) );
     /** @EFFECT_STR increases chance of crowbar prying success */
 
     if( dice( 4, diff ) < dice( 4, p->str_cur ) ) {
@@ -3439,7 +3447,9 @@ int iuse::firecracker_pack_act( player *, item *it, bool, const tripoint &pos )
     } else if( it->charges > 0 ) {
         int ex = rng( 4, 6 );
         int i = 0;
-        ex = std::min( ex, it->charges );
+        if( ex > it->charges ) {
+            ex = it->charges;
+        }
         for( i = 0; i < ex; i++ ) {
             sounds::sound( pos, 20, sounds::sound_t::combat, _( "Bang!" ), false, "explosion", "small" );
         }
@@ -4391,7 +4401,7 @@ int iuse::chop_logs( player *p, item *it, bool t, const tripoint & )
     };
     const std::function<bool( const tripoint & )> f = [&allowed_ter_id]( const tripoint & pnt ) {
         const ter_id type = g->m.ter( pnt );
-        const bool is_allowed_terrain = allowed_ter_id.contains( type );
+        const bool is_allowed_terrain = allowed_ter_id.find( type ) != allowed_ter_id.end();
         return is_allowed_terrain;
     };
 
@@ -6413,7 +6423,7 @@ static object_names_collection enumerate_objects_around_point( const tripoint &p
     for( const tripoint &point_around_figure : points_in_radius ) {
         if( !bounds.is_point_inside( point_around_figure ) ||
             !g->m.sees( camera_pos, point_around_figure, dist + radius ) ||
-            ( ignored_points.contains( point_around_figure ) &&
+            ( ignored_points.find( point_around_figure ) != ignored_points.end() &&
               !( point_around_figure == point && create_figure_desc ) ) ) {
             continue; // disallow photos with not visible objects
         }
@@ -6446,7 +6456,7 @@ static object_names_collection enumerate_objects_around_point( const tripoint &p
             const std::string veh_name = colorize( veh.disp_name(), c_light_blue );
             const vehicle *veh_hash = &veh_part_pos->vehicle();
 
-            if( !local_vehicles_recorded.contains( veh_hash ) &&
+            if( local_vehicles_recorded.find( veh_hash ) == local_vehicles_recorded.end() &&
                 point != point_around_figure ) {
                 // new vehicle, point is not center
                 ret_obj.vehicles[ veh_name ] ++;
@@ -6455,8 +6465,8 @@ static object_names_collection enumerate_objects_around_point( const tripoint &p
                 //~ %1$s: vehicle part name, %2$s: vehicle name
                 description_part_on_figure = string_format( pgettext( "vehicle part", "%1$s from %2$s" ),
                                              veh_part_pos.part_displayed()->part().name(), veh_name );
-                if( ret_obj.vehicles.contains( veh_name ) &&
-                    local_vehicles_recorded.contains( veh_hash ) ) {
+                if( ret_obj.vehicles.find( veh_name ) != ret_obj.vehicles.end() &&
+                    local_vehicles_recorded.find( veh_hash ) != local_vehicles_recorded.end() ) {
                     // remove vehicle name only if we previously added THIS vehicle name (in case of same name)
                     ret_obj.vehicles[ veh_name ] --;
                     if( ret_obj.vehicles[ veh_name ] <= 0 ) {
@@ -6558,7 +6568,7 @@ static extended_photo_def photo_def_for_camera_point( const tripoint &aim_point,
 
     const auto map_deincrement_or_erase = []( std::unordered_map<std::string, int> &obj_map,
     const std::string & key ) {
-        if( obj_map.contains( key ) ) {
+        if( obj_map.find( key ) != obj_map.end() ) {
             obj_map[ key ] --;
             if( obj_map[ key ] <= 0 ) {
                 obj_map.erase( key );
@@ -7002,9 +7012,13 @@ int iuse::camera( player *p, item *it, bool, const tripoint & )
                 int dist = rl_dist( p->pos(), trajectory_point );
 
                 int camera_bonus = it->has_flag( flag_CAMERA_PRO ) ? 10 : 0;
-                int photo_quality = 20 - ( rng( dist, dist * 2 ) * 2 ) + rng( camera_bonus / 2, camera_bonus );
-                photo_quality = std::min( photo_quality, 5 );
-                photo_quality = std::max( photo_quality, 0 );
+                int photo_quality = 20 - rng( dist, dist * 2 ) * 2 + rng( camera_bonus / 2, camera_bonus );
+                if( photo_quality > 5 ) {
+                    photo_quality = 5;
+                }
+                if( photo_quality < 0 ) {
+                    photo_quality = 0;
+                }
                 if( p->is_blind() ) {
                     photo_quality /= 2;
                 }
@@ -7285,7 +7299,9 @@ int iuse::ehandcuffs( player *p, item *it, bool t, const tripoint &pos )
             }
 
             it->charges -= 50;
-            it->charges = std::max( it->charges, 1 );
+            if( it->charges < 1 ) {
+                it->charges = 1;
+            }
 
             it->set_var( "HANDCUFFS_X", pos.x );
             it->set_var( "HANDCUFFS_Y", pos.y );
@@ -7319,9 +7335,8 @@ int iuse::foodperson( player *p, item *it, bool t, const tripoint &pos )
         return it->type->charges_to_use();
     }
 
-    time_duration shift = time_duration::from_turns(
-                              ( it->magazine_current()->ammo_remaining() * it->type->tool->turns_per_charge ) -
-                              it->type->tool->turns_active );
+    time_duration shift = time_duration::from_turns( it->magazine_current()->ammo_remaining() *
+                          it->type->tool->turns_per_charge - it->type->tool->turns_active );
 
     p->add_msg_if_player( m_info, _( "Your HUD lights-up: \"Your shift ends in %s\"." ),
                           to_string( shift ) );
@@ -8650,7 +8665,7 @@ int iuse::play_game( player *p, item *it, bool t, const tripoint & )
 int iuse::magic_8_ball( player *p, item *it, bool, const tripoint & )
 {
     enum {
-        BALL8_GOOD = 0,
+        BALL8_GOOD,
         BALL8_UNK = 10,
         BALL8_BAD = 15
     };
