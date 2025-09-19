@@ -343,7 +343,21 @@ void iexamine::nanofab( player &p, const tripoint &examp )
         return;
     }
 
+    int item_count = 1;
+
     detached_ptr<item> new_item = item::spawn( itype_id( chosen_recipe ), calendar::turn );
+
+    if( new_item->made_of( LIQUID ) ) {
+        const int amount = string_input_popup()
+                           .title( "Dispense how many units?" )
+                           .width( 5 )
+                           .text( std::to_string( 1 ) )
+                           .only_digits( true )
+                           .query_int();
+        item_count = amount;
+
+        new_item = item::spawn( itype_id( chosen_recipe ), calendar::turn, item_count );
+    }
 
     auto qty = std::max( 1, new_item->volume() / 250_ml );
     auto reqs = *requirement_id( "nanofabricator" ) * qty;
@@ -365,6 +379,7 @@ void iexamine::nanofab( player &p, const tripoint &examp )
         new_item->set_flag( flag_FIT );
     }
 
+    // we're sticking an item from our inventory under the nanofabrication dispenser
     if( new_item->made_of( LIQUID ) ) {
         liquid_handler::handle_liquid( std::move( new_item ) );  // let it own the pointer
         return;
