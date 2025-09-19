@@ -894,7 +894,7 @@
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_OTHER",
     "skill_used": "computer",
-    "skills_required": [ [ "electronics", 5 ] ],
+    "skills_required": [ [ "electronics", 7 ] ],
     "difficulty": 8,
     "time": "10 m",
     "autolearn": true,
