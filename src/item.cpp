@@ -295,47 +295,29 @@ item::item( const itype *type, time_point turn, int qty ) : type( type ),
     }
 
     if( has_flag( flag_NANOFAB_TEMPLATE ) ) {
-        // Step 1: Define multiple item group pools.
-        // This could eventually be moved to JSON, but for now we hardcode them.
+        // Define all nanofab subgroups from nanofab_recipes.json
         static const std::array<item_group_id, 5> nanofab_groups = {
-            item_group_id( "nanofab_bots" ),
-            item_group_id( "nanofab_power" ),
-            item_group_id( "nanofab_combat" ),
             item_group_id( "nanofab_science" ),
+            item_group_id( "nanofab_combat" ),
+            item_group_id( "nanofab_power" ),
+            item_group_id( "nanofab_bots" ),
             item_group_id( "nanofab_armor" )
         };
 
+        // Pick one subgroup randomly
         const item_group_id &chosen_group = random_entry( nanofab_groups );
-        // Step 2: Decide how many to select. Could be random or fixed.
-        // This keeps old behavior (just 1 item) as default for backwards compatibility.
-        // Get all possible items (returns std::set)
-        std::set<const itype *> all_items = item_group::every_possible_item_from( chosen_group );
 
-        // Convert to vector for indexed/random access
+        // Store which subgroup we picked
+        set_var( "NANOFAB_GROUP_ID", chosen_group.str() );
+
+        // Gather all possible items from this subgroup
+        std::set<const itype *> all_items = item_group::every_possible_item_from( chosen_group );
         std::vector<const itype *> all_items_vec( all_items.begin(), all_items.end() );
 
-        const int num_to_pick = all_items_vec.size();
-
-        // Store count of selected items
-        set_var( "NANOFAB_ITEM_TOTAL", std::to_string( num_to_pick ) );
-
-        // Loop through all selected recipes
-        for( size_t i = 0; i < num_to_pick; ++i ) {
-            const itype *it = all_items_vec[i];
-            itype_id nanofab_recipe = it->get_id();
-
-            // (Optional) store group id if needed for debugging
-            set_var( "NANOFAB_GROUP_ID", chosen_group.str() );
-
-            // Backward compatibility: first recipe also stored as legacy NANOFAB_ITEM_ID
-            if( i == 0 ) {
-                set_var( "NANOFAB_ITEM_ID", nanofab_recipe.str() );
-            }
-
-            // Store numbered vars (1-based index)
-            set_var( string_format( "NANOFAB_ITEM_ID_%zu", i + 1 ), nanofab_recipe.str() );
+        // Legacy compatibility: store the first item ID as fallback
+        if( !all_items_vec.empty() ) {
+            set_var( "NANOFAB_ITEM_ID", all_items_vec.front()->get_id().str() );
         }
-
     }
 
 
@@ -5037,8 +5019,19 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
     }
 
     if( has_var( "NANOFAB_GROUP_ID" ) ) {
-        itype_id item = itype_id( get_var( "NANOFAB_GROUP_ID" ) );
-        tagtext += string_format( " (%s)", item );
+        std::string group_id_str = get_var( "NANOFAB_GROUP_ID" );
+        const std::string prefix = "nanofab_";
+
+        // Remove prefix if it exists
+        if( group_id_str.rfind( prefix, 0 ) == 0 ) {
+            group_id_str = group_id_str.substr( prefix.size() );
+        }
+
+        // Replace underscores with spaces
+        std::replace( group_id_str.begin(), group_id_str.end(), '_', ' ' );
+
+        // Append to tag text
+        tagtext += string_format( " (%s)", group_id_str );
     } else if( has_var( "NANOFAB_ITEM_ID" ) ) {
         itype_id item = itype_id( get_var( "NANOFAB_ITEM_ID" ) );
         tagtext += string_format( " (%s [%d])", nname( item ), std::max( 1, item->volume / 250_ml ) * 5 );

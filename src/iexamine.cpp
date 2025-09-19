@@ -294,64 +294,40 @@ void iexamine::nanofab( player &p, const tripoint &examp )
     }
 
     auto nanofab_template = g->inv_map_splice( []( const item & e ) {
-        // Backwards compatibility: true if original var exists
-        if( e.has_var( "NANOFAB_ITEM_ID" ) ) {
-            return true;
-        }
-
-        // New behavior: check for numbered NANOFAB_ITEM_ID_X variables
-        if( e.has_var( "NANOFAB_ITEM_TOTAL" ) ) {
-            const int total = std::stoi( e.get_var( "NANOFAB_ITEM_TOTAL" ) );
-            for( int i = 2; i <= total; ++i ) {
-                if( e.has_var( string_format( "NANOFAB_ITEM_ID_%d", i ) ) ) {
-                    return true;
-                }
-            }
-        }
-
-        return false;
-    }, _( "Introduce Nanofabricator template" ), PICKUP_RANGE,
+        return e.has_var( "NANOFAB_GROUP_ID" ) || e.has_var( "NANOFAB_ITEM_ID" );
+    }, _( "Introduce nanofabricator template:" ), PICKUP_RANGE,
     _( "You don't have any usable templates." ) );
 
     if( !nanofab_template ) {
         return;
     }
 
-    // Determine which recipe to spawn
-    std::string chosen_recipe;
-
-    // Gather choices safely
     std::vector<std::string> recipe_ids;
 
-    // Always include the legacy variable if present
-    if( nanofab_template->has_var( "NANOFAB_ITEM_ID" ) ) {
+    if( nanofab_template->has_var( "NANOFAB_GROUP_ID" ) ) {
+        // Preferred behavior: build from group
+        item_group_id group_id( nanofab_template->get_var( "NANOFAB_GROUP_ID" ) );
+        std::set<const itype *> all_items = item_group::every_possible_item_from( group_id );
+        for( const itype *it : all_items ) {
+            recipe_ids.push_back( it->get_id().str() );
+        }
+    } else if( nanofab_template->has_var( "NANOFAB_ITEM_ID" ) ) {
+        // Fallback for old templates: use single stored recipe
         recipe_ids.push_back( nanofab_template->get_var( "NANOFAB_ITEM_ID" ) );
     }
 
-    // Include numbered ones only if they exist
-    if( nanofab_template->has_var( "NANOFAB_ITEM_TOTAL" ) ) {
-        const int total = std::stoi( nanofab_template->get_var( "NANOFAB_ITEM_TOTAL" ) );
-        for( int i = 2; i <= total; ++i ) {
-            const std::string var_name = string_format( "NANOFAB_ITEM_ID_%d", i );
-            if( nanofab_template->has_var( var_name ) ) {
-                recipe_ids.push_back( nanofab_template->get_var( var_name ) );
-            }
-        }
-    }
-
-    // If no recipes found, bail out
     if( recipe_ids.empty() ) {
         return;
     }
 
-    // If there's more than one valid recipe, let the player pick
+    std::string chosen_recipe;
     if( recipe_ids.size() > 1 ) {
         uilist menu;
         menu.text = _( "Choose a recipe:" );
         for( size_t i = 0; i < recipe_ids.size(); ++i ) {
             itype_id item = itype_id( recipe_ids[i] );
-            auto button_text = string_format( "%s [%d]", item->nname( 1 ), std::max( 1,
-                                              item->volume / 250_ml ) * 5 );
+            auto button_text = string_format( "%s [%d]", item->nname( 1 ),
+                                              std::max( 1, item->volume / 250_ml ) * 5 );
             menu.addentry( i, true, -1, button_text );
         }
         menu.query();
@@ -360,15 +336,12 @@ void iexamine::nanofab( player &p, const tripoint &examp )
             chosen_recipe = recipe_ids[ menu.ret ];
         }
     } else {
-        // Only one valid recipe, auto-select it
         chosen_recipe = recipe_ids.front();
     }
 
-    // Bail out if still empty (shouldn't happen now)
     if( chosen_recipe.empty() ) {
         return;
     }
-
 
     detached_ptr<item> new_item = item::spawn( itype_id( chosen_recipe ), calendar::turn );
 
@@ -380,7 +353,6 @@ void iexamine::nanofab( player &p, const tripoint &examp )
         return;
     }
 
-    // Consume materials
     for( const auto &e : reqs.get_components() ) {
         p.consume_items( e, 1, is_crafting_component );
     }
@@ -394,7 +366,6 @@ void iexamine::nanofab( player &p, const tripoint &examp )
     }
 
     here.add_item_or_charges( spawn_point, std::move( new_item ) );
-
 }
 
 /**

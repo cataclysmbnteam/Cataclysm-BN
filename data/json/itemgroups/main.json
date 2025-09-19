@@ -75,7 +75,6 @@
     "type": "item_group",
     "id": "nanofab_bots",
     "//": "Very rare high level loot. This list doesn't spawn anywhere directly, it is used to create the recipes inside nanofabricator templates. ",
-    "//2": "rough organization: bots, power, armor, weapon mods, weapons, misc",
     "magazine": 100,
     "subtype": "distribution",
     "entries": [
@@ -85,19 +84,21 @@
       { "item": "bot_prototype_cyborg", "prob": 10 },
       { "item": "bot_haulerbot", "prob": 10 },
       { "item": "bot_mech_recon", "prob": 10 },
-      { "item": "bot_mech_combat", "prob": 10 },
-      { "item": "bot_chickenbot", "prob": 10 }
+      { "item": "bot_mech_combat", "prob": 10 }
     ]
   },
   {
     "type": "item_group",
     "id": "nanofab_power",
     "//": "Very rare high level loot. This list doesn't spawn anywhere directly, it is used to create the recipes inside nanofabricator templates. ",
-    "//2": "rough organization: bots, power, armor, weapon mods, weapons, misc",
     "magazine": 100,
     "subtype": "distribution",
     "entries": [
+      { "item": "AID_bio_power_storage_mkII", "prob": 10 },
       { "item": "bio_power_storage_mkII", "prob": 10 },
+      { "item": "plut_cell", "prob": 10 },
+      { "item": "light_atomic_battery_cell", "prob": 10 },
+      { "item": "medium_atomic_battery_cell", "prob": 10 },
       { "item": "huge_atomic_battery_cell", "prob": 10 },
       { "item": "heavy_atomic_battery_cell", "prob": 10 }
     ]
@@ -106,7 +107,6 @@
     "type": "item_group",
     "id": "nanofab_armor",
     "//": "Very rare high level loot. This list doesn't spawn anywhere directly, it is used to create the recipes inside nanofabricator templates. ",
-    "//2": "rough organization: bots, power, armor, weapon mods, weapons, misc",
     "magazine": 100,
     "subtype": "distribution",
     "entries": [
@@ -128,14 +128,9 @@
     "type": "item_group",
     "id": "nanofab_combat",
     "//": "Very rare high level loot. This list doesn't spawn anywhere directly, it is used to create the recipes inside nanofabricator templates. ",
-    "//2": "rough organization: bots, power, armor, weapon mods, weapons, misc",
     "magazine": 100,
     "subtype": "distribution",
     "entries": [
-      { "item": "rx11_stimpack", "prob": 10 },
-      { "item": "rx12_injector", "prob": 10 },
-      { "item": "ampoule", "prob": 10 },
-      { "item": "stimpack_ammo", "prob": 10 },
       { "item": "high_density_capacitor", "prob": 10 },
       { "item": "beam_scatterer", "prob": 10 },
       { "item": "hk_g80", "prob": 10 },
@@ -148,7 +143,6 @@
       { "item": "laser_rifle", "prob": 10 },
       { "item": "mininuke", "prob": 10 },
       { "item": "50_mk211", "prob": 10 },
-      { "item": "tool_rdx_charge", "prob": 10 },
       { "item": "v29", "prob": 10 }
     ]
   },
@@ -156,10 +150,18 @@
     "type": "item_group",
     "id": "nanofab_science",
     "//": "Very rare high level loot. This list doesn't spawn anywhere directly, it is used to create the recipes inside nanofabricator templates. ",
-    "//2": "rough organization: bots, power, armor, weapon mods, weapons, misc",
     "magazine": 100,
     "subtype": "distribution",
-    "entries": [ { "item": "alloy_plate", "prob": 10 }, { "item": "solar_panel_v3", "prob": 10 }, { "item": "portal", "prob": 10 } ]
+    "entries": [
+      { "item": "alloy_plate", "prob": 10 },
+      { "item": "rx11_stimpack", "prob": 10 },
+      { "item": "rx12_injector", "prob": 10 },
+      { "item": "ampoule", "prob": 10 },
+      { "item": "stimpack_ammo", "prob": 10 },
+      { "item": "tool_rdx_charge", "prob": 10 },
+      { "item": "solar_panel_v3", "prob": 10 },
+      { "item": "portal", "prob": 10 }
+    ]
   },
   {
     "type": "item_group",
