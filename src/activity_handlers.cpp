@@ -3067,6 +3067,16 @@ static void rod_fish( player *p,
 void activity_handlers::fish_do_turn( player_activity *act, player *p )
 {
     int fishing_mult = iuse::good_fishing_spot( act->placement );
+    if( fishing_mult == 0 ) {
+        act->set_to_null();
+        p->add_msg_if_player( m_info,
+                              _( "You realize fishing here at the moment is pointless, and stop." ) );
+        if( !p->backlog.empty() && p->backlog.front()->id() == ACT_MULTIPLE_FISH ) {
+            p->backlog.clear();
+            p->assign_activity( ACT_TIDY_UP );
+            return;
+        }
+    }
     item &rod = *act->tools.front();
     int fish_chance = 1;
     int survival_mod = p->get_skill_level( skill_survival );
