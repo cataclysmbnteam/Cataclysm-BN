@@ -860,11 +860,11 @@
       {
         "seasons": [ "spring", "autumn", "summer" ],
         "entries": [
-          { "drop": "earthworm", "base_num": [ 0, 2 ], "scale_num": [ 0, 0.9 ] },
-          { "drop": "beetle", "base_num": [ 0, 2 ], "scale_num": [ 0, 0.9 ] },
-          { "drop": "grasshopper", "base_num": [ 0, 2 ], "scale_num": [ 0, 0.9 ] },
-          { "drop": "caterpillar", "base_num": [ 0, 2 ], "scale_num": [ 0, 0.9 ] },
-          { "drop": "spider", "base_num": [ 0, 2 ], "scale_num": [ 0, 0.9 ] }
+          { "drop": "earthworm", "base_num": [ 0, 4 ], "scale_num": [ 0, 0.001 ] },
+          { "drop": "beetle", "base_num": [ 0, 4 ], "scale_num": [ 0, 0.001 ] },
+          { "drop": "grasshopper", "base_num": [ 0, 4 ], "scale_num": [ 0, 0.001 ] },
+          { "drop": "caterpillar", "base_num": [ 0, 4 ], "scale_num": [ 0, 0.001 ] },
+          { "drop": "spider", "base_num": [ 0, 4 ], "scale_num": [ 0, 0.001 ] }
         ]
       }
     ],
@@ -906,7 +906,9 @@
     "harvest_by_season": [
       {
         "seasons": [ "spring", "autumn", "summer" ],
-        "entries": [ { "drop": "clam", "base_num": [ 0, 3 ], "scale_num": [ 0, 0.9 ] } ]
+        "entries": [
+          { "drop": "clam", "base_num": [ 0, 3 ], "scale_num": [ 0, 0.001 ] }
+        ]
       }
     ]
   },
