@@ -710,7 +710,7 @@
         "___"
       ],
       "terrain": { "_": "t_null" },
-      "place_npcs": [ { "class": "NPC_wandering_survivor", "x": [ 0, 2 ], "y": [ 0, 2 ] } ]
+      "place_npcs": [ { "class": "NPC_wandering_scavenger", "x": [ 0, 2 ], "y": [ 0, 2 ] } ]
     }
   }
 ]
