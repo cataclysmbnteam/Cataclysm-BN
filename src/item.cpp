@@ -14,6 +14,7 @@
 #include <optional>
 #include <set>
 #include <sstream>
+#include <string>
 #include <tuple>
 #include <unordered_set>
 
@@ -101,6 +102,7 @@
 #include "string_utils.h"
 #include "text_snippets.h"
 #include "translations.h"
+#include "type_id.h"
 #include "units.h"
 #include "units_utility.h"
 #include "value_ptr.h"
@@ -296,13 +298,18 @@ item::item( const itype *type, time_point turn, int qty ) : type( type ),
 
     if( has_flag( flag_NANOFAB_TEMPLATE ) ) {
         // Define all nanofab subgroups from nanofab_recipes.json
-        static const std::array<item_group_id, 5> nanofab_groups = {
-            item_group_id( "nanofab_science" ),
-            item_group_id( "nanofab_combat" ),
-            item_group_id( "nanofab_power" ),
-            item_group_id( "nanofab_robotics" ),
-            item_group_id( "nanofab_armor" )
-        };
+        auto all_groups = item_controller->get_all_group_names();
+
+        // Prepare a vector to hold nanofab groups dynamically
+        std::vector<item_group_id> nanofab_groups;
+
+        // Populate it dynamically (this is probably pretty performance intensive, but allows for modded templates)
+        for( const auto &group : all_groups ) {
+            const std::string &name = group.str();
+            if( name.starts_with( "nanofab_template_" ) ) {
+                nanofab_groups.push_back( group );
+            }
+        }
 
         // Pick one subgroup randomly
         const item_group_id &chosen_group = random_entry( nanofab_groups );
@@ -5020,7 +5027,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
 
     if( has_var( "NANOFAB_GROUP_ID" ) ) {
         std::string group_id_str = get_var( "NANOFAB_GROUP_ID" );
-        const std::string prefix = "nanofab_";
+        const std::string prefix = "nanofab_template_";
 
         // Remove prefix if it exists
         if( group_id_str.rfind( prefix, 0 ) == 0 ) {

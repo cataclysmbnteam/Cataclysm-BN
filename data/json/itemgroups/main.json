@@ -73,7 +73,7 @@
   },
   {
     "type": "item_group",
-    "id": "nanofab_robotics",
+    "id": "nanofab_template_robotics",
     "//": "Very rare high level loot. This list doesn't spawn anywhere directly, it is used to create the recipes inside nanofabricator templates. ",
     "magazine": 100,
     "subtype": "distribution",
@@ -89,13 +89,18 @@
   },
   {
     "type": "item_group",
-    "id": "nanofab_power",
+    "id": "nanofab_template_power",
     "//": "Very rare high level loot. This list doesn't spawn anywhere directly, it is used to create the recipes inside nanofabricator templates. ",
     "magazine": 100,
     "subtype": "distribution",
     "entries": [
       { "item": "AID_bio_power_storage_mkII", "prob": 10 },
       { "item": "bio_power_storage_mkII", "prob": 10 },
+      { "item": "diesel", "prob": 10 },
+      { "item": "gasoline", "prob": 10 },
+      { "item": "jp8", "prob": 10 },
+      { "item": "avgas", "prob": 10 },
+      { "item": "biodiesel", "prob": 10 },
       { "item": "plut_cell", "prob": 10 },
       { "item": "light_atomic_battery_cell", "prob": 10 },
       { "item": "medium_atomic_battery_cell", "prob": 10 },
@@ -105,7 +110,7 @@
   },
   {
     "type": "item_group",
-    "id": "nanofab_armor",
+    "id": "nanofab_template_armor",
     "//": "Very rare high level loot. This list doesn't spawn anywhere directly, it is used to create the recipes inside nanofabricator templates. ",
     "magazine": 100,
     "subtype": "distribution",
@@ -126,7 +131,7 @@
   },
   {
     "type": "item_group",
-    "id": "nanofab_combat",
+    "id": "nanofab_template_combat",
     "//": "Very rare high level loot. This list doesn't spawn anywhere directly, it is used to create the recipes inside nanofabricator templates. ",
     "magazine": 100,
     "subtype": "distribution",
@@ -148,7 +153,7 @@
   },
   {
     "type": "item_group",
-    "id": "nanofab_science",
+    "id": "nanofab_template_science",
     "//": "Very rare high level loot. This list doesn't spawn anywhere directly, it is used to create the recipes inside nanofabricator templates. ",
     "magazine": 100,
     "subtype": "distribution",
