@@ -6858,6 +6858,7 @@
           { "item": "fanny" },
           { "item": "grapnel" },
           { "item": "mbag" },
+          { "item": "sunglasses" },
           { "item": "professional_chemical_thrower", "container-item": "back_holster" },
           { "item": "gas_insecticidal" },
           { "item": "mask_gas", "custom-flags": [ "no_auto_equip" ] },
