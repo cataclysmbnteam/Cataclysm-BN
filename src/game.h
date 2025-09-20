@@ -494,14 +494,8 @@ class game
          * @param fish_pos The location being fished.
          * @return A set of locations representing the valid contiguous fishable locations.
          */
-        std::unordered_set<tripoint> get_fishable_locations( int distance, const tripoint &fish_pos );
-        /**
-         * Get the fishable monsters within the provided fishable locations.
-         * @param fishable_locations A set of locations which are valid fishable terrain. Any fishable monsters
-         * are filtered by this collection to determine those which can actually be caught.
-         * @return Fishable monsters within the specified fishable terrain.
-         */
-        std::vector<monster *> get_fishable_monsters( std::unordered_set<tripoint> &fishable_locations );
+        std::unordered_set<tripoint>
+        get_fishable_locations( int distance, const tripoint &fish_pos );
 
         /** Flings the input creature in the given direction. */
         void fling_creature( Creature *c, const units::angle &dir, float flvel, bool controlled = false );

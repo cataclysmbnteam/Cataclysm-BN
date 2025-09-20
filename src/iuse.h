@@ -135,6 +135,7 @@ int seed( player *, item *, bool, const tripoint & );
 int oxygen_bottle( player *, item *, bool, const tripoint & );
 int radio_mod( player *, item *, bool, const tripoint & );
 int remove_all_mods( player *, item *, bool, const tripoint & );
+int good_fishing_spot( tripoint );
 int fishing_rod( player *, item *, bool, const tripoint & );
 int fish_trap( player *, item *, bool, const tripoint & );
 int gun_clean( player *, item *, bool, const tripoint & );
