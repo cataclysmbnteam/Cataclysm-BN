@@ -854,6 +854,20 @@
     "required_str": 10,
     "crafting_pseudo_item": "boulder_anvil",
     "flags": [ "TRANSPARENT", "MINEABLE", "UNSTABLE", "MOUNTABLE", "TINY" ],
+    "examine_action": "harvest_furn",
+    "transforms_into": "f_boulder_small_harvested",
+    "harvest_by_season": [
+      {
+        "seasons": [ "spring", "autumn", "summer" ],
+        "entries": [
+          { "drop": "earthworm", "base_num": [ 0, 2 ], "scale_num": [ 0, 0.9 ] },
+          { "drop": "beetle", "base_num": [ 0, 2 ], "scale_num": [ 0, 0.9 ] },
+          { "drop": "grasshopper", "base_num": [ 0, 2 ], "scale_num": [ 0, 0.9 ] },
+          { "drop": "caterpillar", "base_num": [ 0, 2 ], "scale_num": [ 0, 0.9 ] },
+          { "drop": "spider", "base_num": [ 0, 2 ], "scale_num": [ 0, 0.9 ] }
+        ]
+      }
+    ],
     "bash": {
       "str_min": 16,
       "str_max": 40,
@@ -868,6 +882,18 @@
       "//": "Stone obstacles have double the expected reduction but lower destroy_threshold in return",
       "ranged": { "reduction": [ 32, 32 ], "destroy_threshold": 32, "block_unaimed_chance": "25%" }
     }
+  },
+  {
+    "type": "furniture",
+    "id": "f_boulder_small_harvested",
+    "copy-from": "f_boulder_small",
+    "name": "upturned small boulder",
+    "symbol": "o",
+    "color": "light_gray",
+    "extend": { "flags": [ "HARVESTED" ] },
+    "examine_action": "harvest_furn",
+    "transforms_into": "f_boulder_small",
+    "harvest_by_season": [  ]
   },
   {
     "type": "furniture",
