@@ -348,7 +348,7 @@
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "res_lawn_randomnpc",
-    "//": "friend or foe?",
+    "//": "friend or foe? probably going to die anyway",
     "object": {
       "mapgensize": [ 3, 3 ],
       "rows": [
