@@ -113,6 +113,8 @@
       [ "oxy_powder", 8 ],
       [ "fungicide", 10 ],
       [ "insecticide", 10 ],
+      [ "gas_insecticidal", 10 ],
+      [ "gas_fungicidal", 10 ],
       [ "pur_tablets", 10 ],
       [ "optical_cloak", 1 ],
       [ "holo_cloak", 1 ],
