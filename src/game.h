@@ -490,12 +490,11 @@ class game
                               const time_duration &catch_duration );
         /**
          * Get the contiguous fishable locations starting at fish_pos, out to the specificed distance.
-         * @param distance Distance around the fish_pos to examine for contiguous fishable locations.
+         * @param radius Distance around the fish_pos to examine for contiguous fishable locations.
          * @param fish_pos The location being fished.
          * @return A set of locations representing the valid contiguous fishable locations.
          */
-        std::unordered_set<tripoint>
-        get_fishable_locations( int distance, const tripoint &fish_pos );
+        std::unordered_set<tripoint>get_fishable_locations( int radius, const tripoint &fish_pos );
 
         /** Flings the input creature in the given direction. */
         void fling_creature( Creature *c, const units::angle &dir, float flvel, bool controlled = false );

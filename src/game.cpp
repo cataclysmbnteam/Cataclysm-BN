@@ -3739,8 +3739,8 @@ Creature *game::is_hostile_within( int distance )
 
     return nullptr;
 }
-
-std::unordered_set<tripoint> game::get_fishable_locations( int distance, const tripoint &fish_pos )
+//Gets Contiguious Fishable Terrain in radius starting from the tripoint
+std::unordered_set<tripoint> game::get_fishable_locations( int radius, const tripoint &fish_pos )
 {
     // We're going to get the contiguous fishable terrain starting at
     // the provided fishing location (e.g. where a line was cast or a fish
@@ -3751,8 +3751,8 @@ std::unordered_set<tripoint> game::get_fishable_locations( int distance, const t
 
     std::unordered_set<tripoint> visited;
 
-    const tripoint fishing_boundary_min( fish_pos + point( -distance, -distance ) );
-    const tripoint fishing_boundary_max( fish_pos + point( distance, distance ) );
+    const tripoint fishing_boundary_min( fish_pos + point( -radius, -radius ) );
+    const tripoint fishing_boundary_max( fish_pos + point( radius, radius ) );
 
     const inclusive_cuboid<tripoint> fishing_boundaries(
         fishing_boundary_min, fishing_boundary_max );

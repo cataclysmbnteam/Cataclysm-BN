@@ -3038,8 +3038,6 @@ static void rod_fish( player *p,
                       const weighted_int_list<std::pair<std::string, int>> &fishables )
 {
     map &here = get_map();
-    // if the vector is empty (no fish around) the player is still given a small
-    // chance to get a (let us say it was hidden) fish
     const std::pair<std::string, int> *caught = fishables.pick();
     if( caught->first.contains( "fish" ) ) {
         const std::vector<mtype_id> fish_group = MonsterGroupManager::GetMonstersFromGroup(
@@ -3090,8 +3088,8 @@ void activity_handlers::fish_do_turn( player_activity *act, player *p )
     }
     fish_chance += ( survival_mod *  fishing_mult );
     // no matter the population of fish, your skill and tool limits the ease of catching.
-    fish_chance = std::min( survival_mod * 5, fish_chance ); //Roughly 1/1000 per turn avg.
-    if( x_in_y( fish_chance, 750000 ) ) {
+    fish_chance = std::min( survival_mod * 10, fish_chance );
+    if( x_in_y( fish_chance, 750000 ) ) {//Roughly 1/1000 per turn avg.
         p->add_msg_if_player( m_good, _( "You feel a tug on your line!" ) );
         weighted_int_list<std::pair<std::string, int>> caught;
         caught.add( {"fish", 1}, 1 ); //Hardcoded for now, but can be expanded for magnet fishing or smthn

@@ -1611,30 +1611,31 @@ int iuse::remove_all_mods( player *p, item *, bool, const tripoint & )
 // ocean" and 0 being "no"
 int iuse::good_fishing_spot( tripoint pos )
 {
-    int fishable_locations = g->get_fishable_locations( 50, pos ).size();
+    int fishable_locations = g->get_fishable_locations( 60, pos ).size();
     map &here = get_map();
     const oter_id &cur_omt =
         overmap_buffer.ter( tripoint_abs_omt( ms_to_omt_copy( here.getabs( pos ) ) ) );
     std::string om_id = cur_omt.id().c_str();
-    if( fishable_locations < 50 && !g->m.has_flag( "CURRENT", pos ) &&
+    if( fishable_locations < 100 && !g->m.has_flag( "CURRENT", pos ) &&
         om_id.find( "river_" ) == std::string::npos && !cur_omt->is_lake() &&
         !cur_omt->is_lake_shore() ) {
         return 0;
     }
-    //I hate I cant use a switch for this.
-    if( fishable_locations >= 2000 ) {
+    // I hate I cant use a switch for this.
+    // Tiles in range is 144k, so knock off 14k to be nice for max fishing e-'fish'-iency.
+    if( fishable_locations >= 10400 ) {
         return 5;
-    } else if( fishable_locations < 2000 && fishable_locations >= 1500 ) {
+    } else if( fishable_locations < 10400 && fishable_locations >= 7800 ) {
         return 4;
-    } else if( fishable_locations < 1500 && fishable_locations >= 1000 ) {
+    } else if( fishable_locations < 7800 && fishable_locations >= 5200 ) {
         return 3;
-    } else if( fishable_locations < 1000 && fishable_locations >= 500 ) {
-        return 2;//If you cant amass a 5x10 for fishing womp womp.
-    } else if( fishable_locations < 500 && fishable_locations >= 50 ) {
+    } else if( fishable_locations < 5200 && fishable_locations >= 2600 ) {
+        return 2;//If you cant amass a 10x10 for fishing womp womp.
+    } else if( fishable_locations < 2600 && fishable_locations >= 100 ) {
         return 1;
     }
     g->u.add_msg_if_player(
-        m_info, _( "You doubt you will have much luck catching fish here" ) );
+        m_info, _( "You doubt you will catch anything here, best look elsewhere" ) );
     return 0;
 }
 
@@ -1659,11 +1660,38 @@ int iuse::fishing_rod( player *p, item *it, bool, const tripoint & )
         p->add_msg_if_player( m_info, _( "You can't fish there!" ) );
         return 0;
     }
+    switch( iuse::good_fishing_spot( *found ) ) {
+        case 1: {
+            p->add_msg_if_player( m_info,
+                                  _( "You doubt you will catch too much here, but surely theres some" ) );
+            break;
+        }
+        case 2: {
+            p->add_msg_if_player(
+                m_info, _( "You think there might be a few things to catch here" ) );
+            break;
+        }
+        case 3: {
+            p->add_msg_if_player(
+                m_info, _( "You see at least one catch, should be a decent spot" ) );
+            break;
+        }
+        case 4: {
+            p->add_msg_if_player(
+                m_info, _( "You see several catches already, this should be a great spot" ) );
+            break;
+        }
+        case 5: {
+            p->add_msg_if_player(
+                m_info, _( "You see a massive number of catches here, this is as good as it gets" ) );
+            break;
+        }
+    }
     p->add_msg_if_player( _( "You cast your line and wait to hook something…" ) );
     p->assign_activity( ACT_FISH, to_moves<int>( 5_hours ), 0, 0, it->tname() );
     p->activity->tools.emplace_back( it );
     p->activity->placement = *found;
-    p->activity->coord_set = g->get_fishable_locations( 50, *found );
+    p->activity->coord_set = g->get_fishable_locations( 60, *found );
     return 0;
 }
 
