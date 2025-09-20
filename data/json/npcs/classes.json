@@ -244,7 +244,12 @@
     "name": { "str": "Wandering Scavenger" },
     "//": "spawns in the res_lawn_randomnpc nested mapgen",
     "job_description": "I'm a wandering soul just trying to survive.",
-    "traits": [ { "group": "BG_survival_story_UNIVERSAL" }, { "group": "NPC_starting_traits" }, { "group": "NPC_mutation_traits" }, { "group": "Appearance_demographics" } ],
+    "traits": [
+      { "group": "BG_survival_story_UNIVERSAL" },
+      { "group": "NPC_starting_traits" },
+      { "group": "NPC_mutation_traits" },
+      { "group": "Appearance_demographics" }
+    ],
     "skills": [
       { "skill": "ALL", "level": { "sum": [ { "dice": [ 3, 2 ] }, { "constant": -3 } ] } },
       { "skill": "melee", "bonus": { "rng": [ 2, 5 ] } },
