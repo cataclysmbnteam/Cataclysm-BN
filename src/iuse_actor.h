@@ -517,7 +517,7 @@ class reveal_map_actor : public iuse_actor
 
         void reveal_targets( const tripoint_abs_omt &map ) const;
 
-        void show_revealed( player &plr, item &, const tripoint_abs_omt &center ) const;
+        void show_revealed( player &plr, item &, const tripoint_abs_omt &map ) const;
 
         reveal_map_actor( const std::string &type = "reveal_map" ) : iuse_actor( type ) {}
 

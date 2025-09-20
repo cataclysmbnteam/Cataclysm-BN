@@ -309,14 +309,14 @@ int octile_dist( point loc1, point loc2, int multiplier )
     const point d = ( loc1 - loc2 ).abs();
     const int mind = std::min( d.x, d.y );
     // sqrt(2) is approximately 99 / 70
-    return ( ( d.x + d.y - 2 * mind ) * multiplier ) + ( mind * multiplier * 99 / 70 );
+    return ( d.x + d.y - 2 * mind ) * multiplier + mind * multiplier * 99 / 70;
 }
 
 float octile_dist_exact( point loc1, point loc2 )
 {
     const point d = ( loc1 - loc2 ).abs();
     const int mind = std::min( d.x, d.y );
-    return d.x + d.y - ( 2 * mind ) + ( mind * M_SQRT2 );
+    return d.x + d.y - 2 * mind + mind * M_SQRT2;
 }
 
 units::angle atan2( point p )
@@ -728,12 +728,12 @@ std::vector<point> squares_in_direction( point p1, point p2 )
 
 float rl_vec2d::magnitude() const
 {
-    return std::sqrt( ( x * x ) + ( y * y ) );
+    return std::sqrt( x * x + y * y );
 }
 
 float rl_vec3d::magnitude() const
 {
-    return std::sqrt( ( x * x ) + ( y * y ) + ( z * z ) );
+    return std::sqrt( x * x + y * y + z * z );
 }
 
 rl_vec2d rl_vec2d::normalized() const
@@ -766,35 +766,35 @@ rl_vec3d rl_vec3d::normalized() const
 rl_vec2d rl_vec2d::rotated( float angle ) const
 {
     return rl_vec2d(
-               ( x * std::cos( angle ) ) - ( y * std::sin( angle ) ),
-               ( x * std::sin( angle ) ) + ( y * std::cos( angle ) )
+               x * std::cos( angle ) - y * std::sin( angle ),
+               x * std::sin( angle ) + y * std::cos( angle )
            );
 }
 
 rl_vec3d rl_vec3d::rotated( float angle ) const
 {
     return rl_vec3d(
-               ( x * std::cos( angle ) ) - ( y * std::sin( angle ) ),
-               ( x * std::sin( angle ) ) + ( y * std::cos( angle ) ),
+               x * std::cos( angle ) - y * std::sin( angle ),
+               x * std::sin( angle ) + y * std::cos( angle ),
                z
            );
 }
 
 float rl_vec2d::dot_product( const rl_vec2d &v ) const
 {
-    return ( x * v.x ) + ( y * v.y );
+    return x * v.x + y * v.y;
 }
 
 float rl_vec3d::dot_product( const rl_vec3d &v ) const
 {
-    return ( x * v.x ) + ( y * v.y ) + ( z * v.z );
+    return x * v.x + y * v.y + z * v.z;
 }
 
 rl_vec3d rl_vec3d::cross_product( const rl_vec3d &v ) const
 {
-    return rl_vec3d( ( y * v.z ) - ( v.y * z ),
-                     ( z * v.x ) - ( v.z * x ),
-                     ( x * v.y ) - ( v.x * y ) );
+    return rl_vec3d( y * v.z - v.y * z,
+                     z * v.x - v.z * x,
+                     x * v.y - v.x * y );
 }
 
 bool rl_vec2d::is_null() const

@@ -47,6 +47,7 @@
 #include <jni.h>
 #endif
 
+#include <algorithm>
 #include <cstdlib>
 #include <exception>
 #include <memory>
@@ -405,7 +406,9 @@ void options_manager::add( const std::string &sNameIn, const std::string &sPageI
 
     thisOpt.hide = opt_hide;
 
-    iMaxIn = std::max( iMinIn, iMaxIn );
+    if( iMinIn > iMaxIn ) {
+        iMaxIn = iMinIn;
+    }
 
     thisOpt.iMin = iMinIn;
     thisOpt.iMax = iMaxIn;
@@ -481,7 +484,9 @@ void options_manager::add( const std::string &sNameIn, const std::string &sPageI
 
     thisOpt.hide = opt_hide;
 
-    fMaxIn = std::max( fMinIn, fMaxIn );
+    if( fMinIn > fMaxIn ) {
+        fMaxIn = fMinIn;
+    }
 
     thisOpt.fMin = fMinIn;
     thisOpt.fMax = fMaxIn;
@@ -3214,19 +3219,19 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
     catacurses::window w_options;
 
     const auto init_windows = [&]( ui_adaptor & ui ) {
-        if( OPTIONS.contains( "TERMINAL_X" ) ) {
-            if( OPTIONS_OLD.contains( "TERMINAL_X" ) ) {
+        if( OPTIONS.find( "TERMINAL_X" ) != OPTIONS.end() ) {
+            if( OPTIONS_OLD.find( "TERMINAL_X" ) != OPTIONS_OLD.end() ) {
                 OPTIONS_OLD["TERMINAL_X"] = OPTIONS["TERMINAL_X"];
             }
-            if( WOPTIONS_OLD.contains( "TERMINAL_X" ) ) {
+            if( WOPTIONS_OLD.find( "TERMINAL_X" ) != WOPTIONS_OLD.end() ) {
                 WOPTIONS_OLD["TERMINAL_X"] = OPTIONS["TERMINAL_X"];
             }
         }
-        if( OPTIONS.contains( "TERMINAL_Y" ) ) {
-            if( OPTIONS_OLD.contains( "TERMINAL_Y" ) ) {
+        if( OPTIONS.find( "TERMINAL_Y" ) != OPTIONS.end() ) {
+            if( OPTIONS_OLD.find( "TERMINAL_Y" ) != OPTIONS_OLD.end() ) {
                 OPTIONS_OLD["TERMINAL_Y"] = OPTIONS["TERMINAL_Y"];
             }
-            if( WOPTIONS_OLD.contains( "TERMINAL_Y" ) ) {
+            if( WOPTIONS_OLD.find( "TERMINAL_Y" ) != WOPTIONS_OLD.end() ) {
                 WOPTIONS_OLD["TERMINAL_Y"] = OPTIONS["TERMINAL_Y"];
             }
         }

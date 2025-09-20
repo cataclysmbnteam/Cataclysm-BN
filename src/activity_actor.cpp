@@ -1,7 +1,6 @@
 #include "activity_actor.h"
 #include "activity_actor_definitions.h"
 
-#include <algorithm>
 #include <cmath>
 #include <list>
 #include <memory>
@@ -402,9 +401,11 @@ void autodrive_activity_actor::do_turn( player_activity &/* act */, Character &w
         }
         switch( player_vehicle->do_autodrive( who ) ) {
             case autodrive_result::ok:
-                // if do_autodrive() didn't eat up all our moves, end the turn
-                // equivalent to player pressing the "pause" button
-                who.moves = std::min( who.moves, 0 );
+                if( who.moves > 0 ) {
+                    // if do_autodrive() didn't eat up all our moves, end the turn
+                    // equivalent to player pressing the "pause" button
+                    who.moves = 0;
+                }
                 sounds::reset_markers();
                 break;
             case autodrive_result::abort:
@@ -848,7 +849,7 @@ static int hack_level( const Character &who )
     // odds go up with int>8, down with int<8
     // 4 int stat is worth 1 computer skill here
     ///\EFFECT_INT increases success chance of hacking card readers
-    return who.get_skill_level( skill_computer ) + ( ( who.int_cur - 8 ) / 4 );
+    return who.get_skill_level( skill_computer ) + ( who.int_cur - 8 ) / 4;
 }
 
 static hack_result hack_attempt( Character &who, const bool using_bionic )
@@ -1556,10 +1557,10 @@ void lockpick_activity_actor::finish( player_activity &act, Character &who )
 
     /** @EFFECT_DEX improves chances of successfully picking door lock, reduces chances of bad outcomes */
     /** @EFFECT_MECHANICS improves chances of successfully picking door lock, reduces chances of bad outcomes */
-    int pick_roll = ( 5 *
-                      ( std::pow( 1.3, who.get_skill_level( skill_mechanics ) ) +
-                        it->get_quality( qual_LOCKPICK ) - it->damage() / 2000.0 ) ) +
-                    ( who.dex_cur / 4.0 );
+    int pick_roll = 5 *
+                    ( std::pow( 1.3, who.get_skill_level( skill_mechanics ) ) +
+                      it->get_quality( qual_LOCKPICK ) - it->damage() / 2000.0 ) +
+                    who.dex_cur / 4.0;
     int lock_roll = rng( 1, 120 );
     int xp_gain = 0;
     if( perfect || ( pick_roll >= lock_roll ) ) {
@@ -2055,7 +2056,7 @@ void construction_activity_actor::start( player_activity &/*act*/, Character &/*
     int total_time = std::max( 1, built.adjusted_time() );
     int left = pc->counter == 0
                ? total_time
-               : total_time - ( pc->counter / 10'000'000.0 * total_time );
+               : total_time - pc->counter / 10'000'000.0 * total_time;
 
     progress.emplace( name, total_time, left );
 }

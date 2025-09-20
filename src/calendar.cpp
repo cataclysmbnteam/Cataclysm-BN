@@ -99,7 +99,7 @@ time_point sunrise( const time_point &p )
 
     const double into_month = static_cast<double>( day_of_season<int>( p ) ) / to_days<int>
                               ( calendar::season_length() );
-    const double time = ( start_hour * ( 1.0 - into_month ) ) + ( end_hour * into_month );
+    const double time = start_hour * ( 1.0 - into_month ) + end_hour * into_month;
 
     const time_point midnight = p - time_past_midnight( p );
     return midnight + time_duration::from_minutes( static_cast<int>( time * 60 ) );
@@ -119,7 +119,7 @@ time_point sunset( const time_point &p )
 
     const double into_month = static_cast<double>( day_of_season<int>( p ) ) / to_days<int>
                               ( calendar::season_length() );
-    const double time = ( start_hour * ( 1.0 - into_month ) ) + ( end_hour * into_month );
+    const double time = start_hour * ( 1.0 - into_month ) + end_hour * into_month;
 
     const time_point midnight = p - time_past_midnight( p );
     return midnight + time_duration::from_minutes( static_cast<int>( time * 60 ) );
@@ -218,10 +218,10 @@ float sunlight( const time_point &p, const bool vision )
         return moonlight;
     } else if( is_dawn( p ) ) {
         const double percent = ( now - sunrise ) / twilight_duration;
-        return ( static_cast<double>( moonlight ) * ( 1. - percent ) ) + ( daylight_level * percent );
+        return static_cast<double>( moonlight ) * ( 1. - percent ) + daylight_level * percent;
     } else if( is_dusk( p ) ) {
         const double percent = ( now - sunset ) / twilight_duration;
-        return ( daylight_level * ( 1. - percent ) ) + ( static_cast<double>( moonlight ) * percent );
+        return daylight_level * ( 1. - percent ) + static_cast<double>( moonlight ) * percent;
     } else {
         return daylight_level;
     }
@@ -569,8 +569,8 @@ season_type season_of_year( const time_point &p )
 
 std::string to_string( const time_point &p )
 {
-    const int year = ( to_turns<int>( p - calendar::turn_zero ) / to_turns<int>
-                       ( calendar::year_length() ) ) + 1;
+    const int year = to_turns<int>( p - calendar::turn_zero ) / to_turns<int>
+                     ( calendar::year_length() ) + 1;
     const std::string time = to_string_time_of_day( p );
     if( calendar::eternal_season() ) {
         const int day = to_days<int>( time_past_new_year( p ) );

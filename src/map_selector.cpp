@@ -27,8 +27,7 @@ tripoint_range<tripoint> points_in_range( const map &m )
     const bool hasz = m.has_zlevels();
     return tripoint_range<tripoint>(
                tripoint( 0, 0, hasz ? -OVERMAP_DEPTH : z ),
-               tripoint( ( SEEX * m.getmapsize() ) - 1, ( SEEY * m.getmapsize() ) - 1,
-                         hasz ? OVERMAP_HEIGHT : z ) );
+               tripoint( SEEX * m.getmapsize() - 1, SEEY * m.getmapsize() - 1, hasz ? OVERMAP_HEIGHT : z ) );
 }
 
 std::optional<tripoint> random_point( const map &m,

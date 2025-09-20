@@ -953,7 +953,9 @@ void pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
                 }
                 *itemcount *= 10;
                 *itemcount += raw_input_char_value;
-                *itemcount = std::max( *itemcount, 0 );
+                if( *itemcount < 0 ) {
+                    *itemcount = 0;
+                }
                 if( *itemcount == 0 ) {
                     itemcount.reset();
                 }

@@ -138,9 +138,9 @@ void mission_start::kill_horde_master( mission *miss )
 static tripoint find_potential_computer_point( const tinymap &compmap )
 {
     constexpr int rng_x_min = 10;
-    constexpr int rng_x_max = ( SEEX * 2 ) - 11;
+    constexpr int rng_x_max = SEEX * 2 - 11;
     constexpr int rng_y_min = 10;
-    constexpr int rng_y_max = ( SEEY * 2 ) - 11;
+    constexpr int rng_y_max = SEEY * 2 - 11;
     static_assert( rng_x_min <= rng_x_max && rng_y_min <= rng_y_max, "invalid randomization range" );
     std::vector<tripoint> broken;
     std::vector<tripoint> potential;
@@ -257,7 +257,7 @@ void mission_start::place_priest_diary( mission *miss )
             valid.push_back( p );
         }
     }
-    const tripoint fallback( rng( 6, ( SEEX * 2 ) - 7 ), rng( 6, ( SEEY * 2 ) - 7 ), place.z() );
+    const tripoint fallback( rng( 6, SEEX * 2 - 7 ), rng( 6, SEEY * 2 - 7 ), place.z() );
     const tripoint comppoint = random_entry( valid, fallback );
     compmap.spawn_item( comppoint, "priest_diary" );
     compmap.save();
@@ -302,7 +302,7 @@ void mission_start::place_deposit_box( mission *miss )
             }
         }
     }
-    const tripoint fallback( rng( 6, ( SEEX * 2 ) - 7 ), rng( 6, ( SEEY * 2 ) - 7 ), site.z() );
+    const tripoint fallback( rng( 6, SEEX * 2 - 7 ), rng( 6, SEEY * 2 - 7 ), site.z() );
     const tripoint comppoint = random_entry( valid, fallback );
     compmap.spawn_item( comppoint, "safe_box" );
     compmap.save();

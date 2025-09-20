@@ -599,7 +599,7 @@ void monster::plan()
         if( att_to_target == Attitude::A_HOSTILE && !fleeing ) {
             set_dest( dest );
         } else if( fleeing ) {
-            set_dest( tripoint( ( posx() * 2 ) - dest.x, ( posy() * 2 ) - dest.y, posz() ) );
+            set_dest( tripoint( posx() * 2 - dest.x, posy() * 2 - dest.y, posz() ) );
         }
         if( angers_hostile_weak && att_to_target != Attitude::A_FRIENDLY ) {
             int hp_per = target->hp_percentage();
@@ -1233,7 +1233,7 @@ void monster::nursebot_operate( player *dragged_foe )
 
             //8 intelligence*4 + 8 first aid*4 + 3 computer *3 + 4 electronic*1 = 77
             const float adjusted_skill = static_cast<float>( 77 ) - std::min( static_cast<float>( 40 ),
-                                         static_cast<float>( 77 ) - ( static_cast<float>( 77 ) / static_cast<float>( 10.0 ) ) );
+                                         static_cast<float>( 77 ) - static_cast<float>( 77 ) / static_cast<float>( 10.0 ) );
 
             g->u.uninstall_bionic( target_cbm, *this, *dragged_foe, adjusted_skill );
 
@@ -1332,7 +1332,7 @@ tripoint monster::scent_move()
         bool right_scent = false;
         // is the monster tracking this scent
         if( !tracked_scents.empty() ) {
-            right_scent = tracked_scents.contains( type_scent );
+            right_scent = tracked_scents.find( type_scent ) != tracked_scents.end();
         }
         //is this scent recognised by the monster species
         if( !type_scent.is_empty() ) {
@@ -1346,7 +1346,7 @@ tripoint monster::scent_move()
             }
         }
         // is the monster actually ignoring this scent
-        if( !ignored_scents.empty() && ( ignored_scents.contains( type_scent ) ) ) {
+        if( !ignored_scents.empty() && ( ignored_scents.find( type_scent ) != ignored_scents.end() ) ) {
             right_scent = false;
         }
 
@@ -1912,7 +1912,7 @@ bool monster::push_to( const tripoint &p, const int boost, const size_t depth )
     }
 
     const int movecost_from = 50 * g->m.move_cost( p );
-    const int movecost_attacker = std::max( movecost_from, 200 - ( 10 * ( attack - defend ) ) );
+    const int movecost_attacker = std::max( movecost_from, 200 - 10 * ( attack - defend ) );
     const tripoint dir = p - pos();
 
     // Mark self as pushed to simplify recursive pushing
@@ -1979,7 +1979,7 @@ bool monster::push_to( const tripoint &p, const int boost, const size_t depth )
             critter->setpos( dest );
             move_to( p );
             moves -= movecost_attacker;
-            critter->add_effect( effect_downed, time_duration::from_turns( ( movecost_from / 100 ) + 1 ) );
+            critter->add_effect( effect_downed, time_duration::from_turns( movecost_from / 100 + 1 ) );
         }
         return true;
     }
@@ -2000,7 +2000,7 @@ bool monster::push_to( const tripoint &p, const int boost, const size_t depth )
 
     moves -= movecost_attacker;
     if( movecost_from > 100 ) {
-        critter->add_effect( effect_downed, time_duration::from_turns( ( movecost_from / 100 ) + 1 ) );
+        critter->add_effect( effect_downed, time_duration::from_turns( movecost_from / 100 + 1 ) );
     } else {
         critter->moves -= movecost_from;
     }

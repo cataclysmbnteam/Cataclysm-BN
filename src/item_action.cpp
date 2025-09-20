@@ -187,7 +187,7 @@ std::string item_action_generator::get_action_name( const item_action_id &id ) c
 
 bool item_action_generator::action_exists( const item_action_id &id ) const
 {
-    return item_actions.contains( id );
+    return item_actions.find( id ) != item_actions.end();
 }
 
 const item_action &item_action_generator::get_action( const item_action_id &id ) const
@@ -264,7 +264,7 @@ void game::item_action_menu()
     int num = 0;
 
     const auto assigned_action = [&iactions]( const item_action_id & action ) {
-        return iactions.contains( action );
+        return iactions.find( action ) != iactions.end();
     };
 
     std::vector<std::tuple<item_action_id, std::string, std::string>> menu_items;

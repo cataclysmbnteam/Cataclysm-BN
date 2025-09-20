@@ -88,7 +88,7 @@ void vitamin::load_vitamin( const JsonObject &jo )
         vit.flags_.insert( e );
     }
 
-    if( vitamins_all.contains( vit.id_ ) ) {
+    if( vitamins_all.find( vit.id_ ) != vitamins_all.end() ) {
         jo.throw_error( "parsed vitamin overwrites existing definition", "id" );
     } else {
         vitamins_all[ vit.id_ ] = vit;
