@@ -1601,26 +1601,36 @@ int iuse::remove_all_mods( player *p, item *, bool, const tripoint & )
     }
     return 0;
 }
-
-static bool good_fishing_spot( tripoint pos )
+//Returns 0-5 based on how good the fishing spot is, 5 being "Middle of the ocean" and 0 being "no"
+static int iuse::good_fishing_spot( tripoint pos )
 {
-    std::unordered_set<tripoint> fishable_locations = g->get_fishable_locations( 60, pos );
-    std::vector<monster *> fishables = g->get_fishable_monsters( fishable_locations );
+    int fishable_locations = g->get_fishable_locations( 50, pos ).size();
     map &here = get_map();
-    // isolated little body of water with no definite fish population
-    // TODO: fix point types
     const oter_id &cur_omt =
         overmap_buffer.ter( tripoint_abs_omt( ms_to_omt_copy( here.getabs( pos ) ) ) );
     std::string om_id = cur_omt.id().c_str();
-    if( fishables.empty() && !g->m.has_flag( "CURRENT", pos ) &&
-        om_id.find( "river_" ) == std::string::npos && !cur_omt->is_lake() && !cur_omt->is_lake_shore() ) {
+    if( fishable_locations < 81 || ( !g->m.has_flag( "CURRENT", pos ) &&
+                                     om_id.find( "river_" ) == std::string::npos && !cur_omt->is_lake() &&
+                                     !cur_omt->is_lake_shore() ) ) {
         g->u.add_msg_if_player( m_info, _( "You doubt you will have much luck catching fish here" ) );
-        return false;
+        return 0;
     }
-    return true;
+    //I hate I cant use a switch for this.
+    if( fishable_locations >= 2000 ) {
+        return 5;
+    } else if( fishable_locations < 2000 && fishable_locations >= 1500 ) {
+        return 4;
+    } else if( fishable_locations < 1500 && fishable_locations >= 1000 ) {
+        return 3;
+    } else if( fishable_locations < 1000 && fishable_locations >= 500 ) {
+        return 2;//If you cant amass a 9x9 for fishing womp womp.
+    } else if( fishable_locations < 500 && fishable_locations >= 81 ) {
+        return 1;
+    }
+    return 0;
 }
 
-int iuse::fishing_rod( player *p, item *it, bool, const tripoint & )
+int iuse::fishing_rod( player *p, item *it, bool, const tripoint &pos )
 {
     if( p->is_npc() ) {
         // Long actions - NPCs don't like those yet.
@@ -1632,7 +1642,7 @@ int iuse::fishing_rod( player *p, item *it, bool, const tripoint & )
     }
     std::optional<tripoint> found;
     for( const tripoint &pnt : g->m.points_in_radius( p->pos(), 1 ) ) {
-        if( g->m.has_flag( flag_FISHABLE, pnt ) && good_fishing_spot( pnt ) ) {
+        if( g->m.has_flag( flag_FISHABLE, pnt ) && good_fishing_spot( pnt ) != 0 ) {
             found = pnt;
             break;
         }
@@ -1644,7 +1654,8 @@ int iuse::fishing_rod( player *p, item *it, bool, const tripoint & )
     p->add_msg_if_player( _( "You cast your line and wait to hook something…" ) );
     p->assign_activity( ACT_FISH, to_moves<int>( 5_hours ), 0, 0, it->tname() );
     p->activity->tools.emplace_back( it );
-    p->activity->coord_set = g->get_fishable_locations( 60, *found );
+    p->activity->placement = pos;
+    p->activity->coord_set = g->get_fishable_locations( 50, *found );
     return 0;
 }
 
@@ -1709,7 +1720,7 @@ int iuse::fish_trap( player *p, item *it, bool t, const tripoint &pos )
                 return 0;
             }
 
-            int success = -50;
+            int success = -60 + ( good_fishing_spot( pos ) * 10 );
             const int surv = p->get_skill_level( skill_survival );
             const int attempts = rng( it->charges, it->charges * it->charges );
             for( int i = 0; i < attempts; i++ ) {
@@ -1726,7 +1737,7 @@ int iuse::fish_trap( player *p, item *it, bool t, const tripoint &pos )
                 fishes = 0;
             } else if( success < 300 ) {
                 fishes = 1;
-            } else if( success < 1500 ) {
+            } else if( success < 1200 ) {
                 fishes = 2;
             } else {
                 fishes = rng( 3, 5 );
@@ -1735,44 +1746,15 @@ int iuse::fish_trap( player *p, item *it, bool t, const tripoint &pos )
             if( fishes == 0 ) {
                 it->charges = 0;
                 p->practice( skill_survival, rng( 5, 15 ) );
-
                 return 0;
             }
-
-            //get the fishables around the trap's spot
-            std::unordered_set<tripoint> fishable_locations = g->get_fishable_locations( 60, pos );
-            std::vector<monster *> fishables = g->get_fishable_monsters( fishable_locations );
             for( int i = 0; i < fishes; i++ ) {
                 p->practice( skill_survival, rng( 3, 10 ) );
-                if( !fishables.empty() ) {
-                    monster *chosen_fish = random_entry( fishables );
-                    // reduce the abstract fish_population marker of that fish
-                    chosen_fish->fish_population -= 1;
-                    if( chosen_fish->fish_population <= 0 ) {
-                        g->catch_a_monster( chosen_fish, pos, p, 300_hours ); //catch the fish!
-                    } else {
-                        g->m.add_item_or_charges( pos, item::make_corpse( chosen_fish->type->id,
-                                                  calendar::turn + rng( 0_turns,
-                                                          3_hours ) ) );
-                    }
-                } else {
-                    //there will always be a chance that the player will get lucky and catch a fish
-                    //not existing in the fishables vector. (maybe it was in range, but wandered off)
-                    //lets say it is a 5% chance per fish to catch
-                    if( one_in( 20 ) ) {
-                        const std::vector<mtype_id> fish_group = MonsterGroupManager::GetMonstersFromGroup(
-                                    GROUP_FISH );
-                        const mtype_id &fish_mon = random_entry_ref( fish_group );
-                        //Yes, we can put fishes in the trap like knives in the boot,
-                        //and then get fishes via activation of the item,
-                        //but it's not as comfortable as if you just put fishes in the same tile with the trap.
-                        //Also: corpses and comestibles do not rot in containers like this, but on the ground they will rot.
-                        //we don't know when it was caught so use a random turn
-                        g->m.add_item_or_charges( pos, item::make_corpse( fish_mon, it->birthday() + rng( 0_turns,
-                                                  3_hours ) ) );
-                        break; //this can happen only once
-                    }
-                }
+                const std::vector<mtype_id> fish_group = MonsterGroupManager::GetMonstersFromGroup(
+                            GROUP_FISH );
+                const mtype_id &fish_mon = random_entry_ref( fish_group );
+                g->m.add_item_or_charges( pos, item::make_corpse( fish_mon, it->birthday() + rng( 0_turns,
+                                          3_hours ) ) );
             }
         }
         return 0;

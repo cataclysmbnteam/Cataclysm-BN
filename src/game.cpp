@@ -3791,24 +3791,6 @@ std::unordered_set<tripoint> game::get_fishable_locations( int distance, const t
     return fishable_points;
 }
 
-std::vector<monster *> game::get_fishable_monsters( std::unordered_set<tripoint>
-        &fishable_locations )
-{
-    std::vector<monster *> unique_fish;
-    for( monster &critter : all_monsters() ) {
-        // If it is fishable...
-        if( critter.has_flag( MF_FISHABLE ) ) {
-            const tripoint critter_pos = critter.pos();
-            // ...and it is in a fishable location.
-            if( fishable_locations.contains( critter_pos ) ) {
-                unique_fish.push_back( &critter );
-            }
-        }
-    }
-
-    return unique_fish;
-}
-
 // Print monster info to the given window
 void game::mon_info( const catacurses::window &w, int hor_padding )
 {
