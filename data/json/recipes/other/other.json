@@ -386,7 +386,9 @@
         [ "bread_sandwich", 1, "LIST" ],
         [ "macaroni_raw", 1 ],
         [ "spaghetti_raw", 1 ],
-        [ "noodles_fast", 1 ]
+        [ "noodles_fast", 1 ],
+        [ "assorted_bugs", 1 ],
+        [ "clam", 1 ]
       ]
     ]
   },

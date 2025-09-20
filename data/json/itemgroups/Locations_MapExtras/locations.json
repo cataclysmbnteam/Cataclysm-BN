@@ -595,6 +595,8 @@
       [ "rag", 30 ],
       [ "wire", 30 ],
       [ "chain", 10 ],
+      [ "rock", 30 ],
+      [ "sharp_rock", 20 ],
       [ "bag_plastic", 30 ],
       [ "bottle_plastic", 30 ],
       [ "bottle_plastic_small", 30 ],
