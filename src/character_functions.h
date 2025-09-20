@@ -47,10 +47,23 @@ int get_book_fun_for( const Character &ch, const item &book );
 /** Returns whether character considers it fun to read the book. */
 bool is_fun_to_read( const Character &ch, const item &book );
 
-/** Threshold for fine detail vision mod. */
-constexpr float FINE_VISION_THRESHOLD = 4.0f;
-/** Value for perfect fine detail vision. */
-constexpr float FINE_VISION_PERFECT = 1.0f;
+struct Vision {
+    static constexpr float
+    /** Value for perfect fine detail vision.
+    *   1.0 is LIGHT_AMBIENT_LIT or brighter */
+    PERFECT = 1.0f,
+    /** Threshold for fine detail vision mod.
+    *   4.0 is a dark clear night, barely bright enough for reading and crafting*/
+    FINE = 4.0f,
+    /*   6.0 is LIGHT_AMBIENT_DIM*/
+    DIM = 6.0f,
+    /*  8.0 is LIGHT_AMBIENT_MINIMAL, a dark cloudy night, unlit indoors */
+    MINIMAL = 8.0f,
+    /*  11.0 is zero light or blindness*/
+    NONE = 11.0f;
+
+    static float parse( std::string input );
+};
 
 /**
  * @brief Calculates multiplier for the time taken to perform tasks that

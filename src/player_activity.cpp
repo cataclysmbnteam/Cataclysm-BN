@@ -342,7 +342,7 @@ std::optional<std::string> player_activity::get_progress_message( const avatar &
         std::string mults_desc = string_format( _( "Speed multipliers:\n" ) );
         mults_desc += format_spd( speed.total(), "Total", 0, true );
         mults_desc += format_spd( speed.assist, "Assistants", 1 );
-        mults_desc += format_spd( speed.light, "Light", 1 );
+        mults_desc += format_spd( speed.vision, "Vision", 1 );
         mults_desc += format_spd( speed.morale, "Morale", 1 );
         mults_desc += format_spd( speed.player_speed, "Speed", 1 );
         mults_desc += format_spd( speed.skills, "Skills", 1 );
@@ -447,6 +447,12 @@ void player_activity::do_turn( player &p )
     on_out_of_scope _resolve_on_return( [this]() {
         this->resolve_active();
     } );
+
+    if( auto res = type->check_interrupts( p, &speed ); res.success() ) {
+        p.add_msg_player_or_say( m_bad, res.str(), res.str() );
+        set_to_null();
+        return;
+    }
 
     /*
     * Auto-needs block
