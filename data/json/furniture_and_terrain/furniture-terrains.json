@@ -859,9 +859,7 @@
     "harvest_by_season": [
       {
         "seasons": [ "spring", "autumn", "summer" ],
-        "entries": [
-          { "drop": "assorted_bugs", "base_num": [ 0, 4 ], "scale_num": [ 0, 0.001 ] }
-        ]
+        "entries": [ { "drop": "assorted_bugs", "base_num": [ 0, 4 ], "scale_num": [ 0, 0.001 ] } ]
       }
     ],
     "bash": {
