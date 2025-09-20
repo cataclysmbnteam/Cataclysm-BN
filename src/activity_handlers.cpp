@@ -3067,7 +3067,7 @@ static void rod_fish( player *p,
 void activity_handlers::fish_do_turn( player_activity *act, player *p )
 {
     int fishing_mult = iuse::good_fishing_spot( act->placement );
-    if( fishing_mult == 0 ) {
+    if( fishing_mult == 0 || p->is_blind() ) {
         act->set_to_null();
         p->add_msg_if_player( m_info,
                               _( "You realize fishing here at the moment is pointless, and stop." ) );
