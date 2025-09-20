@@ -3392,7 +3392,6 @@ void vehicle::precalc_mounts( int idir, units::angle dir, point pivot )
     }
     pivot_anchor[idir] = pivot;
     pivot_rotation[idir] = dir;
-    dir_dirty = true;
 }
 
 bool vehicle::check_rotated_intervening( point from, point to,
@@ -6261,6 +6260,7 @@ void vehicle::refresh()
 void vehicle::refresh_position()
 {
     if( !parts.empty() ) {
+        dir_dirty = true;
         precalc_mounts( 0, pivot_rotation[0], pivot_anchor[0] );
         if( attached ) {
             adjust_zlevel();
