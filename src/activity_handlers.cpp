@@ -9,7 +9,9 @@
 #include <set>
 #include <stdexcept>
 #include <string>
+#include <unordered_set>
 #include <utility>
+#include <vector>
 #include <weighted_list.h>
 
 #include "action.h"
@@ -3032,13 +3034,14 @@ void activity_handlers::atm_do_turn( player_activity *, player *p )
 }
 
 // fish-with-rod fish catching function.
-static void rod_fish( player *p, const weighted_int_list<std::string> &fishables )
+static void rod_fish( player *p,
+                      const weighted_int_list<std::pair<std::string, int>> &fishables )
 {
     map &here = get_map();
     // if the vector is empty (no fish around) the player is still given a small
     // chance to get a (let us say it was hidden) fish
-    std::string caught = *fishables.pick();
-    if( caught.contains( "fish" ) ) {
+    const std::pair<std::string, int> *caught = fishables.pick();
+    if( caught->first.contains( "fish" ) ) {
         const std::vector<mtype_id> fish_group = MonsterGroupManager::GetMonstersFromGroup(
                     mongroup_id( "GROUP_FISH" ) );
         const mtype_id fish_mon = random_entry_ref( fish_group );
@@ -3048,9 +3051,10 @@ static void rod_fish( player *p, const weighted_int_list<std::string> &fishables
 
         p->add_msg_if_player( m_good, _( "You caught a %s." ), fish_mon.obj().nname() );
     } else {
-        string_id<item> possible( caught );
+        itype_id possible( caught->first );
         if( possible.is_valid() ) {
-            here.add_item_or_charges( p->pos(), item::spawn( possible ), true );
+            here.add_item_or_charges( p->pos(), item::spawn( caught->first, calendar::turn, caught->second ),
+                                      true );
             p->add_msg_if_player( m_good, _( "You reeled in %s." ) );
         }
     }
@@ -3064,6 +3068,17 @@ static void rod_fish( player *p, const weighted_int_list<std::string> &fishables
 
 void activity_handlers::fish_do_turn( player_activity *act, player *p )
 {
+    int fishing_mult = iuse::good_fishing_spot( act->placement );
+    if( fishing_mult == 0 ) {
+        act->set_to_null();
+        p->add_msg_if_player( m_info,
+                              _( "You realize fishing here at the moment is pointless, and stop." ) );
+        if( !p->backlog.empty() && p->backlog.front()->id() == ACT_MULTIPLE_FISH ) {
+            p->backlog.clear();
+            p->assign_activity( ACT_TIDY_UP );
+            return;
+        }
+    }
     item &rod = *act->tools.front();
     int fish_chance = 1;
     int survival_mod = p->get_skill_level( skill_survival );
@@ -3073,13 +3088,13 @@ void activity_handlers::fish_do_turn( player_activity *act, player *p )
         // Much better chances with a good fishing implement.
         survival_mod += dice( 3, 6 ); //avg of 10-11
     }
-    fish_chance += ( survival_mod * iuse::good_fishing_spot( act->placement ) );
+    fish_chance += ( survival_mod *  fishing_mult );
     // no matter the population of fish, your skill and tool limits the ease of catching.
     fish_chance = std::min( survival_mod * 5, fish_chance ); //Roughly 1/1000 per turn avg.
     if( x_in_y( fish_chance, 750000 ) ) {
         p->add_msg_if_player( m_good, _( "You feel a tug on your line!" ) );
-        weighted_int_list<std::string> caught;
-        caught.add( "fish", 1 ); //Hardcoded for now, but can be expanded for magnet fishing or smthn
+        weighted_int_list<std::pair<std::string, int>> caught;
+        caught.add( {"fish", 1}, 1 ); //Hardcoded for now, but can be expanded for magnet fishing or smthn
         rod_fish( p, caught );
     }
     if( calendar::once_every( 60_minutes ) ) {

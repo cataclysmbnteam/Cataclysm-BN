@@ -1607,18 +1607,18 @@ int iuse::remove_all_mods( player *p, item *, bool, const tripoint & )
     }
     return 0;
 }
-//Returns 0-5 based on how good the fishing spot is, 5 being "Middle of the ocean" and 0 being "no"
-static int iuse::good_fishing_spot( tripoint pos )
+// Returns 0-5 based on how good the fishing spot is, 5 being "Middle of the
+// ocean" and 0 being "no"
+int iuse::good_fishing_spot( tripoint pos )
 {
     int fishable_locations = g->get_fishable_locations( 50, pos ).size();
     map &here = get_map();
     const oter_id &cur_omt =
         overmap_buffer.ter( tripoint_abs_omt( ms_to_omt_copy( here.getabs( pos ) ) ) );
     std::string om_id = cur_omt.id().c_str();
-    if( fishable_locations < 81 || ( !g->m.has_flag( "CURRENT", pos ) &&
-                                     om_id.find( "river_" ) == std::string::npos && !cur_omt->is_lake() &&
-                                     !cur_omt->is_lake_shore() ) ) {
-        g->u.add_msg_if_player( m_info, _( "You doubt you will have much luck catching fish here" ) );
+    if( fishable_locations < 50 && !g->m.has_flag( "CURRENT", pos ) &&
+        om_id.find( "river_" ) == std::string::npos && !cur_omt->is_lake() &&
+        !cur_omt->is_lake_shore() ) {
         return 0;
     }
     //I hate I cant use a switch for this.
@@ -1629,14 +1629,16 @@ static int iuse::good_fishing_spot( tripoint pos )
     } else if( fishable_locations < 1500 && fishable_locations >= 1000 ) {
         return 3;
     } else if( fishable_locations < 1000 && fishable_locations >= 500 ) {
-        return 2;//If you cant amass a 9x9 for fishing womp womp.
-    } else if( fishable_locations < 500 && fishable_locations >= 81 ) {
+        return 2;//If you cant amass a 5x10 for fishing womp womp.
+    } else if( fishable_locations < 500 && fishable_locations >= 50 ) {
         return 1;
     }
+    g->u.add_msg_if_player(
+        m_info, _( "You doubt you will have much luck catching fish here" ) );
     return 0;
 }
 
-int iuse::fishing_rod( player *p, item *it, bool, const tripoint &pos )
+int iuse::fishing_rod( player *p, item *it, bool, const tripoint & )
 {
     if( p->is_npc() ) {
         // Long actions - NPCs don't like those yet.
@@ -1648,7 +1650,7 @@ int iuse::fishing_rod( player *p, item *it, bool, const tripoint &pos )
     }
     std::optional<tripoint> found;
     for( const tripoint &pnt : g->m.points_in_radius( p->pos(), 1 ) ) {
-        if( g->m.has_flag( flag_FISHABLE, pnt ) && good_fishing_spot( pnt ) != 0 ) {
+        if( g->m.has_flag( flag_FISHABLE, pnt ) && iuse::good_fishing_spot( pnt ) != 0 ) {
             found = pnt;
             break;
         }
@@ -1660,7 +1662,7 @@ int iuse::fishing_rod( player *p, item *it, bool, const tripoint &pos )
     p->add_msg_if_player( _( "You cast your line and wait to hook something…" ) );
     p->assign_activity( ACT_FISH, to_moves<int>( 5_hours ), 0, 0, it->tname() );
     p->activity->tools.emplace_back( it );
-    p->activity->placement = pos;
+    p->activity->placement = *found;
     p->activity->coord_set = g->get_fishable_locations( 50, *found );
     return 0;
 }
@@ -1702,7 +1704,7 @@ int iuse::fish_trap( player *p, item *it, bool t, const tripoint &pos )
             p->add_msg_if_player( m_info, _( "You can't fish there!" ) );
             return 0;
         }
-        if( !good_fishing_spot( pnt ) ) {
+        if( good_fishing_spot( pnt ) == 0 ) {
             return 0;
         }
         it->activate();
@@ -1726,7 +1728,7 @@ int iuse::fish_trap( player *p, item *it, bool t, const tripoint &pos )
                 return 0;
             }
 
-            int success = -60 + ( good_fishing_spot( pos ) * 10 );
+            int success = -50 + ( good_fishing_spot( pos ) * 10 );
             const int surv = p->get_skill_level( skill_survival );
             const int attempts = rng( it->charges, it->charges * it->charges );
             for( int i = 0; i < attempts; i++ ) {
