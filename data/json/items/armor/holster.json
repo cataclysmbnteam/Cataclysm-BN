@@ -166,7 +166,7 @@
       "skills": [ "pistol" ],
       "flags": [ "HOLSTER_PISTOL" ]
     },
-    "valid_mods": [ "resized_large" ],
+    "valid_mods": [ "resized_large", "resized_small" ],
     "flags": [ "SKINTIGHT", "COMPACT", "WATER_FRIENDLY", "ALLOWS_WINGS" ]
   },
   {
@@ -211,7 +211,7 @@
       "flags": [ "SHEATH_KNIFE", "SHEATH_SWORD", "SHEATH_AXE", "MAG_COMPACT", "MAG_BULKY", "MAG_BELT", "SPEEDLOADER", "BELT_CLIP" ],
       "skills": [ "smg", "shotgun", "rifle", "launcher", "pistol" ]
     },
-    "valid_mods": [ "steel_padded", "alloy_padded", "resized_large" ],
+    "valid_mods": [ "steel_padded", "hard_steel_padded", "alloy_padded", "resized_large", "resized_small" ],
     "flags": [ "WATER_FRIENDLY", "STURDY", "WAIST", "COMPACT", "ALLOWS_WINGS" ]
   },
   {

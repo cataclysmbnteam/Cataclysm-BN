@@ -20,7 +20,7 @@
     "storage": "15 L",
     "warmth": 6,
     "material_thickness": 2,
-    "valid_mods": [ "resized_large" ],
+    "valid_mods": [ "resized_large", "resized_small" ],
     "flags": [ "BELTED", "ALLOWS_WINGS" ]
   },
   {
@@ -78,7 +78,7 @@
     "storage": "45 L",
     "warmth": 5,
     "material_thickness": 2,
-    "valid_mods": [ "resized_large" ],
+    "valid_mods": [ "resized_large", "resized_small" ],
     "flags": [ "BELTED", "ALLOWS_TAIL_SNAKE", "ALLOWS_TAIL", "ALLOWS_WINGS" ]
   },
   {
@@ -102,7 +102,7 @@
     "storage": "15 L",
     "warmth": 9,
     "material_thickness": 3,
-    "valid_mods": [ "resized_large" ],
+    "valid_mods": [ "resized_large", "resized_small" ],
     "flags": [ "BELTED", "WATER_FRIENDLY", "ALLOWS_WINGS" ]
   },
   {
@@ -310,7 +310,7 @@
     "max_encumbrance": 12,
     "storage": "12 L",
     "material_thickness": 1,
-    "valid_mods": [ "resized_large" ],
+    "valid_mods": [ "resized_large", "resized_small" ],
     "flags": [ "WATER_FRIENDLY", "BELTED", "ALLOWS_WINGS" ]
   },
   {
@@ -334,7 +334,7 @@
     "storage": "35 L",
     "warmth": 10,
     "material_thickness": 2,
-    "valid_mods": [ "resized_large" ],
+    "valid_mods": [ "resized_large", "resized_small" ],
     "flags": [ "BELTED", "WATER_FRIENDLY", "ALLOWS_WINGS" ]
   },
   {
@@ -358,7 +358,7 @@
     "encumbrance": 2,
     "storage": "3 L",
     "material_thickness": 1,
-    "valid_mods": [ "resized_large" ],
+    "valid_mods": [ "resized_large", "resized_small" ],
     "flags": [ "WAIST", "COMPACT", "WATER_FRIENDLY", "ALLOWS_WINGS" ]
   },
   {
@@ -381,7 +381,7 @@
     "encumbrance": 2,
     "storage": "3 L",
     "material_thickness": 1,
-    "valid_mods": [ "resized_large" ],
+    "valid_mods": [ "resized_large", "resized_small" ],
     "flags": [ "WAIST", "COMPACT", "WATER_FRIENDLY", "ALLOWS_WINGS" ]
   },
   {
@@ -533,7 +533,7 @@
     "encumbrance": 4,
     "storage": "3 L",
     "material_thickness": 2,
-    "valid_mods": [ "resized_large" ],
+    "valid_mods": [ "resized_large", "resized_small" ],
     "flags": [ "WATER_FRIENDLY", "BELTED", "COMPACT", "ALLOWS_TAIL_SNAKE" ]
   },
   {
@@ -557,7 +557,7 @@
     "storage": "5 L",
     "warmth": 5,
     "material_thickness": 1,
-    "valid_mods": [ "resized_large" ],
+    "valid_mods": [ "resized_large", "resized_small" ],
     "flags": [ "BELTED", "WATER_FRIENDLY", "ALLOWS_WINGS" ]
   },
   {
@@ -608,7 +608,7 @@
     "max_encumbrance": 6,
     "storage": "6 L",
     "material_thickness": 1,
-    "valid_mods": [ "resized_large" ],
+    "valid_mods": [ "resized_large", "resized_small" ],
     "flags": [ "BELTED", "COMPACT", "WATER_FRIENDLY", "ALLOWS_WINGS" ]
   },
   {
@@ -633,7 +633,7 @@
     "storage": "12 L",
     "warmth": 10,
     "material_thickness": 2,
-    "valid_mods": [ "resized_large" ],
+    "valid_mods": [ "resized_large", "resized_small" ],
     "flags": [ "BELTED", "WATER_FRIENDLY", "ALLOWS_WINGS" ],
     "use_action": {
       "type": "holster",
@@ -668,7 +668,7 @@
     "material_thickness": 2,
     "properties": [ [ "creature_size_capacity", "SMALL" ] ],
     "use_action": "CAPTURE_MONSTER_ACT",
-    "valid_mods": [ "resized_large" ],
+    "valid_mods": [ "resized_large", "resized_small" ],
     "flags": [ "BELTED", "WATERPROOF", "ALLOWS_WINGS" ]
   },
   {
@@ -714,7 +714,7 @@
     "max_encumbrance": 5,
     "storage": "5 L",
     "material_thickness": 2,
-    "valid_mods": [ "resized_large" ],
+    "valid_mods": [ "resized_large", "resized_small" ],
     "flags": [ "FANCY", "BELTED", "COMPACT", "WATER_FRIENDLY", "ALLOWS_WINGS" ]
   },
   {
@@ -761,7 +761,7 @@
     "storage": "22 L",
     "warmth": 8,
     "material_thickness": 2,
-    "valid_mods": [ "resized_large" ],
+    "valid_mods": [ "resized_large", "resized_small" ],
     "flags": [ "BELTED", "WATER_FRIENDLY", "ALLOWS_WINGS" ]
   },
   {
@@ -787,7 +787,7 @@
     "storage": "7 L",
     "warmth": 2,
     "material_thickness": 1,
-    "valid_mods": [ "resized_large" ],
+    "valid_mods": [ "resized_large", "resized_small" ],
     "flags": [ "BELTED", "WATER_FRIENDLY", "ALLOWS_WINGS" ]
   },
   {
@@ -814,7 +814,7 @@
     "storage": "8 L",
     "warmth": 2,
     "material_thickness": 1,
-    "valid_mods": [ "resized_large" ],
+    "valid_mods": [ "resized_large", "resized_small" ],
     "flags": [ "BELTED", "WATER_FRIENDLY", "ALLOWS_WINGS" ]
   },
   {
@@ -955,7 +955,7 @@
     "max_encumbrance": 12,
     "storage": "16 L",
     "material_thickness": 2,
-    "valid_mods": [ "resized_large" ],
+    "valid_mods": [ "resized_large", "resized_small" ],
     "flags": [ "WATER_FRIENDLY", "STURDY", "BELTED", "ALLOWS_WINGS" ]
   },
   {
@@ -1000,7 +1000,7 @@
     "max_encumbrance": 6,
     "storage": "8 L",
     "material_thickness": 2,
-    "valid_mods": [ "resized_large" ],
+    "valid_mods": [ "resized_large", "resized_small" ],
     "flags": [ "WATER_FRIENDLY", "STURDY", "BELTED", "ALLOWS_WINGS" ]
   },
   {
@@ -1045,7 +1045,7 @@
     "storage": "30 L",
     "warmth": 8,
     "material_thickness": 2,
-    "valid_mods": [ "resized_large" ],
+    "valid_mods": [ "resized_large", "resized_small" ],
     "flags": [ "BELTED", "WATERPROOF", "ALLOWS_WINGS" ]
   },
   {

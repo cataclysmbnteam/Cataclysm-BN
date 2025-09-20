@@ -20,7 +20,7 @@
     "storage": "100 L",
     "warmth": 5,
     "material_thickness": 2,
-    "valid_mods": [ "resized_large" ],
+    "valid_mods": [ "resized_large", "resized_small" ],
     "flags": [ "BELTED", "ONLY_ONE", "LEAK_DAM", "ALLOWS_WINGS" ]
   },
   {
@@ -40,7 +40,7 @@
     "coverage": 80,
     "encumbrance": 4,
     "material_thickness": 2,
-    "valid_mods": [ "resized_large" ],
+    "valid_mods": [ "resized_large", "resized_small" ],
     "flags": [ "ALLOWS_WINGS" ]
   },
   {
@@ -92,7 +92,7 @@
     "encumbrance": 12,
     "material_thickness": 3,
     "use_action": [ "SOLARPACK" ],
-    "valid_mods": [ "resized_large" ],
+    "valid_mods": [ "resized_large", "resized_small" ],
     "flags": [ "FRAGILE", "OUTER", "ONLY_ONE", "SOLARPACK", "ALLOWS_WINGS" ]
   },
   {
@@ -115,7 +115,7 @@
     "material_thickness": 1,
     "use_action": [ "SOLARPACK_OFF" ],
     "solar_efficiency": 0.24,
-    "valid_mods": [ "resized_large" ],
+    "valid_mods": [ "resized_large", "resized_small" ],
     "flags": [ "FRAGILE", "OUTER", "ONLY_ONE", "SOLARPACK_ON", "ALLOWS_WINGS" ]
   },
   {
@@ -141,7 +141,7 @@
     "storage": "8 L",
     "warmth": 35,
     "material_thickness": 9,
-    "valid_mods": [ "steel_padded" ],
+    "valid_mods": [ "steel_padded", "hard_steel_padded", "alloy_padded" ],
     "environmental_protection": 4,
     "flags": [ "OVERSIZE", "POCKETS", "STURDY" ]
   },
