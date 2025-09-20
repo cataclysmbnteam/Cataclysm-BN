@@ -600,7 +600,7 @@ void avatar_action::swim( map &m, avatar &you, const tripoint &p )
             return;
         }
     }
-    if( m.has_flag_ter_or_furn( TFLAG_HIDE_PLACE, p ) ) {
+    if( m.has_flag_ter_or_furn( TFLAG_HIDE_PLACE, p ) && you.get_size() <= creature_size::medium ) {
         add_msg( m_good, _( "You are hiding in the %s." ), m.name( p ) );
     }
     you.setpos( p );
