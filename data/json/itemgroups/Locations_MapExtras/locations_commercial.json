@@ -606,7 +606,8 @@
       [ "gps_device", 5 ],
       { "group": "tinware", "prob": 10 },
       [ "shield_riot", 5 ],
-      [ "pirate_flag", 5 ]
+      [ "pirate_flag", 5 ],
+      [ "professional_chemical_thrower", 5 ]
     ]
   },
   {
