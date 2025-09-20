@@ -81,6 +81,8 @@
       { "item": "bot_laserturret", "prob": 10 },
       { "item": "bot_turret_mark19", "prob": 10 },
       { "item": "bot_turret_antimateriel", "prob": 10 },
+      { "item": "40x53mm_m430a1", "prob": 10 },
+      { "item": "50bmg", "prob": 10 },
       { "item": "bot_prototype_cyborg", "prob": 10 },
       { "item": "bot_haulerbot", "prob": 10 },
       { "item": "bot_mech_recon", "prob": 10 },
