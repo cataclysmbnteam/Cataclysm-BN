@@ -3076,6 +3076,7 @@ void activity_handlers::fish_do_turn( player_activity *act, player *p )
             p->assign_activity( ACT_TIDY_UP );
             return;
         }
+        return;
     }
     item &rod = *act->tools.front();
     int fish_chance = 1;
