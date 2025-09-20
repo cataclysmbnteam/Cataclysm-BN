@@ -418,7 +418,7 @@ void avatar::randomize( const bool random_scenario, points_left &points, bool pl
 void Character::clear_cosmetic_traits( std::string mutation_type, trait_id new_trait )
 {
     for( const mutation_branch &mb : mutation_branch::get_all() ) {
-        if( mb.points == 0 && mb.types.contains( mutation_type ) ) {
+        if( mb.points == 0 && mb.types.count( mutation_type ) ) {
             if( has_trait( mb.id ) && mb.id != new_trait ) {
                 toggle_trait( mb.id );
             }
@@ -440,7 +440,7 @@ void avatar::randomize_cosmetics()
 bool avatar::create( character_type type, const std::string &tempname )
 {
     // TODO: This block should not be needed
-    if( get_body().contains( body_part_arm_r ) ) {
+    if( get_body().find( body_part_arm_r ) != get_body().end() ) {
         remove_primary_weapon();
     }
 
@@ -1163,15 +1163,14 @@ tab_direction set_traits( avatar &u, points_left &points )
             constexpr int preview_nlines_min = 7;
             constexpr int preview_ncols_min = 10;
             const int preview_nlines = std::max( ( TERMY - 9 ) / 3, preview_nlines_min );
-            const int preview_ncols = std::max( ( ( TERMX - int_page_width * 3 - 4 ) / 3 ) - 5,
-                                                preview_ncols_min );
+            const int preview_ncols = std::max( ( TERMX - int_page_width * 3 - 4 ) / 3 - 5, preview_ncols_min );
             constexpr auto orientation = character_preview_window::Orientation{
                 character_preview_window::TOP_RIGHT,
                 character_preview_window::Margin{0, 2, 5, 0}
             };
             character_preview.prepare(
                 preview_nlines, preview_ncols,
-                &orientation, ( int_page_width * 3 ) + 5
+                &orientation, int_page_width * 3 + 5
             );
         }
 #endif
@@ -1301,7 +1300,7 @@ tab_direction set_traits( avatar &u, points_left &points )
                 }
 
                 int cur_y = 5 + i - start;
-                int cur_x = 2 + ( iCurrentPage * page_width );
+                int cur_x = 2 + iCurrentPage * page_width;
                 mvwprintz( w, point( cur_x, cur_y ), col, utf8_truncate( mdata.name(), page_width - 2 ) );
             }
 
@@ -3124,7 +3123,7 @@ trait_id Character::get_random_trait( const std::function<bool( const mutation_b
 void Character::randomize_cosmetic_trait( std::string mutation_type )
 {
     trait_id trait = get_random_trait( [mutation_type]( const mutation_branch & mb ) {
-        return mb.points == 0 && mb.types.contains( mutation_type );
+        return mb.points == 0 && mb.types.count( mutation_type );
     } );
 
     if( trait.is_valid() ) { // <-- IMPORTANT

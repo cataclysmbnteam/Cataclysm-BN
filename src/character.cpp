@@ -1142,7 +1142,9 @@ int Character::swim_speed() const
         ret += 50;
     }
 
-    ret = std::max( ret, 30 );
+    if( ret < 30 ) {
+        ret = 30;
+    }
     return ret;
 }
 
@@ -1664,7 +1666,7 @@ void static try_remove_crushed( Character &c )
     /** @EFFECT_STR increases chance to escape crushing rubble */
 
     /** @EFFECT_DEX increases chance to escape crushing rubble, slightly */
-    if( x_in_y( c.get_str() + ( c.get_dex() / 4.0 ), 100 ) ) {
+    if( x_in_y( c.get_str() + c.get_dex() / 4.0, 100 ) ) {
         c.remove_effect( effect_crushed );
         c.add_msg_player_or_npc( m_good, _( "You free yourself from the rubble!" ),
                                  _( "<npcname> frees themselves from the rubble!" ) );
@@ -1996,14 +1998,14 @@ namespace vision
 float threshold_for_nv_range( float range )
 {
     constexpr float epsilon = 0.0001f;
-    return ( LIGHT_AMBIENT_LOW / std::exp( range * LIGHT_TRANSPARENCY_OPEN_AIR ) )
+    return LIGHT_AMBIENT_LOW / std::exp( range * LIGHT_TRANSPARENCY_OPEN_AIR )
            - epsilon;
 }
 
 float nv_range_from_per( int per )
 {
     // The -1 is because the math is incorrect, but we want the UI to show correct numbers
-    return ( per / 3.0f ) - 1.0f;
+    return per / 3.0f - 1.0f;
 }
 
 float nv_range_from_eye_encumbrance( int enc )
@@ -3876,11 +3878,13 @@ int Character::rust_rate() const
     int intel = get_int();
     /** @EFFECT_INT reduces skill rust by 10% per level above 8 */
     int ret = ( ( rate_option == "vanilla" || rate_option == "capped" ) ?
-                100 : 100 + ( 10 * ( intel - 8 ) ) );
+                100 : 100 + 10 * ( intel - 8 ) );
 
     ret *= mutation_value( "skill_rust_multiplier" );
 
-    ret = std::max( ret, 0 );
+    if( ret < 0 ) {
+        ret = 0;
+    }
 
     return ret;
 }
@@ -3976,7 +3980,7 @@ int Character::read_speed( bool return_stat_effect ) const
     // Stat window shows stat effects on based on current stat
     const int intel = get_int();
     /** @EFFECT_INT increases reading speed by 3s per level above 8*/
-    int ret = to_moves<int>( 1_minutes ) - ( to_moves<int>( 3_seconds ) * ( intel - 8 ) );
+    int ret = to_moves<int>( 1_minutes ) - to_moves<int>( 3_seconds ) * ( intel - 8 );
 
     if( has_bionic( afs_bio_linguistic_coprocessor ) ) {
         ret *= .75;
@@ -3984,7 +3988,9 @@ int Character::read_speed( bool return_stat_effect ) const
 
     ret *= mutation_value( "reading_speed_multiplier" );
 
-    ret = std::max( ret, to_moves<int>( 1_seconds ) );
+    if( ret < to_moves<int>( 1_seconds ) ) {
+        ret = to_moves<int>( 1_seconds );
+    }
     // return_stat_effect actually matters here
     return return_stat_effect ? ret : ret * 100 / to_moves<int>( 1_minutes );
 }
@@ -5007,7 +5013,7 @@ void Character::on_damage_of_type( int adjusted_damage, damage_type type, const 
                 continue;
             }
             const std::map<bodypart_str_id, int> &bodyparts = info.occupied_bodyparts;
-            if( bodyparts.contains( bp.id() ) ) {
+            if( bodyparts.find( bp.id() ) != bodyparts.end() ) {
                 const int bp_hp = get_part_hp_cur( bp );
                 // The chance to incapacitate is as high as 50% if the attack deals damage equal to one third of the body part's current health.
                 if( x_in_y( adjusted_damage * 3, bp_hp ) && one_in( 2 ) ) {
@@ -5632,7 +5638,7 @@ void Character::check_needs_extremes()
         // Microsleeps are slightly worse if you're sleep deprived, but not by much. (chance: 1 in (75 + per_cur) at minor sleep deprivation)
         // Note: these can coexist with fatigue-related microsleeps
         /** @EFFECT_PER slightly decreases occurrence of short naps when sleep deprived */
-        if( one_in( static_cast<int>( ( ( 1.0f - sleep_deprivation_pct ) * 75 ) + get_per() ) ) ) {
+        if( one_in( static_cast<int>( ( 1.0f - sleep_deprivation_pct ) * 75 + get_per() ) ) ) {
             fall_asleep( 30_seconds );
         }
 
@@ -5892,7 +5898,7 @@ void Character::update_bodytemp( const map &m, const weather_manager &weather )
         // Convergent temperature is affected by ambient temperature,
         // clothing warmth, and body wetness.
         int bp_conv = adjusted_temp
-                      + ( windchill * 100 )
+                      + windchill * 100
                       + clothing_warmth_adjustment
                       + mutation_heat_low
                       + sunlight_warmth;
@@ -5941,7 +5947,7 @@ void Character::update_bodytemp( const map &m, const weather_manager &weather )
         if( bonus_warmth > 0 ) {
             // Approximate bp_conv needed to reach comfortable temperature in this very turn
             // Basically inverted formula for temp_cur below
-            int desired = ( 501 * BODYTEMP_NORM ) - ( 499 * bp_stats.get_temp_cur() );
+            int desired = 501 * BODYTEMP_NORM - 499 * bp_stats.get_temp_cur();
             if( std::abs( BODYTEMP_NORM - desired ) < 1000 ) {
                 desired = BODYTEMP_NORM; // Ensure that it converges
             } else if( desired > BODYTEMP_HOT ) {
@@ -6062,8 +6068,8 @@ void Character::update_bodytemp( const map &m, const weather_manager &weather )
             // Warmth gives a slight buff to temperature resistance
             // Wetness gives a heavy nerf to temperature resistance
             double adjusted_warmth = warmth_per_bp.at( bp ) - wetness_percentage;
-            int Ftemperature = static_cast<int>( units::to_fahrenheit( player_local_temp ) + ( 0.2 *
-                                                 adjusted_warmth ) );
+            int Ftemperature = static_cast<int>( units::to_fahrenheit( player_local_temp ) + 0.2 *
+                                                 adjusted_warmth );
             // Windchill reduced by your armor
             int FBwindPower = static_cast<int>(
                                   total_windpower * ( 1 - wind_res_per_bp[ bp ] / 100.0 ) );
@@ -6246,14 +6252,14 @@ int Character::blood_loss( const bodypart_id &bp ) const
 
     hp_cur_sum = std::min( hp_max_sum, std::max( 0, hp_cur_sum ) );
     hp_max_sum = std::max( hp_max_sum, 1 );
-    return 100 - ( ( 100 * hp_cur_sum ) / hp_max_sum );
+    return 100 - ( 100 * hp_cur_sum ) / hp_max_sum;
 }
 
 float Character::get_dodge_base() const
 {
     /** @EFFECT_DEX increases dodge base */
     /** @EFFECT_DODGE increases dodge_base */
-    return ( get_dex() / 4.0f ) + get_skill_level( skill_dodge );
+    return get_dex() / 4.0f + get_skill_level( skill_dodge );
 }
 float Character::get_hit_base() const
 {
@@ -6332,7 +6338,9 @@ bodypart_str_id Character::body_window( const std::string &menu_header,
         int new_b_power = static_cast<int>( std::floor( bandage_power ) );
         if( bandaged ) {
             const effect &eff = get_effect( effect_bandaged, bp_str_id );
-            new_b_power = std::min( new_b_power, eff.get_max_intensity() );
+            if( new_b_power > eff.get_max_intensity() ) {
+                new_b_power = eff.get_max_intensity();
+            }
 
         }
         int new_d_power = static_cast<int>( std::floor( disinfectant_power ) );
@@ -6748,7 +6756,7 @@ int Character::throw_range( const item &it ) const
     /** @EFFECT_STR caps throwing range */
 
     /** @EFFECT_THROW caps throwing range */
-    return std::min( ret, ( str_override * 3 ) + get_skill_level( skill_throw ) );
+    return std::min( ret, str_override * 3 + get_skill_level( skill_throw ) );
 }
 
 const std::vector<material_id> Character::fleshy = { material_id( "flesh" ), material_id( "hflesh" ) };
@@ -6827,7 +6835,9 @@ float Character::active_light() const
     int maxlum = 0;
     has_item_with( [&maxlum]( const item & it ) {
         const int lumit = it.getlight_emit();
-        maxlum = std::max( maxlum, lumit );
+        if( maxlum < lumit ) {
+            maxlum = lumit;
+        }
         return false; // continue search, otherwise has_item_with would cancel the search
     } );
 
@@ -7691,7 +7701,7 @@ void Character::update_stamina( int turns )
     const int max_stam = get_stamina_max();
     if( get_power_level() >= 3_kJ && has_active_bionic( bio_gills ) ) {
         int bonus = std::min<int>( units::to_kilojoule( get_power_level() ) / 3,
-                                   max_stam - get_stamina() - ( stamina_recovery * turns ) );
+                                   max_stam - get_stamina() - stamina_recovery * turns );
         // so the effective recovery is up to 5x default
         bonus = std::min( bonus, 4 * static_cast<int>( base_regen_rate ) );
         if( bonus > 0 ) {
@@ -8118,7 +8128,7 @@ int Character::get_shout_volume() const
     // and noise ~= 10 (door smashing) for wearing dust mask for character with strength = 8
     /** @EFFECT_STR increases shouting volume */
     const int penalty = encumb( body_part_mouth ) * 3 / 2;
-    int noise = base + ( str_cur * shout_multiplier ) - penalty;
+    int noise = base + str_cur * shout_multiplier - penalty;
 
     // Minimum noise volume possible after all reductions.
     // Volume 1 can't be heard even by player
@@ -9601,8 +9611,12 @@ void Character::apply_persistent_morale()
     // Hoarders get a morale penalty if they're not carrying a full inventory.
     if( has_trait( trait_HOARDER ) ) {
         int pen = ( volume_capacity() - volume_carried() ) / 125_ml;
-        pen = std::min( pen, 70 );
-        pen = std::max( pen, 0 );
+        if( pen > 70 ) {
+            pen = 70;
+        }
+        if( pen <= 0 ) {
+            pen = 0;
+        }
         if( has_effect( effect_took_xanax ) ) {
             pen = pen / 7;
         } else if( has_effect( effect_took_prozac ) ) {
@@ -9994,7 +10008,7 @@ std::map<bodypart_id, int> Character::warmth( const std::map<bodypart_id, std::v
             []( float best, const material_id & mat ) {
                 return std::max( best, mat->warmth_when_wet() );
             } );
-            float wet_mult = 1.0f - ( max_wet_resistance * wetness_map[bp] );
+            float wet_mult = 1.0f - max_wet_resistance * wetness_map[bp];
             ret[bp] += warmth * wet_mult;
         }
         ret[bp] += get_effect_int( effect_heating_bionic, bp.id() );
@@ -10684,7 +10698,7 @@ std::pair<PathfindingSettings, RouteSettings> Character::get_pathfinding_pair() 
     if( climb <= 1 ) {
         path_settings.climb_cost = INFINITY;
     } else {
-        const float climb_success_prob = 1.0 - ( 1.0 / climb );
+        const float climb_success_prob = 1.0 - 1.0 / climb;
         path_settings.climb_cost = 5 / climb_success_prob;
     }
 
@@ -10768,11 +10782,15 @@ int Character::run_cost( int base_cost, bool diag ) const
     if( !is_mounted() ) {
         if( movecost > 100 ) {
             movecost *= mutation_value( "movecost_obstacle_modifier" );
-            movecost = std::max<float>( movecost, 100 );
+            if( movecost < 100 ) {
+                movecost = 100;
+            }
         }
         if( has_trait( trait_M_IMMUNE ) && on_fungus ) {
-            // Mycal characters are faster on their home territory, even through things like shrubs
-            movecost = std::min<float>( movecost, 75 );
+            if( movecost > 75 ) {
+                // Mycal characters are faster on their home territory, even through things like shrubs
+                movecost = 75;
+            }
         }
 
         // Linearly increase move cost relative to individual leg hp.
@@ -10839,7 +10857,9 @@ int Character::run_cost( int base_cost, bool diag ) const
         movecost += bonus_from_enchantments( movecost, enchant_vals::mod::MOVE_COST );
         movecost /= running_move_cost_modifier();
 
-        movecost = std::max<double>( movecost, 20.0 );
+        if( movecost < 20.0 ) {
+            movecost = 20.0;
+        }
     }
 
     if( diag ) {
@@ -10889,7 +10909,7 @@ void Character::place_corpse( const tripoint_abs_omt &om_target )
 {
     tinymap bay;
     bay.load( project_to<coords::sm>( om_target ), false );
-    point fin{ rng( 1, ( SEEX * 2 ) - 2 ), rng( 1, ( SEEX * 2 ) - 2 ) };
+    point fin{ rng( 1, SEEX * 2 - 2 ), rng( 1, SEEX * 2 - 2 ) };
     // This makes no sense at all. It may find a random tile without furniture, but
     // if the first try to find one fails, it will go through all tiles of the map
     // and essentially select the last one that has no furniture.
@@ -10991,7 +11011,7 @@ bool Character::avoid_trap( const tripoint &pos, const trap &tr ) const
     /** @EFFECT_DEX increases chance to avoid traps */
 
     /** @EFFECT_DODGE increases chance to avoid traps */
-    int myroll = dice( 3, dex_cur + ( get_skill_level( skill_dodge ) * 1.5 ) );
+    int myroll = dice( 3, dex_cur + get_skill_level( skill_dodge ) * 1.5 );
     int traproll;
     if( tr.can_see( pos, *this ) ) {
         traproll = dice( 3, tr.get_avoidance() );
@@ -11103,7 +11123,9 @@ int Character::get_lowest_hp() const
     int lowest_hp = 999;
     for( const std::pair<const bodypart_str_id, bodypart> &elem : get_body() ) {
         const int cur_hp = elem.second.get_hp_cur();
-        lowest_hp = std::min( cur_hp, lowest_hp );
+        if( cur_hp < lowest_hp ) {
+            lowest_hp = cur_hp;
+        }
     }
     return lowest_hp;
 }
@@ -11516,7 +11538,7 @@ float Character::fall_damage_mod() const
     /** @EFFECT_DEX decreases damage from falling */
 
     /** @EFFECT_DODGE decreases damage from falling */
-    float dex_dodge = ( dex_cur / 2.0 ) + get_skill_level( skill_dodge );
+    float dex_dodge = dex_cur / 2.0 + get_skill_level( skill_dodge );
     // Penalize for wearing heavy stuff
     const float average_leg_encumb = ( encumb( body_part_leg_l ) + encumb( body_part_leg_r ) ) / 2.0;
     dex_dodge -= ( average_leg_encumb + encumb( body_part_torso ) ) / 10;
@@ -11607,7 +11629,7 @@ int Character::impact( const int force, const tripoint &p )
         if( mod < 1.0f ) {
             // Everything past 30 damage gets a worse modifier
             const float scaled_mod = std::pow( mod, 30.0f / effective_force );
-            const float scaled_damage = ( 30.0f * mod ) + ( scaled_mod * ( effective_force - 30.0f ) );
+            const float scaled_damage = ( 30.0f * mod ) + scaled_mod * ( effective_force - 30.0f );
             mod = scaled_damage / effective_force;
         }
     }
@@ -11621,9 +11643,12 @@ int Character::impact( const int force, const tripoint &p )
     // Shock absorbers kick in only when they need to, so if our other protections fail, fall back on them
     if( shock_absorbers ) {
         effective_force -= 15; // Provide a flat reduction to force
-        // And provide a 75% reduction against that force if we don't have it already
-        mod = std::min( mod, 0.25f );
-        effective_force = std::max( effective_force, 0 );
+        if( mod > 0.25f ) {
+            mod = 0.25f; // And provide a 75% reduction against that force if we don't have it already
+        }
+        if( effective_force < 0 ) {
+            effective_force = 0;
+        }
     }
 
     int total_dealt = 0;

@@ -27,7 +27,7 @@ void lightson_game::new_level()
     level_size = point( lvl_width, lvl_height );
     level.resize( lvl_height * lvl_width );
 
-    const int steps_rng = ( half_perimeter / 2.0 ) + rng_float( 0.0, 2.0 );
+    const int steps_rng = half_perimeter / 2.0 + rng_float( 0.0, 2.0 );
     generate_change_coords( steps_rng );
 
     reset_level();
@@ -47,12 +47,12 @@ void lightson_game::reset_level()
 
 bool lightson_game::get_value_at( point pt )
 {
-    return level[( pt.y * level_size.x ) + pt.x];
+    return level[pt.y * level_size.x + pt.x];
 }
 
 void lightson_game::set_value_at( point pt, bool value )
 {
-    level[( pt.y * level_size.x ) + pt.x] = value;
+    level[pt.y * level_size.x + pt.x] = value;
 }
 
 void lightson_game::toggle_value_at( point pt )

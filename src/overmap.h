@@ -15,6 +15,7 @@
 #include <unordered_map>
 #include <utility>
 #include <vector>
+#include <weighted_list.h>
 
 #include "coordinates.h"
 #include "cube_direction.h"
@@ -152,6 +153,46 @@ static const std::map<std::string, oter_flags> oter_flags_map = {
     { "SOURCE_VEHICLES", oter_flags::source_vehicles },
     { "SOURCE_WEAPON", oter_flags::source_weapon },
     { "IS_BRIDGE", oter_flags::is_bridge }
+};
+
+/*
+* TODO: Needs to load from a JSON somwhere, move to json.
+* changing later won't affect already seen areas so safe to change mid-save
+* 1= -(1-3), 2= -(4-7),3= -(8-10) in Z levels
+*/
+static const std::map<std::string, std::map<std::string, int>>
+ore_depth_to_rate = {
+    {
+        "shallow",
+        {   {"iron", 10},
+            {"copper", 5},
+            {"lead", 3},
+            {"tin", 3},
+            {"silver", 2},
+            {"gold", 1}
+        }
+    },
+    {
+        "medium",
+        {   {"iron", 7},
+            {"copper", 5},
+            {"lead", 4},
+            {"tin", 4},
+            {"silver", 2},
+            {"gold", 2}
+        }
+    },
+    {
+        "deep",
+        {   {"iron", 5},
+            {"copper", 2},
+            {"lead", 4},
+            {"tin", 4},
+            {"silver", 3},
+            {"gold", 3}
+        }
+    },
+    {"how", {{"tin", 1}}}
 };
 
 template<typename Tripoint>
@@ -479,6 +520,7 @@ class overmap
         std::vector<tripoint_om_omt> place_special(
             const overmap_special &special, const tripoint_om_omt &p, om_direction::type dir,
             const city &cit, bool must_be_unexplored, bool force );
+        void spawn_ores( const tripoint_abs_omt &p );
     private:
         /**
          * Iterate over the overmap and place the quota of specials.

@@ -6194,7 +6194,8 @@
       { "point": [ 7, 6, 1 ], "overmap": "speedway_7_6_1_north" },
       { "point": [ 5, 7, 1 ], "overmap": "speedway_5_7_1_north" },
       { "point": [ 6, 7, 1 ], "overmap": "speedway_6_7_1_north" },
-      { "point": [ 6, 7, 2 ], "overmap": "speedway_6_7_2_north" }
+      { "point": [ 6, 7, 2 ], "overmap": "speedway_6_7_2_north" },
+      { "point": [ 7, 6, 2 ], "overmap": "open_air_blimp_north" }
     ],
     "occurrences": [ 50, 100 ],
     "connections": [ { "point": [ 5, 10, 0 ], "connection": "local_road", "from": [ 5, 9, 0 ] } ],
@@ -6235,6 +6236,54 @@
     "city_distance": [ 0, -1 ],
     "occurrences": [ 0, 10 ],
     "flags": [ "WILDERNESS" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "pros_ore_vein_gold",
+    "locations": [ "land" ],
+    "occurrences": [ 0, 1 ],
+    "flags": [ "UNIQUE" ],
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "omt_ore_vein_gold_north" } ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "pros_ore_vein_iron",
+    "locations": [ "land" ],
+    "occurrences": [ 0, 1 ],
+    "flags": [ "UNIQUE" ],
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "omt_ore_vein_iron_north" } ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "pros_ore_vein_copper",
+    "locations": [ "land" ],
+    "occurrences": [ 0, 1 ],
+    "flags": [ "UNIQUE" ],
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "omt_ore_vein_copper_north" } ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "pros_ore_vein_tin",
+    "locations": [ "land" ],
+    "occurrences": [ 0, 1 ],
+    "flags": [ "UNIQUE" ],
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "omt_ore_vein_tin_north" } ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "pros_ore_vein_silver",
+    "locations": [ "land" ],
+    "occurrences": [ 0, 1 ],
+    "flags": [ "UNIQUE" ],
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "omt_ore_vein_silver_north" } ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "pros_ore_vein_lead",
+    "locations": [ "land" ],
+    "occurrences": [ 0, 1 ],
+    "flags": [ "UNIQUE" ],
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "omt_ore_vein_lead_north" } ]
   },
   {
     "type": "overmap_special",

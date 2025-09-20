@@ -202,7 +202,7 @@ struct pixel_minimap::submap_cache {
         assert( p.x < SEEX );
         assert( p.y < SEEY );
 
-        return minimap_colors[( p.y * SEEX ) + p.x];
+        return minimap_colors[p.y * SEEX + p.x];
     }
 };
 
@@ -402,8 +402,8 @@ void pixel_minimap::set_screen_rect( const SDL_Rect &screen_rect )
         main_tex_clip_rect = SDL_Rect{
             std::max( d.x, 0 ),
             std::max( d.y, 0 ),
-            size_on_screen.x - ( 2 * std::max( d.x, 0 ) ),
-            size_on_screen.y - ( 2 * std::max( d.y, 0 ) )
+            size_on_screen.x - 2 * std::max( d.x, 0 ),
+            size_on_screen.y - 2 * std::max( d.y, 0 )
         };
 
         screen_clip_rect = SDL_Rect{
@@ -506,8 +506,8 @@ void pixel_minimap::render_critters( const tripoint &center )
 
     const level_cache &access_cache = get_map().access_cache( center.z );
 
-    const int start_x = center.x - ( total_tiles_count.x / 2 );
-    const int start_y = center.y - ( total_tiles_count.y / 2 );
+    const int start_x = center.x - total_tiles_count.x / 2;
+    const int start_y = center.y - total_tiles_count.y / 2;
     const point beacon_size = {
         std::max<int>( projector->get_tile_size().x *settings.beacon_size / 2, 2 ),
         std::max<int>( projector->get_tile_size().y *settings.beacon_size / 2, 2 )
@@ -564,7 +564,7 @@ void pixel_minimap::draw_beacon( const SDL_Rect &rect, const SDL_Color &color )
 {
     for( int x = -rect.w, x_max = rect.w; x <= x_max; ++x ) {
         for( int y = -rect.h + std::abs( x ), y_max = rect.h - std::abs( x ); y <= y_max; ++y ) {
-            const int divisor = ( 2 * ( std::abs( y ) == rect.h - std::abs( x ) ? 1 : 0 ) ) + 1;
+            const int divisor = 2 * ( std::abs( y ) == rect.h - std::abs( x ) ? 1 : 0 ) + 1;
 
             SetRenderDrawColor( renderer, color.r / divisor, color.g / divisor, color.b / divisor, 0xFF );
             RenderDrawPoint( renderer, point( rect.x + x, rect.y + y ) );

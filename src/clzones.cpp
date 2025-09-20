@@ -201,7 +201,7 @@ construction_id blueprint_options::get_final_construction(
     }
 
     for( const construction_id &c_id : list_constructions ) {
-        if( c_id == id || skip_index.contains( c_id ) ) {
+        if( c_id == id || skip_index.find( c_id ) != skip_index.end() ) {
             continue;
         }
         const construction &c = *c_id;
@@ -646,7 +646,7 @@ std::unordered_set<tripoint> zone_manager::get_point_set_loot( const tripoint &w
     for( const tripoint elem : here.points_in_radius( here.getlocal( where ), radius ) ) {
         const zone_data *zone = get_zone_at( here.getabs( elem ) );
         // if not a LOOT zone
-        if( ( !zone ) || ( !zone->get_type().str().starts_with( "LOOT" ) ) ) {
+        if( ( !zone ) || ( zone->get_type().str().substr( 0, 4 ) != "LOOT" ) ) {
             continue;
         }
         if( npc_search && ( has( zone_NO_NPC_PICKUP, elem ) ) ) {
@@ -674,7 +674,7 @@ bool zone_manager::has( const zone_type_id &type, const tripoint &where,
 {
     const auto &point_set = get_point_set( type, fac );
     const auto &vzone_set = get_vzone_set( type, fac );
-    return point_set.contains( where ) || vzone_set.contains( where );
+    return point_set.find( where ) != point_set.end() || vzone_set.find( where ) != vzone_set.end();
 }
 
 bool zone_manager::has_near( const zone_type_id &type, const tripoint &where, int range,

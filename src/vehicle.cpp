@@ -1098,8 +1098,8 @@ void vehicle::smash( map &m, float hp_percent_loss_min, float hp_percent_loss_ma
         int pct_af = ( percent_of_parts_to_affect * 1000.0f );
         if( roll < pct_af ) {
             double dist =  damage_size == 0.0f ? 1.0f :
-                           clamp( 1.0f - ( trig_dist( damage_origin, part.precalc[0].xy() ) /
-                                           damage_size ), 0.0f, 1.0f );
+                           clamp( 1.0f - trig_dist( damage_origin, part.precalc[0].xy() ) /
+                                  damage_size, 0.0f, 1.0f );
             //Everywhere else, drop by 10-120% of max HP (anything over 100 = broken)
             if( mod_hp( part, 0 - ( rng_float( hp_percent_loss_min * dist,
                                                hp_percent_loss_max * dist ) *
@@ -1263,7 +1263,7 @@ void vehicle::backfire( const int e ) const
 {
     const int power = part_vpower_w( engines[e], true );
     const tripoint pos = global_part_pos3( engines[e] );
-    sounds::sound( pos, 40 + ( power / 10000 ), sounds::sound_t::movement,
+    sounds::sound( pos, 40 + power / 10000, sounds::sound_t::movement,
                    // single space after the exclaimation mark because it does not end the sentence
                    //~ backfire sound
                    string_format( _( "a loud BANG! from the %s" ), // NOLINT(cata-text-style)
@@ -2317,7 +2317,7 @@ bool vehicle::find_and_split_vehicles( int exclude )
             if( parts[ p ].removed ) {
                 continue;
             }
-            if( !checked_parts.contains( p ) ) {
+            if( checked_parts.find( p ) == checked_parts.end() ) {
                 test_part = p;
                 break;
             }
@@ -2343,7 +2343,7 @@ bool vehicle::find_and_split_vehicles( int exclude )
         while( !search_queue.empty() ) {
             std::pair<int, std::vector<int>> test_set = pop_neighbor();
             test_part = test_set.first;
-            if( checked_parts.contains( test_part ) ) {
+            if( checked_parts.find( test_part ) != checked_parts.end() ) {
                 continue;
             }
             for( auto p : test_set.second ) {
@@ -2415,11 +2415,11 @@ bool vehicle::split_vehicles( const std::vector<std::vector <int>> &new_vehs,
     bool did_split = false;
     size_t i = 0;
     for( i = 0; i < new_vehs.size(); i ++ ) {
-        const std::vector<int> &split_parts = new_vehs[ i ];
+        std::vector<int> split_parts = new_vehs[ i ];
         if( split_parts.empty() ) {
             continue;
         }
-        const std::vector<point> &split_mounts = new_mounts[ i ];
+        std::vector<point> split_mounts = new_mounts[ i ];
         did_split = true;
 
         vehicle *new_vehicle = nullptr;
@@ -3811,7 +3811,7 @@ int vehicle::ground_acceleration( const bool fueled, int at_vel_in_vmi, const bo
     if( !( engine_on || skidding ) ) {
         return 0;
     }
-    int target_vmiph = std::max( {at_vel_in_vmi, 1000, max_velocity( fueled ) / 4 } );
+    int target_vmiph = std::max( at_vel_in_vmi, std::max( 1000, max_velocity( fueled ) / 4 ) );
     int cmps = vmiph_to_cmps( target_vmiph );
     double weight = to_kilogram( total_mass() );
     if( is_towing() ) {
@@ -3846,8 +3846,8 @@ int vehicle::water_acceleration( const bool fueled, int at_vel_in_vmi, const boo
     if( !( engine_on || skidding ) ) {
         return 0;
     }
-    int target_vmiph = std::max( {at_vel_in_vmi, 1000,
-                                  max_water_velocity( fueled ) / 4 } );
+    int target_vmiph = std::max( at_vel_in_vmi, std::max( 1000,
+                                 max_water_velocity( fueled ) / 4 ) );
     int cmps = vmiph_to_cmps( target_vmiph );
     double weight = to_kilogram( total_mass() );
     if( is_towing() ) {
@@ -3869,10 +3869,10 @@ int vehicle::water_acceleration( const bool fueled, int at_vel_in_vmi, const boo
 static double simple_cubic_solution( double a, double b, double c, double d )
 {
     double p = -b / ( 3 * a );
-    double q = ( p * p * p ) + ( ( b * c - 3 * a * d ) / ( 6 * a * a ) );
+    double q = p * p * p + ( b * c - 3 * a * d ) / ( 6 * a * a );
     double r = c / ( 3 * a );
-    double t = r - ( p * p );
-    double tricky_bit = ( q * q ) + ( t * t * t );
+    double t = r - p * p;
+    double tricky_bit = q * q + t * t * t;
     if( tricky_bit < 0 ) {
         double cr = 1.0 / 3.0; // approximate the cube root of a complex number
         std::complex<double> q_complex( q );
@@ -4086,7 +4086,7 @@ void vehicle::spew_field( double joules, int part, field_type_id type, int inten
     point p = parts[part].mount;
     intensity = std::max( joules / 10000, static_cast<double>( intensity ) );
     // Move back from engine/muffler until we find an open space
-    while( relative_parts.contains( p ) ) {
+    while( relative_parts.find( p ) != relative_parts.end() ) {
         p.x += ( velocity < 0 ? 1 : -1 );
     }
     point q = coord_translate( p );
@@ -4144,7 +4144,7 @@ void vehicle::noise_and_smoke( int load, time_duration time )
                 if( parts[ p ].base->faults.contains( fault_filter_fuel ) ) {
                     health = 0.0;
                 }
-                if( health < part_info( p ).engine_backfire_threshold() && one_in( 50 + ( 150 * health ) ) ) {
+                if( health < part_info( p ).engine_backfire_threshold() && one_in( 50 + 150 * health ) ) {
                     backfire( e );
                 }
                 double j = cur_stress * to_turns<int>( time ) * muffle * 1000;
@@ -4220,9 +4220,9 @@ static double tile_to_width( int tiles )
     if( tiles < 1 ) {
         return 0.1;
     } else if( tiles < 6 ) {
-        return 0.5 + ( 0.4 * tiles );
+        return 0.5 + 0.4 * tiles;
     } else {
-        return 2.5 + ( 0.15 * ( tiles - 5 ) );
+        return 2.5 + 0.15 * ( tiles - 5 );
     }
 }
 
@@ -4335,8 +4335,8 @@ double vehicle::coeff_air_drag() const
         c_air_drag_c += ( dc.pro > dc.hboard ) ? c_air_mod : 0;
         // not having halfboards in front of any windshields or fullboards moderately worsens
         // air drag
-        c_air_drag_c += ( std::max( { dc.hboard, dc.fboard,
-                                      dc.shield} ) != dc.hboard ) ? 2 * c_air_mod : 0;
+        c_air_drag_c += ( std::max( std::max( dc.hboard, dc.fboard ),
+                                    dc.shield ) != dc.hboard ) ? 2 * c_air_mod : 0;
         // not having windshields in front of seats severely worsens air drag
         c_air_drag_c += ( dc.shield < dc.seat ) ? 3 * c_air_mod : 0;
         // missing roofs and open doors severely worsen air drag
@@ -4696,7 +4696,7 @@ float vehicle::k_traction( float wheel_traction_area ) const
         return 1.0f;
     }
 
-    const float fraction_without_traction = 1.0f - ( wheel_traction_area / wheel_area() );
+    const float fraction_without_traction = 1.0f - wheel_traction_area / wheel_area();
     if( fraction_without_traction == 0 ) {
         return 1.0f;
     }
@@ -5621,8 +5621,9 @@ void vehicle::idle( bool on_map )
     if( engine_on && total_power_w() > 0 ) {
         bool no_electric_power = true;
         int idle_rate = alternator_load;
-        // minimum idle is 1% of full throttle
-        idle_rate = std::max( idle_rate, 10 );
+        if( idle_rate < 10 ) {
+            idle_rate = 10;    // minimum idle is 1% of full throttle
+        }
         // Helicopters use extra power just to stay in the air
         // 100 means 10% of power
         /*
@@ -7111,7 +7112,7 @@ unsigned int vehicle::hits_to_destroy( int p, int dmg, damage_type type ) const
 
     // Easy case: part unprotected and will be destroyed
     if( !is_armor_considered ) {
-        const int part_htd = ( part_hp / part_dmg_without_armor ) +
+        const int part_htd = part_hp / part_dmg_without_armor +
                              ( part_hp % part_dmg_without_armor > 0 );
         return part_htd;
     }
@@ -7124,14 +7125,14 @@ unsigned int vehicle::hits_to_destroy( int p, int dmg, damage_type type ) const
     // First, determine how long armor will remain for
     const int armor_htd = armor_dmg <= 0 || ( type != DT_TRUE && armor_dmg < armor_threshold_damage ) ?
                           INT_MAX :
-                          ( armor_hp / armor_dmg ) + ( armor_hp % armor_dmg > 0 );
+                          armor_hp / armor_dmg + ( armor_hp % armor_dmg > 0 );
 
     const int part_dmg_with_armor = part_dmg_without_armor - armor_damage_reduction;
     // How long will the part remain with armor unbroken?
     const int part_htd_with_armor = ( part_dmg_with_armor <= 0 ||
                                       ( type != DT_TRUE && part_dmg_with_armor < part_threshold_damage ) ) ?
                                     INT_MAX :
-                                    ( part_hp / part_dmg_with_armor ) + ( part_hp % part_dmg_with_armor  > 0 );
+                                    part_hp / part_dmg_with_armor + ( part_hp % part_dmg_with_armor  > 0 );
 
     // Part gets destroyed before armor does
     if( part_htd_with_armor <= armor_htd ) {
@@ -7139,8 +7140,8 @@ unsigned int vehicle::hits_to_destroy( int p, int dmg, damage_type type ) const
     }
 
     // Armor gets destroyed before part does
-    const int part_hp_after_armor = part_hp - ( armor_htd * std::max( part_dmg_with_armor, 0 ) );
-    const int part_htd_after_armor = ( part_hp_after_armor / part_dmg_without_armor ) +
+    const int part_hp_after_armor = part_hp - armor_htd * std::max( part_dmg_with_armor, 0 );
+    const int part_htd_after_armor = part_hp_after_armor / part_dmg_without_armor +
                                      ( part_hp_after_armor % part_dmg_without_armor  > 0 );
 
     return armor_htd + part_htd_after_armor;
@@ -7575,10 +7576,18 @@ bounding_box vehicle::get_bounding_box( )
     int i_use = 0;
     for( const tripoint &p : get_points( true ) ) {
         const point pt = parts[part_at( p.xy() )].precalc[i_use].xy();
-        min_x = std::min( pt.x, min_x );
-        max_x = std::max( pt.x, max_x );
-        min_y = std::min( pt.y, min_y );
-        max_y = std::max( pt.y, max_y );
+        if( pt.x < min_x ) {
+            min_x = pt.x;
+        }
+        if( pt.x > max_x ) {
+            max_x = pt.x;
+        }
+        if( pt.y < min_y ) {
+            min_y = pt.y;
+        }
+        if( pt.y > max_y ) {
+            max_y = pt.y;
+        }
     }
     bounding_box b;
     b.p1 = point( min_x, min_y );

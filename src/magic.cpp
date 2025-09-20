@@ -754,12 +754,10 @@ int spell::energy_cost( const Character &guy ) const
         cost *= type->energy_increment;
     } else if( type->base_energy_cost < type->final_energy_cost ) {
         cost += std::min( type->final_energy_cost,
-                          static_cast<int>( std::round(
-                                                type->base_energy_cost + ( type->energy_increment * get_level() ) ) ) );
+                          static_cast<int>( std::round( type->base_energy_cost + type->energy_increment * get_level() ) ) );
     } else if( type->base_energy_cost > type->final_energy_cost ) {
         cost += std::max( type->final_energy_cost,
-                          static_cast<int>( std::round(
-                                                type->base_energy_cost + ( type->energy_increment * get_level() ) ) ) );
+                          static_cast<int>( std::round( type->base_energy_cost + type->energy_increment * get_level() ) ) );
     } else {
         cost += type->base_energy_cost;
     }
@@ -864,12 +862,12 @@ int spell::casting_time( const Character &guy ) const
         casting_time *= type->casting_time_increment;
     } else if( type->base_casting_time < type->final_casting_time ) {
         casting_time += std::min( type->final_casting_time,
-                                  static_cast<int>( std::round( type->base_casting_time +
-                                          ( type->casting_time_increment * get_level() ) ) ) );
+                                  static_cast<int>( std::round( type->base_casting_time + type->casting_time_increment *
+                                          get_level() ) ) );
     } else if( type->base_casting_time > type->final_casting_time ) {
         casting_time += std::max( type->final_casting_time,
-                                  static_cast<int>( std::round( type->base_casting_time +
-                                          ( type->casting_time_increment * get_level() ) ) ) );
+                                  static_cast<int>( std::round( type->base_casting_time + type->casting_time_increment *
+                                          get_level() ) ) );
     } else {
         casting_time += type->base_casting_time;
     }
@@ -1043,7 +1041,7 @@ std::string spell::energy_cost_string( const Character &guy ) const
     }
     if( energy_source() == hp_energy ) {
         auto pair = get_hp_bar( energy_cost( guy ), guy.get_hp_max() /
-                                std::max<size_t>( 1LU, guy.get_all_body_parts( true ).size() ) );
+                                std::max<size_t>( 1lu, guy.get_all_body_parts( true ).size() ) );
         return colorize( pair.first, pair.second );
     }
     if( energy_source() == stamina_energy ) {
@@ -1179,7 +1177,7 @@ bool spell::target_by_monster_id( const tripoint &p ) const
     }
     bool valid = false;
     if( monster *const target = g->critter_at<monster>( p ) ) {
-        if( type->targeted_monster_ids.contains( target->type->id ) ) {
+        if( type->targeted_monster_ids.find( target->type->id ) != type->targeted_monster_ids.end() ) {
             valid = true;
         }
     }
@@ -1239,7 +1237,7 @@ constexpr double c = -62.5;
 int spell::get_level() const
 {
     // you aren't at the next level unless you have the requisite xp, so floor
-    return std::max( static_cast<int>( std::floor( ( std::log( experience + a ) / b ) + c ) ), 0 );
+    return std::max( static_cast<int>( std::floor( std::log( experience + a ) / b + c ) ), 0 );
 }
 
 int spell::get_max_level() const
@@ -1286,7 +1284,7 @@ float spell::exp_modifier( const Character &guy ) const
     const float difficulty_modifier = get_difficulty() / 20.0f;
     const float spellcraft_modifier = guy.get_skill_level( skill() ) / 10.0f;
 
-    return ( ( int_modifier + difficulty_modifier + spellcraft_modifier ) / 5.0f ) + 1.0f;
+    return ( int_modifier + difficulty_modifier + spellcraft_modifier ) / 5.0f + 1.0f;
 }
 
 int spell::casting_exp( const Character &guy ) const
@@ -2277,7 +2275,7 @@ static void draw_spellbook_info( const spell_type &sp, uilist *menu )
 
     mvwprintz( w, point( start_x, line ), c_light_gray, string_format( "%s: %d", _( "Difficulty" ),
                sp.difficulty ) );
-    mvwprintz( w, point( start_x + ( width / 2 ), line++ ), c_light_gray, string_format( "%s: %d",
+    mvwprintz( w, point( start_x + width / 2, line++ ), c_light_gray, string_format( "%s: %d",
                _( "Max Level" ),
                sp.max_level ) );
 
@@ -2418,7 +2416,10 @@ spell fake_spell::get_spell( int min_level_override ) const
     int spell_limiter = max_level ? std::min( *max_level, sp.get_max_level() ) : sp.get_max_level();
     // level is the minimum level the fake_spell will output
     min_level_override = std::max( min_level_override, level );
-    min_level_override = std::min( min_level_override, spell_limiter );
+    if( min_level_override > spell_limiter ) {
+        // this override is for min level, and does not override max level
+        min_level_override = spell_limiter;
+    }
     // the "level" of the fake spell is the goal, but needs to be clamped to min and max
     int level_of_spell = clamp( level, min_level_override,  std::min( sp.get_max_level(),
                                 spell_limiter ) );

@@ -70,7 +70,7 @@ const recipe &string_id<recipe>::obj() const
 template<>
 bool string_id<recipe>::is_valid() const
 {
-    return recipe_dict.recipes.contains( *this );
+    return recipe_dict.recipes.find( *this ) != recipe_dict.recipes.end();
 }
 
 const recipe &recipe_dictionary::get_uncraft( const itype_id &id )
@@ -124,7 +124,7 @@ std::vector<const recipe *> recipe_subset::favorite() const
         if( !*r || r->obsolete ) {
             return false;
         }
-        return uistate.favorite_recipes.contains( r->ident() );
+        return uistate.favorite_recipes.find( r->ident() ) != uistate.favorite_recipes.end();
     } );
 
     return res;
@@ -138,7 +138,7 @@ std::vector<const recipe *> recipe_subset::hidden() const
         if( !*r || r->obsolete ) {
             return false;
         }
-        return uistate.hidden_recipes.contains( r->ident() );
+        return uistate.hidden_recipes.find( r->ident() ) != uistate.hidden_recipes.end();
     } );
 
     return res;
@@ -242,7 +242,7 @@ std::vector<const recipe *> recipe_subset::search_result( const itype_id &item )
             return false;
         }
         return item == r->result() ||
-               ( r->has_byproducts() && r->byproducts.contains( item ) );
+               ( r->has_byproducts() && r->byproducts.find( item ) != r->byproducts.end() );
     } );
 
     return res;

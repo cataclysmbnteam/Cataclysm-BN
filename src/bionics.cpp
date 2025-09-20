@@ -1298,8 +1298,8 @@ bool Character::burn_fuel( bionic &bio, bool start )
 
             int current_fuel_stock;
             if( is_metabolism_powered ) {
-                current_fuel_stock = std::max( 0.0f, get_stored_kcal() - ( 0.8f *
-                                               max_stored_kcal() ) );
+                current_fuel_stock = std::max( 0.0f, get_stored_kcal() - 0.8f *
+                                               max_stored_kcal() );
             } else if( is_perpetual_fuel ) {
                 current_fuel_stock = 1;
             } else if( is_cable_powered ) {
@@ -1618,7 +1618,7 @@ void Character::heat_emission( bionic &bio, int fuel_energy )
     const emit_id hotness = emit_id( "emit_hot_air" + std::to_string( heat_level ) + "_cbm" );
     map &here = get_map();
     if( hotness.is_valid() ) {
-        const int heat_spread = std::max( ( heat_prod / 10 ) - heat_level, 1 );
+        const int heat_spread = std::max( heat_prod / 10 - heat_level, 1 );
         here.emit_field( pos(), hotness, heat_spread );
     }
     for( const std::pair<const bodypart_str_id, int> &bp : bio.info().occupied_bodyparts ) {
@@ -1752,7 +1752,7 @@ void Character::process_bionic( bionic &bio )
         sounds::sound( pos(), 19, sounds::sound_t::activity, _( "HISISSS!" ), false, "bionic",
                        static_cast<std::string>( bio_hydraulics ) );
     } else if( bio.id == bio_nanobots ) {
-        int threshold_kcal = bio.info().kcal_trigger > 0 ? ( 0.85f * max_stored_kcal() ) +
+        int threshold_kcal = bio.info().kcal_trigger > 0 ? 0.85f * max_stored_kcal() +
                              bio.info().kcal_trigger : 0;
         const auto can_use_bionic = [this, &bio, threshold_kcal]() -> bool {
             const bool is_kcal_sufficient = get_stored_kcal() >= threshold_kcal;
@@ -1786,7 +1786,7 @@ void Character::process_bionic( bionic &bio )
                 // Essential parts are considered 10 HP lower than non-essential parts for the purpose of determining priority.
                 // I'd use the essential_value, but it's tied up in the heal_actor class of iuse_actor.
                 const auto effective_hp = [this]( const bodypart_id & bp ) -> int {
-                    return get_part_hp_cur( bp ) - ( bp->essential * 10 );
+                    return get_part_hp_cur( bp ) - bp->essential * 10;
                 };
                 const auto should_heal = [this]( const bodypart_id & bp ) -> bool {
                     return get_part_hp_cur( bp ) < get_part_hp_max( bp );
@@ -1867,7 +1867,9 @@ void Character::process_bionic( bionic &bio )
             deactivate_bionic( bio );
         }
     } else if( bio.id == bio_ads ) {
-        bio.charge_timer = std::max( bio.charge_timer, 2 );
+        if( bio.charge_timer < 2 ) {
+            bio.charge_timer = 2;
+        }
         if( bio.energy_stored < 150_kJ ) {
             // Max recharge rate is influenced by whether you've been hit or not.
             // See character.cpp for how charge_timer keeps track of that for this bionic.
@@ -2062,7 +2064,7 @@ float Character::bionics_adjusted_skill( const skill_id &most_important_skill,
 
     // for chance_of_success calculation, shift skill down to a float between ~0.4 - 30
     float adjusted_skill = static_cast<float>( pl_skill ) - std::min( static_cast<float>( 40 ),
-                           static_cast<float>( pl_skill ) - ( static_cast<float>( pl_skill ) / static_cast<float>( 10.0 ) ) );
+                           static_cast<float>( pl_skill ) - static_cast<float>( pl_skill ) / static_cast<float>( 10.0 ) );
     adjusted_skill *= env_surgery_bonus( 1 ) + get_effect_int( effect_assisted );
     return adjusted_skill;
 }
@@ -2309,8 +2311,8 @@ void Character::perform_uninstall( bionic_id bid, int difficulty, int success,
         g->events().send<event_type::fails_to_remove_cbm>( getID(), bid );
         // for chance_of_success calculation, shift skill down to a float between ~0.4 - 30
         float adjusted_skill = static_cast<float>( pl_skill ) - std::min( static_cast<float>( 40 ),
-                               static_cast<float>( pl_skill ) - ( static_cast<float>( pl_skill ) / static_cast<float>
-                                       ( 10.0 ) ) );
+                               static_cast<float>( pl_skill ) - static_cast<float>( pl_skill ) / static_cast<float>
+                               ( 10.0 ) );
         bionics_uninstall_failure( difficulty, success, adjusted_skill );
 
     }
@@ -2599,8 +2601,8 @@ void Character::perform_install( bionic_id bid, bionic_id upbid, int difficulty,
 
         // for chance_of_success calculation, shift skill down to a float between ~0.4 - 30
         float adjusted_skill = static_cast<float>( pl_skill ) - std::min( static_cast<float>( 40 ),
-                               static_cast<float>( pl_skill ) - ( static_cast<float>( pl_skill ) / static_cast<float>
-                                       ( 10.0 ) ) );
+                               static_cast<float>( pl_skill ) - static_cast<float>( pl_skill ) / static_cast<float>
+                               ( 10.0 ) );
         bionics_install_failure( installer_name, difficulty, success, adjusted_skill );
     }
     get_map().invalidate_map_cache( g->get_levz() );

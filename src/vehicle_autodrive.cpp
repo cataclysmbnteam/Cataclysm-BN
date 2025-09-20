@@ -133,8 +133,8 @@ static constexpr int NAV_MAP_NUM_OMT = 2;
 static constexpr int NAV_MAP_SIZE_X = NAV_MAP_NUM_OMT * OMT_SIZE;
 static constexpr int NAV_MAP_SIZE_Y = OMT_SIZE;
 static constexpr int NAV_VIEW_PADDING = OMT_SIZE;
-static constexpr int NAV_VIEW_SIZE_X = NAV_MAP_SIZE_X + ( 2 * NAV_VIEW_PADDING );
-static constexpr int NAV_VIEW_SIZE_Y = NAV_MAP_SIZE_Y + ( 2 * NAV_VIEW_PADDING );
+static constexpr int NAV_VIEW_SIZE_X = NAV_MAP_SIZE_X + 2 * NAV_VIEW_PADDING;
+static constexpr int NAV_VIEW_SIZE_Y = NAV_MAP_SIZE_Y + 2 * NAV_VIEW_PADDING;
 static constexpr int TURNING_INCREMENT = 15;
 static constexpr int NUM_ORIENTATIONS = 360 / TURNING_INCREMENT;
 // min and max speed in tiles/s
@@ -452,7 +452,7 @@ static units::angle to_angle( const orientation &dir )
  */
 static int orientation_diff( const orientation &dir1, const orientation &dir2 )
 {
-    return static_cast<int>( dir1 - dir2 + quad_rotation::d180 ) - ( NUM_ORIENTATIONS / 2 );
+    return static_cast<int>( dir1 - dir2 + quad_rotation::d180 ) - NUM_ORIENTATIONS / 2;
 }
 
 /*
@@ -589,7 +589,7 @@ vehicle_profile vehicle::autodrive_controller::compute_profile( orientation faci
         }
         tripoint pos;
         driven_veh.coord_translate( angle, pivot, part.mount, pos );
-        if( !extent_map.contains( pos.y ) ) {
+        if( extent_map.find( pos.y ) == extent_map.end() ) {
             extent_map[pos.y] = { pos.x, pos.x };
         } else {
             auto &extent = extent_map[pos.y];
@@ -617,7 +617,7 @@ vehicle_profile vehicle::autodrive_controller::compute_profile( orientation faci
     // we need to check for collision when the vehicle is moving in this direction
     const std::unordered_set<point> occupied_set( ret.occupied_zone.begin(), ret.occupied_zone.end() );
     for( point pt : ret.occupied_zone ) {
-        if( !occupied_set.contains( pt + increment ) ) {
+        if( occupied_set.find( pt + increment ) == occupied_set.end() ) {
             ret.collision_points.emplace_back( pt );
         }
     }
@@ -760,7 +760,7 @@ void vehicle::autodrive_controller::compute_goal_zone()
     if( data.next_next_omt != data.next_omt ) {
         // set the goal at the edge of next_omt and next_next_omt (in next_omt
         // space, pointing towards next_next_omt)
-        const point next_omt_middle( OMT_SIZE + ( OMT_SIZE / 2 ), OMT_SIZE / 2 );
+        const point next_omt_middle( OMT_SIZE + OMT_SIZE / 2, OMT_SIZE / 2 );
         const tripoint_rel_omt omt_diff = data.next_next_omt - data.next_omt;
         const quad_rotation rotation = to_quad_rotation( omt_diff.raw().xy() ) - data.nav_to_map.rotation;
         goal_transform = {next_omt_middle, rotation, next_omt_middle};
@@ -769,8 +769,8 @@ void vehicle::autodrive_controller::compute_goal_zone()
         // pointing away from cur_omt)
         goal_transform = { point( OMT_SIZE - 1, 0 ), quad_rotation::d0, point_zero };
     }
-    constexpr int max_turns = ( NUM_ORIENTATIONS / 8 ) + 1;
-    const int x = ( 2 * OMT_SIZE ) - 1;
+    constexpr int max_turns = NUM_ORIENTATIONS / 8 + 1;
+    const int x = 2 * OMT_SIZE - 1;
     for( int turns = -max_turns; turns <= max_turns; turns++ ) {
         const orientation dir = orientation::d0 + turns;
         static_assert( NAV_MAP_SIZE_Y == OMT_SIZE, "Unexpected nav map size" );
@@ -782,8 +782,8 @@ void vehicle::autodrive_controller::compute_goal_zone()
             }
         }
     }
-    data.goal_points[0] = point( OMT_SIZE, ( OMT_SIZE / 2 ) - 1 );
-    data.goal_points[1] = goal_transform.transform( point( x, ( OMT_SIZE / 2 ) - 1 ) );
+    data.goal_points[0] = point( OMT_SIZE, OMT_SIZE / 2 - 1 );
+    data.goal_points[1] = goal_transform.transform( point( x, OMT_SIZE / 2 - 1 ) );
 }
 
 void vehicle::autodrive_controller::precompute_data()
@@ -911,7 +911,7 @@ const
                 }
             } else if( !data.valid_position( next_addr ) ) {
                 ok = false;
-            } else if( !goal_found && data.goal_zone.contains( next_addr ) ) {
+            } else if( !goal_found && data.goal_zone.find( next_addr ) != data.goal_zone.end() ) {
                 goal_found = true;
             }
         }
@@ -1011,7 +1011,9 @@ void vehicle::autodrive_controller::check_safe_speed()
     // However, sometimes the vehicle's safe speed may drop (e.g. amphibious vehicle entering
     // water), so this extra check is needed to adjust our max speed.
     int safe_speed_tps = driven_veh.safe_velocity() / VMIPH_PER_TPS;
-    data.max_speed_tps = std::min( data.max_speed_tps, safe_speed_tps );
+    if( data.max_speed_tps > safe_speed_tps ) {
+        data.max_speed_tps = safe_speed_tps;
+    }
 }
 
 collision_check_result vehicle::autodrive_controller::check_collision_zone( orientation turn_dir )
@@ -1256,7 +1258,9 @@ autodrive_result vehicle::do_autodrive( Character &driver )
             return autodrive_result::abort;
         case collision_check_result::slow_down:
             active_autodrive_controller->reduce_speed();
-            cruise_velocity = std::min( cruise_velocity, VMIPH_PER_TPS );
+            if( cruise_velocity > VMIPH_PER_TPS ) {
+                cruise_velocity = VMIPH_PER_TPS;
+            }
             break;
         case collision_check_result::ok:
             break;

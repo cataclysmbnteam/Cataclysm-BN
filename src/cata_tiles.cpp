@@ -291,7 +291,7 @@ tileset::find_tile_type_by_season( const std::string &id, season_type season ) c
     }
     auto &res = iter->second;
     if( res.season_tile ) {
-        return res.season_tile;
+        return *res.season_tile;
     } else if( res.default_tile ) { // can skip this check, but just in case
         return tile_lookup_res( iter->first, *res.default_tile );
     }
@@ -470,8 +470,8 @@ bool tileset_loader::copy_surface_to_texture( const SDL_Surface_Ptr &surf, point
         const point pos( offset + point( rect.x, rect.y ) );
         assert( pos.x % sprite_width == 0 );
         assert( pos.y % sprite_height == 0 );
-        const size_t index = this->offset + ( pos.x / sprite_width ) + ( ( pos.y / sprite_height ) *
-                             ( tile_atlas_width / sprite_width ) );
+        const size_t index = this->offset + ( pos.x / sprite_width ) + ( pos.y / sprite_height ) *
+                             ( tile_atlas_width / sprite_width );
         assert( index < target.size() );
         assert( target[index].dimension() == std::make_pair( 0, 0 ) );
         target[index] = texture( texture_ptr, rect );
@@ -1380,8 +1380,8 @@ void cata_tiles::draw( point dest, const tripoint &center, int width, int height
     //limit the render area to maximum view range (121x121 square centered on player)
     const int min_visible_x = g->u.posx() % SEEX;
     const int min_visible_y = g->u.posy() % SEEY;
-    const int max_visible_x = ( g->u.posx() % SEEX ) + ( ( MAPSIZE - 1 ) * SEEX );
-    const int max_visible_y = ( g->u.posy() % SEEY ) + ( ( MAPSIZE - 1 ) * SEEY );
+    const int max_visible_x = ( g->u.posx() % SEEX ) + ( MAPSIZE - 1 ) * SEEX;
+    const int max_visible_y = ( g->u.posy() % SEEY ) + ( MAPSIZE - 1 ) * SEEY;
 
     // Map memory should be at least the size of the view range
     // so that new tiles can be memorized, and at least the size of the display
@@ -1451,11 +1451,11 @@ void cata_tiles::draw( point dest, const tripoint &center, int width, int height
             if( iso_mode ) {
                 //in isometric, rows and columns represent a checkerboard screen space, and we place
                 //the appropriate tile in valid squares by getting position relative to the screen center.
-                if( modulo( row - ( s.y / 2 ), 2 ) != modulo( col - ( s.x / 2 ), 2 ) ) {
+                if( modulo( row - s.y / 2, 2 ) != modulo( col - s.x / 2, 2 ) ) {
                     continue;
                 }
-                temp_x = divide_round_down( col - row - ( s.x / 2 ) + ( s.y / 2 ), 2 ) + o.x;
-                temp_y = divide_round_down( row + col - ( s.y / 2 ) - ( s.x / 2 ), 2 ) + o.y;
+                temp_x = divide_round_down( col - row - s.x / 2 + s.y / 2, 2 ) + o.x;
+                temp_y = divide_round_down( row + col - s.y / 2 - s.x / 2, 2 ) + o.y;
             } else {
                 temp_x = col + o.x;
                 temp_y = row + o.y;
@@ -1765,8 +1765,8 @@ void cata_tiles::draw( point dest, const tripoint &center, int width, int height
                 // ( col - sx / 2 ) % 2 = ( row - sy / 2 ) % 2
                 // ||
                 // \/
-                const int col = mem_y + mem_x + ( s.x / 2 ) - o.y - o.x;
-                const int row = mem_y - mem_x + ( s.y / 2 ) - o.y + o.x;
+                const int col = mem_y + mem_x + s.x / 2 - o.y - o.x;
+                const int row = mem_y - mem_x + s.y / 2 - o.y + o.x;
                 if( already_drawn.contains( point( col, row ) ) ) {
                     continue;
                 }
@@ -2280,7 +2280,7 @@ bool cata_tiles::draw_from_id_string( const std::string &id, TILE_CATEGORY categ
             break;
         case C_MONSTER:
             // FIXME: add persistent id to Creature type, instead of using monster pointer address
-            if( !monster_override.contains( pos ) ) {
+            if( monster_override.find( pos ) == monster_override.end() ) {
                 seed = reinterpret_cast<uintptr_t>( g->critter_at<monster>( pos ) );
             }
             break;
@@ -2664,7 +2664,7 @@ bool cata_tiles::draw_terrain( const tripoint &p, const lit_level ll, int &heigh
     bool neighborhood_overridden = overridden;
     if( !neighborhood_overridden ) {
         for( point dir : neighborhood ) {
-            if( terrain_override.contains( p + dir ) ) {
+            if( terrain_override.find( p + dir ) != terrain_override.end() ) {
                 neighborhood_overridden = true;
                 break;
             }
@@ -2836,7 +2836,7 @@ bool cata_tiles::draw_furniture( const tripoint &p, const lit_level ll, int &hei
     bool neighborhood_overridden = overridden;
     if( !neighborhood_overridden ) {
         for( point dir : neighborhood ) {
-            if( furniture_override.contains( p + dir ) ) {
+            if( furniture_override.find( p + dir ) != furniture_override.end() ) {
                 neighborhood_overridden = true;
                 break;
             }
@@ -2925,7 +2925,7 @@ bool cata_tiles::draw_trap( const tripoint &p, const lit_level ll, int &height_3
     bool neighborhood_overridden = overridden;
     if( !neighborhood_overridden ) {
         for( point dir : neighborhood ) {
-            if( trap_override.contains( p + dir ) ) {
+            if( trap_override.find( p + dir ) != trap_override.end() ) {
                 neighborhood_overridden = true;
                 break;
             }
@@ -3296,7 +3296,7 @@ bool cata_tiles::draw_zombie_revival_indicators( const tripoint &pos, const lit_
 {
     map &here = get_map();
     if( tileset_ptr->find_tile_type( ZOMBIE_REVIVAL_INDICATOR ) && !invisible[0] &&
-        !item_override.contains( pos ) && here.could_see_items( pos, g->u ) ) {
+        item_override.find( pos ) == item_override.end() && here.could_see_items( pos, g->u ) ) {
         for( auto &i : here.i_at( pos ) ) {
             if( i->is_corpse() ) {
                 if( i->can_revive() || ( i->get_mtype()->zombify_into && !i->has_flag( flag_PULPED ) ) ) {
@@ -3587,16 +3587,16 @@ void cata_tiles::void_monster_override()
 }
 bool cata_tiles::has_draw_override( const tripoint &p ) const
 {
-    return radiation_override.contains( p ) ||
-           terrain_override.contains( p ) ||
-           furniture_override.contains( p ) ||
-           graffiti_override.contains( p ) ||
-           trap_override.contains( p ) ||
-           field_override.contains( p ) ||
-           item_override.contains( p ) ||
-           vpart_override.contains( p ) ||
-           draw_below_override.contains( p ) ||
-           monster_override.contains( p );
+    return radiation_override.find( p ) != radiation_override.end() ||
+           terrain_override.find( p ) != terrain_override.end() ||
+           furniture_override.find( p ) != furniture_override.end() ||
+           graffiti_override.find( p ) != graffiti_override.end() ||
+           trap_override.find( p ) != trap_override.end() ||
+           field_override.find( p ) != field_override.end() ||
+           item_override.find( p ) != item_override.end() ||
+           vpart_override.find( p ) != vpart_override.end() ||
+           draw_below_override.find( p ) != draw_below_override.end() ||
+           monster_override.find( p ) != monster_override.end();
 }
 /* -- Animation Renders */
 void cata_tiles::draw_explosion_frame()
@@ -3865,7 +3865,7 @@ void cata_tiles::get_terrain_orientation( const tripoint &p, int &rota, int &sub
         const std::map<tripoint, ter_id> &ter_override, const bool ( &invisible )[5] )
 {
     map &here = get_map();
-    const bool overridden = ter_override.contains( p );
+    const bool overridden = ter_override.find( p ) != ter_override.end();
     const auto ter = [&]( const tripoint & q, const bool invis ) -> ter_id {
         const auto override = ter_override.find( q );
         return override != ter_override.end() ? override->second :
