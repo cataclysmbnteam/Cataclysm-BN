@@ -1614,43 +1614,13 @@
     "vitamins": [ [ "meat_allergen", 1 ] ]
   },
   {
-    "id": "assorted_bugs",
-    "type": "COMESTIBLE",
-    "name": { "str_sp": "assorted bugs" },
-    "description": "A handful of random edible bugs - beetles, grasshoppers, worms, caterpillars, even the occasional spider. Not very appetizing raw, but it will keep you alive.",
-    "weight": "100 g",
-    "volume": "100 ml",
-    "color": "green",
-    "symbol": "*",
-    "comestible_type": "FOOD",
-    "calories": 30,
-    "quench": 1,
-    "fun": -10,
-    "material": [ "iflesh" ]
-  },
-  {
-    "id": "clam",
-    "type": "COMESTIBLE",
-    "name": { "str_sp": "clam" },
-    "description": "A fresh clam, still in its shell. Mild, briny, and full of micronutrients, but not very filling.",
-    "weight": "100 g",
-    "volume": "100 ml",
-    "color": "light_gray",
-    "symbol": "%",
-    "comestible_type": "FOOD",
-    "calories": 35,
-    "quench": 3,
-    "fun": -2,
-    "material": [ "flesh" ]
-  },
-  {
     "id": "assorted_bugs_fried",
     "type": "COMESTIBLE",
     "copy-from": "assorted_bugs",
     "name": { "str_sp": "fried bugs" },
-    "description": "A crispy, crunchy mix of fried bugs. Roasted and seasoned, they almost taste like a snack food if you can get over what you're eating.",
+    "description": "A crispy, crunchy mix of fried bugs.  Roasted and seasoned, they almost taste like a snack food if you can get over what you're eating.",
     "calories": 45,
-    "fun": 5,
+    "fun": 1,
     "flags": [ "EATEN_HOT" ]
   },
   {
@@ -1658,7 +1628,7 @@
     "type": "COMESTIBLE",
     "copy-from": "clam",
     "name": { "str_sp": "fried clam" },
-    "description": "Crispy fried clam strips, golden-brown and delicious. A New England specialty.",
+    "description": "Crispy fried clam strips, golden-brown and delicious.  A New England specialty.",
     "calories": 55,
     "fun": 8,
     "flags": [ "EATEN_HOT" ]
