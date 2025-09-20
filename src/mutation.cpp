@@ -103,7 +103,7 @@ std::string enum_to_string<mutagen_technique>( mutagen_technique data )
 
 bool Character::has_trait( const trait_id &b ) const
 {
-    return my_mutations.count( b ) || enchantment_cache->get_mutations().contains( b );
+    return my_mutations.contains( b ) || enchantment_cache->get_mutations().contains( b );
 }
 
 bool Character::has_one_of_traits( const TraitSet &trait_set ) const
@@ -127,7 +127,7 @@ bool Character::has_trait_flag( const trait_flag_str_id &b ) const
 bool Character::has_base_trait( const trait_id &b ) const
 {
     // Look only at base traits
-    return my_traits.find( b ) != my_traits.end();
+    return my_traits.contains( b );
 }
 
 void Character::toggle_trait( const trait_id &trait_ )

@@ -3766,7 +3766,7 @@ std::unordered_set<tripoint> game::get_fishable_locations( int distance, const t
             to_check.pop();
 
             // We've been here before, so bail.
-            if( visited.find( current_point ) != visited.end() ) {
+            if( visited.contains( current_point ) ) {
                 continue;
             }
 
@@ -3807,7 +3807,7 @@ std::vector<monster *> game::get_fishable_monsters( std::unordered_set<tripoint>
         if( critter.has_flag( MF_FISHABLE ) ) {
             const tripoint critter_pos = critter.pos();
             // ...and it is in a fishable location.
-            if( fishable_locations.find( critter_pos ) != fishable_locations.end() ) {
+            if( fishable_locations.contains( critter_pos ) ) {
                 unique_fish.push_back( &critter );
             }
         }

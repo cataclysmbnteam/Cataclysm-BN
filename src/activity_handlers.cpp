@@ -2836,7 +2836,7 @@ void activity_handlers::mend_item_finish( player_activity *act, player *p )
 
     // iterate over attachments and apply the same changes if they have the same fault
     for( const auto &mod : target->gunmods() ) {
-        if( mod->faults.find( fault_id( act->name ) ) == mod->faults.end() ) {
+        if( !mod->faults.contains( fault_id( act->name ) ) ) {
             continue;
         }
         mend( mod );
@@ -4332,7 +4332,7 @@ void activity_handlers::tree_communion_do_turn( player_activity *act, player *p 
             return;
         }
         for( const tripoint_abs_omt &neighbor : points_in_radius( tpt, 1 ) ) {
-            if( seen.find( neighbor ) != seen.end() ) {
+            if( seen.contains( neighbor ) ) {
                 continue;
             }
             seen.insert( neighbor );

@@ -2400,7 +2400,7 @@ bool game::handle_action()
                 break;
 
             case ACTION_OPEN_WIKI:
-                if( get_option<std::string>( "WIKI_DOC_URL" ).length() > 0 ) {
+                if( !get_option<std::string>( "WIKI_DOC_URL" ).empty() ) {
                     open_url( get_option<std::string>( "WIKI_DOC_URL" ) );
                 } else {
                     add_msg( m_bad, _( "Invalid Wiki URL specified!" ) );
@@ -2410,7 +2410,7 @@ bool game::handle_action()
                 break;
 
             case ACTION_OPEN_HHG:
-                if( get_option<std::string>( "HHG_URL" ).length() > 0 ) {
+                if( !get_option<std::string>( "HHG_URL" ).empty() ) {
                     open_url( get_option<std::string>( "HHG_URL" ) + std::string( "/?t=UNDEAD_PEOPLE" ) );
                 } else {
                     add_msg( m_bad, _( "Invalid Hitchhiker's Guide URL specified!" ) );

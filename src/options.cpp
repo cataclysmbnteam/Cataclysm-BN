@@ -3219,19 +3219,19 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
     catacurses::window w_options;
 
     const auto init_windows = [&]( ui_adaptor & ui ) {
-        if( OPTIONS.find( "TERMINAL_X" ) != OPTIONS.end() ) {
-            if( OPTIONS_OLD.find( "TERMINAL_X" ) != OPTIONS_OLD.end() ) {
+        if( OPTIONS.contains( "TERMINAL_X" ) ) {
+            if( OPTIONS_OLD.contains( "TERMINAL_X" ) ) {
                 OPTIONS_OLD["TERMINAL_X"] = OPTIONS["TERMINAL_X"];
             }
-            if( WOPTIONS_OLD.find( "TERMINAL_X" ) != WOPTIONS_OLD.end() ) {
+            if( WOPTIONS_OLD.contains( "TERMINAL_X" ) ) {
                 WOPTIONS_OLD["TERMINAL_X"] = OPTIONS["TERMINAL_X"];
             }
         }
-        if( OPTIONS.find( "TERMINAL_Y" ) != OPTIONS.end() ) {
-            if( OPTIONS_OLD.find( "TERMINAL_Y" ) != OPTIONS_OLD.end() ) {
+        if( OPTIONS.contains( "TERMINAL_Y" ) ) {
+            if( OPTIONS_OLD.contains( "TERMINAL_Y" ) ) {
                 OPTIONS_OLD["TERMINAL_Y"] = OPTIONS["TERMINAL_Y"];
             }
-            if( WOPTIONS_OLD.find( "TERMINAL_Y" ) != WOPTIONS_OLD.end() ) {
+            if( WOPTIONS_OLD.contains( "TERMINAL_Y" ) ) {
                 WOPTIONS_OLD["TERMINAL_Y"] = OPTIONS["TERMINAL_Y"];
             }
         }

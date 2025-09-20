@@ -633,7 +633,7 @@ bool avatar::read( item *loc, const bool continuous )
                        elem.first->getID().get_value() ) != 0;
     } ) ||
     !std::all_of( activity->values.begin(), activity->values.end(), [&]( int elem ) {
-        return learners.find( g->find_npc( character_id( elem ) ) ) != learners.end();
+        return learners.contains( g->find_npc( character_id( elem ) ) );
     } ) ) {
 
         if( learners.size() == 1 ) {

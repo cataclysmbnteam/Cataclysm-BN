@@ -139,7 +139,7 @@ void activity_type::load( const JsonObject &jo )
         }
     }
 
-    if( activity_type_all.find( result.id_ ) != activity_type_all.end() ) {
+    if( activity_type_all.contains( result.id_ ) ) {
         debugmsg( "Redefinition of %s", result.id_.c_str() );
     } else {
         activity_type_all.insert( { result.id_, result } );
@@ -152,10 +152,8 @@ void activity_type::check_consistency()
         if( pair.second.verb_.empty() ) {
             debugmsg( "%s doesn't have a verb", pair.first.c_str() );
         }
-        const bool has_actor = activity_actors::deserialize_functions.find( pair.second.id_ ) !=
-                               activity_actors::deserialize_functions.end();
-        const bool has_turn_func = activity_handlers::do_turn_functions.find( pair.second.id_ ) !=
-                                   activity_handlers::do_turn_functions.end();
+        const bool has_actor = activity_actors::deserialize_functions.contains( pair.second.id_ );
+        const bool has_turn_func = activity_handlers::do_turn_functions.contains( pair.second.id_ );
 
         if( pair.second.special_ && !( has_turn_func || has_actor ) ) {
             debugmsg( "%s needs a do_turn function or activity actor if it expects a special behaviour.",
@@ -173,14 +171,14 @@ void activity_type::check_consistency()
     }
 
     for( const auto &pair : activity_handlers::do_turn_functions ) {
-        if( activity_type_all.find( pair.first ) == activity_type_all.end() ) {
+        if( !activity_type_all.contains( pair.first ) ) {
             debugmsg( "The do_turn function %s doesn't correspond to a valid activity_type.",
                       pair.first.c_str() );
         }
     }
 
     for( const auto &pair : activity_handlers::finish_functions ) {
-        if( activity_type_all.find( pair.first ) == activity_type_all.end() ) {
+        if( !activity_type_all.contains( pair.first ) ) {
             debugmsg( "The finish_function %s doesn't correspond to a valid activity_type",
                       pair.first.c_str() );
         }

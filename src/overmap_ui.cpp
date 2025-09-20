@@ -952,8 +952,8 @@ static void draw_ascii( ui_adaptor &ui,
             const bool los = see && player_character.overmap_los( omp, sight_points );
             const bool los_sky = player_character.overmap_los( omp_sky, sight_points * 2 );
 
-            const bool is_npc_path = npc_path_route.find( omp ) != npc_path_route.end();
-            const bool is_player_path = player_path_route.find( omp.xy() ) != player_path_route.end();
+            const bool is_npc_path = npc_path_route.contains( omp );
+            const bool is_player_path = player_path_route.contains( omp.xy() );
             const int player_path_z = is_player_path ? player_path_route[ omp.xy() ] : 0;
 
             if( blink && omp == pl_pos ) {

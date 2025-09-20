@@ -703,7 +703,7 @@ const recipe *select_crafting_recipe( int &batch_size_out )
                 if( !show_hidden ) {
                     current.clear();
                     for( auto i : picking ) {
-                        if( uistate.hidden_recipes.find( i->ident() ) == uistate.hidden_recipes.end() ) {
+                        if( !uistate.hidden_recipes.contains( i->ident() ) ) {
                             current.push_back( i );
                         }
                     }
@@ -903,7 +903,7 @@ const recipe *select_crafting_recipe( int &batch_size_out )
                 popup( _( "Nothing selected!  Press [<color_yellow>ESC</color>]!" ) );
                 continue;
             }
-            if( uistate.favorite_recipes.find( current[line]->ident() ) != uistate.favorite_recipes.end() ) {
+            if( uistate.favorite_recipes.contains( current[line]->ident() ) ) {
                 uistate.favorite_recipes.erase( current[line]->ident() );
             } else {
                 uistate.favorite_recipes.insert( current[line]->ident() );

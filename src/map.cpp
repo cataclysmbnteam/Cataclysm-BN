@@ -1636,7 +1636,7 @@ uint8_t map::get_known_connections( const tripoint &p, int connect_group,
     }
 #endif
 
-    const bool overridden = override.find( p ) != override.end();
+    const bool overridden = override.contains( p );
     const bool is_transparent = ch.transparency_cache[p.x][p.y] > LIGHT_TRANSPARENCY_SOLID;
 
     // populate connection information
@@ -1687,7 +1687,7 @@ uint8_t map::get_known_connections_f( const tripoint &p, int connect_group,
     }
 #endif
 
-    const bool overridden = override.find( p ) != override.end();
+    const bool overridden = override.contains( p );
     const bool is_transparent = ch.transparency_cache[p.x][p.y] > LIGHT_TRANSPARENCY_SOLID;
 
     // populate connection information
@@ -7304,7 +7304,7 @@ void map::loadn( const tripoint &grid, const bool update_vehicles )
         auto &map_cache = get_cache( grid.z );
         for( const auto &veh : tmpsub->vehicles ) {
             // Only add if not tracking already.
-            if( map_cache.vehicle_list.find( veh.get() ) == map_cache.vehicle_list.end() ) {
+            if( !map_cache.vehicle_list.contains( veh.get() ) ) {
                 map_cache.vehicle_list.insert( veh.get() );
                 if( !veh->loot_zones.empty() ) {
                     map_cache.zone_vehicles.insert( veh.get() );

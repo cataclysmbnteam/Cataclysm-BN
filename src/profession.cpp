@@ -602,7 +602,7 @@ void json_item_substitution::load( const JsonObject &jo )
     const std::string title = jo.get_string( item_mode ? "item" : "trait" );
 
     auto check_duplicate_item = [&]( const itype_id & it ) {
-        return substitutions.find( it ) != substitutions.end() ||
+        return substitutions.contains( it ) ||
                std::ranges::find_if( bonuses,
         [&it]( const std::pair<itype_id, trait_requirements> &p ) {
             return p.first == it;

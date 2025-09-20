@@ -1332,7 +1332,7 @@ tripoint monster::scent_move()
         bool right_scent = false;
         // is the monster tracking this scent
         if( !tracked_scents.empty() ) {
-            right_scent = tracked_scents.find( type_scent ) != tracked_scents.end();
+            right_scent = tracked_scents.contains( type_scent );
         }
         //is this scent recognised by the monster species
         if( !type_scent.is_empty() ) {
@@ -1346,7 +1346,7 @@ tripoint monster::scent_move()
             }
         }
         // is the monster actually ignoring this scent
-        if( !ignored_scents.empty() && ( ignored_scents.find( type_scent ) != ignored_scents.end() ) ) {
+        if( !ignored_scents.empty() && ( ignored_scents.contains( type_scent ) ) ) {
             right_scent = false;
         }
 

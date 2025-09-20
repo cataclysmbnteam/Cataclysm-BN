@@ -1071,7 +1071,7 @@ void place_construction( const construction_group_str_id &group )
     }
     const tripoint pnt = *pnt_;
 
-    if( valid.find( pnt ) == valid.end() ) {
+    if( !valid.contains( pnt ) ) {
         cons.front()->explain_failure( pnt );
         return;
     }
