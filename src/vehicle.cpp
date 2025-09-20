@@ -4472,10 +4472,10 @@ double vehicle::total_propeller_area() const
 // Returns a value in newtons
 double vehicle::total_balloon_lift() const
 {
-    return std::accumulate( balloons.begin(), balloons.end(), double{0.0},
+    return GRAVITY_OF_EARTH * std::accumulate( balloons.begin(), balloons.end(), double{0.0},
     [&]( double acc, int balloon ) {
         const double height{ parts[ balloon ].info().balloon_height() };
-        return acc + ( height * GRAVITY_OF_EARTH );
+        return acc + height;
     } );
 }
 
@@ -4488,11 +4488,11 @@ double vehicle::total_wing_lift() const
     const double kilometerperhour = velocity / 100 * 1.609;
     const double meterpersec = kilometerperhour / 3600 * 1000;
     const double meterpersecsquared = std::pow( meterpersec, 2 );
-    return std::accumulate( wings.begin(), wings.end(), double{0.0},
+    return meterpersecsquared * std::accumulate( wings.begin(), wings.end(), double{0.0},
     [&]( double acc, int wing ) {
         const double liftcoff{ parts[ wing ].info().lift_coff() };
         // m^2 area is always 1
-        return acc + ( 0.5 * meterpersecsquared * liftcoff );
+        return acc + ( 0.5 * liftcoff );
     } );
 }
 
