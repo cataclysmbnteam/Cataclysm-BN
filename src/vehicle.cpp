@@ -3392,6 +3392,7 @@ void vehicle::precalc_mounts( int idir, units::angle dir, point pivot )
     }
     pivot_anchor[idir] = pivot;
     pivot_rotation[idir] = dir;
+    dir_dirty = true;
 }
 
 bool vehicle::check_rotated_intervening( point from, point to,
