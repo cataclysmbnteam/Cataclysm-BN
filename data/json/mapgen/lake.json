@@ -15,7 +15,7 @@
         [ "f_lake_detritus", 5 ],
         [ "f_lake_pondweed", 5 ],
         [ "f_rubble_rock", 2 ],
-        [ "f_boulder_small", 1 ],
+        [ "f_boulder_small_underwater", 1 ],
         [ "f_boulder_medium", 1 ],
         [ "f_boulder_large", 1 ]
       ]

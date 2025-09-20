@@ -1689,6 +1689,21 @@
     "material": [ "iflesh" ]
   },
   {
+    "id": "clam",
+    "type": "COMESTIBLE",
+    "name": { "str_sp": "clam" },
+    "description": "A fresh clam, still in its shell. Mild, briny, and full of micronutrients, but not very filling.",
+    "weight": "100 g",
+    "volume": "100 ml",
+    "color": "light_gray",
+    "symbol": "%",
+    "comestible_type": "FOOD",
+    "calories": 35,
+    "quench": 3,
+    "fun": -2,
+    "material": [ "flesh" ]
+  },
+  {
     "id": "earthworm_fried",
     "type": "COMESTIBLE",
     "copy-from": "earthworm",
@@ -1736,6 +1751,16 @@
     "description": "Crispy fried spider. The legs are crunchy, and the body has a nutty, crab-like flavor. Still not for the squeamish.",
     "calories": 15,
     "fun": 5,
+    "flags": [ "EATEN_HOT" ]
+  },
+  {
+    "id": "clam_fried",
+    "type": "COMESTIBLE",
+    "copy-from": "clam",
+    "name": { "str_sp": "fried clam" },
+    "description": "Crispy fried clam strips, golden-brown and delicious. A New England specialty.",
+    "calories": 55,
+    "fun": 8,
     "flags": [ "EATEN_HOT" ]
   }
 ]
