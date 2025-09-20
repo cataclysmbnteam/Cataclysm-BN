@@ -906,9 +906,7 @@
     "harvest_by_season": [
       {
         "seasons": [ "spring", "autumn", "summer" ],
-        "entries": [
-          { "drop": "clam", "base_num": [ 0, 3 ], "scale_num": [ 0, 0.9 ] }
-        ]
+        "entries": [ { "drop": "clam", "base_num": [ 0, 3 ], "scale_num": [ 0, 0.9 ] } ]
       }
     ]
   },
