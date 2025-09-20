@@ -1620,7 +1620,7 @@
     "description": "A handful of random edible bugs - beetles, grasshoppers, worms, caterpillars, even the occasional spider. Not very appetizing raw, but it will keep you alive.",
     "weight": "100 g",
     "volume": "100 ml",
-    "color": "dark_gray",
+    "color": "green",
     "symbol": "*",
     "comestible_type": "FOOD",
     "calories": 30,
