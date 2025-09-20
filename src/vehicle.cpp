@@ -3357,13 +3357,17 @@ point vehicle::tripoint_to_mount( const tripoint &p ) const
     return result;
 }
 
-int vehicle::angle_to_increment( units::angle dir )
+int vehicle::angle_to_increment( units::angle dir ) const
 {
-    int increment = ( std::lround( to_degrees( dir ) ) % 360 ) / 15;
-    if( increment < 0 ) {
-        increment += 360 / 15;
+    if( dir_dirty ) {
+        int increment = ( std::lround( to_degrees( dir ) ) % 360 ) / 15;
+        if( increment < 0 ) {
+            increment += 360 / 15;
+        }
+        dir_inc = increment;
+        dir_dirty = false;
     }
-    return increment;
+    return dir_inc;
 }
 
 

@@ -965,7 +965,7 @@ class vehicle
         void invalidate_mass();
 
         //Converts angles into turning increments
-        static int angle_to_increment( units::angle dir );
+        int angle_to_increment( units::angle dir ) const;
 
         // get the total mass of vehicle, including cargo and passengers
         units::mass total_mass() const;
@@ -1761,6 +1761,7 @@ class vehicle
         bool no_refresh = false;
 
         // if true, pivot_cache needs to be recalculated
+        mutable bool dir_dirty = true;
         mutable bool pivot_dirty = true;
         mutable bool mass_dirty = true;
         mutable bool mass_center_precalc_dirty = true;
@@ -1781,7 +1782,7 @@ class vehicle
         // is the vehicle currently flying
         mutable bool is_flying = false;
         int requested_z_change = 0;
-
+        mutable int dir_inc;
         // is the vehicle currently placed on the map
         bool attached = false;
 
