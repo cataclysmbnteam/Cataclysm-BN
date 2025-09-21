@@ -340,7 +340,7 @@ comfort_response_t base_comfort_value( const Character &who, const tripoint &p )
                 int sleep_quality = items_it->get_quality( qual_SLEEP_AID );
                 if( sleep_quality >= 0 ) {
                     // Note: BED + LEVEL 2 SLEEP_AID = 9 pts, or 1 pt below very_comfortable
-                    comfort += ( sleep_quality * 0.5 );
+                    comfort += ( sleep_quality * 0.5 ) + static_cast<int>( comfort_level::neutral );
                     comfort_response.aid.push_back( items_it );
                 }
             }
@@ -354,21 +354,21 @@ comfort_response_t base_comfort_value( const Character &who, const tripoint &p )
             // check wearing bonus (sleep aid clothing is worth double when worn, similar to snuggling)
             int sleep_quality = it->get_quality( qual_SLEEP_AID );
             if( sleep_quality >= 0 ) {
-                comfort += sleep_quality;
+                comfort += sleep_quality + static_cast<int>( comfort_level::neutral );
                 comfort_response.aid.push_back( it );
             }
         }
 
         // bonus if player is wearing only skintight clothing (pajamas/boxers), oversized clothing (big hoodies, blankets, etc) or naked
         if( skintight_or_naked ) {
-            comfort += 1;
+            comfort += 1 + static_cast<int>( comfort_level::neutral );
         }
 
         // bonus if player is snuggling with a specific item
         for( item *it : who.wielded_items() ) {
             if( it->has_quality( qual_SLEEP_AID ) ) {
                 // don't add to the aid array, because we print special mesage here
-                comfort += it->get_quality( qual_SLEEP_AID );
+                comfort += it->get_quality( qual_SLEEP_AID ) + static_cast<int>( comfort_level::neutral );
                 comfort_response.aid.push_back( it );
             }
         }
