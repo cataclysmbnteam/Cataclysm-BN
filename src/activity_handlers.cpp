@@ -9,7 +9,10 @@
 #include <set>
 #include <stdexcept>
 #include <string>
+#include <unordered_set>
 #include <utility>
+#include <vector>
+#include <weighted_list.h>
 
 #include "action.h"
 #include "advanced_inv.h"
@@ -3031,30 +3034,29 @@ void activity_handlers::atm_do_turn( player_activity *, player *p )
 }
 
 // fish-with-rod fish catching function.
-static void rod_fish( player *p, const std::vector<monster *> &fishables )
+static void rod_fish( player *p,
+                      const weighted_int_list<std::pair<std::string, int>> &fishables )
 {
     map &here = get_map();
-    //if the vector is empty (no fish around) the player is still given a small chance to get a (let us say it was hidden) fish
-    if( fishables.empty() ) {
+    const std::pair<std::string, int> *caught = fishables.pick();
+    if( caught->first.contains( "fish" ) ) {
         const std::vector<mtype_id> fish_group = MonsterGroupManager::GetMonstersFromGroup(
                     mongroup_id( "GROUP_FISH" ) );
         const mtype_id fish_mon = random_entry_ref( fish_group );
-        here.add_item_or_charges( p->pos(), item::make_corpse( fish_mon,
-                                  calendar::turn + rng( 0_turns,
-                                          3_hours ) ) );
+        here.add_item_or_charges(
+            p->pos(), item::make_corpse( fish_mon, calendar::turn +
+                                         rng( 0_turns, 3_hours ) ) );
+
         p->add_msg_if_player( m_good, _( "You caught a %s." ), fish_mon.obj().nname() );
     } else {
-        monster *chosen_fish = random_entry( fishables );
-        chosen_fish->fish_population -= 1;
-        if( chosen_fish->fish_population <= 0 ) {
-            g->catch_a_monster( chosen_fish, p->pos(), p, 50_hours );
-        } else {
-            here.add_item_or_charges( p->pos(), item::make_corpse( chosen_fish->type->id,
-                                      calendar::turn + rng( 0_turns,
-                                              3_hours ) ) );
-            p->add_msg_if_player( m_good, _( "You caught a %s." ), chosen_fish->type->nname() );
+        itype_id possible( caught->first );
+        if( possible.is_valid() ) {
+            here.add_item_or_charges( p->pos(), item::spawn( caught->first, calendar::turn, caught->second ),
+                                      true );
+            p->add_msg_if_player( m_good, _( "You reeled in %s." ) );
         }
     }
+
     for( item *&elem : here.i_at( p->pos() ) ) {
         if( elem->is_corpse() && !elem->has_var( "activity_var" ) ) {
             elem->set_var( "activity_var", p->name );
@@ -3064,32 +3066,35 @@ static void rod_fish( player *p, const std::vector<monster *> &fishables )
 
 void activity_handlers::fish_do_turn( player_activity *act, player *p )
 {
+    int fishing_mult = iuse::good_fishing_spot( act->placement );
+    if( fishing_mult == 0 || p->is_blind() ) {
+        act->set_to_null();
+        p->add_msg_if_player( m_info,
+                              _( "You realize fishing here at the moment is pointless, and stop." ) );
+        if( !p->backlog.empty() && p->backlog.front()->id() == ACT_MULTIPLE_FISH ) {
+            p->backlog.clear();
+            p->assign_activity( ACT_TIDY_UP );
+            return;
+        }
+        return;
+    }
     item &rod = *act->tools.front();
     int fish_chance = 1;
-    int survival_skill = p->get_skill_level( skill_survival );
+    int survival_mod = p->get_skill_level( skill_survival );
     if( rod.has_flag( flag_FISH_POOR ) ) {
-        survival_skill += dice( 1, 6 );
+        survival_mod += dice( 1, 8 ); // avg of 4
     } else if( rod.has_flag( flag_FISH_GOOD ) ) {
         // Much better chances with a good fishing implement.
-        survival_skill += dice( 4, 9 );
-        survival_skill *= 2;
+        survival_mod += dice( 3, 6 ); //avg of 10-11
     }
-    std::vector<monster *> fishables = g->get_fishable_monsters( act->coord_set );
-    // Fish are always there, even if it dosnt seem like they are visible!
-    if( fishables.empty() ) {
-        fish_chance += survival_skill / 2;
-    } else {
-        // if they are visible however, it implies a larger population
-        for( monster *elem : fishables ) {
-            fish_chance += elem->fish_population;
-        }
-        fish_chance += survival_skill;
-    }
+    fish_chance += ( survival_mod *  fishing_mult );
     // no matter the population of fish, your skill and tool limits the ease of catching.
-    fish_chance = std::min( survival_skill * 10, fish_chance );
-    if( x_in_y( fish_chance, 600000 ) ) {
+    fish_chance = std::min( survival_mod * 20, fish_chance );
+    if( x_in_y( fish_chance, 600000 ) ) {//Roughly 1/1000 per turn avg.
         p->add_msg_if_player( m_good, _( "You feel a tug on your line!" ) );
-        rod_fish( p, fishables );
+        weighted_int_list<std::pair<std::string, int>> caught;
+        caught.add( {"fish", 1}, 1 ); //Hardcoded for now, but can be expanded for magnet fishing or smthn
+        rod_fish( p, caught );
     }
     if( calendar::once_every( 60_minutes ) ) {
         p->practice( skill_survival, rng( 1, 3 ) );
