@@ -301,7 +301,9 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
             if( line > static_cast<int>( current_tab.size() ) - 1 ) {
                 line--;
             }
-            line = std::max( line, 0 );
+            if( line < 0 ) {
+                line = 0;
+            }
         } else if( action == "COPY_RULE" && !current_tab.empty() ) {
             changes_made = true;
             current_tab.push_back( current_tab[line] );
@@ -329,8 +331,8 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
                     const point offset( TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0,
                                         TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0 );
 
-                    w_help = catacurses::newwin( ( FULL_SCREEN_HEIGHT / 2 ) - 2, FULL_SCREEN_WIDTH * 3 / 4,
-                                                 offset + point( 19 / 2, 7 + ( FULL_SCREEN_HEIGHT / 2 / 2 ) ) );
+                    w_help = catacurses::newwin( FULL_SCREEN_HEIGHT / 2 - 2, FULL_SCREEN_WIDTH * 3 / 4,
+                                                 offset + point( 19 / 2, 7 + FULL_SCREEN_HEIGHT / 2 / 2 ) );
 
                     help_ui.position_from_window( w_help );
                 };

@@ -854,6 +854,14 @@
     "required_str": 10,
     "crafting_pseudo_item": "boulder_anvil",
     "flags": [ "TRANSPARENT", "MINEABLE", "UNSTABLE", "MOUNTABLE", "TINY" ],
+    "examine_action": "harvest_furn",
+    "transforms_into": "f_boulder_small_harvested",
+    "harvest_by_season": [
+      {
+        "seasons": [ "spring", "autumn", "summer" ],
+        "entries": [ { "drop": "assorted_bugs", "base_num": [ 0, 4 ], "scale_num": [ 0, 0.001 ] } ]
+      }
+    ],
     "bash": {
       "str_min": 16,
       "str_max": 40,
@@ -868,6 +876,44 @@
       "//": "Stone obstacles have double the expected reduction but lower destroy_threshold in return",
       "ranged": { "reduction": [ 32, 32 ], "destroy_threshold": 32, "block_unaimed_chance": "25%" }
     }
+  },
+  {
+    "type": "furniture",
+    "id": "f_boulder_small_harvested",
+    "copy-from": "f_boulder_small",
+    "name": "upturned small boulder",
+    "symbol": "o",
+    "color": "light_gray",
+    "extend": { "flags": [ "HARVESTED" ] },
+    "examine_action": "harvest_furn",
+    "transforms_into": "f_boulder_small",
+    "harvest_by_season": [  ]
+  },
+  {
+    "type": "furniture",
+    "id": "f_boulder_small_underwater",
+    "copy-from": "f_boulder_small",
+    "symbol": "o",
+    "color": "dark_gray",
+    "examine_action": "harvest_furn",
+    "transforms_into": "f_boulder_small_underwater_harvested",
+    "harvest_by_season": [
+      {
+        "seasons": [ "spring", "autumn", "summer", "winter" ],
+        "entries": [ { "drop": "clam", "base_num": [ 0, 3 ], "scale_num": [ 0, 0.001 ] } ]
+      }
+    ]
+  },
+  {
+    "type": "furniture",
+    "id": "f_boulder_small_underwater_harvested",
+    "copy-from": "f_boulder_small",
+    "symbol": "o",
+    "color": "dark_gray",
+    "extend": { "flags": [ "HARVESTED" ] },
+    "examine_action": "harvest_furn",
+    "transforms_into": "f_boulder_small_underwater",
+    "harvest_by_season": [  ]
   },
   {
     "type": "furniture",

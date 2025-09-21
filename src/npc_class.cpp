@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <cstddef>
 #include <list>
+#include <algorithm>
 #include <array>
 #include <iterator>
 #include <set>

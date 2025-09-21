@@ -29,6 +29,7 @@
 #include "sdltiles.h"
 #endif
 
+#include <algorithm>
 #include <list>
 #include <map>
 #include <string>

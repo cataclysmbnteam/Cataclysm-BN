@@ -47,6 +47,7 @@
 #include <jni.h>
 #endif
 
+#include <algorithm>
 #include <cstdlib>
 #include <exception>
 #include <memory>
@@ -405,7 +406,9 @@ void options_manager::add( const std::string &sNameIn, const std::string &sPageI
 
     thisOpt.hide = opt_hide;
 
-    iMaxIn = std::max( iMinIn, iMaxIn );
+    if( iMinIn > iMaxIn ) {
+        iMaxIn = iMinIn;
+    }
 
     thisOpt.iMin = iMinIn;
     thisOpt.iMax = iMaxIn;
@@ -481,7 +484,9 @@ void options_manager::add( const std::string &sNameIn, const std::string &sPageI
 
     thisOpt.hide = opt_hide;
 
-    fMaxIn = std::max( fMinIn, fMaxIn );
+    if( fMinIn > fMaxIn ) {
+        fMaxIn = fMinIn;
+    }
 
     thisOpt.fMin = fMinIn;
     thisOpt.fMax = fMaxIn;

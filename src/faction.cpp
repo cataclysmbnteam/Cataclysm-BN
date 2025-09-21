@@ -622,10 +622,10 @@ void faction_manager::display() const
 
     enum class tab_mode : int {
         TAB_FOLLOWERS = 0,
-        TAB_OTHERFACTIONS = 1,
-        TAB_LORE = 2,
-        TAB_CREATURES = 3,
-        NUM_TABS = 4,
+        TAB_OTHERFACTIONS,
+        TAB_LORE,
+        TAB_CREATURES,
+        NUM_TABS,
         FIRST_TAB = 0,
         LAST_TAB = NUM_TABS - 1
     };

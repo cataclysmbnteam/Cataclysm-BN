@@ -150,7 +150,7 @@ void map::process_fields()
         auto &field_cache = get_cache( z ).field_cache;
         for( int x = 0; x < my_MAPSIZE; x++ ) {
             for( int y = 0; y < my_MAPSIZE; y++ ) {
-                if( field_cache[ x + ( y * MAPSIZE ) ] ) {
+                if( field_cache[ x + y * MAPSIZE ] ) {
                     submap *const current_submap = get_submap_at_grid( { x, y, z } );
                     process_fields_in_submap( current_submap, tripoint( x, y, z ) );
                 }
@@ -605,7 +605,7 @@ void map::process_fields_in_submap( submap *const current_submap,
                             // The fire feeds on the ground itself until max intensity.
                             time_added += 1_turns * ( 5 - cur.get_field_intensity() );
                             if( cur.get_field_intensity() > 1 &&
-                                one_in( 200 - ( cur.get_field_intensity() * 50 ) ) ) {
+                                one_in( 200 - cur.get_field_intensity() * 50 ) ) {
                                 destroy( p, false );
                             }
 
@@ -614,7 +614,7 @@ void map::process_fields_in_submap( submap *const current_submap,
                             // The fire feeds on the ground itself until max intensity.
                             time_added += 1_turns * ( 4 - cur.get_field_intensity() );
                             if( cur.get_field_intensity() > 1 &&
-                                one_in( 200 - ( cur.get_field_intensity() * 50 ) ) ) {
+                                one_in( 200 - cur.get_field_intensity() * 50 ) ) {
                                 destroy( p, false );
                             }
 
@@ -622,7 +622,7 @@ void map::process_fields_in_submap( submap *const current_submap,
                             // The fire feeds on the ground itself until max intensity.
                             time_added += 1_turns * ( 5 - cur.get_field_intensity() );
                             if( cur.get_field_intensity() > 1 &&
-                                one_in( 200 - ( cur.get_field_intensity() * 50 ) ) ) {
+                                one_in( 200 - cur.get_field_intensity() * 50 ) ) {
                                 if( p.z > 0 ) {
                                     // We're in the air
                                     ter_set( p, t_open_air );
@@ -635,7 +635,7 @@ void map::process_fields_in_submap( submap *const current_submap,
                             // The fire feeds on the ground itself until max intensity.
                             time_added += 1_turns * ( 5 - cur.get_field_intensity() );
                             if( cur.get_field_intensity() > 1 &&
-                                one_in( 200 - ( cur.get_field_intensity() * 50 ) ) ) {
+                                one_in( 200 - cur.get_field_intensity() * 50 ) ) {
                                 furn_set( p, f_ash );
                             }
 
@@ -852,7 +852,7 @@ void map::process_fields_in_submap( submap *const current_submap,
                 }
 
                 if( cur_fd_type_id == fd_fungal_haze ) {
-                    if( one_in( 10 - ( 2 * cur.get_field_intensity() ) ) ) {
+                    if( one_in( 10 - 2 * cur.get_field_intensity() ) ) {
                         // Haze'd terrain
                         fungal_effects( *g, here ).spread_fungus( p );
                     }
@@ -1082,8 +1082,10 @@ void map::process_fields_in_submap( submap *const current_submap,
                         for( const tripoint &t : points_in_radius( p, 5 ) ) {
                             const field_entry *acid = get_field( t, fd_acid );
                             if( acid != nullptr && acid->get_field_intensity() == 0 ) {
-                                int new_intensity = 3 - ( rl_dist( p, t ) / 2 ) + ( one_in( 3 ) ? 1 : 0 );
-                                new_intensity = std::min( new_intensity, 3 );
+                                int new_intensity = 3 - rl_dist( p, t ) / 2 + ( one_in( 3 ) ? 1 : 0 );
+                                if( new_intensity > 3 ) {
+                                    new_intensity = 3;
+                                }
                                 if( new_intensity > 0 ) {
                                     add_field( t, fd_acid, new_intensity );
                                 }
@@ -1200,9 +1202,9 @@ void map::process_fields_in_submap( submap *const current_submap,
         for( int y = std::max( submap.y - 1, 0 ); y <= std::min( submap.y + 1, MAPSIZE - 1 ); ++y ) {
             for( int x = std::max( submap.x - 1, 0 ); x <= std::min( submap.x + 1, MAPSIZE - 1 ); ++x ) {
                 if( get_submap_at_grid( { x, y, z } )->field_count > 0 ) {
-                    field_cache.set( x + ( y * MAPSIZE ) );
+                    field_cache.set( x + y * MAPSIZE );
                 } else {
-                    field_cache.reset( x + ( y * MAPSIZE ) );
+                    field_cache.reset( x + y * MAPSIZE );
                 }
             }
         }
@@ -1352,7 +1354,7 @@ void map::player_in_field( player &u )
                     };
 
                     const int burn_min = adjusted_intensity;
-                    const int burn_max = ( 3 * adjusted_intensity ) + 3;
+                    const int burn_max = 3 * adjusted_intensity + 3;
                     std::list<bodypart_id> parts_burned;
                     int msg_num = adjusted_intensity - 1;
                     if( !u.is_on_ground() ) {

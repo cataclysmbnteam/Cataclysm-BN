@@ -45,7 +45,7 @@ void snake_game::snake_over( const catacurses::window &w_snake, int iScore )
     size_t body_length = 3;
     for( size_t i = 1; i <= body_length; i++ ) {
         for( size_t j = 0; j <= 1; j++ ) {
-            mvwprintz( w_snake, point( 4 + ( j * 65 ), i ), c_green, "|   |" );
+            mvwprintz( w_snake, point( 4 + j * 65, i ), c_green, "|   |" );
         }
     }
 

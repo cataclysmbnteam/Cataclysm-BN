@@ -373,7 +373,9 @@ void SkillLevel::deserialize( JsonIn &jsin )
                              get_option<int>( "INITIAL_TIME" ) );
     }
     data.read( "highestlevel", _highestLevel );
-    _highestLevel = std::max( _highestLevel, _level );
+    if( _highestLevel < _level ) {
+        _highestLevel = _level;
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -2583,8 +2585,8 @@ void vehicle_part::deserialize( JsonIn &jsin )
 
     if( data.has_int( "hp" ) && id.obj().durability > 0 ) {
         // migrate legacy savegames exploiting that all base items at that time had max_damage() of 4
-        base->set_damage( ( 4 * itype::damage_scale ) - ( 4 * itype::damage_scale * data.get_int( "hp" ) /
-                          id.obj().durability ) );
+        base->set_damage( 4 * itype::damage_scale - 4 * itype::damage_scale * data.get_int( "hp" ) /
+                          id.obj().durability );
     }
 
     // legacy turrets loaded ammo via a pseudo CARGO space

@@ -231,9 +231,13 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
         for( const tripoint &pt : m.points_in_rectangle( minp, maxp ) ) {
             if( m.ter( pt ) == t_fault ) {
                 int dist = rl_dist( pt, you.pos() );
-                curdist = std::min( dist, curdist );
+                if( dist < curdist ) {
+                    curdist = dist;
+                }
                 dist = rl_dist( pt, dest_loc );
-                newdist = std::min( dist, newdist );
+                if( dist < newdist ) {
+                    newdist = dist;
+                }
             }
         }
         if( newdist > curdist ) {

@@ -66,7 +66,11 @@ noexcept
 template<typename T>
 typename location_vector<T>::iterator &location_vector<T>::iterator::operator=( const
         location_vector<T>::iterator &source )
-    = default;
+{
+    this->it = source.it;
+    this->home = source.home;
+    return *this;
+};
 
 template<typename T>
 typename location_vector<T>::iterator &location_vector<T>::iterator::operator=
@@ -126,7 +130,11 @@ noexcept
 template<typename T>
 typename location_vector<T>::const_iterator &location_vector<T>::const_iterator::operator=
 ( const location_vector<T>::const_iterator &source )
-    = default;
+{
+    this->it = source.it;
+    this->home = source.home;
+    return *this;
+};
 
 template<typename T>
 typename location_vector<T>::const_iterator &location_vector<T>::const_iterator::operator=

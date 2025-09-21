@@ -640,7 +640,9 @@ std::optional<construction_id> construction_menu( const bool blueprint )
         if( static_cast<int>( available.size() ) + 2 < w_height ) {
             w_height = available.size() + 2;
         }
-        w_height = std::max( w_height, FULL_SCREEN_HEIGHT );
+        if( w_height < FULL_SCREEN_HEIGHT ) {
+            w_height = FULL_SCREEN_HEIGHT;
+        }
 
         w_width = std::max( FULL_SCREEN_WIDTH, TERMX * 2 / 3 );
         const int w_y0 = ( TERMY > w_height ) ? ( TERMY - w_height ) / 2 : 0;
@@ -877,7 +879,9 @@ std::optional<construction_id> construction_menu( const bool blueprint )
             if( current_construct_breakpoint > 0 ) {
                 current_construct_breakpoint--;
             }
-            current_construct_breakpoint = std::max( current_construct_breakpoint, 0 );
+            if( current_construct_breakpoint < 0 ) {
+                current_construct_breakpoint = 0;
+            }
         } else if( action == "PAGE_DOWN" ) {
             if( current_construct_breakpoint < total_project_breakpoints - 1 ) {
                 current_construct_breakpoint++;

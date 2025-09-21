@@ -117,7 +117,7 @@ static float critter_blast_percentage( Creature *c, float range, float distance 
 
 static float item_blast_percentage( float range, float distance )
 {
-    const float radius_reduction = 1.0f - ( distance / range );
+    const float radius_reduction = 1.0f - distance / range;
     return radius_reduction;
 }
 
@@ -449,7 +449,7 @@ void ExplosionProcess::fill_maps()
                                    square_dist( center, target )
                                );
         const float z_distance = abs( target.z - center.z );
-        const float z_aware_distance = distance + ( ( ExplosionConstants::Z_LEVEL_DIST - 1 ) * z_distance );
+        const float z_aware_distance = distance + ( ExplosionConstants::Z_LEVEL_DIST - 1 ) * z_distance;
         // We static_cast<int> in order to keep parity with legacy blasts using rl_dist for distance
         //   which, as stated above, converts trig_dist into int implicitly
         if( blast_radius > 0 && static_cast<int>( z_aware_distance ) <= blast_radius ) {
@@ -760,7 +760,7 @@ void ExplosionProcess::blast_tile( const tripoint position, const int rl_distanc
             // Which makes explosions have a more well-defined shape.
             const float offset_distance = std::max( rl_distance - 1.0, 0.0 );
             const float terrain_random_factor = rng_float( 0.0, ExplosionConstants::BASH_RANDOM_FACTOR );
-            const float terrain_factor = std::min( std::max( ( offset_distance / blast_radius ) -
+            const float terrain_factor = std::min( std::max( offset_distance / blast_radius -
                                                    terrain_random_factor, 0.0f ), 1.0f );
             float terrain_blast_force = blast_power * obstacle_blast_percentage( blast_radius, rl_distance );
 
@@ -852,7 +852,7 @@ void ExplosionProcess::blast_tile( const tripoint position, const int rl_distanc
         // Create fresh smoke
         // 50% of the radius is guaranteed to be covered in thin smoke afterwards
         if( here.get_field( position, fd_smoke ) == nullptr ) {
-            const float radius_offset = ( 2 * radius_percent ) - 1;
+            const float radius_offset = 2 * radius_percent - 1;
             add_event( 0, ExplosionEvent::field_addition( position, fd_smoke ) );
             if( radius_offset > 0 ) {
                 const float delay = blast_radius * rng_float( 0.0, 1.1 - radius_offset );
@@ -871,7 +871,7 @@ void ExplosionProcess::blast_tile( const tripoint position, const int rl_distanc
             );
             if( !is_fiery ) {
                 // Remove at an accelerating pace
-                const float delay = 1.0 + ( rng_float( 2.0, 4.0 ) * ( 1.1 - radius_percent ) );
+                const float delay = 1.0 + rng_float( 2.0, 4.0 ) * ( 1.1 - radius_percent );
                 add_event( delay, ExplosionEvent::field_removal( position, fd_fire ) );
             }
         }
@@ -1173,7 +1173,7 @@ static std::map<const Creature *, int> legacy_shrapnel( const tripoint &src,
                                    square_dist( blast_center, target )
                                );
         const float z_distance = abs( target.z - blast_center.z );
-        const float z_aware_distance = distance + ( ( Z_LEVEL_DIST - 1 ) * z_distance );
+        const float z_aware_distance = distance + ( Z_LEVEL_DIST - 1 ) * z_distance;
         if( z_aware_distance <= raw_blast_radius ) {
             blast_map.emplace_back( z_aware_distance, target );
         }
@@ -1377,8 +1377,7 @@ static std::map<const Creature *, int> legacy_blast( const tripoint &p, const fl
 
         player *pl = dynamic_cast<player *>( critter );
         if( pl == nullptr ) {
-            const double dmg = std::max( force - ( critter->get_armor_bash( bodypart_id( "torso" ) ) / 3.0 ),
-                                         0.0 );
+            const double dmg = std::max( force - critter->get_armor_bash( bodypart_id( "torso" ) ) / 3.0, 0.0 );
             const int actual_dmg = rng_float( dmg, dmg * 2 );
             critter->apply_damage( source, bodypart_id( "torso" ), actual_dmg );
             critter->check_dead_state();
@@ -1533,7 +1532,7 @@ void explosion_funcs::flashbang( const queued_explosion &qe )
     int dist = rl_dist( g->u.pos(), p );
     if( dist <= 8 && qe.affects_player ) {
         if( !g->u.has_bionic( bio_ears ) && !g->u.is_wearing( itype_rm13_armor_on ) ) {
-            g->u.add_effect( effect_deaf, time_duration::from_turns( 40 - ( dist * 4 ) ) );
+            g->u.add_effect( effect_deaf, time_duration::from_turns( 40 - dist * 4 ) );
         }
         if( here.sees( g->u.pos(), p, 8 ) ) {
             int flash_mod = 0;
@@ -1568,7 +1567,7 @@ void explosion_funcs::flashbang( const queued_explosion &qe )
                 critter.add_effect( effect_blind, time_duration::from_turns( 18 - dist ) );
             }
             if( critter.has_flag( MF_HEARS ) ) {
-                critter.add_effect( effect_deaf, time_duration::from_turns( 60 - ( dist * 4 ) ) );
+                critter.add_effect( effect_deaf, time_duration::from_turns( 60 - dist * 4 ) );
             }
         }
     }
@@ -1741,7 +1740,7 @@ void emp_blast( const tripoint &p )
             add_msg( m_bad, _( "The EMP blast drains your power." ) );
             int max_drain = ( u.get_power_level() > 1000_kJ ? 1000 : units::to_kilojoule(
                                   u.get_power_level() ) );
-            u.mod_power_level( units::from_kilojoule( -rng( 1 + ( max_drain / 3 ), max_drain ) ) );
+            u.mod_power_level( units::from_kilojoule( -rng( 1 + max_drain / 3, max_drain ) ) );
         }
         // TODO: More effects?
         //e-handcuffs effects
@@ -1773,10 +1772,10 @@ void explosion_funcs::resonance_cascade( const queued_explosion &qe )
     map &here = get_map();
     const tripoint &p = qe.pos;
 
-    const time_duration maxglow = time_duration::from_turns( 100 - ( 5 * trig_dist( p, g->u.pos() ) ) );
+    const time_duration maxglow = time_duration::from_turns( 100 - 5 * trig_dist( p, g->u.pos() ) );
     if( maxglow > 0_turns ) {
-        const time_duration minglow = std::max( 0_turns, time_duration::from_turns( 60 - ( 5 * trig_dist( p,
-                                                g->u.pos() ) ) ) );
+        const time_duration minglow = std::max( 0_turns, time_duration::from_turns( 60 - 5 * trig_dist( p,
+                                                g->u.pos() ) ) );
         g->u.add_effect( effect_teleglow, rng( minglow, maxglow ) * 100 );
     }
 

@@ -1612,5 +1612,25 @@
     "fun": 5,
     "looks_like": "meat_cooked",
     "vitamins": [ [ "meat_allergen", 1 ] ]
+  },
+  {
+    "id": "assorted_bugs_fried",
+    "type": "COMESTIBLE",
+    "copy-from": "assorted_bugs",
+    "name": { "str_sp": "fried bugs" },
+    "description": "A crispy, crunchy mix of fried bugs.  Roasted and seasoned, they almost taste like a snack food if you can get over what you're eating.",
+    "calories": 45,
+    "fun": 1,
+    "flags": [ "EATEN_HOT" ]
+  },
+  {
+    "id": "clam_fried",
+    "type": "COMESTIBLE",
+    "copy-from": "clam",
+    "name": { "str_sp": "fried clam" },
+    "description": "Crispy fried clam strips, golden-brown and delicious.  A New England specialty.",
+    "calories": 55,
+    "fun": 8,
+    "flags": [ "EATEN_HOT" ]
   }
 ]

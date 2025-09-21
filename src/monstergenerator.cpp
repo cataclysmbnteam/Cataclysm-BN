@@ -387,18 +387,30 @@ void MonsterGenerator::finalize_mtypes()
             mon.bash_skill = calc_bash_skill( mon );
         }
 
-        mon.armor_bash = std::max( mon.armor_bash, 0 );
-        mon.armor_cut = std::max( mon.armor_cut, 0 );
+        if( mon.armor_bash < 0 ) {
+            mon.armor_bash = 0;
+        }
+        if( mon.armor_cut < 0 ) {
+            mon.armor_cut = 0;
+        }
         if( mon.armor_stab < 0 ) {
             mon.armor_stab = mon.armor_cut * 0.8;
         }
-        mon.armor_bullet = std::max( mon.armor_bullet, 0 );
+        if( mon.armor_bullet < 0 ) {
+            mon.armor_bullet = 0;
+        }
         if( mon.armor_acid < 0 ) {
             mon.armor_acid = mon.armor_cut * 0.5;
         }
-        mon.armor_fire = std::max( mon.armor_fire, 0 );
-        mon.armor_cold = std::max( mon.armor_cold, 0 );
-        mon.armor_electric = std::max( mon.armor_electric, 0 );
+        if( mon.armor_fire < 0 ) {
+            mon.armor_fire = 0;
+        }
+        if( mon.armor_cold < 0 ) {
+            mon.armor_cold = 0;
+        }
+        if( mon.armor_electric < 0 ) {
+            mon.armor_electric = 0;
+        }
 
         // Lower bound for hp scaling
         mon.hp = std::max( mon.hp, 1 );

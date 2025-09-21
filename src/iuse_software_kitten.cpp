@@ -388,13 +388,13 @@ void robot_finds_kitten::show() const
         case ui_state::end_animation: {
             /* The grand cinema scene. */
             const int c = std::min( end_animation_frame, 3 );
-            wmove( w, point( ( rfkCOLS / 2 ) - 4 + c, 1 ) );
+            wmove( w, point( rfkCOLS / 2 - 4 + c, 1 ) );
             if( end_animation_last_input_left_or_up ) {
                 draw_kitten();
             } else {
                 draw_robot();
             }
-            wmove( w, point( ( rfkCOLS / 2 ) + 3 - c, 1 ) );
+            wmove( w, point( rfkCOLS / 2 + 3 - c, 1 ) );
             if( end_animation_last_input_left_or_up ) {
                 draw_robot();
             } else {
@@ -402,7 +402,7 @@ void robot_finds_kitten::show() const
             }
             if( end_animation_frame >= 4 ) {
                 /* They're in love! */
-                mvwprintz( w, point( ( ( rfkCOLS - 6 ) / 2 ) - 1, 0 ), c_light_red, "<3<3<3" );
+                mvwprintz( w, point( ( rfkCOLS - 6 ) / 2 - 1, 0 ), c_light_red, "<3<3<3" );
             }
             if( end_animation_frame >= 5 ) {
                 mvwprintz( w, point_zero, c_white, _( "You found kitten!  Way to go, robot!" ) );

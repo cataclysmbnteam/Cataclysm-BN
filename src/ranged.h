@@ -114,7 +114,7 @@ std::map<tripoint, double> expected_coverage( const shape &sh, const map &here, 
 void draw_cone_aoe( const tripoint &origin, const std::map<tripoint, double> &aoe );
 
 void print_dmg_msg( Creature &target, Creature *source, const dealt_damage_instance &dealt_dam,
-                    double goodhit = 1.0 );
+                    double severity = 1.0 );
 
 /**
  * Prompts to select default ammo compatible with provided gun.

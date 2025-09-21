@@ -1188,6 +1188,8 @@
       [ "oxy_powder", 5 ],
       [ "fungicide", 5 ],
       [ "insecticide", 5 ],
+      [ "gas_insecticidal", 5 ],
+      [ "gas_fungicidal", 5 ],
       { "item": "charcoal", "prob": 5, "container-item": "bag_canvas" }
     ]
   },

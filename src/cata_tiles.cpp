@@ -291,7 +291,7 @@ tileset::find_tile_type_by_season( const std::string &id, season_type season ) c
     }
     auto &res = iter->second;
     if( res.season_tile ) {
-        return res.season_tile;
+        return *res.season_tile;
     } else if( res.default_tile ) { // can skip this check, but just in case
         return tile_lookup_res( iter->first, *res.default_tile );
     }
@@ -470,8 +470,8 @@ bool tileset_loader::copy_surface_to_texture( const SDL_Surface_Ptr &surf, point
         const point pos( offset + point( rect.x, rect.y ) );
         assert( pos.x % sprite_width == 0 );
         assert( pos.y % sprite_height == 0 );
-        const size_t index = this->offset + ( pos.x / sprite_width ) + ( ( pos.y / sprite_height ) *
-                             ( tile_atlas_width / sprite_width ) );
+        const size_t index = this->offset + ( pos.x / sprite_width ) + ( pos.y / sprite_height ) *
+                             ( tile_atlas_width / sprite_width );
         assert( index < target.size() );
         assert( target[index].dimension() == std::make_pair( 0, 0 ) );
         target[index] = texture( texture_ptr, rect );
@@ -1380,8 +1380,8 @@ void cata_tiles::draw( point dest, const tripoint &center, int width, int height
     //limit the render area to maximum view range (121x121 square centered on player)
     const int min_visible_x = g->u.posx() % SEEX;
     const int min_visible_y = g->u.posy() % SEEY;
-    const int max_visible_x = ( g->u.posx() % SEEX ) + ( ( MAPSIZE - 1 ) * SEEX );
-    const int max_visible_y = ( g->u.posy() % SEEY ) + ( ( MAPSIZE - 1 ) * SEEY );
+    const int max_visible_x = ( g->u.posx() % SEEX ) + ( MAPSIZE - 1 ) * SEEX;
+    const int max_visible_y = ( g->u.posy() % SEEY ) + ( MAPSIZE - 1 ) * SEEY;
 
     // Map memory should be at least the size of the view range
     // so that new tiles can be memorized, and at least the size of the display
@@ -1451,11 +1451,11 @@ void cata_tiles::draw( point dest, const tripoint &center, int width, int height
             if( iso_mode ) {
                 //in isometric, rows and columns represent a checkerboard screen space, and we place
                 //the appropriate tile in valid squares by getting position relative to the screen center.
-                if( modulo( row - ( s.y / 2 ), 2 ) != modulo( col - ( s.x / 2 ), 2 ) ) {
+                if( modulo( row - s.y / 2, 2 ) != modulo( col - s.x / 2, 2 ) ) {
                     continue;
                 }
-                temp_x = divide_round_down( col - row - ( s.x / 2 ) + ( s.y / 2 ), 2 ) + o.x;
-                temp_y = divide_round_down( row + col - ( s.y / 2 ) - ( s.x / 2 ), 2 ) + o.y;
+                temp_x = divide_round_down( col - row - s.x / 2 + s.y / 2, 2 ) + o.x;
+                temp_y = divide_round_down( row + col - s.y / 2 - s.x / 2, 2 ) + o.y;
             } else {
                 temp_x = col + o.x;
                 temp_y = row + o.y;
@@ -1765,8 +1765,8 @@ void cata_tiles::draw( point dest, const tripoint &center, int width, int height
                 // ( col - sx / 2 ) % 2 = ( row - sy / 2 ) % 2
                 // ||
                 // \/
-                const int col = mem_y + mem_x + ( s.x / 2 ) - o.y - o.x;
-                const int row = mem_y - mem_x + ( s.y / 2 ) - o.y + o.x;
+                const int col = mem_y + mem_x + s.x / 2 - o.y - o.x;
+                const int row = mem_y - mem_x + s.y / 2 - o.y + o.x;
                 if( already_drawn.contains( point( col, row ) ) ) {
                     continue;
                 }

@@ -478,8 +478,12 @@ void uilist::setup()
     for( size_t i = 0; i < entries.size(); i++ ) {
         int txtwidth = utf8_width( remove_color_tags( entries[i].txt ) );
         int ctxtwidth = utf8_width( remove_color_tags( entries[i].ctxt ) );
-        max_entry_len = std::max( txtwidth, max_entry_len );
-        max_column_len = std::max( ctxtwidth, max_column_len );
+        if( txtwidth > max_entry_len ) {
+            max_entry_len = txtwidth;
+        }
+        if( ctxtwidth > max_column_len ) {
+            max_column_len = ctxtwidth;
+        }
         int clen = ( ctxtwidth > 0 ) ? ctxtwidth + 2 : 0;
         if( entries[ i ].enabled ) {
             if( entries[ i ].hotkey > 0 ) {
@@ -504,7 +508,9 @@ void uilist::setup()
             int descwidth = find_minimum_fold_width( footer_text.empty() ? entries[i].desc : footer_text,
                             desc_lines, min_desc_width, max_desc_width );
             descwidth += 4; // 2x border + 2x ' ' pad
-            descwidth_final = std::max( descwidth_final, descwidth );
+            if( descwidth_final < descwidth ) {
+                descwidth_final = descwidth;
+            }
         }
         if( entries[ i ].text_color == c_red_red ) {
             entries[ i ].text_color = text_color;
@@ -551,14 +557,20 @@ void uilist::setup()
                     realtextwidth = 10;
                     for( auto &l : textformatted ) {
                         const int w = utf8_width( remove_color_tags( l ) );
-                        realtextwidth = std::max( w, realtextwidth );
+                        if( w > realtextwidth ) {
+                            realtextwidth = w;
+                        }
                     }
-                    w_width = std::max( realtextwidth + 4, w_width );
+                    if( realtextwidth + 4 > w_width ) {
+                        w_width = realtextwidth + 4;
+                    }
                 }
             }
         } else if( textwidth != -1 ) {
             realtextwidth = textwidth;
-            w_width = std::max( realtextwidth + 4, w_width );
+            if( realtextwidth + 4 > w_width ) {
+                w_width = realtextwidth + 4;
+            }
         }
         if( formattxt ) {
             textformatted = foldstring( text, realtextwidth );
@@ -593,7 +605,9 @@ void uilist::setup()
         w_height = vmax + additional_lines;
     }
 
-    w_height = std::min( w_height, TERMY );
+    if( w_height > TERMY ) {
+        w_height = TERMY;
+    }
 
     if( vmax + additional_lines > w_height ) {
         vmax = w_height - additional_lines;

@@ -772,7 +772,7 @@ bool trapfunc::pit( const tripoint &p, Creature *c, item * )
         } else {
             int dodge = n->get_dodge();
             ///\EFFECT_DODGE reduces damage taken falling into a pit
-            int damage = ( eff * rng( 10, 20 ) ) - rng( dodge, dodge * 5 );
+            int damage = eff * rng( 10, 20 ) - rng( dodge, dodge * 5 );
             if( damage > 0 ) {
                 n->add_msg_if_player( m_bad, _( "You hurt yourself!" ) );
                 // like the message says \-:
