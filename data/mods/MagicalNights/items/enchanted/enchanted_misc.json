@@ -166,7 +166,7 @@
           "demon_chitin"
         ],
         "skill": "tailor",
-        "tool_quality": 1,
+        "tool_quality": 2,
         "cost_scaling": 0.1,
         "move_cost": 500
       },
