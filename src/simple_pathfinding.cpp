@@ -48,7 +48,7 @@ directed_path<point> greedy_path( point source, point dest, point max,
         return p.x >= 0 && p.x < max.x && p.y >= 0 && p.y < max.y;
     };
     const auto map_index = [ max ]( point  p ) {
-        return ( p.y * max.x ) + p.x;
+        return p.y * max.x + p.x;
     };
 
     directed_path<point> res;

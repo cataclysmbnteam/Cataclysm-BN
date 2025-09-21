@@ -195,16 +195,16 @@ static void generate_weather_anim_frame( const weather_type_id &wtype, weather_p
     const level_cache &map_cache = m.get_cache_ref( u.posz() );
     const auto &visibility_cache = map_cache.visibility_cache;
 
-    const int TOTAL_VIEW = ( MAX_VIEW_DISTANCE * 2 ) + 1;
+    const int TOTAL_VIEW = MAX_VIEW_DISTANCE * 2 + 1;
     point iStart( ( TERRAIN_WINDOW_WIDTH > TOTAL_VIEW ) ? ( TERRAIN_WINDOW_WIDTH - TOTAL_VIEW ) / 2 : 0,
                   ( TERRAIN_WINDOW_HEIGHT > TOTAL_VIEW ) ? ( TERRAIN_WINDOW_HEIGHT - TOTAL_VIEW ) / 2 :
                   0 );
     point iEnd( ( TERRAIN_WINDOW_WIDTH > TOTAL_VIEW ) ? TERRAIN_WINDOW_WIDTH -
-                ( ( TERRAIN_WINDOW_WIDTH - TOTAL_VIEW ) /
-                  2 ) :
+                ( TERRAIN_WINDOW_WIDTH - TOTAL_VIEW ) /
+                2 :
                 TERRAIN_WINDOW_WIDTH, ( TERRAIN_WINDOW_HEIGHT > TOTAL_VIEW ) ? TERRAIN_WINDOW_HEIGHT -
-                ( ( TERRAIN_WINDOW_HEIGHT - TOTAL_VIEW ) /
-                  2 ) : TERRAIN_WINDOW_HEIGHT );
+                ( TERRAIN_WINDOW_HEIGHT - TOTAL_VIEW ) /
+                2 : TERRAIN_WINDOW_HEIGHT );
 
     if( g->fullscreen ) {
         iStart.x = 0;
@@ -214,8 +214,8 @@ static void generate_weather_anim_frame( const weather_type_id &wtype, weather_p
     }
 
     const weather_animation_t &anim = wtype->animation;
-    point offset( u.view_offset.xy() + point( ( -getmaxx( g->w_terrain ) / 2 ) + u.posx(),
-                  ( -getmaxy( g->w_terrain ) / 2 ) + u.posy() ) );
+    point offset( u.view_offset.xy() + point( -getmaxx( g->w_terrain ) / 2 + u.posx(),
+                  -getmaxy( g->w_terrain ) / 2 + u.posy() ) );
 
     if( tile_iso && use_tiles ) {
         iStart.x = 0;
@@ -514,7 +514,7 @@ static void pldrive( const tripoint &p )
 
 inline static void pldrive( point d )
 {
-    pldrive( tripoint( d, 0 ) );
+    return pldrive( tripoint( d, 0 ) );
 }
 
 static void open()
@@ -1839,8 +1839,8 @@ bool game::handle_action()
                     point dest_delta = get_delta_from_movement_action( act, iso_rotate::yes );
                     if( auto_travel_mode && !u.is_auto_moving() ) {
                         for( int i = 0; i < SEEX; i++ ) {
-                            tripoint auto_travel_destination( u.posx() + ( dest_delta.x * ( SEEX - i ) ),
-                                                              u.posy() + ( dest_delta.y * ( SEEX - i ) ),
+                            tripoint auto_travel_destination( u.posx() + dest_delta.x * ( SEEX - i ),
+                                                              u.posy() + dest_delta.y * ( SEEX - i ),
                                                               u.posz() );
                             destination_preview = m.route( u.pos(),
                                                            auto_travel_destination,

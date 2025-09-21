@@ -123,7 +123,7 @@ static void eff_fun_spores( player &u, effect &it )
     // Equivalent to X in 150000 + health * 100
     const int intense = it.get_intensity();
     if( ( !u.has_trait( trait_M_IMMUNE ) ) && ( one_in( 100 ) &&
-            x_in_y( intense, 900 + ( u.get_healthy() * 0.6 ) ) ) ) {
+            x_in_y( intense, 900 + u.get_healthy() * 0.6 ) ) ) {
         u.add_effect( effect_fungus, 1_turns, bodypart_str_id::NULL_ID() );
     }
 }
@@ -131,11 +131,11 @@ static void eff_fun_fungus( player &u, effect &it )
 {
     const time_duration dur = it.get_duration();
     const int intense = it.get_intensity();
-    const int bonus = ( u.get_healthy() / 10 ) + ( u.resists_effect( it ) ? 100 : 0 );
+    const int bonus = u.get_healthy() / 10 + ( u.resists_effect( it ) ? 100 : 0 );
     switch( intense ) {
         case 1:
             // First hour symptoms
-            if( one_in( 960 + ( bonus * 6 ) ) ) {
+            if( one_in( 960 + bonus * 6 ) ) {
                 u.cough( true );
             }
             if( one_in( 600 ) ) {
@@ -151,13 +151,13 @@ static void eff_fun_fungus( player &u, effect &it )
             break;
         case 2:
             // Five hours of worse symptoms
-            if( one_in( 3600 + ( bonus * 18 ) ) ) {
+            if( one_in( 3600 + bonus * 18 ) ) {
                 u.add_msg_if_player( m_bad,  _( "You spasm suddenly!" ) );
                 u.moves -= 100;
                 u.apply_damage( nullptr, bodypart_id( "torso" ), 5 );
             }
-            if( x_in_y( character_effects::vomit_mod( u ), ( 4800 + ( bonus * 24 ) ) ) ||
-                one_in( 12000 + ( bonus * 60 ) ) ) {
+            if( x_in_y( character_effects::vomit_mod( u ), ( 4800 + bonus * 24 ) ) ||
+                one_in( 12000 + bonus * 60 ) ) {
                 u.add_msg_player_or_npc( m_bad, _( "You vomit a thick, gray goop." ),
                                          _( "<npcname> vomits a thick, gray goop." ) );
 
@@ -175,7 +175,7 @@ static void eff_fun_fungus( player &u, effect &it )
         case 3: {
             // Permanent symptoms
             bool is_fungal_ter = g->m.has_flag_ter( "FUNGUS", u.pos() );
-            if( !is_fungal_ter && one_in( 600 + ( 4 * bonus ) ) ) {
+            if( !is_fungal_ter && one_in( 600 + 4 * bonus ) ) {
                 u.add_effect( effect_nausea, 5_minutes );
             }
         }
@@ -226,7 +226,7 @@ static void eff_fun_hallu( player &u, effect &it )
     // Time intervals are drawn from the old ones based on 3600 (6-hour) duration.
     constexpr int maxDuration = 21600;
     constexpr int comeupTime = static_cast<int>( maxDuration * 0.9 );
-    constexpr int noticeTime = static_cast<int>( comeupTime + ( ( maxDuration - comeupTime ) / 2 ) );
+    constexpr int noticeTime = static_cast<int>( comeupTime + ( maxDuration - comeupTime ) / 2 );
     constexpr int peakTime = static_cast<int>( maxDuration * 0.8 );
     constexpr int comedownTime = static_cast<int>( maxDuration * 0.3 );
     const int dur = to_turns<int>( it.get_duration() );
@@ -554,7 +554,7 @@ void Character::hardcoded_effects( effect &it )
         }
     } else if( id == effect_formication ) {
         ///\EFFECT_INT decreases occurrence of itching from formication effect
-        if( x_in_y( intense, 600 + ( 300 * get_int() ) ) && !has_effect( effect_narcosis ) ) {
+        if( x_in_y( intense, 600 + 300 * get_int() ) && !has_effect( effect_narcosis ) ) {
             if( !is_npc() ) {
                 //~ %s is bodypart in accusative.
                 add_msg( m_warning, _( "You start scratching your %s!" ), body_part_name_accusative( bp ) );
@@ -1196,7 +1196,7 @@ void Character::hardcoded_effects( effect &it )
                         add_msg_if_player( _( "You toss and turn trying to keep warm." ) );
                     }
                     if( temp_cur < BODYTEMP_FREEZING - get_fatigue() / 2 ||
-                        one_in( ( temp_cur * 6 ) + 30000 ) ) {
+                        one_in( temp_cur * 6 + 30000 ) ) {
                         add_msg_if_player( m_bad, _( "It's too cold to sleep." ) );
                         // Set ourselves up for removal
                         it.set_duration( 0_turns );

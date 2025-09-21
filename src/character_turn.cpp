@@ -1,7 +1,5 @@
 #include "character_turn.h"
 
-#include <algorithm>
-
 #include "avatar.h"
 #include "bionics.h"
 #include "calendar.h"
@@ -999,7 +997,9 @@ void update_body_wetness( Character &who, const w_point &weather )
             drying_chance = drying_chance * 3 / 4;
         }
 
-        drying_chance = std::max( drying_chance, 1 );
+        if( drying_chance < 1 ) {
+            drying_chance = 1;
+        }
 
         // TODO: Make evaporation reduce body heat
         if( drying_chance >= drying_roll ) {

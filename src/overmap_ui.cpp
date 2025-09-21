@@ -302,12 +302,11 @@ static void update_note_preview( const std::string &note,
     draw_border( *w_preview_map, c_yellow );
     for( int i = 0; i < npm_height; i++ ) {
         for( int j = 0; j < npm_width; j++ ) {
-            const auto &ter = map_around[( i * npm_width ) + j];
+            const auto &ter = map_around[i * npm_width + j];
             mvwputch( *w_preview_map, point( j + npm_offset_x, i + npm_offset_y ), ter.first, ter.second );
         }
     }
-    mvwputch( *w_preview_map, point( ( npm_width / 2 ) + npm_offset_x,
-                                     ( npm_height / 2 ) + npm_offset_y ),
+    mvwputch( *w_preview_map, point( npm_width / 2 + npm_offset_x, npm_height / 2 + npm_offset_y ),
               note_color, symbol );
     wnoutrefresh( *w_preview_map );
 }
@@ -374,7 +373,7 @@ static void draw_city_labels( const catacurses::window &w, const tripoint_abs_om
         const point_rel_omt screen_pos( city_pos - center.xy() + screen_center_pos );
 
         const int text_width = utf8_width( element.city->name, true );
-        const int text_x_min = screen_pos.x() - ( text_width / 2 );
+        const int text_x_min = screen_pos.x() - text_width / 2;
         const int text_x_max = text_x_min + text_width;
         const int text_y = screen_pos.y();
 

@@ -218,7 +218,7 @@ bool computer_session::hack_attempt( Character &who, int Security )
 
     ///\EFFECT_COMPUTER increases chance of successful hack attempt, vs Security level
     bool successful_attempt = ( dice( player_roll, 6 ) >= dice( Security, 6 ) );
-    who.practice( skill_computer, successful_attempt ? ( 15 + ( Security * 3 ) ) : 7 );
+    who.practice( skill_computer, successful_attempt ? ( 15 + Security * 3 ) : 7 );
     return successful_attempt;
 }
 
@@ -1110,10 +1110,14 @@ void computer_session::action_geiger()
         for( const tripoint &dest : here.points_in_radius( platform, 3 ) ) {
             sum_rads += here.get_radiation( dest );
             tiles_counted ++;
-            peak_rad = std::max( here.get_radiation( dest ), peak_rad );
+            if( here.get_radiation( dest ) > peak_rad ) {
+                peak_rad = here.get_radiation( dest );
+            }
             sum_rads += here.get_radiation( platform );
             tiles_counted ++;
-            peak_rad = std::max( here.get_radiation( platform ), peak_rad );
+            if( here.get_radiation( platform ) > peak_rad ) {
+                peak_rad = here.get_radiation( platform );
+            }
         }
         print_error( _( "GEIGER COUNTER @ ZONE:… AVG %s mSv/h." ), sum_rads / tiles_counted );
         print_error( _( "GEIGER COUNTER @ ZONE:… MAX %s mSv/h." ), peak_rad );

@@ -431,7 +431,7 @@ const recipe *select_crafting_recipe( int &batch_size_out )
         add_action_desc( "HELP_KEYBINDINGS", pgettext( "crafting gui", "Keybindings" ) );
         keybinding_x = isWide ? 5 : 2;
         keybinding_tips = foldstring( enumerate_as_string( act_descs, enumeration_conjunction::none ),
-                                      width - ( keybinding_x * 2 ) );
+                                      width - keybinding_x * 2 );
 
         const int tailHeight = keybinding_tips.size() + 2;
         dataLines = TERMY - ( headHeight + subHeadHeight ) - tailHeight;

@@ -156,7 +156,7 @@ int mk_wcwidth( uint32_t ucs )
 
     /* binary search in table of non-spacing characters */
     if( bisearch( ucs, combining,
-                  ( sizeof( combining ) / sizeof( struct interval ) ) - 1 ) ) {
+                  sizeof( combining ) / sizeof( struct interval ) - 1 ) ) {
         return 0;
     }
 

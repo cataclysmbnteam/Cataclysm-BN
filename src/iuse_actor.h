@@ -517,7 +517,7 @@ class reveal_map_actor : public iuse_actor
 
         void reveal_targets( const tripoint_abs_omt &map ) const;
 
-        void show_revealed( player &plr, item &, const tripoint_abs_omt &center ) const;
+        void show_revealed( player &plr, item &, const tripoint_abs_omt &map ) const;
 
         reveal_map_actor( const std::string &type = "reveal_map" ) : iuse_actor( type ) {}
 
@@ -1328,6 +1328,20 @@ class iuse_music_player : public iuse_actor
         iuse_music_player( const std::string &type = "music_player" ) : iuse_actor( type ) {}
 
         ~iuse_music_player() override = default;
+        void load( const JsonObject &obj ) override;
+        int use( player &, item &, bool, const tripoint & ) const override;
+        ret_val<bool> can_use( const Character &, const item &, bool, const tripoint & ) const override;
+        std::unique_ptr<iuse_actor> clone() const override;
+};
+//TODO: Incomplete class, this should have stuff regarding skill later!
+class iuse_prospect_pick : public iuse_actor
+{
+    public:
+        /**Tile radius to reveal ores in rocks and stones */
+        int range;
+
+        iuse_prospect_pick( const std::string &type = "prospect_pick" ) : iuse_actor( type ) {}
+        ~iuse_prospect_pick() override = default;
         void load( const JsonObject &obj ) override;
         int use( player &, item &, bool, const tripoint & ) const override;
         ret_val<bool> can_use( const Character &, const item &, bool, const tripoint & ) const override;

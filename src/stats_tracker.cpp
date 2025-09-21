@@ -76,7 +76,9 @@ int event_multiset::minimum( const std::string &field ) const
             continue;
         }
         const int potential = it->second.get<cata_variant_type::int_>();
-        minimum = std::min( potential, minimum );
+        if( potential < minimum ) {
+            minimum = potential;
+        }
     }
     return minimum;
 }
@@ -90,7 +92,9 @@ int event_multiset::maximum( const std::string &field ) const
             continue;
         }
         const int potential = it->second.get<cata_variant_type::int_>();
-        maximum = std::max( potential, maximum );
+        if( potential > maximum ) {
+            maximum = potential;
+        }
     }
     return maximum;
 }

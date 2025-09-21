@@ -145,8 +145,8 @@ void character_preview_window::prepare( const int nlines, const int ncols,
     }
 
     // Final size of character preview window
-    const int box_ncols = ( t_width / termx_pixels ) + 4;
-    const int box_nlines = ( t_height / termy_pixels ) + 3;
+    const int box_ncols = t_width / termx_pixels + 4;
+    const int box_nlines = t_height / termy_pixels + 3;
 
     // Setting window just a little bit more than a tile itself
     point start;
@@ -178,8 +178,8 @@ auto character_preview_window::calc_character_pos() const -> point
     const int t_width = tilecontext->get_tile_width();
     const int t_height = tilecontext->get_tile_height();
     return point(
-               ( pos.x * termx_pixels ) + ( ncols_width * termx_pixels / 2 ) - ( t_width / 2 ),
-               ( pos.y * termy_pixels ) + ( nlines_width * termy_pixels / 2 ) - ( t_height / 2 )
+               pos.x * termx_pixels + ncols_width * termx_pixels / 2 - t_width / 2,
+               pos.y * termy_pixels + nlines_width * termy_pixels / 2 - t_height / 2
            );
 }
 

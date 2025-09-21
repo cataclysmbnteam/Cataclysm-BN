@@ -8,15 +8,20 @@
 #include <algorithm>
 #include <cassert>
 #include <cmath>
+#include <coordinates.h>
+#include <cstddef>
 #include <cstring>
 #include <exception>
 #include <memory>
 #include <numeric>
 #include <optional>
 #include <ostream>
+#include <point.h>
 #include <set>
+#include <submap.h>
 #include <unordered_set>
 #include <vector>
+#include <vehicle.h>
 
 #include "all_enum_values.h"
 #include "assign.h"
@@ -60,6 +65,8 @@
 #include "string_utils.h"
 #include "text_snippets.h"
 #include "translations.h"
+#include "type_id.h"
+#include "weighted_list.h"
 #include "world.h"
 
 static const efftype_id effect_pet( "pet" );
@@ -4513,10 +4520,18 @@ void overmap::place_river( point_om_omt pa, point_om_omt pb )
     do {
         p2.x() += rng( -1, 1 );
         p2.y() += rng( -1, 1 );
-        p2.x() = std::max( p2.x(), 0 );
-        p2.x() = std::min( p2.x(), OMAPX - 1 );
-        p2.y() = std::max( p2.y(), 0 );
-        p2.y() = std::min( p2.y(), OMAPY - 1 );
+        if( p2.x() < 0 ) {
+            p2.x() = 0;
+        }
+        if( p2.x() > OMAPX - 1 ) {
+            p2.x() = OMAPX - 1;
+        }
+        if( p2.y() < 0 ) {
+            p2.y() = 0;
+        }
+        if( p2.y() > OMAPY - 1 ) {
+            p2.y() = OMAPY - 1;
+        }
         for( int i = -1 * river_scale; i <= 1 * river_scale; i++ ) {
             for( int j = -1 * river_scale; j <= 1 * river_scale; j++ ) {
                 tripoint_om_omt p( p2 + point( j, i ), 0 );
@@ -4549,12 +4564,18 @@ void overmap::place_river( point_om_omt pa, point_om_omt pb )
         }
         p2.x() += rng( -1, 1 );
         p2.y() += rng( -1, 1 );
-        p2.x() = std::max( p2.x(), 0 );
+        if( p2.x() < 0 ) {
+            p2.x() = 0;
+        }
         if( p2.x() > OMAPX - 1 ) {
             p2.x() = OMAPX - 2;
         }
-        p2.y() = std::max( p2.y(), 0 );
-        p2.y() = std::min( p2.y(), OMAPY - 1 );
+        if( p2.y() < 0 ) {
+            p2.y() = 0;
+        }
+        if( p2.y() > OMAPY - 1 ) {
+            p2.y() = OMAPY - 1;
+        }
         for( int i = -1 * river_scale; i <= 1 * river_scale; i++ ) {
             for( int j = -1 * river_scale; j <= 1 * river_scale; j++ ) {
                 // We don't want our riverbanks touching the edge of the map for many reasons
@@ -5693,6 +5714,104 @@ std::vector<tripoint_om_omt> overmap::place_special(
     }
 
     return result.omts_used;
+}
+// Inside empty rock spawn some ores maybe
+void overmap::spawn_ores( const tripoint_abs_omt &p )
+{
+    //One in 15 at lowest level, goes up as you get closer to surface. Dig deep!
+    if( one_in( 65 - abs( 5 * p.z() ) ) ) {
+        std::string depth;
+        switch( p.z() ) {
+            case -1:
+            case -2:
+            case -3: {
+                depth = "shallow";
+                break;
+            }
+            case -4:
+            case -5:
+            case -6:
+            case -7:  {
+                depth = "medium";
+                break;
+            }
+            case -8:
+            case -9:
+            case -10: {
+                depth = "deep";
+                break;
+            }
+            default:
+            {depth = "how";}
+        }
+        weighted_int_list<std::string> ores;
+        //ore_depth_to_rate in overmap.h
+        for( const auto& [k, v] : ore_depth_to_rate.at( depth ) ) {
+            ores.add( k, v );
+        }
+        std::string chosen = ores.pick()->c_str();
+        std::vector<std::string> directions{"_north", "_east", "_south", "_west"};
+        tripoint_om_omt local_pos = overmap_buffer.get_om_global( p ).local;
+        const tripoint target_sub( omt_to_sm_copy( p.raw() ) );
+        add_note( local_pos, string_format( "Signs of %s ore nearby.", chosen ) );
+        if( !( MAPBUFFER.lookup_submap( target_sub ) ) ) {
+            // No overmap to replace, set the terrain and bail.
+            ter_set( local_pos, oter_id( "omt_ore_vein_" + chosen +
+                                         directions[rand() % 4] ) );
+            return;
+        }
+        /* Theres already overmap there, crap, hacky replace time!
+        * begin edited editmap code TODO: Should probably just make this a
+        * function, if there is one, I couldnt find it. Bascially "regenerates" an OM tile.
+        */
+        tinymap tmp;
+        map &here = get_map();
+        overmap_buffer.ter_set( p, oter_id( "omt_ore_vein_" + chosen + directions[rand() % 4] ) );
+        tmp.generate( target_sub, calendar::turn );
+
+        here.set_transparency_cache_dirty( p.z() );
+        here.set_outside_cache_dirty( p.z() );
+        here.set_floor_cache_dirty( p.z() );
+        here.set_pathfinding_cache_dirty( p.z() );
+        here.set_suspension_cache_dirty( p.z() );
+
+        here.clear_vehicle_cache();
+        here.clear_vehicle_list( p.z() );
+
+        for( int x = 0; x < 2; x++ ) {
+            for( int y = 0; y < 2; y++ ) {
+                // Apply previewed mapgen to map. Since this is a function for testing, we try avoid triggering
+                // functions that would alter the results
+                const tripoint dest_pos = target_sub + point( x, y );
+                const tripoint src_pos = tripoint{ x, y, p.z() };
+
+                submap *destsm = MAPBUFFER.lookup_submap( dest_pos );
+                submap *srcsm = tmp.get_submap_at_grid( src_pos );
+
+                submap::swap( *destsm,  *srcsm );
+
+                for( auto &veh : destsm->vehicles ) {
+                    veh->sm_pos = dest_pos;
+                }
+
+                if( !destsm->spawns.empty() ) {                              // trigger spawnpoints
+                    here.spawn_monsters( true );
+                }
+            }
+        }
+
+        // Since we cleared the vehicle cache of the whole z-level (not just the generate map), we add it back here
+        for( int x = 0; x < here.getmapsize(); x++ ) {
+            for( int y = 0; y < here.getmapsize(); y++ ) {
+                const tripoint dest_pos = tripoint( x, y, p.z() );
+                const submap *destsm = here.get_submap_at_grid( dest_pos );
+                here.update_vehicle_list( destsm, p.z() ); // update real map's vcaches
+            }
+        }
+
+        here.reset_vehicle_cache();
+        /* end edited editmap code*/
+    }
 }
 
 // Points list maintaining custom order, and allowing fast removal by coordinates

@@ -79,7 +79,9 @@ int recipe::batch_time( int batch, float multiplier, size_t assistants ) const
     } else if( assistants >= 2 ) {
         total_time = total_time * .60;
     }
-    total_time = std::max( total_time, local_time );
+    if( total_time < local_time ) {
+        total_time = local_time;
+    }
 
     return static_cast<int>( total_time );
 }

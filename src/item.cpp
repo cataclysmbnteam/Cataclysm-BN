@@ -752,9 +752,9 @@ int item::damage_level( int max ) const
     } else if( max_damage() <= 1 ) {
         return damage_ > 0 ? max : damage_;
     } else if( damage_ < 0 ) {
-        return -( ( ( max - 1 ) * ( -damage_ - 1 ) / ( max_damage() - 1 ) ) + 1 );
+        return -( ( max - 1 ) * ( -damage_ - 1 ) / ( max_damage() - 1 ) + 1 );
     } else {
-        return ( ( max - 1 ) * ( damage_ - 1 ) / ( max_damage() - 1 ) ) + 1;
+        return ( max - 1 ) * ( damage_ - 1 ) / ( max_damage() - 1 ) + 1;
     }
 }
 
@@ -1521,9 +1521,9 @@ double item::effective_dps( const player &guy, const monster &mon,
 {
     const float mon_dodge = mon.get_dodge();
     // TODO: Handle multiple attacks
-    float base_hit = ( guy.get_dex() / 4.0f ) + guy.get_hit_weapon( *this, attack );
-    base_hit *= std::max( 0.25f, 1.0f - ( guy.encumb( body_part_torso ) / 100.0f ) );
-    float mon_defense = mon_dodge + ( mon.size_melee_penalty() / 5.0 );
+    float base_hit = guy.get_dex() / 4.0f + guy.get_hit_weapon( *this, attack );
+    base_hit *= std::max( 0.25f, 1.0f - guy.encumb( body_part_torso ) / 100.0f );
+    float mon_defense = mon_dodge + mon.size_melee_penalty() / 5.0;
     constexpr double hit_trials = 10000.0;
     const int rng_mean = std::max( std::min( static_cast<int>( base_hit - mon_defense ), 20 ),
                                    -20 ) + 20;
@@ -1535,7 +1535,7 @@ double item::effective_dps( const player &guy, const monster &mon,
      * critical hits, and the rest are eligible to be triple critical hits, but in each case,
      * only some small percent of them actually become critical hits.
      */
-    const int rng_high_mean = std::max( std::min( static_cast<int>( base_hit - ( 1.5 * mon_dodge ) ),
+    const int rng_high_mean = std::max( std::min( static_cast<int>( base_hit - 1.5 * mon_dodge ),
                                         20 ), -20 ) + 20;
     double num_high_hits = hits_by_accuracy[ rng_high_mean ] * num_all_hits / hit_trials;
     double double_crit_chance = guy.crit_chance( 4, 0, *this, attack );
@@ -1546,8 +1546,7 @@ double item::effective_dps( const player &guy, const monster &mon,
     // attacks that miss do no damage but take time
     double total_moves = ( hit_trials - num_all_hits ) * moves_per_attack;
     double total_damage = 0.0;
-    double num_crits = std::min( ( num_low_hits * crit_chance ) + ( num_high_hits *
-                                 double_crit_chance ),
+    double num_crits = std::min( num_low_hits * crit_chance + num_high_hits * double_crit_chance,
                                  num_all_hits );
     // critical hits are counted separately
     double num_hits = num_all_hits - num_crits;
@@ -4685,9 +4684,9 @@ void item::on_wield( player &p, int mv )
     if( has_flag( flag_NEEDS_UNFOLD ) && !is_gunmod() ) {
         int penalty = 50; // 200-300 for guns, 50-150 for melee, 50 as fallback
         if( is_gun() ) {
-            penalty = std::max( 0, 300 - ( p.get_skill_level( gun_skill() ) * 10 ) );
+            penalty = std::max( 0, 300 - p.get_skill_level( gun_skill() ) * 10 );
         } else if( is_melee() ) {
-            penalty = std::max( 0, 150 - ( p.get_skill_level( melee_skill() ) * 10 ) );
+            penalty = std::max( 0, 150 - p.get_skill_level( melee_skill() ) * 10 );
         }
 
         p.moves -= penalty;
@@ -5487,7 +5486,7 @@ int item::lift_strength() const
 
 int item::attack_cost() const
 {
-    int base = 65 + ( ( volume() / 62.5_ml + weight() / 60_gram ) / count() );
+    int base = 65 + ( volume() / 62.5_ml + weight() / 60_gram ) / count();
     int bonus = bonus_from_enchantments_wielded( base, enchant_vals::mod::ITEM_ATTACK_COST, true );
     return std::max( 0, base + bonus );
 }
@@ -6032,8 +6031,12 @@ bool item::goes_bad_after_opening( bool strict ) const
 {
     // check if this item is explicitly a canning-type item: eg, it preserves contents
     if( strict ) {
-        return type->container && type->container->preserves &&
-               !contents.empty() && contents.front().goes_bad();
+        if( type->container && type->container->preserves &&
+            !contents.empty() && contents.front().goes_bad() ) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     return goes_bad() || ( type->container && type->container->preserves &&
@@ -7575,7 +7578,7 @@ double item::bonus_from_enchantments( const Character &owner, double base,
         }
     }
     // TODO: this part duplicates enchantment::calc_bonus()
-    double ret = add + ( base * mul );
+    double ret = add + base * mul;
     if( round ) {
         ret = trunc( ret );
     }
@@ -7594,7 +7597,7 @@ double item::bonus_from_enchantments_wielded( double base, enchant_vals::mod val
         }
     }
     // TODO: this part duplicates enchantment::calc_bonus()
-    double ret = add + ( base * mul );
+    double ret = add + base * mul;
     if( round ) {
         ret = trunc( ret );
     }
@@ -7864,7 +7867,7 @@ damage_instance item::gun_damage( bool with_ammo ) const
             if( du.amount <= 1.0 ) {
                 continue;
             }
-            du.amount = std::max<float>( 1.0f, du.amount - ( item_damage * 2 ) );
+            du.amount = std::max<float>( 1.0f, du.amount - item_damage * 2 );
         }
     }
 
@@ -9155,7 +9158,7 @@ int item::get_remaining_capacity_for_liquid( const item &liquid, const Character
 int item::get_remaining_capacity_for_id( const itype_id &liquid, bool allow_buckets ) const
 {
     int rem_cap = 0;
-    const itype &obj = liquid.obj();
+    itype obj = liquid.obj();
     if( !is_container() && is_reloadable_with( liquid ) ) {
         if( ammo_remaining() != 0 && ammo_current() != liquid ) {
             return 0;
@@ -9241,8 +9244,8 @@ detached_ptr<item> item::fill_with( detached_ptr<item> &&liquid, int amount )
     if( amount == -1 ) {
         amount = INT_MAX;
     }
-    amount = std::min( {get_remaining_capacity_for_liquid( *liquid, true ),
-                        amount, liquid->charges } );
+    amount = std::min( get_remaining_capacity_for_liquid( *liquid, true ),
+                       std::min( amount, liquid->charges ) );
     if( amount <= 0 ) {
         return std::move( liquid );
     }
@@ -9905,7 +9908,7 @@ detached_ptr<item> item::process_litcig( detached_ptr<item> &&self, player *carr
     if( !one_in( 10 ) ) {
         return std::move( self );
     }
-    self = item::process_extinguish( std::move( self ), carrier, pos );
+    self = self->process_extinguish( std::move( self ), carrier, pos );
     // process_extinguish might have extinguished the item already
     if( !self->is_active() ) {
         return std::move( self );
@@ -10385,8 +10388,8 @@ detached_ptr<item> item::process( detached_ptr<item> &&self, player *carrier, co
         if( preserves ) {
             it->last_rot_check = calendar::turn;
         }
-        it = item::process_internal( std::move( it ), carrier, pos, activate, seals, flag,
-                                     weather_generator );
+        it = it->process_internal( std::move( it ), carrier, pos, activate, seals, flag,
+                                   weather_generator );
         return VisitResponse::NEXT;
     } );
     detached_ptr<item> res = process_internal( std::move( self ), carrier, pos, activate, seals, flag,

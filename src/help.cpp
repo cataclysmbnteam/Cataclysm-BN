@@ -113,7 +113,7 @@ void help::draw_menu( const catacurses::window &win )
                             _( "Please press one of the following for help on that topic:\n"
                                "Press ESC to return to the game." ) ) + 1;
 
-    size_t half_size = ( help_texts.size() / 2 ) + 1;
+    size_t half_size = help_texts.size() / 2 + 1;
     int second_column = divide_round_up( getmaxx( win ), 2 );
     for( size_t i = 0; i < help_texts.size(); i++ ) {
         std::string cat_name = _( help_texts[i].first );
@@ -121,7 +121,7 @@ void help::draw_menu( const catacurses::window &win )
             second_column = std::max( second_column, utf8_width( cat_name ) + 4 );
         }
 
-        shortcut_print( win, point( i < half_size ? 1 : second_column, y + ( i % half_size ) ),
+        shortcut_print( win, point( i < half_size ? 1 : second_column, y + i % half_size ),
                         c_white, c_light_blue, cat_name );
     }
 
