@@ -171,6 +171,10 @@ static const itype_id itype_UPS( "UPS" );
 
 static const mtype_id mon_hallu_multicooker( "mon_hallu_multicooker" );
 
+
+static const species_id species_HALLUCINATION( "HALLUCINATION" );
+static const species_id species_ROBOT( "ROBOT" );
+
 class npc;
 
 std::unique_ptr<iuse_actor> iuse_transform::clone() const
@@ -1182,7 +1186,11 @@ void place_monster_iuse::load( const JsonObject &obj )
 
 int place_monster_iuse::use( player &p, item &it, bool, const tripoint &pos ) const
 {
-    shared_ptr_fast<monster> newmon_ptr = make_shared_fast<monster>( mtypeid );
+    mtype_id spawn_id = mtypeid;
+    if( it.has_var( "place_monster_override" ) ) {
+        spawn_id = mtype_id( it.get_var( "place_monster_override" ) );
+    }
+    shared_ptr_fast<monster> newmon_ptr = make_shared_fast<monster>( spawn_id );
     monster &newmon = *newmon_ptr;
     newmon.init_from_item( it );
     tripoint pnt = it.is_active() ? pos : p.pos();
@@ -5281,6 +5289,203 @@ int change_scent_iuse::use( player &p, item &it, bool, const tripoint & ) const
 std::unique_ptr<iuse_actor> change_scent_iuse::clone() const
 {
     return std::make_unique<change_scent_iuse>( *this );
+}
+
+void cloning_syringe_iuse::load( const JsonObject &obj )
+{
+    assign( obj, "moves", moves );
+}
+
+int cloning_syringe_iuse::use( player &p, item &it, bool, const tripoint & ) const
+{
+    const std::string query = string_format( _( "Select creature:" ) );
+    const std::optional<tripoint> pnt_ = choose_adjacent( query );
+
+    if( !pnt_ ) {
+        // No valid point was chosen — handle this case, maybe just return
+        return 0;
+    }
+
+    p.mod_moves( -moves / 2 );
+
+    // Extract the tripoint from the optional
+    const tripoint &pnt = *pnt_;
+
+    const monster *const m = g->critter_at( pnt )->as_monster();
+    if( m == nullptr ) {
+        add_msg( m_info, _( "There's no valid specimen there." ) );
+        return 0;
+    }
+
+    bool in_bad_species = m->in_species( species_HALLUCINATION ) || m->in_species( species_ROBOT );
+
+    if( m->has_flag( MF_CANT_CLONE ) || in_bad_species ) {
+        add_msg( m_info, _( "That can't be cloned." ) );
+        return 0;
+    }
+
+    const mtype_id &id = m->type->id;
+    const std::string id_str = id.str();
+
+    p.mod_moves( -moves / 2 );
+    detached_ptr<item> dna = item::spawn( itype_id( "dna" ), calendar::turn, 8 );
+    dna->set_var( "specimen_sample", id_str );
+    dna->set_var( "specimen_name", m->name() );
+    dna->set_var( "specimen_size", static_cast<int>( m->get_size() ) );
+    liquid_handler::handle_liquid( std::move( dna ) );
+    add_msg( m_info, _( "You draw the sample from the %s into your %s." ), id_str, it.display_name() );
+
+    return 0;
+}
+
+std::unique_ptr<iuse_actor> cloning_syringe_iuse::clone() const
+{
+    return std::make_unique<cloning_syringe_iuse>( *this );
+}
+
+
+void cloning_vat_iuse::load( const JsonObject &obj )
+{
+    assign( obj, "moves", moves );
+    assign( obj, "charges_per_minute", charges_per_minute );
+    assign( obj, "charges_to_start", charges_to_start );
+}
+
+// heavy based on the multicooker function, with a little bit of nanofabrication-style code
+int cloning_vat_iuse::use( player &p, item &it, bool t, const tripoint &pos ) const
+{
+
+    if( t ) {
+        if( !it.units_sufficient( p, charges_per_minute ) ) {
+            it.deactivate();
+            return 0;
+        }
+
+        int cooktime = it.get_var( "COOKTIME", 0 );
+        cooktime -= 100;
+
+        if( cooktime <= 0 ) {
+            it.deactivate();
+            detached_ptr<item> spawned_embryo = item::spawn( itype_id( "embryo" ), calendar::turn, 1 );
+            spawned_embryo->set_var( "place_monster_override", it.get_var( "RESULT" ) );
+            spawned_embryo->set_var( "place_monster_override_name", it.get_var( "NAME" ) );
+            it.put_in( std::move( spawned_embryo ) );
+
+            it.erase_var( "RESULT" );
+            it.erase_var( "NAME" );
+            it.erase_var( "COOKTIME" );
+
+            sounds::sound( pos, 8, sounds::sound_t::alarm, _( "ding!" ), true, "misc", "ding" );
+
+            return 0;
+        } else {
+            if( calendar::once_every( 1_minutes ) ) {
+                it.ammo_consume( charges_per_minute, pos );
+            }
+            it.set_var( "COOKTIME", cooktime );
+            return 0;
+        }
+    } else {
+        enum {
+            cv_start, cv_stop, cv_take
+        };
+        auto syringes = p.all_items_with_id( itype_id( "dna" ) );
+
+        if( syringes.size() == 0 ) {
+            popup( "You have no valid specimen samples." );
+            return 0;
+        }
+
+        item *dish_it = it.contents.get_item_with(
+        []( const item & it ) {
+            return !( it.is_toolmod() || it.is_magazine() );
+        } );
+
+        uilist menu;
+        menu.text = _( "Select option:" );
+
+        if( it.is_active() ) {
+            menu.addentry( cv_stop, true, 's', _( "Stop incubation" ) );
+        } else {
+
+            if( dish_it == nullptr ) {
+                if( it.ammo_remaining() < charges_to_start ) {
+                    p.add_msg_if_player( _( "Insufficient power supply." ) );
+                    return 0;
+                }
+                menu.addentry( cv_start, true, 's', _( "Start incubation" ) );
+            } else {
+                menu.addentry( cv_take, true, 't', _( "Remove embryo" ) );
+            }
+        }
+        menu.query();
+        int menu_choice = menu.ret;
+
+        if( menu_choice == cv_stop ) {
+            it.deactivate();
+            it.erase_var( "COOKTIME" );
+            it.erase_var( "RESULT" );
+            return 0;
+        }
+
+        if( menu_choice == cv_start ) {
+            uilist specimen_menu;
+            specimen_menu.text = _( "Select specimen sample:" );
+            for( int z = 0; z < syringes.size(); z++ ) {
+                specimen_menu.addentry( z, true, MENU_AUTOASSIGN, string_format( "%s [%s]",
+                                        syringes[z]->display_name(),
+                                        to_string( time_duration::from_turns( 180000 * syringes[z]->get_var( "specimen_size", 0 ) ) ) ) );
+            }
+            specimen_menu.query();
+            int choice = specimen_menu.ret;
+            auto &selected_syringe = syringes[choice];  // reference to the original detached_ptr
+
+            p.mod_moves( -moves );
+
+            // 100 turns = 1 second, so 180000 = 30 min per size increment
+            int specimen_size = selected_syringe->get_var( "specimen_size", 0 );
+            it.set_var( "COOKTIME", 180000 * specimen_size );
+            it.set_var( "NAME", selected_syringe->get_var( "specimen_name" ) );
+            it.set_var( "RESULT", selected_syringe->get_var( "specimen_sample" ) );
+
+            // Only try to remove if the pointer is valid
+            if( selected_syringe ) {
+                std::vector<item *> items = p.all_items();
+                for( int x = 0; x < items.size(); x++ ) {
+                    if( selected_syringe->get_var( "specimen_sample" ) == items[x]->get_var( "specimen_sample" ) ) {
+                        add_msg( items[x]->tname() );
+                        if( items[x]->units_remaining( p ) ) {
+                            items[x]->mod_charges( -1 );
+                        } else {
+                            // can't figure out how to properly delete it, but it'd be done here
+                        }
+
+                        add_msg( "The cloning vat begins its rapid incubation process." );
+
+                        it.activate();
+
+                        return 0;
+                    }
+                }
+            }
+        }
+
+        if( menu_choice == cv_take ) {
+            detached_ptr<item> dish = it.remove_item( *dish_it );
+            const std::string dish_name = dish->tname( dish->charges, false );
+            p.i_add( std::move( dish ) );
+
+            it.erase_var( "RECIPE" );
+            p.add_msg_if_player( m_good, _( "You got the %s from the %s." ),
+                                 dish_name, it.tname() );
+
+            return 0;
+        }
+    }
+}
+std::unique_ptr<iuse_actor> cloning_vat_iuse::clone() const
+{
+    return std::make_unique<cloning_vat_iuse>( *this );
 }
 
 void multicooker_iuse::load( const JsonObject &obj )

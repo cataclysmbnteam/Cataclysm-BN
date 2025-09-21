@@ -521,17 +521,7 @@
     "max_charges": 2500,
     "sub": "cloning_vat",
     "charges_per_use": 5,
-    "use_action": [
-      {
-        "type": "multicooker",
-        "do_hallu": true,
-        "charges_to_start": 50,
-        "charges_per_minute": 1,
-        "time_mult": 1,
-        "subcategories": [ "CSC_ANIMALS_CLONING" ],
-        "temporary_tools": [ ]
-      }
-    ],
+    "use_action": [ { "type": "cloning_vat", "moves": 100, "charges_per_minute": 1 } ],
     "flags": [ "USES_GRID_POWER" ],
     "qualities": [ [ "CREATURE_CLONING", 3 ] ]
   }

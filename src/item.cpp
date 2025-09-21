@@ -5025,6 +5025,15 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
         tagtext += _( " (heats)" );
     }
 
+
+    if( has_var( "specimen_sample" ) ) {
+        tagtext += string_format( " (%s)", get_var( "specimen_name" ) );
+    }
+
+    if( has_var( "place_monster_override" ) ) {
+        tagtext += string_format( " (%s)", get_var( "place_monster_override_name" ) );
+    }
+
     if( has_var( "NANOFAB_GROUP_ID" ) ) {
         std::string group_id_str = get_var( "NANOFAB_GROUP_ID" );
         const std::string prefix = "nanofab_template_";

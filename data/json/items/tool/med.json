@@ -130,7 +130,27 @@
     "price_postapoc": "10 cent",
     "material": "plastic",
     "symbol": ",",
-    "color": "white"
+    "color": "white",
+    "use_action": "cloning_syringe"
+  },
+  {
+    "id": "dna",
+    "type": "AMMO",
+    "name": { "str_sp": "DNA" },
+    "description": "The DNA of some living creature.  This can be used in a cloning vat to create a copy of the creature.",
+    "weight": "1 g",
+    "volume": "250ml",
+    "price": "2 USD",
+    "price_postapoc": "5 USD",
+    "count": 10,
+    "stack_size": 10,
+    "category": "chems",
+    "phase": "liquid",
+    "container": "bottle_glass",
+    "material": [ "flesh" ],
+    "symbol": "~",
+    "color": "red",
+    "ammo_type": "dna"
   },
   {
     "id": "thermometer",

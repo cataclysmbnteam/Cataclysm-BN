@@ -892,20 +892,25 @@
     "ammo": "battery",
     "charges_per_use": 20,
     "flags": [ "ALLOWS_REMOTE_USE" ],
-    "use_action": [
-      {
-        "type": "multicooker",
-        "do_hallu": true,
-        "charges_to_start": 50,
-        "charges_per_minute": 1,
-        "time_mult": 1,
-        "subcategories": [ "CSC_ANIMALS_CLONING" ],
-        "temporary_tools": [ ]
-      }
-    ],
+    "use_action": [ { "type": "cloning_vat", "moves": 100, "charges_per_minute": 1 } ],
     "magazines": [
       [ "battery", [ "heavy_battery_cell", "heavy_plus_battery_cell", "heavy_atomic_battery_cell", "heavy_disposable_cell" ] ]
     ],
     "magazine_well": "1000 ml"
+  },
+  {
+    "id": "embryo",
+    "type": "TOOL",
+    "looks_like": "fetus",
+    "weight": "60 kg",
+    "volume": "60 L",
+    "price": "2000 USD",
+    "price_postapoc": "5 USD",
+    "symbol": "&",
+    "color": "pink",
+    "//": "used by the cloning vat and adds a var called 'place_monster_override'",
+    "name": { "str": "embryo" },
+    "description": "This is a rapid-growth embryo.  Choose a location for it, and watch it age!",
+    "use_action": { "type": "place_monster", "monster_id": "debug_mon", "moves": 250, "skills": [ "survival" ] }
   }
 ]

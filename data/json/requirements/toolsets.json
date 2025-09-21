@@ -96,7 +96,13 @@
     "type": "requirement",
     "//": "Production of cloned specimens.",
     "tools": [ [ [ "syringe", -1 ] ] ],
-    "qualities": [ { "id": "CHEM", "level": 3 }, { "id": "FINE_DISTILL", "level": 1 }, { "id": "CONCENTRATE", "level": 1 }, { "id": "SEPARATE", "level": 1 }, { "id": "ANALYSIS", "level": 1 }, { "id": "CREATURE_CLONING", "level": 1 } ]
+    "qualities": [
+      { "id": "FINE_DISTILL", "level": 1 },
+      { "id": "CONCENTRATE", "level": 1 },
+      { "id": "SEPARATE", "level": 1 },
+      { "id": "ANALYSIS", "level": 1 },
+      { "id": "CREATURE_CLONING", "level": 1 }
+    ]
   },
   {
     "id": "sewing_standard",
