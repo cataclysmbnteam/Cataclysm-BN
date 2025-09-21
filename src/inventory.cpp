@@ -1097,7 +1097,7 @@ int inventory::count_item( const itype_id &item_type ) const
 {
     int num = 0;
     const itype_bin bin = get_binned_items();
-    if( bin.find( item_type ) == bin.end() ) {
+    if( !bin.contains( item_type ) ) {
         return num;
     }
     const std::list<const item *> items = get_binned_items().find( item_type )->second;
@@ -1186,7 +1186,7 @@ void inventory::reassign_item( item &it, char invlet, bool remove_old )
 void inventory::update_invlet( item &newit, bool assign_invlet )
 {
     // Avoid letters that have been manually assigned to other things.
-    if( newit.invlet && assigned_invlet.find( newit.invlet ) != assigned_invlet.end() &&
+    if( newit.invlet && assigned_invlet.contains( newit.invlet ) &&
         assigned_invlet[newit.invlet] != newit.typeId() ) {
         newit.invlet = '\0';
     }

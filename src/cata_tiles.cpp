@@ -2280,7 +2280,7 @@ bool cata_tiles::draw_from_id_string( const std::string &id, TILE_CATEGORY categ
             break;
         case C_MONSTER:
             // FIXME: add persistent id to Creature type, instead of using monster pointer address
-            if( monster_override.find( pos ) == monster_override.end() ) {
+            if( !monster_override.contains( pos ) ) {
                 seed = reinterpret_cast<uintptr_t>( g->critter_at<monster>( pos ) );
             }
             break;
@@ -2664,7 +2664,7 @@ bool cata_tiles::draw_terrain( const tripoint &p, const lit_level ll, int &heigh
     bool neighborhood_overridden = overridden;
     if( !neighborhood_overridden ) {
         for( point dir : neighborhood ) {
-            if( terrain_override.find( p + dir ) != terrain_override.end() ) {
+            if( terrain_override.contains( p + dir ) ) {
                 neighborhood_overridden = true;
                 break;
             }
@@ -2836,7 +2836,7 @@ bool cata_tiles::draw_furniture( const tripoint &p, const lit_level ll, int &hei
     bool neighborhood_overridden = overridden;
     if( !neighborhood_overridden ) {
         for( point dir : neighborhood ) {
-            if( furniture_override.find( p + dir ) != furniture_override.end() ) {
+            if( furniture_override.contains( p + dir ) ) {
                 neighborhood_overridden = true;
                 break;
             }
@@ -2925,7 +2925,7 @@ bool cata_tiles::draw_trap( const tripoint &p, const lit_level ll, int &height_3
     bool neighborhood_overridden = overridden;
     if( !neighborhood_overridden ) {
         for( point dir : neighborhood ) {
-            if( trap_override.find( p + dir ) != trap_override.end() ) {
+            if( trap_override.contains( p + dir ) ) {
                 neighborhood_overridden = true;
                 break;
             }
@@ -3296,7 +3296,7 @@ bool cata_tiles::draw_zombie_revival_indicators( const tripoint &pos, const lit_
 {
     map &here = get_map();
     if( tileset_ptr->find_tile_type( ZOMBIE_REVIVAL_INDICATOR ) && !invisible[0] &&
-        item_override.find( pos ) == item_override.end() && here.could_see_items( pos, g->u ) ) {
+        !item_override.contains( pos ) && here.could_see_items( pos, g->u ) ) {
         for( auto &i : here.i_at( pos ) ) {
             if( i->is_corpse() ) {
                 if( i->can_revive() || ( i->get_mtype()->zombify_into && !i->has_flag( flag_PULPED ) ) ) {
@@ -3587,16 +3587,16 @@ void cata_tiles::void_monster_override()
 }
 bool cata_tiles::has_draw_override( const tripoint &p ) const
 {
-    return radiation_override.find( p ) != radiation_override.end() ||
-           terrain_override.find( p ) != terrain_override.end() ||
-           furniture_override.find( p ) != furniture_override.end() ||
-           graffiti_override.find( p ) != graffiti_override.end() ||
-           trap_override.find( p ) != trap_override.end() ||
-           field_override.find( p ) != field_override.end() ||
-           item_override.find( p ) != item_override.end() ||
-           vpart_override.find( p ) != vpart_override.end() ||
-           draw_below_override.find( p ) != draw_below_override.end() ||
-           monster_override.find( p ) != monster_override.end();
+    return radiation_override.contains( p ) ||
+           terrain_override.contains( p ) ||
+           furniture_override.contains( p ) ||
+           graffiti_override.contains( p ) ||
+           trap_override.contains( p ) ||
+           field_override.contains( p ) ||
+           item_override.contains( p ) ||
+           vpart_override.contains( p ) ||
+           draw_below_override.contains( p ) ||
+           monster_override.contains( p );
 }
 /* -- Animation Renders */
 void cata_tiles::draw_explosion_frame()
@@ -3865,7 +3865,7 @@ void cata_tiles::get_terrain_orientation( const tripoint &p, int &rota, int &sub
         const std::map<tripoint, ter_id> &ter_override, const bool ( &invisible )[5] )
 {
     map &here = get_map();
-    const bool overridden = ter_override.find( p ) != ter_override.end();
+    const bool overridden = ter_override.contains( p );
     const auto ter = [&]( const tripoint & q, const bool invis ) -> ter_id {
         const auto override = ter_override.find( q );
         return override != ter_override.end() ? override->second :

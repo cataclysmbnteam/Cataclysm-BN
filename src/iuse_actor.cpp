@@ -905,7 +905,7 @@ int consume_drug_iuse::use( player &p, item &it, bool, const tripoint & ) const
     }
 
     // this is a smokeable item, we need to make sure player isnt already smoking (ripped from iuse::smoking)
-    if( lit_item.size() != 0 ) {
+    if( !lit_item.empty() ) {
         // make sure we're not already smoking something
         auto cigs = p.items_with( []( const item & it ) {
             return it.is_active() && it.has_flag( flag_LITCIG );
@@ -936,7 +936,7 @@ int consume_drug_iuse::use( player &p, item &it, bool, const tripoint & ) const
     }
 
     // item used to "fake" addiction (ripped from old ecig iuse)
-    if( fake_item.size() != 0 ) {
+    if( !fake_item.empty() ) {
         item *dummy_item = item::spawn_temporary( fake_item, calendar::turn );
         p.consume_effects( *dummy_item );
     }
@@ -1003,7 +1003,7 @@ int consume_drug_iuse::use( player &p, item &it, bool, const tripoint & ) const
                        p.vitamin_rate( v.first ) <= 0_turns );
     }
 
-    if( snippet_category != "" ) {
+    if( !snippet_category.empty() ) {
         std::string snippet_string = "";
         snippet_string = SNIPPET.random_from_category( snippet_category ).value_or(
                              translation() ).translated();
