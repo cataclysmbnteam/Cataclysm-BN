@@ -872,5 +872,40 @@
     "price": "250 USD",
     "price_postapoc": "1 USD",
     "material": [ "iron", "glass" ]
+  },
+  {
+    "id": "cloning_vat",
+    "type": "TOOL",
+    "category": "tools_workshop",
+    "name": { "str": "cloning vat" },
+    "description": "A large, barely portable cloning vat.",
+    "weight": "200 kg",
+    "volume": "200 L",
+    "price": "20000 USD",
+    "price_postapoc": "60 USD",
+    "to_hit": -2,
+    "bashing": 8,
+    "material": [ "steel", "plastic" ],
+    "symbol": "&",
+    "color": "light_gray",
+    "looks_like": "t_vat",
+    "ammo": "battery",
+    "charges_per_use": 20,
+    "flags": [ "ALLOWS_REMOTE_USE" ],
+    "use_action": [
+      {
+        "type": "multicooker",
+        "do_hallu": true,
+        "charges_to_start": 50,
+        "charges_per_minute": 1,
+        "time_mult": 1,
+        "subcategories": [ "CSC_ANIMALS_CLONING" ],
+        "temporary_tools": [ ]
+      }
+    ],
+    "magazines": [
+      [ "battery", [ "heavy_battery_cell", "heavy_plus_battery_cell", "heavy_atomic_battery_cell", "heavy_disposable_cell" ] ]
+    ],
+    "magazine_well": "1000 ml"
   }
 ]

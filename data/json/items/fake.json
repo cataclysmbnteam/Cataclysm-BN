@@ -512,5 +512,27 @@
     "type": "TOOL",
     "name": { "str_sp": "local gateway" },
     "use_action": { "type": "cast_spell", "spell_id": "translocation_caster_spell", "no_fail": true, "level": 0 }
+  },
+  {
+    "id": "fake_cloning_vat",
+    "copy-from": "fake_item",
+    "type": "TOOL",
+    "name": "cloning vat",
+    "max_charges": 2500,
+    "sub": "cloning_vat",
+    "charges_per_use": 5,
+    "use_action": [
+      {
+        "type": "multicooker",
+        "do_hallu": true,
+        "charges_to_start": 50,
+        "charges_per_minute": 1,
+        "time_mult": 1,
+        "subcategories": [ "CSC_ANIMALS_CLONING" ],
+        "temporary_tools": [ ]
+      }
+    ],
+    "flags": [ "USES_GRID_POWER" ],
+    "qualities": [ [ "CREATURE_CLONING", 3 ] ]
   }
 ]

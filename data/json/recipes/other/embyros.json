@@ -1,0 +1,15 @@
+[
+  {
+    "type": "recipe",
+    "result": "embryo_cow",
+    "category": "CC_ANIMALS",
+    "subcategory": "CSC_ANIMALS_CLONING",
+    "skill_used": "cooking",
+    "difficulty": 10,
+    "required_skills": [ [ "firstaid", 8 ] ],
+    "time": "6 h",
+    "autolearn": true,
+    "using": [ [ "cloning_standard", -1 ] ],
+    "components": [ [ [ "egg_chicken", 1 ] ], [ [ "animal_blood_concentrate", 3 ] ] ]
+  }
+]
