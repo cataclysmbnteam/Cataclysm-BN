@@ -5434,7 +5434,8 @@ int cloning_vat_iuse::use( player &p, item &it, bool t, const tripoint &pos ) co
             for( int z = 0; z < syringes.size(); z++ ) {
                 specimen_menu.addentry( z, true, MENU_AUTOASSIGN, string_format( "%s [%s]",
                                         syringes[z]->display_name(),
-                                        to_string( time_duration::from_turns( 180000 * syringes[z]->get_var( "specimen_size", 0 ) ) ) ) );
+                                        to_string( time_duration::from_turns( 90000 * ( syringes[z]->get_var( "specimen_size",
+                                                   1 ) + 1 ) ) ) ) );
             }
             specimen_menu.query();
             int choice = specimen_menu.ret;
@@ -5443,8 +5444,8 @@ int cloning_vat_iuse::use( player &p, item &it, bool t, const tripoint &pos ) co
             p.mod_moves( -moves );
 
             // 100 turns = 1 second, so 180000 = 30 min per size increment
-            int specimen_size = selected_syringe->get_var( "specimen_size", 0 );
-            it.set_var( "COOKTIME", 180000 * specimen_size );
+            int specimen_size = selected_syringe->get_var( "specimen_size", 1 ) + 1;
+            it.set_var( "COOKTIME", 90000 * specimen_size );
             it.set_var( "NAME", selected_syringe->get_var( "specimen_name" ) );
             it.set_var( "RESULT", selected_syringe->get_var( "specimen_sample" ) );
 
@@ -5453,7 +5454,6 @@ int cloning_vat_iuse::use( player &p, item &it, bool t, const tripoint &pos ) co
                 std::vector<item *> items = p.all_items();
                 for( int x = 0; x < items.size(); x++ ) {
                     if( selected_syringe->get_var( "specimen_sample" ) == items[x]->get_var( "specimen_sample" ) ) {
-                        add_msg( items[x]->tname() );
                         if( items[x]->units_remaining( p ) ) {
                             items[x]->mod_charges( -1 );
                         } else {
