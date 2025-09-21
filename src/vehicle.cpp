@@ -7632,7 +7632,7 @@ std::set<int> vehicle::advance_precalc_mounts( point new_pos, const tripoint &sr
 {
     map &here = get_map();
     std::set<int> smzs;
-
+    dir_dirty = true;
     for( vehicle_part &prt : parts ) {
         here.clear_vehicle_point_from_cache( this, src + prt.precalc[0] );
         prt.precalc[0] = prt.precalc[1];
