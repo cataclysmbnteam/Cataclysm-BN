@@ -5312,16 +5312,17 @@ int cloning_syringe_iuse::use( player &p, item &it, bool, const tripoint & ) con
     // Extract the tripoint from the optional
     const tripoint &pnt = *pnt_;
 
-    const monster *const m = g->critter_at( pnt )->as_monster();
-    if( m == nullptr ) {
-        add_msg( m_info, _( "There's no valid specimen there." ) );
+    const Creature *const critter = g->critter_at( pnt );
+    if( !critter ) {
+        add_msg( m_info, _( "There's no creature there." ) );
         return 0;
     }
 
+    const monster *const m = critter->as_monster();
     bool in_bad_species = m->in_species( species_HALLUCINATION ) || m->in_species( species_ROBOT );
 
-    if( m->has_flag( MF_CANT_CLONE ) || in_bad_species ) {
-        add_msg( m_info, _( "That can't be cloned." ) );
+    if( !m && ( m->has_flag( MF_CANT_CLONE ) || in_bad_species ) ) {
+        add_msg( m_info, _( "There's no valid specimen there." ) );
         return 0;
     }
 
@@ -5477,6 +5478,8 @@ int cloning_vat_iuse::use( player &p, item &it, bool t, const tripoint &pos ) co
                     }
                 }
             }
+
+            return 0;
         }
 
         if( menu_choice == cv_take ) {
