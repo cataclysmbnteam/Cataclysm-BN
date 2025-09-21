@@ -4872,7 +4872,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
     }
 
     std::string maintext;
-    if( is_corpse() || item_vars.find( "name" ) != item_vars.end() ) {
+    if( is_corpse() || item_vars.contains( "name" ) ) {
         maintext = type_name( quantity );
     } else if( is_craft() ) {
         maintext = string_format( _( "in progress %s" ), craft_data_->making->result_name() );
@@ -5058,7 +5058,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
         ret = utf8_truncate( ret, truncate + truncate_override );
     }
 
-    if( item_vars.find( "item_note" ) != item_vars.end() ) {
+    if( item_vars.contains( "item_note" ) ) {
         //~ %s is an item name. This style is used to denote items with notes.
         return string_format( _( "*%s*" ), ret );
     } else {
@@ -5867,7 +5867,7 @@ const item::FlagsSetType &item::get_flags() const
 
 bool item::has_property( const std::string &prop ) const
 {
-    return type->properties.find( prop ) != type->properties.end();
+    return type->properties.contains( prop );
 }
 
 std::string item::get_property_string( const std::string &prop, const std::string &def ) const
@@ -7542,7 +7542,7 @@ bool item::is_tool() const
 
 bool item::is_transformable() const
 {
-    return type->use_methods.find( "transform" ) != type->use_methods.end();
+    return type->use_methods.contains( "transform" );
 }
 
 bool item::is_artifact() const

@@ -1450,7 +1450,7 @@ int iuse::petfood( player *p, item *it, bool, const tripoint & )
         const std::set<std::string> &itemfood = it->get_comestible()->petfood;
         if( !petfood.food.empty() ) {
             for( const std::string &food : petfood.food ) {
-                if( itemfood.find( food ) != itemfood.end() ) {
+                if( itemfood.contains( food ) ) {
                     can_feed = true;
                     break;
                 }
@@ -4413,7 +4413,7 @@ int iuse::chop_logs( player *p, item *it, bool t, const tripoint & )
     };
     const std::function<bool( const tripoint & )> f = [&allowed_ter_id]( const tripoint & pnt ) {
         const ter_id type = g->m.ter( pnt );
-        const bool is_allowed_terrain = allowed_ter_id.find( type ) != allowed_ter_id.end();
+        const bool is_allowed_terrain = allowed_ter_id.contains( type );
         return is_allowed_terrain;
     };
 
@@ -6435,7 +6435,7 @@ static object_names_collection enumerate_objects_around_point( const tripoint &p
     for( const tripoint &point_around_figure : points_in_radius ) {
         if( !bounds.is_point_inside( point_around_figure ) ||
             !g->m.sees( camera_pos, point_around_figure, dist + radius ) ||
-            ( ignored_points.find( point_around_figure ) != ignored_points.end() &&
+            ( ignored_points.contains( point_around_figure ) &&
               !( point_around_figure == point && create_figure_desc ) ) ) {
             continue; // disallow photos with not visible objects
         }
@@ -6468,7 +6468,7 @@ static object_names_collection enumerate_objects_around_point( const tripoint &p
             const std::string veh_name = colorize( veh.disp_name(), c_light_blue );
             const vehicle *veh_hash = &veh_part_pos->vehicle();
 
-            if( local_vehicles_recorded.find( veh_hash ) == local_vehicles_recorded.end() &&
+            if( !local_vehicles_recorded.contains( veh_hash ) &&
                 point != point_around_figure ) {
                 // new vehicle, point is not center
                 ret_obj.vehicles[ veh_name ] ++;
@@ -6477,8 +6477,8 @@ static object_names_collection enumerate_objects_around_point( const tripoint &p
                 //~ %1$s: vehicle part name, %2$s: vehicle name
                 description_part_on_figure = string_format( pgettext( "vehicle part", "%1$s from %2$s" ),
                                              veh_part_pos.part_displayed()->part().name(), veh_name );
-                if( ret_obj.vehicles.find( veh_name ) != ret_obj.vehicles.end() &&
-                    local_vehicles_recorded.find( veh_hash ) != local_vehicles_recorded.end() ) {
+                if( ret_obj.vehicles.contains( veh_name ) &&
+                    local_vehicles_recorded.contains( veh_hash ) ) {
                     // remove vehicle name only if we previously added THIS vehicle name (in case of same name)
                     ret_obj.vehicles[ veh_name ] --;
                     if( ret_obj.vehicles[ veh_name ] <= 0 ) {
@@ -6580,7 +6580,7 @@ static extended_photo_def photo_def_for_camera_point( const tripoint &aim_point,
 
     const auto map_deincrement_or_erase = []( std::unordered_map<std::string, int> &obj_map,
     const std::string & key ) {
-        if( obj_map.find( key ) != obj_map.end() ) {
+        if( obj_map.contains( key ) ) {
             obj_map[ key ] --;
             if( obj_map[ key ] <= 0 ) {
                 obj_map.erase( key );

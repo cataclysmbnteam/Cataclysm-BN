@@ -3766,7 +3766,7 @@ std::unordered_set<tripoint> game::get_fishable_locations( int radius, const tri
             to_check.pop();
 
             // We've been here before, so bail.
-            if( visited.find( current_point ) != visited.end() ) {
+            if( visited.contains( current_point ) ) {
                 continue;
             }
 
