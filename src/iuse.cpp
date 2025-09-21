@@ -1755,39 +1755,35 @@ int iuse::fish_trap( player *p, item *it, bool t, const tripoint &pos )
             if( !g->m.has_flag( "FISHABLE", pos ) ) {
                 return 0;
             }
-
-            int success = -50 + ( good_fishing_spot( pos ) * 10 );
-            const int surv = p->get_skill_level( skill_survival );
-            const int attempts = rng( it->charges, it->charges * it->charges );
-            for( int i = 0; i < attempts; i++ ) {
-                /** @EFFECT_SURVIVAL randomly increases number of fish caught in fishing trap */
-                success += rng( surv, surv * surv );
+            int fish = good_fishing_spot( pos );
+            int success = -250 + ( good_fishing_spot( pos ) * 15 );
+            const int surv_mod = p->get_skill_level( skill_survival ) + ( fish );
+            for( int i = 0; i < it->charges; i++ ) {
+                success += surv_mod + fish;
             }
 
-            it->charges = rng( -1, it->charges );
-            if( it->charges < 0 ) {
-                it->charges = 0;
-            }
+            it->charges = 0;
 
-            int fishes = 0;
+            int caught = 0;
 
-            if( success < 0 ) {
-                fishes = 0;
-            } else if( success < 300 ) {
-                fishes = 1;
-            } else if( success < 1200 ) {
-                fishes = 2;
+            if( success >= 200 ) {
+                caught = rng( 2, 4 );
+            } else if( success < 200 && success >= 100 ) {
+                caught = rng( 1, 2 );
+            } else if( success < 100 && success >= 50 ) {
+                caught = rng( 0, 2 );
+            } else if( success < 50 && success >= 0 ) {
+                caught = rng( 0, 1 );
             } else {
-                fishes = rng( 3, 5 );
+                caught = 0;
             }
 
-            if( fishes == 0 ) {
-                it->charges = 0;
-                p->practice( skill_survival, rng( 5, 15 ) );
+            if( caught == 0 ) {
+                p->practice( skill_survival, rng( 10, 25 ) );
                 return 0;
             }
-            for( int i = 0; i < fishes; i++ ) {
-                p->practice( skill_survival, rng( 3, 10 ) );
+            for( int i = 0; i < caught; i++ ) {
+                p->practice( skill_survival, rng( 4, 8 ) );
                 const std::vector<mtype_id> fish_group = MonsterGroupManager::GetMonstersFromGroup(
                             GROUP_FISH );
                 const mtype_id &fish_mon = random_entry_ref( fish_group );
