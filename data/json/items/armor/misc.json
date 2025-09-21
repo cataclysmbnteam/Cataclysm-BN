@@ -166,7 +166,7 @@
       "target": "sleeping_bag_fur_roll",
       "msg": "You roll up the fur sleeping bag, preparing it for transport."
     },
-    "qualities": [ [ "SLEEP_AID", 3 ] ]
+    "qualities": [ [ "SLEEP_AID", 4 ] ]
   },
   {
     "id": "sleeping_bag_fur_roll",
@@ -192,8 +192,7 @@
       "type": "transform",
       "target": "sleeping_bag_fur",
       "msg": "You unroll up the fur sleeping bag."
-    },
-    "qualities": [ [ "SLEEP_AID", 1 ] ]
+    }
   },
   {
     "id": "tie_bow",

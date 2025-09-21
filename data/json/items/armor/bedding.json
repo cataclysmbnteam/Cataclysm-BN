@@ -140,6 +140,7 @@
     "warmth": 80,
     "material_thickness": 4,
     "environmental_protection": 1,
+    "qualities": [ [ "SLEEP_AID", 2 ] ],
     "flags": [ "OVERSIZE", "OUTER", "ALLOWS_TAIL_SNAKE", "ALLOWS_HOOVES" ],
     "use_action": {
       "menu_text": "Roll up",
