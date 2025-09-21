@@ -3089,8 +3089,8 @@ void activity_handlers::fish_do_turn( player_activity *act, player *p )
     }
     fish_chance += ( survival_mod *  fishing_mult );
     // no matter the population of fish, your skill and tool limits the ease of catching.
-    fish_chance = std::min( survival_mod * 10, fish_chance );
-    if( x_in_y( fish_chance, 750000 ) ) {//Roughly 1/1000 per turn avg.
+    fish_chance = std::min( survival_mod * 20, fish_chance );
+    if( x_in_y( fish_chance, 600000 ) ) {//Roughly 1/1000 per turn avg.
         p->add_msg_if_player( m_good, _( "You feel a tug on your line!" ) );
         weighted_int_list<std::pair<std::string, int>> caught;
         caught.add( {"fish", 1}, 1 ); //Hardcoded for now, but can be expanded for magnet fishing or smthn
