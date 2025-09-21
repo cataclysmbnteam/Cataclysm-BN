@@ -4440,11 +4440,8 @@ bool vehicle::can_float() const
     if( coeff_water_dirty ) {
         coeff_water_drag();
     }
-    // Someday I'll deal with submarines, but now, you can only float if you have freeboard
-    if( hull_height == 0.3 ) {
-        return false;
-    }
-    return draft_m < hull_height;
+    int float_force = max_buoyancy() + total_balloon_lift();
+    return to_newton( total_mass() ) <= float_force;
 }
 
 
