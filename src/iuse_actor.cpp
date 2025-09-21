@@ -5294,6 +5294,7 @@ std::unique_ptr<iuse_actor> change_scent_iuse::clone() const
 void cloning_syringe_iuse::load( const JsonObject &obj )
 {
     assign( obj, "moves", moves );
+    assign( obj, "charges_to_use", charges_to_use );
 }
 
 int cloning_syringe_iuse::use( player &p, item &it, bool, const tripoint & ) const
@@ -5332,10 +5333,10 @@ int cloning_syringe_iuse::use( player &p, item &it, bool, const tripoint & ) con
     dna->set_var( "specimen_name", m->name() );
     dna->set_var( "specimen_size", static_cast<int>( m->get_size() ) );
     liquid_handler::handle_liquid( std::move( dna ) );
-    add_msg( m_info, _( "You draw the sample from the %s into your %s." ), m->name(),
+    add_msg( m_info, _( "You draw the sample from the %s with your %s." ), m->name(),
              it.display_name() );
 
-    return 0;
+    return charges_to_use;
 }
 
 std::unique_ptr<iuse_actor> cloning_syringe_iuse::clone() const

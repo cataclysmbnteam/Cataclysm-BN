@@ -471,6 +471,8 @@ class cloning_syringe_iuse : public iuse_actor
     public:
         /** How many move points this action takes. */
         int moves = 100;
+        /** How many move points this action takes. */
+        int charges_to_use = 10;
 
         cloning_syringe_iuse() : iuse_actor( "cloning_syringe" ) { }
         ~cloning_syringe_iuse() override = default;

@@ -130,8 +130,7 @@
     "price_postapoc": "10 cent",
     "material": "plastic",
     "symbol": ",",
-    "color": "white",
-    "use_action": { "type": "cloning_syringe", "moves": 250 }
+    "color": "white"
   },
   {
     "id": "dna",

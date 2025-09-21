@@ -878,7 +878,7 @@
     "type": "TOOL",
     "category": "tools_workshop",
     "name": { "str": "cloning vat" },
-    "description": "A large, barely portable cloning vat.",
+    "description": "A massive bioreactor filled with nutrient gel and lined with growth scaffolds. Hoses, pumps, and glowing control panels hum softly as the vat maintains a sterile environment for genome reconstruction and accelerated clone growth. With enough power, biomass, and time, it can grow a living creature from a DNA sample - though contamination or unstable sequences may lead to… unexpected results.",
     "weight": "200 kg",
     "volume": "200 L",
     "price": "20000 USD",

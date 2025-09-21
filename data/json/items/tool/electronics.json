@@ -777,5 +777,36 @@
     "revert_to": "bionic_scanner",
     "revert_msg": "The %s shuts down.",
     "flags": [ "SLEEP_IGNORE" ]
+  },
+  {
+    "id": "genome_sampler",
+    "type": "TOOL",
+    "category": "electronics",
+    "name": { "str": "genomic sampler" },
+    "looks_like": "90two",
+    "description": "A handheld genomic sampler designed to extract and preserve viable DNA from living organisms. It uses a micro-biopsy needle and onboard chemical processing to keep the genetic material intact for later sequencing in a cloning vat.",
+    "weight": "141 g",
+    "volume": "250 ml",
+    "price": "10 kUSD",
+    "price_postapoc": "100 USD",
+    "material": [ "plastic", "aluminum" ],
+    "symbol": ";",
+    "color": "light_cyan",
+    "ammo": "battery",
+    "use_action": { "type": "cloning_syringe", "moves": 250, "charges_to_use": 25 },
+    "magazines": [
+      [
+        "battery",
+        [
+          "light_plus_battery_cell",
+          "light_minus_battery_cell",
+          "light_minus_disposable_cell",
+          "light_battery_cell",
+          "light_disposable_cell",
+          "light_atomic_battery_cell",
+          "light_minus_atomic_battery_cell"
+        ]
+      ]
+    ]
   }
 ]
