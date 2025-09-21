@@ -407,7 +407,6 @@ comfort_response_t base_comfort_value( const Character &who, const tripoint &p )
         }
     }
 
-    add_msg( "FINAL COMFORT: %s", comfort );
     if( comfort >= static_cast<int>( comfort_level::very_comfortable ) ) {
         comfort_response.level = comfort_level::very_comfortable;
         add_msg( "You feel very comfortable." );
