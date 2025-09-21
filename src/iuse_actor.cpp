@@ -5298,7 +5298,7 @@ void cloning_syringe_iuse::load( const JsonObject &obj )
 
 int cloning_syringe_iuse::use( player &p, item &it, bool, const tripoint & ) const
 {
-    const std::string query = string_format( _( "Select creature:" ) );
+    const std::string query = string_format( _( "Select which creature?" ) );
     const std::optional<tripoint> pnt_ = choose_adjacent( query );
 
     if( !pnt_ ) {
@@ -5306,7 +5306,7 @@ int cloning_syringe_iuse::use( player &p, item &it, bool, const tripoint & ) con
         return 0;
     }
 
-    p.mod_moves( -moves / 2 );
+    p.mod_moves( -moves );
 
     // Extract the tripoint from the optional
     const tripoint &pnt = *pnt_;
@@ -5327,13 +5327,13 @@ int cloning_syringe_iuse::use( player &p, item &it, bool, const tripoint & ) con
     const mtype_id &id = m->type->id;
     const std::string id_str = id.str();
 
-    p.mod_moves( -moves / 2 );
     detached_ptr<item> dna = item::spawn( itype_id( "dna" ), calendar::turn, 8 );
     dna->set_var( "specimen_sample", id_str );
     dna->set_var( "specimen_name", m->name() );
     dna->set_var( "specimen_size", static_cast<int>( m->get_size() ) );
     liquid_handler::handle_liquid( std::move( dna ) );
-    add_msg( m_info, _( "You draw the sample from the %s into your %s." ), id_str, it.display_name() );
+    add_msg( m_info, _( "You draw the sample from the %s into your %s." ), m->name(),
+             it.display_name() );
 
     return 0;
 }
@@ -5421,6 +5421,10 @@ int cloning_vat_iuse::use( player &p, item &it, bool t, const tripoint &pos ) co
         menu.query();
         int menu_choice = menu.ret;
 
+        if( menu_choice < 0 ) {
+            return 0;
+        }
+
         if( menu_choice == cv_stop ) {
             it.deactivate();
             it.erase_var( "COOKTIME" );
@@ -5439,13 +5443,17 @@ int cloning_vat_iuse::use( player &p, item &it, bool t, const tripoint &pos ) co
             }
             specimen_menu.query();
             int choice = specimen_menu.ret;
+            if( choice < 0 ) {
+                return 0;
+            }
+
             auto &selected_syringe = syringes[choice];  // reference to the original detached_ptr
 
             p.mod_moves( -moves );
 
             // 100 turns = 1 second, so 180000 = 30 min per size increment
             int specimen_size = selected_syringe->get_var( "specimen_size", 1 ) + 1;
-            it.set_var( "COOKTIME", 90000 * specimen_size );
+            it.set_var( "COOKTIME", 9000000 * specimen_size );
             it.set_var( "NAME", selected_syringe->get_var( "specimen_name" ) );
             it.set_var( "RESULT", selected_syringe->get_var( "specimen_sample" ) );
 

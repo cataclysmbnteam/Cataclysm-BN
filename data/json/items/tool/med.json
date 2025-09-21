@@ -131,7 +131,7 @@
     "material": "plastic",
     "symbol": ",",
     "color": "white",
-    "use_action": "cloning_syringe"
+    "use_action": { "type": "cloning_syringe", "moves": 250 }
   },
   {
     "id": "dna",
