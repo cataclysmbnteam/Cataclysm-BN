@@ -305,7 +305,8 @@
     "bashing": 6,
     "covers": [ "arm_either" ],
     "coverage": 55,
-    "encumbrance": 10
+    "encumbrance": 10,
+    "delete": { "flags": [ "RESTRICT_HANDS" ] }
   },
   {
     "id": "carbon_buckler",
