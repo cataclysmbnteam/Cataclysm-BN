@@ -5297,8 +5297,13 @@ void cloning_syringe_iuse::load( const JsonObject &obj )
     assign( obj, "charges_to_use", charges_to_use );
 }
 
-int cloning_syringe_iuse::use( player &p, item &it, bool, const tripoint & ) const
+int cloning_syringe_iuse::use( player &p, item &it, bool, const tripoint &pos ) const
 {
+    if( !it.units_sufficient( p, charges_to_use ) ) {
+        add_msg( m_info, _( "There's not enough charge left in the %s." ), it.display_name() );
+        return 0;
+    }
+
     const std::string query = string_format( _( "Select which creature?" ) );
     const std::optional<tripoint> pnt_ = choose_adjacent( query );
 
@@ -5306,8 +5311,6 @@ int cloning_syringe_iuse::use( player &p, item &it, bool, const tripoint & ) con
         // No valid point was chosen — handle this case, maybe just return
         return 0;
     }
-
-    p.mod_moves( -moves );
 
     // Extract the tripoint from the optional
     const tripoint &pnt = *pnt_;
@@ -5326,16 +5329,37 @@ int cloning_syringe_iuse::use( player &p, item &it, bool, const tripoint & ) con
         return 0;
     }
 
+    const int fa_skill = p.get_skill_level( skill_firstaid );
+
+    // Convert first aid skill into success chance.
+    // Each skill level = +15% chance, but we clamp between 15–95%
+    // so there is always a small chance to succeed (even unskilled)
+    // and a small chance to fail (even at max skill).
+    const int chance = clamp( fa_skill * 10, 15, 95 );
+
+    if( !x_in_y( chance, 100 ) ) {
+        add_msg( m_bad, _( "The %s emits a loud error beep! You failed to gather a sufficient sample." ),
+                 it.display_name() );
+
+
+        sounds::sound( pos, 8, sounds::sound_t::alarm, _( "beep!" ), true, "misc", "beep" );
+        // add actual noise here
+        return charges_to_use;
+    }
+
     const mtype_id &id = m->type->id;
     const std::string id_str = id.str();
 
+    add_msg( m_good, _( "The %s beeps softly. You successfully gathered a sample from the %s!" ),
+             it.display_name(), m->name() );
+    p.mod_moves( -moves );
+
     detached_ptr<item> dna = item::spawn( itype_id( "dna" ), calendar::turn, 8 );
     dna->set_var( "specimen_sample", id_str );
+    // preferrably this should only require the specimen_sample, unsure how to create a temporary monster
     dna->set_var( "specimen_name", m->name() );
     dna->set_var( "specimen_size", static_cast<int>( m->get_size() ) );
-    liquid_handler::handle_liquid( std::move( dna ) );
-    add_msg( m_info, _( "You draw the sample from the %s with your %s." ), m->name(),
-             it.display_name() );
+    liquid_handler::handle_all_liquid( std::move( dna ), 1 );
 
     return charges_to_use;
 }
@@ -5464,13 +5488,13 @@ int cloning_vat_iuse::use( player &p, item &it, bool t, const tripoint &pos ) co
                 std::vector<item *> items = p.all_items();
                 for( int x = 0; x < items.size(); x++ ) {
                     if( selected_syringe->get_var( "specimen_sample" ) == items[x]->get_var( "specimen_sample" ) ) {
-                        if( items[x]->units_remaining( p ) ) {
+                        if( items[x]->units_remaining( p, 1 ) ) {
                             items[x]->mod_charges( -1 );
                         } else {
                             // can't figure out how to properly delete it, but it'd be done here
                         }
 
-                        add_msg( "The cloning vat begins its rapid incubation process." );
+                        add_msg( m_info, _( "The cloning vat begins its rapid incubation process." ) );
 
                         it.activate();
 

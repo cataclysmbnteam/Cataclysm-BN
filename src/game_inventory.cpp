@@ -387,6 +387,16 @@ item *game::inv_map_splice( const item_filter &filter, const std::string &title,
 item *game_menus::inv::container_for( avatar &you, const item &liquid, int radius )
 {
     const auto filter = [ &liquid ]( const item & location ) {
+        // Reject containers that already contain a different liquid (different set_vars)
+        if( location.is_container() && !location.is_container_empty() ) {
+            const item &cont_liq = location.get_contained();
+
+            // Compare set_vars – if they don't match, skip this container. used for DNA comparison
+            if( cont_liq.get_var( "specimen_sample" ) != liquid.get_var( "specimen_sample" ) ) {
+                return false;
+            }
+        }
+
         if( location.where() == item_location_type::character ) {
             Character *character = g->critter_at<Character>( location.position() );
             if( character == nullptr ) {
