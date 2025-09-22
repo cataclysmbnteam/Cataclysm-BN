@@ -161,35 +161,60 @@ static const std::map<std::string, oter_flags> oter_flags_map = {
 * 1= -(1-3), 2= -(4-7),3= -(8-10) in Z levels
 */
 static const std::map<std::string, std::map<std::string, int>>
-ore_depth_to_rate = {
-    {
-        "shallow",
-        {   {"iron", 10},
-            {"copper", 5},
-            {"lead", 3},
-            {"tin", 3},
-            {"silver", 2},
-            {"gold", 1}
+ore_depth_to_rate = {{"shallow",
+        {
+            {"iron", 6},
+            {"banded_iron", 14},
+            {"copper", 3},
+            {"tetrahedrite", 6},
+            {"chalcopyrite", 6},
+            {"lead", 1},
+            {"galena", 1},
+            {"galenau", 1},
+            {"tin", 10},
+            {"coppin", 6},
+            {"bronzium", 4},
+            {"silver", 1},
+            {"gold", 1},
+            {"electrumite", 1},
         }
     },
     {
         "medium",
-        {   {"iron", 7},
-            {"copper", 5},
-            {"lead", 4},
-            {"tin", 4},
+        {
+            {"iron", 8},
+            {"banded_iron", 18},
+            {"copper", 4},
+            {"tetrahedrite", 4},
+            {"chalcopyrite", 4},
+            {"lead", 3},
+            {"galena", 2},
+            {"galenau", 2},
+            {"tin", 6},
+            {"coppin", 7},
+            {"bronzium", 5},
             {"silver", 2},
-            {"gold", 2}
+            {"gold", 2},
+            {"electrumite", 3},
         }
     },
     {
         "deep",
-        {   {"iron", 5},
-            {"copper", 2},
-            {"lead", 4},
-            {"tin", 4},
-            {"silver", 3},
-            {"gold", 3}
+        {
+            {"iron", 14},
+            {"banded_iron", 4},
+            {"copper", 9},
+            {"tetrahedrite", 2},
+            {"chalcopyrite", 2},
+            {"lead", 8},
+            {"galena", 4},
+            {"galenau", 4},
+            {"tin", 1},
+            {"coppin", 2},
+            {"bronzium", 2},
+            {"silver", 5},
+            {"gold", 5},
+            {"electrumite", 8},
         }
     },
     {"how", {{"tin", 1}}}

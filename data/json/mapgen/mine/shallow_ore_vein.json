@@ -200,5 +200,249 @@
         }
       ]
     }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "omt_ore_vein_banded_iron" ],
+    "object": {
+      "fill_ter": "t_rock",
+      "set": [
+        {
+          "line": "terrain",
+          "id": "t_rock_ore_banded_iron",
+          "x": [ 8, 10 ],
+          "x2": [ 13, 15 ],
+          "y": [ 8, 10 ],
+          "y2": [ 13, 15 ]
+        },
+        {
+          "line": "terrain",
+          "id": "t_rock_ore_banded_iron",
+          "x": [ 8, 10 ],
+          "x2": [ 13, 15 ],
+          "y": [ 8, 10 ],
+          "y2": [ 13, 15 ]
+        },
+        {
+          "line": "terrain",
+          "id": "t_rock_ore_banded_iron",
+          "x": [ 8, 10 ],
+          "x2": [ 13, 15 ],
+          "y": [ 8, 10 ],
+          "y2": [ 13, 15 ]
+        }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "omt_ore_vein_tetrahedrite" ],
+    "object": {
+      "fill_ter": "t_rock",
+      "set": [
+        {
+          "line": "terrain",
+          "id": "t_rock_ore_tetrahedrite",
+          "x": [ 8, 10 ],
+          "x2": [ 13, 15 ],
+          "y": [ 8, 10 ],
+          "y2": [ 13, 15 ]
+        },
+        {
+          "line": "terrain",
+          "id": "t_rock_ore_tetrahedrite",
+          "x": [ 8, 10 ],
+          "x2": [ 13, 15 ],
+          "y": [ 8, 10 ],
+          "y2": [ 13, 15 ]
+        },
+        {
+          "line": "terrain",
+          "id": "t_rock_ore_tetrahedrite",
+          "x": [ 8, 10 ],
+          "x2": [ 13, 15 ],
+          "y": [ 8, 10 ],
+          "y2": [ 13, 15 ]
+        }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "omt_ore_vein_chalcopyrite" ],
+    "object": {
+      "fill_ter": "t_rock",
+      "set": [
+        {
+          "line": "terrain",
+          "id": "t_rock_ore_chalcopyrite",
+          "x": [ 8, 10 ],
+          "x2": [ 13, 15 ],
+          "y": [ 8, 10 ],
+          "y2": [ 13, 15 ]
+        },
+        {
+          "line": "terrain",
+          "id": "t_rock_ore_chalcopyrite",
+          "x": [ 8, 10 ],
+          "x2": [ 13, 15 ],
+          "y": [ 8, 10 ],
+          "y2": [ 13, 15 ]
+        },
+        {
+          "line": "terrain",
+          "id": "t_rock_ore_chalcopyrite",
+          "x": [ 8, 10 ],
+          "x2": [ 13, 15 ],
+          "y": [ 8, 10 ],
+          "y2": [ 13, 15 ]
+        }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "omt_ore_vein_galena" ],
+    "object": {
+      "fill_ter": "t_rock",
+      "set": [
+        { "line": "terrain", "id": "t_rock_ore_galena", "x": [ 8, 10 ], "x2": [ 13, 15 ], "y": [ 8, 10 ], "y2": [ 13, 15 ] },
+        {
+          "line": "terrain",
+          "id": "t_rock_ore_galena",
+          "x": [ 8, 10 ],
+          "x2": [ 13, 15 ],
+          "y": [ 8, 10 ],
+          "y2": [ 13, 15 ]
+        },
+        {
+          "line": "terrain",
+          "id": "t_rock_ore_galena",
+          "x": [ 8, 10 ],
+          "x2": [ 13, 15 ],
+          "y": [ 8, 10 ],
+          "y2": [ 13, 15 ]
+        }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "omt_ore_vein_galenau" ],
+    "object": {
+      "fill_ter": "t_rock",
+      "set": [
+        { "line": "terrain", "id": "t_rock_ore_galenau", "x": [ 8, 10 ], "x2": [ 13, 15 ], "y": [ 8, 10 ], "y2": [ 13, 15 ] },
+        {
+          "line": "terrain",
+          "id": "t_rock_ore_galenau",
+          "x": [ 8, 10 ],
+          "x2": [ 13, 15 ],
+          "y": [ 8, 10 ],
+          "y2": [ 13, 15 ]
+        },
+        {
+          "line": "terrain",
+          "id": "t_rock_ore_galenau",
+          "x": [ 8, 10 ],
+          "x2": [ 13, 15 ],
+          "y": [ 8, 10 ],
+          "y2": [ 13, 15 ]
+        }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "omt_ore_vein_coppin" ],
+    "object": {
+      "fill_ter": "t_rock",
+      "set": [
+        { "line": "terrain", "id": "t_rock_ore_coppin", "x": [ 8, 10 ], "x2": [ 13, 15 ], "y": [ 8, 10 ], "y2": [ 13, 15 ] },
+        {
+          "line": "terrain",
+          "id": "t_rock_ore_coppin",
+          "x": [ 8, 10 ],
+          "x2": [ 13, 15 ],
+          "y": [ 8, 10 ],
+          "y2": [ 13, 15 ]
+        },
+        {
+          "line": "terrain",
+          "id": "t_rock_ore_coppin",
+          "x": [ 8, 10 ],
+          "x2": [ 13, 15 ],
+          "y": [ 8, 10 ],
+          "y2": [ 13, 15 ]
+        }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "omt_ore_vein_bronzium" ],
+    "object": {
+      "fill_ter": "t_rock",
+      "set": [
+        { "line": "terrain", "id": "t_rock_ore_bronzium", "x": [ 8, 10 ], "x2": [ 13, 15 ], "y": [ 8, 10 ], "y2": [ 13, 15 ] },
+        {
+          "line": "terrain",
+          "id": "t_rock_ore_bronzium",
+          "x": [ 8, 10 ],
+          "x2": [ 13, 15 ],
+          "y": [ 8, 10 ],
+          "y2": [ 13, 15 ]
+        },
+        {
+          "line": "terrain",
+          "id": "t_rock_ore_bronzium",
+          "x": [ 8, 10 ],
+          "x2": [ 13, 15 ],
+          "y": [ 8, 10 ],
+          "y2": [ 13, 15 ]
+        }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "omt_ore_vein_electrumite" ],
+    "object": {
+      "fill_ter": "t_rock",
+      "set": [
+        {
+          "line": "terrain",
+          "id": "t_rock_ore_electrumite",
+          "x": [ 8, 10 ],
+          "x2": [ 13, 15 ],
+          "y": [ 8, 10 ],
+          "y2": [ 13, 15 ]
+        },
+        {
+          "line": "terrain",
+          "id": "t_rock_ore_electrumite",
+          "x": [ 8, 10 ],
+          "x2": [ 13, 15 ],
+          "y": [ 8, 10 ],
+          "y2": [ 13, 15 ]
+        },
+        {
+          "line": "terrain",
+          "id": "t_rock_ore_electrumite",
+          "x": [ 8, 10 ],
+          "x2": [ 13, 15 ],
+          "y": [ 8, 10 ],
+          "y2": [ 13, 15 ]
+        }
+      ]
+    }
   }
 ]

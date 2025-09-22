@@ -194,6 +194,17 @@
   },
   {
     "type": "construction",
+    "id": "constr_add_grass",
+    "group": "add_grass",
+    "category": "OTHER",
+    "required_skills": [ [ "survival", 1 ] ],
+    "time": "10 s",
+    "pre_terrain": "t_dirt",
+    "post_terrain": "t_grass",
+    "//": "No components. Its grass. Let me have a lawn."
+  },
+  {
+    "type": "construction",
     "id": "constr_remove_gravel",
     "group": "remove_gravel_and_replace_with_dirt",
     "category": "OTHER",
