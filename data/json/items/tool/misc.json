@@ -877,8 +877,8 @@
     "id": "cloning_vat",
     "type": "TOOL",
     "category": "tools_workshop",
-    "name": { "str": "cloning vat" },
-    "description": "A massive bioreactor filled with nutrient gel and lined with growth scaffolds. Hoses, pumps, and glowing control panels hum softly as the vat maintains a sterile environment for genome reconstruction and accelerated clone growth. With enough power, biomass, and time, it can grow a living creature from a DNA sample - though contamination or unstable sequences may lead to… unexpected results.",
+    "name": { "str": "portable cloning vat" },
+    "description": "A massive bioreactor filled with nutrient gel and lined with growth scaffolds. Hoses, pumps, and glowing control panels hum softly as the vat maintains a sterile environment for genome reconstruction and accelerated clone growth. With enough power, biomass, and time, it can grow a living creature from a DNA sample - though contamination or unstable sequences may lead to… unexpected results.  This one has been modified to run off of batteries, and therefore is semi-portable.",
     "weight": "200 kg",
     "volume": "200 L",
     "price": "20000 USD",
@@ -890,7 +890,7 @@
     "color": "light_gray",
     "looks_like": "t_vat",
     "ammo": "battery",
-    "charges_per_use": 20,
+    "charges_per_use": 1,
     "flags": [ "ALLOWS_REMOTE_USE" ],
     "use_action": [ { "type": "cloning_vat", "moves": 100, "charges_per_minute": 1 } ],
     "magazines": [
@@ -910,7 +910,15 @@
     "color": "pink",
     "//": "used by the cloning vat and adds a var called 'place_monster_override'",
     "name": { "str": "embryo" },
-    "description": "This is a rapid-growth embryo.  Choose a location for it, and watch it age!",
-    "use_action": { "type": "place_monster", "monster_id": "debug_mon", "moves": 250, "skills": [ "survival" ] }
+    "description": "This is a lab-grown embryo, carefully engineered from extracted DNA. When placed, it will rapidly grow into a cloned specimen of the chosen creature - perfect for repopulating livestock, rebuilding ecosystems, or creating living weapons.",
+    "use_action": {
+      "type": "place_monster",
+      "monster_id": "debug_mon",
+      "friendly_msg": "The cloned creature seems to enjoy your presence.",
+      "hostile_msg": "The cloned creature seems angry!",
+      "difficulty": 10,
+      "moves": 250,
+      "skills": [ "survival" ]
+    }
   }
 ]

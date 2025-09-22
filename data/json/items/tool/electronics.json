@@ -793,7 +793,7 @@
     "symbol": ";",
     "color": "light_cyan",
     "ammo": "battery",
-    "use_action": { "type": "cloning_syringe", "moves": 250, "charges_to_use": 25 },
+    "use_action": { "type": "cloning_syringe", "moves": 500, "charges_to_use": 25 },
     "magazines": [
       [
         "battery",
