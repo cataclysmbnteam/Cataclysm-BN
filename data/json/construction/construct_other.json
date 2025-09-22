@@ -202,7 +202,7 @@
     "pre_terrain": "t_dirt",
     "post_terrain": "t_grass",
     "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
-    "components": [ [ [ "water", 4 ], [ "water_clean", 4 ] ] ],
+    "components": [ [ [ "water", 4 ], [ "water_clean", 4 ] ] ]
   },
   {
     "type": "construction",
