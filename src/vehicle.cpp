@@ -330,6 +330,8 @@ void vehicle::copy_static_from( const vehicle &source )
     face = source.face;
     move = source.move;
     no_refresh = source.no_refresh;
+    dir_dirty = true;
+    dir_inc = source.dir_inc;
     pivot_dirty = source.pivot_dirty;
     mass_dirty = source.mass_dirty;
     mass_center_precalc_dirty = source.mass_center_precalc_dirty;
@@ -380,7 +382,9 @@ vehicle::vehicle( const vproto_id &type_id, int init_veh_fuel,
         refresh_locations_hack();
         init_state( init_veh_fuel, init_veh_status );
     }
+    dir_dirty = true;
     precalc_mounts( 0, pivot_rotation[0], pivot_anchor[0] );
+    dir_dirty = true;
     refresh();
 }
 
@@ -7505,6 +7509,7 @@ void vehicle::invalidate_mass()
     mass_center_no_precalc_dirty = true;
     // Anything that affects mass will also affect the pivot
     pivot_dirty = true;
+    dir_dirty = true;
     coeff_rolling_dirty = true;
     coeff_water_dirty = true;
 }
