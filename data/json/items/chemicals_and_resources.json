@@ -835,12 +835,12 @@
     "symbol": ",",
     "color": "brown",
     "looks_like": "steel_lump",
-    "description": "A rock, sounds kinda hollow, could crack it open easy enough, wonder whats inside?",
+    "description": "A large rock, sounds kinda hollow, could crack it open easy enough, wonder whats inside?",
     "use_action": { "type": "reveal_contents", "group": "geode_contents", "open_message": "You crack open the %s, revealing " },
     "material": "stone",
-    "volume": "750 ml",
+    "volume": "1 l",
     "//": "ah the geode, natures gacha ball.",
-    "weight": "3 kg",
+    "weight": "12 kg",
     "bashing": 2
   },
   {
