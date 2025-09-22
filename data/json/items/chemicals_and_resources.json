@@ -831,7 +831,7 @@
     "id": "geode",
     "category": "scrap_metal",
     "price": "250 cent",
-    "name": { "str": "geode", "str_pl": "geodes" },
+    "name": { "str": "geode" },
     "symbol": ",",
     "color": "brown",
     "looks_like": "steel_lump",
