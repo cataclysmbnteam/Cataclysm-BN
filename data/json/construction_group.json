@@ -1606,8 +1606,18 @@
   },
   {
     "type": "construction_group",
+    "id": "makeshift_bridge",
+    "name": "Construct Crude Bridge"
+  },
+  {
+    "type": "construction_group",
     "id": "quarry_ground",
-    "name": "Quarry Ground to Air"
+    "name": "Quarry Ground Away"
+  },
+  {
+    "type": "construction_group",
+    "id": "quarry_roof",
+    "name": "Remove Flat Roof"
   },
   {
     "type": "construction_group",

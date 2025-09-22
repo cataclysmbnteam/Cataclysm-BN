@@ -265,13 +265,52 @@
     "type": "construction",
     "id": "quarry_dirt",
     "group": "quarry_ground",
-    "pre_note": "Removes any remaining soil left in the pit, and smooths and reinforces the surrounding dirt to not fall in.",
+    "pre_note": "Removes any remaining material left in the pit, and smooths and reinforces the surrounding ground to not fall in.",
     "category": "DIG",
     "required_skills": [ [ "fabrication", 4 ] ],
     "time": "30 m",
     "qualities": [ [ { "id": "SMOOTH", "level": 1 } ], [ { "id": "DIG", "level": 2 } ] ],
     "components": [ [ [ "wood_structural", 12, "LIST" ] ] ],
     "pre_flags": "PIT_DEEP",
-    "post_terrain": "t_open_air"
+    "post_terrain": "t_real_fake_air"
+  },
+  {
+    "type": "construction",
+    "id": "quarry_rock_floor",
+    "group": "quarry_ground",
+    "pre_note": "Mines a hole straight through a rock floor; adding wood to not allow nearby rocks to fill the hole. You see no possible way this could go wrong.",
+    "category": "DIG",
+    "required_skills": [ [ "fabrication", 4 ] ],
+    "time": "30 m",
+    "qualities": [ [ { "id": "SMOOTH", "level": 1 } ], [ { "id": "DIG", "level": 2 } ] ],
+    "components": [ [ [ "wood_structural", 12, "LIST" ] ] ],
+    "pre_terrain": "t_rock_floor",
+    "post_terrain": "t_real_fake_air"
+  },
+  {
+    "type": "construction",
+    "id": "makeshift_bridge_wood",
+    "group": "makeshift_bridge",
+    "pre_note": "Covers any reinforced holes with some 2x4 to make a crude bridge.",
+    "category": "DIG",
+    "required_skills": [ [ "fabrication", 2 ] ],
+    "time": "10 m",
+    "components": [ [ [ "wood_structural", 12, "LIST" ] ] ],
+    "pre_terrain": "t_real_fake_air",
+    "post_terrain": "t_airbridge_wood"
+  },
+  {
+    "type": "construction",
+    "id": "makeshift_bridge_metal",
+    "group": "makeshift_bridge",
+    "pre_note": "Reinforces a 2x4 plank bridge into a much more sturdy metal version.",
+    "category": "DIG",
+    "required_skills": [ [ "fabrication", 2 ] ],
+    "time": "90 m",
+    "using": [ [ "welding_standard", 5 ] ],
+    "components": [ [ [ "sheet_metal", 2 ] ] ],
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
+    "pre_terrain": "t_airbridge_wood",
+    "post_terrain": "t_airbridge_metal"
   }
 ]

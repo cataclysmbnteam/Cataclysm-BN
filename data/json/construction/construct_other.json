@@ -290,5 +290,17 @@
     "pre_furniture": "f_alien_anemone",
     "post_furniture": "f_alien_anemone_clogged",
     "dark_craftable": true
+  },
+  {
+    "type": "construction",
+    "id": "constr_deconstruct_roof",
+    "group": "quarry_roof",
+    "pre_note": "Remove a section of roof while carefully reinforcing the area to not collapse.",
+    "category": "OTHER",
+    "required_skills": [ [ "fabrication", 2 ] ],
+    "time": "10 m",
+    "components": [ [ [ "wood_structural", 12, "LIST" ] ] ],
+    "pre_terrain": "t_flat_roof",
+    "post_terrain": "t_real_fake_air"
   }
 ]

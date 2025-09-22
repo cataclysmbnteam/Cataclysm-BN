@@ -20,7 +20,7 @@
     "subtype": "distribution",
     "entries": [
       { "item": "material_rocksalt", "prob": 50 },
-      { "item": "coal_lump", "charges": [ 250, 500 ], "prob": 30 },
+      { "item": "coal_lump", "count": [ 100, 200 ], "prob": 30 },
       { "item": "material_zincite", "count": [ 1, 4 ], "prob": 10 },
       { "item": "material_rhodonite", "prob": 10 }
     ]
