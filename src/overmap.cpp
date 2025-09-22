@@ -5754,7 +5754,7 @@ void overmap::spawn_ores( const tripoint_abs_omt &p )
         tripoint_om_omt local_pos = overmap_buffer.get_om_global( p ).local;
         const tripoint target_sub( omt_to_sm_copy( p.raw() ) );
         std::string note_text( chosen );
-        std::replace( note_text.begin(), note_text.end(), '_', ' ' );
+        std::ranges::replace( note_text, '_', ' ' );
         add_note( local_pos, string_format( "Signs of %s ore nearby.", note_text ) );
         if( !( MAPBUFFER.lookup_submap( target_sub ) ) ) {
             // No overmap to replace, set the terrain and bail.

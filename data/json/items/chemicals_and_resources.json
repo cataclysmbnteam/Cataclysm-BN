@@ -814,6 +814,36 @@
     "bashing": 3
   },
   {
+    "type": "GENERIC",
+    "id": "gold_ore",
+    "copy-from": "iron_ore",
+    "name": { "str": "chunk of gold ore", "str_pl": "chunks of gold ore" },
+    "color": "yellow",
+    "looks_like": "steel_lump",
+    "description": "A small, dense chunk of what seems to be quartz,but what interests you is the gold interlaced. With the right knowhow, it could be smelted into usable metal.",
+    "volume": "500 ml",
+    "//": "19.3 grams/cc for gold density, so we'll just assume a 25% density with the rest as quartz [2.65 grams/cc] and round for nice-ness.",
+    "weight": "3500 g",
+    "bashing": 3
+  },
+  {
+    "type": "GENERIC",
+    "id": "geode",
+    "category": "scrap_metal",
+    "price": "250 cent",
+    "name": { "str": "geode", "str_pl": "geodes" },
+    "symbol": ",",
+    "color": "brown",
+    "looks_like": "steel_lump",
+    "description": "A rock, sounds kinda hollow, could crack it open easy enough, wonder whats inside?",
+    "use_action": { "type": "reveal_contents", "group": "geode_contents", "open_message": "You crack open the %s, revealing " },
+    "material": "stone",
+    "volume": "750 ml",
+    "//": "ah the geode, natures gacha ball.",
+    "weight": "3 kg",
+    "bashing": 2
+  },
+  {
     "type": "AMMO",
     "id": "chem_aluminium_sulphate",
     "category": "chems",

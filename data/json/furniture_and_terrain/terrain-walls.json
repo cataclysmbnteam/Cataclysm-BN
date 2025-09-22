@@ -1518,7 +1518,8 @@
         { "item": "rock", "count": [ 55, 75 ] },
         { "item": "sharp_rock", "count": [ 5, 9 ] },
         { "item": "material_limestone", "charges": [ 500, 1000 ], "prob": 40 },
-        { "group": "rock_mining_extra", "prob": 25 }
+        { "group": "rock_mining_extra", "prob": 25 },
+        { "item": "geode", "prob": 5 }
       ],
       "//": "Stone obstacles have double the expected reduction but lower destroy_threshold in return",
       "ranged": { "reduction": [ 200, 200 ], "destroy_threshold": 200 }
@@ -1544,7 +1545,8 @@
         { "item": "rock", "count": [ 35, 50 ] },
         { "item": "sharp_rock", "count": [ 3, 7 ] },
         { "item": "material_limestone", "charges": [ 400, 800 ], "prob": 40 },
-        { "item": "material_rocksalt", "prob": 10 }
+        { "item": "material_rocksalt", "prob": 10 },
+        { "item": "geode", "prob": 5 }
       ],
       "//": "Stone obstacles have double the expected reduction but lower destroy_threshold in return",
       "ranged": { "reduction": [ 200, 200 ], "destroy_threshold": 200 }
@@ -1570,7 +1572,8 @@
         { "item": "rock", "count": [ 35, 50 ] },
         { "item": "sharp_rock", "count": [ 3, 7 ] },
         { "item": "material_limestone", "charges": [ 400, 800 ], "prob": 40 },
-        { "item": "material_rocksalt", "prob": 10 }
+        { "item": "material_rocksalt", "prob": 10 },
+        { "item": "geode", "prob": 5 }
       ],
       "//": "Stone obstacles have double the expected reduction but lower destroy_threshold in return",
       "ranged": { "reduction": [ 200, 200 ], "destroy_threshold": 200 }
@@ -1596,7 +1599,8 @@
         { "item": "rock", "count": [ 35, 50 ] },
         { "item": "sharp_rock", "count": [ 3, 7 ] },
         { "item": "material_limestone", "charges": [ 5, 15 ], "prob": 80 },
-        { "item": "material_rocksalt", "prob": 10 }
+        { "item": "material_rocksalt", "prob": 10 },
+        { "item": "geode", "prob": 5 }
       ],
       "//": "Stone obstacles have double the expected reduction but lower destroy_threshold in return",
       "ranged": { "reduction": [ 200, 200 ], "destroy_threshold": 200 }
@@ -1622,7 +1626,8 @@
         { "item": "rock", "count": [ 55, 75 ] },
         { "item": "sharp_rock", "count": [ 5, 9 ] },
         { "item": "material_limestone", "charges": [ 500, 1000 ], "prob": 40 },
-        { "item": "iron_ore", "count": [ 20, 40 ] }
+        { "item": "iron_ore", "count": [ 20, 40 ] },
+        { "item": "geode", "prob": 5 }
       ],
       "//": "Stone obstacles have double the expected reduction but lower destroy_threshold in return",
       "ranged": { "reduction": [ 200, 200 ], "destroy_threshold": 200 }
@@ -1649,7 +1654,8 @@
         { "item": "sharp_rock", "count": [ 5, 9 ] },
         { "item": "material_limestone", "charges": [ 500, 1000 ], "prob": 40 },
         { "item": "iron_ore", "count": [ 18, 36 ] },
-        { "item": "gold_small", "count": [ 200, 400 ] }
+        { "item": "gold_ore", "count": [ 2, 4 ] },
+        { "item": "geode", "prob": 5 }
       ],
       "//": "Stone obstacles have double the expected reduction but lower destroy_threshold in return",
       "ranged": { "reduction": [ 200, 200 ], "destroy_threshold": 200 }
@@ -1675,7 +1681,8 @@
         { "item": "rock", "count": [ 55, 75 ] },
         { "item": "sharp_rock", "count": [ 5, 9 ] },
         { "item": "material_limestone", "charges": [ 500, 1000 ], "prob": 40 },
-        { "item": "copper_ore", "count": [ 20, 40 ] }
+        { "item": "copper_ore", "count": [ 20, 40 ] },
+        { "item": "geode", "prob": 5 }
       ],
       "//": "Stone obstacles have double the expected reduction but lower destroy_threshold in return",
       "ranged": { "reduction": [ 200, 200 ], "destroy_threshold": 200 }
@@ -1703,7 +1710,8 @@
         { "item": "material_limestone", "charges": [ 500, 1000 ], "prob": 40 },
         { "item": "copper_ore", "count": [ 12, 24 ] },
         { "item": "chunk_sulfur", "count": [ 4, 8 ] },
-        { "item": "iron_ore", "count": [ 4, 8 ] }
+        { "item": "iron_ore", "count": [ 4, 8 ] },
+        { "item": "geode", "prob": 5 }
       ],
       "//": "Stone obstacles have double the expected reduction but lower destroy_threshold in return",
       "ranged": { "reduction": [ 200, 200 ], "destroy_threshold": 200 }
@@ -1731,7 +1739,8 @@
         { "item": "material_limestone", "charges": [ 500, 1000 ], "prob": 40 },
         { "item": "copper_ore", "count": [ 5, 10 ] },
         { "item": "chunk_sulfur", "count": [ 10, 20 ] },
-        { "item": "iron_ore", "count": [ 5, 10 ] }
+        { "item": "iron_ore", "count": [ 5, 10 ] },
+        { "item": "geode", "prob": 5 }
       ],
       "//": "Stone obstacles have double the expected reduction but lower destroy_threshold in return",
       "ranged": { "reduction": [ 200, 200 ], "destroy_threshold": 200 }
@@ -1757,7 +1766,8 @@
         { "item": "rock", "count": [ 55, 75 ] },
         { "item": "sharp_rock", "count": [ 5, 9 ] },
         { "item": "material_limestone", "charges": [ 500, 1000 ], "prob": 40 },
-        { "item": "lead_ore", "count": [ 20, 40 ] }
+        { "item": "lead_ore", "count": [ 20, 40 ] },
+        { "item": "geode", "prob": 5 }
       ],
       "//": "Stone obstacles have double the expected reduction but lower destroy_threshold in return",
       "ranged": { "reduction": [ 200, 200 ], "destroy_threshold": 200 }
@@ -1784,7 +1794,8 @@
         { "item": "sharp_rock", "count": [ 5, 9 ] },
         { "item": "material_limestone", "charges": [ 500, 1000 ], "prob": 40 },
         { "item": "lead_ore", "count": [ 10, 20 ] },
-        { "item": "silver_ore", "count": [ 10, 20 ] }
+        { "item": "silver_ore", "count": [ 10, 20 ] },
+        { "item": "geode", "prob": 5 }
       ],
       "//": "Stone obstacles have double the expected reduction but lower destroy_threshold in return",
       "ranged": { "reduction": [ 200, 200 ], "destroy_threshold": 200 }
@@ -1812,7 +1823,8 @@
         { "item": "sharp_rock", "count": [ 5, 9 ] },
         { "item": "material_limestone", "charges": [ 500, 1000 ], "prob": 40 },
         { "item": "lead_ore", "count": [ 10, 20 ] },
-        { "item": "gold_small", "count": [ 2000, 4000 ] }
+        { "item": "gold_ore", "count": [ 10, 20 ] },
+        { "item": "geode", "prob": 5 }
       ],
       "//": "Stone obstacles have double the expected reduction but lower destroy_threshold in return",
       "ranged": { "reduction": [ 200, 200 ], "destroy_threshold": 200 }
@@ -1838,7 +1850,8 @@
         { "item": "rock", "count": [ 55, 75 ] },
         { "item": "sharp_rock", "count": [ 5, 9 ] },
         { "item": "material_limestone", "charges": [ 500, 1000 ], "prob": 40 },
-        { "item": "tin_ore", "count": [ 20, 40 ] }
+        { "item": "tin_ore", "count": [ 20, 40 ] },
+        { "item": "geode", "prob": 5 }
       ],
       "//": "Stone obstacles have double the expected reduction but lower destroy_threshold in return",
       "ranged": { "reduction": [ 200, 200 ], "destroy_threshold": 200 }
@@ -1848,7 +1861,7 @@
     "type": "terrain",
     "id": "t_rock_ore_coppin",
     "copy-from": "t_rock",
-    "name": "tin ore vein",
+    "name": "coppin ore vein",
     "description": "Solid rock, with a seeming mixture of copper and tin ore.",
     "//": "This ore, also, does not exist. Tin is a very boring metal apparently.",
     "symbol": "#",
@@ -1866,7 +1879,8 @@
         { "item": "sharp_rock", "count": [ 5, 9 ] },
         { "item": "material_limestone", "charges": [ 500, 1000 ], "prob": 40 },
         { "item": "tin_ore", "count": [ 10, 20 ] },
-        { "item": "copper_ore", "count": [ 10, 20 ] }
+        { "item": "copper_ore", "count": [ 10, 20 ] },
+        { "item": "geode", "prob": 5 }
       ],
       "//": "Stone obstacles have double the expected reduction but lower destroy_threshold in return",
       "ranged": { "reduction": [ 200, 200 ], "destroy_threshold": 200 }
@@ -1876,7 +1890,7 @@
     "type": "terrain",
     "id": "t_rock_ore_bronzium",
     "copy-from": "t_rock",
-    "name": "tin ore vein",
+    "name": "bronzium ore vein",
     "description": "Solid rock, with a seeming mixture of copper and tin ore. Faintly resembles crude bronze.",
     "//": "This ore, also, does not exist. No one likes tin apparently.",
     "symbol": "#",
@@ -1894,7 +1908,8 @@
         { "item": "sharp_rock", "count": [ 5, 9 ] },
         { "item": "material_limestone", "charges": [ 500, 1000 ], "prob": 40 },
         { "item": "tin_ore", "count": [ 5, 10 ] },
-        { "item": "copper_ore", "count": [ 15, 30 ] }
+        { "item": "copper_ore", "count": [ 15, 30 ] },
+        { "item": "geode", "prob": 5 }
       ],
       "//": "Stone obstacles have double the expected reduction but lower destroy_threshold in return",
       "ranged": { "reduction": [ 200, 200 ], "destroy_threshold": 200 }
@@ -1921,7 +1936,8 @@
         { "item": "sharp_rock", "count": [ 5, 9 ] },
         { "item": "material_limestone", "charges": [ 500, 1000 ], "prob": 40 },
         { "item": "silver_ore", "count": [ 15, 30 ] },
-        { "item": "silver_small", "charges": [ 50, 100 ], "prob": 25 }
+        { "item": "silver_small", "charges": [ 50, 100 ], "prob": 25 },
+        { "item": "geode", "prob": 5 }
       ],
       "//": "Stone obstacles have double the expected reduction but lower destroy_threshold in return",
       "ranged": { "reduction": [ 200, 200 ], "destroy_threshold": 200 }
@@ -1947,7 +1963,9 @@
         { "item": "rock", "count": [ 55, 75 ] },
         { "item": "sharp_rock", "count": [ 5, 9 ] },
         { "item": "material_limestone", "charges": [ 500, 1000 ], "prob": 40 },
-        { "item": "gold_small", "charges": [ 2000, 4000 ] }
+        { "item": "gold_ore", "count": [ 15, 30 ] },
+        { "item": "gold_small", "charges": [ 50, 100 ], "prob": 25 },
+        { "item": "geode", "prob": 5 }
       ],
       "//": "Stone obstacles have double the expected reduction but lower destroy_threshold in return",
       "ranged": { "reduction": [ 200, 200 ], "destroy_threshold": 200 }
@@ -1957,7 +1975,7 @@
     "type": "terrain",
     "id": "t_rock_ore_electrumite",
     "copy-from": "t_rock",
-    "name": "silver ore vein",
+    "name": "electrumite ore vein",
     "description": "Solid rock, with an exposed silvered yellow gleam of electrumite ore.",
     "//": "Doesnt exist, but electrum does. Blame the calamity.",
     "symbol": "#",
@@ -1975,7 +1993,8 @@
         { "item": "sharp_rock", "count": [ 5, 9 ] },
         { "item": "material_limestone", "charges": [ 500, 1000 ], "prob": 40 },
         { "item": "silver_ore", "count": [ 10, 20 ] },
-        { "item": "gold_small", "charges": [ 1000, 2000 ] }
+        { "item": "gold_ore", "count": [ 10, 20 ] },
+        { "item": "geode", "prob": 5 }
       ],
       "//": "Stone obstacles have double the expected reduction but lower destroy_threshold in return",
       "ranged": { "reduction": [ 200, 200 ], "destroy_threshold": 200 }
