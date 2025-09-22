@@ -198,10 +198,11 @@
     "group": "add_grass",
     "category": "OTHER",
     "required_skills": [ [ "survival", 1 ] ],
-    "time": "10 s",
+    "time": "10 m",
     "pre_terrain": "t_dirt",
     "post_terrain": "t_grass",
-    "//": "No components. Its grass. Let me have a lawn."
+    "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
+    "components": [ [ [ "water", 4 ], [ "water_clean", 4 ] ] ],
   },
   {
     "type": "construction",
