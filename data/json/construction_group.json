@@ -1588,5 +1588,40 @@
     "type": "construction_group",
     "id": "remove_bathtub_money",
     "name": "Remove Money from Bathtub"
+  },
+  {
+    "type": "construction_group",
+    "id": "water_fill_pit",
+    "name": "Fill Pit With Water"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_high_end_of_a_natural_ramp",
+    "name": "Dig High End of a Ramp"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_low_end_of_a_natural_ramp",
+    "name": "Dig Low End of a Ramp"
+  },
+  {
+    "type": "construction_group",
+    "id": "makeshift_bridge",
+    "name": "Construct Crude Bridge"
+  },
+  {
+    "type": "construction_group",
+    "id": "quarry_ground",
+    "name": "Quarry Ground Away"
+  },
+  {
+    "type": "construction_group",
+    "id": "quarry_roof",
+    "name": "Remove Flat Roof"
+  },
+  {
+    "type": "construction_group",
+    "id": "add_grass",
+    "name": "Plant Grass"
   }
 ]

@@ -298,5 +298,29 @@
     "tools": [ [ "chipper" ] ],
     "pre_terrain": "t_floor_waxed",
     "post_terrain": "t_floor"
+  },
+  {
+    "type": "construction",
+    "id": "constr_shallow_pit_water",
+    "group": "water_fill_pit",
+    "category": "DECORATE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "5 m",
+    "//": "2000 water is half 1m^3, so",
+    "components": [ [ [ "water", 2000 ] ] ],
+    "pre_flags": "PIT_SHALLOW",
+    "post_terrain": "t_water_sh"
+  },
+  {
+    "type": "construction",
+    "id": "constr_deep_pit_water",
+    "group": "water_fill_pit",
+    "category": "DECORATE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "5 m",
+    "//": "4000 water is 1m^3, so",
+    "components": [ [ [ "water", 4000 ] ] ],
+    "pre_flags": "PIT_DEEP",
+    "post_terrain": "t_water_dp"
   }
 ]
