@@ -838,7 +838,7 @@
     "description": "A large rock, sounds kinda hollow, could crack it open easy enough, wonder whats inside?",
     "use_action": { "type": "reveal_contents", "group": "geode_contents", "open_message": "You crack open the %s, revealing " },
     "material": "stone",
-    "volume": "1000 ml",
+    "volume": "1 L",
     "//": "ah the geode, natures gacha ball.",
     "weight": "12 kg",
     "bashing": 2
