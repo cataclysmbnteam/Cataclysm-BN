@@ -901,7 +901,7 @@
   {
     "id": "embryo",
     "type": "TOOL",
-    "looks_like": "fetus",
+    "looks_like": "pet_carrier",
     "weight": "60 kg",
     "volume": "60 L",
     "price": "2000 USD",
@@ -909,13 +909,13 @@
     "symbol": "&",
     "color": "pink",
     "//": "used by the cloning vat and adds a var called 'place_monster_override'",
-    "name": { "str": "embryo" },
-    "description": "This is a lab-grown embryo, carefully engineered from extracted DNA. When placed, it will rapidly grow into a cloned specimen of the chosen creature - perfect for repopulating livestock, rebuilding ecosystems, or creating living weapons.",
+    "name": { "str": "artificial womb" },
+    "description": "This artificial womb holds a nearly fully grown clone, nurtured from extracted DNA within the cloning vat. Place it, and the organism will swiftly complete its development and emerge ready to function. Ideal for quickly repopulating herds, restoring endangered species, or deploying engineered creatures with minimal wait.",
     "use_action": {
       "type": "place_monster",
       "monster_id": "debug_mon",
       "friendly_msg": "The cloned creature seems to enjoy your presence.",
-      "hostile_msg": "The cloned creature seems angry!",
+      "hostile_msg": "The cloned creature seems aloof to you!",
       "difficulty": 10,
       "moves": 250,
       "skills": [ "survival" ]

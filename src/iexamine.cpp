@@ -137,6 +137,7 @@ static const itype_id itype_chem_carbide( "chem_carbide" );
 static const itype_id itype_corpse( "corpse" );
 static const itype_id itype_electrohack( "electrohack" );
 static const itype_id itype_fake_milling_item( "fake_milling_item" );
+static const itype_id itype_fake_cloning_vat( "fake_cloning_vat_item" );
 static const itype_id itype_fake_smoke_plume( "fake_smoke_plume" );
 static const itype_id itype_fertilizer( "fertilizer" );
 static const itype_id itype_fire( "fire" );
@@ -5620,6 +5621,72 @@ static void mill_activate( player &p, const tripoint &examp )
     add_msg( _( "You remove the brake on the millstone and it slowly starts to turn." ) );
 }
 
+static void cloning_vat_activate( player &p, const tripoint &examp )
+{
+    map &here = get_map();
+
+    enum {
+        cv_start, cv_stop, cv_take
+    };
+    auto syringes = p.all_items_with_id( itype_id( "dna" ) );
+
+    if( syringes.size() == 0 ) {
+        popup( "You have no valid specimen samples." );
+        return;
+    }
+
+    uilist specimen_menu;
+    specimen_menu.text = _( "Select specimen sample:" );
+    for( size_t z = 0; z < syringes.size(); z++ ) {
+        specimen_menu.addentry( z, true, MENU_AUTOASSIGN, string_format( "%s [%s]",
+                                syringes[z]->display_name(),
+                                to_string( time_duration::from_turns( 10000 * ( syringes[z]->get_var( "specimen_size",
+                                           1 ) + 1 ) ) ) ) );
+    }
+    specimen_menu.query();
+    int choice = specimen_menu.ret;
+    if( choice < 0 ) {
+        return;
+    }
+
+    auto &selected_syringe = syringes[choice];  // reference to the original detached_ptr
+
+    p.mod_moves( -250 );
+
+    // Only try to remove if the pointer is valid
+    if( !selected_syringe ) {
+        return;
+    }
+
+    std::vector<item *> items = p.all_items();
+    for( size_t x = 0; x < items.size(); x++ ) {
+        if( selected_syringe->get_var( "specimen_sample" ) == items[x]->get_var( "specimen_sample" ) ) {
+            if( items[x]->units_remaining( p, 1 ) ) {
+                items[x]->mod_charges( -1 );
+            } else {
+                p.inv_remove_item( items[x] );
+            }
+
+            add_msg( m_info, _( "The cloning vat begins its rapid incubation process." ) );
+
+            here.furn_set( examp, furn_str_id( "f_cloning_vat_active" ) );
+            detached_ptr<item> result = item::spawn( "fake_cloning_vat_item", calendar::turn );
+
+            // 100 turns = 1 second, so 180000 = 30 min per size increment
+            result->set_var( "NAME", selected_syringe->get_var( "specimen_name" ) );
+            result->set_var( "RESULT", selected_syringe->get_var( "specimen_sample" ) );
+
+            result->item_counter = 10000 * ( selected_syringe->get_var( "specimen_size", 1 ) + 1 );
+            result->activate();
+            here.add_item( examp, std::move( result ) );
+
+            return;
+        }
+    }
+
+    return;
+}
+
 static void smoker_activate( player &p, const tripoint &examp )
 {
     map &here = get_map();
@@ -5778,6 +5845,34 @@ void iexamine::mill_finalize( player &, const tripoint &examp, const time_point 
         items.insert( std::move( it ) );
     }
     here.furn_set( examp, next_mill_type );
+}
+
+
+void iexamine::cloning_vat_finalize( const tripoint &examp, const time_point & )
+{
+    map &here = get_map();
+
+    map_stack items_here = here.i_at( examp );
+    item developing_embryo;
+    if( items_here.size() == 1 &&
+        ( *items_here.begin() )->typeId() == itype_id( "fake_cloning_vat_item" ) ) {
+        if( here.furn( examp ) == furn_str_id( "f_cloning_vat_active" ) ) {
+            here.furn_set( examp, furn_str_id( "f_cloning_vat" ) );
+        }
+        developing_embryo = **items_here.begin();
+    }
+
+    sounds::sound( examp, 8, sounds::sound_t::alarm, _( "ding!" ), true, "misc", "ding" );
+
+    detached_ptr<item> spawned_embryo = item::spawn( itype_id( "embryo" ), calendar::turn, 1 );
+    spawned_embryo->set_var( "place_monster_override", developing_embryo.get_var( "RESULT" ) );
+    spawned_embryo->set_var( "place_monster_override_name", developing_embryo.get_var( "NAME" ) );
+
+    here.add_item( examp, std::move( spawned_embryo ) );
+
+    here.furn_set( examp, furn_str_id( "f_cloning_vat" ) );
+
+    return;
 }
 
 static void smoker_finalize( player &, const tripoint &examp, const time_point &start_time )
@@ -6075,6 +6170,41 @@ void iexamine::on_smoke_out( const tripoint &examp, const time_point &start_time
     if( here.furn( examp ) == furn_str_id( "f_smoking_rack_active" ) ||
         here.furn( examp ) == furn_str_id( "f_metal_smoking_rack_active" ) ) {
         smoker_finalize( g->u, examp, start_time );
+    }
+}
+
+void iexamine::cloning_vat_examine( player &p, const tripoint &examp )
+{
+    map &here = get_map();
+
+    const bool active = here.furn( examp ) == furn_str_id( "f_cloning_vat_active" );
+
+    map_stack items_here = here.i_at( examp );
+
+    // Simple behavior: toggle milling on or off
+    if( !active ) {
+        if( items_here.size() > 0 ) {
+            if( items_here.empty() ) {
+                return;
+            }
+
+            // Get pointer to first item
+            item *it = *items_here.begin();
+
+            // Ask using the item's name
+            if( !query_yn( string_format( "Take %s from the cloning vat?", it->tname().c_str() ) ) ) {
+                return;
+            }
+
+            // Detach and wield as before
+            detached_ptr<item> det;
+            items_here.erase( items_here.begin(), &det );  // remove from map, store in det
+            p.wield( std::move( det ) );
+
+            return;
+        }
+
+        cloning_vat_activate( p, examp );
     }
 }
 
@@ -6658,6 +6788,7 @@ iexamine_function iexamine_function_from_string( const std::string &function_nam
             { "ledge", &iexamine::ledge },
             { "autodoc", &iexamine::autodoc },
             { "quern_examine", &iexamine::quern_examine },
+            { "cloning_vat_examine", &iexamine::cloning_vat_examine },
             { "smoker_options", &iexamine::smoker_options },
             { "open_safe", &iexamine::open_safe },
             { "workbench", &iexamine::workbench },
