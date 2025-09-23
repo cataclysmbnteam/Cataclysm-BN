@@ -2926,7 +2926,7 @@
     "active": [
       "steady_consumer",
       {
-        "power": 60,
+        "power": 100,
         "consume_every": "600 s",
         "transform": { "id": "f_cloning_vat", "msg": "The cloning vat shuts down." }
       }

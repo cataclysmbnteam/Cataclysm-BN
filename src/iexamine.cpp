@@ -5940,7 +5940,7 @@ void iexamine::cloning_vat_finalize( const tripoint &examp, const time_point & )
 
         // spawn it and an artificial womb
         detached_ptr<item> spawned_womb = item::spawn( itype_id( "embryo_empty" ), calendar::turn, 1 );
-        spawned_womb->faults.emplace( fault_id( "bionic_nonsterile" ) );
+        spawned_womb->faults.emplace( fault_id( "fault_bionic_nonsterile" ) );
         here.add_item( examp, std::move( spawned_womb ) );
         detached_ptr<item> spawned_item = item::spawn( chosen_id, calendar::turn, 1 );
         here.add_item( examp, std::move( spawned_item ) );
@@ -6297,6 +6297,8 @@ void iexamine::cloning_vat_examine( player &p, const tripoint &examp )
         if( !query_yn( _( "Cancel incubation process? This will kill the specimen inside." ) ) ) {
             return;
         }
+
+        sounds::sound( examp, 8, sounds::sound_t::alarm, _( "beep!" ), true, "misc", "beep" );
 
         if( items_here.size() > 0 ) {
             items_here.erase( items_here.begin() );  // remove from map, store in det
