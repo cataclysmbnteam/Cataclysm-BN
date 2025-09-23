@@ -2885,7 +2885,8 @@
     "move_cost_mod": -1,
     "required_str": 6,
     "coverage": 75,
-    "flags": [ "TRANSPARENT", "SEALED", "PLACE_ITEM", "WALL" ],
+    "flags": [ "TRANSPARENT", "SEALED", "PLACE_ITEM", "WALL", "EASY_DECONSTRUCT" ],
+    "deconstruct": { "items": [ { "item": "cloning_vat", "count": 1 } ] },
     "examine_action": "cloning_vat_examine",
     "bash": {
       "str_min": 6,
@@ -2928,7 +2929,7 @@
       {
         "power": 100,
         "consume_every": "600 s",
-        "transform": { "id": "f_cloning_vat", "msg": "The cloning vat shuts down." }
+        "transform": { "id": "f_cloning_vat", "msg": "The cloning vat shuts down unexpectedly, destroying the materials in the process." }
       }
     ]
   }
