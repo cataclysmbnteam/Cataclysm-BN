@@ -573,7 +573,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
             // push the animal out of way until it's no longer in our vehicle and not in
             // anyone else's position
             while( g->critter_at( end_pos, true ) ||
-                   cur_points.find( end_pos ) != cur_points.end() ) {
+                   cur_points.contains( end_pos ) ) {
                 start_pos = end_pos;
                 calc_ray_end( angle, 2, start_pos, end_pos );
             }
@@ -1084,7 +1084,8 @@ bool vehicle::check_is_heli_landed()
 {
     // @TODO - when there are chasms that extend below z-level 0 - perhaps the heli
     // will be able to descend into them but for now, assume z-level-0 == the ground.
-    if( global_pos3().z == 0 || !get_map().has_flag_ter_or_furn( TFLAG_NO_FLOOR, global_pos3() ) ) {
+    if( ( global_pos3().z == 0 || !get_map().has_flag_ter_or_furn( TFLAG_NO_FLOOR, global_pos3() ) ) &&
+        !get_map().has_flag_ter_or_furn( TFLAG_DEEP_WATER, global_pos3() ) ) {
         is_flying = false;
         return true;
     }
@@ -1365,18 +1366,23 @@ vehicle *vehicle::act_on_map()
     const bool pl_ctrl = player_in_control( player_character );
     // TODO: Remove this hack, have vehicle sink a z-level
     if( is_floating && !can_float() ) {
-        add_msg( m_bad, _( "Your %s sank." ), name );
-        if( pl_ctrl ) {
-            unboard_all();
-        }
-        if( g->remoteveh() == this ) {
-            g->setremoteveh( nullptr );
-        }
+        if( has_sufficient_lift() ) {
+            is_floating = false;
+            is_flying = true;
+        } else {
+            add_msg( m_bad, _( "Your %s sank." ), name );
+            if( pl_ctrl ) {
+                unboard_all();
+            }
+            if( g->remoteveh() == this ) {
+                g->setremoteveh( nullptr );
+            }
 
-        here.on_vehicle_moved( sm_pos.z );
-        // Destroy vehicle (sank to nowhere)
-        here.destroy_vehicle( this );
-        return nullptr;
+            here.on_vehicle_moved( sm_pos.z );
+            // Destroy vehicle (sank to nowhere)
+            here.destroy_vehicle( this );
+            return nullptr;
+        }
     }
 
     // It needs to fall when it has no support OR was falling before
@@ -1670,7 +1676,7 @@ void vehicle::check_falling_or_floating()
     }
 
     // floating if 2/3rds of the vehicle is in deep water
-    is_floating = 3 * deep_water_tiles >= 2 * pts.size();
+    is_floating = !is_flying && ( 3 * deep_water_tiles >= 2 * pts.size() );
     // in_water if 1/2 of the vehicle is in water at all
     in_water =  2 * water_tiles >= pts.size();
 }

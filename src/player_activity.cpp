@@ -680,7 +680,7 @@ bool player_activity::can_resume_with( const player_activity &other, const Chara
 bool player_activity::is_distraction_ignored( distraction_type type ) const
 {
     return ( get_distraction_manager().is_ignored( type ) ||
-             ignored_distractions.find( type ) != ignored_distractions.end() );
+             ignored_distractions.contains( type ) );
 }
 
 void player_activity::ignore_distraction( distraction_type type )

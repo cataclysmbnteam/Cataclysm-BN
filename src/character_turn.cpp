@@ -284,7 +284,7 @@ void Character::process_turn()
         !has_effect( effect_sleep ) && !has_effect( effect_narcosis ) ) {
         const tripoint_abs_omt ompos = global_omt_location();
         const point_abs_omt pos = ompos.xy();
-        if( overmap_time.find( pos ) == overmap_time.end() ) {
+        if( !overmap_time.contains( pos ) ) {
             overmap_time[pos] = 1_turns;
         } else {
             overmap_time[pos] += 1_turns;

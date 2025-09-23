@@ -1177,7 +1177,7 @@ bool spell::target_by_monster_id( const tripoint &p ) const
     }
     bool valid = false;
     if( monster *const target = g->critter_at<monster>( p ) ) {
-        if( type->targeted_monster_ids.find( target->type->id ) != type->targeted_monster_ids.end() ) {
+        if( type->targeted_monster_ids.contains( target->type->id ) ) {
             valid = true;
         }
     }

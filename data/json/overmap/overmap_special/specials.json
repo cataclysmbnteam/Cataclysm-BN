@@ -6287,6 +6287,70 @@
   },
   {
     "type": "overmap_special",
+    "id": "pros_ore_vein_banded_iron",
+    "locations": [ "land" ],
+    "occurrences": [ 0, 1 ],
+    "flags": [ "UNIQUE" ],
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "omt_ore_vein_banded_iron_north" } ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "pros_ore_vein_tetrahedrite",
+    "locations": [ "land" ],
+    "occurrences": [ 0, 1 ],
+    "flags": [ "UNIQUE" ],
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "omt_ore_vein_tetrahedrite_north" } ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "pros_ore_vein_chalcopyrite",
+    "locations": [ "land" ],
+    "occurrences": [ 0, 1 ],
+    "flags": [ "UNIQUE" ],
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "omt_ore_vein_chalcopyrite_north" } ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "pros_ore_vein_galena",
+    "locations": [ "land" ],
+    "occurrences": [ 0, 1 ],
+    "flags": [ "UNIQUE" ],
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "omt_ore_vein_galena_north" } ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "pros_ore_vein_galenau",
+    "locations": [ "land" ],
+    "occurrences": [ 0, 1 ],
+    "flags": [ "UNIQUE" ],
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "omt_ore_vein_galenau_north" } ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "pros_ore_vein_coppin",
+    "locations": [ "land" ],
+    "occurrences": [ 0, 1 ],
+    "flags": [ "UNIQUE" ],
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "omt_ore_vein_coppin_north" } ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "pros_ore_vein_bronzium",
+    "locations": [ "land" ],
+    "occurrences": [ 0, 1 ],
+    "flags": [ "UNIQUE" ],
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "omt_ore_vein_bronzium_north" } ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "pros_ore_vein_electrumite",
+    "locations": [ "land" ],
+    "occurrences": [ 0, 1 ],
+    "flags": [ "UNIQUE" ],
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "omt_ore_vein_electrumite_north" } ]
+  },
+  {
+    "type": "overmap_special",
     "id": "sunken_cargo_ship",
     "rotate": false,
     "overmaps": [

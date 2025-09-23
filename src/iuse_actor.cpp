@@ -905,7 +905,7 @@ int consume_drug_iuse::use( player &p, item &it, bool, const tripoint & ) const
     }
 
     // this is a smokeable item, we need to make sure player isnt already smoking (ripped from iuse::smoking)
-    if( lit_item.size() != 0 ) {
+    if( !lit_item.empty() ) {
         // make sure we're not already smoking something
         auto cigs = p.items_with( []( const item & it ) {
             return it.is_active() && it.has_flag( flag_LITCIG );
@@ -936,7 +936,7 @@ int consume_drug_iuse::use( player &p, item &it, bool, const tripoint & ) const
     }
 
     // item used to "fake" addiction (ripped from old ecig iuse)
-    if( fake_item.size() != 0 ) {
+    if( !fake_item.empty() ) {
         item *dummy_item = item::spawn_temporary( fake_item, calendar::turn );
         p.consume_effects( *dummy_item );
     }
@@ -1003,7 +1003,7 @@ int consume_drug_iuse::use( player &p, item &it, bool, const tripoint & ) const
                        p.vitamin_rate( v.first ) <= 0_turns );
     }
 
-    if( snippet_category != "" ) {
+    if( !snippet_category.empty() ) {
         std::string snippet_string = "";
         snippet_string = SNIPPET.random_from_category( snippet_category ).value_or(
                              translation() ).translated();
@@ -5812,4 +5812,34 @@ int iuse_prospect_pick::use( player &p, item &it, bool t,
 std::unique_ptr<iuse_actor> iuse_prospect_pick::clone() const
 {
     return std::make_unique<iuse_prospect_pick>( *this );
+}
+
+void iuse_reveal_contents::load( const JsonObject &obj )
+{
+    obj.read( "group", contents_group );
+    if( obj.has_member( "open_message" ) ) {
+        obj.read( "open_message", open_message );
+    }
+}
+int iuse_reveal_contents::use( player &p, item &it, bool,
+                               const tripoint & ) const
+{
+    std::vector<detached_ptr<item>> items = item_group::items_from( contents_group,
+                                            calendar::turn );
+    map &here = get_map();
+    for( detached_ptr<item> &content : items ) {
+        if( !open_message.empty() ) {
+            p.add_msg_if_player( ( string_format( open_message,
+                                                  it.tname() ) + content->tname() + "!" ) );
+        }
+        here.add_item_or_charges( p.pos(), std::move( content ) );
+    }
+
+    it.detach( );
+
+    return 0;
+}
+std::unique_ptr<iuse_actor> iuse_reveal_contents::clone() const
+{
+    return std::make_unique<iuse_reveal_contents>( *this );
 }

@@ -147,7 +147,7 @@ item &Character::used_weapon() const
 
 item &Character::primary_weapon() const
 {
-    if( get_body().find( body_part_arm_r ) == get_body().end() ) {
+    if( !get_body().contains( body_part_arm_r ) ) {
         return null_item_reference();
     }
     return *get_part( body_part_arm_r ).wielding.wielded;
@@ -155,7 +155,7 @@ item &Character::primary_weapon() const
 
 std::vector<item *> Character::wielded_items() const
 {
-    if( get_body().find( body_part_arm_r ) == get_body().end() ) {
+    if( !get_body().contains( body_part_arm_r ) ) {
         return {};
     }
 
