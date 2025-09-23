@@ -1194,11 +1194,14 @@ int place_monster_iuse::use( player &p, item &it, bool, const tripoint &pos ) co
         spawn_id = mtype_id( it.get_var( "place_monster_override" ) );
         embryo_override = true;
         it.convert( itype_id( "embryo_empty" ) );
-        it.clear_vars();
     }
     shared_ptr_fast<monster> newmon_ptr = make_shared_fast<monster>( spawn_id );
     monster &newmon = *newmon_ptr;
     newmon.init_from_item( it );
+    if( it.has_var( "place_monster_override" ) ) {
+        newmon.no_extra_death_drops = true;
+        it.clear_vars();
+    }
     tripoint pnt = it.is_active() ? pos : p.pos();
     if( place_randomly ) {
         // place_critter_around returns the same pointer as its parameter (or null)

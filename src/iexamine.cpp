@@ -72,6 +72,7 @@
 #include "material.h"
 #include "messages.h"
 #include "monster.h"
+#include "mongroup.h"
 #include "mtype.h"
 #include "mutation.h"
 #include "npc.h"
@@ -5624,6 +5625,8 @@ static void mill_activate( player &p, const tripoint &examp )
 static void cloning_vat_activate( player &p, const tripoint &examp )
 {
     map &here = get_map();
+    // 86400 = 1 day, so this is 12 hrs per size increment
+    int turns_to_clone = 43200;
 
     std::vector<item *> items = p.all_items();
     auto carriers = p.all_items_with_id( itype_id( "embryo_empty" ) );
@@ -5646,9 +5649,12 @@ static void cloning_vat_activate( player &p, const tripoint &examp )
     uilist specimen_menu;
     specimen_menu.text = _( "Select specimen sample:" );
     for( size_t z = 0; z < syringes.size(); z++ ) {
+        shared_ptr_fast<monster> newmon_ptr = make_shared_fast<monster>
+                                              ( mtype_id( syringes[z]->get_var( "specimen_sample" ) ) );
+        monster &newmon = *newmon_ptr;
         specimen_menu.addentry( z, true, MENU_AUTOASSIGN, string_format( "%s [%s]",
                                 syringes[z]->display_name(),
-                                to_string( time_duration::from_turns( 10000 * ( syringes[z]->get_var( "specimen_size",
+                                to_string( time_duration::from_turns( turns_to_clone * ( syringes[z]->get_var( "specimen_size",
                                            1 ) + 1 ) ) ) ) );
     }
     specimen_menu.query();
@@ -5681,10 +5687,50 @@ static void cloning_vat_activate( player &p, const tripoint &examp )
             detached_ptr<item> result = item::spawn( "fake_cloning_vat_item", calendar::turn );
 
             // 100 turns = 1 second, so 180000 = 30 min per size increment
-            result->set_var( "NAME", selected_syringe->get_var( "specimen_name" ) );
-            result->set_var( "RESULT", selected_syringe->get_var( "specimen_sample" ) );
+            result->set_var( "specimen_name", selected_syringe->get_var( "specimen_name" ) );
+            result->set_var( "specimen_sample", selected_syringe->get_var( "specimen_sample" ) );
 
-            result->item_counter = 10000 * ( selected_syringe->get_var( "specimen_size", 1 ) + 1 );
+            // cloning vat random upgrade logic
+            if( rng( 1, 100 ) < 10 ) {
+                mtype_id id( selected_syringe->get_var( "specimen_sample" ) );
+                const mtype &type = id.obj();
+
+                mongroup_id upgrade_group = mongroup_id::NULL_ID();
+                upgrade_group = type.upgrade_group;
+                auto mons = upgrade_group.obj().monsters;
+
+                if( !mons.empty() ) {
+                    // 1) Calculate total weight (sum of frequencies)
+                    int total_freq = 0;
+                    for( const MonsterGroupEntry &entry : mons ) {
+                        total_freq += entry.frequency;
+                    }
+
+                    // 2) Pick a random number in [1, total_freq]
+                    int roll = rng( 1, total_freq );
+
+                    // 3) Iterate until we find the chosen entry
+                    const MonsterGroupEntry *chosen = nullptr;
+                    for( const MonsterGroupEntry &entry : mons ) {
+                        roll -= entry.frequency;
+                        if( roll <= 0 ) {
+                            chosen = &entry;
+                            break;
+                        }
+                    }
+
+                    shared_ptr_fast<monster> newmon_ptr = make_shared_fast<monster>
+                                                          ( mtype_id( chosen->name.str() ) );
+                    monster &newmon = *newmon_ptr;
+
+                    if( chosen ) {
+                        result->set_var( "RESULT", chosen->name.str() );
+                        result->set_var( "NAME", newmon.name() );
+                    }
+                }
+            }
+
+            result->item_counter = turns_to_clone * ( selected_syringe->get_var( "specimen_size", 1 ) + 1 );
             result->activate();
             here.add_item( examp, std::move( result ) );
 
@@ -5870,15 +5916,34 @@ void iexamine::cloning_vat_finalize( const tripoint &examp, const time_point & )
         developing_embryo = **items_here.begin();
     }
 
+    here.furn_set( examp, furn_str_id( "f_cloning_vat" ) );
+
+    // cloning vat failure
+    if( rng( 1, 100 ) < 10 ) {
+        // choose a random failure item
+        std::vector<itype_id> item_results{ itype_id( "arm" ), itype_id( "leg" ), itype_id( "fetus" ) };
+        int index = rng( 0, static_cast<int>( item_results.size() ) - 1 );
+        const itype_id &chosen_id = item_results[index];
+
+        // spawn it and an artificial womb
+        detached_ptr<item> spawned_womb = item::spawn( itype_id( "embryo_empty" ), calendar::turn, 1 );
+        here.add_item( examp, std::move( spawned_womb ) );
+        detached_ptr<item> spawned_item = item::spawn( chosen_id, calendar::turn, 1 );
+        here.add_item( examp, std::move( spawned_item ) );
+
+        sounds::sound( examp, 8, sounds::sound_t::alarm, _( "beep!" ), true, "misc", "beep" );
+
+        return;
+    }
+
     sounds::sound( examp, 8, sounds::sound_t::alarm, _( "ding!" ), true, "misc", "ding" );
 
     detached_ptr<item> spawned_embryo = item::spawn( itype_id( "embryo" ), calendar::turn, 1 );
-    spawned_embryo->set_var( "place_monster_override", developing_embryo.get_var( "RESULT" ) );
-    spawned_embryo->set_var( "place_monster_override_name", developing_embryo.get_var( "NAME" ) );
+    spawned_embryo->set_var( "place_monster_override", developing_embryo.get_var( "specimen_sample" ) );
+    spawned_embryo->set_var( "place_monster_override_name",
+                             developing_embryo.get_var( "specimen_name" ) );
 
     here.add_item( examp, std::move( spawned_embryo ) );
-
-    here.furn_set( examp, furn_str_id( "f_cloning_vat" ) );
 
     return;
 }
@@ -6213,6 +6278,16 @@ void iexamine::cloning_vat_examine( player &p, const tripoint &examp )
         }
 
         cloning_vat_activate( p, examp );
+    } else {
+        // Ask using the item's name
+        if( !query_yn( _( "Cancel incubation process? This will kill the specimen inside." ) ) ) {
+            return;
+        }
+
+        detached_ptr<item> spawned_womb = item::spawn( itype_id( "embryo_empty" ), calendar::turn, 1 );
+        here.add_item( examp, std::move( spawned_womb ) );
+
+        here.furn_set( examp, furn_str_id( "f_cloning_vat" ) );
     }
 }
 
