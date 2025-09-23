@@ -885,7 +885,7 @@
     "color": "pink",
     "//": "used by the cloning vat and adds a var called 'place_monster_override'",
     "name": { "str": "artificial womb" },
-    "description": "This artificial womb holds a nearly fully grown clone, nurtured from extracted DNA within the cloning vat. Place it, and the organism will swiftly complete its development and emerge ready to function. Ideal for quickly repopulating herds, restoring endangered species, or deploying engineered creatures with minimal wait.",
+    "description": "This artificial womb holds a nearly fully grown clone, nurtured from extracted DNA within a cloning vat. Activate it, and the organism will swiftly complete its development and emerge ready to function. Ideal for quickly repopulating herds, restoring endangered species, or deploying engineered creatures with minimal wait.",
     "use_action": {
       "type": "place_monster",
       "monster_id": "debug_mon",
@@ -907,7 +907,7 @@
     "symbol": "&",
     "color": "pink",
     "//": "used by the cloning vat and adds a var called 'place_monster_override'",
-    "name": { "str": "empty artificial womb" },
+    "name": { "str": "artificial womb" },
     "description": "This artificial womb is currently empty, designed to carry and sustain a near-fully-grown clone until deployment. Once loaded, it keeps the organism alive and stable until it is ready to emerge. A single-use vessel for transporting clones safely from the cloning vat to the field."
   }
 ]

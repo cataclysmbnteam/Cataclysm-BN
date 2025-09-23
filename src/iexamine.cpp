@@ -5628,11 +5628,22 @@ static void cloning_vat_activate( player &p, const tripoint &examp )
     // 86400 = 1 day, so this is 12 hrs per size increment
     int turns_to_clone = 43200;
 
-    std::vector<item *> items = p.all_items();
-    auto carriers = p.all_items_with_id( itype_id( "embryo_empty" ) );
+    auto carriers = p.wielded_items();
 
-    if( carriers.size() == 0 ) {
-        popup( "You need an empty artificial womb to begin incubation." );
+    // Filter out faulty carriers
+    for( size_t i = 0; i < carriers.size(); ) {
+        item *carrier = carriers[i];  // already a pointer
+        if( carrier->has_fault( fault_id( "fault_bionic_nonsterile" ) ) ||
+            carrier->typeId() != itype_id( "embryo_empty" ) ) {
+            carriers.erase( carriers.begin() + i ); // erase by iterator
+            // do NOT increment i here
+        } else {
+            i++; // increment only if we didn't erase
+        }
+    }
+
+    if( carriers.empty() ) {
+        popup( "You need a sterilized artificial womb to begin incubation." );
         return;
     }
 
@@ -5651,7 +5662,6 @@ static void cloning_vat_activate( player &p, const tripoint &examp )
     for( size_t z = 0; z < syringes.size(); z++ ) {
         shared_ptr_fast<monster> newmon_ptr = make_shared_fast<monster>
                                               ( mtype_id( syringes[z]->get_var( "specimen_sample" ) ) );
-        monster &newmon = *newmon_ptr;
         specimen_menu.addentry( z, true, MENU_AUTOASSIGN, string_format( "%s [%s]",
                                 syringes[z]->display_name(),
                                 to_string( time_duration::from_turns( turns_to_clone * ( syringes[z]->get_var( "specimen_size",
@@ -5672,13 +5682,17 @@ static void cloning_vat_activate( player &p, const tripoint &examp )
         return;
     }
 
-    p.use_amount( itype_id( "embryo_empty" ), 1 );
+    // remove the clean carrier
+    detached_ptr<item> weapon = p.remove_primary_weapon();
+
+    std::vector<item *> items = p.all_items_with_id( itype_id( "dna" ) );
     for( size_t x = 0; x < items.size(); x++ ) {
         if( selected_syringe->get_var( "specimen_sample" ) == items[x]->get_var( "specimen_sample" ) ) {
-            if( items[x]->units_remaining( p, 1 ) ) {
-                items[x]->mod_charges( -1 );
+            if( items[x]->units_remaining( p ) <= 1 ) {
+                // this consumes the container. need to figure that out
+                detached_ptr<item> garbage = p.i_rem( p.inv_position_by_item( items[x] ) );
             } else {
-                p.inv_remove_item( items[x] );
+                items[x]->mod_charges( -1 );
             }
 
             add_msg( m_info, _( "The cloning vat begins its rapid incubation process." ) );
@@ -5922,11 +5936,11 @@ void iexamine::cloning_vat_finalize( const tripoint &examp, const time_point & )
     if( rng( 1, 100 ) < 10 ) {
         // choose a random failure item
         std::vector<itype_id> item_results{ itype_id( "arm" ), itype_id( "leg" ), itype_id( "fetus" ) };
-        int index = rng( 0, static_cast<int>( item_results.size() ) - 1 );
-        const itype_id &chosen_id = item_results[index];
+        const itype_id &chosen_id = random_entry( item_results );
 
         // spawn it and an artificial womb
         detached_ptr<item> spawned_womb = item::spawn( itype_id( "embryo_empty" ), calendar::turn, 1 );
+        spawned_womb->faults.emplace( fault_id( "bionic_nonsterile" ) );
         here.add_item( examp, std::move( spawned_womb ) );
         detached_ptr<item> spawned_item = item::spawn( chosen_id, calendar::turn, 1 );
         here.add_item( examp, std::move( spawned_item ) );
@@ -6284,8 +6298,18 @@ void iexamine::cloning_vat_examine( player &p, const tripoint &examp )
             return;
         }
 
+        if( items_here.size() > 0 ) {
+            items_here.erase( items_here.begin() );  // remove from map, store in det
+        }
+
+        // cloning vat failure
+        std::vector<itype_id> item_results{ itype_id( "arm" ), itype_id( "leg" ), itype_id( "fetus" ) };
+        const itype_id &chosen_id = random_entry( item_results );
+        detached_ptr<item> spawned_remains = item::spawn( chosen_id, calendar::turn, 1 );
         detached_ptr<item> spawned_womb = item::spawn( itype_id( "embryo_empty" ), calendar::turn, 1 );
+        spawned_womb->faults.emplace( fault_id( "fault_bionic_nonsterile" ) );
         here.add_item( examp, std::move( spawned_womb ) );
+        here.add_item( examp, std::move( spawned_remains ) );
 
         here.furn_set( examp, furn_str_id( "f_cloning_vat" ) );
     }

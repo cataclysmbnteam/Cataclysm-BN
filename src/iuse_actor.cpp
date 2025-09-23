@@ -1194,6 +1194,7 @@ int place_monster_iuse::use( player &p, item &it, bool, const tripoint &pos ) co
         spawn_id = mtype_id( it.get_var( "place_monster_override" ) );
         embryo_override = true;
         it.convert( itype_id( "embryo_empty" ) );
+        it.faults.emplace( fault_bionic_nonsterile );
     }
     shared_ptr_fast<monster> newmon_ptr = make_shared_fast<monster>( spawn_id );
     monster &newmon = *newmon_ptr;

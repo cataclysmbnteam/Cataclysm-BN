@@ -2117,7 +2117,7 @@ class bionic_sterilize_preset : public inventory_selector_preset
         }
 
         bool is_shown( const item *loc ) const override {
-            return loc->has_fault( fault_bionic_nonsterile ) && loc->is_bionic();
+            return loc->has_fault( fault_bionic_nonsterile );
         }
 
 
@@ -2131,7 +2131,7 @@ static item *autoclave_internal( player &u,
 {
     inventory_pick_selector inv_s( u, preset );
     inv_s.set_title( _( "Sterilization" ) );
-    inv_s.set_hint( _( "<color_yellow>Select one CBM to sterilize</color>" ) );
+    inv_s.set_hint( _( "<color_yellow>Select a device to sterilize:</color>" ) );
     inv_s.set_display_stats( false );
 
     do {
@@ -2142,7 +2142,7 @@ static item *autoclave_internal( player &u,
         inv_s.add_nearby_items( radius );
 
         if( inv_s.empty() ) {
-            popup( _( "You don't have any CBM to sterilize." ), PF_GET_KEY );
+            popup( _( "You don't have any devices to sterilize." ), PF_GET_KEY );
             return nullptr;
         }
 
