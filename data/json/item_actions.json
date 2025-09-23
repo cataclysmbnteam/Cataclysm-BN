@@ -581,11 +581,6 @@
   },
   {
     "type": "item_action",
-    "id": "cloning_vat",
-    "name": { "str": "Use cloning vat" }
-  },
-  {
-    "type": "item_action",
     "id": "cloning_syringe",
     "name": { "str": "Take specimen sample" }
   },

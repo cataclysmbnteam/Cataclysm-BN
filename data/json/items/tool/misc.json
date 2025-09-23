@@ -874,31 +874,6 @@
     "material": [ "iron", "glass" ]
   },
   {
-    "id": "cloning_vat",
-    "type": "TOOL",
-    "category": "tools_workshop",
-    "name": { "str": "portable cloning vat" },
-    "description": "A massive bioreactor filled with nutrient gel and lined with growth scaffolds. Hoses, pumps, and glowing control panels hum softly as the vat maintains a sterile environment for genome reconstruction and accelerated clone growth. With enough power, biomass, and time, it can grow a living creature from a DNA sample - though contamination or unstable sequences may lead to… unexpected results.  This one has been modified to run off of batteries, and therefore is semi-portable.",
-    "weight": "200 kg",
-    "volume": "200 L",
-    "price": "20000 USD",
-    "price_postapoc": "60 USD",
-    "to_hit": -2,
-    "bashing": 8,
-    "material": [ "steel", "plastic" ],
-    "symbol": "&",
-    "color": "light_gray",
-    "looks_like": "t_vat",
-    "ammo": "battery",
-    "charges_per_use": 1,
-    "flags": [ "ALLOWS_REMOTE_USE" ],
-    "use_action": [ { "type": "cloning_vat", "moves": 100, "charges_per_minute": 1 } ],
-    "magazines": [
-      [ "battery", [ "heavy_battery_cell", "heavy_plus_battery_cell", "heavy_atomic_battery_cell", "heavy_disposable_cell" ] ]
-    ],
-    "magazine_well": "1000 ml"
-  },
-  {
     "id": "embryo",
     "type": "TOOL",
     "looks_like": "pet_carrier",
