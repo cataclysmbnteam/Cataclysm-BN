@@ -189,7 +189,6 @@
     "name": "skylight",
     "description": "A giant sheet of glass inserted into the roof, lets light pass through.",
     "symbol": "o",
-    "looks_like": "t_open_air",
     "color": "cyan",
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "Z_TRANSPARENT", "INDOORS" ],
