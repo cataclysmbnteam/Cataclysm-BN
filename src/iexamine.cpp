@@ -5625,6 +5625,14 @@ static void cloning_vat_activate( player &p, const tripoint &examp )
 {
     map &here = get_map();
 
+    std::vector<item *> items = p.all_items();
+    auto carriers = p.all_items_with_id( itype_id( "embryo_empty" ) );
+
+    if( carriers.size() == 0 ) {
+        popup( "You need an empty artificial womb to begin incubation." );
+        return;
+    }
+
     enum {
         cv_start, cv_stop, cv_take
     };
@@ -5658,7 +5666,7 @@ static void cloning_vat_activate( player &p, const tripoint &examp )
         return;
     }
 
-    std::vector<item *> items = p.all_items();
+    p.use_amount( itype_id( "embryo_empty" ), 1 );
     for( size_t x = 0; x < items.size(); x++ ) {
         if( selected_syringe->get_var( "specimen_sample" ) == items[x]->get_var( "specimen_sample" ) ) {
             if( items[x]->units_remaining( p, 1 ) ) {

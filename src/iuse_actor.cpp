@@ -1187,8 +1187,14 @@ void place_monster_iuse::load( const JsonObject &obj )
 int place_monster_iuse::use( player &p, item &it, bool, const tripoint &pos ) const
 {
     mtype_id spawn_id = mtypeid;
+
+    // ugly hack, sorry
+    bool embryo_override = false;
     if( it.has_var( "place_monster_override" ) ) {
         spawn_id = mtype_id( it.get_var( "place_monster_override" ) );
+        embryo_override = true;
+        it.convert( itype_id( "embryo_empty" ) );
+        it.clear_vars();
     }
     shared_ptr_fast<monster> newmon_ptr = make_shared_fast<monster>( spawn_id );
     monster &newmon = *newmon_ptr;
@@ -5322,10 +5328,12 @@ int cloning_syringe_iuse::use( player &p, item &it, bool, const tripoint &pos ) 
     }
 
     const monster *const m = critter->as_monster();
+    // we can only grow organic matter (this includes blob, and were going to assume the blob messes with DNA and therefore is copy-able)
+    // unsure about nether monsters though
     bool in_bad_species = m->in_species( species_HALLUCINATION ) || m->in_species( species_ROBOT );
 
-    if( !m && ( m->has_flag( MF_CANT_CLONE ) || in_bad_species ) ) {
-        add_msg( m_info, _( "There's no valid specimen there." ) );
+    if( !m || m->has_flag( MF_CANT_CLONE ) || in_bad_species ) {
+        add_msg( m_info, _( "There's not a valid creature." ) );
         return 0;
     }
 

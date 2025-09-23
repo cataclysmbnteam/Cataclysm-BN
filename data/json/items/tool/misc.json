@@ -895,5 +895,19 @@
       "moves": 250,
       "skills": [ "survival" ]
     }
+  },
+  {
+    "id": "embryo_empty",
+    "type": "TOOL",
+    "looks_like": "pet_carrier",
+    "weight": "60 kg",
+    "volume": "60 L",
+    "price": "2000 USD",
+    "price_postapoc": "5 USD",
+    "symbol": "&",
+    "color": "pink",
+    "//": "used by the cloning vat and adds a var called 'place_monster_override'",
+    "name": { "str": "empty artificial womb" },
+    "description": "This artificial womb is currently empty, designed to carry and sustain a near-fully-grown clone until deployment. Once loaded, it keeps the organism alive and stable until it is ready to emerge. A single-use vessel for transporting clones safely from the cloning vat to the field."
   }
 ]
