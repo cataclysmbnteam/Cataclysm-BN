@@ -183,26 +183,6 @@
     "flags": [ "WATCH", "TRADER_AVOID", "RECHARGE", "NO_UNLOAD", "NO_RELOAD" ]
   },
   {
-    "id": "control_laptop_screen_lit",
-    "copy-from": "laptop",
-    "type": "TOOL",
-    "name": { "str": "control laptop - lit screen", "str_pl": "control laptops - lit screen" },
-    "power_draw": 5000,
-    "revert_to": "laptop",
-    "use_action": { "target": "control_laptop", "msg": "You stop lighting up the screen.", "menu_text": "Turn off", "type": "transform" },
-    "flags": [ "WATCH", "LIGHT_20", "TRADER_AVOID", "RECHARGE", "NO_UNLOAD", "NO_RELOAD" ]
-  },
-  {
-    "id": "control_laptop_music",
-    "copy-from": "laptop",
-    "type": "TOOL",
-    "name": { "str": "control laptop - music", "str_pl": "control laptops - music" },
-    "power_draw": 7000,
-    "revert_to": "control_laptop",
-    "use_action": "MP3_ON",
-    "flags": [ "WATCH", "TRADER_AVOID", "RECHARGE", "NO_UNLOAD", "NO_RELOAD" ]
-  },
-  {
     "type": "TOOL_ARMOR",
     "id": "wrist_comp_budget",
     "//": "mainlined from tefnut expansion",
