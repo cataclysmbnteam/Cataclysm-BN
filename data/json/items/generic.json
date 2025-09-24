@@ -991,26 +991,6 @@
   },
   {
     "type": "GENERIC",
-    "id": "laptop",
-    "symbol": ",",
-    "color": "dark_gray",
-    "name": { "str": "laptop computer" },
-    "category": "electronics",
-    "description": "A broken laptop, basically a paperweight now.",
-    "price": "10 USD",
-    "price_postapoc": "10 cent",
-    "material": [ "plastic", "aluminum" ],
-    "weight": "2721 g",
-    "volume": "750 ml",
-    "bashing": 6,
-    "use_action": [ 
-      "PORTABLE_GAME",
-      "TOGGLE_UPS_CHARGING"
-    ],
-    "flags": [ "WATCH", "ALARMCLOCK", "RECHARGE", "NO_UNLOAD", "NO_RELOAD" ]
-  },
-  {
-    "type": "GENERIC",
     "id": "broken_eyebot",
     "symbol": ",",
     "color": "green",
