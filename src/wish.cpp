@@ -116,7 +116,7 @@ class wish_mutate_callback: public uilist_callback
                 // Extracting selected option & filtering traits on category presence
                 const auto entry = entries[ret];
                 auto predicate = [&]( const int idx ) {
-                    return entry->second.find( *vTraits[idx] ) != entry->second.end();
+                    return entry->second.contains( *vTraits[idx] );
                 };
                 menu->filterpredicate( predicate );
                 return true;
@@ -132,7 +132,7 @@ class wish_mutate_callback: public uilist_callback
                     vTraits.push_back( traits_iter.id );
                     pTraits[traits_iter.id] = p->has_trait( traits_iter.id );
                     for( auto &category : traits_iter.category ) {
-                        if( category_mutations.find( category ) == category_mutations.end() ) {
+                        if( !category_mutations.contains( category ) ) {
                             category_mutations[category] = std::set<mutation_branch>();
                         }
                         category_mutations[category].insert( traits_iter );

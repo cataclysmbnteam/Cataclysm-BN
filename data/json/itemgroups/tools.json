@@ -123,6 +123,7 @@
       [ "char_smoker", 5 ],
       [ "dehydrator", 5 ],
       [ "soda_machine", 5 ],
+      [ "professional_chemical_thrower", 5 ],
       [ "carbondioxide_tank", 1 ],
       [ "tongs", 1 ],
       [ "tourist_table", 1 ]

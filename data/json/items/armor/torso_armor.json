@@ -39,7 +39,7 @@
     "coverage": 80,
     "encumbrance": 12,
     "warmth": 15,
-    "valid_mods": [ "steel_padded", "alloy_padded" ],
+    "valid_mods": [ "steel_padded", "hard_steel_padded", "alloy_padded" ],
     "flags": [ "VARSIZE", "STURDY" ]
   },
   {
@@ -214,7 +214,7 @@
     "encumbrance": 5,
     "warmth": 25,
     "material_thickness": 3,
-    "valid_mods": [ "steel_padded", "alloy_padded", "resized_large" ],
+    "valid_mods": [ "steel_padded", "hard_steel_padded", "alloy_padded", "resized_large", "resized_small" ],
     "flags": [ "STURDY", "ALLOWS_WINGS" ]
   },
   {
@@ -266,7 +266,7 @@
     "encumbrance": 8,
     "warmth": 10,
     "material_thickness": 1,
-    "valid_mods": [ "resized_large" ],
+    "valid_mods": [ "resized_large", "resized_small" ],
     "flags": [ "VARSIZE", "OUTER", "ALLOWS_WINGS" ]
   },
   {
@@ -287,7 +287,7 @@
     "encumbrance": 8,
     "warmth": 10,
     "material_thickness": 1,
-    "valid_mods": [ "resized_large" ],
+    "valid_mods": [ "resized_large", "resized_small" ],
     "flags": [ "VARSIZE", "OUTER", "ALLOWS_WINGS" ]
   },
   {
@@ -354,7 +354,7 @@
     "warmth": 15,
     "material_thickness": 5,
     "environmental_protection": 1,
-    "valid_mods": [ "steel_padded", "alloy_padded" ],
+    "valid_mods": [ "steel_padded", "hard_steel_padded", "alloy_padded" ],
     "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "STURDY", "ALLOWS_WINGS" ]
   },
   {
@@ -379,7 +379,7 @@
     "warmth": 35,
     "material_thickness": 4,
     "environmental_protection": 2,
-    "valid_mods": [ "steel_padded", "alloy_padded" ],
+    "valid_mods": [ "steel_padded", "hard_steel_padded", "alloy_padded" ],
     "flags": [ "VARSIZE", "WATERPROOF" ]
   },
   {

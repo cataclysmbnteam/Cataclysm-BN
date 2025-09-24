@@ -955,7 +955,7 @@ bool oter_t::is_hardcoded() const
         "temple_stairs"
     };
 
-    return hardcoded_mapgen.find( get_mapgen_id() ) != hardcoded_mapgen.end();
+    return hardcoded_mapgen.contains( get_mapgen_id() );
 }
 
 void overmap_terrains::load( const JsonObject &jo, const std::string &src )
@@ -1001,7 +1001,7 @@ void overmap_terrains::finalize()
         const_cast<oter_type_t &>( elem ).finalize(); // This cast is ugly, but safe.
     }
 
-    if( region_settings_map.find( "default" ) == region_settings_map.end() ) {
+    if( !region_settings_map.contains( "default" ) ) {
         debugmsg( "ERROR: can't find default overmap settings (region_map_settings 'default'), "
                   "cataclysm pending.  And not the fun kind." );
     }
@@ -3900,7 +3900,7 @@ void overmap::place_forest_trails()
 
             // If we've already visited this point, we don't need to
             // process it since it's already part of another forest.
-            if( visited.find( seed_point.xy() ) != visited.end() ) {
+            if( visited.contains( seed_point.xy() ) ) {
                 continue;
             }
 
@@ -4100,7 +4100,7 @@ void overmap::place_lakes()
     for( int i = 0; i < OMAPX; i++ ) {
         for( int j = 0; j < OMAPY; j++ ) {
             point_om_omt seed_point( i, j );
-            if( visited.find( seed_point ) != visited.end() ) {
+            if( visited.contains( seed_point ) ) {
                 continue;
             }
 
@@ -4155,7 +4155,7 @@ void overmap::place_lakes()
                 for( int ni = -1; ni <= 1 && !shore; ni++ ) {
                     for( int nj = -1; nj <= 1 && !shore; nj++ ) {
                         const point_om_omt n = p + point( ni, nj );
-                        if( lake_set.find( n ) == lake_set.end() ) {
+                        if( !lake_set.contains( n ) ) {
                             shore = true;
                         }
                     }
@@ -5753,7 +5753,9 @@ void overmap::spawn_ores( const tripoint_abs_omt &p )
         std::vector<std::string> directions{"_north", "_east", "_south", "_west"};
         tripoint_om_omt local_pos = overmap_buffer.get_om_global( p ).local;
         const tripoint target_sub( omt_to_sm_copy( p.raw() ) );
-        add_note( local_pos, string_format( "Signs of %s ore nearby.", chosen ) );
+        std::string note_text( chosen );
+        std::ranges::replace( note_text, '_', ' ' );
+        add_note( local_pos, string_format( "Signs of %s ore nearby.", note_text ) );
         if( !( MAPBUFFER.lookup_submap( target_sub ) ) ) {
             // No overmap to replace, set the terrain and bail.
             ter_set( local_pos, oter_id( "omt_ore_vein_" + chosen +

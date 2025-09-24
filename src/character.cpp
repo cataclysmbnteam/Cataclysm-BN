@@ -2459,11 +2459,13 @@ detached_ptr<item> Character::wear_item( detached_ptr<item> &&wear,
         if( !was_deaf && is_deaf() ) {
             add_msg_if_player( m_info, _( "You're deafened!" ) );
         }
-        if( supertinymouse && !to_wear.has_flag( flag_UNDERSIZE ) ) {
+        if( supertinymouse && !to_wear.has_flag( flag_UNDERSIZE ) &&
+            !to_wear.has_flag( flag_resized_small ) ) {
             add_msg_if_player( m_warning,
                                _( "This %s is too big to wear comfortably!  Maybe it could be refitted." ),
                                to_wear.tname() );
-        } else if( !supertinymouse && to_wear.has_flag( flag_UNDERSIZE ) ) {
+        } else if( !supertinymouse && ( to_wear.has_flag( flag_UNDERSIZE ) ||
+                                        to_wear.has_flag( flag_resized_small ) ) ) {
             add_msg_if_player( m_warning,
                                _( "This %s is too small to wear comfortably!  Maybe it could be refitted." ),
                                to_wear.tname() );
@@ -5013,7 +5015,7 @@ void Character::on_damage_of_type( int adjusted_damage, damage_type type, const 
                 continue;
             }
             const std::map<bodypart_str_id, int> &bodyparts = info.occupied_bodyparts;
-            if( bodyparts.find( bp.id() ) != bodyparts.end() ) {
+            if( bodyparts.contains( bp.id() ) ) {
                 const int bp_hp = get_part_hp_cur( bp );
                 // The chance to incapacitate is as high as 50% if the attack deals damage equal to one third of the body part's current health.
                 if( x_in_y( adjusted_damage * 3, bp_hp ) && one_in( 2 ) ) {

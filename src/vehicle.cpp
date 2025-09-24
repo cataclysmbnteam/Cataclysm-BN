@@ -2317,7 +2317,7 @@ bool vehicle::find_and_split_vehicles( int exclude )
             if( parts[ p ].removed ) {
                 continue;
             }
-            if( checked_parts.find( p ) == checked_parts.end() ) {
+            if( !checked_parts.contains( p ) ) {
                 test_part = p;
                 break;
             }
@@ -2343,7 +2343,7 @@ bool vehicle::find_and_split_vehicles( int exclude )
         while( !search_queue.empty() ) {
             std::pair<int, std::vector<int>> test_set = pop_neighbor();
             test_part = test_set.first;
-            if( checked_parts.find( test_part ) != checked_parts.end() ) {
+            if( checked_parts.contains( test_part ) ) {
                 continue;
             }
             for( auto p : test_set.second ) {
@@ -4090,7 +4090,7 @@ void vehicle::spew_field( double joules, int part, field_type_id type, int inten
     point p = parts[part].mount;
     intensity = std::max( joules / 10000, static_cast<double>( intensity ) );
     // Move back from engine/muffler until we find an open space
-    while( relative_parts.find( p ) != relative_parts.end() ) {
+    while( relative_parts.contains( p ) ) {
         p.x += ( velocity < 0 ? 1 : -1 );
     }
     point q = coord_translate( p );
@@ -4444,11 +4444,8 @@ bool vehicle::can_float() const
     if( coeff_water_dirty ) {
         coeff_water_drag();
     }
-    // Someday I'll deal with submarines, but now, you can only float if you have freeboard
-    if( hull_height == 0.3 ) {
-        return false;
-    }
-    return draft_m < hull_height;
+    int float_force = max_buoyancy() + total_balloon_lift();
+    return to_newton( total_mass() ) <= float_force;
 }
 
 

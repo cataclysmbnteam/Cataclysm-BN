@@ -905,7 +905,7 @@ int consume_drug_iuse::use( player &p, item &it, bool, const tripoint & ) const
     }
 
     // this is a smokeable item, we need to make sure player isnt already smoking (ripped from iuse::smoking)
-    if( lit_item.size() != 0 ) {
+    if( !lit_item.empty() ) {
         // make sure we're not already smoking something
         auto cigs = p.items_with( []( const item & it ) {
             return it.is_active() && it.has_flag( flag_LITCIG );
@@ -936,7 +936,7 @@ int consume_drug_iuse::use( player &p, item &it, bool, const tripoint & ) const
     }
 
     // item used to "fake" addiction (ripped from old ecig iuse)
-    if( fake_item.size() != 0 ) {
+    if( !fake_item.empty() ) {
         item *dummy_item = item::spawn_temporary( fake_item, calendar::turn );
         p.consume_effects( *dummy_item );
     }
@@ -1003,7 +1003,7 @@ int consume_drug_iuse::use( player &p, item &it, bool, const tripoint & ) const
                        p.vitamin_rate( v.first ) <= 0_turns );
     }
 
-    if( snippet_category != "" ) {
+    if( !snippet_category.empty() ) {
         std::string snippet_string = "";
         snippet_string = SNIPPET.random_from_category( snippet_category ).value_or(
                              translation() ).translated();
@@ -5073,6 +5073,9 @@ int sew_advanced_actor::use( player &p, item &it, bool, const tripoint & ) const
     if( mod.has_flag( flag_VARSIZE ) && !mod.has_flag( flag_OVERSIZE ) ) {
         valid_mods.push_back( "resized_large" );
     }
+    if( !mod.has_flag( flag_UNDERSIZE ) && mod.has_flag( flag_OVERSIZE ) ) {
+        valid_mods.push_back( "resized_small" );
+    }
 
     const auto get_compare_color = [&]( const int before, const int after,
     const bool higher_is_better ) {
@@ -5110,6 +5113,8 @@ int sew_advanced_actor::use( player &p, item &it, bool, const tripoint & ) const
             }
             return t;
         };
+        const bool already_resized = mod.has_flag( flag_resized_large ) ||
+                                     mod.has_flag( flag_resized_small );
         if( !mod.has_own_flag( obj.flag ) ) {
             // Mod not already present, check if modification is possible
             if( obj.restricted &&
@@ -5117,6 +5122,11 @@ int sew_advanced_actor::use( player &p, item &it, bool, const tripoint & ) const
                 //~ %1$s: modification desc, %2$s: mod name
                 prompt = string_format( _( "Can't %1$s (incompatible with %2$s)" ), tolower( obj.implement_prompt ),
                                         mod.tname( 1, false ) );
+            } else if( ( obj.flag == flag_resized_large || obj.flag == flag_resized_small ) &&
+                       already_resized ) {
+                //~ %1$s: modification desc, %2$d: number of thread needed
+                prompt = string_format( _( "Can't %1$s (already resized)" ),
+                                        tolower( obj.implement_prompt ) );
             } else if( it.charges < thread_needed ) {
                 //~ %1$s: modification desc, %2$d: number of thread needed
                 prompt = string_format( _( "Can't %1$s (need %2$d thread loaded)" ),
@@ -5812,4 +5822,34 @@ int iuse_prospect_pick::use( player &p, item &it, bool t,
 std::unique_ptr<iuse_actor> iuse_prospect_pick::clone() const
 {
     return std::make_unique<iuse_prospect_pick>( *this );
+}
+
+void iuse_reveal_contents::load( const JsonObject &obj )
+{
+    obj.read( "group", contents_group );
+    if( obj.has_member( "open_message" ) ) {
+        obj.read( "open_message", open_message );
+    }
+}
+int iuse_reveal_contents::use( player &p, item &it, bool,
+                               const tripoint & ) const
+{
+    std::vector<detached_ptr<item>> items = item_group::items_from( contents_group,
+                                            calendar::turn );
+    map &here = get_map();
+    for( detached_ptr<item> &content : items ) {
+        if( !open_message.empty() ) {
+            p.add_msg_if_player( ( string_format( open_message,
+                                                  it.tname() ) + content->tname() + "!" ) );
+        }
+        here.add_item_or_charges( p.pos(), std::move( content ) );
+    }
+
+    it.detach( );
+
+    return 0;
+}
+std::unique_ptr<iuse_actor> iuse_reveal_contents::clone() const
+{
+    return std::make_unique<iuse_reveal_contents>( *this );
 }

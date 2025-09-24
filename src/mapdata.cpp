@@ -202,6 +202,7 @@ static const std::unordered_map<std::string, ter_bitflags> ter_bitflags_map = { 
         { "FRIDGE",                   TFLAG_FRIDGE },         // This is an active fridge.
         { "FREEZER",                  TFLAG_FREEZER },        // This is an active freezer.
         { "ELEVATOR",                 TFLAG_ELEVATOR },       // This is an elevator.
+        { "NO_MEMORY",                TFLAG_NO_MEMORY },      // This should not be added to map memory
     }
 };
 
