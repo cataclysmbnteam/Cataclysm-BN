@@ -134,11 +134,11 @@
     "price": "100 USD",
     "price_postapoc": "80 USD",
     "charges_per_use": 2,
-    "use_action": [ "ROBOTCONTROL", "TOGGLE_UPS_CHARGING" ],
+    "use_action": [ "ROBOTCONTROL", "RADIOCONTROL", "PORTABLE_GAME", "TOGGLE_UPS_CHARGING" ],
     "ammo": "battery",
     "initial_charges": 500,
     "max_charges": 700,
-    "flags": [ "WATCH", "RECHARGE", "NO_UNLOAD", "NO_RELOAD" ]
+    "flags": [ "WATCH", "ALARMCLOCK", "RECHARGE", "NO_UNLOAD", "NO_RELOAD" ]
   },
   {
     "id": "directional_antenna",
