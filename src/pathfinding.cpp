@@ -1019,7 +1019,7 @@ std::vector<tripoint> Pathfinding::get_route_3d(
 
             z_path.push_back( best_z_change );
             cur_origin = best_z_change.from;
-			cur_origin_point = cur_origin.xy();
+            cur_origin_point = cur_origin.xy();
         }
     }
 
