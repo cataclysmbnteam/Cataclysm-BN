@@ -21,6 +21,11 @@
   },
   {
     "type": "item_action",
+    "id": "reveal_contents",
+    "name": { "str": "Unveil Contents" }
+  },
+  {
+    "type": "item_action",
     "id": "HAMMER",
     "name": { "str": "Pull out nails" }
   },

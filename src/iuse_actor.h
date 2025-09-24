@@ -1363,3 +1363,17 @@ class iuse_prospect_pick : public iuse_actor
         ret_val<bool> can_use( const Character &, const item &, bool, const tripoint & ) const override;
         std::unique_ptr<iuse_actor> clone() const override;
 };
+
+class iuse_reveal_contents : public iuse_actor
+{
+    public:
+        //What itemgroup is inside the thing?
+        item_group_id contents_group;
+        //what is displayed on opening? eg: you pull a [item dropped]!; %s will be replaced with the name of the "package", can be nothing
+        std::string open_message;
+        iuse_reveal_contents( const std::string &type = "reveal_contents" ) : iuse_actor( type ) {}
+        ~iuse_reveal_contents() override = default;
+        void load( const JsonObject &obj ) override;
+        int use( player &, item &, bool, const tripoint & ) const override;
+        std::unique_ptr<iuse_actor> clone() const override;
+};

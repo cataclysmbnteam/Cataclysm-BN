@@ -436,7 +436,7 @@
     "encumbrance": 15,
     "warmth": 30,
     "material_thickness": 5,
-    "valid_mods": [ "steel_padded", "alloy_padded" ],
+    "valid_mods": [ "steel_padded", "hard_steel_padded", "alloy_padded" ],
     "flags": [ "VARSIZE", "SKINTIGHT", "STURDY" ]
   },
   {
@@ -529,7 +529,7 @@
     "warmth": 15,
     "material_thickness": 3,
     "environmental_protection": 4,
-    "valid_mods": [ "steel_padded", "alloy_padded" ],
+    "valid_mods": [ "steel_padded", "hard_steel_padded", "alloy_padded" ],
     "flags": [ "VARSIZE", "WATERPROOF", "SUN_GLASSES", "ALLOWS_NATURAL_ATTACKS", "ALLOWS_HORNS", "ALLOWS_MUZZLE" ]
   },
   {
@@ -592,7 +592,7 @@
     "use_action": "GASMASK",
     "environmental_protection": 1,
     "environmental_protection_with_filter": 15,
-    "valid_mods": [ "steel_padded", "alloy_padded" ],
+    "valid_mods": [ "steel_padded", "hard_steel_padded", "alloy_padded" ],
     "qualities": [ [ "GLARE", 1 ] ],
     "flags": [ "VARSIZE", "STURDY", "WATERPROOF", "SUN_GLASSES", "ALLOWS_NATURAL_ATTACKS", "ALLOWS_HORNS", "ALLOWS_MUZZLE" ]
   },
@@ -722,7 +722,7 @@
     "encumbrance": 20,
     "warmth": 15,
     "material_thickness": 3,
-    "valid_mods": [ "steel_padded", "alloy_padded", "resized_large" ],
+    "valid_mods": [ "steel_padded", "hard_steel_padded", "alloy_padded", "resized_large", "resized_small" ],
     "flags": [ "FANCY", "STAB" ]
   },
   {
