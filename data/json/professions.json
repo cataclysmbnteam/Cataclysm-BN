@@ -96,7 +96,7 @@
     "type": "item_group",
     "subtype": "collection",
     "id": "charged_tazer",
-    "entries": [ { "item": "medium_disposable_cell", "ammo-item": "battery", "charges": 1500, "container-item": "tazer" } ]
+    "entries": [ { "item": "light_disposable_cell", "ammo-item": "battery", "charges": 300, "container-item": "tazer" } ]
   },
   {
     "type": "item_group",
