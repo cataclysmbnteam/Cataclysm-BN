@@ -19,6 +19,7 @@
 #include "bionics.h"
 #include "cached_options.h"
 #include "calendar.h"
+#include "catalua_hooks.h"
 #include "cata_utility.h"
 #include "character.h"
 #include "character_functions.h"
@@ -146,7 +147,7 @@ item &Character::used_weapon() const
 
 item &Character::primary_weapon() const
 {
-    if( get_body().find( body_part_arm_r ) == get_body().end() ) {
+    if( !get_body().contains( body_part_arm_r ) ) {
         return null_item_reference();
     }
     return *get_part( body_part_arm_r ).wielding.wielded;
@@ -154,7 +155,7 @@ item &Character::primary_weapon() const
 
 std::vector<item *> Character::wielded_items() const
 {
-    if( get_body().find( body_part_arm_r ) == get_body().end() ) {
+    if( !get_body().contains( body_part_arm_r ) ) {
         return {};
     }
 
@@ -481,6 +482,7 @@ void Character::melee_attack( Creature &t, bool allow_special, const matec_id *f
     item &cur_weapon = allow_unarmed ? used_weapon() : primary_weapon();
     const attack_statblock &attack = melee::pick_attack( *this, cur_weapon, t );
     int hit_spread = t.deal_melee_attack( this, hit_roll( cur_weapon, attack ) );
+    const bool attack_hit = hit_spread >= 0;
 
     if( cur_weapon.attack_cost() > attack_cost( cur_weapon ) * 20 ) {
         add_msg( m_bad, _( "This weapon is too unwieldy to attack with!" ) );
@@ -489,7 +491,7 @@ void Character::melee_attack( Creature &t, bool allow_special, const matec_id *f
 
     int move_cost = attack_cost( cur_weapon );
 
-    if( hit_spread < 0 ) {
+    if( !attack_hit ) {
         int stumble_pen = stumble( *this, cur_weapon );
         sfx::generate_melee_sound( pos(), t.pos(), false, false );
         if( is_player() ) { // Only display messages if this is the player
@@ -675,7 +677,13 @@ void Character::melee_attack( Creature &t, bool allow_special, const matec_id *f
         dealt_projectile_attack dp = dealt_projectile_attack();
         t.as_character()->on_hit( this, bodypart_str_id::NULL_ID().id(), &dp );
     }
-    return;
+
+    cata::run_hooks( "on_creature_melee_attacked", [ &, this]( auto & params ) {
+        params["char"] = this;
+        params["target"] = &t;
+        params["success"] = attack_hit;
+    } );
+
 }
 
 void Character::reach_attack( const tripoint &p )
@@ -1637,6 +1645,14 @@ void Character::perform_technique( const ma_technique &technique, Creature &t, d
             martial_arts_data->learn_current_style_CQB( is_player() );
         }
     }
+
+    cata::run_hooks( "on_creature_performed_technique", [ &, this]( auto & params ) {
+        params["char"] = this;
+        params["technique"] = &technique;
+        params["target"] = &t;
+        params["damage_instance"] = &di;
+        params["move_cost"] = move_cost;
+    } );
 }
 
 static int blocking_ability( const item &shield )
@@ -1898,6 +1914,14 @@ bool Character::block_hit( Creature *source, bodypart_id &bp_hit, damage_instanc
             melee_attack( *source, false, &tec );
         }
     }
+
+    cata::run_hooks( "on_creature_blocked", [ &, this]( auto & params ) {
+        params["char"] = this;
+        params["source"] = source;
+        params["bodypart_id"] = bp_hit;
+        params["damage_instance"] = dam;
+        params["damage_blocked"] = damage_blocked;
+    } );
 
     return true;
 }

@@ -9,7 +9,7 @@
     "id": "lake_bed",
     "type": "item_group",
     "subtype": "distribution",
-    "entries": [ { "group": "fishing_items_trash", "prob": 6 } ]
+    "entries": [ { "group": "fishing_items_trash", "prob": 6 }, { "item": "clam", "prob": 1 } ]
   },
   {
     "id": "underwater_toxic_waste",

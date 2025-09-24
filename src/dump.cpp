@@ -227,7 +227,7 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
         std::back_inserter( sk ), [&dict]( const Skill & s ) {
             return std::any_of( dict.begin(), dict.end(), [&s]( const recipe * r ) {
                 return r->skill_used == s.ident() ||
-                       r->required_skills.find( s.ident() ) != r->required_skills.end();
+                       r->required_skills.contains( s.ident() );
             } );
         } );
 

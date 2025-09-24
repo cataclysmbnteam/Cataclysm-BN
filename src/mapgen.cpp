@@ -1410,7 +1410,7 @@ auto mapgen_parameters::add_unique_parameter(
     std::string candidate_name;
     while( true ) {
         candidate_name = string_format( "%s%d", prefix, i );
-        if( map.find( candidate_name ) == map.end() ) {
+        if( !map.contains( candidate_name ) ) {
             break;
         }
         ++i;
@@ -3154,7 +3154,7 @@ const mapgen_palette &string_id<mapgen_palette>::obj() const
 template<>
 bool string_id<mapgen_palette>::is_valid() const
 {
-    return palettes.find( *this ) != palettes.end();
+    return palettes.contains( *this );
 }
 
 void mapgen_palette::check()
@@ -7509,7 +7509,7 @@ namespace mapgen
 
 bool has_update_id( const mapgen_id &id )
 {
-    return update_mapgen.find( id ) != update_mapgen.end();
+    return update_mapgen.contains( id );
 }
 
 } // namespace mapgen

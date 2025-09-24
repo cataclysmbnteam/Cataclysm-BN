@@ -546,6 +546,21 @@
   },
   {
     "type": "GENERIC",
+    "id": "blank_card",
+    "symbol": ",",
+    "color": "white",
+    "name": { "str": "blank card" },
+    "description": "An RFID or NFC style card.  Useful for holding identifying information like bank accounts or entry codes.",
+    "price": "100 USD",
+    "price_postapoc": "10 cent",
+    "material": "plastic",
+    "weight": "6 g",
+    "volume": "5 ml",
+    "to_hit": -3,
+    "category": "valuables"
+  },
+  {
+    "type": "GENERIC",
     "id": "data_card",
     "symbol": ",",
     "color": "white",
@@ -973,21 +988,6 @@
     "weight": "11339 g",
     "volume": "9 L",
     "category": "scrap_electronics"
-  },
-  {
-    "type": "GENERIC",
-    "id": "laptop",
-    "symbol": ",",
-    "color": "dark_gray",
-    "name": { "str": "laptop computer" },
-    "category": "electronics",
-    "description": "A broken laptop, basically a paperweight now.",
-    "price": "10 USD",
-    "price_postapoc": "10 cent",
-    "material": [ "plastic", "aluminum" ],
-    "weight": "2721 g",
-    "volume": "750 ml",
-    "bashing": 6
   },
   {
     "type": "GENERIC",

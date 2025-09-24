@@ -1542,6 +1542,19 @@
     "components": [ [ [ "scrap", 1 ] ], [ [ "small_lcd_screen", 1 ] ], [ [ "RAM", 1 ] ], [ [ "processor", 1 ] ], [ [ "lens_small", 1 ] ] ]
   },
   {
+    "result": "wrist_comp_budget",
+    "type": "uncraft",
+    "time": "30 s",
+    "qualities": [ { "id": "SCREW_FINE", "level": 1 } ],
+    "components": [
+      [ [ "wristsheath", 1 ] ],
+      [ [ "small_lcd_screen", 1 ] ],
+      [ [ "RAM", 1 ] ],
+      [ [ "processor", 1 ] ],
+      [ [ "lens_small", 1 ] ]
+    ]
+  },
+  {
     "result": "ceramic_bowl",
     "type": "uncraft",
     "time": "1 m",
@@ -4897,7 +4910,8 @@
     "skill_used": "fabrication",
     "time": "30 s",
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "canister_empty", 1 ] ], [ [ "steel_chunk", 1 ] ] ]
+    "//": "Isobutane technically, difference is academic if you're just going to burn it.",
+    "components": [ [ [ "canister_empty", 1 ] ], [ [ "steel_chunk", 1 ] ], [ [ "chem_butane", 1000 ] ] ]
   },
   {
     "result": "plastic_chunk",

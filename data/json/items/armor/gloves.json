@@ -85,7 +85,7 @@
     "warmth": 25,
     "material_thickness": 4,
     "environmental_protection": 6,
-    "valid_mods": [ "steel_padded", "alloy_padded" ],
+    "valid_mods": [ "steel_padded", "hard_steel_padded", "alloy_padded" ],
     "flags": [ "VARSIZE", "STURDY", "WATERPROOF" ]
   },
   {
@@ -144,7 +144,7 @@
     "warmth": 15,
     "material_thickness": 3,
     "environmental_protection": 1,
-    "valid_mods": [ "steel_padded", "alloy_padded", "resized_large" ],
+    "valid_mods": [ "steel_padded", "hard_steel_padded", "alloy_padded", "resized_large", "resized_small" ],
     "flags": [ "STURDY" ]
   },
   {
@@ -167,7 +167,7 @@
     "warmth": 15,
     "material_thickness": 3,
     "environmental_protection": 1,
-    "valid_mods": [ "steel_padded", "alloy_padded", "resized_large" ],
+    "valid_mods": [ "steel_padded", "hard_steel_padded", "alloy_padded", "resized_large", "resized_small" ],
     "flags": [ "STURDY" ]
   },
   {
@@ -306,7 +306,7 @@
     "encumbrance": 30,
     "warmth": 70,
     "material_thickness": 3,
-    "valid_mods": [ "resized_large" ]
+    "valid_mods": [ "resized_large", "resized_small" ]
   },
   {
     "id": "gloves_fur_fingerless",
@@ -396,7 +396,7 @@
     "encumbrance": 10,
     "warmth": 25,
     "material_thickness": 1,
-    "valid_mods": [ "steel_padded", "alloy_padded" ],
+    "valid_mods": [ "steel_padded", "hard_steel_padded", "alloy_padded" ],
     "flags": [ "VARSIZE", "WATERPROOF" ]
   },
   {
@@ -418,7 +418,7 @@
     "encumbrance": 2,
     "warmth": 20,
     "material_thickness": 2,
-    "valid_mods": [ "resized_large" ],
+    "valid_mods": [ "resized_large", "resized_small" ],
     "flags": [ "WATER_FRIENDLY" ]
   },
   {
@@ -660,7 +660,7 @@
     "encumbrance": 40,
     "warmth": 70,
     "material_thickness": 4,
-    "valid_mods": [ "resized_large" ]
+    "valid_mods": [ "resized_large", "resized_small" ]
   },
   {
     "id": "gloves_wool",
@@ -718,7 +718,7 @@
     "warmth": 25,
     "material_thickness": 3,
     "environmental_protection": 5,
-    "valid_mods": [ "steel_padded", "alloy_padded" ],
+    "valid_mods": [ "steel_padded", "hard_steel_padded", "alloy_padded" ],
     "flags": [ "VARSIZE", "WATERPROOF", "STURDY" ]
   },
   {
@@ -972,7 +972,7 @@
     "encumbrance": 20,
     "warmth": 50,
     "material_thickness": 4,
-    "valid_mods": [ "resized_large" ]
+    "valid_mods": [ "resized_large", "resized_small" ]
   },
   {
     "id": "gloves_golf",

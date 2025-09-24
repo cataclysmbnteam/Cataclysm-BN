@@ -317,7 +317,7 @@
     "type": "trait_group",
     "id": "trait_group_EARS",
     "subtype": "distribution",
-    "traits": [ { "trait": "CANINE_EARS" }, { "trait": "FELINE_EARS" }, { "trait": "" } ]
+    "traits": [ { "trait": "CANINE_EARS" }, { "trait": "FELINE_EARS" } ]
   },
   {
     "type": "trait_group",

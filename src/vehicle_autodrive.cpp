@@ -589,7 +589,7 @@ vehicle_profile vehicle::autodrive_controller::compute_profile( orientation faci
         }
         tripoint pos;
         driven_veh.coord_translate( angle, pivot, part.mount, pos );
-        if( extent_map.find( pos.y ) == extent_map.end() ) {
+        if( !extent_map.contains( pos.y ) ) {
             extent_map[pos.y] = { pos.x, pos.x };
         } else {
             auto &extent = extent_map[pos.y];
@@ -617,7 +617,7 @@ vehicle_profile vehicle::autodrive_controller::compute_profile( orientation faci
     // we need to check for collision when the vehicle is moving in this direction
     const std::unordered_set<point> occupied_set( ret.occupied_zone.begin(), ret.occupied_zone.end() );
     for( point pt : ret.occupied_zone ) {
-        if( occupied_set.find( pt + increment ) == occupied_set.end() ) {
+        if( !occupied_set.contains( pt + increment ) ) {
             ret.collision_points.emplace_back( pt );
         }
     }
@@ -911,7 +911,7 @@ const
                 }
             } else if( !data.valid_position( next_addr ) ) {
                 ok = false;
-            } else if( !goal_found && data.goal_zone.find( next_addr ) != data.goal_zone.end() ) {
+            } else if( !goal_found && data.goal_zone.contains( next_addr ) ) {
                 goal_found = true;
             }
         }
