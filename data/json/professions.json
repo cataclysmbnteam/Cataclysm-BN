@@ -2296,7 +2296,7 @@
     "skills": [ { "level": 4, "name": "driving" }, { "level": 1, "name": "speech" }, { "level": 3, "name": "mechanics" } ],
     "items": {
       "both": {
-        "items": [ "pants_cargo", "socks", "tank_top", "smart_phone", "boots", "wristwatch", "fancy_sunglasses" ],
+        "items": [ "pants_cargo", "socks", "jacket_leather", "smart_phone", "boots", "wristwatch", "fancy_sunglasses" ],
         "entries": [ { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] } ]
       },
       "male": [ "boxer_shorts" ],
