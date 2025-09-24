@@ -1510,7 +1510,8 @@ void map::furn_set( const tripoint &p, const furn_id &new_furniture,
         set_outside_cache_dirty( p.z );
     }
 
-    if( old_t.has_flag( TFLAG_NO_FLOOR ) != new_t.has_flag( TFLAG_NO_FLOOR ) ) {
+    if( ( old_t.has_flag( TFLAG_NO_FLOOR ) != new_t.has_flag( TFLAG_NO_FLOOR ) ) ||
+        ( old_t.has_flag( TFLAG_Z_TRANSPARENT ) != new_t.has_flag( TFLAG_Z_TRANSPARENT ) ) ) {
         set_floor_cache_dirty( p.z );
         set_seen_cache_dirty( p );
     }
@@ -1847,6 +1848,11 @@ bool map::ter_set( const tripoint &p, const ter_id &new_terrain )
         set_seen_cache_dirty( p );
     }
 
+    if( new_t.has_flag( TFLAG_Z_TRANSPARENT ) != old_t.has_flag( TFLAG_Z_TRANSPARENT ) ) {
+        set_floor_cache_dirty( p.z );
+        set_seen_cache_dirty( p );
+    }
+
     if( new_t.has_flag( TFLAG_SUSPENDED ) != old_t.has_flag( TFLAG_SUSPENDED ) ) {
         set_suspension_cache_dirty( p.z );
         if( new_t.has_flag( TFLAG_SUSPENDED ) ) {
@@ -2167,7 +2173,7 @@ int map::climb_difficulty( const tripoint &p ) const
     return std::max( 0, best_difficulty - blocks_movement );
 }
 
-bool map::has_floor( const tripoint &p ) const
+bool map::has_floor( const tripoint &p, bool visible_only ) const
 {
     if( !zlevels || p.z < -OVERMAP_DEPTH + 1 || p.z > OVERMAP_HEIGHT ) {
         return true;
@@ -2177,7 +2183,8 @@ bool map::has_floor( const tripoint &p ) const
         return true;
     }
 
-    return get_cache_ref( p.z ).floor_cache[p.x][p.y];
+    return get_cache_ref( p.z ).floor_cache[p.x][p.y] || ( !visible_only &&
+            has_flag( TFLAG_Z_TRANSPARENT, p ) );
 }
 
 bool map::floor_between( const tripoint &first, const tripoint &second ) const
@@ -6432,9 +6439,9 @@ bool map::sees( const tripoint &F, const tripoint &T, const int range,
             }
         } else {
             const int max_z = std::max( new_point.z, last_point.z );
-            if( ( has_floor_or_support( {new_point.xy(), max_z} ) ||
+            if( ( has_floor( {new_point.xy(), max_z}, true ) ||
                   !is_transparent( {new_point.xy(), last_point.z} ) ) &&
-                ( has_floor_or_support( {last_point.xy(), max_z} ) ||
+                ( has_floor( {last_point.xy(), max_z}, true ) ||
                   !is_transparent( {last_point.xy(), new_point.z} ) ) ) {
                 visible = false;
                 return false;
@@ -8360,7 +8367,7 @@ bool map::build_floor_cache( const int zlev )
                 for( int sy = 0; sy < SEEY; ++sy ) {
                     point sp( sx, sy );
                     const ter_t &terrain = cur_submap->get_ter( sp ).obj();
-                    if( terrain.has_flag( TFLAG_NO_FLOOR ) ) {
+                    if( terrain.has_flag( TFLAG_NO_FLOOR ) || terrain.has_flag( TFLAG_Z_TRANSPARENT ) ) {
                         if( below_submap && ( below_submap->get_furn( sp ).obj().has_flag( TFLAG_SUN_ROOF_ABOVE ) ) ) {
                             continue;
                         }
