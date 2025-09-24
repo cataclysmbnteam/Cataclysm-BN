@@ -59,6 +59,20 @@
   },
   {
     "type": "clothing_mod",
+    "id": "carbon_fiber_padded",
+    "flag": "carbon_fiber_padded",
+    "item": "carbon_fiber_filament",
+    "implement_prompt": "Permeate with carbon fiber",
+    "destroy_prompt": "Destroy carbon fiber weave",
+    "mod_value": [
+      { "type": "bash", "value": 2.5, "proportion": [ "thickness" ] },
+      { "type": "cut", "value": 3, "proportion": [ "thickness" ] },
+      { "type": "bullet", "value": 3.5, "proportion": [ "thickness" ] },
+      { "type": "encumbrance", "value": 3, "round_up": true, "proportion": [ "thickness", "coverage" ] }
+    ]
+  },
+  {
+    "type": "clothing_mod",
     "id": "furred",
     "flag": "furred",
     "item": "fur",
