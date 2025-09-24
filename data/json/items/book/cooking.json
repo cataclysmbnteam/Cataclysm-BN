@@ -686,5 +686,23 @@
     "intelligence": 7,
     "time": "20 m",
     "fun": 1
+  },
+  {
+    "id": "note_mutagen_junkie",
+    "type": "BOOK",
+    "copy-from": "base_book",
+    "name": { "str": "post apocalyptic junkie experiments", "str_pl": "copies of post apocalyptic junkie experiments" },
+    "description": "A series of notes detailing some survivor's experiments on \"test subjects\" with the intent of producing recreational substances. Most of the contents are failed experiments with potentially lethal consequences. It serves as a good example on what NOT to do, including how NOT to write a comprehensive academic text.",
+    "weight": "350 g",
+    "volume": "200 ml",
+    "price": "10000 cent",
+    "price_postapoc": "100 cent",
+    "color": "white",
+    "skill": "cooking",
+    "required_level": 3,
+    "max_level": 6,
+    "intelligence": 10,
+    "time": "25 m",
+    "fun": -2
   }
 ]
