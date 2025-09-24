@@ -1195,8 +1195,6 @@ int place_monster_iuse::use( player &p, item &it, bool, const tripoint &pos ) co
         spawn_id = mtype_id( it.get_var( "place_monster_override" ) );
         // currently cant use this to tame an otherwise untameable animal
         diff_mod = 999;
-        it.convert( itype_id( "embryo_empty" ) );
-        it.faults.emplace( fault_bionic_nonsterile );
     }
 
     if( it.has_flag( flag_RADIO_MOD ) ) {
@@ -1212,7 +1210,6 @@ int place_monster_iuse::use( player &p, item &it, bool, const tripoint &pos ) co
 
     if( it.has_var( "place_monster_override" ) ) {
         newmon.no_extra_death_drops = true;
-        it.clear_vars();
         it.deactivate();
     }
     if( place_random ) {
@@ -1289,6 +1286,12 @@ int place_monster_iuse::use( player &p, item &it, bool, const tripoint &pos ) co
         if( is_pet ) {
             newmon.add_effect( effect_pet, 1_turns );
         }
+    }
+    // mark artifical womb as dirty, and convert it
+    if( it.has_var( "place_monster_override" ) ) {
+        it.convert( itype_id( "embryo_empty" ) );
+        it.clear_vars();
+        it.faults.emplace( fault_bionic_nonsterile );
     }
     // Transfer label from the item to monster nickname
     if( it.has_var( "item_label" ) ) {

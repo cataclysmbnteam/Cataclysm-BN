@@ -5643,7 +5643,7 @@ static void cloning_vat_activate( player &p, const tripoint &examp )
     }
 
     if( carriers.empty() ) {
-        popup( "You need a sterilized artificial womb to begin incubation." );
+        popup( "You need a sterilized artificial womb and DNA to begin incubation." );
         return;
     }
 
@@ -6275,8 +6275,13 @@ void iexamine::cloning_vat_examine( player &p, const tripoint &examp )
 
     // Simple behavior: toggle milling on or off
     if( !active ) {
+        uilist menu;
+        menu.text = "What to do with the cloning vat?";
         if( items_here.size() > 0 ) {
-            if( items_here.empty() ) {
+            menu.addentry( "Get contents" );
+            menu.query();
+
+            if( menu.ret != 0 ) {
                 return;
             }
 
@@ -6296,8 +6301,29 @@ void iexamine::cloning_vat_examine( player &p, const tripoint &examp )
             return;
         }
 
+        menu.addentry( "Begin incubation" );
+        menu.query();
+
+        if( menu.ret != 0 ) {
+            return;
+        }
+
         cloning_vat_activate( p, examp );
     } else {
+        if( items_here.size() == 0 ) {
+            return;
+        }
+
+        std::string prompt = string_format( _( "Cancel incubation (%s left)" ),
+                                            to_string( time_duration::from_turns( ( *items_here.begin() )->item_counter ) ) );
+
+        uilist menu;
+        menu.text = "What to do with the active cloning vat?";
+        menu.addentry( prompt );
+        menu.query();
+        if( menu.ret != 0 ) {
+            return;
+        }
         // Ask using the item's name
         if( !query_yn( _( "Cancel incubation process? This will kill the specimen inside." ) ) ) {
             return;
