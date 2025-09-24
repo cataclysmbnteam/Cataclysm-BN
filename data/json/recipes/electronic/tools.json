@@ -314,7 +314,7 @@
     "reversible": true,
     "decomp_learn": 4,
     "book_learn": [ [ "textbook_anarch", 3 ], [ "advanced_electronics", 5 ] ],
-    "using": [ [ "soldering_standard", 10 ] ],
+    "using": [ [ "soldering_standard", 10 ], [ "coding_standard", 120 ], [ "utility_software_standard", 120 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [ [ [ "processor", 1 ] ], [ [ "RAM", 1 ] ], [ [ "scrap", 4 ] ], [ [ "cable", 10 ] ] ]
   },
