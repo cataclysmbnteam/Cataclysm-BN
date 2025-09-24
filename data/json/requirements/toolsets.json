@@ -92,19 +92,6 @@
     "tools": [ [ [ "surface_heat", 1, "LIST" ] ] ]
   },
   {
-    "id": "cloning_standard",
-    "type": "requirement",
-    "//": "Production of cloned specimens.",
-    "tools": [ [ [ "syringe", -1 ] ] ],
-    "qualities": [
-      { "id": "FINE_DISTILL", "level": 1 },
-      { "id": "CONCENTRATE", "level": 1 },
-      { "id": "SEPARATE", "level": 1 },
-      { "id": "ANALYSIS", "level": 1 },
-      { "id": "CREATURE_CLONING", "level": 1 }
-    ]
-  },
-  {
     "id": "sewing_standard",
     "type": "requirement",
     "//": "Crafting or repair of fabric items",

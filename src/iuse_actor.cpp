@@ -1191,12 +1191,10 @@ int place_monster_iuse::use( player &p, item &it, bool, const tripoint &pos ) co
     int diff_mod = 1;
     bool place_random = place_randomly;
     // ugly hack, sorry
-    bool embryo_override = false;
     if( it.has_var( "place_monster_override" ) ) {
         spawn_id = mtype_id( it.get_var( "place_monster_override" ) );
         // currently cant use this to tame an otherwise untameable animal
         diff_mod = 999;
-        embryo_override = true;
         it.convert( itype_id( "embryo_empty" ) );
         it.faults.emplace( fault_bionic_nonsterile );
     }
@@ -5337,25 +5335,19 @@ int cloning_syringe_iuse::use( player &p, item &it, bool, const tripoint &pos ) 
 
     // Extract the tripoint from the optional
     const tripoint &pnt = *pnt_;
-
     const Creature *const critter = g->critter_at( pnt );
     if( !critter ) {
         add_msg( m_info, _( "There's no creature there." ) );
         return 0;
     }
 
-    const monster *const m = critter->as_monster();
-    // we can only grow organic matter (this includes blob, and were going to assume the blob messes with DNA and therefore is copy-able)
-    // unsure about nether monsters though
-    bool in_bad_species = m->in_species( species_HALLUCINATION ) || m->in_species( species_ROBOT );
-
-    if( !m || m->has_flag( MF_CANT_CLONE ) || in_bad_species ) {
-        add_msg( m_info, _( "There's not a valid creature." ) );
+    monster *const m = const_cast<monster *>( critter->as_monster() );
+    if( !m ) {
+        add_msg( m_info, _( "There's no creature there." ) );
         return 0;
     }
 
     const int fa_skill = p.get_skill_level( skill_firstaid );
-
     // Convert first aid skill into success chance.
     // Each skill level = +15% chance, but we clamp between 15–95%
     // so there is always a small chance to succeed (even unskilled)
@@ -5372,16 +5364,26 @@ int cloning_syringe_iuse::use( player &p, item &it, bool, const tripoint &pos ) 
         return charges_to_use;
     }
 
+    // use moves and damage mon
+    p.mod_moves( -moves );
+    m->apply_damage( &p, bodypart_id( "torso" ), 1 );
+
+    // we can only grow organic matter (this includes blob, and were going to assume the blob messes with DNA and therefore is copy-able)
+    // unsure about nether monsters though
+    bool in_bad_species = m->in_species( species_HALLUCINATION ) || m->in_species( species_ROBOT );
+    if( m->has_flag( MF_CANT_CLONE ) || in_bad_species ) {
+        add_msg( m_info, _( "There's not a valid creature there." ) );
+        return 0;
+    }
+
     const mtype_id &id = m->type->id;
     const std::string id_str = id.str();
 
     add_msg( m_good, _( "The %s beeps softly. You successfully gathered a sample from the %s!" ),
              it.display_name(), m->name() );
-    p.mod_moves( -moves );
 
     detached_ptr<item> dna = item::spawn( itype_id( "dna" ), calendar::turn, 8 );
     dna->set_var( "specimen_sample", id_str );
-    // preferrably this should only require the specimen_sample, unsure how to create a temporary monster
     dna->set_var( "specimen_name", m->name() );
     dna->set_var( "specimen_size", static_cast<int>( m->get_size() ) );
     liquid_handler::handle_all_liquid( std::move( dna ), 1 );
