@@ -186,7 +186,7 @@
     "type": "TOOL_ARMOR",
     "id": "wrist_comp_budget",
     "//": "mainlined from tefnut expansion",
-    "name": { "str": "wrist computer", "str_pl": "wrist computers" },
+    "name": { "str": "wrist computer" },
     "category": "clothing",
     "volume": "1000 ml",
     "description": "A fancy wrist-mounted computer, with a menagerie of useful features, such as SD reading, a built-in thermometer, and even a radiation monitor!",
@@ -301,7 +301,7 @@
   {
     "type": "TOOL_ARMOR",
     "id": "wrist_comp_control",
-    "name": { "str": "wrist control computer", "str_pl": "wrist control computers" },
+    "name": { "str": "wrist control computer" },
     "copy-from": "wrist_comp_budget",
     "description": "A fancy wrist-mounted computer, with a menagerie of useful features, such as SD reading, a built-in thermometer, and even a radiation monitor!",
     "weight": "112 g",
