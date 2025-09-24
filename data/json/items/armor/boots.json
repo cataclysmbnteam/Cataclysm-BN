@@ -81,7 +81,7 @@
     "warmth": 35,
     "material_thickness": 3,
     "environmental_protection": 8,
-    "valid_mods": [ "steel_padded", "alloy_padded" ],
+    "valid_mods": [ "steel_padded", "hard_steel_padded", "alloy_padded" ],
     "flags": [ "VARSIZE", "WATERPROOF", "STURDY" ]
   },
   {
@@ -607,7 +607,7 @@
     "warmth": 20,
     "material_thickness": 4,
     "environmental_protection": 2,
-    "valid_mods": [ "resized_large" ],
+    "valid_mods": [ "resized_large", "resized_small" ],
     "flags": [ "FANCY" ]
   },
   {
@@ -1406,7 +1406,7 @@
     "description": "An oversized leg warmer clearly designed for legless mutants, or an awkward tube skirt for more normal survivors.",
     "proportional": { "weight": 2, "volume": 2, "encumbrance": 2, "warmth": 2, "material_thickness": 2 },
     "coverage": 90,
-    "valid_mods": [ "steel_padded", "alloy_padded" ],
+    "valid_mods": [ "steel_padded", "hard_steel_padded", "alloy_padded" ],
     "extend": { "flags": [ "ALLOWS_TAIL_SNAKE" ] }
   },
   {

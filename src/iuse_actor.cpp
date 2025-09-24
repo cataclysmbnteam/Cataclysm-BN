@@ -5073,6 +5073,9 @@ int sew_advanced_actor::use( player &p, item &it, bool, const tripoint & ) const
     if( mod.has_flag( flag_VARSIZE ) && !mod.has_flag( flag_OVERSIZE ) ) {
         valid_mods.push_back( "resized_large" );
     }
+    if( !mod.has_flag( flag_UNDERSIZE ) && mod.has_flag( flag_OVERSIZE ) ) {
+        valid_mods.push_back( "resized_small" );
+    }
 
     const auto get_compare_color = [&]( const int before, const int after,
     const bool higher_is_better ) {
@@ -5110,6 +5113,8 @@ int sew_advanced_actor::use( player &p, item &it, bool, const tripoint & ) const
             }
             return t;
         };
+        const bool already_resized = mod.has_flag( flag_resized_large ) ||
+                                     mod.has_flag( flag_resized_small );
         if( !mod.has_own_flag( obj.flag ) ) {
             // Mod not already present, check if modification is possible
             if( obj.restricted &&
@@ -5117,6 +5122,11 @@ int sew_advanced_actor::use( player &p, item &it, bool, const tripoint & ) const
                 //~ %1$s: modification desc, %2$s: mod name
                 prompt = string_format( _( "Can't %1$s (incompatible with %2$s)" ), tolower( obj.implement_prompt ),
                                         mod.tname( 1, false ) );
+            } else if( ( obj.flag == flag_resized_large || obj.flag == flag_resized_small ) &&
+                       already_resized ) {
+                //~ %1$s: modification desc
+                prompt = string_format( _( "Can't %1$s (already resized)" ),
+                                        tolower( obj.implement_prompt ) );
             } else if( it.ammo_remaining() < thread_needed ) {
                 //~ %1$s: modification desc, %2$d: number of charges needed
                 prompt = string_format( _( "Can't %1$s (need %2$d charges loaded)" ),
