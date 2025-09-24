@@ -2710,7 +2710,7 @@
     "encumbrance": 12,
     "material_thickness": 3,
     "use_action": "SOLARPACK",
-    "valid_mods": [ "resized_large" ],
+    "valid_mods": [ "resized_large", "resized_small" ],
     "flags": [ "FRAGILE", "OUTER", "ONLY_ONE", "SOLARPACK", "ALLOWS_WINGS" ]
   },
   {
@@ -2736,7 +2736,7 @@
     "material_thickness": 1,
     "use_action": "SOLARPACK_OFF",
     "solar_efficiency": 0.04,
-    "valid_mods": [ "resized_large" ],
+    "valid_mods": [ "resized_large", "resized_small" ],
     "flags": [ "FRAGILE", "OUTER", "ONLY_ONE", "SOLARPACK_ON", "ALLOWS_WINGS" ]
   },
   {
@@ -2998,7 +2998,7 @@
       ]
     ],
     "magazine_well": "500 ml",
-    "valid_mods": [ "resized_large" ],
+    "valid_mods": [ "resized_large", "resized_small" ],
     "flags": [ "OUTER", "SUN_GLASSES" ]
   },
   {
