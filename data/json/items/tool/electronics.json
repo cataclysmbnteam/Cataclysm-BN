@@ -143,7 +143,7 @@
   {
     "type": "TOOL_ARMOR",
     "id": "wrist_comp_budget",
-    "//": "mainlined from lone's expansion",
+    "//": "mainlined from tefnut expansion",
     "name": { "str": "wrist computer", "str_pl": "wrist computers" },
     "category": "clothing",
     "volume": "1000 ml",
@@ -233,7 +233,7 @@
     "use_action": [
       {
         "target": "wrist_comp_budget",
-        "msg": "You deactivate the flashlight app.",
+        "msg": "You deactivate the flashlight.",
         "menu_text": "Turn off flashlight",
         "type": "transform"
       }
@@ -322,7 +322,7 @@
     "id": "wrist_comp_control_flashlight",
     "copy-from": "wrist_comp_budget_flashlight",
     "type": "TOOL",
-    "name": { "str": "wrist computer - Flashlight", "str_pl": "wrist computers - Flashlight" },
+    "name": { "str": "wrist control computer - Flashlight", "str_pl": "wrist control computers - Flashlight" },
     "power_draw": 1500,
     "revert_to": "wrist_comp_control",
     "use_action": [
