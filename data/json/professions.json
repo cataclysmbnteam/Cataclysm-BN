@@ -369,7 +369,7 @@
       { "item": "jeans", "new": [ "kilt_leather" ] },
       { "item": "striped_pants", "new": [ "kilt_leather" ] },
       { "item": "shorts_cargo", "new": [ "kilt_leather" ] },
-      { "item": "subsuit_xl", "new": [ "tunic_rag" ] }
+      { "item": "subsuit_xl", "new": [ "longshirt", "stockings_snake_tail" ] }
     ]
   },
   {
