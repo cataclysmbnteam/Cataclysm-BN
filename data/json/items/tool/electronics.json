@@ -134,7 +134,8 @@
     "price": "100 USD",
     "price_postapoc": "80 USD",
     "charges_per_use": 2,
-    "use_action": [ "EINKTABLETPC", 
+    "use_action": [
+      "EINKTABLETPC",
       {
         "target": "control_laptop_screen_lit",
         "msg": "You light up the screen.",
@@ -151,7 +152,11 @@
         "moves": 200,
         "need_charges": 1
       },
-    "ROBOTCONTROL", "RADIOCONTROL", "PORTABLE_GAME", "TOGGLE_UPS_CHARGING" ],
+      "ROBOTCONTROL",
+      "RADIOCONTROL",
+      "PORTABLE_GAME",
+      "TOGGLE_UPS_CHARGING"
+    ],
     "ammo": "battery",
     "initial_charges": 500,
     "max_charges": 700,
