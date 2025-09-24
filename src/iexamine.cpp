@@ -5647,6 +5647,11 @@ static void cloning_vat_activate( player &p, const tripoint &examp )
         return;
     }
 
+    if( ( *carriers.begin() )->has_flag( flag_RADIO_MOD ) ) {
+        popup( "You need to remove the radio mod first." );
+        return;
+    }
+
     enum {
         cv_start, cv_stop, cv_take
     };

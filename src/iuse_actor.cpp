@@ -1188,23 +1188,36 @@ int place_monster_iuse::use( player &p, item &it, bool, const tripoint &pos ) co
 {
     mtype_id spawn_id = mtypeid;
 
+    int diff_mod = 1;
+    bool place_random = place_randomly;
     // ugly hack, sorry
     bool embryo_override = false;
     if( it.has_var( "place_monster_override" ) ) {
         spawn_id = mtype_id( it.get_var( "place_monster_override" ) );
+        // currently cant use this to tame an otherwise untameable animal
+        diff_mod = 999;
         embryo_override = true;
         it.convert( itype_id( "embryo_empty" ) );
         it.faults.emplace( fault_bionic_nonsterile );
     }
+
+    if( it.has_flag( flag_RADIO_MOD ) ) {
+        place_random = true;
+        it.activate();
+    }
+
     shared_ptr_fast<monster> newmon_ptr = make_shared_fast<monster>( spawn_id );
     monster &newmon = *newmon_ptr;
     newmon.init_from_item( it );
+
+    tripoint pnt = it.is_active() ? pos : p.pos();
+
     if( it.has_var( "place_monster_override" ) ) {
         newmon.no_extra_death_drops = true;
         it.clear_vars();
+        it.deactivate();
     }
-    tripoint pnt = it.is_active() ? pos : p.pos();
-    if( place_randomly ) {
+    if( place_random ) {
         // place_critter_around returns the same pointer as its parameter (or null)
         // Allow position to be different from the player for tossed or launched items
         if( !g->place_critter_around( newmon_ptr, pnt, 1 ) ) {
@@ -1259,7 +1272,7 @@ int place_monster_iuse::use( player &p, item &it, bool, const tripoint &pos ) co
     }
     /** @EFFECT_INT increases chance of a placed turret being friendly */
     /** Full-on pets also auto-succeed if we've already succeeded before deactivating it */
-    if( rng( 0, p.int_cur ) + skill_offset < rng( 0, 2 * difficulty ) &&
+    if( rng( 0, p.int_cur ) + skill_offset < rng( 0, 2 * ( difficulty * diff_mod ) ) &&
         !it.has_flag( flag_SPAWN_FRIENDLY ) ) {
         if( hostile_msg.empty() ) {
             p.add_msg_if_player( m_bad, _( "The %s scans you and makes angry beeping noises!" ),
