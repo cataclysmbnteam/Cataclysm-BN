@@ -369,7 +369,7 @@
       { "item": "jeans", "new": [ "kilt_leather" ] },
       { "item": "striped_pants", "new": [ "kilt_leather" ] },
       { "item": "shorts_cargo", "new": [ "kilt_leather" ] },
-      { "item": "subsuit_xl", "new": [ "tunic_rag" ] }
+      { "item": "subsuit_xl", "new": [ "longshirt", "stockings_snake_tail" ] }
     ]
   },
   {
@@ -2296,7 +2296,7 @@
     "skills": [ { "level": 4, "name": "driving" }, { "level": 1, "name": "speech" }, { "level": 3, "name": "mechanics" } ],
     "items": {
       "both": {
-        "items": [ "pants_cargo", "socks", "tank_top", "smart_phone", "boots", "wristwatch", "fancy_sunglasses" ],
+        "items": [ "pants_cargo", "socks", "jacket_leather", "smart_phone", "boots", "wristwatch", "fancy_sunglasses" ],
         "entries": [ { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] } ]
       },
       "male": [ "boxer_shorts" ],
