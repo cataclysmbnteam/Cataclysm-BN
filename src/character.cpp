@@ -2915,7 +2915,7 @@ invlets_bitset Character::allocated_invlets() const
 bool Character::has_active_item_with_action( const std::string &use ) const
 {
     return has_item_with( [use]( const item & it ) {
-        return it.is_active() && it.get_use( use );
+        return it.get_use( use ) && it.is_active();
     } );
 }
 
