@@ -5710,7 +5710,7 @@ static void cloning_vat_activate( player &p, const tripoint &examp )
             result->set_var( "specimen_sample", selected_syringe->get_var( "specimen_sample" ) );
 
             // cloning vat random upgrade logic
-            if( rng( 1, 100 ) < 10 ) {
+            if( rng( 1, 100 ) < 90 ) {
                 mtype_id id( selected_syringe->get_var( "specimen_sample" ) );
                 const mtype &type = id.obj();
 
@@ -5743,8 +5743,8 @@ static void cloning_vat_activate( player &p, const tripoint &examp )
                     monster &newmon = *newmon_ptr;
 
                     if( chosen ) {
-                        result->set_var( "RESULT", chosen->name.str() );
-                        result->set_var( "NAME", newmon.name() );
+                        result->set_var( "specimen_sample", chosen->name.str() );
+                        result->set_var( "specimen_name", newmon.name() );
                     }
                 }
             }

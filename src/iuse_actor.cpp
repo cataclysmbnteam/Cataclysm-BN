@@ -5367,6 +5367,10 @@ int cloning_syringe_iuse::use( player &p, item &it, bool, const tripoint &pos ) 
     // and a small chance to fail (even at max skill).
     const int chance = clamp( fa_skill * 10, 15, 95 );
 
+    // use moves and damage mon
+    p.mod_moves( -moves );
+    m->apply_damage( &p, bodypart_id( "torso" ), 1 );
+
     if( !x_in_y( chance, 100 ) ) {
         add_msg( m_bad, _( "The %s emits a loud error beep! You failed to gather a sufficient sample." ),
                  it.display_name() );
@@ -5376,10 +5380,6 @@ int cloning_syringe_iuse::use( player &p, item &it, bool, const tripoint &pos ) 
         // add actual noise here
         return charges_to_use;
     }
-
-    // use moves and damage mon
-    p.mod_moves( -moves );
-    m->apply_damage( &p, bodypart_id( "torso" ), 1 );
 
     // we can only grow organic matter (this includes blob, and were going to assume the blob messes with DNA and therefore is copy-able)
     // unsure about nether monsters though
