@@ -3371,6 +3371,11 @@ int vehicle::angle_to_increment( units::angle dir ) const
         dir_inc = increment;
         dir_dirty = false;
     }
+    int increment = ( std::lround( to_degrees( dir ) ) % 360 ) / 15;
+    if( increment < 0 ) {
+        increment += 360 / 15;
+    }
+    assert( dir_inc == increment );
     return dir_inc;
 }
 
@@ -3381,7 +3386,6 @@ void vehicle::precalc_mounts( int idir, units::angle dir, point pivot )
         idir = 0;
     }
     std::unordered_map<point, point> mount_to_precalc;
-    dir_dirty = true;
     for( auto &p : parts ) {
         if( p.removed ) {
             continue;
@@ -3397,6 +3401,7 @@ void vehicle::precalc_mounts( int idir, units::angle dir, point pivot )
     }
     pivot_anchor[idir] = pivot;
     pivot_rotation[idir] = dir;
+    dir_dirty = true;
 }
 
 bool vehicle::check_rotated_intervening( point from, point to,
