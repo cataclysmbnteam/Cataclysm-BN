@@ -135,7 +135,7 @@
     "id": "coding_standard",
     "type": "requirement",
     "//": "For writing software",
-    "tools": [ [ [ "laptop", 1 ], [ "control_laptop", 1 ], [ "wrist_comp_budget", 1 ] , [ "wrist_comp_control", 1 ]  ] ]
+    "tools": [ [ [ "laptop", 1 ], [ "control_laptop", 1 ], [ "wrist_comp_budget", 1 ], [ "wrist_comp_control", 1 ] ] ]
   },
   {
     "id": "hacking_standard",
