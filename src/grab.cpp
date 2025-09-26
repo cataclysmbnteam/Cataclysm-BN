@@ -196,7 +196,7 @@ bool game::grabbed_veh_move( const tripoint &dp )
         mdir.init( dir.xy() );
         grabbed_vehicle->turn( mdir.dir() - grabbed_vehicle->face.dir() );
         grabbed_vehicle->face = grabbed_vehicle->turn_dir;
-        grabbed_vehicle->precalc_mounts( 1, mdir.dir(), grabbed_vehicle->pivot_point() );
+        grabbed_vehicle->precalc_mounts( 1, mdir.dir(), grabbed_vehicle->pivot_point(), true );
 
         // Grabbed part has to stay at distance 1 to the player
         // and in roughly the same direction.

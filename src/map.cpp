@@ -624,7 +624,7 @@ vehicle *map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &fac
         return &veh;
     }
 
-    veh.precalc_mounts( 1, veh.skidding ? veh.turn_dir : facing.dir(), veh.pivot_point() );
+    veh.precalc_mounts( 1, veh.skidding ? veh.turn_dir : facing.dir(), veh.pivot_point(), true );
 
     // cancel out any movement of the vehicle due only to a change in pivot
     tripoint dp1 = dp - veh.pivot_displacement();
@@ -771,6 +771,7 @@ vehicle *map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &fac
         }
 
         veh.move = facing;
+        veh.dir_dirty = true;
         if( coll_turn != 0_degrees ) {
             veh.skidding = true;
             veh.turn( coll_turn );

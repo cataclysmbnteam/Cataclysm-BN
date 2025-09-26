@@ -2563,7 +2563,7 @@ bool vehicle::split_vehicles( const std::vector<std::vector <int>> &new_vehs,
         // update the precalc points
         new_vehicle->precalc_mounts( 1, new_vehicle->skidding ?
                                      new_vehicle->turn_dir : new_vehicle->face.dir(),
-                                     new_vehicle->pivot_point() );
+                                     new_vehicle->pivot_point(), true );
         new_vehicle->adjust_zlevel( 1, tripoint_zero );
         new_vehicle->shift_zlevel();
         if( !passengers.empty() ) {
@@ -3372,12 +3372,9 @@ int vehicle::angle_to_increment( units::angle dir ) const
     return dir_inc;
 }
 
-
-void vehicle::precalc_mounts( int idir, units::angle dir, point pivot )
+// NOTE: If dir != pivot_rotation[idir] you need to set dir_dirty after calling the function
+void vehicle::precalc_mounts( const int idir, const units::angle dir, point pivot, bool dirties_dir )
 {
-    if( idir < 0 || idir > 1 ) {
-        idir = 0;
-    }
     std::unordered_map<point, point> mount_to_precalc;
     for( auto &p : parts ) {
         if( p.removed ) {
@@ -3394,7 +3391,9 @@ void vehicle::precalc_mounts( int idir, units::angle dir, point pivot )
     }
     pivot_anchor[idir] = pivot;
     pivot_rotation[idir] = dir;
-    dir_dirty = true;
+    if( dirties_dir ) {
+        dir_dirty = true;
+    }
 }
 
 bool vehicle::check_rotated_intervening( point from, point to,
@@ -7633,6 +7632,7 @@ std::set<int> vehicle::advance_precalc_mounts( point new_pos, const tripoint &sr
 {
     map &here = get_map();
     std::set<int> smzs;
+    //DANGER: REMOVING THIS CRASHES GAME
     dir_dirty = true;
     for( vehicle_part &prt : parts ) {
         here.clear_vehicle_point_from_cache( this, src + prt.precalc[0] );
