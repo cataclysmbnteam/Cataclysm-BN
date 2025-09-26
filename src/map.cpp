@@ -5008,7 +5008,7 @@ void map::process_items_in_vehicle( vehicle &cur_veh, submap &current_submap )
     for( const vpart_reference &vp : cargo_parts ) {
         process_vehicle_items( cur_veh, vp.part_index() );
     }
-
+    cur_veh.dir_dirty = true;
     for( item *active_item_ref : cur_veh.active_items.get_for_processing() ) {
         if( empty( cargo_parts ) ) {
             return;

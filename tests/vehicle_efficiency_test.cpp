@@ -177,31 +177,39 @@ static int test_efficiency( const vproto_id &veh_id, int &expected_mass,
     const tripoint map_starting_point( 60, 60, 0 );
     map &here = get_map();
     vehicle *veh_ptr = here.add_vehicle( veh_id, map_starting_point, -90_degrees, 0, 0 );
-
     REQUIRE( veh_ptr != nullptr );
     if( veh_ptr == nullptr ) {
         return 0;
     }
 
     vehicle &veh = *veh_ptr;
+    veh.dir_dirty = true;
 
     // Remove all items from cargo to normalize weight.
+    veh.dir_dirty = true;
     for( const vpart_reference vp : veh.get_all_parts() ) {
         veh_ptr->get_items( vp.part_index() ).clear();
         vp.part().ammo_consume( vp.part().ammo_remaining(), vp.pos() );
+        veh.dir_dirty = true;
     }
     for( const vpart_reference vp : veh.get_avail_parts( "OPENABLE" ) ) {
         veh.close( vp.part_index() );
+        veh.dir_dirty = true;
     }
 
+    veh.dir_dirty = true;
     veh.refresh_insides();
+    veh.dir_dirty = true;
 
     if( test_mass ) {
         CHECK( to_gram( veh.total_mass() ) == expected_mass );
     }
+    veh.dir_dirty = true;
     expected_mass = to_gram( veh.total_mass() );
     veh.check_falling_or_floating();
     REQUIRE( !veh.is_in_water() );
+    veh.dir_dirty = true;
+    
     const auto &starting_fuel = set_vehicle_fuel( veh, fuel_level );
     // This is ugly, but improves accuracy: compare the result of fuel approx function
     // rather than the amount of fuel we actually requested
@@ -213,10 +221,12 @@ static int test_efficiency( const vproto_id &veh_id, int &expected_mass,
     veh.engine_on = true;
 
     const int sign = in_reverse ? -1 : 1;
+    veh.dir_dirty = true;
     const int target_velocity = sign * std::min( 50 * 100, veh.safe_ground_velocity( false ) );
     veh.cruise_velocity = target_velocity;
     // If we aren't testing repeated cold starts, start the vehicle at cruising velocity.
     // Otherwise changing the amount of fuel in the tank perturbs the test results.
+    veh.dir_dirty = true;
     if( reset_velocity_turn == -1 ) {
         veh.velocity = target_velocity;
     }
@@ -224,27 +234,34 @@ static int test_efficiency( const vproto_id &veh_id, int &expected_mass,
     int tiles_travelled = 0;
     int cycles_left = cycle_limit;
     bool accelerating = true;
+    veh.dir_dirty = true;
     CHECK( veh.safe_velocity() > 0 );
+    veh.dir_dirty = true;
     while( veh.engine_on && veh.safe_velocity() > 0 && cycles_left > 0 ) {
         cycles_left--;
-        veh.turn( 0_degrees );
+        veh.dir_dirty = true;
         here.vehmove();
         veh.idle( true );
+        veh.dir_dirty = true;
         // If the vehicle starts skidding, the effects become random and test is RUINED
         REQUIRE( !veh.skidding );
         for( const tripoint &pos : veh.get_points() ) {
+            veh.dir_dirty = true;
             REQUIRE( here.ter( pos ) );
         }
+        veh.dir_dirty = true;
         // How much it moved
         tiles_travelled += square_dist( starting_point, veh.global_pos3() );
         // Bring it back to starting point to prevent it from leaving the map
         const tripoint displacement = starting_point - veh.global_pos3();
+        veh.dir_dirty = true;
         here.displace_vehicle( veh, displacement );
         if( reset_velocity_turn < 0 ) {
             continue;
         }
 
         reset_counter++;
+        veh.dir_dirty = true;
         if( reset_counter > reset_velocity_turn ) {
             if( smooth_stops ) {
                 accelerating = !accelerating;
@@ -256,6 +273,7 @@ static int test_efficiency( const vproto_id &veh_id, int &expected_mass,
             }
             reset_counter = 0;
         }
+        veh.dir_dirty = true;
     }
 
     float fuel_left = fuel_percentage_left( veh, starting_fuel );
