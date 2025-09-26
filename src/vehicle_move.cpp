@@ -366,6 +366,7 @@ void vehicle::turn( units::angle deg )
     if( deg == 0_degrees ) {
         return;
     }
+    dir_dirty = true;
     if( velocity < 0 && !::get_option<bool>( "REVERSE_STEERING" ) ) {
         deg = -deg;
     }
@@ -1496,7 +1497,6 @@ vehicle *vehicle::act_on_map()
     } else if( turn_dir != face.dir() && ( !is_on_rails || rpres.do_turn ) ) {
         // Driver turned vehicle, get turn_dir
         mdir.init( turn_dir );
-        dir_dirty = true;
     } else {
         // Not turning, keep face.dir
         mdir = face;
