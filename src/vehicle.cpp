@@ -3371,11 +3371,6 @@ int vehicle::angle_to_increment( units::angle dir ) const
         dir_inc = increment;
         dir_dirty = false;
     }
-    int increment = ( std::lround( to_degrees( dir ) ) % 360 ) / 15;
-    if( increment < 0 ) {
-        increment += 360 / 15;
-    }
-    assert( dir_inc == increment );
     return dir_inc;
 }
 
