@@ -382,9 +382,7 @@ vehicle::vehicle( const vproto_id &type_id, int init_veh_fuel,
         refresh_locations_hack();
         init_state( init_veh_fuel, init_veh_status );
     }
-    dir_dirty = true;
     precalc_mounts( 0, pivot_rotation[0], pivot_anchor[0] );
-    dir_dirty = true;
     refresh();
 }
 

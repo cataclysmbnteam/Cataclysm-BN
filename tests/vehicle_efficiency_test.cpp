@@ -227,7 +227,6 @@ static int test_efficiency( const vproto_id &veh_id, int &expected_mass,
     CHECK( veh.safe_velocity() > 0 );
     while( veh.engine_on && veh.safe_velocity() > 0 && cycles_left > 0 ) {
         cycles_left--;
-        veh.turn( 0_degrees );
         here.vehmove();
         veh.idle( true );
         // If the vehicle starts skidding, the effects become random and test is RUINED
