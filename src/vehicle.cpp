@@ -5714,7 +5714,7 @@ void vehicle::on_move()
     if( has_part( "REAPER", true ) ) {
         operate_reaper();
     }
-    dir_dirty = true;
+
     occupied_cache_time = calendar::before_time_starts;
 }
 
@@ -6067,7 +6067,6 @@ void vehicle::suspend_refresh()
 {
     // disable refresh and cache recalculation
     no_refresh = true;
-    dir_dirty = false;
     mass_dirty = false;
     mass_center_precalc_dirty = false;
     mass_center_no_precalc_dirty = false;
@@ -6081,7 +6080,6 @@ void vehicle::enable_refresh()
 {
     // force all caches to recalculate
     no_refresh = false;
-    dir_dirty = true;
     mass_dirty = true;
     mass_center_precalc_dirty = true;
     mass_center_no_precalc_dirty = true;
@@ -6264,14 +6262,13 @@ void vehicle::refresh()
     check_environmental_effects = true;
     insides_dirty = true;
     zones_dirty = true;
-    dir_dirty = true;
     invalidate_mass();
 }
 
 void vehicle::refresh_position()
 {
-    dir_dirty = true;
     if( !parts.empty() ) {
+        dir_dirty = true;
         precalc_mounts( 0, pivot_rotation[0], pivot_anchor[0] );
         if( attached ) {
             adjust_zlevel();
@@ -6283,7 +6280,6 @@ void vehicle::refresh_position()
 point vehicle::pivot_point() const
 {
     if( pivot_dirty ) {
-        dir_dirty = true;
         refresh_pivot();
     }
 
@@ -6755,7 +6751,6 @@ void vehicle::refresh_insides()
     if( !insides_dirty ) {
         return;
     }
-    dir_dirty = true;
     insides_dirty = false;
     for( const vpart_reference &vp : get_all_parts() ) {
         const size_t p = vp.part_index();
@@ -7198,7 +7193,6 @@ int vehicle::damage_direct( int p, int dmg, damage_type type )
     int dres = dmg - parts[p].hp();
     if( mod_hp( parts[ p ], 0 - dmg, type ) ) {
         insides_dirty = true;
-        dir_dirty = true;
         pivot_dirty = true;
 
         // destroyed parts lose any contained fuels, battery charges or ammo
@@ -7298,7 +7292,6 @@ bool vehicle::restore( const std::string &data )
     refresh();
     face.init( 0_degrees );
     turn_dir = 0_degrees;
-    dir_dirty = true;
     turn( 0_degrees );
     precalc_mounts( 0, pivot_rotation[0], pivot_anchor[0] );
     precalc_mounts( 1, pivot_rotation[1], pivot_anchor[1] );
@@ -7668,7 +7661,6 @@ std::set<int> vehicle::advance_precalc_mounts( point new_pos, const tripoint &sr
 bool vehicle::refresh_zones()
 {
     if( zones_dirty ) {
-        dir_dirty = true;
         decltype( loot_zones ) new_zones;
         for( auto const &z : loot_zones ) {
             zone_data zone = z.second;

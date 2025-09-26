@@ -951,7 +951,6 @@ void zone_manager::create_vehicle_loot_zone( vehicle &vehicle, point mount_point
     auto nz = vehicle.loot_zones.emplace( mount_point, new_zone );
     get_map().register_vehicle_zone( &vehicle, g->get_levz() );
     vehicle.zones_dirty = false;
-    vehicle.dir_dirty = true;
     added_vzones.push_back( &nz->second );
     cache_vzones();
 }

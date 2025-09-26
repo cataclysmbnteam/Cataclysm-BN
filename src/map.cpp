@@ -771,7 +771,6 @@ vehicle *map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &fac
         }
 
         veh.move = facing;
-        veh.dir_dirty = true;
         if( coll_turn != 0_degrees ) {
             veh.skidding = true;
             veh.turn( coll_turn );

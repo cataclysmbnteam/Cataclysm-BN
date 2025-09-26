@@ -151,7 +151,6 @@ int vehicle::slowdown( int at_velocity ) const
 
 void vehicle::thrust( int thd, int z )
 {
-    dir_dirty = true;
     //if vehicle is stopped, set target direction to forward.
     //ensure it is not skidding. Set turns used to 0.
     if( !is_moving() && z == 0 ) {
@@ -321,7 +320,6 @@ void vehicle::thrust( int thd, int z )
             }
         }
     }
-    dir_dirty = true;
 }
 
 void vehicle::cruise_thrust( int amount )
@@ -361,7 +359,6 @@ void vehicle::cruise_thrust( int amount )
     } else if( cruise_velocity < max_rev_vel ) {
         cruise_velocity = max_rev_vel;
     }
-    dir_dirty = true;
 }
 
 void vehicle::turn( units::angle deg )
@@ -385,7 +382,6 @@ void vehicle::stop( bool update_cache )
     skidding = false;
     move = face;
     last_turn = 0_degrees;
-    dir_dirty = true;
     of_turn_carry = 0;
     if( !update_cache ) {
         return;
@@ -1081,7 +1077,6 @@ void vehicle::selfdrive( point p )
             velocity = static_cast<int>( forward_velocity() );
             skidding = false;
             move.init( turn_dir );
-            dir_dirty = true;
         }
     }
 }
@@ -1184,7 +1179,6 @@ void vehicle::pldrive( Character &driver, point p, int z )
     units::angle turn_delta = 15_degrees * p.x;
     const float handling_diff = handling_difficulty();
     if( turn_delta != 0_degrees ) {
-        dir_dirty = true;
         float eff = steering_effectiveness();
         if( eff == -2 ) {
             driver.add_msg_if_player( m_info,
@@ -1267,7 +1261,6 @@ void vehicle::pldrive( Character &driver, point p, int z )
             driver.as_player()->practice( skill_driving, velocity / 5 );
             velocity = static_cast<int>( forward_velocity() );
             skidding = false;
-            dir_dirty = true;
             move.init( turn_dir );
         }
     }
@@ -1299,7 +1292,6 @@ void vehicle::possibly_recover_from_skid()
         }
 
         move = face;
-        dir_dirty = true;
     }
 }
 
@@ -1364,7 +1356,6 @@ vehicle *vehicle::act_on_map()
     if( !here.inbounds( pt ) ) {
         dbg( DL::Info ) << "stopping out-of-map vehicle at global pos " << pt;
         stop( false );
-        dir_dirty = true;
         of_turn = 0;
         is_falling = false;
         return this;
@@ -1419,7 +1410,6 @@ vehicle *vehicle::act_on_map()
     // If the movement is due to a change in z-level, i.e a helicopter then the lateral movement will often be zero.
     if( !should_fall && std::abs( velocity ) < 20 && requested_z_change == 0 ) {
         stop();
-        dir_dirty = true;
         of_turn -= .321f;
         return this;
     }
@@ -1447,7 +1437,6 @@ vehicle *vehicle::act_on_map()
         if( !should_fall ) {
             of_turn_carry = of_turn;
             of_turn = 0;
-            dir_dirty = true;
             return this;
         }
         falling_only = true;
@@ -1497,12 +1486,10 @@ vehicle *vehicle::act_on_map()
     }
     if( rpres.do_turn ) {
         turn_dir = rpres.turn_dir;
-        dir_dirty = true;
     }
 
     // The direction we're moving
     tileray mdir;
-    dir_dirty = true;
     if( skidding || should_fall ) {
         // If skidding, it's the move vector
         // Same for falling - no air control
@@ -1866,7 +1853,7 @@ units::angle map::shake_vehicle( vehicle &veh, const int velocity_before,
                                std::max( 10, d_vel - move_resist / 100 ) );
         }
     }
-    veh.dir_dirty = true;
+
     return coll_turn;
 }
 

@@ -1239,7 +1239,6 @@ class vehicle
         void set_facing( units::angle deg, bool refresh = true ) {
             turn_dir = deg;
             face.init( deg );
-            dir_dirty = true;
             pivot_rotation[0] = deg;
             if( refresh ) {
                 refresh_position();
@@ -1757,11 +1756,12 @@ class vehicle
         tileray face;
         // direction we are moving
         tileray move;
-        mutable bool dir_dirty = true;
+
     private:
         bool no_refresh = false;
 
         // if true, pivot_cache needs to be recalculated
+        mutable bool dir_dirty = true;
         mutable bool pivot_dirty = true;
         mutable bool mass_dirty = true;
         mutable bool mass_center_precalc_dirty = true;
