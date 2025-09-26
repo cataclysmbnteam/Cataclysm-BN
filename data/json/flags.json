@@ -845,12 +845,6 @@
     "conflicts": [ "BELTED", "OUTER", "WAIST", "PERSONAL", "AURA" ]
   },
   {
-    "id": "SLEEP_AID",
-    "type": "json_flag",
-    "context": [ "GENERIC" ],
-    "info": "This item provides comfort during sleep."
-  },
-  {
     "id": "REVIVE_SPECIAL",
     "type": "json_flag",
     "context": [ "GENERIC" ]

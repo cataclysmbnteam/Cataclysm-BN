@@ -135,31 +135,31 @@
     "id": "coding_standard",
     "type": "requirement",
     "//": "For writing software",
-    "tools": [ [ [ "laptop", 1 ], [ "control_laptop", 1 ] ] ]
+    "tools": [ [ [ "laptop", 1 ], [ "control_laptop", 1 ], [ "wrist_comp_budget", 1 ], [ "wrist_comp_control", 1 ] ] ]
   },
   {
     "id": "hacking_standard",
     "type": "requirement",
     "//": "For hacking recipes and handwaving things like military encryption",
-    "tools": [ [ [ "software_hacking", 1 ], [ "control_laptop", 1 ] ] ]
+    "tools": [ [ [ "software_hacking", 1 ], [ "control_laptop", 1 ], [ "wrist_comp_control", 1 ] ] ]
   },
   {
     "id": "utility_software_standard",
     "type": "requirement",
     "//": "For hardware recipes requiring programming additional boards, unzipping, etc",
-    "tools": [ [ [ "software_utility", 1 ], [ "software_hacking", 1 ], [ "control_laptop", 1 ] ] ]
+    "tools": [ [ [ "software_utility", 1 ], [ "software_hacking", 1 ], [ "control_laptop", 1 ], [ "wrist_comp_control", 1 ] ] ]
   },
   {
     "id": "math_software_standard",
     "type": "requirement",
     "//": "For recipes requiring cracking passwords or automating similar heavy math operations",
-    "tools": [ [ [ "software_math", 1 ], [ "software_hacking", 1 ], [ "control_laptop", 1 ] ] ]
+    "tools": [ [ [ "software_math", 1 ], [ "software_hacking", 1 ], [ "control_laptop", 1 ], [ "wrist_comp_control", 1 ] ] ]
   },
   {
     "id": "medical_software_standard",
     "type": "requirement",
-    "//": "For recipes requiring cracking passwords or automating similar heavy math operations. However, software_hacking is not included because it presuambly wouldn't be on the OS.",
-    "tools": [ [ [ "software_medical", 1 ], [ "control_laptop", 1 ] ] ]
+    "//": "For recipes requiring advanced medical simulations or calibrating bionics. However, software_hacking is not included because medical software presuambly wouldn't be on the OS.",
+    "tools": [ [ [ "software_medical", 1 ] ] ]
   },
   {
     "id": "anesthetic",

@@ -1551,6 +1551,10 @@ class Character : public Creature, public location_visitable<Character>
         /** Returns the first worn item with a given flag. */
         const item *item_worn_with_flag( const flag_id &flag,
                                          const bodypart_id &bp = bodypart_str_id::NULL_ID() ) const;
+        /** Returns true if the player is wearing an item with the given flag. */
+        bool worn_with_quality( const quality_id &qual, const bodypart_id &bp ) const;
+        /** Returns the first worn item with a given quality. */
+        const item *item_worn_with_quality( const quality_id &qual, const bodypart_id &bp ) const;
         /** Returns true if the player is wearing an item with the given id. */
         bool worn_with_id( const itype_id &item_id,
                            const bodypart_id &bp = bodypart_str_id::NULL_ID() ) const;
