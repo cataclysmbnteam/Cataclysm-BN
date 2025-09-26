@@ -373,7 +373,6 @@ void vehicle::turn( units::angle deg )
     turn_dir = normalize( turn_dir + deg );
     // quick rounding the turn dir to a multiple of 15
     turn_dir = round_to_multiple_of( turn_dir, 15_degrees );
-    dir_dirty = true;
 }
 
 void vehicle::stop( bool update_cache )
