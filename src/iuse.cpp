@@ -7770,8 +7770,7 @@ int iuse::remoteveh( player *p, item *it, bool t, const tripoint &pos )
             add_msg( m_info,
                      _( "Despite using a controller, you still refuse to take control of this vehicle." ) );
         } else {
-            p->invoke_item( it, "REMOTEVEH" );
-            // it->activate();
+            it->activate();
             g->setremoteveh( veh );
             p->add_msg_if_player( m_good, _( "You take control of the vehicle." ) );
             if( !veh->engine_on ) {

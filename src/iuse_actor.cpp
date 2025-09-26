@@ -4817,9 +4817,6 @@ void gps_device_actor::info( const item &, std::vector<iteminfo> &dump ) const
 
 int gps_device_actor::use( player &p, item &it, bool, const tripoint & ) const
 {
-    // if( g->remoteveh() != nullptr  || !g->u.get_value( "remote_controlling" ).empty() ) {
-        // return 0;
-    // }
     float charges_built_up = 1.0;
     const tripoint_abs_omt center = p.global_omt_location();
 
