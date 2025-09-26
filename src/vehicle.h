@@ -1757,11 +1757,12 @@ class vehicle
         // direction we are moving
         tileray move;
 
+        mutable bool dir_dirty = true;
+
     private:
         bool no_refresh = false;
 
         // if true, pivot_cache needs to be recalculated
-        mutable bool dir_dirty = true;
         mutable bool pivot_dirty = true;
         mutable bool mass_dirty = true;
         mutable bool mass_center_precalc_dirty = true;
