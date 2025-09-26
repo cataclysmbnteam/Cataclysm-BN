@@ -5721,7 +5721,6 @@ void vehicle::on_move()
 void vehicle::slow_leak()
 {
     // for each badly damaged tanks (lower than 50% health), leak a small amount
-    dir_dirty = true;
     for( auto &p : parts ) {
         auto health = p.health_percent();
         if( !p.is_leaking() || p.ammo_remaining() <= 0 ) {
