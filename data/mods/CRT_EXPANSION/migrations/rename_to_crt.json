@@ -18,5 +18,5 @@
     "type": "MIGRATION",
     "id": "alloy_pellet",
     "replace": "crt_alloy_pellet"
-  },
+  }
 ]

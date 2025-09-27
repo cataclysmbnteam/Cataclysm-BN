@@ -251,7 +251,7 @@
     "loudness": 36,
     "clip_size": 1,
     "reload": 1500,
-    "modes": [ [ "DEFAULT", "single", 1 ] ],
+    "modes": [ [ "DEFAULT", "single", 1 ] ]
   },
   {
     "id": "ds_plasma_cutter",
