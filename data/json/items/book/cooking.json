@@ -688,13 +688,13 @@
     "fun": 1
   },
   {
-    "id": "note_mutagen_junkie",
+    "id": "note_mutagen_conspiracy",
     "type": "BOOK",
     "copy-from": "base_book",
-    "name": { "str": "post apocalyptic junkie experiments", "str_pl": "copies of post apocalyptic junkie experiments" },
-    "description": "A series of notes detailing some survivor's experiments on \"test subjects\" with the intent of producing recreational substances. Most of the contents are failed experiments with potentially lethal consequences. It serves as a good example on what NOT to do, including how NOT to write a comprehensive academic text.",
+    "name": { "str": "Chemicals in the Water", "str_pl": "copies of Chemicals in the Water" },
+    "description": "A series of notes about experiments attempting to prove that the government puts chemicals in the water to poison the population, likely printed off some website judging by the binder they are stored in. It explains how to isolate the \"soul poisons\" found in tap water among other claims. The many conspiracy theories and strange tangents mixed in do make it a more entertaining read, if harder to parse.",
     "weight": "350 g",
-    "volume": "200 ml",
+    "volume": "750 ml",
     "price": "100 USD",
     "price_postapoc": "1 USD",
     "color": "white",
@@ -702,7 +702,7 @@
     "required_level": 3,
     "max_level": 6,
     "intelligence": 10,
-    "time": "25 m",
-    "fun": -2
+    "time": "50 m",
+    "fun": -1
   }
 ]
