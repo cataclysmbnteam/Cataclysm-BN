@@ -73,11 +73,7 @@ static const efftype_id effect_pet( "pet" );
 
 static const species_id ZOMBIE( "ZOMBIE" );
 
-static const mongroup_id GROUP_CHUD( "GROUP_CHUD" );
 static const mongroup_id GROUP_DIMENSIONAL_SURFACE( "GROUP_DIMENSIONAL_SURFACE" );
-static const mongroup_id GROUP_RIVER( "GROUP_RIVER" );
-static const mongroup_id GROUP_SEWER( "GROUP_SEWER" );
-static const mongroup_id GROUP_SWAMP( "GROUP_SWAMP" );
 static const mongroup_id GROUP_WORM( "GROUP_WORM" );
 static const mongroup_id GROUP_ZOMBIE( "GROUP_ZOMBIE" );
 
@@ -3360,16 +3356,6 @@ void overmap::generate( const overmap *north, const overmap *east,
 
     polish_rivers( north, east, south, west );
 
-    // TODO: there is no reason we can't generate the sublevels in one pass
-    //       for that matter there is no reason we can't as we add the entrance ways either
-
-    // Always need at least one sublevel, but how many more
-    int z = -1;
-    bool requires_sub = false;
-    do {
-        requires_sub = generate_sub( z );
-    } while( requires_sub && ( --z >= -OVERMAP_DEPTH ) );
-
     // Place the monsters, now that the terrain is laid out
     place_mongroups();
     place_radios();
@@ -3377,29 +3363,6 @@ void overmap::generate( const overmap *north, const overmap *east,
     connection_cache.reset();
 
     dbg( DL::Info ) << "overmap::generate done";
-}
-
-bool overmap::generate_sub( const int z )
-{
-    // We need to generate at least 2 z-levels for subways CHUD
-    bool requires_sub = z > -2;
-
-    for( auto &i : cities ) {
-        tripoint_om_omt omt_pos( i.pos, z );
-        tripoint_om_sm sm_pos = project_to<coords::sm>( omt_pos );
-        // Sewers and city subways are present at z == -1 and z == -2. Don't spawn CHUD on other z-levels.
-        if( ( z == -1 || z == -2 ) && one_in( 3 ) ) {
-            add_mon_group( mongroup( GROUP_CHUD,
-                                     sm_pos, i.size, i.size * 20 ) );
-        }
-        // Sewers are present at z == -1. Don't spawn sewer monsters on other z-levels.
-        if( z == -1 && !one_in( 8 ) ) {
-            add_mon_group( mongroup( GROUP_SEWER,
-                                     sm_pos, ( i.size * 7 ) / 2, i.size * 70 ) );
-        }
-    }
-
-    return requires_sub;
 }
 
 static void elevate_bridges(
@@ -6143,44 +6106,6 @@ void overmap::place_mongroups()
                 m.horde = true;
                 m.wander( *this );
                 add_mon_group( m );
-            }
-        }
-    }
-
-    if( get_option<bool>( "DISABLE_ANIMAL_CLASH" ) ) {
-        // Figure out where swamps are, and place swamp monsters
-        for( int x = 3; x < OMAPX - 3; x += 7 ) {
-            for( int y = 3; y < OMAPY - 3; y += 7 ) {
-                int swamp_count = 0;
-                for( int sx = x - 3; sx <= x + 3; sx++ ) {
-                    for( int sy = y - 3; sy <= y + 3; sy++ ) {
-                        if( ter( { sx, sy, 0 } ) == "forest_water" ) {
-                            swamp_count += 2;
-                        }
-                    }
-                }
-                if( swamp_count >= 25 ) {
-                    add_mon_group( mongroup( GROUP_SWAMP, tripoint( x * 2, y * 2, 0 ), 3,
-                                             rng( swamp_count * 8, swamp_count * 25 ) ) );
-                }
-            }
-        }
-    }
-
-    // Figure out where rivers and lakes are, and place appropriate critters
-    for( int x = 3; x < OMAPX - 3; x += 7 ) {
-        for( int y = 3; y < OMAPY - 3; y += 7 ) {
-            int river_count = 0;
-            for( int sx = x - 3; sx <= x + 3; sx++ ) {
-                for( int sy = y - 3; sy <= y + 3; sy++ ) {
-                    if( is_river_or_lake( ter( { sx, sy, 0 } ) ) ) {
-                        river_count++;
-                    }
-                }
-            }
-            if( river_count >= 25 ) {
-                add_mon_group( mongroup( GROUP_RIVER, tripoint( x * 2, y * 2, 0 ), 3,
-                                         rng( river_count * 8, river_count * 25 ) ) );
             }
         }
     }
