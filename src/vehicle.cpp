@@ -2613,7 +2613,6 @@ std::vector<int> vehicle::parts_at_relative( point dp,
 {
     if( !use_cache ) {
         std::vector<int> res = std::vector<int>( );
-        int i = 0;
         for( const vpart_reference &vp : get_all_parts() ) {
             if( vp.mount() == dp && !vp.part().removed ) {
                 res.push_back( static_cast<int>( vp.part_index() ) );
