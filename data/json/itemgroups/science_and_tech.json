@@ -220,7 +220,24 @@
       { "item": "chem_chromium_oxide", "prob": 10, "charges-min": 100 },
       { "item": "zinc_metal", "prob": 10, "charges-min": 100 },
       { "item": "chem_manganese_dioxide", "prob": 5, "charges-min": 100 },
-      [ "denat_alcohol", 10 ]
+      [ "denat_alcohol", 10 ],
+      [ "mutagen", 1 ],
+      [ "mutagen_plant", 1 ],
+      [ "mutagen_insect", 1 ],
+      [ "mutagen_spider", 1 ],
+      [ "mutagen_fish", 1 ],
+      [ "mutagen_slime", 1 ],
+      [ "mutagen_rat", 1 ],
+      [ "mutagen_beast", 1 ],
+      [ "mutagen_cattle", 1 ],
+      [ "mutagen_cephalopod", 1 ],
+      [ "mutagen_bird", 1 ],
+      [ "mutagen_lizard", 1 ],
+      [ "mutagen_serpent", 1 ],
+      [ "mutagen_troglobite", 1 ],
+      [ "mutagen_ursine", 1 ],
+      [ "mutagen_feline", 1 ],
+      [ "mutagen_lupine", 1 ]
     ]
   },
   {
