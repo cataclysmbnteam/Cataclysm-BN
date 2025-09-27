@@ -135,6 +135,7 @@
     "color": "light_green",
     "see_cost": 10,
     "mondensity": 2,
+    "spawns": { "group": "GROUP_SUBWAY", "population": [ 1, 6 ], "chance": 30 },
     "flags": [ "SIDEWALK" ]
   },
   {
