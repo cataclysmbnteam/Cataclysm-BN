@@ -855,8 +855,7 @@ class vehicle
         void refresh_position();
 
         // Pre-calculate mount points for (idir=0) - current direction or (idir=1) - next turn direction
-        // If you do not use idir=0 or idir=1, I am not at fault for your segfaults...
-        void precalc_mounts( const int idir, const units::angle dir, point pivot );
+        void precalc_mounts( int idir, units::angle dir, point pivot );
 
         // get a list of part indices where is a passenger inside
         std::vector<int> boarded_parts() const;
@@ -966,7 +965,7 @@ class vehicle
         void invalidate_mass();
 
         //Converts angles into turning increments
-        int angle_to_increment( units::angle dir ) const;
+        static int angle_to_increment( units::angle dir );
 
         // get the total mass of vehicle, including cargo and passengers
         units::mass total_mass() const;
@@ -1758,7 +1757,6 @@ class vehicle
         // direction we are moving
         tileray move;
 
-        mutable bool dir_dirty = true;
 
     private:
         bool no_refresh = false;
@@ -1784,7 +1782,6 @@ class vehicle
         // is the vehicle currently flying
         mutable bool is_flying = false;
         int requested_z_change = 0;
-        mutable int dir_inc;
         // is the vehicle currently placed on the map
         bool attached = false;
 

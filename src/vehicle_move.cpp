@@ -366,7 +366,6 @@ void vehicle::turn( units::angle deg )
     if( deg == 0_degrees ) {
         return;
     }
-    dir_dirty = true;
     if( velocity < 0 && !::get_option<bool>( "REVERSE_STEERING" ) ) {
         deg = -deg;
     }
@@ -383,7 +382,6 @@ void vehicle::stop( bool update_cache )
     move = face;
     last_turn = 0_degrees;
     of_turn_carry = 0;
-    dir_dirty = true;
     if( !update_cache ) {
         return;
     }
@@ -412,7 +410,6 @@ bool vehicle::collision( std::vector<veh_collision> &colls,
      *  the vehicle will phase into it.
      */
 
-    dir_dirty = true;
     if( dp.z != 0 && ( dp.x != 0 || dp.y != 0 ) ) {
         // Split into horizontal + vertical
         return collision( colls, tripoint( dp.xy(), 0 ), just_detect, bash_floor ) ||

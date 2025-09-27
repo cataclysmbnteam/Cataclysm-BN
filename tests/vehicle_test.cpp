@@ -185,7 +185,6 @@ TEST_CASE( "vehicle_rotation_reverse" )
     const point pivot;
 
     for( int dir = 0; dir < 24; dir++ ) {
-        veh_ptr->dir_dirty = true;
         for( int x = -5; x <= 5; x++ ) {
             for( int y = -5; y <= 5; y++ ) {
                 point p = {x, y};

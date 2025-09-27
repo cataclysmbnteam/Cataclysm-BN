@@ -330,8 +330,6 @@ void vehicle::copy_static_from( const vehicle &source )
     face = source.face;
     move = source.move;
     no_refresh = source.no_refresh;
-    dir_dirty = true;
-    dir_inc = source.dir_inc;
     pivot_dirty = source.pivot_dirty;
     mass_dirty = source.mass_dirty;
     mass_center_precalc_dirty = source.mass_center_precalc_dirty;
@@ -2456,7 +2454,6 @@ bool vehicle::split_vehicles( const std::vector<std::vector <int>> &new_vehs,
             new_vehicle->name = name;
             new_vehicle->move = move;
             new_vehicle->turn_dir = turn_dir;
-            new_vehicle->dir_dirty = true;
             new_vehicle->velocity = velocity;
             new_vehicle->vertical_velocity = vertical_velocity;
             new_vehicle->cruise_velocity = cruise_velocity;
@@ -2615,24 +2612,23 @@ std::vector<int> vehicle::parts_at_relative( point dp,
         const bool use_cache ) const
 {
     if( !use_cache ) {
-        std::vector<int> res = std::vector<int>( parts.size() );
+        std::vector<int> res = std::vector<int>( );
         int i = 0;
         for( const vpart_reference &vp : get_all_parts() ) {
-            // 1.5s
             if( vp.mount() == dp && !vp.part().removed ) {
-                res[i] = static_cast<int>( vp.part_index() );
-                i ++;
+                res.push_back( static_cast<int>( vp.part_index() ) );
+                // res[i] = static_cast<int>( vp.part_index() );
+                // i ++;
             }
         }
         return res;
     } else {
-        // Small time
         const auto &iter = relative_parts.find( dp );
         if( iter != relative_parts.end() ) {
             return iter->second;
         } else {
-            // No time
-            return std::vector<int>();
+            std::vector<int>  res;
+            return res;
         }
     }
 }
@@ -3364,21 +3360,20 @@ point vehicle::tripoint_to_mount( const tripoint &p ) const
     return result;
 }
 
-int vehicle::angle_to_increment( units::angle dir ) const
+int vehicle::angle_to_increment( units::angle dir )
 {
-    if( dir_dirty ) {
-        int increment = ( std::lround( to_degrees( dir ) ) % 360 ) / 15;
-        if( increment < 0 ) {
-            increment += 360 / 15;
-        }
-        dir_inc = increment;
-        dir_dirty = false;
+    int increment = ( std::lround( to_degrees( dir ) ) % 360 ) / 15;
+    if( increment < 0 ) {
+        increment += 360 / 15;
     }
-    return dir_inc;
+    return increment;
 }
 
-void vehicle::precalc_mounts( const int idir, const units::angle dir, point pivot )
+void vehicle::precalc_mounts( int idir, units::angle dir, point pivot )
 {
+    if( idir < 0 || idir > 1 ) {
+        idir = 0;
+    }
     std::unordered_map<point, point> mount_to_precalc;
     for( auto &p : parts ) {
         if( p.removed ) {
