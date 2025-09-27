@@ -19,6 +19,7 @@
 #include <sstream>
 #include <unordered_map>
 #include <unordered_set>
+#include <vector>
 
 #include "active_tile_data_def.h"
 #include "avatar.h"
@@ -2563,7 +2564,7 @@ bool vehicle::split_vehicles( const std::vector<std::vector <int>> &new_vehs,
         // update the precalc points
         new_vehicle->precalc_mounts( 1, new_vehicle->skidding ?
                                      new_vehicle->turn_dir : new_vehicle->face.dir(),
-                                     new_vehicle->pivot_point(), true );
+                                     new_vehicle->pivot_point() );
         new_vehicle->adjust_zlevel( 1, tripoint_zero );
         new_vehicle->shift_zlevel();
         if( !passengers.empty() ) {
@@ -2614,20 +2615,24 @@ std::vector<int> vehicle::parts_at_relative( point dp,
         const bool use_cache ) const
 {
     if( !use_cache ) {
-        std::vector<int> res;
+        std::vector<int> res = std::vector<int>( parts.size() );
+        int i = 0;
         for( const vpart_reference &vp : get_all_parts() ) {
+            // 1.5s
             if( vp.mount() == dp && !vp.part().removed ) {
-                res.push_back( static_cast<int>( vp.part_index() ) );
+                res[i] = static_cast<int>( vp.part_index() );
+                i ++;
             }
         }
         return res;
     } else {
+        // Small time
         const auto &iter = relative_parts.find( dp );
         if( iter != relative_parts.end() ) {
             return iter->second;
         } else {
-            std::vector<int> res;
-            return res;
+            // No time
+            return std::vector<int>();
         }
     }
 }
@@ -2721,7 +2726,7 @@ int vehicle::part_with_feature( int part, const std::string &flag, bool unbroken
 
 int vehicle::part_with_feature( point pt, const std::string &flag, bool unbroken ) const
 {
-    std::vector<int> parts_here = parts_at_relative( pt, false );
+    std::vector<int> parts_here = parts_at_relative( pt, true );
     for( auto &elem : parts_here ) {
         if( part_flag( elem, flag ) && ( !unbroken || !parts[ elem ].is_broken() ) ) {
             return elem;
@@ -3374,7 +3379,7 @@ int vehicle::angle_to_increment( units::angle dir ) const
 }
 
 // NOTE: If dir != pivot_rotation[idir] you need to set dir_dirty after calling the function
-void vehicle::precalc_mounts( const int idir, const units::angle dir, point pivot, bool dirties_dir )
+void vehicle::precalc_mounts( const int idir, const units::angle dir, point pivot )
 {
     ZoneScoped;
     std::unordered_map<point, point> mount_to_precalc;

@@ -855,9 +855,8 @@ class vehicle
         void refresh_position();
 
         // Pre-calculate mount points for (idir=0) - current direction or (idir=1) - next turn direction
-        // If dir != pivot_rotation[idir], please set dirties_dir to true
         // If you do not use idir=0 or idir=1, I am not at fault for your segfaults...
-        void precalc_mounts( const int idir, const units::angle dir, point pivot, bool dirties_dir = false );
+        void precalc_mounts( const int idir, const units::angle dir, point pivot );
 
         // get a list of part indices where is a passenger inside
         std::vector<int> boarded_parts() const;
