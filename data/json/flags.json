@@ -988,6 +988,12 @@
     "info": "This gear has Kevlar inserted into strategic locations to <good>increase protection</good> with some <bad>increase to encumbrance</bad>."
   },
   {
+    "id": "carbon_fiber_padded",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "info": "This gear has been permeated with carbon fiber to <good>increase protection</good> with some <bad>increase to encumbrance</bad>."
+  },
+  {
     "id": "leather_padded",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
