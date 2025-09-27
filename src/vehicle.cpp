@@ -2613,13 +2613,9 @@ std::vector<int> vehicle::parts_at_relative( point dp,
 {
     if( !use_cache ) {
         std::vector<int> res;
-        res.reserve( parts.size() );
-        int i = 0;
         for( const vpart_reference &vp : get_all_parts() ) {
             if( vp.mount() == dp && !vp.part().removed ) {
-                // res.push_back( static_cast<int>( vp.part_index() ) );
-                res[i] = static_cast<int>( vp.part_index() );
-                i ++;
+                res.push_back( static_cast<int>( vp.part_index() ) );
             }
         }
         return res;
@@ -2628,7 +2624,7 @@ std::vector<int> vehicle::parts_at_relative( point dp,
         if( iter != relative_parts.end() ) {
             return iter->second;
         } else {
-            std::vector<int>  res;
+            std::vector<int> res;
             return res;
         }
     }
