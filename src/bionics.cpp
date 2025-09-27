@@ -1217,10 +1217,10 @@ bool Character::deactivate_bionic( bionic &bio, bool eff_only )
     } else if( bio.id == bio_cqb ) {
         martial_arts_data->selected_style_check();
     } else if( bio.id == bio_remote ) {
-        if( g->remoteveh() != nullptr && !has_active_item( itype_remotevehcontrol ) ) {
+        if( g->remoteveh() != nullptr && !has_active_item_with_action( "REMOTEVEH" ) ) {
             g->setremoteveh( nullptr );
         } else if( !get_value( "remote_controlling" ).empty() &&
-                   !has_active_item( itype_radiocontrol ) ) {
+                   !has_active_item_with_action( "REMOTEVEH" ) ) {
             set_value( "remote_controlling", "" );
         }
     } else if( bio.id == bio_tools ) {
