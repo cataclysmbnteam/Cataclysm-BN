@@ -136,7 +136,8 @@
     "encumbrance": 20,
     "material_thickness": 4,
     "flags": [ "OVERSIZE", "BELTED", "COMPACT" ],
-    "use_action": { "menu_text": "Unroll", "type": "transform", "target": "sleeping_bag", "msg": "You unroll the sleeping bag." }
+    "use_action": { "menu_text": "Unroll", "type": "transform", "target": "sleeping_bag", "msg": "You unroll the sleeping bag." },
+    "qualities": [ [ "SLEEP_AID", 1 ] ]
   },
   {
     "id": "sleeping_bag_fur",
@@ -164,7 +165,8 @@
       "type": "transform",
       "target": "sleeping_bag_fur_roll",
       "msg": "You roll up the fur sleeping bag, preparing it for transport."
-    }
+    },
+    "qualities": [ [ "SLEEP_AID", 4 ] ]
   },
   {
     "id": "sleeping_bag_fur_roll",

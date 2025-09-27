@@ -1757,6 +1757,7 @@ class vehicle
         // direction we are moving
         tileray move;
 
+
     private:
         bool no_refresh = false;
 
@@ -1781,7 +1782,6 @@ class vehicle
         // is the vehicle currently flying
         mutable bool is_flying = false;
         int requested_z_change = 0;
-
         // is the vehicle currently placed on the map
         bool attached = false;
 

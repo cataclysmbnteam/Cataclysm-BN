@@ -991,21 +991,6 @@
   },
   {
     "type": "GENERIC",
-    "id": "laptop",
-    "symbol": ",",
-    "color": "dark_gray",
-    "name": { "str": "laptop computer" },
-    "category": "electronics",
-    "description": "A broken laptop, basically a paperweight now.",
-    "price": "10 USD",
-    "price_postapoc": "10 cent",
-    "material": [ "plastic", "aluminum" ],
-    "weight": "2721 g",
-    "volume": "750 ml",
-    "bashing": 6
-  },
-  {
-    "type": "GENERIC",
     "id": "broken_eyebot",
     "symbol": ",",
     "color": "green",
@@ -2393,10 +2378,11 @@
     "category": "valuables",
     "description": "A pile of cash.  Can be used to fill a bathtub with cash or as a comforting reminder of the past.",
     "material": [ "paper" ],
-    "flags": [ "TRADER_AVOID", "SLEEP_AID" ],
+    "flags": [ "TRADER_AVOID" ],
     "weight": "200 g",
     "volume": "2500 ml",
-    "to_hit": -2
+    "to_hit": -2,
+    "qualities": [ [ "SLEEP_AID", 1 ] ]
   },
   {
     "type": "GENERIC",
@@ -2424,8 +2410,8 @@
     "material": [ "cotton" ],
     "weight": "514 g",
     "volume": "1 L",
-    "flags": [ "SLEEP_AID" ],
-    "category": "scrap_fabric"
+    "category": "scrap_fabric",
+    "qualities": [ [ "SLEEP_AID", 2 ] ]
   },
   {
     "type": "GENERIC",
@@ -2439,8 +2425,8 @@
     "material": [ "cotton" ],
     "weight": "774 g",
     "volume": "1750 ml",
-    "flags": [ "SLEEP_AID" ],
-    "category": "scrap_fabric"
+    "category": "scrap_fabric",
+    "qualities": [ [ "SLEEP_AID", 4 ] ]
   },
   {
     "type": "GENERIC",
@@ -2454,8 +2440,8 @@
     "material": [ "cotton" ],
     "weight": "514 g",
     "volume": "1 L",
-    "flags": [ "SLEEP_AID" ],
-    "category": "scrap_fabric"
+    "category": "scrap_fabric",
+    "qualities": [ [ "SLEEP_AID", 3 ] ]
   },
   {
     "type": "GENERIC",
@@ -2469,7 +2455,6 @@
     "material": [ "cotton" ],
     "weight": "514 g",
     "volume": "750 ml",
-    "flags": [ "SLEEP_AID" ],
     "category": "scrap_fabric"
   },
   {
@@ -2484,8 +2469,8 @@
     "material": [ "cotton" ],
     "weight": "400 g",
     "volume": "850 ml",
-    "flags": [ "SLEEP_AID" ],
-    "category": "scrap_fabric"
+    "category": "scrap_fabric",
+    "qualities": [ [ "SLEEP_AID", 2 ] ]
   },
   {
     "type": "GENERIC",
@@ -3422,6 +3407,6 @@
     "material": [ "cotton" ],
     "weight": "660 g",
     "volume": "1230 ml",
-    "flags": [ "SLEEP_AID" ]
+    "qualities": [ [ "SLEEP_AID", 2 ] ]
   }
 ]
