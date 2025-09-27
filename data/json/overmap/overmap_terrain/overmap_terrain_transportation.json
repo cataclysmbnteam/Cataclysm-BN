@@ -292,6 +292,7 @@
     "sym": "S",
     "color": "yellow",
     "see_cost": 5,
+    "spawns": { "group": "GROUP_SEWER", "population": [ 1, 6 ], "chance": 30 },
     "extras": "subway",
     "flags": [ "KNOWN_UP", "KNOWN_DOWN" ]
   },
