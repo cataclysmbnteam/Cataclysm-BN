@@ -70,7 +70,6 @@
 #include "units_utility.h"
 #include "veh_type.h"
 #include "weather.h"
-#include "profile.h"
 /*
  * Speed up all those if ( blarg == "structure" ) statements that are used everywhere;
  *   assemble "structure" once here instead of repeatedly later.
@@ -3367,7 +3366,6 @@ point vehicle::tripoint_to_mount( const tripoint &p ) const
 
 int vehicle::angle_to_increment( units::angle dir ) const
 {
-    ZoneScoped;
     if( dir_dirty ) {
         int increment = ( std::lround( to_degrees( dir ) ) % 360 ) / 15;
         if( increment < 0 ) {
@@ -3379,10 +3377,8 @@ int vehicle::angle_to_increment( units::angle dir ) const
     return dir_inc;
 }
 
-// NOTE: If dir != pivot_rotation[idir] you need to set dir_dirty after calling the function
 void vehicle::precalc_mounts( const int idir, const units::angle dir, point pivot )
 {
-    ZoneScoped;
     std::unordered_map<point, point> mount_to_precalc;
     for( auto &p : parts ) {
         if( p.removed ) {
@@ -3399,9 +3395,6 @@ void vehicle::precalc_mounts( const int idir, const units::angle dir, point pivo
     }
     pivot_anchor[idir] = pivot;
     pivot_rotation[idir] = dir;
-    // if( dirties_dir ) {
-        // dir_dirty = true;
-    // }
 }
 
 bool vehicle::check_rotated_intervening( point from, point to,
@@ -7514,7 +7507,6 @@ void vehicle::invalidate_mass()
     mass_center_no_precalc_dirty = true;
     // Anything that affects mass will also affect the pivot
     pivot_dirty = true;
-    // dir_dirty = true;
     coeff_rolling_dirty = true;
     coeff_water_dirty = true;
 }
@@ -7639,8 +7631,6 @@ std::set<int> vehicle::advance_precalc_mounts( point new_pos, const tripoint &sr
 {
     map &here = get_map();
     std::set<int> smzs;
-    //DANGER: REMOVING THIS CRASHES GAME
-    // dir_dirty = true;
     for( vehicle_part &prt : parts ) {
         here.clear_vehicle_point_from_cache( this, src + prt.precalc[0] );
         prt.precalc[0] = prt.precalc[1];
