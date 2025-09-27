@@ -1,7 +1,7 @@
 [
   {
     "type": "ammunition_type",
-    "id": "pellets",
+    "id": "crt_pellets",
     "name": ".117 pellets",
     "default": "pellet"
   },

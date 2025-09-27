@@ -198,7 +198,7 @@
     "flags": [ "NEVER_JAMS", "NO_UNLOAD", "UNARMED_WEAPON", "DURABLE_MELEE", "NON_FOULING", "PYROMANIAC_WEAPON" ]
   },
   {
-    "id": "pelletgun",
+    "id": "crt_pelletgun",
     "type": "GUN",
     "copy-from": "rifle_pneumatic",
     "reload_noise_volume": 7,
@@ -211,7 +211,7 @@
     "material": [ "steel", "plastic" ],
     "flags": [ "STR_RELOAD", "NON_FOULING", "NON_FOULING" ],
     "skill": "rifle",
-    "ammo": "pellets",
+    "ammo": "crt_pellets",
     "weight": "5023 g",
     "volume": "2 L",
     "bashing": 10,
@@ -227,7 +227,7 @@
     "valid_mod_locations": [ [ "accessories", 2 ], [ "sling", 1 ], [ "sights", 1 ], [ "stock", 1 ] ]
   },
   {
-    "id": "pelletsniper",
+    "id": "crt_pelletsniper",
     "type": "GUN",
     "copy-from": "rifle_pneumatic",
     "reload_noise_volume": 10,
@@ -239,7 +239,7 @@
     "material": [ "steel", "plastic" ],
     "flags": [ "STR_RELOAD", "NON_FOULING", "NON_FOULING" ],
     "skill": "rifle",
-    "ammo": "pellets",
+    "ammo": "crt_pellets",
     "weight": "5023 g",
     "volume": "2 L",
     "bashing": 10,
@@ -248,7 +248,7 @@
     "ranged_damage": { "damage_type": "bullet", "amount": 15 },
     "dispersion": 180,
     "durability": 8,
-    "loudness": 18,
+    "loudness": 36,
     "clip_size": 1,
     "reload": 1500,
     "modes": [ [ "DEFAULT", "single", 1 ] ],
