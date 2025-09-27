@@ -133,6 +133,26 @@
     "color": "white"
   },
   {
+    "id": "dna",
+    "type": "AMMO",
+    "name": { "str_sp": "DNA" },
+    "looks_like": "bleach",
+    "description": "The DNA sample of some living creature.  This can be used in a cloning vat to create a copy of the creature.",
+    "weight": "1 g",
+    "volume": "250ml",
+    "price": "2 USD",
+    "price_postapoc": "5 USD",
+    "count": 10,
+    "stack_size": 10,
+    "category": "chems",
+    "phase": "liquid",
+    "container": "bottle_glass",
+    "material": [ "flesh" ],
+    "symbol": "~",
+    "color": "red",
+    "ammo_type": "dna"
+  },
+  {
     "id": "thermometer",
     "type": "GENERIC",
     "category": "tools_chemistry",

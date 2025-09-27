@@ -586,6 +586,11 @@
   },
   {
     "type": "item_action",
+    "id": "cloning_syringe",
+    "name": { "str": "Take specimen sample" }
+  },
+  {
+    "type": "item_action",
     "id": "SOLARPACK",
     "name": { "str": "Unfold" }
   },

@@ -171,6 +171,10 @@ static const itype_id itype_UPS( "UPS" );
 
 static const mtype_id mon_hallu_multicooker( "mon_hallu_multicooker" );
 
+
+static const species_id species_HALLUCINATION( "HALLUCINATION" );
+static const species_id species_ROBOT( "ROBOT" );
+
 class npc;
 
 std::unique_ptr<iuse_actor> iuse_transform::clone() const
@@ -1182,11 +1186,33 @@ void place_monster_iuse::load( const JsonObject &obj )
 
 int place_monster_iuse::use( player &p, item &it, bool, const tripoint &pos ) const
 {
-    shared_ptr_fast<monster> newmon_ptr = make_shared_fast<monster>( mtypeid );
+    mtype_id spawn_id = mtypeid;
+
+    int diff_mod = 1;
+    bool place_random = place_randomly;
+    // ugly hack, sorry
+    if( it.has_var( "place_monster_override" ) ) {
+        spawn_id = mtype_id( it.get_var( "place_monster_override" ) );
+        // currently cant use this to tame an otherwise untameable animal
+        diff_mod = 999;
+    }
+
+    if( it.has_flag( flag_RADIO_MOD ) ) {
+        place_random = true;
+        it.activate();
+    }
+
+    shared_ptr_fast<monster> newmon_ptr = make_shared_fast<monster>( spawn_id );
     monster &newmon = *newmon_ptr;
     newmon.init_from_item( it );
+
     tripoint pnt = it.is_active() ? pos : p.pos();
-    if( place_randomly ) {
+
+    if( it.has_var( "place_monster_override" ) ) {
+        newmon.no_extra_death_drops = true;
+        it.deactivate();
+    }
+    if( place_random ) {
         // place_critter_around returns the same pointer as its parameter (or null)
         // Allow position to be different from the player for tossed or launched items
         if( !g->place_critter_around( newmon_ptr, pnt, 1 ) ) {
@@ -1241,7 +1267,7 @@ int place_monster_iuse::use( player &p, item &it, bool, const tripoint &pos ) co
     }
     /** @EFFECT_INT increases chance of a placed turret being friendly */
     /** Full-on pets also auto-succeed if we've already succeeded before deactivating it */
-    if( rng( 0, p.int_cur ) + skill_offset < rng( 0, 2 * difficulty ) &&
+    if( rng( 0, p.int_cur ) + skill_offset < rng( 0, 2 * ( difficulty * diff_mod ) ) &&
         !it.has_flag( flag_SPAWN_FRIENDLY ) ) {
         if( hostile_msg.empty() ) {
             p.add_msg_if_player( m_bad, _( "The %s scans you and makes angry beeping noises!" ),
@@ -1260,6 +1286,12 @@ int place_monster_iuse::use( player &p, item &it, bool, const tripoint &pos ) co
         if( is_pet ) {
             newmon.add_effect( effect_pet, 1_turns );
         }
+    }
+    // mark artifical womb as dirty, and convert it
+    if( it.has_var( "place_monster_override" ) ) {
+        it.convert( itype_id( "embryo_empty" ) );
+        it.clear_vars();
+        it.faults.emplace( fault_bionic_nonsterile );
     }
     // Transfer label from the item to monster nickname
     if( it.has_var( "item_label" ) ) {
@@ -5291,6 +5323,90 @@ int change_scent_iuse::use( player &p, item &it, bool, const tripoint & ) const
 std::unique_ptr<iuse_actor> change_scent_iuse::clone() const
 {
     return std::make_unique<change_scent_iuse>( *this );
+}
+
+void cloning_syringe_iuse::load( const JsonObject &obj )
+{
+    assign( obj, "moves", moves );
+    assign( obj, "charges_to_use", charges_to_use );
+}
+
+int cloning_syringe_iuse::use( player &p, item &it, bool, const tripoint &pos ) const
+{
+    if( !it.units_sufficient( p, charges_to_use ) ) {
+        add_msg( m_info, _( "There's not enough charge left in the %s." ), it.display_name() );
+        return 0;
+    }
+
+    const std::string query = string_format( _( "Select which creature?" ) );
+    const std::optional<tripoint> pnt_ = choose_adjacent( query );
+
+    if( !pnt_ ) {
+        // No valid point was chosen — handle this case, maybe just return
+        return 0;
+    }
+
+    // Extract the tripoint from the optional
+    const tripoint &pnt = *pnt_;
+    const Creature *const critter = g->critter_at( pnt );
+    if( !critter ) {
+        add_msg( m_info, _( "There's no creature there." ) );
+        return 0;
+    }
+
+    monster *const m = const_cast<monster *>( critter->as_monster() );
+    if( !m ) {
+        add_msg( m_info, _( "There's no creature there." ) );
+        return 0;
+    }
+
+    const int fa_skill = p.get_skill_level( skill_firstaid );
+    // Convert first aid skill into success chance.
+    // Each skill level = +15% chance, but we clamp between 15–95%
+    // so there is always a small chance to succeed (even unskilled)
+    // and a small chance to fail (even at max skill).
+    const int chance = clamp( fa_skill * 10, 15, 95 );
+
+    // use moves and damage mon
+    p.mod_moves( -moves );
+    m->apply_damage( &p, bodypart_id( "torso" ), 1 );
+
+    if( !x_in_y( chance, 100 ) ) {
+        add_msg( m_bad, _( "The %s emits a loud error beep! You failed to gather a sufficient sample." ),
+                 it.display_name() );
+
+
+        sounds::sound( pos, 8, sounds::sound_t::alarm, _( "beep!" ), true, "misc", "beep" );
+        // add actual noise here
+        return charges_to_use;
+    }
+
+    // we can only grow organic matter (this includes blob, and were going to assume the blob messes with DNA and therefore is copy-able)
+    // unsure about nether monsters though
+    bool in_bad_species = m->in_species( species_HALLUCINATION ) || m->in_species( species_ROBOT );
+    if( m->has_flag( MF_CANT_CLONE ) || in_bad_species ) {
+        add_msg( m_info, _( "There's not a valid creature there." ) );
+        return 0;
+    }
+
+    const mtype_id &id = m->type->id;
+    const std::string id_str = id.str();
+
+    add_msg( m_good, _( "The %s beeps softly. You successfully gathered a sample from the %s!" ),
+             it.display_name(), m->name() );
+
+    detached_ptr<item> dna = item::spawn( itype_id( "dna" ), calendar::turn, 8 );
+    dna->set_var( "specimen_sample", id_str );
+    dna->set_var( "specimen_name", m->name() );
+    dna->set_var( "specimen_size", static_cast<int>( m->get_size() ) );
+    liquid_handler::handle_all_liquid( std::move( dna ), 1 );
+
+    return charges_to_use;
+}
+
+std::unique_ptr<iuse_actor> cloning_syringe_iuse::clone() const
+{
+    return std::make_unique<cloning_syringe_iuse>( *this );
 }
 
 void multicooker_iuse::load( const JsonObject &obj )
