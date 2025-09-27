@@ -308,6 +308,8 @@ class Character : public Creature, public location_visitable<Character>
         void mod_part_hp_max( const bodypart_id &id, int mod ) override;
 
         void set_all_parts_hp_cur( int set ) override;
+        
+        void mod_all_parts_hp_cur( int mod ) override;
 
         field_type_id bloodType() const override;
         field_type_id gibType() const override;
@@ -1985,6 +1987,8 @@ class Character : public Creature, public location_visitable<Character>
          * And of course a line of sight exists.
         */
         bool sees_with_infrared( const Creature &critter ) const;
+        // Do parts of place_corpse, but without the corpse, for things like ressurection
+        void death_punishments( const int health_mod, const bool shifthealth, const bool dump_inv );
         // Put corpse+inventory on map at the place where this is.
         void place_corpse();
         // Put corpse+inventory on defined om tile

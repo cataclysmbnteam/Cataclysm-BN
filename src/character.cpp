@@ -708,6 +708,14 @@ void Character::set_all_parts_hp_cur( int set )
     Creature::set_all_parts_hp_cur( set );
 }
 
+void Character::mod_all_parts_hp_cur( int mod )
+{
+    if( mod != 0 ) {
+        cached_dead_state.reset();
+    }
+    Creature::mod_all_parts_hp_cur( mod );
+}
+
 field_type_id Character::bloodType() const
 {
     if( has_trait( trait_ACIDBLOOD ) ) {
@@ -10949,6 +10957,24 @@ int Character::run_cost( int base_cost, bool diag ) const
     return static_cast<int>( movecost );
 }
 
+// Used primarily for ressurection lua scripts
+// health_mod: Either sets the health to the value or modifies all health by that value based on
+// shifthealth: True shifts health, False sets heath
+// dump_inv: Dump the inventory on death
+void Character::death_punishments( const int health_mod, const bool shiftheath, const bool dump_inv )
+{
+    if( dump_inv ) {
+        std::vector<detached_ptr<item>> tmp = inv_dump_remove();
+        for( auto &itm : tmp ) {
+            get_map().add_item_or_charges( pos(), std::move( itm ) );
+        }
+    }
+    if( shiftheath ) {
+        mod_all_parts_hp_cur( health_mod );
+    } else {
+        set_all_parts_hp_cur( health_mod );
+    }
+}
 
 void Character::place_corpse()
 {

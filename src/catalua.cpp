@@ -386,9 +386,4 @@ void run_on_mapgen_postprocess_hooks( lua_state &state, map &m, const tripoint &
     } );
 }
 
-void run_pre_death_hooks( lua_state &state )
-{
-    run_hooks( state, "pre_death" );
-}
-
 } // namespace cata
