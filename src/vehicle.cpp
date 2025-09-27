@@ -2612,12 +2612,14 @@ std::vector<int> vehicle::parts_at_relative( point dp,
         const bool use_cache ) const
 {
     if( !use_cache ) {
-        std::vector<int> res = std::vector<int>( );
+        std::vector<int> res;
+        res.reserve( parts.size() );
+        int i = 0;
         for( const vpart_reference &vp : get_all_parts() ) {
             if( vp.mount() == dp && !vp.part().removed ) {
-                res.push_back( static_cast<int>( vp.part_index() ) );
-                // res[i] = static_cast<int>( vp.part_index() );
-                // i ++;
+                // res.push_back( static_cast<int>( vp.part_index() ) );
+                res[i] = static_cast<int>( vp.part_index() );
+                i ++;
             }
         }
         return res;
