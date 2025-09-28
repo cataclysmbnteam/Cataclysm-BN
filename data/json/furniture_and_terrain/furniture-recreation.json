@@ -337,6 +337,8 @@
     "coverage": 65,
     "required_str": 10,
     "flags": [ "BASHABLE", "BLOCKSDOOR", "PLACE_ITEM", "ORGANIC" ],
+    "crafting_pseudo_item": "fake_punching_bag",
+    "examine_action": "use_furn_fake_item",
     "bash": {
       "str_min": 15,
       "str_max": 20,

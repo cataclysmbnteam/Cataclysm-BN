@@ -561,6 +561,16 @@
     "use_action": [
       "EINKTABLETPC",
       "PORTABLE_GAME",
+      "ROBOTCONTROL",
+      {
+        "type": "train_skill",
+        "moves": 360000,
+        "training_msg": "You tinker about on the laptop for a bit.",
+        "training_skill": "computer",
+        "training_skill_xp": 5,
+        "training_skill_xp_max": 5,
+        "training_skill_fatigue": 1
+      },
       {
         "target": "laptop_screen_lit",
         "msg": "You light up the screen.",

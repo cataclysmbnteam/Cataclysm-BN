@@ -173,6 +173,7 @@ static const activity_id ACT_VEHICLE( "ACT_VEHICLE" );
 static const activity_id ACT_VEHICLE_DECONSTRUCTION( "ACT_VEHICLE_DECONSTRUCTION" );
 static const activity_id ACT_VEHICLE_REPAIR( "ACT_VEHICLE_REPAIR" );
 static const activity_id ACT_VIBE( "ACT_VIBE" );
+static const activity_id ACT_TRAIN_SKILL( "ACT_TRAIN_SKILL" );
 static const activity_id ACT_WAIT( "ACT_WAIT" );
 static const activity_id ACT_WAIT_NPC( "ACT_WAIT_NPC" );
 static const activity_id ACT_WAIT_STAMINA( "ACT_WAIT_STAMINA" );
@@ -257,6 +258,7 @@ activity_handlers::do_turn_functions = {
     { ACT_GENERIC_GAME, generic_game_do_turn },
     { ACT_START_FIRE, start_fire_do_turn },
     { ACT_VIBE, vibe_do_turn },
+    { ACT_TRAIN_SKILL, train_skill_do_turn },
     { ACT_HAND_CRANK, hand_crank_do_turn },
     { ACT_WEAR, wear_do_turn },
     { ACT_MULTIPLE_FISH, multiple_fish_do_turn },
@@ -349,6 +351,7 @@ activity_handlers::finish_functions = {
     { ACT_TRY_SLEEP, try_sleep_finish },
     { ACT_OPERATION, operation_finish },
     { ACT_VIBE, vibe_finish },
+    { ACT_TRAIN_SKILL, train_skill_finish },
     { ACT_ATM, atm_finish },
     { ACT_EAT_MENU, eat_menu_finish },
     { ACT_CONSUME_FOOD_MENU, eat_menu_finish },
@@ -2285,6 +2288,43 @@ void activity_handlers::vibe_do_turn( player_activity *act, player *p )
     // well with roots.  Sorry.  :-(
 }
 
+
+void activity_handlers::train_skill_do_turn( player_activity *act, player *p )
+{
+    if( act->tools.empty() ) {
+        debugmsg( "train skill tools array is empty" );
+        return;
+    }
+
+    item &skill_training_item = *act->tools.front();
+
+    if( calendar::once_every( 1_minutes ) ) {
+        // pull metadata. this is probably the easiest way to get this data from the JSON definition
+        std::string training_skill = p->get_value( "training_iuse_skill" );
+        int training_skill_xp = atoi( p->get_value( "training_iuse_skill_xp" ).c_str() );
+        int training_skill_xp_max = atoi( p->get_value( "training_iuse_skill_xp_max" ).c_str() );
+        int training_skill_fatigue = atoi( p->get_value( "training_iuse_skill_fatigue" ).c_str() );
+
+        p->mod_fatigue( training_skill_fatigue );
+        if( skill_training_item.ammo_remaining() > 0 ) {
+            skill_training_item.ammo_consume( 1, p->pos() );
+            p->practice( skill_id( training_skill ), training_skill_xp, training_skill_xp_max );
+            if( skill_training_item.ammo_remaining() == 0 ) {
+                add_msg( m_info, _( "The %s runs out of power." ), skill_training_item.tname() );
+            }
+        } else {
+            //twenty minutes to fill
+            p->practice( skill_id( training_skill ), training_skill_xp, training_skill_xp_max );
+        }
+    }
+
+    // needs rest
+    if( p->get_fatigue() >= fatigue_levels::dead_tired ) {
+        act->moves_left = 0;
+        add_msg( m_info, _( "You're too tired to continue." ) );
+    }
+}
+
 void activity_handlers::start_engines_finish( player_activity *act, player *p )
 {
     act->set_to_null();
@@ -3760,6 +3800,12 @@ void activity_handlers::vibe_finish( player_activity *act, player *p )
 {
     p->add_msg_if_player( m_good, _( "You feel much better." ) );
     p->add_morale( MORALE_FEELING_GOOD, 10, 40 );
+    act->set_to_null();
+}
+
+void activity_handlers::train_skill_finish( player_activity *act, player *p )
+{
+    p->add_msg_if_player( m_good, _( "You feel like you've learned a little bit." ) );
     act->set_to_null();
 }
 

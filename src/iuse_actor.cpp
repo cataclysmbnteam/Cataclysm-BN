@@ -110,6 +110,7 @@ static const activity_id ACT_SPELLCASTING( "ACT_SPELLCASTING" );
 static const activity_id ACT_STUDY_SPELL( "ACT_STUDY_SPELL" );
 static const activity_id ACT_START_FIRE( "ACT_START_FIRE" );
 static const activity_id ACT_VIBE( "ACT_VIBE" );
+static const activity_id ACT_TRAIN_SKILL( "ACT_TRAIN_SKILL" );
 
 static const efftype_id effect_accumulated_mutagen( "accumulated_mutagen" );
 static const efftype_id effect_asthma( "asthma" );
@@ -5609,6 +5610,35 @@ ret_val<bool> sex_toy_actor::can_use( const Character &c, const item &i, bool,
 std::unique_ptr<iuse_actor> sex_toy_actor::clone() const
 {
     return std::make_unique<sex_toy_actor>( *this );
+}
+
+void train_skill_actor::load( JsonObject const &obj )
+{
+    moves = obj.get_int( "moves", 60000 ); // default is 10 minutes
+    training_skill = obj.get_string( "training_skill" );
+    training_skill_xp = obj.get_int( "training_skill_xp", 0 );
+    training_skill_xp_max = obj.get_int( "training_skill_xp_max", 0 );
+    training_skill_fatigue = obj.get_int( "training_skill_fatigue", 0 );
+    training_msg = obj.get_string( "training_msg" );
+}
+
+int train_skill_actor::use( player &p, item &i, bool, const tripoint & ) const
+{
+    p.add_msg_if_player( training_msg );
+    // using metadata is the easiest way to transfer this over to the activity handler and also allow it to function as furniture
+    p.set_value( "training_iuse_skill", training_skill );
+    p.set_value( "training_iuse_skill_xp", std::to_string( training_skill_xp ) );
+    p.set_value( "training_iuse_skill_xp_max", std::to_string( training_skill_xp_max ) );
+    p.set_value( "training_iuse_skill_fatigue", std::to_string( training_skill_fatigue ) );
+    p.assign_activity( ACT_TRAIN_SKILL, moves, -1, 0, "training" );
+    p.activity->tools.emplace_back( i );
+
+    return i.type->charges_to_use();
+}
+
+std::unique_ptr<iuse_actor> train_skill_actor::clone() const
+{
+    return std::make_unique<train_skill_actor>( *this );
 }
 
 int sex_toy_actor::use( player &p, item &i, bool, const tripoint & ) const

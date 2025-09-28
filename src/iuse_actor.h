@@ -1301,6 +1301,27 @@ class sex_toy_actor : public iuse_actor
         std::unique_ptr<iuse_actor> clone() const override;
 };
 
+/**
+ * Use an item to train your skills
+ */
+class train_skill_actor : public iuse_actor
+{
+    public:
+        int moves;
+        std::string training_skill;
+        int training_skill_xp;
+        int training_skill_xp_max;
+        int training_skill_fatigue;
+        std::string training_msg;
+
+        train_skill_actor( const std::string &type = "train_skill" ) : iuse_actor( type ) {};
+        ~train_skill_actor() override = default;
+        void load( const JsonObject &obj ) override;
+        int use( player &p, item &i, bool, const tripoint & ) const override;
+        std::unique_ptr<iuse_actor> clone() const override;
+};
+
+
 class iuse_music_player : public iuse_actor
 {
     public:

@@ -372,6 +372,12 @@
     "verbose_tooltip": false
   },
   {
+    "id": "ACT_TRAIN_SKILL",
+    "type": "activity_type",
+    "verb": "training",
+    "verbose_tooltip": false
+  },
+  {
     "id": "ACT_MAKE_ZLAVE",
     "type": "activity_type",
     "verb": "cutting tissues",
