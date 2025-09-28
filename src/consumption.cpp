@@ -245,7 +245,7 @@ static int compute_default_effective_kcal( const item &comest, const Character &
         kcal *= 0.75f;
     }
 
-    if( cooked && comest.get_comestible()->cooked_kcal_mult > 1) {
+    if( cooked && comest.get_comestible()->cooked_kcal_mult > 1 ) {
         kcal *= comest.get_comestible()->cooked_kcal_mult;
     }
     if( you.has_trait( trait_GIZZARD ) ) {
@@ -337,7 +337,7 @@ nutrients Character::compute_effective_nutrients( const item &comest ) const
                 tally += component_value;
             }
         }
-        if( comest.has_flag( flag_COOKED ) && comest.get_comestible()->cooked_kcal_mult > 1) {
+        if( comest.has_flag( flag_COOKED ) && comest.get_comestible()->cooked_kcal_mult > 1 ) {
             tally *= comest.get_comestible()->cooked_kcal_mult;
         }
         return tally / comest.recipe_charges;
