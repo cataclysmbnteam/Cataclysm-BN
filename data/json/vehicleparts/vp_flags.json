@@ -58,8 +58,7 @@
     "id": "CONTROL_WITHOUT_HANDS",
     "type": "json_flag",
     "context": [ "vehicle_part" ],
-    "info": "Allows you to fire two-handed weapons while driving.",
-    "requires_flag": "STEERABLE"
+    "info": "Allows you to fire two-handed weapons while driving."
   },
   {
     "id": "COVERED",
