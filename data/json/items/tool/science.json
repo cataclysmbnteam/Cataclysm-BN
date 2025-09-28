@@ -753,21 +753,7 @@
       { "flame": false, "type": "cauterize" },
       {
         "type": "sew_advanced",
-        "materials": [
-          "cotton",
-          "leather",
-          "nylon",
-          "wool",
-          "fur",
-          "faux_fur",
-          "nomex",
-          "kevlar",
-          "neoprene",
-          "gutskin",
-          "plastic",
-          "kevlar_rigid",
-          "scute"
-        ],
+        "materials": [ "cotton", "leather", "nylon", "wool", "fur", "faux_fur", "nomex", "kevlar", "neoprene", "gutskin", "scute" ],
         "skill": "tailor",
         "clothing_mods": [ "carbon_fiber_padded" ]
       }
