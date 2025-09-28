@@ -245,6 +245,9 @@ static int compute_default_effective_kcal( const item &comest, const Character &
         kcal *= 0.75f;
     }
 
+    if( cooked ) {
+        kcal *= std::max( 1.0, 1 + you.get_skill_level( skill_cooking ) * 0.02 );
+    }
     if( you.has_trait( trait_GIZZARD ) ) {
         kcal *= 0.6f;
     }
