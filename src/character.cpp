@@ -2912,6 +2912,12 @@ invlets_bitset Character::allocated_invlets() const
 
     return invlets;
 }
+bool Character::has_active_item_with_action( const std::string &use ) const
+{
+    return has_item_with( [use]( const item & it ) {
+        return it.get_use( use ) && it.is_active();
+    } );
+}
 
 bool Character::has_active_item( const itype_id &id ) const
 {
@@ -3742,6 +3748,25 @@ const item *Character::item_worn_with_id( const itype_id &item_id, const bodypar
     for( const item * const &it : worn ) {
         if( it->typeId() == item_id && ( bp == bodypart_str_id::NULL_ID() ||
                                          it->covers( bp ) ) ) {
+            return it;
+        }
+    }
+    return nullptr;
+}
+
+bool Character::worn_with_quality( const quality_id &qual, const bodypart_id &bp ) const
+{
+    return std::ranges::any_of( worn, [&qual, bp]( const item * const & it ) {
+        return it->get_quality( qual ) > 0 &&
+               ( bp == bodypart_str_id::NULL_ID() || it->covers( bp ) );
+    } );
+}
+
+const item *Character::item_worn_with_quality( const quality_id &qual, const bodypart_id &bp ) const
+{
+    for( const item * const &it : worn ) {
+        if( it->get_quality( qual ) > 0 &&
+            ( bp == bodypart_str_id::NULL_ID() || it->covers( bp ) ) ) {
             return it;
         }
     }

@@ -841,5 +841,27 @@
     "type": "monstergroup",
     "default": "mon_null",
     "monsters": [ { "monster": "mon_zombie_child", "freq": 600, "cost_multiplier": 1, "pack_size": [ 2, 5 ] } ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_BASEMENT",
+    "default": "mon_zombie",
+    "monsters": [
+      { "monster": "mon_zombie_tough", "freq": 100, "cost_multiplier": 0 },
+      { "monster": "mon_zombie_smoker", "freq": 25, "cost_multiplier": 5 },
+      { "monster": "mon_zombie_shady", "freq": 100, "cost_multiplier": 5 },
+      { "monster": "mon_zombie_hollow", "freq": 50, "cost_multiplier": 10 },
+      { "monster": "mon_zombie_survivor", "freq": 100, "cost_multiplier": 0 },
+      { "monster": "mon_zombie_survivor_elite", "freq": 25, "cost_multiplier": 25, "starts": 360 },
+      { "monster": "mon_zombie_darkfield", "freq": 4, "cost_multiplier": 20, "starts": 250 },
+      { "monster": "mon_skeleton_necro", "freq": 4, "cost_multiplier": 20, "starts": 250 },
+      { "monster": "mon_skeleton_master", "freq": 1, "cost_multiplier": 25, "starts": 500 },
+      { "monster": "mon_zombie_necro", "freq": 4, "cost_multiplier": 20, "starts": 250 },
+      { "monster": "mon_zombie_master", "freq": 1, "cost_multiplier": 25, "starts": 500 },
+      { "monster": "mon_feral_survivalist", "starts": 125, "freq": 5, "cost_multiplier": 1 },
+      { "monster": "mon_feral_prepper", "starts": 250, "freq": 4, "cost_multiplier": 5 },
+      { "monster": "mon_feral_militia", "starts": 250, "freq": 1, "cost_multiplier": 10 },
+      { "monster": "mon_feral_jackboot", "starts": 250, "freq": 1, "cost_multiplier": 10 }
+    ]
   }
 ]
