@@ -99,7 +99,20 @@
       {
         "type": "repair_item",
         "item_action_type": "repair_fabric",
-        "materials": [ "cotton", "leather", "nylon", "wool", "fur", "faux_fur", "nomex", "kevlar", "scute", "gutskin", "black_dragon_hide" ],
+        "materials": [
+          "cotton",
+          "leather",
+          "nylon",
+          "wool",
+          "fur",
+          "faux_fur",
+          "nomex",
+          "kevlar",
+          "neoprene",
+          "gutskin",
+          "scute",
+          "black_dragon_hide"
+        ],
         "skill": "tailor",
         "tool_quality": 2,
         "cost_scaling": 0.1,
@@ -118,8 +131,6 @@
           "kevlar",
           "neoprene",
           "gutskin",
-          "plastic",
-          "kevlar_rigid",
           "scute",
           "black_dragon_hide"
         ],
@@ -169,8 +180,6 @@
           "kevlar",
           "neoprene",
           "gutskin",
-          "plastic",
-          "kevlar_rigid",
           "scute",
           "black_dragon_hide"
         ],

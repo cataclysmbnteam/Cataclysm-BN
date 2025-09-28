@@ -154,6 +154,7 @@
         "materials": [
           "cotton",
           "leather",
+          "nylon",
           "wool",
           "fur",
           "faux_fur",
@@ -162,8 +163,7 @@
           "neoprene",
           "gutskin",
           "scute",
-          "black_dragon_hide",
-          "demon_chitin"
+          "black_dragon_hide"
         ],
         "skill": "tailor",
         "tool_quality": 3,
@@ -175,6 +175,7 @@
         "materials": [
           "cotton",
           "leather",
+          "nylon",
           "wool",
           "fur",
           "faux_fur",
@@ -182,9 +183,8 @@
           "kevlar",
           "neoprene",
           "gutskin",
-          "plastic",
           "scute",
-          "kevlar_rigid"
+          "black_dragon_hide"
         ],
         "skill": "tailor",
         "clothing_mods": [
