@@ -1110,7 +1110,6 @@ void complete_craft( Character &who, item &craft )
                 }
             }
             if( newit->is_comestible() ) {
-                std::cout << "Run\n";
                 newit->get_comestible()->cooked_kcal_mult = 1 + ( who.get_skill_level( skill_cooking ) * 0.02 );
             }
 
