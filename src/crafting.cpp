@@ -82,6 +82,7 @@ static const efftype_id effect_contacts( "contacts" );
 
 static const itype_id itype_plut_cell( "plut_cell" );
 
+static const skill_id skill_cooking( "cooking" );
 static const skill_id skill_electronics( "electronics" );
 static const skill_id skill_tailor( "tailor" );
 
@@ -1102,14 +1103,15 @@ void complete_craft( Character &who, item &craft )
                 // only comestibles have cooks_like.  any other type of item will throw an exception, so filter those out
                 if( comp->is_comestible() && !comp->get_comestible()->cooks_like.is_empty() ) {
                     comp = item::spawn( comp->get_comestible()->cooks_like, comp->birthday(), comp->charges );
-                    if( !making.has_flag( "NO_COOKING_BUFF" ) ) {
-                        comp->get_comestible()->cooked_kcal_mult = who.get_skill_level( skill_cooking );
-                    }
                 }
                 // If this recipe is cooked or dehydrated, components are no longer raw.
                 if( should_heat || is_dehydrated ) {
                     comp->set_flag_recursive( flag_COOKED );
                 }
+            }
+            if( newit->is_comestible() ) {
+                std::cout << "Run\n";
+                newit->get_comestible()->cooked_kcal_mult = 1 + ( who.get_skill_level( skill_cooking ) * 0.02 );
             }
 
             // byproducts get stored as a "component" but with a byproduct flag for consumption purposes
