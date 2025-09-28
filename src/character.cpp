@@ -4178,6 +4178,17 @@ char_encumbrance_data Character::calc_encumbrance( const item &new_item ) const
     item_encumb( enc, new_item );
     mut_cbm_encumb( enc );
 
+    // Get swimming skill level
+    int swim_skill = get_skill_level( skill_swimming );
+
+    // Reduce encumbrance for each body part based on swimming skill
+    for( auto &iter : enc.elems ) {
+        encumbrance_data &edata = iter.second;
+
+        // Reduce encumbrance by swim_skill, clamped at 0
+        edata.encumbrance = std::max( 0, edata.encumbrance - swim_skill );
+    }
+
     return enc;
 }
 

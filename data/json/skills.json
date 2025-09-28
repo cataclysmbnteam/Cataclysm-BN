@@ -60,7 +60,7 @@
   {
     "type": "skill",
     "id": "swimming",
-    "name": { "str": "Swimming" },
+    "name": { "str": "Athletics" },
     "description": "Your ability to stay afloat and move around in bodies of water.  This skill keeps you from drowning, affects your combat effectiveness and speed in deep water, and determines the detriment of swimming with heavier gear.",
     "display_category": "display_interaction",
     "companion_skill_practice": [ { "skill": "", "weight": 5 }, { "skill": "gathering", "weight": 5 }, { "skill": "trapping", "weight": 5 } ]
