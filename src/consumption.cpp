@@ -246,6 +246,8 @@ static int compute_default_effective_kcal( const item &comest, const Character &
     }
 
     if( cooked && comest.get_comestible()->cooked_kcal_mult > 1 ) {
+        std::cout << "Filling\n";
+        you.add_msg_if_player( m_info, "That food was unusually filling " );
         kcal *= comest.get_comestible()->cooked_kcal_mult;
     }
     if( you.has_trait( trait_GIZZARD ) ) {
@@ -338,7 +340,9 @@ nutrients Character::compute_effective_nutrients( const item &comest ) const
             }
         }
         if( comest.has_flag( flag_COOKED ) && comest.get_comestible()->cooked_kcal_mult > 1 ) {
-            tally *= comest.get_comestible()->cooked_kcal_mult;
+            std::cout << "Filling\n";
+            add_msg_if_player( m_info, "That food was unusually filling " );
+            tally.kcal *= comest.get_comestible()->cooked_kcal_mult;
         }
         return tally / comest.recipe_charges;
     } else {
@@ -406,6 +410,10 @@ std::pair<nutrients, nutrients> Character::compute_nutrient_range(
         nutrients byproduct_nutr = compute_default_effective_nutrients( byproduct_it, *this );
         tally_min -= byproduct_nutr;
         tally_max -= byproduct_nutr;
+    }
+    if( comest.has_flag( flag_COOKED ) && comest.get_comestible()->cooked_kcal_mult > 1 ) {
+        tally_min.kcal *= comest.get_comestible()->cooked_kcal_mult;
+        tally_max.kcal *= comest.get_comestible()->cooked_kcal_mult;
     }
 
     return { tally_min / charges, tally_max / charges };
