@@ -70,7 +70,7 @@
     "use_action": {
       "type": "repair_item",
       "item_action_type": "repair_fabric",
-      "materials": [ "cotton", "leather", "nylon", "wool", "fur", "faux_fur", "nomex", "kevlar", "gutskin" ],
+      "materials": [ "cotton", "leather", "nylon", "wool", "fur", "faux_fur", "nomex", "kevlar", "gutskin", "scute" ],
       "skill": "tailor",
       "tool_quality": 1,
       "cost_scaling": 0.1,
@@ -96,15 +96,23 @@
     "max_charges": 200,
     "charges_per_use": 1,
     "qualities": [ [ "SEW_CURVED", 1 ] ],
-    "use_action": {
-      "type": "repair_item",
-      "item_action_type": "repair_fabric",
-      "materials": [ "neoprene" ],
-      "skill": "tailor",
-      "tool_quality": 1,
-      "cost_scaling": 0.1,
-      "move_cost": 1200
-    },
+    "use_action": [
+      {
+        "type": "repair_item",
+        "item_action_type": "repair_fabric",
+        "materials": [ "neoprene" ],
+        "skill": "tailor",
+        "tool_quality": 1,
+        "cost_scaling": 0.1,
+        "move_cost": 1200
+      },
+      {
+        "type": "sew_advanced",
+        "materials": [ "neoprene" ],
+        "skill": "tailor",
+        "clothing_mods": [ "furred", "wooled", "resized_large", "resized_small", "pocketed" ]
+      }
+    ],
     "flags": [ "STAB", "ALLOWS_REMOTE_USE" ]
   },
   {
@@ -128,7 +136,7 @@
     "use_action": {
       "type": "repair_item",
       "item_action_type": "repair_fabric",
-      "materials": [ "cotton", "nylon", "leather", "wool", "fur", "faux_fur", "nomex", "gutskin" ],
+      "materials": [ "cotton", "leather", "nylon", "wool", "fur", "faux_fur", "nomex", "kevlar", "gutskin", "scute" ],
       "skill": "tailor",
       "tool_quality": 0,
       "cost_scaling": 0.1,
@@ -159,7 +167,7 @@
       {
         "type": "repair_item",
         "item_action_type": "repair_fabric",
-        "materials": [ "cotton", "leather", "nylon", "wool", "fur", "faux_fur", "nomex", "kevlar", "scute", "gutskin" ],
+        "materials": [ "cotton", "leather", "nylon", "wool", "fur", "faux_fur", "nomex", "kevlar", "gutskin", "scute" ],
         "skill": "tailor",
         "tool_quality": 2,
         "cost_scaling": 0.1,
@@ -167,21 +175,7 @@
       },
       {
         "type": "sew_advanced",
-        "materials": [
-          "cotton",
-          "leather",
-          "nylon",
-          "wool",
-          "fur",
-          "faux_fur",
-          "nomex",
-          "kevlar",
-          "neoprene",
-          "gutskin",
-          "plastic",
-          "kevlar_rigid",
-          "scute"
-        ],
+        "materials": [ "cotton", "leather", "nylon", "wool", "fur", "faux_fur", "nomex", "kevlar", "gutskin", "scute" ],
         "skill": "tailor",
         "clothing_mods": [ "furred", "wooled", "resized_large", "resized_small", "pocketed" ]
       }
@@ -234,21 +228,7 @@
       },
       {
         "type": "sew_advanced",
-        "materials": [
-          "cotton",
-          "leather",
-          "nylon",
-          "wool",
-          "fur",
-          "faux_fur",
-          "nomex",
-          "kevlar",
-          "neoprene",
-          "gutskin",
-          "plastic",
-          "kevlar_rigid",
-          "scute"
-        ],
+        "materials": [ "cotton", "leather", "nylon", "wool", "fur", "faux_fur", "nomex", "kevlar", "neoprene", "gutskin", "scute" ],
         "skill": "tailor",
         "clothing_mods": [
           "leather_padded",
