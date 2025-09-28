@@ -196,6 +196,17 @@
     "proportional": { "weight": 1.5, "material_thickness": 1.5, "price_postapoc": 2 }
   },
   {
+    "id": "shield_welded_composite",
+    "copy-from": "shield_welded_hard",
+    "type": "ARMOR",
+    "name": { "str": "welded composite shield" },
+    "description": "A shield made out of military grade vehicle armor with handles welded on.  Incredibly heavy but can also take a fair bit of punishment.",
+    "material": [ "hardsteel", "ceramic" ],
+    "color": "green",
+    "weight": "16500 g",
+    "relative": { "encumbrance": 5, "material_thickness": 2 }
+  },
+  {
     "id": "shield_welded_superalloy",
     "copy-from": "shield_welded",
     "type": "ARMOR",
