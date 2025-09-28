@@ -409,18 +409,14 @@ comfort_response_t base_comfort_value( const Character &who, const tripoint &p )
 
     if( comfort >= static_cast<int>( comfort_level::very_comfortable ) ) {
         comfort_response.level = comfort_level::very_comfortable;
-        add_msg( "You feel very comfortable." );
     } else if( comfort > static_cast<int>( comfort_level::comfortable ) ) {
         comfort_response.level = comfort_level::comfortable;
-        add_msg( "You feel comfortable." );
     } else if( comfort > static_cast<int>( comfort_level::slightly_comfortable ) ) {
         comfort_response.level = comfort_level::slightly_comfortable;
-        add_msg( "You feel slightly comfortable." );
     } else if( comfort == static_cast<int>( comfort_level::neutral ) ) {
         comfort_response.level = comfort_level::neutral;
     } else {
         comfort_response.level = comfort_level::uncomfortable;
-        add_msg( "You feel uncomfortable." );
     }
     return comfort_response;
 }
@@ -470,6 +466,18 @@ int rate_sleep_spot( const Character &who, const tripoint &p )
     } else {
         // Make it harder for insomniac to get around the trait
         sleepy -= current_stim;
+    }
+
+    if( one_in( 3 ) ) {
+        if( comfort_info.level >= comfort_level::very_comfortable ) {
+            add_msg( "You feel very comfortable." );
+        } else if( comfort_info.level >= comfort_level::comfortable ) {
+            add_msg( "You feel comfortable." );
+        } else if( comfort_info.level >= comfort_level::slightly_comfortable ) {
+            add_msg( "You feel slightly comfortable." );
+        } else {
+            add_msg( "You feel uncomfortable." );
+        }
     }
 
     return sleepy;
