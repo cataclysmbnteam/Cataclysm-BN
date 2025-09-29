@@ -1039,6 +1039,9 @@ void complete_craft( Character &who, item &craft )
 
     bool first = true;
     size_t newit_counter = 0;
+    if( craft.is_comestible() ) {
+        craft.set_kcal_mult( 1 + ( who.get_skill_level( skill_cooking ) * 0.02 ) );
+    }
     for( detached_ptr<item> &newit : newits ) {
 
         // Points to newit unless newit is a non-empty container, then it points to newit's contents.
@@ -1083,6 +1086,9 @@ void complete_craft( Character &who, item &craft )
             food_contained.unset_flag( flag );
         }
 
+        if( food_contained.is_comestible() ) {
+            food_contained.set_kcal_mult( 1 + ( who.get_skill_level( skill_cooking ) * 0.02 ) );
+        }
         // Don't store components for things that ignores components (e.g wow 'conjured bread')
         if( ignore_component ) {
             food_contained.set_flag( flag_NUTRIENT_OVERRIDE );
@@ -1108,9 +1114,6 @@ void complete_craft( Character &who, item &craft )
                 if( should_heat || is_dehydrated ) {
                     comp->set_flag_recursive( flag_COOKED );
                 }
-            }
-            if( food_contained.is_comestible() ) {
-                food_contained.set_kcal_mult( 1 + ( who.get_skill_level( skill_cooking ) * 0.02 ) );
             }
 
             // byproducts get stored as a "component" but with a byproduct flag for consumption purposes
