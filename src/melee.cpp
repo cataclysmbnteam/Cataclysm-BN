@@ -1817,7 +1817,7 @@ bool Character::block_hit( Creature *source, bodypart_id &bp_hit, damage_instanc
                 shield_block_chance *= leg_hit ? 0.25f : 0.7f;
             }
             // Melee skill directly buffs block chance, enough to ensure 100% chance of blocking a torso/head hit with a riot shield at 10 skill.
-            shield_block_chance += get_skill_level ( skill_melee );
+            shield_block_chance += get_skill_level( skill_melee );
             if( rng( 1, 100 ) <= shield_block_chance ) {
                 shield_roll = true;
             }
