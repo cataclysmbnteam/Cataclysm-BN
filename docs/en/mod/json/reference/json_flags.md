@@ -1451,6 +1451,9 @@ These branches are also the valid entries for the categories of `dreams` in `dre
   "PRED2", "PRED3", and "PRED4" traits.
 - `contextual_skill` The skill is abstract, it depends on context (an indirect item to which it's
   applied). Neither player nor NPCs can possess it.
+- `unaffected_by_focus` Exercising this skill does not drain focus, and conversely focus does not
+  affect how fast this skill levels up (positively OR negatively).
+- `weapon_skill` Used by NPCs to decide what class of weapon they should generate with.
 
 ## Techniques
 
