@@ -970,7 +970,10 @@
     "type": "item_group",
     "id": "sewer",
     "items": [
-      [ "mutagen", 8 ],
+      [ "mutagen", 5 ],
+      [ "mutagen_slime", 1 ],
+      [ "mutagen_rat", 1 ],
+      [ "mutagen_troglobite", 1 ],
       [ "fetus", 1 ],
       [ "joint", 20 ],
       [ "mag_porn", 20 ],
