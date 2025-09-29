@@ -9,7 +9,7 @@
     "color": "red",
     "parasites": 32,
     "vitamins": [ [ "meat_allergen", 1 ] ],
-    "flags": [ "RAW", "UNSAFE_CONSUME" ]
+    "flags": [ "RAW", "UNSAFE_CONSUME", "NO_COOKING_BUFF" ]
   },
   {
     "id": "fish",
@@ -38,7 +38,7 @@
     "spoils_in": "2 days",
     "price_postapoc": "1 USD",
     "parasites": 0,
-    "flags": [ "EATEN_HOT" ]
+    "flags": [ "EATEN_HOT", "NO_COOKING_BUFF" ]
   },
   {
     "id": "fish_cooked_seasoned",
@@ -601,7 +601,7 @@
     "volume": "250 ml",
     "phase": "liquid",
     "fun": -50,
-    "flags": [ "IS_BLOOD" ],
+    "flags": [ "IS_BLOOD", "NO_COOKING_BUFF" ],
     "drop_action": { "type": "emit_actor", "emits": [ "emit_drop_blood" ], "scale_qty": true },
     "vitamins": [ [ "meat_allergen", 1 ] ]
   },
