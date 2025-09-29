@@ -7648,7 +7648,7 @@ void Character::mod_stamina( int mod, bool skill )
     stamina = clamp( stamina, 0, get_stamina_max() );
     // If we're burning stamina then train athletics, unless we're losing stamina due to status effects or other non-standard causes.
     if( skill && mod < 0 ) {
-        as_player()->practice( skill_swimming, roll_remainder( std::abs( mod ) / 100.0 ), 10, true );
+        as_player()->practice( skill_swimming, roll_remainder( std::abs( mod ) / 400.0 ), 10, true );
     }
 }
 
