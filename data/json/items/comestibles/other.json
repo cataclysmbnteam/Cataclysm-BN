@@ -759,28 +759,5 @@
     "price_postapoc": "0 cent",
     "flags": [ "TRADER_AVOID" ],
     "volume": "250 ml"
-  },
-  {
-    "type": "COMESTIBLE",
-    "id": "biomaterial",
-    "name": { "str": "biomaterial" },
-    "looks_like": "bleach",
-    "weight": "43 g",
-    "color": "red",
-    "spoils_in": "11 days 16 hours",
-    "container": "bag_plastic",
-    "comestible_type": "FOOD",
-    "symbol": "%",
-    "healthy": -2,
-    "calories": 200,
-    "description": "A heavily processed nutrient liquid, containing the basic building blocks of life. When introduced into a genome editor, it could be used to craft viable DNA.",
-    "price": "20 USD",
-    "price_postapoc": "0 cent",
-    "material": [ "flesh", "veggy", "junk" ],
-    "volume": "750 ml",
-    "phase": "liquid",
-    "charges": 10,
-    "fun": -12,
-    "vitamins": [ [ "iron", 3 ], [ "meat_allergen", 1 ], [ "veggy_allergen", 1 ] ]
   }
 ]

@@ -910,6 +910,6 @@
       { "id": "CHEM", "level": 3 }
     ],
     "tools": [ [ [ "surface_heat", 30, "LIST" ] ] ],
-    "components": [ [ [ "meat_red", 2, "LIST" ] ], [ [ "veggy_any", 2, "LIST" ] ], [ [ "saline", 1 ] ] ]
+    "components": [ [ [ "meat_red", 1, "LIST" ] ], [ [ "veggy_any", 1, "LIST" ] ], [ [ "saline", 7 ] ], [ [ "chem_peptone_broth", 1 ] ] ]
   }
 ]

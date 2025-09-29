@@ -149,7 +149,27 @@
     "container": "bottle_glass",
     "material": [ "flesh" ],
     "symbol": "~",
-    "color": "red",
+    "color": "white",
+    "ammo_type": "dna"
+  },
+  {
+    "id": "biomaterial",
+    "type": "AMMO",
+    "name": { "str_sp": "universal growth medium" },
+    "looks_like": "bleach",
+    "description": "A heavily processed nutrient liquid, containing the basic building blocks of life. When introduced into a genome editor, it could be used to craft viable DNA.",
+    "weight": "1 g",
+    "volume": "250ml",
+    "price": "20 USD",
+    "price_postapoc": "10 USD",
+    "count": 10,
+    "stack_size": 10,
+    "category": "chems",
+    "phase": "liquid",
+    "container": "test_tube",
+    "material": [ "flesh", "veggy", "junk" ],
+    "symbol": "~",
+    "color": "white",
     "ammo_type": "dna"
   },
   {

@@ -80,7 +80,7 @@
       [ [ "hose", 4 ] ],
       [ [ "plut_cell", 1 ] ],
       [ [ "glass_sheet", 2 ] ],
-      [ [ "chem_peptone_broth", 10 ] ],
+      [ [ "pouch_autoclave", 1 ] ],
       [ [ "superglue", 5 ] ],
       [ [ "water_clean", 10 ] ]
     ]
