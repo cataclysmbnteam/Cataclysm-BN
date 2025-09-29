@@ -36,6 +36,7 @@
   {
     "type": "recipe",
     "result": "mutagen",
+    "id_suffix": "makeshift",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_MUTAGEN",
     "skill_used": "cooking",
