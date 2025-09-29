@@ -3942,7 +3942,9 @@ void Character::practice( const skill_id &id, int amount, int cap, bool suppress
     const bool isSavant = has_trait( trait_SAVANT );
     const skill_id savantSkill = isSavant ? highest_skill() : skill_id::NULL_ID();
 
-    amount = adjust_for_focus( amount );
+    if( !skill.unaffected_by_focus() ) {
+        amount = adjust_for_focus( amount );
+    }
 
     if( has_trait( trait_PACIFIST ) && skill.is_combat_skill() ) {
         if( !one_in( 3 ) ) {
@@ -3989,13 +3991,15 @@ void Character::practice( const skill_id &id, int amount, int cap, bool suppress
         }
 
         int chance_to_drop = focus_pool;
-        focus_pool -= chance_to_drop / 100;
-        // Apex Predators don't think about much other than killing.
-        // They don't lose Focus when practicing combat skills.
-        if( ( rng( 1, 100 ) <= ( chance_to_drop % 100 ) ) &&
-            ( !( has_trait_flag( trait_flag_PRED4 ) &&
-                 skill.is_combat_skill() ) ) ) {
-            focus_pool--;
+        if( !skill.unaffected_by_focus() ) {
+            focus_pool -= chance_to_drop / 100;
+            // Apex Predators don't think about much other than killing.
+            // They don't lose Focus when practicing combat skills.
+            if( ( rng( 1, 100 ) <= ( chance_to_drop % 100 ) ) &&
+                ( !( has_trait_flag( trait_flag_PRED4 ) &&
+                     skill.is_combat_skill() ) ) ) {
+                focus_pool--;
+            }
         }
     }
 
@@ -7644,12 +7648,21 @@ void Character::set_stamina( int new_stamina )
 
 void Character::mod_stamina( int mod, bool skill )
 {
-    stamina += mod;
-    stamina = clamp( stamina, 0, get_stamina_max() );
     // If we're burning stamina then train athletics, unless we're losing stamina due to status effects or other non-standard causes.
     if( skill && mod < 0 ) {
         as_player()->practice( skill_swimming, roll_remainder( std::abs( mod ) / 400.0 ), 10, true );
+        // Athletics skill also reduces stamina drain for relevant activities.
+        const int skill = get_skill_level( skill_swimming );
+        const float skill_cost = std::max( 0.667f, ( ( 30.0f - skill ) / 30.0f ) );
+        mod *= skill_cost;
     }
+    stamina += mod;
+    if( mod < 0 ) {
+        add_msg( m_debug, "Stamina burn: %d", mod );
+    } else {
+        add_msg( m_debug, "Stamina recovery: %d", mod );
+    }
+    stamina = clamp( stamina, 0, get_stamina_max() );
 }
 
 void Character::mod_stamina( int mod )
@@ -7678,7 +7691,6 @@ void Character::burn_move_stamina( int moves )
         burn_ratio = burn_ratio * 7;
     }
     mod_stamina( -( ( moves * burn_ratio ) / 100.0 ) * stamina_burn_cost_modifier() );
-    add_msg( m_debug, "Stamina burn: %d", -( ( moves * burn_ratio ) / 100 ) );
     // Chance to suffer pain if overburden and stamina runs out or has trait BADBACK
     // Starts at 1 in 25, goes down by 5 for every 50% more carried
     if( ( current_weight > max_weight ) && ( has_trait( trait_BADBACK ) || get_stamina() == 0 ) &&
@@ -7760,7 +7772,6 @@ void Character::update_stamina( int turns )
     }
 
     mod_stamina( roll_remainder( stamina_recovery * turns ), false );
-    add_msg( m_debug, "Stamina recovery: %d", roll_remainder( stamina_recovery * turns ) );
     // Cap at max
     set_stamina( std::min( std::max( get_stamina(), 0 ), max_stam ) );
 }

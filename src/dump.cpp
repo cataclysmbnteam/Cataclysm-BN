@@ -9,6 +9,7 @@
 #include <utility>
 
 #include "avatar.h"
+#include "consumption.h"
 #include "damage.h"
 #include "flat_set.h"
 #include "init.h"
@@ -122,7 +123,7 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
             r.push_back( std::to_string( obj.volume() / units::legacy_volume_factor ) );
             r.push_back( std::to_string( to_gram( obj.weight() ) ) );
             r.push_back( std::to_string( obj.type->stack_size ) );
-            r.push_back( std::to_string( obj.get_comestible()->default_nutrition.kcal ) );
+            r.push_back( std::to_string( g->u.compute_effective_nutrients( obj ).kcal ) );
             r.push_back( std::to_string( obj.get_comestible()->quench ) );
             r.push_back( std::to_string( obj.get_comestible()->healthy ) );
             auto vits = obj.get_comestible()->default_nutrition.vitamins;
