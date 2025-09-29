@@ -1818,7 +1818,6 @@ bool Character::block_hit( Creature *source, bodypart_id &bp_hit, damage_instanc
             }
             // Melee skill directly buffs block chance, enough to ensure 100% chance of blocking a torso/head hit with a riot shield at 10 skill.
             shield_block_chance += get_skill_level ( skill_melee );
-            add_msg( m_info, _( "shield_block_chance is %s" ), shield_block_chance );
             if( rng( 1, 100 ) <= shield_block_chance ) {
                 shield_roll = true;
             }
@@ -1836,7 +1835,6 @@ bool Character::block_hit( Creature *source, bodypart_id &bp_hit, damage_instanc
     // As the block score approaches 40, damage making it through will dwindle
     // to nothing, at which point we're relying on attackers hitting enough to drain blocks.
     const float physical_block_multiplier = logarithmic_range( 0, 40, block_score );
-    add_msg( m_info, _( "physical_block_multiplier is %s" ), physical_block_multiplier );
 
     float total_damage = 0.0;
     float damage_blocked = 0.0;
@@ -1861,7 +1859,6 @@ bool Character::block_hit( Creature *source, bodypart_id &bp_hit, damage_instanc
             // Instead, roll to apply bonus damage reduction to limbs NOT already covered by it, based on melee skill.
             if( shield_roll && ( !shield.covers( bp_hit ) || !is_wearing( shield ) ) ) {
                 elem.amount -= this->get_block_amount( shield, elem );
-                add_msg( m_info, _( "shield armor reduced damage from %s to %s" ), previous_amount, elem.amount );
             }
             elem.amount *= physical_block_multiplier;
             damage_blocked += previous_amount - elem.amount;
