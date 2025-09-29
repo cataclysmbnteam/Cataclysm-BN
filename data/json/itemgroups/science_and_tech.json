@@ -234,6 +234,7 @@
       { "group": "supplies_reagents_lab", "prob": 20 },
       [ "gelbox", 3 ],
       [ "microcentrifuge", 3 ],
+      [ "dna_editor", 1 ],
       [ "beaker", 5 ],
       [ "gradcylinder", 5 ],
       [ "flask_glass", 2 ],

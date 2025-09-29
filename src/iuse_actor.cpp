@@ -5389,17 +5389,67 @@ int cloning_syringe_iuse::use( player &p, item &it, bool, const tripoint &pos ) 
         return 0;
     }
 
+    // technically you can't use the same creature for two different scans, but you should be able to copy USB so doesn't matter
+    if( m->get_value( "genome_scanned" ) == "true" ) {
+        add_msg( m_info, _( "That creature's genome has already been scanned." ) );
+        return 0;
+    }
+
+    m->set_value( "genome_scanned", "true" );
+
     const mtype_id &id = m->type->id;
     const std::string id_str = id.str();
 
     add_msg( m_good, _( "The %s beeps softly. You successfully gathered a sample from the %s!" ),
              it.display_name(), m->name() );
 
-    detached_ptr<item> dna = item::spawn( itype_id( "dna" ), calendar::turn, 8 );
-    dna->set_var( "specimen_sample", id_str );
-    dna->set_var( "specimen_name", m->name() );
-    dna->set_var( "specimen_size", static_cast<int>( m->get_size() ) );
-    liquid_handler::handle_all_liquid( std::move( dna ), 1 );
+
+    auto drives = p.all_items_with_id( itype_id( "genome_drive" ) );
+
+    for( size_t z = 0; z < drives.size(); z++ ) {
+        if( drives[z]->get_var( "specimen_sample" ) == id_str ) {
+            int progress = drives[z]->get_var( "specimen_sample_progress", 0 );
+            int size = drives[z]->get_var( "specimen_size" ).empty() ?
+                       static_cast<int>( m->get_size() ) + 1 :
+                       std::stoi( drives[z]->get_var( "specimen_size" ) );
+
+            // Increment progress, but don't exceed size
+            if( progress < size ) {
+                progress++;
+                drives[z]->set_var( "specimen_sample_progress", std::to_string( progress ) );
+                add_msg( m_info, "Progress: %d/%d for genome sample.", progress, size );
+                if( progress == size ) {
+                    add_msg( m_good, "Sample is complete." );
+                }
+            } else {
+                add_msg( "Sample is already complete." );
+            }
+
+            return charges_to_use;
+        }
+    }
+
+    if( !p.has_amount( itype_id( "usb_drive" ), 1 ) ) {
+        add_msg( m_bad, "No valid USB drive to store the data on. Discarding..." );
+        return 0;
+    }
+
+    // Create new genome drive
+    p.use_amount( itype_id( "usb_drive" ), 1 );
+    detached_ptr<item> drive = item::spawn( itype_id( "genome_drive" ), calendar::turn, 8 );
+    int size = static_cast<int>( m->get_size() ) + 1;
+
+    drive->set_var( "specimen_sample", id_str );
+    drive->set_var( "specimen_sample_progress", "1" );  // First increment
+    drive->set_var( "specimen_name", m->name() );
+    drive->set_var( "specimen_size", std::to_string( size ) );
+
+    if( size > 1 ) {
+        add_msg( m_info, "Progress: 1/%d for genome sample.", size );
+    } else {
+        add_msg( m_good, "Sample is complete." );
+    }
+    p.i_add( std::move( drive ) );
 
     return charges_to_use;
 }
@@ -5407,6 +5457,176 @@ int cloning_syringe_iuse::use( player &p, item &it, bool, const tripoint &pos ) 
 std::unique_ptr<iuse_actor> cloning_syringe_iuse::clone() const
 {
     return std::make_unique<cloning_syringe_iuse>( *this );
+}
+
+void dna_editor_iuse::load( const JsonObject &obj )
+{
+    assign( obj, "moves", moves );
+    assign( obj, "charges_to_use", charges_to_use );
+}
+
+int dna_editor_iuse::use( player &p, item &it, bool, const tripoint &pos ) const
+{
+    if( !it.units_sufficient( p, charges_to_use ) ) {
+        add_msg( m_info, _( "There's not enough charge left in the %s." ), it.display_name() );
+        return 0;
+    }
+
+    auto genome_drives = p.all_items_with_id( itype_id( "genome_drive" ) );
+
+    if( genome_drives.size() == 0 ) {
+        popup( "You have no valid specimen samples." );
+        return 0;
+    }
+
+    uilist specimen_menu;
+    specimen_menu.text = _( "Select specimen sample:" );
+    for( size_t z = 0; z < genome_drives.size(); z++ ) {
+        if( genome_drives[z]->get_var( "specimen_sample_progress",
+                                       0 ) >= genome_drives[z]->get_var( "specimen_size", 0 ) ) {
+            specimen_menu.addentry( z, true, MENU_AUTOASSIGN, string_format( "%s",
+                                    genome_drives[z]->display_name() ) );
+        }
+    }
+    specimen_menu.query();
+    int choice = specimen_menu.ret;
+    if( choice < 0 ) {
+        return 0;
+    }
+
+    auto &selected_drive = genome_drives[choice];  // reference to the original detached_ptr
+
+    uilist menu;
+    menu.text = string_format( _( "What to do with the %s?" ), selected_drive->display_name() );
+    menu.addentry( 0, true, 'e', "Examine sample" );
+    menu.addentry( 1, p.has_charges( itype_id( "mutagen" ), 1 ) &&
+                   p.has_charges( itype_id( "biomaterial" ), 1 ), 'i', "Research upgrade" );
+    menu.addentry( 2, true, 'c', "Clone drive" );
+    menu.addentry( 3, p.has_charges( itype_id( "biomaterial" ), 8 ), 'p', "Produce DNA" );
+    menu.query();
+
+    if( menu.ret < 0 ) {
+        return 0;
+    }
+
+    if( menu.ret == 0 ) {
+        shared_ptr_fast<monster> newmon_ptr = make_shared_fast<monster>
+                                              ( mtype_id( selected_drive->get_var( "specimen_sample" ) ) );
+        monster &newmon = *newmon_ptr;
+
+        int size_class = selected_drive->get_var( "specimen_size", 0 );
+
+        static const char *creature_size_strings[] = {
+            "TINY",
+            "SMALL",
+            "MEDIUM",
+            "LARGE",
+            "HUGE"
+        };
+
+        const char *size_str = "UNKNOWN";
+
+        if( size_class >= 0 && size_class < 5 ) {  // 5 is number of entries
+            size_str = creature_size_strings[size_class];
+        }
+
+        popup(
+            _( "DNA Examination:\n\nSample Name: %s\nSize Class: %s\nWeight: %.0fkg\nVolume: %.0fl" ),
+            selected_drive->get_var( "specimen_name" ),
+            size_str,
+            static_cast<double>( to_kilogram( newmon.get_weight() ) ),
+            static_cast<double>( to_liter( newmon.get_volume() ) )
+        );
+
+        return 0;
+    } else if( menu.ret == 1 ) {
+        mtype_id id( selected_drive->get_var( "specimen_sample" ) );
+        const mtype &type = id.obj();
+
+        mongroup_id upgrade_group = mongroup_id::NULL_ID();
+        upgrade_group = type.upgrade_group;
+        auto mons = upgrade_group.obj().monsters;
+
+        if( mons.empty() ) {
+            popup( "A message pops up on the genome editor indicating there are no further mutations possible for this sample." );
+            return 0;
+        }
+
+        if( !query_yn( _( "This will use up 1 unit of mutagen and 1 unit of biomaterial. Are you sure?" ),
+                       selected_drive->display_name() ) ) {
+            return 0;
+        }
+
+        // 1) Calculate total weight (sum of frequencies)
+        int total_freq = 0;
+        for( const MonsterGroupEntry &entry : mons ) {
+            total_freq += entry.frequency;
+        }
+
+        // 2) Pick a random number in [1, total_freq]
+        int roll = rng( 1, total_freq );
+
+        // 3) Iterate until we find the chosen entry
+        const MonsterGroupEntry *chosen = nullptr;
+        for( const MonsterGroupEntry &entry : mons ) {
+            roll -= entry.frequency;
+            if( roll <= 0 ) {
+                chosen = &entry;
+                break;
+            }
+        }
+
+        shared_ptr_fast<monster> newmon_ptr = make_shared_fast<monster>
+                                              ( mtype_id( chosen->name.str() ) );
+        monster &newmon = *newmon_ptr;
+
+        if( !chosen ) {
+            return 0;
+        }
+
+        p.use_charges( itype_id( "mutagen" ), 1 );
+        p.use_charges( itype_id( "biomaterial" ), 1 );
+
+        // chance of failure when converting DNA
+        if( rng( 1, 100 ) < 80 ) {
+            add_msg( m_bad, "The research produced no result." );
+            return charges_to_use;
+        }
+
+        add_msg( m_info, _( "The research produced a viable %s sample!" ), newmon.name() );
+        selected_drive->set_var( "specimen_sample", chosen->name.str() );
+        selected_drive->set_var( "specimen_size", std::to_string( newmon.get_size() ) );
+        selected_drive->set_var( "specimen_sample_progress", selected_drive->get_var( "specimen_size" ) );
+        selected_drive->set_var( "specimen_name", newmon.name() );
+    } else if( menu.ret == 2 ) {
+        add_msg( "You clone a copy of the drive onto another USB." );
+        p.use_amount( itype_id( "usb_drive" ), 1 );
+        detached_ptr<item> drive_copy = item::spawn( itype_id( "genome_drive" ), calendar::turn, 8 );
+        drive_copy->set_var( "specimen_sample", selected_drive->get_var( "specimen_sample" ) );
+        drive_copy->set_var( "specimen_sample_progress",
+                             selected_drive->get_var( "specimen_sample_progress" ) );
+        drive_copy->set_var( "specimen_size", selected_drive->get_var( "specimen_size" ) );
+        drive_copy->set_var( "specimen_name", selected_drive->get_var( "specimen_name" ) );
+
+        p.i_add( std::move( drive_copy ) );
+    } else if( menu.ret == 3 ) {
+        p.use_amount( itype_id( "biomaterial" ), 8 );
+        add_msg( "You produce 8 units of DNA using your biomaterial." );
+
+        detached_ptr<item> dna = item::spawn( itype_id( "dna" ), calendar::turn, 8 );
+        dna->set_var( "specimen_sample", selected_drive->get_var( "specimen_sample" ) );
+        dna->set_var( "specimen_size", selected_drive->get_var( "specimen_size" ) );
+        dna->set_var( "specimen_name", selected_drive->get_var( "specimen_name" ) );
+
+        liquid_handler::handle_all_liquid( std::move( dna ), 1 );
+    }
+
+    return charges_to_use;
+}
+
+std::unique_ptr<iuse_actor> dna_editor_iuse::clone() const
+{
+    return std::make_unique<dna_editor_iuse>( *this );
 }
 
 void multicooker_iuse::load( const JsonObject &obj )
