@@ -544,7 +544,7 @@ void Character::process_one_effect( effect &it, bool is_new )
         if( is_new || it.activated( calendar::turn, "STAMINA", val, reduced, mod ) ) {
             mod_stamina( bound_mod_to_vals( get_stamina(), val,
                                             it.get_max_val( "STAMINA", reduced ),
-                                            it.get_min_val( "STAMINA", reduced ) ) );
+                                            it.get_min_val( "STAMINA", reduced ) ), false );
         }
     }
 

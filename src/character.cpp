@@ -770,7 +770,7 @@ void Character::mod_stat( const std::string &stat, float modifier )
     } else if( stat == "oxygen" ) {
         oxygen += modifier;
     } else if( stat == "stamina" ) {
-        mod_stamina( modifier );
+        mod_stamina( modifier, false );
     } else {
         Creature::mod_stat( stat, modifier );
     }
@@ -7642,10 +7642,19 @@ void Character::set_stamina( int new_stamina )
     stamina = new_stamina;
 }
 
-void Character::mod_stamina( int mod )
+void Character::mod_stamina( int mod, bool skill )
 {
     stamina += mod;
     stamina = clamp( stamina, 0, get_stamina_max() );
+    // If we're burning stamina then train athletics, unless we're losing stamina due to status effects or other non-standard causes.
+    if( skill && mod < 0 ) {
+        as_player()->practice( skill_swimming, roll_remainder( std::abs( mod ) / 100.0 ), 10, true );
+    }
+}
+
+void Character::mod_stamina( int mod )
+{
+    return mod_stamina( mod, true );
 }
 
 void Character::burn_move_stamina( int moves )
@@ -7750,7 +7759,7 @@ void Character::update_stamina( int turns )
         }
     }
 
-    mod_stamina( roll_remainder( stamina_recovery * turns ) );
+    mod_stamina( roll_remainder( stamina_recovery * turns ), false );
     add_msg( m_debug, "Stamina recovery: %d", roll_remainder( stamina_recovery * turns ) );
     // Cap at max
     set_stamina( std::min( std::max( get_stamina(), 0 ), max_stam ) );
@@ -8106,7 +8115,7 @@ void Character::cough( bool harmful, int loudness )
     if( harmful ) {
         const int stam = get_stamina();
         const int malus = get_stamina_max() * 0.05; // 5% max stamina
-        mod_stamina( -malus );
+        mod_stamina( -malus, false );
         if( stam < malus && x_in_y( malus - stam, malus ) && one_in( 6 ) ) {
             apply_damage( nullptr, bodypart_id( "torso" ), 1 );
         }
