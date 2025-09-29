@@ -5614,23 +5614,37 @@ std::unique_ptr<iuse_actor> sex_toy_actor::clone() const
 
 void train_skill_actor::load( JsonObject const &obj )
 {
-    moves = obj.get_int( "moves", 60000 ); // default is 10 minutes
     training_skill = obj.get_string( "training_skill" );
     training_skill_xp = obj.get_int( "training_skill_xp", 0 );
     training_skill_xp_max = obj.get_int( "training_skill_xp_max", 0 );
+    training_skill_xp_cap = obj.get_int( "training_skill_xp_cap", 0 );
     training_skill_fatigue = obj.get_int( "training_skill_fatigue", 0 );
+    training_skill_interval = obj.get_int( "training_skill_interval", 0 );
     training_msg = obj.get_string( "training_msg" );
 }
 
 int train_skill_actor::use( player &p, item &i, bool, const tripoint & ) const
 {
+    int hours = string_input_popup()
+                .title( "Train for how long (hours)?" )
+                .width( 3 )
+                .text( "" )
+                .only_digits( true )
+                .query_int();
+
+    if( hours <= 0 ) {
+        return 0;
+    }
+
     p.add_msg_if_player( training_msg );
     // using metadata is the easiest way to transfer this over to the activity handler and also allow it to function as furniture
     p.set_value( "training_iuse_skill", training_skill );
     p.set_value( "training_iuse_skill_xp", std::to_string( training_skill_xp ) );
     p.set_value( "training_iuse_skill_xp_max", std::to_string( training_skill_xp_max ) );
+    p.set_value( "training_iuse_skill_xp_cap", std::to_string( training_skill_xp_cap ) );
     p.set_value( "training_iuse_skill_fatigue", std::to_string( training_skill_fatigue ) );
-    p.assign_activity( ACT_TRAIN_SKILL, moves, -1, 0, "training" );
+    p.set_value( "training_iuse_skill_interval", std::to_string( training_skill_interval ) );
+    p.assign_activity( ACT_TRAIN_SKILL, hours * 360000, -1, 0, "training" );
     p.activity->tools.emplace_back( i );
 
     return i.type->charges_to_use();

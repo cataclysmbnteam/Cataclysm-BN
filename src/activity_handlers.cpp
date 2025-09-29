@@ -2291,30 +2291,35 @@ void activity_handlers::vibe_do_turn( player_activity *act, player *p )
 
 void activity_handlers::train_skill_do_turn( player_activity *act, player *p )
 {
-    if( act->tools.empty() ) {
-        debugmsg( "train skill tools array is empty" );
+    if( act->tools.empty() || !act->tools.front() ) {
+        debugmsg( "train skill tools array is empty. this would have caused invalid safe reference error" );
+        act->moves_left = 0;
         return;
     }
 
     item &skill_training_item = *act->tools.front();
+    int training_skill_interval = atoi( p->get_value( "training_iuse_skill_interval" ).c_str() );
 
-    if( calendar::once_every( 1_minutes ) ) {
+    if( calendar::once_every( 1_minutes * training_skill_interval ) ) {
         // pull metadata. this is probably the easiest way to get this data from the JSON definition
         std::string training_skill = p->get_value( "training_iuse_skill" );
         int training_skill_xp = atoi( p->get_value( "training_iuse_skill_xp" ).c_str() );
         int training_skill_xp_max = atoi( p->get_value( "training_iuse_skill_xp_max" ).c_str() );
+        int training_skill_xp_cap = atoi( p->get_value( "training_iuse_skill_xp_cap" ).c_str() );
         int training_skill_fatigue = atoi( p->get_value( "training_iuse_skill_fatigue" ).c_str() );
 
         p->mod_fatigue( training_skill_fatigue );
         if( skill_training_item.ammo_remaining() > 0 ) {
             skill_training_item.ammo_consume( 1, p->pos() );
-            p->practice( skill_id( training_skill ), training_skill_xp, training_skill_xp_max );
+            p->practice( skill_id( training_skill ), rng( training_skill_xp, training_skill_xp_max ),
+                         training_skill_xp_cap );
             if( skill_training_item.ammo_remaining() == 0 ) {
                 add_msg( m_info, _( "The %s runs out of power." ), skill_training_item.tname() );
             }
         } else {
             //twenty minutes to fill
-            p->practice( skill_id( training_skill ), training_skill_xp, training_skill_xp_max );
+            p->practice( skill_id( training_skill ), rng( training_skill_xp, training_skill_xp_max ),
+                         training_skill_xp_cap );
         }
     }
 

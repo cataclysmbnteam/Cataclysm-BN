@@ -255,12 +255,13 @@
     "use_action": [
       {
         "type": "train_skill",
-        "moves": 360000,
         "training_msg": "You use the punching bag.",
         "training_skill": "unarmed",
-        "training_skill_xp": 5,
-        "training_skill_xp_max": 5,
-        "training_skill_fatigue": 1
+        "training_skill_xp": 0,
+        "training_skill_xp_max": 1,
+        "training_skill_xp_cap": 5,
+        "training_skill_fatigue": 2,
+        "training_skill_interval": 5
       }
     ]
   },
