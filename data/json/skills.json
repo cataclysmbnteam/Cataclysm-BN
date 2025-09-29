@@ -55,7 +55,7 @@
     "id": "driving",
     "name": { "str": "Driving" },
     "description": "Your skill in operating and steering a vehicle in motion.  A higher level allows greater control over vehicles at higher speeds, and reduces the penalty of shooting while driving.",
-    "display_category": "display_interaction"
+    "display_category": "display_interaction",
     "tags": [ "unaffected_by_focus" ]
   },
   {
