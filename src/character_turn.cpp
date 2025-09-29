@@ -94,6 +94,7 @@ static const efftype_id effect_tapeworm( "tapeworm" );
 static const efftype_id effect_thirsty( "thirsty" );
 
 static const skill_id skill_swimming( "swimming" );
+static const skill_id skill_traps( "traps" );
 
 static const bionic_id bio_ground_sonar( "bio_ground_sonar" );
 static const bionic_id bio_hydraulics( "bio_hydraulics" );
@@ -1155,6 +1156,8 @@ void search_surroundings( Character &who )
                                                   direction_from( who.pos(), tp ) );
                 who.add_msg_if_player( _( "You've spotted a %1$s to the %2$s!" ),
                                        tr.name(), direction );
+                // Get a bit of experience for spotting traps.
+                who.practice( skill_traps, tr.get_visibility() );
             }
             who.add_known_trap( tp, tr );
         }
