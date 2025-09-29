@@ -4463,7 +4463,7 @@ void activity_handlers::spellcasting_finish( player_activity *act, player *p )
                 p->magic->mod_mana( *p, -cost );
                 break;
             case stamina_energy:
-                p->mod_stamina( -cost );
+                p->mod_stamina( -cost, spell_being_cast.has_flag( spell_flag::PHYSICAL ) );
                 break;
             case bionic_energy:
                 p->mod_power_level( -units::from_kilojoule( cost ) );

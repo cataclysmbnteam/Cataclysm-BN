@@ -1896,6 +1896,7 @@ class Character : public Creature, public location_visitable<Character>
         int get_stamina_max() const;
         void set_stamina( int new_stamina );
         void mod_stamina( int mod );
+        void mod_stamina( int mod, bool skill );
         void burn_move_stamina( int moves );
         float stamina_burn_cost_modifier() const;
         float running_move_cost_modifier() const;
