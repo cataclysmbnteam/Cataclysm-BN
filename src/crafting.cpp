@@ -1109,8 +1109,8 @@ void complete_craft( Character &who, item &craft )
                     comp->set_flag_recursive( flag_COOKED );
                 }
             }
-            if( newit->is_comestible() ) {
-                newit->get_comestible()->cooked_kcal_mult = 1 + ( who.get_skill_level( skill_cooking ) * 0.02 );
+            if( food_contained.is_comestible() ) {
+                food_contained.set_kcal_mult( 1 + ( who.get_skill_level( skill_cooking ) * 0.02 ) );
             }
 
             // byproducts get stored as a "component" but with a byproduct flag for consumption purposes

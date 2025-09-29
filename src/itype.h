@@ -200,8 +200,6 @@ struct islot_comestible {
         /** Chance the above monster group spawns*/
         int rot_spawn_chance = 10;
 
-        float cooked_kcal_mult = 1;
-
     private:
         /** effect on morale when consuming */
         int fun = 0;

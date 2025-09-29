@@ -469,7 +469,7 @@ to find which flags work elsewhere.
   `can_heal_with` in mutation.
 - `EATEN_COLD` Morale bonus for eating cold.
 - `EATEN_HOT` Morale bonus for eating hot.
-- `NO_COOKING_BUFF` prevents cooking skill from increasing calories of this food when cooked by the player
+- `NO_COOKING_BUFF` prevents cooking skill from increasing calories of this food when the player cooks it
 - `INEDIBLE` Inedible by default, enabled to eat when in conjunction with (mutation threshold)
   flags: BIRD, CATTLE.
 - `FERTILIZER` Works as fertilizer for farming, of if this consumed with the PLANTBLECH function

@@ -245,10 +245,8 @@ static int compute_default_effective_kcal( const item &comest, const Character &
         kcal *= 0.75f;
     }
 
-    if( cooked && comest.get_comestible()->cooked_kcal_mult > 1 ) {
-        std::cout << "Filling\n";
-        you.add_msg_if_player( m_info, "That food was unusually filling " );
-        kcal *= comest.get_comestible()->cooked_kcal_mult;
+    if( comest.get_kcal_mult() > 1 ) {
+        kcal *= comest.get_kcal_mult();
     }
     if( you.has_trait( trait_GIZZARD ) ) {
         kcal *= 0.6f;
@@ -339,10 +337,8 @@ nutrients Character::compute_effective_nutrients( const item &comest ) const
                 tally += component_value;
             }
         }
-        if( comest.has_flag( flag_COOKED ) && comest.get_comestible()->cooked_kcal_mult > 1 ) {
-            std::cout << "Filling\n";
-            add_msg_if_player( m_info, "That food was unusually filling " );
-            tally.kcal *= comest.get_comestible()->cooked_kcal_mult;
+        if( comest.get_kcal_mult() > 1 ) {
+            tally.kcal *= comest.get_kcal_mult();
         }
         return tally / comest.recipe_charges;
     } else {
@@ -411,9 +407,9 @@ std::pair<nutrients, nutrients> Character::compute_nutrient_range(
         tally_min -= byproduct_nutr;
         tally_max -= byproduct_nutr;
     }
-    if( comest.has_flag( flag_COOKED ) && comest.get_comestible()->cooked_kcal_mult > 1 ) {
-        tally_min.kcal *= comest.get_comestible()->cooked_kcal_mult;
-        tally_max.kcal *= comest.get_comestible()->cooked_kcal_mult;
+    if( comest.get_kcal_mult() > 1 ) {
+        tally_min.kcal *= comest.get_kcal_mult();
+        tally_max.kcal *= comest.get_kcal_mult();
     }
 
     return { tally_min / charges, tally_max / charges };
@@ -831,7 +827,6 @@ bool Character::eat( item &food, bool force )
     if( !food.is_food() ) {
         return false;
     }
-
     const auto ret = force ? can_eat( food ) : will_eat( food, is_player() );
     if( !ret.success() ) {
         return false;
@@ -1248,14 +1243,13 @@ bool Character::consume_effects( item &food )
 
     // Set up food for ingestion
     const item &contained_food = food.is_container() ? food.get_contained() : food;
-    food_summary ingested{
+    food_summary ingested {
         compute_effective_nutrients( contained_food )
     };
     // Maybe move tapeworm to digestion
     if( has_effect( effect_tapeworm ) ) {
         ingested.nutr /= 2;
     }
-
     int excess_kcal = get_stored_kcal() + stomach.get_calories() + ingested.nutr.kcal -
                       max_stored_kcal();
 
@@ -1523,7 +1517,6 @@ detached_ptr<item> Character::consume_item( detached_ptr<item> &&target )
     }
 
     item &comest = get_consumable_from( *target );
-
     if( comest.is_null() || target->is_craft() ) {
         add_msg_if_player( m_info, _( "You can't eat your %s." ), target->tname() );
         if( is_npc() ) {
