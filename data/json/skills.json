@@ -61,8 +61,9 @@
     "type": "skill",
     "id": "swimming",
     "name": { "str": "Athletics" },
-    "description": "Your capability to perform physically demanding tasks such as running, jumping, climbing, and swimming efficiently. This skill influences your overall performance when swimming, and reduces the impact of encumbrance.",
+    "description": "Your capability to perform physically demanding tasks such as running, jumping, climbing, and swimming efficiently. This skill influences your overall performance when swimming, reduces stamina consumption of physical activity, and reduces the impact of encumbrance.",
     "display_category": "display_interaction",
+    "tags": [ "unaffected_by_focus" ],
     "companion_skill_practice": [ { "skill": "", "weight": 5 }, { "skill": "gathering", "weight": 5 }, { "skill": "trapping", "weight": 5 } ]
   },
   {
