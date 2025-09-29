@@ -1956,10 +1956,10 @@ void item::food_info( const item *food_item, std::vector<iteminfo> &info,
     if( max_nutr.kcal != 0 || food_item->get_comestible()->quench != 0 ) {
         if( parts->test( iteminfo_parts::FOOD_NUTRITION ) ) {
             info.emplace_back( "FOOD", _( "<bold>Calories (kcal)</bold>: " ),
-                               "", iteminfo::no_newline, min_nutr.kcal );
+                               "", iteminfo::no_newline, you.compute_effective_nutrients( *food_item ).kcal );
             if( max_nutr.kcal != min_nutr.kcal ) {
                 info.emplace_back( "FOOD", _( "-" ),
-                                   "", iteminfo::no_newline, max_nutr.kcal );
+                                   "", iteminfo::no_newline, you.compute_effective_nutrients( *food_item ).kcal );
             }
         }
         if( parts->test( iteminfo_parts::FOOD_QUENCH ) ) {
@@ -7473,6 +7473,14 @@ struct fuel_explosion item::get_explosion_data()
     return has_explosion_data() ? type->fuel->explosion_data : null_data;
 }
 
+float item::get_kcal_mult() const
+{
+    return get_var( "kcal_mult", 1.0 );
+}
+void item::set_kcal_mult( float val )
+{
+    set_var( "kcal_mult", val );
+}
 bool item::is_container_empty() const
 {
     return contents.empty();
