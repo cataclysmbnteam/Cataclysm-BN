@@ -266,6 +266,24 @@
     ]
   },
   {
+    "id": "fake_server",
+    "copy-from": "fake_item",
+    "type": "TOOL",
+    "name": { "str": "server" },
+    "use_action": [
+      {
+        "type": "train_skill",
+        "training_msg": "You use the server.",
+        "training_skill": "computer",
+        "training_skill_xp": 0,
+        "training_skill_xp_max": 1,
+        "training_skill_xp_cap": 5,
+        "training_skill_fatigue": 1,
+        "training_skill_interval": 5
+      }
+    ]
+  },
+  {
     "id": "fake_gridgunkit",
     "copy-from": "fake_item",
     "type": "TOOL",
