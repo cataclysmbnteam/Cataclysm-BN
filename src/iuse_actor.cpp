@@ -5645,6 +5645,7 @@ int train_skill_actor::use( player &p, item &i, bool, const tripoint & ) const
     p.set_value( "training_iuse_skill_fatigue", std::to_string( training_skill_fatigue ) );
     p.set_value( "training_iuse_skill_interval", std::to_string( training_skill_interval ) );
     p.assign_activity( ACT_TRAIN_SKILL, hours * 360000, -1, 0, "training" );
+    p.activity->str_values.emplace_back( i.typeId() );
     p.activity->tools.emplace_back( i );
 
     return i.type->charges_to_use();
