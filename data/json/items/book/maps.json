@@ -239,7 +239,18 @@
     "use_action": {
       "type": "reveal_map",
       "radius": 180,
-      "terrain": [ "hiway", "road", "bridge", "dam", "hotel_tower", "s_restaurant", "cathedral", "s_restaurant_fast", "megastore", "museum" ],
+      "terrain": [
+        "hiway",
+        "road",
+        "bridge",
+        "dam",
+        "hotel_tower",
+        "s_restaurant",
+        "cathedral",
+        "s_restaurant_fast",
+        "megastore",
+        "museum"
+      ],
       "message": "You add roads and tourist attractions to your map."
     }
   },
