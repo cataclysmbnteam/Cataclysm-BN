@@ -911,7 +911,11 @@ void Character::process_items()
         int used = std::min( ch_UPS, weap->ammo_capacity() - weap->ammo_remaining() );
         ch_UPS -= used;
         ch_UPS_used += used;
-        weap->ammo_set( weap->ammo_current(), weap->ammo_remaining() + used );
+        if( weap->ammo_current() != itype_id::NULL_ID() ) {
+            weap->ammo_set( weap->ammo_current(), weap->ammo_remaining() + used );
+        } else {
+            weap->ammo_set( weap->ammo_default(), weap->ammo_remaining() + used );
+        }
     }
     // Load all items that use the UPS to their minimal functional charge,
     // The tool is not really useful if its charges are below charges_to_use
@@ -923,7 +927,11 @@ void Character::process_items()
         int used = std::min( ch_UPS, it.ammo_capacity() - it.ammo_remaining() );
         ch_UPS -= used;
         ch_UPS_used += used;
-        it.ammo_set( it.ammo_current(), it.ammo_remaining() + used );
+        if( it.ammo_current() != itype_id::NULL_ID() ) {
+            it.ammo_set( it.ammo_current(), it.ammo_remaining() + used );
+        } else {
+            it.ammo_set( it.ammo_default(), it.ammo_remaining() + used );
+        }
     }
     for( item *worn_item : active_worn_items ) {
         if( ch_UPS <= 0 ) {
