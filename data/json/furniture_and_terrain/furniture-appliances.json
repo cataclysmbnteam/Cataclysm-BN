@@ -856,7 +856,7 @@
         { "item": "cable", "charges": [ 5, 10 ] }
       ]
     },
-    "crafting_pseudo_item": "fake_server",
+    "crafting_pseudo_item": "fake_training_server",
     "examine_action": "use_furn_fake_item",
     "bash": {
       "str_min": 16,

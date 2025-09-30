@@ -248,7 +248,7 @@
     "flags": [ "USES_GRID_POWER" ]
   },
   {
-    "id": "fake_punching_bag",
+    "id": "fake_training_punching_bag",
     "copy-from": "fake_item",
     "type": "TOOL",
     "name": { "str": "punching bag" },
@@ -267,16 +267,33 @@
     ]
   },
   {
-    "id": "fake_treadmill",
+    "id": "fake_training_ergometer",
     "copy-from": "fake_item",
     "type": "TOOL",
-    "name": { "str": "treadmill" },
-    "max_charges": 1000,
-    "charges_per_use": 1,
+    "name": { "str": "ergometer" },
     "use_action": [
       {
         "type": "train_skill",
-        "training_msg": "You jog on the treadmill, feeling your stamina and general athletics skill improve.",
+        "training_msg": "You row steadily on the ergometer, building strength and endurance with each pull.",
+        "training_skill": "swimming",
+        "training_skill_min_level": 0,
+        "training_skill_xp": 0,
+        "training_skill_xp_max": 1,
+        "training_skill_max_level": 6,
+        "training_skill_fatigue": 1,
+        "training_skill_interval": 5
+      }
+    ]
+  },
+  {
+    "id": "fake_training_treadmill",
+    "copy-from": "fake_item",
+    "type": "TOOL",
+    "name": { "str": "treadmill" },
+    "use_action": [
+      {
+        "type": "train_skill",
+        "training_msg": "You run steadily on the treadmill, training your stamina and athletics skill.",
         "training_skill": "swimming",
         "training_skill_min_level": 0,
         "training_skill_xp": 0,
@@ -285,33 +302,29 @@
         "training_skill_fatigue": 2,
         "training_skill_interval": 5
       }
-    ],
-    "flags": [ "USES_GRID_POWER" ]
+    ]
   },
   {
-    "id": "fake_exercise_machine",
+    "id": "fake_training_exercise_machine",
     "copy-from": "fake_item",
     "type": "TOOL",
     "name": { "str": "exercise machine" },
-    "max_charges": 1000,
-    "charges_per_use": 1,
     "use_action": [
       {
         "type": "train_skill",
         "training_msg": "You work out on the exercise machine, training your stamina and athletics skill.",
         "training_skill": "swimming",
-        "training_skill_min_level": 0,
+        "training_skill_min_level": 2,
         "training_skill_xp": 0,
         "training_skill_xp_max": 1,
-        "training_skill_max_level": 8,
-        "training_skill_fatigue": 2,
+        "training_skill_max_level": 6,
+        "training_skill_fatigue": 1,
         "training_skill_interval": 5
       }
-    ],
-    "flags": [ "USES_GRID_POWER" ]
+    ]
   },
   {
-    "id": "fake_dancing_pole",
+    "id": "fake_training_dancing_pole",
     "copy-from": "fake_item",
     "type": "TOOL",
     "name": { "str": "dancing pole" },
@@ -330,7 +343,7 @@
     ]
   },
   {
-    "id": "fake_ball_machine",
+    "id": "fake_training_ball_machine",
     "copy-from": "fake_item",
     "type": "TOOL",
     "name": { "str": "ball machine" },
@@ -349,10 +362,73 @@
     ]
   },
   {
-    "id": "fake_server",
+    "id": "fake_training_electronics_high",
     "copy-from": "fake_item",
     "type": "TOOL",
-    "name": { "str": "server" },
+    "name": { "str": "electronics" },
+    "max_charges": 1000,
+    "charges_per_use": 1,
+    "use_action": [
+      {
+        "type": "train_skill",
+        "training_msg": "You study the electronics, tracing circuits and learning how the components interact.",
+        "training_skill": "electronics",
+        "training_skill_min_level": 3,
+        "training_skill_xp": 0,
+        "training_skill_xp_max": 2,
+        "training_skill_max_level": 6,
+        "training_skill_fatigue": 0,
+        "training_skill_interval": 5
+      }
+    ],
+    "flags": [ "USES_GRID_POWER" ]
+  },
+  {
+    "id": "fake_training_speech",
+    "copy-from": "fake_item",
+    "type": "TOOL",
+    "name": { "str": "speech training" },
+    "use_action": [
+      {
+        "type": "train_skill",
+        "training_msg": "You practice speaking, rehearsing your tone and delivery.",
+        "training_skill": "speech",
+        "training_skill_min_level": 0,
+        "training_skill_xp": 0,
+        "training_skill_xp_max": 1,
+        "training_skill_max_level": 2,
+        "training_skill_fatigue": 0,
+        "training_skill_interval": 10
+      }
+    ]
+  },
+  {
+    "id": "fake_training_fabrication",
+    "copy-from": "fake_item",
+    "type": "TOOL",
+    "name": { "str": "fabrication machinery" },
+    "max_charges": 1000,
+    "charges_per_use": 1,
+    "use_action": [
+      {
+        "type": "train_skill",
+        "training_msg": "You inspect the fabrication machinery, learning how its components fit together and operate.",
+        "training_skill": "fabrication",
+        "training_skill_min_level": 2,
+        "training_skill_xp": 0,
+        "training_skill_xp_max": 1,
+        "training_skill_max_level": 6,
+        "training_skill_fatigue": 0,
+        "training_skill_interval": 5
+      }
+    ],
+    "flags": [ "USES_GRID_POWER" ]
+  },
+  {
+    "id": "fake_training_server",
+    "copy-from": "fake_item",
+    "type": "TOOL",
+    "name": { "str": "server stack" },
     "max_charges": 1000,
     "charges_per_use": 1,
     "use_action": [
@@ -362,7 +438,7 @@
         "training_skill": "computer",
         "training_skill_min_level": 3,
         "training_skill_xp": 0,
-        "training_skill_xp_max": 1,
+        "training_skill_xp_max": 2,
         "training_skill_max_level": 5,
         "training_skill_fatigue": 0,
         "training_skill_interval": 5
