@@ -692,7 +692,7 @@
     "type": "BOOK",
     "copy-from": "base_book",
     "name": { "str": "Chemicals in the Water", "str_pl": "copies of Chemicals in the Water" },
-    "description": "A series of notes about experiments attempting to prove that the government puts chemicals in the water to poison the population, likely printed off some website judging by the binder they are stored in. It explains how to isolate the \"soul poisons\" found in tap water among other claims. The many conspiracy theories and strange tangents mixed in do make it a more entertaining read, if harder to parse.",
+    "description": "A binder of notes printed off some website attempting to prove that the government puts chemicals in the water, to poison the population.  It purports to show how to isolate \"soul poisons\" found in tap water among other claims.  Someone who understands actual chemistry could learn how to isolate mutagenic compounds using improvised tools, though the many conspiracy theories and strange tangents mixed in make it hard to parse.",
     "weight": "350 g",
     "volume": "750 ml",
     "price": "100 USD",
