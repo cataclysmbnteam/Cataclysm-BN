@@ -651,6 +651,7 @@ class Character : public Creature, public location_visitable<Character>
 
         bool uncanny_dodge() override;
 
+        float get_block_amount( const item &shield, const damage_unit &unit );
         /** Checks for chance that a ranged attack will hit other armor along the way */
         bool block_ranged_hit( Creature *source, bodypart_id &bp_hit, damage_instance &dam ) override;
 
