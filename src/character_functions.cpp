@@ -409,11 +409,11 @@ comfort_response_t base_comfort_value( const Character &who, const tripoint &p )
 
     if( comfort >= static_cast<int>( comfort_level::very_comfortable ) ) {
         comfort_response.level = comfort_level::very_comfortable;
-    } else if( comfort > static_cast<int>( comfort_level::comfortable ) ) {
+    } else if( comfort >= static_cast<int>( comfort_level::comfortable ) ) {
         comfort_response.level = comfort_level::comfortable;
-    } else if( comfort > static_cast<int>( comfort_level::slightly_comfortable ) ) {
+    } else if( comfort >= static_cast<int>( comfort_level::slightly_comfortable ) ) {
         comfort_response.level = comfort_level::slightly_comfortable;
-    } else if( comfort == static_cast<int>( comfort_level::neutral ) ) {
+    } else if( comfort >= static_cast<int>( comfort_level::neutral ) ) {
         comfort_response.level = comfort_level::neutral;
     } else {
         comfort_response.level = comfort_level::uncomfortable;
@@ -470,13 +470,13 @@ int rate_sleep_spot( const Character &who, const tripoint &p )
 
     if( one_in( 3 ) ) {
         if( comfort_info.level >= comfort_level::very_comfortable ) {
-            add_msg( "You feel very comfortable." );
+            who.add_msg_if_player( "You feel very comfortable." );
         } else if( comfort_info.level >= comfort_level::comfortable ) {
-            add_msg( "You feel comfortable." );
+            who.add_msg_if_player( "You feel comfortable." );
         } else if( comfort_info.level >= comfort_level::slightly_comfortable ) {
-            add_msg( "You feel slightly comfortable." );
+            who.add_msg_if_player( "You feel slightly comfortable." );
         } else {
-            add_msg( "You feel uncomfortable." );
+            who.add_msg_if_player( "You feel uncomfortable." );
         }
     }
 
