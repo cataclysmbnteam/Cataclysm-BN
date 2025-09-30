@@ -2474,16 +2474,14 @@ item *get_fake_tool( hack_type_t hack_type, const player_activity &activity )
             const furn_t &furniture = m.furn( position ).obj();
             const std::vector<itype> item_type_list = furniture.crafting_pseudo_item_types();
 
-            const tripoint_abs_ms abspos( m.getabs( position ) );
-            const distribution_grid &grid = get_distribution_grid_tracker().grid_at( abspos );
             if( item_type_list.empty() ) {
                 return fake_item;
             }
 
             for( const itype &item_type : item_type_list ) {
                 if( item_type.get_id() == static_cast<itype_id>( activity.str_values[1] ) ) {
-                    // const tripoint_abs_ms abspos( m.getabs( position ) );
-                    // const distribution_grid &grid = get_distribution_grid_tracker().grid_at( abspos );
+                    const tripoint_abs_ms abspos( m.getabs( position ) );
+                    const distribution_grid &grid = get_distribution_grid_tracker().grid_at( abspos );
                     fake_item = item::spawn_temporary( item_type.get_id(), calendar::turn, 0 );
                     fake_item->charges = grid.get_resource( true );
                     break;
