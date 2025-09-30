@@ -44,14 +44,14 @@
     "difficulty": 6,
     "time": "1 h",
     "book_learn": [
-      [ "recipe_creepy", 6 ],
-      [ "recipe_animal", 6 ],
-      [ "recipe_maiar", 6 ],
-      [ "recipe_serum", 6 ],
-      [ "recipe_labchem", 6 ],
-      [ "textbook_gaswarfare", 6 ],
-      [ "adv_chemistry", 6 ],
-      [ "note_mutagen_conspiracy", 5 ]
+      [ "recipe_creepy", 5 ],
+      [ "recipe_animal", 5 ],
+      [ "recipe_maiar", 5 ],
+      [ "recipe_serum", 5 ],
+      [ "recipe_labchem", 5 ],
+      [ "textbook_gaswarfare", 5 ],
+      [ "adv_chemistry", 5 ],
+      [ "note_mutagen_conspiracy", 6 ]
     ],
     "using": [ [ "mutagen_production_makeshift", 25 ] ],
     "components": [
