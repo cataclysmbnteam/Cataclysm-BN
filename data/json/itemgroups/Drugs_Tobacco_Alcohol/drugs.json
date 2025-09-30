@@ -82,7 +82,9 @@
       [ "thorazine", 100 ],
       [ "ghb", 100 ],
       [ "xanax", 100 ],
-      [ "purifier_smart_shot", 10 ]
+      [ "purifier_smart_shot", 3 ],
+      [ "iv_purifier", 1 ],
+      [ "purifier_smart_shot", 1 ],
     ]
   },
   {
