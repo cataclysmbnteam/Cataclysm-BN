@@ -409,15 +409,21 @@ comfort_response_t base_comfort_value( const Character &who, const tripoint &p )
 
     if( comfort >= static_cast<int>( comfort_level::very_comfortable ) ) {
         comfort_response.level = comfort_level::very_comfortable;
-    } else if( comfort > static_cast<int>( comfort_level::comfortable ) ) {
+        who.add_msg_if_player( m_info, _( "comfort_response level is very comfortable" ) );
+    } else if( comfort >= static_cast<int>( comfort_level::comfortable ) ) {
         comfort_response.level = comfort_level::comfortable;
-    } else if( comfort > static_cast<int>( comfort_level::slightly_comfortable ) ) {
+        who.add_msg_if_player( m_info, _( "comfort_response level is comfortable" ) );
+    } else if( comfort >= static_cast<int>( comfort_level::slightly_comfortable ) ) {
         comfort_response.level = comfort_level::slightly_comfortable;
-    } else if( comfort == static_cast<int>( comfort_level::neutral ) ) {
+        who.add_msg_if_player( m_info, _( "comfort_response level is slightly comfortable" ) );
+    } else if( comfort >= static_cast<int>( comfort_level::neutral ) ) {
         comfort_response.level = comfort_level::neutral;
+        who.add_msg_if_player( m_info, _( "comfort_response level is neutral" ) );
     } else {
         comfort_response.level = comfort_level::uncomfortable;
+        who.add_msg_if_player( m_info, _( "comfort_response level is uncomfortable" ) );
     }
+        who.add_msg_if_player( m_info, _( "Comfort is: %s" ), comfort );
     return comfort_response;
 }
 
