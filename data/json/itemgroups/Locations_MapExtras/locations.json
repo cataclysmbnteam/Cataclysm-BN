@@ -653,6 +653,7 @@
       { "group": "religious_books", "prob": 10 },
       { "group": "kids_books", "prob": 20 },
       [ "recipe_elfa", 15 ],
+      [ "note_mutagen_conspiracy", 5 ],
       [ "recipe_bows", 15 ],
       [ "manual_stabbing", 20 ],
       [ "manual_dodge", 20 ],
@@ -959,6 +960,7 @@
       [ "umbrella", 1 ],
       [ "teleumbrella", 1 ],
       [ "pocketwatch", 1 ],
+      [ "note_mutagen_conspiracy", 1 ],
       [ "survnote", 1 ],
       [ "tinder", 1 ],
       [ "hobo_stove", 1 ],
@@ -988,6 +990,7 @@
       [ "55gal_drum", 10 ],
       [ "30gal_drum", 15 ],
       [ "toolbox", 1 ],
+      [ "note_mutagen_conspiracy", 2 ],
       [ "recipe_elfa", 2 ]
     ]
   },
@@ -1537,6 +1540,7 @@
       { "item": "electrohack", "prob": 3 },
       { "item": "textbook_gaswarfare", "prob": 1 },
       { "item": "textbook_anarch", "prob": 3 },
+      { "item": "note_mutagen_conspiracy", "prob": 2 },
       { "item": "brewing_cookbook", "prob": 3 },
       { "item": "recipe_bullets", "prob": 1 },
       { "item": "knife_combat", "prob": 14 },
