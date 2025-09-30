@@ -274,6 +274,14 @@ void vehicle::thrust( int thd, int z )
                 }
             }
         } else {
+            if( pl_ctrl ) {
+                // Driving skill reduces fuel consumption.
+                const float skill = get_player_character().get_skill_level( skill_driving );
+                const float skill_cost = std::max( 0.75f, ( 100.0f - ( skill * 2.5f ) ) / 100.0f );
+                // Up to 25% reduction at max skill, cap at idle rate.
+                const int load_cap = is_rotorcraft() ? 100 : 10;
+                load = std::max( static_cast<int>( load * skill_cost ), load_cap );
+            }
             //make noise and consume fuel
             noise_and_smoke( load );
             consume_fuel( load, 1 );
