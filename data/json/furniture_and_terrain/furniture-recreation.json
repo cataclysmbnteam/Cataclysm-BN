@@ -10,6 +10,8 @@
     "coverage": 35,
     "required_str": 8,
     "flags": [ "TRANSPARENT", "MINEABLE" ],
+    "crafting_pseudo_item": "fake_exercise_machine",
+    "examine_action": "use_furn_fake_item",
     "deconstruct": {
       "items": [
         { "item": "pipe", "count": 1 },
@@ -43,6 +45,8 @@
     "move_cost_mod": 1,
     "required_str": -1,
     "flags": [ "TRANSPARENT", "MINEABLE" ],
+    "crafting_pseudo_item": "fake_ball_machine",
+    "examine_action": "use_furn_fake_item",
     "bash": {
       "str_min": 18,
       "str_max": 60,
@@ -248,12 +252,14 @@
     "type": "furniture",
     "id": "f_ergometer",
     "name": "ergometer",
-    "description": "An rowing exercise machine.  Without power, it can no longer help you with your workout.  Might have useful electronic parts in it.",
+    "description": "A rowing exercise machine.  Without power, it can no longer help you with your workout.  Might have useful electronic parts in it.",
     "symbol": "5",
     "color": "dark_gray",
     "move_cost_mod": 2,
     "required_str": 8,
     "flags": [ "BLOCKSDOOR", "TRANSPARENT", "MOUNTABLE" ],
+    "crafting_pseudo_item": "fake_treadmill",
+    "examine_action": "use_furn_fake_item",
     "deconstruct": {
       "items": [
         { "item": "foot_crank", "count": [ 1, 1 ] },
@@ -299,6 +305,8 @@
     "move_cost_mod": 1,
     "required_str": 12,
     "flags": [ "BLOCKSDOOR", "TRANSPARENT", "MOUNTABLE" ],
+    "crafting_pseudo_item": "fake_treadmill",
+    "examine_action": "use_furn_fake_item",
     "deconstruct": {
       "items": [
         { "item": "plastic_chunk", "count": [ 10, 14 ] },
@@ -441,6 +449,8 @@
     "coverage": 5,
     "required_str": 8,
     "flags": [ "TRANSPARENT", "THIN_OBSTACLE" ],
+    "crafting_pseudo_item": "fake_dancing_pole",
+    "examine_action": "use_furn_fake_item",
     "deconstruct": {
       "items": [ { "item": "scrap", "count": [ 1, 2 ] }, { "item": "nail", "charges": [ 4, 8 ] }, { "item": "pipe", "count": 2 } ]
     },

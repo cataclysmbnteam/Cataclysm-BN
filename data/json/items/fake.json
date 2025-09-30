@@ -255,11 +255,94 @@
     "use_action": [
       {
         "type": "train_skill",
-        "training_msg": "You use the punching bag.",
+        "training_msg": "You swing and jab at the punching bag, sweat dripping as your technique improves.",
         "training_skill": "unarmed",
+        "training_skill_min_level": 0,
         "training_skill_xp": 0,
         "training_skill_xp_max": 1,
-        "training_skill_xp_cap": 5,
+        "training_skill_max_level": 5,
+        "training_skill_fatigue": 2,
+        "training_skill_interval": 5
+      }
+    ]
+  },
+  {
+    "id": "fake_treadmill",
+    "copy-from": "fake_item",
+    "type": "TOOL",
+    "name": { "str": "treadmill" },
+    "max_charges": 1000,
+    "charges_per_use": 1,
+    "use_action": [
+      {
+        "type": "train_skill",
+        "training_msg": "You jog on the treadmill, feeling your stamina and general athletics skill improve.",
+        "training_skill": "swimming",
+        "training_skill_min_level": 0,
+        "training_skill_xp": 0,
+        "training_skill_xp_max": 1,
+        "training_skill_max_level": 8,
+        "training_skill_fatigue": 2,
+        "training_skill_interval": 5
+      }
+    ],
+    "flags": [ "USES_GRID_POWER" ]
+  },
+  {
+    "id": "fake_exercise_machine",
+    "copy-from": "fake_item",
+    "type": "TOOL",
+    "name": { "str": "exercise machine" },
+    "max_charges": 1000,
+    "charges_per_use": 1,
+    "use_action": [
+      {
+        "type": "train_skill",
+        "training_msg": "You work out on the exercise machine, training your stamina and athletics skill.",
+        "training_skill": "swimming",
+        "training_skill_min_level": 0,
+        "training_skill_xp": 0,
+        "training_skill_xp_max": 1,
+        "training_skill_max_level": 8,
+        "training_skill_fatigue": 2,
+        "training_skill_interval": 5
+      }
+    ],
+    "flags": [ "USES_GRID_POWER" ]
+  },
+  {
+    "id": "fake_dancing_pole",
+    "copy-from": "fake_item",
+    "type": "TOOL",
+    "name": { "str": "dancing pole" },
+    "use_action": [
+      {
+        "type": "train_skill",
+        "training_msg": "You focus on controlled spins, honing your ability to dodge and react.",
+        "training_skill": "dodge",
+        "training_skill_min_level": 0,
+        "training_skill_xp": 0,
+        "training_skill_xp_max": 1,
+        "training_skill_max_level": 3,
+        "training_skill_fatigue": 2,
+        "training_skill_interval": 5
+      }
+    ]
+  },
+  {
+    "id": "fake_ball_machine",
+    "copy-from": "fake_item",
+    "type": "TOOL",
+    "name": { "str": "ball machine" },
+    "use_action": [
+      {
+        "type": "train_skill",
+        "training_msg": "You focus on dodging the flying projectiles, greatly honing your ability to dodge and react.",
+        "training_skill": "dodge",
+        "training_skill_min_level": 3,
+        "training_skill_xp": 0,
+        "training_skill_xp_max": 2,
+        "training_skill_max_level": 5,
         "training_skill_fatigue": 2,
         "training_skill_interval": 5
       }
@@ -270,18 +353,22 @@
     "copy-from": "fake_item",
     "type": "TOOL",
     "name": { "str": "server" },
+    "max_charges": 1000,
+    "charges_per_use": 1,
     "use_action": [
       {
         "type": "train_skill",
-        "training_msg": "You use the server.",
+        "training_msg": "You examine scripts and programs, learning how the system operates.",
         "training_skill": "computer",
+        "training_skill_min_level": 3,
         "training_skill_xp": 0,
         "training_skill_xp_max": 1,
-        "training_skill_xp_cap": 5,
-        "training_skill_fatigue": 1,
+        "training_skill_max_level": 5,
+        "training_skill_fatigue": 0,
         "training_skill_interval": 5
       }
-    ]
+    ],
+    "flags": [ "USES_GRID_POWER" ]
   },
   {
     "id": "fake_gridgunkit",

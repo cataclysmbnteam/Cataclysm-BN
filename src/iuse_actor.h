@@ -1308,9 +1308,10 @@ class train_skill_actor : public iuse_actor
 {
     public:
         std::string training_skill;
+        int training_skill_min_level;
         int training_skill_xp;
         int training_skill_xp_max;
-        int training_skill_xp_cap;
+        int training_skill_max_level;
         int training_skill_fatigue;
         int training_skill_interval;
         std::string training_msg;

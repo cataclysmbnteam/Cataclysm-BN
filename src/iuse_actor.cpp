@@ -5615,9 +5615,10 @@ std::unique_ptr<iuse_actor> sex_toy_actor::clone() const
 void train_skill_actor::load( JsonObject const &obj )
 {
     training_skill = obj.get_string( "training_skill" );
+    training_skill_min_level = obj.get_int( "training_skill_min_level", 0 );
     training_skill_xp = obj.get_int( "training_skill_xp", 0 );
     training_skill_xp_max = obj.get_int( "training_skill_xp_max", 0 );
-    training_skill_xp_cap = obj.get_int( "training_skill_xp_cap", 0 );
+    training_skill_max_level = obj.get_int( "training_skill_max_level", 0 );
     training_skill_fatigue = obj.get_int( "training_skill_fatigue", 0 );
     training_skill_interval = obj.get_int( "training_skill_interval", 0 );
     training_msg = obj.get_string( "training_msg" );
@@ -5625,6 +5626,11 @@ void train_skill_actor::load( JsonObject const &obj )
 
 int train_skill_actor::use( player &p, item &i, bool, const tripoint & ) const
 {
+    if( p.get_skill_level( skill_id( training_skill ) ) < training_skill_min_level ) {
+        p.add_msg_if_player( "Your skill isn't high enough yet to train using that." );
+        return 0;
+    }
+
     int hours = string_input_popup()
                 .title( "Train for how long (hours)?" )
                 .width( 3 )
@@ -5641,7 +5647,7 @@ int train_skill_actor::use( player &p, item &i, bool, const tripoint & ) const
     p.set_value( "training_iuse_skill", training_skill );
     p.set_value( "training_iuse_skill_xp", std::to_string( training_skill_xp ) );
     p.set_value( "training_iuse_skill_xp_max", std::to_string( training_skill_xp_max ) );
-    p.set_value( "training_iuse_skill_xp_cap", std::to_string( training_skill_xp_cap ) );
+    p.set_value( "training_iuse_skill_xp_max_level", std::to_string( training_skill_max_level ) );
     p.set_value( "training_iuse_skill_fatigue", std::to_string( training_skill_fatigue ) );
     p.set_value( "training_iuse_skill_interval", std::to_string( training_skill_interval ) );
     p.assign_activity( ACT_TRAIN_SKILL, hours * 360000, -1, 0, "training" );

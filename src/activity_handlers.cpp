@@ -2622,14 +2622,14 @@ void activity_handlers::train_skill_do_turn( player_activity *act, player *p )
         std::string training_skill = p->get_value( "training_iuse_skill" );
         int training_skill_xp = atoi( p->get_value( "training_iuse_skill_xp" ).c_str() );
         int training_skill_xp_max = atoi( p->get_value( "training_iuse_skill_xp_max" ).c_str() );
-        int training_skill_xp_cap = atoi( p->get_value( "training_iuse_skill_xp_cap" ).c_str() );
+        int training_skill_max_level = atoi( p->get_value( "training_iuse_skill_xp_max_level" ).c_str() );
         int training_skill_fatigue = atoi( p->get_value( "training_iuse_skill_fatigue" ).c_str() );
 
         p->mod_fatigue( training_skill_fatigue );
         if( skill_training_item.ammo_remaining() > 0 ) {
             skill_training_item.ammo_consume( 1, p->pos() );
             p->practice( skill_id( training_skill ), rng( training_skill_xp, training_skill_xp_max ),
-                         training_skill_xp_cap );
+                         training_skill_max_level );
             if( skill_training_item.ammo_remaining() == 0 ) {
                 add_msg( m_info, _( "The %s runs out of power." ), skill_training_item.tname() );
             }
@@ -2644,7 +2644,7 @@ void activity_handlers::train_skill_do_turn( player_activity *act, player *p )
         } else {
             //twenty minutes to fill
             p->practice( skill_id( training_skill ), rng( training_skill_xp, training_skill_xp_max ),
-                         training_skill_xp_cap );
+                         training_skill_max_level );
         }
     }
 

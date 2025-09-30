@@ -564,11 +564,12 @@
       "ROBOTCONTROL",
       {
         "type": "train_skill",
-        "training_msg": "You tinker about on the laptop for a bit.",
+        "training_msg": "You update software and check logs, improving your understanding slightly.",
         "training_skill": "computer",
+        "training_skill_min_level": 0,
         "training_skill_xp": 0,
         "training_skill_xp_max": 1,
-        "training_skill_xp_cap": 5,
+        "training_skill_max_level": 3,
         "training_skill_fatigue": 1,
         "training_skill_interval": 5
       },
