@@ -830,7 +830,19 @@
         "type": "transform",
         "menu_text": "Activate Flashlight"
       },
+      {
+        "type": "train_skill",
+        "training_msg": "You fiddle with your phone’s settings and apps, picking up some basic computer knowledge.",
+        "training_skill": "computer",
+        "training_skill_min_level": 0,
+        "training_skill_xp": 0,
+        "training_skill_xp_max": 1,
+        "training_skill_max_level": 1,
+        "training_skill_fatigue": 0,
+        "training_skill_interval": 20
+      },
       "CAMERA",
+      "PORTABLE_GAME",
       {
         "type": "music_player",
         "target": "afs_atomic_smartphone_music",
