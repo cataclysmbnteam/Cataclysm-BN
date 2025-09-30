@@ -97,7 +97,7 @@
     "encumbrance": 20,
     "warmth": 25,
     "material_thickness": 4,
-    "valid_mods": [ "steel_padded", "alloy_padded" ],
+    "valid_mods": [ "steel_padded", "hard_steel_padded", "alloy_padded" ],
     "flags": [ "VARSIZE", "STURDY", "BLOCK_WHILE_WORN", "WATER_FRIENDLY" ]
   },
   {
@@ -186,7 +186,6 @@
     "encumbrance": 10,
     "warmth": 5,
     "material_thickness": 3,
-    "valid_mods": [ "resized_large" ],
     "flags": [ "BELTED", "OVERSIZE", "BLOCK_WHILE_WORN" ]
   },
   {
@@ -271,7 +270,7 @@
     "covers": [ "arms" ],
     "coverage": 30,
     "material_thickness": 5,
-    "valid_mods": [ "steel_padded", "alloy_padded", "resized_large" ],
+    "valid_mods": [ "steel_padded", "hard_steel_padded", "alloy_padded", "resized_large", "resized_small" ],
     "flags": [ "WATER_FRIENDLY", "BELTED" ]
   },
   {
@@ -294,7 +293,7 @@
     "warmth": 10,
     "material_thickness": 3,
     "environmental_protection": 1,
-    "valid_mods": [ "steel_padded", "alloy_padded", "resized_large" ],
+    "valid_mods": [ "steel_padded", "hard_steel_padded", "alloy_padded", "resized_large", "resized_small" ],
     "flags": [ "STURDY", "WATER_FRIENDLY" ]
   },
   {
@@ -329,6 +328,7 @@
     "description": "Arm guards made from the hardened scales of large reptiles.",
     "copy-from": "armguard_larmor",
     "material": [ "scute" ],
+    "color": "green",
     "material_thickness": 5,
     "environmental_protection": 4
   }

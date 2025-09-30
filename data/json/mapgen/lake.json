@@ -15,7 +15,7 @@
         [ "f_lake_detritus", 5 ],
         [ "f_lake_pondweed", 5 ],
         [ "f_rubble_rock", 2 ],
-        [ "f_boulder_small", 1 ],
+        [ "f_boulder_small_underwater", 1 ],
         [ "f_boulder_medium", 1 ],
         [ "f_boulder_large", 1 ]
       ]
@@ -27,7 +27,7 @@
     "om_terrain": [ "lake_surface" ],
     "object": {
       "fill_ter": "t_water_dp",
-      "place_vehicles": [ { "vehicle": "lake_boats", "x": [ 11, 12 ], "y": [ 11, 12 ], "rotation": [ 0, 90, 180, 270 ], "chance": 1 } ]
+      "place_nested": [ { "chunks": [ [ "null", 198 ], [ "lakesurface_debris", 2 ], [ "lakesurface_vehicle_spawn", 1 ] ], "x": 0, "y": 0 } ]
     }
   },
   {
@@ -37,7 +37,7 @@
     "//": "not lake stuff, but seemed like this would be the best spot for this definition",
     "object": {
       "fill_ter": "t_water_moving_dp",
-      "place_vehicles": [ { "vehicle": "river_boats", "x": [ 11, 12 ], "y": [ 11, 12 ], "rotation": [ 0, 90, 180, 270 ], "chance": 2 } ]
+      "place_vehicles": [ { "vehicle": "river_boats", "x": [ 11, 12 ], "y": [ 11, 12 ], "rotation": [ 0, 90, 180, 270 ], "chance": 1 } ]
     }
   },
   {
@@ -139,6 +139,43 @@
         { "furn": "f_rubble", "x": [ 0, 11 ], "y": [ 1, 11 ], "repeat": [ 2, 5 ] }
       ],
       "place_items": [ { "item": "lake_bed", "x": [ 0, 11 ], "y": [ 0, 11 ], "repeat": [ 5, 10 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lakesurface_debris",
+    "//": "Random floating surface trash and an autoskimmer",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rotation": [ 0, 3 ],
+      "place_furniture": [
+        { "furn": "f_rubble_water", "x": [ 6, 18 ], "y": [ 6, 18 ], "repeat": [ 10, 15 ] },
+        { "furn": "f_rubble_water", "x": [ 9, 14 ], "y": [ 9, 14 ], "repeat": [ 20, 25 ] }
+      ],
+      "place_vehicles": [
+        {
+          "chance": 10,
+          "fuel": 0,
+          "rotation": [ 0, 90, 180 ],
+          "status": 1,
+          "vehicle": "water_autosweeper",
+          "x": [ 15, 16 ],
+          "y": [ 15, 16 ]
+        }
+      ],
+      "place_items": [ { "item": "trash", "x": [ 9, 14 ], "y": [ 9, 14 ], "repeat": [ 100, 200 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lakesurface_vehicle_spawn",
+    "//": "Random boat, effective spawn rate is 0.5%",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rotation": [ 0, 3 ],
+      "place_vehicles": [ { "vehicle": "lake_boats", "x": [ 11, 12 ], "y": [ 11, 12 ], "rotation": [ 0, 90, 180, 270 ], "chance": 100 } ]
     }
   },
   {

@@ -7,9 +7,11 @@
 #include <optional>
 #include <set>
 #include <string>
+#include <utility>
 #include <vector>
 
 #include "avatar.h"
+#include "bodypart.h"
 #include "calendar.h"
 #include "cata_utility.h" // for normal_cdf
 #include "creature.h"
@@ -24,6 +26,7 @@
 #include "map.h"
 #include "messages.h"
 #include "monster.h"
+#include "mtype.h"
 #include "options.h"
 #include "projectile.h"
 #include "rng.h"
@@ -241,6 +244,7 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
     const bool is_bullet = proj_arg.speed >= 200 &&
                            !proj.has_effect( ammo_effect_NO_PENETRATE_OBSTACLES );
 
+
     // If we were targetting a tile rather than a monster, don't overshoot
     // Unless the target was a wall, then we are aiming high enough to overshoot
     const bool no_overshoot = proj.has_effect( ammo_effect_NO_OVERSHOOT ) ||
@@ -250,6 +254,8 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
 
     tripoint target = target_arg;
     std::vector<tripoint> trajectory;
+    std::vector<std::pair<monster, const dealt_projectile_attack>> hit_monsters;
+
     if( aim.missed_by_tiles >= 1.0 ) {
         // We missed enough to target a different tile
         double dx = target_arg.x - source.x;
@@ -321,7 +327,24 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
         --traj_len;
     }
 
-    const float projectile_skip_multiplier = 0.1;
+    // Non-ballistic physical projectiles lose range if they overpenetrate.
+    const bool is_projectile_modify_overpenetration =
+        proj.impact.type_damage( DT_BASH ) > 0 ||
+        proj.impact.type_damage( DT_CUT ) > 0 ||
+        proj.impact.type_damage( DT_STAB ) > 0;
+
+    // Arrow, sling or the like; 0.75x or 0.5x penalty depending on which damagetype was highest.
+    const float projectile_overpenetration_modifier =
+        ( proj.impact.type_damage( DT_CUT ) + proj.impact.type_damage( DT_STAB )
+          >= proj.impact.type_damage( DT_BASH ) ) ? 0.75f : 0.5f;
+
+    // Bullets, lasers, or other projectiles; 0.9x range penalty but no additional damage penalty.
+    const float overpenetration_modifier = is_projectile_modify_overpenetration
+                                           ? projectile_overpenetration_modifier
+                                           : 0.9f;
+
+    constexpr float projectile_skip_multiplier = 0.1f;
+
     // Randomize the skip so that bursts look nicer
     int projectile_skip_calculation = range * projectile_skip_multiplier;
     int projectile_skip_current_frame = rng( 0, projectile_skip_calculation );
@@ -424,6 +447,16 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
             }
         }
 
+        // Penalize damage and/or range on overpenetration.
+        auto apply_overpenetration_penalty = [&]( bool modify_damage ) {
+            traj_len *= overpenetration_modifier;
+            if( modify_damage ) {
+                proj.impact.mult_damage( overpenetration_modifier );
+                add_msg( m_debug, "Projectile damage and range *= %.1f", overpenetration_modifier );
+            } else {
+                add_msg( m_debug, "Projectile range *= %.1f", overpenetration_modifier );
+            }
+        };
 
         if( critter != nullptr && cur_missed_by < 1.0 ) {
             if( in_veh != nullptr && veh_pointer_or_null( here.veh_at( tp ) ) == in_veh &&
@@ -433,10 +466,17 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
                 continue;
             }
             attack.missed_by = cur_missed_by;
-            critter->deal_projectile_attack( null_source ? nullptr : origin, source_weapon, attack );
+            if( mon != nullptr ) {
+                mon->deal_projectile_attack( null_source ? nullptr : origin, source_weapon, attack, true );
+            } else {
+                critter->deal_projectile_attack( null_source ? nullptr : origin, source_weapon, attack );
+            }
             // Critter can still dodge the projectile
             // In this case hit_critter won't be set
             if( attack.hit_critter != nullptr ) {
+                if( mon != nullptr ) {
+                    hit_monsters.push_back( std::make_pair( *mon, attack ) );
+                }
                 const size_t bt_len = blood_trail_len( attack.dealt_dam.total_damage() );
                 if( bt_len > 0 ) {
                     const tripoint &dest = move_along_line( tp, trajectory, bt_len );
@@ -444,14 +484,23 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
                 }
                 sfx::do_projectile_hit( *attack.hit_critter );
                 has_momentum = proj.impact.total_damage() > 0 && is_bullet;
+
+                apply_overpenetration_penalty( is_projectile_modify_overpenetration );
             } else {
                 attack.missed_by = aim.missed_by;
             }
         } else if( in_veh != nullptr && veh_pointer_or_null( here.veh_at( tp ) ) == in_veh ) {
             // Don't do anything, especially don't call map::shoot as this would damage the vehicle
         } else {
+            // Track damage before processing so we'll know if we actually hit any cover.
+            const float dmg_before_penetration = proj.impact.total_damage();
             here.shoot( source, tp, proj, !no_item_damage && tp == target );
-            has_momentum = proj.impact.total_damage() > 0;
+            const float dmg_after_penetration = proj.impact.total_damage();
+            has_momentum = dmg_after_penetration > 0;
+            // We lost momentum from hitting something, penalize range.
+            if( dmg_before_penetration > dmg_after_penetration ) {
+                apply_overpenetration_penalty( is_projectile_modify_overpenetration );
+            }
         }
         if( !has_momentum && here.impassable( tp ) &&
             !here.has_flag( flag_THIN_OBSTACLE, tp ) ) {
@@ -507,6 +556,14 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
         }
     }
     explosion_handler::get_explosion_queue().execute();
+    size_t num_hit = hit_monsters.size();
+    for( size_t i = 0; i < num_hit; ++i ) {
+        auto nextattack = hit_monsters[i];
+        monster attackedmon = nextattack.first;
+        const dealt_projectile_attack attacked_proj = nextattack.second;
+        // Copy from monster::on_hit
+        attackedmon.type->sp_defense( attackedmon, origin, &attacked_proj );
+    }
     return attack;
 }
 

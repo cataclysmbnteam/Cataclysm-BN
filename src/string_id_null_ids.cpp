@@ -42,6 +42,7 @@ MAKE_CLASS_NULL_ID( translation, "null" )
 MAKE_CLASS_NULL_ID( VehicleGroup, "null" )
 MAKE_CLASS_NULL_ID( vpart_info, "null" )
 MAKE_CLASS_NULL_ID( zone_type, "null" )
+MAKE_CLASS_NULL_ID( profession, "" )
 
 
 

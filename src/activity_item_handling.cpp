@@ -3193,15 +3193,14 @@ bool find_auto_consume( player &p, const consume_type type )
 
     using namespace cata::ranges;
 
-    const auto compare = []( const item * a, const item * b ) {
-        return a->spoilage_sort_order() < b->spoilage_sort_order();
-    };
+    auto get_spoil = []( const item * a ) { return a->spoilage_sort_order(); };
+
     std::optional<item *> stalest = mgr.get_near( consume_type_zone, here.getabs( pos ),
                                     ACTIVITY_SEARCH_DISTANCE )
                                     | views::filter( [&]( const auto & loc ) -> bool { return loc.z == p.pos().z; } )
                                     | flat_map( get_items_at )
                                     | views::filter( ok_to_consume )
-                                    | min_by( compare );
+                                    | min_by( get_spoil );
     if( !stalest ) {
         return false;
     }

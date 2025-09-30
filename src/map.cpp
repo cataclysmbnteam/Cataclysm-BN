@@ -548,7 +548,7 @@ bool map::vehproceed( VehicleList &vehicle_list )
     // Then vertical-only movement
     if( cur_veh == nullptr ) {
         for( wrapped_vehicle &vehs_v : vehicle_list ) {
-            if( vehs_v.v->is_falling || ( vehs_v.v->is_rotorcraft() && vehs_v.v->get_z_change() != 0 ) ) {
+            if( vehs_v.v->is_falling || ( vehs_v.v->is_aircraft() && vehs_v.v->get_z_change() != 0 ) ) {
                 cur_veh = &vehs_v;
                 break;
             }
@@ -642,7 +642,7 @@ vehicle *map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &fac
     // Split into vertical and horizontal movement
     const int &coll_velocity = vertical ? veh.vertical_velocity : veh.velocity;
     const int velocity_before = coll_velocity;
-    if( velocity_before == 0 && !veh.is_rotorcraft() && !veh.is_flying_in_air() ) {
+    if( velocity_before == 0 && !veh.is_aircraft() && !veh.is_flying_in_air() ) {
         debugmsg( "%s tried to move %s with no velocity",
                   veh.name, vertical ? "vertically" : "horizontally" );
         return &veh;
@@ -716,7 +716,7 @@ vehicle *map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &fac
 
     const int velocity_after = coll_velocity;
     bool can_move = velocity_after != 0 && sgn( velocity_after ) == sgn( velocity_before );
-    if( dp.z != 0 && veh.is_rotorcraft() ) {
+    if( dp.z != 0 && veh.is_aircraft() ) {
         can_move = true;
     }
     units::angle coll_turn = 0_degrees;
@@ -1366,7 +1366,9 @@ bool map::displace_vehicle( vehicle &veh, const tripoint &dp )
         }
         veh.check_is_heli_landed();
     }
-
+    if( veh.is_flying_in_air() ) {
+        veh.check_is_heli_landed();
+    }
     if( remote ) {
         // Has to be after update_map or coordinates won't be valid
         g->setremoteveh( &veh );
@@ -1508,7 +1510,8 @@ void map::furn_set( const tripoint &p, const furn_id &new_furniture,
         set_outside_cache_dirty( p.z );
     }
 
-    if( old_t.has_flag( TFLAG_NO_FLOOR ) != new_t.has_flag( TFLAG_NO_FLOOR ) ) {
+    if( ( old_t.has_flag( TFLAG_NO_FLOOR ) != new_t.has_flag( TFLAG_NO_FLOOR ) ) ||
+        ( old_t.has_flag( TFLAG_Z_TRANSPARENT ) != new_t.has_flag( TFLAG_Z_TRANSPARENT ) ) ) {
         set_floor_cache_dirty( p.z );
         set_seen_cache_dirty( p );
     }
@@ -1636,7 +1639,7 @@ uint8_t map::get_known_connections( const tripoint &p, int connect_group,
     }
 #endif
 
-    const bool overridden = override.find( p ) != override.end();
+    const bool overridden = override.contains( p );
     const bool is_transparent = ch.transparency_cache[p.x][p.y] > LIGHT_TRANSPARENCY_SOLID;
 
     // populate connection information
@@ -1687,7 +1690,7 @@ uint8_t map::get_known_connections_f( const tripoint &p, int connect_group,
     }
 #endif
 
-    const bool overridden = override.find( p ) != override.end();
+    const bool overridden = override.contains( p );
     const bool is_transparent = ch.transparency_cache[p.x][p.y] > LIGHT_TRANSPARENCY_SOLID;
 
     // populate connection information
@@ -1842,6 +1845,11 @@ bool map::ter_set( const tripoint &p, const ter_id &new_terrain )
         set_floor_cache_dirty( p.z );
         // It's a set, not a flag
         support_cache_dirty.insert( p );
+        set_seen_cache_dirty( p );
+    }
+
+    if( new_t.has_flag( TFLAG_Z_TRANSPARENT ) != old_t.has_flag( TFLAG_Z_TRANSPARENT ) ) {
+        set_floor_cache_dirty( p.z );
         set_seen_cache_dirty( p );
     }
 
@@ -2165,7 +2173,7 @@ int map::climb_difficulty( const tripoint &p ) const
     return std::max( 0, best_difficulty - blocks_movement );
 }
 
-bool map::has_floor( const tripoint &p ) const
+bool map::has_floor( const tripoint &p, bool visible_only ) const
 {
     if( !zlevels || p.z < -OVERMAP_DEPTH + 1 || p.z > OVERMAP_HEIGHT ) {
         return true;
@@ -2175,7 +2183,8 @@ bool map::has_floor( const tripoint &p ) const
         return true;
     }
 
-    return get_cache_ref( p.z ).floor_cache[p.x][p.y];
+    return get_cache_ref( p.z ).floor_cache[p.x][p.y] || ( !visible_only &&
+            has_flag( TFLAG_Z_TRANSPARENT, p ) );
 }
 
 bool map::floor_between( const tripoint &first, const tripoint &second ) const
@@ -2713,7 +2722,12 @@ bool map::is_water_shallow_current( const tripoint &p ) const
 
 bool map::is_divable( const tripoint &p ) const
 {
-    return has_flag( "SWIMMABLE", p ) && has_flag( TFLAG_DEEP_WATER, p );
+    const std::optional<vpart_reference> vp = veh_at( p ).part_with_feature( VPFLAG_BOARDABLE,
+            true );
+    if( !vp ) {
+        return has_flag( "SWIMMABLE", p ) && has_flag( TFLAG_DEEP_WATER, p );
+    }
+    return false;
 }
 
 bool map::is_outside( const tripoint &p ) const
@@ -2926,7 +2940,7 @@ bool map::has_nearby_table( const tripoint &p, int radius )
         if( has_flag( "FLAT_SURF", pt ) ) {
             return true;
         }
-        if( vp && ( vp->vehicle().has_part( "KITCHEN" ) || vp->vehicle().has_part( "FLAT_SURF" ) ) ) {
+        if( vp && ( vp->vehicle().has_part( "FLAT_SURF" ) ) ) {
             return true;
         }
     }
@@ -5300,150 +5314,35 @@ std::vector<detached_ptr<item>> map::use_charges( const tripoint &origin, const 
             continue;
         }
 
-        const std::optional<vpart_reference> kpart = vp.part_with_feature( "FAUCET", true );
-        const std::optional<vpart_reference> weldpart = vp.part_with_feature( "WELDRIG", true );
-        const std::optional<vpart_reference> craftpart = vp.part_with_feature( "CRAFTRIG", true );
-        const std::optional<vpart_reference> butcherpart = vp.part_with_feature( "BUTCHER_EQ", true );
-        const std::optional<vpart_reference> forgepart = vp.part_with_feature( "FORGE", true );
-        const std::optional<vpart_reference> kilnpart = vp.part_with_feature( "KILN", true );
-        const std::optional<vpart_reference> chempart = vp.part_with_feature( "CHEMLAB", true );
+        const std::optional<vpart_reference> crafterpart = vp.part_with_feature( "CRAFTER", true );
+        const std::optional<vpart_reference> faupart = vp.part_with_feature( "FAUCET", true );
         const std::optional<vpart_reference> autoclavepart = vp.part_with_feature( "AUTOCLAVE", true );
         const std::optional<vpart_reference> cargo = vp.part_with_feature( "CARGO", true );
 
-        if( kpart ) { // we have a faucet, now to see what to drain
+        if( crafterpart ) {
+            for( itype_id id : crafterpart->info().craftertools() ) {
+                if( type == id ) {
+                    detached_ptr<item> tmp = item::spawn( type, calendar::start_of_cataclysm );
+                    tmp->charges = crafterpart->vehicle().drain( itype_battery, quantity );
+                    quantity -= tmp->charges;
+                    ret.push_back( std::move( tmp ) );
+
+                    if( quantity == 0 ) {
+                        return ret;
+                    }
+                }
+            }
+        }
+        if( faupart ) { // we have a faucet, now to see what to drain
             itype_id ftype = itype_id::NULL_ID();
 
-            // Special case hotplates which draw battery power
-            if( type == itype_hotplate ) {
-                ftype = itype_battery;
-            } else {
-                ftype = type;
-            }
+            ftype = type;
 
             // TODO: add a sane birthday arg
             //TODO!: check if we actually need the return  here
             detached_ptr<item> tmp = item::spawn( type, calendar::start_of_cataclysm );
-            tmp->charges = kpart->vehicle().drain( ftype, quantity );
+            tmp->charges = faupart->vehicle().drain( ftype, quantity );
             // TODO: Handle water poison when crafting starts respecting it
-            quantity -= tmp->charges;
-            ret.push_back( std::move( tmp ) );
-
-            if( quantity == 0 ) {
-                return ret;
-            }
-        }
-
-        if( weldpart ) { // we have a weldrig, now to see what to drain
-            itype_id ftype = itype_id::NULL_ID();
-
-            if( type == itype_welder ) {
-                ftype = itype_battery;
-            } else if( type == itype_soldering_iron ) {
-                ftype = itype_battery;
-            }
-            // TODO: add a sane birthday arg
-            detached_ptr<item> tmp = item::spawn( type, calendar::start_of_cataclysm );
-            tmp->charges = weldpart->vehicle().drain( ftype, quantity );
-            quantity -= tmp->charges;
-            ret.push_back( std::move( tmp ) );
-
-            if( quantity == 0 ) {
-                return ret;
-            }
-        }
-
-        if( craftpart ) { // we have a craftrig, now to see what to drain
-            itype_id ftype = itype_id::NULL_ID();
-
-            if( type == itype_press ) {
-                ftype = itype_battery;
-            } else if( type == itype_vac_sealer ) {
-                ftype = itype_battery;
-            } else if( type == itype_dehydrator ) {
-                ftype = itype_battery;
-            } else if( type == itype_food_processor ) {
-                ftype = itype_battery;
-            }
-
-            // TODO: add a sane birthday arg
-            detached_ptr<item> tmp = item::spawn( type, calendar::start_of_cataclysm );
-            tmp->charges = craftpart->vehicle().drain( ftype, quantity );
-            quantity -= tmp->charges;
-            ret.push_back( std::move( tmp ) );
-
-            if( quantity == 0 ) {
-                return ret;
-            }
-        }
-
-        if( butcherpart ) {// we have a butchery station, now to see what to drain
-            itype_id ftype = itype_id::NULL_ID();
-
-            if( type == itype_butchery ) {
-                ftype = itype_battery;
-            }
-
-            // TODO: add a sane birthday arg
-            detached_ptr<item> tmp = item::spawn( type, calendar::start_of_cataclysm );
-            tmp->charges = butcherpart->vehicle().drain( ftype, quantity );
-            quantity -= tmp->charges;
-            ret.push_back( std::move( tmp ) );
-
-            if( quantity == 0 ) {
-                return ret;
-            }
-        }
-
-        if( forgepart ) { // we have a veh_forge, now to see what to drain
-            itype_id ftype = itype_id::NULL_ID();
-
-            if( type == itype_forge ) {
-                ftype = itype_battery;
-            }
-
-            // TODO: add a sane birthday arg
-            detached_ptr<item> tmp = item::spawn( type, calendar::start_of_cataclysm );
-            tmp->charges = forgepart->vehicle().drain( ftype, quantity );
-            quantity -= tmp->charges;
-            ret.push_back( std::move( tmp ) );
-
-            if( quantity == 0 ) {
-                return ret;
-            }
-        }
-
-        if( kilnpart ) { // we have a veh_kiln, now to see what to drain
-            itype_id ftype = itype_id::NULL_ID();
-
-            if( type == itype_kiln ) {
-                ftype = itype_battery;
-            }
-
-            // TODO: add a sane birthday arg
-            detached_ptr<item> tmp = item::spawn( type, calendar::start_of_cataclysm );
-            tmp->charges = kilnpart->vehicle().drain( ftype, quantity );
-            quantity -= tmp->charges;
-            ret.push_back( std::move( tmp ) );
-
-            if( quantity == 0 ) {
-                return ret;
-            }
-        }
-
-        if( chempart ) { // we have a chem_lab, now to see what to drain
-            itype_id ftype = itype_id::NULL_ID();
-
-            if( type == itype_chemistry_set ) {
-                ftype = itype_battery;
-            } else if( type == itype_hotplate ) {
-                ftype = itype_battery;
-            } else if( type == itype_electrolysis_kit ) {
-                ftype = itype_battery;
-            }
-
-            // TODO: add a sane birthday arg
-            detached_ptr<item> tmp = item::spawn( type, calendar::start_of_cataclysm );
-            tmp->charges = chempart->vehicle().drain( ftype, quantity );
             quantity -= tmp->charges;
             ret.push_back( std::move( tmp ) );
 
@@ -6540,9 +6439,9 @@ bool map::sees( const tripoint &F, const tripoint &T, const int range,
             }
         } else {
             const int max_z = std::max( new_point.z, last_point.z );
-            if( ( has_floor_or_support( {new_point.xy(), max_z} ) ||
+            if( ( has_floor( {new_point.xy(), max_z}, true ) ||
                   !is_transparent( {new_point.xy(), last_point.z} ) ) &&
-                ( has_floor_or_support( {last_point.xy(), max_z} ) ||
+                ( has_floor( {last_point.xy(), max_z}, true ) ||
                   !is_transparent( {last_point.xy(), new_point.z} ) ) ) {
                 visible = false;
                 return false;
@@ -7414,7 +7313,7 @@ void map::loadn( const tripoint &grid, const bool update_vehicles )
         auto &map_cache = get_cache( grid.z );
         for( const auto &veh : tmpsub->vehicles ) {
             // Only add if not tracking already.
-            if( map_cache.vehicle_list.find( veh.get() ) == map_cache.vehicle_list.end() ) {
+            if( !map_cache.vehicle_list.contains( veh.get() ) ) {
                 map_cache.vehicle_list.insert( veh.get() );
                 if( !veh->loot_zones.empty() ) {
                     map_cache.zone_vehicles.insert( veh.get() );
@@ -8468,7 +8367,7 @@ bool map::build_floor_cache( const int zlev )
                 for( int sy = 0; sy < SEEY; ++sy ) {
                     point sp( sx, sy );
                     const ter_t &terrain = cur_submap->get_ter( sp ).obj();
-                    if( terrain.has_flag( TFLAG_NO_FLOOR ) ) {
+                    if( terrain.has_flag( TFLAG_NO_FLOOR ) || terrain.has_flag( TFLAG_Z_TRANSPARENT ) ) {
                         if( below_submap && ( below_submap->get_furn( sp ).obj().has_flag( TFLAG_SUN_ROOF_ABOVE ) ) ) {
                             continue;
                         }

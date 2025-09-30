@@ -132,12 +132,11 @@ static const itype_id fuel_type_muscle( "muscle" );
 static const itype_id fuel_type_sun_light( "sunlight" );
 static const itype_id fuel_type_wind( "wind" );
 
-static const itype_id itype_adv_UPS_off( "adv_UPS_off" );
 static const itype_id itype_anesthetic( "anesthetic" );
 static const itype_id itype_burnt_out_bionic( "burnt_out_bionic" );
 static const itype_id itype_radiocontrol( "radiocontrol" );
 static const itype_id itype_remotevehcontrol( "remotevehcontrol" );
-static const itype_id itype_UPS_off( "UPS_off" );
+static const itype_id itype_UPS( "UPS" );
 static const itype_id itype_water_clean( "water_clean" );
 
 static const fault_id fault_bionic_nonsterile( "fault_bionic_nonsterile" );
@@ -1218,10 +1217,10 @@ bool Character::deactivate_bionic( bionic &bio, bool eff_only )
     } else if( bio.id == bio_cqb ) {
         martial_arts_data->selected_style_check();
     } else if( bio.id == bio_remote ) {
-        if( g->remoteveh() != nullptr && !has_active_item( itype_remotevehcontrol ) ) {
+        if( g->remoteveh() != nullptr && !has_active_item_with_action( "REMOTEVEH" ) ) {
             g->setremoteveh( nullptr );
         } else if( !get_value( "remote_controlling" ).empty() &&
-                   !has_active_item( itype_radiocontrol ) ) {
+                   !has_active_item_with_action( "REMOTEVEH" ) ) {
             set_value( "remote_controlling", "" );
         }
     } else if( bio.id == bio_tools ) {
@@ -1525,11 +1524,8 @@ itype_id Character::find_remote_fuel( bool look_only )
                     return itm.get_var( "cable" ) == "plugged_in";
                 };
                 if( !look_only ) {
-                    if( has_charges( itype_UPS_off, 1, used_ups ) ) {
-                        set_value( "rem_battery", std::to_string( charges_of( itype_UPS_off,
-                                   units::to_kilojoule( max_power_level ), used_ups ) ) );
-                    } else if( has_charges( itype_adv_UPS_off, 1, used_ups ) ) {
-                        set_value( "rem_battery", std::to_string( charges_of( itype_adv_UPS_off,
+                    if( has_charges( itype_UPS, 1, used_ups ) ) {
+                        set_value( "rem_battery", std::to_string( charges_of( itype_UPS,
                                    units::to_kilojoule( max_power_level ), used_ups ) ) );
                     } else {
                         set_value( "rem_battery", std::to_string( 0 ) );
@@ -1587,11 +1583,8 @@ units::energy Character::consume_remote_fuel( units::energy amount )
                 static const item_filter used_ups = [&]( const item & itm ) {
                     return itm.get_var( "cable" ) == "plugged_in";
                 };
-                if( has_charges( itype_UPS_off, amount_kj, used_ups ) ) {
-                    use_charges( itype_UPS_off, amount_kj, used_ups );
-                    unconsumed_amount = 0_J;
-                } else if( has_charges( itype_adv_UPS_off, amount_kj, used_ups ) ) {
-                    use_charges( itype_adv_UPS_off, roll_remainder( amount_kj * 0.5 ), used_ups );
+                if( has_charges( itype_UPS, amount_kj, used_ups ) ) {
+                    use_charges( itype_UPS, amount_kj, used_ups );
                     unconsumed_amount = 0_J;
                 }
                 break;
@@ -2449,7 +2442,7 @@ bool Character::can_install_bionics( const itype &type, Character &installer, bo
     }
 
     if( !conflicting_muts.empty() &&
-        !query_yn(
+        !g->u.query_yn(
             _( "Installing this bionic will remove the conflicting traits: %s.  Continue anyway?" ),
             enumerate_as_string( conflicting_muts ) ) ) {
         return false;

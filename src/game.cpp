@@ -47,6 +47,7 @@
 #include "bodypart.h"
 #include "calendar.h"
 #include "cata_utility.h"
+#include "catalua_hooks.h"
 #include "catacharset.h"
 #include "character.h"
 #include "character_display.h"
@@ -107,6 +108,7 @@
 #include "line.h"
 #include "live_view.h"
 #include "loading_ui.h"
+#include "npc.h"
 #include "magic.h"
 #include "map.h"
 #include "map_functions.h"
@@ -117,6 +119,7 @@
 #include "mapdata.h"
 #include "mapsharing.h"
 #include "memorial_logger.h"
+#include "memory_fast.h"
 #include "messages.h"
 #include "mission.h"
 #include "mod_manager.h"
@@ -126,7 +129,6 @@
 #include "morale_types.h"
 #include "mtype.h"
 #include "mutation.h"
-#include "npc.h"
 #include "npc_class.h"
 #include "omdata.h"
 #include "options.h"
@@ -142,6 +144,7 @@
 #include "player_activity.h"
 #include "point_float.h"
 #include "popup.h"
+#include "profession.h"
 #include "profile.h"
 #include "ranged.h"
 #include "recipe.h"
@@ -162,6 +165,7 @@
 #include "string_id.h"
 #include "string_input_popup.h"
 #include "submap.h"
+#include "type_id.h"
 #include "tileray.h"
 #include "timed_event.h"
 #include "translations.h"
@@ -252,7 +256,6 @@ static const itype_id itype_holybook_bible1( "holybook_bible1" );
 static const itype_id itype_holybook_bible2( "holybook_bible2" );
 static const itype_id itype_holybook_bible3( "holybook_bible3" );
 static const itype_id itype_manhole_cover( "manhole_cover" );
-static const itype_id itype_remotevehcontrol( "remotevehcontrol" );
 static const itype_id itype_rm13_armor_on( "rm13_armor_on" );
 static const itype_id itype_rope_30( "rope_30" );
 static const itype_id itype_swim_fins( "swim_fins" );
@@ -447,6 +450,20 @@ void game::reload_tileset( [[maybe_unused]] const std::function<void( std::strin
         tilecontext->do_tile_loading_report( out );
     } catch( const std::exception &err ) {
         popup( _( "Loading the tileset failed: %s" ), err.what() );
+    }
+    try {
+        overmap_tilecontext->reinit();
+        std::vector<mod_id> dummy;
+        overmap_tilecontext->load_tileset(
+            get_option<std::string>( "OVERMAP_TILES" ),
+            world_generator->active_world ? world_generator->active_world->info->active_mod_order : dummy,
+            /*precheck=*/false,
+            /*force=*/true,
+            /*pump_events=*/true
+        );
+        overmap_tilecontext->do_tile_loading_report( out );
+    } catch( const std::exception &err ) {
+        popup( _( "Loading the overmap tileset failed: %s" ), err.what() );
     }
     g->reset_zoom();
     g->mark_main_ui_adaptor_resize();
@@ -705,6 +722,24 @@ bool game::start_game()
           !g->scen->has_flag( "LONE_START" ) ) ) {
         create_starting_npcs();
     }
+    if( !!u.prof ) {
+        for( npc_class_id npcid : u.prof->npcs() ) {
+            shared_ptr_fast<npc> tmp = make_shared_fast<npc>();
+            tmp->randomize( npcid );
+            auto point = random_point( m.points_in_radius( u.pos(), 10 ), [&]( const tripoint & p ) {
+                return m.has_floor( p ) && !is_dangerous_tile( p ) && m.passable( p );
+            } );
+            if( !point ) {
+                break;
+            }
+            tmp->spawn_at_precise( { get_levx(), get_levy() }, *point );
+            overmap_buffer.insert_npc( tmp );
+            tmp->set_fac( faction_id( "your_followers" ) );
+            tmp->mission = NPC_MISSION_NULL;
+            tmp->set_attitude( NPCATT_FOLLOW );
+            add_npc_follower( tmp->getID() );
+        }
+    }
     //Load NPCs. Set nearby npcs to active.
     load_npcs();
 
@@ -801,7 +836,7 @@ bool game::start_game()
     update_map( u );
     // Profession pets
     for( const mtype_id &elem : u.starting_pets ) {
-        if( monster *const mon = place_critter_around( elem, u.pos(), 5 ) ) {
+        if( monster *const mon = place_critter_around( elem, u.pos(), 60 ) ) {
             mon->friendly = -1;
             mon->add_effect( effect_pet, 1_turns );
         } else {
@@ -813,6 +848,14 @@ bool game::start_game()
         const auto mission = mission::reserve_new( m, character_id() );
         mission->assign( u );
     }
+
+    // Same for profession missions
+    if( !!u.prof ) {
+        for( const mission_type_id &m : u.prof->missions() ) {
+            mission *new_mission = mission::reserve_new( m, character_id() );
+            new_mission->assign( u );
+        }
+    }
     g->events().send<event_type::game_start>( u.getID() );
     for( Skill &elem : Skill::skills ) {
         int level = u.get_skill_level_object( elem.ident() ).level();
@@ -820,6 +863,7 @@ bool game::start_game()
             g->events().send<event_type::gains_skill_level>( u.getID(), elem.ident(), level );
         }
     }
+    cata::run_hooks( "on_game_started" );
     return true;
 }
 
@@ -831,43 +875,44 @@ vehicle *game::place_vehicle_nearby(
     if( search_types.empty() ) {
         vehicle veh( id );
         if( veh.can_float() ) {
-            search_types.emplace_back( "river" );
-            search_types.emplace_back( "lake" );
+            search_types.emplace_back( "river_shore" );
+            search_types.emplace_back( "lake_shore" );
+            search_types.emplace_back( "lake_surface" );
         } else {
             search_types.emplace_back( "field" );
             search_types.emplace_back( "road" );
         }
     }
+    // TODO: Pull-up find_params and use that scan result instead
+    // find nearest road
+    omt_find_params find_params;
     for( const std::string &search_type : search_types ) {
-        // TODO: Pull-up find_params and use that scan result instead
-        // find nearest road
-        omt_find_params find_params;
         find_params.types.emplace_back( search_type, ot_match_type::type );
-        find_params.search_range = { min_distance, max_distance };
-        find_params.search_layers = std::nullopt;
+    }
+    find_params.search_range = { min_distance, max_distance };
+    find_params.search_layers = std::nullopt;
 
-        // if player spawns underground, park their car on the surface.
-        const tripoint_abs_omt omt_origin( origin, 0 );
-        for( const tripoint_abs_omt &goal : overmap_buffer.find_all( omt_origin, find_params ) ) {
-            // try place vehicle there.
-            tinymap target_map;
-            target_map.load( project_to<coords::sm>( goal ), false );
-            const tripoint tinymap_center( SEEX, SEEY, goal.z() );
-            static constexpr std::array<units::angle, 4> angles = {{
-                    0_degrees, 90_degrees, 180_degrees, 270_degrees
-                }
-            };
-            vehicle *veh = target_map.add_vehicle(
-                               id, tinymap_center, random_entry( angles ), rng( 50, 80 ), 0, false );
-            if( veh ) {
-                tripoint abs_local = m.getlocal( target_map.getabs( tinymap_center ) );
-                veh->sm_pos =  ms_to_sm_remain( abs_local );
-                veh->pos = abs_local.xy();
-                overmap_buffer.add_vehicle( veh );
-                veh->tracking_on = true;
-                target_map.save();
-                return veh;
+    // if player spawns underground, park their car on the surface.
+    const tripoint_abs_omt omt_origin( origin, 0 );
+    for( const tripoint_abs_omt &goal : overmap_buffer.find_all( omt_origin, find_params ) ) {
+        // try place vehicle there.
+        tinymap target_map;
+        target_map.load( project_to<coords::sm>( goal ), false );
+        const tripoint tinymap_center( SEEX, SEEY, goal.z() );
+        static constexpr std::array<units::angle, 4> angles = {{
+                0_degrees, 90_degrees, 180_degrees, 270_degrees
             }
+        };
+        vehicle *veh = target_map.add_vehicle(
+                           id, tinymap_center, random_entry( angles ), rng( 50, 80 ), 0, false );
+        if( veh ) {
+            tripoint abs_local = m.getlocal( target_map.getabs( tinymap_center ) );
+            veh->sm_pos =  ms_to_sm_remain( abs_local );
+            veh->pos = abs_local.xy();
+            overmap_buffer.add_vehicle( veh );
+            veh->tracking_on = true;
+            target_map.save();
+            return veh;
         }
     }
     return nullptr;
@@ -2325,7 +2370,7 @@ vehicle *game::remoteveh()
     remoteveh_cache_time = calendar::turn;
     std::stringstream remote_veh_string( u.get_value( "remote_controlling_vehicle" ) );
     if( remote_veh_string.str().empty() ||
-        ( !u.has_active_bionic( bio_remote ) && !u.has_active_item( itype_remotevehcontrol ) ) ) {
+        ( !u.has_active_bionic( bio_remote ) && !u.has_active_item_with_action( "REMOTEVEH" ) ) ) {
         remoteveh_cache = nullptr;
     } else {
         tripoint vp;
@@ -2345,7 +2390,7 @@ void game::setremoteveh( vehicle *veh )
     remoteveh_cache_time = calendar::turn;
     remoteveh_cache = veh;
     if( veh != nullptr && !u.has_active_bionic( bio_remote ) &&
-        !u.has_active_item( itype_remotevehcontrol ) ) {
+        !u.has_active_item_with_action( "REMOTEVEH" ) ) {
         debugmsg( "Tried to set remote vehicle without bio_remote or remotevehcontrol" );
         veh = nullptr;
     }
@@ -2667,6 +2712,7 @@ bool game::load( const save_t &name )
     validate_mounted_npcs();
     validate_linked_vehicles();
     update_map( u );
+    m.build_floor_cache( get_levz() );
     for( auto &e : u.inv_dump() ) {
         e->set_owner( g->u );
     }
@@ -3692,8 +3738,8 @@ Creature *game::is_hostile_within( int distance )
 
     return nullptr;
 }
-
-std::unordered_set<tripoint> game::get_fishable_locations( int distance, const tripoint &fish_pos )
+//Gets Contiguious Fishable Terrain in radius starting from the tripoint
+std::unordered_set<tripoint> game::get_fishable_locations( int radius, const tripoint &fish_pos )
 {
     // We're going to get the contiguous fishable terrain starting at
     // the provided fishing location (e.g. where a line was cast or a fish
@@ -3704,8 +3750,8 @@ std::unordered_set<tripoint> game::get_fishable_locations( int distance, const t
 
     std::unordered_set<tripoint> visited;
 
-    const tripoint fishing_boundary_min( fish_pos + point( -distance, -distance ) );
-    const tripoint fishing_boundary_max( fish_pos + point( distance, distance ) );
+    const tripoint fishing_boundary_min( fish_pos + point( -radius, -radius ) );
+    const tripoint fishing_boundary_max( fish_pos + point( radius, radius ) );
 
     const inclusive_cuboid<tripoint> fishing_boundaries(
         fishing_boundary_min, fishing_boundary_max );
@@ -3719,7 +3765,7 @@ std::unordered_set<tripoint> game::get_fishable_locations( int distance, const t
             to_check.pop();
 
             // We've been here before, so bail.
-            if( visited.find( current_point ) != visited.end() ) {
+            if( visited.contains( current_point ) ) {
                 continue;
             }
 
@@ -3749,24 +3795,6 @@ std::unordered_set<tripoint> game::get_fishable_locations( int distance, const t
     get_fishable_terrain( fish_pos, fishable_points );
 
     return fishable_points;
-}
-
-std::vector<monster *> game::get_fishable_monsters( std::unordered_set<tripoint>
-        &fishable_locations )
-{
-    std::vector<monster *> unique_fish;
-    for( monster &critter : all_monsters() ) {
-        // If it is fishable...
-        if( critter.has_flag( MF_FISHABLE ) ) {
-            const tripoint critter_pos = critter.pos();
-            // ...and it is in a fishable location.
-            if( fishable_locations.find( critter_pos ) != fishable_locations.end() ) {
-                unique_fish.push_back( &critter );
-            }
-        }
-    }
-
-    return unique_fish;
 }
 
 // Print monster info to the given window
@@ -5384,7 +5412,8 @@ bool game::npc_menu( npc &who )
         sort_armor,
         attack,
         disarm,
-        steal
+        steal,
+        control
     };
 
     const bool obeys = debug_mode || ( who.is_player_ally() && !who.in_sleep_state() );
@@ -5403,6 +5432,9 @@ bool game::npc_menu( npc &who )
     if( !who.is_player_ally() ) {
         amenu.addentry( disarm, who.is_armed(), 'd', _( "Disarm" ) );
         amenu.addentry( steal, !who.is_enemy(), 'S', _( "Steal" ) );
+    }
+    if( who.is_player_ally() ) {
+        amenu.addentry( control, who.is_player_ally(), 'c', _( "Control" ) );
     }
 
     amenu.query();
@@ -5477,6 +5509,8 @@ bool game::npc_menu( npc &who )
         }
     } else if( choice == steal && query_yn( _( "You may be attacked!  Proceed?" ) ) ) {
         avatar_funcs::try_steal_from_npc( u, who );
+    } else if( choice == control ) {
+        get_avatar().control_npc( who );
     }
 
     return true;
@@ -7196,11 +7230,35 @@ void game::zoom_out()
 #endif
 }
 
+void game::zoom_out_overmap()
+{
+#if defined(TILES)
+    if( overmap_tileset_zoom > MAXIMUM_ZOOM_LEVEL ) {
+        overmap_tileset_zoom /= 2;
+    } else {
+        overmap_tileset_zoom = 64;
+    }
+    overmap_tilecontext->set_draw_scale( overmap_tileset_zoom );
+#endif
+}
+
 void game::zoom_in()
 {
 #if defined(TILES)
     tileset_zoom = calc_next_zoom( tileset_zoom, 1 );
     rescale_tileset( tileset_zoom );
+#endif
+}
+
+void game::zoom_in_overmap()
+{
+#if defined(TILES)
+    if( overmap_tileset_zoom == 64 ) {
+        overmap_tileset_zoom = MAXIMUM_ZOOM_LEVEL;
+    } else {
+        overmap_tileset_zoom *= 2;
+    }
+    overmap_tilecontext->set_draw_scale( overmap_tileset_zoom );
 #endif
 }
 
@@ -9181,7 +9239,8 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp )
         }
     }
 
-    if( m.has_flag_ter_or_furn( TFLAG_HIDE_PLACE, dest_loc ) ) {
+    if( m.has_flag_ter_or_furn( TFLAG_HIDE_PLACE, dest_loc ) &&
+        u.get_size() <= creature_size::medium ) {
         add_msg( m_good, _( "You are hiding in the %s." ), m.name( dest_loc ) );
     }
 
@@ -10425,9 +10484,15 @@ void game::vertical_move( int movez, bool force, bool peeking )
             }
             // ...and we're trying to move up
             else if( movez == 1 ) {
-                // ...and there's more water above us us.
-                if( target_ter->has_flag( TFLAG_WATER_CUBE ) ||
-                    target_ter->has_flag( TFLAG_DEEP_WATER ) ) {
+                const std::optional<vpart_reference> vp = get_map().veh_at( u.pos() + tripoint( 0, 0,
+                        movez ) ).part_with_feature( VPFLAG_BOARDABLE,
+                                                     true );
+                if( vp ) {
+                    add_msg( m_info, _( "You can't board a boat from underneath it!" ) );
+                    return;
+                    // ...and there's more water above us, but no boats blocking the way.
+                } else if( target_ter->has_flag( TFLAG_WATER_CUBE ) ||
+                           target_ter->has_flag( TFLAG_DEEP_WATER ) ) {
                     // Then go ahead and move up.
                     add_msg( _( "You swim up." ) );
                 } else {
@@ -11705,7 +11770,7 @@ void game::process_artifact( item &it, Character &who )
                         if( calendar::once_every( 1_minutes ) ) {
                             add_msg( m_bad, _( "You feel fatigue seeping into your body." ) );
                             u.mod_fatigue( 3 * rng( 1, 3 ) );
-                            u.mod_stamina( -90 * rng( 1, 3 ) * rng( 1, 3 ) * rng( 2, 3 ) );
+                            u.mod_stamina( -90 * rng( 1, 3 ) * rng( 1, 3 ) * rng( 2, 3 ), false );
                             it.charges++;
                         }
                         break;

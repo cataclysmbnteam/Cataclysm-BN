@@ -952,8 +952,8 @@ static void draw_ascii( ui_adaptor &ui,
             const bool los = see && player_character.overmap_los( omp, sight_points );
             const bool los_sky = player_character.overmap_los( omp_sky, sight_points * 2 );
 
-            const bool is_npc_path = npc_path_route.find( omp ) != npc_path_route.end();
-            const bool is_player_path = player_path_route.find( omp.xy() ) != player_path_route.end();
+            const bool is_npc_path = npc_path_route.contains( omp );
+            const bool is_player_path = player_path_route.contains( omp.xy() );
             const int player_path_z = is_player_path ? player_path_route[ omp.xy() ] : 0;
 
             if( blink && omp == pl_pos ) {
@@ -1886,7 +1886,7 @@ static std::vector<tripoint_abs_omt> get_overmap_path_to( const tripoint_abs_omt
         }
         player_veh = &vp->vehicle();
         // for now we can only handle flyers if already in the air
-        const bool can_fly = player_veh->is_rotorcraft() && player_veh->is_flying_in_air();
+        const bool can_fly = player_veh->is_aircraft() && player_veh->is_flying_in_air();
         const bool can_float = player_veh->can_float();
         const bool can_drive = player_veh->valid_wheel_config();
         // TODO: check engines/fuel
@@ -2054,10 +2054,10 @@ static tripoint_abs_omt display( const tripoint_abs_omt &orig,
         } else if( action == "LEVEL_UP" && curs.z() < OVERMAP_HEIGHT ) {
             curs.z() += 1;
         } else if( action == "ZOOM_OUT" ) {
-            g->zoom_out();
+            g->zoom_out_overmap();
             ui.mark_resize();
         } else  if( action == "ZOOM_IN" ) {
-            g->zoom_in();
+            g->zoom_in_overmap();
             ui.mark_resize();
         } else if( action == "CONFIRM" ) {
             ret = curs;

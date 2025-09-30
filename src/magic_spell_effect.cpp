@@ -206,7 +206,7 @@ static std::set<tripoint> spell_effect_cone_range_override( const tripoint &sour
     const units::angle start_angle = initial_angle - half_width;
     const units::angle end_angle = initial_angle + half_width;
     std::set<tripoint> end_points;
-    for( units::angle angle = start_angle; angle <= end_angle; angle += 1_degrees ) {
+    for( units::angle angle = start_angle; angle <= end_angle; angle += 0.5_degrees ) {
         tripoint potential;
         calc_ray_end( angle, range, source, potential );
         end_points.emplace( potential );
@@ -398,9 +398,6 @@ std::set<tripoint> calculate_spell_effect_area( const spell &sp, const tripoint 
         aoe_func, const Creature &caster, bool ignore_walls )
 {
     std::set<tripoint> targets = { target }; // initialize with epicenter
-    if( sp.aoe() <= 1 && sp.effect() != "line_attack" ) {
-        return targets;
-    }
 
     const int aoe_radius = sp.aoe();
     targets = aoe_func( sp, caster.pos(), target, aoe_radius, ignore_walls );
@@ -933,7 +930,7 @@ void spell_effect::recover_energy( const spell &sp, Creature &caster, const trip
     if( energy_source == "MANA" ) {
         p->magic->mod_mana( *p, healing );
     } else if( energy_source == "STAMINA" ) {
-        p->mod_stamina( healing );
+        p->mod_stamina( healing, sp.has_flag( PHYSICAL ) );
     } else if( energy_source == "FATIGUE" ) {
         // fatigue is backwards
         p->mod_fatigue( -healing );
@@ -941,7 +938,7 @@ void spell_effect::recover_energy( const spell &sp, Creature &caster, const trip
         if( healing > 0 ) {
             p->mod_power_level( units::from_kilojoule( healing ) );
         } else {
-            p->mod_stamina( healing );
+            p->mod_stamina( healing, sp.has_flag( PHYSICAL ) );
         }
     } else if( energy_source == "PAIN" ) {
         // pain is backwards
@@ -1035,8 +1032,6 @@ void spell_effect::spawn_summoned_monster( const spell &sp, Creature &caster,
                 sound_played = true;
                 sp.make_sound( *iter );
             }
-        } else {
-            add_msg( m_bad, "failed to place monster" );
         }
         // whether or not we succeed in spawning a monster, we don't want to try this tripoint again
         area.erase( iter );

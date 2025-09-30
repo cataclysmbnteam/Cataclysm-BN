@@ -246,11 +246,6 @@
   },
   {
     "type": "construction_group",
-    "id": "build_double_glazed_glass_window",
-    "name": "Build Double Glazed Glass Window"
-  },
-  {
-    "type": "construction_group",
     "id": "build_dresser",
     "name": "Build Dresser"
   },
@@ -346,8 +341,18 @@
   },
   {
     "type": "construction_group",
-    "id": "build_junk_metal_floor",
+    "id": "build_junk_metal_door",
+    "name": "Build Junk Metal Door"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_junk_metal_floor_noroof",
     "name": "Build Junk Metal Floor"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_junk_metal_floor",
+    "name": "Build Junk Metal Roof Over Floor"
   },
   {
     "type": "construction_group",
@@ -516,11 +521,6 @@
   },
   {
     "type": "construction_group",
-    "id": "build_quadruple_glazed_glass_window",
-    "name": "Build Quadruple Glazed Glass Window"
-  },
-  {
-    "type": "construction_group",
     "id": "build_rammed_earth_wall",
     "name": "Build Rammed Earth Wall"
   },
@@ -536,11 +536,6 @@
   },
   {
     "type": "construction_group",
-    "id": "build_reinforced_double_glazed_glass_window",
-    "name": "Build Reinforced Double Glazed Glass Window"
-  },
-  {
-    "type": "construction_group",
     "id": "build_reinforced_glass_window",
     "name": "Build Reinforced Glass Window"
   },
@@ -548,21 +543,6 @@
     "type": "construction_group",
     "id": "build_reinforced_plastic_window",
     "name": "Build Reinforced Plastic Window"
-  },
-  {
-    "type": "construction_group",
-    "id": "build_reinforced_quadruple_glazed_glass_window",
-    "name": "Build Reinforced Quadruple Glazed Glass Window"
-  },
-  {
-    "type": "construction_group",
-    "id": "build_reinforced_single_glazed_glass_window",
-    "name": "Build Reinforced Single Glazed Glass Window"
-  },
-  {
-    "type": "construction_group",
-    "id": "build_reinforced_triple_glazed_glass_window",
-    "name": "Build Reinforced Triple Glazed Glass Window"
   },
   {
     "type": "construction_group",
@@ -646,11 +626,6 @@
   },
   {
     "type": "construction_group",
-    "id": "build_single_glazed_glass_window",
-    "name": "Build Single Glazed Glass Window"
-  },
-  {
-    "type": "construction_group",
     "id": "build_sky_light",
     "name": "Build Sky Light"
   },
@@ -731,11 +706,6 @@
   },
   {
     "type": "construction_group",
-    "id": "build_triple_glazed_glass_window",
-    "name": "Build Triple Glazed Glass Window"
-  },
-  {
-    "type": "construction_group",
     "id": "build_wardrobe",
     "name": "Build Wardrobe"
   },
@@ -778,6 +748,11 @@
     "type": "construction_group",
     "id": "build_wood_wall",
     "name": "Build Wood Wall"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_treasure_chest",
+    "name": "Build Wooden Chest"
   },
   {
     "type": "construction_group",
@@ -1113,6 +1088,11 @@
     "type": "construction_group",
     "id": "make_gravel_floor",
     "name": "Make Gravel Floor"
+  },
+  {
+    "type": "construction_group",
+    "id": "make_trash_island",
+    "name": "Make Trash Island"
   },
   {
     "type": "construction_group",
@@ -1546,6 +1526,11 @@
   },
   {
     "type": "construction_group",
+    "id": "clog_migo_emitter_resin",
+    "name": "Clog Mi-Go gas emitter"
+  },
+  {
+    "type": "construction_group",
     "id": "build_concrete_lump",
     "name": "Remove Mi-Go gas emitter"
   },
@@ -1593,5 +1578,50 @@
     "type": "construction_group",
     "id": "build_adobe_roof",
     "name": "Build Roof Over Adobe Floor"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_bathtub_money",
+    "name": "Fill Bathtub with Money"
+  },
+  {
+    "type": "construction_group",
+    "id": "remove_bathtub_money",
+    "name": "Remove Money from Bathtub"
+  },
+  {
+    "type": "construction_group",
+    "id": "water_fill_pit",
+    "name": "Fill Pit With Water"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_high_end_of_a_natural_ramp",
+    "name": "Dig High End of a Ramp"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_low_end_of_a_natural_ramp",
+    "name": "Dig Low End of a Ramp"
+  },
+  {
+    "type": "construction_group",
+    "id": "makeshift_bridge",
+    "name": "Construct Crude Bridge"
+  },
+  {
+    "type": "construction_group",
+    "id": "quarry_ground",
+    "name": "Quarry Ground Away"
+  },
+  {
+    "type": "construction_group",
+    "id": "quarry_roof",
+    "name": "Remove Flat Roof"
+  },
+  {
+    "type": "construction_group",
+    "id": "add_grass",
+    "name": "Plant Grass"
   }
 ]

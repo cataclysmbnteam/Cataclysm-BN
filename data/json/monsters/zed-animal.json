@@ -11,6 +11,7 @@
     "weight": "81500 g",
     "hp": 250,
     "speed": 150,
+    "attack_cost": 150,
     "material": [ "flesh" ],
     "symbol": "^",
     "color": "white_magenta",
@@ -25,9 +26,24 @@
     "armor_cut": 2,
     "armor_bullet": 2,
     "luminance": 0,
+    "vision_day": 5,
+    "vision_night": 5,
     "harvest": "zombie_tooth_leather",
     "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "SWIMS", "AQUATIC", "POISON", "NO_BREATHE", "REVIVES" ]
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "KEENNOSE",
+      "WARM",
+      "SWIMS",
+      "AQUATIC",
+      "POISON",
+      "NO_BREATHE",
+      "REVIVES",
+      "BASHES",
+      "DESTROYS"
+    ]
   },
   {
     "id": "mon_zombie_dog",
@@ -67,7 +83,7 @@
     "description": "This once-canine has shed all of its skin, revealing a carapace of fused bones and ribs.  Devoid entirely of flesh, this walking suit of bone seems to be controlled by a net of veins and sinews which pulse with glistening black goo.",
     "default_faction": "zombie",
     "bodytype": "quadruped",
-    "species": [ "ZOMBIE" ],
+    "species": [ "ZOMBIE", "SKELETON" ],
     "volume": "30000 ml",
     "weight": "40750 g",
     "hp": 12,
@@ -90,6 +106,7 @@
     "harvest": "mr_bones",
     "special_attacks": [ { "type": "bite", "cooldown": 5 } ],
     "death_function": [ "NORMAL" ],
+    "death_drops": "mon_dog_death_drops",
     "flags": [ "SEES", "HEARS", "NO_BREATHE", "HARDTOSHOOT", "REVIVES", "POISON" ]
   },
   {
@@ -152,6 +169,7 @@
     "vision_day": 30,
     "vision_night": 4,
     "harvest": "zombie",
+    "death_drops": "mon_dog_death_drops",
     "special_attacks": [ { "type": "bite", "cooldown": 2, "accuracy": 4, "no_infection_chance": 12 } ],
     "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "PUSH_MON" ]

@@ -1,6 +1,5 @@
 #include "catalua_hooks.h"
 #include "catalua_impl.h"
-#include "catalua_sol.h"
 
 namespace cata
 {
@@ -9,7 +8,14 @@ constexpr auto hook_names = std::array
 {
     "on_game_load",
     "on_game_save",
+    "on_game_started",
     "on_character_reset_stats",
+    "on_mon_death",
+    "on_char_death",
+    "on_creature_dodged",
+    "on_creature_blocked",
+    "on_creature_performed_technique",
+    "on_creature_melee_attacked",
     "on_mapgen_postprocess",
 };
 

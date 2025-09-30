@@ -1,34 +1,86 @@
 [
   {
-    "id": "mon_bat",
+    "id": "mon_bat_pup",
     "type": "MONSTER",
-    "name": { "str": "bat" },
-    "description": "One of the vesper bats, a family of winged insect-eating mammals.  It roosts in caves and other hollows, and uses a form of echolocation to aerially navigate through tricky terrain at rapid speeds.",
+    "name": { "str": "bat pup" },
+    "description": "One of the vesper bats, a family of winged insect-eating mammals.  This one seems very young.",
     "default_faction": "small_animal",
     "bodytype": "bird",
     "categories": [ "WILDLIFE" ],
     "species": [ "MAMMAL" ],
-    "volume": "750 ml",
-    "weight": "1 kg",
-    "hp": 10,
-    "speed": 230,
+    "volume": "375 ml",
+    "weight": "500 g",
+    "hp": 1,
+    "speed": 100,
     "material": [ "flesh" ],
     "symbol": "w",
     "color": "brown",
-    "aggression": -25,
-    "morale": 5,
-    "melee_skill": 4,
+    "aggression": -99,
+    "morale": -8,
+    "melee_skill": 1,
     "melee_dice": 1,
     "melee_dice_sides": 1,
     "melee_cut": 1,
-    "dodge": 8,
+    "dodge": 4,
     "harvest": "mammal_tiny",
     "vision_day": 20,
     "vision_night": 20,
     "special_attacks": [ { "type": "bite", "cooldown": 15 } ],
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
     "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "SMELLS", "HEARS", "GOODHEARING", "WARM", "FLIES", "ANIMAL", "PATH_AVOID_DANGER_1" ]
+    "flags": [ "SEES", "SMELLS", "HEARS", "GOODHEARING", "WARM", "FLIES", "ANIMAL", "PATH_AVOID_DANGER_1" ],
+    "petfood": {
+      "food": [ "BATFOOD" ],
+      "feed": "The %s seems to like you!",
+      "pet": "The %s flies around you, screeching a song of friendship."
+    }
+  },
+  {
+    "id": "mon_bat",
+    "type": "MONSTER",
+    "name": { "str": "bat" },
+    "description": "One of the vesper bats, a family of winged insect-eating mammals.  It roosts in caves and other hollows, and uses a form of echolocation to aerially navigate through tricky terrain at rapid speeds.",
+    "copy-from": "mon_bat_pup",
+    "volume": "750 ml",
+    "weight": "1 kg",
+    "hp": 10,
+    "speed": 230,
+    "aggression": -25,
+    "morale": 5,
+    "melee_skill": 4,
+    "dodge": 8
+  },
+  {
+    "id": "mon_bat_vampire",
+    "type": "MONSTER",
+    "name": { "str": "vampire bat" },
+    "description": "One of the Desmodontinae bats, a family of winged blood-eating mammals.  It roosts in caves and other hollows, and uses a form of echolocation to aerially navigate through tricky terrain at rapid speeds.",
+    "copy-from": "mon_bat",
+    "aggression": 1,
+    "delete": { "petfood": "food" }
+  },
+  {
+    "id": "mon_bat_vampire_mutant",
+    "type": "MONSTER",
+    "name": { "str": "mutant vampire bat" },
+    "description": "One of the Desmodontinae bats, a family of winged blood-eating mammals.  This one looks terribly larger and stronger than its other kin.",
+    "copy-from": "mon_bat_vampire",
+    "volume": "25 L",
+    "weight": "25 kg",
+    "hp": 20,
+    "speed": 230,
+    "material": [ "flesh" ],
+    "color": "red",
+    "aggression": 25,
+    "morale": 20,
+    "melee_skill": 7,
+    "melee_dice": 2,
+    "melee_dice_sides": 3,
+    "melee_cut": 4,
+    "dodge": 6,
+    "harvest": "mutant_mammal_small_fur",
+    "delete": { "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ] },
+    "anger_triggers": [ "STALK", "FRIEND_ATTACKED", "FRIEND_DIED", "PLAYER_WEAK", "PLAYER_CLOSE" ]
   },
   {
     "id": "mon_bear_cub",
@@ -49,7 +101,13 @@
     "dodge": 2,
     "harvest": "mammal_fur",
     "special_attacks": [ [ "EAT_FOOD", 60 ] ],
-    "upgrades": { "age_grow": 480, "into": "mon_bear" }
+    "upgrades": { "age_grow": 480, "into": "mon_bear" },
+    "petfood": {
+      "food": [ "DOGFOOD" ],
+      "feed": "The %s seems to like you!",
+      "pet": "The %s looks at you with big puppy eyes.",
+      "tamer_traits": [ [ "ANIMALEMPATH", "THRESH_URSINE" ] ]
+    }
   },
   {
     "id": "mon_bear",
@@ -187,7 +245,8 @@
     "death_function": [ "NORMAL" ],
     "upgrades": { "age_grow": 38, "into": "mon_boar_wild" },
     "special_attacks": [ [ "EAT_FOOD", 40 ] ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "KEENNOSE", "BLEED" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "KEENNOSE", "BLEED" ],
+    "petfood": { "food": [ "DOGFOOD" ], "feed": "The %s seems to like you!", "pet": "The %s squeals happily at you." }
   },
   {
     "id": "mon_boar_wild",
@@ -226,7 +285,8 @@
     "placate_triggers": [ "MEAT" ],
     "death_function": [ "NORMAL" ],
     "special_attacks": [ [ "EAT_FOOD", 20 ] ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "PET_MOUNTABLE", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "KEENNOSE", "BLEED" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "PET_MOUNTABLE", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "KEENNOSE", "BLEED" ],
+    "petfood": { "food": [ "DOGFOOD" ], "feed": "The %s seems to like you!", "pet": "The %s squeals happily at you." }
   },
   {
     "id": "mon_bobcat",
@@ -789,7 +849,12 @@
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
     "death_function": [ "NORMAL" ],
     "upgrades": { "age_grow": 330, "into": "mon_deer" },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM" ],
+    "petfood": {
+      "food": [ "CATTLEFOOD" ],
+      "feed": "The %s seems to like you!",
+      "pet": "The %s kicks its leg happily as you scratch it."
+    }
   },
   {
     "id": "mon_deer",
@@ -823,7 +888,12 @@
     "//": " 201 days gestation period. The fawn will stay with its mother for approximately one year, suckling for three to four months.",
     "baby_flags": [ "SPRING", "SUMMER" ],
     "special_attacks": [ [ "EAT_CROP", 60 ] ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM" ],
+    "petfood": {
+      "food": [ "CATTLEFOOD" ],
+      "feed": "The %s seems to like you!",
+      "pet": "The %s kicks its leg happily as you scratch it."
+    }
   },
   {
     "id": "mon_dog",
@@ -858,6 +928,7 @@
     "anger_triggers": [ "HURT", "FRIEND_ATTACKED", "FRIEND_DIED" ],
     "placate_triggers": [ "MEAT" ],
     "death_function": [ "NORMAL" ],
+    "death_drops": "mon_dog_death_drops",
     "petfood": {
       "food": [ "DOGFOOD" ],
       "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
@@ -2219,7 +2290,8 @@
     "vision_night": 5,
     "anger_triggers": [ "FRIEND_ATTACKED", "HURT" ],
     "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "CLIMBS", "PATH_AVOID_DANGER_1", "WARM", "KEENNOSE", "BLEED" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "CLIMBS", "PATH_AVOID_DANGER_1", "WARM", "KEENNOSE", "BLEED" ],
+    "petfood": { "food": [ "CATFOOD", "DOGFOOD" ], "feed": "The %s seems to like you!", "pet": "The %s looks at you lovingly." }
   },
   {
     "id": "mon_rat_king",
@@ -2307,7 +2379,8 @@
     "death_function": [ "NORMAL" ],
     "upgrades": { "age_grow": 240, "into": "mon_sheep" },
     "//": "Puberty reached in 6-9 months.",
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM" ],
+    "petfood": { "food": [ "CATTLEFOOD" ], "feed": "The %s seems to like you! It lets you pat its head and seems friendly." }
   },
   {
     "id": "mon_sheep",

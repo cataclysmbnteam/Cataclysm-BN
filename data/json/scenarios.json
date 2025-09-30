@@ -28,6 +28,8 @@
       "sloc_church",
       "sloc_cemetery"
     ],
+    "professions": [ "neighborhood_watch" ],
+    "add_professions": true,
     "start_name": "In Town",
     "flags": [ "CITY_START" ]
   },
@@ -46,12 +48,15 @@
     ],
     "professions": [
       "prof_pirate",
+      "prof_pirate_captain",
+      "smuggler",
+      "castaway",
       "professional_diver",
       "underwater_welder",
       "bionic_diver",
       "fisher",
       "davy_jones",
-      "specops",
+      "specops_frogman",
       "lagoon_creature",
       "sharkboy"
     ],
@@ -102,6 +107,8 @@
       "sloc_police",
       "sloc_town_hall"
     ],
+    "professions": [ "neighborhood_watch" ],
+    "add_professions": true,
     "start_name": "In Town",
     "surround_groups": [ [ "GROUP_BLACK_ROAD", 70.0 ] ],
     "flags": [ "CITY_START", "LONE_START" ]
@@ -134,6 +141,8 @@
     "flags": [ "INFECTED", "CITY_START" ],
     "id": "infected",
     "points": -4,
+    "professions": [ "neighborhood_watch" ],
+    "add_professions": true,
     "start_name": "In Town",
     "allowed_locs": [
       "sloc_shelter_vandalized",
@@ -162,6 +171,8 @@
     "flags": [ "FIRE_START", "CITY_START" ],
     "id": "fire",
     "points": -2,
+    "professions": [ "neighborhood_watch" ],
+    "add_professions": true,
     "start_name": "In Town",
     "allowed_locs": [
       "sloc_house",
@@ -263,6 +274,7 @@
       "prof_feral_survivalist",
       "prof_feral_soldier",
       "prof_feral_cyborg",
+      "prof_feral_mutant",
       "prof_feral_maid",
       "prof_feral_socialite",
       "prof_feral_armored",
@@ -291,7 +303,8 @@
       "cykotic",
       "convict_political",
       "homeless",
-      "convict_ratman"
+      "convict_ratman",
+      "mutant_escape_team_lab"
     ],
     "allowed_locs": [ "sloc_lab_random", "sloc_lab_escape_cells", "sloc_lab_finale", "sloc_ice_lab_stairs", "sloc_ice_lab_finale" ],
     "traits": [
@@ -343,6 +356,7 @@
       "WINGS_BIRD",
       "WINGS_INSECT",
       "WINGS_BAT",
+      "TAIL_SNAKE",
       "SMALL",
       "LARGE"
     ],
@@ -355,7 +369,17 @@
     "points": -8,
     "description": "You were deemed non-essential and made to stay behind during the lab evacuation.  Find a way to escape or starve to death.",
     "start_name": "Locked Lab",
-    "professions": [ "labtech", "bionic_labtech", "security", "medic", "bionic_installer", "bio_medic", "bionic_mentat", "bionic_spy" ],
+    "professions": [
+      "labtech",
+      "bionic_labtech",
+      "security",
+      "medic",
+      "bionic_installer",
+      "bio_medic",
+      "bionic_mentat",
+      "bionic_spy",
+      "military_saboteur"
+    ],
     "allowed_locs": [ "sloc_lab_random", "sloc_lab_escape_cells", "sloc_lab_finale", "sloc_ice_lab_stairs", "sloc_ice_lab_finale" ],
     "flags": [ "CHALLENGE", "CITY_START", "LONE_START" ]
   },
@@ -400,7 +424,9 @@
       "waste_ranger",
       "player_bandit",
       "monster_hunter",
-      "monster_slayer"
+      "monster_slayer",
+      "gyro_pilot",
+      "bird_pilot"
     ]
   },
   {
@@ -435,7 +461,9 @@
       "waste_ranger",
       "player_bandit",
       "monster_hunter",
-      "monster_slayer"
+      "monster_slayer",
+      "gyro_pilot",
+      "bird_pilot"
     ]
   },
   {
@@ -446,7 +474,7 @@
     "description": "When the apocalypse broke out, you were funneled into the nearest shelter.  Here you have lived, never leaving, lest the unknowns of the outside world hurt you.  Supplies are running low, and for the first time since the Cataclysm, you will be forced to face the outside world.",
     "allowed_locs": [ "sloc_lmoe_empty", "sloc_shelter" ],
     "start_name": "Enclosed Shelter",
-    "flags": [ "WIN_START", "LONE_START" ],
+    "flags": [ "WIN_START", "LONE_START", "CITY_START" ],
     "professions": [
       "sheltered_militia",
       "sheltered_survivor",
@@ -457,7 +485,8 @@
       "lumberjack",
       "lawyer",
       "politician",
-      "unemployed"
+      "unemployed",
+      "neighborhood_watch"
     ]
   },
   {
@@ -489,7 +518,8 @@
       "convict_political",
       "convict_ratman",
       "k9_cop",
-      "cop"
+      "cop",
+      "convict_escape_team"
     ],
     "flags": [ "CITY_START", "LONE_START" ]
   },
@@ -509,7 +539,8 @@
       "convict_political",
       "convict_ratman",
       "k9_cop",
-      "cop"
+      "cop",
+      "convict_escape_team"
     ],
     "flags": [ "LONE_START", "CHALLENGE", "OUTDOOR" ]
   },
@@ -521,7 +552,7 @@
     "description": "You find yourself in the most alien place you've ever seen.  The hot humid air and the organic aspect of the structure makes you feel like you're trapped inside a giant creature.  Whatever it is, you need to get out of here before They find you.",
     "allowed_locs": [ "sloc_mi-go_camp" ],
     "start_name": "Mi-Go Camp",
-    "professions": [ "captive", "rescuer", "monster_hunter" ],
+    "professions": [ "captive", "migo_escapee", "migo_experiment", "rescuer", "monster_hunter", "escape_team_migo" ],
     "flags": [ "LONE_START", "CHALLENGE", "WIN_START" ]
   },
   {
@@ -582,6 +613,7 @@
       "WINGS_BIRD",
       "WINGS_INSECT",
       "WINGS_BAT",
+      "TAIL_SNAKE",
       "SMALL",
       "LARGE"
     ],
@@ -636,7 +668,11 @@
       "mil_marksman",
       "prof_combat_engineer",
       "specops",
+      "specops_frogman",
       "power_armor_soldier",
+      "lifter_mech_pilot",
+      "combat_mech_pilot",
+      "recon_mech_pilot",
       "bio_soldier",
       "bio_sniper",
       "bionic_spy",
@@ -664,6 +700,7 @@
       "gangster",
       "prof_ninja",
       "specops",
+      "specops_frogman",
       "bionic_spy",
       "bionic_hitman",
       "bio_gangster",
@@ -681,7 +718,17 @@
     "description": "You were participating in a mining operation when you found… something.  You're not sure what, but it sure is dark down here.",
     "start_name": "Bottom of a mine",
     "allowed_locs": [ "sloc_mine_finale" ],
-    "professions": [ "miner", "labtech", "bionic_labtech", "security", "bionic_worker", "archaeologist", "drone_op", "demolition_expert" ],
+    "professions": [
+      "miner",
+      "labtech",
+      "bionic_labtech",
+      "security",
+      "bionic_worker",
+      "archaeologist",
+      "drone_op",
+      "demolition_expert",
+      "lifter_mech_pilot"
+    ],
     "flags": [ "CITY_START", "LONE_START" ]
   },
   {
@@ -693,7 +740,15 @@
     "start_name": "Emergency Landing Site",
     "allowed_locs": [ "sloc_field", "sloc_forest" ],
     "missions": [ "MISSION_HELICOPTER_REFUEL" ],
-    "professions": [ "heli_pilot_scenario", "gyro_pilot", "mili_pilot_blackhawk" ],
+    "professions": [
+      "heli_pilot_scenario",
+      "blimp_pilot_scenario",
+      "plane_pilot_scenario",
+      "medic_pilot",
+      "gyro_pilot",
+      "bird_pilot",
+      "mili_pilot_blackhawk"
+    ],
     "flags": [ "LONE_START" ]
   },
   {
@@ -738,7 +793,11 @@
       "mil_marksman",
       "prof_combat_engineer",
       "specops",
+      "specops_frogman",
       "power_armor_soldier",
+      "lifter_mech_pilot",
+      "combat_mech_pilot",
+      "recon_mech_pilot",
       "bio_soldier",
       "bio_sniper",
       "labtech",
@@ -789,7 +848,11 @@
       "mil_grenadier",
       "mil_marksman",
       "specops",
+      "specops_frogman",
       "power_armor_soldier",
+      "lifter_mech_pilot",
+      "combat_mech_pilot",
+      "recon_mech_pilot",
       "bio_soldier",
       "bio_sniper",
       "medic",

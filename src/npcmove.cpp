@@ -123,6 +123,9 @@ static const itype_id itype_smoxygen_tank( "smoxygen_tank" );
 static const itype_id itype_thorazine( "thorazine" );
 static const itype_id itype_oxygen_tank( "oxygen_tank" );
 
+static const itype_id fuel_wind( "wind" );
+static const itype_id fuel_sunlight( "sunlight" );
+
 static constexpr float NPC_DANGER_VERY_LOW = 5.0f;
 static constexpr float NPC_DANGER_MAX = 150.0f;
 static constexpr float MAX_FLOAT = 5000000000.0f;
@@ -155,15 +158,6 @@ const std::vector<bionic_id> power_cbms = { {
         bio_advreactor,
         bio_furnace,
         bio_reactor,
-    }
-};
-const std::vector<bionic_id> defense_cbms = { {
-        bio_ads,
-        bio_faraday,
-        bio_heat_absorb,
-        bio_heatsink,
-        bio_ods,
-        bio_shock
     }
 };
 
@@ -370,20 +364,23 @@ void npc::assess_danger()
     }
 
     Character &player_character = get_player_character();
+    // NPCs will hold back from charging if they get in trouble.
     const bool self_defense_only = rules.engagement == combat_engagement::NO_MOVE ||
-                                   rules.engagement == combat_engagement::NONE;
+                                   rules.engagement == combat_engagement::NONE ||
+                                   emergency();
     const bool no_fighting = rules.has_flag( ally_rule::forbid_engage );
-    const bool must_retreat = is_walking_with() && rules.has_flag( ally_rule::follow_close ) &&
+    // Companion NPCs will additionally break off to return to the player when in trouble if not already ordered to.
+    const bool must_retreat = is_walking_with() && ( emergency() ||
+                              rules.has_flag( ally_rule::follow_close ) ) &&
                               !too_close( pos(), player_character.pos(), follow_distance() );
 
-    if( is_player_ally() ) {
-        if( rules.engagement == combat_engagement::FREE_FIRE ) {
-            def_radius = std::max( 6, max_range );
-        } else if( self_defense_only ) {
-            def_radius = max_range;
-        } else if( no_fighting ) {
-            def_radius = 1;
-        }
+    // Set this for non-companion NPCs too so all NPCs will switch to self-defense if low on stamina or wounded.
+    if( rules.engagement == combat_engagement::FREE_FIRE ) {
+        def_radius = std::max( 6, max_range );
+    } else if( self_defense_only ) {
+        def_radius = max_range;
+    } else if( no_fighting ) {
+        def_radius = 1;
     }
 
     const auto ok_by_rules = [max_range, def_radius, this, &player_character]( const Creature & c,
@@ -813,6 +810,28 @@ void npc::move()
     } else {
         // No present danger
         deactivate_combat_cbms();
+
+        // Deactivate Armor & Weapons
+        for( auto &elem : worn ) {
+            // The is_active() part was taken from is_wearing_active_power_armor
+            if( elem->has_flag( flag_COMBAT_NPC_USE ) && elem->has_flag( flag_COMBAT_NPC_ON ) ) {
+                if( elem->get_use( "transform" ) ) {
+                    invoke_item( elem, "transform" );
+                } else if( elem->get_use( "set_transform" ) ) {
+                    invoke_item( elem, "set_transform" );
+                }
+            }
+        }
+        item &weapon = primary_weapon();
+        if( !weapon.is_null() && weapon.has_flag( flag_COMBAT_NPC_USE ) &&
+            weapon.has_flag( flag_COMBAT_NPC_ON ) ) {
+            if( weapon.get_use( "transform" ) ) {
+                invoke_item( &weapon, "transform" );
+            } else if( weapon.get_use( "fireweapon_on" ) ) {
+                invoke_item( &weapon, "fireweapon_on" );
+            }
+        }
+
 
         action = address_needs();
         print_action( "address_needs %s", action );
@@ -1362,6 +1381,29 @@ npc_action npc::method_of_attack()
     // if there's enough of a threat to be here, power up the combat CBMs
     activate_combat_cbms();
 
+    // Activate Armor & Weapons
+    for( auto &elem : worn ) {
+        // The is_active() part was taken from is_wearing_active_power_armor
+        if( elem->has_flag( flag_COMBAT_NPC_USE ) && !elem->has_flag( flag_COMBAT_NPC_ON ) ) {
+            if( elem->get_use( "transform" ) ) {
+                invoke_item( elem, "transform" );
+            } else if( elem->get_use( "set_transform" ) ) {
+                invoke_item( elem, "set_transform" );
+            }
+        }
+    }
+    item &weapon = primary_weapon();
+    if( !weapon.is_null() && weapon.has_flag( flag_COMBAT_NPC_USE ) &&
+        !weapon.has_flag( flag_COMBAT_NPC_ON ) ) {
+
+        if( weapon.get_use( "transform" ) ) {
+            invoke_item( &weapon, "transform" );
+        } else if( weapon.get_use( "fireweapon_off" ) ) {
+            invoke_item( &weapon, "fireweapon_off" );
+        }
+
+
+    }
 
     if( emergency() && alt_attack() ) {
         add_msg( m_debug, "%s is trying an alternate attack", disp_name() );
@@ -1568,8 +1610,10 @@ void npc::adjust_power_cbms()
 
 void npc::activate_combat_cbms()
 {
-    for( const bionic_id &cbm_id : defense_cbms ) {
-        activate_bionic_by_id( cbm_id );
+    for( bionic &bio : get_bionic_collection() ) {
+        if( bio.info().has_flag( flag_COMBAT_NPC_USE ) ) {
+            activate_bionic( bio );
+        }
     }
     if( can_use_offensive_cbm() ) {
         check_or_use_weapon_cbm();
@@ -1578,8 +1622,10 @@ void npc::activate_combat_cbms()
 
 void npc::deactivate_combat_cbms()
 {
-    for( const bionic_id &cbm_id : defense_cbms ) {
-        deactivate_bionic_by_id( cbm_id );
+    for( bionic &bio : get_bionic_collection() ) {
+        if( bio.info().has_flag( flag_COMBAT_NPC_USE ) ) {
+            deactivate_bionic( bio );
+        }
     }
     deactivate_bionic_by_id( bio_hydraulics );
     deactivate_weapon_cbm( *this );
@@ -1704,11 +1750,17 @@ bool npc::recharge_cbm()
                     fuel_op.end() ||
                     std::find( fuel_op.begin(), fuel_op.end(), itype_denat_alcohol ) !=
                     fuel_op.end();
+                const bool need_environment =
+                    std::find( fuel_op.begin(), fuel_op.end(), fuel_sunlight ) != fuel_op.end() ||
+                    std::find( fuel_op.begin(), fuel_op.end(), fuel_wind ) != fuel_op.end();
 
                 if( std::find( fuel_op.begin(), fuel_op.end(), itype_battery ) != fuel_op.end() ) {
                     complain_about( "need_batteries", 3_hours, "<need_batteries>", false );
                 } else if( need_alcohol ) {
                     complain_about( "need_booze", 3_hours, "<need_booze>", false );
+                } else if( need_environment ) {
+                    // No Need for NPCs to complain about the weather and time of day...
+                    continue;
                 } else {
                     complain_about( "need_fuel", 3_hours, "<need_fuel>", false );
                 }
@@ -2280,13 +2332,13 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
     bool ceiling_blocking_climb = !here.has_floor_or_support( pos() ) ||
                                   here.has_floor_or_support( p + tripoint_above );
     if( sees_dangerous_field( p )
-        || ( nomove != nullptr && nomove->find( p ) != nomove->end() ) ) {
+        || ( nomove != nullptr && nomove->contains( p ) ) ) {
         // Move to a neighbor field instead, if possible.
         // Maybe this code already exists somewhere?
         auto other_points = here.get_dir_circle( pos(), p );
         for( const tripoint &ot : other_points ) {
             if( could_move_onto( ot )
-                && ( nomove == nullptr || nomove->find( ot ) == nomove->end() ) ) {
+                && ( nomove == nullptr || !nomove->contains( ot ) ) ) {
 
                 p = ot;
                 break;
@@ -2304,7 +2356,7 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
 
     // nomove is used to resolve recursive invocation, so reset destination no
     // matter it was changed by stunned effect or not.
-    if( nomove != nullptr && nomove->find( p ) != nomove->end() ) {
+    if( nomove != nullptr && nomove->contains( p ) ) {
         p = pos();
     }
 
@@ -2594,7 +2646,7 @@ void npc::move_away_from( const tripoint &pt, bool no_bash_atk, std::set<tripoin
     int chance = 2;
     map &here = get_map();
     for( const tripoint &p : here.points_in_radius( pos(), 1 ) ) {
-        if( nomove != nullptr && nomove->find( p ) != nomove->end() ) {
+        if( nomove != nullptr && nomove->contains( p ) ) {
             continue;
         }
 

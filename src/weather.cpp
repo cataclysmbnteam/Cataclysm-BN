@@ -102,7 +102,7 @@ void glare( const weather_type_id &w )
         if( g->u.has_trait( trait_CEPH_VISION ) ) {
             dur = dur * 2;
         }
-        g->u.add_env_effect( *effect, body_part_eyes, 2, dur );
+        g->u.add_effect( *effect, dur );
     }
 }
 
@@ -1076,8 +1076,8 @@ void weather_manager::update_weather()
     ZoneScoped;
 
     w_point &w = weather_precise;
-    winddirection = wind_direction_override ? *wind_direction_override : w.winddirection;
-    windspeed = windspeed_override ? *windspeed_override : w.windpower;
+    winddirection = wind_direction_override.value_or( w.winddirection );
+    windspeed = windspeed_override.value_or( w.windpower );
     if( weather_id && calendar::turn < nextweather ) {
         return;
     }

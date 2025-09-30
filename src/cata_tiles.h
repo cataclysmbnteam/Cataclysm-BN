@@ -126,6 +126,8 @@ class tileset
         std::vector<texture> shadow_tile_values;
         std::vector<texture> night_tile_values;
         std::vector<texture> overexposed_tile_values;
+        std::vector<texture> underwater_tile_values;
+        std::vector<texture> underwater_dark_tile_values;
         std::vector<texture> memory_tile_values;
         std::vector<texture> z_overlay_values;
 
@@ -166,6 +168,12 @@ class tileset
         }
         const texture *get_overexposed_tile( const size_t index ) const {
             return get_if_available( index, overexposed_tile_values );
+        }
+        const texture *get_underwater_tile( const size_t index ) const {
+            return get_if_available( index, underwater_tile_values );
+        }
+        const texture *get_underwater_dark_tile( const size_t index ) const {
+            return get_if_available( index, underwater_dark_tile_values );
         }
         const texture *get_memory_tile( const size_t index ) const {
             return get_if_available( index, memory_tile_values );
@@ -410,7 +418,7 @@ class cata_tiles
          * @param height_3d nullint
          */
         bool draw_from_id_string( const std::string &id, const tripoint &pos, int subtile, int rota,
-                                  lit_level ll, bool apply_night_vision_goggles, int overlay_count );
+                                  lit_level ll, bool apply_visual_effects, int overlay_count );
         /**
          * @brief * @brief draw_from_id_string() without height_3d
          *
@@ -418,7 +426,7 @@ class cata_tiles
          */
         bool draw_from_id_string( const std::string &id, TILE_CATEGORY category,
                                   const std::string &subcategory, const tripoint &pos, int subtile, int rota,
-                                  lit_level ll, bool apply_night_vision_goggles, int overlay_count );
+                                  lit_level ll, bool apply_visual_effects, int overlay_count );
         /**
          * @brief draw_from_id_string() without height_3d
          *
@@ -426,7 +434,7 @@ class cata_tiles
          * @param subcategory empty_string
          */
         bool draw_from_id_string( const std::string &id, const tripoint &pos, int subtile, int rota,
-                                  lit_level ll, bool apply_night_vision_goggles, int &height_3d, int overlay_count );
+                                  lit_level ll, bool apply_visual_effects, int &height_3d, int overlay_count );
         /**
          * @brief Try to draw a tile using the given id. calls draw_tile_at() at the end.
          *
@@ -437,7 +445,7 @@ class cata_tiles
          * @param subtile variant of the tile
          * @param rota rotation: { UP = 0, LEFT = 1, DOWN = 2, RIGHT = 3 }
          * @param ll light level
-         * @param apply_night_vision_goggles use night vision colors?
+         * @param apply_visual_effects use night vision and underwater colors?
          * @param height_3d return parameter for height of the sprite
          * @param overlay_count how blue the tile looks for lower z levels
          * @param as_independent_entity draw tile as single entity to the screen
@@ -447,7 +455,7 @@ class cata_tiles
          */
         bool draw_from_id_string( const std::string &id, TILE_CATEGORY category,
                                   const std::string &subcategory, const tripoint &pos, int subtile, int rota,
-                                  lit_level ll, bool apply_night_vision_goggles, int &height_3d, int overlay_count,
+                                  lit_level ll, bool apply_visual_effects, int &height_3d, int overlay_count,
                                   bool as_independent_entity = false );
         /**
         * @brief Draw overmap tile, if it's transparent, then draw lower tile first
@@ -466,7 +474,7 @@ class cata_tiles
         bool draw_sprite_at(
             const tile_type &tile, const weighted_int_list<std::vector<int>> &svlist,
             point, unsigned int loc_rand, bool rota_fg, int rota, lit_level ll,
-            bool apply_night_vision_goggles, int overlay_count );
+            bool apply_visual_effects, int overlay_count );
 
         /**
          * @brief Try to draw either forground or background using the given reference.
@@ -478,7 +486,7 @@ class cata_tiles
         bool draw_sprite_at(
             const tile_type &tile, const weighted_int_list<std::vector<int>> &svlist,
             point, unsigned int loc_rand, bool rota_fg, int rota, lit_level ll,
-            bool apply_night_vision_goggles, int &height_3d, int overlay_alpha );
+            bool apply_visual_effects, int &height_3d, int overlay_alpha );
 
         /**
          * @brief Calls draw_sprite_at() twice each for foreground and background.
@@ -489,13 +497,13 @@ class cata_tiles
          * @param rota_fg rotate foreground: { UP = 0, LEFT = 1, DOWN = 2, RIGHT = 3 }
          * @param rota rotation: { UP = 0, LEFT = 1, DOWN = 2, RIGHT = 3 }
          * @param ll light level
-         * @param apply_night_vision_goggles use night vision colors?
+         * @param apply_visual_effects use night vision and underwater colors?
          * @param height_3d return parameter for height of the sprite
          * @param overlay_count how blue the tile looks for lower z levels
          * @return always true.
          */
         bool draw_tile_at( const tile_type &tile, point, unsigned int loc_rand, int rota,
-                           lit_level ll, bool apply_night_vision_goggles, int &height_3d, int overlay_count );
+                           lit_level ll, bool apply_visual_effects, int &height_3d, int overlay_count );
 
         /**
          * @brief Draws a colored solid color tile at position, with optional blending

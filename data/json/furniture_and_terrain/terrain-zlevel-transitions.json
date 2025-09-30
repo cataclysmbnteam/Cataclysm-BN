@@ -135,7 +135,7 @@
     "color": "yellow",
     "move_cost": 2,
     "roof": "t_flat_roof",
-    "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "DEEP_WATER", "GOES_DOWN", "PLACE_ITEM" ]
+    "flags": [ "TRANSPARENT", "LIQUID", "DEEP_WATER", "GOES_DOWN", "PLACE_ITEM", "WATER_CUBE" ]
   },
   {
     "type": "terrain",
@@ -156,7 +156,7 @@
     "symbol": "<",
     "color": "yellow",
     "move_cost": 2,
-    "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "DEEP_WATER", "GOES_UP", "PLACE_ITEM" ]
+    "flags": [ "TRANSPARENT", "LIQUID", "DEEP_WATER", "GOES_UP", "PLACE_ITEM", "WATER_CUBE" ]
   },
   {
     "type": "terrain",
@@ -330,6 +330,15 @@
     "color": "brown",
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "GOES_DOWN", "PLACE_ITEM" ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_slope_down_underground",
+    "copy-from": "t_slope_down",
+    "symbol": ">",
+    "color": "brown",
+    "roof": "t_rock_roof",
+    "extend": { "flags": [ "INDOORS" ] }
   },
   {
     "type": "terrain",

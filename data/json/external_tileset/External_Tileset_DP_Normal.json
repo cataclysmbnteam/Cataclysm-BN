@@ -143,7 +143,86 @@
           { "id": "corpse_mon_zombie_ichor_beast", "fg": 127 },
           { "id": "mon_zombie_ichor_stalker", "fg": 128 },
           { "id": "corpse_mon_zombie_ichor_stalker", "fg": 129 },
-          { "id": "cream_pie", "fg": 130 }
+          { "id": "cream_pie", "fg": 130 },
+          {
+            "id": "mon_zombie_scientist_evolved_possessed",
+            "fg": [ { "weight": 10, "sprite": 131 }, { "weight": 10, "sprite": 132 } ],
+            "animated": false
+          },
+          { "id": "mon_zombie_smoker_evolved_grappler", "fg": 133 },
+          { "id": "mon_zombie_smoker_evolved_toxic", "fg": 134 },
+          {
+            "id": "mon_zombie_squidman",
+            "fg": [ { "weight": 10, "sprite": 135 }, { "weight": 10, "sprite": 136 } ],
+            "animated": false
+          },
+          { "id": "mon_zombie_technician_evolved_iron", "fg": 137 },
+          { "id": "mon_zombie_miner_evolved_moleman", "fg": 138 },
+          { "id": [ "overlay_female_mutation_PATCHSKIN1", "overlay_female_mutation_PATCHSKIN2" ], "fg": 139 },
+          { "id": [ "overlay_male_mutation_PATCHSKIN1", "overlay_male_mutation_PATCHSKIN2" ], "fg": 140 },
+          {
+            "id": [ "folding_skateboard", "frame_wood_deck", "overlay_wielded_folding_skateboard", "overlay_wielded_frame_wood_deck" ],
+            "fg": 141
+          },
+          { "id": "vp_frame_wood_deck", "fg": 142, "rotates": true },
+          { "id": "vp_wheel_skateboard", "fg": 143, "rotates": true },
+          { "id": [ "sea_scooter", "overlay_wielded_sea_scooter" ], "fg": 144 },
+          { "id": "vp_sea_scooter_hull", "fg": 145 },
+          { "id": "mon_skeleton_necro", "fg": 146 },
+          { "id": "mon_skeleton_master", "fg": 147 },
+          { "id": "pulley_crane_small_wood", "fg": 148 },
+          { "id": "vp_crane_small_wood", "fg": 149, "rotates": true },
+          { "id": [ "overlay_female_mutation_TAIL_SNAKE", "overlay_female_mutation_TAIL_SNAKE_OK" ], "fg": 150 },
+          { "id": [ "overlay_male_mutation_TAIL_SNAKE", "overlay_male_mutation_TAIL_SNAKE_OK" ], "fg": 151 },
+          { "id": "overlay_worn_stockings_snake_tail", "fg": 152 },
+          { "id": "helmet_conical", "fg": 153 },
+          { "id": "f_cave_mushrooms", "fg": 154 },
+          {
+            "id": [
+              "vp_wing_metal_horizontal",
+              "vp_lit_wing_metal_horizontal",
+              "vp_wing_metal_external_horizontal",
+              "vp_lit_wing_metal_external_horizontal"
+            ],
+            "fg": 155,
+            "rotates": true,
+            "multitile": true,
+            "additional_tiles": [ { "id": "broken", "fg": 156 } ]
+          },
+          {
+            "id": [ "vp_wing_metal_left", "vp_lit_wing_metal_left", "vp_wing_metal_external_left", "vp_lit_wing_metal_external_left" ],
+            "fg": 157,
+            "rotates": true,
+            "multitile": true,
+            "additional_tiles": [ { "id": "broken", "fg": 158 } ]
+          },
+          {
+            "id": [ "vp_wing_metal_right", "vp_lit_wing_metal_right", "vp_wing_metal_external_right", "vp_lit_wing_metal_external_right" ],
+            "fg": 159,
+            "rotates": true,
+            "multitile": true,
+            "additional_tiles": [ { "id": "broken", "fg": 160 } ]
+          },
+          {
+            "id": "vp_propeller_metal",
+            "fg": 161,
+            "rotates": true,
+            "multitile": true,
+            "additional_tiles": [ { "id": "broken", "fg": 162 } ]
+          },
+          {
+            "id": "vp_airship_balloon",
+            "fg": 163,
+            "rotates": true,
+            "multitile": true,
+            "additional_tiles": [ { "id": "broken", "fg": 164 } ]
+          },
+          { "id": "shield_targe_wooden", "fg": 165 },
+          { "id": [ "overlay_worn_shield_targe_wooden", "overlay_wielded_shield_targe_wooden" ], "fg": 166 },
+          { "id": "shield_bronze", "fg": 167 },
+          { "id": [ "overlay_worn_shield_bronze", "overlay_wielded_shield_bronze" ], "fg": 168 },
+          { "id": "shield_scute", "fg": 169 },
+          { "id": [ "overlay_worn_shield_scute", "overlay_wielded_shield_scute" ], "fg": 170 }
         ],
         "sprite_width": 32,
         "sprite_height": 32

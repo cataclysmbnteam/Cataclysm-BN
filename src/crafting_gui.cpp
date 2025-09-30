@@ -703,7 +703,7 @@ const recipe *select_crafting_recipe( int &batch_size_out )
                 if( !show_hidden ) {
                     current.clear();
                     for( auto i : picking ) {
-                        if( uistate.hidden_recipes.find( i->ident() ) == uistate.hidden_recipes.end() ) {
+                        if( !uistate.hidden_recipes.contains( i->ident() ) ) {
                             current.push_back( i );
                         }
                     }
@@ -903,7 +903,7 @@ const recipe *select_crafting_recipe( int &batch_size_out )
                 popup( _( "Nothing selected!  Press [<color_yellow>ESC</color>]!" ) );
                 continue;
             }
-            if( uistate.favorite_recipes.find( current[line]->ident() ) != uistate.favorite_recipes.end() ) {
+            if( uistate.favorite_recipes.contains( current[line]->ident() ) ) {
                 uistate.favorite_recipes.erase( current[line]->ident() );
             } else {
                 uistate.favorite_recipes.insert( current[line]->ident() );
@@ -1101,7 +1101,7 @@ static void draw_can_craft_indicator( const catacurses::window &w, const recipe 
         right_print( w, 0, 1, i_red, _( "too dark to craft" ) );
     } else if( crafting_speed_multiplier( u, rec, false ) <= 0.0f ) {
         // Technically not always only too sad, but must be too sad
-        right_print( w, 0, 1, i_red, _( "too sad to craft" ) );
+        right_print( w, 0, 1, i_red, _( "too sad to craft effectively" ) );
     } else if( crafting_speed_multiplier( u, rec, false ) < 1.0f ) {
         right_print( w, 0, 1, i_yellow, string_format( _( "crafting is slow %d%%" ),
                      static_cast<int>( crafting_speed_multiplier( u, rec, false ) * 100 ) ) );

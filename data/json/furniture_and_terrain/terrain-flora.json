@@ -2154,7 +2154,6 @@
     "flags": [
       "TRANSPARENT",
       "LIQUID",
-      "NO_SCENT",
       "SWIMMABLE",
       "DEEP_WATER",
       "WATER_CUBE",
@@ -2271,7 +2270,7 @@
     "color": "green",
     "move_cost": 5,
     "coverage": 50,
-    "flags": [ "TRANSPARENT", "PLOWABLE", "VEH_TREAT_AS_BASH_BELOW" ],
+    "flags": [ "TRANSPARENT", "PLOWABLE", "VEH_TREAT_AS_BASH_BELOW", "HIDE_PLACE" ],
     "digging_results": { "digging_min": 1, "result_ter": "t_pit_shallow", "num_minutes": 60 },
     "bash": { "sound": "thump", "ter_set": "t_pit_shallow", "str_min": 50, "str_max": 100, "str_min_supported": 100 }
   },

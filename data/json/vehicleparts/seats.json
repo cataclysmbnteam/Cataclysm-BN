@@ -140,7 +140,7 @@
         "using": [ [ "sewing_standard", 10 ], [ "fabric_hides_any", 1 ] ]
       }
     },
-    "flags": [ "SEAT", "BOARDABLE", "FOLDABLE" ],
+    "flags": [ "SEAT", "BOARDABLE", "FOLDABLE", "CONTROLS", "CONTROL_WITHOUT_HANDS", "SHOCK_RESISTANT" ],
     "breaks_into": [ { "item": "leather", "prob": 50 }, { "item": "scrap", "count": [ 1, 2 ] } ]
   },
   {
@@ -167,7 +167,7 @@
         "using": [ [ "sewing_standard", 10 ], [ "fabric_standard", 1 ] ]
       }
     },
-    "flags": [ "SEAT", "BOARDABLE", "FOLDABLE" ],
+    "flags": [ "SEAT", "BOARDABLE", "FOLDABLE", "SHOCK_IMMUNE" ],
     "breaks_into": [ { "item": "rag", "count": [ 1, 6 ] } ]
   },
   {

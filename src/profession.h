@@ -1,6 +1,7 @@
 #pragma once
 
 #include <list>
+#include <optional>
 #include <map>
 #include <set>
 #include <string>
@@ -66,11 +67,13 @@ class profession
         std::vector<trait_id> _starting_traits;
         std::set<trait_id> _forbidden_traits;
         std::vector<mtype_id> _starting_pets;
+        std::vector<npc_class_id> _starting_npcs;
         vproto_id _starting_vehicle = vproto_id::NULL_ID();
         // the int is what level the spell starts at
         std::map<spell_id, int> _starting_spells;
         std::set<std::string> flags; // flags for some special properties of the profession
         StartingSkillList  _starting_skills;
+        std::vector<mission_type_id> _missions; // starting missions for profession
 
         void check_item_definitions( const itypedecvec &items ) const;
 
@@ -99,14 +102,19 @@ class profession
         std::string gender_appropriate_name( bool male ) const;
         std::string description( bool male ) const;
         signed int point_cost() const;
+        std::optional<signed int> starting_cash() const;
         std::vector<detached_ptr<item>> items( bool male, const std::vector<trait_id> &traits ) const;
         std::vector<addiction> addictions() const;
         vproto_id vehicle() const;
         std::vector<mtype_id> pets() const;
         std::vector<bionic_id> CBMs() const;
         StartingSkillList skills() const;
+        const std::vector<mission_type_id> &missions() const;
+        std::vector<npc_class_id> npcs() const;
 
         std::map<spell_id, int> spells() const;
+
+        std::optional<signed int> _starting_cash = std::nullopt;
 
         /**
          * Check if this type of profession has a certain flag set.

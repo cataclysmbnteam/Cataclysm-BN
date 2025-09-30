@@ -102,5 +102,17 @@
     "spells_learned": [ [ "create_rune_druid", 1 ] ],
     "mana_modifier": 500,
     "mana_regen_multiplier": 1.2
+  },
+  {
+    "type": "mutation",
+    "id": "ADVENTURER",
+    "name": "Adventurer",
+    "points": 0,
+    "description": "Adventurers are the jack-of-all-trades of the physical realm, not specializing in any one aspect prominently due to the variety encountered in their journeys.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "max_stamina_modifier": 1.15,
+    "movecost_modifier": 0.9
   }
 ]

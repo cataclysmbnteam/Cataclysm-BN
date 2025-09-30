@@ -8,15 +8,20 @@
 #include <algorithm>
 #include <cassert>
 #include <cmath>
+#include <coordinates.h>
+#include <cstddef>
 #include <cstring>
 #include <exception>
 #include <memory>
 #include <numeric>
 #include <optional>
 #include <ostream>
+#include <point.h>
 #include <set>
+#include <submap.h>
 #include <unordered_set>
 #include <vector>
+#include <vehicle.h>
 
 #include "all_enum_values.h"
 #include "assign.h"
@@ -60,17 +65,15 @@
 #include "string_utils.h"
 #include "text_snippets.h"
 #include "translations.h"
+#include "type_id.h"
+#include "weighted_list.h"
 #include "world.h"
 
 static const efftype_id effect_pet( "pet" );
 
 static const species_id ZOMBIE( "ZOMBIE" );
 
-static const mongroup_id GROUP_CHUD( "GROUP_CHUD" );
 static const mongroup_id GROUP_DIMENSIONAL_SURFACE( "GROUP_DIMENSIONAL_SURFACE" );
-static const mongroup_id GROUP_RIVER( "GROUP_RIVER" );
-static const mongroup_id GROUP_SEWER( "GROUP_SEWER" );
-static const mongroup_id GROUP_SWAMP( "GROUP_SWAMP" );
 static const mongroup_id GROUP_WORM( "GROUP_WORM" );
 static const mongroup_id GROUP_ZOMBIE( "GROUP_ZOMBIE" );
 
@@ -948,7 +951,7 @@ bool oter_t::is_hardcoded() const
         "temple_stairs"
     };
 
-    return hardcoded_mapgen.find( get_mapgen_id() ) != hardcoded_mapgen.end();
+    return hardcoded_mapgen.contains( get_mapgen_id() );
 }
 
 void overmap_terrains::load( const JsonObject &jo, const std::string &src )
@@ -994,7 +997,7 @@ void overmap_terrains::finalize()
         const_cast<oter_type_t &>( elem ).finalize(); // This cast is ugly, but safe.
     }
 
-    if( region_settings_map.find( "default" ) == region_settings_map.end() ) {
+    if( !region_settings_map.contains( "default" ) ) {
         debugmsg( "ERROR: can't find default overmap settings (region_map_settings 'default'), "
                   "cataclysm pending.  And not the fun kind." );
     }
@@ -3353,24 +3356,6 @@ void overmap::generate( const overmap *north, const overmap *east,
 
     polish_rivers( north, east, south, west );
 
-    // TODO: there is no reason we can't generate the sublevels in one pass
-    //       for that matter there is no reason we can't as we add the entrance ways either
-
-    // Always need at least one sublevel, but how many more
-    int z = -1;
-    bool requires_sub = false;
-    do {
-        requires_sub = generate_sub( z );
-    } while( requires_sub && ( --z >= -OVERMAP_DEPTH ) );
-
-    // Always need at least one overlevel, but how many more
-    z = 1;
-    bool requires_over = false;
-    do {
-        requires_over = generate_over( z );
-    } while( requires_over && ( ++z <= OVERMAP_HEIGHT ) );
-
-
     // Place the monsters, now that the terrain is laid out
     place_mongroups();
     place_radios();
@@ -3380,29 +3365,6 @@ void overmap::generate( const overmap *north, const overmap *east,
     dbg( DL::Info ) << "overmap::generate done";
 }
 
-bool overmap::generate_sub( const int z )
-{
-    // We need to generate at least 2 z-levels for subways CHUD
-    bool requires_sub = z > -2;
-
-    for( auto &i : cities ) {
-        tripoint_om_omt omt_pos( i.pos, z );
-        tripoint_om_sm sm_pos = project_to<coords::sm>( omt_pos );
-        // Sewers and city subways are present at z == -1 and z == -2. Don't spawn CHUD on other z-levels.
-        if( ( z == -1 || z == -2 ) && one_in( 3 ) ) {
-            add_mon_group( mongroup( GROUP_CHUD,
-                                     sm_pos, i.size, i.size * 20 ) );
-        }
-        // Sewers are present at z == -1. Don't spawn sewer monsters on other z-levels.
-        if( z == -1 && !one_in( 8 ) ) {
-            add_mon_group( mongroup( GROUP_SEWER,
-                                     sm_pos, ( i.size * 7 ) / 2, i.size * 70 ) );
-        }
-    }
-
-    return requires_sub;
-}
-
 static void elevate_bridges(
     overmap &om,
     const std::vector<point_om_omt> &bridge_points,
@@ -3410,6 +3372,7 @@ static void elevate_bridges(
     const std::string &bridge_under_id,
     const std::string &bridgehead_ground_id,
     const std::string &bridgehead_ramp_id,
+    const std::string &bridge_center_id,
     const std::string &bridge_flat_ew_id,
     const std::string &bridge_flat_ns_id
 )
@@ -3417,6 +3380,9 @@ static void elevate_bridges(
     // Check bridgeheads and 1-tile-long bridges
     std::vector<std::pair<point_om_omt, om_direction::type>> bridgehead_points;
     std::set<point_om_omt> flatten_points;
+    std::pair<point_om_omt, om_direction::type> center_point;
+    int spot = 0;
+    const int len = std::size( bridge_points );
     for( const point_om_omt &bp : bridge_points ) {
         tripoint_om_omt bp_om( bp, 0 );
 
@@ -3437,7 +3403,10 @@ static void elevate_bridges(
             bridgehead_points.emplace_back( bp, ramp_facing );
         } else if( !is_bridge_fwd && !is_bridge_bck ) {
             flatten_points.emplace( bp );
+        } else if( ( len / 2 == spot ) ) {
+            center_point = { bp, dir };
         }
+        spot++;
     }
     // Flatten 1-tile-long bridges
     for( const point_om_omt &bp : flatten_points ) {
@@ -3466,46 +3435,11 @@ static void elevate_bridges(
         om.ter_set( p, oter_id( bridgehead_ground_id + dir_suffix ) );
         om.ter_set( p + tripoint_above, oter_id( bridgehead_ramp_id + dir_suffix ) );
     }
-}
-
-bool overmap::generate_over( const int z )
-{
-    bool requires_over = false;
-    std::vector<point_om_omt> bridge_points;
-
-    // These are so common that it's worth checking first as int.
-    const std::set<oter_id> skip_below = {
-        oter_id( "empty_rock" ), oter_id( "forest" ), oter_id( "field" ),
-        oter_id( "forest_thick" ), oter_id( "forest_water" )
-    };
-
-    if( z == 1 ) {
-        for( int i = 0; i < OMAPX; i++ ) {
-            for( int j = 0; j < OMAPY; j++ ) {
-                tripoint_om_omt p( i, j, z );
-                tripoint_om_omt p_below( p + tripoint_below );
-                const oter_id oter_below = ter( p_below );
-                const oter_id oter_ground = ter( tripoint_om_omt( p.xy(), 0 ) );
-
-                // implicitly skip skip_below oter_ids
-                if( skip_below.find( oter_below ) != skip_below.end() ) {
-                    continue;
-                }
-
-                if( oter_ground->get_type_id() == oter_type_bridge ) {
-                    bridge_points.emplace_back( i, j );
-                }
-            }
-        }
+    if( !bridge_center_id.empty() ) {
+        tripoint_om_omt p( center_point.first, 0 );
+        om.ter_set( p, oter_id( bridge_center_id + om_direction::all_suffixes[static_cast<int>
+                                ( center_point.second )] ) );
     }
-
-    elevate_bridges(
-        *this, bridge_points,
-        "bridge_road", "bridge_under", "bridgehead_ground",
-        "bridgehead_ramp", "road_ew", "road_ns"
-    );
-
-    return requires_over;
 }
 
 std::vector<point_abs_omt> overmap::find_terrain( const std::string &term, int zlevel )
@@ -3929,7 +3863,7 @@ void overmap::place_forest_trails()
 
             // If we've already visited this point, we don't need to
             // process it since it's already part of another forest.
-            if( visited.find( seed_point.xy() ) != visited.end() ) {
+            if( visited.contains( seed_point.xy() ) ) {
                 continue;
             }
 
@@ -4129,7 +4063,7 @@ void overmap::place_lakes()
     for( int i = 0; i < OMAPX; i++ ) {
         for( int j = 0; j < OMAPY; j++ ) {
             point_om_omt seed_point( i, j );
-            if( visited.find( seed_point ) != visited.end() ) {
+            if( visited.contains( seed_point ) ) {
                 continue;
             }
 
@@ -4184,7 +4118,7 @@ void overmap::place_lakes()
                 for( int ni = -1; ni <= 1 && !shore; ni++ ) {
                     for( int nj = -1; nj <= 1 && !shore; nj++ ) {
                         const point_om_omt n = p + point( ni, nj );
-                        if( lake_set.find( n ) == lake_set.end() ) {
+                        if( !lake_set.contains( n ) ) {
                             shore = true;
                         }
                     }
@@ -5105,6 +5039,10 @@ bool overmap::build_connection(
     const pf::directed_node<point_om_omt> start = path.nodes.front();
     const pf::directed_node<point_om_omt> end = path.nodes.back();
 
+    // Clear the cache before laying a road so that roads are consistent and new road types
+    // are randomly chosen per road, not per load / game
+    connection.clear_subtype_cache();
+
     for( const auto &node : path.nodes ) {
         const tripoint_om_omt pos( node.pos, z );
         const oter_id &ter_id = ter( pos );
@@ -5179,24 +5117,40 @@ bool overmap::build_connection(
         prev_dir = new_dir;
     }
 
+
     if( connection_cache ) {
         connection_cache->add( connection.id, z, start.pos );
-    } else if( z == 0 && connection.id.str() == "local_road" ) {
-        // If there's no cache, it means we're placing road after
-        // normal mapgen, and need to elevate bridges manually
+    }
+    // Elevate bridges here so each bridge get's it's own type
+    // That way all bridges in an overmap (or more) are not just of one type
+    if( z == 0 && connection.id.str() == "local_road" ) {
         std::vector<point_om_omt> bridge_points;
+        std::string name;
+        bool has_bridge = false;
         for( const auto &node : path.nodes ) {
             const tripoint_om_omt pos( node.pos, z );
-            if( ter( pos )->get_type_id() == oter_type_bridge ) {
+            if( ter( pos )->has_flag( oter_flags::is_bridge ) ) {
+                name = ter( pos )->get_type_id().str();
                 bridge_points.emplace_back( pos.xy() );
+                has_bridge = true;
             }
         }
-
-        elevate_bridges(
-            *this, bridge_points,
-            "bridge_road", "bridge_under", "bridgehead_ground",
-            "bridgehead_ramp", "road_ew", "road_ns"
-        );
+        if( !has_bridge ) {
+            return true;
+        }
+        if( oter_str_id( name + "_center_under_north" ).is_valid() ) {
+            elevate_bridges(
+                *this, bridge_points,
+                name + "_road", name + "_under", name + "head_ground",
+                name + "head_ramp", name + "_center_under", "road_ew", "road_ns"
+            );
+        } else {
+            elevate_bridges(
+                *this, bridge_points,
+                name + "_road", name + "_under", name + "head_ground",
+                name + "head_ramp", "", "road_ew", "road_ns"
+            );
+        }
     }
     return true;
 }
@@ -5227,6 +5181,7 @@ void overmap::connect_closest_points( const std::vector<point_om_omt> &points, i
             }
         }
         if( closest > 0 ) {
+            // Use a pointer so it definitely will keep changes
             build_connection( points[i], points[k], z, connection, false );
         }
     }
@@ -5723,6 +5678,106 @@ std::vector<tripoint_om_omt> overmap::place_special(
 
     return result.omts_used;
 }
+// Inside empty rock spawn some ores maybe
+void overmap::spawn_ores( const tripoint_abs_omt &p )
+{
+    //One in 15 at lowest level, goes up as you get closer to surface. Dig deep!
+    if( one_in( 65 - abs( 5 * p.z() ) ) ) {
+        std::string depth;
+        switch( p.z() ) {
+            case -1:
+            case -2:
+            case -3: {
+                depth = "shallow";
+                break;
+            }
+            case -4:
+            case -5:
+            case -6:
+            case -7:  {
+                depth = "medium";
+                break;
+            }
+            case -8:
+            case -9:
+            case -10: {
+                depth = "deep";
+                break;
+            }
+            default:
+            {depth = "how";}
+        }
+        weighted_int_list<std::string> ores;
+        //ore_depth_to_rate in overmap.h
+        for( const auto& [k, v] : ore_depth_to_rate.at( depth ) ) {
+            ores.add( k, v );
+        }
+        std::string chosen = ores.pick()->c_str();
+        std::vector<std::string> directions{"_north", "_east", "_south", "_west"};
+        tripoint_om_omt local_pos = overmap_buffer.get_om_global( p ).local;
+        const tripoint target_sub( omt_to_sm_copy( p.raw() ) );
+        std::string note_text( chosen );
+        std::ranges::replace( note_text, '_', ' ' );
+        add_note( local_pos, string_format( "Signs of %s ore nearby.", note_text ) );
+        if( !( MAPBUFFER.lookup_submap( target_sub ) ) ) {
+            // No overmap to replace, set the terrain and bail.
+            ter_set( local_pos, oter_id( "omt_ore_vein_" + chosen +
+                                         directions[rand() % 4] ) );
+            return;
+        }
+        /* Theres already overmap there, crap, hacky replace time!
+        * begin edited editmap code TODO: Should probably just make this a
+        * function, if there is one, I couldnt find it. Bascially "regenerates" an OM tile.
+        */
+        tinymap tmp;
+        map &here = get_map();
+        overmap_buffer.ter_set( p, oter_id( "omt_ore_vein_" + chosen + directions[rand() % 4] ) );
+        tmp.generate( target_sub, calendar::turn );
+
+        here.set_transparency_cache_dirty( p.z() );
+        here.set_outside_cache_dirty( p.z() );
+        here.set_floor_cache_dirty( p.z() );
+        here.set_pathfinding_cache_dirty( p.z() );
+        here.set_suspension_cache_dirty( p.z() );
+
+        here.clear_vehicle_cache();
+        here.clear_vehicle_list( p.z() );
+
+        for( int x = 0; x < 2; x++ ) {
+            for( int y = 0; y < 2; y++ ) {
+                // Apply previewed mapgen to map. Since this is a function for testing, we try avoid triggering
+                // functions that would alter the results
+                const tripoint dest_pos = target_sub + point( x, y );
+                const tripoint src_pos = tripoint{ x, y, p.z() };
+
+                submap *destsm = MAPBUFFER.lookup_submap( dest_pos );
+                submap *srcsm = tmp.get_submap_at_grid( src_pos );
+
+                submap::swap( *destsm,  *srcsm );
+
+                for( auto &veh : destsm->vehicles ) {
+                    veh->sm_pos = dest_pos;
+                }
+
+                if( !destsm->spawns.empty() ) {                              // trigger spawnpoints
+                    here.spawn_monsters( true );
+                }
+            }
+        }
+
+        // Since we cleared the vehicle cache of the whole z-level (not just the generate map), we add it back here
+        for( int x = 0; x < here.getmapsize(); x++ ) {
+            for( int y = 0; y < here.getmapsize(); y++ ) {
+                const tripoint dest_pos = tripoint( x, y, p.z() );
+                const submap *destsm = here.get_submap_at_grid( dest_pos );
+                here.update_vehicle_list( destsm, p.z() ); // update real map's vcaches
+            }
+        }
+
+        here.reset_vehicle_cache();
+        /* end edited editmap code*/
+    }
+}
 
 // Points list maintaining custom order, and allowing fast removal by coordinates
 struct specials_overlay {
@@ -6051,44 +6106,6 @@ void overmap::place_mongroups()
                 m.horde = true;
                 m.wander( *this );
                 add_mon_group( m );
-            }
-        }
-    }
-
-    if( get_option<bool>( "DISABLE_ANIMAL_CLASH" ) ) {
-        // Figure out where swamps are, and place swamp monsters
-        for( int x = 3; x < OMAPX - 3; x += 7 ) {
-            for( int y = 3; y < OMAPY - 3; y += 7 ) {
-                int swamp_count = 0;
-                for( int sx = x - 3; sx <= x + 3; sx++ ) {
-                    for( int sy = y - 3; sy <= y + 3; sy++ ) {
-                        if( ter( { sx, sy, 0 } ) == "forest_water" ) {
-                            swamp_count += 2;
-                        }
-                    }
-                }
-                if( swamp_count >= 25 ) {
-                    add_mon_group( mongroup( GROUP_SWAMP, tripoint( x * 2, y * 2, 0 ), 3,
-                                             rng( swamp_count * 8, swamp_count * 25 ) ) );
-                }
-            }
-        }
-    }
-
-    // Figure out where rivers and lakes are, and place appropriate critters
-    for( int x = 3; x < OMAPX - 3; x += 7 ) {
-        for( int y = 3; y < OMAPY - 3; y += 7 ) {
-            int river_count = 0;
-            for( int sx = x - 3; sx <= x + 3; sx++ ) {
-                for( int sy = y - 3; sy <= y + 3; sy++ ) {
-                    if( is_river_or_lake( ter( { sx, sy, 0 } ) ) ) {
-                        river_count++;
-                    }
-                }
-            }
-            if( river_count >= 25 ) {
-                add_mon_group( mongroup( GROUP_RIVER, tripoint( x * 2, y * 2, 0 ), 3,
-                                         rng( river_count * 8, river_count * 25 ) ) );
             }
         }
     }

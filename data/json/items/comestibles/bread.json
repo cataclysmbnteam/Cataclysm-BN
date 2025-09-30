@@ -36,6 +36,7 @@
     "color": "white",
     "fun": -5,
     "calories": 192,
+    "flags": [ "RAW", "NO_COOKING_BUFF" ],
     "use_action": {
       "target": "sourdough_starter_uncovered",
       "msg": "After feeding it and caring for it for a week, your sourdough starter is finally ready for the big leagues.",
@@ -62,6 +63,7 @@
     "color": "white",
     "fun": -5,
     "calories": 192,
+    "flags": [ "RAW", "NO_COOKING_BUFF" ],
     "use_action": {
       "target": "sourdough_starter_uncovered",
       "msg": "The starter is now stinky and bubbly, and looks ready for cooking.",
@@ -88,6 +90,7 @@
     "color": "yellow",
     "fun": -1,
     "calories": 192,
+    "flags": [ "RAW", "NO_COOKING_BUFF" ],
     "vitamins": [ [ "wheat_allergen", 1 ] ]
   },
   {
@@ -109,7 +112,7 @@
     "looks_like": "bread",
     "volume": "750 ml",
     "charges": 4,
-    "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
+    "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE", "NO_COOKING_BUFF" ],
     "fun": 2,
     "vitamins": [ [ "wheat_allergen", 1 ] ]
   },
@@ -129,7 +132,7 @@
     "price_postapoc": "1 USD",
     "material": [ "wheat" ],
     "volume": "250 ml",
-    "flags": [ "EATEN_HOT" ],
+    "flags": [ "EATEN_HOT", "NO_COOKING_BUFF" ],
     "vitamins": [ [ "calcium", 5 ], [ "iron", 12 ], [ "wheat_allergen", 1 ] ]
   },
   {
@@ -150,7 +153,7 @@
     "material": [ "wheat" ],
     "volume": "250 ml",
     "charges": 2,
-    "flags": [ "EATEN_HOT" ],
+    "flags": [ "EATEN_HOT", "NO_COOKING_BUFF" ],
     "fun": 1,
     "vitamins": [ [ "vitC", 1 ], [ "calcium", 10 ], [ "iron", 4 ], [ "wheat_allergen", 1 ] ]
   },
@@ -174,7 +177,7 @@
     "material": [ "wheat" ],
     "volume": "250 ml",
     "charges": 14,
-    "flags": [ "EATEN_HOT" ],
+    "flags": [ "EATEN_HOT", "NO_COOKING_BUFF" ],
     "fun": 3,
     "vitamins": [ [ "vitA", 1 ], [ "vitB", 3 ], [ "calcium", 2 ], [ "iron", 14 ], [ "wheat_allergen", 1 ] ]
   },
@@ -197,7 +200,7 @@
     "primary_material": "wheat",
     "volume": "250 ml",
     "charges": 2,
-    "flags": [ "EATEN_HOT" ],
+    "flags": [ "EATEN_HOT", "NO_COOKING_BUFF" ],
     "fun": 2,
     "vitamins": [ [ "vitA", 2 ], [ "calcium", 8 ], [ "iron", 6 ], [ "veggy_allergen", 1 ] ]
   },
@@ -230,17 +233,20 @@
     "weight": "50 g",
     "color": "yellow",
     "comestible_type": "FOOD",
+    "container": "box_small",
     "symbol": "%",
     "quench": -1,
     "healthy": -4,
     "calories": 140,
+    "charges": 10,
     "description": "A sweet, cream-filled snack cake with an indefinitely long shelf life. For all you know, this could be the last one that anyone will enjoy in the whole universe.",
-    "price": "50 cent",
-    "price_postapoc": "3 USD",
+    "price": "6 USD",
+    "//": "blinkies are a sought after commodity",
+    "price_postapoc": "12 USD",
     "material": [ "junk", "wheat" ],
-    "volume": "100 ml",
+    "volume": "1000 ml",
     "vitamins": [ [ "calcium", 4 ], [ "iron", 1 ], [ "wheat_allergen", 1 ], [ "milk_allergen", 1 ], [ "junk_allergen", 5 ] ],
-    "fun": 8
+    "fun": 20
   },
   {
     "type": "COMESTIBLE",
@@ -281,7 +287,7 @@
     "primary_material": "wheat",
     "volume": "250 ml",
     "charges": 2,
-    "flags": [ "EATEN_HOT" ],
+    "flags": [ "EATEN_HOT", "NO_COOKING_BUFF" ],
     "fun": 1,
     "vitamins": [ [ "calcium", 1 ], [ "iron", 1 ], [ "veggy_allergen", 1 ] ]
   },
@@ -301,6 +307,7 @@
     "material": [ "wheat" ],
     "volume": "250 ml",
     "charges": 2,
+    "flags": [ "NO_COOKING_BUFF" ],
     "vitamins": [ [ "calcium", 2 ], [ "iron", 15 ], [ "wheat_allergen", 1 ] ],
     "stack_size": 20,
     "fun": -1
@@ -322,7 +329,7 @@
     "material": [ "wheat" ],
     "volume": "250 ml",
     "charges": 10,
-    "flags": [ "EATEN_HOT" ],
+    "flags": [ "EATEN_HOT", "NO_COOKING_BUFF" ],
     "fun": 3,
     "vitamins": [ [ "vitA", 1 ], [ "calcium", 11 ], [ "iron", 9 ], [ "wheat_allergen", 1 ] ]
   },
@@ -346,7 +353,7 @@
     "volume": "250 ml",
     "charges": 2,
     "stack_size": 20,
-    "flags": [ "EATEN_HOT" ],
+    "flags": [ "EATEN_HOT", "NO_COOKING_BUFF" ],
     "fun": -1,
     "vitamins": [ [ "calcium", 12 ], [ "wheat_allergen", 1 ], [ "junk_allergen", 1 ] ],
     "//": "this item will generally inherit its values, so it is essentially a copy of bread"

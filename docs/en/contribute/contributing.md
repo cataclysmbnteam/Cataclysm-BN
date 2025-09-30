@@ -198,10 +198,38 @@ For further details about commit message guidelines please visit:
 
 ### Update your `main` branch
 
-1. Make sure you have your `main` branch checked out.
+0. **Make sure your `main` branch is tracking upstream's `main` not origin's `main` by typing:**
 
 ```sh
-$ git checkout main
+$ git branch --set-upstream-to upstream/main main
+# makes your branch 'main' to track upstream's main.
+```
+
+To check whether your `main` is correctly pointing to upstream, type `git remote -v` and you should see something like
+
+```sh
+$ git remote -v
+
+origin  git@github.com:YOUR_USERNAME/Cataclysm-BN.git (fetch)
+origin  git@github.com:YOUR_USERNAME/Cataclysm-BN.git (push)
+upstream        https://github.com/cataclysmbnteam/Cataclysm-BN.git (fetch)
+upstream        https://github.com/cataclysmbnteam/Cataclysm-BN.git (push)
+```
+
+and when you type `git branch -vv` you should see `[upstream/main]` next to `main` branch like:
+
+```sh
+$ git branch -vv
+
+# ...
+* main   ed11439ee61 [upstream/main] feat: add more vending machines to marina (#7001)
+# ...
+```
+
+1. Make sure you are on your `main` branch.
+
+```sh
+$ git switch main
 ```
 
 2. Pull the changes from the `upstream/main` branch.
@@ -222,10 +250,8 @@ $ git pull --ff-only upstream main
 1. For each new feature or bug fix, create a new branch.
 
 ```sh
-$ git branch new_feature
-# Creates a new branch called "new_feature"
-$ git checkout new_feature
-# Makes "new_feature" the active branch
+$ git switch --create new_feature
+# Creates a new branch called "new_feature" and makes it the active branch
 ```
 
 2. Once you've committed some changes locally, you need to push them to your fork here on GitHub.

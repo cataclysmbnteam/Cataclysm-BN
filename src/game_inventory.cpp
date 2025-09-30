@@ -374,7 +374,7 @@ class take_off_inventory_preset: public armor_inventory_preset
 item *game_menus::inv::take_off( avatar &you )
 {
     return inv_internal( you, take_off_inventory_preset( you, "color_red" ), _( "Take off item" ), 1,
-                         _( "You don't wear anything." ) );
+                         _( "You aren't wearing anything." ) );
 }
 
 item *game::inv_map_splice( const item_filter &filter, const std::string &title, int radius,
@@ -1856,7 +1856,7 @@ class bionic_install_preset: public inventory_selector_preset
                                                std::placeholders::_1 ) ) ) {
                 return _( "Superior version installed" );
             } else if( pa.is_npc() && !bid->has_flag( flag_BIONIC_NPC_USABLE ) ) {
-                return _( "CBM not compatible with patient" );
+                return _( "CBM not usable by NPC's" );
             } else if( units::energy_max - pa.get_max_power_level() < bid->capacity ) {
                 return _( "Max power capacity already reached" );
             } else if( !has_enough_anesthesia( itemtype, p, pa ) ) {

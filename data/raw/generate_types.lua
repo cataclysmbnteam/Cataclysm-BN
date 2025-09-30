@@ -321,6 +321,11 @@ on_character_reset_stats = {}
 ---@field omt Tripoint
 ---@field when TimePoint
 on_mapgen_postprocess = {}
+
+---@class OnMonDeathParams
+---@field mon Monster
+---@field killer Character
+on_mon_death = {}
 ]]
 
   ---@diagnostic disable-next-line: undefined-global

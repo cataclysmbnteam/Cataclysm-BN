@@ -9,7 +9,10 @@
 #include <set>
 #include <stdexcept>
 #include <string>
+#include <unordered_set>
 #include <utility>
+#include <vector>
+#include <weighted_list.h>
 
 #include "action.h"
 #include "advanced_inv.h"
@@ -2070,6 +2073,9 @@ void activity_handlers::start_fire_finish( player_activity *act, player *p )
     }
 
     if( it.type->can_have_charges() ) {
+        if( it.has_flag( flag_USE_UPS ) ) {
+            p->use_charges( itype_UPS, it.type->charges_to_use() );
+        }
         p->consume_charges( it, it.type->charges_to_use() );
     }
     p->practice( skill_survival, act->index, 5 );
@@ -2410,7 +2416,7 @@ namespace repair_activity_hack
 namespace
 {
 enum class hack_type_t : int {
-    vehicle_weldrig = 0,
+    vehicle = 0,
     furniture = 1
 };
 
@@ -2423,7 +2429,7 @@ std::optional<hack_type_t> get_hack_type( const player_activity &activity )
     assert( !activity.coords.empty() );
     // Old save data, probably
     if( activity.values.size() == 2 ) {
-        return hack_type_t::vehicle_weldrig;
+        return hack_type_t::vehicle;
     }
     return static_cast<hack_type_t>( activity.values[2] );
 }
@@ -2441,7 +2447,7 @@ item *get_fake_tool( hack_type_t hack_type, const player_activity &activity )
     item *fake_item = &null_item_reference();
 
     switch( hack_type ) {
-        case hack_type_t::vehicle_weldrig: {
+        case hack_type_t::vehicle: {
             const optional_vpart_position pos = m.veh_at( position );
             if( !pos ) {
                 debugmsg( "Failed to find vehicle while using it for repair at %s", position.to_string() );
@@ -2449,7 +2455,7 @@ item *get_fake_tool( hack_type_t hack_type, const player_activity &activity )
             }
             const vehicle &veh = pos->vehicle();
 
-            fake_item = item::spawn_temporary( itype_welder, calendar::turn, 0 );
+            fake_item = item::spawn_temporary( activity.str_values[1], calendar::turn, 0 );
             fake_item->charges = veh.fuel_left( itype_battery );
 
             break;
@@ -2505,7 +2511,7 @@ void discharge_real_power_source(
 
     int unfulfilled_demand = 0;
     switch( hack_type ) {
-        case hack_type_t::vehicle_weldrig: {
+        case hack_type_t::vehicle: {
             optional_vpart_position pos = m.veh_at( position );
             if( !pos ) {
                 return;
@@ -2531,11 +2537,12 @@ void discharge_real_power_source(
 
 } // namespace
 
-void patch_activity_for_vehicle_welder(
+void patch_activity_for_vehicle(
     player_activity &activity,
     const tripoint &veh_part_position,
     const vehicle &veh,
-    int interact_part_idx )
+    int interact_part_idx,
+    const itype_id &it )
 {
     // Player may start another activity on welder/soldering iron
     // Check it here instead of vehicle interaction code
@@ -2544,8 +2551,7 @@ void patch_activity_for_vehicle_welder(
         return;
     }
 
-    const int welding_rig_index = veh.part_with_feature( interact_part_idx, "WELDRIG", true );
-
+    const int crafter_index = veh.part_with_feature( interact_part_idx, "CRAFTER", true );
     // This tells activity, that real item doesn't exists in inventory.
     activity.index = INT_MIN;
     // Data for lookup vehicle part
@@ -2553,9 +2559,10 @@ void patch_activity_for_vehicle_welder(
     activity.values = {
         // Because we called only on start of repair
         static_cast<int>( repeat_type::REPEAT_INIT ),
-        welding_rig_index,
-        static_cast<int>( hack_type_t::vehicle_weldrig )
+        crafter_index,
+        static_cast<int>( hack_type_t::vehicle )
     };
+    activity.str_values.emplace_back( static_cast<std::string>( it ) );
 }
 
 void patch_activity_for_furniture( player_activity &activity,
@@ -2832,7 +2839,7 @@ void activity_handlers::mend_item_finish( player_activity *act, player *p )
 
     // iterate over attachments and apply the same changes if they have the same fault
     for( const auto &mod : target->gunmods() ) {
-        if( mod->faults.find( fault_id( act->name ) ) == mod->faults.end() ) {
+        if( !mod->faults.contains( fault_id( act->name ) ) ) {
             continue;
         }
         mend( mod );
@@ -3027,30 +3034,29 @@ void activity_handlers::atm_do_turn( player_activity *, player *p )
 }
 
 // fish-with-rod fish catching function.
-static void rod_fish( player *p, const std::vector<monster *> &fishables )
+static void rod_fish( player *p,
+                      const weighted_int_list<std::pair<std::string, int>> &fishables )
 {
     map &here = get_map();
-    //if the vector is empty (no fish around) the player is still given a small chance to get a (let us say it was hidden) fish
-    if( fishables.empty() ) {
+    const std::pair<std::string, int> *caught = fishables.pick();
+    if( caught->first.contains( "fish" ) ) {
         const std::vector<mtype_id> fish_group = MonsterGroupManager::GetMonstersFromGroup(
                     mongroup_id( "GROUP_FISH" ) );
         const mtype_id fish_mon = random_entry_ref( fish_group );
-        here.add_item_or_charges( p->pos(), item::make_corpse( fish_mon,
-                                  calendar::turn + rng( 0_turns,
-                                          3_hours ) ) );
+        here.add_item_or_charges(
+            p->pos(), item::make_corpse( fish_mon, calendar::turn +
+                                         rng( 0_turns, 3_hours ) ) );
+
         p->add_msg_if_player( m_good, _( "You caught a %s." ), fish_mon.obj().nname() );
     } else {
-        monster *chosen_fish = random_entry( fishables );
-        chosen_fish->fish_population -= 1;
-        if( chosen_fish->fish_population <= 0 ) {
-            g->catch_a_monster( chosen_fish, p->pos(), p, 50_hours );
-        } else {
-            here.add_item_or_charges( p->pos(), item::make_corpse( chosen_fish->type->id,
-                                      calendar::turn + rng( 0_turns,
-                                              3_hours ) ) );
-            p->add_msg_if_player( m_good, _( "You caught a %s." ), chosen_fish->type->nname() );
+        itype_id possible( caught->first );
+        if( possible.is_valid() ) {
+            here.add_item_or_charges( p->pos(), item::spawn( caught->first, calendar::turn, caught->second ),
+                                      true );
+            p->add_msg_if_player( m_good, _( "You reeled in %s." ) );
         }
     }
+
     for( item *&elem : here.i_at( p->pos() ) ) {
         if( elem->is_corpse() && !elem->has_var( "activity_var" ) ) {
             elem->set_var( "activity_var", p->name );
@@ -3060,32 +3066,35 @@ static void rod_fish( player *p, const std::vector<monster *> &fishables )
 
 void activity_handlers::fish_do_turn( player_activity *act, player *p )
 {
+    int fishing_mult = iuse::good_fishing_spot( act->placement );
+    if( fishing_mult == 0 || p->is_blind() ) {
+        act->set_to_null();
+        p->add_msg_if_player( m_info,
+                              _( "You realize fishing here at the moment is pointless, and stop." ) );
+        if( !p->backlog.empty() && p->backlog.front()->id() == ACT_MULTIPLE_FISH ) {
+            p->backlog.clear();
+            p->assign_activity( ACT_TIDY_UP );
+            return;
+        }
+        return;
+    }
     item &rod = *act->tools.front();
     int fish_chance = 1;
-    int survival_skill = p->get_skill_level( skill_survival );
+    int survival_mod = p->get_skill_level( skill_survival );
     if( rod.has_flag( flag_FISH_POOR ) ) {
-        survival_skill += dice( 1, 6 );
+        survival_mod += dice( 1, 8 ); // avg of 4
     } else if( rod.has_flag( flag_FISH_GOOD ) ) {
         // Much better chances with a good fishing implement.
-        survival_skill += dice( 4, 9 );
-        survival_skill *= 2;
+        survival_mod += dice( 3, 6 ); //avg of 10-11
     }
-    std::vector<monster *> fishables = g->get_fishable_monsters( act->coord_set );
-    // Fish are always there, even if it dosnt seem like they are visible!
-    if( fishables.empty() ) {
-        fish_chance += survival_skill / 2;
-    } else {
-        // if they are visible however, it implies a larger population
-        for( monster *elem : fishables ) {
-            fish_chance += elem->fish_population;
-        }
-        fish_chance += survival_skill;
-    }
+    fish_chance += ( survival_mod *  fishing_mult );
     // no matter the population of fish, your skill and tool limits the ease of catching.
-    fish_chance = std::min( survival_skill * 10, fish_chance );
-    if( x_in_y( fish_chance, 600000 ) ) {
+    fish_chance = std::min( survival_mod * 20, fish_chance );
+    if( x_in_y( fish_chance, 600000 ) ) {//Roughly 1/1000 per turn avg.
         p->add_msg_if_player( m_good, _( "You feel a tug on your line!" ) );
-        rod_fish( p, fishables );
+        weighted_int_list<std::pair<std::string, int>> caught;
+        caught.add( {"fish", 1}, 1 ); //Hardcoded for now, but can be expanded for magnet fishing or smthn
+        rod_fish( p, caught );
     }
     if( calendar::once_every( 60_minutes ) ) {
         p->practice( skill_survival, rng( 1, 3 ) );
@@ -4328,7 +4337,7 @@ void activity_handlers::tree_communion_do_turn( player_activity *act, player *p 
             return;
         }
         for( const tripoint_abs_omt &neighbor : points_in_radius( tpt, 1 ) ) {
-            if( seen.find( neighbor ) != seen.end() ) {
+            if( seen.contains( neighbor ) ) {
                 continue;
             }
             seen.insert( neighbor );
@@ -4454,7 +4463,7 @@ void activity_handlers::spellcasting_finish( player_activity *act, player *p )
                 p->magic->mod_mana( *p, -cost );
                 break;
             case stamina_energy:
-                p->mod_stamina( -cost );
+                p->mod_stamina( -cost, spell_being_cast.has_flag( spell_flag::PHYSICAL ) );
                 break;
             case bionic_energy:
                 p->mod_power_level( -units::from_kilojoule( cost ) );

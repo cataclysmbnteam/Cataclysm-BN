@@ -449,6 +449,9 @@
         "type": "repair_item",
         "item_action_type": "repair_metal",
         "materials": [
+          "lead",
+          "tin",
+          "zinc",
           "iron",
           "steel",
           "budget_steel",
@@ -460,13 +463,20 @@
           "gold",
           "platinum",
           "superalloy",
-          "glass",
           "plastic",
           "carbon_fiber"
         ],
         "skill": "computer",
+        "tool_quality": 3,
         "cost_scaling": 0.1,
-        "move_cost": 1500
+        "move_cost": 400
+      },
+      { "flame": false, "type": "cauterize" },
+      {
+        "type": "sew_advanced",
+        "materials": [ "cotton", "leather", "nylon", "wool", "fur", "faux_fur", "nomex", "kevlar", "neoprene", "gutskin", "scute" ],
+        "skill": "tailor",
+        "clothing_mods": [ "carbon_fiber_padded" ]
       }
     ],
     "flags": [ "USES_GRID_POWER" ]
@@ -477,7 +487,7 @@
     "type": "TOOL",
     "name": { "str": "installed reloading press" },
     "//": "Doesn't substitute for hand press because we want to define this tool in crafting requirements separately, due to disassembly code.",
-    "qualities": [ [ "PULL", 2 ] ]
+    "qualities": [ [ "PULL", 2 ], [ "CASING_PRESSING", 3 ] ]
   },
   {
     "id": "grid_hydraulic_press",

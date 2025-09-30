@@ -22,6 +22,11 @@ on_character_reset_stats = {}
 ---@field omt Tripoint
 ---@field when TimePoint
 on_mapgen_postprocess = {}
+
+---@class OnMonDeathParams
+---@field mon Monster
+---@field killer Character
+on_mon_death = {}
 --================---- Classes ----================
 
 ---@class ActivityTypeId
@@ -779,7 +784,7 @@ function FurnRaw.new() end
 ---@field is_wheel fun(arg1: Item): boolean
 ---@field made_of fun(arg1: Item): any
 ---@field mod_charges fun(arg1: Item, arg2: integer)
----@field price fun(arg1: Item, arg2: boolean): integer @Cents of the item. `bool` is whether it is a post-cataclysm value.
+---@field price fun(arg1: Item, arg2: boolean): number @Cents of the item. `bool` is whether it is a post-cataclysm value.
 ---@field remaining_capacity_for_id fun(arg1: Item, arg2: ItypeId, arg3: boolean): integer @Gets the remaining space available for a type of liquid
 ---@field remove_technique fun(arg1: Item, arg2: MartialArtsTechniqueId) @Removes the additional technique. Doesn't affect originial techniques.
 ---@field set_flag fun(arg1: Item, arg2: JsonFlagId)
@@ -1715,6 +1720,7 @@ coords = {}
 ---@field get_npc_at fun(arg1: Tripoint, arg2: bool?): Npc
 ---@field look_around fun(): Tripoint?
 ---@field place_monster_at fun(arg1: MtypeId, arg2: Tripoint): Monster
+---@field place_monster_around fun(arg1: MtypeId, arg2: Tripoint, arg3: integer): Monster @Example: gapi.place_monster_around(MtypeId.new("mon_dog_bcollie"), gapi.get_avatar():get_pos_ms(), 5)
 ---@field place_player_overmap_at fun(arg1: Tripoint)
 ---@field play_ambient_variant_sound fun(arg1: string, arg2: string, arg3: integer, arg4: SfxChannel, arg5: integer, arg6: number, arg7: integer)
 ---@field play_variant_sound fun(arg1: string, arg2: string, arg3: integer) | fun(arg1: string, arg2: string, arg3: integer, arg4: Angle, arg5: number, arg6: number)
@@ -1741,7 +1747,15 @@ gdebug = {}
 ---@field on_every_x fun() @Called every in-game period
 ---@field on_game_load fun() @Called right after game has loaded
 ---@field on_game_save fun() @Called when game is about to save
+---@field on_game_started fun() @Called when game is started the first time
 ---@field on_mapgen_postprocess fun(arg1: Map, arg2: Tripoint, arg3: TimePoint) @Called right after mapgen has completed. Map argument is the tinymap that represents 24x24 area (2x2 submaps, or 1x1 omt), tripoint is the absolute omt pos, and time_point is the current time (for time-based effects).
+---@field on_mon_death fun() @Called when a monster is dead
+---@field on_char_death fun() @Called after a character has died
+---@field on_creature_dodged fun() @Called after a creature has dodged an attack
+---@field on_creature_blocked fun() @Called after a creature has blocked an attack
+---@field on_creature_melee_attacked fun() @Called after a creature has attacked in melee
+---@field on_creature_performed_technique fun() @Called after a character has performed a combat technique
+
 hooks = {}
 
 --- Localization API.
