@@ -90,6 +90,7 @@
         "hiway",
         "road",
         "bridge",
+        "dam",
         "fema_entrance",
         "bunker",
         "helipad",
@@ -117,6 +118,7 @@
         "hiway",
         "road",
         "bridge",
+        "dam",
         "s_pharm",
         "s_gun",
         "s_grocery",
@@ -145,6 +147,7 @@
         "hiway",
         "road",
         "bridge",
+        "dam",
         { "om_terrain": "shelter", "om_terrain_match_type": "TYPE" },
         "hospital",
         "school",
@@ -236,7 +239,7 @@
     "use_action": {
       "type": "reveal_map",
       "radius": 180,
-      "terrain": [ "hiway", "road", "bridge", "hotel_tower", "s_restaurant", "cathedral", "s_restaurant_fast", "megastore", "museum" ],
+      "terrain": [ "hiway", "road", "bridge", "dam", "hotel_tower", "s_restaurant", "cathedral", "s_restaurant_fast", "megastore", "museum" ],
       "message": "You add roads and tourist attractions to your map."
     }
   },
@@ -254,6 +257,7 @@
         "hiway",
         "road",
         "bridge",
+        "dam",
         "s_restaurant_coffee",
         "s_restaurant",
         { "om_terrain": "bar", "om_terrain_match_type": "TYPE" },
@@ -279,6 +283,7 @@
         "river_shore",
         "river_center",
         "bridge_under",
+        "dam_under",
         "railroad_bridge",
         "lake_shore",
         "lake_surface",
@@ -308,6 +313,7 @@
         "hiway",
         "road",
         "bridge",
+        "dam",
         "desolatebarn",
         "shoppingplaza",
         { "om_terrain": "office_tower_collapse_a2", "om_terrain_match_type": "TYPE" },
@@ -343,7 +349,7 @@
     "use_action": {
       "type": "reveal_map",
       "radius": 90,
-      "terrain": [ "hiway", "road", "bridge", "field", "swamp", "forest", "lake", "river" ],
+      "terrain": [ "hiway", "road", "bridge", "dam", "field", "swamp", "forest", "lake", "river" ],
       "message": "You add terrain and roads to your map."
     }
   }
