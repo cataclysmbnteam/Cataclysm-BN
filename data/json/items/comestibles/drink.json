@@ -539,7 +539,7 @@
     "volume": "250 ml",
     "phase": "liquid",
     "charges": 2,
-    "flags": [ "EATEN_COLD", "NO_COOKING_BUFF" ],
+    "flags": [ "EATEN_COLD", "EATEN_HOT" ],
     "vitamins": [ [ "vitA", 5 ], [ "vitC", 3 ], [ "calcium", 13 ], [ "iron", 2 ], [ "egg_allergen", 1 ], [ "milk_allergen", 1 ] ],
     "fun": 15
   },

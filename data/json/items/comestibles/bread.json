@@ -112,7 +112,7 @@
     "looks_like": "bread",
     "volume": "750 ml",
     "charges": 4,
-    "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE", "NO_COOKING_BUFF" ],
+    "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
     "fun": 2,
     "vitamins": [ [ "wheat_allergen", 1 ] ]
   },
@@ -132,7 +132,7 @@
     "price_postapoc": "1 USD",
     "material": [ "wheat" ],
     "volume": "250 ml",
-    "flags": [ "EATEN_HOT", "NO_COOKING_BUFF" ],
+    "flags": [ "EATEN_HOT" ],
     "vitamins": [ [ "calcium", 5 ], [ "iron", 12 ], [ "wheat_allergen", 1 ] ]
   },
   {
@@ -153,7 +153,7 @@
     "material": [ "wheat" ],
     "volume": "250 ml",
     "charges": 2,
-    "flags": [ "EATEN_HOT", "NO_COOKING_BUFF" ],
+    "flags": [ "EATEN_HOT" ],
     "fun": 1,
     "vitamins": [ [ "vitC", 1 ], [ "calcium", 10 ], [ "iron", 4 ], [ "wheat_allergen", 1 ] ]
   },
@@ -177,7 +177,7 @@
     "material": [ "wheat" ],
     "volume": "250 ml",
     "charges": 14,
-    "flags": [ "EATEN_HOT", "NO_COOKING_BUFF" ],
+    "flags": [ "EATEN_HOT" ],
     "fun": 3,
     "vitamins": [ [ "vitA", 1 ], [ "vitB", 3 ], [ "calcium", 2 ], [ "iron", 14 ], [ "wheat_allergen", 1 ] ]
   },
@@ -200,7 +200,7 @@
     "primary_material": "wheat",
     "volume": "250 ml",
     "charges": 2,
-    "flags": [ "EATEN_HOT", "NO_COOKING_BUFF" ],
+    "flags": [ "EATEN_HOT" ],
     "fun": 2,
     "vitamins": [ [ "vitA", 2 ], [ "calcium", 8 ], [ "iron", 6 ], [ "veggy_allergen", 1 ] ]
   },
@@ -287,7 +287,7 @@
     "primary_material": "wheat",
     "volume": "250 ml",
     "charges": 2,
-    "flags": [ "EATEN_HOT", "NO_COOKING_BUFF" ],
+    "flags": [ "EATEN_HOT" ],
     "fun": 1,
     "vitamins": [ [ "calcium", 1 ], [ "iron", 1 ], [ "veggy_allergen", 1 ] ]
   },
@@ -353,7 +353,7 @@
     "volume": "250 ml",
     "charges": 2,
     "stack_size": 20,
-    "flags": [ "EATEN_HOT", "NO_COOKING_BUFF" ],
+    "flags": [ "EATEN_HOT" ],
     "fun": -1,
     "vitamins": [ [ "calcium", 12 ], [ "wheat_allergen", 1 ], [ "junk_allergen", 1 ] ],
     "//": "this item will generally inherit its values, so it is essentially a copy of bread"
