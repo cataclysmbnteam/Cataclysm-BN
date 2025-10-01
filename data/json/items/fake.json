@@ -262,7 +262,7 @@
         "training_skill_min_level": 0,
         "training_skill_xp": 0,
         "training_skill_xp_max": 1,
-        "training_skill_max_level": 7,
+        "training_skill_max_level": 4,
         "training_skill_fatigue": 3,
         "training_skill_interval": 20
       }
