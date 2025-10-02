@@ -2160,7 +2160,7 @@ void activity_handlers::train_finish( player_activity *act, player *p )
         const Skill &skill = sk.obj();
         std::string skill_name = skill.name();
         int old_skill_level = p->get_skill_level( sk );
-        p->get_skill_level_object( sk ).train( 100, true );
+        p->get_skill_level_object( sk ).train( 100 * ( old_skill_level + 1 ), true );
         int new_skill_level = p->get_skill_level( sk );
         if( old_skill_level != new_skill_level ) {
             add_msg( m_good, _( "You finish training %s to level %d." ),
