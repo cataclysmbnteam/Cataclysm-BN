@@ -9,7 +9,7 @@
     "color": "red",
     "parasites": 32,
     "vitamins": [ [ "meat_allergen", 1 ] ],
-    "flags": [ "RAW", "UNSAFE_CONSUME", "NO_COOKING_BUFF" ]
+    "flags": [ "RAW", "UNSAFE_CONSUME" ]
   },
   {
     "id": "fish",
@@ -38,7 +38,7 @@
     "spoils_in": "2 days",
     "price_postapoc": "1 USD",
     "parasites": 0,
-    "flags": [ "EATEN_HOT", "NO_COOKING_BUFF" ]
+    "flags": [ "EATEN_HOT" ]
   },
   {
     "id": "fish_cooked_seasoned",

@@ -21,7 +21,7 @@
     "price_postapoc": "2 USD",
     "material": [ "flesh" ],
     "volume": "250 ml",
-    "flags": [ "SMOKABLE", "NO_COOKING_BUFF" ],
+    "flags": [ "SMOKABLE" ],
     "smoking_result": "sausage",
     "vitamins": [ [ "vitA", 2 ], [ "calcium", 2 ], [ "iron", 6 ], [ "vitB", 36 ], [ "meat_allergen", 1 ] ],
     "fun": -10
@@ -363,7 +363,7 @@
     "material": [ "flesh" ],
     "volume": "250 ml",
     "vitamins": [ [ "vitA", 10 ], [ "vitC", 15 ], [ "calcium", 2 ], [ "iron", 8 ], [ "meat_allergen", 1 ] ],
-    "flags": [ "EATEN_COLD", "NO_COOKING_BUFF" ]
+    "flags": [ "EATEN_COLD" ]
   },
   {
     "type": "COMESTIBLE",

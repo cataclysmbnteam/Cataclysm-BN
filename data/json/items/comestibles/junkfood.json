@@ -723,7 +723,6 @@
     "symbol": "%",
     "quench": -10,
     "calories": 280,
-    "flags": [ "NO_COOKING_BUFF" ],
     "description": "Salted chips made from corn tortillas, could really use some cheese, maybe some beef.",
     "price": "170 cent",
     "price_postapoc": "150 cent",

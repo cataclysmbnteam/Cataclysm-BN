@@ -333,7 +333,7 @@
     "material": [ "egg" ],
     "volume": "125 ml",
     "charges": 2,
-    "flags": [ "EATEN_HOT", "NO_COOKING_BUFF" ],
+    "flags": [ "EATEN_HOT" ],
     "fun": 3,
     "vitamins": [ [ "egg_allergen", 1 ] ]
   },
