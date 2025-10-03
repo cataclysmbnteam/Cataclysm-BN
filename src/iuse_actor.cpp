@@ -5387,7 +5387,8 @@ int cloning_syringe_iuse::use( player &p, item &it, bool, const tripoint &pos ) 
     // we can only grow organic matter (this includes blob, and were going to assume the blob messes with DNA and therefore is copy-able)
     // unsure about nether monsters though
     bool in_bad_species = m->in_species( species_HALLUCINATION ) || m->in_species( species_ROBOT ) ||
-                          m->in_species( species_ZOMBIE ) || m->in_species( species_NETHER ) || m->in_species( species_SKELETON );
+                          m->in_species( species_ZOMBIE ) || m->in_species( species_NETHER ) ||
+                          m->in_species( species_SKELETON );
     if( m->has_flag( MF_CANT_CLONE ) || in_bad_species ) {
         add_msg( m_info, _( "There's not a valid creature there." ) );
         return 0;
