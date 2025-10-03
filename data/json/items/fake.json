@@ -274,6 +274,7 @@
     "type": "TOOL",
     "name": { "str": "ergometer" },
     "//": "similar to a treadmill, but doesn't require power, so should be slightly worse.",
+    "//2": "note that it will take around 21 individual 12 hour sessions to get to level 4, so its only really useful for early game training",
     "use_action": [
       {
         "type": "train_skill",
@@ -282,7 +283,7 @@
         "training_skill_min_level": 0,
         "training_skill_xp": 0,
         "training_skill_xp_max": 1,
-        "training_skill_max_level": 6,
+        "training_skill_max_level": 4,
         "training_skill_fatigue": 2,
         "training_skill_interval": 20
       }
