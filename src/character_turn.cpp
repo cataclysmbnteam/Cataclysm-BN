@@ -1042,7 +1042,6 @@ void do_pause( Character &who )
         }
 
         if( who.is_underwater() ) {
-            who.as_player()->practice( skill_swimming, 1 );
             who.drench( 100, { {
                     bodypart_str_id( "leg_l" ), bodypart_str_id( "leg_r" ), bodypart_str_id( "torso" ), bodypart_str_id( "arm_l" ),
                     bodypart_str_id( "arm_r" ), bodypart_str_id( "head" ), bodypart_str_id( "eyes" ), bodypart_str_id( "mouth" ),
@@ -1050,7 +1049,6 @@ void do_pause( Character &who )
                 }
             }, true );
         } else if( here.has_flag( TFLAG_DEEP_WATER, who.pos() ) ) {
-            who.as_player()->practice( skill_swimming, 1 );
             // Same as above, except no head/eyes/mouth
             who.drench( 100, { {
                     bodypart_str_id( "leg_l" ), bodypart_str_id( "leg_r" ), bodypart_str_id( "torso" ), bodypart_str_id( "arm_l" ),
