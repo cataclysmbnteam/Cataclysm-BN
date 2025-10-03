@@ -3,7 +3,6 @@
 #include <cstddef>
 #include <cstdint>
 #include <memory>
-#include <pthread.h>
 #include <vector>
 #include <string>
 #include <iterator>
