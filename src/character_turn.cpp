@@ -916,7 +916,7 @@ void Character::process_items()
         const itype_id ammo = weap->ammo_current();
         if( !ammo.is_null() && ammo != itype_id::NULL_ID() ) {
             weap->ammo_set( ammo, weap->ammo_remaining() + used );
-        } else if( weap->ammo_remaining() == 0 ){
+        } else if( weap->ammo_remaining() == 0 ) {
             weap->ammo_set( itype_battery, weap->ammo_remaining() + used );
         } else {
             ch_UPS_used -= used;
@@ -936,7 +936,7 @@ void Character::process_items()
         const itype_id ammo = it.ammo_current();
         if( !ammo.is_null() && ammo != itype_id::NULL_ID() ) {
             it.ammo_set( ammo, it.ammo_remaining() + used );
-        } else if( it.ammo_remaining() == 0 ){
+        } else if( it.ammo_remaining() == 0 ) {
             it.ammo_set( itype_battery, it.ammo_remaining() + used );
         } else {
             ch_UPS_used -= used;
@@ -953,7 +953,7 @@ void Character::process_items()
         const itype_id ammo = worn_item->ammo_current();
         if( !ammo.is_null() && ammo != itype_id::NULL_ID() ) {
             worn_item->ammo_set( ammo, worn_item->ammo_remaining() + used );
-        } else if( worn_item->ammo_remaining() == 0){
+        } else if( worn_item->ammo_remaining() == 0 ) {
             worn_item->ammo_set( itype_battery, worn_item->ammo_remaining() + used );
         } else {
             ch_UPS_used -= used;
