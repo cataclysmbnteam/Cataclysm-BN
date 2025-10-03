@@ -4421,7 +4421,7 @@ bool map::has_visible_item( const tripoint &p ) const
     point l;
     submap *const current_submap = get_submap_at( p, l );
     for( item *i : current_submap->get_items( l ) ) {
-        if( !i->has_flag( flag_INVISIBLE ) ){
+        if( !i->has_flag( flag_INVISIBLE ) ) {
             return true;
         }
     }

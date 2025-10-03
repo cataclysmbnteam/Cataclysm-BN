@@ -9563,7 +9563,7 @@ point game::place_player( const tripoint &dest_loc )
                         break;
                     }
                 }
-                if( names.size() > 0 ){
+                if( names.size() > 0 ) {
                     for( size_t i = 0; i < names.size(); ++i ) {
                         if( !items[i]->count_by_charges() ) {
                             names[i] = items[i]->display_name( counts[i] );

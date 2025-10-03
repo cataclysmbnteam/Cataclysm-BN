@@ -331,7 +331,7 @@ struct maptile {
         const item &get_uppermost_item() const {
             return **std::prev( sm->get_items( pos() ).cend() );
         }
-        
+
         const item &get_uppermost_visible_item() const {
             location_vector<item> *items = &sm->get_items( pos() );
             for( auto i = items->rbegin(); i != items->rend(); i++ ) {

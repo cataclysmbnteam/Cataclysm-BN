@@ -2141,7 +2141,7 @@
   {
     "id": "INVISIBLE",
     "type": "json_flag",
-    "context": [ ]
+    "context": [  ]
   },
   {
     "id": "TRADER_KEEP",
