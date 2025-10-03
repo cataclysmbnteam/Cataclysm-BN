@@ -569,6 +569,9 @@ void avatar_action::swim( map &m, avatar &you, const tripoint &p )
         you.set_underwater( true );
     }
     int movecost = you.swim_speed();
+    if( !you.worn_with_flag( flag_FLOTATION ) ) {
+        you.practice( skill_swimming, 1 );
+    }
     if( movecost >= 500 ) {
         if( !you.is_underwater() &&
             !( you.shoe_type_count( itype_swim_fins ) == 2 ||
