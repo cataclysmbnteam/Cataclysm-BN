@@ -629,10 +629,12 @@ void pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
 
     // which items are we grabbing?
     std::vector<item_stack::iterator> here;
+    bool added = false;
     if( from_vehicle ) {
         vehicle_stack vehitems = veh->get_items( cargo_part );
         for( item_stack::iterator it = vehitems.begin(); it != vehitems.end(); ++it ) {
             if( !( *it )->has_flag( flag_INVISIBLE ) ) {
+                added = true;
                 here.push_back( it );
             }
         }
@@ -640,11 +642,14 @@ void pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
         map_stack mapitems = g->m.i_at( p );
         for( item_stack::iterator it = mapitems.begin(); it != mapitems.end(); ++it ) {
             if( !( *it )->has_flag( flag_INVISIBLE ) ) {
+                added = true;
                 here.push_back( it );
             }
         }
     }
-
+    if( !added ) {
+        return;
+    }
     if( min == -1 ) {
         // Recursively pick up adjacent items if that option is on.
         if( get_option<bool>( "AUTO_PICKUP_ADJACENT" ) && g->u.pos() == p ) {

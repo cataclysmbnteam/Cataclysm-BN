@@ -3058,7 +3058,7 @@ bool cata_tiles::draw_field_or_item( const tripoint &p, const lit_level ll, int 
             it_type = &*it_id;
         } else if( !invisible[0] && here.sees_some_items( p, g->u ) ) {
             const maptile &tile = here.maptile_at( p );
-            const item &itm = tile.get_uppermost_item();
+            const item &itm = tile.get_uppermost_visible_item();
             const mtype *const mon = itm.get_mtype();
             it_id = itm.typeId();
             mon_id = mon ? mon->id : mtype_id::NULL_ID();
