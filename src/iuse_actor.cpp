@@ -5617,7 +5617,7 @@ void train_skill_actor::load( JsonObject const &obj )
     training_skill = obj.get_string( "training_skill" );
     training_skill_min_level = obj.get_int( "training_skill_min_level", 0 );
     training_skill_xp = obj.get_int( "training_skill_xp", 0 );
-    training_skill_xp_max = obj.get_int( "training_skill_xp_max", 0 );
+    training_skill_xp_chance = obj.get_int( "training_skill_xp_chance", 0 );
     training_skill_max_level = obj.get_int( "training_skill_max_level", 0 );
     training_skill_fatigue = obj.get_int( "training_skill_fatigue", 0 );
     training_skill_interval = obj.get_int( "training_skill_interval", 0 );
@@ -5646,10 +5646,10 @@ int train_skill_actor::use( player &p, item &i, bool, const tripoint & ) const
     // using metadata is the easiest way to transfer this over to the activity handler and also allow it to function as furniture
     p.set_value( "training_iuse_skill", training_skill );
     p.set_value( "training_iuse_skill_xp", std::to_string( training_skill_xp ) );
-    p.set_value( "training_iuse_skill_xp_max", std::to_string( training_skill_xp_max ) );
     p.set_value( "training_iuse_skill_xp_max_level", std::to_string( training_skill_max_level ) );
     p.set_value( "training_iuse_skill_fatigue", std::to_string( training_skill_fatigue ) );
     p.set_value( "training_iuse_skill_interval", std::to_string( training_skill_interval ) );
+    p.set_value( "training_iuse_skill_xp_chance", std::to_string( training_skill_xp_chance ) );
     p.assign_activity( ACT_TRAIN_SKILL, hours * 360000, -1, 0, "training" );
     p.activity->str_values.emplace_back( i.typeId() );
     p.activity->tools.emplace_back( i );

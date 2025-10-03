@@ -214,11 +214,11 @@
         "training_msg": "You update software and check logs, improving your understanding slightly.",
         "training_skill": "computer",
         "training_skill_min_level": 0,
-        "training_skill_xp": 0,
-        "training_skill_xp_max": 1,
+        "training_skill_xp": 1,
         "training_skill_max_level": 3,
         "training_skill_fatigue": 0,
-        "training_skill_interval": 10
+        "training_skill_interval": 10,
+        "training_skill_xp_chance": 80
       },
       "CAMERA",
       {
@@ -578,11 +578,11 @@
         "training_msg": "You update software and check logs, improving your understanding slightly.",
         "training_skill": "computer",
         "training_skill_min_level": 0,
-        "training_skill_xp": 0,
-        "training_skill_xp_max": 1,
+        "training_skill_xp": 1,
         "training_skill_max_level": 3,
         "training_skill_fatigue": 0,
-        "training_skill_interval": 10
+        "training_skill_interval": 10,
+        "training_skill_xp_chance": 80
       },
       {
         "target": "laptop_screen_lit",
@@ -763,9 +763,9 @@
         "training_msg": "You fiddle with your phone’s settings and apps, picking up some basic computer knowledge.",
         "training_skill": "computer",
         "training_skill_min_level": 0,
-        "training_skill_xp": 0,
-        "training_skill_xp_max": 1,
+        "training_skill_xp": 1,
         "training_skill_max_level": 1,
+        "training_skill_xp_chance": 80,
         "training_skill_fatigue": 0,
         "training_skill_interval": 20
       },
@@ -835,11 +835,11 @@
         "training_msg": "You fiddle with your phone’s settings and apps, picking up some basic computer knowledge.",
         "training_skill": "computer",
         "training_skill_min_level": 0,
-        "training_skill_xp": 0,
-        "training_skill_xp_max": 1,
+        "training_skill_xp": 1,
         "training_skill_max_level": 1,
         "training_skill_fatigue": 0,
-        "training_skill_interval": 20
+        "training_skill_interval": 20,
+        "training_skill_xp_chance": 80
       },
       "CAMERA",
       "PORTABLE_GAME",

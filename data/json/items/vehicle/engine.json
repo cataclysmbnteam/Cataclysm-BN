@@ -47,11 +47,11 @@
         "training_msg": "You examine the V6 engine, disassembling and reassembling it in an effort to learn a bit about how its components fit together and operate.",
         "training_skill": "mechanics",
         "training_skill_min_level": 1,
-        "training_skill_xp": 0,
-        "training_skill_xp_max": 1,
+        "training_skill_xp": 1,
         "training_skill_max_level": 6,
         "training_skill_fatigue": 0,
-        "training_skill_interval": 10
+        "training_skill_interval": 10,
+        "training_skill_xp_chance": 80
       }
     ]
   },
@@ -92,11 +92,11 @@
         "training_msg": "You examine the V6 engine, disassembling and reassembling it in an effort to learn a bit about how its components fit together and operate.",
         "training_skill": "mechanics",
         "training_skill_min_level": 1,
-        "training_skill_xp": 0,
-        "training_skill_xp_max": 1,
+        "training_skill_xp": 1,
         "training_skill_max_level": 6,
         "training_skill_fatigue": 0,
-        "training_skill_interval": 10
+        "training_skill_interval": 10,
+        "training_skill_xp_chance": 80
       }
     ]
   },
@@ -367,11 +367,11 @@
         "training_msg": "You examine the engine block, learning a bit about how its components fit together and operate.",
         "training_skill": "mechanics",
         "training_skill_min_level": 0,
-        "training_skill_xp": 0,
-        "training_skill_xp_max": 1,
+        "training_skill_xp": 1,
         "training_skill_max_level": 2,
         "training_skill_fatigue": 0,
-        "training_skill_interval": 20
+        "training_skill_interval": 20,
+        "training_skill_xp_chance": 80
       }
     ],
     "price_postapoc": "1 USD"
