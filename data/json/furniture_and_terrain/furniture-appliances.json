@@ -840,7 +840,7 @@
     "id": "f_server",
     "looks_like": "f_utility_shelf",
     "name": "server stack",
-    "description": "This is a big pile of computers.  They're all turned off.",
+    "description": "This is a big pile of computers.  They're all turned off, but if you can get power going it might be useful for training your Computers skill.",
     "symbol": ":",
     "color": "blue_white",
     "move_cost_mod": -1,
