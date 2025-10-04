@@ -256,15 +256,15 @@
     "//2": "training melee skill, steady but slow since we're punching a mostly stationary target",
     "use_action": [
       {
-        "//": "average of 162 xp/hr (1.5x walking rate, but unarmed)",
+        "//": "up to 36 xp/hr",
         "type": "train_skill",
         "training_msg": "You swing and jab at the punching bag, sweat dripping as your technique improves.",
         "training_skill": "unarmed",
         "training_skill_min_level": 0,
-        "training_skill_xp": 18,
+        "training_skill_xp": 6,
         "training_skill_max_level": 4,
         "training_skill_fatigue": 3,
-        "training_skill_interval": 30,
+        "training_skill_interval": 10,
         "training_skill_xp_chance": 90
       }
     ]
@@ -277,15 +277,15 @@
     "//": "similar to a treadmill, but doesn't require power, so should be slightly worse.",
     "use_action": [
       {
-        "//": "average of 162 xp/hr (1.5x walking rate)",
+        "//": "up to 36 xp/hr",
         "type": "train_skill",
         "training_msg": "You row steadily on the ergometer, building strength and endurance with each pull.",
         "training_skill": "swimming",
         "training_skill_min_level": 0,
-        "training_skill_xp": 18,
+        "training_skill_xp": 6,
         "training_skill_max_level": 4,
         "training_skill_fatigue": 2,
-        "training_skill_interval": 30,
+        "training_skill_interval": 10,
         "training_skill_xp_chance": 90
       }
     ]
@@ -300,15 +300,15 @@
     "//": "the treadmill should allow the user to train athletics most consistently besides actual running, but at the cost of fatigue and power drain",
     "use_action": [
       {
-        "//": "average of 216 xp/hr (2x walking)",
+        "//": "up to 54 xp/hr",
         "type": "train_skill",
         "training_msg": "You run steadily on the treadmill, training your stamina and athletics skill.",
         "training_skill": "swimming",
         "training_skill_min_level": 0,
-        "training_skill_xp": 27,
+        "training_skill_xp": 9,
         "training_skill_max_level": 8,
         "training_skill_fatigue": 3,
-        "training_skill_interval": 30,
+        "training_skill_interval": 10,
         "training_skill_xp_chance": 90
       }
     ],
@@ -322,15 +322,15 @@
     "//": "lifting weights, minimum level of 2 because otherwise it's dangerous.",
     "use_action": [
       {
-        "//": "average of 162 xp/hr (1.5x walking rate)",
+        "//": "up to 36 xp/hr",
         "type": "train_skill",
         "training_msg": "You work out on the exercise machine, training your stamina and athletics skill.",
         "training_skill": "swimming",
         "training_skill_min_level": 2,
-        "training_skill_xp": 18,
+        "training_skill_xp": 6,
         "training_skill_max_level": 8,
         "training_skill_fatigue": 2,
-        "training_skill_interval": 30,
+        "training_skill_interval": 10,
         "training_skill_xp_chance": 90
       }
     ]
@@ -343,15 +343,15 @@
     "//": "dancing = dodging skill. should be relatively steady, slow gain since it's just pole dancing.",
     "use_action": [
       {
-        "//": "average of 162 xp/hr (1.5x walking rate)",
+        "//": "up to 36 xp/hr",
         "type": "train_skill",
         "training_msg": "You focus on controlled spins, honing your ability to dodge and react.",
         "training_skill": "dodge",
         "training_skill_min_level": 0,
-        "training_skill_xp": 18,
+        "training_skill_xp": 6,
         "training_skill_max_level": 3,
         "training_skill_fatigue": 3,
-        "training_skill_interval": 30,
+        "training_skill_interval": 10,
         "training_skill_xp_chance": 90
       }
     ]
@@ -366,15 +366,15 @@
     "//": "below level two, you can't dodge the balls well enough to not get pummeled. should be higher than dancing furniture though, as this is actual dodging and requires power",
     "use_action": [
       {
-        "//": "average of 216 xp/hr",
+        "//": "up to 54 xp/hr",
         "type": "train_skill",
         "training_msg": "You focus on dodging the flying projectiles, greatly honing your ability to dodge and react.",
         "training_skill": "dodge",
         "training_skill_min_level": 0,
-        "training_skill_xp": 27,
+        "training_skill_xp": 8,
         "training_skill_max_level": 5,
         "training_skill_fatigue": 3,
-        "training_skill_interval": 30,
+        "training_skill_interval": 10,
         "training_skill_xp_chance": 90
       }
     ],
@@ -391,15 +391,15 @@
     "//2": "this is dangerous machinery, so require a minimum level of 2. currently can't require tool qualites or anything",
     "use_action": [
       {
-        "//": "average of 216 xp/hr",
+        "//": "up to 54 xp/hr",
         "type": "train_skill",
         "training_msg": "You study the electronics, tracing circuits and learning how the components interact.",
         "training_skill": "electronics",
         "training_skill_min_level": 2,
-        "training_skill_xp": 27,
+        "training_skill_xp": 9,
         "training_skill_max_level": 7,
         "training_skill_fatigue": 0,
-        "training_skill_interval": 30,
+        "training_skill_interval": 10,
         "training_skill_xp_chance": 90
       }
     ],
@@ -413,15 +413,15 @@
     "//": "mirror & mannequin speaking. you can only train so high when talking to yourself.",
     "use_action": [
       {
-        "//": "average of 108 xp/hr",
+        "//": "up to 18 xp/hr",
         "type": "train_skill",
         "training_msg": "You practice speaking, rehearsing your tone and delivery.",
         "training_skill": "speech",
         "training_skill_min_level": 0,
-        "training_skill_xp": 9,
+        "training_skill_xp": 3,
         "training_skill_max_level": 2,
         "training_skill_fatigue": 0,
-        "training_skill_interval": 30,
+        "training_skill_interval": 10,
         "training_skill_xp_chance": 90
       }
     ]
@@ -437,15 +437,15 @@
     "//2": "this is dangerous machinery, so require a minimum level of 2",
     "use_action": [
       {
-        "//": "average of 216 xp/hr",
+        "//": "up to 54 xp/hr",
         "type": "train_skill",
         "training_msg": "You inspect the fabrication machinery, learning how its components fit together and operate.",
         "training_skill": "fabrication",
         "training_skill_min_level": 2,
-        "training_skill_xp": 27,
+        "training_skill_xp": 9,
         "training_skill_max_level": 7,
         "training_skill_fatigue": 0,
-        "training_skill_interval": 30,
+        "training_skill_interval": 10,
         "training_skill_xp_chance": 90
       }
     ],
@@ -461,15 +461,15 @@
     "//": "fancy server stack. requires a bit of computer knowledge to know your way around, but allows steady computers training afterwards.",
     "use_action": [
       {
-        "//": "average of 216 xp/hr",
+        "//": "up to 54 xp/hr",
         "type": "train_skill",
         "training_msg": "You examine scripts and programs, learning how the system operates.",
         "training_skill": "computer",
         "training_skill_min_level": 3,
-        "training_skill_xp": 27,
+        "training_skill_xp": 9,
         "training_skill_max_level": 8,
         "training_skill_fatigue": 0,
-        "training_skill_interval": 30,
+        "training_skill_interval": 10,
         "training_skill_xp_chance": 90
       }
     ],
