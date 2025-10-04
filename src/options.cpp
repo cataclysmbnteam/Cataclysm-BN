@@ -3029,12 +3029,14 @@ static void refresh_tiles( bool used_tiles_changed, bool pixel_minimap_height_ch
         // Disable UIs below to avoid accessing the tile context during loading.
         ui_adaptor dummy( ui_adaptor::disable_uis_below {} );
         //try and keep SDL calls limited to source files that deal specifically with them
+        std::string tilesName = get_option<std::string>( "TILES" );
+        std::string omTilesName = get_option<std::string>( "OVERMAP_TILES" );
         try {
             tilecontext->reinit();
             std::vector<mod_id> dummy;
 
             tilecontext->load_tileset(
-                get_option<std::string>( "TILES" ),
+                tilesName,
                 ingame ? world_generator->active_world->info->active_mod_order : dummy,
                 /*precheck=*/false,
                 /*force=*/force_tile_change,
@@ -3051,27 +3053,31 @@ static void refresh_tiles( bool used_tiles_changed, bool pixel_minimap_height_ch
             use_tiles = false;
             use_tiles_overmap = false;
         }
-        try {
-            overmap_tilecontext->reinit();
-            std::vector<mod_id> dummy;
+        if( tilesName == omTilesName ) {
+            overmap_tilecontext = tilecontext;
+        } else {
+            try {
+                repoint_overmap_tilecontext();
+                std::vector<mod_id> dummy;
 
-            overmap_tilecontext->load_tileset(
-                get_option<std::string>( "OVERMAP_TILES" ),
-                ingame ? world_generator->active_world->info->active_mod_order : dummy,
-                /*precheck=*/false,
-                /*force=*/force_tile_change,
-                /*pump_events=*/true
-            );
-            //game_ui::init_ui is called when zoom is changed
-            g->reset_zoom();
-            g->mark_main_ui_adaptor_resize();
-            overmap_tilecontext->do_tile_loading_report( []( const std::string & str ) {
-                DebugLog( DL::Info, DC::Main ) << str;
-            } );
-        } catch( const std::exception &err ) {
-            popup( _( "Loading the overmap tileset failed: %s" ), err.what() );
-            use_tiles = false;
-            use_tiles_overmap = false;
+                overmap_tilecontext->load_tileset(
+                    omTilesName,
+                    ingame ? world_generator->active_world->info->active_mod_order : dummy,
+                    /*precheck=*/false,
+                    /*force=*/force_tile_change,
+                    /*pump_events=*/true
+                );
+                //game_ui::init_ui is called when zoom is changed
+                g->reset_zoom();
+                g->mark_main_ui_adaptor_resize();
+                overmap_tilecontext->do_tile_loading_report( []( const std::string & str ) {
+                    DebugLog( DL::Info, DC::Main ) << str;
+                } );
+            } catch( const std::exception &err ) {
+                popup( _( "Loading the overmap tileset failed: %s" ), err.what() );
+                use_tiles = false;
+                use_tiles_overmap = false;
+            }
         }
     } else if( ingame && pixel_minimap_option && pixel_minimap_height_changed ) {
         g->mark_main_ui_adaptor_resize();

@@ -437,11 +437,13 @@ void game::reload_tileset( [[maybe_unused]] const std::function<void( std::strin
 #if defined(TILES)
     // Disable UIs below to avoid accessing the tile context during loading.
     ui_adaptor ui( ui_adaptor::disable_uis_below {} );
+    std::string tilesName = get_option<std::string>( "TILES" );
+    std::string omTilesName = get_option<std::string>( "OVERMAP_TILES" );
     try {
         tilecontext->reinit();
         std::vector<mod_id> dummy;
         tilecontext->load_tileset(
-            get_option<std::string>( "TILES" ),
+            tilesName,
             world_generator->active_world ? world_generator->active_world->info->active_mod_order : dummy,
             /*precheck=*/false,
             /*force=*/true,
@@ -451,19 +453,23 @@ void game::reload_tileset( [[maybe_unused]] const std::function<void( std::strin
     } catch( const std::exception &err ) {
         popup( _( "Loading the tileset failed: %s" ), err.what() );
     }
-    try {
-        overmap_tilecontext->reinit();
-        std::vector<mod_id> dummy;
-        overmap_tilecontext->load_tileset(
-            get_option<std::string>( "OVERMAP_TILES" ),
-            world_generator->active_world ? world_generator->active_world->info->active_mod_order : dummy,
-            /*precheck=*/false,
-            /*force=*/true,
-            /*pump_events=*/true
-        );
-        overmap_tilecontext->do_tile_loading_report( out );
-    } catch( const std::exception &err ) {
-        popup( _( "Loading the overmap tileset failed: %s" ), err.what() );
+    if( tilesName == omTilesName ) {
+        overmap_tilecontext = tilecontext;
+    } else {
+        try {
+            repoint_overmap_tilecontext();
+            std::vector<mod_id> dummy;
+            overmap_tilecontext->load_tileset(
+                omTilesName,
+                world_generator->active_world ? world_generator->active_world->info->active_mod_order : dummy,
+                /*precheck=*/false,
+                /*force=*/true,
+                /*pump_events=*/true
+            );
+            overmap_tilecontext->do_tile_loading_report( out );
+        } catch( const std::exception &err ) {
+            popup( _( "Loading the overmap tileset failed: %s" ), err.what() );
+        }
     }
     g->reset_zoom();
     g->mark_main_ui_adaptor_resize();
