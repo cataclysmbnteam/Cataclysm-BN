@@ -5627,12 +5627,16 @@ void train_skill_actor::load( JsonObject const &obj )
 int train_skill_actor::use( player &p, item &i, bool, const tripoint & ) const
 {
     if( p.get_skill_level( skill_id( training_skill ) ) < training_skill_min_level ) {
-        p.add_msg_if_player( "Your skill isn't high enough yet to train using that." );
+        p.add_msg_if_player( _( "Your skill isn't high enough yet to train using that (requires %s %s)." ), training_skill_min_level, skill_id( training_skill )->name() );
+        return 0;
+    }
+    if( p.get_skill_level( skill_id( training_skill ) ) >= training_skill_max_level ) {
+        p.add_msg_if_player( _( "You can't train your %s beyond %s using that." ), skill_id( training_skill )->name(), training_skill_max_level );
         return 0;
     }
 
     int hours = string_input_popup()
-                .title( string_format( _( "Train %s for how long (hours)?" ),
+                .title( string_format( _( "Train %s for how many hours?" ),
                                        skill_id( training_skill )->name() ) )
                 .width( 3 )
                 .text( "" )
