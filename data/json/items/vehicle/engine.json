@@ -43,14 +43,14 @@
     "flags": [ "ALLOWS_REMOTE_USE" ],
     "use_action": [
       {
+        "//": "40 xp/hr.  Tier 2, 2-5 skill.",
         "type": "train_skill",
         "training_msg": "You examine the V6 engine, disassembling and reassembling it in an effort to learn a bit about how its components fit together and operate.",
         "training_skill": "mechanics",
-        "training_skill_min_level": 1,
-        "training_skill_xp": 9,
-        "training_skill_max_level": 6,
-        "training_skill_fatigue": 0,
-        "training_skill_interval": 30,
+        "training_skill_min_level": 2,
+        "training_skill_xp": 8,
+        "training_skill_max_level": 5,
+        "training_skill_interval": 12,
         "training_skill_xp_chance": 90
       }
     ]
@@ -88,14 +88,14 @@
     "flags": [ "ALLOWS_REMOTE_USE" ],
     "use_action": [
       {
+        "//": "40 xp/hr.  Tier 2, 2-5 skill.",
         "type": "train_skill",
         "training_msg": "You examine the V6 engine, disassembling and reassembling it in an effort to learn a bit about how its components fit together and operate.",
         "training_skill": "mechanics",
-        "training_skill_min_level": 1,
-        "training_skill_xp": 9,
-        "training_skill_max_level": 6,
-        "training_skill_fatigue": 0,
-        "training_skill_interval": 30,
+        "training_skill_min_level": 2,
+        "training_skill_xp": 8,
+        "training_skill_max_level": 5,
+        "training_skill_interval": 12,
         "training_skill_xp_chance": 90
       }
     ]
@@ -363,14 +363,14 @@
     "price": "35 USD",
     "use_action": [
       {
+        "//": "20 xp/hr.  Tier 1, 0-3 skill.",
         "type": "train_skill",
         "training_msg": "You examine the engine block, learning a bit about how its components fit together and operate.",
         "training_skill": "mechanics",
         "training_skill_min_level": 0,
-        "training_skill_xp": 1,
-        "training_skill_max_level": 2,
-        "training_skill_fatigue": 0,
-        "training_skill_interval": 30,
+        "training_skill_xp": 4,
+        "training_skill_max_level": 3,
+        "training_skill_interval": 12,
         "training_skill_xp_chance": 90
       }
     ],
