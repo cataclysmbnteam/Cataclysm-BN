@@ -45,9 +45,6 @@ static const bionic_id bio_tools( "bio_tools" );
 static const bionic_id bio_electrosense_voltmeter( "bio_electrosense_voltmeter" );
 static const bionic_id bio_ups( "bio_ups" );
 
-static const flag_id flag_BIONIC_ARMOR_INTERFACE( "BIONIC_ARMOR_INTERFACE" );
-static const flag_id flag_IS_UPS( "IS_UPS" );
-
 /** @relates visitable */
 template <typename T>
 item *visitable<T>::find_parent( const item &it )

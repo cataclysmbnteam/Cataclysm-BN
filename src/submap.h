@@ -13,9 +13,11 @@
 #include "calendar.h"
 #include "computer.h"
 #include "construction_partial.h"
+#include "flag.h"
 #include "field.h"
 #include "game_constants.h"
 #include "item.h"
+#include "location_vector.h"
 #include "type_id.h"
 #include "monster.h"
 #include "point.h"
@@ -327,6 +329,17 @@ struct maptile {
         // Assumes there is at least one item
         const item &get_uppermost_item() const {
             return **std::prev( sm->get_items( pos() ).cend() );
+        }
+
+        const item &get_uppermost_visible_item() const {
+            location_vector<item> *items = &sm->get_items( pos() );
+            for( auto i = items->rbegin(); i != items->rend(); i++ ) {
+                if( !( *i )->has_flag( flag_INVISIBLE ) ) {
+                    return **i;
+                }
+            }
+            // Failsafe, cant be null
+            return get_uppermost_item();
         }
 };
 

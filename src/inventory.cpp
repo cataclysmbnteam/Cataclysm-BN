@@ -517,7 +517,7 @@ void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Characte
                 if( pl && !i->is_owned_by( *pl, true ) && i->get_owner()->likes_u >= -10 ) {
                     continue;
                 }
-                if( allow_liquids || !i->made_of( LIQUID ) ) {
+                if( ( allow_liquids || !i->made_of( LIQUID ) ) && !i->has_flag( flag_INVISIBLE ) ) {
                     add_item_by_items_type_cache( *i, false, assign_invlet, false );
                 }
             }

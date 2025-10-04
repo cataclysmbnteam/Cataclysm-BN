@@ -162,7 +162,7 @@
     "name": { "str_sp": "smoldering embers" },
     "description": "A handful of smoldering embers emitting smoke.  They are fading away even when you look at them.",
     "emits": [ "emit_small_smoke_plume" ],
-    "flags": [ "TRADER_AVOID", "FAKE_SMOKE" ]
+    "flags": [ "TRADER_AVOID", "FAKE_SMOKE", "INVISIBLE" ]
   },
   {
     "id": "fake_firestarter",
