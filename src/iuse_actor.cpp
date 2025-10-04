@@ -140,6 +140,10 @@ static const itype_id itype_char_smoker( "char_smoker" );
 static const itype_id itype_fire( "fire" );
 static const itype_id itype_stock_small( "stock_small" );
 static const itype_id itype_syringe( "syringe" );
+static const itype_id itype_genome_drive( "genome_drive" );
+static const itype_id itype_usb_drive( "usb_drive" );
+static const itype_id itype_mutagen( "mutagen" );
+static const itype_id itype_biomaterial( "biomaterial" );
 
 static const skill_id skill_fabrication( "fabrication" );
 static const skill_id skill_firstaid( "firstaid" );
@@ -5377,15 +5381,12 @@ int cloning_syringe_iuse::use( player &p, item &it, bool, const tripoint &pos ) 
     if( !x_in_y( chance, 100 ) ) {
         add_msg( m_bad, _( "The %s emits a loud error beep! You failed to gather a sufficient sample." ),
                  it.display_name() );
-
-
         sounds::sound( pos, 8, sounds::sound_t::alarm, _( "beep!" ), true, "misc", "beep" );
         // add actual noise here
         return charges_to_use;
     }
 
-    // we can only grow organic matter (this includes blob, and were going to assume the blob messes with DNA and therefore is copy-able)
-    // unsure about nether monsters though
+    // we can only grow organic matter, and some species are invalid
     bool in_bad_species = m->in_species( species_HALLUCINATION ) || m->in_species( species_ROBOT ) ||
                           m->in_species( species_ZOMBIE ) || m->in_species( species_NETHER ) ||
                           m->in_species( species_SKELETON );
@@ -5409,7 +5410,7 @@ int cloning_syringe_iuse::use( player &p, item &it, bool, const tripoint &pos ) 
              it.display_name(), m->name() );
 
 
-    auto drives = p.all_items_with_id( itype_id( "genome_drive" ) );
+    auto drives = p.all_items_with_id( itype_genome_drive );
 
     for( size_t z = 0; z < drives.size(); z++ ) {
         if( drives[z]->get_var( "specimen_sample" ) == id_str ) {
@@ -5434,14 +5435,14 @@ int cloning_syringe_iuse::use( player &p, item &it, bool, const tripoint &pos ) 
         }
     }
 
-    if( !p.has_amount( itype_id( "usb_drive" ), 1 ) ) {
+    if( !p.has_amount( itype_usb_drive, 1 ) ) {
         add_msg( m_bad, "No valid USB drive to store the data on. Discarding..." );
         return 0;
     }
 
     // Create new genome drive
-    p.use_amount( itype_id( "usb_drive" ), 1 );
-    detached_ptr<item> drive = item::spawn( itype_id( "genome_drive" ), calendar::turn, 8 );
+    p.use_amount( itype_usb_drive, 1 );
+    detached_ptr<item> drive = item::spawn( itype_genome_drive, calendar::turn );
     int size = static_cast<int>( m->get_size() ) + 1;
 
     drive->set_var( "specimen_sample", id_str );
@@ -5470,17 +5471,15 @@ void dna_editor_iuse::load( const JsonObject &obj )
     assign( obj, "charges_to_use", charges_to_use );
 }
 
-int dna_editor_iuse::use( player &p, item &it, bool, const tripoint &pos ) const
+int dna_editor_iuse::use( player &p, item &it, bool, const tripoint & ) const
 {
     if( !it.units_sufficient( p, charges_to_use ) ) {
         add_msg( m_info, _( "There's not enough charge left in the %s." ), it.display_name() );
         return 0;
     }
-
-    auto genome_drives = p.all_items_with_id( itype_id( "genome_drive" ) );
-
+    auto genome_drives = p.all_items_with_id( itype_genome_drive );
     if( genome_drives.size() == 0 ) {
-        popup( "You have no valid specimen samples." );
+        popup( "You have no valid genome drives." );
         return 0;
     }
 
@@ -5504,17 +5503,17 @@ int dna_editor_iuse::use( player &p, item &it, bool, const tripoint &pos ) const
     uilist menu;
     menu.text = string_format( _( "What to do with the %s?" ), selected_drive->display_name() );
     menu.addentry( 0, true, 'e', "Examine sample" );
-    menu.addentry( 1, p.has_charges( itype_id( "mutagen" ), 1 ) &&
-                   p.has_charges( itype_id( "biomaterial" ), 1 ), 'i', "Research upgrade" );
+    menu.addentry( 1, p.has_charges( itype_mutagen, 1 ) &&
+                   p.has_charges( itype_biomaterial, 1 ), 'i', "Research upgrade" );
     menu.addentry( 2, true, 'c', "Clone drive" );
-    menu.addentry( 3, p.has_charges( itype_id( "biomaterial" ), 8 ), 'p', "Produce DNA" );
+    menu.addentry( 3, p.has_charges( itype_biomaterial, 1 ), 'p', "Produce DNA" );
     menu.query();
-
     if( menu.ret < 0 ) {
         return 0;
     }
 
     if( menu.ret == 0 ) {
+        // grab the monsters data from a fake copy
         shared_ptr_fast<monster> newmon_ptr = make_shared_fast<monster>
                                               ( mtype_id( selected_drive->get_var( "specimen_sample" ) ) );
         monster &newmon = *newmon_ptr;
@@ -5531,12 +5530,12 @@ int dna_editor_iuse::use( player &p, item &it, bool, const tripoint &pos ) const
 
         const char *size_str = "UNKNOWN";
 
-        if( size_class >= 0 && size_class < 5 ) {  // 5 is number of entries
+        if( size_class >= 0 && size_class < std::ssize( creature_size_strings ) ) {
             size_str = creature_size_strings[size_class];
         }
 
         popup(
-            _( "DNA Examination:\n\nSample Name: %s\nSize Class: %s\nWeight: %.0fkg\nVolume: %.0fl" ),
+            _( "Examination Results:\n\nSample Name: %s\nSize Class: %s\nWeight: %.0fkg\nVolume: %.0fl" ),
             selected_drive->get_var( "specimen_name" ),
             size_str,
             static_cast<double>( to_kilogram( newmon.get_weight() ) ),
@@ -5562,16 +5561,12 @@ int dna_editor_iuse::use( player &p, item &it, bool, const tripoint &pos ) const
             return 0;
         }
 
-        // 1) Calculate total weight (sum of frequencies)
+        // calculate weights and pick random
         int total_freq = 0;
         for( const MonsterGroupEntry &entry : mons ) {
             total_freq += entry.frequency;
         }
-
-        // 2) Pick a random number in [1, total_freq]
         int roll = rng( 1, total_freq );
-
-        // 3) Iterate until we find the chosen entry
         const MonsterGroupEntry *chosen = nullptr;
         for( const MonsterGroupEntry &entry : mons ) {
             roll -= entry.frequency;
@@ -5580,17 +5575,16 @@ int dna_editor_iuse::use( player &p, item &it, bool, const tripoint &pos ) const
                 break;
             }
         }
+        if( !chosen ) {
+            return 0;
+        }
 
         shared_ptr_fast<monster> newmon_ptr = make_shared_fast<monster>
                                               ( mtype_id( chosen->name.str() ) );
         monster &newmon = *newmon_ptr;
 
-        if( !chosen ) {
-            return 0;
-        }
-
-        p.use_charges( itype_id( "mutagen" ), 1 );
-        p.use_charges( itype_id( "biomaterial" ), 1 );
+        p.use_charges( itype_mutagen, 1 );
+        p.use_charges( itype_biomaterial, 1 );
 
         // chance of failure when converting DNA
         if( rng( 1, 100 ) < 80 ) {
@@ -5605,8 +5599,8 @@ int dna_editor_iuse::use( player &p, item &it, bool, const tripoint &pos ) const
         selected_drive->set_var( "specimen_name", newmon.name() );
     } else if( menu.ret == 2 ) {
         add_msg( "You clone a copy of the drive onto another USB." );
-        p.use_amount( itype_id( "usb_drive" ), 1 );
-        detached_ptr<item> drive_copy = item::spawn( itype_id( "genome_drive" ), calendar::turn, 8 );
+        p.use_amount( itype_usb_drive, 1 );
+        detached_ptr<item> drive_copy = item::spawn( itype_genome_drive, calendar::turn );
         drive_copy->set_var( "specimen_sample", selected_drive->get_var( "specimen_sample" ) );
         drive_copy->set_var( "specimen_sample_progress",
                              selected_drive->get_var( "specimen_sample_progress" ) );
@@ -5615,10 +5609,12 @@ int dna_editor_iuse::use( player &p, item &it, bool, const tripoint &pos ) const
 
         p.i_add( std::move( drive_copy ) );
     } else if( menu.ret == 3 ) {
-        p.use_amount( itype_id( "biomaterial" ), 8 );
-        add_msg( "You produce 8 units of DNA using your biomaterial." );
+        p.use_charges( itype_biomaterial, 1 );
+        std::string msg = string_format( _( "You produce a unit of %s DNA." ),
+                                         selected_drive->get_var( "specimen_name" ) );
+        add_msg( msg );
 
-        detached_ptr<item> dna = item::spawn( itype_id( "dna" ), calendar::turn, 8 );
+        detached_ptr<item> dna = item::spawn( itype_id( "dna" ), calendar::turn, 1 );
         dna->set_var( "specimen_sample", selected_drive->get_var( "specimen_sample" ) );
         dna->set_var( "specimen_size", selected_drive->get_var( "specimen_size" ) );
         dna->set_var( "specimen_name", selected_drive->get_var( "specimen_name" ) );

@@ -164,6 +164,9 @@ static const itype_id itype_unfinished_cac2( "unfinished_cac2" );
 static const itype_id itype_unfinished_charcoal( "unfinished_charcoal" );
 static const itype_id itype_UPS( "UPS" );
 static const itype_id itype_water( "water" );
+static const itype_id itype_dna( "dna" );
+static const itype_id itype_embryo( "embryo" );
+static const itype_id itype_embryo_empty( "embryo_empty" );
 
 static const trap_str_id tr_unfinished_construction( "tr_unfinished_construction" );
 
@@ -5628,40 +5631,33 @@ static void cloning_vat_activate( player &p, const tripoint &examp )
     // 86400 = 1 day, so this is 12 hrs per size increment
     int turns_to_clone = 43200;
 
+    // filter out faulty carriers
     auto carriers = p.wielded_items();
-
-    // Filter out faulty carriers
     for( size_t i = 0; i < carriers.size(); ) {
         item *carrier = carriers[i];  // already a pointer
         if( carrier->has_fault( fault_id( "fault_bionic_nonsterile" ) ) ||
-            carrier->typeId() != itype_id( "embryo_empty" ) ) {
+            carrier->typeId() != itype_embryo_empty ) {
             carriers.erase( carriers.begin() + i ); // erase by iterator
             // do NOT increment i here
         } else {
             i++; // increment only if we didn't erase
         }
     }
-
     if( carriers.empty() ) {
         popup( "You need a sterilized artificial womb and DNA to begin incubation." );
         return;
     }
-
     if( ( *carriers.begin() )->has_flag( flag_RADIO_MOD ) ) {
         popup( "You need to remove the radio mod first." );
         return;
     }
 
-    enum {
-        cv_start, cv_stop, cv_take
-    };
-    auto syringes = p.all_items_with_id( itype_id( "dna" ) );
-
+    // choose specimen sample
+    auto syringes = p.all_items_with_id( itype_dna );
     if( syringes.size() == 0 ) {
         popup( "You have no valid specimen samples." );
         return;
     }
-
     uilist specimen_menu;
     specimen_menu.text = _( "Select specimen sample:" );
     for( size_t z = 0; z < syringes.size(); z++ ) {
@@ -5678,19 +5674,19 @@ static void cloning_vat_activate( player &p, const tripoint &examp )
         return;
     }
 
-    auto &selected_syringe = syringes[choice];  // reference to the original detached_ptr
-
+    // reference to the original detached_ptr
+    auto &selected_syringe = syringes[choice];
     p.mod_moves( -250 );
 
     // Only try to remove if the pointer is valid
     if( !selected_syringe ) {
         return;
     }
-
     // remove the clean carrier
     detached_ptr<item> weapon = p.remove_primary_weapon();
 
-    std::vector<item *> items = p.all_items_with_id( itype_id( "dna" ) );
+    // search for DNA and begin process
+    std::vector<item *> items = p.all_items_with_id( itype_dna );
     for( size_t x = 0; x < items.size(); x++ ) {
         if( selected_syringe->get_var( "specimen_sample" ) == items[x]->get_var( "specimen_sample" ) ) {
             if( items[x]->units_remaining( p ) <= 1 ) {
@@ -5701,7 +5697,6 @@ static void cloning_vat_activate( player &p, const tripoint &examp )
             }
 
             add_msg( m_info, _( "The cloning vat begins its rapid incubation process." ) );
-
             here.furn_set( examp, furn_str_id( "f_cloning_vat_active" ) );
             detached_ptr<item> result = item::spawn( "fake_cloning_vat_item", calendar::turn );
 
@@ -5719,16 +5714,12 @@ static void cloning_vat_activate( player &p, const tripoint &examp )
                 auto mons = upgrade_group.obj().monsters;
 
                 if( !mons.empty() ) {
-                    // 1) Calculate total weight (sum of frequencies)
+                    // calculate total weight (sum of frequencies), pick random, then iterate until we find it
                     int total_freq = 0;
                     for( const MonsterGroupEntry &entry : mons ) {
                         total_freq += entry.frequency;
                     }
-
-                    // 2) Pick a random number in [1, total_freq]
                     int roll = rng( 1, total_freq );
-
-                    // 3) Iterate until we find the chosen entry
                     const MonsterGroupEntry *chosen = nullptr;
                     for( const MonsterGroupEntry &entry : mons ) {
                         roll -= entry.frequency;
@@ -5737,7 +5728,6 @@ static void cloning_vat_activate( player &p, const tripoint &examp )
                             break;
                         }
                     }
-
                     shared_ptr_fast<monster> newmon_ptr = make_shared_fast<monster>
                                                           ( mtype_id( chosen->name.str() ) );
                     monster &newmon = *newmon_ptr;
@@ -5923,8 +5913,8 @@ void iexamine::mill_finalize( player &, const tripoint &examp, const time_point 
 
 void iexamine::cloning_vat_finalize( const tripoint &examp, const time_point & )
 {
+    // grab items in the vat
     map &here = get_map();
-
     map_stack items_here = here.i_at( examp );
     item developing_embryo;
     if( items_here.size() == 1 &&
@@ -5937,17 +5927,14 @@ void iexamine::cloning_vat_finalize( const tripoint &examp, const time_point & )
 
     here.furn_set( examp, furn_str_id( "f_cloning_vat" ) );
 
-    // cloning vat failure
+    // cloning vat failure: choose random garbage item and faulty womb
     if( rng( 1, 100 ) < 10 ) {
-        // choose a random failure item
         std::vector<itype_id> item_results{ itype_id( "arm" ), itype_id( "leg" ), itype_id( "fetus" ) };
         const itype_id &chosen_id = random_entry( item_results );
-
-        // spawn it and an artificial womb
-        detached_ptr<item> spawned_womb = item::spawn( itype_id( "embryo_empty" ), calendar::turn, 1 );
+        detached_ptr<item> spawned_womb = item::spawn( itype_embryo_empty, calendar::turn );
         spawned_womb->faults.emplace( fault_id( "fault_bionic_nonsterile" ) );
         here.add_item( examp, std::move( spawned_womb ) );
-        detached_ptr<item> spawned_item = item::spawn( chosen_id, calendar::turn, 1 );
+        detached_ptr<item> spawned_item = item::spawn( chosen_id, calendar::turn );
         here.add_item( examp, std::move( spawned_item ) );
 
         sounds::sound( examp, 8, sounds::sound_t::alarm, _( "beep!" ), true, "misc", "beep" );
@@ -5955,13 +5942,12 @@ void iexamine::cloning_vat_finalize( const tripoint &examp, const time_point & )
         return;
     }
 
+    // success: spawn the completed artificial womb
     sounds::sound( examp, 8, sounds::sound_t::alarm, _( "ding!" ), true, "misc", "ding" );
-
-    detached_ptr<item> spawned_embryo = item::spawn( itype_id( "embryo" ), calendar::turn, 1 );
+    detached_ptr<item> spawned_embryo = item::spawn( itype_embryo, calendar::turn );
     spawned_embryo->set_var( "place_monster_override", developing_embryo.get_var( "specimen_sample" ) );
     spawned_embryo->set_var( "place_monster_override_name",
                              developing_embryo.get_var( "specimen_name" ) );
-
     here.add_item( examp, std::move( spawned_embryo ) );
 
     return;
@@ -6268,34 +6254,28 @@ void iexamine::on_smoke_out( const tripoint &examp, const time_point &start_time
 void iexamine::cloning_vat_examine( player &p, const tripoint &examp )
 {
     map &here = get_map();
-
     const bool active = here.furn( examp ) == furn_str_id( "f_cloning_vat_active" );
-
     map_stack items_here = here.i_at( examp );
 
-    // Simple behavior: toggle milling on or off
     if( !active ) {
+        // handle inactive vat: load or unload
         uilist menu;
         menu.text = "What to do with the cloning vat?";
         if( items_here.size() > 0 ) {
             menu.addentry( "Get contents" );
             menu.query();
-
             if( menu.ret != 0 ) {
                 return;
             }
 
-            // Get pointer to first item
+            // get pointer to first item, ask user if they want to wield
             item *it = *items_here.begin();
-
-            // Ask using the item's name
             if( !query_yn( string_format( "Take %s from the cloning vat?", it->tname().c_str() ) ) ) {
                 return;
             }
-
-            // Detach and wield as before
+            // remove from map, store in det
             detached_ptr<item> det;
-            items_here.erase( items_here.begin(), &det );  // remove from map, store in det
+            items_here.erase( items_here.begin(), &det );
             p.wield( std::move( det ) );
 
             return;
@@ -6310,6 +6290,7 @@ void iexamine::cloning_vat_examine( player &p, const tripoint &examp )
 
         cloning_vat_activate( p, examp );
     } else {
+        // handle active vat: cancel process
         if( items_here.size() == 0 ) {
             return;
         }
@@ -6332,14 +6313,14 @@ void iexamine::cloning_vat_examine( player &p, const tripoint &examp )
         sounds::sound( examp, 8, sounds::sound_t::alarm, _( "beep!" ), true, "misc", "beep" );
 
         if( items_here.size() > 0 ) {
-            items_here.erase( items_here.begin() );  // remove from map, store in det
+            items_here.erase( items_here.begin() );  // delete all items here
         }
 
         // cloning vat failure
         std::vector<itype_id> item_results{ itype_id( "arm" ), itype_id( "leg" ), itype_id( "fetus" ) };
         const itype_id &chosen_id = random_entry( item_results );
         detached_ptr<item> spawned_remains = item::spawn( chosen_id, calendar::turn, 1 );
-        detached_ptr<item> spawned_womb = item::spawn( itype_id( "embryo_empty" ), calendar::turn, 1 );
+        detached_ptr<item> spawned_womb = item::spawn( itype_embryo_empty, calendar::turn, 1 );
         spawned_womb->faults.emplace( fault_id( "fault_bionic_nonsterile" ) );
         here.add_item( examp, std::move( spawned_womb ) );
         here.add_item( examp, std::move( spawned_remains ) );

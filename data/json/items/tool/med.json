@@ -166,7 +166,7 @@
     "stack_size": 10,
     "category": "chems",
     "phase": "liquid",
-    "container": "test_tube",
+    "container": "flask_glass",
     "material": [ "flesh", "veggy", "junk" ],
     "symbol": "~",
     "color": "white",
