@@ -5632,7 +5632,8 @@ int train_skill_actor::use( player &p, item &i, bool, const tripoint & ) const
     }
 
     int hours = string_input_popup()
-                .title( "Train for how long (hours)?" )
+                .title( string_format( _( "Train %s for how long (hours)?" ),
+                                       skill_id( training_skill )->name() ) )
                 .width( 3 )
                 .text( "" )
                 .only_digits( true )
