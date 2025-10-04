@@ -569,7 +569,7 @@ void avatar_action::swim( map &m, avatar &you, const tripoint &p )
         you.set_underwater( true );
     }
     int movecost = you.swim_speed();
-    if( !you.worn_with_flag( flag_FLOTATION ) ) {
+    if( !you.worn_with_flag( flag_FLOTATION ) && x_in_y( 3, 4 ) ) {
         you.practice( skill_swimming, 1 );
     }
     if( movecost >= 500 ) {
