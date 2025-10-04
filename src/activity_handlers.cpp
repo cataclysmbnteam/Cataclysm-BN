@@ -2632,8 +2632,9 @@ void activity_handlers::train_skill_do_turn( player_activity *act, player *p )
                 p->practice( skill_id( training_skill ), training_skill_xp,
                              training_skill_max_level );
             }
-            if( skill_training_item.ammo_remaining() == 0 ) {
-                add_msg( m_info, _( "The %s runs out of power." ), skill_training_item.tname() );
+            if( p->get_skill_level( skill_id( training_skill ) ) >= training_skill_max_level ) {
+                act->moves_left = 0;
+                add_msg( m_info, _( "You can no longer learn anything from this." ) );
             }
             if( hack_type.has_value() ) {
                 hack::discharge_real_power_source(
@@ -2644,11 +2645,8 @@ void activity_handlers::train_skill_do_turn( player_activity *act, player *p )
                 );
             }
         } else {
-            //twenty minutes to fill
-            if( rng( 1, 100 ) < training_skill_xp_chance ) {
-                p->practice( skill_id( training_skill ), training_skill_xp,
-                             training_skill_max_level );
-            }
+            act->moves_left = 0;
+            add_msg( m_info, _( "The %s runs out of power." ), skill_training_item.tname() );
         }
     }
 
