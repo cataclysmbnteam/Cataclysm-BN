@@ -7650,7 +7650,7 @@ void Character::mod_stamina( int mod, bool skill )
 {
     // If we're burning stamina then train athletics, unless we're losing stamina due to status effects or other non-standard causes.
     if( skill && mod < 0 ) {
-        as_player()->practice( skill_swimming, roll_remainder( std::abs( mod ) / 400.0 ), 10, true );
+        as_player()->practice( skill_swimming, roll_remainder( std::abs( mod ) / 500.0 ), 10, true );
         // Athletics skill also reduces stamina drain for relevant activities.
         const int skill = get_skill_level( skill_swimming );
         const float skill_cost = std::max( 0.667f, ( ( 30.0f - skill ) / 30.0f ) );
