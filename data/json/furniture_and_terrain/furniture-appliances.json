@@ -2931,7 +2931,7 @@
         "consume_every": "600 s",
         "transform": {
           "id": "f_cloning_vat",
-          "msg": "<bad>The cloning vat shuts down unexpectedly, destroying the materials in the process.</bad>"
+          "msg": "<color_red>The cloning vat shuts down unexpectedly, destroying the materials in the process.</color>"
         }
       }
     ]
