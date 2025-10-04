@@ -3589,8 +3589,8 @@ void catacurses::init_interface()
 
     dbg( DL::Info ) << "Initializing SDL Tiles context";
     tilecontext = std::make_shared<cata_tiles>( renderer, geometry );
-    auto tilesName = get_option<std::string>( "TILES" );
-    auto omTilesName = get_option<std::string>( "OVERMAP_TILES" );
+    const auto tilesName = get_option<std::string>( "TILES" );
+    const auto omTilesName = get_option<std::string>( "OVERMAP_TILES" );
     try {
         std::vector<mod_id> dummy;
         tilecontext->load_tileset(
@@ -3658,8 +3658,8 @@ void load_tileset()
     if( !tilecontext || !use_tiles ) {
         return;
     }
-    auto tilesName = get_option<std::string>( "TILES" );
-    auto omTilesName = get_option<std::string>( "OVERMAP_TILES" );
+    const auto tilesName = get_option<std::string>( "TILES" );
+    const auto omTilesName = get_option<std::string>( "OVERMAP_TILES" );
     tilecontext->load_tileset(
         tilesName,
         world_generator->active_world->info->active_mod_order,

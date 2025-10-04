@@ -437,8 +437,8 @@ void game::reload_tileset( [[maybe_unused]] const std::function<void( std::strin
 #if defined(TILES)
     // Disable UIs below to avoid accessing the tile context during loading.
     ui_adaptor ui( ui_adaptor::disable_uis_below {} );
-    auto tilesName = get_option<std::string>( "TILES" );
-    auto omTilesName = get_option<std::string>( "OVERMAP_TILES" );
+    const auto tilesName = get_option<std::string>( "TILES" );
+    const auto omTilesName = get_option<std::string>( "OVERMAP_TILES" );
     try {
         tilecontext->reinit();
         std::vector<mod_id> dummy;
