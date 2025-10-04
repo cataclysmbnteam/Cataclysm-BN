@@ -295,6 +295,8 @@
     "copy-from": "fake_item",
     "type": "TOOL",
     "name": { "str": "treadmill" },
+    "max_charges": 1000,
+    "charges_per_use": 1,
     "//": "the treadmill should allow the user to train athletics most consistently besides actual running, but at the cost of fatigue and power drain",
     "use_action": [
       {
@@ -309,7 +311,8 @@
         "training_skill_interval": 30,
         "training_skill_xp_chance": 90
       }
-    ]
+    ],
+    "flags": [ "USES_GRID_POWER" ]
   },
   {
     "id": "fake_training_exercise_machine",
@@ -358,6 +361,8 @@
     "copy-from": "fake_item",
     "type": "TOOL",
     "name": { "str": "ball machine" },
+    "max_charges": 1000,
+    "charges_per_use": 1,
     "//": "below level two, you can't dodge the balls well enough to not get pummeled. should be higher than dancing furniture though, as this is actual dodging and requires power",
     "use_action": [
       {
@@ -372,7 +377,8 @@
         "training_skill_interval": 30,
         "training_skill_xp_chance": 90
       }
-    ]
+    ],
+    "flags": [ "USES_GRID_POWER" ]
   },
   {
     "id": "fake_training_electronics_high",
