@@ -261,10 +261,10 @@
         "training_msg": "You swing and jab at the punching bag, sweat dripping as your technique improves.",
         "training_skill": "unarmed",
         "training_skill_min_level": 0,
-        "training_skill_xp": 27,
+        "training_skill_xp": 18,
         "training_skill_max_level": 4,
         "training_skill_fatigue": 3,
-        "training_skill_interval": 20,
+        "training_skill_interval": 30,
         "training_skill_xp_chance": 90
       }
     ]
@@ -282,10 +282,10 @@
         "training_msg": "You row steadily on the ergometer, building strength and endurance with each pull.",
         "training_skill": "swimming",
         "training_skill_min_level": 0,
-        "training_skill_xp": 27,
+        "training_skill_xp": 18,
         "training_skill_max_level": 4,
         "training_skill_fatigue": 2,
-        "training_skill_interval": 20,
+        "training_skill_interval": 30,
         "training_skill_xp_chance": 90
       }
     ]
@@ -303,10 +303,10 @@
         "training_msg": "You run steadily on the treadmill, training your stamina and athletics skill.",
         "training_skill": "swimming",
         "training_skill_min_level": 0,
-        "training_skill_xp": 54,
+        "training_skill_xp": 27,
         "training_skill_max_level": 8,
         "training_skill_fatigue": 3,
-        "training_skill_interval": 20,
+        "training_skill_interval": 30,
         "training_skill_xp_chance": 90
       }
     ]
@@ -324,10 +324,10 @@
         "training_msg": "You work out on the exercise machine, training your stamina and athletics skill.",
         "training_skill": "swimming",
         "training_skill_min_level": 2,
-        "training_skill_xp": 27,
+        "training_skill_xp": 18,
         "training_skill_max_level": 8,
         "training_skill_fatigue": 2,
-        "training_skill_interval": 20,
+        "training_skill_interval": 30,
         "training_skill_xp_chance": 90
       }
     ]
@@ -345,10 +345,10 @@
         "training_msg": "You focus on controlled spins, honing your ability to dodge and react.",
         "training_skill": "dodge",
         "training_skill_min_level": 0,
-        "training_skill_xp": 27,
+        "training_skill_xp": 18,
         "training_skill_max_level": 3,
         "training_skill_fatigue": 3,
-        "training_skill_interval": 20,
+        "training_skill_interval": 30,
         "training_skill_xp_chance": 90
       }
     ]
@@ -366,10 +366,10 @@
         "training_msg": "You focus on dodging the flying projectiles, greatly honing your ability to dodge and react.",
         "training_skill": "dodge",
         "training_skill_min_level": 0,
-        "training_skill_xp": 54,
+        "training_skill_xp": 27,
         "training_skill_max_level": 5,
         "training_skill_fatigue": 3,
-        "training_skill_interval": 20,
+        "training_skill_interval": 30,
         "training_skill_xp_chance": 90
       }
     ]
@@ -390,10 +390,10 @@
         "training_msg": "You study the electronics, tracing circuits and learning how the components interact.",
         "training_skill": "electronics",
         "training_skill_min_level": 2,
-        "training_skill_xp": 54,
+        "training_skill_xp": 27,
         "training_skill_max_level": 7,
         "training_skill_fatigue": 0,
-        "training_skill_interval": 20,
+        "training_skill_interval": 30,
         "training_skill_xp_chance": 90
       }
     ],
@@ -412,10 +412,10 @@
         "training_msg": "You practice speaking, rehearsing your tone and delivery.",
         "training_skill": "speech",
         "training_skill_min_level": 0,
-        "training_skill_xp": 18,
+        "training_skill_xp": 9,
         "training_skill_max_level": 2,
         "training_skill_fatigue": 0,
-        "training_skill_interval": 20,
+        "training_skill_interval": 30,
         "training_skill_xp_chance": 90
       }
     ]
@@ -436,10 +436,10 @@
         "training_msg": "You inspect the fabrication machinery, learning how its components fit together and operate.",
         "training_skill": "fabrication",
         "training_skill_min_level": 2,
-        "training_skill_xp": 54,
+        "training_skill_xp": 27,
         "training_skill_max_level": 7,
         "training_skill_fatigue": 0,
-        "training_skill_interval": 20,
+        "training_skill_interval": 30,
         "training_skill_xp_chance": 90
       }
     ],
@@ -460,10 +460,10 @@
         "training_msg": "You examine scripts and programs, learning how the system operates.",
         "training_skill": "computer",
         "training_skill_min_level": 3,
-        "training_skill_xp": 54,
+        "training_skill_xp": 27,
         "training_skill_max_level": 8,
         "training_skill_fatigue": 0,
-        "training_skill_interval": 20,
+        "training_skill_interval": 30,
         "training_skill_xp_chance": 90
       }
     ],
