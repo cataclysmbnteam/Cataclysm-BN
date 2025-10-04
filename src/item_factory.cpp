@@ -1114,6 +1114,7 @@ void Item_factory::init()
     add_actor( std::make_unique<sew_advanced_actor>() );
     add_actor( std::make_unique<multicooker_iuse>() );
     add_actor( std::make_unique<sex_toy_actor>() );
+    add_actor( std::make_unique<train_skill_actor>() );
     add_actor( std::make_unique<iuse_music_player>() );
     add_actor( std::make_unique<iuse_prospect_pick>() );
     add_actor( std::make_unique<iuse_reveal_contents>() );

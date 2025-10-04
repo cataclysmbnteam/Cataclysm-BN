@@ -1006,6 +1006,11 @@
   },
   {
     "type": "item_action",
+    "id": "train_skill",
+    "name": { "str": "Train skill" }
+  },
+  {
+    "type": "item_action",
     "id": "music_player",
     "name": { "str": "Listen to music" }
   }

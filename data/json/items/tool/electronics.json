@@ -209,6 +209,17 @@
         "need_charges_msg": "The wrist computer's charge is too low.",
         "type": "transform"
       },
+      {
+        "type": "train_skill",
+        "training_msg": "You update software and check logs, improving your understanding slightly.",
+        "training_skill": "computer",
+        "training_skill_min_level": 0,
+        "training_skill_xp": 18,
+        "training_skill_max_level": 3,
+        "training_skill_fatigue": 0,
+        "training_skill_interval": 30,
+        "training_skill_xp_chance": 90
+      },
       "CAMERA",
       {
         "type": "music_player",
@@ -561,6 +572,18 @@
     "use_action": [
       "EINKTABLETPC",
       "PORTABLE_GAME",
+      "ROBOTCONTROL",
+      {
+        "type": "train_skill",
+        "training_msg": "You update software and check logs, improving your understanding slightly.",
+        "training_skill": "computer",
+        "training_skill_min_level": 0,
+        "training_skill_xp": 18,
+        "training_skill_max_level": 3,
+        "training_skill_fatigue": 0,
+        "training_skill_interval": 30,
+        "training_skill_xp_chance": 90
+      },
       {
         "target": "laptop_screen_lit",
         "msg": "You light up the screen.",
@@ -735,6 +758,17 @@
         "type": "transform",
         "menu_text": "Activate Flashlight"
       },
+      {
+        "type": "train_skill",
+        "training_msg": "You fiddle with your phone’s settings and apps, picking up some basic computer knowledge.",
+        "training_skill": "computer",
+        "training_skill_min_level": 0,
+        "training_skill_xp": 9,
+        "training_skill_max_level": 1,
+        "training_skill_xp_chance": 90,
+        "training_skill_fatigue": 0,
+        "training_skill_interval": 10
+      },
       "CAMERA",
       {
         "type": "music_player",
@@ -796,7 +830,19 @@
         "type": "transform",
         "menu_text": "Activate Flashlight"
       },
+      {
+        "type": "train_skill",
+        "training_msg": "You fiddle with your phone’s settings and apps, picking up some basic computer knowledge.",
+        "training_skill": "computer",
+        "training_skill_min_level": 0,
+        "training_skill_xp": 9,
+        "training_skill_max_level": 1,
+        "training_skill_fatigue": 0,
+        "training_skill_interval": 30,
+        "training_skill_xp_chance": 90
+      },
       "CAMERA",
+      "PORTABLE_GAME",
       {
         "type": "music_player",
         "target": "afs_atomic_smartphone_music",

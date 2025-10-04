@@ -173,6 +173,7 @@ static const activity_id ACT_VEHICLE( "ACT_VEHICLE" );
 static const activity_id ACT_VEHICLE_DECONSTRUCTION( "ACT_VEHICLE_DECONSTRUCTION" );
 static const activity_id ACT_VEHICLE_REPAIR( "ACT_VEHICLE_REPAIR" );
 static const activity_id ACT_VIBE( "ACT_VIBE" );
+static const activity_id ACT_TRAIN_SKILL( "ACT_TRAIN_SKILL" );
 static const activity_id ACT_WAIT( "ACT_WAIT" );
 static const activity_id ACT_WAIT_NPC( "ACT_WAIT_NPC" );
 static const activity_id ACT_WAIT_STAMINA( "ACT_WAIT_STAMINA" );
@@ -257,6 +258,7 @@ activity_handlers::do_turn_functions = {
     { ACT_GENERIC_GAME, generic_game_do_turn },
     { ACT_START_FIRE, start_fire_do_turn },
     { ACT_VIBE, vibe_do_turn },
+    { ACT_TRAIN_SKILL, train_skill_do_turn },
     { ACT_HAND_CRANK, hand_crank_do_turn },
     { ACT_WEAR, wear_do_turn },
     { ACT_MULTIPLE_FISH, multiple_fish_do_turn },
@@ -349,6 +351,7 @@ activity_handlers::finish_functions = {
     { ACT_TRY_SLEEP, try_sleep_finish },
     { ACT_OPERATION, operation_finish },
     { ACT_VIBE, vibe_finish },
+    { ACT_TRAIN_SKILL, train_skill_finish },
     { ACT_ATM, atm_finish },
     { ACT_EAT_MENU, eat_menu_finish },
     { ACT_CONSUME_FOOD_MENU, eat_menu_finish },
@@ -2285,6 +2288,8 @@ void activity_handlers::vibe_do_turn( player_activity *act, player *p )
     // well with roots.  Sorry.  :-(
 }
 
+
+
 void activity_handlers::start_engines_finish( player_activity *act, player *p )
 {
     act->set_to_null();
@@ -2475,10 +2480,6 @@ item *get_fake_tool( hack_type_t hack_type, const player_activity &activity )
 
             for( const itype &item_type : item_type_list ) {
                 if( item_type.get_id() == static_cast<itype_id>( activity.str_values[1] ) ) {
-                    if( !item_type.has_flag( flag_USES_GRID_POWER ) ) {
-                        debugmsg( "Non grid powered furniture for long repairs is not supported yet." );
-                        return fake_item;
-                    }
                     const tripoint_abs_ms abspos( m.getabs( position ) );
                     const distribution_grid &grid = get_distribution_grid_tracker().grid_at( abspos );
                     fake_item = item::spawn_temporary( item_type.get_id(), calendar::turn, 0 );
@@ -2572,7 +2573,7 @@ void patch_activity_for_furniture( player_activity &activity,
     // Player may start another activity on welder/soldering iron
     // Check it here instead of furniture interaction code
     // because we want to encapsulate hack here.
-    if( activity.id() != ACT_REPAIR_ITEM ) {
+    if( activity.id() != ACT_REPAIR_ITEM && activity.id() != ACT_TRAIN_SKILL ) {
         return;
     }
 
@@ -2591,6 +2592,80 @@ void patch_activity_for_furniture( player_activity &activity,
 
 } // namespace repair_activity_hack
 } // namespace activity_handlers
+
+void activity_handlers::train_skill_do_turn( player_activity *act, player *p )
+{
+    namespace hack = activity_handlers::repair_activity_hack;
+
+    std::optional<hack::hack_type_t> hack_type = hack::get_hack_type( *act );
+    const tripoint hack_pos = hack_type ? hack::get_position( * act ) : tripoint{};
+    int hack_original_charges = 0;
+    item *main_tool = nullptr;
+    if( hack_type ) {
+        main_tool = hack::get_fake_tool( hack_type.value(), *act );
+        if( main_tool != nullptr ) {
+            hack_original_charges = main_tool ? main_tool->charges : 0;
+        }
+    } else {
+        main_tool = &*act->tools.front();
+    }
+    if( main_tool == nullptr ) {
+        debugmsg( "train skill tools array and hack values are empty. this would have caused invalid safe reference error" );
+        act->moves_left = 0;
+        return;
+    }
+    item &skill_training_item = *main_tool;
+    int training_skill_interval = atoi( p->get_value( "training_iuse_skill_interval" ).c_str() );
+
+    if( calendar::once_every( 1_minutes * training_skill_interval ) ) {
+        // pull metadata. this is probably the easiest way to get this data from the JSON definition
+        std::string training_skill = p->get_value( "training_iuse_skill" );
+        int training_skill_xp = atoi( p->get_value( "training_iuse_skill_xp" ).c_str() );
+        int training_skill_max_level = atoi( p->get_value( "training_iuse_skill_xp_max_level" ).c_str() );
+        int training_skill_xp_chance = atoi( p->get_value( "training_iuse_skill_xp_chance" ).c_str() );
+        int training_skill_fatigue = atoi( p->get_value( "training_iuse_skill_fatigue" ).c_str() );
+
+        p->mod_fatigue( training_skill_fatigue );
+        if( skill_training_item.ammo_remaining() > 0 ) {
+            skill_training_item.ammo_consume( 1, p->pos() );
+            if( rng( 1, 100 ) < training_skill_xp_chance ) {
+                p->practice( skill_id( training_skill ), training_skill_xp,
+                             training_skill_max_level );
+            }
+            if( skill_training_item.ammo_remaining() == 0 ) {
+                add_msg( m_info, _( "The %s runs out of power." ), skill_training_item.tname() );
+            }
+            if( hack_type.has_value() ) {
+                hack::discharge_real_power_source(
+                    hack_type.value(),
+                    hack_pos,
+                    skill_training_item,
+                    hack_original_charges
+                );
+            }
+        } else {
+            //twenty minutes to fill
+            if( rng( 1, 100 ) < training_skill_xp_chance ) {
+                p->practice( skill_id( training_skill ), training_skill_xp,
+                             training_skill_max_level );
+            }
+        }
+    }
+
+    // needs rest
+    if( p->get_fatigue() >= fatigue_levels::dead_tired ) {
+        if( hack_type.has_value() ) {
+            hack::discharge_real_power_source(
+                hack_type.value(),
+                hack_pos,
+                skill_training_item,
+                hack_original_charges
+            );
+        }
+        act->moves_left = 0;
+        add_msg( m_info, _( "You're too tired to continue." ) );
+    }
+}
 
 void activity_handlers::repair_item_finish( player_activity *act, player *p )
 {
@@ -3760,6 +3835,12 @@ void activity_handlers::vibe_finish( player_activity *act, player *p )
 {
     p->add_msg_if_player( m_good, _( "You feel much better." ) );
     p->add_morale( MORALE_FEELING_GOOD, 10, 40 );
+    act->set_to_null();
+}
+
+void activity_handlers::train_skill_finish( player_activity *act, player *p )
+{
+    p->add_msg_if_player( m_good, _( "You feel like you've learned a little bit." ) );
     act->set_to_null();
 }
 
