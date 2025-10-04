@@ -3029,8 +3029,8 @@ static void refresh_tiles( bool used_tiles_changed, bool pixel_minimap_height_ch
         // Disable UIs below to avoid accessing the tile context during loading.
         ui_adaptor dummy( ui_adaptor::disable_uis_below {} );
         //try and keep SDL calls limited to source files that deal specifically with them
-        std::string tilesName = get_option<std::string>( "TILES" );
-        std::string omTilesName = get_option<std::string>( "OVERMAP_TILES" );
+        auto tilesName = get_option<std::string>( "TILES" );
+        auto omTilesName = get_option<std::string>( "OVERMAP_TILES" );
         try {
             tilecontext->reinit();
             std::vector<mod_id> dummy;
