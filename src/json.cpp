@@ -1484,10 +1484,6 @@ bool JsonIn::end_array()
 {
     eat_whitespace();
     if( peek() == ']' ) {
-        if( ate_separator ) {
-            uneat_whitespace();
-            error( "comma not allowed at end of array" );
-        }
         stream->get();
         end_value();
         return true;
@@ -1517,10 +1513,6 @@ bool JsonIn::end_object()
 {
     eat_whitespace();
     if( peek() == '}' ) {
-        if( ate_separator ) {
-            uneat_whitespace();
-            error( "comma not allowed at end of object" );
-        }
         stream->get();
         end_value();
         return true;

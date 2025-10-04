@@ -662,6 +662,9 @@
         "type": "repair_item",
         "item_action_type": "repair_metal",
         "materials": [
+          "lead",
+          "tin",
+          "zinc",
           "iron",
           "steel",
           "budget_steel",
@@ -673,13 +676,20 @@
           "gold",
           "platinum",
           "superalloy",
-          "glass",
           "plastic",
           "carbon_fiber"
         ],
         "skill": "computer",
+        "tool_quality": 3,
         "cost_scaling": 0.1,
-        "move_cost": 1500
+        "move_cost": 400
+      },
+      { "flame": false, "type": "cauterize" },
+      {
+        "type": "sew_advanced",
+        "materials": [ "cotton", "leather", "nylon", "wool", "fur", "faux_fur", "nomex", "kevlar", "neoprene", "gutskin", "scute" ],
+        "skill": "tailor",
+        "clothing_mods": [ "carbon_fiber_padded" ]
       }
     ],
     "flags": [ "USES_GRID_POWER" ]

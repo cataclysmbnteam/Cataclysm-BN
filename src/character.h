@@ -651,6 +651,7 @@ class Character : public Creature, public location_visitable<Character>
 
         bool uncanny_dodge() override;
 
+        float get_block_amount( const item &shield, const damage_unit &unit );
         /** Checks for chance that a ranged attack will hit other armor along the way */
         bool block_ranged_hit( Creature *source, bodypart_id &bp_hit, damage_instance &dam ) override;
 
@@ -1896,6 +1897,7 @@ class Character : public Creature, public location_visitable<Character>
         int get_stamina_max() const;
         void set_stamina( int new_stamina );
         void mod_stamina( int mod );
+        void mod_stamina( int mod, bool skill );
         void burn_move_stamina( int moves );
         float stamina_burn_cost_modifier() const;
         float running_move_cost_modifier() const;

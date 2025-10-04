@@ -601,7 +601,7 @@
     "volume": "250 ml",
     "phase": "liquid",
     "fun": -50,
-    "flags": [ "IS_BLOOD" ],
+    "flags": [ "IS_BLOOD", "NO_COOKING_BUFF" ],
     "drop_action": { "type": "emit_actor", "emits": [ "emit_drop_blood" ], "scale_qty": true },
     "vitamins": [ [ "meat_allergen", 1 ] ]
   },
@@ -729,7 +729,7 @@
     "volume": "250 ml",
     "charges": 2,
     "stack_size": 4,
-    "flags": [ "UNRECOVERABLE", "NO_SALVAGE" ],
+    "flags": [ "UNRECOVERABLE", "NO_SALVAGE", "NO_COOKING_BUFF" ],
     "vitamins": [ [ "meat_allergen", 1 ] ],
     "fun": -18
   },

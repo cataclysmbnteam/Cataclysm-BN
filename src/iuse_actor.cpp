@@ -5125,12 +5125,12 @@ int sew_advanced_actor::use( player &p, item &it, bool, const tripoint & ) const
                                         mod.tname( 1, false ) );
             } else if( ( obj.flag == flag_resized_large || obj.flag == flag_resized_small ) &&
                        already_resized ) {
-                //~ %1$s: modification desc, %2$d: number of thread needed
+                //~ %1$s: modification desc
                 prompt = string_format( _( "Can't %1$s (already resized)" ),
                                         tolower( obj.implement_prompt ) );
-            } else if( it.charges < thread_needed ) {
-                //~ %1$s: modification desc, %2$d: number of thread needed
-                prompt = string_format( _( "Can't %1$s (need %2$d thread loaded)" ),
+            } else if( it.ammo_remaining() < thread_needed ) {
+                //~ %1$s: modification desc, %2$d: number of charges needed
+                prompt = string_format( _( "Can't %1$s (need %2$d charges loaded)" ),
                                         tolower( obj.implement_prompt ), thread_needed );
             } else if( !has_enough[obj.item_string] ) {
                 //~ %1$s: modification desc, %2$d: number of items needed, %3$s: items needed
@@ -5142,8 +5142,8 @@ int sew_advanced_actor::use( player &p, item &it, bool, const tripoint & ) const
                     prompt = string_format( _( "Can't %s while wearing it" ), tolower( obj.implement_prompt ) );
                 } else {
                     enab = true;
-                    //~ %1$s: modification desc, %2$d: number of items needed, %3$s: items needed, %4$s: number of thread needed
-                    prompt = string_format( _( "%1$s (%2$d %3$s and %4$d thread)" ), tolower( obj.implement_prompt ),
+                    //~ %1$s: modification desc, %2$d: number of items needed, %3$s: items needed, %4$s: number of charges needed
+                    prompt = string_format( _( "%1$s (%2$d %3$s and %4$d charges)" ), tolower( obj.implement_prompt ),
                                             items_needed, item::nname( obj.item_string, items_needed ), thread_needed );
                 }
             }
@@ -5226,11 +5226,11 @@ int sew_advanced_actor::use( player &p, item &it, bool, const tripoint & ) const
         return thread_needed / 2;
     } else if( rn <= 10 ) {
         p.add_msg_if_player( m_bad,
-                             _( "You fail to modify the clothing, and you waste thread and materials." ) );
+                             _( "You fail to modify the clothing, and you waste charges and materials." ) );
         p.consume_items( comps, 1, is_crafting_component );
         return thread_needed;
     } else if( rn <= 14 ) {
-        p.add_msg_if_player( m_mixed, _( "You modify your %s, but waste a lot of thread." ),
+        p.add_msg_if_player( m_mixed, _( "You modify your %s, but waste a lot of charges." ),
                              mod.tname() );
         p.consume_items( comps, 1, is_crafting_component );
         mod.set_flag( the_mod );
