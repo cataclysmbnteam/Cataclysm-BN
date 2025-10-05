@@ -359,6 +359,8 @@ std::string action_ident( action_id act )
             return "TOGGLE_CHARACTER_PREVIEW_CLOTHES";
         case ACTION_NULL:
             return "null";
+        case ACTION_SWAP_TO_NPC:
+            return "SWAPTONPC";
         default:
             return "unknown";
     }

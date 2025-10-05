@@ -638,7 +638,7 @@ void faction_manager::display() const
     ctxt.register_action( "ANY_INPUT" );
     ctxt.register_action( "NEXT_TAB" );
     ctxt.register_action( "PREV_TAB" );
-    ctxt.register_action( "SELECT" );
+    ctxt.register_action( "SWAPTONPC", to_translation( "Swap to NPC" ) );
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
@@ -893,7 +893,7 @@ void faction_manager::display() const
             }
         } else if( action == "QUIT" ) {
             break;
-        } else if( action == "SELECT" && guy && interactable ) {
+        } else if( action == "SWAPTONPC" && guy && interactable ) {
             get_avatar().control_npc( *guy );
         }
     }
