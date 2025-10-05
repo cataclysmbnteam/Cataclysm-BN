@@ -5626,7 +5626,7 @@ void train_skill_actor::load( JsonObject const &obj )
 
 int train_skill_actor::use( player &p, item &i, bool, const tripoint & ) const
 {
-    if( i.ammo_remaining() <= i.ammo_required() ) {
+    if( i.ammo_remaining() < i.ammo_required() ) {
         p.add_msg_if_player( _( "This tool doesn't have enough charges." ) );
         return 0;
     }
