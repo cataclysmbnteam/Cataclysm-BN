@@ -2639,10 +2639,12 @@ void activity_handlers::train_skill_do_turn( player_activity *act, player *p )
         } else if( skill_training_item.ammo_required() > 0 ) {
             act->moves_left = 0;
             add_msg( m_info, _( "The %s runs out of power." ), skill_training_item.tname() );
+            return;
         }
         if( p->get_skill_level( skill_id( training_skill ) ) >= training_skill_max_level ) {
             act->moves_left = 0;
             add_msg( m_info, _( "You can no longer learn anything from this." ) );
+            return;
         }
         if( rng( 1, 100 ) < training_skill_xp_chance ) {
             p->practice( skill_id( training_skill ), training_skill_xp,
