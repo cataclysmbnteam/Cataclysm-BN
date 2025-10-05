@@ -220,6 +220,7 @@
         "training_skill_interval": 12,
         "training_skill_xp_chance": 90
       },
+      "WEATHER_TOOL",
       "CAMERA",
       {
         "type": "music_player",
@@ -329,6 +330,7 @@
         "type": "transform"
       },
       "CAMERA",
+      "WEATHER_TOOL",
       {
         "type": "music_player",
         "target": "wrist_comp_control_music",
