@@ -638,7 +638,7 @@ void faction_manager::display() const
     ctxt.register_action( "ANY_INPUT" );
     ctxt.register_action( "NEXT_TAB" );
     ctxt.register_action( "PREV_TAB" );
-    ctxt.register_action( "SWAPTONPC", to_translation( "Swap to NPC" ) );
+    ctxt.register_action( "SWAPTONPC" );
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
