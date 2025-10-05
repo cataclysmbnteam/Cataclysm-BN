@@ -2628,14 +2628,6 @@ void activity_handlers::train_skill_do_turn( player_activity *act, player *p )
         p->mod_fatigue( training_skill_fatigue );
         if( skill_training_item.ammo_remaining() > 0 ) {
             skill_training_item.ammo_consume( 1, p->pos() );
-            if( rng( 1, 100 ) < training_skill_xp_chance ) {
-                p->practice( skill_id( training_skill ), training_skill_xp,
-                             training_skill_max_level );
-            }
-            if( p->get_skill_level( skill_id( training_skill ) ) >= training_skill_max_level ) {
-                act->moves_left = 0;
-                add_msg( m_info, _( "You can no longer learn anything from this." ) );
-            }
             if( hack_type.has_value() ) {
                 hack::discharge_real_power_source(
                     hack_type.value(),
@@ -2644,9 +2636,19 @@ void activity_handlers::train_skill_do_turn( player_activity *act, player *p )
                     hack_original_charges
                 );
             }
-        } else {
+        } else if( skill_training_item.ammo_required() > 0 ) {
             act->moves_left = 0;
             add_msg( m_info, _( "The %s runs out of power." ), skill_training_item.tname() );
+            return;
+        }
+        if( p->get_skill_level( skill_id( training_skill ) ) >= training_skill_max_level ) {
+            act->moves_left = 0;
+            add_msg( m_info, _( "You can no longer learn anything from this." ) );
+            return;
+        }
+        if( rng( 1, 100 ) < training_skill_xp_chance ) {
+            p->practice( skill_id( training_skill ), training_skill_xp,
+                         training_skill_max_level );
         }
     }
 
