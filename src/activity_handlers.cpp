@@ -2636,7 +2636,7 @@ void activity_handlers::train_skill_do_turn( player_activity *act, player *p )
                     hack_original_charges
                 );
             }
-        } else if( skill_training_item.ammo_required() > 0 ){
+        } else if( skill_training_item.ammo_required() > 0 ) {
             act->moves_left = 0;
             add_msg( m_info, _( "The %s runs out of power." ), skill_training_item.tname() );
         }
