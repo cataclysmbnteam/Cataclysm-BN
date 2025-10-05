@@ -161,7 +161,7 @@ void avatar::control_npc( npc &np )
         np.remove_effect( effect_hot, bp.id() );
         np.remove_effect( effect_hot_speed, bp.id() );
     }
-        
+
     np.onswapsetpos( np.pos() );
     // the avatar character is no longer a follower NPC
     g->remove_npc_follower( getID() );
