@@ -500,7 +500,9 @@ int npc::faction_display( const catacurses::window &fac_w, const int width ) con
 
     //get NPC followers, status, direction, location, needs, weapon, etc.
     mvwprintz( fac_w, point( width, ++y ), c_light_gray,
-               _( "Press enter to talk or s to swap to this follower" ) );
+               _( "Press enter to talk to this follower" ) );
+    mvwprintz( fac_w, point( width, ++y ), c_light_gray,
+               _( "Press s to swap to this follower" ) );
     std::string can_see;
     nc_color see_color;
 
