@@ -152,8 +152,13 @@ void avatar::control_npc( npc &np )
     set_save_id( save_id );
     // Swappy the thirst and kcal so swapping is not infinite food with no food
     if( get_option<bool>( "NO_NPC_FOOD" ) ) {
+        // You're stomachs become one thing :)
+        stomach = np.stomach;
         set_thirst( np.get_thirst( ) );
         set_stored_kcal( np.get_stored_kcal() );
+        // NPCs can't whine about a lack of food or water after you leave their body
+        np.set_stored_kcal( np.max_stored_kcal() - 100 );
+        np.set_thirst( 0 );
     }
     for( auto &pr : get_body() ) {
         const bodypart_id &bp = pr.first;
