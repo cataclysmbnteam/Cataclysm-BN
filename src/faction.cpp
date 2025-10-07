@@ -499,7 +499,10 @@ int npc::faction_display( const catacurses::window &fac_w, const int width ) con
     const tripoint_abs_omt player_abspos = player_character.global_omt_location();
 
     //get NPC followers, status, direction, location, needs, weapon, etc.
-    mvwprintz( fac_w, point( width, ++y ), c_light_gray, _( "Press enter to talk to this follower " ) );
+    mvwprintz( fac_w, point( width, ++y ), c_light_gray,
+               _( "Press enter to talk to this follower" ) );
+    mvwprintz( fac_w, point( width, ++y ), c_light_gray,
+               _( "Press s to swap to this follower" ) );
     std::string can_see;
     nc_color see_color;
 
@@ -638,6 +641,7 @@ void faction_manager::display() const
     ctxt.register_action( "ANY_INPUT" );
     ctxt.register_action( "NEXT_TAB" );
     ctxt.register_action( "PREV_TAB" );
+    ctxt.register_action( "SWAPTONPC" );
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
@@ -892,6 +896,8 @@ void faction_manager::display() const
             }
         } else if( action == "QUIT" ) {
             break;
+        } else if( action == "SWAPTONPC" && guy && interactable ) {
+            get_avatar().control_npc( *guy );
         }
     }
 }

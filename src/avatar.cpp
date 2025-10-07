@@ -13,6 +13,7 @@
 #include <utility>
 
 #include "action.h"
+#include "bodypart.h"
 #include "calendar.h"
 #include "cata_utility.h"
 #include "catacharset.h"
@@ -82,6 +83,9 @@ static const efftype_id effect_alarm_clock( "alarm_clock" );
 static const efftype_id effect_contacts( "contacts" );
 static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_slept_through_alarm( "slept_through_alarm" );
+static const efftype_id effect_cold( "cold" );
+static const efftype_id effect_hot( "hot" );
+static const efftype_id effect_hot_speed( "hot_speed" );
 
 static const itype_id itype_guidebook( "guidebook" );
 
@@ -146,6 +150,23 @@ void avatar::control_npc( npc &np )
     // move shadow npc character data into avatar
     swap_character( *shadow_npc, tmp );
     set_save_id( save_id );
+    // Swappy the thirst and kcal so swapping is not infinite food with no food
+    if( get_option<bool>( "NO_NPC_FOOD" ) ) {
+        // You're stomachs become one thing :)
+        stomach = np.stomach;
+        set_thirst( np.get_thirst( ) );
+        set_stored_kcal( np.get_stored_kcal() );
+        // NPCs can't whine about a lack of food or water after you leave their body
+        np.set_stored_kcal( np.max_stored_kcal() - 100 );
+        np.set_thirst( 0 );
+    }
+    for( auto &pr : get_body() ) {
+        const bodypart_id &bp = pr.first;
+        np.remove_effect( effect_cold, bp.id() );
+        np.remove_effect( effect_hot, bp.id() );
+        np.remove_effect( effect_hot_speed, bp.id() );
+    }
+
     np.onswapsetpos( np.pos() );
     // the avatar character is no longer a follower NPC
     g->remove_npc_follower( getID() );
