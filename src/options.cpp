@@ -2449,6 +2449,21 @@ void options_manager::add_options_world_default()
 
     add_empty_line();
 
+    add_option_group( world_default, Group( "skill_buff_category",
+                                            to_translation( "Enabled Skill Buffs" ),
+                                            to_translation( "Enable or disable major skill buffs" ) ),
+    [&]( const std::string & page_id ) {
+        add( "cooking_kcal_buff", page_id, "Cooking Calories Buff",
+             "Include the scaling calories from cooking buff?",
+             true );
+        add( "althletics_encumbrance_buff", page_id, "Althletics Encumbrance Buff",
+             "Include the reduce all encumbrance per level of althletics buff?",
+             true );
+    }
+                    );
+
+    add_empty_line();
+
     add( "ITEM_SPAWNRATE", world_default,
          "Item spawn scaling factor",
          "A scaling factor that determines density of item spawns. A higher number means more items.",
