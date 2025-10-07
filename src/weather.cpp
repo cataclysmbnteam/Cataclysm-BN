@@ -493,7 +493,8 @@ void weather_effect::morale( int intensity, int bonus, int bonus_max, time_durat
 void weather_effect::effect( int intensity, time_duration duration,
                              bodypart_str_id bp_id, int effect_intensity,
                              const std::string &effect_id_str,
-                             const std::string &effect_msg, int effect_msg_frequency,int effect_msg_blocked_frequency, game_message_type message_type,
+                             const std::string &effect_msg, int effect_msg_frequency, int effect_msg_blocked_frequency,
+                             game_message_type message_type,
                              std::string precipitation_name, bool ignore_armor, int clothing_protection,
                              int umbrella_protection )
 {
