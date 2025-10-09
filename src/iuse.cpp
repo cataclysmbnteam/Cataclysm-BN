@@ -3700,7 +3700,7 @@ void iuse::play_music( player &p, const tripoint &source, const int volume, cons
 {
     // TODO: what about other "player", e.g. when a NPC is listening or when the PC is listening,
     // the other characters around should be able to profit as well.
-    const bool do_effects = p.can_hear( source, volume );
+    const bool do_effects = p.can_hear( source, volume ) && !p.has_effect( effect_sleep );
     std::string sound = "music";
     if( calendar::once_every( 1_hours ) ) {
         // Every 5 minutes, describe the music
