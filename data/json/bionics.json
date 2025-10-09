@@ -409,7 +409,7 @@
     "occupied_bodyparts": [ [ "eyes", 2 ] ],
     "canceled_mutations": [ "HYPEROPIC", "MYOPIC" ],
     "can_uninstall": false,
-    "no_uninstall_reason": "The telescopic lenses are part of their eyes now, remove them and they would become blind"
+    "no_uninstall_reason": "The telescopic lenses are part of the patient's eyes now, remove them and the patient would become blind"
   },
   {
     "id": "bio_face_mask",
