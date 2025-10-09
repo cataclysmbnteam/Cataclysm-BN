@@ -17,7 +17,7 @@
     "ranged_damage": { "damage_type": "bullet", "amount": 2 },
     "dispersion": 120,
     "min_cycle_recoil": 270,
-    "barrel_length": "500 ml",
+    "barrel_volume": "500 ml",
     "modes": [ [ "DEFAULT", "semi", 1 ], [ "AUTO", "auto", 5 ] ],
     "valid_mod_locations": [
       [ "accessories", 3 ],
