@@ -320,6 +320,9 @@ void bionic_data::load( const JsonObject &jsobj, const std::string &src )
     assign( jsobj, "upgraded_bionic", upgraded_bionic, strict );
     assign( jsobj, "available_upgrades", available_upgrades, strict );
     assign( jsobj, "flags", flags, strict );
+    assign( jsobj, "can_uninstall", can_uninstall, strict );
+    assign( jsobj, "no_uninstall_reason", no_uninstall_reason, strict );
+
 
     activated = has_flag( flag_BIONIC_TOGGLED ) ||
                 power_activate > 0_kJ ||
@@ -2175,9 +2178,8 @@ bool Character::can_uninstall_bionic( const bionic_id &b_id, Character &installe
         return false;
     }
 
-    if( b_id == bio_eye_optic ) {
-        popup( _( "The Telescopic Lenses are part of %s eyes now.  Removing them would leave %s blind." ),
-               disp_name( true ), disp_name() );
+    if( !b_id->can_uninstall ) {
+        popup( _( b_id->no_uninstall_reason ) );
         return false;
     }
 
