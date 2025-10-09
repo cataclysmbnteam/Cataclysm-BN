@@ -39,7 +39,7 @@
     "description": "The first in a new genre of guns, termed \"personal defense weapons.\"  FN designed the P90 to use their proprietary 5.7x28mm ammunition.  It is made for firing bursts manageably.",
     "weight": "2640 g",
     "volume": "1250 ml",
-    "barrel_length": "250 ml",
+    "barrel_volume": "250 ml",
     "price": "3500 USD",
     "price_postapoc": "35 USD",
     "to_hit": -2,
