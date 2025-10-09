@@ -140,7 +140,7 @@ struct bionic_data {
      */
     std::vector<bionic_id> required_bionics;
 
-    bool can_uninstall;
+    bool can_uninstall = true;
     std::string no_uninstall_reason;
 
     std::set<flag_id> flags;
