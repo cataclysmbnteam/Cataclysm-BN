@@ -278,6 +278,7 @@ comfort_response_t base_comfort_value( const Character &who, const tripoint &p )
                     ( who.has_trait( trait_WEB_WEAVER ) ) );
     bool in_shell = who.has_active_mutation( trait_SHELL2 );
     bool watersleep = who.has_trait( trait_WATERSLEEP );
+    bool music = who.has_active_item_with_action( "MP3_ON" );
 
     map &here = get_map();
     const optional_vpart_position vp = here.veh_at( p );
@@ -406,7 +407,10 @@ comfort_response_t base_comfort_value( const Character &who, const tripoint &p )
             comfort = static_cast<int>( comfort_level::impossible );
         }
     }
-
+    // If you are listening to music, give a small buff to comfort
+    if( music ) {
+        comfort += 2;
+    }
     if( comfort >= static_cast<int>( comfort_level::very_comfortable ) ) {
         comfort_response.level = comfort_level::very_comfortable;
     } else if( comfort >= static_cast<int>( comfort_level::comfortable ) ) {
