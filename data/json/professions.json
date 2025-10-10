@@ -6964,6 +6964,7 @@
       { "level": 1, "name": "firstaid" },
       { "level": 1, "name": "throw" }
     ],
+    "traits": [ "PROF_MILITARY" ],
     "items": {
       "both": {
         "entries": [
