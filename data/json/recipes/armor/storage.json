@@ -747,7 +747,8 @@
         [ "leather_pouch", 2 ],
         [ "dump_pouch", 1 ],
         [ "purse", 2 ],
-        [ "fanny", 2 ]
+        [ "fanny", 2 ],
+        [ "webbing_belt", 2 ]
       ],
       [ [ "duct_tape", 300 ] ]
     ]
@@ -886,13 +887,13 @@
       [
         [ "tacvest", 1 ],
         [ "legrig", 1 ],
-        [ "vest", 1 ],
         [ "tool_belt", 1 ],
         [ "ragpouch", 3 ],
         [ "leather_pouch", 2 ],
         [ "dump_pouch", 1 ],
         [ "purse", 2 ],
-        [ "fanny", 2 ]
+        [ "fanny", 2 ],
+        [ "webbing_belt", 1 ]
       ],
       [ [ "duct_tape", 50 ] ]
     ]

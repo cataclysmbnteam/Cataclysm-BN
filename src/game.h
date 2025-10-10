@@ -23,6 +23,7 @@
 #include "cursesdef.h"
 #include "enums.h"
 #include "game_constants.h"
+#include "mapdata.h"
 #include "memory_fast.h"
 #include "pimpl.h"
 #include "point.h"
@@ -236,6 +237,7 @@ class game
         void vertical_move( int z, bool force, bool peeking = false );
         void start_hauling( const tripoint &pos );
         /** Returns the other end of the stairs (if any). May query, affect u etc.  */
+        std::optional<tripoint> find_stairs( map &mp, int z_after, bool peeking );
         std::optional<tripoint> find_or_make_stairs( map &mp, int z_after, bool &rope_ladder,
                 bool peeking );
         /** Actual z-level movement part of vertical_move. Doesn't include stair finding, traps etc. */
@@ -488,18 +490,11 @@ class game
                               const time_duration &catch_duration );
         /**
          * Get the contiguous fishable locations starting at fish_pos, out to the specificed distance.
-         * @param distance Distance around the fish_pos to examine for contiguous fishable locations.
+         * @param radius Distance around the fish_pos to examine for contiguous fishable locations.
          * @param fish_pos The location being fished.
          * @return A set of locations representing the valid contiguous fishable locations.
          */
-        std::unordered_set<tripoint> get_fishable_locations( int distance, const tripoint &fish_pos );
-        /**
-         * Get the fishable monsters within the provided fishable locations.
-         * @param fishable_locations A set of locations which are valid fishable terrain. Any fishable monsters
-         * are filtered by this collection to determine those which can actually be caught.
-         * @return Fishable monsters within the specified fishable terrain.
-         */
-        std::vector<monster *> get_fishable_monsters( std::unordered_set<tripoint> &fishable_locations );
+        std::unordered_set<tripoint>get_fishable_locations( int radius, const tripoint &fish_pos );
 
         /** Flings the input creature in the given direction. */
         void fling_creature( Creature *c, const units::angle &dir, float flvel, bool controlled = false );
@@ -522,6 +517,10 @@ class game
         void process_artifact( item &it, Character &who );
         void add_artifact_messages( const std::vector<art_effect_passive> &effects );
         void add_artifact_dreams( );
+
+        static tripoint find_closest_stair( const tripoint &near_this, const ter_bitflags stair_type );
+        std::optional<tripoint> find_local_stairs_leading_to( map &mp, const int z_after );
+        void suggest_auto_walk_to_stairs( Character &u, map &m, const std::string &direction );
 
         void peek();
         void peek( const tripoint &p );
@@ -580,6 +579,8 @@ class game
         void reload_tileset( const std::function<void( std::string )> &out );
         void temp_exit_fullscreen();
         void reenter_fullscreen();
+        void zoom_in_overmap();
+        void zoom_out_overmap();
         void zoom_in();
         void zoom_out();
         void reset_zoom();
@@ -1038,6 +1039,7 @@ class game
 
         /** How far the tileset should be zoomed out, 16 is default. 32 is zoomed in by x2, 8 is zoomed out by x0.5 */
         float tileset_zoom = 0;
+        int overmap_tileset_zoom = DEFAULT_TILESET_ZOOM;
 
         /** Seed for all the random numbers that should have consistent randomness (weather). */
         unsigned int seed = 0;

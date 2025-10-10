@@ -597,7 +597,7 @@ class item : public location_visitable<item>, public game_object<item>
          * If `practical` is false, returns pre-cataclysm market value,
          * otherwise returns approximate post-cataclysm value.
          */
-        int price( bool practical ) const;
+        auto price( bool practical ) const -> float;
 
         /**
          * Whether two items should stack when displayed in a inventory menu.
@@ -653,6 +653,10 @@ class item : public location_visitable<item>, public game_object<item>
          * takes. The actual time depends heavily on the attacker, see melee.cpp.
          */
         int attack_cost() const;
+        /**
+         * Stamina consumed to use this weapon in melee
+         */
+        int stamina_cost() const;
 
         /** Damage of given type caused when this item is used as melee weapon */
         int damage_melee( damage_type dt ) const;
@@ -1308,6 +1312,8 @@ class item : public location_visitable<item>, public game_object<item>
         std::string fuel_pump_terrain() const;
         bool has_explosion_data() const;
         struct fuel_explosion get_explosion_data();
+        float get_kcal_mult() const;
+        void set_kcal_mult( float val );
 
         /**
          * Can this item have given item/itype as content?

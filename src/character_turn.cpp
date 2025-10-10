@@ -3,6 +3,7 @@
 #include "avatar.h"
 #include "bionics.h"
 #include "calendar.h"
+#include "catalua_hooks.h"
 #include "character_effects.h"
 #include "character_functions.h"
 #include "character_stat.h"
@@ -14,6 +15,7 @@
 #include "game.h"
 #include "handle_liquid.h"
 #include "itype.h"
+#include "iuse.h"
 #include "magic_enchantment.h"
 #include "mutation.h"
 #include "overmapbuffer.h"
@@ -25,6 +27,7 @@
 #include "rng.h"
 #include "submap.h"
 #include "trap.h"
+#include "type_id.h"
 #include "units_temperature.h"
 #include "veh_type.h"
 #include "vehicle.h"
@@ -92,14 +95,14 @@ static const efftype_id effect_tapeworm( "tapeworm" );
 static const efftype_id effect_thirsty( "thirsty" );
 
 static const skill_id skill_swimming( "swimming" );
+static const skill_id skill_traps( "traps" );
 
 static const bionic_id bio_ground_sonar( "bio_ground_sonar" );
 static const bionic_id bio_hydraulics( "bio_hydraulics" );
 static const bionic_id bio_speed( "bio_speed" );
 
-static const itype_id itype_adv_UPS_off( "adv_UPS_off" );
-static const itype_id itype_UPS_off( "UPS_off" );
 static const itype_id itype_UPS( "UPS" );
+static const itype_id itype_battery( "battery" );
 
 void Character::recalc_speed_bonus()
 {
@@ -156,8 +159,6 @@ void Character::recalc_speed_bonus()
     if( has_artifact_with( AEP_SPEED_DOWN ) ) {
         mod_speed_bonus( -20 );
     }
-
-    mod_speed_bonus( get_speedydex_bonus( get_dex() ) );
 
     float speed_modifier = Character::mutation_value( "speed_modifier" );
     mod_speed_mult( speed_modifier - 1 );
@@ -286,7 +287,7 @@ void Character::process_turn()
         !has_effect( effect_sleep ) && !has_effect( effect_narcosis ) ) {
         const tripoint_abs_omt ompos = global_omt_location();
         const point_abs_omt pos = ompos.xy();
-        if( overmap_time.find( pos ) == overmap_time.end() ) {
+        if( !overmap_time.contains( pos ) ) {
             overmap_time[pos] = 1_turns;
         } else {
             overmap_time[pos] += 1_turns;
@@ -490,14 +491,14 @@ void Character::process_one_effect( effect &it, bool is_new )
             if( !bp ) {
                 if( val > 5 ) {
                     add_msg_if_player( _( "Your %s HURTS!" ), body_part_name_accusative( bp_torso ) );
-                } else {
+                } else if( val > 0 ) {
                     add_msg_if_player( _( "Your %s hurts!" ), body_part_name_accusative( bp_torso ) );
                 }
                 apply_damage( nullptr, bodypart_id( "torso" ), val, true );
             } else {
                 if( val > 5 ) {
                     add_msg_if_player( _( "Your %s HURTS!" ), body_part_name_accusative( bp ) );
-                } else {
+                } else if( val > 0 ) {
                     add_msg_if_player( _( "Your %s hurts!" ), body_part_name_accusative( bp ) );
                 }
                 apply_damage( nullptr, bp.id(), val, true );
@@ -546,7 +547,7 @@ void Character::process_one_effect( effect &it, bool is_new )
         if( is_new || it.activated( calendar::turn, "STAMINA", val, reduced, mod ) ) {
             mod_stamina( bound_mod_to_vals( get_stamina(), val,
                                             it.get_max_val( "STAMINA", reduced ),
-                                            it.get_min_val( "STAMINA", reduced ) ) );
+                                            it.get_min_val( "STAMINA", reduced ) ), false );
         }
     }
 
@@ -708,9 +709,9 @@ void Character::reset_stats()
     }
 
     // Dodge-related effects
-    mod_dodge_bonus( mabuff_dodge_bonus() -
-                     ( encumb( body_part_leg_l ) + encumb( body_part_leg_r ) ) / 20.0f - encumb(
-                         body_part_torso ) / 10.0f );
+    mod_dodge_bonus( mabuff_dodge_bonus()
+                     - ( ( encumb( body_part_leg_l ) + encumb( body_part_leg_r ) ) / 20.0f )
+                     - ( encumb( body_part_torso ) / 10.0f ) );
     // Whiskers don't work so well if they're covered
     if( has_trait( trait_WHISKERS ) && !wearing_something_on( bodypart_id( "mouth" ) ) ) {
         mod_dodge_bonus( 1.5 );
@@ -800,21 +801,15 @@ void Character::reset_stats()
     int_cur = int_max + get_int_bonus();
 
     // Floor for our stats.  No stat changes should occur after this!
-    if( dex_cur < 0 ) {
-        dex_cur = 0;
-    }
-    if( str_cur < 0 ) {
-        str_cur = 0;
-    }
-    if( per_cur < 0 ) {
-        per_cur = 0;
-    }
-    if( int_cur < 0 ) {
-        int_cur = 0;
-    }
+    dex_cur = std::max( dex_cur, 0 );
+    str_cur = std::max( str_cur, 0 );
+    per_cur = std::max( per_cur, 0 );
+    int_cur = std::max( int_cur, 0 );
 
     recalc_sight_limits();
     recalc_speed_bonus();
+
+    cata::run_hooks( "on_character_reset_stats", [this]( auto & params ) { params["character"] = this; } );
 }
 
 void Character::environmental_revert_effect()
@@ -836,6 +831,20 @@ void Character::environmental_revert_effect()
 
     recalc_sight_limits();
     reset_encumbrance();
+}
+
+static bool needs_elec_charges( item *it )
+{
+    bool not_full = it->ammo_capacity() > it->ammo_remaining();
+    if( !not_full ) {
+        return false;
+    }
+    const item *mag = it->magazine_current();
+    if( mag ) {
+        return mag->has_flag( flag_RECHARGE );
+    } else {
+        return true;
+    }
 }
 
 void Character::process_items()
@@ -865,33 +874,27 @@ void Character::process_items()
     // Active item processing done, now we're recharging.
     std::vector<item *> active_worn_items;
     bool weapon_active = primary_weapon().has_flag( flag_USE_UPS ) &&
-                         primary_weapon().charges < primary_weapon().type->maximum_charges();
+                         needs_elec_charges( &primary_weapon() );
     std::vector<size_t> active_held_items;
     int ch_UPS = 0;
     for( size_t index = 0; index < inv.size(); index++ ) {
         item &it = inv.find_item( index );
-        itype_id identifier = it.type->get_id();
-        if( identifier == itype_UPS_off ) {
-            ch_UPS += it.ammo_remaining();
-        } else if( identifier == itype_adv_UPS_off ) {
-            ch_UPS += it.ammo_remaining() / 0.5;
+        if( it.has_flag( flag_IS_UPS ) ) {
+            ch_UPS += std::min( it.ammo_remaining() * it.type->tool->ups_eff_mult,
+                                it.type->tool->ups_recharge_rate );
         }
-        if( it.has_flag( flag_USE_UPS ) && it.charges < it.type->maximum_charges() ) {
+        if( it.has_flag( flag_USE_UPS ) && needs_elec_charges( &it ) ) {
             active_held_items.push_back( index );
         }
     }
     bool update_required = get_check_encumbrance();
     for( item *&w : worn ) {
-        if( w->has_flag( flag_USE_UPS ) &&
-            w->charges < w->type->maximum_charges() ) {
+        if( w->has_flag( flag_USE_UPS ) && needs_elec_charges( w ) ) {
             active_worn_items.push_back( w );
         }
-        // Necessary for UPS in Aftershock - check worn items for charge
-        const itype_id &identifier = w->typeId();
-        if( identifier == itype_UPS_off ) {
-            ch_UPS += w->ammo_remaining();
-        } else if( identifier == itype_adv_UPS_off ) {
-            ch_UPS += w->ammo_remaining() / 0.5;
+        if( w->has_flag( flag_IS_UPS ) ) {
+            ch_UPS += std::min( w->ammo_remaining() * w->type->tool->ups_eff_mult,
+                                w->type->tool->ups_recharge_rate );
         }
         if( !update_required && w->encumbrance_update_ ) {
             update_required = true;
@@ -902,30 +905,60 @@ void Character::process_items()
         reset_encumbrance();
     }
     if( has_active_bionic( bionic_id( "bio_ups" ) ) ) {
-        ch_UPS += units::to_kilojoule( get_power_level() );
+        ch_UPS += std::min( units::to_kilojoule( get_power_level() ), 10 );
     }
     int ch_UPS_used = 0;
-
+    if( weapon_active && ch_UPS_used < ch_UPS ) {
+        auto weap = &primary_weapon();
+        int used = std::min( ch_UPS, weap->ammo_capacity() - weap->ammo_remaining() );
+        ch_UPS -= used;
+        ch_UPS_used += used;
+        const itype_id ammo = weap->ammo_current();
+        if( !ammo.is_null() && ammo != itype_id::NULL_ID() ) {
+            weap->ammo_set( ammo, weap->ammo_remaining() + used );
+        } else if( weap->ammo_remaining() == 0 ) {
+            weap->ammo_set( itype_battery, weap->ammo_remaining() + used );
+        } else {
+            ch_UPS_used -= used;
+            ch_UPS += used;
+        }
+    }
     // Load all items that use the UPS to their minimal functional charge,
     // The tool is not really useful if its charges are below charges_to_use
     for( size_t index : active_held_items ) {
-        if( ch_UPS_used >= ch_UPS ) {
+        if( ch_UPS <= 0 ) {
             break;
         }
         item &it = inv.find_item( index );
-        ch_UPS_used++;
-        it.charges++;
-    }
-    if( weapon_active && ch_UPS_used < ch_UPS ) {
-        ch_UPS_used++;
-        primary_weapon().charges++;
+        int used = std::min( ch_UPS, it.ammo_capacity() - it.ammo_remaining() );
+        ch_UPS -= used;
+        ch_UPS_used += used;
+        const itype_id ammo = it.ammo_current();
+        if( !ammo.is_null() && ammo != itype_id::NULL_ID() ) {
+            it.ammo_set( ammo, it.ammo_remaining() + used );
+        } else if( it.ammo_remaining() == 0 ) {
+            it.ammo_set( itype_battery, it.ammo_remaining() + used );
+        } else {
+            ch_UPS_used -= used;
+            ch_UPS += used;
+        }
     }
     for( item *worn_item : active_worn_items ) {
-        if( ch_UPS_used >= ch_UPS ) {
+        if( ch_UPS <= 0 ) {
             break;
         }
-        ch_UPS_used++;
-        worn_item->charges++;
+        int used = std::min( ch_UPS, worn_item->ammo_capacity() - worn_item->ammo_remaining() );
+        ch_UPS -= used;
+        ch_UPS_used += used;
+        const itype_id ammo = worn_item->ammo_current();
+        if( !ammo.is_null() && ammo != itype_id::NULL_ID() ) {
+            worn_item->ammo_set( ammo, worn_item->ammo_remaining() + used );
+        } else if( worn_item->ammo_remaining() == 0 ) {
+            worn_item->ammo_set( itype_battery, worn_item->ammo_remaining() + used );
+        } else {
+            ch_UPS_used -= used;
+            ch_UPS += used;
+        }
     }
     if( ch_UPS_used > 0 ) {
         use_charges( itype_UPS, ch_UPS_used );
@@ -1027,7 +1060,6 @@ void do_pause( Character &who )
         }
 
         if( who.is_underwater() ) {
-            who.as_player()->practice( skill_swimming, 1 );
             who.drench( 100, { {
                     bodypart_str_id( "leg_l" ), bodypart_str_id( "leg_r" ), bodypart_str_id( "torso" ), bodypart_str_id( "arm_l" ),
                     bodypart_str_id( "arm_r" ), bodypart_str_id( "head" ), bodypart_str_id( "eyes" ), bodypart_str_id( "mouth" ),
@@ -1035,7 +1067,6 @@ void do_pause( Character &who )
                 }
             }, true );
         } else if( here.has_flag( TFLAG_DEEP_WATER, who.pos() ) ) {
-            who.as_player()->practice( skill_swimming, 1 );
             // Same as above, except no head/eyes/mouth
             who.drench( 100, { {
                     bodypart_str_id( "leg_l" ), bodypart_str_id( "leg_r" ), bodypart_str_id( "torso" ), bodypart_str_id( "arm_l" ),
@@ -1149,6 +1180,8 @@ void search_surroundings( Character &who )
                                                   direction_from( who.pos(), tp ) );
                 who.add_msg_if_player( _( "You've spotted a %1$s to the %2$s!" ),
                                        tr.name(), direction );
+                // Get a bit of experience for spotting traps.
+                who.practice( skill_traps, tr.get_visibility() );
             }
             who.add_known_trap( tp, tr );
         }

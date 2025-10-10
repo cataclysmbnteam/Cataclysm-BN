@@ -374,7 +374,7 @@ class take_off_inventory_preset: public armor_inventory_preset
 item *game_menus::inv::take_off( avatar &you )
 {
     return inv_internal( you, take_off_inventory_preset( you, "color_red" ), _( "Take off item" ), 1,
-                         _( "You don't wear anything." ) );
+                         _( "You aren't wearing anything." ) );
 }
 
 item *game::inv_map_splice( const item_filter &filter, const std::string &title, int radius,
@@ -1839,7 +1839,7 @@ class bionic_install_preset: public inventory_selector_preset
             const itype *itemtype = it->type;
             const bionic_id &bid = itemtype->bionic->id;
 
-            if( it->has_fault( fault_bionic_nonsterile ) && !p.has_trait( trait_INFRESIST ) ) {
+            if( it->has_fault( fault_bionic_nonsterile ) && !pa.has_trait( trait_INFRESIST ) ) {
                 // NOLINTNEXTLINE(cata-text-style): single space after the period for symmetry
                 return _( "/!\\ CBM is not sterile. /!\\ Please use autoclave or other methods to sterilize." );
             } else if( pa.has_bionic( bid ) ) {
@@ -1856,7 +1856,7 @@ class bionic_install_preset: public inventory_selector_preset
                                                std::placeholders::_1 ) ) ) {
                 return _( "Superior version installed" );
             } else if( pa.is_npc() && !bid->has_flag( flag_BIONIC_NPC_USABLE ) ) {
-                return _( "CBM not compatible with patient" );
+                return _( "CBM not usable by NPC's" );
             } else if( units::energy_max - pa.get_max_power_level() < bid->capacity ) {
                 return _( "Max power capacity already reached" );
             } else if( !has_enough_anesthesia( itemtype, p, pa ) ) {

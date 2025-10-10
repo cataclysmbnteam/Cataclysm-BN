@@ -413,7 +413,7 @@
     "batch_time_factors": [ 50, 3 ],
     "autolearn": [ [ "fabrication", 5 ], [ "gun", 2 ] ],
     "book_learn": [ [ "manual_rifle", 3 ], [ "recipe_bullets", 3 ] ],
-    "tools": [ [ [ "swage", -1 ] ], [ [ "tongs", -1 ] ] ],
+    "qualities": [ { "id": "SWAGING", "level": 1 }, { "id": "GRIP_HOT", "level": 2 } ],
     "using": [ [ "forging_standard", 3 ] ],
     "components": [ [ [ "sheet_metal", 1 ], [ "sheet_metal_small", 24 ] ] ]
   },
@@ -431,7 +431,7 @@
     "batch_time_factors": [ 50, 3 ],
     "autolearn": [ [ "fabrication", 5 ], [ "gun", 2 ] ],
     "book_learn": [ [ "manual_rifle", 3 ], [ "recipe_bullets", 3 ] ],
-    "tools": [ [ [ "swage", -1 ] ], [ [ "tongs", -1 ] ] ],
+    "qualities": [ { "id": "SWAGING", "level": 1 }, { "id": "GRIP_HOT", "level": 2 } ],
     "using": [ [ "forging_standard", 3 ] ],
     "components": [ [ [ "sheet_metal", 1 ], [ "sheet_metal_small", 24 ] ] ]
   },
@@ -449,7 +449,7 @@
     "batch_time_factors": [ 50, 3 ],
     "autolearn": [ [ "fabrication", 5 ], [ "gun", 2 ] ],
     "book_learn": [ [ "manual_rifle", 3 ], [ "recipe_bullets", 3 ] ],
-    "tools": [ [ [ "swage", -1 ] ], [ [ "tongs", -1 ] ] ],
+    "qualities": [ { "id": "SWAGING", "level": 1 }, { "id": "GRIP_HOT", "level": 2 } ],
     "using": [ [ "forging_standard", 3 ] ],
     "components": [ [ [ "sheet_metal", 1 ], [ "sheet_metal_small", 24 ] ] ]
   },
@@ -467,7 +467,7 @@
     "batch_time_factors": [ 50, 3 ],
     "autolearn": [ [ "fabrication", 6 ], [ "gun", 2 ] ],
     "book_learn": [ [ "recipe_bullets", 4 ] ],
-    "tools": [ [ [ "swage", -1 ] ], [ [ "tongs", -1 ] ] ],
+    "qualities": [ { "id": "SWAGING", "level": 1 }, { "id": "GRIP_HOT", "level": 2 } ],
     "using": [ [ "forging_standard", 4 ] ],
     "components": [ [ [ "sheet_metal", 2 ], [ "sheet_metal_small", 48 ] ] ]
   },

@@ -44,6 +44,8 @@
 #include "units.h"
 #include "weighted_list.h"
 
+using TraitSet = std::set<trait_id>;
+
 static const activity_id ACT_TREE_COMMUNION( "ACT_TREE_COMMUNION" );
 
 static const efftype_id effect_accumulated_mutagen( "accumulated_mutagen" );
@@ -68,7 +70,6 @@ static const trait_id trait_PER_ALPHA( "PER_ALPHA" );
 static const trait_id trait_ROBUST( "ROBUST" );
 static const trait_id trait_ROOTS2( "ROOTS2" );
 static const trait_id trait_ROOTS3( "ROOTS3" );
-static const trait_id trait_SELFAWARE( "SELFAWARE" );
 static const trait_id trait_SLIMESPAWNER( "SLIMESPAWNER" );
 static const trait_id trait_STR_ALPHA( "STR_ALPHA" );
 static const trait_id trait_THRESH_MARLOSS( "THRESH_MARLOSS" );
@@ -102,7 +103,17 @@ std::string enum_to_string<mutagen_technique>( mutagen_technique data )
 
 bool Character::has_trait( const trait_id &b ) const
 {
-    return my_mutations.count( b ) || enchantment_cache->get_mutations().contains( b );
+    return my_mutations.contains( b ) || enchantment_cache->get_mutations().contains( b );
+}
+
+bool Character::has_one_of_traits( const TraitSet &trait_set ) const
+{
+    for( const trait_id &trait : trait_set ) {
+        if( my_mutations.contains( trait ) || enchantment_cache->get_mutations().contains( trait ) ) {
+            return true;
+        }
+    }
+    return false;
 }
 
 bool Character::has_trait_flag( const trait_flag_str_id &b ) const
@@ -116,7 +127,7 @@ bool Character::has_trait_flag( const trait_flag_str_id &b ) const
 bool Character::has_base_trait( const trait_id &b ) const
 {
     // Look only at base traits
-    return my_traits.find( b ) != my_traits.end();
+    return my_traits.contains( b );
 }
 
 void Character::toggle_trait( const trait_id &trait_ )
@@ -214,13 +225,28 @@ void Character::apply_mods( const trait_id &mut, bool add_remove )
 
 bool mutation_branch::conflicts_with_item( const item &it ) const
 {
-    if( allow_soft_gear && it.is_soft() ) {
-        return false;
+    // Check if the mutation explicitly permits this item first.
+    for( const flag_id &allowed : allowed_items ) {
+        if( it.has_flag( allowed ) ) {
+            return false;
+        }
     }
-
     for( body_part bp : restricts_gear ) {
         if( it.covers( convert_bp( bp ).id() ) ) {
-            return true;
+            // If it's oversized, forbid it if we're ONLY permitting allowed_items, otherwise allow it
+            if( it.has_flag( STATIC( flag_id( "OVERSIZE" ) ) ) ||
+                it.has_flag( STATIC( flag_id( "resized_large" ) ) ) ) {
+                if( allowed_items_only ) {
+                    return true;
+                } else {
+                    return false;
+                }
+                // If we're still here, allow soft gear where relevant.
+            } else if( allow_soft_gear && it.is_soft() ) {
+                return false;
+            } else {
+                return true;
+            }
         }
     }
 
@@ -292,10 +318,6 @@ void Character::mutation_effect( const trait_id &mut )
     }
 
     remove_worn_items_with( [&]( detached_ptr<item> &&armor ) {
-        if( armor->has_flag( STATIC( flag_id( "OVERSIZE" ) ) ) ||
-            armor->has_flag( STATIC( flag_id( "resized_large" ) ) ) ) {
-            return std::move( armor );
-        }
         if( !branch.conflicts_with_item( *armor ) ) {
             return std::move( armor );
         }
@@ -307,6 +329,21 @@ void Character::mutation_effect( const trait_id &mut )
         // It could cause segmentation fault if mutation change will trigger clothes removal on character creation
         // with preview clothes toggled on. So checking if game started.
         if( g->w_terrain ) {
+
+            //get dependant worn items only checks for powerarmor helmets or powerarmor mods
+            //so this just removes those if powerarmor is also removed
+            const auto deps = get_dependent_worn_items( *armor );
+            for( const auto &it : deps ) {
+                add_msg_player_or_npc( m_bad,
+                                       _( "Your %s is pushed off!" ),
+                                       _( "<npcname>'s %s is pushed off!" ),
+                                       it->tname() );
+
+                it->on_takeoff( *this );
+                detached_ptr<item> det = worn.remove( it );
+                get_map().add_item_or_charges( pos(), std::move( det ) );
+            }
+
             get_map().add_item_or_charges( pos(), std::move( armor ) );
         }
         return detached_ptr<item>();
@@ -541,10 +578,6 @@ void Character::activate_mutation( const trait_id &mut )
     } else if( mut == trait_M_PROVENANCE ) {
         spores(); // double trouble!
         blossoms();
-        tdata.powered = false;
-        return;
-    } else if( mut == trait_SELFAWARE ) {
-        print_health();
         tdata.powered = false;
         return;
     } else if( mut == trait_TREE_COMMUNION ) {

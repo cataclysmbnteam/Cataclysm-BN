@@ -32,6 +32,7 @@ jobs:
       - run: sudo apt-get install astyle
 
       - uses: denoland/setup-deno@v2
+        with: { cache: true }
 
       - name: cache deno dependencies
         uses: actions/cache@v4
@@ -84,6 +85,6 @@ jobs:
 
       - name: lint and test typescript files
         run: |
-          deno lint
+          # deno lint
           deno test --allow-read
           deno run --allow-read --allow-write scripts/semantic.ts

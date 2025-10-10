@@ -11,6 +11,7 @@
 #include "anatomy.h"
 #include "avatar.h"
 #include "calendar.h"
+#include "catalua_hooks.h"
 #include "character.h"
 #include "color.h"
 #include "cursesdef.h"
@@ -306,7 +307,8 @@ bool Creature::sees( const Creature &critter ) const
                ( critter.is_underwater() && !is_underwater() && here.is_divable( critter.pos() ) ) ||
                ( here.has_flag_ter_or_furn( TFLAG_HIDE_PLACE, critter.pos() ) &&
                  !( std::abs( posx() - critter.posx() ) <= 1 && std::abs( posy() - critter.posy() ) <= 1 &&
-                    std::abs( posz() - critter.posz() ) <= 1 ) ) ) {
+                    std::abs( posz() - critter.posz() ) <= 1 ) && !critter.has_flag( MF_FLIES ) &&
+                 critter.get_size() <= creature_size::medium ) ) {
         return false;
     }
     if( ch != nullptr ) {
@@ -1000,16 +1002,33 @@ void Creature::deal_projectile_attack( Creature *source, item *source_weapon,
             impact.mult_damage( 1.0f / dmg_ratio );
         }
     }
-
     if( proj.has_effect( ammo_effect_NO_DAMAGE ) ) {
         impact.mult_damage( 0.0f );
     }
+    // Track damage before and after after for overpenetration effects, include divide-by-zero protection.
+    float dmg_before_armor = std::max( 1.0f, impact.total_damage() );
 
     // If we have a shield, it might passively block ranged impacts
     block_ranged_hit( source, bp_hit, impact );
     // If the projectile survives, both it and the launcher get credit for the kill.
     dealt_dam = deal_damage( source, bp_hit, impact, source_weapon, attack.proj.get_drop() );
     dealt_dam.bp_hit = bp_hit.id();
+
+    float dmg_after_armor = dealt_dam.total_damage();
+
+    // Modify projectile for overpenetration.
+    for( auto &elem : proj.impact.damage_units ) {
+        // Ratio of how much armor reduced expected damage, used as a multiplier.
+        float damage_ratio = dmg_after_armor / dmg_before_armor;
+        // Take an extra 10 damage and 5 arpen off per target, regardless of damage ratio.
+        elem.amount = std::max( 0.0f, ( elem.amount * damage_ratio ) - 10 );
+        elem.res_pen = std::max( 0.0f, ( elem.res_pen * damage_ratio ) - 5 );
+        add_msg( m_debug, _( "Projectile damage is now %s, arpen is now %s" ), elem.amount, elem.res_pen );
+    }
+    // If we ate all available damage doing that, prevent it from trying to hit anyone else downrange.
+    if( proj.impact.total_damage() <= 0 ) {
+        proj.impact.damage_units.clear();
+    }
 
     // Apply ammo effects to target.
     if( proj.has_effect( ammo_effect_TANGLE ) ) {
@@ -1163,6 +1182,15 @@ void Creature::deal_damage_handle_type( const damage_unit &du, bodypart_id bp, i
 
     float div = 4.0f;
 
+    auto set_volatiles_on_fire = [ &, this]( int chances ) {
+        if( has_flag( MF_VOLATILE ) && one_in( chances ) ) {
+            add_effect( effect_onfire, rng( 1_turns, 3_turns ), bp.id() );
+            if( get_avatar().sees( *this ) ) {
+                add_msg( m_warning, _( "The %s goes up in flames!" ), get_name() );
+            }
+            adjusted_damage *= 10;
+        }
+    };
     switch( du.type ) {
         case DT_BASH:
             // Bashing damage is less painful
@@ -1175,14 +1203,24 @@ void Creature::deal_damage_handle_type( const damage_unit &du, bodypart_id bp, i
 
         case DT_HEAT:
             // heat damage sets us on fire sometimes
-            if( rng( 0, 100 ) < adjusted_damage ) {
+            // Volatile enemies always ignite from fire damage
+            if( rng( 0, 100 ) < adjusted_damage || has_flag( MF_VOLATILE ) ) {
                 add_effect( effect_onfire, rng( 1_turns, 3_turns ), bp.id() );
+                // High chance of taking additional damage if volatile
+                set_volatiles_on_fire( 4 );
             }
             break;
 
         case DT_ELECTRIC:
             // Electrical damage adds a major speed/dex debuff
             add_effect( effect_zapped, 1_turns * std::max( adjusted_damage, 2 ) );
+            // Volatile enemies might get set off
+            set_volatiles_on_fire( 8 );
+            break;
+
+        case DT_BULLET:
+            // Volatile enemies sometimes go up
+            set_volatiles_on_fire( 16 );
             break;
 
         case DT_ACID:
@@ -1200,9 +1238,13 @@ void Creature::deal_damage_handle_type( const damage_unit &du, bodypart_id bp, i
     pain += roll_remainder( adjusted_damage / div );
 }
 
-void Creature::on_dodge( Creature */*source*/, int /*difficulty*/ )
+void Creature::on_dodge( Creature *source, int difficulty )
 {
-
+    cata::run_hooks( "on_creature_dodged", [ &, this]( auto & params ) {
+        params["char"] = this;
+        params["source"] = source;
+        params["difficulty"] = difficulty;
+    } );
 }
 
 /*
@@ -1583,7 +1625,10 @@ void Creature::process_effects()
             }
             // Add any effects that others remove to the removal list
             for( const efftype_id &removed_effect : _it.second.get_removes_effects() ) {
-                to_remove.emplace_back( removed_effect, bodypart_str_id::NULL_ID(), false );
+                // Don't try to remove it if it isn't present
+                if( has_effect( removed_effect ) ) {
+                    to_remove.emplace_back( removed_effect, bodypart_str_id::NULL_ID(), false );
+                }
             }
             effect &e = _it.second;
             const int prev_int = e.get_intensity();
@@ -1618,7 +1663,8 @@ void Creature::process_effects()
             }
 
             if( !found ) {
-                debugmsg( "Couldn't find effect to remove %s", r.type.str() );
+                // Effect somehow went missing between previous loop and now
+                debugmsg( "Couldn't find effect assigned to be removed %s", r.type.str() );
             }
         }
 

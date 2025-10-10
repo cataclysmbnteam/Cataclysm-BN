@@ -102,6 +102,7 @@ struct islot_tool {
 
     itype_id subtype;
 
+    itype_id default_ammo = itype_id::NULL_ID();
     int max_charges = 0;
     int def_charges = 0;
     int charge_factor = 1;
@@ -109,6 +110,8 @@ struct islot_tool {
     int turns_per_charge = 0;
     int turns_active = 0;
     int power_draw = 0;
+    int ups_eff_mult = 1;
+    int ups_recharge_rate = 5;
 
     std::vector<int> rand_charges;
 };
@@ -543,9 +546,9 @@ struct islot_gun : common_ranged_data {
      */
     int min_cycle_recoil = 0;
     /**
-     * Length of gun barrel, if positive allows sawing down of the barrel
+     * Volume of material removed by sawing down the barrel, if left unspecified barrel can't be sawed down.
      */
-    units::volume barrel_length = 0_ml;
+    units::volume barrel_volume = 0_ml;
     /**
      * Effects that are applied to the ammo when fired.
      */
@@ -700,7 +703,7 @@ struct islot_ammo : common_ranged_data {
      * Control chance for and state of any items dropped at ranged target
      *@{*/
     itype_id drop = itype_id::NULL_ID();
-
+    int drop_count = -1;
     bool drop_active = true;
     /*@}*/
 

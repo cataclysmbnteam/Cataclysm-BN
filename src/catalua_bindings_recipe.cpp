@@ -56,9 +56,7 @@ void cata::detail::reg_recipe( sol::state &lua )
             | views::filter( [&]( const recipe & r ) { return r.has_flag( flag_name ); } )
             | ranges::to<std::vector<recipe>>();
         } );
-        luna::set_fx( ut, "get_all", []() -> std::vector<recipe> {
-            return recipe_dict | views::values | ranges::to<std::vector<recipe>>();
-        } );
+        luna::set_fx( ut, "get_all", []() -> std::vector<recipe> { return recipe_dict | views::values | ranges::to<std::vector<recipe>>(); } );
     }
 #undef UT_CLASS // #define UT_CLASS recipe
 }

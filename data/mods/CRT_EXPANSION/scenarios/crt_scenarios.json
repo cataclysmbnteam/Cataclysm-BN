@@ -3,19 +3,23 @@
     "type": "scenario",
     "id": "lab_staff",
     "copy-from": "lab_staff",
-    "extend": { "professions": [ "crt", "crt_engineer", "crt_employee", "crt_vamp" ] }
+    "extend": { "professions": [ "crt", "crt_engineer", "crt_medic", "crt_tech", "crt_employee", "crt_vamp" ] }
   },
   {
     "type": "scenario",
     "id": "heli_crash",
     "copy-from": "heli_crash",
-    "extend": { "professions": [ "crt_rotc", "crt_nco", "crt_rifleman", "crt_medic", "crt_saw", "crt_officer", "crt", "crt_normie" ] }
+    "extend": {
+      "professions": [ "crt_rotc", "crt_nco", "crt_rifleman", "crt_medic", "crt_tech", "crt_saw", "crt_officer", "crt", "crt_normie" ]
+    }
   },
   {
     "type": "scenario",
     "id": "overrun",
     "copy-from": "overrun",
-    "extend": { "professions": [ "crt_rotc", "crt_nco", "crt_rifleman", "crt_medic", "crt_saw", "crt_officer", "crt", "crt_normie" ] }
+    "extend": {
+      "professions": [ "crt_rotc", "crt_nco", "crt_rifleman", "crt_medic", "crt_tech", "crt_saw", "crt_officer", "crt", "crt_normie" ]
+    }
   },
   {
     "type": "scenario",

@@ -108,7 +108,7 @@
     "material_thickness": 4,
     "environmental_protection": 10,
     "resistance": { "bullet": 25 },
-    "flags": [ "VARSIZE", "WATER_FRIENDLY", "POCKETS", "HOOD", "RAINPROOF", "STURDY" ]
+    "flags": [ "VARSIZE", "WATER_FRIENDLY", "POCKETS", "HOOD", "RAINPROOF", "STURDY", "ALLOWS_WINGS" ]
   },
   {
     "id": "gloves_h20survivor",
@@ -175,7 +175,7 @@
     "encumbrance": 30,
     "warmth": 5,
     "material_thickness": 3,
-    "flags": [ "VARSIZE", "STURDY", "WATER_FRIENDLY", "ELECTRIC_IMMUNE", "HELMET_COMPAT" ]
+    "flags": [ "VARSIZE", "STURDY", "WATER_FRIENDLY", "ELECTRIC_IMMUNE", "HELMET_COMPAT", "ALLOWS_TAIL" ]
   },
   {
     "id": "shark_suit",
@@ -196,7 +196,7 @@
     "encumbrance": 30,
     "warmth": 5,
     "material_thickness": 3,
-    "flags": [ "VARSIZE", "STURDY", "WATER_FRIENDLY" ]
+    "flags": [ "VARSIZE", "STURDY", "WATER_FRIENDLY", "ALLOWS_TAIL" ]
   },
   {
     "id": "goggles_swim",

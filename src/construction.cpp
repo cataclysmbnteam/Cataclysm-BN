@@ -1071,7 +1071,7 @@ void place_construction( const construction_group_str_id &group )
     }
     const tripoint pnt = *pnt_;
 
-    if( valid.find( pnt ) == valid.end() ) {
+    if( !valid.contains( pnt ) ) {
         cons.front()->explain_failure( pnt );
         return;
     }
@@ -1885,9 +1885,11 @@ float construction::time_scale() const
 {
     //incorporate construction time scaling
     if( get_option<int>( "CONSTRUCTION_SCALING" ) == 0 ) {
-        return calendar::season_ratio();
+        return 0.000001;
     } else {
-        return get_option<int>( "CONSTRUCTION_SCALING" ) / 100.0;
+        // this is hacky, but the player or their followers should only be the ones to ever construct currently.
+        return ( get_option<int>( "CONSTRUCTION_SCALING" ) / 100.0f ) /
+               get_player_character().mutation_value( "construction_speed_modifier" );
     }
 }
 

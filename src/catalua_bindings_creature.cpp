@@ -250,9 +250,7 @@ void cata::detail::reg_creature( sol::state &lua )
 
         SET_FX_T( has_grab_break_tec, bool() const );
 
-        luna::set_fx( ut, "get_weight_capacity", []( UT_CLASS & cr ) -> std::int64_t {
-            return cr.weight_capacity().value();
-        } );
+        luna::set_fx( ut, "get_weight_capacity", []( UT_CLASS & cr ) -> std::int64_t { return cr.weight_capacity().value(); } );
     }
 #undef UT_CLASS // #define UT_CLASS Creature
 }
@@ -277,10 +275,8 @@ void cata::detail::reg_monster( sol::state &lua )
         SET_MEMB( unique_name );
 
         // Methods
-        luna::set_fx( ut, "get_type", []( const monster & m )
-        {
-            return m.type -> id; //I really don't want to break the uniformity, but...
-        } );
+        // I really don't want to break the uniformity, but...
+        luna::set_fx( ut, "get_type", []( const monster & m ) { return m.type -> id; } );
         SET_FX_T( can_upgrade, bool() const );
         SET_FX_T( hasten_upgrade, void() );
         SET_FX_T( get_upgrade_time, int() const );
@@ -373,6 +369,8 @@ void cata::detail::reg_character( sol::state &lua )
         SET_FX_T( mod_dex_bonus, void( int ) );
         SET_FX_T( mod_per_bonus, void( int ) );
         SET_FX_T( mod_int_bonus, void( int ) );
+        SET_FX_T( mod_speed_bonus, void( int ) );
+        SET_FX_T( set_speed_bonus, void( int ) );
 
         SET_FX_T( get_healthy, float() const );
         SET_FX_T( get_healthy_mod, float() const );
@@ -405,10 +403,7 @@ void cata::detail::reg_character( sol::state &lua )
             faction *fac = charac.get_faction();
             return fac == nullptr ? faction_id::NULL_ID() : fac->id;
         } );
-        luna::set_fx( ut, "set_faction_id", []( UT_CLASS & charac, faction_id id )
-        {
-            charac.set_fac_id( id.str() );
-        } );
+        luna::set_fx( ut, "set_faction_id", []( UT_CLASS & charac, faction_id id ) { charac.set_fac_id( id.str() ); } );
 
         SET_FX_T( sight_impaired, bool() const );
 
@@ -453,6 +448,10 @@ void cata::detail::reg_character( sol::state &lua )
         SET_FX_T( is_quiet, bool() const );
 
         SET_FX_T( is_stealthy, bool() const );
+
+        SET_FX( uncanny_dodge );
+
+        SET_FX( get_melee_stamina_cost );
 
         SET_FX_T( cough, void( bool harmful, int loudness ) );
 
@@ -696,9 +695,7 @@ void cata::detail::reg_character( sol::state &lua )
         SET_FX_T( all_items, std::vector<item *>( bool need_charges ) const );
 
         DOC( "Removes given `Item` from character's inventory. The `Item` must be in the inventory, neither wielded nor worn." );
-        luna::set_fx( ut, "inv_remove_item", []( Character & ch, item * it ) -> void {
-            ch.inv_remove_item( it );
-        } );
+        luna::set_fx( ut, "inv_remove_item", []( Character & ch, item * it ) -> void { ch.inv_remove_item( it ); } );
 
         SET_FX_T( assign_activity,
                   void( const activity_id &, int, int, int, const std::string & ) );
@@ -785,12 +782,8 @@ void cata::detail::reg_character( sol::state &lua )
         SET_FX_T( has_morale_to_read, bool() const );
         SET_FX_T( has_morale_to_craft, bool() const );
 
-        luna::set_fx( ut, "knows_recipe", []( const UT_CLASS & utObj, const recipe_id & rec ) -> bool {
-            return utObj.knows_recipe( &( rec.obj() ) );
-        } );
-        luna::set_fx( ut, "learn_recipe", []( UT_CLASS & utObj, const recipe_id & rec ) -> void {
-            utObj.learn_recipe( &( rec.obj() ) );
-        } );
+        luna::set_fx( ut, "knows_recipe", []( const UT_CLASS & utObj, const recipe_id & rec ) -> bool { return utObj.knows_recipe( &( rec.obj() ) ); } );
+        luna::set_fx( ut, "learn_recipe", []( UT_CLASS & utObj, const recipe_id & rec ) -> void { utObj.learn_recipe( &( rec.obj() ) ); } );
 
         SET_FX_T( suffer, void() );
 
@@ -911,9 +904,9 @@ void cata::detail::reg_npc( sol::state &lua )
 
         SET_FX_T( smash_ability, int() const );
 
-        luna::set_fx( ut, "complain_about", []( UT_CLASS & npchar, const std::string & issue,
-        const time_duration & dur, const std::string & speech, sol::optional<bool> force ) -> bool {
-            return npchar.complain_about( issue, dur, speech, force ? *force : false );
+        luna::set_fx( ut, "complain_about",
+        []( UT_CLASS & npchar, const std::string & issue, const time_duration & dur, const std::string & speech, sol::optional<bool> force ) -> bool {
+            return npchar.complain_about( issue, dur, speech, force.value_or( false ) );
         } );
 
         SET_FX_T( warn_about,

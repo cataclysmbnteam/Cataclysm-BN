@@ -102,7 +102,7 @@ void glare( const weather_type_id &w )
         if( g->u.has_trait( trait_CEPH_VISION ) ) {
             dur = dur * 2;
         }
-        g->u.add_env_effect( *effect, body_part_eyes, 2, dur );
+        g->u.add_effect( *effect, dur );
     }
 }
 
@@ -493,7 +493,8 @@ void weather_effect::morale( int intensity, int bonus, int bonus_max, time_durat
 void weather_effect::effect( int intensity, time_duration duration,
                              bodypart_str_id bp_id, int effect_intensity,
                              const std::string &effect_id_str,
-                             const std::string &effect_msg, int effect_msg_frequency, game_message_type message_type,
+                             const std::string &effect_msg, int effect_msg_frequency, int effect_msg_blocked_frequency,
+                             game_message_type message_type,
                              std::string precipitation_name, bool ignore_armor, int clothing_protection,
                              int umbrella_protection )
 {
@@ -505,14 +506,26 @@ void weather_effect::effect( int intensity, time_duration duration,
         auto &you = get_avatar();
         bool has_helmet = false;
         if( one_in( umbrella_protection ) && you.primary_weapon().has_flag( json_flag_RAIN_PROTECT ) ) {
-            return add_msg( _( "Your umbrella protects you from the %s." ), precipitation_name );
+            if( one_in( effect_msg_blocked_frequency ) ) {
+                add_msg( _( "Your umbrella protects you from the %s." ), precipitation_name );
+            }
+            return;
         } else if( one_in( umbrella_protection ) && you.worn_with_flag( json_flag_RAINPROOF ) ) {
-            return add_msg( _( "Your rainproof clothing protects you from the %s." ), precipitation_name );
+            if( one_in( effect_msg_blocked_frequency ) ) {
+                add_msg( _( "Your rainproof clothing protects you from the %s." ), precipitation_name );
+            }
+            return;
         } else if( one_in( clothing_protection ) ) {
-            return add_msg( _( "Your clothing protects you from the %s." ), precipitation_name );
+            if( one_in( effect_msg_blocked_frequency ) ) {
+                add_msg( _( "Your clothing protects you from the %s." ), precipitation_name );
+            }
+            return;
         } else if( you.is_wearing_power_armor( &has_helmet ) && ( has_helmet ||
                    !one_in( clothing_protection ) ) ) {
-            return add_msg( _( "Your power armor protects you from the %s." ), precipitation_name );
+            if( one_in( effect_msg_blocked_frequency ) ) {
+                add_msg( _( "Your power armor protects you from the %s." ), precipitation_name );
+            }
+            return;
         }
     }
 
@@ -1076,8 +1089,8 @@ void weather_manager::update_weather()
     ZoneScoped;
 
     w_point &w = weather_precise;
-    winddirection = wind_direction_override ? *wind_direction_override : w.winddirection;
-    windspeed = windspeed_override ? *windspeed_override : w.windpower;
+    winddirection = wind_direction_override.value_or( w.winddirection );
+    windspeed = windspeed_override.value_or( w.windpower );
     if( weather_id && calendar::turn < nextweather ) {
         return;
     }

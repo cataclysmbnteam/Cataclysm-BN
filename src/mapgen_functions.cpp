@@ -1186,6 +1186,19 @@ void mapgen_subway( mapgendata &dat )
             break;
     }
 
+    // Add patches of cave moss
+    for( int i = 0; i < SEEX * 2; i++ ) {
+        for( int j = 0; j < SEEY * 2; j++ ) {
+            if( one_in( 12 ) && m->ter( tripoint( point( i, j ), m->get_abs_sub().z ) ) == t_rock_floor ) {
+                m->ter_set( point( i, j ), t_moss_underground );
+                // Some of that moss has mushrooms too.
+                if( one_in( 15 ) ) {
+                    m->furn_set( point( i, j ), f_cave_mushrooms );
+                }
+            }
+        }
+    }
+
     // finally, unrotate the map
     m->rotate( rot );
 }
@@ -2928,6 +2941,33 @@ void mapgen_lake_shore( mapgendata &dat )
         for( auto &wp : water_points ) {
             m->ter_set( wp, water_tile );
             m->furn_set( wp, f_null );
+            if( dat.zlevel() == dat.region.overmap_lake.lake_depth ) {
+                if( one_in( 4 ) ) {
+                    m->ter_set( wp, t_lake_moss );
+                }
+
+                switch( rng( 1, 20 ) ) {
+                    case 1:
+                        m->furn_set( wp, f_lake_pondweed );
+                        break;
+                    case 2:
+                        m->furn_set( wp, f_lake_detritus );
+                        break;
+                    case 3:
+                        m->furn_set( wp, f_lake_liverwort );
+                        break;
+                    case 4:
+                        if( x_in_y( 2, 5 ) ) {
+                            m->furn_set( wp, f_lake_eelgrass );
+                        } else {
+                            m->furn_set( wp, f_lake_hornwort );
+                        }
+                        break;
+                    default:
+                        break;
+                }
+            }
+
         }
     };
 

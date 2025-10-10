@@ -15,7 +15,7 @@
     "damage": { "damage_type": "bullet", "amount": 250, "armor_penetration": 50 },
     "dispersion": 500,
     "recoil": 52500,
-    "extend": { "effects": [ "EXPLOSIVE_BIG" ] }
+    "extend": { "effects": [ "EXPLOSIVE_BIG", "NO_PENETRATE_OBSTACLES" ] }
   },
   {
     "id": "cannon_round_ball",

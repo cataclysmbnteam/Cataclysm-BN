@@ -50,6 +50,8 @@ static const std::string flag_GOES_UP( "GOES_UP" );
 static const std::string flag_SEALED( "SEALED" );
 static const std::string flag_SWIMMABLE( "SWIMMABLE" );
 
+static const trait_flag_str_id trait_flag_TAIL_FIN( "TAIL_FIN" );
+
 class inventory;
 
 std::vector<char> keys_bound_to( action_id act, const bool restrict_to_printable )
@@ -357,6 +359,8 @@ std::string action_ident( action_id act )
             return "TOGGLE_CHARACTER_PREVIEW_CLOTHES";
         case ACTION_NULL:
             return "null";
+        case ACTION_SWAP_TO_NPC:
+            return "SWAPTONPC";
         default:
             return "unknown";
     }
@@ -592,7 +596,8 @@ bool can_move_vertical_at( const tripoint &p, int movez )
         if( movez == -1 ) {
             return !g->u.is_underwater() && !g->u.worn_with_flag( flag_FLOTATION );
         } else {
-            return g->u.swim_speed() < 500 || g->u.is_wearing( itype_id( "swim_fins" ) );
+            return g->u.swim_speed() < 500 || ( g->u.is_wearing( itype_id( "swim_fins" ) ) ||
+                                                g->u.has_trait_flag( trait_flag_TAIL_FIN ) );
         }
     }
 

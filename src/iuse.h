@@ -102,7 +102,6 @@ int pick_lock( player *, item *, bool, const tripoint & );
 int portal( player *, item *, bool, const tripoint & );
 int tazer( player *, item *, bool, const tripoint & );
 int tazer2( player *, item *, bool, const tripoint & );
-int mp3( player *, item *, bool, const tripoint & );
 int mp3_on( player *, item *, bool, const tripoint & );
 int rpgdie( player *, item *, bool, const tripoint & );
 int dive_tank( player *, item *, bool, const tripoint & );
@@ -136,6 +135,7 @@ int seed( player *, item *, bool, const tripoint & );
 int oxygen_bottle( player *, item *, bool, const tripoint & );
 int radio_mod( player *, item *, bool, const tripoint & );
 int remove_all_mods( player *, item *, bool, const tripoint & );
+int good_fishing_spot( tripoint );
 int fishing_rod( player *, item *, bool, const tripoint & );
 int fish_trap( player *, item *, bool, const tripoint & );
 int gun_clean( player *, item *, bool, const tripoint & );
@@ -172,6 +172,7 @@ int toggle_ups_charging( player *, item *, bool, const tripoint & );
 int report_grid_charge( player *, item *, bool, const tripoint & );
 int report_grid_connections( player *, item *, bool, const tripoint & );
 int modify_grid_connections( player *, item *, bool, const tripoint & );
+int bullet_vibe_on( player *, item *, bool, const tripoint & );
 
 // MACGUFFINS
 
@@ -180,8 +181,6 @@ int radiocaron( player *, item *, bool, const tripoint & );
 int radiocontrol( player *, item *, bool, const tripoint & );
 
 int autoclave( player *, item *, bool, const tripoint & );
-
-int multicooker( player *, item *, bool, const tripoint & );
 
 int remoteveh( player *, item *, bool, const tripoint & );
 

@@ -18,6 +18,12 @@
     "components": [ [ [ "nail", 1 ], [ "adhesive_proper", 1, "LIST" ] ] ]
   },
   {
+    "id": "nail_any_adhesive",
+    "type": "requirement",
+    "//": "For items that can be repaired with nails, glue, or tape.",
+    "components": [ [ [ "nail", 1 ], [ "adhesive", 1, "LIST" ] ] ]
+  },
+  {
     "id": "ammo_bullet",
     "type": "requirement",
     "//": "Materials used when forming bullets",
@@ -162,6 +168,27 @@
         [ "salt_water", 5 ],
         [ "ash", 50 ],
         [ "tin", 50 ]
+      ]
+    ]
+  },
+  {
+    "id": "junk_wall_fasteners",
+    "type": "requirement",
+    "//": "Materials used to put junk walls and floors together.",
+    "components": [ [ [ "wire", 3 ], [ "spike", 6 ], [ "nail", 12 ] ] ]
+  },
+  {
+    "id": "junk_wall_standard",
+    "type": "requirement",
+    "//": "Standard set of filler metal used to construct junk walls and floors.",
+    "components": [
+      [
+        [ "steel_plate", 1 ],
+        [ "sheet_metal", 2 ],
+        [ "sheet_metal_small", 48 ],
+        [ "frame", 1 ],
+        [ "xlframe", 2 ],
+        [ "pipe", 6 ]
       ]
     ]
   },

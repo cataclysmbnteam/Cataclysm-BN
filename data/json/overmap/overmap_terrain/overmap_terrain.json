@@ -414,6 +414,15 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "natural_spring",
+    "name": "natural spring",
+    "sym": "~",
+    "color": "light_blue",
+    "see_cost": 5,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
     "id": [ "hunter_shack", "hunter_shack_1" ],
     "name": "swamp shack",
     "sym": "+",
@@ -742,5 +751,157 @@
     "name": "wind turbine",
     "sym": "Y",
     "color": "white"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "surface_vein_indicator",
+    "looks_like": "crater",
+    "name": "rocky outcropping",
+    "sym": ".",
+    "color": "light_gray",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ore_vein",
+    "looks_like": "empty_rock",
+    "name": "mineral vein",
+    "sym": "%",
+    "color": "light_gray",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "open_air_blimp",
+    "looks_like": "open_air",
+    "name": "open air",
+    "sym": ".",
+    "color": "blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "omt_ore_vein_gold",
+    "looks_like": "empty_rock",
+    "name": "gold vein",
+    "sym": "%",
+    "color": "light_gray",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "omt_ore_vein_silver",
+    "looks_like": "empty_rock",
+    "name": "silver vein",
+    "sym": "%",
+    "color": "light_gray",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "omt_ore_vein_lead",
+    "looks_like": "empty_rock",
+    "name": "lead vein",
+    "sym": "%",
+    "color": "light_gray",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "omt_ore_vein_copper",
+    "looks_like": "empty_rock",
+    "name": "copper vein",
+    "sym": "%",
+    "color": "light_gray",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "omt_ore_vein_tin",
+    "looks_like": "empty_rock",
+    "name": "tin vein",
+    "sym": "%",
+    "color": "light_gray",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "omt_ore_vein_iron",
+    "looks_like": "empty_rock",
+    "name": "iron vein",
+    "sym": "%",
+    "color": "light_gray",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "omt_ore_vein_banded_iron",
+    "looks_like": "empty_rock",
+    "name": "banded iron vein",
+    "sym": "%",
+    "color": "light_gray",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "omt_ore_vein_tetrahedrite",
+    "looks_like": "empty_rock",
+    "name": "tetrahedrite vein",
+    "sym": "%",
+    "color": "light_gray",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "omt_ore_vein_chalcopyrite",
+    "looks_like": "empty_rock",
+    "name": "chalcopyrite vein",
+    "sym": "%",
+    "color": "light_gray",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "omt_ore_vein_galena",
+    "looks_like": "empty_rock",
+    "name": "galena vein",
+    "sym": "%",
+    "color": "light_gray",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "omt_ore_vein_galenau",
+    "looks_like": "empty_rock",
+    "name": "galenau vein",
+    "sym": "%",
+    "color": "light_gray",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "omt_ore_vein_coppin",
+    "looks_like": "empty_rock",
+    "name": "coppin vein",
+    "sym": "%",
+    "color": "light_gray",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "omt_ore_vein_bronzium",
+    "looks_like": "empty_rock",
+    "name": "bronzium vein",
+    "sym": "%",
+    "color": "light_gray",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "omt_ore_vein_electrumite",
+    "looks_like": "empty_rock",
+    "name": "electrumite vein",
+    "sym": "%",
+    "color": "light_gray",
+    "see_cost": 5
   }
 ]

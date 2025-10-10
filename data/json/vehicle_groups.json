@@ -61,6 +61,7 @@
       [ "icecream_truck", 50 ],
       [ "food_truck", 50 ],
       [ "wienermobile", 5 ],
+      [ "blinkie_van", 5 ],
       [ "tatra_truck", 100 ],
       [ "4x4_car", 400 ],
       [ "whillys_mb", 100 ],
@@ -75,16 +76,96 @@
       [ "canoe", 2000 ],
       [ "kayak", 1500 ],
       [ "kayak_racing", 500 ],
+      [ "kayak_motorized", 500 ],
       [ "DUKW", 250 ],
+      [ "jetski", 500 ],
       [ "raft", 2000 ],
       [ "wood_rowboat_double", 1500 ]
     ]
   },
   {
     "type": "vehicle_group",
+    "id": "lake_boats",
+    "//": "Various boats that might have been abandoned out on the open water.  ~25% small craft, 25% larger commercial boats, 25% police/military, and 25% novelty/replica craft.",
+    "vehicles": [
+      [ "canoe", 75 ],
+      [ "kayak", 25 ],
+      [ "kayak_racing", 25 ],
+      [ "kayak_motorized", 25 ],
+      [ "wood_rowboat_double", 25 ],
+      [ "inflatable_boat", 25 ],
+      [ "jetski", 25 ],
+      [ "raft", 25 ],
+      [ "boat_motor_single", 175 ],
+      [ "scuba_boat", 25 ],
+      [ "fishing_boat", 25 ],
+      [ "barge_trailer", 50 ],
+      [ "boat_motor_smuggler", 50 ],
+      [ "boat_motor_police", 150 ],
+      [ "CG_patrol_boat", 75 ],
+      [ "CG_cutter", 25 ],
+      [ "sailboat", 125 ],
+      [ "pirate_ship", 25 ],
+      [ "DUKW", 75 ],
+      [ "hovercraft_motor_single", 25 ]
+    ]
+  },
+  {
+    "type": "vehicle_group",
+    "id": "cove_boats",
+    "vehicles": [
+      [ "jetski", 100 ],
+      [ "raft", 100 ],
+      [ "boat_motor_single", 200 ],
+      [ "fishing_boat", 100 ],
+      [ "boat_motor_smuggler", 100 ],
+      [ "boat_motor_police", 125 ],
+      [ "CG_patrol_boat", 25 ],
+      [ "sailboat", 150 ],
+      [ "pirate_ship", 100 ]
+    ]
+  },
+  {
+    "type": "vehicle_group",
+    "id": "river_boats",
+    "//": "Various boats that might have been abandoned or lost in rivers.  ~50% rafts or kayaks, 40% boats or hovercraft, and 10% police/military/smuggler.",
+    "vehicles": [
+      [ "canoe", 195 ],
+      [ "kayak", 100 ],
+      [ "kayak_racing", 50 ],
+      [ "kayak_motorized", 25 ],
+      [ "wood_rowboat_double", 60 ],
+      [ "inflatable_boat", 115 ],
+      [ "jetski", 30 ],
+      [ "raft", 190 ],
+      [ "fishing_boat", 25 ],
+      [ "barge_trailer", 50 ],
+      [ "water_autosweeper", 50 ],
+      [ "boat_motor_single", 115 ],
+      [ "boat_motor_smuggler", 60 ],
+      [ "boat_motor_police", 30 ],
+      [ "CG_patrol_boat", 20 ],
+      [ "hovercraft_motor_single", 125 ]
+    ]
+  },
+  {
+    "type": "vehicle_group",
+    "id": "boats_medium",
+    "//": "Medium-size boats suitable for docks and marinas.",
+    "vehicles": [
+      [ "boat_motor_single", 750 ],
+      [ "boat_motor_police", 75 ],
+      [ "CG_patrol_boat", 25 ],
+      [ "boat_motor_smuggler", 50 ],
+      [ "DUKW", 50 ],
+      [ "hovercraft_motor_single", 50 ]
+    ]
+  },
+  {
+    "type": "vehicle_group",
     "id": "boats_narrow",
     "//": "1 tile wide boats for storage sheds",
-    "vehicles": [ [ "canoe", 2000 ], [ "kayak", 1500 ], [ "kayak_racing", 500 ] ]
+    "vehicles": [ [ "canoe", 2000 ], [ "kayak", 1500 ], [ "kayak_racing", 500 ], [ "kayak_motorized", 250 ], [ "jetski", 250 ] ]
   },
   {
     "type": "vehicle_group",
@@ -162,6 +243,7 @@
       [ "surv_car", 2 ],
       [ "car_roadwarrior", 2 ],
       [ "wienermobile", 5 ],
+      [ "blinkie_van", 5 ],
       [ "tatra_truck", 300 ],
       [ "4x4_car", 300 ],
       [ "whillys_mb", 100 ]
@@ -261,6 +343,7 @@
       [ "icecream_truck", 50 ],
       [ "food_truck", 20 ],
       [ "wienermobile", 5 ],
+      [ "blinkie_van", 5 ],
       [ "portable_generator", 50 ],
       [ "4x4_car", 175 ],
       [ "whillys_mb", 25 ],
@@ -536,6 +619,27 @@
   },
   {
     "type": "vehicle_group",
+    "id": "runway",
+    "//": "Lower chance of wrecked helis, include planes and other aircraft",
+    "vehicles": [
+      [ "plane_small", 500 ],
+      [ "2seater2", 100 ],
+      [ "SmallFlier1", 300 ],
+      [ "2seater2_Wreck", 100 ],
+      [ "SmallFlier3_Wreck", 50 ],
+      [ "SmallFlier2", 300 ],
+      [ "Medevac1", 100 ],
+      [ "Smallflier1_Wreck", 100 ],
+      [ "SmallFlier2_Wreck", 100 ],
+      [ "Medevac1_Wreck", 50 ],
+      [ "SmallFlier3", 300 ],
+      [ "Medevac2", 150 ],
+      [ "Medevac2_Wreck", 100 ],
+      [ "blimp", 25 ]
+    ]
+  },
+  {
+    "type": "vehicle_group",
     "id": "mil_helicopters",
     "vehicles": [
       [ "Medevac1", 200 ],
@@ -718,6 +822,16 @@
   },
   {
     "type": "vehicle_group",
+    "id": "trains_mine_shaft",
+    "vehicles": [ [ "motorized_draisine_6seats", 100 ], [ "motorized_draisine_2seats", 400 ], [ "coal_hopper", 600 ] ]
+  },
+  {
+    "type": "vehicle_group",
+    "id": "trains_lab_entrance",
+    "vehicles": [ [ "motorized_draisine_6seats", 250 ], [ "electric_tram", 750 ] ]
+  },
+  {
+    "type": "vehicle_group",
     "id": "oa_vg_wreck",
     "//": "for ws_regional_dump",
     "vehicles": [
@@ -833,7 +947,7 @@
   {
     "type": "vehicle_group",
     "id": "speedway_rv",
-    "vehicles": [ [ "lux_rv", 300 ], [ "rv", 700 ] ]
+    "vehicles": [ [ "lux_rv", 300 ], [ "rv", 675 ], [ "surv_rv", 25 ] ]
   },
   {
     "type": "vehicle_group",

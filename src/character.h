@@ -37,6 +37,7 @@
 #include "item.h"
 #include "item_handling_util.h"
 #include "memory_fast.h"
+#include "mtype.h"
 #include "pimpl.h"
 #include "player_activity_ptr.h"
 #include "pldata.h"
@@ -271,6 +272,9 @@ class Character : public Creature, public location_visitable<Character>
         Character &operator=( const Character & ) = delete;
         Character( Character && ) noexcept;
         Character &operator=( Character && ) noexcept;
+        // Swaps the data of this Character and "other" using "tmp" for temporary storage.
+        // Leaves "tmp" in an undefined state.
+        void swap_character( Character &other, Character &tmp );
         ~Character() override;
 
         // Move ctor and move operator= common stuff
@@ -647,6 +651,7 @@ class Character : public Creature, public location_visitable<Character>
 
         bool uncanny_dodge() override;
 
+        float get_block_amount( const item &shield, const damage_unit &unit );
         /** Checks for chance that a ranged attack will hit other armor along the way */
         bool block_ranged_hit( Creature *source, bodypart_id &bp_hit, damage_instance &dam ) override;
 
@@ -662,6 +667,9 @@ class Character : public Creature, public location_visitable<Character>
                                  bool crit, bool dodge_counter, bool block_counter );
         void perform_technique( const ma_technique &technique, Creature &t, damage_instance &di,
                                 int &move_cost );
+
+        /** Broken out of below function for the purpose of using it in other places, namely item info displays */
+        int get_melee_stamina_cost( const item &weapon );
         /**
          * Sets up a melee attack and handles melee attack function calls
          * @param t Creature to attack
@@ -768,6 +776,10 @@ class Character : public Creature, public location_visitable<Character>
         // In mutation.cpp
         /** Returns true if the player has the entered trait */
         bool has_trait( const trait_id &b ) const override;
+
+        /** Returns true if the player has one of the traits from set */
+        bool has_one_of_traits( const TraitSet &trait_set ) const;
+
         /** Returns true if the player has the entered starting trait */
         bool has_base_trait( const trait_id &b ) const;
         /** Returns true if player has a trait with a flag */
@@ -940,6 +952,8 @@ class Character : public Creature, public location_visitable<Character>
         int mabuff_speed_bonus() const;
         /** Returns the arpen bonus from martial arts buffs*/
         int mabuff_arpen_bonus( damage_type type ) const;
+        /** Returns the target armor multiplier from martial arts buffs */
+        float mabuff_tg_armor_mult( damage_type type ) const;
         /** Returns the damage multiplier to given type from martial arts buffs */
         float mabuff_damage_mult( damage_type type ) const;
         /** Returns the flat damage bonus to given type from martial arts buffs, applied after the multiplier */
@@ -1374,6 +1388,7 @@ class Character : public Creature, public location_visitable<Character>
          * Whether the player carries an active item of the given item type.
          */
         bool has_active_item( const itype_id &id ) const;
+        bool has_active_item_with_action( const std::string &use ) const;
         detached_ptr<item> remove_primary_weapon();
         bool has_mission_item( int mission_id ) const;
         void remove_mission_items( int mission_id );
@@ -1538,6 +1553,10 @@ class Character : public Creature, public location_visitable<Character>
         /** Returns the first worn item with a given flag. */
         const item *item_worn_with_flag( const flag_id &flag,
                                          const bodypart_id &bp = bodypart_str_id::NULL_ID() ) const;
+        /** Returns true if the player is wearing an item with the given flag. */
+        bool worn_with_quality( const quality_id &qual, const bodypart_id &bp ) const;
+        /** Returns the first worn item with a given quality. */
+        const item *item_worn_with_quality( const quality_id &qual, const bodypart_id &bp ) const;
         /** Returns true if the player is wearing an item with the given id. */
         bool worn_with_id( const itype_id &item_id,
                            const bodypart_id &bp = bodypart_str_id::NULL_ID() ) const;
@@ -1878,6 +1897,7 @@ class Character : public Creature, public location_visitable<Character>
         int get_stamina_max() const;
         void set_stamina( int new_stamina );
         void mod_stamina( int mod );
+        void mod_stamina( int mod, bool skill );
         void burn_move_stamina( int moves );
         float stamina_burn_cost_modifier() const;
         float running_move_cost_modifier() const;
@@ -2606,8 +2626,4 @@ nc_color bodytemp_color( const Character &c, const bodypart_str_id &bp );
 
 /** Returns true if the player has a psyshield artifact, or sometimes if wearing tinfoil */
 bool has_psy_protection( const Character &c, int partial_chance );
-
-/** Returns value of speedydex bonus if enabled */
-int get_speedydex_bonus( const int dex );
-
 

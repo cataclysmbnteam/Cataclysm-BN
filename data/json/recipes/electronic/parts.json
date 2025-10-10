@@ -696,10 +696,14 @@
       { "id": "ANVIL", "level": 1 },
       { "id": "HAMMER", "level": 2 },
       { "id": "CHEM", "level": 1 },
-      { "id": "DISTILL", "level": 1 }
+      { "id": "DISTILL", "level": 1 },
+      { "id": "CONTAIN_HOT", "level": 1 }
     ],
-    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
-    "components": [ [ [ "lead", 25 ] ], [ [ "tin", 25 ] ], [ [ "pitch_wood", 1 ] ] ]
+    "components": [
+      [ [ "bismuth", 25 ], [ "lead", 15 ], [ "zinc_metal", 70 ] ],
+      [ [ "tin", 25 ], [ "silver_small", 15 ] ],
+      [ [ "pitch_wood", 1 ] ]
+    ]
   },
   {
     "type": "recipe",

@@ -180,6 +180,7 @@ void generic_game_do_turn( player_activity *act, player *p );
 void churn_do_turn( player_activity *act, player *p );
 void start_fire_do_turn( player_activity *act, player *p );
 void vibe_do_turn( player_activity *act, player *p );
+void train_skill_do_turn( player_activity *act, player *p );
 void hand_crank_do_turn( player_activity *act, player *p );
 void multiple_chop_planks_do_turn( player_activity *act, player *p );
 void wear_do_turn( player_activity *act, player *p );
@@ -262,6 +263,7 @@ void socialize_finish( player_activity *act, player *p );
 void try_sleep_finish( player_activity *act, player *p );
 void operation_finish( player_activity *act, player *p );
 void vibe_finish( player_activity *act, player *p );
+void train_skill_finish( player_activity *act, player *p );
 void hand_crank_finish( player_activity *act, player *p );
 void atm_finish( player_activity *act, player *p );
 void eat_menu_finish( player_activity *act, player *p );
@@ -295,11 +297,12 @@ finish_functions;
 namespace repair_activity_hack
 {
 
-void patch_activity_for_vehicle_welder(
+void patch_activity_for_vehicle(
     player_activity &activity,
     const tripoint &veh_part_position,
     const vehicle &veh,
-    int interact_part_idx
+    int interact_part_idx,
+    const itype_id &it
 );
 void patch_activity_for_furniture( player_activity &activity,
                                    const tripoint &furniture_position,

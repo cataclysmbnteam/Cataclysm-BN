@@ -8,6 +8,7 @@ constexpr int LUA_API_VERSION = 2;
 
 #include "avatar.h"
 #include "catalua_console.h"
+#include "catalua_hooks.h"
 #include "catalua_impl.h"
 #include "catalua_iuse_actor.h"
 #include "catalua_readonly.h"
@@ -206,9 +207,7 @@ void init_global_state_tables( lua_state &state, const std::vector<mod_id> &modl
     gt["iuse_functions"] = lua.create_table();
 
     // hooks
-    hooks["on_game_load"] = lua.create_table();
-    hooks["on_game_save"] = lua.create_table();
-    hooks["on_mapgen_postprocess"] = lua.create_table();
+    cata::define_hooks( state );
 }
 
 void set_mod_being_loaded( lua_state &state, const mod_id &mod )
@@ -264,24 +263,44 @@ void run_mod_main_script( lua_state &state, const mod_id &mod )
     run_lua_script( state.lua, script_path );
 }
 
-template<typename... Args>
-void run_hooks( lua_state &state, std::string_view hooks_table, Args &&...args )
+void run_hooks( std::string_view hook_name )
+{
+    lua_state &state = *DynamicDataLoader::get_instance().lua;
+    run_hooks( state, hook_name, []( sol::table & ) {} );
+}
+void run_hooks( lua_state &state, std::string_view hook_name )
+{
+    run_hooks( state, hook_name, []( sol::table & ) {} );
+}
+void run_hooks( std::string_view hook_name,
+                std::function < auto( sol::table &params ) -> void > init )
+{
+    lua_state &state = *DynamicDataLoader::get_instance().lua;
+    run_hooks( state, hook_name, init );
+}
+void run_hooks( lua_state &state, std::string_view hook_name,
+                std::function < auto( sol::table &params ) -> void > init )
 {
     sol::state &lua = state.lua;
-    sol::table hooks = lua.globals()["game"]["hooks"][hooks_table];
+    sol::table hooks = lua.globals()["game"]["hooks"][hook_name];
+
+    auto params = lua.create_table();
+    init( params );
+
     for( auto &ref : hooks ) {
         int idx = -1;
         try {
             idx = ref.first.as<int>();
             sol::protected_function func = ref.second;
-            sol::protected_function_result res = func( std::forward<Args>( args )... );
+            sol::protected_function_result res = func( params );
             check_func_result( res );
         } catch( std::runtime_error &e ) {
-            debugmsg( "Failed to run hook %s[%d]: %s", hooks_table, idx, e.what() );
+            debugmsg( "Failed to run hook %s[%d]: %s", hook_name, idx, e.what() );
             break;
         }
     }
 }
+
 
 void reg_lua_iuse_actors( lua_state &state, Item_factory &ifactory )
 {
@@ -360,7 +379,11 @@ void run_on_game_load_hooks( lua_state &state )
 void run_on_mapgen_postprocess_hooks( lua_state &state, map &m, const tripoint &p,
                                       const time_point &when )
 {
-    run_hooks( state, "on_mapgen_postprocess", m, p, when );
+    run_hooks( state, "on_mapgen_postprocess", [&]( sol::table & params ) {
+        params["map"] = &m;
+        params["omt"] = p;
+        params["when"] = when;
+    } );
 }
 
 } // namespace cata

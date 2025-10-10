@@ -7,6 +7,12 @@
   },
   {
     "type": "dream",
+    "messages": [ "You have a strange dream about snakes.", "Your dreams give you a strange slithering feeling." ],
+    "category": "SERPENT",
+    "strength": 1
+  },
+  {
+    "type": "dream",
     "messages": [
       "You have a strange dream about being a patient in a frightening hospital.",
       "Your dreams give you an oddly medicated feeling."
@@ -146,6 +152,15 @@
       "While dreaming, you see a distinctively lizard-like reflection of yourself."
     ],
     "category": "LIZARD",
+    "strength": 2
+  },
+  {
+    "type": "dream",
+    "messages": [
+      "You have a disturbing dream of slithering and coiling around a small mammal.",
+      "While dreaming, you see an unblinking serpentine reflection of yourself."
+    ],
+    "category": "SERPENT",
     "strength": 2
   },
   {
@@ -311,6 +326,15 @@
       "You have a disturbingly lifelike dream of living as a lizard."
     ],
     "category": "LIZARD",
+    "strength": 3
+  },
+  {
+    "type": "dream",
+    "messages": [
+      "You have an unsettling dream about living as some sort of snake creature.",
+      "You're unnerved by a dream where your slithering serpentine form seemed unnaturally graceful and lifelike."
+    ],
+    "category": "SERPENT",
     "strength": 3
   },
   {
@@ -488,6 +512,15 @@
     "type": "dream",
     "messages": [ "You are terrified by a dream of becoming an ape hybrid.", "You blissfully recall days spent lounging in the sun." ],
     "category": "LIZARD",
+    "strength": 4
+  },
+  {
+    "type": "dream",
+    "messages": [
+      "You're haunted by a dream of the old days spent stumbling on ape-legs.",
+      "You have a vivid dream of crushing worthy prey in your powerful coils."
+    ],
+    "category": "SERPENT",
     "strength": 4
   },
   {

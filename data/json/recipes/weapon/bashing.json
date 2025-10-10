@@ -35,11 +35,8 @@
     "difficulty": 4,
     "time": "30 m",
     "autolearn": true,
-    "qualities": [ { "id": "DRILL", "level": 1 } ],
-    "tools": [
-      [ [ "brick_kiln", 100 ], [ "kiln", 100 ], [ "surface_heat", 100, "LIST" ] ],
-      [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ]
-    ],
+    "qualities": [ { "id": "DRILL", "level": 1 }, { "id": "CONTAIN_HOT", "level": 1 } ],
+    "tools": [ [ [ "brick_kiln", 100 ], [ "kiln", 100 ], [ "surface_heat", 100, "LIST" ] ] ],
     "components": [ [ [ "shillelagh", 1 ], [ "log", 1 ], [ "2x4", 2 ], [ "stick", 4 ] ], [ [ "weights", 15, "LIST" ] ] ]
   },
   {
@@ -525,7 +522,12 @@
     "components": [
       [ [ "bat", 1 ] ],
       [ [ "nomex", 5 ] ],
-      [ [ "flammable_liquid", 100, "LIST" ], [ "hard_liquor", 6, "LIST" ], [ "pitch_wood", 4 ] ],
+      [
+        [ "flammable_liquid", 100, "LIST" ],
+        [ "disinfectant_makeshift", 4 ],
+        [ "hard_liquor", 6, "LIST" ],
+        [ "pitch_wood", 4 ]
+      ],
       [ [ "rag", 1 ] ]
     ]
   }
