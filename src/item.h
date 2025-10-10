@@ -1051,6 +1051,10 @@ class item : public location_visitable<item>, public game_object<item>
          */
         bool contents_made_of( phase_id phase ) const;
         /**
+         * If contents nonempty, return true if itype phase is same, else false
+         */
+        bool contents_normally_made_of( phase_id phase ) const;
+        /**
          * Are we solid, liquid, gas, plasma?
          */
         bool made_of( phase_id phase ) const;
