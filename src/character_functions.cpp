@@ -815,7 +815,8 @@ bool list_ammo( const Character &who, item &base, std::vector<item_reload_option
         for( item *ammo : find_ammo_items_or_mags( who, *e, include_empty_mags,
                 ammo_search_range ) ) {
             // don't try to unload frozen liquids
-            if( ammo->is_watertight_container() && ammo->contents_made_of( SOLID ) ) {
+            if( ammo->is_watertight_container() && ammo->contents_normally_made_of( LIQUID ) &&
+                ammo->contents_made_of( SOLID ) ) {
                 continue;
             }
             auto id = ( ammo->is_ammo_container() || ammo->is_container() )
@@ -1181,6 +1182,9 @@ void find_ammo_helper( T &src, const item &obj, bool empty, Output out, bool nes
 
                 if( node->is_container() && !node->is_container_empty() &&
                     node->contents.front().typeId() == contents_id ) {
+                    out = node;
+                } else if( !node->is_container() && node->made_of( SOLID ) &&
+                           node->typeId() == contents_id ) {
                     out = node;
                 }
                 return nested ? VisitResponse::NEXT : VisitResponse::SKIP;
