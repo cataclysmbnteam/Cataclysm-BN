@@ -6306,7 +6306,7 @@ void iexamine::cloning_vat_examine( player &p, const tripoint &examp )
             return;
         }
         // Ask using the item's name
-        if( !query_yn( _( "Cancel incubation process? This will kill the specimen inside." ) ) ) {
+        if( !query_yn( _( "Cancel incubation process?  This will kill the specimen inside." ) ) ) {
             return;
         }
 

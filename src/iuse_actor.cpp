@@ -5380,7 +5380,7 @@ int cloning_syringe_iuse::use( player &p, item &it, bool, const tripoint &pos ) 
     m->apply_damage( &p, bodypart_id( "torso" ), 1 );
 
     if( !x_in_y( chance, 100 ) ) {
-        add_msg( m_bad, _( "The %s emits a loud error beep! You failed to gather a sufficient sample." ),
+        add_msg( m_bad, _( "The %s emits a loud error beep!  You failed to gather a sufficient sample." ),
                  it.display_name() );
         sounds::sound( pos, 8, sounds::sound_t::alarm, _( "beep!" ), true, "misc", "beep" );
         // add actual noise here
@@ -5392,7 +5392,7 @@ int cloning_syringe_iuse::use( player &p, item &it, bool, const tripoint &pos ) 
                           m->in_species( species_ZOMBIE ) || m->in_species( species_NETHER ) ||
                           m->in_species( species_SKELETON );
     if( m->has_flag( MF_CANT_CLONE ) || in_bad_species ) {
-        add_msg( m_info, _( "There's not a valid creature there." ) );
+        add_msg( m_info, _( "The %s emits two error beeps.  This creature can't provide a valid sample." ) );
         return 0;
     }
 
@@ -5407,7 +5407,7 @@ int cloning_syringe_iuse::use( player &p, item &it, bool, const tripoint &pos ) 
     const mtype_id &id = m->type->id;
     const std::string id_str = id.str();
 
-    add_msg( m_good, _( "The %s beeps softly. You successfully gathered a sample from the %s!" ),
+    add_msg( m_good, _( "The %s beeps softly.  You successfully gathered a sample from the %s!" ),
              it.display_name(), m->name() );
 
 
@@ -5437,7 +5437,7 @@ int cloning_syringe_iuse::use( player &p, item &it, bool, const tripoint &pos ) 
     }
 
     if( !p.has_amount( itype_usb_drive, 1 ) ) {
-        add_msg( m_bad, "No valid USB drive to store the data on. Discarding..." );
+        add_msg( m_bad, "No valid USB drive to store the data on.  Discarding..." );
         return 0;
     }
 
@@ -5558,7 +5558,7 @@ int dna_editor_iuse::use( player &p, item &it, bool, const tripoint & ) const
             return 0;
         }
 
-        if( !query_yn( _( "This will use up 1 unit of mutagen and 1 unit of biomaterial. Are you sure?" ),
+        if( !query_yn( _( "This will use up 1 unit of mutagen and 1 unit of biomaterial.  Are you sure?" ),
                        selected_drive->display_name() ) ) {
             return 0;
         }
