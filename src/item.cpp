@@ -7489,7 +7489,11 @@ bool item::is_container_full( bool allow_bucket ) const
     if( is_container_empty() ) {
         return false;
     }
-    return get_remaining_capacity_for_liquid( contents.front(), allow_bucket ) == 0;
+    if( is_watertight_container() ) {
+        return get_remaining_capacity_for_liquid( contents.front(), allow_bucket ) == 0;
+    } else {
+        return contents.front().charges_per_volume( get_container_capacity() ) - ammo_remaining();
+    }
 }
 
 bool item::can_unload_liquid() const
@@ -10735,7 +10739,9 @@ bool item::is_reloadable() const
         return true;
 
     } else if( is_container() ) {
-        return true;
+        // TODO: Make buckets actually reloadable using reload menu
+        // This would be done via locking this off by weather or not it was wielded or on dirt most likely
+        return type->container->seals;
 
     } else if( !is_gun() && !is_tool() && !is_magazine() ) {
         return false;
