@@ -157,7 +157,7 @@
     "id": "cloning_vat",
     "name": { "str": "cloning vat" },
     "looks_like": "t_vat",
-    "description": "A vessel designed to grow and sustain living beings.",
+    "description": "A vessel designed to grow and sustain living beings.  If constructed and provided with sufficient power, it can take a sterile artificial womb and a DNA sample and create a viable clone.",
     "weight": "200 kg",
     "to_hit": -8,
     "color": "light_blue",

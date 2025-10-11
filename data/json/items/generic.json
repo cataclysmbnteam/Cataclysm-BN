@@ -551,7 +551,7 @@
     "symbol": ",",
     "color": "white",
     "name": { "str": "genome drive" },
-    "description": "A USB thumb drive repurposed to store genetic information, labeled with tape.",
+    "description": "A USB thumb drive labeled with tape.  Stores genetic information that can be used in a genome workstation, to create DNA samples for cloning.",
     "price": "100 USD",
     "price_postapoc": "10 cent",
     "material": "plastic",
