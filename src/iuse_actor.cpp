@@ -25,6 +25,7 @@
 #include "avatar_functions.h"
 #include "bionics.h"
 #include "bodypart.h"
+#include "cached_options.h"
 #include "calendar.h"
 #include "cata_utility.h"
 #include "character.h"
@@ -5486,14 +5487,15 @@ int dna_editor_iuse::use( player &p, item &it, bool, const tripoint & ) const
     uilist specimen_menu;
     specimen_menu.text = _( "Select specimen sample:" );
     for( size_t z = 0; z < genome_drives.size(); z++ ) {
-        if( genome_drives[z]->get_var( "specimen_sample_progress",
-                                       0 ) >= genome_drives[z]->get_var( "specimen_size", 0 ) ) {
+        const int progress = genome_drives[z]->get_var( "specimen_sample_progress", 0 );
+        const int size = genome_drives[z]->get_var( "specimen_size", 0 );
+        if( progress >= size ) {
             specimen_menu.addentry( z, true, MENU_AUTOASSIGN, string_format( "%s",
                                     genome_drives[z]->display_name() ) );
         }
     }
     specimen_menu.query();
-    int choice = specimen_menu.ret;
+    const int choice = specimen_menu.ret;
     if( choice < 0 ) {
         return 0;
     }
@@ -5505,7 +5507,7 @@ int dna_editor_iuse::use( player &p, item &it, bool, const tripoint & ) const
     menu.addentry( 0, true, 'e', "Examine sample" );
     menu.addentry( 1, p.has_charges( itype_mutagen, 1 ) &&
                    p.has_charges( itype_biomaterial, 1 ), 'i', "Research upgrade" );
-    menu.addentry( 2, true, 'c', "Clone drive" );
+    menu.addentry( 2, p.has_charges( itype_usb_drive, 1 ), 'c', "Clone drive" );
     menu.addentry( 3, p.has_charges( itype_biomaterial, 1 ), 'p', "Produce DNA" );
     menu.query();
     if( menu.ret < 0 ) {
@@ -5514,11 +5516,11 @@ int dna_editor_iuse::use( player &p, item &it, bool, const tripoint & ) const
 
     if( menu.ret == 0 ) {
         // grab the monsters data from a fake copy
-        shared_ptr_fast<monster> newmon_ptr = make_shared_fast<monster>
-                                              ( mtype_id( selected_drive->get_var( "specimen_sample" ) ) );
-        monster &newmon = *newmon_ptr;
+        const shared_ptr_fast<monster> newmon_ptr = make_shared_fast<monster>
+                ( mtype_id( selected_drive->get_var( "specimen_sample" ) ) );
+        const monster &newmon = *newmon_ptr;
 
-        int size_class = selected_drive->get_var( "specimen_size", 0 );
+        const int size_class = selected_drive->get_var( "specimen_size", 0 );
 
         static const char *creature_size_strings[] = {
             "TINY",
@@ -5544,12 +5546,12 @@ int dna_editor_iuse::use( player &p, item &it, bool, const tripoint & ) const
 
         return 0;
     } else if( menu.ret == 1 ) {
-        mtype_id id( selected_drive->get_var( "specimen_sample" ) );
+        const mtype_id id( selected_drive->get_var( "specimen_sample" ) );
         const mtype &type = id.obj();
 
         mongroup_id upgrade_group = mongroup_id::NULL_ID();
         upgrade_group = type.upgrade_group;
-        auto mons = upgrade_group.obj().monsters;
+        const auto mons = upgrade_group.obj().monsters;
 
         if( mons.empty() ) {
             popup( "A message pops up on the genome editor indicating there are no further mutations possible for this sample." );
@@ -5561,7 +5563,6 @@ int dna_editor_iuse::use( player &p, item &it, bool, const tripoint & ) const
             return 0;
         }
 
-        // calculate weights and pick random
         int total_freq = 0;
         for( const MonsterGroupEntry &entry : mons ) {
             total_freq += entry.frequency;
@@ -5579,9 +5580,9 @@ int dna_editor_iuse::use( player &p, item &it, bool, const tripoint & ) const
             return 0;
         }
 
-        shared_ptr_fast<monster> newmon_ptr = make_shared_fast<monster>
-                                              ( mtype_id( chosen->name.str() ) );
-        monster &newmon = *newmon_ptr;
+        const shared_ptr_fast<monster> newmon_ptr = make_shared_fast<monster>
+                ( mtype_id( chosen->name.str() ) );
+        const monster &newmon = *newmon_ptr;
 
         p.use_charges( itype_mutagen, 1 );
         p.use_charges( itype_biomaterial, 1 );
@@ -5601,6 +5602,7 @@ int dna_editor_iuse::use( player &p, item &it, bool, const tripoint & ) const
         add_msg( "You clone a copy of the drive onto another USB." );
         p.use_amount( itype_usb_drive, 1 );
         detached_ptr<item> drive_copy = item::spawn( itype_genome_drive, calendar::turn );
+
         drive_copy->set_var( "specimen_sample", selected_drive->get_var( "specimen_sample" ) );
         drive_copy->set_var( "specimen_sample_progress",
                              selected_drive->get_var( "specimen_sample_progress" ) );
@@ -5610,16 +5612,17 @@ int dna_editor_iuse::use( player &p, item &it, bool, const tripoint & ) const
         p.i_add( std::move( drive_copy ) );
     } else if( menu.ret == 3 ) {
         p.use_charges( itype_biomaterial, 1 );
-        std::string msg = string_format( _( "You produce a unit of %s DNA." ),
-                                         selected_drive->get_var( "specimen_name" ) );
+        const std::string msg = string_format( _( "You produce a unit of %s DNA." ),
+                                               selected_drive->get_var( "specimen_name" ) );
         add_msg( msg );
 
         detached_ptr<item> dna = item::spawn( itype_id( "dna" ), calendar::turn, 1 );
+
         dna->set_var( "specimen_sample", selected_drive->get_var( "specimen_sample" ) );
         dna->set_var( "specimen_size", selected_drive->get_var( "specimen_size" ) );
         dna->set_var( "specimen_name", selected_drive->get_var( "specimen_name" ) );
 
-        liquid_handler::handle_all_liquid( std::move( dna ), 1 );
+        liquid_handler::handle_all_liquid( std::move( dna ), PICKUP_RANGE );
     }
 
     return charges_to_use;

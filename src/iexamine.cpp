@@ -25,6 +25,7 @@
 #include "avatar_functions.h"
 #include "bionics.h"
 #include "bodypart.h"
+#include "cached_options.h"
 #include "calendar.h"
 #include "cata_unreachable.h"
 #include "cata_utility.h"
@@ -386,7 +387,7 @@ void iexamine::nanofab( player &p, const tripoint &examp )
 
     // we're sticking an item from our inventory under the nanofabrication dispenser
     if( new_item->made_of( LIQUID ) ) {
-        liquid_handler::handle_liquid( std::move( new_item ) );  // let it own the pointer
+        liquid_handler::handle_all_liquid( std::move( new_item ), PICKUP_RANGE );  // let it own the pointer
         return;
     }
 
@@ -5629,12 +5630,12 @@ static void cloning_vat_activate( player &p, const tripoint &examp )
 {
     map &here = get_map();
     // 86400 = 1 day, so this is 12 hrs per size increment
-    int turns_to_clone = 43200;
+    const int turns_to_clone = 43200;
 
     // filter out faulty carriers
     auto carriers = p.wielded_items();
     for( size_t i = 0; i < carriers.size(); ) {
-        item *carrier = carriers[i];  // already a pointer
+        item *const carrier = carriers[i];  // already a pointer
         if( carrier->has_fault( fault_id( "fault_bionic_nonsterile" ) ) ||
             carrier->typeId() != itype_embryo_empty ) {
             carriers.erase( carriers.begin() + i ); // erase by iterator
@@ -5661,15 +5662,15 @@ static void cloning_vat_activate( player &p, const tripoint &examp )
     uilist specimen_menu;
     specimen_menu.text = _( "Select specimen sample:" );
     for( size_t z = 0; z < syringes.size(); z++ ) {
-        shared_ptr_fast<monster> newmon_ptr = make_shared_fast<monster>
-                                              ( mtype_id( syringes[z]->get_var( "specimen_sample" ) ) );
+        const shared_ptr_fast<monster> newmon_ptr = make_shared_fast<monster>
+                ( mtype_id( syringes[z]->get_var( "specimen_sample" ) ) );
         specimen_menu.addentry( z, true, MENU_AUTOASSIGN, string_format( "%s [%s]",
                                 syringes[z]->display_name(),
                                 to_string( time_duration::from_turns( turns_to_clone * ( syringes[z]->get_var( "specimen_size",
                                            1 ) + 1 ) ) ) ) );
     }
     specimen_menu.query();
-    int choice = specimen_menu.ret;
+    const int choice = specimen_menu.ret;
     if( choice < 0 ) {
         return;
     }
@@ -5706,12 +5707,12 @@ static void cloning_vat_activate( player &p, const tripoint &examp )
 
             // cloning vat random upgrade logic
             if( rng( 1, 100 ) < 90 ) {
-                mtype_id id( selected_syringe->get_var( "specimen_sample" ) );
+                const mtype_id id( selected_syringe->get_var( "specimen_sample" ) );
                 const mtype &type = id.obj();
 
                 mongroup_id upgrade_group = mongroup_id::NULL_ID();
                 upgrade_group = type.upgrade_group;
-                auto mons = upgrade_group.obj().monsters;
+                const auto mons = upgrade_group.obj().monsters;
 
                 if( !mons.empty() ) {
                     // calculate total weight (sum of frequencies), pick random, then iterate until we find it
@@ -5728,8 +5729,8 @@ static void cloning_vat_activate( player &p, const tripoint &examp )
                             break;
                         }
                     }
-                    shared_ptr_fast<monster> newmon_ptr = make_shared_fast<monster>
-                                                          ( mtype_id( chosen->name.str() ) );
+                    const shared_ptr_fast<monster> newmon_ptr = make_shared_fast<monster>
+                            ( mtype_id( chosen->name.str() ) );
                     monster &newmon = *newmon_ptr;
 
                     if( chosen ) {
@@ -5910,7 +5911,6 @@ void iexamine::mill_finalize( player &, const tripoint &examp, const time_point 
     here.furn_set( examp, next_mill_type );
 }
 
-
 void iexamine::cloning_vat_finalize( const tripoint &examp, const time_point & )
 {
     // grab items in the vat
@@ -5929,7 +5929,7 @@ void iexamine::cloning_vat_finalize( const tripoint &examp, const time_point & )
 
     // cloning vat failure: choose random garbage item and faulty womb
     if( rng( 1, 100 ) < 10 ) {
-        std::vector<itype_id> item_results{ itype_id( "arm" ), itype_id( "leg" ), itype_id( "fetus" ) };
+        const std::vector<itype_id> item_results{ itype_id( "arm" ), itype_id( "leg" ), itype_id( "fetus" ) };
         const itype_id &chosen_id = random_entry( item_results );
         detached_ptr<item> spawned_womb = item::spawn( itype_embryo_empty, calendar::turn );
         spawned_womb->faults.emplace( fault_id( "fault_bionic_nonsterile" ) );
@@ -6295,8 +6295,8 @@ void iexamine::cloning_vat_examine( player &p, const tripoint &examp )
             return;
         }
 
-        std::string prompt = string_format( _( "Cancel incubation (%s left)" ),
-                                            to_string( time_duration::from_turns( ( *items_here.begin() )->item_counter ) ) );
+        const std::string prompt = string_format( _( "Cancel incubation (%s left)" ),
+                                   to_string( time_duration::from_turns( ( *items_here.begin() )->item_counter ) ) );
 
         uilist menu;
         menu.text = "What to do with the active cloning vat?";
@@ -6317,7 +6317,7 @@ void iexamine::cloning_vat_examine( player &p, const tripoint &examp )
         }
 
         // cloning vat failure
-        std::vector<itype_id> item_results{ itype_id( "arm" ), itype_id( "leg" ), itype_id( "fetus" ) };
+        const std::vector<itype_id> item_results{ itype_id( "arm" ), itype_id( "leg" ), itype_id( "fetus" ) };
         const itype_id &chosen_id = random_entry( item_results );
         detached_ptr<item> spawned_remains = item::spawn( chosen_id, calendar::turn, 1 );
         detached_ptr<item> spawned_womb = item::spawn( itype_embryo_empty, calendar::turn, 1 );
