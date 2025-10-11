@@ -909,7 +909,8 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
             map_stack stack = here.i_at( p );
             for( auto it = stack.begin(); it != stack.end(); it++ ) {
                 if( ( *it )->weight() < weight_cap &&
-                    ( *it )->made_of_any( affected_materials ) ) {
+                    ( *it )->made_of_any( affected_materials ) &&
+                    !( *it )->has_flag( flag_INVISIBLE ) ) {
                     detached_ptr<item> obj;
                     stack.erase( it, &obj );
 

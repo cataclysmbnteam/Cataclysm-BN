@@ -1,8 +1,9 @@
 #include "item_hauling.h"
+#include "flag.h"
 
 bool is_haulable( const item &item )
 {
-    return !item.made_of( phase_id::LIQUID );
+    return !item.made_of( phase_id::LIQUID ) && !item.has_flag( flag_INVISIBLE );
 }
 
 bool has_haulable_items( const tripoint &pos )

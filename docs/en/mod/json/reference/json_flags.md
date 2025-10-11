@@ -1088,6 +1088,7 @@ Multiple death functions can be used. Not all combinations make sense.
   that mechs can.
 - `CONSOLE_DESPAWN` Despawns when a nearby console is properly hacked.
 - `IMMOBILE` Doesn't move (e.g. turrets)
+- `INVISIBLE` When on the ground cannot be seen nor interacted with
 - `ID_CARD_DESPAWN` Despawns when a science ID card is used on a nearby console
 - `INTERIOR_AMMO` Monster contains ammo inside itself, no need to load on launch. Prevents ammo from
   being dropped on disable.

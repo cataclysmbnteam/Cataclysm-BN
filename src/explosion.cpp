@@ -814,7 +814,8 @@ void ExplosionProcess::blast_tile( const tripoint position, const int rl_distanc
         // Now give items velocity
         for( auto &it : here.i_at( position ) ) {
             // If the item is already propelled, ignore it
-            if( it->has_flag( flag_EXPLOSION_PROPELLED ) ) {
+            // Or if the type has the flag
+            if( it->has_flag( flag_EXPLOSION_PROPELLED ) || it->type->has_flag( flag_INVISIBLE ) ) {
                 continue;
             };
 
@@ -837,6 +838,10 @@ void ExplosionProcess::blast_tile( const tripoint position, const int rl_distanc
 
             it->set_flag( flag_EXPLOSION_PROPELLED );
 
+            // If it temporarily has the invisible flag reveal it when it is blown up
+            if( it->has_flag( flag_INVISIBLE ) ) {
+                it->unset_flag( flag_INVISIBLE );
+            }
             add_event(
                 one_tile_at_vel( velocity ),
                 ExplosionEvent::item_movement(

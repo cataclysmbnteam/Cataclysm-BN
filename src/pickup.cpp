@@ -25,6 +25,7 @@
 #include "drop_token.h"
 #include "enums.h"
 #include "faction.h"
+#include "flag.h"
 #include "game.h"
 #include "input.h"
 #include "int_id.h"
@@ -34,6 +35,7 @@
 #include "item_stack.h"
 #include "json.h"
 #include "line.h"
+#include "location_vector.h"
 #include "make_static.h"
 #include "map.h"
 #include "map_selector.h"
@@ -627,18 +629,27 @@ void pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
 
     // which items are we grabbing?
     std::vector<item_stack::iterator> here;
+    bool added = false;
     if( from_vehicle ) {
         vehicle_stack vehitems = veh->get_items( cargo_part );
         for( item_stack::iterator it = vehitems.begin(); it != vehitems.end(); ++it ) {
-            here.push_back( it );
+            if( !( *it )->has_flag( flag_INVISIBLE ) ) {
+                added = true;
+                here.push_back( it );
+            }
         }
     } else {
         map_stack mapitems = g->m.i_at( p );
         for( item_stack::iterator it = mapitems.begin(); it != mapitems.end(); ++it ) {
-            here.push_back( it );
+            if( !( *it )->has_flag( flag_INVISIBLE ) ) {
+                added = true;
+                here.push_back( it );
+            }
         }
     }
-
+    if( !added ) {
+        return;
+    }
     if( min == -1 ) {
         // Recursively pick up adjacent items if that option is on.
         if( get_option<bool>( "AUTO_PICKUP_ADJACENT" ) && g->u.pos() == p ) {

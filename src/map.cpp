@@ -4412,6 +4412,22 @@ map_stack map::i_at( const tripoint &p )
     return map_stack{ &current_submap->get_items( l ), p, this };
 }
 
+bool map::has_visible_item( const tripoint &p ) const
+{
+    if( !inbounds( p ) ) {
+        return false;
+    }
+
+    point l;
+    submap *const current_submap = get_submap_at( p, l );
+    for( item *i : current_submap->get_items( l ) ) {
+        if( !i->has_flag( flag_INVISIBLE ) ) {
+            return true;
+        }
+    }
+    return false;
+}
+
 map_stack::iterator map::i_rem( const tripoint &p, map_stack::const_iterator it,
                                 detached_ptr<item>  *out )
 {
@@ -5088,6 +5104,9 @@ bool map::could_see_items( const tripoint &p, const tripoint &from ) const
     const bool sealed = has_flag_ter_or_furn( TFLAG_SEALED, p );
     if( sealed && container ) {
         // never see inside of sealed containers
+        return false;
+    }
+    if( !has_visible_item( p ) ) {
         return false;
     }
     if( container ) {
