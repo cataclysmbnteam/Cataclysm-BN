@@ -41,13 +41,11 @@
   {
     "type": "item_group",
     "id": "crt_food",
-    "items": [ {
-      "distribution": [
-        { "item": "crt_canteen", "prob": 40 },
-        { "item": "crt_mess_kit", "prob": 40 },
-        { "item": "crt_med_kit", "prob": 20}
-      ]
-    } ]
+    "items": [
+      {
+        "distribution": [ { "item": "crt_canteen", "prob": 40 }, { "item": "crt_mess_kit", "prob": 40 }, { "item": "crt_med_kit", "prob": 20 } ]
+      }
+    ]
   },
   {
     "type": "item_group",
@@ -226,7 +224,14 @@
   {
     "type": "item_group",
     "id": "camping",
-    "items": [ [ "crt_pellet", 4 ], [ "crt_dhp_pellet", 2 ], [ "crt_hp_pellet", 1 ], [ "crt_alloy_pellet", 1 ], [ "crt_pelletgun", 10 ], [ "crt_pelletsniper", 2 ] ]
+    "items": [
+      [ "crt_pellet", 4 ],
+      [ "crt_dhp_pellet", 2 ],
+      [ "crt_hp_pellet", 1 ],
+      [ "crt_alloy_pellet", 1 ],
+      [ "crt_pelletgun", 10 ],
+      [ "crt_pelletsniper", 2 ]
+    ]
   },
   {
     "type": "item_group",
@@ -244,6 +249,13 @@
   {
     "type": "item_group",
     "id": "lab_dorm",
-    "items": [ [ "crt_pellet", 4 ], [ "crt_dhp_pellet", 2 ], [ "crt_hp_pellet", 1 ], [ "crt_alloy_pellet", 1 ], [ "crt_pelletgun", 10 ], [ "crt_pelletsniper", 10 ] ]
+    "items": [
+      [ "crt_pellet", 4 ],
+      [ "crt_dhp_pellet", 2 ],
+      [ "crt_hp_pellet", 1 ],
+      [ "crt_alloy_pellet", 1 ],
+      [ "crt_pelletgun", 10 ],
+      [ "crt_pelletsniper", 10 ]
+    ]
   }
 ]
