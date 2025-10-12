@@ -181,10 +181,10 @@
     "type": "item_group",
     "id": "ammo_rifle_rare",
     "items": [
-      { "item": "pellet", "prob": 25 },
-      { "item": "dhp_pellet", "prob": 10 },
-      { "item": "hp_pellet", "prob": 10 },
-      { "item": "alloy_pellet", "prob": 5 }
+      { "item": "crt_pellet", "prob": 25 },
+      { "item": "crt_dhp_pellet", "prob": 10 },
+      { "item": "crt_hp_pellet", "prob": 10 },
+      { "item": "crt_alloy_pellet", "prob": 5 }
     ]
   },
   {
@@ -217,23 +217,23 @@
   {
     "type": "item_group",
     "id": "camping",
-    "items": [ [ "pellet", 4 ], [ "dhp_pellet", 2 ], [ "hp_pellet", 1 ], [ "alloy_pellet", 1 ], [ "pelletgun", 10 ] ]
+    "items": [ [ "crt_pellet", 4 ], [ "crt_dhp_pellet", 2 ], [ "crt_hp_pellet", 1 ], [ "crt_alloy_pellet", 1 ], [ "pelletgun", 10 ] ]
   },
   {
     "type": "item_group",
     "id": "bedroom",
     "subtype": "distribution",
     "entries": [
-      { "item": "pellet", "prob": 4 },
-      { "item": "dhp_pellet", "prob": 2 },
-      { "item": "hp_pellet", "prob": 1 },
-      { "item": "alloy_pellet", "prob": 1 },
+      { "item": "crt_pellet", "prob": 4 },
+      { "item": "crt_dhp_pellet", "prob": 2 },
+      { "item": "crt_hp_pellet", "prob": 1 },
+      { "item": "crt_alloy_pellet", "prob": 1 },
       { "item": "pelletgun", "prob": 10 }
     ]
   },
   {
     "type": "item_group",
     "id": "lab_dorm",
-    "items": [ [ "pellet", 4 ], [ "dhp_pellet", 2 ], [ "hp_pellet", 1 ], [ "alloy_pellet", 1 ], [ "pelletgun", 10 ] ]
+    "items": [ [ "crt_pellet", 4 ], [ "crt_dhp_pellet", 2 ], [ "crt_hp_pellet", 1 ], [ "crt_alloy_pellet", 1 ], [ "pelletgun", 10 ] ]
   }
 ]

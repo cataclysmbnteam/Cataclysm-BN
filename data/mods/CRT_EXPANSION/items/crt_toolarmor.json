@@ -313,7 +313,8 @@
     "material": [ "leather", "kevlar", "glass" ],
     "max_charges": 1000,
     "initial_charges": 1000,
-    "flags": [ "BELTED", "STURDY", "WATERPROOF", "IS_UPS", "ALLOWS_WINGS" ],
+    "ammo": "battery",
+    "flags": [ "BELTED", "STURDY", "WATERPROOF", "IS_UPS", "ALLOWS_WINGS", "RECHARGE" ],
     "relic_data": {
       "recharge_scheme": [
         {

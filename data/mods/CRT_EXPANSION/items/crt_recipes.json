@@ -39,8 +39,7 @@
     "difficulty": 4,
     "autolearn": true,
     "skills_required": [ "electronics", 5 ],
-    "time": "1 hr",
-    "charges": 1,
+    "time": "1 h",
     "components": [
       [ [ "lens", 2 ] ],
       [ [ "crt_laser_pistol_brk", 1 ] ]
