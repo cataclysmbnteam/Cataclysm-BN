@@ -10946,7 +10946,7 @@ std::optional<tripoint> game::find_or_make_stairs( map &mp, const int z_after, b
             return std::nullopt;
         }
     } else if( !can_fly ) {
-        if( query_yn( _( "There is a sheer drop halfway down.  Jump?" ) ) ) {
+        if( !query_yn( _( "There is a sheer drop halfway down.  Jump?" ) ) ) {
             return std::nullopt;
         }
     }
