@@ -26,6 +26,7 @@
           "crt_gloves",
           "crt_gloves_liner",
           "crt_canteen",
+          "crt_med_kit",
           "crt_legrig",
           "socks",
           "crt_la_boots"
@@ -64,6 +65,7 @@
           "gloves_tactical",
           "crt_gloves_liner",
           "crt_canteen",
+          "crt_med_kit",
           "crt_legrig",
           "socks",
           "mre_veggy_box",
