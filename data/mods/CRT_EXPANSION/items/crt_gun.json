@@ -1,5 +1,38 @@
 [
   {
+    "id": "crt_laser_pistol_brk",
+    "name": "Broken C.R.I.T. .5 LP",
+    "description": "Experimental low power sidearm under development in C.R.I.T. R&D, the .5 LP is a relatively weak but accurate laser pistol.  The double-barrel design compensates for the lack of raw power and yet the gun manages to be relatively easy to aim and lightweight due to the superalloy construction. It was broken during heavy use while escaping the apocalypse, perhaps you could repair it",
+    "weight": "650 g",
+    "volume": "750 ml",
+    "price": "10 kUSD",
+    "to_hit": -2,
+    "bashing": 3,
+    "material": [ "superalloy", "plastic" ],
+    "symbol": "(",
+    "color": "red",
+    "range": 5,
+    "ranged_damage": { "damage_type": "heat", "amount": 2, "armor_penetration": 5 },
+    "dispersion": 600,
+    "durability": 4,
+    "loudness": 28,
+    "ups_charges": 24,
+    "reload": 440,
+    "modes": [ [ "DEFAULT", "double", 2 ] ],
+    "valid_mod_locations": [
+      [ "accessories", 1 ],
+      [ "emitter", 1 ],
+      [ "grip", 1 ],
+      [ "lens", 1 ],
+      [ "rail", 1 ],
+      [ "sights", 1 ],
+      [ "stock", 1 ],
+      [ "underbarrel", 1 ]
+    ],
+    "ammo_effects": [ "LASER", "INCENDIARY" ],
+    "flags": [ "NEVER_JAMS", "NO_UNLOAD", "NON_FOULING" ]
+  },
+  {
     "id": "crt_laser_pistol",
     "type": "GUN",
     "copy-from": "pistol_energy",

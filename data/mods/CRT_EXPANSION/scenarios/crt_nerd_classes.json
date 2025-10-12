@@ -5,7 +5,7 @@
     "id": "crt_tech",
     "name": "C.R.I.T. Technician",
     "description": "You were the team's electronics nerd.  A technician trained to operate all the new laser equipment.  You were left behind by you team as repaired a turret. Forced to flee, will you have what it takes to survive or will you join the horde to haunt them for their cardinal sin?",
-    "points": 8,
+    "points": 4,
     "traits": [ "MARTIAL_CRT", "PROF_MILITARY" ],
     "skills": [
       { "level": 1, "name": "gun" },
@@ -32,7 +32,7 @@
         ],
         "entries": [
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
-          { "item": "crt_solarpack", "contents-item": [ "crt_laser_pistol", "knife_crt" ] },
+          { "item": "crt_solarpack", "contents-item": [ "crt_laser_pistol_brk", "knife_crt" ] },
           { "item": "sleeping_bag_roll", "custom-flags": [ "no_auto_equip" ] }
         ]
       },
@@ -45,7 +45,7 @@
     "id": "crt_medic",
     "name": "C.R.I.T. Combat Medic",
     "description": "You were the team nerd.  A combat medic taught on how to engage strange anomalies.  However, your main focus was  keeping your squadmates in one piece.  For weeks, you slogged through hell and back and ensured that everyone made it.  Caught in between a tide of the undead and the crossfire of apparently rogue government robots, you were left stranded as a distraction.  Forced to flee, will you have what it takes to survive or will you join the horde to haunt them for their cardinal sin?",
-    "points": 8,
+    "points": 4,
     "traits": [ "MARTIAL_CRT", "PROF_MILITARY" ],
     "skills": [
       { "level": 1, "name": "gun" },
@@ -75,7 +75,7 @@
         "entries": [
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "sleeping_bag_roll", "custom-flags": [ "no_auto_equip" ] },
-          { "item": "crt_solarpack", "contents-item": [ "crt_laser_pistol", "knife_crt" ] }
+          { "item": "crt_solarpack", "contents-item": [ "crt_laser_pistol_brk", "knife_crt" ] }
         ]
       },
       "male": [ "boxer_shorts" ],
