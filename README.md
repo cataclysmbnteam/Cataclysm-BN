@@ -26,7 +26,7 @@ who want what you have.
 Find a way to stop the Cataclysm ... or become one of its strongest monsters.
 
 > Cataclysm: Bright Nights is a fork of Cataclysm: Dark Days Ahead.
-> [see the differences from its ancestor.](https://docs.cataclysmbn.org/en/game/changelog/).
+> [see the differences from its ancestor.](https://docs.cataclysmbn.org/game/changelog/).
 
 ## Downloads
 
