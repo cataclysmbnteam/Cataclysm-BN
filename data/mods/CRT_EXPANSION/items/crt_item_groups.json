@@ -41,7 +41,13 @@
   {
     "type": "item_group",
     "id": "crt_food",
-    "items": [ { "distribution": [ { "item": "crt_canteen", "prob": 50 }, { "item": "crt_mess_kit", "prob": 50 } ] } ]
+    "items": [ {
+      "distribution": [
+        { "item": "crt_canteen", "prob": 40 },
+        { "item": "crt_mess_kit", "prob": 40 },
+        { "item": "crt_med_kit", "prob": 20}
+      ]
+    } ]
   },
   {
     "type": "item_group",
@@ -215,7 +221,7 @@
   {
     "type": "item_group",
     "id": "mil_accessories",
-    "items": [ [ "crt_mess_kit", 10 ], [ "crt_etool", 15 ], [ "crt_canteen", 10 ], [ "crt_gasmask", 10 ] ]
+    "items": [ [ "crt_mess_kit", 10 ], [ "crt_etool", 15 ], [ "crt_canteen", 10 ], [ "crt_med_kit", 5 ], [ "crt_gasmask", 10 ] ]
   },
   {
     "type": "item_group",
