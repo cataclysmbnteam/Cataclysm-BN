@@ -125,7 +125,17 @@ No constructors.
 
 ### Members
 
-No members.
+#### get_active_missions
+
+Function `( Avatar ) -> Vector( Mission )`
+
+#### get_completed_missions
+
+Function `( Avatar ) -> Vector( Mission )`
+
+#### get_failed_missions
+
+Function `( Avatar ) -> Vector( Mission )`
 
 ## BionicDataId
 
@@ -3457,6 +3467,286 @@ Function `( MaterialTypeRaw ) -> MaterialTypeId`
 
 Function `( MaterialTypeRaw ) -> string`
 
+## Mission
+
+### Bases
+
+No base classes.
+
+### Constructors
+
+#### `Mission.new()`
+
+### Members
+
+#### name
+
+Returns the mission's name as a string.
+Function `( Mission ) -> string`
+
+#### mission_id
+
+Returns the mission type ID of this mission.
+Function `( Mission ) -> MissionTypeIdRaw`
+
+#### has_deadline
+
+Returns true if the mission has a deadline.
+Function `( Mission ) -> bool`
+
+#### get_deadline
+
+Returns the mission's deadline as a time_point.
+Function `( Mission ) -> TimePoint`
+
+#### get_description
+
+Returns the mission description.
+Function `( Mission ) -> string`
+
+#### has_target
+
+Returns true if the mission has a target.
+Function `( Mission ) -> bool`
+
+#### get_target_point
+
+Returns the target of the mission (pointer to tripoint_abs_omt).
+Function `( Mission ) -> Tripoint`
+
+#### get_type
+
+Returns the mission type of the target (pointer to mission_type).
+Function `( Mission ) -> MissionType`
+
+#### has_follow_up
+
+Returns true if the mission has a follow-up mission.
+Function `( Mission ) -> bool`
+
+#### get_follow_up
+
+Returns the follow-up mission type ID.
+Function `( Mission ) -> MissionTypeIdRaw`
+
+#### get_value
+
+Returns the mission's value as an integer.
+Function `( Mission ) -> int`
+
+#### get_id
+
+Returns the mission's unique ID.
+Function `( Mission ) -> int`
+
+#### get_item_id
+
+Returns the item ID associated with the mission.
+Function `( Mission ) -> ItypeId`
+
+#### get_npc_id
+
+Returns the NPC character ID associated with the mission.
+Function `( Mission ) -> CharacterId`
+
+#### get_likely_rewards
+
+Returns the likely rewards of the mission (vector of (int chance, itype_id) pairs).
+Function `( Mission ) -> <cppval: St6vectorISt4pairIi9string_idI5itypeEESaIS4_EE >`
+
+#### has_generic_rewards
+
+Returns true if the mission has generic rewards.
+Function `( Mission ) -> bool`
+
+#### is_assigned
+
+Returns true if the mission is currently assigned.
+Function `( Mission ) -> bool`
+
+#### fail
+
+Fails the mission.
+Function `( Mission )`
+
+#### wrap_up
+
+Wraps up the mission successfully.
+Function `( Mission )`
+
+#### has_failed
+
+Returns true if the mission has failed.
+Function `( Mission ) -> bool`
+
+#### in_progress
+
+Returns true if the mission is currently in progress.
+Function `( Mission ) -> bool`
+
+#### step_complete
+
+Marks a mission step as complete, taking an integer step index.
+Function `( Mission, int )`
+
+#### assign
+
+Assigns this mission to the given avatar.
+Function `( Mission, Avatar )`
+
+#### reserve_new
+
+Reserves a new mission of the given type for the specified NPC. Returns the new mission.
+Function `( MissionTypeIdRaw, CharacterId ) -> Mission`
+
+#### reserve_random
+
+Reserves a random mission at the specified origin and position for the given NPC. Returns the new mission.
+Function `( MissionOrigin, Tripoint, CharacterId ) -> Mission`
+
+#### serialize
+
+Function `( Mission, <cppval: 7JsonOut > )`
+
+#### deserialize
+
+Function `( Mission, <cppval: 6JsonIn > )`
+
+## MissionType
+
+### Bases
+
+No base classes.
+
+### Constructors
+
+#### `MissionType.new()`
+
+### Members
+
+#### description
+
+Returns the mission's description as a string.
+Variable of type `<cppval: 11translation >`
+
+#### goal
+
+Returns the mission's goal text.
+Variable of type `MissionGoal`
+
+#### difficulty
+
+Returns the mission's difficulty as an integer.
+Variable of type `int`
+
+#### value
+
+Returns the mission's reward value as an integer.
+Variable of type `int`
+
+#### deadline_low
+
+Returns the minimum allowed deadline for the mission.
+Variable of type `TimeDuration`
+
+#### deadline_high
+
+Returns the maximum allowed deadline for the mission.
+Variable of type `TimeDuration`
+
+#### urgent
+
+Returns true if the mission is marked as urgent.
+Variable of type `bool`
+
+#### has_generic_rewards
+
+Returns true if the mission has generic rewards.
+Variable of type `bool`
+
+#### likely_rewards
+
+Returns a vector of likely rewards (chance, itype_id pairs).
+Variable of type `Vector( <cppval: St4pairIi9string_idI5itypeEE > )`
+
+#### origins
+
+Returns a list of origins from which this mission can be generated.
+Variable of type `Vector( MissionOrigin )`
+
+#### item_id
+
+Returns the ID of the mission's main item target, if applicable.
+Variable of type `ItypeId`
+
+#### remove_container
+
+Returns true if the mission requires removing a container.
+Variable of type `bool`
+
+#### empty_container
+
+Returns true if the mission requires the container to be empty.
+Variable of type `ItypeId`
+
+#### item_count
+
+Returns the count of items involved in the mission.
+Variable of type `int`
+
+#### target_npc_id
+
+Returns the ID of the target NPC for the mission, if any.
+Variable of type `CharacterId`
+
+#### monster_type
+
+Returns the monster type associated with the mission, if any.
+Variable of type `MtypeId`
+
+#### monster_kill_goal
+
+Returns the number of monsters required to kill for this mission.
+Variable of type `int`
+
+#### follow_up
+
+Returns any follow-up mission type ID.
+Variable of type `MissionTypeIdRaw`
+
+#### dialogue
+
+Returns any associated dialogue for the mission.
+Variable of type `Map( string, <cppval: 11translation > )`
+
+#### get_all
+
+Returns all available missions.
+Function `() -> <cppval: St6vectorI12mission_typeSaIS0_EE >`
+
+#### get_random_mission_id
+
+Returns a random mission type ID at the specified origin and overmap tile position.
+Function `( MissionOrigin, Tripoint ) -> MissionTypeIdRaw`
+
+#### tname
+
+Function `( MissionType ) -> string`
+
+## MissionTypeIdRaw
+
+### Bases
+
+No base classes.
+
+### Constructors
+
+#### `MissionTypeIdRaw.new( string )`
+
+### Members
+
+No members.
+
 ## Monster
 
 ### Bases
@@ -4004,6 +4294,21 @@ Variable of type `double`
 #### hp_modifier
 
 Bonus HP multiplier. 1.0 doubles HP; -0.5 halves it.
+Variable of type `double`
+
+#### packmule_modifier
+
+Packmule multiplier. 2.0 doubles backpack/container volume; 0.5 halves it.
+Variable of type `double`
+
+#### crafting_speed_modifier
+
+Crafting speed multiplier. 2.0 doubles crafting speed; 0.5 halves it.
+Variable of type `double`
+
+#### construction_speed_modifier
+
+Construction speed multiplier. 2.0 doubles construction speed; 0.5 halves it.
 Variable of type `double`
 
 #### hp_modifier_secondary
@@ -6199,6 +6504,39 @@ Function `( Volume, Volume ) -> bool`
 - `DT_ELECTRIC` = `12`
 - `DT_BULLET` = `13`
 
+## MissionGoal
+
+### Entries
+
+- `MGOAL_NULL` = `0`
+- `MGOAL_GO_TO` = `1`
+- `MGOAL_GO_TO_TYPE` = `2`
+- `MGOAL_FIND_ITEM` = `3`
+- `MGOAL_FIND_ANY_ITEM` = `4`
+- `MGOAL_FIND_ITEM_GROUP` = `5`
+- `MGOAL_FIND_MONSTER` = `6`
+- `MGOAL_FIND_NPC` = `7`
+- `MGOAL_ASSASSINATE` = `8`
+- `MGOAL_KILL_MONSTER` = `9`
+- `MGOAL_KILL_MONSTER_TYPE` = `10`
+- `MGOAL_RECRUIT_NPC` = `11`
+- `MGOAL_RECRUIT_NPC_CLASS` = `12`
+- `MGOAL_COMPUTER_TOGGLE` = `13`
+- `MGOAL_KILL_MONSTER_SPEC` = `14`
+- `MGOAL_TALK_TO_NPC` = `15`
+- `MGOAL_CONDITION` = `16`
+
+## MissionOrigin
+
+### Entries
+
+- `ORIGIN_NULL` = `0`
+- `ORIGIN_GAME_START` = `1`
+- `ORIGIN_OPENER_NPC` = `2`
+- `ORIGIN_ANY_NPC` = `3`
+- `ORIGIN_SECONDARY` = `4`
+- `ORIGIN_COMPUTER` = `5`
+
 ## MonsterAttitude
 
 ### Entries
@@ -6351,6 +6689,7 @@ Function `( Volume, Volume ) -> bool`
 - `PROJECTILE_RESISTANT_2` = `123`
 - `PROJECTILE_RESISTANT_3` = `124`
 - `PROJECTILE_RESISTANT_4` = `125`
+- `VOLATILE` = `126`
 
 ## MonsterSize
 
@@ -6583,6 +6922,10 @@ Function `( Tripoint, Opt( bool ) ) -> Monster`
 
 Function `( MtypeId, Tripoint ) -> Monster`
 
+#### place_monster_around
+
+Function `( MtypeId, Tripoint, int ) -> Monster`
+
 #### get_character_at
 
 Function `( Tripoint, Opt( bool ) ) -> Character`
@@ -6672,6 +7015,11 @@ Function `()`
 #### on_game_load
 
 Called right after game has loaded
+Function `()`
+
+#### on_game_started
+
+Called when the game has first started
 Function `()`
 
 #### on_character_reset_stats

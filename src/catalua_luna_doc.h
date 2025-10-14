@@ -1,6 +1,7 @@
 #pragma once
 
 #include "catalua_luna.h"
+#include "mission.h"
 #include "type_id.h"
 #include "concepts_utility.h"
 
@@ -17,6 +18,9 @@ enum mf_attitude : int;
 enum monster_attitude : int;
 enum npc_attitude : int;
 enum npc_need : int;
+enum mission_origin : int;
+enum mission_goal : int;
+
 namespace sfx
 {
 enum class channel : int;
@@ -36,6 +40,7 @@ class ma_buff;
 class map;
 class map_stack;
 class material_type;
+class mission;
 class monster;
 class npc;
 class player;
@@ -58,6 +63,7 @@ struct dealt_damage_instance;
 struct fake_spell;
 struct field_type;
 struct mutation_branch;
+struct mission_type;
 struct npc_opinion;
 struct npc_personality;
 struct point;
@@ -120,6 +126,8 @@ LUNA_VAL( item, "Item" );
 LUNA_VAL( item_stack, "ItemStack" );
 LUNA_VAL( map, "Map" );
 LUNA_VAL( map_stack, "MapStack" );
+LUNA_VAL( mission, "Mission" );
+LUNA_VAL( mission_type, "MissionType" );
 LUNA_VAL( monster, "Monster" );
 LUNA_VAL( npc, "Npc" );
 LUNA_VAL( npc_opinion, "NpcOpinion" );
@@ -161,6 +169,7 @@ LUNA_ID( ma_technique, "MartialArtsTechnique" )
 LUNA_ID( material_type, "MaterialType" )
 LUNA_ID( monfaction, "MonsterFaction" )
 LUNA_ID( morale_type_data, "MoraleTypeData" )
+LUNA_ID( mission_type_id, "MissionTypeId" )
 LUNA_ID( mtype, "Mtype" )
 LUNA_ID( mutation_branch, "MutationBranch" )
 LUNA_ID( mutation_category_trait, "MutationCategoryTrait" )
@@ -185,6 +194,8 @@ LUNA_ENUM( creature_size, "MonsterSize" )
 LUNA_ENUM( npc_attitude, "NpcAttitude" )
 LUNA_ENUM( npc_need, "NpcNeed" )
 LUNA_ENUM( sfx::channel, "SfxChannel" )
+LUNA_ENUM( mission_origin, "MissionOrigin" )
+LUNA_ENUM( mission_goal, "MissionGoal" )
 
 
 
