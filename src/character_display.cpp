@@ -19,6 +19,7 @@
 #include "input.h"
 #include "melee.h"
 #include "mutation.h"
+#include "messages.h"
 #include "options.h"
 #include "output.h"
 #include "pldata.h"
@@ -1215,6 +1216,18 @@ static bool handle_player_display_action( Character &you, unsigned int &line,
         .query();
 
         you.custom_profession = popup.text();
+        add_msg( "You now consider yourself to be a %s.", popup.text() );
+        ui_tip.invalidate_ui();
+    } else if( action == "CHANGE_NAME" ) {
+        string_input_popup popup;
+        popup.title( _( "Name: " ) )
+        .width( 50 )
+        .text( "" )
+        .max_length( 50 )
+        .query();
+
+        you.name = popup.text();
+        add_msg( "From now on, you will refer to yourself as '%s.'", popup.text() );
         ui_tip.invalidate_ui();
     }
     return done;
@@ -1385,6 +1398,7 @@ void character_display::disp_info( Character &ch )
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "CONFIRM", to_translation( "Toggle skill training / Upgrade stat" ) );
     ctxt.register_action( "CHANGE_PROFESSION_NAME", to_translation( "Change profession name" ) );
+    ctxt.register_action( "CHANGE_NAME", to_translation( "Change name" ) );
     ctxt.register_action( "HELP_KEYBINDINGS" );
 
     std::map<std::string, int> speed_effects;

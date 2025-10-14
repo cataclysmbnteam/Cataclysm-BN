@@ -108,7 +108,7 @@
     "type": "mutation",
     "id": "POISRESIST",
     "copy-from": "POISRESIST",
-    "delete": { "category": [ "INSECT", "SLIME", "SPIDER", "MEDICAL", "SERPENT" ] },
+    "delete": { "category": [ "INSECT", "SERPENT", "SLIME", "SPIDER", "MEDICAL" ] },
     "extend": { "category": [ "SPIDERGIRL", "SLIMEGIRL", "LAMIA" ] }
   },
   {
@@ -187,13 +187,6 @@
     "copy-from": "WAKEFUL",
     "delete": { "category": [ "ALPHA", "ELFA" ] },
     "extend": { "category": [ "ELF" ] }
-  },
-  {
-    "type": "mutation",
-    "id": "SELFAWARE",
-    "copy-from": "SELFAWARE",
-    "delete": { "category": [ "MEDICAL" ] },
-    "valid": false
   },
   {
     "type": "mutation",
@@ -465,14 +458,14 @@
     "type": "mutation",
     "id": "LIZ_EYE",
     "copy-from": "LIZ_EYE",
-    "delete": { "category": [ "LIZARD", "RAPTOR", "SERPENT" ] },
+    "delete": { "category": [ "LIZARD", "SERPENT", "RAPTOR" ] },
     "extend": { "category": [ "LAMIA" ] }
   },
   {
     "type": "mutation",
     "id": "LIZ_IR",
     "copy-from": "LIZ_IR",
-    "delete": { "category": [ "LIZARD", "RAPTOR", "SERPENT" ] },
+    "delete": { "category": [ "LIZARD", "SERPENT", "RAPTOR" ] },
     "extend": { "category": [ "LAMIA" ] }
   },
   {
@@ -514,7 +507,7 @@
     "type": "mutation",
     "id": "FANGS",
     "copy-from": "FANGS",
-    "delete": { "category": [ "LIZARD", "FISH", "LUPINE", "FELINE", "CHIMERA", "SERPENT" ] },
+    "delete": { "category": [ "LIZARD", "SERPENT", "FISH", "LUPINE", "FELINE", "CHIMERA" ] },
     "extend": { "category": [ "NEKO", "DOGGIRL", "LAMIA" ] }
   },
   {
@@ -2167,7 +2160,7 @@
     "id": "COLDBLOOD4",
     "copy-from": "COLDBLOOD4",
     "delete": { "category": [ "LIZARD", "SERPENT", "PLANT" ] },
-    "extend": { "category": [ "DRYAD", "LAMIA" ], "threshreq": [ "THRESH_DRYAD", "THRESH_LAMIA" ] }
+    "extend": { "category": [ "DRYAD", "LAMIA" ], "threshreq": [ "THRESH_LAMIA", "THRESH_DRYAD" ] }
   },
   {
     "type": "mutation",
@@ -2187,7 +2180,7 @@
     "type": "mutation",
     "id": "HISS",
     "copy-from": "HISS",
-    "delete": { "category": [ "LIZARD", "RAPTOR", "SPIDER", "SERPENT" ] },
+    "delete": { "category": [ "LIZARD", "SERPENT", "RAPTOR", "SPIDER" ] },
     "extend": { "category": [ "LAMIA" ] }
   },
   {

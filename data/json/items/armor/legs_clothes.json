@@ -47,12 +47,12 @@
     "repairs_like": "boots_larmor",
     "type": "ARMOR",
     "name": { "str": "pair of fishing waders", "str_pl": "pairs of fishing waders" },
-    "description": "Waterproof plastic fishing waders with a single large front pocket.",
+    "description": "Waterproof fishing waders with a single large front pocket.",
     "weight": "1360 g",
     "volume": "9500 ml",
     "price": "100 USD",
     "price_postapoc": "50 cent",
-    "material": [ "plastic" ],
+    "material": [ "rubber" ],
     "symbol": "[",
     "looks_like": "pants_ski",
     "color": "green",
@@ -63,7 +63,7 @@
     "warmth": 5,
     "material_thickness": 2,
     "environmental_protection": 6,
-    "flags": [ "VARSIZE", "WATERPROOF" ]
+    "flags": [ "VARSIZE", "WATERPROOF", "ALLOWS_WINGS" ]
   },
   {
     "id": "hot_pants",
@@ -141,7 +141,7 @@
     "storage": "500 ml",
     "warmth": 10,
     "material_thickness": 3,
-    "valid_mods": [ "steel_padded", "alloy_padded" ],
+    "valid_mods": [ "steel_padded", "hard_steel_padded", "alloy_padded" ],
     "flags": [ "VARSIZE", "POCKETS" ]
   },
   {
@@ -165,7 +165,7 @@
     "storage": "500 ml",
     "warmth": 10,
     "material_thickness": 3,
-    "valid_mods": [ "steel_padded", "alloy_padded" ],
+    "valid_mods": [ "steel_padded", "hard_steel_padded", "alloy_padded" ],
     "flags": [ "VARSIZE", "POCKETS", "FANCY" ]
   },
   {
@@ -363,7 +363,7 @@
     "storage": "2500 ml",
     "warmth": 20,
     "material_thickness": 2,
-    "valid_mods": [ "steel_padded", "alloy_padded" ],
+    "valid_mods": [ "steel_padded", "hard_steel_padded", "alloy_padded" ],
     "flags": [ "VARSIZE", "POCKETS" ]
   },
   {
@@ -429,7 +429,7 @@
     "storage": "1 L",
     "warmth": 80,
     "material_thickness": 3,
-    "valid_mods": [ "steel_padded", "alloy_padded" ],
+    "valid_mods": [ "steel_padded", "hard_steel_padded", "alloy_padded" ],
     "environmental_protection": 3,
     "flags": [ "VARSIZE", "POCKETS" ]
   },
@@ -463,7 +463,7 @@
     "storage": "500 ml",
     "warmth": 25,
     "material_thickness": 2,
-    "valid_mods": [ "steel_padded", "alloy_padded" ],
+    "valid_mods": [ "steel_padded", "hard_steel_padded", "alloy_padded" ],
     "flags": [ "VARSIZE" ]
   },
   {
@@ -690,7 +690,7 @@
     "storage": "2500 ml",
     "warmth": 50,
     "material_thickness": 3,
-    "valid_mods": [ "steel_padded", "alloy_padded" ],
+    "valid_mods": [ "steel_padded", "hard_steel_padded", "alloy_padded" ],
     "flags": [ "VARSIZE", "POCKETS" ]
   },
   {

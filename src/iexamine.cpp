@@ -294,16 +294,70 @@ void iexamine::nanofab( player &p, const tripoint &examp )
     }
 
     auto nanofab_template = g->inv_map_splice( []( const item & e ) {
-        return e.has_var( "NANOFAB_ITEM_ID" );
-    }, _( "Introduce Nanofabricator template" ), PICKUP_RANGE,
+        return e.has_var( "NANOFAB_GROUP_ID" ) || e.has_var( "NANOFAB_ITEM_ID" );
+    }, _( "Introduce nanofabricator template:" ), PICKUP_RANGE,
     _( "You don't have any usable templates." ) );
 
     if( !nanofab_template ) {
         return;
     }
 
-    detached_ptr<item> new_item = item::spawn( nanofab_template->get_var( "NANOFAB_ITEM_ID" ),
-                                  calendar::turn );
+    std::vector<std::string> recipe_ids;
+
+    if( nanofab_template->has_var( "NANOFAB_GROUP_ID" ) ) {
+        // Preferred behavior: build from group
+        item_group_id group_id( nanofab_template->get_var( "NANOFAB_GROUP_ID" ) );
+        std::set<const itype *> all_items = item_group::every_possible_item_from( group_id );
+        for( const itype *it : all_items ) {
+            recipe_ids.push_back( it->get_id().str() );
+        }
+    } else if( nanofab_template->has_var( "NANOFAB_ITEM_ID" ) ) {
+        // Fallback for old templates: use single stored recipe
+        recipe_ids.push_back( nanofab_template->get_var( "NANOFAB_ITEM_ID" ) );
+    }
+
+    if( recipe_ids.empty() ) {
+        return;
+    }
+
+    std::string chosen_recipe;
+    if( recipe_ids.size() > 1 ) {
+        uilist menu;
+        menu.text = _( "Choose a recipe:" );
+        for( size_t i = 0; i < recipe_ids.size(); ++i ) {
+            itype_id item = itype_id( recipe_ids[i] );
+            auto button_text = string_format( "%s [%d]", item->nname( 1 ),
+                                              std::max( 1, item->volume / 250_ml ) * 5 );
+            menu.addentry( i, true, -1, button_text );
+        }
+        menu.query();
+
+        if( menu.ret >= 0 && static_cast<size_t>( menu.ret ) < recipe_ids.size() ) {
+            chosen_recipe = recipe_ids[ menu.ret ];
+        }
+    } else {
+        chosen_recipe = recipe_ids.front();
+    }
+
+    if( chosen_recipe.empty() ) {
+        return;
+    }
+
+    int item_count = 1;
+
+    detached_ptr<item> new_item = item::spawn( itype_id( chosen_recipe ), calendar::turn );
+
+    if( new_item->made_of( LIQUID ) ) {
+        const int amount = string_input_popup()
+                           .title( "Dispense how many units?" )
+                           .width( 5 )
+                           .text( std::to_string( 1 ) )
+                           .only_digits( true )
+                           .query_int();
+        item_count = amount;
+
+        new_item = item::spawn( itype_id( chosen_recipe ), calendar::turn, item_count );
+    }
 
     auto qty = std::max( 1, new_item->volume() / 250_ml );
     auto reqs = *requirement_id( "nanofabricator" ) * qty;
@@ -313,7 +367,6 @@ void iexamine::nanofab( player &p, const tripoint &examp )
         return;
     }
 
-    // Consume materials
     for( const auto &e : reqs.get_components() ) {
         p.consume_items( e, 1, is_crafting_component );
     }
@@ -326,8 +379,13 @@ void iexamine::nanofab( player &p, const tripoint &examp )
         new_item->set_flag( flag_FIT );
     }
 
-    here.add_item_or_charges( spawn_point, std::move( new_item ) );
+    // we're sticking an item from our inventory under the nanofabrication dispenser
+    if( new_item->made_of( LIQUID ) ) {
+        liquid_handler::handle_liquid( std::move( new_item ) );  // let it own the pointer
+        return;
+    }
 
+    here.add_item_or_charges( spawn_point, std::move( new_item ) );
 }
 
 /**
@@ -1981,6 +2039,14 @@ static bool drink_nectar( player &p )
 static void handle_harvest( player &p, const std::string &itemid, bool force_drop )
 {
     detached_ptr<item> harvest = item::spawn( itemid );
+    if( harvest->has_flag( flag_FORAGE_POISON ) && one_in( 10 ) ) {
+        harvest->set_flag( flag_HIDDEN_POISON );
+        harvest->poison = rng( 2, 7 );
+    }
+    if( harvest->has_flag( flag_FORAGE_HALLU ) && !harvest->has_flag( flag_HIDDEN_POISON ) &&
+        one_in( 10 ) ) {
+        harvest->set_flag( flag_HIDDEN_HALLU );
+    }
     // Drop items that're exceed available space and things that aren't comestibles
     if( !force_drop && harvest->get_comestible() && p.can_pick_volume( *harvest ) &&
         p.can_pick_weight( *harvest, !get_option<bool>( "DANGEROUS_PICKUPS" ) ) ) {
@@ -4751,7 +4817,14 @@ void iexamine::pay_gas( player &p, const tripoint &examp )
 void iexamine::ledge( player &p, const tripoint &examp )
 {
     enum ledge_action : int { jump_over, climb_down, spin_web_bridge };
-
+    if( p.in_vehicle ) {
+        if( !character_funcs::can_fly( p ) ) {
+            add_msg( m_warning, _( "Jumping off a flying object is far too dangerous." ) );
+            return;
+        } else {
+            get_map().unboard_vehicle( p.pos() );
+        }
+    }
     if( get_map().ter( p.pos() ).id().str() == "t_open_air" && !character_funcs::can_fly( p ) ) {
         tripoint where = p.pos();
         tripoint below = where;

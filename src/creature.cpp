@@ -11,6 +11,7 @@
 #include "anatomy.h"
 #include "avatar.h"
 #include "calendar.h"
+#include "catalua_hooks.h"
 #include "character.h"
 #include "color.h"
 #include "cursesdef.h"
@@ -306,7 +307,8 @@ bool Creature::sees( const Creature &critter ) const
                ( critter.is_underwater() && !is_underwater() && here.is_divable( critter.pos() ) ) ||
                ( here.has_flag_ter_or_furn( TFLAG_HIDE_PLACE, critter.pos() ) &&
                  !( std::abs( posx() - critter.posx() ) <= 1 && std::abs( posy() - critter.posy() ) <= 1 &&
-                    std::abs( posz() - critter.posz() ) <= 1 ) ) ) {
+                    std::abs( posz() - critter.posz() ) <= 1 ) && !critter.has_flag( MF_FLIES ) &&
+                 critter.get_size() <= creature_size::medium ) ) {
         return false;
     }
     if( ch != nullptr ) {
@@ -1236,9 +1238,13 @@ void Creature::deal_damage_handle_type( const damage_unit &du, bodypart_id bp, i
     pain += roll_remainder( adjusted_damage / div );
 }
 
-void Creature::on_dodge( Creature */*source*/, int /*difficulty*/ )
+void Creature::on_dodge( Creature *source, int difficulty )
 {
-
+    cata::run_hooks( "on_creature_dodged", [ &, this]( auto & params ) {
+        params["char"] = this;
+        params["source"] = source;
+        params["difficulty"] = difficulty;
+    } );
 }
 
 /*

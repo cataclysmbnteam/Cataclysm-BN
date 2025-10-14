@@ -7,7 +7,7 @@
     "description": "The Taurus Raging Bull is a 5-shot revolver chambered in .454 Casull.  It has impressive stopping power.",
     "weight": "1502 g",
     "volume": "565 ml",
-    "barrel_length": "50 ml",
+    "barrel_volume": "50 ml",
     "price": "641 USD",
     "price_postapoc": "25 USD",
     "bashing": 12,

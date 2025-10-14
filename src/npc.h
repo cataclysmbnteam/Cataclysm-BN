@@ -735,7 +735,7 @@ class npc : public player
         npc( const npc & ) = delete;
         npc( npc && ) = delete;
         npc &operator=( const npc & ) = delete;
-        npc &operator=( npc && ) = delete;
+        npc &operator=( npc && ) noexcept;
         ~npc() override;
 
         bool is_player() const override {
@@ -1184,6 +1184,7 @@ class npc : public player
          * Do not use when placing a NPC in mapgen.
          */
         void setpos( const tripoint &pos ) override;
+        void onswapsetpos( const tripoint &pos );
         void travel_overmap( const tripoint &pos );
         npc_attitude get_attitude() const;
         void set_attitude( npc_attitude new_attitude );

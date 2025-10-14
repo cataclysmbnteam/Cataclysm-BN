@@ -2022,6 +2022,13 @@ void options_manager::add_options_graphics()
 
     get_option( "USE_TILES_OVERMAP" ).setPrerequisite( "USE_TILES" );
 
+    add( "OVERMAP_TILES", graphics, translate_marker( "Choose overmap tileset" ),
+         translate_marker( "Choose the overmap tileset you want to use." ),
+         build_tilesets_list(), "UNDEAD_PEOPLE_BASE", COPT_CURSES_HIDE
+       ); // populate the options dynamically
+
+    get_option( "OVERMAP_TILES" ).setPrerequisite( "USE_TILES_OVERMAP" );
+
     add( "USE_CHARACTER_PREVIEW", graphics, translate_marker( "Enable character preview window" ),
          translate_marker( "If true, shows character preview window in traits tab on character creation.  "
                            "While having a window press 'z'/'Z' to perform zoom-in/zoom-out.  "
@@ -2439,6 +2446,21 @@ void options_manager::add_options_world_default()
          translate_marker( "A scaling factor that determines restock rate of merchants." ),
          0.01, 10.0, 1.0, 0.01
        );
+
+    add_empty_line();
+
+    add_option_group( world_default, Group( "skill_buff_category",
+                                            to_translation( "Enabled Skill Buffs" ),
+                                            to_translation( "Enable or disable major skill buffs" ) ),
+    [&]( const std::string & page_id ) {
+        add( "cooking_kcal_buff", page_id, "Cooking Calories Buff",
+             "Include the scaling calories from cooking buff?",
+             true );
+        add( "althletics_encumbrance_buff", page_id, "Althletics Encumbrance Buff",
+             "Include the reduce all encumbrance per level of althletics buff?",
+             true );
+    }
+                    );
 
     add_empty_line();
 
@@ -3022,12 +3044,14 @@ static void refresh_tiles( bool used_tiles_changed, bool pixel_minimap_height_ch
         // Disable UIs below to avoid accessing the tile context during loading.
         ui_adaptor dummy( ui_adaptor::disable_uis_below {} );
         //try and keep SDL calls limited to source files that deal specifically with them
+        const auto tilesName = get_option<std::string>( "TILES" );
+        const auto omTilesName = get_option<std::string>( "OVERMAP_TILES" );
         try {
             tilecontext->reinit();
             std::vector<mod_id> dummy;
 
             tilecontext->load_tileset(
-                get_option<std::string>( "TILES" ),
+                tilesName,
                 ingame ? world_generator->active_world->info->active_mod_order : dummy,
                 /*precheck=*/false,
                 /*force=*/force_tile_change,
@@ -3043,6 +3067,32 @@ static void refresh_tiles( bool used_tiles_changed, bool pixel_minimap_height_ch
             popup( _( "Loading the tileset failed: %s" ), err.what() );
             use_tiles = false;
             use_tiles_overmap = false;
+        }
+        if( tilesName == omTilesName ) {
+            overmap_tilecontext = tilecontext;
+        } else {
+            try {
+                repoint_overmap_tilecontext();
+                std::vector<mod_id> dummy;
+
+                overmap_tilecontext->load_tileset(
+                    omTilesName,
+                    ingame ? world_generator->active_world->info->active_mod_order : dummy,
+                    /*precheck=*/false,
+                    /*force=*/force_tile_change,
+                    /*pump_events=*/true
+                );
+                //game_ui::init_ui is called when zoom is changed
+                g->reset_zoom();
+                g->mark_main_ui_adaptor_resize();
+                overmap_tilecontext->do_tile_loading_report( []( const std::string & str ) {
+                    DebugLog( DL::Info, DC::Main ) << str;
+                } );
+            } catch( const std::exception &err ) {
+                popup( _( "Loading the overmap tileset failed: %s" ), err.what() );
+                use_tiles = false;
+                use_tiles_overmap = false;
+            }
         }
     } else if( ingame && pixel_minimap_option && pixel_minimap_height_changed ) {
         g->mark_main_ui_adaptor_resize();
@@ -3190,19 +3240,19 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
     catacurses::window w_options;
 
     const auto init_windows = [&]( ui_adaptor & ui ) {
-        if( OPTIONS.find( "TERMINAL_X" ) != OPTIONS.end() ) {
-            if( OPTIONS_OLD.find( "TERMINAL_X" ) != OPTIONS_OLD.end() ) {
+        if( OPTIONS.contains( "TERMINAL_X" ) ) {
+            if( OPTIONS_OLD.contains( "TERMINAL_X" ) ) {
                 OPTIONS_OLD["TERMINAL_X"] = OPTIONS["TERMINAL_X"];
             }
-            if( WOPTIONS_OLD.find( "TERMINAL_X" ) != WOPTIONS_OLD.end() ) {
+            if( WOPTIONS_OLD.contains( "TERMINAL_X" ) ) {
                 WOPTIONS_OLD["TERMINAL_X"] = OPTIONS["TERMINAL_X"];
             }
         }
-        if( OPTIONS.find( "TERMINAL_Y" ) != OPTIONS.end() ) {
-            if( OPTIONS_OLD.find( "TERMINAL_Y" ) != OPTIONS_OLD.end() ) {
+        if( OPTIONS.contains( "TERMINAL_Y" ) ) {
+            if( OPTIONS_OLD.contains( "TERMINAL_Y" ) ) {
                 OPTIONS_OLD["TERMINAL_Y"] = OPTIONS["TERMINAL_Y"];
             }
-            if( WOPTIONS_OLD.find( "TERMINAL_Y" ) != WOPTIONS_OLD.end() ) {
+            if( WOPTIONS_OLD.contains( "TERMINAL_Y" ) ) {
                 WOPTIONS_OLD["TERMINAL_Y"] = OPTIONS["TERMINAL_Y"];
             }
         }
@@ -3560,7 +3610,7 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
                 pixel_minimap_changed = true;
 
             } else if( iter.first == "TILES" || iter.first == "USE_TILES" || iter.first == "STATICZEFFECT" ||
-                       iter.first == "MEMORY_MAP_MODE" ) {
+                       iter.first == "MEMORY_MAP_MODE" || iter.first == "OVERMAP_TILES" ) {
                 used_tiles_changed = true;
                 if( iter.first == "STATICZEFFECT" || iter.first == "MEMORY_MAP_MODE" ) {
                     force_tile_change = true;

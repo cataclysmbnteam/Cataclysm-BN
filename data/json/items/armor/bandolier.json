@@ -137,8 +137,8 @@
       "ammo": [ "22", "223", "300blk", "5x50", "3006", "308", "300", "762", "762R", "8x40mm", "4570", "50" ],
       "draw_cost": 20
     },
-    "valid_mods": [ "resized_large" ],
-    "flags": [ "WATER_FRIENDLY", "BELTED", "ALLOWS_NATURAL_ATTACKS" ]
+    "valid_mods": [ "resized_large", "resized_small" ],
+    "flags": [ "WATER_FRIENDLY", "BELTED", "ALLOWS_NATURAL_ATTACKS", "ALLOWS_CLAWS" ]
   },
   {
     "id": "grenade_pouch",
@@ -208,7 +208,7 @@
       "draw_cost": 30,
       "flags": [ "GRENADE" ]
     },
-    "valid_mods": [ "resized_large" ],
+    "valid_mods": [ "resized_large", "resized_small" ],
     "flags": [ "WATER_FRIENDLY", "BELTED", "COMPACT", "ALLOWS_TAIL_SNAKE" ]
   },
   {

@@ -490,18 +490,11 @@ class game
                               const time_duration &catch_duration );
         /**
          * Get the contiguous fishable locations starting at fish_pos, out to the specificed distance.
-         * @param distance Distance around the fish_pos to examine for contiguous fishable locations.
+         * @param radius Distance around the fish_pos to examine for contiguous fishable locations.
          * @param fish_pos The location being fished.
          * @return A set of locations representing the valid contiguous fishable locations.
          */
-        std::unordered_set<tripoint> get_fishable_locations( int distance, const tripoint &fish_pos );
-        /**
-         * Get the fishable monsters within the provided fishable locations.
-         * @param fishable_locations A set of locations which are valid fishable terrain. Any fishable monsters
-         * are filtered by this collection to determine those which can actually be caught.
-         * @return Fishable monsters within the specified fishable terrain.
-         */
-        std::vector<monster *> get_fishable_monsters( std::unordered_set<tripoint> &fishable_locations );
+        std::unordered_set<tripoint>get_fishable_locations( int radius, const tripoint &fish_pos );
 
         /** Flings the input creature in the given direction. */
         void fling_creature( Creature *c, const units::angle &dir, float flvel, bool controlled = false );
@@ -586,6 +579,8 @@ class game
         void reload_tileset( const std::function<void( std::string )> &out );
         void temp_exit_fullscreen();
         void reenter_fullscreen();
+        void zoom_in_overmap();
+        void zoom_out_overmap();
         void zoom_in();
         void zoom_out();
         void reset_zoom();
@@ -1044,6 +1039,7 @@ class game
 
         /** How far the tileset should be zoomed out, 16 is default. 32 is zoomed in by x2, 8 is zoomed out by x0.5 */
         float tileset_zoom = 0;
+        int overmap_tileset_zoom = DEFAULT_TILESET_ZOOM;
 
         /** Seed for all the random numbers that should have consistent randomness (weather). */
         unsigned int seed = 0;

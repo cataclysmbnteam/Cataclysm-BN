@@ -528,7 +528,7 @@ std::string recipe::batch_savings_string() const
 std::string recipe::result_name() const
 {
     std::string name = item::nname( result_ );
-    if( uistate.favorite_recipes.find( this->ident() ) != uistate.favorite_recipes.end() ) {
+    if( uistate.favorite_recipes.contains( this->ident() ) ) {
         name = "* " + name;
     }
 

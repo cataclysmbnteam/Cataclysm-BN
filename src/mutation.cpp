@@ -103,7 +103,7 @@ std::string enum_to_string<mutagen_technique>( mutagen_technique data )
 
 bool Character::has_trait( const trait_id &b ) const
 {
-    return my_mutations.count( b ) || enchantment_cache->get_mutations().contains( b );
+    return my_mutations.contains( b ) || enchantment_cache->get_mutations().contains( b );
 }
 
 bool Character::has_one_of_traits( const TraitSet &trait_set ) const
@@ -127,7 +127,7 @@ bool Character::has_trait_flag( const trait_flag_str_id &b ) const
 bool Character::has_base_trait( const trait_id &b ) const
 {
     // Look only at base traits
-    return my_traits.find( b ) != my_traits.end();
+    return my_traits.contains( b );
 }
 
 void Character::toggle_trait( const trait_id &trait_ )
@@ -329,6 +329,21 @@ void Character::mutation_effect( const trait_id &mut )
         // It could cause segmentation fault if mutation change will trigger clothes removal on character creation
         // with preview clothes toggled on. So checking if game started.
         if( g->w_terrain ) {
+
+            //get dependant worn items only checks for powerarmor helmets or powerarmor mods
+            //so this just removes those if powerarmor is also removed
+            const auto deps = get_dependent_worn_items( *armor );
+            for( const auto &it : deps ) {
+                add_msg_player_or_npc( m_bad,
+                                       _( "Your %s is pushed off!" ),
+                                       _( "<npcname>'s %s is pushed off!" ),
+                                       it->tname() );
+
+                it->on_takeoff( *this );
+                detached_ptr<item> det = worn.remove( it );
+                get_map().add_item_or_charges( pos(), std::move( det ) );
+            }
+
             get_map().add_item_or_charges( pos(), std::move( armor ) );
         }
         return detached_ptr<item>();

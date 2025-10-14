@@ -26,7 +26,7 @@ who want what you have.
 Find a way to stop the Cataclysm ... or become one of its strongest monsters.
 
 > Cataclysm: Bright Nights is a fork of Cataclysm: Dark Days Ahead.
-> [see the differences from its ancestor.](https://docs.cataclysmbn.org/en/game/changelog/).
+> [see the differences from its ancestor.](https://docs.cataclysmbn.org/game/changelog/).
 
 ## Downloads
 
@@ -72,7 +72,6 @@ The primary supported launcher is [Catapult](https://github.com/qrrk/Catapult), 
   and BSD.
 - [with MSYS2](docs/en/dev/guides/building/msys.md)
 - [with vcpkg](docs/en/dev/guides/building/vs_vcpkg.md)
-- [which compilers we support](docs/en/dev/reference/compiler_support.md)
 
 Please read the [official docs](https://docs.cataclysmbn.org/en/dev/guides/building/cmake/) for
 details.

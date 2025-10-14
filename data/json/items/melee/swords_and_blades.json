@@ -1133,10 +1133,18 @@
     "magazines": [
       [
         "battery",
-        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+        [
+          "light_battery_cell",
+          "light_plus_battery_cell",
+          "light_minus_battery_cell",
+          "light_atomic_battery_cell",
+          "light_minus_atomic_battery_cell",
+          "light_minus_disposable_cell",
+          "light_disposable_cell"
+        ]
       ]
     ],
-    "magazine_well": "500 ml"
+    "magazine_well": "250 ml"
   },
   {
     "id": "shock_foil_on",
@@ -1205,10 +1213,18 @@
     "magazines": [
       [
         "battery",
-        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+        [
+          "light_battery_cell",
+          "light_plus_battery_cell",
+          "light_minus_battery_cell",
+          "light_atomic_battery_cell",
+          "light_minus_atomic_battery_cell",
+          "light_minus_disposable_cell",
+          "light_disposable_cell"
+        ]
       ]
     ],
-    "magazine_well": "500 ml"
+    "magazine_well": "250 ml"
   },
   {
     "id": "shock_epee_on",
@@ -1276,10 +1292,18 @@
     "magazines": [
       [
         "battery",
-        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+        [
+          "light_battery_cell",
+          "light_plus_battery_cell",
+          "light_minus_battery_cell",
+          "light_atomic_battery_cell",
+          "light_minus_atomic_battery_cell",
+          "light_minus_disposable_cell",
+          "light_disposable_cell"
+        ]
       ]
     ],
-    "magazine_well": "500 ml"
+    "magazine_well": "250 ml"
   },
   {
     "id": "shock_sabre_on",
@@ -1418,10 +1442,18 @@
     "magazines": [
       [
         "battery",
-        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+        [
+          "light_battery_cell",
+          "light_plus_battery_cell",
+          "light_minus_battery_cell",
+          "light_atomic_battery_cell",
+          "light_minus_atomic_battery_cell",
+          "light_minus_disposable_cell",
+          "light_disposable_cell"
+        ]
       ]
     ],
-    "magazine_well": "500 ml"
+    "magazine_well": "250 ml"
   },
   {
     "id": "shock_rapier_on",
@@ -2059,7 +2091,7 @@
     "description": "This is a large blade with a fuel pipe on the side, and a small tank and igniter built into the insulated hilt.  When filled with gasoline, the blade can be made scorching hot to singe enemies and light your way.  Use to ignite.",
     "relative": { "volume": "500 ml", "weight": "750 g" },
     "proportional": { "price": 1.25, "price_postapoc": 1.25 },
-    "ammo": "gasoline",
+    "ammo": [ "gasoline", "lighter_fluid" ],
     "charges_per_use": 1,
     "max_charges": 250,
     "use_action": {
@@ -2120,7 +2152,7 @@
     "description": "This is a katana with a nozzle just behind the cutting edge of the blade.  People love fire, and people love katanas, so why not put them together?  The gas burners attached to this blade can really turn up the heat on your foes.  Use to ignite.",
     "relative": { "volume": "500 ml", "weight": "750 g" },
     "proportional": { "price": 1.25, "price_postapoc": 1.25 },
-    "ammo": "gasoline",
+    "ammo": [ "gasoline", "lighter_fluid" ],
     "charges_per_use": 1,
     "max_charges": 250,
     "use_action": {
@@ -2176,7 +2208,7 @@
     "description": "This is a combination of two classic methods of conflict resolution, the broadsword and the torch.  Use to light it up and show those heathen zombies who's Lord around here.",
     "relative": { "volume": "500 ml", "weight": "750 g" },
     "proportional": { "price": 1.25, "price_postapoc": 1.25 },
-    "ammo": "gasoline",
+    "ammo": [ "gasoline", "lighter_fluid" ],
     "charges_per_use": 1,
     "max_charges": 250,
     "use_action": {
@@ -2233,7 +2265,7 @@
     "description": "Ein großes zweihaendiges Schwert aus Deutschland, an dessen Klinge sich, unter Zufuehrung von Benzin, eine anhaltende Flamme erzeugen laesst.  Es ist eine sehr maechtige Waffe.",
     "relative": { "volume": "500 ml", "weight": "750 g" },
     "proportional": { "price": 1.25, "price_postapoc": 1.25 },
-    "ammo": "gasoline",
+    "ammo": [ "gasoline", "lighter_fluid" ],
     "charges_per_use": 1,
     "max_charges": 250,
     "use_action": {

@@ -480,7 +480,8 @@ Guns can be defined like this:
 "reload": 450,             // Amount of time to reload, 100 = 1 second = 1 "turn". Default 100.
 "built_in_mods": ["m203"], // An array of mods that will be integrated in the weapon using the IRREMOVABLE tag.
 "default_mods": ["m203"]   // An array of mods that will be added to a weapon on spawn.
-"barrel_length": "30 mL",  // Amount of volume lost when the barrel is sawn. Approximately 250 ml per inch is a decent approximation.
+"barrel_volume": "30 mL",  // Amount of volume lost when the barrel is sawn. Approximately 250 ml per IRL inch is a decent approximation.
+"barrel_length": "30 mL",  // Depreciated alias of barrel_volume, which should be used instead for clarity.
 "valid_mod_locations": [ [ "accessories", 4 ], [ "grip", 1 ] ],  // The valid locations for gunmods and the mount of slots for that location.
 ```
 
@@ -1073,6 +1074,16 @@ more structured function.
         "leather_padded",
         "kevlar_padded"
     ]
+},
+"use_action": {
+    "type": "multicooker",  // Crafts an item over time without requiring the player to sit there and watch
+    "do_hallu": false, //Enables multicooker hallucinations and spawning of the evil multicooker when interacting
+    "charges_to_start": 50, // Static cost per item crafted
+    "charges_per_minute": 1, // Cost per minute of craft time
+    "time_mult": 1, //Multiplier for craft time, 2 is twice as long, 0.5 is half as long, 0 is instant
+    "recipes": [ "water_clean" ], //Any specific item itype in this list can be crafted
+    "subcategories": [ "CSC_FOOD_MEAT", "CSC_FOOD_VEGGI", "CSC_FOOD_PASTA" ], //Any item in these subcategories can be crafted
+    "temporary_tools": [ "hotplate", "tongs", "toolset", "pot" ] //Temporary items spawned when crafting to allow for innate qualities
 },
 "use_action": { 
     "type": "cast_spell",       // Casts a spell based on ID using item charges or, if the flag USE_PLAYER_ENERGY is on the item, the energy source defined in the spell

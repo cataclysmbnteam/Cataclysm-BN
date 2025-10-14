@@ -10,18 +10,35 @@
     "material": [ "superalloy", "aluminum" ],
     "use_action": [
       {
-        "target": "afs_atomic_wraitheon_flashlight",
+        "target": "afs_wraitheon_smartphone_flashlight",
         "msg": "You activate the flashlight app.",
         "active": true,
         "type": "transform"
       },
       "CAMERA",
-      "MP3",
+      {
+        "type": "music_player",
+        "target": "afs_wraitheon_smartphone_music",
+        "msg": "You put in the earbuds and start listening to music.",
+        "moves": 200
+      },
+      {
+        "//": "40 xp/hr.  Tier 1, 0-3 skill, higher-tier EXP since requires power.",
+        "type": "train_skill",
+        "training_msg": "You fiddle with your phone’s settings and apps, picking up some basic computer knowledge.",
+        "training_skill": "computer",
+        "training_skill_min_level": 0,
+        "training_skill_xp": 8,
+        "training_skill_max_level": 3,
+        "training_skill_fatigue": 0,
+        "training_skill_interval": 12,
+        "training_skill_xp_chance": 90
+      },
       "ROBOTCONTROL"
     ]
   },
   {
-    "id": "afs_atomic_wraitheon_music",
+    "id": "afs_wraitheon_smartphone_music",
     "copy-from": "afs_wraitheon_smartphone",
     "type": "TOOL",
     "name": { "str": "Wraitheon executive's smartphone - music", "str_pl": "Wraitheon executive's smartphones - music" },
@@ -31,7 +48,7 @@
     "flags": [ "WATCH", "TRADER_AVOID", "ALARMCLOCK", "NO_UNLOAD", "NO_RELOAD" ]
   },
   {
-    "id": "afs_atomic_wraitheon_flashlight",
+    "id": "afs_wraitheon_smartphone_flashlight",
     "copy-from": "afs_atomic_smartphone_flashlight",
     "type": "TOOL",
     "name": { "str": "Executive's smartphone - Flashlight", "str_pl": "Executive's smartphones - Flashlight" },
@@ -159,7 +176,7 @@
     "coverage": 5,
     "encumbrance": 2,
     "covers": [ "leg_either" ],
-    "extend": { "flags": [ "POWERARMOR_COMPATIBLE", "ALLOWS_TAIL_SNAKE" ] }
+    "extend": { "flags": [ "POWERARMOR_COMPATIBLE", "ALLOWS_TAIL_SNAKE", "ALLOWS_TAIL" ] }
   },
   {
     "id": "adv_UPS_off",

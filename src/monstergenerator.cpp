@@ -1240,7 +1240,7 @@ void species_type::load( const JsonObject &jo, const std::string & )
     }
     optional( jo, was_loaded, "name", name, no_translation( id.c_str() ) );
     optional( jo, was_loaded, "description", description );
-    optional( jo, was_loaded, "footsteps", footsteps, to_translation( "footsteps." ) );
+    optional( jo, was_loaded, "footsteps", footsteps );
     const auto flag_reader = enum_flags_reader<m_flag> { "monster flag" };
     optional( jo, was_loaded, "flags", flags, flag_reader );
 

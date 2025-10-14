@@ -407,7 +407,9 @@
     "name": { "str": "Telescopic Lenses" },
     "description": "The lenses in your eyes have been surgically removed and replaced with an array of high-powered, auto-focusing lenses.  They function as integrated binoculars, letting you see much farther than before, and any mundane vision problems you might have had are now gone.",
     "occupied_bodyparts": [ [ "eyes", 2 ] ],
-    "canceled_mutations": [ "HYPEROPIC", "MYOPIC" ]
+    "canceled_mutations": [ "HYPEROPIC", "MYOPIC" ],
+    "can_uninstall": false,
+    "no_uninstall_reason": "The telescopic lenses are part of the patient's eyes now, remove them and the patient would become blind"
   },
   {
     "id": "bio_face_mask",

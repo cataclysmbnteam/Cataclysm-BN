@@ -201,7 +201,7 @@ construction_id blueprint_options::get_final_construction(
     }
 
     for( const construction_id &c_id : list_constructions ) {
-        if( c_id == id || skip_index.find( c_id ) != skip_index.end() ) {
+        if( c_id == id || skip_index.contains( c_id ) ) {
             continue;
         }
         const construction &c = *c_id;
@@ -674,7 +674,7 @@ bool zone_manager::has( const zone_type_id &type, const tripoint &where,
 {
     const auto &point_set = get_point_set( type, fac );
     const auto &vzone_set = get_vzone_set( type, fac );
-    return point_set.find( where ) != point_set.end() || vzone_set.find( where ) != vzone_set.end();
+    return point_set.contains( where ) || vzone_set.contains( where );
 }
 
 bool zone_manager::has_near( const zone_type_id &type, const tripoint &where, int range,

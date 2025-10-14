@@ -241,6 +241,7 @@ struct pry_result {
  * HIDE_PLACE - Creature on this tile can't be seen by other creature not standing on adjacent tiles
  * BLOCK_WIND - This tile will partially block wind
  * FLAT_SURF - Furniture or terrain or vehicle part with flat hard surface (ex. table, but not chair; tree stump, etc.).
+ * NO_MEMORY - Don't put this terrain in map memory. Used for open air and similar.
  *
  * Currently only used for Fungal conversions
  * WALL - This terrain is an upright obstacle
@@ -326,6 +327,7 @@ enum ter_bitflags : int {
     TFLAG_FRIDGE,
     TFLAG_FREEZER,
     TFLAG_ELEVATOR,
+    TFLAG_NO_MEMORY,
     NUM_TERFLAGS
 };
 
@@ -665,7 +667,7 @@ extern ter_id t_null,
        t_pit_corpsed, t_pit_covered, t_pit_spiked, t_pit_spiked_covered, t_pit_glass, t_pit_glass_covered,
        t_rock_floor,
        t_grass, t_grass_long, t_grass_tall, t_grass_golf, t_grass_dead, t_grass_white, t_moss,
-       t_metal_floor,
+       t_moss_underground, t_metal_floor,
        t_pavement, t_pavement_y, t_sidewalk, t_concrete,
        t_thconc_floor, t_thconc_floor_olight, t_strconc_floor,
        t_floor, t_floor_waxed,
@@ -780,7 +782,7 @@ about ter_id above.
 */
 extern furn_id f_null,
        f_hay, f_cattails, f_lake_pondweed, f_lake_detritus, f_lake_liverwort, f_lake_eelgrass,
-       f_lake_hornwort,
+       f_lake_hornwort, f_cave_mushrooms,
        f_rubble, f_rubble_rock, f_wreckage, f_ash,
        f_barricade_road, f_sandbag_half, f_sandbag_wall,
        f_bulletin,

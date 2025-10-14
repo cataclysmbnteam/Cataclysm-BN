@@ -1410,7 +1410,7 @@ auto mapgen_parameters::add_unique_parameter(
     std::string candidate_name;
     while( true ) {
         candidate_name = string_format( "%s%d", prefix, i );
-        if( map.find( candidate_name ) == map.end() ) {
+        if( !map.contains( candidate_name ) ) {
             break;
         }
         ++i;
@@ -3154,7 +3154,7 @@ const mapgen_palette &string_id<mapgen_palette>::obj() const
 template<>
 bool string_id<mapgen_palette>::is_valid() const
 {
-    return palettes.find( *this ) != palettes.end();
+    return palettes.contains( *this );
 }
 
 void mapgen_palette::check()
@@ -5907,6 +5907,18 @@ void map::draw_mine( mapgendata &dat )
         place_spawns( GROUP_DOG_THING, 1, point( SEEX, SEEX ), point( SEEX + 1, SEEX + 1 ), 1, true, true );
         spawn_artifact( tripoint( rng( SEEX, SEEX + 1 ), rng( SEEY, SEEY + 1 ), abs_sub.z ) );
     }
+    // Add patches of cave moss
+    for( int i = 0; i < SEEX * 2; i++ ) {
+        for( int j = 0; j < SEEY * 2; j++ ) {
+            if( one_in( 10 ) && ter( tripoint( point( i, j ), get_abs_sub().z ) ) == t_rock_floor ) {
+                ter_set( point( i, j ), t_moss_underground );
+                if( one_in( 15 ) ) {
+                    // Some of that moss has mushrooms too.
+                    furn_set( point( i, j ), f_cave_mushrooms );
+                }
+            }
+        }
+    }
 }
 
 void map::draw_slimepit( mapgendata &dat )
@@ -6464,10 +6476,12 @@ std::unique_ptr<vehicle> map::add_vehicle_to_map(
     std::unique_ptr<vehicle> veh, const bool merge_wrecks )
 {
     //We only want to check once per square, so loop over all structural parts
-    std::vector<int> frame_indices = veh->all_parts_at_location( "structure" );
+    std::vector<int> frame_indices = veh->all_standalone_parts();
 
     //Check for boat type vehicles that should be placeable in deep water
-    const bool can_float = size( veh->get_avail_parts( "FLOATS" ) ) > 2;
+    //WARNING: CURSED CODE
+    //If changed to veh->can_float mass calculations are messed up
+    const bool can_float = size( veh->get_avail_parts( "FLOATS" ) ) >= 1;
 
     //When hitting a wall, only smash the vehicle once (but walls many times)
     bool needs_smashing = false;
@@ -6500,7 +6514,7 @@ std::unique_ptr<vehicle> map::add_vehicle_to_map(
 
             // Hard wreck-merging limit: 200 tiles
             // Merging is slow for big vehicles which lags the mapgen
-            if( frame_indices.size() + other_veh->all_parts_at_location( "structure" ).size() > 200 ) {
+            if( frame_indices.size() + other_veh->all_standalone_parts().size() > 200 ) {
                 return nullptr;
             }
 
@@ -7495,7 +7509,7 @@ namespace mapgen
 
 bool has_update_id( const mapgen_id &id )
 {
-    return update_mapgen.find( id ) != update_mapgen.end();
+    return update_mapgen.contains( id );
 }
 
 } // namespace mapgen

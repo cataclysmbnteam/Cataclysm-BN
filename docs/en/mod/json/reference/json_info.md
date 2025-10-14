@@ -192,6 +192,8 @@ the appropriate JSON file.
 | time                                                                                                 | (_optional_) How long, when activated, between drawing cost. If 0, it draws power once. (default: `0`)                                                                          |
 | upgraded_bionic                                                                                      | (_optional_) Bionic that can be upgraded by installing this one.                                                                                                                |
 | required_bionics                                                                                     | (_optional_) Bionics which are required to install this bionic, and which cannot be uninstalled if this bionic is installed                                                     |
+| can_uninstall                                                                                        | (_optional_) Can the bionic be uninstalled once installed?                                                                                                                      |
+| no_uninstall_reason                                                                                  | (_optional_) Required with can_uninstall being false, string displayed when trying to uninstall the CBM.                                                                        |
 | available_upgrades                                                                                   | (_optional_) Upgrades available for this bionic, i.e. the list of bionics                                                                                                       |
 | having this one referenced by `upgraded_bionic`.                                                     |                                                                                                                                                                                 |
 | and how much this bionic encumber them.                                                              |                                                                                                                                                                                 |
@@ -615,6 +617,18 @@ wake up for the first time after 24 hours into the game.
 "name" : "submachine guns",  // In-game name displayed
 "description" : "Your skill with submachine guns and machine pistols. Halfway between a pistol and an assault rifle, these weapons fire and reload quickly, and may fire in bursts, but they are not very accurate.", // In-game description
 "tags" : ["gun_type"]  // Special flags (default: none)
+```
+
+### Missions
+
+(optional, array of mission ids)
+
+List of starting missions for this profession/hobby.
+
+Example:
+
+```JSON
+"missions": [ "MISSION_LAST_DELIVERY" ]
 ```
 
 ## `json/` JSONs

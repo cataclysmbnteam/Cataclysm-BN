@@ -13,6 +13,7 @@
 #include <utility>
 
 #include "action.h"
+#include "bodypart.h"
 #include "calendar.h"
 #include "cata_utility.h"
 #include "catacharset.h"
@@ -82,6 +83,9 @@ static const efftype_id effect_alarm_clock( "alarm_clock" );
 static const efftype_id effect_contacts( "contacts" );
 static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_slept_through_alarm( "slept_through_alarm" );
+static const efftype_id effect_cold( "cold" );
+static const efftype_id effect_hot( "hot" );
+static const efftype_id effect_hot_speed( "hot_speed" );
 
 static const itype_id itype_guidebook( "guidebook" );
 
@@ -116,7 +120,65 @@ avatar::avatar()
 
 avatar::~avatar() = default;
 avatar::avatar( avatar && )  noexcept = default;
-avatar &avatar::operator=( avatar && )  noexcept = default;
+avatar &avatar::operator=( avatar && ) noexcept = default;
+
+static void swap_npc( npc &one, npc &two, npc &tmp )
+{
+    tmp = std::move( one );
+    one = std::move( two );
+    two = std::move( tmp );
+}
+
+void avatar::control_npc( npc &np )
+{
+    if( !np.is_player_ally() ) {
+        debugmsg( "control_npc() called on non-allied npc %s", np.name );
+        return;
+    }
+    if( !shadow_npc ) {
+        shadow_npc = std::make_unique<npc>();
+        shadow_npc->op_of_u.trust = 10;
+        shadow_npc->op_of_u.value = 10;
+        shadow_npc->set_attitude( NPCATT_FOLLOW );
+    }
+    npc tmp;
+    std::string save_id = get_save_id();
+    // move avatar character data into shadow npc
+    swap_character( *shadow_npc, tmp );
+    // swap target npc with shadow npc
+    swap_npc( *shadow_npc, np, tmp );
+    // move shadow npc character data into avatar
+    swap_character( *shadow_npc, tmp );
+    set_save_id( save_id );
+    // Swappy the thirst and kcal so swapping is not infinite food with no food
+    if( get_option<bool>( "NO_NPC_FOOD" ) ) {
+        // You're stomachs become one thing :)
+        stomach = np.stomach;
+        set_thirst( np.get_thirst( ) );
+        set_stored_kcal( np.get_stored_kcal() );
+        // NPCs can't whine about a lack of food or water after you leave their body
+        np.set_stored_kcal( np.max_stored_kcal() - 100 );
+        np.set_thirst( 0 );
+    }
+    for( auto &pr : get_body() ) {
+        const bodypart_id &bp = pr.first;
+        np.remove_effect( effect_cold, bp.id() );
+        np.remove_effect( effect_hot, bp.id() );
+        np.remove_effect( effect_hot_speed, bp.id() );
+    }
+
+    np.onswapsetpos( np.pos() );
+    // the avatar character is no longer a follower NPC
+    g->remove_npc_follower( getID() );
+    // the previous avatar character is now a follower
+    g->add_npc_follower( np.getID() );
+    np.set_fac( faction_id( "your_followers" ) );
+    // perception and mutations may have changed, so reset light level caches
+    g->reset_light_level();
+    // center the map on the new avatar character
+    g->vertical_shift( posz() );
+    g->update_map( *this );
+}
 
 void avatar::toggle_map_memory()
 {
@@ -592,7 +654,7 @@ bool avatar::read( item *loc, const bool continuous )
                        elem.first->getID().get_value() ) != 0;
     } ) ||
     !std::all_of( activity->values.begin(), activity->values.end(), [&]( int elem ) {
-        return learners.find( g->find_npc( character_id( elem ) ) ) != learners.end();
+        return learners.contains( g->find_npc( character_id( elem ) ) );
     } ) ) {
 
         if( learners.size() == 1 ) {
