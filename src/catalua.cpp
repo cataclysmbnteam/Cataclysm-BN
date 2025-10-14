@@ -316,15 +316,23 @@ void reg_lua_iuse_actors( lua_state &state, Item_factory &ifactory )
             switch( ref.second.get_type() ) {
                 case sol::type::function: {
                     auto func =  ref.second.as<sol::function>();
-                    ifactory.add_actor( std::make_unique<lua_iuse_actor>( key, std::move( func ), sol::lua_nil ) );
+                    ifactory.add_actor( std::make_unique<lua_iuse_actor>(
+                                            key,
+                                            std::move( func ),
+                                            sol::lua_nil,
+                                            sol::lua_nil ) );
                     break;
                 }
                 case sol::type::table: {
                     auto tbl = ref.second.as<sol::table>();
                     auto use_fn = tbl.get<sol::function>( "use" );
                     auto can_use_fn = tbl.get_or<sol::function>( "can_use", sol::lua_nil );
-                    ifactory.add_actor( std::make_unique<lua_iuse_actor>( key, std::move( use_fn ),
-                                        std::move( can_use_fn ) ) );
+                    auto tick_fn = tbl.get_or<sol::function>( "tick", sol::lua_nil );
+                    ifactory.add_actor( std::make_unique<lua_iuse_actor>(
+                                            key,
+                                            std::move( use_fn ),
+                                            std::move( can_use_fn ),
+                                            std::move( tick_fn ) ) );
                     break;
                 }
                 default: {

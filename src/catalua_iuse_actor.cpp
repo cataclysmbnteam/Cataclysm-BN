@@ -3,9 +3,14 @@
 #include "catalua_impl.h"
 #include "player.h"
 
-lua_iuse_actor::lua_iuse_actor( const std::string &type, sol::protected_function &&use_func,
-                                sol::protected_function &&can_use_func )
-    : iuse_actor( type ), use_func( use_func ), can_use_func( can_use_func ) {}
+lua_iuse_actor::lua_iuse_actor( const std::string &type,
+                                sol::protected_function &&use_func,
+                                sol::protected_function &&can_use_func,
+                                sol::protected_function &&tick_func )
+    : iuse_actor( type ),
+      use_func( use_func ),
+      can_use_func( can_use_func ),
+      tick_func( tick_func ) {}
 
 lua_iuse_actor::~lua_iuse_actor() = default;
 
@@ -16,17 +21,20 @@ void lua_iuse_actor::load( const JsonObject & )
 
 int lua_iuse_actor::use( player &who, item &itm, bool tick, const tripoint &pos ) const
 {
-    if( !tick ) {
-        try {
+    try {
+        if( !tick ) {
             sol::protected_function_result res = use_func( who.as_character(), itm, pos );
             check_func_result( res );
             int ret = res;
             return ret;
-        } catch( std::runtime_error &e ) {
-            debugmsg( "Failed to run iuse_function k='%s': %s", type, e.what() );
+        } else if (tick_func != sol::lua_nil) {
+            sol::protected_function_result res = tick_func( who.as_character(), itm, pos );
+            check_func_result( res );
+            int ret = res;
+            return ret;
         }
-    } else {
-        // TODO: ticking use
+    } catch( std::runtime_error &e ) {
+        debugmsg( "Failed to run iuse_function k='%s': %s", type, e.what() );
     }
     return 1;
 }
