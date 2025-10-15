@@ -63,6 +63,58 @@ Function `( ActivityTypeId, <cppval: 7JsonOut > )`
 
 Function `( ActivityTypeId, <cppval: 6JsonIn > )`
 
+## AmmunitionTypeId
+
+### Bases
+
+No base classes.
+
+### Constructors
+
+#### `AmmunitionTypeId.new()`
+
+#### `AmmunitionTypeId.new( AmmunitionTypeId )`
+
+#### `AmmunitionTypeId.new( string )`
+
+### Members
+
+#### obj
+
+Function `( AmmunitionTypeId ) -> AmmunitionTypeRaw`
+
+#### implements_int_id
+
+Function `() -> bool`
+
+#### is_null
+
+Function `( AmmunitionTypeId ) -> bool`
+
+#### is_valid
+
+Function `( AmmunitionTypeId ) -> bool`
+
+#### str
+
+Function `( AmmunitionTypeId ) -> string`
+
+#### NULL_ID
+
+Function `() -> AmmunitionTypeId`
+
+#### __tostring
+
+Function `( AmmunitionTypeId ) -> string`
+
+#### serialize
+
+Function `( AmmunitionTypeId, <cppval: 7JsonOut > )`
+
+#### deserialize
+
+Function `( AmmunitionTypeId, <cppval: 6JsonIn > )`
+
 ## Angle
 
 ### Bases
@@ -278,6 +330,34 @@ Function `( BodyPartTypeIntId ) -> bool`
 #### __tostring
 
 Function `( BodyPartTypeIntId ) -> string`
+
+## BookRecipe
+
+### Bases
+
+No base classes.
+
+### Constructors
+
+No constructors.
+
+### Members
+
+#### name
+
+Variable of type `string`
+
+#### skill_level
+
+Variable of type `int`
+
+#### recipe
+
+Variable of type `RecipeRaw`
+
+#### hidden
+
+Variable of type `bool`
 
 ## Character
 
@@ -1094,10 +1174,15 @@ Function `( Character, JsonFlagId, bool ) -> Vector( Item )`
 Gets all items
 Function `( Character, bool ) -> Vector( Item )`
 
+#### items_with
+
+Filters items
+Function `( Character, <cppval: St8functionIFbRK4itemEE > ) -> Vector( Item )`
+
 #### inv_remove_item
 
 Removes given `Item` from character's inventory. The `Item` must be in the inventory, neither wielded nor worn.
-Function `( Character, Item )`
+Function `( Character, Item ) -> <cppval: 12detached_ptrI4itemE >`
 
 #### assign_activity
 
@@ -1327,6 +1412,14 @@ Function `( Character ) -> int`
 #### bodypart_exposure
 
 Function `( Character ) -> Map( BodyPartTypeIntId, double )`
+
+#### use_charges
+
+Function `( Character, ItypeId, int, <cppval: St8functionIFbRK4itemEE > ) -> Vector( <cppval: 12detached_ptrI4itemE > )`
+
+#### use_charges_if_avail
+
+Function `( Character, ItypeId, int ) -> bool`
 
 ## CharacterId
 
@@ -2385,6 +2478,488 @@ Variable of type `FurnId`
 
 Variable of type `FurnId`
 
+## IslotAmmo
+
+### Bases
+
+No base classes.
+
+### Constructors
+
+No constructors.
+
+### Members
+
+No members.
+
+## IslotArmor
+
+### Bases
+
+No base classes.
+
+### Constructors
+
+No constructors.
+
+### Members
+
+#### layer_data
+
+Variable of type `Vector( <cppval: 18armor_portion_data > )`
+
+#### env_resist
+
+Variable of type `int`
+
+#### env_resist_w_filter
+
+Variable of type `int`
+
+#### resistance
+
+Variable of type `<cppval: 11resistances >`
+
+#### sided
+
+Variable of type `bool`
+
+#### storage
+
+Variable of type `Volume`
+
+#### thickness
+
+Variable of type `int`
+
+#### valid_mods
+
+Variable of type `Vector( string )`
+
+#### warmth
+
+Variable of type `int`
+
+#### weight_capacity_bonus
+
+Variable of type `Mass`
+
+#### weight_capacity_modifier
+
+Variable of type `double`
+
+## IslotArtifact
+
+### Bases
+
+No base classes.
+
+### Constructors
+
+No constructors.
+
+### Members
+
+No members.
+
+## IslotBattery
+
+### Bases
+
+No base classes.
+
+### Constructors
+
+No constructors.
+
+### Members
+
+No members.
+
+## IslotBionic
+
+### Bases
+
+No base classes.
+
+### Constructors
+
+No constructors.
+
+### Members
+
+No members.
+
+## IslotBook
+
+### Bases
+
+No base classes.
+
+### Constructors
+
+No constructors.
+
+### Members
+
+#### time
+
+Variable of type `int`
+
+#### chapters
+
+Variable of type `int`
+
+#### martial_art
+
+Variable of type `MartialArtsId`
+
+#### fun
+
+Variable of type `int`
+
+#### intelligence
+
+Variable of type `int`
+
+#### skill
+
+Variable of type `SkillId`
+
+#### skill_min
+
+Variable of type `int`
+
+#### skill_max
+
+Variable of type `int`
+
+#### recipes
+
+Variable of type `Set( BookRecipe )`
+
+## IslotBrewable
+
+### Bases
+
+No base classes.
+
+### Constructors
+
+No constructors.
+
+### Members
+
+#### results
+
+Variable of type `Vector( ItypeId )`
+
+#### time
+
+Variable of type `TimeDuration`
+
+## IslotComestible
+
+### Bases
+
+No base classes.
+
+### Constructors
+
+No constructors.
+
+### Members
+
+No members.
+
+## IslotContainer
+
+### Bases
+
+No base classes.
+
+### Constructors
+
+No constructors.
+
+### Members
+
+#### contains
+
+Variable of type `Volume`
+
+#### preserves
+
+Variable of type `bool`
+
+#### seals
+
+Variable of type `bool`
+
+#### unseals_into
+
+Variable of type `ItypeId`
+
+#### watertight
+
+Variable of type `bool`
+
+## IslotEngine
+
+### Bases
+
+No base classes.
+
+### Constructors
+
+No constructors.
+
+### Members
+
+No members.
+
+## IslotFuel
+
+### Bases
+
+No base classes.
+
+### Constructors
+
+No constructors.
+
+### Members
+
+No members.
+
+## IslotGun
+
+### Bases
+
+No base classes.
+
+### Constructors
+
+No constructors.
+
+### Members
+
+No members.
+
+## IslotGunmod
+
+### Bases
+
+No base classes.
+
+### Constructors
+
+No constructors.
+
+### Members
+
+No members.
+
+## IslotMagazine
+
+### Bases
+
+No base classes.
+
+### Constructors
+
+No constructors.
+
+### Members
+
+No members.
+
+## IslotMilling
+
+### Bases
+
+No base classes.
+
+### Constructors
+
+No constructors.
+
+### Members
+
+No members.
+
+## IslotMod
+
+### Bases
+
+No base classes.
+
+### Constructors
+
+No constructors.
+
+### Members
+
+No members.
+
+## IslotPetArmor
+
+### Bases
+
+No base classes.
+
+### Constructors
+
+No constructors.
+
+### Members
+
+#### min_vol
+
+Variable of type `Volume`
+
+#### max_vol
+
+Variable of type `Volume`
+
+#### env_resist
+
+Variable of type `int`
+
+#### env_resist_w_filter
+
+Variable of type `int`
+
+#### storage
+
+Variable of type `Volume`
+
+#### thickness
+
+Variable of type `int`
+
+#### bodytype
+
+Variable of type `string`
+
+## IslotSeed
+
+### Bases
+
+No base classes.
+
+### Constructors
+
+No constructors.
+
+### Members
+
+#### get_plant_name
+
+Function `( IslotSeed, int ) -> string`
+
+#### fruit_id
+
+Variable of type `ItypeId`
+
+#### grow
+
+Variable of type `TimeDuration`
+
+#### byproducts
+
+Variable of type `Vector( ItypeId )`
+
+#### fruit_div
+
+Variable of type `int`
+
+## IslotTool
+
+### Bases
+
+No base classes.
+
+### Constructors
+
+No constructors.
+
+### Members
+
+#### charge_factor
+
+Variable of type `int`
+
+#### ammo_id
+
+Variable of type `Set( AmmunitionTypeId )`
+
+#### charges_per_use
+
+Variable of type `int`
+
+#### def_charges
+
+Variable of type `int`
+
+#### default_ammo
+
+Variable of type `ItypeId`
+
+#### max_charges
+
+Variable of type `int`
+
+#### power_draw
+
+Variable of type `int`
+
+#### rand_charges
+
+Variable of type `Vector( int )`
+
+#### revert_msg
+
+Variable of type `string`
+
+#### revert_to
+
+Variable of type `<cppval: St8optionalI9string_idI5itypeEE >`
+
+#### subtype
+
+Variable of type `ItypeId`
+
+#### turns_active
+
+Variable of type `int`
+
+#### turns_per_charge
+
+Variable of type `int`
+
+#### ups_eff_mult
+
+Variable of type `int`
+
+#### ups_recharge_rate
+
+Variable of type `int`
+
+## IslotWheel
+
+### Bases
+
+No base classes.
+
+### Constructors
+
+No constructors.
+
+### Members
+
+No members.
+
 ## Item
 
 ### Bases
@@ -2666,6 +3241,14 @@ Function `( Item )`
 #### deactivate
 
 Function `( Item )`
+
+#### set_charges
+
+Function `( Item, int )`
+
+#### set_countdown
+
+Function `( Item, int )`
 
 #### is_melee
 
@@ -2987,6 +3570,106 @@ Function `( ItypeId, <cppval: 7JsonOut > )`
 
 Function `( ItypeId, <cppval: 6JsonIn > )`
 
+## ItypeRaw
+
+### Bases
+
+No base classes.
+
+### Constructors
+
+No constructors.
+
+### Members
+
+#### container
+
+Function `( ItypeRaw ) -> IslotContainer`
+
+#### tool
+
+Function `( ItypeRaw ) -> IslotTool`
+
+#### comestible
+
+Function `( ItypeRaw ) -> IslotComestible`
+
+#### brewable
+
+Function `( ItypeRaw ) -> IslotBrewable`
+
+#### armor
+
+Function `( ItypeRaw ) -> IslotArmor`
+
+#### pet_armor
+
+Function `( ItypeRaw ) -> IslotPetArmor`
+
+#### book
+
+Function `( ItypeRaw ) -> IslotBook`
+
+#### mod
+
+Function `( ItypeRaw ) -> IslotMod`
+
+#### engine
+
+Function `( ItypeRaw ) -> IslotEngine`
+
+#### wheel
+
+Function `( ItypeRaw ) -> IslotWheel`
+
+#### fuel
+
+Function `( ItypeRaw ) -> IslotFuel`
+
+#### gun
+
+Function `( ItypeRaw ) -> IslotGun`
+
+#### gunmod
+
+Function `( ItypeRaw ) -> IslotGunmod`
+
+#### magazine
+
+Function `( ItypeRaw ) -> IslotMagazine`
+
+#### battery
+
+Function `( ItypeRaw ) -> IslotBattery`
+
+#### bionic
+
+Function `( ItypeRaw ) -> IslotBionic`
+
+#### ammo
+
+Function `( ItypeRaw ) -> IslotAmmo`
+
+#### seed
+
+Function `( ItypeRaw ) -> IslotSeed`
+
+#### artifact
+
+Function `( ItypeRaw ) -> IslotArtifact`
+
+#### relic
+
+Function `( ItypeRaw ) -> Relic`
+
+#### milling
+
+Function `( ItypeRaw ) -> IslotMilling`
+
+#### nname
+
+Function `( ItypeRaw, int ) -> string`
+
 ## JsonFlagId
 
 ### Bases
@@ -3136,10 +3819,6 @@ Function `( Map, Tripoint, Opt( MtypeId ), Opt( TimePoint ), Opt( string ), Opt(
 
 Function `( Map, Tripoint ) -> bool`
 
-#### get_items_at
-
-Function `( Map, Tripoint ) -> <cppval: St10unique_ptrI9map_stackSt14default_deleteIS0_EE >`
-
 #### remove_item_at
 
 Function `( Map, Tripoint, Item )`
@@ -3147,6 +3826,22 @@ Function `( Map, Tripoint, Item )`
 #### clear_items_at
 
 Function `( Map, Tripoint )`
+
+#### get_items_at
+
+Function `( Map, Tripoint ) -> <cppval: St10unique_ptrI9map_stackSt14default_deleteIS0_EE >`
+
+#### get_items_at_with
+
+Function `( Map, Tripoint, <cppval: St8functionIFbRK4itemEE > ) -> Vector( Item )`
+
+#### get_items_in_radius
+
+Function `( Map, Tripoint, int ) -> Vector( Item )`
+
+#### get_items_in_radius_with
+
+Function `( Map, Tripoint, int, <cppval: St8functionIFbRK4itemEE > ) -> Vector( Item )`
 
 #### get_ter_at
 
@@ -3287,6 +3982,58 @@ Function `( MartialArtsBuffId, <cppval: 7JsonOut > )`
 
 Function `( MartialArtsBuffId, <cppval: 6JsonIn > )`
 
+## MartialArtsId
+
+### Bases
+
+No base classes.
+
+### Constructors
+
+#### `MartialArtsId.new()`
+
+#### `MartialArtsId.new( MartialArtsId )`
+
+#### `MartialArtsId.new( string )`
+
+### Members
+
+#### obj
+
+Function `( MartialArtsId ) -> MartialArtsRaw`
+
+#### implements_int_id
+
+Function `() -> bool`
+
+#### is_null
+
+Function `( MartialArtsId ) -> bool`
+
+#### is_valid
+
+Function `( MartialArtsId ) -> bool`
+
+#### str
+
+Function `( MartialArtsId ) -> string`
+
+#### NULL_ID
+
+Function `() -> MartialArtsId`
+
+#### __tostring
+
+Function `( MartialArtsId ) -> string`
+
+#### serialize
+
+Function `( MartialArtsId, <cppval: 7JsonOut > )`
+
+#### deserialize
+
+Function `( MartialArtsId, <cppval: 6JsonIn > )`
+
 ## MartialArtsTechniqueId
 
 ### Bases
@@ -3338,6 +4085,98 @@ Function `( MartialArtsTechniqueId, <cppval: 7JsonOut > )`
 #### deserialize
 
 Function `( MartialArtsTechniqueId, <cppval: 6JsonIn > )`
+
+## MartialArtsTechniqueRaw
+
+### Bases
+
+No base classes.
+
+### Constructors
+
+No constructors.
+
+### Members
+
+#### name
+
+Function `()`
+
+#### get_description
+
+Function `( MartialArtsTechniqueRaw ) -> string`
+
+#### avatar_message
+
+Function `()`
+
+#### npc_message
+
+Function `()`
+
+#### defensive
+
+Function `()`
+
+#### side_switch
+
+Function `()`
+
+#### down_dur
+
+Function `()`
+
+#### stun_dur
+
+Function `()`
+
+#### knockback_dist
+
+Function `()`
+
+#### knockback_spread
+
+Function `()`
+
+#### powerful_knockback
+
+Function `()`
+
+#### crit_tec
+
+Function `()`
+
+#### crit_ok
+
+Function `()`
+
+#### knockback_follow
+
+Function `()`
+
+#### disarms
+
+Function `()`
+
+#### take_weapon
+
+Function `()`
+
+#### dodge_counter
+
+Function `()`
+
+#### block_counter
+
+Function `()`
+
+#### miss_recovery
+
+Function `()`
+
+#### grab_break
+
+Function `()`
 
 ## Mass
 
@@ -7022,9 +7861,34 @@ Function `()`
 Called when the game has first started
 Function `()`
 
+#### on_creature_dodged
+
+Called when a character successfully dodges
+Function `()`
+
+#### on_creature_blocked
+
+Called when a character successfully blocks
+Function `()`
+
+#### on_creature_performed_technique
+
+Called when a character has performed technique
+Function `()`
+
+#### on_creature_melee_attacked
+
+Called after a character has attacked in melee
+Function `()`
+
 #### on_character_reset_stats
 
 Called when character stat gets reset
+Function `()`
+
+#### on_char_death
+
+Called when a character is dead
 Function `()`
 
 #### on_mon_death

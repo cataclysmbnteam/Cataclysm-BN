@@ -45,6 +45,22 @@ ActivityTypeId = {}
 ---@overload fun(arg1: string): ActivityTypeId
 function ActivityTypeId.new() end
 
+---@class AmmunitionTypeId
+---@field NULL_ID fun(): AmmunitionTypeId
+---@field implements_int_id fun(): boolean
+---@field is_null fun(arg1: AmmunitionTypeId): boolean
+---@field is_valid fun(arg1: AmmunitionTypeId): boolean
+---@field obj fun(arg1: AmmunitionTypeId): AmmunitionTypeRaw
+---@field str fun(arg1: AmmunitionTypeId): string
+---@field serialize fun(arg1: AmmunitionTypeId)
+---@field deserialize fun(arg1: AmmunitionTypeId)
+---@field __tostring fun(arg1: AmmunitionTypeId): string
+AmmunitionTypeId = {}
+---@return AmmunitionTypeId
+---@overload fun(arg1: AmmunitionTypeId): AmmunitionTypeId
+---@overload fun(arg1: string): AmmunitionTypeId
+function AmmunitionTypeId.new() end
+
 ---@class Angle
 ---@field from_arcmin fun(arg1: number): Angle
 ---@field from_degrees fun(arg1: number): Angle
@@ -111,6 +127,15 @@ BodyPartTypeIntId = {}
 ---@overload fun(arg1: BodyPartTypeIntId): BodyPartTypeIntId
 ---@overload fun(arg1: BodyPartTypeId): BodyPartTypeIntId
 function BodyPartTypeIntId.new() end
+
+---@class BookRecipe
+---@field hidden boolean
+---@field name string
+---@field recipe RecipeRaw
+---@field skill_level integer
+BookRecipe = {}
+---@return BookRecipe
+function BookRecipe.new() end
 
 ---@class Character : Creature
 ---@field cash integer
@@ -245,7 +270,7 @@ function BodyPartTypeIntId.new() end
 ---@field hitall fun(arg1: Character, arg2: integer, arg3: integer, arg4: Creature): integer
 ---@field hurtall fun(arg1: Character, arg2: integer, arg3: Creature, arg4: boolean)
 ---@field in_climate_control fun(arg1: Character): boolean
----@field inv_remove_item fun(arg1: Character, arg2: Item) @Removes given `Item` from character's inventory. The `Item` must be in the inventory, neither wielded nor worn.
+---@field inv_remove_item fun(arg1: Character, arg2: Item): any @Removes given `Item` from character's inventory. The `Item` must be in the inventory, neither wielded nor worn.
 ---@field irradiate fun(arg1: Character, arg2: number, arg3: boolean): boolean
 ---@field is_armed fun(arg1: Character): boolean
 ---@field is_blind fun(arg1: Character): boolean
@@ -269,6 +294,7 @@ function BodyPartTypeIntId.new() end
 ---@field is_wearing_power_armor fun(arg1: Character, arg2: boolean): boolean
 ---@field is_wielding fun(arg1: Character, arg2: Item): boolean
 ---@field is_worn fun(arg1: Character, arg2: Item): boolean
+---@field items_with fun(arg1: Character): Item[] @Filters items
 ---@field item_worn_with_flag fun(arg1: Character, arg2: JsonFlagId, arg3: BodyPartTypeIntId): Item
 ---@field item_worn_with_id fun(arg1: Character, arg2: ItypeId, arg3: BodyPartTypeIntId): Item
 ---@field knows_recipe fun(arg1: Character, arg2: RecipeId): boolean
@@ -360,6 +386,8 @@ function BodyPartTypeIntId.new() end
 ---@field uncanny_dodge fun(arg1: Character): boolean
 ---@field unset_mutation fun(arg1: Character, arg2: MutationBranchId)
 ---@field unwield fun(arg1: Character): boolean
+---@field use_charges fun(arg1: Character, arg2: ItypeId, arg3: integer): any
+---@field use_charges_if_avail fun(arg1: Character, arg2: ItypeId, arg3: integer): boolean
 ---@field volume_capacity fun(arg1: Character): Volume
 ---@field volume_carried fun(arg1: Character): Volume
 ---@field vomit fun(arg1: Character)
@@ -682,6 +710,160 @@ FurnRaw = {}
 ---@return FurnRaw
 function FurnRaw.new() end
 
+---@class IslotAmmo
+IslotAmmo = {}
+---@return IslotAmmo
+function IslotAmmo.new() end
+
+---@class IslotArmor
+---@field env_resist integer
+---@field env_resist_w_filter integer
+---@field layer_data any
+---@field resistance any
+---@field sided boolean
+---@field storage Volume
+---@field thickness integer
+---@field valid_mods string[]
+---@field warmth integer
+---@field weight_capacity_bonus Mass
+---@field weight_capacity_modifier number
+IslotArmor = {}
+---@return IslotArmor
+function IslotArmor.new() end
+
+---@class IslotArtifact
+IslotArtifact = {}
+---@return IslotArtifact
+function IslotArtifact.new() end
+
+---@class IslotBattery
+IslotBattery = {}
+---@return IslotBattery
+function IslotBattery.new() end
+
+---@class IslotBionic
+IslotBionic = {}
+---@return IslotBionic
+function IslotBionic.new() end
+
+---@class IslotBook
+---@field chapters integer
+---@field fun integer
+---@field intelligence integer
+---@field martial_art MartialArtsId
+---@field recipes BookRecipe[]
+---@field skill SkillId
+---@field skill_max integer
+---@field skill_min integer
+---@field time integer
+IslotBook = {}
+---@return IslotBook
+function IslotBook.new() end
+
+---@class IslotBrewable
+---@field results ItypeId[]
+---@field time TimeDuration
+IslotBrewable = {}
+---@return IslotBrewable
+function IslotBrewable.new() end
+
+---@class IslotComestible
+IslotComestible = {}
+---@return IslotComestible
+function IslotComestible.new() end
+
+---@class IslotContainer
+---@field contains Volume
+---@field preserves boolean
+---@field seals boolean
+---@field unseals_into ItypeId
+---@field watertight boolean
+IslotContainer = {}
+---@return IslotContainer
+function IslotContainer.new() end
+
+---@class IslotEngine
+IslotEngine = {}
+---@return IslotEngine
+function IslotEngine.new() end
+
+---@class IslotFuel
+IslotFuel = {}
+---@return IslotFuel
+function IslotFuel.new() end
+
+---@class IslotGun
+IslotGun = {}
+---@return IslotGun
+function IslotGun.new() end
+
+---@class IslotGunmod
+IslotGunmod = {}
+---@return IslotGunmod
+function IslotGunmod.new() end
+
+---@class IslotMagazine
+IslotMagazine = {}
+---@return IslotMagazine
+function IslotMagazine.new() end
+
+---@class IslotMilling
+IslotMilling = {}
+---@return IslotMilling
+function IslotMilling.new() end
+
+---@class IslotMod
+IslotMod = {}
+---@return IslotMod
+function IslotMod.new() end
+
+---@class IslotPetArmor
+---@field bodytype string
+---@field env_resist integer
+---@field env_resist_w_filter integer
+---@field max_vol Volume
+---@field min_vol Volume
+---@field storage Volume
+---@field thickness integer
+IslotPetArmor = {}
+---@return IslotPetArmor
+function IslotPetArmor.new() end
+
+---@class IslotSeed
+---@field byproducts ItypeId[]
+---@field fruit_div integer
+---@field fruit_id ItypeId
+---@field grow TimeDuration
+---@field get_plant_name fun(arg1: IslotSeed, arg2: integer): string
+IslotSeed = {}
+---@return IslotSeed
+function IslotSeed.new() end
+
+---@class IslotTool
+---@field ammo_id AmmunitionTypeId[]
+---@field charge_factor integer
+---@field charges_per_use integer
+---@field default_ammo ItypeId
+---@field def_charges integer
+---@field max_charges integer
+---@field power_draw integer
+---@field rand_charges int[]
+---@field revert_msg string
+---@field revert_to any
+---@field subtype ItypeId
+---@field turns_active integer
+---@field turns_per_charge integer
+---@field ups_eff_mult integer
+---@field ups_recharge_rate integer
+IslotTool = {}
+---@return IslotTool
+function IslotTool.new() end
+
+---@class IslotWheel
+IslotWheel = {}
+---@return IslotWheel
+function IslotWheel.new() end
+
 ---@class Item
 ---@field charges integer
 ---@field activate fun(arg1: Item)
@@ -790,6 +972,8 @@ function FurnRaw.new() end
 ---@field price fun(arg1: Item, arg2: boolean): number @Cents of the item. `bool` is whether it is a post-cataclysm value.
 ---@field remaining_capacity_for_id fun(arg1: Item, arg2: ItypeId, arg3: boolean): integer @Gets the remaining space available for a type of liquid
 ---@field remove_technique fun(arg1: Item, arg2: MartialArtsTechniqueId) @Removes the additional technique. Doesn't affect originial techniques.
+---@field set_charges fun(arg1: Item, arg2: integer)
+---@field set_countdown fun(arg1: Item, arg2: integer)
 ---@field set_flag fun(arg1: Item, arg2: JsonFlagId)
 ---@field set_flag_recursive fun(arg1: Item, arg2: JsonFlagId)
 ---@field set_owner fun(arg1: Item, arg2: Character) @Sets the ownership of this item to a character
@@ -830,6 +1014,33 @@ ItypeId = {}
 ---@overload fun(arg1: ItypeId): ItypeId
 ---@overload fun(arg1: string): ItypeId
 function ItypeId.new() end
+
+---@class ItypeRaw
+---@field ammo fun(arg1: ItypeRaw): IslotAmmo
+---@field armor fun(arg1: ItypeRaw): IslotArmor
+---@field artifact fun(arg1: ItypeRaw): IslotArtifact
+---@field battery fun(arg1: ItypeRaw): IslotBattery
+---@field bionic fun(arg1: ItypeRaw): IslotBionic
+---@field book fun(arg1: ItypeRaw): IslotBook
+---@field brewable fun(arg1: ItypeRaw): IslotBrewable
+---@field comestible fun(arg1: ItypeRaw): IslotComestible
+---@field container fun(arg1: ItypeRaw): IslotContainer
+---@field engine fun(arg1: ItypeRaw): IslotEngine
+---@field fuel fun(arg1: ItypeRaw): IslotFuel
+---@field gun fun(arg1: ItypeRaw): IslotGun
+---@field gunmod fun(arg1: ItypeRaw): IslotGunmod
+---@field magazine fun(arg1: ItypeRaw): IslotMagazine
+---@field milling fun(arg1: ItypeRaw): IslotMilling
+---@field mod fun(arg1: ItypeRaw): IslotMod
+---@field nname fun(arg1: ItypeRaw, arg2: integer): string
+---@field pet_armor fun(arg1: ItypeRaw): IslotPetArmor
+---@field relic fun(arg1: ItypeRaw): Relic
+---@field seed fun(arg1: ItypeRaw): IslotSeed
+---@field tool fun(arg1: ItypeRaw): IslotTool
+---@field wheel fun(arg1: ItypeRaw): IslotWheel
+ItypeRaw = {}
+---@return ItypeRaw
+function ItypeRaw.new() end
 
 ---@class JsonFlagId
 ---@field NULL_ID fun(): JsonFlagId
@@ -874,6 +1085,9 @@ function JsonTraitFlagId.new() end
 ---@field get_field_int_at fun(arg1: Map, arg2: Tripoint, arg3: FieldTypeIntId): integer
 ---@field get_furn_at fun(arg1: Map, arg2: Tripoint): FurnIntId
 ---@field get_items_at fun(arg1: Map, arg2: Tripoint): any
+---@field get_items_at_with fun(arg1: Map, arg2: Tripoint): Item[]
+---@field get_items_in_radius fun(arg1: Map, arg2: Tripoint, arg3: integer): Item[]
+---@field get_items_in_radius_with fun(arg1: Map, arg2: Tripoint, arg3: integer): Item[]
 ---@field get_local_ms fun(arg1: Map, arg2: Tripoint): Tripoint @Convert absolute ms -> local ms
 ---@field get_map_size fun(arg1: Map): integer @In map squares
 ---@field get_map_size_in_submaps fun(arg1: Map): integer
@@ -917,6 +1131,22 @@ MartialArtsBuffId = {}
 ---@overload fun(arg1: string): MartialArtsBuffId
 function MartialArtsBuffId.new() end
 
+---@class MartialArtsId
+---@field NULL_ID fun(): MartialArtsId
+---@field implements_int_id fun(): boolean
+---@field is_null fun(arg1: MartialArtsId): boolean
+---@field is_valid fun(arg1: MartialArtsId): boolean
+---@field obj fun(arg1: MartialArtsId): MartialArtsRaw
+---@field str fun(arg1: MartialArtsId): string
+---@field serialize fun(arg1: MartialArtsId)
+---@field deserialize fun(arg1: MartialArtsId)
+---@field __tostring fun(arg1: MartialArtsId): string
+MartialArtsId = {}
+---@return MartialArtsId
+---@overload fun(arg1: MartialArtsId): MartialArtsId
+---@overload fun(arg1: string): MartialArtsId
+function MartialArtsId.new() end
+
 ---@class MartialArtsTechniqueId
 ---@field NULL_ID fun(): MartialArtsTechniqueId
 ---@field implements_int_id fun(): boolean
@@ -932,6 +1162,31 @@ MartialArtsTechniqueId = {}
 ---@overload fun(arg1: MartialArtsTechniqueId): MartialArtsTechniqueId
 ---@overload fun(arg1: string): MartialArtsTechniqueId
 function MartialArtsTechniqueId.new() end
+
+---@class MartialArtsTechniqueRaw
+---@field avatar_message fun()
+---@field block_counter fun()
+---@field crit_ok fun()
+---@field crit_tec fun()
+---@field defensive fun()
+---@field disarms fun()
+---@field dodge_counter fun()
+---@field down_dur fun()
+---@field get_description fun(arg1: MartialArtsTechniqueRaw): string
+---@field grab_break fun()
+---@field knockback_dist fun()
+---@field knockback_follow fun()
+---@field knockback_spread fun()
+---@field miss_recovery fun()
+---@field name fun()
+---@field npc_message fun()
+---@field powerful_knockback fun()
+---@field side_switch fun()
+---@field stun_dur fun()
+---@field take_weapon fun()
+MartialArtsTechniqueRaw = {}
+---@return MartialArtsTechniqueRaw
+function MartialArtsTechniqueRaw.new() end
 
 ---@class Mass
 ---@field from_gram fun(arg1: integer): Mass
@@ -1815,18 +2070,17 @@ gdebug = {}
 --- Documentation for hooks
 ---@class hooks
 ---@field on_character_reset_stats fun() @Called when character stat gets reset
+---@field on_char_death fun() @Called when a character is dead
+---@field on_creature_blocked fun() @Called when a character successfully blocks
+---@field on_creature_dodged fun() @Called when a character successfully dodges
+---@field on_creature_melee_attacked fun() @Called after a character has attacked in melee
+---@field on_creature_performed_technique fun() @Called when a character has performed technique
 ---@field on_every_x fun() @Called every in-game period
 ---@field on_game_load fun() @Called right after game has loaded
 ---@field on_game_save fun() @Called when game is about to save
 ---@field on_game_started fun() @Called when the game has first started
 ---@field on_mapgen_postprocess fun(arg1: Map, arg2: Tripoint, arg3: TimePoint) @Called right after mapgen has completed. Map argument is the tinymap that represents 24x24 area (2x2 submaps, or 1x1 omt), tripoint is the absolute omt pos, and time_point is the current time (for time-based effects).
 ---@field on_mon_death fun() @Called when a monster is dead
----@field on_char_death fun() @Called after a character has died
----@field on_creature_dodged fun() @Called after a creature has dodged an attack
----@field on_creature_blocked fun() @Called after a creature has blocked an attack
----@field on_creature_melee_attacked fun() @Called after a creature has attacked in melee
----@field on_creature_performed_technique fun() @Called after a character has performed a combat technique
-
 hooks = {}
 
 --- Localization API.
