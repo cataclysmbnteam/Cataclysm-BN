@@ -348,6 +348,27 @@ void reg_islot( sol::state &lua )
         SET_MEMB_RO(time);
     }
 #undef UT_CLASS
+
+#define UT_CLASS islot_armor
+    {
+        sol::usertype<UT_CLASS> ut = luna::new_usertype<UT_CLASS>( lua, luna::no_bases, luna::no_constructor );
+
+        SET_MEMB_N_RO(data, "layer_data");
+        // TODO: add armor_portion_data binding
+        SET_MEMB_RO(env_resist);
+        SET_MEMB_RO(env_resist_w_filter);
+        SET_MEMB_RO(resistance);
+        // TODO: add resistances binding
+        SET_MEMB_RO(sided);
+        SET_MEMB_RO(storage);
+        SET_MEMB_RO(thickness);
+        SET_MEMB_RO(valid_mods);
+        SET_MEMB_RO(warmth);
+        SET_MEMB_RO(weight_capacity_bonus);
+        SET_MEMB_RO(weight_capacity_modifier);
+    }
+#undef UT_CLASS
+
 #define UT_CLASS islot_pet_armor
     {
         sol::usertype<UT_CLASS> ut = luna::new_usertype<UT_CLASS>( lua, luna::no_bases, luna::no_constructor );
