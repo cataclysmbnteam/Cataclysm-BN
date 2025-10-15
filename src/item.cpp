@@ -3154,7 +3154,7 @@ void item::book_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
     }
 
     std::vector<std::string> recipe_list;
-    for( const islot_book::recipe_with_description_t &elem : book.recipes ) {
+    for( const book_recipe &elem : book.recipes ) {
         const bool knows_it = you.knows_recipe( elem.recipe );
         const bool can_learn = you.get_skill_level( elem.recipe->skill_used )  >= elem.skill_level;
         // If the player knows it, they recognize it even if it's not clearly stated.
@@ -7741,7 +7741,7 @@ std::vector<std::pair<const recipe *, int>> item::get_available_recipes( const C
 {
     std::vector<std::pair<const recipe *, int>> recipe_entries;
     if( is_book() ) {
-        for( const islot_book::recipe_with_description_t &elem : type->book->recipes ) {
+        for( const book_recipe &elem : type->book->recipes ) {
             if( u.get_skill_level( elem.recipe->skill_used ) >= elem.skill_level ) {
                 recipe_entries.emplace_back( elem.recipe, elem.skill_level );
             }

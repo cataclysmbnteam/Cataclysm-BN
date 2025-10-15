@@ -71,6 +71,7 @@ struct species_type;
 struct tripoint;
 struct trap;
 struct uilist_entry;
+struct book_recipe;
 class ammunition_type;
 class martialart;
 
@@ -153,6 +154,7 @@ LUNA_VAL( units::angle, "Angle" );
 LUNA_VAL( units::energy, "Energy" );
 LUNA_VAL( units::mass, "Mass" );
 LUNA_VAL( units::volume, "Volume" );
+LUNA_VAL( book_recipe, "BookRecipe" );
 
 
 // Ids for in-game objects

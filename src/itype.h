@@ -341,6 +341,33 @@ struct islot_pet_armor {
     std::string bodytype = "none";
 };
 
+/**
+     * What recipes can be learned from this book.
+     */
+struct book_recipe {
+    /**
+     * The recipe that can be learned (never null).
+     */
+    const class recipe *recipe;
+    /**
+     * The skill level required to learn the recipe.
+     */
+    int skill_level;
+    /**
+     * The name for the recipe as it appears in the book.
+     */
+    std::string name;
+    /**
+     * Hidden means it does not show up in the description of the book.
+     */
+    bool hidden;
+    bool is_hidden() const {
+        return hidden;
+    }
+
+    LUA_TYPE_OPS(book_recipe, recipe);
+};
+
 struct islot_book {
     /**
      * Which skill it upgrades, if any. Can be @ref skill_id::NULL_ID.
@@ -375,35 +402,8 @@ struct islot_book {
      * Fun books have chapters; after all are read, the book is less fun.
      */
     int chapters = 0;
-    /**
-     * What recipes can be learned from this book.
-     */
-    struct recipe_with_description_t {
-        /**
-         * The recipe that can be learned (never null).
-         */
-        const class recipe *recipe;
-        /**
-         * The skill level required to learn the recipe.
-         */
-        int skill_level;
-        /**
-         * The name for the recipe as it appears in the book.
-         */
-        std::string name;
-        /**
-         * Hidden means it does not show up in the description of the book.
-         */
-        bool hidden;
-        bool operator<( const recipe_with_description_t &rhs ) const {
-            return recipe < rhs.recipe;
-        }
-        bool is_hidden() const {
-            return hidden;
-        }
-    };
-    using recipe_list_t = std::set<recipe_with_description_t>;
-    recipe_list_t recipes;
+
+    std::set<book_recipe> recipes;
 };
 
 struct islot_mod {
