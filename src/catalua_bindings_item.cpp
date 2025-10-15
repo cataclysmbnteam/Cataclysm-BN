@@ -340,6 +340,14 @@ void reg_islot( sol::state &lua )
         SET_MEMB_RO(ups_recharge_rate);
     }
 #undef UT_CLASS
+#define UT_CLASS islot_brewable
+    {
+        sol::usertype<UT_CLASS> ut = luna::new_usertype<UT_CLASS>( lua, luna::no_bases, luna::no_constructor );
+
+        SET_MEMB_RO(results);
+        SET_MEMB_RO(time);
+    }
+#undef UT_CLASS
 #define UT_CLASS islot_pet_armor
     {
         sol::usertype<UT_CLASS> ut = luna::new_usertype<UT_CLASS>( lua, luna::no_bases, luna::no_constructor );
