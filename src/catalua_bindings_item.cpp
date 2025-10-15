@@ -270,7 +270,6 @@ void reg_item( sol::state &lua )
 
 void reg_itype( sol::state &lua )
 {
-    //#define WRAP_MEMB_RO SET_MEMB_RO
 #define UT_CLASS itype
     {
         sol::usertype<itype> ut = luna::new_usertype<itype>( lua, luna::no_bases, luna::no_constructor );
@@ -340,6 +339,13 @@ void reg_islot( sol::state &lua )
         SET_MEMB_RO(ups_recharge_rate);
     }
 #undef UT_CLASS
+
+#define UT_CLASS islot_comestible
+    {
+        sol::usertype<UT_CLASS> ut = luna::new_usertype<UT_CLASS>( lua, luna::no_bases, luna::no_constructor );
+    }
+#undef UT_CLASS
+
 #define UT_CLASS islot_brewable
     {
         sol::usertype<UT_CLASS> ut = luna::new_usertype<UT_CLASS>( lua, luna::no_bases, luna::no_constructor );
@@ -382,6 +388,7 @@ void reg_islot( sol::state &lua )
         SET_MEMB_RO(bodytype);
     }
 #undef UT_CLASS
+
 #define UT_CLASS islot_book
     {
         auto ut = luna::new_usertype<UT_CLASS>( lua, luna::no_bases, luna::no_constructor );
@@ -398,6 +405,66 @@ void reg_islot( sol::state &lua )
     }
 #undef UT_CLASS
 
+#define UT_CLASS islot_mod
+    {
+        sol::usertype<UT_CLASS> ut = luna::new_usertype<UT_CLASS>( lua, luna::no_bases, luna::no_constructor );
+    }
+#undef UT_CLASS
+
+#define UT_CLASS islot_engine
+    {
+        sol::usertype<UT_CLASS> ut = luna::new_usertype<UT_CLASS>( lua, luna::no_bases, luna::no_constructor );
+    }
+#undef UT_CLASS
+
+#define UT_CLASS islot_wheel
+    {
+        sol::usertype<UT_CLASS> ut = luna::new_usertype<UT_CLASS>( lua, luna::no_bases, luna::no_constructor );
+    }
+#undef UT_CLASS
+
+#define UT_CLASS islot_fuel
+    {
+        sol::usertype<UT_CLASS> ut = luna::new_usertype<UT_CLASS>( lua, luna::no_bases, luna::no_constructor );
+    }
+#undef UT_CLASS
+
+#define UT_CLASS islot_gun
+    {
+        sol::usertype<UT_CLASS> ut = luna::new_usertype<UT_CLASS>( lua, luna::no_bases, luna::no_constructor );
+    }
+#undef UT_CLASS
+
+#define UT_CLASS islot_gunmod
+    {
+        sol::usertype<UT_CLASS> ut = luna::new_usertype<UT_CLASS>( lua, luna::no_bases, luna::no_constructor );
+    }
+#undef UT_CLASS
+
+#define UT_CLASS islot_magazine
+    {
+        sol::usertype<UT_CLASS> ut = luna::new_usertype<UT_CLASS>( lua, luna::no_bases, luna::no_constructor );
+    }
+#undef UT_CLASS
+
+#define UT_CLASS islot_battery
+    {
+        sol::usertype<UT_CLASS> ut = luna::new_usertype<UT_CLASS>( lua, luna::no_bases, luna::no_constructor );
+    }
+#undef UT_CLASS
+
+#define UT_CLASS islot_bionic
+    {
+        sol::usertype<UT_CLASS> ut = luna::new_usertype<UT_CLASS>( lua, luna::no_bases, luna::no_constructor );
+    }
+#undef UT_CLASS
+
+#define UT_CLASS islot_ammo
+    {
+        sol::usertype<UT_CLASS> ut = luna::new_usertype<UT_CLASS>( lua, luna::no_bases, luna::no_constructor );
+    }
+#undef UT_CLASS
+
 #define UT_CLASS islot_seed
     {
         sol::usertype<UT_CLASS> ut = luna::new_usertype<UT_CLASS>( lua, luna::no_bases, luna::no_constructor );
@@ -407,6 +474,18 @@ void reg_islot( sol::state &lua )
         SET_MEMB_RO( grow );
         SET_MEMB_RO( byproducts );
         SET_MEMB_RO( fruit_div );
+    }
+#undef UT_CLASS
+
+#define UT_CLASS islot_artifact
+    {
+        sol::usertype<UT_CLASS> ut = luna::new_usertype<UT_CLASS>( lua, luna::no_bases, luna::no_constructor );
+    }
+#undef UT_CLASS
+
+#define UT_CLASS islot_milling
+    {
+        sol::usertype<UT_CLASS> ut = luna::new_usertype<UT_CLASS>( lua, luna::no_bases, luna::no_constructor );
     }
 #undef UT_CLASS
 }
