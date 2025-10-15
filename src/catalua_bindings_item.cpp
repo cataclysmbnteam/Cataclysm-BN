@@ -318,4 +318,27 @@ void reg_islot( sol::state &lua )
     }
 #undef UT_CLASS
 
+#define UT_CLASS islot_tool
+    {
+        sol::usertype<UT_CLASS> ut = luna::new_usertype<UT_CLASS>( lua, luna::no_bases, luna::no_constructor );
+
+        SET_MEMB_RO(charge_factor);
+        SET_MEMB_RO(ammo_id);
+        SET_MEMB_RO(charges_per_use);
+        SET_MEMB_RO(def_charges);
+        SET_MEMB_RO(default_ammo);
+        SET_MEMB_RO(max_charges);
+        SET_MEMB_RO(power_draw);
+        SET_MEMB_RO(rand_charges);
+        SET_MEMB_RO(revert_msg);
+        // TODO: does std::optional map nicely? wrap into a function if not, or add a binding to std::optional?
+        SET_MEMB_RO(revert_to);
+        SET_MEMB_RO(subtype);
+        SET_MEMB_RO(turns_active);
+        SET_MEMB_RO(turns_per_charge);
+        SET_MEMB_RO(ups_eff_mult);
+        SET_MEMB_RO(ups_recharge_rate);
+    }
+#undef UT_CLASS
+
 }
