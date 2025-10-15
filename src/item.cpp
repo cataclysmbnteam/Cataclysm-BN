@@ -610,9 +610,7 @@ void item::activate()
         return; // no-op
     }
 
-    if( type->countdown_interval > 0 ) {
-        item_counter = type->countdown_interval;
-    }
+    set_countdown(-1);
 
     active = true;
 
@@ -9322,6 +9320,15 @@ detached_ptr<item> item::fill_with( detached_ptr<item> &&liquid, int amount )
         return std::move( liquid );
     }
     return detached_ptr<item>();
+}
+
+void item::set_countdown( int value ) {
+    if (value < 0) {
+        item_counter = type->countdown_interval;
+        return;
+    }
+
+    item_counter = value;
 }
 
 void item::set_charges( int value )

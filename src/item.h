@@ -723,9 +723,15 @@ class item : public location_visitable<item>, public game_object<item>
         int reach_range( const Character &guy ) const;
 
         /**
-         * Sets time until activation for an item that will self-activate in the future.
+         * Sets item charges.
          **/
         void set_charges( int value );
+
+        /**
+         * Sets time until countdown_action will trigger, maybe re-set for continuous activation.
+         * A negative value will set the timer to the item's default countdown_interval
+         **/
+        void set_countdown( int value );
 
         /**
          * Consumes specified charges (or fewer) from this and any contained items
