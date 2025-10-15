@@ -29,7 +29,7 @@ void cata::detail::reg_recipe( sol::state &lua )
         );
         SET_MEMB( category );
         SET_MEMB( subcategory );
-        luna::set( ut, "time", &recipe::time );
+        SET_MEMB( time );
         SET_MEMB( skill_used );
         SET_MEMB( difficulty );
         SET_MEMB( required_skills );
@@ -59,4 +59,15 @@ void cata::detail::reg_recipe( sol::state &lua )
         luna::set_fx( ut, "get_all", []() -> std::vector<recipe> { return recipe_dict | views::values | ranges::to<std::vector<recipe>>(); } );
     }
 #undef UT_CLASS // #define UT_CLASS recipe
+
+#define UT_CLASS book_recipe
+{
+    auto ut = luna::new_usertype<UT_CLASS>( lua, luna::no_bases, luna::no_constructor );
+
+    SET_MEMB( name );
+    SET_MEMB( skill_level );
+    SET_MEMB( recipe );
+    SET_MEMB( hidden );
+}
+#undef UT_CLASS
 }
