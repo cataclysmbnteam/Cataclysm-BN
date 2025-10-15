@@ -110,7 +110,7 @@ std::string doc_value_impl()
         if constexpr( luna_traits<ValBare>::impl ) {
             return std::string( luna_traits<ValBare>::name );
         } else {
-            const std::string& str = sol::detail::demangle<Val>();
+            const std::string &str = sol::detail::demangle<Val>();
             return std::string( "<cppval: " ) + str + " >";
         }
     }
