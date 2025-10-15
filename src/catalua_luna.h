@@ -110,7 +110,8 @@ std::string doc_value_impl()
         if constexpr( luna_traits<ValBare>::impl ) {
             return std::string( luna_traits<ValBare>::name );
         } else {
-            return std::string( "<cppval: " ) + typeid( ValBare ).name() + " >";
+            const std::string& str = sol::detail::demangle<Val>();
+            return std::string( "<cppval: " ) + str + " >";
         }
     }
 }
@@ -141,6 +142,14 @@ std::string doc_value( sol::types<std::tuple<Args...>> )
 
 template<typename Val>
 std::string doc_value( sol::types<sol::optional<Val>> )
+{
+    std::string ret = "Opt( ";
+    ret += doc_value( sol::types<Val>() );
+    return ret + " )";
+}
+
+template<typename Val>
+std::string doc_value( sol::types<std::optional<Val>> )
 {
     std::string ret = "Opt( ";
     ret += doc_value( sol::types<Val>() );
