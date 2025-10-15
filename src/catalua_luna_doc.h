@@ -20,6 +20,10 @@ enum npc_attitude : int;
 enum npc_need : int;
 enum mission_origin : int;
 enum mission_goal : int;
+enum art_charge : int;
+enum art_charge_req : int;
+enum art_effect_active : int;
+enum art_effect_passive : int;
 
 namespace sfx
 {
@@ -75,6 +79,7 @@ struct uilist_entry;
 struct book_recipe;
 class ammunition_type;
 class martialart;
+struct common_ranged_data;
 
 namespace units
 {
@@ -177,6 +182,7 @@ LUNA_VAL( units::mass, "Mass" );
 LUNA_VAL( units::volume, "Volume" );
 LUNA_VAL( relic, "Relic" )
 LUNA_VAL( book_recipe, "BookRecipe" );
+LUNA_VAL( common_ranged_data, "RangedData" )
 
 
 // Ids for in-game objects
@@ -225,6 +231,10 @@ LUNA_ENUM( npc_need, "NpcNeed" )
 LUNA_ENUM( sfx::channel, "SfxChannel" )
 LUNA_ENUM( mission_origin, "MissionOrigin" )
 LUNA_ENUM( mission_goal, "MissionGoal" )
+LUNA_ENUM( art_charge, "ArtifactCharge" )
+LUNA_ENUM( art_charge_req, "ArtifactChargeReq" )
+LUNA_ENUM( art_effect_active, "ArtifactEffectPassive" )
+LUNA_ENUM( art_effect_passive, "ArtifactEffectActive" )
 
 // ISlot
 LUNA_VAL( islot_container, "IslotContainer" );

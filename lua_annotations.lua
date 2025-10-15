@@ -710,7 +710,20 @@ FurnRaw = {}
 ---@return FurnRaw
 function FurnRaw.new() end
 
----@class IslotAmmo
+---@class IslotAmmo : RangedData
+---@field ammo_id AmmunitionTypeId
+---@field casing_id ItypeId?
+---@field cookoff boolean
+---@field def_charges integer
+---@field dont_recover_one_in integer
+---@field drop ItypeId
+---@field drop_active boolean
+---@field drop_count integer
+---@field force_stat_display bool?
+---@field loudness integer
+---@field recoil integer
+---@field shape any
+---@field special_cookoff boolean
 IslotAmmo = {}
 ---@return IslotAmmo
 function IslotAmmo.new() end
@@ -732,16 +745,31 @@ IslotArmor = {}
 function IslotArmor.new() end
 
 ---@class IslotArtifact
+---@field charge_req ArtifactChargeReq
+---@field charge_type ArtifactCharge
+---@field dream_freq_met integer
+---@field dream_freq_unmet integer
+---@field dream_msg_met string[]
+---@field dream_msg_unmet string[]
+---@field effects_activated ArtifactEffectPassive[]
+---@field effects_carried ArtifactEffectActive[]
+---@field effects_wielded ArtifactEffectActive[]
+---@field effects_worn ArtifactEffectActive[]
 IslotArtifact = {}
 ---@return IslotArtifact
 function IslotArtifact.new() end
 
 ---@class IslotBattery
+---@field max_capacity Energy
 IslotBattery = {}
 ---@return IslotBattery
 function IslotBattery.new() end
 
 ---@class IslotBionic
+---@field bionic_id BionicDataId
+---@field difficulty integer
+---@field installation_data ItypeId
+---@field is_upgrade boolean
 IslotBionic = {}
 ---@return IslotBionic
 function IslotBionic.new() end
@@ -783,36 +811,55 @@ IslotContainer = {}
 function IslotContainer.new() end
 
 ---@class IslotEngine
+---@field displacement integer
 IslotEngine = {}
 ---@return IslotEngine
 function IslotEngine.new() end
 
 ---@class IslotFuel
+---@field energy number
+---@field explosion_data any
+---@field has_explode_data boolean
+---@field pump_terrain string
 IslotFuel = {}
 ---@return IslotFuel
 function IslotFuel.new() end
 
----@class IslotGun
+---@class IslotGun : RangedData
 IslotGun = {}
 ---@return IslotGun
 function IslotGun.new() end
 
----@class IslotGunmod
+---@class IslotGunmod : RangedData
 IslotGunmod = {}
 ---@return IslotGunmod
 function IslotGunmod.new() end
 
 ---@class IslotMagazine
+---@field ammo_type AmmunitionTypeId[]
+---@field capacity integer
+---@field count integer
+---@field default_ammo ItypeId
+---@field linkage ItypeId?
+---@field protects_contents boolean
+---@field reliability integer
+---@field reload_time integer
 IslotMagazine = {}
 ---@return IslotMagazine
 function IslotMagazine.new() end
 
 ---@class IslotMilling
+---@field conversion_rate integer
+---@field converts_into ItypeId
 IslotMilling = {}
 ---@return IslotMilling
 function IslotMilling.new() end
 
 ---@class IslotMod
+---@field acceptable_ammo AmmunitionTypeId[]
+---@field ammo_modifier AmmunitionTypeId[]
+---@field capacity_multiplier number
+---@field magazine_adaptor Map(AmmunitionTypeId,Set(ItypeId))
 IslotMod = {}
 ---@return IslotMod
 function IslotMod.new() end
@@ -849,7 +896,7 @@ function IslotSeed.new() end
 ---@field power_draw integer
 ---@field rand_charges int[]
 ---@field revert_msg string
----@field revert_to any
+---@field revert_to ItypeId?
 ---@field subtype ItypeId
 ---@field turns_active integer
 ---@field turns_per_charge integer
@@ -860,6 +907,8 @@ IslotTool = {}
 function IslotTool.new() end
 
 ---@class IslotWheel
+---@field diameter integer
+---@field width integer
 IslotWheel = {}
 ---@return IslotWheel
 function IslotWheel.new() end
@@ -967,7 +1016,7 @@ function IslotWheel.new() end
 ---@field is_upgrade fun(arg1: Item): boolean
 ---@field is_watertight_container fun(arg1: Item): boolean
 ---@field is_wheel fun(arg1: Item): boolean
----@field made_of fun(arg1: Item): any
+---@field made_of fun(arg1: Item): MaterialTypeId[]
 ---@field mod_charges fun(arg1: Item, arg2: integer)
 ---@field price fun(arg1: Item, arg2: boolean): number @Cents of the item. `bool` is whether it is a post-cataclysm value.
 ---@field remaining_capacity_for_id fun(arg1: Item, arg2: ItypeId, arg3: boolean): integer @Gets the remaining space available for a type of liquid
@@ -1621,6 +1670,17 @@ QueryPopup = {}
 ---@return QueryPopup
 function QueryPopup.new() end
 
+---@class RangedData
+---@field aimed_crit_bonus number
+---@field aimed_crit_max_bonus number
+---@field damage DamageInstance
+---@field dispersion integer
+---@field range integer
+---@field speed integer
+RangedData = {}
+---@return RangedData
+function RangedData.new() end
+
 ---@class RecipeId
 ---@field NULL_ID fun(): RecipeId
 ---@field implements_int_id fun(): boolean
@@ -1656,6 +1716,11 @@ function RecipeId.new() end
 RecipeRaw = {}
 ---@return RecipeRaw
 function RecipeRaw.new() end
+
+---@class Relic
+Relic = {}
+---@return Relic
+function Relic.new() end
 
 ---@class SkillId
 ---@field NULL_ID fun(): SkillId
@@ -2115,6 +2180,109 @@ AddictionType = {
 	MARLOSS_R = 11,
 	MARLOSS_B = 12,
 	MARLOSS_Y = 13
+}
+
+---@enum ArtifactCharge
+ArtifactCharge = {
+	ARTC_NULL = 0,
+	ARTC_TIME = 1,
+	ARTC_SOLAR = 2,
+	ARTC_PAIN = 3,
+	ARTC_HP = 4,
+	ARTC_FATIGUE = 5,
+	ARTC_PORTAL = 6
+}
+
+---@enum ArtifactChargeReq
+ArtifactChargeReq = {
+	ACR_NULL = 0,
+	ACR_EQUIP = 1,
+	ACR_SKIN = 2,
+	ACR_SLEEP = 3,
+	ACR_RAD = 4,
+	ACR_WET = 5,
+	ACR_SKY = 6
+}
+
+---@enum ArtifactEffectActive
+ArtifactEffectActive = {
+	AEP_NULL = 0,
+	AEP_STR_UP = 1,
+	AEP_DEX_UP = 2,
+	AEP_PER_UP = 3,
+	AEP_INT_UP = 4,
+	AEP_ALL_UP = 5,
+	AEP_SPEED_UP = 6,
+	AEP_PBLUE = 7,
+	AEP_SNAKES = 8,
+	AEP_INVISIBLE = 9,
+	AEP_CLAIRVOYANCE = 10,
+	AEP_SUPER_CLAIRVOYANCE = 11,
+	AEP_STEALTH = 12,
+	AEP_EXTINGUISH = 13,
+	AEP_GLOW = 14,
+	AEP_PSYSHIELD = 15,
+	AEP_RESIST_ELECTRICITY = 16,
+	AEP_CARRY_MORE = 17,
+	AEP_SAP_LIFE = 18,
+	AEP_FUN = 19,
+	AEP_SPLIT = 20,
+	AEP_HUNGER = 21,
+	AEP_THIRST = 22,
+	AEP_SMOKE = 23,
+	AEP_EVIL = 24,
+	AEP_SCHIZO = 25,
+	AEP_RADIOACTIVE = 26,
+	AEP_MUTAGENIC = 27,
+	AEP_ATTENTION = 28,
+	AEP_STR_DOWN = 29,
+	AEP_DEX_DOWN = 30,
+	AEP_PER_DOWN = 31,
+	AEP_INT_DOWN = 32,
+	AEP_ALL_DOWN = 33,
+	AEP_SPEED_DOWN = 34,
+	AEP_FORCE_TELEPORT = 35,
+	AEP_MOVEMENT_NOISE = 36,
+	AEP_BAD_WEATHER = 37,
+	AEP_SICK = 38,
+	AEP_CLAIRVOYANCE_PLUS = 39
+}
+
+---@enum ArtifactEffectPassive
+ArtifactEffectPassive = {
+	AEA_NULL = 0,
+	AEA_STORM = 1,
+	AEA_FIREBALL = 2,
+	AEA_ADRENALINE = 3,
+	AEA_MAP = 4,
+	AEA_BLOOD = 5,
+	AEA_FATIGUE = 6,
+	AEA_ACIDBALL = 7,
+	AEA_PULSE = 8,
+	AEA_HEAL = 9,
+	AEA_CONFUSED = 10,
+	AEA_ENTRANCE = 11,
+	AEA_BUGS = 12,
+	AEA_TELEPORT = 13,
+	AEA_LIGHT = 14,
+	AEA_GROWTH = 15,
+	AEA_HURTALL = 16,
+	AEA_FUN = 17,
+	AEA_SPLIT = 18,
+	AEA_RADIATION = 19,
+	AEA_PAIN = 20,
+	AEA_MUTATE = 21,
+	AEA_PARALYZE = 22,
+	AEA_FIRESTORM = 23,
+	AEA_ATTENTION = 24,
+	AEA_TELEGLOW = 25,
+	AEA_NOISE = 26,
+	AEA_SCREAM = 27,
+	AEA_DIM = 28,
+	AEA_FLASH = 29,
+	AEA_VOMIT = 30,
+	AEA_SHADOWS = 31,
+	AEA_STAMINA_EMPTY = 32
 }
 
 ---@enum Attitude

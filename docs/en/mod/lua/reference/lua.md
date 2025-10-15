@@ -57,11 +57,11 @@ Function `( ActivityTypeId ) -> string`
 
 #### serialize
 
-Function `( ActivityTypeId, <cppval: 7JsonOut > )`
+Function `( ActivityTypeId, <cppval: JsonOut & > )`
 
 #### deserialize
 
-Function `( ActivityTypeId, <cppval: 6JsonIn > )`
+Function `( ActivityTypeId, <cppval: JsonIn & > )`
 
 ## AmmunitionTypeId
 
@@ -109,11 +109,11 @@ Function `( AmmunitionTypeId ) -> string`
 
 #### serialize
 
-Function `( AmmunitionTypeId, <cppval: 7JsonOut > )`
+Function `( AmmunitionTypeId, <cppval: JsonOut & > )`
 
 #### deserialize
 
-Function `( AmmunitionTypeId, <cppval: 6JsonIn > )`
+Function `( AmmunitionTypeId, <cppval: JsonIn & > )`
 
 ## Angle
 
@@ -235,11 +235,11 @@ Function `( BionicDataId ) -> string`
 
 #### serialize
 
-Function `( BionicDataId, <cppval: 7JsonOut > )`
+Function `( BionicDataId, <cppval: JsonOut & > )`
 
 #### deserialize
 
-Function `( BionicDataId, <cppval: 6JsonIn > )`
+Function `( BionicDataId, <cppval: JsonIn & > )`
 
 ## BodyPartTypeId
 
@@ -293,11 +293,11 @@ Function `( BodyPartTypeId ) -> string`
 
 #### serialize
 
-Function `( BodyPartTypeId, <cppval: 7JsonOut > )`
+Function `( BodyPartTypeId, <cppval: JsonOut & > )`
 
 #### deserialize
 
-Function `( BodyPartTypeId, <cppval: 6JsonIn > )`
+Function `( BodyPartTypeId, <cppval: JsonIn & > )`
 
 ## BodyPartTypeIntId
 
@@ -1177,12 +1177,12 @@ Function `( Character, bool ) -> Vector( Item )`
 #### items_with
 
 Filters items
-Function `( Character, <cppval: St8functionIFbRK4itemEE > ) -> Vector( Item )`
+Function `( Character, <cppval: const std::function<bool (const item &)> & > ) -> Vector( Item )`
 
 #### inv_remove_item
 
 Removes given `Item` from character's inventory. The `Item` must be in the inventory, neither wielded nor worn.
-Function `( Character, Item ) -> <cppval: 12detached_ptrI4itemE >`
+Function `( Character, Item ) -> <cppval: detached_ptr<item> >`
 
 #### assign_activity
 
@@ -1415,7 +1415,7 @@ Function `( Character ) -> Map( BodyPartTypeIntId, double )`
 
 #### use_charges
 
-Function `( Character, ItypeId, int, <cppval: St8functionIFbRK4itemEE > ) -> Vector( <cppval: 12detached_ptrI4itemE > )`
+Function `( Character, ItypeId, int, <cppval: const std::function<bool (const item &)> & > ) -> Vector( <cppval: detached_ptr<item> > )`
 
 #### use_charges_if_avail
 
@@ -2014,11 +2014,11 @@ Function `( DiseaseTypeId ) -> string`
 
 #### serialize
 
-Function `( DiseaseTypeId, <cppval: 7JsonOut > )`
+Function `( DiseaseTypeId, <cppval: JsonOut & > )`
 
 #### deserialize
 
-Function `( DiseaseTypeId, <cppval: 6JsonIn > )`
+Function `( DiseaseTypeId, <cppval: JsonIn & > )`
 
 ## DistributionGrid
 
@@ -2104,11 +2104,11 @@ Function `( EffectTypeId ) -> string`
 
 #### serialize
 
-Function `( EffectTypeId, <cppval: 7JsonOut > )`
+Function `( EffectTypeId, <cppval: JsonOut & > )`
 
 #### deserialize
 
-Function `( EffectTypeId, <cppval: 6JsonIn > )`
+Function `( EffectTypeId, <cppval: JsonIn & > )`
 
 ## Energy
 
@@ -2196,11 +2196,11 @@ Function `( FactionId ) -> string`
 
 #### serialize
 
-Function `( FactionId, <cppval: 7JsonOut > )`
+Function `( FactionId, <cppval: JsonOut & > )`
 
 #### deserialize
 
-Function `( FactionId, <cppval: 6JsonIn > )`
+Function `( FactionId, <cppval: JsonIn & > )`
 
 ## FactionRaw
 
@@ -2270,11 +2270,11 @@ Function `( FieldTypeId ) -> string`
 
 #### serialize
 
-Function `( FieldTypeId, <cppval: 7JsonOut > )`
+Function `( FieldTypeId, <cppval: JsonOut & > )`
 
 #### deserialize
 
-Function `( FieldTypeId, <cppval: 6JsonIn > )`
+Function `( FieldTypeId, <cppval: JsonIn & > )`
 
 ## FieldTypeIntId
 
@@ -2360,11 +2360,11 @@ Function `( FurnId ) -> string`
 
 #### serialize
 
-Function `( FurnId, <cppval: 7JsonOut > )`
+Function `( FurnId, <cppval: JsonOut & > )`
 
 #### deserialize
 
-Function `( FurnId, <cppval: 6JsonIn > )`
+Function `( FurnId, <cppval: JsonIn & > )`
 
 ## FurnIntId
 
@@ -2424,7 +2424,7 @@ Function `( FurnRaw ) -> string`
 
 #### get_flags
 
-Function `( FurnRaw ) -> <cppval: St3setINSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEESt4lessIS5_ESaIS5_EE >`
+Function `( FurnRaw ) -> <cppval: const std::set<std::basic_string<char>> & >`
 
 #### has_flag
 
@@ -2482,7 +2482,7 @@ Variable of type `FurnId`
 
 ### Bases
 
-No base classes.
+- `RangedData`
 
 ### Constructors
 
@@ -2490,7 +2490,57 @@ No constructors.
 
 ### Members
 
-No members.
+#### def_charges
+
+Variable of type `int`
+
+#### ammo_id
+
+Variable of type `AmmunitionTypeId`
+
+#### casing_id
+
+Variable of type `Opt( ItypeId )`
+
+#### cookoff
+
+Variable of type `bool`
+
+#### dont_recover_one_in
+
+Variable of type `int`
+
+#### drop
+
+Variable of type `ItypeId`
+
+#### drop_count
+
+Variable of type `int`
+
+#### drop_active
+
+Variable of type `bool`
+
+#### force_stat_display
+
+Variable of type `Opt( bool )`
+
+#### loudness
+
+Variable of type `int`
+
+#### recoil
+
+Variable of type `int`
+
+#### shape
+
+Variable of type `Opt( <cppval: shape_factory > )`
+
+#### special_cookoff
+
+Variable of type `bool`
 
 ## IslotArmor
 
@@ -2506,7 +2556,7 @@ No constructors.
 
 #### layer_data
 
-Variable of type `Vector( <cppval: 18armor_portion_data > )`
+Variable of type `Vector( <cppval: armor_portion_data > )`
 
 #### env_resist
 
@@ -2518,7 +2568,7 @@ Variable of type `int`
 
 #### resistance
 
-Variable of type `<cppval: 11resistances >`
+Variable of type `<cppval: resistances >`
 
 #### sided
 
@@ -2560,7 +2610,45 @@ No constructors.
 
 ### Members
 
-No members.
+#### charge_req
+
+Variable of type `ArtifactChargeReq`
+
+#### charge_type
+
+Variable of type `ArtifactCharge`
+
+#### dream_freq_met
+
+Variable of type `int`
+
+#### dream_freq_unmet
+
+Variable of type `int`
+
+#### dream_msg_met
+
+Variable of type `Vector( string )`
+
+#### dream_msg_unmet
+
+Variable of type `Vector( string )`
+
+#### effects_activated
+
+Variable of type `Vector( ArtifactEffectPassive )`
+
+#### effects_carried
+
+Variable of type `Vector( ArtifactEffectActive )`
+
+#### effects_wielded
+
+Variable of type `Vector( ArtifactEffectActive )`
+
+#### effects_worn
+
+Variable of type `Vector( ArtifactEffectActive )`
 
 ## IslotBattery
 
@@ -2574,7 +2662,9 @@ No constructors.
 
 ### Members
 
-No members.
+#### max_capacity
+
+Variable of type `Energy`
 
 ## IslotBionic
 
@@ -2588,7 +2678,21 @@ No constructors.
 
 ### Members
 
-No members.
+#### bionic_id
+
+Variable of type `BionicDataId`
+
+#### difficulty
+
+Variable of type `int`
+
+#### installation_data
+
+Variable of type `ItypeId`
+
+#### is_upgrade
+
+Variable of type `bool`
 
 ## IslotBook
 
@@ -2716,7 +2820,9 @@ No constructors.
 
 ### Members
 
-No members.
+#### displacement
+
+Variable of type `int`
 
 ## IslotFuel
 
@@ -2730,13 +2836,27 @@ No constructors.
 
 ### Members
 
-No members.
+#### energy
+
+Variable of type `double`
+
+#### explosion_data
+
+Variable of type `<cppval: fuel_explosion >`
+
+#### has_explode_data
+
+Variable of type `bool`
+
+#### pump_terrain
+
+Variable of type `string`
 
 ## IslotGun
 
 ### Bases
 
-No base classes.
+- `RangedData`
 
 ### Constructors
 
@@ -2750,7 +2870,7 @@ No members.
 
 ### Bases
 
-No base classes.
+- `RangedData`
 
 ### Constructors
 
@@ -2772,7 +2892,37 @@ No constructors.
 
 ### Members
 
-No members.
+#### default_ammo
+
+Variable of type `ItypeId`
+
+#### capacity
+
+Variable of type `int`
+
+#### count
+
+Variable of type `int`
+
+#### linkage
+
+Variable of type `Opt( ItypeId )`
+
+#### protects_contents
+
+Variable of type `bool`
+
+#### reliability
+
+Variable of type `int`
+
+#### reload_time
+
+Variable of type `int`
+
+#### ammo_type
+
+Variable of type `Set( AmmunitionTypeId )`
 
 ## IslotMilling
 
@@ -2786,7 +2936,13 @@ No constructors.
 
 ### Members
 
-No members.
+#### conversion_rate
+
+Variable of type `int`
+
+#### converts_into
+
+Variable of type `ItypeId`
 
 ## IslotMod
 
@@ -2800,7 +2956,21 @@ No constructors.
 
 ### Members
 
-No members.
+#### acceptable_ammo
+
+Variable of type `Set( AmmunitionTypeId )`
+
+#### ammo_modifier
+
+Variable of type `Set( AmmunitionTypeId )`
+
+#### capacity_multiplier
+
+Variable of type `double`
+
+#### magazine_adaptor
+
+Variable of type `Map( AmmunitionTypeId, Set( ItypeId ) )`
 
 ## IslotPetArmor
 
@@ -2924,7 +3094,7 @@ Variable of type `string`
 
 #### revert_to
 
-Variable of type `<cppval: St8optionalI9string_idI5itypeEE >`
+Variable of type `Opt( ItypeId )`
 
 #### subtype
 
@@ -2958,7 +3128,13 @@ No constructors.
 
 ### Members
 
-No members.
+#### diameter
+
+Variable of type `int`
+
+#### width
+
+Variable of type `int`
 
 ## Item
 
@@ -3291,7 +3467,7 @@ Function `( Item, int )`
 
 #### made_of
 
-Function `( Item ) -> <cppval: St6vectorI9string_idI13material_typeESaIS2_EE >`
+Function `( Item ) -> Vector( MaterialTypeId )`
 
 #### is_made_of
 
@@ -3516,7 +3692,7 @@ No constructors.
 
 #### __pairs
 
-Function `( ItemStack ) -> ( <cppval: FSt5tupleIJN3sol12basic_objectINS0_15basic_referenceILb0EEEEES4_EENS0_4userIR23item_stack_lua_it_stateEENS0_10this_stateEE >, <cppval: N3sol4userI23item_stack_lua_it_stateEE >, nil )`
+Function `( ItemStack ) -> ( <cppval: std::tuple<sol::basic_object<sol::basic_reference<false>>, sol::basic_object<sol::basic_reference<false>>> (*)(sol::user<item_stack_lua_it_state &>, sol::this_state) >, <cppval: sol::user<item_stack_lua_it_state> >, nil )`
 
 ## ItypeId
 
@@ -3564,11 +3740,11 @@ Function `( ItypeId ) -> string`
 
 #### serialize
 
-Function `( ItypeId, <cppval: 7JsonOut > )`
+Function `( ItypeId, <cppval: JsonOut & > )`
 
 #### deserialize
 
-Function `( ItypeId, <cppval: 6JsonIn > )`
+Function `( ItypeId, <cppval: JsonIn & > )`
 
 ## ItypeRaw
 
@@ -3716,11 +3892,11 @@ Function `( JsonFlagId ) -> string`
 
 #### serialize
 
-Function `( JsonFlagId, <cppval: 7JsonOut > )`
+Function `( JsonFlagId, <cppval: JsonOut & > )`
 
 #### deserialize
 
-Function `( JsonFlagId, <cppval: 6JsonIn > )`
+Function `( JsonFlagId, <cppval: JsonIn & > )`
 
 ## JsonTraitFlagId
 
@@ -3768,11 +3944,11 @@ Function `( JsonTraitFlagId ) -> string`
 
 #### serialize
 
-Function `( JsonTraitFlagId, <cppval: 7JsonOut > )`
+Function `( JsonTraitFlagId, <cppval: JsonOut & > )`
 
 #### deserialize
 
-Function `( JsonTraitFlagId, <cppval: 6JsonIn > )`
+Function `( JsonTraitFlagId, <cppval: JsonIn & > )`
 
 ## Map
 
@@ -3829,11 +4005,11 @@ Function `( Map, Tripoint )`
 
 #### get_items_at
 
-Function `( Map, Tripoint ) -> <cppval: St10unique_ptrI9map_stackSt14default_deleteIS0_EE >`
+Function `( Map, Tripoint ) -> <cppval: std::unique_ptr<map_stack> >`
 
 #### get_items_at_with
 
-Function `( Map, Tripoint, <cppval: St8functionIFbRK4itemEE > ) -> Vector( Item )`
+Function `( Map, Tripoint, <cppval: const std::function<bool (const item &)> & > ) -> Vector( Item )`
 
 #### get_items_in_radius
 
@@ -3841,7 +4017,7 @@ Function `( Map, Tripoint, int ) -> Vector( Item )`
 
 #### get_items_in_radius_with
 
-Function `( Map, Tripoint, int, <cppval: St8functionIFbRK4itemEE > ) -> Vector( Item )`
+Function `( Map, Tripoint, int, <cppval: const std::function<bool (const item &)> & > ) -> Vector( Item )`
 
 #### get_ter_at
 
@@ -3976,11 +4152,11 @@ Function `( MartialArtsBuffId ) -> string`
 
 #### serialize
 
-Function `( MartialArtsBuffId, <cppval: 7JsonOut > )`
+Function `( MartialArtsBuffId, <cppval: JsonOut & > )`
 
 #### deserialize
 
-Function `( MartialArtsBuffId, <cppval: 6JsonIn > )`
+Function `( MartialArtsBuffId, <cppval: JsonIn & > )`
 
 ## MartialArtsId
 
@@ -4028,11 +4204,11 @@ Function `( MartialArtsId ) -> string`
 
 #### serialize
 
-Function `( MartialArtsId, <cppval: 7JsonOut > )`
+Function `( MartialArtsId, <cppval: JsonOut & > )`
 
 #### deserialize
 
-Function `( MartialArtsId, <cppval: 6JsonIn > )`
+Function `( MartialArtsId, <cppval: JsonIn & > )`
 
 ## MartialArtsTechniqueId
 
@@ -4080,11 +4256,11 @@ Function `( MartialArtsTechniqueId ) -> string`
 
 #### serialize
 
-Function `( MartialArtsTechniqueId, <cppval: 7JsonOut > )`
+Function `( MartialArtsTechniqueId, <cppval: JsonOut & > )`
 
 #### deserialize
 
-Function `( MartialArtsTechniqueId, <cppval: 6JsonIn > )`
+Function `( MartialArtsTechniqueId, <cppval: JsonIn & > )`
 
 ## MartialArtsTechniqueRaw
 
@@ -4280,11 +4456,11 @@ Function `( MaterialTypeId ) -> string`
 
 #### serialize
 
-Function `( MaterialTypeId, <cppval: 7JsonOut > )`
+Function `( MaterialTypeId, <cppval: JsonOut & > )`
 
 #### deserialize
 
-Function `( MaterialTypeId, <cppval: 6JsonIn > )`
+Function `( MaterialTypeId, <cppval: JsonIn & > )`
 
 ## MaterialTypeRaw
 
@@ -4391,7 +4567,7 @@ Function `( Mission ) -> CharacterId`
 #### get_likely_rewards
 
 Returns the likely rewards of the mission (vector of (int chance, itype_id) pairs).
-Function `( Mission ) -> <cppval: St6vectorISt4pairIi9string_idI5itypeEESaIS4_EE >`
+Function `( Mission ) -> <cppval: const std::vector<std::pair<int, string_id<itype>>> & >`
 
 #### has_generic_rewards
 
@@ -4445,11 +4621,11 @@ Function `( MissionOrigin, Tripoint, CharacterId ) -> Mission`
 
 #### serialize
 
-Function `( Mission, <cppval: 7JsonOut > )`
+Function `( Mission, <cppval: JsonOut & > )`
 
 #### deserialize
 
-Function `( Mission, <cppval: 6JsonIn > )`
+Function `( Mission, <cppval: JsonIn & > )`
 
 ## MissionType
 
@@ -4466,7 +4642,7 @@ No base classes.
 #### description
 
 Returns the mission's description as a string.
-Variable of type `<cppval: 11translation >`
+Variable of type `<cppval: translation >`
 
 #### goal
 
@@ -4506,7 +4682,7 @@ Variable of type `bool`
 #### likely_rewards
 
 Returns a vector of likely rewards (chance, itype_id pairs).
-Variable of type `Vector( <cppval: St4pairIi9string_idI5itypeEE > )`
+Variable of type `Vector( <cppval: std::pair<int, string_id<itype>> > )`
 
 #### origins
 
@@ -4556,12 +4732,12 @@ Variable of type `MissionTypeIdRaw`
 #### dialogue
 
 Returns any associated dialogue for the mission.
-Variable of type `Map( string, <cppval: 11translation > )`
+Variable of type `Map( string, <cppval: translation > )`
 
 #### get_all
 
 Returns all available missions.
-Function `() -> <cppval: St6vectorI12mission_typeSaIS0_EE >`
+Function `() -> <cppval: const std::vector<mission_type> & >`
 
 #### get_random_mission_id
 
@@ -4794,11 +4970,11 @@ Function `( MonsterFactionId ) -> string`
 
 #### serialize
 
-Function `( MonsterFactionId, <cppval: 7JsonOut > )`
+Function `( MonsterFactionId, <cppval: JsonOut & > )`
 
 #### deserialize
 
-Function `( MonsterFactionId, <cppval: 6JsonIn > )`
+Function `( MonsterFactionId, <cppval: JsonIn & > )`
 
 ## MonsterFactionIntId
 
@@ -4878,11 +5054,11 @@ Function `( MoraleTypeDataId ) -> string`
 
 #### serialize
 
-Function `( MoraleTypeDataId, <cppval: 7JsonOut > )`
+Function `( MoraleTypeDataId, <cppval: JsonOut & > )`
 
 #### deserialize
 
-Function `( MoraleTypeDataId, <cppval: 6JsonIn > )`
+Function `( MoraleTypeDataId, <cppval: JsonIn & > )`
 
 ## MtypeId
 
@@ -4930,11 +5106,11 @@ Function `( MtypeId ) -> string`
 
 #### serialize
 
-Function `( MtypeId, <cppval: 7JsonOut > )`
+Function `( MtypeId, <cppval: JsonOut & > )`
 
 #### deserialize
 
-Function `( MtypeId, <cppval: 6JsonIn > )`
+Function `( MtypeId, <cppval: JsonIn & > )`
 
 ## MutationBranchId
 
@@ -4982,11 +5158,11 @@ Function `( MutationBranchId ) -> string`
 
 #### serialize
 
-Function `( MutationBranchId, <cppval: 7JsonOut > )`
+Function `( MutationBranchId, <cppval: JsonOut & > )`
 
 #### deserialize
 
-Function `( MutationBranchId, <cppval: 6JsonIn > )`
+Function `( MutationBranchId, <cppval: JsonIn & > )`
 
 ## MutationBranchRaw
 
@@ -5285,7 +5461,7 @@ Function `( MutationBranchRaw ) -> string`
 #### get_all
 
 Returns a (long) list of every mutation in the game.
-Function `() -> <cppval: St6vectorI15mutation_branchSaIS0_EE >`
+Function `() -> <cppval: const std::vector<mutation_branch> & >`
 
 #### __tostring
 
@@ -5376,11 +5552,11 @@ Function `( MutationCategoryTraitId ) -> string`
 
 #### serialize
 
-Function `( MutationCategoryTraitId, <cppval: 7JsonOut > )`
+Function `( MutationCategoryTraitId, <cppval: JsonOut & > )`
 
 #### deserialize
 
-Function `( MutationCategoryTraitId, <cppval: 6JsonIn > )`
+Function `( MutationCategoryTraitId, <cppval: JsonIn & > )`
 
 ## Npc
 
@@ -5687,11 +5863,11 @@ Function `( Point, int, Point ) -> Point`
 
 #### serialize
 
-Function `( Point, <cppval: 7JsonOut > )`
+Function `( Point, <cppval: JsonOut & > )`
 
 #### deserialize
 
-Function `( Point, <cppval: 6JsonIn > )`
+Function `( Point, <cppval: JsonIn & > )`
 
 #### __tostring
 
@@ -5801,6 +5977,42 @@ Function `( QueryPopup ) -> string`
 Returns `YES`, `NO` or `QUIT`. If ESC pressed, returns `QUIT`.
 Function `( QueryPopup ) -> string`
 
+## RangedData
+
+### Bases
+
+No base classes.
+
+### Constructors
+
+No constructors.
+
+### Members
+
+#### aimed_crit_bonus
+
+Variable of type `double`
+
+#### aimed_crit_max_bonus
+
+Variable of type `double`
+
+#### damage
+
+Variable of type `DamageInstance`
+
+#### dispersion
+
+Variable of type `int`
+
+#### range
+
+Variable of type `int`
+
+#### speed
+
+Variable of type `int`
+
 ## RecipeId
 
 ### Bases
@@ -5847,11 +6059,11 @@ Function `( RecipeId ) -> string`
 
 #### serialize
 
-Function `( RecipeId, <cppval: 7JsonOut > )`
+Function `( RecipeId, <cppval: JsonOut & > )`
 
 #### deserialize
 
-Function `( RecipeId, <cppval: 6JsonIn > )`
+Function `( RecipeId, <cppval: JsonIn & > )`
 
 ## RecipeRaw
 
@@ -5925,6 +6137,20 @@ Function `( string ) -> Vector( RecipeRaw )`
 
 Function `() -> Vector( RecipeRaw )`
 
+## Relic
+
+### Bases
+
+No base classes.
+
+### Constructors
+
+No constructors.
+
+### Members
+
+No members.
+
 ## SkillId
 
 ### Bases
@@ -5971,11 +6197,11 @@ Function `( SkillId ) -> string`
 
 #### serialize
 
-Function `( SkillId, <cppval: 7JsonOut > )`
+Function `( SkillId, <cppval: JsonOut & > )`
 
 #### deserialize
 
-Function `( SkillId, <cppval: 6JsonIn > )`
+Function `( SkillId, <cppval: JsonIn & > )`
 
 ## SkillLevel
 
@@ -6079,11 +6305,11 @@ Function `( SpeciesTypeId ) -> string`
 
 #### serialize
 
-Function `( SpeciesTypeId, <cppval: 7JsonOut > )`
+Function `( SpeciesTypeId, <cppval: JsonOut & > )`
 
 #### deserialize
 
-Function `( SpeciesTypeId, <cppval: 6JsonIn > )`
+Function `( SpeciesTypeId, <cppval: JsonIn & > )`
 
 ## Spell
 
@@ -6243,11 +6469,11 @@ Function `( SpellTypeId ) -> string`
 
 #### serialize
 
-Function `( SpellTypeId, <cppval: 7JsonOut > )`
+Function `( SpellTypeId, <cppval: JsonOut & > )`
 
 #### deserialize
 
-Function `( SpellTypeId, <cppval: 6JsonIn > )`
+Function `( SpellTypeId, <cppval: JsonIn & > )`
 
 ## SpellTypeRaw
 
@@ -6401,7 +6627,7 @@ Function `( SpellTypeRaw ) -> Vector( SpellSimple )`
 #### get_all
 
 Returns a (long) list of every spell in the game.
-Function `() -> <cppval: St6vectorI10spell_typeSaIS0_EE >`
+Function `() -> <cppval: const std::vector<spell_type> & >`
 
 ## TerId
 
@@ -6455,11 +6681,11 @@ Function `( TerId ) -> string`
 
 #### serialize
 
-Function `( TerId, <cppval: 7JsonOut > )`
+Function `( TerId, <cppval: JsonOut & > )`
 
 #### deserialize
 
-Function `( TerId, <cppval: 6JsonIn > )`
+Function `( TerId, <cppval: JsonIn & > )`
 
 ## TerIntId
 
@@ -6519,7 +6745,7 @@ Function `( TerRaw ) -> string`
 
 #### get_flags
 
-Function `( TerRaw ) -> <cppval: St3setINSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEESt4lessIS5_ESaIS5_EE >`
+Function `( TerRaw ) -> <cppval: const std::set<std::basic_string<char>> & >`
 
 #### has_flag
 
@@ -6653,11 +6879,11 @@ Function `( TimeDuration ) -> int`
 
 #### serialize
 
-Function `( TimeDuration, <cppval: 7JsonOut > )`
+Function `( TimeDuration, <cppval: JsonOut & > )`
 
 #### deserialize
 
-Function `( TimeDuration, <cppval: 6JsonIn > )`
+Function `( TimeDuration, <cppval: JsonIn & > )`
 
 #### __tostring
 
@@ -6735,11 +6961,11 @@ Function `( TimePoint ) -> int`
 
 #### serialize
 
-Function `( TimePoint, <cppval: 7JsonOut > )`
+Function `( TimePoint, <cppval: JsonOut & > )`
 
 #### deserialize
 
-Function `( TimePoint, <cppval: 6JsonIn > )`
+Function `( TimePoint, <cppval: JsonIn & > )`
 
 #### to_string_time_of_day
 
@@ -6832,11 +7058,11 @@ Function `( TrapId ) -> string`
 
 #### serialize
 
-Function `( TrapId, <cppval: 7JsonOut > )`
+Function `( TrapId, <cppval: JsonOut & > )`
 
 #### deserialize
 
-Function `( TrapId, <cppval: 6JsonIn > )`
+Function `( TrapId, <cppval: JsonIn & > )`
 
 ## TrapIntId
 
@@ -6914,11 +7140,11 @@ Function `( Tripoint, int, Point ) -> Tripoint`
 
 #### serialize
 
-Function `( Tripoint, <cppval: 7JsonOut > )`
+Function `( Tripoint, <cppval: JsonOut & > )`
 
 #### deserialize
 
-Function `( Tripoint, <cppval: 6JsonIn > )`
+Function `( Tripoint, <cppval: JsonIn & > )`
 
 #### __tostring
 
@@ -7139,6 +7365,113 @@ Function `( Volume, Volume ) -> bool`
 - `MARLOSS_R` = `11`
 - `MARLOSS_B` = `12`
 - `MARLOSS_Y` = `13`
+
+## ArtifactCharge
+
+### Entries
+
+- `ARTC_NULL` = `0`
+- `ARTC_TIME` = `1`
+- `ARTC_SOLAR` = `2`
+- `ARTC_PAIN` = `3`
+- `ARTC_HP` = `4`
+- `ARTC_FATIGUE` = `5`
+- `ARTC_PORTAL` = `6`
+
+## ArtifactChargeReq
+
+### Entries
+
+- `ACR_NULL` = `0`
+- `ACR_EQUIP` = `1`
+- `ACR_SKIN` = `2`
+- `ACR_SLEEP` = `3`
+- `ACR_RAD` = `4`
+- `ACR_WET` = `5`
+- `ACR_SKY` = `6`
+
+## ArtifactEffectActive
+
+### Entries
+
+- `AEP_NULL` = `0`
+- `AEP_STR_UP` = `1`
+- `AEP_DEX_UP` = `2`
+- `AEP_PER_UP` = `3`
+- `AEP_INT_UP` = `4`
+- `AEP_ALL_UP` = `5`
+- `AEP_SPEED_UP` = `6`
+- `AEP_PBLUE` = `7`
+- `AEP_SNAKES` = `8`
+- `AEP_INVISIBLE` = `9`
+- `AEP_CLAIRVOYANCE` = `10`
+- `AEP_SUPER_CLAIRVOYANCE` = `11`
+- `AEP_STEALTH` = `12`
+- `AEP_EXTINGUISH` = `13`
+- `AEP_GLOW` = `14`
+- `AEP_PSYSHIELD` = `15`
+- `AEP_RESIST_ELECTRICITY` = `16`
+- `AEP_CARRY_MORE` = `17`
+- `AEP_SAP_LIFE` = `18`
+- `AEP_FUN` = `19`
+- `AEP_SPLIT` = `20`
+- `AEP_HUNGER` = `21`
+- `AEP_THIRST` = `22`
+- `AEP_SMOKE` = `23`
+- `AEP_EVIL` = `24`
+- `AEP_SCHIZO` = `25`
+- `AEP_RADIOACTIVE` = `26`
+- `AEP_MUTAGENIC` = `27`
+- `AEP_ATTENTION` = `28`
+- `AEP_STR_DOWN` = `29`
+- `AEP_DEX_DOWN` = `30`
+- `AEP_PER_DOWN` = `31`
+- `AEP_INT_DOWN` = `32`
+- `AEP_ALL_DOWN` = `33`
+- `AEP_SPEED_DOWN` = `34`
+- `AEP_FORCE_TELEPORT` = `35`
+- `AEP_MOVEMENT_NOISE` = `36`
+- `AEP_BAD_WEATHER` = `37`
+- `AEP_SICK` = `38`
+- `AEP_CLAIRVOYANCE_PLUS` = `39`
+
+## ArtifactEffectPassive
+
+### Entries
+
+- `AEA_NULL` = `0`
+- `AEA_STORM` = `1`
+- `AEA_FIREBALL` = `2`
+- `AEA_ADRENALINE` = `3`
+- `AEA_MAP` = `4`
+- `AEA_BLOOD` = `5`
+- `AEA_FATIGUE` = `6`
+- `AEA_ACIDBALL` = `7`
+- `AEA_PULSE` = `8`
+- `AEA_HEAL` = `9`
+- `AEA_CONFUSED` = `10`
+- `AEA_ENTRANCE` = `11`
+- `AEA_BUGS` = `12`
+- `AEA_TELEPORT` = `13`
+- `AEA_LIGHT` = `14`
+- `AEA_GROWTH` = `15`
+- `AEA_HURTALL` = `16`
+- `AEA_FUN` = `17`
+- `AEA_SPLIT` = `18`
+- `AEA_RADIATION` = `19`
+- `AEA_PAIN` = `20`
+- `AEA_MUTATE` = `21`
+- `AEA_PARALYZE` = `22`
+- `AEA_FIRESTORM` = `23`
+- `AEA_ATTENTION` = `24`
+- `AEA_TELEGLOW` = `25`
+- `AEA_NOISE` = `26`
+- `AEA_SCREAM` = `27`
+- `AEA_DIM` = `28`
+- `AEA_FLASH` = `29`
+- `AEA_VOMIT` = `30`
+- `AEA_SHADOWS` = `31`
+- `AEA_STAMINA_EMPTY` = `32`
 
 ## Attitude
 
@@ -7747,7 +8080,7 @@ Function `( TimeDuration, function )`
 
 #### create_item
 
-Function `( ItypeId, int ) -> <cppval: St10unique_ptrI4itemSt14default_deleteIS0_EE >`
+Function `( ItypeId, int ) -> <cppval: std::unique_ptr<item> >`
 
 #### get_creature_at
 
@@ -7920,7 +8253,7 @@ Function `( string ) -> string`
 #### vgettext
 
 First is english singular string, second is english plural string. Number is amount to translate for.
-Function `( string, string, <cppval: m > ) -> string`
+Function `( string, string, <cppval: unsigned long > ) -> string`
 
 #### pgettext
 
@@ -7930,7 +8263,7 @@ Function `( string, string ) -> string`
 #### vpgettext
 
 First is context string. Second is english singular string. third is english plural. Number is amount to translate for.
-Function `( string, string, string, <cppval: m > ) -> string`
+Function `( string, string, string, <cppval: unsigned long > ) -> string`
 
 ## tests_lib
 

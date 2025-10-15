@@ -1,12 +1,14 @@
 #include "catalua_bindings.h"
 
-#include "bodypart.h"
-#include "calendar.h"
 #include "catalua_bindings_utils.h"
 #include "catalua.h"
 #include "catalua_log.h"
 #include "catalua_luna_doc.h"
 #include "catalua_luna.h"
+
+#include "artifact.h"
+#include "bodypart.h"
+#include "calendar.h"
 #include "character.h"
 #include "creature.h"
 #include "damage.h"
@@ -149,7 +151,7 @@ void cata::detail::reg_skill_level_map( sol::state &lua )
         sol::usertype<SkillLevelMap> ut =
             luna::new_usertype<SkillLevelMap>(
                 lua,
-                luna::bases<std::map<skill_id, SkillLevel>>(),
+                luna::bases<std::map<skill_id, SkillLevel >> (),
                 luna::no_constructor
             );
         luna::set_fx( ut, "mod_skill_level", &SkillLevelMap::mod_skill_level );
@@ -426,6 +428,10 @@ void cata::detail::reg_enums( sol::state &lua )
     reg_enum<sfx::channel>( lua );
     reg_enum<mission_origin>( lua );
     reg_enum<mission_goal>( lua );
+    reg_enum<art_charge>( lua );
+    reg_enum<art_charge_req>( lua );
+    reg_enum<art_effect_active>( lua );
+    reg_enum<art_effect_passive>( lua );
 }
 
 void cata::detail::reg_hooks_examples( sol::state &lua )

@@ -144,8 +144,9 @@ void reg_item( sol::state &lua )
 
         luna::set_fx( ut, "mod_charges", &item::mod_charges );
 
-        luna::set_fx( ut, "made_of",
-                      sol::resolve < auto() const -> const std::vector<material_id> & > ( &item::made_of ) );
+        luna::set_fx( ut, "made_of", []( item & it ) {
+            return it.made_of();
+        } );
 
         luna::set_fx( ut, "is_made_of",
                       sol::resolve < auto( const material_id & ) const -> bool > ( &item::made_of ) );
@@ -409,60 +410,108 @@ void reg_islot( sol::state &lua )
 #define UT_CLASS islot_mod
     {
         sol::usertype<UT_CLASS> ut = luna::new_usertype<UT_CLASS>( lua, luna::no_bases, luna::no_constructor );
+
+        SET_MEMB_RO( acceptable_ammo );
+        SET_MEMB_RO( ammo_modifier );
+        SET_MEMB_RO( capacity_multiplier );
+        SET_MEMB_RO( magazine_adaptor );
     }
 #undef UT_CLASS
 
 #define UT_CLASS islot_engine
     {
         sol::usertype<UT_CLASS> ut = luna::new_usertype<UT_CLASS>( lua, luna::no_bases, luna::no_constructor );
+
+        SET_MEMB_RO( displacement );
     }
 #undef UT_CLASS
 
 #define UT_CLASS islot_wheel
     {
         sol::usertype<UT_CLASS> ut = luna::new_usertype<UT_CLASS>( lua, luna::no_bases, luna::no_constructor );
+
+        SET_MEMB_RO( diameter );
+        SET_MEMB_RO( width );
     }
 #undef UT_CLASS
 
 #define UT_CLASS islot_fuel
     {
         sol::usertype<UT_CLASS> ut = luna::new_usertype<UT_CLASS>( lua, luna::no_bases, luna::no_constructor );
+
+        SET_MEMB_RO( energy );
+        SET_MEMB_RO( explosion_data );
+        SET_MEMB_RO( has_explode_data );
+        SET_MEMB_RO( pump_terrain );
     }
 #undef UT_CLASS
 
 #define UT_CLASS islot_gun
     {
-        sol::usertype<UT_CLASS> ut = luna::new_usertype<UT_CLASS>( lua, luna::no_bases, luna::no_constructor );
+        sol::usertype<UT_CLASS> ut = luna::new_usertype<UT_CLASS>( lua, luna::bases<common_ranged_data>(), luna::no_constructor );
     }
 #undef UT_CLASS
 
 #define UT_CLASS islot_gunmod
     {
-        sol::usertype<UT_CLASS> ut = luna::new_usertype<UT_CLASS>( lua, luna::no_bases, luna::no_constructor );
+        sol::usertype<UT_CLASS> ut = luna::new_usertype<UT_CLASS>( lua, luna::bases<common_ranged_data>(), luna::no_constructor );
     }
 #undef UT_CLASS
 
 #define UT_CLASS islot_magazine
     {
         sol::usertype<UT_CLASS> ut = luna::new_usertype<UT_CLASS>( lua, luna::no_bases, luna::no_constructor );
+
+        SET_MEMB_RO( default_ammo );
+        SET_MEMB_RO( capacity );
+        SET_MEMB_RO( count );
+        SET_MEMB_RO( linkage );
+        SET_MEMB_RO( protects_contents );
+        SET_MEMB_RO( reliability );
+        SET_MEMB_RO( reload_time );
+        SET_MEMB_N_RO( type, "ammo_type" );
     }
 #undef UT_CLASS
 
 #define UT_CLASS islot_battery
     {
         sol::usertype<UT_CLASS> ut = luna::new_usertype<UT_CLASS>( lua, luna::no_bases, luna::no_constructor );
+
+        SET_MEMB_RO( max_capacity );
     }
 #undef UT_CLASS
 
 #define UT_CLASS islot_bionic
     {
         sol::usertype<UT_CLASS> ut = luna::new_usertype<UT_CLASS>( lua, luna::no_bases, luna::no_constructor );
+
+        SET_MEMB_N_RO( id, "bionic_id" );
+        SET_MEMB_RO( difficulty );
+        SET_MEMB_RO( installation_data );
+        SET_MEMB_RO( is_upgrade );
     }
 #undef UT_CLASS
 
 #define UT_CLASS islot_ammo
     {
-        sol::usertype<UT_CLASS> ut = luna::new_usertype<UT_CLASS>( lua, luna::no_bases, luna::no_constructor );
+        sol::usertype<UT_CLASS> ut = luna::new_usertype<UT_CLASS>( lua, luna::bases<common_ranged_data>(), luna::no_constructor );
+
+        SET_MEMB_RO( def_charges );
+        SET_MEMB_N_RO( type, "ammo_id" );
+        //SET_MEMB_RO(ammo_effects);
+        SET_MEMB_N_RO( casing, "casing_id" );
+        SET_MEMB_RO( cookoff );
+        SET_MEMB_RO( dont_recover_one_in );
+
+        SET_MEMB_RO( drop );
+        SET_MEMB_RO( drop_count );
+        SET_MEMB_RO( drop_active );
+
+        SET_MEMB_RO( force_stat_display );
+        SET_MEMB_RO( loudness );
+        SET_MEMB_RO( recoil );
+        SET_MEMB_RO( shape );
+        SET_MEMB_RO( special_cookoff );
     }
 #undef UT_CLASS
 
@@ -481,12 +530,48 @@ void reg_islot( sol::state &lua )
 #define UT_CLASS islot_artifact
     {
         sol::usertype<UT_CLASS> ut = luna::new_usertype<UT_CLASS>( lua, luna::no_bases, luna::no_constructor );
+
+        SET_MEMB_RO( charge_req );
+        SET_MEMB_RO( charge_type );
+        SET_MEMB_RO( dream_freq_met );
+        SET_MEMB_RO( dream_freq_unmet );
+        SET_MEMB_RO( dream_msg_met );
+        SET_MEMB_RO( dream_msg_unmet );
+
+        SET_MEMB_RO( effects_activated );
+        SET_MEMB_RO( effects_carried );
+        SET_MEMB_RO( effects_wielded );
+        SET_MEMB_RO( effects_worn );
     }
 #undef UT_CLASS
 
 #define UT_CLASS islot_milling
     {
         sol::usertype<UT_CLASS> ut = luna::new_usertype<UT_CLASS>( lua, luna::no_bases, luna::no_constructor );
+
+        SET_MEMB_N_RO( conversion_rate_, "conversion_rate" );
+        SET_MEMB_N_RO( into_, "converts_into" );
+    }
+#undef UT_CLASS
+
+#define UT_CLASS common_ranged_data
+    {
+        sol::usertype<UT_CLASS> ut = luna::new_usertype<UT_CLASS>( lua, luna::no_bases, luna::no_constructor );
+
+        SET_MEMB_N_RO( aimedcritbonus, "aimed_crit_bonus" );
+        SET_MEMB_N_RO( aimedcritmaxbonus, "aimed_crit_max_bonus" );
+        SET_MEMB_RO( damage );
+        SET_MEMB_RO( dispersion );
+        SET_MEMB_RO( range );
+        SET_MEMB_RO( speed );
+    }
+#undef UT_CLASS
+
+#define UT_CLASS relic
+    {
+        sol::usertype<UT_CLASS> ut = luna::new_usertype<UT_CLASS>( lua, luna::no_bases, luna::no_constructor );
+
+
     }
 #undef UT_CLASS
 }
