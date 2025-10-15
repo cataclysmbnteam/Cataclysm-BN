@@ -61,13 +61,13 @@ void cata::detail::reg_recipe( sol::state &lua )
 #undef UT_CLASS // #define UT_CLASS recipe
 
 #define UT_CLASS book_recipe
-{
-    auto ut = luna::new_usertype<UT_CLASS>( lua, luna::no_bases, luna::no_constructor );
+    {
+        auto ut = luna::new_usertype<UT_CLASS>( lua, luna::no_bases, luna::no_constructor );
 
-    SET_MEMB( name );
-    SET_MEMB( skill_level );
-    SET_MEMB( recipe );
-    SET_MEMB( hidden );
-}
+        SET_MEMB( name );
+        SET_MEMB( skill_level );
+        SET_MEMB( recipe );
+        SET_MEMB( hidden );
+    }
 #undef UT_CLASS
 }
