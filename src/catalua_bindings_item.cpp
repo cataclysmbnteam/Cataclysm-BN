@@ -369,4 +369,15 @@ void reg_islot( sol::state &lua )
     }
 #undef UT_CLASS
 
+#define UT_CLASS islot_seed
+    {
+        sol::usertype<UT_CLASS> ut = luna::new_usertype<UT_CLASS>( lua, luna::no_bases, luna::no_constructor );
+
+        luna::set_fx( ut, "get_plant_name", []( const islot_seed & s, int num ) { return s.plant_name.translated( num ); } );
+        SET_MEMB_RO( fruit_id );
+        SET_MEMB_RO( grow );
+        SET_MEMB_RO( byproducts );
+        SET_MEMB_RO( fruit_div );
+    }
+#undef UT_CLASS
 }
