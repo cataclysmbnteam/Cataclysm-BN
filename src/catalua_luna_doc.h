@@ -56,6 +56,7 @@ class time_duration;
 class time_point;
 class tinymap;
 class uilist;
+class relic;
 struct body_part_type;
 struct damage_instance;
 struct damage_unit;
@@ -93,6 +94,26 @@ class volume_in_milliliter_tag;
 using volume = quantity<int, volume_in_milliliter_tag>;
 } // namespace units
 
+struct islot_container;
+struct islot_tool;
+struct islot_comestible;
+struct islot_brewable;
+struct islot_armor;
+struct islot_pet_armor;
+struct islot_book;
+struct islot_mod;
+struct islot_engine;
+struct islot_wheel;
+struct islot_fuel;
+struct islot_gun;
+struct islot_gunmod;
+struct islot_magazine;
+struct islot_battery;
+struct islot_bionic;
+struct islot_ammo;
+struct islot_artifact;
+struct islot_seed;
+class islot_milling;
 
 // These definitions help the doc generator
 LUNA_DOC( bool, "bool" );
@@ -154,6 +175,7 @@ LUNA_VAL( units::angle, "Angle" );
 LUNA_VAL( units::energy, "Energy" );
 LUNA_VAL( units::mass, "Mass" );
 LUNA_VAL( units::volume, "Volume" );
+LUNA_VAL( relic, "Relic" )
 LUNA_VAL( book_recipe, "BookRecipe" );
 
 
@@ -204,5 +226,24 @@ LUNA_ENUM( sfx::channel, "SfxChannel" )
 LUNA_ENUM( mission_origin, "MissionOrigin" )
 LUNA_ENUM( mission_goal, "MissionGoal" )
 
-
-
+// ISlot
+LUNA_VAL( islot_container, "IslotContainer" );
+LUNA_VAL( islot_tool, "IslotTool" );
+LUNA_VAL( islot_comestible, "IslotComestible" );
+LUNA_VAL( islot_brewable, "IslotBrewable" );
+LUNA_VAL( islot_armor, "IslotArmor" );
+LUNA_VAL( islot_pet_armor, "IslotPetArmor" );
+LUNA_VAL( islot_book, "IslotBook" );
+LUNA_VAL( islot_mod, "IslotMod" );
+LUNA_VAL( islot_engine, "IslotEngine" );
+LUNA_VAL( islot_wheel, "IslotWheel" );
+LUNA_VAL( islot_fuel, "IslotFuel" );
+LUNA_VAL( islot_gun, "IslotGun" );
+LUNA_VAL( islot_gunmod, "IslotGunmod" );
+LUNA_VAL( islot_magazine, "IslotMagazine" );
+LUNA_VAL( islot_battery, "IslotBattery" );
+LUNA_VAL( islot_bionic, "IslotBionic" );
+LUNA_VAL( islot_ammo, "IslotAmmo" );
+LUNA_VAL( islot_artifact, "IslotArtifact" );
+LUNA_VAL( islot_milling, "IslotMilling" );
+LUNA_VAL( islot_seed, "IslotSeed" );

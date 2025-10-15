@@ -265,8 +265,43 @@ void reg_item( sol::state &lua )
     }
 }
 
+#define VALUE_PTR_MEMB(prop_name) luna::set_fx( ut, #prop_name, [](const UT_CLASS& c) { return c.prop_name.get(); } )
+#define VALUE_PTR_MEMB_N(prop_name, lua_name_str) luna::set_fx( ut, lua_name_str, [](const UT_CLASS& c) { return c.prop_name.get(); } )
+
 void reg_itype( sol::state &lua )
 {
+    //#define WRAP_MEMB_RO SET_MEMB_RO
+#define UT_CLASS itype
+    {
+        sol::usertype<itype> ut = luna::new_usertype<itype>( lua, luna::no_bases, luna::no_constructor );
+
+        VALUE_PTR_MEMB( container );
+        VALUE_PTR_MEMB( tool );
+        VALUE_PTR_MEMB( comestible );
+        VALUE_PTR_MEMB( brewable );
+        VALUE_PTR_MEMB( armor );
+        VALUE_PTR_MEMB( pet_armor );
+        VALUE_PTR_MEMB( book );
+        VALUE_PTR_MEMB( mod );
+        VALUE_PTR_MEMB( engine );
+        VALUE_PTR_MEMB( wheel );
+        VALUE_PTR_MEMB( fuel );
+        VALUE_PTR_MEMB( gun );
+        VALUE_PTR_MEMB( gunmod );
+        VALUE_PTR_MEMB( magazine );
+        VALUE_PTR_MEMB( battery );
+        VALUE_PTR_MEMB( bionic );
+        VALUE_PTR_MEMB( ammo );
+        VALUE_PTR_MEMB( seed );
+        VALUE_PTR_MEMB( artifact );
+        VALUE_PTR_MEMB_N( relic_data, "relic" );
+        VALUE_PTR_MEMB_N( milling_data, "milling" );
+
+        SET_FX(nname);
+
+        //TODO: Add rest of Fields/Functions
+    }
+#undef UT_CLASS
 }
 
 void reg_islot( sol::state &lua )
