@@ -71,6 +71,9 @@ struct species_type;
 struct tripoint;
 struct trap;
 struct uilist_entry;
+class ammunition_type;
+class martialart;
+
 namespace units
 {
 template<Arithmetic V, typename U>
@@ -153,6 +156,7 @@ LUNA_VAL( units::volume, "Volume" );
 
 
 // Ids for in-game objects
+LUNA_ID( ammunition_type, "AmmunitionType" )
 LUNA_ID( activity_type, "ActivityType" )
 LUNA_ID( bionic_data, "BionicData" )
 LUNA_ID( body_part_type, "BodyPartType" )
@@ -166,6 +170,7 @@ LUNA_ID( json_flag, "JsonFlag" )
 LUNA_ID( json_trait_flag, "JsonTraitFlag" )
 LUNA_ID( ma_buff, "MartialArtsBuff" )
 LUNA_ID( ma_technique, "MartialArtsTechnique" )
+LUNA_ID( martialart, "MartialArts" )
 LUNA_ID( material_type, "MaterialType" )
 LUNA_ID( monfaction, "MonsterFaction" )
 LUNA_ID( morale_type_data, "MoraleTypeData" )

@@ -309,6 +309,8 @@ class martialart
         std::vector<mabuff_id> onmiss_buffs;
         std::vector<mabuff_id> oncrit_buffs;
         std::vector<mabuff_id> onkill_buffs;
+public:
+    LUA_TYPE_OPS(martialart, id);
 };
 
 class ma_style_callback : public uilist_callback
