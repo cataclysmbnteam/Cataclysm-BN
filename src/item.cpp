@@ -9324,17 +9324,17 @@ detached_ptr<item> item::fill_with( detached_ptr<item> &&liquid, int amount )
     return detached_ptr<item>();
 }
 
-void item::set_countdown( int num_turns )
+void item::set_charges( int value )
 {
-    if( num_turns < 0 ) {
-        debugmsg( "Tried to set a negative countdown value %d.", num_turns );
+    if( value < 0 ) {
+        debugmsg( "Tried to set a negative charges value %d.", value );
         return;
     }
     if( !ammo_types().empty() ) {
-        debugmsg( "Tried to set countdown on an item with ammo." );
+        debugmsg( "Tried to set charges on an item with ammo." );
         return;
     }
-    charges = num_turns;
+    charges = value;
 }
 
 detached_ptr<item> item::use_charges( detached_ptr<item> &&self, const itype_id &what, int &qty,

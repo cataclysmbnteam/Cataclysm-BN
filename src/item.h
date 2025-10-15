@@ -725,7 +725,7 @@ class item : public location_visitable<item>, public game_object<item>
         /**
          * Sets time until activation for an item that will self-activate in the future.
          **/
-        void set_countdown( int num_turns );
+        void set_charges( int value );
 
         /**
          * Consumes specified charges (or fewer) from this and any contained items
