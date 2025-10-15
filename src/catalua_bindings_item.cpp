@@ -297,7 +297,7 @@ void reg_itype( sol::state &lua )
         VALUE_PTR_MEMB_N( relic_data, "relic" );
         VALUE_PTR_MEMB_N( milling_data, "milling" );
 
-        SET_FX(nname);
+        SET_FX( nname );
 
         //TODO: Add rest of Fields/Functions
     }
@@ -310,11 +310,11 @@ void reg_islot( sol::state &lua )
     {
         sol::usertype<UT_CLASS> ut = luna::new_usertype<UT_CLASS>( lua, luna::no_bases, luna::no_constructor );
 
-        SET_MEMB_RO(contains);
-        SET_MEMB_RO(preserves);
-        SET_MEMB_RO(seals);
-        SET_MEMB_RO(unseals_into);
-        SET_MEMB_RO(watertight);
+        SET_MEMB_RO( contains );
+        SET_MEMB_RO( preserves );
+        SET_MEMB_RO( seals );
+        SET_MEMB_RO( unseals_into );
+        SET_MEMB_RO( watertight );
     }
 #undef UT_CLASS
 
@@ -322,22 +322,22 @@ void reg_islot( sol::state &lua )
     {
         sol::usertype<UT_CLASS> ut = luna::new_usertype<UT_CLASS>( lua, luna::no_bases, luna::no_constructor );
 
-        SET_MEMB_RO(charge_factor);
-        SET_MEMB_RO(ammo_id);
-        SET_MEMB_RO(charges_per_use);
-        SET_MEMB_RO(def_charges);
-        SET_MEMB_RO(default_ammo);
-        SET_MEMB_RO(max_charges);
-        SET_MEMB_RO(power_draw);
-        SET_MEMB_RO(rand_charges);
-        SET_MEMB_RO(revert_msg);
+        SET_MEMB_RO( charge_factor );
+        SET_MEMB_RO( ammo_id );
+        SET_MEMB_RO( charges_per_use );
+        SET_MEMB_RO( def_charges );
+        SET_MEMB_RO( default_ammo );
+        SET_MEMB_RO( max_charges );
+        SET_MEMB_RO( power_draw );
+        SET_MEMB_RO( rand_charges );
+        SET_MEMB_RO( revert_msg );
         // TODO: does std::optional map nicely? wrap into a function if not, or add a binding to std::optional?
-        SET_MEMB_RO(revert_to);
-        SET_MEMB_RO(subtype);
-        SET_MEMB_RO(turns_active);
-        SET_MEMB_RO(turns_per_charge);
-        SET_MEMB_RO(ups_eff_mult);
-        SET_MEMB_RO(ups_recharge_rate);
+        SET_MEMB_RO( revert_to );
+        SET_MEMB_RO( subtype );
+        SET_MEMB_RO( turns_active );
+        SET_MEMB_RO( turns_per_charge );
+        SET_MEMB_RO( ups_eff_mult );
+        SET_MEMB_RO( ups_recharge_rate );
     }
 #undef UT_CLASS
 
@@ -351,8 +351,8 @@ void reg_islot( sol::state &lua )
     {
         sol::usertype<UT_CLASS> ut = luna::new_usertype<UT_CLASS>( lua, luna::no_bases, luna::no_constructor );
 
-        SET_MEMB_RO(results);
-        SET_MEMB_RO(time);
+        SET_MEMB_RO( results );
+        SET_MEMB_RO( time );
     }
 #undef UT_CLASS
 
@@ -360,19 +360,19 @@ void reg_islot( sol::state &lua )
     {
         sol::usertype<UT_CLASS> ut = luna::new_usertype<UT_CLASS>( lua, luna::no_bases, luna::no_constructor );
 
-        SET_MEMB_N_RO(data, "layer_data");
+        SET_MEMB_N_RO( data, "layer_data" );
         // TODO: add armor_portion_data binding
-        SET_MEMB_RO(env_resist);
-        SET_MEMB_RO(env_resist_w_filter);
-        SET_MEMB_RO(resistance);
+        SET_MEMB_RO( env_resist );
+        SET_MEMB_RO( env_resist_w_filter );
+        SET_MEMB_RO( resistance );
         // TODO: add resistances binding
-        SET_MEMB_RO(sided);
-        SET_MEMB_RO(storage);
-        SET_MEMB_RO(thickness);
-        SET_MEMB_RO(valid_mods);
-        SET_MEMB_RO(warmth);
-        SET_MEMB_RO(weight_capacity_bonus);
-        SET_MEMB_RO(weight_capacity_modifier);
+        SET_MEMB_RO( sided );
+        SET_MEMB_RO( storage );
+        SET_MEMB_RO( thickness );
+        SET_MEMB_RO( valid_mods );
+        SET_MEMB_RO( warmth );
+        SET_MEMB_RO( weight_capacity_bonus );
+        SET_MEMB_RO( weight_capacity_modifier );
     }
 #undef UT_CLASS
 
@@ -380,13 +380,13 @@ void reg_islot( sol::state &lua )
     {
         sol::usertype<UT_CLASS> ut = luna::new_usertype<UT_CLASS>( lua, luna::no_bases, luna::no_constructor );
 
-        SET_MEMB_RO(min_vol);
-        SET_MEMB_RO(max_vol);
-        SET_MEMB_RO(env_resist);
-        SET_MEMB_RO(env_resist_w_filter);
-        SET_MEMB_RO(storage);
-        SET_MEMB_RO(thickness);
-        SET_MEMB_RO(bodytype);
+        SET_MEMB_RO( min_vol );
+        SET_MEMB_RO( max_vol );
+        SET_MEMB_RO( env_resist );
+        SET_MEMB_RO( env_resist_w_filter );
+        SET_MEMB_RO( storage );
+        SET_MEMB_RO( thickness );
+        SET_MEMB_RO( bodytype );
     }
 #undef UT_CLASS
 
@@ -394,15 +394,15 @@ void reg_islot( sol::state &lua )
     {
         auto ut = luna::new_usertype<UT_CLASS>( lua, luna::no_bases, luna::no_constructor );
 
-        SET_MEMB_RO(time);
-        SET_MEMB_RO(chapters);
-        SET_MEMB_RO(martial_art);
-        SET_MEMB_RO(fun);
-        SET_MEMB_N_RO(intel, "intelligence");
-        SET_MEMB_RO(skill);
-        SET_MEMB_N_RO(req, "skill_min");
-        SET_MEMB_N_RO(level, "skill_max");
-        SET_MEMB_RO(recipes);
+        SET_MEMB_RO( time );
+        SET_MEMB_RO( chapters );
+        SET_MEMB_RO( martial_art );
+        SET_MEMB_RO( fun );
+        SET_MEMB_N_RO( intel, "intelligence" );
+        SET_MEMB_RO( skill );
+        SET_MEMB_N_RO( req, "skill_min" );
+        SET_MEMB_N_RO( level, "skill_max" );
+        SET_MEMB_RO( recipes );
     }
 #undef UT_CLASS
 

@@ -365,7 +365,7 @@ struct book_recipe {
         return hidden;
     }
 
-    LUA_TYPE_OPS(book_recipe, recipe);
+    LUA_TYPE_OPS( book_recipe, recipe );
 };
 
 struct islot_book {

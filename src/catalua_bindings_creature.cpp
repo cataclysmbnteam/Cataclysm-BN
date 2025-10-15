@@ -695,10 +695,10 @@ void cata::detail::reg_character( sol::state &lua )
         SET_FX_T( all_items, std::vector<item *>( bool need_charges ) const );
 
         DOC( "Filters items" );
-        luna::set_fx(ut, "items_with", &Character::items_with );
+        luna::set_fx( ut, "items_with", &Character::items_with );
 
         DOC( "Removes given `Item` from character's inventory. The `Item` must be in the inventory, neither wielded nor worn." );
-        luna::set_fx( ut, "inv_remove_item", &Character::inv_remove_item);
+        luna::set_fx( ut, "inv_remove_item", &Character::inv_remove_item );
 
         SET_FX_T( assign_activity,
                   void( const activity_id &, int, int, int, const std::string & ) );

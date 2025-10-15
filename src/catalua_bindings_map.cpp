@@ -125,24 +125,29 @@ void cata::detail::reg_map( sol::state &lua )
         luna::set_fx( ut, "clear_items_at", []( map & m, const tripoint & p ) -> void { m.i_clear( p ); } );
 
         luna::set_fx( ut, "get_items_at", []( map & m, const tripoint & p ) -> std::unique_ptr<map_stack> { return std::make_unique<map_stack>( m.i_at( p ) ); } );
-        luna::set_fx( ut, "get_items_at_with", []( map & m, const tripoint & p, const std::function<bool( const item & )> &filter) -> std::vector<item *> {
+        luna::set_fx( ut, "get_items_at_with", []( map & m, const tripoint & p,
+        const std::function<bool( const item & )> &filter ) -> std::vector<item *> {
             std::vector<item *> items;
-            std::ranges::copy_if( m.i_at( p ), std::back_inserter( items ), [&]( const item * it ) { return filter(*it);} );
+            std::ranges::copy_if( m.i_at( p ), std::back_inserter( items ), [&]( const item * it ) { return filter( *it );} );
             return items;
         } );
-        luna::set_fx( ut, "get_items_in_radius", []( map & m, const tripoint & p, int radius ) -> std::vector<item *> {
+        luna::set_fx( ut, "get_items_in_radius", []( map & m, const tripoint & p,
+        int radius ) -> std::vector<item *> {
             std::vector<item *> items;
-            for( const auto pt : m.points_in_radius( p, radius ) ) {
+            for( const auto pt : m.points_in_radius( p, radius ) )
+            {
                 const auto r = m.i_at( pt );
-                std::ranges::copy(r , std::back_inserter( items ) );
+                std::ranges::copy( r, std::back_inserter( items ) );
             }
             return items;
         } );
-        luna::set_fx( ut, "get_items_in_radius_with", []( map & m, const tripoint & p, int radius, const std::function<bool( const item & )> &filter) -> std::vector<item *> {
+        luna::set_fx( ut, "get_items_in_radius_with", []( map & m, const tripoint & p, int radius,
+        const std::function<bool( const item & )> &filter ) -> std::vector<item *> {
             std::vector<item *> items;
-            for( const auto pt : m.points_in_radius( p, radius ) ) {
+            for( const auto pt : m.points_in_radius( p, radius ) )
+            {
                 const auto r = m.i_at( pt );
-                std::ranges::copy_if(r , std::back_inserter( items ), [&]( const item * it ) { return filter(*it) ;} );
+                std::ranges::copy_if( r, std::back_inserter( items ), [&]( const item * it ) { return filter( *it ) ;} );
             }
             return items;
         } );

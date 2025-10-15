@@ -27,7 +27,7 @@ int lua_iuse_actor::use( player &who, item &itm, bool tick, const tripoint &pos 
             check_func_result( res );
             int ret = res;
             return ret;
-        } else if (tick_func != sol::lua_nil) {
+        } else if( tick_func != sol::lua_nil ) {
             sol::protected_function_result res = tick_func( who.as_character(), itm, pos );
             check_func_result( res );
             int ret = res;
@@ -39,10 +39,11 @@ int lua_iuse_actor::use( player &who, item &itm, bool tick, const tripoint &pos 
     return 1;
 }
 
-ret_val<bool> lua_iuse_actor::can_use( const Character & who, const item & item, bool tick, const tripoint & pos) const
+ret_val<bool> lua_iuse_actor::can_use( const Character &who, const item &item, bool tick,
+                                       const tripoint &pos ) const
 {
     if( can_use_func != sol::lua_nil ) {
-        sol::protected_function_result res = can_use_func(who.as_character(), item, pos );
+        sol::protected_function_result res = can_use_func( who.as_character(), item, pos );
         check_func_result( res );
         bool ret = res;
         return ret

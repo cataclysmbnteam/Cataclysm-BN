@@ -11,7 +11,7 @@ class JsonObject;
 
 class ammunition_type
 {
-    friend class DynamicDataLoader;
+        friend class DynamicDataLoader;
     public:
         ammunition_type() = default;
         explicit ammunition_type( std::string name ) : name_( std::move( name ) ) { }
@@ -31,6 +31,6 @@ class ammunition_type
         static void check_consistency();
 
     public:
-        LUA_TYPE_OPS(ammunition_type, default_ammotype_);
+        LUA_TYPE_OPS( ammunition_type, default_ammotype_ );
 };
 
