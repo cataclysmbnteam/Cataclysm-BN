@@ -353,5 +353,20 @@ void reg_islot( sol::state &lua )
         SET_MEMB_RO(bodytype);
     }
 #undef UT_CLASS
+#define UT_CLASS islot_book
+    {
+        auto ut = luna::new_usertype<UT_CLASS>( lua, luna::no_bases, luna::no_constructor );
+
+        SET_MEMB_RO(time);
+        SET_MEMB_RO(chapters);
+        SET_MEMB_RO(martial_art);
+        SET_MEMB_RO(fun);
+        SET_MEMB_N_RO(intel, "intelligence");
+        SET_MEMB_RO(skill);
+        SET_MEMB_N_RO(req, "skill_min");
+        SET_MEMB_N_RO(level, "skill_max");
+        SET_MEMB_RO(recipes);
+    }
+#undef UT_CLASS
 
 }
