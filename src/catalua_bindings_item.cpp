@@ -306,5 +306,16 @@ void reg_itype( sol::state &lua )
 
 void reg_islot( sol::state &lua )
 {
+#define UT_CLASS islot_container
+    {
+        sol::usertype<UT_CLASS> ut = luna::new_usertype<UT_CLASS>( lua, luna::no_bases, luna::no_constructor );
+
+        SET_MEMB_RO(contains);
+        SET_MEMB_RO(preserves);
+        SET_MEMB_RO(seals);
+        SET_MEMB_RO(unseals_into);
+        SET_MEMB_RO(watertight);
+    }
+#undef UT_CLASS
 
 }
