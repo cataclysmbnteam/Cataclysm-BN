@@ -340,5 +340,18 @@ void reg_islot( sol::state &lua )
         SET_MEMB_RO(ups_recharge_rate);
     }
 #undef UT_CLASS
+#define UT_CLASS islot_pet_armor
+    {
+        sol::usertype<UT_CLASS> ut = luna::new_usertype<UT_CLASS>( lua, luna::no_bases, luna::no_constructor );
+
+        SET_MEMB_RO(min_vol);
+        SET_MEMB_RO(max_vol);
+        SET_MEMB_RO(env_resist);
+        SET_MEMB_RO(env_resist_w_filter);
+        SET_MEMB_RO(storage);
+        SET_MEMB_RO(thickness);
+        SET_MEMB_RO(bodytype);
+    }
+#undef UT_CLASS
 
 }
