@@ -26,9 +26,11 @@ void maptile_soa<sx, sy>::swap_soa_tile( point p1, point p2 )
     swap( fld[p1.x, p1.y], fld[p2.x, p2.y] );
     swap( trp[p1.x, p1.y], trp[p2.x, p2.y] );
     swap( rad[p1.x, p1.y], rad[p2.x, p2.y] );
+    swap( frn_vars[p1.x, p1.y], frn_vars[p2.x, p2.y] );
+    swap( ter_vars[p1.x, p1.y], ter_vars[p2.x, p2.y] );
 }
 
-void submap::swap( submap &first, submap &second )
+void submap::swap( submap &first, submap &second ) noexcept
 {
     using std::swap;
 
@@ -38,6 +40,8 @@ void submap::swap( submap &first, submap &second )
     swap( first.fld, second.fld );
     swap( first.trp, second.trp );
     swap( first.rad, second.rad );
+    swap( first.frn_vars, second.frn_vars );
+    swap( first.ter_vars, second.ter_vars );
     swap( first.is_uniform, second.is_uniform );
     swap( first.active_items, second.active_items );
     swap( first.field_count, second.field_count );
@@ -56,31 +60,34 @@ void submap::swap( submap &first, submap &second )
     // swap( first.itm, second.itm );
     for( int x = 0; x < SEEX; x++ ) {
         for( int y = 0; y < SEEY; y++ ) {
-            std::swap( first.itm[x, y], second.itm[x, y] );
+            swap( first.itm[x, y], second.itm[x, y] );
         }
     }
 }
 
 struct LocationVectorInitializer {
     tripoint offset;
-    constexpr auto operator()(const size_t x, const size_t y ) const {
-        return location_vector{ new tile_item_location( offset + point( 0, 0 ) )};
+    explicit LocationVectorInitializer( tripoint offset = {} ) : offset( offset ) {}
+    auto operator()( size_t x, size_t y ) const {
+        return location_vector{ new tile_item_location( offset + point( x, y ) )};
     }
 };
 
 template<int sx, int sy>
 maptile_soa<sx, sy>::maptile_soa( tripoint offset )
-    : ter(t_null)
-    , frn(f_null)
-    , lum(0)
-    , itm(LocationVectorInitializer{offset})
-    , fld(field{})
-    , trp(tr_null)
-    , rad(0)
+    : ter( t_null )
+    , frn( f_null )
+    , lum( 0 )
+    , itm( LocationVectorInitializer( offset ) )
+    , fld()
+    , trp( tr_null )
+    , rad( 0 )
+    , ter_vars()
+    , frn_vars()
 {
 }
 
-submap::submap( tripoint offset ) : maptile_soa<SEEX, SEEY>( offset )
+submap::submap( tripoint offset ) : maptile_soa( offset )
 {
     is_uniform = false;
 }

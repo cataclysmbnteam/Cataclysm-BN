@@ -72,13 +72,15 @@ struct maptile_soa {
     protected:
         maptile_soa( tripoint offset );
     public:
-        array2d<ter_id,sx,sy>                 ter; // Terrain on each square
-        array2d<furn_id,sx,sy>                frn; // Furniture on each square
-        array2d<std::uint8_t,sx,sy>           lum; // Number of items emitting light on each square
-        array2d<location_vector<item>,sx,sy>  itm; // Items on each square
-        array2d<field,sx,sy>                  fld; // Field on each square
-        array2d<trap_id,sx,sy>                trp; // Trap on each square
-        array2d<int,sx,sy>                    rad; // Irradiation of each square
+        array2d< ter_id, sx, sy >                  ter;  // Terrain on each square
+        array2d< furn_id, sx, sy >                 frn;  // Furniture on each square
+        array2d< std::uint8_t, sx, sy >            lum;  // Number of items emitting light on each square
+        array2d< location_vector<item>, sx, sy >   itm; // Items on each square
+        array2d< field, sx, sy >                   fld;  // Field on each square
+        array2d< trap_id, sx, sy >                 trp;  // Trap on each square
+        array2d< int, sx, sy >                     rad;  // Irradiation of each square
+        array2d< data_vars, sx, sy >               ter_vars; // Terrain vars
+        array2d< data_vars, sx, sy >               frn_vars; // Furniture vars
 
         void swap_soa_tile( point p1, point p2 );
 };
@@ -99,7 +101,7 @@ class submap : maptile_soa<SEEX, SEEY>
         }
 
         void set_all_traps( const trap_id &trap ) {
-            std::uninitialized_fill_n( &trp[0, 0], elements, trap );
+            trp.reset(trap);
         }
 
         furn_id get_furn( point p ) const {
@@ -109,10 +111,20 @@ class submap : maptile_soa<SEEX, SEEY>
         void set_furn( point p, furn_id furn ) {
             is_uniform = false;
             frn[p.x, p.y] = furn;
+            // Reset furniture vars on clear
+            if (furn == f_null) {
+                frn_vars[p.x, p.y].clear();
+            }
         }
 
         void set_all_furn( const furn_id &furn ) {
-            std::uninitialized_fill_n( &frn[0, 0], elements, furn );
+            frn.reset(furn);
+            // Reset furniture vars on clear
+            if (furn == f_null) {
+                for (auto &v : frn_vars) {
+                    v.clear();
+                }
+            }
         }
 
         ter_id get_ter( point p ) const {
@@ -172,6 +184,22 @@ class submap : maptile_soa<SEEX, SEEY>
         const field &get_field( point p ) const {
             return fld[p.x, p.y];
         }
+
+        const data_vars &get_ter_vars( point p ) const {
+            return ter_vars[p.x, p.y];
+        };
+
+        data_vars &get_ter_vars( point p ) {
+            return ter_vars[p.x, p.y];
+        };
+
+        const data_vars &get_furn_vars( point p ) const {
+            return frn_vars[p.x, p.y];
+        };
+
+        data_vars &get_furn_vars( point p ) {
+            return frn_vars[p.x, p.y];
+        };
 
         struct cosmetic_t {
             point pos;
@@ -238,7 +266,7 @@ class submap : maptile_soa<SEEX, SEEY>
         std::map<tripoint, std::unique_ptr<partial_con>> partial_constructions;
         std::map<point_sm_ms, cata::poly_serialized<active_tile_data>> active_furniture;
 
-        static void swap( submap &first, submap &second );
+        static void swap( submap &first, submap &second ) noexcept;
 
     private:
         std::map<point, computer> computers;
@@ -296,7 +324,7 @@ struct maptile {
             return sm->get_field( pos() );
         }
 
-        field_entry *find_field( const field_type_id &field_to_find ) {
+        field_entry *find_field( const field_type_id &field_to_find ) const {
             return sm->get_field( pos() ).find_field( field_to_find );
         }
 

@@ -3812,6 +3812,34 @@ void submap::store( JsonOut &jsout ) const
     }
     jsout.end_array();
 
+    jsout.member( "furniture_vars" );
+    jsout.start_array();
+    for( int j = 0; j < SEEY; j++ ) {
+        for( int i = 0; i < SEEX; i++ ) {
+            if( frn_vars[i, j].empty() ) {
+                continue;
+            }
+            jsout.write( i );
+            jsout.write( j );
+            jsout.write( frn_vars[i, j] );
+        }
+    }
+    jsout.end_array();
+
+    jsout.member( "terrain_vars" );
+    jsout.start_array();
+    for( int j = 0; j < SEEY; j++ ) {
+        for( int i = 0; i < SEEX; i++ ) {
+            if( ter_vars[i, j].empty() ) {
+                continue;
+            }
+            jsout.write( i );
+            jsout.write( j );
+            jsout.write( ter_vars[i, j] );
+        }
+    }
+    jsout.end_array();
+
     jsout.member( "traps" );
     jsout.start_array();
     for( int j = 0; j < SEEY; j++ ) {
@@ -4020,6 +4048,24 @@ void submap::load( JsonIn &jsin, const std::string &member_name, int version,
             for( detached_ptr<item> &item : cleared ) {
                 it.push_back( std::move( item ) );
             }
+        }
+    } else if( member_name == "furniture_vars" ) {
+        jsin.start_array();
+        while( !jsin.end_array() ) {
+            int i = jsin.get_int();
+            int j = jsin.get_int();
+            data_vars vars;
+            jsin.read( vars );
+            frn_vars[i, j] = std::move( vars );
+        }
+    } else if( member_name == "terrain_vars" ) {
+        jsin.start_array();
+        while( !jsin.end_array() ) {
+            int i = jsin.get_int();
+            int j = jsin.get_int();
+            data_vars vars;
+            jsin.read( vars );
+            ter_vars[i, j] = std::move( vars );
         }
     } else if( member_name == "traps" ) {
         jsin.start_array();
