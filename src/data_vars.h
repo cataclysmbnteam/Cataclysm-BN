@@ -13,37 +13,42 @@ namespace detail
 
 template<typename T>
 struct data_var_sstream_converter {
-    std::string operator()( const T &value ) const {
+    bool operator()( const T &in_val, std::string& out_val ) const {
         std::stringstream ss;
         ss.imbue( std::locale::classic() );
-        ss << value;
+        ss << in_val;
         if( ss.fail() ) {
-            return "";
+            return false;
         }
-        return ss.str();
+        out_val = ss.str();
+        return true;
     };
 
-    T operator()( const std::string& key, const T &def ) const {
-        T value = def;
-        std::stringstream ss( key );
+    bool operator()( const std::string& in_val, T &out_val ) const {
+        std::stringstream ss( in_val );
         ss.imbue( std::locale::classic() );
-        ss >> value;
+        ss >> out_val;
         if( ss.fail() ) {
-            return def;
+            return false;
         }
-        return value;
+        return true;
     }
 };
 
 struct data_var_tripoint_converter {
-    std::string operator()( const tripoint &value ) const {
-        return string_format( "%d,%d,%d", value.x, value.y, value.z );
+    bool operator()( const tripoint &in_val, std::string& out_val ) const {
+        out_val = string_format( "%d,%d,%d", in_val.x, in_val.y, in_val.z );
+        return true;
     }
-    tripoint operator()( const std::string &value, const tripoint & ) const {
-        const std::vector<std::string> values = string_split( value, ',' );
-        return tripoint( std::stoi( values[0] ),
-                         std::stoi( values[1] ),
-                         std::stoi( values[2] ) );
+    bool operator()( const std::string &in_val, tripoint& out_val) const {
+        const std::vector<std::string> values = string_split( in_val, ',' );
+        constexpr data_var_sstream_converter<int> cvt;
+        tripoint p;
+        if (cvt(values[0], p.x) && cvt(values[1], p.y) && cvt(values[2], p.z)) {
+            out_val = p;
+            return true;
+        };
+        return false;
     }
 };
 
@@ -82,29 +87,34 @@ class data_vars
 
         template<typename T, typename Cvt = detail::data_var_converter_t<T> >
         void set( const key_type& name, const T& value, const Cvt& cvt = {} ) {
-            data[name] = cvt( value );
+            std::string strval;
+            if (cvt(value, strval)) {
+                data_vars::set(name, strval);
+            }
+            else {
+                throw std::runtime_error("failed to convert value to string");
+            }
+        }
+
+        template<typename T, typename Cvt = detail::data_var_converter_t<T> >
+        bool try_get( const key_type& name, T& value, const Cvt& cvt = {} ) const {
+            std::string strval;
+            if (!data_vars::try_get(name, strval))
+                return false;
+            return cvt(strval, value);
         }
 
         template<typename T, typename Cvt = detail::data_var_converter_t<T> >
         T get( const key_type& name, const T& default_value = T{}, const Cvt& cvt = {} ) const {
-            const auto it = find( name );
-            if( it == end() ) {
-                return default_value;
-            }
-            return static_cast<T>( cvt( it->second, default_value ) );
+            T value;
+            return try_get<T>(name, value, cvt)
+                ? value
+                : default_value;
         }
 
-        void set( const key_type& name, const mapped_type& value ) {
-            data[name] = value;
-        }
-
-        mapped_type get( const key_type& name, const mapped_type& default_value = mapped_type{} ) const {
-            const auto it = find( name );
-            if( it == end() ) {
-                return default_value;
-            }
-            return it->second;
-        }
+        void set(const key_type &name, const mapped_type &value);
+        mapped_type get(const key_type &name, const mapped_type &default_value = mapped_type{}) const;
+        bool try_get( const key_type &name, mapped_type &value ) const;
 
         bool operator==( const data_vars & other ) const { return ( data ) == other.data; }
         mapped_type &operator[]( const key_type &name ) { return data[name]; }
