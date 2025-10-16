@@ -36,7 +36,7 @@ constexpr static auto init_array_2d_ys( F && fn, std::integer_sequence<size_t, Y
 }
 
 template<size_t SizeX, size_t SizeY, typename F>
-constexpr static auto init_array_2d( F&& fn )
+constexpr static auto init_array_2d( F &&fn )
 {
     return detail::init_array_2d_ys<SizeX, SizeY>(
                std::forward<F>( fn ),
@@ -67,7 +67,7 @@ struct array2d {
         struct const_iterator;
         struct index;
 
-        using storage = std::array<T, SizeX * SizeY>;
+        using storage = std::array<T, SizeX *SizeY>;
 
         using index_type = index;
         using size_type = size_t;
@@ -207,23 +207,23 @@ struct array2d {
 
         template <typename F>
         requires std::is_same_v<T, std::invoke_result_t<F, size_t, size_t >>
-        explicit array2d( F&& fn )
-            : _data{detail::init_array_2d<SizeX, SizeY>( fn ) } { }
+                explicit array2d( F &&fn )
+                    : _data{detail::init_array_2d<SizeX, SizeY>( fn ) } { }
 
-        explicit array2d( const T& value )
-            : _data{detail::init_array_2d<SizeX, SizeY>( [&]( size_t, size_t ) { return value; } )} { }
+        explicit array2d( const T &value )
+            : _data{detail::init_array_2d<SizeX, SizeY>( [ & ]( size_t, size_t ) { return value; } )} { }
 
         void reset() {
             _data = {};
         }
 
-        void reset(const T& value) {
+        void reset( const T &value ) {
             _data = detail::init_array_2d<SizeX, SizeY>( [&]( size_t, size_t ) { return value; } );
         }
 
         template <typename F>
         requires std::is_same_v<T, std::invoke_result_t<F, size_t, size_t >>
-        void reset( F&& fn ) {
+        void reset( F &&fn ) {
             _data = detail::init_array_2d<SizeX, SizeY>( fn );
         }
 

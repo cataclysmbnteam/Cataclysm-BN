@@ -13,7 +13,7 @@ namespace detail
 
 template<typename T>
 struct data_var_sstream_converter {
-    bool operator()( const T &in_val, std::string& out_val ) const {
+    bool operator()( const T &in_val, std::string &out_val ) const {
         std::stringstream ss;
         ss.imbue( std::locale::classic() );
         ss << in_val;
@@ -24,7 +24,7 @@ struct data_var_sstream_converter {
         return true;
     };
 
-    bool operator()( const std::string& in_val, T &out_val ) const {
+    bool operator()( const std::string &in_val, T &out_val ) const {
         std::stringstream ss( in_val );
         ss.imbue( std::locale::classic() );
         ss >> out_val;
@@ -36,15 +36,15 @@ struct data_var_sstream_converter {
 };
 
 struct data_var_tripoint_converter {
-    bool operator()( const tripoint &in_val, std::string& out_val ) const {
+    bool operator()( const tripoint &in_val, std::string &out_val ) const {
         out_val = string_format( "%d,%d,%d", in_val.x, in_val.y, in_val.z );
         return true;
     }
-    bool operator()( const std::string &in_val, tripoint& out_val) const {
+    bool operator()( const std::string &in_val, tripoint &out_val ) const {
         const std::vector<std::string> values = string_split( in_val, ',' );
         constexpr data_var_sstream_converter<int> cvt;
         tripoint p;
-        if (cvt(values[0], p.x) && cvt(values[1], p.y) && cvt(values[2], p.z)) {
+        if( cvt( values[0], p.x ) && cvt( values[1], p.y ) && cvt( values[2], p.z ) ) {
             out_val = p;
             return true;
         };
@@ -86,37 +86,37 @@ class data_vars
         storage data;
 
         template<typename T, typename Cvt = detail::data_var_converter_t<T> >
-        void set( const key_type& name, const T& value, const Cvt& cvt = {} ) {
+        void set( const key_type &name, const T &value, const Cvt &cvt = {} ) {
             std::string strval;
-            if (cvt(value, strval)) {
-                data_vars::set(name, strval);
-            }
-            else {
-                throw std::runtime_error("failed to convert value to string");
+            if( cvt( value, strval ) ) {
+                data_vars::set( name, strval );
+            } else {
+                throw std::runtime_error( "failed to convert value to string" );
             }
         }
 
         template<typename T, typename Cvt = detail::data_var_converter_t<T> >
-        bool try_get( const key_type& name, T& value, const Cvt& cvt = {} ) const {
+        bool try_get( const key_type &name, T &value, const Cvt &cvt = {} ) const {
             std::string strval;
-            if (!data_vars::try_get(name, strval))
+            if( !data_vars::try_get( name, strval ) ) {
                 return false;
-            return cvt(strval, value);
+            }
+            return cvt( strval, value );
         }
 
         template<typename T, typename Cvt = detail::data_var_converter_t<T> >
-        T get( const key_type& name, const T& default_value = T{}, const Cvt& cvt = {} ) const {
+        T get( const key_type &name, const T &default_value = T{}, const Cvt &cvt = {} ) const {
             T value;
-            return try_get<T>(name, value, cvt)
-                ? value
-                : default_value;
+            return try_get<T>( name, value, cvt )
+                   ? value
+                   : default_value;
         }
 
-        void set(const key_type &name, const mapped_type &value);
-        mapped_type get(const key_type &name, const mapped_type &default_value = mapped_type{}) const;
+        void set( const key_type &name, const mapped_type &value );
+        mapped_type get( const key_type &name, const mapped_type &default_value = mapped_type{} ) const;
         bool try_get( const key_type &name, mapped_type &value ) const;
 
-        bool operator==( const data_vars & other ) const { return ( data ) == other.data; }
+        bool operator==( const data_vars &other ) const { return ( data ) == other.data; }
         mapped_type &operator[]( const key_type &name ) { return data[name]; }
 
         bool empty() const { return data.empty(); }

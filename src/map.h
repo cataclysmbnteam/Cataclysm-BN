@@ -823,9 +823,9 @@ class map
         // Data Vars
 
         // requires inbounds(p), may return nullptr otherwise
-        data_vars* ter_vars(const tripoint &p) const;
+        data_vars *ter_vars( const tripoint &p ) const;
         // requires inbounds(p), may return nullptr otherwise
-        data_vars* furn_vars(const tripoint &p) const;
+        data_vars *furn_vars( const tripoint &p ) const;
 
         // Return a bitfield of the adjacent tiles which connect to the given
         // connect_group.  From least-significant bit the order is south, east,

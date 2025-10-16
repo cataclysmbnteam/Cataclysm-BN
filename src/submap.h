@@ -101,7 +101,7 @@ class submap : maptile_soa<SEEX, SEEY>
         }
 
         void set_all_traps( const trap_id &trap ) {
-            trp.reset(trap);
+            trp.reset( trap );
         }
 
         furn_id get_furn( point p ) const {
@@ -112,16 +112,16 @@ class submap : maptile_soa<SEEX, SEEY>
             is_uniform = false;
             frn[p.x, p.y] = furn;
             // Reset furniture vars on clear
-            if (furn == f_null) {
+            if( furn == f_null ) {
                 frn_vars[p.x, p.y].clear();
             }
         }
 
         void set_all_furn( const furn_id &furn ) {
-            frn.reset(furn);
+            frn.reset( furn );
             // Reset furniture vars on clear
-            if (furn == f_null) {
-                for (auto &v : frn_vars) {
+            if( furn == f_null ) {
+                for( auto &v : frn_vars ) {
                     v.clear();
                 }
             }
