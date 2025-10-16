@@ -53,9 +53,9 @@ constexpr static auto init_array_2d( F&& fn )
 /// Elements in are stored as rows of columns  \p SizeY rows of \p SizeX
 /// elements:
 ///
-/// For values without a default constructor, will initialize the elements via copy-constructor from:
-/// - A constant value
-/// - A callable that takes the \p x and \p y coordinates, and returns \p T
+/// For values without a default constructor, will initialize the elements from:
+/// - A constant value (if copy-constructible)
+/// - A functor or function that takes the \p x and \p y coordinates, and constructs \p T
 ///
 /// @tparam T Element Type
 /// @tparam SizeX X Dimensions
@@ -212,6 +212,20 @@ struct array2d {
 
         explicit array2d( const T& value )
             : _data{detail::init_array_2d<SizeX, SizeY>( [&]( size_t, size_t ) { return value; } )} { }
+
+        void reset() {
+            _data = {};
+        }
+
+        void reset(const T& value) {
+            _data = detail::init_array_2d<SizeX, SizeY>( [&]( size_t, size_t ) { return value; } );
+        }
+
+        template <typename F>
+        requires std::is_same_v<T, std::invoke_result_t<F, size_t, size_t >>
+        void reset( F&& fn ) {
+            _data = detail::init_array_2d<SizeX, SizeY>( fn );
+        }
 
         pointer data() { return &_data[0][0]; }
         const_pointer data() const { return &_data[0][0]; }
