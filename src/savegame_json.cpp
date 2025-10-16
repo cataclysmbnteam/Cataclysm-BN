@@ -3722,7 +3722,7 @@ void submap::store( JsonOut &jsout ) const
     for( int j = 0; j < SEEY; j++ ) {
         // NOLINTNEXTLINE(modernize-loop-convert)
         for( int i = 0; i < SEEX; i++ ) {
-            const std::string this_id = ter[i][j].obj().id.str();
+            const std::string this_id = ter[i, j].obj().id.str();
             if( !last_id.empty() ) {
                 if( this_id == last_id ) {
                     num_same++;
@@ -3802,12 +3802,12 @@ void submap::store( JsonOut &jsout ) const
     jsout.start_array();
     for( int j = 0; j < SEEY; j++ ) {
         for( int i = 0; i < SEEX; i++ ) {
-            if( itm[i][j].empty() ) {
+            if( itm[i, j].empty() ) {
                 continue;
             }
             jsout.write( i );
             jsout.write( j );
-            jsout.write( itm[i][j] );
+            jsout.write( itm[i, j] );
         }
     }
     jsout.end_array();
@@ -3835,11 +3835,11 @@ void submap::store( JsonOut &jsout ) const
     for( int j = 0; j < SEEY; j++ ) {
         for( int i = 0; i < SEEX; i++ ) {
             // Save fields
-            if( fld[i][j].field_count() > 0 ) {
+            if( fld[i, j].field_count() > 0 ) {
                 jsout.write( i );
                 jsout.write( j );
                 jsout.start_array();
-                for( auto &elem : fld[i][j] ) {
+                for( auto &elem : fld[i, j] ) {
                     const field_entry &cur = elem.second;
                     jsout.write( cur.get_field_type().id() );
                     jsout.write( cur.get_field_intensity() );
@@ -3960,7 +3960,7 @@ void submap::load( JsonIn &jsin, const std::string &member_name, int version,
                 } else {
                     --remaining;
                 }
-                ter[i][j] = iid;
+                ter[i, j] = iid;
             }
         }
         if( remaining ) {
@@ -3986,7 +3986,7 @@ void submap::load( JsonIn &jsin, const std::string &member_name, int version,
             jsin.start_array();
             int i = jsin.get_int();
             int j = jsin.get_int();
-            frn[i][j] = furn_id( jsin.get_string() );
+            frn[i, j] = furn_id( jsin.get_string() );
             jsin.end_array();
         }
     } else if( member_name == "items" ) {
@@ -4008,19 +4008,17 @@ void submap::load( JsonIn &jsin, const std::string &member_name, int version,
                     tmp->legacy_fast_forward_time();
                 }
                 item &obj = *tmp;
-                itm[p.x][p.y].push_back( std::move( tmp ) );
+                itm[p.x, p.y].push_back( std::move( tmp ) );
                 if( obj.needs_processing() ) {
                     active_items.add( obj );
                 }
             }
         }
-        for( auto &it1 : itm ) {
-            for( auto &it2 : it1 ) {
-                std::vector<detached_ptr<item>> cleared = it2.clear();
-                to_cbc_migration::migrate( cleared );
-                for( detached_ptr<item> &item : cleared ) {
-                    it2.push_back( std::move( item ) );
-                }
+        for( auto &it : itm ) {
+            std::vector<detached_ptr<item>> cleared = it.clear();
+            to_cbc_migration::migrate( cleared );
+            for( detached_ptr<item> &item : cleared ) {
+                it.push_back( std::move( item ) );
             }
         }
     } else if( member_name == "traps" ) {
@@ -4031,7 +4029,7 @@ void submap::load( JsonIn &jsin, const std::string &member_name, int version,
             int j = jsin.get_int();
             const point p( i, j );
             // TODO: jsin should support returning an id like jsin.get_id<trap>()
-            trp[p.x][p.y] = trap_str_id( jsin.get_string() ).id();
+            trp[p.x, p.y] = trap_str_id( jsin.get_string() ).id();
             jsin.end_array();
         }
     } else if( member_name == "fields" ) {
@@ -4058,10 +4056,10 @@ void submap::load( JsonIn &jsin, const std::string &member_name, int version,
                 } else {
                     ft = field_types::get_field_type_by_legacy_enum( type_int ).id;
                 }
-                if( fld[i][j].find_field( ft ) == nullptr ) {
+                if( fld[i, j].find_field( ft ) == nullptr ) {
                     field_count++;
                 }
-                fld[i][j].add_field( ft, intensity, time_duration::from_turns( age ) );
+                fld[i, j].add_field( ft, intensity, time_duration::from_turns( age ) );
             }
         }
     } else if( member_name == "graffiti" ) {
