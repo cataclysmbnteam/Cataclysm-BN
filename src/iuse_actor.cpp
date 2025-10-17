@@ -5345,6 +5345,10 @@ int cloning_syringe_iuse::use( player &p, item &it, bool, const tripoint &pos ) 
         add_msg( m_info, _( "There's not enough charge left in the %s." ), it.display_name() );
         return 0;
     }
+    if( !p.has_amount( itype_usb_drive, 1 ) ) {
+        add_msg( m_bad, "You need an empty USB drive to store genetic data." );
+        return 0;
+    }
 
     const std::string query = string_format( _( "Select which creature?" ) );
     const std::optional<tripoint> pnt_ = choose_adjacent( query );
@@ -5435,11 +5439,6 @@ int cloning_syringe_iuse::use( player &p, item &it, bool, const tripoint &pos ) 
 
             return charges_to_use;
         }
-    }
-
-    if( !p.has_amount( itype_usb_drive, 1 ) ) {
-        add_msg( m_bad, "No valid USB drive to store the data on.  Discarding..." );
-        return 0;
     }
 
     // Create new genome drive
