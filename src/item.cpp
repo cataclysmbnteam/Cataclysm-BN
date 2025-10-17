@@ -1657,8 +1657,7 @@ void item::basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
 
     if( parts->test( iteminfo_parts::DESCRIPTION ) ) {
         insert_separation_line( info );
-        const std::map<std::string, std::string>::const_iterator idescription =
-            item_vars.find( "description" );
+        const auto idescription = item_vars.find( "description" );
         const std::optional<translation> snippet = SNIPPET.get_snippet_by_id( snip_id );
         if( snippet.has_value() && ( !get_avatar().has_trait( trait_ILLITERATE ) ||
                                      !has_flag( flag_SNIPPET_NEEDS_LITERACY ) ) ) {
@@ -1683,9 +1682,8 @@ void item::basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                 info.emplace_back( "DESCRIPTION", type->description.translated() );
             }
         }
-        std::map<std::string, std::string>::const_iterator item_note = item_vars.find( "item_note" );
-        std::map<std::string, std::string>::const_iterator item_note_tool =
-            item_vars.find( "item_note_tool" );
+        const auto item_note = item_vars.find( "item_note" );
+        const auto item_note_tool = item_vars.find( "item_note_tool" );
 
         if( item_note != item_vars.end() && parts->test( iteminfo_parts::DESCRIPTION_NOTES ) ) {
             std::string ntext;
