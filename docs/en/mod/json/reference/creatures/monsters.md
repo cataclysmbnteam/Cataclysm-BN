@@ -244,7 +244,7 @@ mount is capable of carrying riders weighing <= 30% of the mount's weight.
 
 (integer, optional)
 
-Monster melee skill, ranges from 0 - 10 in base game generally, with 4 being an average mob. Past 10 is likely magic or anomalous 
+Monster melee skill, ranges from 0 - 10 in base game generally, with 4 being an average mob. Past 10 is likely magic or anomalous
 See GAME_BALANCE.txt for more examples
 
 ## "dodge"
