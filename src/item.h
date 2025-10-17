@@ -28,6 +28,7 @@
 #include "units.h"
 #include "value_ptr.h"
 #include "visitable.h"
+#include "data_vars.h"
 
 class Character;
 class JsonIn;
@@ -1495,25 +1496,23 @@ class item : public location_visitable<item>, public game_object<item>
          * </code>
          */
         /*@{*/
-        void set_var( const std::string &name, int value );
-        void set_var( const std::string &name, long long value );
+        void set_var( const std::string &name, int value ) { item_vars.set<int>( name,  value ); };
+        void set_var( const std::string &name, long long value ) { item_vars.set<long long>( name,  value ); };
         // Acceptable to use long as part of overload set
         // NOLINTNEXTLINE(cata-no-long)
-        void set_var( const std::string &name, long value );
-        void set_var( const std::string &name, double value );
-        double get_var( const std::string &name, double default_value ) const;
-        void set_var( const std::string &name, const tripoint &value );
-        tripoint get_var( const std::string &name, const tripoint &default_value ) const;
-        void set_var( const std::string &name, const std::string &value );
-        std::string get_var( const std::string &name, const std::string &default_value ) const;
-        /** Get the variable, if it does not exists, returns an empty string. */
-        std::string get_var( const std::string &name ) const;
-        /** Whether the variable is defined at all. */
-        bool has_var( const std::string &name ) const;
-        /** Erase the value of the given variable. */
-        void erase_var( const std::string &name );
-        /** Removes all item variables. */
-        void clear_vars();
+        void set_var( const std::string &name, long value ) { item_vars.set<long>( name, value ); };
+        void set_var( const std::string &name, double value ) { item_vars.set<double>( name, value ); };
+        void set_var( const std::string &name, const tripoint &value ) { item_vars.set<tripoint>( name, value ); };
+        void set_var( const std::string &name, const std::string &value ) { item_vars.set( name, value ); };
+
+        double get_var( const std::string &name, double default_value ) const { return item_vars.get<double>( name, default_value ); }
+        tripoint get_var( const std::string &name, const tripoint &default_value ) const { return item_vars.get<tripoint>( name, default_value ); }
+        std::string get_var( const std::string &name, const std::string &default_value ) const { return item_vars.get( name, default_value ); }
+        std::string get_var( const std::string &name ) const { return item_vars.get( name, "" ); }
+        bool has_var( const std::string &name ) const { return item_vars.contains( name ); }
+        void erase_var( const std::string &name ) { item_vars.erase( name ); }
+        void clear_vars() { item_vars.clear(); }
+
         /** Adds child items to the contents of this one. */
         void add_item_with_id( const itype_id &itype, int count = 1 );
         /** Checks if this item contains an item with itype. */
@@ -2388,7 +2387,7 @@ class item : public location_visitable<item>, public game_object<item>
     private:
         location_vector<item> components;
         const itype *curammo = nullptr;
-        std::map<std::string, std::string> item_vars;
+        data_vars item_vars = {};
         const mtype *corpse = nullptr;
         std::string corpse_name;       // Name of the late lamented
         std::set<matec_id> techniques; // item specific techniques
