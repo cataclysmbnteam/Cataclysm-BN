@@ -1,10 +1,13 @@
 #include "catalua_bindings.h"
 
+#include "catalua_bindings_utils.h"
+#include "catalua_luna.h"
+#include "catalua_luna_doc.h"
+
+#include "ammo.h"
 #include "activity_type.h"
 #include "bionics.h"
 #include "bodypart.h"
-#include "catalua_luna_doc.h"
-#include "catalua_luna.h"
 #include "disease.h"
 #include "effect.h"
 #include "faction.h"
@@ -91,6 +94,7 @@ void cata::detail::reg_game_ids( sol::state &lua )
     // Some already may have them, but for the rest you can do it
     // with LUA_TYPE_OPS macro.
 
+    reg_id<ammunition_type, false>( lua );
     reg_id<activity_type, false>( lua );
     reg_id<bionic_data, false>( lua );
     reg_id<body_part_type, true>( lua );
@@ -105,6 +109,7 @@ void cata::detail::reg_game_ids( sol::state &lua )
     reg_id<ma_buff, false>( lua );
     reg_id<mission_type, false>( lua );
     reg_id<ma_technique, false>( lua );
+    reg_id<martialart, false>( lua );
     reg_id<material_type, false>( lua );
     reg_id<monfaction, true>( lua );
     reg_id<morale_type_data, false>( lua );
