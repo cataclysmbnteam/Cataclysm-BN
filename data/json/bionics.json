@@ -1088,7 +1088,7 @@
     "description": "Extend or withdraw your integrated toolset to cut metal, pry things, or other stuff.  This takes up your hands.",
     "fake_item": "toolset_extended",
     "included": true,
-    "flags": [ "BIONIC_TOGGLED", "BIONIC_WEAPON", "BIONIC_TOOLS" ]
+    "flags": [ "BIONIC_TOGGLED", "BIONIC_WEAPON" ]
   },
   {
     "id": "bio_torsionratchet",
