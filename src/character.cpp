@@ -1,4 +1,5 @@
 #include "character.h"
+#include "calendar.h"
 #include "character_encumbrance.h"
 
 #include <algorithm>
@@ -210,8 +211,6 @@ static const itype_id itype_string_36( "string_36" );
 static const itype_id itype_toolset( "toolset" );
 static const itype_id itype_voltmeter_bionic( "voltmeter_bionic" );
 static const itype_id itype_UPS( "UPS" );
-static const itype_id itype_power_storage( "bio_power_storage" );
-static const itype_id itype_power_storage_mkII( "bio_power_storage_mkII" );
 static const itype_id itype_bio_armor( "bio_armor" );
 
 static const fault_id fault_bionic_nonsterile( "fault_bionic_nonsterile" );
@@ -2117,6 +2116,27 @@ bool Character::has_active_bionic( const bionic_id &b ) const
         }
     }
     return false;
+}
+
+bool Character::has_active_bionic_with_fake( const itype_id &it ) const
+{
+    for( const bionic &i : get_bionic_collection() ) {
+        if( i.info().fake_item == it ) {
+            return ( i.powered && i.incapacitated_time == 0_turns );
+        }
+    }
+    return false;
+}
+
+int Character::count_bionic_of_type( const bionic_id &bio ) const
+{
+    int i = 0;
+    for( const bionic &b : get_bionic_collection() ) {
+        if( b.id == bio ) {
+            i++;
+        }
+    }
+    return i;
 }
 
 bool Character::has_any_bionic() const
@@ -10950,18 +10970,6 @@ void Character::place_corpse()
         }
     }
 
-    // Restore amount of installed pseudo-modules of Power Storage Units
-    std::pair<int, int> storage_modules = amount_of_storage_bionics();
-    for( int i = 0; i < storage_modules.first; ++i ) {
-        detached_ptr<item> cbm = item::spawn( itype_power_storage );
-        cbm->faults.emplace( fault_bionic_nonsterile );
-        body->add_component( std::move( cbm ) );
-    }
-    for( int i = 0; i < storage_modules.second; ++i ) {
-        detached_ptr<item> cbm = item::spawn( itype_power_storage_mkII );
-        cbm->faults.emplace( fault_bionic_nonsterile );
-        body->add_component( std::move( cbm ) );
-    }
     here.add_item_or_charges( pos(), std::move( body ) );
 }
 
@@ -10997,14 +11005,6 @@ void Character::place_corpse( const tripoint_abs_omt &om_target )
         }
     }
 
-    // Restore amount of installed pseudo-modules of Power Storage Units
-    std::pair<int, int> storage_modules = amount_of_storage_bionics();
-    for( int i = 0; i < storage_modules.first; ++i ) {
-        body->put_in( item::spawn( "bio_power_storage" ) );
-    }
-    for( int i = 0; i < storage_modules.second; ++i ) {
-        body->put_in( item::spawn( "bio_power_storage_mkII" ) );
-    }
     bay.add_item_or_charges( fin, std::move( body ) );
 }
 

@@ -2395,5 +2395,23 @@
     "type": "json_flag",
     "info": "You have marked this article to not display a sprite when worn.",
     "context": [ "ARMOR", "TOOL_ARMOR" ]
+  },
+  {
+    "id": "INITIALLY_ACTIVATE",
+    "type": "json_flag",
+    "//": "Used on bionics, sets them to be active once installed",
+    "context": [  ]
+  },
+  {
+    "id": "BIONIC_TOOLS",
+    "type": "json_flag",
+    "//": "Used on bionics and fake bionic items, invalidates crafting inventory on activate or makes them usable with bionic power",
+    "context": [  ]
+  },
+  {
+    "id": "MULTIINSTALL",
+    "type": "json_flag",
+    "//": "Lets you install multiple copies of this bionic",
+    "context": [  ]
   }
 ]
