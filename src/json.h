@@ -78,13 +78,13 @@ struct key_from_json_string<Enum, std::enable_if_t<std::is_enum_v<Enum>>> {
 };
 
 struct number_sci_notation {
-    bool negative = false;
-
     uint64_t integral = 0;
-    int64_t integral_exp = 0;
-
     uint64_t fract = 0;
-    int64_t fract_exp = 0;
+
+    int16_t integral_exp = 0;
+    int16_t fract_exp = 0;
+
+    bool negative = false;
 };
 
 /* JsonIn
