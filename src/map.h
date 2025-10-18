@@ -888,6 +888,7 @@ class map
          * Checks for existence of items. Faster than i_at(p).empty
          */
         bool has_items( const tripoint &p ) const;
+        bool has_visible_item( const tripoint &p ) const;
 
         /**
          * Calls the examine function of furniture or terrain at given tile, for given character.

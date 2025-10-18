@@ -9535,7 +9535,9 @@ point game::place_player( const tripoint &dest_loc )
                 std::vector<size_t> counts;
                 std::vector<item *> items;
                 for( auto &tmpitem : m.i_at( u.pos() ) ) {
-
+                    if( tmpitem->has_flag( flag_INVISIBLE ) ) {
+                        continue;
+                    }
                     std::string next_tname = tmpitem->tname();
                     std::string next_dname = tmpitem->display_name();
                     bool by_charges = tmpitem->count_by_charges();
@@ -9565,36 +9567,38 @@ point game::place_player( const tripoint &dest_loc )
                         break;
                     }
                 }
-                for( size_t i = 0; i < names.size(); ++i ) {
-                    if( !items[i]->count_by_charges() ) {
-                        names[i] = items[i]->display_name( counts[i] );
+                if( names.size() > 0 ) {
+                    for( size_t i = 0; i < names.size(); ++i ) {
+                        if( !items[i]->count_by_charges() ) {
+                            names[i] = items[i]->display_name( counts[i] );
+                        } else {
+                            names[i] = items[i]->tname( counts[i] );
+                        }
+                    }
+                    int and_the_rest = 0;
+                    for( size_t i = 0; i < names.size(); ++i ) {
+                        //~ number of items: "<number> <item>"
+                        std::string fmt = vgettext( "%1$d %2$s", "%1$d %2$s", counts[i] );
+                        names[i] = string_format( fmt, counts[i], names[i] );
+                        // Skip the first two.
+                        if( i > 1 ) {
+                            and_the_rest += counts[i];
+                        }
+                    }
+                    if( names.size() == 1 ) {
+                        add_msg( _( "You see here %s." ), names[0] );
+                    } else if( names.size() == 2 ) {
+                        add_msg( _( "You see here %s and %s." ), names[0], names[1] );
+                    } else if( names.size() == 3 ) {
+                        add_msg( _( "You see here %s, %s, and %s." ), names[0], names[1], names[2] );
+                    } else if( and_the_rest < 7 ) {
+                        add_msg( vgettext( "You see here %s, %s and %d more item.",
+                                           "You see here %s, %s and %d more items.",
+                                           and_the_rest ),
+                                 names[0], names[1], and_the_rest );
                     } else {
-                        names[i] = items[i]->tname( counts[i] );
+                        add_msg( _( "You see here %s and many more items." ), names[0] );
                     }
-                }
-                int and_the_rest = 0;
-                for( size_t i = 0; i < names.size(); ++i ) {
-                    //~ number of items: "<number> <item>"
-                    std::string fmt = vgettext( "%1$d %2$s", "%1$d %2$s", counts[i] );
-                    names[i] = string_format( fmt, counts[i], names[i] );
-                    // Skip the first two.
-                    if( i > 1 ) {
-                        and_the_rest += counts[i];
-                    }
-                }
-                if( names.size() == 1 ) {
-                    add_msg( _( "You see here %s." ), names[0] );
-                } else if( names.size() == 2 ) {
-                    add_msg( _( "You see here %s and %s." ), names[0], names[1] );
-                } else if( names.size() == 3 ) {
-                    add_msg( _( "You see here %s, %s, and %s." ), names[0], names[1], names[2] );
-                } else if( and_the_rest < 7 ) {
-                    add_msg( vgettext( "You see here %s, %s and %d more item.",
-                                       "You see here %s, %s and %d more items.",
-                                       and_the_rest ),
-                             names[0], names[1], and_the_rest );
-                } else {
-                    add_msg( _( "You see here %s and many more items." ), names[0] );
                 }
             }
         }

@@ -991,7 +991,7 @@ void move_items_activity_actor::do_turn( player_activity &act, Character &who )
         }
 
         // Check that we can pick it up.
-        if( target->made_of( LIQUID ) ) {
+        if( target->made_of( LIQUID ) || target->has_flag( flag_INVISIBLE ) ) {
             continue;
         }
 
