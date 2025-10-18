@@ -9,6 +9,7 @@
 #include "catacharset.h"
 #include "cata_utility.h"
 #include "character.h"
+#include "color.h"
 #include "enum_conversions.h"
 #include "flat_set.h"
 #include "game.h"
@@ -26,6 +27,7 @@
 #include "units.h"
 
 static const std::string flag_SAFE_FUEL_OFF( "SAFE_FUEL_OFF" );
+static const flag_id flag_MULTIINSTALL( "MULTIINSTALL" );
 
 // '!', '-' and '=' are uses as default bindings in the menu
 const invlet_wrapper
@@ -103,9 +105,11 @@ sorted_bionics filtered_bionics( bionic_collection &all_bionics,
                                  bionic_tab_mode mode )
 {
     sorted_bionics filtered_entries;
+    std::set<bionic_id> displayed_bionics;
     for( auto &elem : all_bionics ) {
-        if( ( mode == TAB_ACTIVE ) == elem.id->activated ) {
+        if( ( mode == TAB_ACTIVE ) == elem.id->activated && !displayed_bionics.contains( elem.id ) ) {
             filtered_entries.insert( &elem );
+            displayed_bionics.insert( elem.id );
         }
     }
     return filtered_entries;
@@ -387,7 +391,13 @@ static void draw_description( const catacurses::window &win, const bionic &bio,
                                 _( "Power usage: %s" ), poweronly_string );
     }
     ypos += 1 + fold_and_print( win, point( 0, ypos ), width, c_light_blue, "%s", bio.id->description );
-
+    if( bio.info().has_flag( flag_MULTIINSTALL ) ) {
+        int count = who.count_bionic_of_type( bio.id );
+        if( count != 1 ) {
+            fold_and_print( win, point( 0, ypos ), width, c_magenta,
+                            "You have %s instances of this bionic installed", count );
+        }
+    }
     // TODO: Unhide when enforcing limits
     if( get_option < bool >( "CBM_SLOTS_ENABLED" ) ) {
         int body_part_count = who.get_all_body_parts().size();

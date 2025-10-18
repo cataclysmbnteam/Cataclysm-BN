@@ -12,6 +12,7 @@
 #include "bionics.h"
 #include "character.h"
 #include "debug.h"
+#include "flag.h"
 #include "inventory.h"
 #include "item.h"
 #include "itype.h"
@@ -44,9 +45,6 @@ static const quality_id qual_BUTCHER( "BUTCHER" );
 static const bionic_id bio_tools( "bio_tools" );
 static const bionic_id bio_electrosense_voltmeter( "bio_electrosense_voltmeter" );
 static const bionic_id bio_ups( "bio_ups" );
-
-static const flag_id flag_BIONIC_ARMOR_INTERFACE( "BIONIC_ARMOR_INTERFACE" );
-static const flag_id flag_IS_UPS( "IS_UPS" );
 
 /** @relates visitable */
 template <typename T>
@@ -1063,8 +1061,10 @@ int visitable<Character>::charges_of( const itype_id &what, int limit,
     auto self = static_cast<const Character *>( this );
     auto p = dynamic_cast<const player *>( self );
 
-    if( what == itype_toolset ) {
-        if( p && p->has_active_bionic( bio_tools ) ) {
+    if( what->has_flag( flag_BIONIC_TOOLS ) ) {
+        // WARN: This does make all tools active when one tool is active
+        // But that is not too big of a compromise for simplicity
+        if( p && p->has_active_bionic_with_fake( what ) ) {
             return std::min( units::to_kilojoule( p->get_power_level() ), limit );
         } else {
             return 0;
@@ -1187,7 +1187,7 @@ int visitable<Character>::amount_of( const itype_id &what, bool pseudo, int limi
 {
     auto self = static_cast<const Character *>( this );
 
-    if( what == itype_toolset && pseudo && self->has_active_bionic( bio_tools ) ) {
+    if( what->has_flag( flag_BIONIC_TOOLS ) && pseudo && self->has_active_bionic_with_fake( what ) ) {
         return 1;
     }
 
