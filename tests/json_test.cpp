@@ -518,11 +518,12 @@ static bool approximatelyEqual( T a, T b, T eps, const unsigned ulps )
 
 template<typename T>
 requires std::is_integral_v<T>
-constexpr static bool approximatelyEqual( T a, T b, T eps, const unsigned)
+constexpr static bool approximatelyEqual( T a, T b, T eps, const unsigned )
 {
-    if (b > a)
+    if( b > a ) {
         std::swap( a, b );
-    return static_cast<T>(a - b) <= eps;
+    }
+    return static_cast<T>( a - b ) <= eps;
 }
 
 template<typename T>
@@ -602,7 +603,7 @@ TEST_CASE( "serialize_integers", "[json]" )
 
     SECTION( "exponent" ) {
         for( uint32_t i = 1; i <= 9; i++ ) {
-            std::string str = string_format("1e-%d", i);
+            std::string str = string_format( "1e-%d", i );
             std::stringstream is { str };
             uint64_t read_val;
             JsonIn jsin( is );
@@ -611,7 +612,7 @@ TEST_CASE( "serialize_integers", "[json]" )
             CAPTURE( str );
         }
         for( uint32_t i = 0; i <= 9; i++ ) {
-            std::string str = string_format("1e%d", i);
+            std::string str = string_format( "1e%d", i );
             std::stringstream is { str };
             uint64_t read_val;
             JsonIn jsin( is );
@@ -624,7 +625,8 @@ TEST_CASE( "serialize_integers", "[json]" )
     SECTION( "random_unsigned" ) {
         std::random_device rd;
         std::mt19937 gen( rd() );
-        std::uniform_int_distribution<uint64_t> distrib( std::numeric_limits<uint64_t>::min(), std::numeric_limits<uint64_t>::max() );
+        std::uniform_int_distribution<uint64_t> distrib( std::numeric_limits<uint64_t>::min(),
+                std::numeric_limits<uint64_t>::max() );
 
         for( int i = 0; i < 100000; i++ ) {
             test_number_roundtrip<uint64_t>( distrib( gen ), 0, 0 );
@@ -634,7 +636,8 @@ TEST_CASE( "serialize_integers", "[json]" )
     SECTION( "random_signed" ) {
         std::random_device rd;
         std::mt19937 gen( rd() );
-        std::uniform_int_distribution<int64_t> distrib( std::numeric_limits<int64_t>::min(), std::numeric_limits<int64_t>::max() );
+        std::uniform_int_distribution<int64_t> distrib( std::numeric_limits<int64_t>::min(),
+                std::numeric_limits<int64_t>::max() );
 
         for( int i = 0; i < 100000; i++ ) {
             test_number_roundtrip<int64_t>( distrib( gen ), 0, 0 );

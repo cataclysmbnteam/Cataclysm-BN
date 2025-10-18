@@ -344,23 +344,23 @@ holiday get_holiday_from_time( std::time_t time = 0, bool force_refresh = false 
 template <typename T, std::size_t ... Is>
 constexpr T _pow10p( std::index_sequence<Is...> const & )
 {
-    auto apply = [](size_t, T& v) { v *= 10; };
+    auto apply = []( size_t, T & v ) { v *= 10; };
     T ret { 1 };
-    (apply(Is, ret), ...);
+    ( apply( Is, ret ), ... );
     return ret;
 }
 
 template <typename T, std::size_t ... Is>
 constexpr T _pow10n( std::index_sequence<Is...> const & )
 {
-    auto apply = [](size_t, T& v) { v /= 10; };
+    auto apply = []( size_t, T & v ) { v /= 10; };
     T ret { 1 };
-    (apply(Is, ret), ...);
+    ( apply( Is, ret ), ... );
     return ret;
 }
 
 template < typename T, int E, std::size_t N = ( E < 0 ? -E : E ) >
-constexpr T pow10()
+           constexpr T pow10()
 {
     return E < 0
                ? _pow10n<T>( std::make_index_sequence<N> {} )
