@@ -289,6 +289,7 @@ to find which flags work elsewhere.
 - `MULTIINSTALL` This bionic can be installed multiple times
 - `INITIALLY_ACTIVE` This bionic is active at the point of installation
 - `BIONIC_TOOLS` This bionic has tools, on activate it will reload the avaliable things to craft with
+
 ## Books
 
 - `BOOK_CANNIBAL` Reading this book converts negative morale to positive morale for characters with
