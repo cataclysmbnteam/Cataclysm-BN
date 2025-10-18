@@ -1182,9 +1182,9 @@ void inventory_selector::add_item( inventory_column &target_column,
 }
 
 void inventory_selector::add_fake_item( inventory_column &target_column, detached_ptr<item> &&i,
-                                   const item_category *custom_category )
+                                        const item_category *custom_category )
 {
-    add_entry( target_column, std::vector<item *>( 1, i ), custom_category );
+    add_entry( target_column, std::vector<item *>( 1, &*i ), custom_category );
 }
 
 void inventory_selector::add_items( inventory_column &target_column,

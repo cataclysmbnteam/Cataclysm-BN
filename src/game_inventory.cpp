@@ -176,20 +176,14 @@ static item *inv_internal( player &u, const inventory_selector_preset &preset,
         inv_s.add_nearby_items( radius );
 
         if( include_fake_bionics ) {
-            inv_s.add_bionics_items( u );
-            /*
+            // Needs to be done here to prevent errors
             const item_category bio_cat( "BIONICS", no_translation( "BIONICS" ), 0 );
             for( bionic bio : u.get_bionic_collection() ) {
-                // if( !bio.info().has_flag( flag_BIONIC_USEACT ) ) {
-                    // continue;
-                // }
                 const itype_id fake = bio.info().fake_item;
                 if( !fake.is_null() && fake.str() != "" ) {
-                    item &real_fake = *item::spawn_temporary( fake );
-                    inv_s.add_fake_item( inv_s.own_gear_column, real_fake, &bio_cat );
+                    inv_s.add_fake_item( inv_s.own_gear_column, item::spawn( fake ), &bio_cat );
                 }
             }
-            */
         }
         if( has_init_filter ) {
             inv_s.set_filter( init_filter );
