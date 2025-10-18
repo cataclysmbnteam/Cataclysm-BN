@@ -62,6 +62,18 @@ class data_vars
             _data[name] = value;
         }
 
+        std::string get( const std::string &key, const char* default_value ) const {
+            std::string val;
+            if( !try_get( key, val ) ) {
+                return default_value;
+            }
+            return val;
+        }
+
+        void set( const key_type &name, const char* value ) {
+            _data[name] = std::string{value};
+        }
+
         bool operator==( const data_vars &other ) const { return ( _data ) == other._data; }
         mapped_type &operator[]( const key_type &name ) { return _data[name]; }
 
