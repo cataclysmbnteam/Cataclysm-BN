@@ -1519,7 +1519,7 @@ class item : public location_visitable<item>, public game_object<item>
         // mark as [[deprecated]]
         // completely remove in a future update
 
-        data_vars::data_set& item_vars() { return item_vars_; }
+        data_vars::data_set &item_vars() { return item_vars_; }
 
         /** Adds child items to the contents of this one. */
         void add_item_with_id( const itype_id &itype, int count = 1 );

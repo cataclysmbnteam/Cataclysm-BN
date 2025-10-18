@@ -5,7 +5,8 @@
 
 #include "data_vars_cvt.h"
 
-namespace data_vars {
+namespace data_vars
+{
 
 template<typename T>
 struct type_converter;
@@ -33,7 +34,8 @@ class data_set
         }
 
         template <typename Value, typename Conv = type_converter_t<Value>>
-        Value get( const std::string &key, const Value &default_value = {}, const Conv &converter = {} ) const {
+        Value get( const std::string &key, const Value &default_value = {}, const Conv &converter = {} )
+        const {
             Value val;
             if( !data_set::try_get<Value>( key, val, converter ) ) {
                 return default_value;
@@ -71,7 +73,7 @@ class data_set
             _data[name] = value;
         }
 
-        std::string get( const std::string &key, const char* default_value ) const {
+        std::string get( const std::string &key, const char *default_value ) const {
             std::string val;
             if( !try_get( key, val ) ) {
                 return default_value;
@@ -79,7 +81,7 @@ class data_set
             return val;
         }
 
-        void set( const key_type &name, const char* value ) {
+        void set( const key_type &name, const char *value ) {
             _data[name] = std::string{value};
         }
 
