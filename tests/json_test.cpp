@@ -707,7 +707,8 @@ TEST_CASE( "serialize_doubles", "[json]" )
     }
 
     SECTION( "test_exponents" ) {
-        for( int i = -std::numeric_limits<double>::max_exponent10; i <= std::numeric_limits<double>::max_exponent10; i++ ) {
+        for( int i = -std::numeric_limits<double>::max_exponent10;
+             i <= std::numeric_limits<double>::max_exponent10; i++ ) {
             test_number_roundtrip( std::pow( 10, i ), eps, 4 );
         }
     }
