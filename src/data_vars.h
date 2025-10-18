@@ -2,9 +2,18 @@
 
 #include <map>
 #include <string>
+
 #include "data_vars_cvt.h"
 
-class data_vars
+namespace data_vars {
+
+template<typename T>
+struct type_converter;
+
+template<typename T>
+using type_converter_t = typename type_converter<T>::type;
+
+class data_set
 {
     public:
         using storage = std::map<std::string, std::string>;
@@ -14,7 +23,7 @@ class data_vars
         using iterator = storage::iterator;
         using const_iterator = storage::const_iterator;
 
-        template<typename Value, typename Conv = detail::type_converter<Value>>
+        template<typename Value, typename Conv = type_converter_t<Value>>
         bool try_get( const std::string &key, Value &out_val, const Conv &converter = {} ) const {
             const auto it = _data.find( key );
             if( it == _data.end() ) {
@@ -23,16 +32,16 @@ class data_vars
             return converter( it->second, out_val );
         }
 
-        template <typename Value, typename Conv = detail::type_converter<Value>>
-        Value get( const std::string &key, const Value &default_value, const Conv &converter = {} ) const {
+        template <typename Value, typename Conv = type_converter_t<Value>>
+        Value get( const std::string &key, const Value &default_value = {}, const Conv &converter = {} ) const {
             Value val;
-            if( !data_vars::try_get<Value>( key, val, converter ) ) {
+            if( !data_set::try_get<Value>( key, val, converter ) ) {
                 return default_value;
             }
             return val;
         }
 
-        template <typename Value, typename Conv = detail::type_converter<Value>>
+        template <typename Value, typename Conv = type_converter_t<Value>>
         void set( const key_type &name, const Value &value, const Conv &converter = {} ) {
             std::string str;
             if( !converter( value, str ) ) {
@@ -50,7 +59,7 @@ class data_vars
             return true;
         }
 
-        mapped_type get( const std::string &key, const mapped_type &default_value ) const {
+        mapped_type get( const std::string &key, const mapped_type &default_value = {} ) const {
             std::string val;
             if( !try_get( key, val ) ) {
                 return default_value;
@@ -74,7 +83,7 @@ class data_vars
             _data[name] = std::string{value};
         }
 
-        bool operator==( const data_vars &other ) const { return ( _data ) == other._data; }
+        bool operator==( const data_set &other ) const { return ( _data ) == other._data; }
         mapped_type &operator[]( const key_type &name ) { return _data[name]; }
 
         bool empty() const { return _data.empty(); }
@@ -93,3 +102,5 @@ class data_vars
     private:
         storage _data;
 };
+
+} // namespace data_vars

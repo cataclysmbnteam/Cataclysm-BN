@@ -2255,7 +2255,7 @@ void item::io( Archive &archive )
     archive.io( "bday", bday, calendar::start_of_cataclysm );
     archive.io( "mission_id", mission_id, -1 );
     archive.io( "player_id", player_id, -1 );
-    archive.io( "item_vars", item_vars, io::empty_default_tag() );
+    archive.io( "item_vars", item_vars_, io::empty_default_tag() );
     // TODO: change default to empty string
     archive.io( "name", corpse_name, std::string() );
     archive.io( "owner", owner, faction_id::NULL_ID() );
@@ -2361,9 +2361,9 @@ void item::io( Archive &archive )
     // Books without any chapters don't need to store a remaining-chapters
     // counter, it will always be 0 and it prevents proper stacking.
     if( get_chapters() == 0 ) {
-        for( auto it = item_vars.begin(); it != item_vars.end(); ) {
+        for( auto it = item_vars_.begin(); it != item_vars_.end(); ) {
             if( it->first.starts_with( "remaining-chapters-" ) ) {
-                item_vars.erase( it++ );
+                item_vars_.erase( it++ );
             } else {
                 ++it;
             }
@@ -2371,8 +2371,8 @@ void item::io( Archive &archive )
     }
 
     // Remove stored translated gerund in favor of storing the inscription tool type
-    item_vars.erase( "item_label_type" );
-    item_vars.erase( "item_note_type" );
+    item_vars_.erase( "item_label_type" );
+    item_vars_.erase( "item_note_type" );
 
     // Activate corpses from old saves
     if( is_corpse() && !is_active() ) {
@@ -4054,7 +4054,7 @@ void submap::load( JsonIn &jsin, const std::string &member_name, int version,
         while( !jsin.end_array() ) {
             int i = jsin.get_int();
             int j = jsin.get_int();
-            data_vars vars;
+            data_vars::data_set vars;
             jsin.read( vars );
             frn_vars[i, j] = std::move( vars );
         }
@@ -4063,7 +4063,7 @@ void submap::load( JsonIn &jsin, const std::string &member_name, int version,
         while( !jsin.end_array() ) {
             int i = jsin.get_int();
             int j = jsin.get_int();
-            data_vars vars;
+            data_vars::data_set vars;
             jsin.read( vars );
             ter_vars[i, j] = std::move( vars );
         }

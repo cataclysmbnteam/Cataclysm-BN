@@ -1,13 +1,17 @@
 #pragma once
 
-#include <iostream>
 #include <sstream>
+#include <iomanip>
 
 #include "point.h"
+#include "json.h"
+#include "cata_utility.h"
+
+namespace data_vars
+{
 
 namespace detail
 {
-
 // Concepts
 
 template<typename T>
@@ -25,180 +29,272 @@ concept has_ostream_write = requires( T &in_val, std::istream &is )
 };
 
 template<typename T>
-concept has_iostream_read_write = has_istream_read<T> &&has_ostream_write<T>;
-
-template<typename T>
 concept is_reference = std::is_reference_v<T>;
 
 template<typename T>
 concept is_numeric = std::disjunction_v<std::is_floating_point<T>, std::is_integral<T>>;
 
-template<typename T, size_t N>
-concept has_get_ref = requires( T &t ) { { std::get<N>( t ) } -> is_reference; };
-
-template<typename T, size_t N>
-struct has_get_ref_n : std::integral_constant < bool, has_get_ref<T, N> &&has_get_ref_n < T,
-    N - 1 >::value > {};
-
 template<typename T>
-struct has_get_ref_n<T, 0> : std::integral_constant<bool, has_get_ref<T, 0>> {};
-
-template<typename T>
-concept is_tuple_like = requires { typename std::tuple_size<T>::type; } &&has_get_ref_n < T,
-        std::tuple_size_v<T> - 1 >::value;
+concept is_tuple_like = requires { typename std::tuple_size<T>::type; };
 
 // Helpers
 
+template<typename T>
+struct stream_value_io;
+
 template<typename First, typename... Rest>
-requires( has_ostream_write<First> &&( has_ostream_write<Rest> &&... ) )
-static bool ostream_write_values( std::ostream &ss, const char delim, const First &val,
-                                  const Rest &... rest )
+static bool stream_write_values( std::ostream &os, const char delim, const First &val, const Rest &... rest )
 {
-    ss << val;
-    if( ss.fail() ) {
+    constexpr auto io = detail::stream_value_io<First>{};
+    io(os, delim, val);
+
+    if( os.fail() ) {
         return false;
     }
-    if constexpr( sizeof...( rest ) > 0 ) {
-        ss << delim;
-        return detail::ostream_write_values( ss, delim, rest... );
-    } else {
+    os.clear();
+
+    if constexpr( sizeof...( rest ) == 0 ) {
         return true;
+    } else {
+        os << delim;
+        return detail::stream_write_values( os, delim, rest... );
     }
-}
-
-template<typename Value>
-requires( has_istream_read<Value> )
-static bool istream_read_values( std::istream &ss, const char, Value &val )
-{
-    ss >> std::ws >> val;
-    if( ss.fail() ) {
-        return false;
-    }
-    ss >> std::ws;
-    return ss.eof();
 }
 
 template<typename First, typename... Rest>
-requires( has_istream_read<First> &&( has_istream_read<Rest> &&... ) )
-static bool istream_read_values( std::istream &ss, const char delim, First &val, Rest &... rest )
+static bool stream_read_values( std::istream &is, const char delim, First &val, Rest &... rest )
 {
-    ss >> std::ws >> val;
-    if( ss.fail() ) {
+    constexpr auto io = detail::stream_value_io<First>{};
+    io(is, delim, val);
+
+    if( is.fail() ) {
         return false;
     }
+    is.clear();
 
-    char c;
-    ss >> std::ws >> c;
-    if( c != delim ) {
-        return false;
+    if constexpr( sizeof...( rest ) == 0 ) {
+        is >> std::ws;
+        return true;
+    } else {
+        char c;
+        is >> std::ws >> c;
+        if( c != delim ) {
+            return false;
+        }
+        return detail::stream_read_values( is, delim, rest... );
     }
-
-    return detail::istream_read_values( ss, delim, rest... );
 }
 
-template<typename T, size_t ... Is>
-static bool ostream_write_seq_get( std::ostream &ss, const char delim, const T &val,
-                                   std::index_sequence<Is...> )
+template<typename T, typename Fn, size_t ... Is>
+static bool stream_write_indexed( std::ostream &os, const char delim, const T &val, Fn && getter, std::index_sequence<Is...> )
 {
-    return detail::ostream_write_values( ss, delim, std::get<Is>( val )... );
+    return detail::stream_write_values( os, delim, getter.template operator()<Is>(val)... );
 }
 
-template<typename T, size_t ... Is>
-static bool istream_read_seq_get( std::istream &ss, const char delim, T &val,
-                                  std::index_sequence<Is...> )
+template<typename T, typename Fn, size_t ... Is>
+static bool stream_read_indexed( std::istream &is, const char delim, T &val, Fn && getter, std::index_sequence<Is...> )
 {
-    return detail::istream_read_values( ss, delim, std::get<Is>( val )... );
+    return detail::stream_read_values( is, delim, getter.template operator()<Is>(val)... );
 }
+
+} // namespace detail
 
 // Converters
 
+namespace converters
+{
 template<typename T>
-struct type_converter;
-
-template<typename T>
-requires( has_iostream_read_write<T> )
 struct basic_converter {
 
+    using value_type = T;
+
+    static void configure_stream(std::ios_base& ss) {
+        ss.imbue( std::locale::classic() );
+        ss.setf( std::ios_base::showpoint );
+        ss.setf( std::ios_base::dec, std::ostream::basefield );
+    }
+
+    static void configure_stream(std::ios_base& ss, const T& in_val) {
+        configure_stream( ss );
+        if constexpr( std::is_floating_point_v<T> ) {
+            constexpr auto max_digits = std::numeric_limits<T>::digits10;
+            constexpr auto max_repr = pow10<double, max_digits>();
+            const auto float_flags = in_val >= max_repr ? std::ios_base::scientific : std::ios_base::fixed;
+            ss.precision( max_digits );
+            ss.setf(float_flags, std::ios_base::floatfield);
+        }
+    }
+
     bool operator()( const T &in_val, std::string &out_val ) const {
-        std::ostringstream ss;
-        if( !ostream_write_values( ss, '\0', in_val ) ) {
+        std::ostringstream os;
+        basic_converter::configure_stream(os, in_val);
+
+        if( !detail::stream_write_values( os, ',', in_val ) ) {
             return false;
         }
-        out_val = ss.str();
+
+        out_val = os.str();
         return true;
     };
 
     bool operator()( const std::string &in_val, T &out_val ) const {
-        std::istringstream ss( in_val );
+        std::istringstream is( in_val );
+        basic_converter::configure_stream(is);
+
         T tmp;
-        if( !istream_read_values( ss, '\0', tmp ) ) {
+        if( !detail::stream_read_values( is, ',', tmp ) ) {
             return false;
         }
+
         out_val = tmp;
         return true;
     }
 };
 
-template<typename T, size_t N = std::tuple_size_v<T>>
-requires( has_get_ref_n < T, N - 1 >::value )
-struct tuple_converter {
+template<typename T>
+struct json_converter {
+    using value_type = T;
 
-    bool operator()( const T &in_val, std::string &out_val ) const {
-        std::ostringstream ss;
-        if( !ostream_write_seq_get( ss, ',', in_val, std::make_index_sequence<N>() ) ) {
-            return false;
-        }
-        out_val = ss.str();
+    // Json parser shits itself with 17 digits of precision
+
+    bool operator()( const T &in_val, std::string &out_val ) const
+    {
+        std::ostringstream os;
+        JsonOut jsout{os};
+        jsout.write( in_val );
+        out_val = os.str();
         return true;
     }
 
     bool operator()( const std::string &in_val, T &out_val ) const {
-        std::istringstream ss( in_val );
-        T tmp;
-        if( !istream_read_seq_get( ss, ',', tmp, std::make_index_sequence<N>() ) ) {
-            return false;
-        }
-        out_val = tmp;
-        return true;
+        std::istringstream is{in_val};
+        JsonIn jsin{is};
+        return jsin.read( out_val, false );
     }
 };
 
-struct tripoint_converter {
-    using RealType = tripoint;
-    using ProxyType = std::tuple<int, int, int>;
-    using ProxyConverter = tuple_converter<ProxyType>;
+} // namespace converters
 
-    static ProxyType to_proxy( const RealType &v ) {
-        auto& [x, y, z] = v;
-        return ProxyType{x, y, z};
-    }
-    static RealType from_proxy( const ProxyType &v ) {
-        auto& [x, y, z] = v;
-        return RealType( x, y, z );
-    }
+namespace detail
+{
 
-    bool operator()( const tripoint &in_val, std::string &out_val ) const {
-        constexpr auto cvt = ProxyConverter{};
-        return cvt( to_proxy( in_val ), out_val );
-    }
-    bool operator()( const std::string &in_val, tripoint &out_val ) const {
-        constexpr auto cvt = ProxyConverter{};
-        ProxyType tmp;
-        if( !cvt( in_val, tmp ) ) {
+// Fallback
+template<typename T>
+struct stream_value_io {
+    bool operator()(std::ostream &ss, const char, const T &val) const {
+        if constexpr (has_ostream_write<T>) {
+            ss << val;
+            return true;
+        } else {
+            []<bool f = false>(){ static_assert(f, "no matching ostream operator for type"); }();
             return false;
         }
-        out_val = from_proxy( tmp );
-        return true;
+    }
+
+    bool operator()(std::istream& ss, const char, T& val) {
+        if constexpr (has_istream_read<T>) {
+            ss >> val;
+            return true;
+        } else {
+            []<bool f = false>(){ static_assert(f, "no matching istream operator for type"); }();
+            return false;
+        }
     }
 };
 
-template<is_tuple_like T>
-struct type_converter<T> : tuple_converter<T> {};
-
-template<has_iostream_read_write T>
-struct type_converter<T> : basic_converter<T> {};
+// String
 
 template<>
-struct type_converter<tripoint> : tripoint_converter {};
+struct stream_value_io<std::string> {
+    using T = std::string;
+
+    static constexpr std::string RESERVED_CHARS = "[],\"";
+
+    bool operator()(std::ostream &os, const char, const T &val) const {
+        os << std::quoted(val);
+        return true;
+    }
+
+    bool operator()(std::istream &is, const char, T &val) const {
+        is >> std::quoted(val);
+        return true;
+    }
+};
+
+// Numeric
+
+template<is_numeric T>
+struct stream_value_io<T> {
+    bool operator()(std::ostream &ss, const char, const T &val) const {
+        ss << val;
+        return true;
+    }
+
+    bool operator()(std::istream &ss, const char, T &val) const {
+        ss >> val;
+        return true;
+    }
+};
+
+// Tripoint
+
+template<>
+struct stream_value_io<tripoint> {
+    bool operator()(std::ostream &ss, const char delim, const tripoint &val) const {
+        return stream_write_values(ss, delim, val.x, val.y, val.z);
+    }
+    bool operator()(std::istream &ss, const char delim, tripoint &val) const {
+        return stream_read_values(ss, delim, val.x, val.y, val.z);
+    }
+};
+
+// Point
+
+template<>
+struct stream_value_io<point> {
+    bool operator()(std::ostream &ss, const char delim, const point &val) const {
+        return stream_write_values(ss, delim, val.x, val.y);
+    }
+    bool operator()(std::istream &ss, const char delim, point &val) const {
+        return stream_read_values(ss, delim, val.x, val.y);
+    }
+};
+
+// Tuple-Like
+template<is_tuple_like T>
+struct stream_value_io<T> {
+    struct tuple_get {
+        template<size_t I>
+        auto& operator()(T& val) { return std::get<I>(val); }
+
+        template<size_t I>
+        const auto& operator()(const T& val) { return std::get<I>(val); }
+    };
+
+    bool operator()(std::ostream &os, const char delim, const T &val) const {
+        os << '[';
+        detail::stream_write_indexed(os, delim, val, tuple_get{} , std::make_index_sequence<std::tuple_size_v<T>>());
+        os << ']';
+        return true;
+    }
+    bool operator()(std::istream &is, const char delim, T &val) const {
+        char c;
+        is >> c >> std::ws;
+        if (c != '[')
+            return false;
+        detail::stream_read_indexed(is, delim, val, tuple_get{}, std::make_index_sequence<std::tuple_size_v<T>>());
+        is >> c >> std::ws;
+        if (c != ']')
+            return false;
+        return true;
+    }
+};
 
 } // namespace detail
+
+template<typename T>
+struct type_converter {
+    using type = converters::json_converter<T>;
+};
+
+} // namespace data_vars

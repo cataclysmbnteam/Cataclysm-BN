@@ -1617,7 +1617,7 @@ ter_id map::ter( const tripoint &p ) const
     return current_submap->get_ter( l );
 }
 
-data_vars *map::ter_vars( const tripoint &p ) const
+data_vars::data_set *map::ter_vars( const tripoint &p ) const
 {
     if( !inbounds( p ) ) {
         return nullptr;
@@ -1629,7 +1629,7 @@ data_vars *map::ter_vars( const tripoint &p ) const
 }
 
 
-data_vars *map::furn_vars( const tripoint &p ) const
+data_vars::data_set *map::furn_vars( const tripoint &p ) const
 {
     if( !inbounds( p ) ) {
         return nullptr;

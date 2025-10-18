@@ -79,8 +79,8 @@ struct maptile_soa {
         array2d< field, sx, sy >                   fld;  // Field on each square
         array2d< trap_id, sx, sy >                 trp;  // Trap on each square
         array2d< int, sx, sy >                     rad;  // Irradiation of each square
-        array2d< data_vars, sx, sy >               ter_vars; // Terrain vars
-        array2d< data_vars, sx, sy >               frn_vars; // Furniture vars
+        array2d< data_vars::data_set, sx, sy >     ter_vars; // Terrain vars
+        array2d< data_vars::data_set, sx, sy >     frn_vars; // Furniture vars
 
         void swap_soa_tile( point p1, point p2 );
 };
@@ -185,19 +185,19 @@ class submap : maptile_soa<SEEX, SEEY>
             return fld[p.x, p.y];
         }
 
-        const data_vars &get_ter_vars( point p ) const {
+        const data_vars::data_set &get_ter_vars( point p ) const {
             return ter_vars[p.x, p.y];
         };
 
-        data_vars &get_ter_vars( point p ) {
+        data_vars::data_set &get_ter_vars( point p ) {
             return ter_vars[p.x, p.y];
         };
 
-        const data_vars &get_furn_vars( point p ) const {
+        const data_vars::data_set &get_furn_vars( point p ) const {
             return frn_vars[p.x, p.y];
         };
 
-        data_vars &get_furn_vars( point p ) {
+        data_vars::data_set &get_furn_vars( point p ) {
             return frn_vars[p.x, p.y];
         };
 

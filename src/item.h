@@ -1496,22 +1496,30 @@ class item : public location_visitable<item>, public game_object<item>
          * </code>
          */
         /*@{*/
-        void set_var( const std::string &name, int value ) { item_vars.set<int>( name,  value ); };
-        void set_var( const std::string &name, long long value ) { item_vars.set<long long>( name,  value ); };
+
+        void set_var( const std::string &name, int value ) { item_vars_.set<int>( name,  value ); };
+        void set_var( const std::string &name, long long value ) { item_vars_.set<long long>( name,  value ); };
         // Acceptable to use long as part of overload set
         // NOLINTNEXTLINE(cata-no-long)
-        void set_var( const std::string &name, long value ) { item_vars.set<long>( name, value ); };
-        void set_var( const std::string &name, double value ) { item_vars.set<double>( name, value ); };
-        void set_var( const std::string &name, const tripoint &value ) { item_vars.set<tripoint>( name, value ); };
-        void set_var( const std::string &name, const std::string &value ) { item_vars.set( name, value ); };
+        void set_var( const std::string &name, long value ) { item_vars_.set<long>( name, value ); };
+        void set_var( const std::string &name, double value ) { item_vars_.set<double>( name, value ); };
+        void set_var( const std::string &name, const tripoint &value ) { item_vars_.set<tripoint>( name, value ); };
+        void set_var( const std::string &name, const std::string &value ) { item_vars_.set( name, value ); };
 
-        double get_var( const std::string &name, double default_value ) const { return item_vars.get<double>( name, default_value ); }
-        tripoint get_var( const std::string &name, const tripoint &default_value ) const { return item_vars.get<tripoint>( name, default_value ); }
-        std::string get_var( const std::string &name, const std::string &default_value ) const { return item_vars.get( name, default_value ); }
-        std::string get_var( const std::string &name ) const { return item_vars.get( name, "" ); }
-        bool has_var( const std::string &name ) const { return item_vars.contains( name ); }
-        void erase_var( const std::string &name ) { item_vars.erase( name ); }
-        void clear_vars() { item_vars.clear(); }
+        double get_var( const std::string &name, double default_value ) const { return item_vars_.get<double>( name, default_value ); }
+        tripoint get_var( const std::string &name, const tripoint &default_value ) const { return item_vars_.get<tripoint>( name, default_value ); }
+        std::string get_var( const std::string &name, const std::string &default_value ) const { return item_vars_.get( name, default_value ); }
+        std::string get_var( const std::string &name ) const { return item_vars_.get( name, "" ); }
+        bool has_var( const std::string &name ) const { return item_vars_.contains( name ); }
+        void erase_var( const std::string &name ) { item_vars_.erase( name ); }
+        void clear_vars() { item_vars_.clear(); }
+
+        // TODO in follow-up PR:
+        // remove internal usage of get_var / set_var internally
+        // mark as [[deprecated]]
+        // completely remove in a future update
+
+        data_vars::data_set& item_vars() { return item_vars_; }
 
         /** Adds child items to the contents of this one. */
         void add_item_with_id( const itype_id &itype, int count = 1 );
@@ -2387,7 +2395,7 @@ class item : public location_visitable<item>, public game_object<item>
     private:
         location_vector<item> components;
         const itype *curammo = nullptr;
-        data_vars item_vars = {};
+        data_vars::data_set item_vars_ = {};
         const mtype *corpse = nullptr;
         std::string corpse_name;       // Name of the late lamented
         std::set<matec_id> techniques; // item specific techniques
