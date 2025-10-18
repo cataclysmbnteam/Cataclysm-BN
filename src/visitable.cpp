@@ -12,7 +12,6 @@
 #include "bionics.h"
 #include "character.h"
 #include "debug.h"
-#include "flag.h"
 #include "inventory.h"
 #include "item.h"
 #include "itype.h"
@@ -45,6 +44,10 @@ static const quality_id qual_BUTCHER( "BUTCHER" );
 static const bionic_id bio_tools( "bio_tools" );
 static const bionic_id bio_electrosense_voltmeter( "bio_electrosense_voltmeter" );
 static const bionic_id bio_ups( "bio_ups" );
+
+static const flag_id flag_BIONIC_ARMOR_INTERFACE( "BIONIC_ARMOR_INTERFACE" );
+static const flag_id flag_IS_UPS( "IS_UPS" );
+static const flag_id flag_BIONIC_TOOLS( "BIONIC_TOOLS" );
 
 /** @relates visitable */
 template <typename T>
@@ -1061,9 +1064,23 @@ int visitable<Character>::charges_of( const itype_id &what, int limit,
     auto self = static_cast<const Character *>( this );
     auto p = dynamic_cast<const player *>( self );
 
+    if( what == itype_UPS ) {
+        int qty = 0;
+        qty = charges_of_ups( this, limit, filter, visitor );
+        if( p && p->has_active_bionic( bio_ups ) ) {
+            qty = sum_no_wrap( qty, units::to_kilojoule( p->get_power_level() ) );
+        }
+        if( p && p->is_mounted() ) {
+            auto mons = p->mounted_creature.get();
+            if( mons->has_flag( MF_RIDEABLE_MECH ) && mons->get_battery_item() ) {
+                qty = sum_no_wrap( qty, mons->get_battery_item()->ammo_remaining() );
+            }
+        }
+        return std::min( qty, limit );
+    }
+
+
     if( what->has_flag( flag_BIONIC_TOOLS ) ) {
-        // WARN: This does make all tools active when one tool is active
-        // But that is not too big of a compromise for simplicity
         if( p && p->has_active_bionic_with_fake( what ) ) {
             return std::min( units::to_kilojoule( p->get_power_level() ), limit );
         } else {
@@ -1094,21 +1111,6 @@ int visitable<Character>::charges_of( const itype_id &what, int limit,
         power_charges = units::to_kilojoule( self->as_player()->get_power_level() ) * efficiency;
 
         return std::min( power_charges, limit );
-    }
-
-    if( what == itype_UPS ) {
-        int qty = 0;
-        qty = charges_of_ups( this, limit, filter, visitor );
-        if( p && p->has_active_bionic( bio_ups ) ) {
-            qty = sum_no_wrap( qty, units::to_kilojoule( p->get_power_level() ) );
-        }
-        if( p && p->is_mounted() ) {
-            auto mons = p->mounted_creature.get();
-            if( mons->has_flag( MF_RIDEABLE_MECH ) && mons->get_battery_item() ) {
-                qty = sum_no_wrap( qty, mons->get_battery_item()->ammo_remaining() );
-            }
-        }
-        return std::min( qty, limit );
     }
 
     return charges_of_internal( *this, *this, what, limit, filter, std::move( visitor ) );
