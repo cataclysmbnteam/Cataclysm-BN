@@ -171,8 +171,6 @@ static const bionic_id bio_lockpick( "bio_lockpick" );
 static const bionic_id bio_magnet( "bio_magnet" );
 static const bionic_id bio_nanobots( "bio_nanobots" );
 static const bionic_id bio_painkiller( "bio_painkiller" );
-static const bionic_id bio_power_storage( "bio_power_storage" );
-static const bionic_id bio_power_storage_mkII( "bio_power_storage_mkII" );
 static const bionic_id bio_probability_travel( "bio_probability_travel" );
 static const bionic_id bio_radscrubber( "bio_radscrubber" );
 static const bionic_id bio_reactor( "bio_reactor" );
@@ -730,7 +728,7 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
                                _( "Your %s issues a low humidity warning.  Efficiency will be reduced." ),
                                bio.info().name );
         }
-    } else if( bio.id == bio_tools ) {
+    } else if( bio.info().has_flag( flag_BIONIC_TOOLS ) ) {
         add_msg_activate();
         invalidate_crafting_inventory();
     } else if( bio.id == bio_cqb ) {
@@ -1226,7 +1224,7 @@ bool Character::deactivate_bionic( bionic &bio, bool eff_only )
                    !has_active_item_with_action( "REMOTEVEH" ) ) {
             set_value( "remote_controlling", "" );
         }
-    } else if( bio.id == bio_tools ) {
+    } else if( bio.info().has_flag( flag_BIONIC_TOOLS ) ) {
         invalidate_crafting_inventory();
     } else if( bio.id == bio_ads ) {
         mod_power_level( bio.energy_stored );
@@ -2809,22 +2807,20 @@ bool has_enough_anesthesia( const itype *cbm, Character &doc, const Character &p
 
 void Character::add_bionic( const bionic_id &b )
 {
-    if( has_bionic( b ) ) {
+    if( !b->has_flag( flag_MULTIINSTALL ) && has_bionic( b ) ) {
         debugmsg( "Tried to install bionic %s that is already installed!", b.c_str() );
         return;
     }
 
     const units::energy pow_up = b->capacity;
     mod_max_power_level( pow_up );
-    if( b == bio_power_storage || b == bio_power_storage_mkII ) {
+    if( pow_up != 0_J ) {
         add_msg_if_player( m_good, _( "Increased storage capacity by %i." ),
                            units::to_kilojoule( pow_up ) );
-        // Power Storage CBMs are not real bionic units, so return without adding it to my_bionics
-        return;
     }
 
     my_bionics->push_back( bionic( b, get_free_invlet( *my_bionics ) ) );
-    if( b == bio_tools || b == bio_ears ) {
+    if( b->has_flag( flag_INITIALLY_ACTIVATE ) ) {
         activate_bionic( my_bionics->back() );
     }
 
@@ -2866,13 +2862,16 @@ void Character::remove_bionic( const bionic_id &b )
     bionic_collection new_my_bionics;
     // any spells you should not forget due to still having a bionic installed that has it.
     std::set<spell_id> cbm_spells;
+    std::set<bionic_id> removed_bionics;
     for( bionic &i : *my_bionics ) {
-        if( b == i.id ) {
+        if( b == i.id && !removed_bionics.contains( i.id ) ) {
+            removed_bionics.emplace( i.id );
             continue;
         }
 
         // Linked bionics: if either is removed, the other is removed as well.
-        if( b->is_included( i.id ) || i.id->is_included( b ) ) {
+        if( ( b->is_included( i.id ) || i.id->is_included( b ) ) && !removed_bionics.contains( i.id ) ) {
+            removed_bionics.emplace( i.id );
             continue;
         }
 
@@ -2901,39 +2900,6 @@ void Character::remove_bionic( const bionic_id &b )
 bool Character::has_bionics() const
 {
     return !my_bionics->empty() || has_max_power();
-}
-
-std::pair<int, int> Character::amount_of_storage_bionics() const
-{
-    units::energy lvl = get_max_power_level();
-
-    // exclude amount of power capacity obtained via non-power-storage CBMs
-    for( const bionic &it : get_bionic_collection() ) {
-        lvl -= it.info().capacity;
-    }
-
-    std::pair<int, int> results( 0, 0 );
-    if( lvl <= 0_kJ ) {
-        return results;
-    }
-
-    const units::energy pow_mkI = bio_power_storage->capacity;
-    const units::energy pow_mkII = bio_power_storage_mkII->capacity;
-
-    while( lvl >= std::min( pow_mkI, pow_mkII ) ) {
-        if( one_in( 2 ) ) {
-            if( lvl >= pow_mkI ) {
-                results.first++;
-                lvl -= pow_mkI;
-            }
-        } else {
-            if( lvl >= pow_mkII ) {
-                results.second++;
-                lvl -= pow_mkII;
-            }
-        }
-    }
-    return results;
 }
 
 void Character::clear_bionics()

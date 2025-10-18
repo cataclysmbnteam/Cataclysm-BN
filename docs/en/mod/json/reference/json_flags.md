@@ -286,6 +286,9 @@ to find which flags work elsewhere.
   fake_item in user's hands. Prevents all other activation effects.
 - `BIONIC_SHOCKPROOF` This bionic can't be incapacitated by electrical attacks.
 - `BIONIC_FLIGHT` This bionic allows flight when active.
+- `MULTIINSTALL` This bionic can be installed multiple times
+- `INITIALLY_ACTIVE` This bionic is active at the point of installation
+- `BIONIC_TOOLS` This bionic has tools, on activate it will reload the avaliable things to craft with
 
 ## Books
 
@@ -754,6 +757,7 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
   quality of at least 1.
 - `PSEUDO` ... Used internally to mark items that are referred to in the crafting inventory but are
   not actually items. They can be used as tools, but not as components. Implies "TRADER_AVOID".
+- `BIONIC_TOOLS` ... Used by pseudo bionic tools to make clear that they need to use bionic power
 - `RADIOACTIVE` ... Is radioactive (can be used with LEAK_*).
 - `RAIN_PROTECT` ... Protects from sunlight and from rain, when wielded.
 - `REDUCED_BASHING` ... Gunmod flag; reduces the item's bashing damage by 50%.

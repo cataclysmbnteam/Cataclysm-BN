@@ -211,8 +211,6 @@ static const bionic_id bio_fingerhack( "bio_fingerhack" );
 static const bionic_id bio_lighter( "bio_lighter" );
 static const bionic_id bio_lockpick( "bio_lockpick" );
 static const bionic_id bio_painkiller( "bio_painkiller" );
-static const bionic_id bio_power_storage( "bio_power_storage" );
-static const bionic_id bio_power_storage_mkII( "bio_power_storage_mkII" );
 
 static const std::string flag_AUTODOC( "AUTODOC" );
 static const std::string flag_AUTODOC_COUCH( "AUTODOC_COUCH" );
@@ -5339,16 +5337,13 @@ void iexamine::autodoc( player &p, const tripoint &examp )
             }
 
             for( const bionic &bio : installed_bionics ) {
-                if( bio.id != bio_power_storage ||
-                    bio.id != bio_power_storage_mkII ) {
-                    if( bio.info().itype().is_valid() ) {
-                        // put cbm items in your inventory
-                        detached_ptr<item> bionic_to_uninstall = item::spawn( bio.id.str(), calendar::turn );
-                        bionic_to_uninstall->set_flag( flag_IN_CBM );
-                        bionic_to_uninstall->set_flag( flag_NO_STERILE );
-                        bionic_to_uninstall->set_flag( flag_NO_PACKED );
-                        g->u.i_add( std::move( bionic_to_uninstall ) );
-                    }
+                if( bio.info().itype().is_valid() ) {
+                    // put cbm items in your inventory
+                    detached_ptr<item> bionic_to_uninstall = item::spawn( bio.id.str(), calendar::turn );
+                    bionic_to_uninstall->set_flag( flag_IN_CBM );
+                    bionic_to_uninstall->set_flag( flag_NO_STERILE );
+                    bionic_to_uninstall->set_flag( flag_NO_PACKED );
+                    g->u.i_add( std::move( bionic_to_uninstall ) );
                 }
             }
 

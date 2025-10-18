@@ -369,6 +369,9 @@ const flag_id flag_MUTE( "MUTE" );
 const flag_id flag_NOT_FOOTWEAR( "NOT_FOOTWEAR" );
 const flag_id flag_WEATHER_FORECAST( "WEATHER_FORECAST" );
 const flag_id flag_WINDMETER( "WINDMETER" );
+const flag_id flag_INITIALLY_ACTIVATE( "INITIALLY_ACTIVATE" );
+const flag_id flag_MULTIINSTALL( "MULTIINSTALL" );
+const flag_id flag_BIONIC_TOOLS( "BIONIC_TOOLS" );
 
 namespace
 {

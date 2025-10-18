@@ -1036,6 +1036,10 @@ class Character : public Creature, public location_visitable<Character>
         bool has_bionic( const bionic_id &b ) const;
         /** Returns true if the player has the entered bionic id and it is powered on */
         bool has_active_bionic( const bionic_id &b ) const;
+        /** Returns true if the player has a bionic with that fake item and it is powered on */
+        bool has_active_bionic_with_fake( const itype_id &it ) const;
+        /** Returns the number of bionics of a certain type the player has */
+        int count_bionic_of_type( const bionic_id &bio ) const;
         /**Returns true if the player has any bionic*/
         bool has_any_bionic() const;
         /**Returns true if the character can fuel a bionic with the item*/
