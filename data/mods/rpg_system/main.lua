@@ -607,12 +607,15 @@ mod.open_rpg_menu = function(who, item, pos)
       )
     end
 
-    if num_traits < max_traits then
-      local available_slots = max_traits - num_traits
+    -- Always show the Assign Traits menu (allows resetting traits)
+    local available_slots = max_traits - num_traits
+    if available_slots > 0 then
       table.insert(
         menu_items,
         { text = color_good("Assign Traits (" .. available_slots .. " available)"), action = "traits" }
       )
+    else
+      table.insert(menu_items, { text = "Manage Traits", action = "traits" })
     end
 
     table.insert(menu_items, { text = "Help", action = "help" })
@@ -724,7 +727,7 @@ mod.manage_class_menu = function(player)
     table.insert(options, {
       text = color_bad("✖ Abandon class"),
       desc = color_warning("WARNING: ")
-        .. "Damages your soul for 3 days, greatly reducing all your stats and movement speed.",
+        .. "Damages your soul for 3 days, with severe penalties.",
       action = "abandon",
       can_select = true,
       index = index,
@@ -785,11 +788,7 @@ mod.manage_traits_menu = function(player)
   local level = get_char_value(player, "rpg_level", 0)
   local num_traits = get_char_value(player, "rpg_num_traits", 0)
   local max_traits = get_char_value(player, "rpg_max_traits", 1)
-
-  if num_traits >= max_traits then
-    gapi.add_msg(MsgType.warning, color_warning("You have no trait slots available."))
-    return
-  end
+  local has_available_slots = num_traits < max_traits
 
   local ui = UiList.new()
   ui:title(string.format("=== Select Trait (%d/%d) ===", num_traits, max_traits))
@@ -808,11 +807,14 @@ mod.manage_traits_menu = function(player)
       local trait_desc = trait_obj:desc()
 
       local can_select_reqs, unmet = check_requirements(player, mutation, level)
-      local can_select = not already_has and can_select_reqs
+      -- Can only select if you have available slots, meet requirements, and don't already have it
+      local can_select = has_available_slots and not already_has and can_select_reqs
 
       local display_name
       if already_has then
         display_name = color_text("✓ " .. trait_name, "dark_gray") .. color_text(" (Owned)", "dark_gray")
+      elseif not has_available_slots then
+        display_name = color_text("◆ " .. trait_name, "dark_gray") .. color_text(" (No slots available)", "dark_gray")
       elseif not can_select_reqs then
         display_name = color_text("◆ " .. trait_name, "dark_gray")
           .. " - "
@@ -831,6 +833,25 @@ mod.manage_traits_menu = function(player)
       index = index + 1
     end
   end
+
+  -- Reset Traits option
+  local current_traits = get_current_traits(player)
+  local can_reset = #current_traits > 0
+  local reset_text
+  if can_reset then
+    reset_text = color_text("✖ Reset Traits", "red")
+  else
+    reset_text = color_text("✖ Reset Traits", "dark_gray") .. color_text(" (No traits to reset)", "dark_gray")
+  end
+
+  table.insert(traits, {
+    name = reset_text,
+    desc = "Remove all traits and damage your soul for 3 days, with severe penalties. You will keep your trait slots.",
+    action = "reset",
+    can_select = can_reset,
+    index = index,
+  })
+  index = index + 1
 
   -- Back option
   table.insert(traits, {
@@ -862,6 +883,20 @@ mod.manage_traits_menu = function(player)
 
     if chosen.action == "back" then
       return
+    elseif chosen.action == "reset" then
+      -- Remove all traits
+      for _, trait_id in ipairs(ALL_TRAIT_IDS) do
+        if player:has_trait(trait_id) then player:remove_mutation(trait_id, true) end
+      end
+
+      -- Reset trait counter but keep max traits (slots)
+      set_char_value(player, "rpg_num_traits", 0)
+
+      player:add_effect(EffectTypeId.new("damaged_soul"), TimeDuration.from_hours(72))
+      gapi.add_msg(
+        MsgType.bad,
+        color_bad("✖ You have abandoned your traits!") .. " Your soul is " .. color_bad("damaged") .. " for 3 days."
+      )
     elseif chosen.id then
       player:set_mutation(chosen.id)
       set_char_value(player, "rpg_num_traits", num_traits + 1)
