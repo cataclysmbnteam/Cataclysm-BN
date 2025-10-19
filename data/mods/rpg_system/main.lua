@@ -247,10 +247,10 @@ mod.on_monster_killed = function(params)
       .. "!"
     gapi.add_msg(MsgType.good, level_msg)
 
-    local max_traits = 1 + math.floor(new_level / 7)
+    local max_traits = 1 + math.floor(new_level / 5)
     set_char_value(player, "rpg_max_traits", max_traits)
 
-    if new_level % 7 == 0 and new_level > 0 then
+    if new_level % 5 == 0 and new_level > 0 then
       gapi.add_msg(
         MsgType.good,
         color_good("New trait slot unlocked!") .. " You now have " .. color_highlight(max_traits) .. " trait slots."
@@ -1272,7 +1272,7 @@ mod.show_about_screen = function(player)
   help_text = help_text .. color_highlight("PROGRESSION") .. "\n"
   help_text = help_text .. "• Level 10: Prestige Class unlocks\n"
   help_text = help_text .. "• +1 stat point per 2 levels\n"
-  help_text = help_text .. "• +1 trait slot per 7 levels\n\n"
+  help_text = help_text .. "• +1 trait slot per 5 levels\n\n"
 
   help_text = help_text .. color_highlight("BALANCE") .. "\n"
   help_text = help_text .. "~25 point value (weak early, strong late)\n"
