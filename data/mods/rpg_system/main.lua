@@ -467,7 +467,8 @@ mod.open_rpg_menu = function(who, item, pos)
       .. "\n"
 
     local stat_points = get_char_value(player, "rpg_stat_points", 0)
-    info_text = info_text .. color_highlight("Stats:") .. "\n"
+    -- TODO: Fix this so stats refresh automatically without needing to close and wait
+    info_text = info_text .. color_highlight("Stats:") .. " " .. color_text("(Close and wait to refresh)", "light_gray") .. "\n"
     info_text = info_text
       .. string.format(
         "  %s %s  %s %s  %s %s  %s %s\n",
