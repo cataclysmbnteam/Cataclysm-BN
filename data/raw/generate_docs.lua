@@ -58,21 +58,21 @@ end
 local fmt_one_member = function(typename, member)
   local ret = "#### " .. tostring(member.name) .. "\n"
 
-  if member.comment then ret = ret .. member.comment .. "\n" end
-
   if member.type == "var" then
     ret = ret .. "  Variable of type `" .. member.vartype .. "`"
     if member.hasval then ret = ret .. " value: `" .. tostring(member.varval) .. "`" end
-    ret = ret .. "\n"
+    ret = ret .. "\n\n"
   elseif member.type == "func" then
     for _, overload in pairs(member.overloads) do
       ret = ret .. "  Function `(" .. fmt_arg_list(overload.args) .. ")"
       if overload.retval ~= "nil" then ret = ret .. " -> " .. overload.retval end
-      ret = ret .. "`\n"
+      ret = ret .. "`\n\n"
     end
   else
     error("Unknown member type " .. tostring(member.type))
   end
+
+  if member.comment then ret = ret .. member.comment .. "\n" end
 
   return ret
 end
