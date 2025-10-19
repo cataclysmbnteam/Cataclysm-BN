@@ -60,6 +60,10 @@ end
 local XP_COEFFICIENT = 2.2387
 local XP_EXPONENT = 3.65
 
+-- Progression Constants
+local LEVELS_PER_STAT_POINT = 2
+local LEVELS_PER_TRAIT_SLOT = 5
+
 local function get_rpg_level(exp)
   local level = math.floor((exp / XP_COEFFICIENT) ^ (1 / XP_EXPONENT))
   return math.min(level, 40)
@@ -263,23 +267,37 @@ mod.on_monster_killed = function(params)
       .. "!"
     gapi.add_msg(MsgType.good, level_msg)
 
-    local max_traits = 1 + math.floor(new_level / 5)
-    set_char_value(player, "rpg_max_traits", max_traits)
+    -- Calculate trait slots
+    local old_max_traits = 1 + math.floor(old_level / LEVELS_PER_TRAIT_SLOT)
+    local new_max_traits = 1 + math.floor(new_level / LEVELS_PER_TRAIT_SLOT)
+    set_char_value(player, "rpg_max_traits", new_max_traits)
 
-    if new_level % 5 == 0 and new_level > 0 then
+    if new_max_traits > old_max_traits then
+      local traits_gained = new_max_traits - old_max_traits
       gapi.add_msg(
         MsgType.good,
-        color_good("New trait slot unlocked!") .. " You now have " .. color_highlight(max_traits) .. " trait slots."
+        color_good(string.format("New trait slot%s unlocked!", traits_gained > 1 and "s" or ""))
+          .. " You now have "
+          .. color_highlight(new_max_traits)
+          .. " trait slots."
       )
     end
 
-    if new_level % 2 == 0 and new_level > 0 then
+    -- Calculate stat points earned by iterating through levels crossed
+    local stat_points_earned = 0
+    for level = old_level + 1, new_level do
+      if level % LEVELS_PER_STAT_POINT == 0 then
+        stat_points_earned = stat_points_earned + 1
+      end
+    end
+
+    if stat_points_earned > 0 then
       local stat_points = get_char_value(player, "rpg_stat_points", 0)
-      stat_points = stat_points + 1
+      stat_points = stat_points + stat_points_earned
       set_char_value(player, "rpg_stat_points", stat_points)
       gapi.add_msg(
         MsgType.good,
-        color_good("✦ Stat point earned!")
+        color_good(string.format("✦ %d stat point%s earned!", stat_points_earned, stat_points_earned > 1 and "s" or ""))
           .. " You have "
           .. color_highlight(stat_points)
           .. " unassigned stat point"
@@ -959,8 +977,8 @@ mod.show_about_screen = function(player)
 
   help_text = help_text .. color_highlight("PROGRESSION") .. "\n"
   help_text = help_text .. "• Level 10: Prestige Class unlocks\n"
-  help_text = help_text .. "• +1 stat point per 2 levels\n"
-  help_text = help_text .. "• +1 trait slot per 5 levels\n\n"
+  help_text = help_text .. string.format("• +1 stat point per %d levels\n", LEVELS_PER_STAT_POINT)
+  help_text = help_text .. string.format("• +1 trait slot per %d levels\n\n", LEVELS_PER_TRAIT_SLOT)
 
   help_text = help_text .. color_highlight("BALANCE") .. "\n"
   help_text = help_text .. "~25 point value (weak early, strong late)\n"
