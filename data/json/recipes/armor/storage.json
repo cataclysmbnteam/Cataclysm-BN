@@ -586,7 +586,7 @@
     "autolearn": true,
     "using": [ [ "cordage", 2 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "bag_plastic", 8 ] ] ]
+    "components": [ [ [ "bag_plastic", 8 ], [ "bag_zipper", 8 ] ] ]
   },
   {
     "result": "quiver",

@@ -143,26 +143,18 @@
     "symbol": ")",
     "color": "light_gray",
     "contains": "6 L",
+    "watertight": true,
     "flags": [ "TRADER_AVOID" ]
   },
   {
     "id": "bag_zipper",
+    "copy-from": "bag_plastic",
     "type": "CONTAINER",
     "category": "container",
-    "name": { "str": "zipper bag" },
+    "name": { "str": "resealable plastic bag" },
     "looks_like": "bag_plastic",
-    "description": "An inexpensive flexible rectangular storage bag on its typical small size.  Transparent and made of plastic, it can be sealed and opened by a slider which works in a similar way to a zip fastener.",
-    "weight": "2 g",
-    "volume": "10 ml",
-    "price": "0 cent",
-    "price_postapoc": "10 cent",
-    "rigid": false,
-    "material": "plastic",
-    "symbol": ")",
-    "color": "light_gray",
-    "contains": "250 ml",
-    "seals": true,
-    "flags": [ "TRADER_AVOID" ]
+    "description": "A plastic bag with a zipper closure that lets it be resealed.  Essentially trash, though could carry liquids in a pinch.",
+    "seals": true
   },
   {
     "id": "bag_body_bag",
