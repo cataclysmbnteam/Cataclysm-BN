@@ -323,6 +323,14 @@ Function `( Character ) -> CharacterId`
 
 Function `( Character, CharacterId, bool )`
 
+#### reset_stats
+
+Function `( Character )`
+
+#### reset_encumbrance
+
+Function `( Character )`
+
 #### get_str
 
 Function `( Character ) -> int`
@@ -3338,6 +3346,98 @@ Function `( MartialArtsTechniqueId, <cppval: 7JsonOut > )`
 #### deserialize
 
 Function `( MartialArtsTechniqueId, <cppval: 6JsonIn > )`
+
+## MartialArtsTechniqueRaw
+
+### Bases
+
+No base classes.
+
+### Constructors
+
+No constructors.
+
+### Members
+
+#### name
+
+Function `()`
+
+#### get_description
+
+Function `( MartialArtsTechniqueRaw ) -> string`
+
+#### avatar_message
+
+Function `()`
+
+#### npc_message
+
+Function `()`
+
+#### defensive
+
+Function `()`
+
+#### side_switch
+
+Function `()`
+
+#### down_dur
+
+Function `()`
+
+#### stun_dur
+
+Function `()`
+
+#### knockback_dist
+
+Function `()`
+
+#### knockback_spread
+
+Function `()`
+
+#### powerful_knockback
+
+Function `()`
+
+#### crit_tec
+
+Function `()`
+
+#### crit_ok
+
+Function `()`
+
+#### knockback_follow
+
+Function `()`
+
+#### disarms
+
+Function `()`
+
+#### take_weapon
+
+Function `()`
+
+#### dodge_counter
+
+Function `()`
+
+#### block_counter
+
+Function `()`
+
+#### miss_recovery
+
+Function `()`
+
+#### grab_break
+
+Function `()`
 
 ## Mass
 
@@ -7022,9 +7122,34 @@ Function `()`
 Called when the game has first started
 Function `()`
 
+#### on_creature_dodged
+
+Called when a character successfully dodges
+Function `()`
+
+#### on_creature_blocked
+
+Called when a character successfully blocks
+Function `()`
+
+#### on_creature_performed_technique
+
+Called when a character has performed technique
+Function `()`
+
+#### on_creature_melee_attacked
+
+Called after a character has attacked in melee
+Function `()`
+
 #### on_character_reset_stats
 
 Called when character stat gets reset
+Function `()`
+
+#### on_char_death
+
+Called when a character is dead
 Function `()`
 
 #### on_mon_death
