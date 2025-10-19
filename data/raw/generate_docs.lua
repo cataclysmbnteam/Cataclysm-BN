@@ -7,7 +7,9 @@
 ]]
 --
 local sorted_by = function(t, f)
-  if not f then f = function(a, b) return (a.k < b.k) end end
+  if not f then
+    f = function(a, b) return (a.k < b.k) end
+  end
   local sorted = {}
   for k, v in pairs(t) do
     table.insert(sorted, { k = k, v = v })
@@ -31,10 +33,14 @@ end
 local fmt_arg_list = function(arg_list)
   local ret = ""
   local arg_list = remove_hidden_args(arg_list)
-  if #arg_list == 0 then return ret end
+  if #arg_list == 0 then
+    return ret
+  end
   local is_first = true
   for _, arg in pairs(arg_list) do
-    if not is_first then ret = ret .. "," end
+    if not is_first then
+      ret = ret .. ","
+    end
     ret = ret .. " " .. arg
     is_first = false
   end
@@ -49,30 +55,48 @@ local fmt_constructors = function(typename, ctors)
   else
     local ret = ""
     for k, v in pairs(ctors) do
-      ret = ret .. "#### `" .. fmt_one_constructor(typename, v) .. "`\n"
+      ret = ret .. "* #### `" .. fmt_one_constructor(typename, v) .. "`\n"
     end
     return ret
   end
 end
 
 local fmt_one_member = function(typename, member)
-  local ret = "#### " .. tostring(member.name) .. "\n"
-
+  local ret = "* #### " .. tostring(member.name) .. "\n"
   if member.type == "var" then
-    ret = ret .. "  Variable of type `" .. member.vartype .. "`"
-    if member.hasval then ret = ret .. " value: `" .. tostring(member.varval) .. "`" end
-    ret = ret .. "\n\n"
+    if member.hasval then
+      ret = ret .. "  🇨 Constant --> `" .. member.vartype .. "`"
+      ret = ret .. " = `" .. tostring(member.varval) .. "`"
+    else
+      ret = ret .. "  🇻 Variable --> `" .. member.vartype .. "`"
+    end
+    ret = ret .. "  \n"
   elseif member.type == "func" then
     for _, overload in pairs(member.overloads) do
-      ret = ret .. "  Function `(" .. fmt_arg_list(overload.args) .. ")"
-      if overload.retval ~= "nil" then ret = ret .. " -> " .. overload.retval end
-      ret = ret .. "`\n\n"
+      if typename ~= nil and overload.args[1] == typename then
+        local tmp = {table.unpack(overload.args, 2)}
+        ret = ret .. "  🇲 Method --> `" .. "(" .. fmt_arg_list(tmp) .. ")"
+        if overload.retval ~= "nil" then
+          ret = ret .. " -> " .. overload.retval
+        end
+        ret = ret .. "`  \n"
+      else
+        ret = ret .. "  🇫 Function --> `(" .. fmt_arg_list(overload.args) .. ")"
+        if overload.retval ~= "nil" then
+          ret = ret .. " -> " .. overload.retval
+        end
+        ret = ret .. "`  \n"
+      end
     end
   else
-    error("Unknown member type " .. tostring(member.type))
+    error("  Unknown member type " .. tostring(member.type))
   end
 
-  if member.comment then ret = ret .. member.comment .. "\n" end
+  if member.comment then
+    for s in member.comment:gmatch("[^\r\n]+") do
+      ret = ret .. "  > " .. s .. "  \n"
+    end
+  end
 
   return ret
 end
@@ -83,10 +107,34 @@ local fmt_members = function(typename, members)
   else
     local ret = ""
 
-    local members_sorted = sorted_by(members)
+    local ss = function(a,b)
+      local aName = a.v.name:upper();
+      local bName = b.v.name:upper();
+
+      if aName:find("^__") and not bName:find("^__") then
+        return false
+      end
+      if not aName:find("^__") and bName:find("^__") then
+        return true
+      end
+
+      return aName < bName;
+    end
+
+    local members_sorted = sorted_by(members, ss)
+
+    -- Hide operators and serialization methods
+    local is_hidden = function(member)
+      if member.name:find("^__") then return true end
+      if member.name == "serialize" then return true end
+      if member.name == "deserialize" then return true end
+      return false
+    end
 
     for _, it in pairs(members_sorted) do
-      ret = ret .. fmt_one_member(typename, it.v) .. "\n"
+      if not is_hidden(it.v) then
+        ret = ret .. fmt_one_member(typename, it.v) .. "\n"
+      end
     end
     return ret
   end

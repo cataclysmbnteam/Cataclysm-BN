@@ -207,7 +207,17 @@ local fmt_variable_field = function(member, is_static)
   local lua_type = map_cpp_type_to_lua(member.vartype)
 
   ret = ret .. "---@field " .. member_name .. " " .. lua_type
-  if member.comment and member.comment ~= "" then ret = ret .. " @" .. member.comment end
+  if member.comment and member.comment ~= "" then
+    ret = ret .. " @"
+    local first = true
+    for line in string.gmatch(member.comment, "[^\r\n]+") do
+      if not first then
+        ret = ret .. " "
+      end
+      first = false
+      ret = ret .. line
+    end
+  end
   if member.hasval then
     -- Avoid overly long or complex value representations
     local val_str = tostring(member.varval)
