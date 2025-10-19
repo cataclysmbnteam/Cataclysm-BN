@@ -588,7 +588,13 @@ mod.open_rpg_menu = function(who, item, pos)
       )
     end
 
-    if num_traits < max_traits then table.insert(menu_items, { text = "Manage Traits", action = "traits" }) end
+    if num_traits < max_traits then
+      local available_slots = max_traits - num_traits
+      table.insert(
+        menu_items,
+        { text = color_good("Assign Traits (" .. available_slots .. " available)"), action = "traits" }
+      )
+    end
 
     table.insert(menu_items, { text = "Help", action = "help" })
     table.insert(menu_items, { text = "Close", action = "close" })
