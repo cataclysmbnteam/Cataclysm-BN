@@ -11,6 +11,8 @@
 #include "character.h"
 #include "martialarts.h"
 #include "relic.h"
+#include "mongroup.h"
+#include "disease.h"
 #include "skill.h"
 #include "ammo.h"
 
@@ -311,10 +313,19 @@ void reg_islot( sol::state &lua )
     {
         sol::usertype<UT_CLASS> ut = luna::new_usertype<UT_CLASS>( lua, luna::no_bases, luna::no_constructor );
 
+        DOC("Inner volume of the container");
         SET_MEMB_RO( contains );
+
+        DOC("Contents do not spoil");
         SET_MEMB_RO( preserves );
+
+        DOC("Can be resealed");
         SET_MEMB_RO( seals );
+
+        DOC("If this is set to anything but \"null\", changing this container's contents in any way will turn this item into that type");
         SET_MEMB_RO( unseals_into );
+
+        DOC("Can hold liquids");
         SET_MEMB_RO( watertight );
     }
 #undef UT_CLASS
@@ -332,7 +343,6 @@ void reg_islot( sol::state &lua )
         SET_MEMB_RO( power_draw );
         SET_MEMB_RO( rand_charges );
         SET_MEMB_RO( revert_msg );
-        // TODO: does std::optional map nicely? wrap into a function if not, or add a binding to std::optional?
         SET_MEMB_RO( revert_to );
         SET_MEMB_RO( subtype );
         SET_MEMB_RO( turns_active );
@@ -345,6 +355,79 @@ void reg_islot( sol::state &lua )
 #define UT_CLASS islot_comestible
     {
         sol::usertype<UT_CLASS> ut = luna::new_usertype<UT_CLASS>( lua, luna::no_bases, luna::no_constructor );
+
+        DOC("comestible subtype - eg. FOOD, DRINK, MED");
+        SET_MEMB_N_RO(comesttype, "comest_type");
+
+        DOC("tool needed to consume (e.g. lighter for cigarettes)");
+        SET_MEMB_RO(tool);
+
+        DOC("Defaults # of charges (drugs, loaf of bread? etc)");
+        SET_MEMB_RO(def_charges);
+
+        DOC("effect on character thirst (may be negative)");
+        SET_MEMB_RO(quench);
+
+        DOC("Nutrition values to use for this type when they aren't calculated from components");
+        SET_MEMB_RO(default_nutrition);
+
+        DOC("Time until becomes rotten at standard temperature, or zero if never spoils");
+        SET_MEMB_RO(spoils);
+
+        DOC("addiction potential");
+        SET_MEMB_N_RO(addict, "addict_value");
+
+        DOC("effects of addiction");
+        SET_MEMB_N_RO(add, "addict_type");
+
+        DOC("stimulant effect");
+        SET_MEMB_N_RO(stim, "stimulant_type");
+
+        DOC("fatigue altering effect");
+        SET_MEMB_RO(fatigue_mod);
+
+        DOC("Reference to other item that replaces this one as a component in recipe results");
+        SET_MEMB_RO(cooks_like);
+
+        DOC("Reference to item that will be received after smoking current item");
+        SET_MEMB_RO(smoking_result);
+
+        //DOC("TODO: add documentation");
+        SET_MEMB_RO(healthy);
+
+        DOC("chance (odds) of becoming parasitised when eating (zero if never occurs)");
+        SET_MEMB_RO(parasites);
+
+        DOC("Amount of radiation you get from this comestible");
+        SET_MEMB_RO(radiation);
+
+        DOC("pet food category");
+        SET_MEMB_RO(petfood);
+
+        DOC("freezing point in degrees Fahrenheit, below this temperature item can freeze");
+        SET_MEMB_RO(freeze_point);
+
+        DOC("List of diseases carried by this comestible and their associated probability");
+        SET_MEMB_RO(contamination);
+
+        DOC("specific heats in J/(g K) and latent heat in J/g");
+        SET_MEMB_RO(specific_heat_liquid);
+        SET_MEMB_RO(specific_heat_solid);
+        SET_MEMB_RO(latent_heat);
+
+        DOC("A penalty applied to fun for every time this food has been eaten in the last 48 hours");
+        SET_MEMB_RO(monotony_penalty);
+
+        SET_FX(has_calories);
+
+        SET_FX(get_default_nutr);
+
+        DOC("The monster group that is drawn from when the item rots away");
+        SET_MEMB_RO(rot_spawn);
+
+        DOC("Chance the above monster group spawns");
+        SET_MEMB_RO(rot_spawn_chance);
+
     }
 #undef UT_CLASS
 
@@ -352,7 +435,10 @@ void reg_islot( sol::state &lua )
     {
         sol::usertype<UT_CLASS> ut = luna::new_usertype<UT_CLASS>( lua, luna::no_bases, luna::no_constructor );
 
+        DOC("What are the results of fermenting this item");
         SET_MEMB_RO( results );
+
+        DOC("How long for this brew to ferment");
         SET_MEMB_RO( time );
     }
 #undef UT_CLASS
@@ -361,18 +447,39 @@ void reg_islot( sol::state &lua )
     {
         sol::usertype<UT_CLASS> ut = luna::new_usertype<UT_CLASS>( lua, luna::no_bases, luna::no_constructor );
 
+        DOC("Layer, encumbrance and coverage information");
         SET_MEMB_N_RO( data, "layer_data" );
         // TODO: add armor_portion_data binding
+
+        DOC("Resistance to environmental effects");
         SET_MEMB_RO( env_resist );
+
+        DOC("Environmental protection of a gas mask with installed filter");
         SET_MEMB_RO( env_resist_w_filter );
+
+        DOC("Damage negated by this armor. Usually calculated from materials+thickness");
         SET_MEMB_RO( resistance );
         // TODO: add resistances binding
+
+        DOC("Whether this item can be worn on either side of the body");
         SET_MEMB_RO( sided );
+
+        DOC("How much storage this items provides when worn");
         SET_MEMB_RO( storage );
+
+        DOC("Multiplier on resistances provided by armor's materials.  \nDamaged armors have lower effective thickness, low capped at 1.  \nNote: 1 thickness means item retains full resistance when damaged.");
         SET_MEMB_RO( thickness );
+
+        DOC("Whitelisted clothing mods.\nRestricted clothing mods must be listed here by id to be compatible.");
         SET_MEMB_RO( valid_mods );
+
+        DOC("How much warmth this item provides");
         SET_MEMB_RO( warmth );
+
+        DOC("Bonus to weight capacity");
         SET_MEMB_RO( weight_capacity_bonus );
+
+        DOC("Factor modifying weight capacity");
         SET_MEMB_RO( weight_capacity_modifier );
     }
 #undef UT_CLASS
@@ -381,12 +488,25 @@ void reg_islot( sol::state &lua )
     {
         sol::usertype<UT_CLASS> ut = luna::new_usertype<UT_CLASS>( lua, luna::no_bases, luna::no_constructor );
 
+        DOC("The minimum volume a pet can be and wear this armor");
         SET_MEMB_RO( min_vol );
+
+        DOC("The maximum volume a pet can be and wear this armor");
         SET_MEMB_RO( max_vol );
+
+        DOC("Resistance to environmental effects");
         SET_MEMB_RO( env_resist );
+
+        DOC("Environmental protection of a gas mask with installed filter");
         SET_MEMB_RO( env_resist_w_filter );
+
+        DOC(" How much storage this items provides when worn");
         SET_MEMB_RO( storage );
+
+        DOC("Multiplier on resistances provided by this armor");
         SET_MEMB_RO( thickness );
+
+        DOC("What animal bodytype can wear this armor");
         SET_MEMB_RO( bodytype );
     }
 #undef UT_CLASS
@@ -395,14 +515,31 @@ void reg_islot( sol::state &lua )
     {
         auto ut = luna::new_usertype<UT_CLASS>( lua, luna::no_bases, luna::no_constructor );
 
+        DOC("How long in minutes it takes to read.  \n\"To read\" means getting 1 skill point, not all of them.");
         SET_MEMB_RO( time );
+
+        DOC("Fun books have chapters; after all are read, the book is less fun.");
         SET_MEMB_RO( chapters );
+
+        DOC("Which martial art it teaches.  Can be MartialArtsId.NULL_ID");
         SET_MEMB_RO( martial_art );
+
+        DOC("How fun reading this is, can be negative");
         SET_MEMB_RO( fun );
+
+        DOC("Intelligence required to read it");
         SET_MEMB_N_RO( intel, "intelligence" );
+
+        DOC("Which skill it upgrades, if any. Can be SkillId.NULL_ID");
         SET_MEMB_RO( skill );
+
+        DOC("The skill level required to understand it");
         SET_MEMB_N_RO( req, "skill_min" );
+
+        DOC("The skill level the book provides");
         SET_MEMB_N_RO( level, "skill_max" );
+
+        DOC("Recipes contained in this book");
         SET_MEMB_RO( recipes );
     }
 #undef UT_CLASS
@@ -411,9 +548,16 @@ void reg_islot( sol::state &lua )
     {
         sol::usertype<UT_CLASS> ut = luna::new_usertype<UT_CLASS>( lua, luna::no_bases, luna::no_constructor );
 
+        DOC("If non-empty restrict mod to items with those base (before modifiers) ammo types");
         SET_MEMB_RO( acceptable_ammo );
+
+        DOC("If set modifies parent ammo to this type");
         SET_MEMB_RO( ammo_modifier );
+
+        DOC("Proportional adjustment of parent item ammo capacity");
         SET_MEMB_RO( capacity_multiplier );
+
+        DOC("If non-empty replaces the compatible magazines for the parent item");
         SET_MEMB_RO( magazine_adaptor );
     }
 #undef UT_CLASS
@@ -422,6 +566,7 @@ void reg_islot( sol::state &lua )
     {
         sol::usertype<UT_CLASS> ut = luna::new_usertype<UT_CLASS>( lua, luna::no_bases, luna::no_constructor );
 
+        DOC("For combustion engines, the displacement");
         SET_MEMB_RO( displacement );
     }
 #undef UT_CLASS
@@ -430,7 +575,10 @@ void reg_islot( sol::state &lua )
     {
         sol::usertype<UT_CLASS> ut = luna::new_usertype<UT_CLASS>( lua, luna::no_bases, luna::no_constructor );
 
+        DOC("Diameter of wheel in inches");
         SET_MEMB_RO( diameter );
+
+        DOC("Width of wheel in inches");
         SET_MEMB_RO( width );
     }
 #undef UT_CLASS
@@ -439,9 +587,11 @@ void reg_islot( sol::state &lua )
     {
         sol::usertype<UT_CLASS> ut = luna::new_usertype<UT_CLASS>( lua, luna::no_bases, luna::no_constructor );
 
+        DOC("Energy of the fuel (kilojoules per charge)");
         SET_MEMB_RO( energy );
+
         SET_MEMB_RO( explosion_data );
-        SET_MEMB_RO( has_explode_data );
+        SET_MEMB_N_RO( has_explode_data, "has_explosion_data" );
         SET_MEMB_RO( pump_terrain );
     }
 #undef UT_CLASS

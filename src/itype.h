@@ -292,7 +292,7 @@ struct islot_armor {
      */
     units::volume storage = 0_ml;
     /**
-    * Factor modifiying weight capacity
+    * Factor modifying weight capacity
     */
     float weight_capacity_modifier = 1.0;
     /**

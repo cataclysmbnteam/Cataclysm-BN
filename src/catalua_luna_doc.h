@@ -75,6 +75,7 @@ struct point;
 struct species_type;
 struct tripoint;
 struct trap;
+struct MonsterGroup;
 struct uilist_entry;
 struct book_recipe;
 class ammunition_type;
@@ -214,6 +215,7 @@ LUNA_ID( species_type, "SpeciesType" )
 LUNA_ID( spell_type, "SpellType" )
 LUNA_ID( ter_t, "Ter" )
 LUNA_ID( trap, "Trap" )
+LUNA_ID( MonsterGroup, "MonsterGroup" )
 
 // Enums
 LUNA_ENUM( add_type, "AddictionType" )

@@ -729,17 +729,17 @@ IslotAmmo = {}
 function IslotAmmo.new() end
 
 ---@class IslotArmor
----@field env_resist integer
----@field env_resist_w_filter integer
----@field layer_data any
----@field resistance any
----@field sided boolean
----@field storage Volume
----@field thickness integer
----@field valid_mods string[]
----@field warmth integer
----@field weight_capacity_bonus Mass
----@field weight_capacity_modifier number
+---@field env_resist integer @Resistance to environmental effects
+---@field env_resist_w_filter integer @Environmental protection of a gas mask with installed filter
+---@field layer_data any @Layer, encumbrance and coverage information
+---@field resistance any @Damage negated by this armor. Usually calculated from materials+thickness
+---@field sided boolean @Whether this item can be worn on either side of the body
+---@field storage Volume @How much storage this items provides when worn
+---@field thickness integer @Multiplier on resistances provided by armor's materials.   Damaged armors have lower effective thickness, low capped at 1.   Note: 1 thickness means item retains full resistance when damaged.
+---@field valid_mods string[] @Whitelisted clothing mods. Restricted clothing mods must be listed here by id to be compatible.
+---@field warmth integer @How much warmth this item provides
+---@field weight_capacity_bonus Mass @Bonus to weight capacity
+---@field weight_capacity_modifier number @Factor modifying weight capacity
 IslotArmor = {}
 ---@return IslotArmor
 function IslotArmor.new() end
@@ -775,51 +775,77 @@ IslotBionic = {}
 function IslotBionic.new() end
 
 ---@class IslotBook
----@field chapters integer
----@field fun integer
----@field intelligence integer
----@field martial_art MartialArtsId
----@field recipes BookRecipe[]
----@field skill SkillId
----@field skill_max integer
----@field skill_min integer
----@field time integer
+---@field chapters integer @Fun books have chapters; after all are read, the book is less fun.
+---@field fun integer @How fun reading this is, can be negative
+---@field intelligence integer @Intelligence required to read it
+---@field martial_art MartialArtsId @Which martial art it teaches.  Can be MartialArtsId.NULL_ID
+---@field recipes BookRecipe[] @Recipes contained in this book
+---@field skill SkillId @Which skill it upgrades, if any. Can be SkillId.NULL_ID
+---@field skill_max integer @The skill level the book provides
+---@field skill_min integer @The skill level required to understand it
+---@field time integer @How long in minutes it takes to read.   "To read" means getting 1 skill point, not all of them.
 IslotBook = {}
 ---@return IslotBook
 function IslotBook.new() end
 
 ---@class IslotBrewable
----@field results ItypeId[]
----@field time TimeDuration
+---@field results ItypeId[] @What are the results of fermenting this item
+---@field time TimeDuration @How long for this brew to ferment
 IslotBrewable = {}
 ---@return IslotBrewable
 function IslotBrewable.new() end
 
 ---@class IslotComestible
+---@field addict_type AddictionType @effects of addiction
+---@field addict_value integer @addiction potential
+---@field comest_type string @comestible subtype - eg. FOOD, DRINK, MED
+---@field contamination table<DiseaseTypeId, int> @List of diseases carried by this comestible and their associated probability
+---@field cooks_like ItypeId @Reference to other item that replaces this one as a component in recipe results
+---@field default_nutrition any @Nutrition values to use for this type when they aren't calculated from components
+---@field def_charges integer @Defaults # of charges (drugs, loaf of bread? etc)
+---@field fatigue_mod integer @fatigue altering effect
+---@field freeze_point integer @freezing point in degrees Fahrenheit, below this temperature item can freeze
+---@field healthy integer
+---@field latent_heat number
+---@field monotony_penalty integer @A penalty applied to fun for every time this food has been eaten in the last 48 hours
+---@field parasites integer @chance (odds) of becoming parasitised when eating (zero if never occurs)
+---@field petfood string[] @pet food category
+---@field quench integer @effect on character thirst (may be negative)
+---@field radiation integer @Amount of radiation you get from this comestible
+---@field rot_spawn MonsterGroupId @The monster group that is drawn from when the item rots away
+---@field rot_spawn_chance integer @Chance the above monster group spawns
+---@field smoking_result ItypeId @Reference to item that will be received after smoking current item
+---@field specific_heat_liquid number @specific heats in J/(g K) and latent heat in J/g
+---@field specific_heat_solid number
+---@field spoils TimeDuration @Time until becomes rotten at standard temperature, or zero if never spoils
+---@field stimulant_type integer @stimulant effect
+---@field tool ItypeId @tool needed to consume (e.g. lighter for cigarettes)
+---@field get_default_nutr fun(arg1: IslotComestible): integer
+---@field has_calories fun(arg1: IslotComestible): boolean
 IslotComestible = {}
 ---@return IslotComestible
 function IslotComestible.new() end
 
 ---@class IslotContainer
----@field contains Volume
----@field preserves boolean
----@field seals boolean
----@field unseals_into ItypeId
----@field watertight boolean
+---@field contains Volume @Inner volume of the container
+---@field preserves boolean @Contents do not spoil
+---@field seals boolean @Can be resealed
+---@field unseals_into ItypeId @If this is set to anything but "null", changing this container's contents in any way will turn this item into that type
+---@field watertight boolean @Can hold liquids
 IslotContainer = {}
 ---@return IslotContainer
 function IslotContainer.new() end
 
 ---@class IslotEngine
----@field displacement integer
+---@field displacement integer @For combustion engines, the displacement
 IslotEngine = {}
 ---@return IslotEngine
 function IslotEngine.new() end
 
 ---@class IslotFuel
----@field energy number
+---@field energy number @Energy of the fuel (kilojoules per charge)
 ---@field explosion_data any
----@field has_explode_data boolean
+---@field has_explosion_data boolean
 ---@field pump_terrain string
 IslotFuel = {}
 ---@return IslotFuel
@@ -856,22 +882,22 @@ IslotMilling = {}
 function IslotMilling.new() end
 
 ---@class IslotMod
----@field acceptable_ammo AmmunitionTypeId[]
----@field ammo_modifier AmmunitionTypeId[]
----@field capacity_multiplier number
----@field magazine_adaptor Map(AmmunitionTypeId,Set(ItypeId))
+---@field acceptable_ammo AmmunitionTypeId[] @If non-empty restrict mod to items with those base (before modifiers) ammo types
+---@field ammo_modifier AmmunitionTypeId[] @If set modifies parent ammo to this type
+---@field capacity_multiplier number @Proportional adjustment of parent item ammo capacity
+---@field magazine_adaptor Map(AmmunitionTypeId,Set(ItypeId)) @If non-empty replaces the compatible magazines for the parent item
 IslotMod = {}
 ---@return IslotMod
 function IslotMod.new() end
 
 ---@class IslotPetArmor
----@field bodytype string
----@field env_resist integer
----@field env_resist_w_filter integer
----@field max_vol Volume
----@field min_vol Volume
----@field storage Volume
----@field thickness integer
+---@field bodytype string @What animal bodytype can wear this armor
+---@field env_resist integer @Resistance to environmental effects
+---@field env_resist_w_filter integer @Environmental protection of a gas mask with installed filter
+---@field max_vol Volume @The maximum volume a pet can be and wear this armor
+---@field min_vol Volume @The minimum volume a pet can be and wear this armor
+---@field storage Volume @ How much storage this items provides when worn
+---@field thickness integer @Multiplier on resistances provided by this armor
 IslotPetArmor = {}
 ---@return IslotPetArmor
 function IslotPetArmor.new() end
@@ -907,8 +933,8 @@ IslotTool = {}
 function IslotTool.new() end
 
 ---@class IslotWheel
----@field diameter integer
----@field width integer
+---@field diameter integer @Diameter of wheel in inches
+---@field width integer @Width of wheel in inches
 IslotWheel = {}
 ---@return IslotWheel
 function IslotWheel.new() end
