@@ -2,6 +2,14 @@ gdebug.log_info("RPG System: Main")
 
 local mod = game.mod_runtime[game.current_mod]
 local storage = game.mod_storage[game.current_mod]
+local mutations = require("rpg_mutations")
+local MUTATIONS = mutations.MUTATIONS
+local ALL_CLASS_IDS = mutations.ALL_CLASS_IDS
+local ALL_TRAIT_IDS = mutations.ALL_TRAIT_IDS
+local BASE_CLASS_IDS = mutations.BASE_CLASS_IDS
+local PRESTIGE_CLASS_IDS = mutations.PRESTIGE_CLASS_IDS
+local STAT_BONUS_IDS = mutations.STAT_BONUS_IDS
+local PERIODIC_BONUS_IDS = mutations.PERIODIC_BONUS_IDS
 local function color_text(text, color) return string.format("<color_%s>%s</color>", color, text) end
 
 local function color_good(text) return color_text(text, "light_green") end
@@ -70,40 +78,77 @@ end
 
 local function set_char_value(char, key, value) char:set_value(key, tostring(value)) end
 
--- Ehhh, these aren't great and should be refactored if many more classes are added.
-local function has_class(char)
-  local classes = {
-    MutationBranchId.new("RPG_WARRIOR"),
-    MutationBranchId.new("RPG_BERSERKER"),
-    MutationBranchId.new("RPG_GUARDIAN"),
-    MutationBranchId.new("RPG_MAGE"),
-    MutationBranchId.new("RPG_MYSTIC"),
-    MutationBranchId.new("RPG_SCHOLAR"),
-    MutationBranchId.new("RPG_SCOUT"),
-    MutationBranchId.new("RPG_RANGER"),
-    MutationBranchId.new("RPG_ASSASSIN"),
-  }
+-- Common requirement checking and formatting
+local function check_requirements(player, mutation, current_level)
+  local reqs = mutation.requirements
+  if not reqs or (not reqs.level and not reqs.stats and not reqs.skills) then
+    return true, {}
+  end
 
-  for _, class in ipairs(classes) do
-    if char:has_trait(class) then return true end
+  local unmet = {}
+
+  -- Check level requirement
+  if reqs.level and current_level < reqs.level then
+    table.insert(unmet, { type = "level", label = "Lv", current = current_level, required = reqs.level })
+  end
+
+  -- Check stat requirements
+  if reqs.stats then
+    local stats_map = {
+      STR = player:get_str(),
+      DEX = player:get_dex(),
+      INT = player:get_int(),
+      PER = player:get_per(),
+    }
+    for stat, required in pairs(reqs.stats) do
+      local current = stats_map[stat]
+      if current < required then
+        table.insert(unmet, { type = "stat", label = stat, current = current, required = required })
+      end
+    end
+  end
+
+  -- Check skill requirements
+  if reqs.skills then
+    for skill_name, required in pairs(reqs.skills) do
+      local current = player:get_skill_level(SkillId.new(skill_name))
+      if current < required then
+        local display_name = skill_name:gsub("^%l", string.upper)
+        table.insert(unmet, { type = "skill", label = display_name, current = current, required = required })
+      end
+    end
+  end
+
+  return #unmet == 0, unmet
+end
+
+local function format_requirement(label, current, required, show_current)
+  local met = current >= required
+  local color_fn = met and color_good or color_bad
+  if show_current then
+    return color_fn(string.format("%s %d/%d", label, current, required))
+  else
+    return color_fn(string.format("%s %d+", label, required))
+  end
+end
+
+local function format_requirements_list(unmet, show_current)
+  local parts = {}
+  for _, req in ipairs(unmet) do
+    table.insert(parts, format_requirement(req.label, req.current, req.required, show_current))
+  end
+  return table.concat(parts, ", ")
+end
+
+local function has_class(char)
+  for _, class_id in ipairs(ALL_CLASS_IDS) do
+    if char:has_trait(class_id) then return true end
   end
   return false
 end
 
 local function get_class_info(char)
-  local class_ids = {
-    MutationBranchId.new("RPG_WARRIOR"),
-    MutationBranchId.new("RPG_BERSERKER"),
-    MutationBranchId.new("RPG_GUARDIAN"),
-    MutationBranchId.new("RPG_MAGE"),
-    MutationBranchId.new("RPG_MYSTIC"),
-    MutationBranchId.new("RPG_SCHOLAR"),
-    MutationBranchId.new("RPG_SCOUT"),
-    MutationBranchId.new("RPG_RANGER"),
-    MutationBranchId.new("RPG_ASSASSIN"),
-  }
-
-  for _, class_id in ipairs(class_ids) do
+  for _, class_id in ipairs(ALL_CLASS_IDS) do
     if char:has_trait(class_id) then
       local class_obj = class_id:obj()
       return class_obj:name(), class_obj:desc()
@@ -113,37 +158,8 @@ local function get_class_info(char)
 end
 
 local function get_current_traits(char)
-  local trait_ids = {
-    MutationBranchId.new("RPG_TRAIT_BIONIC_SYMBIOTE"),
-    MutationBranchId.new("RPG_TRAIT_VITAL_ESSENCE"),
-    MutationBranchId.new("RPG_TRAIT_RADIOACTIVE_BLOOD"),
-    MutationBranchId.new("RPG_TRAIT_IRON_HIDE"),
-    MutationBranchId.new("RPG_TRAIT_LIGHTWEIGHT"),
-    MutationBranchId.new("RPG_TRAIT_PACK_MULE"),
-    MutationBranchId.new("RPG_TRAIT_TIRELESS"),
-    MutationBranchId.new("RPG_TRAIT_MANA_FONT"),
-    MutationBranchId.new("RPG_TRAIT_BLINK_STEP"),
-    MutationBranchId.new("RPG_TRAIT_NATURAL_HEALER"),
-    MutationBranchId.new("RPG_TRAIT_ADAPTIVE_BIOLOGY"),
-    MutationBranchId.new("RPG_TRAIT_GLASS_CANNON"),
-    MutationBranchId.new("RPG_TRAIT_JUGGERNAUT"),
-    MutationBranchId.new("RPG_TRAIT_ARCANE_BATTERY"),
-    MutationBranchId.new("RPG_TRAIT_IRON_FISTS"),
-    MutationBranchId.new("RPG_TRAIT_EFFICIENT_METABOLISM"),
-    MutationBranchId.new("RPG_TRAIT_COMBAT_REFLEXES"),
-    MutationBranchId.new("RPG_TRAIT_ACROBAT"),
-    MutationBranchId.new("RPG_TRAIT_TIRELESS_WORKER"),
-    MutationBranchId.new("RPG_TRAIT_RAPID_METABOLISM"),
-    MutationBranchId.new("RPG_TRAIT_SCENTLESS"),
-    MutationBranchId.new("RPG_TRAIT_CLOTTING_FACTOR"),
-    MutationBranchId.new("RPG_TRAIT_REGENERATOR"),
-    MutationBranchId.new("RPG_TRAIT_MASTER_CRAFTSMAN"),
-    MutationBranchId.new("RPG_TRAIT_PACK_RAT"),
-    MutationBranchId.new("RPG_TRAIT_NATURAL_BUTCHER"),
-  }
-
   local current = {}
-  for _, trait_id in ipairs(trait_ids) do
+  for _, trait_id in ipairs(ALL_TRAIT_IDS) do
     if char:has_trait(trait_id) then
       local trait_obj = trait_id:obj()
       table.insert(current, { name = trait_obj:name(), desc = trait_obj:desc() })
@@ -286,6 +302,7 @@ mod.on_character_reset_stats = function(params)
   local level = get_char_value(character, "rpg_level", 0)
   local level_scaling = get_char_value(character, "rpg_level_scaling", 100) / 100.0
 
+  -- Apply manually assigned stats
   local assigned_str = get_char_value(character, "rpg_assigned_str", 0)
   local assigned_dex = get_char_value(character, "rpg_assigned_dex", 0)
   local assigned_int = get_char_value(character, "rpg_assigned_int", 0)
@@ -296,79 +313,28 @@ mod.on_character_reset_stats = function(params)
   character:mod_int_bonus(assigned_int)
   character:mod_per_bonus(assigned_per)
 
-  -- These should also be refactored if more classes are added probably.
-  if character:has_trait(MutationBranchId.new("RPG_WARRIOR")) then
-    character:mod_str_bonus(math.floor(level * 0.55 * level_scaling))
-    character:mod_dex_bonus(math.floor(level * 0.2 * level_scaling))
-    character:mod_int_bonus(math.floor(level * 0.1 * level_scaling))
-    character:mod_per_bonus(math.floor(level * 0.15 * level_scaling))
-  end
+  -- Apply stat bonuses from mutations that have them
+  for _, mutation_id in ipairs(STAT_BONUS_IDS) do
+    if character:has_trait(mutation_id) then
+      local mutation = MUTATIONS[mutation_id:str()]
+      local bonuses = mutation.stat_bonuses
 
-  if character:has_trait(MutationBranchId.new("RPG_MAGE")) then
-    character:mod_str_bonus(math.floor(level * 0.1 * level_scaling))
-    character:mod_dex_bonus(math.floor(level * 0.05 * level_scaling))
-    character:mod_int_bonus(math.floor(level * 0.55 * level_scaling))
-    character:mod_per_bonus(math.floor(level * 0.3 * level_scaling))
-  end
-
-  if character:has_trait(MutationBranchId.new("RPG_SCOUT")) then
-    character:mod_str_bonus(math.floor(level * 0.1 * level_scaling))
-    character:mod_dex_bonus(math.floor(level * 0.55 * level_scaling))
-    character:mod_int_bonus(math.floor(level * 0.05 * level_scaling))
-    character:mod_per_bonus(math.floor(level * 0.3 * level_scaling))
-  end
-
-  if character:has_trait(MutationBranchId.new("RPG_BERSERKER")) then
-    character:mod_str_bonus(math.floor(level * 0.75 * level_scaling))
-    character:mod_dex_bonus(math.floor(level * 0.45 * level_scaling))
-    character:mod_int_bonus(math.floor(level * 0.1 * level_scaling))
-    character:mod_per_bonus(math.floor(level * 0.2 * level_scaling))
-  end
-
-  if character:has_trait(MutationBranchId.new("RPG_GUARDIAN")) then
-    character:mod_str_bonus(math.floor(level * 0.6 * level_scaling))
-    character:mod_dex_bonus(math.floor(level * 0.15 * level_scaling))
-    character:mod_int_bonus(math.floor(level * 0.15 * level_scaling))
-    character:mod_per_bonus(math.floor(level * 0.6 * level_scaling))
-  end
-
-  if character:has_trait(MutationBranchId.new("RPG_MYSTIC")) then
-    character:mod_str_bonus(math.floor(level * 0.1 * level_scaling))
-    character:mod_dex_bonus(math.floor(level * 0.2 * level_scaling))
-    character:mod_int_bonus(math.floor(level * 0.75 * level_scaling))
-    character:mod_per_bonus(math.floor(level * 0.45 * level_scaling))
-  end
-
-  if character:has_trait(MutationBranchId.new("RPG_SCHOLAR")) then
-    character:mod_str_bonus(math.floor(level * 0.1 * level_scaling))
-    character:mod_dex_bonus(math.floor(level * 0.3 * level_scaling))
-    character:mod_int_bonus(math.floor(level * 0.8 * level_scaling))
-    character:mod_per_bonus(math.floor(level * 0.3 * level_scaling))
-  end
-
-  if character:has_trait(MutationBranchId.new("RPG_RANGER")) then
-    character:mod_str_bonus(math.floor(level * 0.15 * level_scaling))
-    character:mod_dex_bonus(math.floor(level * 0.65 * level_scaling))
-    character:mod_int_bonus(math.floor(level * 0.1 * level_scaling))
-    character:mod_per_bonus(math.floor(level * 0.6 * level_scaling))
-  end
-
-  if character:has_trait(MutationBranchId.new("RPG_ASSASSIN")) then
-    character:mod_str_bonus(math.floor(level * 0.1 * level_scaling))
-    character:mod_dex_bonus(math.floor(level * 0.75 * level_scaling))
-    character:mod_int_bonus(math.floor(level * 0.35 * level_scaling))
-    character:mod_per_bonus(math.floor(level * 0.3 * level_scaling))
-  end
-
-  if
-    character:has_trait(MutationBranchId.new("RPG_SCOUT"))
-    or character:has_trait(MutationBranchId.new("RPG_RANGER"))
-  then
-    character:mod_speed_bonus(math.floor(level * 1 * level_scaling))
-  end
-
-  if character:has_trait(MutationBranchId.new("RPG_ASSASSIN")) then
-    character:mod_speed_bonus(math.floor(level * 2 * level_scaling))
+      if bonuses.str then
+        character:mod_str_bonus(math.floor(level * bonuses.str * level_scaling))
+      end
+      if bonuses.dex then
+        character:mod_dex_bonus(math.floor(level * bonuses.dex * level_scaling))
+      end
+      if bonuses.int then
+        character:mod_int_bonus(math.floor(level * bonuses.int * level_scaling))
+      end
+      if bonuses.per then
+        character:mod_per_bonus(math.floor(level * bonuses.per * level_scaling))
+      end
+      if bonuses.speed then
+        character:mod_speed_bonus(math.floor(level * bonuses.speed * level_scaling))
+      end
+    end
   end
 end
 
@@ -381,30 +347,32 @@ mod.on_every_5_minutes = function()
 
   local level_scaling = get_char_value(player, "rpg_level_scaling", 100) / 100.0
 
-  if
-    player:has_trait(MutationBranchId.new("RPG_WARRIOR"))
-    or player:has_trait(MutationBranchId.new("RPG_BERSERKER"))
-    or player:has_trait(MutationBranchId.new("RPG_GUARDIAN"))
-  then
-    player:mod_fatigue(math.floor(-level * 0.5 * level_scaling))
-    player:mod_stamina(math.floor(level * 20 * level_scaling))
-  end
+  -- Apply periodic bonuses from mutations that have them
+  for _, mutation_id in ipairs(PERIODIC_BONUS_IDS) do
+    if player:has_trait(mutation_id) then
+      local mutation = MUTATIONS[mutation_id:str()]
+      local bonuses = mutation.periodic_bonuses
 
-  if player:has_trait(MutationBranchId.new("RPG_RANGER")) then
-    player:mod_thirst(math.floor(-level * 1.5 * level_scaling))
-  end
-
-  if player:has_trait(MutationBranchId.new("RPG_TRAIT_VITAL_ESSENCE")) then
-    player:mod_healthy_mod(0.1 * level * level_scaling, 100)
-  end
-
-  if player:has_trait(MutationBranchId.new("RPG_TRAIT_RADIOACTIVE_BLOOD")) then
-    player:mod_rad(math.floor(-level * 0.5 * level_scaling))
-  end
-
-  if player:has_trait(MutationBranchId.new("RPG_TRAIT_BIONIC_SYMBIOTE")) then
-    local power_regen = Energy.from_joule(math.floor(level * 2 * 1000 * level_scaling))
-    player:mod_power_level(power_regen)
+      if bonuses.fatigue then
+        player:mod_fatigue(math.floor(level * bonuses.fatigue * level_scaling))
+      end
+      if bonuses.stamina then
+        player:mod_stamina(math.floor(level * bonuses.stamina * level_scaling))
+      end
+      if bonuses.thirst then
+        player:mod_thirst(math.floor(level * bonuses.thirst * level_scaling))
+      end
+      if bonuses.rad then
+        player:mod_rad(math.floor(level * bonuses.rad * level_scaling))
+      end
+      if bonuses.healthy_mod then
+        player:mod_healthy_mod(bonuses.healthy_mod * level * level_scaling, 100)
+      end
+      if bonuses.power_level then
+        local power_regen = Energy.from_joule(math.floor(level * bonuses.power_level * 1000 * level_scaling))
+        player:mod_power_level(power_regen)
+      end
+    end
   end
 end
 
@@ -635,22 +603,8 @@ mod.open_rpg_menu = function(who, item, pos)
   return 0
 end
 
-local function format_requirement(label, current, required, show_current)
-  local met = current >= required
-  local color_fn = met and color_good or color_bad
-  if show_current then
-    return color_fn(string.format("%s %d/%d", label, current, required))
-  else
-    return color_fn(string.format("%s %d+", label, required))
-  end
-end
-
 mod.manage_class_menu = function(player)
   local level = get_char_value(player, "rpg_level", 0)
-  local str_val = player:get_str()
-  local dex_val = player:get_dex()
-  local int_val = player:get_int()
-  local per_val = player:get_per()
 
   local ui = UiList.new()
   ui:title("=== Select Class ===")
@@ -659,244 +613,70 @@ mod.manage_class_menu = function(player)
   local options = {}
   local index = 1
 
+  -- Show base classes if player doesn't have a class
   if not has_class(player) then
-    local warrior_id = MutationBranchId.new("RPG_WARRIOR")
-    local warrior_meets = str_val >= 8
-    -- Honestly, these should also definitely be refactored if more classes are added to be
-    -- a generic format requirements function. That takes in class/trait requirements and returns
-    -- a formatted string.
-    local warrior_text = warrior_meets and color_good("⚔ [Warrior]")
-      or color_text("⚔ [Warrior]", "dark_gray") .. " - " .. format_requirement("STR", str_val, 8, true)
-    table.insert(options, {
-      text = warrior_text,
-      desc = warrior_id:obj():desc(),
-      id = warrior_id,
-      can_select = warrior_meets,
-      index = index,
-    })
-    index = index + 1
+    for id, mutation in pairs(MUTATIONS) do
+      if mutation.type == "class" and not mutation.is_prestige then
+        local mutation_id = mutation:get_mutation_id()
+        local class_obj = mutation_id:obj()
+        local can_select, unmet = check_requirements(player, mutation, level)
 
-    local mage_id = MutationBranchId.new("RPG_MAGE")
-    local mage_meets = int_val >= 8
-    local mage_text = mage_meets and color_good("✦ [Mage]")
-      or color_text("✦ [Mage]", "dark_gray") .. " - " .. format_requirement("INT", int_val, 8, true)
-    table.insert(options, {
-      text = mage_text,
-      desc = mage_id:obj():desc(),
-      id = mage_id,
-      can_select = mage_meets,
-      index = index,
-    })
-    index = index + 1
+        local display_text
+        if can_select then
+          display_text = color_good(mutation.symbol .. " [" .. class_obj:name() .. "]")
+        else
+          display_text = color_text(mutation.symbol .. " [" .. class_obj:name() .. "]", "dark_gray")
+            .. " - "
+            .. format_requirements_list(unmet, true)
+        end
 
-    local scout_id = MutationBranchId.new("RPG_SCOUT")
-    local scout_meets = dex_val >= 8
-    local scout_text = scout_meets and color_good("➳ [Scout]")
-      or color_text("➳ [Scout]", "dark_gray") .. " - " .. format_requirement("DEX", dex_val, 8, true)
-    table.insert(options, {
-      text = scout_text,
-      desc = scout_id:obj():desc(),
-      id = scout_id,
-      can_select = scout_meets,
-      index = index,
-    })
-    index = index + 1
+        table.insert(options, {
+          text = display_text,
+          desc = class_obj:desc(),
+          id = mutation_id,
+          mutation = mutation,
+          can_select = can_select,
+          index = index,
+        })
+        index = index + 1
+      end
+    end
   end
 
-  -- Prestige classes (show if level 10+ and have appropriate base class)
-  if player:has_trait(MutationBranchId.new("RPG_WARRIOR")) then
-    local berserker_id = MutationBranchId.new("RPG_BERSERKER")
-    local melee_skill = player:get_skill_level(SkillId.new("melee"))
-    local unarmed_skill = player:get_skill_level(SkillId.new("unarmed"))
-    local berserker_meets = level >= 10 and str_val >= 12 and dex_val >= 8 and melee_skill >= 6 and unarmed_skill >= 5
+  -- Show prestige classes if player has the appropriate base class
+  for id, mutation in pairs(MUTATIONS) do
+    if mutation.type == "class" and mutation.is_prestige then
+      local base_class_id = MUTATIONS[mutation.base_class]:get_mutation_id()
+      if player:has_trait(base_class_id) then
+        local mutation_id = mutation:get_mutation_id()
+        local class_obj = mutation_id:obj()
+        local can_select, unmet = check_requirements(player, mutation, level)
 
-    local berserker_text
-    if berserker_meets then
-      berserker_text = color_good("★ [Berserker]") .. color_text(" (Prestige)", "yellow")
-    else
-      local reqs = format_requirement("Lv", level, 10, true)
-        .. ", "
-        .. format_requirement("STR", str_val, 12, true)
-        .. ", "
-        .. format_requirement("DEX", dex_val, 8, true)
-        .. ", "
-        .. format_requirement("Melee", melee_skill, 6, true)
-        .. ", "
-        .. format_requirement("Unarmed", unarmed_skill, 5, true)
-      berserker_text = color_text("★ [Berserker]", "dark_gray") .. " - " .. reqs
+        local display_text
+        if can_select then
+          display_text = color_good(mutation.symbol .. " [" .. class_obj:name() .. "]")
+            .. color_text(" (Prestige)", "yellow")
+        else
+          display_text = color_text(mutation.symbol .. " [" .. class_obj:name() .. "]", "dark_gray")
+            .. " - "
+            .. format_requirements_list(unmet, true)
+        end
+
+        table.insert(options, {
+          text = display_text,
+          desc = class_obj:desc(),
+          id = mutation_id,
+          mutation = mutation,
+          remove_first = base_class_id,
+          can_select = can_select,
+          index = index,
+        })
+        index = index + 1
+      end
     end
-
-    table.insert(options, {
-      text = berserker_text,
-      desc = berserker_id:obj():desc(),
-      id = berserker_id,
-      remove_first = MutationBranchId.new("RPG_WARRIOR"),
-      can_select = berserker_meets,
-      index = index,
-    })
-    index = index + 1
-
-    local guardian_id = MutationBranchId.new("RPG_GUARDIAN")
-    local dodge_skill = player:get_skill_level(SkillId.new("dodge"))
-    local firstaid_skill = player:get_skill_level(SkillId.new("firstaid"))
-    local guardian_meets = level >= 10 and str_val >= 12 and per_val >= 8 and dodge_skill >= 6 and firstaid_skill >= 4
-
-    local guardian_text
-    if guardian_meets then
-      guardian_text = color_good("★ [Guardian]") .. color_text(" (Prestige)", "yellow")
-    else
-      local reqs = format_requirement("Lv", level, 10, true)
-        .. ", "
-        .. format_requirement("STR", str_val, 12, true)
-        .. ", "
-        .. format_requirement("PER", per_val, 8, true)
-        .. ", "
-        .. format_requirement("Dodge", dodge_skill, 6, true)
-        .. ", "
-        .. format_requirement("FirstAid", firstaid_skill, 4, true)
-      guardian_text = color_text("★ [Guardian]", "dark_gray") .. " - " .. reqs
-    end
-
-    table.insert(options, {
-      text = guardian_text,
-      desc = guardian_id:obj():desc(),
-      id = guardian_id,
-      remove_first = MutationBranchId.new("RPG_WARRIOR"),
-      can_select = guardian_meets,
-      index = index,
-    })
-    index = index + 1
   end
 
-  if player:has_trait(MutationBranchId.new("RPG_MAGE")) then
-    local mystic_id = MutationBranchId.new("RPG_MYSTIC")
-    local spellcraft_skill = player:get_skill_level(SkillId.new("spellcraft"))
-    local mystic_meets = level >= 10 and int_val >= 12 and per_val >= 8 and spellcraft_skill >= 6
-
-    local mystic_text
-    if mystic_meets then
-      mystic_text = color_good("★ [Mystic]") .. color_text(" (Prestige)", "yellow")
-    else
-      local reqs = format_requirement("Lv", level, 10, true)
-        .. ", "
-        .. format_requirement("INT", int_val, 12, true)
-        .. ", "
-        .. format_requirement("PER", per_val, 8, true)
-        .. ", "
-        .. format_requirement("Spellcraft", spellcraft_skill, 6, true)
-      mystic_text = color_text("★ [Mystic]", "dark_gray") .. " - " .. reqs
-    end
-
-    table.insert(options, {
-      text = mystic_text,
-      desc = mystic_id:obj():desc(),
-      id = mystic_id,
-      remove_first = MutationBranchId.new("RPG_MAGE"),
-      can_select = mystic_meets,
-      index = index,
-    })
-    index = index + 1
-
-    local scholar_id = MutationBranchId.new("RPG_SCHOLAR")
-    local fabrication_skill = player:get_skill_level(SkillId.new("fabrication"))
-    local electronics_skill = player:get_skill_level(SkillId.new("electronics"))
-    local scholar_meets = level >= 10
-      and int_val >= 12
-      and dex_val >= 8
-      and fabrication_skill >= 5
-      and electronics_skill >= 4
-
-    local scholar_text
-    if scholar_meets then
-      scholar_text = color_good("★ [Scholar]") .. color_text(" (Prestige)", "yellow")
-    else
-      local reqs = format_requirement("Lv", level, 10, true)
-        .. ", "
-        .. format_requirement("INT", int_val, 12, true)
-        .. ", "
-        .. format_requirement("DEX", dex_val, 8, true)
-        .. ", "
-        .. format_requirement("Fabrication", fabrication_skill, 5, true)
-        .. ", "
-        .. format_requirement("Electronics", electronics_skill, 4, true)
-      scholar_text = color_text("★ [Scholar]", "dark_gray") .. " - " .. reqs
-    end
-
-    table.insert(options, {
-      text = scholar_text,
-      desc = scholar_id:obj():desc(),
-      id = scholar_id,
-      remove_first = MutationBranchId.new("RPG_MAGE"),
-      can_select = scholar_meets,
-      index = index,
-    })
-    index = index + 1
-  end
-
-  if player:has_trait(MutationBranchId.new("RPG_SCOUT")) then
-    local ranger_id = MutationBranchId.new("RPG_RANGER")
-    local archery_skill = player:get_skill_level(SkillId.new("archery"))
-    local survival_skill = player:get_skill_level(SkillId.new("survival"))
-    local ranger_meets = level >= 10 and dex_val >= 12 and per_val >= 10 and archery_skill >= 6 and survival_skill >= 5
-
-    local ranger_text
-    if ranger_meets then
-      ranger_text = color_good("★ [Ranger]") .. color_text(" (Prestige)", "yellow")
-    else
-      local reqs = format_requirement("Lv", level, 10, true)
-        .. ", "
-        .. format_requirement("DEX", dex_val, 12, true)
-        .. ", "
-        .. format_requirement("PER", per_val, 10, true)
-        .. ", "
-        .. format_requirement("Archery", archery_skill, 6, true)
-        .. ", "
-        .. format_requirement("Survival", survival_skill, 5, true)
-      ranger_text = color_text("★ [Ranger]", "dark_gray") .. " - " .. reqs
-    end
-
-    table.insert(options, {
-      text = ranger_text,
-      desc = ranger_id:obj():desc(),
-      id = ranger_id,
-      remove_first = MutationBranchId.new("RPG_SCOUT"),
-      can_select = ranger_meets,
-      index = index,
-    })
-    index = index + 1
-
-    local assassin_id = MutationBranchId.new("RPG_ASSASSIN")
-    local throw_skill = player:get_skill_level(SkillId.new("throw"))
-    local cooking_skill = player:get_skill_level(SkillId.new("cooking"))
-    local assassin_meets = level >= 10 and dex_val >= 12 and int_val >= 8 and throw_skill >= 5 and cooking_skill >= 4
-
-    local assassin_text
-    if assassin_meets then
-      assassin_text = color_good("★ [Assassin]") .. color_text(" (Prestige)", "yellow")
-    else
-      local reqs = format_requirement("Lv", level, 10, true)
-        .. ", "
-        .. format_requirement("DEX", dex_val, 12, true)
-        .. ", "
-        .. format_requirement("INT", int_val, 8, true)
-        .. ", "
-        .. format_requirement("Throwing", throw_skill, 5, true)
-        .. ", "
-        .. format_requirement("Cooking", cooking_skill, 4, true)
-      assassin_text = color_text("★ [Assassin]", "dark_gray") .. " - " .. reqs
-    end
-
-    table.insert(options, {
-      text = assassin_text,
-      desc = assassin_id:obj():desc(),
-      id = assassin_id,
-      remove_first = MutationBranchId.new("RPG_SCOUT"),
-      can_select = assassin_meets,
-      index = index,
-    })
-    index = index + 1
-  end
-
+  -- Show abandon option if player has a class
   if has_class(player) then
     table.insert(options, {
       text = color_bad("✖ Abandon class"),
@@ -909,6 +689,7 @@ mod.manage_class_menu = function(player)
     index = index + 1
   end
 
+  -- Back option
   table.insert(options, {
     text = color_text("← Back", "light_gray"),
     desc = "Return to main menu",
@@ -935,19 +716,8 @@ mod.manage_class_menu = function(player)
     if chosen.action == "back" then
       return
     elseif chosen.action == "abandon" then
-      local all_classes = {
-        MutationBranchId.new("RPG_WARRIOR"),
-        MutationBranchId.new("RPG_BERSERKER"),
-        MutationBranchId.new("RPG_GUARDIAN"),
-        MutationBranchId.new("RPG_MAGE"),
-        MutationBranchId.new("RPG_MYSTIC"),
-        MutationBranchId.new("RPG_SCHOLAR"),
-        MutationBranchId.new("RPG_SCOUT"),
-        MutationBranchId.new("RPG_RANGER"),
-        MutationBranchId.new("RPG_ASSASSIN"),
-      }
-
-      for _, class_id in ipairs(all_classes) do
+      -- Remove all classes
+      for _, class_id in ipairs(ALL_CLASS_IDS) do
         if player:has_trait(class_id) then player:remove_mutation(class_id, true) end
       end
 
@@ -968,70 +738,8 @@ mod.manage_class_menu = function(player)
   end
 end
 
-local function check_trait_requirements(player, trait_id)
-  -- Maybe this is inefficient, but it's not run often enough for that to matter.
-  local str_val = player:get_str()
-  local dex_val = player:get_dex()
-  local int_val = player:get_int()
-  local per_val = player:get_per()
-
-  local requirements = {
-    RPG_TRAIT_BIONIC_SYMBIOTE = { stats = { INT = 10 } },
-    RPG_TRAIT_VITAL_ESSENCE = { stats = { PER = 12 } },
-    RPG_TRAIT_RADIOACTIVE_BLOOD = {},
-    RPG_TRAIT_IRON_HIDE = { stats = { STR = 12 } },
-    RPG_TRAIT_LIGHTWEIGHT = { stats = { DEX = 12 } },
-    RPG_TRAIT_PACK_MULE = { stats = { STR = 14 } },
-    RPG_TRAIT_TIRELESS = { stats = { STR = 10 } },
-    RPG_TRAIT_MANA_FONT = { stats = { INT = 14 } },
-    RPG_TRAIT_BLINK_STEP = { stats = { DEX = 14 } },
-    RPG_TRAIT_NATURAL_HEALER = { stats = { PER = 10 } },
-    RPG_TRAIT_ADAPTIVE_BIOLOGY = {},
-    RPG_TRAIT_GLASS_CANNON = { stats = { DEX = 16 } },
-    RPG_TRAIT_JUGGERNAUT = { stats = { STR = 18 } },
-    RPG_TRAIT_ARCANE_BATTERY = { stats = { INT = 16 } },
-    RPG_TRAIT_IRON_FISTS = { stats = { STR = 12 } },
-    RPG_TRAIT_COMBAT_REFLEXES = { stats = { DEX = 12 } },
-    RPG_TRAIT_ACROBAT = { stats = { DEX = 14 } },
-    RPG_TRAIT_EFFICIENT_METABOLISM = {},
-    RPG_TRAIT_TIRELESS_WORKER = { stats = { STR = 10 } },
-    RPG_TRAIT_RAPID_METABOLISM = { stats = { STR = 12 } },
-    RPG_TRAIT_SCENTLESS = { stats = { PER = 10 } },
-    RPG_TRAIT_CLOTTING_FACTOR = { stats = { STR = 10 } },
-    RPG_TRAIT_REGENERATOR = { stats = { STR = 14, PER = 10 } },
-    RPG_TRAIT_MASTER_CRAFTSMAN = { stats = { INT = 12, DEX = 12 } },
-    RPG_TRAIT_PACK_RAT = { stats = { STR = 10 } },
-    RPG_TRAIT_NATURAL_BUTCHER = { stats = { DEX = 10, PER = 10 }, skills = { survival = 2 } },
-  }
-
-  local reqs = requirements[trait_id]
-  if not reqs then return true, "" end
-
-  local unmet = {}
-
-  if reqs.stats then
-    if reqs.stats.STR and str_val < reqs.stats.STR then table.insert(unmet, string.format("STR %d", reqs.stats.STR)) end
-    if reqs.stats.DEX and dex_val < reqs.stats.DEX then table.insert(unmet, string.format("DEX %d", reqs.stats.DEX)) end
-    if reqs.stats.INT and int_val < reqs.stats.INT then table.insert(unmet, string.format("INT %d", reqs.stats.INT)) end
-    if reqs.stats.PER and per_val < reqs.stats.PER then table.insert(unmet, string.format("PER %d", reqs.stats.PER)) end
-  end
-
-  if reqs.skills then
-    for skill_name, required_level in pairs(reqs.skills) do
-      local skill_level = player:get_skill_level(SkillId.new(skill_name))
-      if skill_level < required_level then
-        local display_name = skill_name:gsub("^%l", string.upper)
-        table.insert(unmet, string.format("%s %d", display_name, required_level))
-      end
-    end
-  end
-
-  if #unmet > 0 then return false, "Requires: " .. table.concat(unmet, ", ") end
-
-  return true, ""
-end
-
 mod.manage_traits_menu = function(player)
+  local level = get_char_value(player, "rpg_level", 0)
   local num_traits = get_char_value(player, "rpg_num_traits", 0)
   local max_traits = get_char_value(player, "rpg_max_traits", 1)
 
@@ -1044,70 +752,50 @@ mod.manage_traits_menu = function(player)
   ui:title(string.format("=== Select Trait (%d/%d) ===", num_traits, max_traits))
   ui:desc_enabled(true)
 
-  local all_traits = {
-    MutationBranchId.new("RPG_TRAIT_BIONIC_SYMBIOTE"),
-    MutationBranchId.new("RPG_TRAIT_VITAL_ESSENCE"),
-    MutationBranchId.new("RPG_TRAIT_RADIOACTIVE_BLOOD"),
-    MutationBranchId.new("RPG_TRAIT_IRON_HIDE"),
-    MutationBranchId.new("RPG_TRAIT_LIGHTWEIGHT"),
-    MutationBranchId.new("RPG_TRAIT_PACK_MULE"),
-    MutationBranchId.new("RPG_TRAIT_TIRELESS"),
-    MutationBranchId.new("RPG_TRAIT_MANA_FONT"),
-    MutationBranchId.new("RPG_TRAIT_BLINK_STEP"),
-    MutationBranchId.new("RPG_TRAIT_NATURAL_HEALER"),
-    MutationBranchId.new("RPG_TRAIT_ADAPTIVE_BIOLOGY"),
-    MutationBranchId.new("RPG_TRAIT_GLASS_CANNON"),
-    MutationBranchId.new("RPG_TRAIT_JUGGERNAUT"),
-    MutationBranchId.new("RPG_TRAIT_ARCANE_BATTERY"),
-    MutationBranchId.new("RPG_TRAIT_IRON_FISTS"),
-    MutationBranchId.new("RPG_TRAIT_EFFICIENT_METABOLISM"),
-    MutationBranchId.new("RPG_TRAIT_COMBAT_REFLEXES"),
-    MutationBranchId.new("RPG_TRAIT_ACROBAT"),
-    MutationBranchId.new("RPG_TRAIT_TIRELESS_WORKER"),
-    MutationBranchId.new("RPG_TRAIT_RAPID_METABOLISM"),
-    MutationBranchId.new("RPG_TRAIT_SCENTLESS"),
-    MutationBranchId.new("RPG_TRAIT_CLOTTING_FACTOR"),
-    MutationBranchId.new("RPG_TRAIT_REGENERATOR"),
-    MutationBranchId.new("RPG_TRAIT_MASTER_CRAFTSMAN"),
-    MutationBranchId.new("RPG_TRAIT_PACK_RAT"),
-    MutationBranchId.new("RPG_TRAIT_NATURAL_BUTCHER"),
-  }
-
   local traits = {}
-  for i, trait_id in ipairs(all_traits) do
-    local already_has = player:has_trait(trait_id)
-    local trait_obj = trait_id:obj()
-    local trait_name = trait_obj:name()
-    local trait_desc = trait_obj:desc()
+  local index = 1
 
-    local meets_reqs, req_text = check_trait_requirements(player, trait_id:str())
+  -- Loop through all trait mutations
+  for id, mutation in pairs(MUTATIONS) do
+    if mutation.type == "trait" then
+      local trait_id = mutation:get_mutation_id()
+      local already_has = player:has_trait(trait_id)
+      local trait_obj = trait_id:obj()
+      local trait_name = trait_obj:name()
+      local trait_desc = trait_obj:desc()
 
-    local display_name
-    local can_select = not already_has and meets_reqs
+      local can_select_reqs, unmet = check_requirements(player, mutation, level)
+      local can_select = not already_has and can_select_reqs
 
-    if already_has then
-      display_name = color_text("✓ " .. trait_name, "dark_gray") .. color_text(" (Owned)", "dark_gray")
-    elseif not meets_reqs then
-      display_name = color_text("◆ " .. trait_name, "dark_gray") .. " - " .. color_bad(req_text)
-    else
-      display_name = color_good("◆ " .. trait_name)
+      local display_name
+      if already_has then
+        display_name = color_text("✓ " .. trait_name, "dark_gray") .. color_text(" (Owned)", "dark_gray")
+      elseif not can_select_reqs then
+        display_name = color_text("◆ " .. trait_name, "dark_gray")
+          .. " - "
+          .. format_requirements_list(unmet, false)
+      else
+        display_name = color_good("◆ " .. trait_name)
+      end
+
+      table.insert(traits, {
+        id = trait_id,
+        name = display_name,
+        desc = trait_desc,
+        can_select = can_select,
+        index = index,
+      })
+      index = index + 1
     end
-
-    table.insert(traits, {
-      id = trait_id,
-      name = display_name,
-      desc = trait_desc,
-      can_select = can_select,
-      index = i,
-    })
   end
 
+  -- Back option
   table.insert(traits, {
     name = color_text("← Back", "light_gray"),
     desc = "Return to main menu",
     action = "back",
     can_select = true,
-    index = #all_traits + 1,
+    index = index,
   })
 
   for i, trait in ipairs(traits) do
@@ -1121,7 +809,7 @@ mod.manage_traits_menu = function(player)
     local chosen = traits[choice_index]
 
     if not chosen.can_select then
-      if player:has_trait(chosen.id) then
+      if chosen.id and player:has_trait(chosen.id) then
         gapi.add_msg(MsgType.warning, color_warning("You already have this trait."))
       else
         gapi.add_msg(MsgType.warning, color_warning("You don't meet the requirements for this trait."))
