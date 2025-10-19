@@ -12,7 +12,7 @@
     "material": [ "superalloy" ],
     "symbol": "[",
     "color": "light_cyan",
-    "flags": [ "UNBREAKABLE_MELEE", "TRADER_AVOID", "PSEUDO", "NO_DROP", "CAN_HAVE_CHARGES" ],
+    "flags": [ "UNBREAKABLE_MELEE", "TRADER_AVOID", "PSEUDO", "CAN_HAVE_CHARGES" ],
     "use_action": [ "RPG_SYSTEM_MENU" ]
   },
   {
