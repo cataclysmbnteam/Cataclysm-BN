@@ -765,7 +765,12 @@
     "autolearn": true,
     "using": [ [ "sewing_standard", 40 ] ],
     "tools": [ [ [ "soldering_standard", 30, "LIST" ], [ "surface_heat", 30, "LIST" ] ] ],
-    "components": [ [ [ "rag", 8 ] ], [ [ "kevlar_plate", 4 ] ], [ [ "hood_rain", 1 ], [ "bag_plastic", 2 ], [ "bag_zipper", 2 ] ], [ [ "duct_tape", 100 ] ] ]
+    "components": [
+      [ [ "rag", 8 ] ],
+      [ [ "kevlar_plate", 4 ] ],
+      [ [ "hood_rain", 1 ], [ "bag_plastic", 2 ], [ "bag_zipper", 2 ] ],
+      [ [ "duct_tape", 100 ] ]
+    ]
   },
   {
     "result": "hood_rain",
