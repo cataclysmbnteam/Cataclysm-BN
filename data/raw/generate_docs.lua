@@ -7,9 +7,7 @@
 ]]
 --
 local sorted_by = function(t, f)
-  if not f then
-    f = function(a, b) return (a.k < b.k) end
-  end
+  if not f then f = function(a, b) return (a.k < b.k) end end
   local sorted = {}
   for k, v in pairs(t) do
     table.insert(sorted, { k = k, v = v })
@@ -33,14 +31,10 @@ end
 local fmt_arg_list = function(arg_list)
   local ret = ""
   local arg_list = remove_hidden_args(arg_list)
-  if #arg_list == 0 then
-    return ret
-  end
+  if #arg_list == 0 then return ret end
   local is_first = true
   for _, arg in pairs(arg_list) do
-    if not is_first then
-      ret = ret .. ","
-    end
+    if not is_first then ret = ret .. "," end
     ret = ret .. " " .. arg
     is_first = false
   end
@@ -74,17 +68,13 @@ local fmt_one_member = function(typename, member)
   elseif member.type == "func" then
     for _, overload in pairs(member.overloads) do
       if typename ~= nil and overload.args[1] == typename then
-        local tmp = {table.unpack(overload.args, 2)}
+        local tmp = { table.unpack(overload.args, 2) }
         ret = ret .. "  🇲 Method --> `" .. "(" .. fmt_arg_list(tmp) .. ")"
-        if overload.retval ~= "nil" then
-          ret = ret .. " -> " .. overload.retval
-        end
+        if overload.retval ~= "nil" then ret = ret .. " -> " .. overload.retval end
         ret = ret .. "`  \n"
       else
         ret = ret .. "  🇫 Function --> `(" .. fmt_arg_list(overload.args) .. ")"
-        if overload.retval ~= "nil" then
-          ret = ret .. " -> " .. overload.retval
-        end
+        if overload.retval ~= "nil" then ret = ret .. " -> " .. overload.retval end
         ret = ret .. "`  \n"
       end
     end
@@ -107,18 +97,14 @@ local fmt_members = function(typename, members)
   else
     local ret = ""
 
-    local ss = function(a,b)
-      local aName = a.v.name:upper();
-      local bName = b.v.name:upper();
+    local ss = function(a, b)
+      local aName = a.v.name:upper()
+      local bName = b.v.name:upper()
 
-      if aName:find("^__") and not bName:find("^__") then
-        return false
-      end
-      if not aName:find("^__") and bName:find("^__") then
-        return true
-      end
+      if aName:find("^__") and not bName:find("^__") then return false end
+      if not aName:find("^__") and bName:find("^__") then return true end
 
-      return aName < bName;
+      return aName < bName
     end
 
     local members_sorted = sorted_by(members, ss)
@@ -132,9 +118,7 @@ local fmt_members = function(typename, members)
     end
 
     for _, it in pairs(members_sorted) do
-      if not is_hidden(it.v) then
-        ret = ret .. fmt_one_member(typename, it.v) .. "\n"
-      end
+      if not is_hidden(it.v) then ret = ret .. fmt_one_member(typename, it.v) .. "\n" end
     end
     return ret
   end

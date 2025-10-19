@@ -337,9 +337,11 @@ void reg_itype( sol::state &lua )
         SET_FX_N( nname, "get_name" );
         SET_MEMB_N_RO( explosion, "explosion_data" );
         SET_MEMB_N_RO( m_to_hit, "melee_to_hit" );
-        luna::set_fx( ut, "source_mod", [](const UT_CLASS& c) {
+        luna::set_fx( ut, "source_mod", []( const UT_CLASS & c )
+        {
             std::vector<mod_id> rv {};
-            std::ranges::copy(c.src | std::views::transform([](auto& p) { return p.second; }), std::back_inserter(rv));
+            std::ranges::copy( c.src | std::views::transform( []( auto & p ) { return p.second; } ),
+            std::back_inserter( rv ) );
             return rv;
         } );
         SET_MEMB_RO( attacks );
@@ -362,8 +364,8 @@ void reg_itype( sol::state &lua )
         SET_MEMB_RO( min_skills );
         SET_MEMB_RO( min_str );
         SET_MEMB_RO( phase );
-        luna::set_fx( ut, "price", [](const UT_CLASS& c) { return c.price.value(); } );
-        luna::set_fx( ut, "price_post", [](const UT_CLASS& c) { return c.price.value(); } );
+        luna::set_fx( ut, "price", []( const UT_CLASS & c ) { return c.price.value(); } );
+        luna::set_fx( ut, "price_post", []( const UT_CLASS & c ) { return c.price.value(); } );
         SET_MEMB_RO( properties );
         SET_MEMB_RO( qualities );
         SET_MEMB_RO( recipes );

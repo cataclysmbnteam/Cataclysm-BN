@@ -48,7 +48,7 @@ class weapon_category
         translation name_;
 
     public:
-        LUA_TYPE_OPS(weapon_category, id);
+        LUA_TYPE_OPS( weapon_category, id );
 };
 
 matype_id martial_art_learned_from( const itype & );

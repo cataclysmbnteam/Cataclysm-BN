@@ -211,9 +211,7 @@ local fmt_variable_field = function(member, is_static)
     ret = ret .. " @"
     local first = true
     for line in string.gmatch(member.comment, "[^\r\n]+") do
-      if not first then
-        ret = ret .. " "
-      end
+      if not first then ret = ret .. " " end
       first = false
       ret = ret .. line
     end
