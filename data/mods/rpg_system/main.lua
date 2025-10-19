@@ -865,8 +865,8 @@ mod.manage_class_menu = function(player)
 
     local assassin_id = MutationBranchId.new("RPG_ASSASSIN")
     local throw_skill = player:get_skill_level(SkillId.new("throw"))
-    local chemistry_skill = player:get_skill_level(SkillId.new("chemistry"))
-    local assassin_meets = level >= 10 and dex_val >= 12 and int_val >= 8 and throw_skill >= 5 and chemistry_skill >= 4
+    local cooking_skill = player:get_skill_level(SkillId.new("cooking"))
+    local assassin_meets = level >= 10 and dex_val >= 12 and int_val >= 8 and throw_skill >= 5 and cooking_skill >= 4
 
     local assassin_text
     if assassin_meets then
@@ -880,7 +880,7 @@ mod.manage_class_menu = function(player)
         .. ", "
         .. format_requirement("Throwing", throw_skill, 5, true)
         .. ", "
-        .. format_requirement("Chemistry", chemistry_skill, 4, true)
+        .. format_requirement("Cooking", cooking_skill, 4, true)
       assassin_text = color_text("★ [Assassin]", "dark_gray") .. " - " .. reqs
     end
 
