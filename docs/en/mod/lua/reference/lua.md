@@ -2682,7 +2682,7 @@ No constructors.
   🇲 Method --> `() -> int`
 
 - #### get_mtype
-  🇲 Method --> `() -> MtypeId`
+  🇲 Method --> `() -> MonsterTypeId`
   > Almost for a corpse.
 
 - #### get_owner
@@ -3056,72 +3056,236 @@ No constructors.
 
 ### Members
 
-- #### ammo
-  🇲 Method --> `() -> IslotAmmo`
+- #### attacks
+  🇻 Variable --> `Map( string, <cppval: attack_statblock > )`
 
-- #### armor
-  🇲 Method --> `() -> IslotArmor`
+- #### can_have_charges
+  🇲 Method --> `() -> bool`
 
-- #### artifact
-  🇲 Method --> `() -> IslotArtifact`
+- #### can_use
+  🇲 Method --> `( string ) -> bool`
 
-- #### battery
-  🇲 Method --> `() -> IslotBattery`
+- #### charge_factor
+  🇲 Method --> `() -> int`
 
-- #### bionic
-  🇲 Method --> `() -> IslotBionic`
+- #### charges_default
+  🇲 Method --> `() -> int`
 
-- #### book
-  🇲 Method --> `() -> IslotBook`
+- #### charges_per_volume
+  🇲 Method --> `( Volume ) -> int`
 
-- #### brewable
-  🇲 Method --> `() -> IslotBrewable`
+- #### charges_to_use
+  🇲 Method --> `() -> int`
 
-- #### comestible
-  🇲 Method --> `() -> IslotComestible`
+- #### countdown_destroy
+  🇻 Variable --> `bool`
 
-- #### container
-  🇲 Method --> `() -> IslotContainer`
+- #### countdown_interval
+  🇻 Variable --> `int`
 
-- #### engine
-  🇲 Method --> `() -> IslotEngine`
+- #### damage_max
+  🇲 Method --> `() -> int`
 
-- #### fuel
-  🇲 Method --> `() -> IslotFuel`
+- #### damage_min
+  🇲 Method --> `() -> int`
+
+- #### default_container
+  🇻 Variable --> `Opt( ItypeId )`
+
+- #### emits
+  🇻 Variable --> `Set( FieldEmitId )`
+
+- #### explode_in_fire
+  🇻 Variable --> `bool`
+
+- #### explosion_data
+  🇻 Variable --> `<cppval: explosion_data >`
+
+- #### faults
+  🇻 Variable --> `Set( FaultId )`
+
+- #### get_countdown_action
+  🇲 Method --> `() -> string`
+
+- #### get_description
+  🇲 Method --> `( int ) -> string`
+
+- #### get_drop_action
+  🇲 Method --> `() -> string`
+
+- #### get_flags
+  🇲 Method --> `() -> <cppval: const std::set<string_id<json_flag>> & >`
 
 - #### get_name
   🇲 Method --> `( int ) -> string`
-  > Returns the name of the item type in the correct language and with respect to its grammatical number
 
-- #### gun
+- #### get_uses
+  🇲 Method --> `() -> Vector( string )`
+
+- #### has_flag
+  🇲 Method --> `( JsonFlagId ) -> bool`
+
+- #### has_use
+  🇲 Method --> `() -> bool`
+
+- #### integral_volume
+  🇻 Variable --> `Volume`
+
+- #### integral_weight
+  🇻 Variable --> `Mass`
+
+- #### is_stackable
+  🇲 Method --> `() -> bool`
+
+- #### item_tags
+  🇻 Variable --> `Set( JsonFlagId )`
+
+- #### layer
+  🇻 Variable --> `<cppval: layer_level >`
+
+- #### light_emission
+  🇻 Variable --> `int`
+
+- #### looks_like
+  🇻 Variable --> `ItypeId`
+
+- #### materials
+  🇻 Variable --> `Vector( MaterialTypeId )`
+
+- #### maximum_charges
+  🇲 Method --> `() -> int`
+
+- #### melee_to_hit
+  🇻 Variable --> `int`
+
+- #### min_dex
+  🇻 Variable --> `int`
+
+- #### min_int
+  🇻 Variable --> `int`
+
+- #### min_per
+  🇻 Variable --> `int`
+
+- #### min_skills
+  🇻 Variable --> `Map( SkillId, int )`
+
+- #### min_str
+  🇻 Variable --> `int`
+
+- #### phase
+  🇻 Variable --> `Phase`
+
+- #### price
+  🇲 Method --> `() -> int`
+
+- #### price_post
+  🇲 Method --> `() -> int`
+
+- #### properties
+  🇻 Variable --> `Map( string, string )`
+
+- #### qualities
+  🇻 Variable --> `Map( QualityId, int )`
+
+- #### recipes
+  🇻 Variable --> `Vector( RecipeId )`
+
+- #### repair
+  🇻 Variable --> `Set( ItypeId )`
+
+- #### repairs_like
+  🇻 Variable --> `ItypeId`
+
+- #### rigid
+  🇻 Variable --> `bool`
+
+- #### slot_ammo
+  🇲 Method --> `() -> IslotAmmo`
+
+- #### slot_armor
+  🇲 Method --> `() -> IslotArmor`
+
+- #### slot_artifact
+  🇲 Method --> `() -> IslotArtifact`
+
+- #### slot_battery
+  🇲 Method --> `() -> IslotBattery`
+
+- #### slot_bionic
+  🇲 Method --> `() -> IslotBionic`
+
+- #### slot_book
+  🇲 Method --> `() -> IslotBook`
+
+- #### slot_brewable
+  🇲 Method --> `() -> IslotBrewable`
+
+- #### slot_comestible
+  🇲 Method --> `() -> IslotComestible`
+
+- #### slot_container
+  🇲 Method --> `() -> IslotContainer`
+
+- #### slot_engine
+  🇲 Method --> `() -> IslotEngine`
+
+- #### slot_fuel
+  🇲 Method --> `() -> IslotFuel`
+
+- #### slot_gun
   🇲 Method --> `() -> IslotGun`
 
-- #### gunmod
+- #### slot_gunmod
   🇲 Method --> `() -> IslotGunmod`
 
-- #### magazine
+- #### slot_magazine
   🇲 Method --> `() -> IslotMagazine`
 
-- #### milling
+- #### slot_milling
   🇲 Method --> `() -> IslotMilling`
 
-- #### mod
+- #### slot_mod
   🇲 Method --> `() -> IslotMod`
 
-- #### pet_armor
+- #### slot_pet_armor
   🇲 Method --> `() -> IslotPetArmor`
 
-- #### relic
+- #### slot_relic
   🇲 Method --> `() -> Relic`
 
-- #### seed
+- #### slot_seed
   🇲 Method --> `() -> IslotSeed`
 
-- #### tool
+- #### slot_tool
   🇲 Method --> `() -> IslotTool`
 
-- #### wheel
+- #### slot_wheel
   🇲 Method --> `() -> IslotWheel`
+
+- #### source_mod
+  🇲 Method --> `() -> Vector( ModInfoId )`
+
+- #### stack_size
+  🇻 Variable --> `int`
+
+- #### techniques
+  🇻 Variable --> `Set( MartialArtsTechniqueId )`
+
+- #### thrown_damage
+  🇻 Variable --> `DamageInstance`
+
+- #### type_id
+  🇲 Method --> `() -> ItypeId`
+
+- #### volume
+  🇻 Variable --> `Volume`
+
+- #### weapon_category
+  🇻 Variable --> `Set( WeaponCategoryId )`
+
+- #### weight
+  🇻 Variable --> `Mass`
 
 ## JsonFlagId
 
@@ -3206,7 +3370,7 @@ No constructors.
   🇲 Method --> `( Tripoint )`
 
 - #### create_corpse_at
-  🇲 Method --> `( Tripoint, Opt( MtypeId ), Opt( TimePoint ), Opt( string ), Opt( int ) )`
+  🇲 Method --> `( Tripoint, Opt( MonsterTypeId ), Opt( TimePoint ), Opt( string ), Opt( int ) )`
   > Creates a new corpse at a position on the map. You can skip `Opt` ones by omitting them or passing `nil`. `MtypeId` specifies which monster's body it is, `TimePoint` indicates when it died, `string` gives it a custom name, and `int` determines the revival time if the monster has the `REVIVES` flag.
 
 - #### create_item_at
@@ -3751,7 +3915,7 @@ No base classes.
   > Returns the number of monsters required to kill for this mission.
 
 - #### monster_type
-  🇻 Variable --> `MtypeId`
+  🇻 Variable --> `MonsterTypeId`
   > Returns the monster type associated with the mission, if any.
 
 - #### origins
@@ -3849,7 +4013,7 @@ No constructors.
   🇻 Variable --> `int`
 
 - #### get_type
-  🇲 Method --> `() -> MtypeId`
+  🇲 Method --> `() -> MonsterTypeId`
 
 - #### get_upgrade_time
   🇲 Method --> `() -> int`
@@ -3970,6 +4134,38 @@ No base classes.
 - #### str_id
   🇲 Method --> `() -> MonsterFactionId`
 
+## MonsterTypeId
+
+### Bases
+
+No base classes.
+
+### Constructors
+
+- #### `MonsterTypeId.new()`
+- #### `MonsterTypeId.new( MonsterTypeId )`
+- #### `MonsterTypeId.new( string )`
+
+### Members
+
+- #### implements_int_id
+  🇫 Function --> `() -> bool`
+
+- #### is_null
+  🇲 Method --> `() -> bool`
+
+- #### is_valid
+  🇲 Method --> `() -> bool`
+
+- #### NULL_ID
+  🇫 Function --> `() -> MonsterTypeId`
+
+- #### obj
+  🇲 Method --> `() -> MonsterTypeRaw`
+
+- #### str
+  🇲 Method --> `() -> string`
+
 ## MoraleTypeDataId
 
 ### Bases
@@ -3998,38 +4194,6 @@ No base classes.
 
 - #### obj
   🇲 Method --> `() -> MoraleTypeDataRaw`
-
-- #### str
-  🇲 Method --> `() -> string`
-
-## MtypeId
-
-### Bases
-
-No base classes.
-
-### Constructors
-
-- #### `MtypeId.new()`
-- #### `MtypeId.new( MtypeId )`
-- #### `MtypeId.new( string )`
-
-### Members
-
-- #### implements_int_id
-  🇫 Function --> `() -> bool`
-
-- #### is_null
-  🇲 Method --> `() -> bool`
-
-- #### is_valid
-  🇲 Method --> `() -> bool`
-
-- #### NULL_ID
-  🇫 Function --> `() -> MtypeId`
-
-- #### obj
-  🇲 Method --> `() -> MtypeRaw`
 
 - #### str
   🇲 Method --> `() -> string`
@@ -6338,10 +6502,10 @@ Global game methods
   🇫 Function --> `() -> Opt( Tripoint )`
 
 - #### place_monster_around
-  🇫 Function --> `( MtypeId, Tripoint, int ) -> Monster`
+  🇫 Function --> `( MonsterTypeId, Tripoint, int ) -> Monster`
 
 - #### place_monster_at
-  🇫 Function --> `( MtypeId, Tripoint ) -> Monster`
+  🇫 Function --> `( MonsterTypeId, Tripoint ) -> Monster`
 
 - #### place_player_overmap_at
   🇫 Function --> `( Tripoint )`

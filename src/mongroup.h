@@ -73,7 +73,7 @@ struct MonsterGroup {
     bool is_safe = false; /// Used for @ref mongroup::is_safe()
     int freq_total = 0; // Default 1000 unless specified - max number to roll for spawns
 
-    LUA_TYPE_OPS(MonsterGroup, name);
+    LUA_TYPE_OPS( MonsterGroup, name );
 };
 
 struct mongroup {

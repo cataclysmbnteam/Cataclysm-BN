@@ -50,7 +50,7 @@ struct ammo_effect {
     public:
         static size_t count();
 
-    LUA_TYPE_OPS(ammo_effect, id);
+        LUA_TYPE_OPS( ammo_effect, id );
 };
 
 namespace ammo_effects

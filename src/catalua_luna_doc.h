@@ -82,6 +82,11 @@ class ammunition_type;
 struct ammo_effect;
 class martialart;
 struct common_ranged_data;
+struct MOD_INFORMATION;
+class weapon_category;
+class emit;
+class fault;
+struct quality;
 
 namespace units
 {
@@ -199,6 +204,7 @@ LUNA_ID( faction, "Faction" )
 LUNA_ID( field_type, "FieldType" )
 LUNA_ID( furn_t, "Furn" )
 LUNA_ID( itype, "Itype" )
+LUNA_ID( MOD_INFORMATION, "ModInfo" )
 LUNA_ID( json_flag, "JsonFlag" )
 LUNA_ID( json_trait_flag, "JsonTraitFlag" )
 LUNA_ID( ma_buff, "MartialArtsBuff" )
@@ -208,7 +214,7 @@ LUNA_ID( material_type, "MaterialType" )
 LUNA_ID( monfaction, "MonsterFaction" )
 LUNA_ID( morale_type_data, "MoraleTypeData" )
 LUNA_ID( mission_type_id, "MissionTypeId" )
-LUNA_ID( mtype, "Mtype" )
+LUNA_ID( mtype, "MonsterType" )
 LUNA_ID( mutation_branch, "MutationBranch" )
 LUNA_ID( mutation_category_trait, "MutationCategoryTrait" )
 LUNA_ID( recipe, "Recipe" )
@@ -218,6 +224,10 @@ LUNA_ID( spell_type, "SpellType" )
 LUNA_ID( ter_t, "Ter" )
 LUNA_ID( trap, "Trap" )
 LUNA_ID( MonsterGroup, "MonsterGroup" )
+LUNA_ID( weapon_category, "WeaponCategory" )
+LUNA_ID( emit, "FieldEmit" )
+LUNA_ID( fault, "Fault" )
+LUNA_ID( quality, "Quality" )
 
 // Enums
 LUNA_ENUM( add_type, "AddictionType" )
@@ -239,6 +249,7 @@ LUNA_ENUM( art_charge, "ArtifactCharge" )
 LUNA_ENUM( art_charge_req, "ArtifactChargeReq" )
 LUNA_ENUM( art_effect_active, "ArtifactEffectPassive" )
 LUNA_ENUM( art_effect_passive, "ArtifactEffectActive" )
+LUNA_ENUM( phase_id, "Phase" )
 
 // ISlot
 LUNA_VAL( islot_container, "IslotContainer" );

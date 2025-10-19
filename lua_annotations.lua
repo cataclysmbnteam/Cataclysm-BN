@@ -967,7 +967,7 @@ function IslotWheel.new() end
 ---@field get_category_id fun(arg1: Item): string @Gets the category id this item is in
 ---@field get_comestible_fun fun(arg1: Item): integer
 ---@field get_kcal fun(arg1: Item): integer
----@field get_mtype fun(arg1: Item): MtypeId @Almost for a corpse.
+---@field get_mtype fun(arg1: Item): MonsterTypeId @Almost for a corpse.
 ---@field get_owner fun(arg1: Item): FactionId @Gets the faction id that owns this item
 ---@field get_owner_name fun(arg1: Item): string
 ---@field get_quench fun(arg1: Item): integer
@@ -1093,28 +1093,83 @@ function ItypeId.new() end
 
 --- Slots for various item type properties. Each slot may contain a valid value or nil
 ---@class ItypeRaw
----@field ammo fun(arg1: ItypeRaw): IslotAmmo
----@field armor fun(arg1: ItypeRaw): IslotArmor
----@field artifact fun(arg1: ItypeRaw): IslotArtifact
----@field battery fun(arg1: ItypeRaw): IslotBattery
----@field bionic fun(arg1: ItypeRaw): IslotBionic
----@field book fun(arg1: ItypeRaw): IslotBook
----@field brewable fun(arg1: ItypeRaw): IslotBrewable
----@field comestible fun(arg1: ItypeRaw): IslotComestible
----@field container fun(arg1: ItypeRaw): IslotContainer
----@field engine fun(arg1: ItypeRaw): IslotEngine
----@field fuel fun(arg1: ItypeRaw): IslotFuel
----@field get_name fun(arg1: ItypeRaw, arg2: integer): string @Returns the name of the item type in the correct language and with respect to its grammatical number
----@field gun fun(arg1: ItypeRaw): IslotGun
----@field gunmod fun(arg1: ItypeRaw): IslotGunmod
----@field magazine fun(arg1: ItypeRaw): IslotMagazine
----@field milling fun(arg1: ItypeRaw): IslotMilling
----@field mod fun(arg1: ItypeRaw): IslotMod
----@field pet_armor fun(arg1: ItypeRaw): IslotPetArmor
----@field relic fun(arg1: ItypeRaw): Relic
----@field seed fun(arg1: ItypeRaw): IslotSeed
----@field tool fun(arg1: ItypeRaw): IslotTool
----@field wheel fun(arg1: ItypeRaw): IslotWheel
+---@field attacks any
+---@field countdown_destroy boolean
+---@field countdown_interval integer
+---@field default_container ItypeId?
+---@field emits FieldEmitId[]
+---@field explode_in_fire boolean
+---@field explosion_data any
+---@field faults FaultId[]
+---@field integral_volume Volume
+---@field integral_weight Mass
+---@field item_tags JsonFlagId[]
+---@field layer any
+---@field light_emission integer
+---@field looks_like ItypeId
+---@field materials MaterialTypeId[]
+---@field melee_to_hit integer
+---@field min_dex integer
+---@field min_int integer
+---@field min_per integer
+---@field min_skills table<SkillId, int>
+---@field min_str integer
+---@field phase Phase
+---@field properties table<string, string>
+---@field qualities table<QualityId, int>
+---@field recipes RecipeId[]
+---@field repair ItypeId[]
+---@field repairs_like ItypeId
+---@field rigid boolean
+---@field stack_size integer
+---@field techniques MartialArtsTechniqueId[]
+---@field thrown_damage DamageInstance
+---@field volume Volume
+---@field weapon_category WeaponCategoryId[]
+---@field weight Mass
+---@field can_have_charges fun(arg1: ItypeRaw): boolean
+---@field can_use fun(arg1: ItypeRaw, arg2: string): boolean
+---@field charge_factor fun(arg1: ItypeRaw): integer
+---@field charges_default fun(arg1: ItypeRaw): integer
+---@field charges_per_volume fun(arg1: ItypeRaw, arg2: Volume): integer
+---@field charges_to_use fun(arg1: ItypeRaw): integer
+---@field damage_max fun(arg1: ItypeRaw): integer
+---@field damage_min fun(arg1: ItypeRaw): integer
+---@field get_countdown_action fun(arg1: ItypeRaw): string
+---@field get_description fun(arg1: ItypeRaw, arg2: integer): string
+---@field get_drop_action fun(arg1: ItypeRaw): string
+---@field get_flags fun(arg1: ItypeRaw): any
+---@field get_name fun(arg1: ItypeRaw, arg2: integer): string
+---@field get_uses fun(arg1: ItypeRaw): string[]
+---@field has_flag fun(arg1: ItypeRaw, arg2: JsonFlagId): boolean
+---@field has_use fun(arg1: ItypeRaw): boolean
+---@field is_stackable fun(arg1: ItypeRaw): boolean
+---@field maximum_charges fun(arg1: ItypeRaw): integer
+---@field price fun(arg1: ItypeRaw): integer
+---@field price_post fun(arg1: ItypeRaw): integer
+---@field slot_ammo fun(arg1: ItypeRaw): IslotAmmo
+---@field slot_armor fun(arg1: ItypeRaw): IslotArmor
+---@field slot_artifact fun(arg1: ItypeRaw): IslotArtifact
+---@field slot_battery fun(arg1: ItypeRaw): IslotBattery
+---@field slot_bionic fun(arg1: ItypeRaw): IslotBionic
+---@field slot_book fun(arg1: ItypeRaw): IslotBook
+---@field slot_brewable fun(arg1: ItypeRaw): IslotBrewable
+---@field slot_comestible fun(arg1: ItypeRaw): IslotComestible
+---@field slot_container fun(arg1: ItypeRaw): IslotContainer
+---@field slot_engine fun(arg1: ItypeRaw): IslotEngine
+---@field slot_fuel fun(arg1: ItypeRaw): IslotFuel
+---@field slot_gun fun(arg1: ItypeRaw): IslotGun
+---@field slot_gunmod fun(arg1: ItypeRaw): IslotGunmod
+---@field slot_magazine fun(arg1: ItypeRaw): IslotMagazine
+---@field slot_milling fun(arg1: ItypeRaw): IslotMilling
+---@field slot_mod fun(arg1: ItypeRaw): IslotMod
+---@field slot_pet_armor fun(arg1: ItypeRaw): IslotPetArmor
+---@field slot_relic fun(arg1: ItypeRaw): Relic
+---@field slot_seed fun(arg1: ItypeRaw): IslotSeed
+---@field slot_tool fun(arg1: ItypeRaw): IslotTool
+---@field slot_wheel fun(arg1: ItypeRaw): IslotWheel
+---@field source_mod fun(arg1: ItypeRaw): ModInfoId[]
+---@field type_id fun(arg1: ItypeRaw): ItypeId
 ItypeRaw = {}
 ---@return ItypeRaw
 function ItypeRaw.new() end
@@ -1154,7 +1209,7 @@ function JsonTraitFlagId.new() end
 ---@class Map
 ---@field add_field_at fun(arg1: Map, arg2: Tripoint, arg3: FieldTypeIntId, arg4: integer, arg5: TimeDuration): boolean
 ---@field clear_items_at fun(arg1: Map, arg2: Tripoint)
----@field create_corpse_at fun(arg1: Map, arg2: Tripoint, arg3: MtypeId?, arg4: TimePoint?, arg5: string?, arg6: int?) @Creates a new corpse at a position on the map. You can skip `Opt` ones by omitting them or passing `nil`. `MtypeId` specifies which monster's body it is, `TimePoint` indicates when it died, `string` gives it a custom name, and `int` determines the revival time if the monster has the `REVIVES` flag.
+---@field create_corpse_at fun(arg1: Map, arg2: Tripoint, arg3: MonsterTypeId?, arg4: TimePoint?, arg5: string?, arg6: int?) @Creates a new corpse at a position on the map. You can skip `Opt` ones by omitting them or passing `nil`. `MtypeId` specifies which monster's body it is, `TimePoint` indicates when it died, `string` gives it a custom name, and `int` determines the revival time if the monster has the `REVIVES` flag.
 ---@field create_item_at fun(arg1: Map, arg2: Tripoint, arg3: ItypeId, arg4: integer) @Creates a new item(s) at a position on the map.
 ---@field disarm_trap_at fun(arg1: Map, arg2: Tripoint) @Disarms a trap using your skills and stats, with consequences depending on success or failure.
 ---@field get_abs_ms fun(arg1: Map, arg2: Tripoint): Tripoint @Convert local ms -> absolute ms
@@ -1350,7 +1405,7 @@ function Mission.new() end
 ---@field item_id ItypeId @Returns the ID of the mission's main item target, if applicable.
 ---@field likely_rewards any @Returns a vector of likely rewards (chance, itype_id pairs).
 ---@field monster_kill_goal integer @Returns the number of monsters required to kill for this mission.
----@field monster_type MtypeId @Returns the monster type associated with the mission, if any.
+---@field monster_type MonsterTypeId @Returns the monster type associated with the mission, if any.
 ---@field origins MissionOrigin[] @Returns a list of origins from which this mission can be generated.
 ---@field remove_container boolean @Returns true if the mission requires removing a container.
 ---@field target_npc_id CharacterId @Returns the ID of the target NPC for the mission, if any.
@@ -1387,7 +1442,7 @@ function MissionTypeIdRaw.new() end
 ---@field climbs fun(arg1: Monster): boolean
 ---@field digs fun(arg1: Monster): boolean
 ---@field flies fun(arg1: Monster): boolean
----@field get_type fun(arg1: Monster): MtypeId
+---@field get_type fun(arg1: Monster): MonsterTypeId
 ---@field get_upgrade_time fun(arg1: Monster): integer
 ---@field hasten_upgrade fun(arg1: Monster)
 ---@field heal fun(arg1: Monster, arg2: integer, arg3: boolean): integer
@@ -1439,6 +1494,22 @@ MonsterFactionIntId = {}
 ---@overload fun(arg1: MonsterFactionId): MonsterFactionIntId
 function MonsterFactionIntId.new() end
 
+---@class MonsterTypeId
+---@field NULL_ID fun(): MonsterTypeId
+---@field implements_int_id fun(): boolean
+---@field is_null fun(arg1: MonsterTypeId): boolean
+---@field is_valid fun(arg1: MonsterTypeId): boolean
+---@field obj fun(arg1: MonsterTypeId): MonsterTypeRaw
+---@field str fun(arg1: MonsterTypeId): string
+---@field serialize fun(arg1: MonsterTypeId)
+---@field deserialize fun(arg1: MonsterTypeId)
+---@field __tostring fun(arg1: MonsterTypeId): string
+MonsterTypeId = {}
+---@return MonsterTypeId
+---@overload fun(arg1: MonsterTypeId): MonsterTypeId
+---@overload fun(arg1: string): MonsterTypeId
+function MonsterTypeId.new() end
+
 ---@class MoraleTypeDataId
 ---@field NULL_ID fun(): MoraleTypeDataId
 ---@field implements_int_id fun(): boolean
@@ -1454,22 +1525,6 @@ MoraleTypeDataId = {}
 ---@overload fun(arg1: MoraleTypeDataId): MoraleTypeDataId
 ---@overload fun(arg1: string): MoraleTypeDataId
 function MoraleTypeDataId.new() end
-
----@class MtypeId
----@field NULL_ID fun(): MtypeId
----@field implements_int_id fun(): boolean
----@field is_null fun(arg1: MtypeId): boolean
----@field is_valid fun(arg1: MtypeId): boolean
----@field obj fun(arg1: MtypeId): MtypeRaw
----@field str fun(arg1: MtypeId): string
----@field serialize fun(arg1: MtypeId)
----@field deserialize fun(arg1: MtypeId)
----@field __tostring fun(arg1: MtypeId): string
-MtypeId = {}
----@return MtypeId
----@overload fun(arg1: MtypeId): MtypeId
----@overload fun(arg1: string): MtypeId
-function MtypeId.new() end
 
 ---@class MutationBranchId
 ---@field NULL_ID fun(): MutationBranchId
@@ -2138,8 +2193,8 @@ coords = {}
 ---@field get_monster_at fun(arg1: Tripoint, arg2: bool?): Monster
 ---@field get_npc_at fun(arg1: Tripoint, arg2: bool?): Npc
 ---@field look_around fun(): Tripoint?
----@field place_monster_around fun(arg1: MtypeId, arg2: Tripoint, arg3: integer): Monster
----@field place_monster_at fun(arg1: MtypeId, arg2: Tripoint): Monster
+---@field place_monster_around fun(arg1: MonsterTypeId, arg2: Tripoint, arg3: integer): Monster
+---@field place_monster_at fun(arg1: MonsterTypeId, arg2: Tripoint): Monster
 ---@field place_player_overmap_at fun(arg1: Tripoint)
 ---@field play_ambient_variant_sound fun(arg1: string, arg2: string, arg3: integer, arg4: SfxChannel, arg5: integer, arg6: number, arg7: integer)
 ---@field play_variant_sound fun(arg1: string, arg2: string, arg3: integer) | fun(arg1: string, arg2: string, arg3: integer, arg4: Angle, arg5: number, arg6: number)

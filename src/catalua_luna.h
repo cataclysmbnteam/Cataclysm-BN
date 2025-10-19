@@ -192,6 +192,16 @@ std::string doc_value( sol::types<std::map<Key, Val>> )
     return ret + " )";
 }
 
+template<typename T, typename U>
+std::string doc_value( sol::types<std::pair<T, U>> )
+{
+    std::string ret = "Pair( ";
+    ret += doc_value( sol::types<T>() );
+    ret += ", ";
+    ret += doc_value( sol::types<U>() );
+    return ret + " )";
+}
+
 template<typename Val>
 std::string doc_value( sol::types<Val> )
 {
