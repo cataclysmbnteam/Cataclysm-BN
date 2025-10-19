@@ -133,7 +133,7 @@
     "id": "RPG_CRAFTSMAN",
     "name": "[Craftsman]",
     "points": 0,
-    "description": "Master of all trades. Your skilled hands work with incredible precision (+1 to all crafting skills). Per level: +0.2 STR, +0.3 DEX, +0.4 INT, +0.6 PER",
+    "description": "Master of all trades. Your skilled hands work with incredible precision (+1 to all crafting skills, +40% crafting speed). Per level: +0.2 STR, +0.3 DEX, +0.4 INT, +0.6 PER",
     "valid": false,
     "purifiable": false,
     "player_display": true,
@@ -147,7 +147,8 @@
       [ "fabrication", 4 ],
       [ "cooking", 4 ],
       [ "survival", 4 ]
-    ]
+    ],
+    "crafting_speed_modifier": 1.4
   },
   {
     "type": "mutation",
