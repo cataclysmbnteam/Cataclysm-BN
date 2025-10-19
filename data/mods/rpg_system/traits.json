@@ -113,7 +113,7 @@
     "id": "RPG_TRAIT_BIONIC_SYMBIOTE",
     "name": "[Bionic Symbiote]",
     "points": 0,
-    "description": "Your cells integrate seamlessly with cybernetics. Your body naturally generates bionic power (regenerates 1 kJ per level every 5 minutes).",
+    "description": "Your cells integrate seamlessly with cybernetics. Your body naturally generates bionic power (regenerates 2 kJ per level every 5 minutes).",
     "valid": false,
     "purifiable": false,
     "player_display": true

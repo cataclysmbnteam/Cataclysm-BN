@@ -403,7 +403,7 @@ mod.on_every_5_minutes = function()
   end
 
   if player:has_trait(MutationBranchId.new("RPG_TRAIT_BIONIC_SYMBIOTE")) then
-    local power_regen = Energy.from_joule(math.floor(level * 1 * 1000 * level_scaling))
+    local power_regen = Energy.from_joule(math.floor(level * 2 * 1000 * level_scaling))
     player:mod_power_level(power_regen)
   end
 end
