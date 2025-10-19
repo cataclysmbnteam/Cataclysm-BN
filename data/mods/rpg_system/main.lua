@@ -247,7 +247,9 @@ mod.on_monster_killed = function(params)
   if not killer or not monster then return end
   if not killer:is_avatar() then return end
 
-  local player = killer
+  local player = killer:as_character()
+  if not player then return end
+
   local exp = get_char_value(player, "rpg_exp", 0)
   local old_level = get_char_value(player, "rpg_level", 0)
 

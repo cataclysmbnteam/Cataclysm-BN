@@ -100,7 +100,7 @@
     "purifiable": false,
     "player_display": true,
     "movecost_modifier": 0.92,
-    "dodge_bonus": 6
+    "dodge_modifier": 6
   },
   {
     "type": "mutation",
