@@ -148,7 +148,7 @@ local MUTATIONS = {
   RPG_TRAIT_VITAL_ESSENCE = Mutation.new({
     id = "RPG_TRAIT_VITAL_ESSENCE",
     type = "trait",
-    requirements = { stats = { PER = 12 } },
+    requirements = { level = 5, stats = { PER = 12 } },
     periodic_bonuses = { healthy_mod = 0.1 },
   }),
 
@@ -162,19 +162,19 @@ local MUTATIONS = {
   RPG_TRAIT_IRON_HIDE = Mutation.new({
     id = "RPG_TRAIT_IRON_HIDE",
     type = "trait",
-    requirements = { stats = { STR = 12 } },
+    requirements = { level = 5, stats = { STR = 12 } },
   }),
 
   RPG_TRAIT_LIGHTWEIGHT = Mutation.new({
     id = "RPG_TRAIT_LIGHTWEIGHT",
     type = "trait",
-    requirements = { stats = { DEX = 12 } },
+    requirements = { level = 5, stats = { DEX = 12 } },
   }),
 
   RPG_TRAIT_PACK_MULE = Mutation.new({
     id = "RPG_TRAIT_PACK_MULE",
     type = "trait",
-    requirements = { stats = { STR = 14 } },
+    requirements = { level = 5, stats = { STR = 14 } },
   }),
 
   RPG_TRAIT_TIRELESS = Mutation.new({
@@ -186,19 +186,19 @@ local MUTATIONS = {
   RPG_TRAIT_MANA_FONT = Mutation.new({
     id = "RPG_TRAIT_MANA_FONT",
     type = "trait",
-    requirements = { stats = { INT = 14 } },
+    requirements = { level = 5, stats = { INT = 14 } },
   }),
 
   RPG_TRAIT_BLINK_STEP = Mutation.new({
     id = "RPG_TRAIT_BLINK_STEP",
     type = "trait",
-    requirements = { stats = { DEX = 14 } },
+    requirements = { level = 5, stats = { DEX = 14 } },
   }),
 
   RPG_TRAIT_NATURAL_HEALER = Mutation.new({
     id = "RPG_TRAIT_NATURAL_HEALER",
     type = "trait",
-    requirements = { stats = { PER = 10 } },
+    requirements = { level = 5, stats = { PER = 12 } },
   }),
 
   RPG_TRAIT_ADAPTIVE_BIOLOGY = Mutation.new({
@@ -210,25 +210,25 @@ local MUTATIONS = {
   RPG_TRAIT_GLASS_CANNON = Mutation.new({
     id = "RPG_TRAIT_GLASS_CANNON",
     type = "trait",
-    requirements = { stats = { DEX = 16 } },
+    requirements = { level = 10, stats = { DEX = 16 } },
   }),
 
   RPG_TRAIT_JUGGERNAUT = Mutation.new({
     id = "RPG_TRAIT_JUGGERNAUT",
     type = "trait",
-    requirements = { stats = { STR = 18 } },
+    requirements = { level = 10, stats = { STR = 18 } },
   }),
 
   RPG_TRAIT_ARCANE_BATTERY = Mutation.new({
     id = "RPG_TRAIT_ARCANE_BATTERY",
     type = "trait",
-    requirements = { stats = { INT = 16 } },
+    requirements = { level = 10, stats = { INT = 16 } },
   }),
 
   RPG_TRAIT_IRON_FISTS = Mutation.new({
     id = "RPG_TRAIT_IRON_FISTS",
     type = "trait",
-    requirements = { stats = { STR = 12 } },
+    requirements = { level = 5, stats = { STR = 12 } },
   }),
 
   RPG_TRAIT_EFFICIENT_METABOLISM = Mutation.new({
@@ -240,13 +240,13 @@ local MUTATIONS = {
   RPG_TRAIT_COMBAT_REFLEXES = Mutation.new({
     id = "RPG_TRAIT_COMBAT_REFLEXES",
     type = "trait",
-    requirements = { stats = { DEX = 12 } },
+    requirements = { level = 5, stats = { DEX = 12 } },
   }),
 
   RPG_TRAIT_ACROBAT = Mutation.new({
     id = "RPG_TRAIT_ACROBAT",
     type = "trait",
-    requirements = { stats = { DEX = 14 } },
+    requirements = { level = 5, stats = { DEX = 14 } },
   }),
 
   RPG_TRAIT_TIRELESS_WORKER = Mutation.new({
@@ -258,7 +258,7 @@ local MUTATIONS = {
   RPG_TRAIT_RAPID_METABOLISM = Mutation.new({
     id = "RPG_TRAIT_RAPID_METABOLISM",
     type = "trait",
-    requirements = { stats = { STR = 12 } },
+    requirements = { level = 5, stats = { STR = 12 } },
   }),
 
   RPG_TRAIT_SCENTLESS = Mutation.new({
@@ -276,13 +276,13 @@ local MUTATIONS = {
   RPG_TRAIT_REGENERATOR = Mutation.new({
     id = "RPG_TRAIT_REGENERATOR",
     type = "trait",
-    requirements = { stats = { STR = 14, PER = 10 } },
+    requirements = { level = 5, stats = { STR = 14, PER = 10 } },
   }),
 
   RPG_TRAIT_MASTER_CRAFTSMAN = Mutation.new({
     id = "RPG_TRAIT_MASTER_CRAFTSMAN",
     type = "trait",
-    requirements = { stats = { INT = 12, DEX = 12 } },
+    requirements = { level = 5, stats = { INT = 12, DEX = 12 } },
   }),
 
   RPG_TRAIT_PACK_RAT = Mutation.new({

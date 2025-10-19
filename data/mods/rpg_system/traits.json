@@ -154,11 +154,11 @@
     "id": "RPG_TRAIT_LIGHTWEIGHT",
     "name": "[Lightweight Frame]",
     "points": 0,
-    "description": "Your body is optimized for speed over strength. You move much faster but can't carry as much (15% faster movement, 25% less carry capacity).",
+    "description": "Your body is optimized for speed over strength. You move much faster but can't carry as much (25% faster movement, 25% less carry capacity).",
     "valid": false,
     "purifiable": false,
     "player_display": true,
-    "movecost_modifier": 0.85,
+    "movecost_modifier": 0.75,
     "weight_capacity_modifier": 0.75
   },
   {
