@@ -588,7 +588,12 @@ void use_item( avatar &you, item &used )
             add_msg( _( "You can't do anything interesting with your %s." ), used.tname() );
             return;
         }
-        you.invoke_item( &used, used.position() );
+        if( used.has_flag( flag_BIONIC_TOOLS ) ) {
+            item *bio_tool = &*item::spawn( used );
+            you.invoke_item( bio_tool );
+        } else {
+            you.invoke_item( &used, used.position() );
+        }
 
     } else if( is_pet_food( used ) ) {
         you.invoke_item( &used, used.position() );

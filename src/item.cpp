@@ -11079,6 +11079,9 @@ item &item::obtain( Character &ch, int qty, bool costs_moves )
 
 int item::obtain_cost( const Character &ch, int qty ) const
 {
+    if( has_flag( flag_BIONIC_TOOLS ) ) {
+        return 10;
+    }
     if( !loc ) {
         debugmsg( "Tried to find obtain cost of an item without a location" );
         return 0;
