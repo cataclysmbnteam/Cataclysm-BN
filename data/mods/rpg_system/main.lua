@@ -86,9 +86,7 @@ local function set_char_value(char, key, value) char:set_value(key, tostring(val
 -- Common requirement checking and formatting
 local function check_requirements(player, mutation, current_level)
   local reqs = mutation.requirements
-  if not reqs or (not reqs.level and not reqs.stats and not reqs.skills) then
-    return true, {}
-  end
+  if not reqs or (not reqs.level and not reqs.stats and not reqs.skills) then return true, {} end
 
   local unmet = {}
 
@@ -289,9 +287,7 @@ mod.on_monster_killed = function(params)
     -- Calculate stat points earned by iterating through levels crossed
     local stat_points_earned = 0
     for level = old_level + 1, new_level do
-      if level % LEVELS_PER_STAT_POINT == 0 then
-        stat_points_earned = stat_points_earned + 1
-      end
+      if level % LEVELS_PER_STAT_POINT == 0 then stat_points_earned = stat_points_earned + 1 end
     end
 
     if stat_points_earned > 0 then
@@ -300,7 +296,9 @@ mod.on_monster_killed = function(params)
       set_char_value(player, "rpg_stat_points", stat_points)
       gapi.add_msg(
         MsgType.good,
-        color_good(string.format("✦ %d stat point%s earned!", stat_points_earned, stat_points_earned > 1 and "s" or ""))
+        color_good(
+          string.format("✦ %d stat point%s earned!", stat_points_earned, stat_points_earned > 1 and "s" or "")
+        )
           .. " You have "
           .. color_highlight(stat_points)
           .. " unassigned stat point"
@@ -356,21 +354,11 @@ mod.on_character_reset_stats = function(params)
       local mutation = MUTATIONS[mutation_id:str()]
       local bonuses = mutation.stat_bonuses
 
-      if bonuses.str then
-        character:mod_str_bonus(math.floor(level * bonuses.str * level_scaling))
-      end
-      if bonuses.dex then
-        character:mod_dex_bonus(math.floor(level * bonuses.dex * level_scaling))
-      end
-      if bonuses.int then
-        character:mod_int_bonus(math.floor(level * bonuses.int * level_scaling))
-      end
-      if bonuses.per then
-        character:mod_per_bonus(math.floor(level * bonuses.per * level_scaling))
-      end
-      if bonuses.speed then
-        character:mod_speed_bonus(math.floor(level * bonuses.speed * level_scaling))
-      end
+      if bonuses.str then character:mod_str_bonus(math.floor(level * bonuses.str * level_scaling)) end
+      if bonuses.dex then character:mod_dex_bonus(math.floor(level * bonuses.dex * level_scaling)) end
+      if bonuses.int then character:mod_int_bonus(math.floor(level * bonuses.int * level_scaling)) end
+      if bonuses.per then character:mod_per_bonus(math.floor(level * bonuses.per * level_scaling)) end
+      if bonuses.speed then character:mod_speed_bonus(math.floor(level * bonuses.speed * level_scaling)) end
     end
   end
 end
@@ -390,21 +378,11 @@ mod.on_every_5_minutes = function()
       local mutation = MUTATIONS[mutation_id:str()]
       local bonuses = mutation.periodic_bonuses
 
-      if bonuses.fatigue then
-        player:mod_fatigue(math.floor(level * bonuses.fatigue * level_scaling))
-      end
-      if bonuses.stamina then
-        player:mod_stamina(math.floor(level * bonuses.stamina * level_scaling))
-      end
-      if bonuses.thirst then
-        player:mod_thirst(math.floor(level * bonuses.thirst * level_scaling))
-      end
-      if bonuses.rad then
-        player:mod_rad(math.floor(level * bonuses.rad * level_scaling))
-      end
-      if bonuses.healthy_mod then
-        player:mod_healthy_mod(bonuses.healthy_mod * level * level_scaling, 100)
-      end
+      if bonuses.fatigue then player:mod_fatigue(math.floor(level * bonuses.fatigue * level_scaling)) end
+      if bonuses.stamina then player:mod_stamina(math.floor(level * bonuses.stamina * level_scaling)) end
+      if bonuses.thirst then player:mod_thirst(math.floor(level * bonuses.thirst * level_scaling)) end
+      if bonuses.rad then player:mod_rad(math.floor(level * bonuses.rad * level_scaling)) end
+      if bonuses.healthy_mod then player:mod_healthy_mod(bonuses.healthy_mod * level * level_scaling, 100) end
       if bonuses.power_level then
         local power_regen = Energy.from_joule(math.floor(level * bonuses.power_level * 1000 * level_scaling))
         player:mod_power_level(power_regen)
@@ -468,7 +446,11 @@ mod.open_rpg_menu = function(who, item, pos)
 
     local stat_points = get_char_value(player, "rpg_stat_points", 0)
     -- TODO: Fix this so stats refresh automatically without needing to close and wait
-    info_text = info_text .. color_highlight("Stats:") .. " " .. color_text("(Close and wait one turn to refresh)", "light_gray") .. "\n"
+    info_text = info_text
+      .. color_highlight("Stats:")
+      .. " "
+      .. color_text("(Close and wait one turn to refresh)", "light_gray")
+      .. "\n"
     info_text = info_text
       .. string.format(
         "  %s %s  %s %s  %s %s  %s %s\n",
@@ -727,8 +709,7 @@ mod.manage_class_menu = function(player)
   if has_class(player) then
     table.insert(options, {
       text = color_bad("✖ Abandon class"),
-      desc = color_warning("WARNING: ")
-        .. "Damages your soul for 3 days, with severe penalties.",
+      desc = color_warning("WARNING: ") .. "Damages your soul for 3 days, with severe penalties.",
       action = "abandon",
       can_select = true,
       index = index,
@@ -817,9 +798,7 @@ mod.manage_traits_menu = function(player)
       elseif not has_available_slots then
         display_name = color_text("◆ " .. trait_name, "dark_gray") .. color_text(" (No slots available)", "dark_gray")
       elseif not can_select_reqs then
-        display_name = color_text("◆ " .. trait_name, "dark_gray")
-          .. " - "
-          .. format_requirements_list(unmet, false)
+        display_name = color_text("◆ " .. trait_name, "dark_gray") .. " - " .. format_requirements_list(unmet, false)
       else
         display_name = color_good("◆ " .. trait_name)
       end

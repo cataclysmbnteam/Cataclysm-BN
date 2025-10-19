@@ -17,9 +17,7 @@ function Mutation.new(config)
   return self
 end
 
-function Mutation:get_mutation_id()
-  return MutationBranchId.new(self.id)
-end
+function Mutation:get_mutation_id() return MutationBranchId.new(self.id) end
 
 local MUTATIONS = {
   -- Base Classes
@@ -66,7 +64,7 @@ local MUTATIONS = {
     requirements = {
       level = 10,
       stats = { STR = 12, DEX = 8 },
-      skills = { melee = 6, unarmed = 5 }
+      skills = { melee = 6, unarmed = 5 },
     },
     stat_bonuses = { str = 0.75, dex = 0.45, int = 0.1, per = 0.2 },
     periodic_bonuses = { fatigue = -0.5, stamina = 20 },
@@ -81,7 +79,7 @@ local MUTATIONS = {
     requirements = {
       level = 10,
       stats = { STR = 12, PER = 8 },
-      skills = { dodge = 6, firstaid = 4 }
+      skills = { dodge = 6, firstaid = 4 },
     },
     stat_bonuses = { str = 0.6, dex = 0.15, int = 0.15, per = 0.6 },
     periodic_bonuses = { fatigue = -0.5, stamina = 20 },
@@ -97,7 +95,7 @@ local MUTATIONS = {
     requirements = {
       level = 10,
       stats = { INT = 12, PER = 8 },
-      skills = { spellcraft = 6 }
+      skills = { spellcraft = 6 },
     },
     stat_bonuses = { str = 0.1, dex = 0.2, int = 0.75, per = 0.45 },
   }),
@@ -111,7 +109,7 @@ local MUTATIONS = {
     requirements = {
       level = 10,
       stats = { INT = 12, PER = 8 },
-      skills = { computer = 6 }
+      skills = { computer = 6 },
     },
     stat_bonuses = { str = 0.05, dex = 0.15, int = 0.8, per = 0.5 },
   }),
@@ -126,7 +124,7 @@ local MUTATIONS = {
     requirements = {
       level = 10,
       stats = { DEX = 12, PER = 8 },
-      skills = { dodge = 6, melee = 5 }
+      skills = { dodge = 6, melee = 5 },
     },
     stat_bonuses = { str = 0.1, dex = 0.8, int = 0.2, per = 0.4, speed = 1.5 },
   }),
@@ -140,7 +138,7 @@ local MUTATIONS = {
     requirements = {
       level = 10,
       stats = { DEX = 12, INT = 8 },
-      skills = { throw = 5, cooking = 4 }
+      skills = { throw = 5, cooking = 4 },
     },
     stat_bonuses = { str = 0.1, dex = 0.75, int = 0.35, per = 0.3, speed = 1.5 },
   }),
@@ -155,7 +153,7 @@ local MUTATIONS = {
     requirements = {
       level = 10,
       stats = { PER = 12, DEX = 10 },
-      skills = { archery = 6, survival = 5 }
+      skills = { archery = 6, survival = 5 },
     },
     stat_bonuses = { str = 0.15, dex = 0.45, int = 0.1, per = 0.8, speed = 1 },
     periodic_bonuses = { thirst = -1.5 },
@@ -170,7 +168,7 @@ local MUTATIONS = {
     requirements = {
       level = 10,
       stats = { PER = 12, INT = 10 },
-      skills = { fabrication = 5, mechanics = 5 }
+      skills = { fabrication = 5, mechanics = 5 },
     },
     stat_bonuses = { str = 0.2, dex = 0.3, int = 0.4, per = 0.6 },
   }),
@@ -366,17 +364,11 @@ for id, mutation in pairs(MUTATIONS) do
     table.insert(ALL_TRAIT_IDS, mutation_id)
   end
 
-  if next(mutation.stat_bonuses) ~= nil then
-    table.insert(STAT_BONUS_IDS, mutation_id)
-  end
+  if next(mutation.stat_bonuses) ~= nil then table.insert(STAT_BONUS_IDS, mutation_id) end
 
-  if next(mutation.periodic_bonuses) ~= nil then
-    table.insert(PERIODIC_BONUS_IDS, mutation_id)
-  end
+  if next(mutation.periodic_bonuses) ~= nil then table.insert(PERIODIC_BONUS_IDS, mutation_id) end
 
-  if next(mutation.kill_monster_bonuses) ~= nil then
-    table.insert(KILL_MONSTER_BONUS_IDS, mutation_id)
-  end
+  if next(mutation.kill_monster_bonuses) ~= nil then table.insert(KILL_MONSTER_BONUS_IDS, mutation_id) end
 end
 
 return {
@@ -390,4 +382,3 @@ return {
   PERIODIC_BONUS_IDS = PERIODIC_BONUS_IDS,
   KILL_MONSTER_BONUS_IDS = KILL_MONSTER_BONUS_IDS,
 }
-
