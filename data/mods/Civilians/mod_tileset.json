@@ -59,6 +59,25 @@
         "sprite_height": 32,
         "sprite_offset_x": 0,
         "sprite_offset_y": 0
+      },
+      {
+        "file": "gfx/hospital.png",
+        "tiles": [
+          {
+            "id": "mon_civilian_icu",
+            "fg": [
+              { "weight": 3, "sprite": 13 },
+              { "weight": 3, "sprite": 14 },
+              { "weight": 3, "sprite": 15 },
+              { "weight": 3, "sprite": 16 }
+            ],
+            "rotates": true
+          }
+        ],
+        "sprite_width": 32,
+        "sprite_height": 32,
+        "sprite_offset_x": 0,
+        "sprite_offset_y": 0
       }
     ]
   }
