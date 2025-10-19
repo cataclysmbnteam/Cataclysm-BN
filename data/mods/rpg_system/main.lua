@@ -10,6 +10,7 @@ local BASE_CLASS_IDS = mutations.BASE_CLASS_IDS
 local PRESTIGE_CLASS_IDS = mutations.PRESTIGE_CLASS_IDS
 local STAT_BONUS_IDS = mutations.STAT_BONUS_IDS
 local PERIODIC_BONUS_IDS = mutations.PERIODIC_BONUS_IDS
+local KILL_MONSTER_BONUS_IDS = mutations.KILL_MONSTER_BONUS_IDS
 local function color_text(text, color) return string.format("<color_%s>%s</color>", color, text) end
 
 local function color_good(text) return color_text(text, "light_green") end
@@ -310,6 +311,22 @@ mod.on_monster_killed = function(params)
   local xp_needed = rpg_xp_needed(new_level + 1)
   local xp_to_next = xp_needed - exp
   set_char_value(player, "rpg_xp_to_next_level", xp_to_next)
+
+  -- Apply kill monster bonuses (e.g., healing on kill)
+  local level = get_char_value(player, "rpg_level", 0)
+  local level_scaling = get_char_value(player, "rpg_level_scaling", 100) / 100.0
+
+  for _, mutation_id in ipairs(KILL_MONSTER_BONUS_IDS) do
+    if player:has_trait(mutation_id) then
+      local mutation = MUTATIONS[mutation_id:str()]
+      local bonuses = mutation.kill_monster_bonuses
+
+      if bonuses.heal_percent then
+        local heal_amount = math.max(1, math.floor(monster_hp * (bonuses.heal_percent * level * level_scaling / 100)))
+        player:healall(heal_amount)
+      end
+    end
+  end
 end
 
 mod.on_character_reset_stats = function(params)
@@ -993,7 +1010,8 @@ mod.show_about_screen = function(player)
   help_text = help_text .. color_highlight("PRESTIGE PATHS") .. "\n"
   help_text = help_text .. "Warrior → Berserker / Guardian\n"
   help_text = help_text .. "Mage → Mystic / Scholar\n"
-  help_text = help_text .. "Scout → Ranger / Assassin\n"
+  help_text = help_text .. "Rogue → Acrobat / Assassin\n"
+  help_text = help_text .. "Scout → Ranger / Craftsman\n"
 
   ui:text(help_text)
   ui:add(1, color_text("← Back", "light_gray"))

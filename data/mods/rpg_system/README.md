@@ -5,7 +5,7 @@ An RPG progression mod for Cataclysm: Bright Nights that adds a LitRPG-style exp
 ## Features
 
 - **Experience & Leveling**: Gain XP from killing monsters, level up to 40
-- **Classes**: Choose from 3 base classes (Warrior, Mage, Scout) and 6 prestige classes at level 10
+- **Classes**: Choose from 4 base classes (Warrior, Mage, Rogue, Scout) and 8 prestige classes at level 10
 - **Traits**: Unlock powerful traits
 - **Stat Points**: Assign free stat points
 

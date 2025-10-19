@@ -12,6 +12,7 @@ function Mutation.new(config)
   self.requirements = config.requirements or {} -- { stats = { STR = 8 }, skills = { melee = 6 }, level = 10 }
   self.stat_bonuses = config.stat_bonuses or {} -- { str = 0.55, dex = 0.2, int = 0.1, per = 0.15, speed = 1 }
   self.periodic_bonuses = config.periodic_bonuses or {} -- { fatigue = -0.5, stamina = 20, thirst = -1.5, rad = -0.5, healthy_mod = 0.1, power_level = 1 }
+  self.kill_monster_bonuses = config.kill_monster_bonuses or {} -- { heal_percent = 0.5 }
   self.base_class = config.base_class -- for prestige classes (the class to remove when selecting this)
   return self
 end
@@ -39,12 +40,20 @@ local MUTATIONS = {
     stat_bonuses = { str = 0.1, dex = 0.05, int = 0.55, per = 0.3 },
   }),
 
+  RPG_ROGUE = Mutation.new({
+    id = "RPG_ROGUE",
+    type = "class",
+    symbol = "◈",
+    requirements = { stats = { DEX = 8 } },
+    stat_bonuses = { str = 0.1, dex = 0.55, int = 0.15, per = 0.2 },
+  }),
+
   RPG_SCOUT = Mutation.new({
     id = "RPG_SCOUT",
     type = "class",
     symbol = "➳",
-    requirements = { stats = { DEX = 8 } },
-    stat_bonuses = { str = 0.1, dex = 0.55, int = 0.05, per = 0.3, speed = 1 },
+    requirements = { stats = { PER = 8 } },
+    stat_bonuses = { str = 0.15, dex = 0.3, int = 0.05, per = 0.5, speed = 1 },
   }),
 
   -- Warrior Prestige Classes
@@ -101,10 +110,39 @@ local MUTATIONS = {
     base_class = "RPG_MAGE",
     requirements = {
       level = 10,
-      stats = { INT = 12, DEX = 8 },
-      skills = { fabrication = 5, electronics = 4 }
+      stats = { INT = 12, PER = 8 },
+      skills = { computer = 6 }
     },
-    stat_bonuses = { str = 0.1, dex = 0.3, int = 0.8, per = 0.3 },
+    stat_bonuses = { str = 0.05, dex = 0.15, int = 0.8, per = 0.5 },
+  }),
+
+  -- Rogue Prestige Classes
+  RPG_ACROBAT = Mutation.new({
+    id = "RPG_ACROBAT",
+    type = "class",
+    symbol = "★",
+    is_prestige = true,
+    base_class = "RPG_ROGUE",
+    requirements = {
+      level = 10,
+      stats = { DEX = 12, PER = 8 },
+      skills = { dodge = 6, melee = 5 }
+    },
+    stat_bonuses = { str = 0.1, dex = 0.8, int = 0.2, per = 0.4, speed = 1.5 },
+  }),
+
+  RPG_ASSASSIN = Mutation.new({
+    id = "RPG_ASSASSIN",
+    type = "class",
+    symbol = "★",
+    is_prestige = true,
+    base_class = "RPG_ROGUE",
+    requirements = {
+      level = 10,
+      stats = { DEX = 12, INT = 8 },
+      skills = { throw = 5, cooking = 4 }
+    },
+    stat_bonuses = { str = 0.1, dex = 0.75, int = 0.35, per = 0.3, speed = 1.5 },
   }),
 
   -- Scout Prestige Classes
@@ -116,25 +154,25 @@ local MUTATIONS = {
     base_class = "RPG_SCOUT",
     requirements = {
       level = 10,
-      stats = { DEX = 12, PER = 10 },
+      stats = { PER = 12, DEX = 10 },
       skills = { archery = 6, survival = 5 }
     },
-    stat_bonuses = { str = 0.15, dex = 0.65, int = 0.1, per = 0.6, speed = 1 },
+    stat_bonuses = { str = 0.15, dex = 0.45, int = 0.1, per = 0.8, speed = 1 },
     periodic_bonuses = { thirst = -1.5 },
   }),
 
-  RPG_ASSASSIN = Mutation.new({
-    id = "RPG_ASSASSIN",
+  RPG_CRAFTSMAN = Mutation.new({
+    id = "RPG_CRAFTSMAN",
     type = "class",
     symbol = "★",
     is_prestige = true,
     base_class = "RPG_SCOUT",
     requirements = {
       level = 10,
-      stats = { DEX = 12, INT = 8 },
-      skills = { throw = 5, cooking = 4 }
+      stats = { PER = 12, INT = 10 },
+      skills = { fabrication = 5, mechanics = 5 }
     },
-    stat_bonuses = { str = 0.1, dex = 0.75, int = 0.35, per = 0.3, speed = 2 },
+    stat_bonuses = { str = 0.2, dex = 0.3, int = 0.4, per = 0.6 },
   }),
 
   -- Traits
@@ -296,6 +334,13 @@ local MUTATIONS = {
     type = "trait",
     requirements = { stats = { DEX = 10, PER = 10 }, skills = { survival = 2 } },
   }),
+
+  RPG_TRAIT_VAMPIRIC = Mutation.new({
+    id = "RPG_TRAIT_VAMPIRIC",
+    type = "trait",
+    requirements = { level = 10, stats = { PER = 16 } },
+    kill_monster_bonuses = { heal_percent = 0.5 },
+  }),
 }
 
 -- Derived lists
@@ -305,6 +350,7 @@ local BASE_CLASS_IDS = {}
 local PRESTIGE_CLASS_IDS = {}
 local STAT_BONUS_IDS = {}
 local PERIODIC_BONUS_IDS = {}
+local KILL_MONSTER_BONUS_IDS = {}
 
 for id, mutation in pairs(MUTATIONS) do
   local mutation_id = mutation:get_mutation_id()
@@ -327,6 +373,10 @@ for id, mutation in pairs(MUTATIONS) do
   if next(mutation.periodic_bonuses) ~= nil then
     table.insert(PERIODIC_BONUS_IDS, mutation_id)
   end
+
+  if next(mutation.kill_monster_bonuses) ~= nil then
+    table.insert(KILL_MONSTER_BONUS_IDS, mutation_id)
+  end
 end
 
 return {
@@ -338,5 +388,6 @@ return {
   PRESTIGE_CLASS_IDS = PRESTIGE_CLASS_IDS,
   STAT_BONUS_IDS = STAT_BONUS_IDS,
   PERIODIC_BONUS_IDS = PERIODIC_BONUS_IDS,
+  KILL_MONSTER_BONUS_IDS = KILL_MONSTER_BONUS_IDS,
 }
 
