@@ -2259,7 +2259,7 @@ No constructors.
   🇻 Variable --> `bool`
 
 - #### pump_terrain
-  🇻 Variable --> `string`
+  🇻 Variable --> `TerIntId`
 
 ## IslotGun
 

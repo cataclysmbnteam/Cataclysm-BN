@@ -1827,7 +1827,7 @@ void Item_factory::load( islot_fuel &slot, const JsonObject &jo, const std::stri
 
     assign( jo, "energy", slot.energy, strict, 0.001f );
     if( jo.has_member( "pump_terrain" ) ) {
-        slot.pump_terrain = jo.get_string( "pump_terrain" );
+        slot.pump_terrain = ter_id( jo.get_string( "pump_terrain" ) );
     }
     if( jo.has_member( "explosion_data" ) ) {
         slot.has_explode_data = true;

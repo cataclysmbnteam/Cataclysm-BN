@@ -846,7 +846,7 @@ function IslotEngine.new() end
 ---@field energy number @Energy of the fuel (kilojoules per charge)
 ---@field explosion_data any
 ---@field has_explosion_data boolean
----@field pump_terrain string
+---@field pump_terrain TerIntId
 IslotFuel = {}
 ---@return IslotFuel
 function IslotFuel.new() end

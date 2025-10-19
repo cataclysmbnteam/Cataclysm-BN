@@ -1310,8 +1310,8 @@ class item : public location_visitable<item>, public game_object<item>
 
         /** Returns energy of one charge of this item as fuel for an engine. */
         float fuel_energy() const;
-        /** Returns the string of the id of the terrain that pumps this fuel, if any. */
-        std::string fuel_pump_terrain() const;
+        /** Returns the id of the terrain that pumps this fuel, if any. */
+        ter_id fuel_pump_terrain() const;
         bool has_explosion_data() const;
         struct fuel_explosion get_explosion_data();
         float get_kcal_mult() const;

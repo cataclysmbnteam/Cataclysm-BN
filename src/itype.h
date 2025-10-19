@@ -493,7 +493,7 @@ struct islot_fuel {
         float energy = 0.0f;
         struct fuel_explosion explosion_data;
         bool has_explode_data = false;
-        std::string pump_terrain = "t_null";
+        ter_id pump_terrain = t_null;
 };
 
 // TODO: this shares a lot with the ammo item type, merge into a separate slot type?

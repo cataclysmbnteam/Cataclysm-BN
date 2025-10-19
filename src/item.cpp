@@ -7448,9 +7448,9 @@ float item::fuel_energy() const
     return is_fuel() ? type->fuel->energy : 0.0f;
 }
 
-std::string item::fuel_pump_terrain() const
+ter_id item::fuel_pump_terrain() const
 {
-    return is_fuel() ? type->fuel->pump_terrain : "t_null";
+    return is_fuel() ? type->fuel->pump_terrain : t_null;
 }
 
 bool item::has_explosion_data() const
