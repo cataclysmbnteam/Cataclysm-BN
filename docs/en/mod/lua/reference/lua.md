@@ -9,6 +9,40 @@ edit: false
 > This page is auto-generated from [`data/raw/generate_docs.lua`][generate_docs]
 > and should not be edited directly.
 
+> [!WARNING]
+>
+> In Lua, functions can be called with a `:` and pass the object itself as the first argument, eg:
+>
+> Members where this behaviour is intended to be used are marked as 🇲 Methods<br/>
+> Their signature documentation hides the first argument to reflect that
+>
+> - Call 🇫 Function members with a `.`
+> - Call 🇲 Method members with a `:`
+>
+> Alternatively, you can still call 🇲 Methods with a `.`, from the class type or the variable itself
+> but a value of the given type must be passed as the first parameter (that is hidden)
+>
+> All of these do the same thing:
+>
+> - ```
+>   print(Angle.from_radians(3):to_degrees(a))
+>   ```
+> - ```
+>   print(Angle.to_degrees(Angle.from_radians(3)))
+>   ```
+> - ```
+>   local a = Angle.from_radians(3)
+>   print(a:to_degrees())
+>   ```
+> - ```
+>   local a = Angle.from_radians(3)
+>   print(a.to_degrees(a))
+>   ```
+> - ```
+>   local a = Angle.from_radians(3)
+>   print(Angle.to_degrees(a))
+>   ```
+
 [generate_docs]: https://github.com/cataclysmbnteam/Cataclysm-BN/blob/main/data/raw/generate_docs.lua
 
 ## ActivityTypeId
@@ -1829,20 +1863,28 @@ No constructors.
 
 ### Members
 
+- #### ammo_effects
+  🇻 Variable --> `Set( AmmunitionEffectId )`
+
 - #### ammo_id
   🇻 Variable --> `AmmunitionTypeId`
+  > Ammo type, basically the "form" of the ammo that fits into the gun/tool
 
 - #### casing_id
   🇻 Variable --> `Opt( ItypeId )`
+  > Type id of casings, if any
 
 - #### cookoff
   🇻 Variable --> `bool`
+  > Should this ammo explode in fire?
 
 - #### def_charges
   🇻 Variable --> `int`
+  > Default charges
 
 - #### dont_recover_one_in
   🇻 Variable --> `int`
+  > Chance to fail to recover the ammo used.
 
 - #### drop
   🇻 Variable --> `ItypeId`
@@ -1858,15 +1900,19 @@ No constructors.
 
 - #### loudness
   🇻 Variable --> `int`
+  > Base loudness of ammo (possibly modified by gun/gunmods)
 
 - #### recoil
   🇻 Variable --> `int`
+  > Recoil (per shot), roughly equivalent to kinetic energy (in Joules)
 
 - #### shape
   🇻 Variable --> `Opt( <cppval: shape_factory > )`
+  > AoE shape or null if it's a projectile
 
 - #### special_cookoff
   🇻 Variable --> `bool`
+  > Should this ammo apply a special explosion effect when in fire?
 
 ## IslotArmor
 
@@ -1983,6 +2029,7 @@ No constructors.
 
 - #### max_capacity
   🇻 Variable --> `Energy`
+  > Maximum energy the battery can store
 
 ## IslotBionic
 
@@ -1998,15 +2045,19 @@ No constructors.
 
 - #### bionic_id
   🇻 Variable --> `BionicDataId`
+  > Id of the bionic
 
 - #### difficulty
   🇻 Variable --> `int`
+  > Arbitrary difficulty scale
 
 - #### installation_data
   🇻 Variable --> `ItypeId`
+  > Item with installation data that can be used to provide almost guaranteed successful install of corresponding bionic
 
 - #### is_upgrade
   🇻 Variable --> `bool`
+  > Whether this CBM is an upgrade of another
 
 ## IslotBook
 
@@ -2303,27 +2354,35 @@ No constructors.
 
 - #### ammo_type
   🇻 Variable --> `Set( AmmunitionTypeId )`
+  > What type of ammo this magazine can be loaded with
 
 - #### capacity
   🇻 Variable --> `int`
+  > Capacity of magazine (in equivalent units to ammo charges)
 
 - #### count
   🇻 Variable --> `int`
+  > Default amount of ammo contained by a magazine (often set for ammo belts)
 
 - #### default_ammo
   🇻 Variable --> `ItypeId`
+  > Default type of ammo contained by a magazine (often set for ammo belts)
 
 - #### linkage
   🇻 Variable --> `Opt( ItypeId )`
+  > For ammo belts one linkage (of given type) is dropped for each unit of ammo consumed
 
 - #### protects_contents
   🇻 Variable --> `bool`
+  > If false, ammo will cook off if this mag is affected by fire
 
 - #### reliability
   🇻 Variable --> `int`
+  > How reliable this magazine on a range of 0 to 10?
 
 - #### reload_time
   🇻 Variable --> `int`
+  > How long it takes to load each unit of ammo into the magazine
 
 ## IslotMilling
 
@@ -2425,18 +2484,23 @@ No constructors.
 
 - #### byproducts
   🇻 Variable --> `Vector( ItypeId )`
+  > Additionally items (a list of their item ids) that will spawn when harvesting the plant.
 
 - #### fruit_div
   🇻 Variable --> `int`
+  > Amount of harvested charges of fruits is divided by this number.
 
 - #### fruit_id
   🇻 Variable --> `ItypeId`
+  > Type id of the fruit item.
 
 - #### get_plant_name
   🇲 Method --> `( int ) -> string`
+  > Name of the plant.
 
 - #### grow
   🇻 Variable --> `TimeDuration`
+  > Time it takes for a seed to grow (based of off a season length of 91 days).
 
 ## IslotTool
 
@@ -2980,6 +3044,8 @@ No base classes.
 
 ## ItypeRaw
 
+Slots for various item type properties. Each slot may contain a valid value or nil
+
 ### Bases
 
 No base classes.
@@ -3023,6 +3089,10 @@ No constructors.
 - #### fuel
   🇲 Method --> `() -> IslotFuel`
 
+- #### get_name
+  🇲 Method --> `( int ) -> string`
+  > Returns the name of the item type in the correct language and with respect to its grammatical number
+
 - #### gun
   🇲 Method --> `() -> IslotGun`
 
@@ -3037,9 +3107,6 @@ No constructors.
 
 - #### mod
   🇲 Method --> `() -> IslotMod`
-
-- #### nname
-  🇲 Method --> `( int ) -> string`
 
 - #### pet_armor
   🇲 Method --> `() -> IslotPetArmor`

@@ -711,19 +711,20 @@ FurnRaw = {}
 function FurnRaw.new() end
 
 ---@class IslotAmmo : RangedData
----@field ammo_id AmmunitionTypeId
----@field casing_id ItypeId?
----@field cookoff boolean
----@field def_charges integer
----@field dont_recover_one_in integer
+---@field ammo_effects AmmunitionEffectId[]
+---@field ammo_id AmmunitionTypeId @Ammo type, basically the "form" of the ammo that fits into the gun/tool
+---@field casing_id ItypeId? @Type id of casings, if any
+---@field cookoff boolean @Should this ammo explode in fire?
+---@field def_charges integer @Default charges
+---@field dont_recover_one_in integer @Chance to fail to recover the ammo used.
 ---@field drop ItypeId
 ---@field drop_active boolean
 ---@field drop_count integer
 ---@field force_stat_display bool?
----@field loudness integer
----@field recoil integer
----@field shape any
----@field special_cookoff boolean
+---@field loudness integer @Base loudness of ammo (possibly modified by gun/gunmods)
+---@field recoil integer @Recoil (per shot), roughly equivalent to kinetic energy (in Joules)
+---@field shape any @AoE shape or null if it's a projectile
+---@field special_cookoff boolean @Should this ammo apply a special explosion effect when in fire?
 IslotAmmo = {}
 ---@return IslotAmmo
 function IslotAmmo.new() end
@@ -760,16 +761,16 @@ IslotArtifact = {}
 function IslotArtifact.new() end
 
 ---@class IslotBattery
----@field max_capacity Energy
+---@field max_capacity Energy @Maximum energy the battery can store
 IslotBattery = {}
 ---@return IslotBattery
 function IslotBattery.new() end
 
 ---@class IslotBionic
----@field bionic_id BionicDataId
----@field difficulty integer
----@field installation_data ItypeId
----@field is_upgrade boolean
+---@field bionic_id BionicDataId @Id of the bionic
+---@field difficulty integer @Arbitrary difficulty scale
+---@field installation_data ItypeId @Item with installation data that can be used to provide almost guaranteed successful install of corresponding bionic
+---@field is_upgrade boolean @Whether this CBM is an upgrade of another
 IslotBionic = {}
 ---@return IslotBionic
 function IslotBionic.new() end
@@ -862,14 +863,14 @@ IslotGunmod = {}
 function IslotGunmod.new() end
 
 ---@class IslotMagazine
----@field ammo_type AmmunitionTypeId[]
----@field capacity integer
----@field count integer
----@field default_ammo ItypeId
----@field linkage ItypeId?
----@field protects_contents boolean
----@field reliability integer
----@field reload_time integer
+---@field ammo_type AmmunitionTypeId[] @What type of ammo this magazine can be loaded with
+---@field capacity integer @Capacity of magazine (in equivalent units to ammo charges)
+---@field count integer @Default amount of ammo contained by a magazine (often set for ammo belts)
+---@field default_ammo ItypeId @Default type of ammo contained by a magazine (often set for ammo belts)
+---@field linkage ItypeId? @For ammo belts one linkage (of given type) is dropped for each unit of ammo consumed
+---@field protects_contents boolean @If false, ammo will cook off if this mag is affected by fire
+---@field reliability integer @How reliable this magazine on a range of 0 to 10?
+---@field reload_time integer @How long it takes to load each unit of ammo into the magazine
 IslotMagazine = {}
 ---@return IslotMagazine
 function IslotMagazine.new() end
@@ -903,11 +904,11 @@ IslotPetArmor = {}
 function IslotPetArmor.new() end
 
 ---@class IslotSeed
----@field byproducts ItypeId[]
----@field fruit_div integer
----@field fruit_id ItypeId
----@field grow TimeDuration
----@field get_plant_name fun(arg1: IslotSeed, arg2: integer): string
+---@field byproducts ItypeId[] @Additionally items (a list of their item ids) that will spawn when harvesting the plant.
+---@field fruit_div integer @Amount of harvested charges of fruits is divided by this number.
+---@field fruit_id ItypeId @Type id of the fruit item.
+---@field grow TimeDuration @Time it takes for a seed to grow (based of off a season length of 91 days).
+---@field get_plant_name fun(arg1: IslotSeed, arg2: integer): string @Name of the plant.
 IslotSeed = {}
 ---@return IslotSeed
 function IslotSeed.new() end
@@ -1090,6 +1091,7 @@ ItypeId = {}
 ---@overload fun(arg1: string): ItypeId
 function ItypeId.new() end
 
+--- Slots for various item type properties. Each slot may contain a valid value or nil
 ---@class ItypeRaw
 ---@field ammo fun(arg1: ItypeRaw): IslotAmmo
 ---@field armor fun(arg1: ItypeRaw): IslotArmor
@@ -1102,12 +1104,12 @@ function ItypeId.new() end
 ---@field container fun(arg1: ItypeRaw): IslotContainer
 ---@field engine fun(arg1: ItypeRaw): IslotEngine
 ---@field fuel fun(arg1: ItypeRaw): IslotFuel
+---@field get_name fun(arg1: ItypeRaw, arg2: integer): string @Returns the name of the item type in the correct language and with respect to its grammatical number
 ---@field gun fun(arg1: ItypeRaw): IslotGun
 ---@field gunmod fun(arg1: ItypeRaw): IslotGunmod
 ---@field magazine fun(arg1: ItypeRaw): IslotMagazine
 ---@field milling fun(arg1: ItypeRaw): IslotMilling
 ---@field mod fun(arg1: ItypeRaw): IslotMod
----@field nname fun(arg1: ItypeRaw, arg2: integer): string
 ---@field pet_armor fun(arg1: ItypeRaw): IslotPetArmor
 ---@field relic fun(arg1: ItypeRaw): Relic
 ---@field seed fun(arg1: ItypeRaw): IslotSeed

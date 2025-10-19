@@ -79,6 +79,7 @@ struct MonsterGroup;
 struct uilist_entry;
 struct book_recipe;
 class ammunition_type;
+struct ammo_effect;
 class martialart;
 struct common_ranged_data;
 
@@ -188,6 +189,7 @@ LUNA_VAL( common_ranged_data, "RangedData" )
 
 // Ids for in-game objects
 LUNA_ID( ammunition_type, "AmmunitionType" )
+LUNA_ID( ammo_effect, "AmmunitionEffect" )
 LUNA_ID( activity_type, "ActivityType" )
 LUNA_ID( bionic_data, "BionicData" )
 LUNA_ID( body_part_type, "BodyPartType" )

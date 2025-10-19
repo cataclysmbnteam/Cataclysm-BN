@@ -184,6 +184,39 @@ edit: false
 > This page is auto-generated from [`data/raw/generate_docs.lua`][generate_docs]
 and should not be edited directly.
 
+> [!WARNING]
+>
+> In Lua, functions can be called with a `:` and pass the object itself as the first argument, eg:
+>
+> Members where this behaviour is intended to be used are marked as 🇲 Methods<br/>
+> Their signature documentation hides the first argument to reflect that
+>
+> * Call 🇫 Function members with a `.`
+> * Call 🇲 Method members with a `:`
+>
+> Alternatively, you can still call 🇲 Methods with a `.`, from the class type or the variable itself
+> but a value of the given type must be passed as the first parameter (that is hidden)
+>
+> All of these do the same thing:
+> * ```
+>   print(Angle.from_radians(3):to_degrees(a))
+>   ```
+> * ```
+>   print(Angle.to_degrees(Angle.from_radians(3)))
+>   ```
+> * ```
+>   local a = Angle.from_radians(3)
+>   print(a:to_degrees())
+>   ```
+> * ```
+>   local a = Angle.from_radians(3)
+>   print(a.to_degrees(a))
+>   ```
+> * ```
+>   local a = Angle.from_radians(3)
+>   print(Angle.to_degrees(a))
+>   ```
+
 [generate_docs]: https://github.com/cataclysmbnteam/Cataclysm-BN/blob/main/data/raw/generate_docs.lua
 ]]
 
