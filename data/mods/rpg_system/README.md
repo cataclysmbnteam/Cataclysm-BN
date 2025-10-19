@@ -11,7 +11,7 @@ An RPG progression mod for Cataclysm: Bright Nights that adds a LitRPG-style exp
 
 ## Balance
 
-Worth ~25 character creation points. Weak early game, powerful late game. Not designed to be used with "Stats through Kills" mod.
+Worth ~25 character creation points. Worth much less early game, more late game. Not designed to be used with "Stats through Kills" mod.
 
 ## Screenshots
 
@@ -19,6 +19,6 @@ Worth ~25 character creation points. Weak early game, powerful late game. Not de
 
 ## TODOs
 
-Have more interesting and dynamic stats and traits. They are all currently implemented either using `mod_` functions in lua, or using static mutation JSON bonuses. We could definitely add some more BombasticPerk style traits.
+Have more interesting and dynamic stats and traits. They are all currently implemented either using `mod_` functions in lua, or using static mutation JSON bonuses. We could definitely add some more BombasticPerk style traits. Also, probably much of this is unbalanced.
 
-Also, probably much of this is unbalanced.
+Anyone who is interested should feel free to make changes!

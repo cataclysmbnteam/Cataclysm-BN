@@ -987,7 +987,7 @@ mod.show_about_screen = function(player)
   help_text = help_text .. string.format("• +1 trait slot per %d levels\n\n", LEVELS_PER_TRAIT_SLOT)
 
   help_text = help_text .. color_highlight("BALANCE") .. "\n"
-  help_text = help_text .. "~25 point value (weak early, strong late)\n"
+  help_text = help_text .. "~25 point value (much less early, more late)\n"
   help_text = help_text .. color_warning("⚠") .. " Not meant to be used with Stats through Kills\n\n"
 
   help_text = help_text .. color_highlight("PRESTIGE PATHS") .. "\n"
