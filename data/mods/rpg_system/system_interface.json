@@ -25,6 +25,7 @@
     "apply_message": "You feel a deep pain in your soul as you abandon your path.",
     "remove_message": "The spiritual damage heals.",
     "rating": "bad",
-    "base_mods": { "str_mod": [ -4 ], "dex_mod": [ -4 ], "int_mod": [ -4 ], "per_mod": [ -4 ], "speed_mod": [ -25 ] }
+    "max_duration": "3 d",
+    "base_mods": { "str_mod": [ -4 ], "dex_mod": [ -4 ], "int_mod": [ -4 ], "per_mod": [ -4 ], "speed_mod": [ -25 ],  "pain_amount": [ 2 ], "pain_max": [ 2 ], "pain_max_val": [ 100 ], "morale": [ -20 ] }
   }
 ]
