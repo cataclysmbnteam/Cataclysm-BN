@@ -1113,8 +1113,7 @@ void Item_factory::init()
     // An empty dummy group, it will not spawn anything. However, it makes that item group
     // id valid, so it can be used all over the place without need to explicitly check for it.
     m_template_groups[item_group_id( "EMPTY_GROUP" )] = std::make_unique<Item_group>
-            ( Item_group::G_COLLECTION, 100, 0,
-              0 );
+            ( Item_group::G_COLLECTION, 100, 0, 0, 0 );
 }
 
 bool Item_factory::check_ammo_type( std::string &msg, const ammotype &ammo ) const
@@ -3034,11 +3033,11 @@ static std::string to_string( Item_group::Type t )
 
 static Item_group *make_group_or_throw( const item_group_id &group_id,
                                         std::unique_ptr<Item_spawn_data> &isd,
-                                        Item_group::Type t, int ammo_chance, int magazine_chance )
+                                        Item_group::Type t, int ammo_chance, int magazine_chance, int battery_chance )
 {
     Item_group *ig = dynamic_cast<Item_group *>( isd.get() );
     if( ig == nullptr ) {
-        isd.reset( ig = new Item_group( t, 100, ammo_chance, magazine_chance ) );
+        isd.reset( ig = new Item_group( t, 100, ammo_chance, magazine_chance, battery_chance ) );
     } else if( ig->type != t ) {
         throw std::runtime_error( "item group \"" + group_id.str() + "\" already defined with type \"" +
                                   to_string( ig->type ) + "\"" );
@@ -3052,16 +3051,14 @@ bool load_min_max( std::pair<T, T> &pa, const JsonObject &obj, const std::string
     bool result = false;
     if( obj.has_array( name ) ) {
         // An array means first is min, second entry is max. Both are mandatory.
-        JsonArray arr = obj.get_array( name );
-        result |= arr.read_next( pa.first );
-        result |= arr.read_next( pa.second );
+        result |= assign( obj, name, pa );
     } else {
         // Not an array, should be a single numeric value, which is set as min and max.
-        result |= obj.read( name, pa.first );
-        result |= obj.read( name, pa.second );
+        result |= assign( obj, name, pa.first );
+        result |= assign( obj, name, pa.second );
     }
-    result |= obj.read( name + "-min", pa.first );
-    result |= obj.read( name + "-max", pa.second );
+    result |= assign( obj, name + "-min", pa.first );
+    result |= assign( obj, name + "-max", pa.second );
     return result;
 }
 
@@ -3107,14 +3104,14 @@ bool Item_factory::load_sub_ref( std::unique_ptr<Item_spawn_data> &ptr, const Js
         const auto type = entries.front().second ? Single_item_creator::Type::S_ITEM_GROUP :
                           Single_item_creator::Type::S_ITEM;
         Single_item_creator *result = new Single_item_creator( entries.front().first, type, prob );
-        result->inherit_ammo_mag_chances( parent.with_ammo, parent.with_magazine );
+        result->inherit_ammo_mag_chances( parent.with_ammo, parent.with_magazine, parent.with_battery );
         ptr.reset( result );
         return true;
     } else if( entries.empty() ) {
         return false;
     }
     Item_group *result = new Item_group( Item_group::Type::G_COLLECTION, prob, parent.with_ammo,
-                                         parent.with_magazine );
+                                         parent.with_magazine, parent.with_battery );
     ptr.reset( result );
     for( const auto &elem : entries ) {
         if( elem.second ) {
@@ -3168,11 +3165,11 @@ void Item_factory::add_entry( Item_group &ig, const JsonObject &obj )
     JsonArray jarr;
     if( obj.has_member( "collection" ) ) {
         gptr = std::make_unique<Item_group>( Item_group::G_COLLECTION, probability, ig.with_ammo,
-                                             ig.with_magazine );
+                                             ig.with_magazine, ig.with_battery );
         jarr = obj.get_array( "collection" );
     } else if( obj.has_member( "distribution" ) ) {
         gptr = std::make_unique<Item_group>( Item_group::G_DISTRIBUTION, probability, ig.with_ammo,
-                                             ig.with_magazine );
+                                             ig.with_magazine, ig.with_battery );
         jarr = obj.get_array( "distribution" );
     }
     if( gptr ) {
@@ -3229,11 +3226,13 @@ void Item_factory::load_item_group( const JsonObject &jsobj )
 }
 
 void Item_factory::load_item_group( const JsonArray &entries, const item_group_id &group_id,
-                                    const bool is_collection, const int ammo_chance, const int magazine_chance )
+                                    const bool is_collection, const int ammo_chance, const int magazine_chance,
+                                    const int battery_chance )
 {
     const auto type = is_collection ? Item_group::G_COLLECTION : Item_group::G_DISTRIBUTION;
     std::unique_ptr<Item_spawn_data> &isd = m_template_groups[group_id];
-    Item_group *const ig = make_group_or_throw( group_id, isd, type, ammo_chance, magazine_chance );
+    Item_group *const ig = make_group_or_throw( group_id, isd, type, ammo_chance, magazine_chance,
+                           battery_chance );
 
     for( const JsonObject subobj : entries ) {
         add_entry( *ig, subobj );
@@ -3252,7 +3251,7 @@ void Item_factory::load_item_group( const JsonObject &jsobj, const item_group_id
         jsobj.throw_error( "unknown item group type", "subtype" );
     }
     Item_group *ig = make_group_or_throw( group_id, isd, type, jsobj.get_int( "ammo", 0 ),
-                                          jsobj.get_int( "magazine", 0 ) );
+                                          jsobj.get_int( "magazine", 0 ), jsobj.get_int( "battery", 0 ) );
 
     if( subtype == "old" ) {
         for( const JsonValue entry : jsobj.get_array( "items" ) ) {

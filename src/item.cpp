@@ -7977,13 +7977,13 @@ units::energy item::energy_capacity( bool potential_capacity ) const
         return type->battery->max_energy;
     } else if( is_tool() ) {
         units::energy res = type->tool->max_energy;
-        if( res == 0_J && potential_capacity ) {
+        if( res == 0_J && potential_capacity && battery_default() ) {
             res = battery_default()->battery->max_energy;
         }
         return res;
     } else if( is_gun() ) {
         units::energy res = type->gun->capacity;
-        if( res == 0_J && potential_capacity ) {
+        if( res == 0_J && potential_capacity && battery_default() ) {
             res = battery_default()->battery->max_energy;
         }
         return res;

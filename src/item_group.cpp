@@ -210,7 +210,7 @@ std::set<const itype *> Single_item_creator::every_item() const
     return {};
 }
 
-void Single_item_creator::inherit_ammo_mag_chances( const int ammo, const int mag )
+void Single_item_creator::inherit_ammo_mag_chances( const int ammo, const int mag, const int bat )
 {
     if( ammo != 0 || mag != 0 ) {
         if( !modifier ) {
@@ -218,6 +218,7 @@ void Single_item_creator::inherit_ammo_mag_chances( const int ammo, const int ma
         }
         modifier->with_ammo = ammo;
         modifier->with_magazine = mag;
+        modifier->with_battery = bat;
     }
 }
 
@@ -231,6 +232,7 @@ Item_modifier::Item_modifier()
     , energy( -1_J, -1_J )
     , with_ammo( 0 )
     , with_magazine( 0 )
+    , with_battery( 0 )
 {
 }
 
@@ -252,6 +254,41 @@ detached_ptr<item> Item_modifier::modify( detached_ptr<item> &&new_item ) const
             // chance to be unlubed, but only if it's not a laser or something
         } else if( one_in( 10 ) && !new_item->has_flag( flag_NEEDS_NO_LUBE ) ) {
             new_item->faults.emplace( "fault_gun_unlubricated" );
+        }
+    }
+
+    // Decide if it needs energy and give it them if defined.
+    // No capacity means no need to check.
+    units::energy enrg_set = -1_J;
+    std::string name = new_item->tname();
+    if( new_item->energy_capacity( true ) > 0_J ) {
+        units::energy max_energy = new_item->energy_capacity( true );
+        bool energy_not_set = energy.first == -1_J && energy.second == -1_J;
+
+        if( !energy_not_set ) {
+            units::energy energy_min = energy.first == -1_J ? 0_J : energy.first;
+            units::energy energy_max = energy.second == -1_J ? max_energy : energy.second;
+
+            // Set limits, minimum can't be below 0, maximum cannot be above the capacity.
+            energy_min = std::max( 0_J, energy_min );
+            energy_max = std::min( max_energy, energy_max );
+
+            // Sanify it if people did something stupid.
+            if( energy_min > energy_max ) {
+                energy_min = energy_max;
+            }
+
+            enrg_set = energy_min == energy_max ? energy_min :
+                       units::from_joule( rng64( units::to_joule( energy_min ), units::to_joule( energy_max ) ) );
+        } else {
+            // Not set means go to max.
+            enrg_set = max_energy;
+        }
+
+        if( new_item->battery_integral() ) {
+            new_item->set_energy( enrg_set );
+            // Reset so it doesn't try to insert a battery later on.
+            enrg_set = -1_J;
         }
     }
 
@@ -345,9 +382,16 @@ detached_ptr<item> Item_modifier::modify( detached_ptr<item> &&new_item ) const
                           ( !new_item->is_tool() );
         bool spawn_mag  = rng( 0, 99 ) < with_magazine && !new_item->magazine_current()
                           && new_item->magazine_default() != itype_id::NULL_ID();
+        bool spawn_bat = enrg_set > 0_J || ( rng( 0, 99 ) < with_battery && !new_item->battery_current()
+                                             && new_item->battery_default() != itype_id::NULL_ID() );
 
         if( spawn_mag ) {
             new_item->put_in( item::spawn( new_item->magazine_default(), new_item->birthday() ) );
+        }
+
+        if( spawn_bat ) {
+            units::energy enrg = enrg_set > 0_J ? enrg_set : new_item->energy_capacity( true );
+            new_item->put_in( item::spawn( new_item->battery_default(), new_item->birthday(), 0, enrg ) );
         }
 
         if( spawn_ammo ) {
@@ -396,6 +440,9 @@ void Item_modifier::check_consistency( const std::string &context ) const
     if( with_magazine < 0 || with_magazine > 100 ) {
         debugmsg( "Item modifier's magazine chance %d is out of range", with_magazine );
     }
+    if( with_battery < 0 || with_battery > 100 ) {
+        debugmsg( "Item modifier's battery chance %d is out of range", with_battery );
+    }
 }
 
 bool Item_modifier::remove_item( const itype_id &itemid )
@@ -427,11 +474,13 @@ bool Item_modifier::replace_item( const itype_id &itemid, const itype_id &replac
     return false;
 }
 
-Item_group::Item_group( Type t, int probability, int ammo_chance, int magazine_chance )
+Item_group::Item_group( Type t, int probability, int ammo_chance, int magazine_chance,
+                        int battery_chance )
     : Item_spawn_data( probability )
     , type( t )
     , with_ammo( ammo_chance )
     , with_magazine( magazine_chance )
+    , with_battery( battery_chance )
     , sum_prob( 0 )
 {
     if( probability <= 0 || ( t != Type::G_DISTRIBUTION && probability > 100 ) ) {
@@ -472,7 +521,7 @@ void Item_group::add_entry( std::unique_ptr<Item_spawn_data> ptr )
     // If ptr is an Item_group, it already inherited its parent's ammo/magazine chances in its constructor.
     Single_item_creator *sic = dynamic_cast<Single_item_creator *>( ptr.get() );
     if( sic ) {
-        sic->inherit_ammo_mag_chances( with_ammo, with_magazine );
+        sic->inherit_ammo_mag_chances( with_ammo, with_magazine, with_battery );
     }
     items.push_back( std::move( ptr ) );
 }
@@ -675,7 +724,7 @@ item_group_id item_group::load_item_group( const JsonValue &value,
         if( default_subtype != "collection" && default_subtype != "distribution" ) {
             debugmsg( "invalid subtype for item group: %s", default_subtype.c_str() );
         }
-        item_controller->load_item_group( jarr, group, default_subtype == "collection", 0, 0 );
+        item_controller->load_item_group( jarr, group, default_subtype == "collection", 0, 0, 0 );
 
         return group;
     } else {

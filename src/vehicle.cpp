@@ -5748,12 +5748,17 @@ void vehicle::place_spawn_items()
                         bool spawn_ammo = rng( 0, 99 ) < spawn.with_ammo && e->ammo_remaining() == 0;
                         bool spawn_mag  = rng( 0, 99 ) < spawn.with_magazine && !e->magazine_integral() &&
                                           !e->magazine_current();
+                        bool spawn_battery = rng( 0, 99 ) < spawn.with_battery && !e->battery_integral() &&
+                                             !e->battery_current();
 
                         if( spawn_mag ) {
                             e->put_in( item::spawn( e->magazine_default(), e->birthday() ) );
                         }
                         if( spawn_ammo ) {
                             e->ammo_set( e->ammo_default() );
+                        }
+                        if( spawn_battery ) {
+                            e->put_in( item::spawn( e->battery_default(), e->birthday() ) );
                         }
                     }
                     add_item( part, std::move( e ) );
